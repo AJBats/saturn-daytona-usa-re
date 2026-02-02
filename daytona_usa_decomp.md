@@ -51,31 +51,238 @@ There are two Daytona USA releases on the Sega Saturn:
 - **Product code**: MK-81200, Build date: 1995-03-17
 - **No existing decomp project found** as of this research
 
-### Disc Structure (from string analysis)
+### Disc Structure
 
-The data track (Track 01) contains the boot code plus first file. Tracks 02-22 are CD-DA audio (the Daytona soundtrack). The game loads additional files from the CD filesystem at runtime:
+The data track (Track 01) contains the boot code plus first file. Tracks 02-22 are CD-DA audio (the Daytona soundtrack). 26 files on disc, loaded at runtime via `FUN_06012E6A`:
 
-| File | Purpose |
-|------|---------|
-| `APROG.BIN` | Main game program (loaded after boot) |
-| `CS0POLY.BIN`, `CS1POLY.BIN`, `CS2POLY.BIN` | Polygon data for 3 courses |
-| `CS0_LINE.BIN`, `CS1_LINE.BIN`, `CS2_LINE.BIN` | Racing line data |
-| `COURSE0.BIN`, `COURSE1.BIN`, `COURSE2.BIN` | Course data |
-| `TEX_PL.BIN`, `TEX_C1.BIN`, `TEX_C2.BIN` | Textures (player, course 1, course 2) |
-| `POLYGON.BIN` | Additional polygon data |
-| `SCROLL.BIN` | Scroll/background data |
-| `TABLE.BIN` | Data tables |
-| `PIT.BIN` | Pit stop data |
-| `SOUNDS.BIN` | Sound effects |
-| `GAMED.BIN`, `GAME0.BIN`, `GAME1.BIN` | Game logic data |
-| `SLCTD.BIN` | Select screen data |
-| `OVERD.BIN`, `OVER0.BIN` | Game over screen data |
-| `NAMD.BIN` | Name entry screen data |
-| `MUSICD.BIN`, `MUSIC2D.BIN`, `MUSIC3D.BIN` | Music sequencing data |
+| File(s) | Purpose | Loaded During |
+|---------|---------|---------------|
+| `APROG.BIN` | Main game program (all executable code) | Boot |
+| `GAMED.BIN` | Racing mode data overlay (446KB) | Race start |
+| `COURSE0/1/2.BIN` | Course-specific data (per track) | Race start |
+| `CS0/1/2POLY.BIN` | Course polygon/3D data (per track) | Race start |
+| `CS0/1/2_LINE.BIN` | Racing line data (per track — AI paths) | Race start |
+| `TEX_PL.BIN` | Player car textures | Race start |
+| `TEX_C0/C1/C2.BIN` | Course textures (per track) | Race start |
+| `POLYGON.BIN` | Shared polygon data | Race start |
+| `SCROLL.BIN` | Background/scroll plane data | Race start |
+| `TABLE.BIN` | Lookup / data tables | Race start |
+| `PIT.BIN` | Pit stop data | Race start |
+| `SOUNDS.BIN` | Sound effects → loaded to SCSP (0x25A00000) | Boot |
+| `SLCTD.BIN` | Car/track selection screen data | Mode change |
+| `OVERD.BIN` | Game over screen data | Mode change |
+| `NAMD.BIN` | Name entry screen data | Mode change |
+| `MUSICD.BIN`, `MUSIC2D/3D.BIN` | Music data | Mode change |
 
 Hidden features found in strings: `MIRROR MODE`, `DAYTONA UMA` / `HORSE` (secret horse mode).
 
-**Note**: The Ghidra Saturn Loader only loads the IP.BIN (boot code) + first file from the ISO. `APROG.BIN` and all data files above would need to be extracted separately from the ISO filesystem for complete analysis.
+**Ghost filenames**: The code's filename table references 5 additional files that do NOT exist on the US disc: `GAME0.BIN`, `GAME1.BIN`, `SLCT0.BIN`, `OVER0.BIN`, `NAM0.BIN`. These were likely planned/cut content or exist on other regional variants.
+
+### File Loading System (`FUN_06012E6A`)
+
+ALL file loading from CD goes through a single function at `0x06012E6A` (`scripts/find_overlays.py`, `scripts/analyze_overlay_loader.py`). Key findings:
+
+- **Called from `hw_init`** (`0x060030FC` → `0x06012E6A`) — files are loaded during initialization and mode transitions.
+- **Load destinations** vary by file type:
+  - Work RAM High (`0x06xxxxxx`) — game data, overlays, textures
+  - Work RAM Low (`0x00200000`) — additional data space
+  - SCSP sound RAM (`0x25A00000`, `0x25A03000`) — sound effects and music
+- **Pattern**: The function uses repeating `mov.l filename,r4 / mov.l dest_addr,r5 / bsr cd_read_func` sequences to load files.
+- **Mode-dependent loading**: The function contains conditional branches (BRA) that select different file sets based on the current game mode.
+
+**For racing gameplay**: When a race starts, the game loads `GAMED.BIN` (common racing data) plus track-specific files (`COURSEn.BIN`, `CSnPOLY.BIN`, `CSn_LINE.BIN`, `TEX_Cn.BIN`) where `n` = track number (0 = Three Seven Speedway, 1 = Dinosaur Canyon, 2 = Sea-Side Street Galaxy).
+
+### Binary Layout (APROG.BIN) — preliminary, needs Ghidra verification
+
+APROG.BIN is the main game program. All executable game code lives here. The base address was determined from the entry point's constant pool (self-referencing addresses in the first 256 bytes).
+
+**Load address**: `0x06003000` (Work RAM High)
+
+**Entry sequence** (at offset 0x0000):
+1. Sets stack pointer (r15) to `0x06003000` (grows downward into IP.BIN area)
+2. Clears status register (enables interrupts)
+3. Calls `0x060030FC` (offset 0xFC — hardware initialization)
+4. Calls `0x0600A392` (offset 0x7392 — main game function, previously identified in Ghidra)
+
+**Memory map** (from heuristic analysis with `scripts/analyze_binary.py` — boundaries approximate):
+
+| Region | Address Range | Size | Contents |
+|--------|-------------|------|----------|
+| Code (main) | `0x06003000` - `0x06045000` | 264KB | ~611 functions, GCC 2.6 prologues |
+| Data | `0x06045000` - `0x0604B000` | 24KB | Embedded data tables |
+| Code (misc) | `0x0604B000` - `0x0604D000` | 8KB | Small code section (may be data — verify in Ghidra) |
+| Data | `0x0604D000` - `0x0605A000` | 52KB | Data tables |
+| Code (misc) | `0x0605A000` - `0x0605D000` | 12KB | Small code section (may be data — verify in Ghidra) |
+| Data | `0x0605D000` - `0x06062000` | 20KB | Data tables |
+| Code (tail) | `0x06062000` - `0x06063690` | 6KB | Trailing code (may be data — verify in Ghidra) |
+| BSS | `0x06063690` - `0x060FE570` | 619KB | ~758 referenced global variable addresses |
+
+**Total memory footprint**: ~1MB — fills essentially all of Work RAM High (`0x06000000` - `0x060FFFFF`).
+
+**How this was determined**: Python script scanned for GCC function prologue opcodes (`2F E6` = `mov.l r14,@-r15`) and `rts` instructions per 4KB block. Regions with many prologues/rts classified as code, others as data. The "misc" code blocks late in the file may be false positives (data containing byte patterns that resemble instructions). The BSS range was estimated by scanning for 32-bit constants that reference addresses beyond the file's end but within Work RAM High.
+
+**Key finding: overlays are DATA, not CODE.** The seven 446KB overlay files (GAMED.BIN, SLCTD.BIN, MUSICD.BIN, MUSIC2D.BIN, MUSIC3D.BIN, OVERD.BIN, NAMD.BIN) contain 0-2 function prologues each, vs 611 in APROG.BIN. The "D" suffix = data. These swap in different datasets (graphics, lookup tables, UI assets) for different game modes. All executable game code — including all gameplay logic — lives in APROG.BIN.
+
+### Top-Level Program Flow (from `scripts/trace_flow.py`)
+
+```
+main() @ 0x06003000  [never returns — infinite loop]
+│
+├── hw_init() @ 0x060030FC  [called once at startup]
+│   ├── 115 instructions, saves r14/r13/r12/r11/r10/pr
+│   ├── Memory clearing loops (BSS initialization)
+│   ├── Calls BIOS functions (0x06000320, 0x06000344)
+│   └── Calls 15 initialization sub-functions:
+│       0x0603BF7C, 0x06034E58, 0x06012CF4, 0x06003274,
+│       0x06004A98, 0x06012E6A, 0x06003218, 0x06018EE4,
+│       0x06005174, 0x0601F936, 0x0601492C, 0x060149E0, ...
+│
+└── MAIN LOOP (0x0600300A → 0x0600305C, 82-byte loop body)
+    │
+    └── main_game_func() @ 0x0600A392  [called every frame, returns normally]
+        ├── Saves r14/r13/r12/pr — standard GCC prologue
+        ├── Checks game state variables and dispatches conditionally
+        ├── Calls 8 functions:
+        │   ├── 0x06018EAC → 0x060349C4  (early-frame setup / timer?)
+        │   ├── 0x060349C4                 (CD/data loading related?)
+        │   ├── 0x06012B58                 (loops 5 iterations — per-car?)
+        │   ├── 0x06009FFC                 (calls 0x0601D5F4 x5 with args 0-3 — mode init)
+        │   ├── 0x0600A1B8                 (state checking, no sub-calls)
+        │   ├── 0x06020BCE                 (tail-calls via jmp — state dispatcher)
+        │   └── 0x0600026C [BIOS] x2       (IP.BIN area — system call)
+        │
+        └── FUN_06020BCE ends with jmp @r3 (tail call to game-mode handler)
+            This is likely the game state machine dispatch point.
+            The target function depends on current game mode.
+```
+
+**Key observations:**
+- The entry point (`main`) runs an infinite loop that calls `main_game_func` once per frame, with frame control logic between calls.
+- `main_game_func` is a **per-frame dispatcher**, not the racing loop itself. It checks game state and routes to the appropriate handler.
+- `FUN_06020BCE` (called from `main_game_func`) ends with a **tail call** (`jmp @r3` after restoring `pr`). This is the game-mode dispatch — it jumps to a function pointer determined by the current game state without returning to `main_game_func`. The target function returns directly to `main`.
+- Calls to `0x0600026C` (in the IP.BIN area) are BIOS system calls — likely vblank wait or controller read.
+
+**Main loop candidate functions** (functions with many sub-calls AND backward branches — likely game-mode-specific update handlers):
+
+| Address | Calls | Loops | Instructions | Likely Role |
+|---------|-------|-------|-------------|-------------|
+| `0x0601F9CC` | 46 | 6 | 426 | Highest call count — complex mode handler |
+| `0x0601B160` | 44 | 2 | 381 | |
+| `0x060116A8` | 41 | 1 | 354 | |
+| `0x06011AF4` | 41 | 1 | 358 | |
+| `0x06003578` | 40 | 4 | 390 | Close to entry point — could be boot/title sequence |
+| `0x060092D0` | 37 | 5 | 470 | |
+| `0x06012DB4` | 37 | 25 | 500 | Many loops — rendering or data processing? |
+
+One of these candidates is the **racing mode per-frame handler** — the function that updates physics, steering, collision, and AI each frame during actual gameplay. Identifying which one requires tracing the dispatch chain from `FUN_06020BCE` or finding gameplay-specific references (controller input, car state structs).
+
+### Hardware Access Patterns (from `scripts/find_hw_access.py`)
+
+Scanning constant pool entries for Saturn hardware register addresses reveals which functions touch hardware directly vs. which are pure game logic.
+
+| Hardware Region | Refs | Functions | Key Addresses |
+|----------------|------|-----------|---------------|
+| VDP2 VRAM | 111 | 26 | `0x25E00000`+ (backgrounds, HUD) |
+| VDP2 color RAM | 119 | 38 | `0x25F00000`+ (palette management) |
+| VDP2 registers | 7 | 5 | `0x25F80000`+ (display control) |
+| VDP1 registers | 18 | 7 | `0x25D00000`+ (sprite/polygon draw) |
+| VDP1 VRAM | 5 | 5 | `0x25C00000`+ (polygon data) |
+| VDP1 framebuffer | 3 | 2 | `0x25C80000`+ (frame management) |
+| SCSP sound RAM | 40 | 22 | `0x25A00000`+ (sound effects/music) |
+| SMPC (controller) | 41 | 12 | `0x20100001`+ (input, system control) |
+| SCU (DMA/interrupt) | 7 | 3 | `0x25FE0000`+ (DMA transfers) |
+| SH2 on-chip | 24 | 13 | `0xFFFFFF00`+ (timers, interrupts) |
+
+**Functional clusters identified:**
+
+- **Rendering (61 functions)**: All VDP1/VDP2-accessing functions. These are the low-level graphics functions — exactly what we do NOT need for gameplay extraction. Key cluster: `0x06038E54`-`0x0603931C` (VDP1 register setup), many VDP2 functions scattered through `0x06003468`-`0x060429F2`.
+
+- **Sound (22 functions)**: SCSP-accessing functions clustered at `0x06018EAC`-`0x06019250` and `0x0601D3C2`-`0x0601D6B2`. Note: `0x06018EAC` is called from `main_game_func` — this is the per-frame sound/audio update.
+
+- **Controller input (12 functions)**: SMPC-accessing functions at `0x0601E2C2`-`0x0601E826`. These read controller state (digital buttons, analog steering). The gameplay code reads input through these functions — they're at the boundary between gameplay and hardware.
+
+- **System/DMA (16 functions)**: SCU DMA at `0x06004AAC`, `0x0602749A`, `0x0603FE84`. SH2 on-chip at `0x06029C00`-`0x06034762`.
+
+**Implication for gameplay extraction**: Any function that does NOT appear in the hardware access lists above is a candidate for pure game logic (physics, AI, collision, state management). The rendering and sound functions can be identified and separated — the gameplay code should be calling wrapper functions rather than touching hardware directly.
+
+### Function Categorization (from `scripts/categorize_functions.py`)
+
+**1234 total functions** identified (prologue scan including both `mov.l r14,@-r15` and `sts.l pr,@-r15` starters).
+
+| Category | Count | Description |
+|----------|-------|-------------|
+| **unknown (gameplay candidates)** | 1096 | No direct hardware access — game logic, math, utilities |
+| **rendering** | 70 | Direct VDP1/VDP2 register/VRAM access |
+| **sound** | 38 | Direct SCSP access (clustered at `0x06018EE4`-`0x06019250`, `0x0601D3C0`-`0x0601D7A0`) |
+| **input** | 13 | SMPC controller access (clustered at `0x0601E2B4`-`0x0601E810`) |
+| **system_hw** | 12 | SH2 on-chip registers (timers, interrupts) |
+| **system_dma** | 1 | SCU DMA setup |
+| **sound_helper** | 2 | Wrapper functions that only call sound functions |
+
+**Key finding: main loop candidate refinement.** Cross-referencing the main loop candidates (functions with many calls + loops) against hardware categories eliminates several:
+
+| Address | Calls/Loops | Category | Status |
+|---------|-------------|----------|--------|
+| `0x0601F9CC` | 46/6 | rendering | Eliminated — VDP access |
+| `0x0601B160` | 44/2 | rendering | Eliminated — VDP access |
+| **`0x060116A8`** | **41/1** | **unknown** | **Gameplay candidate** |
+| **`0x06011AF4`** | **41/1** | **unknown** | **Gameplay candidate** |
+| `0x06003578` | 40/4 | rendering | Eliminated — VDP access |
+| **`0x060092D0`** | **37/5** | **unknown** | **Gameplay candidate** (calls 5 non-hw functions) |
+| `0x06012DB4` | 37/25 | sound | Eliminated — SCSP access |
+
+The **three strongest candidates for the racing mode handler** are `0x060116A8`, `0x06011AF4`, and `0x060092D0`. These are large functions with many sub-calls and loops, no direct hardware access, and in the same general code region as `main_game_func` (`0x0600A392`).
+
+**Unknown functions by address range:**
+
+| Range | Unknown | Total | HW-accessing | Notes |
+|-------|---------|-------|-------------|-------|
+| `0x06003`-`0x06010` | 166 | 185 | 19 | Early code — entry point, init, core game logic |
+| `0x06010`-`0x06020` | 227 | 311 | 84 | Mixed — more rendering/sound here |
+| `0x06020`-`0x06030` | 142 | 156 | 14 | Mostly game logic |
+| `0x06030`-`0x06040` | 493 | 511 | 18 | **Almost entirely non-HW** — likely utility/math library |
+| `0x06040`-`0x06064` | 68 | 71 | 3 | Late code — data-adjacent utilities |
+
+The `0x06030000`-`0x06040000` range (493 of 511 functions are non-HW) is likely the utility/math library section — linked last by the compiler. The gameplay-specific code is more likely in the `0x06003`-`0x06020` range near `main_game_func`.
+
+### Global Variables & Data Structures (from `scripts/find_structs.py`)
+
+**Global variable summary**: 642 BSS (uninitialized) globals referenced 3433 times, 738 data (initialized) globals referenced 1869 times, 347 Work RAM Low globals referenced 415 times.
+
+**Most-referenced globals** (likely core game state):
+
+| Address | Refs | Likely Role |
+|---------|------|-------------|
+| `0x0607EAD8` | 92 | Highest-ref global — game mode/frame counter? |
+| `0x06089EDC` | 84 | Race state variable? |
+| `0x0607E944` | 80 | Core state |
+| `0x0607E940` | 76 | Core state |
+| `0x06084FC8` | 55 | Subsystem state |
+| `0x060A5400` | 46 | Data pointer/buffer? |
+| `0x06063750` | 42 | Near BSS start — early-init variable |
+| `0x06063D9A` | 39 | Part of control struct (see cluster #20) |
+
+**Major struct clusters** (groups of nearby globals suggesting C structs):
+
+| Base Address | Size | Fields | Refs | Likely Identity |
+|-------------|------|--------|------|----------------|
+| `0x060A4C38` | ~372B | 88 | 410 | **Largest struct** — car state? Has byte-level fields at +0x20/+0x21 |
+| `0x06063DF8` | ~368B | 50 | 302 | **Near BSS start** — main game context? Fields +0x24 (18 refs), +0x28 (24 refs) heavily used |
+| `0x06085F88` | ~214B | 53 | 291 | Dense byte fields at +0x00-+0x0A, +0x68-+0x6B — player/car data? |
+| `0x060785FC` | ~212B | 51 | 230 | Mixed int/byte fields — game subsystem state |
+| `0x0607884C` | ~184B | 38 | 212 | Field +0x33 has 31 refs — flag byte? |
+| `0x0607EA8C` | ~100B | 17 | 252 | **Hottest per-field** — contains the 92-ref global at +0x4C |
+| `0x0607EB84` | ~120B | 17 | 141 | Contains 38-ref global at +0x48 |
+| `0x06089E96` | ~78B | 16 | 178 | Contains 84-ref global at +0x46 — 2-byte fields, race timing? |
+| `0x06063D90` | ~28B | 8 | 99 | Small control struct — +0x08 (37 refs), +0x0A (39 refs) |
+
+**Observations for gameplay extraction:**
+- The cluster at `0x0607EA8C` (100 bytes, 252 refs) with the single most-referenced variable at +0x4C is almost certainly a **core game state struct** — something polled every frame by many subsystems.
+- The large cluster at `0x060A4C38` (372 bytes, 88 fields) has the complexity of a **car/vehicle state struct** — position, velocity, rotation, steering, gear, etc. The byte-level field access (+0x20, +0x21) suggests flags or small counters.
+- The cluster at `0x06063DF8` being near the start of BSS (first uninitialized memory after the file data) suggests it's a **primary context struct** — likely declared early in the source code.
+- Fields with 2-byte access patterns (at `0x06089E96`) suggest **fixed-point 16-bit values** — common for physics calculations on SH-2.
+
+These struct addresses are the next targets for Ghidra analysis — applying struct types in Ghidra and tracing cross-references from these fields to functions will reveal the gameplay subsystem boundaries.
 
 ---
 
@@ -312,17 +519,17 @@ The critical insight is that you don't need to decompile everything before you c
 - [x] Test cygnus-2.7-96Q3 codegen against Daytona binary patterns -> **Register allocation order differs (ascending in 2.7 vs descending in 2.6), byte-matching infeasible with 96Q3**
 - [x] Decision: Pursue non-matching decomp with cygnus-2.7-96Q3. Byte-matching is not needed for gameplay extraction goal.
 
-### Phase 1: Binary Mapping & Codebase Understanding
+### Phase 1: Binary Mapping & Codebase Understanding [COMPLETE]
 
 Map the full binary structure and begin categorizing the codebase. The gameplay code cannot be understood in isolation — it exists within a specific engine with specific data layouts, calling patterns, and shared state. Broad codebase understanding is required before gameplay extraction is meaningful.
 
-- [ ] Map out the binary layout (code, data, BSS sections, memory addresses)
-- [ ] Identify the main loop and top-level program flow
-- [ ] Map the overlay loading system (GAMED.BIN, SLCTD.BIN, etc. — which overlay runs during actual racing?)
-- [ ] Identify and document Saturn hardware access patterns (VDP1/VDP2 register writes, DMA setup, interrupt handlers)
-- [ ] Begin categorizing functions: **gameplay**, **rendering**, **system/hardware**, **sound**, **data loading**, **UI/menus**
-- [ ] Identify core data structures (car state struct, track data, input state, game state)
-- [ ] Map global variable usage — which globals does the gameplay code read/write?
+- [x] Map out the binary layout (code, data, BSS sections, memory addresses) — see Binary Layout below. **Needs Ghidra verification.**
+- [x] Identify the main loop and top-level program flow — see "Top-Level Program Flow" above. Entry point loops calling `main_game_func` per frame; `FUN_06020BCE` tail-calls game-mode-specific handlers.
+- [x] Map the overlay loading system — All loading via `FUN_06012E6A`. GAMED.BIN = racing data overlay. Track-specific files (COURSEn, CSnPOLY, CSn_LINE, TEX_Cn) loaded per course. See "File Loading System" section.
+- [x] Identify and document Saturn hardware access patterns — see "Hardware Access Patterns" section. 61 rendering functions, 22 sound, 12 controller input, 16 system/DMA identified.
+- [x] Begin categorizing functions — 1234 functions: 70 rendering, 38 sound, 13 input, 12 system, 1096 unknown/gameplay candidates. Three racing handler candidates identified: `0x060116A8`, `0x06011AF4`, `0x060092D0`.
+- [x] Identify core data structures — 9 major struct clusters found. Largest: 372B/88 fields at `0x060A4C38` (likely car state). Hottest: 100B/252 refs at `0x0607EA8C` (core game state). See "Global Variables & Data Structures" section.
+- [x] Map global variable usage — 642 BSS globals (3433 refs), 738 data globals (1869 refs). Top global `0x0607EAD8` has 92 refs. Struct cluster analysis reveals likely car state, game state, race state, and control structs.
 
 ### Phase 2: Gameplay Subsystem Identification
 
@@ -576,18 +783,26 @@ Building the test harness is an upfront investment, but it pays off across every
 
 The goal of this project is to extract the authentic Daytona USA gameplay code (physics, steering, collision, AI) and ultimately transplant it into Daytona USA Championship Circuit Edition, combining CCE's superior engine with the original's superior driving feel.
 
-**Phase 0 is complete.** Key findings:
+**Phases 0 and 1 are complete.**
 
-- **Compiler confirmed**: Cygnus GCC for SH-2 (GCC 2.6 era, ~`cygnus-2.6-95q1`). Only GCC 2.7 binaries (`cygnus-2.7-96q3`) are preserved. Byte-matching is infeasible due to register allocator changes between GCC versions, but this is irrelevant to the project goal.
+Phase 0 findings: Cygnus GCC confirmed, non-matching decomp with 96Q3, no standard SDK (AM2 custom code), overlay architecture mapped.
 
-- **Approach decided**: Non-matching decomp using cygnus-2.7-96Q3 for compilation/testing. The focus is functional correctness and codebase understanding, not binary reproduction.
+Phase 1 findings:
 
-- **Tooling in place**: Ghidra 12.0.2 with Saturn Loader. DOSBox-X with cygnus-2.7-96Q3 for test compilation.
+- **1234 functions identified** and categorized: 70 rendering, 38 sound, 13 input, 12 system, 1096 unknown/gameplay candidates.
 
-- **No standard SDK used**: AM2 wrote entirely custom code. No SGL/SBL functions detected. Every function must be identified through behavioral analysis.
+- **Program flow mapped**: Entry point → `hw_init` (one-time) → infinite main loop calling `main_game_func` per frame → `FUN_06020BCE` tail-calls game-mode-specific handlers.
 
-- **Overlay architecture identified**: Seven 436KB overlay programs swapped into the same memory region at runtime, forming a state machine for game modes. The racing gameplay overlay is the primary target.
+- **File loading centralized**: All CD file loading via `FUN_06012E6A`. GAMED.BIN = racing data overlay. Track-specific data: COURSEn, CSnPOLY, CSn_LINE, TEX_Cn.
 
-**The approach requires broad codebase understanding.** Gameplay code from this era is not a clean separable layer — it's a web of shared mutable state, global structs, and implicit dependencies on engine context. Extracting the gameplay subsystems requires understanding the surrounding engine (data structures, main loop, memory layout, frame timing) well enough to identify the interface boundaries. This is close to a full decomp in analysis depth, but freed from the tedious compiler-matching work that a byte-identical build would require.
+- **Hardware access isolated**: 61 VDP-touching rendering functions, 22 sound functions, 12 input functions identified. Functions NOT in these sets are pure game logic.
 
-**Next step**: Phase 1 — map the binary layout and begin categorizing the codebase.
+- **Three racing handler candidates**: `0x060116A8`, `0x06011AF4`, `0x060092D0` — large functions with many calls, loops, and no direct hardware access.
+
+- **9 major data structures found**: Largest struct 372 bytes/88 fields at `0x060A4C38` (likely car state). Most-referenced global `0x0607EAD8` (92 refs) in a 100-byte struct at `0x0607EA8C` (likely core game state).
+
+- **642 BSS globals** (3433 total references) and **738 data globals** (1869 refs) mapped.
+
+**The approach requires broad codebase understanding.** Gameplay code from this era is not a clean separable layer — it's a web of shared mutable state, global structs, and implicit dependencies on engine context. Extracting the gameplay subsystems requires understanding the surrounding engine well enough to identify the interface boundaries.
+
+**Next step**: Phase 2 — identify the racing main loop, map physics/collision/AI subsystems, and document fixed-point math conventions.
