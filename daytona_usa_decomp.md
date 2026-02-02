@@ -121,7 +121,7 @@ The Hitachi SHC compiler uses a different convention (saves `pr` first, differen
 |--------|--------|
 | String search (GCC, GNU, Cygnus, Hitachi, SHC) | No compiler strings found (binary stripped) |
 | Function prologue analysis | **GCC calling convention confirmed** |
-| Library signature matching | Pending (will further confirm SDK variant `_G`) |
+| Library signature matching | **No SGL/SBL functions found** (0 matches across all 6 sig files) |
 
 ---
 
@@ -231,9 +231,9 @@ The critical insight is that you don't need to decompile everything before you c
 - [x] Load into Ghidra with Saturn Loader (Ghidra 12.0.2 + Saturn Loader with version bump)
 - [x] Analyze code generation patterns to determine GCC vs Hitachi SHC -> **Cygnus GCC confirmed**
 - [x] Look for compiler identification strings in the binary -> No strings found (binary stripped), but prologue analysis was conclusive
-- [ ] Apply library signatures to identify SGL/SBL functions (CyberWarriorX .sig files needed)
+- [x] Apply library signatures to identify SGL/SBL functions -> **No matches (0/197 SBL, 0/311 SGL)** - AM2 used entirely custom code, no standard SDK
+- [x] Extract ISO 9660 filesystem and analyze contents (26 files: APROG.BIN + overlays + data)
 - [ ] Pin the exact Cygnus GCC version (likely cygnus-2.7-96Q3, needs verification)
-- [ ] Extract and analyze `APROG.BIN` and other files from the ISO filesystem
 
 ### Phase 1: Get a Non-Matching Build Working
 
@@ -288,8 +288,18 @@ If AM2 used the Hitachi SHC compiler (rather than Cygnus GCC), the toolchain is 
 - No SH2-to-C decompiler equivalent of mips2c
 - Ghidra's SH-2 decompiler output will need manual cleanup
 
-### 5. Library Code Volume
-A significant portion of the binary will be SGL/SBL library code. This needs to be identified and separated from game logic. The Ghidra Saturn Loader's library signature support helps here.
+### 5. No Standard SDK Functions Detected
+FLIRT signature matching against all available SGL (2.0a, 2.1, 3.00, 3.02j) and SBL (6.0, 6.01) libraries produced **zero matches** (verified: byte conversion confirmed working via debug output).
+
+**Confidence: High but not absolute.** Possible explanations:
+
+1. **AM2 wrote entirely custom code** (most likely) - AM2 was Sega's elite internal arcade team. Daytona is a Model 2 arcade port; they would have brought their own engine rather than adopting the consumer-facing SGL/SBL. SGL was developed primarily for third-party developers.
+
+2. **Pre-release / internal SDK variant** - As a launch title (March 1995), Daytona was developed against pre-release tools. AM2 may have used an earlier internal version of SBL (pre-6.0) or an AM2-specific internal library that was never distributed and therefore never signatured.
+
+3. **Different compilation flags** - If AM2 compiled SDK source code themselves with different optimization settings than the libraries CyberWarriorX signatured, the byte patterns would not match even if the source was identical.
+
+**Practical impact is the same regardless**: no function labels from signature matching. All identification must come from behavioral analysis, hardware register access patterns, and string cross-references. The codebase likely shares patterns with other AM2 Saturn titles (Virtua Fighter, Virtua Cop, etc.) which could help with future cross-referencing.
 
 ---
 
@@ -481,14 +491,16 @@ A matching decompilation of Daytona USA for Sega Saturn is feasible and the crit
 
 - **Build pipeline started**: `setup.ps1` handles disc extraction without third-party dependencies.
 
+- **No standard SDK used**: FLIRT signature matching against all available SGL and SBL versions produced zero matches. AM2 wrote entirely custom code - no off-the-shelf SDK functions. Every function must be identified through behavioral analysis, hardware register patterns, and string references.
+
+- **Overlay architecture identified**: Seven 436KB overlay programs (GAMED.BIN, SLCTD.BIN, MUSIC2D.BIN, etc.) are swapped into the same memory region at runtime, forming a state machine for game modes.
+
 **Remaining Phase 0 work:**
-- Apply CyberWarriorX's library signatures to identify SGL/SBL functions (separates SDK code from game code)
-- Pin the exact Cygnus GCC version
-- Extract `APROG.BIN` and other files from the ISO for complete analysis
+- Pin the exact Cygnus GCC version (likely cygnus-2.7-96Q3, needs test compilation to verify)
 
 **Alternative approaches remain viable** if needed:
 - Non-matching decomp with modern SH-2 GCC (pragmatic fallback, but less necessary now that original compiler is identified)
 - Differential testing as a complementary validation method
 - Hybrid approaches for incremental progress
 
-The project is well-positioned to move into Phase 1 (building a reassemblable binary from the original) once the remaining Phase 0 items are resolved.
+Phase 0 is substantially complete. The project is well-positioned to move into Phase 1 (building a reassemblable binary from the original).

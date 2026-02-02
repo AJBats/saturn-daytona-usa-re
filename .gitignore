@@ -1,3 +1,4 @@
 external_resources/
 build/
 ghidra_project/
+ghidra_scripts/__pycache__/

@@ -16,11 +16,8 @@ try:
 	from typing import List
 except ImportError:
 	pass
-from itertools import izip, islice
-try:
-	from StringIO import StringIO
-except ImportError:
-	from io import StringIO
+from itertools import islice
+from io import BytesIO
 import zlib
 import struct
 
@@ -605,7 +602,7 @@ def parse_flirt_file(f):
 	if header.features & FlirtFeatureFlag.FEATURE_COMPRESSED:
 		if header.version == 5:
 			raise FlirtException('Compression in unsupported on flirt v5')
-		f = StringIO(zlib.decompress(f.read()))  # Untested
+		f = BytesIO(zlib.decompress(f.read()))
 
 	tree = parse_tree(f, header.version, is_root=True)
 
@@ -620,7 +617,7 @@ def match_node_pattern(node, buff, offset):
 	# Check if we have enough data
 	if len(buff) < offset + len(node.pattern):
 		return False
-	for i, (b, p, v) in enumerate(izip(islice(buff, offset, len(buff)), node.pattern, node.variant_mask)):
+	for i, (b, p, v) in enumerate(zip(islice(buff, offset, len(buff)), node.pattern, node.variant_mask)):
 		if b < 0:
 			b = b + 256
 		if v:
@@ -703,13 +700,17 @@ def funk_rename(addr, funk):
 
 def apply_sig(flirt):
 	funk = getFirstFunction()
-	#print(funk.entryPoint
-	#print(get_function_end(funk))
+	debug_printed = False
 	while funk is not None:
 		funk_start = int(funk.entryPoint.toString(), 16)
 		funk_end   = get_function_end(funk)
-		funk_buf   = getBytes(parseAddress(hex(funk_start).strip('L')), funk_end - funk_start + 0x100)
-		#print('%x - %x' % (funk_start, funk_end))
+		raw_buf    = getBytes(parseAddress(hex(funk_start).strip('L')), funk_end - funk_start + 0x100)
+		# Convert Java signed bytes to Python unsigned bytes
+		funk_buf   = bytes([b & 0xFF for b in raw_buf])
+		if not debug_printed:
+			print('DEBUG: first func at 0x%x, buf type=%s, len=%d' % (funk_start, type(funk_buf).__name__, len(funk_buf)))
+			print('DEBUG: first 16 bytes: %s' % ' '.join(['%02X' % b for b in funk_buf[:16]]))
+			debug_printed = True
 		match_function(flirt, funk_buf, funk_start, funk_rename)
 		funk = getFunctionAfter(funk)
 
