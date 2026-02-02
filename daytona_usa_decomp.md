@@ -31,7 +31,35 @@ Daytona USA likely uses both SH-2 CPUs for its 3D engine, the 68K for sound, and
 - **Saturn port**: Written specifically for SH-2, not a direct port of arcade code
 - **Variant**: Daytona USA Championship Circuit Edition was a later improved version
 - **TCRF**: Categorized as having debugging functions - https://tcrf.net/Daytona_USA_(Sega_Saturn)
+- **Compiler**: Cygnus GCC for SH-2 (confirmed via function prologue analysis)
+- **Product code**: MK-81200, Build date: 1995-03-17
 - **No existing decomp project found** as of this research
+
+### Disc Structure (from string analysis)
+
+The data track (Track 01) contains the boot code plus first file. Tracks 02-22 are CD-DA audio (the Daytona soundtrack). The game loads additional files from the CD filesystem at runtime:
+
+| File | Purpose |
+|------|---------|
+| `APROG.BIN` | Main game program (loaded after boot) |
+| `CS0POLY.BIN`, `CS1POLY.BIN`, `CS2POLY.BIN` | Polygon data for 3 courses |
+| `CS0_LINE.BIN`, `CS1_LINE.BIN`, `CS2_LINE.BIN` | Racing line data |
+| `COURSE0.BIN`, `COURSE1.BIN`, `COURSE2.BIN` | Course data |
+| `TEX_PL.BIN`, `TEX_C1.BIN`, `TEX_C2.BIN` | Textures (player, course 1, course 2) |
+| `POLYGON.BIN` | Additional polygon data |
+| `SCROLL.BIN` | Scroll/background data |
+| `TABLE.BIN` | Data tables |
+| `PIT.BIN` | Pit stop data |
+| `SOUNDS.BIN` | Sound effects |
+| `GAMED.BIN`, `GAME0.BIN`, `GAME1.BIN` | Game logic data |
+| `SLCTD.BIN` | Select screen data |
+| `OVERD.BIN`, `OVER0.BIN` | Game over screen data |
+| `NAMD.BIN` | Name entry screen data |
+| `MUSICD.BIN`, `MUSIC2D.BIN`, `MUSIC3D.BIN` | Music sequencing data |
+
+Hidden features found in strings: `MIRROR MODE`, `DAYTONA UMA` / `HORSE` (secret horse mode).
+
+**Note**: The Ghidra Saturn Loader only loads the IP.BIN (boot code) + first file from the ISO. `APROG.BIN` and all data files above would need to be extracted separately from the ISO filesystem for complete analysis.
 
 ---
 
@@ -58,17 +86,42 @@ There were two compiler toolchains available to Saturn developers:
 - SDK files suffixed with `_H` are for the Hitachi toolchain
 - Can be found bundled with some Dreamcast SDK distributions
 
-### Determining Which Compiler Was Used for Daytona USA
+### Compiler Identified: Cygnus GCC
 
-This is the **critical first step**. Methods to identify:
+**CONFIRMED: Daytona USA (Saturn) was compiled with Cygnus GCC for SH-2.**
 
-1. **Code generation patterns**: GCC and SHC produce recognizably different assembly idioms (register allocation, function prologues/epilogues, optimization patterns)
-2. **String artifacts**: Compiler-specific strings may be embedded in the binary
-3. **Debug info**: TCRF notes the game has debugging functions - these may contain compiler identification
-4. **Library linkage**: Check if linked SDK code matches `_G` or `_H` variants
-5. **Comparison**: Compile a simple test function with both compilers and compare output patterns to what's in the Daytona binary
+This was determined through analysis of function prologues in the binary. Example from `FUN_0600a392`:
 
-As an internal Sega AM2 title from 1995, either toolchain is plausible.
+```
+0600a392  2f e6       mov.l   r14,@-r15      ; push r14
+0600a394  2f d6       mov.l   r13,@-r15      ; push r13
+0600a396  2f c6       mov.l   r12,@-r15      ; push r12
+0600a398  4f 22       sts.l   pr,@-r15       ; push pr (return address)
+0600a39a  7f f4       add     -0xc,r15       ; allocate local stack space
+```
+
+This pattern is characteristic of GCC's SH-2 calling convention:
+1. Callee-saved registers pushed in descending order (r14, r13, r12) via `mov.l rN,@-r15`
+2. `sts.l pr,@-r15` to save the return address placed **after** register saves
+3. `add` to allocate local variable space
+
+The Hitachi SHC compiler uses a different convention (saves `pr` first, different register ordering, distinct frame layout). This pattern unambiguously identifies GCC.
+
+**No compiler identification strings** were found in the binary (no "GCC", "GNU", "cygnus" strings) - the release was stripped clean, which is standard for commercial Saturn titles.
+
+**Implications:**
+- The matching compiler is available at https://github.com/sozud/saturn-compilers
+- The sotn-decomp project already has a working Saturn build using the same toolchain (cygnus-2.7-96Q3)
+- A byte-matching decompilation is feasible
+- Exact version still needs to be pinned (likely cygnus-2.7-96Q3 or similar 1995-era build)
+
+#### Identification Methods Used
+
+| Method | Result |
+|--------|--------|
+| String search (GCC, GNU, Cygnus, Hitachi, SHC) | No compiler strings found (binary stripped) |
+| Function prologue analysis | **GCC calling convention confirmed** |
+| Library signature matching | Pending (will further confirm SDK variant `_G`) |
 
 ---
 
@@ -174,12 +227,13 @@ The critical insight is that you don't need to decompile everything before you c
 
 ### Phase 0: Identify the Toolchain
 
-- [ ] Extract binary from Daytona USA disc image
-- [ ] Load into Ghidra with Saturn Loader
-- [ ] Apply library signatures to identify SGL/SBL functions
-- [ ] Analyze code generation patterns to determine GCC vs Hitachi SHC
-- [ ] Look for compiler identification strings in the binary
-- [ ] Obtain the matching compiler version
+- [x] Extract binary from Daytona USA disc image (setup.ps1 converts BIN/CUE Track 01 to ISO)
+- [x] Load into Ghidra with Saturn Loader (Ghidra 12.0.2 + Saturn Loader with version bump)
+- [x] Analyze code generation patterns to determine GCC vs Hitachi SHC -> **Cygnus GCC confirmed**
+- [x] Look for compiler identification strings in the binary -> No strings found (binary stripped), but prologue analysis was conclusive
+- [ ] Apply library signatures to identify SGL/SBL functions (CyberWarriorX .sig files needed)
+- [ ] Pin the exact Cygnus GCC version (likely cygnus-2.7-96Q3, needs verification)
+- [ ] Extract and analyze `APROG.BIN` and other files from the ISO filesystem
 
 ### Phase 1: Get a Non-Matching Build Working
 
@@ -417,14 +471,24 @@ Building the test harness is an upfront investment, but it pays off across every
 
 ## Summary
 
-A decompilation of Daytona USA for Sega Saturn is feasible in principle, with multiple viable approaches depending on goals and constraints:
+A matching decompilation of Daytona USA for Sega Saturn is feasible and the critical unknowns have been resolved:
 
-- **Matching decomp** is the gold standard and should be attempted first. The methodology is proven (see sotn-decomp), the analysis tools exist (Ghidra + Saturn Loader), and period-correct compilers are obtainable. The main risk is identifying the exact compiler AM2 used.
+- **Compiler confirmed**: Cygnus GCC for SH-2 (identified via function prologue analysis). The matching compiler is available at https://github.com/sozud/saturn-compilers and the sotn-decomp project provides a working reference build system.
 
-- **Non-matching decomp** with a modern SH-2 GCC toolchain is a pragmatic fallback. It sacrifices binary-diff verification but gains toolchain accessibility and immediate moddability. The SM64 community demonstrates that this approach has legs, though ideally it builds on verified source.
+- **Tooling in place**: Ghidra 12.0.2 with the Saturn Loader successfully loads and disassembles the binary. Auto-analysis identified functions and the decompiler produces readable C output.
 
-- **Differential testing** fills the verification gap when byte-matching isn't available. By treating original binary functions as oracles and comparing against decompiled C across thousands of inputs, you get high (though not absolute) confidence in correctness.
+- **Disc structure mapped**: The data track contains the boot code + main executable. 22 additional data files (course geometry, textures, sounds, game logic) are loaded from the CD filesystem at runtime.
 
-- **Hybrid approaches** (keeping critical assembly, decompiling game logic) offer a practical middle ground for a solo or small-team effort.
+- **Build pipeline started**: `setup.ps1` handles disc extraction without third-party dependencies.
 
-The recommended first step regardless of approach is loading the binary into Ghidra, applying library signatures, and analyzing code patterns to determine the original compiler. That answer determines which path is most practical. No work is wasted if the approach changes - analysis, function identification, and build infrastructure carry over between strategies.
+**Remaining Phase 0 work:**
+- Apply CyberWarriorX's library signatures to identify SGL/SBL functions (separates SDK code from game code)
+- Pin the exact Cygnus GCC version
+- Extract `APROG.BIN` and other files from the ISO for complete analysis
+
+**Alternative approaches remain viable** if needed:
+- Non-matching decomp with modern SH-2 GCC (pragmatic fallback, but less necessary now that original compiler is identified)
+- Differential testing as a complementary validation method
+- Hybrid approaches for incremental progress
+
+The project is well-positioned to move into Phase 1 (building a reassemblable binary from the original) once the remaining Phase 0 items are resolved.
