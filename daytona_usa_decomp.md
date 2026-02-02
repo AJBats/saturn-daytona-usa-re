@@ -69,12 +69,17 @@ There were two compiler toolchains available to Saturn developers:
 
 ### 1. Cygnus GCC for SH2 (GNU Toolchain)
 
-- Supplied by Sega to licensed developers
-- Based on GCC 2.7 from Cygnus Solutions (enterprise GNU support company)
+- Supplied by Sega to licensed developers via SOA (Sega of America)
+- Maintained by **Toshiyasu Morita at SOA**, who applied Saturn-specific patches on top of quarterly Cygnus base releases
+- Cygnus Solutions was an enterprise GNU support company that shipped quarterly toolchain builds (95q1, 95q2, 95q3, 95q4, 96q1, 96q2, 96q3)
+- SOA releases followed a naming convention: `cygnus-{gcc_ver}-{quarter} SOA-{date}` (e.g., `cygnus-2.7-96q3 SOA-960904`)
+- **GCC 2.6 era** (Oct 1994 - Aug 1995): Base `cygnus-2.6.0-941014`, used for early/launch Saturn titles including Daytona USA
+- **GCC 2.7 era** (Aug 1995 onward): Migration happened with 95q3 release. Most preserved compiler builds are from this era
 - Sega recommended against using C++ due to larger code size
 - SDK files suffixed with `_G` are for the GNU toolchain
-- The sotn-decomp project uses **cygnus-2.7-96Q3** for its Saturn target
+- The sotn-decomp project uses **cygnus-2.7-96Q3** for its Saturn target (GCC 2.7 era)
 - Compiler binaries available at: https://github.com/sozud/saturn-compilers
+- **Only cygnus-2.7-96Q3 binaries are known to be preserved** - earlier GCC 2.6 era builds have not been found
 
 ### 2. Hitachi SH-C (SHC) - Proprietary Compiler
 
@@ -109,11 +114,33 @@ The Hitachi SHC compiler uses a different convention (saves `pr` first, differen
 
 **No compiler identification strings** were found in the binary (no "GCC", "GNU", "cygnus" strings) - the release was stripped clean, which is standard for commercial Saturn titles.
 
+**Compiler Version Analysis:**
+
+The SOA compiler changelog (GCC.LOG, maintained by Toshiyasu Morita) documents every release from October 1994 through September 1996. Cross-referencing with Daytona's build date (1995-03-17):
+
+| SOA Release | Date | GCC Base | Notes |
+|---|---|---|---|
+| `cygnus-2.6.0-941014-SOA-950201` | Feb 1, 1995 | GCC 2.6 | Earliest documented SOA patch |
+| `cygnus-2.6.0-941014-SOA-950208` | Feb 8, 1995 | GCC 2.6 | |
+| `cygnus-2.6.0-941014-SOA-950215` | Feb 15, 1995 | GCC 2.6 | |
+| `cygnus-2.6-95q1-SOA-950317` | Mar 17, 1995 | GCC 2.6 | Migrated to 95q1 base — **matches Daytona build date** |
+| **Daytona USA ships** | **~Apr 1995** | | |
+| `cygnus-2.6-95q1-SOA-950406` | Apr 6, 1995 | GCC 2.6 | |
+| ... | ... | ... | ... |
+| `cygnus-95q3-SOA-950822` | Aug 22, 1995 | GCC 2.6→2.7 | **Migration to GCC 2.7 base** |
+| ... | ... | ... | ... |
+| `cygnus-2.7-96q3 SOA-960904` | Sep 4, 1996 | GCC 2.7 | Latest preserved build |
+
+**Key finding**: Daytona was compiled with a **GCC 2.6**-based compiler (~`cygnus-2.6-95q1` era), while the only preserved compiler binaries are **GCC 2.7**-based (`cygnus-2.7-96q3`). The GCC backend changed between these versions (new optimizations, different code generation patterns documented in the changelog).
+
+**Caveat**: AM2 was Sega Japan, not SOA. They may have used an internal Japanese build rather than the SOA distribution. The SOA changelog represents third-party developer releases. AM2's internal toolchain may differ in patch level or configuration.
+
 **Implications:**
-- The matching compiler is available at https://github.com/sozud/saturn-compilers
-- The sotn-decomp project already has a working Saturn build using the same toolchain (cygnus-2.7-96Q3)
-- A byte-matching decompilation is feasible
-- Exact version still needs to be pinned (likely cygnus-2.7-96Q3 or similar 1995-era build)
+- The only preserved compiler (cygnus-2.7-96Q3) is from 18 months after Daytona shipped and uses a different GCC major version
+- **Codegen testing confirms byte-matching with 96Q3 is infeasible** (see Codegen Comparison below)
+- Many high-level code patterns (prologue/epilogue structure, delay slot filling, switch tables) are shared between GCC 2.6 and 2.7
+- The sotn-decomp project uses 96Q3 successfully for later Saturn titles compiled with GCC 2.7
+- **Recommended approach**: Pursue non-matching decomp with 96Q3 while searching for the original GCC 2.6 compiler. If GCC 2.6 is recovered, the C source can be recompiled for a byte-match
 
 #### Identification Methods Used
 
@@ -122,6 +149,38 @@ The Hitachi SHC compiler uses a different convention (saves `pr` first, differen
 | String search (GCC, GNU, Cygnus, Hitachi, SHC) | No compiler strings found (binary stripped) |
 | Function prologue analysis | **GCC calling convention confirmed** |
 | Library signature matching | **No SGL/SBL functions found** (0 matches across all 6 sig files) |
+
+#### Codegen Comparison: cygnus-2.7-96Q3 vs Daytona Binary
+
+Test C functions were compiled with `GCC.EXE -S -O2 -m2 -fsigned-char` using the cygnus-2.7-96Q3 compiler (via DOSBox-X) and compared against patterns in the Daytona binary. The compiler self-identifies as `Hitachi SH cc1 (cygnus-2.7-96q3 SOA-960904)`.
+
+**What matches:**
+
+| Pattern | 96Q3 Output | Daytona Binary |
+|---------|-------------|----------------|
+| pr save placement | After register saves | After register saves |
+| Delay slot filling | Used (bt.s, bf.s, bra+delay) | Used identically |
+| Switch jump tables | mova + relative .word offsets | Same structure |
+| Frame pointer setup | `mov.l r14,@-r15` then `mov r15,r14` | Same |
+| Leaf function style | Minimal prologue/epilogue | Same |
+| Struct field access | `@(offset,rN)` displacement loads | Same |
+
+**What differs — the critical blocker:**
+
+Register save ordering in non-leaf function prologues is fundamentally different:
+
+```
+Daytona binary (GCC 2.6):          96Q3 output (GCC 2.7):
+  mov.l  r14,@-r15  ; descending    mov.l  r8,@-r15   ; ascending
+  mov.l  r13,@-r15                   mov.l  r9,@-r15
+  mov.l  r12,@-r15                   mov.l  r10,@-r15
+  sts.l  pr,@-r15                    mov.l  r14,@-r15
+                                     sts.l  pr,@-r15
+```
+
+GCC 2.6 saves callee-saved registers in **descending** order (r14, r13, r12, ...) while GCC 2.7 saves in **ascending** order (r8, r9, r10, ..., r14). This is a fundamental change in the register allocator between GCC major versions. It affects every non-leaf function in the binary and cannot be worked around with compiler flags.
+
+**Conclusion**: Byte-perfect matching with cygnus-2.7-96Q3 is **not feasible**. The register allocation ordering difference permeates the entire binary. However, the high-level codegen patterns (control flow, memory access, calling convention structure) are similar enough that 96Q3 is viable for a non-matching or near-matching decomp.
 
 ---
 
@@ -233,7 +292,8 @@ The critical insight is that you don't need to decompile everything before you c
 - [x] Look for compiler identification strings in the binary -> No strings found (binary stripped), but prologue analysis was conclusive
 - [x] Apply library signatures to identify SGL/SBL functions -> **No matches (0/197 SBL, 0/311 SGL)** - AM2 used entirely custom code, no standard SDK
 - [x] Extract ISO 9660 filesystem and analyze contents (26 files: APROG.BIN + overlays + data)
-- [ ] Pin the exact Cygnus GCC version (likely cygnus-2.7-96Q3, needs verification)
+- [x] Pin the Cygnus GCC version -> **Original is GCC 2.6 era (~cygnus-2.6-95q1), only preserved build is GCC 2.7 (cygnus-2.7-96q3 SOA-960904)**
+- [x] Test cygnus-2.7-96Q3 codegen against Daytona binary patterns -> **Register allocation order differs (ascending in 2.7 vs descending in 2.6), byte-matching infeasible with 96Q3**
 
 ### Phase 1: Get a Non-Matching Build Working
 
@@ -481,9 +541,9 @@ Building the test harness is an upfront investment, but it pays off across every
 
 ## Summary
 
-A matching decompilation of Daytona USA for Sega Saturn is feasible and the critical unknowns have been resolved:
+A decompilation of Daytona USA for Sega Saturn is feasible, with the critical unknowns resolved:
 
-- **Compiler confirmed**: Cygnus GCC for SH-2 (identified via function prologue analysis). The matching compiler is available at https://github.com/sozud/saturn-compilers and the sotn-decomp project provides a working reference build system.
+- **Compiler confirmed**: Cygnus GCC for SH-2 (identified via function prologue analysis). The original build used a **GCC 2.6**-era compiler (~`cygnus-2.6-95q1`, matching the March 1995 build date), but only **GCC 2.7**-era binaries (`cygnus-2.7-96q3`) are preserved. **Codegen testing confirms byte-matching with 96Q3 is infeasible** — register allocation ordering changed between GCC 2.6 (descending) and 2.7 (ascending), affecting every non-leaf function. Near-matching or non-matching decomp remains viable with 96Q3.
 
 - **Tooling in place**: Ghidra 12.0.2 with the Saturn Loader successfully loads and disassembles the binary. Auto-analysis identified functions and the decompiler produces readable C output.
 
@@ -495,12 +555,14 @@ A matching decompilation of Daytona USA for Sega Saturn is feasible and the crit
 
 - **Overlay architecture identified**: Seven 436KB overlay programs (GAMED.BIN, SLCTD.BIN, MUSIC2D.BIN, etc.) are swapped into the same memory region at runtime, forming a state machine for game modes.
 
-**Remaining Phase 0 work:**
-- Pin the exact Cygnus GCC version (likely cygnus-2.7-96Q3, needs test compilation to verify)
+**Phase 0 is complete.** All toolchain identification, codegen testing, and feasibility analysis is done.
 
-**Alternative approaches remain viable** if needed:
-- Non-matching decomp with modern SH-2 GCC (pragmatic fallback, but less necessary now that original compiler is identified)
-- Differential testing as a complementary validation method
-- Hybrid approaches for incremental progress
+**Compiler version gap — confirmed and quantified:**
 
-Phase 0 is substantially complete. The project is well-positioned to move into Phase 1 (building a reassemblable binary from the original).
+Codegen testing with cygnus-2.7-96Q3 confirmed that register allocation ordering changed between GCC 2.6 and 2.7 (descending vs ascending register saves). This difference affects every non-leaf function and cannot be worked around with compiler flags. Two paths forward:
+
+1. **Recover the original GCC 2.6 compiler** — The SOA changelog gives exact version strings to search for (e.g., `cygnus-2.6-95q1-SOA-950317`). These may exist in other Saturn SDK archives, developer hard drives, or unreleased collections. If found, a true byte-matching decomp becomes possible.
+
+2. **Non-matching decomp with 96Q3** — Use the available compiler for a functionally equivalent decomp. The high-level codegen patterns (control flow, memory access, calling convention structure) are similar enough for productive work. Validate via differential testing. If GCC 2.6 is later recovered, the C source can be recompiled for byte-matching.
+
+The project is ready to move into Phase 1 (building a reassemblable binary from the original).

@@ -39,6 +39,10 @@ and knowledge base that makes Saturn research accessible today.
   for matching decompilation projects.
 
 ### Compiler Research
+- **Toshiyasu Morita** (Sega of America) - Maintained the SOA Cygnus GCC
+  distribution for Saturn developers from 1994-1996. His detailed changelog
+  (GCC.LOG) documents every compiler release and bugfix, and was instrumental
+  in identifying the compiler version timeline for this project.
 - **sozud/saturn-compilers** - Collection of Sega Saturn cross-compiler
   toolchains (Cygnus GCC, Hitachi SHC) preserved for decomp work.
 - **sotn-decomp** (Castlevania: Symphony of the Night decomp) - Reference
