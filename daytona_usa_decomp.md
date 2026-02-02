@@ -1,8 +1,10 @@
-# Daytona USA (Sega Saturn) - Matching Decompilation Research
+# Daytona USA (Sega Saturn) - Reverse Engineering & Gameplay Extraction
 
 ## Overview
 
-This document captures research into the feasibility and approach for a matching decompilation of Daytona USA for the Sega Saturn. A matching decomp means writing C source code that, when compiled with the original toolchain, produces a byte-identical binary to the original game.
+This document captures research and planning for the reverse engineering of Daytona USA for the Sega Saturn, with the ultimate goal of extracting its gameplay code for transplant into Daytona USA Championship Circuit Edition (CCE).
+
+This is **not** a traditional matching decompilation project. The goal is a functionally correct, non-matching decomp — a full understanding of the original codebase deep enough to isolate the gameplay layer (physics, steering, collision, AI) and port it into CCE's superior engine.
 
 ---
 
@@ -23,13 +25,27 @@ Daytona USA likely uses both SH-2 CPUs for its 3D engine, the 68K for sound, and
 
 ---
 
+## Project Motivation
+
+There are two Daytona USA releases on the Sega Saturn:
+
+**Daytona USA (original, 1995)** — A Saturn launch title. Rushed to market, technically rough (low frame rate, pop-in, graphical compromises), but the gameplay is authentic Daytona. The steering feel, the drift mechanics, the speed — this is genuine AM2 arcade gameplay adapted for Saturn hardware. This is the version we are studying.
+
+**Daytona USA Championship Circuit Edition (CCE, 1996)** — A rebuilt version by a different team (CS R&D Dept. 2 / AM Annex). Technically superior in every way: better frame rate, better graphics, more content. But the gameplay is fundamentally different and widely considered inferior. It doesn't feel like Daytona. It's not a fun racing game.
+
+**The goal**: The original's gameplay code is the irreplaceable artifact — the "gold in these hills." It cannot be recreated from scratch because it embodies specific tuning decisions, edge cases, and feel that only exist in that binary. The moonshot is to extract this gameplay logic from the original, then decompile CCE and transplant the authentic gameplay into CCE's better engine. The result would be a game with CCE's technical quality and the original's driving feel.
+
+**Known dragons**: The gameplay code may be tightly coupled to the graphics/rendering pipeline. There may be hardcoded assumptions about frame timing, memory layout, or data formats that differ between versions. Global mutable state from 1995-era game development under deadline pressure is likely pervasive. These will be tackled one at a time as they're discovered.
+
+---
+
 ## About Daytona USA (Saturn)
 
 - **Developer**: Sega AM2 (Yu Suzuki's division) / AM Annex (porting team)
 - **Release**: April 1, 1995 (JP), May 11, 1995 (US) - Saturn launch title
 - **Arcade original**: Ran on Sega Model 2 hardware (Intel i960 CPU) - completely different architecture
 - **Saturn port**: Written specifically for SH-2, not a direct port of arcade code
-- **Variant**: Daytona USA Championship Circuit Edition was a later improved version
+- **Variant**: Daytona USA Championship Circuit Edition (CCE) was a later rebuilt version (see Project Motivation)
 - **TCRF**: Categorized as having debugging functions - https://tcrf.net/Daytona_USA_(Sega_Saturn)
 - **Compiler**: Cygnus GCC for SH-2 (confirmed via function prologue analysis)
 - **Product code**: MK-81200, Build date: 1995-03-17
@@ -284,7 +300,7 @@ The critical insight is that you don't need to decompile everything before you c
 
 ## Practical Roadmap
 
-### Phase 0: Identify the Toolchain
+### Phase 0: Toolchain Identification & Feasibility [COMPLETE]
 
 - [x] Extract binary from Daytona USA disc image (setup.ps1 converts BIN/CUE Track 01 to ISO)
 - [x] Load into Ghidra with Saturn Loader (Ghidra 12.0.2 + Saturn Loader with version bump)
@@ -294,38 +310,55 @@ The critical insight is that you don't need to decompile everything before you c
 - [x] Extract ISO 9660 filesystem and analyze contents (26 files: APROG.BIN + overlays + data)
 - [x] Pin the Cygnus GCC version -> **Original is GCC 2.6 era (~cygnus-2.6-95q1), only preserved build is GCC 2.7 (cygnus-2.7-96q3 SOA-960904)**
 - [x] Test cygnus-2.7-96Q3 codegen against Daytona binary patterns -> **Register allocation order differs (ascending in 2.7 vs descending in 2.6), byte-matching infeasible with 96Q3**
+- [x] Decision: Pursue non-matching decomp with cygnus-2.7-96Q3. Byte-matching is not needed for gameplay extraction goal.
 
-### Phase 1: Get a Non-Matching Build Working
+### Phase 1: Binary Mapping & Codebase Understanding
+
+Map the full binary structure and begin categorizing the codebase. The gameplay code cannot be understood in isolation — it exists within a specific engine with specific data layouts, calling patterns, and shared state. Broad codebase understanding is required before gameplay extraction is meaningful.
 
 - [ ] Map out the binary layout (code, data, BSS sections, memory addresses)
-- [ ] Write a linker script that reassembles raw sections into a byte-identical binary
-- [ ] Set up the build system (Makefile)
-- [ ] Verify byte-identical output from the raw reassembly
-- [ ] This proves the build pipeline before writing any C
+- [ ] Identify the main loop and top-level program flow
+- [ ] Map the overlay loading system (GAMED.BIN, SLCTD.BIN, etc. — which overlay runs during actual racing?)
+- [ ] Identify and document Saturn hardware access patterns (VDP1/VDP2 register writes, DMA setup, interrupt handlers)
+- [ ] Begin categorizing functions: **gameplay**, **rendering**, **system/hardware**, **sound**, **data loading**, **UI/menus**
+- [ ] Identify core data structures (car state struct, track data, input state, game state)
+- [ ] Map global variable usage — which globals does the gameplay code read/write?
 
-### Phase 2: Function-Level Splitting
+### Phase 2: Gameplay Subsystem Identification
 
-- [ ] Identify all function boundaries in Ghidra
-- [ ] Split code sections into individual functions (as .s files or raw object blobs)
-- [ ] Handle data references and relocations between functions
-- [ ] Verify the build still matches after splitting
+Focus on finding and understanding the gameplay-critical code clusters.
 
-### Phase 3: Incremental Decompilation
+- [ ] Identify the racing main loop (the per-frame update during actual gameplay)
+- [ ] Map the physics subsystem: acceleration, braking, steering response, drift mechanics
+- [ ] Map the collision subsystem: track boundaries, car-to-car, wall hits
+- [ ] Map the AI subsystem: opponent behavior, rubber-banding, line selection
+- [ ] Map race state management: lap counting, position tracking, timing
+- [ ] Document fixed-point math conventions (Q format, shared math routines)
+- [ ] Identify the interface boundary between gameplay and rendering (what does gameplay write that rendering reads?)
+- [ ] Document frame timing assumptions (vblank-driven? fixed timestep?)
 
-- [ ] Start with simple/small functions (utility functions, math helpers)
-- [ ] Write C that compiles to matching assembly
-- [ ] Use asm-differ to compare output
-- [ ] Replace assembly blobs with compiled C in the build
-- [ ] Verify full binary match after each replacement
-- [ ] Tackle library identification (mark SDK functions as known)
-- [ ] Progress to larger, more complex functions
+### Phase 3: Non-Matching Decompilation
 
-### Phase 4: Full Source Build
+Decompile broadly across the codebase, prioritizing gameplay functions but including enough surrounding context (data structures, utility functions, main loop) to make the gameplay code comprehensible and portable.
 
-- [ ] All functions decompiled to C
-- [ ] Full binary built entirely from C source
-- [ ] Byte-identical to original
-- [ ] Document build process and dependencies
+- [ ] Decompile core data structures to C structs (car state, track data, game state)
+- [ ] Decompile shared utility/math functions
+- [ ] Decompile gameplay subsystems to C (physics, collision, AI, race state)
+- [ ] Decompile the main loop and game state management
+- [ ] Validate decompiled functions via differential testing against emulator traces
+- [ ] Document any coupling between gameplay and rendering discovered during decompilation
+
+### Phase 4: CCE Analysis & Gameplay Transplant
+
+Apply the same analysis to Championship Circuit Edition and plan the transplant.
+
+- [ ] Obtain and extract CCE disc image
+- [ ] Load CCE into Ghidra, identify compiler and structure
+- [ ] Map CCE's equivalent subsystems (physics, collision, AI, race state)
+- [ ] Identify interface differences between original and CCE (data formats, struct layouts, calling conventions)
+- [ ] Design the transplant strategy: which original gameplay functions replace which CCE functions
+- [ ] Handle coupling issues (frame timing, fixed-point formats, global state layout differences)
+- [ ] Build and test a modified CCE with transplanted gameplay code
 
 ---
 
@@ -338,17 +371,24 @@ The Saturn has dual SH-2 CPUs, a 68K sound CPU, and SCU DSP microcode. Each may 
 - Understanding of how code is distributed between processors
 
 ### 2. No Existing Decomp Community for This Game
-Unlike SM64, OoT, or SotN, there's no existing community or infrastructure. You'd be pioneering the tooling.
+Unlike SM64, OoT, or SotN, there's no existing community or infrastructure. This project is pioneering the tooling.
 
-### 3. Compiler Identification Uncertainty
-If AM2 used the Hitachi SHC compiler (rather than Cygnus GCC), the toolchain is harder to obtain and less documented in the decomp community.
+### 3. Gameplay/Engine Coupling
+1990s game code under deadline pressure rarely has clean architectural boundaries. Expected coupling issues:
+- Gameplay functions reading/writing global structs at hardcoded offsets
+- Fixed-point math conventions shared between gameplay and rendering
+- Frame timing assumptions baked into physics calculations
+- Implicit dependencies on engine initialization order
 
-### 4. Saturn-Specific Tooling Gaps
+### 4. Two-Game Transplant Complexity
+The ultimate goal requires understanding not just the original, but also CCE — and mapping the interface differences between them. Data structures, memory layouts, calling conventions, and frame timing may all differ between versions.
+
+### 5. Saturn-Specific Tooling Gaps
 - No Saturn-specific equivalent of decomp-toolkit (binary splitter)
 - No SH2-to-C decompiler equivalent of mips2c
 - Ghidra's SH-2 decompiler output will need manual cleanup
 
-### 5. No Standard SDK Functions Detected
+### 6. No Standard SDK Functions Detected
 FLIRT signature matching against all available SGL (2.0a, 2.1, 3.00, 3.02j) and SBL (6.0, 6.01) libraries produced **zero matches** (verified: byte conversion confirmed working via debug output).
 
 **Confidence: High but not absolute.** Possible explanations:
@@ -421,24 +461,17 @@ The SM64 community illustrates both approaches and their relationship:
 
 The key insight: the non-matching/enhanced builds were built **on top of** source whose correctness was already proven via matching. They didn't skip the verification step - they built on it.
 
-### Recommended Strategy
+### Decision: Non-Matching Decomp for Gameplay Extraction
 
-**Try matching first, fall back to non-matching if needed:**
+This project pursues a **non-matching decompilation** using cygnus-2.7-96Q3. This decision was driven by two factors:
 
-1. Load the binary into Ghidra and identify the compiler
-2. If it's Cygnus GCC (available via sozud/saturn-compilers), pursue matching
-3. If it's Hitachi SHC and unobtainable, pivot to non-matching with modern `sh2-elf-gcc`
-4. No work is wasted in the pivot - Ghidra analysis, function identification, linker scripts, and data extraction all carry over
+1. **Byte-matching is infeasible** — The original was compiled with GCC 2.6 (register saves in descending order), and only GCC 2.7 binaries are preserved (ascending order). This difference affects every non-leaf function.
 
-### Hybrid Approach
+2. **Byte-matching is unnecessary for the goal** — The project's purpose is extracting gameplay logic for transplant into CCE, not reproducing the original binary. Functional correctness matters; binary identity does not.
 
-A practical middle ground: keep performance-critical or hard-to-verify sections (3D engine core, inner loops) as original assembly, and decompile the higher-level game logic (menus, AI, course data, game state management) to C. This gives moddability where it matters most without needing to perfectly nail every optimization in the rendering pipeline.
+The compiler (96Q3) remains useful for compiling and testing decompiled C against SH-2 in an emulator, but the analysis depth is the same regardless of compiler — understanding the codebase's data structures, calling patterns, and global state is the real work.
 
-| Approach | Verification | Toolchain Requirement | Moddability |
-|----------|-------------|----------------------|-------------|
-| Matching decomp | Binary diff (definitive) | Exact original compiler | After completion |
-| Non-matching decomp | Functional testing | Any SH-2 compiler | Immediate |
-| Hybrid (asm + C) | Mix of both | Any SH-2 compiler | Partial, where it counts |
+**Note on GCC 2.6 recovery**: GCC 2.6.3 source code exists at the [GNU old-releases archive](https://gcc.gnu.org/pub/gcc/old-releases/gcc-2/) and [decompals/old-gcc](https://github.com/decompals/old-gcc) already builds GCC 2.6.3 from source on modern systems. Building a vanilla GCC 2.6.3 for `sh-hms` target is feasible if byte-matching ever becomes desirable (e.g., for verifying decompiled functions). The SOA-specific patches from Toshiyasu Morita would still be missing, but the register allocator behavior (the critical difference) comes from the GCC version itself.
 
 ---
 
@@ -541,28 +574,20 @@ Building the test harness is an upfront investment, but it pays off across every
 
 ## Summary
 
-A decompilation of Daytona USA for Sega Saturn is feasible, with the critical unknowns resolved:
+The goal of this project is to extract the authentic Daytona USA gameplay code (physics, steering, collision, AI) and ultimately transplant it into Daytona USA Championship Circuit Edition, combining CCE's superior engine with the original's superior driving feel.
 
-- **Compiler confirmed**: Cygnus GCC for SH-2 (identified via function prologue analysis). The original build used a **GCC 2.6**-era compiler (~`cygnus-2.6-95q1`, matching the March 1995 build date), but only **GCC 2.7**-era binaries (`cygnus-2.7-96q3`) are preserved. **Codegen testing confirms byte-matching with 96Q3 is infeasible** — register allocation ordering changed between GCC 2.6 (descending) and 2.7 (ascending), affecting every non-leaf function. Near-matching or non-matching decomp remains viable with 96Q3.
+**Phase 0 is complete.** Key findings:
 
-- **Tooling in place**: Ghidra 12.0.2 with the Saturn Loader successfully loads and disassembles the binary. Auto-analysis identified functions and the decompiler produces readable C output.
+- **Compiler confirmed**: Cygnus GCC for SH-2 (GCC 2.6 era, ~`cygnus-2.6-95q1`). Only GCC 2.7 binaries (`cygnus-2.7-96q3`) are preserved. Byte-matching is infeasible due to register allocator changes between GCC versions, but this is irrelevant to the project goal.
 
-- **Disc structure mapped**: The data track contains the boot code + main executable. 22 additional data files (course geometry, textures, sounds, game logic) are loaded from the CD filesystem at runtime.
+- **Approach decided**: Non-matching decomp using cygnus-2.7-96Q3 for compilation/testing. The focus is functional correctness and codebase understanding, not binary reproduction.
 
-- **Build pipeline started**: `setup.ps1` handles disc extraction without third-party dependencies.
+- **Tooling in place**: Ghidra 12.0.2 with Saturn Loader. DOSBox-X with cygnus-2.7-96Q3 for test compilation.
 
-- **No standard SDK used**: FLIRT signature matching against all available SGL and SBL versions produced zero matches. AM2 wrote entirely custom code - no off-the-shelf SDK functions. Every function must be identified through behavioral analysis, hardware register patterns, and string references.
+- **No standard SDK used**: AM2 wrote entirely custom code. No SGL/SBL functions detected. Every function must be identified through behavioral analysis.
 
-- **Overlay architecture identified**: Seven 436KB overlay programs (GAMED.BIN, SLCTD.BIN, MUSIC2D.BIN, etc.) are swapped into the same memory region at runtime, forming a state machine for game modes.
+- **Overlay architecture identified**: Seven 436KB overlay programs swapped into the same memory region at runtime, forming a state machine for game modes. The racing gameplay overlay is the primary target.
 
-**Phase 0 is complete.** All toolchain identification, codegen testing, and feasibility analysis is done.
+**The approach requires broad codebase understanding.** Gameplay code from this era is not a clean separable layer — it's a web of shared mutable state, global structs, and implicit dependencies on engine context. Extracting the gameplay subsystems requires understanding the surrounding engine (data structures, main loop, memory layout, frame timing) well enough to identify the interface boundaries. This is close to a full decomp in analysis depth, but freed from the tedious compiler-matching work that a byte-identical build would require.
 
-**Compiler version gap — confirmed and quantified:**
-
-Codegen testing with cygnus-2.7-96Q3 confirmed that register allocation ordering changed between GCC 2.6 and 2.7 (descending vs ascending register saves). This difference affects every non-leaf function and cannot be worked around with compiler flags. Two paths forward:
-
-1. **Recover the original GCC 2.6 compiler** — The SOA changelog gives exact version strings to search for (e.g., `cygnus-2.6-95q1-SOA-950317`). These may exist in other Saturn SDK archives, developer hard drives, or unreleased collections. If found, a true byte-matching decomp becomes possible.
-
-2. **Non-matching decomp with 96Q3** — Use the available compiler for a functionally equivalent decomp. The high-level codegen patterns (control flow, memory access, calling convention structure) are similar enough for productive work. Validate via differential testing. If GCC 2.6 is later recovered, the C source can be recompiled for byte-matching.
-
-The project is ready to move into Phase 1 (building a reassemblable binary from the original).
+**Next step**: Phase 1 — map the binary layout and begin categorizing the codebase.
