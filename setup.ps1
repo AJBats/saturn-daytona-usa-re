@@ -11,9 +11,15 @@
 #     Daytona USA (USA) (Track 02).bin   <- Audio track (CDDA)
 #     ... (up to Track 22)
 #
-# This script extracts the data track and converts it from
-# raw 2352 bytes/sector to standard 2048 bytes/sector ISO,
-# which is the format required by the Ghidra Saturn Loader.
+# This script:
+#   1. Converts the data track from raw 2352 bytes/sector to 2048 bytes/sector ISO
+#   2. Extracts all files from the ISO 9660 filesystem
+#
+# Output structure:
+#   build/disc/daytona_data.iso          <- Converted ISO (for Ghidra Saturn Loader)
+#   build/disc/files/                    <- Extracted filesystem contents
+#     APROG.BIN                          <- Main game program
+#     CS0POLY.BIN, CS1POLY.BIN, ...      <- Course/texture/sound data
 #
 # Usage:
 #   .\setup.ps1 -InputDir "path\to\your\dump"
@@ -34,9 +40,7 @@ $DefaultInputDir = Join-Path $ProjectRoot "external_resources\Daytona USA (USA)"
 $OutputDir = Join-Path $ProjectRoot "build\disc"
 $ExpectedDataTrack = "Daytona USA (USA) (Track 01).bin"
 $OutputIso = "daytona_data.iso"
-
-# Expected MD5 of the final ISO (fill in once verified)
-# $ExpectedMD5 = ""
+$FilesDir = Join-Path $OutputDir "files"
 
 # --- Functions ---
 
@@ -134,6 +138,154 @@ function Convert-BinToIso {
     return $actualSize
 }
 
+function Extract-IsoFilesystem {
+    param(
+        [string]$IsoPath,
+        [string]$OutputPath
+    )
+
+    # ISO 9660 filesystem extractor
+    # Reads the Primary Volume Descriptor, parses directory records,
+    # and extracts all files to the output directory.
+
+    $SectorSize = 2048
+
+    $stream = [System.IO.File]::OpenRead($IsoPath)
+
+    try {
+        # --- Read Primary Volume Descriptor (sector 16) ---
+        $pvdOffset = 16 * $SectorSize
+        $stream.Position = $pvdOffset
+        $pvd = New-Object byte[] $SectorSize
+        $stream.Read($pvd, 0, $SectorSize) | Out-Null
+
+        # Verify CD001 signature at offset 1
+        $sig = [System.Text.Encoding]::ASCII.GetString($pvd, 1, 5)
+        if ($sig -ne "CD001") {
+            Write-Host "ERROR: Not a valid ISO 9660 image (signature: $sig)" -ForegroundColor Red
+            return @()
+        }
+
+        $volumeId = [System.Text.Encoding]::ASCII.GetString($pvd, 40, 32).Trim()
+        Write-Host "  Volume ID: $volumeId"
+
+        # Root directory record starts at offset 156 in PVD
+        $rootLBA = [BitConverter]::ToInt32($pvd, 156 + 2)
+        $rootSize = [BitConverter]::ToInt32($pvd, 156 + 10)
+
+        Write-Host "  Root directory at LBA $rootLBA, size $rootSize bytes"
+        Write-Host ""
+
+        # --- Parse directory tree ---
+        $allFiles = @()
+        $dirsToProcess = [System.Collections.Queue]::new()
+        $dirsToProcess.Enqueue(@{ LBA = $rootLBA; Size = $rootSize; Path = "" })
+
+        while ($dirsToProcess.Count -gt 0) {
+            $dir = $dirsToProcess.Dequeue()
+
+            # Read directory data
+            $dirSectors = [math]::Ceiling($dir.Size / $SectorSize)
+            $stream.Position = $dir.LBA * $SectorSize
+            $dirData = New-Object byte[] ($dirSectors * $SectorSize)
+            $stream.Read($dirData, 0, $dirData.Length) | Out-Null
+
+            $offset = 0
+            while ($offset -lt $dir.Size) {
+                $recordLen = $dirData[$offset]
+
+                # Zero-length record means padding to next sector boundary
+                if ($recordLen -eq 0) {
+                    $nextSector = ([math]::Floor($offset / $SectorSize) + 1) * $SectorSize
+                    if ($nextSector -ge $dir.Size) { break }
+                    $offset = $nextSector
+                    continue
+                }
+
+                $extentLBA = [BitConverter]::ToInt32($dirData, $offset + 2)
+                $dataLength = [BitConverter]::ToInt32($dirData, $offset + 10)
+                $fileFlags = $dirData[$offset + 25]
+                $nameLen = $dirData[$offset + 32]
+
+                $isDir = ($fileFlags -band 0x02) -ne 0
+
+                # Skip . (0x00) and .. (0x01) entries
+                if ($nameLen -gt 0 -and $dirData[$offset + 33] -gt 1) {
+                    $name = [System.Text.Encoding]::ASCII.GetString($dirData, $offset + 33, $nameLen)
+                    # Strip version number (;1)
+                    $name = $name -replace ";.*$", ""
+
+                    $fullPath = if ($dir.Path) { "$($dir.Path)\$name" } else { $name }
+
+                    if ($isDir) {
+                        $dirsToProcess.Enqueue(@{ LBA = $extentLBA; Size = $dataLength; Path = $fullPath })
+                    }
+
+                    $allFiles += [PSCustomObject]@{
+                        Name = $fullPath
+                        LBA = $extentLBA
+                        Size = $dataLength
+                        IsDirectory = $isDir
+                    }
+                }
+
+                $offset += $recordLen
+            }
+        }
+
+        # --- Extract files ---
+        $fileCount = 0
+        foreach ($entry in $allFiles) {
+            $destPath = Join-Path $OutputPath $entry.Name
+
+            if ($entry.IsDirectory) {
+                if (-not (Test-Path $destPath)) {
+                    New-Item -ItemType Directory -Path $destPath -Force | Out-Null
+                }
+                continue
+            }
+
+            # Ensure parent directory exists
+            $parentDir = Split-Path -Parent $destPath
+            if ($parentDir -and -not (Test-Path $parentDir)) {
+                New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
+            }
+
+            # Read file data from ISO
+            $stream.Position = $entry.LBA * $SectorSize
+            $fileData = New-Object byte[] $entry.Size
+            $bytesRemaining = $entry.Size
+            $readOffset = 0
+            while ($bytesRemaining -gt 0) {
+                $read = $stream.Read($fileData, $readOffset, $bytesRemaining)
+                if ($read -eq 0) { break }
+                $readOffset += $read
+                $bytesRemaining -= $read
+            }
+
+            [System.IO.File]::WriteAllBytes($destPath, $fileData)
+            $fileCount++
+
+            $sizeStr = if ($entry.Size -ge 1MB) {
+                "$([math]::Round($entry.Size / 1MB, 2)) MB"
+            } elseif ($entry.Size -ge 1KB) {
+                "$([math]::Round($entry.Size / 1KB, 1)) KB"
+            } else {
+                "$($entry.Size) B"
+            }
+            Write-Host "  Extracted: $($entry.Name) ($sizeStr)"
+        }
+
+        Write-Host ""
+        Write-Host "  Total: $fileCount files extracted" -ForegroundColor Green
+
+        return $allFiles
+    }
+    finally {
+        $stream.Close()
+    }
+}
+
 # --- Main ---
 
 if ($Help) {
@@ -194,36 +346,51 @@ if (-not (Test-Path $OutputDir)) {
 
 $outputIsoPath = Join-Path $OutputDir $OutputIso
 
-# Check if already converted
+# --- Step 1: Convert BIN to ISO ---
+
 if (Test-Path $outputIsoPath) {
-    Write-Host "Output ISO already exists: $outputIsoPath" -ForegroundColor Yellow
-    $overwrite = Read-Host "Overwrite? (y/N)"
-    if ($overwrite -ne "y") {
-        Write-Host "Skipping conversion."
-        exit 0
-    }
+    Write-Host "ISO already exists, skipping conversion: $outputIsoPath" -ForegroundColor Yellow
+    Write-Host ""
+}
+else {
+    Write-Host "Converting MODE1/2352 -> 2048 bytes/sector..." -ForegroundColor Green
+    Write-Host ""
+
+    $isoSize = Convert-BinToIso -BinPath $dataTrackPath -IsoPath $outputIsoPath
+
+    Write-Host ""
+    Write-Host "Conversion complete." -ForegroundColor Green
+    Write-Host ""
+    Write-Host "Output: $outputIsoPath"
+    Write-Host "Size:   $([math]::Round($isoSize / 1MB, 2)) MB"
+    Write-Host ""
+
+    Write-Host "Computing MD5 hash..."
+    $md5 = Get-FileHash -Path $outputIsoPath -Algorithm MD5
+    Write-Host "MD5: $($md5.Hash)"
     Write-Host ""
 }
 
-# Convert
-Write-Host "Converting MODE1/2352 -> 2048 bytes/sector..." -ForegroundColor Green
+# --- Step 2: Extract ISO filesystem ---
+
+Write-Host "Extracting ISO 9660 filesystem..." -ForegroundColor Green
 Write-Host ""
 
-$isoSize = Convert-BinToIso -BinPath $dataTrackPath -IsoPath $outputIsoPath
+if (-not (Test-Path $FilesDir)) {
+    New-Item -ItemType Directory -Path $FilesDir | Out-Null
+}
+
+$files = Extract-IsoFilesystem -IsoPath $outputIsoPath -OutputPath $FilesDir
 
 Write-Host ""
-Write-Host "Conversion complete." -ForegroundColor Green
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "Setup complete." -ForegroundColor Green
 Write-Host ""
-Write-Host "Output: $outputIsoPath"
-Write-Host "Size:   $([math]::Round($isoSize / 1MB, 2)) MB"
+Write-Host "Outputs:"
+Write-Host "  ISO (for Ghidra):  $outputIsoPath"
+Write-Host "  Extracted files:   $FilesDir"
 Write-Host ""
-
-# Compute MD5 for verification
-Write-Host "Computing MD5 hash..."
-$md5 = Get-FileHash -Path $outputIsoPath -Algorithm MD5
-Write-Host "MD5: $($md5.Hash)"
-Write-Host ""
-
-Write-Host "Next step: Load this ISO into Ghidra using the Sega Saturn Loader."
-Write-Host "  File -> Import File -> $outputIsoPath"
+Write-Host "Next steps:"
+Write-Host "  1. Load the ISO into Ghidra: File -> Import File -> $outputIsoPath"
+Write-Host "  2. Load APROG.BIN into Ghidra as a separate SH-2 binary for the main game code"
 Write-Host ""
