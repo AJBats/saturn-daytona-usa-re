@@ -1,0 +1,12 @@
+mov
+mov
+mov
+mov.l
+add
+mov.l
+mov.b
+extu.b
+and
+extu.b
+rts
+mov.b

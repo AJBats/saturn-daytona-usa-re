@@ -1,0 +1,9 @@
+mov.l
+swap.w
+mov.l
+exts.w
+mov.l
+shll16
+mov.l
+rts
+mov.l

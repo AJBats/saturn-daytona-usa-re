@@ -1,12 +1,28 @@
-extern short arr_06005220[8];
 void FUN_06005174()
 {
-    arr_06005220[0] = 0;
-    arr_06005220[1] = 0;
-    arr_06005220[2] = 0;
-    arr_06005220[3] = 0;
-    arr_06005220[4] = 0;
-    arr_06005220[5] = 0;
-    arr_06005220[6] = 0;
-    arr_06005220[7] = 0;
+
+  char *puVar1;
+
+  
+
+  puVar1 = 0x06063D98;
+
+  *(short *)0x06063D98 = 0;
+
+  *(short *)(puVar1 + 2) = 0;
+
+  *(short *)(puVar1 + 4) = 0;
+
+  *(short *)(puVar1 + 6) = 0;
+
+  *(short *)(puVar1 + 8) = 0;
+
+  *(short *)(puVar1 + 10) = 0;
+
+  *(short *)(puVar1 + 0xc) = 0;
+
+  *(short *)(puVar1 + 0xe) = 0;
+
+  return;
+
 }

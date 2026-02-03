@@ -1,0 +1,13 @@
+sts.l
+jsr
+nop
+lds.l
+mov
+cmp/pz
+bt
+neg
+mov.l
+cmp/ge
+bt
+bra
+nop

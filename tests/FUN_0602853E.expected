@@ -1,0 +1,12 @@
+mov.l
+mov.l
+mov.l
+mov.l
+mov.l
+mov.w
+mov.l
+dt
+bf.s
+add
+rts
+nop

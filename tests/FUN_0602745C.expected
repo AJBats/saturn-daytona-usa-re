@@ -1,0 +1,12 @@
+sts.l
+cmp/pz
+bsr
+bsr
+mov
+lds.l
+tst
+bf
+mov.l
+add
+rts
+exts.w

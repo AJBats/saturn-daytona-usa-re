@@ -1,0 +1,9 @@
+mov.l
+mov.b
+extu.b
+shll2
+mov.l
+add
+mov.l
+jmp
+nop

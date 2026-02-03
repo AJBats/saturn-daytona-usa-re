@@ -1,0 +1,17 @@
+mov.l
+mov.l
+mov.w
+mov
+cmp/ge
+shll
+bt
+add
+cmp/ge
+mov.l
+bt
+mov
+bra
+mov.w
+shll
+mov.l
+mov

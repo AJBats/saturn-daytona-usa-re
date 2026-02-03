@@ -1,0 +1,14 @@
+mov.l
+mov.l
+mov.l
+mov.w
+mov.l
+mov.l
+shal
+mov.l
+mov.l
+mov.l
+mov
+mov.b
+rts
+nop

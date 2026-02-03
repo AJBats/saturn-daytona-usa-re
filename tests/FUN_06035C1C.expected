@@ -1,0 +1,8 @@
+bra
+mov
+add
+mov.b
+tst
+bf
+rts
+mov

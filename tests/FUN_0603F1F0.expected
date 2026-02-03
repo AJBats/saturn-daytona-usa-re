@@ -1,0 +1,9 @@
+mov
+mov
+shll2
+shll2
+shll
+shll2
+add
+rts
+add

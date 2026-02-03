@@ -1,8 +1,10 @@
-extern unsigned short reg_060A3D88;
-extern short flag_060635AC;
-
-void FUN_060149E0()
+void FUN_060149e0()
 {
-    reg_060A3D88 = reg_060A3D88 & 0x7FFF;
-    flag_060635AC = 1;
+
+  *(unsigned short *)0x060A3D88 = *(unsigned short *)0x060A3D88 & 0x7FFF;
+
+  *(short *)0x060635AC = 1;
+
+  return;
+
 }

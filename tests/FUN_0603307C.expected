@@ -1,0 +1,15 @@
+mov.l
+mov.l
+mov.l
+cmp/pl
+bt
+sts.l
+bsr
+nop
+lds.l
+sts.l
+bsr
+nop
+lds.l
+rts
+nop

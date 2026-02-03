@@ -1,0 +1,4 @@
+sts.l
+jsr
+nop
+lds.l

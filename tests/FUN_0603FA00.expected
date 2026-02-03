@@ -1,0 +1,7 @@
+mov
+mov
+mov.b
+add
+or
+rts
+mov.b

@@ -1,10 +1,16 @@
-extern int counter_06033518;
-extern int offset_0603351c;
-int *FUN_06033504()
+char * FUN_06033504()
 {
-    int *p;
-    p = &counter_06033518;
-    counter_06033518 = counter_06033518 + 1;
-    offset_0603351c = offset_0603351c + 0x20;
-    return p;
+
+  char *puVar1;
+
+  
+
+  puVar1 = 0x0605A008;
+
+  *(int *)0x0605A008 = *(int *)0x0605A008 + 1;
+
+  *(int *)0x060785FC = *(int *)0x060785FC + 0x20;
+
+  return puVar1;
+
 }

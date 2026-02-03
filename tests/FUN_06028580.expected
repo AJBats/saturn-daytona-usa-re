@@ -1,0 +1,11 @@
+mov.l
+shll8
+shlr2
+add
+mov.l
+shll
+mov.w
+cmp/pz
+mov.l
+bt.s
+neg

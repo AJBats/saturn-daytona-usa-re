@@ -1,0 +1,15 @@
+mov.l
+mov.l
+mov.l
+tst
+bf
+mov.l
+mov.w
+mov.l
+mov.l
+mov.l
+mov.l
+mov
+mov.l
+rts
+mov.l

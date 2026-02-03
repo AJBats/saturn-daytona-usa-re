@@ -1,0 +1,9 @@
+mov
+mov
+shll2
+shll2
+add
+mov.l
+and
+rts
+mov.l

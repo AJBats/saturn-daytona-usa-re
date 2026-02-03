@@ -1,0 +1,12 @@
+mov.l
+mov.b
+tst
+bf
+mov.l
+mov.l
+jmp
+mov
+mov.l
+mov.l
+jmp
+mov

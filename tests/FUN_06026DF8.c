@@ -1,5 +1,8 @@
-extern int counter_06027068;
-void FUN_06026DF8()
+void FUN_06026df8()
 {
-    counter_06027068 = counter_06027068 + -0x30;
+
+  *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;
+
+  return;
+
 }

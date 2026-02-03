@@ -1,0 +1,7 @@
+mov.w
+shlr2
+add
+and
+mov.l
+rts
+mov.l

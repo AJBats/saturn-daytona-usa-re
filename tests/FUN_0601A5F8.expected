@@ -1,0 +1,8 @@
+mov.l
+mov.w
+extu.w
+cmp/eq
+bf
+mov.w
+rts
+nop

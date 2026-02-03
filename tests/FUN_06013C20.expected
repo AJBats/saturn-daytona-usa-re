@@ -1,0 +1,17 @@
+sts.l
+mov
+mov.l
+mov.w
+extu.w
+add
+cmp/gt
+bf
+bra
+mov
+mov
+extu.w
+mov.w
+bsr
+nop
+bra
+lds.l

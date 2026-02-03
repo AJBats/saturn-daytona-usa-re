@@ -1,0 +1,10 @@
+sts.l
+jsr
+nop
+lds.l
+add
+cmp/pz
+bt
+mov
+shlr2
+mov.l

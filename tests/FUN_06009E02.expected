@@ -3,7 +3,7 @@ mov.l
 mov.l
 add
 tst
-bf/s
+bf.s
 mov.l
 mov
 mov.l

@@ -1,0 +1,10 @@
+mov
+mov.l
+mov.b
+extu.b
+tst
+bf
+mov.l
+mov.l
+bra
+mov.l

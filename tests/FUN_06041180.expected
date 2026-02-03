@@ -1,0 +1,16 @@
+sts.l
+mov.l
+mov.l
+mov.l
+cmp/eq
+bt
+lds.l
+rts
+mov
+mov.l
+jsr
+nop
+mov
+lds.l
+rts
+nop

@@ -1,0 +1,8 @@
+sts.l
+add
+bsr
+mov.l
+mov.l
+add
+bra
+lds.l

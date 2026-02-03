@@ -1,0 +1,12 @@
+mov.l
+mov.l
+mov.l
+mov.l
+mov.l
+jsr
+mov
+add
+lds.l
+mov.l
+jmp
+mov.l

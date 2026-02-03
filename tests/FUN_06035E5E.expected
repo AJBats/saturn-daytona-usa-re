@@ -1,0 +1,16 @@
+mov.l
+mov.w
+mov.w
+mov.l
+mov.w
+mov
+mov.w
+mov.l
+mov.w
+mov
+mov.w
+mov.l
+mov.w
+mov
+rts
+mov.w

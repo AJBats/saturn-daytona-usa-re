@@ -1,0 +1,17 @@
+cmp/pl
+bf.s
+mov
+mov.l
+add
+mul.l
+sts
+cmp/eq
+bt
+cmp/hi
+bf
+sub
+shlr
+cmp/pl
+bt
+rts
+shll8

@@ -1,9 +1,22 @@
-int FUN_06030EE0()
+int FUN_06030ee0()
 {
-    int i = 0x0150;
-    int val = *(short *)((char *)*(int *)0x0607E940 + i);
-    if (val > 0) {
-        *(short *)((char *)*(int *)0x0607E940 + i) = val - 1;
-    }
-    return i;
+
+  short sVar1;
+
+  int iVar2;
+
+
+
+  iVar2 = 0x0150;
+
+  sVar1 = *(short *)(*(int *)0x0607E940 + iVar2);
+
+  if (0 < sVar1) {
+
+    *(short *)(*(int *)0x0607E940 + iVar2) = sVar1 + -1;
+
+  }
+
+  return iVar2;
+
 }

@@ -1,0 +1,6 @@
+sts.l
+bsr
+nop
+mov.l
+jmp
+lds.l

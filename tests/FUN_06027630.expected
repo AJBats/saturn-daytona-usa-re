@@ -1,0 +1,9 @@
+mov
+add
+mov.l
+cmp/gt
+mov.l
+bt.s
+add
+rts
+add

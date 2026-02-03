@@ -1,0 +1,17 @@
+mov
+mov.l
+mov.l
+mov.l
+and
+exts.w
+cmp/gt
+bf
+shll8
+shll2
+shll2
+exts.w
+mov.l
+jmp
+mov.l
+rts
+mov.l

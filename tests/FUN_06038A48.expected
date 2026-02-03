@@ -1,0 +1,14 @@
+shlr
+mov
+mov
+cmp/hs
+bt
+add
+mov.w
+mov.w
+add
+cmp/hs
+bf.s
+add
+rts
+nop

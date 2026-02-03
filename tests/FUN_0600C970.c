@@ -1,15 +1,25 @@
-extern short offset_0600c9e4;
-extern short table_0600c9e8[];
-int FUN_0600C970(param_1)
+int FUN_0600c970(param_1)
     int param_1;
 {
-    int idx;
-    int val;
-    idx = (int)offset_0600c9e4;
-    val = *(int *)(param_1 + idx);
-    if (val >= 0x45 && val <= 98) {
-        *(int *)(param_1 + 0xc) =
-            *(int *)(param_1 + 0xc) + (int)table_0600c9e8[val - 0x45];
-    }
-    return idx;
+
+  int iVar1;
+
+  int iVar2;
+
+
+
+  iVar1 = 0x01EC;
+
+  iVar2 = *(int *)(param_1 + iVar1);
+
+  if ((0x44 < iVar2) && (iVar2 < 99)) {
+
+    *(int *)(param_1 + 0xc) =
+
+         *(int *)(param_1 + 0xc) + (int)*(short *)(0x0605A1E0 + ((iVar2 + -0x45) << 1));
+
+  }
+
+  return iVar1;
+
 }

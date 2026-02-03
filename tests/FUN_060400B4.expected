@@ -1,0 +1,17 @@
+mov
+and
+tst
+bt
+mov.w
+bra
+nop
+mov
+mov.w
+and
+tst
+bt
+bra
+mov
+mov
+rts
+mov

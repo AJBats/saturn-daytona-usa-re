@@ -1,0 +1,9 @@
+sts.l
+bsr
+nop
+bsr
+nop
+bsr
+nop
+bra
+lds.l

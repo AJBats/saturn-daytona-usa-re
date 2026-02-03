@@ -1,0 +1,14 @@
+mov.l
+extu.w
+mov.l
+mov
+shll2
+mov.l
+extu.b
+shll2
+mov.l
+shll2
+mov.l
+mov.l
+mov.l
+mov

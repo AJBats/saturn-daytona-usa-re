@@ -1,0 +1,14 @@
+mov.l
+mov.l
+add
+mov.l
+mov
+mov.l
+add
+clrmac
+mac.l
+mac.l
+mov.l
+mac.l
+add
+sts

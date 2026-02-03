@@ -1,5 +1,6 @@
-extern short hw_reg_06035c78;
-int FUN_06035C4E()
+int FUN_06035c4e()
 {
-    return (int)hw_reg_06035c78;
+
+  return (int)*(short *)0x25890008;
+
 }

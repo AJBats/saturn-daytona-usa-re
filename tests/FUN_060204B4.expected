@@ -1,0 +1,13 @@
+sts.l
+add
+mov.l
+jsr
+mov.b
+mov.l
+jsr
+nop
+mov.b
+extu.b
+add
+bra
+lds.l

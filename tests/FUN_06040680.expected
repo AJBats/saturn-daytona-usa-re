@@ -1,0 +1,13 @@
+sts.l
+mov
+bsr
+mov
+cmp/eq
+bf
+lds.l
+rts
+mov
+mov
+lds.l
+rts
+nop

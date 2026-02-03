@@ -1,0 +1,10 @@
+mov
+mov
+shll2
+shll2
+shll
+add
+add
+mov.b
+rts
+extu.b

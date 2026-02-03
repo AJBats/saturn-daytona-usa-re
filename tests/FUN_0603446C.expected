@@ -1,0 +1,15 @@
+xor
+mov.l
+mulu.w
+sts
+mov.l
+add
+xor
+mov.l
+mov.b
+add
+mov.l
+cmp/ge
+bf
+rts
+nop

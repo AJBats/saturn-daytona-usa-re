@@ -1,0 +1,13 @@
+mov.w
+mov.w
+mov
+cmp/gt
+bt
+mov.l
+mov
+cmp/ge
+bt
+mov
+mov.w
+rts
+nop

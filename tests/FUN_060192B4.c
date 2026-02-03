@@ -1,14 +1,26 @@
-extern int count_06019300;
-extern char *dest_060192fc;
-void FUN_060192B4()
+void FUN_060192b4()
 {
-    char *p;
-    int n;
-    p = dest_060192fc;
-    n = count_06019300;
-    do {
-        *p = 0;
-        p = p + 1;
-        n = n - 1;
-    } while (n != 0);
+
+  char *puVar1;
+
+  char *puVar2;
+
+  
+
+  puVar1 = 0x0007FFFF;
+
+  puVar2 = 0x25A00000;
+
+  do {
+
+    puVar1 = puVar1 + -1;
+
+    *puVar2 = 0;
+
+    puVar2 = puVar2 + 1;
+
+  } while (puVar1 != (char *)0x0);
+
+  return;
+
 }

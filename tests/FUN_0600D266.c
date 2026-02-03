@@ -1,4 +1,6 @@
-void FUN_0600D266()
+void FUN_0600d266()
 {
-    return;
+
+  return;
+
 }

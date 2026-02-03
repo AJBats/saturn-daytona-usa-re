@@ -1,0 +1,7 @@
+cmp/pl
+bf
+bra
+mov
+neg
+rts
+nop

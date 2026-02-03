@@ -1,11 +1,15 @@
-extern int source_0600deb4;
-extern short target_0600deb8;
-extern void FUN_0600e410();
 extern void FUN_0600e0c0();
+extern void FUN_0600e410();
 
-void FUN_0600DE40()
+void FUN_0600de40()
 {
-    target_0600deb8 = (short)(source_0600deb4 >> 1);
-    FUN_0600e410();
-    FUN_0600e0c0();
+
+  *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
+
+  FUN_0600e410();
+
+  FUN_0600e0c0();
+
+  return;
+
 }

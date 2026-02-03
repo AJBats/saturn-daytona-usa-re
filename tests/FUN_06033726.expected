@@ -1,0 +1,9 @@
+sts.l
+jsr
+nop
+lds.l
+swap.w
+exts.w
+mov
+mov
+mov.l

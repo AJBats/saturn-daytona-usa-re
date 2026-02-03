@@ -1,0 +1,9 @@
+sts.l
+mov.l
+mov.l
+mov.l
+mul.l
+sts
+sub
+rts
+lds.l

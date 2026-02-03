@@ -1,0 +1,11 @@
+sts.l
+bsr
+nop
+lds.l
+mov.l
+mov.l
+mov.l
+mov.l
+mov
+mov
+mov.l

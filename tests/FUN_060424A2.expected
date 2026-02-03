@@ -1,0 +1,15 @@
+mova
+sts
+swap.w
+extu.w
+shll2
+mov.w
+add
+mulu.w
+mov.w
+sts
+extu.w
+swap.w
+extu.w
+rts
+add

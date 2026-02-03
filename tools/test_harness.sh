@@ -61,9 +61,15 @@ for cfile in "$TESTDIR"/*.c; do
         continue
     fi
 
+    # Determine compiler flags (per-function .flags file overrides default)
+    FLAGS="-O2 -m2 -mbsr"
+    if [ -f "$TESTDIR/$base.flags" ]; then
+        FLAGS=$(tr -d '\r' < "$TESTDIR/$base.flags")
+    fi
+
     # Compile (strip CRLF from source first)
     tr -d '\r' < "$cfile" > "$TMPDIR/$base.c"
-    if ! $CC1 -quiet -O2 -m2 -mbsr "$TMPDIR/$base.c" -o "$TMPDIR/$base.s" 2>"$TMPDIR/$base.err"; then
+    if ! $CC1 -quiet $FLAGS "$TMPDIR/$base.c" -o "$TMPDIR/$base.s" 2>"$TMPDIR/$base.err"; then
         echo "FAIL  $base  (compile error)"
         head -3 "$TMPDIR/$base.err" | while read line; do
             echo "      $line"

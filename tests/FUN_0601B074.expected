@@ -1,0 +1,17 @@
+sts.l
+mov
+mov
+mov.w
+mov
+mov.l
+mov.w
+mov.l
+mov.l
+mov.l
+mov.l
+jsr
+mov
+add
+lds.l
+rts
+nop

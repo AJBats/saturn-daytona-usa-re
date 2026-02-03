@@ -1,0 +1,14 @@
+mov.w
+cmp/gt
+bt
+mov.w
+cmp/gt
+bt
+mov.w
+cmp/gt
+bt
+mov.w
+cmp/gt
+bt
+rts
+nop
