@@ -1675,16 +1675,38 @@
   "REGNO (operands[0]) == REGNO (operands[2])"
   "mov.b	%1,%0 !p 5")
 
-(define_peephole 
+(define_peephole
   [(set (match_operand:QI 0 "register_operand" "=r")
-	(match_operand:QI 1 "general_movsrc_operand" "g"))
+	(match_operand:QI 1 "memory_operand" "m"))
    (set (match_operand:SI 2 "register_operand" "=r")
 	(sign_extend:SI (match_dup 0)))]
-  "REGNO (operands[0]) != REGNO (operands[2]) 
-   && 0 && dead_or_set_p (insn, operands[0])"
-  "mov.b	%1,%2 ! p4")
+  "REGNO (operands[0]) != REGNO (operands[2])
+   && dead_or_set_p (insn, operands[0])
+   && !reg_overlap_mentioned_p (operands[2], operands[1])"
+  "mov.b	%1,%2")
 
-  
+;; HImode sign-extend elimination: same register
+;; mov.w @...,rN / exts.w rN,rN -> mov.w @...,rN (mov.w sign-extends)
+(define_peephole
+  [(set (match_operand:HI 0 "register_operand" "=r")
+	(match_operand:HI 1 "memory_operand" "m"))
+   (set (match_operand:SI 2 "register_operand" "=r")
+	(sign_extend:SI (match_dup 0)))]
+  "REGNO (operands[0]) == REGNO (operands[2])"
+  "mov.w	%1,%0")
+
+;; HImode sign-extend elimination: different register
+;; mov.w @...,rN / exts.w rN,rM -> mov.w @...,rM (redirect load)
+(define_peephole
+  [(set (match_operand:HI 0 "register_operand" "=r")
+	(match_operand:HI 1 "memory_operand" "m"))
+   (set (match_operand:SI 2 "register_operand" "=r")
+	(sign_extend:SI (match_dup 0)))]
+  "REGNO (operands[0]) != REGNO (operands[2])
+   && dead_or_set_p (insn, operands[0])
+   && !reg_overlap_mentioned_p (operands[2], operands[1])"
+  "mov.w	%1,%2")
+
 ;; -------------------------------------------------------------------------
 ;; Peepholes
 ;; -------------------------------------------------------------------------

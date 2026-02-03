@@ -18,6 +18,7 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + Tail call | 3 | 19 | Further instruction count improvements |
 | + Pure wrapper | 3 | 19 | FUN_06012E00 delta 2→0 |
 | + Disp store peephole | 3 | 19 | FUN_06005174 delta 6→0 |
+| + Sign ext elimination | 3 | 19 | FUN_06030EE0 delta 6→5, FUN_0600C970 delta 2→1 |
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -136,12 +137,37 @@ Fixed paren bug in MODE_DISP_OK_2: `(!INTVAL(X) &1)` → `!(INTVAL(X) &1)`
 **Effect**: FUN_06005174 delta reduced from 6 to 0 (24→18 insns).
 Saves 1 instruction per 16-bit displacement store across all functions.
 
+## Patch 6: Sign Extension Elimination (sh.md)
+**File**: `config/sh/sh.md` (define_peepholes)
+**Type**: define_peephole (2 new HI peepholes + fix disabled QI peephole)
+
+SH `mov.w` from memory sign-extends 16→32 bits automatically. GCC inserts
+redundant `exts.w rN,rM` after `mov.w @...,rN` loads. Two peepholes added:
+
+1. **Same-register**: `mov.w @...,rN / exts.w rN,rN` → `mov.w @...,rN`
+   (no-op elimination — mov.w already sign-extended)
+2. **Different-register**: `mov.w @...,rN / exts.w rN,rM` → `mov.w @...,rM`
+   (redirect load to target register, requires rN dead and rM not in address)
+
+Also fixed the disabled QI sign-extend peephole (removed `&& 0` guard,
+restricted source to `memory_operand`, added `reg_overlap_mentioned_p` check).
+
+**Effect**: FUN_06030EE0 delta reduced from 6 to 5 (16→15 insns, 1 exts.w
+eliminated; second survives due to register liveness). FUN_0600C970 delta
+reduced from 2 to 1.
+
+**Limitation**: Cannot catch exts.w in rts delay slot (FUN_06035C4E) since
+peepholes can't match across delay-slot scheduling boundaries. Also cannot
+eliminate exts.w when the source register is still live (FUN_06030EE0 second
+case: r2 used by later `mov r2,r1`).
+
 ## Remaining Patch Opportunities
 
-### Priority 1: Sign Extension Elimination (exts.w / extu.w)
-GCC inserts `exts.w` to sign-extend shorts to ints even when unnecessary.
-Affects FUN_06030EE0 and others.
-
-### Priority 4: Return Block Deduplication
+### Priority 1: Return Block Deduplication
 GCC sometimes generates duplicate return blocks (e.g., one for each branch
 of an if/else). The original compiler shares a single return path.
+
+### Priority 2: Delay Slot Sign Extension
+FUN_06035C4E has `exts.w r0,r0` in rts delay slot after `mov.w @r1,r0`.
+The exts.w is a no-op but wastes the delay slot. Needs machine_dependent_reorg
+to replace with nop or reschedule the mov.w into the delay slot.
