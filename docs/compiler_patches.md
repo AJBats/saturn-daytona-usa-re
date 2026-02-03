@@ -23,6 +23,9 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + Delay slot sign ext | 5 | 17 | FUN_06035C4E → PASS! |
 | + extu.w disp store | 5 | 17 | FUN_06005174 diffs 6→4 (extu.w vs mov fixed) |
 | + C source fixes | 6 | 16 | FUN_06012E00 → PASS! FUN_0601164A delta 2→0 |
+| + Register compaction | 6 | 16 | Phase 2 liveness merge; no new PASS but L2 matches |
+| + FUN_06030EE0 C fix | 6 | 16 | Delta +3→+2 (literal base pointer) |
+| + FUN_06030EE0 int val | 6 | 16 | Delta +2→0 (int val enables extendhisi2) |
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -218,6 +221,28 @@ match the original compiler's behavior of zero-extending before 16-bit stores.
 **Effect**: FUN_06005174 diffs reduced from 6 to 4 lines (extu.w vs mov
 differences eliminated; only instruction ordering `add` placement remains).
 
+## Patch 10: Register Compaction — Phase 2 Liveness Merge (sh.c)
+**File**: `config/sh/sh.c` (`compact_leaf_regs`, in `machine_dependent_reorg_post_dbr`)
+**Type**: Post-delay-slot-scheduling optimization
+
+Extends the register compaction pass for leaf functions (no branches) with a
+liveness-based merge phase. Phase 1 (existing) fills gaps in r0-r3 usage by
+simple compaction. Phase 2 (new) merges registers with non-overlapping live
+ranges into the same slot.
+
+**Implementation details**:
+- Scans all insns to build first_def/last_use arrays for r0-r3
+- Marks r0 as implicitly live at RETURN insns (return value)
+- Dead definitions (defined but never read) treated as single-point ranges
+- Asymmetric non-overlap check: `last_use[i] <= tgt_first[j]` (reads-before-
+  writes OK at same insn) but `tgt_last[j] < first_def[i]` (strict, to prevent
+  clobbering return value when delay slot def and implicit r0 use coincide)
+- Accumulated target ranges for safe transitive merges
+
+**Effect**: FUN_06035C4E now uses r0 for both pool address and return value
+(r1→r0 merge), matching original register choice. Promoted from L1 to L2 in
+binary diff. No regressions.
+
 ## C Source Improvements
 
 Several test functions had extern variables that are actually constants in the
@@ -236,37 +261,89 @@ original binary (VDP2 register address 0x25F800A4, values 0x12F2FC00 and
 0x0200). Replaced with literal pointer arithmetic.
 **Result**: Delta +2→0, diffs 4→2 (scheduling order only).
 
-### FUN_06030EE0: Literal index constant
-`idx_06030ef4` (value 0x0150) is a constant struct field offset in the
-original binary. Replaced with literal `0x0150`.
-**Result**: Delta +4→+3, diffs 6→5.
+### FUN_06030EE0: Literal constants + int val type fix
+Three C source improvements:
+1. `idx_06030ef4` (value 0x0150) replaced with literal `0x0150`
+2. `base_ptr_06030ef8` replaced with literal `*(int *)0x0607E940`
+3. Changed `short val` to `int val` — this lets GCC use the `extendhisi2`
+   pattern with memory constraint, combining the `mov.w` load + sign extension
+   into a single instruction instead of separate `mov.w @(r0,r3),r2` +
+   `exts.w r2,r1`
+**Result**: Delta +4→+3→+2→0, diffs 6→5→4→2 (scheduling + bf.s/bf only).
 
-## Remaining Patch Opportunities
+## Remaining Failures Analysis (16 FAIL)
 
-### Categorized Remaining Failures (16 FAIL)
+### Current State: 6 PASS / 16 FAIL (27%)
+All 16 remaining failures are either instruction-count-matched (delta=0) or
+our code is SHORTER than the original. **No functions where our code is longer.**
 
-**Our code SHORTER (8 functions)**: BSR/tail-call/delay-slot fill makes our
-code more efficient. These would require deliberately degrading our output to
-match. Not worth pursuing:
-- FUN_060054EA (delta=-1): register allocation
+### Binary Diff Summary
+| Level | Count | Description |
+|-------|-------|-------------|
+| L3: Byte-perfect | 2/22 | FUN_0600D266, FUN_060322E8 |
+| L2: Structural | 4/22 | FUN_06012E00, FUN_06026DF8, FUN_06035C48, FUN_06035C4E |
+| DIFF | 16/22 | Different instruction sequences or operands |
+
+L2→L3 promotion blocked by pool constant displacement differences due to
+isolated compilation. Original binary shares pool entries across adjacent
+functions (e.g., FUN_06026DF8 pool entry at displacement 0x26C, shared with
+neighboring functions). Would require full binary build system to fix.
+
+### Categorized by Root Cause
+
+**Our code SHORTER — BSR/tail-call (4 functions)**:
+GCC uses `bsr` (1 insn) where original uses `mov.l pool,rN / jsr @rN` (2 insns).
+Global `-mbsr` flag; can't selectively disable per-function.
+- FUN_0600F870 (delta=-2): 2 BSR saves
+- FUN_06018E70 (delta=-2): BSR + register alloc
 - FUN_0600DE40 (delta=-1): BSR delay slot fill
 - FUN_0600DE54 (delta=-1): BSR delay slot fill
-- FUN_0600F870 (delta=-2): BSR saves 2 insns
-- FUN_06018E70 (delta=-2): BSR + register alloc
-- FUN_060149CC (delta=-1): different addressing
-- FUN_060149E0 (delta=-1): different addressing
-- FUN_06033504 (delta=-1): rts delay slot fill
 
-**Same count, different opcodes (5 functions)**:
-- FUN_06005174 (delta=0, 4 diffs): instruction ordering (add placement)
-- FUN_0601164A (delta=0, 2 diffs): scheduling (mov.w/add order)
-- FUN_0600C970 (delta=0, 6 diffs): range check optimization (cmp/hi vs cmp/ge+cmp/gt)
-- FUN_06018EC8 (delta=0, 4 diffs): byte extraction (mov.b vs mov.w+extu.b)
-- FUN_060192B4 (delta=0, 6 diffs): loop code (extern overhead + exts.b pattern)
+**Our code SHORTER — delay slot fill (2 functions)**:
+GCC fills rts/branch delay slots that the original left as nop.
+- FUN_06033504 (delta=-1): rts delay slot filled with final store
+- FUN_060054EA (delta=-1): constant propagation eliminates readback
 
-**Our code LONGER (1 function)**:
-- FUN_06030EE0 (delta=+3): extern indirection + sign extend + register alloc
+**Our code SHORTER — better optimization (4 functions)**:
+GCC generates fundamentally better code through different strategies.
+- FUN_060149CC (delta=-1): keeps address in register, smaller pool entries
+- FUN_060149E0 (delta=-1): same — different addressing, objectively better
+- FUN_06006838 (delta=-2): sequential shifts vs original's interleaved (2 fewer)
+- FUN_06009E02 (delta=-2): dt + BSR combined savings
 
-**Structural differences (2 functions)**:
-- FUN_06006838 (delta=-2): shift sequence optimization
-- FUN_06009E02 (delta=-2): dt + BSR
+**Same count, different opcodes — scheduling (4 functions)**:
+Instruction ordering differs due to GCC's scheduler making different choices.
+All have delta=0 but 2-4 opcode differences from instruction reordering.
+- FUN_06005174 (delta=0, 2 diffs): add/mov.w order swapped
+- FUN_0601164A (delta=0, 2 diffs): mov.w/add order swapped
+- FUN_06030EE0 (delta=0, 2 diffs): pool load order + bf.s vs bf
+- FUN_06018EC8 (delta=0, 4 diffs): byte extraction strategy (mov.b direct vs
+  mov.w pool load + extu.b; GCC optimizes cast to direct byte load)
+
+**Same count, different codegen strategy (2 functions)**:
+Fundamentally different code generation approaches at the RTL/combiner level.
+- FUN_0600C970 (delta=0, 6 diffs): GCC transforms `a<=x<=b` to unsigned
+  subtraction + cmp/hi; original uses cmp/ge + cmp/gt pair
+- FUN_060192B4 (delta=0, 6 diffs): original has exts.b + pointer copy in
+  loop body (less efficient); our loop is tighter but uses more setup insns
+  for extern dereference. Making externs literal makes us shorter (delta=-2)
+
+### Tractability Assessment
+
+All 16 remaining failures fall into categories that are **intractable without
+fundamental changes** to GCC 2.6.3's core optimization passes:
+
+| Root Cause | Functions | Would Require |
+|-----------|-----------|--------------|
+| BSR optimization | 4 | Disable `-mbsr` (regresses all) |
+| Better delay slot fill | 2 | Disable delay slot scheduler |
+| Better addressing/shifts | 4 | Deliberately worse codegen |
+| Instruction scheduling | 4 | Rewrite GCC scheduler |
+| RTL combiner strategy | 2 | Rewrite GCC combiner/expander |
+
+The compiler patch loop has **converged**. Further improvements would require:
+1. **Full binary build system** — to get pool constant sharing for L2→L3
+2. **Deep GCC surgery** — register allocator, scheduler, or combiner changes
+   with high risk of regressions across all functions
+3. **Selective optimization control** — per-function flags to disable BSR or
+   delay slot fill (not supported by GCC 2.6.3)

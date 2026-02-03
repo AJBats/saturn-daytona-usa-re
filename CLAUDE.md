@@ -19,20 +19,23 @@
   `tr -d '\r' < script.sh > /tmp/clean.sh && bash /tmp/clean.sh`
   OR run directly: `bash /mnt/d/.../script.sh` (bash handles CRLF in scripts)
 
-## Test Harness Status (after 8 patches + C source fixes)
+## Test Harness Status (after 10 patches + C source fixes — CONVERGED)
 Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
 - **6 PASS / 16 FAIL / 22 total**: FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8, FUN_06035C4E, FUN_06012E00
-- Notable delta=0 (count matches but opcode diffs): FUN_06005174, FUN_0601164A, FUN_060192B4, FUN_06018EC8, FUN_0600C970
-- Several functions at delta=-1/-2 (our code SHORTER than original via BSR/tail call)
+- Binary diff: 2 L3 byte-perfect, 4 L2 structural, 16 DIFF
+- **Zero functions where our code is longer** — all 16 FAIL are delta<=0
+- Notable delta=0: FUN_06005174, FUN_0601164A, FUN_060192B4, FUN_06018EC8, FUN_0600C970, FUN_06030EE0
+- 10 functions at delta=-1/-2 (our code SHORTER via BSR/dt/delay-slot/better codegen)
 - Tests in `tests/*.c` with expected opcodes in `tests/*.expected`
 - **Uses gcc26-build/cc1** (NOT gcc-2.6.3/cc1 which is stale)
+- **Patch loop CONVERGED** — remaining 16 failures are intractable (see docs/compiler_patches.md)
 
 ## Current Session Task: Compiler Patch Loop ("Ralph Wiggum")
 
 **Goal**: Build automated test harness, then iteratively patch GCC 2.6.3 SH backend until
 test functions produce matching asm output. Each patch must never regress passing tests.
 
-**Patch priority order**: ~~dt~~ → ~~bsr~~ → ~~tail calls~~ → ~~pure wrapper~~ → ~~disp stores~~ → ~~sign extension~~ → ~~return dedup~~ → ~~delay slot sign ext~~
+**Patch priority order**: ~~dt~~ → ~~bsr~~ → ~~tail calls~~ → ~~pure wrapper~~ → ~~disp stores~~ → ~~sign extension~~ → ~~return dedup~~ → ~~delay slot sign ext~~ → ~~extu.w disp~~ → ~~register compaction~~ (ALL DONE)
 
 **Test harness**: `tools/test_harness.sh` - compiles C sources, extracts expected asm from
 aprog.s, compares instruction streams, reports PASS/FAIL per function.
@@ -93,28 +96,30 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s` where CC1=/mnt/d
 6. **Sign ext elimination** (sh.md): `mov.w @...,rN / exts.w rN,rM` → `mov.w @...,rM` (+ fixed disabled QI peephole) - WORKING
 7. **Return block dedup** (sh.c + toplev.c): Post-dbr pass undoes delay slot fills that create duplicate returns - WORKING
 8. **Delay slot sign ext** (sh.c): Post-dbr pass replaces no-op exts.w in rts delay slot with preceding mov.w load - WORKING
+9. **EXTU.W disp store** (sh.c): `extu.w` instead of `mov` for displacement store r0 copy - WORKING
+10. **Register compaction Phase 2** (sh.c): Liveness-based register merge for leaf functions - WORKING
 
-### Remaining Known Compiler Differences
-1. **Register allocation**: Our compiler prefers r1,r2 for caller-saved temps; original uses r3,r4
+### Remaining Known Compiler Differences (all intractable — see docs/compiler_patches.md)
+1. **Register allocation**: Different register preferences (r0-r1 vs r3-r4)
 2. ~~No `dt` instruction~~: FIXED by dt peephole
-3. **bf/s delayed branch**: GCC uses bf.s/bt.s with -m2 but not always where original does
-4. ~~No tail call optimization~~: FIXED by tail call patch (bra+lds.l in delay slot)
-5. ~~No displacement store~~: FIXED by disp store peephole (mov.w r0,@(disp,Rn))
-6. **Extern vs constant pool**: Original embeds values directly in constant pool. C externs cost +1 insn
-7. **rts/jsr delay slot**: GCC DOES fill rts and jsr delay slots in many cases
-8. **Range check optimization**: GCC transforms `a<=x<=b` to `(unsigned)(x-a)<=(b-a)` with cmp/hi
+3. **Instruction scheduling**: GCC orders insns differently (add/mov placement)
+4. ~~No tail call optimization~~: FIXED by tail call patch
+5. ~~No displacement store~~: FIXED by disp store peephole
+6. **Extern vs constant pool**: Ghidra externs → use literal constants in C where possible
+7. **Delay slot fill**: GCC fills slots original leaves as nop (makes our code SHORTER)
+8. **Range check optimization**: GCC transforms `a<=x<=b` to cmp/hi (different strategy)
 9. **Multiply avoidance**: Must use `<< N` not `* power_of_2` to avoid ___mulsi3 library call
-10. ~~No `bsr` direct calls~~: FIXED by BSR fix
+10. ~~No `bsr` direct calls~~: FIXED by BSR fix (makes our code SHORTER)
 11. **R0-specific insns**: GCC uses `and #imm,r0` (1 insn) where original uses 4-insn sequence
-12. **Callee-save vs stack params**: GCC preserves params across calls in callee-saved regs (more overhead); original saves on stack
-13. ~~Sign extension insertion~~: PARTIALLY FIXED by sign ext peephole (catches mov.w load+exts.w; can't fix live-register cases) + delay slot sign ext fix (catches rts delay slot case)
+12. ~~Sign extension insertion~~: MOSTLY FIXED (peephole + delay slot + use `int val` for HImode loads)
+13. **Byte extraction**: GCC optimizes `(char)short_var` to direct byte load; original loads full short + extu.b
 
-### Verified Functions (25 total: 17 LEAF + 8 CALL)
-See docs/verification_results.md for full details and summary table.
-- 8 perfect/structural matches (32%)
-- 7 functions where our code is shorter (28%, up to -4 insns)
-- 4 functions +1 insn longer (16%)
-- 6 functions +2-6 insns longer from missing patterns (24%)
+### Test Harness Results (22 functions)
+See docs/compiler_patches.md for full details and per-function analysis.
+- 6 PASS (27%): FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8, FUN_06035C4E, FUN_06012E00
+- 6 delta=0 (same count, opcode diffs): scheduling/codegen strategy differences
+- 10 delta<0 (our code SHORTER): BSR/dt/delay-slot/better optimization
+- Binary diff: 2 byte-perfect, 4 structural match, 16 diff
 
 ### Architecture
 - Main loop at `main` (0x06003000) is a **32-state machine** dispatching through jump table

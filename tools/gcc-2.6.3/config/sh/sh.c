@@ -2057,6 +2057,7 @@ machine_dependent_reorg (first)
    return.  Saves 1 instruction per duplicate eliminated. */
 
 extern int redirect_jump ();
+static void compact_leaf_regs ();
 
 void
 machine_dependent_reorg_post_dbr (first)
@@ -2244,6 +2245,435 @@ machine_dependent_reorg_post_dbr (first)
 	INSN_CODE (delay_elem) = -1;
 	delete_insn (load_insn);
       }
+    }
+
+  /* Register compaction for leaf functions */
+  compact_leaf_regs (first);
+}
+
+/* Helper: recursively find all hard registers r0-r7 referenced in RTL
+   pattern.  Sets reg_found[N] = 1 if register N appears.
+   IMPORTANT: Only pass pattern RTL, not insn-class nodes (which have
+   PREV/NEXT/LOG_LINKS that would cause infinite recursion). */
+
+static void
+find_hard_regs_in_rtx (x, reg_found)
+     rtx x;
+     int *reg_found;
+{
+  char *fmt;
+  int i;
+
+  if (x == 0)
+    return;
+
+  /* Never recurse into insn-class nodes */
+  if (GET_RTX_CLASS (GET_CODE (x)) == 'i')
+    return;
+
+  if (GET_CODE (x) == REG)
+    {
+      int r = REGNO (x);
+      if (r <= 7)
+	reg_found[r] = 1;
+      return;
+    }
+
+  fmt = GET_RTX_FORMAT (GET_CODE (x));
+  for (i = GET_RTX_LENGTH (GET_CODE (x)) - 1; i >= 0; i--)
+    {
+      if (fmt[i] == 'e')
+	find_hard_regs_in_rtx (XEXP (x, i), reg_found);
+      else if (fmt[i] == 'E')
+	{
+	  int j;
+	  for (j = XVECLEN (x, i) - 1; j >= 0; j--)
+	    find_hard_regs_in_rtx (XVECEXP (x, i, j), reg_found);
+	}
+    }
+}
+
+/* Helper: recursively apply register rename map to all REG rtxes
+   with REGNO 0-7 in a pattern.  Returns the (possibly new) RTX.
+   Creates NEW REG nodes to avoid shared-node aliasing issues
+   (hard register REGs can be shared across instructions, so
+   modifying REGNO in-place would corrupt other references).
+   IMPORTANT: Only pass pattern RTL, not insn-class nodes. */
+
+static rtx
+apply_reg_rename_rtx (x, rename_map)
+     rtx x;
+     int *rename_map;
+{
+  char *fmt;
+  int i;
+
+  if (x == 0)
+    return x;
+
+  /* Never recurse into insn-class nodes */
+  if (GET_RTX_CLASS (GET_CODE (x)) == 'i')
+    return x;
+
+  if (GET_CODE (x) == REG)
+    {
+      int r = REGNO (x);
+      if (r <= 7 && rename_map[r] != r)
+	return gen_rtx (REG, GET_MODE (x), rename_map[r]);
+      return x;
+    }
+
+  fmt = GET_RTX_FORMAT (GET_CODE (x));
+  for (i = GET_RTX_LENGTH (GET_CODE (x)) - 1; i >= 0; i--)
+    {
+      if (fmt[i] == 'e')
+	XEXP (x, i) = apply_reg_rename_rtx (XEXP (x, i), rename_map);
+      else if (fmt[i] == 'E')
+	{
+	  int j;
+	  for (j = XVECLEN (x, i) - 1; j >= 0; j--)
+	    XVECEXP (x, i, j) =
+	      apply_reg_rename_rtx (XVECEXP (x, i, j), rename_map);
+	}
+    }
+  return x;
+}
+
+/* Helper: record reads/writes of r0-r7 in an RTL pattern expression.
+   For SET destinations, records writes; for everything else, records reads.
+   first_def[r] = earliest insn_num writing r, last_use[r] = latest reading r.
+   IMPORTANT: Only pass pattern RTL, not insn-class nodes. */
+
+static void
+scan_reg_liveness_rtx (x, is_dest, insn_num, first_def, last_use, any_use)
+     rtx x;
+     int is_dest;
+     int insn_num;
+     int *first_def;
+     int *last_use;
+     int *any_use;
+{
+  char *fmt;
+  int i;
+
+  if (x == 0)
+    return;
+
+  /* Never recurse into insn-class nodes */
+  if (GET_RTX_CLASS (GET_CODE (x)) == 'i')
+    return;
+
+  if (GET_CODE (x) == REG)
+    {
+      int r = REGNO (x);
+      if (r <= 7)
+	{
+	  any_use[r] = 1;
+	  if (is_dest)
+	    {
+	      if (insn_num < first_def[r])
+		first_def[r] = insn_num;
+	    }
+	  else
+	    {
+	      if (insn_num > last_use[r])
+		last_use[r] = insn_num;
+	    }
+	}
+      return;
+    }
+
+  /* For SET, the destination is written, the source is read. */
+  if (GET_CODE (x) == SET)
+    {
+      /* Destination: mark as write.  But if dest is MEM, the address
+	 inside the MEM is actually a read (it's computing the store
+	 address, not being set). */
+      if (GET_CODE (SET_DEST (x)) == MEM)
+	scan_reg_liveness_rtx (XEXP (SET_DEST (x), 0), 0, insn_num,
+			       first_def, last_use, any_use);
+      else
+	scan_reg_liveness_rtx (SET_DEST (x), 1, insn_num,
+			       first_def, last_use, any_use);
+      /* Source: always read */
+      scan_reg_liveness_rtx (SET_SRC (x), 0, insn_num,
+			     first_def, last_use, any_use);
+      return;
+    }
+
+  /* For POST_INC/POST_DEC, the register is both read and written */
+  if (GET_CODE (x) == POST_INC || GET_CODE (x) == POST_DEC)
+    {
+      scan_reg_liveness_rtx (XEXP (x, 0), 0, insn_num,
+			     first_def, last_use, any_use);
+      scan_reg_liveness_rtx (XEXP (x, 0), 1, insn_num,
+			     first_def, last_use, any_use);
+      return;
+    }
+
+  fmt = GET_RTX_FORMAT (GET_CODE (x));
+  for (i = GET_RTX_LENGTH (GET_CODE (x)) - 1; i >= 0; i--)
+    {
+      if (fmt[i] == 'e')
+	scan_reg_liveness_rtx (XEXP (x, i), 0, insn_num,
+			       first_def, last_use, any_use);
+      else if (fmt[i] == 'E')
+	{
+	  int j;
+	  for (j = XVECLEN (x, i) - 1; j >= 0; j--)
+	    scan_reg_liveness_rtx (XVECEXP (x, i, j), 0, insn_num,
+				   first_def, last_use, any_use);
+	}
+    }
+}
+
+/* Register compaction for leaf functions.
+
+   SMALL_REGISTER_CLASSES prevents r0 from being used for general
+   allocation, causing the allocator to start from r1.  This leaves
+   r0 unused in leaf functions that don't need it for R0-specific
+   insns.  This pass compacts the r0-r3 register assignments downward
+   to fill gaps, and merges registers with non-overlapping live ranges.
+
+   Only applies to leaf functions with no internal branches (straight-line
+   code or code ending with rts). */
+
+static void
+compact_leaf_regs (first)
+     rtx first;
+{
+  rtx insn;
+  int reg_found[8];
+  int rename_map[8];
+  int first_def[8], last_use[8], any_use[8];
+  int i, j, next_slot;
+  int any_rename;
+  int insn_num;
+  int has_branch;
+
+  /* Only for leaf functions (no calls).
+     After delay-slot scheduling, calls may be SEQUENCE-wrapped:
+     the outer node is INSN containing SEQUENCE whose first element
+     is a CALL_INSN.  Must check both bare and wrapped forms. */
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      if (GET_CODE (insn) == CALL_INSN)
+	return;
+      if (GET_CODE (insn) == INSN
+	  && GET_CODE (PATTERN (insn)) == SEQUENCE)
+	{
+	  rtx inner = XVECEXP (PATTERN (insn), 0, 0);
+	  if (GET_CODE (inner) == CALL_INSN)
+	    return;
+	}
+    }
+
+  /* Check for internal branches (bf/bt/bra to non-return targets).
+     Skip functions with complex control flow for safety.
+     Must also check SEQUENCE-wrapped branches (bf.s/bt.s with
+     filled delay slots become INSN wrapping SEQUENCE). */
+  has_branch = 0;
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      rtx jump = NULL;
+
+      if (GET_CODE (insn) == JUMP_INSN)
+	jump = insn;
+      else if (GET_CODE (insn) == INSN
+	       && GET_CODE (PATTERN (insn)) == SEQUENCE)
+	{
+	  rtx inner = XVECEXP (PATTERN (insn), 0, 0);
+	  if (GET_CODE (inner) == JUMP_INSN)
+	    jump = inner;
+	}
+
+      if (jump)
+	{
+	  rtx pat = PATTERN (jump);
+	  if (GET_CODE (pat) == RETURN)
+	    continue;
+	  /* Allow tail calls (set (pc) ...) that aren't conditional */
+	  if (GET_CODE (pat) == SET
+	      && GET_CODE (XEXP (pat, 0)) == PC
+	      && GET_CODE (XEXP (pat, 1)) != IF_THEN_ELSE)
+	    continue;
+	  if (GET_CODE (pat) == PARALLEL)
+	    {
+	      rtx first_elt = XVECEXP (pat, 0, 0);
+	      if (GET_CODE (first_elt) == SET
+		  && GET_CODE (XEXP (first_elt, 0)) == PC)
+		continue;
+	    }
+	  has_branch = 1;
+	  break;
+	}
+    }
+  if (has_branch)
+    return;
+
+  /* Compute register liveness for r0-r7.
+     first_def[r] = earliest insn# where r is written.
+     last_use[r] = latest insn# where r is read.
+     any_use[r] = whether r appears at all. */
+  for (i = 0; i < 8; i++)
+    {
+      first_def[i] = 9999;
+      last_use[i] = -1;
+      any_use[i] = 0;
+    }
+
+  insn_num = 0;
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      if (GET_RTX_CLASS (GET_CODE (insn)) == 'i')
+	{
+	  rtx pat = PATTERN (insn);
+	  if (GET_CODE (pat) == SEQUENCE)
+	    {
+	      int k;
+	      for (k = 0; k < XVECLEN (pat, 0); k++)
+		{
+		  rtx inner = XVECEXP (pat, 0, k);
+		  scan_reg_liveness_rtx (PATTERN (inner), 0, insn_num,
+					 first_def, last_use, any_use);
+		}
+	    }
+	  else
+	    scan_reg_liveness_rtx (pat, 0, insn_num,
+				   first_def, last_use, any_use);
+	  /* If this insn contains a RETURN, r0 is implicitly live
+	     (it holds the return value).  Mark r0 as used at this
+	     point so Phase 2 won't clobber the return value. */
+	  {
+	    int has_ret = 0;
+	    if (GET_CODE (pat) == RETURN)
+	      has_ret = 1;
+	    else if (GET_CODE (pat) == SEQUENCE)
+	      {
+		rtx fe = XVECEXP (pat, 0, 0);
+		if (GET_CODE (fe) == JUMP_INSN
+		    && GET_CODE (PATTERN (fe)) == RETURN)
+		  has_ret = 1;
+	      }
+	    if (has_ret && any_use[0])
+	      {
+		if (insn_num > last_use[0])
+		  last_use[0] = insn_num;
+	      }
+	  }
+	  insn_num++;
+	}
+    }
+
+  /* Post-process: registers defined but never read still occupy their
+     slot at the definition point.  Treat their range as a single point. */
+  for (i = 0; i < 8; i++)
+    {
+      if (any_use[i] && last_use[i] == -1)
+	last_use[i] = first_def[i];
+    }
+
+  /* Build identity rename map */
+  for (i = 0; i < 8; i++)
+    rename_map[i] = i;
+
+  /* Phase 1: Simple compaction for r0-r3.
+     Map used registers to consecutive lower-numbered slots.
+     This handles void leaf functions where r0 is completely unused. */
+  next_slot = 0;
+  for (i = 0; i < 4; i++)
+    {
+      if (any_use[i])
+	{
+	  rename_map[i] = next_slot;
+	  next_slot++;
+	}
+    }
+
+  /* Phase 2: Liveness-based merge.
+     After Phase 1, try to further reduce register count by merging
+     registers with non-overlapping live ranges.  Track accumulated
+     ranges per target for safe transitive merges.
+     Asymmetric check: last_use[i] <= tgt_first (same-insn OK for
+     reads-before-writes) but tgt_last < first_def[i] (strict, to
+     prevent clobbering return value when delay slot def and implicit
+     r0 use are at same insn). */
+  {
+    int tgt_first[4], tgt_last[4];
+    for (i = 0; i < 4; i++)
+      {
+	tgt_first[i] = 9999;
+	tgt_last[i] = -1;
+      }
+    for (i = 0; i < 4; i++)
+      {
+	if (!any_use[i])
+	  continue;
+	j = rename_map[i];
+	if (j < 4)
+	  {
+	    if (first_def[i] < tgt_first[j])
+	      tgt_first[j] = first_def[i];
+	    if (last_use[i] > tgt_last[j])
+	      tgt_last[j] = last_use[i];
+	  }
+      }
+    for (i = 3; i >= 0; i--)
+      {
+	int cur;
+	if (!any_use[i])
+	  continue;
+	cur = rename_map[i];
+	for (j = 0; j < cur; j++)
+	  {
+	    if (tgt_last[j] < 0)
+	      continue;
+	    if (last_use[i] <= tgt_first[j]
+		|| tgt_last[j] < first_def[i])
+	      {
+		rename_map[i] = j;
+		if (first_def[i] < tgt_first[j])
+		  tgt_first[j] = first_def[i];
+		if (last_use[i] > tgt_last[j])
+		  tgt_last[j] = last_use[i];
+		break;
+	      }
+	  }
+      }
+  }
+
+  /* Verify no conflicts in the final mapping */
+  any_rename = 0;
+  for (i = 0; i < 8; i++)
+    if (rename_map[i] != i && any_use[i])
+      any_rename = 1;
+
+  if (!any_rename)
+    return;
+
+  /* Apply the rename map to all instructions.
+     Use PATTERN() = ... to replace the pattern with the renamed version,
+     creating new REG nodes to avoid shared-node corruption. */
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      if (GET_RTX_CLASS (GET_CODE (insn)) == 'i')
+	{
+	  rtx pat = PATTERN (insn);
+	  if (GET_CODE (pat) == SEQUENCE)
+	    {
+	      int k;
+	      for (k = 0; k < XVECLEN (pat, 0); k++)
+		{
+		  rtx inner = XVECEXP (pat, 0, k);
+		  PATTERN (inner) =
+		    apply_reg_rename_rtx (PATTERN (inner), rename_map);
+		  INSN_CODE (inner) = -1;
+		}
+	    }
+	  else
+	    PATTERN (insn) = apply_reg_rename_rtx (pat, rename_map);
+	  INSN_CODE (insn) = -1;  /* force re-recognition */
+	}
     }
 }
 
