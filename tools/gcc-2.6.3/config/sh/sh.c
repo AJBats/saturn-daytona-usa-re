@@ -2634,7 +2634,7 @@ output_hi_disp_store (operands)
      rtx *operands;
 {
   if (REGNO (operands[3]) != 0)
-    output_asm_insn ("mov	%3,r0", operands);
+    output_asm_insn ("extu.w	%3,r0", operands);
   return "mov.w	r0,@(%O2,%1)";
 }
 
