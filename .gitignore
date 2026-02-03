@@ -3,11 +3,7 @@ build/
 ghidra_project/
 **/__pycache__/
 *.S
-
-# Claude Code local settings
 .claude/
-
-# Toolchain build artifacts (setup.sh builds these locally)
 tools/sh-elf/
 .setup-tmp/
 sotn-reference/
