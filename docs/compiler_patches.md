@@ -20,6 +20,7 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + Disp store peephole | 3 | 19 | FUN_06005174 delta 6→0 |
 | + Sign ext elimination | 3 | 19 | FUN_06030EE0 delta 6→5, FUN_0600C970 delta 2→1 |
 | + Return block dedup | 4 | 18 | FUN_060322E8 → PASS! FUN_0600C970 delta 1→0 |
+| + Delay slot sign ext | 5 | 17 | FUN_06035C4E → PASS! |
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -181,9 +182,27 @@ one bare).
 **Effect**: FUN_060322E8 delta reduced from 1 to 0 (new PASS).
 FUN_0600C970 delta 1→0, FUN_06030EE0 delta 5→4.
 
-## Remaining Patch Opportunities
+## Patch 8: Delay Slot Sign Extension Fix (sh.c)
+**File**: `config/sh/sh.c` (in `machine_dependent_reorg_post_dbr`)
+**Type**: Post-delay-slot-scheduling optimization
 
-### Priority 1: Delay Slot Sign Extension
-FUN_06035C4E has `exts.w r0,r0` in rts delay slot after `mov.w @r1,r0`.
-The exts.w is a no-op but wastes the delay slot. Needs machine_dependent_reorg
-to replace with nop or reschedule the mov.w into the delay slot.
+When the delay slot scheduler fills a return's delay slot with a redundant
+`exts.w rN,rN` (sign-extend of same register after `mov.w` load), this
+optimization replaces it with the preceding `mov.w` memory load instruction.
+
+Detects SEQUENCE `[return, sign_extend:SI (reg:HI rN)]` where the sign_extend
+source and destination are the same register. Finds the preceding HImode memory
+load to that register and swaps it into the delay slot, deleting the original
+load from its pre-return position.
+
+Transforms:
+```
+mov.l   L2,r1         mov.l   L2,r1
+mov.w   @r1,r0   →    rts
+rts                    mov.w   @r1,r0
+exts.w  r0,r0
+```
+
+**Effect**: FUN_06035C4E delta reduced from 1 to 0 (new PASS, 3 insns).
+
+## Remaining Patch Opportunities

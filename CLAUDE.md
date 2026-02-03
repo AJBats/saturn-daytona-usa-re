@@ -21,7 +21,7 @@
 
 ## Test Harness Status (after 7 patches)
 Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
-- **4 PASS / 18 FAIL / 22 total**: FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8
+- **5 PASS / 17 FAIL / 22 total**: FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8, FUN_06035C4E
 - Notable delta=0 (count matches but opcode diffs): FUN_06005174, FUN_06012E00, FUN_060192B4, FUN_06018EC8, FUN_0600C970
 - Several functions at delta=-1/-2 (our code SHORTER than original via BSR/tail call)
 - Tests in `tests/*.c` with expected opcodes in `tests/*.expected`
@@ -32,7 +32,7 @@ Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
 **Goal**: Build automated test harness, then iteratively patch GCC 2.6.3 SH backend until
 test functions produce matching asm output. Each patch must never regress passing tests.
 
-**Patch priority order**: ~~dt~~ → ~~bsr~~ → ~~tail calls~~ → ~~pure wrapper~~ → ~~disp stores~~ → ~~sign extension~~ → ~~return dedup~~ → delay slot sign ext
+**Patch priority order**: ~~dt~~ → ~~bsr~~ → ~~tail calls~~ → ~~pure wrapper~~ → ~~disp stores~~ → ~~sign extension~~ → ~~return dedup~~ → ~~delay slot sign ext~~
 
 **Test harness**: `tools/test_harness.sh` - compiles C sources, extracts expected asm from
 aprog.s, compares instruction streams, reports PASS/FAIL per function.
@@ -69,7 +69,7 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - `build/aprog.s` - Full binary disassembly (206K lines, 1234 function labels, SH-2 asm)
 - `ghidra_project/decomp_all.txt` - Ghidra decompiler output for 880 functions (~40 game state handlers MISSING, need re-export)
 - `tools/gcc26-build/cc1` - Patched GCC 2.6.3 compiler for SH-2 (runs in WSL)
-- `tools/gcc-2.6.3/` - Patched GCC source (7 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
+- `tools/gcc-2.6.3/` - Patched GCC source (8 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
 - `build/aprog_syms.txt` - 1234 function symbols in linker script format
 - `tools/verify_batch*.sh` - Verification scripts comparing GCC output to original binary
 
@@ -92,6 +92,7 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s` where CC1=/mnt/d
 5. **Disp store peephole** (sh.md + sh.c): `mov rN,rM / add #D,rM / mov.w rK,@rM` → `mov.w r0,@(D,rN)` - WORKING
 6. **Sign ext elimination** (sh.md): `mov.w @...,rN / exts.w rN,rM` → `mov.w @...,rM` (+ fixed disabled QI peephole) - WORKING
 7. **Return block dedup** (sh.c + toplev.c): Post-dbr pass undoes delay slot fills that create duplicate returns - WORKING
+8. **Delay slot sign ext** (sh.c): Post-dbr pass replaces no-op exts.w in rts delay slot with preceding mov.w load - WORKING
 
 ### Remaining Known Compiler Differences
 1. **Register allocation**: Our compiler prefers r1,r2 for caller-saved temps; original uses r3,r4
@@ -106,7 +107,7 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s` where CC1=/mnt/d
 10. ~~No `bsr` direct calls~~: FIXED by BSR fix
 11. **R0-specific insns**: GCC uses `and #imm,r0` (1 insn) where original uses 4-insn sequence
 12. **Callee-save vs stack params**: GCC preserves params across calls in callee-saved regs (more overhead); original saves on stack
-13. ~~Sign extension insertion~~: PARTIALLY FIXED by sign ext peephole (catches mov.w load+exts.w; can't fix delay slot or live-register cases)
+13. ~~Sign extension insertion~~: PARTIALLY FIXED by sign ext peephole (catches mov.w load+exts.w; can't fix live-register cases) + delay slot sign ext fix (catches rts delay slot case)
 
 ### Verified Functions (25 total: 17 LEAF + 8 CALL)
 See docs/verification_results.md for full details and summary table.

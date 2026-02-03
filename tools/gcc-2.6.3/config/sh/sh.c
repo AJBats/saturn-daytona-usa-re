@@ -2067,6 +2067,7 @@ machine_dependent_reorg_post_dbr (first)
   int ret_count = 0;
   int i;
 
+
   /* Find all return insns (bare or SEQUENCE-wrapped) */
   for (insn = first; insn; insn = NEXT_INSN (insn))
     {
@@ -2088,9 +2089,7 @@ machine_dependent_reorg_post_dbr (first)
 	ret_insns[ret_count++] = insn;
     }
 
-  if (ret_count != 2)
-    return;
-
+  if (ret_count == 2)
   /* Identify filled (SEQUENCE) and bare returns */
   {
     rtx filled = NULL, bare = NULL;
@@ -2169,6 +2168,83 @@ machine_dependent_reorg_post_dbr (first)
       delete_insn (bare_label);
     }
   }
+
+  /* Delay slot sign-extend optimization: when a return has a no-op
+     sign_extend (same register) in its delay slot after a memory load,
+     replace the sign_extend with the memory load itself.
+     mov.w @...,rN / rts / exts.w rN,rN  ->  rts / mov.w @...,rN */
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      rtx seq, ret_insn, delay_insn, delay_pat;
+      rtx prev, load_insn;
+      int ext_regno;
+
+      /* Find SEQUENCE-wrapped return insns */
+      if (GET_CODE (insn) != INSN
+	  || GET_CODE (PATTERN (insn)) != SEQUENCE)
+	continue;
+
+      seq = PATTERN (insn);
+      ret_insn = XVECEXP (seq, 0, 0);
+      delay_insn = XVECEXP (seq, 0, 1);
+
+      if (GET_CODE (ret_insn) != JUMP_INSN
+	  || GET_CODE (PATTERN (ret_insn)) != RETURN)
+	continue;
+
+      /* Check if delay slot is sign_extend:SI (reg:HI rN) -> rN */
+      delay_pat = PATTERN (delay_insn);
+      if (GET_CODE (delay_pat) != SET
+	  || GET_CODE (SET_SRC (delay_pat)) != SIGN_EXTEND
+	  || GET_MODE (SET_SRC (delay_pat)) != SImode
+	  || GET_CODE (XEXP (SET_SRC (delay_pat), 0)) != REG
+	  || GET_MODE (XEXP (SET_SRC (delay_pat), 0)) != HImode
+	  || !REG_P (SET_DEST (delay_pat))
+	  || REGNO (SET_DEST (delay_pat))
+	     != REGNO (XEXP (SET_SRC (delay_pat), 0)))
+	continue;
+
+      ext_regno = REGNO (SET_DEST (delay_pat));
+
+      /* Scan backward for a HI memory load into the same register */
+      load_insn = NULL;
+      for (prev = PREV_INSN (insn); prev; prev = PREV_INSN (prev))
+	{
+	  rtx ppat;
+	  if (GET_CODE (prev) == NOTE)
+	    continue;
+	  if (GET_CODE (prev) != INSN)
+	    break;
+	  ppat = PATTERN (prev);
+	  /* Skip (use ...) marker insns */
+	  if (GET_CODE (ppat) == USE)
+	    continue;
+	  /* Look for (set (reg:HI rN) (mem:HI ...)) */
+	  if (GET_CODE (ppat) == SET
+	      && REG_P (SET_DEST (ppat))
+	      && GET_MODE (SET_DEST (ppat)) == HImode
+	      && REGNO (SET_DEST (ppat)) == ext_regno
+	      && GET_CODE (SET_SRC (ppat)) == MEM
+	      && GET_MODE (SET_SRC (ppat)) == HImode)
+	    {
+	      load_insn = prev;
+	      break;
+	    }
+	  break;  /* stop at any other real insn */
+	}
+
+      if (!load_insn)
+	continue;
+
+      /* Replace the delay slot insn's pattern with the memory load,
+	 reset insn_code so final.c re-recognizes it */
+      {
+	rtx delay_elem = XVECEXP (seq, 0, 1);
+	PATTERN (delay_elem) = copy_rtx (PATTERN (load_insn));
+	INSN_CODE (delay_elem) = -1;
+	delete_insn (load_insn);
+      }
+    }
 }
 
 /* Called from the md file, set up the operands of a compare instruction */
