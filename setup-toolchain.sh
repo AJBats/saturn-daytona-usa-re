@@ -171,7 +171,8 @@ else
 
         # Touch pre-generated files so make doesn't try to regenerate them
         # (would need gperf/bison which aren't worth requiring as dependencies)
-        touch c-gperf.h cp/parse.h cp/parse.c 2>/dev/null || true
+        touch c-gperf.h c-parse.c c-parse.h c-parse.y \
+              cp/parse.h cp/parse.c cp/parse.y 2>/dev/null || true
 
         info "Building cc1..."
         make -j"$(nproc)" cc1 \

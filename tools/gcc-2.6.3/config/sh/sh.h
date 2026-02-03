@@ -559,7 +559,7 @@ extern int regno_reg_class[];
 
 /* The order in which register should be allocated.  */
 #define REG_ALLOC_ORDER  \
-  { 1,2,3,7,6,5,4,0,8,9,10,11,12,13,14,15,16,17,18,19,20,21 }
+  { 1,2,3,7,6,5,4,0,14,13,12,11,10,9,8,15,16,17,18,19,20,21 }
 
 /* The class value for index registers, and the one for base regs.  */
 #define INDEX_REG_CLASS  R0_REGS

@@ -180,12 +180,19 @@ push_regs (mask)
 {
   int i;
 
-  for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
+  /* Push general registers in descending order, then PR last.
+     This matches the Daytona binary's prologue pattern:
+       mov.l r14,@-r15 ; mov.l r13,@-r15 ; ... ; sts.l pr,@-r15 */
+  for (i = FIRST_PSEUDO_REGISTER - 1; i >= 0; i--)
     {
-      if (mask & (1 << i))
+      if (i != PR_REG && (mask & (1 << i)))
 	{
 	  push (i);
 	}
+    }
+  if (mask & (1 << PR_REG))
+    {
+      push (PR_REG);
     }
 }
 
@@ -2076,14 +2083,18 @@ sh_expand_epilogue ()
     }
   output_stack_adjust (get_frame_size ());
 
-  /* Pop all the registers */
+  /* Pop all the registers: PR first, then general regs ascending.
+     This is the reverse of the prologue push order. */
 
+  if (live_regs_mask & (1 << PR_REG))
+    {
+      pop (PR_REG);
+    }
   for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
     {
-      int j = (FIRST_PSEUDO_REGISTER - 1) - i;
-      if (live_regs_mask & (1 << j))
+      if (i != PR_REG && (live_regs_mask & (1 << i)))
 	{
-	  pop (j);
+	  pop (i);
 	}
     }
 
