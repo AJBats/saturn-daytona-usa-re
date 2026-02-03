@@ -531,9 +531,34 @@ Map the full binary structure and begin categorizing the codebase. The gameplay 
 - [x] Identify core data structures — 9 major struct clusters found. Largest: 372B/88 fields at `0x060A4C38` (likely car state). Hottest: 100B/252 refs at `0x0607EA8C` (core game state). See "Global Variables & Data Structures" section.
 - [x] Map global variable usage — 642 BSS globals (3433 refs), 738 data globals (1869 refs). Top global `0x0607EAD8` has 92 refs. Struct cluster analysis reveals likely car state, game state, race state, and control structs.
 
-### Phase 2: Gameplay Subsystem Identification
+### Phase 2: Build Infrastructure & Progressive Decomp Pipeline
 
-Focus on finding and understanding the gameplay-critical code clusters.
+Set up the build system that allows progressive replacement of assembly with decompiled C. This is the foundation for all validation — without it, decompiled functions can only be verified by eyeballing assembly. With it, we can rebuild APROG.BIN, inject it into a disc image, and play-test in an emulator after every change.
+
+**Approach**: Adapt the [sotn-decomp](https://github.com/Xeeynamo/sotn-decomp) Saturn build infrastructure. That project has already solved the SH-2 asm/C mixing pipeline with cygnus-2.7-96Q3 — our exact compiler. We adapt their build system rather than building from scratch.
+
+**Key difference from sotn-decomp**: SotN Saturn was compiled with 96Q3, so they can byte-match. Daytona was compiled with GCC 2.6, so we cannot byte-match. Our build must handle non-matching function sizes via full relocation (symbolized cross-references, linker-resolved function addresses). The initial round-trip build (asm→binary) still must be byte-identical to prove the disassembly is correct.
+
+- [x] Clone sotn-decomp, study their Saturn Makefile, linker script, and asm/C mixing approach
+  - Sparse checkout of config/, tools/, src/saturn/
+  - Key insight: their pipeline is cpp → CC1.EXE (via dosemu) → sh-elf-as → sh-elf-ld → sh-elf-objcopy
+  - Symbol files define cross-refs: `_symbol = 0xADDRESS;` consumed by linker
+- [x] Build a binary splitter for APROG.BIN → `scripts/split_binary.py`
+  - Emits `.byte 0xHI, 0xLO` pairs (not mnemonics) for guaranteed byte-identity
+  - Detects 1,234 functions via prologue patterns (0x2FE6/0x4F22)
+  - Outputs: `build/aprog.s` (206K lines), `build/aprog_syms.txt` (1,234 symbols), `build/aprog.ld`
+- [x] Install sh-elf-binutils 2.42 (built from source in WSL Ubuntu; MSYS2/Cygwin as fallback)
+- [x] Achieve byte-identical round-trip: `make verify` passes — all 394,896 bytes match
+  - Pipeline: `sh-elf-as --big` → `sh-elf-ld -T aprog.ld` → `sh-elf-objcopy -O binary` → `cmp` against original
+  - Makefile created at project root for repeatable builds
+- [ ] Symbolize function cross-references in constant pools (replace raw addresses with labels)
+- [ ] Test progressive replacement: decompile one trivial function to C, rebuild, verify game still runs in emulator
+- [ ] Set up disc image rebuilder: script to inject rebuilt APROG.BIN into the Daytona disc image for emulator testing
+- [ ] Document the build process and any adaptations made from sotn-decomp infrastructure
+
+### Phase 3: Gameplay Subsystem Identification
+
+Focus on finding and understanding the gameplay-critical code clusters. This phase runs alongside Phase 2 — analysis informs which functions to decompile first, and decompilation validates the analysis.
 
 - [ ] Identify the racing main loop (the per-frame update during actual gameplay)
 - [ ] Map the physics subsystem: acceleration, braking, steering response, drift mechanics
@@ -544,18 +569,19 @@ Focus on finding and understanding the gameplay-critical code clusters.
 - [ ] Identify the interface boundary between gameplay and rendering (what does gameplay write that rendering reads?)
 - [ ] Document frame timing assumptions (vblank-driven? fixed timestep?)
 
-### Phase 3: Non-Matching Decompilation
+### Phase 4: Non-Matching Decompilation
 
-Decompile broadly across the codebase, prioritizing gameplay functions but including enough surrounding context (data structures, utility functions, main loop) to make the gameplay code comprehensible and portable.
+Decompile broadly across the codebase, prioritizing gameplay functions but including enough surrounding context (data structures, utility functions, main loop) to make the gameplay code comprehensible and portable. Each decompiled function is validated by rebuilding the full binary and testing in emulator (Phase 2 infrastructure).
 
 - [ ] Decompile core data structures to C structs (car state, track data, game state)
 - [ ] Decompile shared utility/math functions
 - [ ] Decompile gameplay subsystems to C (physics, collision, AI, race state)
 - [ ] Decompile the main loop and game state management
-- [ ] Validate decompiled functions via differential testing against emulator traces
+- [ ] Validate decompiled functions via play-testing rebuilt binary in emulator
+- [ ] Validate critical functions via differential testing against emulator traces
 - [ ] Document any coupling between gameplay and rendering discovered during decompilation
 
-### Phase 4: CCE Analysis & Gameplay Transplant
+### Phase 5: CCE Analysis & Gameplay Transplant
 
 Apply the same analysis to Championship Circuit Edition and plan the transplant.
 
@@ -591,7 +617,7 @@ Unlike SM64, OoT, or SotN, there's no existing community or infrastructure. This
 The ultimate goal requires understanding not just the original, but also CCE — and mapping the interface differences between them. Data structures, memory layouts, calling conventions, and frame timing may all differ between versions.
 
 ### 5. Saturn-Specific Tooling Gaps
-- No Saturn-specific equivalent of decomp-toolkit (binary splitter)
+- ~~No Saturn-specific equivalent of decomp-toolkit (binary splitter)~~ — **sotn-decomp has Saturn build infrastructure** including asm/C mixing with 96Q3. Adaptable for Daytona.
 - No SH2-to-C decompiler equivalent of mips2c
 - Ghidra's SH-2 decompiler output will need manual cleanup
 
@@ -805,4 +831,6 @@ Phase 1 findings:
 
 **The approach requires broad codebase understanding.** Gameplay code from this era is not a clean separable layer — it's a web of shared mutable state, global structs, and implicit dependencies on engine context. Extracting the gameplay subsystems requires understanding the surrounding engine well enough to identify the interface boundaries.
 
-**Next step**: Phase 2 — identify the racing main loop, map physics/collision/AI subsystems, and document fixed-point math conventions.
+**Phase 2 progress**: Build infrastructure is operational. Byte-identical round-trip verified (`make verify` passes). Splitter, assembler pipeline, Makefile all working. Remaining Phase 2 work: symbolize cross-references for progressive replacement, test replacing one function with C, disc image rebuilder.
+
+**Next step**: Symbolize constant pool cross-references (enables progressive asm→C replacement), then continue into Phase 3 (gameplay subsystem identification) in parallel.

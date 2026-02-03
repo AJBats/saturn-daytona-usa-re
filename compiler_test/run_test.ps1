@@ -2,7 +2,7 @@
 # Output: TEST_O0.S, TEST_O1.S, TEST_O2.S (SH-2 assembly at different opt levels)
 
 $DosBoxExe = "C:\DOSBox-X\dosbox-x.exe"
-$CompilerDir = Join-Path $PSScriptRoot "..\external_resources\compiler"
+$CompilerDir = Join-Path $PSScriptRoot "..\tools\cygnus-2.7-96Q3"
 $WorkDir = $PSScriptRoot
 
 & $DosBoxExe `
