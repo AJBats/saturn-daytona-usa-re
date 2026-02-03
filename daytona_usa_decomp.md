@@ -346,7 +346,7 @@ The SOA compiler changelog (GCC.LOG, maintained by Toshiyasu Morita) documents e
 | `cygnus-2.6.0-941014-SOA-950201` | Feb 1, 1995 | GCC 2.6 | Earliest documented SOA patch |
 | `cygnus-2.6.0-941014-SOA-950208` | Feb 8, 1995 | GCC 2.6 | |
 | `cygnus-2.6.0-941014-SOA-950215` | Feb 15, 1995 | GCC 2.6 | |
-| `cygnus-2.6-95q1-SOA-950317` | Mar 17, 1995 | GCC 2.6 | Migrated to 95q1 base — **matches Daytona build date** |
+| `cygnus-2.6-95q1-SOA-950317` | Mar 17, 1995 | GCC 2.6 | Migrated to 95q1 base — date coincidence with Daytona IP.BIN |
 | **Daytona USA ships** | **~Apr 1995** | | |
 | `cygnus-2.6-95q1-SOA-950406` | Apr 6, 1995 | GCC 2.6 | |
 | ... | ... | ... | ... |
@@ -356,14 +356,20 @@ The SOA compiler changelog (GCC.LOG, maintained by Toshiyasu Morita) documents e
 
 **Key finding**: Daytona was compiled with a **GCC 2.6**-based compiler (~`cygnus-2.6-95q1` era), while the only preserved compiler binaries are **GCC 2.7**-based (`cygnus-2.7-96q3`). The GCC backend changed between these versions (new optimizations, different code generation patterns documented in the changelog).
 
-**Caveat**: AM2 was Sega Japan, not SOA. They may have used an internal Japanese build rather than the SOA distribution. The SOA changelog represents third-party developer releases. AM2's internal toolchain may differ in patch level or configuration.
+**Caveat on compiler provenance**: AM2 was Sega Japan's internal arcade division, not a third-party North American developer. The SOA changelog documents distributions to licensees — AM2 may have received compilers through a different channel, used a Japanese-maintained distribution, had a direct Cygnus relationship, or used stock Cygnus releases without SOA patches. The date match between `SOA-950317` and the IP.BIN build date is a coincidence, not an identification — no team adopts a compiler release the same day they do a final build.
+
+**Confirmed vs speculative:**
+- **Confirmed**: GCC 2.6.x for SH-2 (register allocation order proves this)
+- **Likely**: Cygnus distribution (dominant SH-2 GCC maintainer at the time)
+- **Plausible**: 95q1 or 941014 base (timeline fits)
+- **Speculative**: SOA-950317 specifically (date coincidence, wrong organization)
 
 **Implications:**
 - The only preserved compiler (cygnus-2.7-96Q3) is from 18 months after Daytona shipped and uses a different GCC major version
 - **Codegen testing confirms byte-matching with 96Q3 is infeasible** (see Codegen Comparison below)
 - Many high-level code patterns (prologue/epilogue structure, delay slot filling, switch tables) are shared between GCC 2.6 and 2.7
 - The sotn-decomp project uses 96Q3 successfully for later Saturn titles compiled with GCC 2.7
-- **Recommended approach**: Pursue non-matching decomp with 96Q3 while searching for the original GCC 2.6 compiler. If GCC 2.6 is recovered, the C source can be recompiled for a byte-match
+- **New approach**: Reconstruct a GCC 2.6 compiler from source (see "GCC 2.6 Reconstruction" section below). Vanilla GCC 2.6 already produces the correct register allocation order — the biggest codegen difference is resolved by using the right compiler version, not by finding specific patches
 
 #### Identification Methods Used
 
@@ -556,6 +562,19 @@ Set up the build system that allows progressive replacement of assembly with dec
 - [ ] Set up disc image rebuilder: script to inject rebuilt APROG.BIN into the Daytona disc image for emulator testing
 - [ ] Document the build process and any adaptations made from sotn-decomp infrastructure
 
+### Phase 2b: GCC 2.6 Compiler Reconstruction (parallel)
+
+Reconstruct a GCC 2.6 compiler from source that produces codegen matching the Daytona binary. This runs in parallel with all other phases — it improves validation quality but doesn't block progress.
+
+**Approach**: Build vanilla GCC 2.6.3 (or 2.6.0) from [decompals/old-gcc](https://github.com/decompals/old-gcc), systematically compare output against the binary, patch the SH-2 backend to converge on matching codegen. See `gcc26_reconstruction_strategy.md` for full analysis.
+
+- [ ] Build GCC 2.6.3 for `sh-hms` target using decompals/old-gcc
+- [ ] Also build GCC 2.6.0 if straightforward (Cygnus base was tagged `cygnus-2.6.0-941014`)
+- [ ] Compare baseline output against Daytona binary — catalog all differences by category
+- [ ] Targeted patching: fix each difference category in the SH-2 backend (`sh.c`, `sh.h`, `sh.md`)
+- [ ] Full binary validation: compare all 1,234 functions, iterate until convergence
+- [ ] Integrate into build pipeline alongside or replacing 96Q3
+
 ### Phase 3: Gameplay Subsystem Identification
 
 Focus on finding and understanding the gameplay-critical code clusters. This phase runs alongside Phase 2 — analysis informs which functions to decompile first, and decompilation validates the analysis.
@@ -694,17 +713,36 @@ The SM64 community illustrates both approaches and their relationship:
 
 The key insight: the non-matching/enhanced builds were built **on top of** source whose correctness was already proven via matching. They didn't skip the verification step - they built on it.
 
-### Decision: Non-Matching Decomp for Gameplay Extraction
+### Decision: Dual Strategy — Non-Matching Now, Matching Via GCC 2.6 Reconstruction
 
-This project pursues a **non-matching decompilation** using cygnus-2.7-96Q3. This decision was driven by two factors:
+This project pursues **non-matching decompilation** using cygnus-2.7-96Q3 for immediate progress, while **reconstructing a GCC 2.6 compiler from source** in parallel to enable matching decomp.
 
-1. **Byte-matching is infeasible** — The original was compiled with GCC 2.6 (register saves in descending order), and only GCC 2.7 binaries are preserved (ascending order). This difference affects every non-leaf function.
+**Why non-matching is sufficient for the goal**: The project's purpose is extracting gameplay logic for transplant into CCE, not reproducing the original binary. Functional correctness matters; binary identity does not.
 
-2. **Byte-matching is unnecessary for the goal** — The project's purpose is extracting gameplay logic for transplant into CCE, not reproducing the original binary. Functional correctness matters; binary identity does not.
+**Why matching is worth pursuing anyway**: Automated binary-diff verification is fundamentally more reliable than play-testing. If even 80% of functions can be byte-matched, that's 80% of functions with provable correctness. The 96Q3 compiler remains the fallback for compilation and emulator testing.
 
-The compiler (96Q3) remains useful for compiling and testing decompiled C against SH-2 in an emulator, but the analysis depth is the same regardless of compiler — understanding the codebase's data structures, calling patterns, and global state is the real work.
+#### GCC 2.6 Reconstruction
 
-**Note on GCC 2.6 recovery**: GCC 2.6.3 source code exists at the [GNU old-releases archive](https://gcc.gnu.org/pub/gcc/old-releases/gcc-2/) and [decompals/old-gcc](https://github.com/decompals/old-gcc) already builds GCC 2.6.3 from source on modern systems. Building a vanilla GCC 2.6.3 for `sh-hms` target is feasible if byte-matching ever becomes desirable (e.g., for verifying decompiled functions). The SOA-specific patches from Toshiyasu Morita would still be missing, but the register allocator behavior (the critical difference) comes from the GCC version itself.
+The register allocation order difference (the primary blocker for matching) is a **GCC version-level** behavior, not a patch. Vanilla GCC 2.6 already produces descending register saves — matching the Daytona binary. This means byte-matching is NOT inherently infeasible; it was infeasible *with 2.7*.
+
+**Source availability**: [decompals/old-gcc](https://github.com/decompals/old-gcc) already builds GCC 2.6.3 from source on modern systems. The SH-2 backend (`sh.c`, `sh.h`, `sh.md`) is a few thousand lines total — manageable for full review.
+
+**What's missing**: The original compiler had three layers — FSF GCC 2.6.0, Cygnus quarterly patches, and possibly SOA patches. Layers 2-3 are not preserved as source. However, much of the Cygnus work landed upstream in FSF point releases (2.6.1-2.6.3), and SOA patches were likely incremental bug fixes (release cadence was every 1-2 weeks). The 1,234 identified functions in the binary provide ground truth for converging on the correct codegen behavior empirically.
+
+**Confidence assessment** (see `gcc26_reconstruction_strategy.md` for full analysis):
+
+| Subproblem | Confidence | Notes |
+|---|---|---|
+| Register allocation order | ~100% | Vanilla 2.6 already correct |
+| Prologue/epilogue structure | ~95% | Controlled by target macros in `sh.c` |
+| Delay slot filling | ~90% | Reorg pass + `.md` attributes |
+| Instruction selection | ~85% | `.md` pattern entries |
+| Instruction scheduling | ~75% | Pipeline cost model, harder |
+| Constant pool placement | ~65% | Most moving pieces, cascading effects |
+
+**Expected outcome**: 90%+ practical utility (reliable C-to-asm comparison), 65-75% chance of byte-matching the majority of functions. Even partial matching is a massive upgrade over 2.7 for validation.
+
+**Reconstruction phases**: See roadmap Phase 2b below.
 
 ---
 
@@ -811,7 +849,7 @@ The goal of this project is to extract the authentic Daytona USA gameplay code (
 
 **Phases 0 and 1 are complete.**
 
-Phase 0 findings: Cygnus GCC confirmed, non-matching decomp with 96Q3, no standard SDK (AM2 custom code), overlay architecture mapped.
+Phase 0 findings: Cygnus GCC 2.6 confirmed, no standard SDK (AM2 custom code), overlay architecture mapped.
 
 Phase 1 findings:
 
@@ -833,4 +871,6 @@ Phase 1 findings:
 
 **Phase 2 progress**: Build infrastructure is operational. Byte-identical round-trip verified (`make verify` passes). Splitter, assembler pipeline, Makefile all working. Remaining Phase 2 work: symbolize cross-references for progressive replacement, test replacing one function with C, disc image rebuilder.
 
-**Next step**: Symbolize constant pool cross-references (enables progressive asm→C replacement), then continue into Phase 3 (gameplay subsystem identification) in parallel.
+**Phase 2b (new, parallel)**: GCC 2.6 compiler reconstruction. The register allocation order difference (the primary blocker for matching decomp) is a GCC version-level behavior — vanilla 2.6 already produces the correct order. Building from source via decompals/old-gcc and converging on the Daytona binary's codegen patterns could upgrade the project from non-matching to partially/fully matching. See `gcc26_reconstruction_strategy.md`.
+
+**Next step**: Build GCC 2.6.3 from source (Phase 2b baseline), then continue Phase 3 (gameplay subsystem identification) in parallel.

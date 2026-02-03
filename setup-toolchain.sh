@@ -24,6 +24,11 @@ BINUTILS_URL="https://sourceware.org/pub/binutils/releases/binutils-${BINUTILS_V
 # Cygnus compiler expected location (committed to repo)
 CYGNUS_DIR="$TOOLS_DIR/cygnus-2.7-96Q3"
 
+# GCC 2.6.3 source (committed to repo), built locally
+GCC26_SRC="$TOOLS_DIR/gcc-2.6.3"
+GCC26_BUILD="$TOOLS_DIR/gcc26-build"
+GCC26_CC1="$GCC26_BUILD/cc1"
+
 # Original binary (user must provide)
 ORIGINAL_BIN="$PROJ_ROOT/build/disc/files/APROG.BIN"
 
@@ -135,7 +140,52 @@ else
     warn "Expected at: tools/cygnus-2.7-96Q3/BIN/CC1.EXE"
 fi
 
-# ── 4. Original game binary ────────────────────────────────────────
+# ── 4. GCC 2.6.3 for SH-2 (matching decomp compiler) ───────────────
+
+echo ""
+echo "Checking GCC 2.6.3 cc1 (SH-2)..."
+
+if [ -x "$GCC26_CC1" ]; then
+    pass "GCC 2.6.3 cc1 already built at tools/gcc26-build/cc1"
+else
+    if [ ! -d "$GCC26_SRC" ]; then
+        fail "GCC 2.6.3 source not found at tools/gcc-2.6.3/"
+        info "This should be committed to the repo. Something is wrong."
+        READY=false
+    else
+        info "Building GCC 2.6.3 cc1 for SH-2 from source..."
+
+        # Old GCC requires in-tree builds. Copy source to build dir.
+        rm -rf "$GCC26_BUILD"
+        cp -r "$GCC26_SRC" "$GCC26_BUILD"
+        cd "$GCC26_BUILD"
+
+        info "Configuring for sh-hms target..."
+        ./configure \
+            --target=sh-hms \
+            --prefix="$GCC26_BUILD/install" \
+            --with-gnu-as \
+            --host=i386-pc-linux \
+            --build=i386-pc-linux \
+            --quiet 2>&1 | tail -3
+
+        info "Building cc1..."
+        make -j"$(nproc)" cc1 \
+            CFLAGS="-std=gnu89 -m32 -static -fcommon -DHAVE_STRERROR" \
+            --quiet 2>&1 | tail -3
+
+        cd "$PROJ_ROOT"
+
+        if [ -x "$GCC26_CC1" ]; then
+            pass "GCC 2.6.3 cc1 built successfully"
+        else
+            fail "GCC 2.6.3 cc1 build failed"
+            READY=false
+        fi
+    fi
+fi
+
+# ── 5. Original game binary ────────────────────────────────────────
 
 echo ""
 echo "Checking original APROG.BIN..."
@@ -155,7 +205,7 @@ else
     READY=false
 fi
 
-# ── 5. Generate build artifacts ────────────────────────────────────
+# ── 6. Generate build artifacts ────────────────────────────────────
 
 echo ""
 if [ -f "$ORIGINAL_BIN" ] && [ -f "$PROJ_ROOT/scripts/split_binary.py" ]; then

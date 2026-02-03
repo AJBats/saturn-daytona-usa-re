@@ -5,5 +5,8 @@ ghidra_project/
 *.S
 .claude/
 tools/sh-elf/
+tools/gcc26-build/
+tools/old-gcc/
+tools/check_prologues.py
 .setup-tmp/
 sotn-reference/
