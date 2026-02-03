@@ -1,7 +1,10 @@
 # Daytona USA (Saturn) - Progressive Decomp Build System
 #
-# First-time setup:  ./setup.sh
-# Build & verify:    make verify
+# First-time setup:
+#   1. .\extract-disc.ps1          (PowerShell - extract APROG.BIN from disc image)
+#   2. ./setup-toolchain.sh        (bash/WSL - build sh-elf-binutils, run splitter)
+#
+# On Windows:  wsl make verify
 #
 # Targets:
 #   make build      - Assemble and link APROG.BIN from asm source
@@ -11,7 +14,7 @@
 
 SHELL := /bin/bash
 
-# Project-local toolchain (built by setup.sh), falls back to PATH
+# Project-local toolchain (built by setup-toolchain.sh), falls back to PATH
 SH_ELF_BIN := $(wildcard tools/sh-elf/bin)
 ifdef SH_ELF_BIN
     AS      := tools/sh-elf/bin/sh-elf-as

@@ -1,5 +1,5 @@
 #!/bin/bash
-# setup.sh - Bootstrap the Daytona USA decomp toolchain
+# setup-toolchain.sh - Bootstrap the Daytona USA decomp toolchain
 #
 # Run this once after cloning to set up everything needed for `make verify`.
 # Works in: WSL Ubuntu, native Linux, MSYS2. Not tested on macOS.
@@ -184,7 +184,7 @@ echo "==========================================="
 if [ "$READY" = true ]; then
     echo -e "${GREEN}Setup complete.${NC} Run:  make verify"
 else
-    echo -e "${YELLOW}Setup incomplete.${NC} Fix the issues above and re-run ./setup.sh"
+    echo -e "${YELLOW}Setup incomplete.${NC} Fix the issues above and re-run ./setup-toolchain.sh"
 fi
 echo "==========================================="
 echo ""

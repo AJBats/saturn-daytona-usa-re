@@ -22,7 +22,7 @@
 #     CS0POLY.BIN, CS1POLY.BIN, ...      <- Course/texture/sound data
 #
 # Usage:
-#   .\setup.ps1 -InputDir "path\to\your\dump"
+#   .\extract-disc.ps1 -InputDir "path\to\your\dump"
 #
 # Or place your files in the default location:
 #   external_resources\Daytona USA (USA)\
@@ -53,9 +53,9 @@ function Show-Usage {
     Write-Host "disc dump and converts it to ISO format for analysis in Ghidra."
     Write-Host ""
     Write-Host "Usage:"
-    Write-Host "  .\setup.ps1 -InputDir `"path\to\your\dump`""
-    Write-Host "  .\setup.ps1                                     (uses default location)"
-    Write-Host "  .\setup.ps1 -Help"
+    Write-Host "  .\extract-disc.ps1 -InputDir `"path\to\your\dump`""
+    Write-Host "  .\extract-disc.ps1                                     (uses default location)"
+    Write-Host "  .\extract-disc.ps1 -Help"
     Write-Host ""
     Write-Host "Default input location:"
     Write-Host "  $DefaultInputDir"
@@ -316,7 +316,7 @@ if (-not (Test-Path $InputDir)) {
     Write-Host "Please place your Daytona USA (USA) disc dump at:"
     Write-Host "  $InputDir"
     Write-Host ""
-    Write-Host "Run '.\setup.ps1 -Help' for more information."
+    Write-Host "Run '.\extract-disc.ps1 -Help' for more information."
     exit 1
 }
 
