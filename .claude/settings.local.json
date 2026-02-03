@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(C:/Users/albat/AppData/Local/Programs/Python/Python310/python.exe:*)",
-      "Bash(dir:*)"
-    ]
-  }
-}
