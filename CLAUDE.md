@@ -19,10 +19,10 @@
   `tr -d '\r' < script.sh > /tmp/clean.sh && bash /tmp/clean.sh`
   OR run directly: `bash /mnt/d/.../script.sh` (bash handles CRLF in scripts)
 
-## Test Harness Status (after 7 patches)
+## Test Harness Status (after 8 patches + C source fixes)
 Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
-- **5 PASS / 17 FAIL / 22 total**: FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8, FUN_06035C4E
-- Notable delta=0 (count matches but opcode diffs): FUN_06005174, FUN_06012E00, FUN_060192B4, FUN_06018EC8, FUN_0600C970
+- **6 PASS / 16 FAIL / 22 total**: FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8, FUN_06035C4E, FUN_06012E00
+- Notable delta=0 (count matches but opcode diffs): FUN_06005174, FUN_0601164A, FUN_060192B4, FUN_06018EC8, FUN_0600C970
 - Several functions at delta=-1/-2 (our code SHORTER than original via BSR/tail call)
 - Tests in `tests/*.c` with expected opcodes in `tests/*.expected`
 - **Uses gcc26-build/cc1** (NOT gcc-2.6.3/cc1 which is stale)

@@ -21,6 +21,8 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + Sign ext elimination | 3 | 19 | FUN_06030EE0 delta 6→5, FUN_0600C970 delta 2→1 |
 | + Return block dedup | 4 | 18 | FUN_060322E8 → PASS! FUN_0600C970 delta 1→0 |
 | + Delay slot sign ext | 5 | 17 | FUN_06035C4E → PASS! |
+| + extu.w disp store | 5 | 17 | FUN_06005174 diffs 6→4 (extu.w vs mov fixed) |
+| + C source fixes | 6 | 16 | FUN_06012E00 → PASS! FUN_0601164A delta 2→0 |
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -205,4 +207,66 @@ exts.w  r0,r0
 
 **Effect**: FUN_06035C4E delta reduced from 1 to 0 (new PASS, 3 insns).
 
+## Patch 9: EXTU.W in Displacement Store (sh.c)
+**File**: `config/sh/sh.c` (`output_hi_disp_store`)
+**Type**: Peephole output change
+
+The displacement store peephole (`mov.w r0,@(disp,Rn)`) copies the source
+register to r0 when needed. Changed from `mov Rm,r0` to `extu.w Rm,r0` to
+match the original compiler's behavior of zero-extending before 16-bit stores.
+
+**Effect**: FUN_06005174 diffs reduced from 6 to 4 lines (extu.w vs mov
+differences eliminated; only instruction ordering `add` placement remains).
+
+## C Source Improvements
+
+Several test functions had extern variables that are actually constants in the
+original binary (embedded in the constant pool via PC-relative addressing).
+Replacing these with literal constants eliminates the address+dereference
+overhead, matching how the original accesses these values.
+
+### FUN_06012E00: Literal constant argument
+`dest_addr_002a0000` (value 0x002A0000, Work RAM Low address) was an extern
+but is a constant in the original binary. Replaced with literal `0x002A0000`.
+**Result**: Delta 0→0, diffs 2→0 → **NEW PASS** (4 insns).
+
+### FUN_0601164A: All-literal VDP2 hardware writes
+All three externs (`val_long`, `dst_long`, `val_short`) are constants in the
+original binary (VDP2 register address 0x25F800A4, values 0x12F2FC00 and
+0x0200). Replaced with literal pointer arithmetic.
+**Result**: Delta +2→0, diffs 4→2 (scheduling order only).
+
+### FUN_06030EE0: Literal index constant
+`idx_06030ef4` (value 0x0150) is a constant struct field offset in the
+original binary. Replaced with literal `0x0150`.
+**Result**: Delta +4→+3, diffs 6→5.
+
 ## Remaining Patch Opportunities
+
+### Categorized Remaining Failures (16 FAIL)
+
+**Our code SHORTER (8 functions)**: BSR/tail-call/delay-slot fill makes our
+code more efficient. These would require deliberately degrading our output to
+match. Not worth pursuing:
+- FUN_060054EA (delta=-1): register allocation
+- FUN_0600DE40 (delta=-1): BSR delay slot fill
+- FUN_0600DE54 (delta=-1): BSR delay slot fill
+- FUN_0600F870 (delta=-2): BSR saves 2 insns
+- FUN_06018E70 (delta=-2): BSR + register alloc
+- FUN_060149CC (delta=-1): different addressing
+- FUN_060149E0 (delta=-1): different addressing
+- FUN_06033504 (delta=-1): rts delay slot fill
+
+**Same count, different opcodes (5 functions)**:
+- FUN_06005174 (delta=0, 4 diffs): instruction ordering (add placement)
+- FUN_0601164A (delta=0, 2 diffs): scheduling (mov.w/add order)
+- FUN_0600C970 (delta=0, 6 diffs): range check optimization (cmp/hi vs cmp/ge+cmp/gt)
+- FUN_06018EC8 (delta=0, 4 diffs): byte extraction (mov.b vs mov.w+extu.b)
+- FUN_060192B4 (delta=0, 6 diffs): loop code (extern overhead + exts.b pattern)
+
+**Our code LONGER (1 function)**:
+- FUN_06030EE0 (delta=+3): extern indirection + sign extend + register alloc
+
+**Structural differences (2 functions)**:
+- FUN_06006838 (delta=-2): shift sequence optimization
+- FUN_06009E02 (delta=-2): dt + BSR
