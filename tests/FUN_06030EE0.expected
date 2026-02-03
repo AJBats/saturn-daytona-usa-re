@@ -1,0 +1,10 @@
+mov.w
+mov.l
+mov.l
+mov.w
+cmp/pl
+bf
+add
+mov.w
+rts
+nop

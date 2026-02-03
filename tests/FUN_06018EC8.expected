@@ -1,0 +1,7 @@
+mov.w
+mov.l
+extu.b
+mov.b
+mov.l
+rts
+mov.b

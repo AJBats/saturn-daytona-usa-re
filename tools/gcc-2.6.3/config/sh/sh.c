@@ -1932,6 +1932,68 @@ machine_dependent_reorg (first)
 	  dump_table (barrier);
 	}
     }
+
+  /* Tail call optimization: if the last call before return is
+     immediately followed by PR pop and return, replace with
+     bra _func + lds.l @r15+,pr (in delay slot). */
+  if (TARGET_BSR)
+    {
+      rtx scan;
+      for (scan = get_last_insn (); scan; scan = PREV_INSN (scan))
+	{
+	  if (GET_CODE (scan) == JUMP_INSN
+	      && GET_CODE (PATTERN (scan)) == RETURN)
+	    {
+	      rtx pr_pop = prev_nonnote_insn (scan);
+	      if (pr_pop && GET_CODE (pr_pop) == INSN)
+		{
+		  rtx pat = PATTERN (pr_pop);
+		  if (GET_CODE (pat) == SET
+		      && GET_CODE (SET_DEST (pat)) == REG
+		      && REGNO (SET_DEST (pat)) == PR_REG
+		      && GET_CODE (SET_SRC (pat)) == MEM
+		      && GET_CODE (XEXP (SET_SRC (pat), 0)) == POST_INC)
+		    {
+		      rtx tail = prev_nonnote_insn (pr_pop);
+		      if (tail && GET_CODE (tail) == CALL_INSN)
+			{
+			  rtx call_pat = PATTERN (tail);
+			  rtx target = NULL;
+
+			  if (GET_CODE (call_pat) == PARALLEL)
+			    {
+			      rtx first = XVECEXP (call_pat, 0, 0);
+			      if (GET_CODE (first) == CALL
+				  && GET_CODE (XEXP (first, 0)) == MEM)
+				target = XEXP (XEXP (first, 0), 0);
+			      else if (GET_CODE (first) == SET
+				       && GET_CODE (SET_SRC (first)) == CALL
+				       && GET_CODE (XEXP (SET_SRC (first), 0)) == MEM)
+				target = XEXP (XEXP (SET_SRC (first), 0), 0);
+			    }
+
+			  if (target && GET_CODE (target) == SYMBOL_REF)
+			    {
+			      rtx sp = stack_pointer_rtx;
+			      rtx pr = gen_rtx (REG, SImode, PR_REG);
+			      rtx new_pat = gen_rtx (PARALLEL, VOIDmode,
+				gen_rtvec (2,
+				  gen_rtx (SET, VOIDmode, pc_rtx, target),
+				  gen_rtx (SET, SImode, pr,
+				    gen_rtx (MEM, SImode,
+				      gen_rtx (POST_INC, SImode, sp)))));
+			      emit_jump_insn_before (new_pat, tail);
+			      delete_insn (tail);
+			      delete_insn (pr_pop);
+			      delete_insn (scan);
+			    }
+			}
+		    }
+		}
+	      break;
+	    }
+	}
+    }
 }
 
 /* Called from the md file, set up the operands of a compare instruction */
@@ -2320,13 +2382,10 @@ bsr_operand (op, mode)
 {
   if (TARGET_BSR)
     {
+      if (GET_CODE (op) == MEM)
+	op = XEXP (op, 0);
       if (GET_CODE (op) == SYMBOL_REF)
-	{
-	  if (!strcmp (XSTR (op, 0),
-		      IDENTIFIER_POINTER (DECL_NAME (current_function_decl))))
-	    return 1;
-	  return (seen_function (XSTR (op, 0)));
-	}
+	return 1;
     }
   return 0;
 }

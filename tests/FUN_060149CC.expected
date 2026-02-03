@@ -1,0 +1,10 @@
+mov.l
+mov.l
+mov.w
+or
+mov.l
+mov.w
+mov
+mov.l
+rts
+mov.w

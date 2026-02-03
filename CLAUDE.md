@@ -1,3 +1,57 @@
+# CRITICAL: Autonomous Operation Rules
+
+**This section is active. Work continuously without user interaction.**
+
+1. **Never stop to ask questions** - make reasonable assumptions and document them
+2. **Never use the AskUserQuestion tool** - the user is away; decide autonomously and document your reasoning
+3. **Never run git commands** (commit, push, branch, etc.) - the user will review and commit when they return
+4. **Never trigger user prompts** - if a tool use is rejected/blocked, adjust approach and retry silently. Do not re-ask.
+5. **Save all work to disk frequently** - write results to files after each major step
+6. **Use TodoWrite aggressively** - plan before executing, mark tasks as you go
+7. **If blocked, skip and move on** - document what blocked you and continue with next task
+
+## WSL Gotchas
+- **CRLF**: Files written on Windows have CRLF. Pipe through `tr -d '\r'` when reading
+  Windows files in WSL. The test harness handles this for .c and .expected files.
+- **grep tabs**: `grep '^\t...'` does NOT match tabs in basic regex. Use `grep -P '^\t...'`
+  (Perl regex) to match literal tab characters.
+- **Running scripts**: Strip CRLF from scripts first:
+  `tr -d '\r' < script.sh > /tmp/clean.sh && bash /tmp/clean.sh`
+  OR run directly: `bash /mnt/d/.../script.sh` (bash handles CRLF in scripts)
+
+## Test Harness Baseline (pre-patches)
+Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
+- **3 PASS**: FUN_0600D266, FUN_06026DF8, FUN_06035C48
+- **19 FAIL**: including dt/bf/s gaps, tail call gaps, register reordering
+- Tests in `tests/*.c` with expected opcodes in `tests/*.expected`
+
+## Current Session Task: Compiler Patch Loop ("Ralph Wiggum")
+
+**Goal**: Build automated test harness, then iteratively patch GCC 2.6.3 SH backend until
+test functions produce matching asm output. Each patch must never regress passing tests.
+
+**Patch priority order**: dt → tail calls → bf/s → bsr → displacement stores
+
+**Test harness**: `tools/test_harness.sh` - compiles C sources, extracts expected asm from
+aprog.s, compares instruction streams, reports PASS/FAIL per function.
+
+**Rebuilding cc1** (MUST run in WSL):
+```bash
+cd /mnt/d/Projects/SaturnReverseTest/tools/gcc26-build
+make -j$(nproc) cc1 CFLAGS="-std=gnu89 -m32 -static -fcommon -DHAVE_STRERROR"
+```
+
+**SH backend source files** (edit these for patches):
+- `tools/gcc26-build/config/sh/sh.c` - backend implementation (57KB)
+- `tools/gcc26-build/config/sh/sh.h` - target definitions/flags (50KB)
+- `tools/gcc26-build/config/sh/sh.md` - machine description / RTL patterns (55KB)
+
+**dt patch specifics**: Original binary uses `dt rN` (119 occurrences) where our GCC emits
+`add #-1,rN / tst rN,rN`. The dt instruction decrements and sets T flag in one opcode.
+Usually followed by bf/s or bt/s. Look in sh.md for the decrement+test pattern.
+
+---
+
 # Daytona USA Saturn - Progressive Decomp Project
 
 ## Project Goal
@@ -21,21 +75,32 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 ```bash
 MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /path/to/script.sh
 ```
-Inside scripts: `$CC1 -quiet -O2 input.c -o output.s` where CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
+Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s` where CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
 
-### Known Compiler Differences (from verification of 25 functions)
+**Required flags**: `-m2` (SH-2 features: dt, bf.s/bt.s), `-mbsr` (PC-relative calls, tail calls)
+
+**Full rebuild** (required when sh.md/sh.c/sh.h change):
+`MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/Projects/SaturnReverseTest/tools/final-rebuild.sh`
+
+### Compiler Patches Applied (see docs/compiler_patches.md)
+1. **dt peephole** (sh.md): `add #-1,rN / tst rN,rN` → `dt rN` - WORKING
+2. **BSR fix** (sh.c): Fixed `bsr_operand()` to accept any SYMBOL_REF - WORKING
+3. **Tail call** (sh.md + sh.c): Last call before return → `bra _func / lds.l @r15+,pr` - WORKING
+
+### Remaining Known Compiler Differences
 1. **Register allocation**: Our compiler prefers r1,r2 for caller-saved temps; original uses r3,r4
-2. **No `dt` instruction**: GCC emits `add #-1 / tst` instead of SH-2's single `dt` insn
-3. **No `bf/s` delayed branch**: GCC never fills branch delay slots with bf/s or bt/s
-4. **No tail call optimization**: GCC always uses jsr/rts, never `bra`/`jmp` for tail calls
+2. ~~No `dt` instruction~~: FIXED by dt peephole
+3. **bf/s delayed branch**: GCC uses bf.s/bt.s with -m2 but not always where original does
+4. ~~No tail call optimization~~: FIXED by tail call patch (bra+lds.l in delay slot)
 5. **No displacement store**: GCC doesn't emit `mov.w Rm,@(disp,Rn)`, computes addresses manually
 6. **Extern vs constant pool**: Original embeds values directly in constant pool. C externs cost +1 insn
 7. **rts/jsr delay slot**: GCC DOES fill rts and jsr delay slots in many cases
 8. **Range check optimization**: GCC transforms `a<=x<=b` to `(unsigned)(x-a)<=(b-a)` with cmp/hi
 9. **Multiply avoidance**: Must use `<< N` not `* power_of_2` to avoid ___mulsi3 library call
-10. **No `bsr` direct calls**: GCC uses `jsr @rN` (2 insn) instead of `bsr label` (1 insn)
+10. ~~No `bsr` direct calls~~: FIXED by BSR fix
 11. **R0-specific insns**: GCC uses `and #imm,r0` (1 insn) where original uses 4-insn sequence
 12. **Callee-save vs stack params**: GCC preserves params across calls in callee-saved regs (more overhead); original saves on stack
+13. **Sign extension insertion**: GCC inserts exts.w/extu.w that the original compiler omits
 
 ### Verified Functions (25 total: 17 LEAF + 8 CALL)
 See docs/verification_results.md for full details and summary table.

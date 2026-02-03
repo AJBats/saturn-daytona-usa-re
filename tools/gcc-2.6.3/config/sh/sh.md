@@ -1420,6 +1420,16 @@
   ""
   "expand_acall(1, operands); DONE; ")
 
+;; Tail call: bra to function with PR restore in delay slot
+;; Used by machine_dependent_reorg when last call before return is detected
+(define_insn "tail_call_bsr"
+  [(set (pc) (match_operand 0 "bsr_operand" "i"))
+   (set (reg:SI 17) (mem:SI (post_inc:SI (reg:SI 15))))]
+  "TARGET_BSR"
+  "bra	%O0\;lds.l	@r15+,pr"
+  [(set_attr "in_delay_slot" "no")
+   (set_attr "length" "4")])
+
 (define_insn "indirect_jump"
   [(set (pc)
 	(match_operand:SI 0 "arith_reg_operand" "r"))]
@@ -1681,6 +1691,14 @@
    [(set_attr "length" "6")
     (set_attr "in_delay_slot" "no")])
 
+;; dt peephole: combine add #-1,rN / tst rN,rN into dt rN (SH-2)
+(define_peephole
+  [(set (match_operand:SI 0 "arith_reg_operand" "")
+	(plus:SI (match_dup 0) (const_int -1)))
+   (set (reg:SI 18)
+	(eq:SI (match_dup 0) (const_int 0)))]
+  "TARGET_SH2"
+  "dt	%0")
 
 ;; -------------------------------------------------------------------------
 ;; Combine patterns
