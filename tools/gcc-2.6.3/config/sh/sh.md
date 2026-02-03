@@ -1430,6 +1430,16 @@
   [(set_attr "in_delay_slot" "no")
    (set_attr "length" "4")])
 
+;; Pure tail jump: bra to function, no PR handling
+;; Used for wrapper functions where no PR save was needed
+(define_insn "tail_jump_bsr"
+  [(set (pc) (match_operand 0 "bsr_operand" "i"))]
+  "TARGET_BSR"
+  "bra	%O0%#"
+  [(set_attr "needs_delay_slot" "yes")
+   (set_attr "in_delay_slot" "no")
+   (set_attr "length" "4")])
+
 (define_insn "indirect_jump"
   [(set (pc)
 	(match_operand:SI 0 "arith_reg_operand" "r"))]

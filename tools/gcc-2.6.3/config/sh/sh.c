@@ -1974,15 +1974,68 @@ machine_dependent_reorg (first)
 
 			  if (target && GET_CODE (target) == SYMBOL_REF)
 			    {
-			      rtx sp = stack_pointer_rtx;
-			      rtx pr = gen_rtx (REG, SImode, PR_REG);
-			      rtx new_pat = gen_rtx (PARALLEL, VOIDmode,
-				gen_rtvec (2,
-				  gen_rtx (SET, VOIDmode, pc_rtx, target),
-				  gen_rtx (SET, SImode, pr,
-				    gen_rtx (MEM, SImode,
-				      gen_rtx (POST_INC, SImode, sp)))));
-			      emit_jump_insn_before (new_pat, tail);
+			      /* Count calls and stack pushes to detect
+				 pure wrapper (single tail call, PR only). */
+			      int call_count = 0;
+			      int push_count = 0;
+			      rtx ci;
+			      for (ci = first; ci; ci = NEXT_INSN (ci))
+				{
+				  if (GET_CODE (ci) == CALL_INSN)
+				    call_count++;
+				  if (GET_CODE (ci) == INSN)
+				    {
+				      rtx p = PATTERN (ci);
+				      if (GET_CODE (p) == SET
+					  && GET_CODE (SET_DEST (p)) == MEM
+					  && GET_CODE (XEXP (SET_DEST (p), 0))
+					     == PRE_DEC)
+					push_count++;
+				    }
+				}
+
+			      if (call_count == 1 && push_count == 1)
+				{
+				  /* Pure wrapper: only call is tail call,
+				     only push is PR save. Remove both. */
+				  for (ci = first; ci; ci = NEXT_INSN (ci))
+				    {
+				      if (GET_CODE (ci) == INSN)
+					{
+					  rtx p = PATTERN (ci);
+					  if (GET_CODE (p) == SET
+					      && GET_CODE (SET_DEST (p)) == MEM
+					      && GET_CODE (XEXP (
+						   SET_DEST (p), 0))
+						 == PRE_DEC
+					      && GET_CODE (SET_SRC (p)) == REG
+					      && REGNO (SET_SRC (p)) == PR_REG)
+					    {
+					      delete_insn (ci);
+					      break;
+					    }
+					}
+				    }
+				  /* Simple jump, no PR handling */
+				  emit_jump_insn_before (
+				    gen_rtx (SET, VOIDmode, pc_rtx, target),
+				    tail);
+				}
+			      else
+				{
+				  /* Other calls exist: bra + lds.l */
+				  rtx sp = stack_pointer_rtx;
+				  rtx pr = gen_rtx (REG, SImode, PR_REG);
+				  rtx new_pat = gen_rtx (PARALLEL, VOIDmode,
+				    gen_rtvec (2,
+				      gen_rtx (SET, VOIDmode, pc_rtx,
+					       target),
+				      gen_rtx (SET, SImode, pr,
+					gen_rtx (MEM, SImode,
+					  gen_rtx (POST_INC, SImode,
+						   sp)))));
+				  emit_jump_insn_before (new_pat, tail);
+				}
 			      delete_insn (tail);
 			      delete_insn (pr_pop);
 			      delete_insn (scan);
