@@ -2047,6 +2047,380 @@ machine_dependent_reorg (first)
 	    }
 	}
     }
+
+  /* swap.w optimization: replace mov rN,rM + ashrsi3_16(rM) with
+     swap.w rN,rM + exts.w rM,rM.  Saves one instruction and splits
+     the two-instruction ashrsi3_16 into two separate insns so the
+     delay slot filler can move exts.w into an rts delay slot. */
+  {
+    rtx scan;
+    for (scan = first; scan; scan = NEXT_INSN (scan))
+      {
+	rtx next, pat, next_pat;
+	int src_reg, dst_reg;
+
+	if (GET_CODE (scan) != INSN)
+	  continue;
+	pat = PATTERN (scan);
+
+	/* Match register-to-register copy: (set (reg:SI rM) (reg:SI rN)) */
+	if (GET_CODE (pat) != SET
+	    || !REG_P (SET_DEST (pat))
+	    || GET_MODE (SET_DEST (pat)) != SImode
+	    || !REG_P (SET_SRC (pat))
+	    || GET_MODE (SET_SRC (pat)) != SImode)
+	  continue;
+
+	dst_reg = REGNO (SET_DEST (pat));
+	src_reg = REGNO (SET_SRC (pat));
+
+	if (dst_reg == src_reg)
+	  continue;
+
+	/* Check next real insn is ashrsi3_16 on dst_reg:
+	   (parallel [(set (reg:SI rM) (ashiftrt:SI (reg:SI rM) (const_int 16)))
+		      (clobber (reg:SI 18))]) */
+	next = next_nonnote_insn (scan);
+	if (!next || GET_CODE (next) != INSN)
+	  continue;
+	next_pat = PATTERN (next);
+
+	if (GET_CODE (next_pat) != PARALLEL
+	    || XVECLEN (next_pat, 0) != 2)
+	  continue;
+
+	{
+	  rtx set_expr = XVECEXP (next_pat, 0, 0);
+	  rtx clob_expr = XVECEXP (next_pat, 0, 1);
+
+	  if (GET_CODE (set_expr) != SET
+	      || !REG_P (SET_DEST (set_expr))
+	      || REGNO (SET_DEST (set_expr)) != dst_reg
+	      || GET_CODE (SET_SRC (set_expr)) != ASHIFTRT
+	      || !REG_P (XEXP (SET_SRC (set_expr), 0))
+	      || REGNO (XEXP (SET_SRC (set_expr), 0)) != dst_reg
+	      || GET_CODE (XEXP (SET_SRC (set_expr), 1)) != CONST_INT
+	      || INTVAL (XEXP (SET_SRC (set_expr), 1)) != 16)
+	    continue;
+
+	  if (GET_CODE (clob_expr) != CLOBBER
+	      || !REG_P (XEXP (clob_expr, 0))
+	      || REGNO (XEXP (clob_expr, 0)) != 18)
+	    continue;
+
+	  /* Match found.  Replace mov with swap.w, ashrsi3_16 with exts.w */
+	  PATTERN (scan) = gen_rtx (SET, VOIDmode,
+	    gen_rtx (REG, SImode, dst_reg),
+	    gen_rtx (ROTATE, SImode,
+	      gen_rtx (REG, SImode, src_reg),
+	      GEN_INT (16)));
+	  INSN_CODE (scan) = -1;
+
+	  PATTERN (next) = gen_rtx (SET, VOIDmode,
+	    gen_rtx (REG, SImode, dst_reg),
+	    gen_rtx (SIGN_EXTEND, SImode,
+	      gen_rtx (REG, HImode, dst_reg)));
+	  INSN_CODE (next) = -1;
+	}
+      }
+  }
+
+  /* add-to-shll: replace "add rN,rN" with "shll rN" when T is dead.
+     The original compiler prefers shll for doubling; GCC prefers add
+     because add doesn't clobber T.  Only safe when T is not live. */
+  {
+    rtx scan;
+    for (scan = first; scan; scan = NEXT_INSN (scan))
+      {
+	rtx pat, dest, src;
+	int reg_no;
+	rtx fwd;
+	int t_dead;
+
+	if (GET_CODE (scan) != INSN)
+	  continue;
+	pat = PATTERN (scan);
+	if (GET_CODE (pat) != SET)
+	  continue;
+
+	dest = SET_DEST (pat);
+	src = SET_SRC (pat);
+
+	/* Match (set rN (plus:SI rN rN)) */
+	if (!REG_P (dest) || GET_MODE (dest) != SImode
+	    || GET_CODE (src) != PLUS
+	    || GET_MODE (src) != SImode
+	    || !REG_P (XEXP (src, 0))
+	    || !REG_P (XEXP (src, 1))
+	    || REGNO (dest) != REGNO (XEXP (src, 0))
+	    || REGNO (dest) != REGNO (XEXP (src, 1)))
+	  continue;
+
+	reg_no = REGNO (dest);
+
+	/* Check if T (reg 18) is dead after this insn by scanning
+	   forward to the next insn that sets or reads T. */
+	t_dead = 0;
+	for (fwd = NEXT_INSN (scan); fwd; fwd = NEXT_INSN (fwd))
+	  {
+	    rtx fp;
+	    if (GET_CODE (fwd) == NOTE)
+	      continue;
+	    if (GET_CODE (fwd) == CODE_LABEL
+		|| GET_CODE (fwd) == BARRIER)
+	      break;  /* control flow boundary, conservatively stop */
+	    if (GET_CODE (fwd) == JUMP_INSN)
+	      {
+		/* Unconditional jumps/returns don't read T — T is dead.
+		   Conditional branches (bt/bf) reference T (reg 18). */
+		if (!reg_mentioned_p (gen_rtx (REG, SImode, 18),
+				      PATTERN (fwd)))
+		  { t_dead = 1; break; }
+		break;  /* conditional branch reads T */
+	      }
+	    if (GET_CODE (fwd) != INSN && GET_CODE (fwd) != CALL_INSN)
+	      break;
+	    fp = PATTERN (fwd);
+	    if (GET_CODE (fp) == USE || GET_CODE (fp) == CLOBBER)
+	      continue;
+
+	    /* Check if this insn reads T (reg 18) */
+	    if (reg_mentioned_p (gen_rtx (REG, SImode, 18), fp))
+	      {
+		/* Check if T is only set (clobbered), not read */
+		if (GET_CODE (fp) == PARALLEL)
+		  {
+		    int j, only_clobber = 0;
+		    for (j = 0; j < XVECLEN (fp, 0); j++)
+		      {
+			rtx elt = XVECEXP (fp, 0, j);
+			if (GET_CODE (elt) == CLOBBER
+			    && REG_P (XEXP (elt, 0))
+			    && REGNO (XEXP (elt, 0)) == 18)
+			  only_clobber = 1;
+			else if (GET_CODE (elt) == SET
+				 && REG_P (SET_DEST (elt))
+				 && REGNO (SET_DEST (elt)) == 18)
+			  only_clobber = 1;
+		      }
+		    if (only_clobber)
+		      { t_dead = 1; break; }
+		  }
+		else if (GET_CODE (fp) == SET
+			 && REG_P (SET_DEST (fp))
+			 && REGNO (SET_DEST (fp)) == 18)
+		  { t_dead = 1; break; }
+		/* T is read — not safe */
+		break;
+	      }
+
+	    /* Check if this insn sets T without reading it */
+	    if (GET_CODE (fp) == SET
+		&& REG_P (SET_DEST (fp))
+		&& REGNO (SET_DEST (fp)) == 18)
+	      { t_dead = 1; break; }
+	    if (GET_CODE (fp) == PARALLEL)
+	      {
+		int j, sets_t = 0;
+		for (j = 0; j < XVECLEN (fp, 0); j++)
+		  {
+		    rtx elt = XVECEXP (fp, 0, j);
+		    if (GET_CODE (elt) == CLOBBER
+			&& REG_P (XEXP (elt, 0))
+			&& REGNO (XEXP (elt, 0)) == 18)
+		      sets_t = 1;
+		    if (GET_CODE (elt) == SET
+			&& REG_P (SET_DEST (elt))
+			&& REGNO (SET_DEST (elt)) == 18)
+		      sets_t = 1;
+		  }
+		if (sets_t)
+		  { t_dead = 1; break; }
+	      }
+	  }
+
+	if (!t_dead)
+	  continue;
+
+	/* Safe to replace: add rN,rN -> shll rN */
+	PATTERN (scan) = gen_rtx (PARALLEL, VOIDmode,
+	  gen_rtvec (2,
+	    gen_rtx (SET, VOIDmode,
+	      gen_rtx (REG, SImode, reg_no),
+	      gen_rtx (ASHIFT, SImode,
+		gen_rtx (REG, SImode, reg_no),
+		const1_rtx)),
+	    gen_rtx (CLOBBER, VOIDmode,
+	      gen_rtx (REG, SImode, 18))));
+	INSN_CODE (scan) = -1;
+      }
+  }
+
+  /* Indexed addressing: replace
+       add rA,rB / mov.l @rB,rC  ->  mov.l @(rA,rB),rC
+     (and similar for mov.w, mov.b loads and stores)
+     when one of rA/rB is r0 and rB's modified value is dead after
+     the memory access.  Saves one instruction. */
+  {
+    rtx scan;
+    for (scan = first; scan; scan = NEXT_INSN (scan))
+      {
+	rtx next, pat, next_pat;
+	int reg_a, reg_b;
+	int x_reg, y_reg;
+
+	if (GET_CODE (scan) != INSN)
+	  continue;
+	pat = PATTERN (scan);
+
+	/* Match: (set (reg:SI rB) (plus:SI (reg:SI X) (reg:SI Y)))
+	   where rB == X or rB == Y. */
+	if (GET_CODE (pat) != SET
+	    || !REG_P (SET_DEST (pat))
+	    || GET_MODE (SET_DEST (pat)) != SImode
+	    || GET_CODE (SET_SRC (pat)) != PLUS
+	    || GET_MODE (SET_SRC (pat)) != SImode
+	    || !REG_P (XEXP (SET_SRC (pat), 0))
+	    || !REG_P (XEXP (SET_SRC (pat), 1)))
+	  continue;
+
+	reg_b = REGNO (SET_DEST (pat));
+	x_reg = REGNO (XEXP (SET_SRC (pat), 0));
+	y_reg = REGNO (XEXP (SET_SRC (pat), 1));
+
+	/* rB must be one of the source operands */
+	if (x_reg == reg_b)
+	  reg_a = y_reg;
+	else if (y_reg == reg_b)
+	  reg_a = x_reg;
+	else
+	  continue;
+
+	/* One of rA, rB must be r0 (SH indexed addressing constraint) */
+	if (reg_a != 0 && reg_b != 0)
+	  continue;
+
+	/* Skip add rN,rN (handled by add-to-shll) */
+	if (reg_a == reg_b)
+	  continue;
+
+	/* Only consider physical registers */
+	if (reg_a > 15 || reg_b > 15)
+	  continue;
+
+	/* Next real insn must be a load or store using @rB */
+	next = next_nonnote_insn (scan);
+	if (!next || GET_CODE (next) != INSN)
+	  continue;
+	next_pat = PATTERN (next);
+	if (GET_CODE (next_pat) != SET)
+	  continue;
+
+	{
+	  rtx mem_rtx = NULL;
+	  int is_load = 0;
+
+	  /* Load: (set (reg rC) (mem (reg rB)))
+		or (set (reg rC) (sign_extend (mem (reg rB)))) */
+	  if (REG_P (SET_DEST (next_pat)))
+	    {
+	      rtx src = SET_SRC (next_pat);
+	      if (GET_CODE (src) == MEM)
+		{
+		  if (REG_P (XEXP (src, 0))
+		      && REGNO (XEXP (src, 0)) == reg_b)
+		    { mem_rtx = src; is_load = 1; }
+		}
+	      else if (GET_CODE (src) == SIGN_EXTEND
+		       && GET_CODE (XEXP (src, 0)) == MEM)
+		{
+		  rtx inner = XEXP (src, 0);
+		  if (REG_P (XEXP (inner, 0))
+		      && REGNO (XEXP (inner, 0)) == reg_b)
+		    { mem_rtx = inner; is_load = 1; }
+		}
+	    }
+	  /* Store: (set (mem (reg rB)) (reg rC)) */
+	  else if (GET_CODE (SET_DEST (next_pat)) == MEM)
+	    {
+	      rtx dst = SET_DEST (next_pat);
+	      if (REG_P (XEXP (dst, 0))
+		  && REGNO (XEXP (dst, 0)) == reg_b)
+		{ mem_rtx = dst; is_load = 0; }
+	    }
+
+	  if (!mem_rtx)
+	    continue;
+
+	  /* Check rB's modified value is dead after the memory access.
+	     For loads where rB == rC, the load overwrites rB so it's dead.
+	     Otherwise scan forward. */
+	  {
+	    int rb_dead = 0;
+
+	    if (is_load && REG_P (SET_DEST (next_pat))
+		&& REGNO (SET_DEST (next_pat)) == reg_b)
+	      rb_dead = 1;
+
+	    if (!rb_dead)
+	      {
+		rtx fwd;
+		for (fwd = NEXT_INSN (next); fwd; fwd = NEXT_INSN (fwd))
+		  {
+		    if (GET_CODE (fwd) == NOTE)
+		      continue;
+		    if (GET_CODE (fwd) == BARRIER)
+		      { rb_dead = 1; break; }
+		    if (GET_CODE (fwd) == CODE_LABEL)
+		      break;  /* merge point, conservatively stop */
+		    if (GET_CODE (fwd) == JUMP_INSN
+			|| GET_CODE (fwd) == CALL_INSN)
+		      {
+			/* Caller-saved regs (r0-r7) are dead at
+			   function boundaries */
+			if (reg_b <= 7)
+			  { rb_dead = 1; break; }
+			break;
+		      }
+		    if (GET_CODE (fwd) != INSN)
+		      break;
+		    if (reg_mentioned_p (gen_rtx (REG, SImode, reg_b),
+					PATTERN (fwd)))
+		      {
+			/* If rB is only set (not read), it's dead */
+			rtx fp = PATTERN (fwd);
+			if (GET_CODE (fp) == SET
+			    && REG_P (SET_DEST (fp))
+			    && REGNO (SET_DEST (fp)) == reg_b
+			    && !reg_mentioned_p (
+				 gen_rtx (REG, SImode, reg_b),
+				 SET_SRC (fp)))
+			  { rb_dead = 1; break; }
+			break;  /* rB is read, not dead */
+		      }
+		  }
+	      }
+
+	    if (!rb_dead)
+	      continue;
+	  }
+
+	  /* Transform: replace memory address with indexed (plus rA rB) */
+	  {
+	    rtx new_addr = gen_rtx (PLUS, SImode,
+	      gen_rtx (REG, SImode, reg_a),
+	      gen_rtx (REG, SImode, reg_b));
+
+	    XEXP (mem_rtx, 0) = new_addr;
+	    INSN_CODE (next) = -1;
+
+	    /* Delete the add insn by converting to a NOTE */
+	    PUT_CODE (scan, NOTE);
+	    NOTE_LINE_NUMBER (scan) = NOTE_INSN_DELETED;
+	  }
+	}
+      }
+  }
 }
 
 /* Post-delay-slot return block deduplication.

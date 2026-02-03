@@ -214,6 +214,11 @@ do {								\
      break global alloc, and generates slower code anyway due   \
      to the pressure on R0. */                                  \
   flag_schedule_insns = 0;            				\
+  /* Also disable post-reload scheduling. The original Cygnus   \
+     2.6-era compiler did not have effective post-reload         \
+     scheduling for SH. Disabling it reduces instruction         \
+     reordering diffs vs original binary with no regressions. */ \
+  flag_schedule_insns_after_reload = 0;            				\
   if (max_si)							\
     max_count_si = atoi (max_si);				\
   else                                                          \

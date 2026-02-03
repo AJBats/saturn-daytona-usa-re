@@ -610,6 +610,17 @@
   ""
   "{ if (GET_CODE(operands[2]) != CONST_INT || INTVAL(operands[2]) != 1) FAIL;}")
 
+;; swap.w: swap upper and lower 16-bit halves (allows different src/dst)
+;; Used by pre-dbr pass to replace mov+ashrsi3_16 with swap.w+exts.w
+
+(define_insn "swap_w"
+  [(set (match_operand:SI 0 "arith_reg_operand" "=r")
+	(rotate:SI (match_operand:SI 1 "arith_reg_operand" "r")
+		   (const_int 16)))]
+  ""
+  "swap.w	%1,%0"
+  [(set_attr "type" "arith")])
+
 
 ;;
 ;; shift left
