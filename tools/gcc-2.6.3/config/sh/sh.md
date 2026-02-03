@@ -1710,6 +1710,21 @@
   "TARGET_SH2"
   "dt	%0")
 
+;; HImode displacement store peephole
+;; Folds: mov rN,rM / add #D,rM / mov.w rK,@rM
+;;    to: [mov rK,r0 /] mov.w r0,@(D,rN)
+;; Saves 1-2 insns per 16-bit store with displacement
+(define_peephole
+  [(set (match_operand:SI 0 "arith_reg_operand" "")
+	(match_operand:SI 1 "arith_reg_operand" ""))
+   (set (match_dup 0)
+	(plus:SI (match_dup 0) (match_operand:SI 2 "immediate_operand" "")))
+   (set (mem:HI (match_dup 0))
+	(match_operand:HI 3 "arith_reg_operand" ""))]
+  "INTVAL (operands[2]) >= 0 && INTVAL (operands[2]) <= 30
+   && !(INTVAL (operands[2]) & 1)"
+  "* return output_hi_disp_store (operands);")
+
 ;; -------------------------------------------------------------------------
 ;; Combine patterns
 ;; -------------------------------------------------------------------------

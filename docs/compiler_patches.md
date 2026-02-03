@@ -16,6 +16,8 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + dt peephole | 3 | 19 | dt emitting but functions have other diffs |
 | + BSR fix | 3 | 19 | Instruction counts improved, exact matches unchanged |
 | + Tail call | 3 | 19 | Further instruction count improvements |
+| + Pure wrapper | 3 | 19 | FUN_06012E00 delta 2→0 |
+| + Disp store peephole | 3 | 19 | FUN_06005174 delta 6→0 |
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -100,19 +102,43 @@ found, replaces with `tail_call_bsr` and deletes the original insns.
 **Limitation**: Does not remove unnecessary PR save for pure wrapper functions
 (e.g., FUN_06012E00 still has sts.l/lds.l pair).
 
+## Patch 4: Pure Wrapper Optimization (sh.md + sh.c)
+**Files**: `config/sh/sh.md` (new insn pattern), `config/sh/sh.c` (detection in machine_dependent_reorg)
+
+Extends the tail call detection to identify "pure wrapper" functions where:
+- Only one call_insn exists (the tail call)
+- Only one stack push exists (the PR save)
+
+In this case, removes both the `sts.l pr,@-r15` push and the `lds.l @r15+,pr`
+pop, replacing the call with a simple `bra` via the `tail_jump_bsr` pattern.
+
+**Effect**: FUN_06012E00 delta reduced from 2 to 0 (4 insns matching 4).
+
+## Patch 5: Displacement Word Store Peephole (sh.md + sh.c)
+**File**: `config/sh/sh.md` (define_peephole), `config/sh/sh.c` (output helper)
+**Type**: define_peephole + C output function
+
+Matches the 3-instruction sequence GCC emits for HImode stores with
+displacement: `mov rN,rM / add #D,rM / mov.w rK,@rM` and replaces with
+the SH displacement store form `mov.w r0,@(D,rN)`. When the source register
+is not R0, a `mov rK,r0` is prepended (2 insns total, saving 1 per store).
+
+**Background**: The SH ISA's `mov.w R0,@(disp,Rn)` requires R0 as the source
+register. GCC 2.6.3 has displacement addressing disabled for HImode
+(MODE_DISP_OK_2 gated behind TARGET_TRYR0, also has a paren precedence bug).
+Enabling it causes reload failures (no SECONDARY_RELOAD_CLASS defined).
+The peephole approach sidesteps both issues by operating after register
+allocation.
+
+Fixed paren bug in MODE_DISP_OK_2: `(!INTVAL(X) &1)` → `!(INTVAL(X) &1)`
+(corrected but still gated behind TARGET_TRYR0).
+
+**Effect**: FUN_06005174 delta reduced from 6 to 0 (24→18 insns).
+Saves 1 instruction per 16-bit displacement store across all functions.
+
 ## Remaining Patch Opportunities
 
-### Priority 1: Displacement Word Stores
-`mov.w R0,@(disp,Rn)` — would save ~6 insns in FUN_06005174 (array zeroing).
-Currently GCC emits `mov Rn,Rm / add #disp,Rm / mov.w R0,@Rm` (3 insns)
-instead of the 1-insn displacement form. Requires addressing mode pattern work
-in sh.md.
-
-### Priority 2: Pure Wrapper Optimization
-Remove unnecessary PR save/restore when a function's only operation is a tail
-call. Would fix FUN_06012E00 (delta 2 → 0).
-
-### Priority 3: Sign Extension Elimination
+### Priority 1: Sign Extension Elimination (exts.w / extu.w)
 GCC inserts `exts.w` to sign-extend shorts to ints even when unnecessary.
 Affects FUN_06030EE0 and others.
 

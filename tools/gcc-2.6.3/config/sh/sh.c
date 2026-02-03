@@ -2426,6 +2426,49 @@ general_movdst_operand (op, mode)
 
 
 
+/* Peephole output for HImode displacement store.
+   Folds mov rN,rM / add #D,rM / mov.w rK,@rM
+   into mov.w r0,@(D,rN), prefixing mov rK,r0 if needed.
+   operands[1]=base, operands[2]=displacement, operands[3]=source.  */
+
+char *
+output_hi_disp_store (operands)
+     rtx *operands;
+{
+  if (REGNO (operands[3]) != 0)
+    output_asm_insn ("mov	%3,r0", operands);
+  return "mov.w	r0,@(%O2,%1)";
+}
+
+
+/* Returns 1 if OP is a MEM with register+displacement addressing.
+   Used for HImode/QImode displacement loads and stores which
+   require R0 on the SH.  */
+
+int
+disp_mem_operand (op, mode)
+     rtx op;
+     enum machine_mode mode;
+{
+  if (GET_CODE (op) == MEM)
+    {
+      rtx inside = XEXP (op, 0);
+      if (GET_CODE (inside) == PLUS
+	  && REG_P (XEXP (inside, 0))
+	  && GET_CODE (XEXP (inside, 1)) == CONST_INT)
+	{
+	  HOST_WIDE_INT disp = INTVAL (XEXP (inside, 1));
+	  if (mode == HImode)
+	    return (unsigned HOST_WIDE_INT) disp < 32
+		   && !(disp & 1);
+	  if (mode == QImode)
+	    return (unsigned HOST_WIDE_INT) disp < 16;
+	}
+    }
+  return 0;
+}
+
+
 /* Returns 1 if OP is valid destination for a bsr.  */
 
 int

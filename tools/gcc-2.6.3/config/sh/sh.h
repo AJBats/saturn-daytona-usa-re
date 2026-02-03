@@ -894,7 +894,7 @@ extern int current_function_anonymous_args;
 
 #define MODE_DISP_OK_4(X,MODE) ((GET_MODE_SIZE(MODE)==4) && ((unsigned)INTVAL(X)<64) && (!(INTVAL(X) &3)))
 #define MODE_DISP_OK_8(X,MODE) ((GET_MODE_SIZE(MODE)==8) && ((unsigned)INTVAL(X)<60) && (!(INTVAL(X) &3)))
-#define MODE_DISP_OK_2(X,MODE) ((GET_MODE_SIZE(MODE)==2) && ((unsigned)INTVAL(X)<32) && TARGET_TRYR0 && (!INTVAL(X) &1))
+#define MODE_DISP_OK_2(X,MODE) ((GET_MODE_SIZE(MODE)==2) && ((unsigned)INTVAL(X)<32) && TARGET_TRYR0 && !(INTVAL(X) &1))
 #define MODE_DISP_OK_1(X,MODE) ((GET_MODE_SIZE(MODE)==1) && ((unsigned)INTVAL(X)<16) && TARGET_TRYR0)
 
 #ifndef REG_OK_STRICT
