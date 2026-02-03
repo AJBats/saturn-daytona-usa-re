@@ -169,6 +169,10 @@ else
             --build=i386-pc-linux \
             --quiet 2>&1 | tail -3
 
+        # Touch pre-generated files so make doesn't try to regenerate them
+        # (would need gperf/bison which aren't worth requiring as dependencies)
+        touch c-gperf.h cp/parse.h cp/parse.c 2>/dev/null || true
+
         info "Building cc1..."
         make -j"$(nproc)" cc1 \
             CFLAGS="-std=gnu89 -m32 -static -fcommon -DHAVE_STRERROR" \
