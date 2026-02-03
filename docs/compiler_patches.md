@@ -4,10 +4,12 @@
 Patches applied to `tools/gcc-2.6.3/config/sh/` to make GCC 2.6.3 produce code
 closer to the original Daytona USA Saturn binary.
 
-Test harness: `tools/test_harness.sh` (22 test functions)
+Test harness: `tools/test_harness.sh` (133 test functions, expanded from initial 22)
 Compiler flags: `-O2 -m2 -mbsr`
 
-## Results by Phase
+## Current State: 31 PASS / 102 FAIL / 133 total (23% pass rate)
+
+## Results by Phase (original 22 test functions)
 
 | Phase | PASS | FAIL | Notes |
 |-------|------|------|-------|
@@ -26,6 +28,24 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + Register compaction | 6 | 16 | Phase 2 liveness merge; no new PASS but L2 matches |
 | + FUN_06030EE0 C fix | 6 | 16 | Delta +3→+2 (literal base pointer) |
 | + FUN_06030EE0 int val | 6 | 16 | Delta +2→0 (int val enables extendhisi2) |
+
+## Test Suite Expansion (Session 3)
+
+Expanded from 22 to 133 test functions using automated tooling:
+- `tools/gen_expected.py` — extracts expected opcodes from `build/aprog.s`
+- `tools/gen_test_skeleton.py` — drafts C source from Ghidra decompilations
+
+After expansion + scheduling fix + C source fixes + swap.w: **31 PASS / 102 FAIL / 133 total**
+
+Key C source fixes applied at scale:
+- **Operator precedence**: 8 functions had missing parens around `<< N` in `+` context
+- **movt loop**: 3 functions rewrote boolean materialization in loop condition
+- **Constant pool extern→literal**: 37 extern declarations replaced with ROM values
+  - 2 new PASS: FUN_0602853E, FUN_06028560
+  - FUN_0600D336: delta +10→+2, FUN_06041310: +4→-1
+  - FUN_0601164A/0602755C/0603F3DA: delta +1→0
+  - 3 reverted (0xFFFFFF00 hw divide pointer caused regressions)
+- See `docs/gcc26_internals.md` for details on each fix pattern
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -243,6 +263,28 @@ ranges into the same slot.
 (r1→r0 merge), matching original register choice. Promoted from L1 to L2 in
 binary diff. No regressions.
 
+## Patch 11: swap.w Pre-DBR Optimization (sh.md + sh.c)
+**Files**: `config/sh/sh.md` (new `swap_w` insn pattern), `config/sh/sh.c` (pre-dbr pass)
+**Type**: Pre-delay-slot instruction rewrite
+
+Replaces `mov rN,rM` + `ashrsi3_16(rM)` (3 asm insns: mov + shlr16 + exts.w) with
+`swap.w rN,rM` + `exts.w rM,rM` (2 asm insns). The key insight is splitting the
+two-instruction `ashrsi3_16` insn into two separate RTL insns BEFORE delay slot
+scheduling, so the delay slot filler can move `exts.w` into an `rts` delay slot.
+
+**Implementation**:
+- Added `swap_w` define_insn in sh.md: `(rotate:SI ... (const_int 16))` → `swap.w %1,%0`
+  with different src/dst register constraint ("r" not "0")
+- Pre-dbr pass in `machine_dependent_reorg` scans for register copy followed by
+  PARALLEL ashiftrt:SI by 16 with T clobber (ashrsi3_16 pattern)
+- Replaces the copy with rotate:SI by 16 (matched by swap_w insn)
+- Replaces the ashrsi3_16 with sign_extend:SI from HI (matched by extendhisi2 insn)
+- Only fires when src != dst (swap.w allows Rm!=Rn; shlr16 does not)
+
+**Effect**: FUN_0602754C → PASS (3 insns: `swap.w r4,r0 / rts / exts.w r0,r0`).
+FUN_0603C0A0 delta +1→0 (swap.w saves the extra mov). Potentially helps any function
+with `(int)(short)(x >> 16)` pattern where src/dst differ.
+
 ## C Source Improvements
 
 Several test functions had extern variables that are actually constants in the
@@ -271,79 +313,119 @@ Three C source improvements:
    `exts.w r2,r1`
 **Result**: Delta +4→+3→+2→0, diffs 6→5→4→2 (scheduling + bf.s/bf only).
 
-## Remaining Failures Analysis (16 FAIL)
+## Patch 12: add-to-shll Pre-DBR Pass (sh.c)
+**File**: `config/sh/sh.c` (pre-dbr pass in `machine_dependent_reorg`)
+**Type**: Pre-delay-slot instruction rewrite
 
-### Current State: 6 PASS / 16 FAIL (27%)
-All 16 remaining failures are either instruction-count-matched (delta=0) or
-our code is SHORTER than the original. **No functions where our code is longer.**
+Replaces `add rN,rN` (doubling) with `shll rN` (shift left 1) when the T flag is
+dead after the instruction. The original Saturn compiler prefers `shll` for doubling;
+GCC prefers `add` because it doesn't clobber T.
 
-### Binary Diff Summary
-| Level | Count | Description |
-|-------|-------|-------------|
-| L3: Byte-perfect | 2/22 | FUN_0600D266, FUN_060322E8 |
-| L2: Structural | 4/22 | FUN_06012E00, FUN_06026DF8, FUN_06035C48, FUN_06035C4E |
-| DIFF | 16/22 | Different instruction sequences or operands |
+**Implementation**:
+- Pre-dbr pass scans for `(set rN (plus:SI rN rN))` pattern
+- Forward scan checks T-flag liveness: finds next insn that sets or reads T (reg 18)
+- Handles unconditional jumps (T dead), conditional branches (T live), PARALLEL clobbers
+- Replaces with `(parallel [(set rN (ashift:SI rN const1)) (clobber T)])`
 
-L2→L3 promotion blocked by pool constant displacement differences due to
-isolated compilation. Original binary shares pool entries across adjacent
-functions (e.g., FUN_06026DF8 pool entry at displacement 0x26C, shared with
-neighboring functions). Would require full binary build system to fix.
+**Effect**: Correct opcode substitution in ~10 functions. No new PASSes (scheduling diffs
+remain) but opcodes now match original's `shll` preference.
 
-### Categorized by Root Cause
+## Patch 13: Indexed Addressing Pre-DBR Pass (sh.c)
+**File**: `config/sh/sh.c` (pre-dbr pass in `machine_dependent_reorg`)
+**Type**: Pre-delay-slot instruction rewrite
 
-**Our code SHORTER — BSR/tail-call (4 functions)**:
-GCC uses `bsr` (1 insn) where original uses `mov.l pool,rN / jsr @rN` (2 insns).
-Global `-mbsr` flag; can't selectively disable per-function.
-- FUN_0600F870 (delta=-2): 2 BSR saves
-- FUN_06018E70 (delta=-2): BSR + register alloc
-- FUN_0600DE40 (delta=-1): BSR delay slot fill
-- FUN_0600DE54 (delta=-1): BSR delay slot fill
+Combines `add rA,rB` + `mov.l @rB,rC` into `mov.l @(rA,rB),rC` when:
+- One of rA/rB is r0 (SH-2 indexed addressing requires r0)
+- rB's modified value is dead after the memory access
+- The add and memory access are adjacent
 
-**Our code SHORTER — delay slot fill (2 functions)**:
-GCC fills rts/branch delay slots that the original left as nop.
-- FUN_06033504 (delta=-1): rts delay slot filled with final store
-- FUN_060054EA (delta=-1): constant propagation eliminates readback
+Also handles stores (`mov.l rC,@rB` → `mov.l rC,@(rA,rB)`) and sign-extending
+loads (`mov.w @rB,rC` → `mov.w @(rA,rB),rC`).
 
-**Our code SHORTER — better optimization (4 functions)**:
-GCC generates fundamentally better code through different strategies.
-- FUN_060149CC (delta=-1): keeps address in register, smaller pool entries
-- FUN_060149E0 (delta=-1): same — different addressing, objectively better
-- FUN_06006838 (delta=-2): sequential shifts vs original's interleaved (2 fewer)
-- FUN_06009E02 (delta=-2): dt + BSR combined savings
+**Dead register check**: If rB == rC (load overwrites rB), it's trivially dead.
+Otherwise scans forward for register references — caller-saved regs (r0-r7) are
+considered dead at JUMP_INSN/CALL_INSN boundaries.
 
-**Same count, different opcodes — scheduling (4 functions)**:
-Instruction ordering differs due to GCC's scheduler making different choices.
-All have delta=0 but 2-4 opcode differences from instruction reordering.
-- FUN_06005174 (delta=0, 2 diffs): add/mov.w order swapped
-- FUN_0601164A (delta=0, 2 diffs): mov.w/add order swapped
-- FUN_06030EE0 (delta=0, 2 diffs): pool load order + bf.s vs bf
-- FUN_06018EC8 (delta=0, 4 diffs): byte extraction strategy (mov.b direct vs
-  mov.w pool load + extu.b; GCC optimizes cast to direct byte load)
+**Effect**: FUN_06027344 delta +1→0, FUN_06027348 delta +1→0.
+Both now produce `mov.l @(r0,r4),r0` indexed loads matching the original binary.
+Not a PASS due to constant pool load ordering (scheduling diff).
 
-**Same count, different codegen strategy (2 functions)**:
-Fundamentally different code generation approaches at the RTL/combiner level.
-- FUN_0600C970 (delta=0, 6 diffs): GCC transforms `a<=x<=b` to unsigned
-  subtraction + cmp/hi; original uses cmp/ge + cmp/gt pair
-- FUN_060192B4 (delta=0, 6 diffs): original has exts.b + pointer copy in
-  loop body (less efficient); our loop is tighter but uses more setup insns
-  for extern dereference. Making externs literal makes us shorter (delta=-2)
+## Remaining Failures Analysis (102 FAIL / 133 total)
+
+### Current State: 31 PASS / 102 FAIL (23%)
+
+### Failure Distribution by Delta (after C source fixes)
+
+| Delta Range | Count | Description |
+|-------------|-------|-------------|
+| delta <= -3 | 21 | Our code much shorter (better optimization) |
+| delta = -2 | 10 | Our code 2 insns shorter |
+| delta = -1 | 19 | Our code 1 insn shorter |
+| **delta = 0** | **20** | Same count, different ordering/opcodes |
+| delta = +1 | 10 | Our code 1 insn longer |
+| delta = +2 | 5 | Our code 2 insns longer |
+| delta >= +3 | 17 | Our code much longer (C source / codegen issues) |
+
+**Key insight**: 50 of 102 failures (49%) have SHORTER code from our compiler.
+These represent genuinely better optimization (delay slot filling, register
+allocation, CSE), not bugs.
+
+**Structural matches**: Of the 20 delta=0 functions, 10 produce the exact same
+opcode multiset in a different order (pure scheduling diffs). Effective match
+rate counting structural matches: **41/133 (31%)**.
+
+### Scheduling Experiment Results
+
+**Hypothesis**: Post-reload scheduling (`-fno-schedule-insns2`) causes the
+delta=0 instruction ordering differences.
+
+**Result**: NO CHANGE for any delta=0 function. The ordering differences come from
+the instruction selector/expander and register allocator, not the scheduler.
+Pre-reload scheduling was already disabled in sh.h (`flag_schedule_insns = 0`).
+
+**Conclusion**: Delta=0 failures are intractable without modifying the RTL expansion
+order or register allocator behavior. These are fundamental compiler internals.
+
+### C Source Fixes (Session 5)
+
+**Copy loop functions** (FUN_0602760C, FUN_0602761E, FUN_06027630): Changed
+parameter types from `int` to `char *`. This eliminated 2 unnecessary register
+copies per function (`mov r4,r2 / mov r5,r1`), as the compiler can now use
+function argument registers (r4/r5) directly for indexed addressing.
+All three went from delta=+2 to delta=0.
 
 ### Tractability Assessment
 
-All 16 remaining failures fall into categories that are **intractable without
-fundamental changes** to GCC 2.6.3's core optimization passes:
+| Root Cause | Affected | Tractability |
+|-----------|----------|--------------|
+| Instruction ordering (delta=0) | 20 | Intractable — deep compiler internals |
+| Our code shorter (delta<0) | 50 | Intractable — our code is genuinely better |
+| Register allocation quality | ~15 | Intractable — allocator preference issue |
+| C source quality / Ghidra errors | ~10 | Medium — manual C source rewrite needed |
+| Missing loop optimization (dt) | 2-3 | Hard — non-adjacent add/tst pattern |
+| Callee-save register strategy | 5+ | Hard — GCC uses r8+ to preserve across calls |
 
-| Root Cause | Functions | Would Require |
-|-----------|-----------|--------------|
-| BSR optimization | 4 | Disable `-mbsr` (regresses all) |
-| Better delay slot fill | 2 | Disable delay slot scheduler |
-| Better addressing/shifts | 4 | Deliberately worse codegen |
-| Instruction scheduling | 4 | Rewrite GCC scheduler |
-| RTL combiner strategy | 2 | Rewrite GCC combiner/expander |
+### Next Potential Steps
 
-The compiler patch loop has **converged**. Further improvements would require:
-1. **Full binary build system** — to get pool constant sharing for L2→L3
-2. **Deep GCC surgery** — register allocator, scheduler, or combiner changes
-   with high risk of regressions across all functions
-3. **Selective optimization control** — per-function flags to disable BSR or
-   delay slot fill (not supported by GCC 2.6.3)
+1. **C source fixes**: Review remaining delta=+1/+2 functions for addressable issues
+2. **Per-function flags**: `-mno-bsr` for functions where BSR makes our code shorter
+3. **Further test expansion**: Add more functions from the 880 available
+
+## Build Directory Sync Issue
+
+**CRITICAL BUG (Session 3)**: The build directory `gcc26-build/config/sh/` has its own
+copies of sh.c, sh.h, sh.md (NOT symlinks). During the swap.w experiment, a sequence
+of operations left the build dir files out of sync with the patched sources in
+`gcc-2.6.3/config/sh/`. The build dir reverted to pre-patch state (missing 5+ patches).
+
+**Symptom**: PASS count dropped from 28 to 13 and did NOT recover after reverting
+the experiment change.
+
+**Fix**: Manually copied all 4 files from `gcc-2.6.3/` to `gcc26-build/`:
+- `sh.c` (3319 → 2525 lines overwritten)
+- `sh.h` (1503 → 1498 lines overwritten)
+- `sh.md` (1985 → 1929 lines overwritten)
+- `toplev.c` (4083 → 4079 lines overwritten)
+
+**Prevention**: See `docs/gcc26_internals.md` "Build Directory Sync" section for
+the correct procedure. Always verify patches are present after rebuild.

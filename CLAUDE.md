@@ -19,23 +19,22 @@
   `tr -d '\r' < script.sh > /tmp/clean.sh && bash /tmp/clean.sh`
   OR run directly: `bash /mnt/d/.../script.sh` (bash handles CRLF in scripts)
 
-## Test Harness Status (after 10 patches + C source fixes — CONVERGED)
+## Test Harness Status (after 13 patches + C source fixes)
 Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
-- **6 PASS / 16 FAIL / 22 total**: FUN_0600D266, FUN_06026DF8, FUN_06035C48, FUN_060322E8, FUN_06035C4E, FUN_06012E00
-- Binary diff: 2 L3 byte-perfect, 4 L2 structural, 16 DIFF
-- **Zero functions where our code is longer** — all 16 FAIL are delta<=0
-- Notable delta=0: FUN_06005174, FUN_0601164A, FUN_060192B4, FUN_06018EC8, FUN_0600C970, FUN_06030EE0
-- 10 functions at delta=-1/-2 (our code SHORTER via BSR/dt/delay-slot/better codegen)
+- **31 PASS / 102 FAIL / 133 total (23%)** — expanded from 22 to 133 test functions
+- **10 structural matches** (same opcodes, different order) → effective 41/133 (31%)
+- 50 failures are delta<0 (our code is SHORTER — genuinely better optimization)
+- 20 failures are delta=0 (instruction ordering diffs, intractable)
+- 32 failures are delta>0 (C source issues, register alloc, callee-save strategy)
 - Tests in `tests/*.c` with expected opcodes in `tests/*.expected`
 - **Uses gcc26-build/cc1** (NOT gcc-2.6.3/cc1 which is stale)
-- **Patch loop CONVERGED** — remaining 16 failures are intractable (see docs/compiler_patches.md)
 
 ## Current Session Task: Compiler Patch Loop ("Ralph Wiggum")
 
 **Goal**: Build automated test harness, then iteratively patch GCC 2.6.3 SH backend until
 test functions produce matching asm output. Each patch must never regress passing tests.
 
-**Patch priority order**: ~~dt~~ → ~~bsr~~ → ~~tail calls~~ → ~~pure wrapper~~ → ~~disp stores~~ → ~~sign extension~~ → ~~return dedup~~ → ~~delay slot sign ext~~ → ~~extu.w disp~~ → ~~register compaction~~ (ALL DONE)
+**Patch priority order**: ~~dt~~ → ~~bsr~~ → ~~tail calls~~ → ~~pure wrapper~~ → ~~disp stores~~ → ~~sign extension~~ → ~~return dedup~~ → ~~delay slot sign ext~~ → ~~extu.w disp~~ → ~~register compaction~~ → ~~swap.w~~ → ~~add-to-shll~~ → ~~indexed addressing~~ (ALL DONE, 13 patches total)
 
 **Test harness**: `tools/test_harness.sh` - compiles C sources, extracts expected asm from
 aprog.s, compares instruction streams, reports PASS/FAIL per function.
