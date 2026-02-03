@@ -3227,6 +3227,10 @@ rest_of_compilation (decl)
     }
 #endif
 
+#ifdef MACHINE_DEPENDENT_REORG_POST_DBR
+   MACHINE_DEPENDENT_REORG_POST_DBR (insns);
+#endif
+
   if (optimize > 0)
     /* Shorten branches.  */
     TIMEVAR (shorten_branch_time,

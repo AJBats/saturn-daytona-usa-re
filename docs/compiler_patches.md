@@ -19,6 +19,7 @@ Compiler flags: `-O2 -m2 -mbsr`
 | + Pure wrapper | 3 | 19 | FUN_06012E00 delta 2→0 |
 | + Disp store peephole | 3 | 19 | FUN_06005174 delta 6→0 |
 | + Sign ext elimination | 3 | 19 | FUN_06030EE0 delta 6→5, FUN_0600C970 delta 2→1 |
+| + Return block dedup | 4 | 18 | FUN_060322E8 → PASS! FUN_0600C970 delta 1→0 |
 
 ## Patch 1: dt Peephole (sh.md)
 **File**: `config/sh/sh.md`
@@ -161,13 +162,28 @@ peepholes can't match across delay-slot scheduling boundaries. Also cannot
 eliminate exts.w when the source register is still live (FUN_06030EE0 second
 case: r2 used by later `mov r2,r1`).
 
+## Patch 7: Return Block Deduplication (sh.c + toplev.c)
+**Files**: `config/sh/sh.c` (new post-dbr pass), `config/sh/sh.h` (macro),
+`toplev.c` (hook call)
+**Type**: Post-delay-slot-scheduling reorg pass
+
+When the delay slot scheduler fills a return's delay slot by stealing an
+instruction from before a branch target label, it creates a duplicate bare
+return for the branch path. This undoes that optimization when it's
+counterproductive: extracts the delay slot insn, makes the return bare, and
+redirects all branches (including SEQUENCE-wrapped bf.s/bt.s) to the shared
+return label.
+
+Added `MACHINE_DEPENDENT_REORG_POST_DBR` hook in toplev.c that runs after
+`dbr_schedule()`. Handles the case of exactly 2 returns (one SEQUENCE-wrapped,
+one bare).
+
+**Effect**: FUN_060322E8 delta reduced from 1 to 0 (new PASS).
+FUN_0600C970 delta 1→0, FUN_06030EE0 delta 5→4.
+
 ## Remaining Patch Opportunities
 
-### Priority 1: Return Block Deduplication
-GCC sometimes generates duplicate return blocks (e.g., one for each branch
-of an if/else). The original compiler shares a single return path.
-
-### Priority 2: Delay Slot Sign Extension
+### Priority 1: Delay Slot Sign Extension
 FUN_06035C4E has `exts.w r0,r0` in rts delay slot after `mov.w @r1,r0`.
 The exts.w is a no-op but wastes the delay slot. Needs machine_dependent_reorg
 to replace with nop or reschedule the mov.w into the delay slot.

@@ -2049,6 +2049,128 @@ machine_dependent_reorg (first)
     }
 }
 
+/* Post-delay-slot return block deduplication.
+   When the delay slot scheduler fills a return's delay slot by stealing
+   an instruction from before a branch target label, it creates a duplicate
+   bare return for the branch path.  This undoes that: extracts the delay
+   slot insn, makes the return bare, and redirects branches to the shared
+   return.  Saves 1 instruction per duplicate eliminated. */
+
+extern int redirect_jump ();
+
+void
+machine_dependent_reorg_post_dbr (first)
+     rtx first;
+{
+  rtx insn;
+  rtx ret_insns[10];
+  int ret_count = 0;
+  int i;
+
+  /* Find all return insns (bare or SEQUENCE-wrapped) */
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      int is_ret = 0;
+
+      if (GET_CODE (insn) == JUMP_INSN
+	  && GET_CODE (PATTERN (insn)) == RETURN)
+	is_ret = 1;
+      else if (GET_CODE (insn) == INSN
+	       && GET_CODE (PATTERN (insn)) == SEQUENCE)
+	{
+	  rtx first_elem = XVECEXP (PATTERN (insn), 0, 0);
+	  if (GET_CODE (first_elem) == JUMP_INSN
+	      && GET_CODE (PATTERN (first_elem)) == RETURN)
+	    is_ret = 1;
+	}
+
+      if (is_ret && ret_count < 10)
+	ret_insns[ret_count++] = insn;
+    }
+
+  if (ret_count != 2)
+    return;
+
+  /* Identify filled (SEQUENCE) and bare returns */
+  {
+    rtx filled = NULL, bare = NULL;
+    rtx bare_label = NULL;
+    rtx prev;
+
+    for (i = 0; i < 2; i++)
+      {
+	if (GET_CODE (ret_insns[i]) == INSN
+	    && GET_CODE (PATTERN (ret_insns[i])) == SEQUENCE)
+	  filled = ret_insns[i];
+	else if (GET_CODE (ret_insns[i]) == JUMP_INSN
+		 && GET_CODE (PATTERN (ret_insns[i])) == RETURN)
+	  bare = ret_insns[i];
+      }
+
+    if (!filled || !bare)
+      return;
+
+    /* Find label before bare return */
+    for (prev = PREV_INSN (bare); prev; prev = PREV_INSN (prev))
+      {
+	if (GET_CODE (prev) == CODE_LABEL)
+	  { bare_label = prev; break; }
+	else if (GET_CODE (prev) == NOTE || GET_CODE (prev) == BARRIER)
+	  continue;
+	else
+	  break;
+      }
+
+    if (!bare_label)
+      return;
+
+    /* Extract delay insn from SEQUENCE, emit as standalone,
+       create shared label, emit bare return, redirect branches */
+    {
+      rtx seq = PATTERN (filled);
+      rtx delay_pat = PATTERN (XVECEXP (seq, 0, 1));
+      rtx new_label, new_ret, scan, delay_standalone;
+
+      /* Emit the delay insn before the SEQUENCE */
+      delay_standalone = emit_insn_before (copy_rtx (delay_pat), filled);
+
+      /* Create new shared return label after the delay insn */
+      new_label = gen_label_rtx ();
+      emit_label_after (new_label, delay_standalone);
+
+      /* Emit bare return and delete the SEQUENCE */
+      new_ret = emit_jump_insn_before (
+	gen_rtx (RETURN, VOIDmode), filled);
+      delete_insn (filled);
+
+      /* Redirect all branches from bare_label to new_label.
+	 Must handle both bare JUMP_INSNs and SEQUENCE-wrapped
+	 branches (bf.s/bt.s with filled delay slots). */
+      for (scan = first; scan; scan = NEXT_INSN (scan))
+	{
+	  rtx jump = NULL;
+
+	  if (GET_CODE (scan) == JUMP_INSN)
+	    jump = scan;
+	  else if (GET_CODE (scan) == INSN
+		   && GET_CODE (PATTERN (scan)) == SEQUENCE)
+	    {
+	      rtx inner = XVECEXP (PATTERN (scan), 0, 0);
+	      if (GET_CODE (inner) == JUMP_INSN)
+		jump = inner;
+	    }
+
+	  if (jump && JUMP_LABEL (jump) == bare_label)
+	    redirect_jump (jump, new_label);
+	}
+
+      /* Delete the now-orphaned bare return and its label */
+      delete_insn (bare);
+      delete_insn (bare_label);
+    }
+  }
+}
+
 /* Called from the md file, set up the operands of a compare instruction */
 
 void

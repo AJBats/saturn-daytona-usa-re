@@ -1479,6 +1479,7 @@ extern char *output_far_jump();
 
 
 #define MACHINE_DEPENDENT_REORG(X) machine_dependent_reorg(X)
+#define MACHINE_DEPENDENT_REORG_POST_DBR(X) machine_dependent_reorg_post_dbr(X)
 
 /* Generate calls to memcpy, memcmp and memset.  */
 
