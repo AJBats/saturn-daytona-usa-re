@@ -15,7 +15,8 @@
 | 3 | Scheduling experiment (Stage 2 of plan) | **done — no effect** | committed |
 | 4 | Per-function flags sweep | **done** — 1 new PASS (FUN_0603850C) | committed |
 | 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | committed |
-| 6 | **ACTIVE: Full decomp expansion** | **in progress** | no |
+| 6 | Full decomp expansion | **done** — 886 C files, 518 compilable | uncommitted |
+| 7 | **ACTIVE: Bulk compile fixes + experiments** | **done** — see session_log | uncommitted |
 
 **Active workstream details** → `docs/session_log.md` (append-only, read when resuming)
 
@@ -55,15 +56,16 @@ Reverse engineer Sega Saturn Daytona USA (1995) to extract gameplay code (physic
 steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 
 ## Scoreboard
-- **Test harness**: 39 PASS / 828 FAIL / 867 tested (4.5% match, 31% compilable)
+- **Test harness**: 39 PASS / 828 FAIL / 867 tested (4.5% match, 60% compilable)
 - **C sources**: 886 / ~880 Ghidra decomps (100% coverage)
-- **Compilable**: 267 functions compile, 228 have codegen diffs, 39 binary-perfect
+- **Compilable**: 518 functions compile (was 267), 479 codegen diffs, 39 binary-perfect
+- **Close matches**: 45 delta=0, 28 delta=+1, 37 delta=-1 (110 functions within 1 insn)
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
 - **Emulator validation**: pending (ISO builds, not yet tested in emulator)
 
 ## Directory Layout
-- `src/*.c` - Reconstructed C source files (148 functions, expanding to ~880)
+- `src/*.c` - Reconstructed C source files (886 functions, 518 compilable)
 - `tests/*.expected` - Expected opcode mnemonics from original binary (one per line)
 - `tests/*.flags` - Per-function compiler flag overrides (optional)
 - `tools/` - Build scripts, test harness, GCC source, toolchain

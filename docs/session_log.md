@@ -316,3 +316,115 @@ Binary match: 39 / 867 (4.5%)
 4. **600 compile errors** are primarily Ghidra decompilation quality issues, not
    compiler problems. These need manual review of types, control flow, and Ghidra
    artifacts.
+
+---
+
+## Session: Bulk Compile Fixes + Scheduling/BSR Experiments (Workstream 7)
+
+**Baseline**: 39 PASS / 828 FAIL / 867 tested, 267 compilable (31%)
+
+### Bulk Compile Fixes (5 patterns, 251 new compilable functions)
+
+Applied automated regex-based fixes to all 886 src/*.c files:
+
+| Fix | Pattern | Files | Replacements |
+|-----|---------|-------|-------------|
+| Function pointer cast | `(*0xADDR)(args)` → `(*(void(*)())0xADDR)(args)` | 423 | 2371 |
+| true/false | `true` → `1`, `false` → `0` | 55 | ~110 |
+| Double-indirect call | `(**(void **)0xADDR)(...)` → `(*(void(*)())(*(int *)0xADDR))(...)` | 35 | 68 |
+| Bare dereference | `*0xADDR` → `*(int *)0xADDR`, `0xADDR[N]` → `((int *)0xADDR)[N]` | 171 | 502 |
+| Void return type | `extern void FUN_xxx()` → `extern int FUN_xxx()` | 269 | 467 |
+| Variable function call | `(*puVar1)(args)` → `(*(void(*)())puVar1)(args)` | 150 | 1046 |
+| Trailing comma | `func(a, b,\n{` → `func(a, b\n{` | 5 | 5 |
+
+**Result**: Compilable functions 267 → **518** (60% of 867 tested, +94% improvement)
+
+### Remaining Compile Errors (349 total)
+
+```
+254 void value not ignored as it ought to be
+ 98 called object is not a function
+ 45 invalid type argument of `unary *'
+ 13 subscripted value is neither array nor pointer
+ 11 parse error before `{'
+  7 internal error (cc1 crash)
+~34 cc1 core dumps (unrecognizable insn)
+```
+
+These require deeper manual fixes (function signatures, struct layouts, etc.).
+
+### Scheduling Experiment (`-fno-schedule-insns2`)
+
+**Hypothesis**: Post-reload instruction scheduling causes opcode reordering.
+
+**Result**: **ZERO effect** on ALL 73 functions tested (34 delta=0 + 39 PASS).
+- 0 delta=0 functions improved
+- 0 currently-passing functions regressed
+- Output is byte-identical with and without -fno-schedule-insns2
+
+**Conclusion**: Post-reload scheduling is NOT the source of instruction reordering.
+The "scheduling" differences come from other GCC passes (dbr_schedule, combine,
+register allocator ordering). See `docs/scheduling_experiment.md` for full details.
+
+### BSR Experiment (delta=-1/-2 functions)
+
+**Hypothesis**: Delta=-1/-2 failures are caused by BSR (1 insn) vs JSR (2 insns).
+
+**Result**: **BSR is NOT the cause for ANY delta=-1/-2 function.**
+- 0 functions pass with no-BSR
+- 34/44 (77%) are leaf functions with zero calls — BSR irrelevant
+- 9 functions produce worse output without -mbsr
+- 1 function improves slightly but still fails
+
+**Conclusion**: No .flags files needed. The delta=-1/-2 comes from other codegen
+differences (multiply avoidance, address modes, delay slots, sign extension).
+See `docs/bsr_experiment.md` for full details.
+
+### Delta=0 Analysis (45 functions)
+
+Classified all 45 delta=0 functions by root cause. See `docs/delta0_analysis.md`.
+
+| Category | Count | Fixability |
+|----------|-------|-----------|
+| Instruction reordering (scheduling) | 14 | Not feasible (other passes) |
+| Delay slot fill differences | 10 | Moderate (dbr_schedule) |
+| Range check transforms | 5 | Not feasible (RTL combine) |
+| BSR vs JSR | 1 | Accept (ours better) |
+| Multiply vs shifts | 1 | Possible but high effort |
+| Missing truncation | 1 | Accept (different-but-correct) |
+| Algorithmic differences | 3 | Source-level changes needed |
+| New (from bulk fixes) | 11 | Need analysis |
+
+**12 functions** are "1-swap" away from matching (single adjacent pair of independent
+instructions in different order).
+
+### Updated Harness Results (v2)
+
+```
+PASS:    39
+FAIL:   828  (349 compile errors + 479 codegen)
+SKIP:    19
+TOTAL:  886
+
+Compilable: 518 / 867 (60%)
+Binary match: 39 / 867 (4.5%)
+```
+
+**Codegen failure breakdown (479 total):**
+- 45 delta=0 (same count, different opcodes)
+- 28 delta=+1 (1 instruction longer)
+- 37 delta=-1 (1 instruction shorter)
+- 369 delta=|2|+ (further from matching)
+
+### Key Insights
+
+1. **Neither scheduling nor BSR is the silver bullet** — the delta=0 and delta=-1/-2
+   differences come from deep GCC passes (combine, dbr_schedule, register allocator)
+   that are not easily tunable.
+2. **Bulk compile fixes doubled compilable count** without regressions — safe regex
+   transforms on Ghidra artifacts are high-ROI.
+3. **12 "1-swap" functions** suggest the original compiler had subtly different
+   instruction ordering preferences in the register allocator or local_alloc pass.
+4. **Next steps**: Further compile error fixes (254 void-value, 98 called-object)
+   require per-function manual review. Source-level type corrections could flip some
+   delta=+1 functions to PASS.
