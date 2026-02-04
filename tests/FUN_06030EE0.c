@@ -1,22 +1,12 @@
 int FUN_06030ee0()
 {
+  short *p;
+  short val;
 
-  short sVar1;
-
-  int iVar2;
-
-
-
-  iVar2 = 0x0150;
-
-  sVar1 = *(short *)(*(int *)0x0607E940 + iVar2);
-
-  if (0 < sVar1) {
-
-    *(short *)(*(int *)0x0607E940 + iVar2) = sVar1 + -1;
-
+  p = (short *)(*(int *)0x0607E940 + 0x0150);
+  val = *p;
+  if (val > 0) {
+    *p = val - 1;
   }
-
-  return iVar2;
-
+  return 0x0150;
 }

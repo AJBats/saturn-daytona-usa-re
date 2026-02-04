@@ -1,28 +1,30 @@
 #!/bin/bash
 CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
+TDIR=/mnt/d/Projects/SaturnReverseTest/tests
 
-# Try different C source formulations for the byte copy loop
-echo "=== Variant 1: Original (int params, explicit cast) ==="
-cat > /tmp/copyloop1.c << 'CEOF'
-void FUN_0602760c(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
-{
-  int iVar2 = 0;
-  param_3 = param_3 + -1;
-  do {
-    *(char *)(param_1 + iVar2) = *(char *)(param_2 + iVar2);
-    iVar2 = iVar2 + 1;
-  } while (param_3 > iVar2);
+compare() {
+  local label="$1"
+  $CC1 -quiet -O2 -m2 -mbsr /tmp/t_loop.c -o /tmp/t_loop.s 2>/dev/null
+  if [ $? -ne 0 ]; then echo "  [$label] COMPILE ERROR"; return; fi
+  local OUR=$(tr -d '\r' < /tmp/t_loop.s | grep -P '^\t[a-z]' | awk '{print $1}' | sed 's/,$//')
+  local EXP=$(tr -d '\r' < "$TDIR/FUN_0602760C.expected" | sed '/^$/d')
+  if [ "$OUR" = "$EXP" ]; then
+    echo "  [$label] >>> MATCH!"
+  else
+    local oc=$(echo "$OUR" | wc -l); local ec=$(echo "$EXP" | wc -l)
+    echo "  [$label] delta=$((oc - ec)) ($oc vs $ec)"
+  fi
+  echo "  asm:"
+  tr -d '\r' < /tmp/t_loop.s | grep -P '^\t[a-z]'
+  echo ""
 }
-CEOF
-$CC1 -quiet -O2 -m2 -mbsr /tmp/copyloop1.c -o /tmp/copyloop1.s 2>/dev/null
-grep -P '^\t' /tmp/copyloop1.s | grep -v '^\t\.'
 
+echo "=== Expected ==="
+tr -d '\r' < "$TDIR/FUN_0602760C.expected" | sed '/^$/d'
 echo ""
-echo "=== Variant 2: char* params, array indexing ==="
-cat > /tmp/copyloop2.c << 'CEOF'
+
+echo "=== Current ==="
+cat > /tmp/t_loop.c << 'EOF'
 void FUN_0602760c(param_1, param_2, param_3)
     char *param_1;
     char *param_2;
@@ -31,51 +33,79 @@ void FUN_0602760c(param_1, param_2, param_3)
   int iVar2 = 0;
   param_3--;
   do {
-    param_1[iVar2] = param_2[iVar2];
+    *(char *)(param_1 + iVar2) = *(char *)(param_2 + iVar2);
     iVar2++;
   } while (param_3 > iVar2);
+  return;
 }
-CEOF
-$CC1 -quiet -O2 -m2 -mbsr /tmp/copyloop2.c -o /tmp/copyloop2.s 2>/dev/null
-grep -P '^\t' /tmp/copyloop2.s | grep -v '^\t\.'
+EOF
+compare "current"
 
-echo ""
-echo "=== Variant 3: register keyword ==="
-cat > /tmp/copyloop3.c << 'CEOF'
+echo "=== Variant: test-before-inc ==="
+cat > /tmp/t_loop.c << 'EOF'
 void FUN_0602760c(param_1, param_2, param_3)
-    register char *param_1;
-    register char *param_2;
-    register int param_3;
+    char *param_1;
+    char *param_2;
+    int param_3;
 {
-  register int iVar2 = 0;
+  int i = 0;
   param_3--;
-  do {
-    param_1[iVar2] = param_2[iVar2];
-    iVar2++;
-  } while (param_3 > iVar2);
+  for (;;) {
+    char byte = *(char *)(param_2 + i);
+    int more = (param_3 > i);
+    *(char *)(param_1 + i) = byte;
+    if (!more) break;
+    i++;
+  }
 }
-CEOF
-$CC1 -quiet -O2 -m2 -mbsr /tmp/copyloop3.c -o /tmp/copyloop3.s 2>/dev/null
-grep -P '^\t' /tmp/copyloop3.s | grep -v '^\t\.'
+EOF
+compare "test-before-inc"
 
-echo ""
-echo "=== Variant 4: Pointer-based loop (post-increment) ==="
-cat > /tmp/copyloop4.c << 'CEOF'
-void FUN_0602760c(dst, src, count)
-    char *dst;
-    char *src;
-    int count;
+echo "=== Variant: while top-tested ==="
+cat > /tmp/t_loop.c << 'EOF'
+void FUN_0602760c(p1, p2, n)
+    char *p1;
+    char *p2;
+    int n;
 {
-  char *end = dst + count;
-  do {
-    *dst = *src;
-    dst++;
-    src++;
-  } while (dst != end);
+  int i = 0;
+  n--;
+  while (n > i) {
+    char b = *(p2 + i);
+    *(p1 + i) = b;
+    i++;
+  }
 }
-CEOF
-$CC1 -quiet -O2 -m2 -mbsr /tmp/copyloop4.c -o /tmp/copyloop4.s 2>/dev/null
-grep -P '^\t' /tmp/copyloop4.s | grep -v '^\t\.'
+EOF
+compare "while-top"
 
-echo ""
-echo "=== Expected (9 insns): mov #0,r0 / add #-1,r6 / mov.b @(r0,r5),r1 / cmp/gt r0,r6 / mov.b r1,@(r0,r4) / bt/s / add #1,r0 / rts / add #1,r6 ==="
+echo "=== Variant: for loop n-1 ==="
+cat > /tmp/t_loop.c << 'EOF'
+void FUN_0602760c(p1, p2, n)
+    char *p1;
+    char *p2;
+    int n;
+{
+  int i;
+  for (i = 0; i < n - 1; i++) {
+    *(p1 + i) = *(p2 + i);
+  }
+}
+EOF
+compare "for-loop"
+
+echo "=== Variant: comma expr ==="
+cat > /tmp/t_loop.c << 'EOF'
+void FUN_0602760c(p1, p2, n)
+    char *p1;
+    char *p2;
+    int n;
+{
+  int i = 0;
+  n--;
+  do {
+    *(p1 + i) = *(p2 + i);
+  } while (i++, n > i);
+}
+EOF
+compare "comma"

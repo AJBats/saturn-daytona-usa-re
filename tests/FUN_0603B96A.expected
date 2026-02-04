@@ -12,7 +12,6 @@ cmp/eq
 bf
 bra
 nop
-sts
 add
 mov
 mov.l
@@ -22,3 +21,6 @@ mov
 mov.l
 cmp/eq
 bf
+mov
+rts
+mov

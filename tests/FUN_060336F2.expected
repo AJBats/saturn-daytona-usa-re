@@ -1,7 +1,0 @@
-mov.l
-mov.l
-mov.b
-cmp/pl
-mov.l
-rts
-nop

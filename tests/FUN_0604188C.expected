@@ -12,9 +12,6 @@ bra
 nop
 bra
 nop
-sts
-mov.l
-mov.b
 mov
 mov.l
 mov.l

@@ -3,6 +3,6 @@ char FUN_0603f216(param_1, param_2)
     int param_2;
 {
 
-  return *(char *)(param_1 * 0x18 + param_2 + 0xb);
+  return *(unsigned char *)((param_1 << 3) + (param_1 << 4) + param_2 + 0xb);
 
 }

@@ -1,37 +1,22 @@
 int FUN_06027476(param_1)
     unsigned int param_1;
 {
+  int result;
+  unsigned int bit;
+  unsigned int sq;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  
-
-  puVar1 = (char *)0x0;
-
-  puVar2 = 0x00008000;
-
+  result = 0;
   if (0 < (int)param_1) {
-
+    bit = 0x8000;
     do {
-
-      puVar1 = puVar1 + (int)puVar2;
-
-      if ((int)puVar1 * (int)puVar1 == param_1) break;
-
-      if (param_1 < (unsigned int)((int)puVar1 * (int)puVar1)) {
-
-        puVar1 = puVar1 + -(int)puVar2;
-
+      result = result + (int)bit;
+      sq = (unsigned int)(result * result);
+      if (sq == param_1) break;
+      if (sq > param_1) {
+        result = result - (int)bit;
       }
-
-      puVar2 = (char *)((unsigned int)puVar2 >> 1);
-
-    } while (puVar2 != (char *)0x0);
-
+      bit = bit >> 1;
+    } while ((int)bit > 0);
   }
-
-  return (int)puVar1 << 8;
-
+  return result << 8;
 }

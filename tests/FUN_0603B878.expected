@@ -8,9 +8,6 @@ cmp/eq
 bf
 bra
 nop
-mov.b
-mov.b
-sts
 mov.w
 add
 add
@@ -19,3 +16,9 @@ mov.l
 cmp/ge
 bf
 mov.l
+mov.l
+cmp/eq
+bf
+mov
+rts
+mov
