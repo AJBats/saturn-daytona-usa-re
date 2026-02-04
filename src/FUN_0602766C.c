@@ -19,5 +19,4 @@ void FUN_0602766c(param_1, param_2, param_3)
   base[3] = val;
   base[5] = 7;
   base[4] = val;
-  return;
 }

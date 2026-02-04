@@ -7,7 +7,7 @@ closer to the original Daytona USA Saturn binary.
 Test harness: `tools/test_harness.sh` (125 test functions after cleanup)
 Compiler flags: `-O2 -m2 -mbsr`
 
-## Current State: 38 PASS / 95 FAIL / 133 total (28% pass rate)
+## Current State: 39 PASS / 100 FAIL / 140 total (28% pass rate)
 
 ## Results by Phase (original 22 test functions)
 

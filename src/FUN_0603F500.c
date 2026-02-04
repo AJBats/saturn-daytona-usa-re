@@ -3,21 +3,10 @@ extern void FUN_0603f3f6();
 int FUN_0603f500(param_1)
     int param_1;
 {
+  struct { int val; int saved; char buf[8]; } frame;
 
-  int local_10;
-
-  int uStack_c;
-
-  char auStack_8 [8];
-
-  
-
-  uStack_c = param_1;
-
-  FUN_0603f3f6(param_1,auStack_8,4);
-
-  FUN_0603f3f6(uStack_c,&local_10,4);
-
-  return local_10;
-
+  frame.saved = param_1;
+  FUN_0603f3f6(param_1, frame.buf, 4);
+  FUN_0603f3f6(frame.saved, &frame.val, 4);
+  return frame.val;
 }

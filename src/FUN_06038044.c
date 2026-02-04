@@ -1,29 +1,14 @@
-char * FUN_06038044(param_1)
+int FUN_06038044(param_1)
     int param_1;
 {
+  unsigned short i;
+  int base;
 
-  char *puVar1;
-
-  unsigned short uVar2;
-
-  unsigned int uVar3;
-
-  
-
-  puVar1 = 0x060A3D88;
-
-  uVar2 = 0;
-
+  base = 0x060A3D88;
+  i = 0;
   do {
-
-    uVar3 = (unsigned int)uVar2;
-
-    uVar2 = uVar2 + 1;
-
-    *(short *)(puVar1 + (uVar3 << 1) + 0x10) = *(short *)((uVar3 << 1) + param_1);
-
-  } while (uVar2 < 8);
-
-  return puVar1;
-
+    *(short *)(base + (i << 1) + 0x10) = *(short *)(param_1 + (i << 1));
+    i = i + 1;
+  } while (i < 8);
+  return base;
 }

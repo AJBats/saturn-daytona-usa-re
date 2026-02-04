@@ -5,11 +5,18 @@
 
 | # | Workstream | Status | Uncommitted? |
 |---|-----------|--------|--------------|
-| 1 | C source fixes (Ghidra decomp corrections) | not started | no |
-| 2 | Compiler patch 23+ (deep GCC changes) | not started | no |
+| 1 | C source fixes (Ghidra decomp corrections) | **done** — diminishing returns | YES |
+| 2 | Compiler patch 23 (QImode byte disp store) | **done** | YES |
+| 3 | Scheduling experiment (Stage 2 of plan) | **done — no effect** | no |
+| 4 | Per-function flags sweep | **done** — 1 new PASS (FUN_0603850C) | YES |
+| 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | no |
+| 6 | Test suite expansion (add more functions) | not started | no |
 
-**Default task when idle**: Research the next workstream — read code, analyze failures,
+**When all workstreams complete**: Research the next one — read code, analyze failures,
 write findings to `docs/`. Research never creates git conflicts.
+
+**Session notes**: See `docs/session_log.md` for detailed C fix results, unfixable function
+list, and experiment findings. Read that file when resuming a workstream.
 
 ---
 
@@ -42,9 +49,9 @@ Reverse engineer Sega Saturn Daytona USA (1995) to extract gameplay code (physic
 steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 
 ## Scoreboard
-- **Test harness**: 38 PASS / 95 FAIL / 133 total (28%)
+- **Test harness**: 39 PASS / 94 FAIL / 133 total (29%)
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
-- **Compiler patches**: 22 applied, all low-hanging peepholes done
+- **Compiler patches**: 23 applied, all low-hanging peepholes done
 - **Emulator validation**: pending (ISO builds, not yet tested in emulator)
 
 ## Directory Layout
@@ -59,7 +66,7 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - `build/aprog.s` - Full binary disassembly (206K lines, 1234 function labels, SH-2 asm)
 - `ghidra_project/decomp_all.txt` - Ghidra decompiler output for 880 functions
 - `tools/gcc26-build/cc1` - Patched GCC 2.6.3 compiler for SH-2 (runs in WSL)
-- `tools/gcc-2.6.3/` - Patched GCC source (22 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
+- `tools/gcc-2.6.3/` - Patched GCC source (23 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
 - `build/aprog_syms.txt` - 1234 function symbols in linker script format
 - `tools/build_iso.sh` - One-command build script for patched disc image
 - `tools/patch_binary.py` - Full compile->assemble->link->patch pipeline
@@ -89,7 +96,7 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
 
 # Reference: Compiler Work
 
-## Patches Applied (22 total, see docs/compiler_patches.md)
+## Patches Applied (23 total, see docs/compiler_patches.md)
 1. **dt peephole** (sh.md): `add #-1,rN / tst rN,rN` -> `dt rN`
 2. **BSR fix** (sh.c): Fixed `bsr_operand()` to accept any SYMBOL_REF
 3. **Tail call** (sh.md + sh.c): Last call before return -> `bra _func / lds.l @r15+,pr`
@@ -112,6 +119,7 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
 20. **Redundant exts.w elimination** (sh.c): Post-dbr removes exts.w after mov.w HI load
 21. **lds.l reordering** (sh.c): Pre-dbr moves lds.l earlier for rts delay slot filling
 22. **-mno-bsr-fill / -mno-rts-fill** (sh.h + sh.c): Per-function delay slot unfill
+23. **QImode disp store** (sh.md + sh.c): `mov+add+mov.b` -> `mov.b r0,@(D,rN)` byte stores
 
 ## SH backend source files (edit these for patches)
 - `tools/gcc26-build/config/sh/sh.c` - backend implementation (57KB)
@@ -137,11 +145,12 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
 4. Constant representation (add vs sub) — same count
 5. Multiply decomposition — shift rewrites applied, remaining gap intractable
 
-## Test Failure Breakdown (95 failures)
-- 21 delta=0 (same count, opcode diffs): scheduling/register allocation
-- 47 delta<0 (our code SHORTER): better optimization than original
-- 24 delta>0 (our code LONGER): C source issues, codegen gaps
+## Test Failure Breakdown (94 failures)
+- 14 delta>0 (our code LONGER): C source issues, mostly unfixable R0/register constraints
+- 28 delta=0 (same count, opcode diffs): scheduling/register allocation — intractable
+- 53 delta<0 (our code SHORTER): better optimization than original
 - Ghidra decompilations are NOT sacred — correcting C to match original intent is valid
+- **Highest ROI next step**: Expand test suite with more small functions (likely to PASS)
 
 ---
 
