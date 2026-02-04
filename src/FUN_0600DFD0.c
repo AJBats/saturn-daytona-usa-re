@@ -1,4 +1,4 @@
-extern void FUN_0600e0c0();
+extern int FUN_0600e0c0();
 
 void FUN_0600dfd0()
 {
@@ -17,23 +17,23 @@ void FUN_0600dfd0()
 
   *(char **)0x0607E948 = 0x06078B68;
 
-  (*0x0602DB00)();
+  (*(void(*)())0x0602DB00)();
 
-  uVar2 = (*0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
+  uVar2 = (*(void(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
 
   *(int *)0x060786B8 = uVar2;
 
-  (*0x06005ECC)();
+  (*(void(*)())0x06005ECC)();
 
   puVar1 = 0x06027CA4;
 
-  (*0x06027CA4)(0x06063EB0,0);
+  (*(void(*)())0x06027CA4)(0x06063EB0,0);
 
-  (*puVar1)(0x06063E9C,1);
+  (*(void(*)())puVar1)(0x06063E9C,1);
 
-  (*puVar1)(0x06063ED8,2);
+  (*(void(*)())puVar1)(0x06063ED8,2);
 
-  (*puVar1)(0x06063EC4,3);
+  (*(void(*)())puVar1)(0x06063EC4,3);
 
   FUN_0600e0c0();
 

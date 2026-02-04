@@ -1,4 +1,4 @@
-extern void FUN_0601e764();
+extern int FUN_0601e764();
 
 unsigned int FUN_0601e4d4()
 {
@@ -105,7 +105,7 @@ unsigned int FUN_0601e4d4()
 
   uVar4 = 3;
 
-  while( true ) {
+  while( 1 ) {
 
     if (local_28 + 3 <= pcVar5) {
 

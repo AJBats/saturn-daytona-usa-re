@@ -2,12 +2,12 @@ extern int DAT_0600c7be;
 
 extern int DAT_0600c7c0;
 
-extern void FUN_0600c7d4();
-extern void FUN_0600c8cc();
-extern void FUN_0600c928();
-extern void FUN_0600c970();
-extern void FUN_0600ca96();
-extern void FUN_0600cd40();
+extern int FUN_0600c7d4();
+extern int FUN_0600c8cc();
+extern int FUN_0600c928();
+extern int FUN_0600c970();
+extern int FUN_0600ca96();
+extern int FUN_0600cd40();
 
 void FUN_0600c74e()
 {
@@ -52,9 +52,9 @@ void FUN_0600c74e()
 
   FUN_0600c7d4(iVar3,puVar1);
 
-  uVar2 = (*0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
+  uVar2 = (*(void(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
 
-  (*0x06027EDE)(uVar2,iVar3 + 0x10,auStack_10);
+  (*(void(*)())0x06027EDE)(uVar2,iVar3 + 0x10,auStack_10);
 
   return;
 

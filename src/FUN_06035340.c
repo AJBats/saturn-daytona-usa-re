@@ -17,7 +17,7 @@ unsigned int FUN_06035340()
 
     if (((in_r0 & 0x80000000) == 0) && (8 < in_r1)) {
 
-      uVar1 = (*0x06036068)();
+      uVar1 = (*(void(*)())0x06036068)();
 
       return uVar1;
 

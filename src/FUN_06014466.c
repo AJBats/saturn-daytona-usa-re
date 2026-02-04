@@ -41,7 +41,7 @@ unsigned int FUN_06014466()
 
   if (*(int *)puVar1 != *(int *)0x06084B0C) {
 
-    uVar2 = (*0x0601D5F4)(0,0xAB111DFF);
+    uVar2 = (*(void(*)())0x0601D5F4)(0,0xAB111DFF);
 
   }
 

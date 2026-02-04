@@ -4,7 +4,7 @@ extern int PTR_DAT_06014684;
 
 extern int PTR_DAT_06014684;
 
-extern void FUN_060146d2();
+extern int FUN_060146d2();
 
 void FUN_060145bc()
 {
@@ -57,13 +57,13 @@ void FUN_060145bc()
 
       }
 
-      (*puVar1)(0,uVar6);
+      (*(void(*)())puVar1)(0,uVar6);
 
       if (*(int *)puVar2 == 3) {
 
         *(int *)0x06084B08 = 0x1c;
 
-        (*puVar1)(0,0xAB111EFF);
+        (*(void(*)())puVar1)(0,0xAB111EFF);
 
       }
 
@@ -71,7 +71,7 @@ void FUN_060145bc()
 
     else if (*(int *)0x06084B18 == 0) {
 
-      *0x06084B14 = 0;
+      *(int *)0x06084B14 = 0;
 
       puVar3[1] = 0;
 
@@ -83,7 +83,7 @@ void FUN_060145bc()
 
     else {
 
-      (*0x0601D5F4)(0,0xAB1101FF);
+      (*(void(*)())0x0601D5F4)(0,0xAB1101FF);
 
       iVar5 = *(int *)puVar2;
 

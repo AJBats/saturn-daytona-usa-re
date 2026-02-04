@@ -15,7 +15,7 @@ char * FUN_060283e0(param_1, param_2, param_3, param_4)
 
   psVar3 = (short *)(**(int **)(0x06028614 + param_1) + param_2);
 
-  while( true ) {
+  while( 1 ) {
 
     cVar1 = *param_4;
 

@@ -21,7 +21,7 @@ void FUN_06010994()
 
   puVar1 = 0x06059FFC;
 
-  if (*0x06083255 == '\0') {
+  if (*(int *)0x06083255 == '\0') {
 
     iVar6 = (int)DAT_06010a2a;
 
@@ -45,9 +45,9 @@ void FUN_06010994()
 
   }
 
-  (*0x0602761E)(iVar4,uVar5,iVar6);
+  (*(void(*)())0x0602761E)(iVar4,uVar5,iVar6);
 
-  (*puVar3)(*(int *)puVar1 * 8 + *(int *)puVar2 + DAT_06010a2a + 0x40,
+  (*(void(*)())puVar3)(*(int *)puVar1 * 8 + *(int *)puVar2 + DAT_06010a2a + 0x40,
 
                     *(int *)(0x0605D05C + (unsigned int)(unsigned char)*0x0607ED91 * 4));
 

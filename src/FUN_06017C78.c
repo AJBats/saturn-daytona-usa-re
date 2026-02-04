@@ -5,9 +5,9 @@ void FUN_06017c78()
 
      (*(short *)0x0605BE24 == 0x2a)) {
 
-    *0x06085FCC = 1;
+    *(int *)0x06085FCC = 1;
 
-    (*0x0601D5F4)(0,0xAE1118FF);
+    (*(void(*)())0x0601D5F4)(0,0xAE1118FF);
 
     return;
 

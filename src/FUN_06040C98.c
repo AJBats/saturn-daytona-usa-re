@@ -51,7 +51,7 @@ int FUN_06040c98(param_1, param_2)
 
   *(int *)0x060A5400 = param_1;
 
-  (*puVar4)();
+  (*(void(*)())puVar4)();
 
   if (param_2 == 0) {
 
@@ -69,7 +69,7 @@ int FUN_06040c98(param_1, param_2)
 
   }
 
-  (*puVar2)(local_2c);
+  (*(void(*)())puVar2)(local_2c);
 
   bVar8 = local_2c[0] & 0xf;
 
@@ -87,7 +87,7 @@ int FUN_06040c98(param_1, param_2)
 
   if ((bVar8 != 9) && (bVar8 != 10)) {
 
-    iVar5 = (*0x06034B9A)(iVar11,0x0000FFFF,iVar11,iVar11);
+    iVar5 = (*(void(*)())0x06034B9A)(iVar11,0x0000FFFF,iVar11,iVar11);
 
     if (iVar5 != 0) {
 
@@ -97,15 +97,15 @@ int FUN_06040c98(param_1, param_2)
 
     iVar5 = 0;
 
-    bVar1 = false;
+    bVar1 = 0;
 
     while (uVar7 = DAT_06040dc0, !bVar1) {
 
-      uVar6 = (*0x06035C4E)();
+      uVar6 = (*(void(*)())0x06035C4E)();
 
       if ((uVar6 & uVar7) != 0) {
 
-        (*0x06035C54)(0x0000FBFF);
+        (*(void(*)())0x06035C54)(0x0000FBFF);
 
         iVar5 = iVar5 + 1;
 
@@ -115,13 +115,13 @@ int FUN_06040c98(param_1, param_2)
 
         }
 
-        (*puVar2)(local_2c);
+        (*(void(*)())puVar2)(local_2c);
 
         bVar8 = local_2c[0] & 0xf;
 
         if ((bVar8 == 1) || (bVar8 == 2)) {
 
-          bVar1 = true;
+          bVar1 = 1;
 
         }
 
@@ -139,7 +139,7 @@ int FUN_06040c98(param_1, param_2)
 
     iVar10 = *(int *)0x060A4D14;
 
-    iVar5 = (*0x06034AEE)(iVar10 + iVar9);
+    iVar5 = (*(void(*)())0x06034AEE)(iVar10 + iVar9);
 
     if (iVar5 != 0) {
 
@@ -147,9 +147,9 @@ int FUN_06040c98(param_1, param_2)
 
     }
 
-    (*0x06034B54)(0,local_30);
+    (*(void(*)())0x06034B54)(0,local_30);
 
-    (*0x06034B54)(local_30[0],local_30);
+    (*(void(*)())0x06034B54)(local_30[0],local_30);
 
     if ((*(unsigned int *)(iVar10 + iVar9 + (local_30[0] - 1) * 4) & 0x40000000) == 0) {
 
@@ -157,19 +157,19 @@ int FUN_06040c98(param_1, param_2)
 
     }
 
-    (*0x060364D4)((int)DAT_06040e72,iVar11);
+    (*(void(*)())0x060364D4)((int)DAT_06040e72,iVar11);
 
     *(char **)(*(int *)puVar3 + 0x3c) = 0x00008000;
 
     do {
 
-      uVar7 = (*0x06035C4E)();
+      uVar7 = (*(void(*)())0x06035C4E)();
 
       if ((uVar7 & 0x40) != 0) {
 
         *(int *)(*(int *)puVar3 + 0x3c) = 0;
 
-        (*puVar2)(*(int *)puVar3 + 0x40);
+        (*(void(*)())puVar2)(*(int *)puVar3 + 0x40);
 
         return 0;
 

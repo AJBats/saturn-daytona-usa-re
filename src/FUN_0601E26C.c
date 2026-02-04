@@ -17,7 +17,7 @@ void FUN_0601e26c()
 
   puVar1 = 0x0605DFF4;
 
-  uVar3 = (*0x06005DD4)();
+  uVar3 = (*(void(*)())0x06005DD4)();
 
   *(int *)puVar2 = uVar3;
 

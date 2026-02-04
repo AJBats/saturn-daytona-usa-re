@@ -8,7 +8,7 @@ extern int PTR_DAT_0600d99c;
 
 extern int PTR_DAT_0600d99c;
 
-extern void FUN_0600dcc8();
+extern int FUN_0600dcc8();
 
 void FUN_0600d92c()
 {

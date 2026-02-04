@@ -25,9 +25,9 @@ int FUN_0600ceba()
 
   *(unsigned int *)(iVar4 + iVar2 + 0x68) = (unsigned int)*(unsigned short *)(*(int *)(iVar4 + iVar2) * 4 + iVar3);
 
-  (*0x06035228)();
+  (*(void(*)())0x06035228)();
 
-  (*0x06035228)();
+  (*(void(*)())0x06035228)();
 
   iVar2 = DAT_0600cf40 + -4;
 

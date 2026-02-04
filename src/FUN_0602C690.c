@@ -20,7 +20,7 @@ extern int DAT_0602c7f8;
 
 extern int DAT_0602c7fa;
 
-extern void FUN_0602c7fc();
+extern int FUN_0602c7fc();
 
 void FUN_0602c690()
 {
@@ -97,7 +97,7 @@ void FUN_0602c690()
 
   iVar11 = 0x00000645;
 
-  iVar8 = (*0x06027348)(iVar8 >> 1);
+  iVar8 = (*(void(*)())0x06027348)(iVar8 >> 1);
 
   uVar9 = (int)((unsigned long long)((long long)iVar11 * (long long)iVar8) >> 0x20) << 0x10 |
 

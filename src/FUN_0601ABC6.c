@@ -2,16 +2,16 @@ extern int PTR_DAT_0601ace4;
 
 extern int PTR_DAT_0601ace4;
 
-extern void FUN_0601adb0();
+extern int FUN_0601adb0();
 
 int FUN_0601abc6()
 {
 
   int iVar1;
 
-  *0x06085FF8 = 0;
+  *(int *)0x06085FF8 = 0;
 
-  *0x06085FF9 = 0;
+  *(int *)0x06085FF9 = 0;
 
   *(int *)0x06085FFC = 0;
 
@@ -25,7 +25,7 @@ int FUN_0601abc6()
 
      (0 < *(int *)0x06078638)) {
 
-    *0x06085FF9 = 1;
+    *(int *)0x06085FF9 = 1;
 
   }
 
@@ -45,7 +45,7 @@ int FUN_0601abc6()
 
   {
 
-    *0x06085FF8 = 1;
+    *(int *)0x06085FF8 = 1;
 
   }
 

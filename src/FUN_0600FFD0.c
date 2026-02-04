@@ -8,7 +8,7 @@ extern int DAT_060100f2;
 
 extern int DAT_060100f4;
 
-extern void FUN_060100a4();
+extern int FUN_060100a4();
 
 unsigned int FUN_0600ffd0()
 {
@@ -41,7 +41,7 @@ unsigned int FUN_0600ffd0()
 
   } while ((uVar6 & 0xff) < 3);
 
-  if (*0x06078663 == '\0') {
+  if (*(int *)0x06078663 == '\0') {
 
     if (*(int *)0x0605AA98 != 0) {
 
@@ -69,7 +69,7 @@ unsigned int FUN_0600ffd0()
 
       }
 
-      uVar6 = (*puVar2)(uVar4,(int)sVar1,iVar5,0x0605ACE4);
+      uVar6 = (*(void(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605ACE4);
 
     }
 
@@ -103,7 +103,7 @@ unsigned int FUN_0600ffd0()
 
       }
 
-      uVar6 = (*puVar2)(uVar4,(int)sVar1,iVar5,0x0605AB19);
+      uVar6 = (*(void(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605AB19);
 
     }
 

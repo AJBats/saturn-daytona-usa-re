@@ -7,7 +7,7 @@ int FUN_06036650(param_1, param_2)
 
   int uVar2;
 
-  uVar1 = (*0x06035C4E)();
+  uVar1 = (*(void(*)())0x06035C4E)();
 
   if ((uVar1 & 0x40) == 0) {
 
@@ -17,7 +17,7 @@ int FUN_06036650(param_1, param_2)
 
   else {
 
-    uVar2 = (*0x06035EA2)(0,param_1,param_2);
+    uVar2 = (*(void(*)())0x06035EA2)(0,param_1,param_2);
 
   }
 

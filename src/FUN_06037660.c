@@ -151,7 +151,7 @@ void FUN_06037660(param_1, param_2)
 
     puVar12 = &UNK_00000008;
 
-    if ((*0x060A4C58 == '\x01') && (*0x060A4C59 == '\x01')) {
+    if ((*(int *)0x060A4C58 == '\x01') && (*(int *)0x060A4C59 == '\x01')) {
 
       *(unsigned short *)(puVar4 + 0x16) = *(unsigned short *)(puVar4 + 0x16) & (unsigned short)0x0000FFF0;
 
@@ -163,7 +163,7 @@ void FUN_06037660(param_1, param_2)
 
     }
 
-    else if (*0x060A4C58 == '\x01') {
+    else if (*(int *)0x060A4C58 == '\x01') {
 
       *(unsigned short *)(puVar4 + 0x16) = *(unsigned short *)(puVar4 + 0x16) & (unsigned short)0x0000FFF0;
 
@@ -173,7 +173,7 @@ void FUN_06037660(param_1, param_2)
 
     }
 
-    else if (*0x060A4C59 == '\x01') {
+    else if (*(int *)0x060A4C59 == '\x01') {
 
       *(unsigned short *)(puVar4 + 0x16) = *(unsigned short *)(puVar4 + 0x16) & (unsigned short)0x0000FF0F;
 
@@ -187,7 +187,7 @@ void FUN_06037660(param_1, param_2)
 
   else if (uVar5 == 2) {
 
-    if ((*0x060A4C58 == '\x01') && (*0x060A4C59 == '\x02')) {
+    if ((*(int *)0x060A4C58 == '\x01') && (*(int *)0x060A4C59 == '\x02')) {
 
       *(unsigned short *)(0x060A3D88 + 0x20) =
 
@@ -463,15 +463,15 @@ LAB_06037e88:
 
   if (param_2[6] == 1) {
 
-    uVar6 = (*0x06035280)();
+    uVar6 = (*(void(*)())0x06035280)();
 
   }
 
   else {
 
-    (*0x06035F44)();
+    (*(void(*)())0x06035F44)();
 
-    uVar6 = (*0x06035280)();
+    uVar6 = (*(void(*)())0x06035280)();
 
   }
 
@@ -483,11 +483,11 @@ LAB_06037e88:
 
     do {
 
-      uVar7 = (*0x06035F44)();
+      uVar7 = (*(void(*)())0x06035F44)();
 
       *extraout_r3 = uVar7 & 0x3f;
 
-      uVar7 = (*0x06035F44)();
+      uVar7 = (*(void(*)())0x06035F44)();
 
       *(unsigned short *)(puVar9 + (unsigned int)uVar6 * 2) =
 
@@ -513,11 +513,11 @@ LAB_06037e88:
 
         puVar10 = (unsigned short *)(puStack_2c + (uVar5 & 0xffff) * 2);
 
-        uVar6 = (*0x06035F44)();
+        uVar6 = (*(void(*)())0x06035F44)();
 
         *puVar10 = uVar6 & 0x3f;
 
-        uVar6 = (*0x06035F44)();
+        uVar6 = (*(void(*)())0x06035F44)();
 
         uVar5 = uVar5 + 1;
 

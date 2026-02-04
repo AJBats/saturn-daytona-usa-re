@@ -115,6 +115,6 @@ LAB_06036ce8:
 
     puVar2 = puVar3;
 
-  } while( true );
+  } while( 1 );
 
 }

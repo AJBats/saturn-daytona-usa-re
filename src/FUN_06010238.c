@@ -37,7 +37,7 @@ void FUN_06010238()
 
   }
 
-  *0x0607887E = (char)*(int *)puVar2;
+  *(int *)0x0607887E = (char)*(int *)puVar2;
 
   *(int *)0x0607EAD8 = *(int *)puVar2;
 

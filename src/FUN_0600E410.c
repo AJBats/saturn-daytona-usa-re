@@ -4,7 +4,7 @@ extern int PTR_DAT_0600e458;
 
 extern int PTR_DAT_0600e458;
 
-extern void FUN_0600e71a();
+extern int FUN_0600e71a();
 
 void FUN_0600e410()
 {
@@ -17,17 +17,17 @@ void FUN_0600e410()
 
   *(int *)0x0607E940 = iVar1;
 
-  (*0x060081F4)();
+  (*(void(*)())0x060081F4)();
 
-  (*0x060085B8)();
+  (*(void(*)())0x060085B8)();
 
-  (*0x06030A06)();
+  (*(void(*)())0x06030A06)();
 
-  (*0x06030EE0)();
+  (*(void(*)())0x06030EE0)();
 
   FUN_0600e71a();
 
-  (*0x06027552)(*(int *)(iVar1 + 0xc),0x066505B3);
+  (*(void(*)())0x06027552)(*(int *)(iVar1 + 0xc),0x066505B3);
 
   *(int *)(DAT_0600e456 + iVar1) = (int)extraout_var;
 

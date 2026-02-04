@@ -1,4 +1,4 @@
-extern void FUN_060418be();
+extern int FUN_060418be();
 
 int 
 {
@@ -31,7 +31,7 @@ int
 
       *(char *)(*(int *)puVar1 + iVar3 + 0x5d) = param_2;
 
-      (*0x06035228)();
+      (*(void(*)())0x06035228)();
 
       *(int *)(*(int *)puVar1 + iVar3 + 100) = param_4;
 

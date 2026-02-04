@@ -36,7 +36,7 @@ unsigned short FUN_0600c3a8(param_1)
 
       }
 
-      else if (*0x06083255 == '\0') {
+      else if (*(int *)0x06083255 == '\0') {
 
         *(int *)0x06063E20 = 1;
 
@@ -58,7 +58,7 @@ unsigned short FUN_0600c3a8(param_1)
 
        (*(unsigned int *)0x06063E20 < (unsigned int)(int)(char)*0x06078662)) {
 
-      if ((*0x06083255 == '\0') || (*(int *)0x06063E20 != 0)) {
+      if ((*(int *)0x06083255 == '\0') || (*(int *)0x06063E20 != 0)) {
 
         *(int *)0x06063E20 = *(int *)0x06063E20 + 1;
 
@@ -76,7 +76,7 @@ unsigned short FUN_0600c3a8(param_1)
 
   else {
 
-    if ((*0x06083255 == '\0') || (*(int *)0x06063E20 != 2)) {
+    if ((*(int *)0x06083255 == '\0') || (*(int *)0x06063E20 != 2)) {
 
       iVar3 = *(int *)0x06063E20 + -1;
 

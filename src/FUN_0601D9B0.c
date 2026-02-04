@@ -1,4 +1,4 @@
-extern void FUN_0601d5f4();
+extern int FUN_0601d5f4();
 
 unsigned int FUN_0601d9b0()
 {
@@ -25,7 +25,7 @@ unsigned int FUN_0601d9b0()
 
   }
 
-  if (((*(short *)0x06086056 == 0) || (*0x0608605A == '\x01')) ||
+  if (((*(short *)0x06086056 == 0) || (*(int *)0x0608605A == '\x01')) ||
 
      (sVar1 = *(short *)0x06086056, *(short *)0x06086056 = sVar1 + -1,
 

@@ -1,4 +1,4 @@
-extern void FUN_0601476c();
+extern int FUN_0601476c();
 
 unsigned int FUN_060146d2()
 {
@@ -19,13 +19,13 @@ unsigned int FUN_060146d2()
 
   if (cVar3 == '\0') {
 
-    *0x06084AF2 = 4;
+    *(int *)0x06084AF2 = 4;
 
   }
 
   else {
 
-    *0x06084AF2 = 6;
+    *(int *)0x06084AF2 = 6;
 
   }
 
@@ -41,7 +41,7 @@ unsigned int FUN_060146d2()
 
       puVar5 = 0x06084B14 + 1;
 
-      *puVar4 = *0x06084B14;
+      *puVar4 = *(int *)0x06084B14;
 
       puVar4[1] = *puVar5;
 
@@ -59,7 +59,7 @@ unsigned int FUN_060146d2()
 
       puVar5 = 0x06084B14 + 1;
 
-      *puVar4 = *0x06084B14;
+      *puVar4 = *(int *)0x06084B14;
 
       puVar4[1] = *puVar5;
 

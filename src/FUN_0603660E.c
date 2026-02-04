@@ -1,4 +1,4 @@
-extern void FUN_06036650();
+extern int FUN_06036650();
 
 int FUN_0603660e(param_1)
     unsigned int *param_1;
@@ -10,7 +10,7 @@ int FUN_0603660e(param_1)
 
   char local_10 [12];
 
-  (*0x06035E90)(local_10);
+  (*(void(*)())0x06035E90)(local_10);
 
   local_10[0] = 0x53;
 

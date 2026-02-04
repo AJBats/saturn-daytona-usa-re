@@ -1,9 +1,9 @@
 extern int DAT_06035e22;
 
-extern void FUN_06035c6e();
-extern void FUN_06035e00();
-extern void FUN_06035e3c();
-extern void FUN_06035e5e();
+extern int FUN_06035c6e();
+extern int FUN_06035e00();
+extern int FUN_06035e3c();
+extern int FUN_06035e5e();
 
 int FUN_06035d5a(param_1, param_2, param_3)
     unsigned int param_1;

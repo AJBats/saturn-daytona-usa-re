@@ -15,7 +15,7 @@ int FUN_06041258()
 
   }
 
-  iVar2 = (*0x06034CC8)();
+  iVar2 = (*(void(*)())0x06034CC8)();
 
   *(int *)(*(int *)puVar1 + 0x34) = 0;
 
@@ -25,7 +25,7 @@ int FUN_06041258()
 
   }
 
-  (*ram0x06041308)(local_14);
+  (*(void(*)())ram0x06041308)(local_14);
 
   *(char *)(*(int *)puVar1 + 0x40) = local_14[0];
 

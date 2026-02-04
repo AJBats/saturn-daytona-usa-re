@@ -38,7 +38,7 @@ void FUN_06015eb8(param_1)
 
   puVar5 = (char *)
 
-           (*0x06035438)(*(int *)(puVar4 + (short)(uVar1 * 0x44) + 0x10));
+           (*(void(*)())0x06035438)(*(int *)(puVar4 + (short)(uVar1 * 0x44) + 0x10));
 
   if (puVar5 == 0x00100000) {
 
@@ -54,7 +54,7 @@ void FUN_06015eb8(param_1)
 
        *(int *)(puVar3 + uVar7 * 4 + 0xc);
 
-  if (*0x06085F89 != '\0') {
+  if (*(int *)0x06085F89 != '\0') {
 
     *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 0x30) =
 

@@ -12,9 +12,9 @@ extern int DAT_0602b2f0;
 
 extern int DAT_0602b2f4;
 
-extern void FUN_0602b1d6();
-extern void FUN_0602b258();
-extern void FUN_0602b298();
+extern int FUN_0602b1d6();
+extern int FUN_0602b258();
+extern int FUN_0602b298();
 
 unsigned int FUN_0602af3c(param_1, param_2, param_3, param_4)
     int param_1;
@@ -1319,6 +1319,6 @@ LAB_0602b000:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

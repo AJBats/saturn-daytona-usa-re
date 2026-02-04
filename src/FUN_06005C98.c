@@ -8,7 +8,7 @@ extern int PTR_DAT_06005d40;
 
 extern int PTR_DAT_06005d40;
 
-extern void FUN_06005dd4();
+extern int FUN_06005dd4();
 
 int FUN_06005c98()
 {
@@ -95,9 +95,9 @@ int FUN_06005c98()
 
       iVar3 = (iVar9 + 5) * 0x40;
 
-      (*puVar2)(8,(iVar3 + 3) * 2,uVar8,uVar4);
+      (*(void(*)())puVar2)(8,(iVar3 + 3) * 2,uVar8,uVar4);
 
-      iVar3 = (*puVar1)(8,(iVar3 + 1) * 2,0x3c,iVar6 + 1);
+      iVar3 = (*(void(*)())puVar1)(8,(iVar3 + 1) * 2,0x3c,iVar6 + 1);
 
       iVar9 = iVar9 + 1;
 
@@ -131,9 +131,9 @@ int FUN_06005c98()
 
       iVar6 = (local_28 + 5) * 0x40;
 
-      (*puVar2)(8,(iVar6 + 3) * 2,0x48,uVar4);
+      (*(void(*)())puVar2)(8,(iVar6 + 3) * 2,0x48,uVar4);
 
-      iVar3 = (*puVar1)(8,(iVar6 + 1) * 2,0x3c,uVar7 + 1);
+      iVar3 = (*(void(*)())puVar1)(8,(iVar6 + 1) * 2,0x3c,uVar7 + 1);
 
     }
 

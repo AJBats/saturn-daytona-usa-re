@@ -2,8 +2,8 @@ extern int DAT_0600ce8e;
 
 extern int DAT_0600cf3a;
 
-extern void FUN_0600cd40();
-extern void FUN_0600cdd0();
+extern int FUN_0600cd40();
+extern int FUN_0600cdd0();
 
 void FUN_0600ce66()
 {

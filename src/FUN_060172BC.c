@@ -1,5 +1,5 @@
-extern void FUN_060172e4();
-extern void FUN_06017330();
+extern int FUN_060172e4();
+extern int FUN_06017330();
 
 void FUN_060172bc()
 {

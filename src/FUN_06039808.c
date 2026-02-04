@@ -1,6 +1,6 @@
-extern void FUN_0603a6c0();
-extern void FUN_0603a72c();
-extern void FUN_0603a766();
+extern int FUN_0603a6c0();
+extern int FUN_0603a72c();
+extern int FUN_0603a766();
 
 int FUN_06039808(param_1)
     int *param_1;
@@ -20,9 +20,9 @@ int FUN_06039808(param_1)
 
   puVar1 = 0x06063601;
 
-  if ((*0x060A4CAA == '\x01') || (*0x060A4CAA == '\x02')) {
+  if ((*(int *)0x060A4CAA == '\x01') || (*(int *)0x060A4CAA == '\x02')) {
 
-    if ((*0x20100061 & 0x10) == 0x10) {
+    if ((*(int *)0x20100061 & 0x10) == 0x10) {
 
       iVar5 = *(int *)0x06063608;
 
@@ -40,7 +40,7 @@ int FUN_06039808(param_1)
 
     else {
 
-      *0x06063601 = 0;
+      *(int *)0x06063601 = 0;
 
       *(int *)puVar2 = 0;
 
@@ -54,7 +54,7 @@ int FUN_06039808(param_1)
 
       if (*(int *)0x060A4CB4 < (int)(unsigned int)*(unsigned short *)0x060A4CAC) {
 
-        *0x06063600 = *0x06063600 + '\x01';
+        *(int *)0x06063600 = *(int *)0x06063600 + '\x01';
 
         if (2 < (unsigned char)*puVar1) {
 
@@ -68,7 +68,7 @@ int FUN_06039808(param_1)
 
       else {
 
-        *0x06063600 = 0;
+        *(int *)0x06063600 = 0;
 
       }
 

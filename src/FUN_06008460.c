@@ -4,7 +4,7 @@ extern int DAT_060084a4;
 
 extern int DAT_060084a6;
 
-extern void FUN_060084ca();
+extern int FUN_060084ca();
 
 void FUN_06008460()
 {
@@ -19,7 +19,7 @@ void FUN_06008460()
 
     if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0) {
 
-      (*0x0601D5F4)(0,0xAE1102FF);
+      (*(void(*)())0x0601D5F4)(0,0xAE1102FF);
 
     }
 

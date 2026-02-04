@@ -2,7 +2,7 @@ extern int DAT_0601f962;
 
 extern int DAT_0601f964;
 
-extern void FUN_0601fd20();
+extern int FUN_0601fd20();
 
 int FUN_0601f900()
 {
@@ -13,7 +13,7 @@ int FUN_0601f900()
 
     local_8[0] = DAT_0601f964;
 
-    (*0x06036E90)(0x25E7FFFE,1,local_8);
+    (*(void(*)())0x06036E90)(0x25E7FFFE,1,local_8);
 
     return 1;
 

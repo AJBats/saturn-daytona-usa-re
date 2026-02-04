@@ -1,6 +1,6 @@
 extern int DAT_06030eae;
 
-void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5,
+void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5
 {
 
   short sVar1;
@@ -33,7 +33,7 @@ void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5,
 
   if (param_6 != 0) {
 
-    iVar3 = (*0x06027348)(*(int *)(unaff_r14 + 0x30) - param_7);
+    iVar3 = (*(void(*)())0x06027348)(*(int *)(unaff_r14 + 0x30) - param_7);
 
     if (iVar3 < 0) {
 
@@ -77,9 +77,9 @@ void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5,
 
   *(int *)(unaff_r14 + 0x3c) = iVar8;
 
-  iVar3 = (*0x06027344)();
+  iVar3 = (*(void(*)())0x06027344)();
 
-  iVar4 = (*0x06027348)(-(int)sVar1);
+  iVar4 = (*(void(*)())0x06027348)(-(int)sVar1);
 
   *(unsigned int *)(unaff_r14 + 0x10) =
 

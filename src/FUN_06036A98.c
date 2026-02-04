@@ -14,11 +14,11 @@ int FUN_06036a98(param_1, param_2, param_3)
 
   char local_18 [12];
 
-  (*0x06035E90)(local_18);
+  (*(void(*)())0x06035E90)(local_18);
 
   local_18[0] = 0x72;
 
-  uVar1 = (*0x06035EA2)(0,local_18,auStack_20);
+  uVar1 = (*(void(*)())0x06035EA2)(0,local_18,auStack_20);
 
   *param_2 = (unsigned int)uStack_1e;
 

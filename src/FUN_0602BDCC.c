@@ -4399,9 +4399,7 @@ LAB_0602bee8:
 
         }
 
-        (**(void **)(0x0602C450 + iVar10 * 4))
-
-                  (0x06094EF4,0x06094EEC,puVar16 + 9,puVar16 + 0xc);
+        (*(void(*)())(*(int *)(0x0602C450 + iVar10 * 4)))(0x06094EF4,0x06094EEC,puVar16 + 9,puVar16 + 0xc);
 
         uVar20 = uVar21;
 
@@ -4681,7 +4679,7 @@ LAB_0602bee8:
 
             if (iVar11 != 0) {
 
-              (**(void **)(0x0602C460 + iVar11 * 4))(puVar7,puVar8);
+              (*(void(*)())(*(int *)(0x0602C460 + iVar11 * 4)))(puVar7,puVar8);
 
             }
 
@@ -4743,6 +4741,6 @@ LAB_0602c416:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

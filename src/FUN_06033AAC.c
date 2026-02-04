@@ -25,7 +25,7 @@ long long FUN_06033aac()
 
     iVar8 = (0x0000002C & 0xffff) * (uVar6 & 0xffff);
 
-    0x06082A7C[0x00000000 + iVar8] = (char)uVar6;
+    ((int *)0x06082A7C)[0x00000000 + iVar8] = (char)uVar6;
 
     puVar5[0x00000010 + iVar8] = 0;
 
@@ -57,7 +57,7 @@ long long FUN_06033aac()
 
   } while ((int)uVar6 < 0x0000002D);
 
-  *0x06083254 = 0;
+  *(int *)0x06083254 = 0;
 
   *(int *)0x06083250 = 0;
 

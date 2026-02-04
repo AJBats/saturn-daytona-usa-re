@@ -1,4 +1,4 @@
-extern void FUN_0601f4b4();
+extern int FUN_0601f4b4();
 
 int FUN_0601e810(param_1, param_2, param_3)
     unsigned short param_1;
@@ -24,7 +24,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   puVar1 = 0x0605E06C;
 
-  iVar5 = (*0x06035C1C)(param_2);
+  iVar5 = (*(void(*)())0x06035C1C)(param_2);
 
   if (0xb < iVar5) {
 
@@ -32,7 +32,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   }
 
-  iVar5 = (*0x06035C1C)(puVar1 + (unsigned int)(unsigned char)*puVar2 * 0xb);
+  iVar5 = (*(void(*)())0x06035C1C)(puVar1 + (unsigned int)(unsigned char)*puVar2 * 0xb);
 
   if (10 < iVar5) {
 
@@ -44,9 +44,9 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   puVar4 = 0x060877B4;
 
-  (*0x06035C08)(0x060877B4,param_2);
+  (*(void(*)())0x06035C08)(0x060877B4,param_2);
 
-  (*0x06035C08)(puVar4 + 0xc,puVar1 + (unsigned int)(unsigned char)*puVar2 * 0xb);
+  (*(void(*)())0x06035C08)(puVar4 + 0xc,puVar1 + (unsigned int)(unsigned char)*puVar2 * 0xb);
 
   puVar4[0x17] = 0;
 
@@ -62,7 +62,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   *puVar3 = 1;
 
-  *0x2010001F = 0x1a;
+  *(int *)0x2010001F = 0x1a;
 
   do {
 
@@ -80,7 +80,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   *puVar3 = 1;
 
-  *0x2010001F = 0x19;
+  *(int *)0x2010001F = 0x19;
 
   do {
 

@@ -2,8 +2,8 @@ extern int PTR_DAT_06026668;
 
 extern int PTR_DAT_06026668;
 
-extern void FUN_06026362();
-extern void FUN_0602648e();
+extern int FUN_06026362();
+extern int FUN_0602648e();
 
 void FUN_06026590(param_1, param_2)
     char param_1;

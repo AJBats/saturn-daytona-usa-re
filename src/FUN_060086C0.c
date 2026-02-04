@@ -6,7 +6,7 @@ extern int DAT_0600871c;
 
 extern int DAT_0600871e;
 
-extern void FUN_06008730();
+extern int FUN_06008730();
 
 void FUN_060086c0(param_1)
     int *param_1;
@@ -22,9 +22,9 @@ void FUN_060086c0(param_1)
 
   piVar2 = (int *)0x0607E940;
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   *(int *)(*piVar2 + (int)DAT_06008718) = *param_1;
 
@@ -38,7 +38,7 @@ void FUN_060086c0(param_1)
 
   *(int *)(*piVar2 + (int)DAT_0600871e) = iVar1;
 
-  *0x0607EBEC = *0x0607EBEC + cVar3;
+  *(int *)0x0607EBEC = *(int *)0x0607EBEC + cVar3;
 
   FUN_06008730();
 

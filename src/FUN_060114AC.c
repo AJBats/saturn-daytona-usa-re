@@ -1,7 +1,7 @@
 extern int DAT_060115c6;
 
-extern void FUN_060116a8();
-extern void FUN_06011978();
+extern int FUN_060116a8();
+extern int FUN_06011978();
 
 unsigned int FUN_060114ac(param_1)
     unsigned int param_1;
@@ -25,7 +25,7 @@ unsigned int FUN_060114ac(param_1)
 
   *(int *)0x06078860 = *(int *)0x06078860 + ((int)(iVar3 + (unsigned int)(iVar3 < 0)) >> 1);
 
-  if (((*0x0607887F == '\x03') || (*0x0607887F == '\v')) &&
+  if (((*(int *)0x0607887F == '\x03') || (*(int *)0x0607887F == '\v')) &&
 
      ((*(unsigned int *)0x0607EBC8 & 1) != 0)) {
 

@@ -44,7 +44,7 @@ void FUN_0601fec0(param_1)
 
   *(unsigned int *)(iVar6 + 8) = (unsigned int)uVar1;
 
-  uVar4 = (*0x06027552)((int)DAT_0601ff8c,(unsigned int)uVar1 << 0x10);
+  uVar4 = (*(void(*)())0x06027552)((int)DAT_0601ff8c,(unsigned int)uVar1 << 0x10);
 
   *(int *)(iVar6 + 0xc) = uVar4;
 
@@ -58,7 +58,7 @@ void FUN_0601fec0(param_1)
 
   *(unsigned int *)(iVar6 + iVar3 + -4) = (unsigned int)uVar1;
 
-  (*0x0600CB90)(puVar2,*param_1);
+  (*(void(*)())0x0600CB90)(puVar2,*param_1);
 
   *(int *)(iVar6 + 0x10) = *(int *)puVar2;
 

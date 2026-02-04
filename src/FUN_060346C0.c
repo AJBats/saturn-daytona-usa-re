@@ -15,9 +15,9 @@ int FUN_060346c0()
 
   iVar3 = *(char *)(unaff_r14 + 0x00000001) + -1;
 
-  cVar1 = 0x060631B4[iVar3];
+  cVar1 = ((int *)0x060631B4)[iVar3];
 
-  cVar2 = 0x060631B8[iVar3];
+  cVar2 = ((int *)0x060631B8)[iVar3];
 
   iVar3 = *(char *)(unaff_r14 + 0x00000010) + 1;
 

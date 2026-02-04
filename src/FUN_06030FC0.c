@@ -28,8 +28,8 @@ extern int PTR_DAT_060312a0;
 
 extern int PTR_DAT_060312a0;
 
-extern void FUN_06031340();
-extern void FUN_0603136e();
+extern int FUN_06031340();
+extern int FUN_0603136e();
 
 int FUN_06030fc0(param_1, param_2, param_3)
     unsigned int *param_1;
@@ -79,13 +79,11 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
   if ((int)param_2[3] < (int)param_1[3]) {
 
-    sVar5 = (*0x0602744C)(param_2[4] - param_1[4],param_2[6] - param_1[6]);
+    sVar5 = (*(void(*)())0x0602744C)(param_2[4] - param_1[4],param_2[6] - param_1[6]);
 
     iVar3 = (int)-sVar5;
 
-    sVar5 = (*0x0602744C)
-
-                      (param_2[0xe] - param_1[0xe],param_2[0xf] - param_1[0xf],param_1[0xe],
+    sVar5 = (*(void(*)())0x0602744C)(param_2[0xe] - param_1[0xe],param_2[0xf] - param_1[0xf],param_1[0xe],
 
                        param_1[0xf],in_pr,in_r0);
 
@@ -115,7 +113,7 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
     bVar1 = uVar11 != uVar6;
 
-    uVar13 = (*0x06027348)(iVar7);
+    uVar13 = (*(void(*)())0x06027348)(iVar7);
 
     iVar7 = (int)uVar13;
 
@@ -153,7 +151,7 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
           *param_2 = *param_2 | 0x08000000;
 
-          (*0x06008460)();
+          (*(void(*)())0x06008460)();
 
           *(int *)((int)param_1 + (int)DAT_06031130) = (int)DAT_06031132;
 
@@ -169,7 +167,7 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
           *param_2 = *param_2 | 0x08000000;
 
-          (*0x06008460)();
+          (*(void(*)())0x06008460)();
 
           *(int *)((int)param_1 + (int)DAT_06031188) = (int)DAT_0603118a;
 
@@ -205,7 +203,7 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
             }
 
-            iVar4 = (*0x06027344)(uVar6);
+            iVar4 = (*(void(*)())0x06027344)(uVar6);
 
             lVar2 = (long long)(int)(param_1[3] - param_2[3] >> 2) * (long long)iVar4;
 
@@ -223,9 +221,9 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
       if (iVar10 == 0) {
 
-        if (*0x0602FD9A == '\0') {
+        if (*(int *)0x0602FD9A == '\0') {
 
-          *0x0602FD9A = 3;
+          *(int *)0x0602FD9A = 3;
 
         }
 
@@ -327,9 +325,9 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
       param_2[0xf] = uVar8;
 
-      iVar7 = (*0x06027344)(-iVar3);
+      iVar7 = (*(void(*)())0x06027344)(-iVar3);
 
-      iVar10 = (*0x06027348)(-iVar3);
+      iVar10 = (*(void(*)())0x06027348)(-iVar3);
 
       param_2[4] = uVar6 + ((int)((unsigned long long)((long long)extraout_r3 * (long long)iVar10) >> 0x20) <<
 
@@ -349,9 +347,9 @@ int FUN_06030fc0(param_1, param_2, param_3)
 
       param_1[0xf] = uVar8;
 
-      iVar3 = (*0x06027344)(-(int)puVar12);
+      iVar3 = (*(void(*)())0x06027344)(-(int)puVar12);
 
-      iVar7 = (*0x06027348)(-(int)puVar12);
+      iVar7 = (*(void(*)())0x06027348)(-(int)puVar12);
 
       param_1[4] = uVar6 + ((int)((unsigned long long)((long long)extraout_r3_00 * (long long)iVar7) >> 0x20)
 

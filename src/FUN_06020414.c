@@ -55,9 +55,7 @@ void FUN_06020414(param_1, param_2, param_3, param_4)
 
       }
 
-      (*0x06028400)
-
-                (8,puVar2,((param_2 & 0xffff) + (param_3 & 0xffff) * 0x40) * 2,iVar5);
+      (*(void(*)())0x06028400)(8,puVar2,((param_2 & 0xffff) + (param_3 & 0xffff) * 0x40) * 2,iVar5);
 
       uVar7 = uVar7 + 1;
 

@@ -5,7 +5,7 @@ void FUN_0603be7c(param_1, param_2)
 
   if ((*(unsigned char *)(param_1 + 0x1d) & 0x60) == 0) {
 
-    (*0x060401F8)();
+    (*(void(*)())0x060401F8)();
 
     return;
 

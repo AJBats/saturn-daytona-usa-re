@@ -1,4 +1,4 @@
-extern void FUN_06033f54();
+extern int FUN_06033f54();
 
 int FUN_06033bc8()
 {
@@ -11,29 +11,29 @@ int FUN_06033bc8()
 
      (0x000000EC < *(int *)(0x000001EC + *(int *)0x0607E944))) {
 
-    bVar2 = false;
+    bVar2 = 0;
 
   }
 
   else {
 
-    bVar2 = true;
+    bVar2 = 1;
 
   }
 
   if (bVar2) {
 
-    (*0x06033F54)(0);
+    (*(void(*)())0x06033F54)(0);
 
-    (*0x06033F54)(1);
+    (*(void(*)())0x06033F54)(1);
 
-    (*0x06033F54)(2);
+    (*(void(*)())0x06033F54)(2);
 
   }
 
   else {
 
-    (*0x0603446C)();
+    (*(void(*)())0x0603446C)();
 
   }
 
@@ -41,13 +41,13 @@ int FUN_06033bc8()
 
      (0x00000104 < *(int *)(0x000001EC + *(int *)0x0607E944))) {
 
-    bVar2 = false;
+    bVar2 = 0;
 
   }
 
   else {
 
-    bVar2 = true;
+    bVar2 = 1;
 
   }
 
@@ -99,13 +99,13 @@ int FUN_06033bc8()
 
      (0x000001E0 < *(int *)(0x000001EC + *(int *)0x0607E944))) {
 
-    bVar2 = false;
+    bVar2 = 0;
 
   }
 
   else {
 
-    bVar2 = true;
+    bVar2 = 1;
 
   }
 

@@ -1,4 +1,4 @@
-extern void FUN_06034d5e();
+extern int FUN_06034d5e();
 
 void FUN_06034d1c(param_1)
     int param_1;
@@ -12,7 +12,7 @@ void FUN_06034d1c(param_1)
 
   char auStack_b [7];
 
-  (*0x06035E90)(&local_10);
+  (*(void(*)())0x06035E90)(&local_10);
 
   local_10 = 0x10;
 
@@ -22,7 +22,7 @@ void FUN_06034d1c(param_1)
 
   FUN_06034d5e(param_1 + 8,auStack_b);
 
-  (*0x06035EC8)(0,&local_10);
+  (*(void(*)())0x06035EC8)(0,&local_10);
 
   return;
 

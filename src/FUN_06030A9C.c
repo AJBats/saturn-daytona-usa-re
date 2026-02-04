@@ -12,7 +12,7 @@ extern int PTR_DAT_06030b2c;
 
 extern int PTR_DAT_06030b2c;
 
-extern void FUN_06030dfe();
+extern int FUN_06030dfe();
 
 void FUN_06030a9c(param_1, param_2, param_3, param_4)
     int param_1;
@@ -63,9 +63,9 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
   *(short *)((int)unaff_r14 + iVar2 + 4) = DAT_06030b28;
 
-  *0x0607866D = 0xf;
+  *(int *)0x0607866D = 0xf;
 
-  *0x06089595 = 1;
+  *(int *)0x06089595 = 1;
 
   *(unsigned int *)((int)unaff_r14 + (int)DAT_06030b2a) =
 
@@ -81,7 +81,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
   if (*(short *)0x06030FBE == 0) {
 
-    (*0x06008460)();
+    (*(void(*)())0x06008460)();
 
   }
 
@@ -103,7 +103,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
   if (uVar5 != 0) {
 
-    (*0x0602755C)(-uVar7,uVar6);
+    (*(void(*)())0x0602755C)(-uVar7,uVar6);
 
     FUN_06030dfe();
 
@@ -121,9 +121,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
     lVar1 = (long long)(int)-uVar6 * (long long)(int)-uVar6;
 
-    (*0x0602755C)
-
-              (unaff_r14[4] + (iVar4 << 0x10 | uVar5 >> 0x10),
+    (*(void(*)())0x0602755C)(unaff_r14[4] + (iVar4 << 0x10 | uVar5 >> 0x10),
 
                ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) + 0x10000);
 
@@ -133,9 +131,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
     lVar1 = (long long)(int)-uVar6 * (long long)(int)-uVar6;
 
-    (*0x0602755C)
-
-              (((int)unaff_r14[4] >> 8) + (uVar5 >> 0x18 | iVar4 << 8),
+    (*(void(*)())0x0602755C)(((int)unaff_r14[4] >> 8) + (uVar5 >> 0x18 | iVar4 << 8),
 
                ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) + 0x10000);
 

@@ -4,7 +4,7 @@ extern int PTR_DAT_0600da54;
 
 extern int PTR_DAT_0600da54;
 
-extern void FUN_0600dd88();
+extern int FUN_0600dd88();
 
 void FUN_0600d9bc(param_1)
     int param_1;
@@ -50,13 +50,13 @@ void FUN_0600d9bc(param_1)
 
   }
 
-  uVar4 = (*0x06035280)();
+  uVar4 = (*(void(*)())0x06035280)();
 
   if ((*(unsigned int *)puVar1 & uVar4) == 0) {
 
     *(unsigned int *)puVar1 = *(unsigned int *)puVar1 | uVar4;
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(int *)(iVar6 + PTR_DAT_0600da54) = *(int *)(iVar6 + PTR_DAT_0600da54) + 1;
 

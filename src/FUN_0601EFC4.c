@@ -213,7 +213,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x0605AD00 + 1;
 
-    puVar5[0xc] = *0x0605AD00;
+    puVar5[0xc] = *(int *)0x0605AD00;
 
     puVar5[0xd] = *puVar3;
 
@@ -225,7 +225,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x0605AD04 + 1;
 
-    puVar5[0x10] = *0x0605AD04;
+    puVar5[0x10] = *(int *)0x0605AD04;
 
     puVar5[0x11] = *puVar3;
 
@@ -237,7 +237,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x0605AD0C + 1;
 
-    puVar5[0x14] = *0x0605AD0C;
+    puVar5[0x14] = *(int *)0x0605AD0C;
 
     puVar5[0x15] = *puVar3;
 
@@ -245,59 +245,59 @@ char * FUN_0601efc4()
 
     puVar5[0x17] = puVar7[3];
 
-    puVar5[0x18] = *0x0605AB16;
+    puVar5[0x18] = *(int *)0x0605AB16;
 
-    puVar5[0x19] = *0x0605AB17;
+    puVar5[0x19] = *(int *)0x0605AB17;
 
-    puVar5[0x1a] = *0x0605D240;
+    puVar5[0x1a] = *(int *)0x0605D240;
 
-    puVar5[0x1b] = *0x0605D241;
+    puVar5[0x1b] = *(int *)0x0605D241;
 
     puVar3 = 0x06060D44 + 1;
 
-    puVar5[0x1c] = *0x06060D44;
+    puVar5[0x1c] = *(int *)0x06060D44;
 
     puVar5[0x1d] = *puVar3;
 
     puVar3 = 0x06060D46 + 1;
 
-    puVar5[0x1e] = *0x06060D46;
+    puVar5[0x1e] = *(int *)0x06060D46;
 
     puVar5[0x1f] = *puVar3;
 
     puVar3 = 0x06060D40 + 1;
 
-    puVar5[0x20] = *0x06060D40;
+    puVar5[0x20] = *(int *)0x06060D40;
 
     puVar5[0x21] = *puVar3;
 
     puVar3 = 0x06060D42 + 1;
 
-    puVar5[0x22] = *0x06060D42;
+    puVar5[0x22] = *(int *)0x06060D42;
 
     puVar5[0x23] = *puVar3;
 
     puVar3 = 0x06060D48 + 1;
 
-    puVar5[0x24] = *0x06060D48;
+    puVar5[0x24] = *(int *)0x06060D48;
 
     puVar5[0x25] = *puVar3;
 
     puVar3 = 0x06060D4A + 1;
 
-    puVar5[0x26] = *0x06060D4A;
+    puVar5[0x26] = *(int *)0x06060D4A;
 
     puVar5[0x27] = *puVar3;
 
     puVar3 = 0x06060D4C + 1;
 
-    puVar5[0x28] = *0x06060D4C;
+    puVar5[0x28] = *(int *)0x06060D4C;
 
     puVar5[0x29] = *puVar3;
 
     puVar3 = 0x06060D4E + 1;
 
-    puVar5[0x2a] = *0x06060D4E;
+    puVar5[0x2a] = *(int *)0x06060D4E;
 
     puVar5[0x2b] = *puVar3;
 
@@ -305,7 +305,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D54 + 1;
 
-    puVar5[0x2c] = *0x06060D54;
+    puVar5[0x2c] = *(int *)0x06060D54;
 
     puVar5[0x2d] = *puVar3;
 
@@ -317,7 +317,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D58 + 1;
 
-    puVar5[0x30] = *0x06060D58;
+    puVar5[0x30] = *(int *)0x06060D58;
 
     puVar5[0x31] = *puVar3;
 
@@ -329,7 +329,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D50 + 1;
 
-    puVar5[0x34] = *0x06060D50;
+    puVar5[0x34] = *(int *)0x06060D50;
 
     puVar5[0x35] = *puVar3;
 
@@ -339,49 +339,49 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D60 + 1;
 
-    puVar5[0x38] = *0x06060D60;
+    puVar5[0x38] = *(int *)0x06060D60;
 
     puVar5[0x39] = *puVar3;
 
     puVar3 = 0x06060D62 + 1;
 
-    puVar5[0x3a] = *0x06060D62;
+    puVar5[0x3a] = *(int *)0x06060D62;
 
     puVar5[0x3b] = *puVar3;
 
     puVar3 = 0x06060D5C + 1;
 
-    puVar5[0x3c] = *0x06060D5C;
+    puVar5[0x3c] = *(int *)0x06060D5C;
 
     puVar5[0x3d] = *puVar3;
 
     puVar3 = 0x06060D5E + 1;
 
-    puVar5[0x3e] = *0x06060D5E;
+    puVar5[0x3e] = *(int *)0x06060D5E;
 
     puVar5[0x3f] = *puVar3;
 
     puVar3 = 0x06060D64 + 1;
 
-    puVar5[0x40] = *0x06060D64;
+    puVar5[0x40] = *(int *)0x06060D64;
 
     puVar5[0x41] = *puVar3;
 
     puVar3 = 0x06060D66 + 1;
 
-    puVar5[0x42] = *0x06060D66;
+    puVar5[0x42] = *(int *)0x06060D66;
 
     puVar5[0x43] = *puVar3;
 
     puVar3 = 0x06060D68 + 1;
 
-    puVar5[0x44] = *0x06060D68;
+    puVar5[0x44] = *(int *)0x06060D68;
 
     puVar5[0x45] = *puVar3;
 
     puVar3 = 0x06060D6A + 1;
 
-    puVar5[0x46] = *0x06060D6A;
+    puVar5[0x46] = *(int *)0x06060D6A;
 
     puVar5[0x47] = *puVar3;
 
@@ -389,7 +389,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D70 + 1;
 
-    puVar5[0x48] = *0x06060D70;
+    puVar5[0x48] = *(int *)0x06060D70;
 
     puVar5[0x49] = *puVar3;
 
@@ -401,7 +401,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D74 + 1;
 
-    puVar5[0x4c] = *0x06060D74;
+    puVar5[0x4c] = *(int *)0x06060D74;
 
     puVar5[0x4d] = *puVar3;
 
@@ -413,7 +413,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x06060D6C + 1;
 
-    puVar5[0x50] = *0x06060D6C;
+    puVar5[0x50] = *(int *)0x06060D6C;
 
     puVar5[0x51] = *puVar3;
 

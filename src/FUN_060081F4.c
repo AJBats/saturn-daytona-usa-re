@@ -47,7 +47,7 @@ void FUN_060081f4()
 
           if (((unsigned int)puVar2 & *(unsigned int *)puVar4) != 0) {
 
-            (*0x0601D5F4)(0,0xAE111BFF);
+            (*(void(*)())0x0601D5F4)(0,0xAE111BFF);
 
           }
 
@@ -63,7 +63,7 @@ void FUN_060081f4()
 
         if (((unsigned int)puVar2 & *(unsigned int *)puVar4) != 0) {
 
-          (*0x0601D5F4)(0,0xAE111BFF);
+          (*(void(*)())0x0601D5F4)(0,0xAE111BFF);
 
         }
 
@@ -109,9 +109,9 @@ void FUN_060081f4()
 
   }
 
-  (*0x06034F78)(0);
+  (*(void(*)())0x06034F78)(0);
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   return;
 

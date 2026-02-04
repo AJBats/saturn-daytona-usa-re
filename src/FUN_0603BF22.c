@@ -1,6 +1,6 @@
 extern int DAT_0603bf6e;
 
-extern void FUN_0603b9d6();
+extern int FUN_0603b9d6();
 
 void FUN_0603bf22(param_1, param_2)
     int param_1;
@@ -17,7 +17,7 @@ void FUN_0603bf22(param_1, param_2)
 
   }
 
-  (*0x0604087C)(*(int *)(*param_2 + 0x18));
+  (*(void(*)())0x0604087C)(*(int *)(*param_2 + 0x18));
 
   return;
 

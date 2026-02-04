@@ -2,10 +2,10 @@ extern int DAT_0603bbb0;
 
 extern int DAT_0603bbb2;
 
-extern void FUN_0603b21c();
-extern void FUN_0603b81e();
-extern void FUN_0603ba2c();
-extern void FUN_0603bf22();
+extern int FUN_0603b21c();
+extern int FUN_0603b81e();
+extern int FUN_0603ba2c();
+extern int FUN_0603bf22();
 
 int FUN_0603bac6(param_1)
     int param_1;
@@ -35,7 +35,7 @@ int FUN_0603bac6(param_1)
 
   uVar5 = 0;
 
-  iVar1 = (*0x06040680)();
+  iVar1 = (*(void(*)())0x06040680)();
 
   if (iVar1 == 0) {
 
@@ -45,7 +45,7 @@ int FUN_0603bac6(param_1)
 
   else {
 
-    local_24 = (*0x06040F82)();
+    local_24 = (*(void(*)())0x06040F82)();
 
     local_24 = local_24 + DAT_0603bbb0;
 

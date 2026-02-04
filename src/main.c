@@ -15,11 +15,11 @@ void main()
 
   int iVar6;
 
-  (*0x060030FC)();
+  (*(void(*)())0x060030FC)();
 
   do {
 
-    (*0x0600A392)();
+    (*(void(*)())0x0600A392)();
 
     puVar1 = 0x0607EBC4;
 
@@ -69,8 +69,8 @@ void main()
 
     *(int *)puVar2 = *(int *)puVar2 + 1;
 
-    (*pcVar3)();
+    (*(void(*)())pcVar3)();
 
-  } while( true );
+  } while( 1 );
 
 }

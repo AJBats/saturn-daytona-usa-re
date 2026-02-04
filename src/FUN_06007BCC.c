@@ -1,4 +1,4 @@
-extern void FUN_06007a50();
+extern int FUN_06007a50();
 
 void FUN_06007bcc()
 {
@@ -47,13 +47,13 @@ void FUN_06007bcc()
 
     if (*(short *)(puVar4 + (uVar7 * 0x18 & 0xffff) + 6) == 9) {
 
-      (*0x060281B8)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5,puVar3);
+      (*(void(*)())0x060281B8)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5,puVar3);
 
     }
 
     else {
 
-      (*puVar1)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5);
+      (*(void(*)())puVar1)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5);
 
     }
 
@@ -65,15 +65,15 @@ void FUN_06007bcc()
 
   if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x20228000) != 0) {
 
-    (*0x060333D8)();
+    (*(void(*)())0x060333D8)();
 
     FUN_06007a50();
 
   }
 
-  (*0x06011DC0)();
+  (*(void(*)())0x06011DC0)();
 
-  (*0x060171AC)();
+  (*(void(*)())0x060171AC)();
 
   return;
 

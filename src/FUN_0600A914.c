@@ -103,7 +103,7 @@ int FUN_0600a914()
 
                ) {
 
-              iVar5 = (*0x060316C4)(puVar12);
+              iVar5 = (*(void(*)())0x060316C4)(puVar12);
 
             }
 
@@ -163,7 +163,7 @@ int FUN_0600a914()
 
              (iVar5 = (int)DAT_0600aa7e, *(int *)((int)puVar12 + iVar5) < (int)0x00010000)) {
 
-            iVar5 = (*0x06030FC0)(iVar10,puVar12);
+            iVar5 = (*(void(*)())0x06030FC0)(iVar10,puVar12);
 
           }
 

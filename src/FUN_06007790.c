@@ -42,7 +42,7 @@ void FUN_06007790(param_1, param_2, param_3)
 
     uVar6 = uVar1 & DAT_060078ca;
 
-    uVar5 = (*0x06034FE0)();
+    uVar5 = (*(void(*)())0x06034FE0)();
 
     *(unsigned short *)(puVar2 + *(int *)puVar4 * 8 + 4) = uVar5 | uVar6;
 
@@ -58,9 +58,7 @@ void FUN_06007790(param_1, param_2, param_3)
 
   *(unsigned short *)(puVar2 + *(int *)puVar4 * 8 + 6) = param_1[2] + param_2 * 4;
 
-  (*0x06028654)
-
-            (*(int *)(param_1 + 4) + param_3,*(int *)puVar3 * 8 + *(int *)0x06063F5C);
+  (*(void(*)())0x06028654)(*(int *)(param_1 + 4) + param_3,*(int *)puVar3 * 8 + *(int *)0x06063F5C);
 
   *(int *)puVar4 = *(int *)puVar4 + 1;
 

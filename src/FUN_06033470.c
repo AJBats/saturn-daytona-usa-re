@@ -1,4 +1,4 @@
-extern void FUN_06033504();
+extern int FUN_06033504();
 
 int FUN_06033470()
 {
@@ -63,7 +63,7 @@ int FUN_06033470()
 
   *(short *)(puVar3 + 0x16) = sVar1 + sVar2;
 
-  (*0x060280F8)(puVar3,*(int *)0x060785FC);
+  (*(void(*)())0x060280F8)(puVar3,*(int *)0x060785FC);
 
   uVar4 = FUN_06033504();
 

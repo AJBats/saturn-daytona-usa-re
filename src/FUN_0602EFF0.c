@@ -8,7 +8,7 @@ extern int PTR_DAT_0602f0e0;
 
 extern int PTR_DAT_0602f0e0;
 
-extern void FUN_0602eccc();
+extern int FUN_0602eccc();
 
 int FUN_0602eff0(param_1, param_2)
     int param_1;

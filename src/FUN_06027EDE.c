@@ -64,7 +64,7 @@ unsigned int FUN_06027ede(param_1, param_2, param_3)
 
     psVar7 = (short *)0x06061270;
 
-    while( true ) {
+    while( 1 ) {
 
       sVar1 = *psVar7;
 

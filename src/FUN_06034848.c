@@ -11,7 +11,7 @@ unsigned int FUN_06034848()
 
   uVar1 = 0;
 
-  if (((*0x06083255 != '\0') &&
+  if (((*(int *)0x06083255 != '\0') &&
 
       (uVar1 = *(unsigned int *)0x0607EBC4, ((unsigned int)0x00028000 & uVar1) != 0)) &&
 
@@ -47,7 +47,7 @@ unsigned int FUN_06034848()
 
     }
 
-    uVar1 = (*0x0601D5F4)(0x00000000,uVar2);
+    uVar1 = (*(void(*)())0x0601D5F4)(0x00000000,uVar2);
 
   }
 

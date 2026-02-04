@@ -1,6 +1,6 @@
 extern int DAT_060203be;
 
-extern void FUN_06020414();
+extern int FUN_06020414();
 
 int FUN_06020366(param_1)
     unsigned int param_1;

@@ -1,8 +1,8 @@
-extern void FUN_0603307c();
-extern void FUN_06033470();
-extern void FUN_06033550();
-extern void FUN_06033648();
-extern void FUN_06033700();
+extern int FUN_0603307c();
+extern int FUN_06033470();
+extern int FUN_06033550();
+extern int FUN_06033648();
+extern int FUN_06033700();
 
 int FUN_060333d8(param_1, param_2, param_3, param_4)
     int param_1;

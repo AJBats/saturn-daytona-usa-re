@@ -68,7 +68,7 @@ void FUN_0603806c(param_1)
 
     *(char **)(puVar8 + -0x14) = puVar8 + -0x14;
 
-    (*0x06035BC8)();
+    (*(void(*)())0x06035BC8)();
 
     *(int *)(puVar8 + -0x18) = 0;
 
@@ -82,9 +82,9 @@ void FUN_0603806c(param_1)
 
     *piVar9 = (int)puVar3;
 
-    (*0x060359E4)();
+    (*(void(*)())0x060359E4)();
 
-    uVar2 = (*0x060357B8)();
+    uVar2 = (*(void(*)())0x060357B8)();
 
     uVar5 = uVar5 + 1;
 

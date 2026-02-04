@@ -1,11 +1,11 @@
-extern void FUN_060418be();
-extern void FUN_06041aa0();
-extern void FUN_06041b3c();
-extern void FUN_06041cc8();
-extern void FUN_06041d6c();
-extern void FUN_06041ee8();
-extern void FUN_06042088();
-extern void FUN_06042134();
+extern int FUN_060418be();
+extern int FUN_06041aa0();
+extern int FUN_06041b3c();
+extern int FUN_06041cc8();
+extern int FUN_06041d6c();
+extern int FUN_06041ee8();
+extern int FUN_06042088();
+extern int FUN_06042134();
 
 void FUN_06041826(param_1, param_2)
     int param_1;

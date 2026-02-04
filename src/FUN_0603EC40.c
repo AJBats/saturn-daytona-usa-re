@@ -80,17 +80,17 @@ int FUN_0603ec40(param_1)
 
     iVar6 = *piVar7;
 
-    uVar4 = (*0x0603DA88)(*puVar11);
+    uVar4 = (*(void(*)())0x0603DA88)(*puVar11);
 
-    iVar3 = (*puVar2)(uVar4,iVar6);
+    iVar3 = (*(void(*)())puVar2)(uVar4,iVar6);
 
     piVar8 = (int *)(0x060A53B0 + iVar9);
 
     iVar5 = *piVar8;
 
-    iVar9 = (*0x0603D9EC)(*puVar11);
+    iVar9 = (*(void(*)())0x0603D9EC)(*puVar11);
 
-    iVar9 = (*puVar2)(-iVar9,iVar5);
+    iVar9 = (*(void(*)())puVar2)(-iVar9,iVar5);
 
     *piVar10 = (iVar6 - iVar3) - iVar9;
 
@@ -98,33 +98,33 @@ int FUN_0603ec40(param_1)
 
     iVar3 = *piVar7;
 
-    uVar4 = (*0x0603D9EC)(*puVar11);
+    uVar4 = (*(void(*)())0x0603D9EC)(*puVar11);
 
-    iVar3 = (*puVar2)(uVar4,iVar3);
+    iVar3 = (*(void(*)())puVar2)(uVar4,iVar3);
 
     iVar9 = *piVar8;
 
-    uVar4 = (*0x0603DA88)(*puVar11);
+    uVar4 = (*(void(*)())0x0603DA88)(*puVar11);
 
-    iVar9 = (*puVar2)(uVar4,iVar9);
+    iVar9 = (*(void(*)())puVar2)(uVar4,iVar9);
 
     piVar10[1] = (iVar5 - iVar3) - iVar9;
 
     piVar10[2] = 0;
 
-    iVar3 = (*0x0603D9EC)(*puVar11);
+    iVar3 = (*(void(*)())0x0603D9EC)(*puVar11);
 
     piVar10[3] = -iVar3;
 
-    iVar3 = (*0x0603DA88)(*puVar11);
+    iVar3 = (*(void(*)())0x0603DA88)(*puVar11);
 
     piVar10[4] = iVar3;
 
-    iVar3 = (*0x0603DA88)(*puVar11);
+    iVar3 = (*(void(*)())0x0603DA88)(*puVar11);
 
     piVar10[5] = iVar3;
 
-    iVar3 = (*0x0603D9EC)(*puVar11);
+    iVar3 = (*(void(*)())0x0603D9EC)(*puVar11);
 
     piVar10[6] = iVar3;
 

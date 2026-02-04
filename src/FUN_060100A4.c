@@ -50,7 +50,7 @@ int FUN_060100a4(param_1)
 
   }
 
-  (*0x0602766C)(*(int *)(0x06078888 + (unsigned int)param_1 * 4),puVar3,0x20);
+  (*(void(*)())0x0602766C)(*(int *)(0x06078888 + (unsigned int)param_1 * 4),puVar3,0x20);
 
   if (4 < (unsigned char)*0x0607887F) {
 
@@ -110,9 +110,7 @@ int FUN_060100a4(param_1)
 
   }
 
-  iVar4 = (*0x06011AF4)
-
-                    (iVar4,puVar5,
+  iVar4 = (*(void(*)())0x06011AF4)(iVar4,puVar5,
 
                      (*(unsigned int *)(0x06044844 + *(int *)0x0605AA98 * 4) >> 1) << 0x10,
 

@@ -26,11 +26,11 @@ char FUN_0603a01c(param_1)
 
   *(int *)puVar3 = *(int *)puVar4;
 
-  *0x060A4CCC = 1;
+  *(int *)0x060A4CCC = 1;
 
   puVar4 = 0x060A4CFD;
 
-  cVar1 = *0x060A4CFC;
+  cVar1 = *(int *)0x060A4CFC;
 
   if (cVar1 == ' ') {
 

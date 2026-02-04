@@ -71,19 +71,13 @@ void FUN_0600c7d4(param_1, param_2)
 
                    (short)(-(int)*(short *)(param_2 + 0x12) >> 2));
 
-  (*0x06027358)
+  (*(void(*)())0x06027358)(-*(int *)(param_1 + 0x28),DAT_0600c8c2 + param_1,DAT_0600c8c0 + param_1);
 
-            (-*(int *)(param_1 + 0x28),DAT_0600c8c2 + param_1,DAT_0600c8c0 + param_1);
-
-  iVar1 = (*0x06027552)
-
-                    (*(int *)(param_1 + 0xc),*(int *)(param_1 + DAT_0600c8c2));
+  iVar1 = (*(void(*)())0x06027552)(*(int *)(param_1 + 0xc),*(int *)(param_1 + DAT_0600c8c2));
 
   *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + iVar1;
 
-  iVar1 = (*0x06027552)
-
-                    (*(int *)(param_1 + 0xc),*(int *)(param_1 + DAT_0600c8c0));
+  iVar1 = (*(void(*)())0x06027552)(*(int *)(param_1 + 0xc),*(int *)(param_1 + DAT_0600c8c0));
 
   *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + iVar1;
 

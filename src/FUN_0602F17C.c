@@ -71,9 +71,7 @@ void FUN_0602f17c()
 
       iVar5 = (int)DAT_0602f24c;
 
-      uVar2 = (*0x0602755C)
-
-                        (*(int *)(iVar5 + in_r0) << 0x10,
+      uVar2 = (*(void(*)())0x0602755C)(*(int *)(iVar5 + in_r0) << 0x10,
 
                          *(int *)(0x060477CC + iVar4 * 4));
 

@@ -91,9 +91,9 @@ int FUN_06008318()
 
   }
 
-  (*0x06034F78)(puVar1,0);
+  (*(void(*)())0x06034F78)(puVar1,0);
 
-  uVar4 = (*0x06034F78)();
+  uVar4 = (*(void(*)())0x06034F78)();
 
   return uVar4;
 

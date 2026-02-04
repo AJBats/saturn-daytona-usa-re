@@ -424,6 +424,56 @@ def cleanup_ghidra_artifacts(body):
     return body
 
 
+def fix_ghidra_artifacts(text):
+    """Post-process complete C source to fix patterns that prevent cc1 compilation.
+
+    Applied to the final output text (not just the body). Handles:
+    - Indirect calls through constant addresses: (*0xADDR)(args)
+    - Double-indirect calls: (**(void **)0xADDR)(args)
+    - Variable-based indirect calls: (*puVar1)(args)
+    - Bare integer dereferences: *0xADDR, 0xADDR[N]
+    - extern void FUN_ -> extern int FUN_ (void value not ignored fix)
+    - true/false -> 1/0
+    - Sub-field references: var._0_2_ -> var
+    - Trailing commas in parameter lists
+    """
+    # 1. Indirect call through constant address: (*0xADDR)(args) -> (*(void(*)())0xADDR)(args)
+    text = re.sub(r'\(\*\s*(0x[0-9A-Fa-f]+)\)\s*\(', r'(*(void(*)())\1)(', text)
+
+    # 2. Double-indirect: (**(void **)0xADDR)( -> (*(void(*)())(*(int *)0xADDR))(
+    text = re.sub(r'\(\*\*\s*\(void\s*\*\*\)\s*(0x[0-9A-Fa-f]+)\)\s*\(',
+                  r'(*(void(*)())(*(int *)\1))(', text)
+    # Also with parenthesized expression
+    text = re.sub(r'\(\*\*\s*\(void\s*\*\*\)\s*(\([^)]+\))\)\s*\(',
+                  r'(*(void(*)())(*(int *)\1))(', text)
+
+    # 3. Variable-based indirect call: (*varname)( -> (*(void(*)())varname)(
+    text = re.sub(r'\(\*([a-zA-Z_]\w*)\)\s*\(', r'(*(void(*)())\1)(', text)
+
+    # 4. Bare dereference: *0xADDR -> *(int *)0xADDR (not preceded by ) from cast)
+    text = re.sub(r'(?<!\))\*(0x[0-9A-Fa-f]+)\b', r'*(int *)\1', text)
+
+    # 5. Bare subscript: 0xADDR[N] -> ((int *)0xADDR)[N]
+    text = re.sub(r'(?<!\))(0x[0-9A-Fa-f]+)\[', r'((int *)\1)[', text)
+
+    # 6. extern void FUN_ -> extern int FUN_ (fix void value not ignored)
+    text = re.sub(r'^extern void (FUN_[0-9A-Fa-f]+)\s*\(', r'extern int \1(', text,
+                  flags=re.MULTILINE)
+
+    # 7. true/false -> 1/0
+    text = re.sub(r'\btrue\b', '1', text)
+    text = re.sub(r'\bfalse\b', '0', text)
+
+    # 8. Sub-field references: var._0_2_ -> var
+    text = re.sub(r'\b(\w+)\._(\d+)_(\d+)_\b', r'\1', text)
+
+    # 9. Trailing comma before ) or before newline+{
+    text = re.sub(r',\s*\)', ')', text)
+    text = re.sub(r',\s*\n\{', '\n{', text)
+
+    return text
+
+
 # ---------------------------------------------------------------------------
 # Assess compilability
 # ---------------------------------------------------------------------------
@@ -587,7 +637,7 @@ def generate_skeleton(func_name, functions, pool_map, force=False):
     # Extern declarations for called functions
     if called_funcs:
         for func in called_funcs:
-            out_lines.append("extern void {}();".format(func))
+            out_lines.append("extern int {}();".format(func))
         out_lines.append("")
 
     # NOTE: No TODO comments - cc1 cannot handle C comments
@@ -606,6 +656,10 @@ def generate_skeleton(func_name, functions, pool_map, force=False):
     # Write the output file with Unix line endings
     os.makedirs(SRCDIR, exist_ok=True)
     output_text = '\n'.join(out_lines)
+
+    # Post-processing: fix Ghidra artifacts that prevent cc1 compilation
+    output_text = fix_ghidra_artifacts(output_text)
+
     with open(output_file, 'w', encoding='utf-8', newline='\n') as f:
         f.write(output_text)
 

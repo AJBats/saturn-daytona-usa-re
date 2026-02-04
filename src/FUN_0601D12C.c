@@ -109,11 +109,11 @@ void FUN_0601d12c()
 
   if (*(int *)puVar1 == 0xb) {
 
-    *0x06086030 = 1;
+    *(int *)0x06086030 = 1;
 
     *(int *)puVar1 = 0;
 
-    (*0x0601D5F4)(0,0xAE1146FF);
+    (*(void(*)())0x0601D5F4)(0,0xAE1146FF);
 
     return;
 

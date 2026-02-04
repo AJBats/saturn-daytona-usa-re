@@ -23,7 +23,7 @@ void FUN_06017bf4()
 
       *(short *)puVar1 = 1;
 
-      (*0x0601D5F4)(0,0xAE1117FF);
+      (*(void(*)())0x0601D5F4)(0,0xAE1117FF);
 
       return;
 
@@ -35,7 +35,7 @@ void FUN_06017bf4()
 
       *(short *)puVar1 = 1;
 
-      (*0x0601D5F4)(0,0xAE1117FF);
+      (*(void(*)())0x0601D5F4)(0,0xAE1117FF);
 
       return;
 

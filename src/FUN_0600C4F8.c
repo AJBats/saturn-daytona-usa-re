@@ -49,13 +49,13 @@ void FUN_0600c4f8()
 
       iVar3 = *(int *)(iVar6 + 8) * 4;
 
-      uVar2 = (*puVar1)(0xFEC00000 +
+      uVar2 = (*(void(*)())puVar1)(0xFEC00000 +
 
                                 (*(int *)(0x060477EC + iVar3) -
 
                                 *(int *)(0x060454CC + iVar3)),1);
 
-      iVar3 = (*puVar1)(uVar2,*(int *)(iVar6 + DAT_0600c59a));
+      iVar3 = (*(void(*)())puVar1)(uVar2,*(int *)(iVar6 + DAT_0600c59a));
 
       iVar4 = *(int *)(iVar6 + PTR_DAT_0600c59c) - *(int *)(iVar6 + 0xc);
 
@@ -99,7 +99,7 @@ void FUN_0600c4f8()
 
     }
 
-    (*puVar1)(*(int *)(iVar6 + 0xc),0x00480000);
+    (*(void(*)())puVar1)(*(int *)(iVar6 + 0xc),0x00480000);
 
     *(int *)(iVar6 + 8) = (int)extraout_var;
 

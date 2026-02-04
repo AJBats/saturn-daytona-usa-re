@@ -9,15 +9,11 @@ void FUN_0600a5b2(param_1, param_2, param_3, param_4)
 
   iVar1 = param_1 * 4;
 
-  (*0x06031D8C)
-
-            (*(int *)(0x06063520 + iVar1),*(int *)(0x06063538 + iVar1),
+  (*(void(*)())0x06031D8C)(*(int *)(0x06063520 + iVar1),*(int *)(0x06063538 + iVar1),
 
              param_3,param_4,param_1);
 
-  (*0x06031A28)
-
-            (*(int *)(0x06063514 + iVar1),(int)*(short *)0x06089E98,
+  (*(void(*)())0x06031A28)(*(int *)(0x06063514 + iVar1),(int)*(short *)0x06089E98,
 
              *(int *)(0x0606352C + iVar1));
 

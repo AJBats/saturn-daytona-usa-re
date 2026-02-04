@@ -22,9 +22,9 @@ extern int PTR_DAT_0600cfe8;
 
 extern int PTR_DAT_0600cfe8;
 
-extern void FUN_0600d0b8();
-extern void FUN_0600d12c();
-extern void FUN_0600d210();
+extern int FUN_0600d0b8();
+extern int FUN_0600d12c();
+extern int FUN_0600d210();
 
 unsigned int FUN_0600cf58()
 {
@@ -57,7 +57,7 @@ unsigned int FUN_0600cf58()
 
     }
 
-    (*0x06035168)();
+    (*(void(*)())0x06035168)();
 
     if (*(int *)(iVar6 + DAT_0600cfe6) == 0) {
 

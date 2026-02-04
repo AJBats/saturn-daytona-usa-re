@@ -22,8 +22,8 @@ extern int PTR_DAT_0602aafc;
 
 extern int PTR_DAT_0602aafc;
 
-extern void FUN_0602ab00();
-extern void FUN_0602ab3a();
+extern int FUN_0602ab00();
+extern int FUN_0602ab3a();
 
 long long 
 {

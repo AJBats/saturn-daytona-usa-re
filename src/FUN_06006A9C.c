@@ -143,17 +143,13 @@ int FUN_06006a9c()
 
           if (*(int *)puVar3 == 2) {
 
-            iVar12 = (*0x0602BDCC)
-
-                               (iVar12,uVar9,*(short *)(puVar2 + 0x52),(int)sVar17);
+            iVar12 = (*(void(*)())0x0602BDCC)(iVar12,uVar9,*(short *)(puVar2 + 0x52),(int)sVar17);
 
           }
 
           else {
 
-            iVar12 = (*0x0602A214)
-
-                               (iVar12,uVar9,*(short *)(puVar2 + 0x52),(int)sVar17);
+            iVar12 = (*(void(*)())0x0602A214)(iVar12,uVar9,*(short *)(puVar2 + 0x52),(int)sVar17);
 
           }
 
@@ -173,17 +169,13 @@ int FUN_06006a9c()
 
           if (*(int *)puVar3 == 2) {
 
-            iVar12 = (*0x0602B9E0)
-
-                               (iVar12,uVar6,*(short *)(puVar2 + 0x52),(int)sVar15);
+            iVar12 = (*(void(*)())0x0602B9E0)(iVar12,uVar6,*(short *)(puVar2 + 0x52),(int)sVar15);
 
           }
 
           else {
 
-            iVar12 = (*0x0602ABB8)
-
-                               (iVar12,uVar6,*(short *)(puVar2 + 0x52),(int)sVar15);
+            iVar12 = (*(void(*)())0x0602ABB8)(iVar12,uVar6,*(short *)(puVar2 + 0x52),(int)sVar15);
 
           }
 

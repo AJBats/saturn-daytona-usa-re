@@ -1,4 +1,4 @@
-extern void FUN_060283e0();
+extern int FUN_060283e0();
 
 
 void FUN_06028600(param_1, param_2, param_3)

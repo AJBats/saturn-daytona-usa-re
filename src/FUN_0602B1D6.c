@@ -18,8 +18,8 @@ extern int PTR_DAT_0602b250;
 
 extern int PTR_DAT_0602b250;
 
-extern void FUN_0602b258();
-extern void FUN_0602b298();
+extern int FUN_0602b258();
+extern int FUN_0602b298();
 
 long long FUN_0602b1d6(param_1, param_2, param_3, param_4, param_5)
     int param_1;
@@ -2119,6 +2119,6 @@ LAB_0602b19e:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

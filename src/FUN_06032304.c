@@ -1,8 +1,8 @@
-extern void FUN_0603253c();
-extern void FUN_06032584();
-extern void FUN_0603268c();
-extern void FUN_06032e6c();
-extern void FUN_06032ea4();
+extern int FUN_0603253c();
+extern int FUN_06032584();
+extern int FUN_0603268c();
+extern int FUN_06032e6c();
+extern int FUN_06032ea4();
 
 int FUN_06032304(param_1)
     int param_1;
@@ -26,7 +26,7 @@ int FUN_06032304(param_1)
 
     *(int **)(iVar4 + 0x000002D8) = piVar2 + 3;
 
-    uVar1 = (**(void **)(0x06032334 + iVar3 * 4))();
+    uVar1 = (*(void(*)())(*(int *)(0x06032334 + iVar3 * 4)))();
 
     return uVar1;
 

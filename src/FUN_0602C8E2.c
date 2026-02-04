@@ -61,7 +61,7 @@ void FUN_0602c8e2()
 
   int unaff_r14;
 
-  bVar3 = false;
+  bVar3 = 0;
 
   uVar5 = *(unsigned int *)(DAT_0602c9cc + in_r0);
 
@@ -91,7 +91,7 @@ void FUN_0602c8e2()
 
   if ((99 < iVar4) && ((int)DAT_0602c9da <= (int)uVar6)) {
 
-    bVar3 = true;
+    bVar3 = 1;
 
   }
 
@@ -127,9 +127,7 @@ void FUN_0602c8e2()
 
     *(short *)(iVar7 + in_r0) = (short)iVar4 + -1;
 
-    iVar4 = (*0x0602ECCC)
-
-                      (*(int *)(PTR_DAT_0602c9e8 + in_r0),
+    iVar4 = (*(void(*)())0x0602ECCC)(*(int *)(PTR_DAT_0602c9e8 + in_r0),
 
                        *(int *)(DAT_0602c9d2 + in_r0),
 

@@ -8,11 +8,11 @@ int FUN_06034cc8(param_1)
 
   char local_10 [12];
 
-  (*0x06035E90)(local_10);
+  (*(void(*)())0x06035E90)(local_10);
 
   local_10[0] = 6;
 
-  uVar1 = (*0x06035EA2)(0,local_10,local_18);
+  uVar1 = (*(void(*)())0x06035EA2)(0,local_10,local_18);
 
   *param_1 = local_18[0] & 0x00FFFFFF;
 

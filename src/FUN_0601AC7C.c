@@ -2,7 +2,7 @@ extern int PTR_DAT_0601ace4;
 
 extern int PTR_DAT_0601ace4;
 
-extern void FUN_0601ae2c();
+extern int FUN_0601ae2c();
 
 unsigned int FUN_0601ac7c()
 {
@@ -41,7 +41,7 @@ unsigned int FUN_0601ac7c()
 
       if (*(unsigned int *)((bVar7 - 1) * 0xc + iVar4 + 4) <= *(unsigned int *)puVar1) break;
 
-      (*0x06035168)();
+      (*(void(*)())0x06035168)();
 
       bVar7 = bVar7 - 1;
 
@@ -55,7 +55,7 @@ unsigned int FUN_0601ac7c()
 
     puVar6[8] = uVar3;
 
-    puVar6[9] = *0x0605DE3C;
+    puVar6[9] = *(int *)0x0605DE3C;
 
     uVar2 = *(unsigned int *)0x0607EAE0 & 0xff;
 
@@ -65,7 +65,7 @@ unsigned int FUN_0601ac7c()
 
     *(char **)0x06085FFC = puVar6;
 
-    *0x06086012 = bVar7;
+    *(int *)0x06086012 = bVar7;
 
   }
 

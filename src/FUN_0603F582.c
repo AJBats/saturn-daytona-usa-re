@@ -1,9 +1,9 @@
 extern int DAT_0603f682;
 
-extern void FUN_0603f3f6();
-extern void FUN_0603f4e0();
-extern void FUN_0603f500();
-extern void FUN_0603f534();
+extern int FUN_0603f3f6();
+extern int FUN_0603f4e0();
+extern int FUN_0603f500();
+extern int FUN_0603f534();
 
 unsigned int FUN_0603f582(param_1, param_2)
     int *param_1;
@@ -66,7 +66,7 @@ unsigned int FUN_0603f582(param_1, param_2)
 
   unsigned char *pbStack_24;
 
-  bVar1 = false;
+  bVar1 = 0;
 
   if (*param_1 == 0) {
 
@@ -188,7 +188,7 @@ unsigned int FUN_0603f582(param_1, param_2)
 
       }
 
-      bVar1 = true;
+      bVar1 = 1;
 
     }
 
@@ -218,7 +218,7 @@ LAB_0603f748:
 
     else {
 
-      bVar1 = true;
+      bVar1 = 1;
 
     }
 
@@ -244,13 +244,13 @@ LAB_0603f74e:
 
   if (param_2[0x10] == 0) {
 
-    (*0x06035FEC)();
+    (*(void(*)())0x06035FEC)();
 
   }
 
   else if (param_2[0x10] == 1) {
 
-    (*0x06035FEC)();
+    (*(void(*)())0x06035FEC)();
 
   }
 

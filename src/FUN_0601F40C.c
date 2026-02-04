@@ -1,5 +1,5 @@
-extern void FUN_0601e810();
-extern void FUN_0601efc4();
+extern int FUN_0601e810();
+extern int FUN_0601efc4();
 
 void FUN_0601f40c()
 {
@@ -10,11 +10,11 @@ void FUN_0601f40c()
 
   puVar1 = 0x060877D8;
 
-  if (0x060877DD[(unsigned char)*0x060877D8] != '\0') {
+  if (((int *)0x060877DD)[(unsigned char)*0x060877D8] != '\0') {
 
     FUN_0601efc4();
 
-    iVar2 = FUN_0601e810(0x060877D9[(unsigned char)*puVar1],
+    iVar2 = FUN_0601e810(((int *)0x060877D9)[(unsigned char)*puVar1],
 
                          0x0604A57C + (unsigned int)(unsigned char)*puVar1 * 0xc,
 
@@ -22,9 +22,9 @@ void FUN_0601f40c()
 
     if (iVar2 != 0) {
 
-      *0x0605E05C = 0xc;
+      *(int *)0x0605E05C = 0xc;
 
-      (*0x0601F8BC)();
+      (*(void(*)())0x0601F8BC)();
 
       return;
 

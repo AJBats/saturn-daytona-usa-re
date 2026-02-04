@@ -11,15 +11,13 @@ int FUN_06032584()
 
   char *unaff_r14;
 
-  (*0x06026DBC)();
+  (*(void(*)())0x06026DBC)();
 
-  (*0x06026E2E)
-
-            (*(int *)(unaff_r14 + 0x00000000),*(int *)(unaff_r14 + 0x00000004),
+  (*(void(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000000),*(int *)(unaff_r14 + 0x00000004),
 
              *(int *)(unaff_r14 + 0x00000008));
 
-  (*0x06026EDE)((int)*(short *)(unaff_r14 + 0x0000000C));
+  (*(void(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x0000000C));
 
   puVar1 = unaff_r14;
 
@@ -37,21 +35,21 @@ int FUN_06032584()
 
     iVar3 = iVar4;
 
-    (*0x06026DBC)();
+    (*(void(*)())0x06026DBC)();
 
-    (*0x06026F72)(*(int *)(unaff_r14 + 0x000002D4));
+    (*(void(*)())0x06026F72)(*(int *)(unaff_r14 + 0x000002D4));
 
-    (*0x0600A474)((int)(char)unaff_r14[(0x0000000D - iVar3) + 0x000002DE]);
+    (*(void(*)())0x0600A474)((int)(char)unaff_r14[(0x0000000D - iVar3) + 0x000002DE]);
 
     *(int *)(unaff_r14 + 0x000002D4) = *(int *)(unaff_r14 + 0x000002D4) + 0x00000030;
 
-    (*0x06026DF8)();
+    (*(void(*)())0x06026DF8)();
 
     iVar4 = iVar4 + -1;
 
   } while (iVar4 != 0);
 
-  uVar2 = (*0x06026DF8)();
+  uVar2 = (*(void(*)())0x06026DF8)();
 
   return uVar2;
 

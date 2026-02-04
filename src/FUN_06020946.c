@@ -9,15 +9,15 @@ void FUN_06020946()
 
   puVar1 = 0x06028400;
 
-  (*0x06035228)();
+  (*(void(*)())0x06035228)();
 
   bVar2 = 0;
 
   do {
 
-    (*puVar1)(4,auStack_70,(unsigned int)bVar2 << 7,0);
+    (*(void(*)())puVar1)(4,auStack_70,(unsigned int)bVar2 << 7,0);
 
-    (*puVar1)(4,auStack_70,((unsigned int)bVar2 * 0x40 + 0x2c) * 2,0);
+    (*(void(*)())puVar1)(4,auStack_70,((unsigned int)bVar2 * 0x40 + 0x2c) * 2,0);
 
     bVar2 = bVar2 + 1;
 

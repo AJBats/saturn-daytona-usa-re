@@ -32,19 +32,17 @@ int FUN_06041ee8(param_1)
 
   if (*(int *)((int)DAT_06041f92 + *(int *)0x060A5400) == 1) {
 
-    (*0x060363BC)
-
-              (*(int *)(*(int *)0x060A5400 + (int)DAT_06041f96),
+    (*(void(*)())0x060363BC)(*(int *)(*(int *)0x060A5400 + (int)DAT_06041f96),
 
                *(int *)0x060A5400 + (int)DAT_06041f94);
 
     *param_1 = *param_1 + 1;
 
-    (*puVar1)(local_1c);
+    (*(void(*)())puVar1)(local_1c);
 
     *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
 
-    iVar3 = (*0x06036380)(*(int *)(*(int *)puVar2 + (int)DAT_06041f96),0);
+    iVar3 = (*(void(*)())0x06036380)(*(int *)(*(int *)puVar2 + (int)DAT_06041f96),0);
 
     if (iVar3 != 0) {
 
@@ -52,7 +50,7 @@ int FUN_06041ee8(param_1)
 
     }
 
-    (*puVar1)(local_1c);
+    (*(void(*)())puVar1)(local_1c);
 
     *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
 
@@ -66,9 +64,7 @@ int FUN_06041ee8(param_1)
 
     iVar3 = (int)DAT_06041f96;
 
-    iVar3 = (*0x0603697C)
-
-                      (*(int *)(*(int *)puVar2 + iVar3 + 4),
+    iVar3 = (*(void(*)())0x0603697C)(*(int *)(*(int *)puVar2 + iVar3 + 4),
 
                        *(int *)(*(int *)puVar2 + iVar3 + 8),
 
@@ -82,7 +78,7 @@ int FUN_06041ee8(param_1)
 
     }
 
-    (*puVar1)(local_1c);
+    (*(void(*)())puVar1)(local_1c);
 
     *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
 
@@ -96,7 +92,7 @@ int FUN_06041ee8(param_1)
 
   if ((*(int *)((int)DAT_0604207a + *(int *)puVar2) == 3) &&
 
-     (uVar4 = (*0x06035C4E)(), (uVar4 & uVar5) != 0)) {
+     (uVar4 = (*(void(*)())0x06035C4E)(), (uVar4 & uVar5) != 0)) {
 
     *(int *)(*(int *)puVar2 + (int)DAT_0604207a) = 4;
 
@@ -104,9 +100,7 @@ int FUN_06041ee8(param_1)
 
   if (*(int *)((int)DAT_0604207a + *(int *)puVar2) == 4) {
 
-    iVar3 = (*0x06036380)
-
-                      (*(int *)(*(int *)puVar2 + DAT_0604207e + -0x10),
+    iVar3 = (*(void(*)())0x06036380)(*(int *)(*(int *)puVar2 + DAT_0604207e + -0x10),
 
                        *(int *)(*(int *)puVar2 + (int)DAT_0604207e));
 
@@ -124,7 +118,7 @@ int FUN_06041ee8(param_1)
 
   if ((*(int *)((int)DAT_0604207a + *(int *)puVar2) == 5) &&
 
-     (uVar5 = (*0x06035C4E)(), (uVar5 & 0x40) != 0)) {
+     (uVar5 = (*(void(*)())0x06035C4E)(), (uVar5 & 0x40) != 0)) {
 
     *(int *)(*(int *)puVar2 + (int)DAT_0604207a) = 0;
 

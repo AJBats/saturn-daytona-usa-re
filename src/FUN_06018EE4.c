@@ -2,7 +2,7 @@ extern int DAT_06018f74;
 
 extern int DAT_06018f76;
 
-extern void FUN_060192b4();
+extern int FUN_060192b4();
 
 void FUN_06018ee4()
 {
@@ -21,11 +21,11 @@ void FUN_06018ee4()
 
   do {
 
-  } while ((*0x20100063 & 1) == 1);
+  } while ((*(int *)0x20100063 & 1) == 1);
 
-  *0x20100063 = 1;
+  *(int *)0x20100063 = 1;
 
-  *0x2010001F = 7;
+  *(int *)0x2010001F = 7;
 
   do {
 
@@ -35,9 +35,9 @@ void FUN_06018ee4()
 
   *(short *)0x25B00400 = DAT_06018f76;
 
-  (*0x06012E84)();
+  (*(void(*)())0x06012E84)();
 
-  (*0x06012EBC)();
+  (*(void(*)())0x06012EBC)();
 
   do {
 
@@ -45,7 +45,7 @@ void FUN_06018ee4()
 
   *puVar2 = 1;
 
-  *0x2010001F = 6;
+  *(int *)0x2010001F = 6;
 
   do {
 
@@ -55,13 +55,13 @@ void FUN_06018ee4()
 
   } while (*(unsigned short *)puVar1 != uVar3);
 
-  (*0x0601D5F4)(0xf,0xAE0600FF);
+  (*(void(*)())0x0601D5F4)(0xf,0xAE0600FF);
 
-  (*0x0601D5F4)(0xf,0xAE0007FF);
+  (*(void(*)())0x0601D5F4)(0xf,0xAE0007FF);
 
   *(int *)0x06086038 = 0;
 
-  (*0x06018EC8)();
+  (*(void(*)())0x06018EC8)();
 
   return;
 

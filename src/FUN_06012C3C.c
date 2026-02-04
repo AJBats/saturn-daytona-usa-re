@@ -1,4 +1,4 @@
-extern void FUN_06012bdc();
+extern int FUN_06012bdc();
 
 void FUN_06012c3c(param_1, param_2)
     int param_1;
@@ -37,7 +37,7 @@ void FUN_06012c3c(param_1, param_2)
 
   do {
 
-    iVar5 = (*puVar3)(param_1);
+    iVar5 = (*(void(*)())puVar3)(param_1);
 
     iVar6 = iVar6 + 1;
 
@@ -53,7 +53,7 @@ void FUN_06012c3c(param_1, param_2)
 
   do {
 
-    iVar6 = (*puVar1)(iVar5,0,param_2,0xffffffff);
+    iVar6 = (*(void(*)())puVar1)(iVar5,0,param_2,0xffffffff);
 
     local_2c = local_2c + 1;
 

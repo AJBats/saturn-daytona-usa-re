@@ -6,7 +6,7 @@ extern int DAT_0603b7a8;
 
 extern int DAT_0603b7aa;
 
-extern void FUN_0603b734();
+extern int FUN_0603b734();
 
 void FUN_0603b74c(param_1)
     int param_1;

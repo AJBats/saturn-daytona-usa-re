@@ -31,7 +31,7 @@ int FUN_0602f4b4()
 
   int in_pr;
 
-  if (*0x0607EAE0 != 0) {
+  if (*(int *)0x0607EAE0 != 0) {
 
     return in_r0;
 
@@ -85,9 +85,7 @@ int FUN_0602f4b4()
 
     if (iVar4 < (int)0x001E0000) {
 
-      sVar1 = (*0x0602744C)
-
-                        (*(int *)(DAT_0602f51c + iVar6) - iVar7,
+      sVar1 = (*(void(*)())0x0602744C)(*(int *)(DAT_0602f51c + iVar6) - iVar7,
 
                          *(int *)(DAT_0602f51e + iVar6) - iVar8,iVar6,iVar7,in_pr);
 
@@ -131,6 +129,6 @@ int FUN_0602f4b4()
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

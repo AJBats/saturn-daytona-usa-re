@@ -8,7 +8,7 @@ void FUN_060281b8(param_1, param_2, param_3)
 
   puVar1 = 0x060281E4 + 1;
 
-  *param_2 = *0x060281E4;
+  *param_2 = *(int *)0x060281E4;
 
   param_2[2] = *puVar1;
 

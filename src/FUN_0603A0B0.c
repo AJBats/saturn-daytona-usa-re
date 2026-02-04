@@ -49,7 +49,7 @@ char * FUN_0603a0b0()
 
   puVar1 = 0x060A4CAE;
 
-  if (*0x060A4CFC == ' ') {
+  if (*(int *)0x060A4CFC == ' ') {
 
     **(char **)0x060A4CD0 = (char)DAT_0603a1a2;
 
@@ -143,7 +143,7 @@ char * FUN_0603a0b0()
 
     }
 
-    *puVar1 = *0x060A4D02;
+    *puVar1 = *(int *)0x060A4D02;
 
   }
 

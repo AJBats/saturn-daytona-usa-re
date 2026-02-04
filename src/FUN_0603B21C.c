@@ -1,7 +1,7 @@
-extern void FUN_0603b28e();
-extern void FUN_0603b3fa();
-extern void FUN_0603b424();
-extern void FUN_0603b93c();
+extern int FUN_0603b28e();
+extern int FUN_0603b3fa();
+extern int FUN_0603b424();
+extern int FUN_0603b93c();
 
 int FUN_0603b21c(param_1)
     int *param_1;
@@ -41,7 +41,7 @@ int FUN_0603b21c(param_1)
 
       }
 
-      (*0x060423CC)();
+      (*(void(*)())0x060423CC)();
 
     }
 

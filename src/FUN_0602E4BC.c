@@ -47,9 +47,7 @@ int FUN_0602e4bc()
 
           *(int *)(DAT_0602e51a + in_r0) * 0x10;
 
-  sVar2 = (*0x0602744C)
-
-                    (*(int *)(DAT_0602e51c + iVar6) - *(int *)(DAT_0602e520 + in_r0),
+  sVar2 = (*(void(*)())0x0602744C)(*(int *)(DAT_0602e51c + iVar6) - *(int *)(DAT_0602e520 + in_r0),
 
                      *(int *)(DAT_0602e51e + iVar6) - *(int *)(DAT_0602e522 + in_r0));
 
@@ -85,7 +83,7 @@ int FUN_0602e4bc()
 
     *(int *)0x0608325C = (int)DAT_0602e5a6;
 
-    in_r0 = (*0x0602CCD0)();
+    in_r0 = (*(void(*)())0x0602CCD0)();
 
   }
 

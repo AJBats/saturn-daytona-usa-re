@@ -7,7 +7,7 @@ char * FUN_0603253c()
 
   int unaff_r14;
 
-  if (*0x06082A24 == '\0') {
+  if (*(int *)0x06082A24 == '\0') {
 
     return 0x06082A24;
 

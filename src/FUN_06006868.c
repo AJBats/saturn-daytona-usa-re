@@ -111,13 +111,13 @@ unsigned int FUN_06006868()
 
         if (*(int *)puVar2 == 2) {
 
-          uVar10 = (*0x0602B328)(iVar13,uVar8,(int)*(short *)puVar3);
+          uVar10 = (*(void(*)())0x0602B328)(iVar13,uVar8,(int)*(short *)puVar3);
 
         }
 
         else {
 
-          uVar10 = (*0x06029BF4)(iVar13,uVar8,(int)*(short *)puVar3);
+          uVar10 = (*(void(*)())0x06029BF4)(iVar13,uVar8,(int)*(short *)puVar3);
 
         }
 
@@ -131,13 +131,13 @@ unsigned int FUN_06006868()
 
         if (*(int *)puVar2 == 2) {
 
-          uVar10 = (*0x0602AF3C)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
+          uVar10 = (*(void(*)())0x0602AF3C)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
 
         }
 
         else {
 
-          uVar10 = (*0x0602A834)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
+          uVar10 = (*(void(*)())0x0602A834)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
 
         }
 
@@ -155,23 +155,23 @@ unsigned int FUN_06006868()
 
     if (iVar4 == 0) {
 
-      (*0x06017814)();
+      (*(void(*)())0x06017814)();
 
     }
 
     else if (iVar4 == 1) {
 
-      (*0x06017CEC)();
+      (*(void(*)())0x06017CEC)();
 
     }
 
     else if (iVar4 == 2) {
 
-      (*0x06018166)();
+      (*(void(*)())0x06018166)();
 
     }
 
-    uVar10 = (*0x06022140)();
+    uVar10 = (*(void(*)())0x06022140)();
 
     return uVar10;
 

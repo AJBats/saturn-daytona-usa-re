@@ -45,9 +45,7 @@ int FUN_0600cdd0()
 
   piVar4 = (int *)(iVar1 * 0x18 + *(int *)(iVar6 + DAT_0600ce8a));
 
-  sVar2 = (*0x0602744C)
-
-                    (*piVar4 - *(int *)(iVar6 + 0x10),*(int *)(iVar6 + 0x18) - piVar4[1]);
+  sVar2 = (*(void(*)())0x0602744C)(*piVar4 - *(int *)(iVar6 + 0x10),*(int *)(iVar6 + 0x18) - piVar4[1]);
 
   iVar3 = (int)sVar2 + *(short *)(iVar5 + 0xe) * -4;
 

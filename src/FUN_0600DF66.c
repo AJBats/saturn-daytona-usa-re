@@ -1,6 +1,6 @@
-extern void FUN_0600e0c0();
-extern void FUN_0600e410();
-extern void FUN_0600e47c();
+extern int FUN_0600e0c0();
+extern int FUN_0600e410();
+extern int FUN_0600e47c();
 
 void FUN_0600df66()
 {
@@ -9,7 +9,7 @@ void FUN_0600df66()
 
   *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
 
-  cVar1 = *0x06083261;
+  cVar1 = *(int *)0x06083261;
 
   if (cVar1 == '\0') {
 

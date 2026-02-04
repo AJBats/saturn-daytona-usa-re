@@ -22,7 +22,7 @@ extern int PTR_DAT_060026bc;
 
 extern int PTR_DAT_060026c0;
 
-extern void FUN_0600245c();
+extern int FUN_0600245c();
 
 int FUN_06002594()
 {

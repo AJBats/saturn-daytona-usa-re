@@ -33,17 +33,17 @@ void FUN_0600e7c8()
 
   iVar3 = *(int *)0x0607E940;
 
-  (*0x06008318)();
+  (*(void(*)())0x06008318)();
 
-  (*0x06008640)();
+  (*(void(*)())0x06008640)();
 
-  (*0x0600D266)();
+  (*(void(*)())0x0600D266)();
 
-  (*0x0600C4F8)();
+  (*(void(*)())0x0600C4F8)();
 
-  (*0x0602D88E)();
+  (*(void(*)())0x0602D88E)();
 
-  if (*0x06083261 == '\x01') {
+  if (*(int *)0x06083261 == '\x01') {
 
     iVar1 = (int)(short)((short)((*(int *)(iVar3 + DAT_0600e86c) - *(int *)(iVar3 + 0x28)) * 0x10000
 
@@ -55,7 +55,7 @@ void FUN_0600e7c8()
 
   }
 
-  else if (*0x06083261 == '\x02') {
+  else if (*(int *)0x06083261 == '\x02') {
 
     iVar1 = (int)DAT_0600e86c;
 
@@ -89,7 +89,7 @@ void FUN_0600e7c8()
 
   }
 
-  (*0x0600CEBA)();
+  (*(void(*)())0x0600CEBA)();
 
   iVar1 = (int)DAT_0600e91e;
 
@@ -105,7 +105,7 @@ void FUN_0600e7c8()
 
   if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00200000) != 0) {
 
-    (*0x06027552)(*(int *)(iVar3 + 0xc),0x066505B3);
+    (*(void(*)())0x06027552)(*(int *)(iVar3 + 0xc),0x066505B3);
 
     *(int *)(DAT_0600e922 + iVar3) = (int)extraout_var;
 

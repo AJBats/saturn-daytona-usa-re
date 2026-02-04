@@ -1,6 +1,6 @@
 extern int DAT_06034a8e;
 
-extern void FUN_06034a10();
+extern int FUN_06034a10();
 
 int FUN_060349c4(param_1)
     unsigned char *param_1;
@@ -14,7 +14,7 @@ int FUN_060349c4(param_1)
 
   if (iVar1 == 0) {
 
-    (*0x06035F16)(auStack_14,param_1);
+    (*(void(*)())0x06035F16)(auStack_14,param_1);
 
     if ((*param_1 == DAT_06034a8e) || ((*param_1 & 0x20) == 0)) {
 

@@ -1,6 +1,6 @@
 extern int DAT_0600c090;
 
-extern void FUN_0600b6a0();
+extern int FUN_0600b6a0();
 
 void FUN_0600bffc()
 {
@@ -25,25 +25,25 @@ void FUN_0600bffc()
 
   pbVar6 = (unsigned char *)(int)DAT_0600c090;
 
-  bVar1 = false;
+  bVar1 = 0;
 
-  if (*0x06083255 != '\0') {
+  if (*(int *)0x06083255 != '\0') {
 
-    (*0x06034708)(*(int *)0x0607EB8C);
+    (*(void(*)())0x06034708)(*(int *)0x0607EB8C);
 
   }
 
   if ((*(unsigned int *)puVar2 & (unsigned int)0x02000000) == 0) {
 
-    if (*0x06078635 == '\0') {
+    if (*(int *)0x06078635 == '\0') {
 
-      (*0x0600D31C)();
+      (*(void(*)())0x0600D31C)();
 
     }
 
     else {
 
-      (*0x0600D336)();
+      (*(void(*)())0x0600D336)();
 
     }
 
@@ -51,7 +51,7 @@ void FUN_0600bffc()
 
   if ((*(char **)puVar2 == 0x00020000) && (*(int *)0x0607EAE0 == 0)) {
 
-    (*0x0602E610)();
+    (*(void(*)())0x0602E610)();
 
   }
 
@@ -59,7 +59,7 @@ void FUN_0600bffc()
 
   *(int *)puVar3 = iVar5 + 0x30;
 
-  (*0x06027630)(iVar5 + 0x30,*(int *)0x06089EDC,0x30);
+  (*(void(*)())0x06027630)(iVar5 + 0x30,*(int *)0x06089EDC,0x30);
 
   if (*(int *)0x06059F30 == 0) {
 
@@ -79,23 +79,23 @@ void FUN_0600bffc()
 
   if ((*(unsigned int *)puVar2 & (unsigned int)0x02800008) == 0) {
 
-    (*0x060058FA)();
+    (*(void(*)())0x060058FA)();
 
   }
 
-  (*0x06006868)();
+  (*(void(*)())0x06006868)();
 
   FUN_0600b6a0();
 
   if (*(char **)puVar2 != 0x02000000) {
 
-    (*0x0601BDEC)();
+    (*(void(*)())0x0601BDEC)();
 
   }
 
   while ((*pbVar6 & 0x80) != 0x80) {
 
-    bVar1 = true;
+    bVar1 = 1;
 
   }
 
@@ -117,7 +117,7 @@ void FUN_0600bffc()
 
   }
 
-  (*0x0603C000)();
+  (*(void(*)())0x0603C000)();
 
   *(int *)puVar3 = *(int *)puVar3 + -0x30;
 

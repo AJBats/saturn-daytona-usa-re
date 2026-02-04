@@ -100,6 +100,6 @@ LAB_06026350:
 
     uVar7 = uVar7 + 1;
 
-  } while( true );
+  } while( 1 );
 
 }

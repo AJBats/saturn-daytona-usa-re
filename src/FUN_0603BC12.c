@@ -1,9 +1,9 @@
 extern int DAT_0603bc56;
 
-extern void FUN_0603b81e();
-extern void FUN_0603ba2c();
-extern void FUN_0603bb86();
-extern void FUN_0603bf22();
+extern int FUN_0603b81e();
+extern int FUN_0603ba2c();
+extern int FUN_0603bb86();
+extern int FUN_0603bf22();
 
 int FUN_0603bc12(param_1)
     int param_1;
@@ -37,7 +37,7 @@ int FUN_0603bc12(param_1)
 
   if (((*(unsigned int *)((int)DAT_0603bc56 + *(int *)0x060A4D14) & 1) == 0) || (iVar1 != 0)) {
 
-    uVar2 = (*0x0603F0FC)(iVar1,param_1,uStack_14);
+    uVar2 = (*(void(*)())0x0603F0FC)(iVar1,param_1,uStack_14);
 
     if (iVar1 != 0) {
 

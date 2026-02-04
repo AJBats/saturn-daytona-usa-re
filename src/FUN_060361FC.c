@@ -12,13 +12,13 @@ void FUN_060361fc(param_1, param_2, param_3)
 
   int uStack_13;
 
-  (*0x06035E90)(&local_18);
+  (*(void(*)())0x06035E90)(&local_18);
 
   _local_18 = CONCAT13(0x40,param_2);
 
   _uStack_14 = CONCAT13(param_1,param_3);
 
-  (*0x06035EC8)(0x40,&local_18);
+  (*(void(*)())0x06035EC8)(0x40,&local_18);
 
   return;
 

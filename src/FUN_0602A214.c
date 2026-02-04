@@ -4359,9 +4359,7 @@ unsigned int FUN_0602a214(param_1, param_2, param_3, param_4)
 
         }
 
-        (**(void **)(0x0602A800 + iVar8 * 4))
-
-                  (0x0608A7A0,0x0608A798,puVar14 + 9,puVar14 + 0xc);
+        (*(void(*)())(*(int *)(0x0602A800 + iVar8 * 4)))(0x0608A7A0,0x0608A798,puVar14 + 9,puVar14 + 0xc);
 
         uVar19 = uVar18;
 
@@ -4639,7 +4637,7 @@ unsigned int FUN_0602a214(param_1, param_2, param_3, param_4)
 
             if (iVar9 != 0) {
 
-              (**(void **)(0x0602A810 + iVar9 * 4))(puVar5,puVar6);
+              (*(void(*)())(*(int *)(0x0602A810 + iVar9 * 4)))(puVar5,puVar6);
 
             }
 
@@ -4701,6 +4699,6 @@ LAB_0602a7d6:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

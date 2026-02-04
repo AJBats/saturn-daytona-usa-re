@@ -93,17 +93,15 @@ void FUN_0602cdf6()
 
   iVar10 = iVar10 + iVar13;
 
-  iVar4 = (*0x06027348)(iVar9 - iVar10);
+  iVar4 = (*(void(*)())0x06027348)(iVar9 - iVar10);
 
-  iVar5 = (*puVar3)(iVar10);
+  iVar5 = (*(void(*)())puVar3)(iVar10);
 
   if (iVar4 != 0) {
 
     puVar14 = 0x0002C000;
 
-    iVar4 = (*0x0602755C)
-
-                      ((int)((unsigned long long)((long long)iVar5 * (long long)(int)0x0002C000) >> 0x20)
+    iVar4 = (*(void(*)())0x0602755C)((int)((unsigned long long)((long long)iVar5 * (long long)(int)0x0002C000) >> 0x20)
 
                        << 0x10 | (unsigned int)((long long)iVar5 * (long long)(int)0x0002C000) >> 0x10);
 
@@ -113,25 +111,21 @@ void FUN_0602cdf6()
 
     }
 
-    iVar6 = (*puVar3)(iVar9);
+    iVar6 = (*(void(*)())puVar3)(iVar9);
 
-    iVar5 = (*0x06027344)(iVar9);
+    iVar5 = (*(void(*)())0x06027344)(iVar9);
 
-    iVar5 = (*0x0602744C)
-
-                      (extraout_r3,
+    iVar5 = (*(void(*)())0x0602744C)(extraout_r3,
 
                        ((int)((unsigned long long)((long long)iVar5 * (long long)iVar4) >> 0x20) << 0x10 |
 
                        (unsigned int)((long long)iVar5 * (long long)iVar4) >> 0x10) + ((unsigned int)puVar14 >> 1));
 
-    iVar7 = (*puVar3)(iVar5);
+    iVar7 = (*(void(*)())puVar3)(iVar5);
 
     if (iVar7 != 0) {
 
-      iVar4 = (*0x0602755C)
-
-                        ((int)((unsigned long long)((long long)iVar6 * (long long)iVar4) >> 0x20) << 0x10 |
+      iVar4 = (*(void(*)())0x0602755C)((int)((unsigned long long)((long long)iVar6 * (long long)iVar4) >> 0x20) << 0x10 |
 
                          (unsigned int)((long long)iVar6 * (long long)iVar4) >> 0x10);
 
@@ -149,7 +143,7 @@ void FUN_0602cdf6()
 
       if (iVar4 != 0) {
 
-        iVar4 = (*0x0602755C)(*(int *)(unaff_r14 + 0xc));
+        iVar4 = (*(void(*)())0x0602755C)(*(int *)(unaff_r14 + 0xc));
 
         bVar1 = iVar4 < 0;
 
@@ -215,7 +209,7 @@ LAB_0602cf08:
 
   *(int *)(unaff_r14 + 0x28) = iVar10;
 
-  iVar10 = (*0x06027348)(iVar10 - iVar13);
+  iVar10 = (*(void(*)())0x06027348)(iVar10 - iVar13);
 
   lVar2 = (long long)
 

@@ -23,7 +23,7 @@ void FUN_0601bdec()
 
   piVar5 = (int *)0x06086018;
 
-  iVar1 = (*0x06034FE0)();
+  iVar1 = (*(void(*)())0x06034FE0)();
 
   *puVar4 = *puVar4 + iVar1 + 1;
 

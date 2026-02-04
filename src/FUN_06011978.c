@@ -25,49 +25,49 @@ void FUN_06011978(param_1, param_2, param_3, param_4)
 
   puVar6 = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
 
-  uVar5 = (*0x0602754C)(*param_1 + param_2);
+  uVar5 = (*(void(*)())0x0602754C)(*param_1 + param_2);
 
   *puVar6 = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[1] + param_3);
+  uVar5 = (*(void(*)())puVar2)(param_1[1] + param_3);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 10) = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[2] + param_2);
+  uVar5 = (*(void(*)())puVar2)(param_1[2] + param_2);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0xc) = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[3] + param_3);
+  uVar5 = (*(void(*)())puVar2)(param_1[3] + param_3);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0xe) = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[4] + param_2);
+  uVar5 = (*(void(*)())puVar2)(param_1[4] + param_2);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x10) = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[5] + param_3);
+  uVar5 = (*(void(*)())puVar2)(param_1[5] + param_3);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x12) = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[6] + param_2);
+  uVar5 = (*(void(*)())puVar2)(param_1[6] + param_2);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x14) = uVar5;
 
   sVar1 = *(short *)puVar4;
 
-  uVar5 = (*puVar2)(param_1[7] + param_3);
+  uVar5 = (*(void(*)())puVar2)(param_1[7] + param_3);
 
   *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x16) = uVar5;
 

@@ -8,7 +8,7 @@ extern int PTR_DAT_0600e9ec;
 
 extern int PTR_DAT_0600e9ec;
 
-extern void FUN_0600e906();
+extern int FUN_0600e906();
 
 void FUN_0600e99c()
 {
@@ -25,7 +25,7 @@ void FUN_0600e99c()
 
   if (*(int *)0x0607EAD8 == 0) {
 
-    (*0x06027552)(*(int *)(iVar2 + 0xc),0x066505B3);
+    (*(void(*)())0x06027552)(*(int *)(iVar2 + 0xc),0x066505B3);
 
     *(int *)(DAT_0600e9e8 + iVar2) = (int)extraout_var;
 

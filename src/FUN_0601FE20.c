@@ -1,6 +1,6 @@
 extern int DAT_0601fe96;
 
-extern void FUN_0601fec0();
+extern int FUN_0601fec0();
 
 void FUN_0601fe20()
 {
@@ -33,7 +33,7 @@ void FUN_0601fe20()
 
   *(int *)puVar3 = *piVar6 + -1;
 
-  (*0x060054EA)(piVar6[2]);
+  (*(void(*)())0x060054EA)(piVar6[2]);
 
   iVar5 = piVar6[3];
 
@@ -51,7 +51,7 @@ void FUN_0601fe20()
 
   }
 
-  (*0x0600D280)();
+  (*(void(*)())0x0600D280)();
 
   *(short *)0x06087804 = 2;
 

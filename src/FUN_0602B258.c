@@ -20,8 +20,8 @@ extern int DAT_0602b2f0;
 
 extern int DAT_0602b2f4;
 
-extern void FUN_0602b1d6();
-extern void FUN_0602b298();
+extern int FUN_0602b1d6();
+extern int FUN_0602b298();
 
 void FUN_0602b258()
 {
@@ -1346,6 +1346,6 @@ LAB_0602b19e:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

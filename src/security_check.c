@@ -62,15 +62,15 @@ extern int PTR_s_PRODUCED_BY_or_UNDERLICENSE_FROM_060021a0;
 
 extern int PTR_s_SEGA_ENTERPRISES_LTD__0600219c;
 
-extern void FUN_06002280();
-extern void FUN_06002348();
-extern void FUN_060023e6();
-extern void FUN_06002404();
-extern void FUN_0600245c();
-extern void FUN_06002486();
-extern void FUN_06002510();
-extern void FUN_0600255c();
-extern void FUN_06002594();
+extern int FUN_06002280();
+extern int FUN_06002348();
+extern int FUN_060023e6();
+extern int FUN_06002404();
+extern int FUN_0600245c();
+extern int FUN_06002486();
+extern int FUN_06002510();
+extern int FUN_0600255c();
+extern int FUN_06002594();
 
 int security_check()
 {
@@ -99,7 +99,7 @@ int security_check()
 
             (PTR_s_PRODUCED_BY_or_UNDERLICENSE_FROM_060021a0,PTR_s_SEGA_ENTERPRISES_LTD__0600219c);
 
-  (*PTR_FUN_060021ac)(PTR_DAT_060021a8,PTR_DAT_060021a4,(int)DAT_06002180);
+  (*(void(*)())PTR_FUN_060021ac)(PTR_DAT_060021a8,PTR_DAT_060021a4,(int)DAT_06002180);
 
   if ((*(unsigned int *)PTR_DAT_060021b0 & (int)DAT_06002182) == 0) {
 
@@ -151,7 +151,7 @@ int security_check()
 
   FUN_06002348();
 
-  uVar1 = (*PTR_FUN_0600227c)();
+  uVar1 = (*(void(*)())PTR_FUN_0600227c)();
 
   return uVar1;
 

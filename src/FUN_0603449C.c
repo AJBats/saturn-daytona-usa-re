@@ -57,7 +57,7 @@ char * FUN_0603449c()
 
     if ((int)uVar6 < 0) {
 
-      iVar3 = (*0x06027476)(uVar6 >> 2);
+      iVar3 = (*(void(*)())0x06027476)(uVar6 >> 2);
 
       iVar3 = iVar3 << 1;
 
@@ -65,7 +65,7 @@ char * FUN_0603449c()
 
     else {
 
-      iVar3 = (*0x06027476)();
+      iVar3 = (*(void(*)())0x06027476)();
 
     }
 
@@ -75,7 +75,7 @@ char * FUN_0603449c()
 
     if (iVar3 < (int)0x00080000) {
 
-      0x00000026[unaff_r14] = (char)0x00000001;
+      ((int *)0x00000026)[unaff_r14] = (char)0x00000001;
 
       puVar4 = puVar2;
 

@@ -4,8 +4,8 @@ extern int DAT_0600db44;
 
 extern int DAT_0600db46;
 
-extern void FUN_0600db9e();
-extern void FUN_0600dc74();
+extern int FUN_0600db9e();
+extern int FUN_0600dc74();
 
 void FUN_0600da7c()
 {
@@ -38,7 +38,7 @@ void FUN_0600da7c()
 
       psVar6 = (short *)0x06078698;
 
-      (*0x06034F78)();
+      (*(void(*)())0x06034F78)();
 
       *psVar6 = *psVar6 + 1;
 
@@ -66,7 +66,7 @@ void FUN_0600da7c()
 
     psVar6 = (short *)0x06078698;
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *psVar6 = *psVar6 + 1;
 
@@ -82,7 +82,7 @@ void FUN_0600da7c()
 
   puVar5 = (short *)0x06078698;
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   *puVar5 = uVar7;
 

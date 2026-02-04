@@ -1,6 +1,6 @@
-extern void FUN_060412b2();
-extern void FUN_06041310();
-extern void FUN_06041698();
+extern int FUN_060412b2();
+extern int FUN_06041310();
+extern int FUN_06041698();
 
 int FUN_06040f16(param_1)
     int param_1;

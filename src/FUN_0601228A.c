@@ -1,7 +1,7 @@
-extern void FUN_060122f4();
-extern void FUN_0601250c();
-extern void FUN_060125d0();
-extern void FUN_06012710();
+extern int FUN_060122f4();
+extern int FUN_0601250c();
+extern int FUN_060125d0();
+extern int FUN_06012710();
 
 void FUN_0601228a()
 {
@@ -46,7 +46,7 @@ void FUN_0601228a()
 
   *(int *)0x0605AD10 = 0x10;
 
-  *0x06078636 = 1;
+  *(int *)0x06078636 = 1;
 
   return;
 

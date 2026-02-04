@@ -22,13 +22,13 @@ void FUN_0603fc60(param_1, param_2, param_3)
 
     if (*(int *)(param_1 + 4) != 0) {
 
-      iVar2 = (*0x06034FFC)();
+      iVar2 = (*(void(*)())0x06034FFC)();
 
     }
 
-    (*0x0603F8EE)(param_3);
+    (*(void(*)())0x0603F8EE)(param_3);
 
-    iVar1 = (*0x06034FFC)();
+    iVar1 = (*(void(*)())0x06034FFC)();
 
     if (iVar2 < iVar1) {
 
@@ -40,7 +40,7 @@ void FUN_0603fc60(param_1, param_2, param_3)
 
   if (*(int *)(param_1 + 4) == 0) {
 
-    iVar2 = (*0x0603F900)(param_2,iVar1);
+    iVar2 = (*(void(*)())0x0603F900)(param_2,iVar1);
 
     *(int *)(param_1 + 4) = iVar2;
 

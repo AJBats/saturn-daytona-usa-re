@@ -23,7 +23,7 @@ void FUN_06012cf4()
 
   iVar5 = 0;
 
-  *0x06084AEC = 0;
+  *(int *)0x06084AEC = 0;
 
   puVar3 = 0x06084360;
 
@@ -37,7 +37,7 @@ void FUN_06012cf4()
 
   do {
 
-    iVar4 = (*puVar1)(5,puVar3,0x06084360,in_r7,uVar6);
+    iVar4 = (*(void(*)())puVar1)(5,puVar3,0x06084360,in_r7,uVar6);
 
     iVar5 = iVar5 + 1;
 

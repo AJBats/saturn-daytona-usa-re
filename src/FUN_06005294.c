@@ -28,7 +28,7 @@ void FUN_06005294(param_1, param_2, param_3)
 
   iVar5 = param_2[2] - param_1[2];
 
-  iVar1 = (*0x0602744C)(iVar6,iVar5);
+  iVar1 = (*(void(*)())0x0602744C)(iVar6,iVar5);
 
   if (iVar6 < 0) {
 
@@ -44,35 +44,35 @@ void FUN_06005294(param_1, param_2, param_3)
 
   if (iVar5 < iVar6) {
 
-    iVar2 = (*0x06027552)(0x0000EC83,iVar6);
+    iVar2 = (*(void(*)())0x06027552)(0x0000EC83,iVar6);
 
-    iVar6 = (*0x06027552)((int)DAT_060052f6,iVar5);
+    iVar6 = (*(void(*)())0x06027552)((int)DAT_060052f6,iVar5);
 
   }
 
   else {
 
-    iVar2 = (*0x06027552)(0x0000EC83,iVar5);
+    iVar2 = (*(void(*)())0x06027552)(0x0000EC83,iVar5);
 
-    iVar6 = (*0x06027552)((int)DAT_0600537a,iVar6);
-
-  }
-
-  iVar3 = (*0x0602744C)(iVar3 - iVar4,iVar2 + iVar6);
-
-  if (*0x06078663 != '\0') {
-
-    (*0x06026E60)(0xFFFF0000,0x00010000);
+    iVar6 = (*(void(*)())0x06027552)((int)DAT_0600537a,iVar6);
 
   }
 
-  (*0x06026E94)(-iVar3);
+  iVar3 = (*(void(*)())0x0602744C)(iVar3 - iVar4,iVar2 + iVar6);
 
-  (*0x06026EDE)(iVar1);
+  if (*(int *)0x06078663 != '\0') {
 
-  (*0x06026E2E)(-*param_1,-param_1[1],-param_1[2]);
+    (*(void(*)())0x06026E60)(0xFFFF0000,0x00010000);
 
-  (*0x06035168)();
+  }
+
+  (*(void(*)())0x06026E94)(-iVar3);
+
+  (*(void(*)())0x06026EDE)(iVar1);
+
+  (*(void(*)())0x06026E2E)(-*param_1,-param_1[1],-param_1[2]);
+
+  (*(void(*)())0x06035168)();
 
   *param_3 = iVar3;
 

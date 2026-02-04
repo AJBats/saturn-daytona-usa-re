@@ -8,11 +8,11 @@ int FUN_06034aee(param_1)
 
   char local_10 [12];
 
-  (*0x06035E90)(local_10);
+  (*(void(*)())0x06035E90)(local_10);
 
   local_10[0] = 2;
 
-  iVar1 = (*0x06035EA2)(0,local_10,local_18);
+  iVar1 = (*(void(*)())0x06035EA2)(0,local_10,local_18);
 
   if (iVar1 != 0) {
 
@@ -20,7 +20,7 @@ int FUN_06034aee(param_1)
 
   }
 
-  iVar1 = (*0x06035CBC)(local_18[0] & 0x00FFFFFF,param_1);
+  iVar1 = (*(void(*)())0x06035CBC)(local_18[0] & 0x00FFFFFF,param_1);
 
   return iVar1;
 

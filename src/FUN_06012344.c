@@ -19,11 +19,11 @@ void FUN_06012344()
 
   iVar4 = ((int)(*(int *)0x060788AC + (unsigned int)(*(int *)0x060788AC < 0)) >> 1) << 0x10;
 
-  iVar1 = (*0x06027552)(iVar4,(int)DAT_060123de);
+  iVar1 = (*(void(*)())0x06027552)(iVar4,(int)DAT_060123de);
 
-  iVar2 = (*puVar3)(iVar4,(int)DAT_060123e0);
+  iVar2 = (*(void(*)())puVar3)(iVar4,(int)DAT_060123e0);
 
-  iVar4 = (*puVar3)(iVar4,(int)DAT_060123e2);
+  iVar4 = (*(void(*)())puVar3)(iVar4,(int)DAT_060123e2);
 
   puVar3 = 0x060788C0;
 
@@ -45,7 +45,7 @@ void FUN_06012344()
 
   *(int *)0x060788D8 = *(int *)0x060788D8 + iVar1 * 2;
 
-  iVar1 = (*0x06034FE0)();
+  iVar1 = (*(void(*)())0x06034FE0)();
 
   *(int *)(puVar3 + 4) = *(int *)(puVar3 + 4) - iVar1;
 

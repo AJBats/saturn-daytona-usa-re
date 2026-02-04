@@ -40,7 +40,7 @@ extern int PTR_DAT_06017d9c;
 
 extern int PTR_DAT_06017d9c;
 
-extern void FUN_06018278();
+extern int FUN_06018278();
 
 void FUN_06017cec()
 {
@@ -273,43 +273,41 @@ void FUN_06017cec()
 
     do {
 
-      (*0x06026DBC)();
+      (*(void(*)())0x06026DBC)();
 
       puVar12 = (int *)(0x06048078 + ((uVar13 & 0xff) * 0xc & 0xff));
 
-      (*0x06026E2E)(*puVar12,puVar12[1],-puVar12[2]);
+      (*(void(*)())0x06026E2E)(*puVar12,puVar12[1],-puVar12[2]);
 
-      (*0x06026EDE)(0x0000C000);
+      (*(void(*)())0x06026EDE)(0x0000C000);
 
-      (*0x06026F2A)(*(int *)puVar3 + (uVar13 & 3) * (int)DAT_06018104);
+      (*(void(*)())0x06026F2A)(*(int *)puVar3 + (uVar13 & 3) * (int)DAT_06018104);
 
       puVar5 = 0x00200000;
 
-      (*0x06031D8C)(0x00200000 + (int)puVar2,0xc);
+      (*(void(*)())0x06031D8C)(0x00200000 + (int)puVar2,0xc);
 
-      (*0x06031A28)(puVar5 + (int)0x000887C4,(int)*(short *)puVar4,3);
+      (*(void(*)())0x06031A28)(puVar5 + (int)0x000887C4,(int)*(short *)puVar4,3);
 
-      (*0x06026DF8)();
+      (*(void(*)())0x06026DF8)();
 
       uVar14 = uVar13 + 1;
 
-      (*0x06026DBC)();
+      (*(void(*)())0x06026DBC)();
 
       puVar12 = (int *)(0x06048078 + ((uVar14 & 0xff) * 0xc & 0xff));
 
-      (*0x06026E2E)(*puVar12,puVar12[1],-puVar12[2]);
+      (*(void(*)())0x06026E2E)(*puVar12,puVar12[1],-puVar12[2]);
 
-      (*0x06026EDE)(0x0000C000);
+      (*(void(*)())0x06026EDE)(0x0000C000);
 
-      (*0x06026F2A)
+      (*(void(*)())0x06026F2A)(*(int *)(puVar3 + (uVar14 & 1) * 4) + (uVar14 & 3) * (int)DAT_06018104);
 
-                (*(int *)(puVar3 + (uVar14 & 1) * 4) + (uVar14 & 3) * (int)DAT_06018104);
+      (*(void(*)())0x06031D8C)(puVar5 + (int)puVar2,0xc);
 
-      (*0x06031D8C)(puVar5 + (int)puVar2,0xc);
+      (*(void(*)())0x06031A28)(puVar5 + (int)0x000887C4,(int)*(short *)puVar4,3);
 
-      (*0x06031A28)(puVar5 + (int)0x000887C4,(int)*(short *)puVar4,3);
-
-      (*0x06026DF8)();
+      (*(void(*)())0x06026DF8)();
 
       uVar13 = uVar13 + 2;
 
@@ -317,7 +315,7 @@ void FUN_06017cec()
 
   }
 
-  (*0x06021178)();
+  (*(void(*)())0x06021178)();
 
   FUN_06018278();
 

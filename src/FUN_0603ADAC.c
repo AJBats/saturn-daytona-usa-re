@@ -4,8 +4,8 @@ extern int PTR_DAT_0603addc;
 
 extern int PTR_DAT_0603addc;
 
-extern void FUN_0603b7c0();
-extern void FUN_0603b93c();
+extern int FUN_0603b7c0();
+extern int FUN_0603b93c();
 
 void FUN_0603adac(param_1)
     int param_1;
@@ -37,7 +37,7 @@ void FUN_0603adac(param_1)
 
   else {
 
-    (*0x06035168)();
+    (*(void(*)())0x06035168)();
 
     uVar1 = FUN_0603b7c0();
 

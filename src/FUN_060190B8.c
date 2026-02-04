@@ -1,4 +1,4 @@
-extern void FUN_060192e8();
+extern int FUN_060192e8();
 
 void FUN_060190b8()
 {
@@ -9,21 +9,21 @@ void FUN_060190b8()
 
   *(int *)0x06086050 = 0;
 
-  (*puVar1)(0xf,0xAE0001FF);
+  (*(void(*)())puVar1)(0xf,0xAE0001FF);
 
-  (*puVar1)(0xf,0xAE0005FF);
+  (*(void(*)())puVar1)(0xf,0xAE0005FF);
 
   FUN_060192e8();
 
   if (*(int *)0x06086050 == 0) {
 
-    (*0x06012F20)();
+    (*(void(*)())0x06012F20)();
 
     *(short *)0x25A02DBE = 0;
 
   }
 
-  (*puVar1)(0xf,0xAE0001FF);
+  (*(void(*)())puVar1)(0xf,0xAE0001FF);
 
   return;
 

@@ -1,7 +1,7 @@
 extern int DAT_060086a6;
 
-extern void FUN_060086c0();
-extern void FUN_06008730();
+extern int FUN_060086c0();
+extern int FUN_06008730();
 
 int FUN_06008640()
 {

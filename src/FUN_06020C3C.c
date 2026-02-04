@@ -1,4 +1,4 @@
-extern void FUN_06020946();
+extern int FUN_06020946();
 
 unsigned int FUN_06020c3c()
 {
@@ -13,9 +13,9 @@ unsigned int FUN_06020c3c()
 
   char auStack_14 [20];
 
-  (*0x06035228)();
+  (*(void(*)())0x06035228)();
 
-  (*0x06035228)();
+  (*(void(*)())0x06035228)();
 
   puVar2 = 0x060A3D88;
 
@@ -31,7 +31,7 @@ unsigned int FUN_06020c3c()
 
     *(short *)puVar1 = 1;
 
-    uVar3 = (*0x06038044)(auStack_14);
+    uVar3 = (*(void(*)())0x06038044)(auStack_14);
 
   }
 
@@ -43,7 +43,7 @@ unsigned int FUN_06020c3c()
 
     *(short *)puVar1 = 1;
 
-    uVar3 = (*0x06038044)(auStack_24);
+    uVar3 = (*(void(*)())0x06038044)(auStack_24);
 
   }
 
@@ -55,7 +55,7 @@ unsigned int FUN_06020c3c()
 
   else if (uVar3 == 4) {
 
-    uVar3 = (*0x0602853E)(4);
+    uVar3 = (*(void(*)())0x0602853E)(4);
 
   }
 

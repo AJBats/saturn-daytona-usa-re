@@ -1,5 +1,5 @@
-extern void FUN_06005294();
-extern void FUN_0600553c();
+extern int FUN_06005294();
+extern int FUN_0600553c();
 
 void FUN_060055bc(param_1, param_2, param_3, param_4)
     int param_1;
@@ -80,9 +80,7 @@ void FUN_060055bc(param_1, param_2, param_3, param_4)
 
   iVar5 = (int)*psVar6;
 
-  uVar4 = (*0x0602755C)
-
-                    (((unsigned int)*(unsigned short *)puVar8 - iVar5) * 0x10000,(*psVar7 - iVar5) * 0x10000,param_3
+  uVar4 = (*(void(*)())0x0602755C)(((unsigned int)*(unsigned short *)puVar8 - iVar5) * 0x10000,(*psVar7 - iVar5) * 0x10000,param_3
 
                      ,param_4,iVar5);
 
@@ -90,59 +88,59 @@ void FUN_060055bc(param_1, param_2, param_3, param_4)
 
   puVar2 = 0x06026FFC;
 
-  (*0x06026FFC)(psVar6 + 4,&iStack_2c);
+  (*(void(*)())0x06026FFC)(psVar6 + 4,&iStack_2c);
 
   FUN_0600553c(psVar7 + 1,psVar6 + 1);
 
-  (*puVar2)(psVar7 + 4,&iStack_38);
+  (*(void(*)())puVar2)(psVar7 + 4,&iStack_38);
 
   puVar3 = 0x06027552;
 
   iVar5 = iStack_2c;
 
-  iStack_44 = (*0x06027552)(iStack_38 - iStack_2c,uVar4);
+  iStack_44 = (*(void(*)())0x06027552)(iStack_38 - iStack_2c,uVar4);
 
   iStack_44 = iStack_44 + iVar5;
 
   iVar5 = iStack_28;
 
-  iStack_40 = (*puVar3)(iStack_34 - iStack_28,uVar4);
+  iStack_40 = (*(void(*)())puVar3)(iStack_34 - iStack_28,uVar4);
 
   iStack_40 = iStack_40 + iVar5;
 
   iVar5 = iStack_24;
 
-  iStack_3c = (*puVar3)(iStack_30 - iStack_24,uVar4);
+  iStack_3c = (*(void(*)())puVar3)(iStack_30 - iStack_24,uVar4);
 
   iStack_3c = iStack_3c + iVar5;
 
   FUN_0600553c((int)psVar6 + 3,psVar7 + 1);
 
-  (*puVar2)(psVar6 + 10,&iStack_2c);
+  (*(void(*)())puVar2)(psVar6 + 10,&iStack_2c);
 
   FUN_0600553c((int)psVar7 + 3,(int)psVar6 + 3);
 
-  (*puVar2)(psVar7 + 10,&iStack_38);
+  (*(void(*)())puVar2)(psVar7 + 10,&iStack_38);
 
-  iStack_50 = (*puVar3)(iStack_38 - iStack_2c,uVar4);
+  iStack_50 = (*(void(*)())puVar3)(iStack_38 - iStack_2c,uVar4);
 
   iStack_50 = iStack_50 + iStack_2c;
 
-  iStack_4c = (*puVar3)(iStack_34 - iStack_28,uVar4);
+  iStack_4c = (*(void(*)())puVar3)(iStack_34 - iStack_28,uVar4);
 
   iStack_4c = iStack_4c + iStack_28;
 
-  iStack_48 = (*puVar3)(iStack_30 - iStack_24,uVar4);
+  iStack_48 = (*(void(*)())puVar3)(iStack_30 - iStack_24,uVar4);
 
   iStack_48 = iStack_48 + iStack_24;
 
   *(short *)puVar8 = *(short *)puVar8 + 1;
 
-  (*0x06026E0C)();
+  (*(void(*)())0x06026E0C)();
 
   FUN_06005294(&iStack_44,&iStack_50,0x06063EEC);
 
-  if (*0x06078663 == '\0') {
+  if (*(int *)0x06078663 == '\0') {
 
     puVar8 = (char *)(*(int *)(puVar1 + 4) * -0x400 + 0xFFA00000);
 
@@ -154,11 +152,11 @@ void FUN_060055bc(param_1, param_2, param_3, param_4)
 
   }
 
-  (*0x0603850C)(4);
+  (*(void(*)())0x0603850C)(4);
 
-  (*0x0603853C)(puVar8,0x003A0000 + *(int *)puVar1 * -0x200,0);
+  (*(void(*)())0x0603853C)(puVar8,0x003A0000 + *(int *)puVar1 * -0x200,0);
 
-  (*0x06038520)();
+  (*(void(*)())0x06038520)();
 
   return;
 

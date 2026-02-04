@@ -1,6 +1,6 @@
 extern int DAT_0600d91a;
 
-extern void FUN_0600d9bc();
+extern int FUN_0600d9bc();
 
 void FUN_0600d8a4(param_1)
     int param_1;

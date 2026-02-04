@@ -4,7 +4,7 @@ extern int PTR_DAT_06041176;
 
 extern int PTR_DAT_06041176;
 
-extern void FUN_06041aa0();
+extern int FUN_06041aa0();
 
 int FUN_06041128(param_1, param_2)
     int param_1;

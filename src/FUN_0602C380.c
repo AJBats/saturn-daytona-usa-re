@@ -4384,9 +4384,7 @@ LAB_0602bee8:
 
       }
 
-      (**(void **)(0x0602C450 + iVar11 * 4))
-
-                (0x06094EF4,0x06094EEC,puVar18 + 9,puVar18 + 0xc);
+      (*(void(*)())(*(int *)(0x0602C450 + iVar11 * 4)))(0x06094EF4,0x06094EEC,puVar18 + 9,puVar18 + 0xc);
 
       uVar12 = uVar21;
 
@@ -4664,7 +4662,7 @@ LAB_0602bee8:
 
           if (iVar10 != 0) {
 
-            (**(void **)(0x0602C460 + iVar10 * 4))(puVar8,puVar9);
+            (*(void(*)())(*(int *)(0x0602C460 + iVar10 * 4)))(puVar8,puVar9);
 
           }
 

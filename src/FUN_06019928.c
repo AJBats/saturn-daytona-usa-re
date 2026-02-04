@@ -2,10 +2,10 @@ extern int PTR_DAT_06019a24;
 
 extern int PTR_DAT_06019a24;
 
-extern void FUN_06019bc8();
-extern void FUN_06019db8();
-extern void FUN_06019fb2();
-extern void FUN_0601a65e();
+extern int FUN_06019bc8();
+extern int FUN_06019db8();
+extern int FUN_06019fb2();
+extern int FUN_0601a65e();
 
 void FUN_06019928()
 {
@@ -30,7 +30,7 @@ void FUN_06019928()
 
   iVar5 = (int)PTR_DAT_06019a24;
 
-  if (*0x06085FF1 == '\x01') {
+  if (*(int *)0x06085FF1 == '\x01') {
 
     *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 4;
 
@@ -38,7 +38,7 @@ void FUN_06019928()
 
     do {
 
-      (*puVar3)(8,((unsigned int)(unsigned char)(puVar2 + (unsigned int)bVar6 * 2)[1] * 0x40 +
+      (*(void(*)())puVar3)(8,((unsigned int)(unsigned char)(puVar2 + (unsigned int)bVar6 * 2)[1] * 0x40 +
 
                           (unsigned int)(unsigned char)puVar2[(unsigned int)bVar6 * 2]) * 2,iVar5,
 
@@ -50,19 +50,19 @@ void FUN_06019928()
 
     } while (bVar6 < 8);
 
-    (*puVar3)(0xc,((unsigned int)(unsigned char)(puVar2 + (char)*0x06085FF0 * 2)[1] * 0x40 +
+    (*(void(*)())puVar3)(0xc,((unsigned int)(unsigned char)(puVar2 + (char)*0x06085FF0 * 2)[1] * 0x40 +
 
                           (unsigned int)(unsigned char)puVar2[(char)*0x06085FF0 * 2]) * 2,iVar5,
 
                       *(int *)(puVar1 + (char)*0x06085FF0 * 4));
 
-    (*puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)*puVar4 * 2 + 1] * 0x40 + 1) * 2,iVar5,
+    (*(void(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)*puVar4 * 2 + 1] * 0x40 + 1) * 2,iVar5,
 
                       0x06049E44);
 
     if (*puVar4 != '\x06') {
 
-      (*puVar3)(0xc,((unsigned int)(unsigned char)puVar2[0xd] * 0x40 + (unsigned int)(unsigned char)puVar2[0xc] + 0xd) * 2,
+      (*(void(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[0xd] * 0x40 + (unsigned int)(unsigned char)puVar2[0xc] + 0xd) * 2,
 
                         iVar5,*(int *)0x0605D4F0,puVar2);
 
@@ -76,7 +76,7 @@ void FUN_06019928()
 
     FUN_0601a65e();
 
-    *0x06085FF1 = 0;
+    *(int *)0x06085FF1 = 0;
 
   }
 

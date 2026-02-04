@@ -4,7 +4,7 @@ extern int PTR_DAT_0603fe30;
 
 extern int PTR_DAT_0603fe30;
 
-extern void FUN_0603ffe6();
+extern int FUN_0603ffe6();
 
 void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
     int param_1;
@@ -47,7 +47,7 @@ void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
 
   puVar1 = 0x06042BEE;
 
-  (*0x06042BBE)(param_1);
+  (*(void(*)())0x06042BBE)(param_1);
 
   uStack_30 = 0;
 
@@ -55,7 +55,7 @@ void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
 
   uStack_28 = 7;
 
-  (*0x06042A8C)(&uStack_30);
+  (*(void(*)())0x06042A8C)(&uStack_30);
 
   uVar3 = param_6 >> 2;
 
@@ -117,19 +117,19 @@ void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
 
   uStack_50 = uVar3;
 
-  (*0x06042ACA)(&iStack_58,param_1);
+  (*(void(*)())0x06042ACA)(&iStack_58,param_1);
 
-  (*0x06042BAC)(param_1);
+  (*(void(*)())0x06042BAC)(param_1);
 
   do {
 
-    iVar2 = (*puVar1)(param_1);
+    iVar2 = (*(void(*)())puVar1)(param_1);
 
   } while (iVar2 == 0);
 
   FUN_0603ffe6(param_6 & 3,param_3 * uVar3 * 4 + param_2,param_5 * uVar3 * 4 + param_4);
 
-  (*0x0603C05C)(param_2,param_6);
+  (*(void(*)())0x0603C05C)(param_2,param_6);
 
   return;
 

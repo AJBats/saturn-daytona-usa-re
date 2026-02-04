@@ -4,7 +4,7 @@ extern int PTR_DAT_06008560;
 
 extern int PTR_DAT_06008560;
 
-extern void FUN_060086c0();
+extern int FUN_060086c0();
 
 void FUN_060084ca()
 {
@@ -27,17 +27,17 @@ void FUN_060084ca()
 
       ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0)) &&
 
-     ((*0x06078635 != '\0' || (*(short *)0x0607ED8C == 0)))) {
+     ((*(int *)0x06078635 != '\0' || (*(short *)0x0607ED8C == 0)))) {
 
     *(short *)0x0605A016 = 3;
 
-    *0x06078654 = 7;
+    *(int *)0x06078654 = 7;
 
     *(int *)0x06063E1C = 2;
 
     *(int *)0x06059F30 = 1;
 
-    (*0x06038BD4)(8,0);
+    (*(void(*)())0x06038BD4)(8,0);
 
     *(char **)0x06063E24 = 0x00058000;
 
@@ -49,7 +49,7 @@ void FUN_060084ca()
 
     *(int *)0x06063E30 = 0;
 
-    *0x0607866C = (char)*(int *)(*(int *)puVar1 + (int)PTR_DAT_06008560);
+    *(int *)0x0607866C = (char)*(int *)(*(int *)puVar1 + (int)PTR_DAT_06008560);
 
   }
 

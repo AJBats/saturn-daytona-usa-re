@@ -21,29 +21,23 @@ void FUN_0600a76c()
 
   if (pcVar4[1] != '\0') {
 
-    (*0x06027080)();
+    (*(void(*)())0x06027080)();
 
-    (*0x060270F2)
-
-              (*(int *)0x06044640 + (int)DAT_0600a856,
+    (*(void(*)())0x060270F2)(*(int *)0x06044640 + (int)DAT_0600a856,
 
                *(int *)(0x06044640 + 4) + (int)DAT_0600a854,
 
                *(int *)(0x06044640 + 8) + 0xFFFF0F5D);
 
-    (*0x06027124)(puVar2,puVar2,puVar2);
+    (*(void(*)())0x06027124)(puVar2,puVar2,puVar2);
 
     iVar3 = (*pcVar4 + 0xe) * 4;
 
-    (*0x06032158)
-
-              (*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
+    (*(void(*)())0x06032158)(*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
 
     iVar3 = (*pcVar4 + 0xe) * 4;
 
-    (*0x06031DF4)
-
-              (*(int *)(0x060620D8 + iVar3),*(short *)0x06089E9C,
+    (*(void(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar3),*(short *)0x06089E9C,
 
                *(int *)(0x06062180 + iVar3));
 
@@ -53,27 +47,21 @@ void FUN_0600a76c()
 
   if (pcVar4[4] != '\0') {
 
-    (*0x06027080)();
+    (*(void(*)())0x06027080)();
 
-    (*0x060270F2)
-
-              (*(int *)0x06044670,*(int *)(0x06044670 + 4) + (int)DAT_0600a854,
+    (*(void(*)())0x060270F2)(*(int *)0x06044670,*(int *)(0x06044670 + 4) + (int)DAT_0600a854,
 
                0xFFFDB334 - *(int *)(0x06044670 + 8));
 
-    (*0x06027124)(puVar2,puVar2,puVar2);
+    (*(void(*)())0x06027124)(puVar2,puVar2,puVar2);
 
     iVar3 = (pcVar4[3] + 0xe) * 4;
 
-    (*0x06032158)
-
-              (*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
+    (*(void(*)())0x06032158)(*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
 
     iVar3 = (pcVar4[3] + 0xe) * 4;
 
-    (*0x06031DF4)
-
-              (*(int *)(0x060620D8 + iVar3),*(short *)0x06089E9C,
+    (*(void(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar3),*(short *)0x06089E9C,
 
                *(int *)(0x06062180 + iVar3));
 

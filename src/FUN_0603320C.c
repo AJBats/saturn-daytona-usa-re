@@ -1,4 +1,4 @@
-extern void FUN_06033278();
+extern int FUN_06033278();
 
 long long FUN_0603320c()
 {

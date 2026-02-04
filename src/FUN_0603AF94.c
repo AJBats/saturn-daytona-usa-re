@@ -1,7 +1,7 @@
-extern void FUN_0603b878();
-extern void FUN_0603b8b4();
-extern void FUN_0603b8f4();
-extern void FUN_0603b93c();
+extern int FUN_0603b878();
+extern int FUN_0603b8b4();
+extern int FUN_0603b8f4();
+extern int FUN_0603b93c();
 
 void FUN_0603af94(param_1)
     int param_1;
@@ -23,7 +23,7 @@ void FUN_0603af94(param_1)
 
   FUN_0603b8f4(param_1);
 
-  (*0x0603BF22)(iVar1,param_1);
+  (*(void(*)())0x0603BF22)(iVar1,param_1);
 
   FUN_0603b93c(0);
 

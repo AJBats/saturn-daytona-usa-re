@@ -6,7 +6,7 @@ extern int PTR_DAT_0601f808;
 
 extern int PTR_DAT_0601f808;
 
-extern void FUN_0601f87a();
+extern int FUN_0601f87a();
 
 unsigned int FUN_0601f784()
 {
@@ -29,31 +29,31 @@ unsigned int FUN_0601f784()
 
   uVar3 = 0;
 
-  if (*0x06078635 != '\0') {
+  if (*(int *)0x06078635 != '\0') {
 
     FUN_0601f87a(*(int *)0x0607EAD8 + 1U & 0xff);
 
-    (*0x0601E2B4)();
+    (*(void(*)())0x0601E2B4)();
 
-    uVar3 = (*0x0601EAA0)();
+    uVar3 = (*(void(*)())0x0601EAA0)();
 
     uVar3 = uVar3 & 0xff;
 
     if ((uVar3 == 0) &&
 
-       ((*0x0605E0A1 == '\0' || ((unsigned int)(unsigned char)*0x0605E0A0 != *(unsigned int *)0x0607EAD8)))
+       ((*(int *)0x0605E0A1 == '\0' || ((unsigned int)(unsigned char)*0x0605E0A0 != *(unsigned int *)0x0607EAD8)))
 
        ) {
 
       if (*(int *)puVar2 == 0) {
 
-        uVar3 = (*0x06027630)(puVar1,0x002F8000,(int)DAT_0601f806);
+        uVar3 = (*(void(*)())0x06027630)(puVar1,0x002F8000,(int)DAT_0601f806);
 
       }
 
       else if (*(int *)puVar2 == 1) {
 
-        uVar3 = (*0x06027630)(puVar1,0x002F8000,(int)PTR_DAT_0601f808);
+        uVar3 = (*(void(*)())0x06027630)(puVar1,0x002F8000,(int)PTR_DAT_0601f808);
 
       }
 
@@ -63,7 +63,7 @@ unsigned int FUN_0601f784()
 
         if (uVar3 == 2) {
 
-          uVar3 = (*0x06027630)(puVar1,0x002F8000,uVar5);
+          uVar3 = (*(void(*)())0x06027630)(puVar1,0x002F8000,uVar5);
 
         }
 
@@ -83,7 +83,7 @@ unsigned int FUN_0601f784()
 
     }
 
-    *0x0605E0A1 = 0;
+    *(int *)0x0605E0A1 = 0;
 
   }
 

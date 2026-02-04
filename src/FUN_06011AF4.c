@@ -1,4 +1,4 @@
-void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5,
+void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5
 {
 
   char *puVar1;
@@ -39,7 +39,7 @@ void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5,
 
   uStack_2c = param_1;
 
-  (*0x06027358)((int)param_5,&uStack_38,&uStack_34);
+  (*(void(*)())0x06027358)((int)param_5,&uStack_38,&uStack_34);
 
   puVar4 = 0x06027552;
 
@@ -53,115 +53,115 @@ void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5,
 
   psVar11 = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
 
-  iVar5 = (*0x06027552)(iStack_24,uStack_34);
+  iVar5 = (*(void(*)())0x06027552)(iStack_24,uStack_34);
 
-  iVar6 = (*puVar4)(param_4,uStack_38);
+  iVar6 = (*(void(*)())puVar4)(param_4,uStack_38);
 
-  uVar7 = (*puVar4)(iVar5 - iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 - iVar6,param_6);
 
-  sVar8 = (*puVar3)(uVar7);
+  sVar8 = (*(void(*)())puVar3)(uVar7);
 
-  sVar9 = (*puVar3)(uStack_2c);
+  sVar9 = (*(void(*)())puVar3)(uStack_2c);
 
   *psVar11 = sVar9 - sVar8;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(iStack_24,uStack_38);
+  iVar5 = (*(void(*)())puVar4)(iStack_24,uStack_38);
 
-  iVar6 = (*puVar4)(param_4,uStack_34);
+  iVar6 = (*(void(*)())puVar4)(param_4,uStack_34);
 
-  uVar7 = (*puVar4)(iVar5 + iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 + iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_30);
+  sVar10 = (*(void(*)())puVar3)(uStack_30);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 10) = sVar10 + sVar9;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(param_3,uStack_34);
+  iVar5 = (*(void(*)())puVar4)(param_3,uStack_34);
 
-  iVar6 = (*puVar4)(param_4,uStack_38);
+  iVar6 = (*(void(*)())puVar4)(param_4,uStack_38);
 
-  uVar7 = (*puVar4)(iVar5 - iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 - iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_2c);
+  sVar10 = (*(void(*)())puVar3)(uStack_2c);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xc) = sVar10 - sVar9;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(param_3,uStack_38);
+  iVar5 = (*(void(*)())puVar4)(param_3,uStack_38);
 
-  iVar6 = (*puVar4)(param_4,uStack_34);
+  iVar6 = (*(void(*)())puVar4)(param_4,uStack_34);
 
-  uVar7 = (*puVar4)(iVar5 + iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 + iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_30);
+  sVar10 = (*(void(*)())puVar3)(uStack_30);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xe) = sVar10 + sVar9;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(param_3,uStack_34);
+  iVar5 = (*(void(*)())puVar4)(param_3,uStack_34);
 
   iStack_28 = -param_4;
 
-  iVar6 = (*puVar4)(iStack_28,uStack_38);
+  iVar6 = (*(void(*)())puVar4)(iStack_28,uStack_38);
 
-  uVar7 = (*puVar4)(iVar5 - iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 - iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_2c);
+  sVar10 = (*(void(*)())puVar3)(uStack_2c);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x10) = sVar10 - sVar9;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(param_3,uStack_38);
+  iVar5 = (*(void(*)())puVar4)(param_3,uStack_38);
 
-  iVar6 = (*puVar4)(iStack_28,uStack_34);
+  iVar6 = (*(void(*)())puVar4)(iStack_28,uStack_34);
 
-  uVar7 = (*puVar4)(iVar5 + iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 + iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_30);
+  sVar10 = (*(void(*)())puVar3)(uStack_30);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x12) = sVar10 + sVar9;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(iStack_24,uStack_34);
+  iVar5 = (*(void(*)())puVar4)(iStack_24,uStack_34);
 
-  iVar6 = (*puVar4)(iStack_28,uStack_38);
+  iVar6 = (*(void(*)())puVar4)(iStack_28,uStack_38);
 
-  uVar7 = (*puVar4)(iVar5 - iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 - iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_2c);
+  sVar10 = (*(void(*)())puVar3)(uStack_2c);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x14) = sVar10 - sVar9;
 
   sVar8 = *(short *)puVar2;
 
-  iVar5 = (*puVar4)(iStack_24,uStack_38);
+  iVar5 = (*(void(*)())puVar4)(iStack_24,uStack_38);
 
-  iVar6 = (*puVar4)(iStack_28,uStack_34);
+  iVar6 = (*(void(*)())puVar4)(iStack_28,uStack_34);
 
-  uVar7 = (*puVar4)(iVar5 + iVar6,param_6);
+  uVar7 = (*(void(*)())puVar4)(iVar5 + iVar6,param_6);
 
-  sVar9 = (*puVar3)(uVar7);
+  sVar9 = (*(void(*)())puVar3)(uVar7);
 
-  sVar10 = (*puVar3)(uStack_30);
+  sVar10 = (*(void(*)())puVar3)(uStack_30);
 
   *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x16) = sVar10 + sVar9;
 

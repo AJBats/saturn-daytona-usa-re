@@ -55,7 +55,7 @@ void FUN_0600c994()
 
     piVar10 = (int *)(*(int *)puVar4 + iVar6);
 
-    sVar5 = (*puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
+    sVar5 = (*(void(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
 
                               piVar10[1] - *(int *)(iVar11 + 0x18));
 
@@ -63,7 +63,7 @@ void FUN_0600c994()
 
     piVar10 = (int *)(*(int *)puVar4 + iVar6 + 0x10);
 
-    sVar5 = (*puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
+    sVar5 = (*(void(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
 
                               piVar10[1] - *(int *)(iVar11 + 0x18));
 

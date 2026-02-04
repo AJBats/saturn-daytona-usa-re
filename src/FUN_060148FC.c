@@ -9,17 +9,17 @@ void FUN_060148fc()
 
   puVar1 = 0x06038BD4;
 
-  (*0x06038BD4)((int)PTR_DAT_0601495c,0);
+  (*(void(*)())0x06038BD4)((int)PTR_DAT_0601495c,0);
 
-  (*puVar1)(4,0);
+  (*(void(*)())puVar1)(4,0);
 
-  (*puVar1)(8,0);
+  (*(void(*)())puVar1)(8,0);
 
-  (*puVar1)(0x10,0);
+  (*(void(*)())puVar1)(0x10,0);
 
-  (*puVar1)(0x20,0);
+  (*(void(*)())puVar1)(0x20,0);
 
-  (*puVar1)(1,0);
+  (*(void(*)())puVar1)(1,0);
 
   return;
 

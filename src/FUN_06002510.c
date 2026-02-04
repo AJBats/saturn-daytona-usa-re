@@ -2,8 +2,8 @@ extern int DAT_06002554;
 
 extern int DAT_06002556;
 
-extern void FUN_060023e6();
-extern void FUN_060024d8();
+extern int FUN_060023e6();
+extern int FUN_060024d8();
 
 int FUN_06002510(param_1)
     short param_1;

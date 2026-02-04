@@ -1,4 +1,4 @@
-extern void FUN_060335f4();
+extern int FUN_060335f4();
 
 int FUN_06033550()
 {
@@ -35,13 +35,13 @@ int FUN_06033550()
 
   iVar1 = FUN_060335f4();
 
-  iVar1 = (*0x06027552)(*(int *)(0x00000010 + iVar1));
+  iVar1 = (*(void(*)())0x06027552)(*(int *)(0x00000010 + iVar1));
 
-  iVar2 = (*0x06027552)(extraout_r3,in_r7);
+  iVar2 = (*(void(*)())0x06027552)(extraout_r3,in_r7);
 
-  iVar3 = (*0x06027552)(extraout_r2);
+  iVar3 = (*(void(*)())0x06027552)(extraout_r2);
 
-  uVar5 = (*0x06027552)(extraout_r2_00,in_r7);
+  uVar5 = (*(void(*)())0x06027552)(extraout_r2_00,in_r7);
 
   iVar4 = (int)((unsigned long long)uVar5 >> 0x20);
 

@@ -1,6 +1,6 @@
-extern void FUN_0600d37c();
-extern void FUN_0600d3c4();
-extern void FUN_0600d50c();
+extern int FUN_0600d37c();
+extern int FUN_0600d3c4();
+extern int FUN_0600d50c();
 
 void FUN_0600d31c()
 {

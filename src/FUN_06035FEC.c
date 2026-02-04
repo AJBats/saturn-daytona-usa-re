@@ -9,7 +9,7 @@ void FUN_06035fec()
 
   if (((unsigned int)in_r1 & 3) == 0 && ((unsigned int)in_r0 & 3) == 0) {
 
-    (*0x06036CB0)();
+    (*(void(*)())0x06036CB0)();
 
     return;
 
@@ -17,7 +17,7 @@ void FUN_06035fec()
 
   cVar1 = *in_r1;
 
-  while( true ) {
+  while( 1 ) {
 
     *in_r0 = cVar1;
 

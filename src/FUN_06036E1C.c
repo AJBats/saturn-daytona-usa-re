@@ -19,7 +19,7 @@ long long FUN_06036e1c()
 
   iVar5 = *in_r1;
 
-  while( true ) {
+  while( 1 ) {
 
     piVar2 = in_r1 + 1;
 

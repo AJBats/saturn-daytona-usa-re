@@ -4,10 +4,10 @@ extern int DAT_0600d82c;
 
 extern int DAT_0600d82e;
 
-extern void FUN_0600d84c();
-extern void FUN_0600d8a4();
-extern void FUN_0600d92c();
-extern void FUN_0600d9bc();
+extern int FUN_0600d84c();
+extern int FUN_0600d8a4();
+extern int FUN_0600d92c();
+extern int FUN_0600d9bc();
 
 int FUN_0600d780(param_1)
     int param_1;
@@ -57,7 +57,7 @@ int FUN_0600d780(param_1)
 
         iVar3 = FUN_0600d92c();
 
-        *0x0605DE3C = 0;
+        *(int *)0x0605DE3C = 0;
 
       }
 
@@ -97,7 +97,7 @@ int FUN_0600d780(param_1)
 
         iVar3 = FUN_0600d92c();
 
-        *0x0605DE3C = 1;
+        *(int *)0x0605DE3C = 1;
 
       }
 

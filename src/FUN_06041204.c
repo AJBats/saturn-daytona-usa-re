@@ -1,6 +1,6 @@
 extern int DAT_0604128e;
 
-extern void FUN_06041cc8();
+extern int FUN_06041cc8();
 
 int FUN_06041204(param_1, param_2, param_3)
     int param_1;

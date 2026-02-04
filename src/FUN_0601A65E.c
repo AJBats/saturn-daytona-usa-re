@@ -27,7 +27,7 @@ void FUN_0601a65e()
 
   int *local_18;
 
-  if (*0x06085FF0 == '\x03') {
+  if (*(int *)0x06085FF0 == '\x03') {
 
     iVar3 = 3;
 
@@ -43,7 +43,7 @@ void FUN_0601a65e()
 
       if (0x10 < (unsigned char)*0x0605D242) {
 
-        *0x0605D242 = 0;
+        *(int *)0x0605D242 = 0;
 
       }
 
@@ -63,11 +63,9 @@ void FUN_0601a65e()
 
   puVar1 = 0x06063750;
 
-  if (*0x0605D241 == '\0') {
+  if (*(int *)0x0605D241 == '\0') {
 
-    (*0x06028400)
-
-              (0xc,*(int *)(0x06063750 + DAT_0601a6de),(int)DAT_0601a6e0,
+    (*(void(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a6de),(int)DAT_0601a6e0,
 
                iVar4 * 0x1000 + *(int *)((int)(0x06063750 + DAT_0601a6de) + 4));
 
@@ -79,9 +77,7 @@ void FUN_0601a65e()
 
   else {
 
-    (*0x06028400)
-
-              (0xc,*(int *)(0x06063750 + DAT_0601a756),(int)DAT_0601a758,
+    (*(void(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a756),(int)DAT_0601a758,
 
                iVar3 * 0x1000 + *(int *)((int)(0x06063750 + DAT_0601a756) + 4));
 
@@ -91,7 +87,7 @@ void FUN_0601a65e()
 
   }
 
-  (*puVar2)(0xc,*local_18,(int)PTR_DAT_0601a75c,iVar3);
+  (*(void(*)())puVar2)(0xc,*local_18,(int)PTR_DAT_0601a75c,iVar3);
 
   return;
 

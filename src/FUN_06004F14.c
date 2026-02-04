@@ -31,7 +31,7 @@ void FUN_06004f14(param_1, param_2, param_3, param_4)
 
     psVar6 = *(short **)0x06063D90;
 
-    (*0x0602761E)(psVar6,param_1,uVar5);
+    (*(void(*)())0x0602761E)(psVar6,param_1,uVar5);
 
     *(unsigned int *)0x06063D90 = *(int *)0x06063D90 + (unsigned int)uVar5;
 
@@ -55,13 +55,13 @@ void FUN_06004f14(param_1, param_2, param_3, param_4)
 
     if ((param_2 & 8) == 0) {
 
-      (*0x0602761E)(0x25E00000 + *(int *)puVar3 * 0x20,param_3,param_4 << 5);
+      (*(void(*)())0x0602761E)(0x25E00000 + *(int *)puVar3 * 0x20,param_3,param_4 << 5);
 
     }
 
     else {
 
-      (*0x06028654)(param_3,0x25E00000 + *(int *)puVar3 * 0x20);
+      (*(void(*)())0x06028654)(param_3,0x25E00000 + *(int *)puVar3 * 0x20);
 
     }
 
@@ -75,13 +75,13 @@ void FUN_06004f14(param_1, param_2, param_3, param_4)
 
     if ((param_2 & 8) == 0) {
 
-      (*0x0602761E)(0x25E20000 + *(int *)puVar2 * 0x20,param_3,param_4 << 5);
+      (*(void(*)())0x0602761E)(0x25E20000 + *(int *)puVar2 * 0x20,param_3,param_4 << 5);
 
     }
 
     else {
 
-      (*0x06028654)(param_3,0x25E20000 + *(int *)puVar2 * 0x20);
+      (*(void(*)())0x06028654)(param_3,0x25E20000 + *(int *)puVar2 * 0x20);
 
     }
 

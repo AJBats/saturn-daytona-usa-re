@@ -20,7 +20,7 @@ void FUN_0600508a(param_1, param_2, param_3)
 
     uVar3 = ((unsigned int)param_1[1] * (unsigned int)*param_1 + 2) * 2 & 0xffff;
 
-    (*0x0602761E)(puVar4,param_1,uVar3);
+    (*(void(*)())0x0602761E)(puVar4,param_1,uVar3);
 
     *(unsigned int *)puVar1 = *(int *)puVar1 + uVar3;
 

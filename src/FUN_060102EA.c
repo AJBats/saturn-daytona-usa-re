@@ -22,21 +22,19 @@ void FUN_060102ea(param_1)
 
     if ((*(int *)puVar1 < 1) || ((param_1 & DAT_0601038c) != 0)) {
 
-      (*0x0601D5F4)
-
-                (0,*(int *)(0x0604481C + *(int *)0x0607EADC * 4));
+      (*(void(*)())0x0601D5F4)(0,*(int *)(0x0604481C + *(int *)0x0607EADC * 4));
 
       *(int *)puVar1 = 0;
 
-      *0x0607887F = 2;
+      *(int *)0x0607887F = 2;
 
-      *0x06078648 = (char)*(int *)0x0607EAD8;
+      *(int *)0x06078648 = (char)*(int *)0x0607EAD8;
 
       puVar2 = 0x0605AB18;
 
-      *0x0605AB18 = 0;
+      *(int *)0x0605AB18 = 0;
 
-      if ((*0x06085FF4 == '\0') &&
+      if ((*(int *)0x06085FF4 == '\0') &&
 
          ((*(int *)0x0605AD00 == 0 && ((*(unsigned short *)0x06063D98 & DAT_0601038e) != 0)))) {
 

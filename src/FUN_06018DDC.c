@@ -34,7 +34,7 @@ int FUN_06018ddc(param_1, param_2, param_3)
 
   uStack_8 = param_3;
 
-  uVar1 = (*0x06034D1C)(&local_18);
+  uVar1 = (*(void(*)())0x06034D1C)(&local_18);
 
   return uVar1;
 

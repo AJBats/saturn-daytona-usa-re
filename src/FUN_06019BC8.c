@@ -19,7 +19,7 @@ int FUN_06019bc8()
 
   puVar1 = 0x0605D242;
 
-  if (*0x06085FF0 == '\0') {
+  if (*(int *)0x06085FF0 == '\0') {
 
     bVar6 = 0;
 
@@ -53,7 +53,7 @@ int FUN_06019bc8()
 
       }
 
-      uVar4 = (*puVar3)(0xc,*(int *)
+      uVar4 = (*(void(*)())puVar3)(0xc,*(int *)
 
                                      (0x06063750 +
 
@@ -95,7 +95,7 @@ int FUN_06019bc8()
 
       }
 
-      uVar4 = (*puVar3)(0xc,*(int *)
+      uVar4 = (*(void(*)())puVar3)(0xc,*(int *)
 
                                      (0x06063750 +
 

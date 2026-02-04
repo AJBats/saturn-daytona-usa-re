@@ -5,7 +5,7 @@ void FUN_060039c8()
 
   int uVar2;
 
-  if (*0x06083255 == '\0') {
+  if (*(int *)0x06083255 == '\0') {
 
     uVar2 = 0x60;
 
@@ -21,7 +21,7 @@ void FUN_060039c8()
 
   }
 
-  (*0x0602766C)(0x25F00400,*puVar1,uVar2);
+  (*(void(*)())0x0602766C)(0x25F00400,*puVar1,uVar2);
 
   return;
 

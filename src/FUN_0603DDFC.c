@@ -26,10 +26,10 @@ extern int PTR_DAT_0603e620;
 
 extern int PTR_DAT_0603e620;
 
-extern void FUN_0603d9ec();
-extern void FUN_0603da88();
-extern void FUN_0603eacc();
-extern void FUN_0603ec40();
+extern int FUN_0603d9ec();
+extern int FUN_0603da88();
+extern int FUN_0603eacc();
+extern int FUN_0603ec40();
 
 short * FUN_0603ddfc(param_1, param_2, param_3)
     int param_1;
@@ -389,49 +389,49 @@ LAB_0603dedc:
 
     piStack_34 = (int *)*piStack_54;
 
-    local_5c = (int *)(*0x0603C08C)(piStack_30,iStack_50);
+    local_5c = (int *)(*(void(*)())0x0603C08C)(piStack_30,iStack_50);
 
-    iVar13 = (*puVar5)(piStack_48,local_58);
+    iVar13 = (*(void(*)())puVar5)(piStack_48,local_58);
 
     *piVar22 = (int)local_5c - iVar13;
 
     local_5c = piStack_40;
 
-    local_60 = (int *)(*puVar5)(piStack_30,local_58);
+    local_60 = (int *)(*(void(*)())puVar5)(piStack_30,local_58);
 
-    iVar13 = (*puVar5)(piStack_48,iStack_50);
+    iVar13 = (*(void(*)())puVar5)(piStack_48,iStack_50);
 
     *local_5c = iVar13 + (int)local_60;
 
     local_5c = piStack_38;
 
-    local_60 = (int *)(*puVar5)(iStack_4c,iStack_50);
+    local_60 = (int *)(*(void(*)())puVar5)(iStack_4c,iStack_50);
 
-    iVar13 = (*puVar5)(piStack_2c,local_58);
+    iVar13 = (*(void(*)())puVar5)(piStack_2c,local_58);
 
     *local_5c = (int)local_60 - iVar13;
 
     local_5c = piStack_3c;
 
-    local_60 = (int *)(*puVar5)(iStack_4c,local_58);
+    local_60 = (int *)(*(void(*)())puVar5)(iStack_4c,local_58);
 
-    iVar13 = (*puVar5)(piStack_2c,iStack_50);
+    iVar13 = (*(void(*)())puVar5)(piStack_2c,iStack_50);
 
     *local_5c = iVar13 + (int)local_60;
 
     local_5c = piStack_44;
 
-    local_60 = (int *)(*puVar5)(iStack_28,iStack_50);
+    local_60 = (int *)(*(void(*)())puVar5)(iStack_28,iStack_50);
 
-    iVar13 = (*puVar5)(piStack_34,local_58);
+    iVar13 = (*(void(*)())puVar5)(piStack_34,local_58);
 
     *local_5c = (int)local_60 - iVar13;
 
     local_5c = piStack_54;
 
-    local_60 = (int *)(*puVar5)(iStack_28,local_58);
+    local_60 = (int *)(*(void(*)())puVar5)(iStack_28,local_58);
 
-    iVar13 = (*puVar5)(piStack_34,iStack_50);
+    iVar13 = (*(void(*)())puVar5)(piStack_34,iStack_50);
 
     *local_5c = iVar13 + (int)local_60;
 
@@ -469,7 +469,7 @@ LAB_0603dedc:
 
     local_6c = (int *)&local_6c;
 
-    (*0x060358EC)();
+    (*(void(*)())0x060358EC)();
 
     local_70 = (unsigned int *)0x0;
 
@@ -477,9 +477,9 @@ LAB_0603dedc:
 
     local_78 = &local_64;
 
-    (*0x060359E4)();
+    (*(void(*)())0x060359E4)();
 
-    iVar13 = (*0x060357B8)();
+    iVar13 = (*(void(*)())0x060357B8)();
 
     puVar5 = 0x005A0000;
 
@@ -525,7 +525,7 @@ LAB_0603dedc:
 
                             (int)local_70);
 
-        iVar16 = (*0x06034FFC)();
+        iVar16 = (*(void(*)())0x06034FFC)();
 
         if (iVar16 == 0) {
 
@@ -539,11 +539,11 @@ LAB_0603ea9c:
 
         else {
 
-          iVar16 = (*puVar10)(iVar13,local_78);
+          iVar16 = (*(void(*)())puVar10)(iVar13,local_78);
 
           local_7c = (int **)(unsigned int)((int)puVar9 < -iVar16);
 
-          iVar16 = (*puVar10)(iVar13,local_78);
+          iVar16 = (*(void(*)())puVar10)(iVar13,local_78);
 
           if (-iVar16 < 0 || local_7c != (int **)0x0) {
 
@@ -555,7 +555,7 @@ LAB_0603ea9c:
 
           local_7c = (int **)(local_74 + uVar23 * 2);
 
-          iVar16 = (*puVar10)(iVar13,local_78);
+          iVar16 = (*(void(*)())puVar10)(iVar13,local_78);
 
           psVar12 = (short *)(-iVar16 >> 6 & 0xffffU & uVar21);
 
@@ -607,7 +607,7 @@ LAB_0603ea9c:
 
                             (int)local_70);
 
-        iVar16 = (*0x06034FFC)();
+        iVar16 = (*(void(*)())0x06034FFC)();
 
         if (iVar16 == 0) {
 
@@ -621,11 +621,11 @@ LAB_0603e964:
 
         else {
 
-          iVar16 = (*puVar10)(iVar13,local_78);
+          iVar16 = (*(void(*)())puVar10)(iVar13,local_78);
 
           local_7c = (int **)(unsigned int)((int)puVar9 < -iVar16);
 
-          iVar16 = (*puVar10)(iVar13,local_78);
+          iVar16 = (*(void(*)())puVar10)(iVar13,local_78);
 
           if (-iVar16 < 0 || local_7c != (int **)0x0) {
 
@@ -637,7 +637,7 @@ LAB_0603e964:
 
           local_7c = (int **)(local_74 + uVar23 * 2);
 
-          iVar16 = (*puVar10)(iVar13,local_78);
+          iVar16 = (*(void(*)())puVar10)(iVar13,local_78);
 
           psVar12 = (short *)(-iVar16 >> 6 & 0xffffU & uVar21);
 
@@ -725,55 +725,55 @@ LAB_0603e964:
 
   piStack_2c = local_60;
 
-  local_64 = (unsigned int *)(*0x0603C08C)(iStack_50,piStack_54);
+  local_64 = (unsigned int *)(*(void(*)())0x0603C08C)(iStack_50,piStack_54);
 
-  iVar13 = (*puVar17)(iStack_28,local_5c);
+  iVar13 = (*(void(*)())puVar17)(iStack_28,local_5c);
 
   *local_60 = iVar13 + (int)local_64;
 
   local_60 = piStack_30;
 
-  iVar13 = (*puVar17)(iStack_50,local_5c);
+  iVar13 = (*(void(*)())puVar17)(iStack_50,local_5c);
 
   local_64 = (unsigned int *)-iVar13;
 
-  iVar13 = (*puVar17)(iStack_28,piStack_54);
+  iVar13 = (*(void(*)())puVar17)(iStack_28,piStack_54);
 
   *local_60 = iVar13 + (int)local_64;
 
   local_60 = piStack_34;
 
-  local_64 = (unsigned int *)(*puVar17)(piStack_38,piStack_54);
+  local_64 = (unsigned int *)(*(void(*)())puVar17)(piStack_38,piStack_54);
 
-  iVar13 = (*puVar17)(piStack_3c,local_5c);
+  iVar13 = (*(void(*)())puVar17)(piStack_3c,local_5c);
 
   *local_60 = iVar13 + (int)local_64;
 
   local_60 = piStack_40;
 
-  iVar13 = (*puVar17)(piStack_38,local_5c);
+  iVar13 = (*(void(*)())puVar17)(piStack_38,local_5c);
 
   local_64 = (unsigned int *)-iVar13;
 
-  iVar13 = (*puVar17)(piStack_3c,piStack_54);
+  iVar13 = (*(void(*)())puVar17)(piStack_3c,piStack_54);
 
   *local_60 = iVar13 + (int)local_64;
 
   local_60 = piStack_48;
 
-  local_64 = (unsigned int *)(*puVar17)(piStack_44,piStack_54);
+  local_64 = (unsigned int *)(*(void(*)())puVar17)(piStack_44,piStack_54);
 
-  iVar13 = (*puVar17)(iStack_4c,local_5c);
+  iVar13 = (*(void(*)())puVar17)(iStack_4c,local_5c);
 
   *local_60 = iVar13 + (int)local_64;
 
   local_60 = local_58;
 
-  iVar13 = (*puVar17)(piStack_44,local_5c);
+  iVar13 = (*(void(*)())puVar17)(piStack_44,local_5c);
 
   local_64 = (unsigned int *)-iVar13;
 
-  iVar13 = (*puVar17)(iStack_4c,piStack_54);
+  iVar13 = (*(void(*)())puVar17)(iStack_4c,piStack_54);
 
   *local_60 = iVar13 + (int)local_64;
 
@@ -811,7 +811,7 @@ LAB_0603e964:
 
   local_70 = (unsigned int *)&local_70;
 
-  (*0x060358EC)();
+  (*(void(*)())0x060358EC)();
 
   local_74 = (char *)0x0;
 
@@ -821,9 +821,9 @@ LAB_0603e964:
 
   pppiVar26 = &local_7c;
 
-  (*0x060359E4)();
+  (*(void(*)())0x060359E4)();
 
-  iVar13 = (*0x060357B8)();
+  iVar13 = (*(void(*)())0x060357B8)();
 
   puVar17 = 0x060A3E68;
 
@@ -853,7 +853,7 @@ LAB_0603e964:
 
       local_90[0] = (char *)local_90;
 
-      (*0x060358EC)();
+      (*(void(*)())0x060358EC)();
 
       local_98 = 0x40F00000;
 
@@ -861,9 +861,9 @@ LAB_0603e964:
 
       pppiVar26 = (int ***)&local_9c;
 
-      (*0x060359E4)();
+      (*(void(*)())0x060359E4)();
 
-      iVar16 = (*0x060357B8)();
+      iVar16 = (*(void(*)())0x060357B8)();
 
       *(int *)(puVar17 + 0x54) = iVar16 + *(int *)(puVar17 + 4);
 
@@ -905,7 +905,7 @@ LAB_0603e964:
 
                            ((int *)pppiVar26)[2]);
 
-      iVar16 = (*0x06034FFC)();
+      iVar16 = (*(void(*)())0x06034FFC)();
 
       if (iVar16 == 0) {
 
@@ -919,9 +919,9 @@ LAB_0603e58c:
 
       else {
 
-        iVar16 = (*puVar7)(iVar13,*pppiVar26);
+        iVar16 = (*(void(*)())puVar7)(iVar13,*pppiVar26);
 
-        if (((int)puVar5 < -iVar16) || (iVar16 = (*puVar7)(iVar13,*pppiVar26), -iVar16 < 0))
+        if (((int)puVar5 < -iVar16) || (iVar16 = (*(void(*)())puVar7)(iVar13,*pppiVar26), -iVar16 < 0))
 
         {
 
@@ -933,7 +933,7 @@ LAB_0603e58c:
 
         ((int *)pppiVar26)[-1] = uVar21 * 2 + ((int *)pppiVar26)[1];
 
-        iVar16 = (*puVar7)(iVar13,*pppiVar26);
+        iVar16 = (*(void(*)())puVar7)(iVar13,*pppiVar26);
 
         psVar12 = (short *)(-iVar16 >> 6 & 0xffffU & (int)DAT_0603e61e);
 
@@ -985,7 +985,7 @@ LAB_0603e58c:
 
                          (int)local_74);
 
-      iVar16 = (*0x06034FFC)();
+      iVar16 = (*(void(*)())0x06034FFC)();
 
       if (iVar16 == 0) {
 
@@ -999,9 +999,9 @@ LAB_0603e3dc:
 
       else {
 
-        iVar16 = (*puVar7)(iVar13,local_7c);
+        iVar16 = (*(void(*)())puVar7)(iVar13,local_7c);
 
-        if (((int)puVar5 < -iVar16) || (iVar16 = (*puVar7)(iVar13,local_7c), -iVar16 < 0)) {
+        if (((int)puVar5 < -iVar16) || (iVar16 = (*(void(*)())puVar7)(iVar13,local_7c), -iVar16 < 0)) {
 
           psVar12 = (short *)((int)local_78 + uVar21 * 2);
 
@@ -1011,7 +1011,7 @@ LAB_0603e3dc:
 
         local_80 = (short *)((int)local_78 + uVar21 * 2);
 
-        iVar16 = (*puVar7)(iVar13,local_7c);
+        iVar16 = (*(void(*)())puVar7)(iVar13,local_7c);
 
         psVar12 = (short *)(-iVar16 >> 6 & 0xffffU & (int)DAT_0603e3bc);
 

@@ -1,5 +1,5 @@
-extern void FUN_06032d90();
-extern void FUN_06032e18();
+extern int FUN_06032d90();
+extern int FUN_06032e18();
 
 char * FUN_060321c0()
 {
@@ -56,11 +56,11 @@ char * FUN_060321c0()
 
   *(int *)0x06082A20 = 0;
 
-  *0x06082A24 = 0;
+  *(int *)0x06082A24 = 0;
 
   puVar2 = 0x06082A25;
 
-  *0x06082A25 = 0;
+  *(int *)0x06082A25 = 0;
 
   return puVar2;
 

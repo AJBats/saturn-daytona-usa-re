@@ -4,9 +4,9 @@ extern int PTR_DAT_060392e8;
 
 extern int PTR_DAT_060392e8;
 
-extern void FUN_0603931c();
-extern void FUN_060393fc();
-extern void FUN_060394f0();
+extern int FUN_0603931c();
+extern int FUN_060393fc();
+extern int FUN_060394f0();
 
 unsigned int FUN_06039250(param_1)
     int *param_1;

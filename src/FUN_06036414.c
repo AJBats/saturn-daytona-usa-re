@@ -15,7 +15,7 @@ void FUN_06036414(param_1, param_2, param_3, param_4)
 
   char uStack_18;
 
-  (*0x06035E90)(&local_1c);
+  (*(void(*)())0x06035E90)(&local_1c);
 
   local_1c = 0x46;
 
@@ -27,7 +27,7 @@ void FUN_06036414(param_1, param_2, param_3, param_4)
 
   uStack_18 = param_1;
 
-  (*0x06035EC8)(0x40,&local_1c);
+  (*(void(*)())0x06035EC8)(0x40,&local_1c);
 
   return;
 

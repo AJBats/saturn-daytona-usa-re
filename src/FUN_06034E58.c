@@ -15,7 +15,7 @@ unsigned char FUN_06034e58()
 
   **(char **)0x0606358C = 1;
 
-  **(char **)0x06063584 = *0x06059CAD;
+  **(char **)0x06063584 = *(int *)0x06059CAD;
 
   do {
 
@@ -29,7 +29,7 @@ unsigned char FUN_06034e58()
 
   **(char **)0x0606358C = 1;
 
-  **(char **)0x06063584 = *0x06059CAC;
+  **(char **)0x06063584 = *(int *)0x06059CAC;
 
   do {
 

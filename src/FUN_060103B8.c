@@ -42,9 +42,7 @@ void FUN_060103b8(param_1)
 
   if (*(int *)puVar2 == 0) {
 
-    (*0x0602766C)
-
-              (*(int *)0x06078884,*(int *)0x0605D05C,iVar4);
+    (*(void(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D05C,iVar4);
 
     puVar3 = (int *)0x0605D088;
 
@@ -52,15 +50,13 @@ void FUN_060103b8(param_1)
 
   else {
 
-    (*0x0602766C)
-
-              (*(int *)0x06078884,*(int *)0x0605D084,iVar4);
+    (*(void(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D084,iVar4);
 
     puVar3 = (int *)0x0605D060;
 
   }
 
-  (*puVar1)(*(int *)0x06078880,*puVar3,iVar4);
+  (*(void(*)())puVar1)(*(int *)0x06078880,*puVar3,iVar4);
 
   return;
 

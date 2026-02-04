@@ -43,9 +43,9 @@ long long FUN_06028654(param_1, param_2)
 
   uVar8 = 0;
 
-  while( true ) {
+  while( 1 ) {
 
-    while( true ) {
+    while( 1 ) {
 
       uVar8 = uVar8 >> 1;
 

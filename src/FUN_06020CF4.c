@@ -37,7 +37,7 @@ void FUN_06020cf4()
 
   puVar3 = 0x060785FC;
 
-  (*0x060280F8)(puVar2,*(int *)0x060785FC);
+  (*(void(*)())0x060280F8)(puVar2,*(int *)0x060785FC);
 
   *(int *)0x0605A008 = *(int *)0x0605A008 + 1;
 

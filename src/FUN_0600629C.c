@@ -12,7 +12,7 @@ extern int PTR_DAT_0600654c;
 
 extern int PTR_DAT_0600654c;
 
-extern void FUN_060067c8();
+extern int FUN_060067c8();
 
 void FUN_0600629c()
 {
@@ -49,7 +49,7 @@ void FUN_0600629c()
 
   *(short *)0x0605DF54 = 0;
 
-  if (*0x06078635 == '\0') {
+  if (*(int *)0x06078635 == '\0') {
 
     for (iVar6 = 0; iVar6 < *(int *)0x0607EA98; iVar6 = iVar6 + 1) {
 
@@ -57,7 +57,7 @@ void FUN_0600629c()
 
       *(int *)(puVar1 + iVar6 * iVar7 + 4) = iVar6;
 
-      (*puVar2)();
+      (*(void(*)())puVar2)();
 
     }
 
@@ -71,7 +71,7 @@ void FUN_0600629c()
 
     *(int *)(*(int *)puVar4 + 4) = 0;
 
-    (*puVar2)();
+    (*(void(*)())puVar2)();
 
     *(int *)(*(int *)puVar3 + 0x74) = 0x38;
 
@@ -111,7 +111,7 @@ void FUN_0600629c()
 
     *(int *)(*(int *)puVar4 + 4) = 0;
 
-    (*puVar2)();
+    (*(void(*)())puVar2)();
 
   }
 
@@ -125,9 +125,9 @@ void FUN_0600629c()
 
   *(short *)(*(int *)puVar3 + 0x7c) = (short)*(int *)0x06078868;
 
-  (*0x0600D280)();
+  (*(void(*)())0x0600D280)();
 
-  (*0x0602E5E4)();
+  (*(void(*)())0x0602E5E4)();
 
   if ((*(int *)0x0607EBC0 == 0xe) && (*(int *)0x0607EAD8 == 0)) {
 
@@ -193,7 +193,7 @@ void FUN_0600629c()
 
   *(int *)0x06059F30 = 1;
 
-  (*0x06038BD4)(8,0);
+  (*(void(*)())0x06038BD4)(8,0);
 
   *(char **)0x06063E24 = 0x00058000;
 

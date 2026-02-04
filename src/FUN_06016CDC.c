@@ -1,4 +1,4 @@
-extern void FUN_06016dd8();
+extern int FUN_06016dd8();
 
 void FUN_06016cdc(param_1, param_2)
     unsigned char param_1;
@@ -13,11 +13,11 @@ void FUN_06016cdc(param_1, param_2)
 
   puVar1 = 0x06084FC8;
 
-  0x06084FC8[(short)((unsigned short)param_1 * 0x44) + 1] = 0;
+  ((int *)0x06084FC8)[(short)((unsigned short)param_1 * 0x44) + 1] = 0;
 
   iVar3 = 0;
 
-  if (((unsigned int)(*0x06085F89 == '\0') & *(unsigned int *)0x0607EBF4) != 0) {
+  if (((unsigned int)(*(int *)0x06085F89 == '\0') & *(unsigned int *)0x0607EBF4) != 0) {
 
     iVar3 = 0x28;
 

@@ -414,7 +414,7 @@ LAB_0602b600:
 
             if (iVar10 != 0) {
 
-              (**(void **)(0x0602B9BC + iVar10 * 4))(puVar7,puVar8);
+              (*(void(*)())(*(int *)(0x0602B9BC + iVar10 * 4)))(puVar7,puVar8);
 
             }
 
@@ -466,9 +466,7 @@ LAB_0602b600:
 
       if (iVar9 != 4) {
 
-        (**(void **)(0x0602B9AC + iVar9 * 4))
-
-                  (0x06094A30,0x06094A28,param_3,param_4);
+        (*(void(*)())(*(int *)(0x0602B9AC + iVar9 * 4)))(0x06094A30,0x06094A28,param_3,param_4);
 
         uVar19 = uVar11;
 
@@ -4754,6 +4752,6 @@ LAB_0602b972:
 
     in_r1 = (uVar11 << 0x10 | uVar26 >> 0x10) + puVar17[0xb];
 
-  } while( true );
+  } while( 1 );
 
 }

@@ -22,7 +22,7 @@ extern int PTR_DAT_0601e030;
 
 extern int PTR_DAT_0601e030;
 
-extern void FUN_0601e26c();
+extern int FUN_0601e26c();
 
 int FUN_0601df88()
 {
@@ -57,27 +57,25 @@ int FUN_0601df88()
 
   if (*(unsigned int *)(0x06078900 + iVar8 + -0x68) < *(unsigned int *)0x06086008) {
 
-    (*0x06028400)
-
-              (8,*(int *)(0x06063750 + DAT_0601e024),(int)DAT_0601e026,
+    (*(void(*)())0x06028400)(8,*(int *)(0x06063750 + DAT_0601e024),(int)DAT_0601e026,
 
                0x0000A000 + *(int *)((int)(0x06063750 + DAT_0601e024) + 4));
 
     FUN_0601e26c(*(int *)(0x06078900 + DAT_0601e028));
 
-    (*puVar5)(8,0x0605DFF4,(int)DAT_0601e02a,puVar1 + *(int *)(puVar3 + iVar8 + 4));
+    (*(void(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e02a,puVar1 + *(int *)(puVar3 + iVar8 + 4));
 
   }
 
   FUN_0601e26c(*(int *)puVar4);
 
-  uVar7 = (*puVar5)(8,0x0605DFF4,(int)DAT_0601e02c,
+  uVar7 = (*(void(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e02c,
 
                             0x00009000 + *(int *)(puVar3 + iVar8 + 4));
 
   if (*(unsigned int *)puVar4 < *(unsigned int *)0x06086004) {
 
-    (*puVar5)(8,*(int *)(puVar3 + DAT_0601e02e),(int)PTR_DAT_0601e030,
+    (*(void(*)())puVar5)(8,*(int *)(puVar3 + DAT_0601e02e),(int)PTR_DAT_0601e030,
 
                       puVar1 + *(int *)((int)(puVar3 + DAT_0601e02e) + 4));
 
@@ -93,17 +91,17 @@ int FUN_0601df88()
 
     }
 
-    (*puVar5)(8,0x0605DFF4,(int)DAT_0601e0e2,
+    (*(void(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e0e2,
 
                       0x00009000 + *(int *)(puVar3 + iVar8 + 4));
 
     puVar6 = 0x0605DFEC;
 
-    *0x0605DFEC = *0x0605DFEC + '@';
+    *(int *)0x0605DFEC = *(int *)0x0605DFEC + '@';
 
     if ((char)*puVar6 < '\0') {
 
-      uVar7 = (*0x060283E0)(8,(int)DAT_0601e0e6,0x0000E000,0x0605ACE3);
+      uVar7 = (*(void(*)())0x060283E0)(8,(int)DAT_0601e0e6,0x0000E000,0x0605ACE3);
 
       return uVar7;
 
@@ -121,7 +119,7 @@ int FUN_0601df88()
 
     }
 
-    uVar7 = (*puVar5)(8,0x0605DFF4,(int)DAT_0601e0e4,
+    uVar7 = (*(void(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e0e4,
 
                               puVar1 + *(int *)(puVar3 + iVar8 + 4));
 

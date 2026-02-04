@@ -44,7 +44,7 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
   iVar11 = (int)DAT_0601bcba;
 
-  iVar8 = (*0x06035228)();
+  iVar8 = (*(void(*)())0x06035228)();
 
   puVar7 = 0x06063920;
 
@@ -56,25 +56,25 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
     local_44 = (param_3 & 0xffff) * 0x40;
 
-    (*puVar4)(8,(local_44 + 2) * 2,0x60,
+    (*(void(*)())puVar4)(8,(local_44 + 2) * 2,0x60,
 
                       *(int *)(0x0605DE64 + (uVar14 & 0xffff) * 4));
 
     pcVar12 = (char *)((uVar14 & 0xffff) * 0xc + param_1);
 
-    (*puVar4)(8,(local_44 + 9) * 2,0x60,auStack_24);
+    (*(void(*)())puVar4)(8,(local_44 + 9) * 2,0x60,auStack_24);
 
     if (*pcVar12 != '\0') {
 
-      (*puVar4)(8,((param_3 & 0xffff) * 0x40 + 9) * 2,0x60,pcVar12);
+      (*(void(*)())puVar4)(8,((param_3 & 0xffff) * 0x40 + 9) * 2,0x60,pcVar12);
 
     }
 
     iVar8 = (uVar14 & 0xffff) * 0xc + param_1;
 
-    uVar9 = (*0x06005DD4)(*(int *)(iVar8 + 4));
+    uVar9 = (*(void(*)())0x06005DD4)(*(int *)(iVar8 + 4));
 
-    (*puVar4)(8,((param_3 & 0xffff) * 0x40 + 0x10) * 2,0x78,uVar9);
+    (*(void(*)())puVar4)(8,((param_3 & 0xffff) * 0x40 + 0x10) * 2,0x78,uVar9);
 
     bVar13 = *(unsigned char *)(iVar8 + 8);
 
@@ -94,7 +94,7 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
     iVar8 = (param_3 & 0xffff) * 0x40;
 
-    (*puVar3)(8,*(int *)
+    (*(void(*)())puVar3)(8,*(int *)
 
                          (0x06063750 + ((local_44 >> 0x18) + (unsigned int)bVar2 + 0x3c) * 8),
 
@@ -106,7 +106,7 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
                                     ((local_44 >> 0x18) + (unsigned int)bVar2 + 0x3c) * 8) + 4));
 
-    (*puVar4)(0xc,(iVar8 + 0x25) * 2,0x60,0x0604A4B8);
+    (*(void(*)())puVar4)(0xc,(iVar8 + 0x25) * 2,0x60,0x0604A4B8);
 
     if (*(char *)((uVar14 & 0xffff) * 0xc + param_1 + 10) != '\0') {
 
@@ -126,7 +126,7 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
       }
 
-      (*puVar3)(0xc,*puVar10,((param_3 & 0xffff) * 0x40 + 0x25) * 2,iVar8 + iVar11);
+      (*(void(*)())puVar3)(0xc,*puVar10,((param_3 & 0xffff) * 0x40 + 0x25) * 2,iVar8 + iVar11);
 
     }
 
@@ -136,7 +136,7 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
     if (cVar1 != '\0') {
 
-      iVar8 = (*puVar3)(0xc,*(int *)puVar7,((param_3 & 0xffff) * 0x40 + 0x28) * 2,
+      iVar8 = (*(void(*)())puVar3)(0xc,*(int *)puVar7,((param_3 & 0xffff) * 0x40 + 0x28) * 2,
 
                                 0x00008000 + *(int *)(puVar7 + 4));
 

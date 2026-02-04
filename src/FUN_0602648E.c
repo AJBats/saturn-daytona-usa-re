@@ -93,6 +93,6 @@ LAB_06026508:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

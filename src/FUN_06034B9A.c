@@ -21,7 +21,7 @@ int FUN_06034b9a(param_1, param_2, param_3, param_4)
 
   char uStack_15;
 
-  (*0x06035E90)(&local_1c);
+  (*(void(*)())0x06035E90)(&local_1c);
 
   local_1c = 4;
 
@@ -39,13 +39,13 @@ int FUN_06034b9a(param_1, param_2, param_3, param_4)
 
     }
 
-    (*0x06035C92)(0x41);
+    (*(void(*)())0x06035C92)(0x41);
 
-    iVar1 = (*0x06035EC8)(0x40,&local_1c);
+    iVar1 = (*(void(*)())0x06035EC8)(0x40,&local_1c);
 
     if (iVar1 == 0) {
 
-      (*0x06035C80)();
+      (*(void(*)())0x06035C80)();
 
     }
 
@@ -53,7 +53,7 @@ int FUN_06034b9a(param_1, param_2, param_3, param_4)
 
   else {
 
-    iVar1 = (*0x06035EC8)(0,&local_1c);
+    iVar1 = (*(void(*)())0x06035EC8)(0,&local_1c);
 
   }
 

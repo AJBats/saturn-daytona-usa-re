@@ -15,7 +15,7 @@ void FUN_06038300()
 
   unsigned short uVar7;
 
-  (*0x06038F34)();
+  (*(void(*)())0x06038F34)();
 
   puVar1 = 0x060A4C60;
 
@@ -61,7 +61,7 @@ void FUN_06038300()
 
   *(int *)(puVar1 + 4) = 0;
 
-  (*puVar2)();
+  (*(void(*)())puVar2)();
 
   puVar3 = 0x060A3DB0;
 

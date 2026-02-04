@@ -1,4 +1,4 @@
-extern void FUN_0601e37c();
+extern int FUN_0601e37c();
 
 void FUN_0601e2b4()
 {
@@ -21,7 +21,7 @@ void FUN_0601e2b4()
 
   puVar1 = 0x060877D8;
 
-  if (*0x06087080 == '\0') {
+  if (*(int *)0x06087080 == '\0') {
 
     for (uVar5 = 0; uVar5 < *(unsigned int *)(puVar2 + (unsigned int)(unsigned char)*puVar1 * 4); uVar5 = uVar5 + 1) {
 
@@ -37,15 +37,13 @@ void FUN_0601e2b4()
 
   *puVar4 = 1;
 
-  *0x2010001F = 0x1a;
+  *(int *)0x2010001F = 0x1a;
 
   do {
 
   } while ((*puVar4 & 1) != 0);
 
-  (**(void **)0x06000358)
-
-            (*(int *)0x0605E060,*(int *)0x0605E064,0x06087086);
+  (*(void(*)())(*(int *)0x06000358))(*(int *)0x0605E060,*(int *)0x0605E064,0x06087086);
 
   FUN_0601e37c();
 
@@ -55,7 +53,7 @@ void FUN_0601e2b4()
 
   *puVar4 = 1;
 
-  *0x2010001F = 0x19;
+  *(int *)0x2010001F = 0x19;
 
   do {
 

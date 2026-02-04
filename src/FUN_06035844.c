@@ -19,7 +19,7 @@ int FUN_06035844()
 
       (((in_stack_00000000 & 0x000FFFFF) != 0 || (in_stack_00000004 != 0)))))) {
 
-    bVar1 = false;
+    bVar1 = 0;
 
   }
 
@@ -31,7 +31,7 @@ int FUN_06035844()
 
            (in_stack_00000004 == 0)))) {
 
-    bVar1 = false;
+    bVar1 = 0;
 
   }
 

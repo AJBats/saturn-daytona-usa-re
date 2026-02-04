@@ -6,7 +6,7 @@ extern int PTR_DAT_06038934;
 
 extern int PTR_DAT_06038934;
 
-extern void FUN_06038a48();
+extern int FUN_06038a48();
 
 void FUN_060388c0()
 {
@@ -31,13 +31,13 @@ void FUN_060388c0()
 
   }
 
-  if (*0x060635B2 == 1) {
+  if (*(int *)0x060635B2 == 1) {
 
     FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,(int)PTR_DAT_06038934);
 
   }
 
-  else if (*0x060635B2 == 2) {
+  else if (*(int *)0x060635B2 == 2) {
 
     FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,(int)DAT_06038932);
 

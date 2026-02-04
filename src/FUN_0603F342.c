@@ -1,6 +1,6 @@
-extern void FUN_0603f3da();
-extern void FUN_0603f582();
-extern void FUN_0603f84c();
+extern int FUN_0603f3da();
+extern int FUN_0603f582();
+extern int FUN_0603f84c();
 
 int FUN_0603f342(param_1, param_2, param_3, param_4)
     int param_1;
@@ -31,11 +31,11 @@ int FUN_0603f342(param_1, param_2, param_3, param_4)
 
     if ((iVar3 < 3) ||
 
-       (iVar2 = (*0x06036D94)(param_2 + -0xc,auStack_3c,0xc), iVar2 != 0)) {
+       (iVar2 = (*(void(*)())0x06036D94)(param_2 + -0xc,auStack_3c,0xc), iVar2 != 0)) {
 
       FUN_0603f84c(param_2,local_4c);
 
-      (*puVar1)(param_2 + 0xc,auStack_3c,0xc);
+      (*(void(*)())puVar1)(param_2 + 0xc,auStack_3c,0xc);
 
     }
 

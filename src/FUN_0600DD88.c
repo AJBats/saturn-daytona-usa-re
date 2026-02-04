@@ -46,7 +46,7 @@ void FUN_0600dd88(param_1)
 
   piVar5 = (int *)0x0607869C;
 
-  iVar3 = (*0x06034FE0)(iVar3 + iVar7);
+  iVar3 = (*(void(*)())0x06034FE0)(iVar3 + iVar7);
 
   *piVar5 = iVar3;
 

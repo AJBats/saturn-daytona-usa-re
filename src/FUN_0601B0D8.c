@@ -27,11 +27,11 @@ void FUN_0601b0d8()
 
     iVar4 = ((uVar6 & 0xffff) + 6) * 0x40;
 
-    (*puVar3)(8,(iVar4 + 2) * 2,0x60,puVar1);
+    (*(void(*)())puVar3)(8,(iVar4 + 2) * 2,0x60,puVar1);
 
-    (*puVar3)(8,(((uVar6 & 0xffff) + 7) * 0x40 + 0x21) * 2,0x60,puVar2);
+    (*(void(*)())puVar3)(8,(((uVar6 & 0xffff) + 7) * 0x40 + 0x21) * 2,0x60,puVar2);
 
-    (*puVar3)(0xc,(iVar4 + 0x25) * 2,0x60,puVar2);
+    (*(void(*)())puVar3)(0xc,(iVar4 + 0x25) * 2,0x60,puVar2);
 
     uVar5 = uVar5 + 1;
 

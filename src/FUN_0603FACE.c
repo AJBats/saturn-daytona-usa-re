@@ -4,9 +4,9 @@ extern int DAT_0603fb24;
 
 extern int DAT_0603fcb6;
 
-extern void FUN_0603fc60();
-extern void FUN_0603fce4();
-extern void FUN_0603ff9c();
+extern int FUN_0603fc60();
+extern int FUN_0603fce4();
+extern int FUN_0603ff9c();
 
 unsigned short FUN_0603face(param_1, param_2)
     int *param_1;
@@ -103,7 +103,7 @@ LAB_0603fba0:
 
   if (param_1[7] == *(int *)(param_1[1] + 8)) {
 
-    (*0x0603F91C)(uVar5,param_1[1],0xffffffff);
+    (*(void(*)())0x0603F91C)(uVar5,param_1[1],0xffffffff);
 
     param_1[6] = param_1[6] + *(int *)(param_1[1] + 0xc);
 
@@ -111,7 +111,7 @@ LAB_0603fba0:
 
   }
 
-  (*0x0603F91C)(uVar4,param_1[3],0xffffffff);
+  (*(void(*)())0x0603F91C)(uVar4,param_1[3],0xffffffff);
 
   param_1[3] = 0;
 

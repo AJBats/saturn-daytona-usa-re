@@ -135,9 +135,9 @@ void FUN_06022140()
 
             puStack_2c = puVar1;
 
-            uVar6 = (*0x06006838)(iStack_30,iStack_28);
+            uVar6 = (*(void(*)())0x06006838)(iStack_30,iStack_28);
 
-            (*0x06027EDE)(uVar6,&iStack_30,auStack_3c);
+            (*(void(*)())0x06027EDE)(uVar6,&iStack_30,auStack_3c);
 
             if ((puStack_2c == puVar1) ||
 
@@ -179,7 +179,7 @@ void FUN_06022140()
 
           *(int *)(puVar4 + (short)(sVar15 * 0x18) + 4) = 0;
 
-          uVar6 = (*puVar2)(*(int *)(iVar7 + 0xc),
+          uVar6 = (*(void(*)())puVar2)(*(int *)(iVar7 + 0xc),
 
                                     *(int *)
 
@@ -189,7 +189,7 @@ void FUN_06022140()
 
             if (*(int *)(iVar7 + 8) < 0x1f) {
 
-              iStack_40 = (*puVar2)(uVar6,0x00013333);
+              iStack_40 = (*(void(*)())puVar2)(uVar6,0x00013333);
 
               iVar9 = uVar14 * 4;
 
@@ -215,13 +215,13 @@ void FUN_06022140()
 
             else {
 
-              iStack_40 = (*puVar2)(uVar6,0x00014CCC);
+              iStack_40 = (*(void(*)())puVar2)(uVar6,0x00014CCC);
 
               iVar9 = uVar14 * 4;
 
               puVar8 = (int *)(0x06089744 + iVar9);
 
-              uVar6 = (*puVar2)(*(int *)(iVar7 + 0xc),0x00030000);
+              uVar6 = (*(void(*)())puVar2)(*(int *)(iVar7 + 0xc),0x00030000);
 
               *puVar8 = uVar6;
 
@@ -245,7 +245,7 @@ void FUN_06022140()
 
           else {
 
-            iStack_40 = (*puVar2)(uVar6,0x00014CCC);
+            iStack_40 = (*(void(*)())puVar2)(uVar6,0x00014CCC);
 
             iVar9 = uVar14 * 4;
 
@@ -287,19 +287,17 @@ void FUN_06022140()
 
           *(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x16) = (short)*(int *)(iVar7 + 0x28);
 
-          (*0x06027358)
-
-                    (iVar13 + (uVar10 & 1) * iVar9 + iVar12,puVar4 + (short)(sVar15 * 0x18) + 0xc,
+          (*(void(*)())0x06027358)(iVar13 + (uVar10 & 1) * iVar9 + iVar12,puVar4 + (short)(sVar15 * 0x18) + 0xc,
 
                      puVar4 + (short)(sVar15 * 0x18) + 0x10);
 
-          uVar6 = (*puVar2)(iStack_40,*(int *)(puVar4 + (short)(sVar15 * 0x18) + 0xc)
+          uVar6 = (*(void(*)())puVar2)(iStack_40,*(int *)(puVar4 + (short)(sVar15 * 0x18) + 0xc)
 
                                    );
 
           *(int *)(puVar4 + (short)(sVar15 * 0x18) + 0xc) = uVar6;
 
-          uVar6 = (*puVar2)(iStack_40,
+          uVar6 = (*(void(*)())puVar2)(iStack_40,
 
                                     *(int *)(puVar4 + (short)(sVar15 * 0x18) + 0x10));
 
@@ -307,13 +305,13 @@ void FUN_06022140()
 
           if (*(int *)(puVar5 + uVar14 * 4) == 0) {
 
-            (*0x0601D5F4)(0,0xAE110BFF);
+            (*(void(*)())0x0601D5F4)(0,0xAE110BFF);
 
           }
 
           else {
 
-            (*0x0601D5F4)(0,0xAE110DFF);
+            (*(void(*)())0x0601D5F4)(0,0xAE110DFF);
 
           }
 
@@ -345,9 +343,9 @@ LAB_060224e0:
 
             puStack_2c = puVar1;
 
-            uVar6 = (*0x06006838)(iStack_30,iStack_28);
+            uVar6 = (*(void(*)())0x06006838)(iStack_30,iStack_28);
 
-            (*0x06027EDE)(uVar6,&iStack_30,auStack_3c);
+            (*(void(*)())0x06027EDE)(uVar6,&iStack_30,auStack_3c);
 
             if ((puStack_2c == puVar1) ||
 
@@ -363,7 +361,7 @@ LAB_060224e0:
 
             iVar9 = uVar14 * 4;
 
-            iVar12 = (*puVar2)(*(int *)(0x06089744 + iVar9),
+            iVar12 = (*(void(*)())puVar2)(*(int *)(0x06089744 + iVar9),
 
                                        *(int *)(local_48 + *(int *)(puVar3 + iVar9) * 8));
 
@@ -407,9 +405,9 @@ LAB_060224e0:
 
             puStack_2c = puVar1;
 
-            uVar6 = (*0x06006838)(iStack_30,iStack_28);
+            uVar6 = (*(void(*)())0x06006838)(iStack_30,iStack_28);
 
-            (*0x06027EDE)(uVar6,&iStack_30,auStack_3c);
+            (*(void(*)())0x06027EDE)(uVar6,&iStack_30,auStack_3c);
 
             if ((puStack_2c == puVar1) ||
 
@@ -453,31 +451,27 @@ LAB_060226d6:
 
       else if (*(int *)(0x0608962C + uVar14 * 4) == 1) goto LAB_060224e0;
 
-      (*0x06026DBC)();
+      (*(void(*)())0x06026DBC)();
 
-      (*0x06026E2E)(iStack_30,puStack_2c,iStack_28);
+      (*(void(*)())0x06026E2E)(iStack_30,puStack_2c,iStack_28);
 
-      (*0x06026EDE)((int)*(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x16));
+      (*(void(*)())0x06026EDE)((int)*(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x16));
 
-      (*0x06026E94)((int)*(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x14));
+      (*(void(*)())0x06026E94)((int)*(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x14));
 
       iVar9 = *(int *)(puVar5 + uVar14 * 4) * 4;
 
-      (*0x06031D8C)
-
-                (*(int *)(0x06089D98 + iVar9),*(int *)(0x06089DB4 + iVar9)
+      (*(void(*)())0x06031D8C)(*(int *)(0x06089D98 + iVar9),*(int *)(0x06089DB4 + iVar9)
 
                 );
 
       iVar9 = *(int *)(puVar5 + uVar14 * 4) * 4;
 
-      (*0x06031A28)
-
-                (*(int *)(0x06089DD0 + iVar9),(int)*psStack_34,
+      (*(void(*)())0x06031A28)(*(int *)(0x06089DD0 + iVar9),(int)*psStack_34,
 
                  *(int *)(0x06089DEC + iVar9));
 
-      (*0x06026DF8)();
+      (*(void(*)())0x06026DF8)();
 
     }
 
@@ -485,6 +479,6 @@ LAB_060227ca:
 
     uVar14 = uVar14 + 1;
 
-  } while( true );
+  } while( 1 );
 
 }

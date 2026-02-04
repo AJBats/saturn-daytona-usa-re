@@ -8,14 +8,14 @@ extern int DAT_0603b4cc;
 
 extern int DAT_0603b4ce;
 
-extern void FUN_0603afd0();
-extern void FUN_0603b8b4();
-extern void FUN_0603b8f4();
-extern void FUN_0603b93c();
-extern void FUN_0603b9d6();
-extern void FUN_0603bd1c();
-extern void FUN_0603bdac();
-extern void FUN_0603bf5a();
+extern int FUN_0603afd0();
+extern int FUN_0603b8b4();
+extern int FUN_0603b8f4();
+extern int FUN_0603b93c();
+extern int FUN_0603b9d6();
+extern int FUN_0603bd1c();
+extern int FUN_0603bdac();
+extern int FUN_0603bf5a();
 
 unsigned int FUN_0603b424(param_1)
     int param_1;
@@ -115,9 +115,9 @@ unsigned int FUN_0603b424(param_1)
 
     if ((iVar1 == 2) && (iVar3 == 5)) {
 
-      iVar1 = (*0x0603F9F2)(*(int *)(param_1 + 8));
+      iVar1 = (*(void(*)())0x0603F9F2)(*(int *)(param_1 + 8));
 
-      iVar3 = (*0x0603F9F6)(*(int *)(param_1 + 8));
+      iVar3 = (*(void(*)())0x0603F9F6)(*(int *)(param_1 + 8));
 
       FUN_0603afd0(param_1,iVar1 - iVar3,1);
 

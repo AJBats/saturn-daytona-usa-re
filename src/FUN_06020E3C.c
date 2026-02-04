@@ -8,7 +8,7 @@ unsigned char FUN_06020e3c(param_1)
 
   do {
 
-    if (param_1 == 0x0608782C[(short)((unsigned short)bVar1 * 0x44)]) {
+    if (param_1 == ((int *)0x0608782C)[(short)((unsigned short)bVar1 * 0x44)]) {
 
       return bVar1;
 

@@ -56,7 +56,7 @@ extern int PTR_DAT_0602cb10;
 
 extern int PTR_DAT_0602cb10;
 
-extern void FUN_0602ccd0();
+extern int FUN_0602ccd0();
 
 void FUN_0602ca84()
 {
@@ -161,7 +161,7 @@ void FUN_0602ca84()
 
     puVar4 = (char *)
 
-             (*0x0602755C)(*(int *)(DAT_0602cb72 + in_r0),iVar11,iVar11,iVar13,iVar10)
+             (*(void(*)())0x0602755C)(*(int *)(DAT_0602cb72 + in_r0),iVar11,iVar11,iVar13,iVar10)
 
     ;
 
@@ -175,7 +175,7 @@ void FUN_0602ca84()
 
   iVar6 = *(int *)(DAT_0602cb78 + in_r0) - *(int *)(DAT_0602cb7a + in_r0);
 
-  bVar3 = false;
+  bVar3 = 0;
 
   if (iVar13 < 0) {
 
@@ -211,7 +211,7 @@ void FUN_0602ca84()
 
   else {
 
-    bVar3 = true;
+    bVar3 = 1;
 
     iVar7 = iVar7 + (iVar13 >> 2);
 
@@ -221,7 +221,7 @@ void FUN_0602ca84()
 
   if (*(int *)(DAT_0602cc9c + in_r0) < iVar7) {
 
-    iVar13 = (*0x0602755C)(*(int *)(DAT_0602cc9c + in_r0),iVar7);
+    iVar13 = (*(void(*)())0x0602755C)(*(int *)(DAT_0602cc9c + in_r0),iVar7);
 
   }
 

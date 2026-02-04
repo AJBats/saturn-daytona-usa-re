@@ -10,7 +10,7 @@ extern int PTR_DAT_0601da3c;
 
 extern int PTR_DAT_0601da3c;
 
-extern void FUN_0601d5f4();
+extern int FUN_0601d5f4();
 
 int FUN_0601d7d0()
 {
@@ -45,13 +45,13 @@ int FUN_0601d7d0()
 
   iVar6 = *(int *)0x0607E944;
 
-  if (*0x06085FF4 == '\0') {
+  if (*(int *)0x06085FF4 == '\0') {
 
     if ((*(int *)0x0607EAD8 == 0) && (iVar7 - *(int *)(iVar6 + PTR_DAT_0601d884) < 9)) {
 
-      if ((*0x06087060 == '\0') && (*(int *)0x0605AD00 != 0)) {
+      if ((*(int *)0x06087060 == '\0') && (*(int *)0x0605AD00 != 0)) {
 
-        *0x06087060 = 1;
+        *(int *)0x06087060 = 1;
 
         *(short *)puVar4 = 0;
 

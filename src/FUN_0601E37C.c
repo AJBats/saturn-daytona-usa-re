@@ -1,7 +1,7 @@
 extern int DAT_0601e444;
 
-extern void FUN_0601e488();
-extern void FUN_0601e6a4();
+extern int FUN_0601e488();
+extern int FUN_0601e6a4();
 
 void FUN_0601e37c()
 {
@@ -86,6 +86,6 @@ LAB_0601e46a:
 
     uVar4 = uVar4 + 1;
 
-  } while( true );
+  } while( 1 );
 
 }

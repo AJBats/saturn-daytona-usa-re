@@ -20,8 +20,8 @@ extern int PTR_DAT_0602ac00;
 
 extern int PTR_DAT_0602ac00;
 
-extern void FUN_0602ae24();
-extern void FUN_0602aebe();
+extern int FUN_0602ae24();
+extern int FUN_0602aebe();
 
 unsigned int FUN_0602ae84()
 {

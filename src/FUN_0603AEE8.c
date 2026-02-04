@@ -6,9 +6,9 @@ extern int PTR_DAT_0603af74;
 
 extern int PTR_DAT_0603af74;
 
-extern void FUN_0603b81e();
-extern void FUN_0603b93c();
-extern void FUN_0603ba2c();
+extern int FUN_0603b81e();
+extern int FUN_0603b93c();
+extern int FUN_0603ba2c();
 
 int FUN_0603aee8(param_1)
     int param_1;
@@ -46,17 +46,13 @@ int FUN_0603aee8(param_1)
 
       else if (*(int *)(*(int *)puVar1 + (int)PTR_DAT_0603af74) == 0) {
 
-        uVar3 = (*0x0603F1E0)
-
-                          (param_1,*(int *)(*(int *)puVar1 + (int)DAT_0603af70));
+        uVar3 = (*(void(*)())0x0603F1E0)(param_1,*(int *)(*(int *)puVar1 + (int)DAT_0603af70));
 
       }
 
       else {
 
-        uVar3 = (*0x0603F1F0)
-
-                          (param_1,*(int *)(*(int *)puVar1 + (int)DAT_0603af70));
+        uVar3 = (*(void(*)())0x0603F1F0)(param_1,*(int *)(*(int *)puVar1 + (int)DAT_0603af70));
 
       }
 

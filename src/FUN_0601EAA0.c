@@ -1,4 +1,4 @@
-extern void FUN_0601e4d4();
+extern int FUN_0601e4d4();
 
 int FUN_0601eaa0()
 {
@@ -17,11 +17,11 @@ int FUN_0601eaa0()
 
   if (bVar2 < 7) {
 
-    0x060877DD[(unsigned char)*puVar1] = 1;
+    ((int *)0x060877DD)[(unsigned char)*puVar1] = 1;
 
     if (bVar2 < 3) {
 
-      0x060877D9[(unsigned char)*puVar1] = bVar2;
+      ((int *)0x060877D9)[(unsigned char)*puVar1] = bVar2;
 
       uVar3 = 1;
 
@@ -29,7 +29,7 @@ int FUN_0601eaa0()
 
     else {
 
-      0x060877D9[(unsigned char)*puVar1] = bVar2 - 3;
+      ((int *)0x060877D9)[(unsigned char)*puVar1] = bVar2 - 3;
 
     }
 
@@ -37,7 +37,7 @@ int FUN_0601eaa0()
 
   else {
 
-    0x060877DD[(unsigned char)*puVar1] = 0;
+    ((int *)0x060877DD)[(unsigned char)*puVar1] = 0;
 
   }
 

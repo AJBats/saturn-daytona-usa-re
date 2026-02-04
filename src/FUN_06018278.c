@@ -31,7 +31,7 @@ unsigned int FUN_06018278()
 
     puVar7 = (short *)0x0605BE1C;
 
-    uVar3 = (*0x06035280)();
+    uVar3 = (*(void(*)())0x06035280)();
 
     if ((uVar3 & uVar5) == 0) {
 

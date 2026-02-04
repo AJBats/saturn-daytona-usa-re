@@ -1,7 +1,7 @@
 extern int DAT_0600e0ea;
 
-extern void FUN_0600e71a();
-extern void FUN_0600e906();
+extern int FUN_0600e71a();
+extern int FUN_0600e906();
 
 unsigned int FUN_0600e0c0()
 {
@@ -46,9 +46,9 @@ unsigned int FUN_0600e0c0()
 
       *(char **)puVar1 = puVar4 + uVar9 * iVar8;
 
-      (*puVar6)();
+      (*(void(*)())puVar6)();
 
-      (*0x06030EE0)();
+      (*(void(*)())0x06030EE0)();
 
       if ((*(unsigned int *)puVar3 & (unsigned int)puVar5) == 0) {
 
@@ -58,17 +58,17 @@ unsigned int FUN_0600e0c0()
 
         if ((uVar7 & 0x80) != 0) {
 
-          (*0x060061C8)();
+          (*(void(*)())0x060061C8)();
 
-          (*puVar2)(0x06063EB0,0);
+          (*(void(*)())puVar2)(0x06063EB0,0);
 
-          (*puVar2)(0x06063E9C,1);
+          (*(void(*)())puVar2)(0x06063E9C,1);
 
-          (*puVar2)(0x06063ED8,2);
+          (*(void(*)())puVar2)(0x06063ED8,2);
 
-          (*puVar2)(0x06063EC4,3);
+          (*(void(*)())puVar2)(0x06063EC4,3);
 
-          uVar7 = (*0x0603053C)(1);
+          uVar7 = (*(void(*)())0x0603053C)(1);
 
         }
 

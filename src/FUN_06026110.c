@@ -27,15 +27,15 @@ unsigned int FUN_06026110()
 
   puVar2 = 0x06060F2C;
 
-  *0x06061198 = 0;
+  *(int *)0x06061198 = 0;
 
-  *0x06061199 = 0;
+  *(int *)0x06061199 = 0;
 
   uVar6 = (unsigned int)*0x06060D78;
 
   if (uVar6 == 0) {
 
-    *0x06060D78 = 1;
+    *(int *)0x06060D78 = 1;
 
     uVar7 = 0;
 
@@ -63,7 +63,7 @@ unsigned int FUN_06026110()
 
     if (uVar9 < 0xe) {
 
-      uVar6 = (*0x06025070)();
+      uVar6 = (*(void(*)())0x06025070)();
 
     }
 
@@ -107,7 +107,7 @@ unsigned int FUN_06026110()
 
     if (uVar9 < 0xe) {
 
-      uVar6 = (*0x06025148)();
+      uVar6 = (*(void(*)())0x06025148)();
 
       return uVar6;
 

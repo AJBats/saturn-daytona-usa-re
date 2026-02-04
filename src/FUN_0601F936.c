@@ -1,8 +1,8 @@
 extern int DAT_0601f962;
 
-extern void FUN_0601f87a();
-extern void FUN_0601f9cc();
-extern void FUN_0601fd20();
+extern int FUN_0601f87a();
+extern int FUN_0601f9cc();
+extern int FUN_0601fd20();
 
 int FUN_0601f936()
 {
@@ -19,21 +19,21 @@ int FUN_0601f936()
 
   uVar1 = DAT_0601f962;
 
-  *0x0605E05C = 0;
+  *(int *)0x0605E05C = 0;
 
   FUN_0601f87a(0);
 
-  uVar4 = (*0x0601E958)();
+  uVar4 = (*(void(*)())0x0601E958)();
 
   puVar3 = 0x06026CE0;
 
-  if (*0x0605E05C != '\0') {
+  if (*(int *)0x0605E05C != '\0') {
 
     *(unsigned int *)puVar2 = *(unsigned int *)puVar2 | 0x80000000;
 
-    (*puVar3)();
+    (*(void(*)())puVar3)();
 
-    (*0x06026CE0)();
+    (*(void(*)())0x06026CE0)();
 
     FUN_0601f9cc();
 

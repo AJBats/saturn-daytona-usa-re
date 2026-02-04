@@ -54,9 +54,9 @@ int FUN_0603eacc(param_1)
 
   }
 
-  uVar3 = (*0x0603D9EC)(param_1);
+  uVar3 = (*(void(*)())0x0603D9EC)(param_1);
 
-  uVar4 = (*0x0603DA88)(param_1);
+  uVar4 = (*(void(*)())0x0603DA88)(param_1);
 
   puVar1 = 0x0603C08C;
 
@@ -80,39 +80,39 @@ int FUN_0603eacc(param_1)
 
   iVar8 = piVar16[7];
 
-  iVar2 = (*0x0603C08C)(iVar14,uVar4);
+  iVar2 = (*(void(*)())0x0603C08C)(iVar14,uVar4);
 
-  iVar5 = (*puVar1)(iVar10,uVar3);
+  iVar5 = (*(void(*)())puVar1)(iVar10,uVar3);
 
   *piVar16 = iVar5 + iVar2;
 
-  iVar2 = (*puVar1)(iVar14,uVar3);
+  iVar2 = (*(void(*)())puVar1)(iVar14,uVar3);
 
-  iVar5 = (*puVar1)(iVar10,uVar4);
+  iVar5 = (*(void(*)())puVar1)(iVar10,uVar4);
 
   *piVar13 = iVar5 - iVar2;
 
-  iVar2 = (*puVar1)(iVar6,uVar4);
+  iVar2 = (*(void(*)())puVar1)(iVar6,uVar4);
 
-  iVar5 = (*puVar1)(iVar9,uVar3);
+  iVar5 = (*(void(*)())puVar1)(iVar9,uVar3);
 
   *piVar11 = iVar5 + iVar2;
 
-  iVar2 = (*puVar1)(iVar6,uVar3);
+  iVar2 = (*(void(*)())puVar1)(iVar6,uVar3);
 
-  iVar5 = (*puVar1)(iVar9,uVar4);
+  iVar5 = (*(void(*)())puVar1)(iVar9,uVar4);
 
   *piVar7 = iVar5 - iVar2;
 
-  iVar2 = (*puVar1)(iVar12,uVar4);
+  iVar2 = (*(void(*)())puVar1)(iVar12,uVar4);
 
-  iVar5 = (*puVar1)(iVar8,uVar3);
+  iVar5 = (*(void(*)())puVar1)(iVar8,uVar3);
 
   piVar16[6] = iVar5 + iVar2;
 
-  iVar2 = (*puVar1)(iVar12,uVar3);
+  iVar2 = (*(void(*)())puVar1)(iVar12,uVar3);
 
-  iVar5 = (*puVar1)(iVar8,uVar4);
+  iVar5 = (*(void(*)())puVar1)(iVar8,uVar4);
 
   piVar16[7] = iVar5 - iVar2;
 

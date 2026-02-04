@@ -19,29 +19,29 @@ int FUN_0603d3a8()
 
   puVar4 = 0x0000FF00;
 
-  (*0x06034F78)(0x060A4D30,1,0x060A4D58);
+  (*(void(*)())0x06034F78)(0x060A4D30,1,0x060A4D58);
 
   uVar5 = (unsigned short)puVar4;
 
   *puVar2 = *puVar2 & uVar5 | 3;
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & 0xff | DAT_0603d426;
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & uVar5 | uVar3;
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & 0xff;
 
-  (*0x06034F78)();
+  (*(void(*)())0x06034F78)();
 
   puVar2[2] = 4;
 
-  uVar1 = (*0x06034F78)();
+  uVar1 = (*(void(*)())0x06034F78)();
 
   return uVar1;
 

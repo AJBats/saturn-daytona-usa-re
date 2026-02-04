@@ -26,7 +26,7 @@ extern int DAT_0602f6f4;
 
 extern int DAT_0602f6f6;
 
-extern void FUN_0602f71c();
+extern int FUN_0602f71c();
 
 void FUN_0602f5b6()
 {
@@ -77,7 +77,7 @@ void FUN_0602f5b6()
 
           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
 
-  iVar3 = (*0x0602755C)(*(int *)(DAT_0602f6e4 + in_r0) << 0x10,0x00019999);
+  iVar3 = (*(void(*)())0x0602755C)(*(int *)(DAT_0602f6e4 + in_r0) << 0x10,0x00019999);
 
   *(unsigned int *)(DAT_0602f6e6 + in_r0) =
 
@@ -107,7 +107,7 @@ void FUN_0602f5b6()
 
   puVar6 = 0x06400000;
 
-  iVar3 = (*0x06027348)(iVar3);
+  iVar3 = (*(void(*)())0x06027348)(iVar3);
 
   iVar7 = (int)((unsigned long long)((long long)(int)puVar6 * (long long)iVar3) >> 0x20);
 

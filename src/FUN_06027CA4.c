@@ -47,7 +47,7 @@ void FUN_06027ca4(param_1, param_2)
 
     psVar5 = (short *)0x06061270;
 
-    while( true ) {
+    while( 1 ) {
 
       sVar1 = *psVar5;
 
@@ -119,7 +119,7 @@ LAB_06027e6a:
 
         param_1[4] = (int)sVar1;
 
-        uVar3 = (*0x0602ECCC)();
+        uVar3 = (*(void(*)())0x0602ECCC)();
 
         *(short *)((int)param_1 + 0xe) = uVar3;
 
@@ -293,6 +293,6 @@ LAB_06027db6:
 
     iVar9 = iVar9 + -1;
 
-  } while( true );
+  } while( 1 );
 
 }

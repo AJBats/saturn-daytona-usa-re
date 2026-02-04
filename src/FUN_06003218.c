@@ -13,7 +13,7 @@ void FUN_06003218()
 
   unsigned char *pbVar2;
 
-  (**(void **)0x06000310)(0x65,0x060072E4);
+  (*(void(*)())(*(int *)0x06000310))(0x65,0x060072E4);
 
   *(unsigned char *)(int)DAT_060032b2 = *(unsigned char *)(int)DAT_060032b2 & 0xf | 8;
 

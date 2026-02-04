@@ -1,4 +1,4 @@
-extern void FUN_06027358();
+extern int FUN_06027358();
 
 unsigned int FUN_06027158()
 {

@@ -1,6 +1,6 @@
 extern int DAT_0602e460;
 
-extern void FUN_0602d924();
+extern int FUN_0602d924();
 
 void FUN_0602e450(param_1)
     int param_1;
@@ -44,9 +44,9 @@ void FUN_0602e450(param_1)
 
   *(int *)(in_r0 + 0x3c) = iVar7;
 
-  iVar2 = (*0x06027344)();
+  iVar2 = (*(void(*)())0x06027344)();
 
-  iVar3 = (*0x06027348)(param_1);
+  iVar3 = (*(void(*)())0x06027348)(param_1);
 
   uVar5 = (int)((unsigned long long)((long long)extraout_r3 * (long long)iVar3) >> 0x20) << 0x10 |
 

@@ -55,7 +55,7 @@ void FUN_0601450c()
 
   if (iVar2 != *(int *)puVar1) {
 
-    (*0x0601D5F4)(0,0xAB111DFF);
+    (*(void(*)())0x0601D5F4)(0,0xAB111DFF);
 
     return;
 

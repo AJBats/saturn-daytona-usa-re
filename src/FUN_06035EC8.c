@@ -1,4 +1,4 @@
-extern void FUN_06035f16();
+extern int FUN_06035f16();
 
 int FUN_06035ec8(param_1, param_2)
     int param_1;
@@ -9,7 +9,7 @@ int FUN_06035ec8(param_1, param_2)
 
   char auStack_10 [12];
 
-  iVar1 = (*0x06035D22)(param_1,param_2,auStack_10);
+  iVar1 = (*(void(*)())0x06035D22)(param_1,param_2,auStack_10);
 
   if (iVar1 != 0) {
 

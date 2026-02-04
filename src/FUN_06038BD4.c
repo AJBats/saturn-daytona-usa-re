@@ -59,7 +59,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038cca & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *puVar8 = *puVar8 & uVar1 | (unsigned short)param_2;
 
@@ -69,7 +69,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038cce & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *puVar8 = *puVar8 & uVar2 | (unsigned short)((param_2 & 0xffff) << 8);
 
@@ -77,7 +77,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038cd0 & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     puVar8[1] = puVar8[1] & uVar1 | (unsigned short)param_2;
 
@@ -85,7 +85,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038cd2 & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     puVar8[1] = puVar8[1] & uVar2 | (unsigned short)((param_2 & 0xff) << 8);
 
@@ -93,7 +93,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038cd4 & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     puVar8[2] = puVar8[2] & uVar1 | (unsigned short)param_2;
 
@@ -101,7 +101,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038cd6 & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     puVar8[2] = puVar8[2] & uVar2 | (unsigned short)((param_2 & 0xff) << 8);
 
@@ -109,7 +109,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)DAT_06038e1a & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     puVar8[3] = puVar8[3] & uVar1 | (unsigned short)param_2;
 
@@ -117,7 +117,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((unsigned int)0x00008000 & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     puVar8[3] = puVar8[3] & uVar2 | (unsigned short)((param_2 & 0xff) << 8);
 
@@ -127,7 +127,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if ((param_1 & 4) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar1 | (unsigned short)param_2;
 
@@ -135,7 +135,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if ((param_1 & 2) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar1 | (unsigned short)param_2;
 
@@ -143,7 +143,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if ((param_1 & 8) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar3 | (unsigned short)((param_2 & 0xffff) << 8);
 
@@ -151,7 +151,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if (((int)PTR_DAT_06038e20 & param_1) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar3 | (unsigned short)((param_2 & 0xffff) << 8);
 
@@ -159,7 +159,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if ((param_1 & 0x10) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(unsigned short *)(puVar6 + 2) = *(unsigned short *)(puVar6 + 2) & uVar1 | (unsigned short)param_2;
 
@@ -169,7 +169,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if ((param_1 & 0x20) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     uVar7 = (short)param_2;
 
@@ -179,7 +179,7 @@ void FUN_06038bd4(param_1, param_2)
 
   if ((param_1 & uVar9) != 0) {
 
-    (*0x06034F78)();
+    (*(void(*)())0x06034F78)();
 
     *(short *)(puVar6 + 4) = uVar7;
 

@@ -29,7 +29,7 @@ void FUN_0601a3f4(param_1, param_2)
 
   if ((param_2 & 0xffff) == (int)PTR_DAT_0601a4a8) {
 
-    bVar1 = 0x06049CD4[param_1];
+    bVar1 = ((int *)0x06049CD4)[param_1];
 
     if ((param_1 == 1) || (param_1 == 4)) {
 
@@ -47,7 +47,7 @@ void FUN_0601a3f4(param_1, param_2)
 
     for (bVar7 = 0; bVar7 < *pbVar4; bVar7 = bVar7 + 1) {
 
-      (*puVar2)(iVar6 << 2,
+      (*(void(*)())puVar2)(iVar6 << 2,
 
                         ((unsigned int)(unsigned char)(0x06049C28 + ((unsigned int)bVar1 + (unsigned int)bVar7) * 2)[1] * 0x40
 
@@ -65,7 +65,7 @@ void FUN_0601a3f4(param_1, param_2)
 
   else {
 
-    bVar1 = 0x06049C1E[param_1];
+    bVar1 = ((int *)0x06049C1E)[param_1];
 
     if ((param_1 == 5) || (param_1 == 8)) {
 
@@ -83,7 +83,7 @@ void FUN_0601a3f4(param_1, param_2)
 
     for (bVar7 = 0; bVar7 < *pbVar4; bVar7 = bVar7 + 1) {
 
-      (*puVar2)(iVar6 << 2,
+      (*(void(*)())puVar2)(iVar6 << 2,
 
                         ((unsigned int)(unsigned char)(puVar5 + ((unsigned int)bVar1 + (unsigned int)bVar7) * 2)[1] * 0x40 +
 
@@ -97,7 +97,7 @@ void FUN_0601a3f4(param_1, param_2)
 
   }
 
-  (*0x060284AE)(iVar6 << 2,((unsigned int)pbVar4[1] * 0x40 + (unsigned int)*pbVar4) * 2,0x60,puVar5);
+  (*(void(*)())0x060284AE)(iVar6 << 2,((unsigned int)pbVar4[1] * 0x40 + (unsigned int)*pbVar4) * 2,0x60,puVar5);
 
   return;
 

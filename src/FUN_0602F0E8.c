@@ -31,7 +31,7 @@ int FUN_0602f0e8()
 
   int iVar3;
 
-  iVar1 = *0x0607E944;
+  iVar1 = *(int *)0x0607E944;
 
   *(int *)(DAT_0602f120 + iVar1) =
 

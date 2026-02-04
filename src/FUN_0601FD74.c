@@ -5,9 +5,9 @@ int FUN_0601fd74()
 
   int auStack_14 [5];
 
-  (*0x06035168)();
+  (*(void(*)())0x06035168)();
 
-  uVar1 = (*auStack_14[*0x06087804])();
+  uVar1 = (*auStack_14[*(int *)0x06087804])();
 
   return uVar1;
 

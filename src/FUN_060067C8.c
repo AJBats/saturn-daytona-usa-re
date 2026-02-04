@@ -11,15 +11,15 @@ int FUN_060067c8()
 
   short uVar4;
 
-  uVar4 = (*0x0601A5F8)();
+  uVar4 = (*(void(*)())0x0601A5F8)();
 
-  (*0x06026590)((int)(char)*0x0605D240,uVar4);
+  (*(void(*)())0x06026590)((int)(char)*0x0605D240,uVar4);
 
   puVar3 = 0x06063F4A;
 
   uVar2 = DAT_06006804;
 
-  cVar1 = *0x06078663;
+  cVar1 = *(int *)0x06078663;
 
   uVar4 = SUB42(0x00008000,0);
 

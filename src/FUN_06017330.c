@@ -12,7 +12,7 @@ int FUN_06017330(param_1)
 
   param_1 = param_1 & 0xff;
 
-  0x06085490[(short)(param_1 * 0x18) + 4] = 0;
+  ((int *)0x06085490)[(short)(param_1 * 0x18) + 4] = 0;
 
   *(short *)(puVar1 + (short)(param_1 * 0x18) + 6) = 0;
 

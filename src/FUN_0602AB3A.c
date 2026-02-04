@@ -33,7 +33,7 @@ int FUN_0602ab3a(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
 
     *param_2 = iVar2;
 
-    iVar1 = (*UNRECOVERED_JUMPTABLE)(param_1,param_2 + 1);
+    iVar1 = (*(void(*)())UNRECOVERED_JUMPTABLE)(param_1,param_2 + 1);
 
     return iVar1;
 

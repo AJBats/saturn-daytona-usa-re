@@ -23,13 +23,13 @@ void FUN_06011dc0()
 
     if (puVar3[(short)(uVar5 * 0x18) + 5] == '\0') {
 
-      (*0x060280F8)(puVar3 + (short)(uVar5 * 0x18),*(int *)puVar4);
+      (*(void(*)())0x060280F8)(puVar3 + (short)(uVar5 * 0x18),*(int *)puVar4);
 
     }
 
     else {
 
-      (*0x060280C4)(puVar3 + (short)(uVar5 * 0x18),*(int *)puVar4);
+      (*(void(*)())0x060280C4)(puVar3 + (short)(uVar5 * 0x18),*(int *)puVar4);
 
       (puVar3 + (short)(uVar5 * 0x18))[5] = 0;
 

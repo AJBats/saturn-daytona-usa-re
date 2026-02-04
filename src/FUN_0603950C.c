@@ -6,10 +6,10 @@ extern int DAT_060397f6;
 
 extern int DAT_060397f8;
 
-extern void FUN_0603a6c0();
-extern void FUN_0603a72c();
+extern int FUN_0603a6c0();
+extern int FUN_0603a72c();
 
-void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
+void FUN_0603950c(char param_1,short param_2,char param_3,char param_4
 {
 
   char cVar1;
@@ -46,7 +46,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
   puVar2 = 0x060A4CAE;
 
-  *0x20100079 = 0;
+  *(int *)0x20100079 = 0;
 
   puVar8[2] = 0;
 
@@ -54,13 +54,13 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
   puVar8[4] = 0;
 
-  (**(void **)0x06000300)(0x47,0x0603990E);
+  (*(void(*)())(*(int *)0x06000300))(0x47,0x0603990E);
 
-  (**(void **)0x06000344)((int)DAT_060395b6,0);
+  (*(void(*)())(*(int *)0x06000344))((int)DAT_060395b6,0);
 
   puVar8 = 0x060A4CAA;
 
-  *0x060A4CAA = param_1;
+  *(int *)0x060A4CAA = param_1;
 
   cVar1 = *puVar8;
 
@@ -70,9 +70,9 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
     puVar4[1] = 0;
 
-    *0x060A4CA8 = 0;
+    *(int *)0x060A4CA8 = 0;
 
-    (*0x0603A72C)();
+    (*(void(*)())0x0603A72C)();
 
     return;
 
@@ -92,7 +92,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
     puVar4[1] = 8;
 
-    *0x060A4CD8 = 0;
+    *(int *)0x060A4CD8 = 0;
 
   }
 
@@ -100,9 +100,9 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
   *(short *)puVar6 = param_2;
 
-  *0x060A4CAB = param_6;
+  *(int *)0x060A4CAB = param_6;
 
-  *0x060A4CAF = param_3;
+  *(int *)0x060A4CAF = param_3;
 
   *(int *)puVar7 = param_5;
 
@@ -186,7 +186,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
   *(int *)0x060A4CB4 = 0;
 
-  (*0x0603A766)();
+  (*(void(*)())0x0603A766)();
 
   puVar2 = 0x060A4CC4;
 
@@ -198,7 +198,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,
 
   *(int *)0x060A4CB4 = 0;
 
-  (*0x0603A766)();
+  (*(void(*)())0x0603A766)();
 
   FUN_0603a6c0();
 

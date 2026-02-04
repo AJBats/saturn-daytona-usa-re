@@ -14,11 +14,11 @@ int FUN_06034a10(param_1)
 
   iVar2 = 0;
 
-  while( true ) {
+  while( 1 ) {
 
-    (*puVar1)(param_1);
+    (*(void(*)())puVar1)(param_1);
 
-    (*puVar1)(&local_24);
+    (*(void(*)())puVar1)(&local_24);
 
     if ((*param_1 == local_24) && (param_1[1] == iStack_20)) break;
 

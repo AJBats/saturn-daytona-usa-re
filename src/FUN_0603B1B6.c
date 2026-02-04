@@ -1,10 +1,10 @@
 extern int DAT_0603b270;
 
-extern void FUN_0603aee8();
-extern void FUN_0603af94();
-extern void FUN_0603afd0();
-extern void FUN_0603b21c();
-extern void FUN_0603b93c();
+extern int FUN_0603aee8();
+extern int FUN_0603af94();
+extern int FUN_0603afd0();
+extern int FUN_0603b21c();
+extern int FUN_0603b93c();
 
 int FUN_0603b1b6(param_1, param_2, param_3, param_4)
     int param_1;

@@ -28,8 +28,8 @@ extern int PTR_DAT_06030598;
 
 extern int PTR_DAT_06030598;
 
-extern void FUN_06030a9c();
-extern void FUN_06030b68();
+extern int FUN_06030a9c();
+extern int FUN_06030b68();
 
 void FUN_0603053c(param_1)
     short param_1;

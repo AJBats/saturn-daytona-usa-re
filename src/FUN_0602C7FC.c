@@ -86,7 +86,7 @@ void FUN_0602c7fc(param_1)
 
     }
 
-    (*0x0602ECCC)();
+    (*(void(*)())0x0602ECCC)();
 
   }
 

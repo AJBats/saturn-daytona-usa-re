@@ -27,19 +27,19 @@ void FUN_0600c218()
 
   *(int *)0x0608A52C = iVar4 + 0x30;
 
-  (*0x06027630)(iVar4 + 0x30,*(int *)0x06089EDC,0x30);
+  (*(void(*)())0x06027630)(iVar4 + 0x30,*(int *)0x06089EDC,0x30);
 
-  (*0x0600D31C)();
+  (*(void(*)())0x0600D31C)();
 
   *(char **)0x06063574 = 0x0600C286;
 
   *(short *)0x21000000 = (short)0x0000FFFF;
 
-  (*0x060058FA)();
+  (*(void(*)())0x060058FA)();
 
-  (*0x06006868)();
+  (*(void(*)())0x06006868)();
 
-  (*0x0601BDEC)();
+  (*(void(*)())0x0601BDEC)();
 
   puVar3 = 0x0603C000;
 
@@ -49,7 +49,7 @@ void FUN_0600c218()
 
   *pbVar5 = *pbVar5 & 0xf;
 
-  (*puVar3)();
+  (*(void(*)())puVar3)();
 
   *(int *)puVar2 = *(int *)puVar2 + -0x30;
 

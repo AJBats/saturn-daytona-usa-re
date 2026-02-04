@@ -59,7 +59,7 @@ void FUN_060302c6()
 
     iVar8 = *(int *)0x0607ED88;
 
-    bVar10 = 0x0607ED90[iVar8];
+    bVar10 = ((int *)0x0607ED90)[iVar8];
 
     *(unsigned short *)(DAT_060304ac + iVar3) = bVar10 & 3;
 
@@ -321,7 +321,7 @@ void FUN_060302c6()
 
   iVar8 = *(int *)0x0607ED88;
 
-  0x0607ED90[iVar8] = bVar10;
+  ((int *)0x0607ED90)[iVar8] = bVar10;
 
   iVar3 = iVar8 + 2;
 

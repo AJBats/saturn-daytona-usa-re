@@ -221,7 +221,7 @@ char * FUN_0601ebda()
 
     } while (puVar6 < puVar10);
 
-    *0x0605AD00 = puVar4[0xc];
+    *(int *)0x0605AD00 = puVar4[0xc];
 
     puVar1[1] = puVar4[0xd];
 
@@ -231,7 +231,7 @@ char * FUN_0601ebda()
 
     puVar8 = 0x0605AD04;
 
-    *0x0605AD04 = puVar4[0x10];
+    *(int *)0x0605AD04 = puVar4[0x10];
 
     puVar8[1] = puVar4[0x11];
 
@@ -241,7 +241,7 @@ char * FUN_0601ebda()
 
     puVar8 = 0x0605AD0C;
 
-    *0x0605AD0C = puVar4[0x14];
+    *(int *)0x0605AD0C = puVar4[0x14];
 
     puVar8[1] = puVar4[0x15];
 
@@ -249,65 +249,65 @@ char * FUN_0601ebda()
 
     puVar8[3] = puVar4[0x17];
 
-    *0x0605AB16 = puVar4[0x18];
+    *(int *)0x0605AB16 = puVar4[0x18];
 
-    *0x0605AB17 = puVar4[0x19];
+    *(int *)0x0605AB17 = puVar4[0x19];
 
-    *0x0605D240 = puVar4[0x1a];
+    *(int *)0x0605D240 = puVar4[0x1a];
 
-    *0x0605D241 = puVar4[0x1b];
+    *(int *)0x0605D241 = puVar4[0x1b];
 
     puVar8 = 0x06060D44;
 
-    *0x06060D44 = puVar4[0x1c];
+    *(int *)0x06060D44 = puVar4[0x1c];
 
     puVar8[1] = puVar4[0x1d];
 
     puVar8 = 0x06060D46;
 
-    *0x06060D46 = puVar4[0x1e];
+    *(int *)0x06060D46 = puVar4[0x1e];
 
     puVar8[1] = puVar4[0x1f];
 
     puVar8 = 0x06060D40;
 
-    *0x06060D40 = puVar4[0x20];
+    *(int *)0x06060D40 = puVar4[0x20];
 
     puVar8[1] = puVar4[0x21];
 
     puVar8 = 0x06060D42;
 
-    *0x06060D42 = puVar4[0x22];
+    *(int *)0x06060D42 = puVar4[0x22];
 
     puVar8[1] = puVar4[0x23];
 
     puVar8 = 0x06060D48;
 
-    *0x06060D48 = puVar4[0x24];
+    *(int *)0x06060D48 = puVar4[0x24];
 
     puVar8[1] = puVar4[0x25];
 
     puVar8 = 0x06060D4A;
 
-    *0x06060D4A = puVar4[0x26];
+    *(int *)0x06060D4A = puVar4[0x26];
 
     puVar8[1] = puVar4[0x27];
 
     puVar8 = 0x06060D4C;
 
-    *0x06060D4C = puVar4[0x28];
+    *(int *)0x06060D4C = puVar4[0x28];
 
     puVar8[1] = puVar4[0x29];
 
     puVar8 = 0x06060D4E;
 
-    *0x06060D4E = puVar4[0x2a];
+    *(int *)0x06060D4E = puVar4[0x2a];
 
     puVar8[1] = puVar4[0x2b];
 
     puVar8 = 0x06060D54;
 
-    *0x06060D54 = puVar4[0x2c];
+    *(int *)0x06060D54 = puVar4[0x2c];
 
     puVar8[1] = puVar4[0x2d];
 
@@ -317,7 +317,7 @@ char * FUN_0601ebda()
 
     puVar8 = 0x06060D58;
 
-    *0x06060D58 = puVar4[0x30];
+    *(int *)0x06060D58 = puVar4[0x30];
 
     puVar8[1] = puVar4[0x31];
 
@@ -327,7 +327,7 @@ char * FUN_0601ebda()
 
     puVar8 = 0x06060D50;
 
-    *0x06060D50 = puVar4[0x34];
+    *(int *)0x06060D50 = puVar4[0x34];
 
     puVar8[1] = puVar4[0x35];
 
@@ -337,55 +337,55 @@ char * FUN_0601ebda()
 
     puVar8 = 0x06060D60;
 
-    *0x06060D60 = puVar4[0x38];
+    *(int *)0x06060D60 = puVar4[0x38];
 
     puVar8[1] = puVar4[0x39];
 
     puVar8 = 0x06060D62;
 
-    *0x06060D62 = puVar4[0x3a];
+    *(int *)0x06060D62 = puVar4[0x3a];
 
     puVar8[1] = puVar4[0x3b];
 
     puVar3 = 0x06060D5C + 1;
 
-    *0x06060D5C = puVar4[0x3c];
+    *(int *)0x06060D5C = puVar4[0x3c];
 
     *puVar3 = puVar4[0x3d];
 
     puVar8 = 0x06060D5E;
 
-    *0x06060D5E = puVar4[0x3e];
+    *(int *)0x06060D5E = puVar4[0x3e];
 
     puVar8[1] = puVar4[0x3f];
 
     puVar8 = 0x06060D64;
 
-    *0x06060D64 = puVar4[0x40];
+    *(int *)0x06060D64 = puVar4[0x40];
 
     puVar8[1] = puVar4[0x41];
 
     puVar8 = 0x06060D66;
 
-    *0x06060D66 = puVar4[0x42];
+    *(int *)0x06060D66 = puVar4[0x42];
 
     puVar8[1] = puVar4[0x43];
 
     puVar8 = 0x06060D68;
 
-    *0x06060D68 = puVar4[0x44];
+    *(int *)0x06060D68 = puVar4[0x44];
 
     puVar8[1] = puVar4[0x45];
 
     puVar8 = 0x06060D6A;
 
-    *0x06060D6A = puVar4[0x46];
+    *(int *)0x06060D6A = puVar4[0x46];
 
     puVar8[1] = puVar4[0x47];
 
     puVar8 = 0x06060D70;
 
-    *0x06060D70 = puVar4[0x48];
+    *(int *)0x06060D70 = puVar4[0x48];
 
     puVar8[1] = puVar4[0x49];
 
@@ -395,7 +395,7 @@ char * FUN_0601ebda()
 
     puVar8 = 0x06060D74;
 
-    *0x06060D74 = puVar4[0x4c];
+    *(int *)0x06060D74 = puVar4[0x4c];
 
     puVar8[1] = puVar4[0x4d];
 
@@ -405,7 +405,7 @@ char * FUN_0601ebda()
 
     puVar8 = 0x06060D6C;
 
-    *0x06060D6C = puVar4[0x50];
+    *(int *)0x06060D6C = puVar4[0x50];
 
     puVar8[1] = puVar4[0x51];
 

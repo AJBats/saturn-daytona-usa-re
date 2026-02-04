@@ -4,7 +4,7 @@ unsigned int FUN_06017c9c(param_1)
 
   unsigned int uVar1;
 
-  uVar1 = (*0x06035C2C)();
+  uVar1 = (*(void(*)())0x06035C2C)();
 
   if ((uVar1 & 0xffff) < 4) {
 

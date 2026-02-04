@@ -6,7 +6,7 @@ extern int DAT_06008628;
 
 extern int DAT_0600862a;
 
-extern void FUN_06008730();
+extern int FUN_06008730();
 
 int FUN_060085b8()
 {
@@ -43,13 +43,13 @@ int FUN_060085b8()
 
       if (*(char **)0x0607EBC4 == 0x00200000) {
 
-        *0x06078654 = 4;
+        *(int *)0x06078654 = 4;
 
       }
 
       else {
 
-        *0x06078654 = 1;
+        *(int *)0x06078654 = 1;
 
       }
 

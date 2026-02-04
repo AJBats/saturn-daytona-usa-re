@@ -1,5 +1,5 @@
-extern void FUN_0603f2e0();
-extern void FUN_0603f342();
+extern int FUN_0603f2e0();
+extern int FUN_0603f342();
 
 int FUN_0603f0fc(param_1, param_2, param_3)
     int param_1;
@@ -17,11 +17,11 @@ int FUN_0603f0fc(param_1, param_2, param_3)
 
   if (param_1 != 0) {
 
-    (*0x0603B31C)(param_1,param_3);
+    (*(void(*)())0x0603B31C)(param_1,param_3);
 
     do {
 
-      iVar2 = (*puVar1)(param_1);
+      iVar2 = (*(void(*)())puVar1)(param_1);
 
     } while (iVar2 != 0);
 

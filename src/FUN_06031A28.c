@@ -24,7 +24,7 @@ extern int PTR_DAT_06031c80;
 
 extern int PTR_DAT_06031c80;
 
-extern void FUN_06031d1a();
+extern int FUN_06031d1a();
 
 unsigned int FUN_06031a28(param_1, param_2, param_3)
     int param_1;
@@ -1410,6 +1410,6 @@ LAB_06031cf2:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

@@ -27,11 +27,11 @@ int FUN_060423cc()
 
   do {
 
-    uVar6 = (*puVar3)();
+    uVar6 = (*(void(*)())puVar3)();
 
   } while ((uVar6 & uVar1) == 0);
 
-  uVar5 = (*puVar2)((unsigned int)puVar4 & 0xffff);
+  uVar5 = (*(void(*)())puVar2)((unsigned int)puVar4 & 0xffff);
 
   return uVar5;
 

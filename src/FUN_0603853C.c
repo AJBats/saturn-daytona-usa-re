@@ -48,7 +48,7 @@ void FUN_0603853c(param_1, param_2, param_3)
 
     if (*(int *)puVar1 != 0) {
 
-      (*0x0603DDFC)(0,0);
+      (*(void(*)())0x0603DDFC)(0,0);
 
       return;
 
@@ -78,7 +78,7 @@ void FUN_0603853c(param_1, param_2, param_3)
 
     if (*(int *)(puVar1 + 4) != 0) {
 
-      (*0x0603DDFC)(0,0);
+      (*(void(*)())0x0603DDFC)(0,0);
 
       return;
 

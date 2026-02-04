@@ -1,10 +1,10 @@
-extern void FUN_06034000();
-extern void FUN_06034168();
-extern void FUN_0603449c();
-extern void FUN_06034560();
-extern void FUN_0603458c();
-extern void FUN_06034640();
-extern void FUN_060346c0();
+extern int FUN_06034000();
+extern int FUN_06034168();
+extern int FUN_0603449c();
+extern int FUN_06034560();
+extern int FUN_0603458c();
+extern int FUN_06034640();
+extern int FUN_060346c0();
 
 int FUN_06033f54(param_1)
     unsigned short param_1;
@@ -18,9 +18,9 @@ int FUN_06033f54(param_1)
 
   iVar3 = (0x0000002C & 0xffff) * (unsigned int)param_1;
 
-  if ((0x06082A7C[0x00000001 + iVar3] == '\x01') ||
+  if ((((int *)0x06082A7C)[0x00000001 + iVar3] == '\x01') ||
 
-     (0x06082A7C[0x00000001 + iVar3] == '\x04')) {
+     (((int *)0x06082A7C)[0x00000001 + iVar3] == '\x04')) {
 
 LAB_06033f80:
 
@@ -34,7 +34,7 @@ LAB_06033f80:
 
   else {
 
-    cVar1 = 0x06082A7C[0x00000026 + iVar3];
+    cVar1 = ((int *)0x06082A7C)[0x00000026 + iVar3];
 
     if (cVar1 == '\0') {
 

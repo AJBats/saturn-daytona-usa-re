@@ -17,7 +17,7 @@ int FUN_06030a06()
 
   int iVar3;
 
-  iVar2 = *0x0607E940;
+  iVar2 = *(int *)0x0607E940;
 
   iVar1 = (int)DAT_06030a3e;
 

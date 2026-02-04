@@ -36,7 +36,7 @@ void FUN_0601d57c(param_1)
 
   } while (uVar3 < 0x1c);
 
-  (*0x06028400)(0xc,0x0605AAA2,(param_1 & 0x3f) << 1,0);
+  (*(void(*)())0x06028400)(0xc,0x0605AAA2,(param_1 & 0x3f) << 1,0);
 
   return;
 

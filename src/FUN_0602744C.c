@@ -1,7 +1,7 @@
 extern int DAT_060274fc;
 
-extern void FUN_06027378();
-extern void FUN_0602755c();
+extern int FUN_06027378();
+extern int FUN_0602755c();
 
 int FUN_0602744c(param_1, param_2)
     int param_1;

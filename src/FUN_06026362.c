@@ -93,6 +93,6 @@ LAB_060263dc:
 
     }
 
-  } while( true );
+  } while( 1 );
 
 }

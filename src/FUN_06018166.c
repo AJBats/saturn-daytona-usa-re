@@ -10,8 +10,8 @@ extern int DAT_0601821a;
 
 extern int DAT_060182f2;
 
-extern void FUN_06018320();
-extern void FUN_060185d8();
+extern int FUN_06018320();
+extern int FUN_060185d8();
 
 void FUN_06018166()
 {

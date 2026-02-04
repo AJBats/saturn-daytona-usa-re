@@ -13,7 +13,7 @@ void FUN_06035168()
 
   if (in_r0 < 0x41) {
 
-    (**(void **)(0x060351C4 + in_r0))();
+    (*(void(*)())(*(int *)(0x060351C4 + in_r0)))();
 
     return;
 
@@ -21,7 +21,7 @@ void FUN_06035168()
 
   puVar2 = (int *)((int)in_r2 + in_r0);
 
-  while( true ) {
+  while( 1 ) {
 
     puVar1 = in_r2 + 1;
 

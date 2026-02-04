@@ -12,7 +12,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   puVar1 = 0x20100063;
 
-  iVar2 = (*0x06035C1C)(param_2);
+  iVar2 = (*(void(*)())0x06035C1C)(param_2);
 
   if (0xb < iVar2) {
 
@@ -26,7 +26,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   *puVar1 = 1;
 
-  *0x2010001F = 0x1a;
+  *(int *)0x2010001F = 0x1a;
 
   do {
 
@@ -44,7 +44,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   *puVar1 = 1;
 
-  *0x2010001F = 0x19;
+  *(int *)0x2010001F = 0x19;
 
   do {
 
