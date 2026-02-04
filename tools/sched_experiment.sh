@@ -1,6 +1,7 @@
 #!/bin/bash
 # Stage 2: Scheduling experiment — compare with/without -fno-schedule-insns2
 CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
+SRCDIR=/mnt/d/Projects/SaturnReverseTest/src
 TDIR=/mnt/d/Projects/SaturnReverseTest/tests
 TMPDIR=/tmp/sched_exp_$$
 mkdir -p "$TMPDIR"
@@ -8,7 +9,7 @@ mkdir -p "$TMPDIR"
 echo "=== SCHEDULING EXPERIMENT: -fno-schedule-insns2 ==="
 echo ""
 
-for cfile in "$TDIR"/*.c; do
+for cfile in "$SRCDIR"/*.c; do
     base=$(basename "$cfile" .c)
     expected="$TDIR/$base.expected"
     [ ! -f "$expected" ] && continue

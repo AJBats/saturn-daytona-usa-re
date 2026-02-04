@@ -1,65 +1,65 @@
 #!/bin/bash
-# Categorize all failures by delta value
+# Categorize all failures by delta and diff type
 CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
-TESTDIR=/mnt/d/Projects/SaturnReverseTest/tests
+SRCDIR=/mnt/d/Projects/SaturnReverseTest/src
+TDIR=/mnt/d/Projects/SaturnReverseTest/tests
+TMPDIR=/tmp/catfail_$$
+mkdir -p "$TMPDIR"
 
-declare -A delta_counts
-declare -A delta_funcs
-
-for cfile in "$TESTDIR"/FUN_*.c; do
-  base=$(basename "$cfile" .c)
-  [ ! -f "$TESTDIR/${base}.expected" ] && continue
-
-  FLAGS="-O2 -m2 -mbsr"
-  [ -f "$TESTDIR/${base}.flags" ] && FLAGS=$(tr -d '\r' < "$TESTDIR/${base}.flags")
-
-  $CC1 -quiet $FLAGS "$cfile" -o "/tmp/${base}.s" 2>/dev/null
-
-  our_ops=$(grep -P '^\t' "/tmp/${base}.s" | sed 's/^\t//' | sed 's/\t.*//' | sed 's/ .*//' | grep -v '^\.' | grep -v '^$' | tr -d '\r')
-  expected_ops=$(tr -d '\r' < "$TESTDIR/${base}.expected" | grep -v '^$')
-
-  our_count=$(echo "$our_ops" | wc -l)
-  exp_count=$(echo "$expected_ops" | wc -l)
-  delta=$((our_count - exp_count))
-
-  match="FAIL"
-  [ "$our_ops" = "$expected_ops" ] && match="PASS"
-
-  if [ "$match" = "FAIL" ]; then
-    if [ -z "${delta_counts[$delta]}" ]; then
-      delta_counts[$delta]=0
-    fi
-    delta_counts[$delta]=$((${delta_counts[$delta]} + 1))
-    delta_funcs[$delta]="${delta_funcs[$delta]} $base"
-  fi
-done
-
-echo "=== FAILURE DISTRIBUTION BY DELTA ==="
+echo "=== FAILURE CATEGORIZATION ==="
 echo ""
-for d in $(echo "${!delta_counts[@]}" | tr ' ' '\n' | sort -n); do
-  echo "delta=$d: ${delta_counts[$d]} functions"
-  echo "  ${delta_funcs[$d]}"
-  echo ""
+
+pos_delta=""
+neg_delta=""
+zero_delta=""
+
+for cfile in "$SRCDIR"/*.c; do
+    base=$(basename "$cfile" .c)
+    expected="$TDIR/$base.expected"
+    [ ! -f "$expected" ] && continue
+
+    FLAGS="-O2 -m2 -mbsr"
+    [ -f "$TDIR/$base.flags" ] && FLAGS=$(tr -d '\r' < "$TDIR/$base.flags")
+
+    tr -d '\r' < "$cfile" > "$TMPDIR/$base.c"
+    $CC1 -quiet $FLAGS "$TMPDIR/$base.c" -o "$TMPDIR/$base.s" 2>/dev/null || continue
+
+    tr -d '\r' < "$TMPDIR/$base.s" | grep -P '^\t[a-z]' | awk '{print $1}' | sed 's/,$//' > "$TMPDIR/$base.opcodes"
+    tr -d '\r' < "$expected" | sed '/^$/d' | sed 's|bf/s|bf.s|;s|bt/s|bt.s|' > "$TMPDIR/$base.exp_clean"
+
+    if diff -q "$TMPDIR/$base.opcodes" "$TMPDIR/$base.exp_clean" >/dev/null 2>&1; then
+        continue  # PASS
+    fi
+
+    our_count=$(wc -l < "$TMPDIR/$base.opcodes")
+    exp_count=$(wc -l < "$TMPDIR/$base.exp_clean")
+    delta=$((our_count - exp_count))
+
+    # Get first 3 diff lines showing the pattern
+    difflines=$(diff "$TMPDIR/$base.opcodes" "$TMPDIR/$base.exp_clean" 2>/dev/null | grep '^[<>]' | head -6 | tr '\n' ' ')
+
+    if [ "$delta" -gt 0 ]; then
+        pos_delta="$pos_delta$base delta=+$delta (ours=$our_count exp=$exp_count) $difflines\n"
+    elif [ "$delta" -lt 0 ]; then
+        neg_delta="$neg_delta$base delta=$delta (ours=$our_count exp=$exp_count) $difflines\n"
+    else
+        zero_delta="$zero_delta$base delta=0 (ours=$our_count exp=$exp_count) $difflines\n"
+    fi
 done
 
-echo "=== SUMMARY ==="
-total_neg=0
-total_zero=0
-total_pos_small=0
-total_pos_big=0
-for d in $(echo "${!delta_counts[@]}" | tr ' ' '\n' | sort -n); do
-  if [ "$d" -lt 0 ]; then
-    total_neg=$((total_neg + ${delta_counts[$d]}))
-  elif [ "$d" -eq 0 ]; then
-    total_zero=$((total_zero + ${delta_counts[$d]}))
-  elif [ "$d" -le 2 ]; then
-    total_pos_small=$((total_pos_small + ${delta_counts[$d]}))
-  else
-    total_pos_big=$((total_pos_big + ${delta_counts[$d]}))
-  fi
-done
+echo "=== DELTA > 0 (our code LONGER — C fixes or compiler patches needed) ==="
+echo -e "$pos_delta" | sort -t= -k2 -rn
+echo ""
+echo "=== DELTA = 0 (same count, opcode ordering/selection diffs) ==="
+echo -e "$zero_delta"
+echo ""
+echo "=== DELTA < 0 (our code SHORTER — need per-function flags or compiler config) ==="
+echo -e "$neg_delta" | sort -t= -k2 -n
+echo ""
 
-echo "Our code shorter (delta<0): $total_neg functions"
-echo "Same count, diff order (delta=0): $total_zero functions"
-echo "Our code slightly longer (delta=+1 to +2): $total_pos_small functions"
-echo "Our code much longer (delta>=+3): $total_pos_big functions"
+pos_count=$(echo -e "$pos_delta" | grep -c 'FUN_')
+neg_count=$(echo -e "$neg_delta" | grep -c 'FUN_')
+zero_count=$(echo -e "$zero_delta" | grep -c 'FUN_')
+echo "=== Summary: $pos_count delta>0, $zero_count delta=0, $neg_count delta<0 ==="
+
+rm -rf "$TMPDIR"
