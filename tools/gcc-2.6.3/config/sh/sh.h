@@ -94,6 +94,10 @@ extern int target_flags;
 #define BSR_BIT   	(1<<26)
 #define SHORTADDR_BIT   (1<<27)
 #define PACKSTRUCT_BIT  (1<<28)
+#define NOFILL_BIT      (1<<18)
+#define NOSIGNEXT_BIT   (1<<19)
+#define NO_BSR_FILL_BIT (1<<29)
+#define NO_RTS_FILL_BIT (1<<30)
 
 /* Nonzero if we should generate code using type 0 insns */
 #define TARGET_SH0 (target_flags & SH0_BIT)
@@ -158,6 +162,18 @@ extern int target_flags;
 #define TARGET_SHORTADDR	(target_flags & SHORTADDR_BIT)
 #define TARGET_BSR		(target_flags & BSR_BIT)
 
+/* Nonzero to unfill conditional branch delay slots (bf.s->bf, bt.s->bt) */
+#define TARGET_NOFILL		(target_flags & NOFILL_BIT)
+
+/* Nonzero to preserve sign/zero extension insns after loads */
+#define TARGET_NOSIGNEXT	(target_flags & NOSIGNEXT_BIT)
+
+/* Nonzero to unfill BSR delay slots in post-dbr pass */
+#define TARGET_NO_BSR_FILL	(target_flags & NO_BSR_FILL_BIT)
+
+/* Nonzero to unfill RTS delay slots in post-dbr pass */
+#define TARGET_NO_RTS_FILL	(target_flags & NO_RTS_FILL_BIT)
+
 /* Nonzero if packing structures as small as they'll go (incompatible with Hitachi's compiler) */
 #define TARGET_PACKSTRUCT       (target_flags & PACKSTRUCT_BIT)
 
@@ -184,6 +200,10 @@ extern int target_flags;
   {"r2",	( RETR2_BIT) },		\
   {"shortaddr", ( SHORTADDR_BIT) },     \
   {"bsr",       ( BSR_BIT) },    	\
+  {"nofill",    ( NOFILL_BIT) },        \
+  {"nosignext", ( NOSIGNEXT_BIT) },     \
+  {"no-bsr-fill", ( NO_BSR_FILL_BIT) },\
+  {"no-rts-fill", ( NO_RTS_FILL_BIT) },\
   {"packstruct",( PACKSTRUCT_BIT) },    \
   {"",   	TARGET_DEFAULT} 	\
 }

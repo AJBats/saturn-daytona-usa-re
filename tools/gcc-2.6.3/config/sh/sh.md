@@ -1683,7 +1683,7 @@
 	(match_operand:QI 1 "memory_operand" "g"))
    (set (match_operand:SI 2 "register_operand" "=r")
 	(sign_extend:SI (match_dup 0)))]
-  "REGNO (operands[0]) == REGNO (operands[2])"
+  "!TARGET_NOSIGNEXT && REGNO (operands[0]) == REGNO (operands[2])"
   "mov.b	%1,%0 !p 5")
 
 (define_peephole
@@ -1691,7 +1691,8 @@
 	(match_operand:QI 1 "memory_operand" "m"))
    (set (match_operand:SI 2 "register_operand" "=r")
 	(sign_extend:SI (match_dup 0)))]
-  "REGNO (operands[0]) != REGNO (operands[2])
+  "!TARGET_NOSIGNEXT
+   && REGNO (operands[0]) != REGNO (operands[2])
    && dead_or_set_p (insn, operands[0])
    && !reg_overlap_mentioned_p (operands[2], operands[1])"
   "mov.b	%1,%2")
@@ -1703,7 +1704,7 @@
 	(match_operand:HI 1 "memory_operand" "m"))
    (set (match_operand:SI 2 "register_operand" "=r")
 	(sign_extend:SI (match_dup 0)))]
-  "REGNO (operands[0]) == REGNO (operands[2])"
+  "!TARGET_NOSIGNEXT && REGNO (operands[0]) == REGNO (operands[2])"
   "mov.w	%1,%0")
 
 ;; HImode sign-extend elimination: different register
@@ -1713,7 +1714,8 @@
 	(match_operand:HI 1 "memory_operand" "m"))
    (set (match_operand:SI 2 "register_operand" "=r")
 	(sign_extend:SI (match_dup 0)))]
-  "REGNO (operands[0]) != REGNO (operands[2])
+  "!TARGET_NOSIGNEXT
+   && REGNO (operands[0]) != REGNO (operands[2])
    && dead_or_set_p (insn, operands[0])
    && !reg_overlap_mentioned_p (operands[2], operands[1])"
   "mov.w	%1,%2")
@@ -1757,6 +1759,36 @@
   "INTVAL (operands[2]) >= 0 && INTVAL (operands[2]) <= 30
    && !(INTVAL (operands[2]) & 1)"
   "* return output_hi_disp_store (operands);")
+
+;; HImode displacement load peephole (sign-extending form)
+;; Folds: mov rN,r0 / add #D,r0 / mov.w @r0,r0  (sign-extend)
+;;    to: mov.w @(D,rN),r0
+;; Saves 2 insns per 16-bit load with small displacement.
+;; The mov.w @(disp,Rn),R0 form requires R0 as destination.
+(define_peephole
+  [(set (match_operand:SI 0 "arith_reg_operand" "")
+	(match_operand:SI 1 "arith_reg_operand" ""))
+   (set (match_dup 0)
+	(plus:SI (match_dup 0) (match_operand:SI 2 "immediate_operand" "")))
+   (set (match_dup 0)
+	(sign_extend:SI (mem:HI (match_dup 0))))]
+  "REGNO (operands[0]) == 0
+   && INTVAL (operands[2]) >= 0 && INTVAL (operands[2]) <= 30
+   && !(INTVAL (operands[2]) & 1)"
+  "* return output_hi_disp_load (operands);")
+
+;; HImode displacement load peephole (HImode form, no explicit sign-ext)
+(define_peephole
+  [(set (match_operand:SI 0 "arith_reg_operand" "")
+	(match_operand:SI 1 "arith_reg_operand" ""))
+   (set (match_dup 0)
+	(plus:SI (match_dup 0) (match_operand:SI 2 "immediate_operand" "")))
+   (set (match_operand:HI 3 "arith_reg_operand" "")
+	(mem:HI (match_dup 0)))]
+  "REGNO (operands[0]) == 0 && REGNO (operands[3]) == 0
+   && INTVAL (operands[2]) >= 0 && INTVAL (operands[2]) <= 30
+   && !(INTVAL (operands[2]) & 1)"
+  "* return output_hi_disp_load (operands);")
 
 ;; -------------------------------------------------------------------------
 ;; Combine patterns

@@ -1492,12 +1492,12 @@ multcosts (RTX)
   if (TARGET_SH2)
     {
       /* We have a mul insn, so we can never take more than the mul and the
-	 read of the mac reg, but count more because of the latency and extra reg
-	 usage */
+	 read of the mac reg.  Cost is 2 insns (mul + sts macl).  Only prefer
+	 shift sequences when they're 1-2 insns (power-of-2 constants). */
       if (TARGET_SMALLCODE)
 	return 2;
-      if (insn_cost > 5)
-	return 5;
+      if (insn_cost > 2)
+	return 2;
       return insn_cost;
     }
 
@@ -2125,6 +2125,81 @@ machine_dependent_reorg (first)
       }
   }
 
+  /* dt combining: replace "add #-1,rN / tst rN,rN" with "dt rN".
+     The dt instruction decrements rN and sets T=(rN==0) in one opcode.
+     The peephole in sh.md cannot match this because by the time peepholes
+     run, the delay slot filler has separated the add and tst with labels.
+     We do it here (pre-dbr) while they are still adjacent. */
+  if (TARGET_SH2)
+  {
+    rtx scan;
+    for (scan = first; scan; scan = NEXT_INSN (scan))
+      {
+	rtx next, pat, next_pat;
+	int reg_no;
+
+	if (GET_CODE (scan) != INSN)
+	  continue;
+	pat = PATTERN (scan);
+
+	/* Match: (set (reg:SI rN) (plus:SI (reg:SI rN) (const_int -1))) */
+	if (GET_CODE (pat) != SET
+	    || !REG_P (SET_DEST (pat))
+	    || GET_MODE (SET_DEST (pat)) != SImode
+	    || GET_CODE (SET_SRC (pat)) != PLUS
+	    || GET_MODE (SET_SRC (pat)) != SImode
+	    || !REG_P (XEXP (SET_SRC (pat), 0))
+	    || REGNO (SET_DEST (pat)) != REGNO (XEXP (SET_SRC (pat), 0))
+	    || GET_CODE (XEXP (SET_SRC (pat), 1)) != CONST_INT
+	    || INTVAL (XEXP (SET_SRC (pat), 1)) != -1)
+	  continue;
+
+	reg_no = REGNO (SET_DEST (pat));
+
+	/* Only physical registers */
+	if (reg_no > 15)
+	  continue;
+
+	/* Next real insn must be tst rN,rN:
+	   (set (reg:SI 18) (eq:SI (reg:SI rN) (const_int 0))) */
+	next = next_nonnote_insn (scan);
+	if (!next || GET_CODE (next) != INSN)
+	  continue;
+	next_pat = PATTERN (next);
+
+	if (GET_CODE (next_pat) != SET
+	    || !REG_P (SET_DEST (next_pat))
+	    || REGNO (SET_DEST (next_pat)) != 18
+	    || GET_CODE (SET_SRC (next_pat)) != EQ
+	    || !REG_P (XEXP (SET_SRC (next_pat), 0))
+	    || REGNO (XEXP (SET_SRC (next_pat), 0)) != reg_no
+	    || GET_CODE (XEXP (SET_SRC (next_pat), 1)) != CONST_INT
+	    || INTVAL (XEXP (SET_SRC (next_pat), 1)) != 0)
+	  continue;
+
+	/* Match found! Replace with dt:
+	   (parallel [(set (reg:SI 18) (eq:SI (reg:SI rN) (const_int 1)))
+		      (set (reg:SI rN) (plus:SI (reg:SI rN) (const_int -1)))]) */
+	PATTERN (scan) = gen_rtx (PARALLEL, VOIDmode,
+	  gen_rtvec (2,
+	    gen_rtx (SET, VOIDmode,
+	      gen_rtx (REG, SImode, 18),
+	      gen_rtx (EQ, SImode,
+		gen_rtx (REG, SImode, reg_no),
+		const1_rtx)),
+	    gen_rtx (SET, VOIDmode,
+	      gen_rtx (REG, SImode, reg_no),
+	      gen_rtx (PLUS, SImode,
+		gen_rtx (REG, SImode, reg_no),
+		constm1_rtx))));
+	INSN_CODE (scan) = -1;
+
+	/* Delete the tst insn */
+	PUT_CODE (next, NOTE);
+	NOTE_LINE_NUMBER (next) = NOTE_INSN_DELETED;
+      }
+  }
+
   /* add-to-shll: replace "add rN,rN" with "shll rN" when T is dead.
      The original compiler prefers shll for doubling; GCC prefers add
      because add doesn't clobber T.  Only safe when T is not live. */
@@ -2421,6 +2496,109 @@ machine_dependent_reorg (first)
 	}
       }
   }
+
+  /* lds.l @r15+,pr hoisting: move the PR pop BEFORE the immediately
+     preceding instruction when that instruction doesn't reference r15
+     or PR.  This allows the delay slot filler (which runs AFTER this pass)
+     to fill the rts delay slot with that instruction.
+
+     Before: <insn> / lds.l @r15+,pr / rts
+     After:  lds.l @r15+,pr / <insn> / rts
+     Then dbr_schedule fills rts delay slot with <insn>:
+             lds.l @r15+,pr / rts / <insn>
+
+     This is safe because <insn> doesn't use r15 or PR, so executing it
+     after lds.l (which modifies r15 via post_inc and sets PR) is
+     equivalent to executing it before. */
+  {
+    rtx scan;
+    for (scan = first; scan; scan = NEXT_INSN (scan))
+      {
+	rtx ret_insn, lds_insn, candidate;
+	rtx cpat;
+
+	/* Find RETURN jump insns */
+	if (GET_CODE (scan) != JUMP_INSN
+	    || GET_CODE (PATTERN (scan)) != RETURN)
+	  continue;
+
+	ret_insn = scan;
+
+	/* Previous insn should be lds.l @r15+,pr */
+	lds_insn = prev_nonnote_insn (ret_insn);
+	if (!lds_insn || GET_CODE (lds_insn) != INSN)
+	  continue;
+
+	{
+	  rtx lpat = PATTERN (lds_insn);
+	  if (GET_CODE (lpat) != SET
+	      || !REG_P (SET_DEST (lpat))
+	      || REGNO (SET_DEST (lpat)) != PR_REG
+	      || GET_CODE (SET_SRC (lpat)) != MEM
+	      || GET_CODE (XEXP (SET_SRC (lpat), 0)) != POST_INC)
+	    continue;
+	}
+
+	/* Previous insn before lds.l is the candidate to swap */
+	candidate = prev_nonnote_insn (lds_insn);
+	if (!candidate || GET_CODE (candidate) != INSN)
+	  continue;
+
+	cpat = PATTERN (candidate);
+
+	/* Must be a simple SET (not PARALLEL, USE, CLOBBER, etc.) */
+	if (GET_CODE (cpat) != SET)
+	  continue;
+
+	/* Must not reference r15 (SP) or PR (reg 17) */
+	if (reg_mentioned_p (stack_pointer_rtx, cpat))
+	  continue;
+	if (reg_mentioned_p (gen_rtx (REG, SImode, PR_REG), cpat))
+	  continue;
+
+	/* Must not be a label or barrier between candidate and lds.l */
+	{
+	  rtx between = NEXT_INSN (candidate);
+	  int ok = 1;
+	  while (between && between != lds_insn)
+	    {
+	      if (GET_CODE (between) == CODE_LABEL
+		  || GET_CODE (between) == BARRIER
+		  || GET_CODE (between) == JUMP_INSN
+		  || GET_CODE (between) == CALL_INSN)
+		{ ok = 0; break; }
+	      between = NEXT_INSN (between);
+	    }
+	  if (!ok)
+	    continue;
+	}
+
+	/* Swap: move candidate to after lds.l (before ret_insn).
+	   This is a simple unlink + relink in the doubly-linked insn chain. */
+	{
+	  rtx c_prev = PREV_INSN (candidate);
+	  rtx c_next = NEXT_INSN (candidate);
+
+	  /* Unlink candidate from its current position */
+	  if (c_prev)
+	    NEXT_INSN (c_prev) = c_next;
+	  if (c_next)
+	    PREV_INSN (c_next) = c_prev;
+
+	  /* Insert candidate between lds_insn and ret_insn.
+	     Note: there may be NOTEs between them; insert right
+	     before ret_insn. */
+	  {
+	    rtx before_ret = PREV_INSN (ret_insn);
+	    PREV_INSN (candidate) = before_ret;
+	    NEXT_INSN (candidate) = ret_insn;
+	    if (before_ret)
+	      NEXT_INSN (before_ret) = candidate;
+	    PREV_INSN (ret_insn) = candidate;
+	  }
+	}
+      }
+  }
 }
 
 /* Post-delay-slot return block deduplication.
@@ -2547,7 +2725,9 @@ machine_dependent_reorg_post_dbr (first)
   /* Delay slot sign-extend optimization: when a return has a no-op
      sign_extend (same register) in its delay slot after a memory load,
      replace the sign_extend with the memory load itself.
-     mov.w @...,rN / rts / exts.w rN,rN  ->  rts / mov.w @...,rN */
+     mov.w @...,rN / rts / exts.w rN,rN  ->  rts / mov.w @...,rN
+     Skip when -mnosignext is active (preserving sign extensions). */
+  if (!TARGET_NOSIGNEXT)
   for (insn = first; insn; insn = NEXT_INSN (insn))
     {
       rtx seq, ret_insn, delay_insn, delay_pat;
@@ -2619,6 +2799,250 @@ machine_dependent_reorg_post_dbr (first)
 	INSN_CODE (delay_elem) = -1;
 	delete_insn (load_insn);
       }
+    }
+
+  /* Redundant sign-extend elimination in rts delay slot:
+     When a rts delay slot contains exts.w rN,rN and a preceding
+     mov.w @...,rN already sign-extended the value, the exts.w is
+     redundant (mov.w on SH-2 sign-extends to 32 bits).  Replace
+     with nop by clearing the delay slot.
+     This extends the basic sign-ext optimization above by scanning
+     past multiple intervening insns that don't modify rN. */
+  if (!TARGET_NOSIGNEXT)
+  for (insn = first; insn; insn = NEXT_INSN (insn))
+    {
+      rtx seq, ret_insn, delay_insn, delay_pat;
+      rtx prev;
+      int ext_regno;
+      int found_load = 0;
+
+      if (GET_CODE (insn) != INSN
+	  || GET_CODE (PATTERN (insn)) != SEQUENCE)
+	continue;
+
+      seq = PATTERN (insn);
+      ret_insn = XVECEXP (seq, 0, 0);
+      delay_insn = XVECEXP (seq, 0, 1);
+
+      if (GET_CODE (ret_insn) != JUMP_INSN
+	  || GET_CODE (PATTERN (ret_insn)) != RETURN)
+	continue;
+
+      /* Check if delay slot is exts.w rN,rN (sign_extend:SI reg:HI) */
+      delay_pat = PATTERN (delay_insn);
+      if (GET_CODE (delay_pat) != SET
+	  || GET_CODE (SET_SRC (delay_pat)) != SIGN_EXTEND
+	  || GET_MODE (SET_SRC (delay_pat)) != SImode
+	  || GET_CODE (XEXP (SET_SRC (delay_pat), 0)) != REG
+	  || GET_MODE (XEXP (SET_SRC (delay_pat), 0)) != HImode
+	  || !REG_P (SET_DEST (delay_pat))
+	  || REGNO (SET_DEST (delay_pat))
+	     != REGNO (XEXP (SET_SRC (delay_pat), 0)))
+	continue;
+
+      ext_regno = REGNO (SET_DEST (delay_pat));
+
+      /* Scan backward past insns that don't modify ext_regno,
+	 looking for a mov.w (HI memory load) that set it.
+	 Stop at labels, barriers, calls, or insns that set ext_regno
+	 to something other than a HI memory load. */
+      for (prev = PREV_INSN (insn); prev; prev = PREV_INSN (prev))
+	{
+	  rtx ppat;
+	  if (GET_CODE (prev) == NOTE)
+	    continue;
+	  if (GET_CODE (prev) == CODE_LABEL
+	      || GET_CODE (prev) == BARRIER
+	      || GET_CODE (prev) == CALL_INSN)
+	    break;
+	  if (GET_CODE (prev) != INSN)
+	    break;
+	  ppat = PATTERN (prev);
+	  if (GET_CODE (ppat) == USE || GET_CODE (ppat) == CLOBBER)
+	    continue;
+	  /* Check if this insn modifies ext_regno */
+	  if (GET_CODE (ppat) == SET && REG_P (SET_DEST (ppat))
+	      && REGNO (SET_DEST (ppat)) == ext_regno)
+	    {
+	      /* It modifies ext_regno - check if it's a HI mem load */
+	      if (GET_MODE (SET_DEST (ppat)) == HImode
+		  && GET_CODE (SET_SRC (ppat)) == MEM
+		  && GET_MODE (SET_SRC (ppat)) == HImode)
+		found_load = 1;
+	      break;  /* stop either way */
+	    }
+	  /* If insn doesn't mention ext_regno as dest, skip it */
+	}
+
+      if (!found_load)
+	continue;
+
+      /* Replace the exts.w with nop by converting the SEQUENCE back to
+	 a bare return.  Delete the SEQUENCE and emit bare rts + nop. */
+      {
+	rtx new_ret;
+	new_ret = emit_jump_insn_before (
+	  gen_rtx (RETURN, VOIDmode), insn);
+	delete_insn (insn);
+      }
+    }
+
+  /* Conditional branch delay slot unfilling: when -mnofill is active,
+     find SEQUENCE-wrapped conditional branches (bf.s/bt.s) and convert
+     them to non-delayed form (bf/bt).  The delay slot instruction is
+     emitted as a standalone insn AFTER the branch (on the fall-through
+     path), matching the original Saturn compiler which placed the
+     instruction after the non-delayed branch. */
+  if (TARGET_NOFILL)
+    {
+      for (insn = first; insn; insn = NEXT_INSN (insn))
+	{
+	  rtx seq, jump_insn, delay_insn, delay_pat, jump_pat;
+	  rtx new_insn, next;
+
+	  /* Find SEQUENCE-wrapped insns */
+	  if (GET_CODE (insn) != INSN
+	      || GET_CODE (PATTERN (insn)) != SEQUENCE)
+	    continue;
+
+	  seq = PATTERN (insn);
+	  jump_insn = XVECEXP (seq, 0, 0);
+	  delay_insn = XVECEXP (seq, 0, 1);
+
+	  /* Only process conditional jumps (not returns, not unconditional) */
+	  if (GET_CODE (jump_insn) != JUMP_INSN)
+	    continue;
+	  jump_pat = PATTERN (jump_insn);
+	  if (GET_CODE (jump_pat) != SET
+	      || GET_CODE (SET_SRC (jump_pat)) != IF_THEN_ELSE)
+	    continue;
+
+	  /* Skip returns wrapped in conditional */
+	  if (GET_CODE (XEXP (SET_SRC (jump_pat), 1)) == RETURN
+	      || GET_CODE (XEXP (SET_SRC (jump_pat), 2)) == RETURN)
+	    continue;
+
+	  /* Extract the delay slot insn's pattern */
+	  delay_pat = PATTERN (delay_insn);
+
+	  /* Save next before we modify insn */
+	  next = NEXT_INSN (insn);
+
+	  /* Replace the SEQUENCE with a bare conditional jump.
+	     Copy the jump pattern, preserving label refs. */
+	  PATTERN (insn) = copy_rtx (jump_pat);
+	  PUT_CODE (insn, JUMP_INSN);
+	  INSN_CODE (insn) = -1;
+	  /* Preserve the jump label */
+	  JUMP_LABEL (insn) = JUMP_LABEL (jump_insn);
+
+	  /* Emit the delay slot insn AFTER the branch on the fall-through
+	     path.  The original compiler placed it here, not before. */
+	  new_insn = emit_insn_after (copy_rtx (delay_pat), insn);
+	}
+    }
+
+  /* BSR delay slot unfilling: when -mno-bsr-fill is active,
+     find SEQUENCE-wrapped BSR call insns and convert them to
+     non-delayed form.  The delay slot instruction is moved back
+     to before the BSR, and the BSR gets nop in its delay slot.
+     Before: bsr _func / <delay-insn>  (SEQUENCE)
+     After:  <delay-insn> / bsr _func / nop */
+  if (TARGET_NO_BSR_FILL)
+    {
+      for (insn = first; insn; insn = NEXT_INSN (insn))
+	{
+	  rtx seq, call_insn, delay_insn, delay_pat, call_pat;
+
+	  /* Find SEQUENCE-wrapped insns */
+	  if (GET_CODE (insn) != INSN
+	      || GET_CODE (PATTERN (insn)) != SEQUENCE)
+	    continue;
+
+	  seq = PATTERN (insn);
+	  call_insn = XVECEXP (seq, 0, 0);
+	  delay_insn = XVECEXP (seq, 0, 1);
+
+	  /* Only process CALL_INSNs (BSR/JSR) */
+	  if (GET_CODE (call_insn) != CALL_INSN)
+	    continue;
+
+	  /* Check if this is a BSR (not JSR).  BSR patterns use
+	     SYMBOL_REF directly, while JSR uses register indirect.
+	     BSR call patterns are wrapped in PARALLEL:
+	     (parallel [(call (mem (symbol_ref ...)) ...) (clobber pr)])
+	     or (parallel [(set r0 (call (mem (symbol_ref ...)) ...)) (clobber pr)]) */
+	  call_pat = PATTERN (call_insn);
+	  {
+	    rtx call_body = call_pat;
+	    rtx addr;
+	    /* Unwrap PARALLEL to get to the call/set element */
+	    if (GET_CODE (call_body) == PARALLEL)
+	      call_body = XVECEXP (call_body, 0, 0);
+	    /* Handle both (call ...) and (set ... (call ...)) */
+	    if (GET_CODE (call_body) == SET)
+	      call_body = SET_SRC (call_body);
+	    if (GET_CODE (call_body) == CALL)
+	      {
+		addr = XEXP (call_body, 0);
+		if (GET_CODE (addr) == MEM
+		    && GET_CODE (XEXP (addr, 0)) != SYMBOL_REF)
+		  continue;  /* JSR @rN, not BSR — skip */
+	      }
+	    else
+	      continue;
+	  }
+
+	  /* Extract delay slot pattern */
+	  delay_pat = PATTERN (delay_insn);
+
+	  /* Emit the delay insn BEFORE the SEQUENCE */
+	  emit_insn_before (copy_rtx (delay_pat), insn);
+
+	  /* Replace the SEQUENCE with a bare call_insn */
+	  PATTERN (insn) = copy_rtx (PATTERN (call_insn));
+	  PUT_CODE (insn, CALL_INSN);
+	  INSN_CODE (insn) = -1;
+	}
+    }
+
+  /* RTS delay slot unfilling: when -mno-rts-fill is active,
+     find SEQUENCE-wrapped return insns and convert them to
+     non-delayed form.  The delay slot instruction is moved back
+     to before the RTS.
+     Before: rts / <delay-insn>  (SEQUENCE)
+     After:  <delay-insn> / rts / nop */
+  if (TARGET_NO_RTS_FILL)
+    {
+      for (insn = first; insn; insn = NEXT_INSN (insn))
+	{
+	  rtx seq, ret_insn, delay_insn, delay_pat;
+
+	  /* Find SEQUENCE-wrapped insns */
+	  if (GET_CODE (insn) != INSN
+	      || GET_CODE (PATTERN (insn)) != SEQUENCE)
+	    continue;
+
+	  seq = PATTERN (insn);
+	  ret_insn = XVECEXP (seq, 0, 0);
+	  delay_insn = XVECEXP (seq, 0, 1);
+
+	  /* Only process return insns */
+	  if (GET_CODE (ret_insn) != JUMP_INSN
+	      || GET_CODE (PATTERN (ret_insn)) != RETURN)
+	    continue;
+
+	  /* Extract delay slot pattern */
+	  delay_pat = PATTERN (delay_insn);
+
+	  /* Emit the delay insn BEFORE the SEQUENCE */
+	  emit_insn_before (copy_rtx (delay_pat), insn);
+
+	  /* Replace the SEQUENCE with a bare return */
+	  PATTERN (insn) = gen_rtx (RETURN, VOIDmode);
+	  PUT_CODE (insn, JUMP_INSN);
+	  INSN_CODE (insn) = -1;
+	}
     }
 
   /* Register compaction for leaf functions */
@@ -3442,6 +3866,22 @@ output_hi_disp_store (operands)
   return "mov.w	r0,@(%O2,%1)";
 }
 
+
+/* Peephole output for HImode displacement load.
+   Folds mov rN,r0 / add #D,r0 / mov.w @r0,r0
+   into mov.w @(D,rN),r0.
+   operands[0]=r0, operands[1]=base, operands[2]=displacement.  */
+
+char *
+output_hi_disp_load (operands)
+     rtx *operands;
+{
+  static char buf[64];
+  sprintf (buf, "mov.w\t@(%d,%s),r0",
+	   INTVAL (operands[2]),
+	   reg_names[REGNO (operands[1])]);
+  return buf;
+}
 
 /* Returns 1 if OP is a MEM with register+displacement addressing.
    Used for HImode/QImode displacement loads and stores which
