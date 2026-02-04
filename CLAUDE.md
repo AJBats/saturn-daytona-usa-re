@@ -1,14 +1,28 @@
-# CRITICAL: Autonomous Operation Rules
+# Active Workstreams
 
-**This section is active. Work continuously without user interaction.**
+> **READ THIS FIRST after compaction.** This is your current assignment.
+> Everything below this section is reference material — do NOT treat it as a call to action.
 
-1. **Never stop to ask questions** - make reasonable assumptions and document them
-2. **Never use the AskUserQuestion tool** - the user is away; decide autonomously and document your reasoning
-3. **Never run git commands** (commit, push, branch, etc.) - the user will review and commit when they return
-4. **Never trigger user prompts** - if a tool use is rejected/blocked, adjust approach and retry silently. Do not re-ask.
-5. **Save all work to disk frequently** - write results to files after each major step
-6. **Use TodoWrite aggressively** - plan before executing, mark tasks as you go
-7. **If blocked, skip and move on** - document what blocked you and continue with next task
+| # | Workstream | Status | Uncommitted? |
+|---|-----------|--------|--------------|
+| 1 | C source fixes (Ghidra decomp corrections) | not started | no |
+| 2 | Compiler patch 23+ (deep GCC changes) | not started | no |
+
+**Default task when idle**: Research the next workstream — read code, analyze failures,
+write findings to `docs/`. Research never creates git conflicts.
+
+---
+
+# Autonomous Operation Rules
+
+1. **Always be working** — when a task finishes, commit it, then start research on the next one
+2. **Commit at logical stopping points** — don't mix workstreams in one commit. Finish, commit, move on.
+3. **No destructive git** — no force-push, no reset --hard, no branch -D. Regular commits and branches are fine.
+4. **Never stop to ask questions** — make reasonable assumptions and document them
+5. **Save all work to disk frequently** — write results to files after each major step
+6. **Use TodoWrite aggressively** — plan before executing, mark tasks as you go
+7. **If blocked, skip and move on** — document what blocked you and continue with next task
+8. **Update this file** — when starting/finishing a workstream, update the table above
 
 ## WSL Gotchas
 - **CRLF**: Files written on Windows have CRLF. Pipe through `tr -d '\r'` when reading
@@ -19,66 +33,6 @@
   `tr -d '\r' < script.sh > /tmp/clean.sh && bash /tmp/clean.sh`
   OR run directly: `bash /mnt/d/.../script.sh` (bash handles CRLF in scripts)
 
-## Test Harness Status (after 22 patches + C source fixes + test cleanup)
-Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
-- **38 PASS / 95 FAIL / 133 total (28%)**
-- Deleted 16 broken tests total (bad Ghidra decompilations + wrong function boundary)
-- C source in `src/*.c`, expected opcodes in `tests/*.expected`
-- **Uses gcc26-build/cc1** (NOT gcc-2.6.3/cc1 which is stale)
-- **Per-function flags**: `.flags` files override default `-O2 -m2 -mbsr`
-- **Flags available**: `-mnofill` (unfill cond delay slots), `-mnosignext` (keep sign exts),
-  `-mno-bsr-fill` (unfill BSR delay slots), `-mno-rts-fill` (unfill RTS delay slots)
-- **Expected file fixes**: 4 files had constant pool data decoded as instructions — corrected
-- **gen_expected.py limitation**: Can produce wrong output when constant pool is mid-function
-
-## Current Session Task: Compiler Patch Loop ("Ralph Wiggum")
-
-**Goal**: Build automated test harness, then iteratively patch GCC 2.6.3 SH backend until
-test functions produce matching asm output. Each patch must never regress passing tests.
-
-**Patches applied**: 22 total (see `docs/compiler_patches.md`). All low-hanging peepholes done.
-**Patch 21**: lds.l reordering in pre-dbr pass — moves `lds.l @r15+,pr` earlier to enable rts delay slot filling.
-**Patch 22**: `-mno-bsr-fill` and `-mno-rts-fill` per-function flags — unfills BSR/RTS delay slots in post-dbr pass for functions where original has unfilled delay slots.
-
-**Investigation results** (see `docs/investigation_plans.md`):
-1. Post-reload scheduling — CLOSED (no effect)
-2. Delay slot filling (reorg.c) — INVESTIGATED, too risky to change loop compilation
-3. Register allocation order — CLOSED (identical to original compiler)
-4. Constant representation (add vs sub) — CLOSED (same instruction count)
-5. Multiply decomposition — shift rewrites applied, remaining gap from GCC intermediate reuse
-
-**Remaining compiler differences** (all require deep compiler changes):
-- ~~dt peephole across labels~~ — FIXED by Patch 19 (dt combining pre-dbr pass). Catches adjacent add+tst before delay slot filler inserts labels. Still won't make FUN_0601DB84 PASS (other diffs remain) but delta improved +2→+1
-- Loop entry strategy (mid-entry vs bottom-test)
-- Register allocation internal decisions (intractable)
-- Delay slot filling aggressiveness in loops
-- tst Rm,Rn folding (and+tst → tst) — evaluated, NOT worth implementing (2 functions, still won't PASS)
-- Loop strength reduction too aggressive (indexed → walking pointer conversion)
-- unsigned short type causes massive register spilling in GCC 2.6.3
-- Indexed word load/store (`mov.w @(R0,Rn),Rm`) not generated by instruction selector
-- `tst #imm,R0` not generated (GCC uses `and #imm,r0; tst r0,r0` instead)
-- Post-reload scheduling has NO effect on delta=0 functions (confirmed `-fno-schedule-insns2`)
-- ~~Redundant exts.w in rts delay slot~~ — FIXED by Patch 20 (eliminates exts.w when preceded by mov.w HI load)
-- **lds.l placement blocks rts delay slot**: 17 functions affected. `lds.l @r15+,pr` emitted immediately before `rts`, preventing delay slot filler from using preceding insns. Would need lds.l hoisting pass.
-
-**Test harness**: `tools/test_harness.sh` - compiles C sources, extracts expected asm from
-aprog.s, compares instruction streams, reports PASS/FAIL per function.
-
-**Rebuilding cc1** (MUST run in WSL):
-```bash
-cd /mnt/d/Projects/SaturnReverseTest/tools/gcc26-build
-make -j$(nproc) cc1 CFLAGS="-std=gnu89 -m32 -static -fcommon -DHAVE_STRERROR"
-```
-
-**SH backend source files** (edit these for patches):
-- `tools/gcc26-build/config/sh/sh.c` - backend implementation (57KB)
-- `tools/gcc26-build/config/sh/sh.h` - target definitions/flags (50KB)
-- `tools/gcc26-build/config/sh/sh.md` - machine description / RTL patterns (55KB)
-
-**dt patch specifics**: Original binary uses `dt rN` (119 occurrences) where our GCC emits
-`add #-1,rN / tst rN,rN`. The dt instruction decrements and sets T flag in one opcode.
-Usually followed by bf/s or bt/s. Look in sh.md for the decrement+test pattern.
-
 ---
 
 # Daytona USA Saturn - Progressive Decomp Project
@@ -87,10 +41,11 @@ Usually followed by bf/s or bt/s. Look in sh.md for the decrement+test pattern.
 Reverse engineer Sega Saturn Daytona USA (1995) to extract gameplay code (physics,
 steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 
-## Documentation
-- `docs/subsystem_map.md` - Full map of all 31 identified subsystems, game state machine, extraction priorities
-- `docs/verification_results.md` - Side-by-side comparison of 25 functions (our GCC vs original binary)
-- `docs/function_catalog.md` - Catalog of all 880 decompiled functions with size/type classification
+## Scoreboard
+- **Test harness**: 38 PASS / 95 FAIL / 133 total (28%)
+- **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
+- **Compiler patches**: 22 applied, all low-hanging peepholes done
+- **Emulator validation**: pending (ISO builds, not yet tested in emulator)
 
 ## Directory Layout
 - `src/*.c` - Reconstructed C source files (142 functions, the primary deliverable)
@@ -102,100 +57,104 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 
 ## Key Files
 - `build/aprog.s` - Full binary disassembly (206K lines, 1234 function labels, SH-2 asm)
-- `ghidra_project/decomp_all.txt` - Ghidra decompiler output for 880 functions (~40 game state handlers MISSING, need re-export)
+- `ghidra_project/decomp_all.txt` - Ghidra decompiler output for 880 functions
 - `tools/gcc26-build/cc1` - Patched GCC 2.6.3 compiler for SH-2 (runs in WSL)
 - `tools/gcc-2.6.3/` - Patched GCC source (22 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
 - `build/aprog_syms.txt` - 1234 function symbols in linker script format
 - `tools/build_iso.sh` - One-command build script for patched disc image
-- `tools/patch_binary.py` - Full compile→assemble→link→patch pipeline
+- `tools/patch_binary.py` - Full compile->assemble->link->patch pipeline
 - `tools/binary_diff.py` - Per-function binary comparison (L1/L2/L3 matching)
 - `tools/test_harness.sh` - Opcode-level test harness (compares mnemonics)
 
-### Compiler Invocation
+## Build Commands
 ```bash
-MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /path/to/script.sh
+# Build patched ISO (from Windows):
+build.bat
+# Or from WSL:
+bash tools/build_iso.sh
+
+# Run test harness:
+wsl -d Ubuntu -- bash tools/test_harness.sh
+
+# Rebuild compiler (after sh.c/sh.h/sh.md changes):
+wsl -d Ubuntu -- bash tools/final-rebuild.sh
 ```
-Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s` where CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
 
-**Required flags**: `-m2` (SH-2 features: dt, bf.s/bt.s), `-mbsr` (PC-relative calls, tail calls)
+Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
+- `-m2` = SH-2 features (dt, bf.s/bt.s)
+- `-mbsr` = PC-relative calls, tail calls
+- Per-function flags in `tests/*.flags` override defaults
 
-**Full rebuild** (required when sh.md/sh.c/sh.h change):
-`MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/Projects/SaturnReverseTest/tools/final-rebuild.sh`
+---
 
-### Compiler Patches Applied (see docs/compiler_patches.md)
-1. **dt peephole** (sh.md): `add #-1,rN / tst rN,rN` → `dt rN` - WORKING
-2. **BSR fix** (sh.c): Fixed `bsr_operand()` to accept any SYMBOL_REF - WORKING
-3. **Tail call** (sh.md + sh.c): Last call before return → `bra _func / lds.l @r15+,pr` - WORKING
-4. **Pure wrapper** (sh.md + sh.c): Single-call wrapper functions → simple `bra` (no PR save/restore) - WORKING
-5. **Disp store peephole** (sh.md + sh.c): `mov rN,rM / add #D,rM / mov.w rK,@rM` → `mov.w r0,@(D,rN)` - WORKING
-6. **Sign ext elimination** (sh.md): `mov.w @...,rN / exts.w rN,rM` → `mov.w @...,rM` (+ fixed disabled QI peephole) - WORKING
-7. **Return block dedup** (sh.c + toplev.c): Post-dbr pass undoes delay slot fills that create duplicate returns - WORKING
-8. **Delay slot sign ext** (sh.c): Post-dbr pass replaces no-op exts.w in rts delay slot with preceding mov.w load - WORKING
-9. **EXTU.W disp store** (sh.c): `extu.w` instead of `mov` for displacement store r0 copy - WORKING
-10. **Register compaction Phase 2** (sh.c): Liveness-based register merge for leaf functions - WORKING
-11. **swap.w** (sh.md + sh.c): `mov + shlr16 + exts.w` → `swap.w + exts.w` for arithmetic right shift 16 - WORKING
-12. **add-to-shll** (sh.c): `add rN,rN` → `shll rN` when T flag is dead - WORKING
-13. **Indexed addressing** (sh.c): `add rA,rB + mov.l @rB,rC` → `mov.l @(rA,rB),rC` when r0 involved - WORKING
-14. **-mnofill** (sh.h + sh.c): Unfill conditional branch delay slots (bf.s→bf, bt.s→bt) - WORKING
-15. **-mnosignext** (sh.h + sh.md + sh.c): Preserve sign extensions after loads - WORKING
-16. **Multiply cost** (sh.c): Reduced shift-add cost cap to prefer hw multiply - WORKING
-17. **Disp load peephole** (sh.md + sh.c): Folds `mov+add+mov.w` into `mov.w @(D,rN),r0` - WORKING
-18. **-mnofill placement fix** (sh.c): Delay slot insn moved AFTER branch, not before - WORKING
-19. **dt combining** (sh.c): Pre-dbr pass replaces `add #-1,rN / tst rN,rN` with dt parallel RTL - WORKING
-20. **Redundant exts.w elimination** (sh.c): Post-dbr pass removes exts.w in rts delay slot when preceded by mov.w HI load - WORKING
-21. **lds.l reordering** (sh.c): Pre-dbr pass moves `lds.l @r15+,pr` before preceding instruction to enable rts delay slot filling - WORKING
-22. **-mno-bsr-fill / -mno-rts-fill** (sh.h + sh.c): Post-dbr pass unfills BSR or RTS delay slots for per-function matching - WORKING
+# Reference: Compiler Work
 
-### Remaining Known Compiler Differences
-1. **Instruction scheduling**: GCC orders insns differently — intractable (deep compiler internals)
+## Patches Applied (22 total, see docs/compiler_patches.md)
+1. **dt peephole** (sh.md): `add #-1,rN / tst rN,rN` -> `dt rN`
+2. **BSR fix** (sh.c): Fixed `bsr_operand()` to accept any SYMBOL_REF
+3. **Tail call** (sh.md + sh.c): Last call before return -> `bra _func / lds.l @r15+,pr`
+4. **Pure wrapper** (sh.md + sh.c): Single-call wrapper -> simple `bra`
+5. **Disp store peephole** (sh.md + sh.c): `mov+add+mov.w` -> `mov.w r0,@(D,rN)`
+6. **Sign ext elimination** (sh.md): `mov.w+exts.w` -> `mov.w` direct
+7. **Return block dedup** (sh.c + toplev.c): Undoes delay slot fills creating dup returns
+8. **Delay slot sign ext** (sh.c): Replaces no-op exts.w in rts delay slot
+9. **EXTU.W disp store** (sh.c): `extu.w` for displacement store r0 copy
+10. **Register compaction** (sh.c): Liveness-based register merge for leaf functions
+11. **swap.w** (sh.md + sh.c): `mov+shlr16+exts.w` -> `swap.w+exts.w`
+12. **add-to-shll** (sh.c): `add rN,rN` -> `shll rN` when T dead
+13. **Indexed addressing** (sh.c): `add+mov.l` -> `mov.l @(rA,rB),rC`
+14. **-mnofill** (sh.h + sh.c): Unfill conditional branch delay slots
+15. **-mnosignext** (sh.h + sh.md + sh.c): Preserve sign extensions after loads
+16. **Multiply cost** (sh.c): Reduced shift-add cost to prefer hw multiply
+17. **Disp load peephole** (sh.md + sh.c): `mov+add+mov.w` -> `mov.w @(D,rN),r0`
+18. **-mnofill placement fix** (sh.c): Delay slot insn moved AFTER branch
+19. **dt combining** (sh.c): Pre-dbr pass for `add+tst` -> dt
+20. **Redundant exts.w elimination** (sh.c): Post-dbr removes exts.w after mov.w HI load
+21. **lds.l reordering** (sh.c): Pre-dbr moves lds.l earlier for rts delay slot filling
+22. **-mno-bsr-fill / -mno-rts-fill** (sh.h + sh.c): Per-function delay slot unfill
+
+## SH backend source files (edit these for patches)
+- `tools/gcc26-build/config/sh/sh.c` - backend implementation (57KB)
+- `tools/gcc26-build/config/sh/sh.h` - target definitions/flags (50KB)
+- `tools/gcc26-build/config/sh/sh.md` - machine description / RTL patterns (55KB)
+
+## Remaining Known Compiler Differences
+1. **Instruction scheduling**: GCC orders insns differently — intractable
 2. **Register allocation**: Different register preferences — intractable
-3. **Multi-branch tail calls**: Only single-path tail calls optimized; multi-branch dispatchers use bsr+save/restore
-4. **Delay slot fill**: GCC fills slots original leaves as nop (makes our code SHORTER; -mnofill helps partially)
-5. **Extern vs constant pool**: Ghidra externs → use literal constants in C where possible
-6. **Range check optimization**: GCC transforms `a<=x<=b` to cmp/hi (different strategy)
+3. **Multi-branch tail calls**: Only single-path optimized
+4. **Delay slot fill**: GCC fills slots original leaves as nop (-mnofill helps partially)
+5. **Extern vs constant pool**: Ghidra externs -> use literal constants in C
+6. **Range check optimization**: GCC transforms `a<=x<=b` to cmp/hi
 7. **Multiply**: Must use `<< N` not `* power_of_2`; GCC uses mul.l where original uses mulu.w
-8. **R0-specific insns**: GCC uses `and #imm,r0` (1 insn) where original uses multi-insn sequence
-9. **Zero extension**: GCC's RTL combiner removes extu.w when provably unnecessary
-10. **Unfilled rts delay slots**: 14 functions remaining after Patch 21. Root causes: loop-exit backward branch blocks filler (5), lds.l with shared labels (2), complex control flow (5), codegen strategy diff (2). All intractable.
-11. **Callee-save vs stack spill**: Original saves params on stack across calls; GCC uses callee-saved regs (adds push/pop overhead). Affects delta=+1 functions.
+8. **Zero extension**: GCC's RTL combiner removes extu.w when provably unnecessary
+9. **Unfilled rts delay slots**: 14 functions remaining, all intractable
+10. **Callee-save vs stack spill**: GCC uses callee-saved regs where original spills to stack
 
-### Test Harness Results (133 functions)
-See docs/compiler_patches.md for full details and per-function analysis.
-- 38 PASS / 95 FAIL (28% pass rate)
-- Patches 21-22: lds.l reordering + delay slot unfill flags (+3 PASS)
-- Scheduling experiment completed: both schedulers already disabled, no effect
-- bt.s/bf.s: original uses both delayed and non-delayed conditional branches
-- 35 PASS (26%): Opcode-identical match with original binary
-- 21 delta=0 (same count, opcode diffs): scheduling/register allocation ordering
+## Investigation Results (closed)
+1. Post-reload scheduling — no effect
+2. Delay slot filling (reorg.c) — too risky
+3. Register allocation order — identical to original
+4. Constant representation (add vs sub) — same count
+5. Multiply decomposition — shift rewrites applied, remaining gap intractable
+
+## Test Failure Breakdown (95 failures)
+- 21 delta=0 (same count, opcode diffs): scheduling/register allocation
 - 47 delta<0 (our code SHORTER): better optimization than original
 - 24 delta>0 (our code LONGER): C source issues, codegen gaps
-- All delta>0 functions analyzed: none fixable without deep compiler changes
-- All delta=+1 functions (7): unfixable instruction selection diffs (callee-save, byte extraction, loop structure)
-- FUN_060283B8 improved from delta=+6 to +2 via C source restructure
-- **Test expansion exhausted**: 1424 untested .expected files searched; remaining are fall-through prologues, indirect calls (`jsr @r0`/`jsr @r12`), or non-standard calling conventions
+- Ghidra decompilations are NOT sacred — correcting C to match original intent is valid
 
-### Binary Build Pipeline
-Build a patched Daytona USA disc image with verified C functions replacing original assembly:
-```bash
-MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash tools/build_iso.sh
-```
-Pipeline: `src/*.c` → cc1 → sh-elf-as → sh-elf-ld → sh-elf-objcopy → binary compare → patch APROG.BIN → patch ISO
-- L3 match (byte-identical): patched directly
-- L2 match (structural, displacement-only diffs): patched with displacement fixing
-- Output: `build/disc/daytona_patched.iso` (load in Saturn emulator)
-- APROG.BIN located at ISO offset 0xA800 (sector 21), 394,896 bytes
+---
 
-### Architecture
+# Reference: Architecture
+
 - Main loop at `main` (0x06003000) is a **32-state machine** dispatching through jump table
 - All arithmetic is **32-bit fixed-point integer** (no FPU on SH-2)
 - Three courses with parallel code paths (CS0/CS1/CS2)
 - Common object struct: X/Y/Z at +0x10/+0x14/+0x18, rotation at +0x1C/+0x20/+0x24
 - See `docs/subsystem_map.md` for full details
+- ~40 game state handlers (0x060088CC-0x06009E60) missing from Ghidra export
 
-### Known Gaps
-- ~40 game state handler functions (0x060088CC-0x06009E60) missing from Ghidra export - need re-export
-
-### SH-2 Calling Convention
+## SH-2 Calling Convention
 - r0 = return value
 - r4-r7 = arguments
 - r0-r7 = caller-saved
