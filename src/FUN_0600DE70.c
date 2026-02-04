@@ -36,7 +36,7 @@ void FUN_0600de70()
 
   puVar1 = 0x0607E944;
 
-  uVar7 = (*(void(*)())0x06035340)();
+  uVar7 = (*(int(*)())0x06035340)();
 
   *(short *)0x060786CA = uVar7;
 
@@ -46,7 +46,7 @@ void FUN_0600de70()
 
   puVar9 = 0x06078900 + DAT_0600deb2;
 
-  for (uVar10 = 0; uVar10 < (unsigned char)*0x06078634; uVar10 = uVar10 + 1) {
+  for (uVar10 = 0; uVar10 < (unsigned char)*(int *)0x06078634; uVar10 = uVar10 + 1) {
 
     if (*(int *)0x06078635 == '\0') {
 
@@ -86,21 +86,21 @@ void FUN_0600de70()
 
   }
 
-  (*(void(*)())0x0600A8BC)();
+  (*(int(*)())0x0600A8BC)();
 
   if (*(int *)0x06083255 == '\0') {
 
-    (*(void(*)())0x0602F7EA)();
+    (*(int(*)())0x0602F7EA)();
 
   }
 
   else {
 
-    (*(void(*)())0x06034900)();
+    (*(int(*)())0x06034900)();
 
   }
 
-  (*(void(*)())0x0602F99C)();
+  (*(int(*)())0x0602F99C)();
 
   FUN_0600e0c0();
 

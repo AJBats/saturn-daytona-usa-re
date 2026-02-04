@@ -27,7 +27,7 @@ int FUN_0600d84c()
 
     if ((iVar3 == iVar4) || (iVar3 == iVar4 + 2)) {
 
-      iVar1 = (int)DAT_0600d896;
+      iVar1 = 0x1e8;
 
       *(int *)(iVar2 + iVar1) = iVar3;
 
@@ -41,7 +41,7 @@ int FUN_0600d84c()
 
   else {
 
-    iVar1 = (int)DAT_0600d896;
+    iVar1 = 0x1e8;
 
     *(int *)(iVar2 + iVar1) = iVar3;
 

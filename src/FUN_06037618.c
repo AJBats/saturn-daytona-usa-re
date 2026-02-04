@@ -34,7 +34,7 @@ int FUN_06037618(param_1)
 
     bVar2 = bVar2 + 1;
 
-    *(int *)(param_1 + uVar1 * 4 + 0xc) = 0;
+    *(int *)(param_1 + (uVar1 << 2) + 0xc) = 0;
 
   } while (bVar2 < 0x10);
 

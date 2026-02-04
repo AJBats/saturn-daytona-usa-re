@@ -15,7 +15,7 @@ void FUN_0603072e(param_1, param_2)
 
   *(int *)(DAT_06030742 + unaff_r14) = param_2;
 
-  (*(void(*)())(*(int *)(0x06030F1C + param_1 * 4)))();
+  (*(int(*)())(*(int *)(0x06030F1C + (param_1 << 2))))();
 
   return;
 

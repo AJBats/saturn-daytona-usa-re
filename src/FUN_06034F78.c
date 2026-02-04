@@ -25,7 +25,7 @@ void FUN_06034f78()
 
   do {
 
-    uVar3 = uVar3 * 2 + 1;
+    uVar3 = (uVar3 << 1) + 1;
 
     uVar5 = uVar4 << 1;
 
@@ -35,7 +35,7 @@ void FUN_06034f78()
 
     uVar1 = uVar1 - 2;
 
-    uVar3 = uVar3 * 2 + 1;
+    uVar3 = (uVar3 << 1) + 1;
 
     uVar5 = uVar4;
 
@@ -51,7 +51,7 @@ void FUN_06034f78()
 
     do {
 
-      uVar5 = uVar5 * 2 + 1;
+      uVar5 = (uVar5 << 1) + 1;
 
       uVar1 = uVar3 << 1;
 
@@ -61,7 +61,7 @@ void FUN_06034f78()
 
       iVar2 = iVar2 + -2;
 
-      uVar5 = uVar5 * 2 + 1;
+      uVar5 = (uVar5 << 1) + 1;
 
       uVar1 = uVar3;
 

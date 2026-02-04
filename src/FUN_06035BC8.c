@@ -35,7 +35,7 @@ void FUN_06035bc8()
 
     uVar3 = uVar1 << 0x15;
 
-    uVar1 = (uVar1 << 1) >> 0xc | iVar2 * 0x100000;
+    uVar1 = (uVar1 << 1) >> 0xc | (iVar2 << 20);
 
   }
 

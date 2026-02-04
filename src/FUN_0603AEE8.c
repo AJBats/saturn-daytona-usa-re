@@ -22,7 +22,7 @@ int FUN_0603aee8(param_1)
 
   puVar1 = 0x060A4D14;
 
-  if ((*(int *)(*(int *)0x060A4D14 + (int)DAT_0603af70) == 0) ||
+  if ((*(int *)(*(int *)0x060A4D14 + 0xa0) == 0) ||
 
      ((-1 < param_1 && (param_1 < *(int *)(*(int *)0x060A4D14 + (int)DAT_0603af72))))) {
 
@@ -38,21 +38,21 @@ int FUN_0603aee8(param_1)
 
     else {
 
-      if (*(int *)(*(int *)puVar1 + (int)DAT_0603af70) == 0) {
+      if (*(int *)(*(int *)puVar1 + 0xa0) == 0) {
 
         uVar3 = 0;
 
       }
 
-      else if (*(int *)(*(int *)puVar1 + (int)PTR_DAT_0603af74) == 0) {
+      else if (*(int *)(*(int *)puVar1 + 0x98) == 0) {
 
-        uVar3 = (*(void(*)())0x0603F1E0)(param_1,*(int *)(*(int *)puVar1 + (int)DAT_0603af70));
+        uVar3 = (*(int(*)())0x0603F1E0)(param_1,*(int *)(*(int *)puVar1 + 0xa0));
 
       }
 
       else {
 
-        uVar3 = (*(void(*)())0x0603F1F0)(param_1,*(int *)(*(int *)puVar1 + (int)DAT_0603af70));
+        uVar3 = (*(int(*)())0x0603F1F0)(param_1,*(int *)(*(int *)puVar1 + 0xa0));
 
       }
 

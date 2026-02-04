@@ -12,7 +12,7 @@ char * FUN_06033020(param_1)
 
   puVar3 = 0x00003333;
 
-  if ((0x00000001 & (int)(char)*0x06082A25) == 0) {
+  if ((0x00000001 & (int)(char)*(int *)0x06082A25) == 0) {
 
     puVar3 = (char *)0x0;
 

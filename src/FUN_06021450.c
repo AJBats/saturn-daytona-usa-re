@@ -165,7 +165,7 @@ void FUN_06021450()
 
   uVar1 = DAT_06021520;
 
-  iVar24 = (int)DAT_06021524;
+  iVar24 = 0x140;
 
   uVar18 = 0;
 
@@ -209,7 +209,7 @@ void FUN_06021450()
 
       puVar15 = local_34;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)((int)puVar15 + 0x16) = uVar14;
 
@@ -287,7 +287,7 @@ void FUN_06021450()
 
       *(short *)((int)puVar17 + 0x16) = 0;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       uVar20 = uVar20 + 1;
 
@@ -319,15 +319,15 @@ void FUN_06021450()
 
       local_34[4] = uVar18;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3 + 0x14) = uVar14;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3_00 + 0x16) = uVar14;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       *(unsigned int *)(puVar23 + iVar21) = uVar18;
 
@@ -347,7 +347,7 @@ void FUN_06021450()
 
       local_34 = (int *)(puVar3 + (short)((short)uVar20 * 0x18));
 
-      puStack_30 = (unsigned int *)(0x06050914 + uStack_2c * 0x10);
+      puStack_30 = (unsigned int *)(0x06050914 + (uStack_2c << 4));
 
       *local_34 = *puStack_30;
 
@@ -361,11 +361,11 @@ void FUN_06021450()
 
       *(short *)(local_34 + 5) = (short)uVar18;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3_01 + 0x16) = uVar14;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       *(unsigned int *)(puVar23 + iVar21) = uVar18;
 
@@ -431,7 +431,7 @@ void FUN_06021450()
 
     *(int *)(puVar7 + 0x6c) = 10;
 
-    iVar21 = (int)DAT_060218e2;
+    iVar21 = 0x88;
 
     *(char **)(puVar7 + iVar21) = 0x0000CCCC;
 
@@ -459,7 +459,7 @@ void FUN_06021450()
 
       *(short *)((int)puVar17 + 0x16) = 0;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       uVar20 = uVar20 + 1;
 
@@ -479,7 +479,7 @@ void FUN_06021450()
 
       local_34 = (int *)(puVar3 + (short)((short)uVar20 * 0x18));
 
-      puStack_30 = (unsigned int *)(0x06050974 + uStack_2c * 0x10);
+      puStack_30 = (unsigned int *)(0x06050974 + (uStack_2c << 4));
 
       *local_34 = *puStack_30;
 
@@ -493,11 +493,11 @@ void FUN_06021450()
 
       *(short *)(local_34 + 5) = (short)uVar18;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3_02 + 0x16) = uVar14;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       *(unsigned int *)(puVar23 + iVar21) = uVar18;
 
@@ -515,7 +515,7 @@ void FUN_06021450()
 
       local_34 = (int *)(puVar3 + (short)((short)uVar20 * 0x18));
 
-      puStack_30 = (unsigned int *)(0x06050944 + uStack_2c * 0x10);
+      puStack_30 = (unsigned int *)(0x06050944 + (uStack_2c << 4));
 
       *local_34 = *puStack_30;
 
@@ -529,11 +529,11 @@ void FUN_06021450()
 
       *(short *)(local_34 + 5) = (short)uVar18;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3_03 + 0x16) = uVar14;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       *(unsigned int *)(puVar23 + iVar21) = uVar18;
 
@@ -551,7 +551,7 @@ void FUN_06021450()
 
       local_34 = (int *)(puVar3 + (short)((short)uVar20 * 0x18));
 
-      puStack_30 = (unsigned int *)(0x06050A34 + uStack_2c * 0x10);
+      puStack_30 = (unsigned int *)(0x06050A34 + (uStack_2c << 4));
 
       *local_34 = *puStack_30;
 
@@ -565,11 +565,11 @@ void FUN_06021450()
 
       *(short *)(local_34 + 5) = (short)uVar18;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3_04 + 0x16) = uVar14;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       *(unsigned int *)(puVar23 + iVar21) = uVar18;
 
@@ -589,7 +589,7 @@ void FUN_06021450()
 
       local_34 = (int *)(puVar3 + (short)((short)uVar20 * 0x18));
 
-      puStack_30 = (unsigned int *)(0x06050A84 + uStack_2c * 0x10);
+      puStack_30 = (unsigned int *)(0x06050A84 + (uStack_2c << 4));
 
       *local_34 = *puStack_30;
 
@@ -603,11 +603,11 @@ void FUN_06021450()
 
       *(short *)(local_34 + 5) = (short)uVar18;
 
-      uVar14 = (*(void(*)())0x06034FE0)();
+      uVar14 = (*(int(*)())0x06034FE0)();
 
       *(short *)(extraout_r3_05 + 0x16) = uVar14;
 
-      iVar21 = uVar20 * 4;
+      iVar21 = (uVar20 << 2);
 
       *(unsigned int *)(puVar23 + iVar21) = uVar18;
 
@@ -665,11 +665,11 @@ void FUN_06021450()
 
     piVar25 = (int *)ppuVar11;
 
-    piVar25[1] = uVar20 * 8 + *piVar25;
+    piVar25[1] = (uVar20 << 3) + *piVar25;
 
     piVar25[-9] = (int)(piVar25 + -9);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-10] = 0x33333333;
 
@@ -677,19 +677,19 @@ void FUN_06021450()
 
     piVar25[-0xc] = (int)(piVar25 + -7);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x13] = (int)(piVar25 + -0x13);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x16] = (int)(piVar25 + -0x16);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x17] = (int)(piVar25 + -0x12);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x18] = 0x9999999A;
 
@@ -697,11 +697,11 @@ void FUN_06021450()
 
     piVar25[-0x1a] = (int)(piVar25 + -0x15);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x1b] = (int)(piVar25 + -0x16);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     piVar25[-0x1c] = 0;
 
@@ -709,9 +709,9 @@ void FUN_06021450()
 
     piVar25[-0x1e] = (int)(piVar25 + -0x19);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     iVar21 = uVar20 + 1;
 
@@ -721,11 +721,11 @@ void FUN_06021450()
 
     *(short *)(piVar25[-0x1d] + 6) = uVar2;
 
-    piVar25[-0x1d] = iVar21 * 8 + piVar25[-0x1e];
+    piVar25[-0x1d] = (iVar21 << 3) + piVar25[-0x1e];
 
     piVar25[-0x27] = (int)(piVar25 + -0x27);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x28] = 0x33333333;
 
@@ -733,19 +733,19 @@ void FUN_06021450()
 
     piVar25[-0x2a] = (int)(piVar25 + -0x25);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x31] = (int)(piVar25 + -0x31);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x34] = (int)(piVar25 + -0x34);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x35] = (int)(piVar25 + -0x30);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x36] = 0x9999999A;
 
@@ -753,11 +753,11 @@ void FUN_06021450()
 
     piVar25[-0x38] = (int)(piVar25 + -0x33);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x39] = (int)(piVar25 + -0x34);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     piVar25[-0x3a] = 0;
 
@@ -765,9 +765,9 @@ void FUN_06021450()
 
     piVar25[-0x3c] = (int)(piVar25 + -0x37);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     iVar21 = iVar21 + 1;
 
@@ -777,11 +777,11 @@ void FUN_06021450()
 
     *(short *)(piVar25[-0x3b] + 6) = uVar2;
 
-    piVar25[-0x3b] = iVar21 * 8 + piVar25[-0x3c];
+    piVar25[-0x3b] = (iVar21 << 3) + piVar25[-0x3c];
 
     piVar25[-0x45] = (int)(piVar25 + -0x45);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x46] = 0x33333333;
 
@@ -789,19 +789,19 @@ void FUN_06021450()
 
     piVar25[-0x48] = (int)(piVar25 + -0x43);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x4f] = (int)(piVar25 + -0x4f);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x52] = (int)(piVar25 + -0x52);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar25[-0x53] = (int)(piVar25 + -0x4e);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x54] = 0x9999999A;
 
@@ -809,11 +809,11 @@ void FUN_06021450()
 
     piVar25[-0x56] = (int)(piVar25 + -0x51);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar25[-0x57] = (int)(piVar25 + -0x52);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     piVar25[-0x58] = 0;
 
@@ -823,9 +823,9 @@ void FUN_06021450()
 
     piVar25[-0x5a] = (int)(piVar25 + -0x55);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     *extraout_r3_08 = uVar13;
 
@@ -851,11 +851,11 @@ void FUN_06021450()
 
   for (; uVar20 < 0x28; uVar20 = uVar20 + 1) {
 
-    *(unsigned int *)((int)piVar31 + 0xc) = uVar20 * 8 + *(int *)((int)piVar31 + 0x10);
+    *(unsigned int *)((int)piVar31 + 0xc) = (uVar20 << 3) + *(int *)((int)piVar31 + 0x10);
 
     *(char **)((int)piVar31 + -0x24) = (char *)((int)piVar31 + -0x24);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     *(int *)((int)piVar31 + -0x28) = 0x33333333;
 
@@ -863,19 +863,19 @@ void FUN_06021450()
 
     *(char **)((int)piVar31 + -0x30) = (char *)((int)piVar31 + -0x1c);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     *(char **)((int)piVar31 + -0x4c) = (char *)((int)piVar31 + -0x4c);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     *(char **)((int)piVar31 + -0x58) = (char *)((int)piVar31 + -0x58);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     *(char **)((int)piVar31 + -0x5c) = (char *)((int)piVar31 + -0x48);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     *(int *)((int)piVar31 + -0x60) = 0x9999999A;
 
@@ -883,11 +883,11 @@ void FUN_06021450()
 
     *(char **)((int)piVar31 + -0x68) = (char *)((int)piVar31 + -0x54);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     *(char **)((int)piVar31 + -0x6c) = (char *)((int)piVar31 + -0x58);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     *(int *)((int)piVar31 + -0x70) = 0;
 
@@ -897,9 +897,9 @@ void FUN_06021450()
 
     *(char **)((int)piVar31 + -0x78) = (char *)((int)piVar31 + -100);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     *extraout_r3_09 = uVar13;
 
@@ -923,11 +923,11 @@ void FUN_06021450()
 
   do {
 
-    *piVar26 = uVar20 * 8 + piVar26[1] + iVar24;
+    *piVar26 = (uVar20 << 3) + piVar26[1] + iVar24;
 
     piVar26[-9] = (int)(piVar26 + -9);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar26[-10] = 0x9999999A;
 
@@ -935,19 +935,19 @@ void FUN_06021450()
 
     piVar26[-0xc] = (int)(piVar26 + -7);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar26[-0x13] = (int)(piVar26 + -0x13);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar26[-0x16] = (int)(piVar26 + -0x16);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar26[-0x17] = (int)(piVar26 + -0x12);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar26[-0x18] = 0x9999999A;
 
@@ -955,11 +955,11 @@ void FUN_06021450()
 
     piVar26[-0x1a] = (int)(piVar26 + -0x15);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar26[-0x1b] = (int)(piVar26 + -0x16);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     piVar26[-0x1c] = 0;
 
@@ -967,9 +967,9 @@ void FUN_06021450()
 
     piVar26[-0x1e] = (int)(piVar26 + -0x19);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     *extraout_r3_10 = uVar13;
 
@@ -979,11 +979,11 @@ void FUN_06021450()
 
     *(short *)(piVar26[-0x1e] + 6) = (short)uVar18;
 
-    piVar26[-0x1e] = iVar21 * 8 + piVar26[-0x1d] + iVar24;
+    piVar26[-0x1e] = (iVar21 << 3) + piVar26[-0x1d] + iVar24;
 
     piVar26[-0x27] = (int)(piVar26 + -0x27);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar26[-0x28] = 0x9999999A;
 
@@ -991,19 +991,19 @@ void FUN_06021450()
 
     piVar26[-0x2a] = (int)(piVar26 + -0x25);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar26[-0x31] = (int)(piVar26 + -0x31);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar26[-0x34] = (int)(piVar26 + -0x34);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar26[-0x35] = (int)(piVar26 + -0x30);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar26[-0x36] = 0x9999999A;
 
@@ -1011,11 +1011,11 @@ void FUN_06021450()
 
     piVar26[-0x38] = (int)(piVar26 + -0x33);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar26[-0x39] = (int)(piVar26 + -0x34);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     piVar26[-0x3a] = 0;
 
@@ -1039,9 +1039,9 @@ void FUN_06021450()
 
     *piVar28 = (int)piVar16;
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     *extraout_r3_11 = uVar13;
 
@@ -1057,11 +1057,11 @@ void FUN_06021450()
 
   for (; uVar20 < 0x1c; uVar20 = uVar20 + 1) {
 
-    *piVar31 = uVar20 * 8 + piVar31[1] + iVar24;
+    *piVar31 = (uVar20 << 3) + piVar31[1] + iVar24;
 
     piVar31[-9] = (int)(piVar31 + -9);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar31[-10] = 0x9999999A;
 
@@ -1069,19 +1069,19 @@ void FUN_06021450()
 
     piVar31[-0xc] = (int)(piVar31 + -7);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar31[-0x13] = (int)(piVar31 + -0x13);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar31[-0x16] = (int)(piVar31 + -0x16);
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     piVar31[-0x17] = (int)(piVar31 + -0x12);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar31[-0x18] = 0x9999999A;
 
@@ -1089,11 +1089,11 @@ void FUN_06021450()
 
     piVar31[-0x1a] = (int)(piVar31 + -0x15);
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
     piVar31[-0x1b] = (int)(piVar31 + -0x16);
 
-    (*(void(*)())0x06035460)();
+    (*(int(*)())0x06035460)();
 
     piVar31[-0x1c] = 0;
 
@@ -1113,9 +1113,9 @@ void FUN_06021450()
 
     *piVar33 = (int)piVar26;
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar13 = (*(void(*)())0x060357B8)();
+    uVar13 = (*(int(*)())0x060357B8)();
 
     *extraout_r3_12 = uVar13;
 
@@ -1127,7 +1127,7 @@ void FUN_06021450()
 
   *piVar32 = (int)0x06089B18;
 
-  puVar22 = (unsigned int *)(0x06089B18 + iVar24 + uVar20 * 8);
+  puVar22 = (unsigned int *)(0x06089B18 + iVar24 + (uVar20 << 3));
 
   piVar32[1] = (int)(0x06089B18 + DAT_06022116);
 

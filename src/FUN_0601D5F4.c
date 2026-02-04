@@ -33,7 +33,7 @@ int FUN_0601d5f4(param_1, param_2)
 
       if (param_1 == 1) {
 
-        iVar2 = 0xA07000FF + param_2 * 0x100;
+        iVar2 = 0xA07000FF + (param_2 << 8);
 
         iVar1 = 1;
 
@@ -55,7 +55,7 @@ int FUN_0601d5f4(param_1, param_2)
 
       if (param_1 == 2) {
 
-        iVar2 = 0xA17000FF + param_2 * 0x100;
+        iVar2 = 0xA17000FF + (param_2 << 8);
 
         iVar1 = 2;
 
@@ -77,7 +77,7 @@ int FUN_0601d5f4(param_1, param_2)
 
       if (param_1 == 3) {
 
-        iVar2 = 0xA27000FF + param_2 * 0x100;
+        iVar2 = 0xA27000FF + (param_2 << 8);
 
         iVar1 = 3;
 
@@ -119,7 +119,7 @@ int FUN_0601d5f4(param_1, param_2)
 
       if (param_1 == 5) {
 
-        iVar2 = 0xA37000FF + param_2 * 0x100;
+        iVar2 = 0xA37000FF + (param_2 << 8);
 
         iVar1 = 5;
 

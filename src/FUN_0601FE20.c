@@ -25,7 +25,7 @@ void FUN_0601fe20()
 
   puVar1 = 0x0607E940;
 
-  iVar4 = (int)DAT_0601fe96;
+  iVar4 = 0x268;
 
   piVar6 = *(int **)0x060877F4;
 
@@ -33,7 +33,7 @@ void FUN_0601fe20()
 
   *(int *)puVar3 = *piVar6 + -1;
 
-  (*(void(*)())0x060054EA)(piVar6[2]);
+  (*(int(*)())0x060054EA)(piVar6[2]);
 
   iVar5 = piVar6[3];
 
@@ -51,7 +51,7 @@ void FUN_0601fe20()
 
   }
 
-  (*(void(*)())0x0600D280)();
+  (*(int(*)())0x0600D280)();
 
   *(short *)0x06087804 = 2;
 

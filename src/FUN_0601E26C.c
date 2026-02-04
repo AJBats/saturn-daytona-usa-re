@@ -17,7 +17,7 @@ void FUN_0601e26c()
 
   puVar1 = 0x0605DFF4;
 
-  uVar3 = (*(void(*)())0x06005DD4)();
+  uVar3 = (*(int(*)())0x06005DD4)();
 
   *(int *)puVar2 = uVar3;
 
@@ -31,7 +31,7 @@ void FUN_0601e26c()
 
     bVar6 = bVar6 + 1;
 
-    *(unsigned short *)(puVar1 + uVar5 * 2 + 4) = (unsigned short)*(unsigned char *)(*(int *)puVar2 + uVar4);
+    *(unsigned short *)(puVar1 + (uVar5 << 1) + 4) = (unsigned short)*(unsigned char *)(*(int *)puVar2 + uVar4);
 
   } while (bVar6 < 8);
 

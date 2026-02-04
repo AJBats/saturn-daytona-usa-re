@@ -46,7 +46,7 @@ int FUN_060316c4(param_1, param_2, param_3)
 
   if ((int)param_2[3] < (int)param_1[3]) {
 
-    sVar4 = (*(void(*)())0x0602744C)(param_2[4] - param_1[4],param_2[6] - param_1[6]);
+    sVar4 = (*(int(*)())0x0602744C)(param_2[4] - param_1[4],param_2[6] - param_1[6]);
 
     iVar8 = (int)-sVar4;
 
@@ -66,9 +66,9 @@ int FUN_060316c4(param_1, param_2, param_3)
 
     }
 
-    uVar5 = (*(int *)(0x0605BCC8 + (uVar5 >> 9) * 4) - param_3) +
+    uVar5 = (*(int *)(0x0605BCC8 + (uVar5 >> 9) << 2) - param_3) +
 
-            *(int *)(0x0605BCC8 + (uVar7 >> 9) * 4);
+            *(int *)(0x0605BCC8 + (uVar7 >> 9) << 2);
 
     if (0 < (int)uVar5) {
 
@@ -98,7 +98,7 @@ int FUN_060316c4(param_1, param_2, param_3)
 
           param_2[8] = param_1[8];
 
-          iVar2 = (*(void(*)())0x06027344)(uVar7);
+          iVar2 = (*(int(*)())0x06027344)(uVar7);
 
           lVar1 = (long long)(int)(param_1[3] - param_2[3]) * (long long)iVar2;
 
@@ -122,9 +122,9 @@ int FUN_060316c4(param_1, param_2, param_3)
 
       param_2[0xf] = uVar6;
 
-      iVar2 = (*(void(*)())0x06027344)(-iVar8);
+      iVar2 = (*(int(*)())0x06027344)(-iVar8);
 
-      iVar3 = (*(void(*)())0x06027348)(-iVar8);
+      iVar3 = (*(int(*)())0x06027348)(-iVar8);
 
       param_2[4] = uVar7 + ((int)((unsigned long long)((long long)extraout_r3 * (long long)iVar3) >> 0x20) <<
 
@@ -144,9 +144,9 @@ int FUN_060316c4(param_1, param_2, param_3)
 
       param_1[0xf] = uVar6;
 
-      iVar8 = (*(void(*)())0x06027344)(-(int)puVar9);
+      iVar8 = (*(int(*)())0x06027344)(-(int)puVar9);
 
-      in_r0 = (*(void(*)())0x06027348)(-(int)puVar9);
+      in_r0 = (*(int(*)())0x06027348)(-(int)puVar9);
 
       param_1[4] = uVar7 + ((int)((unsigned long long)((long long)extraout_r3_00 * (long long)in_r0) >> 0x20)
 
@@ -162,7 +162,7 @@ int FUN_060316c4(param_1, param_2, param_3)
 
   else {
 
-    sVar4 = (*(void(*)())0x0602744C)(param_1[4] - param_2[4],param_1[6] - param_2[6]);
+    sVar4 = (*(int(*)())0x0602744C)(param_1[4] - param_2[4],param_1[6] - param_2[6]);
 
     iVar8 = (int)-sVar4;
 
@@ -184,9 +184,9 @@ int FUN_060316c4(param_1, param_2, param_3)
 
     }
 
-    uVar5 = (*(int *)(0x0605BCC8 + (uVar5 >> 9) * 4) - param_3) +
+    uVar5 = (*(int *)(0x0605BCC8 + (uVar5 >> 9) << 2) - param_3) +
 
-            *(int *)(0x0605BCC8 + (uVar6 >> 9) * 4);
+            *(int *)(0x0605BCC8 + (uVar6 >> 9) << 2);
 
     if (0 < (int)uVar5) {
 
@@ -228,7 +228,7 @@ int FUN_060316c4(param_1, param_2, param_3)
 
           param_1[10] = uVar6;
 
-          iVar2 = (*(void(*)())0x06027344)(uVar7);
+          iVar2 = (*(int(*)())0x06027344)(uVar7);
 
           lVar1 = (long long)(int)(param_2[3] - param_1[3]) * (long long)iVar2;
 
@@ -252,9 +252,9 @@ int FUN_060316c4(param_1, param_2, param_3)
 
       param_1[0xf] = uVar6;
 
-      iVar2 = (*(void(*)())0x06027344)(-iVar8);
+      iVar2 = (*(int(*)())0x06027344)(-iVar8);
 
-      iVar3 = (*(void(*)())0x06027348)(-iVar8);
+      iVar3 = (*(int(*)())0x06027348)(-iVar8);
 
       param_1[4] = uVar7 + ((int)((unsigned long long)((long long)extraout_r3_01 * (long long)iVar3) >> 0x20)
 
@@ -274,9 +274,9 @@ int FUN_060316c4(param_1, param_2, param_3)
 
       param_2[0xf] = uVar6;
 
-      iVar8 = (*(void(*)())0x06027344)(-(int)puVar9);
+      iVar8 = (*(int(*)())0x06027344)(-(int)puVar9);
 
-      in_r0 = (*(void(*)())0x06027348)(-(int)puVar9);
+      in_r0 = (*(int(*)())0x06027348)(-(int)puVar9);
 
       param_2[4] = uVar7 + ((int)((unsigned long long)((long long)extraout_r3_02 * (long long)in_r0) >> 0x20)
 

@@ -38,11 +38,11 @@ void FUN_060103b8(param_1)
 
   puVar1 = 0x0602766C;
 
-  iVar4 = (int)PTR_DAT_06010440;
+  iVar4 = 0xc0;
 
   if (*(int *)puVar2 == 0) {
 
-    (*(void(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D05C,iVar4);
+    (*(int(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D05C,iVar4);
 
     puVar3 = (int *)0x0605D088;
 
@@ -50,13 +50,13 @@ void FUN_060103b8(param_1)
 
   else {
 
-    (*(void(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D084,iVar4);
+    (*(int(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D084,iVar4);
 
     puVar3 = (int *)0x0605D060;
 
   }
 
-  (*(void(*)())puVar1)(*(int *)0x06078880,*puVar3,iVar4);
+  (*(int(*)())puVar1)(*(int *)0x06078880,*puVar3,iVar4);
 
   return;
 

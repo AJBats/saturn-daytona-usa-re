@@ -23,11 +23,11 @@ int FUN_0600ceba()
 
   *(int *)(iVar4 + iVar2 + 0x6c) = *(int *)(iVar4 + iVar2 + 0x68);
 
-  *(unsigned int *)(iVar4 + iVar2 + 0x68) = (unsigned int)*(unsigned short *)(*(int *)(iVar4 + iVar2) * 4 + iVar3);
+  *(unsigned int *)(iVar4 + iVar2 + 0x68) = (unsigned int)*(unsigned short *)(*(int *)(iVar4 + iVar2) << 2 + iVar3);
 
-  (*(void(*)())0x06035228)();
+  (*(int(*)())0x06035228)();
 
-  (*(void(*)())0x06035228)();
+  (*(int(*)())0x06035228)();
 
   iVar2 = DAT_0600cf40 + -4;
 
@@ -37,7 +37,7 @@ int FUN_0600ceba()
 
   if ((0 < iVar3) && (*(int *)0x0607EA9C + -0x10 < iVar3)) {
 
-    iVar2 = (int)DAT_0600cf42;
+    iVar2 = 0x228;
 
     iVar3 = *(int *)(iVar4 + iVar2) + 1;
 

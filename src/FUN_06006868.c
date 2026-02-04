@@ -45,25 +45,25 @@ unsigned int FUN_06006868()
 
   puVar3 = 0x06089E96;
 
-  uVar8 = *(int *)(0x06062248 + *(int *)puVar2 * 8);
+  uVar8 = *(int *)(0x06062248 + *(int *)((int)(int)puVar2 << 3));
 
-  uVar5 = *(int *)(0x06062248 + (*(int *)puVar2 * 2 + 1) * 4);
+  uVar5 = *(int *)(0x06062248 + (*(int *)((int)(int)puVar2 << 1) + 1) << 2);
 
-  iVar4 = *(int *)(0x06062260 + *(int *)puVar2 * 0x10);
+  iVar4 = *(int *)(0x06062260 + *(int *)((int)(int)puVar2 << 4));
 
-  iVar11 = *(int *)puVar2 * 4;
+  iVar11 = *(int *)((int)(int)puVar2 << 2);
 
-  iVar9 = *(int *)(0x06062260 + (iVar11 + 1) * 4);
+  iVar9 = *(int *)(0x06062260 + (iVar11 + 1) << 2);
 
-  iVar6 = *(int *)(0x06062260 + (iVar11 + 2) * 4);
+  iVar6 = *(int *)(0x06062260 + (iVar11 + 2) << 2);
 
-  iVar11 = *(int *)(0x06062260 + (iVar11 + 3) * 4);
+  iVar11 = *(int *)(0x06062260 + (iVar11 + 3) << 2);
 
   uVar10 = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
 
   uVar12 = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
 
-  iVar7 = uVar12 * 0x40 + uVar10;
+  iVar7 = (uVar12 << 6) + uVar10;
 
   iStack_28 = 0x40;
 
@@ -103,21 +103,21 @@ unsigned int FUN_06006868()
 
     for (iVar15 = iStack_24; iVar15 <= iStack_40; iVar15 = iVar15 + 1) {
 
-      sVar1 = *(short *)(iVar14 * 2 + iVar6);
+      sVar1 = *(short *)((iVar14 << 1) + iVar6);
 
-      if (0 < *(short *)(iVar4 + iVar14 * 2)) {
+      if (0 < *(short *)(iVar4 + (iVar14 << 1))) {
 
-        iVar13 = *(int *)(0x06062230 + *(int *)puVar2 * 8) + *(int *)(iVar9 + iVar14 * 4);
+        iVar13 = *(int *)(0x06062230 + *(int *)((int)(int)puVar2 << 3)) + *(int *)(iVar9 + (iVar14 << 2));
 
         if (*(int *)puVar2 == 2) {
 
-          uVar10 = (*(void(*)())0x0602B328)(iVar13,uVar8,(int)*(short *)puVar3);
+          uVar10 = (*(int(*)())0x0602B328)(iVar13,uVar8,(int)*(short *)puVar3);
 
         }
 
         else {
 
-          uVar10 = (*(void(*)())0x06029BF4)(iVar13,uVar8,(int)*(short *)puVar3);
+          uVar10 = (*(int(*)())0x06029BF4)(iVar13,uVar8,(int)*(short *)puVar3);
 
         }
 
@@ -125,19 +125,19 @@ unsigned int FUN_06006868()
 
       if (0 < sVar1) {
 
-        iVar13 = *(int *)(0x06062230 + (*(int *)puVar2 * 2 + 1) * 4) +
+        iVar13 = *(int *)(0x06062230 + (*(int *)((int)(int)puVar2 << 1) + 1) << 2) +
 
-                 *(int *)(iVar11 + iVar14 * 4);
+                 *(int *)(iVar11 + (iVar14 << 2));
 
         if (*(int *)puVar2 == 2) {
 
-          uVar10 = (*(void(*)())0x0602AF3C)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
+          uVar10 = (*(int(*)())0x0602AF3C)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
 
         }
 
         else {
 
-          uVar10 = (*(void(*)())0x0602A834)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
+          uVar10 = (*(int(*)())0x0602A834)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
 
         }
 
@@ -155,23 +155,23 @@ unsigned int FUN_06006868()
 
     if (iVar4 == 0) {
 
-      (*(void(*)())0x06017814)();
+      (*(int(*)())0x06017814)();
 
     }
 
     else if (iVar4 == 1) {
 
-      (*(void(*)())0x06017CEC)();
+      (*(int(*)())0x06017CEC)();
 
     }
 
     else if (iVar4 == 2) {
 
-      (*(void(*)())0x06018166)();
+      (*(int(*)())0x06018166)();
 
     }
 
-    uVar10 = (*(void(*)())0x06022140)();
+    uVar10 = (*(int(*)())0x06022140)();
 
     return uVar10;
 

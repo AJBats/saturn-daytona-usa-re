@@ -25,13 +25,13 @@ int FUN_0600a294()
 
     iVar1 = 1;
 
-    if (*(int *)0x0607EBCC == (int)DAT_0600a2e0) {
+    if (*(int *)0x0607EBCC == 0x371) {
 
       *(short *)0x0605A016 = 3;
 
     }
 
-    else if (*(int *)0x0607EBCC == (int)DAT_0600a2e2) {
+    else if (*(int *)0x0607EBCC == 0x352) {
 
       *(short *)0x0605A016 = 4;
 
@@ -45,13 +45,13 @@ int FUN_0600a294()
 
     if (iVar1 == 2) {
 
-      if (*(int *)0x0607EBCC == (int)PTR_DAT_0600a2e4) {
+      if (*(int *)0x0607EBCC == 0x3ab) {
 
         *(short *)0x0605A016 = 3;
 
       }
 
-      else if (*(int *)0x0607EBCC == (int)DAT_0600a36a) {
+      else if (*(int *)0x0607EBCC == 0x398) {
 
         *(short *)0x0605A016 = 4;
 

@@ -39,7 +39,7 @@ int FUN_0601d7d0()
 
   iVar7 = *(int *)(0x0604A50C +
 
-                  *(int *)0x0605AD00 * 4 +
+                  *(int *)(0x0605AD00 << 2) +
 
                   (int)(char)((char)*(int *)0x0607EAD8 * '\f'));
 

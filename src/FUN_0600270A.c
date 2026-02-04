@@ -37,7 +37,7 @@ void FUN_0600270a(param_1, param_2)
 
   else if (param_2 == 1) {
 
-    iVar2 = in_r2 * 0x10 + in_r0 + 2;
+    iVar2 = (in_r2 << 4) + in_r0 + 2;
 
     do {
 

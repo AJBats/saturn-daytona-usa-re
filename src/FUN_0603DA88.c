@@ -7,7 +7,7 @@ char * FUN_0603da88()
 
   int iVar3;
 
-  puVar1 = (char *)(*(void(*)())0x06036BE4)();
+  puVar1 = (char *)(*(int(*)())0x06036BE4)();
 
   puVar2 = 0x00010000;
 
@@ -17,7 +17,7 @@ char * FUN_0603da88()
 
       if ((int)0x00B40000 < (int)puVar1) {
 
-        iVar3 = (*(void(*)())0x0604249C)(puVar1 + 0xFF4C0000);
+        iVar3 = (*(int(*)())0x0604249C)(puVar1 + 0xFF4C0000);
 
         puVar2 = (char *)-iVar3;
 
@@ -31,13 +31,13 @@ char * FUN_0603da88()
 
           if ((int)puVar1 < (int)0x005A0000) {
 
-            puVar2 = (char *)(*(void(*)())0x0604249C)(puVar1);
+            puVar2 = (char *)(*(int(*)())0x0604249C)(puVar1);
 
           }
 
           else {
 
-            iVar3 = (*(void(*)())0x0604249C)((int)0x00B40000 - (int)puVar1);
+            iVar3 = (*(int(*)())0x0604249C)((int)0x00B40000 - (int)puVar1);
 
             puVar2 = (char *)-iVar3;
 
@@ -51,7 +51,7 @@ char * FUN_0603da88()
 
     else {
 
-      puVar2 = (char *)(*(void(*)())0x0604249C)((int)0x01680000 - (int)puVar1);
+      puVar2 = (char *)(*(int(*)())0x0604249C)((int)0x01680000 - (int)puVar1);
 
     }
 

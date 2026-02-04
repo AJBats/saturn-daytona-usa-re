@@ -31,11 +31,11 @@ unsigned int FUN_0602648e()
 
   do {
 
-    uVar6 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)uVar8 * 8 + 6) - (int)DAT_060264ee;
+    uVar6 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(uVar8 << 3) + 6) - 0x8a;
 
     if (0xb < uVar6) goto LAB_06026508;
 
-    uVar1 = (&switchD_060264ea::switchdataD_060264f0)[uVar6];
+    uVar1 = ((int *)0x060264f0)[uVar6];
 
     uVar7 = SUB42(puVar5,0);
 

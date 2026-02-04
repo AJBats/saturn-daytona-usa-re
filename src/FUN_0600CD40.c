@@ -21,13 +21,13 @@ int * FUN_0600cd40()
 
   *(unsigned int *)(iVar4 + DAT_0600cdc0) = (unsigned int)*(unsigned short *)((int)piVar3 + 0x16);
 
-  sVar1 = (*(void(*)())0x0602744C)(*(int *)(iVar4 + 0x10) - *piVar3,piVar3[1] - *(int *)(iVar4 + 0x18));
+  sVar1 = (*(int(*)())0x0602744C)(*(int *)(iVar4 + 0x10) - *piVar3,piVar3[1] - *(int *)(iVar4 + 0x18));
 
   iVar2 = (int)sVar1 + *(short *)((int)piVar3 + 0xe) * -4;
 
   if (iVar2 < 0) {
 
-    iVar2 = *(short *)((int)piVar3 + 0xe) * 4 - (int)sVar1;
+    iVar2 = *(short *)((int)piVar3 + 0xe) << 2 - (int)sVar1;
 
   }
 

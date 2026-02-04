@@ -43,7 +43,7 @@ int FUN_06028400(param_1, param_2, param_3, param_4)
 
     iVar3 = iVar3 + -1;
 
-    puVar5 = (short *)((int)puVar5 - (iVar4 * 2 + -0x80));
+    puVar5 = (short *)((int)puVar5 - ((iVar4 << 1) + -0x80));
 
     iVar2 = iVar4;
 

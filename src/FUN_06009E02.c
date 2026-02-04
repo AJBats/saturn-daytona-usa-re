@@ -1,7 +1,7 @@
 extern int counter_0607EBCC;
 extern int state_0605AD10;
-extern void func_0601389E();
-extern void func_06018E70();
+extern int func_0601389E();
+extern int func_06018E70();
 extern char flag_0607864B;
 
 void FUN_06009E02()

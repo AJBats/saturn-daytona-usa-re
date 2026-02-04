@@ -19,7 +19,7 @@ void FUN_06008418()
 
     if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0) {
 
-      (*(void(*)())0x0601D5F4)(0,0xAE1102FF);
+      (*(int(*)())0x0601D5F4)(0,0xAE1102FF);
 
     }
 

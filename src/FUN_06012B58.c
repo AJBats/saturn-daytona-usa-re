@@ -29,7 +29,7 @@ void FUN_06012b58()
 
   while (puVar3 = 0x06084AEC, iVar5 = iVar5 + 1, iVar5 < 5) {
 
-    iVar4 = (*(void(*)())puVar1)(5,puVar2,0x06084360);
+    iVar4 = (*(int(*)())puVar1)(5,puVar2,0x06084360);
 
   }
 
@@ -41,7 +41,7 @@ void FUN_06012b58()
 
   else {
 
-    iVar4 = (*(void(*)())0x0603AE08)(0x060448C8);
+    iVar4 = (*(int(*)())0x0603AE08)(0x060448C8);
 
     if (iVar4 < 0) {
 

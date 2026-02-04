@@ -1,3 +1,4 @@
+extern int Onchip_DMA0R;
 void FUN_06042a8c(param_1)
     unsigned int *param_1;
 {

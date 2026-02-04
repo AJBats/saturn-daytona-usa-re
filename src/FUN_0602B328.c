@@ -131,7 +131,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     uVar20 = in_sr & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -173,7 +173,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar24 = uVar3 + uVar21 * 0x10000;
+    uVar24 = uVar3 + (uVar21 << 16);
 
     uVar9 = iVar10 + (unsigned int)(uVar24 < uVar3) + (uVar21 >> 0x10) + (uVar9 >> 0x10) * (uVar22 >> 0x10);
 
@@ -249,7 +249,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar28 = uVar25 + uVar3 * 0x10000;
+    uVar28 = uVar25 + (uVar3 << 16);
 
     uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar3 >> 0x10) + (uVar22 >> 0x10) * (uVar4 >> 0x10)
 
@@ -339,7 +339,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar25 = uVar24 + uVar3 * 0x10000;
+    uVar25 = uVar24 + (uVar3 << 16);
 
     uVar22 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) + (uVar22 >> 0x10) * (uVar4 >> 0x10)
 
@@ -429,7 +429,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar28 = uVar24 + uVar3 * 0x10000;
+    uVar28 = uVar24 + (uVar3 << 16);
 
     uVar22 = iVar10 + (unsigned int)(uVar28 < uVar24) + (uVar3 >> 0x10) + (uVar22 >> 0x10) * (uVar4 >> 0x10)
 
@@ -507,7 +507,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar23 = uVar26 + uVar24 * 0x10000;
+    uVar23 = uVar26 + (uVar24 << 16);
 
     uVar4 = iVar10 + (unsigned int)(uVar23 < uVar26) + (uVar24 >> 0x10) + (uVar4 >> 0x10) * (uVar21 >> 0x10)
 
@@ -599,7 +599,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar25 = uVar24 + uVar3 * 0x10000;
+    uVar25 = uVar24 + (uVar3 << 16);
 
     uVar9 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) + (uVar9 >> 0x10) * (uVar4 >> 0x10);
 
@@ -687,7 +687,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar28 = uVar24 + uVar3 * 0x10000;
+    uVar28 = uVar24 + (uVar3 << 16);
 
     uVar9 = iVar10 + (unsigned int)(uVar28 < uVar24) + (uVar3 >> 0x10) + (uVar9 >> 0x10) * (uVar4 >> 0x10);
 
@@ -763,7 +763,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar23 = uVar26 + uVar24 * 0x10000;
+    uVar23 = uVar26 + (uVar24 << 16);
 
     uVar4 = iVar10 + (unsigned int)(uVar23 < uVar26) + (uVar24 >> 0x10) + (uVar4 >> 0x10) * (uVar21 >> 0x10)
 
@@ -855,7 +855,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    uVar25 = uVar24 + uVar3 * 0x10000;
+    uVar25 = uVar24 + (uVar3 << 16);
 
     uVar22 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) + (uVar22 >> 0x10) * (uVar4 >> 0x10)
 
@@ -957,7 +957,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar24 = uVar3 + uVar21 * 0x10000;
+      uVar24 = uVar3 + (uVar21 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar24 < uVar3) + (uVar21 >> 0x10) +
 
@@ -1035,7 +1035,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar28 = uVar25 + uVar3 * 0x10000;
+      uVar28 = uVar25 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar3 >> 0x10) +
 
@@ -1125,7 +1125,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) +
 
@@ -1215,7 +1215,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar28 = uVar24 + uVar3 * 0x10000;
+      uVar28 = uVar24 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar24) + (uVar3 >> 0x10) +
 
@@ -1295,7 +1295,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) + (uVar9 >> 0x10) * (uVar4 >> 0x10)
 
@@ -1385,7 +1385,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar28 = uVar24 + uVar3 * 0x10000;
+      uVar28 = uVar24 + (uVar3 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar28 < uVar24) + (uVar3 >> 0x10) + (uVar9 >> 0x10) * (uVar4 >> 0x10)
 
@@ -1475,7 +1475,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) + (uVar9 >> 0x10) * (uVar4 >> 0x10)
 
@@ -1555,7 +1555,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar28 = uVar24 + uVar3 * 0x10000;
+      uVar28 = uVar24 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar24) + (uVar3 >> 0x10) +
 
@@ -1645,7 +1645,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) +
 
@@ -1737,7 +1737,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar24 = uVar3 + uVar21 * 0x10000;
+      uVar24 = uVar3 + (uVar21 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar24 < uVar3) + (uVar21 >> 0x10) +
 
@@ -1815,7 +1815,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar28 = uVar25 + uVar3 * 0x10000;
+      uVar28 = uVar25 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar3 >> 0x10) +
 
@@ -1905,7 +1905,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) +
 
@@ -1985,7 +1985,7 @@ LAB_0602b444:
 
       uVar21 = uVar20 & 0xfffffffe;
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -2027,7 +2027,7 @@ LAB_0602b444:
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) +
 
@@ -2105,7 +2105,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar28 + uVar24 * 0x10000;
+      uVar26 = uVar28 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar26 < uVar28) + (uVar24 >> 0x10) +
 
@@ -2195,7 +2195,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -2285,7 +2285,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar25 + uVar24 * 0x10000;
+      uVar26 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar26 < uVar25) + (uVar24 >> 0x10) +
 
@@ -2363,7 +2363,7 @@ LAB_0602b444:
 
       }
 
-      uVar27 = uVar23 + uVar25 * 0x10000;
+      uVar27 = uVar23 + (uVar25 << 16);
 
       uVar4 = iVar10 + (unsigned int)(uVar27 < uVar23) + (uVar25 >> 0x10) +
 
@@ -2455,7 +2455,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -2545,7 +2545,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar25 + uVar24 * 0x10000;
+      uVar26 = uVar25 + (uVar24 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar26 < uVar25) + (uVar24 >> 0x10) +
 
@@ -2623,7 +2623,7 @@ LAB_0602b444:
 
       }
 
-      uVar27 = uVar23 + uVar25 * 0x10000;
+      uVar27 = uVar23 + (uVar25 << 16);
 
       uVar4 = iVar10 + (unsigned int)(uVar27 < uVar23) + (uVar25 >> 0x10) +
 
@@ -2715,7 +2715,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -2785,7 +2785,7 @@ LAB_0602b444:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -2829,7 +2829,7 @@ LAB_0602b444:
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) +
 
@@ -2907,7 +2907,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar28 + uVar24 * 0x10000;
+      uVar26 = uVar28 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar26 < uVar28) + (uVar24 >> 0x10) +
 
@@ -2997,7 +2997,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3087,7 +3087,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar25 + uVar24 * 0x10000;
+      uVar26 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar26 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3165,7 +3165,7 @@ LAB_0602b444:
 
       }
 
-      uVar27 = uVar23 + uVar25 * 0x10000;
+      uVar27 = uVar23 + (uVar25 << 16);
 
       uVar4 = iVar10 + (unsigned int)(uVar27 < uVar23) + (uVar25 >> 0x10) +
 
@@ -3257,7 +3257,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3347,7 +3347,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar25 + uVar24 * 0x10000;
+      uVar26 = uVar25 + (uVar24 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar26 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3425,7 +3425,7 @@ LAB_0602b444:
 
       }
 
-      uVar27 = uVar23 + uVar25 * 0x10000;
+      uVar27 = uVar23 + (uVar25 << 16);
 
       uVar4 = iVar10 + (unsigned int)(uVar27 < uVar23) + (uVar25 >> 0x10) +
 
@@ -3517,7 +3517,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3587,7 +3587,7 @@ LAB_0602b444:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -3629,7 +3629,7 @@ LAB_0602b444:
 
       }
 
-      uVar25 = uVar24 + uVar3 * 0x10000;
+      uVar25 = uVar24 + (uVar3 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar25 < uVar24) + (uVar3 >> 0x10) +
 
@@ -3707,7 +3707,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar28 + uVar24 * 0x10000;
+      uVar26 = uVar28 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar26 < uVar28) + (uVar24 >> 0x10) +
 
@@ -3797,7 +3797,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3887,7 +3887,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar25 + uVar24 * 0x10000;
+      uVar26 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar26 < uVar25) + (uVar24 >> 0x10) +
 
@@ -3965,7 +3965,7 @@ LAB_0602b444:
 
       }
 
-      uVar27 = uVar23 + uVar25 * 0x10000;
+      uVar27 = uVar23 + (uVar25 << 16);
 
       uVar4 = iVar10 + (unsigned int)(uVar27 < uVar23) + (uVar25 >> 0x10) +
 
@@ -4057,7 +4057,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -4147,7 +4147,7 @@ LAB_0602b444:
 
       }
 
-      uVar26 = uVar25 + uVar24 * 0x10000;
+      uVar26 = uVar25 + (uVar24 << 16);
 
       uVar9 = iVar10 + (unsigned int)(uVar26 < uVar25) + (uVar24 >> 0x10) +
 
@@ -4225,7 +4225,7 @@ LAB_0602b444:
 
       }
 
-      uVar27 = uVar23 + uVar25 * 0x10000;
+      uVar27 = uVar23 + (uVar25 << 16);
 
       uVar4 = iVar10 + (unsigned int)(uVar27 < uVar23) + (uVar25 >> 0x10) +
 
@@ -4317,7 +4317,7 @@ LAB_0602b444:
 
       }
 
-      uVar28 = uVar25 + uVar24 * 0x10000;
+      uVar28 = uVar25 + (uVar24 << 16);
 
       uVar22 = iVar10 + (unsigned int)(uVar28 < uVar25) + (uVar24 >> 0x10) +
 
@@ -4399,7 +4399,7 @@ LAB_0602b444:
 
         }
 
-        (*(void(*)())(*(int *)(0x0602B9AC + iVar10 * 4)))(0x06094A30,0x06094A28,puVar16 + 9,puVar16 + 0xc);
+        (*(int(*)())(*(int *)(0x0602B9AC + (iVar10 << 2))))(0x06094A30,0x06094A28,puVar16 + 9,puVar16 + 0xc);
 
         uVar20 = uVar21;
 
@@ -4413,11 +4413,11 @@ LAB_0602b444:
 
       iVar10 = *(int *)0x060620D0;
 
-      puVar12 = (int *)(int)DAT_0602b64c;
+      puVar12 = (int *)-256;
 
       uVar13 = *(int *)(0x06094A30 + 8);
 
-      puVar12[4] = (int)DAT_0602b64e;
+      puVar12[4] = 0xa0;
 
       *puVar12 = uVar13;
 
@@ -4465,11 +4465,11 @@ LAB_0602b444:
 
       }
 
-      puVar12 = (int *)(int)DAT_0602b6d4;
+      puVar12 = (int *)-256;
 
       uVar13 = *(int *)(puVar5 + 0x14);
 
-      puVar12[4] = (int)DAT_0602b6d6;
+      puVar12[4] = 0xa0;
 
       *puVar12 = uVar13;
 
@@ -4515,11 +4515,11 @@ LAB_0602b444:
 
       }
 
-      puVar12 = (int *)(int)DAT_0602b73e;
+      puVar12 = (int *)-256;
 
       uVar13 = *(int *)(puVar5 + 0x20);
 
-      puVar12[4] = (int)DAT_0602b740;
+      puVar12[4] = 0xa0;
 
       *puVar12 = uVar13;
 
@@ -4565,11 +4565,11 @@ LAB_0602b444:
 
       }
 
-      puVar12 = (int *)(int)DAT_0602b7a8;
+      puVar12 = (int *)-256;
 
       uVar13 = *(int *)(puVar5 + 0x2c);
 
-      puVar12[4] = (int)DAT_0602b7aa;
+      puVar12[4] = 0xa0;
 
       *puVar12 = uVar13;
 
@@ -4679,7 +4679,7 @@ LAB_0602b444:
 
             if (iVar11 != 0) {
 
-              (*(void(*)())(*(int *)(0x0602B9BC + iVar11 * 4)))(puVar7,puVar8);
+              (*(int(*)())(*(int *)(0x0602B9BC + (iVar11 << 2))))(puVar7,puVar8);
 
             }
 
@@ -4705,9 +4705,7 @@ LAB_0602b444:
 
             puVar6[iVar10 * 0x18 + 5] = param_3;
 
-            uVar20 = (**(void **)(0x0602B9CC + ((int)*(short *)(puVar17 + -3) & 7U) * 4))
-
-                               (*(int *)(0x06094A30 + 0x14),
+            uVar20 = (*(int(*)())(*(int *)(0x0602B9CC + ((int)*(short *)(puVar17 + -3) & 7U) << 2)))(*(int *)(0x06094A30 + 0x14),
 
                                 *(int *)(0x06094A30 + 0x20),
 

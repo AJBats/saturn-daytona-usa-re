@@ -9,9 +9,9 @@ void FUN_0600dc74()
 
   puVar1 = 0x0605ACE8;
 
-  (*(void(*)())0x060284AE)(8,(int)DAT_0600dc9c,0x60,0x0605ACE8);
+  (*(int(*)())0x060284AE)(8,(int)DAT_0600dc9c,0x60,0x0605ACE8);
 
-  (*(void(*)())0x060284AE)(8,(int)DAT_0600dc9e,0x60,puVar1);
+  (*(int(*)())0x060284AE)(8,(int)DAT_0600dc9e,0x60,puVar1);
 
   return;
 

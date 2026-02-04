@@ -14,7 +14,7 @@ void FUN_060367e8(param_1, param_2, param_3)
 
   short uStack_12;
 
-  (*(void(*)())0x06035E90)(local_18);
+  (*(int(*)())0x06035E90)(local_18);
 
   local_18[0] = 0x61;
 
@@ -24,7 +24,7 @@ void FUN_060367e8(param_1, param_2, param_3)
 
   uStack_12 = param_3;
 
-  (*(void(*)())0x06035EC8)((int)DAT_06036832,local_18);
+  (*(int(*)())0x06035EC8)(0x80,local_18);
 
   return;
 

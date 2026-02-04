@@ -45,13 +45,13 @@ int FUN_0600cdd0()
 
   piVar4 = (int *)(iVar1 * 0x18 + *(int *)(iVar6 + DAT_0600ce8a));
 
-  sVar2 = (*(void(*)())0x0602744C)(*piVar4 - *(int *)(iVar6 + 0x10),*(int *)(iVar6 + 0x18) - piVar4[1]);
+  sVar2 = (*(int(*)())0x0602744C)(*piVar4 - *(int *)(iVar6 + 0x10),*(int *)(iVar6 + 0x18) - piVar4[1]);
 
   iVar3 = (int)sVar2 + *(short *)(iVar5 + 0xe) * -4;
 
   if (iVar3 < 0) {
 
-    iVar3 = *(short *)(iVar5 + 0xe) * 4 - (int)sVar2;
+    iVar3 = *(short *)(iVar5 + 0xe) << 2 - (int)sVar2;
 
   }
 

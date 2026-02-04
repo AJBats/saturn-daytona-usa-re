@@ -43,17 +43,17 @@ void FUN_06007bcc()
 
   for (uVar6 = *(unsigned int *)0x06078620; uVar6 < *(unsigned int *)puVar2; uVar6 = uVar6 + 1) {
 
-    uVar7 = (unsigned int)*(unsigned short *)(0x0606A4F8 + uVar6 * 2);
+    uVar7 = (unsigned int)*(unsigned short *)(0x0606A4F8 + (uVar6 << 1));
 
     if (*(short *)(puVar4 + (uVar7 * 0x18 & 0xffff) + 6) == 9) {
 
-      (*(void(*)())0x060281B8)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5,puVar3);
+      (*(int(*)())0x060281B8)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5,puVar3);
 
     }
 
     else {
 
-      (*(void(*)())puVar1)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5);
+      (*(int(*)())puVar1)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5);
 
     }
 
@@ -65,15 +65,15 @@ void FUN_06007bcc()
 
   if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x20228000) != 0) {
 
-    (*(void(*)())0x060333D8)();
+    (*(int(*)())0x060333D8)();
 
     FUN_06007a50();
 
   }
 
-  (*(void(*)())0x06011DC0)();
+  (*(int(*)())0x06011DC0)();
 
-  (*(void(*)())0x060171AC)();
+  (*(int(*)())0x060171AC)();
 
   return;
 

@@ -39,7 +39,7 @@ void FUN_06025070()
 
     uVar5 = uVar5 + 1;
 
-    puVar8 = (int *)(puVar2 + uVar7 * 8);
+    puVar8 = (int *)(puVar2 + (uVar7 << 3));
 
     *puVar8 = 0;
 
@@ -55,19 +55,19 @@ void FUN_06025070()
 
     uVar6 = 0;
 
-    puVar8 = (int *)(0x06060D7C + (uVar5 & 0xffff) * 8);
+    puVar8 = (int *)(0x06060D7C + (uVar5 & 0xffff) << 3);
 
     uVar4 = (uVar5 & 0xff) * 0xc & 0xff;
 
     do {
 
-      if ((*(unsigned short *)(puVar3 + (unsigned int)uVar6 * 2) & *(unsigned short *)*puVar8) != 0) {
+      if ((*(unsigned short *)(puVar3 + (unsigned int)(uVar6 << 1)) & *(unsigned short *)*puVar8) != 0) {
 
-        puVar9 = (int *)(puVar2 + (unsigned int)uVar6 * 8);
+        puVar9 = (int *)(puVar2 + (unsigned int)(uVar6 << 3));
 
         *puVar9 = *(int *)(puVar1 + uVar4 + 4);
 
-        puVar10 = (unsigned short *)(puVar3 + (unsigned int)uVar6 * 2);
+        puVar10 = (unsigned short *)(puVar3 + (unsigned int)(uVar6 << 1));
 
         *(unsigned short *)(puVar9 + 1) = *puVar10;
 

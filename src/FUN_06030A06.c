@@ -19,7 +19,7 @@ int FUN_06030a06()
 
   iVar2 = *(int *)0x0607E940;
 
-  iVar1 = (int)DAT_06030a3e;
+  iVar1 = 0x250;
 
   if ((*(short *)(iVar2 + iVar1) != 0) &&
 
@@ -27,7 +27,7 @@ int FUN_06030a06()
 
   {
 
-    iVar1 = (int)DAT_06030a42;
+    iVar1 = 0x160;
 
     *(int *)(DAT_06030a40 + iVar2) = 0xFFFF0000;
 

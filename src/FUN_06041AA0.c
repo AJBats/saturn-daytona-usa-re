@@ -22,7 +22,7 @@ int FUN_06041aa0(param_1)
 
   if (*(int *)((int)DAT_06041b0a + *(int *)0x060A5400) == 1) {
 
-    iVar2 = (*(void(*)())0x06036144)(*(int *)(*(int *)0x060A5400 + (int)PTR_DAT_06041b0c));
+    iVar2 = (*(int(*)())0x06036144)(*(int *)(*(int *)0x060A5400 + 0x308));
 
     *param_1 = *param_1 + 1;
 
@@ -32,7 +32,7 @@ int FUN_06041aa0(param_1)
 
     }
 
-    (*(void(*)())0x060349B6)(local_14);
+    (*(int(*)())0x060349B6)(local_14);
 
     *(char *)(*(int *)puVar1 + 0x40) = local_14[0];
 
@@ -40,7 +40,7 @@ int FUN_06041aa0(param_1)
 
   if ((*(int *)((int)DAT_06041b0a + *(int *)puVar1) == 2) &&
 
-     (uVar3 = (*(void(*)())0x06035C4E)(), (uVar3 & 0x40) != 0)) {
+     (uVar3 = (*(int(*)())0x06035C4E)(), (uVar3 & 0x40) != 0)) {
 
     *(int *)(*(int *)puVar1 + (int)DAT_06041bc6) = 0;
 

@@ -11,9 +11,9 @@ int FUN_060067c8()
 
   short uVar4;
 
-  uVar4 = (*(void(*)())0x0601A5F8)();
+  uVar4 = (*(int(*)())0x0601A5F8)();
 
-  (*(void(*)())0x06026590)((int)(char)*0x0605D240,uVar4);
+  (*(int(*)())0x06026590)((int)(char)*(int *)0x0605D240,uVar4);
 
   puVar3 = 0x06063F4A;
 

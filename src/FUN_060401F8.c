@@ -7,7 +7,7 @@ void FUN_060401f8(param_1, param_2)
 
   *(int *)(param_1 + 0x20) = param_2;
 
-  iVar1 = (*(void(*)())0x060408B0)(*(int *)(param_1 + 0x18),0x7FFFFFFF,0);
+  iVar1 = (*(int(*)())0x060408B0)(*(int *)(param_1 + 0x18),0x7FFFFFFF,0);
 
   if (iVar1 < 0) {
 

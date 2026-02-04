@@ -56,7 +56,7 @@ unsigned int FUN_0601476c(param_1)
 
     if (cVar8 == '\x03') {
 
-      *(int *)0x0607EBCC = *(int *)(0x0605B164 + uVar5 * 4);
+      *(int *)0x0607EBCC = *(int *)(0x0605B164 + (uVar5 << 2));
 
       if (uVar5 < 2) {
 
@@ -68,7 +68,7 @@ unsigned int FUN_0601476c(param_1)
 
         puVar4 = 0x0605B4A8 +
 
-                 (short)(((short)uVar5 * 4 + ((unsigned short)*(int *)0x0607EBC8 & 3)) * 3);
+                 (short)(((short)(uVar5 << 2) + ((unsigned short)*(int *)0x0607EBC8 & 3)) * 3);
 
         *puVar1 = *puVar4;
 

@@ -86,7 +86,7 @@ char * FUN_060270f2(param_1, param_2, param_3)
 
     }
 
-    uVar13 = uVar3 + uVar1 * 0x10000;
+    uVar13 = uVar3 + (uVar1 << 16);
 
     uVar12 = iVar2 + (unsigned int)(uVar13 < uVar3) + (uVar1 >> 0x10) + (uVar12 >> 0x10) * (uVar5 >> 0x10);
 
@@ -162,7 +162,7 @@ char * FUN_060270f2(param_1, param_2, param_3)
 
     }
 
-    uVar14 = uVar15 + uVar3 * 0x10000;
+    uVar14 = uVar15 + (uVar3 << 16);
 
     uVar5 = iVar2 + (unsigned int)(uVar14 < uVar15) + (uVar3 >> 0x10) + (uVar5 >> 0x10) * (uVar6 >> 0x10);
 
@@ -252,7 +252,7 @@ char * FUN_060270f2(param_1, param_2, param_3)
 
     }
 
-    uVar15 = uVar13 + uVar3 * 0x10000;
+    uVar15 = uVar13 + (uVar3 << 16);
 
     uVar5 = iVar2 + (unsigned int)(uVar15 < uVar13) + (uVar3 >> 0x10) + (uVar5 >> 0x10) * (uVar6 >> 0x10);
 

@@ -43,7 +43,7 @@ unsigned int FUN_0601950c()
 
   if (*(int *)0x06085FF1 != '\0') {
 
-    (*(void(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_060195ac),0x14,
+    (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_060195ac),0x14,
 
                *(int *)((int)(0x06063750 + DAT_060195ac) + 4) + (int)DAT_060195ae);
 
@@ -53,13 +53,13 @@ unsigned int FUN_0601950c()
 
       if (cVar9 != *puVar4) {
 
-        puVar8 = (int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar1 + cVar9 * 2) * 8);
+        puVar8 = (int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar1 + (cVar9 << 1)) << 3);
 
-        (*(void(*)())puVar2)(0xc,*puVar8,
+        (*(int(*)())puVar2)(0xc,*puVar8,
 
-                          ((unsigned int)(unsigned char)(puVar5 + cVar9 * 2)[1] * 0x40 +
+                          ((unsigned int)(unsigned char)(puVar5 + (cVar9 << 1))[1] * 0x40 +
 
-                          (unsigned int)(unsigned char)puVar5[cVar9 * 2]) * 2,puVar8[1] + (int)PTR_DAT_060195b0
+                          (unsigned int)(unsigned char)puVar5[(cVar9 << 1)]) << 1,puVar8[1] + (int)PTR_DAT_060195b0
 
                          );
 
@@ -75,19 +75,19 @@ unsigned int FUN_0601950c()
 
   puVar6 = 0x0605D242;
 
-  uVar7 = (unsigned int)(unsigned char)*0x06085FF5;
+  uVar7 = (unsigned int)(unsigned char)*(int *)0x06085FF5;
 
   if (uVar7 == 0) {
 
-    if ((unsigned char)*0x0605D242 < 0x10) {
+    if ((unsigned char)*(int *)0x0605D242 < 0x10) {
 
-      puVar8 = (int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar1 + (char)*puVar4 * 2) * 8);
+      puVar8 = (int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar1 + (char)*((int)(int)puVar4 << 1)) << 3);
 
-      uVar7 = (*(void(*)())puVar2)(0xc,*puVar8,
+      uVar7 = (*(int(*)())puVar2)(0xc,*puVar8,
 
-                                ((unsigned int)(unsigned char)(puVar5 + (char)*puVar4 * 2)[1] * 0x40 +
+                                ((unsigned int)(unsigned char)(puVar5 + (char)*((int)(int)puVar4 << 1))[1] * 0x40 +
 
-                                (unsigned int)(unsigned char)puVar5[(char)*puVar4 * 2]) * 2,
+                                (unsigned int)(unsigned char)puVar5[(char)*((int)(int)puVar4 << 1)]) << 1,
 
                                 puVar8[1] + (int)DAT_06019694);
 
@@ -95,15 +95,15 @@ unsigned int FUN_0601950c()
 
     else {
 
-      (*(void(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(puVar5 + (char)*puVar4 * 2)[1] * 0x40 +
+      (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(puVar5 + (char)*((int)(int)puVar4 << 1))[1] * 0x40 +
 
-                     (unsigned int)(unsigned char)puVar5[(char)*puVar4 * 2]) * 2,(int)DAT_06019696,
+                     (unsigned int)(unsigned char)puVar5[(char)*((int)(int)puVar4 << 1)]) << 1,0x90,
 
                  *(int *)0x0605D4EC);
 
-      uVar7 = (*(void(*)())0x060284AE)(0xc,(((unsigned char)(puVar5 + (char)*puVar4 * 2)[1] + 2) * 0x40 +
+      uVar7 = (*(int(*)())0x060284AE)(0xc,(((unsigned char)(puVar5 + (char)*((int)(int)puVar4 << 1))[1] + 2) << 6 +
 
-                             (unsigned int)(unsigned char)puVar5[(char)*puVar4 * 2]) * 2,(int)DAT_06019696,
+                             (unsigned int)(unsigned char)puVar5[(char)*((int)(int)puVar4 << 1)]) << 1,0x90,
 
                          *(int *)0x0605D4EC);
 

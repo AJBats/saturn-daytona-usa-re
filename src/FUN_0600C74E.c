@@ -52,9 +52,9 @@ void FUN_0600c74e()
 
   FUN_0600c7d4(iVar3,puVar1);
 
-  uVar2 = (*(void(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
+  uVar2 = (*(int(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
 
-  (*(void(*)())0x06027EDE)(uVar2,iVar3 + 0x10,auStack_10);
+  (*(int(*)())0x06027EDE)(uVar2,iVar3 + 0x10,auStack_10);
 
   return;
 

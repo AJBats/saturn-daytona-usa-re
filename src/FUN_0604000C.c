@@ -20,7 +20,7 @@ int FUN_0604000c(param_1)
 
        *(unsigned int *)(*(int *)0x060A4D14 + (int)DAT_0604009e) & 0xfffffffe;
 
-  iVar2 = (*(void(*)())0x06040C98)(*(int *)puVar1 + (int)DAT_060400a0,param_1);
+  iVar2 = (*(int(*)())0x06040C98)(*(int *)puVar1 + 0xd0,param_1);
 
   if (iVar2 == 0) {
 
@@ -42,7 +42,7 @@ int FUN_0604000c(param_1)
 
   }
 
-  *(int *)(*(int *)puVar1 + (int)DAT_060400a2) = uVar3;
+  *(int *)(*(int *)puVar1 + 0xc8) = uVar3;
 
   if (iVar2 == -0xf) {
 

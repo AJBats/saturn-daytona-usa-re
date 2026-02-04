@@ -179,7 +179,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar23 = uVar2 + uVar1 * 0x10000;
+        uVar23 = uVar2 + (uVar1 << 16);
 
         uVar6 = iVar8 + (unsigned int)(uVar23 < uVar2) + (uVar1 >> 0x10) +
 
@@ -257,7 +257,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar24 = uVar25 + uVar2 * 0x10000;
+        uVar24 = uVar25 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar24 < uVar25) + (uVar2 >> 0x10) +
 
@@ -347,7 +347,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar25 = uVar23 + uVar2 * 0x10000;
+        uVar25 = uVar23 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar25 < uVar23) + (uVar2 >> 0x10) +
 
@@ -437,7 +437,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar24 = uVar23 + uVar2 * 0x10000;
+        uVar24 = uVar23 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar2 >> 0x10) +
 
@@ -517,7 +517,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar25 = uVar23 + uVar2 * 0x10000;
+        uVar25 = uVar23 + (uVar2 << 16);
 
         uVar6 = iVar8 + (unsigned int)(uVar25 < uVar23) + (uVar2 >> 0x10) +
 
@@ -607,7 +607,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar24 = uVar23 + uVar2 * 0x10000;
+        uVar24 = uVar23 + (uVar2 << 16);
 
         uVar6 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar2 >> 0x10) +
 
@@ -697,7 +697,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar25 = uVar23 + uVar2 * 0x10000;
+        uVar25 = uVar23 + (uVar2 << 16);
 
         uVar6 = iVar8 + (unsigned int)(uVar25 < uVar23) + (uVar2 >> 0x10) +
 
@@ -777,7 +777,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar24 = uVar23 + uVar2 * 0x10000;
+        uVar24 = uVar23 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar2 >> 0x10) +
 
@@ -869,7 +869,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar25 = uVar23 + uVar2 * 0x10000;
+        uVar25 = uVar23 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar25 < uVar23) + (uVar2 >> 0x10) +
 
@@ -961,7 +961,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar23 = uVar2 + uVar1 * 0x10000;
+        uVar23 = uVar2 + (uVar1 << 16);
 
         uVar6 = iVar8 + (unsigned int)(uVar23 < uVar2) + (uVar1 >> 0x10) +
 
@@ -1039,7 +1039,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar24 = uVar25 + uVar2 * 0x10000;
+        uVar24 = uVar25 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar24 < uVar25) + (uVar2 >> 0x10) +
 
@@ -1129,7 +1129,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
         }
 
-        uVar25 = uVar23 + uVar2 * 0x10000;
+        uVar25 = uVar23 + (uVar2 << 16);
 
         uVar22 = iVar8 + (unsigned int)(uVar25 < uVar23) + (uVar2 >> 0x10) +
 
@@ -1235,7 +1235,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
       uVar20 = *(unsigned int *)0x060620D4 & 0xffff;
 
-      iVar18 = (int)DAT_0602ad02;
+      iVar18 = -176;
 
       uVar6 = *(unsigned int *)(puVar4 + -0x20);
 
@@ -1251,7 +1251,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
          (iVar18 <= iVar13)) {
 
-        iVar18 = (int)DAT_0602ad96;
+        iVar18 = 0xb0;
 
         uVar22 = uVar21 | (int)uVar6 < iVar18;
 
@@ -1263,7 +1263,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
             (uVar21 = uVar21 | iVar13 < iVar18, uVar22 = uVar21, ((unsigned char)uVar21 & 1) != 1)))) {
 
-          iVar19 = (int)DAT_0602ad98;
+          iVar19 = -127;
 
           iVar18 = *(int *)(puVar4 + -0x1c);
 
@@ -1279,7 +1279,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
              ((iVar19 <= iVar11 || (uVar21 = uVar21 | iVar14 < iVar19, ((unsigned char)uVar21 & 1) != 1)))) {
 
-            iVar19 = (int)DAT_0602ad9a;
+            iVar19 = 0x51;
 
             uVar21 = uVar21 & 0xfffffffe;
 
@@ -1309,9 +1309,7 @@ unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
 
               puVar5[uVar20 * 0x18 + 5] = param_3;
 
-              uVar21 = (**(void **)(0x0602AF28 + ((int)*(short *)(puVar15 + -3) & 7U) * 4))
-
-                                 (DAT_0602af10,DAT_0602af14,DAT_0602af18);
+              uVar21 = (*(int(*)())(*(int *)(0x0602AF28 + ((int)*(short *)(puVar15 + -3) & 7U) << 2)))(DAT_0602af10,DAT_0602af14,DAT_0602af18);
 
               return uVar21;
 

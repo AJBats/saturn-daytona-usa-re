@@ -71,13 +71,13 @@ int FUN_06033354()
 
     psVar9 = psVar9 + 2;
 
-    (*(void(*)())0x0602761E)(puVar3 + sVar1,puVar2 + sVar1,(int)*psVar10,iVar5,in_pr);
+    (*(int(*)())0x0602761E)(puVar3 + sVar1,puVar2 + sVar1,(int)*psVar10,iVar5,in_pr);
 
     iVar5 = iVar5 + -1;
 
   } while (0 < iVar5);
 
-  uVar4 = (*(void(*)())0x0602761E)(0x25E03700,0x060629AC,(int)PTR_DAT_060333b0,iVar5,in_pr);
+  uVar4 = (*(int(*)())0x0602761E)(0x25E03700,0x060629AC,0x7e0,iVar5,in_pr);
 
   return uVar4;
 

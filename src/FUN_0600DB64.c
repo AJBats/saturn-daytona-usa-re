@@ -23,7 +23,7 @@ unsigned int FUN_0600db64()
 
     *(int *)0x0607EAAC = *(int *)0x0607EAAC + *(int *)0x0607EAA0;
 
-    uVar2 = (*(void(*)())puVar1)();
+    uVar2 = (*(int(*)())puVar1)();
 
     return uVar2;
 

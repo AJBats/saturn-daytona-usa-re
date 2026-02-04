@@ -25,9 +25,9 @@ void FUN_0601d3c0()
 
     }
 
-    (*(void(*)())0x06014884)(0x20,0);
+    (*(int(*)())0x06014884)(0x20,0);
 
-    (*(void(*)())0x06028400)(0xc,0x06094FA8,0);
+    (*(int(*)())0x06028400)(0xc,0x06094FA8,0);
 
     *(int *)0x0607EBCC = 0xc;
 
@@ -37,7 +37,7 @@ void FUN_0601d3c0()
 
   }
 
-  (**(void **)(0x0605DF80 + (unsigned int)(unsigned char)*0x0607887F * 4))();
+  (*(int(*)())(*(int *)(0x0605DF80 + (unsigned int)(unsigned char)*(int *)(0x0607887F << 2))))();
 
   return;
 

@@ -7,11 +7,11 @@ void FUN_06012080()
 
   puVar1 = 0x06038BD4;
 
-  (*(void(*)())0x06038BD4)(8,7);
+  (*(int(*)())0x06038BD4)(8,7);
 
-  (*(void(*)())puVar1)((int)DAT_060120c2,5);
+  (*(int(*)())puVar1)(0x100,5);
 
-  (*(void(*)())puVar1)(0x10,4);
+  (*(int(*)())puVar1)(0x10,4);
 
   return;
 

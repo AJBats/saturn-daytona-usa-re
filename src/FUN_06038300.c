@@ -15,7 +15,7 @@ void FUN_06038300()
 
   unsigned short uVar7;
 
-  (*(void(*)())0x06038F34)();
+  (*(int(*)())0x06038F34)();
 
   puVar1 = 0x060A4C60;
 
@@ -61,7 +61,7 @@ void FUN_06038300()
 
   *(int *)(puVar1 + 4) = 0;
 
-  (*(void(*)())puVar2)();
+  (*(int(*)())puVar2)();
 
   puVar3 = 0x060A3DB0;
 
@@ -91,7 +91,7 @@ void FUN_06038300()
 
     uVar7 = uVar7 + 1;
 
-    *(short *)(puVar2 + uVar5 * 2 + 0x10) = (short)puVar1;
+    *(short *)(puVar2 + (uVar5 << 1) + 0x10) = (short)puVar1;
 
   } while (uVar7 < 8);
 
@@ -137,7 +137,7 @@ void FUN_06038300()
 
     uVar7 = uVar7 + 1;
 
-    *(short *)(puVar3 + uVar5 * 2 + 0x18) = 0;
+    *(short *)(puVar3 + (uVar5 << 1) + 0x18) = 0;
 
   } while (uVar7 < 8);
 
@@ -147,7 +147,7 @@ void FUN_06038300()
 
     uVar6 = uVar6 + 1;
 
-    *(short *)(puVar3 + uVar5 * 2 + 0x28) = 0;
+    *(short *)(puVar3 + (uVar5 << 1) + 0x28) = 0;
 
     puVar1 = 0x060A3DF8;
 

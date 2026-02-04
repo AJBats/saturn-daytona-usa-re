@@ -39,7 +39,7 @@ void FUN_06027ca4(param_1, param_2)
 
   puVar4 = (unsigned int *)(((unsigned int)(0x04000000 + *param_1) >> 0x15) +
 
-                   (0x03FFFFFF - param_1[2] >> 0x15) * 0x40);
+                   (0x03FFFFFF - param_1[2] >> 0x15) << 6);
 
   if (*(int *)0x0607EAD8 == 2) {
 
@@ -59,9 +59,9 @@ void FUN_06027ca4(param_1, param_2)
 
         if (*(int *)(*(int *)0x0607E940 + (int)DAT_06027d26) < 0x47) {
 
-          sVar1 = *(short *)(0x06061240 + iVar9 * 2);
+          sVar1 = *(short *)(0x06061240 + (iVar9 << 1));
 
-          iVar9 = (int)*(short *)((int)(0x06061240 + iVar9 * 2) + 2);
+          iVar9 = (int)*(short *)((int)(0x06061240 + (iVar9 << 1)) + 2);
 
           *(short *)0x06063F50 = sVar1;
 
@@ -89,9 +89,9 @@ LAB_06027d36:
 
   }
 
-  puVar10 = (char *)(unsigned int)*(unsigned short *)(0x060C2000 + (int)puVar4 * 4);
+  puVar10 = (char *)(unsigned int)*(unsigned short *)(0x060C2000 + (int)((int)(int)puVar4 << 2));
 
-  iVar9 = (int)(short)*(unsigned short *)((int)(0x060C2000 + (int)puVar4 * 4) + 2);
+  iVar9 = (int)(short)*(unsigned short *)((int)(0x060C2000 + (int)((int)(int)puVar4 << 2)) + 2);
 
 LAB_06027d50:
 
@@ -119,7 +119,7 @@ LAB_06027e6a:
 
         param_1[4] = (int)sVar1;
 
-        uVar3 = (*(void(*)())0x0602ECCC)();
+        uVar3 = (*(int(*)())0x0602ECCC)();
 
         *(short *)((int)param_1 + 0xe) = uVar3;
 
@@ -133,7 +133,7 @@ LAB_06027e6a:
 
       }
 
-      *(unsigned int *)((unsigned int)*(unsigned short *)(0x0606128A + param_2 * 2) + iVar9) = uVar6;
+      *(unsigned int *)((unsigned int)*(unsigned short *)(0x0606128A + (param_2 << 1)) + iVar9) = uVar6;
 
       return;
 
@@ -153,7 +153,7 @@ LAB_06027e6a:
 
     }
 
-    if (((int)PTR_DAT_06027da0 & uVar6) == 0) {
+    if ((0x100 & uVar6) == 0) {
 
       if (iVar7 < 0) {
 
@@ -181,7 +181,7 @@ LAB_06027db6:
 
       puVar4 = param_1;
 
-      if (((int)DAT_06027de2 & uVar6) == 0) {
+      if ((0x200 & uVar6) == 0) {
 
         if (iVar7 < 0) {
 
@@ -217,7 +217,7 @@ LAB_06027db6:
 
       }
 
-      if (((int)DAT_06027e18 & uVar6) == 0) {
+      if ((0x400 & uVar6) == 0) {
 
         if (iVar7 < 0) {
 

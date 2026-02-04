@@ -45,7 +45,7 @@ void FUN_060358ec()
 
     uVar4 = uVar1 << 0x15;
 
-    uVar2 = (uVar1 << 1) >> 0xc | iVar3 * 0x100000 & 0x7fffffffU |
+    uVar2 = (uVar1 << 1) >> 0xc | (iVar3 << 20) & 0x7fffffffU |
 
             (unsigned int)((int)in_r0 < 0) * -0x80000000;
 

@@ -9,7 +9,7 @@ int FUN_060405b8(param_1, param_2)
 
   int uStack_8;
 
-  uVar1 = (*(void(*)())0x06041330)(local_10);
+  uVar1 = (*(int(*)())0x06041330)(local_10);
 
   if (param_2 != (short *)0x0) {
 

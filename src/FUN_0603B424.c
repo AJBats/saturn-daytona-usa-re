@@ -115,9 +115,9 @@ unsigned int FUN_0603b424(param_1)
 
     if ((iVar1 == 2) && (iVar3 == 5)) {
 
-      iVar1 = (*(void(*)())0x0603F9F2)(*(int *)(param_1 + 8));
+      iVar1 = (*(int(*)())0x0603F9F2)(*(int *)(param_1 + 8));
 
-      iVar3 = (*(void(*)())0x0603F9F6)(*(int *)(param_1 + 8));
+      iVar3 = (*(int(*)())0x0603F9F6)(*(int *)(param_1 + 8));
 
       FUN_0603afd0(param_1,iVar1 - iVar3,1);
 

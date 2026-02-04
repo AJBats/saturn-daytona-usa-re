@@ -107,7 +107,7 @@ long long FUN_06036be4()
 
     uVar3 = (unsigned int)bVar2 << 9;
 
-    uVar7 = uVar10 * 2;
+    uVar7 = (uVar10 << 1);
 
     uVar10 = (unsigned int)bVar1 * -2 | (unsigned int)((uVar10 & 0x80000000) != 0);
 
@@ -123,7 +123,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar3 | uVar10;
 
-    uVar12 = uVar11 * 2 | (unsigned int)((uVar7 & 0x80000000) != 0);
+    uVar12 = (uVar11 << 1) | (unsigned int)((uVar7 & 0x80000000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -141,7 +141,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x40000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x40000000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -159,7 +159,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x20000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x20000000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -177,7 +177,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x10000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x10000000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -195,7 +195,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x8000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x8000000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -213,7 +213,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x4000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x4000000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -231,7 +231,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x2000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x2000000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -249,7 +249,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x1000000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x1000000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -267,7 +267,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x800000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x800000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -285,7 +285,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x400000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x400000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -303,7 +303,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x200000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x200000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -321,7 +321,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x100000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x100000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -339,7 +339,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x80000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x80000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -357,7 +357,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x40000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x40000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -375,7 +375,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x20000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x20000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -393,7 +393,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x10000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x10000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -411,7 +411,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x8000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x8000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -429,7 +429,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x4000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x4000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -447,7 +447,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x2000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x2000) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -465,7 +465,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x1000) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x1000) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -483,7 +483,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x800) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x800) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -501,7 +501,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x400) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x400) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -519,7 +519,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x200) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x200) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -537,7 +537,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x100) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x100) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -555,7 +555,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x80) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x80) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -573,7 +573,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x40) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x40) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -591,7 +591,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x20) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x20) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -609,7 +609,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 0x10) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 0x10) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -627,7 +627,7 @@ long long FUN_06036be4()
 
     uVar15 = uVar12 | uVar11;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 8) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 8) != 0);
 
     bVar5 = ((unsigned char)(uVar15 >> 8) & 1) == ((unsigned char)(uVar15 >> 9) & 1);
 
@@ -645,7 +645,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15;
 
-    uVar14 = uVar13 * 2 | (unsigned int)((uVar7 & 4) != 0);
+    uVar14 = (uVar13 << 1) | (unsigned int)((uVar7 & 4) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 
@@ -661,7 +661,7 @@ long long FUN_06036be4()
 
     uVar11 = uVar12 | uVar15 & 0xfffffefe | uVar11;
 
-    uVar15 = uVar13 * 2 | (unsigned int)((uVar7 & 2) != 0);
+    uVar15 = (uVar13 << 1) | (unsigned int)((uVar7 & 2) != 0);
 
     bVar5 = ((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1);
 

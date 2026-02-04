@@ -18,7 +18,7 @@ int FUN_060412b2(param_1, param_2, param_3)
 
   puVar1 = 0x060A5400;
 
-  if (*(int *)(*(int *)0x060A5400 + (int)PTR_DAT_06041306) != 0) {
+  if (*(int *)(*(int *)0x060A5400 + 0x338) != 0) {
 
     return 0xffffffff;
 
@@ -32,7 +32,7 @@ int FUN_060412b2(param_1, param_2, param_3)
 
   *(int *)(*(int *)0x060A5400 + 0x34) = 1;
 
-  iVar2 = (int)PTR_DAT_06041306;
+  iVar2 = 0x338;
 
   *(int *)(*(int *)puVar1 + iVar2) = 1;
 

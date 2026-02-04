@@ -41,7 +41,7 @@ void FUN_0602f474()
 
   *(int *)(PTR_DAT_0602f4ac + unaff_r14) =
 
-       *(int *)(0x060477D8 + iVar2 * 4);
+       *(int *)(0x060477D8 + (iVar2 << 2));
 
   return;
 

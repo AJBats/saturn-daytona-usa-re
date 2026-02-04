@@ -27,7 +27,7 @@ int FUN_0603f22c()
 
   uVar1 = 0x00FFFFFF;
 
-  iVar5 = (*(void(*)())0x06041470)(0x00FFFFFF,*(int *)(*(int *)0x060A4D14 + (int)DAT_0603f2c2));
+  iVar5 = (*(int(*)())0x06041470)(0x00FFFFFF,*(int *)(*(int *)0x060A4D14 + 0xc8));
 
   if (iVar5 == -5) {
 
@@ -37,11 +37,11 @@ int FUN_0603f22c()
 
   else {
 
-    (*(void(*)())0x06041884)(0x00008000);
+    (*(int(*)())0x06041884)(0x00008000);
 
     while (iVar5 != 0) {
 
-      iVar5 = (*(void(*)())puVar2)();
+      iVar5 = (*(int(*)())puVar2)();
 
       if (iVar5 == -0xc) {
 
@@ -49,15 +49,15 @@ int FUN_0603f22c()
 
       }
 
-      iVar5 = (*(void(*)())puVar3)(uVar1,*(int *)(*(int *)puVar4 + (int)DAT_0603f2c2));
+      iVar5 = (*(int(*)())puVar3)(uVar1,*(int *)(*(int *)puVar4 + 0xc8));
 
     }
 
-    iVar5 = (*(void(*)())0x0604188C)();
+    iVar5 = (*(int(*)())0x0604188C)();
 
     if (iVar5 == 0) {
 
-      iVar5 = (*(void(*)())0x06036A98)(auStack_20,&local_24,auStack_1c);
+      iVar5 = (*(int(*)())0x06036A98)(auStack_20,&local_24,auStack_1c);
 
       if (iVar5 == 0) {
 

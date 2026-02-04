@@ -14,15 +14,15 @@ int FUN_0603bdac(param_1)
 
   char auStack_14 [8];
 
-  iVar2 = (*(void(*)())0x0603FACE)(*(int *)(param_1 + 8),auStack_14);
+  iVar2 = (*(int(*)())0x0603FACE)(*(int *)(param_1 + 8),auStack_14);
 
   puVar1 = 0x060A4D14;
 
   if ((iVar2 == 5) ||
 
-     (iVar3 = (*(void(*)())0x0603EFD4)(*(int *)(param_1 + 4)), iVar3 == 0)) {
+     (iVar3 = (*(int(*)())0x0603EFD4)(*(int *)(param_1 + 4)), iVar3 == 0)) {
 
-    (*(void(*)())0x0603FA1A)(*(int *)(param_1 + 8),0xffffffff);
+    (*(int(*)())0x0603FA1A)(*(int *)(param_1 + 8),0xffffffff);
 
     if (*(int *)(*(int *)puVar1 + (int)PTR_DAT_0603be10) == param_1) {
 

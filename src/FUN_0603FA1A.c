@@ -57,7 +57,7 @@ void FUN_0603fa1a(param_1, param_2)
 
   if (param_1[1] != 0) {
 
-    (*(void(*)())0x0603F91C)(uStack_20,param_1[1],uStack_24);
+    (*(int(*)())0x0603F91C)(uStack_20,param_1[1],uStack_24);
 
     param_1[6] = param_1[6] + *(int *)(param_1[1] + 0xc);
 
@@ -67,7 +67,7 @@ void FUN_0603fa1a(param_1, param_2)
 
   if (param_1[3] != 0) {
 
-    (*(void(*)())0x0603F91C)(uStack_1c,param_1[3],uStack_24);
+    (*(int(*)())0x0603F91C)(uStack_1c,param_1[3],uStack_24);
 
     param_1[3] = 0;
 

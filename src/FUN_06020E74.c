@@ -65,13 +65,13 @@ int FUN_06020e74()
 
      (*(int *)0x06083255 == '\0')) {
 
-    iVar9 = (int)DAT_06020f30;
+    iVar9 = 0x900;
 
     uVar5 = *(unsigned int *)((int)DAT_06020f2e + *(int *)0x0607E944) & 0xcc;
 
     if (uVar5 == 0) {
 
-      (*(void(*)())0x06028400)(4,*(int *)(0x06063750 + 0x48),iVar9,
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + 0x48),iVar9,
 
                  *(int *)(0x06063750 + 0x4c));
 
@@ -103,13 +103,13 @@ int FUN_06020e74()
 
       }
 
-      (*(void(*)())0x06028400)(4,*(int *)(0x06063750 + iVar8 * 8),iVar9,
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + (iVar8 << 3)),iVar9,
 
-                 *(int *)(0x06063750 + iVar7 * 8 + 4));
+                 *(int *)(0x06063750 + (iVar7 << 3) + 4));
 
     }
 
-    else if (uVar5 == (int)DAT_06020fc6) {
+    else if (uVar5 == 0x88) {
 
       if (*puVar2 == '\0') {
 
@@ -135,15 +135,15 @@ int FUN_06020e74()
 
       }
 
-      (*(void(*)())0x06028400)(4,*(int *)(0x06063750 + iVar8 * 8),iVar9,
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + (iVar8 << 3)),iVar9,
 
-                 *(int *)(0x06063750 + iVar7 * 8 + 4));
+                 *(int *)(0x06063750 + (iVar7 << 3) + 4));
 
     }
 
     else if (uVar5 == (int)DAT_06020fc8) {
 
-      (*(void(*)())0x06028400)(4,*(int *)(0x06063750 + 0x60),iVar9,
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + 0x60),iVar9,
 
                  *(int *)(0x06063750 + 100));
 
@@ -165,7 +165,7 @@ int FUN_06020e74()
 
   iVar9 = *(int *)(*(int *)0x0607E944 + 0x60) >> 0xe;
 
-  iVar8 = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)*puVar1 * 4);
+  iVar8 = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)*((int)(int)puVar1 << 2));
 
   if (*puVar2 != '\0') {
 
@@ -191,19 +191,19 @@ int FUN_06020e74()
 
     uVar5 = (unsigned int)bVar6;
 
-    *(int *)(puVar3 + (0x15 - (unsigned int)bVar6) * 4 + (int)DAT_0602109e) = iVar10 + iVar8;
+    *(int *)(puVar3 + (0x15 - (unsigned int)bVar6) << 2 + (int)DAT_0602109e) = iVar10 + iVar8;
 
     bVar6 = bVar6 + 1;
 
-    *(int *)(puVar3 + uVar5 * 4 + (int)DAT_0602109e + 0x58) = iVar7 + iVar8;
+    *(int *)(puVar3 + (uVar5 << 2) + (int)DAT_0602109e + 0x58) = iVar7 + iVar8;
 
   } while (bVar6 < 0x16);
 
-  (*(void(*)())0x0603850C)(8);
+  (*(int(*)())0x0603850C)(8);
 
-  (*(void(*)())0x06038120)(0x06087C84);
+  (*(int(*)())0x06038120)(0x06087C84);
 
-  iVar9 = (*(void(*)())0x06038520)();
+  iVar9 = (*(int(*)())0x06038520)();
 
   return iVar9;
 

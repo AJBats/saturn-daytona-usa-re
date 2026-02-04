@@ -10,7 +10,7 @@ extern int PTR_DAT_0603923c;
 
 extern int PTR_DAT_0603923c;
 
-unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,int param_4,short param_5,short param_6
+unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,int param_4,short param_5,short param_6)
 {
 
   char *puVar1;
@@ -81,7 +81,7 @@ unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,
 
   puVar8 = puVar8 + 0x10;
 
-  if ((int)PTR_DAT_06039190 < (int)(unsigned int)*(unsigned short *)0x060635AE) {
+  if (0x160 < (int)(unsigned int)*(unsigned short *)0x060635AE) {
 
     *psVar4 = param_5;
 
@@ -103,17 +103,17 @@ unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,
 
   if (param_2 != 0 || param_3 != 0) {
 
-    (*(void(*)())puVar1)(param_2,param_3,puVar8,(int)PTR_DAT_0603923c,0x7f);
+    (*(int(*)())puVar1)(param_2,param_3,puVar8,0x80,0x7f);
 
   }
 
   if (param_4 != 0 || param_3 != 0) {
 
-    (*(void(*)())puVar1)(param_4,param_3,puVar8,uVar6,iVar7);
+    (*(int(*)())puVar1)(param_4,param_3,puVar8,uVar6,iVar7);
 
   }
 
-  uVar2 = (*(void(*)())puVar1)(param_3,0xffffffff,puVar8,uStack_24,iVar5);
+  uVar2 = (*(int(*)())puVar1)(param_3,0xffffffff,puVar8,uStack_24,iVar5);
 
   if ((param_3 & (unsigned int)0x00010000) == 0) {
 

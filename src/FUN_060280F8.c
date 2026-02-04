@@ -19,17 +19,17 @@ void FUN_060280f8(param_1, param_2)
 
            (0x060684EC +
 
-           ((int)*(short *)(param_1 + 6) + (((unsigned int)*(unsigned char *)(param_1 + 5) << 8) >> 2)) * 2);
+           ((int)*(short *)(param_1 + 6) + (((unsigned int)*(unsigned char *)(param_1 + 5) << 8) >> 2)) << 1);
 
-  sVar2 = *(short *)(0x06063F64 + (unsigned int)uVar1 * 8 + 6);
+  sVar2 = *(short *)(0x06063F64 + (unsigned int)(uVar1 << 3) + 6);
 
   *param_2 = (short)*(int *)(0x06028178 + ((int)*(char *)(param_1 + 4) & 0xc));
 
-  param_2[2] = *(short *)(0x06028174 + ((int)*(char *)(param_1 + 4) & 1U) * 2);
+  param_2[2] = *(short *)(0x06028174 + ((int)*(char *)(param_1 + 4) & 1U) << 1);
 
   param_2[3] = (short)*(int *)0x06059FFC + sVar2;
 
-  puVar4 = (int *)(0x06063F64 + (unsigned int)uVar1 * 8);
+  puVar4 = (int *)(0x06063F64 + (unsigned int)(uVar1 << 3));
 
   uVar3 = *(int *)(param_1 + 0x14);
 

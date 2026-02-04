@@ -87,7 +87,7 @@ void FUN_06028430(param_1, param_2, param_3, param_4)
 
     } while (iVar5 != 0);
 
-    iVar8 = iVar8 + cVar1 * 2;
+    iVar8 = iVar8 + (cVar1 << 1);
 
     iVar9 = iVar9 + -1;
 

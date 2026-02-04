@@ -47,7 +47,7 @@ void FUN_0600d3c4()
 
         puVar11 = (int *)0x0607E9EC,
 
-        *(unsigned int *)(*(int *)(0x0607E9EC + uVar7 * 4) + (int)DAT_0600d4a6) <
+        *(unsigned int *)(*(int *)(0x0607E9EC + (uVar7 << 2)) + (int)DAT_0600d4a6) <
 
         *(unsigned int *)0x060786B4 && (uVar7 < 3)); uVar7 = uVar7 + 1) {
 
@@ -129,7 +129,7 @@ void FUN_0600d3c4()
 
   for (uVar7 = 1; uVar7 < *(int *)puVar3 - 1U; uVar7 = uVar7 + 1) {
 
-    iVar4 = (int)DAT_0600d534;
+    iVar4 = 0x238;
 
     *(int *)(*piVar9 + iVar4) = piVar9[-1];
 
@@ -139,7 +139,7 @@ void FUN_0600d3c4()
 
   }
 
-  *(int *)(*(int *)puVar2 + (int)DAT_0600d534) = *piVar9;
+  *(int *)(*(int *)puVar2 + 0x238) = *piVar9;
 
   iVar4 = (int)DAT_0600d536;
 

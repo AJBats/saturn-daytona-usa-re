@@ -9,10 +9,10 @@ int FUN_0601a5f8()
 
   if (*(int *)0x06063D9E == 0x10) {
 
-    return (int)PTR_DAT_0601a608;
+    return 0xa8;
 
   }
 
-  return (int)DAT_0601a6dc;
+  return 0xa9;
 
 }

@@ -44,9 +44,9 @@ void FUN_0602e450(param_1)
 
   *(int *)(in_r0 + 0x3c) = iVar7;
 
-  iVar2 = (*(void(*)())0x06027344)();
+  iVar2 = (*(int(*)())0x06027344)();
 
-  iVar3 = (*(void(*)())0x06027348)(param_1);
+  iVar3 = (*(int(*)())0x06027348)(param_1);
 
   uVar5 = (int)((unsigned long long)((long long)extraout_r3 * (long long)iVar3) >> 0x20) << 0x10 |
 

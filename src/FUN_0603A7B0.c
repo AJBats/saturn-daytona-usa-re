@@ -37,7 +37,7 @@ unsigned int FUN_0603a7b0()
 
   puVar2 = 0x060A4CAE;
 
-  uVar6 = (unsigned int)(unsigned char)*0x060A4CAF;
+  uVar6 = (unsigned int)(unsigned char)*(int *)0x060A4CAF;
 
   uVar1 = SUB42(0x0000FFFF,0);
 
@@ -115,7 +115,7 @@ unsigned int FUN_0603a7b0()
 
     }
 
-    if (uVar6 == (int)DAT_0603aa7c) {
+    if (uVar6 == 0xe1) {
 
       *(unsigned char *)(*(int *)0x060A4CB4 * 3 + *(int *)0x060A4CC0) = bVar9;
 
@@ -125,7 +125,7 @@ unsigned int FUN_0603a7b0()
 
     }
 
-    if (uVar6 != (int)DAT_0603aa7e) {
+    if (uVar6 != 0xe2) {
 
       if (uVar6 != (int)PTR_DAT_0603aa80) {
 

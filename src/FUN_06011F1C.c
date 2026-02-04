@@ -26,7 +26,7 @@ void FUN_06011f1c(param_1)
 
   uVar2 = DAT_06011fd4;
 
-  iVar7 = (int)DAT_06011fd8;
+  iVar7 = -2048;
 
   sVar4 = 0;
 

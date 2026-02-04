@@ -26,17 +26,17 @@ void FUN_0601d57c(param_1)
 
     uVar3 = uVar3 + 1;
 
-    *(short *)(puVar2 + uVar4 * 4) = *(short *)(puVar1 + uVar5 * 0x58 + (unsigned int)param_1 * 2)
+    *(short *)(puVar2 + (uVar4 << 2)) = *(short *)(puVar1 + uVar5 * 0x58 + (unsigned int)(param_1 << 1))
 
     ;
 
-    *(short *)((int)(puVar2 + uVar4 * 4) + 2) =
+    *(short *)((int)(puVar2 + (uVar4 << 2)) + 2) =
 
-         *(short *)((int)(puVar1 + uVar5 * 0x58 + (unsigned int)param_1 * 2) + 2);
+         *(short *)((int)(puVar1 + uVar5 * 0x58 + (unsigned int)(param_1 << 1)) + 2);
 
   } while (uVar3 < 0x1c);
 
-  (*(void(*)())0x06028400)(0xc,0x0605AAA2,(param_1 & 0x3f) << 1,0);
+  (*(int(*)())0x06028400)(0xc,0x0605AAA2,(param_1 & 0x3f) << 1,0);
 
   return;
 

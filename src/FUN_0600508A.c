@@ -18,9 +18,9 @@ void FUN_0600508a(param_1, param_2, param_3)
 
     puVar4 = *(unsigned short **)0x06063D90;
 
-    uVar3 = ((unsigned int)param_1[1] * (unsigned int)*param_1 + 2) * 2 & 0xffff;
+    uVar3 = ((unsigned int)param_1[1] * (unsigned int)*param_1 + 2) << 1 & 0xffff;
 
-    (*(void(*)())0x0602761E)(puVar4,param_1,uVar3);
+    (*(int(*)())0x0602761E)(puVar4,param_1,uVar3);
 
     *(unsigned int *)puVar1 = *(int *)puVar1 + uVar3;
 
@@ -34,9 +34,9 @@ void FUN_0600508a(param_1, param_2, param_3)
 
   puVar1 = 0x06063750;
 
-  *(int *)(0x06063750 + *(int *)0x06059F10 * 8 + 4) = param_2;
+  *(int *)(0x06063750 + *(int *)(0x06059F10 << 3) + 4) = param_2;
 
-  *(unsigned short **)(puVar1 + *(int *)puVar2 * 8) = param_1;
+  *(unsigned short **)(puVar1 + *(int *)((int)(int)puVar2 << 3)) = param_1;
 
   *(int *)puVar2 = *(int *)puVar2 + 1;
 

@@ -26,9 +26,9 @@ void FUN_0602c7fc(param_1)
 
   }
 
-  cVar3 = ((int)DAT_0602c898 & param_1) != 0;
+  cVar3 = (0x1 & param_1) != 0;
 
-  param_1 = param_1 & ~(int)DAT_0602c898;
+  param_1 = param_1 & ~0x1;
 
   uVar1 = param_1 & ~(int)DAT_0602c89c;
 
@@ -46,21 +46,21 @@ void FUN_0602c7fc(param_1)
 
   }
 
-  uVar1 = uVar2 & ~(int)DAT_0602c8a4;
+  uVar1 = uVar2 & ~0x10;
 
-  if (((int)DAT_0602c8a4 & uVar2) != 0) {
-
-    cVar3 = cVar3 + '\x01';
-
-  }
-
-  if (((int)DAT_0602c8a8 & uVar1) != 0) {
+  if ((0x10 & uVar2) != 0) {
 
     cVar3 = cVar3 + '\x01';
 
   }
 
-  if ((uVar1 & ~(int)DAT_0602c8a8) != 0) {
+  if ((0x20 & uVar1) != 0) {
+
+    cVar3 = cVar3 + '\x01';
+
+  }
+
+  if ((uVar1 & ~0x20) != 0) {
 
     cVar3 = cVar3 + '\x01';
 
@@ -86,7 +86,7 @@ void FUN_0602c7fc(param_1)
 
     }
 
-    (*(void(*)())0x0602ECCC)();
+    (*(int(*)())0x0602ECCC)();
 
   }
 

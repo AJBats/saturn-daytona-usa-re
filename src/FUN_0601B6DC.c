@@ -19,9 +19,9 @@ void FUN_0601b6dc()
 
   puVar2 = 0x0608600E;
 
-  (*(void(*)())0x06035228)();
+  (*(int(*)())0x06035228)();
 
-  (*(void(*)())0x06035228)();
+  (*(int(*)())0x06035228)();
 
   if ((*(unsigned short *)(0x06063D98 + 2) & DAT_0601b76c) == 0) {
 
@@ -75,11 +75,11 @@ void FUN_0601b6dc()
 
     }
 
-    (*(void(*)())0x06028400)(8,*(int *)(0x06063750 + (bVar4 + 0x36) * 8),
+    (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + (bVar4 + 0x36) << 3),
 
-               ((unsigned int)local_28[bVar4] * 0x40 + (unsigned int)local_24[bVar4]) * 2,
+               ((unsigned int)local_28[bVar4] * 0x40 + (unsigned int)local_24[bVar4]) << 1,
 
-               iVar3 * 0x1000 + *(int *)((int)(0x06063750 + (bVar4 + 0x36) * 8) + 4));
+               (iVar3 << 12) + *(int *)((int)(0x06063750 + (bVar4 + 0x36) << 3) + 4));
 
     bVar4 = bVar4 + 1;
 

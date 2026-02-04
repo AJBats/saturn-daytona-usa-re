@@ -1,5 +1,3 @@
-extern int DAT_060120c2;
-
 void FUN_0601209e()
 {
 
@@ -7,13 +5,13 @@ void FUN_0601209e()
 
   puVar1 = 0x06038BD4;
 
-  (*(void(*)())0x06038BD4)(0x20,7);
+  (*(int(*)())0x06038BD4)(0x20,7);
 
-  (*(void(*)())puVar1)(8,6);
+  (*(int(*)())puVar1)(8,6);
 
-  (*(void(*)())puVar1)((int)DAT_060120c2,5);
+  (*(int(*)())puVar1)(0x100,5);
 
-  (*(void(*)())puVar1)(0x10,4);
+  (*(int(*)())puVar1)(0x10,4);
 
   return;
 

@@ -35,9 +35,9 @@ void FUN_06018ee4()
 
   *(short *)0x25B00400 = DAT_06018f76;
 
-  (*(void(*)())0x06012E84)();
+  (*(int(*)())0x06012E84)();
 
-  (*(void(*)())0x06012EBC)();
+  (*(int(*)())0x06012EBC)();
 
   do {
 
@@ -55,13 +55,13 @@ void FUN_06018ee4()
 
   } while (*(unsigned short *)puVar1 != uVar3);
 
-  (*(void(*)())0x0601D5F4)(0xf,0xAE0600FF);
+  (*(int(*)())0x0601D5F4)(0xf,0xAE0600FF);
 
-  (*(void(*)())0x0601D5F4)(0xf,0xAE0007FF);
+  (*(int(*)())0x0601D5F4)(0xf,0xAE0007FF);
 
   *(int *)0x06086038 = 0;
 
-  (*(void(*)())0x06018EC8)();
+  (*(int(*)())0x06018EC8)();
 
   return;
 

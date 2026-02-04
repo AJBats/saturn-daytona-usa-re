@@ -31,7 +31,7 @@ void FUN_0601a65e()
 
     iVar3 = 3;
 
-    if ((unsigned char)*0x0605D242 < 8) {
+    if ((unsigned char)*(int *)0x0605D242 < 8) {
 
       iVar4 = 6;
 
@@ -41,7 +41,7 @@ void FUN_0601a65e()
 
       iVar4 = 7;
 
-      if (0x10 < (unsigned char)*0x0605D242) {
+      if (0x10 < (unsigned char)*(int *)0x0605D242) {
 
         *(int *)0x0605D242 = 0;
 
@@ -65,29 +65,29 @@ void FUN_0601a65e()
 
   if (*(int *)0x0605D241 == '\0') {
 
-    (*(void(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a6de),(int)DAT_0601a6e0,
+    (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a6de),(int)DAT_0601a6e0,
 
-               iVar4 * 0x1000 + *(int *)((int)(0x06063750 + DAT_0601a6de) + 4));
+               (iVar4 << 12) + *(int *)((int)(0x06063750 + DAT_0601a6de) + 4));
 
     local_18 = (int *)(puVar1 + DAT_0601a6e2);
 
-    iVar3 = iVar3 * 0x1000 + local_18[1];
+    iVar3 = (iVar3 << 12) + local_18[1];
 
   }
 
   else {
 
-    (*(void(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a756),(int)DAT_0601a758,
+    (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a756),(int)DAT_0601a758,
 
-               iVar3 * 0x1000 + *(int *)((int)(0x06063750 + DAT_0601a756) + 4));
+               (iVar3 << 12) + *(int *)((int)(0x06063750 + DAT_0601a756) + 4));
 
     local_18 = (int *)(puVar1 + DAT_0601a75a);
 
-    iVar3 = iVar4 * 0x1000 + local_18[1];
+    iVar3 = (iVar4 << 12) + local_18[1];
 
   }
 
-  (*(void(*)())puVar2)(0xc,*local_18,(int)PTR_DAT_0601a75c,iVar3);
+  (*(int(*)())puVar2)(0xc,*local_18,(int)PTR_DAT_0601a75c,iVar3);
 
   return;
 

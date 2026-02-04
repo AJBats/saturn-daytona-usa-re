@@ -55,11 +55,11 @@ unsigned int FUN_0601e4d4()
 
     } while ((*pbVar7 & 1) != 0);
 
-    (**(void **)(*(int *)0x06000354 + 4))(*(short *)(puVar2 + iVar6 * 0x20 + 0x1c),0);
+    (*(int(*)())(*(int *)(*(int *)0x06000354 + 4)))(*(short *)(puVar2 + (iVar6 << 5) + 0x1c),0);
 
-    iVar3 = FUN_0601e764((int)*(short *)(puVar2 + iVar6 * 0x20 + 0x1c),
+    iVar3 = FUN_0601e764((int)*(short *)(puVar2 + (iVar6 << 5) + 0x1c),
 
-                         0x0604A57C + (unsigned int)(unsigned char)*0x060877D8 * 0xc,
+                         0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc,
 
                          *(int *)0x0605E098);
 
@@ -81,7 +81,7 @@ unsigned int FUN_0601e4d4()
 
     }
 
-    if (puVar2[iVar6 * 0x20 + 0x1e] != '\0') {
+    if (puVar2[(iVar6 << 5) + 0x1e] != '\0') {
 
       local_28[iVar6] = '\x01';
 

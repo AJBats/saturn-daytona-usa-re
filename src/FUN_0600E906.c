@@ -19,11 +19,11 @@ void FUN_0600e906()
 
   if (*(int *)0x0607EAD8 == 0) {
 
-    (*(void(*)())0x0600D266)();
+    (*(int(*)())0x0600D266)();
 
-    (*(void(*)())0x0600C74E)();
+    (*(int(*)())0x0600C74E)();
 
-    (*(void(*)())0x06027552)(*(int *)(iVar3 + 0xc),0x00480000);
+    (*(int(*)())0x06027552)(*(int *)(iVar3 + 0xc),0x00480000);
 
     *(int *)(iVar3 + 8) = (int)extraout_var;
 
@@ -31,9 +31,9 @@ void FUN_0600e906()
 
     *(int *)(iVar3 + 0x30) = *(int *)(iVar3 + 0x20);
 
-    (*(void(*)())puVar1)();
+    (*(int(*)())puVar1)();
 
-    iVar2 = (int)DAT_0600e9e2;
+    iVar2 = 0x228;
 
     *(int *)(iVar3 + iVar2 + -0x34) =
 
@@ -45,7 +45,7 @@ void FUN_0600e906()
 
       *(int *)(iVar3 + iVar2) = 0;
 
-      *(int *)(iVar3 + iVar2 + -0x18) = (int)DAT_0600e9e6;
+      *(int *)(iVar3 + iVar2 + -0x18) = 0x200;
 
     }
 

@@ -52,7 +52,7 @@ int FUN_06038642(param_1, param_2, param_3)
 
     if (*(int *)puVar1 != 0) {
 
-      iVar5 = (*(void(*)())0x0603DDFC)(0,0);
+      iVar5 = (*(int(*)())0x0603DDFC)(0,0);
 
       return iVar5;
 
@@ -84,7 +84,7 @@ int FUN_06038642(param_1, param_2, param_3)
 
     if (*(int *)(puVar1 + 4) != 0) {
 
-      iVar5 = (*(void(*)())0x0603DDFC)(0,0);
+      iVar5 = (*(int(*)())0x0603DDFC)(0,0);
 
       return iVar5;
 

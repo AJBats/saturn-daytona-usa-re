@@ -25,7 +25,7 @@ void FUN_06020414(param_1, param_2, param_3, param_4)
 
   uVar7 = 0;
 
-  iVar5 = (int)DAT_060204a8;
+  iVar5 = 0x3c79;
 
   psVar6 = (short *)(0x0605F44E + 4);
 
@@ -35,7 +35,7 @@ void FUN_06020414(param_1, param_2, param_3, param_4)
 
     do {
 
-      uVar1 = *(unsigned short *)(param_4 + (uVar7 & 0xff) * 2);
+      uVar1 = *(unsigned short *)(param_4 + (uVar7 & 0xff) << 1);
 
       if ((char)uVar1 == ' ') {
 
@@ -47,7 +47,7 @@ void FUN_06020414(param_1, param_2, param_3, param_4)
 
       else {
 
-        sVar3 = ((uVar1 & 0xff) - 0x40) * 2;
+        sVar3 = ((uVar1 & 0xff) - 0x40) << 1;
 
         *psVar6 = sVar3;
 
@@ -55,7 +55,7 @@ void FUN_06020414(param_1, param_2, param_3, param_4)
 
       }
 
-      (*(void(*)())0x06028400)(8,puVar2,((param_2 & 0xffff) + (param_3 & 0xffff) * 0x40) * 2,iVar5);
+      (*(int(*)())0x06028400)(8,puVar2,((param_2 & 0xffff) + (param_3 & 0xffff) << 6) << 1,iVar5);
 
       uVar7 = uVar7 + 1;
 

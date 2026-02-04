@@ -33,13 +33,13 @@ void FUN_060388c0()
 
   if (*(int *)0x060635B2 == 1) {
 
-    FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,(int)PTR_DAT_06038934);
+    FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,0x80);
 
   }
 
   else if (*(int *)0x060635B2 == 2) {
 
-    FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,(int)DAT_06038932);
+    FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,0x100);
 
   }
 
@@ -53,7 +53,7 @@ void FUN_060388c0()
 
   FUN_06038a48(*(int *)puVar1 + (int)0x00B000C0,0x060A3E38,0x10);
 
-  FUN_06038a48(*(int *)puVar1 + (int)DAT_060389f2,0x060A3E48,0x20);
+  FUN_06038a48(*(int *)puVar1 + 0xc0,0x060A3E48,0x20);
 
   return;
 

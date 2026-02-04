@@ -41,7 +41,7 @@ int FUN_0600d780(param_1)
 
     if (iVar6 < -1) {
 
-      iVar3 = (int)DAT_0600d82c;
+      iVar3 = 0x228;
 
       *(int *)(iVar4 + iVar3) = *(int *)(iVar4 + iVar3) + 1;
 
@@ -79,7 +79,7 @@ int FUN_0600d780(param_1)
 
     else {
 
-      iVar3 = (int)DAT_0600d82c;
+      iVar3 = 0x228;
 
       *(int *)(iVar4 + iVar3) = *(int *)(iVar4 + iVar3) + -1;
 

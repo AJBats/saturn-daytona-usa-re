@@ -41,13 +41,13 @@ unsigned int FUN_06014466()
 
   if (*(int *)puVar1 != *(int *)0x06084B0C) {
 
-    uVar2 = (*(void(*)())0x0601D5F4)(0,0xAB111DFF);
+    uVar2 = (*(int(*)())0x0601D5F4)(0,0xAB111DFF);
 
   }
 
   *(unsigned int *)0x06084B20 =
 
-       (unsigned int)(unsigned char)0x0605AD2C[*(int *)puVar1];
+       (unsigned int)(unsigned char)((int *)0x0605AD2C)[*(int *)puVar1];
 
   return uVar2;
 

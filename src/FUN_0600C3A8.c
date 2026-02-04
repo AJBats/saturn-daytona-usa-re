@@ -56,7 +56,7 @@ unsigned short FUN_0600c3a8(param_1)
 
     if (((param_1 & *(unsigned short *)0x06078660) != 0) &&
 
-       (*(unsigned int *)0x06063E20 < (unsigned int)(int)(char)*0x06078662)) {
+       (*(unsigned int *)0x06063E20 < (unsigned int)(int)(char)*(int *)0x06078662)) {
 
       if ((*(int *)0x06083255 == '\0') || (*(int *)0x06063E20 != 0)) {
 
@@ -92,7 +92,7 @@ unsigned short FUN_0600c3a8(param_1)
 
   }
 
-  uVar2 = (unsigned short)(unsigned char)*0x06078635;
+  uVar2 = (unsigned short)(unsigned char)*(int *)0x06078635;
 
   if ((uVar2 == 0) && (uVar2 = *(unsigned short *)0x0607ED8C, uVar2 != 0)) {
 

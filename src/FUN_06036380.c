@@ -9,7 +9,7 @@ void FUN_06036380(param_1, param_2)
 
   char uStack_10;
 
-  (*(void(*)())0x06035E90)(&local_14);
+  (*(int(*)())0x06035E90)(&local_14);
 
   local_14 = 0x44;
 
@@ -17,7 +17,7 @@ void FUN_06036380(param_1, param_2)
 
   uStack_10 = param_1;
 
-  (*(void(*)())0x06035EC8)(0x40,&local_14);
+  (*(int(*)())0x06035EC8)(0x40,&local_14);
 
   return;
 

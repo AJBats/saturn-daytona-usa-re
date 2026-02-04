@@ -37,13 +37,13 @@ void FUN_06012c3c(param_1, param_2)
 
   do {
 
-    iVar5 = (*(void(*)())puVar3)(param_1);
+    iVar5 = (*(int(*)())puVar3)(param_1);
 
     iVar6 = iVar6 + 1;
 
     if (4 < iVar6) {
 
-      (**(void **)puVar4)();
+      (*(int(*)())(*(int *)puVar4))();
 
     }
 
@@ -53,13 +53,13 @@ void FUN_06012c3c(param_1, param_2)
 
   do {
 
-    iVar6 = (*(void(*)())puVar1)(iVar5,0,param_2,0xffffffff);
+    iVar6 = (*(int(*)())puVar1)(iVar5,0,param_2,0xffffffff);
 
     local_2c = local_2c + 1;
 
     if (4 < local_2c) {
 
-      (**(void **)puVar4)();
+      (*(int(*)())(*(int *)puVar4))();
 
     }
 

@@ -20,7 +20,7 @@ unsigned short FUN_0603931c(param_1, param_2, param_3)
 
   }
 
-  psVar2 = (short *)(0x060635E0 + (unsigned int)param_2 * 4);
+  psVar2 = (short *)(0x060635E0 + (unsigned int)(param_2 << 2));
 
   *(int *)0x060A4C88 = (int)*psVar2;
 
@@ -28,7 +28,7 @@ unsigned short FUN_0603931c(param_1, param_2, param_3)
 
   if (param_3 == 1) {
 
-    *(int *)puVar1 = *(int *)puVar1 << 1;
+    *(int *)puVar1 = *(int *)(int)puVar1 << 1;
 
   }
 

@@ -91,23 +91,23 @@ void FUN_0601a80c()
 
     iVar4 = *(int *)puVar2 + 2;
 
-    (*(void(*)())0x06018DDC)(iVar4,iVar4,0,in_r7,iVar4);
+    (*(int(*)())0x06018DDC)(iVar4,iVar4,0,in_r7,iVar4);
 
   }
 
   puVar1 = 0x060283E0;
 
-  (*(void(*)())0x060283E0)(0xc,(int)DAT_0601a928,0,0x06049CDC);
+  (*(int(*)())0x060283E0)(0xc,(int)DAT_0601a928,0,0x06049CDC);
 
-  (*(void(*)())puVar1)(0xc,(int)DAT_0601a92a,0,0x06049CDC);
+  (*(int(*)())puVar1)(0xc,(int)DAT_0601a92a,0,0x06049CDC);
 
-  (*(void(*)())puVar1)(0xc,(int)DAT_0601a928,0x0000E000,
+  (*(int(*)())puVar1)(0xc,(int)DAT_0601a928,0x0000E000,
 
-                    *(int *)(0x0605D2B4 + *(int *)puVar2 * 8));
+                    *(int *)(0x0605D2B4 + *(int *)((int)(int)puVar2 << 3)));
 
-  (*(void(*)())puVar1)(0xc,(int)DAT_0601a92a,0x0000E000,
+  (*(int(*)())puVar1)(0xc,(int)DAT_0601a92a,0x0000E000,
 
-                    *(int *)(0x0605D2B4 + (*(int *)puVar2 * 2 + 1) * 4));
+                    *(int *)(0x0605D2B4 + (*(int *)((int)(int)puVar2 << 1) + 1) << 2));
 
   return;
 

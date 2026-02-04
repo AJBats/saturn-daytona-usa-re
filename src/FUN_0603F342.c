@@ -31,11 +31,11 @@ int FUN_0603f342(param_1, param_2, param_3, param_4)
 
     if ((iVar3 < 3) ||
 
-       (iVar2 = (*(void(*)())0x06036D94)(param_2 + -0xc,auStack_3c,0xc), iVar2 != 0)) {
+       (iVar2 = (*(int(*)())0x06036D94)(param_2 + -0xc,auStack_3c,0xc), iVar2 != 0)) {
 
       FUN_0603f84c(param_2,local_4c);
 
-      (*(void(*)())puVar1)(param_2 + 0xc,auStack_3c,0xc);
+      (*(int(*)())puVar1)(param_2 + 0xc,auStack_3c,0xc);
 
     }
 

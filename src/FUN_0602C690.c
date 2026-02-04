@@ -97,7 +97,7 @@ void FUN_0602c690()
 
   iVar11 = 0x00000645;
 
-  iVar8 = (*(void(*)())0x06027348)(iVar8 >> 1);
+  iVar8 = (*(int(*)())0x06027348)(iVar8 >> 1);
 
   uVar9 = (int)((unsigned long long)((long long)iVar11 * (long long)iVar8) >> 0x20) << 0x10 |
 
@@ -105,7 +105,7 @@ void FUN_0602c690()
 
   lVar2 = (long long)(int)(*(int *)(DAT_0602c72a + iVar5) + uVar9) * (long long)(int)0x251B1285;
 
-  lVar3 = (long long)(int)(uVar9 * 2 + *(int *)(DAT_0602c72a + iVar5)) *
+  lVar3 = (long long)(int)((uVar9 << 1) + *(int *)(DAT_0602c72a + iVar5)) *
 
           (long long)(int)0x251B1285;
 

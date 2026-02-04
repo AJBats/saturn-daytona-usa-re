@@ -204,13 +204,11 @@ LAB_06035a3a:
 
           uVar14 = uVar7 >> 0x10;
 
-          uVar9 = ((int)((unsigned long long)lVar2 >> 0x20) + (unsigned int)(uVar9 < uVar8 || uVar7 < uVar9)) *
-
-                  0x10000 | uVar14;
+          uVar9 = ((int)((unsigned long long)lVar2 >> 0x20) + (unsigned int)(uVar9 < uVar8 || uVar7 < uVar9)) << 16 | uVar14;
 
           uVar8 = uVar9 >> 1;
 
-          uVar7 = (uVar7 * 0x10000 | uVar1) >> 1 | (unsigned int)((uVar14 & 1) == 1) * -0x80000000;
+          uVar7 = ((uVar7 << 16) | uVar1) >> 1 | (unsigned int)((uVar14 & 1) == 1) * -0x80000000;
 
           uVar12 = (uVar12 << 0x10 | uVar5 >> 0x10) >> 1 | (unsigned int)((uVar1 & 1) != 0) * -0x80000000;
 

@@ -41,7 +41,7 @@ int FUN_06013e3c()
 
   puVar1 = 0x06026F2A;
 
-  (*(void(*)())0x06026E0C)();
+  (*(int(*)())0x06026E0C)();
 
   puVar5 = 0x06089E4A;
 
@@ -53,41 +53,41 @@ int FUN_06013e3c()
 
   do {
 
-    (*(void(*)())0x06026DBC)();
+    (*(int(*)())0x06026DBC)();
 
-    iVar6 = (*(void(*)())puVar2)((unsigned int)*(unsigned short *)puVar3 * (int)puVar4,(int)DAT_06013f48,puVar4);
+    iVar6 = (*(int(*)())puVar2)((unsigned int)*(unsigned short *)puVar3 * (int)puVar4,(int)DAT_06013f48,puVar4);
 
-    (*(void(*)())0x06026E2E)(0,DAT_06013f4a + iVar6,puVar4);
+    (*(int(*)())0x06026E2E)(0,DAT_06013f4a + iVar6,puVar4);
 
-    (*(void(*)())puVar1)((int)*(short *)(piVar12 + 6));
+    (*(int(*)())puVar1)((int)*(short *)(piVar12 + 6));
 
-    uVar7 = (*(void(*)())puVar2)(piVar12[1],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
+    uVar7 = (*(int(*)())puVar2)(piVar12[1],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
 
-    iVar6 = (*(void(*)())puVar2)(piVar12[2],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
+    iVar6 = (*(int(*)())puVar2)(piVar12[2],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
 
     iVar9 = *piVar12;
 
-    uVar8 = (*(void(*)())puVar2)(piVar12[3],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
+    uVar8 = (*(int(*)())puVar2)(piVar12[3],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
 
-    (*(void(*)())0x06026E2E)(uVar7,iVar9 - iVar6,uVar8);
+    (*(int(*)())0x06026E2E)(uVar7,iVar9 - iVar6,uVar8);
 
-    (*(void(*)())puVar1)(-(int)*(short *)(piVar12 + 6));
+    (*(int(*)())puVar1)(-(int)*(short *)(piVar12 + 6));
 
-    (*(void(*)())0x06026E94)((int)*(short *)((int)piVar12 + 0x1a) * (unsigned int)*(unsigned short *)puVar3);
+    (*(int(*)())0x06026E94)((int)*(short *)((int)piVar12 + 0x1a) * (unsigned int)*(unsigned short *)puVar3);
 
-    (*(void(*)())0x06026EDE)((int)*(short *)(piVar12 + 7) * (unsigned int)*(unsigned short *)puVar3);
+    (*(int(*)())0x06026EDE)((int)*(short *)(piVar12 + 7) * (unsigned int)*(unsigned short *)puVar3);
 
-    (*(void(*)())puVar1)((int)*(short *)((int)piVar12 + 0x1e) * (unsigned int)*(unsigned short *)puVar3);
+    (*(int(*)())puVar1)((int)*(short *)((int)piVar12 + 0x1e) * (unsigned int)*(unsigned short *)puVar3);
 
-    iVar6 = (*(void(*)())puVar2)(piVar12[4],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
+    iVar6 = (*(int(*)())puVar2)(piVar12[4],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
 
     iVar6 = DAT_06013f4c + iVar6;
 
-    (*(void(*)())0x06026E60)(iVar6,iVar6,iVar6);
+    (*(int(*)())0x06026E60)(iVar6,iVar6,iVar6);
 
-    (*(void(*)())0x06031D8C)(*(int *)(0x06062338 + iVar11),4);
+    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + iVar11),4);
 
-    uVar7 = (*(void(*)())0x06031A28)(*(int *)(0x060622C0 + iVar11),(int)*(short *)puVar5,1);
+    uVar7 = (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + iVar11),(int)*(short *)puVar5,1);
 
     piVar12 = piVar12 + 8;
 

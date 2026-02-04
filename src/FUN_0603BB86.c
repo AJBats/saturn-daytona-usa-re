@@ -42,11 +42,11 @@ int FUN_0603bb86(param_1)
 
       iVar3 = (int)DAT_0603bc50 + *(int *)puVar1 + (int)DAT_0603bc52;
 
-      (*(void(*)())0x060360FC)(param_1,iVar3 + 6,4);
+      (*(int(*)())0x060360FC)(param_1,iVar3 + 6,4);
 
       *param_1 = *param_1 + (int)DAT_0603bc54;
 
-      (*(void(*)())0x060360FC)(param_1 + 1,iVar3 + 0xe,4);
+      (*(int(*)())0x060360FC)(param_1 + 1,iVar3 + 0xe,4);
 
       if (param_1[1] == 0) {
 

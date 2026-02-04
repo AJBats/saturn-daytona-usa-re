@@ -29,17 +29,17 @@ void FUN_0603cd5c()
 
   puVar6 = (unsigned short *)0x060A4D18;
 
-  (*(void(*)())0x06034F78)(0x060A4D18,0x060A4D58,1);
+  (*(int(*)())0x06034F78)(0x060A4D18,0x060A4D58,1);
 
   *puVar6 = *puVar6 & uVar3 | DAT_0603ce90;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & (unsigned short)0x0000FFBF;
 
   puVar7 = 0x0000FFDF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar8 = (unsigned short)puVar7;
 
@@ -47,7 +47,7 @@ void FUN_0603cd5c()
 
   puVar7 = 0x0000FFEF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar1 = (unsigned short)puVar7;
 
@@ -55,67 +55,67 @@ void FUN_0603cd5c()
 
   puVar7 = 0x0000FFF0;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar5 = (unsigned short)puVar7;
 
   *puVar6 = *puVar6 & uVar5 | 7;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & uVar5;
 
   puVar7 = 0x0000FF0F;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar2 = (unsigned short)puVar7;
 
   puVar6[2] = puVar6[2] & uVar2;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & (unsigned short)0x0000F0FF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & uVar3;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[3] = puVar6[3] & uVar5;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[3] = puVar6[3] & uVar2;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & uVar5;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & uVar2;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & (unsigned short)0x0000F0FF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[2] = puVar6[2] & uVar3;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[3] = puVar6[3] & uVar5;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[3] = puVar6[3] & uVar2;
 
   puVar7 = 0x0000FFFE;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar2 = (unsigned short)puVar7;
 
@@ -123,7 +123,7 @@ void FUN_0603cd5c()
 
   puVar7 = 0x0000FFFD;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar3 = (unsigned short)puVar7;
 
@@ -131,7 +131,7 @@ void FUN_0603cd5c()
 
   puVar7 = 0x0000FFFB;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar5 = uVar5 + 7;
 
@@ -139,135 +139,135 @@ void FUN_0603cd5c()
 
   puVar6[4] = puVar6[4] & uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[4] = puVar6[4] & uVar5;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[4] = puVar6[4] & uVar1;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[4] = puVar6[4] & uVar8;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[5] = puVar6[5] & (unsigned short)0x0000FFFC;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[5] = puVar6[5] & (unsigned short)0x0000FFF3;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[5] = puVar6[5] & (unsigned short)0x0000FFCF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[5] = puVar6[5] & (unsigned short)0x0000FF3F;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[5] = puVar6[5] & (unsigned short)0x0000FCFF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & DAT_0603d034;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & (unsigned short)0x00008FFF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & (unsigned short)0x0000FBFF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & (unsigned short)0x0000FDFF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & (unsigned short)0x0000FEFF | DAT_0603d1c2;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & (unsigned short)0x0000FFBF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & uVar8;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & uVar1;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & uVar5;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & uVar3;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[6] = puVar6[6] & uVar2;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[7] = puVar6[7] & (unsigned short)0x0000FFFC;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[7] = puVar6[7] & (unsigned short)0x0000FFF3;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[7] = puVar6[7] & (unsigned short)0x0000FFCF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[7] = puVar6[7] & (unsigned short)0x0000FF3F;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[7] = puVar6[7] & (unsigned short)0x0000FCFF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & uVar2;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & uVar3;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & uVar5;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & uVar1;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & uVar8;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar6[1] = puVar6[1] & (unsigned short)0x0000FEFF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   return;
 

@@ -37,7 +37,7 @@ int FUN_06034000()
 
   *(short *)(unaff_r14 + 0x00000002) = (short)iVar5;
 
-  iVar2 = (*(void(*)())0x06027344)(iVar5);
+  iVar2 = (*(int(*)())0x06027344)(iVar5);
 
   iVar7 = *(int *)(unaff_r14 + 0x00000020);
 
@@ -47,7 +47,7 @@ int FUN_06034000()
 
        (unsigned int)((long long)iVar7 * (long long)iVar2) >> 0x10) + *(int *)(unaff_r14 + 0x00000014);
 
-  iVar5 = (*(void(*)())0x06027348)(iVar5);
+  iVar5 = (*(int(*)())0x06027348)(iVar5);
 
   *(unsigned int *)(unaff_r14 + 0x0000000C) =
 
@@ -61,9 +61,9 @@ int FUN_06034000()
 
     *(int *)0x06083240 = *(int *)(unaff_r14 + 0x0000000C);
 
-    uVar3 = (*(void(*)())0x06006838)();
+    uVar3 = (*(int(*)())0x06006838)();
 
-    (*(void(*)())0x06027EDE)(uVar3,0x06083238,0x06083244,in_r7,in_pr);
+    (*(int(*)())0x06027EDE)(uVar3,0x06083238,0x06083244,in_r7,in_pr);
 
     iVar2 = 0x00000008;
 
@@ -85,11 +85,11 @@ int FUN_06034000()
 
       uVar6 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
 
-      uVar3 = (*(void(*)())0x06027348)(uVar6);
+      uVar3 = (*(int(*)())0x06027348)(uVar6);
 
-      uVar4 = (*(void(*)())0x06027344)(uVar6);
+      uVar4 = (*(int(*)())0x06027344)(uVar6);
 
-      iVar2 = (*(void(*)())0x0602755C)(uVar3,uVar4);
+      iVar2 = (*(int(*)())0x0602755C)(uVar3,uVar4);
 
       uVar6 = (int)((unsigned long long)((long long)iVar7 * (long long)iVar2) >> 0x20) << 0x10 |
 

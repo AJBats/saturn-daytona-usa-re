@@ -25,7 +25,7 @@ int FUN_0600a1f6()
 
     }
 
-    else if (*(int *)0x0607EBCC == (int)DAT_0600a226) {
+    else if (*(int *)0x0607EBCC == 0xa8) {
 
       *(short *)0x0605A016 = 4;
 
@@ -45,7 +45,7 @@ int FUN_0600a1f6()
 
       }
 
-      else if (*(int *)0x0607EBCC == (int)DAT_0600a2da) {
+      else if (*(int *)0x0607EBCC == 0x271) {
 
         *(short *)0x0605A016 = 4;
 
@@ -59,7 +59,7 @@ int FUN_0600a1f6()
 
     }
 
-    else if (*(int *)0x0607EBCC == (int)DAT_0600a2de) {
+    else if (*(int *)0x0607EBCC == 0x190) {
 
       *(short *)0x0605A016 = 4;
 

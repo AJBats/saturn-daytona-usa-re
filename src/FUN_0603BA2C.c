@@ -16,7 +16,7 @@ int FUN_0603ba2c(param_1, param_2, param_3)
 
   int uVar4;
 
-  uVar1 = (*(void(*)())0x0603F93C)(param_1 + 0x40);
+  uVar1 = (*(int(*)())0x0603F93C)(param_1 + 0x40);
 
   if (param_1 == 0) {
 
@@ -36,13 +36,13 @@ int FUN_0603ba2c(param_1, param_2, param_3)
 
     else {
 
-      uVar3 = (*(void(*)())0x0603EF34)(DAT_0603bae6 + param_1,0,0xffffffff);
+      uVar3 = (*(int(*)())0x0603EF34)(DAT_0603bae6 + param_1,0,0xffffffff);
 
-      uVar4 = (*(void(*)())0x0603F8B8)(param_1 + 0x90,uVar3,0x0603EF64,0x0603EFD4,0x0603EFE6,
+      uVar4 = (*(int(*)())0x0603F8B8)(param_1 + 0x90,uVar3,0x0603EF64,0x0603EFD4,0x0603EFE6,
 
                          0x0603F036,0x0603F070);
 
-      (*(void(*)())0x0603F9B8)(uVar1,iVar2,uVar4);
+      (*(int(*)())0x0603F9B8)(uVar1,iVar2,uVar4);
 
       *(int *)(param_1 + 4) = uVar3;
 

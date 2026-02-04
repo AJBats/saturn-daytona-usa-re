@@ -17,9 +17,9 @@ void FUN_0600bf70()
 
     *(int *)0x06063EEC =
 
-         (int)(short)*(int *)0x06063EEC * (int)DAT_0600bfe4 +
+         (int)(short)*(int *)0x06063EEC * 0x320 +
 
-         (int)sVar1 * (int)DAT_0600bfe6 >> 10;
+         (int)sVar1 * 0xe0 >> 10;
 
   }
 

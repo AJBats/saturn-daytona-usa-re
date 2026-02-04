@@ -22,11 +22,11 @@ void FUN_060086c0(param_1)
 
   piVar2 = (int *)0x0607E940;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
-  *(int *)(*piVar2 + (int)DAT_06008718) = *param_1;
+  *(int *)(*piVar2 + 0x1b8) = *param_1;
 
   iVar1 = param_1[1];
 
@@ -36,7 +36,7 @@ void FUN_060086c0(param_1)
 
   *(int *)(*piVar2 + (int)DAT_0600871c) = iVar1;
 
-  *(int *)(*piVar2 + (int)DAT_0600871e) = iVar1;
+  *(int *)(*piVar2 + 0x208) = iVar1;
 
   *(int *)0x0607EBEC = *(int *)0x0607EBEC + cVar3;
 

@@ -15,7 +15,7 @@ int FUN_06036d14()
 
   if (((unsigned int)in_r1 & 3) == 0 && ((unsigned int)in_r0 & 3) == 0) {
 
-    iVar3 = (*(void(*)())0x06036E1C)();
+    iVar3 = (*(int(*)())0x06036E1C)();
 
     return iVar3;
 

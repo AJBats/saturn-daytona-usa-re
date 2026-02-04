@@ -7,7 +7,7 @@ void FUN_06017c78()
 
     *(int *)0x06085FCC = 1;
 
-    (*(void(*)())0x0601D5F4)(0,0xAE1118FF);
+    (*(int(*)())0x0601D5F4)(0,0xAE1118FF);
 
     return;
 

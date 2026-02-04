@@ -69,7 +69,7 @@ LAB_0603fb50:
 
 LAB_0603fb74:
 
-    iVar2 = (*param_1[9])(param_1[8]);
+    iVar2 = (*(int(*)())param_1[9])(param_1[8]);
 
     if (iVar2 == 0) goto LAB_0603fc40;
 
@@ -79,7 +79,7 @@ LAB_0603fb74:
 
 LAB_0603fba0:
 
-    iVar2 = (*param_1[0xb])(param_1[8]);
+    iVar2 = (*(int(*)())param_1[0xb])(param_1[8]);
 
     if (0 < iVar2) goto LAB_0603fc40;
 
@@ -103,7 +103,7 @@ LAB_0603fba0:
 
   if (param_1[7] == *(int *)(param_1[1] + 8)) {
 
-    (*(void(*)())0x0603F91C)(uVar5,param_1[1],0xffffffff);
+    (*(int(*)())0x0603F91C)(uVar5,param_1[1],0xffffffff);
 
     param_1[6] = param_1[6] + *(int *)(param_1[1] + 0xc);
 
@@ -111,7 +111,7 @@ LAB_0603fba0:
 
   }
 
-  (*(void(*)())0x0603F91C)(uVar4,param_1[3],0xffffffff);
+  (*(int(*)())0x0603F91C)(uVar4,param_1[3],0xffffffff);
 
   param_1[3] = 0;
 

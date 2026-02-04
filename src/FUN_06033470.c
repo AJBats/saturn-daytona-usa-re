@@ -19,7 +19,7 @@ int FUN_06033470()
 
   puVar3 = 0x06062970;
 
-  psVar6 = (short *)(0x060338C4 + **(int **)0x06033874 * 8);
+  psVar6 = (short *)(0x060338C4 + **(int **)(0x06033874 << 3));
 
   sVar1 = *psVar6;
 
@@ -63,7 +63,7 @@ int FUN_06033470()
 
   *(short *)(puVar3 + 0x16) = sVar1 + sVar2;
 
-  (*(void(*)())0x060280F8)(puVar3,*(int *)0x060785FC);
+  (*(int(*)())0x060280F8)(puVar3,*(int *)0x060785FC);
 
   uVar4 = FUN_06033504();
 

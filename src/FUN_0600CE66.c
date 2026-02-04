@@ -28,7 +28,7 @@ void FUN_0600ce66()
 
   *(unsigned int *)(iVar1 + DAT_0600cf3a + 0x68) =
 
-       (unsigned int)*(unsigned short *)(*(int *)(iVar1 + DAT_0600cf3a) * 4 + *(int *)0x0607EB84);
+       (unsigned int)*(unsigned short *)(*(int *)(iVar1 + DAT_0600cf3a) << 2 + *(int *)0x0607EB84);
 
   return;
 

@@ -15,9 +15,9 @@ void FUN_0600cb90(param_1, param_2)
 
   if ((param_2 & 1) == 0) {
 
-    piVar2 = (int *)(((*(unsigned int *)(*(int *)0x0607E940 + (int)DAT_0600cc2a) >> 8) +
+    piVar2 = (int *)(((*(unsigned int *)(*(int *)0x0607E940 + 0x1f8) >> 8) +
 
-                     ((param_2 & 0xffff) >> 1) * 8) * 0x10 + *(int *)0x0607EB88);
+                     ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
 
     *param_1 = *piVar2;
 
@@ -35,11 +35,11 @@ void FUN_0600cb90(param_1, param_2)
 
     }
 
-    uVar1 = *(unsigned int *)(*(int *)0x0607E940 + (int)DAT_0600cc2a) >> 8;
+    uVar1 = *(unsigned int *)(*(int *)0x0607E940 + 0x1f8) >> 8;
 
-    piVar2 = (int *)((uVar1 + ((param_2 & 0xffff) >> 1) * 8) * 0x10 + *(int *)0x0607EB88);
+    piVar2 = (int *)((uVar1 + ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
 
-    piVar4 = (int *)((uVar1 + uVar3 * 8) * 0x10 + *(int *)0x0607EB88);
+    piVar4 = (int *)((uVar1 + (uVar3 << 3)) << 4 + *(int *)0x0607EB88);
 
     *param_1 = *piVar2 + *piVar4 >> 1;
 

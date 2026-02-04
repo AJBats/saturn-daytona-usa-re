@@ -34,7 +34,7 @@ char FUN_0603a01c(param_1)
 
   if (cVar1 == ' ') {
 
-    if ((unsigned char)*0x060A4D02 < 5) {
+    if ((unsigned char)*(int *)0x060A4D02 < 5) {
 
       *(char **)puVar5 = 0x060A4CFD;
 

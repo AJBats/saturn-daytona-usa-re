@@ -19,7 +19,7 @@ int FUN_06034900(param_1, param_2, param_3, param_4)
 
   if ((*(int *)(iVar3 + 0x000000B8) == 0x2c) || (*(int *)(iVar3 + 0x000001BC) == 0x28)) {
 
-    (*(void(*)())0x0601D5F4)(0x00000000,0xAE1128FF);
+    (*(int(*)())0x0601D5F4)(0x00000000,0xAE1128FF);
 
   }
 
@@ -39,7 +39,7 @@ int FUN_06034900(param_1, param_2, param_3, param_4)
 
   }
 
-  uVar1 = (*(void(*)())0x0601D5F4)(2,uVar2,param_3,param_4,in_pr);
+  uVar1 = (*(int(*)())0x0601D5F4)(2,uVar2,param_3,param_4,in_pr);
 
   return uVar1;
 

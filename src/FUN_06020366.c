@@ -20,7 +20,7 @@ int FUN_06020366(param_1)
 
   uVar1 = DAT_060203be;
 
-  pbVar4 = *(unsigned char **)(0x0605F458 + (param_1 & 0xff) * 4);
+  pbVar4 = *(unsigned char **)(0x0605F458 + (param_1 & 0xff) << 2);
 
   uVar3 = FUN_06020414(**(short **)(0x0605F478 + (unsigned int)pbVar4[2] * 4),*pbVar4,pbVar4[1],
 

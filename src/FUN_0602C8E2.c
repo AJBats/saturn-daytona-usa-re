@@ -89,7 +89,7 @@ void FUN_0602c8e2()
 
   }
 
-  if ((99 < iVar4) && ((int)DAT_0602c9da <= (int)uVar6)) {
+  if ((99 < iVar4) && (0xe00 <= (int)uVar6)) {
 
     bVar3 = 1;
 
@@ -101,7 +101,7 @@ void FUN_0602c8e2()
 
   }
 
-  if (((int)DAT_0602c9e0 < *(int *)(in_r0 + 0x1c)) &&
+  if ((0x500 < *(int *)(in_r0 + 0x1c)) &&
 
      ((((*(unsigned int *)(DAT_0602c9e2 + in_r0) & 4) != 0 && (*(int *)(DAT_0602c9cc + in_r0) < 0)) ||
 
@@ -113,7 +113,7 @@ void FUN_0602c8e2()
 
   }
 
-  iVar7 = (int)DAT_0602c9e4;
+  iVar7 = 0x16a;
 
   iVar4 = (int)*(short *)(iVar7 + in_r0);
 
@@ -127,7 +127,7 @@ void FUN_0602c8e2()
 
     *(short *)(iVar7 + in_r0) = (short)iVar4 + -1;
 
-    iVar4 = (*(void(*)())0x0602ECCC)(*(int *)(PTR_DAT_0602c9e8 + in_r0),
+    iVar4 = (*(int(*)())0x0602ECCC)(*(int *)(PTR_DAT_0602c9e8 + in_r0),
 
                        *(int *)(DAT_0602c9d2 + in_r0),
 

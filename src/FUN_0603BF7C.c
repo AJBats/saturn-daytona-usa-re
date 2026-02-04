@@ -22,7 +22,7 @@ void FUN_0603bf7c(param_1)
 
   uVar5 = (unsigned int)DAT_0603bff8;
 
-  pbVar3 = (unsigned char *)(int)DAT_0603bffa;
+  pbVar3 = (unsigned char *)-366;
 
   *pbVar3 = *pbVar3 & 0xfe;
 

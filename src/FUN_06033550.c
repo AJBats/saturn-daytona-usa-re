@@ -27,7 +27,7 @@ int FUN_06033550()
 
   *(int *)(in_r1 + -4) =
 
-       *(int *)(0x06033630 + *(int *)0x0607EAD8 * 4) -
+       *(int *)(0x06033630 + *(int *)(0x0607EAD8 << 2)) -
 
        (*(int *)(0x00000020 + in_r0) + *(int *)(0x000001D8 + in_r0) +
 
@@ -35,13 +35,13 @@ int FUN_06033550()
 
   iVar1 = FUN_060335f4();
 
-  iVar1 = (*(void(*)())0x06027552)(*(int *)(0x00000010 + iVar1));
+  iVar1 = (*(int(*)())0x06027552)(*(int *)(0x00000010 + iVar1));
 
-  iVar2 = (*(void(*)())0x06027552)(extraout_r3,in_r7);
+  iVar2 = (*(int(*)())0x06027552)(extraout_r3,in_r7);
 
-  iVar3 = (*(void(*)())0x06027552)(extraout_r2);
+  iVar3 = (*(int(*)())0x06027552)(extraout_r2);
 
-  uVar5 = (*(void(*)())0x06027552)(extraout_r2_00,in_r7);
+  uVar5 = (*(int(*)())0x06027552)(extraout_r2_00,in_r7);
 
   iVar4 = (int)((unsigned long long)uVar5 >> 0x20);
 

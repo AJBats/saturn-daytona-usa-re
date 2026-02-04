@@ -14,11 +14,11 @@ int FUN_0603ae08(param_1)
 
   int iVar1;
 
-  if ((*(int *)(*(int *)0x060A4D14 + (int)DAT_0603ae60) != 0) &&
+  if ((*(int *)(*(int *)0x060A4D14 + 0xa0) != 0) &&
 
-     (*(int *)((int)DAT_0603ae62 + *(int *)0x060A4D14) == 1)) {
+     (*(int *)(0x98 + *(int *)0x060A4D14) == 1)) {
 
-    iVar1 = (*(void(*)())0x0603F148)(*(int *)(*(int *)0x060A4D14 + (int)DAT_0603ae60),param_1,
+    iVar1 = (*(int(*)())0x0603F148)(*(int *)(*(int *)0x060A4D14 + 0xa0),param_1,
 
                        *(int *)(*(int *)0x060A4D14 + (int)PTR_DAT_0603ae64));
 

@@ -133,7 +133,7 @@ void FUN_060302c6()
 
       iVar5 = *(int *)(0x00000090 + iVar3);
 
-      iVar9 = (int)DAT_060304f2;
+      iVar9 = 0xb8;
 
       *(int *)(0x0000008C + iVar3) = iVar5;
 
@@ -303,7 +303,7 @@ void FUN_060302c6()
 
     iVar5 = *(int *)(0x00000090 + iVar3);
 
-    iVar9 = (int)PTR_DAT_06030404;
+    iVar9 = 0xb8;
 
     *(int *)(0x0000008C + iVar3) = iVar5;
 

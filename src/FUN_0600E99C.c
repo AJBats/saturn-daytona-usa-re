@@ -25,7 +25,7 @@ void FUN_0600e99c()
 
   if (*(int *)0x0607EAD8 == 0) {
 
-    (*(void(*)())0x06027552)(*(int *)(iVar2 + 0xc),0x066505B3);
+    (*(int(*)())0x06027552)(*(int *)(iVar2 + 0xc),0x066505B3);
 
     *(int *)(DAT_0600e9e8 + iVar2) = (int)extraout_var;
 
@@ -37,7 +37,7 @@ void FUN_0600e99c()
 
     *(int *)0x0607EAD0 = 0;
 
-    iVar1 = (int)DAT_0600e9e2;
+    iVar1 = 0x228;
 
     *(int *)(iVar2 + iVar1) = 0;
 

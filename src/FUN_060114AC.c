@@ -19,7 +19,7 @@ unsigned int FUN_060114ac(param_1)
 
   puVar1 = 0x06078860;
 
-  iVar3 = *(int *)(0x060447A8 + *(int *)0x0607EADC * 4 + (param_1 & 0xffff) * 0x10) -
+  iVar3 = *(int *)(0x060447A8 + *(int *)(0x0607EADC << 2) + (param_1 & 0xffff) << 4) -
 
           *(int *)0x06078860;
 
@@ -33,9 +33,9 @@ unsigned int FUN_060114ac(param_1)
 
   }
 
-  psVar5 = (short *)(0x060447A4 + (param_1 & 0xffff) * 2);
+  psVar5 = (short *)(0x060447A4 + (param_1 & 0xffff) << 1);
 
-  puVar4 = (int *)(0x060447A8 + (param_1 & 0xffff) * 0x10 + 0xc);
+  puVar4 = (int *)(0x060447A8 + (param_1 & 0xffff) << 4 + 0xc);
 
   FUN_060116a8(*(int *)puVar1,*puVar4,(int)DAT_060115c6,0x00010000,(int)*psVar5);
 

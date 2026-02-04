@@ -10,7 +10,7 @@ int FUN_0603660e(param_1)
 
   char local_10 [12];
 
-  (*(void(*)())0x06035E90)(local_10);
+  (*(int(*)())0x06035E90)(local_10);
 
   local_10[0] = 0x53;
 

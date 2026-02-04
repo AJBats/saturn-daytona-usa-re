@@ -161,7 +161,7 @@ void FUN_0602ca84()
 
     puVar4 = (char *)
 
-             (*(void(*)())0x0602755C)(*(int *)(DAT_0602cb72 + in_r0),iVar11,iVar11,iVar13,iVar10)
+             (*(int(*)())0x0602755C)(*(int *)(DAT_0602cb72 + in_r0),iVar11,iVar11,iVar13,iVar10)
 
     ;
 
@@ -221,7 +221,7 @@ void FUN_0602ca84()
 
   if (*(int *)(DAT_0602cc9c + in_r0) < iVar7) {
 
-    iVar13 = (*(void(*)())0x0602755C)(*(int *)(DAT_0602cc9c + in_r0),iVar7);
+    iVar13 = (*(int(*)())0x0602755C)(*(int *)(DAT_0602cc9c + in_r0),iVar7);
 
   }
 

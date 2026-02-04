@@ -32,7 +32,7 @@ void FUN_06026590(param_1, param_2)
 
   puVar4 = (int *)0x060610BC;
 
-  iVar9 = (int)PTR_DAT_06026668;
+  iVar9 = 0xa8;
 
   if ((param_2 & 0xffff) == iVar9 + 1U) {
 
@@ -68,7 +68,7 @@ void FUN_06026590(param_1, param_2)
 
     iVar6 = 0;
 
-    piVar10 = (int *)(0x06061170 + param_1 * 4);
+    piVar10 = (int *)(0x06061170 + (param_1 << 2));
 
     for (uVar3 = 0; uVar3 < 0x50; uVar3 = uVar3 + 8) {
 
@@ -122,7 +122,7 @@ void FUN_06026590(param_1, param_2)
 
     iVar6 = 0;
 
-    piVar10 = (int *)(0x06061184 + param_1 * 4);
+    piVar10 = (int *)(0x06061184 + (param_1 << 2));
 
     for (uVar3 = 0; uVar3 < 0x40; uVar3 = uVar3 + 8) {
 

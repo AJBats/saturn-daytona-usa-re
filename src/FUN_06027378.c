@@ -72,7 +72,7 @@ int FUN_06027378(param_1)
 
   if (uVar6 < 0x100000) {
 
-    iVar3 = (int)*(short *)(0x002F0000 + (uVar6 >> 8) * 2);
+    iVar3 = (int)*(short *)(0x002F0000 + (uVar6 >> 8) << 1);
 
     if (bVar2) {
 
@@ -86,15 +86,15 @@ int FUN_06027378(param_1)
 
     uVar1 = uVar6 >> 0x10;
 
-    if (uVar1 < (unsigned int)(int)DAT_06027516) {
+    if (uVar1 < (unsigned int)0x3e8) {
 
       if (uVar1 < (unsigned int)(int)DAT_06027520) {
 
-        if (uVar1 < (unsigned int)(int)DAT_0602751c) {
+        if (uVar1 < (unsigned int)0x32) {
 
           if (uVar1 < (unsigned int)(int)DAT_06027518) {
 
-            iVar3 = (int)DAT_06027514;
+            iVar3 = 0x3d74;
 
             puVar5 = (char *)0x100000;
 
@@ -104,7 +104,7 @@ int FUN_06027378(param_1)
 
           else if (uVar1 < (unsigned int)(int)DAT_0602751a) {
 
-            iVar3 = (int)DAT_06027512;
+            iVar3 = 0x3ea4;
 
             puVar5 = (char *)0x1e0000;
 
@@ -114,7 +114,7 @@ int FUN_06027378(param_1)
 
           else {
 
-            iVar3 = (int)DAT_06027510;
+            iVar3 = 0x3efb;
 
             puVar5 = &DAT_00280000;
 
@@ -126,7 +126,7 @@ int FUN_06027378(param_1)
 
         else if (uVar1 < (unsigned int)(int)DAT_0602751e) {
 
-          iVar3 = (int)DAT_0602750e;
+          iVar3 = 0x3f2f;
 
           puVar5 = &DAT_00320000;
 
@@ -136,7 +136,7 @@ int FUN_06027378(param_1)
 
         else {
 
-          iVar3 = (int)DAT_0602750c;
+          iVar3 = 0x3f6a;
 
           puVar5 = &DAT_00460000;
 
@@ -146,7 +146,7 @@ int FUN_06027378(param_1)
 
       }
 
-      else if (uVar1 < (unsigned int)(int)DAT_06027524) {
+      else if (uVar1 < (unsigned int)0xfa) {
 
         if (uVar1 < (unsigned int)(int)DAT_06027522) {
 
@@ -160,7 +160,7 @@ int FUN_06027378(param_1)
 
         else {
 
-          iVar3 = (int)DAT_06027508;
+          iVar3 = 0x3fba;
 
           puVar5 = (char *)((int)DAT_06027522 << 0x10 | (unsigned int)(int)DAT_06027522 >> 0x10);
 
@@ -174,7 +174,7 @@ int FUN_06027378(param_1)
 
         iVar3 = (int)DAT_06027506;
 
-        puVar5 = (char *)((int)DAT_06027524 << 0x10 | (unsigned int)(int)DAT_06027524 >> 0x10);
+        puVar5 = (char *)(0xfa << 0x10 | (unsigned int)0xfa >> 0x10);
 
         puVar4 = 0x00001581;
 
@@ -182,7 +182,7 @@ int FUN_06027378(param_1)
 
       else {
 
-        iVar3 = (int)DAT_06027504;
+        iVar3 = 0x3feb;
 
         puVar5 = (char *)((int)DAT_06027526 << 0x10 | (unsigned int)(int)DAT_06027526 >> 0x10);
 

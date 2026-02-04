@@ -25,11 +25,11 @@ char * FUN_06040b32(param_1, param_2)
 
     uStack_10 = param_2;
 
-    iVar2 = (*(void(*)())0x060411A0)(param_1[1],param_1[4],param_2,&local_24,&iStack_20);
+    iVar2 = (*(int(*)())0x060411A0)(param_1[1],param_1[4],param_2,&local_24,&iStack_20);
 
     if (iVar2 == 0) {
 
-      iVar2 = (*(void(*)())0x0604188C)();
+      iVar2 = (*(int(*)())0x0604188C)();
 
       if (iVar2 == 0) {
 
@@ -41,7 +41,7 @@ char * FUN_06040b32(param_1, param_2)
 
         else {
 
-          (*(void(*)())0x06040220)(*param_1,0,0,&iStack_18,&iStack_14,&iStack_1c,0,0);
+          (*(int(*)())0x06040220)(*param_1,0,0,&iStack_18,&iStack_14,&iStack_1c,0,0);
 
           puVar1 = 0x0606367C;
 
@@ -53,7 +53,7 @@ char * FUN_06040b32(param_1, param_2)
 
           }
 
-          uVar3 = (*(void(*)())0x06035C48)();
+          uVar3 = (*(int(*)())0x06035C48)();
 
           *(int *)puVar1 = uVar3;
 

@@ -30,11 +30,11 @@ char * FUN_06005dd4(param_1)
 
   puVar1 = 0x06063E14;
 
-  puVar9 = (int *)(int)DAT_06005eae;
+  puVar9 = (int *)-252;
 
   puVar7 = puVar9 + 1;
 
-  puVar6 = (int *)(int)DAT_06005eb0;
+  puVar6 = (int *)-256;
 
   *puVar6 = 10;
 
@@ -44,11 +44,11 @@ char * FUN_06005dd4(param_1)
 
   puVar1[8] = 0;
 
-  puVar8 = (unsigned int *)(int)DAT_06005eb2;
+  puVar8 = (unsigned int *)-232;
 
   uVar4 = *puVar8;
 
-  puVar2 = (int *)(int)DAT_06005eb4;
+  puVar2 = (int *)-228;
 
   uVar3 = *puVar2;
 

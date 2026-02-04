@@ -49,7 +49,7 @@ void FUN_0600d92c()
 
   *(int *)(iVar4 + iVar1 + -0xc) = iVar3;
 
-  *(int *)(0x0607EBF8 + (*(int *)(iVar4 + iVar1 + -0x10) + -1) * 4) = iVar3;
+  *(int *)(0x0607EBF8 + (*(int *)(iVar4 + iVar1 + -0x10) + -1) << 2) = iVar3;
 
   iVar1 = *(int *)(iVar4 + iVar1 + 0x14);
 

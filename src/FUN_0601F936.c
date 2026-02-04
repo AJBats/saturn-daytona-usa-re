@@ -23,7 +23,7 @@ int FUN_0601f936()
 
   FUN_0601f87a(0);
 
-  uVar4 = (*(void(*)())0x0601E958)();
+  uVar4 = (*(int(*)())0x0601E958)();
 
   puVar3 = 0x06026CE0;
 
@@ -31,9 +31,9 @@ int FUN_0601f936()
 
     *(unsigned int *)puVar2 = *(unsigned int *)puVar2 | 0x80000000;
 
-    (*(void(*)())puVar3)();
+    (*(int(*)())puVar3)();
 
-    (*(void(*)())0x06026CE0)();
+    (*(int(*)())0x06026CE0)();
 
     FUN_0601f9cc();
 

@@ -8,7 +8,7 @@ char * FUN_0603d9ec(param_1)
 
   param_1 = 0x80000000 & param_1;
 
-  iVar1 = (*(void(*)())0x06036BE4)();
+  iVar1 = (*(int(*)())0x06036BE4)();
 
   if (iVar1 < (int)0x010E0000) {
 
@@ -20,13 +20,13 @@ char * FUN_0603d9ec(param_1)
 
       }
 
-      puVar2 = (char *)(*(void(*)())0x060424A2)(iVar1);
+      puVar2 = (char *)(*(int(*)())0x060424A2)(iVar1);
 
     }
 
     else {
 
-      iVar1 = (*(void(*)())0x060424A2)(0xFF4C0000 + iVar1);
+      iVar1 = (*(int(*)())0x060424A2)(0xFF4C0000 + iVar1);
 
       puVar2 = (char *)-iVar1;
 
@@ -36,7 +36,7 @@ char * FUN_0603d9ec(param_1)
 
   else {
 
-    iVar1 = (*(void(*)())0x060424A2)((int)0x01680000 - iVar1);
+    iVar1 = (*(int(*)())0x060424A2)((int)0x01680000 - iVar1);
 
     puVar2 = (char *)-iVar1;
 

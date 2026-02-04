@@ -46,7 +46,7 @@ int FUN_06039808(param_1)
 
     }
 
-    if ((int)(unsigned int)(unsigned char)*0x060A4CAB <= *(int *)0x060A4CB8) {
+    if ((int)(unsigned int)(unsigned char)*(int *)0x060A4CAB <= *(int *)0x060A4CB8) {
 
       *(int *)0x060A4CB8 = 0;
 

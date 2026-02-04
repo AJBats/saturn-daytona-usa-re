@@ -13,7 +13,7 @@ int FUN_06034d5e(param_1, param_2)
 
 LAB_06034dac:
 
-    iVar2 = (*(void(*)())0x06035228)();
+    iVar2 = (*(int(*)())0x06035228)();
 
   }
 
@@ -35,7 +35,7 @@ LAB_06034dac:
 
         if (iVar2 == 3) {
 
-          iVar2 = (*(void(*)())0x06035228)();
+          iVar2 = (*(int(*)())0x06035228)();
 
           return iVar2;
 

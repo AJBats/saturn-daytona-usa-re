@@ -38,7 +38,7 @@ void FUN_0600da7c()
 
       psVar6 = (short *)0x06078698;
 
-      (*(void(*)())0x06034F78)();
+      (*(int(*)())0x06034F78)();
 
       *psVar6 = *psVar6 + 1;
 
@@ -66,7 +66,7 @@ void FUN_0600da7c()
 
     psVar6 = (short *)0x06078698;
 
-    (*(void(*)())0x06034F78)();
+    (*(int(*)())0x06034F78)();
 
     *psVar6 = *psVar6 + 1;
 
@@ -82,7 +82,7 @@ void FUN_0600da7c()
 
   puVar5 = (short *)0x06078698;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar5 = uVar7;
 

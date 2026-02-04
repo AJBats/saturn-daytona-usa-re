@@ -32,9 +32,9 @@ unsigned int FUN_0603edc4(param_1, param_2, param_3, param_4, param_5)
 
   }
 
-  if (((param_2 & 8) != 0) || (((int)DAT_0603ee76 & param_2) != 0)) {
+  if (((param_2 & 8) != 0) || ((0x80 & param_2) != 0)) {
 
-    if (((param_1 & 8) == 0) && (((int)DAT_0603ee76 & param_1) == 0)) {
+    if (((param_1 & 8) == 0) && ((0x80 & param_1) == 0)) {
 
       *param_3 = *param_3 & param_5;
 
@@ -102,9 +102,9 @@ unsigned int FUN_0603edc4(param_1, param_2, param_3, param_4, param_5)
 
   }
 
-  if (((int)DAT_0603ef2a & param_2) != 0) {
+  if ((0x100 & param_2) != 0) {
 
-    if (((int)DAT_0603ef2a & param_1) == 0) {
+    if ((0x100 & param_1) == 0) {
 
       uVar1 = (int)(char)param_3[4] & (unsigned int)param_5;
 

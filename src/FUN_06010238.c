@@ -25,13 +25,13 @@ void FUN_06010238()
 
   uVar4 = ((unsigned int)uVar1 ^ (unsigned int)puVar3) & 0xff;
 
-  if ((int)PTR_DAT_06010274 < (int)uVar4) {
+  if (0x72b < (int)uVar4) {
 
     *(int *)puVar2 = *(int *)puVar2 + 1;
 
   }
 
-  if ((int)PTR_DAT_06010278 < (int)uVar4) {
+  if (0xc0 < (int)uVar4) {
 
     *(int *)puVar2 = *(int *)puVar2 + 1;
 

@@ -125,35 +125,35 @@ unsigned int FUN_0600b914()
 
         uVar24 = uVar24 + 1) {
 
-      puVar25 = (unsigned int *)(0x06078900 + uVar24 * (int)DAT_0600bab0);
+      puVar25 = (unsigned int *)(0x06078900 + uVar24 * 0x268);
 
       if ((*puVar25 & (unsigned int)0x00E00000) != 0) {
 
-        (*(void(*)())0x06027080)();
+        (*(int(*)())0x06027080)();
 
-        (*(void(*)())0x060270F2)(puVar25[4],puVar25[5] + *(int *)((int)puVar25 + (int)DAT_0600bab2),puVar25[6]);
+        (*(int(*)())0x060270F2)(puVar25[4],puVar25[5] + *(int *)((int)puVar25 + (int)DAT_0600bab2),puVar25[6]);
 
-        (*(void(*)())0x060271A2)(0x00008000 + puVar25[8]);
+        (*(int(*)())0x060271A2)(0x00008000 + puVar25[8]);
 
-        (*(void(*)())0x060271EE)(-puVar25[9]);
+        (*(int(*)())0x060271EE)(-puVar25[9]);
 
-        (*(void(*)())0x06027158)(-puVar25[7]);
+        (*(int(*)())0x06027158)(-puVar25[7]);
 
-        if (*(int *)((int)puVar25 + (int)DAT_0600bab4) + *(int *)((int)puVar25 + (int)DAT_0600bab6)
+        if (*(int *)((int)puVar25 + (int)DAT_0600bab4) + *(int *)((int)puVar25 + 0xb8)
 
             != 0) {
 
-          (*(void(*)())0x060271A2)(-*(int *)((int)puVar25 + DAT_0600bab8 + -0xc) -
+          (*(int(*)())0x060271A2)(-*(int *)((int)puVar25 + DAT_0600bab8 + -0xc) -
 
-                     *(int *)((int)puVar25 + (int)DAT_0600bab8));
+                     *(int *)((int)puVar25 + 0x1d8));
 
-          (*(void(*)())0x060271EE)(-*(int *)((int)puVar25 + (int)DAT_0600baba));
+          (*(int(*)())0x060271EE)(-*(int *)((int)puVar25 + 0x1d0));
 
-          (*(void(*)())0x06027158)(-*(int *)((int)puVar25 + (int)PTR_DAT_0600babc));
+          (*(int(*)())0x06027158)(-*(int *)((int)puVar25 + 0x1c8));
 
         }
 
-        uVar23 = (unsigned int)(unsigned char)0x06047FC4[uVar24];
+        uVar23 = (unsigned int)(unsigned char)((int *)0x06047FC4)[uVar24];
 
         if (((*puVar25 & 0x400000) == 0) &&
 
@@ -167,17 +167,17 @@ unsigned int FUN_0600b914()
 
               if (*(int *)((int)puVar25 + (int)PTR_DAT_0600bb8c) < 1) {
 
-                (*(void(*)())puVar3)(*puVar9,*puVar14);
+                (*(int(*)())puVar3)(*puVar9,*puVar14);
 
-                (*(void(*)())puVar4)(*puVar16,*puVar10,*puVar15);
+                (*(int(*)())puVar4)(*puVar16,*puVar10,*puVar15);
 
               }
 
               FUN_0600ac44(puVar25,1);
 
-              (*(void(*)())puVar3)(*puVar21,*puVar20);
+              (*(int(*)())puVar3)(*puVar21,*puVar20);
 
-              uVar5 = (*(void(*)())puVar4)(*puVar22,*(short *)(puVar2 + uVar23 * 2),*puVar19);
+              uVar5 = (*(int(*)())puVar4)(*puVar22,*(short *)(puVar2 + (uVar23 << 1)),*puVar19);
 
             }
 
@@ -185,9 +185,9 @@ unsigned int FUN_0600b914()
 
           else {
 
-            (*(void(*)())puVar3)(*puVar18,*puVar7);
+            (*(int(*)())puVar3)(*puVar18,*puVar7);
 
-            uVar5 = (*(void(*)())puVar4)(*puVar8,*(short *)(puVar2 + uVar23 * 2),*puVar13);
+            uVar5 = (*(int(*)())puVar4)(*puVar8,*(short *)(puVar2 + (uVar23 << 1)),*puVar13);
 
           }
 
@@ -197,15 +197,15 @@ unsigned int FUN_0600b914()
 
           if (*(int *)((int)puVar25 + (int)DAT_0600bab4) < 1) {
 
-            (*(void(*)())puVar3)(*puVar9,*puVar14);
+            (*(int(*)())puVar3)(*puVar9,*puVar14);
 
-            (*(void(*)())puVar4)(*puVar16,*puVar10,*puVar15);
+            (*(int(*)())puVar4)(*puVar16,*puVar10,*puVar15);
 
           }
 
-          (*(void(*)())puVar3)(*puVar6,*puVar11);
+          (*(int(*)())puVar3)(*puVar6,*puVar11);
 
-          uVar5 = (*(void(*)())puVar4)(*puVar12,*(short *)(puVar2 + uVar23 * 2),*puVar17);
+          uVar5 = (*(int(*)())puVar4)(*puVar12,*(short *)(puVar2 + (uVar23 << 1)),*puVar17);
 
         }
 

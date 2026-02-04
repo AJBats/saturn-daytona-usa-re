@@ -61,9 +61,9 @@ void FUN_06038794(param_1, param_2)
 
   }
 
-  param_1 = (char *)(*(void(*)())0x0603C0A0)(0x00010000,puVar7);
+  param_1 = (char *)(*(int(*)())0x0603C0A0)(0x00010000,puVar7);
 
-  param_2 = (char *)(*(void(*)())puVar1)(puVar2,puVar6);
+  param_2 = (char *)(*(int(*)())puVar1)(puVar2,puVar6);
 
 LAB_06038802:
 
@@ -85,7 +85,7 @@ LAB_06038802:
 
     if ((*(unsigned short *)(puVar1 + 4) & 0xff) != 0) {
 
-      (*(void(*)())0x0603DDFC)(0,0);
+      (*(int(*)())0x0603DDFC)(0,0);
 
       return;
 
@@ -101,7 +101,7 @@ LAB_06038802:
 
     if (((unsigned int)*(unsigned short *)(puVar1 + 4) & (unsigned int)0x0000FF00) != 0) {
 
-      (*(void(*)())0x0603DDFC)(0,0);
+      (*(int(*)())0x0603DDFC)(0,0);
 
       return;
 

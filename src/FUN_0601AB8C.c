@@ -19,7 +19,7 @@ void FUN_0601ab8c()
 
        *(int *)
 
-        (*(int *)(0x0605DE24 + ((*(int *)puVar1 << 1) + *(int *)0x0607EAE0) << 2) + 4);
+        (*(int *)(0x0605DE24 + ((*(int *)(int)puVar1 << 1) + *(int *)0x0607EAE0) << 2) + 4);
 
   return;
 

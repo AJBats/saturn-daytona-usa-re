@@ -11,7 +11,7 @@ void FUN_06031340()
 
   uVar1 = (unsigned int)DAT_0603135c;
 
-  puVar2 = (short *)(uVar1 * 2);
+  puVar2 = (short *)((uVar1 << 1));
 
   if (((uVar1 & 0x80000000) == 0) &&
 

@@ -13,13 +13,13 @@ int FUN_06034b54(param_1, param_2)
 
   char uStack_13;
 
-  (*(void(*)())0x06035E90)(&local_14);
+  (*(int(*)())0x06035E90)(&local_14);
 
   local_14 = 3;
 
   uStack_13 = param_1;
 
-  uVar1 = (*(void(*)())0x06035EA2)(0,&local_14,auStack_1c);
+  uVar1 = (*(int(*)())0x06035EA2)(0,&local_14,auStack_1c);
 
   *param_2 = uStack_18;
 

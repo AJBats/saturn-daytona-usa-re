@@ -25,9 +25,9 @@ unsigned int FUN_0601ac7c()
 
   iVar4 = *(int *)(0x0605DD6C +
 
-                  (*(int *)0x0607EAD8 * 6 + *(int *)0x0605AD00 * 2) * 4);
+                  (*(int *)0x0607EAD8 * 6 + *(int *)(0x0605AD00 << 1)) << 2);
 
-  iVar5 = *(int *)(0x0605DE24 + *(int *)0x0607EAD8 * 8);
+  iVar5 = *(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3));
 
   uVar2 = (unsigned int)PTR_DAT_0601ace4;
 
@@ -41,7 +41,7 @@ unsigned int FUN_0601ac7c()
 
       if (*(unsigned int *)((bVar7 - 1) * 0xc + iVar4 + 4) <= *(unsigned int *)puVar1) break;
 
-      (*(void(*)())0x06035168)();
+      (*(int(*)())0x06035168)();
 
       bVar7 = bVar7 - 1;
 

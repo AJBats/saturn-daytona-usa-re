@@ -20,7 +20,7 @@ char * FUN_060321c0()
 
   do {
 
-    iVar6 = *(int *)(0x060623B0 + iVar5 * 4);
+    iVar6 = *(int *)(0x060623B0 + (iVar5 << 2));
 
     *(char *)(iVar6 + 0x000002DC) = (char)iVar5;
 
@@ -30,7 +30,7 @@ char * FUN_060321c0()
 
     FUN_06032e18(0x00000000);
 
-    puVar4 = *(char **)(0x06062464 + iVar5 * 4);
+    puVar4 = *(char **)(0x06062464 + (iVar5 << 2));
 
     puVar3 = (char *)(0x000002DE + iVar6);
 

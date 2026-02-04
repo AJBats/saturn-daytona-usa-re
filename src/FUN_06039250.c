@@ -20,7 +20,7 @@ unsigned int FUN_06039250(param_1)
 
   unsigned int uVar3;
 
-  uVar3 = in_sr & (int)DAT_060392e6 & 0xfff0fff | 0xf0;
+  uVar3 = in_sr & -241 & 0xfff0fff | 0xf0;
 
   FUN_060394f0(0);
 

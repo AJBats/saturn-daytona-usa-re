@@ -97,7 +97,7 @@ int FUN_06035460()
 
       puVar8 = (char *)0x0;
 
-      puVar9 = &UNK_00000008;
+      puVar9 = (void *)0x00000008;
 
     }
 
@@ -133,11 +133,11 @@ int FUN_06035460()
 
       else if ((puVar13 != (char *)0x0) || (in_stack_00000008 != (char *)0x0)) {
 
-        for (puVar8 = (char *)((int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0));
+        for (puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0));
 
-            puVar9 = (char *)((int)puVar9 << 1), (int)puVar8 < (int)0x00100000;
+            puVar9 = (char *)((int)(int)puVar9 << 1), (int)puVar8 < (int)0x00100000;
 
-            puVar8 = (char *)((int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0))) {
+            puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0))) {
 
           uVar11 = uVar11 - 1;
 
@@ -155,15 +155,15 @@ LAB_060354ee:
 
       for (puVar13 = (char *)
 
-                     ((int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0));
+                     ((int)(int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0));
 
-          in_stack_00000008 = (char *)((int)in_stack_00000008 << 1), uVar15 = uVar11,
+          in_stack_00000008 = (char *)((int)(int)in_stack_00000008 << 1), uVar15 = uVar11,
 
           (int)puVar13 < (int)0x00100000;
 
           puVar13 = (char *)
 
-                    ((int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0))) {
+                    ((int)(int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0))) {
 
         uVar16 = uVar16 - 1;
 
@@ -179,11 +179,11 @@ LAB_060354ee:
 
     uVar16 = (unsigned int)puVar9 & 0x20000000;
 
-    puVar9 = (char *)((int)puVar9 << 3);
+    puVar9 = (char *)((int)(int)puVar9 << 3);
 
     puVar8 = (char *)
 
-             ((((int)puVar8 << 1 | (unsigned int)(uVar7 != 0)) << 1 | (unsigned int)(uVar5 != 0)) << 1 |
+             ((((int)(int)puVar8 << 1 | (unsigned int)(uVar7 != 0)) << 1 | (unsigned int)(uVar5 != 0)) << 1 |
 
              (unsigned int)(uVar16 != 0));
 
@@ -193,13 +193,13 @@ LAB_060354ee:
 
 LAB_0603556e:
 
-    puVar10 = (char *)((int)puVar9 * 8);
+    puVar10 = (char *)((int)((int)(int)puVar9 << 3));
 
-    puVar14 = (char *)((int)in_stack_00000008 << 3);
+    puVar14 = (char *)((int)(int)in_stack_00000008 << 3);
 
     puVar9 = (char *)
 
-             ((((int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0)) << 1 |
+             ((((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0)) << 1 |
 
               (unsigned int)(((unsigned int)puVar9 & 0x40000000) != 0)) << 1 |
 
@@ -207,7 +207,7 @@ LAB_0603556e:
 
     puVar8 = (char *)
 
-             ((((int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0)) << 1 |
+             ((((int)(int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0)) << 1 |
 
               (unsigned int)(((unsigned int)in_stack_00000008 & 0x40000000) != 0)) << 1 |
 
@@ -253,9 +253,9 @@ LAB_0603556e:
 
         }
 
-        lVar1 = ZEXT48(puVar14) * (unsigned long long)*(unsigned int *)(&DAT_06035734 + iVar4 * 4);
+        lVar1 = ZEXT48(puVar14) * (unsigned long long)*(unsigned int *)(&DAT_06035734 + (iVar4 << 2));
 
-        lVar2 = ZEXT48(puVar8) * (unsigned long long)*(unsigned int *)(&DAT_06035734 + iVar4 * 4);
+        lVar2 = ZEXT48(puVar8) * (unsigned long long)*(unsigned int *)(&DAT_06035734 + (iVar4 << 2));
 
         puVar8 = (char *)((unsigned long long)lVar2 >> 0x20);
 
@@ -273,7 +273,7 @@ LAB_0603556e:
 
         puVar8 = (char *)0x0;
 
-        puVar14 = &UNK_00000001;
+        puVar14 = (void *)0x00000001;
 
       }
 
@@ -361,9 +361,9 @@ LAB_0603556e:
 
       if (((unsigned int)puVar8 & 0xFFFF0000) == 0) {
 
-        puVar8 = (char *)((int)puVar8 << 0x10 | (unsigned int)puVar9 >> 0x10);
+        puVar8 = (char *)((int)(int)puVar8 << 0x10 | (unsigned int)puVar9 >> 0x10);
 
-        puVar9 = (char *)((int)puVar9 << 0x10);
+        puVar9 = (char *)((int)(int)puVar9 << 0x10);
 
         uVar15 = uVar15 - 0x10;
 
@@ -375,11 +375,11 @@ LAB_0603556e:
 
         for (; puVar14 = puVar9, uVar11 = uVar15, (int)puVar8 < (int)0x00800000;
 
-            puVar8 = (char *)((int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar14 & 0x80000000) != 0))) {
+            puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar14 & 0x80000000) != 0))) {
 
-          puVar14 = (char *)((int)puVar9 << 1);
+          puVar14 = (char *)((int)(int)puVar9 << 1);
 
-          puVar8 = (char *)((int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0));
+          puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0));
 
           uVar11 = uVar15 - 1;
 
@@ -387,9 +387,9 @@ LAB_0603556e:
 
           uVar7 = (unsigned int)puVar14 & 0x80000000;
 
-          puVar14 = (char *)((int)puVar9 << 2);
+          puVar14 = (char *)((int)(int)puVar9 << 2);
 
-          puVar8 = (char *)((int)puVar8 << 1 | (unsigned int)(uVar7 != 0));
+          puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(uVar7 != 0));
 
           uVar11 = uVar15 - 2;
 
@@ -397,15 +397,15 @@ LAB_0603556e:
 
           uVar7 = (unsigned int)puVar14 & 0x80000000;
 
-          puVar14 = (char *)((int)puVar9 << 3);
+          puVar14 = (char *)((int)(int)puVar9 << 3);
 
-          puVar8 = (char *)((int)puVar8 << 1 | (unsigned int)(uVar7 != 0));
+          puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(uVar7 != 0));
 
           uVar11 = uVar15 - 3;
 
           if ((int)0x00800000 <= (int)puVar8) break;
 
-          puVar9 = (char *)((int)puVar9 << 4);
+          puVar9 = (char *)((int)(int)puVar9 << 4);
 
           uVar15 = uVar15 - 4;
 

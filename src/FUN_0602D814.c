@@ -37,7 +37,7 @@ void FUN_0602d814()
 
   }
 
-  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + unaff_r14) * 4) *
+  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + unaff_r14) << 2) *
 
           (long long)*(int *)(unaff_r14 + 0xc);
 

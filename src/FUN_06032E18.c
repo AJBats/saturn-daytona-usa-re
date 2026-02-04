@@ -10,9 +10,9 @@ void FUN_06032e18(param_1)
 
   *(int *)(unaff_r14 + 0x000002D0) = param_1;
 
-  iVar2 = *(int *)((int)(0x060627F8 + param_1 * 8) + 4);
+  iVar2 = *(int *)((int)(0x060627F8 + (param_1 << 3)) + 4);
 
-  *(int *)(unaff_r14 + 0x000002CC) = *(int *)(0x060627F8 + param_1 * 8);
+  *(int *)(unaff_r14 + 0x000002CC) = *(int *)(0x060627F8 + (param_1 << 3));
 
   *(int *)(unaff_r14 + 0x000002C8) = iVar2;
 

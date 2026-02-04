@@ -41,7 +41,7 @@ void FUN_06032158(param_1, param_2)
 
   unsigned int uVar18;
 
-  puVar7 = (unsigned int *)*0x0608A52C;
+  puVar7 = (unsigned int *)*(int *)0x0608A52C;
 
   piVar6 = (int *)0x060961A8;
 
@@ -79,7 +79,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar11 = uVar4 + uVar1 * 0x10000;
+    uVar11 = uVar4 + (uVar1 << 16);
 
     uVar8 = iVar2 + (unsigned int)(uVar11 < uVar4) + (uVar1 >> 0x10) + (uVar8 >> 0x10) * (uVar9 >> 0x10);
 
@@ -155,7 +155,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar13 = uVar5 + uVar4 * 0x10000;
+    uVar13 = uVar5 + (uVar4 << 16);
 
     uVar9 = iVar2 + (unsigned int)(uVar13 < uVar5) + (uVar4 >> 0x10) + (uVar9 >> 0x10) * (uVar10 >> 0x10);
 
@@ -245,7 +245,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar12 = uVar5 + uVar11 * 0x10000;
+    uVar12 = uVar5 + (uVar11 << 16);
 
     uVar9 = iVar2 + (unsigned int)(uVar12 < uVar5) + (uVar11 >> 0x10) + (uVar9 >> 0x10) * (uVar10 >> 0x10);
 
@@ -333,7 +333,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar13 = uVar5 + uVar11 * 0x10000;
+    uVar13 = uVar5 + (uVar11 << 16);
 
     uVar9 = iVar2 + (unsigned int)(uVar13 < uVar5) + (uVar11 >> 0x10) + (uVar9 >> 0x10) * (uVar10 >> 0x10);
 
@@ -409,7 +409,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar14 = uVar15 + uVar5 * 0x10000;
+    uVar14 = uVar15 + (uVar5 << 16);
 
     uVar10 = iVar2 + (unsigned int)(uVar14 < uVar15) + (uVar5 >> 0x10) + (uVar10 >> 0x10) * (uVar1 >> 0x10);
 
@@ -497,7 +497,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar15 = uVar13 + uVar5 * 0x10000;
+    uVar15 = uVar13 + (uVar5 << 16);
 
     uVar10 = iVar2 + (unsigned int)(uVar15 < uVar13) + (uVar5 >> 0x10) + (uVar10 >> 0x10) * (uVar1 >> 0x10);
 
@@ -587,7 +587,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar16 = uVar14 + uVar13 * 0x10000;
+    uVar16 = uVar14 + (uVar13 << 16);
 
     uVar10 = iVar2 + (unsigned int)(uVar16 < uVar14) + (uVar13 >> 0x10) + (uVar10 >> 0x10) * (uVar1 >> 0x10)
 
@@ -665,7 +665,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar17 = uVar18 + uVar14 * 0x10000;
+    uVar17 = uVar18 + (uVar14 << 16);
 
     uVar1 = iVar2 + (unsigned int)(uVar17 < uVar18) + (uVar14 >> 0x10) + (uVar1 >> 0x10) * (uVar11 >> 0x10);
 
@@ -757,7 +757,7 @@ void FUN_06032158(param_1, param_2)
 
     }
 
-    uVar18 = uVar16 + uVar14 * 0x10000;
+    uVar18 = uVar16 + (uVar14 << 16);
 
     uVar1 = iVar2 + (unsigned int)(uVar18 < uVar16) + (uVar14 >> 0x10) + (uVar1 >> 0x10) * (uVar11 >> 0x10);
 

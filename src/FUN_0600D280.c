@@ -21,7 +21,7 @@ void FUN_0600d280()
 
   puVar1 = 0x06078900;
 
-  iVar6 = (int)PTR_DAT_0600d304;
+  iVar6 = 0x268;
 
   puVar5 = (int *)0x0607E94C;
 

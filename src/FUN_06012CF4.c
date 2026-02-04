@@ -37,13 +37,13 @@ void FUN_06012cf4()
 
   do {
 
-    iVar4 = (*(void(*)())puVar1)(5,puVar3,0x06084360,in_r7,uVar6);
+    iVar4 = (*(int(*)())puVar1)(5,puVar3,0x06084360,in_r7,uVar6);
 
     iVar5 = iVar5 + 1;
 
     if (4 < iVar5) {
 
-      (**(void **)puVar2)();
+      (*(int(*)())(*(int *)puVar2))();
 
     }
 

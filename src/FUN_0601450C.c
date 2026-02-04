@@ -51,11 +51,11 @@ void FUN_0601450c()
 
   *(unsigned int *)0x06084B20 =
 
-       (unsigned int)(unsigned char)0x0605AD2C[*(int *)puVar1];
+       (unsigned int)(unsigned char)((int *)0x0605AD2C)[*(int *)puVar1];
 
   if (iVar2 != *(int *)puVar1) {
 
-    (*(void(*)())0x0601D5F4)(0,0xAB111DFF);
+    (*(int(*)())0x0601D5F4)(0,0xAB111DFF);
 
     return;
 

@@ -338,7 +338,7 @@ unsigned int FUN_060370e4(param_1)
 
     if (((*(char *)((int)param_1 + 0xe) == '\x01') && (*(int *)0x060A4C44 == 0)) &&
 
-       (iVar8 = (*(void(*)())0x0603C156)(), iVar8 == 1)) {
+       (iVar8 = (*(int(*)())0x0603C156)(), iVar8 == 1)) {
 
       uVar6 = (int)*(short *)(puVar3 + 0xe) | (unsigned int)0x00008000;
 
@@ -360,7 +360,7 @@ unsigned int FUN_060370e4(param_1)
 
           piVar9 = (int *)puVar5;
 
-          uVar7 = (*(void(*)())0x06034FFC)();
+          uVar7 = (*(int(*)())0x06034FFC)();
 
           *(unsigned short *)(puVar4 + 6) = *(unsigned short *)(puVar4 + 6) | uVar7;
 
@@ -376,7 +376,7 @@ unsigned int FUN_060370e4(param_1)
 
           *(unsigned short *)(puVar4 + 6) = *(unsigned short *)(puVar4 + 6) & 0xff;
 
-          uVar6 = (*(void(*)())0x06034FFC)();
+          uVar6 = (*(int(*)())0x06034FFC)();
 
           uVar6 = (int)*(short *)(puVar4 + 6) | (uVar6 & 0xffff) << 8;
 
@@ -394,7 +394,7 @@ unsigned int FUN_060370e4(param_1)
 
       if (*(int *)(puVar5 + 4) == 0) {
 
-        *(int *)(puVar5 + 4) = *(int *)puVar5 + (int)DAT_06037534;
+        *(int *)(puVar5 + 4) = *(int *)puVar5 + 0x400;
 
       }
 

@@ -21,9 +21,9 @@ void FUN_06012710()
 
   if (iVar4 == 0x28) {
 
-    (*(void(*)())0x0601D5F4)(0,0xAE1125FF);
+    (*(int(*)())0x0601D5F4)(0,0xAE1125FF);
 
-    (*(void(*)())puVar2)(0,0xAE1116FF);
+    (*(int(*)())puVar2)(0,0xAE1116FF);
 
     *(short *)0x06086056 = 0x3c;
 
@@ -47,19 +47,19 @@ void FUN_06012710()
 
     }
 
-    (*(void(*)())puVar2)(0,uVar5);
+    (*(int(*)())puVar2)(0,uVar5);
 
-    (*(void(*)())puVar2)(0,uVar3);
+    (*(int(*)())puVar2)(0,uVar3);
 
   }
 
 LAB_0601277a:
 
-  iVar4 = (*(void(*)())0x06035C2C)();
+  iVar4 = (*(int(*)())0x06035C2C)();
 
   if (0x6e < *(int *)puVar1 && iVar4 == 0) {
 
-    (*(void(*)())puVar2)(0,0xAE110CFF);
+    (*(int(*)())puVar2)(0,0xAE110CFF);
 
   }
 

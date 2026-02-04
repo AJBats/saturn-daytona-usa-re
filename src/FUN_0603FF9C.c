@@ -14,7 +14,7 @@ void FUN_0603ff9c(param_1)
 
   iVar3 = puVar2[2];
 
-  (*(void(*)())(*(int *)(param_1 + 0x28)))(*(int *)(param_1 + 0x20),*puVar2,puVar2[1],
+  (*(int(*)())(*(int *)(param_1 + 0x28)))(*(int *)(param_1 + 0x20),*puVar2,puVar2[1],
 
              iVar1 * *(int *)(param_1 + 0x1c) + **(int **)(param_1 + 4),iVar1,iVar3);
 

@@ -13,91 +13,91 @@ int FUN_0603d5d0()
 
   puVar3 = 0x0000FFFE;
 
-  (*(void(*)())0x06034F78)(0x060A4D46,0x060A4D58,1);
+  (*(int(*)())0x06034F78)(0x060A4D46,0x060A4D58,1);
 
   uVar4 = (unsigned short)puVar3;
 
   *puVar2 = *puVar2 & uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & (unsigned short)0x0000FFFD;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & (unsigned short)0x0000FFFB;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & (unsigned short)0x0000FFF7;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & (unsigned short)0x0000FFEF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & (unsigned short)0x0000FFDF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   *puVar2 = *puVar2 & (unsigned short)0x0000FFBF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & (unsigned short)0x0000FFFD;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & (unsigned short)0x0000FFFB;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & (unsigned short)0x0000FFF7;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & (unsigned short)0x0000FFEF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[1] = puVar2[1] & (unsigned short)0x0000FFDF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   uVar4 = 0;
 
   puVar2[1] = puVar2[1] & (unsigned short)0x0000FFBF;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[2] = uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[3] = uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[4] = uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[5] = uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[6] = uVar4;
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   puVar2[7] = uVar4;
 
-  uVar1 = (*(void(*)())0x06034F78)();
+  uVar1 = (*(int(*)())0x06034F78)();
 
   return uVar1;
 

@@ -101,7 +101,7 @@ LAB_060107c8:
 
   uVar8 = uVar7;
 
-  if ((int)PTR_DAT_06010870 < (int)uVar7) {
+  if (0x90 < (int)uVar7) {
 
     *(int *)0x0607889C = 0xFFFF0000;
 
@@ -195,25 +195,25 @@ LAB_060107c8:
 
     if (*puVar3 == '\0') {
 
-      uVar12 = *(int *)(0x0605D05C + *(int *)puVar4 * 4);
+      uVar12 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
 
-      iVar11 = *(int *)0x06059FFC * 8 + *(int *)0x06063F5C + 0x40;
+      iVar11 = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + 0x40;
 
     }
 
     else {
 
-      uVar12 = *(int *)(0x0605D05C + *(int *)puVar4 * 4);
+      uVar12 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
 
-      iVar11 = *(int *)0x06059FFC * 8 + *(int *)0x06063F5C + DAT_0601096e + 0x40;
+      iVar11 = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + DAT_0601096e + 0x40;
 
     }
 
-    uVar8 = (*(void(*)())puVar2)(iVar11,uVar12,(int)DAT_0601096e);
+    uVar8 = (*(int(*)())puVar2)(iVar11,uVar12,0xc0);
 
   }
 
-  if ((uVar7 < 0x70) || ((int)PTR_DAT_06010970 < (int)uVar7)) {
+  if ((uVar7 < 0x70) || (0x90 < (int)uVar7)) {
 
     if (*(unsigned int *)puVar4 < 0xc) {
 
@@ -227,9 +227,9 @@ LAB_060107c8:
 
     }
 
-    uVar8 = (*(void(*)())puVar2)(0x25F00000 + (*(int *)0x0607EAB8 * 2 + 0x23) * 0x20,
+    uVar8 = (*(int(*)())puVar2)(0x25F00000 + (*(int *)(0x0607EAB8 << 1) + 0x23) << 5,
 
-                              0x0605CA9C + iVar11 * 0x40,0x40);
+                              0x0605CA9C + (iVar11 << 6),0x40);
 
   }
 

@@ -3,7 +3,7 @@ int FUN_06035c08()
 
   int uVar1;
 
-  uVar1 = (*(void(*)())0x06035FEC)();
+  uVar1 = (*(int(*)())0x06035FEC)();
 
   return uVar1;
 

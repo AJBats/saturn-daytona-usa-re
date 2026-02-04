@@ -21,7 +21,7 @@ void FUN_0600d0b8()
 
   int iVar3;
 
-  iVar3 = (int)DAT_0600d112;
+  iVar3 = 0x200;
 
   puVar2 = *(unsigned int **)0x0607E940;
 
@@ -37,25 +37,25 @@ void FUN_0600d0b8()
 
     else {
 
-      iVar1 = *(int *)(iVar1 + DAT_0600d114) + (int)DAT_0600d116;
+      iVar1 = *(int *)(iVar1 + DAT_0600d114) + -512;
 
     }
 
     if (iVar1 < 0) {
 
-      *(int *)((int)puVar2 + (int)DAT_0600d118) = 0;
+      *(int *)((int)puVar2 + 0x1f8) = 0;
 
     }
 
     else if (DAT_0600d11a < iVar1) {
 
-      *(int *)((int)puVar2 + (int)DAT_0600d118) = (int)DAT_0600d11a;
+      *(int *)((int)puVar2 + 0x1f8) = 0x800;
 
     }
 
     else {
 
-      *(int *)((int)puVar2 + (int)DAT_0600d118) = iVar1;
+      *(int *)((int)puVar2 + 0x1f8) = iVar1;
 
     }
 

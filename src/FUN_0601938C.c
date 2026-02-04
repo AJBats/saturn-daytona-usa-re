@@ -9,15 +9,15 @@ void FUN_0601938c()
 
   puVar1 = 0x0602761E;
 
-  (*(void(*)())0x0602761E)(0x25F00540,0x0605CE9C,0x20);
+  (*(int(*)())0x0602761E)(0x25F00540,0x0605CE9C,0x20);
 
-  (*(void(*)())puVar1)(0x25F00000,0x0605CD9C,0x20);
+  (*(int(*)())puVar1)(0x25F00000,0x0605CD9C,0x20);
 
-  (*(void(*)())puVar1)(0x25F00600,0x0605CF9C,0x20);
+  (*(int(*)())puVar1)(0x25F00600,0x0605CF9C,0x20);
 
-  (*(void(*)())puVar1)(0x25F00620,0x0605CEBC,(int)DAT_060193c4);
+  (*(int(*)())puVar1)(0x25F00620,0x0605CEBC,0xe0);
 
-  (*(void(*)())puVar1)(0x25F00780,0x06049DC4,(int)DAT_060193c6);
+  (*(int(*)())puVar1)(0x25F00780,0x06049DC4,0x80);
 
   return;
 

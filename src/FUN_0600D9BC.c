@@ -30,7 +30,7 @@ void FUN_0600d9bc(param_1)
 
      (*(int *)(iVar6 + DAT_0600da50) != *(int *)0x06063F20)) {
 
-    iVar3 = (int)DAT_0600da50;
+    iVar3 = 0x228;
 
     *(int *)0x06063F20 = *(int *)(iVar6 + iVar3);
 
@@ -50,13 +50,13 @@ void FUN_0600d9bc(param_1)
 
   }
 
-  uVar4 = (*(void(*)())0x06035280)();
+  uVar4 = (*(int(*)())0x06035280)();
 
   if ((*(unsigned int *)puVar1 & uVar4) == 0) {
 
     *(unsigned int *)puVar1 = *(unsigned int *)puVar1 | uVar4;
 
-    (*(void(*)())0x06034F78)();
+    (*(int(*)())0x06034F78)();
 
     *(int *)(iVar6 + PTR_DAT_0600da54) = *(int *)(iVar6 + PTR_DAT_0600da54) + 1;
 

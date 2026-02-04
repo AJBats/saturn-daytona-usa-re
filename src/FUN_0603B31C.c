@@ -34,11 +34,11 @@ void FUN_0603b31c(param_1, param_2)
 
     FUN_0603be7c(*param_1,iVar2);
 
-    (*(void(*)())0x0603F9DA)(param_1[2],0);
+    (*(int(*)())0x0603F9DA)(param_1[2],0);
 
-    (*(void(*)())0x0603EF54)(param_1[1],0,0,1);
+    (*(int(*)())0x0603EF54)(param_1[1],0,0,1);
 
-    (*(void(*)())0x0603FA1A)(param_1[2],0xffffffff);
+    (*(int(*)())0x0603FA1A)(param_1[2],0xffffffff);
 
     FUN_0603b93c(0);
 

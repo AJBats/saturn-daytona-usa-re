@@ -21,21 +21,21 @@ void FUN_060196a4()
 
   puVar1 = 0x06085FF1;
 
-  (*(void(*)())0x06026110)();
+  (*(int(*)())0x06026110)();
 
   if ((*(unsigned short *)(0x06063D98 + 2) & DAT_06019762) != 0) {
 
-    (*(void(*)())0x06028400)(0xc,*(int *)
+    (*(int(*)())0x06028400)(0xc,*(int *)
 
-                    (0x06063750 + (unsigned int)*(unsigned short *)(0x06049AF4 + (char)*puVar3 * 2) * 8)
+                    (0x06063750 + (unsigned int)*(unsigned short *)(0x06049AF4 + (char)*((int)(int)puVar3 << 1)) << 3)
 
-               ,((unsigned int)(unsigned char)(0x06049AEC + (char)*puVar3 * 2)[1] * 0x40 +
+               ,((unsigned int)(unsigned char)((char *)(0x06049AEC + (char)*((int)(int)puVar3 << 1)))[1] * 0x40 +
 
-                (unsigned int)(unsigned char)0x06049AEC[(char)*puVar3 * 2]) * 2,
+                (unsigned int)(unsigned char)((int *)0x06049AEC)[(char)*((int)(int)puVar3 << 1)]) << 1,
 
                *(int *)((int)(0x06063750 +
 
-                             (unsigned int)*(unsigned short *)(0x06049AF4 + (char)*puVar3 * 2) * 8) + 4) +
+                             (unsigned int)*(unsigned short *)(0x06049AF4 + (char)*((int)(int)puVar3 << 1)) << 3) + 4) +
 
                (int)(short)PTR_DAT_06019764);
 
@@ -99,7 +99,7 @@ void FUN_060196a4()
 
   *puVar2 = *puVar2 + '\x01';
 
-  (**(void **)((char)*puVar3 * 4 + 0x0605D250))();
+  (*(int(*)())(*(int *)((char)*((int)(int)puVar3 << 2) + 0x0605D250)))();
 
   return;
 

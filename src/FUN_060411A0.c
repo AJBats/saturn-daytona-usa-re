@@ -6,7 +6,7 @@ extern int PTR_DAT_060411f8;
 
 extern int FUN_06041b3c();
 
-int 
+int _unknown_()
 {
 
   char *puVar1;

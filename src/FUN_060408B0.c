@@ -18,17 +18,17 @@ int FUN_060408b0(param_1, param_2, param_3)
 
   uStack_14 = param_2;
 
-  iVar1 = (*(void(*)())0x060411A0)(param_1[1],param_1[4],param_2,&local_24,param_3);
+  iVar1 = (*(int(*)())0x060411A0)(param_1[1],param_1[4],param_2,&local_24,param_3);
 
   if (iVar1 == 0) {
 
-    iVar1 = (*(void(*)())0x0604188C)();
+    iVar1 = (*(int(*)())0x0604188C)();
 
     if (iVar1 == 0) {
 
       if ((((param_3 != (int *)0x0) &&
 
-           ((*(void(*)())0x06040220)(*param_1,0,0,&iStack_1c,&iStack_18,&iStack_20,0,0),
+           ((*(int(*)())0x06040220)(*param_1,0,0,&iStack_1c,&iStack_18,&iStack_20,0,0),
 
            iStack_18 <= param_1[2] + param_1[4] + local_24)) && (iStack_20 != 0)) && (0 < local_24))
 

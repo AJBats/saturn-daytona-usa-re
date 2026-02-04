@@ -11,9 +11,9 @@ void FUN_06032d90()
 
                   );
 
-  piVar1 = (int *)(*(int *)(0x060624F8 + *(int *)0x0607EAD8 * 4) +
+  piVar1 = (int *)(*(int *)(0x060624F8 + *(int *)(0x0607EAD8 << 2)) +
 
-                  *(char *)(unaff_r14 + 0x000002DC) * 0x10);
+                  *(char *)(unaff_r14 + 0x000002DC) << 4);
 
   *(int *)(unaff_r14 + 0x00000000) = *piVar1 + *piVar2;
 
@@ -27,7 +27,7 @@ void FUN_06032d90()
 
   *(int *)(unaff_r14 + 0x000002D8) =
 
-       *(int *)(0x06062624 + *(char *)(unaff_r14 + 0x000002DD) * 4);
+       *(int *)(0x06062624 + *(char *)(unaff_r14 + 0x000002DD) << 2);
 
   return;
 

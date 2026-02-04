@@ -23,7 +23,7 @@ void FUN_0603af94(param_1)
 
   FUN_0603b8f4(param_1);
 
-  (*(void(*)())0x0603BF22)(iVar1,param_1);
+  (*(int(*)())0x0603BF22)(iVar1,param_1);
 
   FUN_0603b93c(0);
 

@@ -35,7 +35,7 @@ int FUN_0603bac6(param_1)
 
   uVar5 = 0;
 
-  iVar1 = (*(void(*)())0x06040680)();
+  iVar1 = (*(int(*)())0x06040680)();
 
   if (iVar1 == 0) {
 
@@ -45,11 +45,11 @@ int FUN_0603bac6(param_1)
 
   else {
 
-    local_24 = (*(void(*)())0x06040F82)();
+    local_24 = (*(int(*)())0x06040F82)();
 
     local_24 = local_24 + DAT_0603bbb0;
 
-    iVar4 = (int)DAT_0603bbb2;
+    iVar4 = 0x800;
 
     uStack_1a = 0;
 

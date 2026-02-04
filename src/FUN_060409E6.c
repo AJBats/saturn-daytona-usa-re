@@ -38,7 +38,7 @@ int FUN_060409e6(param_1, param_2, param_3)
 
     }
 
-    iVar2 = (*(void(*)())0x060411A0)(*(int *)(param_1 + 4),0,0x0000FFFF,&local_1c,0)
+    iVar2 = (*(int(*)())0x060411A0)(*(int *)(param_1 + 4),0,0x0000FFFF,&local_1c,0)
 
     ;
 
@@ -48,7 +48,7 @@ int FUN_060409e6(param_1, param_2, param_3)
 
     }
 
-    iVar2 = (*(void(*)())puVar1)();
+    iVar2 = (*(int(*)())puVar1)();
 
     if (iVar2 != 0) {
 
@@ -78,9 +78,9 @@ int FUN_060409e6(param_1, param_2, param_3)
 
     if (0 < local_1c) {
 
-      (*(void(*)())0x060412B2)(*(int *)(param_1 + 4),0,local_1c);
+      (*(int(*)())0x060412B2)(*(int *)(param_1 + 4),0,local_1c);
 
-      iVar3 = (*(void(*)())puVar1)();
+      iVar3 = (*(int(*)())puVar1)();
 
       if (iVar3 != 0) {
 
@@ -104,9 +104,9 @@ int FUN_060409e6(param_1, param_2, param_3)
 
       iStack_18 = param_1;
 
-      (*(void(*)())0x060412B2)(*(int *)(param_1 + 4),0,0x0000FFFF);
+      (*(int(*)())0x060412B2)(*(int *)(param_1 + 4),0,0x0000FFFF);
 
-      iVar3 = (*(void(*)())puVar1)();
+      iVar3 = (*(int(*)())puVar1)();
 
       if (iVar3 == 0) {
 

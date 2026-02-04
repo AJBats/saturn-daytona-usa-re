@@ -12,7 +12,7 @@ void FUN_0603ab46(param_1)
 
   int iVar2;
 
-  uVar1 = (unsigned short)(unsigned char)*0x060A4CAF;
+  uVar1 = (unsigned short)(unsigned char)*(int *)0x060A4CAF;
 
   if (uVar1 == 0) {
 
@@ -62,7 +62,7 @@ LAB_0603abe6:
 
           *(char *)
 
-           (((unsigned char)*0x060A4CAE + 1) * *(int *)0x060A4CB4 + *(int *)0x060A4CC0) =
+           (((unsigned char)*(int *)0x060A4CAE + 1) * *(int *)0x060A4CB4 + *(int *)0x060A4CC0) =
 
                param_1;
 

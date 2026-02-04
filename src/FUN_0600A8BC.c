@@ -31,7 +31,7 @@ unsigned short FUN_0600a8bc()
 
     }
 
-    else if (*(int *)(iVar3 + 8) < (int)PTR_DAT_0600a900) {
+    else if (*(int *)(iVar3 + 8) < 0xc8) {
 
       *(short *)0x06063F46 = *(short *)0x06063F46 + 2;
 

@@ -8,13 +8,13 @@ void FUN_06034dea(param_1)
 
   char auStack_f [11];
 
-  (*(void(*)())0x06035E90)(&local_10);
+  (*(int(*)())0x06035E90)(&local_10);
 
   local_10 = 0x11;
 
   FUN_06034d5e(param_1,auStack_f);
 
-  (*(void(*)())0x06035EC8)(0,&local_10);
+  (*(int(*)())0x06035EC8)(0,&local_10);
 
   return;
 

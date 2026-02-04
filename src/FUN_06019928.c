@@ -28,7 +28,7 @@ void FUN_06019928()
 
   puVar1 = 0x0605D294;
 
-  iVar5 = (int)PTR_DAT_06019a24;
+  iVar5 = 0x90;
 
   if (*(int *)0x06085FF1 == '\x01') {
 
@@ -38,11 +38,11 @@ void FUN_06019928()
 
     do {
 
-      (*(void(*)())puVar3)(8,((unsigned int)(unsigned char)(puVar2 + (unsigned int)bVar6 * 2)[1] * 0x40 +
+      (*(int(*)())puVar3)(8,((unsigned int)(unsigned char)(puVar2 + (unsigned int)(bVar6 << 1))[1] * 0x40 +
 
-                          (unsigned int)(unsigned char)puVar2[(unsigned int)bVar6 * 2]) * 2,iVar5,
+                          (unsigned int)(unsigned char)puVar2[(unsigned int)(bVar6 << 1)]) << 1,iVar5,
 
-                        *(int *)(puVar1 + (unsigned int)bVar6 * 4));
+                        *(int *)(puVar1 + (unsigned int)(bVar6 << 2)));
 
       puVar4 = 0x06085FF0;
 
@@ -50,19 +50,19 @@ void FUN_06019928()
 
     } while (bVar6 < 8);
 
-    (*(void(*)())puVar3)(0xc,((unsigned int)(unsigned char)(puVar2 + (char)*0x06085FF0 * 2)[1] * 0x40 +
+    (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)(puVar2 + (char)*(int *)(0x06085FF0 << 1))[1] * 0x40 +
 
-                          (unsigned int)(unsigned char)puVar2[(char)*0x06085FF0 * 2]) * 2,iVar5,
+                          (unsigned int)(unsigned char)puVar2[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar5,
 
-                      *(int *)(puVar1 + (char)*0x06085FF0 * 4));
+                      *(int *)(puVar1 + (char)*(int *)(0x06085FF0 << 2)));
 
-    (*(void(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)*puVar4 * 2 + 1] * 0x40 + 1) * 2,iVar5,
+    (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)*((int)(int)puVar4 << 1) + 1] * 0x40 + 1) << 1,iVar5,
 
                       0x06049E44);
 
     if (*puVar4 != '\x06') {
 
-      (*(void(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[0xd] * 0x40 + (unsigned int)(unsigned char)puVar2[0xc] + 0xd) * 2,
+      (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[0xd] * 0x40 + (unsigned int)(unsigned char)puVar2[0xc] + 0xd) << 1,
 
                         iVar5,*(int *)0x0605D4F0,puVar2);
 

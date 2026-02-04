@@ -28,7 +28,7 @@ void FUN_0603b9d6(param_1)
 
       iVar4 = iVar2 << 2;
 
-      iVar1 = (iVar2 + 1) * 4;
+      iVar1 = (iVar2 + 1) << 2;
 
       for (; iVar2 < iVar3; iVar2 = iVar2 + 1) {
 

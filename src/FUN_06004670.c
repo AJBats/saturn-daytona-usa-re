@@ -39,7 +39,7 @@ void FUN_06004670()
 
   puVar2[9] = 1;
 
-  *(short *)(puVar2 + 10) = (0x40 - (short)(char)puVar2[6] * (short)(char)puVar2[9]) * 2;
+  *(short *)(puVar2 + 10) = (0x40 - (short)(char)puVar2[6] * (short)(char)puVar2[9]) << 1;
 
   puVar2[8] = puVar2[6] * puVar2[7] * '\x02';
 
@@ -53,7 +53,7 @@ void FUN_06004670()
 
   puVar2[0x15] = 2;
 
-  *(short *)(puVar2 + 0x16) = (0x40 - (short)(char)puVar2[0x12] * (short)(char)puVar2[0x15]) * 2;
+  *(short *)(puVar2 + 0x16) = (0x40 - (short)(char)puVar2[0x12] * (short)(char)puVar2[0x15]) << 1;
 
   puVar2[0x14] = puVar2[0x12] * puVar2[0x13] * '\x02';
 
@@ -69,7 +69,7 @@ void FUN_06004670()
 
   puVar2[0x21] = 3;
 
-  *(short *)(puVar2 + 0x22) = (0x40 - (short)(char)puVar2[0x1e] * (short)(char)puVar2[0x21]) * 2;
+  *(short *)(puVar2 + 0x22) = (0x40 - (short)(char)puVar2[0x1e] * (short)(char)puVar2[0x21]) << 1;
 
   puVar2[0x20] = puVar2[0x1e] * puVar2[0x1f] * '\x02';
 
@@ -83,7 +83,7 @@ void FUN_06004670()
 
   puVar2[0x2d] = 3;
 
-  *(short *)(puVar2 + 0x2e) = (0x40 - (short)(char)puVar2[0x2a] * (short)(char)puVar2[0x2d]) * 2;
+  *(short *)(puVar2 + 0x2e) = (0x40 - (short)(char)puVar2[0x2a] * (short)(char)puVar2[0x2d]) << 1;
 
   puVar2[0x2c] = puVar2[0x2a] * puVar2[0x2b] * '\x02';
 
@@ -97,7 +97,7 @@ void FUN_06004670()
 
   puVar2[0x39] = 2;
 
-  *(short *)(puVar2 + 0x3a) = (0x40 - (short)(char)puVar2[0x36] * (short)(char)puVar2[0x39]) * 2;
+  *(short *)(puVar2 + 0x3a) = (0x40 - (short)(char)puVar2[0x36] * (short)(char)puVar2[0x39]) << 1;
 
   puVar2[0x38] = puVar2[0x36] * puVar2[0x37] * '\x02';
 
@@ -113,7 +113,7 @@ void FUN_06004670()
 
   puVar2[0x45] = 2;
 
-  *(short *)(puVar2 + 0x46) = (0x40 - (short)(char)puVar2[0x42] * (short)(char)puVar2[0x45]) * 2;
+  *(short *)(puVar2 + 0x46) = (0x40 - (short)(char)puVar2[0x42] * (short)(char)puVar2[0x45]) << 1;
 
   puVar2[0x44] = puVar2[0x42] * puVar2[0x43] * '\x02';
 
@@ -171,7 +171,7 @@ void FUN_06004670()
 
   puVar2[0x75] = 1;
 
-  *(short *)(puVar2 + 0x76) = (0x40 - (short)(char)puVar2[0x72] * (short)(char)puVar2[0x75]) * 2;
+  *(short *)(puVar2 + 0x76) = (0x40 - (short)(char)puVar2[0x72] * (short)(char)puVar2[0x75]) << 1;
 
   puVar2[0x74] = puVar2[0x72] * puVar2[0x73] * '\x02';
 
@@ -199,7 +199,7 @@ void FUN_06004670()
 
   puVar2[0x8d] = 1;
 
-  *(short *)(puVar2 + 0x8e) = (0x40 - (short)(char)puVar2[0x8a] * (short)(char)puVar2[0x8d]) * 2;
+  *(short *)(puVar2 + 0x8e) = (0x40 - (short)(char)puVar2[0x8a] * (short)(char)puVar2[0x8d]) << 1;
 
   puVar2[0x8c] = puVar2[0x8a] * puVar2[0x8b] * '\x02';
 

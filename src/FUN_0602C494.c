@@ -101,7 +101,7 @@ void FUN_0602c494(param_1, param_2)
 
   uVar8 = 0;
 
-  iVar10 = (int)PTR_DAT_0602c67c;
+  iVar10 = 0x640;
 
   psVar11 = (short *)0x060A17A8;
 
@@ -111,11 +111,11 @@ void FUN_0602c494(param_1, param_2)
 
     psVar11 = psVar11 + 1;
 
-    uVar1 = *(unsigned short *)(puVar5 + ((int)sVar2 & 0x1fU) * 2);
+    uVar1 = *(unsigned short *)(puVar5 + ((int)sVar2 & 0x1fU) << 1);
 
-    *(unsigned short *)(puVar5 + ((int)sVar2 & 0x1fU) * 2) = uVar1 + 1;
+    *(unsigned short *)(puVar5 + ((int)sVar2 & 0x1fU) << 1) = uVar1 + 1;
 
-    *(short *)(puVar4 + (unsigned int)uVar1 * 2 + ((int)sVar2 & 0x1fU) * iVar10) = (short)uVar8;
+    *(short *)(puVar4 + (unsigned int)(uVar1 << 1) + ((int)sVar2 & 0x1fU) * iVar10) = (short)uVar8;
 
     uVar8 = uVar8 + 1;
 
@@ -123,7 +123,7 @@ void FUN_0602c494(param_1, param_2)
 
   iVar14 = 0;
 
-  iVar10 = (int)PTR_DAT_0602c66c;
+  iVar10 = 0x640;
 
   puVar7 = (unsigned short *)0x060A2428;
 
@@ -205,11 +205,11 @@ void FUN_0602c494(param_1, param_2)
 
   do {
 
-    uVar6 = *(unsigned short *)(0x060A17A8 + (unsigned int)*puVar7 * 2) >> 5 & 0x1f;
+    uVar6 = *(unsigned short *)(0x060A17A8 + (unsigned int)*((int)(int)puVar7 << 1)) >> 5 & 0x1f;
 
-    uVar1 = *(unsigned short *)(0x060A2428 + uVar6 * 2);
+    uVar1 = *(unsigned short *)(0x060A2428 + (uVar6 << 1));
 
-    *(unsigned short *)(0x060A2428 + uVar6 * 2) = uVar1 + 1;
+    *(unsigned short *)(0x060A2428 + (uVar6 << 1)) = uVar1 + 1;
 
     uVar8 = uVar8 + 1;
 
@@ -217,13 +217,13 @@ void FUN_0602c494(param_1, param_2)
 
     puVar7 = puVar7 + 1;
 
-    *(unsigned short *)(0x06094FA8 + (unsigned int)uVar1 * 2 + uVar6 * (int)PTR_DAT_0602c67c) = uVar3;
+    *(unsigned short *)(0x06094FA8 + (unsigned int)(uVar1 << 1) + uVar6 * 0x640) = uVar3;
 
   } while (uVar8 < param_1);
 
   iVar14 = 0;
 
-  iVar10 = (int)PTR_DAT_0602c66c;
+  iVar10 = 0x640;
 
   puVar7 = (unsigned short *)0x060A2428;
 
@@ -305,11 +305,11 @@ void FUN_0602c494(param_1, param_2)
 
   do {
 
-    uVar6 = (unsigned int)(int)(char)0x060A17A8[(unsigned int)*puVar7 * 2] >> 2 & 0x1f;
+    uVar6 = (unsigned int)(int)(char)((int *)0x060A17A8)[(unsigned int)*((int)(int)puVar7 << 1)] >> 2 & 0x1f;
 
-    uVar1 = *(unsigned short *)(0x060A2428 + uVar6 * 2);
+    uVar1 = *(unsigned short *)(0x060A2428 + (uVar6 << 1));
 
-    *(unsigned short *)(0x060A2428 + uVar6 * 2) = uVar1 + 1;
+    *(unsigned short *)(0x060A2428 + (uVar6 << 1)) = uVar1 + 1;
 
     uVar8 = uVar8 + 1;
 
@@ -317,13 +317,13 @@ void FUN_0602c494(param_1, param_2)
 
     puVar7 = puVar7 + 1;
 
-    *(unsigned short *)(0x06094FA8 + (unsigned int)uVar1 * 2 + uVar6 * (int)PTR_DAT_0602c67c) = uVar3;
+    *(unsigned short *)(0x06094FA8 + (unsigned int)(uVar1 << 1) + uVar6 * 0x640) = uVar3;
 
   } while (uVar8 < param_1);
 
   iVar14 = 0;
 
-  iVar10 = (int)PTR_DAT_0602c66c;
+  iVar10 = 0x640;
 
   puVar7 = (unsigned short *)0x060A2428;
 

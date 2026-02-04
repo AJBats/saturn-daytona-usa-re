@@ -15,8 +15,13 @@
 | 3 | Scheduling experiment (Stage 2 of plan) | **done — no effect** | committed |
 | 4 | Per-function flags sweep | **done** — 1 new PASS (FUN_0603850C) | committed |
 | 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | committed |
-| 6 | Full decomp expansion | **done** — 886 C files, 518 compilable | uncommitted |
-| 7 | **ACTIVE: Bulk compile fixes + experiments** | **done** — see session_log | uncommitted |
+| 6 | Full decomp expansion | **done** — 886 C files, 518 compilable | committed |
+| 7 | Bulk compile fixes + experiments | **done** — 267→518 compilable, scheduling/BSR negative | committed |
+| 8 | **NEXT: Function catalog** | generate `docs/function_catalog.md` with per-function status | no |
+| 9 | **NEXT: 100% compilable** | fix remaining 349 compile errors systematically | no |
+| 10 | **NEXT: Easy accuracy wins** | source-level fixes on delta=0/+1 functions | no |
+| 11 | **NEXT: GCC rewrite research** | study deep compiler changes, produce `docs/gcc_rewrite_research.md` | no |
+| 12 | **NEXT: GCC rewrite** | implement deep compiler changes for big accuracy leaps | no |
 
 **Active workstream details** → `docs/session_log.md` (append-only, read when resuming)
 

@@ -22,7 +22,7 @@ void FUN_060102ea(param_1)
 
     if ((*(int *)puVar1 < 1) || ((param_1 & DAT_0601038c) != 0)) {
 
-      (*(void(*)())0x0601D5F4)(0,*(int *)(0x0604481C + *(int *)0x0607EADC * 4));
+      (*(int(*)())0x0601D5F4)(0,*(int *)(0x0604481C + *(int *)(0x0607EADC << 2)));
 
       *(int *)puVar1 = 0;
 

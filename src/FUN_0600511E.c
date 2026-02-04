@@ -17,13 +17,13 @@ void FUN_0600511e(param_1, param_2, param_3, param_4)
 
   if ((param_4 & 8) == 0) {
 
-    (*(void(*)())0x06027630)(puVar1 + param_2,param_1,param_3);
+    (*(int(*)())0x06027630)(puVar1 + param_2,param_1,param_3);
 
     return;
 
   }
 
-  (*(void(*)())0x06028654)(param_1,puVar1 + param_2);
+  (*(int(*)())0x06028654)(param_1,puVar1 + param_2);
 
   return;
 

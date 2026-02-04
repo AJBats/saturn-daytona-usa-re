@@ -81,9 +81,9 @@ int security_check()
 
   *(int *)PTR_DAT_06002188 = *(int *)PTR_DAT_06002184;
 
-  (**(void **)PTR_DAT_0600218c)(0x40,PTR_LAB_06002190);
+  (*(int(*)())(*(int *)PTR_DAT_0600218c))(0x40,PTR_LAB_06002190);
 
-  (**(void **)PTR_DAT_06002194)(0xfffffffe,0);
+  (*(int(*)())(*(int *)PTR_DAT_06002194))(0xfffffffe,0);
 
   FUN_0600255c();
 
@@ -93,13 +93,11 @@ int security_check()
 
   FUN_0600245c(PTR_DAT_06002198,(int)DAT_0600217a,0);
 
-  (**(void **)(int)DAT_0600217c)();
+  (*(int(*)())(*(int *)(int)DAT_0600217c))();
 
-  (**(void **)(int)DAT_0600217e)
+  (*(int(*)())(*(int *)(int)DAT_0600217e))(PTR_s_PRODUCED_BY_or_UNDERLICENSE_FROM_060021a0,PTR_s_SEGA_ENTERPRISES_LTD__0600219c);
 
-            (PTR_s_PRODUCED_BY_or_UNDERLICENSE_FROM_060021a0,PTR_s_SEGA_ENTERPRISES_LTD__0600219c);
-
-  (*(void(*)())PTR_FUN_060021ac)(PTR_DAT_060021a8,PTR_DAT_060021a4,(int)DAT_06002180);
+  (*(int(*)())PTR_FUN_060021ac)(PTR_DAT_060021a8,PTR_DAT_060021a4,(int)DAT_06002180);
 
   if ((*(unsigned int *)PTR_DAT_060021b0 & (int)DAT_06002182) == 0) {
 
@@ -137,7 +135,7 @@ int security_check()
 
   FUN_06002510(0x20);
 
-  (**(void **)PTR_DAT_06002270)();
+  (*(int(*)())(*(int *)PTR_DAT_06002270))();
 
   while (*(int *)PTR_DAT_06002268 != 0) {
 
@@ -145,13 +143,13 @@ int security_check()
 
   }
 
-  (**(void **)PTR_DAT_06002274)(0xffffffff,1);
+  (*(int(*)())(*(int *)PTR_DAT_06002274))(0xffffffff,1);
 
-  (**(void **)PTR_DAT_06002278)(0x40,0);
+  (*(int(*)())(*(int *)PTR_DAT_06002278))(0x40,0);
 
   FUN_06002348();
 
-  uVar1 = (*(void(*)())PTR_FUN_0600227c)();
+  uVar1 = (*(int(*)())PTR_FUN_0600227c)();
 
   return uVar1;
 

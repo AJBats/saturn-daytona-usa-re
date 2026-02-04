@@ -30,7 +30,7 @@ unsigned int FUN_06038120(param_1)
 
   puVar1 = 0x060A3C70;
 
-  iVar10 = (int)DAT_0603815a;
+  iVar10 = 0x200;
 
   uVar4 = (*(int *)0x060635A8 == 4 ^ 1) & -((*(int *)0x060635A8 == 8) - 1);
 
@@ -104,7 +104,7 @@ unsigned int FUN_06038120(param_1)
 
         uVar8 = uVar8 + 1;
 
-        *(int *)(puVar2 + uVar4 * 4) = *(int *)(param_1 + (short)(uVar9 * 0xc) + 0x10)
+        *(int *)(puVar2 + (uVar4 << 2)) = *(int *)(param_1 + (short)(uVar9 * 0xc) + 0x10)
 
         ;
 
@@ -116,7 +116,7 @@ unsigned int FUN_06038120(param_1)
 
         uVar8 = uVar8 + 1;
 
-        *(int *)(puVar2 + uVar4 * 4) = *(int *)(param_1 + (short)(uVar9 * 0xc) + 0x14)
+        *(int *)(puVar2 + (uVar4 << 2)) = *(int *)(param_1 + (short)(uVar9 * 0xc) + 0x14)
 
         ;
 
@@ -128,7 +128,7 @@ unsigned int FUN_06038120(param_1)
 
         uVar8 = uVar8 + 1;
 
-        *(int *)(puVar2 + uVar4 * 4) = *(int *)(param_1 + (short)(uVar9 * 0xc) + 0x18)
+        *(int *)(puVar2 + (uVar4 << 2)) = *(int *)(param_1 + (short)(uVar9 * 0xc) + 0x18)
 
         ;
 
@@ -150,13 +150,13 @@ unsigned int FUN_06038120(param_1)
 
       if (param_1[3] != 0) {
 
-        uVar4 = (unsigned int)uVar9 * 4;
+        uVar4 = (unsigned int)(uVar9 << 2);
 
         uVar9 = uVar9 + 1;
 
         *(int *)(puVar1 + uVar4) =
 
-             *(int *)(param_1 + (unsigned int)uVar6 * 4 + (int)DAT_060382f4);
+             *(int *)(param_1 + (unsigned int)(uVar6 << 2) + (int)DAT_060382f4);
 
       }
 

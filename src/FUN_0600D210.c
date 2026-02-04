@@ -53,7 +53,7 @@ int FUN_0600d210()
 
     else if (DAT_0600d272 < iVar2) {
 
-      *(int *)(iVar3 + DAT_0600d270) = (int)DAT_0600d272;
+      *(int *)(iVar3 + DAT_0600d270) = 0x800;
 
     }
 

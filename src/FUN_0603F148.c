@@ -20,7 +20,7 @@ int FUN_0603f148(param_1, param_2, param_3)
 
   uVar1 = PTR_DAT_0603f180;
 
-  iVar3 = (*(void(*)())0x06036D14)();
+  iVar3 = (*(int(*)())0x06036D14)();
 
   if (iVar3 == 0) {
 
@@ -30,7 +30,7 @@ int FUN_0603f148(param_1, param_2, param_3)
 
   else {
 
-    iVar3 = (*(void(*)())0x06036D14)();
+    iVar3 = (*(int(*)())0x06036D14)();
 
     if (iVar3 == 0) {
 
@@ -48,7 +48,7 @@ int FUN_0603f148(param_1, param_2, param_3)
 
         do {
 
-          iVar4 = (*(void(*)())puVar2)(param_2,param_1 + 0xc,0xc);
+          iVar4 = (*(int(*)())puVar2)(param_2,param_1 + 0xc,0xc);
 
           if (iVar4 == 0) {
 

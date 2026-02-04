@@ -1,4 +1,4 @@
-extern void func_060114AC();
+extern int func_060114AC();
 extern int func_06011094();
 
 extern short counter_0607887C;

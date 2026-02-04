@@ -424,52 +424,144 @@ def cleanup_ghidra_artifacts(body):
     return body
 
 
+def _find_matching_close(text, start):
+    """Find matching ) for ( at start position."""
+    depth = 0
+    i = start
+    while i < len(text):
+        if text[i] == '(':
+            depth += 1
+        elif text[i] == ')':
+            depth -= 1
+            if depth == 0:
+                return i
+        i += 1
+    return -1
+
+
+def _fix_void_double_indirect(text):
+    """Fix (**(void **)EXPR)(ARGS) with balanced paren matching.
+
+    Handles complex expressions with nested parens and multi-line calls.
+    Converts to (*(int(*)())(*(int *)EXPR))(ARGS).
+    """
+    result = []
+    i = 0
+    while i < len(text):
+        if (text[i] == '(' and i + 2 < len(text) and
+                text[i+1] == '*' and text[i+2] == '*'):
+            m = re.match(r'\(\*\*\s*\(void\s*\*\*\)\s*', text[i:])
+            if m:
+                after_cast = i + m.end()
+                outer_close = _find_matching_close(text, i)
+                if outer_close > 0:
+                    inner_expr = text[after_cast:outer_close]
+                    next_pos = outer_close + 1
+                    while next_pos < len(text) and text[next_pos] in ') \t\n\r':
+                        next_pos += 1
+                    if next_pos < len(text) and text[next_pos] == '(':
+                        args_close = _find_matching_close(text, next_pos)
+                        if args_close > 0:
+                            args = text[next_pos + 1:args_close]
+                            result.append('(*(int(*)())(*(int *)' + inner_expr + '))(' + args + ')')
+                            i = args_close + 1
+                            continue
+        result.append(text[i])
+        i += 1
+    return ''.join(result)
+
+
 def fix_ghidra_artifacts(text):
     """Post-process complete C source to fix patterns that prevent cc1 compilation.
 
-    Applied to the final output text (not just the body). Handles:
-    - Indirect calls through constant addresses: (*0xADDR)(args)
-    - Double-indirect calls: (**(void **)0xADDR)(args)
-    - Variable-based indirect calls: (*puVar1)(args)
-    - Bare integer dereferences: *0xADDR, 0xADDR[N]
-    - extern void FUN_ -> extern int FUN_ (void value not ignored fix)
-    - true/false -> 1/0
-    - Sub-field references: var._0_2_ -> var
-    - Trailing commas in parameter lists
+    Applied to the final output text (not just the body). Covers all patterns
+    discovered across bulk fix rounds 1-4.
     """
-    # 1. Indirect call through constant address: (*0xADDR)(args) -> (*(void(*)())0xADDR)(args)
-    text = re.sub(r'\(\*\s*(0x[0-9A-Fa-f]+)\)\s*\(', r'(*(void(*)())\1)(', text)
+    # === Phase 1: Complex patterns needing balanced paren matching ===
 
-    # 2. Double-indirect: (**(void **)0xADDR)( -> (*(void(*)())(*(int *)0xADDR))(
-    text = re.sub(r'\(\*\*\s*\(void\s*\*\*\)\s*(0x[0-9A-Fa-f]+)\)\s*\(',
-                  r'(*(void(*)())(*(int *)\1))(', text)
-    # Also with parenthesized expression
-    text = re.sub(r'\(\*\*\s*\(void\s*\*\*\)\s*(\([^)]+\))\)\s*\(',
-                  r'(*(void(*)())(*(int *)\1))(', text)
+    # 1a. Complex double-indirect calls: (**(void **)(complex_expr))(args)
+    text = _fix_void_double_indirect(text)
 
-    # 3. Variable-based indirect call: (*varname)( -> (*(void(*)())varname)(
-    text = re.sub(r'\(\*([a-zA-Z_]\w*)\)\s*\(', r'(*(void(*)())\1)(', text)
+    # 1b. Double-indirect with variable: (**varname)( -> (*(int(*)())(*(int *)varname))(
+    text = re.sub(r'\(\*\*([a-zA-Z_]\w*)\)\s*\(', r'(*(int(*)())(*(int *)\1))(', text)
 
-    # 4. Bare dereference: *0xADDR -> *(int *)0xADDR (not preceded by ) from cast)
-    text = re.sub(r'(?<!\))\*(0x[0-9A-Fa-f]+)\b', r'*(int *)\1', text)
+    # 1c. Double-indirect with DAT_: (**DAT_ADDR)() -> (*(int(*)())(*(int *)0xADDR))()
+    text = re.sub(r'\(\*\*DAT_([0-9A-Fa-f]+)\)', r'(*(int(*)())(*(int *)0x\1))', text)
 
-    # 5. Bare subscript: 0xADDR[N] -> ((int *)0xADDR)[N]
-    text = re.sub(r'(?<!\))(0x[0-9A-Fa-f]+)\[', r'((int *)\1)[', text)
+    # === Phase 2: Indirect function calls ===
 
-    # 6. extern void FUN_ -> extern int FUN_ (fix void value not ignored)
-    text = re.sub(r'^extern void (FUN_[0-9A-Fa-f]+)\s*\(', r'extern int \1(', text,
-                  flags=re.MULTILINE)
+    # 2a. Indirect call through constant: (*0xADDR)(args) -> (*(int(*)())0xADDR)(args)
+    text = re.sub(r'\(\*\s*(0x[0-9A-Fa-f]+)\)\s*\(', r'(*(int(*)())\1)(', text)
 
-    # 7. true/false -> 1/0
+    # 2b. Variable indirect call: (*varname)( -> (*(int(*)())varname)(
+    text = re.sub(r'\(\*([a-zA-Z_]\w*)\)\s*\(', r'(*(int(*)())\1)(', text)
+
+    # 2c. Array element call: (*auStack[expr])( -> (*(int(*)())auStack[expr])(
+    text = re.sub(r'\(\*([a-zA-Z_]\w*\[[^\]]+\])\)\s*\(', r'(*(int(*)())\1)(', text)
+
+    # === Phase 3: Dereference and subscript fixes ===
+
+    # 3a. Bare dereference: *0xADDR -> *(int *)0xADDR
+    # No lookbehind needed: regex only matches * directly before 0x
+    text = re.sub(r'\*(0x[0-9A-Fa-f]+)\b', r'*(int *)\1', text)
+
+    # 3b. Bare subscript: 0xADDR[N] -> ((int *)0xADDR)[N]
+    text = re.sub(r'(0x[0-9A-Fa-f]+)\[', r'((int *)\1)[', text)
+
+    # === Phase 4: Type and declaration fixes ===
+
+    # 4a. extern void -> extern int for ALL functions (not just FUN_)
+    text = re.sub(r'^extern void (\w+)\s*\(', r'extern int \1(', text, flags=re.MULTILINE)
+
+    # 4b. true/false -> 1/0
     text = re.sub(r'\btrue\b', '1', text)
     text = re.sub(r'\bfalse\b', '0', text)
 
-    # 8. Sub-field references: var._0_2_ -> var
-    text = re.sub(r'\b(\w+)\._(\d+)_(\d+)_\b', r'\1', text)
+    # === Phase 5: Ghidra-specific artifact cleanup ===
 
-    # 9. Trailing comma before ) or before newline+{
+    # 5a. Sub-field references: var._0_2_ -> var, var[N]._0_1_ -> var[N]
+    text = re.sub(r'(\])\._(\d+)_(\d+)_', r'\1', text)  # subscript variant
+    text = re.sub(r'\b(\w+)\._(\d+)_(\d+)_\b', r'\1', text)  # plain variant
+
+    # 5b. Trailing comma before ) or before newline+{
     text = re.sub(r',\s*\)', ')', text)
     text = re.sub(r',\s*\n\{', '\n{', text)
+
+    # 5c. UNK_ references: &UNK_ADDR -> (void *)0xADDR, UNK_ADDR -> 0xADDR
+    text = re.sub(r'&UNK_([0-9A-Fa-f]+)', r'(void *)0x\1', text)
+    text = re.sub(r'\bUNK_([0-9A-Fa-f]+)\b', r'0x\1', text)
+
+    # 5d. ram0xADDR -> *(int *)0xADDR
+    text = re.sub(r'\bram(0x[0-9A-Fa-f]+)\b', r'*(int *)\1', text)
+
+    # 5e. switchD_ references: (&switchD_ADDR::switchdataD_ADDR)[expr] -> ((int *)0xADDR)[expr]
+    text = re.sub(
+        r'&switchD_[0-9A-Fa-f]+::switchdataD_([0-9A-Fa-f]+)',
+        r'(int *)0x\1', text)
+
+    # 5f. CONCAT macros
+    text = re.sub(r'CONCAT13\s*\(([^,]+),\s*([^)]+)\)',
+                  r'((\1) << 24 | (\2) & 0xFFFFFF)', text)
+    text = re.sub(r'CONCAT11\s*\(([^,]+),\s*([^)]+)\)',
+                  r'((\1) << 8 | (\2) & 0xFF)', text)
+    text = re.sub(r'CONCAT22\s*\(([^,]+),\s*([^)]+)\)',
+                  r'((\1) << 16 | (\2) & 0xFFFF)', text)
+
+    # === Phase 6: Function signature fixes ===
+
+    # 6a. Missing ) in function signature before {
+    lines = text.split('\n')
+    new_lines = []
+    for idx, line in enumerate(lines):
+        if (idx + 1 < len(lines) and
+                lines[idx + 1].strip() == '{' and
+                '(' in line and ')' not in line and
+                not line.strip().startswith('/') and
+                not line.strip().startswith('*')):
+            new_lines.append(line + ')')
+        else:
+            new_lines.append(line)
+    text = '\n'.join(new_lines)
 
     return text
 

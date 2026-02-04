@@ -21,7 +21,7 @@ unsigned char FUN_06034e58()
 
   } while ((**(unsigned char **)0x0606358C & 1) == 1);
 
-  for (uStack_2 = 0; (int)(unsigned int)uStack_2 < (int)PTR_DAT_06034ee8; uStack_2 = uStack_2 + 1) {
+  for (uStack_2 = 0; (int)(unsigned int)uStack_2 < 0x3e8; uStack_2 = uStack_2 + 1) {
 
   }
 

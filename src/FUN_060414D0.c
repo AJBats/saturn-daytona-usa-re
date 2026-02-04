@@ -58,9 +58,9 @@ int FUN_060414d0(param_1, param_2, param_3)
 
     }
 
-    if (*(int *)(*(int *)0x060A5400 + (int)DAT_060415ec) == 0) {
+    if (*(int *)(*(int *)0x060A5400 + 0x1e0) == 0) {
 
-      *(int *)(*(int *)0x060A5400 + (int)DAT_060415ec) = 1;
+      *(int *)(*(int *)0x060A5400 + 0x1e0) = 1;
 
     }
 

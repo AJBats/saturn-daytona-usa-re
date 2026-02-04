@@ -26,15 +26,15 @@ void FUN_06007790(param_1, param_2, param_3)
 
   if (*param_1 == 10) {
 
-    *(int *)0x06063F60 = *(int *)0x0606A4EC * 8 + *(int *)0x06063F5C;
+    *(int *)0x06063F60 = *(int *)(0x0606A4EC << 3) + *(int *)0x06063F5C;
 
   }
 
   uVar1 = param_1[1];
 
-  *(short *)(0x060684EC + (unsigned int)*param_1 * 2) = (short)*(int *)puVar4;
+  *(short *)(0x060684EC + (unsigned int)*((int)(int)param_1 << 1)) = (short)*(int *)puVar4;
 
-  *(int *)(puVar2 + *(int *)puVar4 * 8) = *(int *)puVar3;
+  *(int *)(puVar2 + *(int *)((int)(int)puVar4 << 3)) = *(int *)puVar3;
 
   uVar5 = *param_1;
 
@@ -42,9 +42,9 @@ void FUN_06007790(param_1, param_2, param_3)
 
     uVar6 = uVar1 & DAT_060078ca;
 
-    uVar5 = (*(void(*)())0x06034FE0)();
+    uVar5 = (*(int(*)())0x06034FE0)();
 
-    *(unsigned short *)(puVar2 + *(int *)puVar4 * 8 + 4) = uVar5 | uVar6;
+    *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar4 << 3) + 4) = uVar5 | uVar6;
 
     *(int *)0x0606A4F0 = *(int *)puVar3;
 
@@ -52,13 +52,13 @@ void FUN_06007790(param_1, param_2, param_3)
 
   else {
 
-    *(unsigned short *)(puVar2 + *(int *)puVar4 * 8 + 4) = uVar1;
+    *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar4 << 3) + 4) = uVar1;
 
   }
 
-  *(unsigned short *)(puVar2 + *(int *)puVar4 * 8 + 6) = param_1[2] + param_2 * 4;
+  *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar4 << 3) + 6) = param_1[2] + (param_2 << 2);
 
-  (*(void(*)())0x06028654)(*(int *)(param_1 + 4) + param_3,*(int *)puVar3 * 8 + *(int *)0x06063F5C);
+  (*(int(*)())0x06028654)(*(int *)(param_1 + 4) + param_3,*(int *)((int)(int)puVar3 << 3) + *(int *)0x06063F5C);
 
   *(int *)puVar4 = *(int *)puVar4 + 1;
 

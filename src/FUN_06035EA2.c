@@ -6,7 +6,7 @@ int FUN_06035ea2(param_1, param_2, param_3)
 
   int iVar1;
 
-  iVar1 = (*(void(*)())0x06035D22)();
+  iVar1 = (*(int(*)())0x06035D22)();
 
   if (iVar1 != 0) {
 

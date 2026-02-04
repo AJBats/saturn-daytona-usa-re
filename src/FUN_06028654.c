@@ -49,7 +49,7 @@ long long FUN_06028654(param_1, param_2)
 
       uVar8 = uVar8 >> 1;
 
-      if ((uVar8 & (int)PTR_DAT_060286ac) == 0) {
+      if ((uVar8 & 0x100) == 0) {
 
         bVar1 = *param_1;
 

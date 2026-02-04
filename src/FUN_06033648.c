@@ -59,9 +59,9 @@ int FUN_06033648()
 
   sVar2 = 6;
 
-  if (((char)*0x06078635 < '\x01') && ((int)uVar3 < 2)) {
+  if (((char)*(int *)0x06078635 < '\x01') && ((int)uVar3 < 2)) {
 
-    sVar2 = (short)uVar3 * 4 + 6;
+    sVar2 = (short)(uVar3 << 2) + 6;
 
   }
 

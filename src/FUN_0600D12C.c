@@ -81,7 +81,7 @@ LAB_0600d1a4:
 
   if ((DAT_0600d1fc <= iVar4) && (iVar4 <= DAT_0600d1fe)) {
 
-    iVar1 = (int)DAT_0600d1fe;
+    iVar1 = 0x300;
 
     if (DAT_0600d200 < iVar2) {
 
@@ -99,7 +99,7 @@ LAB_0600d1a4:
 
     else if (DAT_0600d204 < iVar2) {
 
-      *(int *)(iVar3 + DAT_0600d202) = (int)DAT_0600d204;
+      *(int *)(iVar3 + DAT_0600d202) = 0x800;
 
     }
 
@@ -111,7 +111,7 @@ LAB_0600d1a4:
 
     iVar1 = (int)PTR_DAT_0600d208;
 
-    *(int *)(iVar3 + iVar1) = (int)DAT_0600d206;
+    *(int *)(iVar3 + iVar1) = 0x100;
 
     iVar1 = iVar1 + 0x30;
 

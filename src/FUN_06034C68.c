@@ -20,11 +20,11 @@ int FUN_06034c68(param_1)
 
   else {
 
-    iVar1 = (int)DAT_06034d02;
+    iVar1 = 0x82;
 
   }
 
-  iVar1 = (*(void(*)())0x06035E00)(iVar1,local_14);
+  iVar1 = (*(int(*)())0x06035E00)(iVar1,local_14);
 
   if (((param_1 == 1) && (iVar1 == 0)) && ((local_14[0] & 0x80) != 0)) {
 
@@ -38,7 +38,7 @@ int FUN_06034c68(param_1)
 
   }
 
-  (*(void(*)())0x06035C6E)(0x0000FFFD);
+  (*(int(*)())0x06035C6E)(0x0000FFFD);
 
   return iVar1;
 

@@ -23,7 +23,7 @@ long long FUN_0603320c()
 
   iVar4 = 6;
 
-  puVar3 = (char *)(in_r0 * 8);
+  puVar3 = (char *)((in_r0 << 3));
 
   do {
 

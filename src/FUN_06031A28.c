@@ -110,7 +110,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
     uVar4 = (unsigned int)(short)*(unsigned short *)(puVar19 + -2);
 
-    puVar22 = (unsigned int *)(int)DAT_06031a64;
+    puVar22 = (unsigned int *)-256;
 
     puVar16 = (unsigned int *)(0x06094FA8 + (unsigned int)*(unsigned short *)(puVar19 + -2) * 0xc);
 
@@ -122,7 +122,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
     if (((unsigned char)uVar25 & 1) == 1) {
 
-      puVar22[4] = (int)PTR_DAT_06031adc;
+      puVar22[4] = 0xa0;
 
       *puVar22 = uVar7;
 
@@ -168,7 +168,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar27 = uVar1 + uVar9 * 0x10000;
+        uVar27 = uVar1 + (uVar9 << 16);
 
         uVar25 = iVar5 + (unsigned int)(uVar27 < uVar1) + (uVar9 >> 0x10) +
 
@@ -246,7 +246,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar28 = uVar29 + uVar1 * 0x10000;
+        uVar28 = uVar29 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar28 < uVar29) + (uVar1 >> 0x10) +
 
@@ -336,7 +336,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar29 = uVar27 + uVar1 * 0x10000;
+        uVar29 = uVar27 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar29 < uVar27) + (uVar1 >> 0x10) +
 
@@ -426,7 +426,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar28 = uVar27 + uVar1 * 0x10000;
+        uVar28 = uVar27 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar28 < uVar27) + (uVar1 >> 0x10) +
 
@@ -506,7 +506,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar29 = uVar27 + uVar1 * 0x10000;
+        uVar29 = uVar27 + (uVar1 << 16);
 
         uVar25 = iVar5 + (unsigned int)(uVar29 < uVar27) + (uVar1 >> 0x10) +
 
@@ -596,7 +596,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar28 = uVar27 + uVar1 * 0x10000;
+        uVar28 = uVar27 + (uVar1 << 16);
 
         uVar25 = iVar5 + (unsigned int)(uVar28 < uVar27) + (uVar1 >> 0x10) +
 
@@ -686,7 +686,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar29 = uVar27 + uVar1 * 0x10000;
+        uVar29 = uVar27 + (uVar1 << 16);
 
         uVar25 = iVar5 + (unsigned int)(uVar29 < uVar27) + (uVar1 >> 0x10) +
 
@@ -766,7 +766,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar28 = uVar27 + uVar1 * 0x10000;
+        uVar28 = uVar27 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar28 < uVar27) + (uVar1 >> 0x10) +
 
@@ -856,7 +856,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar29 = uVar27 + uVar1 * 0x10000;
+        uVar29 = uVar27 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar29 < uVar27) + (uVar1 >> 0x10) +
 
@@ -948,7 +948,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar27 = uVar1 + uVar9 * 0x10000;
+        uVar27 = uVar1 + (uVar9 << 16);
 
         uVar25 = iVar5 + (unsigned int)(uVar27 < uVar1) + (uVar9 >> 0x10) +
 
@@ -1026,7 +1026,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar28 = uVar29 + uVar1 * 0x10000;
+        uVar28 = uVar29 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar28 < uVar29) + (uVar1 >> 0x10) +
 
@@ -1116,7 +1116,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         }
 
-        uVar29 = uVar27 + uVar1 * 0x10000;
+        uVar29 = uVar27 + (uVar1 << 16);
 
         uVar4 = iVar5 + (unsigned int)(uVar29 < uVar27) + (uVar1 >> 0x10) +
 
@@ -1194,7 +1194,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
       uVar7 = piVar17[2];
 
-      puVar22[4] = (int)DAT_06031b22;
+      puVar22[4] = 0xa0;
 
       *puVar22 = uVar7;
 
@@ -1228,7 +1228,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
         uVar26 = piVar17[2];
 
-        puVar22[4] = (int)PTR_DAT_06031b64;
+        puVar22[4] = 0xa0;
 
         *puVar22 = uVar26;
 
@@ -1260,7 +1260,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
           uVar26 = piVar17[2];
 
-          puVar22[4] = (int)PTR_DAT_06031ba8;
+          puVar22[4] = 0xa0;
 
           *puVar22 = uVar26;
 
@@ -1292,7 +1292,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
             iVar5 = *(int *)0x060620D0;
 
-            iVar23 = (int)DAT_06031bf8;
+            iVar23 = -176;
 
             uVar4 = *(unsigned int *)puVar3;
 
@@ -1308,7 +1308,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
                (iVar23 <= iVar15)) {
 
-              iVar23 = (int)DAT_06031c7c;
+              iVar23 = 0xb0;
 
               uVar26 = uVar25 | (int)uVar4 < iVar23;
 
@@ -1320,7 +1320,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
                   (uVar26 = uVar25 | iVar15 < iVar23, uVar25 = uVar26, ((unsigned char)uVar26 & 1) != 1)))) {
 
-                iVar24 = (int)DAT_06031c7e;
+                iVar24 = -127;
 
                 iVar23 = *(int *)(puVar3 + 4);
 
@@ -1338,7 +1338,7 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
                     (uVar25 = uVar25 | iVar18 < iVar24, ((unsigned char)uVar25 & 1) != 1)))) {
 
-                  iVar24 = (int)PTR_DAT_06031c80;
+                  iVar24 = 0x51;
 
                   if ((((iVar23 < iVar24) || (iVar8 < iVar24)) || (iVar14 < iVar24)) ||
 
@@ -1370,11 +1370,9 @@ unsigned int FUN_06031a28(param_1, param_2, param_3)
 
                     puVar11[iVar5 * 0x18 + 5] = param_2;
 
-                    uVar25 = (**(void **)(0x06031D78 +
+                    uVar25 = (*(int(*)())(*(int *)(0x06031D78 +
 
-                                         ((int)*(short *)(puVar19 + -3) & 7U) * 4))
-
-                                       (*(int *)(puVar2 + 4),*(int *)(puVar2 + 8),
+                                         ((int)*(short *)(puVar19 + -3) & 7U) << 2)))(*(int *)(puVar2 + 4),*(int *)(puVar2 + 8),
 
                                         *(int *)(puVar2 + 0xc));
 

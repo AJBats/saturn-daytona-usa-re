@@ -81,7 +81,7 @@ void FUN_06026ffc(param_1, param_2)
 
     }
 
-    uVar14 = uVar7 + uVar1 * 0x10000;
+    uVar14 = uVar7 + (uVar1 << 16);
 
     uVar13 = iVar8 + (unsigned int)(uVar14 < uVar7) + (uVar1 >> 0x10) + (uVar13 >> 0x10) * (uVar4 >> 0x10);
 
@@ -157,7 +157,7 @@ void FUN_06026ffc(param_1, param_2)
 
     }
 
-    uVar15 = uVar2 + uVar7 * 0x10000;
+    uVar15 = uVar2 + (uVar7 << 16);
 
     uVar4 = iVar8 + (unsigned int)(uVar15 < uVar2) + (uVar7 >> 0x10) + (uVar4 >> 0x10) * (uVar5 >> 0x10);
 
@@ -251,7 +251,7 @@ void FUN_06026ffc(param_1, param_2)
 
     }
 
-    uVar16 = uVar2 + uVar14 * 0x10000;
+    uVar16 = uVar2 + (uVar14 << 16);
 
     uVar4 = iVar8 + (unsigned int)(uVar16 < uVar2) + (uVar14 >> 0x10) + (uVar4 >> 0x10) * (uVar5 >> 0x10);
 

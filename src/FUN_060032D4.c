@@ -17,11 +17,11 @@ void FUN_060032d4()
 
   puVar1 = 0x06059ECE;
 
-  (*(void(*)())0x060283E0)(8,0,0x0000F000,0x06059ECE);
+  (*(int(*)())0x060283E0)(8,0,0x0000F000,0x06059ECE);
 
-  (*(void(*)())puVar2)(8,(int)DAT_06003362,puVar3,puVar1);
+  (*(int(*)())puVar2)(8,0xd00,puVar3,puVar1);
 
-  (*(void(*)())puVar2)(8,(int)DAT_06003364,puVar3,puVar1);
+  (*(int(*)())puVar2)(8,0xd80,puVar3,puVar1);
 
   return;
 

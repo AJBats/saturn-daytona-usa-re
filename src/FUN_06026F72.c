@@ -92,7 +92,7 @@ void FUN_06026f72(param_1)
 
       }
 
-      uVar17 = uVar2 + uVar14 * 0x10000;
+      uVar17 = uVar2 + (uVar14 << 16);
 
       uVar5 = iVar1 + (unsigned int)(uVar17 < uVar2) + (uVar14 >> 0x10) + (uVar5 >> 0x10) * (uVar7 >> 0x10);
 
@@ -168,7 +168,7 @@ void FUN_06026f72(param_1)
 
       }
 
-      uVar18 = uVar19 + uVar2 * 0x10000;
+      uVar18 = uVar19 + (uVar2 << 16);
 
       uVar7 = iVar1 + (unsigned int)(uVar18 < uVar19) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar9 >> 0x10);
 
@@ -260,7 +260,7 @@ void FUN_06026f72(param_1)
 
       }
 
-      uVar19 = uVar17 + uVar2 * 0x10000;
+      uVar19 = uVar17 + (uVar2 << 16);
 
       uVar7 = iVar1 + (unsigned int)(uVar19 < uVar17) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar9 >> 0x10);
 
@@ -374,7 +374,7 @@ void FUN_06026f72(param_1)
 
     }
 
-    uVar17 = uVar2 + uVar14 * 0x10000;
+    uVar17 = uVar2 + (uVar14 << 16);
 
     uVar5 = iVar6 + (unsigned int)(uVar17 < uVar2) + (uVar14 >> 0x10) + (uVar5 >> 0x10) * (uVar7 >> 0x10);
 
@@ -450,7 +450,7 @@ void FUN_06026f72(param_1)
 
     }
 
-    uVar18 = uVar19 + uVar2 * 0x10000;
+    uVar18 = uVar19 + (uVar2 << 16);
 
     uVar7 = iVar6 + (unsigned int)(uVar18 < uVar19) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar9 >> 0x10);
 
@@ -542,7 +542,7 @@ void FUN_06026f72(param_1)
 
     }
 
-    uVar19 = uVar17 + uVar2 * 0x10000;
+    uVar19 = uVar17 + (uVar2 << 16);
 
     uVar7 = iVar6 + (unsigned int)(uVar19 < uVar17) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar9 >> 0x10);
 

@@ -46,7 +46,7 @@ int FUN_060417a8(param_1)
 
   else if (param_1 == 3) {
 
-    iVar1 = (int)DAT_060417dc;
+    iVar1 = 0x328;
 
     iVar2 = *(int *)0x060A5400;
 
@@ -54,7 +54,7 @@ int FUN_060417a8(param_1)
 
   else if (param_1 == 4) {
 
-    iVar1 = (int)DAT_060417de;
+    iVar1 = 0x338;
 
     iVar2 = *(int *)0x060A5400;
 
@@ -62,7 +62,7 @@ int FUN_060417a8(param_1)
 
   else if (param_1 == 5) {
 
-    iVar1 = (int)DAT_060417e0;
+    iVar1 = 0x348;
 
     iVar2 = *(int *)0x060A5400;
 
@@ -70,7 +70,7 @@ int FUN_060417a8(param_1)
 
   else if (param_1 == 6) {
 
-    iVar1 = (int)DAT_060417e2;
+    iVar1 = 0x1e0;
 
     iVar2 = *(int *)0x060A5400;
 
@@ -82,7 +82,7 @@ int FUN_060417a8(param_1)
 
     iVar2 = *(int *)0x060A5400;
 
-    iVar1 = (int)DAT_0604185e;
+    iVar1 = 0x360;
 
   }
 

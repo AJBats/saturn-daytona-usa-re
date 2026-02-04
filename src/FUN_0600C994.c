@@ -47,15 +47,15 @@ void FUN_0600c994()
 
   iVar6 = *(int *)(iVar11 + DAT_0600c9e4) + 1;
 
-  sVar1 = *(short *)((iVar6 * 8 + 3) * 0x10 + *(int *)0x0607EB88 + 10);
+  sVar1 = *(short *)(((iVar6 << 3) + 3) << 4 + *(int *)0x0607EB88 + 10);
 
-  iVar6 = iVar6 * 0x80;
+  iVar6 = (iVar6 << 7);
 
   for (psVar13 = local_30; psVar13 < local_20; psVar13 = psVar13 + 2) {
 
     piVar10 = (int *)(*(int *)puVar4 + iVar6);
 
-    sVar5 = (*(void(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
+    sVar5 = (*(int(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
 
                               piVar10[1] - *(int *)(iVar11 + 0x18));
 
@@ -63,7 +63,7 @@ void FUN_0600c994()
 
     piVar10 = (int *)(*(int *)puVar4 + iVar6 + 0x10);
 
-    sVar5 = (*(void(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
+    sVar5 = (*(int(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
 
                               piVar10[1] - *(int *)(iVar11 + 0x18));
 

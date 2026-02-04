@@ -12,11 +12,11 @@ int FUN_0603afd0(param_1, param_2, param_3)
 
   int iVar3;
 
-  iVar3 = *(int *)0x060A4D14 + 4 + (unsigned int)*(unsigned char *)(param_1 + 4) * 0x10;
+  iVar3 = *(int *)0x060A4D14 + 4 + (unsigned int)*(unsigned char *)(param_1 + 4) << 4;
 
   if (param_3 == 1) {
 
-    iVar1 = (*(void(*)())(*(int *)(iVar3 + 0xc)))(*param_1);
+    iVar1 = (*(int(*)())(*(int *)(iVar3 + 0xc)))(*param_1);
 
     param_2 = param_2 + iVar1;
 
@@ -44,7 +44,7 @@ int FUN_0603afd0(param_1, param_2, param_3)
 
   }
 
-  uVar2 = (*(void(*)())(*(int *)(iVar3 + 8)))(*param_1,param_2);
+  uVar2 = (*(int(*)())(*(int *)(iVar3 + 8)))(*param_1,param_2);
 
   FUN_0603b93c(0);
 

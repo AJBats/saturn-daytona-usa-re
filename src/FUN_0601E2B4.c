@@ -23,7 +23,7 @@ void FUN_0601e2b4()
 
   if (*(int *)0x06087080 == '\0') {
 
-    for (uVar5 = 0; uVar5 < *(unsigned int *)(puVar2 + (unsigned int)(unsigned char)*puVar1 * 4); uVar5 = uVar5 + 1) {
+    for (uVar5 = 0; uVar5 < *(unsigned int *)(puVar2 + (unsigned int)(unsigned char)*((int)(int)puVar1 << 2)); uVar5 = uVar5 + 1) {
 
       *(char *)(*(int *)puVar3 + uVar5) = 0;
 
@@ -43,7 +43,7 @@ void FUN_0601e2b4()
 
   } while ((*puVar4 & 1) != 0);
 
-  (*(void(*)())(*(int *)0x06000358))(*(int *)0x0605E060,*(int *)0x0605E064,0x06087086);
+  (*(int(*)())(*(int *)0x06000358))(*(int *)0x0605E060,*(int *)0x0605E064,0x06087086);
 
   FUN_0601e37c();
 

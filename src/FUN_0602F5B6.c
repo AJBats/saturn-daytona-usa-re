@@ -59,33 +59,33 @@ void FUN_0602f5b6()
 
   }
 
-  lVar1 = (long long)*(int *)(*(int *)(DAT_0602f6e2 + in_r0) + ((unsigned int)puVar6 >> 7) * 4) *
+  lVar1 = (long long)*(int *)(*(int *)(DAT_0602f6e2 + in_r0) + ((unsigned int)puVar6 >> 7) << 2) *
 
-          (long long)*(int *)(0x060477BC + *(short *)(DAT_0602f6e0 + in_r0) * 4);
+          (long long)*(int *)(0x060477BC + *(short *)(DAT_0602f6e0 + in_r0) << 2);
 
   lVar1 = (long long)
 
           (int)(((int)((unsigned long long)
 
-                       ((long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f5e8 + in_r0) * 4) *
+                       ((long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f5e8 + in_r0) << 2) *
 
                        (long long)(int)0x00016666) >> 0x20) << 0x10 |
 
-                (unsigned int)((long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f5e8 + in_r0) * 4) *
+                (unsigned int)((long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f5e8 + in_r0) << 2) *
 
                       (long long)(int)0x00016666) >> 0x10) - (int)0x00006666) *
 
           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
 
-  iVar3 = (*(void(*)())0x0602755C)(*(int *)(DAT_0602f6e4 + in_r0) << 0x10,0x00019999);
+  iVar3 = (*(int(*)())0x0602755C)(*(int *)(DAT_0602f6e4 + in_r0) << 0x10,0x00019999);
 
   *(unsigned int *)(DAT_0602f6e6 + in_r0) =
 
        ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) - iVar3;
 
-  lVar1 = (long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f6e8 + in_r0) * 4) *
+  lVar1 = (long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f6e8 + in_r0) << 2) *
 
-          (long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f6e8 + in_r0) * 4);
+          (long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f6e8 + in_r0) << 2);
 
   uVar4 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
 
@@ -107,7 +107,7 @@ void FUN_0602f5b6()
 
   puVar6 = 0x06400000;
 
-  iVar3 = (*(void(*)())0x06027348)(iVar3);
+  iVar3 = (*(int(*)())0x06027348)(iVar3);
 
   iVar7 = (int)((unsigned long long)((long long)(int)puVar6 * (long long)iVar3) >> 0x20);
 
@@ -115,7 +115,7 @@ void FUN_0602f5b6()
 
        (int)(iVar7 << 0x10 | (unsigned int)((long long)(int)puVar6 * (long long)iVar3) >> 0x10) >> 1;
 
-  uVar4 = *(unsigned int *)(0x060454CC + *(int *)(in_r0 + 8) * 4);
+  uVar4 = *(unsigned int *)(0x060454CC + *(int *)(in_r0 + 8) << 2);
 
   if (0 < *(short *)(DAT_0602f6f2 + in_r0)) {
 

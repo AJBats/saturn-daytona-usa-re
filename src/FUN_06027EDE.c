@@ -76,9 +76,9 @@ unsigned int FUN_06027ede(param_1, param_2, param_3)
 
         if (*(int *)(*(int *)0x0607E940 + (int)DAT_06027f56) < 0x47) {
 
-          iVar13 = (int)*(short *)((int)(0x06061240 + iVar11 * 2) + 2);
+          iVar13 = (int)*(short *)((int)(0x06061240 + (iVar11 << 1)) + 2);
 
-          *(short *)0x06063F50 = *(short *)(0x06061240 + iVar11 * 2);
+          *(short *)0x06063F50 = *(short *)(0x06061240 + (iVar11 << 1));
 
           goto LAB_06027f66;
 
@@ -98,9 +98,9 @@ LAB_06027f66:
 
     if (iVar13 == 0) {
 
-      iVar13 = (int)*(short *)(puVar4 + (param_1 * 2 + 1) * 2);
+      iVar13 = (int)*(short *)(puVar4 + ((param_1 << 1) + 1) << 1);
 
-      uVar12 = (unsigned int)(int)*(short *)(puVar4 + param_1 * 4) >> 1;
+      uVar12 = (unsigned int)(int)*(short *)(puVar4 + (param_1 << 2)) >> 1;
 
     }
 
@@ -114,9 +114,9 @@ LAB_06027f66:
 
   else {
 
-    iVar13 = (int)*(short *)(0x060C2000 + (param_1 * 2 + 1) * 2);
+    iVar13 = (int)*(short *)(0x060C2000 + ((param_1 << 1) + 1) << 1);
 
-    uVar12 = (unsigned int)(int)*(short *)(0x060C2000 + param_1 * 4) >> 1;
+    uVar12 = (unsigned int)(int)*(short *)(0x060C2000 + (param_1 << 2)) >> 1;
 
   }
 
@@ -126,7 +126,7 @@ LAB_06027f66:
 
     puVar10 = (unsigned int *)(0x060A6000 +
 
-                      (unsigned int)*(unsigned short *)(puVar5 + uVar12 * 2) * (0x00000034 & 0xffff));
+                      (unsigned int)*(unsigned short *)(puVar5 + (uVar12 << 1)) * (0x00000034 & 0xffff));
 
     uVar9 = *puVar10;
 
@@ -234,7 +234,7 @@ LAB_06027f66:
 
                  *(int *)((int)puVar10 + 0x0000000C);
 
-    uVar6 = uVar12 * 2;
+    uVar6 = (uVar12 << 1);
 
     *param_3 = *(short *)(puVar5 + uVar6);
 

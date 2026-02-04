@@ -11,7 +11,7 @@ int FUN_06035cbc(param_1, param_2)
 
   puVar1 = 0x25898000;
 
-  iVar2 = (*(void(*)())0x06034C68)(0);
+  iVar2 = (*(int(*)())0x06034C68)(0);
 
   if (iVar2 == 0) {
 
@@ -31,7 +31,7 @@ int FUN_06035cbc(param_1, param_2)
 
     }
 
-    iVar2 = (*(void(*)())0x06034CC8)(local_14);
+    iVar2 = (*(int(*)())0x06034CC8)(local_14);
 
     if ((iVar2 == 0) && (param_1 != local_14[0])) {
 

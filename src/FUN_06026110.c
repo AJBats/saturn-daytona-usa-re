@@ -31,7 +31,7 @@ unsigned int FUN_06026110()
 
   *(int *)0x06061199 = 0;
 
-  uVar6 = (unsigned int)*0x06060D78;
+  uVar6 = (unsigned int)*(int *)0x06060D78;
 
   if (uVar6 == 0) {
 
@@ -55,7 +55,7 @@ unsigned int FUN_06026110()
 
     do {
 
-      if (**(short **)(puVar5 + (unsigned int)uVar9 * 8) != 0) break;
+      if (**(short **)(puVar5 + (unsigned int)(uVar9 << 3)) != 0) break;
 
       uVar9 = uVar9 + 1;
 
@@ -63,7 +63,7 @@ unsigned int FUN_06026110()
 
     if (uVar9 < 0xe) {
 
-      uVar6 = (*(void(*)())0x06025070)();
+      uVar6 = (*(int(*)())0x06025070)();
 
     }
 
@@ -77,11 +77,11 @@ unsigned int FUN_06026110()
 
           sVar1 = *(short *)(puVar4 + ((uVar7 & 0xff) * 0xc & 0xff) + 8);
 
-          if (*(short *)(puVar2 + (unsigned int)uVar9 * 8 + 6) == sVar1) {
+          if (*(short *)(puVar2 + (unsigned int)(uVar9 << 3) + 6) == sVar1) {
 
-            sVar1 = *(short *)(puVar2 + (unsigned int)uVar9 * 8 + 4);
+            sVar1 = *(short *)(puVar2 + (unsigned int)(uVar9 << 3) + 4);
 
-            **(short **)(puVar5 + (uVar7 & 0xffff) * 8) = sVar1;
+            **(short **)(puVar5 + (uVar7 & 0xffff) << 3) = sVar1;
 
           }
 
@@ -99,7 +99,7 @@ unsigned int FUN_06026110()
 
     do {
 
-      if (**(short **)(puVar5 + (unsigned int)uVar9 * 8 + 4) != 0) break;
+      if (**(short **)(puVar5 + (unsigned int)(uVar9 << 3) + 4) != 0) break;
 
       uVar9 = uVar9 + 1;
 
@@ -107,7 +107,7 @@ unsigned int FUN_06026110()
 
     if (uVar9 < 0xe) {
 
-      uVar6 = (*(void(*)())0x06025148)();
+      uVar6 = (*(int(*)())0x06025148)();
 
       return uVar6;
 
@@ -121,11 +121,11 @@ unsigned int FUN_06026110()
 
         sVar1 = *(short *)(puVar4 + ((uVar7 & 0xff) * 0xc & 0xff) + 8);
 
-        if (*(short *)(puVar3 + (unsigned int)uVar9 * 8 + 6) == sVar1) {
+        if (*(short *)(puVar3 + (unsigned int)(uVar9 << 3) + 6) == sVar1) {
 
-          sVar1 = *(short *)(puVar3 + (unsigned int)uVar9 * 8 + 4);
+          sVar1 = *(short *)(puVar3 + (unsigned int)(uVar9 << 3) + 4);
 
-          **(short **)(puVar5 + (uVar7 & 0xffff) * 8 + 4) = sVar1;
+          **(short **)(puVar5 + (uVar7 & 0xffff) << 3 + 4) = sVar1;
 
         }
 

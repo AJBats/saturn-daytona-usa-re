@@ -25,7 +25,7 @@ char * FUN_0603449c()
 
   puVar4 = (char *)(int)*(char *)(unaff_r14 + 0x00000001);
 
-  if ((char *)(int)*(char *)(unaff_r14 + 0x00000001) == &UNK_00000002) {
+  if ((char *)(int)*(char *)(unaff_r14 + 0x00000001) == (void *)0x00000002) {
 
     uVar5 = *(int *)(unaff_r14 + 0x0000000C);
 
@@ -57,7 +57,7 @@ char * FUN_0603449c()
 
     if ((int)uVar6 < 0) {
 
-      iVar3 = (*(void(*)())0x06027476)(uVar6 >> 2);
+      iVar3 = (*(int(*)())0x06027476)(uVar6 >> 2);
 
       iVar3 = iVar3 << 1;
 
@@ -65,7 +65,7 @@ char * FUN_0603449c()
 
     else {
 
-      iVar3 = (*(void(*)())0x06027476)();
+      iVar3 = (*(int(*)())0x06027476)();
 
     }
 

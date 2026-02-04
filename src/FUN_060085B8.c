@@ -25,7 +25,7 @@ int FUN_060085b8()
 
     if ((*(int *)((int)DAT_06008626 + *(int *)puVar1) == 1) &&
 
-       (((int)*(char *)(*(int *)puVar1 + (int)DAT_06008628) & 0x80U) != 0)) {
+       (((int)*(char *)(*(int *)puVar1 + 0x160) & 0x80U) != 0)) {
 
       *(int *)(*(int *)puVar1 + 0x28) = *(int *)(*(int *)puVar1 + 0x30);
 

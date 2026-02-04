@@ -16,7 +16,7 @@ int FUN_06032304(param_1)
 
   int iVar4;
 
-  iVar4 = *(int *)(0x060623B0 + param_1 * 4);
+  iVar4 = *(int *)(0x060623B0 + (param_1 << 2));
 
   piVar2 = *(int **)(iVar4 + 0x000002D8);
 
@@ -26,7 +26,7 @@ int FUN_06032304(param_1)
 
     *(int **)(iVar4 + 0x000002D8) = piVar2 + 3;
 
-    uVar1 = (*(void(*)())(*(int *)(0x06032334 + iVar3 * 4)))();
+    uVar1 = (*(int(*)())(*(int *)(0x06032334 + (iVar3 << 2))))();
 
     return uVar1;
 

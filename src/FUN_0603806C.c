@@ -34,7 +34,7 @@ void FUN_0603806c(param_1)
 
   puVar8 = local_10;
 
-  iVar7 = (int)DAT_06038106;
+  iVar7 = 0x200;
 
   uVar4 = 0;
 
@@ -58,7 +58,7 @@ void FUN_0603806c(param_1)
 
     if ((uVar5 & 0xffff) < 0x40) {
 
-      *(int *)(param_1 + (uVar5 & 0xffff) * 4 + (int)DAT_06038108) = uVar4;
+      *(int *)(param_1 + (uVar5 & 0xffff) << 2 + (int)DAT_06038108) = uVar4;
 
     }
 
@@ -68,7 +68,7 @@ void FUN_0603806c(param_1)
 
     *(char **)(puVar8 + -0x14) = puVar8 + -0x14;
 
-    (*(void(*)())0x06035BC8)();
+    (*(int(*)())0x06035BC8)();
 
     *(int *)(puVar8 + -0x18) = 0;
 
@@ -82,9 +82,9 @@ void FUN_0603806c(param_1)
 
     *piVar9 = (int)puVar3;
 
-    (*(void(*)())0x060359E4)();
+    (*(int(*)())0x060359E4)();
 
-    uVar2 = (*(void(*)())0x060357B8)();
+    uVar2 = (*(int(*)())0x060357B8)();
 
     uVar5 = uVar5 + 1;
 

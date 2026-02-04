@@ -17,11 +17,11 @@ int FUN_0603f0fc(param_1, param_2, param_3)
 
   if (param_1 != 0) {
 
-    (*(void(*)())0x0603B31C)(param_1,param_3);
+    (*(int(*)())0x0603B31C)(param_1,param_3);
 
     do {
 
-      iVar2 = (*(void(*)())puVar1)(param_1);
+      iVar2 = (*(int(*)())puVar1)(param_1);
 
     } while (iVar2 != 0);
 

@@ -19,15 +19,15 @@ void FUN_0600e71a()
 
   iVar2 = *(int *)0x0607E940;
 
-  (*(void(*)())0x06008318)();
+  (*(int(*)())0x06008318)();
 
-  (*(void(*)())0x06008640)();
+  (*(int(*)())0x06008640)();
 
-  (*(void(*)())0x0600D266)();
+  (*(int(*)())0x0600D266)();
 
-  (*(void(*)())0x0600C4F8)();
+  (*(int(*)())0x0600C4F8)();
 
-  (*(void(*)())0x0600C5D6)();
+  (*(int(*)())0x0600C5D6)();
 
   if ((0 < *(int *)(iVar2 + DAT_0600e79c)) &&
 
@@ -35,7 +35,7 @@ void FUN_0600e71a()
 
      iVar1 == 0)) {
 
-    iVar1 = (int)DAT_0600e7a0;
+    iVar1 = 0x1f8;
 
     *(int *)(iVar2 + iVar1) =
 
@@ -43,13 +43,13 @@ void FUN_0600e71a()
 
                         + 0x14);
 
-    *(int *)(iVar2 + iVar1 + 0xc) = (int)DAT_0600e7a2;
+    *(int *)(iVar2 + iVar1 + 0xc) = 0x400;
 
   }
 
-  (*(void(*)())0x0600CEBA)();
+  (*(int(*)())0x0600CEBA)();
 
-  iVar1 = (int)PTR_DAT_0600e7a4;
+  iVar1 = 0x228;
 
   *(int *)(iVar2 + iVar1 + -0x34) =
 

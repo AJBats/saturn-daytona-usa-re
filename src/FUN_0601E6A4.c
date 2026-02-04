@@ -14,7 +14,7 @@ int FUN_0601e6a4(param_1)
 
   do {
 
-    iVar2 = (**(void **)(*(int *)puVar1 + 8))(param_1);
+    iVar2 = (*(int(*)())(*(int *)(*(int *)puVar1 + 8)))(param_1);
 
     if (iVar2 == 0) {
 

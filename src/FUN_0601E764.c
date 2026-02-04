@@ -12,7 +12,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   puVar1 = 0x20100063;
 
-  iVar2 = (*(void(*)())0x06035C1C)(param_2);
+  iVar2 = (*(int(*)())0x06035C1C)(param_2);
 
   if (0xb < iVar2) {
 
@@ -32,9 +32,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   } while ((*puVar1 & 1) != 0);
 
-  uVar3 = (**(void **)(*(int *)0x06000354 + 0x14))
-
-                    (*(short *)(0x06087094 + (unsigned int)param_1 * 0x20 + 0x1c),param_2,param_3
+  uVar3 = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x14)))(*(short *)(0x06087094 + (unsigned int)(param_1 << 5) + 0x1c),param_2,param_3
 
                     );
 

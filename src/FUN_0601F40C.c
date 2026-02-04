@@ -10,7 +10,7 @@ void FUN_0601f40c()
 
   puVar1 = 0x060877D8;
 
-  if (((int *)0x060877DD)[(unsigned char)*0x060877D8] != '\0') {
+  if (((int *)0x060877DD)[(unsigned char)*(int *)0x060877D8] != '\0') {
 
     FUN_0601efc4();
 
@@ -24,7 +24,7 @@ void FUN_0601f40c()
 
       *(int *)0x0605E05C = 0xc;
 
-      (*(void(*)())0x0601F8BC)();
+      (*(int(*)())0x0601F8BC)();
 
       return;
 

@@ -13,7 +13,7 @@ int FUN_0601eaa0()
 
   uVar3 = 0;
 
-  bVar2 = FUN_0601e4d4(0x0604A57C + (unsigned int)(unsigned char)*0x060877D8 * 0xc);
+  bVar2 = FUN_0601e4d4(0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc);
 
   if (bVar2 < 7) {
 

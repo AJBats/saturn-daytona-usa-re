@@ -13,7 +13,7 @@ int FUN_0601f900()
 
     local_8[0] = DAT_0601f964;
 
-    (*(void(*)())0x06036E90)(0x25E7FFFE,1,local_8);
+    (*(int(*)())0x06036E90)(0x25E7FFFE,1,local_8);
 
     return 1;
 

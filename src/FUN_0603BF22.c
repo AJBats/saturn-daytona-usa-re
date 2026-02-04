@@ -17,7 +17,7 @@ void FUN_0603bf22(param_1, param_2)
 
   }
 
-  (*(void(*)())0x0604087C)(*(int *)(*param_2 + 0x18));
+  (*(int(*)())0x0604087C)(*(int *)(*param_2 + 0x18));
 
   return;
 

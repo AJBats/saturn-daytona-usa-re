@@ -38,7 +38,7 @@ char * FUN_060282c0(param_1)
 
   }
 
-  puVar5 = (int *)(int)DAT_06028304;
+  puVar5 = (int *)-256;
 
   *puVar5 = 10;
 

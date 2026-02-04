@@ -41,15 +41,15 @@ int FUN_06041698()
 
     uStack_2c = (unsigned int)PTR_DAT_0604172a;
 
-    sVar4 = (*(void(*)())0x06035C4E)();
+    sVar4 = (*(int(*)())0x06035C4E)();
 
     if (((int)sVar4 & uStack_2c) == 0) {
 
-      iVar5 = (*(void(*)())0x060349C4)(auStack_28);
+      iVar5 = (*(int(*)())0x060349C4)(auStack_28);
 
       if (iVar5 == 0) {
 
-        (*(void(*)())0x06035168)();
+        (*(int(*)())0x06035168)();
 
       }
 
@@ -57,17 +57,17 @@ int FUN_06041698()
 
     else {
 
-      (*(void(*)())0x06035C54)(0x0000FBFF);
+      (*(int(*)())0x06035C54)(0x0000FBFF);
 
-      (*(void(*)())0x06034984)(auStack_28);
+      (*(int(*)())0x06034984)(auStack_28);
 
-      (*(void(*)())0x06035168)();
+      (*(int(*)())0x06035168)();
 
       if (*(int *)(*(int *)puVar1 + 0x4c) != 0) {
 
         iVar5 = *(int *)puVar1;
 
-        (*(void(*)())(*(int *)(iVar5 + 0x4c)))(*(int *)(iVar5 + 0x50));
+        (*(int(*)())(*(int *)(iVar5 + 0x4c)))(*(int *)(iVar5 + 0x50));
 
       }
 

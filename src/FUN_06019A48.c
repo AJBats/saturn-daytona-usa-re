@@ -21,7 +21,7 @@ void FUN_06019a48()
 
   if (*(int *)0x06085FF3 == '\0') {
 
-    iVar3 = (int)DAT_06019b22;
+    iVar3 = 0x90;
 
     if (((unsigned int)*(unsigned short *)(0x06063D98 + 2) & iVar3 + 0x70U) == 0) {
 
@@ -29,9 +29,9 @@ void FUN_06019a48()
 
         if ((*(unsigned short *)(0x06063D98 + 2) & DAT_06019bfc) != 0) {
 
-          (*(void(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(0x06049AFC + (char)*0x06085FF0 * 2)[1] * 0x40 +
+          (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)((char *)(0x06049AFC + (char)*(int *)(0x06085FF0 << 1)))[1] * 0x40 +
 
-                         (unsigned int)(unsigned char)0x06049AFC[(char)*0x06085FF0 * 2]) * 2,iVar3,
+                         (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar3,
 
                      *(int *)0x0605D4F0);
 
@@ -51,9 +51,9 @@ void FUN_06019a48()
 
       else {
 
-        (*(void(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(0x06049AFC + (char)*0x06085FF0 * 2)[1] * 0x40 +
+        (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)((char *)(0x06049AFC + (char)*(int *)(0x06085FF0 << 1)))[1] * 0x40 +
 
-                       (unsigned int)(unsigned char)0x06049AFC[(char)*0x06085FF0 * 2]) * 2,iVar3,
+                       (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar3,
 
                    *(int *)0x0605D4F0);
 
@@ -73,9 +73,9 @@ void FUN_06019a48()
 
     else {
 
-      (*(void(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(0x06049AFC + (char)*0x06085FF0 * 2)[1] * 0x40 +
+      (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)((char *)(0x06049AFC + (char)*(int *)(0x06085FF0 << 1)))[1] * 0x40 +
 
-                     (unsigned int)(unsigned char)0x06049AFC[(char)*0x06085FF0 * 2]) * 2,iVar3,
+                     (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar3,
 
                  *(int *)0x0605D4F0);
 
@@ -93,7 +93,7 @@ void FUN_06019a48()
 
         *(int *)0x06059F44 = 0;
 
-        (*(void(*)())0x06026CE0)();
+        (*(int(*)())0x06026CE0)();
 
       }
 
@@ -105,7 +105,7 @@ void FUN_06019a48()
 
   *(int *)0x0605D242 = *(int *)0x0605D242 + '\x01';
 
-  (**(void **)(0x0605D260 + (char)*puVar2 * 4))();
+  (*(int(*)())(*(int *)(0x0605D260 + (char)*((int)(int)puVar2 << 2))))();
 
   return;
 

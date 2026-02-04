@@ -42,11 +42,11 @@ unsigned int FUN_060263ec(param_1)
 
     if ((uVar7 == param_1) ||
 
-       (uVar5 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)uVar7 * 8 + 6) - (int)DAT_06026462, 0xb < uVar5))
+       (uVar5 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(uVar7 << 3) + 6) - 0x8a, 0xb < uVar5))
 
     goto LAB_0602647c;
 
-    uVar1 = (&switchD_0602645e::switchdataD_06026464)[uVar5];
+    uVar1 = ((int *)0x06026464)[uVar5];
 
     switch(uVar5) {
 

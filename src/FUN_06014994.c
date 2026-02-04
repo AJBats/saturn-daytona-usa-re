@@ -1,7 +1,3 @@
-extern int PTR_DAT_060149c4;
-
-extern int PTR_DAT_060149c4;
-
 void FUN_06014994()
 {
 
@@ -9,17 +5,17 @@ void FUN_06014994()
 
   puVar1 = 0x06038BD4;
 
-  (*(void(*)())0x06038BD4)((int)PTR_DAT_060149c4,4);
+  (*(int(*)())0x06038BD4)(0x100,4);
 
-  (*(void(*)())puVar1)(4,1);
+  (*(int(*)())puVar1)(4,1);
 
-  (*(void(*)())puVar1)(8,0);
+  (*(int(*)())puVar1)(8,0);
 
-  (*(void(*)())puVar1)(0x10,6);
+  (*(int(*)())puVar1)(0x10,6);
 
-  (*(void(*)())puVar1)(0x20,7);
+  (*(int(*)())puVar1)(0x20,7);
 
-  (*(void(*)())puVar1)(1,0);
+  (*(int(*)())puVar1)(1,0);
 
   return;
 

@@ -57,11 +57,11 @@ long long FUN_06033278(param_1, param_2)
 
       0x060629AC
 
-      [(uVar4 & 0xf8) * 0x24 + (uVar4 & 7) * 4 + (uVar2 & 0xf8) * 4 + ((uVar2 & 7) >> 1)] =
+      [(uVar4 & 0xf8) * 0x24 + (uVar4 & 7) << 2 + (uVar2 & 0xf8) << 2 + ((uVar2 & 7) >> 1)] =
 
            0x060629AC
 
-           [(uVar4 & 0xf8) * 0x24 + (uVar4 & 7) * 4 + (uVar2 & 0xf8) * 4 + ((uVar2 & 7) >> 1)] &
+           [(uVar4 & 0xf8) * 0x24 + (uVar4 & 7) << 2 + (uVar2 & 0xf8) << 2 + ((uVar2 & 7) >> 1)] &
 
            bVar5 | (unsigned char)param_2;
 

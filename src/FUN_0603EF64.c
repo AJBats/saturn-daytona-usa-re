@@ -32,11 +32,11 @@ char * FUN_0603ef64(param_1, param_2, param_3)
 
   if ((((param_3 != (int *)0x0) &&
 
-       (*param_3 = (int)puVar2 * 0x800,
+       (*param_3 = (int)((int)(int)puVar2 << 11),
 
-       *(int *)(param_1 + 0x10) < *(int *)(param_1 + 0x14) + (int)puVar2 * 0x800)) &&
+       *(int *)(param_1 + 0x10) < *(int *)(param_1 + 0x14) + (int)((int)(int)puVar2 << 11))) &&
 
-      (iVar1 = (*(void(*)())0x06036BE4)(), *param_3 != 0)) && (iVar1 != 0)) {
+      (iVar1 = (*(int(*)())0x06036BE4)(), *param_3 != 0)) && (iVar1 != 0)) {
 
     *param_3 = *param_3 - (DAT_0603eff4 - iVar1);
 

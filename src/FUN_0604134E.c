@@ -9,7 +9,7 @@ int FUN_0604134e(param_1, param_2)
 
   }
 
-  (*(void(*)())0x06034DEA)();
+  (*(int(*)())0x06034DEA)();
 
   return 0;
 

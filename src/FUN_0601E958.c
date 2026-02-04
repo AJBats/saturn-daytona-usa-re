@@ -26,7 +26,7 @@ int FUN_0601e958()
 
   puVar1 = 0x0605E098;
 
-  iVar5 = (int)(char)*0x0605E05D;
+  iVar5 = (int)(char)*(int *)0x0605E05D;
 
   if (iVar5 == 0) {
 
@@ -34,7 +34,7 @@ int FUN_0601e958()
 
     puVar4 = 0x060877D8;
 
-    bVar6 = FUN_0601e4d4(0x0604A57C + (unsigned int)(unsigned char)*0x060877D8 * 0xc);
+    bVar6 = FUN_0601e4d4(0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc);
 
     if (bVar6 < 7) {
 
@@ -84,7 +84,7 @@ int FUN_0601e958()
 
           *puVar3 = 8;
 
-          iVar5 = (*(void(*)())puVar2)();
+          iVar5 = (*(int(*)())puVar2)();
 
         }
 
@@ -94,7 +94,7 @@ int FUN_0601e958()
 
         *puVar3 = 8;
 
-        iVar5 = (*(void(*)())puVar2)();
+        iVar5 = (*(int(*)())puVar2)();
 
       }
 
@@ -108,7 +108,7 @@ int FUN_0601e958()
 
       *puVar3 = 4;
 
-      iVar5 = (*(void(*)())puVar2)();
+      iVar5 = (*(int(*)())puVar2)();
 
     }
 

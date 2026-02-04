@@ -22,7 +22,7 @@ void FUN_0601772e(param_1)
 
     do {
 
-      (*(void(*)())puVar1)(0xc,puVar2 + (short)((unsigned short)bVar4 * 0x36),(param_1 + 0x40) * 2,0);
+      (*(int(*)())puVar1)(0xc,puVar2 + (short)((unsigned short)bVar4 * 0x36),(param_1 + 0x40) << 1,0);
 
       bVar4 = bVar4 + 1;
 

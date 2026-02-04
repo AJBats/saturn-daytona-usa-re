@@ -41,7 +41,7 @@ int FUN_06010bc4()
 
   uVar1 = DAT_06010c4e;
 
-  pbVar8 = (unsigned char *)(int)DAT_06010c4c;
+  pbVar8 = (unsigned char *)-495;
 
   if (*(int *)0x06085FF4 == '\0') {
 
@@ -55,7 +55,7 @@ int FUN_06010bc4()
 
     *(int *)puVar5 = *(int *)puVar5 + 0x30;
 
-    (*(void(*)())puVar3)();
+    (*(int(*)())puVar3)();
 
     *(int *)0x0607884C = 1;
 
@@ -79,7 +79,7 @@ int FUN_06010bc4()
 
     *pbVar8 = *pbVar8 & 0xf;
 
-    uVar7 = (*(void(*)())puVar3)();
+    uVar7 = (*(int(*)())puVar3)();
 
   }
 
@@ -143,7 +143,7 @@ int FUN_06010bc4()
 
     *(int *)puVar5 = *(int *)puVar5 + 0x30;
 
-    (*(void(*)())puVar6)();
+    (*(int(*)())puVar6)();
 
     *(int *)0x0607884C = 1;
 
@@ -167,7 +167,7 @@ int FUN_06010bc4()
 
     *pbVar8 = *pbVar8 & 0xf;
 
-    uVar7 = (*(void(*)())puVar3)();
+    uVar7 = (*(int(*)())puVar3)();
 
   }
 

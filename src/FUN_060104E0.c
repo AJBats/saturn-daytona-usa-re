@@ -84,7 +84,7 @@ LAB_06010570:
 
   }
 
-  uVar6 = (unsigned int)(char)*0x0605AB17;
+  uVar6 = (unsigned int)(char)*(int *)0x0605AB17;
 
   if (uVar6 == 0xf) {
 
@@ -154,9 +154,9 @@ LAB_06010570:
 
       *puVar5 = 1;
 
-      (*(void(*)())0x060359E4)();
+      (*(int(*)())0x060359E4)();
 
-      uVar6 = (*(void(*)())0x060357B8)();
+      uVar6 = (*(int(*)())0x060357B8)();
 
       *(unsigned int *)0x06078898 = uVar6;
 
@@ -168,9 +168,9 @@ LAB_06010570:
 
       *puVar5 = 0;
 
-      (*(void(*)())0x060359E4)();
+      (*(int(*)())0x060359E4)();
 
-      uVar6 = (*(void(*)())0x060357B8)();
+      uVar6 = (*(int(*)())0x060357B8)();
 
       *(unsigned int *)0x06078894 = uVar6;
 
@@ -190,7 +190,7 @@ LAB_06010570:
 
     if (*puVar5 == '\0') {
 
-      uVar11 = *(int *)(0x0605D05C + *(int *)puVar4 * 4);
+      uVar11 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
 
       puVar10 = (int *)0x06078884;
 
@@ -198,13 +198,13 @@ LAB_06010570:
 
     else {
 
-      uVar11 = *(int *)(0x0605D05C + *(int *)puVar4 * 4);
+      uVar11 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
 
       puVar10 = (int *)0x06078880;
 
     }
 
-    uVar6 = (*(void(*)())0x0602766C)(*puVar10,uVar11,(int)DAT_06010736);
+    uVar6 = (*(int(*)())0x0602766C)(*puVar10,uVar11,0xc0);
 
   }
 
@@ -222,9 +222,9 @@ LAB_06010570:
 
     }
 
-    uVar6 = (*(void(*)())0x0602761E)(0x25F00000 + (*(int *)puVar3 * 2 + 0x23) * 0x20,
+    uVar6 = (*(int(*)())0x0602761E)(0x25F00000 + (*(int *)((int)(int)puVar3 << 1) + 0x23) << 5,
 
-                       0x0605CA9C + iVar9 * 0x40,0x40);
+                       0x0605CA9C + (iVar9 << 6),0x40);
 
     return uVar6;
 

@@ -65,11 +65,11 @@ void FUN_0603053c(param_1)
 
   uVar4 = puVar2[2];
 
-  if ((((int)PTR_DAT_0603056c & (*puVar2 | puVar2[1] | uVar4 | puVar2[3])) != 0) &&
+  if (((0x80 & (*puVar2 | puVar2[1] | uVar4 | puVar2[3])) != 0) &&
 
-     (uVar7 = puVar2[3] & uVar4 & puVar2[1] & *puVar2, ((int)DAT_06030588 & uVar7) == 0)) {
+     (uVar7 = puVar2[3] & uVar4 & puVar2[1] & *puVar2, (0x1 & uVar7) == 0)) {
 
-    if (((int)PTR_DAT_06030598 & uVar7) != 0) {
+    if ((0x80 & uVar7) != 0) {
 
       FUN_06030a9c(0,uVar4,*(int *)(0x06063EC4 + 0x10));
 
@@ -123,7 +123,7 @@ void FUN_0603053c(param_1)
 
         if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
 
-          sVar6 = sVar6 + DAT_06030680 * 2;
+          sVar6 = sVar6 + (DAT_06030680 << 1);
 
         }
 
@@ -151,7 +151,7 @@ void FUN_0603053c(param_1)
 
         if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
 
-          sVar6 = sVar6 + DAT_0603063a * 2;
+          sVar6 = sVar6 + (DAT_0603063a << 1);
 
         }
 
@@ -191,7 +191,7 @@ void FUN_0603053c(param_1)
 
         if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
 
-          iVar5 = iVar5 + iVar3 * 2;
+          iVar5 = iVar5 + (iVar3 << 1);
 
         }
 
@@ -229,7 +229,7 @@ void FUN_0603053c(param_1)
 
       if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
 
-        iVar5 = iVar5 + iVar3 * 2;
+        iVar5 = iVar5 + (iVar3 << 1);
 
       }
 

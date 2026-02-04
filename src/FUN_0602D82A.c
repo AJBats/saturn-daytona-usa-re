@@ -19,7 +19,7 @@ void FUN_0602d82a()
 
   int iVar5;
 
-  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + in_r0) * 4) *
+  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + in_r0) << 2) *
 
           (long long)*(int *)(in_r0 + 0xc);
 

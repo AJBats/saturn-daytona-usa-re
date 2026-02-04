@@ -1,6 +1,6 @@
 extern int DAT_0604089c;
 
-int * 
+int * _unknown_()
 {
 
   int iVar1;
@@ -53,31 +53,31 @@ int *
 
   uStack_f = 0;
 
-  (*(void(*)())0x06035228)();
+  (*(int(*)())0x06035228)();
 
   param_1[10] = 0xffffffff;
 
-  iVar1 = (*(void(*)())0x06040EEC)(&uStack_18);
+  iVar1 = (*(int(*)())0x06040EEC)(&uStack_18);
 
   if (iVar1 == 0) {
 
     param_1[1] = uStack_18;
 
-    iVar1 = (*(void(*)())0x06040E88)(&local_1c);
+    iVar1 = (*(int(*)())0x06040E88)(&local_1c);
 
     if (iVar1 == 0) {
 
       param_1[5] = local_1c;
 
-      iVar1 = (*(void(*)())0x06041034)(local_1c,param_1[8],&local_14,0,0);
+      iVar1 = (*(int(*)())0x06041034)(local_1c,param_1[8],&local_14,0,0);
 
       if (iVar1 == 0) {
 
-        iVar1 = (*(void(*)())0x060414D0)(local_1c,uStack_18,(int)DAT_0604089c);
+        iVar1 = (*(int(*)())0x060414D0)(local_1c,uStack_18,(int)DAT_0604089c);
 
         if (iVar1 == 0) {
 
-          iVar1 = (*(void(*)())0x0604188C)();
+          iVar1 = (*(int(*)())0x0604188C)();
 
           if (iVar1 != 0) {
 
@@ -105,7 +105,7 @@ int *
 
     else {
 
-      (*(void(*)())0x06040F16)(uStack_18);
+      (*(int(*)())0x06040F16)(uStack_18);
 
       param_1 = (int *)0x0;
 

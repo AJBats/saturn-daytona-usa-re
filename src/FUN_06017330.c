@@ -26,7 +26,7 @@ int FUN_06017330(param_1)
 
     bVar3 = bVar3 + 1;
 
-    *(short *)(puVar1 + uVar2 * 2 + (short)(param_1 * 0x18) + 8) = 0;
+    *(short *)(puVar1 + (uVar2 << 1) + (short)(param_1 * 0x18) + 8) = 0;
 
   } while (bVar3 < 8);
 

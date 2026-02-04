@@ -15,13 +15,13 @@ void FUN_06007590(param_1, param_2)
 
   uVar3 = *(unsigned short *)(0x060684EC + (unsigned int)param_1[1] * 2);
 
-  *(short *)(0x060684EC + (unsigned int)*param_1 * 2) = (short)*(int *)0x0606A4F4;
+  *(short *)(0x060684EC + (unsigned int)*((int)(int)param_1 << 1)) = (short)*(int *)0x0606A4F4;
 
-  *(int *)(puVar2 + *(int *)puVar1 * 8) = *(int *)(puVar2 + (unsigned int)uVar3 * 8);
+  *(int *)(puVar2 + *(int *)((int)(int)puVar1 << 3)) = *(int *)(puVar2 + (unsigned int)(uVar3 << 3));
 
-  *(short *)(puVar2 + *(int *)puVar1 * 8 + 4) =
+  *(short *)(puVar2 + *(int *)((int)(int)puVar1 << 3) + 4) =
 
-       *(short *)((int)(puVar2 + (unsigned int)uVar3 * 8) + 4);
+       *(short *)((int)(puVar2 + (unsigned int)(uVar3 << 3)) + 4);
 
   if (param_1[1] < 0xd) {
 
@@ -31,11 +31,11 @@ void FUN_06007590(param_1, param_2)
 
   else {
 
-    uVar3 = param_1[2] + param_2 * 4;
+    uVar3 = param_1[2] + (param_2 << 2);
 
   }
 
-  *(unsigned short *)(puVar2 + *(int *)puVar1 * 8 + 6) = uVar3;
+  *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar1 << 3) + 6) = uVar3;
 
   *(int *)puVar1 = *(int *)puVar1 + 1;
 

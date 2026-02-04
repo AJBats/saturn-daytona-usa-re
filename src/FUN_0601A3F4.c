@@ -27,7 +27,7 @@ void FUN_0601a3f4(param_1, param_2)
 
   puVar5 = 0x06049B36;
 
-  if ((param_2 & 0xffff) == (int)PTR_DAT_0601a4a8) {
+  if ((param_2 & 0xffff) == 0xa8) {
 
     bVar1 = ((int *)0x06049CD4)[param_1];
 
@@ -47,17 +47,17 @@ void FUN_0601a3f4(param_1, param_2)
 
     for (bVar7 = 0; bVar7 < *pbVar4; bVar7 = bVar7 + 1) {
 
-      (*(void(*)())puVar2)(iVar6 << 2,
+      (*(int(*)())puVar2)(iVar6 << 2,
 
-                        ((unsigned int)(unsigned char)(0x06049C28 + ((unsigned int)bVar1 + (unsigned int)bVar7) * 2)[1] * 0x40
+                        ((unsigned int)(unsigned char)((char *)(0x06049C28 + ((unsigned int)bVar1 + (unsigned int)bVar7) << 1))[1] * 0x40
 
-                        + (unsigned int)(unsigned char)0x06049C28[((unsigned int)bVar1 + (unsigned int)bVar7) * 2]) * 2,0,
+                        + (unsigned int)(unsigned char)((int *)0x06049C28)[((unsigned int)bVar1 + (unsigned int)bVar7) << 1]) << 1,0,
 
                         puVar3);
 
     }
 
-    pbVar4 = 0x06059084 + (unsigned int)param_1 * 2;
+    pbVar4 = 0x06059084 + (unsigned int)(param_1 << 1);
 
     puVar5 = 0x06049E58;
 
@@ -83,21 +83,21 @@ void FUN_0601a3f4(param_1, param_2)
 
     for (bVar7 = 0; bVar7 < *pbVar4; bVar7 = bVar7 + 1) {
 
-      (*(void(*)())puVar2)(iVar6 << 2,
+      (*(int(*)())puVar2)(iVar6 << 2,
 
-                        ((unsigned int)(unsigned char)(puVar5 + ((unsigned int)bVar1 + (unsigned int)bVar7) * 2)[1] * 0x40 +
+                        ((unsigned int)(unsigned char)(puVar5 + ((unsigned int)bVar1 + (unsigned int)bVar7) << 1)[1] * 0x40 +
 
-                        (unsigned int)(unsigned char)puVar5[((unsigned int)bVar1 + (unsigned int)bVar7) * 2]) * 2,0,puVar3);
+                        (unsigned int)(unsigned char)puVar5[((unsigned int)bVar1 + (unsigned int)bVar7) << 1]) << 1,0,puVar3);
 
     }
 
-    pbVar4 = 0x06059060 + (unsigned int)param_1 * 2;
+    pbVar4 = 0x06059060 + (unsigned int)(param_1 << 1);
 
     puVar5 = 0x06049E58;
 
   }
 
-  (*(void(*)())0x060284AE)(iVar6 << 2,((unsigned int)pbVar4[1] * 0x40 + (unsigned int)*pbVar4) * 2,0x60,puVar5);
+  (*(int(*)())0x060284AE)(iVar6 << 2,((unsigned int)pbVar4[1] * 0x40 + (unsigned int)*pbVar4) << 1,0x60,puVar5);
 
   return;
 

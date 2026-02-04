@@ -7,7 +7,7 @@ int FUN_06033330()
 
   int uVar1;
 
-  uVar1 = (*(void(*)())0x0602761E)(0x060629AC,0x060430CE,(int)PTR_DAT_06033344)
+  uVar1 = (*(int(*)())0x0602761E)(0x060629AC,0x060430CE,0x7e0)
 
   ;
 

@@ -1,6 +1,6 @@
 extern int FUN_060418be();
 
-int 
+int _unknown_()
 {
 
   char *puVar1;
@@ -25,13 +25,13 @@ int
 
       }
 
-      iVar3 = iVar3 * 0x10;
+      iVar3 = (iVar3 << 4);
 
       *(char *)(*(int *)puVar1 + 0x5c + iVar3) = (char)param_1;
 
       *(char *)(*(int *)puVar1 + iVar3 + 0x5d) = param_2;
 
-      (*(void(*)())0x06035228)();
+      (*(int(*)())0x06035228)();
 
       *(int *)(*(int *)puVar1 + iVar3 + 100) = param_4;
 

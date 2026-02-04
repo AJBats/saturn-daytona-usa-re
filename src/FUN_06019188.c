@@ -9,21 +9,21 @@ void FUN_06019188()
 
   *(int *)0x06086050 = 0;
 
-  (*(void(*)())puVar1)(0xf,0xAE0001FF);
+  (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
-  (*(void(*)())puVar1)(0xf,0xAE0005FF);
+  (*(int(*)())puVar1)(0xf,0xAE0005FF);
 
   FUN_060192e8();
 
   if (*(int *)0x06086050 == 0) {
 
-    (*(void(*)())0x06012F60)();
+    (*(int(*)())0x06012F60)();
 
     *(short *)0x25A02DBE = 0;
 
   }
 
-  (*(void(*)())puVar1)(0xf,0xAE0001FF);
+  (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
   return;
 

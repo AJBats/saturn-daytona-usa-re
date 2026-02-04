@@ -11,7 +11,7 @@ int FUN_0600c8cc(param_1, param_2)
 
   short sVar2;
 
-  iVar1 = (*(void(*)())0x0602744C)(*param_2 - *(int *)(param_1 + 0x10),param_2[2] - *(int *)(param_1 + 0x18));
+  iVar1 = (*(int(*)())0x0602744C)(*param_2 - *(int *)(param_1 + 0x10),param_2[2] - *(int *)(param_1 + 0x18));
 
   sVar2 = (short)-iVar1 - (short)*(int *)(param_1 + 0x28);
 

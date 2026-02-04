@@ -41,7 +41,7 @@ void FUN_0603f84c(param_1, param_2)
 
   }
 
-  if (((int)DAT_0603f8ac & uVar5) == 0) {
+  if ((0x800 & uVar5) == 0) {
 
     cVar1 = '\0';
 

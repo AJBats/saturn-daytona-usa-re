@@ -17,13 +17,13 @@ unsigned int FUN_06035340()
 
     if (((in_r0 & 0x80000000) == 0) && (8 < in_r1)) {
 
-      uVar1 = (*(void(*)())0x06036068)();
+      uVar1 = (*(int(*)())0x06036068)();
 
       return uVar1;
 
     }
 
-    uVar1 = (*(0x060353BE + (char)0x06035338[in_r1 + -0x18]))();
+    uVar1 = (*(0x060353BE + (char)((int *)0x06035338)[in_r1 + -0x18]))();
 
     return uVar1;
 

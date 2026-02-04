@@ -47,7 +47,7 @@ unsigned int FUN_06034848()
 
     }
 
-    uVar1 = (*(void(*)())0x0601D5F4)(0x00000000,uVar2);
+    uVar1 = (*(int(*)())0x0601D5F4)(0x00000000,uVar2);
 
   }
 

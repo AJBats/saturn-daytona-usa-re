@@ -18,7 +18,7 @@ char FUN_0603f534(param_1)
 
      (iVar1 = param_1[3], param_1[3] = iVar1 + 1, iVar1 + 1 != param_1[4])) {
 
-    (*(void(*)())0x0603B21C)(*param_1,1,param_1[1],(int)DAT_0603f5b8);
+    (*(int(*)())0x0603B21C)(*param_1,1,param_1[1],0x800);
 
     param_1[2] = 0;
 

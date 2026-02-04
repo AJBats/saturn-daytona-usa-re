@@ -7,7 +7,7 @@ void FUN_06013e12()
 
   if (0x10 < uVar1) {
 
-    (*(void(*)())0x06026EDE)((int)(short)(uVar1 << 0xc));
+    (*(int(*)())0x06026EDE)((int)(short)(uVar1 << 0xc));
 
     return;
 

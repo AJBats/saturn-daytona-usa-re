@@ -31,7 +31,7 @@ void FUN_060081f4()
 
   puVar1 = 0x0607E944;
 
-  if (*(int *)(*(int *)0x0607E944 + (int)DAT_060082aa) == 0) {
+  if (*(int *)(*(int *)0x0607E944 + 0xb8) == 0) {
 
     if ((0x13 < *(int *)(*(int *)0x0607E944 + 8)) &&
 
@@ -41,13 +41,13 @@ void FUN_060081f4()
 
         if ((**(unsigned char **)0x0607E944 & 0x20) != 0) {
 
-          *(int *)(*(int *)0x0607E944 + (int)DAT_06008358) = 0x30;
+          *(int *)(*(int *)0x0607E944 + 0xb8) = 0x30;
 
           *(int *)(*(int *)puVar1 + (int)DAT_0600835a) = 1;
 
           if (((unsigned int)puVar2 & *(unsigned int *)puVar4) != 0) {
 
-            (*(void(*)())0x0601D5F4)(0,0xAE111BFF);
+            (*(int(*)())0x0601D5F4)(0,0xAE111BFF);
 
           }
 
@@ -57,13 +57,13 @@ void FUN_060081f4()
 
       else {
 
-        *(int *)(*(int *)0x0607E944 + (int)DAT_060082aa) = 0x30;
+        *(int *)(*(int *)0x0607E944 + 0xb8) = 0x30;
 
         *(int *)(*(int *)puVar1 + (int)DAT_060082ac) = 0xffffffff;
 
         if (((unsigned int)puVar2 & *(unsigned int *)puVar4) != 0) {
 
-          (*(void(*)())0x0601D5F4)(0,0xAE111BFF);
+          (*(int(*)())0x0601D5F4)(0,0xAE111BFF);
 
         }
 
@@ -77,7 +77,7 @@ void FUN_060081f4()
 
     *(int *)0x0607EBD4 = 0x46;
 
-    iVar3 = (int)DAT_060082aa;
+    iVar3 = 0xb8;
 
     iVar5 = *(int *)(*(int *)puVar1 + iVar3);
 
@@ -93,25 +93,25 @@ void FUN_060081f4()
 
     if (*(int *)(*(int *)puVar1 + (int)DAT_060082ac) < 0) {
 
-      iVar3 = (int)*(short *)(puVar4 + (0x30 - iVar5) * 2);
+      iVar3 = (int)*(short *)(puVar4 + (0x30 - iVar5) << 1);
 
     }
 
     else {
 
-      iVar3 = -(int)*(short *)(puVar4 + (0x30 - iVar5) * 2);
+      iVar3 = -(int)*(short *)(puVar4 + (0x30 - iVar5) << 1);
 
     }
 
-    *(int *)(*(int *)puVar1 + (int)DAT_060082ae) = iVar3;
+    *(int *)(*(int *)puVar1 + 0x1d8) = iVar3;
 
-    *(int *)(*(int *)puVar1 + 0xc) = *(int *)(*(int *)puVar1 + 0xc) - (int)DAT_060082b0;
+    *(int *)(*(int *)puVar1 + 0xc) = *(int *)(*(int *)puVar1 + 0xc) - 0xe3;
 
   }
 
-  (*(void(*)())0x06034F78)(0);
+  (*(int(*)())0x06034F78)(0);
 
-  (*(void(*)())0x06034F78)();
+  (*(int(*)())0x06034F78)();
 
   return;
 

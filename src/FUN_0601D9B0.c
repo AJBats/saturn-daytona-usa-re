@@ -19,9 +19,9 @@ unsigned int FUN_0601d9b0()
 
   puVar3 = 0x06086054;
 
-  if ((int)(char)*0x06085FF4 != 0) {
+  if ((int)(char)*(int *)0x06085FF4 != 0) {
 
-    return (int)(char)*0x06085FF4;
+    return (int)(char)*(int *)0x06085FF4;
 
   }
 
@@ -173,7 +173,7 @@ LAB_0601db20:
 
   puVar5 = 0x0608605A;
 
-  uVar6 = (unsigned int)(unsigned char)*0x0608605A;
+  uVar6 = (unsigned int)(unsigned char)*(int *)0x0608605A;
 
   if (uVar6 == 1) {
 

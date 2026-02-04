@@ -28,7 +28,7 @@ unsigned int * FUN_060400d6(param_1, param_2, param_3)
 
     *param_1 = 0x40000000 | param_3;
 
-    iVar1 = (*(void(*)())0x060415C8)(param_3,&local_20);
+    iVar1 = (*(int(*)())0x060415C8)(param_3,&local_20);
 
     if (iVar1 != 0) {
 
@@ -42,13 +42,13 @@ unsigned int * FUN_060400d6(param_1, param_2, param_3)
 
     param_1[3] = uVar2;
 
-    uVar2 = (*(void(*)())0x06035F44)();
+    uVar2 = (*(int(*)())0x06035F44)();
 
     param_1[4] = uVar2;
 
-    (*(void(*)())0x06036BE4)(uStack_1c);
+    (*(int(*)())0x06036BE4)(uStack_1c);
 
-    uVar2 = (*(void(*)())0x06036BE4)();
+    uVar2 = (*(int(*)())0x06036BE4)();
 
     param_1[5] = uVar2;
 
@@ -74,9 +74,9 @@ unsigned int * FUN_060400d6(param_1, param_2, param_3)
 
     param_1[4] = (int)DAT_060401e8 + param_2[1] >> 0xb;
 
-    (*(void(*)())0x06036BE4)();
+    (*(int(*)())0x06036BE4)();
 
-    uVar2 = (*(void(*)())0x06036BE4)();
+    uVar2 = (*(int(*)())0x06036BE4)();
 
     param_1[5] = uVar2;
 

@@ -63,7 +63,7 @@ int FUN_06008730()
 
   }
 
-  iVar3 = (int)DAT_060087ee;
+  iVar3 = 0x1b8;
 
   puVar4 = *(int **)(*(int *)puVar2 + iVar3);
 
@@ -73,25 +73,25 @@ int FUN_06008730()
 
   sVar1 = *(short *)(puVar4 + 1);
 
-  if ((*(unsigned char *)(*(int *)puVar2 + (int)DAT_060087f0) & 0x40) == 0) {
+  if ((*(unsigned char *)(*(int *)puVar2 + 0x1c0) & 0x40) == 0) {
 
-    if (((int)*(char *)(*(int *)puVar2 + (int)DAT_060087f0) & 0x80U) == 0) {
+    if (((int)*(char *)(*(int *)puVar2 + 0x1c0) & 0x80U) == 0) {
 
-      *(int *)(*(int *)puVar2 + (int)DAT_060088aa) = (int)*(short *)((int)puVar4 + 6);
+      *(int *)(*(int *)puVar2 + 0x1c8) = (int)*(short *)((int)puVar4 + 6);
 
       *(int *)(*(int *)puVar2 + (int)DAT_060088ac) = (int)*(short *)(puVar4 + 2);
 
-      *(int *)(*(int *)puVar2 + (int)DAT_060088ae) = (int)*(short *)((int)puVar4 + 10);
+      *(int *)(*(int *)puVar2 + 0x1d0) = (int)*(short *)((int)puVar4 + 10);
 
     }
 
     else {
 
-      *(int *)(*(int *)puVar2 + (int)DAT_060087f2) = -(int)*(short *)((int)puVar4 + 6);
+      *(int *)(*(int *)puVar2 + 0x1c8) = -(int)*(short *)((int)puVar4 + 6);
 
       *(int *)(*(int *)puVar2 + (int)DAT_060087f4) = -(int)*(short *)(puVar4 + 2);
 
-      *(int *)(*(int *)puVar2 + (int)DAT_060087f6) = (int)*(short *)((int)puVar4 + 10);
+      *(int *)(*(int *)puVar2 + 0x1d0) = (int)*(short *)((int)puVar4 + 10);
 
     }
 
@@ -99,15 +99,15 @@ int FUN_06008730()
 
   else {
 
-    *(int *)(*(int *)puVar2 + (int)DAT_060087f2) = (int)*(short *)((int)puVar4 + 6);
+    *(int *)(*(int *)puVar2 + 0x1c8) = (int)*(short *)((int)puVar4 + 6);
 
     *(int *)(*(int *)puVar2 + (int)DAT_060087f4) = -(int)*(short *)(puVar4 + 2);
 
-    *(int *)(*(int *)puVar2 + (int)DAT_060087f6) = -(int)*(short *)((int)puVar4 + 10);
+    *(int *)(*(int *)puVar2 + 0x1d0) = -(int)*(short *)((int)puVar4 + 10);
 
   }
 
-  if (*(unsigned int *)(*(int *)puVar2 + 4) == (unsigned int)(unsigned char)*0x0607EBBC) {
+  if (*(unsigned int *)(*(int *)puVar2 + 4) == (unsigned int)(unsigned char)*(int *)0x0607EBBC) {
 
     *(int *)(*(int *)puVar2 + (int)DAT_060088b0) = *(int *)(*(int *)puVar2 + (int)DAT_060088b0) + 1;
 

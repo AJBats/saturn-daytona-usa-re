@@ -12,11 +12,11 @@ int FUN_060335f4(param_1, param_2, param_3)
 
   int in_pr;
 
-  uVar2 = *(int *)(0x0603363C + *(int *)0x0607EAD8 * 4);
+  uVar2 = *(int *)(0x0603363C + *(int *)(0x0607EAD8 << 2));
 
-  uVar1 = (*(void(*)())0x06027348)();
+  uVar1 = (*(int(*)())0x06027348)();
 
-  (*(void(*)())0x06027344)(uVar2,param_2,param_3,uVar1,in_pr);
+  (*(int(*)())0x06027344)(uVar2,param_2,param_3,uVar1,in_pr);
 
   return in_r0;
 

@@ -39,7 +39,7 @@ void FUN_06017784(param_1, param_2, param_3, param_4)
 
         uVar7 = uVar7 + 1;
 
-        *(unsigned short *)(puVar3 + (uVar5 & 0xff) * 2 + (int)(short)((param_3 & 0xff) * 0x36)) =
+        *(unsigned short *)(puVar3 + (uVar5 & 0xff) << 1 + (int)(short)((param_3 & 0xff) * 0x36)) =
 
              param_1[(unsigned int)uVar6 * (unsigned int)uVar1 + uVar4 + 2] + param_2;
 

@@ -53,7 +53,7 @@ void FUN_0600cc38(param_1, param_2)
 
   if ((uVar6 == 0) || (6 < uVar5)) {
 
-    piVar1 = (int *)((uVar5 + *(int *)(iVar2 + DAT_0600cdbc) * 8) * 0x10 + *(int *)0x0607EB88)
+    piVar1 = (int *)((uVar5 + *(int *)(iVar2 + DAT_0600cdbc) << 3) << 4 + *(int *)0x0607EB88)
 
     ;
 
@@ -65,11 +65,11 @@ void FUN_0600cc38(param_1, param_2)
 
   else {
 
-    iVar2 = uVar5 + *(int *)(iVar2 + DAT_0600ccfa) * 8;
+    iVar2 = uVar5 + *(int *)(iVar2 + DAT_0600ccfa) << 3;
 
-    piVar1 = (int *)(iVar2 * 0x10 + *(int *)0x0607EB88);
+    piVar1 = (int *)((iVar2 << 4) + *(int *)0x0607EB88);
 
-    piVar3 = (int *)((iVar2 + 1) * 0x10 + *(int *)0x0607EB88);
+    piVar3 = (int *)((iVar2 + 1) << 4 + *(int *)0x0607EB88);
 
     *param_2 = (int)(*piVar1 * (4 - uVar6) + *piVar3 * uVar6) >> 2;
 

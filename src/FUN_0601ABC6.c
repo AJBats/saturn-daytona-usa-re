@@ -21,7 +21,7 @@ int FUN_0601abc6()
 
   if ((*(int *)0x06078638 <
 
-       *(int *)(*(int *)(0x0605DE24 + *(int *)0x0607EAD8 * 8) + 4)) &&
+       *(int *)(*(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3)) + 4)) &&
 
      (0 < *(int *)0x06078638)) {
 
@@ -35,13 +35,13 @@ int FUN_0601abc6()
 
   }
 
-  iVar1 = (int)PTR_DAT_0601ace4;
+  iVar1 = 0xe8;
 
   if (*(unsigned int *)0x060786A4 <
 
       *(unsigned int *)(*(int *)(0x0605DD6C +
 
-                        (*(int *)0x0607EAD8 * 6 + *(int *)0x0605AD00 * 2) * 4) + iVar1))
+                        (*(int *)0x0607EAD8 * 6 + *(int *)(0x0605AD00 << 1)) << 2) + iVar1))
 
   {
 

@@ -53,21 +53,21 @@ int FUN_06019bc8()
 
       }
 
-      uVar4 = (*(void(*)())puVar3)(0xc,*(int *)
+      uVar4 = (*(int(*)())puVar3)(0xc,*(int *)
 
                                      (0x06063750 +
 
-                                     (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)bVar6 * 2) * 8),
+                                     (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3),
 
-                                ((unsigned int)(unsigned char)(0x06049B0C + (unsigned int)bVar6 * 2)[1] * 0x40 +
+                                ((unsigned int)(unsigned char)((char *)(0x06049B0C + (unsigned int)(bVar6 << 1)))[1] * 0x40 +
 
-                                (unsigned int)(unsigned char)0x06049B0C[(unsigned int)bVar6 * 2]) * 2,
+                                (unsigned int)(unsigned char)((int *)0x06049B0C)[(unsigned int)(bVar6 << 1)]) << 1,
 
-                                iVar5 * 0x1000 +
+                                (iVar5 << 12) +
 
                                 *(int *)((int)(0x06063750 +
 
-                                              (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)bVar6 * 2) * 8) + 4))
+                                              (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3) + 4))
 
       ;
 
@@ -95,21 +95,21 @@ int FUN_06019bc8()
 
       }
 
-      uVar4 = (*(void(*)())puVar3)(0xc,*(int *)
+      uVar4 = (*(int(*)())puVar3)(0xc,*(int *)
 
                                      (0x06063750 +
 
-                                     (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)bVar6 * 2) * 8),
+                                     (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3),
 
-                                ((unsigned int)(unsigned char)(0x06049B0C + (unsigned int)bVar6 * 2)[1] * 0x40 +
+                                ((unsigned int)(unsigned char)((char *)(0x06049B0C + (unsigned int)(bVar6 << 1)))[1] * 0x40 +
 
-                                (unsigned int)(unsigned char)0x06049B0C[(unsigned int)bVar6 * 2]) * 2,
+                                (unsigned int)(unsigned char)((int *)0x06049B0C)[(unsigned int)(bVar6 << 1)]) << 1,
 
-                                iVar5 * 0x1000 +
+                                (iVar5 << 12) +
 
                                 *(int *)((int)(0x06063750 +
 
-                                              (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)bVar6 * 2) * 8) + 4))
+                                              (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3) + 4))
 
       ;
 

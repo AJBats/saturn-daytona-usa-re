@@ -23,9 +23,9 @@ char * FUN_0601efc4()
 
   char *puVar10;
 
-  iVar4 = (int)DAT_0601efda;
+  iVar4 = 0xf0;
 
-  puVar2 = (char *)(unsigned int)(unsigned char)*0x06087080;
+  puVar2 = (char *)(unsigned int)(unsigned char)*(int *)0x06087080;
 
   if (puVar2 == (char *)0x0) {
 

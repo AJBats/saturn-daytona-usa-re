@@ -53,7 +53,7 @@ int FUN_0600c302()
 
   if ((int)DAT_0600c370 <= *(int *)(iVar2 + 0x68)) {
 
-    iVar1 = (int)DAT_0600c36a;
+    iVar1 = 0x172;
 
     *(short *)(iVar2 + iVar1) = 0x12;
 
@@ -73,11 +73,11 @@ int FUN_0600c302()
 
   iVar1 = 0x68;
 
-  if (((int)DAT_0600c416 < *(int *)(iVar2 + 0x68)) && (*(int *)(iVar2 + 0x68) < (int)DAT_0600c418))
+  if ((0x9b < *(int *)(iVar2 + 0x68)) && (*(int *)(iVar2 + 0x68) < (int)DAT_0600c418))
 
   {
 
-    iVar1 = (int)DAT_0600c41a;
+    iVar1 = 0x172;
 
     *(short *)(iVar2 + iVar1) = 0;
 

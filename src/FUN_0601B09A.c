@@ -8,7 +8,7 @@ void FUN_0601b09a(param_1, param_2, param_3)
 
   FUN_0601bbcc(*(int *)
 
-                (0x0605DD6C + (param_1 * 6 + param_2 * 2 + (unsigned int)(unsigned char)*0x0605D4F7) * 4)
+                (0x0605DD6C + (param_1 * 6 + (param_2 << 1) + (unsigned int)(unsigned char)*(int *)0x0605D4F7) << 2)
 
                ,(int)param_3,6);
 

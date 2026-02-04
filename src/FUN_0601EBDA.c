@@ -25,9 +25,9 @@ char * FUN_0601ebda()
 
   char *puVar10;
 
-  iVar5 = (int)PTR_DAT_0601ebf0;
+  iVar5 = 0xf0;
 
-  puVar2 = (char *)(unsigned int)(unsigned char)*0x06087080;
+  puVar2 = (char *)(unsigned int)(unsigned char)*(int *)0x06087080;
 
   if (puVar2 == (char *)0x0) {
 

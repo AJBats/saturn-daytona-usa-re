@@ -46,7 +46,7 @@ int FUN_06008640()
 
   }
 
-  uVar2 = FUN_060086c0(*(int *)(0x060453B4 + (*(unsigned int *)0x0607EBD0 & 1) * 8));
+  uVar2 = FUN_060086c0(*(int *)(0x060453B4 + (*(unsigned int *)0x0607EBD0 & 1) << 3));
 
   return uVar2;
 

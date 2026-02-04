@@ -33,31 +33,31 @@ void FUN_06005a22()
 
     else {
 
-      iVar1 = (int)DAT_06005aba;
+      iVar1 = 0xb0;
 
     }
 
     if (*(int *)0x0607EAC0 != 0) {
 
-      (*(void(*)())0x06028400)(8,*(int *)(0x06063750 + iVar1 * 8),(int)DAT_06005abe,
+      (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + (iVar1 << 3)),(int)DAT_06005abe,
 
-                 *(int *)((int)(0x06063750 + iVar1 * 8) + 4) + (int)DAT_06005abc);
+                 *(int *)((int)(0x06063750 + (iVar1 << 3)) + 4) + (int)DAT_06005abc);
 
       return;
 
     }
 
-    (*(void(*)())0x06028400)(8,*(int *)(0x06063750 + iVar1 * 8),(int)DAT_06005ac0,
+    (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + (iVar1 << 3)),(int)DAT_06005ac0,
 
-               *(int *)((int)(0x06063750 + iVar1 * 8) + 4) + (int)DAT_06005abc);
+               *(int *)((int)(0x06063750 + (iVar1 << 3)) + 4) + (int)DAT_06005abc);
 
     return;
 
   }
 
-  (*(void(*)())0x060284AE)(8,(int)DAT_06005abe,(int)DAT_06005ac2,0x0605ACDD);
+  (*(int(*)())0x060284AE)(8,(int)DAT_06005abe,0x90,0x0605ACDD);
 
-  (*(void(*)())0x060284AE)(8,(int)DAT_06005ac0,(int)DAT_06005ac2,0x0605ACDD);
+  (*(int(*)())0x060284AE)(8,(int)DAT_06005ac0,0x90,0x0605ACDD);
 
   return;
 

@@ -33,33 +33,33 @@ void FUN_0600e4f2()
 
   *(char **)0x0607E948 = 0x06078900 + DAT_0600e522;
 
-  (*(void(*)())0x060081F4)();
+  (*(int(*)())0x060081F4)();
 
-  (*(void(*)())0x060085B8)();
+  (*(int(*)())0x060085B8)();
 
-  (*(void(*)())0x06030A06)();
+  (*(int(*)())0x06030A06)();
 
-  (*(void(*)())0x06030EE0)();
+  (*(int(*)())0x06030EE0)();
 
   if ((*(int *)puVar2 < 1) || (*(int *)0x06078635 != '\0')) {
 
-    (*(void(*)())0x0602ECF2)();
+    (*(int(*)())0x0602ECF2)();
 
-    uVar4 = (*(void(*)())0x06006838)(*(int *)(puVar6 + 0x10),*(int *)(puVar6 + 0x18));
+    uVar4 = (*(int(*)())0x06006838)(*(int *)(puVar6 + 0x10),*(int *)(puVar6 + 0x18));
 
     *(int *)0x060786B8 = uVar4;
 
-    (*(void(*)())0x06005ECC)();
+    (*(int(*)())0x06005ECC)();
 
     puVar3 = 0x06027CA4;
 
-    (*(void(*)())0x06027CA4)(0x06063EB0,0);
+    (*(int(*)())0x06027CA4)(0x06063EB0,0);
 
-    (*(void(*)())puVar3)(0x06063E9C,1);
+    (*(int(*)())puVar3)(0x06063E9C,1);
 
-    (*(void(*)())puVar3)(0x06063ED8,2);
+    (*(int(*)())puVar3)(0x06063ED8,2);
 
-    (*(void(*)())puVar3)(0x06063EC4,3);
+    (*(int(*)())puVar3)(0x06063EC4,3);
 
   }
 
@@ -81,11 +81,11 @@ void FUN_0600e4f2()
 
     *(int *)0x06063EF0 = iVar5;
 
-    uVar4 = (*(void(*)())0x06006838)(*(int *)(puVar6 + 0x10),*(int *)(puVar6 + 0x18));
+    uVar4 = (*(int(*)())0x06006838)(*(int *)(puVar6 + 0x10),*(int *)(puVar6 + 0x18));
 
     *(int *)0x060786B8 = uVar4;
 
-    (*(void(*)())0x06005ECC)();
+    (*(int(*)())0x06005ECC)();
 
   }
 
@@ -93,27 +93,27 @@ void FUN_0600e4f2()
 
   if (!bVar1) {
 
-    (*(void(*)())0x0600DB64)();
+    (*(int(*)())0x0600DB64)();
 
   }
 
-  (*(void(*)())0x0600DA7C)();
+  (*(int(*)())0x0600DA7C)();
 
-  (*(void(*)())0x0600CE66)();
+  (*(int(*)())0x0600CE66)();
 
-  (*(void(*)())0x0603053C)(0);
+  (*(int(*)())0x0603053C)(0);
 
-  (*(void(*)())0x0600D780)(bVar1);
+  (*(int(*)())0x0600D780)(bVar1);
 
   puVar3 = 0x0600C994;
 
-  iVar5 = (int)DAT_0600e69e;
+  iVar5 = 0x228;
 
   *(int *)(puVar6 + iVar5 + -0x34) =
 
        *(int *)(puVar6 + iVar5) * *(int *)0x0607EA9C + *(int *)(puVar6 + iVar5 + -0x3c);
 
-  (*(void(*)())puVar3)();
+  (*(int(*)())puVar3)();
 
   if ((*(int *)puVar2 < 1) && (*(int *)0x06078635 == '\0')) {
 
@@ -123,7 +123,7 @@ void FUN_0600e4f2()
 
   if ((*(int *)0x06078635 == '\0') && (*(int *)0x06083255 == '\0')) {
 
-    (*(void(*)())0x0602D9F0)();
+    (*(int(*)())0x0602D9F0)();
 
     return;
 

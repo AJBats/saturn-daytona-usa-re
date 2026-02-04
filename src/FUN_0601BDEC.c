@@ -23,7 +23,7 @@ void FUN_0601bdec()
 
   piVar5 = (int *)0x06086018;
 
-  iVar1 = (*(void(*)())0x06034FE0)();
+  iVar1 = (*(int(*)())0x06034FE0)();
 
   *puVar4 = *puVar4 + iVar1 + 1;
 
@@ -49,7 +49,7 @@ void FUN_0601bdec()
 
   }
 
-  if ((unsigned int)(int)PTR_DAT_0601be4c < *puVar2) {
+  if ((unsigned int)0xa0 < *puVar2) {
 
     *puVar2 = 0;
 

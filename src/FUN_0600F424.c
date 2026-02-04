@@ -31,21 +31,21 @@ void FUN_0600f424()
 
   puVar2 = 0x0607887F;
 
-  if (((unsigned char)*0x0607887F < 5) || (*(int *)0x0607887F == 9)) {
+  if (((unsigned char)*(int *)0x0607887F < 5) || (*(int *)0x0607887F == 9)) {
 
     if (*(int *)0x0607887F == '\t') {
 
-      uVar4 = (*(void(*)())0x06034FE0)();
+      uVar4 = (*(int(*)())0x06034FE0)();
 
-      (*(void(*)())0x06028430)(0xc,(int)DAT_0600f462,0x18,uVar4);
+      (*(int(*)())0x06028430)(0xc,0x148,0x18,uVar4);
 
     }
 
     else {
 
-      uVar4 = (*(void(*)())0x06034FE0)();
+      uVar4 = (*(int(*)())0x06034FE0)();
 
-      (*(void(*)())0x06028430)(8,(int)PTR_DAT_0600f520,0x18,uVar4);
+      (*(int(*)())0x06028430)(8,0x148,0x18,uVar4);
 
     }
 
@@ -103,17 +103,17 @@ void FUN_0600f424()
 
     if (*(int *)0x0607EAE0 == 0) {
 
-      (*(void(*)())0x060284AE)(0xc,iVar5,(int)DAT_0600f616,0x0605ACE4);
+      (*(int(*)())0x060284AE)(0xc,iVar5,0x90,0x0605ACE4);
 
-      (*(void(*)())0x060284AE)(0xc,(int)DAT_0600f618,(int)DAT_0600f616,puVar3);
+      (*(int(*)())0x060284AE)(0xc,(int)DAT_0600f618,0x90,puVar3);
 
-      (*(void(*)())0x060283E0)(0xc,(int)DAT_0600f61a,0,puVar3);
+      (*(int(*)())0x060283E0)(0xc,(int)DAT_0600f61a,0,puVar3);
 
     }
 
     else if (*(int *)0x06078644 == 1) {
 
-      (*(void(*)())0x06028400)(0xc,*(int *)0x06063848,iVar5,
+      (*(int(*)())0x06028400)(0xc,*(int *)0x06063848,iVar5,
 
                  *(int *)(0x06063848 + 4) + (int)DAT_0600f614,0x06063848);
 
@@ -121,7 +121,7 @@ void FUN_0600f424()
 
     else {
 
-      (*(void(*)())0x06028400)(0xc,*(int *)0x06063850,iVar5,
+      (*(int(*)())0x06028400)(0xc,*(int *)0x06063850,iVar5,
 
                  *(int *)(0x06063850 + 4) + (int)DAT_0600f614,0x06063850);
 
@@ -129,15 +129,15 @@ void FUN_0600f424()
 
   }
 
-  (*(void(*)())0x06026DBC)();
+  (*(int(*)())0x06026DBC)();
 
-  (**(void **)(0x0605AC2C + (unsigned int)(unsigned char)*puVar2 * 4))();
+  (*(int(*)())(*(int *)(0x0605AC2C + (unsigned int)(unsigned char)*((int)(int)puVar2 << 2))))();
 
   FUN_0600ffd0();
 
   *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;
 
-  (*(void(*)())0x060078DC)();
+  (*(int(*)())0x060078DC)();
 
   return;
 

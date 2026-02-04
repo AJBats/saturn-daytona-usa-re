@@ -5,7 +5,7 @@ int FUN_06010b54()
 
   if (*(int *)0x0607EAE0 == 0) {
 
-    uVar1 = (*(void(*)())0x0601D5F4)(0,*(int *)(0x0604483C + *(int *)0x0607EAB8 * 4));
+    uVar1 = (*(int(*)())0x0601D5F4)(0,*(int *)(0x0604483C + *(int *)(0x0607EAB8 << 2)));
 
   }
 
@@ -19,7 +19,7 @@ int FUN_06010b54()
 
     }
 
-    uVar1 = (*(void(*)())0x0601D5F4)(0,uVar1);
+    uVar1 = (*(int(*)())0x0601D5F4)(0,uVar1);
 
   }
 

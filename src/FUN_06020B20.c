@@ -21,7 +21,7 @@ int FUN_06020b20()
 
   puVar1 = 0x25E5F800;
 
-  iVar5 = (int)DAT_06020b46;
+  iVar5 = 0x100;
 
   *(int *)0x25F800A4 = 0x12F2FC00;
 
@@ -31,7 +31,7 @@ int FUN_06020b20()
 
   do {
 
-    iVar3 = (uVar4 & 0xffff) * 4;
+    iVar3 = (uVar4 & 0xffff) << 2;
 
     uVar4 = uVar4 + 1;
 

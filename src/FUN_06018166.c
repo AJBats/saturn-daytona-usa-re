@@ -62,23 +62,23 @@ void FUN_06018166()
 
   if (*(short *)puVar2 < 6) {
 
-    iVar7 = (int)DAT_06018218;
+    iVar7 = 0x90;
 
-    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) * 8) =
+    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3) =
 
-         *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) * 8) + iVar7;
+         *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3) + iVar7;
 
-    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar5) * 8) =
+    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar5) << 3) =
 
-         *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar5) * 8) + iVar7;
+         *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar5) << 3) + iVar7;
 
   }
 
   else {
 
-    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) * 8) = uVar6;
+    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3) = uVar6;
 
-    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar5) * 8) =
+    *(int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar5) << 3) =
 
          *(int *)0x06089E30;
 
@@ -88,13 +88,13 @@ void FUN_06018166()
 
   if (bVar1) {
 
-    *(short *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) * 8 + 6) = DAT_060182f2;
+    *(short *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3 + 6) = DAT_060182f2;
 
   }
 
   else {
 
-    *(short *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) * 8 + 6) = DAT_0601821a;
+    *(short *)(puVar3 + (unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3 + 6) = DAT_0601821a;
 
   }
 

@@ -24,13 +24,13 @@ int FUN_0603b7c0(param_1)
 
     if (*param_1 == 0) {
 
-      uVar3 = (*(void(*)())puVar2)(iVar5,param_1[2]);
+      uVar3 = (*(int(*)())puVar2)(iVar5,param_1[2]);
 
     }
 
     else {
 
-      uVar3 = (*(void(*)())puVar1)(iVar5,param_1[2]);
+      uVar3 = (*(int(*)())puVar1)(iVar5,param_1[2]);
 
     }
 

@@ -78,13 +78,13 @@ void FUN_06030b68(param_1, param_2, param_3, param_4)
 
   *(int *)0x06089595 = 1;
 
-  *(short *)((int)DAT_06030bc2 + (int)unaff_r14) = 4;
+  *(short *)(0x150 + (int)unaff_r14) = 4;
 
   if (param_1 == 0) {
 
-    *unaff_r14 = *unaff_r14 | (int)DAT_06030be0;
+    *unaff_r14 = *unaff_r14 | 0x40;
 
-    *(int *)((int)unaff_r14 + (int)DAT_06030be2) = 0;
+    *(int *)((int)unaff_r14 + 0x260) = 0;
 
     sVar5 = *(short *)(0x06063E9C + 0xe);
 
@@ -112,7 +112,7 @@ LAB_06030c48:
 
     if ((iVar10 <= iVar7) && (iVar7 <= iVar10 * 3)) {
 
-      iVar6 = iVar8 + iVar10 * 2;
+      iVar6 = iVar8 + (iVar10 << 1);
 
     }
 
@@ -132,9 +132,9 @@ LAB_06030c48:
 
     if (param_1 == 1) {
 
-      *unaff_r14 = *unaff_r14 | (int)DAT_06030c20;
+      *unaff_r14 = *unaff_r14 | 0x80;
 
-      *(int *)((int)unaff_r14 + (int)DAT_06030c22) = 2;
+      *(int *)((int)unaff_r14 + 0x260) = 2;
 
       sVar5 = *(short *)(0x06063EB0 + 0xe);
 
@@ -146,9 +146,9 @@ LAB_06030c48:
 
       if (param_1 == 2) {
 
-        *unaff_r14 = *unaff_r14 | (int)DAT_06030c00;
+        *unaff_r14 = *unaff_r14 | 0x100;
 
-        *(int *)((int)unaff_r14 + (int)DAT_06030c02) = 1;
+        *(int *)((int)unaff_r14 + 0x260) = 1;
 
         sVar5 = *(short *)(0x06063EC4 + 0xe);
 
@@ -158,9 +158,9 @@ LAB_06030c48:
 
       }
 
-      *unaff_r14 = *unaff_r14 | (int)DAT_06030c40;
+      *unaff_r14 = *unaff_r14 | 0x200;
 
-      *(int *)((int)unaff_r14 + (int)DAT_06030c42) = 3;
+      *(int *)((int)unaff_r14 + 0x260) = 3;
 
       sVar5 = *(short *)(0x06063ED8 + 0xe);
 
@@ -188,7 +188,7 @@ LAB_06030c48:
 
     if ((iVar10 <= iVar7) && (iVar7 <= iVar10 * 3)) {
 
-      iVar6 = iVar8 + iVar10 * 2;
+      iVar6 = iVar8 + (iVar10 << 1);
 
     }
 
@@ -238,7 +238,7 @@ LAB_06030c48:
 
   if (!bVar3) {
 
-    (*(void(*)())0x0602755C)(-uVar12,uVar11);
+    (*(int(*)())0x0602755C)(-uVar12,uVar11);
 
     FUN_06030dfe();
 
@@ -256,7 +256,7 @@ LAB_06030c48:
 
     lVar2 = (long long)(int)-uVar11 * (long long)(int)-uVar11;
 
-    (*(void(*)())0x0602755C)(unaff_r14[4] + (iVar7 << 0x10 | uVar12 >> 0x10),
+    (*(int(*)())0x0602755C)(unaff_r14[4] + (iVar7 << 0x10 | uVar12 >> 0x10),
 
                ((int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10) + 0x10000,uVar9,
 
@@ -268,7 +268,7 @@ LAB_06030c48:
 
     lVar2 = (long long)(int)-uVar11 * (long long)(int)-uVar11;
 
-    (*(void(*)())0x0602755C)(((int)unaff_r14[4] >> 8) + (uVar12 >> 0x18 | iVar7 << 8),
+    (*(int(*)())0x0602755C)(((int)unaff_r14[4] >> 8) + (uVar12 >> 0x18 | iVar7 << 8),
 
                ((int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10) + 0x10000);
 

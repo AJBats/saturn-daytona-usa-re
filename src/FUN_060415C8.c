@@ -21,7 +21,7 @@ int FUN_060415c8(param_1, param_2)
 
   uStack_14 = param_2;
 
-  iVar1 = (*(void(*)())0x06036A98)(&local_24,&iStack_20,auStack_18);
+  iVar1 = (*(int(*)())0x06036A98)(&local_24,&iStack_20,auStack_18);
 
   if (iVar1 != 0) {
 
@@ -31,7 +31,7 @@ int FUN_060415c8(param_1, param_2)
 
   if ((local_24 == 2) && (iStack_1c < iStack_20 + 2)) {
 
-    iVar1 = (*(void(*)())0x06036AF2)(iStack_1c,uStack_14);
+    iVar1 = (*(int(*)())0x06036AF2)(iStack_1c,uStack_14);
 
     if (iVar1 != 0) {
 
@@ -39,7 +39,7 @@ int FUN_060415c8(param_1, param_2)
 
     }
 
-    (*(void(*)())0x060349B6)(local_10);
+    (*(int(*)())0x060349B6)(local_10);
 
     *(char *)(*(int *)0x060A5400 + 0x40) = local_10[0];
 

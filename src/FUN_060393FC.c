@@ -38,7 +38,7 @@ void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
 
   }
 
-  *(unsigned short *)0x060635D0 = param_2 * 0x200 + param_3;
+  *(unsigned short *)0x060635D0 = (param_2 << 9) + param_3;
 
   *(short *)0x25D00008 = *(short *)0x060635D0;
 
@@ -60,7 +60,7 @@ void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
 
   }
 
-  *(unsigned short *)0x060635D2 = uVar1 * 0x200 + param_5;
+  *(unsigned short *)0x060635D2 = (uVar1 << 9) + param_5;
 
   *(short *)0x25D0000A = *(short *)0x060635D2;
 

@@ -113,7 +113,7 @@ void FUN_0601d12c()
 
     *(int *)puVar1 = 0;
 
-    (*(void(*)())0x0601D5F4)(0,0xAE1146FF);
+    (*(int(*)())0x0601D5F4)(0,0xAE1146FF);
 
     return;
 

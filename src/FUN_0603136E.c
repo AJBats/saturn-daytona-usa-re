@@ -85,11 +85,11 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 
   char *puVar16;
 
-  sVar5 = (*(void(*)())0x0602744C)(unaff_r8 - param_3,unaff_r9 - param_4);
+  sVar5 = (*(int(*)())0x0602744C)(unaff_r8 - param_3,unaff_r9 - param_4);
 
   iVar12 = (int)-sVar5;
 
-  sVar5 = (*(void(*)())0x0602744C)(unaff_r14[0xe] - unaff_r13[0xe],unaff_r14[0xf] - unaff_r13[0xf],unaff_r13[0xe],
+  sVar5 = (*(int(*)())0x0602744C)(unaff_r14[0xe] - unaff_r13[0xe],unaff_r14[0xf] - unaff_r13[0xf],unaff_r13[0xe],
 
                      unaff_r13[0xf],in_pr,in_r0);
 
@@ -119,7 +119,7 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 
   bVar2 = uVar11 != uVar6;
 
-  uVar14 = (*(void(*)())0x06027348)(iVar7);
+  uVar14 = (*(int(*)())0x06027348)(iVar7);
 
   iVar7 = (int)uVar14;
 
@@ -145,9 +145,9 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 
      (unaff_r12 = (char *)
 
-                  ((*(int *)(0x0605BCC8 + uVar8 * 4) - (int)unaff_r12) +
+                  ((*(int *)(0x0605BCC8 + (uVar8 << 2)) - (int)unaff_r12) +
 
-                  *(int *)(0x0605BCC8 + (uVar6 >> 9) * 4)), 0 < (int)unaff_r12)) {
+                  *(int *)(0x0605BCC8 + (uVar6 >> 9) << 2)), 0 < (int)unaff_r12)) {
 
     uVar6 = unaff_r14[10] - unaff_r13[10] & 0xffff;
 
@@ -199,11 +199,11 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 
             unaff_r14[0xc] = unaff_r13[8];
 
-            *(int *)((int)DAT_0603156a + (int)unaff_r13) = 8;
+            *(int *)(0x208 + (int)unaff_r13) = 8;
 
           }
 
-          iVar4 = (*(void(*)())0x06027344)(uVar6);
+          iVar4 = (*(int(*)())0x06027344)(uVar6);
 
           lVar3 = (long long)(int)(unaff_r13[3] - unaff_r14[3]) * (long long)iVar4;
 
@@ -361,9 +361,9 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 
     unaff_r14[0xf] = uVar8;
 
-    iVar7 = (*(void(*)())0x06027344)(-iVar12);
+    iVar7 = (*(int(*)())0x06027344)(-iVar12);
 
-    iVar10 = (*(void(*)())0x06027348)(-iVar12);
+    iVar10 = (*(int(*)())0x06027348)(-iVar12);
 
     unaff_r14[4] = uVar6 + ((int)((unsigned long long)((long long)extraout_r3 * (long long)iVar10) >> 0x20) <<
 
@@ -383,9 +383,9 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 
     unaff_r13[0xf] = uVar8;
 
-    iVar12 = (*(void(*)())0x06027344)(-(int)puVar13);
+    iVar12 = (*(int(*)())0x06027344)(-(int)puVar13);
 
-    iVar7 = (*(void(*)())0x06027348)(-(int)puVar13);
+    iVar7 = (*(int(*)())0x06027348)(-(int)puVar13);
 
     unaff_r13[4] = uVar6 + ((int)((unsigned long long)((long long)extraout_r3_00 * (long long)iVar7) >> 0x20)
 

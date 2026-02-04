@@ -29,7 +29,7 @@ unsigned int FUN_0600ffd0()
 
   puVar2 = 0x060284AE;
 
-  iVar5 = (int)DAT_06010042;
+  iVar5 = 0x90;
 
   uVar6 = 0;
 
@@ -69,7 +69,7 @@ unsigned int FUN_0600ffd0()
 
       }
 
-      uVar6 = (*(void(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605ACE4);
+      uVar6 = (*(int(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605ACE4);
 
     }
 
@@ -103,7 +103,7 @@ unsigned int FUN_0600ffd0()
 
       }
 
-      uVar6 = (*(void(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605AB19);
+      uVar6 = (*(int(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605AB19);
 
     }
 

@@ -16,7 +16,7 @@ int FUN_06018e1e(param_1)
 
   uStack_8 = param_1;
 
-  uVar1 = (*(void(*)())0x06034DEA)(&local_c);
+  uVar1 = (*(int(*)())0x06034DEA)(&local_c);
 
   return uVar1;
 

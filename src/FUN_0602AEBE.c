@@ -17,7 +17,7 @@ int FUN_0602aebe(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
 
   int *piVar3;
 
-  piVar3 = (int *)(0x06094220 + (in_r0 & 0x3f) * 0x10);
+  piVar3 = (int *)(0x06094220 + (in_r0 & 0x3f) << 4);
 
   iVar1 = *piVar3;
 
@@ -33,7 +33,7 @@ int FUN_0602aebe(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
 
     *param_2 = iVar2;
 
-    iVar1 = (*(void(*)())UNRECOVERED_JUMPTABLE)(param_1,param_2 + 1);
+    iVar1 = (*(int(*)())UNRECOVERED_JUMPTABLE)(param_1,param_2 + 1);
 
     return iVar1;
 

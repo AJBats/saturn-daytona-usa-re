@@ -35,7 +35,7 @@ int FUN_0602f0e8()
 
   *(int *)(DAT_0602f120 + iVar1) =
 
-       *(int *)(DAT_0602f11e + iVar1) * 0x100 + *(int *)(DAT_0602f120 + iVar1) >> 1;
+       *(int *)(DAT_0602f11e + iVar1) << 8 + *(int *)(DAT_0602f120 + iVar1) >> 1;
 
   if ((*(int *)(DAT_0602f122 + iVar1) == 0) && (*(int *)(DAT_0602f124 + iVar1) == 0)) {
 
@@ -55,7 +55,7 @@ int FUN_0602f0e8()
 
   *(int *)(DAT_0602f160 + iVar1) = iVar3;
 
-  iVar2 = (int)DAT_0602f162;
+  iVar2 = 0xd0;
 
   iVar3 = 0x0000071C;
 

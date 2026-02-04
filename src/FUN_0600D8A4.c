@@ -34,7 +34,7 @@ void FUN_0600d8a4(param_1)
 
     do {
 
-      if (((*(int *)(uVar6 * 4 + *(int *)(*(int *)puVar4 + 4)) ==
+      if (((*(int *)((uVar6 << 2) + *(int *)(*(int *)puVar4 + 4)) ==
 
             *(int *)(*(int *)puVar2 + (int)DAT_0600d91a)) && (param_1 == 0)) &&
 

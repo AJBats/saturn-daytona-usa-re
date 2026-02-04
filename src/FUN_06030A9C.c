@@ -81,7 +81,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
   if (*(short *)0x06030FBE == 0) {
 
-    (*(void(*)())0x06008460)();
+    (*(int(*)())0x06008460)();
 
   }
 
@@ -103,7 +103,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
   if (uVar5 != 0) {
 
-    (*(void(*)())0x0602755C)(-uVar7,uVar6);
+    (*(int(*)())0x0602755C)(-uVar7,uVar6);
 
     FUN_06030dfe();
 
@@ -121,7 +121,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
     lVar1 = (long long)(int)-uVar6 * (long long)(int)-uVar6;
 
-    (*(void(*)())0x0602755C)(unaff_r14[4] + (iVar4 << 0x10 | uVar5 >> 0x10),
+    (*(int(*)())0x0602755C)(unaff_r14[4] + (iVar4 << 0x10 | uVar5 >> 0x10),
 
                ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) + 0x10000);
 
@@ -131,7 +131,7 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
 
     lVar1 = (long long)(int)-uVar6 * (long long)(int)-uVar6;
 
-    (*(void(*)())0x0602755C)(((int)unaff_r14[4] >> 8) + (uVar5 >> 0x18 | iVar4 << 8),
+    (*(int(*)())0x0602755C)(((int)unaff_r14[4] >> 8) + (uVar5 >> 0x18 | iVar4 << 8),
 
                ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) + 0x10000);
 

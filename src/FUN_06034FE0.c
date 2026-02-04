@@ -9,7 +9,7 @@ int FUN_06034fe0()
 
   int *puVar1;
 
-  puVar1 = (int *)(int)DAT_06034ffa;
+  puVar1 = (int *)-256;
 
   *puVar1 = in_r0;
 

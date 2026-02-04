@@ -149,7 +149,7 @@ void FUN_06037660(param_1, param_2)
 
     *(unsigned short *)(puVar4 + 2) = *(unsigned short *)(puVar4 + 2) | uVar6;
 
-    puVar12 = &UNK_00000008;
+    puVar12 = (void *)0x00000008;
 
     if ((*(int *)0x060A4C58 == '\x01') && (*(int *)0x060A4C59 == '\x01')) {
 
@@ -237,7 +237,7 @@ void FUN_06037660(param_1, param_2)
 
       puVar9 = puVar4 + 0x38;
 
-      puVar12 = &UNK_00000008;
+      puVar12 = (void *)0x00000008;
 
     }
 
@@ -455,7 +455,7 @@ void FUN_06037660(param_1, param_2)
 
     param_1 = (unsigned short *)(puVar4 + 0x14);
 
-    puVar12 = &UNK_00000002;
+    puVar12 = (void *)0x00000002;
 
   }
 
@@ -463,15 +463,15 @@ LAB_06037e88:
 
   if (param_2[6] == 1) {
 
-    uVar6 = (*(void(*)())0x06035280)();
+    uVar6 = (*(int(*)())0x06035280)();
 
   }
 
   else {
 
-    (*(void(*)())0x06035F44)();
+    (*(int(*)())0x06035F44)();
 
-    uVar6 = (*(void(*)())0x06035280)();
+    uVar6 = (*(int(*)())0x06035280)();
 
   }
 
@@ -483,15 +483,15 @@ LAB_06037e88:
 
     do {
 
-      uVar7 = (*(void(*)())0x06035F44)();
+      uVar7 = (*(int(*)())0x06035F44)();
 
       *extraout_r3 = uVar7 & 0x3f;
 
-      uVar7 = (*(void(*)())0x06035F44)();
+      uVar7 = (*(int(*)())0x06035F44)();
 
-      *(unsigned short *)(puVar9 + (unsigned int)uVar6 * 2) =
+      *(unsigned short *)(puVar9 + (unsigned int)(uVar6 << 1)) =
 
-           *(unsigned short *)(puVar9 + (unsigned int)uVar6 * 2) | (uVar7 & 0x3f) << 8 & uVar3;
+           *(unsigned short *)(puVar9 + (unsigned int)(uVar6 << 1)) | (uVar7 & 0x3f) << 8 & uVar3;
 
       uVar6 = uVar6 + 1;
 
@@ -503,7 +503,7 @@ LAB_06037e88:
 
     *param_1 = *param_1 & 0xf;
 
-    *param_1 = *param_1 | *param_1 << 4;
+    *param_1 = *param_1 | *(int)param_1 << 4;
 
     uVar5 = 0;
 
@@ -511,13 +511,13 @@ LAB_06037e88:
 
       do {
 
-        puVar10 = (unsigned short *)(puStack_2c + (uVar5 & 0xffff) * 2);
+        puVar10 = (unsigned short *)(puStack_2c + (uVar5 & 0xffff) << 1);
 
-        uVar6 = (*(void(*)())0x06035F44)();
+        uVar6 = (*(int(*)())0x06035F44)();
 
         *puVar10 = uVar6 & 0x3f;
 
-        uVar6 = (*(void(*)())0x06035F44)();
+        uVar6 = (*(int(*)())0x06035F44)();
 
         uVar5 = uVar5 + 1;
 

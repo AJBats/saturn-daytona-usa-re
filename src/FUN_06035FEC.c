@@ -9,7 +9,7 @@ void FUN_06035fec()
 
   if (((unsigned int)in_r1 & 3) == 0 && ((unsigned int)in_r0 & 3) == 0) {
 
-    (*(void(*)())0x06036CB0)();
+    (*(int(*)())0x06036CB0)();
 
     return;
 
