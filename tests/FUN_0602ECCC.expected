@@ -1,0 +1,14 @@
+mov.l
+mov
+extu.b
+ldc
+mov.l
+mov.l
+nop
+mov.l
+nop
+mov.l
+nop
+mov.l
+rts
+mov

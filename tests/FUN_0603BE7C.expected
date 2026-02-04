@@ -1,0 +1,12 @@
+mov
+mov.b
+extu.b
+tst
+bf
+mov.l
+jmp
+nop
+mov.l
+mov
+rts
+mov.l

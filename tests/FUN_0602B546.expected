@@ -1,0 +1,10 @@
+mov.w
+mov.w
+mov
+extu.w
+mul.l
+sts
+add
+mov.w
+mov.w
+mov.w

@@ -1,0 +1,7 @@
+mov.l
+mov.l
+cmp/ge
+mov.w
+mov.w
+mov.w
+mov.w
