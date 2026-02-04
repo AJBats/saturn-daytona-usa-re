@@ -28,7 +28,7 @@ import re
 import tempfile
 import shutil
 
-PROJDIR = '/mnt/d/Projects/SaturnReverseTest'
+PROJDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CC1 = f'{PROJDIR}/tools/gcc26-build/cc1'
 AS = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-as'
 LD = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-ld'
@@ -37,6 +37,7 @@ OBJDUMP = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-objdump'
 BINARY = f'{PROJDIR}/build/aprog.bin'
 APROG_S = f'{PROJDIR}/build/aprog.s'
 SYMFILE = f'{PROJDIR}/build/aprog_syms.txt'
+SRCDIR = f'{PROJDIR}/src'
 TESTDIR = f'{PROJDIR}/tests'
 BASE_ADDR = 0x06003000
 
@@ -172,6 +173,9 @@ def preprocess_bsr_bra(s_file):
 def get_flags_for_func(func_name):
     """Read per-function compiler flags from .flags file, or return defaults."""
     flags_file = os.path.join(TESTDIR, f'{func_name}.flags')
+    # Also check src/ for backwards compatibility
+    if not os.path.exists(flags_file):
+        flags_file = os.path.join(SRCDIR, f'{func_name}.flags')
     if os.path.exists(flags_file):
         with open(flags_file, 'r') as f:
             return f.read().strip().replace('\r', '').split()
@@ -428,7 +432,7 @@ def normalize_for_compare(text):
 
 def run_test(func_name, syms, verbose=False):
     """Run comparison for one test function."""
-    c_file = os.path.join(TESTDIR, f'{func_name}.c')
+    c_file = os.path.join(SRCDIR, f'{func_name}.c')
     expected_file = os.path.join(TESTDIR, f'{func_name}.expected')
 
     if not os.path.exists(c_file) or not os.path.exists(expected_file):
@@ -588,9 +592,9 @@ def main():
 
     verbose_func = sys.argv[1] if len(sys.argv) > 1 else None
 
-    # Find all test functions
+    # Find all test functions (C source in src/, expected opcodes in tests/)
     test_funcs = []
-    for fname in sorted(os.listdir(TESTDIR)):
+    for fname in sorted(os.listdir(SRCDIR)):
         if fname.endswith('.c'):
             base = fname[:-2]
             if os.path.exists(os.path.join(TESTDIR, f'{base}.expected')):

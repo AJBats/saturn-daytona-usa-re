@@ -4,8 +4,11 @@
 # Usage: Run in WSL with: MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash tools/test_harness.sh
 set -e
 
-CC1=/mnt/d/Projects/SaturnReverseTest/tools/gcc26-build/cc1
-TESTDIR=/mnt/d/Projects/SaturnReverseTest/tests
+# Auto-detect project directory from script location
+PROJDIR="$(cd "$(dirname "$0")/.." && pwd)"
+CC1=$PROJDIR/tools/gcc26-build/cc1
+SRCDIR=$PROJDIR/src
+TESTDIR=$PROJDIR/tests
 TMPDIR=/tmp/harness_$$
 mkdir -p "$TMPDIR"
 
@@ -47,12 +50,13 @@ compare_opcodes() {
 echo "================================================================"
 echo "  Compiler Verification Test Harness"
 echo "  CC1: $CC1"
+echo "  Source: $SRCDIR"
 echo "  Tests: $TESTDIR"
 echo "================================================================"
 echo ""
 
-# Find all test cases (each .c file with a matching .expected file)
-for cfile in "$TESTDIR"/*.c; do
+# Find all test cases (each src/*.c with a matching tests/*.expected file)
+for cfile in "$SRCDIR"/*.c; do
     base=$(basename "$cfile" .c)
     expected="$TESTDIR/$base.expected"
 

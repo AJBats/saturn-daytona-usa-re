@@ -24,7 +24,7 @@ import shutil
 import tempfile
 import argparse
 
-PROJDIR = '/mnt/d/Projects/SaturnReverseTest'
+PROJDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CC1 = f'{PROJDIR}/tools/gcc26-build/cc1'
 SH_AS = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-as'
 SH_LD = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-ld'
@@ -32,6 +32,7 @@ SH_OBJCOPY = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-objcopy'
 SH_OBJDUMP = f'{PROJDIR}/tools/sh-elf/bin/sh-elf-objdump'
 ORIG_BIN = f'{PROJDIR}/build/disc/files/APROG.BIN'
 SYMFILE = f'{PROJDIR}/build/aprog_syms.txt'
+SRCDIR = f'{PROJDIR}/src'
 TESTDIR = f'{PROJDIR}/tests'
 OUTPUT_BIN = f'{PROJDIR}/build/aprog_patched.bin'
 ORIG_ISO = f'{PROJDIR}/build/disc/daytona_data.iso'
@@ -139,7 +140,7 @@ def preprocess_bsr_bra(s_file):
 
 def compile_function(func_name, func_addr, tmpdir):
     """Compile, assemble, link a function. Returns (bytes, insn_count, pool_bytes, error)."""
-    c_file = os.path.join(TESTDIR, f'{func_name}.c')
+    c_file = os.path.join(SRCDIR, f'{func_name}.c')
     if not os.path.exists(c_file):
         return None, 0, None, f'no C source'
 
@@ -307,9 +308,9 @@ def main():
 
     syms = load_symbols()
 
-    # Find test functions
+    # Find test functions (C source in src/, expected opcodes in tests/)
     test_funcs = []
-    for fname in sorted(os.listdir(TESTDIR)):
+    for fname in sorted(os.listdir(SRCDIR)):
         if fname.endswith('.c'):
             base = fname[:-2]
             if os.path.exists(os.path.join(TESTDIR, f'{base}.expected')):

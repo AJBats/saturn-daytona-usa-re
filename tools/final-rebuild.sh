@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-PROJ="/mnt/d/Projects/SaturnReverseTest"
+# Auto-detect project directory from script location
+PROJ="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD_DIR="$HOME/gcc26-rebuild"
 
 echo "=== Clean rebuild ==="

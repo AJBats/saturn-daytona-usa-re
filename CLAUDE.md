@@ -23,7 +23,7 @@
 Run: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash /mnt/d/.../tools/test_harness.sh`
 - **38 PASS / 95 FAIL / 133 total (28%)**
 - Deleted 16 broken tests total (bad Ghidra decompilations + wrong function boundary)
-- Tests in `tests/*.c` with expected opcodes in `tests/*.expected`
+- C source in `src/*.c`, expected opcodes in `tests/*.expected`
 - **Uses gcc26-build/cc1** (NOT gcc-2.6.3/cc1 which is stale)
 - **Per-function flags**: `.flags` files override default `-O2 -m2 -mbsr`
 - **Flags available**: `-mnofill` (unfill cond delay slots), `-mnosignext` (keep sign exts),
@@ -92,13 +92,24 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - `docs/verification_results.md` - Side-by-side comparison of 25 functions (our GCC vs original binary)
 - `docs/function_catalog.md` - Catalog of all 880 decompiled functions with size/type classification
 
+## Directory Layout
+- `src/*.c` - Reconstructed C source files (142 functions, the primary deliverable)
+- `tests/*.expected` - Expected opcode mnemonics from original binary (one per line)
+- `tests/*.flags` - Per-function compiler flag overrides (optional)
+- `tools/` - Build scripts, test harness, GCC source, toolchain
+- `build/` - Binary artifacts (aprog.s, aprog.bin, disc images)
+- `docs/` - Project documentation
+
 ## Key Files
 - `build/aprog.s` - Full binary disassembly (206K lines, 1234 function labels, SH-2 asm)
 - `ghidra_project/decomp_all.txt` - Ghidra decompiler output for 880 functions (~40 game state handlers MISSING, need re-export)
 - `tools/gcc26-build/cc1` - Patched GCC 2.6.3 compiler for SH-2 (runs in WSL)
-- `tools/gcc-2.6.3/` - Patched GCC source (20 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
+- `tools/gcc-2.6.3/` - Patched GCC source (22 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
 - `build/aprog_syms.txt` - 1234 function symbols in linker script format
-- `tools/verify_batch*.sh` - Verification scripts comparing GCC output to original binary
+- `tools/build_iso.sh` - One-command build script for patched disc image
+- `tools/patch_binary.py` - Full compile→assemble→link→patch pipeline
+- `tools/binary_diff.py` - Per-function binary comparison (L1/L2/L3 matching)
+- `tools/test_harness.sh` - Opcode-level test harness (compares mnemonics)
 
 ### Compiler Invocation
 ```bash
@@ -162,6 +173,17 @@ See docs/compiler_patches.md for full details and per-function analysis.
 - All delta=+1 functions (7): unfixable instruction selection diffs (callee-save, byte extraction, loop structure)
 - FUN_060283B8 improved from delta=+6 to +2 via C source restructure
 - **Test expansion exhausted**: 1424 untested .expected files searched; remaining are fall-through prologues, indirect calls (`jsr @r0`/`jsr @r12`), or non-standard calling conventions
+
+### Binary Build Pipeline
+Build a patched Daytona USA disc image with verified C functions replacing original assembly:
+```bash
+MSYS_NO_PATHCONV=1 wsl -d Ubuntu -- bash tools/build_iso.sh
+```
+Pipeline: `src/*.c` → cc1 → sh-elf-as → sh-elf-ld → sh-elf-objcopy → binary compare → patch APROG.BIN → patch ISO
+- L3 match (byte-identical): patched directly
+- L2 match (structural, displacement-only diffs): patched with displacement fixing
+- Output: `build/disc/daytona_patched.iso` (load in Saturn emulator)
+- APROG.BIN located at ISO offset 0xA800 (sector 21), 394,896 bytes
 
 ### Architecture
 - Main loop at `main` (0x06003000) is a **32-state machine** dispatching through jump table
