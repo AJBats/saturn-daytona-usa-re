@@ -169,7 +169,16 @@ def preprocess_bsr_bra(s_file):
     return True
 
 
-def compile_and_link(c_file, func_addr, syms, tmpdir):
+def get_flags_for_func(func_name):
+    """Read per-function compiler flags from .flags file, or return defaults."""
+    flags_file = os.path.join(TESTDIR, f'{func_name}.flags')
+    if os.path.exists(flags_file):
+        with open(flags_file, 'r') as f:
+            return f.read().strip().replace('\r', '').split()
+    return ['-O2', '-m2', '-mbsr']
+
+
+def compile_and_link(c_file, func_addr, syms, tmpdir, func_name=None):
     """Compile, assemble, and link at the correct address.
     Returns (elf_file, s_file, error_string)."""
     # Strip CRLF
@@ -177,10 +186,13 @@ def compile_and_link(c_file, func_addr, syms, tmpdir):
     clean_c = os.path.join(tmpdir, 'test.c')
     open(clean_c, 'wb').write(src)
 
+    # Get per-function flags
+    flags = get_flags_for_func(func_name) if func_name else ['-O2', '-m2', '-mbsr']
+
     # Compile
     s_file = os.path.join(tmpdir, 'test.s')
     result = subprocess.run(
-        [CC1, '-quiet', '-O2', '-m2', '-mbsr', clean_c, '-o', s_file],
+        [CC1, '-quiet'] + flags + [clean_c, '-o', s_file],
         capture_output=True, text=True
     )
     if result.returncode != 0:
@@ -437,7 +449,7 @@ def run_test(func_name, syms, verbose=False):
     tmpdir = tempfile.mkdtemp(prefix='bindiff_')
     try:
         # Try full compile → assemble → link
-        elf_file, s_file, link_err = compile_and_link(c_file, func_addr, syms, tmpdir)
+        elf_file, s_file, link_err = compile_and_link(c_file, func_addr, syms, tmpdir, func_name)
 
         # Get our assembly instructions (always available after compile)
         if s_file and os.path.exists(s_file):
