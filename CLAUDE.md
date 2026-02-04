@@ -3,20 +3,21 @@
 > **READ THIS FIRST after compaction.** This is your current assignment.
 > Everything below this section is reference material — do NOT treat it as a call to action.
 
+**CLAUDE.md stays concise** — this file is a routing table and rules only. Session-specific
+   details (goals, rationale, current state, findings) go in `docs/session_log.md`. If you
+   find yourself writing more than 2 lines about a workstream here, move it to session_log.md.
+10. **Commit at natural stopping points** — don't let uncommitted work accumulate across sessions
+
 | # | Workstream | Status | Uncommitted? |
 |---|-----------|--------|--------------|
-| 1 | C source fixes (Ghidra decomp corrections) | **done** — diminishing returns | YES |
-| 2 | Compiler patch 23 (QImode byte disp store) | **done** | YES |
-| 3 | Scheduling experiment (Stage 2 of plan) | **done — no effect** | no |
-| 4 | Per-function flags sweep | **done** — 1 new PASS (FUN_0603850C) | YES |
-| 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | no |
-| 6 | Test suite expansion (add more functions) | not started | no |
+| 1 | C source fixes (Ghidra decomp corrections) | **done** — diminishing returns | committed |
+| 2 | Compiler patch 23 (QImode byte disp store) | **done** | committed |
+| 3 | Scheduling experiment (Stage 2 of plan) | **done — no effect** | committed |
+| 4 | Per-function flags sweep | **done** — 1 new PASS (FUN_0603850C) | committed |
+| 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | committed |
+| 6 | **ACTIVE: Full decomp expansion** | **in progress** | no |
 
-**When all workstreams complete**: Research the next one — read code, analyze failures,
-write findings to `docs/`. Research never creates git conflicts.
-
-**Session notes**: See `docs/session_log.md` for detailed C fix results, unfixable function
-list, and experiment findings. Read that file when resuming a workstream.
+**Active workstream details** → `docs/session_log.md` (append-only, read when resuming)
 
 ---
 
@@ -31,6 +32,7 @@ list, and experiment findings. Read that file when resuming a workstream.
 7. **If blocked, skip and move on** — document what blocked you and continue with next task
 8. **Update this file** — when starting/finishing a workstream, update the table above
 
+
 ## WSL Gotchas
 - **CRLF**: Files written on Windows have CRLF. Pipe through `tr -d '\r'` when reading
   Windows files in WSL. The test harness handles this for .c and .expected files.
@@ -39,6 +41,10 @@ list, and experiment findings. Read that file when resuming a workstream.
 - **Running scripts**: Strip CRLF from scripts first:
   `tr -d '\r' < script.sh > /tmp/clean.sh && bash /tmp/clean.sh`
   OR run directly: `bash /mnt/d/.../script.sh` (bash handles CRLF in scripts)
+- **cc1 vs cpp**: `cc1` is the compiler proper — it does NOT handle C comments.
+  C files must not contain `/* ... */` or `//` comments. Comments are stripped by `cpp`
+  (the preprocessor) which is a separate binary we don't have. Keep generated .c files
+  comment-free.
 
 ---
 
@@ -49,13 +55,15 @@ Reverse engineer Sega Saturn Daytona USA (1995) to extract gameplay code (physic
 steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 
 ## Scoreboard
-- **Test harness**: 39 PASS / 94 FAIL / 133 total (29%)
+- **Test harness**: 39 PASS / 828 FAIL / 867 tested (4.5% match, 31% compilable)
+- **C sources**: 886 / ~880 Ghidra decomps (100% coverage)
+- **Compilable**: 267 functions compile, 228 have codegen diffs, 39 binary-perfect
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
 - **Emulator validation**: pending (ISO builds, not yet tested in emulator)
 
 ## Directory Layout
-- `src/*.c` - Reconstructed C source files (142 functions, the primary deliverable)
+- `src/*.c` - Reconstructed C source files (148 functions, expanding to ~880)
 - `tests/*.expected` - Expected opcode mnemonics from original binary (one per line)
 - `tests/*.flags` - Per-function compiler flag overrides (optional)
 - `tools/` - Build scripts, test harness, GCC source, toolchain

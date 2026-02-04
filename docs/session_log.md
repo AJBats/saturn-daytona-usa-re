@@ -213,8 +213,106 @@ multiply. Our GCC lacks `xtrct` instruction pattern — produces 10 insns vs 9 e
 
 The per-function flag approach has reached saturation. All 100 remaining failures are
 caused by deep compiler codegen differences (instruction ordering, register allocation,
-instruction selection) that no flag combination can resolve. The remaining opportunities
-are:
-1. Post-processing assembly peephole for delta=0 instruction reordering (16 functions)
-2. Investigation of mov_size_diff pattern (35 functions — most common category)
-3. Adding xtrct instruction pattern to GCC machine description (1-2 functions)
+instruction selection) that no flag combination can resolve.
+
+---
+
+## Session: Full Decomp Expansion (Workstream 6)
+
+**Baseline**: 39 PASS / 101 FAIL / 140 total — 148 C sources in src/
+
+### Objective Shift
+
+User directed a strategic shift: stop chasing byte-perfect matching for every function.
+Instead, get ALL ~880 Ghidra-decompiled functions into `src/` as compilable C source.
+The binary patcher continues to select only perfect matches for the emulator test, but
+the primary goal is now full codebase coverage.
+
+**Rationale**: Once we have a full building binary from source (even with imperfect
+codegen), the compiler matching problem goes away. We can migrate to any SH-2 compiler
+and treat remaining differences as a conventional compiler migration workload. Perfect
+matching is a verification tool, not the deliverable.
+
+### Starting State
+
+- 148 C sources in `src/`
+- 1558 `.expected` files in `tests/`
+- ~880 Ghidra decomps in `ghidra_project/decomp_all.txt`
+- Gap: ~730 functions need C source generated from Ghidra
+
+### Tools Available
+
+- `tools/gen_test_skeleton.py` — generates C from Ghidra decomp_all.txt
+- `tools/gen_expected.py` — generates .expected from build/aprog.s
+
+### Compiler Version Investigation
+
+Researched what compiler the original Saturn SDK used:
+- RetroReversing says "Cygnus v2.7" / "GNU 2.7+" for Saturn SDK
+- SH backend copyright "1993, 1994" by Steve Chamberlain (sac@cygnus.com)
+- GCC 2.6.3 released Nov 30, 1994; GCC 2.7.0 released Jun 16, 1995
+- Daytona shipped Apr 1995 Japan — likely used Cygnus's 2.6-based fork, not 2.7
+- The "our compiler is too good" pattern (51 of 101 failures are delta<0) is consistent
+  with using upstream GCC 2.6.3 vs Cygnus's less-optimized fork
+- Conclusion: gap is likely upstream 2.6.3 vs Cygnus's custom 2.6 fork with proprietary
+  patches (xtrct patterns, different delay slot heuristics), NOT a major version mismatch
+
+### Batch Generation Results
+
+1. **Updated gen_test_skeleton.py**: output to `src/` instead of `tests/`, added `--batch-all`
+2. **Batch generated 738 C skeletons** from Ghidra decomp (142 existing skipped, 0 errors)
+3. **Generated 37 new .expected files** (19 functions have no disassembly data)
+4. **Total: 886 C sources in src/, 1595 .expected files in tests/**
+
+### Critical Fix: cc1 Comment Handling
+
+**Discovery**: GCC 2.6.3 `cc1` is the compiler proper — it expects preprocessed input.
+C-style comments (`/* ... */`) are NOT handled by cc1 (they're stripped by `cpp`, the
+separate C preprocessor). All generated skeletons had `/* ... */` comment headers that
+caused `parse error before '/'` in 727 functions.
+
+**Fix**: Stripped all C comments from generated files. Updated gen_test_skeleton.py to
+not emit comments in future generations.
+
+### Ghidra Artifact Fixes
+
+Additional automated fixes applied to generated skeletons:
+- **Ghidra sub-field references**: `PTR_DAT_xxx._0_2_` → `PTR_DAT_xxx` (202 files)
+- **Ghidra types**: `undefined3` → `int`, `uint3` → `unsigned int`, `code *` → `void *`
+- **Remaining undefined types**: `undefined1/2/4/8` → `char/short/int/long long`
+
+### Full Harness Evaluation (v3)
+
+```
+PASS:    39
+FAIL:   828  (600 compile errors + 228 codegen)
+SKIP:    19
+TOTAL:  886
+
+Compilable: 267 / 867 (31%)
+Binary match: 39 / 867 (4.5%)
+```
+
+**Compile error breakdown (600 total):**
+- 291 invalid type argument (Ghidra decompilation quality)
+- 225 other errors (cc1 crashes, complex syntax)
+- 52 void value not ignored (wrong return type inference)
+- 21 undeclared identifiers
+- 11 parse errors (remaining syntax issues)
+
+**Codegen failure breakdown (228 total):**
+- 95 delta<0 (our code shorter — compiler too advanced)
+- 99 delta>0 (our code longer — type/control flow issues)
+- 34 delta=0 (same count, different opcode ordering)
+
+### Key Insights
+
+1. **31% compilability from raw Ghidra output** is reasonable — Ghidra produces
+   C-like pseudocode, not compilable C. Manual cleanup is expected.
+2. **The 39 PASS functions are all from the manually-tuned set** — no new passes
+   from raw Ghidra skeletons. This confirms manual review is essential for matching.
+3. **228 functions compile and produce code** — even if not matching, these represent
+   functions where the decompilation is structurally sound.
+4. **600 compile errors** are primarily Ghidra decompilation quality issues, not
+   compiler problems. These need manual review of types, control flow, and Ghidra
+   artifacts.

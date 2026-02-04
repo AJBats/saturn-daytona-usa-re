@@ -25,6 +25,7 @@ PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 
 DECOMP_FILE = os.path.join(PROJECT_ROOT, "ghidra_project", "decomp_all.txt")
 APROG_FILE = os.path.join(PROJECT_ROOT, "build", "aprog.s")
+SRCDIR = os.path.join(PROJECT_ROOT, "src")
 TESTS_DIR = os.path.join(PROJECT_ROOT, "tests")
 
 # ---------------------------------------------------------------------------
@@ -495,7 +496,7 @@ def generate_skeleton(func_name, functions, pool_map, force=False):
         return None, "Function {} not found in decomp_all.txt".format(func_name)
 
     func_info = functions[func_key]
-    output_file = os.path.join(TESTS_DIR, "{}.c".format(func_key))
+    output_file = os.path.join(SRCDIR, "{}.c".format(func_key))
 
     if os.path.exists(output_file) and not force:
         return None, "File {} already exists (use --force to overwrite)".format(output_file)
@@ -572,18 +573,8 @@ def generate_skeleton(func_name, functions, pool_map, force=False):
     # Build the output file
     out_lines = []
 
-    # Header comment
-    out_lines.append("/* Generated from Ghidra decompilation - needs manual review */")
-    out_lines.append("/* {}  addr={}  size={}  insns={}  type={} */".format(
-        func_key, func_info['addr'], func_info['size'],
-        func_info['insns'], func_info['type']))
-
-    # Assembly comment
-    if asm_lines:
-        out_lines.append("/* Assembly:")
-        for asm_line in asm_lines:
-            out_lines.append(" *   {}".format(asm_line))
-        out_lines.append(" */")
+    # NOTE: cc1 is the compiler proper and does NOT handle C comments.
+    # All comments must be omitted since files go directly to cc1, not cpp+cc1.
 
     out_lines.append("")
 
@@ -599,14 +590,7 @@ def generate_skeleton(func_name, functions, pool_map, force=False):
             out_lines.append("extern void {}();".format(func))
         out_lines.append("")
 
-    # TODO warnings
-    if has_indirect_calls:
-        out_lines.append("/* TODO: This function has indirect calls that need manual resolution */")
-        out_lines.append("")
-
-    if unresolved:
-        out_lines.append("/* TODO: {} unresolved pool reference(s) */".format(len(unresolved)))
-        out_lines.append("")
+    # NOTE: No TODO comments - cc1 cannot handle C comments
 
     # Function signature (K&R style)
     out_lines.append(knr_sig)
@@ -620,7 +604,7 @@ def generate_skeleton(func_name, functions, pool_map, force=False):
     out_lines.append("")
 
     # Write the output file with Unix line endings
-    os.makedirs(TESTS_DIR, exist_ok=True)
+    os.makedirs(SRCDIR, exist_ok=True)
     output_text = '\n'.join(out_lines)
     with open(output_file, 'w', encoding='utf-8', newline='\n') as f:
         f.write(output_text)
@@ -657,7 +641,7 @@ def list_candidates(functions, pool_map, func_type, max_insns):
         name_upper = info['name'].upper()
         if not name_upper.startswith("FUN_"):
             name_upper = info['name']
-        c_file = os.path.join(TESTS_DIR, "{}.c".format(name_upper))
+        c_file = os.path.join(SRCDIR, "{}.c".format(name_upper))
         exists = "YES" if os.path.exists(c_file) else "no"
 
         # Assess compilability
@@ -676,7 +660,7 @@ def list_candidates(functions, pool_map, func_type, max_insns):
 
     total = len(candidates)
     existing = sum(1 for info in candidates
-                   if os.path.exists(os.path.join(TESTS_DIR,
+                   if os.path.exists(os.path.join(SRCDIR,
                        "{}.c".format(info['name'].upper()
                            if info['name'].upper().startswith("FUN_")
                            else info['name']))))
@@ -720,6 +704,34 @@ def batch_generate(functions, pool_map, func_type, max_insns, force=False):
         generated, skipped, errors))
 
 
+def batch_generate_all(functions, pool_map, force=False):
+    """Generate skeletons for ALL functions in decomp_all.txt.
+
+    Skips functions that already have .c files (unless --force).
+    """
+    generated = 0
+    skipped = 0
+    errors = 0
+
+    candidates = sorted(functions.items(), key=lambda x: x[1]['insns'])
+
+    print("Generating skeletons for ALL {} functions...".format(len(candidates)))
+    for func_name_upper, info in candidates:
+        output_path, msg = generate_skeleton(func_name_upper, functions, pool_map, force)
+        if output_path:
+            print("  OK: {}".format(msg))
+            generated += 1
+        else:
+            if "already exists" in msg:
+                skipped += 1
+            else:
+                print("  ERR: {}".format(msg))
+                errors += 1
+
+    print("\nBatch complete: {} generated, {} skipped (existing), {} errors".format(
+        generated, skipped, errors))
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -734,6 +746,8 @@ def main():
         help="Generate all functions of TYPE with <= MAX_INSNS instructions")
     parser.add_argument('--list', nargs=2, metavar=('TYPE', 'MAX_INSNS'),
         help="List candidate functions without generating")
+    parser.add_argument('--batch-all', action='store_true',
+        help="Generate skeletons for ALL functions in decomp_all.txt")
 
     args = parser.parse_args()
 
@@ -757,6 +771,8 @@ def main():
         func_type = args.list[0].upper()
         max_insns = int(args.list[1])
         list_candidates(functions, pool_map, func_type, max_insns)
+    elif args.batch_all:
+        batch_generate_all(functions, pool_map, args.force)
     elif args.batch:
         func_type = args.batch[0].upper()
         max_insns = int(args.batch[1])
