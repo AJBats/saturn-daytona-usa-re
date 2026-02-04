@@ -1,0 +1,496 @@
+Candidate Analysis: Top 20 Untested Functions Most Likely to Pass
+=================================================================
+Generated: 2026-02-04
+
+Methodology:
+- Started from 1424 untested functions (have .expected but no .c file)
+- Filtered to 696 that have Ghidra decompilations
+- Selected only self-contained functions (have rts/jmp/bra in expected output)
+- Matched expected instruction count to Ghidra instruction count (within +/-3)
+- Ranked by simplicity: no loops, no switch, linear control flow, simple types
+
+Criteria for likely PASS:
+- Simple global variable stores or loads (mov.l constants to addresses)
+- Single function call wrappers (pure wrappers, tail calls)
+- No loops, no switch, straightforward linear code
+- Small functions (4-20 instructions)
+- LEAF functions with no conditionals, or at most one simple branch
+- CALL functions with only jsr/jmp and mov.l for constant pool loads
+
+Legend:
+  [HIGH]   = Very likely to pass (simple wrapper, field accessor, global store)
+  [MEDIUM] = Likely to pass but may have minor codegen differences
+  [LOW]    = Possible but has risk factors (conditionals, register allocation)
+
+
+======================================================================
+#1  FUN_06035C08  (8 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov / mov.l / jsr / mov / lds.l / rts / nop
+Ghidra decompilation:
+    undefined4 FUN_06035c08(void) {
+        undefined4 uVar1;
+        uVar1 = (*(code *)PTR_FUN_06035c18)();
+        return uVar1;
+    }
+
+Assessment: [HIGH] Pure wrapper function. Calls a single function through a
+constant-pool pointer and returns the result. This is the simplest possible
+CALL pattern: save PR, load function pointer, jsr, restore PR, rts. Our
+compiler handles this pattern well (proven by existing passing tests).
+C translation: Call a function through an extern pointer and return the value.
+
+======================================================================
+#2  FUN_06035E90  (9 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov / mov.l / mov.l / jsr / mov / lds.l / rts / nop
+Ghidra decompilation:
+    undefined4 FUN_06035e90(void) {
+        undefined4 uVar1;
+        uVar1 = (*(code *)PTR_FUN_06035ee8)();
+        return uVar1;
+    }
+
+Assessment: [HIGH] Pure wrapper function, identical pattern to #1. Extra mov.l
+likely loads a parameter or sets r4. Same proven pattern. The extra mov.l
+suggests one argument from constant pool.
+
+======================================================================
+#3  FUN_06035F04  (9 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov / mov.l / mov.l / jsr / mov / lds.l / rts / nop
+Ghidra decompilation:
+    undefined4 FUN_06035f04(void) {
+        undefined4 uVar1;
+        uVar1 = (*(code *)PTR_FUN_06035f3c)();
+        return uVar1;
+    }
+
+Assessment: [HIGH] Identical pattern to #2. Pure wrapper calling through
+function pointer, returning result. Should produce matching output.
+
+======================================================================
+#4  FUN_060192CA  (15 insns, CALL)
+======================================================================
+Expected opcodes: mov / mov.l / sts.l / mov.l / jsr / mov / mov / jsr / mov /
+                  mov / jsr / mov / lds.l / rts / mov.l
+Ghidra decompilation:
+    void FUN_060192ca(void) {
+        undefined *puVar1;
+        puVar1 = PTR_FUN_06019304;
+        (*(code *)PTR_FUN_06019304)(1, 0);
+        (*(code *)puVar1)(3, 0);
+        (*(code *)puVar1)(2, 0);
+        return;
+    }
+
+Assessment: [HIGH] Three calls to the same function pointer with small constant
+args. Linear code, no branches. The pattern of loading a function pointer once
+and calling it three times with different args is straightforward. GCC should
+handle this well since the function pointer is reused (loaded once into a
+register) and args are small immediates (mov #imm).
+
+======================================================================
+#5  FUN_0601209E  (18 insns, CALL)
+======================================================================
+Expected opcodes: mov / mov.l / sts.l / mov.l / jsr / mov / mov / jsr / mov /
+                  mov.w / jsr / mov / mov / jsr / mov / lds.l / rts / mov.l
+Ghidra decompilation:
+    void FUN_0601209e(void) {
+        undefined *puVar1;
+        puVar1 = PTR_FUN_060120c4;
+        (*(code *)PTR_FUN_060120c4)(0x20, 7);
+        (*(code *)puVar1)(8, 6);
+        (*(code *)puVar1)(0x10 /*mov.w needed*/, 5);
+        (*(code *)puVar1)(0x10, 4);
+        return;
+    }
+
+Assessment: [HIGH] Four calls to the same function pointer with small constant
+args. Very similar to #4 but with one more call. Linear, no branches. The
+mov.w in expected output suggests one constant is loaded from literal pool
+(>127 or negative) but still straightforward.
+
+======================================================================
+#6  FUN_06014A42  (6 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / bsr / nop / mov.l / jmp / lds.l
+Ghidra decompilation:
+    void FUN_06014a42(void) {
+        FUN_06014f34();
+        (*(code *)PTR_FUN_06014a70)();
+        return;
+    }
+
+Assessment: [HIGH] Calls one function via bsr (direct), then tail-calls
+another via jmp (through constant pool pointer). Our compiler's bsr and tail
+call patches handle this exact pattern. The bsr/nop + jmp/lds.l pattern is
+proven by existing tests.
+
+======================================================================
+#7  FUN_06041014  (16 insns, LEAF)
+======================================================================
+Expected opcodes: mov.l / mov.l / mov.l / tst / bf / rts / mov / mov.l /
+                  mov.l / cmp/eq / bf / bra / mov / mov / rts / nop
+Ghidra decompilation:
+    bool FUN_06041014(int param_1) {
+        if (*(int *)(*(int *)PTR_DAT_0604105c + 0x30) == 0) {
+            return false;
+        }
+        return *(int *)(*(int *)PTR_DAT_0604105c + 0x38) == param_1;
+    }
+
+Assessment: [MEDIUM] Simple LEAF function with two condition checks and boolean
+return. Uses double-indirect pointer access (load pointer, add offset, load
+value). Potential risk: GCC may order the branches differently or use different
+conditional forms (bt vs bf). The three rts/nop/bra pattern suggests specific
+return path ordering.
+
+======================================================================
+#8  FUN_06040FEA  (19 insns, LEAF)
+======================================================================
+Expected opcodes: mov.l / mov.l / mov.l / tst / bf / rts / mov / mov.l /
+                  mov.l / cmp/eq / bt / rts / mov / mov / mov.l / mov.l /
+                  mov / rts / nop
+Ghidra decompilation:
+    undefined4 FUN_06040fea(int param_1) {
+        if (*(int *)(*DAT_06041010 + 0x30) == 0) {
+            return 0xfffffff9;  // -7
+        }
+        if (*(int *)(*DAT_06041010 + 0x38) != param_1) {
+            return 0xfffffff7;  // -9
+        }
+        *(undefined4 *)(*DAT_06041010 + 0x30) = 0;
+        return 0;
+    }
+
+Assessment: [MEDIUM] LEAF function with two conditional checks and three
+return paths. Double-indirect pointer access. Risk: branch ordering and
+the specific error code constants may need precise mov #imm encoding.
+The mov # for -7 and -9 fit in 8-bit signed immediate, so this is feasible.
+Similar pattern to #7 but with a store at the end.
+
+======================================================================
+#9  FUN_06041180  (16 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov.l / mov.l / mov.l / cmp/eq / bt / lds.l /
+                  rts / mov / mov.l / jsr / nop / mov / lds.l / rts / nop
+Ghidra decompilation:
+    undefined4 FUN_06041180(undefined4 param_1, int param_2) {
+        if (*(int *)(*(int *)PTR_DAT_060411fc + 0x38) != param_2) {
+            return 0xfffffff7;  // -9
+        }
+        (*(code *)PTR_FUN_06041200)();
+        return 0;
+    }
+
+Assessment: [MEDIUM] Simple conditional: check if a struct field matches
+param_2. If not, return error code. If yes, call function and return 0.
+Risk: the expected output has two separate rts/nop pairs, meaning the
+compiler must NOT deduplicate them. Our return dedup pass could interfere.
+The cmp/eq + bt pattern is standard.
+
+======================================================================
+#10  FUN_0601F87A  (18 insns, LEAF)
+======================================================================
+Expected opcodes: mov.l / mov.b / extu.b / mov.l / mov.l / tst / bf /
+                  mov.l / mov.l / mov / bra / mov.b / mov.l / mov.l /
+                  mov / mov.b / rts / nop
+Ghidra decompilation:
+    void FUN_0601f87a(char param_1) {
+        *PTR_DAT_0601f8a0 = param_1;
+        puVar1 = PTR_DAT_0601f8ac;
+        if (param_1 == '\0') {
+            *(undefined **)PTR_PTR_0601f8b0 = PTR_DAT_0601f8b4;
+            *puVar1 = 0;
+        } else {
+            *(undefined **)PTR_PTR_0601f8b0 = PTR_DAT_0601f8b8;
+            *puVar1 = 1;
+        }
+        return;
+    }
+
+Assessment: [MEDIUM] LEAF function that stores a parameter to a global, then
+sets two globals based on whether param is zero. Simple if/else with
+stores. The extu.b suggests byte parameter handling. Risk: branch direction
+(bf vs bt) and whether GCC orders the branches identically. The bra in
+the expected output confirms both paths converge at rts.
+
+======================================================================
+#11  FUN_06018E1E  (19 insns, CALL)
+======================================================================
+Expected opcodes: mov / extu.b / sts.l / mov / add / mov / mov.l / mov /
+                  mov.b / mov / mov / mov.b / mov.l / jsr / mov / add /
+                  lds.l / rts / nop
+Ghidra decompilation:
+    undefined4 FUN_06018e1e(undefined1 param_1) {
+        undefined4 uVar1;
+        undefined4 local_c;
+        undefined1 uStack_8;
+        undefined1 uStack_7;
+        local_c = 2;
+        uStack_7 = 1;
+        uStack_8 = param_1;
+        uVar1 = (*(code *)PTR_FUN_06018e48)(&local_c);
+        return uVar1;
+    }
+
+Assessment: [MEDIUM] Creates a small struct on the stack (3 fields: int=2,
+byte=param_1, byte=1), then calls a function with its address. Linear code,
+no branches. The mov.b instructions set struct bytes. Risk: stack layout and
+field ordering must match exactly. The extu.b for the byte parameter is
+a known pattern our compiler handles.
+
+======================================================================
+#12  FUN_0600DC74  (18 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov / add / mov.l / mov.l / mov / mov.w / mov.l /
+                  jsr / mov / mov.l / mov / mov.w / mov / add / mov.l / jmp / lds.l
+Ghidra decompilation:
+    void FUN_0600dc74(void) {
+        undefined *puVar1;
+        puVar1 = PTR_s__0600dcc0;
+        (*(code *)PTR_FUN_0600dcc4)(8, (int)DAT_0600dc9c, 0x60, PTR_s__0600dcc0);
+        (*(code *)PTR_FUN_0600dcc4)(8, (int)DAT_0600dc9e, 0x60, puVar1);
+        return;
+    }
+
+Assessment: [MEDIUM] Two calls to the same function with 4 args each. The
+second call is a tail call (jmp + lds.l). Linear, no branches. The add
+instructions adjust stack or compute addresses. mov.w loads 16-bit constants.
+Risk: the tail call in the second call (jmp instead of jsr+rts) requires our
+tail call optimization to fire correctly. The function pointer reuse pattern
+should work.
+
+======================================================================
+#13  FUN_060210F6  (14 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov.l / jsr / mov / mov / mov.l / mov.b / mov.l /
+                  mov.l / jsr / nop / mov.l / jmp / lds.l
+Ghidra decompilation:
+    void FUN_060210f6(void) {
+        (*(code *)PTR_FUN_06021118)(8);
+        *PTR_DAT_06021124 = 0;
+        (*(code *)PTR_FUN_0602111c)(PTR_DAT_06021114);
+        (*(code *)PTR_FUN_06021120)();
+        return;
+    }
+
+Assessment: [MEDIUM] Three function calls (via constant pool pointers) with
+a global store (*PTR = 0) between first and second. Last call is a tail call
+(jmp + lds.l). Linear code, no branches. Risk: the mov.b for zeroing the
+global must match (byte store vs word store). Register allocation for three
+different function pointers needs to be efficient.
+
+======================================================================
+#14  FUN_06014868  (14 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / add / mov.l / mov.l / jsr / mov.l / mov.l / mov.l /
+                  jsr / mov.l / add / mov.l / jmp / lds.l
+Ghidra decompilation:
+    void FUN_06014868(undefined4 param_1, undefined4 param_2, undefined4 param_3) {
+        (*(code *)PTR_FUN_060148e4)();
+        (*(code *)PTR_FUN_060148e8)(param_2, param_3);
+        (*(code *)PTR_FUN_060148ec)();
+        return;
+    }
+
+Assessment: [MEDIUM] Three function calls. First takes no args, second passes
+through param_2 and param_3, third takes no args and is a tail call. The add
+instructions are for stack frame. Risk: parameter passing from outer params
+(param_2, param_3) through to second call must be preserved. The mov.l
+instructions that load the 3 function pointers must interleave with parameter
+setup correctly. Callee-save register usage for params across calls could
+differ.
+
+======================================================================
+#15  FUN_06014884  (15 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / add / mov.l / mov.l / jsr / mov.l / mov / mov.l /
+                  mov.l / jsr / mov.l / add / mov.l / jmp / lds.l
+Ghidra decompilation:
+    void FUN_06014884(undefined4 param_1, undefined4 param_2, undefined4 param_3) {
+        (*(code *)PTR_FUN_060148e4)();
+        (*(code *)PTR_FUN_060148f0)(param_2, param_3, 0);
+        (*(code *)PTR_FUN_060148ec)();
+        return;
+    }
+
+Assessment: [MEDIUM] Very similar to #14 but second call takes 3 args
+(param_2, param_3, 0). Extra mov #0 for third argument. Same risk as #14
+regarding callee-save register allocation for preserving params across calls.
+
+======================================================================
+#16  FUN_0601FD20  (20 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov.l / mov.l / mov.l / or / jsr / mov.l / mov /
+                  mov.l / mov.l / mov.l / mov.l / mov.l / mov.l / mov.l /
+                  mov.l / mov.l / lds.l / rts / mov.l
+Ghidra decompilation:
+    void FUN_0601fd20(void) {
+        *(uint *)PTR_DAT_0601fd58 = *(uint *)PTR_DAT_0601fd58 | 4;
+        (*(code *)PTR_FUN_0601fd5c)();
+        *(undefined4 *)PTR_DAT_0601fd60 = 0;
+        *(undefined4 *)PTR_DAT_0601fd64 = 0;
+        *(undefined4 *)PTR_DAT_0601fd68 = 0;
+        *(undefined4 *)PTR_DAT_0601fd6c = 0;
+        *(undefined4 *)PTR_DAT_0601fd70 = 0;
+        return;
+    }
+
+Assessment: [MEDIUM] OR a global with 4, call a function, then zero five
+globals. Linear code, no branches. Heavy constant pool usage (many mov.l
+loads for addresses). Risk: the constant pool ordering and register
+allocation for all those address loads must match. The 'or' instruction
+for the bitwise OR is specific.
+
+======================================================================
+#17  FUN_060281B8  (19 insns, LEAF)
+======================================================================
+Expected opcodes: mov.l / mov / mov.w / mov / mov.w / mov / mov.w / mov.w /
+                  mov / mov.w / mov.l / mov.l / mov.l / mov.l / mov.l /
+                  mov.l / mov.l / rts / mov.l
+Ghidra decompilation:
+    void FUN_060281b8(int param_1, undefined2 *param_2, undefined2 param_3) {
+        undefined2 *puVar1;
+        puVar1 = DAT_060281e0 + 1;
+        *param_2 = *DAT_060281e0;
+        param_2[2] = *puVar1;
+        param_2[3] = param_3;
+        *(undefined4 *)(param_2 + 6) = *(undefined4 *)(param_1 + 8);
+        *(undefined4 *)(param_2 + 8) = *(undefined4 *)(param_1 + 0xc);
+        *(undefined4 *)(param_2 + 10) = *(undefined4 *)(param_1 + 0x10);
+        *(undefined4 *)(param_2 + 0xc) = *(undefined4 *)(param_1 + 0x14);
+        return;
+    }
+
+Assessment: [MEDIUM] LEAF function that copies struct fields from source
+to destination. Mix of word (mov.w) and long (mov.l) copies. No branches,
+no loops, pure data shuffling. Risk: the exact mix of mov.w and mov.l
+accesses and the struct offset arithmetic must match. GCC may use different
+register assignments for the struct base pointers.
+
+======================================================================
+#18  FUN_060280C4  (21 insns, LEAF)
+======================================================================
+Expected opcodes: mov.l / mov / mov.w / mov / mov.w / mov / mov.w / mov.w /
+                  mov / mov.w / mov / mov.w / mov.l / mov.l / mov.l / mov.l /
+                  mov.l / mov.l / mov.l / rts / mov.l
+Ghidra decompilation:
+    void FUN_060280c4(int param_1, undefined2 *param_2) {
+        undefined2 *puVar1;
+        puVar1 = DAT_060280f0 + 1;
+        *param_2 = *DAT_060280f0;
+        param_2[2] = *puVar1;
+        param_2[3] = *(undefined2 *)(param_1 + 6);
+        *(undefined4 *)(param_2 + 6) = *(undefined4 *)(param_1 + 8);
+        *(undefined4 *)(param_2 + 8) = *(undefined4 *)(param_1 + 0xc);
+        *(undefined4 *)(param_2 + 10) = *(undefined4 *)(param_1 + 0x10);
+        *(undefined4 *)(param_2 + 0xc) = *(undefined4 *)(param_1 + 0x14);
+        return;
+    }
+
+Assessment: [MEDIUM] Very similar to #17 but with one extra field copy
+(param_2[3] from param_1 instead of from param_3). Same struct copy pattern.
+Same risks as #17.
+
+======================================================================
+#19  FUN_06041330  (15 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / add / mov.l / jsr / mov.l / mov / tst / bt /
+                  mov.l / jsr / mov.l / add / mov.l / jmp / lds.l
+Ghidra decompilation:
+    void FUN_06041330(undefined4 param_1) {
+        int iVar1;
+        iVar1 = (*(code *)PTR_FUN_06041368)();
+        if (iVar1 != 0) {
+            (*(code *)PTR_FUN_0604136c)(param_1);
+        }
+        (*(code *)PTR_FUN_06041370)();
+        return;
+    }
+
+Assessment: [MEDIUM] Call a function, test return value, conditionally call
+a second function, then tail-call a third. The tst/bt conditional is simple.
+Risk: the conditional branch direction and delay slot handling. The last call
+being a tail call (jmp) needs our tail call optimization. Parameter param_1
+must be preserved across the first call (callee-save register).
+
+======================================================================
+#20  FUN_0600A4AA  (16 insns, CALL)
+======================================================================
+Expected opcodes: sts.l / mov.l / mov.l / mov.l / mov.l / jsr / mov.l /
+                  mov.l / mov.l / mov.l / mov.w / mov.l / mov.l / mov.l /
+                  jmp / lds.l
+Ghidra decompilation:
+    void FUN_0600a4aa(void) {
+        (*(code *)PTR_FUN_0600a514)(
+            *(undefined4 *)PTR_PTR_0600a52c,
+            *(undefined4 *)PTR_DAT_0600a528);
+        (*(code *)PTR_FUN_0600a524)(
+            *(undefined4 *)PTR_PTR_0600a538,
+            (int)*(short *)PTR_DAT_0600a534,
+            *(undefined4 *)PTR_DAT_0600a530);
+        return;
+    }
+
+Assessment: [MEDIUM] Two function calls: first with 2 args, second with 3
+args (tail call via jmp). All args loaded from constant pool. Linear, no
+branches. The mov.w suggests one arg is a 16-bit value sign-extended.
+Risk: heavy constant pool usage requires matching register allocation.
+The second call being a tail call (jmp + lds.l) needs our optimization.
+
+
+======================================================================
+SUMMARY TABLE
+======================================================================
+
+Rank  Function       Insns  Type  Rating  Pattern
+----  -------------  -----  ----  ------  ---------------------------
+  1   FUN_06035C08       8  CALL  HIGH    Pure wrapper (1 call, return result)
+  2   FUN_06035E90       9  CALL  HIGH    Pure wrapper (1 call, return result)
+  3   FUN_06035F04       9  CALL  HIGH    Pure wrapper (1 call, return result)
+  4   FUN_060192CA      15  CALL  HIGH    3 calls to same func ptr, imm args
+  5   FUN_0601209E      18  CALL  HIGH    4 calls to same func ptr, imm args
+  6   FUN_06014A42       6  CALL  HIGH    bsr + tail call jmp
+  7   FUN_06041014      16  LEAF  MED     2 conditionals, bool return
+  8   FUN_06040FEA      19  LEAF  MED     2 conditionals, error code returns
+  9   FUN_06041180      16  CALL  MED     1 conditional, call + return
+ 10   FUN_0601F87A      18  LEAF  MED     Store param + if/else global stores
+ 11   FUN_06018E1E      19  CALL  MED     Stack struct init + function call
+ 12   FUN_0600DC74      18  CALL  MED     2 calls same func, tail call on 2nd
+ 13   FUN_060210F6      14  CALL  MED     3 calls + global store, tail call
+ 14   FUN_06014868      14  CALL  MED     3 calls, params passthrough
+ 15   FUN_06014884      15  CALL  MED     3 calls, params passthrough + 0
+ 16   FUN_0601FD20      20  CALL  MED     OR global + call + zero 5 globals
+ 17   FUN_060281B8      19  LEAF  MED     Struct field copy (word+long)
+ 18   FUN_060280C4      21  LEAF  MED     Struct field copy (word+long)
+ 19   FUN_06041330      15  CALL  MED     Call + conditional call + tail call
+ 20   FUN_0600A4AA      16  CALL  MED     2 func calls, heavy const pool
+
+Notes on functions NOT included:
+- FUN_060359D2 (4 insns, LEAF): Uses unaff_r10 (unaffected register r10) and
+  in_stack references, indicating this is mid-function code, not standalone.
+- FUN_06026E02 (5 insns, LEAF): Ghidra shows 12 stores but only 5 expected
+  instructions -- likely inline expansion of a memset/init, hard to reproduce.
+- FUN_060270C6 (5 insns, LEAF): Same issue as FUN_06026E02.
+- FUN_060359DA (5 insns, LEAF): Uses in_stack references, mid-function code.
+- FUN_0602ECF2 (8 insns, LEAF): Has jump table (indirect jump), not compilable.
+- FUN_0601AEB6 (9 insns, LEAF): Has jump table (indirect jump), not compilable.
+- FUN_060033E6 (16 insns, LEAF): Calls through func ptr but is LEAF type,
+  meaning Ghidra thinks it's inlined. Likely jump table dispatch.
+- FUN_06039FE8 (16 insns, LEAF): Pointer comparison (PTR <= PTR) is unusual
+  and may not compile identically.
+- FUN_06013E12 (17 insns, LEAF): Has jump table ("indirect jump as call").
+- FUN_06017C78 (18 insns, LEAF): Two-condition AND with early return, plus
+  jump table dispatch.
+- FUN_06020B20 (19 insns, LEAF): Has a do-while loop, risky for instruction
+  ordering differences.
+- FUN_0601B074 (17 insns, CALL): 8 arguments passed on stack -- very unusual,
+  likely to cause codegen differences in how stack args are set up.
+- FUN_0603B3FA (17 insns, CALL): Tail call via bra (not jmp), uses extu.b,
+  has multiple function calls -- moderate complexity.
+- FUN_06035EA2 (19 insns, CALL): Has conditional with two separate return
+  paths (2x rts), branch ordering sensitive.
+- FUN_06035F16 (16 insns, LEAF): Byte-level struct copy with masking, but
+  the byte access patterns may differ in register allocation.

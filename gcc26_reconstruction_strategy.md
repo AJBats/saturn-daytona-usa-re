@@ -157,3 +157,42 @@ This work is **independent of and parallel to** the main decomp phases. The curr
 Building the 2.6 compiler now means it's ready when the first C replacement is attempted. If reconstruction goes well enough, it could upgrade the project from non-matching to partially or fully matching — which would provide automated binary-diff verification for every decompiled function.
 
 Even if reconstruction stalls at "good enough for comparison but not byte-matching," it's still a better tool than 2.7 for eyeball-comparing decompiled C output against the original binary.
+
+---
+
+## Progress (as of Session 14)
+
+### Phase A: Complete
+- GCC 2.6.3 SH-2 backend builds from source (gcc26-build/)
+- 22 patches applied to sh.c, sh.h, sh.md, toplev.c
+- dt, bsr, tail call, pure wrapper, displacement load/store, sign ext, return dedup, delay slot sign ext, swap.w, add-to-shll, indexed addressing, delay slot control flags, multiply cost, dt combining, redundant exts.w elimination, lds.l reordering, delay slot unfill flags
+
+### Phase B: Complete
+- 133 test functions with .c source and .expected opcodes
+- Automated tooling: gen_expected.py, gen_test_skeleton.py, test_harness.sh
+- Per-function compiler flags (.flags files) for fine-grained control
+- **Result: 38 PASS / 95 FAIL (28% pass rate)**
+
+### Phase C: Largely Complete (diminishing returns)
+- 22 patches implemented, all low-hanging peepholes exhausted
+- Remaining failures are deep compiler internals (register allocation, instruction scheduling, loop optimization)
+- All delta>0 functions analyzed: none fixable from C source alone
+- All delta=+1 functions (7): callee-save strategy, byte extraction, loop structure — intractable
+- Unfilled rts delay slots: Patch 21 (lds.l reordering) enables filling for CALL functions; 14 remain intractable (loop-exit, shared labels, complex control flow)
+- Delta=-1 analysis: 27 functions where our code is shorter; 3 fixed via Patch 22 (delay slot unfill flags)
+
+### Phase D: In Progress
+- 133 functions tested against binary (from 1234 total in binary)
+- Test expansion exhausted: remaining 1424 untested .expected files are fall-through prologues, indirect calls (jsr @r0/r12), or non-standard calling conventions
+- To expand further: need Ghidra re-export of ~40 missing game state handlers
+
+### Phase E: Not Started
+- Full binary build system (linker script + stubs) not yet implemented
+- Pool constant sharing between adjacent functions remains unaddressed
+
+### Key Findings
+1. **Register allocation order**: Confirmed GCC 2.6.3 uses descending order matching original — this was the right version choice
+2. **Post-reload scheduling**: Has NO effect on output (both schedulers effectively disabled in SH backend)
+3. **Optimization ceiling**: 28% exact match (38/133). 44 functions have our code SHORTER than original (better optimization). Only 24 are longer.
+4. **Intractable diffs**: Register allocation internal decisions, loop entry strategy (mid vs bottom-test), delay slot filling aggressiveness, lds.l placement blocking rts delay slots
+5. **C source quality matters**: Correct types (int vs short), literal constants vs externs, operator precedence, and struct access patterns each affect codegen significantly
