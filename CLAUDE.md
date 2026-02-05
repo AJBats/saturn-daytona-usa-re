@@ -12,13 +12,15 @@
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
 | 1 | **Function investigation** | **active** | Deep-dive each function: understand, fix, verify |
-| 2 | Function catalog | next | generate `docs/function_catalog.md` with per-function status |
+| 2 | Function catalog | **done** | See `docs/function_catalog.md` |
 | 3 | 100% compilable | **done** | All 886 functions now compile! |
 
-**Current queue** — Most CRASH/CORRUPT functions now investigated and documented as intractable:
-- **CRASH**: 3 pass test harness (patcher issues), 3 intractable optimization, 1 Ghidra boundary, 1 ABI mismatch
-- **CORRUPT**: All 6 intractable (implicit registers, Ghidra boundaries, better optimization)
-- **Next focus**: Expand test suite with more simple wrapper functions (likely to PASS)
+**Current status** (see `docs/function_catalog.md` for details):
+- **48 PASS** (binary-perfect match)
+- **46 delta=0** (scheduling/register allocation - intractable)
+- **131 near-miss** (|delta| <= 2, mostly intractable)
+- **373 better optimized** (our code shorter - intractable)
+- **Next focus**: Look for C source fixes in delta>0 functions (ours is longer)
 
 **Investigation workflow per function** (see `decomp.md` for full details):
 1. Compile our C source, diff assembly against expected
