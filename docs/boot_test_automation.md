@@ -53,10 +53,17 @@ python tools/compare_screenshot.py patched.png baseline.png --method histogram
 
 ## Test Results
 
+**CRITICAL**: ALL 4 comparison methods must pass for a PASS verdict. If ANY method fails, the test is FAIL.
+
 Screenshots are classified as:
-- **PASS**: All methods pass, game boots correctly
-- **FAIL (black)**: Black screen detected (crash/hang before rendering)
-- **FAIL (corruption)**: Graphics corruption detected (game runs but renders wrong)
+- **PASS**: ALL 4 methods pass (phash, histogram, pixels, rmse) — game boots correctly
+- **FAIL (black)**: Black screen detected (>90% black pixels) — crash/hang before rendering
+- **FAIL (corruption)**: One or more comparison methods fail — graphics corruption or wrong screen
+
+Do NOT manually judge screenshots. The 4-method comparison is the authoritative result:
+1. Run `compare_screenshot.py` — if it says PASS, record PASS
+2. If it says FAIL, record FAIL and note which methods failed
+3. Only look at the screenshot image to classify the failure type (black vs corruption)
 
 ## Timing
 
@@ -86,13 +93,38 @@ copy build\screenshots\vanilla_latest.png build\screenshots\baseline_vanilla.png
 
 ## Additive Testing Workflow
 
-For testing individual DIFF functions:
+For testing individual DIFF functions one at a time:
 
-1. Write function name to `build/test_include.txt`
-2. Build disc: `wsl -- python3 tools/patch_binary.py --patch --level 2 --include-funcs build/test_include.txt`
-3. Run test: `powershell -ExecutionPolicy Bypass -File tools\test_boot.ps1 -Cue patched`
-4. Compare: `python tools/compare_screenshot.py build/screenshots/patched_latest.png build/screenshots/baseline_vanilla.png`
-5. Record result in `docs/boot_test_results.md`
+1. **Prepare test_include.txt**: Write all known-passing functions + one new test function
+   ```
+   # Known passing functions (18 tested)
+   FUN_0603316C
+   FUN_060336C8
+   ... (all previously passed functions)
+   # Testing single new function
+   FUN_XXXXXXXX
+   ```
+
+2. **Build patched disc**:
+   ```bash
+   wsl -- python3 tools/patch_binary.py --patch --level 2 --include-funcs build/test_include.txt
+   ```
+
+3. **Run boot test**:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File tools\test_boot.ps1 -Cue patched
+   ```
+
+4. **Compare screenshot** (automated, ALL 4 methods must pass):
+   ```bash
+   python tools/compare_screenshot.py build/screenshots/patched_latest.png build/screenshots/baseline_vanilla.png
+   ```
+
+5. **Record result IMMEDIATELY** in `docs/boot_test_results.md`:
+   - If OVERALL: PASS → mark as PASS, add function to known-passing list
+   - If OVERALL: FAIL → mark as FAIL, note failure type (black/corruption)
+
+**IMPORTANT**: Update `docs/boot_test_results.md` after EVERY test, not in batches.
 
 ## Dependencies
 

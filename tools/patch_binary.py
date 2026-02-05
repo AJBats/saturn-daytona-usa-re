@@ -50,7 +50,8 @@ SECTOR_SIZE_DATA = 2048
 SECTOR_DATA_OFFSET = 16  # 12 sync + 4 header
 
 # APROG.BIN location in disc data track (byte offset in 2048-byte sector space)
-APROG_DISC_OFFSET = 0xA800
+# Verified by finding known function bytes (D302000B2341 at 06035C6E) in Track 01
+APROG_DISC_OFFSET = 0x7800
 
 
 def load_symbols():

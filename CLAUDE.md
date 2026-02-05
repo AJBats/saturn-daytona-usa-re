@@ -8,30 +8,40 @@
    find yourself writing more than 2 lines about a workstream here, move it to session_log.md.
 10. **Commit at natural stopping points** — don't let uncommitted work accumulate across sessions
 
-| # | Workstream | Status | Uncommitted? |
-|---|-----------|--------|--------------|
-| 1 | C source fixes (Ghidra decomp corrections) | **done** — diminishing returns | committed |
-| 2 | Compiler patch 23 (QImode byte disp store) | **done** | committed |
-| 3 | Scheduling experiment (Stage 2 of plan) | **done — no effect** | committed |
-| 4 | Per-function flags sweep | **done** — 1 new PASS (FUN_0603850C) | committed |
-| 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | committed |
-| 6 | Full decomp expansion | **done** — 886 C files, 518 compilable | committed |
-| 7 | Bulk compile fixes + experiments | **done** — 267→518 compilable, scheduling/BSR negative | committed |
-| 8 | Disc build pipeline | **done** — compile, patch Track 01, CUE+BIN output | committed |
-| 9 | Automated boot test | **done** — `test_boot.ps1`: launch, skip BIOS, F9 screenshot, kill (~20s) | uncommitted |
-| 10 | L0 bisection | **active** — binary search 355 DIFF functions for boot-breaking ones | uncommitted |
-| 11 | **NEXT: Function catalog** | generate `docs/function_catalog.md` with per-function status | no |
-| 12 | **NEXT: 100% compilable** | fix remaining 349 compile errors systematically | no |
-| 13 | **NEXT: Easy accuracy wins** | source-level fixes on delta=0/+1 functions | no |
-| 14 | **NEXT: GCC rewrite research** | study deep compiler changes, produce `docs/gcc_rewrite_research.md` | no |
 
-**Active workstream details** → `docs/session_log.md` (append-only, read when resuming)
+| # | Workstream | Status | Notes |
+|---|-----------|--------|-------|
+| 1 | **Function investigation** | **active** | Deep-dive each function: understand, fix, verify |
+| 2 | Function catalog | next | generate `docs/function_catalog.md` with per-function status |
+| 3 | 100% compilable | next | fix remaining 349 compile errors systematically |
+
+**Current queue** — failing functions to investigate and fix (see `docs/boot_test_results.md`):
+- 18 CRASH functions (black screen)
+- 6 CORRUPT functions (visual issues)
+- Prioritize by: higher Match% first, smaller instruction count, similar to already-fixed
+
+**Investigation workflow per function** (see `decomp.md` for full details):
+1. Compile our C source, diff assembly against expected
+2. Identify WHERE divergence occurs (line-by-line diff)
+3. Reason about WHY (wrong type, wrong op, missing param)
+4. Cross-reference: find callers in aprog.s to understand context
+5. Fix C source based on findings
+6. Recompile, check if diff improved — iterate until match
+7. Boot test only AFTER assembly matches
+8. Document findings in `docs/boot_test_results.md`
+
+**Boot test results** → `docs/boot_test_results.md` (per-function BOOT/CRASH/CORRUPT tracking)
+**Decompilation techniques** → `decomp.md` (diff-based matching workflow, mismatch patterns, fixes)
 
 ---
 
 # Autonomous Operation Rules
 
-1. **Always be working** — when a task finishes, commit it, then start research on the next one
+1. **NEVER STOP WORKING** — work continuously until the user returns. No "session summaries".
+   - When a batch finishes, IMMEDIATELY start the next batch
+   - Never write "Session Summary" or "Session Complete" — these are stop signals
+   - Always keep at least one todo as `in_progress`
+   - Milestones are checkpoints, not endpoints
 2. **Commit at logical stopping points** — don't mix workstreams in one commit. Finish, commit, move on.
 3. **No destructive git** — no force-push, no reset --hard, no branch -D. Regular commits and branches are fine.
 4. **Never stop to ask questions** — make reasonable assumptions and document them
@@ -69,8 +79,8 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - **Close matches**: 45 delta=0, 28 delta=+1, 37 delta=-1 (110 functions within 1 insn)
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
-- **Emulator validation**: L2 build boots and plays (23 funcs); L1 build plays (25 funcs); L0 build black screen (355 funcs, bisecting)
-- **Boot/attract test**: Automated 20s trial — build, launch Mednafen, skip BIOS, screenshot title screen, kill
+- **Boot testing**: 30 tested, 30 BOOT, 0 CRASH (after fixing APROG_DISC_OFFSET bug)
+- **Boot baseline**: L2 build (23 funcs) + 30 DIFF funcs = 53 functions bootable
 
 ## Directory Layout
 - `src/*.c` - Reconstructed C source files (886 functions, 518 compilable)
