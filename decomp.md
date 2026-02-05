@@ -202,6 +202,49 @@ diff /tmp/ours.txt tests/FUN_XXXX.expected
 | Missing register setup before call | Wrong parameter count | Check callers for actual args |
 | Wrong return handling | Wrong return type | Check callers for usage |
 
+---
+
+## Intractable Patterns (Cannot Fix from C)
+
+These patterns are caused by fundamental differences between GCC 2.6.3 and the original compiler.
+They cannot be fixed by rewriting C code - only compiler patches or accepting the mismatch.
+
+### Register Allocation
+| Pattern | Example | Cause |
+|---------|---------|-------|
+| Callee-saved vs caller-saved | `push r8` vs no push | GCC prefers r8-r14 |
+| extu.w destination | `extu.w r4,r4` vs `extu.w r4,r0` | Allocator choice |
+| Indexed addressing | `mov.l @(r0,r1),r0` vs `add` + `mov.l` | Our patch combines them |
+
+### Instruction Scheduling
+| Pattern | Example | Cause |
+|---------|---------|-------|
+| Prologue ordering | mov/sts order differs | RTL expansion order |
+| Argument evaluation | param setup before computation | Scheduler choice |
+| Loop compare placement | cmp at end vs interleaved | Loop scheduling |
+
+### RTL Combiner Optimizations
+| Pattern | Example | Cause |
+|---------|---------|-------|
+| Missing extu.b | No zero-extend before byte store | RTL knows mov.b only uses 8 bits |
+| Range check | `cmp/hi` vs `cmp/gt` + `cmp/ge` | fold_truthop combines tests |
+
+### Function Boundary Issues
+| Pattern | Example | Functions Affected |
+|---------|---------|-------------------|
+| Fall-through entry | `mov #N,rX` then falls into main | FUN_0601209E, FUN_06013E12 |
+| Shared code bodies | Two entry points, same body | Adjacent function pairs |
+
+### When to Stop Trying
+
+If you see these patterns, document and move on:
+1. `push rN` in prologue that original doesn't have → register allocation
+2. Instruction order matches but different registers → scheduling
+3. Fewer instructions than original (delta<0) → our code is better optimized
+4. Function address falls inside another function → Ghidra boundary error
+
+---
+
 ## Cross-Reference Analysis
 
 Before editing a function, understand its context:
