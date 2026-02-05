@@ -111,9 +111,9 @@ void FUN_0602c494(param_1, param_2)
 
     psVar11 = psVar11 + 1;
 
-    uVar1 = *(unsigned short *)(puVar5 + ((int)sVar2 & 0x1fU) << 1);
+    uVar1 = *(unsigned short *)(puVar5 + (((int)sVar2 & 0x1fU) << 1));
 
-    *(unsigned short *)(puVar5 + ((int)sVar2 & 0x1fU) << 1) = uVar1 + 1;
+    *(unsigned short *)(puVar5 + (((int)sVar2 & 0x1fU) << 1)) = uVar1 + 1;
 
     *(short *)(puVar4 + (unsigned int)(uVar1 << 1) + ((int)sVar2 & 0x1fU) * iVar10) = (short)uVar8;
 
@@ -205,7 +205,7 @@ void FUN_0602c494(param_1, param_2)
 
   do {
 
-    uVar6 = *(unsigned short *)(0x060A17A8 + (unsigned int)*((int)(int)puVar7 << 1)) >> 5 & 0x1f;
+    uVar6 = *(unsigned short *)(0x060A17A8 + (unsigned int)(*puVar7 << 1)) >> 5 & 0x1f;
 
     uVar1 = *(unsigned short *)(0x060A2428 + (uVar6 << 1));
 
@@ -305,7 +305,7 @@ void FUN_0602c494(param_1, param_2)
 
   do {
 
-    uVar6 = (unsigned int)(int)(char)((int *)0x060A17A8)[(unsigned int)*((int)(int)puVar7 << 1)] >> 2 & 0x1f;
+    uVar6 = (unsigned int)(int)(char)((int *)0x060A17A8)[(unsigned int)(*puVar7 << 1)] >> 2 & 0x1f;
 
     uVar1 = *(unsigned short *)(0x060A2428 + (uVar6 << 1));
 

@@ -20,7 +20,7 @@ extern int PTR_DAT_0602e3cc;
 
 extern int PTR_DAT_0602e3cc;
 
-char * 
+char * FUN_0602dc18()
 {
 
   char *puVar1;

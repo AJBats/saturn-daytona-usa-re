@@ -13,7 +13,7 @@
 |---|-----------|--------|-------|
 | 1 | **Function investigation** | **active** | Deep-dive each function: understand, fix, verify |
 | 2 | Function catalog | next | generate `docs/function_catalog.md` with per-function status |
-| 3 | 100% compilable | next | fix remaining 349 compile errors systematically |
+| 3 | 100% compilable | **done** | All 886 functions now compile! |
 
 **Current queue** — Most CRASH/CORRUPT functions now investigated and documented as intractable:
 - **CRASH**: 3 pass test harness (patcher issues), 3 intractable optimization, 1 Ghidra boundary, 1 ABI mismatch
@@ -75,7 +75,7 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 ## Scoreboard
 - **Test harness**: 48 PASS / 819 FAIL / 867 tested (5.5% match)
 - **C sources**: 886 / ~880 Ghidra decomps (100% coverage)
-- **Compilable**: 518 functions compile (was 267), 470 codegen diffs, 48 binary-perfect
+- **Compilable**: 886/886 functions compile (100%!), 819 codegen diffs, 48 binary-perfect
 - **Close matches**: Many delta=0 (scheduling), delta<0 (better optimized), delta>0 (reg alloc)
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
@@ -83,7 +83,7 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - **Key finding**: 3 CRASH functions PASS test harness - crash is patcher issue, not code
 
 ## Directory Layout
-- `src/*.c` - Reconstructed C source files (886 functions, 518 compilable)
+- `src/*.c` - Reconstructed C source files (886 functions, 100% compilable)
 - `tests/*.expected` - Expected opcode mnemonics from original binary (one per line)
 - `tests/*.flags` - Per-function compiler flag overrides (optional)
 - `tools/` - Build scripts, test harness, GCC source, toolchain

@@ -23,7 +23,7 @@ unsigned int FUN_06035340()
 
     }
 
-    uVar1 = (*(0x060353BE + (char)((int *)0x06035338)[in_r1 + -0x18]))();
+    uVar1 = (*(int(*)())(0x060353BE + (char)((int *)0x06035338)[in_r1 + -0x18]))();
 
     return uVar1;
 

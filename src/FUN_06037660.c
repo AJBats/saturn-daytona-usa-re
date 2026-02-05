@@ -503,7 +503,7 @@ LAB_06037e88:
 
     *param_1 = *param_1 & 0xf;
 
-    *param_1 = *param_1 | *(int)param_1 << 4;
+    *param_1 = *param_1 | *param_1 << 4;
 
     uVar5 = 0;
 
@@ -511,7 +511,7 @@ LAB_06037e88:
 
       do {
 
-        puVar10 = (unsigned short *)(puStack_2c + (uVar5 & 0xffff) << 1);
+        puVar10 = (unsigned short *)(puStack_2c + ((uVar5 & 0xffff) << 1));
 
         uVar6 = (*(int(*)())0x06035F44)();
 

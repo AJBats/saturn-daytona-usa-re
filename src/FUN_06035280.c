@@ -15,7 +15,7 @@ int FUN_06035280()
 
   if (in_r1 < 0x20) {
 
-    uVar1 = (*(0x060352AA + (char)((int *)0x06035260)[in_r1]))();
+    uVar1 = (*(int(*)())(0x060352AA + (char)((int *)0x06035260)[in_r1]))();
 
     return uVar1;
 
