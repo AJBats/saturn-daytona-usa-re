@@ -120,16 +120,78 @@ Benefits:
 - Makes code readable
 - Ghidra can re-import and propagate types
 
-## Ghidra Interactive Workflow
+## Ghidra As Reference (Not Source of Truth)
 
-We should be using Ghidra iteratively, not one-shot:
+**Critical insight from decomp community**: Ghidra's output is NOT accurate enough to copy-paste.
+It's a **reference** to help understand what assembly does, not the source of matching C code.
 
-1. **Fix function signatures** - correct parameter count/types
-2. **Define structs** - from observed offset patterns
-3. **Label globals** - `DAT_06061234` → `g_PlayerData`
-4. **Set data types** - mark arrays, pointers, etc.
-5. **Re-export** - get improved decompilation
-6. **Repeat** - each fix helps other functions
+> "The decompiler in Ghidra is primarily useful for reference. It helps when analyzing
+> assembly, but it's not suitable for producing high-level source code that compiles
+> to an identical binary." — [BotW Decompilation](https://botw.link/contribute/decompiler-setup)
+
+### What Ghidra Gets Wrong
+
+Ghidra frequently misses or misinterprets:
+- **Parameter counts** - may show `void` when function takes 2+ params
+- **Parameter types** - may use wrong width (int vs short)
+- **Return types** - may not detect return value
+- **Indirect calls** - shows as `(*(code*)PTR)()` without context
+
+### Verify Signatures Against Call Sites
+
+**ALWAYS check actual callers before trusting Ghidra's signature.**
+
+Example - FUN_06035C08:
+```
+Ghidra says:    undefined4 FUN_06035c08(void)     ← WRONG, no params
+
+Caller shows:   mov r9,r5      ; r5 = second param
+                mov r12,r4     ; r4 = first param
+                jsr @r3        ; call FUN_06035C08
+
+Reality:        int FUN_06035c08(int* param1, int param2)  ← TWO params
+```
+
+### How To Verify Function Signature
+
+```bash
+# 1. Find all callers
+grep -n "06035C08" build/aprog.s
+
+# 2. Look at instructions BEFORE each call
+#    - What's in r4? → first param
+#    - What's in r5? → second param
+#    - What's in r6? → third param
+#    - What's in r7? → fourth param
+
+# 3. Look at instructions AFTER the call
+#    - Is r0 used? → function returns a value
+```
+
+### What We Use Ghidra For
+
+| Use | How |
+|-----|-----|
+| **Understand intent** | Read pseudocode to get rough mental model |
+| **Find callees** | See what functions are called inside |
+| **Offset patterns** | Notice `param+0x10`, `param+0x14` → struct fields |
+| **Control flow** | Loops, conditionals, early returns |
+
+### What We DON'T Use Ghidra For
+
+| Don't | Why |
+|-------|-----|
+| Copy-paste signatures | Often wrong - verify against callers |
+| Copy-paste expressions | Compiler generates different code |
+| Trust parameter counts | Ghidra misses params frequently |
+| Trust types | Width/signedness often wrong |
+
+### Our Files
+
+| File | Contains |
+|------|----------|
+| `ghidra_project/decomp_all.txt` | Static dump of all decompilations (reference) |
+| `build/aprog.s` | Actual disassembly (ground truth for call sites) |
 
 ## Compiler-Specific Knowledge (GCC 2.6.3 SH-2)
 
@@ -174,12 +236,60 @@ When a function can't be matched, document WHY:
 - **Priority**: [high/medium/low based on function importance]
 ```
 
+## Automated Ghidra Queries
+
+We have headless Ghidra scripts for automated lookups. These eliminate the need for manual
+Ghidra interaction for common queries.
+
+### Usage
+
+```bash
+# Query function info (signature, callers, callees)
+tools\ghidra_query.bat GetInfo 0x06028560
+
+# Query data at address (type, value, references)
+tools\ghidra_query.bat GetData 0x0609A240
+```
+
+### Available Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `GetInfo <addr>` | Function signature, all callers, all callees |
+| `GetData <addr>` | Data type, value, and references to this address |
+
+### Script Location
+
+Scripts are in `ghidra_scripts/*.java` (Java required for headless - Ghidra 12 uses PyGhidra for Python).
+
+### Example Output
+
+```
+=== Address: 0x06028560 ===
+FUNCTION: FUN_06028560
+Entry: 0x06028560
+Signature: undefined FUN_06028560(void)    ← NOTE: Ghidra often wrong, verify with callers!
+Size: 18 bytes
+
+CALLERS (references TO this function):
+  0x0601f9ec in FUN_0601f9cc
+  0x0600a03e in FUN_0600a026
+  ...
+```
+
+### When To Use
+
+1. **Before investigating a function** - Get caller context, understand who uses it
+2. **When encountering a hardcoded address** - Query what data/code is there
+3. **To verify Ghidra's signature** - Compare `Signature:` line against caller r4-r7 setup
+
 ## Tools Reference
 
 | Tool | Purpose |
 |------|---------|
 | `tools/gcc26-build/cc1` | Our patched GCC 2.6.3 compiler |
 | `tools/test_harness.sh` | Batch compile & compare |
+| `tools/ghidra_query.bat` | Headless Ghidra queries |
 | `build/aprog.s` | Original binary disassembly |
 | `build/aprog_syms.txt` | Function addresses |
 | `ghidra_project/decomp_all.txt` | Ghidra decompilation dump |
