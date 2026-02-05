@@ -1,38 +1,24 @@
 void FUN_0600d336()
 {
+  int base1;
+  int base2;
+  short off;
 
-  int iVar1;
+  base1 = 0x06078900;
+  base2 = base1 + 0x0268;
 
-  int iVar2;
+  if ((*(unsigned int *)0x0607EBC4 & 0x00200000) == 0) {
 
-
-
-  iVar2 = 0x06078900 + 0x0268;
-
-  if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00200000) == 0) {
-
-    if (*(int *)(0x06078900 + 0x01F4) < *(int *)(iVar2 + 0x01F4)) {
-
-      iVar1 = 0x0224;
-
-      *(int *)(0x06078900 + iVar1) = 1;
-
-      *(int *)(iVar2 + iVar1) = 0;
-
+    off = 0x01F4;
+    if (*(int *)(base1 + off) < *(int *)(base2 + off)) {
+      off = 0x0224;
+      *(int *)(base1 + off) = 1;
+      *(int *)(base2 + off) = 0;
     }
-
     else {
-
-      iVar1 = 0x0224;
-
-      *(int *)(0x06078900 + iVar1) = 0;
-
-      *(int *)(iVar2 + iVar1) = 1;
-
+      off = 0x0224;
+      *(int *)(base1 + off) = 0;
+      *(int *)(base2 + off) = 1;
     }
-
   }
-
-  return;
-
 }
