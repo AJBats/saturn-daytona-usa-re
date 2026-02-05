@@ -177,6 +177,38 @@ Systematic improvement of delta>0 functions using register asm technique:
 
 **Total: 19 instructions saved across 6 functions**
 
+### Session 2026-02-05 (extended grinding)
+
+Additional improvements from continued grinding pass:
+
+| Function | Size | Before → After | Improvement | Root Cause |
+|----------|------|----------------|-------------|------------|
+| FUN_06014868 | 14 | delta=+4 → delta=-3 | **7 insn** | register asm enabled tail call |
+| FUN_06014884 | 15 | delta=+4 → delta=-3 | **7 insn** | register asm enabled tail call |
+| FUN_060148A2 | 32 | delta=+6 → delta=-6 | **12 insn** | shared func ptr + data ptr in regs |
+| FUN_0600A0C0 | 38 | delta=+5 → delta=-2 | **7 insn** | shared func ptr + ptr addr in regs |
+| FUN_0600A084 | 30 | delta=+7 → delta=-1 | **8 insn** | func ptr reuse, simplified expr |
+| FUN_0600CE66 | 41 | delta=+6 → delta=-1 | **7 insn** | base ptr in r2, fixed precedence |
+| FUN_0601DDF6 | 23 | delta=+5 → delta=+1 | **4 insn** | shared func ptr and arg reuse |
+| FUN_060335F4 | 24 | delta=+6 → delta=-5 | **11 insn** | simplified params, removed artifacts |
+| FUN_0600A1B8 | 31 | delta=+3 → delta=-2 | **5 insn** | base ptr in r2, simplified conditions |
+| FUN_0600DFD0 | 42 | delta=+2 → delta=+1 | **1 insn** | shared func ptr |
+| FUN_0600E99C | 35 | delta=+3 → delta=+1 | **2 insn** | base ptr in r2, removed extraout_var |
+| FUN_0601AE80 | 27 | delta=+2 → delta=-2 | **4 insn** | shared func ptr |
+| FUN_0601F936 | 53 | delta=+3 → delta=-3 | **6 insn** | base ptr + func ptr in regs |
+| FUN_0601BDEC | 48 | delta=+3 → delta=-1 | **4 insn** | base ptr in r2, simplified conditionals |
+| FUN_06020C3C | 69 | delta=+4 → delta=-2 | **6 insn** | shared func ptr, simplified addresses |
+| FUN_0602766C | 15 | delta=+2 → delta=+1 | **1 insn** | removed volatile, simplified |
+
+**Total this pass: ~92 instructions saved across 16 functions**
+
+**Combined total: ~111 instructions saved across 22 functions today**
+
+**Current scoreboard:**
+- 53 PASS / 814 FAIL / 867 total (6% match)
+- 432 functions with delta≤0 (49.8%)
+- 368 functions with delta>0 (42.4%)
+
 **Key insight**: `register int var asm("rN")` for function pointers and shared values:
 - Eliminates callee-saved register push/pop overhead
 - Enables tail call optimization
