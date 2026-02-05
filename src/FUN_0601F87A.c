@@ -1,12 +1,11 @@
 void FUN_0601f87a(param_1)
-    char param_1;
+    unsigned char param_1;
 {
-
   char *puVar1;
 
-  *(int *)0x060877D8 = param_1;
+  *(unsigned char *)0x060877D8 = param_1;
 
-  puVar1 = 0x06087080;
+  puVar1 = (char *)0x06087080;
 
   if (param_1 == '\0') {
 
