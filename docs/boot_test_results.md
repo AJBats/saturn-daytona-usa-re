@@ -68,10 +68,10 @@ the function is correct. A 0% match function that boots may:
 
 | # | Function | Insns | Match% | Notes |
 |---|----------|-------|--------|-------|
-| 1 | FUN_06042BEE | 6 | 17% | Bisection: was in original list |
-| 2 | FUN_06042BAC | 7 | 0% | Bisection: was in original list |
-| 3 | FUN_06038520 | 8 | 0% | Bisection: was in original list |
-| 4 | FUN_0602D88E | 2 | 0% | Ghidra boundary error |
+| 1 | FUN_06042BEE | 6 | 86% | delta=-1, immediate AND optimization |
+| 2 | FUN_06042BAC | 7 | 78% | delta=-2, immediate OR optimization |
+| 3 | FUN_06038520 | 8 | 56% | extu.w removal, bf.s vs bf |
+| 4 | FUN_0602D88E | 2 | 0% | Ghidra boundary - 6 pushes fall into FUN_0602D89A |
 | 5 | FUN_06012E62 | 4 | 100% | PASSES test! Const pool overflow into next func |
 | 6 | FUN_06035C08 | 7 | 62% | Fixed params, ABI mismatch remains |
 | 7 | FUN_0603F92C | 8 | 100% | PASSES test! Crash not code-related |
