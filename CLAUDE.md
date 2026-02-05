@@ -15,10 +15,10 @@
 | 2 | Function catalog | next | generate `docs/function_catalog.md` with per-function status |
 | 3 | 100% compilable | next | fix remaining 349 compile errors systematically |
 
-**Current queue** — failing functions to investigate and fix (see `docs/boot_test_results.md`):
-- 18 CRASH functions (black screen)
-- 6 CORRUPT functions (visual issues)
-- Prioritize by: higher Match% first, smaller instruction count, similar to already-fixed
+**Current queue** — Most CRASH/CORRUPT functions now investigated and documented as intractable:
+- **CRASH**: 3 pass test harness (patcher issues), 3 intractable optimization, 1 Ghidra boundary, 1 ABI mismatch
+- **CORRUPT**: All 6 intractable (implicit registers, Ghidra boundaries, better optimization)
+- **Next focus**: Expand test suite with more simple wrapper functions (likely to PASS)
 
 **Investigation workflow per function** (see `decomp.md` for full details):
 1. Compile our C source, diff assembly against expected
