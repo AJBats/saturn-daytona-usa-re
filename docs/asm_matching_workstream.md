@@ -143,7 +143,26 @@ python tools/compare_screenshot.py build/screenshots/patched_latest.png build/sc
 
 ## Progress
 
-### Session 2026-02-05
+### Session 2026-02-05 (continued)
+
+**New findings from C-level matching attempts:**
+
+| Function | Size | Before → After | Status | Root Cause |
+|----------|------|----------------|--------|------------|
+| FUN_06018EC8 | 7 | delta=0 → delta=-1 | **improved** | Removed volatile, enabled delay slot fill |
+| FUN_06005174 | 18 | broken → correct | **improved** | register asm("r5") fixed displacement stores |
+| FUN_06011494 | 12 | delta=0 | intractable | Register allocation + indexed addressing |
+| FUN_0601209E | 18 | delta=0 | intractable | Fall-through entry pattern |
+| FUN_060285E0 | 8 | delta=0 | intractable | Argument evaluation order |
+| FUN_0602760C | 9 | delta=0 | intractable | Loop scheduling (cmp placement) |
+| FUN_060192CA | 15 | delta=0 | intractable | Fall-through entry pattern |
+| FUN_06013E12 | 17 | delta=2 | intractable | Fall-through + tail jump |
+
+**Key technique discovered**: `register int var asm("rN")` can force specific register allocation, fixing broken codegen (FUN_06005174 had mov.w r0,@(2,r0) which was wrong).
+
+---
+
+### Session 2026-02-05 (earlier)
 
 | Function | Size | Delta | Status | Notes |
 |----------|------|-------|--------|-------|
