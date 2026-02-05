@@ -15,7 +15,7 @@ void FUN_06007590(param_1, param_2)
 
   uVar3 = *(unsigned short *)(0x060684EC + (unsigned int)param_1[1] * 2);
 
-  *(short *)(0x060684EC + (unsigned int)*((int)(int)param_1 << 1)) = (short)*(int *)0x0606A4F4;
+  *(short *)(0x060684EC + ((unsigned int)(*param_1) << 1)) = (short)*(int *)0x0606A4F4;
 
   *(int *)(puVar2 + *(int *)((int)(int)puVar1 << 3)) = *(int *)(puVar2 + (unsigned int)(uVar3 << 3));
 

@@ -43,9 +43,9 @@ void FUN_06004f14(param_1, param_2, param_3, param_4)
 
   if (param_3 == 0) {
 
-    *(int *)(puVar1 + *(int *)((int)(int)puVar4 << 3) + 4) =
+    *(int *)(puVar1 + (*(int *)puVar4 << 3) + 4) =
 
-         *(int *)(puVar1 + (*(int *)puVar4 + -1) << 3 + 4);
+         *(int *)(puVar1 + ((*(int *)puVar4 + -1) << 3) + 4);
 
   }
 
