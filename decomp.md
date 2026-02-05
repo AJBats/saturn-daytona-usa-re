@@ -116,6 +116,43 @@ Ghidra's decompilation is:
 10. THEN boot test (functional validation comes after matching)
 ```
 
+## Progress States & When to Commit
+
+Not every function will reach PASS. **Commit improvements even if not perfect.**
+
+### Progress Hierarchy (best to acceptable)
+
+| State | Meaning | Action |
+|-------|---------|--------|
+| **PASS** | Exact opcode match | Keep - perfect |
+| **delta<0** | Our code SHORTER, functionally correct | Keep - our compiler is smarter |
+| **delta=0 improved** | Same count, fewer opcode diffs than before | Keep - progress made |
+| **delta>0 reduced** | Our code longer, but less than before | Keep - closer to matching |
+| **Intractable identified** | Root cause documented, no C-level fix | Keep current best state |
+
+### Why delta<0 Is Good
+
+When our code is shorter (delta<0), it means:
+- Functionally identical (same computation)
+- Our GCC optimized better than original
+- Example: FUN_06018EC8 skips redundant `extu.b` before byte store
+
+**These are keepers.** The original compiler just wasn't as good at this optimization.
+
+### Commit Discipline
+
+```
+After investigating a function:
+1. If PASS → commit with "PASS: FUN_XXXXXX"
+2. If improved (any delta reduction or opcode fix) → commit with "improve: FUN_XXXXXX delta=N"
+3. If intractable but documented → commit with "intractable: FUN_XXXXXX (reason)"
+4. If no change → don't commit, move on
+```
+
+This ensures progress survives context compaction across 800+ functions.
+
+---
+
 ## Assembly Diff Workflow
 
 ```bash
