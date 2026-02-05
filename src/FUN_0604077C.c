@@ -1,6 +1,11 @@
 extern int DAT_0604089c;
 
-int * _unknown_()
+int * FUN_0604077C(param_1, param_2, param_3, param_4, param_5)
+    int *param_1;
+    int param_2;
+    int param_3;
+    char param_4;
+    int param_5;
 {
 
   int iVar1;

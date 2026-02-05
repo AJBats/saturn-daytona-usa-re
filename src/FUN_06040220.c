@@ -1,4 +1,12 @@
-int _unknown_()
+int FUN_06040220(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8)
+    unsigned int *param_1;
+    unsigned int *param_2;
+    unsigned int *param_3;
+    unsigned int *param_4;
+    unsigned int *param_5;
+    int *param_6;
+    unsigned int *param_7;
+    unsigned int *param_8;
 {
 
   int uVar1;

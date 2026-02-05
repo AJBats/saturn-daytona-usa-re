@@ -6,7 +6,12 @@ extern int PTR_DAT_060411f8;
 
 extern int FUN_06041b3c();
 
-int _unknown_()
+int FUN_060411A0(param_1, param_2, param_3, param_4, param_5)
+    int param_1;
+    int param_2;
+    int param_3;
+    int param_4;
+    int param_5;
 {
 
   char *puVar1;
