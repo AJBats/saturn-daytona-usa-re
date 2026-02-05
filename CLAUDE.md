@@ -73,14 +73,14 @@ Reverse engineer Sega Saturn Daytona USA (1995) to extract gameplay code (physic
 steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 
 ## Scoreboard
-- **Test harness**: 39 PASS / 828 FAIL / 867 tested (4.5% match, 60% compilable)
+- **Test harness**: 48 PASS / 819 FAIL / 867 tested (5.5% match)
 - **C sources**: 886 / ~880 Ghidra decomps (100% coverage)
-- **Compilable**: 518 functions compile (was 267), 479 codegen diffs, 39 binary-perfect
-- **Close matches**: 45 delta=0, 28 delta=+1, 37 delta=-1 (110 functions within 1 insn)
+- **Compilable**: 518 functions compile (was 267), 470 codegen diffs, 48 binary-perfect
+- **Close matches**: Many delta=0 (scheduling), delta<0 (better optimized), delta>0 (reg alloc)
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
-- **Boot testing**: 30 tested, 30 BOOT, 0 CRASH (after fixing APROG_DISC_OFFSET bug)
-- **Boot baseline**: L2 build (23 funcs) + 30 DIFF funcs = 53 functions bootable
+- **Boot testing**: 59 tested, 35 BOOT, 18 CRASH, 6 CORRUPT
+- **Key finding**: 3 CRASH functions PASS test harness - crash is patcher issue, not code
 
 ## Directory Layout
 - `src/*.c` - Reconstructed C source files (886 functions, 518 compilable)
