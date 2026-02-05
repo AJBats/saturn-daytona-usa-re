@@ -98,7 +98,7 @@ LAB_06027f66:
 
     if (iVar13 == 0) {
 
-      iVar13 = (int)*(short *)(puVar4 + ((param_1 << 1) + 1) << 1);
+      iVar13 = (int)*(short *)(puVar4 + (((param_1 << 1) + 1) << 1));
 
       uVar12 = (unsigned int)(int)*(short *)(puVar4 + (param_1 << 2)) >> 1;
 

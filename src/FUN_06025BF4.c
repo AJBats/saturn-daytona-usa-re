@@ -92,13 +92,13 @@ void FUN_06025bf4()
 
         iVar10 = (uVar8 & 0xffff) << 1;
 
-        (*(int(*)())puVar2)(piVar11[1] << 2,*(int *)(0x06063750 + *((int)(int)piVar11 << 3)),
+        (*(int(*)())puVar2)(piVar11[1] << 2,*(int *)(0x06063750 + (*piVar11 << 3)),
 
                           ((unsigned int)(unsigned char)((char *)(0x06059074 + iVar10))[1] * 0x40 +
 
                           (unsigned int)(unsigned char)((int *)0x06059074)[iVar10]) << 1,
 
-                          0x00008000 + *(int *)((int)(0x06063750 + *((int)(int)piVar11 << 3)) + 4));
+                          0x00008000 + *(int *)((int)(0x06063750 + (*piVar11 << 3)) + 4));
 
         (*(int(*)())puVar2)(piVar11[1] << 2,
 

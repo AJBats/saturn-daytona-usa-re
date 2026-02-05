@@ -25,7 +25,7 @@ extern int PTR_DAT_0602aafc;
 extern int FUN_0602ab00();
 extern int FUN_0602ab3a();
 
-long long 
+long long FUN_0602aaa0()
 {
 
   unsigned int uVar1;

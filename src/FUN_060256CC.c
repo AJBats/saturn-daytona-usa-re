@@ -94,17 +94,17 @@ void FUN_060256cc()
 
         iVar10 = (uVar8 & 0xffff) << 1;
 
-        (*(int(*)())0x06028400)(piVar11[1] << 2,*(int *)(puVar2 + *((int)(int)piVar11 << 3)),
+        (*(int(*)())0x06028400)(piVar11[1] << 2,*(int *)(puVar2 + (*piVar11 << 3)),
 
                    ((unsigned int)(unsigned char)((char *)(0x0605904C + iVar10))[1] * 0x40 +
 
                    (unsigned int)(unsigned char)((int *)0x0605904C)[iVar10]) << 1,
 
-                   0x00008000 + *(int *)((int)(puVar2 + *((int)(int)piVar11 << 3)) + 4));
+                   0x00008000 + *(int *)((int)(puVar2 + (*piVar11 << 3)) + 4));
 
         (*(int(*)())0x06028400)(piVar11[1] << 2,
 
-                   *(int *)(puVar2 + (unsigned int)*(unsigned short *)(puVar3 + iVar6 + 6) << 3),
+                   *(int *)(puVar2 + ((unsigned int)*(unsigned short *)(puVar3 + iVar6 + 6) << 3)),
 
                    ((unsigned int)(unsigned char)((char *)(0x06059060 + iVar10))[1] * 0x40 +
 
@@ -112,7 +112,7 @@ void FUN_060256cc()
 
                    (unsigned int)(uVar7 << 12) +
 
-                   *(int *)((int)(puVar2 + (unsigned int)*(unsigned short *)(puVar3 + iVar6 + 6) << 3) + 4));
+                   *(int *)((int)(puVar2 + ((unsigned int)*(unsigned short *)(puVar3 + iVar6 + 6) << 3)) + 4));
 
         uVar8 = uVar8 + 1;
 
@@ -300,7 +300,7 @@ void FUN_060256cc()
 
         (*(int(*)())0x06028400)(*(int *)((int)(0x06058FBC + *(int *)((int)(int)puVar4 << 3)) + 4) << 2,
 
-                   *(int *)(puVar2 + *(int *)(0x06058FBC + *(int *)((int)(int)puVar4 << 3)) << 3),
+                   *(int *)(puVar2 + (*(int *)(0x06058FBC + *(int *)((int)(int)puVar4 << 3)) << 3)),
 
                    ((unsigned int)(unsigned char)((char *)(0x0605904C + *(int *)((int)(int)puVar4 << 1)))[1] * 0x40 +
 
@@ -308,7 +308,7 @@ void FUN_060256cc()
 
                    0x00008000 +
 
-                   *(int *)((int)(puVar2 + *(int *)(0x06058FBC + *(int *)((int)(int)puVar4 << 3)) << 3) + 4)
+                   *(int *)((int)(puVar2 + (*(int *)(0x06058FBC + *(int *)((int)(int)puVar4 << 3)) << 3)) + 4)
 
                   );
 
@@ -316,11 +316,11 @@ void FUN_060256cc()
 
                    *(int *)
 
-                    (puVar2 + (unsigned int)*(unsigned short *)
+                    (puVar2 + ((unsigned int)*(unsigned short *)
 
                                      (0x060610BC + ((*(unsigned int *)puVar5 & 0xff) * 0xc & 0xff) + 8
 
-                                     ) << 3),
+                                     ) << 3)),
 
                    ((unsigned int)(unsigned char)((char *)(0x06059060 + *(int *)((int)(int)puVar4 << 1)))[1] * 0x40 +
 
@@ -328,11 +328,11 @@ void FUN_060256cc()
 
                    (unsigned int)(uVar7 << 12) +
 
-                   *(int *)((int)(puVar2 + (unsigned int)*(unsigned short *)
+                   *(int *)((int)(puVar2 + ((unsigned int)*(unsigned short *)
 
                                                   (0x060610BC +
 
-                                                  ((*(unsigned int *)puVar5 & 0xff) * 0xc & 0xff) + 8) << 3)
+                                                  ((*(unsigned int *)puVar5 & 0xff) * 0xc & 0xff) + 8) << 3))
 
                            + 4));
 

@@ -81,7 +81,7 @@ unsigned int FUN_06026110()
 
             sVar1 = *(short *)(puVar2 + (unsigned int)(uVar9 << 3) + 4);
 
-            **(short **)(puVar5 + (uVar7 & 0xffff) << 3) = sVar1;
+            **(short **)(puVar5 + ((uVar7 & 0xffff) << 3)) = sVar1;
 
           }
 
@@ -125,7 +125,7 @@ unsigned int FUN_06026110()
 
           sVar1 = *(short *)(puVar3 + (unsigned int)(uVar9 << 3) + 4);
 
-          **(short **)(puVar5 + (uVar7 & 0xffff) << 3 + 4) = sVar1;
+          **(short **)(puVar5 + (((uVar7 & 0xffff) << 3) + 4)) = sVar1;
 
         }
 
