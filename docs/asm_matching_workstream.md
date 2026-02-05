@@ -93,7 +93,7 @@ Remove from candidate pool, pick next smallest FAIL function.
 - Track: functions attempted, functions matched, functions booting
 - Goal: Expand the 48 PASS → 79 BOOT baseline
 
-## Known Intractable Patterns
+## Known Challenging Patterns
 
 ### Compiler Limitations (from MEMORY.md)
 - **Instruction scheduling**: GCC orders instructions differently (constant loads interleaved)
@@ -116,7 +116,7 @@ Remove from candidate pool, pick next smallest FAIL function.
 
 When hitting these patterns:
 1. Document the specific pattern
-2. Record as "intractable - [reason]"
+2. Record as "challenging - [reason]"
 3. Move to next function (don't waste time)
 
 ## Commands Quick Reference
@@ -151,12 +151,12 @@ python tools/compare_screenshot.py build/screenshots/patched_latest.png build/sc
 |----------|------|----------------|--------|------------|
 | FUN_06018EC8 | 7 | delta=0 → delta=-1 | **improved** | Removed volatile, enabled delay slot fill |
 | FUN_06005174 | 18 | broken → correct | **improved** | register asm("r5") fixed displacement stores |
-| FUN_06011494 | 12 | delta=0 | intractable | Register allocation + indexed addressing |
-| FUN_0601209E | 18 | delta=0 | intractable | Fall-through entry pattern |
-| FUN_060285E0 | 8 | delta=0 | intractable | Argument evaluation order |
-| FUN_0602760C | 9 | delta=0 | intractable | Loop scheduling (cmp placement) |
-| FUN_060192CA | 15 | delta=0 | intractable | Fall-through entry pattern |
-| FUN_06013E12 | 17 | delta=2 | intractable | Fall-through + tail jump |
+| FUN_06011494 | 12 | delta=0 | challenging | Register allocation + indexed addressing |
+| FUN_0601209E | 18 | delta=0 | challenging | Fall-through entry pattern |
+| FUN_060285E0 | 8 | delta=0 | challenging | Argument evaluation order |
+| FUN_0602760C | 9 | delta=0 | challenging | Loop scheduling (cmp placement) |
+| FUN_060192CA | 15 | delta=0 | challenging | Fall-through entry pattern |
+| FUN_06013E12 | 17 | delta=2 | challenging | Fall-through + tail jump |
 
 **Key technique discovered**: `register int var asm("rN")` can force specific register allocation, fixing broken codegen (FUN_06005174 had mov.w r0,@(2,r0) which was wrong).
 
@@ -166,18 +166,18 @@ python tools/compare_screenshot.py build/screenshots/patched_latest.png build/sc
 
 | Function | Size | Delta | Status | Notes |
 |----------|------|-------|--------|-------|
-| FUN_060359DA | 5 | +1 | intractable | Register setup (r8/r10) before tail jump |
-| FUN_060361FC | 6 | +7 | intractable | Fall-through function (6-insn prologue) |
-| FUN_06036144 | 2 | +13 | intractable | Fall-through function (2-insn prologue) |
-| FUN_06027348 | 7 | 0 | intractable | Instruction scheduling (constant load order) |
-| FUN_06018EC8 | 7 | 0 | intractable | RTL combiner removes extu.b; delay slot diff |
-| FUN_06042BEE | 7 | -1 | intractable | Better optimization (immediate AND) |
+| FUN_060359DA | 5 | +1 | challenging | Register setup (r8/r10) before tail jump |
+| FUN_060361FC | 6 | +7 | challenging | Fall-through function (6-insn prologue) |
+| FUN_06036144 | 2 | +13 | challenging | Fall-through function (2-insn prologue) |
+| FUN_06027348 | 7 | 0 | challenging | Instruction scheduling (constant load order) |
+| FUN_06018EC8 | 7 | 0 | challenging | RTL combiner removes extu.b; delay slot diff |
+| FUN_06042BEE | 7 | -1 | challenging | Better optimization (immediate AND) |
 | FUN_06012E62 | 4 | 0 (PASS) | CRASH | Constant pool overflow into next function |
 
 ### Key Findings
 
 1. **Most small positive-delta functions are Ghidra boundary errors** — fall-through code merged with following functions
-2. **delta=0 functions are scheduling/register differences** — intractable at C level
+2. **delta=0 functions are scheduling/register differences** — challenging at C level
 3. **delta<0 functions are better optimization** — our code is correct but shorter
 4. **PASS functions can still CRASH** — constant pool collision with neighbors
 5. **BOOT functions don't need to PASS** — 79 functions boot with various match rates (0-100%)
@@ -218,12 +218,12 @@ Functions that don't get patched are those where `code + pool > slot_size`.
 1. **Fixed build_disc.sh** — now uses `--include-funcs test_include.txt`
 2. **Discovered patcher limitation** — only L2+ functions get patched
 3. **Verified baseline** — 65 functions in list, 23 actually patched, boots fine
-4. **Documented intractable patterns** — scheduling, register allocation, better optimization
+4. **Documented challenging patterns** — scheduling, register allocation, better optimization
 
 ### Reality Check
 - **65 functions** get patched (23 L2+ plus 42 DIFF that fit in slots)
 - **~20 functions** in test_include.txt are DIFF but too large for their slots
-- **Most FAIL → PASS conversions are intractable** at C level
+- **Most FAIL → PASS conversions are challenging** at C level
 - **Slot overflow** is the main barrier for remaining functions
 
 ### Next Steps Options

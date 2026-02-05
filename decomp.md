@@ -23,7 +23,7 @@ scheduling is heavily influenced by HOW you write C, not just WHAT you compute.
 
 The workflow is NOT:
 ```
-Ghidra output → Fix syntax errors → Declare "intractable"
+Ghidra output → Fix syntax errors → Declare "challenging"
 ```
 
 The workflow IS:
@@ -128,7 +128,7 @@ Not every function will reach PASS. **Commit improvements even if not perfect.**
 | **delta<0** | Our code SHORTER, functionally correct | Keep - our compiler is smarter |
 | **delta=0 improved** | Same count, fewer opcode diffs than before | Keep - progress made |
 | **delta>0 reduced** | Our code longer, but less than before | Keep - closer to matching |
-| **Intractable identified** | Root cause documented, no C-level fix | Keep current best state |
+| **Challenging identified** | Root cause documented, no C-level fix | Keep current best state |
 
 ### Why delta<0 Is Good
 
@@ -145,7 +145,7 @@ When our code is shorter (delta<0), it means:
 After investigating a function:
 1. If PASS → commit with "PASS: FUN_XXXXXX"
 2. If improved (any delta reduction or opcode fix) → commit with "improve: FUN_XXXXXX delta=N"
-3. If intractable but documented → commit with "intractable: FUN_XXXXXX (reason)"
+3. If challenging but documented → commit with "challenging: FUN_XXXXXX (reason)"
 4. If no change → don't commit, move on
 ```
 
@@ -204,7 +204,7 @@ diff /tmp/ours.txt tests/FUN_XXXX.expected
 
 ---
 
-## Intractable Patterns (Cannot Fix from C)
+## Challenging Patterns (Cannot Fix from C)
 
 These patterns are caused by fundamental differences between GCC 2.6.3 and the original compiler.
 They cannot be fixed by rewriting C code - only compiler patches or accepting the mismatch.

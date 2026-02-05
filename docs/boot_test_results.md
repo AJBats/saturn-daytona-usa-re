@@ -91,10 +91,10 @@ the function is correct. A 0% match function that boots may:
 
 | # | Function | Insns | Match% | Notes |
 |---|----------|-------|--------|-------|
-| 1 | FUN_06034FE0 | 7 | 0% | `in_r0`/`in_r1` implicit register params - intractable |
+| 1 | FUN_06034FE0 | 7 | 0% | `in_r0`/`in_r1` implicit register params - challenging |
 | 2 | FUN_06035C1C | 8 | 12% | strlen - rts delay slot fill diff (6/8 match with goto rewrite) |
 | 3 | FUN_0603F202 | 8 | 0% | delta=-1, our code shorter (better optimization) |
-| 4 | FUN_06033520 | 16 | 44% | `in_r2` implicit register param - intractable |
+| 4 | FUN_06033520 | 16 | 44% | `in_r2` implicit register param - challenging |
 | 5 | FUN_06034708 | 11 | 0% | Ghidra boundary error - part of larger function |
 | 6 | FUN_0603C0A0 | 9 | 11% | Constant loading strategy diff (mov.l vs mov.w) |
 

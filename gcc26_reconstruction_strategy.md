@@ -177,8 +177,8 @@ Even if reconstruction stalls at "good enough for comparison but not byte-matchi
 - 22 patches implemented, all low-hanging peepholes exhausted
 - Remaining failures are deep compiler internals (register allocation, instruction scheduling, loop optimization)
 - All delta>0 functions analyzed: none fixable from C source alone
-- All delta=+1 functions (7): callee-save strategy, byte extraction, loop structure — intractable
-- Unfilled rts delay slots: Patch 21 (lds.l reordering) enables filling for CALL functions; 14 remain intractable (loop-exit, shared labels, complex control flow)
+- All delta=+1 functions (7): callee-save strategy, byte extraction, loop structure — challenging
+- Unfilled rts delay slots: Patch 21 (lds.l reordering) enables filling for CALL functions; 14 remain challenging (loop-exit, shared labels, complex control flow)
 - Delta=-1 analysis: 27 functions where our code is shorter; 3 fixed via Patch 22 (delay slot unfill flags)
 
 ### Phase D: In Progress
@@ -194,5 +194,5 @@ Even if reconstruction stalls at "good enough for comparison but not byte-matchi
 1. **Register allocation order**: Confirmed GCC 2.6.3 uses descending order matching original — this was the right version choice
 2. **Post-reload scheduling**: Has NO effect on output (both schedulers effectively disabled in SH backend)
 3. **Optimization ceiling**: 28% exact match (38/133). 44 functions have our code SHORTER than original (better optimization). Only 24 are longer.
-4. **Intractable diffs**: Register allocation internal decisions, loop entry strategy (mid vs bottom-test), delay slot filling aggressiveness, lds.l placement blocking rts delay slots
+4. **Challenging diffs**: Register allocation internal decisions, loop entry strategy (mid vs bottom-test), delay slot filling aggressiveness, lds.l placement blocking rts delay slots
 5. **C source quality matters**: Correct types (int vs short), literal constants vs externs, operator precedence, and struct access patterns each affect codegen significantly

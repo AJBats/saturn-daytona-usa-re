@@ -2,6 +2,7 @@
 
 > **READ THIS FIRST after compaction.** This is your current assignment.
 > Everything below this section is reference material — do NOT treat it as a call to action.
+> All problems we face are sovlable with enough time and effort. Nothing is intractable, but they may be challenging!
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
@@ -9,12 +10,12 @@
 
 ## Current State
 
-**Reality**: Only 23 functions actually get patched (8 L3 + 15 L2). Most FAIL→PASS conversions are intractable.
+**Reality**: Only 23 functions actually get patched (8 L3 + 15 L2). Most FAIL→PASS conversions are challenging.
 
 **Findings (session 2026-02-05)**:
 - Fixed build_disc.sh to use `--include-funcs`
 - Patcher only patches L2+ functions (DIFF ignored even if in test_include.txt!)
-- Most failures: scheduling, register allocation, better optimization — intractable
+- Most failures: scheduling, register allocation, better optimization — challenging
 - Baseline boots with 23 patched functions
 
 **Options**:
@@ -73,7 +74,7 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - **Binary patcher**: 79 functions in test_include.txt (48 PASS + 31 verified BOOT)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
 - **Boot testing**: 59 tested, 35 BOOT, 18 CRASH, 6 CORRUPT
-- **Conclusion**: All failure patterns documented as intractable without compiler changes
+- **Conclusion**: All failure patterns documented as challenging without compiler changes
 
 ## Directory Layout
 - `src/*.c` - Reconstructed C source files (886 functions, 100% compilable)
@@ -155,15 +156,15 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
 - `tools/gcc26-build/config/sh/sh.md` - machine description / RTL patterns (55KB)
 
 ## Remaining Known Compiler Differences
-1. **Instruction scheduling**: GCC orders insns differently — intractable
-2. **Register allocation**: Different register preferences — intractable
+1. **Instruction scheduling**: GCC orders insns differently — challenging
+2. **Register allocation**: Different register preferences — challenging
 3. **Multi-branch tail calls**: Only single-path optimized
 4. **Delay slot fill**: GCC fills slots original leaves as nop (-mnofill helps partially)
 5. **Extern vs constant pool**: Ghidra externs -> use literal constants in C
 6. **Range check optimization**: GCC transforms `a<=x<=b` to cmp/hi
 7. **Multiply**: Must use `<< N` not `* power_of_2`; GCC uses mul.l where original uses mulu.w
 8. **Zero extension**: GCC's RTL combiner removes extu.w when provably unnecessary
-9. **Unfilled rts delay slots**: 14 functions remaining, all intractable
+9. **Unfilled rts delay slots**: 14 functions remaining, all challenging
 10. **Callee-save vs stack spill**: GCC uses callee-saved regs where original spills to stack
 
 ## Investigation Results (closed)
@@ -171,12 +172,12 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
 2. Delay slot filling (reorg.c) — too risky
 3. Register allocation order — identical to original
 4. Constant representation (add vs sub) — same count
-5. Multiply decomposition — shift rewrites applied, remaining gap intractable
+5. Multiply decomposition — shift rewrites applied, remaining gap challenging
 
 ## Failure Patterns (reference)
-- **delta=0**: Same count, different opcodes — scheduling/register allocation (intractable)
-- **delta>0**: Our code longer — usually callee-saved register overhead (intractable)
-- **delta<0**: Our code shorter — GCC optimizes better than original (intractable)
+- **delta=0**: Same count, different opcodes — scheduling/register allocation (challenging)
+- **delta>0**: Our code longer — usually callee-saved register overhead (challenging)
+- **delta<0**: Our code shorter — GCC optimizes better than original (challenging)
 - Ghidra decompilations are NOT sacred — correcting C to match original intent is valid
 
 ---

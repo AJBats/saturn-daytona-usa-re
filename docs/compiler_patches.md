@@ -433,7 +433,7 @@ delta=0 instruction ordering differences.
 the instruction selector/expander and register allocator, not the scheduler.
 Pre-reload scheduling was already disabled in sh.h (`flag_schedule_insns = 0`).
 
-**Conclusion**: Delta=0 failures are intractable without modifying the RTL expansion
+**Conclusion**: Delta=0 failures are challenging without modifying the RTL expansion
 order or register allocator behavior. These are fundamental compiler internals.
 
 ### Exhaustive Per-Function Flag Search (Session 6)
@@ -472,9 +472,9 @@ Removing the return eliminated an extra `mov r1,r0` instruction. **PASS restored
 
 | Root Cause | Affected | Tractability |
 |-----------|----------|--------------|
-| Instruction ordering (delta=0) | 21 | Intractable — deep compiler internals |
-| Our code shorter (delta<0) | 51 | Intractable — our code is genuinely better |
-| Register allocation quality | ~15 | Intractable — allocator preference issue |
+| Instruction ordering (delta=0) | 21 | Challenging — deep compiler internals |
+| Our code shorter (delta<0) | 51 | Challenging — our code is genuinely better |
+| Register allocation quality | ~15 | Challenging — allocator preference issue |
 | C source quality / Ghidra errors | ~10 | Medium — manual C source rewrite needed |
 | Multi-branch tail call | 3-5 | Hard — need compiler-level multi-path detection |
 | Missing loop optimization (dt) | 2-3 | Hard — non-adjacent add/tst pattern |
@@ -623,7 +623,7 @@ FUN_0600D336), register allocation (FUN_0603BF5A). **None fixable from C source*
 
 **Delta=0 functions (21)**: 8 have pure instruction reordering (2 diffs each — one
 instruction in a different position). 3 are known loop delay slot issues. 10 have deeper
-codegen strategy differences. **All intractable without deep compiler changes**.
+codegen strategy differences. **All challenging without deep compiler changes**.
 
 ## Session 10 (Day 2 Afternoon — Large-Delta Analysis & C Source Fixes)
 
@@ -769,7 +769,7 @@ starting with 0x060A are frequent in constant pools.
 
 All 20 delta=0 functions checked with `-fno-schedule-insns2`: **NO CHANGE** for any of them.
 The instruction ordering differences originate in instruction selection / register allocation,
-not the post-reload scheduler. Intractable from both C source and compiler flags.
+not the post-reload scheduler. Challenging from both C source and compiler flags.
 
 ### Final Delta Distribution
 
@@ -1004,7 +1004,7 @@ See Patch 20 section above. Removes 1 redundant opcode from FUN_0603F4CC's diff.
 ### Result: 35 PASS / 98 FAIL / 133 total (26%)
 
 **No pass count change** — this session was primarily analytical. Key achievements:
-- Delta=+1 functions fully analyzed: all intractable from C source
+- Delta=+1 functions fully analyzed: all challenging from C source
 - Test function search comprehensively exhausted
 - Unfilled delay slot root cause identified (lds.l placement)
 - Patch 20 implemented (redundant exts.w elimination)
@@ -1047,7 +1047,7 @@ Categorized 14 remaining functions with unfilled rts delay slots:
 
 1. **Loop-exit pattern** (5 functions: FUN_0602760C, _61E, _630, FUN_06017372,
    FUN_06036DDC): Backward branch (JUMP_INSN) in loop blocks `stop_search_p()`
-   in reorg.c. Original compiler uses bt.s/bf.s for loop branches. Intractable
+   in reorg.c. Original compiler uses bt.s/bf.s for loop branches. Challenging
    without major changes to delay slot filler algorithm.
 
 2. **lds.l with shared labels** (2 functions: FUN_06040680, FUN_06040964):
@@ -1060,7 +1060,7 @@ Categorized 14 remaining functions with unfilled rts delay slots:
    Different instruction selection (mov.w vs mov.l, extu.b vs direct load),
    not just delay slot.
 
-**Conclusion**: All remaining unfilled rts cases are intractable from compiler
+**Conclusion**: All remaining unfilled rts cases are challenging from compiler
 side. Would require fundamental changes to the delay slot filling algorithm.
 
 ### Delta=-1 Function Analysis

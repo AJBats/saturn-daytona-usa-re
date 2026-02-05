@@ -120,7 +120,7 @@ Most delta=0 functions have 2-opcode diffs — two adjacent instructions swapped
 - `shll2/lds.l` vs `lds.l/shll2` (FUN_06040954)
 - C source reordering attempted for several — **no effect** on instruction ordering
 - **Root cause**: Instruction ordering determined by RTL expansion, not scheduling
-- **Conclusion**: Intractable without undocumented original compiler heuristics
+- **Conclusion**: Challenging without undocumented original compiler heuristics
 
 ### Compiler Patch Research (Pattern Analysis)
 Investigated three multi-function patterns for potential compiler patches:
@@ -128,12 +128,12 @@ Investigated three multi-function patterns for potential compiler patches:
 1. **Memcpy loop compare interleaving** (FUN_0602760C/0602761E/06027630):
    - Original interleaves `cmp/gt` between load and store
    - Would need post-reload reordering pass tracking T register state
-   - Status: **Intractable** — too risky for ~3 functions
+   - Status: **Challenging** — too risky for ~3 functions
 
 2. **Adjacent instruction swaps** (~8 delta=0 functions):
    - Comes from RTL expansion order, confirmed not from scheduler
    - No peephole mechanism to control independent instruction ordering
-   - Status: **Intractable**
+   - Status: **Challenging**
 
 3. **Redundant extu.w after mov.w** (FUN_06038520, FUN_060394C2):
    - Our compiler correctly eliminates redundant zero-extension before `tst`
@@ -441,7 +441,7 @@ Investigated all 18 CRASH functions from boot_test_results.md. Key findings:
 
 | Root Cause | Count | Examples |
 |-----------|-------|----------|
-| Intractable optimization (delta<0) | 3 | FUN_06042BEE (immediate AND), FUN_06042BAC (immediate OR), FUN_06038520 (extu.w removal) |
+| Challenging optimization (delta<0) | 3 | FUN_06042BEE (immediate AND), FUN_06042BAC (immediate OR), FUN_06038520 (extu.w removal) |
 | PASSES test harness! | 3 | FUN_06012E62 (100%), FUN_06028560 (100%), FUN_0603F92C (100%) |
 | Ghidra boundary error | 1 | FUN_0602D88E (6 pushes fall into next func) |
 | Code correct, ABI mismatch | 1 | FUN_06035C08 (fixed params, improved to 62%) |
@@ -452,7 +452,7 @@ patcher limitations (constant pool overflow), not code mismatches.
 
 ### CORRUPT Function Analysis (6 functions)
 
-All 6 CORRUPT functions are intractable:
+All 6 CORRUPT functions are challenging:
 
 | Function | Issue |
 |----------|-------|
@@ -465,7 +465,7 @@ All 6 CORRUPT functions are intractable:
 
 ### Delta=0/+1/+2 Investigation
 
-Examined multiple delta=0/+1/+2 functions — all intractable:
+Examined multiple delta=0/+1/+2 functions — all challenging:
 
 | Pattern | Example Functions | Root Cause |
 |---------|------------------|------------|
@@ -479,7 +479,7 @@ Examined multiple delta=0/+1/+2 functions — all intractable:
 - FUN_06035C1C: Rewrote with goto loop structure, added `-mnofill` flag (still 1 diff)
 - FUN_0603F202: Added `-mnosignext` flag for extu.b (still delta=-1)
 
-### Confirmed Intractable Patterns
+### Confirmed Challenging Patterns
 
 1. **Implicit register parameters** (in_r0/in_r1/in_r2) — non-standard ABI
 2. **Ghidra function boundary errors** — merged/split functions
@@ -532,10 +532,10 @@ Investigated several delta > 0 functions. Root causes:
 
 | Pattern | Examples | Fixability |
 |---------|----------|-----------|
-| Ghidra boundary | FUN_0600736C (orig=2) | Intractable — fall-through functions |
-| Register allocation | FUN_06003274 (+10) | Intractable — saves r8-r11 vs caller-saved |
-| Stack frame overhead | FUN_0600D210 (+12) | Intractable — prologue/epilogue cost |
-| Callee-saved regs | FUN_0600DC74 (+3) | Intractable — r8/r9 saves vs just pr |
+| Ghidra boundary | FUN_0600736C (orig=2) | Challenging — fall-through functions |
+| Register allocation | FUN_06003274 (+10) | Challenging — saves r8-r11 vs caller-saved |
+| Stack frame overhead | FUN_0600D210 (+12) | Challenging — prologue/epilogue cost |
+| Callee-saved regs | FUN_0600DC74 (+3) | Challenging — r8/r9 saves vs just pr |
 
 All delta > 0 cases trace to compiler register allocation decisions, not C source issues.
 
@@ -549,7 +549,7 @@ Examined several small delta=0 functions (7-18 insns):
 | FUN_060033E6 | 15 | Control flow (original duplicates tail, we merge) |
 | FUN_06018EC8 | 7 | Delay slot (original uses mov.b in rts slot, we use nop) |
 
-All intractable scheduling/delay slot differences.
+All challenging scheduling/delay slot differences.
 
 ### Key Conclusions
 
