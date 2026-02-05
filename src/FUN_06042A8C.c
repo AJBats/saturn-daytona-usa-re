@@ -1,28 +1,30 @@
 extern int Onchip_DMA0R;
+
 void FUN_06042a8c(param_1)
     unsigned int *param_1;
 {
+  register int *reg asm("r2") = &Onchip_DMA0R;
+  int flags;
+  int val;
 
-  Onchip_DMA0R = Onchip_DMA0R & 0xfffffff7 | *param_1;
+  val = *reg;
+  val = (val & 0xfffffff7) | *param_1;
+  *reg = val;
 
-  if ((param_1[2] & 4) == 4) {
+  flags = param_1[2];
 
-    Onchip_DMA0R = Onchip_DMA0R & 0xfffffffe | param_1[1];
-
+  if ((flags & 4) == 4) {
+    val = (val & 0xfffffffe) | param_1[1];
+    *reg = val;
   }
 
-  if ((param_1[2] & 1) == 1) {
-
-    Onchip_DMA0R = Onchip_DMA0R & 0xfffffffb;
-
+  if ((flags & 1) == 1) {
+    val = val & 0xfffffffb;
+    *reg = val;
   }
 
-  if ((param_1[2] & 2) == 2) {
-
-    Onchip_DMA0R = Onchip_DMA0R & 0xfffffffd;
-
+  if ((flags & 2) == 2) {
+    val = val & 0xfffffffd;
+    *reg = val;
   }
-
-  return;
-
 }
