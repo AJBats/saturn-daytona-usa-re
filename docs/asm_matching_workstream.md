@@ -202,12 +202,28 @@ Additional improvements from continued grinding pass:
 
 **Total this pass: ~92 instructions saved across 16 functions**
 
-**Combined total: ~111 instructions saved across 22 functions today**
+### Session 2026-02-05 (additional batch)
+
+| Function | Size | Before → After | Improvement | Root Cause |
+|----------|------|----------------|-------------|------------|
+| FUN_0600330A | 44 | delta=+6 → delta=-5 | **11 insn** | shared func/base ptrs in r3/r2 |
+| FUN_0600A33C | 23 | delta=+10 → delta=+2 | **8 insn** | cached dest ptr, short type |
+| FUN_06003274 | 31 | delta=+10 → delta=+3 | **7 insn** | func ptr in r3, tail call |
+| FUN_06017330 | 33 | delta=+5 → delta=-2 | **7 insn** | base ptr, simplified offsets |
+| FUN_06020B20 | 19 | delta=+9 → delta=+4 | **5 insn** | base ptr, unsigned short loop |
+| FUN_0602744C | 20 | delta=+10 → delta=+5 | **5 insn** | short extern, simplified logic |
+| FUN_0601D57C | 47 | delta=+5 → delta=+2 | **3 insn** | src/dest ptrs in regs |
+| FUN_06026518 | 45 | delta=+7 → delta=+5 | **2 insn** | func ptrs in r2/r3 |
+| FUN_06042A8C | 31 | delta=+3 → delta=+2 | **1 insn** | cached reg ptr, local val |
+
+**Total this batch: ~49 instructions saved across 9 functions**
+
+**Combined total: ~160 instructions saved across 31 functions today**
 
 **Current scoreboard:**
 - 53 PASS / 814 FAIL / 867 total (6% match)
-- 432 functions with delta≤0 (49.8%)
-- 368 functions with delta>0 (42.4%)
+- 434 functions with delta≤0 (50.1%)
+- 366 functions with delta>0 (42.2%)
 
 **Key insight**: `register int var asm("rN")` for function pointers and shared values:
 - Eliminates callee-saved register push/pop overhead
