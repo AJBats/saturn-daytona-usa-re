@@ -1,62 +1,28 @@
-extern int PTR_DAT_0601be4c;
-
-extern int PTR_DAT_0601be4c;
-
 void FUN_0601bdec()
 {
-
-  int iVar1;
-
-  unsigned int *puVar2;
-
-  int iVar3;
-
-  unsigned int *puVar4;
-
-  int *piVar5;
-
-  iVar3 = *(int *)0x0607E944;
-
-  puVar2 = (unsigned int *)0x06059F38;
-
-  puVar4 = (unsigned int *)0x06059F3C;
-
-  piVar5 = (int *)0x06086018;
+  register int base asm("r2") = *(int *)0x0607E944;
+  unsigned int *puVar2 = (unsigned int *)0x06059F38;
+  unsigned int *puVar4 = (unsigned int *)0x06059F3C;
+  int *piVar5 = (int *)0x06086018;
+  int iVar1, diff;
 
   iVar1 = (*(int(*)())0x06034FE0)();
-
   *puVar4 = *puVar4 + iVar1 + 1;
 
-  if (*piVar5 - *(int *)(iVar3 + 0x20) < 1) {
-
-    if (*piVar5 - *(int *)(iVar3 + 0x20) < 0) {
-
-      *puVar2 = *puVar2 - 2;
-
-    }
-
-  }
-
-  else {
-
+  diff = *piVar5 - *(int *)(base + 0x20);
+  if (diff >= 1) {
     *puVar2 = *puVar2 + 2;
-
+  } else if (diff < 0) {
+    *puVar2 = *puVar2 - 2;
   }
 
-  if (0x50 < *puVar4) {
-
+  if (*puVar4 > 0x50) {
     *puVar4 = *puVar4 - 0x50;
-
   }
 
-  if ((unsigned int)0xa0 < *puVar2) {
-
+  if (*puVar2 > 0xa0) {
     *puVar2 = 0;
-
   }
 
-  *piVar5 = *(int *)(iVar3 + 0x20);
-
-  return;
-
+  *piVar5 = *(int *)(base + 0x20);
 }
