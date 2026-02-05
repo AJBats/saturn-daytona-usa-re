@@ -32,7 +32,7 @@ void FUN_06007790(param_1, param_2, param_3)
 
   uVar1 = param_1[1];
 
-  *(short *)(0x060684EC + (unsigned int)*((int)(int)param_1 << 1)) = (short)*(int *)puVar4;
+  *(short *)(0x060684EC + ((unsigned int)(*param_1) << 1)) = (short)*(int *)puVar4;
 
   *(int *)(puVar2 + *(int *)((int)(int)puVar4 << 3)) = *(int *)puVar3;
 

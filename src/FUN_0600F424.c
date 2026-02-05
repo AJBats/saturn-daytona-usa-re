@@ -131,7 +131,7 @@ void FUN_0600f424()
 
   (*(int(*)())0x06026DBC)();
 
-  (*(int(*)())(*(int *)(0x0605AC2C + (unsigned int)(unsigned char)*((int)(int)puVar2 << 2))))();
+  (*(int(*)())(*(int *)(0x0605AC2C + ((unsigned int)(unsigned char)(*puVar2) << 2))))();
 
   FUN_0600ffd0();
 
