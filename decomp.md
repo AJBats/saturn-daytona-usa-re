@@ -204,6 +204,104 @@ diff /tmp/ours.txt tests/FUN_XXXX.expected
 
 ---
 
+## Advanced Technique: Register Control with `register asm("rN")`
+
+GCC 2.6.3 supports forcing specific registers for variables using the `register asm` syntax.
+This is a powerful technique for fixing register allocation issues and enabling tail calls.
+
+### Why It Works
+
+GCC prefers callee-saved registers (r8-r14) even when unnecessary, adding push/pop overhead.
+By forcing caller-saved registers (r0-r7), we can:
+1. **Avoid push/pop overhead** - no callee-saved register spill
+2. **Enable tail call optimization** - function pointers in r3 can become `jmp @r3`
+3. **Match original register choices** - original compiler often used caller-saved
+
+### Syntax
+
+```c
+register int var asm("r3");  // Force 'var' into r3
+register int *ptr asm("r1"); // Force 'ptr' into r1
+```
+
+### Example: Enabling Tail Call (FUN_0600DC74)
+
+**Before** (delta +3 - uses callee-saved r8, r9 with push/pop):
+```c
+void FUN_0600dc74()
+{
+    (*(int(*)())0x060284AE)(8,(int)DAT_0600dc9c,0x60,0x0605ACE8);
+    (*(int(*)())0x060284AE)(8,(int)DAT_0600dc9e,0x60,0x0605ACE8);
+}
+```
+
+**After** (delta -2 - forces r0, r3, enables tail call):
+```c
+void FUN_0600dc74()
+{
+    register int addr asm("r0") = 0x0605ACE8;
+    register int func asm("r3") = 0x060284AE;
+    (*(int(*)())func)(8,(int)DAT_0600dc9c,0x60,addr);
+    (*(int(*)())func)(8,(int)DAT_0600dc9e,0x60,addr);  // Becomes jmp @r3
+}
+```
+
+**Why tail call works**: With the function pointer in r3 and no callee-saved registers,
+the final call can become `jmp @r3` instead of `jsr @r3 / rts`.
+
+### Example: Shared Offset Calculation (FUN_06011E7C)
+
+**Before** (delta +1 - GCC uses r8-r10 for temporaries):
+```c
+void FUN_06011e7c()
+{
+    int off = (int)DAT_06011efe;
+    (*(int(*)())0x06028400)(0xc,*(int *)0x060638B0,(int)DAT_06011f00, *(int *)0x060638B4 + off);
+    (*(int(*)())0x06028400)(0xc,*(int *)0x060638A0,(int)DAT_06011f02, *(int *)0x060638A4 + off);
+}
+```
+
+**After** (delta -3 - forces r2, r3):
+```c
+void FUN_06011e7c()
+{
+    register int func asm("r3") = 0x06028400;
+    register int off asm("r2");
+    off = (int)DAT_06011efe;
+    (*(int(*)())func)(0xc,*(int *)0x060638B0,(int)DAT_06011f00, *(int *)0x060638B4 + off);
+    (*(int(*)())func)(0xc,*(int *)0x060638A0,(int)DAT_06011f02, *(int *)0x060638A4 + off);
+}
+```
+
+### When To Use
+
+| Use Case | Benefit |
+|----------|---------|
+| Repeated function calls | Put function address in r3, reuse across calls |
+| Shared values across calls | Put common values in r0-r2, avoid reloads |
+| Tail call optimization | Function ptr in r3 + no callee-saved = `jmp @r3` |
+| Pointer variables | Force into specific register to match original codegen |
+
+### Caveats
+
+1. **Don't use with complex code** - if too many register constraints, GCC fails with
+   "fixed or forbidden register was spilled"
+2. **Caller-saved registers only** - r0-r7 are safe; r8-r14 defeat the purpose
+3. **r0 is special** - often used for return value and displacement addressing
+4. **Check the assembly** - verify the technique actually helped before committing
+
+### Register Reference
+
+| Register | Role | Safe to Force? |
+|----------|------|----------------|
+| r0 | Return value, special displacement | Yes, but check usage |
+| r1-r3 | Temps, function ptrs | Yes - best for forcing |
+| r4-r7 | Arguments | Yes, but may conflict with params |
+| r8-r14 | Callee-saved | No - defeats purpose |
+| r15 | Stack pointer | Never |
+
+---
+
 ## Challenging Patterns (Cannot Fix from C)
 
 These patterns are caused by fundamental differences between GCC 2.6.3 and the original compiler.
