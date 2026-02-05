@@ -1,90 +1,47 @@
-extern int DAT_0600a2e0;
-
-extern int DAT_0600a2e2;
-
-extern int DAT_0600a36a;
-
-extern int DAT_0600a36c;
-
-extern int DAT_0600a36e;
-
-extern int DAT_0600a370;
-
-extern int DAT_0600a372;
-
-extern int PTR_DAT_0600a2e4;
-
-extern int PTR_DAT_0600a2e4;
+extern short DAT_0600a36c;
+extern short DAT_0600a36e;
+extern short DAT_0600a370;
+extern short DAT_0600a372;
 
 int FUN_0600a294()
 {
-
+  register short *dest asm("r4") = (short *)0x0605A016;
+  register int *src asm("r5") = (int *)0x0607EBCC;
+  register short v3 asm("r7") = 3;
+  register short v4 asm("r6") = 4;
   int iVar1;
+  int cmp;
 
-  if (*(int *)0x0607EAD8 == 1) {
-
-    iVar1 = 1;
-
-    if (*(int *)0x0607EBCC == 0x371) {
-
-      *(short *)0x0605A016 = 3;
-
+  iVar1 = *(int *)0x0607EAD8;
+  if (iVar1 == 1) {
+    cmp = *src;
+    if (cmp == 0x371) {
+      *dest = v3;
     }
-
-    else if (*(int *)0x0607EBCC == 0x352) {
-
-      *(short *)0x0605A016 = 4;
-
+    else if (cmp == 0x352) {
+      *dest = v4;
     }
-
   }
-
-  else {
-
-    iVar1 = *(int *)0x0607EAD8;
-
-    if (iVar1 == 2) {
-
-      if (*(int *)0x0607EBCC == 0x3ab) {
-
-        *(short *)0x0605A016 = 3;
-
-      }
-
-      else if (*(int *)0x0607EBCC == 0x398) {
-
-        *(short *)0x0605A016 = 4;
-
-      }
-
-      else if (*(int *)0x0607EBCC == (int)DAT_0600a36c) {
-
-        *(short *)0x0605A016 = 3;
-
-      }
-
-      else if (*(int *)0x0607EBCC == (int)DAT_0600a36e) {
-
-        *(short *)0x0605A016 = 4;
-
-      }
-
-      else if (*(int *)0x0607EBCC == (int)DAT_0600a370) {
-
-        *(short *)0x0605A016 = 3;
-
-      }
-
-      else if (*(int *)0x0607EBCC == (int)DAT_0600a372) {
-
-        *(short *)0x0605A016 = 4;
-
-      }
-
+  else if (iVar1 == 2) {
+    cmp = *src;
+    if (cmp == 0x3ab) {
+      *dest = v3;
     }
-
+    else if (cmp == 0x398) {
+      *dest = v4;
+    }
+    else if (cmp == (int)DAT_0600a36c) {
+      *dest = v3;
+    }
+    else if (cmp == (int)DAT_0600a36e) {
+      *dest = v4;
+    }
+    else if (cmp == (int)DAT_0600a370) {
+      *dest = v3;
+    }
+    else if (cmp == (int)DAT_0600a372) {
+      *dest = v4;
+    }
   }
-
   return iVar1;
-
 }
