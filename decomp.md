@@ -224,6 +224,26 @@ When picking which function to work on:
 - Functions with switch/case tables (complex codegen)
 - Functions calling unknown externals (missing context)
 
+## Known Patcher Limitations
+
+### Constant Pool Overflow
+
+Our GCC generates inline constant pools (constants placed right after function code).
+The original compiler used shared constant pools (constants in dedicated areas, accessed via
+large PC-relative offsets).
+
+**Problem**: When our function is patched into the binary, our inline constants may overflow
+into the next function's space, corrupting it.
+
+**Symptoms**: Function PASSES test harness but CRASHES at boot.
+
+**Example**: FUN_06012E62
+- Original: 8 bytes code, constants 0x32 bytes away in shared pool
+- Ours: 8 bytes code + 8 bytes constants = 16 bytes total
+- Next function (FUN_06012E6A) starts 8 bytes after → our constants overwrite it!
+
+**Workaround**: None currently. Would require patcher changes to handle constant relocation.
+
 ## Documenting Blockers
 
 When a function can't be matched, document WHY:

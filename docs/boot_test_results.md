@@ -72,12 +72,12 @@ the function is correct. A 0% match function that boots may:
 | 2 | FUN_06042BAC | 7 | 0% | Bisection: was in original list |
 | 3 | FUN_06038520 | 8 | 0% | Bisection: was in original list |
 | 4 | FUN_0602D88E | 2 | 0% | Ghidra boundary error |
-| 5 | FUN_06012E62 | 4 | 0% | Slot overflow |
-| 6 | FUN_06035C08 | 7 | 14% | Missing parameters |
-| 7 | FUN_0603F92C | 8 | 25% | Tested new |
+| 5 | FUN_06012E62 | 4 | 100% | PASSES test! Const pool overflow into next func |
+| 6 | FUN_06035C08 | 7 | 62% | Fixed params, ABI mismatch remains |
+| 7 | FUN_0603F92C | 8 | 100% | PASSES test! Crash not code-related |
 | 8 | FUN_0603F9DA | 8 | 0% | Tested new |
 | 9 | FUN_06042BBE | 8 | 0% | Tested new |
-| 10 | FUN_06028560 | 9 | 78% | Tested new |
+| 10 | FUN_06028560 | 9 | 100% | PASSES test! Crash not code-related |
 | 11 | FUN_0602760C | 9 | 44% | Tested new |
 | 12 | FUN_06027630 | 9 | 44% | Tested new |
 | 13 | FUN_060394C2 | 7 | 0% | Tested new |

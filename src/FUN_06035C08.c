@@ -1,10 +1,6 @@
-int FUN_06035c08()
+int FUN_06035FEC(int param1, int param2);
+
+int FUN_06035c08(int param1, int param2)
 {
-
-  int uVar1;
-
-  uVar1 = (*(int(*)())0x06035FEC)();
-
-  return uVar1;
-
+  return FUN_06035FEC(param1, param2);
 }
