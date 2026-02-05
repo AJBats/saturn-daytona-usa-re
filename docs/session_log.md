@@ -428,3 +428,71 @@ Binary match: 39 / 867 (4.5%)
 4. **Next steps**: Further compile error fixes (254 void-value, 98 called-object)
    require per-function manual review. Source-level type corrections could flip some
    delta=+1 functions to PASS.
+
+---
+
+## Session: Boot Test Function Investigation (2026-02-05)
+
+**Baseline**: 48 PASS / 819 FAIL / 867 total (5.5% match)
+
+### CRASH Function Analysis (18 functions)
+
+Investigated all 18 CRASH functions from boot_test_results.md. Key findings:
+
+| Root Cause | Count | Examples |
+|-----------|-------|----------|
+| Intractable optimization (delta<0) | 3 | FUN_06042BEE (immediate AND), FUN_06042BAC (immediate OR), FUN_06038520 (extu.w removal) |
+| PASSES test harness! | 3 | FUN_06012E62 (100%), FUN_06028560 (100%), FUN_0603F92C (100%) |
+| Ghidra boundary error | 1 | FUN_0602D88E (6 pushes fall into next func) |
+| Code correct, ABI mismatch | 1 | FUN_06035C08 (fixed params, improved to 62%) |
+| Zero match, needs investigation | 10 | Various 0% match functions |
+
+**Key discovery**: 3 CRASH functions PASS the test harness (100% match) — crashes caused by
+patcher limitations (constant pool overflow), not code mismatches.
+
+### CORRUPT Function Analysis (6 functions)
+
+All 6 CORRUPT functions are intractable:
+
+| Function | Issue |
+|----------|-------|
+| FUN_06034FE0 | `in_r0`/`in_r1` implicit register params |
+| FUN_06033520 | `in_r2` implicit register param |
+| FUN_06035C1C | strlen - rts delay slot fill difference (6/8 match with goto rewrite) |
+| FUN_0603F202 | delta=-1, our code shorter (better optimization) |
+| FUN_06034708 | Ghidra boundary error (part of larger function) |
+| FUN_0603C0A0 | Constant loading strategy (mov.l vs mov.w) |
+
+### Delta=0/+1/+2 Investigation
+
+Examined multiple delta=0/+1/+2 functions — all intractable:
+
+| Pattern | Example Functions | Root Cause |
+|---------|------------------|------------|
+| Code sharing | FUN_0601A5F8 | bf branches to shared return in another function |
+| Constant loading | FUN_0602E5E4 | GCC uses mov.w for small constants, original uses mov.l |
+| Instruction ordering | FUN_06027358, FUN_0601143E | Different scheduling/allocation |
+| Combiner optimization | FUN_06018EC8 | Removes "unnecessary" extu.b (mov.b truncates) |
+
+### Improvements Made
+
+- FUN_06035C1C: Rewrote with goto loop structure, added `-mnofill` flag (still 1 diff)
+- FUN_0603F202: Added `-mnosignext` flag for extu.b (still delta=-1)
+
+### Confirmed Intractable Patterns
+
+1. **Implicit register parameters** (in_r0/in_r1/in_r2) — non-standard ABI
+2. **Ghidra function boundary errors** — merged/split functions
+3. **Better optimization** (delta<0) — our code genuinely shorter
+4. **Instruction scheduling** — determined by RTL expansion, not scheduler
+5. **rts delay slot filling** — GCC puts insns before rts, not in slot
+6. **Constant loading strategy** — mov.w vs mov.l preference
+7. **Code sharing** — branches to shared returns in other functions
+
+### PASS Pattern Identified
+
+Functions that consistently PASS are simple wrappers:
+- Load 2-4 constant parameters
+- Tail call (`bra`) to target function
+- No complex computation
+- Example: FUN_06012E00 (4 insns, loads 2 constants + tail call)
