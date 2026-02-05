@@ -2571,6 +2571,50 @@ expand_assignment (to, from, want_value, suggest_reg)
       return want_value ? to_rtx : NULL_RTX;
     }
 
+  /* For stores through computed pointer (INDIRECT_REF with PLUS_EXPR
+     address), force RHS constants into a register before expanding
+     the LHS address.  This emits value-load instructions before
+     address-computation instructions, matching the original compiler.
+     Only applies when LHS has actual address arithmetic and RHS
+     expands to an immediate constant.  */
+  if (to_rtx == 0
+      && TREE_CODE (to) == INDIRECT_REF
+      && TREE_CODE (from) != CALL_EXPR
+      && TYPE_MODE (TREE_TYPE (to)) != BLKmode
+      && TYPE_MODE (TREE_TYPE (to)) != VOIDmode)
+    {
+      tree addr = TREE_OPERAND (to, 0);
+      /* Strip type casts to find the address expression */
+      while (TREE_CODE (addr) == NOP_EXPR
+	     || TREE_CODE (addr) == CONVERT_EXPR)
+	addr = TREE_OPERAND (addr, 0);
+
+      if (TREE_CODE (addr) == PLUS_EXPR)
+	{
+	  rtx value;
+	  enum machine_mode to_mode;
+
+	  push_temp_slots ();
+	  to_mode = TYPE_MODE (TREE_TYPE (to));
+	  value = expand_expr (from, NULL_RTX, to_mode, 0);
+	  if (GET_CODE (value) == CONST_INT
+	      || GET_CODE (value) == CONST_DOUBLE)
+	    {
+	      enum machine_mode vmode = GET_MODE (value);
+	      if (vmode == VOIDmode)
+		vmode = to_mode;
+	      value = force_reg (vmode, value);
+	    }
+	  to_rtx = expand_expr (to, NULL_RTX, VOIDmode, 0);
+	  emit_move_insn (to_rtx, value);
+
+	  preserve_temp_slots (to_rtx);
+	  free_temp_slots ();
+	  pop_temp_slots ();
+	  return want_value ? to_rtx : NULL_RTX;
+	}
+    }
+
   /* Ordinary treatment.  Expand TO to get a REG or MEM rtx.
      Don't re-expand if it was expanded already (in COMPONENT_REF case).  */
 

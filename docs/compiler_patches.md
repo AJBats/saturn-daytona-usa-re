@@ -7,7 +7,7 @@ closer to the original Daytona USA Saturn binary.
 Test harness: `tools/test_harness.sh` (125 test functions after cleanup)
 Compiler flags: `-O2 -m2 -mbsr`
 
-## Current State: 39 PASS / 100 FAIL / 140 total (28% pass rate)
+## Current State: 48 PASS / 819 FAIL / 867 total (5.5% pass rate, 26 patches)
 
 ## Results by Phase (original 22 test functions)
 
@@ -1131,9 +1131,203 @@ strategy differences that no flag combination can address.
 - 4 with 4 diffs: Mix of scheduling and instruction selection
 - 7 with 6+ diffs: Deeper structural differences (loop layout, branch strategy)
 
-**Conclusion**: The 28% pass rate represents the practical ceiling achievable through
-compiler flags and peephole patches. Further progress requires either:
+**Conclusion**: The 28% pass rate on the original 133-function test suite represents the
+practical ceiling achievable through compiler flags and peephole patches for that sample.
+
+## Session 15: Massive Test Expansion (Day 2 — 133 → 867 tests)
+
+### Test Suite Expansion
+
+Expanded from 133 to 867 test functions using bulk generation and automated C source fixes:
+- `gen_test_skeleton.py` batch-generated C skeletons for all 880 Ghidra-decompiled functions
+- `gen_expected.py` batch-generated expected opcode files from `build/aprog.s`
+- Automated fixes applied at scale:
+  - Constant pool resolver: replaced extern declarations with ROM literal values
+  - Multiply-to-shift: converted `* power_of_2` to `<< N` to avoid ___mulsi3
+  - Pointer shift fixes: corrected operator precedence in shift expressions
+- 867/886 functions now compile (97.8%)
+
+### Result: 43 PASS / 824 FAIL / 867 total
+
+The pass rate dropped from 28% to 5% because the expanded test suite includes much more
+complex functions. The 43 PASSes include all previous passes plus new ones from the batch
+C source fixes.
+
+## Patch 23: Indirect Tail Call Optimization (sh.c + sh.md)
+**Files**: `config/sh/sh.c` (line 1975), `config/sh/sh.md` (new insn pattern)
+**Type**: Extension of tail call detection to indirect calls (function pointers)
+
+The existing tail call detection (Patch 3) only recognized direct calls via SYMBOL_REF.
+Functions calling through function pointers (`(*(int(*)())ptr)(args)`) generated:
+```
+jsr @rN / nop / lds.l @r15+,pr / rts / nop   (5 insns)
+```
+
+Extended `machine_dependent_reorg()` to accept REG targets in addition to SYMBOL_REF:
+
+```c
+// Before:
+if (target && GET_CODE (target) == SYMBOL_REF)
+// After:
+if (target && (GET_CODE (target) == SYMBOL_REF
+               || GET_CODE (target) == REG))
+```
+
+Added new `tail_call_indirect` insn pattern in sh.md:
+```lisp
+(define_insn "tail_call_indirect"
+  [(set (pc) (match_operand:SI 0 "arith_reg_operand" "r"))
+   (set (reg:SI 17) (mem:SI (post_inc:SI (reg:SI 15))))]
+  "TARGET_BSR"
+  "jmp	@%0\;lds.l	@r15+,pr"
+  [(set_attr "in_delay_slot" "no")
+   (set_attr "length" "4")])
+```
+
+**Effect**: 4 functions (FUN_0603F8EE, FUN_0603F900, FUN_0603F90E, FUN_0603F91C) now
+generate `jmp @r0` instead of `jsr @r0 + lds.l + rts`. These went from delta=+1 to
+delta=-3 (our code now shorter due to displacement loads vs explicit address computation
+in the original). No regressions.
+
+## Patch 24: RHS-First Expansion for Computed-Pointer Stores (expr.c)
+**File**: `tools/gcc26-build/expr.c` (in `expand_assignment()`, before "Ordinary treatment")
+**Type**: RTL expansion order change
+
+For stores through computed pointers like `*(short*)(ptr + offset) = 0x0200`, GCC expands
+the LHS address first, then the RHS value. The original compiler does the opposite: it
+materializes the constant value FIRST, then computes the address. This produces different
+instruction ordering.
+
+**Root cause discovery**: `expand_expr()` for INTEGER_CST returns `(const_int N)` without
+generating any instructions — the actual constant pool load is deferred until `emit_move_insn`
+forces it into a register. Simply calling `expand_expr(from, ...)` before `expand_expr(to, ...)`
+had no effect. The fix required `force_reg()` to actually materialize the constant.
+
+**Targeting**: After 5 iterations to avoid regressions, the final condition is:
+- LHS is INDIRECT_REF (pointer dereference)
+- LHS address contains PLUS_EXPR after stripping NOP_EXPR/CONVERT_EXPR casts
+- RHS is not CALL_EXPR, not BLKmode, not VOIDmode
+- Only `force_reg()` when the expanded value is CONST_INT or CONST_DOUBLE
+
+The PLUS_EXPR requirement is critical — stores to constant addresses (no arithmetic)
+don't need reordering, and the extra pseudo register from `force_reg()` disrupts register
+allocation (caused 2 regressions without this guard).
+
+```c
+if (to_rtx == 0
+    && TREE_CODE (to) == INDIRECT_REF
+    && TREE_CODE (from) != CALL_EXPR
+    && TYPE_MODE (TREE_TYPE (to)) != BLKmode
+    && TYPE_MODE (TREE_TYPE (to)) != VOIDmode)
+  {
+    tree addr = TREE_OPERAND (to, 0);
+    while (TREE_CODE (addr) == NOP_EXPR
+           || TREE_CODE (addr) == CONVERT_EXPR)
+      addr = TREE_OPERAND (addr, 0);
+
+    if (TREE_CODE (addr) == PLUS_EXPR)
+      {
+        rtx value;
+        enum machine_mode to_mode;
+        push_temp_slots ();
+        to_mode = TYPE_MODE (TREE_TYPE (to));
+        value = expand_expr (from, NULL_RTX, to_mode, 0);
+        if (GET_CODE (value) == CONST_INT
+            || GET_CODE (value) == CONST_DOUBLE)
+          {
+            enum machine_mode vmode = GET_MODE (value);
+            if (vmode == VOIDmode) vmode = to_mode;
+            value = force_reg (vmode, value);
+          }
+        to_rtx = expand_expr (to, NULL_RTX, VOIDmode, 0);
+        emit_move_insn (to_rtx, value);
+        preserve_temp_slots (to_rtx);
+        free_temp_slots ();
+        pop_temp_slots ();
+        return want_value ? to_rtx : NULL_RTX;
+      }
+  }
+```
+
+**Effect**: FUN_0601164A → PASS (44th pass). No regressions.
+
+### Result: 44 PASS / 823 FAIL / 867 total
+
+---
+
+## Session 16: Instruction Hoisting Pass + No-Indexed Flag
+
+### Patch 25: Instruction Hoisting Pre-DBR Pass — `-mhoist-imm=N` (sh.h + sh.c)
+
+**Problem**: Delta=0 diffs=2 functions had correct instruction counts but wrong ordering.
+The original compiler materialized small constants (`mov #N,rX`) before pool loads and
+memory operations, while our GCC emitted them after.
+
+**Solution**: New pre-DBR pass at the end of `machine_dependent_reorg()` that hoists
+"simple" instructions past "complex" predecessors when they're register-independent.
+Controlled per-function via `-mhoist-imm=N` (number of bubble-sort passes, 0=disabled).
+
+**Hoistable instructions** (by priority, lower = hoisted first):
+- Priority 0: `mov #N,rX` (CONST_INT immediate loads)
+- Priority 1: Pool constant loads (`mov.w/l Ln,rX` via LABEL_REF)
+- Priority 2: Non-T-clobbering shifts (`shll2`, `shll8`, `shlr2`, etc.)
+- Priority 3: Everything else (not hoisted)
+
+**Guards**:
+- Only swaps past simple SET instructions (not PARALLEL)
+- Never swaps past stack push/pop (PRE_DEC/POST_INC addressing)
+- Register independence: destination register must not appear in predecessor
+- Each pass moves each instruction at most one position (prevents overshooting)
+
+**Key bug found during development**: Initial version only accepted SImode register
+destinations. SH-2 uses HImode for short values (`mov #0,r1` used as `mov.w r1,@r0`),
+so many hoistable instructions were invisible to the pass. Fixed by accepting any
+integer mode.
+
+**Files**: `sh.h` (TARGET_OPTIONS, OVERRIDE_OPTIONS, variable declarations), `sh.c`
+(~80 lines at end of machine_dependent_reorg)
+
+**Per-function flags**:
+- `FUN_06035C80.flags`: `-O2 -m2 -mbsr -mhoist-imm=1`
+- `FUN_0603F4CC.flags`: `-O2 -m2 -mbsr -mhoist-imm=1`
+- `FUN_06026E0C.flags`: `-O2 -m2 -mbsr -mhoist-imm=2`
+- `FUN_060270D0.flags`: `-O2 -m2 -mbsr -mhoist-imm=2`
+
+**Effect**: +4 PASS (FUN_06035C80, FUN_0603F4CC, FUN_06026E0C, FUN_060270D0)
+
+### Patch 26: No-Indexed Flag — `-mno-indexed` (sh.h + sh.c)
+
+**Problem**: Patch 13 (indexed addressing) converts `add rA,rB / mov.l @rB,rC` into
+`mov.l @(rA,rB),rC`, saving one instruction. Some functions don't use this pattern in
+the original binary.
+
+**Solution**: Added `NOINDEXED_BIT` to `target_flags` and `-mno-indexed` to
+`target_switches`. When set, the indexed addressing pass in `machine_dependent_reorg`
+is skipped entirely.
+
+**Files**: `sh.h` (bit definition, TARGET macro, switch entry), `sh.c` (gate check)
+
+**Effect**: Infrastructure only — no functions currently benefit from this flag alone.
+
+### Delta=0 Diffs=2 Analysis
+
+Tested all 15 delta=0 diffs=2 functions with hoist-imm=1/2/3. Results:
+- 4 fixed (listed above)
+- 7 unchanged (hoisting doesn't reach the right instructions)
+- 4 made worse (priority system moves instructions in wrong direction)
+
+The remaining 11 functions have reordering patterns that can't be addressed by a
+universal priority system — the original compiler's emission order varies by context.
+
+### Result: 48 PASS / 819 FAIL / 867 total
+
+---
+
+## Overall Assessment (Day 2+)
+
+Further progress requires either:
 1. Changes to GCC's register allocator (global.c, local-alloc.c) — high risk
 2. Changes to the delay slot filler algorithm (reorg.c) — high risk
 3. Full instruction scheduler tuning — moderate risk but limited impact
 4. C source rewriting to match original coding patterns — case-by-case
+5. New peephole/pre-dbr patterns for specific instruction sequences

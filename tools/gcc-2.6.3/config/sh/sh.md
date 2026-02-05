@@ -898,7 +898,7 @@
 
 (define_insn "extendhisi2"
   [(set (match_operand:SI 0 "arith_reg_operand" "=r,z,r")
-	(sign_extend:SI (match_operand:HI 1 "arith_operand" "r,u,m")))]
+	(sign_extend:SI (match_operand:HI 1 "general_movsrc_operand" "r,u,m")))]
   ""
   "@
 	exts.w	%1,%0
@@ -1460,6 +1460,16 @@
    (set_attr "in_delay_slot" "no")
    (set_attr "length" "4")])
 
+;; Tail call: indirect jump to register with PR restore in delay slot
+;; Used by machine_dependent_reorg when last call is indirect (function pointer)
+(define_insn "tail_call_indirect"
+  [(set (pc) (match_operand:SI 0 "arith_reg_operand" "r"))
+   (set (reg:SI 17) (mem:SI (post_inc:SI (reg:SI 15))))]
+  "TARGET_BSR"
+  "jmp	@%0\;lds.l	@r15+,pr"
+  [(set_attr "in_delay_slot" "no")
+   (set_attr "length" "4")])
+
 
 ;; ------------------------------------------------------------------------
 ;; Misc insns
@@ -1759,6 +1769,20 @@
   "INTVAL (operands[2]) >= 0 && INTVAL (operands[2]) <= 30
    && !(INTVAL (operands[2]) & 1)"
   "* return output_hi_disp_store (operands);")
+
+;; QImode displacement store peephole
+;; Folds: mov rN,rM / add #D,rM / mov.b rK,@rM
+;;    to: [extu.b rK,r0 /] mov.b r0,@(D,rN)
+;; Saves 1-2 insns per byte store with displacement
+(define_peephole
+  [(set (match_operand:SI 0 "arith_reg_operand" "")
+	(match_operand:SI 1 "arith_reg_operand" ""))
+   (set (match_dup 0)
+	(plus:SI (match_dup 0) (match_operand:SI 2 "immediate_operand" "")))
+   (set (mem:QI (match_dup 0))
+	(match_operand:QI 3 "arith_reg_operand" ""))]
+  "INTVAL (operands[2]) >= 0 && INTVAL (operands[2]) <= 15"
+  "* return output_qi_disp_store (operands);")
 
 ;; HImode displacement load peephole (sign-extending form)
 ;; Folds: mov rN,r0 / add #D,r0 / mov.w @r0,r0  (sign-extend)

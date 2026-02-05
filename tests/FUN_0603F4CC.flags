@@ -1,0 +1,1 @@
+-O2 -m2 -mbsr -mhoist-imm=1

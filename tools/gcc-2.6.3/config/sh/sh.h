@@ -98,6 +98,7 @@ extern int target_flags;
 #define NOSIGNEXT_BIT   (1<<19)
 #define NO_BSR_FILL_BIT (1<<29)
 #define NO_RTS_FILL_BIT (1<<30)
+#define NOINDEXED_BIT   (1<<0)
 
 /* Nonzero if we should generate code using type 0 insns */
 #define TARGET_SH0 (target_flags & SH0_BIT)
@@ -174,6 +175,9 @@ extern int target_flags;
 /* Nonzero to unfill RTS delay slots in post-dbr pass */
 #define TARGET_NO_RTS_FILL	(target_flags & NO_RTS_FILL_BIT)
 
+/* Nonzero to disable indexed addressing peephole (add+load -> @(r0,rN)) */
+#define TARGET_NOINDEXED	(target_flags & NOINDEXED_BIT)
+
 /* Nonzero if packing structures as small as they'll go (incompatible with Hitachi's compiler) */
 #define TARGET_PACKSTRUCT       (target_flags & PACKSTRUCT_BIT)
 
@@ -204,6 +208,7 @@ extern int target_flags;
   {"nosignext", ( NOSIGNEXT_BIT) },     \
   {"no-bsr-fill", ( NO_BSR_FILL_BIT) },\
   {"no-rts-fill", ( NO_RTS_FILL_BIT) },\
+  {"no-indexed", ( NOINDEXED_BIT) },   \
   {"packstruct",( PACKSTRUCT_BIT) },    \
   {"",   	TARGET_DEFAULT} 	\
 }
@@ -213,7 +218,8 @@ extern int target_flags;
 /* Macro to define table for command options with values.  */
 #define TARGET_OPTIONS \
 	{ { "maxsi-", &max_si}, \
-	  { "maxhi-", &max_hi} }
+	  { "maxhi-", &max_hi}, \
+	  { "hoist-imm=", &hoist_imm_str} }
 
 #define OVERRIDE_OPTIONS 					\
 do {								\
@@ -236,8 +242,9 @@ do {								\
   flag_schedule_insns = 0;            				\
   /* Also disable post-reload scheduling. The original Cygnus   \
      2.6-era compiler did not have effective post-reload         \
-     scheduling for SH. Disabling it reduces instruction         \
-     reordering diffs vs original binary with no regressions. */ \
+     scheduling for SH. Re-tested: enabling sched2 causes 2     \
+     regressions and 0 improvements, confirming original had     \
+     sched2 disabled. */                                         \
   flag_schedule_insns_after_reload = 0;            				\
   if (max_si)							\
     max_count_si = atoi (max_si);				\
@@ -247,6 +254,10 @@ do {								\
     max_count_hi = atoi (max_hi);				\
   else      							\
     max_count_hi = 500;				                \
+  if (hoist_imm_str)						\
+    hoist_imm_count = atoi (hoist_imm_str);			\
+  else								\
+    hoist_imm_count = 0;					\
   if (TARGET_BSR)                                               \
      flag_no_function_cse = 1;                                  \
 } while (0)
@@ -1519,5 +1530,7 @@ extern int pragma_interrupt;
 
 char *max_si;
 char *max_hi;
+char *hoist_imm_str;
 int max_count_si;
 int max_count_hi;
+int hoist_imm_count;

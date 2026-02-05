@@ -1972,7 +1972,8 @@ machine_dependent_reorg (first)
 				target = XEXP (XEXP (SET_SRC (first), 0), 0);
 			    }
 
-			  if (target && GET_CODE (target) == SYMBOL_REF)
+			  if (target && (GET_CODE (target) == SYMBOL_REF
+					|| GET_CODE (target) == REG))
 			    {
 			      /* Count calls and stack pushes to detect
 				 pure wrapper (single tail call, PR only). */
@@ -2335,7 +2336,9 @@ machine_dependent_reorg (first)
        add rA,rB / mov.l @rB,rC  ->  mov.l @(rA,rB),rC
      (and similar for mov.w, mov.b loads and stores)
      when one of rA/rB is r0 and rB's modified value is dead after
-     the memory access.  Saves one instruction. */
+     the memory access.  Saves one instruction.
+     Gated on !TARGET_NOINDEXED for per-function control. */
+  if (!TARGET_NOINDEXED)
   {
     rtx scan;
     for (scan = first; scan; scan = NEXT_INSN (scan))
@@ -2597,6 +2600,182 @@ machine_dependent_reorg (first)
 	    PREV_INSN (ret_insn) = candidate;
 	  }
 	}
+      }
+  }
+
+  /* Immediate-load hoisting: move mov #N,rX instructions earlier in
+     their basic block when the preceding instruction doesn't reference
+     rX.  This matches the original Saturn compiler's tendency to
+     materialize small constants before pool loads and memory operations.
+
+     Also hoists pool constant loads (mov.w/l Ln,rX) and non-T-clobbering
+     shifts (shll8, shlr2, shll2, etc.) past independent predecessors.
+
+     Controlled by -mhoist-imm=N (number of passes, 0=disabled).
+     Each pass moves each hoistable instruction at most one position
+     earlier.  Multiple passes allow longer-distance hoisting. */
+  if (hoist_imm_count > 0)
+  {
+    int pass, changed;
+    for (pass = 0; pass < hoist_imm_count; pass++)
+      {
+	rtx scan;
+	changed = 0;
+	for (scan = first; scan; scan = NEXT_INSN (scan))
+	  {
+	    rtx pat, dest, src, prev, ppat;
+	    int dreg, is_hoistable;
+
+	    if (GET_CODE (scan) != INSN)
+	      continue;
+	    pat = PATTERN (scan);
+	    if (GET_CODE (pat) != SET)
+	      continue;
+	    dest = SET_DEST (pat);
+	    src = SET_SRC (pat);
+
+	    /* Only handle register destinations in integer modes */
+	    if (GET_CODE (dest) != REG)
+	      continue;
+	    dreg = REGNO (dest);
+	    if (dreg > 15)
+	      continue;
+
+	    /* Check if this is a hoistable instruction */
+	    is_hoistable = 0;
+
+	    /* mov #N,rX (8-bit sign-extended immediate) */
+	    if (GET_CODE (src) == CONST_INT)
+	      is_hoistable = 1;
+
+	    /* Pool constant loads via label_ref */
+	    if (GET_CODE (src) == MEM
+		&& GET_CODE (XEXP (src, 0)) == LABEL_REF)
+	      is_hoistable = 1;
+	    if (GET_CODE (src) == SIGN_EXTEND
+		&& GET_CODE (XEXP (src, 0)) == MEM
+		&& GET_CODE (XEXP (XEXP (src, 0), 0)) == LABEL_REF)
+	      is_hoistable = 1;
+
+	    /* Non-T-clobbering shifts: shift by constant > 1
+	       (shll8, shlr2, shll2, shll16, shlr8, shlr16).
+	       These are plain SET, not PARALLEL with T clobber.
+	       Source register must be same as dest (in-place shift). */
+	    if ((GET_CODE (src) == ASHIFT || GET_CODE (src) == LSHIFTRT)
+		&& GET_CODE (XEXP (src, 0)) == REG
+		&& REGNO (XEXP (src, 0)) == dreg
+		&& GET_CODE (XEXP (src, 1)) == CONST_INT
+		&& INTVAL (XEXP (src, 1)) > 1)
+	      is_hoistable = 1;
+
+	    if (!is_hoistable)
+	      continue;
+
+	    /* Find previous non-note instruction */
+	    prev = PREV_INSN (scan);
+	    while (prev && GET_CODE (prev) == NOTE)
+	      prev = PREV_INSN (prev);
+
+	    if (!prev || GET_CODE (prev) != INSN)
+	      continue;
+
+	    ppat = PATTERN (prev);
+
+	    /* Only swap past simple SET instructions (not PARALLEL etc.) */
+	    if (GET_CODE (ppat) != SET)
+	      continue;
+
+	    /* Don't swap past stack push/pop (pre_dec/post_inc on r15).
+	       These are prologue/epilogue operations that must stay in
+	       their original positions. */
+	    {
+	      rtx pdst = SET_DEST (ppat);
+	      rtx psrc2 = SET_SRC (ppat);
+	      if (GET_CODE (pdst) == MEM
+		  && GET_CODE (XEXP (pdst, 0)) == PRE_DEC)
+		continue;
+	      if (GET_CODE (psrc2) == MEM
+		  && GET_CODE (XEXP (psrc2, 0)) == POST_INC)
+		continue;
+	    }
+
+	    /* Don't swap past another hoistable of same or higher priority.
+	       Priority: const_int=0, pool_load=1, shift=2, other=3.
+	       Only swap when our priority < predecessor's priority. */
+	    {
+	      int my_prio, prev_prio;
+	      rtx psrc = SET_SRC (ppat);
+	      rtx pdest = SET_DEST (ppat);
+
+	      /* Classify scan's priority */
+	      if (GET_CODE (src) == CONST_INT)
+		my_prio = 0;
+	      else if (GET_CODE (src) == MEM
+		       || GET_CODE (src) == SIGN_EXTEND)
+		my_prio = 1;
+	      else
+		my_prio = 2;
+
+	      /* Classify prev's priority */
+	      if (GET_CODE (psrc) == CONST_INT)
+		prev_prio = 0;
+	      else if ((GET_CODE (psrc) == MEM
+			&& GET_CODE (XEXP (psrc, 0)) == LABEL_REF)
+		       || (GET_CODE (psrc) == SIGN_EXTEND
+			   && GET_CODE (XEXP (psrc, 0)) == MEM
+			   && GET_CODE (XEXP (XEXP (psrc, 0), 0))
+			      == LABEL_REF))
+		prev_prio = 1;
+	      else if ((GET_CODE (psrc) == ASHIFT
+			|| GET_CODE (psrc) == LSHIFTRT)
+		       && GET_CODE (XEXP (psrc, 1)) == CONST_INT
+		       && INTVAL (XEXP (psrc, 1)) > 1
+		       && GET_CODE (pdest) == REG)
+		prev_prio = 2;
+	      else
+		prev_prio = 3;
+
+	      /* Only swap if we're higher priority (lower number) */
+	      if (my_prio >= prev_prio)
+		continue;
+	    }
+
+	    /* Must not reference our destination register */
+	    {
+	      rtx dreg_rtx = dest;  /* Use actual dest (correct mode) */
+	      if (reg_mentioned_p (dreg_rtx, ppat))
+		continue;
+	    }
+
+	    /* For shifts that also READ dreg, the check above already
+	       ensures prev doesn't mention dreg (which we both read
+	       and write).  For pool loads, the source is a label_ref
+	       (no register conflict).  For immediates, no source
+	       register.  So no additional dependency checks needed. */
+
+	    /* All checks passed: move scan before prev */
+	    {
+	      rtx s_prev = PREV_INSN (scan);
+	      rtx s_next = NEXT_INSN (scan);
+	      rtx p_prev = PREV_INSN (prev);
+
+	      /* Unlink scan */
+	      if (s_prev)
+		NEXT_INSN (s_prev) = s_next;
+	      if (s_next)
+		PREV_INSN (s_next) = s_prev;
+
+	      /* Insert scan before prev */
+	      PREV_INSN (scan) = p_prev;
+	      NEXT_INSN (scan) = prev;
+	      PREV_INSN (prev) = scan;
+	      if (p_prev)
+		NEXT_INSN (p_prev) = scan;
+	    }
+	    changed = 1;
+	  }
+	if (!changed)
+	  break;
       }
   }
 }
@@ -3864,6 +4043,20 @@ output_hi_disp_store (operands)
   if (REGNO (operands[3]) != 0)
     output_asm_insn ("extu.w	%3,r0", operands);
   return "mov.w	r0,@(%O2,%1)";
+}
+
+/* Peephole output for QImode displacement store.
+   Folds mov rN,rM / add #D,rM / mov.b rK,@rM
+   into mov.b r0,@(D,rN), prefixing extu.b rK,r0 if needed.
+   operands[1]=base, operands[2]=displacement, operands[3]=source.  */
+
+char *
+output_qi_disp_store (operands)
+     rtx *operands;
+{
+  if (REGNO (operands[3]) != 0)
+    output_asm_insn ("extu.b	%3,r0", operands);
+  return "mov.b	r0,@(%O2,%1)";
 }
 
 
