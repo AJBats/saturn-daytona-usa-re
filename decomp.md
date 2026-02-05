@@ -229,6 +229,13 @@ They cannot be fixed by rewriting C code - only compiler patches or accepting th
 | Missing extu.b | No zero-extend before byte store | RTL knows mov.b only uses 8 bits |
 | Range check | `cmp/hi` vs `cmp/gt` + `cmp/ge` | fold_truthop combines tests |
 
+### Tail Call Optimization
+| Pattern | Example | Cause |
+|---------|---------|-------|
+| bra vs bsr | Original uses `bra` (jmp), we use `bsr` (jsr) | GCC doesn't see as tail call |
+| jmp vs jsr | Function ptr `jmp @rN` vs `jsr @rN` | Same - tail call not detected |
+| lds.l placement | `lds.l` before `bra` vs after `bsr` | Tail call avoids PR restore |
+
 ### Function Boundary Issues
 | Pattern | Example | Functions Affected |
 |---------|---------|-------------------|
