@@ -5,6 +5,17 @@ internals, organized by subsystem. Intended to survive context resets across ses
 
 ---
 
+## SH-2 Calling Convention
+
+- r0 = return value
+- r4-r7 = arguments
+- r0-r7 = caller-saved
+- r8-r14 = callee-saved
+- r15 = stack pointer
+- PR = link register (reg 17)
+
+---
+
 ## Compilation Pass Order (toplev.c `rest_of_compilation`)
 
 ```

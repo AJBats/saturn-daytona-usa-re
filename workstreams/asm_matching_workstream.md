@@ -250,6 +250,21 @@ Additional improvements from continued grinding pass:
 
 **Total this continuation: ~38 instructions saved across 8 functions**
 
+### Session 2026-02-05 (extended grinding)
+
+| Function | Size | Before → After | Improvement | Root Cause |
+|----------|------|----------------|-------------|------------|
+| FUN_060067C8 | 29 | delta=+11 → delta=0 | **11 insn** | Fixed SUB42 artifact, byte loads |
+| FUN_060192E8 | 9 | delta=+7 → delta=-2 | **9 insn** | Simplified delay loop |
+| FUN_06007590 | 62 | delta=+12 → delta=+5 | **7 insn** | Removed (int)(int) casts |
+| FUN_06018278 | 61 | delta=+9 → delta=+4 | **5 insn** | Fixed precedence |
+| FUN_0600C4F8 | 104 | delta=+3 → delta=-1 | **4 insn** | register asm for func/base |
+| FUN_0601250C | 61 | delta=+4 → delta=+1 | **3 insn** | Fixed shift precedence |
+| FUN_06020B20 | 19 | delta=+4 → delta=+3 | **1 insn** | Hoisted zero outside loop |
+| FUN_06012344 | 76 | delta=+6 → delta=+5 | **1 insn** | register asm for func ptr |
+
+**Total this extended grinding: ~41 instructions saved across 8 functions**
+
 ### Session 2026-02-05 (delta=+1 analysis)
 
 Examined 8 delta=+1 functions to understand remaining gap:
