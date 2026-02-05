@@ -162,6 +162,34 @@ python tools/compare_screenshot.py build/screenshots/patched_latest.png build/sc
 
 ---
 
+### Session 2026-02-05 (grinding pass)
+
+Systematic improvement of delta>0 functions using register asm technique:
+
+| Function | Size | Before → After | Improvement | Root Cause |
+|----------|------|----------------|-------------|------------|
+| FUN_0600DC74 | 18 | delta=+3 → delta=-2 | **5 insn** | register asm enabled tail call |
+| FUN_06012198 | 8 | delta=+6 → delta=+2 | **4 insn** | function ptr for dual tail calls |
+| FUN_060102A8 | 33 | delta=+1 → delta=-1 | **2 insn** | simplified conditions, short types |
+| FUN_06011E7C | 28 | delta=+1 → delta=-3 | **4 insn** | register asm for func ptr + offset |
+| FUN_06012400 | 26 | delta=+1 → delta=-1 | **2 insn** | register asm avoided callee-saved |
+| FUN_0602E5E4 | 12 | delta=+1 → delta=-1 | **2 insn** | explicit byte offsets |
+
+**Total: 19 instructions saved across 6 functions**
+
+**Key insight**: `register int var asm("rN")` for function pointers and shared values:
+- Eliminates callee-saved register push/pop overhead
+- Enables tail call optimization
+- Best when value is used across multiple calls but doesn't need to survive a call
+
+Functions marked challenging this pass:
+- FUN_0600DFD0 (delta=+2): State across many calls, needs callee-saved
+- FUN_0600D336 (delta=+1): Different code structure (bf.s vs bt.s)
+- FUN_0600E410 (delta=+1): shlr16 + preserve base across calls
+- FUN_06027358 (delta=+1): Complex bitwise, already optimal
+
+---
+
 ### Session 2026-02-05 (earlier)
 
 | Function | Size | Delta | Status | Notes |
