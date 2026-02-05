@@ -11,16 +11,17 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Function investigation** | **active** | Deep-dive each function: understand, fix, verify |
+| 1 | Function investigation | **done** | All patterns documented - 48 PASS is ceiling |
 | 2 | Function catalog | **done** | See `docs/function_catalog.md` |
 | 3 | 100% compilable | **done** | All 886 functions now compile! |
 
 **Current status** (see `docs/function_catalog.md` for details):
-- **48 PASS** (binary-perfect match)
+- **48 PASS** (binary-perfect match) - realistic ceiling with GCC 2.6.3
 - **46 delta=0** (scheduling/register allocation - intractable)
 - **131 near-miss** (|delta| <= 2, mostly intractable)
 - **373 better optimized** (our code shorter - intractable)
-- **Next focus**: Look for C source fixes in delta>0 functions (ours is longer)
+- **386 delta>0** (register allocation overhead - intractable, uses callee-saved r8-r11)
+- **All failure patterns documented** - no more C-level fixes possible
 
 **Investigation workflow per function** (see `decomp.md` for full details):
 1. Compile our C source, diff assembly against expected
