@@ -2,7 +2,10 @@ extern int FUN_06012450();
 
 void FUN_06012400()
 {
-  if (*(unsigned char *)0x060788F0 == 0) {
+  register char *ptr asm("r1");
+
+  ptr = (char *)0x060788F0;
+  if (*ptr == 0) {
     (*(int(*)())0x0601D5F4)(0, 0xAE110FFF);
     *(char *)0x060788F0 = 1;
   }
