@@ -17,11 +17,13 @@
 | 5 | Failure triage (all 94 remaining failures) | **done** — see session_log.md | committed |
 | 6 | Full decomp expansion | **done** — 886 C files, 518 compilable | committed |
 | 7 | Bulk compile fixes + experiments | **done** — 267→518 compilable, scheduling/BSR negative | committed |
-| 8 | **NEXT: Function catalog** | generate `docs/function_catalog.md` with per-function status | no |
-| 9 | **NEXT: 100% compilable** | fix remaining 349 compile errors systematically | no |
-| 10 | **NEXT: Easy accuracy wins** | source-level fixes on delta=0/+1 functions | no |
-| 11 | **NEXT: GCC rewrite research** | study deep compiler changes, produce `docs/gcc_rewrite_research.md` | no |
-| 12 | **NEXT: GCC rewrite** | implement deep compiler changes for big accuracy leaps | no |
+| 8 | Disc build pipeline | **done** — compile, patch Track 01, CUE+BIN output | committed |
+| 9 | Automated boot test | **done** — `test_boot.ps1`: launch, skip BIOS, F9 screenshot, kill (~20s) | uncommitted |
+| 10 | L0 bisection | **active** — binary search 355 DIFF functions for boot-breaking ones | uncommitted |
+| 11 | **NEXT: Function catalog** | generate `docs/function_catalog.md` with per-function status | no |
+| 12 | **NEXT: 100% compilable** | fix remaining 349 compile errors systematically | no |
+| 13 | **NEXT: Easy accuracy wins** | source-level fixes on delta=0/+1 functions | no |
+| 14 | **NEXT: GCC rewrite research** | study deep compiler changes, produce `docs/gcc_rewrite_research.md` | no |
 
 **Active workstream details** → `docs/session_log.md` (append-only, read when resuming)
 
@@ -67,7 +69,8 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - **Close matches**: 45 delta=0, 28 delta=+1, 37 delta=-1 (110 functions within 1 insn)
 - **Binary patcher**: 23 functions patched into APROG.BIN (8 L3 byte-perfect, 15 L2 structural)
 - **Compiler patches**: 23 applied, all low-hanging peepholes done
-- **Emulator validation**: pending (ISO builds, not yet tested in emulator)
+- **Emulator validation**: L2 build boots and plays (23 funcs); L1 build plays (25 funcs); L0 build black screen (355 funcs, bisecting)
+- **Boot/attract test**: Automated 20s trial — build, launch Mednafen, skip BIOS, screenshot title screen, kill
 
 ## Directory Layout
 - `src/*.c` - Reconstructed C source files (886 functions, 518 compilable)
@@ -83,17 +86,22 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - `tools/gcc26-build/cc1` - Patched GCC 2.6.3 compiler for SH-2 (runs in WSL)
 - `tools/gcc-2.6.3/` - Patched GCC source (23 patches in config/sh/sh.c, sh.h, sh.md, toplev.c)
 - `build/aprog_syms.txt` - 1234 function symbols in linker script format
-- `tools/build_iso.sh` - One-command build script for patched disc image
-- `tools/patch_binary.py` - Full compile->assemble->link->patch pipeline
+- `tools/build_disc.sh` - One-command build script for patched CUE+BIN disc
+- `tools/patch_binary.py` - Full compile->assemble->link->patch pipeline (supports --level, --max-addr, --min-addr)
+- `tools/test_boot.ps1` - Automated Mednafen boot test with F9 screenshot (~20s per trial)
 - `tools/binary_diff.py` - Per-function binary comparison (L1/L2/L3 matching)
 - `tools/test_harness.sh` - Opcode-level test harness (compares mnemonics)
 
 ## Build Commands
 ```bash
-# Build patched ISO (from Windows):
-build.bat
-# Or from WSL:
-bash tools/build_iso.sh
+# Build patched disc (CUE+BIN):
+wsl -d Ubuntu -- bash tools/build_disc.sh
+
+# Launch patched disc in Mednafen:
+run_patched.bat
+
+# Automated boot test (screenshot at title screen):
+powershell -ExecutionPolicy Bypass -File tools\test_boot.ps1 -Cue patched
 
 # Run test harness:
 wsl -d Ubuntu -- bash tools/test_harness.sh

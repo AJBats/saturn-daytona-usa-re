@@ -382,6 +382,10 @@ def main():
     parser.add_argument('--unsafe', action='store_true', help='Include L1-only matches')
     parser.add_argument('--level', type=int, default=2,
                         help='Minimum match level to patch (3=byte, 2=structural, 1=mnemonic)')
+    parser.add_argument('--max-addr', type=lambda x: int(x, 0), default=None,
+                        help='Only patch functions below this address (for bisecting)')
+    parser.add_argument('--min-addr', type=lambda x: int(x, 0), default=None,
+                        help='Only patch functions at or above this address')
     args = parser.parse_args()
 
     syms = load_symbols()
@@ -484,7 +488,9 @@ def main():
         print(f"  {tag:5s} {func_name:20s}  {detail}  {size_info}{patchable}")
 
         # Actually patch if requested
-        if args.patch and level >= args.level:
+        if args.patch and level >= args.level and \
+           (args.max_addr is None or func_addr < args.max_addr) and \
+           (args.min_addr is None or func_addr >= args.min_addr):
             if level == 3 and total_compiled <= slot_size:
                 # Write our compiled output (code + pool constants)
                 patch_region = code_bytes + pool_bytes
@@ -501,6 +507,14 @@ def main():
                     patched_data[file_offset:file_offset + len(fixed)] = fixed
                     patch_count += 1
                     total_bytes_patched += len(fixed)
+            elif total_compiled <= slot_size:
+                # L1/DIFF: different code but fits in slot — write our output
+                patch_region = code_bytes + pool_bytes
+                if len(patch_region) < slot_size:
+                    patch_region += orig_func_bytes[len(patch_region):]
+                patched_data[file_offset:file_offset + len(patch_region)] = patch_region
+                patch_count += 1
+                total_bytes_patched += len(code_bytes)
 
     print()
     print("=" * 78)
