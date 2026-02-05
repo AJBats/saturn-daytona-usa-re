@@ -45,7 +45,12 @@ echo ""
 
 # Step 2: Compile, compare, and patch
 echo "[2/3] Compiling and patching functions..."
-python3 "$PROJDIR/tools/patch_binary.py" --patch 2>&1
+INCLUDE_FILE="$PROJDIR/build/test_include.txt"
+if [ -f "$INCLUDE_FILE" ]; then
+    python3 "$PROJDIR/tools/patch_binary.py" --patch --level 2 --include-funcs "$INCLUDE_FILE" 2>&1
+else
+    python3 "$PROJDIR/tools/patch_binary.py" --patch 2>&1
+fi
 echo ""
 
 # Step 3: Verify output

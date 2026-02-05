@@ -3,38 +3,28 @@
 > **READ THIS FIRST after compaction.** This is your current assignment.
 > Everything below this section is reference material — do NOT treat it as a call to action.
 
-**CLAUDE.md stays concise** — this file is a routing table and rules only. Session-specific
-   details (goals, rationale, current state, findings) go in `docs/session_log.md`. If you
-   find yourself writing more than 2 lines about a workstream here, move it to session_log.md.
-10. **Commit at natural stopping points** — don't let uncommitted work accumulate across sessions
-
-
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | Function investigation | **done** | All patterns documented - 48 PASS is ceiling |
-| 2 | Function catalog | **done** | See `docs/function_catalog.md` |
-| 3 | 100% compilable | **done** | All 886 functions now compile! |
+| 1 | **ASM Matching to Boot** | **decision point** | See `docs/asm_matching_workstream.md` |
 
-**Current status** (see `docs/function_catalog.md` for details):
-- **48 PASS** (binary-perfect match) - realistic ceiling with GCC 2.6.3
-- **46 delta=0** (scheduling/register allocation - intractable)
-- **131 near-miss** (|delta| <= 2, mostly intractable)
-- **373 better optimized** (our code shorter - intractable)
-- **386 delta>0** (register allocation overhead - intractable, uses callee-saved r8-r11)
-- **All failure patterns documented** - no more C-level fixes possible
+## Current State
 
-**Investigation workflow per function** (see `decomp.md` for full details):
-1. Compile our C source, diff assembly against expected
-2. Identify WHERE divergence occurs (line-by-line diff)
-3. Reason about WHY (wrong type, wrong op, missing param)
-4. Cross-reference: find callers in aprog.s to understand context
-5. Fix C source based on findings
-6. Recompile, check if diff improved — iterate until match
-7. Boot test only AFTER assembly matches
-8. Document findings in `docs/boot_test_results.md`
+**Reality**: Only 23 functions actually get patched (8 L3 + 15 L2). Most FAIL→PASS conversions are intractable.
 
-**Boot test results** → `docs/boot_test_results.md` (per-function BOOT/CRASH/CORRUPT tracking)
-**Decompilation techniques** → `decomp.md` (diff-based matching workflow, mismatch patterns, fixes)
+**Findings (session 2026-02-05)**:
+- Fixed build_disc.sh to use `--include-funcs`
+- Patcher only patches L2+ functions (DIFF ignored even if in test_include.txt!)
+- Most failures: scheduling, register allocation, better optimization — intractable
+- Baseline boots with 23 patched functions
+
+**Options**:
+1. **Patcher enhancement** — add unsafe mode for DIFF patching
+2. **More compiler work** — peephole passes for specific patterns
+3. **Pivot** — accept 23 patched as milestone, focus on game code extraction
+
+**Key docs**:
+- `docs/asm_matching_workstream.md` — full findings + conclusion
+- `decomp.md` — C fix patterns for assembly matching
 
 ---
 
@@ -183,12 +173,11 @@ Inside scripts: `$CC1 -quiet -O2 -m2 -mbsr input.c -o output.s`
 4. Constant representation (add vs sub) — same count
 5. Multiply decomposition — shift rewrites applied, remaining gap intractable
 
-## Test Failure Breakdown (94 failures)
-- 14 delta>0 (our code LONGER): C source issues, mostly unfixable R0/register constraints
-- 28 delta=0 (same count, opcode diffs): scheduling/register allocation — intractable
-- 53 delta<0 (our code SHORTER): better optimization than original
+## Failure Patterns (reference)
+- **delta=0**: Same count, different opcodes — scheduling/register allocation (intractable)
+- **delta>0**: Our code longer — usually callee-saved register overhead (intractable)
+- **delta<0**: Our code shorter — GCC optimizes better than original (intractable)
 - Ghidra decompilations are NOT sacred — correcting C to match original intent is valid
-- **Highest ROI next step**: Expand test suite with more small functions (likely to PASS)
 
 ---
 

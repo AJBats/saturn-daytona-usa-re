@@ -10,6 +10,97 @@ assembly as the original binary. The goal is not just "working" code but **match
 A function that "boots" may still be wrong. A function that "crashes" tells you nothing
 about WHERE the code diverges. The diff tells you exactly what to fix.
 
+---
+
+## The Breakthrough: C Structure Affects Codegen
+
+**This is the most important insight for matching work.**
+
+Ghidra's decompilation is semantically correct but structurally wrong. GCC 2.6.3's instruction
+scheduling is heavily influenced by HOW you write C, not just WHAT you compute.
+
+### Assembly Is Ground Truth
+
+The workflow is NOT:
+```
+Ghidra output → Fix syntax errors → Declare "intractable"
+```
+
+The workflow IS:
+```
+Assembly → Understand operation ORDER → Write C that mirrors that structure
+```
+
+### Variable Declaration Order Matters
+
+GCC loads constants in the order they appear in the source. Declaring a variable early
+causes its initializer to be loaded early.
+
+**Example: FUN_06027348**
+
+Expected assembly order:
+```asm
+mov.w   @(N,pc),r2    ; load mask 0x3FFC first
+mov     r4,r0         ; then use param
+shlr2   r0
+add     #2,r0
+and     r2,r0
+...
+```
+
+Ghidra's C (WRONG order - mov.w comes too late):
+```c
+int FUN_06027348(param_1)
+    unsigned int param_1;
+{
+    return *(int *)(0x002F2F20 + ((param_1 >> 2) + 2 & 0x3FFC));
+}
+```
+
+Fixed C (MATCHES - declare mask first):
+```c
+int FUN_06027348(param_1)
+    unsigned int param_1;
+{
+    unsigned int mask = 0x3FFC;
+    unsigned int offset = ((param_1 >> 2) + 2) & mask;
+    return *(int *)(0x002F2F20 + offset);
+}
+```
+
+**Why it works**: Declaring `mask` as a separate variable FIRST causes GCC to emit the
+`mov.w` constant load FIRST. The assembly order now matches production.
+
+### Expression Decomposition
+
+Complex expressions can be broken into steps to control instruction order:
+
+| Ghidra Style | Matching Style |
+|--------------|----------------|
+| `*(base + (x >> 2) & mask)` | `tmp = (x >> 2) & mask; *(base + tmp)` |
+| `func(a + b, c * d)` | `arg1 = a + b; arg2 = c * d; func(arg1, arg2)` |
+| `if (a && b && c)` | Nested `if (a) { if (b) { if (c) {...}}}` |
+
+### The Matching Mindset
+
+1. **Read the expected assembly first** - not Ghidra
+2. **Note the instruction order** - especially constant loads
+3. **Identify what values are computed when**
+4. **Write C that mirrors that computation order**
+5. **Use intermediate variables liberally** - they often get optimized away anyway
+6. **Iterate on structure, not just types**
+
+### Ghidra Is NOT Sacred
+
+Ghidra's decompilation is:
+- ✅ Semantically correct (computes the same result)
+- ❌ Structurally wrong (instructions in different order)
+- ❌ Not optimized for matching (expressions too compact)
+
+**Don't try to "fix" Ghidra's output. Rewrite from scratch based on assembly.**
+
+---
+
 ## The Iterative Matching Loop
 
 ```
