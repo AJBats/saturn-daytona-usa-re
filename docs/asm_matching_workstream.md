@@ -250,6 +250,29 @@ Additional improvements from continued grinding pass:
 
 **Total this continuation: ~38 instructions saved across 8 functions**
 
+### Session 2026-02-05 (delta=+1 analysis)
+
+Examined 8 delta=+1 functions to understand remaining gap:
+
+| Function | Size | +1 Root Cause | Details |
+|----------|------|---------------|---------|
+| FUN_06008418 | 36 | Pool address load | Extra mov.l for extern address |
+| FUN_0600D336 | 26 | Control flow layout | bf.s vs bt.s path merging |
+| FUN_0600DFD0 | 42 | Tail call limitation | bsr+nop+rts vs lds.l+bra |
+| FUN_0600E060 | 48 | Tail call limitation | Same pattern |
+| FUN_06008640 | 50 | Tail call limitation | All returns are tail calls in original |
+| FUN_06012CF4 | 49 | Extra callee-saved | 8 vs 7 register pushes |
+| FUN_0600D8A4 | 58 | Prologue scheduling | Interleaved vs grouped pushes |
+| FUN_0600E410 | 35 | shlr16 missing | GCC lacks >> 16 pattern |
+
+**All delta=+1 causes are compiler-level differences:**
+1. **Tail call patterns** — original pops pr, then bra; we do bsr, then rts
+2. **Register allocation** — we use one extra callee-saved
+3. **Instruction scheduling** — original interleaves pushes with value setup
+4. **Missing patterns** — shlr16 for >> 16
+
+These cannot be fixed at C source level.
+
 **Key insight**: `register int var asm("rN")` for function pointers and shared values:
 - Eliminates callee-saved register push/pop overhead
 - Enables tail call optimization
