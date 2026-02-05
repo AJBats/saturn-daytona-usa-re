@@ -386,7 +386,18 @@ def main():
                         help='Only patch functions below this address (for bisecting)')
     parser.add_argument('--min-addr', type=lambda x: int(x, 0), default=None,
                         help='Only patch functions at or above this address')
+    parser.add_argument('--include-funcs', type=str, default=None,
+                        help='File with function names to force-include (one per line)')
     args = parser.parse_args()
+
+    # Load include-funcs list if specified
+    include_set = set()
+    if args.include_funcs and os.path.exists(args.include_funcs):
+        with open(args.include_funcs, 'r') as f:
+            for line in f:
+                line = line.strip().replace('\r', '')
+                if line and not line.startswith('#'):
+                    include_set.add(line)
 
     syms = load_symbols()
 
@@ -488,9 +499,11 @@ def main():
         print(f"  {tag:5s} {func_name:20s}  {detail}  {size_info}{patchable}")
 
         # Actually patch if requested
-        if args.patch and level >= args.level and \
-           (args.max_addr is None or func_addr < args.max_addr) and \
-           (args.min_addr is None or func_addr >= args.min_addr):
+        level_ok = level >= args.level
+        addr_ok = (args.max_addr is None or func_addr < args.max_addr) and \
+                  (args.min_addr is None or func_addr >= args.min_addr)
+        force_include = func_name in include_set
+        if args.patch and ((level_ok and addr_ok) or force_include):
             if level == 3 and total_compiled <= slot_size:
                 # Write our compiled output (code + pool constants)
                 patch_region = code_bytes + pool_bytes

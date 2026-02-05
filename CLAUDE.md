@@ -89,6 +89,8 @@ steering, collision, AI) for transplanting into Daytona USA CCE (1996).
 - `tools/build_disc.sh` - One-command build script for patched CUE+BIN disc
 - `tools/patch_binary.py` - Full compile->assemble->link->patch pipeline (supports --level, --max-addr, --min-addr)
 - `tools/test_boot.ps1` - Automated Mednafen boot test with F9 screenshot (~20s per trial)
+- `tools/compare_screenshot.py` - Screenshot comparison (phash, histogram, pixels, RMSE)
+- `docs/boot_test_automation.md` - Full docs for boot test pipeline (READ THIS FOR CONTEXT)
 - `tools/binary_diff.py` - Per-function binary comparison (L1/L2/L3 matching)
 - `tools/test_harness.sh` - Opcode-level test harness (compares mnemonics)
 

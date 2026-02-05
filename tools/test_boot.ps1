@@ -122,16 +122,16 @@ foreach ($snap in $allSnaps) {
 }
 
 if ($newSnap) {
-    $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-    $filepath = Join-Path $ScreenshotDir "${Cue}_${timestamp}.png"
-    Copy-Item $newSnap.FullName $filepath -Force
     $latestPath = Join-Path $ScreenshotDir "${Cue}_latest.png"
-    Copy-Item $filepath $latestPath -Force
-    Write-Host "OK: $filepath"
+    Copy-Item $newSnap.FullName $latestPath -Force
+    Write-Host "OK: $latestPath"
 } else {
     Write-Host "FAIL: No screenshot captured"
     Remove-Item $tempBat -Force -ErrorAction SilentlyContinue
     exit 1
 }
+
+# Cleanup: remove mednafen snaps (they accumulate fast)
+Get-ChildItem -Path $SnapsDir -Filter "*.png" -ErrorAction SilentlyContinue | Remove-Item -Force
 
 Remove-Item $tempBat -Force -ErrorAction SilentlyContinue
