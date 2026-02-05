@@ -502,7 +502,7 @@ LAB_0602b972:
 
       sVar2 = psVar16[2];
 
-      *(int *)0x06094AB0 = (int)*(int)psVar16 << 0xb;
+      *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -2356,7 +2356,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*(int)psVar16 << 0xb;
+    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -3156,7 +3156,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*(int)psVar16 << 0xb;
+    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -3958,7 +3958,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*(int)psVar16 << 0xb;
+    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 

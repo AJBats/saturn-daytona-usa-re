@@ -1290,7 +1290,7 @@ LAB_0602b972:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
+      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
 
       *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -3144,7 +3144,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
+    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -3942,7 +3942,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*(int)psVar15 << 0xb;
+    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -4742,7 +4742,7 @@ LAB_0602b972:
 
     in_r2 = (int)psVar15[2];
 
-    in_r0 = (int)*(int)psVar15 << 8;
+    in_r0 = (int)*psVar15 << 8;
 
     param_1 = (unsigned int *)0x06094AB0;
 

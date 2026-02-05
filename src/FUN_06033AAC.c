@@ -37,7 +37,7 @@ long long FUN_06033aac()
 
     psVar2 = (short *)(0x060631BC + (0x0000000E & 0xffff) * (uVar6 & 0xffff));
 
-    *(int *)(puVar5 + 0x00000014 + iVar8) = (int)*(int)psVar2 << 0x10;
+    *(int *)(puVar5 + 0x00000014 + iVar8) = (int)*psVar2 << 0x10;
 
     *(int *)(puVar5 + 0x00000018 + iVar8) = (int)psVar2[1] << 0x10;
 

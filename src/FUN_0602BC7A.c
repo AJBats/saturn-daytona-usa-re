@@ -119,7 +119,7 @@ long long FUN_0602bc7a(param_1, param_2, param_3, param_4, param_5)
 
   uVar18 = in_sr & 0xfffffffe;
 
-  uVar6 = (int)*(int)psVar5 << 0xb;
+  uVar6 = (int)*psVar5 << 0xb;
 
   *(unsigned int *)0x0602BDA8 = uVar6;
 
