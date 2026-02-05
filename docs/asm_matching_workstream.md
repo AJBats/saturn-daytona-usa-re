@@ -232,8 +232,22 @@ Additional improvements from continued grinding pass:
 
 **Current scoreboard:**
 - 53 PASS / 814 FAIL / 867 total (6% match)
-- 437 functions with delta≤0 (50.4%)
-- 363 functions with delta>0 (41.9%)
+- 439 functions with delta<=0 (50.6%)
+- 361 functions with delta>0 (41.6%)
+
+### Session 2026-02-05 (continuation)
+
+| Function | Size | Before → After | Improvement | Root Cause |
+|----------|------|----------------|-------------|------------|
+| FUN_0600D9BC | 74 | delta=+9 → delta=-3 | **12 insn** | register asm for base/puVar1 |
+| FUN_060061C8 | 77 | delta=+7 → delta=+4 | **3 insn** | register asm for base/values |
+| FUN_0600A294 | 43 | delta=+11 → delta=+5 | **6 insn** | short externs, cached values |
+| FUN_0600CDD0 | 75 | delta=+8 → delta=+5 | **3 insn** | register asm for base ptr |
+| FUN_0600D37C | 36 | delta=+9 → delta=+5 | **4 insn** | register asm for loop vars |
+| FUN_0600E71A | 65 | delta=+9 → delta=+8 | **1 insn** | register asm, simplified offsets |
+| FUN_0600EB14 | 98 | delta=+7 → delta=0 | **7 insn** | zero in r6 for many stores |
+
+**Total this continuation: ~36 instructions saved across 7 functions**
 
 **Key insight**: `register int var asm("rN")` for function pointers and shared values:
 - Eliminates callee-saved register push/pop overhead
