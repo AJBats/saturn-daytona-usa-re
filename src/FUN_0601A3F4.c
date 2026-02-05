@@ -85,7 +85,7 @@ void FUN_0601a3f4(param_1, param_2)
 
       (*(int(*)())puVar2)(iVar6 << 2,
 
-                        ((unsigned int)(unsigned char)(puVar5 + ((unsigned int)bVar1 + (unsigned int)bVar7) << 1)[1] * 0x40 +
+                        ((unsigned int)(unsigned char)(puVar5 + (((unsigned int)bVar1 + (unsigned int)bVar7) << 1))[1] * 0x40 +
 
                         (unsigned int)(unsigned char)puVar5[((unsigned int)bVar1 + (unsigned int)bVar7) << 1]) << 1,0,puVar3);
 

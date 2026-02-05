@@ -120,7 +120,7 @@ void FUN_06016dd8(param_1)
 
     *(short **)(&stack0xfffffff4 + iVar3) = psVar8;
 
-    iVar5 = (*(int(*)())puVar1)((int)*(int)psVar8 << 0x10,*(int *)((int)&local_20 + iVar3));
+    iVar5 = (*(int(*)())puVar1)((int)*psVar8 << 0x10,*(int *)((int)&local_20 + iVar3));
 
     **(int **)((int)aiStack_28 + iVar3 + 4) = iVar5 + *(int *)((int)aiStack_28 + iVar3);
 

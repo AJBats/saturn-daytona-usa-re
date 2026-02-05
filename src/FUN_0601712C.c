@@ -17,7 +17,7 @@ void FUN_0601712c()
 
     if (puVar1[(short)(((unsigned short)uVar2 & 0xff) * 0x44)] != '\0') {
 
-      (*auStack_6c[(unsigned char)puVar1[(short)(((unsigned short)uVar2 & 0xff) * 0x44)] - 1])(uVar2);
+      (*(int(*)())auStack_6c[(unsigned char)puVar1[(short)(((unsigned short)uVar2 & 0xff) * 0x44)] - 1])(uVar2);
 
     }
 

@@ -165,7 +165,7 @@ int FUN_06020e74()
 
   iVar9 = *(int *)(*(int *)0x0607E944 + 0x60) >> 0xe;
 
-  iVar8 = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)*((int)(int)puVar1 << 2));
+  iVar8 = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)(*puVar1 << 2));
 
   if (*puVar2 != '\0') {
 
@@ -191,7 +191,7 @@ int FUN_06020e74()
 
     uVar5 = (unsigned int)bVar6;
 
-    *(int *)(puVar3 + (0x15 - (unsigned int)bVar6) << 2 + (int)DAT_0602109e) = iVar10 + iVar8;
+    *(int *)(puVar3 + (((0x15 - (unsigned int)bVar6) << 2) + (int)DAT_0602109e)) = iVar10 + iVar8;
 
     bVar6 = bVar6 + 1;
 

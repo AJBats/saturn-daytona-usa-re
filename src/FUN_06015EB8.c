@@ -58,11 +58,11 @@ void FUN_06015eb8(param_1)
 
     *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 0x30) =
 
-         *(int *)((int)(puVar3 + ((param_1 & 0xff) << 4 + 8) << 2) + 8);
+         *(int *)((int)(puVar3 + ((((param_1 & 0xff) << 4) + 8) << 2)) + 8);
 
     *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 4) =
 
-         *(int *)(puVar3 + ((param_1 & 0xff) << 4 + 8) << 2);
+         *(int *)(puVar3 + ((((param_1 & 0xff) << 4) + 8) << 2));
 
   }
 

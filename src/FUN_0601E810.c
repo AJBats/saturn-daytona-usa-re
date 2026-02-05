@@ -54,7 +54,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   *(int *)(puVar4 + 0x18) = uVar6;
 
-  *(int *)(puVar4 + 0x1c) = *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)*((int)(int)puVar2 << 2));
+  *(int *)(puVar4 + 0x1c) = *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)(*puVar2 << 2));
 
   do {
 

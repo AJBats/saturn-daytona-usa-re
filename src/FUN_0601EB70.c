@@ -31,7 +31,7 @@ unsigned int FUN_0601eb70()
 
   if (uVar6 == 0) {
 
-    for (uVar7 = 0; uVar6 = (unsigned int)(unsigned char)*((int)(int)puVar2 << 2), uVar7 < *(unsigned int *)(puVar1 + uVar6);
+    for (uVar7 = 0; uVar6 = (unsigned int)(unsigned char)(*puVar2 << 2), uVar7 < *(unsigned int *)(puVar1 + uVar6);
 
         uVar7 = uVar7 + 1) {
 

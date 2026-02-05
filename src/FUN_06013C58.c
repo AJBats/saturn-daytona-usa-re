@@ -145,9 +145,9 @@ int FUN_06013c58()
 
   }
 
-  uVar5 = (*(int(*)())puVar2)(0xc,*(int *)(puVar3 + (uVar9 + 0x48) << 3),(int)DAT_06013dd4,
+  uVar5 = (*(int(*)())puVar2)(0xc,*(int *)(puVar3 + ((uVar9 + 0x48) << 3)),(int)DAT_06013dd4,
 
-                            *(int *)(puVar3 + (uVar7 + 0x48) << 3 + 4));
+                            *(int *)(puVar3 + ((uVar7 + 0x48) << 3) + 4));
 
   return uVar5;
 

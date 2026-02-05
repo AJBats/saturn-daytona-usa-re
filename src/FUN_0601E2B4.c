@@ -23,7 +23,7 @@ void FUN_0601e2b4()
 
   if (*(int *)0x06087080 == '\0') {
 
-    for (uVar5 = 0; uVar5 < *(unsigned int *)(puVar2 + (unsigned int)(unsigned char)*((int)(int)puVar1 << 2)); uVar5 = uVar5 + 1) {
+    for (uVar5 = 0; uVar5 < *(unsigned int *)(puVar2 + (unsigned int)(unsigned char)(*puVar1 << 2)); uVar5 = uVar5 + 1) {
 
       *(char *)(*(int *)puVar3 + uVar5) = 0;
 

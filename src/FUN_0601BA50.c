@@ -60,13 +60,13 @@ void FUN_0601ba50(param_1, param_2, param_3)
 
                     0x0000A000 + *(int *)((int)(puVar4 + DAT_0601bb3e) + 4));
 
-  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + (param_1 + 0x30) << 3),0x390,
+  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + ((param_1 + 0x30) << 3)),0x390,
 
-                    0x00009000 + *(int *)((int)(puVar4 + (param_1 + 0x30) << 3) + 4));
+                    0x00009000 + *(int *)((int)(puVar4 + ((param_1 + 0x30) << 3)) + 4));
 
-  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + (param_2 + 0x33) << 3),(int)DAT_0601bb44,
+  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + ((param_2 + 0x33) << 3)),(int)DAT_0601bb44,
 
-                    0x00009000 + *(int *)((int)(puVar4 + (param_2 + 0x33) << 3) + 4));
+                    0x00009000 + *(int *)((int)(puVar4 + ((param_2 + 0x33) << 3)) + 4));
 
   FUN_0601bbcc(*(int *)
 

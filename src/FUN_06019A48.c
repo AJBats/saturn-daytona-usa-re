@@ -105,7 +105,7 @@ void FUN_06019a48()
 
   *(int *)0x0605D242 = *(int *)0x0605D242 + '\x01';
 
-  (*(int(*)())(*(int *)(0x0605D260 + (char)*((int)(int)puVar2 << 2))))();
+  (*(int(*)())(*(int *)(0x0605D260 + (char)(*puVar2 << 2))))();
 
   return;
 

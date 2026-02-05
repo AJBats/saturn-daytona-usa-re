@@ -117,7 +117,7 @@ void FUN_0601b7f4()
 
     }
 
-    puVar5 = (int *)(puVar1 + (bVar8 + 0x30) << 3);
+    puVar5 = (int *)(puVar1 + ((bVar8 + 0x30) << 3));
 
     (*(int(*)())0x06028400)(8,*puVar5,((unsigned int)local_34[bVar8] + (unsigned int)(local_24 << 6)) << 1,
 
@@ -155,7 +155,7 @@ void FUN_0601b7f4()
 
     }
 
-    puVar5 = (int *)(puVar1 + (bVar8 + 0x33) << 3);
+    puVar5 = (int *)(puVar1 + ((bVar8 + 0x33) << 3));
 
     (*(int(*)())0x06028400)(8,*puVar5,((unsigned int)local_34[bVar8] + (unsigned int)(local_23 << 6)) << 1,
 

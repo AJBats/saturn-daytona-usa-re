@@ -1,4 +1,4 @@
-void FUN_060116a8(int param_1,int param_2,short param_3,int param_4)
+void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_5)
 {
 
   char *puVar1;

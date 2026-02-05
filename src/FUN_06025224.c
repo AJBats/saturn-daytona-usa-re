@@ -144,17 +144,17 @@ void FUN_06025224(param_1)
 
       piVar5 = (int *)(0x06058FBC + iVar7);
 
-      (*(int(*)())puVar3)(piVar5[1] << 2,*(int *)(puVar2 + *((int)(int)piVar5 << 3)),
+      (*(int(*)())puVar3)(piVar5[1] << 2,*(int *)(puVar2 + (*piVar5 << 3)),
 
                         ((unsigned int)(unsigned char)((char *)(0x0605904C + (uVar11 << 1)))[1] * 0x40 +
 
                         (unsigned int)(unsigned char)((int *)0x0605904C)[(uVar11 << 1)]) << 1,
 
-                        0x00008000 + *(int *)((int)(puVar2 + *((int)(int)piVar5 << 3)) + 4));
+                        0x00008000 + *(int *)((int)(puVar2 + (*piVar5 << 3)) + 4));
 
       (*(int(*)())puVar3)(piVar5[1] << 2,
 
-                        *(int *)(puVar2 + (unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3),
+                        *(int *)(puVar2 + ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3)),
 
                         ((unsigned int)(unsigned char)((char *)(0x06059060 + (uVar11 << 1)))[1] * 0x40 +
 
@@ -162,7 +162,7 @@ void FUN_06025224(param_1)
 
                         (unsigned int)(uVar4 << 12) +
 
-                        *(int *)((int)(puVar2 + (unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3) + 4));
+                        *(int *)((int)(puVar2 + ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3)) + 4));
 
     }
 

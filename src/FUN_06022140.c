@@ -363,7 +363,7 @@ LAB_060224e0:
 
             iVar12 = (*(int(*)())puVar2)(*(int *)(0x06089744 + iVar9),
 
-                                       *(int *)(local_48 + *(int *)(puVar3 + iVar9) << 3));
+                                       *(int *)(local_48 + (*(int *)(puVar3 + iVar9) << 3)));
 
             puStack_2c = puStack_2c + DAT_06022652 + iVar12;
 
@@ -385,13 +385,13 @@ LAB_060224e0:
 
                  *(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x14) +
 
-                 *(short *)(local_48 + *((int)(int)piVar11 << 3) + 4);
+                 *(short *)(local_48 + (*piVar11 << 3) + 4);
 
             *(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x16) =
 
                  *(short *)(puVar4 + (short)(sVar15 * 0x18) + 0x16) +
 
-                 *(short *)(local_48 + *((int)(int)piVar11 << 3) + 6);
+                 *(short *)(local_48 + (*piVar11 << 3) + 6);
 
             *piVar11 = *piVar11 + 1;
 

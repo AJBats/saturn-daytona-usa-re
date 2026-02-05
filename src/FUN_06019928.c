@@ -56,7 +56,7 @@ void FUN_06019928()
 
                       *(int *)(puVar1 + (char)*(int *)(0x06085FF0 << 2)));
 
-    (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)*((int)(int)puVar4 << 1) + 1] * 0x40 + 1) << 1,iVar5,
+    (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)(*puVar4 << 1) + 1] * 0x40 + 1) << 1,iVar5,
 
                       0x06049E44);
 

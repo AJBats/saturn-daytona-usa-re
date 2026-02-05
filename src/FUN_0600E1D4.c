@@ -87,7 +87,7 @@ void FUN_0600e1d4()
 
   *(unsigned int *)(iVar9 + DAT_0600e2c2) = (unsigned int)*(unsigned short *)(puVar8 + 2);
 
-  uVar7 = (unsigned int)(unsigned char)0x06047DD0
+  uVar7 = (unsigned int)((unsigned char *)0x06047DD0)
 
                       [*(int *)0x0605AD04 + (int)(char)((char)*(int *)puVar2 * '\x05')]
 

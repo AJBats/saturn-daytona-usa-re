@@ -36,7 +36,7 @@ void FUN_0601e37c()
 
     if (*(short *)(0x06087086 + (unsigned int)(uVar4 << 2)) != 0) {
 
-      *(unsigned short *)(puVar2 + (uVar5 & 0xffff) << 5 + 0x1c) = uVar4;
+      *(unsigned short *)(puVar2 + (((uVar5 & 0xffff) << 5) + 0x1c)) = uVar4;
 
       iVar3 = FUN_0601e488(uVar5);
 
@@ -46,7 +46,7 @@ void FUN_0601e37c()
 
         if (iVar3 == 2) {
 
-          iVar3 = FUN_0601e6a4(*(short *)(puVar2 + (uVar5 & 0xffff) << 5 + 0x1c));
+          iVar3 = FUN_0601e6a4(*(short *)(puVar2 + (((uVar5 & 0xffff) << 5) + 0x1c)));
 
           if (iVar3 == 0) {
 
@@ -64,7 +64,7 @@ void FUN_0601e37c()
 
       }
 
-      if (*(unsigned int *)(puVar2 + (uVar5 & 0xffff) << 5 + 0xc) <
+      if (*(unsigned int *)(puVar2 + (((uVar5 & 0xffff) << 5) + 0xc)) <
 
           *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2)) + 0x20U) {
 

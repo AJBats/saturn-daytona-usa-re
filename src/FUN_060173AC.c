@@ -221,13 +221,13 @@ int FUN_060173ac()
 
     if (iVar11 != 0) {
 
-      FUN_06017784(*(int *)(puVar1 + (iVar11 + 0x5f) << 3),
+      FUN_06017784(*(int *)(puVar1 + ((iVar11 + 0x5f) << 3)),
 
                    *(int *)(puVar1 + DAT_0601772a) + (int)DAT_0601772c,puVar15[0xf],puVar15[0x10]);
 
     }
 
-    uVar4 = FUN_06017784(*(int *)(puVar1 + (iVar3 + 0x5f) << 3),
+    uVar4 = FUN_06017784(*(int *)(puVar1 + ((iVar3 + 0x5f) << 3)),
 
                          *(int *)(puVar1 + DAT_0601772a) + (int)DAT_0601772c,puVar15[0x12],
 

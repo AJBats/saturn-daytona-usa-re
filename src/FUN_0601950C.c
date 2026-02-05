@@ -53,7 +53,7 @@ unsigned int FUN_0601950c()
 
       if (cVar9 != *puVar4) {
 
-        puVar8 = (int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar1 + (cVar9 << 1)) << 3);
+        puVar8 = (int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar1 + (cVar9 << 1)) << 3));
 
         (*(int(*)())puVar2)(0xc,*puVar8,
 
@@ -81,13 +81,13 @@ unsigned int FUN_0601950c()
 
     if ((unsigned char)*(int *)0x0605D242 < 0x10) {
 
-      puVar8 = (int *)(puVar3 + (unsigned int)*(unsigned short *)(puVar1 + (char)*((int)(int)puVar4 << 1)) << 3);
+      puVar8 = (int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar1 + (char)(*puVar4 << 1)) << 3));
 
       uVar7 = (*(int(*)())puVar2)(0xc,*puVar8,
 
-                                ((unsigned int)(unsigned char)(puVar5 + (char)*((int)(int)puVar4 << 1))[1] * 0x40 +
+                                ((unsigned int)(unsigned char)(puVar5 + (char)(*puVar4 << 1))[1] * 0x40 +
 
-                                (unsigned int)(unsigned char)puVar5[(char)*((int)(int)puVar4 << 1)]) << 1,
+                                (unsigned int)(unsigned char)puVar5[(char)(*puVar4 << 1)]) << 1,
 
                                 puVar8[1] + (int)DAT_06019694);
 
@@ -95,15 +95,15 @@ unsigned int FUN_0601950c()
 
     else {
 
-      (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(puVar5 + (char)*((int)(int)puVar4 << 1))[1] * 0x40 +
+      (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(puVar5 + (char)(*puVar4 << 1))[1] * 0x40 +
 
-                     (unsigned int)(unsigned char)puVar5[(char)*((int)(int)puVar4 << 1)]) << 1,0x90,
+                     (unsigned int)(unsigned char)puVar5[(char)(*puVar4 << 1)]) << 1,0x90,
 
                  *(int *)0x0605D4EC);
 
-      uVar7 = (*(int(*)())0x060284AE)(0xc,(((unsigned char)(puVar5 + (char)*((int)(int)puVar4 << 1))[1] + 2) << 6 +
+      uVar7 = (*(int(*)())0x060284AE)(0xc,(((unsigned char)(puVar5 + (char)(*puVar4 << 1))[1] + 2) << 6 +
 
-                             (unsigned int)(unsigned char)puVar5[(char)*((int)(int)puVar4 << 1)]) << 1,0x90,
+                             (unsigned int)(unsigned char)puVar5[(char)(*puVar4 << 1)]) << 1,0x90,
 
                          *(int *)0x0605D4EC);
 

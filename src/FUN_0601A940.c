@@ -117,7 +117,7 @@ void FUN_0601a940()
 
     (*(int(*)())0x0601D5F4)(0,0xAE0001FF);
 
-    (*(int(*)())0x0601D5F4)(0,*(int *)(0x06049CFC + (char)*((int)(int)puVar2 << 2)));
+    (*(int(*)())0x0601D5F4)(0,*(int *)(0x06049CFC + (char)(*puVar2 << 2)));
 
   }
 
@@ -129,11 +129,11 @@ void FUN_0601a940()
 
   (*(int(*)())puVar1)(0xc,(int)0x091CFFFF,0x0000E000,
 
-                    *(int *)(0x0605D35C + (char)*((int)(int)puVar2 << 3)));
+                    *(int *)(0x0605D35C + (char)(*puVar2 << 3)));
 
   (*(int(*)())puVar1)(0xc,(int)DAT_0601aac2,0x0000E000,
 
-                    *(int *)(0x0605D35C + (char)*((int)(int)puVar2 << 3) + 4));
+                    *(int *)(0x0605D35C + (char)(*puVar2 << 3) + 4));
 
   return;
 

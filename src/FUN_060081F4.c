@@ -93,13 +93,13 @@ void FUN_060081f4()
 
     if (*(int *)(*(int *)puVar1 + (int)DAT_060082ac) < 0) {
 
-      iVar3 = (int)*(short *)(puVar4 + (0x30 - iVar5) << 1);
+      iVar3 = (int)*(short *)(puVar4 + ((0x30 - iVar5) << 1));
 
     }
 
     else {
 
-      iVar3 = -(int)*(short *)(puVar4 + (0x30 - iVar5) << 1);
+      iVar3 = -(int)*(short *)(puVar4 + ((0x30 - iVar5) << 1));
 
     }
 

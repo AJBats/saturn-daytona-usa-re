@@ -269,11 +269,11 @@ LAB_06017b4e:
 
        *(short *)puVar3 * 3 + *(int *)0x0606A4F0;
 
-  *(int *)(puVar5 + (unsigned int)*(unsigned short *)(puVar4 + DAT_06017bd6) << 3) =
+  *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017bd6) << 3)) =
 
        *(short *)puVar6 * 3 + *(int *)puVar2;
 
-  *(int *)(puVar5 + (unsigned int)*(unsigned short *)(puVar4 + DAT_06017bd8) << 3) =
+  *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017bd8) << 3)) =
 
        *(short *)puVar7 * 3 + *(int *)puVar2;
 
