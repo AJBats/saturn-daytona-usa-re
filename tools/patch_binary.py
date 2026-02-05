@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Patch compiled test functions into APROG.BIN and optionally into the disc ISO.
+Patch compiled test functions into APROG.BIN and build a Mednafen-ready disc.
 
 Workflow:
   1. For each function: compile C → assemble → link at correct address → extract bytes
   2. Compare against original bytes (report match level)
   3. Patch into a copy of APROG.BIN
-  4. Optionally patch the ISO disc image
+  4. Patch changed bytes into Track 01 (MODE1/2352) and generate CUE sheet
 
 Usage:
   python3 patch_binary.py                    # Dry run: show what would be patched
-  python3 patch_binary.py --patch            # Patch APROG.BIN and ISO
+  python3 patch_binary.py --patch            # Patch APROG.BIN and disc
   python3 patch_binary.py --patch --unsafe   # Also patch L1-only matches (register diffs)
   python3 patch_binary.py FUN_0600D266       # Single function detail view
 """
@@ -35,10 +35,22 @@ SYMFILE = f'{PROJDIR}/build/aprog_syms.txt'
 SRCDIR = f'{PROJDIR}/src'
 TESTDIR = f'{PROJDIR}/tests'
 OUTPUT_BIN = f'{PROJDIR}/build/aprog_patched.bin'
-ORIG_ISO = f'{PROJDIR}/build/disc/daytona_data.iso'
-OUTPUT_ISO = f'{PROJDIR}/build/disc/daytona_patched.iso'
 BASE_ADDR = 0x06003000
-ISO_APROG_OFFSET = 0xA800  # Byte offset of APROG.BIN in ISO
+
+# Disc image paths
+ORIG_TRACK01 = f'{PROJDIR}/external_resources/Daytona USA (USA)/Daytona USA (USA) (Track 01).bin'
+ORIG_CUE = f'{PROJDIR}/external_resources/Daytona USA (USA)/Daytona USA (USA).cue'
+OUTPUT_DISC_DIR = f'{PROJDIR}/build/disc/patched_disc'
+OUTPUT_TRACK01 = f'{PROJDIR}/build/disc/patched_disc/Track 01.bin'
+OUTPUT_CUE = f'{PROJDIR}/build/disc/patched_disc/daytona_patched.cue'
+
+# MODE1/2352 sector layout
+SECTOR_SIZE_RAW = 2352
+SECTOR_SIZE_DATA = 2048
+SECTOR_DATA_OFFSET = 16  # 12 sync + 4 header
+
+# APROG.BIN location in disc data track (byte offset in 2048-byte sector space)
+APROG_DISC_OFFSET = 0xA800
 
 
 def load_symbols():
@@ -297,6 +309,72 @@ def can_patch_with_disp_fix(our_bytes, orig_bytes, insn_count):
     return bytes(fixed)
 
 
+def patch_track01(orig_aprog, patched_aprog):
+    """Patch changed APROG bytes into a copy of the original Track 01 BIN (MODE1/2352).
+
+    For each byte that differs between patched and original APROG, converts the
+    APROG offset to a raw sector offset and writes it into the track data.
+    Returns the number of disc sectors modified.
+    """
+    track_data = bytearray(open(ORIG_TRACK01, 'rb').read())
+
+    changed_sectors = set()
+    for off in range(len(patched_aprog)):
+        if patched_aprog[off] != orig_aprog[off]:
+            iso_off = APROG_DISC_OFFSET + off
+            sector = iso_off // SECTOR_SIZE_DATA
+            offset_in_sec = iso_off % SECTOR_SIZE_DATA
+            raw_off = sector * SECTOR_SIZE_RAW + SECTOR_DATA_OFFSET + offset_in_sec
+            if raw_off < len(track_data):
+                track_data[raw_off] = patched_aprog[off]
+                changed_sectors.add(sector)
+
+    os.makedirs(OUTPUT_DISC_DIR, exist_ok=True)
+    open(OUTPUT_TRACK01, 'wb').write(track_data)
+    return len(changed_sectors)
+
+
+def generate_cue():
+    """Generate CUE sheet and copy audio tracks into the output directory.
+
+    Copies all audio track BINs from the original disc alongside the patched
+    Track 01 so the CUE can reference everything with simple filenames.
+    """
+    with open(ORIG_CUE, 'r') as f:
+        cue_lines = f.readlines()
+
+    orig_dir = os.path.dirname(ORIG_CUE)
+    new_lines = []
+    track_num = 0
+
+    os.makedirs(OUTPUT_DISC_DIR, exist_ok=True)
+
+    for line in cue_lines:
+        stripped = line.strip()
+        if stripped.startswith('FILE'):
+            parts = stripped.split('"')
+            if len(parts) >= 2:
+                orig_filename = parts[1]
+                if track_num == 0:
+                    new_lines.append('FILE "Track 01.bin" BINARY\n')
+                else:
+                    # Copy audio track into output directory
+                    src = os.path.join(orig_dir, orig_filename)
+                    dst_name = os.path.basename(orig_filename)
+                    dst = os.path.join(OUTPUT_DISC_DIR, dst_name)
+                    if os.path.exists(src) and not os.path.exists(dst):
+                        shutil.copy2(src, dst)
+                    new_lines.append(f'FILE "{dst_name}" BINARY\n')
+                track_num += 1
+            else:
+                new_lines.append(line)
+        else:
+            new_lines.append(line)
+
+    with open(OUTPUT_CUE, 'w') as f:
+        f.writelines(new_lines)
+
+
 def main():
     parser = argparse.ArgumentParser(description='Patch compiled functions into APROG.BIN')
     parser.add_argument('function', nargs='?', help='Single function to detail')
@@ -447,14 +525,17 @@ def main():
         open(OUTPUT_BIN, 'wb').write(patched_data)
         print(f"  Written: {OUTPUT_BIN}")
 
-        # Patch ISO
-        if os.path.exists(ORIG_ISO):
-            iso_data = bytearray(open(ORIG_ISO, 'rb').read())
-            iso_data[ISO_APROG_OFFSET:ISO_APROG_OFFSET + len(patched_data)] = patched_data
-            open(OUTPUT_ISO, 'wb').write(iso_data)
-            print(f"  Written: {OUTPUT_ISO}")
+        # Patch Track 01 and generate CUE sheet for Mednafen
+        if os.path.exists(ORIG_TRACK01):
+            sectors = patch_track01(orig_data, patched_data)
+            generate_cue()
+            if sectors > 0:
+                print(f"  Disc: {sectors} sectors patched in Track 01")
+            else:
+                print(f"  Disc: Track 01 identical to original (all patches are verified matches)")
+            print(f"  Written: {OUTPUT_CUE}")
         else:
-            print(f"  ISO not found at {ORIG_ISO}, skipped")
+            print(f"  Track 01 not found: {ORIG_TRACK01}")
 
     print("=" * 78)
 
