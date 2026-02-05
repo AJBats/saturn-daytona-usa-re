@@ -218,12 +218,22 @@ Additional improvements from continued grinding pass:
 
 **Total this batch: ~49 instructions saved across 9 functions**
 
-**Combined total: ~160 instructions saved across 31 functions today**
+### Session 2026-02-05 (final batch)
+
+| Function | Size | Before → After | Improvement | Root Cause |
+|----------|------|----------------|-------------|------------|
+| FUN_060038D4 | 70 | delta=+1 → delta=-1 | **2 insn** | func ptr in r3 for 14 calls |
+| FUN_0603FCE4 | 37 | delta=+1 → delta=-1 | **2 insn** | func ptr in r3 for conditional calls |
+| FUN_060370C0 | 18 | delta=+1 → delta=-5 | **6 insn** | zero in r0 for byte stores |
+
+**Total final batch: ~10 instructions saved across 3 functions**
+
+**Combined total: ~170+ instructions saved across 34 functions today**
 
 **Current scoreboard:**
 - 53 PASS / 814 FAIL / 867 total (6% match)
-- 434 functions with delta≤0 (50.1%)
-- 366 functions with delta>0 (42.2%)
+- 437 functions with delta≤0 (50.4%)
+- 363 functions with delta>0 (41.9%)
 
 **Key insight**: `register int var asm("rN")` for function pointers and shared values:
 - Eliminates callee-saved register push/pop overhead
