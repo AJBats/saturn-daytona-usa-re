@@ -3,9 +3,10 @@
 #  build.sh — Unified build script for Daytona USA Saturn
 #
 #  Usage:
-#    ./build.sh          Build patched disc
-#    ./build.sh clean    Clean build artifacts, then build
-#    ./build.sh test     Build + run test harness
+#    ./build.sh              Build patched disc
+#    ./build.sh clean        Clean build artifacts, then build
+#    ./build.sh clean-all    Clean everything (including cc1), then build
+#    ./build.sh test         Build + run test harness
 #
 #  Output:
 #    build/disc/patched_disc/daytona_patched.cue
@@ -33,6 +34,14 @@ clean_build() {
     rm -rf "$PROJDIR/build/compiler_rebuilt"
     rm -rf "$PROJDIR/build/gen"
     echo "  Done"
+    echo ""
+}
+
+clean_all() {
+    echo "=== Cleaning everything (including toolchain) ==="
+    clean_build
+    rm -f "$PROJDIR/tools/gcc26-build/cc1"
+    echo "  Removed cc1 compiler"
     echo ""
 }
 
@@ -155,6 +164,10 @@ case "${1:-}" in
         clean_build
         build_disc
         ;;
+    clean-all)
+        clean_all
+        build_disc
+        ;;
     test)
         build_disc
         run_test_harness
@@ -163,7 +176,7 @@ case "${1:-}" in
         build_disc
         ;;
     *)
-        echo "Usage: $0 [clean|test]"
+        echo "Usage: $0 [clean|clean-all|test]"
         exit 1
         ;;
 esac
