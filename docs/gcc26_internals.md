@@ -628,9 +628,13 @@ void FUN_06005174()
         /* ... */
         ".byte 0x00, 0x0B\n"   /* rts */
         ".byte 0x81, 0x53\n"   /* delay slot */
-        ".naked\n"              /* suppress GCC's epilogue */
+        "! .naked\n"            /* suppress GCC's epilogue (comment form for assembler) */
     );
 }
+```
+
+**Note**: Use `! .naked` (SH comment syntax) instead of `.naked` so the assembler
+ignores it. The compiler still detects ".naked" in the string.
 ```
 
 ### Build Note

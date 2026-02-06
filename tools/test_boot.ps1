@@ -37,8 +37,12 @@ $SnapsDir = "C:\Users\albat\.mednafen\snaps"
 
 if ($Cue -eq "vanilla") {
     $CuePath = Join-Path $ProjectDir "external_resources\Daytona USA (USA)\Daytona USA (USA).cue"
-} else {
+} elseif ($Cue -eq "rebuilt") {
+    $CuePath = Join-Path $ProjectDir "build\disc\rebuilt_disc\daytona_rebuilt.cue"
+} elseif ($Cue -eq "patched") {
     $CuePath = Join-Path $ProjectDir "build\disc\patched_disc\daytona_patched.cue"
+} else {
+    $CuePath = $Cue
 }
 
 New-Item -ItemType Directory -Force -Path $ScreenshotDir | Out-Null
