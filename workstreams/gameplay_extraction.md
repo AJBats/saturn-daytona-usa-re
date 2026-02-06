@@ -83,7 +83,9 @@ Once we understand enough, isolate subsystems:
 - [x] Map gas/brake → acceleration path (car flag bits 0x40/0x80 → force table → speed)
 - [x] Identify player vs AI branching (FUN_0600E1D4, car index 0 = player)
 - [x] Trace force table data structures (0x060453B4, 0x060453C4 — COMPLETE)
-- [ ] Trace speed curve from course tables (0x060477EC, 0x060454CC)
+- [x] Trace speed curve from course tables (0x060477EC, 0x060454CC) — COMPLETE
+- [x] Trace position integration (FUN_0600C5D6 — sin/cos + 3D transform paths)
+- [x] Created asm/speed_position.s with full annotated system
 
 ### M7: Sound System ✓
 - [x] Find sound trigger mechanism (FUN_0601D5F4 — mailbox to 68000 via 0x25A02C20)
@@ -412,11 +414,17 @@ The acceleration chain from controller to position:
 +0x00B8: long  — gear shift countdown timer (32 frames) / proximity override
 +0x00BC: long  — force secondary timer (countdown-40, blocks gear shifts)
 +0x00D4: word  — mode field (20=force init, 40=gear shift, 10=steering cap)
++0x00FC: long  — clamped speed delta (per-frame, from speed curve)
 +0x0E0: long  — computed speed value (from FUN_0600E410)
 +0x0E4: long  — computed speed value copy
 +0x120..0x12C — activation flags (4 longs, set to 1 during init)
 +0x015C: long  — LAP COUNTER (incremented each completed lap)
++0x0161: byte  — state flags (bit 5 = steering override active)
 +0x184: long  — current track segment index
++0x018C: long  — sin(-heading) result (from FUN_06027358)
++0x0190: long  — cos(-heading) result (from FUN_06027358)
++0x0194: long  — speed target (force system or course mode 3)
++0x0198: long  — speed scaling factor (per-car tuning parameter)
 +0x01B4: long  — force speed reference (from record[0])
 +0x01B8: long  — force running pointer (advances 12 bytes/frame)
 +0x01BC: long  — force primary countdown (decrements to 0)
@@ -433,6 +441,7 @@ The acceleration chain from controller to position:
 +0x1F0: long  — previous frame checkpoint parameter (for change detection)
 +0x1F4: long  — ranking/position value
 +0x200: long  — track position comparison value
++0x204: long  — steering correction countdown (decrements by 2 per frame)
 +0x208: long  — timer copy (same as 0x00BC)
 +0x021C: long  — timing sub-counter (incremented on late lap)
 +0x0228: long  — state counter (incremented on lap events)
@@ -543,6 +552,77 @@ brake = deceleration with looser steering, neutral = coasting.
 +0x01D8: long — gear steering deflection (from table, ± by direction)
 +0x01DC: long — gear direction (+1=upshift, -1=downshift)
 +0x0208: long — timer copy (same as 0x00BC)
+```
+
+### Speed Curve & Position Integration
+
+**Speed curve** (FUN_0600C4F8): Two course-specific tables define the speed envelope:
+```
+table_A at 0x060477EC — "thrust" curve (large values, ~0x0BD5xxxx)
+table_B at 0x060454CC — "drag" curve (small values, ~0x0010xxxx)
+
+base_speed = table_A[speed_idx] - table_B[speed_idx] + 0xFEC00000
+target     = ((base_speed >> 16) * car[0x198]) >> 16
+half       = target >> 1
+delta      = car[0x194] - car[0x0C]
+delta      = clamp(delta, -4014, half)
+car[0x0C] += delta                       (floored at 0)
+car[0x08]  = sext16((car[0x0C] * 72) >> 16)
+```
+
+The net force `(table_A - table_B)` decreases as speed increases, creating the characteristic
+racing game acceleration curve: fast off the line, gradually approaching terminal velocity.
+
+**Speed limiter**: When `car[0xBC] > 0` OR `car[0xB8] != 0` (collision/brake active),
+the speed delta is forced to -4014 (0xF052), causing rapid deceleration regardless of tables.
+
+**State flag bypass**: When `*0x0607EBC4 & 0x8000` (bit 15), speed calculation is skipped
+entirely — used during countdown and special states.
+
+**Table data samples** (first 5 entries):
+| Index | Table A | Table B | Net (A - B) |
+|-------|---------|---------|-------------|
+| 0 | 0x0BD52BD3 | 0x00100000 | 0x0BC52BD3 |
+| 1 | 0x0BD52BD3 | 0x001008A1 | 0x0BC52332 |
+| 2 | 0x0BFCE38E | 0x00101328 | 0x0BECD066 |
+| 3 | 0x0C249B4A | 0x00101F96 | 0x0C147BB4 |
+| 4 | 0x0C249B4A | 0x00102DEC | 0x0C146D5E |
+
+**Position integration** (FUN_0600C5D6): Converts speed accumulator into world movement.
+
+Three paths based on car state:
+1. **Course following** (CA96): When game_mode==2, force countdown active, or braking.
+   Smooth position interpolation from course reference data.
+2. **Flat ground sin/cos**: When car flags bits 21-23 all clear.
+   ```
+   car.X += (car[0x0C] * sin(-heading)) >> 16
+   car.Z += (car[0x0C] * cos(-heading)) >> 16
+   car.Y  = 0
+   ```
+3. **3D transform**: When car flags bits 21-23 set (banked turns, airborne).
+   Full matrix transform via FUN_06006838 + FUN_06027EDE.
+
+**Steering correction** (FUN_0600CF58): Applied only when:
+- Car flags bit 3 and bit 5 clear
+- General timer car[0x208] <= 0
+- Collision counter (*0x0607EBDC) <= 10
+- Track position car[0x204] < 102
+
+When correction is active, car[0x204] counts down by 2 each frame (smooth return).
+
+**Game mode 3 speed target**: In mode 3, the speed target car[0x194] is computed from
+the next checkpoint's course data: `car[0x194] = (checkpoint[8] * car[0x198]) >> 16`.
+This allows course geometry to directly control speed targets.
+
+**New car struct offsets** (speed/position system):
+```
++0x00FC: long  — clamped speed delta (written each frame)
++0x0161: byte  — state flags (bit 5 = steering override active)
++0x018C: long  — sin(-heading) result
++0x0190: long  — cos(-heading) result
++0x0194: long  — speed target (from force system or course data)
++0x0198: long  — speed scaling factor (per-car tuning parameter)
++0x0204: long  — steering correction countdown (decrements by 2)
 ```
 
 ### Object Management System
@@ -1213,3 +1293,30 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
     - Headings increase per-row (paired entries share similar angles)
   - Created asm/object_management.s with full annotated system
   - Updated car struct: +0x04 (car index), +0x0E0/0xE4 (speed values), +0x074/0x090 (init values)
+- Traced complete speed curve and position integration system:
+  - **FUN_0600C4F8** (speed curve calculation):
+    - Two course tables: A at 0x060477EC ("thrust"), B at 0x060454CC ("drag")
+    - Both tables indexed by car[0x08] (speed index), 32-bit entries
+    - Net force = table_A[idx] - table_B[idx] + 0xFEC00000 (decreases at higher speed)
+    - Table A first entries: 0x0BD52BD3, 0x0BD52BD3, 0x0BFCE38E, 0x0C249B4A...
+    - Table B first entries: 0x00100000, 0x001008A1, 0x00101328, 0x00101F96...
+    - Two fixed-point multiplies via FUN_06027552: (base>>16 * car[0x198])>>16
+    - Delta = car[0x194] - car[0x0C], clamped to [-4014, half_target]
+    - Accumulator: car[0x0C] += delta, floored at 0
+    - Index conversion: car[0x08] = sext16((car[0x0C] * 72) >> 16)
+    - Speed limiter: when car[0xBC]>0 or car[0xB8]!=0, delta forced to -4014
+    - State flag bit 15 (*0x0607EBC4 & 0x8000): skip entire calculation
+  - **FUN_0600C5D6** (position integration):
+    - Gets next checkpoint entry from FUN_0600CD40 return + 24
+    - Three update paths based on state:
+      1. Course following (CA96): game_mode==2, force active, or braking
+      2. Flat sin/cos: car.X += speed*sin(-heading), car.Z += speed*cos(-heading), car.Y = 0
+      3. 3D transform: when car flags bits 21-23 set (banked turns, airborne)
+    - Steering correction (FUN_0600CF58): only when counter<=10, position<102
+    - Game mode 3: speed target from checkpoint[8] * car[0x198] >> 16
+    - Heading update via FUN_0600C8CC from course data reference
+    - Sin/cos computed by FUN_06027358(-heading) → car[0x18C] and car[0x190]
+  - New car struct offsets: +0x00FC (clamped delta), +0x0161 (state byte),
+    +0x018C/0x0190 (sin/cos), +0x0194 (speed target), +0x0198 (scale), +0x0204 (steer countdown)
+  - Created asm/speed_position.s with full annotated system
+  - M5 now fully complete (all sub-items checked)
