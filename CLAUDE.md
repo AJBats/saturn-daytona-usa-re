@@ -19,7 +19,7 @@
    - Always keep at least one todo as `in_progress`
    - Milestones are checkpoints, not endpoints
 2. **Commit at logical stopping points** — don't mix workstreams in one commit. Finish, commit, move on.
-3. **No destructive git** — no force-push, no reset --hard, no branch -D. Regular commits and branches are fine.
+3. **No destructive git** — no force-push, no reset --hard, no branch -D. Regular commits and branches are fine. Never push, never interact with remote.
 4. **Never stop to ask questions** — make reasonable assumptions and document them
 5. **Save all work to disk frequently** — write results to files after each major step
 6. **Use TodoWrite aggressively** — plan before executing, mark tasks as you go
