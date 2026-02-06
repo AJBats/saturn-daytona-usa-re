@@ -1,7 +1,7 @@
 int FUN_06035c1c(param_1)
     char *param_1;
 {
-    int count = 0;
+    register int count asm("r0") = 0;
     goto check;
 body:
     count++;

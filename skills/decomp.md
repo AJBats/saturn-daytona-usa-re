@@ -302,10 +302,14 @@ void FUN_06011e7c()
 
 ---
 
-## Challenging Patterns (Cannot Fix from C)
+## Challenging Patterns (Not Yet Solved)
 
-These patterns are caused by fundamental differences between GCC 2.6.3 and the original compiler.
-They cannot be fixed by rewriting C code - only compiler patches or accepting the mismatch.
+> **Mindset shift**: "Challenging" means "not yet solved", NOT "proven impossible."
+> The `register asm("rN")` fix for FUN_06005174 was discovered by accident.
+> More techniques likely exist that we haven't found yet.
+
+These patterns are caused by differences between GCC 2.6.3 and the original compiler.
+Many require compiler patches, but some may have undiscovered C-level fixes.
 
 ### Register Allocation
 | Pattern | Example | Cause |
@@ -592,9 +596,226 @@ CALLERS (references TO this function):
 | `tests/*.expected` | Expected opcode sequences |
 | `src/*.c` | Our C source files |
 
+## Advanced Techniques from Decomp Community
+
+These techniques come from the broader matching decompilation community (Mario 64, Zelda OoT, etc.)
+and may apply to GCC 2.6.3 SH-2 with adaptation.
+
+### Temporary Variable Introduction
+
+Creating temp variables can force different register allocation:
+
+```c
+// Before - compiler decides register assignment
+result = func(a + b, c * d);
+
+// After - temp forces value into register before call
+int tmp1 = a + b;
+int tmp2 = c * d;
+result = func(tmp1, tmp2);
+```
+
+**Key insight**: A temp variable doesn't change semantics, but MAY change regalloc if the
+assignment is moved to another basic block.
+
+### Expression Duplication
+
+Duplicate expressions to trigger compiler deduplication:
+
+```c
+// Original doesn't match
+x = arr[i];
+
+// Duplicating the expression can change codegen
+x = arr[i];
+(void)arr[i];  // Force compiler to see it twice
+```
+
+### Statement Separation & Joining
+
+The way statements are separated affects instruction interleaving:
+
+```c
+// Separated statements - independent scheduling
+a = x;
+b = y;
+
+// Comma-separated - forces specific ordering
+a = x, b = y;
+
+// Same line can affect IDO-style compilers (may not affect GCC)
+a = x; b = y;
+```
+
+### Loop Anti-Unrolling
+
+Prevent loop unrolling for small loops:
+
+```c
+// Add meaningless increment/decrement to confuse unroller
+for (i = 0; i < 4; i++) {
+    body();
+    i++; i--;  // Prevents unrolling
+}
+
+// Or use continue statement
+for (i = 0; i < 4; i++) {
+    body();
+    continue;  // May prevent unrolling
+}
+```
+
+### Pointer vs Array Iteration
+
+Different loop forms produce different codegen:
+
+```c
+// Array indexing
+for (i = 0; i < 10; i++) {
+    arr[i] = 0;
+}
+
+// Pointer iteration (often different codegen)
+for (ptr = arr; ptr < arr + 10; ptr++) {
+    *ptr = 0;
+}
+
+// Explicit end pointer
+int *end = &arr[10];
+for (ptr = arr; ptr != end; ptr++) {
+    *ptr = 0;
+}
+```
+
+### Type Cast Effects on Ordering
+
+Casts can affect operand ordering in commutative operations:
+
+```c
+// These may produce different instruction order
+a + b
+(unsigned)a + b
+a + (unsigned)b
+```
+
+### Conditional Form Variations
+
+Different ways to write conditions produce different codegen:
+
+```c
+// These compile differently
+if (x)
+if (x != 0)
+if (x == 1)
+if ((x ^ 0) < 1)  // May be recognized as x == 0
+```
+
+### Ternary vs If-Else
+
+Generally equivalent but can have reordering differences:
+
+```c
+// Ternary
+a = b ? c : d;
+
+// If-else (may generate same code with different ordering)
+if (b) a = c;
+else a = d;
+```
+
+### Struct Copy vs Member Copy
+
+Copying whole struct vs members can differ:
+
+```c
+// Member-by-member
+dst->x = src->x;
+dst->y = src->y;
+dst->z = src->z;
+
+// Whole struct copy (includes padding, different codegen)
+*dst = *src;
+```
+
+### Volatile for Memory Ordering
+
+`volatile` forces address computation before access:
+
+```c
+// Normal - compiler may fold address into load
+int val = *(int*)0x12345678;
+
+// Volatile - separate address computation
+int val = *(volatile int*)0x12345678;
+```
+
+### Loop Header Initialization
+
+Multiple initializations in loop header:
+
+```c
+// Separate initialization
+i = 0;
+other = 4;
+for (; i < 4; i++) { ... }
+
+// Combined in header (different codegen)
+for (i = 0, other = 4; i < 4; i++) { ... }
+```
+
+### Integer Promotion
+
+Explicit promotion for small types:
+
+```c
+// Implicit
+unsigned char mask = var;
+result = data & mask;
+
+// Explicit (may affect codegen)
+unsigned char mask = var;
+unsigned int mask32 = mask;
+result = data & mask32;
+```
+
+### Early Return vs Normal Flow
+
+Can produce different instruction ordering:
+
+```c
+// Early return
+if (error) return -1;
+do_work();
+return 0;
+
+// Else branch
+if (error) {
+    return -1;
+} else {
+    do_work();
+    return 0;
+}
+```
+
+### Decomp Permuter
+
+[decomp-permuter](https://github.com/simonlindholm/decomp-permuter) is a tool that
+automatically tries code variations to find matches. Key macros:
+
+| Macro | Effect |
+|-------|--------|
+| `PERM_GENERAL(a, b, c)` | Try each alternative |
+| `PERM_LINESWAP(...)` | Try statement permutations |
+| `PERM_RANDOMIZE(code)` | Allow random variations in region |
+| `PERM_FORCE_SAMELINE` | Join statements on one line |
+
+**Note**: Permuter works best for regalloc tweaks at the end, not structural changes.
+
 ## External Resources
 
 - [decomp.me](https://decomp.me) - Interactive matching scratches
 - [decomp.dev](https://decomp.dev) - Project progress tracking
 - [Decompedia](https://decomp.wiki/) - Community knowledge base
 - [RetroReversing](https://www.retroreversing.com/) - Tutorials and guides
+- [OoT -O2 Decompilation Guide](https://github.com/n64decomp/oot/blob/master/docs/guides/-O2%20decompilation%20(for%20IDO%205.3).md) - IDO-specific but many patterns apply
+- [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) - Automatic code permutation tool
