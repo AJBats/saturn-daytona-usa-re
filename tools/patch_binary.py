@@ -359,11 +359,11 @@ def generate_cue():
                 if track_num == 0:
                     new_lines.append('FILE "Track 01.bin" BINARY\n')
                 else:
-                    # Copy audio track into output directory
+                    # Copy audio track into output directory (always overwrite)
                     src = os.path.join(orig_dir, orig_filename)
                     dst_name = os.path.basename(orig_filename)
                     dst = os.path.join(OUTPUT_DISC_DIR, dst_name)
-                    if os.path.exists(src) and not os.path.exists(dst):
+                    if os.path.exists(src):
                         shutil.copy2(src, dst)
                     new_lines.append(f'FILE "{dst_name}" BINARY\n')
                 track_num += 1
