@@ -563,3 +563,84 @@ Of 102 failures: 50 have shorter code from our compiler (delta<0), meaning half 
 all "failures" are actually cases where our GCC generates genuinely better code than
 the original 1995 compiler. Only 32 failures (31%) have longer code that could
 potentially be improved.
+
+---
+
+## Patch 24: `.naked` Inline ASM Marker (2026-02-05)
+
+### Problem
+
+When embedding raw machine code via inline asm, GCC always appends its own
+`rts; nop` epilogue after the asm block. For pure-asm function wrappers where
+the asm already contains the return, this creates a double-return.
+
+### Solution
+
+Added `.naked` marker detection in inline asm. When the asm string contains
+`.naked`, the function epilogue (`rts; nop`) is suppressed.
+
+### Files Modified
+
+**sh.h** (config/sh/):
+```c
+/* Enable .naked marker detection in inline asm to suppress rts emission. */
+#define NAKED_ASM_SUPPORT
+```
+
+**sh.c** (config/sh/):
+```c
+/* Flag set when inline asm contains ".naked" marker, suppresses rts emission. */
+int naked_asm_seen = 0;
+
+/* In print_operand case '@': */
+if (naked_asm_seen)
+  { /* suppress rts */ }
+else if (pragma_interrupt)
+  fprintf (stream, "rte");
+else
+  fprintf (stream, "rts");
+
+/* In function_epilogue(): */
+naked_asm_seen = 0;  /* Reset for next function */
+```
+
+**final.c**:
+```c
+/* In ASM_INPUT processing: */
+if (strstr (XSTR (body, 0), ".naked"))
+  {
+#ifdef NAKED_ASM_SUPPORT
+    naked_asm_seen = 1;
+#endif
+  }
+
+/* Same for asm_noperands path */
+```
+
+### Usage
+
+```c
+void FUN_06005174()
+{
+    __asm__ volatile (
+        ".byte 0xD5, 0x2A\n"   /* original machine code */
+        ".byte 0xE4, 0x00\n"
+        /* ... */
+        ".byte 0x00, 0x0B\n"   /* rts */
+        ".byte 0x81, 0x53\n"   /* delay slot */
+        ".naked\n"              /* suppress GCC's epilogue */
+    );
+}
+```
+
+### Build Note
+
+The `tools/gcc26-build/` directory contains copies of source files. After modifying
+`tools/gcc-2.6.3/config/sh/sh.c`, `sh.h`, or `final.c`, copy them to the build
+directory before rebuilding:
+
+```bash
+cp tools/gcc-2.6.3/config/sh/sh.c tools/gcc26-build/config/sh/sh.c
+cp tools/gcc-2.6.3/config/sh/sh.h tools/gcc26-build/config/sh/sh.h
+cp tools/gcc-2.6.3/final.c tools/gcc26-build/final.c
+```

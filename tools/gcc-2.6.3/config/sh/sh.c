@@ -120,6 +120,9 @@ static int lf = 100;
 /* Number of bytes pushed for anonymous args, used to pass information
    between expand_prologue and expand_epilogue. */
 static int extra_push;
+
+/* Flag set when inline asm contains ".naked" marker, suppresses rts emission. */
+int naked_asm_seen = 0;
 
 
 
@@ -370,14 +373,18 @@ print_operand (stream, x, code)
       lf++;
       break;
     case '@':
-      if (pragma_interrupt)
+      if (naked_asm_seen)
+	{
+	  /* .naked marker seen - suppress rts, function handles its own return */
+	}
+      else if (pragma_interrupt)
 	fprintf (stream, "rte");
       else
 	fprintf (stream, "rts");
       break;
     case '#':
       /* Output a nop if there's nothing in the delay slot */
-      if (dbr_sequence_length () == 0)
+      if (dbr_sequence_length () == 0 && !naked_asm_seen)
 	{
 	  fprintf (stream, "\n\tnop");
 	}
@@ -1033,6 +1040,7 @@ function_epilogue (stream, size)
      int size;
 {
   pragma_interrupt = pragma_trapa = 0;
+  naked_asm_seen = 0;  /* Reset for next function */
 }
 
 

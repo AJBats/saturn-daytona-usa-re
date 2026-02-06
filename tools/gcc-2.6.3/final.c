@@ -110,10 +110,15 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #define IS_ASM_LOGICAL_LINE_SEPARATOR(C) ((C) == ';')
 #endif
 
-/* Nonzero means this function is a leaf function, with no function calls. 
+/* Nonzero means this function is a leaf function, with no function calls.
    This variable exists to be examined in FUNCTION_PROLOGUE
    and FUNCTION_EPILOGUE.  Always zero, unless set by some action.  */
 int leaf_function;
+
+#ifdef NAKED_ASM_SUPPORT
+/* SH target: flag set when inline asm contains ".naked" marker. */
+extern int naked_asm_seen;
+#endif
 
 /* Last insn processed by final_scan_insn.  */
 static rtx debug_insn = 0;
@@ -1611,6 +1616,13 @@ final_scan_insn (insn, file, optimize, prescan, nopeepholes)
 		fprintf (file, ASM_APP_ON);
 		app_on = 1;
 	      }
+	    /* Check for .naked marker to suppress function epilogue. */
+	    if (strstr (XSTR (body, 0), ".naked"))
+	      {
+#ifdef NAKED_ASM_SUPPORT
+	        naked_asm_seen = 1;
+#endif
+	      }
 	    fprintf (asm_out_file, "\t%s\n", XSTR (body, 0));
 	    break;
 	  }
@@ -1636,6 +1648,13 @@ final_scan_insn (insn, file, optimize, prescan, nopeepholes)
 	    /* Get out the operand values.  */
 	    string = decode_asm_operands (body, ops, NULL_PTR,
 					  NULL_PTR, NULL_PTR);
+	    /* Check for .naked marker to suppress function epilogue. */
+	    if (string && strstr (string, ".naked"))
+	      {
+#ifdef NAKED_ASM_SUPPORT
+	        naked_asm_seen = 1;
+#endif
+	      }
 	    /* Inhibit aborts on what would otherwise be compiler bugs.  */
 	    insn_noperands = noperands;
 	    this_is_asm_operands = insn;

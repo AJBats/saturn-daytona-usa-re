@@ -24,6 +24,9 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 /* Run-time Target Specification.  */
 #define TARGET_SH
 
+/* Enable .naked marker detection in inline asm to suppress rts emission. */
+#define NAKED_ASM_SUPPORT
+
 #define TARGET_VERSION  \
   fputs (" (Hitachi SH)", stderr);
 
