@@ -1,5 +1,5 @@
 #!/bin/bash
-# Generate dashboard-ready markdown tables for function status
+# Generate dashboard-ready markdown tables for ALL function status
 # Output can be directly copy-pasted into dashboard/*.md
 
 cd /mnt/d/Projects/SaturnReverseTest
@@ -8,18 +8,20 @@ echo "# Function Status Dashboard Data"
 echo ""
 echo "Generated: $(date '+%Y-%m-%d %H:%M')"
 echo ""
-echo "Copy-paste the relevant sections into dashboard/asm_matching.md"
-echo ""
 echo "---"
 echo ""
 
 # Run test harness and capture results
 results=$(bash tools/test_harness.sh 2>&1)
 
-# Count stats
+# Count all source files
+total_src=$(ls src/*.c 2>/dev/null | wc -l)
+total_expected=$(ls tests/*.expected 2>/dev/null | wc -l)
+
+# Count stats from test harness
 pass_count=$(echo "$results" | grep -c "^PASS")
 fail_count=$(echo "$results" | grep -c "^FAIL")
-total=$((pass_count + fail_count))
+skip_count=$((total_src - pass_count - fail_count))
 
 # Count deltas
 delta_neg=$(echo "$results" | grep -E "^FAIL.*delta=-" | wc -l)
@@ -30,65 +32,44 @@ echo "## Summary"
 echo ""
 echo "| Metric | Value |"
 echo "|--------|-------|"
-echo "| Total tested | $total |"
-echo "| PASS | $pass_count ($(echo "scale=1; $pass_count * 100 / $total" | bc)%) |"
+echo "| Total source files | $total_src |"
+echo "| Expected files | $total_expected |"
+echo "| PASS | $pass_count |"
 echo "| FAIL | $fail_count |"
+echo "| No expected | $skip_count |"
 echo ""
 
-echo "## Delta Breakdown"
+echo "## Delta Breakdown (of $fail_count FAIL)"
 echo ""
-echo "| Category | Count | Meaning | Tractability |"
-echo "|----------|-------|---------|--------------|"
-echo "| delta=0 | $delta_zero | Same count, different opcodes | Scheduling - challenging |"
-echo "| delta<0 | $delta_neg | Our code shorter | Better optimization - intentional |"
-echo "| delta>0 | $delta_pos | Our code longer | Register allocation - challenging |"
-echo ""
-
-echo "## PASS Functions ($pass_count)"
-echo ""
-echo "| Function | Insns | Notes |"
-echo "|----------|-------|-------|"
-echo "$results" | grep "^PASS" | sort | while read line; do
-    func=$(echo "$line" | awk '{print $2}')
-    insns=$(echo "$line" | grep -oP '\d+ insns' | grep -oP '^\d+')
-    echo "| $func | $insns | |"
-done
+echo "| Category | Count | Meaning |"
+echo "|----------|-------|---------|"
+echo "| delta=0 | $delta_zero | Same count, different opcodes |"
+echo "| delta<0 | $delta_neg | Our code shorter |"
+echo "| delta>0 | $delta_pos | Our code longer |"
 echo ""
 
-echo "## FAIL delta=0 ($delta_zero)"
+echo "## All Functions ($total_src)"
 echo ""
-echo "Same instruction count, different opcodes (scheduling/allocation)."
-echo ""
-echo "| Function | Insns | Notes |"
-echo "|----------|-------|-------|"
-echo "$results" | grep -E "^FAIL.*delta=0\)" | sort | while read line; do
-    func=$(echo "$line" | awk '{print $2}')
-    insns=$(echo "$line" | grep -oP 'ours=\d+' | grep -oP '\d+')
-    echo "| $func | $insns | |"
-done
-echo ""
+echo "| Function | Status | Ours | Orig | Delta | Notes |"
+echo "|----------|--------|------|------|-------|-------|"
 
-echo "## FAIL delta<0 (Our Code Better)"
-echo ""
-echo "| Function | Ours | Orig | Delta | Notes |"
-echo "|----------|------|------|-------|-------|"
-echo "$results" | grep -E "^FAIL.*delta=-" | sort | while read line; do
-    func=$(echo "$line" | awk '{print $2}')
-    ours=$(echo "$line" | grep -oP 'ours=\d+' | grep -oP '\d+')
-    orig=$(echo "$line" | grep -oP 'orig=\d+' | grep -oP '\d+')
-    delta=$(echo "$line" | grep -oP 'delta=-?\d+' | grep -oP '\-?\d+')
-    echo "| $func | $ours | $orig | $delta | |"
-done
-echo ""
+# Process ALL source files
+for cfile in src/FUN_*.c; do
+    base=$(basename "$cfile" .c)
 
-echo "## FAIL delta>0 (Our Code Longer)"
-echo ""
-echo "| Function | Ours | Orig | Delta | Notes |"
-echo "|----------|------|------|-------|-------|"
-echo "$results" | grep -E "^FAIL.*delta=[1-9]" | sort | while read line; do
-    func=$(echo "$line" | awk '{print $2}')
-    ours=$(echo "$line" | grep -oP 'ours=\d+' | grep -oP '\d+')
-    orig=$(echo "$line" | grep -oP 'orig=\d+' | grep -oP '\d+')
-    delta=$(echo "$line" | grep -oP 'delta=-?\d+' | grep -oP '\-?\d+')
-    echo "| $func | $ours | $orig | $delta | |"
+    # Check test harness result
+    line=$(echo "$results" | grep "  $base  ")
+
+    if echo "$line" | grep -q "^PASS"; then
+        insns=$(echo "$line" | grep -oP '\d+ insns' | grep -oP '^\d+')
+        echo "| $base | PASS | $insns | $insns | 0 | |"
+    elif echo "$line" | grep -q "^FAIL"; then
+        ours=$(echo "$line" | grep -oP 'ours=\d+' | grep -oP '\d+')
+        orig=$(echo "$line" | grep -oP 'orig=\d+' | grep -oP '\d+')
+        delta=$(echo "$line" | grep -oP 'delta=-?\d+' | grep -oP '\-?\d+')
+        echo "| $base | FAIL | $ours | $orig | $delta | |"
+    else
+        # No expected file
+        echo "| $base | - | - | - | - | No expected |"
+    fi
 done
