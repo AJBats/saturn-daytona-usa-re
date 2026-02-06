@@ -82,7 +82,7 @@ Once we understand enough, isolate subsystems:
 - [x] Map complete player physics pipeline (FUN_0600E71A, 8-step chain)
 - [x] Map gas/brake → acceleration path (car flag bits 0x40/0x80 → force table → speed)
 - [x] Identify player vs AI branching (FUN_0600E1D4, car index 0 = player)
-- [ ] Trace force table data structures (0x060453B4, 0x060453C4 — format TBD)
+- [x] Trace force table data structures (0x060453B4, 0x060453C4 — COMPLETE)
 - [ ] Trace speed curve from course tables (0x060477EC, 0x060454CC)
 
 ### M7: Sound System ✓
@@ -392,12 +392,21 @@ The acceleration chain from controller to position:
 +0x030: long  — heading copy B
 +0x0B8: long  — steering input timer
 +0x0D4: long  — mode field
-+0x00B8: long  — finish line proximity override (non-zero = already near finish)
++0x00B8: long  — gear shift countdown timer (32 frames) / proximity override
++0x00BC: long  — force secondary timer (countdown-40, blocks gear shifts)
++0x00D4: word  — mode field (20=force init, 40=gear shift, 10=steering cap)
 +0x120..0x12C — track segment flags (4 longs, used by FUN_0600EA18)
 +0x015C: long  — LAP COUNTER (incremented each completed lap)
 +0x184: long  — current track segment index
-+0x1BC: byte  — collision flags
-+0x1DC: long  — gear shift countdown timer
++0x01B4: long  — force speed reference (from record[0])
++0x01B8: long  — force running pointer (advances 12 bytes/frame)
++0x01BC: long  — force primary countdown (decrements to 0)
++0x01C0: long  — state bits (bits 30-31 from game state)
++0x01C8: long  — X force (from record, signed by gas/brake)
++0x01CC: long  — Z force (from record, signed by gas/brake)
++0x01D0: long  — angular force (from record, signed by gas/brake)
++0x01D8: long  — gear steering deflection (from table, ± by direction)
++0x01DC: long  — gear shift direction (+1=up, -1=down)
 +0x1E0: long  — checkpoint table base pointer (24 bytes per entry)
 +0x1E4: long  — current checkpoint index (wraps to 0 at lap boundary)
 +0x1E8: long  — cumulative checkpoint count (progress toward lap)
@@ -405,7 +414,7 @@ The acceleration chain from controller to position:
 +0x1F0: long  — previous frame checkpoint parameter (for change detection)
 +0x1F4: long  — ranking/position value
 +0x200: long  — track position comparison value
-+0x208: long  — main timer
++0x208: long  — timer copy (same as 0x00BC)
 +0x021C: long  — timing sub-counter (incremented on late lap)
 +0x0228: long  — state counter (incremented on lap events)
 +0x0230: long  — position snapshot (for split time calculation)
@@ -437,30 +446,85 @@ The acceleration chain from controller to position:
 | FUN_06035228 | Heading interpolation toward target |
 | FUN_06034F78 | General interpolation function |
 
-### Force Table Data Structures
+### Force Table Data Structures — COMPLETE
 
-The tables at 0x060453B4 and 0x060453C4 are **pointers TO** force data, not the data itself.
-After dereferencing (`mov.l @r4,r4`), you get a pointer to a force record array.
+The force system is a **keyframe animation**: pre-baked arrays of 12-byte force records,
+one per frame. The system plays through the array, applying forces based on gas/brake state.
 
-**Selection logic** (in FUN_06008640):
-- Table A (0x060453B4): indexed by `(player_state & 1) × 8` (two sub-tables, 8 bytes apart)
-- Table B (0x060453C4): used during countdown/special state
-- Both lead to FUN_060086C0 which reads force records
-
-**Force record structure** (12 bytes per record):
+**3-level table hierarchy:**
 ```
-+0x00: long  — indirect pointer (to sub-record or next record)
-+0x04: word  — steering factor (applied to heading)
-+0x06: word  — X force component (negated when applied to car)
-+0x08: word  — Z force component (negated when applied to car)
-+0x0A: word  — angular force (negated when applied to car)
+Level 0: Table pointers (select based on game mode)
+  0x060453B4 — Table A (normal racing), indexed by (state&1)*8
+  0x060453C4 — Table B (countdown/special), single entry
+
+Level 1: Force descriptors (8 bytes each)
+  [0]: long — pointer to force record array
+  [4]: long — frame countdown (number of frames to play)
+
+Level 2: Force record array (12 bytes per record)
+  [0x00]: long — cumulative speed reference (monotonically increasing)
+  [0x04]: word — steering response factor (~128 = unity)
+  [0x06]: word — X force component (signed)
+  [0x08]: word — Z force component (signed)
+  [0x0A]: word — angular force component (signed)
+```
+
+**Two force profiles:**
+- Profile A: 64 records at 0x0604508C (gentle, ~1.07 sec, normal racing)
+- Profile B: 85 records at 0x06044C90 (aggressive, ~1.42 sec, countdown mode)
+- Profile B has ~12x larger X forces than Profile A
+
+**Force sign convention (gas/brake):**
+| Input   | X force      | Z force      | Angular      |
+|---------|-------------|-------------|-------------|
+| Gas     | +record[6]  | -record[8]  | -record[0xA] |
+| Brake   | -record[6]  | -record[8]  | +record[0xA] |
+| Neutral | record[6]   | record[8]   | record[0xA]  |
+
+Physical interpretation: gas = forward thrust with drift/rotation resistance,
+brake = deceleration with looser steering, neutral = coasting.
+
+**Contiguous memory layout:**
+```
+0x06044C90: Profile B data (85 × 12 = 1020 bytes)
+0x0604508C: Profile A data (64 × 12 = 768 bytes)
+0x0604538C: Level 1 descriptors
+0x060453B4: Table A pointers
+0x060453C4: Table B pointer
+0x060453CC: Gear steering lookup table
 ```
 
 **Gear steering lookup** (0x060453CC):
-- Array of signed 16-bit words
-- Indexed by countdown timer value (word-indexed: `timer × 2 + base`)
-- Value is sign-extended and either kept or negated based on gear direction
-- Stored as steering deflection in car struct
+- 33+ signed 16-bit words, forming an S-curve
+- Indexed by countdown timer (word-indexed: `timer × 2 + base`)
+- Profile: 0 → +29557 → -32768 → -158 → +64 (overshoot + settle)
+- Timer starts at 32 frames (~0.53 sec), decrementing each frame
+- For downshift: all values negated
+- Creates momentary steering kick when shifting gears
+
+**Gear shift detection** (FUN_06008318):
+- Car[0] bit 0x10 = shift down, bit 0x20 = shift up
+- Only when state > 600 frames (~10 sec into race)
+- Only when car[0x00BC] == 0 (no force system active)
+- Sets: car[0x00B8]=32 (timer), car[0x01DC]=±1 (direction)
+- Button flags consumed via FUN_06034F78 (cleared each frame)
+
+**Car struct fields for force system:**
+```
++0x00B8: long — gear shift countdown (32 frames, decrements)
++0x00BC: long — force secondary timer (countdown - 40, blocks gear shift)
++0x00D4: word — mode field (20=force init, 40=gear shift, 10=steering cap)
++0x01B4: long — speed reference from record[0]
++0x01B8: long — running force pointer (advances 12 bytes/frame)
++0x01BC: long — primary countdown (from descriptor, decrements to 0)
++0x01C0: long — state bits (bits 30-31 from game state via FUN_06034F78)
++0x01C8: long — X force (signed by gas/brake)
++0x01CC: long — Z force (signed by gas/brake)
++0x01D0: long — angular force (signed by gas/brake)
++0x01D8: long — gear steering deflection (from table, ± by direction)
++0x01DC: long — gear direction (+1=upshift, -1=downshift)
++0x0208: long — timer copy (same as 0x00BC)
+```
 
 ### VDP1 Rendering System
 
@@ -961,3 +1025,16 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
   - Per-car bitmask at 0x06063F1C prevents double-counting
   - Created asm/lap_counting.s with full annotated system
   - Updated car struct: 8 new offsets (0x015C, 0x01E0-0x01F0, 0x021C, 0x0228, 0x0230)
+- Traced complete force table and acceleration system:
+  - Decoded 3-level table hierarchy: table pointers → descriptors → force record arrays
+  - Two force profiles: A (64 records, gentle) at 0x0604508C, B (85 records, aggressive) at 0x06044C90
+  - 12-byte force records: speed_ref(4) + steering(2) + X(2) + Z(2) + angular(2)
+  - Gas/brake determines force sign convention (forward/brake/coast physics)
+  - FUN_06008318: gear shift handler (S-curve steering kick over 32 frames)
+  - 0x06008640: force table selection (bit 23 of state → table A or B)
+  - FUN_060086C0: force initialization (loads descriptor → car struct fields)
+  - 0x06008730: per-frame force application (read record, apply sign, advance ptr)
+  - Gear steering table at 0x060453CC: 33-entry S-curve (0→+29557→-32768→-158→+64)
+  - Created asm/force_tables.s with complete annotated system
+  - Updated car struct: 13 new offsets (0x00B8-0x0208 force system)
+  - Contiguous data block: 0x06044C90-0x0604540E (profiles + descriptors + tables)
