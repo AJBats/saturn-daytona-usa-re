@@ -23,6 +23,10 @@
 6. **Use TodoWrite aggressively** — plan before executing, mark tasks as you go
 7. **If blocked, skip and move on** — document what blocked you and continue with next task
 
+## Skills
+Refer to skills directory for useful skills on this project.
+decomp.md - will teach you techniques for doing the actual decompilation and matching production asm.
+dashboard.md - will teach you skills for updating dashboards.
 
 ## WSL Gotchas
 - **CRLF**: Files written on Windows have CRLF. Pipe through `tr -d '\r'` when reading
