@@ -111,8 +111,18 @@ Once we understand enough, isolate subsystems:
 - [x] Decode State 20 (FUN_06009508) — abort processing, → state 29
 - [x] Map complete state transition graph (see asm/race_states.s)
 - [ ] Decode States 24, 28, 29 (post-race, mode transition, results screen)
-- [ ] Trace FUN_0600DE54 (per-car race state update — physics/collision per frame)
+- [x] Trace FUN_0600DE54 (per-car race state update — physics/collision per frame)
 - [ ] Trace FUN_060078DC (frame timing/sync)
+
+### M9: Lap Counting System ✓
+- [x] Trace checkpoint crossing detection (FUN_0600CD40)
+- [x] Trace checkpoint change detection (FUN_0600D780)
+- [x] Find the lap completion flag setter (FUN_0600D9BC via FUN_06034F78)
+- [x] Trace lap counter increment (0x0600DB64)
+- [x] Trace finish line display effects (FUN_0600DBA0)
+- [x] Map complete per-frame lap counting flow
+- [x] Decode FUN_06034F78 bitfield utility (packed bit position/count)
+- [x] Created asm/lap_counting.s with full annotated system
 
 ---
 
@@ -382,17 +392,23 @@ The acceleration chain from controller to position:
 +0x030: long  — heading copy B
 +0x0B8: long  — steering input timer
 +0x0D4: long  — mode field
++0x00B8: long  — finish line proximity override (non-zero = already near finish)
 +0x120..0x12C — track segment flags (4 longs, used by FUN_0600EA18)
++0x015C: long  — LAP COUNTER (incremented each completed lap)
 +0x184: long  — current track segment index
 +0x1BC: byte  — collision flags
 +0x1DC: long  — gear shift countdown timer
-+0x1E4: long  — sub-timer (decremented per frame)
-+0x1EC: long  — distance remaining on track
-+0x1F0: long  — segment counter (incremented at boundaries)
++0x1E0: long  — checkpoint table base pointer (24 bytes per entry)
++0x1E4: long  — current checkpoint index (wraps to 0 at lap boundary)
++0x1E8: long  — cumulative checkpoint count (progress toward lap)
++0x1EC: long  — checkpoint parameter (from table entry[0x16])
++0x1F0: long  — previous frame checkpoint parameter (for change detection)
 +0x1F4: long  — ranking/position value
 +0x200: long  — track position comparison value
 +0x208: long  — main timer
-+0x228: long  — race position value (× car count for ranking)
++0x021C: long  — timing sub-counter (incremented on late lap)
++0x0228: long  — state counter (incremented on lap events)
++0x0230: long  — position snapshot (for split time calculation)
 +0x258: word  — gear shift sound parameter
 +0x301: long  — gear direction (+1=up, -1=down)
 +0x350: long  — steering deflection value
@@ -483,6 +499,64 @@ FUN_0602F0E8 — Rendering Pass 2: Frame buffer / command table
 
 **Double-buffer mechanism**: FBCR register alternates each frame between
 two 32KB halves of VDP1 VRAM.
+
+### Lap Counting System
+
+Complete per-frame flow for detecting and counting lap completions:
+
+```
+Frame N:
+  FUN_0600CE66 → FUN_0600CD40   checkpoint crossing detection (angle-based)
+  FUN_0600D780                    checkpoint change detector
+    → FUN_0600D9BC               set lap flag (via FUN_06034F78 bitfield utility)
+    → FUN_0600D92C               record lap timing data
+
+Frame N+1:
+  0x0600DB64                     test flag, clear it, increment car[0x015C]
+  FUN_0600DBA0                   finish line display effects
+```
+
+**Checkpoint system**: Track is divided into N checkpoints (24 bytes each, at car[0x01E0] base).
+FUN_0600CD40 computes angle from car to checkpoint center using atan2. When angular
+difference exceeds checkpoint half-width * 4, advances to next checkpoint. When index
+exceeds total (stored at *0x0607EA9C), wraps to 0.
+
+**Lap detection**: FUN_0600D780 compares car[0x01EC] (current checkpoint param) vs
+car[0x01F0] (previous frame). Three paths:
+- Path A: large backward jump (change < -1) — checkpoint wrap, if cumulative == total → lap
+- Path B: large forward jump (change > 1) — if progress >= total/2 → lap
+- Path C: single step (|change| <= 1) — normal advance, no lap trigger
+
+**Lap flag mechanism**: One-shot flag at byte+2 bit 2 (bit 10 of 32-bit car flags word).
+Set by FUN_0600D9BC via FUN_06034F78(value=1, param=0x1501, car_ptr). The parameter
+0x1501 encodes bit_position=21 from MSB, bit_count=1. Consumed next frame at 0x0600DB64
+which clears it and increments car[0x015C].
+
+**FUN_06034F78 bitfield utility**: General-purpose read-modify-write for arbitrary bit
+fields in 32-bit words. Parameters: r0=value, r1=packed(high_byte=bit_pos_from_MSB,
+low_byte=bit_count), r2=pointer. Builds a mask, shifts to position, read-modify-writes.
+Known parameter decodings:
+| Param  | bit_pos | count | actual_bit | Meaning |
+|--------|---------|-------|------------|---------|
+| 0x1501 | 21      | 1     | 10         | byte+2 bit 2 (lap flag) |
+| 0x1C01 | 28      | 1     | 3          | byte+3 bit 3 (finish proximity) |
+| 0x0301 | 3       | 1     | 28         | byte+0 bit 4 |
+| 0x0201 | 2       | 1     | 29         | byte+0 bit 5 |
+| 0x0801 | 8       | 1     | 23         | byte+1 bit 7 |
+| 0x0901 | 9       | 1     | 22         | byte+1 bit 6 |
+
+**Per-car bitmask**: 0x06063F1C tracks which cars have completed a lap this cycle.
+FUN_06035280 generates per-car bit (1 << car_index). Prevents double-counting.
+Previous cycle bitmask saved at 0x06063F18, copied on lap completion.
+
+**Finish line display**: FUN_0600DA7C detects proximity to finish line (sets bit 3 of
+byte+3), increments counter at 0x06078698. When counter reaches threshold (4),
+FUN_0600DBA0 triggers "LAP" text animation via FUN_0601D5F4 (VDP sprite display).
+
+**Key discovery**: Pool constant 0x1501 at address 0x0600DA52 was disguised in the
+disassembly as `.byte 0x15, 0x01 /* mov.l r0,@(0x4,r5) */` — the disassembler
+interpreted pool data bytes as an instruction mnemonic. Found by tracing the code flow
+in FUN_0600D9BC and manually computing the pool address from `mov.w @(0x17*2+PC),r1`.
 
 ### AI Processing Pipeline (FUN_0600C74E) — COMPLETE
 
@@ -873,3 +947,17 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
     - 0x0605A016: phase flag (set to 4 on cleanup)
     - 0x06059F44: results flag
   - Created asm/race_states.s with complete annotated state machine
+- Traced complete lap counting system (M9):
+  - FUN_0600CD40: checkpoint crossing detection (angle-based, 24-byte entries)
+  - FUN_0600D780: checkpoint change detection (3 paths: backward wrap, forward jump, single step)
+  - FUN_0600D9BC: lap flag setter — calls FUN_06034F78(1, 0x1501, car_ptr)
+  - 0x0600DB64: lap counter increment (tests flag, clears it, increments car[0x015C])
+  - FUN_0600DA7C: finish line proximity (sets byte+3 bit 3 via 0x1C01 param)
+  - FUN_0600DBA0: "LAP" text display animation
+  - FUN_06034F78: fully decoded bitfield utility (packed bit_pos/count in r1)
+  - FUN_0600D92C: lap timing recording (position snapshots, split times)
+  - Key discovery: pool constant 0x1501 was disguised as instruction mnemonic in disassembly
+  - Decoded one-shot flag pattern: set on frame N, consumed on frame N+1
+  - Per-car bitmask at 0x06063F1C prevents double-counting
+  - Created asm/lap_counting.s with full annotated system
+  - Updated car struct: 8 new offsets (0x015C, 0x01E0-0x01F0, 0x021C, 0x0228, 0x0230)
