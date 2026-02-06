@@ -523,3 +523,111 @@ FUN_0602ECCC:                            ! 0x0602ECCC
     mov.l   @r15+,r3                   ! restore r3
     rts
     mov     r0,r1                      ! (delay) r1 = quotient copy
+
+
+! ============================================================================
+! FUN_06027CA4 — 3D Scene Processor (Polygon Culling & Depth Ordering)
+! ============================================================================
+! This is the main 3D polygon rendering processor. It processes course
+! segments and their polygons, performing matrix transforms, backface
+! culling, and generating VDP1 commands in the correct draw order.
+!
+! CRITICAL INSIGHT: There is NO runtime sorting algorithm.
+! Polygon draw order is pre-baked into the course segment data.
+! The course segment table at 0x060C2000 lists polygons in back-to-front
+! order relative to the camera direction. This is standard for racing
+! games where the camera always faces along the track.
+!
+! INPUTS:
+!   r4 = camera/view matrix structure:
+!     r4[0]  = camera Z position (for segment calculation)
+!     r4[4]  = camera matrix column A
+!     r4[8]  = camera matrix column B
+!
+!   r5 = rendering context (pushed to stack)
+!
+! ALGORITHM:
+!   1. Compute visible segment range from camera position:
+!      - start_segment = (cam_Z + 0x04000000) >> 21
+!      - count = (0x03FFFFFF - cam[8]) >> 21, scaled up
+!      - start += count (adjusts for camera facing direction)
+!
+!   2. Mode check: [0x0607EAD8]
+!      - Mode 2: use overlay table at 0x06061270 (scans for matching segment)
+!      - Otherwise: standard segment processing
+!
+!   3. For each visible course segment:
+!      a. Look up course segment table at 0x060C2000:
+!         - segment[0] (word) = first polygon index
+!         - segment[2] (word) = polygon count
+!      b. While polygon count > 0:
+!         - Look up material/texture at 0x060BF000[polygon_index]
+!         - Calculate polygon data address: 0x060A6000 + (material * 52)
+!         - Read polygon flags (word at +0) and vertex data (at +16)
+!         - Transform vertex using camera matrix (dmuls.l for 64-bit multiply)
+!         - Add offsets based on flag bits:
+!           * Flag 0x01000000: add camera column B
+!           * Flag 0x02000000: use different coordinate system
+!           * Flag 0x04000000: check positive Z (backface test)
+!           * Flag 0x08000000: check negative Z (frustum test)
+!         - If polygon fails cull test: skip (advance index, decrement count)
+!         - If polygon passes: transform second vertex, generate VDP1 command
+!
+! KEY DATA STRUCTURES:
+!   0x060C2000 — Course segment table (4 bytes per segment)
+!     Each entry: [polygon_start_index : word][polygon_count : word]
+!     Segments are ordered by track position (back-to-front from camera)
+!
+!   0x060BF000 — Texture/material index table
+!     Maps polygon index → material index (word entries)
+!     Material index selects which 52-byte entry from polygon pool
+!
+!   0x060A6000 — Polygon data pool (52 bytes per entry = 0x34)
+!     +0x00: flags word (coordinate system, cull mode bits)
+!     +0x10: vertex A transform parameters (2 x 32-bit: multiply, add)
+!     +0x18: vertex B transform parameters
+!     +0x20: vertex C transform parameters
+!     +0x28: vertex D transform parameters (4-vertex quads)
+!     +0x30: color/material byte
+!
+!   0x06061270 — Overlay/sprite segment table (mode 2)
+!     Word entries listing segment IDs for overlay rendering pass
+!     Zero-terminated
+!
+! RENDERING ORDER:
+!   The VDP1 command list is built in the order polygons are processed.
+!   Since course segments are traversed back-to-front, and each segment's
+!   polygon list is pre-ordered by the track data toolchain, the resulting
+!   VDP1 command chain implements the painter's algorithm:
+!
+!   1. Furthest track segment → polygons rendered first (background)
+!   2. Nearest track segment → polygons rendered last (foreground)
+!   3. VDP1 draws later commands on top of earlier ones
+!
+!   This avoids any runtime sorting. For a racing game with a fixed
+!   camera-along-track perspective, pre-baked ordering is optimal.
+!
+! VDP1 COMMAND CHAIN:
+!   The 7 command builder functions at 0x0602C494-0x0602D43C create
+!   32-byte VDP1 command blocks:
+!     +0x00: CMDCTRL (command type: distorted sprite, polygon, etc.)
+!     +0x04: CMDLINK (pointer to next command in chain)
+!     +0x08: CMDPMOD (polygon mode: Gouraud, texture, etc.)
+!     +0x0C: CMDCOLR (color bank / palette)
+!     +0x10: CMDSRCA (texture source address in VRAM)
+!     +0x14: CMDSIZE (texture dimensions)
+!     +0x18: CMDXA/CMDYA (vertex A screen coordinates)
+!     +0x1C: CMDXB/CMDYB (vertex B screen coordinates)
+!
+!   CMDLINK fields chain commands into a linked list that VDP1
+!   hardware traverses autonomously during display.
+!
+! FUN_0602DB22 — Per-Frame Command List Reset
+!   Zeros out command buffer state variables:
+!     0x06082A30 = 0 (command count reset)
+!     0x06082A26 = 0 (command index reset)
+!     0x060788FC = 0 (render state)
+!     0x06082A38 = 0 (auxiliary buffer)
+!   Sets initial depth scaling: 0x00FA0000 * 0x0000038E (dmuls.l)
+!   Configures draw distance: 0xFA (250) units, 0x0C near plane
+!   References speed table at 0x0605A1C4 (same as AI speed boost)

@@ -60,18 +60,19 @@ Once we understand enough, isolate subsystems:
 - [x] Understand the 32-state machine at main (0x06003000)
 - [x] Map state transitions (menu → race → results)
 - [x] Find the per-frame update routine (FUN_0600A392)
-- [ ] Identify VBlank interrupt handler
+- [x] Identify VBlank interrupt handler (FUN_06006F3C = VBlank-IN, FUN_06007268 = VBlank-OUT)
 
-### M4: Car Rendering Chain (Partial)
-- [x] Find VDP1 command list building code (FUN_0602F0E8)
+### M4: Car Rendering Chain (Mostly Complete)
+- [x] Find VDP1 command list building code (FUN_0602C494-0x0602D43C, 7 functions)
 - [x] Find VDP1 initialization (FUN_0600A140: clears 64KB VRAM at 0x25C80000)
-- [x] Identify camera/viewport setup (FUN_0602EFF0: matrix multiply, clipping)
+- [x] Identify camera/viewport setup (FUN_0602EFF0: hardware division, clipping)
 - [x] Identify VDP1 register usage (TVMR, FBCR, PTMR, EWDR/EWLR/EWRR)
-- [x] Double-buffer mechanism (FBCR register swap each frame)
-- [ ] Identify car sprite/model data format in memory
-- [ ] Trace back to position/rotation data sources
-- [ ] Locate transform matrix operations in detail
-- [ ] Trace sprite sorting/draw-order system
+- [x] Double-buffer mechanism (FBCR register swap during VBlank-IN/OUT handlers)
+- [x] Identify polygon data format (52-byte entries at 0x060A6000, 4-vertex quads)
+- [x] Identify 3D scene processor (FUN_06027CA4 — transforms, culls, generates commands)
+- [x] Map data tables: polygon pool (0x060A6000), texture index (0x060BF000), course segments (0x060C2000)
+- [x] Trace FUN_0602F0E8 — track position management (wrapping, segment boundaries, smoothing)
+- [x] Trace sprite sorting/draw-order system — NO runtime sort, pre-baked order in course data
 
 ### M5: Physics Extraction ✓
 - [x] Find velocity/acceleration calculations
@@ -84,12 +85,21 @@ Once we understand enough, isolate subsystems:
 - [ ] Trace force table data structures (0x060453B4, 0x060453C4 — format TBD)
 - [ ] Trace speed curve from course tables (0x060477EC, 0x060454CC)
 
+### M7: Sound System ✓
+- [x] Find sound trigger mechanism (FUN_0601D5F4 — mailbox to 68000 via 0x25A02C20)
+- [x] Trace initialization path (FUN_06018EE4 — SMPC SNDOFF/SNDON, DMA driver, handshake)
+- [x] Identify command format (0xAAGGIIFF — prefix, group, ID, play flag)
+- [x] Correct FUN_0602766C misidentification (SCU DMA, NOT sound dispatch)
+- [x] Map gameplay sound trigger call sites (~30 locations)
+- [x] Document SCSP register access (slots 16/17, common register at 0x25B00400)
+- [ ] Map remaining sound IDs to game events (partial — 6 IDs identified)
+
 ### M6: AI Analysis (Mostly Complete)
 - [x] Find opponent car update routines (FUN_0600E906 → FUN_0600EA18)
 - [x] Identify pathfinding/racing line logic (track-following: velocity = (target-current) >> 4)
 - [x] Trace FUN_0600C74E (AI-specific processing) — COMPLETE, see asm/ai_behavior.s
 - [x] Document AI decision points — waypoint targeting, speed zones, heading damping
-- [ ] Locate difficulty scaling (may be in speed boost table 0x0605A1E0 or waypoint data)
+- [x] Locate difficulty scaling — segment-based speed modulation, NOT traditional rubber-banding
 
 ---
 
@@ -607,3 +617,148 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
   - table_A data at 0x060477EC: values like 0x0BD5_2BD3 — large fixed-point numbers
   - 0x060454CC also referenced by FUN_0602F6B6 (rendering) — dual-use table
   - Speed curve = difference between two course profiles, creating hills/valleys of speed
+- Traced VBlank interrupt system (M3 complete):
+  - VBlank-IN handler: FUN_06006F3C (registered as SCU vector 0x40)
+  - VBlank-OUT handler: FUN_06007268 (registered as SCU vector 0x41)
+  - Registration via BIOS function at 0x06000300(vector, handler)
+  - SCU interrupt mask at 0x25FE00A4 — bit 1 enables VBlank-OUT
+  - VBlank counter at 0x0607864C (incremented every 1/60s)
+  - Phase tracking at 0x06059F54: 1=IN, 3=OUT-start, 4=OUT-end
+  - Frame buffer swap via VDP1 FBCR register (0x25D00002)
+  - ADAPTIVE frame timing: per-state target table at 0x06059F58+state_index
+  - VBlank-OUT handler compares OUT count vs target before swapping
+  - Main loop does NOT explicitly wait for VBlank — sync is implicit
+  - VBlank-IN also processes controller input (button -> sound dispatch)
+  - Frame buffer state machine manages TVMR/FBCR writes during VBlank
+- Traced CD block status reading chain:
+  - FUN_06018EAC -> FUN_060349C4 -> FUN_06034A10 -> FUN_06035E5E
+  - Reads CD response registers at 0x25890018-0x25890024 (CR1-CR4)
+  - Uses consistent double-read (interrupts disabled, compare, retry 100x)
+  - Per-frame check in FUN_0600A392: if CD status == 6 (tray open), call BIOS
+- Traced sound system reset (FUN_06018EE4):
+  - SMPC SNDOFF (command 7) -> halt 68000
+  - SCSP master control write (0x25B00400 = 0x0200)
+  - Sound data setup -> SMPC SNDON (command 6) -> restart 68000
+  - Handshake: poll 0x25A02DBC until 68000 writes 0x4F4B ("OK")
+  - SCSP volume init: 0x25B00217 = 0x25B00237 = 0xE0
+- Updated BIOS function table understanding:
+  - 0x06000300: interrupt handler registration (r4=vector, r5=handler)
+  - 0x06000344: interrupt mask control (r4=mask, r5=flags)
+  - 0x0600026C: BIOS service call (used when CD tray open)
+- Created asm/vblank_system.s with full annotated VBlank system
+- Traced 3D rendering pipeline data structures (M4):
+  - Polygon data pool at 0x060A6000: 52-byte entries (0x34 per polygon)
+    - 4-vertex quadrilaterals with per-vertex transform parameters
+    - Bit flags: 0x01/02/04/08000000 control coordinate system transforms
+    - Each entry: flags, multiply factors, add offsets, base color/material
+  - Course segment lookup at 0x060C2000: maps course sections to polygon indices
+    - 4-byte entries: polygon_index (word) + polygon_count (word)
+  - Texture/material index at 0x060BF000: maps visual properties to texture resources
+  - VDP1 command generation: 7 functions at 0x0602C494-0x0602D43C
+    - Build standard 32-byte VDP1 command blocks (CMDCTRL, CMDLINK, CMDPMOD, etc.)
+    - Write to 0x25C80000 (VDP1 VRAM command table)
+    - Link commands via CMDLINK fields for hardware traversal
+  - FUN_06027CA4: main 3D scene processor
+    - Reads polygon data from 0x060A6000 pool
+    - Transforms vertices using 32-bit fixed-point matrix math
+    - Culls back-facing polygons
+    - Outputs to VDP1 command builders
+  - FUN_0602F0E8: track position management (NOT command building)
+    - Exponential smoothing on obj[+0x68] = (obj[+0xB0] << 8 + old) >> 1
+    - Position wrapping within course length (0x71C = 1820 units)
+    - Segment boundary detection using tables at 0x060477AC/0x0604779C
+    - Per-segment scaling via 0x060477CC table with fixed-point multiply
+- Traced collision detection & response system (M5 collision complete):
+  - FUN_0600C5D6: main player collision handler + position integration
+    - Three paths: course correction, heading update, collision response
+    - Position integration: X += speed*sin(heading), Z += speed*cos(heading), Y=0
+  - FUN_0600CD40: track-relative position query
+    - Computes angle to track segment center via FUN_0602744C (atan2)
+    - Detects off-track condition (angle > segment_width * 4)
+    - Off-track counter with global threshold at [0x0607EA9C]
+  - FUN_0600CA96: gentle course correction (dead zone ±8, step ±4)
+    - Sin/cos vector table at 0x0607EB88 with linear interpolation
+    - 256-entry direction table indexed by heading byte
+  - FUN_0600CC38: stronger heading correction (step ±8)
+    - Same sin/cos lookup, wider correction for normal driving
+  - FUN_0600CF58: collision response dispatcher (224 instructions)
+    - Early exits: no partner, speed < 150 (0x96), no collision flags
+    - Calls FUN_06035168 for geometry classification
+    - Head-on (bit 0x02): speed comparison → passive or heading snap
+    - Side hit (bit 0x01): mode 2 = aggressive, mode 1 = proportional heading
+    - Default: passive response
+  - FUN_0600D12C: passive collision response (position separation)
+    - Z threshold: 0x80000, X threshold: 0x0F0000
+  - FUN_0600D210: aggressive collision response (speed-based push)
+    - Speed delta must be in [-768, 768] range
+    - Push ±16 per frame, clamped to [0, 2048]
+    - Sets 64-frame collision timer
+  - FUN_0600C928: speed reduction during collision
+    - Reduces car[+0x48] and car[+0x50] by computed deceleration
+  - FUN_0600C970: AI-only speed boost from course table
+    - Table at 0x0605A1E0, segments [69,98] only
+    - This is likely rubber-banding / difficulty mechanism
+  - Created asm/collision.s with full annotated assembly
+- Traced VDP1 sprite sorting / draw-order system (M4 complete):
+  - FUN_06027CA4: 3D scene processor (culling, transform, command generation)
+  - **NO runtime sorting algorithm** — polygon draw order is pre-baked in course data
+  - Course segment table at 0x060C2000: (polygon_start, polygon_count) per segment
+  - Segments traversed back-to-front based on camera Z position
+  - Camera position → segment range: (cam_Z + 0x04000000) >> 21
+  - Per polygon: material lookup at 0x060BF000, data from 0x060A6000 (52-byte entries)
+  - Matrix transform via dmuls.l (64-bit signed multiply)
+  - Backface/frustum culling via sign tests on transformed coordinates
+  - Flag bits control coordinate system (0x01/02/04/08000000)
+  - VDP1 commands built incrementally in traversal order → painter's algorithm
+  - 7 command builders at 0x0602C494-0x0602D43C create 32-byte VDP1 command blocks
+  - CMDLINK field chains commands for VDP1 hardware linked-list traversal
+  - FUN_0602DB22: per-frame command list reset (zeros state vars, sets depth scaling)
+  - Mode 2 path uses overlay table at 0x06061270 for special segment rendering
+  - Updated asm/rendering.s with scene processor documentation
+- Traced difficulty scaling system (M6 complete):
+  - **No traditional rubber-banding** — AI speed does NOT depend on race position
+  - Speed boost table at 0x0605A1E0: 30 signed word entries, segments [69, 98]
+    - Segments 69-73: deceleration (-200 to -800) — entering a major corner
+    - Segments 74-75: neutral (0)
+    - Segments 76-98: acceleration (+50 to +400) — exiting corner, progressively weaker
+    - Profile: brake hard into corner, strong acceleration out, tapering off
+  - FUN_0600C970: applies table values to car[+0x0C] (speed accumulator)
+    - Only called for AI cars (from FUN_0600C74E)
+    - Only when car[+4] == 0 (no active collision partner)
+  - FUN_0600C74E segments [45, 60]: AI forced heading override
+    - Cars get a fixed heading angle forced at specific turn
+    - Prevents AI from computing its own racing line through this section
+  - FUN_0600CD40: off-track detection with configurable threshold
+    - Counter at car[+offset] incremented each frame when off-track
+    - Threshold at [0x0607EA9C] controls max off-track frames before reset
+  - Game mode/difficulty params around 0x0605AD00-0x0605AD20
+    - 0x0605AD10: game state (32-state machine index)
+    - Referenced by state handlers for configuration
+  - **Summary**: difficulty comes from track geometry design + per-segment speed profiles,
+    not from adaptive rubber-banding. All AI cars use the same speed table.
+- Traced complete sound/SCSP system:
+  - **Architecture**: SH-2 → shared sound RAM mailbox → 68000 sound driver → SCSP
+  - **Command mailbox**: 0x25A02C20 in sound RAM
+    - SH-2 writes 32-bit command, 68000 reads and clears to 0
+    - FUN_0601DB84: busy-wait with 100K iteration timeout
+  - **Sound command format**: 0xAAGGIIFF
+    - 0xAE = sound trigger prefix, GG = group, II = ID, FF = play flag
+    - Group 00 = system/stop, 06 = BGM, 11 = gameplay SFX
+  - **Main API**: FUN_0601D5F4 (r4=type, r5=param) — 30+ call sites
+    - type 0: direct command, type 1-5: channel volume/config, type 15: alias for 0
+  - **Sound init** (FUN_06018EE4):
+    - SMPC SNDOFF (cmd 7) → clear 512KB sound RAM → DMA driver code/data
+    - SMPC SNDON (cmd 6) → wait for 68000 ready (0x25A02DBE == 0xFFFF)
+    - SCSP common register config at 0x25B00400
+    - Master volume: 0xE0 to slot 16/17 EFSDL registers
+  - **CORRECTION**: FUN_0602766C is NOT sound dispatch — it's generic SCU DMA
+    - Registers: D0R/D0W/D0C at 0x25FE0000, DSTA poll at 0x25FE007C
+    - Used for VDP2 palette uploads, sound data, general transfers
+  - **Known sound IDs from gameplay callers**:
+    - 0xAE0001FF: system/stop sound (state transitions)
+    - 0xAE0600FF: BGM start
+    - 0xAE1114FF: periodic in-race SFX (engine? triggered at 120-frame intervals)
+    - 0xAE111BFF: button-triggered SFX (controller bit 0x10)
+    - 0xAE1138FF: race countdown beep (every 64 frames)
+    - 0xAE1139FF: race countdown variant (course 1 specific)
+  - Created asm/sound.s with full annotated assembly
