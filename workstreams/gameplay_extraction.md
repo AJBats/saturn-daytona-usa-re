@@ -261,6 +261,28 @@ Once we understand enough, isolate subsystems:
 - [x] Cross-reference all 38 asm/ files to extraction tiers
 - [x] Created workstreams/extraction_dependency_graph.md
 
+### M23: Race Orchestration & Remaining Gameplay Gaps ✓
+- [x] Analyze all 36 remaining undocumented 0x0600xxxx gameplay functions
+- [x] Document camera positioning (FUN_0600AFB2 transform, FUN_0600B4D2 lerp)
+- [x] Document race state calculation (FUN_0600C010 pipeline, 200+ insns)
+- [x] Document race interpolation (FUN_0600CB90 bilinear, FUN_0600CDD0 heading)
+- [x] Document physics dispatch chain (FUN_0600D31C 3-way dispatcher, FUN_0600D41C dynamics)
+- [x] Document race frame orchestrator (FUN_0600E7C8, 6 subsystems)
+- [x] Document game state machine (FUN_0600F424 dispatcher, FUN_0600F870 countdown, FUN_0600FFD0 HUD)
+- [x] Document 19 transition handlers (FUN_0600F650-FUN_0600FED0)
+- [x] Identify 3 functions needing urgent decompilation
+- [x] Created asm/race_orchestration.s
+
+### Gameplay Mapping: COMPLETE ✓
+All gameplay-touching code in the binary has been mapped across 39 asm/ files.
+Coverage: 500+ functions documented across all address ranges.
+Remaining undocumented functions are rendering helpers and tiny stubs (not gameplay).
+
+**3 functions flagged for decompilation** (needed for CCE transplant):
+1. **FUN_0600B4D2** — Camera lerp (164 insns, self-contained, 50% convergence per frame)
+2. **FUN_0600C010** — Race state machine (200+ insns, multi-stage pipeline)
+3. **FUN_0600D41C** — Vehicle dynamics (140 insns, core physics chain)
+
 ---
 
 ## Key Resources
@@ -1580,15 +1602,15 @@ Filled remaining coverage gaps and created extraction plan.
 6. **Low-address DMA init** has 3 variants — one per course (Beginner/Advanced/Expert)
 7. **~51 functions + 13 data tables** identified as CCE extraction targets
 
-**Complete asm/ file inventory (38 files):**
+**Complete asm/ file inventory (39 files):**
 ```
-asm/ai_behavior.s        — AI processing pipeline (mid-range, detailed)
+asm/ai_behavior.s         — AI processing pipeline (mid-range, detailed)
 asm/ai_opponents.s        — AI state machine & init (high-range)
 asm/car_collision.s       — Car-car collision detection
 asm/collision.s           — Collision system core
 asm/collision_response.s  — Collision response logic
 asm/engine_sound.s        — Engine sound effects
-asm/event_queue.s         — Gameplay event queue & state management [NEW]
+asm/event_queue.s         — Gameplay event queue & state management
 asm/force_system.s        — Force table animation system
 asm/force_tables.s        — Force table data structures
 asm/frame_timing.s        — Per-frame timing pipeline
@@ -1603,6 +1625,7 @@ asm/object_management.s   — Car object lifecycle
 asm/per_car_loop.s        — Per-car update pipeline
 asm/player_physics.s      — Player physics (force-driven)
 asm/pre_race_states.s     — Pre-race state handlers
+asm/race_orchestration.s  — Race orchestration & remaining gameplay [NEW]
 asm/race_states.s         — In-race state machine
 asm/race_update.s         — Per-frame race updates
 asm/rendering.s           — VDP1 rendering pipeline
@@ -1613,11 +1636,31 @@ asm/scene_renderer.s      — 3D scene processor
 asm/sound.s               — Sound system core
 asm/sound_driver.s        — SCSP driver & channels
 asm/speed_position.s      — Speed curves & integration
-asm/state_handlers.s      — Complete 32-state handler catalog [NEW]
+asm/state_handlers.s      — Complete 32-state handler catalog
 asm/subsystem_updates.s   — Subsystem coordination
-asm/system_init.s         — System bootstrap & utilities [NEW]
+asm/system_init.s         — System bootstrap & utilities
 asm/track_geometry.s      — Track segments & terrain
 asm/vblank_system.s       — VBlank interrupt system
 asm/vdp_hardware.s        — VDP1/VDP2 hardware map
 asm/vertex_pipeline.s     — Vertex transform pipeline
 ```
+
+### Session 2026-02-06 (continued #3) — Gameplay Mapping Complete
+
+Completed final mapping of all gameplay-touching code in the binary.
+
+**New asm/ file:**
+
+| File | Functions | Address Range | Key Discovery |
+|------|-----------|--------------|---------------|
+| asm/race_orchestration.s | 14 core + 19 transitions | 0x0600AFB2-0x0600FFD0 | Camera lerp uses 50% convergence; physics chain D31C->D37C->D3C4->D41C->D50C |
+
+**Key findings:**
+1. **Camera lerp** (FUN_0600B4D2): 3-way state dispatch, 50% per-frame convergence via `shar` (signed right shift)
+2. **Race state machine** (FUN_0600C010): Multi-stage pipeline with +0x30/frame buffer increment, physics enable at bit 0x02000000
+3. **Physics dispatch chain**: FUN_0600D31C -> D37C (conditional on 0x00200000) -> D3C4 (always) -> D41C -> D50C
+4. **Race orchestrator** (FUN_0600E7C8): 6 subsystems per frame + 3 camera modes
+5. **19 transition handlers** (4-245 insns each): manage menu flow, race start/end, mode changes
+6. **3 functions need urgent decompilation** for CCE transplant: B4D2 (camera), C010 (race state), D41C (dynamics)
+
+**Mapping status: COMPLETE.** 39 asm/ files covering 500+ gameplay functions across all address ranges. All gameplay subsystems fully documented. Remaining undocumented functions are rendering-only helpers and tiny stubs.
