@@ -12,26 +12,67 @@
 
 | Category | Count | Meaning | Tractability |
 |----------|-------|---------|--------------|
-| delta=0 | 46 | Same count, different opcodes | Scheduling - challenging |
-| delta<0 | 373 | Our code shorter | Better optimization - intentional |
-| delta>0 | 386 | Our code longer | Register allocation - challenging |
+| delta=0 | 44 | Same count, different opcodes | Scheduling - challenging |
+| delta<0 | 401 | Our code shorter | Better optimization - intentional |
+| delta>0 | 355 | Our code longer | Register allocation - challenging |
 
 ## PASS Functions (53)
 
-| Function | Delta | Notes |
+| Function | Insns | Notes |
 |----------|-------|-------|
-| FUN_06005174 | 0 | Fixed displacement store |
-| FUN_0600C4F8 | -1 | register asm for func/base |
-| FUN_0600DFD0 | 0 | |
-| FUN_0600E410 | 0 | |
-| FUN_06012344 | +5 | register asm for func ptr |
-| FUN_0601250C | +1 | Fixed shift precedence |
-| FUN_06012CF4 | 0 | |
-| FUN_06018278 | +4 | Fixed precedence, simplified |
-| FUN_060192E8 | -2 | Simplified delay loop |
-| FUN_06020B20 | +3 | Hoisted zero outside loop |
-| FUN_060067C8 | 0 | Fixed SUB42, byte loads |
-| <!-- TODO: Add remaining 42 PASS functions --> | | |
+| FUN_060058FA | 9 | |
+| FUN_0600D266 | 2 | |
+| FUN_0600DE40 | 10 | |
+| FUN_0600DE54 | 14 | |
+| FUN_0600F870 | 20 | |
+| FUN_0601143E | 9 | |
+| FUN_06011450 | 9 | |
+| FUN_0601164A | 7 | |
+| FUN_060122F4 | 25 | |
+| FUN_06012E00 | 4 | |
+| FUN_06012E62 | 4 | |
+| FUN_06012E6A | 9 | |
+| FUN_06012E7C | 4 | |
+| FUN_06012E84 | 4 | |
+| FUN_06012EBC | 4 | |
+| FUN_06012EC4 | 4 | |
+| FUN_06012EDC | 4 | |
+| FUN_06012F00 | 4 | |
+| FUN_06012F10 | 4 | |
+| FUN_06012F20 | 4 | |
+| FUN_06012F50 | 4 | |
+| FUN_06012F58 | 4 | |
+| FUN_06012F60 | 4 | |
+| FUN_060148FC | 24 | |
+| FUN_0601492C | 24 | |
+| FUN_06014994 | 24 | |
+| FUN_0601938C | 28 | |
+| FUN_0601E0DE | 2 | |
+| FUN_0601F8BC | 2 | |
+| FUN_06026DF8 | 5 | |
+| FUN_06026E0C | 17 | |
+| FUN_060270D0 | 17 | |
+| FUN_06027344 | 9 | |
+| FUN_06027348 | 7 | |
+| FUN_0602754C | 3 | |
+| FUN_0602853E | 12 | |
+| FUN_06028560 | 9 | |
+| FUN_060322E8 | 10 | |
+| FUN_06033504 | 10 | |
+| FUN_060349B6 | 7 | |
+| FUN_06035C48 | 3 | |
+| FUN_06035C4E | 3 | |
+| FUN_06035C6E | 3 | |
+| FUN_06035C80 | 9 | |
+| FUN_0603850C | 10 | |
+| FUN_0603F4B0 | 9 | |
+| FUN_0603F4CC | 10 | |
+| FUN_0603F92C | 8 | |
+| FUN_0603F9F2 | 2 | |
+| FUN_0603F9F6 | 2 | |
+| FUN_060401E4 | 2 | |
+| FUN_060409DE | 4 | |
+| FUN_06041884 | 4 | |
 
 ## Binary Patcher Status
 
