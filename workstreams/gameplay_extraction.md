@@ -112,7 +112,12 @@ Once we understand enough, isolate subsystems:
 - [x] Decode State 19 (FUN_06009788) — time extension active/input, → state 14/24/saved
 - [x] Decode State 20 (FUN_06009508) — abort processing, → state 29
 - [x] Map complete state transition graph (see asm/race_states.s)
-- [ ] Decode States 24, 28, 29 (post-race, mode transition, results screen)
+- [x] Decode State 20 (FUN_06009A60) — race completion init, → state 21
+- [x] Decode State 24 (FUN_06009CFC) — post-race init, → state 25
+- [x] Decode State 25 (FUN_06009D4E) — post-race display loop
+- [x] Decode State 28 (FUN_06009508) — abort processing, → state 29
+- [x] Decode State 29 (FUN_0600955E) — post-race menu, → state 17/18/20
+- [x] CORRECTED: State 20/28 were SWAPPED in prior M8 analysis (verified via jump table)
 - [x] Trace FUN_0600DE54 (per-car race state update — physics/collision per frame)
 - [ ] Trace FUN_060078DC (frame timing/sync)
 
@@ -255,8 +260,15 @@ State variable lives at 0x0605AD10.
 | **17**| 0x060092D0 | **In-race gameplay** (228 insns) |
 | 18    | 0x060096DC | Time extension |
 | **19**| 0x06009788 | **Complex race state** (298 insns) |
-| 20    | 0x06009A60 | Race end / results |
-| 21-31 | various    | Post-race, menus, diagnostics |
+| **20**| 0x06009A60 | **Race completion init** (→ state 21) |
+| 21    | various    | Post-completion processing |
+| 22-23 | various    | (unknown) |
+| **24**| 0x06009CFC | **Post-race init** (→ state 25) |
+| **25**| 0x06009D4E | **Post-race display loop** |
+| 26-27 | various    | (unknown) |
+| **28**| 0x06009508 | **Abort processing** (→ state 29) |
+| **29**| 0x0600955E | **Post-race menu** (→ state 17/18/20) |
+| 30-31 | various    | Post-race, menus, diagnostics |
 
 **State 15 call chain (in-race):**
 ```
@@ -1320,3 +1332,38 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
     +0x018C/0x0190 (sin/cos), +0x0194 (speed target), +0x0198 (scale), +0x0204 (steer countdown)
   - Created asm/speed_position.s with full annotated system
   - M5 now fully complete (all sub-items checked)
+- Decoded post-race state handlers (States 20, 24, 25, 28, 29):
+  - **CORRECTION**: States 20 and 28 were SWAPPED in prior analysis. Verified via jump table:
+    - State 20 = FUN_06009A60 (race completion init), NOT FUN_06009508
+    - State 28 = FUN_06009508 (abort processing), NOT State 20
+  - **State 20** (FUN_06009A60): Race completion initialization
+    - Reads finish position from car[+0x82] → [0x06078637] and car[+0x9E] → [0x06078638]
+    - Calls FUN_06018DDC(button_event+10) for difficulty setup
+    - Complex overlay flag dispatch based on player mode (0/1/2) at *0x0607EAD8
+    - Sets bits 1/2/4 in [0x0605AB16] and [0x0605AB17] per player mode
+    - Determines update mode from car position (Z >= -4718592 or X > -1286144)
+    - Transitions to state 21, sets timer=86, difficulty=4, phase=4
+  - **State 24** (FUN_06009CFC): Post-race init (single frame)
+    - Sets phase=3, calls cleanup (FUN_06014A74, FUN_06019058)
+    - Calls FUN_0600A1B8 (special input), transitions to state 25
+    - Sets difficulty=6, clears car speed to 0, sets display flag bit 30
+    - Clears results flag [0x06059F44] = 0
+  - **State 25** (FUN_06009D4E): Post-race display loop
+    - Calls FUN_06014D2C (results display logic) every frame
+    - Conditionally runs display pipeline based on [0x06085F8A] flag
+    - Unconditionally tail-calls FUN_060078DC (frame sync)
+    - Stays in state 25 until external state change
+  - **State 28** (FUN_06009508): Abort processing
+    - If abort flag re-set: clears it (dead write state=20, immediately overwritten)
+    - Always transitions to state 29
+    - Simplified pipeline: FUN_0600DFD0, FUN_0600BB94, FUN_060053AC, FUN_0600C218
+  - **State 29** (FUN_0600955E): Post-race menu (complex)
+    - Start button → save resume=29, state=18 (time extension)
+    - Abort flag → clear, state=20 (race completion)
+    - Mode flag [0x0605A1C4] == 0 → state=17 (loop back to results)
+    - Otherwise stays in state 29
+    - Update pipeline: FUN_0600E060, FUN_0600BB94, FUN_060053AC, FUN_0600C218
+    - Overlay rendering from 0x06063798 when car[+0xBC] bits 0xCC clear
+    - Scoring: FUN_0600A084 when car[+0x82] > 0
+  - Updated asm/race_states.s with all 5 new state handlers + corrected graph
+  - M8 now fully complete (all race states 14-29 decoded)

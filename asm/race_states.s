@@ -1,11 +1,11 @@
 ! ==========================================================================
-! Race State Machine — In-Race State Handlers (States 14-20)
+! Race State Machine — In-Race State Handlers (States 14-29)
 ! ==========================================================================
 !
 ! The game's 32-state machine dispatches through a jump table from main
 ! (0x06003000). The race gameplay spans states 14-29. This file documents
-! the core in-race states (14-20) that handle active racing, lap
-! transitions, time extensions, and race abort.
+! all in-race states: active racing, lap transitions, time extensions,
+! race completion, abort processing, and post-race menus.
 !
 ! STATE TRANSITION GRAPH:
 !
@@ -19,16 +19,24 @@
 !                │                        ↓             ↓
 !                │                  State 17 ───→ State 19 (time ext active)
 !                │                  (results)      │    │    │
-!                │                     │     │     │    │    └→ saved state
-!                │                  abort  timer=0 │   A+B+C held
-!                │                     ↓     ↓     │    ↓
-!                │                State 20 State 24│  State 24 / 14
-!                │                     │   (post)  │
-!                │                     ↓           │
-!                │                State 29 ←───────┘
+!                │                 │    │    │     │    │    └→ saved state
+!                │              abort mode=1 timer=0   A+B+C held
+!                │                 │    │    │     │    ↓
+!                │                 │    │    │     │  State 24 / 14
+!                │                 ↓    ↓    ↓     │
+!                │           St 20  St 28  St 24 ←─┘
+!                │           (race   (abort  (post-race
+!                │            end)    proc)   init)
+!                │              │      │       │
+!                │              ↓      ↓       ↓
+!                │           St 21   St 29   St 25
+!                │                   (menu)  (display loop)
 !                │                     │
-!                │                     └──→ State 18 (start)
-!                └─────────────────────(A+B+C in state 19)
+!                │               ┌─────┼──────────┐
+!                │            start  mode=0    abort
+!                │               ↓     ↓         ↓
+!                │            St 18  St 17     St 20
+!                └─────────────────(A+B+C in state 19)
 !
 ! CALL GRAPH (per-state key functions):
 !   State 14: FUN_0600A0C0, FUN_06018A3C, FUN_0601F784, FUN_0600EB14 (race update)
@@ -44,7 +52,11 @@
 !             FUN_060284AE (VDP number text), FUN_0601D5F4 (sound API)
 !   State 19: FUN_0602834A (number display), FUN_060283E0 (text display)
 !             FUN_0600A1B8 (secret input handler), FUN_06018DDC (difficulty setup)
-!   State 20: FUN_0600DFD0, FUN_0600BB94, FUN_060053AC, FUN_0600C218
+!   State 20: FUN_06014A04, FUN_060210F6, FUN_06009FFC, FUN_06018DDC, FUN_0600A1B8
+  State 24: FUN_06014A74, FUN_06019058, FUN_0600A1B8, FUN_060032D4, FUN_060210F6
+  State 25: FUN_06014D2C, FUN_0600BB94, FUN_060053AC, FUN_0600BFFC, FUN_060078DC
+  State 28: FUN_0600DFD0, FUN_0600BB94, FUN_060053AC, FUN_0600C218, FUN_060078DC
+  State 29: FUN_0600E060, FUN_0600BB94, FUN_060053AC, FUN_0600C218, FUN_060078DC
 !
 ! KEY DATA STRUCTURES:
 !   Race state variables (0x0605AD00 region):
@@ -1099,14 +1111,441 @@ FUN_06009788:       ! 0x06009788
 
 
 ! ==========================================================================
-! FUN_06009508 — State 20: Abort Processing
+! FUN_06009A60 — State 20: Race Completion Initialization
 ! ==========================================================================
-! Handles the abort path after bit 0 of FLAGS_WORD is set (from state 17).
-! Simplified update pipeline — no per-car loop, no physics.
-! Transitions to state 29 (results screen continuation).
+! Runs when the race timer expires in state 17. Performs end-of-race setup:
+! reads finish position from car struct, configures difficulty for results
+! screen, sets flag bits based on player mode, and transitions to state 21.
+!
+! This is a COMPLEX initialization state with multiple dispatch tables
+! based on player mode (single/vs/3-player from *0x0607EAD8):
+!   Mode 0: set overlay bit 0x01
+!   Mode 1: set overlay bit 0x02
+!   Mode 2: set overlay bit 0x04
 !
 ! Called from: main state dispatch (state index 20)
-! Transitions to: State 29 (normal), State 20 (self-loop if abort flag re-set)
+! Transitions to: State 21 (always)
+
+FUN_06009A60:       ! 0x06009A60
+    mov.l   r14,@-r15
+    mov.l   r13,@-r15
+    mov.l   r12,@-r15
+    mov     #0,r13                  ! r13 = 0 (zero constant)
+    mov.l   r11,@-r15
+    mov     #1,r11                  ! r11 = 1 (one constant)
+    mov.l   r10,@-r15
+    mov     #4,r10                  ! r10 = 4 (four constant)
+    mov.l   r9,@-r15
+    mov.l   r8,@-r15
+    sts.l   pr,@-r15
+    add     #-4,r15
+
+    ! Cache key addresses
+    mov.l   @(0x98,PC),r9         ! r9 = 0x06078637 (&result_byte)
+    mov.l   @(0x9C,PC),r12        ! r12 = 0x0607E944 (&car_ptr_pri)
+    mov.l   @(0x9C,PC),r14        ! r14 = 0x0605AB17 (&overlay_flags_hi)
+
+    ! === Initialize race completion ===
+    mov.l   @(0xA0,PC),r3         ! r3 = 0x06014A04
+    jsr     @r3                     ! FUN_06014A04 — race end initialization
+    mov.l   @r12,r8                 ! r8 = car_object (delay slot, cached for later)
+
+    mov.l   @(0x9C,PC),r3         ! r3 = 0x060210F6
+    jsr     @r3                     ! FUN_060210F6 — reset/cleanup
+    nop
+
+    bsr     FUN_06009FFC            ! FUN_06009FFC — time extension UI setup
+    nop
+
+    ! === Read button event, compute difficulty ===
+    mov     r13,r6                  ! r6 = 0
+    mov.l   @(0x94,PC),r5         ! r5 = 0x06078648 (&button_event)
+    mov.b   @r5,r5                  ! r5 = button_event_id (0-3)
+    add     #10,r5                  ! r5 = event + 10 (difficulty param)
+    mov.l   r5,@r15                 ! save to stack
+    mov.l   @(0x90,PC),r3         ! r3 = 0x06018DDC
+    jsr     @r3                     ! FUN_06018DDC(event+10) — DIFFICULTY SETUP
+    mov     r5,r4                   ! r4 = event+10 (delay slot)
+
+    ! === Read finish position from car object ===
+    mov.l   @r12,r2                 ! r2 = car_object
+    mov.w   @(0x6C,PC),r0         ! r0 = 0x0082 (finish position offset)
+    mov.l   @(r0,r2),r3            ! r3 = car_obj[+0x82] (finish position)
+    add     #28,r0                  ! r0 = 0x009E (secondary result offset)
+    mov.b   r3,@r9                  ! [result_byte 0x06078637] = finish position (byte)
+    mov.l   @r12,r3                 ! reload car ptr
+    mov.l   @(0x84,PC),r1         ! r1 = 0x06078638 (&race_result)
+    mov.l   @(r0,r3),r2            ! r2 = car_obj[+0x9E] (detailed result)
+    mov.l   r2,@r1                  ! [race_result] = detailed_result
+
+    ! Copy race data
+    mov.l   @(0x80,PC),r3         ! r3 = 0x060786A4
+    mov.l   @(0x84,PC),r2         ! r2 = 0x0607863C
+    mov.l   @r3,r3
+    mov.l   r3,@r2                  ! [0x0607863C] = [0x060786A4]
+
+    ! === Flag setting: first condition block ===
+    ! If [0x06083255] != 0 AND [0x0605AD00] > 1 AND result_byte == 0 AND [0x0607EAE0] == 0:
+    !   Set bit 0x08 in overlay_flags_hi [0x0605AB17]
+    mov.l   @(PC),r0               ! r0 = 0x06083255
+    mov.b   @r0,r0
+    tst     r0,r0
+    bt      .s20_skip_flag1
+    mov     #1,r2
+    mov.l   @(PC),r3               ! r3 = 0x0605AD00
+    mov.l   @r3,r3
+    cmp/gt  r2,r3                   ! [0x0605AD00] > 1?
+    bf      .s20_skip_flag1
+    mov.b   @r9,r2                  ! r2 = result_byte
+    tst     r2,r2                   ! result == 0? (first place)
+    bf      .s20_skip_flag1
+    mov.l   @(PC),r0               ! r0 = 0x0607EAE0
+    mov.l   @r0,r0
+    tst     r0,r0
+    bf      .s20_skip_flag1
+    mov.b   @r14,r0                 ! read overlay flags
+    or      #0x08,r0                ! set bit 3
+    exts.b  r0,r0
+    mov.b   r0,@r14                 ! write back
+
+.s20_skip_flag1:
+    ! === Flag setting: second condition block (skip flag path) ===
+    ! If [0x06085FF4] != 0 AND [0x0605AD04] > 1 AND [0x0607EAE0] == 0:
+    !   Dispatch on player mode to set overlay bits in [0x0605AB16/17]
+    mov.l   @(PC),r0               ! r0 = 0x06085FF4
+    mov.b   @r0,r0
+    tst     r0,r0
+    bt      .s20_common             ! skip flag clear: skip entire block
+
+    mov     #1,r2
+    mov.l   @(PC),r3               ! r3 = 0x0605AD04
+    mov.l   @r3,r3
+    cmp/gt  r2,r3
+    bf      .s20_common
+
+    mov.l   @(PC),r0               ! r0 = 0x0607EAE0
+    mov.l   @r0,r0
+    tst     r0,r0
+    bf      .s20_common
+
+    ! Result < 3 check, then dispatch on player mode
+    mov.b   @r9,r3                  ! r3 = result_byte
+    mov     #3,r2
+    cmp/ge  r2,r3                   ! result >= 3?
+    bt      .s20_overlay_b          ! yes: skip to second overlay
+
+    ! === First overlay dispatch: [0x0605AB16] ===
+    mov.l   @(PC),r4               ! r4 = 0x0605AB16 (&overlay_flags_lo)
+    mov.l   @(PC),r0               ! r0 = 0x0607EAD8 (&player_mode)
+    bra     .s20_dispatch_a
+    mov.l   @r0,r0                  ! r0 = player_mode (delay slot)
+
+    ! Mode 0: OR bit 1 into [0x0605AB16]
+.s20_mode0_a:
+    mov.b   @r4,r2
+    bra     .s20_write_a
+    or      r11,r2                  ! r2 |= 1
+
+    ! Mode 1: OR bit 2 into [0x0605AB16]
+.s20_mode1_a:
+    mov.b   @r4,r0
+    or      #0x02,r0
+    exts.b  r0,r0
+    bra     .s20_overlay_b
+    mov.b   r0,@r4
+
+    ! Mode 2: OR bit 4 into [0x0605AB16]
+.s20_mode2_a:
+    mov.b   @r4,r2
+    or      r10,r2                  ! r2 |= 4
+
+.s20_write_a:
+    exts.b  r2,r2
+    bra     .s20_overlay_b
+    mov.b   r2,@r4
+
+.s20_dispatch_a:
+    cmp/eq  #0,r0
+    bt      .s20_mode0_a
+    cmp/eq  #1,r0
+    bt      .s20_mode1_a
+    cmp/eq  #2,r0
+    bt      .s20_mode2_a
+
+.s20_overlay_b:
+    ! If result_byte != 0, skip second overlay
+    mov.b   @r9,r2
+    tst     r2,r2
+    bf      .s20_common
+
+    ! === Second overlay dispatch: [0x0605AB17] ===
+    mov.l   @(PC),r0               ! r0 = 0x0607EAD8
+    bra     .s20_dispatch_b
+    mov.l   @r0,r0
+
+.s20_mode0_b:
+    mov.b   @r14,r2
+    bra     .s20_write_b
+    or      r11,r2                  ! |= 1
+
+.s20_mode1_b:
+    mov.b   @r14,r0
+    or      #0x02,r0
+    exts.b  r0,r0
+    bra     .s20_common
+    mov.b   r0,@r14
+
+.s20_mode2_b:
+    mov.b   @r14,r2
+    or      r10,r2                  ! |= 4
+
+.s20_write_b:
+    exts.b  r2,r2
+    bra     .s20_common
+    mov.b   r2,@r14
+
+.s20_dispatch_b:
+    cmp/eq  #0,r0
+    bt      .s20_mode0_b
+    cmp/eq  #1,r0
+    bt      .s20_mode1_b
+    cmp/eq  #2,r0
+    bt      .s20_mode2_b
+
+.s20_common:
+    ! === Special input handler ===
+    bsr     FUN_0600A1B8
+    nop
+
+    ! === Determine update mode based on car position ===
+    ! r4 = 0x06083261 (&update_mode)
+    mov     r8,r0                   ! r0 = car_object
+    mov.l   @(PC),r4               ! r4 = 0x06083261
+    mov.b   @(0x3,r0),r0           ! r0 = car_obj[+3] (byte flags)
+    tst     #0x08,r0                ! bit 3 set?
+    bf      .s20_mode2              ! yes: force update_mode = 2
+
+    ! Bit 3 clear: dispatch on player mode
+    mov.l   @(PC),r0               ! r0 = 0x0607EAD8
+    bra     .s20_mode_dispatch
+    mov.l   @r0,r0                  ! r0 = player_mode
+
+    ! Mode 0: check car Z position
+.s20_pos_mode0:
+    mov.l   @(0x18,r8),r2         ! r2 = car.Z
+    mov.l   @(PC),r3               ! r3 = 0xFFB80000 (-4718592)
+    cmp/ge  r3,r2                   ! car.Z >= -4718592?
+    bf      .s20_mode_0_set         ! no: update_mode = 0
+    bra     .s20_finalize
+    nop                             ! yes: update_mode = 1 (in delay slot path)
+
+    ! Mode 1: check car X position
+.s20_pos_mode1:
+    mov.l   @(0x10,r8),r2         ! r2 = car.X
+    mov.l   @(PC),r3               ! r3 = 0xFEC60000 (-1286144)
+    cmp/gt  r3,r2                   ! car.X > -1286144?
+    bt      .s20_mode_0_set         ! yes: update_mode = 0
+    bra     .s20_finalize           ! no: update_mode = 1
+    mov.b   r11,@r4                 ! [update_mode] = 1 (delay slot)
+
+.s20_mode_0_set:
+    exts.b  r13,r2                  ! r2 = 0
+    bra     .s20_finalize
+    mov.b   r2,@r4                  ! [update_mode] = 0 (delay slot)
+
+    ! Mode 2: always update_mode = 0
+.s20_pos_mode2:
+    bra     .s20_finalize
+    exts.b  r13,r2                  ! (writes 0 below)
+
+.s20_mode_dispatch:
+    cmp/eq  #0,r0
+    bt      .s20_pos_mode0
+    cmp/eq  #1,r0
+    bt      .s20_pos_mode1
+    cmp/eq  #2,r0
+    bt      .s20_pos_mode2
+    bra     .s20_finalize
+    nop
+
+.s20_mode2:
+    mov     #2,r2
+    mov.b   r2,@r4                  ! [update_mode] = 2
+
+.s20_finalize:
+    ! Clear car[0x40]
+    mov     #64,r0                  ! r0 = 0x40
+    mov.l   @r12,r3                 ! r3 = car_object
+    mov.l   r13,@(r0,r3)           ! car[0x40] = 0
+
+    ! Transition to state 21
+    mov     #21,r3
+    mov.l   @(PC),r2               ! r2 = 0x0605AD10 (&state_var)
+    mov.l   r3,@r2                  ! state = 21
+
+    ! Set timer = 86
+    mov     #86,r3
+    mov.l   @(PC),r2               ! r2 = 0x0607EBCC (&timer)
+    mov.l   r3,@r2                  ! [timer] = 86 (~1.4 sec)
+
+    ! Set difficulty = 4, phase = 4
+    mov.l   @(PC),r2               ! r2 = 0x06078654 (&difficulty)
+    mov.b   r10,@r2                 ! [difficulty] = 4
+
+    mov.l   @(PC),r2               ! r2 = 0x0605A016 (&phase_flag)
+    mov.w   r10,@r2                 ! [phase_flag] = 4
+
+    ! Epilogue
+    add     #4,r15
+    lds.l   @r15+,pr
+    mov.l   @r15+,r8
+    mov.l   @r15+,r9
+    mov.l   @r15+,r10
+    mov.l   @r15+,r11
+    mov.l   @r15+,r12
+    mov.l   @r15+,r13
+    rts
+    mov.l   @r15+,r14
+
+
+! ==========================================================================
+! FUN_06009CFC — State 24: Post-Race Initialization
+! ==========================================================================
+! Single-frame setup for post-race sequence. Sets phase=3, performs
+! cleanup, clears car speed, sets display flag, and transitions to state 25.
+!
+! Called from: main state dispatch (state index 24)
+! Also entered from: state 17 (timer=0), state 19 (A+B+C with init flag)
+! Transitions to: State 25 (always, same frame)
+
+FUN_06009CFC:       ! 0x06009CFC
+    sts.l   pr,@-r15
+
+    ! Set phase = 3
+    mov     #3,r3
+    mov.l   @(0x78,PC),r2         ! r2 = 0x0605A016 (&phase_flag)
+    mov.w   r3,@r2                  ! [phase_flag] = 3
+
+    ! Cleanup calls
+    mov.l   @(0x78,PC),r3         ! r3 = 0x06014A74
+    jsr     @r3                     ! FUN_06014A74 — post-race cleanup A
+    nop
+    mov.l   @(0x78,PC),r3         ! r3 = 0x06019058
+    jsr     @r3                     ! FUN_06019058 — post-race cleanup B
+    nop
+
+    ! Special input handler
+    bsr     FUN_0600A1B8
+    nop
+
+    ! Transition to state 25
+    mov     #25,r2
+    mov.l   @(0x70,PC),r3         ! r3 = 0x0605AD10 (&state_var)
+    mov.l   r2,@r3                  ! state = 25
+
+    ! Set difficulty = 6
+    mov     #6,r2
+    mov.l   @(0x6C,PC),r3         ! r3 = 0x06078654 (&difficulty)
+    mov.b   r2,@r3                  ! [difficulty] = 6
+
+    ! Call additional setup
+    mov.l   @(0x6C,PC),r3         ! r3 = 0x060032D4
+    jsr     @r3                     ! FUN_060032D4
+    nop
+    mov.l   @(0x6C,PC),r3         ! r3 = 0x060210F6
+    jsr     @r3                     ! FUN_060210F6
+    nop
+
+    ! Clear car speed
+    mov.l   @(0x68,PC),r2         ! r2 = 0x0607E944 (&car_ptr)
+    mov     #0,r3
+    mov.l   @r2,r2                  ! r2 = car_object
+    mov.l   r3,@(0x8,r2)           ! car[0x08] = 0 (speed = 0)
+
+    ! Set display flag bit 30 (race display active)
+    mov.l   @(0x64,PC),r4         ! r4 = 0x0605B6D8 (&display_flags)
+    mov.l   @(0x68,PC),r2         ! r2 = 0x40000000
+    mov.l   @r4,r3
+    or      r2,r3
+    mov.l   r3,@r4                  ! display_flags |= 0x40000000
+
+    ! Display update
+    mov.l   @(0x64,PC),r3         ! r3 = 0x06026CE0
+    jsr     @r3                     ! FUN_06026CE0 — display update
+    nop
+
+    ! Clear results flag
+    mov     #0,r2
+    mov.l   @(0x60,PC),r3         ! r3 = 0x06059F44 (&results_flag)
+    lds.l   @r15+,pr
+    rts
+    mov.l   r2,@r3                  ! [results_flag] = 0 (delay slot)
+
+
+! ==========================================================================
+! FUN_06009D4E — State 25: Post-Race Display Loop
+! ==========================================================================
+! Runs every frame after state 24 initialization. Displays the results
+! screen until an external state change occurs (e.g., from state 29).
+!
+! Conditionally runs the display pipeline based on a flag byte at
+! [0x06085F8A]. If flag is 0, runs full display; if non-zero, skips
+! directly to frame sync.
+!
+! Called from: main state dispatch (state index 25)
+! Transitions to: (none — stays in 25 until external change)
+! Always tail-calls FUN_060078DC (frame timing/sync)
+
+FUN_06009D4E:       ! 0x06009D4E
+    sts.l   pr,@-r15
+
+    ! Results screen processing
+    mov.l   @(0x58,PC),r3         ! r3 = 0x06014D2C
+    jsr     @r3                     ! FUN_06014D2C — results display logic
+    nop
+
+    ! Check display enable flag
+    mov.l   @(0x58,PC),r2         ! r2 = 0x06085F8A (&display_enable)
+    mov.b   @r2,r2
+    tst     r2,r2
+    bf      .s25_frame_sync         ! flag != 0: skip display, go to sync
+
+    ! === Full display pipeline ===
+    mov.l   @(0x54,PC),r3         ! r3 = 0x0600BB94
+    jsr     @r3                     ! FUN_0600BB94 — update
+    nop
+
+    mov.l   @(0x50,PC),r6         ! r6 = 0x06063E24
+    mov.l   @(0x54,PC),r5         ! r5 = 0x06063EEC
+    mov.l   @(0x54,PC),r4         ! r4 = 0x06063EF8
+    mov.l   @(0x58,PC),r3         ! r3 = 0x060053AC
+    jsr     @r3                     ! FUN_060053AC — display commit
+    mov.l   @r6,r6                  ! dereference r6 (delay slot)
+
+    mov.l   @(0x54,PC),r3         ! r3 = 0x0600BFFC
+    jsr     @r3                     ! FUN_0600BFFC
+    nop
+
+.s25_frame_sync:
+    ! Tail call frame timing (unconditional — both paths end here)
+    mov.l   @(0x54,PC),r3         ! r3 = 0x060078DC
+    jmp     @r3                     ! tail call FUN_060078DC
+    lds.l   @r15+,pr                ! restore pr (delay slot)
+
+
+! ==========================================================================
+! FUN_06009508 — State 28: Abort Processing
+! ==========================================================================
+! Handles the abort path after bit 0 of FLAGS_WORD is set (from state 17
+! when mode_flag == 1). Simplified update pipeline — no per-car loop,
+! no physics. Always transitions to state 29 (post-race menu).
+!
+! NOTE: If abort flag is STILL set on entry (re-entry case), clears it
+! and writes state=20 — but this is immediately overwritten by state=29
+! at .s28_main. The state=20 write is effectively dead code.
+!
+! Called from: main state dispatch (state index 28)
+! Transitions to: State 29 (always)
 
 FUN_06009508:       ! 0x06009508
     sts.l   pr,@-r15
@@ -1115,31 +1554,31 @@ FUN_06009508:       ! 0x06009508
     mov.l   @(0x8C,PC),r4         ! r4 = 0x0607EBF4 (&flags_word)
     mov.l   @r4,r0
     tst     #0x01,r0                ! bit 0 still set?
-    bt      .s20_no_abort
+    bt      .s28_no_abort
 
-    ! Abort flag still active: clear it, loop back to state 20
+    ! Abort flag still active: clear it
     mov     #-2,r3                  ! mask 0xFFFFFFFE
     mov.l   @r4,r2
     and     r3,r2
     mov.l   r2,@r4                  ! clear bit 0
-    mov     #20,r3
+    mov     #20,r3                  ! (dead write — overwritten by state=29 below)
     mov.l   @(0x7C,PC),r2         ! r2 = 0x0605AD10 (&state_var)
-    mov.l   r3,@r2                  ! state = 20 (self-loop)
-    bra     .s20_main
+    mov.l   r3,@r2                  ! state = 20 (immediately overwritten)
+    bra     .s28_main
     nop
 
-.s20_no_abort:
-    ! Normal path: check race end for frame counter
+.s28_no_abort:
+    ! Normal path: increment frame counter if race not ended
     mov.l   @(0x78,PC),r0         ! r0 = 0x0607EAD0 (&race_end_flag)
     mov.l   @r0,r0
     tst     r0,r0
-    bf      .s20_main               ! race ended: skip counter
+    bf      .s28_main               ! race ended: skip counter
     mov.l   @(0x74,PC),r4         ! r4 = 0x0607EBD0 (&frame_counter)
     mov.l   @r4,r3
     add     #1,r3
     mov.l   r3,@r4                  ! frame_counter++
 
-.s20_main:
+.s28_main:
     ! Transition to state 29
     mov     #29,r2
     mov.l   @(0x64,PC),r3         ! r3 = 0x0605AD10 (&state_var)
@@ -1147,10 +1586,10 @@ FUN_06009508:       ! 0x06009508
 
     ! Simplified update pipeline (no per-car loop!)
     mov.l   @(0x6C,PC),r3         ! r3 = 0x0600DFD0
-    jsr     @r3                     ! FUN_0600DFD0
+    jsr     @r3                     ! FUN_0600DFD0 — simplified car update
     nop
     mov.l   @(0x68,PC),r3         ! r3 = 0x0600BB94
-    jsr     @r3                     ! FUN_0600BB94
+    jsr     @r3                     ! FUN_0600BB94 — general update
     nop
 
     ! Display system
@@ -1162,10 +1601,191 @@ FUN_06009508:       ! 0x06009508
     mov.l   @r6,r6                  ! dereference (delay slot)
 
     mov.l   @(0x6C,PC),r3         ! r3 = 0x0600C218
-    jsr     @r3                     ! FUN_0600C218
+    jsr     @r3                     ! FUN_0600C218 — post-display
     nop
 
     ! Tail call frame sync
     mov.l   @(0x68,PC),r3         ! r3 = 0x060078DC
     jmp     @r3                     ! tail call FUN_060078DC
     lds.l   @r15+,pr                ! restore pr (delay slot)
+
+
+! ==========================================================================
+! FUN_0600955E — State 29: Post-Race Menu / Results Screen
+! ==========================================================================
+! The main post-race state. Runs every frame while the results screen is
+! displayed. Complex state with multiple exit paths:
+!
+!   → State 18: Start button pressed (save resume=29, enter time extension)
+!   → State 20: Abort flag set (clear flag, go to race completion)
+!   → State 17: Mode flag [0x0605A1C4] == 0 (loop back to results processing)
+!   → (stays in 29): Otherwise, continues display loop
+!
+! Runs a simplified update pipeline each frame:
+!   FUN_0600E060 (car/object update), FUN_0600BB94, FUN_060053AC (display),
+!   FUN_0600C218 (post-display), FUN_060078DC (frame sync)
+!
+! Also handles: sub-init check, debug display, overlay rendering,
+! race result scoring (FUN_0600A084 if car_obj[+0x82] > 0)
+!
+! Called from: main state dispatch (state index 29)
+! Also entered from: State 28 (always)
+
+FUN_0600955E:       ! 0x0600955E
+    mov.l   r14,@-r15
+    sts.l   pr,@-r15
+    add     #-4,r15
+    mov.l   @(0x34,PC),r14        ! r14 = 0x0605AD10 (&state_var)
+
+    ! === Start button check ===
+    mov.l   @(0x60,PC),r3         ! r3 = 0x06063D9A (&new_buttons)
+    mov.w   @r3,r2
+    extu.w  r2,r2
+    mov.w   @(0x26,PC),r3         ! r3 = 0x0800 (start button mask)
+    and     r3,r2
+    tst     r2,r2
+    bt      .s29_no_start
+
+    ! Start pressed: save resume=29, enter time extension
+    mov     #29,r3
+    mov.l   @(0x54,PC),r2         ! r2 = 0x0607EACC (&resume_state)
+    mov.l   r3,@r2                  ! resume_state = 29
+    mov     #18,r3
+    mov.l   r3,@r14                 ! state = 18 (time extension setup)
+
+.s29_no_start:
+    ! === Abort flag check ===
+    mov.l   @(0x18,PC),r4         ! r4 = 0x0607EBF4 (&flags_word)
+    mov.l   @r4,r0
+    tst     #0x01,r0                ! bit 0 set?
+    bt      .s29_no_abort
+
+    ! Abort: clear flag, transition to state 20 (race completion)
+    mov     #-2,r3                  ! mask 0xFFFFFFFE
+    mov.l   @r4,r2
+    and     r3,r2
+    mov.l   r2,@r4                  ! [flags_word] &= ~1
+    mov     #20,r3
+    mov.l   r3,@r14                 ! state = 20
+    bra     .s29_main
+    nop
+
+.s29_no_abort:
+    ! No abort: check race end for frame counter
+    mov.l   @(0xB0,PC),r0         ! r0 = 0x0607EAD0 (&race_end_flag)
+    mov.l   @r0,r0
+    tst     r0,r0
+    bf      .s29_main               ! race ended: skip counter
+    mov.l   @(0xAC,PC),r4         ! r4 = 0x0607EBD0 (&frame_counter)
+    mov.l   @r4,r3
+    add     #1,r3
+    mov.l   r3,@r4                  ! frame_counter++
+
+.s29_main:
+    ! === Menu overlay check ===
+    mov.l   @(0xA8,PC),r0         ! r0 = 0x0605AB18 (&menu_overlay)
+    mov.b   @r0,r0
+    tst     r0,r0
+    bt      .s29_no_menu
+    mov.l   @(0xA4,PC),r3         ! r3 = 0x060268B0
+    jsr     @r3                     ! FUN_060268B0 — menu overlay
+    mov     #0,r4
+.s29_no_menu:
+
+    ! === Update pipeline ===
+    mov.l   @(0xA4,PC),r3         ! r3 = 0x0600E060
+    jsr     @r3                     ! FUN_0600E060 — car/object update
+    nop
+
+    mov.l   @(0xA0,PC),r3         ! r3 = 0x0600BB94
+    jsr     @r3                     ! FUN_0600BB94 — general update
+    nop
+
+    ! Display commit
+    mov.l   @(0xA0,PC),r6         ! r6 = 0x06063E24
+    mov.l   @(0xA0,PC),r5         ! r5 = 0x06063EEC
+    mov.l   @(0xA4,PC),r4         ! r4 = 0x06063EF8
+    mov.l   @(0xA4,PC),r3         ! r3 = 0x060053AC
+    jsr     @r3                     ! FUN_060053AC — display commit
+    mov.l   @r6,r6                  ! dereference (delay slot)
+
+    mov.l   @(0xA4,PC),r3         ! r3 = 0x0600C218
+    jsr     @r3                     ! FUN_0600C218 — post-display
+    nop
+
+    ! === Sub-init check ===
+    mov.l   @(0xA0,PC),r0         ! r0 = 0x0607ED8C (&init_flag)
+    mov.w   @r0,r0
+    extu.w  r0,r0
+    tst     r0,r0
+    bt      .s29_no_subinit
+    mov.l   @(0x9C,PC),r3         ! r3 = 0x060033E6
+    jsr     @r3                     ! FUN_060033E6 — sub-init
+    nop
+.s29_no_subinit:
+
+    ! === Debug display ===
+    mov.l   @(0x98,PC),r0         ! r0 = 0x06086030 (&debug_flag)
+    mov.b   @r0,r0
+    extu.b  r0,r0
+    tst     r0,r0
+    bt      .s29_no_debug
+    mov.l   @(0x94,PC),r7         ! r7 = 0x0605A1C8 (debug data)
+    mov.l   @(0x94,PC),r6         ! r6 = 0x0000F000 (color white)
+    mov.w   @(0x4E,PC),r5         ! r5 = position
+    mov.l   @(0x94,PC),r3         ! r3 = 0x060283E0 (VDP text)
+    jsr     @r3                     ! debug text display
+    mov     #8,r4
+.s29_no_debug:
+
+    ! === Scoring check ===
+    mov.l   @(0x94,PC),r2         ! r2 = 0x0607E944 (&car_ptr)
+    mov.w   @(0x46,PC),r0         ! r0 = 0x0082
+    mov.l   @r2,r2                  ! r2 = car_object
+    mov.l   @(r0,r2),r3            ! r3 = car_obj[+0x82] (finish position)
+    cmp/pl  r3                      ! position > 0?
+    bf      .s29_no_score
+    bsr     FUN_0600A084            ! process race result / scoring
+    nop
+.s29_no_score:
+
+    ! === Frame sync ===
+    mov.l   @(0x88,PC),r3         ! r3 = 0x060078DC
+    jsr     @r3                     ! FUN_060078DC — frame timing/sync
+    nop
+
+    ! === Overlay rendering (after frame sync) ===
+    mov.l   @(PC),r0               ! r0 = 0x0607E944
+    mov.w   @(PC),r1               ! r1 = 0x00BC
+    mov.l   @r0,r0                  ! r0 = car_object
+    mov.l   @(r0,r1),r0            ! r0 = car_obj[+0xBC] (overlay flags)
+    tst     #0xCC,r0                ! test bits 0xCC
+    bf      .s29_check_mode         ! bits set: skip overlay rendering
+
+    ! Overlay display from 0x06063798 area
+    mov.l   @(PC),r3               ! r3 = 0x06063798 (&overlay_data)
+    mov.l   r3,@r15                 ! save to stack
+    mov     r3,r7
+    mov     r3,r5
+    mov.w   @(PC),r6               ! r6 = display params
+    mov.l   @(0x4,r7),r7           ! r7 = overlay_data[1]
+    mov.l   @r5,r5                  ! r5 = overlay_data[0]
+    mov.l   @(0x70,PC),r3         ! r3 = 0x06028400
+    jsr     @r3                     ! FUN_06028400 — overlay rendering
+    mov     #4,r4
+
+.s29_check_mode:
+    ! === Mode flag: if 0, loop back to state 17 ===
+    mov.l   @(0x6C,PC),r0         ! r0 = 0x0605A1C4 (&mode_flag)
+    mov.l   @r0,r0
+    tst     r0,r0
+    bf      .s29_done               ! mode != 0: stay in state 29
+    mov     #17,r3
+    mov.l   r3,@r14                 ! state = 17 (loop back to results)
+
+.s29_done:
+    ! Epilogue
+    add     #4,r15
+    lds.l   @r15+,pr
+    rts
+    mov.l   @r15+,r14               ! restore r14 (delay slot)
