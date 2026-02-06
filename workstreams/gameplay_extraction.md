@@ -101,6 +101,19 @@ Once we understand enough, isolate subsystems:
 - [x] Document AI decision points — waypoint targeting, speed zones, heading damping
 - [x] Locate difficulty scaling — segment-based speed modulation, NOT traditional rubber-banding
 
+### M8: Race State Machine ✓
+- [x] Decode State 14 (FUN_06008EBC) — first-frame race setup, → state 15
+- [x] Decode State 15 (FUN_06009098) — main race loop, per-car iteration, → state 16/18
+- [x] Decode State 16 (FUN_06009290) — post-countdown cleanup, → state 17
+- [x] Decode State 17 (FUN_060092D0) — post-lap processing/results, → state 18/20/24/28
+- [x] Decode State 18 (FUN_060096DC) — time extension setup (single frame), → state 19
+- [x] Decode State 19 (FUN_06009788) — time extension active/input, → state 14/24/saved
+- [x] Decode State 20 (FUN_06009508) — abort processing, → state 29
+- [x] Map complete state transition graph (see asm/race_states.s)
+- [ ] Decode States 24, 28, 29 (post-race, mode transition, results screen)
+- [ ] Trace FUN_0600DE54 (per-car race state update — physics/collision per frame)
+- [ ] Trace FUN_060078DC (frame timing/sync)
+
 ---
 
 ## Key Resources
@@ -762,3 +775,101 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
     - 0xAE1138FF: race countdown beep (every 64 frames)
     - 0xAE1139FF: race countdown variant (course 1 specific)
   - Created asm/sound.s with full annotated assembly
+- Traced complete in-race state machine (M8):
+  - **State transition graph**:
+    ```
+    State 14 (first-frame setup) ──→ State 15 (main race loop)
+                 ↑                          │
+                 │                    ┌─────┴─────┐
+                 │              countdown=0    start btn
+                 │                    ↓           ↓
+                 │              State 16 ──→ State 18 (time ext setup)
+                 │              (cleanup)         │
+                 │                    ↓           ↓
+                 │              State 17 ──→ State 19 (time ext active)
+                 │              (results)    │    │    │
+                 │                │    │     │    │    └─→ saved_state
+                 │            abort  timer=0 │   A+B+C held
+                 │              ↓     ↓     │    ↓
+                 │         State 20  State 24│   State 24 / State 14
+                 │              │   (post)   │
+                 │              ↓            │
+                 │         State 29 ←────────┘
+                 │              │
+                 │              └─→ State 18 (start)
+                 └──────────────────(A+B+C in state 19)
+    ```
+  - **State 14** (FUN_06008EBC): First-frame race setup
+    - Clears phase flag [0x06078635]=0, sets race_active [0x06078634]=1, timer [0x0607ED88]=8
+    - Button event mapping: reads masks from 0x06063D98, maps to event IDs 0-3 at [0x06078648]
+    - Main pipeline: FUN_0600A0C0 → FUN_06018A3C → FUN_0601F784 → FUN_0600EB14 (race update)
+    - HUD: FUN_06033AAC → FUN_060321C0 (display)
+    - Sets display flag bit 30 (0x40000000) in [0x0605B6D8]
+    - Immediate transition to state 15
+  - **State 15** (FUN_06009098): Main race loop (CORE GAMEPLAY)
+    - Start button check: save resume=15, → state 18 (time extension)
+    - Decrements countdown at [0x0607EAAC] each frame
+    - Per-car inner loop: r12 iterates 0 to [car_count]:
+      - First iteration (r12==0): player car, sets [0x0607ED8C]=1
+      - Each car: FUN_060302C6 (sound) → FUN_0602EFF0 (render) → FUN_0602F0E8 (render) → FUN_0600DE54 (RACE UPDATE)
+    - Post-loop: FUN_0600C302 (if car object exists)
+    - Race end: countdown→0 or [0x0607EAD0] set → state 16
+    - Tail call FUN_060078DC (frame timing/sync)
+  - **State 16** (FUN_06009290): Post-countdown cleanup
+    - Immediate transition to state 17
+    - If car object exists: call FUN_060121A8 (cleanup A), else FUN_06012198 (cleanup B)
+    - Sets [0x0605A016] = 4 (phase flag)
+  - **State 17** (FUN_060092D0): Post-lap processing / results display
+    - Start button → save resume=17, → state 18
+    - Calls FUN_0600A33C (general update)
+    - Countdown timer: decrement, when expired → reset sound, read finish position from car_obj[0x82], store at [0x06078638], → state 24 (post-race)
+    - Abort flag (bit 0 of [0x0607EBF4]): clear bit, reset sound, call FUN_06018E70, → state 20
+    - Sound: plays 0xAE1134FF when countdown==200 (with 40-frame cooldown timer at [0x06086054])
+    - Mode 1 check [0x0605A1C4]==1 → state 28
+    - Update pipeline: FUN_0600DE70, FUN_0600A914, FUN_0600BB94, FUN_060053AC (display), FUN_0601D9B0 (sound), FUN_0600BFFC
+    - Tail call FUN_060078DC
+  - **State 18** (FUN_060096DC): Time extension setup (SINGLE FRAME)
+    - Calls FUN_06009FFC (time extension UI initialization)
+    - Immediate transition to state 19
+    - Saves difficulty: [0x06078654] → [0x06078652], clears current to 0
+    - Clears frame counter [0x06078650] = 0
+    - Displays "TIME EXTENSION" overlay via VDP (FUN_060284AE, FUN_060283E0)
+    - Sets display flag bit 2, calls FUN_06026CE0
+    - Plays transition sound 0xAE0004FF
+  - **State 19** (FUN_06009788): Time extension active/input (COMPLEX)
+    - Mode byte [0x0607864A] controls speed selection UI:
+      - Up button (0x8000): speed++ (max 99) at [0x06078649]
+      - Down button: speed-- (min 1)
+      - Displays speed number + label text
+    - Start button confirmation (debounced: frame_counter >= 20):
+      - Plays 0xAE0004FF, displays overlay, restores saved state from [0x0607EACC]
+      - Restores difficulty from [0x06078652] → [0x06078654]
+      - If mode set: calls FUN_06018DDC(speed) for difficulty setup, clears mode
+    - Secret input: A+B+C held simultaneously (mask 0x70):
+      - Calls FUN_0600A1B8, sets bit 31 in display_flags
+      - If init_flag set: [0x0607EBF4]=1, state=24, [0x0607ED8C]=2
+      - If init_flag clear: [0x0605AD08]=1, state=14 (BACK TO TITLE!)
+    - Normal frame: counter++ at [0x06078650], blink text every 16 frames
+  - **State 20** (FUN_06009508): Abort processing
+    - Checks abort flag bit 0 in [0x0607EBF4]: if set, clear it, self-loop state=20
+    - Otherwise: frame_counter++ (if no race end), → state 29
+    - Simplified pipeline: FUN_0600DFD0, FUN_0600BB94, FUN_060053AC, FUN_0600C218
+  - **Key memory map for race states**:
+    - 0x0605AD10: game state variable (32-state machine index)
+    - 0x0607EACC: resume state (saved before time extension detour)
+    - 0x0607EAAC: countdown timer (decremented each frame)
+    - 0x0607EAD0: race end flag (non-zero = race over)
+    - 0x0607EAD8: car object pointer
+    - 0x0607EBF4: flags word (bit 0 = abort, bit 1 = ?)
+    - 0x0607EBD0: frame counter (incremented while waiting)
+    - 0x0607ED8C: init/phase flag (controls per-car setup)
+    - 0x06078634: car count (how many cars per frame)
+    - 0x06078638: race result / finish position
+    - 0x06078649: speed byte (time extension speed selection, 1-99)
+    - 0x0607864A: mode byte (controls time extension behavior)
+    - 0x06078650: frame counter word (time extension frame count)
+    - 0x06078652/54: saved/current difficulty
+    - 0x0605B6D8: display flags (bit 2 = update, bit 30 = race active, bit 31 = special)
+    - 0x0605A016: phase flag (set to 4 on cleanup)
+    - 0x06059F44: results flag
+  - Created asm/race_states.s with complete annotated state machine
