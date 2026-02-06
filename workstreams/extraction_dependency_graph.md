@@ -321,6 +321,32 @@ Tier 9: OBJECT LIFECYCLE (init/teardown)
 
 ---
 
+## 0x0603xxxx Classification
+
+Of 474 undocumented functions in the 0x0603xxxx range, systematic analysis
+of all asm/ cross-references found:
+
+| Category | Count | Action |
+|----------|-------|--------|
+| Gameplay-only | 37 | Must extract |
+| Dual-purpose (gameplay + rendering) | 4 | Must extract |
+| Rendering-only | 43 | Stub for CCE |
+| Unreferenced (tiny digit renderers, VDP helpers) | ~390 | Ignore |
+
+**Gameplay-critical 0x0603xxxx functions** (41 total):
+- 4 collision response helpers (FUN_060316C4-06031898)
+- 10 AI opponent functions (FUN_06034E58-06035D5A) — already in ai_opponents.s
+- 5 track/terrain helpers (FUN_06034900, 0603449C, 0603458C, etc.)
+- 9 event queue validators (FUN_060349B6-06036BE4) — referenced from event_queue.s
+- 5 race state helpers (FUN_060321C0, 06033AAC, etc.)
+- 4 per-car subsystem helpers (FUN_06030A06, 0603053C, 06030EE0, 060302C6)
+- 4 dual-purpose (physics/audio or physics/rendering integration)
+
+**Key multi-use function**: FUN_06034F78 (bitfield utility) is called from
+5 different gameplay subsystems: AI, physics, lap counting, force system.
+
+---
+
 ## Extraction Order (Recommended)
 
 1. Copy data tables verbatim (Tier 0)
