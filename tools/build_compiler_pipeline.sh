@@ -68,7 +68,7 @@ while IFS='=' read -r name addr; do
     if [ -n "$name" ] && [ -n "$addr" ]; then
         func_addrs[$name]=$addr
     fi
-done < <(grep '^FUN_' "$PROJDIR/build/aprog_syms.txt" | tr -d '\r')
+done < <(grep '^FUN_' "$PROJDIR/build/aprog_syms_merged.txt" | tr -d '\r')
 
 # Create combined assembly
 combined="$OUTDIR/aprog_combined.s"

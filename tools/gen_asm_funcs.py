@@ -104,7 +104,7 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_dir = os.path.dirname(script_dir)
 
-    sym_file = os.path.join(project_dir, "build", "aprog_syms.txt")
+    sym_file = os.path.join(project_dir, "build", "aprog_syms_merged.txt")
     output_dir = os.path.join(project_dir, "build", "gen")
 
     # Find and extract from original disc
