@@ -6,7 +6,8 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Boot Test (Functional Equiv)** | **Active** | Testing relaxed criteria - see `workstreams/boot_test_results.md` |
+| 1 | **Gameplay Extraction** | **Active** | Direct ASM analysis — trace hardware interfaces to gameplay code, workstreams\gameplay_extraction.md |
+
 
 
 # Autonomous Operation Rules

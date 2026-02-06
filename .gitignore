@@ -3,6 +3,7 @@ build/
 ghidra_project/
 **/__pycache__/
 *.S
+!asm/*.s
 .claude/
 tools/sh-elf/
 tools/gcc26-build/
