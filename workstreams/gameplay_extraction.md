@@ -221,6 +221,46 @@ Once we understand enough, isolate subsystems:
 - [x] Trace game logic integration (FUN_0603A0B0, 1508B)
 - [x] Created asm/replay_camera.s and asm/menu_display.s
 
+### M19: Complete State Handler Catalog ✓
+- [x] Document all 32 game state handlers (0x060088CC-0x06009F10)
+- [x] Analyze menu flow: states 0-5 (startup, attract, input routing)
+- [x] Analyze selection flow: states 6-12 (course select, car select, loading, resource check)
+- [x] Analyze pre-race: state 13 (race prep) + state 31 (3-2-1-GO countdown)
+- [x] Document time extension: states 18-19 (speed selection 1-99, A+B+C secret)
+- [x] Document post-race: states 20-25 (results with cars still moving/colliding!)
+- [x] Document abort: states 28-29 (abort processing + menu)
+- [x] Map state transition graph (complete 32-state flow)
+- [x] Identify key state variables (0x0605AD10, 0x0607EAAC, 0x0607EACC, etc.)
+- [x] Created asm/state_handlers.s with complete catalog
+
+### M20: Event Queue & State Management ✓
+- [x] Analyze 0x0604xxxx range (70 functions, previously 0% coverage)
+- [x] Identify 24-slot circular event queue (16 bytes/slot)
+- [x] Map global game state structure at 0x060A5400
+- [x] Document external validator chain (0x06034xxx-0x06036xxx)
+- [x] Trace status code system (17+ distinct return codes)
+- [x] Document bulk structure initialization (23 fields, per-race setup)
+- [x] Created asm/event_queue.s with full subsystem documentation
+
+### M21: System Bootstrap & Utilities ✓
+- [x] Analyze low-address range 0x06003xxx-0x06005xxx (25 functions)
+- [x] Document hardware init chain: SCU, VDP, DMA (6 functions)
+- [x] Document game data init: object templates, engine setup (3 functions)
+- [x] Document per-frame update chain: FUN_060058FA dispatcher (6 functions)
+- [x] Document 3D math utilities: vector angle calc, perspective projection
+- [x] Document background/texture layer init for 3 courses
+- [x] Trace per-course DMA variants (3 functions, one per course)
+- [x] Created asm/system_init.s with init sequence and per-frame loop
+
+### M22: Extraction Dependency Graph ✓
+- [x] Create 9-tier dependency hierarchy for CCE transplant
+- [x] Identify ~51 gameplay functions as extraction targets
+- [x] Identify 13 critical data tables to extract
+- [x] Map subsystem dependencies (math -> physics -> collision -> AI -> pipeline)
+- [x] Define extraction order (data first, math, then physics, then integration)
+- [x] Cross-reference all 38 asm/ files to extraction tiers
+- [x] Created workstreams/extraction_dependency_graph.md
+
 ---
 
 ## Key Resources
@@ -1511,7 +1551,73 @@ asm/vertex_pipeline.s     — Vertex transform pipeline
 ```
 
 **Coverage summary:**
-- ~1100+ functions documented across 35 asm/ files
+- ~1100+ functions documented across 38 asm/ files
 - All major subsystems mapped: physics, rendering, AI, sound, input, camera, HUD, track
-- All milestones M1-M18 complete
+- All milestones M1-M22 complete
 - Remaining unmapped functions are small utilities (<30 insns) and data accessors
+
+### Session 2026-02-06 (continued #2) — Coverage Gap Fill & Dependency Graph
+
+Filled remaining coverage gaps and created extraction plan.
+
+**New asm/ files created (3):**
+
+| File | Functions | Address Range | Key Discovery |
+|------|-----------|--------------|---------------|
+| asm/event_queue.s | 70 | 0x0604000C-0x06046E48 | 24-slot event queue at 0x060A5400 |
+| asm/system_init.s | 25 | 0x06003218-0x06005DD4 | Per-frame update chain (4-function dispatch) |
+| asm/state_handlers.s | 32 | 0x060088CC-0x06009F10 | Complete 32-state machine catalog |
+
+**New workstream doc:**
+- `workstreams/extraction_dependency_graph.md` — 9-tier dependency graph for CCE transplant
+
+**Key findings:**
+1. **0x0604xxxx range** is a gameplay event/state management subsystem with 24-slot circular queue
+2. **State 21** (post-race) keeps cars moving and colliding — not a static results screen!
+3. **Time extension** (states 18-19) has A+B+C secret input combo (0x0070)
+4. **States 22/26 and 23/27** share handlers (alias pairs)
+5. **Per-frame utility chain** dispatches 4 subsystems: world, input, animation, display
+6. **Low-address DMA init** has 3 variants — one per course (Beginner/Advanced/Expert)
+7. **~51 functions + 13 data tables** identified as CCE extraction targets
+
+**Complete asm/ file inventory (38 files):**
+```
+asm/ai_behavior.s        — AI processing pipeline (mid-range, detailed)
+asm/ai_opponents.s        — AI state machine & init (high-range)
+asm/car_collision.s       — Car-car collision detection
+asm/collision.s           — Collision system core
+asm/collision_response.s  — Collision response logic
+asm/engine_sound.s        — Engine sound effects
+asm/event_queue.s         — Gameplay event queue & state management [NEW]
+asm/force_system.s        — Force table animation system
+asm/force_tables.s        — Force table data structures
+asm/frame_timing.s        — Per-frame timing pipeline
+asm/game_loop.s           — 32-state machine dispatcher
+asm/hud_ui.s              — HUD/UI/input/AI (mid-range)
+asm/input_smpc.s          — SMPC controller input
+asm/lap_counting.s        — Lap detection & counting
+asm/math_helpers.s        — Fixed-point math utilities
+asm/math_transform.s      — Matrix/vector transforms
+asm/menu_display.s        — Menu screens & race HUD
+asm/object_management.s   — Car object lifecycle
+asm/per_car_loop.s        — Per-car update pipeline
+asm/player_physics.s      — Player physics (force-driven)
+asm/pre_race_states.s     — Pre-race state handlers
+asm/race_states.s         — In-race state machine
+asm/race_update.s         — Per-frame race updates
+asm/rendering.s           — VDP1 rendering pipeline
+asm/render_pipeline.s     — Master rendering pipeline
+asm/replay_camera.s       — Replay/cinematic camera
+asm/scene_camera.s        — Scene rendering & camera
+asm/scene_renderer.s      — 3D scene processor
+asm/sound.s               — Sound system core
+asm/sound_driver.s        — SCSP driver & channels
+asm/speed_position.s      — Speed curves & integration
+asm/state_handlers.s      — Complete 32-state handler catalog [NEW]
+asm/subsystem_updates.s   — Subsystem coordination
+asm/system_init.s         — System bootstrap & utilities [NEW]
+asm/track_geometry.s      — Track segments & terrain
+asm/vblank_system.s       — VBlank interrupt system
+asm/vdp_hardware.s        — VDP1/VDP2 hardware map
+asm/vertex_pipeline.s     — Vertex transform pipeline
+```
