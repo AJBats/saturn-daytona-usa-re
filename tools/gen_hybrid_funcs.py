@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 """
-Generate hybrid C files: real C for PASS functions, inline asm for FAIL.
-Extracts APROG.BIN from Track 01.bin, checks which functions PASS,
-and uses real C source for those.
+Generate hybrid C files: real C for specified functions, inline asm for rest.
+Extracts APROG.BIN from Track 01.bin, uses real C source for functions that
+either PASS the test harness or are specified via --use-c-funcs.
+
+Usage:
+    python gen_hybrid_funcs.py                    # Use only PASS functions
+    python gen_hybrid_funcs.py --use-c-funcs file.txt  # Add functions from file
+    python gen_hybrid_funcs.py --all-src          # Use ALL src/*.c files
 """
 
 import os
 import sys
 import shutil
 import subprocess
+import argparse
 
 # APROG.BIN location and size in the disc image
 DISC_OFFSET = 49408      # 0xC100 - where APROG.BIN starts in Track 01.bin
@@ -146,7 +152,37 @@ def copy_src_file(src_path, output_path):
     shutil.copy2(src_path, output_path)
     return True
 
+def load_func_list(filepath):
+    """Load function names from a file (one per line)."""
+    funcs = set()
+    with open(filepath, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                # Normalize to uppercase
+                funcs.add(line.upper())
+    return funcs
+
+def get_all_src_funcs(project_dir):
+    """Get all function names that have .c files in src/."""
+    src_dir = os.path.join(project_dir, "src")
+    funcs = set()
+    if os.path.exists(src_dir):
+        for f in os.listdir(src_dir):
+            if f.startswith('FUN_') and f.endswith('.c'):
+                funcs.add(f[:-2].upper())  # Remove .c and uppercase
+    return funcs
+
 def main():
+    parser = argparse.ArgumentParser(description='Generate hybrid C files for Daytona build')
+    parser.add_argument('--use-c-funcs', metavar='FILE',
+                        help='File with additional functions to use real C for')
+    parser.add_argument('--all-src', action='store_true',
+                        help='Use real C for ALL functions that have src/*.c files')
+    parser.add_argument('--pass-only', action='store_true',
+                        help='Only use PASS functions (default behavior)')
+    args = parser.parse_args()
+
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_dir = os.path.dirname(script_dir)
 
@@ -169,15 +205,32 @@ def main():
         print("Error: %s not found" % sym_file)
         sys.exit(1)
 
-    # Get PASS functions
-    pass_funcs = get_pass_functions(project_dir)
+    # Determine which functions to use real C for
+    c_funcs = set()
+
+    if args.all_src:
+        # Use ALL src/*.c files
+        c_funcs = get_all_src_funcs(project_dir)
+        print("Using ALL src/*.c files: %d functions" % len(c_funcs))
+    else:
+        # Start with PASS functions
+        c_funcs = get_pass_functions(project_dir)
+
+        # Add functions from --use-c-funcs file
+        if args.use_c_funcs:
+            if os.path.exists(args.use_c_funcs):
+                extra = load_func_list(args.use_c_funcs)
+                print("  Adding %d functions from %s" % (len(extra), args.use_c_funcs))
+                c_funcs.update(extra)
+            else:
+                print("Warning: %s not found" % args.use_c_funcs)
 
     os.makedirs(output_dir, exist_ok=True)
 
     # Step 1: Generate inline asm for ALL functions from aprog_syms.txt
     print("Parsing symbols...")
     symbols = parse_symbols(sym_file)
-    print("Found %d functions in aprog_syms.txt" % len(symbols))
+    print("Found %d functions in symbol table" % len(symbols))
 
     print("Generating inline asm for all functions...")
     generated_asm = 0
@@ -192,13 +245,12 @@ def main():
 
     print("  Generated %d inline asm files" % generated_asm)
 
-    # Step 2: Overwrite with real C for PASS functions
-    # Look for ALL src/*.c files that are in pass_funcs
-    print("Overlaying real C for PASS functions...")
+    # Step 2: Overwrite with real C for selected functions
+    print("Overlaying real C for %d functions..." % len(c_funcs))
     generated_c = 0
     skipped_no_src = 0
 
-    for func_name in pass_funcs:
+    for func_name in c_funcs:
         src_path = find_src_file(project_dir, func_name)
         if src_path:
             output_path = os.path.join(output_dir, func_name + ".c")
@@ -209,9 +261,9 @@ def main():
 
     print("")
     print("Done!")
-    print("  Inline ASM:  %d functions (from aprog_syms.txt)" % generated_asm)
-    print("  Real C:      %d functions (PASS with src)" % generated_c)
-    print("  PASS w/o src: %d functions (no .c file found)" % skipped_no_src)
+    print("  Inline ASM:  %d functions" % generated_asm)
+    print("  Real C:      %d functions" % generated_c)
+    print("  No src file: %d functions (skipped)" % skipped_no_src)
     print("  Output:      %s" % output_dir)
 
 if __name__ == "__main__":

@@ -115,13 +115,28 @@ for name in $sorted_funcs; do
     echo "	.org $offset" >> "$combined"
     echo "_${name}:" >> "$combined"
 
-    # Extract .byte lines from compiled .s file
-    grep '\.byte' "${name}.s" >> "$combined" || true
+    # Check if this is inline asm (.byte) or real C (instructions)
+    # Label format is _FUN_xxxxxxxx where hex part is lowercase
+    # E.g., FUN_060032D4 -> _FUN_060032d4
+    name_label=$(echo "$name" | sed 's/\(FUN_\)\(.*\)/\1\L\2/')
 
-    # Calculate function end (next address or estimate from .byte count)
-    byte_count=$(grep -c '\.byte' "${name}.s" 2>/dev/null || echo 0)
-    # Each .byte line has 2 bytes (0xNN, 0xNN format)
-    func_size=$((byte_count * 2))
+    if grep -q '\.byte' "${name}.s"; then
+        # Inline asm - extract .byte lines
+        grep '\.byte' "${name}.s" >> "$combined"
+        byte_count=$(grep -c '\.byte' "${name}.s" 2>/dev/null || echo 0)
+        func_size=$((byte_count * 2))
+    else
+        # Real C - extract instructions between function label and pool/end
+        sed -n "/^_${name_label}:/,/^L[0-9]/p" "${name}.s" | \
+            grep -P '^\t[a-z]' >> "$combined" || true
+        # Also grab constant pool entries
+        sed -n "/^L[0-9]/,\$p" "${name}.s" | \
+            grep -E '^\t\.(word|long|short|align)' >> "$combined" || true
+        # Estimate size: count instruction lines * 2 bytes avg
+        insn_count=$(sed -n "/^_${name_label}:/,/^L[0-9]/p" "${name}.s" | grep -cP '^\t[a-z]' 2>/dev/null || echo 0)
+        func_size=$((insn_count * 2))
+    fi
+
     prev_end=$((addr_dec + func_size))
 done
 

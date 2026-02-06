@@ -6,8 +6,8 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **MD Cleanup** | **In Progress** | Ask your user |
-| 1 | **ASM Matching to Boot** | **Paused** | See `docs/asm_matching_workstream.md` `decomp.md` |
+| 1 | **Boot Test (Functional Equiv)** | **Active** | Testing relaxed criteria - see `workstreams/boot_test_results.md` |
+
 
 # Autonomous Operation Rules
 
