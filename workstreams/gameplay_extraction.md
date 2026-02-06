@@ -124,6 +124,20 @@ Once we understand enough, isolate subsystems:
 - [x] Decode FUN_06034F78 bitfield utility (packed bit position/count)
 - [x] Created asm/lap_counting.s with full annotated system
 
+### M10: Object Management System ✓
+- [x] Discover car array memory layout (40 slots × 0x268 at 0x06078900)
+- [x] Trace FUN_0600EB14 — master race initialization (zeroes array, calls subsystem inits)
+- [x] Trace FUN_0600629C — car initialization loop (iterates car_count, calls E1D4 per car)
+- [x] Trace FUN_0600E1D4 — per-car type init (config table lookup at 0x06047DE4)
+- [x] Trace FUN_0600DE70 — per-frame car iteration loop (called from State 15)
+- [x] Trace FUN_0600E4F2 — per-car per-frame update (THE BIG ONE: 9-stage pipeline)
+- [x] Trace FUN_0600E410 — simplified update (mode 0, pre-race countdown)
+- [x] Trace FUN_0600DF66 — update mode dispatcher (mode 0/1/2)
+- [x] Decode config table format at 0x06047DE4 (12-byte entries per car: type, heading, indices)
+- [x] Map player vs AI determination (car[0] == player, r12 flag)
+- [x] Document demo/replay mode path (velocity playback from globals)
+- [x] Created asm/object_management.s with complete annotated system
+
 ---
 
 ## Key Resources
@@ -381,21 +395,26 @@ The acceleration chain from controller to position:
 +0x000: byte  — flags (0x08=special, 0x10=shift_down, 0x20=shift_up,
                         0x40=gas, 0x80=brake)
 +0x001: byte  — secondary flags
-+0x004: long  — car sub-type / secondary pointer
++0x004: long  — car index (0=player, 1..N=AI) — set by FUN_0600629C
 +0x008: long  — speed (heading-relative scalar)
-+0x00C: long  — acceleration / distance accumulator
++0x00C: long  — distance accumulator (used in speed calc, FUN_0600E410)
 +0x010: long  — X position (world)
-+0x014: long  — Y position (world, always 0)
++0x014: long  — Y position (world, typically 0)
 +0x018: long  — Z position (world)
-+0x020: long  — heading (yaw angle)
-+0x028: long  — heading copy A
-+0x030: long  — heading copy B
-+0x0B8: long  — steering input timer
-+0x0D4: long  — mode field
++0x01C: long  — rotation component A (pitch?)
++0x020: long  — heading (primary yaw angle)
++0x024: long  — rotation component C (bank?)
++0x028: long  — heading copy A (set = [0x20] during init)
++0x030: long  — heading copy B (set = [0x20] during init)
++0x034: long  — heading copy C (set = [0x20] during init)
++0x074: long  — initial value 56 (set during init)
++0x090: long  — initial value 56 (set during init)
 +0x00B8: long  — gear shift countdown timer (32 frames) / proximity override
 +0x00BC: long  — force secondary timer (countdown-40, blocks gear shifts)
 +0x00D4: word  — mode field (20=force init, 40=gear shift, 10=steering cap)
-+0x120..0x12C — track segment flags (4 longs, used by FUN_0600EA18)
++0x0E0: long  — computed speed value (from FUN_0600E410)
++0x0E4: long  — computed speed value copy
++0x120..0x12C — activation flags (4 longs, set to 1 during init)
 +0x015C: long  — LAP COUNTER (incremented each completed lap)
 +0x184: long  — current track segment index
 +0x01B4: long  — force speed reference (from record[0])
@@ -525,6 +544,116 @@ brake = deceleration with looser steering, neutral = coasting.
 +0x01DC: long — gear direction (+1=upshift, -1=downshift)
 +0x0208: long — timer copy (same as 0x00BC)
 ```
+
+### Object Management System
+
+**Car array**: 40 slots at 0x06078900, each 0x268 (616) bytes. Total = 24640 bytes,
+ending at 0x0607E940. The global pointer variables sit immediately after the array:
+
+```
+0x06078900 ┌──────────────┐
+           │  car[0]      │  0x268 bytes (PLAYER)
+0x06078B68 ├──────────────┤
+           │  car[1]      │  0x268 bytes (AI #1)
+0x06078DD0 ├──────────────┤
+           │  car[2]      │  ...
+           │  ...         │
+           │  car[39]     │  (max capacity)
+0x0607E940 ├──────────────┤
+           │  cur_car_ptr │  4 bytes (working)
+0x0607E944 ├──────────────┤
+           │  car_ptr_pri │  4 bytes (primary/stored)
+0x0607E948 ├──────────────┤
+           │  car_ptr_sec │  4 bytes (secondary, typically car[1])
+           └──────────────┘
+```
+
+**Initialization flow** (called from state handlers entering race):
+```
+State handler -> FUN_0600EB14 (master init)
+  -> Zero entire car array (40 × 616 bytes)
+  -> FUN_06026E02, FUN_060270C6 (subsystem inits)
+  -> FUN_0600629C (car init loop)
+       for i in 0..car_count:
+         car[i] = base + i * 0x268
+         car[i][0x04] = i              (store car index)
+         FUN_0600E1D4(car[i])          (type-based init from config table)
+  -> Set car[0] activation flags at +0x120..+0x12C = 1
+  -> Zero ~30 global state variables
+```
+
+**Per-frame update flow** (called from State 15 main race loop):
+```
+State 15 -> FUN_0600DE70 (per-frame iteration)
+  for each car (0 to *0x06078634):
+    FUN_0600E4F2(car)                  (9-stage per-car update)
+  -> FUN_0600A8BC (audio)
+  -> FUN_0602F7EA / FUN_06034900 (render finalize)
+  -> FUN_0602F99C (frame finalize)
+```
+
+**FUN_0600E4F2 — Per-car update pipeline** (9 stages):
+1. Force system: FUN_060081F4, FUN_060085B8
+2. Subsystem: FUN_06030A06, FUN_06030EE0
+3. Physics integration (FUN_0602ECF2) OR demo velocity playback
+4. 3D rendering: FUN_06027CA4 × 4 scene passes (normal mode only)
+5. Lap counting: FUN_0600DB64 (PLAYER ONLY, when r12==0)
+6. Proximity/checkpoint: FUN_0600DA7C, FUN_0600D780
+7. Collision: FUN_0600CE66
+8. Track position: FUN_0603053C, FUN_0600C994
+9. AI behavior: FUN_0600EA18 (AI ONLY, normal mode)
+
+Player/AI determination: `car == car[0]` → player (r12=0), else AI (r12=1).
+
+**Config table at 0x06047DE4** (12-byte entries per car type):
+```
++0x00: word16 — car type (3=standard, 4=extended)
++0x02: word16 — initial heading angle (signed, grid position)
++0x04: word16 — secondary table index (into 0x06047DD0)
++0x06: word16 — tertiary table index (into 0x06085FD0)
++0x08: word16 — car class (2=player, 1=AI)
++0x0A: word16 — reserved (0)
+```
+
+Decoded entries (first 7):
+| Index | Type | Heading | Class | Notes |
+|-------|------|---------|-------|-------|
+| 0 | 3 | 0xF555 (-2731) | 2 | PLAYER — pole position |
+| 1 | 3 | 0xE38E (-7282) | 1 | AI — grid row 1 |
+| 2 | 3 | 0xEAAA (-5462) | 1 | AI — grid row 1 |
+| 3 | 3 | 0xF1C7 (-3641) | 1 | AI — grid row 2 |
+| 4 | 3 | 0xF8E3 (-1821) | 1 | AI — grid row 2 |
+| 5 | 4 | 0x6000 (+24576) | 1 | AI — grid row 3 (type 4) |
+| 6 | 4 | 0x71C7 (+29127) | 1 | AI — grid row 3 (type 4) |
+
+**Update mode dispatch** (FUN_0600DF66, alternative to main loop):
+- Mode 0 → FUN_0600E410 (simplified: force + physics + speed calc)
+- Mode 1 → FUN_0600E47C (alternative update path)
+- Mode 2 → FUN_0600E47C (same)
+- Used during countdown, replay, and special states
+
+**Demo/replay mode** (when *0x060786BC > 0):
+- Bypasses physics integration entirely
+- Applies pre-recorded velocities from globals:
+  - car[0x10] += *0x060786C0 (X velocity)
+  - car[0x18] += *0x060786C4 (Z velocity)
+  - car[0x20] += *0x060786C8 (angular velocity)
+- Skips 3D rendering passes
+- Countdown decrements each frame
+
+**Key global variables:**
+| Address | Type | Purpose |
+|---------|------|---------|
+| 0x0607EA98 | long | Car count (active cars) |
+| 0x06078634 | byte | Car count (byte copy, per-frame loop) |
+| 0x06078635 | byte | Special mode flag (0=normal) |
+| 0x0607E940 | long | Current car ptr (working) |
+| 0x0607E944 | long | Current car ptr (primary) |
+| 0x0607E948 | long | Secondary car ptr |
+| 0x0607EAD8 | long | Player mode (0=single) |
+| 0x060786BC | long | Demo/replay countdown |
+| 0x060786CA | word | Half-car-count |
+| 0x06083261 | byte | Update mode (0/1/2) |
 
 ### VDP1 Rendering System
 
@@ -1038,3 +1167,49 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
   - Created asm/force_tables.s with complete annotated system
   - Updated car struct: 13 new offsets (0x00B8-0x0208 force system)
   - Contiguous data block: 0x06044C90-0x0604540E (profiles + descriptors + tables)
+- Traced complete object management system (M10):
+  - **Car array memory layout**: 40 slots × 0x268 bytes at 0x06078900-0x0607E93F
+    - Globals at 0x0607E940/E944/E948 sit immediately after the array
+    - Total clear on init: 6160 × 4 = 24640 bytes (exactly 40 × 616)
+  - **FUN_0600EB14** (race init master):
+    - Called from 3 state handlers (0x06008956, 0x06008FAC, 0x06009EB2)
+    - Zeros entire car array, calls FUN_06026E02/FUN_060270C6 subsystem inits
+    - Calls FUN_0600629C (car iteration loop)
+    - Sets car[0] activation flags at +0x120..+0x12C = 1
+    - Zeros ~30 global variables, sets update mode to 0
+  - **FUN_0600629C** (car init loop):
+    - Reads car count from *0x0607EA98
+    - For each car: base + i*0x268, stores index to car[4], calls FUN_0600E1D4
+    - Special path when *0x06078635 != 0: inits car[1] before car[0]
+    - Post-loop: car[0] fixup (sizes=56, reads from 0x0607ED90)
+    - Calls FUN_0600D280 (sorting), FUN_0602E5E4
+  - **FUN_0600E1D4** (per-car type init):
+    - Config table at 0x06047DE4 with 12-byte entries (type, heading, indices, class)
+    - Secondary table at 0x06047DD0 (5-byte entries for grid position)
+    - Entry[0] = player (class=2), entries[1..N] = AI (class=1)
+    - Initial heading angles form grid positions around starting line
+    - Sets position (car[0x10/0x18]) and rotation (car[0x1C/0x20/0x24])
+  - **FUN_0600DE70** (per-frame car iteration):
+    - Called from State 15 at 0x06009436
+    - Iterates *0x06078634 (byte count) cars
+    - Calls FUN_0600E4F2 per car
+    - Post-loop: FUN_0600A8BC (audio), render finalize, frame finalize
+  - **FUN_0600E4F2** (per-car per-frame update — THE BIG ONE):
+    - 9-stage pipeline: force → subsystems → physics/demo → 3D render → lap count → proximity → collision → track → AI
+    - Player/AI determined by: car == car[0] → r12=0 (player), else r12=1 (AI)
+    - Player-only: FUN_0600DB64 (lap counter)
+    - AI-only: FUN_0600EA18 (behavior), called when NOT demo mode
+    - Demo mode: bypasses physics, applies pre-recorded velocities from globals
+    - Normal mode: 4 scene passes through FUN_06027CA4 (3D renderer)
+    - Tail-calls FUN_0602D9F0 (render pipeline) in normal mode
+  - **FUN_0600E410** (simplified update, mode 0):
+    - Force + subsystems + physics pipeline + speed calculation
+    - Used during pre-race countdown
+  - **FUN_0600DF66** (mode dispatcher):
+    - Reads *0x06083261: mode 0→E410, mode 1/2→E47C
+  - **Config table decoded** (7 entries at 0x06047DE4):
+    - Type 3/4, heading angles spacing cars around grid
+    - Entry 0: player with heading 0xF555 (-2731)
+    - Headings increase per-row (paired entries share similar angles)
+  - Created asm/object_management.s with full annotated system
+  - Updated car struct: +0x04 (car index), +0x0E0/0xE4 (speed values), +0x074/0x090 (init values)
