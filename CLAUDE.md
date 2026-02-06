@@ -12,6 +12,7 @@
 # Autonomous Operation Rules
 
 0. **Never delete uncommitted files** — If there are untracked/modified files, ASK before deleting them. They may contain work-in-progress or experimental code the user wants to review. Use `git stash` or commit them instead.
+**Only delete files with safe word** Sometimes the user my imply, or indirectly give you the imperssion files should be deleted. But only  actually delete files discussed after giving a file listing, and a final confirmation with the safe word **pineapple**
 1. **NEVER STOP WORKING** — work continuously until the user returns. No "session summaries".
    - When a batch finishes, IMMEDIATELY start the next batch
    - Never write "Session Summary" or "Session Complete" — these are stop signals
