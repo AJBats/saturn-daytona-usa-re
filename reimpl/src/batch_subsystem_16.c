@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06016eda;
 extern int DAT_06016ffa;
 extern int DAT_0601729e;
@@ -186,7 +188,7 @@ void FUN_06016dd8(param_1)
 
   sVar10 = 0xc;
 
-  if (*(int *)0x0605AD10 == 0x15) {
+  if (GAME_STATE == 0x15) {
 
     sVar9 = 0x20;
 
@@ -445,11 +447,11 @@ void FUN_060171ac()
 
   puVar1 = (char *)0x06085490;
 
-  if ((*(int *)0x0605AD10 == 0x19 || *(int *)0x0605AD10 == 0x15) &&
+  if ((GAME_STATE == 0x19 || GAME_STATE == 0x15) &&
 
      (((int *)0x06084FC8)[1] == '\0' && *(int *)0x06084FC8 != '\0')) {
 
-    if (*(int *)0x0605AD10 == 0x19) {
+    if (GAME_STATE == 0x19) {
 
       (*(int(*)())0x060280F8)(0x06085490 + DAT_0601729e,*(int *)0x060785FC);
 
@@ -692,7 +694,7 @@ int FUN_060173ac()
 
   puVar15 = (short *)0x06044B84;
 
-  if (*(int *)0x0607EAE0 != 0) {
+  if (DEMO_MODE_FLAG != 0) {
 
     puVar15 = (short *)0x06044BB4;
 
@@ -720,7 +722,7 @@ int FUN_060173ac()
 
   if ((*(unsigned int *)0x0607EBF4 & 1) == 0) {
 
-    puVar6 = (char *)(*(int *)0x0607EBD0 * 5);
+    puVar6 = (char *)(GAME_STATE_VAR * 5);
 
   }
 
@@ -770,7 +772,7 @@ int FUN_060173ac()
 
   iVar3 = (*(int(*)())0x06035C2C)();
 
-  if (*(int *)0x0607EAE0 == 0) {
+  if (DEMO_MODE_FLAG == 0) {
 
     iVar12 = (int)DAT_06017692;
 
@@ -1052,7 +1054,7 @@ void FUN_06017814()
 
   (*(int(*)())0x06026DF8)();
 
-  if (*(unsigned int *)(*(int *)0x0607E940 + (int)PTR_DAT_060179b8) <
+  if (*(unsigned int *)(CAR_PTR_CURRENT + (int)PTR_DAT_060179b8) <
 
       *(int *)0x06063F28 - 1U) {
 
@@ -1092,7 +1094,7 @@ void FUN_06017814()
 
   puVar2 = (char *)0x0605BE2A;
 
-  if ((*(int *)0x0607EAD0 == 0) && ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x000A0000) != 0)
+  if ((*(int *)0x0607EAD0 == 0) && ((GAME_STATE_BIT & (unsigned int)0x000A0000) != 0)
 
      ) {
 
@@ -1333,7 +1335,7 @@ void FUN_06017cec()
 
   puVar2 = (char *)0x00088734;
 
-  iVar10 = *(int *)0x0607E944;
+  iVar10 = CAR_PTR_TARGET;
 
   uVar8 = *(int *)0x06089E28;
 

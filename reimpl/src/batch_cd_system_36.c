@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06036832;
 extern int DAT_06036a0e;
 extern int DAT_06036fba;
@@ -1866,9 +1868,9 @@ void FUN_06036e90(param_1, param_2, param_3)
 
     }
 
-    if (*(short *)0x060635AC == 0) {
+    if (VDP1_BATCH_FLAG == 0) {
 
-      *(short *)0x060635AC = 1;
+      VDP1_BATCH_FLAG = 1;
 
     }
 
@@ -1972,7 +1974,7 @@ LAB_06036f86:
 
     if (iVar6 != 0) {
 
-      (*(int(*)())(*(int *)0x06000320))(0);
+      (*(int(*)())(BIOS_FUNC_0320))(0);
 
     }
 
@@ -1986,7 +1988,7 @@ LAB_06036f86:
 
       if (iVar6 != 1) {
 
-        (*(int(*)())(*(int *)0x06000320))(1);
+        (*(int(*)())(BIOS_FUNC_0320))(1);
 
       }
 
@@ -2000,7 +2002,7 @@ LAB_06036f86:
 
       if (iVar6 != 0) {
 
-        (*(int(*)())(*(int *)0x06000320))(0);
+        (*(int(*)())(BIOS_FUNC_0320))(0);
 
       }
 
@@ -2014,7 +2016,7 @@ LAB_06036f86:
 
       if (iVar6 != 1) {
 
-        (*(int(*)())(*(int *)0x06000320))(1);
+        (*(int(*)())(BIOS_FUNC_0320))(1);
 
       }
 
@@ -2028,7 +2030,7 @@ LAB_06036f86:
 
       if (iVar6 != 0) {
 
-        (*(int(*)())(*(int *)0x06000320))(0);
+        (*(int(*)())(BIOS_FUNC_0320))(0);
 
       }
 
@@ -2044,7 +2046,7 @@ LAB_06036f86:
 
       if (iVar6 != 1) {
 
-        (*(int(*)())(*(int *)0x06000320))(1);
+        (*(int(*)())(BIOS_FUNC_0320))(1);
 
       }
 
@@ -2060,7 +2062,7 @@ LAB_06036f86:
 
       if (iVar6 != 0) {
 
-        (*(int(*)())(*(int *)0x06000320))(0);
+        (*(int(*)())(BIOS_FUNC_0320))(0);
 
       }
 
@@ -2078,7 +2080,7 @@ LAB_06036f86:
 
       if (iVar6 != 1) {
 
-        (*(int(*)())(*(int *)0x06000320))(1);
+        (*(int(*)())(BIOS_FUNC_0320))(1);
 
       }
 
@@ -2096,9 +2098,9 @@ LAB_06036f86:
 
 LAB_060370a0:
 
-  if (*(short *)0x060635AC == 0) {
+  if (VDP1_BATCH_FLAG == 0) {
 
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
 
   }
 
@@ -3073,9 +3075,9 @@ LAB_06037e88:
 
   }
 
-  if (*(short *)0x060635AC == 0) {
+  if (VDP1_BATCH_FLAG == 0) {
 
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
 
   }
 

@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0602e460;
 extern int DAT_0602e51a;
 extern int DAT_0602e51c;
@@ -244,7 +246,7 @@ int FUN_0602e4bc()
 
 void FUN_0602e5e4()
 {
-  int base = *(int *)0x0607E944;
+  int base = CAR_PTR_TARGET;
   DAT_06083264 = *(int *)(base + 0x238);
   DAT_06083268 = *(int *)(base + 0x23C);
 }
@@ -274,7 +276,7 @@ int FUN_0602e610()
 
   int in_pr;
 
-  iVar9 = *(int *)0x0607E944;
+  iVar9 = CAR_PTR_TARGET;
 
   iVar10 = *(int *)(iVar9 + 0x00000238);
 
@@ -461,7 +463,7 @@ int FUN_0602eccc()
 
   puVar1 = (char *)0xFFFFFF00;
 
-  *(int *)0xFFFFFF00 = in_r0;
+  SH2_DVSR = in_r0;
 
   *(int *)(puVar1 + 4) = in_r1;
 
@@ -508,7 +510,7 @@ int FUN_0602eff0(param_1, param_2)
 
   int uVar4;
 
-  iVar1 = *(int *)0x0607E944;
+  iVar1 = CAR_PTR_TARGET;
 
   uVar2 = FUN_0602eccc(0,param_2,*(int *)(DAT_0602f01e + iVar1),0);
 
@@ -541,7 +543,7 @@ int FUN_0602f0e8()
 
   int iVar3;
 
-  iVar1 = *(int *)0x0607E944;
+  iVar1 = CAR_PTR_TARGET;
 
   *(int *)(DAT_0602f120 + iVar1) =
 
@@ -817,7 +819,7 @@ int FUN_0602f4b4()
 
   int in_pr;
 
-  if (*(int *)0x0607EAE0 != 0) {
+  if (DEMO_MODE_FLAG != 0) {
 
     return in_r0;
 
@@ -1418,7 +1420,7 @@ LAB_0602fa42:
 
   puVar3 = (char *)0x0602FD9D;
 
-  uVar5 = *(unsigned int *)0x0607EAD8;
+  uVar5 = CAR_COUNT;
 
   if (uVar5 == 0) {
 
@@ -1482,7 +1484,7 @@ LAB_0602fa42:
 
     if ((uVar5 & 8) == 0) {
 
-      if (*(int *)0x0607EAE0 == 0) {
+      if (DEMO_MODE_FLAG == 0) {
 
         iVar8 = *(int *)0x0607EA98 + -1;
 
@@ -1692,7 +1694,7 @@ LAB_0602fcc0:
 
         else {
 
-          uVar5 = *(unsigned int *)0x0607EAD8;
+          uVar5 = CAR_COUNT;
 
           if ((uVar5 == 1) &&
 

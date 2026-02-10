@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0602014a;
 extern int DAT_0602014c;
 extern int DAT_060203be;
@@ -234,12 +236,12 @@ unsigned int FUN_06020c3c()
   if (uVar3 == 1) {
     *(short *)0x060A3DBA = (short)0xC060;
     *(short *)0x060A3DA8 = 0xf;
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
     uVar3 = (*(int(*)())0x06038044)(auStack_14);
   } else if (uVar3 == 2) {
     *(short *)0x060A3DBA = (short)0xC044;
     *(short *)0x060A3DA8 = 0xf;
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
     uVar3 = (*(int(*)())0x06038044)(auStack_24);
   } else if (uVar3 == 3) {
     uVar3 = FUN_06020946();
@@ -290,7 +292,7 @@ void FUN_06020cf4()
 
   (*(int(*)())0x060280F8)(puVar2,*(int *)0x060785FC);
 
-  *(int *)0x0605A008 = *(int *)0x0605A008 + 1;
+  VDP1_CMD_BASE_PTR = VDP1_CMD_BASE_PTR + 1;
 
   *(int *)puVar3 = *(int *)puVar3 + 0x20;
 
@@ -374,13 +376,13 @@ int FUN_06020e74()
 
   }
 
-  if ((*(int *)(*(int *)0x0607E944 + (int)DAT_06020f2e) != *(int *)0x06089598) &&
+  if ((*(int *)(CAR_PTR_TARGET + (int)DAT_06020f2e) != *(int *)0x06089598) &&
 
      (*(int *)0x06083255 == '\0')) {
 
     iVar9 = 0x900;
 
-    uVar5 = *(unsigned int *)((int)DAT_06020f2e + *(int *)0x0607E944) & 0xcc;
+    uVar5 = *(unsigned int *)((int)DAT_06020f2e + CAR_PTR_TARGET) & 0xcc;
 
     if (uVar5 == 0) {
 
@@ -464,7 +466,7 @@ int FUN_06020e74()
 
   }
 
-  *(int *)0x06089598 = *(int *)(*(int *)0x0607E944 + (int)DAT_06020fca);
+  *(int *)0x06089598 = *(int *)(CAR_PTR_TARGET + (int)DAT_06020fca);
 
   if (*(int *)0x06063E20 != 1) {
 
@@ -476,7 +478,7 @@ int FUN_06020e74()
 
   iVar7 = 0;
 
-  iVar9 = *(int *)(*(int *)0x0607E944 + 0x60) >> 0xe;
+  iVar9 = *(int *)(CAR_PTR_TARGET + 0x60) >> 0xe;
 
   iVar8 = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)(*puVar1 << 2));
 
@@ -545,17 +547,17 @@ unsigned int FUN_06021178()
 
   puVar1 = (char *)0x0608959C;
 
-  iVar6 = *(int *)(*(int *)0x0607E940 + 0x10);
+  iVar6 = *(int *)(CAR_PTR_CURRENT + 0x10);
 
-  iVar8 = *(int *)(*(int *)0x0607E940 + 0x18);
+  iVar8 = *(int *)(CAR_PTR_CURRENT + 0x18);
 
   if (((((int)0x00760000 < iVar6) && (iVar6 < (int)0x014B0000)) &&
 
       (iVar8 < (int)0x00D00000)) && (0xFF3B0000 < iVar8)) {
 
-    if (((0x57 < *(int *)(*(int *)0x0607E940 + (int)PTR_DAT_060211d8)) &&
+    if (((0x57 < *(int *)(CAR_PTR_CURRENT + (int)PTR_DAT_060211d8)) &&
 
-        (*(int *)(*(int *)0x0607E940 + (int)PTR_DAT_060211d8) < 0x7a)) &&
+        (*(int *)(CAR_PTR_CURRENT + (int)PTR_DAT_060211d8) < 0x7a)) &&
 
        ((*(unsigned short *)0x0608959C & 1) == 0)) {
 
@@ -633,7 +635,7 @@ unsigned int FUN_06021178()
 
         uVar9 = *(int *)(0x0605D0AC + *(int *)(0x0607EAB8 << 2));
 
-        iVar7 = ((unsigned int)(unsigned char)((int *)0x060448B5)[*(int *)0x0607EAD8] +
+        iVar7 = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
 
                 (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)((int)(int)puVar3 << 3);
 
@@ -675,7 +677,7 @@ unsigned int FUN_06021178()
 
         uVar9 = *(int *)(0x0605D0B4 + *(int *)(0x0607EAB8 << 2));
 
-        iVar7 = ((unsigned int)(unsigned char)((int *)0x060448B5)[*(int *)0x0607EAD8] +
+        iVar7 = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
 
                 (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)((int)(int)puVar3 << 3);
 
@@ -832,7 +834,7 @@ void FUN_06021450()
 
   uVar18 = 0;
 
-  if (*(int *)0x0607EAD8 == 0) {
+  if (CAR_COUNT == 0) {
 
     *(char **)0x06089D98 = 0x00200000 + (int)0x00037F08;
 
@@ -894,7 +896,7 @@ void FUN_06021450()
 
   }
 
-  else if (*(int *)0x0607EAD8 == 1) {
+  else if (CAR_COUNT == 1) {
 
     *(char **)(0x06089D98 + 4) = 0x00200000 + (int)0x00089364;
 

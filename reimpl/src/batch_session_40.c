@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0604009e;
 extern int DAT_060400a0;
 extern int DAT_060400a2;
@@ -88,9 +90,9 @@ int FUN_0604000c(param_1)
 
   puVar1 = (char *)0x060A4D14;
 
-  *(unsigned int *)(*(int *)0x060A4D14 + (int)DAT_0604009e) =
+  *(unsigned int *)(CD_STATE_A + (int)DAT_0604009e) =
 
-       *(unsigned int *)(*(int *)0x060A4D14 + (int)DAT_0604009e) & 0xfffffffe;
+       *(unsigned int *)(CD_STATE_A + (int)DAT_0604009e) & 0xfffffffe;
 
   iVar2 = (*(int(*)())0x06040C98)(*(int *)puVar1 + 0xd0,param_1);
 
@@ -962,7 +964,7 @@ int FUN_06040c98(param_1, param_2)
 
   iVar11 = (int)DAT_06040d2c;
 
-  *(int *)0x060A5400 = param_1;
+  CD_SESSION_BASE = param_1;
 
   (*(int(*)())puVar4)();
 
@@ -1050,7 +1052,7 @@ int FUN_06040c98(param_1, param_2)
 
     iVar9 = (int)PTR_DAT_06040dc4;
 
-    iVar10 = *(int *)0x060A4D14;
+    iVar10 = CD_STATE_A;
 
     iVar5 = (*(int(*)())0x06034AEE)(iVar10 + iVar9);
 
@@ -1120,7 +1122,7 @@ int FUN_06040f16(param_1)
 
   }
 
-  else if (*(char *)(param_1 + *(int *)0x060A5400) == '\x01') {
+  else if (*(char *)(param_1 + CD_SESSION_BASE) == '\x01') {
 
     FUN_060412b2(param_1,0,0x0000FFFF);
 
@@ -1165,13 +1167,13 @@ int FUN_06040fb8()
 
   piVar1 = (int *)0x060A5400;
 
-  if (*(int *)(*(int *)0x060A5400 + 0x30) == 1) {
+  if (*(int *)(CD_SESSION_BASE + 0x30) == 1) {
 
     return 0xfffffffb;
 
   }
 
-  *(int *)(*(int *)0x060A5400 + 0x30) = 1;
+  *(int *)(CD_SESSION_BASE + 0x30) = 1;
 
   *(int *)(*piVar1 + 0x38) = *(int *)(*piVar1 + 0x38) + 1;
 
@@ -1189,19 +1191,19 @@ int FUN_06040fea(param_1)
     int param_1;
 {
 
-  if (*(int *)(*(int *)0x060A5400 + 0x30) == 0) {
+  if (*(int *)(CD_SESSION_BASE + 0x30) == 0) {
 
     return 0xfffffff9;
 
   }
 
-  if (*(int *)(*(int *)0x060A5400 + 0x38) != param_1) {
+  if (*(int *)(CD_SESSION_BASE + 0x38) != param_1) {
 
     return 0xfffffff7;
 
   }
 
-  *(int *)(*(int *)0x060A5400 + 0x30) = 0;
+  *(int *)(CD_SESSION_BASE + 0x30) = 0;
 
   return 0;
 
@@ -1225,15 +1227,15 @@ int FUN_06041034(param_1, param_2, param_3, param_4, param_5)
 
   puVar1 = (char *)0x060A5400;
 
-  iVar3 = *(int *)(*(int *)0x060A5400 + 0x54);
+  iVar3 = *(int *)(CD_SESSION_BASE + 0x54);
 
-  if (*(char *)(param_1 + *(int *)0x060A5400 + 0x18) == '\x01') {
+  if (*(char *)(param_1 + CD_SESSION_BASE + 0x18) == '\x01') {
 
     if (iVar3 < 0x18) {
 
-      if (*(int *)(*(int *)0x060A5400 + 0x58) == 0) {
+      if (*(int *)(CD_SESSION_BASE + 0x58) == 0) {
 
-        *(int *)(*(int *)0x060A5400 + 0x58) = 1;
+        *(int *)(CD_SESSION_BASE + 0x58) = 1;
 
       }
 
@@ -1288,7 +1290,7 @@ int FUN_06041128(param_1, param_2)
 
   puVar1 = (char *)0x060A5400;
 
-  if ((param_1 != DAT_06041174) && (*(char *)(param_1 + *(int *)0x060A5400 + 0x18) != '\x01'))
+  if ((param_1 != DAT_06041174) && (*(char *)(param_1 + CD_SESSION_BASE + 0x18) != '\x01'))
 
   {
 
@@ -1296,7 +1298,7 @@ int FUN_06041128(param_1, param_2)
 
   }
 
-  if (*(int *)(*(int *)0x060A5400 + 0x38) != param_2) {
+  if (*(int *)(CD_SESSION_BASE + 0x38) != param_2) {
 
     return 0xfffffff7;
 
@@ -1304,7 +1306,7 @@ int FUN_06041128(param_1, param_2)
 
   iVar2 = (int)PTR_DAT_06041176;
 
-  *(int *)(*(int *)0x060A5400 + iVar2) = 1;
+  *(int *)(CD_SESSION_BASE + iVar2) = 1;
 
   *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
 
@@ -1330,7 +1332,7 @@ int FUN_060411a0(param_1, param_2, param_3, param_4, param_5)
 
   puVar1 = (char *)0x060A5400;
 
-  if (*(int *)(*(int *)0x060A5400 + (int)DAT_060411f6) != 0) {
+  if (*(int *)(CD_SESSION_BASE + (int)DAT_060411f6) != 0) {
 
     return 0xffffffff;
 
@@ -1338,7 +1340,7 @@ int FUN_060411a0(param_1, param_2, param_3, param_4, param_5)
 
   iVar2 = (int)DAT_060411f6;
 
-  *(int *)(*(int *)0x060A5400 + iVar2) = 1;
+  *(int *)(CD_SESSION_BASE + iVar2) = 1;
 
   *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
 
@@ -1372,19 +1374,19 @@ int FUN_06041204(param_1, param_2, param_3)
 
   puVar1 = (char *)0x060A5400;
 
-  if (*(int *)(*(int *)0x060A5400 + 0x328) != 0) {
+  if (*(int *)(CD_SESSION_BASE + 0x328) != 0) {
 
     return 0xffffffff;
 
   }
 
-  if (*(int *)(*(int *)0x060A5400 + 0x34) == 1) {
+  if (*(int *)(CD_SESSION_BASE + 0x34) == 1) {
 
     return 0xfffffffb;
 
   }
 
-  *(int *)(*(int *)0x060A5400 + 0x34) = 1;
+  *(int *)(CD_SESSION_BASE + 0x34) = 1;
 
   iVar2 = 0x328;
 
@@ -1413,7 +1415,7 @@ int FUN_06041258()
 
   puVar1 = (char *)0x060A5400;
 
-  if (*(int *)(*(int *)0x060A5400 + 0x34) == 0) {
+  if (*(int *)(CD_SESSION_BASE + 0x34) == 0) {
 
     return 0xfffffff9;
 
@@ -1451,19 +1453,19 @@ int FUN_060412b2(param_1, param_2, param_3)
 
   puVar1 = (char *)0x060A5400;
 
-  if (*(int *)(*(int *)0x060A5400 + 0x338) != 0) {
+  if (*(int *)(CD_SESSION_BASE + 0x338) != 0) {
 
     return 0xffffffff;
 
   }
 
-  if (*(int *)(*(int *)0x060A5400 + 0x34) == 1) {
+  if (*(int *)(CD_SESSION_BASE + 0x34) == 1) {
 
     return 0xfffffffb;
 
   }
 
-  *(int *)(*(int *)0x060A5400 + 0x34) = 1;
+  *(int *)(CD_SESSION_BASE + 0x34) = 1;
 
   iVar2 = 0x338;
 
@@ -1500,7 +1502,7 @@ int FUN_0604134e(param_1, param_2)
     int param_2;
 {
 
-  if (*(int *)(*(int *)0x060A5400 + 0x38) != param_2) {
+  if (*(int *)(CD_SESSION_BASE + 0x38) != param_2) {
 
     return 0xfffffff7;
 
@@ -1525,11 +1527,11 @@ int FUN_06041470(param_1, param_2)
 
   puVar1 = (char *)0x060A5400;
 
-  if ((*(char *)(param_2 + *(int *)0x060A5400 + 0x18) == '\x01') &&
+  if ((*(char *)(param_2 + CD_SESSION_BASE + 0x18) == '\x01') &&
 
-     (*(char *)(param_2 + *(int *)0x060A5400) == '\x01')) {
+     (*(char *)(param_2 + CD_SESSION_BASE) == '\x01')) {
 
-    if (*(int *)(*(int *)0x060A5400 + 0x360) != 0) {
+    if (*(int *)(CD_SESSION_BASE + 0x360) != 0) {
 
       return 0xffffffff;
 
@@ -1537,7 +1539,7 @@ int FUN_06041470(param_1, param_2)
 
     iVar2 = 0x360;
 
-    *(int *)(*(int *)0x060A5400 + iVar2) = 1;
+    *(int *)(CD_SESSION_BASE + iVar2) = 1;
 
     *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
 
@@ -1571,7 +1573,7 @@ int FUN_060414d0(param_1, param_2, param_3)
 
   iVar3 = (int)DAT_0604155e;
 
-  iVar2 = *(int *)(*(int *)0x060A5400 + (int)DAT_0604155c);
+  iVar2 = *(int *)(CD_SESSION_BASE + (int)DAT_0604155c);
 
   if ((((param_1 != iVar3) && (param_1 != -2)) && ((param_1 < 0 || (0x17 < param_1)))) ||
 
@@ -1585,13 +1587,13 @@ int FUN_060414d0(param_1, param_2, param_3)
 
   if (((param_1 == iVar3) ||
 
-      ((param_1 == -2 || (*(char *)(param_1 + *(int *)0x060A5400 + 0x18) == '\x01')))) &&
+      ((param_1 == -2 || (*(char *)(param_1 + CD_SESSION_BASE + 0x18) == '\x01')))) &&
 
      (((param_3 == iVar3 ||
 
-       ((param_3 == -2 || (*(char *)(param_3 + *(int *)0x060A5400 + 0x18) == '\x01')))) &&
+       ((param_3 == -2 || (*(char *)(param_3 + CD_SESSION_BASE + 0x18) == '\x01')))) &&
 
-      (*(char *)(param_2 + *(int *)0x060A5400) == '\x01')))) {
+      (*(char *)(param_2 + CD_SESSION_BASE) == '\x01')))) {
 
     if (0x17 < iVar2) {
 
@@ -1599,9 +1601,9 @@ int FUN_060414d0(param_1, param_2, param_3)
 
     }
 
-    if (*(int *)(*(int *)0x060A5400 + 0x1e0) == 0) {
+    if (*(int *)(CD_SESSION_BASE + 0x1e0) == 0) {
 
-      *(int *)(*(int *)0x060A5400 + 0x1e0) = 1;
+      *(int *)(CD_SESSION_BASE + 0x1e0) = 1;
 
     }
 
@@ -1672,7 +1674,7 @@ int FUN_060415c8(param_1, param_2)
 
     (*(int(*)())0x060349B6)(local_10);
 
-    *(char *)(*(int *)0x060A5400 + 0x40) = local_10[0];
+    *(char *)(CD_SESSION_BASE + 0x40) = local_10[0];
 
     return 0;
 
@@ -1709,11 +1711,11 @@ int FUN_06041698()
 
   iVar6 = 0;
 
-  if ((*(int *)(*(int *)0x060A5400 + 0x3c) == 0) ||
+  if ((*(int *)(CD_SESSION_BASE + 0x3c) == 0) ||
 
-     (iVar5 = *(int *)(*(int *)0x060A5400 + 0x3c) + -1,
+     (iVar5 = *(int *)(CD_SESSION_BASE + 0x3c) + -1,
 
-     *(int *)(*(int *)0x060A5400 + 0x3c) = iVar5, 0 < iVar5)) {
+     *(int *)(CD_SESSION_BASE + 0x3c) = iVar5, 0 < iVar5)) {
 
     uStack_2c = (unsigned int)PTR_DAT_0604172a;
 
@@ -1805,7 +1807,7 @@ int FUN_060417a8(param_1)
 
   if (param_1 == 0) {
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
     iVar1 = 0x58;
 
@@ -1815,7 +1817,7 @@ int FUN_060417a8(param_1)
 
     iVar1 = (int)DAT_060417d8;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
   }
 
@@ -1823,7 +1825,7 @@ int FUN_060417a8(param_1)
 
     iVar1 = (int)DAT_060417da;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
   }
 
@@ -1831,7 +1833,7 @@ int FUN_060417a8(param_1)
 
     iVar1 = 0x328;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
   }
 
@@ -1839,7 +1841,7 @@ int FUN_060417a8(param_1)
 
     iVar1 = 0x338;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
   }
 
@@ -1847,7 +1849,7 @@ int FUN_060417a8(param_1)
 
     iVar1 = 0x348;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
   }
 
@@ -1855,7 +1857,7 @@ int FUN_060417a8(param_1)
 
     iVar1 = 0x1e0;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
   }
 
@@ -1863,7 +1865,7 @@ int FUN_060417a8(param_1)
 
     if (param_1 != 7) goto LAB_06041818;
 
-    iVar2 = *(int *)0x060A5400;
+    iVar2 = CD_SESSION_BASE;
 
     iVar1 = 0x360;
 
@@ -1957,7 +1959,7 @@ int FUN_0604188c()
 
   
 
-  *(char **)(*(int *)0x060A5400 + 0x3c) = 0x00008000;
+  *(char **)(CD_SESSION_BASE + 0x3c) = 0x00008000;
 
   do {
 
@@ -1965,7 +1967,7 @@ int FUN_0604188c()
 
   } while (iVar1 == 1);
 
-  *(int *)(*(int *)0x060A5400 + 0x3c) = 0;
+  *(int *)(CD_SESSION_BASE + 0x3c) = 0;
 
   return iVar1;
 
@@ -2109,9 +2111,9 @@ int FUN_06041aa0(param_1)
 
   puVar1 = (char *)0x060A5400;
 
-  if (*(int *)((int)DAT_06041b0a + *(int *)0x060A5400) == 1) {
+  if (*(int *)((int)DAT_06041b0a + CD_SESSION_BASE) == 1) {
 
-    iVar2 = (*(int(*)())0x06036144)(*(int *)(*(int *)0x060A5400 + 0x308));
+    iVar2 = (*(int(*)())0x06036144)(*(int *)(CD_SESSION_BASE + 0x308));
 
     *param_1 = *param_1 + 1;
 
@@ -2161,9 +2163,9 @@ int FUN_06041b3c(param_1)
 
   puVar1 = (char *)0x060349B6;
 
-  if (*(int *)((int)DAT_06041bc8 + *(int *)0x060A5400) == 1) {
+  if (*(int *)((int)DAT_06041bc8 + CD_SESSION_BASE) == 1) {
 
-    (*(int(*)())0x06036572)(*(int *)(*(int *)0x060A5400 + 0x310),&local_28);
+    (*(int(*)())0x06036572)(*(int *)(CD_SESSION_BASE + 0x310),&local_28);
 
     (*(int(*)())puVar1)(local_20);
 
@@ -2299,15 +2301,15 @@ int FUN_06041cc8(param_1)
 
   puVar1 = (char *)0x060A5400;
 
-  if (*(int *)(0x328 + *(int *)0x060A5400) == 1) {
+  if (*(int *)(0x328 + CD_SESSION_BASE) == 1) {
 
     iVar2 = (int)DAT_06041d5a;
 
-    iVar2 = (*(int(*)())0x060367E8)(*(int *)(*(int *)0x060A5400 + iVar2 + -8),
+    iVar2 = (*(int(*)())0x060367E8)(*(int *)(CD_SESSION_BASE + iVar2 + -8),
 
-                       *(int *)(*(int *)0x060A5400 + iVar2 + -4),
+                       *(int *)(CD_SESSION_BASE + iVar2 + -4),
 
-                       *(int *)(*(int *)0x060A5400 + iVar2));
+                       *(int *)(CD_SESSION_BASE + iVar2));
 
     if (iVar2 != 0) {
 
@@ -2359,13 +2361,13 @@ int FUN_06041d6c(param_1)
 
   bVar1 = 1;
 
-  if (*(int *)(*(int *)0x060A5400 + 0x338) == 1) {
+  if (*(int *)(CD_SESSION_BASE + 0x338) == 1) {
 
-    if ((*(int *)(*(int *)0x060A5400 + 0x340) == 0) &&
+    if ((*(int *)(CD_SESSION_BASE + 0x340) == 0) &&
 
-       (*(char **)(*(int *)0x060A5400 + (int)DAT_06041df0) == 0x0000FFFF)) {
+       (*(char **)(CD_SESSION_BASE + (int)DAT_06041df0) == 0x0000FFFF)) {
 
-      iVar3 = (*(int(*)())0x060364D4)(0,*(int *)(*(int *)0x060A5400 + (int)DAT_06041df2));
+      iVar3 = (*(int(*)())0x060364D4)(0,*(int *)(CD_SESSION_BASE + (int)DAT_06041df2));
 
       if (iVar3 != 0) {
 
@@ -2383,7 +2385,7 @@ int FUN_06041d6c(param_1)
 
     }
 
-    else if (*(int *)(*(int *)0x060A5400 + (int)DAT_06041df0) == 0) {
+    else if (*(int *)(CD_SESSION_BASE + (int)DAT_06041df0) == 0) {
 
       bVar1 = 0;
 
@@ -2391,7 +2393,7 @@ int FUN_06041d6c(param_1)
 
     else {
 
-      *(int *)(*(int *)0x060A5400 + 0x338) = 2;
+      *(int *)(CD_SESSION_BASE + 0x338) = 2;
 
     }
 
@@ -2473,11 +2475,11 @@ int FUN_06041ee8(param_1)
 
   puVar1 = (char *)0x060349B6;
 
-  if (*(int *)(0x348 + *(int *)0x060A5400) == 1) {
+  if (*(int *)(0x348 + CD_SESSION_BASE) == 1) {
 
-    (*(int(*)())0x060363BC)(*(int *)(*(int *)0x060A5400 + (int)DAT_06041f96),
+    (*(int(*)())0x060363BC)(*(int *)(CD_SESSION_BASE + (int)DAT_06041f96),
 
-               *(int *)0x060A5400 + (int)DAT_06041f94);
+               CD_SESSION_BASE + (int)DAT_06041f94);
 
     *param_1 = *param_1 + 1;
 

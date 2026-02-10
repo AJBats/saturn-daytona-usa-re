@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06038106;
 extern int DAT_06038108;
 extern int DAT_0603881a;
@@ -375,9 +377,9 @@ void FUN_06038300()
 
   *(int *)(puVar1 + 0x1c) = 0;
 
-  if (*(short *)0x060635AC == 0) {
+  if (VDP1_BATCH_FLAG == 0) {
 
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
 
   }
 
@@ -389,9 +391,9 @@ void FUN_0603850c(param_1)
     int param_1;
 {
 
-  if (*(unsigned short *)0x060635AC == 1) {
+  if (VDP1_BATCH_FLAG == 1) {
 
-    *(short *)0x060635AC = 0;
+    VDP1_BATCH_FLAG = 0;
 
   }
 
@@ -403,9 +405,9 @@ void FUN_0603850c(param_1)
 
 void FUN_06038520()
 {
-  unsigned short val = *(unsigned short *)0x060635AC;
+  unsigned short val = VDP1_BATCH_FLAG;
   if (val == 0) {
-    *(unsigned short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
   }
 }
 
@@ -872,7 +874,7 @@ void FUN_060389a6()
 
   puVar1 = (char *)0x060635AC;
 
-  if (*(short *)0x060635AC == 1) {
+  if (VDP1_BATCH_FLAG == 1) {
 
     FUN_060388c0();
 
@@ -880,7 +882,7 @@ void FUN_060389a6()
 
   else {
 
-    if (*(short *)0x060635AC != 2) goto LAB_06038a42;
+    if (VDP1_BATCH_FLAG != 2) goto LAB_06038a42;
 
     FUN_06038a48(*(int *)0x060A3D70,*(int *)0x060A3D74,
 
@@ -968,9 +970,9 @@ unsigned int FUN_06038a64(param_1)
 
 LAB_06038ab0:
 
-  if (*(short *)0x060635AC == 0) {
+  if (VDP1_BATCH_FLAG == 0) {
 
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
 
   }
 
@@ -1238,7 +1240,7 @@ void FUN_06038e54(param_1)
 
   if ((char *)(unsigned int)param_1 == 0x0000FFFF) {
 
-    *(short *)0x060635B4 = 2;
+    FB_STATE = 2;
 
     *(int *)puVar5 = 0;
 
@@ -1250,7 +1252,7 @@ void FUN_06038e54(param_1)
 
   else if ((char *)(unsigned int)param_1 == 0x0000FFFE) {
 
-    *(short *)0x060635B4 = 3;
+    FB_STATE = 3;
 
     *(int *)puVar5 = 0;
 
@@ -1311,15 +1313,15 @@ void FUN_06038e54(param_1)
 void FUN_06038f34()
 {
 
-  *(short *)0x060635B4 = 0;
+  FB_STATE = 0;
 
   *(int *)0x060635B8 = 1;
 
   *(int *)0x060635BC = 0;
 
-  *(int *)0x060635C0 = 0;
+  FRAME_SEC_COUNTER = 0;
 
-  *(int *)0x060635C4 = 0;
+  FRAME_READY_FLAG = 0;
 
   *(int *)0x060635C8 = 0;
 
@@ -1444,9 +1446,9 @@ unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,
 
   }
 
-  if (*(short *)0x060635AC == 0) {
+  if (VDP1_BATCH_FLAG == 0) {
 
-    *(short *)0x060635AC = 1;
+    VDP1_BATCH_FLAG = 1;
 
   }
 
@@ -1472,15 +1474,15 @@ unsigned int FUN_06039250(param_1)
 
   FUN_0603931c(0,0,0);
 
-  *(short *)0x25D00002 = *(short *)0x060A4C92;
+  VDP1_FBCR = FBCR_SHADOW;
 
-  *(short *)0x25D00004 = 2;
+  VDP1_PTMR = 2;
 
-  *(short *)0x25D00006 = (short)0x00008000;
+  VDP1_EWDR = (short)0x00008000;
 
-  *(short *)0x25D00008 = 0;
+  VDP1_EWLR = 0;
 
-  *(short *)0x25D0000A = (short)0x0000FFFF;
+  VDP1_EWRR = (short)0x0000FFFF;
 
   FUN_060393fc(0x00008000,0,0,*(int *)0x060A4C88 - 1U & 0xffff,
 
@@ -1514,9 +1516,9 @@ unsigned short FUN_0603931c(param_1, param_2, param_3)
 
   puVar1 = (char *)0x060A4C8C;
 
-  *(unsigned short *)0x060A4C90 = param_1 & 7;
+  TVMR_SHADOW = param_1 & 7;
 
-  *(unsigned short *)0x25D00000 = param_1 & 7;
+  VDP1_TVMR = param_1 & 7;
 
   if (7 < param_2) {
 
@@ -1538,13 +1540,13 @@ unsigned short FUN_0603931c(param_1, param_2, param_3)
 
   if ((param_1 == 1) || (param_1 == 3)) {
 
-    *(short *)0x060635DE = 1;
+    PALETTE_BANK_SEL = 1;
 
   }
 
   else {
 
-    *(short *)0x060635DE = 0;
+    PALETTE_BANK_SEL = 0;
 
   }
 
@@ -1586,9 +1588,9 @@ void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
 
   *(unsigned short *)0x060635DC = param_5;
 
-  *(short *)0x25D00006 = param_1;
+  VDP1_EWDR = param_1;
 
-  if (*(short *)0x060635DE == 0) {
+  if (PALETTE_BANK_SEL == 0) {
 
     param_2 = param_2 >> 3;
 
@@ -1608,9 +1610,9 @@ void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
 
   *(unsigned short *)0x060635D0 = (param_2 << 9) + param_3;
 
-  *(short *)0x25D00008 = *(short *)0x060635D0;
+  VDP1_EWLR = *(short *)0x060635D0;
 
-  if (*(short *)0x060635DE == 0) {
+  if (PALETTE_BANK_SEL == 0) {
 
     uVar1 = (unsigned short)(param_4 + 1U) >> 3;
 
@@ -1630,7 +1632,7 @@ void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
 
   *(unsigned short *)0x060635D2 = (uVar1 << 9) + param_5;
 
-  *(short *)0x25D0000A = *(short *)0x060635D2;
+  VDP1_EWRR = *(short *)0x060635D2;
 
   return;
 
@@ -1642,13 +1644,13 @@ void FUN_060394f0(param_1)
 
   if (param_1 == 0) {
 
-    *(short *)0x060A4C92 = 0;
+    FBCR_SHADOW = 0;
 
   }
 
   else {
 
-    *(short *)0x060A4C92 = 0x10;
+    FBCR_SHADOW = 0x10;
 
   }
 
@@ -1701,9 +1703,9 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
   puVar8[4] = 0;
 
-  (*(int(*)())(*(int *)0x06000300))(0x47,0x0603990E);
+  (*(int(*)())(BIOS_FUNC_0300))(0x47,0x0603990E);
 
-  (*(int(*)())(*(int *)0x06000344))(-129,0);
+  (*(int(*)())(BIOS_FUNC_0344))(-129,0);
 
   puVar8 = (char *)0x060A4CAA;
 

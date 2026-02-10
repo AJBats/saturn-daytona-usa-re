@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0603c07a;
 extern int DAT_0603c07c;
 extern int DAT_0603c23c;
@@ -152,7 +154,7 @@ int FUN_0603c0a0(param_1, param_2)
 
   puVar1 = (int *)0xFFFFFF00;
 
-  *(int *)0xFFFFFF00 = param_2;
+  SH2_DVSR = param_2;
 
   *(int *)(puVar1 + 0x10) = (int)(short)((unsigned int)param_1 >> 0x10);
 

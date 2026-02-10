@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern char DAT_06082A7C[];
 extern int DAT_0603489e;
 extern int DAT_06034976;
@@ -529,7 +531,7 @@ int FUN_06034754()
 
   int unaff_r14 = 0;
 
-  iVar1 = (*(int(*)())0x0602755C)(*(int *)(*(int *)0x0607E944 + 0x00000008) << 0x10,0x012C0000);
+  iVar1 = (*(int(*)())0x0602755C)(*(int *)(CAR_PTR_TARGET + 0x00000008) << 0x10,0x012C0000);
 
   uVar2 = *(int *)(unaff_r14 + 0x00000008) + iVar1;
 
@@ -627,13 +629,13 @@ unsigned int FUN_06034848()
 
   if (((*(int *)0x06083255 != '\0') &&
 
-      (uVar1 = *(unsigned int *)0x0607EBC4, ((unsigned int)0x00028000 & uVar1) != 0)) &&
+      (uVar1 = GAME_STATE_BIT, ((unsigned int)0x00028000 & uVar1) != 0)) &&
 
      (uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C), uVar1 != *(unsigned int *)(unaff_r14 + 0x00000010))) {
 
     uVar2 = 0xAE113DFF;
 
-    if (*(int *)(*(int *)0x0607E944 + 0x00000008) < (int)DAT_0603489e) {
+    if (*(int *)(CAR_PTR_TARGET + 0x00000008) < (int)DAT_0603489e) {
 
       uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C);
 
@@ -684,7 +686,7 @@ int FUN_06034900(param_1, param_2, param_3, param_4)
 
   int in_pr;
 
-  iVar3 = *(int *)0x0607E944;
+  iVar3 = CAR_PTR_TARGET;
 
   if ((*(int *)(iVar3 + 0x000000B8) == 0x2c) || (*(int *)(iVar3 + 0x000001BC) == 0x28)) {
 
@@ -4123,7 +4125,7 @@ void FUN_06035c54(param_1)
     unsigned int param_1;
 {
 
-  *(unsigned short *)0x06063590 = *(unsigned short *)0x06063590 | *(unsigned short *)0x25890008;
+  *(unsigned short *)0x06063590 = *(unsigned short *)0x06063590 | CD_HIRQREQ;
 
   FUN_06035c6e(param_1 | 1);
 
@@ -4202,9 +4204,9 @@ int FUN_06035e00(param_1, param_2)
 
   do {
 
-    if ((*(unsigned short *)0x25890008 & param_1) != 0) {
+    if ((CD_HIRQREQ & param_1) != 0) {
 
-      *param_2 = *(unsigned short *)0x25890008;
+      *param_2 = CD_HIRQREQ;
 
       return 0;
 

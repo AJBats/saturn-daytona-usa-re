@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_060222e6;
 extern int DAT_060224b6;
 extern int DAT_060224b8;
@@ -196,7 +198,7 @@ void FUN_06022140()
 
   puVar1 = (char *)0x03E80000;
 
-  iVar7 = *(int *)0x0607E944;
+  iVar7 = CAR_PTR_TARGET;
 
   puStack_38 = (char *)0x06089C58;
 
@@ -905,7 +907,7 @@ int FUN_0602382c()
 
   }
 
-  iVar3 = *(int *)0x0607EAD8;
+  iVar3 = CAR_COUNT;
 
   if (iVar3 == 0) {
 

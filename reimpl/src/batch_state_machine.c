@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern char flag_0607864B;
 extern int DAT_060082aa;
 extern int DAT_060082ac;
@@ -67,17 +69,17 @@ void FUN_060081f4()
 
   puVar1 = (char *)0x0607E944;
 
-  if (*(int *)(*(int *)0x0607E944 + 0xb8) == 0) {
+  if (*(int *)(CAR_PTR_TARGET + 0xb8) == 0) {
 
-    if ((0x13 < *(int *)(*(int *)0x0607E944 + 8)) &&
+    if ((0x13 < *(int *)(CAR_PTR_TARGET + 8)) &&
 
-       (*(int *)(*(int *)0x0607E944 + (int)DAT_060082b2) == 0)) {
+       (*(int *)(CAR_PTR_TARGET + (int)DAT_060082b2) == 0)) {
 
       if ((**(unsigned char **)0x0607E944 & 0x10) == 0) {
 
         if ((**(unsigned char **)0x0607E944 & 0x20) != 0) {
 
-          *(int *)(*(int *)0x0607E944 + 0xb8) = 0x30;
+          *(int *)(CAR_PTR_TARGET + 0xb8) = 0x30;
 
           *(int *)(*(int *)puVar1 + (int)DAT_0600835a) = 1;
 
@@ -93,7 +95,7 @@ void FUN_060081f4()
 
       else {
 
-        *(int *)(*(int *)0x0607E944 + 0xb8) = 0x30;
+        *(int *)(CAR_PTR_TARGET + 0xb8) = 0x30;
 
         *(int *)(*(int *)puVar1 + (int)DAT_060082ac) = 0xffffffff;
 
@@ -168,17 +170,17 @@ int FUN_06008318()
 
   puVar1 = (char *)0x0607E940;
 
-  if (*(int *)(*(int *)0x0607E940 + 0xb8) == 0) {
+  if (*(int *)(CAR_PTR_CURRENT + 0xb8) == 0) {
 
-    if ((0x258 < *(int *)0x0607EBD0) &&
+    if ((0x258 < GAME_STATE_VAR) &&
 
-       (*(int *)(*(int *)0x0607E940 + (int)DAT_060083fc) == 0)) {
+       (*(int *)(CAR_PTR_CURRENT + (int)DAT_060083fc) == 0)) {
 
       if ((**(unsigned char **)0x0607E940 & 0x10) == 0) {
 
         if ((**(unsigned char **)0x0607E940 & 0x20) != 0) {
 
-          *(int *)(*(int *)0x0607E940 + 0xb8) = 0x20;
+          *(int *)(CAR_PTR_CURRENT + 0xb8) = 0x20;
 
           *(int *)(*(int *)puVar1 + (int)DAT_06008400) = 1;
 
@@ -192,7 +194,7 @@ int FUN_06008318()
 
       else {
 
-        *(int *)(*(int *)0x0607E940 + 0xb8) = 0x20;
+        *(int *)(CAR_PTR_CURRENT + 0xb8) = 0x20;
 
         *(int *)(*(int *)puVar1 + (int)DAT_06008400) = 0xffffffff;
 
@@ -210,7 +212,7 @@ int FUN_06008318()
 
     iVar3 = 0xb8;
 
-    *(int *)(*(int *)0x0607E940 + iVar3) = *(int *)(*(int *)0x0607E940 + iVar3) + -1;
+    *(int *)(CAR_PTR_CURRENT + iVar3) = *(int *)(CAR_PTR_CURRENT + iVar3) + -1;
 
     if (*(int *)(*(int *)puVar1 + (int)DAT_0600835a) < 1) {
 
@@ -245,9 +247,9 @@ void FUN_06008418()
 
   puVar1 = (char *)0x0607E944;
 
-  if (*(int *)(*(int *)0x0607E944 + (int)DAT_060084a2) == 0) {
+  if (*(int *)(CAR_PTR_TARGET + (int)DAT_060084a2) == 0) {
 
-    if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0) {
+    if ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) {
 
       (*(int(*)())0x0601D5F4)(0,0xAE1102FF);
 
@@ -278,9 +280,9 @@ void FUN_06008460()
 
   puVar1 = (char *)0x0607E944;
 
-  if (*(int *)(*(int *)0x0607E944 + (int)DAT_060084a2) == 0) {
+  if (*(int *)(CAR_PTR_TARGET + (int)DAT_060084a2) == 0) {
 
-    if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0) {
+    if ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) {
 
       (*(int(*)())0x0601D5F4)(0,0xAE1102FF);
 
@@ -313,7 +315,7 @@ void FUN_060084ca()
 
   iVar2 = (int)DAT_0600855e;
 
-  *(int *)(*(int *)0x0607E944 + iVar2) = *(int *)(*(int *)0x0607E944 + iVar2) + 1;
+  *(int *)(CAR_PTR_TARGET + iVar2) = *(int *)(CAR_PTR_TARGET + iVar2) + 1;
 
   *(int *)(*(int *)puVar1 + iVar2 + -0x10) = 0;
 
@@ -321,11 +323,11 @@ void FUN_060084ca()
 
   if (((*(char **)puVar1 == 0x06078900) &&
 
-      ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0)) &&
+      ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0)) &&
 
      ((*(int *)0x06078635 != '\0' || (*(short *)0x0607ED8C == 0)))) {
 
-    *(short *)0x0605A016 = 3;
+    PHASE_FLAG = 3;
 
     *(int *)0x06078654 = 7;
 
@@ -364,7 +366,7 @@ int FUN_060085b8()
 
   iVar2 = 0;
 
-  if (*(int *)(*(int *)0x0607E940 + (int)DAT_06008624) != 0) {
+  if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06008624) != 0) {
 
     *(int *)0x0607EBD4 = 0x46;
 
@@ -413,7 +415,7 @@ int FUN_06008640()
   puVar1 = (char *)0x0607E940;
 
   if ((**(unsigned char **)0x0607E940 & 8) == 0) {
-    if (*(int *)(*(int *)0x0607E940 + 0x01BC) != 0) {
+    if (*(int *)(CAR_PTR_CURRENT + 0x01BC) != 0) {
       return FUN_06008730();
     }
     return 0;
@@ -427,12 +429,12 @@ int FUN_06008640()
 
   *(short *)(*(int *)puVar1 + 0x00D4) = 0x14;
 
-  if ((*(unsigned int *)0x0607EBC4 & 0x00800000) != 0) {
+  if ((GAME_STATE_BIT & 0x00800000) != 0) {
     FUN_060086c0(*(int *)0x060453C4);
     return 0;
   }
 
-  FUN_060086c0(*(int *)(0x060453B4 + ((*(unsigned int *)0x0607EBD0 & 1) << 3)));
+  FUN_060086c0(*(int *)(0x060453B4 + ((GAME_STATE_VAR & 1) << 3)));
   return 0;
 }
 
@@ -466,7 +468,7 @@ void FUN_060086c0(param_1)
 
   *(int *)(*piVar2 + 0x208) = iVar1;
 
-  *(int *)0x0607EBEC = *(int *)0x0607EBEC + cVar3;
+  FORCE_SETUP_COUNT = FORCE_SETUP_COUNT + cVar3;
 
   FUN_06008730();
 
@@ -487,11 +489,11 @@ int FUN_06008730()
 
   puVar2 = (char *)0x0607E940;
 
-  if (0 < *(int *)(*(int *)0x0607E940 + (int)DAT_060087e8)) {
+  if (0 < *(int *)(CAR_PTR_CURRENT + (int)DAT_060087e8)) {
 
-    *(int *)(*(int *)0x0607E940 + (int)DAT_060087e8) =
+    *(int *)(CAR_PTR_CURRENT + (int)DAT_060087e8) =
 
-         *(int *)(*(int *)0x0607E940 + (int)DAT_060087e8) + -1;
+         *(int *)(CAR_PTR_CURRENT + (int)DAT_060087e8) + -1;
 
   }
 
@@ -567,7 +569,7 @@ int FUN_06008730()
 
        ((*(int *)0x0607866C = 0, *(int *)0x06078635 != '\0' || (*(short *)0x0607ED8C == 0)))) {
 
-      *(short *)0x0605A016 = 4;
+      PHASE_FLAG = 4;
 
     }
 

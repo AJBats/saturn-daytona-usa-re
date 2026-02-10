@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0600c2a6;
 extern int DAT_0600c36a;
 extern int DAT_0600c36c;
@@ -171,11 +173,11 @@ void FUN_0600c218()
 
   pbVar5 = (unsigned char *)-495;
 
-  iVar4 = *(int *)0x0608A52C;
+  iVar4 = OBJ_STATE_SECONDARY;
 
-  *(int *)0x0608A52C = iVar4 + 0x30;
+  OBJ_STATE_SECONDARY = iVar4 + 0x30;
 
-  (*(int(*)())0x06027630)(iVar4 + 0x30,*(int *)0x06089EDC,0x30);
+  (*(int(*)())0x06027630)(iVar4 + 0x30,OBJ_STATE_PRIMARY,0x30);
 
   (*(int(*)())0x0600D31C)();
 
@@ -212,7 +214,7 @@ int FUN_0600c302()
 
   int iVar2;
 
-  iVar2 = *(int *)0x0607E944;
+  iVar2 = CAR_PTR_TARGET;
 
   iVar1 = *(int *)(iVar2 + 0x68) << 5;
 
@@ -388,7 +390,7 @@ unsigned short FUN_0600c3a8(param_1)
 
     }
 
-    *(short *)0x0605A016 = uVar4;
+    PHASE_FLAG = uVar4;
 
   }
 
@@ -399,7 +401,7 @@ unsigned short FUN_0600c3a8(param_1)
 void FUN_0600c4f8()
 {
   register int (*func)() asm("r3") = (int(*)())0x06027552;
-  register int base asm("r14") = *(int *)0x0607E940;
+  register int base asm("r14") = CAR_PTR_CURRENT;
   short extraout_var;
   int uVar2;
   int iVar3;
@@ -410,7 +412,7 @@ void FUN_0600c4f8()
     *(short *)(base + DAT_0600c590) = *(short *)(base + DAT_0600c590) + -1;
   }
 
-  if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00008000) == 0) {
+  if ((GAME_STATE_BIT & (unsigned int)0x00008000) == 0) {
     iVar5 = -4014;
 
     if ((*(int *)(base + DAT_0600c594) < 1) && (*(int *)(base + DAT_0600c596) == 0)) {
@@ -476,7 +478,7 @@ void FUN_0600c5d6()
 
   puVar1 = (int *)0x06027552;
 
-  iVar7 = *(int *)0x0607E940;
+  iVar7 = CAR_PTR_CURRENT;
 
   iVar4 = FUN_0600cd40();
 
@@ -490,7 +492,7 @@ void FUN_0600c5d6()
 
   }
 
-  else if ((((*(unsigned char *)(*(int *)0x0607E944 + 3) & 8) == 0) &&
+  else if ((((*(unsigned char *)(CAR_PTR_TARGET + 3) & 8) == 0) &&
 
            (*(int *)(iVar7 + DAT_0600c6f6) < 1)) && ((*(unsigned char *)(iVar7 + DAT_0600c6f8) & 0x20) == 0))
 
@@ -585,7 +587,7 @@ void FUN_0600c74e()
 
   puVar1 = (int *)0x06078680;
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
   FUN_0600cd40();
 
@@ -826,7 +828,7 @@ void FUN_0600c994()
 
   uVar2 = DAT_0600c9e6;
 
-  iVar11 = *(int *)0x0607E944;
+  iVar11 = CAR_PTR_TARGET;
 
   iVar6 = *(int *)(iVar11 + DAT_0600c9e4) + 1;
 
@@ -918,7 +920,7 @@ void FUN_0600ca96(param_1)
 
   unsigned int uVar6;
 
-  iVar1 = *(int *)0x0607E940;
+  iVar1 = CAR_PTR_CURRENT;
 
   iVar3 = *(int *)(iVar1 + DAT_0600cac2) - *(int *)(iVar1 + DAT_0600cac2 + 4);
 
@@ -997,7 +999,7 @@ void FUN_0600cb90(param_1, param_2)
 
   if ((param_2 & 1) == 0) {
 
-    piVar2 = (int *)(((*(unsigned int *)(*(int *)0x0607E940 + 0x1f8) >> 8) +
+    piVar2 = (int *)(((*(unsigned int *)(CAR_PTR_CURRENT + 0x1f8) >> 8) +
 
                      ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
 
@@ -1017,7 +1019,7 @@ void FUN_0600cb90(param_1, param_2)
 
     }
 
-    uVar1 = *(unsigned int *)(*(int *)0x0607E940 + 0x1f8) >> 8;
+    uVar1 = *(unsigned int *)(CAR_PTR_CURRENT + 0x1f8) >> 8;
 
     piVar2 = (int *)((uVar1 + ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
 
@@ -1058,7 +1060,7 @@ void FUN_0600cc38(param_1, param_2)
 
   unsigned int uVar6;
 
-  iVar2 = *(int *)0x0607E940;
+  iVar2 = CAR_PTR_CURRENT;
 
   iVar4 = *(int *)(iVar2 + DAT_0600ccf6) - *(int *)(iVar2 + DAT_0600ccf6 + 4);
 
@@ -1135,7 +1137,7 @@ int * FUN_0600cd40()
 
   int iVar4;
 
-  iVar4 = *(int *)0x0607E940;
+  iVar4 = CAR_PTR_CURRENT;
 
   piVar3 = (int *)(*(int *)(iVar4 + DAT_0600cdbe) * 0x18 + *(int *)(iVar4 + DAT_0600cdbe + -4));
 
@@ -1171,7 +1173,7 @@ int * FUN_0600cd40()
 
 int FUN_0600cdd0()
 {
-  register int base asm("r2") = *(int *)0x0607E940;
+  register int base asm("r2") = CAR_PTR_CURRENT;
   int iVar1;
   short sVar2;
   int iVar3;
@@ -1207,7 +1209,7 @@ int FUN_0600cdd0()
 
 void FUN_0600ce66()
 {
-  register int base asm("r2") = *(int *)0x0607E940;
+  register int base asm("r2") = CAR_PTR_CURRENT;
 
   *(int *)(base + DAT_0600ce8e + 4) = *(int *)(base + DAT_0600ce8e);
 
@@ -1234,7 +1236,7 @@ int FUN_0600ceba()
 
   iVar2 = (int)DAT_0600cf3a;
 
-  iVar4 = *(int *)0x0607E940;
+  iVar4 = CAR_PTR_CURRENT;
 
   iVar3 = *(int *)0x0607EB84;
 
@@ -1264,7 +1266,7 @@ int FUN_0600ceba()
 
     puVar1 = (int *)0x0607EBD0;
 
-    *(int *)(iVar4 + iVar2 + -8) = *(int *)0x0607EBD0 - *(int *)(iVar4 + iVar2 + 4);
+    *(int *)(iVar4 + iVar2 + -8) = GAME_STATE_VAR - *(int *)(iVar4 + iVar2 + 4);
 
     iVar2 = iVar2 + 4;
 
@@ -1295,9 +1297,9 @@ unsigned int FUN_0600cf58()
 
   iVar4 = 0x80;
 
-  iVar6 = *(int *)0x0607E940;
+  iVar6 = CAR_PTR_CURRENT;
 
-  iVar5 = *(int *)0x0607E944;
+  iVar5 = CAR_PTR_TARGET;
 
   if ((*(unsigned int *)(iVar6 + 4) != 0) && ((int)DAT_0600cfe4 < *(int *)(iVar6 + 8))) {
 
@@ -1440,7 +1442,7 @@ int FUN_0600d0b8()
 
   puVar2 = *(unsigned int **)0x0607E940;
 
-  iVar1 = *(int *)0x0607E944;
+  iVar1 = CAR_PTR_TARGET;
 
   if ((*puVar2 & (unsigned int)0x00C00000) != 0) {
 
@@ -1495,7 +1497,7 @@ int FUN_0600d12c()
 
   int iVar5;
 
-  iVar2 = *(int *)0x0607E940;
+  iVar2 = CAR_PTR_CURRENT;
 
   iVar1 = *(int *)(iVar2 + DAT_0600d192);
 
@@ -1533,7 +1535,7 @@ LAB_0600d1a4:
 
   iVar1 = (int)DAT_0600d1fa;
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
   iVar2 = *(int *)(iVar5 + iVar1);
 
@@ -1596,9 +1598,9 @@ int FUN_0600d210()
 
   iVar1 = (int)DAT_0600d26a;
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
-  iVar2 = *(int *)(*(int *)0x0607E944 + iVar1);
+  iVar2 = *(int *)(CAR_PTR_TARGET + iVar1);
 
   iVar4 = iVar2 - *(int *)(iVar3 + iVar1);
 
@@ -1729,7 +1731,7 @@ void FUN_0600d280()
 void FUN_0600d31c()
 {
 
-  if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00200000) == 0) {
+  if ((GAME_STATE_BIT & (unsigned int)0x00200000) == 0) {
 
     FUN_0600d37c();
 
@@ -1752,7 +1754,7 @@ void FUN_0600d336()
   base1 = 0x06078900;
   base2 = base1 + 0x0268;
 
-  if ((*(unsigned int *)0x0607EBC4 & 0x00200000) == 0) {
+  if ((GAME_STATE_BIT & 0x00200000) == 0) {
 
     off = 0x01F4;
     if (*(int *)(base1 + off) < *(int *)(base2 + off)) {
@@ -2005,7 +2007,7 @@ void FUN_0600d50c()
 
   iVar3 = *(int *)puVar4;
 
-  if ((*(unsigned int *)0x0607EBC4 & 0x10060000) == 0) {
+  if ((GAME_STATE_BIT & 0x10060000) == 0) {
 
     (*(int(*)())0x06027358)(*(int *)0x06063EF0,&local_30,&iStack_2c);
 
@@ -2145,7 +2147,7 @@ int FUN_0600d780(param_1)
 
   puVar1 = (int *)0x06063F1C;
 
-  iVar4 = *(int *)0x0607E940;
+  iVar4 = CAR_PTR_CURRENT;
 
   iVar5 = *(int *)(iVar4 + DAT_0600d82a);
 
@@ -2236,7 +2238,7 @@ int FUN_0600d84c()
 
   int iVar4;
 
-  iVar2 = *(int *)0x0607E940;
+  iVar2 = CAR_PTR_CURRENT;
 
   iVar3 = *(int *)(iVar2 + DAT_0600d894);
 
@@ -2314,7 +2316,7 @@ int FUN_0600d92c()
 
   int iVar4;
 
-  iVar4 = *(int *)0x0607E940;
+  iVar4 = CAR_PTR_CURRENT;
 
   if (*(int *)0x06063F28 - 1U < *(unsigned int *)(iVar4 + DAT_0600d996)) {
 
@@ -2360,7 +2362,7 @@ void FUN_0600d9bc(param_1)
     int param_1;
 {
   register int *puVar1 asm("r14") = (int *)0x06063F1C;
-  register int base asm("r5") = *(int *)0x0607E940;
+  register int base asm("r5") = CAR_PTR_CURRENT;
   unsigned int uVar4;
   int offset;
   int iVar5;
@@ -2385,7 +2387,7 @@ void FUN_0600d9bc(param_1)
     *puVar1 = *puVar1 | uVar4;
     (*(int(*)())0x06034F78)();
     *(int *)(base + 0x230) = *(int *)(base + 0x230) + 1;
-    if (*(int *)0x0607EAD8 != 0) {
+    if (CAR_COUNT != 0) {
       if (param_1 != 0) {
         if ((*(unsigned char *)(base + 3) & 8) == 0) {
           (*(void(*)())0x0600dd88)();
@@ -2417,7 +2419,7 @@ void FUN_0600da7c()
 
   puVar2 = (char *)0x0607869A;
 
-  iVar4 = *(int *)0x0607E940;
+  iVar4 = CAR_PTR_CURRENT;
 
   uVar7 = 1;
 
@@ -2492,7 +2494,7 @@ unsigned int FUN_0600db64()
 
   int iVar3;
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
   if (((int)*(char *)(iVar3 + 2) & 4U) != 0) {
 
@@ -2619,7 +2621,7 @@ int FUN_0600dcc8()
 
   int iVar7;
 
-  iVar5 = *(int *)0x0607E940;
+  iVar5 = CAR_PTR_CURRENT;
 
   piVar6 = (int *)(*(int *)0x0607EA9C * 0x18 + *(int *)(iVar5 + DAT_0600dd62));
 
@@ -2651,11 +2653,11 @@ int FUN_0600dcc8()
 
   puVar1 = (int *)0x060786B0;
 
-  *(int *)0x060786B0 = *(int *)0x0607EBD0 * 5 - iVar3;
+  *(int *)0x060786B0 = GAME_STATE_VAR * 5 - iVar3;
 
   puVar2 = (char *)0x0605A21C;
 
-  iVar3 = *(int *)0x0607EAD8;
+  iVar3 = CAR_COUNT;
 
   if (iVar3 != 0) {
 
@@ -2687,7 +2689,7 @@ void FUN_0600dd88(param_1)
 
   int iVar7;
 
-  iVar6 = *(int *)0x0607E940;
+  iVar6 = CAR_PTR_CURRENT;
 
   piVar5 = (int *)(*(int *)(iVar6 + DAT_0600de1e) +
 
@@ -2721,7 +2723,7 @@ void FUN_0600dd88(param_1)
 
   puVar1 = (int *)0x060786B0;
 
-  iVar3 = *(int *)0x0607EBD0 * 5 - iVar3;
+  iVar3 = GAME_STATE_VAR * 5 - iVar3;
 
   *(int *)0x060786B0 = iVar3;
 
@@ -2753,7 +2755,7 @@ void FUN_0600de54()
 
   *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
 
-  *(int *)0x0607E940 = *(int *)0x0607E944;
+  CAR_PTR_CURRENT = CAR_PTR_TARGET;
 
   FUN_0600e99c();
 
@@ -2904,11 +2906,11 @@ void FUN_0600df66()
 void FUN_0600dfd0()
 {
   register int func asm("r3") = 0x06027CA4;
-  int iVar3 = *(int *)0x0607E944;
+  int iVar3 = CAR_PTR_TARGET;
   int uVar2;
 
   *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-  *(int *)0x0607E940 = iVar3;
+  CAR_PTR_CURRENT = iVar3;
   *(int *)0x0607E948 = 0x06078B68;
 
   (*(int(*)())0x0602DB00)();

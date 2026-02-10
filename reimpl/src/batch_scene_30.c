@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_060303b6;
 extern int DAT_06030402;
 extern int DAT_0603045e;
@@ -132,7 +134,7 @@ void FUN_060302c6()
 
   puVar2 = (char *)0x0607ED88;
 
-  iVar3 = *(int *)0x0607E944;
+  iVar3 = CAR_PTR_TARGET;
 
   if (*(short *)0x0607ED8C != 0) {
 
@@ -444,7 +446,7 @@ void FUN_0603053c(param_1)
 
   *(short *)0x06030FBE = param_1;
 
-  iVar11 = *(int *)0x0607E940;
+  iVar11 = CAR_PTR_CURRENT;
 
   puVar2 = (unsigned int *)(DAT_0603056a + iVar11);
 
@@ -664,7 +666,7 @@ int FUN_06030a06()
 
   int iVar3;
 
-  iVar2 = *(int *)0x0607E940;
+  iVar2 = CAR_PTR_CURRENT;
 
   iVar1 = 0x250;
 
@@ -5023,7 +5025,7 @@ void FUN_06031d8c(param_1, param_2)
 
   unsigned int uVar18;
 
-  puVar7 = (unsigned int *)*(int *)0x06089EDC;
+  puVar7 = (unsigned int *)OBJ_STATE_PRIMARY;
 
   piVar6 = (int *)0x06094FA8;
 

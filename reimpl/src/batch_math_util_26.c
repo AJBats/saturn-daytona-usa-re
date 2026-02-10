@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06026336;
 extern int DAT_060263c2;
 extern int DAT_06026462;
@@ -864,7 +866,7 @@ void FUN_060268b0(param_1)
 
   if (param_1 == 0) {
 
-    iVar6 = *(int *)0x0607EAD8;
+    iVar6 = CAR_COUNT;
 
     if (iVar6 == 0) {
 
@@ -872,7 +874,7 @@ void FUN_060268b0(param_1)
 
         if ((unsigned int)(*(short *)(0x060597B8 + *(short *)(0x06061238 << 1)) * 3) <=
 
-            *(unsigned int *)0x0607864C) {
+            VBLANK_COUNTER) {
 
           *(short *)0x06061238 = *(short *)0x06061238 + 1;
 
@@ -890,7 +892,7 @@ void FUN_060268b0(param_1)
 
               ((unsigned int)(*(short *)(0x060597B8 + *(short *)(0x06061238 << 1)) * 3) <=
 
-               *(unsigned int *)0x0607864C)) {
+               VBLANK_COUNTER)) {
 
         (*(int(*)())0x060283E0)(0xc,iVar7,0x0000F000,0x06059826);
 
@@ -952,7 +954,7 @@ void FUN_060268b0(param_1)
 
         if ((unsigned int)(*(short *)(0x060591F0 + *(short *)(0x06061238 << 1)) * 3) <=
 
-            *(unsigned int *)0x0607864C) {
+            VBLANK_COUNTER) {
 
           *(short *)0x06061238 = *(short *)0x06061238 + 1;
 
@@ -970,7 +972,7 @@ void FUN_060268b0(param_1)
 
               ((unsigned int)(*(short *)(0x060591F0 + *(short *)(0x06061238 << 1)) * 3) <=
 
-               *(unsigned int *)0x0607864C)) {
+               VBLANK_COUNTER)) {
 
         (*(int(*)())0x060283E0)(0xc,iVar7,0x0000F000,0x06059826);
 
@@ -1034,7 +1036,7 @@ void FUN_060268b0(param_1)
 
         if ((unsigned int)(*(short *)(0x0605956E + *(short *)(0x06061238 << 1)) * 3) <=
 
-            *(unsigned int *)0x0607864C) {
+            VBLANK_COUNTER) {
 
           *(short *)0x06061238 = *(short *)0x06061238 + 1;
 
@@ -1052,7 +1054,7 @@ void FUN_060268b0(param_1)
 
               ((unsigned int)(*(short *)(0x0605956E + *(short *)(0x06061238 << 1)) * 3) <=
 
-               *(unsigned int *)0x0607864C)) {
+               VBLANK_COUNTER)) {
 
         (*(int(*)())0x060283E0)(0xc,iVar7,0x0000F000,0x06059826);
 
@@ -5581,7 +5583,7 @@ void FUN_06027ca4(param_1, param_2)
 
                    (0x03FFFFFF - param_1[2] >> 0x15) << 6);
 
-  if (*(int *)0x0607EAD8 == 2) {
+  if (CAR_COUNT == 2) {
 
     iVar9 = 0;
 
@@ -5597,7 +5599,7 @@ void FUN_06027ca4(param_1, param_2)
 
       if (puVar4 == (unsigned int *)(int)sVar1) {
 
-        if (*(int *)(*(int *)0x0607E940 + (int)DAT_06027d26) < 0x47) {
+        if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06027d26) < 0x47) {
 
           sVar1 = *(short *)(0x06061240 + (iVar9 << 1));
 
@@ -5649,7 +5651,7 @@ LAB_06027e6a:
 
       if (uVar8 == 0) {
 
-        iVar9 = *(int *)0x0607E940;
+        iVar9 = CAR_PTR_CURRENT;
 
       }
 
@@ -5663,7 +5665,7 @@ LAB_06027e6a:
 
         *(short *)((int)param_1 + 0xe) = uVar3;
 
-        iVar9 = *(int *)0x0607E940;
+        iVar9 = CAR_PTR_CURRENT;
 
         if (param_2 < 1) {
 
@@ -5881,7 +5883,7 @@ unsigned int FUN_06027ede(param_1, param_2, param_3)
 
   iVar14 = param_2[2];
 
-  if (*(int *)0x0607EAD8 == 2) {
+  if (CAR_COUNT == 2) {
 
     iVar11 = 0;
 
@@ -5897,7 +5899,7 @@ unsigned int FUN_06027ede(param_1, param_2, param_3)
 
       if (param_1 == sVar1) {
 
-        if (*(int *)(*(int *)0x0607E940 + (int)DAT_06027f56) < 0x47) {
+        if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06027f56) < 0x47) {
 
           iVar13 = (int)*(short *)((int)(0x06061240 + (iVar11 << 1)) + 2);
 

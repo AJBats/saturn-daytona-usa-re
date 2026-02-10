@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06029c2e;
 extern int DAT_06029ea4;
 extern int DAT_06029ea6;
@@ -28639,7 +28641,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     uVar20 = in_sr & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -29073,7 +29075,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
     }
 
-    *(unsigned int *)0x06094A30 = (uVar9 << 0x10 | uVar25 >> 0x10) + puVar16[9];
+    RENDER_STATE_A = (uVar9 << 0x10 | uVar25 >> 0x10) + puVar16[9];
 
     uVar4 = puVar16[5];
 
@@ -30215,7 +30217,7 @@ unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
 
       uVar22 = *(unsigned int *)puVar6;
 
-      uVar9 = *(unsigned int *)0x06094A30;
+      uVar9 = RENDER_STATE_A;
 
       uVar4 = uVar22 ^ uVar9;
 
@@ -30493,7 +30495,7 @@ LAB_0602b444:
 
       uVar21 = uVar20 & 0xfffffffe;
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -31293,7 +31295,7 @@ LAB_0602b444:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -32095,7 +32097,7 @@ LAB_0602b444:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -33336,7 +33338,7 @@ unsigned int FUN_0602b546()
 
     uVar11 = in_sr & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -34498,7 +34500,7 @@ LAB_0602b972:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -34934,7 +34936,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
+      RENDER_STATE_A = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
 
       uVar3 = puVar16[5];
 
@@ -36080,7 +36082,7 @@ LAB_0602b972:
 
       uVar20 = *(unsigned int *)puVar5;
 
-      uVar19 = *(unsigned int *)0x06094A30;
+      uVar19 = RENDER_STATE_A;
 
       uVar3 = uVar20 ^ uVar19;
 
@@ -36352,7 +36354,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -37150,7 +37152,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -38029,7 +38031,7 @@ unsigned int FUN_0602b55a()
 
     uVar11 = in_sr & 0xfffffffe;
 
-    *(int *)0x06094AB0 = in_r0 << 0xb;
+    RENDER_STATE_B = in_r0 << 0xb;
 
     *(int *)(puVar5 + 4) = in_r1 << 0xb;
 
@@ -39191,7 +39193,7 @@ LAB_0602b972:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -39627,7 +39629,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
+      RENDER_STATE_A = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
 
       uVar3 = puVar16[5];
 
@@ -40773,7 +40775,7 @@ LAB_0602b972:
 
       uVar20 = *(unsigned int *)puVar5;
 
-      uVar19 = *(unsigned int *)0x06094A30;
+      uVar19 = RENDER_STATE_A;
 
       uVar3 = uVar20 ^ uVar19;
 
@@ -41045,7 +41047,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -41843,7 +41845,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -43891,7 +43893,7 @@ LAB_0602b972:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -44327,7 +44329,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
+      RENDER_STATE_A = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
 
       uVar3 = puVar16[5];
 
@@ -45473,7 +45475,7 @@ LAB_0602b972:
 
       uVar20 = *(unsigned int *)puVar5;
 
-      uVar19 = *(unsigned int *)0x06094A30;
+      uVar19 = RENDER_STATE_A;
 
       uVar3 = uVar20 ^ uVar19;
 
@@ -45745,7 +45747,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -46543,7 +46545,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -48585,7 +48587,7 @@ LAB_0602b972:
 
       sVar2 = psVar14[2];
 
-      *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+      RENDER_STATE_B = (int)*psVar14 << 0xb;
 
       *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -49021,7 +49023,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar18 << 0x10 | uVar23 >> 0x10) + puVar15[9];
+      RENDER_STATE_A = (uVar18 << 0x10 | uVar23 >> 0x10) + puVar15[9];
 
       uVar3 = puVar15[5];
 
@@ -50167,7 +50169,7 @@ LAB_0602b972:
 
       uVar19 = *(unsigned int *)puVar4;
 
-      uVar18 = *(unsigned int *)0x06094A30;
+      uVar18 = RENDER_STATE_A;
 
       uVar3 = uVar19 ^ uVar18;
 
@@ -50441,7 +50443,7 @@ LAB_0602b972:
 
     in_sr = uVar17 & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -51241,7 +51243,7 @@ LAB_0602b972:
 
     sVar2 = psVar14[2];
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -52043,7 +52045,7 @@ LAB_0602b972:
 
     sVar2 = psVar14[2];
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)((int)param_1 + 4) = (int)sVar1 << 0xb;
 
@@ -53029,7 +53031,7 @@ LAB_0602b972:
 
       sVar2 = psVar14[2];
 
-      *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+      RENDER_STATE_B = (int)*psVar14 << 0xb;
 
       *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -53465,7 +53467,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar18 << 0x10 | uVar25 >> 0x10) + puVar15[9];
+      RENDER_STATE_A = (uVar18 << 0x10 | uVar25 >> 0x10) + puVar15[9];
 
       uVar3 = puVar15[5];
 
@@ -54611,7 +54613,7 @@ LAB_0602b972:
 
       uVar19 = *(unsigned int *)puVar4;
 
-      uVar18 = *(unsigned int *)0x06094A30;
+      uVar18 = RENDER_STATE_A;
 
       uVar3 = uVar19 ^ uVar18;
 
@@ -54885,7 +54887,7 @@ LAB_0602b972:
 
     in_sr = uVar17 & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -55685,7 +55687,7 @@ LAB_0602b972:
 
     sVar2 = psVar14[2];
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -56487,7 +56489,7 @@ LAB_0602b972:
 
     sVar2 = psVar14[2];
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)((int)param_1 + 4) = (int)sVar1 << 0xb;
 
@@ -57481,7 +57483,7 @@ LAB_0602b972:
 
       sVar2 = psVar14[2];
 
-      *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+      RENDER_STATE_B = (int)*psVar14 << 0xb;
 
       *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -57917,7 +57919,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar18 << 0x10 | uVar24 >> 0x10) + puVar15[9];
+      RENDER_STATE_A = (uVar18 << 0x10 | uVar24 >> 0x10) + puVar15[9];
 
       uVar3 = puVar15[5];
 
@@ -59063,7 +59065,7 @@ LAB_0602b972:
 
       uVar19 = *(unsigned int *)puVar4;
 
-      uVar18 = *(unsigned int *)0x06094A30;
+      uVar18 = RENDER_STATE_A;
 
       uVar3 = uVar19 ^ uVar18;
 
@@ -59337,7 +59339,7 @@ LAB_0602b972:
 
     in_sr = uVar17 & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -60137,7 +60139,7 @@ LAB_0602b972:
 
     sVar2 = psVar14[2];
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)(puVar4 + 4) = (int)sVar1 << 0xb;
 
@@ -60939,7 +60941,7 @@ LAB_0602b972:
 
     sVar2 = psVar14[2];
 
-    *(int *)0x06094AB0 = (int)*psVar14 << 0xb;
+    RENDER_STATE_B = (int)*psVar14 << 0xb;
 
     *(int *)((int)param_1 + 4) = (int)sVar1 << 0xb;
 
@@ -61931,7 +61933,7 @@ LAB_0602b972:
 
       sVar2 = psVar15[2];
 
-      *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+      RENDER_STATE_B = (int)*psVar15 << 0xb;
 
       *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -62367,7 +62369,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
+      RENDER_STATE_A = (uVar19 << 0x10 | uVar24 >> 0x10) + puVar16[9];
 
       uVar4 = puVar16[5];
 
@@ -63513,7 +63515,7 @@ LAB_0602b972:
 
       uVar20 = *(unsigned int *)puVar5;
 
-      uVar19 = *(unsigned int *)0x06094A30;
+      uVar19 = RENDER_STATE_A;
 
       uVar4 = uVar20 ^ uVar19;
 
@@ -63787,7 +63789,7 @@ LAB_0602b972:
 
     in_sr = uVar18 & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -64585,7 +64587,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -65385,7 +65387,7 @@ LAB_0602b972:
 
     sVar2 = psVar15[2];
 
-    *(int *)0x06094AB0 = (int)*psVar15 << 0xb;
+    RENDER_STATE_B = (int)*psVar15 << 0xb;
 
     *(int *)(puVar5 + 4) = (int)sVar1 << 0xb;
 
@@ -66637,7 +66639,7 @@ LAB_0602b972:
 
       sVar2 = psVar16[2];
 
-      *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+      RENDER_STATE_B = (int)*psVar16 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -67073,7 +67075,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar20 << 0x10 | uVar25 >> 0x10) + puVar17[9];
+      RENDER_STATE_A = (uVar20 << 0x10 | uVar25 >> 0x10) + puVar17[9];
 
       uVar5 = puVar17[5];
 
@@ -68219,7 +68221,7 @@ LAB_0602b972:
 
       uVar21 = *(unsigned int *)puVar7;
 
-      uVar20 = *(unsigned int *)0x06094A30;
+      uVar20 = RENDER_STATE_A;
 
       uVar5 = uVar21 ^ uVar20;
 
@@ -68491,7 +68493,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+    RENDER_STATE_B = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -69291,7 +69293,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+    RENDER_STATE_B = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -70093,7 +70095,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+    RENDER_STATE_B = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -71355,7 +71357,7 @@ LAB_0602b972:
 
       sVar2 = psVar16[2];
 
-      *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+      RENDER_STATE_B = (int)*psVar16 << 0xb;
 
       *(int *)(puVar6 + 4) = (int)sVar1 << 0xb;
 
@@ -71791,7 +71793,7 @@ LAB_0602b972:
 
       }
 
-      *(unsigned int *)0x06094A30 = (uVar20 << 0x10 | uVar25 >> 0x10) + puVar17[9];
+      RENDER_STATE_A = (uVar20 << 0x10 | uVar25 >> 0x10) + puVar17[9];
 
       uVar5 = puVar17[5];
 
@@ -72937,7 +72939,7 @@ LAB_0602b972:
 
       uVar21 = *(unsigned int *)puVar7;
 
-      uVar20 = *(unsigned int *)0x06094A30;
+      uVar20 = RENDER_STATE_A;
 
       uVar5 = uVar21 ^ uVar20;
 
@@ -73209,7 +73211,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+    RENDER_STATE_B = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -74009,7 +74011,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+    RENDER_STATE_B = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -74811,7 +74813,7 @@ LAB_0602b972:
 
     sVar2 = psVar16[2];
 
-    *(int *)0x06094AB0 = (int)*psVar16 << 0xb;
+    RENDER_STATE_B = (int)*psVar16 << 0xb;
 
     *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -75735,7 +75737,7 @@ LAB_0602b972:
 
   sVar2 = psVar17[2];
 
-  *(int *)0x06094AB0 = (int)*psVar17 << 0xb;
+  RENDER_STATE_B = (int)*psVar17 << 0xb;
 
   *(int *)(puVar7 + 4) = (int)sVar1 << 0xb;
 
@@ -76161,7 +76163,7 @@ LAB_0602b972:
 
   }
 
-  *(unsigned int *)0x06094A30 = (uVar12 << 0x10 | uVar26 >> 0x10) + puVar18[9];
+  RENDER_STATE_A = (uVar12 << 0x10 | uVar26 >> 0x10) + puVar18[9];
 
   uVar6 = puVar18[5];
 
@@ -77285,7 +77287,7 @@ code_r0x0602b3d6:
 
   uVar22 = *(unsigned int *)puVar16;
 
-  uVar12 = *(unsigned int *)0x06094A30;
+  uVar12 = RENDER_STATE_A;
 
   uVar6 = uVar22 ^ uVar12;
 
@@ -77555,7 +77557,7 @@ LAB_0602b444:
 
     uVar21 = uVar20 & 0xfffffffe;
 
-    *(int *)0x06094AB0 = (int)*psVar17 << 0xb;
+    RENDER_STATE_B = (int)*psVar17 << 0xb;
 
     *(int *)(puVar16 + 4) = (int)sVar1 << 0xb;
 
@@ -78351,7 +78353,7 @@ LAB_0602b444:
 
     sVar2 = psVar17[2];
 
-    *(int *)0x06094AB0 = (int)*psVar17 << 0xb;
+    RENDER_STATE_B = (int)*psVar17 << 0xb;
 
     *(int *)(puVar16 + 4) = (int)sVar1 << 0xb;
 
@@ -79149,7 +79151,7 @@ LAB_0602b444:
 
     sVar2 = psVar17[2];
 
-    *(int *)0x06094AB0 = (int)*psVar17 << 0xb;
+    RENDER_STATE_B = (int)*psVar17 << 0xb;
 
     *(int *)(puVar16 + 4) = (int)sVar1 << 0xb;
 
@@ -96848,7 +96850,7 @@ char * FUN_0602db00()
 
   *(int *)0x06082A38 = uVar4;
 
-  iVar2 = *(int *)0x0607E940;
+  iVar2 = CAR_PTR_CURRENT;
 
   *(int *)0x0607EAC8 = 0x000000C8;
 
@@ -96910,7 +96912,7 @@ char * FUN_0602db00()
 
   (*(int(*)())0x0600DB64)();
 
-  iVar2 = *(int *)0x0607E940;
+  iVar2 = CAR_PTR_CURRENT;
 
   if (*(int *)(0x00000244 + iVar2) < 0x00000007) {
 
@@ -96990,7 +96992,7 @@ char * FUN_0602db00()
 
   (*(int(*)())0x0601D5F4)(1,iVar2);
 
-  (*(int(*)())0x0602E450)(*(int *)((int)DAT_0602e372 + *(int *)0x0607E940));
+  (*(int(*)())0x0602E450)(*(int *)((int)DAT_0602e372 + CAR_PTR_CURRENT));
 
   (*(int(*)())0x0602E4BC)();
 
@@ -97061,7 +97063,7 @@ char * FUN_0602dc18(param_1, param_2, param_3, param_4)
 
   (*(int(*)())0x0600DB64)();
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
   if (*(int *)(0x00000244 + iVar3) < 0x00000007) {
 
@@ -97141,7 +97143,7 @@ char * FUN_0602dc18(param_1, param_2, param_3, param_4)
 
   (*(int(*)())0x0601D5F4)(1,iVar3,param_3,param_4,in_pr);
 
-  (*(int(*)())0x0602E450)(*(int *)((int)DAT_0602e372 + *(int *)0x0607E940));
+  (*(int(*)())0x0602E450)(*(int *)((int)DAT_0602e372 + CAR_PTR_CURRENT));
 
   (*(int(*)())0x0602E4BC)();
 

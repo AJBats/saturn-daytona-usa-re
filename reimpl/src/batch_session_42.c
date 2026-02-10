@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0604211e;
 extern int DAT_06042120;
 extern int DAT_06042122;
@@ -40,11 +42,11 @@ int FUN_06042088(param_1)
 
   puVar2 = (char *)0x060A5400;
 
-  if (*(int *)(0x360 + *(int *)0x060A5400) == 1) {
+  if (*(int *)(0x360 + CD_SESSION_BASE) == 1) {
 
-    iVar3 = (*(int(*)())0x06036A1C)(*(int *)(*(int *)0x060A5400 + DAT_06042120 + 4),
+    iVar3 = (*(int(*)())0x06036A1C)(*(int *)(CD_SESSION_BASE + DAT_06042120 + 4),
 
-                       *(int *)(*(int *)0x060A5400 + (int)DAT_06042120));
+                       *(int *)(CD_SESSION_BASE + (int)DAT_06042120));
 
     if (iVar3 != 0) {
 

@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06014136;
 extern int DAT_06014212;
 extern int DAT_06014306;
@@ -51,7 +53,7 @@ void FUN_060140c4()
 
                (int)*(short *)0x06089E4A,1);
 
-    *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;
+    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 
   }
 
@@ -167,7 +169,7 @@ void FUN_0601424c()
 
   (*(int(*)())0x06026F2A)(-(int)*(short *)puVar1);
 
-  (*(int(*)())0x06026EDE)((*(unsigned int *)0x0607EBC8 & 0x1f) << 0xb);
+  (*(int(*)())0x06026EDE)((FRAME_COUNTER & 0x1f) << 0xb);
 
   (*(int(*)())0x06026E60)(0x00010000,0x00010000,0x00010000);
 
@@ -175,7 +177,7 @@ void FUN_0601424c()
 
   (*(int(*)())0x06031A28)(*(int *)0x06062334,(int)*(short *)0x06089E4A,1);
 
-  *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;
+  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 
   return;
 
@@ -318,7 +320,7 @@ void FUN_0601450c()
 
   iVar2 = *(int *)0x06084B08;
 
-  if ((*(unsigned int *)0x0607EBC8 & 3) == 0) {
+  if ((FRAME_COUNTER & 3) == 0) {
 
     if ((*(unsigned short *)0x06063D98 & DAT_06014594) == 0) {
 
@@ -608,7 +610,7 @@ unsigned int FUN_0601476c(param_1)
 
         puVar4 = 0x0605B4A8 +
 
-                 (short)(((short)(uVar5 << 2) + ((unsigned short)*(int *)0x0607EBC8 & 3)) * 3);
+                 (short)(((short)(uVar5 << 2) + ((unsigned short)FRAME_COUNTER & 3)) * 3);
 
         *puVar1 = *puVar4;
 
@@ -810,7 +812,7 @@ void FUN_06014a74()
 
     puVar1 = (char *)0x0607E944;
 
-    *(int *)(*(int *)0x0607E944 + (int)DAT_06014cf2) = (int)(char)*(int *)0x06078637;
+    *(int *)(CAR_PTR_TARGET + (int)DAT_06014cf2) = (int)(char)*(int *)0x06078637;
 
     *(int *)(*(int *)puVar1 + 0x240) = *(int *)0x06078638;
 
@@ -996,7 +998,7 @@ void FUN_06015338()
 
   *(int *)0x06085F8A = 0;
 
-  *(int *)0x0605AD10 = 0x1e;
+  GAME_STATE = 0x1e;
 
   (*(int(*)())0x0601ABC6)();
 
@@ -1008,7 +1010,7 @@ void FUN_06015338()
 
     }
 
-    *(int *)0x0605AD10 = 0x1a;
+    GAME_STATE = 0x1a;
 
   }
 
@@ -1022,11 +1024,11 @@ void FUN_06015338()
 
   (*(int(*)())0x060149E0)();
 
-  *(int *)0x0605A00C = 0;
+  VBL_DISABLE_FLAG = 0;
 
   (*(int(*)())0x06026CE0)();
 
-  *(short *)0x0605A016 = 3;
+  PHASE_FLAG = 3;
 
   (*(int(*)())0x06020CF4)();
 
@@ -1044,9 +1046,9 @@ void FUN_06015338()
 
   (*(int(*)())0x060032D4)();
 
-  *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 4;
+  INPUT_STATE = INPUT_STATE | 4;
 
-  *(int *)0x0605A00C = 0;
+  VBL_DISABLE_FLAG = 0;
 
   (*(int(*)())0x06026CE0)();
 

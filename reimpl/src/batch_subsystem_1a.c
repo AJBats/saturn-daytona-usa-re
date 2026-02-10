@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0601a6dc;
 extern int DAT_0601a6de;
 extern int DAT_0601a6e0;
@@ -529,13 +531,13 @@ void FUN_0601ab8c()
 
         (0x0605DE40 +
 
-        (*(int *)0x0605AD00 << 2) + (int)(char)((char)*(int *)0x0607EAD8 * '\f'));
+        (COURSE_SELECT << 2) + (int)(char)((char)CAR_COUNT * '\f'));
 
   *(int *)0x06086008 =
 
        *(int *)
 
-        (*(int *)(0x0605DE24 + ((*(int *)(int)puVar1 << 1) + *(int *)0x0607EAE0) << 2) + 4);
+        (*(int *)(0x0605DE24 + ((*(int *)(int)puVar1 << 1) + DEMO_MODE_FLAG) << 2) + 4);
 
   return;
 
@@ -578,7 +580,7 @@ int FUN_0601abc6()
 
       *(unsigned int *)(*(int *)(0x0605DD6C +
 
-                        (*(int *)0x0607EAD8 * 6 + *(int *)(0x0605AD00 << 1)) << 2) + iVar1))
+                        (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2) + iVar1))
 
   {
 
@@ -611,7 +613,7 @@ unsigned int FUN_0601ac7c()
 
   iVar4 = *(int *)(0x0605DD6C +
 
-                  (*(int *)0x0607EAD8 * 6 + *(int *)(0x0605AD00 << 1)) << 2);
+                  (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2);
 
   iVar5 = *(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3));
 
@@ -643,9 +645,9 @@ unsigned int FUN_0601ac7c()
 
     puVar6[9] = *(int *)0x0605DE3C;
 
-    uVar2 = *(unsigned int *)0x0607EAE0 & 0xff;
+    uVar2 = DEMO_MODE_FLAG & 0xff;
 
-    puVar6[10] = (char)*(unsigned int *)0x0607EAE0;
+    puVar6[10] = (char)DEMO_MODE_FLAG;
 
     *puVar6 = 0;
 
@@ -692,19 +694,19 @@ char * FUN_0601adb0()
 
   puVar2 = (char *)0x0;
 
-  if (*(int *)0x0607EAE0 != 0) {
+  if (DEMO_MODE_FLAG != 0) {
 
     if ((*(int *)0x06078638 <
 
          *(int *)(*(int *)(0x0605DE24 +
 
-                          (*(int *)(0x0607EAD8 << 1) + *(int *)0x0607EAE0) << 2) + 4)) &&
+                          (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4)) &&
 
        (0 < *(int *)0x06078638)) {
 
       *(int *)
 
-       (*(int *)(0x0605DE24 + (*(int *)(0x0607EAD8 << 1) + *(int *)0x0607EAE0) << 2) +
+       (*(int *)(0x0605DE24 + (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) +
 
        4) = *(int *)(0x06078900 + DAT_0601ae3e);
 
@@ -884,7 +886,7 @@ void FUN_0601b160()
 
   (*(int(*)())0x060393FC)(0,0,0,(int)DAT_0601b24a,(int)DAT_0601b248);
 
-  *(int *)0x0605A008 = 0;
+  VDP1_CMD_BASE_PTR = 0;
 
   **(short **)0x06063F5C = (short)0x00008000;
 
@@ -956,7 +958,7 @@ void FUN_0601b160()
 
   puVar1 = (char *)0x0605B6D8;
 
-  *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 0x80000000;
+  INPUT_STATE = INPUT_STATE | 0x80000000;
 
   (*(int(*)())puVar2)();
 
@@ -1509,7 +1511,7 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
 void FUN_0601bdec()
 {
-  register int base asm("r2") = *(int *)0x0607E944;
+  register int base asm("r2") = CAR_PTR_TARGET;
   unsigned int *puVar2 = (unsigned int *)0x06059F38;
   unsigned int *puVar4 = (unsigned int *)0x06059F3C;
   int *piVar5 = (int *)0x06086018;

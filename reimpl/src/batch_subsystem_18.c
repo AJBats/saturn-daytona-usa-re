@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_06018212;
 extern int DAT_06018214;
 extern int DAT_06018216;
@@ -74,7 +76,7 @@ void FUN_06018166()
 
   iVar8 = (int)DAT_06018212;
 
-  iVar5 = *(int *)0x0607E944;
+  iVar5 = CAR_PTR_TARGET;
 
   *(short *)0x0605BE2C = *(short *)0x0605BE2C + 1;
 
@@ -132,7 +134,7 @@ void FUN_06018166()
 
   }
 
-  if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00800000) != 0) {
+  if ((GAME_STATE_BIT & (unsigned int)0x00800000) != 0) {
 
     FUN_060185d8();
 
@@ -499,7 +501,7 @@ int FUN_06018634()
 
   puVar1 = (char *)0x0605BE38;
 
-  iVar3 = *(int *)0x0607EAD8;
+  iVar3 = CAR_COUNT;
 
   if (iVar3 == 0) {
 
@@ -642,7 +644,7 @@ void FUN_06018a3c()
 
   }
 
-  if ((*(unsigned int *)0x0607EBC4 & (int)DAT_06018b8e) == 0) {
+  if ((GAME_STATE_BIT & (int)DAT_06018b8e) == 0) {
 
     uVar6 = 0;
 
@@ -654,7 +656,7 @@ void FUN_06018a3c()
 
     if (*(int *)0x0605AB18 == '\0') {
 
-      if (*(int *)0x0605AD00 == 2) {
+      if (COURSE_SELECT == 2) {
 
         (*(int(*)())0x06018E1E)((unsigned char)*(int *)0x06078648 + 6);
 
@@ -724,7 +726,7 @@ LAB_06018bd8:
 
   puVar2 = (char *)0x06063F28;
 
-  iVar5 = (int)(char)((char)*(int *)0x0605AD00 * '\x06');
+  iVar5 = (int)(char)((char)COURSE_SELECT * '\x06');
 
   *(unsigned int *)0x06063F28 = (unsigned int)*(unsigned short *)(0x0604805A + iVar4 + iVar5);
 
@@ -754,7 +756,7 @@ LAB_06018bd8:
 
   (*(int(*)())0x06026CE0)();
 
-  *(int *)0x06059F44 = 0;
+  VBLANK_OUT_COUNTER = 0;
 
   (*(int(*)())0x0600A026)();
 
@@ -871,7 +873,7 @@ void FUN_06018fa4()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -879,7 +881,7 @@ void FUN_06018fa4()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012EDC)();
 
@@ -900,7 +902,7 @@ void FUN_06018ff8()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -908,7 +910,7 @@ void FUN_06018ff8()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012EBC)();
 
@@ -931,7 +933,7 @@ void FUN_06019058()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -939,7 +941,7 @@ void FUN_06019058()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012F10)();
 
@@ -962,7 +964,7 @@ void FUN_060190b8()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -970,7 +972,7 @@ void FUN_060190b8()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012F20)();
 
@@ -991,7 +993,7 @@ void FUN_060190f4()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -999,7 +1001,7 @@ void FUN_060190f4()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012F50)();
 
@@ -1020,7 +1022,7 @@ void FUN_0601914c()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -1028,7 +1030,7 @@ void FUN_0601914c()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012F58)();
 
@@ -1049,7 +1051,7 @@ void FUN_06019188()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -1057,7 +1059,7 @@ void FUN_06019188()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x06012F60)();
 
@@ -1078,7 +1080,7 @@ void FUN_060191e0()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -1086,7 +1088,7 @@ void FUN_060191e0()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x0602760C)(0x25A03000,0x00200000,0x0006D000);
 
@@ -1107,7 +1109,7 @@ void FUN_06019248()
 
   puVar1 = (char *)0x0601D5F4;
 
-  *(int *)0x06086050 = 0;
+  SOUND_TIMEOUT_FLAG = 0;
 
   (*(int(*)())puVar1)(0xf,0xAE0001FF);
 
@@ -1115,7 +1117,7 @@ void FUN_06019248()
 
   FUN_060192e8();
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     (*(int(*)())0x0602760C)(0x25A03000,0x0026D000,0x0006D000);
 
@@ -1181,7 +1183,7 @@ void FUN_060192e8()
     cnt = cnt - 1;
   } while (cnt != 0);
 
-  *(int *)0x06086050 = 1;
+  SOUND_TIMEOUT_FLAG = 1;
 }
 
 void FUN_06019324()
@@ -1203,7 +1205,7 @@ void FUN_06019324()
 
   (*(int(*)())puVar1)(1,0);
 
-  *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 0x40000000;
+  INPUT_STATE = INPUT_STATE | 0x40000000;
 
   return;
 
@@ -1255,7 +1257,7 @@ void FUN_060193f4()
 
   puVar1 = (char *)0x0605B6D8;
 
-  *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 0x80000000;
+  INPUT_STATE = INPUT_STATE | 0x80000000;
 
   (*(int(*)())puVar2)();
 
@@ -1447,11 +1449,11 @@ void FUN_060196a4()
 
     }
 
-    *(int *)0x06059F44 = 0;
+    VBLANK_OUT_COUNTER = 0;
 
     *puVar2 = 0;
 
-    *(int *)0x0605AD10 = 4;
+    GAME_STATE = 4;
 
     *puVar1 = 1;
 
@@ -1555,7 +1557,7 @@ void FUN_06019928()
 
   if (*(int *)0x06085FF1 == '\x01') {
 
-    *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 4;
+    INPUT_STATE = INPUT_STATE | 4;
 
     bVar6 = 0;
 
@@ -1682,7 +1684,7 @@ void FUN_06019a48()
 
       if (*puVar2 == '\a') {
 
-        *(int *)0x0605AD10 = 7;
+        GAME_STATE = 7;
 
       }
 
@@ -1692,7 +1694,7 @@ void FUN_06019a48()
 
         *puVar1 = 1;
 
-        *(int *)0x06059F44 = 0;
+        VBLANK_OUT_COUNTER = 0;
 
         (*(int(*)())0x06026CE0)();
 
@@ -1739,7 +1741,7 @@ int FUN_06019bc8()
 
     do {
 
-      if ((unsigned int)bVar6 == *(unsigned int *)0x0605AD00) {
+      if ((unsigned int)bVar6 == COURSE_SELECT) {
 
         if ((unsigned char)*puVar1 < 8) {
 
@@ -1797,7 +1799,7 @@ int FUN_06019bc8()
 
     do {
 
-      if ((unsigned int)bVar6 == *(unsigned int *)0x0605AD00) {
+      if ((unsigned int)bVar6 == COURSE_SELECT) {
 
         iVar5 = 6;
 

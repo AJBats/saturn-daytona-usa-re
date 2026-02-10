@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0601e162;
 extern int DAT_0601e164;
 extern int DAT_0601e166;
@@ -115,7 +117,7 @@ void FUN_0601e100()
 
   puVar3 = (char *)0x06063750;
 
-  if (*(int *)0x0607EAE0 == 0) {
+  if (DEMO_MODE_FLAG == 0) {
 
     (*(int(*)())0x0602761E)(0x25F00100,0x0604892C,0x20);
 
@@ -273,7 +275,7 @@ void FUN_0601e2b4()
 
   *puVar4 = 1;
 
-  *(int *)0x2010001F = 0x1a;
+  SMPC_COMREG = 0x1a;
 
   do {
 
@@ -289,7 +291,7 @@ void FUN_0601e2b4()
 
   *puVar4 = 1;
 
-  *(int *)0x2010001F = 0x19;
+  SMPC_COMREG = 0x19;
 
   do {
 
@@ -589,7 +591,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   *puVar1 = 1;
 
-  *(int *)0x2010001F = 0x1a;
+  SMPC_COMREG = 0x1a;
 
   do {
 
@@ -605,7 +607,7 @@ int FUN_0601e764(param_1, param_2, param_3)
 
   *puVar1 = 1;
 
-  *(int *)0x2010001F = 0x19;
+  SMPC_COMREG = 0x19;
 
   do {
 
@@ -677,7 +679,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   *puVar3 = 1;
 
-  *(int *)0x2010001F = 0x1a;
+  SMPC_COMREG = 0x1a;
 
   do {
 
@@ -693,7 +695,7 @@ int FUN_0601e810(param_1, param_2, param_3)
 
   *puVar3 = 1;
 
-  *(int *)0x2010001F = 0x19;
+  SMPC_COMREG = 0x19;
 
   do {
 
@@ -1162,7 +1164,7 @@ char * FUN_0601ebda()
 
     } while (puVar6 < puVar10);
 
-    *(int *)0x0605AD00 = puVar4[0xc];
+    COURSE_SELECT = puVar4[0xc];
 
     puVar1[1] = puVar4[0xd];
 
@@ -1573,7 +1575,7 @@ char * FUN_0601efc4()
 
     puVar3 = 0x0605AD00 + 1;
 
-    puVar5[0xc] = *(int *)0x0605AD00;
+    puVar5[0xc] = COURSE_SELECT;
 
     puVar5[0xd] = *puVar3;
 
@@ -1921,7 +1923,7 @@ int FUN_0601f5e0()
 
       *(int *)0x0605E0A1 = 1;
 
-      *(int *)0x0605E0A0 = (char)*(int *)0x0607EAD8;
+      *(int *)0x0605E0A0 = (char)CAR_COUNT;
 
       puVar2 = (char *)0x060786A4;
 
@@ -1943,7 +1945,7 @@ int FUN_0601f5e0()
 
       }
 
-      FUN_0601f87a(*(int *)0x0607EAD8 + 1U & 0xff);
+      FUN_0601f87a(CAR_COUNT + 1U & 0xff);
 
       puVar2 = (char *)0x060877D8;
 
@@ -2020,7 +2022,7 @@ unsigned int FUN_0601f784()
 
   if (*(int *)0x06078635 != '\0') {
 
-    FUN_0601f87a(*(int *)0x0607EAD8 + 1U & 0xff);
+    FUN_0601f87a(CAR_COUNT + 1U & 0xff);
 
     (*(int(*)())0x0601E2B4)();
 
@@ -2030,7 +2032,7 @@ unsigned int FUN_0601f784()
 
     if ((uVar3 == 0) &&
 
-       ((*(int *)0x0605E0A1 == '\0' || ((unsigned int)(unsigned char)*(int *)0x0605E0A0 != *(unsigned int *)0x0607EAD8)))
+       ((*(int *)0x0605E0A1 == '\0' || ((unsigned int)(unsigned char)*(int *)0x0605E0A0 != CAR_COUNT)))
 
        ) {
 
@@ -2396,15 +2398,15 @@ LAB_0601fcd4:
 void FUN_0601fd20()
 {
 
-  *(int *)0x0605B6D8 = *(int *)0x0605B6D8 | 4;
+  INPUT_STATE = INPUT_STATE | 4;
 
   FUN_06026CE0();
 
   *(int *)0x060620D0 = 0;
   *(int *)0x0605A000 = 0;
   *(int *)0x0605A004 = 0;
-  *(int *)0x0605A008 = 0;
-  *(int *)0x06059F44 = 0;
+  VDP1_CMD_BASE_PTR = 0;
+  VBLANK_OUT_COUNTER = 0;
 
   return;
 
@@ -2502,7 +2504,7 @@ void FUN_0601fec0(param_1)
 
   iVar3 = (int)DAT_0601ff8a;
 
-  iVar6 = *(int *)0x0607E940;
+  iVar6 = CAR_PTR_CURRENT;
 
   iVar5 = (int)(unsigned int)*param_1 >> 1;
 

@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_060047d2;
 extern int DAT_060047d4;
 extern int DAT_0600498a;
@@ -487,7 +489,7 @@ void FUN_06005198()
 
   uVar5 = local_14[0][10];
 
-  if (*(int *)0x06059F44 == 1) {
+  if (VBLANK_OUT_COUNTER == 1) {
 
     *(unsigned short *)puVar6 = ~*local_14[0];
 
@@ -640,7 +642,7 @@ void FUN_060053ac(param_1, param_2, param_3)
   int auStack_18[2];
 
   (*(void(*)())0x06026E0C)();
-  *(int *)(*(int *)0x06089EDC + 0x2c) = param_3;
+  *(int *)(OBJ_STATE_PRIMARY + 0x2c) = param_3;
 
   if (*(int *)0x06078663 != '\0') {
     (*(void(*)())0x06026E60)(0xFFFF0000, 0x00010000);
@@ -987,7 +989,7 @@ void FUN_06005788()
 
   }
 
-  if (*(int *)0x0607EAE0 == 0) {
+  if (DEMO_MODE_FLAG == 0) {
 
     (*(int(*)())0x06028430)(8,(int)DAT_0600590e,0x30,*(int *)0x0607EA98);
 
@@ -1049,7 +1051,7 @@ void FUN_06005928()
 
   iVar3 = (int)DAT_060059da;
 
-  iVar2 = *(int *)0x0607E944;
+  iVar2 = CAR_PTR_TARGET;
 
   if (((0 < *(int *)0x0607EAC0) &&
 
@@ -1191,7 +1193,7 @@ int FUN_06005ae8()
 
   puVar3 = (char *)0x06085FF4;
 
-  iVar10 = *(int *)0x0607E944;
+  iVar10 = CAR_PTR_TARGET;
 
   if (*(int *)(iVar10 + DAT_06005b7c) + 1U <= *(unsigned int *)0x06063F28) {
 
@@ -1221,7 +1223,7 @@ int FUN_06005ae8()
 
   (*(int(*)())puVar7)(8,(int)sVar1,0x24,uVar9);
 
-  if (*(int *)0x0607EAE0 == 0) {
+  if (DEMO_MODE_FLAG == 0) {
 
     (*(int(*)())puVar7)(8,0x142,0x30,*(int *)(iVar10 + DAT_06005b84) + 1);
 
@@ -1251,7 +1253,7 @@ int FUN_06005ae8()
 
     bVar8 = 1;
 
-    if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00020000) != 0) {
+    if ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) {
 
       if (*(int *)puVar4 == 0x78) {
 
@@ -1342,7 +1344,7 @@ int FUN_06005c98()
 
   puVar1 = (char *)0x06028430;
 
-  iVar6 = *(int *)0x0607E944;
+  iVar6 = CAR_PTR_TARGET;
 
   uVar7 = *(int *)0x06063F28 - 1;
 
@@ -1418,7 +1420,7 @@ int FUN_06005c98()
 
       }
 
-      puVar11 = (char *)(*(int *)0x0607EBD0 * 5 - *(int *)(iVar6 + DAT_06005dce));
+      puVar11 = (char *)(GAME_STATE_VAR * 5 - *(int *)(iVar6 + DAT_06005dce));
 
       if ((int)0x000927BF < (int)puVar11) {
 
@@ -1609,7 +1611,7 @@ void FUN_06005ecc()
 
   puVar1 = (char *)0x06063E88;
 
-  iVar10 = *(int *)0x0607E944;
+  iVar10 = CAR_PTR_TARGET;
 
   iVar8 = *(int *)(iVar10 + 0x10);
 
@@ -1723,7 +1725,7 @@ void FUN_06005ecc()
 
   if ((iVar6 == iStack_28) ||
 
-     ((iVar6 = iStack_28, puVar9 = 0x000D6666, *(int *)0x0607EAD8 == 1 &&
+     ((iVar6 = iStack_28, puVar9 = 0x000D6666, CAR_COUNT == 1 &&
 
       ((int)PTR_DAT_06006118 <= *(int *)(iVar10 + DAT_06006116))))) {
 
@@ -1747,7 +1749,7 @@ void FUN_06005ecc()
 
   *(int *)(iVar10 + 0x24) = uVar5;
 
-  *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;
+  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 
   return;
 

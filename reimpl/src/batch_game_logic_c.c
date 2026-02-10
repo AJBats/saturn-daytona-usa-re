@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern char flag_0607887F;
 extern int DAT_0600e0ea;
 extern int DAT_0600e2ba;
@@ -178,11 +180,11 @@ void FUN_0600e060()
 
   int iVar3;
 
-  iVar3 = *(int *)0x0607E944;
+  iVar3 = CAR_PTR_TARGET;
 
   *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
 
-  *(int *)0x0607E940 = iVar3;
+  CAR_PTR_CURRENT = iVar3;
 
   *(char **)0x0607E948 = 0x06078B68;
 
@@ -245,7 +247,7 @@ unsigned int FUN_0600e0c0()
 
   iVar8 = 0x268;
 
-  uVar7 = *(unsigned int *)0x0607EAE0;
+  uVar7 = DEMO_MODE_FLAG;
 
   if (uVar7 == 0) {
 
@@ -324,7 +326,7 @@ void FUN_0600e1d4()
 
   puVar2 = (char *)0x0607EAD8;
 
-  iVar9 = *(int *)0x0607E940;
+  iVar9 = CAR_PTR_CURRENT;
 
   *(int *)(iVar9 + DAT_0600e2ba) = 0;
 
@@ -352,7 +354,7 @@ void FUN_0600e1d4()
 
                       [*(int *)0x0605AD04 + (int)(char)((char)*(int *)puVar2 * '\x05')]
 
-          + *(int *)0x0605AD00;
+          + COURSE_SELECT;
 
   if (*(int *)0x06086030 != '\0') {
 
@@ -479,9 +481,9 @@ void FUN_0600e410()
 
   int iVar1;
 
-  iVar1 = *(int *)0x0607E944;
+  iVar1 = CAR_PTR_TARGET;
 
-  *(int *)0x0607E940 = iVar1;
+  CAR_PTR_CURRENT = iVar1;
 
   (*(int(*)())0x060081F4)();
 
@@ -512,9 +514,9 @@ void FUN_0600e47c()
 
   int iVar3;
 
-  iVar3 = *(int *)0x0607E944;
+  iVar3 = CAR_PTR_TARGET;
 
-  *(int *)0x0607E940 = iVar3;
+  CAR_PTR_CURRENT = iVar3;
 
   (*(int(*)())0x0600A8BC)();
 
@@ -685,7 +687,7 @@ void FUN_0600e4f2()
 
 void FUN_0600e71a()
 {
-  register int base asm("r14") = *(int *)0x0607E940;
+  register int base asm("r14") = CAR_PTR_CURRENT;
   int tmp;
 
   (*(void(*)())0x06008318)();
@@ -722,7 +724,7 @@ void FUN_0600e7c8()
 
   int iVar3;
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
   (*(int(*)())0x06008318)();
 
@@ -794,7 +796,7 @@ void FUN_0600e7c8()
 
                       0x14);
 
-  if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00200000) != 0) {
+  if ((GAME_STATE_BIT & (unsigned int)0x00200000) != 0) {
 
     (*(int(*)())0x06027552)(*(int *)(iVar3 + 0xc),0x066505B3);
 
@@ -819,9 +821,9 @@ int FUN_0600e906()
 
   int iVar3;
 
-  iVar3 = *(int *)0x0607E940;
+  iVar3 = CAR_PTR_CURRENT;
 
-  if (*(int *)0x0607EAD8 == 0) {
+  if (CAR_COUNT == 0) {
 
     (*(int(*)())0x0600D266)();
 
@@ -867,12 +869,12 @@ int FUN_0600e906()
 
 void FUN_0600e99c()
 {
-  register int base asm("r2") = *(int *)0x0607E944;
+  register int base asm("r2") = CAR_PTR_TARGET;
   int result;
 
   FUN_0600e906();
 
-  if (*(int *)0x0607EAD8 == 0) {
+  if (CAR_COUNT == 0) {
     result = (*(int(*)())0x06027552)(*(int *)(base + 0xc), 0x066505B3);
     *(int *)(base + DAT_0600e9e8) = result;
     *(int *)(base + DAT_0600e9ea) = result;
@@ -1016,7 +1018,7 @@ void FUN_0600eb14()
   *(int *)0x0607EAE4 = zero;
   *(int *)0x0607EAE8 = zero;
   *(int *)0x0607EAEC = zero;
-  *(int *)0x0607EBD0 = zero;
+  GAME_STATE_VAR = zero;
   *(int *)0x0607EBF4 = zero;
   *(int *)0x06078654 = 5;
   *(int *)0x0605A1C4 = zero;
@@ -1090,15 +1092,15 @@ void FUN_0600ec78()
 
   *(int *)0x0606A4EC = (int)DAT_0600ed64;
 
-  (*(int(*)())(*(int *)0x06000344))(0xffffffff,0x83);
+  (*(int(*)())(BIOS_FUNC_0344))(0xffffffff,0x83);
 
   (*(int(*)())0x06012E00)();
 
-  (*(int(*)())(*(int *)0x06000344))(-132,0);
+  (*(int(*)())(BIOS_FUNC_0344))(-132,0);
 
   (*(int(*)())0x0602766C)(*(int *)puVar1,0x0605A018,0x60);
 
-  *(int *)0x0605A008 = 3;
+  VDP1_CMD_BASE_PTR = 3;
 
   *(short *)(*(int *)puVar1 + 0x60) = (short)0x00008000;
 
@@ -1414,11 +1416,11 @@ void FUN_0600ec78()
 
   puVar1 = (char *)0x06026CE0;
 
-  *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 0x40000000;
+  INPUT_STATE = INPUT_STATE | 0x40000000;
 
   (*(int(*)())puVar1)();
 
-  *(int *)0x06059F44 = 0;
+  VBLANK_OUT_COUNTER = 0;
 
   return;
 
@@ -1509,7 +1511,7 @@ void FUN_0600f424()
 
     iVar5 = (int)DAT_0600f612;
 
-    if (*(int *)0x0607EAE0 == 0) {
+    if (DEMO_MODE_FLAG == 0) {
 
       (*(int(*)())0x060284AE)(0xc,iVar5,0x90,0x0605ACE4);
 
@@ -1543,7 +1545,7 @@ void FUN_0600f424()
 
   FUN_0600ffd0();
 
-  *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;
+  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 
   (*(int(*)())0x060078DC)();
 

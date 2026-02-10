@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0601c510;
 extern int DAT_0601c5f8;
 extern int DAT_0601c5fa;
@@ -94,7 +96,7 @@ int FUN_0601c3e4()
 
   puVar1 = (char *)0x0605DF44;
 
-  iVar8 = *(int *)0x0607E944;
+  iVar8 = CAR_PTR_TARGET;
 
   if ((*(int *)0x06063E1C == 0) || (*(int *)0x06063E20 == 0)) {
 
@@ -403,7 +405,7 @@ void FUN_0601c978()
 
   (*(int(*)())0x06026CE0)();
 
-  *(int *)0x06059F44 = 0;
+  VBLANK_OUT_COUNTER = 0;
 
   (*(int(*)())0x0600A026)();
 
@@ -477,11 +479,11 @@ void FUN_0601c978()
 
   (*(int(*)())0x06036E90)(0x25F00FFE,1,0x06086028);
 
-  *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 0x40000000;
+  INPUT_STATE = INPUT_STATE | 0x40000000;
 
   (*(int(*)())0x06026CE0)();
 
-  *(int *)0x06059F44 = 0;
+  VBLANK_OUT_COUNTER = 0;
 
   return;
 
@@ -820,13 +822,13 @@ void FUN_0601caee()
 
   }
 
-  *(int *)0x0605AD10 = 2;
+  GAME_STATE = 2;
 
 LAB_0601cda4:
 
   (*(int(*)())0x06026CE0)();
 
-  *(int *)0x06059F44 = 0;
+  VBLANK_OUT_COUNTER = 0;
 
   return;
 
@@ -1236,9 +1238,9 @@ int FUN_0601d5f4(param_1, param_2)
 
   int iVar2;
 
-  iVar1 = *(int *)0x06086050;
+  iVar1 = SOUND_TIMEOUT_FLAG;
 
-  if (*(int *)0x06086050 == 0) {
+  if (SOUND_TIMEOUT_FLAG == 0) {
 
     iVar1 = param_1;
 
@@ -1248,9 +1250,9 @@ int FUN_0601d5f4(param_1, param_2)
 
         iVar1 = FUN_0601db84();
 
-        *(unsigned int *)0x25A02C20 = param_2;
+        SCSP_MAILBOX = param_2;
 
-        *(unsigned int *)0x0608604C = param_2;
+        SOUND_CMD_MIRROR = param_2;
 
       }
 
@@ -1264,15 +1266,15 @@ int FUN_0601d5f4(param_1, param_2)
 
         iVar1 = 1;
 
-        if (*(int *)0x0605DF94 != iVar2) {
+        if (SOUND_CHAN_STATE != iVar2) {
 
           iVar1 = FUN_0601db84();
 
-          *(int *)0x0605DF94 = iVar2;
+          SOUND_CHAN_STATE = iVar2;
 
-          *(int *)0x0608604C = iVar2;
+          SOUND_CMD_MIRROR = iVar2;
 
-          *(int *)0x25A02C20 = iVar2;
+          SCSP_MAILBOX = iVar2;
 
         }
 
@@ -1292,9 +1294,9 @@ int FUN_0601d5f4(param_1, param_2)
 
           *(int *)0x0605DF98 = iVar2;
 
-          *(int *)0x0608604C = iVar2;
+          SOUND_CMD_MIRROR = iVar2;
 
-          *(int *)0x25A02C20 = iVar2;
+          SCSP_MAILBOX = iVar2;
 
         }
 
@@ -1314,9 +1316,9 @@ int FUN_0601d5f4(param_1, param_2)
 
           *(int *)0x0605DF9C = iVar2;
 
-          *(int *)0x0608604C = iVar2;
+          SOUND_CMD_MIRROR = iVar2;
 
-          *(int *)0x25A02C20 = iVar2;
+          SCSP_MAILBOX = iVar2;
 
         }
 
@@ -1334,9 +1336,9 @@ int FUN_0601d5f4(param_1, param_2)
 
           *(unsigned int *)0x0605DFA4 = param_2;
 
-          *(unsigned int *)0x0608604C = param_2;
+          SOUND_CMD_MIRROR = param_2;
 
-          *(unsigned int *)0x25A02C20 = param_2;
+          SCSP_MAILBOX = param_2;
 
         }
 
@@ -1356,9 +1358,9 @@ int FUN_0601d5f4(param_1, param_2)
 
           *(int *)0x0605DFA8 = iVar2;
 
-          *(int *)0x0608604C = iVar2;
+          SOUND_CMD_MIRROR = iVar2;
 
-          *(int *)0x25A02C20 = iVar2;
+          SCSP_MAILBOX = iVar2;
 
         }
 
@@ -1370,9 +1372,9 @@ int FUN_0601d5f4(param_1, param_2)
 
         iVar1 = FUN_0601db84();
 
-        *(unsigned int *)0x25A02C20 = param_2;
+        SCSP_MAILBOX = param_2;
 
-        *(unsigned int *)0x0608604C = param_2;
+        SOUND_CMD_MIRROR = param_2;
 
       }
 
@@ -1413,15 +1415,15 @@ int FUN_0601d7d0()
 
                   *(int *)(0x0605AD00 << 2) +
 
-                  (int)(char)((char)*(int *)0x0607EAD8 * '\f'));
+                  (int)(char)((char)CAR_COUNT * '\f'));
 
-  iVar6 = *(int *)0x0607E944;
+  iVar6 = CAR_PTR_TARGET;
 
   if (*(int *)0x06085FF4 == '\0') {
 
-    if ((*(int *)0x0607EAD8 == 0) && (iVar7 - *(int *)(iVar6 + PTR_DAT_0601d884) < 9)) {
+    if ((CAR_COUNT == 0) && (iVar7 - *(int *)(iVar6 + PTR_DAT_0601d884) < 9)) {
 
-      if ((*(int *)0x06087060 == '\0') && (*(int *)0x0605AD00 != 0)) {
+      if ((*(int *)0x06087060 == '\0') && (COURSE_SELECT != 0)) {
 
         *(int *)0x06087060 = 1;
 
@@ -1439,7 +1441,7 @@ int FUN_0601d7d0()
 
     if ((*(int *)puVar2 == 1) && (iVar7 - *(int *)(iVar6 + DAT_0601d974) < 5)) {
 
-      if ((*puVar3 == '\0') && (*(int *)0x0605AD00 != 0)) {
+      if ((*puVar3 == '\0') && (COURSE_SELECT != 0)) {
 
         *puVar3 = 1;
 
@@ -1455,7 +1457,7 @@ int FUN_0601d7d0()
 
     if ((*(int *)puVar2 == 2) && (iVar7 - *(int *)(iVar6 + DAT_0601d974) < 3)) {
 
-      if ((*puVar3 == '\0') && (*(int *)0x0605AD00 != 0)) {
+      if ((*puVar3 == '\0') && (COURSE_SELECT != 0)) {
 
         *puVar3 = 1;
 
@@ -1566,9 +1568,9 @@ unsigned int FUN_0601d9b0()
 
      uVar4 = 0xAE112BFF, sVar1 != 1)) goto LAB_0601db20;
 
-  if (*(int *)0x0607EAD8 != 0) {
+  if (CAR_COUNT != 0) {
 
-    if (*(int *)0x0607EAD8 == 1) {
+    if (CAR_COUNT == 1) {
 
       sVar1 = *(short *)0x06086058;
 
@@ -1608,7 +1610,7 @@ unsigned int FUN_0601d9b0()
 
     }
 
-    else if ((*(int *)0x0607EAD8 == 2) && (*(short *)0x06086058 == 8)) {
+    else if ((CAR_COUNT == 2) && (*(short *)0x06086058 == 8)) {
 
       *(short *)0x06086056 = 0;
 
@@ -1819,7 +1821,7 @@ int FUN_0601dbb8()
 
     puVar9 = (char *)0x0605DDD4;
 
-    if (*(int *)0x0607EAD8 == 2) {
+    if (CAR_COUNT == 2) {
 
       *(int *)puVar6 = 6;
 
@@ -1948,7 +1950,7 @@ int FUN_0601de50()
 
   int *puVar6;
 
-  if ((char *)(*(int *)0x0607EBD0 * 5) < 0x000927BF) {
+  if ((char *)(GAME_STATE_VAR * 5) < 0x000927BF) {
 
     FUN_0601e26c();
 
@@ -1978,7 +1980,7 @@ int FUN_0601de50()
 
     *(int *)
 
-     (*(int *)(0x0605DE24 + (*(int *)(0x0607EAD8 << 1) + *(int *)0x0607EAE0) << 2) + 4
+     (*(int *)(0x0605DE24 + (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4
 
      ) = *(int *)(0x06078900 + DAT_0601df18);
 

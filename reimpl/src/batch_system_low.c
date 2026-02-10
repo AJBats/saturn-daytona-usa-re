@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0600239e;
 extern int DAT_060024d6;
 extern int DAT_06002554;
@@ -589,7 +591,7 @@ void FUN_0600338c(param_1, param_2)
 void FUN_060033e6()
 {
 
-  if ((*(unsigned int *)0x0607EBC8 & 4) != 0) {
+  if ((FRAME_COUNTER & 4) != 0) {
 
     (*(int(*)())0x060284AE)(8,(int)DAT_0600340c,0x90,0x06044638);
 

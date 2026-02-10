@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0603a1a2;
 extern int DAT_0603a2ca;
 extern int DAT_0603a6fa;
@@ -506,19 +508,19 @@ int FUN_0603a72c()
 
   char *puVar2;
 
-  if ((*(int *)0x20100063 & 1) == 1) {
+  if ((SMPC_SF & 1) == 1) {
 
     return 1;
 
   }
 
-  *(int *)0x20100063 = 1;
+  SMPC_SF = 1;
 
   puVar2 = (char *)0x20100001;
 
   puVar1 = (char *)0x06063602;
 
-  *(int *)0x20100001 = *(int *)0x06063602;
+  SMPC_IREG0 = *(int *)0x06063602;
 
   puVar2[2] = puVar1[1];
 
@@ -804,7 +806,7 @@ int FUN_0603ac1c(param_1, param_2, param_3)
 
        ((((*param_3 == 0 || (*param_3 == 1)) && (1 < param_3[1])) && (param_3[2] != 0)))) {
 
-      *(unsigned int *)0x060A4D14 = param_2;
+      CD_STATE_A = param_2;
 
       FUN_0603b74c();
 
@@ -818,7 +820,7 @@ int FUN_0603ac1c(param_1, param_2, param_3)
 
       }
 
-      if ((*(unsigned int *)((int)DAT_0603ac9e + *(int *)0x060A4D14) & 1) == 0) {
+      if ((*(unsigned int *)((int)DAT_0603ac9e + CD_STATE_A) & 1) == 0) {
 
         iVar1 = FUN_0603b93c(0xfffffffe);
 
@@ -886,11 +888,11 @@ void FUN_0603adac(param_1)
 
   int iVar2;
 
-  iVar2 = *(int *)0x060A4D14 + 0x98;
+  iVar2 = CD_STATE_A + 0x98;
 
   if (param_1 == 0) {
 
-    if (*(int *)(*(int *)0x060A4D14 + 0xa0) != 0) {
+    if (*(int *)(CD_STATE_A + 0xa0) != 0) {
 
       FUN_0603b93c(0xfffffff9);
 
@@ -928,13 +930,13 @@ int FUN_0603ae08(param_1)
 
   int iVar1;
 
-  if ((*(int *)(*(int *)0x060A4D14 + 0xa0) != 0) &&
+  if ((*(int *)(CD_STATE_A + 0xa0) != 0) &&
 
-     (*(int *)(0x98 + *(int *)0x060A4D14) == 1)) {
+     (*(int *)(0x98 + CD_STATE_A) == 1)) {
 
-    iVar1 = (*(int(*)())0x0603F148)(*(int *)(*(int *)0x060A4D14 + 0xa0),param_1,
+    iVar1 = (*(int(*)())0x0603F148)(*(int *)(CD_STATE_A + 0xa0),param_1,
 
-                       *(int *)(*(int *)0x060A4D14 + (int)PTR_DAT_0603ae64));
+                       *(int *)(CD_STATE_A + (int)PTR_DAT_0603ae64));
 
     if (iVar1 < 0) {
 
@@ -968,9 +970,9 @@ int FUN_0603aee8(param_1)
 
   puVar1 = (char *)0x060A4D14;
 
-  if ((*(int *)(*(int *)0x060A4D14 + 0xa0) == 0) ||
+  if ((*(int *)(CD_STATE_A + 0xa0) == 0) ||
 
-     ((-1 < param_1 && (param_1 < *(int *)(*(int *)0x060A4D14 + (int)DAT_0603af72))))) {
+     ((-1 < param_1 && (param_1 < *(int *)(CD_STATE_A + (int)DAT_0603af72))))) {
 
     iVar2 = FUN_0603b81e();
 
@@ -1072,7 +1074,7 @@ int FUN_0603afd0(param_1, param_2, param_3)
 
   int iVar3;
 
-  iVar3 = *(int *)0x060A4D14 + 4 + (unsigned int)*(unsigned char *)(param_1 + 4) << 4;
+  iVar3 = CD_STATE_A + 4 + (unsigned int)*(unsigned char *)(param_1 + 4) << 4;
 
   if (param_3 == 1) {
 
@@ -1118,7 +1120,7 @@ int FUN_0603b058(param_1)
 
   int uVar1;
 
-  uVar1 = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + *(int *)0x060A4D14 + 0x10)))(*param_1);
+  uVar1 = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + CD_STATE_A + 0x10)))(*param_1);
 
   FUN_0603b93c(0);
 
@@ -1479,7 +1481,7 @@ void FUN_0603b734()
 
   
 
-  iVar1 = *(int *)0x060A4D14;
+  iVar1 = CD_STATE_A;
 
   *(char **)(iVar1 + 4) = 0x060402BC;
 
@@ -1602,7 +1604,7 @@ int FUN_0603b81e()
 
   iVar2 = 0;
 
-  for (iVar1 = *(int *)0x060A4D14 + (int)DAT_0603b83a;
+  for (iVar1 = CD_STATE_A + (int)DAT_0603b83a;
 
       (iVar2 < **(int **)0x060A4D14 && (*(int *)(iVar1 + PTR_DAT_0603b83c) != 0));
 
@@ -1660,9 +1662,9 @@ void FUN_0603b8b4(param_1)
 
   puVar1 = (char *)0x060A4D14;
 
-  if (*(int **)(*(int *)0x060A4D14 + 0xa8) == param_1) {
+  if (*(int **)(CD_STATE_A + 0xa8) == param_1) {
 
-    *(int *)(*(int *)0x060A4D14 + 0xa8) = 0;
+    *(int *)(CD_STATE_A + 0xa8) = 0;
 
     (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + *(int *)puVar1 + 8)))(*param_1,1);
 
@@ -1678,9 +1680,9 @@ void FUN_0603b8f4(param_1)
     int param_1;
 {
 
-  if (*(int *)(*(int *)0x060A4D14 + (int)DAT_0603b91e) == param_1) {
+  if (*(int *)(CD_STATE_A + (int)DAT_0603b91e) == param_1) {
 
-    *(int *)(*(int *)0x060A4D14 + (int)DAT_0603b91e) = 0;
+    *(int *)(CD_STATE_A + (int)DAT_0603b91e) = 0;
 
     (*(int(*)())0x0603FA1A)(*(int *)(param_1 + 8),0xffffffff);
 
@@ -1702,7 +1704,7 @@ int FUN_0603b96a(param_1)
 
   
 
-  iVar2 = *(int *)0x060A4D14;
+  iVar2 = CD_STATE_A;
 
   for (iVar1 = 0;
 
@@ -1736,7 +1738,7 @@ int FUN_0603b9a4(param_1)
 
   if (iVar1 == -1) {
 
-    iVar2 = *(int *)0x060A4D14;
+    iVar2 = CD_STATE_A;
 
     *(int *)((*(int *)(iVar2 + 0x94) << 2) + iVar2 + 0x34) = param_1;
 
@@ -1770,7 +1772,7 @@ void FUN_0603b9d6(param_1)
 
     if (iVar2 != -1) {
 
-      iVar5 = *(int *)0x060A4D14;
+      iVar5 = CD_STATE_A;
 
       iVar3 = *(int *)(iVar5 + 0x94) + -1;
 
@@ -1942,7 +1944,7 @@ int FUN_0603bb86(param_1)
 
   puVar1 = (char *)0x060A4D14;
 
-  if ((*(unsigned int *)((int)DAT_0603bbb4 + *(int *)0x060A4D14) & 1) == 0) {
+  if ((*(unsigned int *)((int)DAT_0603bbb4 + CD_STATE_A) & 1) == 0) {
 
     uVar2 = 0;
 
@@ -1950,7 +1952,7 @@ int FUN_0603bb86(param_1)
 
   else {
 
-    iVar3 = FUN_0603bac6(*(int *)0x060A4D14 + (int)DAT_0603bbb6);
+    iVar3 = FUN_0603bac6(CD_STATE_A + (int)DAT_0603bbb6);
 
     if (iVar3 == 0) {
 
@@ -2026,7 +2028,7 @@ int FUN_0603bc12(param_1)
 
   }
 
-  if (((*(unsigned int *)((int)DAT_0603bc56 + *(int *)0x060A4D14) & 1) == 0) || (iVar1 != 0)) {
+  if (((*(unsigned int *)((int)DAT_0603bc56 + CD_STATE_A) & 1) == 0) || (iVar1 != 0)) {
 
     uVar2 = (*(int(*)())0x0603F0FC)(iVar1,param_1,uStack_14);
 
@@ -2111,11 +2113,11 @@ int FUN_0603bd1c(param_1)
 
   puVar1 = (char *)0x060A4D14;
 
-  if ((*(int **)(*(int *)0x060A4D14 + 0xa8) == (int *)0x0
+  if ((*(int **)(CD_STATE_A + 0xa8) == (int *)0x0
 
-      ) || (*(int **)(*(int *)0x060A4D14 + 0xa8) == param_1)) {
+      ) || (*(int **)(CD_STATE_A + 0xa8) == param_1)) {
 
-    iVar2 = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + *(int *)0x060A4D14 + 4)))(*param_1);
+    iVar2 = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + CD_STATE_A + 4)))(*param_1);
 
     if (iVar2 == 0) {
 

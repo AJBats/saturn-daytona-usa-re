@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern char flag_060322fc;
 extern int DAT_06031e30;
 extern int DAT_06031eee;
@@ -1459,7 +1461,7 @@ void FUN_06032158(param_1, param_2)
 
   unsigned int uVar18;
 
-  puVar7 = (unsigned int *)*(int *)0x0608A52C;
+  puVar7 = (unsigned int *)OBJ_STATE_SECONDARY;
 
   piVar6 = (int *)0x060961A8;
 
@@ -3004,7 +3006,7 @@ void FUN_06032d90()
 
   int unaff_r14 = 0;
 
-  piVar2 = (int *)(0x060624A4 + (0x0000000C & 0xffff) * (*(unsigned int *)0x0607EAD8 & 0xffff)
+  piVar2 = (int *)(0x060624A4 + (0x0000000C & 0xffff) * (CAR_COUNT & 0xffff)
 
                   );
 
@@ -3775,7 +3777,7 @@ int FUN_060335f4(param_1, param_2, param_3)
 {
   register int p2 asm("r2") = param_2;
   register int p3 asm("r1") = param_3;
-  int uVar2 = *(int *)(0x0603363C + (*(int *)0x0607EAD8 << 2));
+  int uVar2 = *(int *)(0x0603363C + (CAR_COUNT << 2));
   int uVar1 = (*(int(*)())0x06027348)();
   return (*(int(*)())0x06027344)(uVar2, p2, p3, uVar1);
 }
@@ -3803,7 +3805,7 @@ int FUN_06033648()
 
   if ((in_sr & 1) == 0) {
 
-    if (0 < *(int *)0x0607EAE0) {
+    if (0 < DEMO_MODE_FLAG) {
 
       return in_r0;
 
@@ -4054,9 +4056,9 @@ int FUN_06033bc8()
 
   int bVar2;
 
-  if ((*(int *)(0x000001EC + *(int *)0x0607E944) < 0x000000DC) ||
+  if ((*(int *)(0x000001EC + CAR_PTR_TARGET) < 0x000000DC) ||
 
-     (0x000000EC < *(int *)(0x000001EC + *(int *)0x0607E944))) {
+     (0x000000EC < *(int *)(0x000001EC + CAR_PTR_TARGET))) {
 
     bVar2 = 0;
 
@@ -4084,9 +4086,9 @@ int FUN_06033bc8()
 
   }
 
-  if ((*(int *)(0x000001EC + *(int *)0x0607E944) < 0x000000ED) ||
+  if ((*(int *)(0x000001EC + CAR_PTR_TARGET) < 0x000000ED) ||
 
-     (0x00000104 < *(int *)(0x000001EC + *(int *)0x0607E944))) {
+     (0x00000104 < *(int *)(0x000001EC + CAR_PTR_TARGET))) {
 
     bVar2 = 0;
 
@@ -4142,9 +4144,9 @@ int FUN_06033bc8()
 
   }
 
-  if ((*(int *)(0x000001EC + *(int *)0x0607E944) < 0x000001B8) ||
+  if ((*(int *)(0x000001EC + CAR_PTR_TARGET) < 0x000001B8) ||
 
-     (0x000001E0 < *(int *)(0x000001EC + *(int *)0x0607E944))) {
+     (0x000001E0 < *(int *)(0x000001EC + CAR_PTR_TARGET))) {
 
     bVar2 = 0;
 
@@ -4158,7 +4160,7 @@ int FUN_06033bc8()
 
   if (bVar2) {
 
-    if (*(int *)0x0607EAE0 == 0) {
+    if (DEMO_MODE_FLAG == 0) {
 
       iVar1 = 0;
 

@@ -1,3 +1,5 @@
+#include "game.h"
+
 extern int DAT_0603ee76;
 extern int DAT_0603ef2a;
 extern int DAT_0603ef8a;
@@ -651,7 +653,7 @@ int FUN_0603f22c()
 
   uVar1 = 0x00FFFFFF;
 
-  iVar5 = (*(int(*)())0x06041470)(0x00FFFFFF,*(int *)(*(int *)0x060A4D14 + 0xc8));
+  iVar5 = (*(int(*)())0x06041470)(0x00FFFFFF,*(int *)(CD_STATE_A + 0xc8));
 
   if (iVar5 == -5) {
 
