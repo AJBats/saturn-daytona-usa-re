@@ -133,14 +133,23 @@ typedef void (*state_handler_t)(void);
 #define VBLANK_OUT_COUNTER  (*(volatile int *)0x06059F44)   /* VBlank-OUT counter */
 #define VBLANK_PHASE        (*(volatile int *)0x06059F54)   /* 1=IN, 3=OUT-start, 4=OUT-end */
 
-#define FB_STATE            (*(volatile short *)0x060635B4)  /* frame buffer state (0-3) */
+#define FB_STATE            (*(volatile unsigned short *)0x060635B4)  /* frame buffer state (0-3) */
 #define FB_STATE_VAR        (*(volatile int *)0x06063F58)    /* frame buffer state variable */
 #define FRAME_SEC_COUNTER   (*(volatile int *)0x060635C0)    /* secondary frame counter */
 #define FRAME_READY_FLAG    (*(volatile int *)0x060635C4)    /* cleared when buffer swapped */
 
-#define VBL_DISABLE_FLAG    (*(volatile short *)0x0605A00C)  /* non-zero = skip VBlank handler */
-#define TVMR_SHADOW         (*(volatile short *)0x060A4C90)  /* cached VDP1 TVMR setting */
-#define FBCR_SHADOW         (*(volatile short *)0x060A4C92)  /* cached VDP1 FBCR setting */
+#define VBL_DISABLE_FLAG    (*(volatile unsigned short *)0x0605A00C)  /* non-zero = skip VBlank handler */
+#define TVMR_SHADOW         (*(volatile unsigned short *)0x060A4C90)  /* cached VDP1 TVMR setting */
+#define FBCR_SHADOW         (*(volatile unsigned short *)0x060A4C92)  /* cached VDP1 FBCR setting */
+
+#define FBCR_SWAP_MODE      (*(volatile int *)0x060635B8)    /* 1 = timed FBCR swap active */
+#define FBCR_SWAP_THRESHOLD (*(volatile int *)0x060635BC)    /* frame count threshold for swap */
+
+/* Timing computation variables */
+#define TIMING_VAL_3C       (*(volatile int *)0x06059F3C)
+#define TIMING_VAL_38       (*(volatile int *)0x06059F38)
+#define TIMING_RESULT       (*(volatile int *)0x06059F34)
+#define TIMING_BASE_ADDR    0x0606B178
 
 /* Per-state frame timing targets (byte array, 32 entries) */
 #define FRAME_TIMING_TABLE  ((volatile unsigned char *)0x06059F58)

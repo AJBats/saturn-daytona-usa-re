@@ -30,7 +30,8 @@
 | Game state defines (game.h) | 80+ | DONE |
 | Address replacements in batch files | 638 | DONE |
 | Car struct field offsets | 40+ | DONE |
-| Function naming (from ASM annotations) | 0 | In progress |
+| Function naming (from ASM annotations) | 220 mappings, 159 applied | DONE |
+| Function naming tool | l2_rename_funcs.py | DONE |
 
 ## Quality Levels (see workstreams/reimplementation.md)
 
@@ -67,6 +68,27 @@
 - Sound: timeout flag, mailbox mirror, channel state
 - Course/session: CD state, course select
 
+## L2 Function Naming Coverage
+
+| Subsystem | Named Functions | Key Examples |
+|-----------|----------------|--------------|
+| System Init | 20 | master_init_dispatcher, global_engine_init |
+| VBlank/Frame | 5 | vblank_in_handler, frame_end_display_commit |
+| Race States | 11 | state_14_first_frame_race, state_15_main_race_loop |
+| Collision | 15 | car_collision_response, collision_response_dispatcher |
+| Physics/Force | 12 | gas_force_apply, steering_physics_update |
+| Camera/Scene | 16 | camera_position_lerping, race_state_machine |
+| Rendering | 25 | scene_setup_master, projection_manager |
+| VDP1 Commands | 12 | vdp1_sprite_command_gen, vdp1_command_builder |
+| VDP2/Palette | 8 | vdp2_register_setup, palette_init |
+| Sound | 14 | sound_cmd_dispatch, engine_sound_generator |
+| Math/DMA | 10 | math_sin_cos, scu_dma_transfer |
+| HUD/Menu | 7 | race_hud_orchestrator, timer_display |
+| Lap/Track | 17 | checkpoint_change_detect, track_geometry_processor |
+| Object Mgmt | 12 | race_init_master, per_car_update_loop |
+| Other | 6 | smpc_intback_trigger, replay_camera_controller |
+| **Total** | **220** | |
+
 ## Boot Test
 
 | Test | Result | Date |
@@ -93,13 +115,22 @@
 | 8acc933 | fix: re-enable 10 disabled functions, add linker stubs and dashboard |
 | ce788d5 | feat: comprehensive L2 headers -- Saturn hardware regs + game data structs |
 | 6ce9ee5 | refactor: L2 pass -- replace 638 raw addresses with named defines |
+| ec4b4c9 | refactor: L2 pass -- rename 99 FUN_ references to meaningful names |
+| 00b173d | refactor: L2 pass -- expand function naming to 220 mappings, 60 more renames |
+
+## L2 Tools
+
+| Tool | Purpose |
+|------|---------|
+| tools/l2_replace_addrs.py | Replace raw hex addresses with named defines |
+| tools/l2_rename_funcs.py | Rename FUN_XXXXXXXX to meaningful names (220 mappings) |
 
 ## Next Steps
 
-1. L2 function naming pass (apply ASM annotation names to 800+ functions)
-2. Translate critical ASM-only functions (VBlank handlers, main loop)
-3. Further address replacement (expand define coverage)
-4. Boot test improvements (VDP init -> colored screen)
+1. Hand-translate critical ASM-only functions (VBlank handlers, main loop, race states)
+2. Expand L2 structural improvements in batch files (local variables, control flow)
+3. Boot test improvements (VDP init -> colored screen)
+4. Begin L3 pass on highest-priority subsystems
 
 ---
 *Last updated: 2026-02-10*
