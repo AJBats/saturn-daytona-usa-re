@@ -24,8 +24,7 @@ void frame_end_display_commit(void) __attribute__((alias("FUN_060078DC")));
 void FUN_0600A084(void) { }
 void FUN_0600A0C0(void) { }
 void FUN_0600A33C(void) { }
-void FUN_0600A914(void) { }
-void car_collision_proximity(void) __attribute__((alias("FUN_0600A914")));
+/* FUN_0600A914: moved to collision.c */
 void FUN_0600BB94(void) { }
 void multi_mode_camera(void) __attribute__((alias("FUN_0600BB94")));
 void FUN_0600BFFC(void) { }
