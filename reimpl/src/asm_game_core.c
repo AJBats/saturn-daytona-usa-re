@@ -115,3 +115,16 @@ int  FUN_0601B418(void) { return 0; }
 void FUN_06018FA4(void) { }
 void FUN_0600EC78(void) { }
 void FUN_0600F424(void) { }
+
+/* Physics helper stubs -- called by player_physics.c hand translations */
+void FUN_06008640(void) { }
+int  FUN_0600CD40(void) { return 0; }
+void FUN_0600CA96(int r4) { (void)r4; }
+void FUN_0600CC38(int r4, int r5) { (void)r4; (void)r5; }
+void FUN_0600C8CC(int r4, int r5) { (void)r4; (void)r5; }
+void FUN_0600CF58(int r4) { (void)r4; }
+void FUN_0600C928(int r4) { (void)r4; }
+void FUN_0600C7D4(int r4, int r5) { (void)r4; (void)r5; }
+void FUN_06027358(int r4, int *r5, int *r6) { (void)r4; (void)r5; (void)r6; }
+void FUN_06027EDE(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
+void FUN_06034F78(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
