@@ -64,3 +64,5 @@ void sound_timer_init(void)
     SH2_FRT_OCRX_H = 0x00;
     SH2_FRT_OCRX_L = 0x00;
 }
+
+void FUN_06003218(void) __attribute__((alias("sound_timer_init")));

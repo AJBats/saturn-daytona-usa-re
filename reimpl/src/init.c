@@ -84,3 +84,5 @@ void system_init(void)
     /* Phase 18: Mark system ready */
     GAME_STATE = 2;
 }
+
+void FUN_060030FC(void) __attribute__((alias("system_init")));

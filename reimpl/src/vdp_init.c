@@ -37,3 +37,5 @@ void vdp_init_dispatcher(void)
     bios_fn((int)(short)0xFE11, 0x06028230);
     bios_fn((int)(short)0xFE16, 0x06028248);
 }
+
+void FUN_06003274(void) __attribute__((alias("vdp_init_dispatcher")));

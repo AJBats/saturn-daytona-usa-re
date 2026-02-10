@@ -42,7 +42,7 @@ void FUN_06012198(void)
     }
 }
 
-static int FUN_06040964(void);
+int FUN_06040964(void);
 
 int FUN_06040954(void)
 {
