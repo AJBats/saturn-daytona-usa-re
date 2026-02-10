@@ -38,7 +38,7 @@ int FUN_06042088(param_1)
 
   char local_14 [16];
 
-  puVar2 = 0x060A5400;
+  puVar2 = (char *)0x060A5400;
 
   if (*(int *)(0x360 + *(int *)0x060A5400) == 1) {
 
@@ -100,9 +100,9 @@ int FUN_06042134(param_1)
 
   char local_2c [16];
 
-  puVar2 = 0x060A5400;
+  puVar2 = (char *)0x060A5400;
 
-  puVar1 = 0x060349B6;
+  puVar1 = (char *)0x060349B6;
 
   iVar7 = (int)DAT_0604222c;
 
@@ -203,7 +203,7 @@ void FUN_0604231e()
 
   int iVar2;
 
-  puVar1 = 0x060A5400;
+  puVar1 = (char *)0x060A5400;
 
   iVar2 = 0;
 
@@ -272,11 +272,11 @@ int FUN_060423cc()
 
   int uVar5;
 
-  puVar4 = 0x0000FBFF;
+  puVar4 = (char *)0x0000FBFF;
 
-  puVar3 = 0x06035C4E;
+  puVar3 = (char *)0x06035C4E;
 
-  puVar2 = 0x06035C54;
+  puVar2 = (char *)0x06035C54;
 
   uVar1 = PTR_DAT_060423f6;
 

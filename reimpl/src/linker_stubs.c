@@ -1475,3 +1475,6 @@ int FUN_0603f3da() { return 0; }
 int FUN_0603f3f6() { return 0; }
 int FUN_0603f92c() { return 0; }
 long long CONCAT44(int hi, int lo) { return ((long long)hi << 32) | (unsigned int)lo; }
+int DAT_0602c722 = 0;
+int DAT_0602c724 = 0;
+int DAT_0602c726 = 0;

@@ -282,7 +282,7 @@ char * FUN_0603449c()
 
   int unaff_r14 = 0;
 
-  puVar2 = 0x06083238;
+  puVar2 = (int *)0x06083238;
 
   puVar4 = (char *)(int)*(char *)(unaff_r14 + 0x00000001);
 
@@ -330,9 +330,9 @@ char * FUN_0603449c()
 
     }
 
-    puVar2 = 0x00000026;
+    puVar2 = (int *)0x00000026;
 
-    puVar4 = 0x00080000;
+    puVar4 = (char *)0x00080000;
 
     if (iVar3 < (int)0x00080000) {
 
@@ -772,7 +772,7 @@ int FUN_06034a10(param_1)
 
   int iStack_20;
 
-  puVar1 = 0x06035E5E;
+  puVar1 = (int *)0x06035E5E;
 
   iVar2 = 0;
 
@@ -2009,7 +2009,7 @@ long long FUN_060350b0()
 
   unsigned int uVar11;
 
-  puVar7 = 0x060A246C;
+  puVar7 = (char *)0x060A246C;
 
   if (in_r0 == 0) {
 
@@ -2864,11 +2864,11 @@ int FUN_06035460()
 
   unsigned int *in_stack_00000000;
 
-  unsigned int in_stack_00000004;
+  unsigned int in_stack_00000004 = 0;
 
   char *in_stack_00000008;
 
-  unsigned int in_stack_0000000c;
+  unsigned int in_stack_0000000c = 0;
 
   char *in_stack_00000010;
 
@@ -3371,9 +3371,9 @@ long long FUN_060357b8()
 
   int iVar4;
 
-  unsigned int in_stack_00000000;
+  unsigned int in_stack_00000000 = 0;
 
-  unsigned int in_stack_00000004;
+  unsigned int in_stack_00000004 = 0;
 
   iVar3 = (in_stack_00000000 >> 0x14 & 0x000007FF) - 0x000003FF;
 
@@ -3448,13 +3448,13 @@ int FUN_06035844()
 
   int bVar1;
 
-  unsigned int in_stack_00000000;
+  unsigned int in_stack_00000000 = 0;
 
-  unsigned int in_stack_00000004;
+  unsigned int in_stack_00000004 = 0;
 
-  unsigned int in_stack_00000008;
+  unsigned int in_stack_00000008 = 0;
 
-  unsigned int in_stack_0000000c;
+  unsigned int in_stack_0000000c = 0;
 
   if ((((in_stack_00000008 & 0x7FF00000) == 0x7FF00000) &&
 
@@ -3654,13 +3654,13 @@ int FUN_060359e4()
 
   unsigned int *in_stack_00000000;
 
-  unsigned int in_stack_00000004;
+  unsigned int in_stack_00000004 = 0;
 
-  unsigned int in_stack_00000008;
+  unsigned int in_stack_00000008 = 0;
 
-  unsigned int in_stack_0000000c;
+  unsigned int in_stack_0000000c = 0;
 
-  unsigned int in_stack_00000010;
+  unsigned int in_stack_00000010 = 0;
 
   uVar13 = in_stack_00000004 ^ in_stack_0000000c;
 
@@ -3959,13 +3959,13 @@ LAB_06035af4:
 int FUN_06035b34()
 {
 
-  unsigned int in_stack_00000000;
+  unsigned int in_stack_00000000 = 0;
 
-  int in_stack_00000004;
+  int in_stack_00000004 = 0;
 
-  unsigned int in_stack_00000008;
+  unsigned int in_stack_00000008 = 0;
 
-  int in_stack_0000000c;
+  int in_stack_0000000c = 0;
 
   if ((in_stack_00000008 & 0x7FF00000) == 0x7FF00000) {
 
@@ -4153,7 +4153,7 @@ int FUN_06035cbc(param_1, param_2)
 
   int local_14 [2];
 
-  puVar1 = 0x25898000;
+  puVar1 = (int *)0x25898000;
 
   iVar2 = (*(int(*)())0x06034C68)(0);
 

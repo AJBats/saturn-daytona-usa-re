@@ -66,7 +66,7 @@ void FUN_0603806c(param_1)
 
   char local_10 [4];
 
-  puVar1 = 0x00010000;
+  puVar1 = (char *)0x00010000;
 
   puVar8 = local_10;
 
@@ -153,61 +153,61 @@ void FUN_06038300()
 
   (*(int(*)())0x06038F34)();
 
-  puVar1 = 0x060A4C60;
+  puVar1 = (char *)0x060A4C60;
 
   *(int *)0x060A4C60 = 0;
 
   *(int *)(puVar1 + 4) = 0;
 
-  puVar1 = 0x060A4C68;
+  puVar1 = (char *)0x060A4C68;
 
   *(int *)0x060A4C68 = 0;
 
   *(int *)(puVar1 + 4) = 0;
 
-  puVar1 = 0x060A4C78;
+  puVar1 = (char *)0x060A4C78;
 
   *(int *)0x060A4C78 = 0;
 
   *(int *)(puVar1 + 4) = 0;
 
-  puVar1 = 0x060A4C40;
+  puVar1 = (char *)0x060A4C40;
 
   *(short *)0x060A4C40 = 0;
 
   *(short *)(puVar1 + 2) = 0;
 
-  puVar1 = 0x060A4C54;
+  puVar1 = (char *)0x060A4C54;
 
   *(short *)0x060A4C54 = 0;
 
   *(short *)(puVar1 + 2) = 0;
 
-  puVar1 = 0x060A4C44;
+  puVar1 = (char *)0x060A4C44;
 
   *(int *)0x060A4C44 = 0;
 
   *(int *)(puVar1 + 4) = 0;
 
-  puVar1 = 0x060A4C4C;
+  puVar1 = (char *)0x060A4C4C;
 
   *(int *)0x060A4C4C = 0;
 
-  puVar2 = 0x0603C104;
+  puVar2 = (char *)0x0603C104;
 
   *(int *)(puVar1 + 4) = 0;
 
   (*(int(*)())puVar2)();
 
-  puVar3 = 0x060A3DB0;
+  puVar3 = (char *)0x060A3DB0;
 
-  puVar2 = 0x060A3D88;
+  puVar2 = (char *)0x060A3D88;
 
-  puVar1 = 0x0000FFFF;
+  puVar1 = (char *)0x0000FFFF;
 
   *(char **)0x060A3D84 = 0x25F80000;
 
-  puVar4 = 0x00008000;
+  puVar4 = (char *)0x00008000;
 
   *(short *)puVar2 = (short)0x00008000;
 
@@ -285,7 +285,7 @@ void FUN_06038300()
 
     *(short *)(puVar3 + (uVar5 << 1) + 0x28) = 0;
 
-    puVar1 = 0x060A3DF8;
+    puVar1 = (char *)0x060A3DF8;
 
   } while (uVar6 < 0x10);
 
@@ -293,7 +293,7 @@ void FUN_06038300()
 
   *(int *)(puVar1 + 4) = 0;
 
-  puVar2 = 0x00010000;
+  puVar2 = (char *)0x00010000;
 
   *(char **)(puVar1 + 8) = 0x00010000;
 
@@ -329,7 +329,7 @@ void FUN_06038300()
 
   *(int *)(puVar1 + 0x3c) = 0;
 
-  puVar1 = 0x060A3E38;
+  puVar1 = (char *)0x060A3E38;
 
   *(short *)0x060A3E38 = 0;
 
@@ -345,7 +345,7 @@ void FUN_06038300()
 
   *(int *)(puVar1 + 0xc) = 0;
 
-  puVar1 = 0x060A3E48;
+  puVar1 = (char *)0x060A3E48;
 
   *(short *)0x060A3E48 = 0;
 
@@ -427,13 +427,13 @@ void FUN_0603853c(param_1, param_2, param_3)
 
   short uVar6;
 
-  puVar4 = 0x060A3EE8;
+  puVar4 = (char *)0x060A3EE8;
 
-  puVar3 = 0x060A3E68;
+  puVar3 = (char *)0x060A3E68;
 
-  puVar2 = 0x060A3DF8;
+  puVar2 = (char *)0x060A3DF8;
 
-  puVar1 = 0x060A4C78;
+  puVar1 = (char *)0x060A4C78;
 
   iVar5 = *(int *)0x060635A8;
 
@@ -567,13 +567,13 @@ int FUN_06038642(param_1, param_2, param_3)
 
   short sVar7;
 
-  puVar4 = 0x060A3EE8;
+  puVar4 = (char *)0x060A3EE8;
 
-  puVar3 = 0x060A3E68;
+  puVar3 = (char *)0x060A3E68;
 
-  puVar2 = 0x060A3DF8;
+  puVar2 = (char *)0x060A3DF8;
 
-  puVar1 = 0x060A4C78;
+  puVar1 = (char *)0x060A4C78;
 
   iVar5 = *(int *)0x060635A8;
 
@@ -708,9 +708,9 @@ void FUN_06038794(param_1, param_2)
 
   char *puVar7;
 
-  puVar2 = 0x00010000;
+  puVar2 = (char *)0x00010000;
 
-  puVar1 = 0x0603C0A0;
+  puVar1 = (char *)0x0603C0A0;
 
   puVar5 = (char *)(int)DAT_0603881a;
 
@@ -724,23 +724,23 @@ void FUN_06038794(param_1, param_2)
 
     if ((iVar4 != 4) && (iVar4 != 8)) goto LAB_06038802;
 
-    puVar7 = 0x00FF0000;
+    puVar7 = (char *)0x00FF0000;
 
     if ((((int)param_1 <= (int)0x00FF0000) && (puVar7 = puVar5, (int)puVar5 <= (int)param_1))
 
        && (puVar7 = param_1, param_1 == (char *)0x0)) {
 
-      puVar7 = 0x00010000;
+      puVar7 = (char *)0x00010000;
 
     }
 
-    puVar6 = 0x00FF0000;
+    puVar6 = (char *)0x00FF0000;
 
     if ((((int)param_2 <= (int)0x00FF0000) && (puVar6 = puVar5, (int)puVar5 <= (int)param_2))
 
        && (puVar6 = param_2, param_2 == (char *)0x0)) {
 
-      puVar6 = 0x00010000;
+      puVar6 = (char *)0x00010000;
 
     }
 
@@ -754,11 +754,11 @@ LAB_06038802:
 
   sVar3 = PTR_DAT_060388b4;
 
-  puVar6 = 0x060A3DF8;
+  puVar6 = (char *)0x060A3DF8;
 
-  puVar2 = 0x060A3E68;
+  puVar2 = (char *)0x060A3E68;
 
-  puVar1 = 0x060A3E38;
+  puVar1 = (char *)0x060A3E38;
 
   iVar4 = *(int *)0x060635A8;
 
@@ -819,7 +819,7 @@ void FUN_060388c0()
 
   char *puVar1;
 
-  puVar1 = 0x060A4C40;
+  puVar1 = (char *)0x060A4C40;
 
   if ((*(short *)0x060A4C40 != 0) && (*(int *)0x060A4C44 != 0)) {
 
@@ -849,7 +849,7 @@ void FUN_060388c0()
 
   }
 
-  puVar1 = 0x060A3D84;
+  puVar1 = (char *)0x060A3D84;
 
   FUN_06038a48(*(int *)0x060A3D84,0x060A3D88,0x28);
 
@@ -870,7 +870,7 @@ void FUN_060389a6()
 
   char *puVar1;
 
-  puVar1 = 0x060635AC;
+  puVar1 = (char *)0x060635AC;
 
   if (*(short *)0x060635AC == 1) {
 
@@ -983,7 +983,7 @@ void FUN_06038ac8()
 
   char *puVar1;
 
-  puVar1 = 0x060A4D58;
+  puVar1 = (char *)0x060A4D58;
 
   (*(int(*)())0x0603C728)();
 
@@ -1062,11 +1062,11 @@ void FUN_06038bd4(param_1, param_2)
 
   unsigned int uVar9;
 
-  puVar6 = 0x060A4D30;
+  puVar6 = (char *)0x060A4D30;
 
-  puVar5 = 0x0000F0FF;
+  puVar5 = (char *)0x0000F0FF;
 
-  puVar4 = 0x0000FF00;
+  puVar4 = (char *)0x0000FF00;
 
   uVar3 = DAT_06038cc8;
 
@@ -1226,15 +1226,15 @@ void FUN_06038e54(param_1)
 
   unsigned int uVar6;
 
-  puVar5 = 0x060635B8;
+  puVar5 = (char *)0x060635B8;
 
-  puVar4 = 0x060635B4;
+  puVar4 = (char *)0x060635B4;
 
-  puVar3 = 0x25D00002;
+  puVar3 = (char *)0x25D00002;
 
-  puVar2 = 0x060A4C92;
+  puVar2 = (char *)0x060A4C92;
 
-  puVar1 = 0x060635BC;
+  puVar1 = (char *)0x060635BC;
 
   if ((char *)(unsigned int)param_1 == 0x0000FFFF) {
 
@@ -1348,9 +1348,9 @@ unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,
 
   char uStack_24;
 
-  puVar8 = 0x060A3E48;
+  puVar8 = (char *)0x060A3E48;
 
-  puVar1 = 0x0603EDC4;
+  puVar1 = (char *)0x0603EDC4;
 
   param_1 = param_1 & 0xff;
 
@@ -1462,7 +1462,7 @@ unsigned int FUN_06039250(param_1)
 
   unsigned int uVar2;
 
-  unsigned int in_sr;
+  unsigned int in_sr = 0;
 
   unsigned int uVar3;
 
@@ -1486,7 +1486,7 @@ unsigned int FUN_06039250(param_1)
 
                *(int *)0x060A4C8C - 1U & 0xffff);
 
-  puVar1 = 0x25C00000;
+  puVar1 = (char *)0x25C00000;
 
   *param_1 = (int)0x25C00000;
 
@@ -1512,7 +1512,7 @@ unsigned short FUN_0603931c(param_1, param_2, param_3)
 
   short *psVar2;
 
-  puVar1 = 0x060A4C8C;
+  puVar1 = (char *)0x060A4C8C;
 
   *(unsigned short *)0x060A4C90 = param_1 & 7;
 
@@ -1679,19 +1679,19 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
   int iVar10;
 
-  puVar8 = 0x20100079;
+  puVar8 = (char *)0x20100079;
 
-  puVar7 = 0x060A4CB0;
+  puVar7 = (char *)0x060A4CB0;
 
-  puVar6 = 0x060A4CAC;
+  puVar6 = (char *)0x060A4CAC;
 
-  puVar5 = 0x060A4CC0;
+  puVar5 = (char *)0x060A4CC0;
 
-  puVar4 = 0x06063602;
+  puVar4 = (char *)0x06063602;
 
-  puVar3 = 0x060A4CBC;
+  puVar3 = (char *)0x060A4CBC;
 
-  puVar2 = 0x060A4CAE;
+  puVar2 = (char *)0x060A4CAE;
 
   *(int *)0x20100079 = 0;
 
@@ -1705,7 +1705,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
   (*(int(*)())(*(int *)0x06000344))(-129,0);
 
-  puVar8 = 0x060A4CAA;
+  puVar8 = (char *)0x060A4CAA;
 
   *(int *)0x060A4CAA = param_1;
 
@@ -1761,7 +1761,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
   }
 
-  puVar4 = 0x060A4CD9;
+  puVar4 = (char *)0x060A4CD9;
 
   *(char **)0x060A4CE8 = 0x060A4CD9;
 
@@ -1769,7 +1769,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
   *(int *)puVar3 = *(int *)puVar7;
 
-  puVar4 = 0x060A4CC8;
+  puVar4 = (char *)0x060A4CC8;
 
   uVar9 = (unsigned short)(unsigned char)*(int *)0x060A4CAF;
 
@@ -1835,7 +1835,7 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
   (*(int(*)())0x0603A766)();
 
-  puVar2 = 0x060A4CC4;
+  puVar2 = (char *)0x060A4CC4;
 
   *(int *)0x060A4CC4 = *(int *)puVar5;
 
@@ -1869,9 +1869,9 @@ int FUN_06039808(param_1)
 
   int iVar5;
 
-  puVar2 = 0x06063608;
+  puVar2 = (char *)0x06063608;
 
-  puVar1 = 0x06063601;
+  puVar1 = (char *)0x06063601;
 
   if ((*(int *)0x060A4CAA == '\x01') || (*(int *)0x060A4CAA == '\x02')) {
 
@@ -1903,7 +1903,7 @@ int FUN_06039808(param_1)
 
       *(int *)0x060A4CB8 = 0;
 
-      puVar1 = 0x06063600;
+      puVar1 = (char *)0x06063600;
 
       if (*(int *)0x060A4CB4 < (int)(unsigned int)*(unsigned short *)0x060A4CAC) {
 
@@ -1925,23 +1925,23 @@ int FUN_06039808(param_1)
 
       }
 
-      puVar2 = 0x060A4CC4;
+      puVar2 = (char *)0x060A4CC4;
 
-      puVar1 = 0x060A4CE8;
+      puVar1 = (char *)0x060A4CE8;
 
       *(int *)0x060A4CC4 = *(int *)0x060A4CE8;
 
-      puVar3 = 0x060A4C98;
+      puVar3 = (char *)0x060A4C98;
 
       *(int *)puVar1 = *(int *)0x060A4C98;
 
       *(int *)puVar3 = *(int *)puVar2;
 
-      puVar1 = 0x060A4CC0;
+      puVar1 = (char *)0x060A4CC0;
 
       *(int *)puVar2 = *(int *)0x060A4CC0;
 
-      puVar3 = 0x060A4CBC;
+      puVar3 = (char *)0x060A4CBC;
 
       *(int *)puVar1 = *(int *)0x060A4CBC;
 

@@ -527,11 +527,11 @@ void FUN_060032d4()
 
   char *puVar3;
 
-  puVar3 = 0x0000F000;
+  puVar3 = (int *)0x0000F000;
 
-  puVar2 = 0x060283E0;
+  puVar2 = (char *)0x060283E0;
 
-  puVar1 = 0x06059ECE;
+  puVar1 = (int *)0x06059ECE;
 
   (*(int(*)())0x060283E0)(8,0,0x0000F000,0x06059ECE);
 
@@ -635,11 +635,11 @@ void FUN_06003578()
 
   int iVar5;
 
-  puVar3 = 0x06027630;
+  puVar3 = (int *)0x06027630;
 
-  puVar2 = 0x0602761E;
+  puVar2 = (char *)0x0602761E;
 
-  puVar1 = 0x25E20000;
+  puVar1 = (int *)0x25E20000;
 
   (*(int(*)())0x0602761E)(0x25F00800,0x060481AC,0x240);
 
@@ -653,7 +653,7 @@ void FUN_06003578()
 
     *(int *)puVar1 = 0;
 
-    puVar4 = 0x002A0000;
+    puVar4 = (char *)0x002A0000;
 
   } while (iVar5 != 0);
 
