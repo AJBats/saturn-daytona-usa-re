@@ -6,7 +6,7 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Gameplay Extraction** | **Active** | Direct ASM analysis — trace hardware interfaces to gameplay code, workstreams\gameplay_extraction.md |
+| 1 | **Daytona USA Re-implementation** | **Active** | workstreams\reimplementation.md |
 
 
 
