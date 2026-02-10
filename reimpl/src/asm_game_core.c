@@ -117,7 +117,7 @@ void FUN_0600F424(void) { }
 
 /* Physics helper stubs -- called by player_physics.c hand translations */
 /* FUN_06008640: moved to force_system.c */
-int  FUN_0600CD40(void) { return 0; }
+/* FUN_0600CD40: moved to lap_counting.c */
 void FUN_0600CA96(int r4) { (void)r4; }
 void FUN_0600CC38(int r4, int r5) { (void)r4; (void)r5; }
 void FUN_0600C8CC(int r4, int r5) { (void)r4; (void)r5; }

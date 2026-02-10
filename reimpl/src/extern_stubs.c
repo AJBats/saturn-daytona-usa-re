@@ -19,3 +19,8 @@ void FUN_06020DEE(int a) { (void)a; }
 void FUN_06038120(int a) { (void)a; }
 int FUN_06027378(int a) { (void)a; return 0; }
 void FUN_06012450(int a, int b) { (void)a; (void)b; }
+
+/* Lap counting system dependencies (from lap_counting.c) */
+void FUN_0600DD88(void) { }
+void FUN_0600DCC8(void) { }
+void FUN_0601D7D0(void) { }
