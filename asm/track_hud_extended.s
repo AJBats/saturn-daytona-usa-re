@@ -27,7 +27,8 @@
 !   function, 2 bytes before). hud_ui.s calls it "Dynamic Object Physics" while this file
 !   calls it "Track segment data decompressor" — neither label is well-supported. Binary
 !   shows rendering function calls, not physics or decompression.
-! FUN_060140C8 (164B) - Rendering iteration loop (see also hud_ui.s FUN_060140C4)\r\n!   Iterates array at 0x0605AD4C, calls rendering functions (FUN_06026DBC, FUN_06026E2E)
+! FUN_060140C8 (164B) - Rendering iteration loop (see also hud_ui.s FUN_060140C4)
+!   Iterates array at 0x0605AD4C, calls rendering functions (FUN_06026DBC, FUN_06026E2E)
 !
 ! FUN_06014468 (164B) - Track normal vector calculator
 !   Computes surface normals for road segments (used by physics)

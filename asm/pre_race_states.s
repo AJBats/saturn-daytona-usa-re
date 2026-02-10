@@ -89,7 +89,8 @@
 ! These appear to be very short (2-4 instructions), possibly just
 ! setting the next state and returning.
 
-! State 1 handler at 0x0600890A (mid-function jump target, not a labeled function)\r\n! State 2 handler at 0x06008938 (labeled function)
+! State 1 handler at 0x0600890A (mid-function jump target, not a labeled function)
+! State 2 handler at 0x06008938 (labeled function)
 
 
 ! =============================================================================

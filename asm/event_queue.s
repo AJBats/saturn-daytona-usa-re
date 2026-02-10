@@ -69,7 +69,8 @@
 ! CONFIDENCE: MEDIUM — Valid code address but NOT a labeled function in
 !   aprog.s. It is a mid-function continuation after an rts at 0x0604021C.
 !   Called via jsr from 0x0603BEBE. Ghidra likely identified it as a sub-function.
-! AUDIT NOTE: FIXED: Added '(not a labeled function in aprog.s)' note. Address is a valid jsr target but mid-function continuation after rts at 0x0604021C.\r\n! FUN_06040220 (not a labeled function in aprog.s) — Data extraction (decompiled)
+! AUDIT NOTE: FIXED: Added '(not a labeled function in aprog.s)' note. Address is a valid jsr target but mid-function continuation after rts at 0x0604021C.
+! FUN_06040220 (not a labeled function in aprog.s) — Data extraction (decompiled)
 !   Reads param_1[1], [3], [4], byte offset +0x1D
 !   Checks bitmasks at DAT_06040244, DAT_06040248
 !   Returns extracted field via r0

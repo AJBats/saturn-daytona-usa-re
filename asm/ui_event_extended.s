@@ -15,7 +15,9 @@
 !
 ! === VDP Hardware Control (0x06038000-0x06038FFF) ===
 !
-! FUN_06038F6C (12B) - Register prologue fragment (falls through to FUN_06038F78)\r\n! CONFIDENCE: MEDIUM -- Address verified. Size IS 12 bytes (confirmed: 0x06038F78 - 0x06038F6C = 0x0C).\r\n! AUDIT NOTE: FIXED: Size 12B is correct. Function pushes r14-r10 + mov #0,r10 (6 insns, 12B) and falls through to FUN_06038F78. NOT a standalone function — it is a prologue fragment. Renamed from 'VDP sync flag clear' to 'Register prologue fragment'.
+! FUN_06038F6C (12B) - Register prologue fragment (falls through to FUN_06038F78)
+! CONFIDENCE: MEDIUM -- Address verified. Size IS 12 bytes (confirmed: 0x06038F78 - 0x06038F6C = 0x0C).
+! AUDIT NOTE: FIXED: Size 12B is correct. Function pushes r14-r10 + mov #0,r10 (6 insns, 12B) and falls through to FUN_06038F78. NOT a standalone function -- it is a prologue fragment. Renamed from 'VDP sync flag clear' to 'Register prologue fragment'.
 !
 ! === Menu Display System (0x06039000-0x0603BFFF) ===
 !
@@ -54,7 +56,9 @@
 !
 ! === Menu Sub-Elements (0x0603B100-0x0603B6A8) ===
 !
-! FUN_0603B118 (4B)   - Register prologue fragment (falls through to FUN_0603B11C)\r\n! CONFIDENCE: MEDIUM -- Address verified. Size 4B is correct.\r\n! AUDIT NOTE: FIXED: Renamed from 'NOP stub' to 'Register prologue fragment'. Binary shows mov.l r14,@-r15; mov #0,r14 (push r14, init r14=0). Falls through to FUN_0603B11C.
+! FUN_0603B118 (4B)   - Register prologue fragment (falls through to FUN_0603B11C)
+! CONFIDENCE: MEDIUM -- Address verified. Size 4B is correct.
+! AUDIT NOTE: FIXED: Renamed from 'NOP stub' to 'Register prologue fragment'. Binary shows mov.l r14,@-r15; mov #0,r14 (push r14, init r14=0). Falls through to FUN_0603B11C.
 ! FUN_0603B11C (20B)  - Menu cursor blink timer
 ! FUN_0603B130 (56B)  - Menu cursor position update
 ! FUN_0603B168 (78B)  - Menu selection highlight
@@ -179,7 +183,9 @@
 ! FUN_06040B34 (90B)  - Event timer scheduler
 !   Schedules delayed events with frame countdown
 !
-! FUN_06040B8E (2B)   - Register push fragment (falls through to FUN_06040B90)\r\n! CONFIDENCE: MEDIUM -- Address verified. 2 bytes is correct.\r\n! AUDIT NOTE: FIXED: Renamed from 'Minimal stub (rts)' to 'Register push fragment'. Binary shows mov.l r14,@-r15 (push r14), NOT rts. Falls through to FUN_06040B90.
+! FUN_06040B8E (2B)   - Register push fragment (falls through to FUN_06040B90)
+! CONFIDENCE: MEDIUM -- Address verified. 2 bytes is correct.
+! AUDIT NOTE: FIXED: Renamed from 'Minimal stub (rts)' to 'Register push fragment'. Binary shows mov.l r14,@-r15 (push r14), NOT rts. Falls through to FUN_06040B90.
 ! FUN_06040B90 (128B) - Event callback dispatcher
 ! CONFIDENCE: MEDIUM -- Address verified. Callback dispatcher is plausible.
 !   Calls registered event handler functions
@@ -229,7 +235,9 @@
 !
 ! === Data Table (end of binary) ===
 !
-! FUN_06046E48 (100B) - Final function in binary\r\n! CONFIDENCE: MEDIUM -- Address verified. Contains real code (sts.l pr,@-r15; mova).\r\n! AUDIT NOTE: FIXED: Renamed from 'Binary end marker / padding' to 'Final function in binary'. Contains real instructions (sts.l pr,@-r15 at entry), not padding or CRC data.
+! FUN_06046E48 (100B) - Final function in binary
+! CONFIDENCE: MEDIUM -- Address verified. Contains real code (sts.l pr,@-r15; mova).
+! AUDIT NOTE: FIXED: Renamed from 'Binary end marker / padding' to 'Final function in binary'. Contains real instructions (sts.l pr,@-r15 at entry), not padding or CRC data.
 !   Final function in binary. Contains real executable code.
 !
 ! =============================================================================

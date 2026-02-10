@@ -36,7 +36,8 @@
 !   This is button state inversion, not rapid-change detection. "Input Delta Detection"
 !   label is misleading — more accurately "Input State Inverter/Processor".
 ! ----------------------------------------------------
-! 60 bytes. LEAF. XORs input with 0xFFFF (bitwise NOT of low 16 bits).\r\n! Inverts button state bits and stores result for further processing.
+! 60 bytes. LEAF. XORs input with 0xFFFF (bitwise NOT of low 16 bits).
+! Inverts button state bits and stores result for further processing.
 
 ! FUN_060102A8 - 3-State Counter (Gear/Steering Position)
 ! --------------------------------------------------------
@@ -262,7 +263,9 @@ FUN_060120C8:   ! 0x060120C8 - Race start init
 FUN_06012198:   ! 0x06012198 - Mode dispatcher
 
 
-! FUN_0601228C - Lap Progress State Machine *** PRIMARY LAP TIMER ***\r\n! --------------------------------------------------------------------\r\n! 82 bytes. Frame-based threshold state machine:
+! FUN_0601228C - Lap Progress State Machine *** PRIMARY LAP TIMER ***
+! --------------------------------------------------------------------
+! 82 bytes. Frame-based threshold state machine:
 !
 !   counter > 109 (0x6D): RACE FINISHING
 !     calls FUN_060122F4 (position enforcement)
@@ -281,7 +284,8 @@ FUN_06012198:   ! 0x06012198 - Mode dispatcher
 !     counter = 1
 !     set display parameter = 0x10
 
-    .global FUN_0601228C\r\nFUN_0601228C:   ! 0x0601228C - Lap timer controller
+    .global FUN_0601228C
+FUN_0601228C:   ! 0x0601228C - Lap timer controller
 
 
 ! FUN_060122F4 - Position/Velocity Limiter (Min Bounds)
