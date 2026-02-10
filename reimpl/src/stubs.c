@@ -1,0 +1,74 @@
+#include "game.h"
+
+/*
+ * stubs.c -- Placeholder implementations for untranslated functions
+ *
+ * Each stub is a no-op. As functions get translated into their own .c files,
+ * delete the corresponding stub here. The linker will error on duplicates,
+ * which tells you what to remove.
+ *
+ * To find what a stub should do, check:
+ *   1. asm/<subsystem>.s  -- annotated ASM with human-readable descriptions
+ *   2. build/aprog.s      -- raw disassembly at the function address
+ *   3. src/FUN_XXXXXXXX.c -- existing decomp C (if it exists, for the 886 functions)
+ *   4. ghidra_project/decomp_all.txt -- Ghidra decompilation output
+ */
+
+/* -- Init subsystem stubs (called by system_init / FUN_060030FC) -- */
+
+/* 0x0603BF7C: Hardware subsystem init, param=0 */
+void FUN_0603BF7C(int param) { (void)param; }
+
+/* 0x06034E58: Graphics/rendering setup */
+void FUN_06034E58(void) { }
+
+/* 0x06012CF4: Object/physics table setup */
+void FUN_06012CF4(void) { }
+
+/* 0x06004A98: Global engine initialization (big function, sets up everything) */
+void FUN_06004A98(void) { }
+
+/* 0x06012E6A: State machine initialization */
+void FUN_06012E6A(void) { }
+
+/* 0x06018EE4: Camera/viewport initialization */
+void FUN_06018EE4(void) { }
+
+/* 0x06005174: Animation/sprite frame init */
+void FUN_06005174(void) { }
+
+/* 0x0601F936: Sound/audio system init */
+void FUN_0601F936(void) { }
+
+/* 0x0601492C: Game state machine init */
+void FUN_0601492C(void) { }
+
+/* 0x060149E0: Physics parameters init */
+void FUN_060149E0(void) { }
+
+/* -- Main loop stubs -- */
+
+/* 0x0600A392: Per-frame update (called every iteration of main loop) */
+void FUN_0600A392(void) { }
+
+/* -- State handler stubs (32-state machine, we have 18 slots) -- */
+/* Original addresses from jump table at 0x0600307C */
+
+void state_0_handler(void)  { }  /* 0x060088CC */
+void state_1_handler(void)  { }  /* 0x0600890A */
+void state_2_handler(void)  { }  /* 0x06008938 -- init sets state=2, so this runs first */
+void state_3_handler(void)  { }  /* 0x06008A18 */
+void state_4_handler(void)  { }  /* 0x06008CCC */
+void state_5_handler(void)  { }  /* 0x06008D74 */
+void state_6_handler(void)  { }  /* 0x06008B04 */
+void state_7_handler(void)  { }  /* 0x06008B34 */
+void state_8_handler(void)  { }  /* 0x06008B78 */
+void state_9_handler(void)  { }  /* 0x06008B9C */
+void state_10_handler(void) { }  /* 0x06008BD8 */
+void state_11_handler(void) { }  /* 0x06008BFC */
+void state_12_handler(void) { }  /* 0x06008E00 */
+void state_13_handler(void) { }  /* 0x06008E48 */
+void state_14_handler(void) { }  /* 0x06008EBC */
+void state_15_handler(void) { }  /* 0x06009098 */
+void state_16_handler(void) { }  /* 0x06009290 */
+void state_17_handler(void) { }  /* 0x06009290 (same as 16) */

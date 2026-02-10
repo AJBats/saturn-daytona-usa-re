@@ -1,5 +1,7 @@
 # Daytona USA Saturn — Faithful C Reimplementation
 # Build with: make (from WSL)
+# Inject:     make disc
+# Full cycle:  make disc && powershell test_boot_reimpl.ps1
 
 PROJDIR := /mnt/d/Projects/SaturnReverseTest
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
@@ -11,23 +13,24 @@ OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 OBJDUMP := $(TOOLDIR)/sh-elf-objdump
 
 CFLAGS  := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -Iinclude
+LIBGCC  := $(PROJDIR)/tools/sh-elf/lib/gcc/sh-elf/13.3.0/libgcc.a
 LDFLAGS := -T saturn.ld -nostdlib
 
 BUILDDIR := build
 
-# Source files (add as we translate functions)
-C_SRCS := src/main.c
-ASM_SRCS := src/start.s
+# Auto-discover source files: drop a .c in src/ and it's included
+C_SRCS   := $(wildcard src/*.c)
+ASM_SRCS := $(wildcard src/*.s)
 
-C_OBJS := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(C_SRCS))
+C_OBJS   := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(C_SRCS))
 ASM_OBJS := $(patsubst src/%.s,$(BUILDDIR)/%.o,$(ASM_SRCS))
-OBJS := $(C_OBJS) $(ASM_OBJS)
+OBJS     := $(ASM_OBJS) $(C_OBJS)
 
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
 
-.PHONY: all clean disc dump
+.PHONY: all clean disc dump info
 
 all: $(BIN)
 
@@ -44,7 +47,7 @@ $(BIN): $(ELF)
 	fi
 
 $(ELF): $(OBJS) saturn.ld
-	$(LD) $(LDFLAGS) -o $@ $(OBJS)
+	$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LIBGCC)
 
 $(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -56,15 +59,18 @@ $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
 
 dump: $(ELF)
-	$(OBJDUMP) -d $(ELF) | head -100
+	$(OBJDUMP) -d $(ELF)
 
 clean:
 	rm -rf $(BUILDDIR)
 
-# Inject into disc image for Mednafen testing
-DISC_TRACK := $(PROJDIR)/external_resources/Daytona\ USA\ \(USA\)/Daytona\ USA\ \(USA\)\ \(Track\ 01\).bin
-DISC_OFFSET := 49408
+# Show what's being built
+info:
+	@echo "C sources:   $(C_SRCS)"
+	@echo "ASM sources: $(ASM_SRCS)"
+	@echo "Objects:     $(OBJS)"
 
+# Inject into disc image for Mednafen testing
 disc: $(BIN)
 	@echo "Injecting APROG.BIN into disc image..."
-	bash $(PROJDIR)/tools/build_disc_from_bin.sh $(BIN)
+	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
