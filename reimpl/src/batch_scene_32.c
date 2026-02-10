@@ -3410,7 +3410,6 @@ long long FUN_0603320c()
 
 }
 
-#if 0
 long long FUN_06033278(param_1, param_2)
     int param_1;
     int param_2;
@@ -3432,11 +3431,13 @@ long long FUN_06033278(param_1, param_2)
 
   unsigned char bVar5;
 
+  unsigned int idx;
+
   if (param_2 != 0) {
 
-    puVar1 = 0x00240000 + in_r1;
+    puVar1 = (char *)(0x00240000 + in_r1);
 
-    puVar3 = 0x001C0000 + in_r2;
+    puVar3 = (char *)(0x001C0000 + in_r2);
 
     if (((((int)0x00040000 <= (int)puVar1) && ((int)0x00040000 <= (int)puVar3)) &&
 
@@ -3468,15 +3469,10 @@ long long FUN_06033278(param_1, param_2)
 
       }
 
-      0x060629AC
+      idx = (uVar4 & 0xf8) * 0x24 + ((uVar4 & 7) << 2) + ((uVar2 & 0xf8) << 2) + ((uVar2 & 7) >> 1);
 
-      [(uVar4 & 0xf8) * 0x24 + (uVar4 & 7) << 2 + (uVar2 & 0xf8) << 2 + ((uVar2 & 7) >> 1)] =
-
-           0x060629AC
-
-           [(uVar4 & 0xf8) * 0x24 + (uVar4 & 7) << 2 + (uVar2 & 0xf8) << 2 + ((uVar2 & 7) >> 1)] &
-
-           bVar5 | (unsigned char)param_2;
+      ((unsigned char *)0x060629AC)[idx] =
+           (((unsigned char *)0x060629AC)[idx] & bVar5) | (unsigned char)param_2;
 
     }
 
@@ -3485,8 +3481,6 @@ long long FUN_06033278(param_1, param_2)
   return CONCAT44(in_r1,in_r0);
 
 }
-#endif
-long long FUN_06033278(param_1, param_2) { return 0; }
 
 int FUN_06033330()
 {

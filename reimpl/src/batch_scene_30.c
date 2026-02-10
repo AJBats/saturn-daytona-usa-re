@@ -1078,8 +1078,7 @@ LAB_06030c48:
 
 }
 
-#if 0
-void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5)
+void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7)
 {
 
   short sVar1;
@@ -1176,7 +1175,7 @@ void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5)
 
   if ((*(short *)(DAT_06030eae + unaff_r14) < 8) &&
 
-     (puVar6 = 0x0000DEB8, 5 < *(short *)(DAT_06030eae + unaff_r14))) {
+     (puVar6 = (char *)0x0000DEB8, 5 < *(short *)(DAT_06030eae + unaff_r14))) {
 
     puVar6 = (char *)0x0000FAE1;
 
@@ -1189,8 +1188,6 @@ void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5)
   return;
 
 }
-#endif
-void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5) { }
 
 int FUN_06030fc0(param_1, param_2, param_3)
     unsigned int *param_1;

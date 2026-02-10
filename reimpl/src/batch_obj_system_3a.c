@@ -149,7 +149,6 @@ char FUN_0603a01c(param_1)
 
 }
 
-#if 0
 char * FUN_0603a0b0()
 {
 
@@ -193,25 +192,9 @@ char * FUN_0603a0b0()
 
     *(char *)((unsigned int)(unsigned char)*puVar4 + *(int *)puVar5) = (char)DAT_0603a1a2;
 
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1)) & 0x80) == PTR_DAT_0603a1a4) {
+    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 0x80) == PTR_DAT_0603a1a4) {
 
-      if ((*(unsigned char *)((unsigned int)(unsigned char)*((int)(int)puVar4 << 1) + *(int *)puVar5) & 0x20) == 0x20) {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xdf;
-
-      }
-
-      else {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xef;
-
-      }
-
-    }
-
-    else if (10 < *(unsigned char *)((unsigned int)(unsigned char)*((int)(int)puVar4 << 2) + *(int *)puVar5)) {
-
-      if ((*(unsigned char *)((unsigned int)(unsigned char)*((int)(int)puVar4 << 1) + *(int *)puVar5) & 0x20) == 0x20) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x20) == 0x20) {
 
         **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xdf;
 
@@ -225,9 +208,25 @@ char * FUN_0603a0b0()
 
     }
 
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1)) & 0x40) == 0x40) {
+    else if (10 < *(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 2) + *(int *)puVar5)) {
 
-      if ((*(unsigned char *)((unsigned int)(unsigned char)*((int)(int)puVar4 << 1) + *(int *)puVar5) & 0x10) == 0x10) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x20) == 0x20) {
+
+        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xdf;
+
+      }
+
+      else {
+
+        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xef;
+
+      }
+
+    }
+
+    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 0x40) == 0x40) {
+
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x10) == 0x10) {
 
         **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xbf;
 
@@ -243,7 +242,7 @@ char * FUN_0603a0b0()
 
     else if (10 < *(unsigned char *)((unsigned int)(unsigned char)*puVar4 * 3 + *(int *)puVar5)) {
 
-      if ((*(unsigned char *)((unsigned int)(unsigned char)*((int)(int)puVar4 << 1) + *(int *)puVar5) & 0x10) == 0x10) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x10) == 0x10) {
 
         **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xbf;
 
@@ -257,25 +256,25 @@ char * FUN_0603a0b0()
 
     }
 
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1)) & 1) == 1) {
+    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 1) == 1) {
 
       **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xfb;
 
     }
 
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1)) & 4) == 4) {
+    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 4) == 4) {
 
       **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xfe;
 
     }
 
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1)) & 2) == 2) {
+    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 2) == 2) {
 
       **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xfd;
 
     }
 
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1)) & 8) == 8) {
+    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 8) == 8) {
 
       **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xf7;
 
@@ -293,7 +292,7 @@ char * FUN_0603a0b0()
 
     *(unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3) =
 
-         ((**(char **)puVar5) << 8 | ((*(char **) & 0xFF)puVar5)[(unsigned char)*puVar4]);
+         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
 
     puVar9 = (unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3);
 
@@ -305,15 +304,15 @@ char * FUN_0603a0b0()
 
   }
 
-  else if (puVar7 == (void *)0x00000010) {
+  else if (puVar7 == (char *)0x00000010) {
 
     *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3) =
 
-         ((**(char **)puVar5) << 8 | ((*(char **) & 0xFF)puVar5)[(unsigned char)*puVar4]);
+         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
 
     *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 2) =
 
-         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1));
+         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1));
 
     *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 4) =
 
@@ -321,7 +320,7 @@ char * FUN_0603a0b0()
 
     *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 6) =
 
-         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 2));
+         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 2));
 
     puVar9 = (unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3);
 
@@ -349,15 +348,15 @@ char * FUN_0603a0b0()
 
   }
 
-  else if (puVar7 == (void *)0x00000020) {
+  else if (puVar7 == (char *)0x00000020) {
 
     *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3) =
 
-         ((**(char **)puVar5) << 8 | ((*(char **) & 0xFF)puVar5)[(unsigned char)*puVar4]);
+         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
 
     *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 2) =
 
-         ~(unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1));
+         ~(unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1));
 
     iVar10 = *(int *)puVar2 * 0x12 + *(int *)puVar3;
 
@@ -389,7 +388,7 @@ char * FUN_0603a0b0()
 
     }
 
-    *(unsigned short *)(iVar10 + 6) = (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 2)) * sVar8;
+    *(unsigned short *)(iVar10 + 6) = (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 2)) * sVar8;
 
     puVar9 = (unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3);
 
@@ -401,15 +400,15 @@ char * FUN_0603a0b0()
 
   }
 
-  else if (puVar7 == (void *)0x00000030) {
+  else if (puVar7 == (char *)0x00000030) {
 
     *(unsigned short *)(*(int *)puVar2 * 10 + *(int *)puVar3) =
 
-         ((**(char **)puVar5) << 8 | ((*(char **) & 0xFF)puVar5)[(unsigned char)*puVar4]);
+         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
 
     *(unsigned char *)(*(int *)puVar2 * 10 + *(int *)puVar3 + 2) =
 
-         ~*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*((int)(int)puVar4 << 1));
+         ~*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1));
 
     *(char *)(*(int *)puVar2 * 10 + *(int *)puVar3 + 3) =
 
@@ -443,7 +442,7 @@ char * FUN_0603a0b0()
 
     *(unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3) =
 
-         ((**(char **)puVar5) << 8 | ((*(char **) & 0xFF)puVar5)[(unsigned char)*puVar4]);
+         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
 
     puVar9 = (unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3);
 
@@ -470,8 +469,6 @@ char * FUN_0603a0b0()
   return puVar7;
 
 }
-#endif
-char * FUN_0603a0b0() { return 0; }
 
 void FUN_0603a6c0()
 {

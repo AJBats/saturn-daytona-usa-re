@@ -1609,7 +1609,6 @@ void FUN_0601155e(param_1)
 
 }
 
-#if 0
 void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_5)
 {
 
@@ -1647,7 +1646,7 @@ void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_
 
   puVar4 = (char *)0x06027552;
 
-  puVar3 = (int *)0x0602754C;
+  puVar3 = (char *)0x0602754C;
 
   puVar2 = (char *)0x0605AAA0;
 
@@ -1776,8 +1775,6 @@ void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_
   return;
 
 }
-#endif
-void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_5) { }
 
 int FUN_06011978(param_1, param_2, param_3, param_4)
     int *param_1;
