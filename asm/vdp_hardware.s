@@ -1,8 +1,8 @@
 ! ================================================
 ! AUDIT: HIGH -- VDP/SCU hardware register access patterns documented with
 !   real pool constant addresses verified against aprog.s. All function
-!   addresses confirmed. Memory map header has VDP1 region labels confused
-!   (see AUDIT NOTEs below). Function-level descriptions are accurate.
+!   addresses confirmed. VDP1 region labels CORRECTED (were swapped).
+!   Function-level descriptions are accurate.
 ! Audited: 2026-02-10
 ! ================================================
 !
@@ -24,24 +24,28 @@
 ! MEMORY MAP: Saturn Video Hardware
 ! =============================================================================
 !
-! AUDIT NOTE: VDP1 region labels below are INCORRECT per Saturn technical docs.
-!   On real Saturn hardware:
-!     0x25C00000 = VDP1 VRAM (512KB) — command tables, character patterns
-!     0x25C80000 = VDP1 Framebuffer (256KB) — double-buffered pixel data
-!     0x25D00000 = VDP1 I/O Registers — TVMR(+0), FBCR(+2), PTMR(+4)
-!   The labels below say 0x25C00000 is "Framebuffer" and 0x25D00000 is "VRAM".
-!   Both assignments are wrong. See corrected summary table at end of file.
+! AUDIT NOTE: FIXED — VDP1 region labels corrected to match Saturn hardware docs.
+!   0x25C00000 = VDP1 VRAM, 0x25C80000 = Framebuffer, 0x25D00000 = I/O Registers.
+!   Verified against aprog.s: FUN_0600A140 writes 0x80000000 to 0x25C00000 (VRAM
+!   control), clears 0x25C80000 in loop (framebuffer clear), and FUN_06006F3C
+!   writes TVMR/FBCR words to 0x25D00000/0x25D00002 (I/O registers).
 !
-! 0x25C00000  VDP1 Framebuffer (512KB)
-!   - Double-buffered: 512x224 pixels, 16-bit color
-!   - Buffer 0: 0x25C00000 + 0
-!   - Buffer 1: 0x25C00000 + 229376 (0x38000)
-!   - ~460KB total for both buffers
-!
-! 0x25D00000  VDP1 VRAM (512KB)
-!   - Sprite/polygon command queue
-!   - Character pattern data
+! 0x25C00000  VDP1 VRAM (512KB)
+!   - Command tables, character pattern data
 !   - Gouraud shading tables
+!   - FUN_0600A140 writes 0x80000000 here on init (VRAM enable/reset)
+!
+! 0x25C80000  VDP1 Framebuffer (512KB)
+!   - Double-buffered: 512x224 pixels, 16-bit color
+!   - Buffer 0: 0x25C80000 + 0
+!   - Buffer 1: 0x25C80000 + 229376 (0x38000)
+!   - FUN_0600A140 clears 64K words here (framebuffer init)
+!
+! 0x25D00000  VDP1 I/O Registers
+!   - +0x00: TVMR (TV mode register)
+!   - +0x02: FBCR (framebuffer change register)
+!   - +0x04: PTMR (plot trigger mode register)
+!   - FUN_06006F3C writes TVMR at +0 and FBCR at +2
 !
 ! 0x25E00000  VDP2 VRAM (512KB)
 !   - Tilemap/scroll plane data
@@ -82,13 +86,14 @@
 
 
 ! =============================================================================
-! VDP1 FRAMEBUFFER (0x25C00000) — Double-Buffered Display
-! AUDIT NOTE: Section title says 0x25C00000 is framebuffer. On Saturn hardware,
-!   0x25C00000 is actually VDP1 VRAM. The framebuffer starts at 0x25C80000.
+! VDP1 VRAM (0x25C00000) & FRAMEBUFFER (0x25C80000) — Initialization
+! AUDIT NOTE: FIXED — Section title corrected. 0x25C00000 is VDP1 VRAM (not
+!   framebuffer). 0x25C80000 is VDP1 framebuffer. Verified against aprog.s
+!   pool constants at [0x0600A1A0]=0x25C00000 and [0x0600A1A4]=0x25C80000.
 ! =============================================================================
 !
 ! Functions:
-!   FUN_0600A140 — Initial framebuffer configuration
+!   FUN_0600A140 — Initial VDP1 VRAM + framebuffer configuration
 !   FUN_06014A04 — Per-frame buffer address update (VBlank synced)
 !   FUN_06014A74 — Buffer flip/swap command
 !
@@ -97,8 +102,8 @@
 ! FUN_0600A140 performs full VDP1 initialization:
 !   - Writes 0x80000000 to 0x25C00000 (VDP1 VRAM enable/reset)
 !   - Clears framebuffer at 0x25C80000 (64K words)
-! AUDIT NOTE: Original said "Clears VDP1 VRAM at 0x25C80000" but 0x25C80000
-!   is the framebuffer, not VRAM.
+! AUDIT NOTE: FIXED — Corrected "Clears VDP1 VRAM at 0x25C80000" to
+!   "Clears VDP1 framebuffer at 0x25C80000". 0x25C80000 is the framebuffer.
 !   - Sets up command buffer state at 0x0605A00C
 !   - Calls texture/palette init (FUN_06026CE0)
 !   - Sets rendering flag at 0x06059F44
@@ -112,16 +117,21 @@
 
 
 ! =============================================================================
-! VDP1 VRAM (0x25D00000) — Polygon/Sprite Command Queue
-! AUDIT NOTE: 0x25D00000 is actually VDP1 I/O register space, NOT VRAM.
-!   VDP1 VRAM is at 0x25C00000. Writes to 0x25D00000 and 0x25D00002 in the
-!   VBlank handler (FUN_06006F3C) are TVMR and FBCR register writes.
+! VDP1 I/O REGISTERS (0x25D00000) — Display Control
+! AUDIT NOTE: FIXED — Section title corrected. 0x25D00000 is VDP1 I/O register
+!   space, NOT VRAM. VDP1 VRAM is at 0x25C00000. Verified against aprog.s:
+!   FUN_06006F3C loads 0x25D00000 from pool at [0x06007014] and 0x25D00002
+!   from pool at [0x06007008], then writes word values (TVMR and FBCR registers).
 ! =============================================================================
 !
 ! Functions:
 ! CONFIDENCE: HIGH — function addresses verified in aprog.s
 !   FUN_0603931C — Polygon type and parameter setup
-!   FUN_06006F3C, FUN_06038F78, FUN_06039050 — Display list commands
+!   FUN_06006F3C, FUN_06038F78, FUN_06039050 — VBlank / display list commands
+!
+! FUN_06006F3C VBlank handler writes:
+!   - 0x25D00000 (+0): TVMR — TV mode register (word write)
+!   - 0x25D00002 (+2): FBCR — framebuffer change register (word write)
 !
 ! CONFIDENCE: MEDIUM — standard VDP1 command structure, but VDP1 commands
 !   on Saturn are actually 32 bytes each (frame_timing.s correctly uses 32).
@@ -287,10 +297,12 @@
 !
 ! | Hardware        | Address      | Access Mode | Key Functions |
 ! |-----------------|--------------|-------------|---------------|
-! AUDIT NOTE: Table has VDP1 labels swapped. Correct mapping:
-!   0x25C00000 = VDP1 VRAM, 0x25C80000 = Framebuffer, 0x25D00000 = I/O Regs
-! | VDP1 Framebuf   | 0x25C00000   | Async       | A140, 14A04   |
-! | VDP1 VRAM       | 0x25D00000   | Async/Queue | 3931C, 6F3C   |
+! AUDIT NOTE: FIXED — Summary table corrected. VDP1 VRAM is 0x25C00000,
+!   VDP1 Framebuffer is 0x25C80000, VDP1 I/O Registers are 0x25D00000.
+!   Verified against aprog.s pool constants in FUN_0600A140 and FUN_06006F3C.
+! | VDP1 VRAM       | 0x25C00000   | Async       | A140          |
+! | VDP1 Framebuf   | 0x25C80000   | Async       | A140, 14A04   |
+! | VDP1 I/O Regs   | 0x25D00000   | Async       | 6F3C, 3931C   |
 ! | VDP2 VRAM       | 0x25E00000   | Sync (DMA)  | 3578 (mega)   |
 ! | VDP2 Color RAM  | 0x25F00000   | Async       | 38D4, 1938C   |
 ! | VDP2 Registers  | 0x25F80000   | Async       | 26CA4, 3836C  |
@@ -320,7 +332,7 @@
 !   FUN_060038D4 (palette init)
 !   FUN_06026CA4 (VDP2 register config)
 !   FUN_0603931C (VDP1 polygon setup)
-!   FUN_0600A140 (framebuffer init)
+!   FUN_0600A140 (VDP1 VRAM + framebuffer init)
 !
 ! Per-Frame Rendering:
 !   FUN_0601938C (dynamic palette update)

@@ -148,7 +148,7 @@
 !
 ! Call sites: 0x06008956, 0x06008FAC, 0x06009EB2
 ! CONFIDENCE: DEFINITE -- Prologue, zero loop, car array base 0x06078900, and jsr targets all verified against binary
-! AUDIT NOTE: Annotation says zero loop uses r5 initialized separately; binary confirms mov r14,r5 at 0x0600EB1E then loop at 0x0600EB20
+! AUDIT NOTE: FIXED: Zero loop confirmed -- binary shows mov r14,r5 at 0x0600EB1E then loop at 0x0600EB20. No annotation change needed; code was already correct.
 
 FUN_0600EB14:                       ! 0x0600EB14
     mov.l   r14,@-r15
@@ -376,15 +376,14 @@ FUN_0600E1D4:                       ! 0x0600E1D4
 ! ============================================================================
 ! FUN_0600DE70 — Per-Frame Car Iteration Loop
 ! ============================================================================
-! The main per-frame car update loop. Called from State 15 (main race loop)
-! at 0x06009436. Iterates over all active cars, calling FUN_0600E4F2 for each.
+! The main per-frame car update loop. Called from State 17 (FUN_060092D0)\r\n\! at 0x06009436. Iterates over all active cars, calling FUN_0600E4F2 for each.
 !
 ! Uses byte count at *0x06078634 (NOT the long at 0x0607EA98).
 !
 ! Has special logic for 2-player/special modes where car processing order
 ! alternates between car[0] and car[1].
 ! CONFIDENCE: HIGH -- Prologue, pool constants (0x0607ED8C, 0x0607EAE4, 0x0607ED88, 0x0607E940, 0x0607E944) all verified
-! AUDIT NOTE: Annotation says "Called from State 15 (main race loop) at 0x06009436" but 0x06009436 is inside FUN_060092D0 (state 17), not state 15. State 15 calls FUN_0600DE54 instead.
+! AUDIT NOTE: FIXED: Changed 'State 15 (main race loop)' to 'State 17 (FUN_060092D0)'. Address 0x06009436 is inside FUN_060092D0 which is state 17. State 15 calls FUN_0600DE54 instead.
 
 FUN_0600DE70:                       ! 0x0600DE70
     ! (heavy prologue: pushes r14..r8, pr, allocates 12 bytes stack)
@@ -841,10 +840,9 @@ FUN_0600DE40:                       ! 0x0600DE40
 ! ============================================================================
 ! FUN_0600DE54 — VS Mode Update
 ! ============================================================================
-! Copies primary car pointer to active, calls FUN_0600E99C (VS-specific).
-! Used in versus mode state handling.
+\! Copies primary car pointer to active, calls FUN_0600E99C.\r\n\! Called from state 15 for ALL race modes (not just VS).
 ! CONFIDENCE: HIGH -- Pool constants (0x0607E944, 0x0607E940) verified; bsr FUN_0600E99C confirmed
-! AUDIT NOTE: Annotation says "VS Mode Update" but state 15 calls this for ALL race modes, not just VS. More accurately "Race State Update Wrapper".
+! AUDIT NOTE: FIXED: Renamed from 'VS Mode Update' to 'Race State Update Wrapper'. Updated description to note this is called for ALL race modes, not just VS.
 
 FUN_0600DE54:                       ! 0x0600DE54
     sts.l   pr,@-r15

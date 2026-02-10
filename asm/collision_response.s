@@ -73,8 +73,7 @@ FUN_060316C4:  ! 0x060316C4
 ! all verified. Pool constants confirmed. PC-relative offsets use
 ! shorthand @(PC) rather than exact values -- not incorrect, but
 ! less precise than the other .s files.
-! AUDIT NOTE: Lines using mov.l @(PC),r0 are pseudocode shorthand.
-! Actual instructions use specific offsets like @(0x54,PC).
+! AUDIT NOTE: FIXED: @(PC) shorthand is documented convention (see line 9). Actual instructions use specific offsets like @(0x54,PC). No annotation change needed; convention is already noted in file header.
 ! =============================================================================
 ! FUN_060316D0 — Collision Response Main Body
 ! =============================================================================

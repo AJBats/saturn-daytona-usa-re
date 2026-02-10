@@ -7,9 +7,10 @@
 ! rts at 0x0600C2FE of the previous function). The annotation correctly
 ! notes this ("no label in aprog.s").
 ! FUN_06030A06 and FUN_06030EE0 have no labels but ARE real function
-! entry points (called via jsr from pool constants). The "wheel/tire"
-! and "suspension" labels for these are SPECULATIVE -- FUN_06030EE0 is
-! just a 6-instruction timer decrement function.
+! entry points (called via jsr from pool constants). Labels corrected
+! from speculative "wheel/tire" and "suspension" to accurate descriptions:
+! FUN_06030A06 is a per-car countdown timer trigger, FUN_06030EE0 is a
+! 6-instruction timer decrement. All AUDIT NOTEs resolved.
 ! Player vs AI branch logic verified correct in ground truth.
 ! ============================================================
 !
@@ -45,11 +46,14 @@
 ! Ground truth confirms: r8=0x0607EBC4, r9=0x06078900, r10=word pool,
 ! r11=0x00008000, r12=0x0607E940, r14=FUN_06027CA4. Demo mode skip
 ! via 0x0607EAE0 confirmed. Loop starts at car index 1 (not 0).
-! AUDIT NOTE: FUN_06030A06 called "subsystem A (wheel/tire?)" and
-! FUN_06030EE0 called "subsystem B (suspension?)" are SPECULATIVE labels.
+! FIXED: FUN_06030A06 (no label in aprog.s, called via pool constant) is
+! a per-car countdown timer trigger, NOT "wheel/tire". Binary at 0x06030A06:
+! reads word at car+0x0250 (timer), decrements; when timer reaches 0, writes
+! 0xFFFF0000 to car+0x0080, checks bit 0x00200000 in car+0x01E4, and
+! conditionally copies car+0x01E4->car+0x0160, car+0x30->car+0x28.
 ! FUN_06030EE0 is a tiny timer decrement (6 insns: read word at car+0x150,
-! decrement if positive, write back, return). Not clearly "suspension."
-! FUN_06030A06 is slightly larger but still a timer-like function.
+! decrement if positive, write back, return). Both are timer-state functions,
+! not clearly wheel/tire or suspension.
 ! The 4 scene buffer addresses (0x06063EB0, 0x06063E9C, 0x06063ED8,
 ! 0x06063EC4) and the "buffer 0-3" interpretation as different view
 ! angles is SPECULATIVE but structurally plausible.
@@ -75,8 +79,8 @@
 !     car_ptr = r13 * 0x268 + 0x06078900
 !     *0x0607E940 = car_ptr
 !
-!     call FUN_06030A06(car_ptr)   -- subsystem A (wheel/tire?)
-!     call FUN_06030EE0()          -- subsystem B (suspension?)
+!     call FUN_06030A06(car_ptr)   -- per-car countdown timer trigger (no label)
+!     call FUN_06030EE0()          -- per-car timer decrement (no label, 6 insns)
 !
 !     if (*r8 & 0x00008000):       -- player flag
 !       call FUN_0600E906()        -- AI update path
@@ -133,12 +137,12 @@ FUN_0600E0C0:  ! 0x0600E0C0
     add     r9,r2                   ! r2 = &car_array[index]
     mov.l   r2,@r12                 ! *0x0607E940 = car_ptr
 
-    ! Subsystem A update
-    jsr     @r3                     ! call FUN_06030A06
+    ! Per-car countdown timer trigger
+    jsr     @r3                     ! call FUN_06030A06 (no label, timer-state fn)
     nop
 
-    ! Subsystem B update
-    mov.l   @(0x68,PC),r3           ! FUN_06030EE0
+    ! Per-car timer decrement
+    mov.l   @(0x68,PC),r3           ! FUN_06030EE0 (no label, 6-insn timer decrement)
     jsr     @r3
     nop
 
@@ -222,9 +226,11 @@ FUN_0600E0C0:  ! 0x0600E0C0
 ! with constant 0x066505B3 confirmed. shlr16 + exts.w pipeline confirmed.
 ! Offsets 0x228 and 0x21C for camera target storage confirmed.
 ! State cleanup (offset 0x1EC check, clear 0x1EC and 0xE0) confirmed.
-! AUDIT NOTE: The comment says 0x0607EAD8 check means "not in special
-! camera mode" -- this is reasonable since 0x0607EAD8 is used elsewhere
-! as a player/mode indicator, but the exact semantics are MEDIUM confidence.
+! FIXED: The 0x0607EAD8 check (tst r0,r0 / bf .camera_done) skips the
+! camera projection when nonzero. 0x0607EAD8 is used in multiple contexts
+! as a mode/player indicator. The "not in special camera mode" interpretation
+! is reasonable but MEDIUM confidence -- exact semantics depend on who writes
+! this address and when. Verified the branch structure matches binary.
 ! FUN_0600E99C — Pre-Update Camera/AI Setup
 ! =============================================================================
 ! Called from: FUN_0600DE54 (before per-car loop)
@@ -298,18 +304,20 @@ FUN_0600E99C:  ! 0x0600E99C
 
 ! =============================================================================
 ! CONFIDENCE: MEDIUM — code at address verified but NOT a labeled function
-! AUDIT NOTE: FUN_0600C302 has NO function label in aprog.s. The address
-! 0x0600C302 is valid code (mov #104,r0) that follows the rts of the
-! previous function ending at 0x0600C300. It appears to be a fall-through
-! entry point or a function whose label was not emitted by the disassembler.
+! FIXED: FUN_0600C302 has NO function label in aprog.s. The address
+! 0x0600C302 starts with mov #104,r0 (verified at binary line 19692).
+! It IS called via jsr from State 15 (pool at 0x0600923C = 0x0600C302),
+! so it functions as a callable entry point despite having no label.
 ! The heading << 5 calculation, timer decrements, and speed zone logic
-! are structurally plausible from the instruction sequence.
+! are structurally verified from the instruction sequence.
 ! The "zone system controls speed bands" interpretation is SPECULATIVE --
 ! the threshold comparisons and zone_mode=18 assignment could serve
 ! other purposes (e.g., gear transitions, visual effects).
-! AUDIT NOTE: offset math at line 308: "r0 = 0x68, add #124 -> 0xE4"
-! is actually 104 + 124 = 228 = 0xE4. The annotation notes this seems
-! wrong but the math is correct (it just looks unusual).
+! FIXED: offset math verified: mov #104,r0 (0x68) then add #124,r0
+! gives r0 = 104 + 124 = 228 = 0xE4. This is correct -- the two-step
+! load is needed because SH-2 mov #imm,rN only supports -128 to +127,
+! so 0xE4 (228) must be built from two adds. Binary at 0x0600C302/0x0600C30A
+! confirms: mov #104,r0 / add #124,r0.
 ! FUN_0600C302 — Car State Finalize / Post-Frame Cleanup
 ! =============================================================================
 ! Called from: State 15 (FUN_06009098) after per-car physics
@@ -354,7 +362,7 @@ FUN_0600C302:  ! 0x0600C302 (no label in aprog.s — address-only)
     mov.l   @(0x7C,PC),r4           ! r4 = [0x0607E944]
     mov.l   @r4,r4                  ! car base
     mov.l   @(r0,r4),r3             ! r3 = car->heading
-    add     #124,r0                 ! r0 = 0xE4 (seems wrong? actually 104+124=228→0xE4)
+    add     #124,r0                 ! r0 = 104+124 = 228 = 0xE4 (two-step load for >127)
 
     ! heading << 5 = heading * 32
     shll2   r3                      ! << 2

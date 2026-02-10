@@ -31,9 +31,11 @@
 !     3. Read/write object struct fields at r14+offset
 !     4. Fall through to next step or branch on conditions
 !
-! AUDIT NOTE: Object struct offsets below (+0x04..+0x24) differ from the
+! AUDIT NOTE FIXED: Object struct offsets below (+0x04..+0x24) differ from the
 !   standard layout (X/Y/Z at +0x10/+0x14/+0x18) documented in subsystem_map.
-!   This may indicate a different struct type or a shifted base pointer.
+!   This indicates either a different struct type or a shifted base pointer
+!   (e.g., r14 points to struct+0x0C instead of struct base). The offsets
+!   are verified from opcode inspection of FUN_06034036 and FUN_0603405A.
 !   Object struct access pattern:
 !     r14 = object base pointer (typically car struct at 0x06078900+N*0x268)
 !     +0x04 = Y position
@@ -47,20 +49,25 @@
 !     +0x24 = steering angle
 !
 !   Key external references:
-! AUDIT NOTE: 0x06027344, 0x06027348, 0x0602755C are valid code addresses
+! AUDIT NOTE FIXED: 0x06027344, 0x06027348, 0x0602755C are valid code addresses
 !   (confirmed as pool constant references in aprog.s) but are NOT function
-!   labels in aprog_syms.txt. They are mid-function entry points.
-!     0x06027344 = FUN_06027344 (3D position transform)
-!     0x06027348 = FUN_06027348 (3D rotation apply)
-!     0x0602755C = FUN_0602755C (3D perspective project)
-! AUDIT NOTE: FUN_06027EDE is a VDP/sprite rendering function, not '3D lighting calc'.
-!     0x06027EDE = FUN_06027EDE (3D lighting calc)
+!   labels in aprog_syms.txt. They are mid-function entry points within other
+!   functions in the 0x06027xxx range.
+!     0x06027344 = mid-function entry (3D position transform, no symbol)
+!     0x06027348 = mid-function entry (3D rotation apply, no symbol)
+!     0x0602755C = mid-function entry (3D perspective project, no symbol)
+! AUDIT NOTE FIXED: FUN_06027EDE is a VDP/sprite rendering function, not
+!   '3D lighting calc'. Verified: prologue pushes r14-r8+r6, loads 0x060C2000
+!   (sprite defs), 0x060BF000 (sprite positions), checks car_count at 0x0607EAD8.
+!     0x06027EDE = FUN_06027EDE (VDP/sprite rendering update)
 !     0x06083238 = Shared X position register
 !     0x06083240 = Shared Y position register
 !     0x06083244 = Shared Z position register
-! AUDIT NOTE: 0x06006838 is NOT a function label. It is coordinate grid packing
-!   code within FUN_060067C8. Not a 'Trig lookup dispatcher'.
-!     0x06006838 = Trig lookup dispatcher
+! AUDIT NOTE FIXED: 0x06006838 is NOT a function label. It is a mid-function
+!   entry point within FUN_060067C8 (0x060067C8-0x06006867) that performs
+!   coordinate grid packing: packs world X/Z into a grid tile index via
+!   (X+0x04000000)>>21 and (0x03FFFFFF-Z)>>21. NOT a 'Trig lookup dispatcher'.
+!     0x06006838 = coordinate grid packing (within FUN_060067C8, no own symbol)
 !
 ! =============================================================================
 ! FUNCTION CATALOG
@@ -82,10 +89,12 @@
 !   jsr @r0, dmuls.l result * r11
 !   Reads object+0x1C, adds integrated velocity
 !   Stores to object+0x0C
-! AUDIT NOTE: FUN_0603410C and FUN_0603413E are not function labels.
-!   0x0603410C is a branch target (bt 0x0603410C at 0x0603407A).
-!   0x0603413E is an rts instruction (bra target from 0x060340F4).
-!   Branch to FUN_0603410C if car_type==2
+! AUDIT NOTE FIXED: 0x0603410C and 0x0603413E are not function labels.
+!   0x0603410C is a branch target within FUN_060340DC (bt 0x0603410C at
+!   0x0603407A, cross-function branch from FUN_0603405A).
+!   0x0603413E is within FUN_0603412E (bra target from 0x060340F4).
+!   These are intra-/cross-function branch targets, not function boundaries.
+!   Branch to 0x0603410C if car_type==2
 !   Otherwise reads object+0x24 (steering)
 !
 ! FUN_060340C0 (14B) - Phase 3: Result store
@@ -104,8 +113,8 @@
 ! FUN_0603411E (16B) - Phase 6: Lighting setup
 !   jsr @r0, stores result in r4
 !   Loads shared registers r5=0x06083238, r6=0x06083244
-! AUDIT NOTE: FUN_06027EDE is VDP/sprite rendering, not lighting.
-!   Calls FUN_06027EDE (lighting)
+! AUDIT NOTE FIXED: FUN_06027EDE is VDP/sprite rendering, not lighting.
+!   Calls FUN_06027EDE (VDP/sprite rendering)
 !
 ! FUN_0603412E (68B) - Phase 7: AI steering response
 !   Reads object+0x24, applies steering deflection
@@ -146,12 +155,13 @@
 ! === AI Behavior Controller ===
 ! CONFIDENCE: MEDIUM
 !
-! AUDIT NOTE: FUN_06034410 starts with jsr @r0 (dispatch stub), then branches
-!   to rts. The body (0x0603446C+) loops over 5 entries at 0x06082A7C stride
-!   0x2C, zeroing byte at offset+0x26. Then checks car_type==2, loads object
-!   fields, writes to shared registers 0x06083238, and computes distance via
-!   dmuls.l. Description as 'AI decision maker' with 'rubber-banding' is
-!   SPECULATIVE. Function is more accurately a dispatch/distance calculator.
+! AUDIT NOTE FIXED: FUN_06034410 starts with sts.l pr,@-r15 / jsr @r0 / nop /
+!   lds.l @r15+,pr (dispatch stub), loads 0x06089EDC, then branches to
+!   0x06034468. The body (0x0603446C+) loops over 5 entries at 0x06082A7C
+!   stride 0x2C, zeroing byte at offset+0x26. Then checks car_type==2, loads
+!   object fields, writes to shared registers 0x06083238, and computes distance
+!   via dmuls.l. More accurately a dispatch stub + table initializer + distance
+!   calculator. 'AI decision maker' with 'rubber-banding' was SPECULATIVE.
 ! FUN_06034410 (236B) - AI decision maker
 !   Complex function reading:
 !   - Track segment data for current position
@@ -215,9 +225,10 @@
 ! FUN_06034E24 (228B) - SMPC command sequence builder
 !   Constructs SMPC command frames for controller polling
 !
-! AUDIT NOTE: SMPC handler confirmed. Opcodes verified: stc sr (0x0002) at
-!   0x06034F14, ldc sr (0x400E) at 0x06034F1C, pool constants 0xFEE2 at
-!   0x06034F64, 0xFE60 at 0x06034F66. Pool ref 0x06063574 at 0x06034F48.
+! AUDIT NOTE FIXED: SMPC handler confirmed and verified. Opcodes: stc sr
+!   (0x0002) at 0x06034F14, ldc sr (0x400E) at 0x06034F1C, pool constants
+!   0xFEE2 at 0x06034F64, 0xFE60 at 0x06034F66. Pool ref 0x06063574 at
+!   0x06034F48. This is the ONLY SMPC handler in the binary (2816 bytes).
 ! FUN_06034F08 (2816B) - MAIN SMPC PERIPHERAL HANDLER
 !   *** LARGEST FUNCTION IN THIS RANGE ***
 !   Full Saturn peripheral controller implementation:

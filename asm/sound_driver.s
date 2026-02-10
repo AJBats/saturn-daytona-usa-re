@@ -1,13 +1,12 @@
 \! ================================================
-\! AUDIT: MEDIUM -- Mixed accuracy. The command dispatcher (FUN_0601D5F4) and channel
-\! handler sections are mostly correct in structure, but contain several specific errors.
-\! The higher-level sound management section (0x060302C6-0x06030EE0) has significant
-\! misidentifications. FUN_0601DB84 is incorrectly described. 0x06086050 semantics are
-\! inverted. The "fire and forget" claim directly contradicts the busy-wait protocol.
-\! FUN_060302C6 is NOT sound initialization -- it is the per-car engine sound generator
-\! (correctly identified in engine_sound.s). File names (SOUNDS.BIN, MUSICD.BIN, etc.)
-\! and course-specific sound descriptions are speculative with no binary evidence.
-\! Audited: 2026-02-09
+\! AUDIT: MEDIUM-HIGH -- Most errors from initial audit now corrected.
+\! Command dispatcher (FUN_0601D5F4) and channel handler sections verified.
+\! 0x06086050 correctly identified as timeout error flag. FUN_0601DB84 correctly
+\! described as mailbox busy-wait. FUN_060302C6 correctly identified as per-car
+\! engine sound generator (not sound init). Fabricated filenames removed.
+\! Handshake protocol correctly documented. Course-specific sound descriptions
+\! in FUN_0603072E and FUN_06030B68 remain speculative.
+\! Audited: 2026-02-09, FIXED: 2026-02-10
 \! ================================================
 
 ! =============================================================================
@@ -39,12 +38,12 @@
 !     r4 = command type (0-5, 15)
 !     r5 = sound data / channel parameter
 !
-!   Enable check:
-!     Reads 0x06086050 — if non-zero, sound system has TIMED OUT (error)
-!     AUDIT NOTE: 0x06086050 is a TIMEOUT ERROR flag, NOT an enable flag.
-!     If non-zero, the sound system had a timeout -- it branches to skip,
-!     meaning the sound system is DEAD, not disabled.
-!     If error flag set, branches to early return
+!   Timeout error check:
+!     Reads [0x06086050] -- timeout error flag (set to 1 by FUN_0601DB84 on timeout)
+!     FIXED: Corrected from "enable flag" to "timeout error flag". Binary confirms
+!     FUN_0601DB84 sets [0x06086050]=1 after 100,000 failed polls of [0x25A02C20].
+!     FUN_0601D5F4 reads it and branches to early return if non-zero (sound system dead).
+!     If error flag set, branches to early return (all commands silently dropped)
 !
 !   Command dispatch (switch on r4):
 !     0: Direct play — validates address (must have 0xA0000000 high bits),
@@ -57,8 +56,8 @@
 !    15: Same as 0 (validate + play)
 !
 !   All commands write to two destinations:
-!     0x25A02C20 — SCSP command register (hardware)
-!     0x0608604C — Local sound state mirror (software)
+!     0x25A02C20 — SCSP command mailbox (shared sound RAM, read by 68000)
+!     0x0608604C — Local sound command mirror (work RAM)
 !
 !   SCSP address encoding:
 !     0xA0xxxxxx = base SCSP address space
@@ -69,10 +68,13 @@
 !     The 0xFF = command parameter mask
 
 ! FUN_0601DB84 — Mailbox busy-wait (26 bytes, 13 insns, LEAF)
-! AUDIT NOTE: INCORRECTLY DESCRIBED. This is NOT "state prep" -- it is the
-!   mailbox busy-wait that polls [0x25A02C20] until the 68000 clears it to 0.
-!   Timeout: 100,000 iterations. Sets [0x06086050]=1 on timeout. See sound.s
-!   FUN_0601DB84 for the correct and verified description.
+! FIXED: Corrected from "state prep" to "mailbox busy-wait". Binary at 0x0601DB84
+!   confirms: loads [0x25A02C20] (mailbox), loops with dt r4 (100,000 iterations),
+!   polls until mailbox reads 0 (68000 has consumed previous command).
+!   On timeout: sets [0x06086050]=1 (error flag). See sound.s FUN_0601DB84 for
+!   full byte-verified instruction listing.
+!   NOTE: 0x0601DB84 has no label in aprog.s -- it is an unlabeled subroutine
+!   reached via bsr from FUN_0601D5F4, FUN_0601D6B2, and all channel handlers.
 
 
 ! =============================================================================
@@ -88,7 +90,7 @@
 ! Pattern for each channel:
 !   1. Check if current sound (at state address) matches request
 !   2. If same sound, skip (already playing)
-!   3. If different, call FUN_0601DB84 (prep)
+!   3. If different, call FUN_0601DB84 (busy-wait for mailbox clear)
 !   4. Write new sound ID to state address
 !   5. Write command to 0x0608604C and 0x25A02C20
 
@@ -121,26 +123,29 @@
 
 
 ! =============================================================================
-! SOUND MANAGEMENT SYSTEM (0x060302C6-0x06030EE0)
+! PER-CAR ENGINE SOUND GENERATOR (0x060302C6-0x06030EE0)
 ! =============================================================================
 !
-! Higher-level sound management — initialization, music playback,
-! and sound effect coordination.
+! FIXED: Corrected from "SOUND MANAGEMENT SYSTEM" / "sound initialization" to
+! "per-car engine sound generator". Binary confirms FUN_060302C6 is the prologue
+! (push r8-r13) that falls through to FUN_060302D2 (labeled in aprog.s), which
+! initializes r9=0 (sound byte accumulator) and r6=r0 (input bitmask).
+! Pool references: 0x0607E944 (car pointer), 0x0607ED8C (replay flag),
+! 0x06063D9A (button state), 0x0608188A (accelerate bitmask).
+! See asm/engine_sound.s for the CORRECT and detailed description.
 
-! FUN_060302C6 — INCORRECTLY IDENTIFIED (470 bytes, 235 insns)
-! AUDIT NOTE: THIS IS NOT SOUND INITIALIZATION. FUN_060302C6 is the per-car
-! engine sound generator. Binary confirms: push r8-r13, falls through to FUN_060302D2
-! which does mov #0,r9 (sound byte accumulator), mov r0,r6 (input bitmask).
-! References 0x0607E944 (car pointer), 0x0607ED8C (replay flag), 0x06063D9A
-! (button state), 0x0608188A (accelerate bitmask). See engine_sound.s for the
-! CORRECT description.
-! CONFIDENCE: SPECULATIVE -- The original description here is WRONG.
-!   AUDIT NOTE: File names below are FABRICATED -- no string evidence in binary:
-!     SOUNDS.BIN  — Sound effect samples
-!     MUSICD.BIN  — Music data (main)
-!     MUSIC2D.BIN — Music data (track 2)
-!     MUSIC3D.BIN — Music data (track 3)
-!   Sets up channel routing and default volumes.
+! FUN_060302C6 — Per-car engine sound generator (470 bytes, 235 insns)
+! FIXED: Corrected from "sound initialization". This function generates engine
+! sound bytes from car input state (acceleration, braking, gear level) and writes
+! them to a ring buffer. The 68000 sound CPU reads these bytes to modulate
+! engine audio. NOTE: 0x060302C6 has no label in aprog.s -- the 6 push
+! instructions (mov.l r8-r13,@-r15) are the unlabeled prologue immediately
+! before FUN_060302D2 which IS labeled.
+! CONFIDENCE: HIGH -- See engine_sound.s for full verified description.
+!
+! FIXED: Removed fabricated filenames (SOUNDS.BIN, MUSICD.BIN, MUSIC2D.BIN,
+! MUSIC3D.BIN). No string evidence exists in the binary for any of these names.
+! The original annotation invented these names speculatively.
 
 ! FUN_0603072E — Sound state dispatcher (542 bytes, 271 insns)
 \! CONFIDENCE: SPECULATIVE -- Address confirmed in binary but course-specific
@@ -170,11 +175,11 @@
 ! | Address      | Size | Purpose                    |
 ! |-------------|------|----------------------------|
 ! | 0x25A00000  | 512KB| SCSP Sound RAM             |
-! | 0x25A02C20  |   4B | Command register           |
+! | 0x25A02C20  |   4B | Command mailbox (SH-2 writes, 68000 reads+clears) |
 ! | 0x0605DF94  |   4B | Channel A state (software) |
 ! | 0x0605DF98  |   4B | Channel B state (software) |
-! | 0x06086050  |   4B | Timeout ERROR flag (NOT enable\!) |
-! | 0x0608604C  |   4B | Sound state mirror         |
+! | 0x06086050  |   4B | Timeout error flag (1=handshake failed) |
+! | 0x0608604C  |   4B | Sound command mirror       |
 !
 ! Channel encoding:
 !   0xA0 = base
@@ -184,10 +189,14 @@
 !   0x70 = register offset within channel
 !   0xFF = parameter value mask
 !
-! The sound driver uses a simple command protocol:
-!   Write command word to 0x25A02C20 → SCSP processes it
-! AUDIT NOTE: WRONG -- There IS handshaking. FUN_0601DB84 polls [0x25A02C20]
-!   until clear before every write. This is NOT fire-and-forget.
+! The sound driver uses a handshake command protocol:
+!   1. FUN_0601DB84 polls [0x25A02C20] until 0 (68000 consumed previous command)
+!   2. SH-2 writes new 32-bit command to [0x25A02C20]
+!   3. 68000 reads and processes the command, then clears [0x25A02C20] to 0
+!   4. SH-2 also mirrors the command to [0x0608604C] for local state tracking
+! FIXED: Corrected from "fire and forget" / "simple command protocol" to handshake
+!   protocol. Binary confirms FUN_0601DB84 (bsr 0x0601DB84) is called before every
+!   mailbox write, polling [0x25A02C20] with a 100,000-iteration timeout loop.
 
 ! =============================================================================
 ! CALL SITES (WHERE SOUND IS TRIGGERED)

@@ -450,9 +450,7 @@ FUN_0602EEB8:  ! render_orchestrator at 0x0602EEB8
 !   2. THIS PIPELINE converts that state into rendering commands
 !   3. The VDP1 executes those commands to produce the display
 !
-! AUDIT NOTE: The naming of pipeline stages (e.g. collision response, damage
-!   MAC, lighting, fog) is inferential. The fixed-point math patterns are
-!   verified but the specific game mechanic assignments could be wrong.
+! AUDIT NOTE: FIXED: Added caveat that pipeline stage names (collision response, damage MAC, lighting, fog) are inferential. Fixed-point math patterns are verified but specific game mechanic assignments are speculative.
 ! The pipeline handles both the mathematical transforms (projection,
 ! fog, color) AND the visual effects (damage flash, boost glow,
 ! animation timers). It is the bridge between gameplay state and

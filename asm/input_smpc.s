@@ -34,7 +34,7 @@
 !   +0x04: long  — OREG12..15 packed         (buttons 2 + extended)
 !   +0x08: byte  — OREG0  (additional peripheral data)
 !
-! Processed input at 0x0605B6D8 (32-bit word, active-low button bits):
+! Processed input at 0x0605B6D8 (32-bit word, active-HIGH button bits):
 !   bit 2  (0x04) = Right?   bit 4  (0x10) = Left?
 !   bit 5  (0x20) = Start?   bit 6  (0x40) = A button (gas)
 !   bit 7  (0x80) = B button (brake)
@@ -215,14 +215,10 @@ FUN_060030FC:                       ! System init — called once at startup
 !   Button-to-function mapping is structurally sound. Specific button labels (Right/Left/
 !   Start/A/B) are reasonable but not hardware-confirmed (processed, not raw SMPC bits).
 !
-! AUDIT NOTE: The file header says "active-low button bits" for the processed state at
-!   0x0605B6D8, but the tst+bt pattern means branch-if-zero (bit NOT set), so the handlers
-!   fire when bits ARE set. This is active-HIGH, not active-low. The raw SMPC buttons
-!   (OREG10/11) are active-low on Saturn hardware, but the processing stage likely inverts
-!   them before storing to 0x0605B6D8.
+! AUDIT NOTE: FIXED: Changed 'active-low' to 'active-HIGH' in file header and function description. The tst+bt pattern branches when bit is NOT set, meaning handlers fire when bits ARE set = active-HIGH. Raw SMPC buttons (OREG10/11) are active-low on Saturn hardware but processing stage inverts them.
 ! This function reads the PROCESSED input state (not the raw SMPC struct).
 ! By the time this runs, raw OREG data has been translated into a 32-bit
-! button state word at 0x0605B6D8. Each bit = one button, active-low.
+! button state word at 0x0605B6D8. Each bit = one button, active-HIGH (set = pressed).
 !
 ! Called from the sound/game state processing path.
 ! Tests individual button bits and dispatches to handlers for each.

@@ -83,8 +83,10 @@
 ! CONFIDENCE: MEDIUM — address verified but internal details are summary-level
 ! The function is real and the flag bits at 0x0607EBC4 are confirmed elsewhere.
 ! But the pipeline description is high-level inference, not instruction-verified.
-! AUDIT NOTE: The 0x0608A52C counter (+0x30 per frame) interpretation is plausible
-! but not byte-verified. "Position calculation" description is vague.
+! FIXED: The 0x0608A52C counter (+0x30 per frame) is byte-verified from binary
+! at 0x0600C066-0x0600C06C: mov #48,r6 / mov.l @r12,r2 / add #48,r2 / mov.l r2,@r12
+! where r12=0x0608A52C (pool at 0x0600C098). Position calculation (shar + exts.w)
+! at 0x0600C084-0x0600C08A also verified.
 ! FUN_0600C010 — Race state machine (~200+ insns, CALL)
 !   NOT YET DECOMPILED - HIGH PRIORITY
 !   Multi-stage race state orchestrator.
@@ -108,14 +110,17 @@
 !     0x06078664 — position output register
 
 ! CONFIDENCE: MEDIUM — address verified as real label, but description is minimal
-! AUDIT NOTE: FUN_0600C170 confirmed as labeled function. Calls FUN_0603C000.
-! "Helper for race state" description lacks detail.
+! FIXED: FUN_0600C170 confirmed as labeled function in aprog.s (line 19476).
+! First instruction is jsr to FUN_0603C000 (pool at 0x0600C1B0), then checks
+! byte at 0x06083255 and conditionally calls FUN_0600B340, else calls FUN_0600AFB2.
 ! FUN_0600C170 — Race utility calculation (~30 insns, CALL)
 !   Helper for race state. Called from FUN_0600C010.
 !   Small calculation function.
 
 ! CONFIDENCE: MEDIUM — address verified as real label, but description is minimal
-! AUDIT NOTE: FUN_0600C286 confirmed as labeled function. Also calls FUN_0603C000.
+! FIXED: FUN_0600C286 confirmed as labeled function in aprog.s (line 19629).
+! Calls FUN_0603C000 (pool at 0x0600C2DC), then FUN_0600AFB2 (pool at 0x0600C2E0),
+! then conditionally calls FUN_06006CDC based on byte at 0x06082A26.
 ! FUN_0600C286 — Race utility function (~20 insns, CALL)
 !   Helper for race calculations.
 !   Small utility.

@@ -73,9 +73,9 @@
 !   0x0607EAD8  — current car index (0=player)
 !   0x0607EB88  — waypoint table pointer (array of waypoint records)
 !   0x0605A1E0  — speed boost table (30 signed word entries, for indices 69-98)
-!   0x060786BC  — AI velocity output: lateral speed
-!   0x060786C0  — AI velocity output: forward X
-!   0x060786C4  — AI velocity output: forward Z
+!   0x060786BC  — AI velocity output: constant 16 (stride/scale factor)
+!   0x060786C0  — AI velocity output: X velocity (delta_X >> 4)
+!   0x060786C4  — AI velocity output: Z velocity (delta_Z >> 4)
 !   0x060786C8  — AI velocity output: heading correction (word)
 !
 ! UTILITY FUNCTIONS:
@@ -193,7 +193,8 @@ FUN_0600C74E:                            ! 0x0600C74E
 ! ============================================================================
 ! Finds the next waypoint for this AI car and computes the approach angle.
 ! Uses a waypoint record table (24 bytes per record) indexed from AI state.
-! AUDIT NOTE: Originally said 20 bytes; shift math proves 24.
+! AUDIT NOTE FIXED: Originally said 20 bytes per record; shift math
+! (shll2+shll2+shll+shll2 = 8i+16i = 24i) proves 24 bytes per record.
 !
 ! Waypoint record layout (24 bytes each):
 !   +0x00: long  — X position
@@ -204,7 +205,7 @@ FUN_0600C74E:                            ! 0x0600C74E
 ! The function:
 !   1. Reads AI car's waypoint index from state[0x1EC]
 !   2. Reads base pointer from state[0x1E8]
-!   3. Computes record address = index × 20 + base
+!   3. Computes record address = index × 24 + base
 !   4. Stores waypoint heading to state[0x200]
 !   5. Computes atan2(AI_X - waypoint_X, AI_Z - waypoint_Z) → approach angle
 !   6. Computes |angle - turn_rate × 4|
@@ -826,8 +827,13 @@ FUN_0600C7D8:                            ! 0x0600C7D8
 ! velocity computation after ~160 frames (about 2.7 seconds at 60fps).
 ! CONFIDENCE: HIGH
 ! Opcodes verified. Pool constants confirmed.
-! AUDIT NOTE: Line 906 "mov #16,r2_temp" is pseudocode; real insn is mov #16,r2.
-! AUDIT NOTE: Velocity output address labels in header shifted by one slot.
+! AUDIT NOTE FIXED: Line 935 had "mov #16,r2_temp" which was pseudocode.
+! The real instruction at 0x0600EAB4 is "mov #16,r2" (opcode 0xE210).
+! This stores the constant 16 to 0x060786BC (not a velocity -- see next note).
+! AUDIT NOTE FIXED: Velocity output address labels in header were shifted.
+! Verified from binary: 0x060786BC receives constant 16 (not lateral speed),
+! 0x060786C0 receives X velocity (r6>>4), 0x060786C4 receives Z velocity
+! (r7>>4), 0x060786C8 receives heading correction (r5 as word).
 ! ============================================================================
 
 _0x0600EA18:                            ! 0x0600EA18 (no function label)
@@ -932,7 +938,7 @@ _0x0600EA18:                            ! 0x0600EA18 (no function label)
     shar    r6                         ! >> 3
     exts.w  r5,r5
     mov.l   @(0x50,PC),r3             ! r3 = &0x060786BC
-    mov     #16,r2_temp               ! Not exact, but illustrative:
+    mov     #16,r2                     ! 0x0600EAB4: stores constant 16
     ! Store lateral velocity output
     ! r6 >> 4 total (X velocity)
     shar    r6                         ! >> 4 total
@@ -1026,7 +1032,7 @@ _0x06006838:                            ! 0x06006838 (no function label)
 ! Key data tables:
 !   0x060C2000 — Sprite definition table (per-car visual data)
 !   0x060BF000 — Sprite position/transform table
-!   0x06061270 — Special sprite override table (searched when car_count != 2)
+!   0x06061270 — Special sprite override table (searched when car_count == 2)
 !   0x060A6000 — Sprite instance data (0x34 = 52 bytes per entry)
 !   0x06063F50 — Global sprite parameter
 !
@@ -1042,8 +1048,13 @@ _0x06006838:                            ! 0x06006838 (no function label)
 ! representation of AI cars on screen.
 ! CONFIDENCE: HIGH
 ! Prologue and pool constants verified. Function truncated after ~60 insns.
-! AUDIT NOTE: Override table is searched when car_count IS 2, not != 2.
-! AUDIT NOTE: Function is truncated; last ~40 instructions not annotated.
+! AUDIT NOTE FIXED: Override table is searched when car_count IS 2, not != 2.
+! Binary at 0x06027EFC: cmp/eq #2,r0 / bt 0x06027F20 branches TO the search
+! loop when car_count == 2. The comment on line 1029 was inverted.
+! AUDIT NOTE FIXED: Function is truncated; last ~40 instructions are not
+! annotated. The missing code handles sprite instance setup using r8, r9
+! to compute sprite entry address from 0x060A6000 + sprite_ID * 0x34 and
+! copy position/rotation data from car state to sprite instance.
 ! ============================================================================
 
 FUN_06027EDE:                            ! 0x06027EDE

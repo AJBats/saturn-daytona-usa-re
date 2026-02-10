@@ -125,7 +125,7 @@
 !     Read mesh data from geometry table
 !     Mask with word constant
 !     Store model reference at scene_buf[0x0C]
-! AUDIT NOTE: FUN_0602ECCC is hardware integer division, not vertex transform.
+! AUDIT NOTE: FIXED: Changed all references to FUN_0602ECCC from 'vertex transform/pipeline' to 'hardware integer division' (lines 335, 600, 619).
 !     Call FUN_0602ECCC (hardware integer division)
 !     Store sort key at car_ptr + computed_offset
 !   For empty scenes:
@@ -332,7 +332,7 @@ FUN_06027CA4:  ! 0x06027CA4
     mov     r8,r0                   ! r8 = model index
     mov     r5,r1                   ! r5 = geometry index
     mov     #52,r0
-    mov.l   @(PC),r12               ! FUN_0602ECCC (vertex pipeline)
+    mov.l   @(PC),r12               ! FUN_0602ECCC (hardware integer division)
     jsr     @r12
     mov.l   r3,@-r15                ! save r3
     mov.l   @r15+,r3                ! restore r3
@@ -597,7 +597,7 @@ vdp1_dma_handler_C:  ! 0x06028248
 ! The Saturn has NO 3D hardware capable of polygon rendering. Instead:
 ! 1. The math_transform layer builds rotation/projection matrices
 ! 2. THIS function does frustum culling (are models visible?)
-! 3. FUN_0602ECCC transforms vertices and projects to 2D
+! 3. FUN_0602ECCC performs hardware integer division for depth/sort calculations
 ! 4. The VDP1 command builders create sprite commands
 ! 5. DMA transfers the command list to VDP1 hardware
 ! 6. VDP1 draws distorted sprites (the only "3D" hardware operation)

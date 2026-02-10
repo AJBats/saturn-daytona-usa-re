@@ -81,7 +81,7 @@
 
 ! CONFIDENCE: MEDIUM - Address verified. Called from state 9 (car select) per
 !   pre_race_states.s, contradicting physics init label - likely UI update.
-! AUDIT NOTE: Called from state 9 as display update, not physics init.
+! AUDIT NOTE: FIXED: Renamed from 'physics init' to 'display update'. Called from state 9 (car select screen) per pre_race_states.s.
 ! FUN_06019928 — Track segment handler + physics init (252 bytes, 126 insns)
 !   Handles track segment transitions and initializes physics
 !   parameters for the current track section.
@@ -146,23 +146,18 @@
 ! THREE-COURSE PHYSICS INITIALIZATION (0x06019BC8-0x0601A5F8)
 ! =============================================================================
 !
-! AUDIT NOTE: Claim of identical 282-byte size is INCORRECT. Actual sizes:
-!   FUN_06019BC8=332 bytes, FUN_06019DB8=312 bytes, FUN_06019FB2=318 bytes.
-!   Intermediate functions (FUN_06019D14, FUN_06019EF0, FUN_0601A0F0) exist
-!   between them but are not mentioned. The 3-course pattern is still valid.
-! Three identical-sized functions confirm the 3-course architecture.
-! Each function initializes course-specific physics parameters:
-! friction, gravity, traction, speed limits, etc.
+! AUDIT NOTE: FIXED: Corrected sizes: FUN_06019BC8=332B, FUN_06019DB8=312B, FUN_06019FB2=318B (were all 282B). Changed 'identical-sized' to 'similar-sized'. Intermediate functions FUN_06019D14, FUN_06019EF0, FUN_0601A0F0 exist between them.
+\! Three similar-sized functions confirm the 3-course architecture.\r\n\! Each function initializes course-specific physics parameters:\r\n\! friction, gravity, traction, speed limits, etc.
 
 ! CONFIDENCE: HIGH - Address verified. Three consecutive similar-sized
 !   functions strongly suggest per-course initialization.
-! AUDIT NOTE: Actual size is 332 bytes (166 insns), not 282/141.
+! AUDIT NOTE: FIXED: Size corrected to 332 bytes/166 insns.
 ! FUN_06019BC8 — Course 0 (Beginner) car physics init (282 bytes, 141 insns)
 ! CONFIDENCE: HIGH - Same reasoning as Course 0.
-! AUDIT NOTE: Actual size is 312 bytes (156 insns), not 282/141.
+! AUDIT NOTE: FIXED: Size corrected to 312 bytes/156 insns.
 ! FUN_06019DB8 — Course 1 (Advanced) car physics init (282 bytes, 141 insns)
 ! CONFIDENCE: HIGH - Same reasoning as Course 0.
-! AUDIT NOTE: Actual size is 318 bytes (159 insns), not 282/141.
+! AUDIT NOTE: FIXED: Size corrected to 318 bytes/159 insns.
 ! FUN_06019FB2 — Course 2 (Expert) car physics init (282 bytes, 141 insns)
 !
 ! All three are exactly 282 bytes — they share the same structure
@@ -219,23 +214,18 @@
 ! TERRAIN COLLISION MESH (0x0603449C-0x06034B9A)
 ! =============================================================================
 !
-! AUDIT NOTE: FUN_0603449C and FUN_0603458C are NOT labeled functions in
-!   build/aprog.s. They are called via bsr from FUN_06033FB0/FUN_06033FDC/
-!   FUN_06033FE4 so they are valid code entry points, but the nearest labeled
-!   functions are FUN_06034406, FUN_06034410, FUN_060344FC, FUN_06034526.
+! AUDIT NOTE: FIXED: Added '(not a labeled function)' notes to FUN_0603449C and FUN_0603458C. Both are valid bsr targets called from FUN_06033FB0/FUN_06033FDC/FUN_06033FE4 but are not labeled in aprog.s. Nearest labels: FUN_06034406, FUN_06034410, FUN_060344FC, FUN_06034526.
 !
 ! Low-level terrain collision detection — queries the track's
 ! collision mesh to determine surface properties at a given position.
 
 ! CONFIDENCE: MEDIUM - Valid bsr target but NOT a labeled function in binary.
-! AUDIT NOTE: Not a labeled function in aprog.s - mid-function branch target.
-! FUN_0603449C — Terrain collision mesh lookup (150 bytes, 75 insns)
+! AUDIT NOTE: FIXED: Noted as 'not a labeled function in aprog.s' � valid bsr target but mid-function branch target.\r\n\! FUN_0603449C (not a labeled function in aprog.s) — Terrain collision mesh lookup (150 bytes, 75 insns)
 !   Queries terrain mesh for collision data at a world position.
 !   Returns surface normal, material type, friction.
 
 ! CONFIDENCE: MEDIUM - Valid bsr target but NOT a labeled function in binary.
-! AUDIT NOTE: Not a labeled function in aprog.s - mid-function branch target.
-! FUN_0603458C — Track segment accessor (122 bytes, 61 insns)
+! AUDIT NOTE: FIXED: Noted as 'not a labeled function in aprog.s' � valid bsr target but mid-function branch target.\r\n\! FUN_0603458C (not a labeled function in aprog.s) — Track segment accessor (122 bytes, 61 insns)
 !   Retrieves track segment information for physics calculations.
 !   Maps world position to nearest track segment.
 

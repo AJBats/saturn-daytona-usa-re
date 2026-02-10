@@ -343,8 +343,8 @@ FUN_0600C4F8:                               ! 0x0600C4F8
 ! 3D transform path (FUN_06006838 + FUN_06027EDE) has stack manipulation that is
 ! annotated but uses some elision - the register setup and call sequence match binary
 ! but individual stack offsets in that section are less thoroughly documented.
-! AUDIT NOTE: FUN_0600CD40 is labeled "checkpoint processing" here, which is more
-! accurate than the "collision check" label used in player_physics.s.
+! FIXED: Label consistency resolved. player_physics.s now also uses "checkpoint
+! processing" for FUN_0600CD40, matching this file. Both files are consistent.
 ! FUN_0600C5D6 — Position Integration (Collision + Heading + Movement)
 ! ============================================================================
 ! Called as step 5 of player physics pipeline (FUN_0600E71A).

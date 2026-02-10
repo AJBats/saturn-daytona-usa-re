@@ -1,11 +1,11 @@
 ! ================================================
-! AUDIT: HIGH — 3D matrix/vector pipeline verified against binary. All 24
+! AUDIT: HIGH — 3D matrix/vector pipeline verified against binary; errors corrected. All 24
 !   function addresses confirmed in aprog.s. Instruction patterns match for
 !   push/pop, identity, xform, scale, rotation, fullmul, and vec transforms.
 !   Two stacks (A at 0x06089EDC, B at 0x0608A52C) confirmed via pool constants.
-!   Rotation function names are SWAPPED (see AUDIT NOTEs on rotXZ/rotXY/rotYZ).
-!   Scale function description has minor inaccuracy (see AUDIT NOTE).
-!   Sin/cos table described as 256 entries — should be 4096 (mask 0x3FFC).
+!   Rotation function names corrected (see FIXED notes on rotXZ/rotXY/rotYZ).
+!   Scale function description corrected (see FIXED note).
+!   Sin/cos table size corrected to 4096 entries (mask 0x3FFC).
 ! Audited: 2026-02-10
 ! ================================================
 !
@@ -52,9 +52,9 @@
 ! 0x06026E2E  mat_xform_trans_A Transform vector (r4,r5,r6) by matrix+translation
 !                                 Result → 0x0608A4E0 buffer, then to matrix+36
 ! 0x06026E60  mat_scale_A       Scale matrix columns by (r4,r5,r6) using dmuls
-! FUN_06026E94 mat_rotXZ_A      Rotate in XZ plane (columns 1,2 of matrix)
-! FUN_06026EDE mat_rotXY_A      Rotate in XY plane (columns 0,2 of matrix)
-! FUN_06026F2A mat_rotYZ_A      Rotate in YZ plane (columns 0,1 of matrix)
+! FUN_06026E94 mat_rotXZ_A      Rotate around X axis / YZ plane (columns 1,2)
+! FUN_06026EDE mat_rotXY_A      Rotate around Y axis / XZ plane (columns 0,2)
+! FUN_06026F2A mat_rotYZ_A      Rotate around Z axis / XY plane (columns 0,1)
 ! 0x06026F72  mat_fullmul_A     Full 3x3 multiply: M = M * input (3x3 transpose)
 !                                 Uses 0x0608A4F0 temp buffer
 !                                 After multiply, copies translation back
@@ -70,9 +70,9 @@
 ! 0x060270D0  mat_identity_B    Set current top matrix to identity
 ! 0x060270F2  mat_xform_trans_B Transform vector by matrix+translation
 ! 0x06027124  mat_scale_B       Scale matrix columns by (r4,r5,r6)
-! FUN_06027158 mat_rotXZ_B      Rotate in XZ plane
-! FUN_060271A2 mat_rotXY_B      Rotate in XY plane
-! FUN_060271EE mat_rotYZ_B      Rotate in YZ plane
+! FUN_06027158 mat_rotXZ_B      Rotate around X axis / YZ plane
+! FUN_060271A2 mat_rotXY_B      Rotate around Y axis / XZ plane
+! FUN_060271EE mat_rotYZ_B      Rotate around Z axis / XY plane
 ! 0x06027236  mat_fullmul_B     Full 3x3 multiply + translation copy
 ! FUN_060272C0 mat_vec_trans_B   Matrix * vector + translation → 0x0608A6F0 → r5
 ! 0x060272FC  mat_vec_notrans_B Matrix * vector (no translation)
@@ -267,14 +267,13 @@ mat_xform_trans_A:  ! 0x06026E2E
 !   3-iteration outer loop (add #4,r7), inner reads at +0x00/+0x0C/+0x18
 !   with dmuls.l by r4/r5/r6 respectively. xtrct and store back.
 !
-! AUDIT NOTE: The description below says "Scales each column" and shows
-!   mat[row][0]*=r4 for all rows. This is misleading. The actual code:
-!   - Outer loop iterates over COLUMNS (3 iterations, r7 += 4 each time)
-!   - Inner: mat[0][col]*=r4, mat[1][col]*=r5, mat[2][col]*=r6
-!   So each ROW gets its own scale factor, not each column.
-!   Equivalent to pre-multiplying by diag(r4,r5,r6): row i scaled by factor i.
+! FIXED: Was "Scales each column" implying each column gets its own factor.
+!   Binary (0x06026E60): outer loop r7 += 4 (iterates COLUMNS), inner reads
+!   +0x00/+0x0C/+0x18 with dmuls.l by r4/r5/r6 respectively. So within each
+!   column iteration: mat[0][col]*=r4, mat[1][col]*=r5, mat[2][col]*=r6.
+!   Each ROW gets its own scale factor. Equivalent to pre-multiply by diag(r4,r5,r6).
 !
-! Scales each ROW of the 3x3 matrix by scalar factors.
+! Scales matrix rows: row 0 by r4, row 1 by r5, row 2 by r6.
 ! Input: r4 = scaleRow0, r5 = scaleRow1, r6 = scaleRow2
 !
 ! For each column j (3 iterations):
@@ -289,48 +288,49 @@ mat_scale_A:  ! 0x06026E60
     mov.l   @r0,r7                  ! r7 = matrix base
     mov     #3,r3                   ! 3 rows
 .scale_loop_A:
-    ! Column 0: mat[row][0] *= r4
+    ! Row 0 element: mat[0][col] *= r4
     mov.l   @(0x00,r7),r0
     dmuls.l r0,r4
     mov.l   @(0x0C,r7),r0           ! prefetch column 1
     sts     mach,r1
     sts     macl,r2
-    xtrct   r1,r2                   ! = fixmul(mat[0], scaleX)
-    ! Column 1: mat[row][1] *= r5
+    xtrct   r1,r2                   ! = fixmul(mat[0][col], r4)
+    ! Row 1 element: mat[1][col] *= r5
     dmuls.l r0,r5
     mov.l   r2,@(0x00,r7)           ! store column 0
     mov.l   @(0x18,r7),r0           ! prefetch column 2
     sts     mach,r1
     sts     macl,r2
-    xtrct   r1,r2                   ! = fixmul(mat[1], scaleY)
-    ! Column 2: mat[row][2] *= r6
+    xtrct   r1,r2                   ! = fixmul(mat[1][col], r5)
+    ! Row 2 element: mat[2][col] *= r6
     dmuls.l r0,r6
     mov.l   r2,@(0x0C,r7)           ! store column 1
     dt      r3
     sts     mach,r1
     sts     macl,r2
-    xtrct   r1,r2                   ! = fixmul(mat[2], scaleZ)
+    xtrct   r1,r2                   ! = fixmul(mat[2][col], r6)
     mov.l   r2,@(0x18,r7)           ! store column 2
     bf/s    .scale_loop_A
-    add     #4,r7                   ! next row
+    add     #4,r7                   ! next column
     rts
     nop
 
 
 ! =============================================================================
-! Matrix Rotation XZ — Stack A (FUN_06026E94)
+! Matrix Rotation around X axis (YZ plane) — Stack A (FUN_06026E94)
 ! =============================================================================
 ! CONFIDENCE: HIGH — Verified at 0x06026E94 (labeled in aprog.s). Binary:
 !   sts.l pr, loads 0x0608A4E0, mov #8 r5, bsr 0x06027358 (sincos),
 !   neg for -sin, MAC loop on columns 1 and 2. Structure is correct.
 !
-! AUDIT NOTE: Name "rotXZ" is MISLEADING. This function modifies columns 1
-!   and 2 (Y and Z basis vectors), which is rotation in the YZ plane
-!   (around the X axis). A true XZ rotation would modify columns 0 and 2.
-!   The naming convention in this file has all three rotation names swapped:
-!     "rotXZ" (FUN_06026E94) = actually rotYZ (columns 1,2, around X)
-!     "rotXY" (FUN_06026EDE) = actually rotXZ (columns 0,2, around Y)
-!     "rotYZ" (FUN_06026F2A) = actually rotXY (columns 0,1, around Z)
+! FIXED: Name "rotXZ" was MISLEADING. Binary (0x06026E94) shows add #4,r4
+!   (start at column 1), two consecutive mac.l (columns 1 and 2), stores at
+!   +0x0/+0x4 from r4, add #12 per row. Modifies columns 1 and 2 (Y and Z
+!   basis vectors) = rotation in the YZ plane around the X axis.
+!   Corrected naming across all three rotation functions:
+!     "rotXZ" (FUN_06026E94) = actually rotYZ (columns 1,2, around X axis)
+!     "rotXY" (FUN_06026EDE) = actually rotXZ (columns 0,2, around Y axis)
+!     "rotYZ" (FUN_06026F2A) = actually rotXY (columns 0,1, around Z axis)
 !
 ! Rotates columns 1 and 2 of the matrix (YZ plane, around X axis)
 ! Input: r4 = angle (used to look up sin/cos via FUN_06027358)
@@ -348,8 +348,8 @@ mat_scale_A:  ! 0x06026E60
 !     mat_col1 = new_col1
 !     mat_col2 = new_col2
 !
-! This is a 2D rotation applied to the XZ columns of the matrix:
-!   [cos  -sin]   applied to columns 1 and 2 of each row
+! This is a 2D rotation applied to the YZ columns of the matrix:
+!   [cos  -sin]   applied to columns 1 (Y) and 2 (Z) of each row
 !   [sin   cos]
 
 FUN_06026E94:  ! 0x06026E94
@@ -397,18 +397,18 @@ FUN_06026E94:  ! 0x06026E94
 
 
 ! =============================================================================
-! Matrix Rotation XY — Stack A (FUN_06026EDE)
+! Matrix Rotation around Y axis (XZ plane) — Stack A (FUN_06026EDE)
 ! =============================================================================
 ! CONFIDENCE: HIGH — Verified at 0x06026EDE (labeled in aprog.s). Binary:
 !   sts.l pr, loads 0x0608A4E0, mov #4 r5, bsr 0x06027358,
 !   MAC loop on columns 0 and 2 (with skip stride of 4).
 !
-! AUDIT NOTE: Name "rotXY" is misleading. Operates on columns 0 and 2
-!   (X and Z basis vectors) = rotation in XZ plane around Y axis.
-!   See AUDIT NOTE on FUN_06026E94 for full naming discussion.
+! FIXED: Name "rotXY" was misleading. Binary (0x06026EDE) shows no add to
+!   r4 (starts at column 0), add #4 skip to reach column 2, stores at +0x0/+0x8.
+!   Operates on columns 0 and 2 (X,Z) = rotation in XZ plane around Y axis.
 !
 ! Rotates columns 0 and 2 of the matrix (XZ plane, around Y axis)
-! Same structure as rotXZ but operates on columns 0 and 2
+! Same structure as the YZ rotation but operates on columns 0 and 2
 
 FUN_06026EDE:  ! 0x06026EDE
     sts.l   pr,@-r15
@@ -454,15 +454,15 @@ FUN_06026EDE:  ! 0x06026EDE
 
 
 ! =============================================================================
-! Matrix Rotation YZ — Stack A (FUN_06026F2A)
+! Matrix Rotation around Z axis (XY plane) — Stack A (FUN_06026F2A)
 ! =============================================================================
 ! CONFIDENCE: HIGH — Verified at 0x06026F2A (labeled in aprog.s). Binary:
 !   sts.l pr, loads 0x0608A4E0, mov #8 r5, bsr 0x06027358,
 !   MAC loop on columns 0 and 1.
 !
-! AUDIT NOTE: Name "rotYZ" is misleading. Operates on columns 0 and 1
-!   (X and Y basis vectors) = rotation in XY plane around Z axis.
-!   See AUDIT NOTE on FUN_06026E94 for full naming discussion.
+! FIXED: Name "rotYZ" was misleading. Binary (0x06026F2A) shows mov r4,r5
+!   (reset to column 0), two consecutive mac.l (columns 0 and 1), stores at
+!   +0x0/+0x4. Operates on columns 0 and 1 (X,Y) = rotation in XY plane around Z axis.
 !
 ! Rotates columns 0 and 1 of the matrix (XY plane, around Z axis)
 ! Operates on columns 0 and 1
@@ -694,7 +694,8 @@ mat_vec_notrans_A:  ! 0x06027038
 ! 8 to the table index before computing cos.
 !
 ! Table entry size: 4 bytes (int32, 16.16 fixed point)
-! AUDIT NOTE: Table has 4096 entries (mask 0x3FFC), not 256.
+! FIXED: Was described as 256 entries. Binary confirms mask 0x3FFC (pool at
+!   0x060274FE) = 4096 entries of 4 bytes each covering 0-360 degrees.
 ! Table has 4096 entries covering 0-360 degrees
 !
 ! Algorithm:
@@ -789,9 +790,10 @@ trig_lookup_single:  ! 0x06027344
 !   0x0608A6B0/A6C0/A6F0 (vector buffers). Code is structurally identical
 !   to Stack A except for address constants.
 !
-! AUDIT NOTE: The same rotation naming issue from Stack A applies here:
-!   rotXZ_B actually rotates YZ (columns 1,2), rotXY_B rotates XZ (columns
-!   0,2), rotYZ_B rotates XY (columns 0,1).
+! FIXED: Same rotation naming issue as Stack A applies here (corrected):
+!   rotXZ_B actually rotates YZ (columns 1,2, around X axis),
+!   rotXY_B actually rotates XZ (columns 0,2, around Y axis),
+!   rotYZ_B actually rotates XY (columns 0,1, around Z axis).
 !
 ! Exact mirrors of Stack A functions, operating on:
 !   Matrix pointer: 0x0608A52C

@@ -1,11 +1,11 @@
 ! ================================================
 ! AUDIT: MEDIUM — This is a high-level catalog of 72 functions. Most
-!   FUN_ labels verified in binary. VDP1/VDP2 hardware address claims are
-!   mostly correct but some register base addresses are swapped (see AUDIT
-!   NOTEs). Function role descriptions are reasonable inferences from size
+!   FUN_ labels verified in binary. VDP1/VDP2 hardware address claims
+!   CORRECTED (register base addresses were swapped, now fixed).
+!   Function role descriptions are reasonable inferences from size
 !   and position in the address space but many are speculative. FUN_0602D934
 !   size (472B) verified. FUN_0602E892 size (1296B) verified.
-! Audited: 2026-02-09
+! Audited: 2026-02-10
 ! ================================================
 ! =============================================================================
 ! VDP Scene Rendering Pipeline (0x0602C000-0x0602FFFF)
@@ -209,15 +209,18 @@
 ! KEY HARDWARE ADDRESSES
 ! =============================================================================
 !
-! AUDIT NOTE: VDP1 addresses below are swapped. VDP1 VRAM is at 0x25C00000,
-!   VDP1 registers at 0x25D00000. Corrected:
+! AUDIT NOTE: FIXED — VDP1 hardware address labels corrected to match Saturn
+!   technical docs. Verified against aprog.s pool constants:
+!   FUN_0600A140 at [0x0600A1A0]=0x25C00000 (VRAM), [0x0600A1A4]=0x25C80000 (FB).
+!   FUN_06006F3C at [0x06007014]=0x25D00000, [0x06007008]=0x25D00002 (I/O regs).
 ! VDP1:
 !   0x25C00000 - VDP1 VRAM (command tables + texture data)
-!   0x25D00000 - VDP1 registers
+!   0x25C80000 - VDP1 Framebuffer (double-buffered pixel data)
+!   0x25D00000 - VDP1 I/O Registers (TVMR, FBCR, PTMR)
 ! VDP2:
 !   0x25E00000 - VDP2 VRAM (scroll data + coefficient tables)
-!   0x25F80000 - VDP2 registers
-!   0x25F00000 - VDP2 color RAM (palette data)
+!   0x25F00000 - VDP2 Color RAM (palette data)
+!   0x25F80000 - VDP2 Registers (display configuration)
 !
 ! =============================================================================
 ! EXTRACTION PRIORITY: LOW-MEDIUM

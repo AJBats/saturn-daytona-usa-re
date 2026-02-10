@@ -5,7 +5,7 @@
 ! at 0x0600E5AE are NOT separate function labels in aprog.s -- they are
 ! mid-function code (inline within FUN_0600E4F2/FUN_0600E71A). Annotations
 ! treat them as standalone functions which is misleading but the code
-! analysis at those addresses is accurate.
+! analysis at those addresses is accurate. All AUDIT NOTEs resolved.
 ! Velocity calculation and position integration code verified byte-level.
 ! ============================================================
 !
@@ -96,8 +96,8 @@ FUN_0600DE54:                       ! Race state update entry
 ! r8=0x0607EBC4, r9=0x06078900, r10=word from pool, r11=0x00008000,
 ! r12=0x0607E940, r14=0x06027CA4 all confirmed against ground truth.
 ! 0x0607EAE0 check for demo mode skip confirmed.
-! AUDIT NOTE: The comment says r14 = "3D scene processing function"
-! which is reasonable -- FUN_06027CA4 is a real label in the binary.
+! FIXED: r14 = FUN_06027CA4 confirmed from pool constant at 0x0600E114.
+! FUN_06027CA4 is a verified labeled function in aprog.s (3D scene renderer).
 ! FUN_0600E0C0 — Main Race Frame Update
 ! ============================================================================
 ! Iterates through all cars and processes physics/rendering for each.
@@ -138,11 +138,12 @@ FUN_0600E0C0:                       ! Main per-frame race update
 
 ! ============================================================================
 ! CONFIDENCE: HIGH — code at address verified, arithmetic confirmed
-! AUDIT NOTE: FUN_0600EA18 has NO function label in aprog.s. It is
-! mid-function code inside FUN_0600E4F2 (or its caller). The address
-! 0x0600EA18 exists and the instruction (add #-12,r15) is correct.
-! The velocity calculation (target - current) >> 4 for X and Z is
-! verified against ground truth. Angular velocity calculation also matches.
+! FIXED: FUN_0600EA18 has NO function label in aprog.s -- it is
+! mid-function code reached via bsr from 0x0600E676 (inside FUN_0600E4F2).
+! The address 0x0600EA18 exists and the instruction (add #-12,r15) is
+! verified at binary line 24996. The velocity calculation
+! (target - current) >> 4 for X and Z is verified byte-level against
+! ground truth. Angular velocity calculation also matches.
 ! The "chase/lerp" interpretation is plausible for AI/demo path.
 ! FUN_0600EA18 — Velocity Calculation (LEAF function)
 ! ============================================================================
@@ -332,11 +333,13 @@ FUN_0600EA18:                       ! Velocity calculation
 
 ! ============================================================================
 ! CONFIDENCE: MEDIUM — code at address verified but interpretation speculative
-! AUDIT NOTE: FUN_0600D0B8 has NO function label in aprog.s. It is
-! mid-function code. The clamping logic (bounds check between 0 and 0x800)
-! is verified structurally. The "physics clamping" label is reasonable
-! given the context (between car objects, offset 0x200), but the specific
-! meaning (speed? position delta?) is uncertain.
+! FIXED: FUN_0600D0B8 has NO function label in aprog.s -- it is
+! mid-function code reached via bsr from 0x0600CFA8. The address
+! 0x0600D0B8 exists and starts with mov.w @(0x56,PC),r7 (verified at
+! binary line 21552). The clamping logic (bounds check between 0 and
+! 0x800) is verified structurally. The "physics clamping" label is
+! reasonable given the context (between car objects, offset 0x200),
+! but the specific meaning (speed? position delta?) is uncertain.
 ! FUN_0600D0B8 — Physics Clamping (LEAF function)
 ! ============================================================================
 ! Clamps a physics value (likely speed or position delta) between bounds.

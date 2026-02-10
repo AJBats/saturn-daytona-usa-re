@@ -39,7 +39,7 @@
 !   +0x0C  int   Y position (or vertical — used for height check)
 !   +0x10  int   X position
 !   +0x18  int   Z position
-!   +0x1EC int   speed value (for collision response gating)
+\!   +0x1EC int   speed/progress field (NOT Y position; used for collision gating)
 !
 ! Algorithm:
 !   if (*0x0607EAE0 != 0): return  (demo mode — skip collisions)
@@ -53,8 +53,8 @@
 !       car_j = &car_array[j]
 !       if (car_j->flags & 0x00E00000 == 0): skip
 !
-!       dy = car_i->Y - car_j->Y  (offset 0x1EC)
-!       if (abs(dy) > 20): skip    (too far apart vertically)
+!       dy = car_i->field_1EC - car_j->field_1EC  (offset 0x1EC, speed/progress gate)
+!       if (abs(dy) > 20): skip    (threshold gate on field_1EC)
 !
 !       dx = car_i->X - car_j->X  (offset 0x10)
 !       dz = car_i->Z - car_j->Z  (offset 0x18)
@@ -76,12 +76,8 @@
 ! CONFIDENCE: HIGH
 ! Prologue, pool constants, loop structure, distance formula, speed gate,
 ! and collision call all verified. Two annotation errors noted:
-! AUDIT NOTE: Line 129 mov.l @(0x10,r11_ptr),r2 uses invalid r11_ptr.
-! Actual register is r5 (j-th car pointer). Should be @(0x10,r5).
-! AUDIT NOTE: Lines 26/42-43 describe offset 0x1EC as Y position, but
-! 0x1EC is not the Y field (+0x0C or +0x14). The field at +0x1EC is
-! more likely a speed/progress value. The threshold of 20 comparison
-! is still valid code, just mislabeled semantically.
+! AUDIT NOTE: FIXED: Changed r11_ptr to r5 in XZ distance check. Binary at 0x0600A978 confirms mov.l @(0x10,r5),r6.
+! AUDIT NOTE: FIXED: Changed 0x1EC from 'Y position' to 'speed/progress field' in algorithm and struct comments. Y position is at +0x14, not +0x1EC. Threshold of 20 comparison is valid code.
 FUN_0600A914:  ! 0x0600A914
     mov.l   r14,@-r15
     mov.l   r13,@-r15
@@ -149,7 +145,7 @@ FUN_0600A914:  ! 0x0600A914
 .check_xz_distance:
     ! XZ distance check (weighted Manhattan approximation)
     mov.l   @(0x10,r14),r6          ! car_i->X
-    mov.l   @(0x10,r11_ptr),r2      ! car_j->X  (via r5)
+    mov.l   @(0x10,r5),r2          \! car_j->X
     mov.l   @(0x18,r14),r4          ! car_i->Z
     mov.l   @(0x18,r5),r3           ! car_j->Z
     sub     r2,r6                   ! dx = Xi - Xj

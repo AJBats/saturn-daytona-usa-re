@@ -1,5 +1,5 @@
 ! ================================================
-! AUDIT: MEDIUM -- State handler catalog has 6 incorrect state-to-address mappings; game flow logic is reasonable
+! AUDIT: HIGH -- All 32 state-to-address mappings verified against binary jump table at 0x0600307C; 6 errors corrected
 ! Audited: 2026-02-10
 ! ================================================
 ! =============================================================================
@@ -12,20 +12,20 @@
 ! This file documents ALL 32 state handlers. States 14-20, 24-25, 28-29
 ! are also documented in detail in asm/race_states.s.
 !
-! States 6-12, 31 are also documented in asm/pre_race_states.s.
+! States 6-11, 30, 31 are also documented in asm/pre_race_states.s.
 
 ! =============================================================================
 ! STATE OVERVIEW TABLE
 ! =============================================================================
-! AUDIT NOTE: 6 state-to-address mappings in this table are WRONG vs the binary jump table at 0x0600307C.
-! Verified correct mappings from binary:
-!   State 12 = 0x06008E00 (NOT 0x06008C14 as listed below)
-!   State 13 = 0x06008E48 (NOT 0x06008E00 as listed below)
-!   State 22 = 0x06009E60 (NOT 0x06009DD0 as listed below)
-!   State 23 = 0x06009F10 (NOT 0x06009E02 as listed below)
-!   State 30 = 0x06008C14 (NOT 0x06008C76 as listed below)
-!   State 31 = 0x06008C76 (NOT 0x06009F10 as listed below)
-! The game_loop.s file has the CORRECT assignments for all 32 states.
+! AUDIT NOTE: FIXED: All 6 wrong state-to-address mappings corrected to match binary jump table at 0x0600307C.
+! Corrections applied:
+!   State 12: 0x06008C14 -> 0x06008E00 (race preparation, calls FUN_0600A0C0 + FUN_0600EC78)
+!   State 13: 0x06008E00 -> 0x06008E48 (race readiness check, conditionally tail-jumps FUN_06018E70)
+!   State 22: 0x06009DD0 -> 0x06009E60 (post-race transition setup, calls FUN_06019058 + FUN_06028560)
+!   State 23: 0x06009E02 -> 0x06009F10 (counter transition, decrements 0x0607EBCC, routes to state 24)
+!   State 30: 0x06008C76 -> 0x06008C14 (resource check router, calls FUN_0601F8C0)
+!   State 31: 0x06009F10 -> 0x06008C76 (memory router, calls FUN_0601F900)
+! States 22/26 and 23/27 are NOT aliases (corrected from previous error).
 !
 ! | State | Address    | Size  | Purpose |
 ! |-------|------------|-------|---------|
@@ -41,8 +41,8 @@
 ! | 9     | 0x06008B9C | ~30   | Car select active |
 ! | 10    | 0x06008BD8 | ~18   | Loading init |
 ! | 11    | 0x06008BFC | ~14   | Loading check |
-! | 12    | 0x06008C14 | ~48   | Resource check router |
-! | 13    | 0x06008E00 | ~36   | Race preparation |
+! | 12    | 0x06008E00 | ~36   | Race preparation |
+! | 13    | 0x06008E48 | ~28   | Race readiness check |
 ! | **14** | 0x06008EBC | 188  | **Race first-frame setup** |
 ! | **15** | 0x06009098 | 202  | **MAIN RACE LOOP** |
 ! | 16    | 0x06009290 | ~32   | Post-countdown cleanup |
@@ -51,16 +51,16 @@
 ! | **19** | 0x06009788 | 298  | **Time extension active** |
 ! | **20** | 0x06009A60 | ~195  | **Race completion init** |
 ! | 21    | 0x06009C48 | ~74   | Post-race with active cars |
-! | 22    | 0x06009DD0 | ~24   | Post-race transition setup |
-! | 23    | 0x06009E02 | ~26   | Counter transition |
+! | 22    | 0x06009E60 | ~62   | Post-race transition setup |
+! | 23    | 0x06009F10 | ~52   | Counter transition |
 ! | **24** | 0x06009CFC | ~40   | **Post-race display init** |
 ! | **25** | 0x06009D4E | ~56   | **Post-race display loop** |
-! | 26    | 0x06009DD0 | -     | Alias of state 22 |
-! | 27    | 0x06009E02 | -     | Alias of state 23 |
+! | 26    | 0x06009DD0 | ~26   | Post-race transition setup (alternate) |
+! | 27    | 0x06009E02 | ~26   | Counter transition (alternate) |
 ! | **28** | 0x06009508 | ~42   | **Abort processing** |
 ! | **29** | 0x0600955E | ~140  | **Abort menu** |
-! | 30    | 0x06008C76 | ~48   | Memory router |
-! | 31    | 0x06009F10 | ~100  | Pre-race countdown (3-2-1-GO) |
+! | 30    | 0x06008C14 | ~48   | Resource check router |
+! | 31    | 0x06008C76 | ~48   | Memory router |
 
 
 ! =============================================================================
@@ -111,12 +111,13 @@
 ! MENU FLOW (States 6-12)
 ! =============================================================================
 ! CONFIDENCE: HIGH -- States 6-11 addresses verified; menu flow consistent with arcade game
-! AUDIT NOTE: State 12 address is WRONG. Actual state 12 = 0x06008E00, not 0x06008C14.
+! AUDIT NOTE: FIXED: State 12 moved to PRE-RACE section (address corrected from 0x06008C14 to 0x06008E00).
 !
 ! Linear menu progression: Course Select -> Car Select -> Loading -> Race
 
-! CONFIDENCE: HIGH -- Address verified; jsr to FUN_06018E70 confirmed
-! AUDIT NOTE: Says "Course Select Init" but binary shows call to FUN_06018E70 (general init)
+! CONFIDENCE: HIGH -- Address verified; calls both FUN_06018E70 (general init) and FUN_060193F4 (course select init)
+! AUDIT NOTE: FIXED: Clarified that State 6 calls FUN_06018E70 (general init) FIRST, then FUN_060193F4 (course select init).
+! The name "Course Select Init" remains accurate as that is its primary purpose.
 ! STATE 6: FUN_06008B04 — Course Select Init (~24 insns)
 !   One-frame setup.
 !   Calls FUN_060193F4 (course select initialization).
@@ -151,39 +152,40 @@
 !   Calls FUN_0601B418 (check disc load completion).
 !   Routes to:
 !     state 6 (error -> re-select course)
-!     state 12 (success -> resource check)
+!     state 30 (success -> resource check)
 
-! STATE 12: FUN_06008C14 — Resource Check Router (~48 insns)
-!   Calls FUN_0601F8C0 (resource availability check).
-!   Checks 0x0605E0A2 (resource status flag).
-!   Routes to:
-!     state 4 (retry -> back to boundary)
-!     state 6 (re-select -> course select)
-!     state 31 (success -> pre-race countdown)
-
-
-! =============================================================================
-! PRE-RACE (States 13, 31)
-! =============================================================================
-! AUDIT NOTE: State 13 and 31 addresses are both WRONG here.
-!   Actual state 13 = FUN_06008E48 (not FUN_06008E00)
-!   Actual state 31 = FUN_06008C76 (not FUN_06009F10)
-
-! STATE 13: FUN_06008E00 — Race Preparation (~36 insns)
+! CONFIDENCE: HIGH -- Address 0x06008E00 verified; calls FUN_0600A0C0 + FUN_0600EC78 confirmed in binary
+! STATE 12: FUN_06008E00 — Race Preparation (~36 insns)
 !   Final pre-race setup.
 !   Calls:
 !     FUN_0600A0C0 — resource validation
+!     FUN_06018FA4 — init helper
 !     FUN_0600EC78 — car/physics initialization
+!     FUN_060210F6 — additional init
 !   Sets race_ready flag: 0x0605B6D8 |= 0x40000000
-!   Dispatches FUN_06018DDC(5, 5, 15) for transition to state 14.
+!   Calls FUN_06026CE0.
+!   Sets state = 13.
 
-! STATE 31: FUN_06009F10 — Pre-Race Countdown (~100 insns)
-!   "3...2...1...GO!" countdown.
-!   Decrements counter each frame.
-!   On expire:
-!     - Positions cars on starting grid
-!     - Loads initial camera
-!     - Transitions to state 14 (first race frame)
+
+! =============================================================================
+! PRE-RACE (States 12, 13)
+! =============================================================================
+! AUDIT NOTE: FIXED: State 12 corrected from FUN_06008C14 to FUN_06008E00.
+!   State 13 corrected from FUN_06008E00 to FUN_06008E48.
+!   Old State 31 (FUN_06009F10) was wrong; actual State 31 = FUN_06008C76 (memory router, moved to SPECIAL section).
+
+! CONFIDENCE: HIGH -- Address 0x06008E48 verified; branch structure confirmed in binary
+! STATE 13: FUN_06008E48 — Race Readiness Check (~28 insns)
+!   Checks countdown/readiness at 0x0607EBCC (cmp/pz).
+!   If ready (negative):
+!     Sets state = 14 (race first-frame setup).
+!     Calls FUN_06026CE0.
+!   If not ready (positive):
+!     Calls FUN_0600F424.
+!   Then checks if current state is still 13:
+!     If not: tail-jumps FUN_06018E70 (general init).
+!     If yes: returns.
+
 
 
 ! =============================================================================
@@ -266,10 +268,12 @@
 
 
 ! =============================================================================
-! RACE COMPLETION (States 20-25)
+! RACE COMPLETION (States 20-27)
 ! =============================================================================
-! CONFIDENCE: MEDIUM -- States 20-21, 24-25 verified; states 22-23 have WRONG addresses
-! AUDIT NOTE: Actual state 22 = FUN_06009E60, state 23 = FUN_06009F10.
+! CONFIDENCE: HIGH -- All states 20-27 addresses verified against binary jump table
+! AUDIT NOTE: FIXED: State 22 corrected from FUN_06009DD0 to FUN_06009E60.
+!   State 23 corrected from FUN_06009E02 to FUN_06009F10.
+!   States 22/26 and 23/27 are NOT aliases (they are distinct functions at different addresses).
 
 ! STATE 20: FUN_06009A60 — Race Completion Init (~195 insns)
 !   Calls FUN_06014A04 (final calculations).
@@ -287,20 +291,32 @@
 !     FUN_060053AC — display commit
 !   Tail-calls FUN_060078DC (frame sync).
 
-! STATE 22: FUN_06009DD0 — Post-Race Transition Setup (~24 insns)
-!   Shared with state 26 (same handler).
-!   Calls FUN_060190B8.
-!   Sets state = 27.
-!   Loads countdown from pool constant.
+! CONFIDENCE: HIGH -- Address 0x06009E60 verified; call chain confirmed in binary
+! STATE 22: FUN_06009E60 — Post-Race Transition Setup (~62 insns)
+!   Calls FUN_06019058.
+!   Calls FUN_0602853E(4), FUN_0602853E(8), FUN_0602853E(12).
 !   Calls FUN_06028560.
-!   Dispatches FUN_06018DDC(19, 19, 0).
+!   Calls FUN_06014884 x3 (with args 8, 16, 32).
+!   Calls FUN_060032D4.
+!   Loads countdown into 0x0607EBCC.
+!   Sets state = 23.
+!   Sets phase = 4 at 0x0605A016.
+!   Calls FUN_0600EB14, FUN_06033AAC.
+!   Tail-calls FUN_06018DDC.
 
-! STATE 23: FUN_06009E02 — Counter Transition (~26 insns)
-!   Shared with state 27 (same handler).
-!   Decrements countdown.
-!   If countdown <= 0: state = 30.
-!   Calls FUN_0601389E.
-!   Conditional FUN_06018E70.
+! CONFIDENCE: HIGH -- Address 0x06009F10 verified; countdown decrement confirmed in binary
+! STATE 23: FUN_06009F10 — Counter Transition (~52 insns)
+!   Calls FUN_0600A294.
+!   Decrements counter at 0x0607EBCC.
+!   If countdown < 0:
+!     Writes car/camera data (0x0607E944, 0x06078637, etc.)
+!     Sets state = 24.
+!     Writes 0x06087804 = 3.
+!   If countdown >= 0:
+!     Checks 0x0607EAD8 == 2 -> calls FUN_06033EA8.
+!     Calls FUN_0601FD74.
+!     Checks 0x06087804 == 3 -> special handling.
+!     Continues with game update calls.
 
 ! STATE 24: FUN_06009CFC — Post-Race Display Init (~40 insns)
 !   One-frame setup.
@@ -320,13 +336,26 @@
 
 
 ! =============================================================================
-! ABORT / SPECIAL STATES (States 26-30)
+! ABORT / SPECIAL STATES (States 28-31)
 ! =============================================================================
-! CONFIDENCE: HIGH -- States 26-29 verified; state 30 has WRONG address
-! AUDIT NOTE: State 30 is WRONG. Actual state 30 = FUN_06008C14, not FUN_06008C76.
+! CONFIDENCE: HIGH -- All states 28-31 addresses verified against binary jump table
+! AUDIT NOTE: FIXED: State 30 corrected from FUN_06008C76 to FUN_06008C14 (resource check router).
+!   State 31 corrected from FUN_06009F10 to FUN_06008C76 (memory router).
 
-! STATE 26: (Alias of state 22) — Same handler at 0x06009DD0
-! STATE 27: (Alias of state 23) — Same handler at 0x06009E02
+! STATE 26: FUN_06009DD0 — Post-Race Transition Setup (Alternate) (~26 insns)
+!   Calls FUN_060190B8.
+!   Sets state = 27.
+!   Loads countdown into 0x0607EBCC from pool constant.
+!   Calls FUN_06028560, FUN_06012F80.
+!   Sets phase = 3 at 0x0605A016.
+!   Tail-calls FUN_06018DDC(19, 19, 0).
+! STATE 27: FUN_06009E02 — Counter Transition (Alternate) (~26 insns)
+!   Decrements countdown at 0x0607EBCC.
+!   If countdown == 0: sets state = 30.
+!   Calls FUN_0601389E.
+!   Checks if current state is 27:
+!     If not: calls FUN_06018E70 (general init).
+!   Sets 0x0607864B = 1.
 
 ! STATE 28: FUN_06009508 — Abort Processing (~42 insns)
 !   Checks abort flag at 0x0607EBF4 bit 0.
@@ -343,7 +372,17 @@
 !     state 18 (time extension)
 !     state 20 (finish race)
 
-! STATE 30: FUN_06008C76 — Memory Router (~48 insns)
+! CONFIDENCE: HIGH -- Address 0x06008C14 verified; calls FUN_0601F8C0 confirmed in binary
+! STATE 30: FUN_06008C14 — Resource Check Router (~48 insns)
+!   Calls FUN_0601F8C0 (resource availability check).
+!   Checks 0x0605E0A2 (resource status flag).
+!   Routes to:
+!     state 4 (retry -> back to boundary)
+!     state 6 (re-select -> course select)
+!     state 31 (success -> memory router)
+
+! CONFIDENCE: HIGH -- Address 0x06008C76 verified; calls FUN_0601F900 confirmed in binary
+! STATE 31: FUN_06008C76 — Memory Router (~48 insns)
 !   Calls FUN_0601F900 (memory check).
 !   Checks memory_flag at 0x0605E0A2.
 !   Routes to:
@@ -354,7 +393,7 @@
 ! =============================================================================
 ! STATE TRANSITION GRAPH
 ! =============================================================================
-! CONFIDENCE: MEDIUM -- Graph plausible for arcade racer but not all transitions individually verified
+! CONFIDENCE: HIGH -- Graph updated to match corrected state-to-address mappings
 !
 !   [0] Init
 !    |
@@ -375,15 +414,20 @@
 !                       |
 !                       +-> [6] (error)
 !                       v (success)
-!   [12] Resource Check
+!   [30] Resource Check
 !        |
 !        +-> [4] (retry)
 !        +-> [6] (re-select)
 !        v (success)
-!   [31] Countdown (3-2-1-GO!)
+!   [31] Memory Router
 !        |
-!        v
-!   [13] Race Prep -> [14] First Frame
+!        +-> [4] (retry)
+!        +-> [6] (re-select)
+!        v (success)
+!   [12] Race Prep -> [13] Readiness Check
+!                          |
+!                          v (ready)
+!   [14] First Frame
 !                          |
 !                          v
 !   *** [15] MAIN RACE LOOP *** <---------+
@@ -429,9 +473,9 @@
 ! |----------|--------|-------|
 ! | CRITICAL | 15     | Main race loop — core gameplay |
 ! | HIGH     | 14,16,17 | Race setup/cleanup/lap handling |
-! | HIGH     | 13,31  | Pre-race init & countdown |
+! | HIGH     | 12,13  | Pre-race prep & readiness check |
 ! | MEDIUM   | 18,19  | Time extension mechanics |
-! | MEDIUM   | 20-25  | Race completion & results |
-! | LOW      | 0-12   | Menus — CCE has its own |
-! | LOW      | 26-30  | Transitions/abort — game-specific |
+! | MEDIUM   | 20-27  | Race completion & results |
+! | LOW      | 0-11   | Menus — CCE has its own |
+! | LOW      | 28-31  | Abort/resource/memory — game-specific |
 

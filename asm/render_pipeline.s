@@ -116,7 +116,7 @@
 ! These functions generate VDP1 sprite/polygon commands and submit
 ! them to the VDP1 command table in VRAM.
 !
-! AUDIT NOTE: VDP1 commands are 32B, NOT 16B.
+! AUDIT NOTE: FIXED: VDP1 command size corrected to 32B. Previous text had 16B.
 ! VDP1 command format (32 bytes per command):
 !   +0x00: Control word (draw mode, color mode)
 !   +0x02: Link pointer

@@ -1,5 +1,5 @@
 ! ================================================
-! AUDIT: MEDIUM -- Function addresses verified; some hardware subsystem labels are inaccurate
+! AUDIT: HIGH -- Function addresses verified; hardware subsystem labels corrected
 ! Audited: 2026-02-10
 ! ================================================
 ! =============================================================================
@@ -16,17 +16,21 @@
 ! =============================================================================
 ! HARDWARE INITIALIZATION (0x06003218-0x06003508)
 ! =============================================================================
-! CONFIDENCE: MEDIUM -- All function addresses verified; hardware subsystem labels need correction
+! CONFIDENCE: MEDIUM -- All function addresses verified; hardware subsystem labels corrected
 !
 ! Called once during power-on to configure Saturn hardware.
 
 ! CONFIDENCE: MEDIUM -- Address verified; calls through indirect ptr 0x06000310 with command 0x65
-! AUDIT NOTE: NOT SCU registers. Addresses are work RAM (0x0600xxxx), not SCU (0x25FE0000+). Likely SCSP sound control via BIOS driver.
-! FUN_06003218 — SCU register initialization (46 insns, LEAF)
-!   Configures Sound Control Unit hardware registers.
-!   Calls hardware function via PTR_DAT_060032c0 with command 0x65.
-!   Bit-manipulates control registers at FE10, FE11, FE16, FE14
-!   through AND/OR sequences to set up sound system control flags.
+! FIXED: Was "SCU register initialization." Pool at 0x060032C0 = 0x06000310 (work RAM
+!   indirect ptr), not SCU. Word constants FE10/FE11/FE16/FE14 sign-extend to 0xFFFFFE10+
+!   = SH-2 on-chip Free-Running Timer (FRT) registers, not SCU (0x25FE0000+).
+! FUN_06003218 -- Sound/timer initialization via BIOS driver (46 insns, LEAF)
+!   Calls BIOS function via indirect pointer at 0x06000310 with command 0x65 (r4=101).
+!   Then bit-manipulates SH-2 on-chip I/O registers (sign-extended from 16-bit mov.w):
+!     0xFFFFFE10 (TIER -- Timer Interrupt Enable), 0xFFFFFE11 (FTCSR -- FRT Status),
+!     0xFFFFFE16, 0xFFFFFE14 (FRT counter/compare registers)
+!   AND/OR sequences configure timer control flags and write command bytes
+!   (0x01, 0x66) to a work RAM control block near 0x060032B6.
 
 ! CONFIDENCE: HIGH -- Address verified; command codes 4, 6, 9 plausible for VDP
 ! FUN_06003274 — VDP initialization dispatcher (31 insns, CALL)
@@ -44,24 +48,28 @@
 !   Command code 0x0C (12).
 
 ! CONFIDENCE: HIGH -- Address verified; pool constants 0x25F00800, 0x25E34000 confirmed
-! AUDIT NOTE: NOT SCU DMA. 0x25F00xxx/0x25E3xxxx are VDP2 VRAM/CRAM, not SCU DMA regs (0x25FE0000+). Should be VDP2 VRAM transfer.
-! FUN_06003466 — SCU DMA init variant 1 (31 insns, CALL)
-!   DMA setup for course 0 data.
-!   Addresses: 0x25F00800, 0x25F00200, 0x25E34000, 0x25E4363C, 0x25E40000
-!   Three transfer operations.
+! FIXED: Was "SCU DMA init variant 1." Addresses 0x25F00xxx = VDP2 Color RAM,
+!   0x25E3xxxx/0x25E4xxxx = VDP2 VRAM. These are NOT SCU DMA registers (0x25FE0000+).
+!   Calls memcpy_word_idx (0x0602761E) and FUN_06028654 for data transfers.
+! FUN_06003466 -- VDP2 VRAM/CRAM data transfer, course 0 (31 insns, CALL)
+!   Copies graphics data into VDP2 memory for course 0.
+!   Transfer 1: memcpy_word_idx from 0x25F00200 to 0x25F00800 (96 bytes, VDP2 CRAM)
+!   Transfer 2: FUN_06028654 from 0x25E4363C to 0x25E34000 (VDP2 VRAM)
+!   Transfer 3: FUN_06028654 from work RAM via 0x060612AC to 0x25E40000 (VDP2 VRAM)
 
 ! CONFIDENCE: HIGH -- Address verified; same VDP2 transfer pattern
-! AUDIT NOTE: Same mislabel -- VDP2 VRAM transfer, not SCU DMA.
-! FUN_060034D4 — SCU DMA init variant 2 (41 insns, CALL)
-!   DMA setup for course 1 data.
-!   Addresses: 0x25F00940, 0x25E4EFEC, 0x25E42300, 0x25E42C78
-!   Three transfer sequences.
+! FIXED: Was "SCU DMA init variant 2." Same VDP2 VRAM/CRAM transfer pattern.
+! FUN_060034D4 -- VDP2 VRAM/CRAM data transfer, course 1 (41 insns, CALL)
+!   Copies graphics data into VDP2 memory for course 1.
+!   Addresses: 0x25F00860/0x25F00200 (VDP2 CRAM), 0x25E34000/0x25E497E4 (VDP2 VRAM),
+!   0x25E4108C, 0x25E41A24 (VDP2 VRAM). Three transfer sequences.
 
 ! CONFIDENCE: HIGH -- Address verified; same VDP2 transfer pattern
-! AUDIT NOTE: Same mislabel -- VDP2 VRAM transfer, not SCU DMA.
-! FUN_06003508 — SCU DMA init variant 3 (31 insns, CALL)
-!   DMA setup for course 2 data.
-!   Same pattern as variants 1 and 2, course-specific addresses.
+! FIXED: Was "SCU DMA init variant 3." Same VDP2 VRAM/CRAM transfer pattern.
+! FUN_06003508 -- VDP2 VRAM/CRAM data transfer, course 2 (31 insns, CALL)
+!   Copies graphics data into VDP2 memory for course 2.
+!   Addresses: 0x25F00940/0x25F00200 (VDP2 CRAM), 0x25E34000/0x25E4EFEC (VDP2 VRAM),
+!   0x25E42300, 0x25E42C78 (VDP2 VRAM). Same pattern as courses 0 and 1.
 
 
 ! =============================================================================

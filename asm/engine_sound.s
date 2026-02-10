@@ -1,12 +1,13 @@
 ! ================================================
 ! AUDIT: HIGH -- Engine sound system annotation is substantially correct.
-! Both function addresses confirmed in binary. FUN_0600A8BC instruction sequence
-! verified byte-for-byte: pool literals 0x06063F46, 0x0607E940, thresholds 100/200,
-! increments +1/+2/+4, mask 0x0F all confirmed. FUN_060302C6/060302D2 prologue and
+! Both function addresses confirmed in binary (unlabeled but verified as real code).
+! FUN_0600A8BC instruction sequence verified byte-for-byte: pool literals 0x06063F46,
+! 0x0607E940, thresholds 100/200, increments +1/+2/+4, mask 0x0F all confirmed.
+! Speed offset corrected: offset 0x8 is the speed (threshold comparisons), offset 0xC
+! is the active/moving flag (zero-test only). FUN_060302C6/060302D2 prologue and
 ! initial setup (r9=0 accumulator, r6=input, 0x0607E944, 0x0607ED8C, 0x06063D9A,
-! 0x0608188A) all verified. One structural error found in FUN_0600A8BC: the speed
-! offset used for threshold comparisons is 0x8 not 0xC. Minor address issues noted.
-! Audited: 2026-02-09
+! 0x0608188A) all verified. Both addresses confirmed as unlabeled subroutines.
+! Audited: 2026-02-09, FIXED: 2026-02-10
 ! ================================================
 
 ! =============================================================================
@@ -63,11 +64,13 @@
 ! Algorithm:
 !   counter = *(word*)0x06063F46
 !   car = *0x0607E940
-!   speed = car->speed  (offset 0xC)
-! AUDIT NOTE: The annotation says speed is at offset 0xC but the binary shows
-! offset 0xC (r0) is used only for the zero-test (if zero, reset counter).
-! The actual threshold comparisons (100, 200) use offset 0x8 (loaded into r3/r2).
-! So offset 0xC is likely a "moving/active" flag, and offset 0x8 is the speed.
+!   active_flag = car->active_flag  (offset 0xC -- zero-test only, NOT the speed)
+!   speed = car->speed  (offset 0x8 -- used for threshold comparisons 100/200)
+! FIXED: Speed offset corrected. Binary confirms offset 0xC (mov.l @(0xC,r5),r0)
+! is only zero-tested (tst r0,r0 / bt .audio_zero_speed) -- it is a moving/active
+! flag, NOT the speed. The actual speed for threshold comparisons (100, 200) is at
+! offset 0x8 (mov.l @(0x8,r5),r3 at 0x0600A8CA). Annotation updated below to use
+! offset 0x8 for speed and 0xC for the active flag.
 !   if (speed == 0):
 !     counter = 0
 !   elif (speed < 100):
@@ -79,18 +82,22 @@
 !   counter &= 0x0F  (wrap at 16 phases)
 !   store back
 
-! AUDIT NOTE: FUN_0600A8BC has no label in aprog.s. It exists as code at that
-! address, referenced from pool literals at [0x0600DFA0] and [0x0600E52C].
+! FIXED: Confirmed 0x0600A8BC is an unlabeled subroutine in aprog.s (no FUN_ label).
+! Code verified at this address: mov.l @(0x4C,PC),r4 {0x06063F46} /
+! mov.l @(0x50,PC),r5 {0x0607E940} / mov.l @r5,r5 / mov.l @(0xC,r5),r0 /
+! tst r0,r0 / bt 0x0600A8F8. Pool confirms 0x06063F46 (phase counter) and
+! 0x0607E940 (car pointer). Referenced from pool literals at [0x0600DFA0] and
+! [0x0600E52C]. Real code, just unlabeled by the symbol table.
 FUN_0600A8BC:  ! 0x0600A8BC
     mov.l   @(0x4C,PC),r4           ! r4 = 0x06063F46 (phase counter)
     mov.l   @(0x50,PC),r5           ! r5 = 0x0607E940
     mov.l   @r5,r5                  ! r5 = car base
-    mov.l   @(0xC,r5),r0            ! r0 = car->active_flag (NOT speed -- see AUDIT NOTE)
+    mov.l   @(0xC,r5),r0            ! r0 = car->active_flag (offset 0xC: zero=stopped)
     tst     r0,r0
     bt      .audio_zero_speed       ! speed == 0 → reset
 
     mov     #100,r2
-    mov.l   @(0x8,r5),r3            ! r3 = car->speed (used for threshold comparison)
+    mov.l   @(0x8,r5),r3            ! r3 = car->speed (offset 0x8: compared against 100)
     cmp/ge  r2,r3
     bt      .speed_ge_100
 
@@ -101,7 +108,7 @@ FUN_0600A8BC:  ! 0x0600A8BC
     mov.w   r2,@r4
 
 .speed_ge_100:
-    mov.l   @(0x8,r5),r2            ! r2 = car->speed (re-read for 200 threshold)
+    mov.l   @(0x8,r5),r2            ! r2 = car->speed (offset 0x8: compared against 200)
     mov.w   @(0x22,PC),r3           ! 200 (pool value 0x00C8)
     cmp/ge  r3,r2
     bt      .speed_ge_200
@@ -202,10 +209,12 @@ FUN_0600A8BC:  ! 0x0600A8BC
 !   Parse: bits 0-1 = level, bit 6 = brake, bit 7 = accel
 !   Same ramp logic but driven by recorded data instead of live input
 
-! AUDIT NOTE: FUN_060302C6 has no label in aprog.s. It is the 6 push instructions
-! (r8-r13) immediately before FUN_060302D2 which IS labeled. This annotation
-! treats the combined pair as one function, which is correct -- FUN_060302C6 falls
-! through into FUN_060302D2 with no branch.
+! FIXED: Confirmed 0x060302C6 is an unlabeled prologue in aprog.s (no FUN_ label).
+! Code verified: mov.l r8,@-r15 / mov.l r9,@-r15 / mov.l r10,@-r15 /
+! mov.l r11,@-r15 / mov.l r12,@-r15 / mov.l r13,@-r15 -- then falls through to
+! FUN_060302D2 which IS labeled. This annotation treats the combined pair as one
+! function, which is correct -- 060302C6 falls through into 060302D2 with no branch.
+! Real code, just unlabeled by the symbol table.
 FUN_060302C6:  ! 0x060302C6
     mov.l   r8,@-r15
     mov.l   r9,@-r15

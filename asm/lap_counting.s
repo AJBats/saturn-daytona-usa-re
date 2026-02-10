@@ -85,8 +85,7 @@
 ! CONFIDENCE: DEFINITE
 ! Every instruction verified. Index calc (*24), checkpoint parameter
 ! read, atan2 call, angle comparison, and wrap logic all confirmed.
-! AUDIT NOTE: Lines 86-90 show live working-through of the multiply.
-! The final answer (index*24) is correct despite messy inline notes.
+! AUDIT NOTE: FIXED: Cleaned up multiply working notes. Corrected intermediate comments: shll2 r3 first gives index*4 (not *16), second shll2 r3 gives index*16 (not *64). Final answer index*24 was already correct.
 FUN_0600CD40:                           ! 0x0600CD40
     mov.l   r14,@-r15
     mov.l   r13,@-r15
@@ -98,13 +97,10 @@ FUN_0600CD40:                           ! 0x0600CD40
     add     #-4,r0                      ! r0 = 0x01E0
     mov     r13,r3
     shll2   r13                         ! r13 = index * 4
-    shll2   r3                          ! r3 = index * 16
-    shll    r13                         ! r13 = index * 8
-    shll2   r3                          ! r3 = index * 64  (wait: 4*16=64? no, *4*4=16, *4 again=64, no...)
-                                        ! Actually: r3 = index * (4+16) = index * 20? No...
-                                        ! r13 = index<<2<<1 = index*8
-                                        ! r3 = index<<2<<2<<2 = index*64
-                                        ! r13 + r3 = index * (8+16) = index*24 ✓
+    shll2   r3                          ! r3 = index * 4
+    shll    r13                         ! r13 = index * 8  (4 << 1)
+    shll2   r3                          ! r3 = index * 16  (4 << 2)
+                                        ! r13 + r3 = index * (8 + 16) = index * 24 ✓
     add     r3,r13                      ! r13 = index * 24 (checkpoint entry size)
     mov.l   @(r0,r14),r3               ! r3 = car[0x01E0] (checkpoint table base)
     add     r3,r13                      ! r13 = &checkpoint_table[index]
@@ -198,10 +194,7 @@ FUN_0600CD40:                           ! 0x0600CD40
 ! Prologue, pool constants, three paths (backward jump, forward jump,
 ! single step) all verified. Lap completion triggers (FUN_0600D9BC,
 ! FUN_0600D92C) confirmed. Wrong-way flag at 0x0605DE3C confirmed.
-! AUDIT NOTE: At 0x0600D7F0, the annotation comments out subc r2,r3
-! but the actual byte 0x332E does not decode to subc (which would be
-! 0x332A). The byte 0x332E is likely addc r2,r3 or another opcode.
-! This does not affect the overall analysis since shar follows.
+! AUDIT NOTE: FIXED: Replaced commented-out 'subc r2,r3' with actual instruction 'addc r2,r3'. Binary byte 0x332E at 0x0600D7F0 decodes to addc (0x3nnE), not subc (0x3nnA).
 FUN_0600D780:                           ! 0x0600D780
     mov.l   r14,@-r15
     mov     r4,r14                      ! r14 = player_flag (0=player)
@@ -268,7 +261,7 @@ FUN_0600D780:                           ! 0x0600D780
     mov.l   @r6,r3                      ! r3 = total_checkpoints
     mov     #0,r2
     add     #-64,r0                     ! r0 = 0x01E8
-    ! subc r2,r3                        ! r3 = total - borrow (complex calc)
+    addc    r2,r3                       \! r3 = total + r2 + T (addc, NOT subc; opcode 0x332E)
     shar    r3                           ! r3 = total / 2
     mov.l   @(r0,r4),r1                ! r1 = car[0x01E8]
     cmp/ge  r3,r1                       ! if progress >= total/2

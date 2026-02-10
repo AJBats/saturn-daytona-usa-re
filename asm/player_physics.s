@@ -65,7 +65,7 @@
 !   +0x1DC: long  — gear shift countdown timer
 !   +0x258: word  — gear shift sound parameter
 !   +0x301: long  — gear direction (+1=up, -1=down)
-!   +0x350: long  — steering deflection value
+!   +0x1D8: long  — steering deflection value
 !
 ! KEY DATA ADDRESSES:
 !   0x0607E940  — current game object pointer (player car base)
@@ -204,8 +204,8 @@ FUN_0600E71A:                            ! 0x0600E71A
 ! CONFIDENCE: HIGH
 ! Instruction sequence verified against ground truth 0x06008318-0x060083DE.
 ! Gear shift detection (bits 0x10/0x20), timer=32, direction +/-1 confirmed.
-! AUDIT NOTE: Line 256 says r0=0x0201 but pool at 0x06008360 = 0x01D8.
-! Store writes to car[0x01D8], NOT car[0x350]. Header also wrong about +0x350.
+! FIXED: Corrected r0 value from 0x0201 to 0x01D8 (verified pool at 0x06008360).
+! Store writes to car[0x01D8]. Header offset +0x350 also corrected to +0x1D8.
 ! FUN_06008318 — Controller Input Handler (Gear Shifting & Steering Column)
 ! ============================================================================
 ! Reads controller state from the car object and processes gear shift inputs.
@@ -216,7 +216,7 @@ FUN_0600E71A:                            ! 0x0600E71A
 !      - Decrement countdown at car+0x1DC
 !      - Look up signed steering value from table at 0x060453CC
 !      - Apply sign based on direction at car+0x301
-!      - Store deflection to car+0x350
+!      - Store deflection to car+0x1D8
 !
 !   B) If no timer but race frame count > threshold (0x0607EBD0 > limit):
 !      Check gear shift buttons in car flag byte:
@@ -227,7 +227,7 @@ FUN_0600E71A:                            ! 0x0600E71A
 !   C) Always at end: Call FUN_06034F78 twice to interpolate/zero out
 !      steering column values. This resets the column smoothly after input.
 !
-! The steering column value (car+0x350) feeds into FUN_06008640 which
+! The steering column value (car+0x1D8) feeds into FUN_06008640 which
 ! selects force vectors from lookup tables.
 
 FUN_06008318:                            ! 0x06008318
@@ -270,7 +270,7 @@ FUN_06008318:                            ! 0x06008318
     neg     r1,r3                        ! r3 = -steering_value (flip for opposite dir)
 
 .L_store_steer:                          ! 0x06008350
-    mov.w   @(0xC,PC),r0               ! r0 = 0x0201 (offset → but likely 0x350 area)
+    mov.w   @(0xC,PC),r0               ! r0 = 0x01D8 (steering deflection offset)
     mov.l   r3,@(r0,r2)               ! car[offset] = steering_deflection
     bra     .L_input_finalize            ! Jump to finalization
     nop
@@ -535,13 +535,14 @@ FUN_060086C0:                            ! 0x060086C0
 ! CONFIDENCE: MEDIUM
 ! Only partially annotated. Key behavior (12-byte records, gas/brake via
 ! 0x40/0x80) consistent with force_tables.s but gas=0x40/brake=0x80 SPECULATIVE.
-! AUDIT NOTE: Header says timers car+0x208/0x1E4 but 0x06008730 decrements
-! 0x01BC/0x00BC. The 0x208/0x1E4 timers are in FUN_0600E71A step 6 instead.
+! FIXED: Header corrected. 0x06008730 decrements car+0x1BC (force decay timer)
+! and car+0x00BC (secondary force timer), verified from pool words at 0x060087E8/EA.
+! The 0x208/0x1E4 timers are in FUN_0600E71A step 6, not here.
 ! 0x06008730 — Post-Force Update: Timer Decrements & Steering Angle Read
 ! ============================================================================
 ! After force selection (or if skipped), this section:
-!   1. Decrements car+0x208 timer (if positive)
-!   2. Decrements car+0x1E4 timer (if positive)
+!   1. Decrements car+0x1BC timer (force decay, if positive)
+!   2. Decrements car+0x00BC timer (secondary force, if positive)
 !   3. Checks car mode field for value 10 (special mode)
 !   4. Reads a 12-byte steering record from the record list:
 !      - Advances record pointer by 12
@@ -717,15 +718,15 @@ FUN_0600C4F8:                            ! 0x0600C4F8
 ! ============================================================================
 ! CONFIDENCE: HIGH
 ! Prologue, pool constants, branching logic verified against ground truth.
-! AUDIT NOTE: FUN_0600CD40 is more accurately checkpoint processing (returns
-! track entry pointer), not collision detection per se.
-! FUN_0600C5D6 — Collision Detection & Position Integration
+! FIXED: FUN_0600CD40 description corrected from collision detection to
+! checkpoint processing (returns track entry pointer, verified from binary).
+! FUN_0600C5D6 — Checkpoint Processing & Position Integration
 ! ============================================================================
 ! Step 5 of player physics. Detects collisions and integrates force vectors
 ! into actual X/Z position changes.
 !
 ! Flow:
-!   1. Call FUN_0600CD40 — collision check (returns collision_data in r0)
+!   1. Call FUN_0600CD40 — checkpoint processing (returns entry pointer in r0)
 !   2. Read course type from 0x06087804
 !   3. If course type == 2: special collision path
 !   4. Otherwise: check multiple conditions (timers, flags)
@@ -753,7 +754,7 @@ FUN_0600C5D6:                            ! 0x0600C5D6
     mov.l   @(0x3C,PC),r14             ! r14 -> 0x0607E940
     mov.l   @(0x40,PC),r13             ! r13 = 0x06078680 (track collision data)
 
-    bsr     FUN_0600CD40                 ! Collision detection
+    bsr     FUN_0600CD40                 ! Checkpoint processing
     mov.l   @r14,r14                     ! (delay) r14 = car_object
 
     mov     r0,r12                       ! r12 = collision_result
@@ -973,17 +974,17 @@ FUN_0600CEBA:                            ! 0x0600CEBA
 
 ! ============================================================================
 ! CONFIDENCE: MEDIUM
-! AUDIT NOTE: Branch logic labels INVERTED. bt/s to 0x0600E948 (main AI
-! processing) fires when car_index==0. Fall-through clears car[0xC] and exits.
-! Label .L_ai_exit actually points to processing body, not exit path.
+! FIXED: Branch labels corrected. bt/s to 0x0600E948 branches when car_index==0
+! (player car entered AI path unexpectedly) and runs AI processing anyway.
+! Fall-through (car_index!=0) clears car[0xC] and exits.
+! Labels renamed: .L_ai_process (body at 0x0600E948).
 ! FUN_0600E906 — AI Car Physics (for comparison)
 ! ============================================================================
 ! The AI counterpart to FUN_0600E71A. Much simpler — no controller input,
 ! no force tables. Instead uses track-following "chase" algorithm.
 !
-! If car_index == 0 (shouldn't happen for AI, safety check):
-!   Clear car+0xC, branch to epilogue
-! Otherwise:
+! If car_index == 0 (bt/s taken to 0x0600E948):
+!   Run full AI processing pipeline:
 !   1. jsr FUN_0600D266  — (stub, same as player)
 !   2. jsr FUN_0600C74E  — AI-specific processing
 !   3. Compute heading via FUN_06027552(car+0xC, 0x00480000)
@@ -992,6 +993,8 @@ FUN_0600CEBA:                            ! 0x0600CEBA
 !   6. Score computation (same formula as player)
 !   7. Check a flag: if zero, clear car+0x228 and car+0x1EC
 !   8. Fall through to FUN_0600EA18 (track-following velocity, see race_update.s)
+! If car_index != 0 (fall-through):
+!   Clear car+0xC, branch to epilogue (safety exit)
 
 FUN_0600E906:                            ! 0x0600E906
     mov.l   r14,@-r15
@@ -1001,18 +1004,18 @@ FUN_0600E906:                            ! 0x0600E906
     mov.l   @(0x34,PC),r0              ! r0 = &0x0607EAD8 (car index)
     mov.l   @r0,r0                       ! r0 = car_index
     tst     r0,r0                        ! Is this car 0 (player)?
-    bt/s    .L_ai_exit                   ! Yes (shouldn't happen) → exit
+    bt/s    .L_ai_process                ! car_index==0: branch to AI processing
     mov.l   @r14,r14                     ! (delay) r14 = car_object
 
-    ! Safety: clear acceleration if player car somehow entered AI path
+    ! Non-zero car index: clear acceleration and exit (safety path)
     mov     #0,r3
     bra     .L_ai_epilogue
     mov.l   r3,@(0xC,r14)              ! car[0xC] = 0
 
     ! ... (exits through common epilogue) ...
 
-.L_ai_exit:                              ! 0x0600E948
-    ! Normal AI physics:
+.L_ai_process:                              ! 0x0600E948
+    ! AI physics processing body:
     mov.l   @(0xA4,PC),r3              ! r3 = 0x0600D266 (friction stub)
     jsr     @r3
     nop

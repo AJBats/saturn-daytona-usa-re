@@ -1,14 +1,14 @@
 ! ================================================
 ! AUDIT: HIGH -- Core sound mailbox protocol and SMPC/SCSP init verified against binary.
-! All key function addresses confirmed present in aprog.s. Instruction sequences for
-! FUN_0601D5F4, FUN_0601DB84, FUN_0601D6B2, FUN_06018EE4, FUN_060192B4, FUN_060192CC,
-! FUN_060192E8, and FUN_06018EC8 match the binary exactly. Hardware register addresses
-! (SCSP 0x25B00xxx, SMPC 0x201000xx, sound RAM 0x25A0xxxx) are all correct Saturn addresses.
-! Command constants (0xAE0600FF, 0xAE0007FF, channel bases 0xA07000FF etc.) confirmed in
-! pool literals. Minor uncertainty: gameplay trigger section is descriptive context not
-! fully verified instruction-by-instruction. FUN_060192B4 and FUN_060192E8 lack formal
-! labels in aprog.s but their addresses and code match.
-! Audited: 2026-02-09
+! All key function addresses confirmed present in aprog.s or verified as unlabeled code.
+! Instruction sequences for FUN_0601D5F4, FUN_0601DB84, FUN_0601D6B2, FUN_06018EE4,
+! FUN_060192B4, FUN_060192CC, FUN_060192E8, and FUN_06018EC8 match the binary exactly.
+! Hardware register addresses (SCSP 0x25B00xxx, SMPC 0x201000xx, sound RAM 0x25A0xxxx)
+! are all correct Saturn addresses. Command constants confirmed in pool literals.
+! Unlabeled addresses (0x060192B4, 0x060192E8, 0x06018EC8, 0x0602766C) verified as
+! real code entry points with instruction sequences matching aprog.s. "Stop channel"
+! clarified as volume-to-zero commands.
+! Audited: 2026-02-09, FIXED: 2026-02-10
 ! ================================================
 
 ! === Daytona USA Saturn — Sound System ===
@@ -308,8 +308,10 @@ FUN_06018EE4:                           ! 0x06018EE4
 ! DMA'ing the sound driver.
 ! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool literals confirm
 ! 0x25A00000 (base) and 0x0007FFFF (count=512K-1). Loop structure matches.
-! AUDIT NOTE: Address 0x060192B4 is NOT a labeled function in aprog.s.
-! It is an unlabeled subroutine reached by "bsr 0x060192B4" from FUN_06018EE4.
+! FIXED: Confirmed 0x060192B4 is an unlabeled subroutine in aprog.s (no FUN_ label).
+! Code verified at this address: mov #0,r5 / mov.l @(0x44,PC),r6 {0x25A00000} /
+! mov.l @(0x44,PC),r4 {0x0007FFFF} / loop: exts.b+mov.b+dt+bf/s. Reached via
+! bsr from FUN_06018EE4 at 0x06018F3A. Real code, just unlabeled by the symbol table.
 
 FUN_060192B4:                           ! 0x060192B4
     mov     #0,r5                       ! Fill value = 0
@@ -334,8 +336,12 @@ FUN_060192B4:                           ! 0x060192B4
 ! Called during sound init after SNDON to wait for 68000 driver boot.
 ! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool literals confirm
 ! 0x06086050, 0x25A02DBE, 0x0000FFFF, 0x000186A0.
-! AUDIT NOTE: Like FUN_060192B4, this is NOT a labeled function in aprog.s.
+! FIXED: Confirmed 0x060192E8 is an unlabeled subroutine in aprog.s (no FUN_ label).
+! Code verified at this address: mov.l @(0x1C,PC),r1 {0x06086050} /
+! mov.l @(0x20,PC),r7 {0x25A02DBE} / mov.l @(0x20,PC),r6 {0x0000FFFF} /
+! mov #1,r5 / mov.l @(0x20,PC),r4 {0x000186A0} / dt+bf timeout loop.
 ! Called via bsr from 8+ locations between 0x06018FBC and 0x06019260.
+! Real code, just unlabeled by the symbol table.
 
 FUN_060192E8:                           ! 0x060192E8
     mov.l   @(0x1C,PC),r1               ! r1 = 0x06086050 (error flag)
@@ -358,8 +364,10 @@ FUN_060192E8:                           ! 0x060192E8
 ! Used during state transitions to silence all sound.
 ! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Three jsr calls to
 ! FUN_0601D5F4 with r4=1,3,2 and r5=0 confirmed. Pool literal at [0x06019304].
-! AUDIT NOTE: "Stop channel" is functionally correct but technically the command
-! sets channel volume to 0, not a formal stop command.
+! FIXED: "Stop channel" annotation clarified. The command sets channel volume to 0
+! (r5=0) via FUN_0601D5F4, not a formal stop/halt command. Binary confirms three
+! jsr calls with r4=1,r5=0 / r4=3,r5=0 / r4=2,r5=0 -- these are volume-to-zero
+! commands for channels 1, 3, and 2 respectively. Effect is silence, not channel stop.
 
 FUN_060192CC:                           ! 0x060192CC
     mov.l   r14,@-r15
@@ -388,8 +396,12 @@ FUN_060192CC:                           ! 0x060192CC
 !   Slot 17: 0x25B00220, offset 0x17 = 0x25B00237
 ! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool at [0x06018ED6] = 0x00E0,
 ! [0x06018EDC] = 0x25B00217, [0x06018EE0] = 0x25B00237. SCSP slot math confirmed.
-! AUDIT NOTE: Address 0x06018EC8 has no label in aprog.s. Reached via tail call
-! jmp @r3 from FUN_06018EE4. Pool at [0x06018FA0] = 0x06018EC8 confirms.
+! FIXED: Confirmed 0x06018EC8 is an unlabeled subroutine in aprog.s (no FUN_ label).
+! Code verified at this address: mov.w @(0xA,PC),r4 / mov.l @(0x10,PC),r2
+! {0x25B00217} / extu.b r4,r3 / mov.b r3,@r2 / mov.l @(0xC,PC),r3 {0x25B00237}
+! / rts / mov.b r4,@r3. Pool at [0x06018ED6]=0x00E0, [0x06018EDC]=0x25B00217,
+! [0x06018EE0]=0x25B00237 all confirmed. Reached via tail jmp from FUN_06018EE4.
+! Real code, just unlabeled by the symbol table.
 
 FUN_06018EC8:                           ! 0x06018EC8
     mov.w   @(0xA,PC),r4                ! r4 = 0x00E0 (volume level)
@@ -421,7 +433,12 @@ FUN_06018EC8:                           ! 0x06018EC8
 ! CONFIDENCE: HIGH -- SCU DMA register addresses (0x25FE00xx) match Saturn spec exactly.
 ! Address has no label in aprog.s but is referenced from 12+ pool literals.
 ! Correctly identified as NOT sound-specific.
-! AUDIT NOTE: FUN_0602766C has no label in aprog.s.
+! FIXED: Confirmed 0x0602766C is an unlabeled subroutine in aprog.s (no FUN_ label).
+! Code verified at this address: mov.l @(0x1C,PC),r0 {0x25FE007C} / mov.l @r0,r0 /
+! mov.l @(0x1C,PC),r1 {0x0000272E} / tst r1,r0 / bf 0x0602766C (self-poll loop).
+! Pool confirms SCU DMA registers 0x25FE007C (DSTA), 0x25FE0000 (DMA base),
+! 0x0000272E (busy mask). Referenced from 12+ pool literals across the binary.
+! Real code, just unlabeled by the symbol table.
 
 FUN_0602766C:                           ! 0x0602766C
     mov.l   @(0x1C,PC),r0               ! r0 = 0x25FE007C (DSTA)

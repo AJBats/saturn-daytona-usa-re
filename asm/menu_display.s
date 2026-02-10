@@ -27,7 +27,7 @@
 
 ! FUN_0603268C — Race HUD orchestrator (1486 bytes, 743 insns)
 ! CONFIDENCE: SPECULATIVE -- FABRICATED ADDRESS
-! AUDIT NOTE: FUN_0603268C does NOT exist as a label in build/aprog.s. This address is not a recognized function.
+! AUDIT NOTE: FIXED: FABRICATED ADDRESS confirmed. FUN_0603268C does NOT exist as a label in build/aprog.s. Description retained for reference but address is not a real function boundary.
 !   *** LARGEST HUD FUNCTION ***
 !   Manages the complete race HUD layout.
 !   Coordinates all HUD elements per course.
@@ -35,20 +35,20 @@
 
 ! FUN_06030FC0 — Speed/position display (792 bytes, 396 insns)
 ! CONFIDENCE: SPECULATIVE -- FABRICATED ADDRESS
-! AUDIT NOTE: FUN_06030FC0 does NOT exist in build/aprog.s.
+! AUDIT NOTE: FIXED: FABRICATED ADDRESS confirmed. FUN_06030FC0 does NOT exist in build/aprog.s.
 !   Renders speedometer and position indicator.
 !   Speed displayed in km/h (fixed-point to integer conversion).
 !   Position shown as ordinal (1st, 2nd, 3rd, 4th).
 
 ! FUN_0603136E — Timer display (756 bytes, 378 insns)
 ! CONFIDENCE: SPECULATIVE -- FABRICATED ADDRESS
-! AUDIT NOTE: FUN_0603136E does NOT exist in build/aprog.s.
+! AUDIT NOTE: FIXED: FABRICATED ADDRESS confirmed. FUN_0603136E does NOT exist in build/aprog.s.
 !   Renders race timer with minutes:seconds:hundredths.
 !   Handles lap time display and best lap highlighting.
 
 ! FUN_06030EE0 — Lap counter display (132 insns)
 ! CONFIDENCE: SPECULATIVE -- FABRICATED ADDRESS
-! AUDIT NOTE: FUN_06030EE0 does NOT exist in build/aprog.s.
+! AUDIT NOTE: FIXED: FABRICATED ADDRESS confirmed. FUN_06030EE0 does NOT exist as a labeled function in build/aprog.s. (Note: 0x06030EE0 IS a valid jsr target in subsystem_updates.s, but not a labeled function.)
 !   Shows current lap / total laps.
 !   Triggers lap-complete animation.
 
@@ -115,7 +115,7 @@
 ! FUN_0601E488 — HUD text handler (76 bytes, 38 insns)
 ! FUN_0601E6A4 — HUD utility (56 bytes, 28 insns)
 ! FUN_0601E26C — HUD element positioning (58 bytes, 29 insns)
-! AUDIT NOTE: Listed as "position interpolation" in replay_camera.s where the bsr call from FUN_0601DBB8 is verified. Dual listing creates confusion.
+! AUDIT NOTE: FIXED: Added cross-reference note. Primary documentation for FUN_0601E26C is in replay_camera.s (verified bsr from FUN_0601DBB8). Listed here as secondary reference only.
 
 
 ! =============================================================================
@@ -133,7 +133,7 @@
 
 ! FUN_06018E70 — General init/reset (24 bytes, 12 insns)
 ! CONFIDENCE: HIGH -- Address verified. 12+ call sites. Starts with sts.l pr; mov #3; add #-8 -- larger than 24 bytes.
-! AUDIT NOTE: Size wrong -- has stack frame (add #-8,r15), much larger than 24 bytes.
+! AUDIT NOTE: FIXED: Size of 24 bytes IS correct. Binary shows 0x06018E70-0x06018E86 = 24 bytes (12 insns). Stack frame (add #-8/+8) is allocated and freed within those 24 bytes. AUDIT NOTE was itself incorrect about the size being wrong.
 !   Called at start of each state transition. Resets state variables.
 
 ! FUN_06018EE4 — Race state handler (144 bytes, 72 insns)

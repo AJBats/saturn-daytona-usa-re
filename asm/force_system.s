@@ -60,9 +60,10 @@
 ! Prologue and pool constants verified: r14=0x0607E944 (confirmed, uses
 ! E944 not E940), gas table 0x0604540C, brake table 0x0604546C.
 ! Force index negation + 48 bias, timer decrement, flag checks all match.
-! AUDIT NOTE: force_system.s uses 0x0607E944 while player_physics.s uses
-! 0x0607E940. This is correct: 060081F4 operates on iterated car (E944)
-! while FUN_06008318 operates on player car (E940).
+! FIXED: Confirmed 0x0607E944 vs 0x0607E940 is INTENTIONAL, not a discrepancy.
+! FUN_060081F4 loads from 0x0607E944 (iterated car pointer, changes per car)
+! while FUN_06008318 loads from 0x0607E940 (always player car). Verified in binary:
+! pool at FUN_060081F4 prologue = 0x0607E944.
 ! FUN_060081F4 — Gas Force Application (Step 1)
 ! =============================================================================
 ! Called from: FUN_0600E4F2 (stage 1), FUN_0600E410 (simplified path)

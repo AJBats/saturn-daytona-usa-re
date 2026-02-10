@@ -35,16 +35,14 @@
 !   but NOT a labeled function in aprog.s. Falls within FUN_06030540 or nearby.
 !   The counter/timer description is plausible but the detailed algorithm has
 !   not been fully verified against binary instructions.
-! AUDIT NOTE: Not a labeled function in aprog.s. Nearest labels are
-!   FUN_060302D2 and FUN_06030540.
-! FUN_06030A06 — Subsystem A: Counter/Timer Management
+! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target but not labeled in aprog.s. Nearest labels: FUN_060302D2 and FUN_06030540.
+! FUN_06030A06 (not a labeled function in aprog.s) — Subsystem A: Counter/Timer Management
 ! =============================================================================
 ! Called from: FUN_0600E0C0, FUN_0600E4F2, FUN_0600E410
 ! Purpose: Per-car frame counter management, lap/segment state tracking
 !
 ! Data structures:
-! AUDIT NOTE: For FUN_06030A06, the car pointer used is at 0x0607E940
-!   (same as many other car-related functions). This is well-established.
+! AUDIT NOTE: FIXED: Car pointer 0x0607E940 confirmed as standard car-related pointer used across multiple subsystems. No change needed.
 !   0x0607E940 -> current car pointer
 !   Car offsets:
 !     +0x00  int  flags (bits 21-23 = car type via mask 0x00200000)
@@ -105,8 +103,8 @@ FUN_06030A06:  ! 0x06030A06
 ! CONFIDENCE: MEDIUM — Valid jsr target but NOT a labeled function in
 !   aprog.s. Simple timer decrement pattern is plausible for a per-car
 !   subsystem update.
-! AUDIT NOTE: Not a labeled function in aprog.s.
-! FUN_06030EE0 — Subsystem B: Simple Timer Decrement
+\! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target but not labeled in aprog.s.
+! FUN_06030EE0 (not a labeled function in aprog.s) — Subsystem B: Simple Timer Decrement
 ! =============================================================================
 ! Called from: FUN_0600E0C0, FUN_0600E4F2, FUN_0600E410
 ! Purpose: Decrement a single per-car timer. Very simple leaf function.
@@ -262,8 +260,8 @@ FUN_060061C8:  ! 0x060061C8
 !   Jump table structure at 0x0602ED0C verified: loads step counter from
 !   0x0607EAE4, shll2 for index, loads and jumps to table entry. This is
 !   definitively a jump table dispatch. Physics role is reasonable inference.
-! AUDIT NOTE: Not a labeled function in aprog.s.
-! FUN_0602ECF2 — Physics Integration Dispatcher (Jump Table)
+\! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target confirmed from pipeline code.
+! FUN_0602ECF2 (not a labeled function in aprog.s) — Physics Integration Dispatcher (Jump Table)
 ! =============================================================================
 ! Called from: FUN_0600E4F2 (late in pipeline)
 ! Purpose: Dispatch to one of several physics sub-steps via jump table
@@ -309,8 +307,8 @@ FUN_0602ECF2:  ! 0x0602ECF2
 ! CONFIDENCE: MEDIUM — Valid jsr target, NOT a labeled function in
 !   aprog.s. Called after 4x FUN_06027CA4 calls is confirmed from the pipeline
 !   code. Render finalize role is speculative.
-! AUDIT NOTE: Not a labeled function in aprog.s.
-! FUN_0603053C — Render Finalize
+\! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target confirmed from pipeline code.
+! FUN_0603053C (not a labeled function in aprog.s) — Render Finalize
 ! =============================================================================
 ! Called from: FUN_0600E0C0 (after 4x FUN_06027CA4 calls)
 ! Purpose: Finalize render submission for current car

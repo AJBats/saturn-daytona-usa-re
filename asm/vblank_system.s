@@ -240,11 +240,8 @@ FUN_06007268:   ! 0x06007268
     mov.b   @r2,r2              ! r2 = target frame count for current state
     extu.b  r2,r2
     cmp/ge  r2,r1               ! if OUT_count >= target
-! AUDIT NOTE: Branch label .skip_swap is WRONG. cmp/ge sets T when r1>=r2,
-!   so bt branches TO the swap-check code (0x06007298), not past it.
-!   The bra on the next line (0x060072B6) is the actual skip path.
-!   Should be labeled .check_swap or .do_swap, not .skip_swap.
-    bt      .skip_swap          ! skip if count < target (not yet time)
+! AUDIT NOTE: FIXED: Renamed branch label from '.skip_swap' to '.check_swap' and fixed comment. bt branches TO swap-check code (0x06007298) when cmp/ge is true (count >= target). The bra at 0x06007294 is the actual skip path.
+    bt      .check_swap         ! if OUT_count >= target, check frame buffer swap
 
     ! --- Step 5: Trigger frame buffer swap ---
     mov.l   @(pool),r5          ! r5 = 0x06063F58 (frame buffer state)

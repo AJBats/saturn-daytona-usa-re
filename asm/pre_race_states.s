@@ -52,9 +52,7 @@
 !   at 0x0600307C. All called functions confirmed via pool constants:
 !   FUN_06018E70, FUN_0601C978, FUN_06014884, FUN_06018DDC, FUN_060210F6,
 !   FUN_06026CE0. Globals 0x0605AD10 and 0x06059F44 confirmed.
-! AUDIT NOTE: FUN_06018DDC parameters are WRONG in the description.
-!   File says (5, 2, ?) but actual binary shows r4=2, r5=2, r6=0 = (2, 2, 0).
-!   The mov #2,r5 followed by mov r5,r4 in the delay slot sets r4=r5=2.
+! AUDIT NOTE: FIXED: Changed FUN_06018DDC(5, 2, ?) to FUN_06018DDC(2, 2, 0). Binary shows mov #2,r5; mov r5,r4 in delay slot setting r4=r5=2, r6=0.
 ! STATE 0 — Game/Course Initialization
 ! =============================================================================
 ! Address: 0x060088CC
@@ -65,7 +63,7 @@
 !   call FUN_06018E70()         -- general init
 !   call FUN_0601C978()         -- configuration
 !   call FUN_06014884(4)        -- memory setup (region 4)
-!   call FUN_06018DDC(5, 2, ?)  -- handler dispatcher
+!   call FUN_06018DDC(2, 2, 0)  -- handler dispatcher
 !   call FUN_060210F6()         -- render
 !   call FUN_06026CE0()         -- display update
 !   *0x0605AD10 = next_state
@@ -83,8 +81,7 @@
 !   However, it is NOT a labeled function -- it falls within FUN_060088CC
 !   code space (after the rts at 06008906). It is 2 instructions: load
 !   FUN_0601CAEE address, jmp. State 2 at 0x06008938 is a labeled function.
-! AUDIT NOTE: State 1 (0x0600890A) is a mid-function jump target, not
-!   a labeled function boundary.
+! AUDIT NOTE: FIXED: Added note that State 1 (0x0600890A) is a mid-function jump target within FUN_060088CC code space (after rts at 0x06008906), not a labeled function. State 2 at 0x06008938 IS a labeled function.
 ! STATES 1-2 — Stub/Transition States
 ! =============================================================================
 ! Address: State 1 = 0x0600890A, State 2 = 0x06008938
@@ -92,8 +89,7 @@
 ! These appear to be very short (2-4 instructions), possibly just
 ! setting the next state and returning.
 
-! State 1 handler at 0x0600890A
-! State 2 handler at 0x06008938
+\! State 1 handler at 0x0600890A (mid-function jump target, not a labeled function)\r\n\! State 2 handler at 0x06008938 (labeled function)
 
 
 ! =============================================================================
@@ -101,10 +97,7 @@
 !   0x0607EBCC confirmed (pool at 06008AC4). Decrement confirmed. Call to
 !   FUN_0600A1F6 confirmed (pool at 06008AC8). Button check at 0x06063D9A
 !   confirmed (pool at 06008AD0). Transition to state 4 confirmed (mov #4).
-! AUDIT NOTE: Counter check logic description is slightly misleading.
-!   The code decrements first, then checks cmp/pz (>=0). Buttons are
-!   checked when counter IS still >=0, not when counter < 0. The transition
-!   to state 4 happens in both paths but with different setup.
+! AUDIT NOTE: FIXED: Rewrote algorithm to match binary flow. Counter is decremented first, then cmp/pz checks >= 0. Button check happens when counter IS still >= 0 (not < 0). Timer expiry path and button-press path both lead to state 4 transition.
 ! STATE 3 — Countdown/Timer Manager
 ! =============================================================================
 ! Address: 0x06008A18
@@ -115,13 +108,15 @@
 !   counter--
 !   *0x0607EBCC = counter
 !   call FUN_0600A1F6()         -- game update tick
-!   if (counter < 0):
+!   if (counter >= 0):          -- timer still active
 !     buttons = *0x06063D9A
 !     if (buttons & mask):       -- any button pressed?
-!       call FUN_06018E70()     -- init
-!       ... setup next state ...
-!     *0x0605AD10 = 4           -- transition to state 4
-!     *0x06087804 = handler_value
+!       goto state_transition   -- skip to early transition
+!     else: return              -- wait for timer or button
+!   -- counter < 0: timer expired
+!   if (counter >= 0): call FUN_06018E70()  -- init (second check)
+!   *0x0605AD10 = 4           -- transition to state 4
+!   *0x06087804 = handler_value
 !   return
 !
 ! This is a "press any button" countdown screen (e.g., attract mode timeout).

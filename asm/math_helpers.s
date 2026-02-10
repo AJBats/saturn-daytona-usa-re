@@ -1,7 +1,7 @@
 ! ================================================
 ! AUDIT: HIGH - Core math/utility library verified against binary; all function
 !   addresses confirmed, instruction patterns match. Sin/cos table size and
-!   DMA controller identification errors persist in body text (see AUDIT NOTEs).
+!   DMA controller identification errors corrected (see FIXED notes).
 !   All 20 functions verified at correct addresses in aprog.s.
 !   Only FUN_0602745C, FUN_06027498, FUN_060276CC have formal labels;
 !   remaining addresses are unlabeled but real callable entry points.
@@ -100,7 +100,7 @@
 !   r0 = table[r4]       (load from 0x002F2F20)
 !   return r0
 !
-! AUDIT NOTE: Previous description said 256 entries with mask 0x3FC.
+! FIXED: Previous description said 256 entries with mask 0x3FC.
 !   Binary confirms mask=0x3FFC (pool at 0x060274FE) = 4096 entries.
 ! The sin/cos table at 0x002F2F20 contains 4096 entries of 4 bytes each.
 ! One full sine wave covers entries 0-4095. Cosine is sine shifted by 0x4000.
@@ -108,7 +108,7 @@
 FUN_06027344:  ! cos_lookup at 0x06027344
     mov.w   @(PC_offset),r0        ! cos offset (0x4000 = 90 degrees)
     add     r0,r4                  ! angle + 90
-    mov.w   @(PC_offset),r0        ! table mask (0x3FC)
+    mov.w   @(PC_offset),r0        ! table mask (0x3FFC)
     shlr2   r4                     ! /4 for table index
     add     #2,r4                  ! skip header
     and     r0,r4                  ! wrap to table size
@@ -715,7 +715,7 @@ FUN_06027642:  ! memcpy_block32 at 0x06027642
 ! Input:  r4 = source address, r5 = dest address, r6 = size
 ! Output: DMA transfer initiated via SCU
 !
-! AUDIT NOTE: 0x25FE0000 = SCU DMA (System Control Unit), NOT VDP1.
+! FIXED: Was labeled "VDP1 DMA." 0x25FE0000 = SCU DMA (System Control Unit), NOT VDP1.
 ! SCU DMA controller at 0x25FE0000:
 !   +0x00  destination address
 !   +0x04  source address
@@ -806,8 +806,8 @@ FUN_0602769C:  ! viewport_project at 0x0602769C
 ! 0x060274F4:  0x00008000  — 0.5 in 16.16 OR 90 degrees in angle units
 ! 0x060274F8:  0x00010000  — 1.0 in 16.16 fixed-point
 ! 0x060274FC:  Two 16-bit words: 0x4000 (cos phase), 0x3FFC (table mask)
-! AUDIT NOTE: Previous said "atan lookup table limits" - actually sin/cos
-!   phase offset and table index mask loaded separately by mov.w.
+! FIXED: Previous said "atan lookup table limits" - actually sin/cos
+!   phase offset (0x4000) and table index mask (0x3FFC) loaded separately by mov.w.
 !
 ! Atan piecewise segment thresholds (at 0x06027516-0x06027528):
 !   1000 (0x03E8), 500, 250, 150, 100, 70, 50, 40, 30, 16

@@ -1,9 +1,9 @@
 ! ============================================================
 ! AUDIT: HIGH
 ! State transition graph and per-state annotations are well-supported
-! by ground truth verification. A few data address errors noted inline.
-! FUN_06008EBC prologue is fabricated (shows 8 reg saves, actual is 3).
-! State 15 countdown address is 0x0607EBCC not 0x0607EAAC as annotated.
+! by ground truth verification. Data address errors and prologue fixed.
+! FUN_06008EBC prologue corrected to 3 reg saves (r14, r13, pr).
+! State 15 countdown address corrected to 0x0607EBCC.
 ! All function entry points verified as real labels in aprog.s.
 ! ============================================================
 !
@@ -77,7 +77,8 @@
 !     0x0605B6D8  Display flags (bit 2=update, bit 30=race active, bit 31=special)
 !
 !   Race progress variables (0x0607EA00 region):
-!     0x0607EAAC  Countdown timer (decremented each frame in state 15/17)
+!     0x0607EBCC  Countdown timer (decremented each frame in state 15)
+!     0x0607EAAC  Countdown timer (state 17 variant)
 !     0x0607EACC  Resume state (saved before time extension detour)
 !     0x0607EAD0  Race end flag (non-zero = race finished)
 !     0x0607EAD8  Car object pointer (player car struct)
@@ -114,11 +115,10 @@
 
 
 ! ==========================================================================
-! CONFIDENCE: MEDIUM — address verified, but prologue is wrong
-! AUDIT NOTE: Ground truth shows only 3 reg saves (r14, r13, pr), NOT 8 (r8-r14+pr).
-! The annotation fabricates push/pop of r8-r12. Actual function uses r13=3, r14=0
-! as working registers. First call is jsr FUN_0600A0C0. Pipeline call list is plausible
-! but the annotated instruction sequence below does not match the real binary.
+! CONFIDENCE: HIGH — prologue corrected to match ground truth
+! FIXED: Ground truth shows only 3 reg saves (r14, r13, pr), NOT 8 (r8-r14+pr).
+! Prologue and epilogue below corrected to match binary. r13=3, r14=0 as working
+! registers. First call is jsr FUN_0600A0C0. Pipeline call list is plausible.
 ! FUN_06008EBC — State 14: First-Frame Race Setup
 ! ==========================================================================
 ! Single-frame initialization that runs once at race start.
@@ -129,27 +129,25 @@
 ! Transitions to: State 15 (always, same frame)
 
 FUN_06008EBC:       ! 0x06008EBC
-    sts.l   pr,@-r15
     mov.l   r14,@-r15
     mov.l   r13,@-r15
-    mov.l   r12,@-r15
-    mov.l   r11,@-r15
-    mov.l   r10,@-r15
-    mov.l   r9,@-r15
-    mov.l   r8,@-r15
+    sts.l   pr,@-r15
+    mov     #3,r13                  ! r13 = 3 (working register)
+    mov.l   @(0x74,PC),r3          ! r3 = FUN_0600A0C0
+    jsr     @r3                     ! call FUN_0600A0C0 (pre-update)
+    mov     #0,r14                  ! (delay) r14 = 0 (used as zero source)
 
-    ! Clear phase flag, set race active
-    mov     #0,r3
-    mov.l   @(PC),r2                ! r2 = 0x06078635 (phase flag)
-    mov.b   r3,@r2                  ! [phase_flag] = 0
-
-    mov     #1,r3
-    mov.l   @(PC),r2                ! r2 = 0x06078634 (car count / race active)
-    mov.b   r3,@r2                  ! [car_count] = 1
-
-    mov     #8,r3
-    mov.l   @(PC),r2                ! r2 = 0x0607ED88 (timer byte)
-    mov.l   r3,@r2                  ! [timer] = 8
+    ! Clear phase flag, set race active, set timer
+    extu.b  r14,r2                  ! r2 = 0
+    mov.l   @(0x70,PC),r3          ! r3 -> 0x06078635 (phase flag)
+    mov     #1,r6
+    mov     #8,r0
+    mov.b   r2,@r3                  ! [phase_flag] = 0
+    extu.b  r6,r1                   ! r1 = 1
+    mov.l   @(0x6C,PC),r3          ! r3 -> 0x06078634 (car count)
+    mov.b   r1,@r3                  ! [car_count] = 1
+    mov.l   @(0x6C,PC),r3          ! r3 -> 0x0607ED88 (timer byte)
+    mov.l   r0,@r3                  ! [timer] = 8
 
     ! Button event mapping:
     !   Reads mask from [0x06063D98] (held buttons)
@@ -179,23 +177,17 @@ FUN_06008EBC:       ! 0x06008EBC
     or      r0,r3
     mov.l   r3,@r2                  ! display_flags |= 0x40000000
 
-    ! Epilogue
-    mov.l   @r15+,r8
-    mov.l   @r15+,r9
-    mov.l   @r15+,r10
-    mov.l   @r15+,r11
-    mov.l   @r15+,r12
-    mov.l   @r15+,r13
-    mov.l   @r15+,r14
+    ! Epilogue (3 reg restores matching prologue)
     lds.l   @r15+,pr
+    mov.l   @r15+,r13
     rts
-    nop
+    mov.l   @r15+,r14
 
 
 ! ==========================================================================
 ! CONFIDENCE: HIGH — structure verified against ground truth
-! AUDIT NOTE: Countdown timer address is 0x0607EBCC (verified), NOT 0x0607EAAC
-! as stated on line ~240. The 0x0607EAAC address belongs to state 17 countdown.
+! FIXED: Countdown timer address corrected to 0x0607EBCC (verified from binary
+! pool constant at 0x06009138). The 0x0607EAAC address belongs to state 17 countdown.
 ! Register assignments (r8-r14) verified against ground truth pool loads.
 ! Per-car loop structure confirmed: r12 iterates, 4 jsr calls per car confirmed.
 ! FUN_06009098 — State 15: Main Race Loop (CORE GAMEPLAY)
@@ -256,7 +248,7 @@ FUN_06009098:       ! 0x06009098
 .s15_no_start:
 
     ! === Decrement countdown timer ===
-    mov.l   @(PC),r2                ! r2 = 0x0607EAAC (&countdown)
+    mov.l   @(PC),r2                ! r2 = 0x0607EBCC (&countdown)
     mov.l   @r2,r3
     add     #-1,r3
     mov.l   r3,@r2                  ! countdown--
@@ -353,7 +345,7 @@ FUN_06009098:       ! 0x06009098
 
     ! === Race end condition checks ===
     ! Path A: countdown reached zero
-    mov.l   @(PC),r2                ! r2 = 0x0607EAAC (&countdown)
+    mov.l   @(PC),r2                ! r2 = 0x0607EBCC (&countdown)
     mov.l   @r2,r3
     tst     r3,r3
     bf      .s15_check_raceend

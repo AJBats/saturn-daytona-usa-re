@@ -31,13 +31,12 @@
 ! selects between two sprite address pools. Renders HUD elements like
 ! car position indicators and animated icons.
 
-! FUN_06010238 - Input Delta Detection (XOR Analysis)
+\! FUN_06010238 - Input State Inverter/Processor
 ! AUDIT NOTE: Binary shows XOR with 0xFFFF (bitwise NOT), not frame-to-frame XOR delta.
 !   This is button state inversion, not rapid-change detection. "Input Delta Detection"
 !   label is misleading — more accurately "Input State Inverter/Processor".
 ! ----------------------------------------------------
-! 60 bytes. LEAF. Detects rapid input changes via XOR of two frames.
-! Used for detecting quick steering/brake input for response feedback.
+\! 60 bytes. LEAF. XORs input with 0xFFFF (bitwise NOT of low 16 bits).\r\n\! Inverts button state bits and stores result for further processing.
 
 ! FUN_060102A8 - 3-State Counter (Gear/Steering Position)
 ! --------------------------------------------------------
@@ -172,9 +171,7 @@
 !   r10=#31 (AND mask for low 5 bits), add #-2, add #-64 (center offset), cmp/pl+bf
 !   for clamp-to-zero. Pattern strongly matches analog input processing with dead zone
 !   and center calibration.
-! AUDIT NOTE: Annotation says "XOR with calibration mask" but binary shows AND operations
-!   (and r10,r7; and r9,r7; and r12,r7), not XOR. The processing is masking + offset,
-!   not XOR-based calibration.
+! AUDIT NOTE: FIXED: Changed 'XOR with calibration mask' and 'XOR with direction mask' to 'AND' in processing steps 3 and 5. Binary at 0x06011F3C/0x06011F4E/0x06011F66 confirms AND operations (and r10,r7; and r9,r7; and r12,r7).
 
 ! FUN_06011F1C - Steering Wheel Analog Input Processing
 ! -------------------------------------------------------
@@ -184,9 +181,9 @@
 ! Processing per sample:
 !   1. Extract low 5 bits
 !   2. Subtract 2 (dead zone correction)
-!   3. XOR with calibration mask
+\!   3. AND with calibration mask
 !   4. Subtract 0x40 (center offset)
-!   5. XOR with direction mask
+\!   5. AND with direction mask
 !   6. Add bias value
 !
 ! Converts raw analog stick to steering angle (-32 to +32 with center=0).
@@ -239,11 +236,7 @@ FUN_06011F92:   ! 0x06011F92 - Throttle/brake input processor
 !   FUN_060125D0) confirmed. Lap timing/progression interpretation well-supported by
 !   counter+threshold+dispatch pattern typical of racing game lap management.
 !
-! AUDIT NOTE: FUN_0601228A is listed as a separate function but in the binary 0x0601228A
-!   is a single instruction (mov #110,r2) that is a branch target from FUN_06012198,
-!   falling through into FUN_0601228C (which starts at 0x0601228C). The actual function
-!   label in the binary is FUN_0601228C, not FUN_0601228A. The 2-byte offset error
-!   means the claimed 84-byte size is also off by 2.
+! AUDIT NOTE: FIXED: Renamed FUN_0601228A to FUN_0601228C throughout (title, .global, label, dispatcher reference). Adjusted size from 84 to 82 bytes. Binary confirms FUN_0601228C is the actual labeled function at 0x0601228C.
 ! *** CRITICAL FOR GAMEPLAY EXTRACTION ***
 
 ! FUN_060120C8 - Race Start Initialization
@@ -262,16 +255,14 @@ FUN_060120C8:   ! 0x060120C8 - Race start init
 ! FUN_06012198 - Race/Menu Mode Dispatcher
 ! ------------------------------------------
 ! 16 bytes. LEAF.
-! If race_active != 0: call FUN_0601228A (race timing logic)
+\! If race_active \!= 0: call FUN_0601228C (race timing logic)
 ! Else: call FUN_060127E0 (menu logic)
 
     .global FUN_06012198
 FUN_06012198:   ! 0x06012198 - Mode dispatcher
 
 
-! FUN_0601228A - Lap Progress State Machine *** PRIMARY LAP TIMER ***
-! --------------------------------------------------------------------
-! 84 bytes. Frame-based threshold state machine:
+\! FUN_0601228C - Lap Progress State Machine *** PRIMARY LAP TIMER ***\r\n\! --------------------------------------------------------------------\r\n\! 82 bytes. Frame-based threshold state machine:
 !
 !   counter > 109 (0x6D): RACE FINISHING
 !     calls FUN_060122F4 (position enforcement)
@@ -290,8 +281,7 @@ FUN_06012198:   ! 0x06012198 - Mode dispatcher
 !     counter = 1
 !     set display parameter = 0x10
 
-    .global FUN_0601228A
-FUN_0601228A:   ! 0x0601228A - Lap timer controller
+    .global FUN_0601228C\r\nFUN_0601228C:   \! 0x0601228C - Lap timer controller
 
 
 ! FUN_060122F4 - Position/Velocity Limiter (Min Bounds)

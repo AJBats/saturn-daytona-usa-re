@@ -565,7 +565,7 @@ FUN_0600CC38:       ! 0x0600CC38
 ! CONFIDENCE: DEFINITE
 ! Every instruction verified byte-for-byte against aprog.s.
 ! Index calc (shll2+shll=*8, shll2+shll2=*16, sum=*24) confirmed.
-! AUDIT NOTE: Line 566 says index*20 but code computes index*24.
+! AUDIT NOTE: FIXED: Changed index*20 to index*24 in annotation (line 592). Binary confirms shll2+shll=*8, shll2+shll2=*16, sum=*24.
 ! ==========================================================================
 ! FUN_0600CD40 - Track-Relative Position Query
 ! ==========================================================================
@@ -589,7 +589,7 @@ FUN_0600CD40:       ! 0x0600CD40
     mov.w   @(0x72,PC),r0      ! offset for segment index field
     mov.l   @r14,r14            ! r14 = car struct
 
-    ! Calculate segment pointer: index * 20 + base
+    ! Calculate segment pointer: index * 24 + base
     mov.l   @(r0,r14),r13      ! r13 = segment index
     add     #-4,r0
     mov     r13,r3

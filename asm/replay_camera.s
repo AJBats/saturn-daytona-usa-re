@@ -18,7 +18,7 @@
 
 ! FUN_0601DBB8 — Replay camera controller (472 bytes, 236 insns)
 ! CONFIDENCE: DEFINITE -- All addresses verified: 0x06078900, 0x0608706C, 0x060786AC, 0x0607EBF4, 0x060350B0 jsr, 0x0601E26C bsr
-! AUDIT NOTE: Size wrong -- actual 574 bytes (0x23E), not 472. Saves r8-r14+pr+macl (pr omitted from text). Stack is 8 bytes, not 20.
+! AUDIT NOTE: FIXED: Changed size from 472 bytes/236 insns to 574 bytes/287 insns. Binary confirms 0x0601DDF6 - 0x0601DBB8 = 0x23E = 574 bytes. Register saves: r8-r14+pr+macl confirmed.
 !   Heavy-weight function: saves r8-r14 + pr + macl (9 registers).
 !   8-byte stack frame for local variables.
 !
@@ -104,7 +104,7 @@
 
 ! FUN_0601D12C — Pure matrix/vector math (382 bytes, 191 insns, LEAF)
 ! CONFIDENCE: MEDIUM -- Address verified but major errors in description.
-! AUDIT NOTE: NOT a LEAF -- has jmp @r3 at 0x0601D2BE. Size is 432B (0x1B0), not 382. Actually a multi-state dispatcher checking values 0-11, reading 0x06063D9A.
+! AUDIT NOTE: FIXED: Changed from 'Pure matrix/vector math (382B, LEAF)' to 'Multi-state dispatcher (432B)'. Binary confirms jmp @r3 at 0x0601D2BE (not a LEAF). Size 432B = 0x0601D2DC - 0x0601D12C = 0x1B0. Reads 0x06063D9A, dispatches states 0-11.
 !   Key reusable math function — performs matrix-vector multiplication.
 !   No function calls (LEAF), purely computational.
 !   Used extensively by camera, scene, and transform systems.
