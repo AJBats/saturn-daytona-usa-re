@@ -15,10 +15,7 @@ void FUN_06008CD0(void) { }
 void FUN_06008D74(void) { }
 void FUN_06008E00(void) { }
 void FUN_06008E48(void) { }
-void state_14_first_frame_race(void) { }
-void state_15_main_race_loop(void) { }
-void state_16_post_countdown(void) { }
-void state_17_post_lap_results(void) { }
+/* state_14-17: translated in race_state_handlers.c */
 void state_28_abort_processing(void) { }
 void state_29_post_race_menu(void) { }
 void state_18_time_extension_setup(void) { }

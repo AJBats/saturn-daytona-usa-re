@@ -64,7 +64,8 @@ void state_10_handler(void) { }  /* 0x06008BD8 */
 void state_11_handler(void) { }  /* 0x06008BFC */
 void state_12_handler(void) { }  /* 0x06008E00 */
 void state_13_handler(void) { }  /* 0x06008E48 */
-void state_14_handler(void) { }  /* 0x06008EBC */
-void state_15_handler(void) { }  /* 0x06009098 */
-void state_16_handler(void) { }  /* 0x06009290 */
-void state_17_handler(void) { }  /* 0x06009290 (same as 16) */
+/* state_14_handler through state_17_handler: moved to race_state_handlers.c */
+
+/* state_18_handler through state_20_handler: moved to race_state_handlers.c */
+/* state_21_handler through state_25_handler: moved to race_state_handlers.c */
+/* state_26_handler through state_31_handler: moved to race_state_handlers.c */

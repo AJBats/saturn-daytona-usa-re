@@ -315,6 +315,20 @@ void state_14_handler(void);
 void state_15_handler(void);
 void state_16_handler(void);
 void state_17_handler(void);
+void state_18_handler(void);
+void state_19_handler(void);
+void state_20_handler(void);
+void state_21_handler(void);
+void state_22_handler(void);
+void state_23_handler(void);
+void state_24_handler(void);
+void state_25_handler(void);
+void state_26_handler(void);
+void state_27_handler(void);
+void state_28_handler(void);
+void state_29_handler(void);
+void state_30_handler(void);
+void state_31_handler(void);
 
 
 #endif /* GAME_H */

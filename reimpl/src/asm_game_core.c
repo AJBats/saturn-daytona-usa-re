@@ -14,3 +14,81 @@ void FUN_0600747C(void) { }
 void FUN_06007CEC(void) { }
 void FUN_06007D8E(void) { }
 void FUN_06007E08(void) { }
+
+void FUN_060033E6(void) { }
+void FUN_060053AC(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
+void FUN_060055BC(void) { }
+void perspective_project(void) __attribute__((alias("FUN_060055BC")));
+void FUN_060078DC(void) { }
+void frame_end_display_commit(void) __attribute__((alias("FUN_060078DC")));
+void FUN_0600A084(void) { }
+void FUN_0600A0C0(void) { }
+void FUN_0600A33C(void) { }
+void FUN_0600A914(void) { }
+void car_collision_proximity(void) __attribute__((alias("FUN_0600A914")));
+void FUN_0600BB94(void) { }
+void multi_mode_camera(void) __attribute__((alias("FUN_0600BB94")));
+void FUN_0600BFFC(void) { }
+void hud_racing_state_init(void) __attribute__((alias("FUN_0600BFFC")));
+void FUN_0600C302(void) { }
+void car_state_finalize(void) __attribute__((alias("FUN_0600C302")));
+void FUN_0600DE54(void) { }
+void vs_mode_update(void) __attribute__((alias("FUN_0600DE54")));
+void FUN_0600DE70(void) { }
+void per_frame_car_iteration(void) __attribute__((alias("FUN_0600DE70")));
+void FUN_0600EB14(void) { }
+void race_init_master(void) __attribute__((alias("FUN_0600EB14")));
+void FUN_06010A5C(int arg) { (void)arg; }
+void FUN_060120C8(void) { }
+void FUN_060121A8(void) { }
+void FUN_06018A3C(void) { }
+void FUN_06018E70(void) { }
+void FUN_060192CA(void) { }
+void FUN_0601D5F4(int r4, int r5) { (void)r4; (void)r5; }
+void sound_cmd_dispatch(int r4, int r5) __attribute__((alias("FUN_0601D5F4")));
+void FUN_0601D9B0(void) { }
+void FUN_0601DBB8(void) { }
+void replay_camera_controller(void) __attribute__((alias("FUN_0601DBB8")));
+void FUN_0601DE50(void) { }
+void FUN_0601E100(void) { }
+void FUN_0601F784(void) { }
+void FUN_060268B0(int arg) { (void)arg; }
+void FUN_06026CE0(void) { }
+void FUN_060283E0(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6; (void)r7; }
+void FUN_0602EFF0(void) { }
+void rendering_pass1_camera(void) __attribute__((alias("FUN_0602EFF0")));
+void FUN_0602F0E8(void) { }
+void perspective_projection_3d(void) __attribute__((alias("FUN_0602F0E8")));
+void FUN_0602F7EA(void) { }
+void sprite_transform(void) __attribute__((alias("FUN_0602F7EA")));
+void FUN_060302C6(void) { }
+void engine_sound_generator(void) __attribute__((alias("FUN_060302C6")));
+void FUN_060321C0(void) { }
+void FUN_06033AAC(void) { }
+void FUN_06033BC8(void) { }
+void FUN_06034900(void) { }
+
+void FUN_060284AE(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6; (void)r7; }
+void FUN_0602834A(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6; (void)r7; }
+void FUN_06018DDC(int arg) { (void)arg; }
+void FUN_06014A04(void) { }
+void FUN_0600DF66(void) { }
+void FUN_0601DF88(void) { }
+void FUN_0602853E(int arg) { (void)arg; }
+void FUN_06014884(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
+void FUN_060032D4(void) { }
+void FUN_0600A294(void) { }
+void FUN_0601FD74(void) { }
+void FUN_0600DE40(void) { }
+void FUN_06033EA8(void) { }
+void FUN_06014A74(void) { }
+void FUN_06014D2C(void) { }
+void FUN_060190B8(void) { }
+void FUN_06012F80(void) { }
+void FUN_0601389E(void) { }
+void FUN_0600DFD0(void) { }
+void FUN_0600C218(void) { }
+void FUN_0600E060(void) { }
+int FUN_0601F8C0(void) { return 0; }
+int FUN_0601F900(void) { return 0; }
+void FUN_060149E0(void) { }
