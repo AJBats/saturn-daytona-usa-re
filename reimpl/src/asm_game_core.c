@@ -121,7 +121,7 @@ void FUN_0600F424(void) { }
 void FUN_0600CA96(int r4) { (void)r4; }
 void FUN_0600CC38(int r4, int r5) { (void)r4; (void)r5; }
 /* FUN_0600C8CC: moved to physics_helpers.c */
-void FUN_0600CF58(int r4) { (void)r4; }
+/* FUN_0600CF58: moved to collision_response.c */
 /* FUN_0600C928: moved to physics_helpers.c */
 /* FUN_0600C7D4: moved to physics_helpers.c */
 void FUN_06027358(int r4, int *r5, int *r6) { (void)r4; (void)r5; (void)r6; }
