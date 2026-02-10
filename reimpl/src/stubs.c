@@ -50,20 +50,7 @@ void render_system_init(void) { }
 /* -- State handler stubs (32-state machine, we have 18 slots) -- */
 /* Original addresses from jump table at 0x0600307C */
 
-void state_0_handler(void)  { }  /* 0x060088CC */
-void state_1_handler(void)  { }  /* 0x0600890A */
-void state_2_handler(void)  { }  /* 0x06008938 -- init sets state=2, so this runs first */
-void state_3_handler(void)  { }  /* 0x06008A18 */
-void state_4_handler(void)  { }  /* 0x06008CCC */
-void state_5_handler(void)  { }  /* 0x06008D74 */
-void state_6_handler(void)  { }  /* 0x06008B04 */
-void state_7_handler(void)  { }  /* 0x06008B34 */
-void state_8_handler(void)  { }  /* 0x06008B78 */
-void state_9_handler(void)  { }  /* 0x06008B9C */
-void state_10_handler(void) { }  /* 0x06008BD8 */
-void state_11_handler(void) { }  /* 0x06008BFC */
-void state_12_handler(void) { }  /* 0x06008E00 */
-void state_13_handler(void) { }  /* 0x06008E48 */
+/* state_0_handler through state_13_handler: moved to pre_race_state_handlers.c */
 /* state_14_handler through state_17_handler: moved to race_state_handlers.c */
 
 /* state_18_handler through state_20_handler: moved to race_state_handlers.c */

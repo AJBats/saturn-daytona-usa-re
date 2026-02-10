@@ -92,3 +92,26 @@ void FUN_0600E060(void) { }
 int FUN_0601F8C0(void) { return 0; }
 int FUN_0601F900(void) { return 0; }
 void FUN_060149E0(void) { }
+
+void FUN_0601C978(void) { }
+void FUN_0601CAEE(void) { }
+void FUN_0600A140(void) { }
+void FUN_0600330A(void) { }
+void FUN_0601AE80(void) { }
+void FUN_0600A1F6(void) { }
+void FUN_0600338C(int r4, int r5) { (void)r4; (void)r5; }
+void FUN_0601AEB6(void) { }
+void FUN_0601D2DC(void) { }
+void FUN_0601B074(void) { }
+void FUN_06018FF8(void) { }
+void FUN_0601D3C0(void) { }
+void FUN_060193F4(void) { }
+void FUN_060196A4(void) { }
+void FUN_0601950C(void) { }
+void FUN_060198E0(void) { }
+void FUN_06019A48(void) { }
+void FUN_0601B160(void) { }
+int  FUN_0601B418(void) { return 0; }
+void FUN_06018FA4(void) { }
+void FUN_0600EC78(void) { }
+void FUN_0600F424(void) { }
