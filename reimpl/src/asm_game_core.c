@@ -116,7 +116,7 @@ void FUN_0600EC78(void) { }
 void FUN_0600F424(void) { }
 
 /* Physics helper stubs -- called by player_physics.c hand translations */
-void FUN_06008640(void) { }
+/* FUN_06008640: moved to force_system.c */
 int  FUN_0600CD40(void) { return 0; }
 void FUN_0600CA96(int r4) { (void)r4; }
 void FUN_0600CC38(int r4, int r5) { (void)r4; (void)r5; }
