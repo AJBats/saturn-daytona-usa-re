@@ -1,3 +1,11 @@
+! ================================================
+! AUDIT: HIGH — FUN_06027CA4 prologue and pool constants verified
+!   byte-for-byte against binary. Frustum culling algorithm well-documented
+!   with matching dmuls.l patterns. VDP1 command builders and DMA handlers
+!   plausible. FUN_06027EDE confirmed as secondary entry with different
+!   register setup. Some data structure interpretations are inferred.
+! Audited: 2026-02-09
+! ================================================
 ! =============================================================================
 ! 3D Scene Renderer / Frustum Culler
 ! =============================================================================
@@ -117,7 +125,8 @@
 !     Read mesh data from geometry table
 !     Mask with word constant
 !     Store model reference at scene_buf[0x0C]
-!     Call FUN_0602ECCC (vertex transform/projection pipeline)
+! AUDIT NOTE: FUN_0602ECCC is hardware integer division, not vertex transform.
+!     Call FUN_0602ECCC (hardware integer division)
 !     Store sort key at car_ptr + computed_offset
 !   For empty scenes:
 !     Store 0 at scene_buf[0x0C], skip vertex processing
@@ -127,6 +136,9 @@
 !   Use view index to look up output offset from 0x0606128A
 !   Store depth sort key for display list ordering
 
+! CONFIDENCE: DEFINITE — Prologue (push r14-r8,pr,r5) matches binary exactly.
+!   Pool constants 0x04000000, 0x03FFFFFF, 0x0607EAD8, 0x060C2000, 0x060BF000,
+!   0x060A6000 all verified. Frustum culling with dmuls.l confirmed.
 FUN_06027CA4:  ! 0x06027CA4
     mov.l   r14,@-r15
     mov.l   r13,@-r15
@@ -376,6 +388,8 @@ FUN_06027CA4:  ! 0x06027CA4
 !
 ! The frustum culling loop and model submission are identical to FUN_06027CA4.
 
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r8 plus r6.
+!   Uses same data tables (0x060C2000, 0x060BF000) as FUN_06027CA4.
 FUN_06027EDE:  ! 0x06027EDE
     ! (Same structure, different entry point and model lookup)
     ! ...
@@ -414,6 +428,8 @@ FUN_06027EDE:  ! 0x06027EDE
 ! Args: r4 = model data ptr, r5 = command buffer ptr, r6 = color/extra
 
 ! Builder 0 (0x060280C4): distorted sprite command
+! CONFIDENCE: MEDIUM — Address 0x060280C4 exists in binary and is called
+!   from 0x06007B72 and 0x06011E28. Command template layout inferred.
 vdp1_build_distorted:  ! 0x060280C4
     mov.l   @(PC),r3                ! 0x060280F4 (command template)
     mov     r4,r2                   ! source polygon
@@ -477,6 +493,8 @@ vdp1_build_distorted:  ! 0x060280C4
 !   r6 = word constant (0x00F0?)
 !   This submits the final sorted display list to VDP1.
 
+! CONFIDENCE: HIGH — Address 0x06028218 confirmed. Called from init code
+!   at 0x0600327A. Register save/restore pattern matches ISR convention.
 vdp1_dma_handler_A:  ! 0x06028218
     mov.l   r7,@-r15
     mov.l   r6,@-r15

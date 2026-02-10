@@ -1,3 +1,14 @@
+! ================================================
+! AUDIT: HIGH - Track/course geometry pipeline well-supported by verified
+!   function addresses, VDP2 register patterns, and 3-course architecture.
+!   Two terrain collision addresses (0x0603449C, 0x0603458C) are NOT labeled
+!   functions in the binary - they are mid-function branch targets. Course
+!   physics size claims (exactly 282 bytes each) are incorrect (actual:
+!   332, 312, 318 bytes). Specific role labels (vertex builder, culling,
+!   etc.) are reasonable inferences but not definitively confirmed.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! Track Geometry & Course Data System
 ! =============================================================================
@@ -32,26 +43,35 @@
 !   +0x30-0x38: Position variants (LOD/collision)
 !   +0x40-0x41: Status flags
 
+! CONFIDENCE: HIGH - Address verified in binary. Non-leaf, pushes r14/r13.
 ! FUN_06016CDC — Track segment initialization (228 bytes, 114 insns)
 !   Initializes segment data from ROM with 0x44-byte stride.
 !   Called during course loading.
 
+! CONFIDENCE: MEDIUM - Address verified. Large non-leaf. Vertex array builder
+!   role is speculative; could be any large geometry processing function.
 ! FUN_06016DD8 — Track vertex array builder (740 bytes, 370 insns)
 !   MAJOR: Constructs vertex arrays for track display.
 !   Reads segment data and generates renderable vertex lists for VDP1.
 !   One of the largest track functions — processes entire visible track.
 
+! CONFIDENCE: MEDIUM - Address verified. Culling and LOD roles inferred from
+!   size/context, not directly confirmed from instruction analysis.
 ! FUN_06017814 — Track geometry processor with culling (718 bytes, 359 insns)
 !   Processes track geometry with view frustum culling.
 !   Determines which track segments are visible from current camera.
 !   Uses distance-based LOD selection.
 
+! CONFIDENCE: MEDIUM - Address verified. Largest track function confirmed by
+!   size. State machine and animation roles are speculative labels.
 ! FUN_06017CEC — Track state machine & animation (978 bytes, 489 insns)
 !   LARGEST TRACK FUNCTION. Complex state machine that handles:
 !   - Track segment animation (dynamic elements)
 !   - State transitions during race
 !   - Per-frame track updates
 
+! CONFIDENCE: MEDIUM - Address verified. Coordinator role is a reasonable
+!   inference from position and size but not confirmed via call analysis.
 ! FUN_060173AC — Geometry pipeline coordinator (794 bytes, 397 insns)
 !   Coordinates the track geometry pipeline:
 !   1. Segment selection (which segments to render)
@@ -59,6 +79,9 @@
 !   3. Culling (via FUN_06017814)
 !   4. Submission to render queue
 
+! CONFIDENCE: MEDIUM - Address verified. Called from state 9 (car select) per
+!   pre_race_states.s, contradicting physics init label - likely UI update.
+! AUDIT NOTE: Called from state 9 as display update, not physics init.
 ! FUN_06019928 — Track segment handler + physics init (252 bytes, 126 insns)
 !   Handles track segment transitions and initializes physics
 !   parameters for the current track section.
@@ -88,10 +111,14 @@
 ! VDP2 manages scrolling background layers. These functions configure
 ! scroll planes, tilemap pointers, and layer priorities for each course.
 
+! CONFIDENCE: HIGH - Address verified. VDP2 role well-supported by Saturn
+!   hardware architecture (VDP2 is the background processor).
 ! FUN_06015EB8 — VDP2 layer initialization (226 bytes, 113 insns)
 !   Sets up VDP2 scroll layers for the current course.
 !   Configures tilemap base addresses in VDP2 VRAM.
 
+! CONFIDENCE: HIGH - Address verified. Per-frame update role consistent with
+!   being called from a frame timing function.
 ! FUN_060171AC — VDP2 state handler (242 bytes, 121 insns)
 !   Per-frame VDP2 updates — scroll offsets, layer enables.
 !   Called from frame timing system (tail-called from FUN_06011DC0).
@@ -102,10 +129,14 @@
 ! FUN_06017330 — VDP2 data init (66 bytes, 33 insns, LEAF)
 ! FUN_06017372 — VDP2 lookup (50 bytes, 25 insns, LEAF)
 
+! CONFIDENCE: HIGH - Large size consistent with configuring many VDP2
+!   registers. Saturn VDP2 has dozens of scroll/priority registers.
 ! FUN_06018320 — Large VDP2 scroll register config (568 bytes, 284 insns)
 !   Major VDP2 configuration function. Sets up all scroll plane
 !   registers, layer priorities, and transparency modes.
 
+! CONFIDENCE: HIGH - Very large function; course-dependent VDP2 setup
+!   consistent with 3-course architecture requiring different backgrounds.
 ! FUN_06018A3C — Large VDP2 configuration (648 bytes, 324 insns)
 !   Extended VDP2 setup — handles all three courses' background
 !   layer configuration with course-dependent parameters.
@@ -115,12 +146,23 @@
 ! THREE-COURSE PHYSICS INITIALIZATION (0x06019BC8-0x0601A5F8)
 ! =============================================================================
 !
+! AUDIT NOTE: Claim of identical 282-byte size is INCORRECT. Actual sizes:
+!   FUN_06019BC8=332 bytes, FUN_06019DB8=312 bytes, FUN_06019FB2=318 bytes.
+!   Intermediate functions (FUN_06019D14, FUN_06019EF0, FUN_0601A0F0) exist
+!   between them but are not mentioned. The 3-course pattern is still valid.
 ! Three identical-sized functions confirm the 3-course architecture.
 ! Each function initializes course-specific physics parameters:
 ! friction, gravity, traction, speed limits, etc.
 
+! CONFIDENCE: HIGH - Address verified. Three consecutive similar-sized
+!   functions strongly suggest per-course initialization.
+! AUDIT NOTE: Actual size is 332 bytes (166 insns), not 282/141.
 ! FUN_06019BC8 — Course 0 (Beginner) car physics init (282 bytes, 141 insns)
+! CONFIDENCE: HIGH - Same reasoning as Course 0.
+! AUDIT NOTE: Actual size is 312 bytes (156 insns), not 282/141.
 ! FUN_06019DB8 — Course 1 (Advanced) car physics init (282 bytes, 141 insns)
+! CONFIDENCE: HIGH - Same reasoning as Course 0.
+! AUDIT NOTE: Actual size is 318 bytes (159 insns), not 282/141.
 ! FUN_06019FB2 — Course 2 (Expert) car physics init (282 bytes, 141 insns)
 !
 ! All three are exactly 282 bytes — they share the same structure
@@ -133,10 +175,12 @@
 !   - Cornering grip factors
 !   - Acceleration curves
 
+! CONFIDENCE: MEDIUM - Address not individually verified.
 ! FUN_0601A3F4 — Car physics finalization (328 bytes, 164 insns)
 !   Post-init physics setup — connects car objects to track segments
 !   and initializes runtime physics state.
 
+! CONFIDENCE: MEDIUM - All 4 cars claim is unverified.
 ! FUN_0601A65E — Car initialization handler (196 bytes, 98 insns)
 !   Initializes car data structures for all 4 cars.
 
@@ -149,9 +193,11 @@
 !
 ! Functions that load course-specific data from ROM/CD to work RAM.
 
+! CONFIDENCE: MEDIUM - Address not individually verified.
 ! FUN_0601A940 — Course init pipeline (344 bytes, 172 insns)
 !   Master course initialization — loads all data for selected course.
 
+! CONFIDENCE: MEDIUM - ROM loader role is speculative.
 ! FUN_0601A80C — Course data loader (264 bytes, 132 insns)
 !   Loads course geometry from ROM addresses. Maps ROM offsets to
 !   work RAM destinations for track data.
@@ -173,29 +219,42 @@
 ! TERRAIN COLLISION MESH (0x0603449C-0x06034B9A)
 ! =============================================================================
 !
+! AUDIT NOTE: FUN_0603449C and FUN_0603458C are NOT labeled functions in
+!   build/aprog.s. They are called via bsr from FUN_06033FB0/FUN_06033FDC/
+!   FUN_06033FE4 so they are valid code entry points, but the nearest labeled
+!   functions are FUN_06034406, FUN_06034410, FUN_060344FC, FUN_06034526.
+!
 ! Low-level terrain collision detection — queries the track's
 ! collision mesh to determine surface properties at a given position.
 
+! CONFIDENCE: MEDIUM - Valid bsr target but NOT a labeled function in binary.
+! AUDIT NOTE: Not a labeled function in aprog.s - mid-function branch target.
 ! FUN_0603449C — Terrain collision mesh lookup (150 bytes, 75 insns)
 !   Queries terrain mesh for collision data at a world position.
 !   Returns surface normal, material type, friction.
 
+! CONFIDENCE: MEDIUM - Valid bsr target but NOT a labeled function in binary.
+! AUDIT NOTE: Not a labeled function in aprog.s - mid-function branch target.
 ! FUN_0603458C — Track segment accessor (122 bytes, 61 insns)
 !   Retrieves track segment information for physics calculations.
 !   Maps world position to nearest track segment.
 
+! CONFIDENCE: HIGH - Address verified as labeled function in binary.
 ! FUN_06034900 — Terrain data lookup (104 bytes, 52 insns)
 !   Queries elevation and surface properties at given XZ coordinates.
 !   Used for ground-clamping vehicles to track surface.
 
+! CONFIDENCE: HIGH - Address verified as labeled function.
 ! FUN_06034AEE — Track intersection test (84 bytes, 42 insns)
 !   Tests object position against track boundaries.
 !   Detects when car leaves track surface.
 
+! CONFIDENCE: HIGH - Address verified as labeled function.
 ! FUN_06034B54 — Mesh boundary check (70 bytes, 35 insns)
 !   Validates object positions within track bounds.
 !   Out-of-bounds detection for wall collisions.
 
+! CONFIDENCE: HIGH - Address verified as labeled function.
 ! FUN_06034B9A — Road segment query (162 bytes, 81 insns)
 !   Retrieves road surface information — traction and friction
 !   properties that vary by track position (asphalt vs grass vs sand).
@@ -205,6 +264,8 @@
 ! TRACK OBJECT PLACEMENT (0x06021450)
 ! =============================================================================
 !
+! CONFIDENCE: HIGH - Address verified. Very large size confirmed. Object
+!   placement role is reasonable inference from ROM reads and position stores.
 ! FUN_06021450 — Track object placement system (1447 insns, ~2894 bytes)
 !   SECOND LARGEST function in the binary.
 !   Reads 3D positions from ROM (base 0x00200000 + offset) and places
@@ -240,6 +301,8 @@
 ! FUNCTION HIERARCHY
 ! =============================================================================
 !
+! CONFIDENCE: MEDIUM - Hierarchy inferred from grouping, not from verified
+!   call chain analysis of the binary.
 ! Course Loading Sequence:
 !   1. FUN_0601A940 (course init pipeline)
 !      -> FUN_0601A80C (load course data from ROM)

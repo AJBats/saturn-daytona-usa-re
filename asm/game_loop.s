@@ -1,3 +1,7 @@
+! ================================================
+! AUDIT: DEFINITE -- Main loop and jump table verified byte-for-byte against binary
+! Audited: 2026-02-10
+! ================================================
 ! ============================================================================
 ! game_loop.s — Main Loop & 32-State Machine
 ! ============================================================================
@@ -29,6 +33,7 @@
 ! ============================================================================
 ! First call: FUN_060030FC (one-time init: SMPC, BSS clear, subsystems)
 ! Then falls into the infinite main loop.
+! CONFIDENCE: DEFINITE -- Entry point, stack init, jsr FUN_060030FC, ldc r0,sr all verified byte-for-byte
 
 _start:                             ! 0x06003000
     mov.l   @(0x5C,PC),r1         ! r1 = 0x060030FC (FUN_060030FC — system init)
@@ -40,6 +45,7 @@ _start:                             ! 0x06003000
 ! ============================================================================
 ! Main loop — runs forever, one iteration per frame
 ! ============================================================================
+! CONFIDENCE: DEFINITE — All addresses (0x0600A392, 0x0605AD10, 0x0607EBC0, 0x0607EBC4, 0x0607EBC8) verified in binary pool data
 .main_loop:                         ! 0x0600300A
     mov.l   @(0x58,PC),r0         ! r0 = 0x0600A392 (FUN_0600A392 — per-frame update)
     jsr     @r0                    ! Call per-frame update (input polling, timers, VBlank sync)
@@ -104,6 +110,7 @@ _start:                             ! 0x06003000
 ! ============================================================================
 ! Jump Table (0x0600307C) — 32 state handler addresses
 ! ============================================================================
+! CONFIDENCE: DEFINITE — All 32 entries decoded from binary and cross-checked against function labels
 ! Each entry is a 32-bit pointer to a handler function.
 ! States 14, 15, 17, 19 are the in-race gameplay handlers (largest).
 !
@@ -147,6 +154,7 @@ _start:                             ! 0x06003000
 !   → 6-11 (transitions/loading) → 12 (pre-race) → 13 (countdown) → 14 (race)
 !   14/15/17/19 cycle during race → 20 (results) → 21-25 (post-race) → 2 (loop)
 !
+! CONFIDENCE: HIGH -- State 15 call chain verified; FUN_0600DE54 confirmed as called at 0x06009174
 ! State 15 in-race call chain (the core gameplay path):
 !   FUN_06009098
 !     → FUN_060302C6  (sound system update)
@@ -158,4 +166,5 @@ _start:                             ! 0x06003000
 !         → FUN_06027CA4  (3D scene processing)
 !         → FUN_06005ECC  (course data processing)
 !         → FUN_06063EB0  (frame/rendering finalization)
+! AUDIT NOTE: 0x06063EB0 is a data address (scene buffer pointer), not a function. It is passed as r4 argument to FUN_06027CA4.
 ! ============================================================================

@@ -1,3 +1,7 @@
+! ================================================
+! AUDIT: HIGH -- Replay camera section verified with strong binary evidence; 3D geometry and render output sections are more speculative
+! Audited: 2026-02-10
+! ================================================
 ! =============================================================================
 ! Replay Camera & Cinematic Camera System
 ! =============================================================================
@@ -13,8 +17,10 @@
 ! =============================================================================
 
 ! FUN_0601DBB8 — Replay camera controller (472 bytes, 236 insns)
-!   Heavy-weight function: saves r8-r14 + macl (9 registers).
-!   20-byte stack frame for local variables.
+! CONFIDENCE: DEFINITE -- All addresses verified: 0x06078900, 0x0608706C, 0x060786AC, 0x0607EBF4, 0x060350B0 jsr, 0x0601E26C bsr
+! AUDIT NOTE: Size wrong -- actual 574 bytes (0x23E), not 472. Saves r8-r14+pr+macl (pr omitted from text). Stack is 8 bytes, not 20.
+!   Heavy-weight function: saves r8-r14 + pr + macl (9 registers).
+!   8-byte stack frame for local variables.
 !
 !   Key state addresses:
 !     0x06078900 — Camera data block
@@ -63,6 +69,7 @@
 !     - Disable: immediate exit via register restore
 
 ! FUN_0601DDF6 — Camera cleanup/reset (46 bytes, 23 insns)
+! CONFIDENCE: HIGH -- Address verified, refs 0x0605ACE3. Cleanup target from FUN_0601DBB8 bra.
 !   Called when replay camera is disabled or finishes.
 !   Resets camera state and restores normal camera mode.
 !   State stored at 0x0605ACE3.
@@ -76,22 +83,28 @@
 ! scene rendering.
 
 ! FUN_0601C3E4 — Master control dispatcher (1014 bytes, 507 insns)
+! CONFIDENCE: MEDIUM -- Address verified. Large function but rendering claims unverified.
 !   Largest function in this group. Hardware integration — coordinates
 !   between game logic and rendering hardware.
 !   Dispatches to different rendering paths based on game state.
 
 ! FUN_0601C978 — Render pipeline stage 1 (264 bytes, 132 insns)
+! CONFIDENCE: SPECULATIVE -- Address exists but viewport/clipping claims have no hw register evidence.
 !   Initial rendering setup — configures viewport and clipping planes.
 
 ! FUN_0601CAEE — Render processing stage (612 bytes, 306 insns)
+! CONFIDENCE: SPECULATIVE -- Address exists but description is generic.
 !   Jump target for long init chains from pre_race_states.
 !   Processes rendering commands accumulated during frame setup.
 
 ! FUN_0601CDC0 — Render stage 3 (250 bytes, 125 insns)
 ! FUN_0601CEFC — Render stage 4 (250 bytes, 125 insns)
+! CONFIDENCE: SPECULATIVE -- Pipeline stage numbering is arbitrary.
 !   Sequential render pipeline stages.
 
 ! FUN_0601D12C — Pure matrix/vector math (382 bytes, 191 insns, LEAF)
+! CONFIDENCE: MEDIUM -- Address verified but major errors in description.
+! AUDIT NOTE: NOT a LEAF -- has jmp @r3 at 0x0601D2BE. Size is 432B (0x1B0), not 382. Actually a multi-state dispatcher checking values 0-11, reading 0x06063D9A.
 !   Key reusable math function — performs matrix-vector multiplication.
 !   No function calls (LEAF), purely computational.
 !   Used extensively by camera, scene, and transform systems.
@@ -102,11 +115,13 @@
 ! =============================================================================
 
 ! FUN_0601E26C — Position interpolation (58 bytes, 29 insns)
+! CONFIDENCE: HIGH -- Called from FUN_0601DBB8 via bsr at 0x0601DD78 and 0x0601DD94.
 !   Interpolates camera position between keyframes.
 !   Called from replay camera (FUN_0601DBB8) and scene rendering.
 !   Uses linear interpolation with frame-rate compensation.
 
 ! FUN_0601E2B4 — HUD overlay renderer (158 bytes, 79 insns)
+! CONFIDENCE: SPECULATIVE -- Address exists but HUD overlay description is unverified.
 !   Renders camera-related HUD overlays (replay indicator, etc.)
 
 
@@ -118,6 +133,7 @@
 ! engines for batch vertex transformation.
 
 ! FUN_0601EFC4 — Batch vertex transform (930 bytes, 465 insns, LEAF)
+! CONFIDENCE: MEDIUM -- Address verified. LEAF and vertex transform claims plausible but unverified.
 !   *** LARGEST LEAF FUNCTION IN BINARY ***
 !   Transforms entire vertex batches through the full pipeline:
 !   model -> world -> view -> clip -> screen space.
@@ -125,6 +141,7 @@
 !   Unrolled loop for maximum throughput on SH-2.
 
 ! FUN_0601EBDA — Pure geometry computation (854 bytes, 427 insns, LEAF)
+! CONFIDENCE: MEDIUM -- Address verified. LEAF plausible. Polygon vs sprite is speculative.
 !   *** SECOND LARGEST LEAF ***
 !   Similar to FUN_0601EFC4 but for different geometry types.
 !   Handles polygon vs sprite vertex formats.
@@ -137,27 +154,33 @@
 ! Final output stage — submits rendered frame to hardware.
 
 ! FUN_0601F9CC — Large output handler (650 bytes, 325 insns)
+! CONFIDENCE: SPECULATIVE -- VDP1/double-buffer claims unverified.
 !   Final rendering output — writes completed frame data to VDP1.
 !   Manages double-buffer swap timing.
 
 ! FUN_0601F5E0 — Render utility final pass (348 bytes, 174 insns)
+! CONFIDENCE: SPECULATIVE -- Generic label.
 !   Post-processing pass before output.
 
 ! FUN_0601F4B4 — Display processor (272 bytes, 136 insns, LEAF)
+! CONFIDENCE: SPECULATIVE -- LEAF claim unverified.
 !   Pure computation for display formatting.
 
 ! FUN_0601F784 — Output finalizer (202 bytes, 101 insns)
 ! FUN_0601FEC0 — Final output (202 bytes, 101 insns)
+! CONFIDENCE: SPECULATIVE -- Generic rendering labels.
 !   Write final frame to display hardware.
 
 ! FUN_0601F40C — Output handler (88 bytes, 44 insns)
 ! FUN_0601F936 — Output handler B (120 bytes, 60 insns)
+! CONFIDENCE: SPECULATIVE -- All addresses exist but descriptions are generic guesses.
 ! FUN_0601FE20 — Display handler (118 bytes, 59 insns)
 ! FUN_0601F8C0 — Output control (52 bytes, 26 insns)
 !   Referenced from pre_race_states.s as resource check.
 ! FUN_0601F900 — Output dispatch (54 bytes, 27 insns)
 ! FUN_0601FD20 — Display control A (40 bytes, 20 insns)
 ! FUN_0601FD74 — Display control B (40 bytes, 20 insns)
+! CONFIDENCE: SPECULATIVE -- Addresses exist, descriptions generic.
 
 
 ! =============================================================================
@@ -165,6 +188,7 @@
 ! =============================================================================
 !
 ! Replay Camera Flow:
+! CONFIDENCE: DEFINITE -- Call chain fully verified in binary: jsr, bsr, bra targets all confirmed.
 !
 !   FUN_0601DBB8 (replay camera controller)
 !     |

@@ -1,3 +1,7 @@
+! ================================================
+! AUDIT: MEDIUM -- State handler catalog has 6 incorrect state-to-address mappings; game flow logic is reasonable
+! Audited: 2026-02-10
+! ================================================
 ! =============================================================================
 ! Complete 32-State Machine Handler Catalog
 ! =============================================================================
@@ -13,6 +17,15 @@
 ! =============================================================================
 ! STATE OVERVIEW TABLE
 ! =============================================================================
+! AUDIT NOTE: 6 state-to-address mappings in this table are WRONG vs the binary jump table at 0x0600307C.
+! Verified correct mappings from binary:
+!   State 12 = 0x06008E00 (NOT 0x06008C14 as listed below)
+!   State 13 = 0x06008E48 (NOT 0x06008E00 as listed below)
+!   State 22 = 0x06009E60 (NOT 0x06009DD0 as listed below)
+!   State 23 = 0x06009F10 (NOT 0x06009E02 as listed below)
+!   State 30 = 0x06008C14 (NOT 0x06008C76 as listed below)
+!   State 31 = 0x06008C76 (NOT 0x06009F10 as listed below)
+! The game_loop.s file has the CORRECT assignments for all 32 states.
 !
 ! | State | Address    | Size  | Purpose |
 ! |-------|------------|-------|---------|
@@ -53,12 +66,15 @@
 ! =============================================================================
 ! STARTUP & ATTRACT (States 0-5)
 ! =============================================================================
+! CONFIDENCE: HIGH -- State 0-5 addresses all verified in binary; functional descriptions are reasonable
 
+! CONFIDENCE: HIGH -- Address verified; calls FUN_06018E70 confirmed
 ! STATE 0: FUN_060088CC — Game/Course Initialization (~62 insns)
 !   Power-on setup. Calls init chain.
 !   Tail-calls FUN_0601CAEE (rendering init).
 !   Only runs once at startup.
 
+! CONFIDENCE: MEDIUM -- Address 0x0600890A exists but is NOT a labeled function; it is a code offset inside FUN_060088CC
 ! STATE 1: FUN_0600890A — Transition Stub (~22 insns)
 !   Minimal handler. Sets next state and returns.
 !   2-4 instructions of actual logic.
@@ -66,6 +82,7 @@
 ! STATE 2: FUN_06008938 — Transition Stub (~22 insns)
 !   Similar to state 1. Simple transition.
 
+! CONFIDENCE: HIGH -- Address verified; countdown/timer behavior plausible
 ! STATE 3: FUN_06008A18 — Attract Mode Timeout (~114 insns)
 !   Countdown/timer manager for title screen.
 !   Decrements counter each frame.
@@ -79,6 +96,7 @@
 !   Jumps to continuation handler.
 !   Entry point after attract mode or menu return.
 
+! CONFIDENCE: MEDIUM -- Address verified; 0x70 button mask interpretation reasonable but unverified
 ! STATE 5: FUN_06008D74 — Input Detection Router (~62 insns)
 !   Timed/conditional branching.
 !   Checks key code 0x70 (Start button).
@@ -92,14 +110,19 @@
 ! =============================================================================
 ! MENU FLOW (States 6-12)
 ! =============================================================================
+! CONFIDENCE: HIGH -- States 6-11 addresses verified; menu flow consistent with arcade game
+! AUDIT NOTE: State 12 address is WRONG. Actual state 12 = 0x06008E00, not 0x06008C14.
 !
 ! Linear menu progression: Course Select -> Car Select -> Loading -> Race
 
+! CONFIDENCE: HIGH -- Address verified; jsr to FUN_06018E70 confirmed
+! AUDIT NOTE: Says "Course Select Init" but binary shows call to FUN_06018E70 (general init)
 ! STATE 6: FUN_06008B04 — Course Select Init (~24 insns)
 !   One-frame setup.
 !   Calls FUN_060193F4 (course select initialization).
 !   Transitions immediately to state 7.
 
+! CONFIDENCE: HIGH -- Address verified; calls FUN_060196A4 confirmed in pool data
 ! STATE 7: FUN_06008B34 — Course Select Active (~34 insns)
 !   Menu loop. Runs every frame until player confirms.
 !   FUN_060196A4 — processes controller input (course navigation)
@@ -122,6 +145,7 @@
 !   Calls FUN_0601B160 (initiates course data loading from disc).
 !   Transitions immediately to state 11.
 
+! CONFIDENCE: HIGH -- Address verified; calls FUN_0601B418 confirmed
 ! STATE 11: FUN_06008BFC — Loading Check (~14 insns)
 !   Polls loading status each frame.
 !   Calls FUN_0601B418 (check disc load completion).
@@ -141,6 +165,9 @@
 ! =============================================================================
 ! PRE-RACE (States 13, 31)
 ! =============================================================================
+! AUDIT NOTE: State 13 and 31 addresses are both WRONG here.
+!   Actual state 13 = FUN_06008E48 (not FUN_06008E00)
+!   Actual state 31 = FUN_06008C76 (not FUN_06009F10)
 
 ! STATE 13: FUN_06008E00 — Race Preparation (~36 insns)
 !   Final pre-race setup.
@@ -162,15 +189,18 @@
 ! =============================================================================
 ! ACTIVE RACING (States 14-17)
 ! =============================================================================
+! CONFIDENCE: HIGH -- States 14-17 addresses all verified correct in binary
 !
 ! *** CORE GAMEPLAY - See asm/race_states.s for detailed analysis ***
 
+! CONFIDENCE: HIGH -- Address verified; prologue confirmed
 ! STATE 14: FUN_06008EBC — Race First-Frame Setup (188 insns)
 !   One-frame initialization.
 !   Button event mapping.
 !   Runs race pipeline once (warm-up).
 !   Transitions to state 15.
 
+! CONFIDENCE: DEFINITE -- Core gameplay state; call chain verified in binary
 ! STATE 15: FUN_06009098 — MAIN RACE LOOP (202 insns)
 !   *** THE CORE GAMEPLAY STATE ***
 !   Called every frame during active racing.
@@ -209,6 +239,7 @@
 ! =============================================================================
 ! TIME EXTENSION (States 18-19)
 ! =============================================================================
+! CONFIDENCE: HIGH -- Addresses verified; button mask analysis plausible for Saturn controller
 
 ! STATE 18: FUN_060096DC — Time Extension Setup (~86 insns)
 !   One-frame UI initialization.
@@ -237,6 +268,8 @@
 ! =============================================================================
 ! RACE COMPLETION (States 20-25)
 ! =============================================================================
+! CONFIDENCE: MEDIUM -- States 20-21, 24-25 verified; states 22-23 have WRONG addresses
+! AUDIT NOTE: Actual state 22 = FUN_06009E60, state 23 = FUN_06009F10.
 
 ! STATE 20: FUN_06009A60 — Race Completion Init (~195 insns)
 !   Calls FUN_06014A04 (final calculations).
@@ -289,6 +322,8 @@
 ! =============================================================================
 ! ABORT / SPECIAL STATES (States 26-30)
 ! =============================================================================
+! CONFIDENCE: HIGH -- States 26-29 verified; state 30 has WRONG address
+! AUDIT NOTE: State 30 is WRONG. Actual state 30 = FUN_06008C14, not FUN_06008C76.
 
 ! STATE 26: (Alias of state 22) — Same handler at 0x06009DD0
 ! STATE 27: (Alias of state 23) — Same handler at 0x06009E02
@@ -319,6 +354,7 @@
 ! =============================================================================
 ! STATE TRANSITION GRAPH
 ! =============================================================================
+! CONFIDENCE: MEDIUM -- Graph plausible for arcade racer but not all transitions individually verified
 !
 !   [0] Init
 !    |
@@ -371,6 +407,7 @@
 ! =============================================================================
 ! KEY STATE VARIABLES
 ! =============================================================================
+! CONFIDENCE: HIGH -- 0x0605AD10 verified definitively; other variables cross-referenced
 !
 ! 0x0605AD10   = current state index (0-31)
 ! 0x0605A016   = phase flag (0=init, 3=post, 4=post-lap)

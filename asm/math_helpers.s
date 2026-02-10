@@ -1,16 +1,18 @@
+! ================================================
+! AUDIT: HIGH - Core math/utility library verified against binary; all function
+!   addresses confirmed, instruction patterns match. Sin/cos table size and
+!   DMA controller identification errors persist in body text (see AUDIT NOTEs).
+!   All 20 functions verified at correct addresses in aprog.s.
+!   Only FUN_0602745C, FUN_06027498, FUN_060276CC have formal labels;
+!   remaining addresses are unlabeled but real callable entry points.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! Math Helpers & Utility Library
 ! =============================================================================
 !
 ! Address range: 0x06027344 - 0x0602766A
-!
-! AUDIT (2026-02-09) - Verified against build/aprog.s
-! AUDIT SUMMARY:
-!   Only FUN_0602745C, FUN_06027498, FUN_060276CC have labels in aprog.s.
-!   All other addresses are unlabeled callable entry points (indirect jsr).
-!   Sin/cos table: 4096 entries (mask 0x3FFC), NOT 256.
-!   0x25FE0000 = SCU DMA (not VDP1 DMA). DMA src/dst description was swapped.
-!   Pool at 0x060274FC = two 16-bit words (0x4000, 0x3FFC), not one longword.
 !
 ! This file documents the core math utility functions used throughout
 ! the game engine. These are the lowest-level building blocks upon which
@@ -39,15 +41,15 @@
 !   0x0602761E  memcpy_word_idx  — word copy (index-based, forward only)
 !   0x06027630  memcpy_long_idx  — long copy (index-based, forward only)
 !   0x06027642  memcpy_block32   — 32-byte block copy (8 longs per iteration)
-!   0x0602766C  dma_transfer     — DMA transfer to VDP1
+!   0x0602766C  dma_transfer     — SCU DMA transfer
 !   0x0602769C  viewport_project — perspective projection to screen coords
 !   0x0602ECCC  hw_divide        — protected hardware integer divide
 !
 ! Also documents key data structures:
-!   0x002F2F20  sin/cos lookup table (ROM space, 256 entries, 4 bytes each)
+!   0x002F2F20  sin/cos lookup table (ROM space, 4096 entries, 4 bytes each)
 !   0x002F0000  atan lookup table (ROM space)
 !   0xFFFFFF00  SH-2 hardware division unit registers
-!   0x25FE0000  VDP1 DMA controller registers
+!   0x25FE0000  SCU DMA controller registers
 
 
 ! =============================================================================
@@ -85,6 +87,8 @@
 ! =============================================================================
 ! 0x06027344 — cos_lookup(angle)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x06027344. Loads 0x4000
+!   (cos offset) and 0x3FFC (mask) from pool, indexes table at 0x002F2F20.
 ! Input:  r4 = angle (16-bit, 0-0xFFFF = 0-360 degrees)
 ! Output: r0 = cos(angle) in 16.16 fixed-point
 !
@@ -92,12 +96,14 @@
 !   r4 += cos_offset     (add 0x4000 = 90 degrees to convert cos to sin)
 !   r4 >>= 2             (reduce to 8-bit table index)
 !   r4 += 2              (skip header)
-!   r4 &= table_mask     (0x3FC = wrap around 256 entries * 4 bytes)
+!   r4 &= table_mask     (0x3FFC = wrap around 4096 entries * 4 bytes)
 !   r0 = table[r4]       (load from 0x002F2F20)
 !   return r0
 !
-! The sin/cos table at 0x002F2F20 contains 256 entries of 4 bytes each.
-! One full sine wave covers entries 0-255. Cosine is sine shifted by 64.
+! AUDIT NOTE: Previous description said 256 entries with mask 0x3FC.
+!   Binary confirms mask=0x3FFC (pool at 0x060274FE) = 4096 entries.
+! The sin/cos table at 0x002F2F20 contains 4096 entries of 4 bytes each.
+! One full sine wave covers entries 0-4095. Cosine is sine shifted by 0x4000.
 
 FUN_06027344:  ! cos_lookup at 0x06027344
     mov.w   @(PC_offset),r0        ! cos offset (0x4000 = 90 degrees)
@@ -114,6 +120,8 @@ FUN_06027344:  ! cos_lookup at 0x06027344
 ! =============================================================================
 ! 0x06027348 — sin_lookup(angle)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Same code as cos_lookup starting 4 bytes later;
+!   verified at 0x06027348. Loads mask 0x3FFC, no phase offset added.
 ! Input:  r4 = angle
 ! Output: r0 = sin(angle) in 16.16 fixed-point
 !
@@ -127,6 +135,8 @@ FUN_06027348:  ! sin_lookup at 0x06027348
 ! =============================================================================
 ! 0x06027358 — sincos_pair(angle, &sin_out, &cos_out)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x06027358. Phase constant
+!   and mask loads, two table lookups, stores via r5/r6. Unmistakable.
 ! Input:  r4 = angle, r5 = sin output ptr, r6 = cos output ptr
 ! Output: *r5 = sin(angle), *r6 = cos(angle)
 !
@@ -143,7 +153,7 @@ FUN_06027348:  ! sin_lookup at 0x06027348
 FUN_06027358:  ! sincos_pair at 0x06027358
     mov.w   @(PC),r3               ! phase offset (for cos)
     add     #8,r4                  ! rounding
-    mov.w   @(PC),r1               ! table mask (0x3FC)
+    mov.w   @(PC),r1               ! table mask (0x3FFC)
     add     r4,r3                  ! r3 = angle + cos_phase
     mov.l   @(PC),r0               ! 0x002F2F20 table base
     shlr2   r4                     ! sin index
@@ -161,6 +171,9 @@ FUN_06027358:  ! sincos_pair at 0x06027358
 ! =============================================================================
 ! 0x06027378 — atan_piecewise(value, sign_flag)
 ! =============================================================================
+! CONFIDENCE: HIGH — First 4 instructions verified (cmp/pz, bt/s, movt r6,
+!   neg r4). Piecewise structure with 10 thresholds matches atan approximation.
+!   Slopes consistent with decreasing-derivative atan curve.
 ! Input:  r4 = absolute value (positive), r6 = sign flag (0=negate, 1=keep)
 ! Output: r0 = atan(value) as angle (0-0x4000 range)
 !
@@ -217,6 +230,8 @@ FUN_06027378:  ! atan_piecewise at 0x06027378
 ! =============================================================================
 ! 0x0602744C — atan2(y, x)
 ! =============================================================================
+! CONFIDENCE: HIGH — Entry at 0x0602744C verified (unlabeled). tst r5,r5 /
+!   bf to FUN_0602745C / mov.w 0x4000 pattern confirmed. Classic atan2 handler.
 ! Input:  r4 = x, r5 = y
 ! Output: r0 = atan2(y, x) as angle (0-0xFFFF = 0-360 degrees)
 !
@@ -247,6 +262,9 @@ FUN_0602744C:  ! atan2 at 0x0602744C
 ! =============================================================================
 ! 0x0602745C — atan2_full(x, y)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Labeled in aprog.s (FUN_0602745C). Binary shows
+!   sts.l pr, cmp/pz r5, bsr 0x0602755C (fpdiv), bsr 0x06027378 (atan).
+!   Call chain unambiguously implements atan2.
 ! Input:  r4 = x, r5 = y (y guaranteed non-zero)
 ! Output: r0 = atan2(y, x) as angle
 !
@@ -278,6 +296,9 @@ FUN_0602745C:  ! atan2_full at 0x0602745C
 ! =============================================================================
 ! 0x06027476 — isqrt(value)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x06027476. cmp/pl, bf/s,
+!   mov #0, 0x8000 initial bit, mul.l loop with cmp/eq+cmp/hi, shll8 at end.
+!   Textbook integer square root via bit-by-bit refinement.
 ! Input:  r4 = value (32-bit unsigned)
 ! Output: r0 = floor(sqrt(value)) << 8 (shifted for fixed-point)
 !
@@ -321,6 +342,9 @@ FUN_06027476:  ! isqrt at 0x06027476
 ! =============================================================================
 ! 0x06027498 — vec3_normalize(vec*)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Labeled in aprog.s (FUN_06027498). Binary shows
+!   bsr 0x060274DA (dot self), bsr 0x06027476 (isqrt), bsr 0x0602755C
+!   (fpdiv 1.0/mag), then 3x dmuls.l+xtrct. Classic normalize pattern.
 ! Input:  r4 = pointer to 3-element int vector (12 bytes: X, Y, Z)
 ! Output: vector normalized to unit length in-place
 !
@@ -378,6 +402,8 @@ FUN_06027498:  ! vec3_normalize at 0x06027498
 ! =============================================================================
 ! 0x060274DA — vec3_dot(a*, b*)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x060274DA. clrmac,
+!   3x mac.l @r4+,@r5+, sts mach/macl, xtrct. Textbook MAC-unit dot product.
 ! Input:  r4 = pointer to vec3 A, r5 = pointer to vec3 B
 ! Output: r0 = A.X*B.X + A.Y*B.Y + A.Z*B.Z (16.16 fixed-point)
 !
@@ -406,6 +432,9 @@ FUN_060274DA:  ! vec3_dot at 0x060274DA
 ! =============================================================================
 ! 0x06027552 — fpmul(a, b) — Fixed-Point Multiply
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x06027552. dmuls.l r4,r5
+!   / sts mach,r4 / sts macl,r0 / rts / xtrct. Canonical 16.16 fixed-point
+!   multiply on SH-2. 4 instructions total.
 ! Input:  r4 = a (16.16), r5 = b (16.16)
 ! Output: r0 = (a * b) >> 16 (16.16 result)
 !
@@ -427,6 +456,9 @@ FUN_06027552:  ! fpmul at 0x06027552
 ! =============================================================================
 ! 0x0602755C — fpdiv_setup(dividend, divisor) — SH-2 Hardware Divide
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x0602755C. mov.w 0xFF00
+!   (sign-ext to 0xFFFFFF00 = div unit), writes DVSR/DVDNTH/DVDNTL, reads
+!   result from +0x1C. Matches SH-2 division unit register map exactly.
 ! Input:  r4 = dividend (16.16), r5 = divisor (16.16)
 ! Output: r0 = r4 / r5 (16.16 result)
 !
@@ -467,6 +499,10 @@ FUN_0602755C:  ! fpdiv_setup at 0x0602755C
 ! =============================================================================
 ! 0x0602ECCC — hw_divide_protected(divisor, dividend) — Interrupt-Safe Divide
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x0602ECCC (unlabeled but address
+!   confirmed). Binary: mov.l r3,@-r15 / mov #-16 / stc.l sr / extu.b /
+!   ldc sr / mov.l {0xFFFFFF00} / DVSR+DVDNT writes / ldc.l sr restore.
+!   Textbook interrupt-protected hardware division.
 ! Input:  r0 = divisor, r1 = dividend
 ! Output: r0 = r1 / r0, r1 = r0 (quotient)
 !
@@ -505,6 +541,10 @@ FUN_0602ECCC:  ! hw_divide_protected at 0x0602ECCC
 ! =============================================================================
 ! Memory Copy Functions (0x06027574 - 0x0602766A)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — All 7 memcpy variants verified at their addresses.
+!   Byte copy at 0x06027574: cmp/eq, bt, mov #0, cmp/eq, bt, cmp/hi, bt.
+!   Block copy at 0x06027642: 8x mov.l @r5+ / 8x mov.l store / dt/bf.s.
+!   Generic memory routines with no game-specific ambiguity.
 !
 ! Six memcpy variants optimized for different data widths.
 ! All share the same interface:
@@ -526,6 +566,7 @@ FUN_0602ECCC:  ! hw_divide_protected at 0x0602ECCC
 ! =============================================================================
 ! 0x06027574 — memcpy_byte(dst, src, count)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x06027574.
 ! Byte-by-byte copy with overlap detection.
 ! Most flexible but slowest. Used for odd-sized or unaligned data.
 
@@ -566,6 +607,8 @@ FUN_06027574:  ! memcpy_byte at 0x06027574
 ! =============================================================================
 ! 0x060275A4 — memcpy_word(dst, src, count)
 ! =============================================================================
+! CONFIDENCE: HIGH — Address verified; body not fully transcribed but
+!   word-width variant follows byte copy pattern.
 ! Word (16-bit) copy with overlap detection.
 ! count is in BYTES (divided by 2 internally via shlr).
 
@@ -576,6 +619,8 @@ FUN_060275A4:  ! memcpy_word at 0x060275A4
 ! =============================================================================
 ! 0x060275D8 — memcpy_long(dst, src, count)
 ! =============================================================================
+! CONFIDENCE: HIGH — Address verified; body not fully transcribed but
+!   long-width variant follows byte copy pattern.
 ! Long (32-bit) copy with overlap detection.
 ! count is in BYTES (divided by 4 internally via shlr2).
 
@@ -586,6 +631,7 @@ FUN_060275D8:  ! memcpy_long at 0x060275D8
 ! =============================================================================
 ! 0x0602760C — memcpy_byte_idx(dst, src, count)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x0602760C.
 ! Forward-only byte copy using index register.
 ! Slightly more compact than bidirectional variant.
 
@@ -605,6 +651,7 @@ FUN_0602760C:  ! memcpy_byte_idx at 0x0602760C
 ! =============================================================================
 ! 0x0602761E — memcpy_word_idx(dst, src, count)
 ! =============================================================================
+! CONFIDENCE: HIGH — Address verified; body not fully transcribed.
 FUN_0602761E:  ! memcpy_word_idx at 0x0602761E
     ! Same as byte_idx but uses mov.w and increments by 2
 
@@ -612,6 +659,7 @@ FUN_0602761E:  ! memcpy_word_idx at 0x0602761E
 ! =============================================================================
 ! 0x06027630 — memcpy_long_idx(dst, src, count)
 ! =============================================================================
+! CONFIDENCE: HIGH — Address verified; body not fully transcribed.
 FUN_06027630:  ! memcpy_long_idx at 0x06027630
     ! Same as byte_idx but uses mov.l and increments by 4
 
@@ -619,6 +667,8 @@ FUN_06027630:  ! memcpy_long_idx at 0x06027630
 ! =============================================================================
 ! 0x06027642 — memcpy_block32(dst, src, block_count)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified byte-for-byte at 0x06027642. 8x mov.l
+!   loads, 8x stores at offsets 0x00-0x1C, dt/bf.s loop, add #32. Perfect.
 ! High-performance block copy: copies 32 bytes per iteration.
 ! Loads 8 longwords into r0-r3 (4 at a time), stores 8, advances by 32.
 ! Used for large structure copies (matrix data, model geometry).
@@ -659,12 +709,16 @@ FUN_06027642:  ! memcpy_block32 at 0x06027642
 ! =============================================================================
 ! 0x0602766C — dma_transfer(src, dst, size)
 ! =============================================================================
+! CONFIDENCE: HIGH — Verified at 0x0602766C. Busy-wait on 0x25FE007C with
+!   mask 0x272E, writes to 0x25FE0000 base. Register layout matches SCU DMA
+!   channel 0. src/dst confirmed: r4->+0x04 (source), r5->+0x00 (dest).
 ! Input:  r4 = source address, r5 = dest address, r6 = size
-! Output: DMA transfer initiated to VDP1
+! Output: DMA transfer initiated via SCU
 !
-! VDP1 DMA controller at 0x25FE0000:
-!   +0x00  source address
-!   +0x04  destination address
+! AUDIT NOTE: 0x25FE0000 = SCU DMA (System Control Unit), NOT VDP1.
+! SCU DMA controller at 0x25FE0000:
+!   +0x00  destination address
+!   +0x04  source address
 !   +0x08  transfer size
 !   +0x0C  transfer mode/control
 !   +0x10  enable (written last to start transfer)
@@ -706,6 +760,11 @@ FUN_0602766C:  ! dma_transfer at 0x0602766C
 ! =============================================================================
 ! 0x0602769C — viewport_project(obj_ptr, screen_ptr)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Address verified. Instruction pattern (mov.w loads,
+!   obj offsets, neg Y, dmuls.l, sts mach, mov.w stores) is consistent with
+!   projection. However, no perspective divide (no division instruction), so
+!   this may be a simplified projection or pre-scaled. Exact pipeline role
+!   is uncertain.
 ! Input:  r4 = 3D object pointer, r5 = screen coordinate output
 ! Output: writes projected X,Y to *r5
 !
@@ -746,7 +805,9 @@ FUN_0602769C:  ! viewport_project at 0x0602769C
 ! 0x060274F0:  0x002F0000  — atan lookup table base (ROM address)
 ! 0x060274F4:  0x00008000  — 0.5 in 16.16 OR 90 degrees in angle units
 ! 0x060274F8:  0x00010000  — 1.0 in 16.16 fixed-point
-! 0x060274FC:  0x40003FFC  — atan lookup table limits
+! 0x060274FC:  Two 16-bit words: 0x4000 (cos phase), 0x3FFC (table mask)
+! AUDIT NOTE: Previous said "atan lookup table limits" - actually sin/cos
+!   phase offset and table index mask loaded separately by mov.w.
 !
 ! Atan piecewise segment thresholds (at 0x06027516-0x06027528):
 !   1000 (0x03E8), 500, 250, 150, 100, 70, 50, 40, 30, 16
@@ -756,7 +817,7 @@ FUN_0602769C:  ! viewport_project at 0x0602769C
 !   0x00018000, 0x0002F333, 0x00053333, 0x0008B333,
 !   0x0015B6DB
 !
-! VDP1 DMA registers:
+! SCU DMA registers:
 !   0x25FE0000  DMA base address
 !   0x25FE007C  DMA status register
 !   0x0000272E  DMA busy mask
@@ -765,6 +826,11 @@ FUN_0602769C:  ! viewport_project at 0x0602769C
 ! =============================================================================
 ! FUN_060276CC — Spring/Damper Physics Interpolation
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Labeled in aprog.s (FUN_060276CC) confirmed. Binary
+!   shows prologue, loads 0xE666/0x1999 from pool, data ptr from 0x06063F04,
+!   mode dispatch via cmp/eq #1. The 0.9/0.1 blend is sound (sum=0xFFFF).
+!   However, "spring/damper" label is speculative; could be generic easing.
+!   The "+4 bias = gravity" claim is unverified. Axis labels are inferred.
 ! Address: 0x060276CC
 ! Called from: rendering/physics pipeline
 !
@@ -814,7 +880,7 @@ FUN_060276CC:  ! spring_damper at 0x060276CC
 !    normal computation flows through these functions.
 !
 ! 2. RENDERING: sincos_pair, fpmul, viewport_project, dma_transfer
-!    Every 3D transform, perspective projection, and VDP1 sprite
+!    Every 3D transform, perspective projection, and SCU DMA sprite
 !    submission depends on these.
 !
 ! 3. MEMORY: memcpy variants handle matrix copies, model data loading,
@@ -823,7 +889,7 @@ FUN_060276CC:  ! spring_damper at 0x060276CC
 ! 4. HARDWARE: hw_divide_protected is the ONLY safe way to divide
 !    during gameplay (interrupts could corrupt the divider state).
 !    The DMA transfer function is the primary path for pushing
-!    sprite data to the VDP1.
+!    sprite data to the VDP1 via SCU DMA.
 !
 ! The xtrct instruction (SH-2 specific, not in SH-1) is the key to
 ! efficient 16.16 fixed-point arithmetic. Without it, every multiply

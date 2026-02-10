@@ -1,3 +1,16 @@
+! ================================================
+! AUDIT: HIGH -- Core sound mailbox protocol and SMPC/SCSP init verified against binary.
+! All key function addresses confirmed present in aprog.s. Instruction sequences for
+! FUN_0601D5F4, FUN_0601DB84, FUN_0601D6B2, FUN_06018EE4, FUN_060192B4, FUN_060192CC,
+! FUN_060192E8, and FUN_06018EC8 match the binary exactly. Hardware register addresses
+! (SCSP 0x25B00xxx, SMPC 0x201000xx, sound RAM 0x25A0xxxx) are all correct Saturn addresses.
+! Command constants (0xAE0600FF, 0xAE0007FF, channel bases 0xA07000FF etc.) confirmed in
+! pool literals. Minor uncertainty: gameplay trigger section is descriptive context not
+! fully verified instruction-by-instruction. FUN_060192B4 and FUN_060192E8 lack formal
+! labels in aprog.s but their addresses and code match.
+! Audited: 2026-02-09
+! ================================================
+
 ! === Daytona USA Saturn — Sound System ===
 !
 ! Architecture: SH-2 (master CPU) communicates with 68EC000 (sound CPU)
@@ -84,6 +97,9 @@
 !
 ! All paths check [0x06086050] for timeout errors first.
 ! If error flag is non-zero, returns immediately (sound system dead).
+! CONFIDENCE: DEFINITE -- Instruction sequence verified byte-for-byte against aprog.s.
+! Pool literals confirm 0x06086050, 0xA0000000, 0x25A02C20, 0x0608604C, 0xA07000FF,
+! 0xA17000FF, 0xA27000FF, 0xA37000FF. Dispatch cases 0-5,15 confirmed.
 
 FUN_0601D5F4:                           ! 0x0601D5F4
     mov.l   r14,@-r15
@@ -155,6 +171,9 @@ FUN_0601D5F4:                           ! 0x0601D5F4
 !
 ! Called before every command write to prevent overwriting
 ! an unprocessed command.
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool literals confirm
+! 0x06086050 (error flag), 0x25A02C20 (mailbox), 0x000186A0 (timeout=100000).
+! Loop structure (dt/bf/bra/tst) matches exactly.
 
 FUN_0601DB84:                           ! 0x0601DB84
     mov.l   @(0x18,PC),r7               ! r7 = 0x06086050 (error flag addr)
@@ -181,6 +200,8 @@ FUN_0601DB84:                           ! 0x0601DB84
 ! Entry: r4 = raw 32-bit sound command
 ! Waits for mailbox, writes r4 directly to both
 ! [0x25A02C20] (sound RAM) and [0x0608604C] (local mirror).
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool literals confirm
+! 0x25A02C20 and 0x0608604C. bsr to FUN_0601DB84 confirmed.
 
 FUN_0601D6B2:                           ! 0x0601D6B2
     sts.l   pr,@-r15
@@ -217,6 +238,10 @@ FUN_0601D6B2:                           ! 0x0601D6B2
 !   SF (0x20100063) = status flag, bit 0 = busy
 !
 ! SMPC handshake: wait for SF bit 0 clear → set SF=1 → write COMREG → wait for SF clear
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. SMPC addresses (0x20100063 SF,
+! 0x2010001F COMREG) confirmed in pool. SNDOFF=7, SNDON=6 match Saturn SMPC spec.
+! bsr 0x060192B4 confirmed. jsr targets 0x06012E84, 0x06012EBC confirmed in pool.
+! Tail jmp to 0x06018EC8 confirmed. Init sounds 0xAE0600FF and 0xAE0007FF confirmed.
 
 FUN_06018EE4:                           ! 0x06018EE4
     mov.l   r14,@-r15
@@ -281,6 +306,10 @@ FUN_06018EE4:                           ! 0x06018EE4
 ! Zeros the entire 512KB sound RAM area (0x25A00000-0x25A7FFFF).
 ! Byte-by-byte write of 0. Called during sound system init before
 ! DMA'ing the sound driver.
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool literals confirm
+! 0x25A00000 (base) and 0x0007FFFF (count=512K-1). Loop structure matches.
+! AUDIT NOTE: Address 0x060192B4 is NOT a labeled function in aprog.s.
+! It is an unlabeled subroutine reached by "bsr 0x060192B4" from FUN_06018EE4.
 
 FUN_060192B4:                           ! 0x060192B4
     mov     #0,r5                       ! Fill value = 0
@@ -303,6 +332,10 @@ FUN_060192B4:                           ! 0x060192B4
 ! 100,000 iteration timeout. On timeout, sets [0x06086050] = 1.
 !
 ! Called during sound init after SNDON to wait for 68000 driver boot.
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool literals confirm
+! 0x06086050, 0x25A02DBE, 0x0000FFFF, 0x000186A0.
+! AUDIT NOTE: Like FUN_060192B4, this is NOT a labeled function in aprog.s.
+! Called via bsr from 8+ locations between 0x06018FBC and 0x06019260.
 
 FUN_060192E8:                           ! 0x060192E8
     mov.l   @(0x1C,PC),r1               ! r1 = 0x06086050 (error flag)
@@ -323,6 +356,10 @@ FUN_060192E8:                           ! 0x060192E8
 !
 ! Sends stop command (r5=0) to channels 1, 3, and 2 via FUN_0601D5F4.
 ! Used during state transitions to silence all sound.
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Three jsr calls to
+! FUN_0601D5F4 with r4=1,3,2 and r5=0 confirmed. Pool literal at [0x06019304].
+! AUDIT NOTE: "Stop channel" is functionally correct but technically the command
+! sets channel volume to 0, not a formal stop command.
 
 FUN_060192CC:                           ! 0x060192CC
     mov.l   r14,@-r15
@@ -349,6 +386,10 @@ FUN_060192CC:                           ! 0x060192CC
 ! SCSP slot layout: base + slot*0x20 + offset
 !   Slot 16: 0x25B00200, offset 0x17 = 0x25B00217
 !   Slot 17: 0x25B00220, offset 0x17 = 0x25B00237
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte. Pool at [0x06018ED6] = 0x00E0,
+! [0x06018EDC] = 0x25B00217, [0x06018EE0] = 0x25B00237. SCSP slot math confirmed.
+! AUDIT NOTE: Address 0x06018EC8 has no label in aprog.s. Reached via tail call
+! jmp @r3 from FUN_06018EE4. Pool at [0x06018FA0] = 0x06018EC8 confirms.
 
 FUN_06018EC8:                           ! 0x06018EC8
     mov.w   @(0xA,PC),r4                ! r4 = 0x00E0 (volume level)
@@ -377,6 +418,10 @@ FUN_06018EC8:                           ! 0x06018EC8
 !   0x25FE007C = DSTA (DMA status)           — polled with mask 0x272E
 !
 ! Used for: VDP2 palette uploads, sound data transfers, general memcpy.
+! CONFIDENCE: HIGH -- SCU DMA register addresses (0x25FE00xx) match Saturn spec exactly.
+! Address has no label in aprog.s but is referenced from 12+ pool literals.
+! Correctly identified as NOT sound-specific.
+! AUDIT NOTE: FUN_0602766C has no label in aprog.s.
 
 FUN_0602766C:                           ! 0x0602766C
     mov.l   @(0x1C,PC),r0               ! r0 = 0x25FE007C (DSTA)
@@ -397,6 +442,10 @@ FUN_0602766C:                           ! 0x0602766C
 
 
 ! === Gameplay Sound Trigger Examples ===
+! CONFIDENCE: MEDIUM -- These are descriptive summaries of how other functions
+! call the sound API. FUN_0600A000 is confirmed as a label in aprog.s.
+! Specific command constants are plausible but not individually verified
+! instruction-by-instruction at each call site.
 !
 ! FUN_0600A000 (0x0600A000) — Sound State Transition
 !   Called during game state changes. Sequence:

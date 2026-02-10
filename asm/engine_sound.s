@@ -1,3 +1,14 @@
+! ================================================
+! AUDIT: HIGH -- Engine sound system annotation is substantially correct.
+! Both function addresses confirmed in binary. FUN_0600A8BC instruction sequence
+! verified byte-for-byte: pool literals 0x06063F46, 0x0607E940, thresholds 100/200,
+! increments +1/+2/+4, mask 0x0F all confirmed. FUN_060302C6/060302D2 prologue and
+! initial setup (r9=0 accumulator, r6=input, 0x0607E944, 0x0607ED8C, 0x06063D9A,
+! 0x0608188A) all verified. One structural error found in FUN_0600A8BC: the speed
+! offset used for threshold comparisons is 0x8 not 0xC. Minor address issues noted.
+! Audited: 2026-02-09
+! ================================================
+
 ! =============================================================================
 ! Engine Sound System
 ! =============================================================================
@@ -9,6 +20,9 @@
 ! The engine sound is generated as a BYTE written to a ring buffer,
 ! which the 68000 sound CPU reads via shared memory (mailbox at 0x25A02C20).
 !
+! CONFIDENCE: MEDIUM -- Ring buffer concept is consistent with the write/read
+! pattern seen in the binary, but specific details (wrap limit ~690, exact byte
+! format) are partially inferred from the code structure.
 ! Ring buffer:
 !   0x0607ED90  base address (2 bytes per entry)
 !   0x0607ED88  write pointer offset (wraps at limit ~690)
@@ -18,6 +32,10 @@
 !   bit 6:    brake active flag
 !   bit 7:    accelerating flag
 !
+! CONFIDENCE: MEDIUM -- Bitmask table addresses (0x06081888-0x06081896) are plausible
+! work RAM addresses but the specific mappings (brake, accelerate, skid, handbrake,
+! neutral, gear levels) are interpretive. The address 0x0608188A is confirmed in the
+! binary pool for FUN_060302C6 but the labels for each offset are inferred.
 ! Acceleration/brake detection uses bitmask tables:
 !   0x06081888  brake button bitmask per course
 !   0x0608188A  accelerate button bitmask per course
@@ -37,11 +55,19 @@
 ! =============================================================================
 ! Called from: FUN_0600DE70 (per-car iteration loop)
 ! Purpose: Increment audio phase counter at rate proportional to car speed
+! CONFIDENCE: HIGH -- Instruction sequence verified byte-for-byte. Pool literals
+! 0x06063F46 (phase counter), 0x0607E940 (car pointer) confirmed. Thresholds
+! 100 and 200 (from pool 0x00C8) confirmed. Increments +1/+2/+4 confirmed.
+! Wrap mask 0x0F confirmed. Speed==0 reset path confirmed.
 !
 ! Algorithm:
 !   counter = *(word*)0x06063F46
 !   car = *0x0607E940
 !   speed = car->speed  (offset 0xC)
+! AUDIT NOTE: The annotation says speed is at offset 0xC but the binary shows
+! offset 0xC (r0) is used only for the zero-test (if zero, reset counter).
+! The actual threshold comparisons (100, 200) use offset 0x8 (loaded into r3/r2).
+! So offset 0xC is likely a "moving/active" flag, and offset 0x8 is the speed.
 !   if (speed == 0):
 !     counter = 0
 !   elif (speed < 100):
@@ -53,16 +79,18 @@
 !   counter &= 0x0F  (wrap at 16 phases)
 !   store back
 
+! AUDIT NOTE: FUN_0600A8BC has no label in aprog.s. It exists as code at that
+! address, referenced from pool literals at [0x0600DFA0] and [0x0600E52C].
 FUN_0600A8BC:  ! 0x0600A8BC
     mov.l   @(0x4C,PC),r4           ! r4 = 0x06063F46 (phase counter)
     mov.l   @(0x50,PC),r5           ! r5 = 0x0607E940
     mov.l   @r5,r5                  ! r5 = car base
-    mov.l   @(0xC,r5),r0            ! r0 = car->speed
+    mov.l   @(0xC,r5),r0            ! r0 = car->active_flag (NOT speed -- see AUDIT NOTE)
     tst     r0,r0
     bt      .audio_zero_speed       ! speed == 0 → reset
 
     mov     #100,r2
-    mov.l   @(0x8,r5),r3            ! r3 = car->frame_counter(?)
+    mov.l   @(0x8,r5),r3            ! r3 = car->speed (used for threshold comparison)
     cmp/ge  r2,r3
     bt      .speed_ge_100
 
@@ -73,8 +101,8 @@ FUN_0600A8BC:  ! 0x0600A8BC
     mov.w   r2,@r4
 
 .speed_ge_100:
-    mov.l   @(0x8,r5),r2
-    mov.w   @(0x22,PC),r3           ! 200
+    mov.l   @(0x8,r5),r2            ! r2 = car->speed (re-read for 200 threshold)
+    mov.w   @(0x22,PC),r3           ! 200 (pool value 0x00C8)
     cmp/ge  r3,r2
     bt      .speed_ge_200
 
@@ -111,6 +139,13 @@ FUN_0600A8BC:  ! 0x0600A8BC
 ! =============================================================================
 ! Called from: State 15 (FUN_06009098) per-car loop
 ! Purpose: Generate engine sound byte from car input state
+! CONFIDENCE: HIGH -- Prologue verified (push r8-r13, falls through to FUN_060302D2).
+! FUN_060302D2 confirmed as labeled function in aprog.s. Initial setup (mov #0,r9;
+! mov r0,r6; mov #1,r5; mov #0,r7) verified. Pool references to 0x0607E944 (car ptr),
+! 0x0607ED8C (replay flag), 0x06063D9A (button state), 0x0608188A (accel bitmask)
+! all confirmed in binary pool literals. The algorithm description (priority encoder
+! for engine level, acceleration/brake ramp, ring buffer write) is well-structured
+! and consistent with the binary control flow.
 !
 ! Register usage (heavy — saves r8-r14):
 !   r0  = car pointer (from 0x0607E940)
@@ -167,6 +202,10 @@ FUN_0600A8BC:  ! 0x0600A8BC
 !   Parse: bits 0-1 = level, bit 6 = brake, bit 7 = accel
 !   Same ramp logic but driven by recorded data instead of live input
 
+! AUDIT NOTE: FUN_060302C6 has no label in aprog.s. It is the 6 push instructions
+! (r8-r13) immediately before FUN_060302D2 which IS labeled. This annotation
+! treats the combined pair as one function, which is correct -- FUN_060302C6 falls
+! through into FUN_060302D2 with no branch.
 FUN_060302C6:  ! 0x060302C6
     mov.l   r8,@-r15
     mov.l   r9,@-r15
@@ -344,6 +383,9 @@ FUN_060302D2:  ! 0x060302D2
     rts
     mov.l   @r15+,r8
 
+! CONFIDENCE: HIGH -- Playback path branch target 0x06030474 confirmed in binary
+! (bra 0x06030474 at 0x060302EA). The concept of a replay/playback mode reading
+! from the same ring buffer is consistent with the flag check at 0x0607ED8C.
 .playback_path:                     ! 0x06030474
     ! Sound replay: read from ring buffer instead of generating
     ! Same buffer, same format, but reading instead of writing

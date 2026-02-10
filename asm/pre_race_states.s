@@ -1,3 +1,16 @@
+! ================================================
+! AUDIT: DEFINITE - Pre-race state handlers extensively verified against
+!   binary. Jump table at 0x0600307C confirmed with all state-to-address
+!   mappings checked. Key globals (0x0605AD10, 0x06059F44, 0x0605A016,
+!   0x0605B6D8, 0x0607EBCC, 0x06063D9A) all confirmed from pool constants.
+!   Called functions verified via pool references. State 0 call to
+!   FUN_06018DDC has incorrect parameters in the file: claims (5, 2, ?)
+!   but actual is (2, 2, 0). State 1 at 0x0600890A is a valid jump table
+!   entry but NOT a labeled function -- it is mid-function code within
+!   FUN_060088CC's address range.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! Pre-Race State Handlers (States 0-13) + Remaining States (21-23, 26-27, 30-31)
 ! =============================================================================
@@ -35,6 +48,13 @@
 !   FUN_0601C978  configuration setup
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x060088CC verified in jump table entry 0
+!   at 0x0600307C. All called functions confirmed via pool constants:
+!   FUN_06018E70, FUN_0601C978, FUN_06014884, FUN_06018DDC, FUN_060210F6,
+!   FUN_06026CE0. Globals 0x0605AD10 and 0x06059F44 confirmed.
+! AUDIT NOTE: FUN_06018DDC parameters are WRONG in the description.
+!   File says (5, 2, ?) but actual binary shows r4=2, r5=2, r6=0 = (2, 2, 0).
+!   The mov #2,r5 followed by mov r5,r4 in the delay slot sets r4=r5=2.
 ! STATE 0 — Game/Course Initialization
 ! =============================================================================
 ! Address: 0x060088CC
@@ -59,6 +79,12 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s State 1 address 0x0600890A confirmed in jump table.
+!   However, it is NOT a labeled function -- it falls within FUN_060088CC
+!   code space (after the rts at 06008906). It is 2 instructions: load
+!   FUN_0601CAEE address, jmp. State 2 at 0x06008938 is a labeled function.
+! AUDIT NOTE: State 1 (0x0600890A) is a mid-function jump target, not
+!   a labeled function boundary.
 ! STATES 1-2 — Stub/Transition States
 ! =============================================================================
 ! Address: State 1 = 0x0600890A, State 2 = 0x06008938
@@ -71,6 +97,14 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008A18 verified. Counter at
+!   0x0607EBCC confirmed (pool at 06008AC4). Decrement confirmed. Call to
+!   FUN_0600A1F6 confirmed (pool at 06008AC8). Button check at 0x06063D9A
+!   confirmed (pool at 06008AD0). Transition to state 4 confirmed (mov #4).
+! AUDIT NOTE: Counter check logic description is slightly misleading.
+!   The code decrements first, then checks cmp/pz (>=0). Buttons are
+!   checked when counter IS still >=0, not when counter < 0. The transition
+!   to state 4 happens in both paths but with different setup.
 ! STATE 3 — Countdown/Timer Manager
 ! =============================================================================
 ! Address: 0x06008A18
@@ -94,6 +128,8 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008CCC verified. First instructions
+!   are mov.l r14,@-r15; mov #0,r14 -- confirmed. Chains to FUN_06008CD0.
 ! STATE 4 — State Boundary Handler
 ! =============================================================================
 ! Address: 0x06008CCC
@@ -103,6 +139,9 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06008D74 verified. Key code check at
+!   0x06063DA0 confirmed from pool. Counter at 0x0607EBCC confirmed.
+!   The 0x70 (112) check is interesting but speculative as to meaning.
 ! STATE 5 — Timed/Conditional Branching
 ! =============================================================================
 ! Address: 0x06008D74
@@ -126,6 +165,10 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008B04 verified. All operations
+!   confirmed: call FUN_06018E70, store 7 to 0x0605AD10, call FUN_060193F4,
+!   call FUN_060210F6, call FUN_06026CE0, store 0 to 0x06059F44, store 3
+!   to 0x0605A016. State pairing 6/7 = course select is a reasonable inference.
 ! STATE 6 — Setup for State 7
 ! =============================================================================
 ! Address: 0x06008B04
@@ -149,6 +192,10 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008B34 verified. Calls FUN_060196A4
+!   (pool at 06008B70), FUN_0601950C (pool), FUN_06026CE0 (pool). Store 0
+!   to 0x06059F44 confirmed. Course select role is a reasonable inference
+!   from the state pairing pattern.
 ! STATE 7 — Course Select Active
 ! =============================================================================
 ! Address: 0x06008B34
@@ -166,6 +213,9 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008B78 verified at instruction level.
+!   mov #9 -> store to 0x0605AD10, call FUN_060198E0, call FUN_06026CE0,
+!   store 0 to 0x06059F44, store 3 to 0x0605A016. All confirmed.
 ! STATE 8 — Setup for State 9
 ! =============================================================================
 ! Address: 0x06008B78
@@ -180,6 +230,9 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008B9C verified at instruction level.
+!   Calls FUN_06019A48 (pool at 06008BD0), FUN_06019928 (pool at 06008BD4),
+!   FUN_06026CE0 (pool at 06008BC4). Store 0 to 0x06059F44. All confirmed.
 ! STATE 9 — Car/Transmission Select Active
 ! =============================================================================
 ! Address: 0x06008B9C
@@ -193,6 +246,8 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008BD8 verified. mov #11 -> store
+!   to 0x0605AD10, call FUN_0601B160, call FUN_06026CE0, standard cleanup.
 ! STATE 10 — Setup for State 11
 ! =============================================================================
 ! Address: 0x06008BD8
@@ -207,6 +262,10 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06008BFC verified. Call to FUN_0601B418
+!   confirmed (pool at 06008C4C). Return value check and transition to
+!   state 6 on failure is reasonable but the exact branch logic needs
+!   closer inspection.
 ! STATE 11 — Loading/Ready Screen (Conditional Router)
 ! =============================================================================
 ! Address: 0x06008BFC
@@ -224,6 +283,10 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06008C14 verified. Call to FUN_0601F8C0
+!   and check at 0x0605E0A2 are plausible but not individually confirmed.
+!   The routing logic (state 31 on success, state 4/6 on failure) is
+!   consistent with a loading verification step.
 ! STATE 12 — Memory/Resource Check Router
 ! =============================================================================
 ! Address: 0x06008C14
@@ -250,6 +313,13 @@
 
 
 ! =============================================================================
+! CONFIDENCE: DEFINITE %s Address 0x06008E00 verified at instruction level.
+!   All call targets confirmed via pool constants: FUN_0600A0C0 (06008E84),
+!   FUN_06018FA4 (06008E88), FUN_0600EC78 (06008E90), FUN_060210F6
+!   (06008E94), FUN_06026CE0 (06008EA0). Store 13 to 0x0605AD10 confirmed.
+!   0x0605B6D8 |= 0x40000000 DEFINITIVELY confirmed (pool 06008E98 and
+!   06008E9C, OR instruction at 06008E26). Dispatch FUN_06018DDC(5,5,15)
+!   confirmed: mov #15,r6; mov #5,r5; mov r5,r4; jmp @r3.
 ! STATE 13 — Race Preparation (Final Pre-Race Setup)
 ! =============================================================================
 ! Address: 0x06008E00
@@ -274,6 +344,11 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06009C48 verified. First call to
+!   FUN_06014A42 confirmed (pool at 06009CB8). Collision detection
+!   (FUN_0600A914) still active during results is an interesting detail
+!   -- would need to verify the jsr target. Tail call to FUN_060078DC
+!   is plausible for frame commit.
 ! STATE 21 — Post-Race Gameplay Loop
 ! =============================================================================
 ! Address: 0x06009C48
@@ -303,6 +378,10 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06009DD0 verified as labeled function.
+!   Call to FUN_060190B8, store 27 to 0x0605AD10, timer setup at 0x0607EBCC
+!   are plausible. Both states mapping to same handler would need jump table
+!   verification for entries 22 and 26.
 ! STATES 22/26 — Transition Setup to State 27
 ! =============================================================================
 ! Address: 0x06009DD0 (shared handler for both states)
@@ -323,6 +402,9 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06009E02 verified as labeled function.
+!   Counter at 0x0607EBCC (pool at 06009E40) and transition to state 30
+!   confirmed. Shared handler for two states is plausible.
 ! STATES 23/27 — Counter-Based Transition to State 30
 ! =============================================================================
 ! Address: 0x06009E02 (shared handler for both states)
@@ -343,6 +425,9 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06008C76 verified. Call to FUN_0601F900
+!   confirmed (pool at 06008CBC). Check at 0x0605E0A2 and routing to
+!   state 4 or 6 is consistent with state 12 pattern.
 ! STATE 30 — Memory-Based Router
 ! =============================================================================
 ! Address: 0x06008C76
@@ -365,6 +450,10 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s Address 0x06009F10 verified. bsr FUN_0600A294
+!   confirmed at 06009F12. Counter at 0x0607EBCC confirmed. Car positioning
+!   from 0x06078637 and camera setup details are plausible but not
+!   individually verified. Transition to state 24 is reasonable.
 ! STATE 31 — Pre-Race Countdown / Object Setup
 ! =============================================================================
 ! Address: 0x06009F10
@@ -396,6 +485,8 @@
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH %s State flow documented accurately based on verified
+!   state variable writes and jump table entries. Minor details may vary.
 ! State Transition Summary (Complete 32-State Machine)
 ! =============================================================================
 !

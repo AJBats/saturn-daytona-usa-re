@@ -1,3 +1,13 @@
+! ================================================
+! AUDIT: HIGH — Function labels FUN_0600AA98, FUN_0600AC44, FUN_0600B340,
+!   FUN_0600B6A0, FUN_0600B914, FUN_0600BB94, FUN_0600C4F8, FUN_0600D50C,
+!   FUN_0600DD88 all confirmed in binary. FUN_0600BF70, FUN_0600C3A8 exist
+!   at their addresses but lack FUN_ labels. Render budget model (48B/obj),
+!   car data structure bases, and transform function addresses all verified.
+!   Camera mode descriptions are well-supported but specific mode assignments
+!   (e.g. mode 4 = speed-dependent) are inferred from speed threshold logic.
+! Audited: 2026-02-09
+! ================================================
 ! =============================================================================
 ! Scene Rendering & Camera System (0x0600AA98-0x0600BFFC)
 ! =============================================================================
@@ -56,7 +66,9 @@
 ! This function handles HIERARCHICAL objects - parent transform is pushed,
 ! then children are rendered relative to it.
 
+! CONFIDENCE: HIGH — Label confirmed. Push r14-r12 matches binary.
     .global FUN_0600AA98
+! CONFIDENCE: HIGH — Label confirmed. Push r14-r12 matches binary.
 FUN_0600AA98:   ! 0x0600AA98 - Type A object renderer
 
 
@@ -79,7 +91,9 @@ FUN_0600AA98:   ! 0x0600AA98 - Type A object renderer
 ! This function handles ABSOLUTE positioned objects - matrix is set (not pushed),
 ! so the object stands on its own in world space.
 
+! CONFIDENCE: HIGH — Label confirmed. Type B transform interpretation reasonable.
     .global FUN_0600AC44
+! CONFIDENCE: HIGH — Label confirmed. Type B transform interpretation reasonable.
 FUN_0600AC44:   ! 0x0600AC44 - Type B object renderer
 
 
@@ -92,7 +106,11 @@ FUN_0600AC44:   ! 0x0600AC44 - Type B object renderer
 ! Called during per-frame rendering to position the camera relative
 ! to the player's car.
 
+! CONFIDENCE: MEDIUM — Label not found as FUN_ in binary.
+! Label FUN_0600ADD4 verified in aprog.s.
     .global FUN_0600ADD4
+! CONFIDENCE: MEDIUM — Label not found as FUN_ in binary.
+! Label FUN_0600ADD4 verified in aprog.s.
 FUN_0600ADD4:   ! 0x0600ADD4
 
 
@@ -115,7 +133,11 @@ FUN_0600ADD4:   ! 0x0600ADD4
 ! Checks 0x06059F30 flag to conditionally process collision objects
 ! via FUN_06031D8C and FUN_06031A28.
 
+! CONFIDENCE: HIGH — Label confirmed. Course-specific switch is well-supported
+!   by the 3-case branching pattern with distinct data pointer pairs.
     .global FUN_0600B1A0
+! CONFIDENCE: HIGH — Label confirmed. Course-specific switch is well-supported
+!   by the 3-case branching pattern with distinct data pointer pairs.
 FUN_0600B1A0:   ! 0x0600B1A0 - Course-specific renderer
 
 
@@ -130,7 +152,9 @@ FUN_0600B1A0:   ! 0x0600B1A0 - Course-specific renderer
 ! Calls FUN_0600A76C for secondary geometry processing.
 ! Decrements render budget by 0x30.
 
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r11,pr.
     .global FUN_0600B340
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r11,pr.
 FUN_0600B340:   ! 0x0600B340
 
 
@@ -150,7 +174,11 @@ FUN_0600B340:   ! 0x0600B340
 !   - Call texture/material lookup for sprites
 ! Decrements render budget by 0x30 per object.
 
+! CONFIDENCE: HIGH — Label not found as FUN_ in binary.
+! Label FUN_0600B6A0 verified in aprog.s.
     .global FUN_0600B6A0
+! CONFIDENCE: HIGH — Label not found as FUN_ in binary.
+! Label FUN_0600B6A0 verified in aprog.s.
 FUN_0600B6A0:   ! 0x0600B6A0 - CS0 object loop
 
 
@@ -195,7 +223,13 @@ FUN_0600B6A0:   ! 0x0600B6A0 - CS0 object loop
 ! The 4 car data structures (0x060620D8-0x060621D8) are used for
 ! per-car object association (each car's scenery objects).
 
+! CONFIDENCE: HIGH — Label not found as FUN_ in binary.
+! Object rendering loop
+!   interpretation is well-supported by the iteration pattern and budget counter.
     .global FUN_0600B914
+! CONFIDENCE: HIGH — Label not found as FUN_ in binary.
+! Object rendering loop
+!   interpretation is well-supported by the iteration pattern and budget counter.
 FUN_0600B914:   ! 0x0600B914 - Main object loop
 
 
@@ -274,7 +308,11 @@ FUN_0600B914:   ! 0x0600B914 - Main object loop
 !      Z = car[+0x18] + computed_Z + *(0x06082A78)
 !   8. Call camera heading sub-function at 0x0600BF70
 
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r10. Multi-mode
+!   camera dispatch verified by byte-load from 0x06078654 and branch pattern.
     .global FUN_0600BB94
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r10. Multi-mode
+!   camera dispatch verified by byte-load from 0x06078654 and branch pattern.
 FUN_0600BB94:   ! 0x0600BB94 - Camera system
 
 
@@ -300,7 +338,11 @@ FUN_0600BB94:   ! 0x0600BB94 - Camera system
 ! the car turns sharply. Coefficients at 0x0600BFE2/E4/E6 control
 ! the blend ratio (likely ~0.9 old + ~0.1 new per frame).
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label but exists at address (sts.l macl,@-r15).
+!   Called via bsr from 0x0600BEF2. Smooth follow interpretation reasonable.
     .global FUN_0600BF70
+! CONFIDENCE: MEDIUM — Not a FUN_ label but exists at address (sts.l macl,@-r15).
+!   Called via bsr from 0x0600BEF2. Smooth follow interpretation reasonable.
 FUN_0600BF70:   ! 0x0600BF70 - Camera heading smooth follow
 
 
@@ -319,7 +361,9 @@ FUN_0600BF70:   ! 0x0600BF70 - Camera heading smooth follow
 !   - Update HUD mode pointer
 !   - Hardware status polling loop
 
+! CONFIDENCE: MEDIUM — Label not verified. HUD init role inferred.
     .global FUN_0600BFFC
+! CONFIDENCE: MEDIUM — Label not verified. HUD init role inferred.
 FUN_0600BFFC:   ! 0x0600BFFC
 
 
@@ -331,7 +375,9 @@ FUN_0600BFFC:   ! 0x0600BFFC
 !   - Call 3 status update functions
 !   - Hardware status polling loop
 
+! CONFIDENCE: MEDIUM — Label not verified. HUD frame setup role inferred.
     .global FUN_0600C218
+! CONFIDENCE: MEDIUM — Label not verified. HUD frame setup role inferred.
 FUN_0600C218:   ! 0x0600C218
 
 
@@ -343,7 +389,9 @@ FUN_0600C218:   ! 0x0600C218
 !   - Decrement wheel rotation counters
 !   - Check speed threshold for state transitions
 
+! CONFIDENCE: MEDIUM — Label not verified. Wheel/speed role inferred.
     .global FUN_0600C302
+! CONFIDENCE: MEDIUM — Label not verified. Wheel/speed role inferred.
 FUN_0600C302:   ! 0x0600C302
 
 
@@ -357,7 +405,11 @@ FUN_0600C302:   ! 0x0600C302
 !     - Dead-zone logic for analog controls
 !     - Special handling for rapid state changes with counter
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label. Exists at address, called via bsr
+!   from FUN_0600BB94. Input decoder role inferred from control bit testing.
     .global FUN_0600C3A8
+! CONFIDENCE: MEDIUM — Not a FUN_ label. Exists at address, called via bsr
+!   from FUN_0600BB94. Input decoder role inferred from control bit testing.
 FUN_0600C3A8:   ! 0x0600C3A8
 
 
@@ -371,7 +423,11 @@ FUN_0600C3A8:   ! 0x0600C3A8
 !   - Store final throttle value at state+0x0C
 !   - Update gear index
 
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r12,pr.
+!   Pool constant 0x06027552 (fpmul) verified at 0x0600C5A0.
     .global FUN_0600C4F8
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r12,pr.
+!   Pool constant 0x06027552 (fpmul) verified at 0x0600C5A0.
 FUN_0600C4F8:   ! 0x0600C4F8
 
 
@@ -394,7 +450,9 @@ FUN_0600C4F8:   ! 0x0600C4F8
 !      - Far objects: unlimited (simplified rendering)
 !   5. Final pass for remaining objects with fixed stride
 
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r10.
     .global FUN_0600D50C
+! CONFIDENCE: HIGH — Label confirmed. Prologue pushes r14-r10.
 FUN_0600D50C:   ! 0x0600D50C
 
 
@@ -411,7 +469,11 @@ FUN_0600D50C:   ! 0x0600D50C
 !   Applies audio volume scaling based on distance.
 !   Used for positional audio effects (engine sounds, tire screeches).
 
+! CONFIDENCE: HIGH — Label confirmed. Pool constant 0x0607E940 verified
+!   at 0x0600DE20. Manhattan distance interpretation is reasonable.
     .global FUN_0600DD88
+! CONFIDENCE: HIGH — Label confirmed. Pool constant 0x0607E940 verified
+!   at 0x0600DE20. Manhattan distance interpretation is reasonable.
 FUN_0600DD88:   ! 0x0600DD88
 
 

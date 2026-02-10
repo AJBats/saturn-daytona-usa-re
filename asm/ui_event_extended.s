@@ -1,3 +1,7 @@
+! ================================================
+! AUDIT: MEDIUM -- Most function addresses verified in binary; menu/UI descriptions are reasonable for address range; system init and math sections are well-grounded; some size/stub claims are wrong
+! Audited: 2026-02-10
+! ================================================
 ! =============================================================================
 ! UI System, Event Processing & System Utilities (0x06038000-0x06046FFF)
 ! =============================================================================
@@ -12,10 +16,13 @@
 ! === VDP Hardware Control (0x06038000-0x06038FFF) ===
 !
 ! FUN_06038F6C (12B) - VDP sync flag clear
+! CONFIDENCE: MEDIUM -- Address verified but size is WRONG.
+! AUDIT NOTE: NOT 12 bytes. Binary shows mov.l r14,@-r15; mov.l r13,@-r15; mov.l r12,@-r15 (3 callee-saved pushes) -- this is a substantial function, not a 12-byte flag clear.
 !
 ! === Menu Display System (0x06039000-0x0603BFFF) ===
 !
 ! FUN_0603990E (1806B) - MASTER MENU RENDERER
+! CONFIDENCE: MEDIUM -- Address verified. Very large function with heavy callee-saved pushes (r14,r13,r12). Menu address range is plausible. Specific claims (course select 3D preview, car rotation, credits scroll) are speculative.
 !   *** LARGEST IN THIS RANGE ***
 !   Complete menu system orchestrator:
 !   - Title screen rendering
@@ -27,17 +34,21 @@
 !   Heavy use of VDP1 sprite commands
 !
 ! FUN_0603AA82 (410B) - Menu animation system
+! CONFIDENCE: SPECULATIVE -- Address verified. References 0x060A4CAE. "Keyframe interpolation with easing" is speculative.
 !   Drives scale/rotation/fade animations for menu elements
 !   Keyframe interpolation with easing curves
 !
 ! FUN_0603ACEA (194B) - Menu input processor
+! CONFIDENCE: MEDIUM -- Address verified. Saves r14,r13,r12. "Input processor" plausible for menu subsystem.
 !   Maps controller buttons to menu actions
 !   Handles repeat rate for held buttons
 !
 ! FUN_0603AE74 (116B) - Menu sound trigger
+! CONFIDENCE: SPECULATIVE -- Address verified. Saves r14,pr. "Sound trigger" is a guess.
 !   Plays SFX on menu navigation (cursor, confirm, cancel)
 !
 ! FUN_0603AFDC (124B) - Menu text layout engine
+! CONFIDENCE: SPECULATIVE -- Address verified. References 0x060A4D14. "Font metrics" is speculative.
 !   Positions text strings using font metrics
 !
 ! FUN_0603B08E (50B)  - Menu element visibility toggle
@@ -46,10 +57,13 @@
 ! === Menu Sub-Elements (0x0603B100-0x0603B6A8) ===
 !
 ! FUN_0603B118 (4B)   - NOP stub
+! CONFIDENCE: MEDIUM -- Address verified but NOT a 4-byte NOP.
+! AUDIT NOTE: Binary shows mov.l r14,@-r15; mov #0,r14 -- this is a register push + init, not a NOP stub.
 ! FUN_0603B11C (20B)  - Menu cursor blink timer
 ! FUN_0603B130 (56B)  - Menu cursor position update
 ! FUN_0603B168 (78B)  - Menu selection highlight
 ! FUN_0603B290 (140B) - Menu list scroller
+! CONFIDENCE: SPECULATIVE -- Address verified. Saves r14,r13. "Scroll with acceleration" is speculative.
 !   Scrolls long lists with acceleration
 ! FUN_0603B324 (110B) - Menu option value adjuster (left/right)
 ! FUN_0603B392 (56B)  - Menu toggle switch renderer
@@ -94,13 +108,16 @@
 ! === Options/Settings (0x0603D7B0-0x0603E5BC) ===
 !
 ! FUN_0603D7B0 (572B) - Options menu state machine
+! CONFIDENCE: MEDIUM -- Address verified. Large menu-range function. Specific option claims speculative.
 !   Sound test, difficulty, controller config
 !
 ! FUN_0603DB28 (724B) - Controller configuration
+! CONFIDENCE: SPECULATIVE -- Address verified. Large function. Button mapping is a guess.
 !   Button mapping customization
 !   Displays current bindings, allows remap
 !
 ! FUN_0603E050 (1388B) - Sound test player
+! CONFIDENCE: SPECULATIVE -- Address verified. Very large function. Sound test/PCM claims are detailed guesses.
 !   Full sound test mode:
 !   - BGM track selection and playback
 !   - SFX preview
@@ -114,6 +131,7 @@
 !
 ! FUN_0603F238 (12B) - Credits stub
 ! FUN_0603F244 (156B) - Credits scroll engine
+! CONFIDENCE: SPECULATIVE -- Address verified. References 0x06041698. Credits scroll is plausible but unverified.
 !   Auto-scrolling text with multi-column support
 !
 ! FUN_0603F2EC (86B)  - Credits text formatter
@@ -126,6 +144,7 @@
 ! FUN_0603F9BC (94B)  - Attract mode demo loader
 !
 ! FUN_0603FAE4 (380B) - Attract mode display orchestrator
+! CONFIDENCE: SPECULATIVE -- Attract mode is standard arcade feature. Description plausible but unverified.
 !   Full attract mode: logo, title, demo sequence
 !
 ! FUN_0603FE44 (30B)  - Attract element A
@@ -135,10 +154,12 @@
 ! === System Initialization (0x06040000-0x060409C8) ===
 !
 ! FUN_060401FC (192B) - Hardware initialization
+! CONFIDENCE: MEDIUM -- Address verified. Plausible for 0x060400xx address range.
 !   Saturn system registers setup
 !   VDP1/VDP2 initial configuration
 !
 ! FUN_060402BC (638B) - Full system boot sequence
+! CONFIDENCE: MEDIUM -- Address verified. Large function referenced from 0x0603B7B0 area. Boot sequence plausible.
 !   Memory clear, hardware init, disc check
 !   Copyright screen display
 !   Initializes all subsystems
@@ -158,11 +179,15 @@
 ! === Event Queue Extended (0x06040AF8-0x06040F1C) ===
 !
 ! FUN_06040AF8 (60B)  - Event priority setter
+! CONFIDENCE: MEDIUM -- Address verified. Saves r14,pr. Referenced from 0x0603BD74.
 ! FUN_06040B34 (90B)  - Event timer scheduler
 !   Schedules delayed events with frame countdown
 !
 ! FUN_06040B8E (2B)   - Minimal stub (rts)
+! CONFIDENCE: MEDIUM -- Address verified. 2 bytes is correct but instruction is mov.l r14,@-r15 NOT rts.
+! AUDIT NOTE: Instruction mismatch -- binary shows register push, not rts.
 ! FUN_06040B90 (128B) - Event callback dispatcher
+! CONFIDENCE: MEDIUM -- Address verified. Callback dispatcher is plausible.
 !   Calls registered event handler functions
 !
 ! FUN_06040C5C (4B)   - NOP stub
@@ -174,9 +199,11 @@
 ! === Interrupt/Exception Handlers (0x060410CA-0x06042646) ===
 !
 ! FUN_060410CA (94B)  - VBlank interrupt handler extension
+! CONFIDENCE: MEDIUM -- Address verified. 20-byte stack frame. VBlank extension plausible.
 !   Additional per-frame processing during VBlank
 !
 ! FUN_06041382 (140B) - Error trap handler
+! CONFIDENCE: SPECULATIVE -- Address verified. Error trap is a guess.
 !   Catches illegal instructions, address errors
 !   Displays debug info (may be unused in release)
 !
@@ -184,20 +211,24 @@
 !   Non-maskable interrupt processing
 !
 ! FUN_060416A8 (382B) - DMA completion interrupt handler
+! CONFIDENCE: MEDIUM -- Address verified. 20-byte stack frame. DMA claim plausible.
 !   Processes DMA transfer completions for all channels
 !   Chains next DMA transfer if queued
 !
 ! === Math/Lookup Utilities (0x06042418-0x06042646) ===
 !
 ! FUN_06042418 (64B)  - Fixed-point divide helper
+! CONFIDENCE: HIGH -- Address verified. Starts with cmp/pz r4 (sign check), consistent with division.
 !   32-bit / 16-bit fixed-point division
 !
 ! FUN_06042458 (476B) - Full fixed-point division
+! CONFIDENCE: HIGH -- Address verified. cmp/pz r4 at start. 0xFFFFFF00 is standard SH-2 hardware divider.
 !   32-bit / 32-bit signed division
 !   Uses hardware divider unit at 0xFFFFFF00
 !
 ! FUN_06042634 (18B)  - Division result reader
 ! FUN_06042646 (934B) - Math library: trig, sqrt, atan2
+! CONFIDENCE: MEDIUM -- Address verified. Large function. Trig/sqrt claims plausible for math library size.
 !   Complete fixed-point math library
 !   sin/cos from lookup table, sqrt via Newton's method
 !   atan2 approximation for heading calculation
@@ -205,6 +236,8 @@
 ! === Data Table (end of binary) ===
 !
 ! FUN_06046E48 (100B) - Binary end marker / padding
+! CONFIDENCE: MEDIUM -- Address verified. Has real code (sts.l pr,@-r15), NOT padding.
+! AUDIT NOTE: Not padding/CRC data -- contains real instructions. Misleading description.
 !   Final function in binary. May be padding or CRC data.
 !
 ! =============================================================================
@@ -212,6 +245,7 @@
 ! =============================================================================
 !
 ! System:
+! CONFIDENCE: DEFINITE -- Standard SH-2/Saturn hardware addresses.
 !   0xFFFFFF00 - SH-2 hardware divider unit
 !   0x22000000 - Saturn backup RAM (save data)
 !   0xFFFFFE10 - Interrupt control registers

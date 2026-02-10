@@ -1,8 +1,17 @@
+! ================================================
+! AUDIT: DEFINITE — VBlank interrupt system with handler registration,
+!   frame timing, and buffer swap logic. All function addresses, pool constants,
+!   and hardware register writes verified byte-for-byte against aprog.s.
+!   One branch direction error found in FUN_06007268 annotation (see AUDIT NOTE).
+! Audited: 2026-02-10
+! ================================================
+!
 ! === VBlank Interrupt System ===
 !
 ! Daytona USA Saturn uses a two-phase VBlank system: VBlank-IN and VBlank-OUT.
 ! Both handlers are registered during init via BIOS function at 0x06000300.
 !
+! CONFIDENCE: DEFINITE — BIOS vectors and handler addresses verified
 ! Registration (in FUN_06004A9E, system init):
 !   BIOS(0x06000300)(vector=0x40, handler=FUN_06006F3C)  ! VBlank-IN
 !   BIOS(0x06000300)(vector=0x41, handler=FUN_06007268)  ! VBlank-OUT
@@ -23,6 +32,8 @@
 !   4 = VBlank-OUT complete (buffers may have swapped)
 !
 ! === Key Variables ===
+! CONFIDENCE: HIGH — all addresses verified as pool constants in
+!   FUN_06006F3C and FUN_06007268 disassembly
 !
 ! 0x0607864C (long) - VBlank-IN counter, incremented every 1/60s
 ! 0x06059F44 (long) - VBlank-OUT counter
@@ -37,6 +48,7 @@
 ! 0x06059F58 (byte[32]) - Per-state frame timing targets
 !
 ! === BIOS Function Table (Low HWRAM) ===
+! CONFIDENCE: HIGH — addresses verified via pool constants in aprog.s
 !
 ! 0x06000300 - Interrupt handler registration
 !              r4 = vector number (0x40=VBlank-IN, 0x41=VBlank-OUT)
@@ -66,6 +78,12 @@
 ! must happen at exact VBlank timing goes here.
 !
 
+! CONFIDENCE: DEFINITE — all pool constants verified byte-for-byte:
+!   r8=0x06014884 at [0x06006FDC], r9=0x06014868 at [0x06006FE0],
+!   r10=0x060389A6 at [0x06006FE4], r11=0x060635C4 at [0x06006FE8],
+!   r13=0x060635C0 at [0x06006FEC], r14=0x0605B6D8 at [0x06006FF0],
+!   VBlank counter 0x0607864C at [0x06006FF4], phase flag 0x06059F54
+!   at [0x06006FF8]. Prologue instruction sequence matches exactly.
 FUN_06006F3C:   ! 0x06006F3C
     mov.l   r14,@-r15
     mov     #1,r2               ! r2 = 1 (used as flag value below)
@@ -188,6 +206,11 @@ FUN_06006F3C:   ! 0x06006F3C
 ! (swap every other VBlank = 30fps).
 !
 
+! CONFIDENCE: DEFINITE — all pool constants verified: 0x06059F44 at
+!   [0x060072C0], 0x06059F54 at [0x060072C4], 0x06005198 at [0x060072C8],
+!   0x0605AD10 at [0x060072CC], 0x06059F58 at [0x060072D0], 0x06063F58
+!   at [0x060072D4], 0x060A4C92 at [0x060072D8], 0x25D00002 at [0x060072DC],
+!   0x060635C4 at [0x060072E0]. Instruction sequence verified.
 FUN_06007268:   ! 0x06007268
     sts.l   pr,@-r15
 
@@ -217,6 +240,10 @@ FUN_06007268:   ! 0x06007268
     mov.b   @r2,r2              ! r2 = target frame count for current state
     extu.b  r2,r2
     cmp/ge  r2,r1               ! if OUT_count >= target
+! AUDIT NOTE: Branch label .skip_swap is WRONG. cmp/ge sets T when r1>=r2,
+!   so bt branches TO the swap-check code (0x06007298), not past it.
+!   The bra on the next line (0x060072B6) is the actual skip path.
+!   Should be labeled .check_swap or .do_swap, not .skip_swap.
     bt      .skip_swap          ! skip if count < target (not yet time)
 
     ! --- Step 5: Trigger frame buffer swap ---
@@ -268,6 +295,9 @@ FUN_06007268:   ! 0x06007268
 !      -> If game state >= 6: capture state data, reset to state 0
 !      -> If game state < 6: call BIOS via 0x0600026C
 
+! CONFIDENCE: HIGH — function address verified at 0x0600A392 in aprog.s.
+!   CD block register addresses (0x25890018-0x25890024) are standard Saturn.
+!   BIOS function at 0x0600026C and game state at 0x0605AD10 confirmed.
 FUN_0600A392:   ! 0x0600A392
     ! (see build/aprog.s line 15502 for full disassembly)
     ! r13 = 0x0605AD10 (game state variable)
@@ -277,6 +307,8 @@ FUN_0600A392:   ! 0x0600A392
 
 ! ================================================================
 ! CD Block Status Reading Chain
+! CONFIDENCE: HIGH — CD block register addresses are standard Saturn,
+!   double-read pattern is a known reliability technique for CD hardware
 ! ================================================================
 !
 ! FUN_06018EAC -> FUN_060349C4 -> FUN_06034A10 -> FUN_06035E5E
@@ -306,6 +338,11 @@ FUN_0600A392:   ! 0x0600A392
 
 ! ================================================================
 ! Sound System Reset (FUN_06018EE4)
+! CONFIDENCE: DEFINITE — function address verified at 0x06018EE4.
+!   SMPC addresses (0x20100063, 0x2010001F) and SCSP address (0x25B00400)
+!   are standard Saturn hardware. SNDOFF=7 and SNDON=6 are correct SMPC
+!   command codes. Sound RAM handshake at 0x25A02DBC is game-specific but
+!   the pattern (poll for magic value) is standard 68000 boot confirmation.
 ! ================================================================
 ! NOT part of VBlank - this is a separate initialization function.
 ! Halts and restarts the 68000 sound CPU via SMPC commands.
@@ -331,6 +368,12 @@ FUN_0600A392:   ! 0x0600A392
 
 ! ================================================================
 ! Interrupt System Init (at 0x06004A9E+)
+! CONFIDENCE: DEFINITE — verified against aprog.s at FUN_06004A98.
+!   The address 0x06004A9E is 6 bytes into FUN_06004A98 (within the prologue).
+!   BIOS 0x06000344 at [0x06004ACC], SCU IMS 0x25FE00A4 at [0x06004AD4],
+!   VBlank-IN handler 0x06006F3C at [0x06004BE4] with vector 0x40,
+!   VBlank-OUT handler 0x06007268 at [0x06004BE8] with vector 0x41 —
+!   all verified byte-for-byte in the binary disassembly.
 ! ================================================================
 ! Part of the large system initialization function.
 !

@@ -1,3 +1,14 @@
+! ================================================
+! AUDIT: HIGH — 3D matrix/vector pipeline verified against binary. All 24
+!   function addresses confirmed in aprog.s. Instruction patterns match for
+!   push/pop, identity, xform, scale, rotation, fullmul, and vec transforms.
+!   Two stacks (A at 0x06089EDC, B at 0x0608A52C) confirmed via pool constants.
+!   Rotation function names are SWAPPED (see AUDIT NOTEs on rotXZ/rotXY/rotYZ).
+!   Scale function description has minor inaccuracy (see AUDIT NOTE).
+!   Sin/cos table described as 256 entries — should be 4096 (mask 0x3FFC).
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! 3D Math / Transform Foundation Layer
 ! =============================================================================
@@ -100,6 +111,9 @@
 ! =============================================================================
 ! Matrix Push — Stack A
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x06026DBC. Binary loads 0x06089EDC,
+!   mov #48, 12-longword unrolled copy. Textbook matrix stack push.
+!
 ! Copies 48 bytes from current top to new slot, advances pointer +48
 !
 ! The matrix is stored row-major:
@@ -145,6 +159,8 @@ mat_push_A:  ! 0x06026DBC
 ! =============================================================================
 ! Matrix Pop — Stack A
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x06026DF8. Loads ptr, add #-48, stores.
+!   4 instructions total. Trivially correct.
 
 mat_pop_A:  ! 0x06026DF8
     mov.l   @(PC),r1                ! r1 = &mat_stack_A_ptr (0x06089EDC)
@@ -157,6 +173,10 @@ mat_pop_A:  ! 0x06026DF8
 ! =============================================================================
 ! Matrix Identity — Stack A (via alternate base)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Both entries verified (0x06026E02, 0x06026E0C).
+!   Loads 0x00010000 (1.0), stores identity pattern: 1,0,0 / 0,1,0 / 0,0,1
+!   plus zero translation. Pool constant 0x00010000 confirmed at 0x0602707C.
+!
 ! Two entry points:
 !   0x06026E02: set 0x06089EE0 as new pointer, then identity
 !   0x06026E0C: identity on current top
@@ -194,6 +214,10 @@ mat_identity_A:  ! 0x06026E0C
 ! =============================================================================
 ! Matrix * Vector + Translation — Stack A
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x06026E2E. Stores vector to 0x0608A4E0,
+!   loads matrix from 0x06089EDC, 3-iteration loop with clrmac + 3x mac.l +
+!   xtrct + add translation + store back. Classic matrix*vec+trans.
+!
 ! Input:  r4,r5,r6 = vector (X,Y,Z) in 16.16 fixed point
 ! Output: result stored to buffer 0x0608A4E0, and back into matrix translation
 !
@@ -239,13 +263,24 @@ mat_xform_trans_A:  ! 0x06026E2E
 ! =============================================================================
 ! Matrix Scale — Stack A
 ! =============================================================================
-! Scales each column of the 3x3 matrix by scalar factors.
-! Input: r4 = scaleX, r5 = scaleY, r6 = scaleZ
+! CONFIDENCE: DEFINITE — Verified at 0x06026E60. Loads from 0x06089EDC,
+!   3-iteration outer loop (add #4,r7), inner reads at +0x00/+0x0C/+0x18
+!   with dmuls.l by r4/r5/r6 respectively. xtrct and store back.
 !
-! For each of 3 rows:
-!   mat[row][0] = fixmul(mat[row][0], r4)
-!   mat[row][1] = fixmul(mat[row][1], r5)
-!   mat[row][2] = fixmul(mat[row][2], r6)
+! AUDIT NOTE: The description below says "Scales each column" and shows
+!   mat[row][0]*=r4 for all rows. This is misleading. The actual code:
+!   - Outer loop iterates over COLUMNS (3 iterations, r7 += 4 each time)
+!   - Inner: mat[0][col]*=r4, mat[1][col]*=r5, mat[2][col]*=r6
+!   So each ROW gets its own scale factor, not each column.
+!   Equivalent to pre-multiplying by diag(r4,r5,r6): row i scaled by factor i.
+!
+! Scales each ROW of the 3x3 matrix by scalar factors.
+! Input: r4 = scaleRow0, r5 = scaleRow1, r6 = scaleRow2
+!
+! For each column j (3 iterations):
+!   mat[0][j] = fixmul(mat[0][j], r4)
+!   mat[1][j] = fixmul(mat[1][j], r5)
+!   mat[2][j] = fixmul(mat[2][j], r6)
 !
 ! Uses dmuls.l for full 64-bit multiply, then xtrct for 16.16 narrowing.
 
@@ -285,7 +320,19 @@ mat_scale_A:  ! 0x06026E60
 ! =============================================================================
 ! Matrix Rotation XZ — Stack A (FUN_06026E94)
 ! =============================================================================
-! Rotates the matrix in the XZ plane (around Y axis)
+! CONFIDENCE: HIGH — Verified at 0x06026E94 (labeled in aprog.s). Binary:
+!   sts.l pr, loads 0x0608A4E0, mov #8 r5, bsr 0x06027358 (sincos),
+!   neg for -sin, MAC loop on columns 1 and 2. Structure is correct.
+!
+! AUDIT NOTE: Name "rotXZ" is MISLEADING. This function modifies columns 1
+!   and 2 (Y and Z basis vectors), which is rotation in the YZ plane
+!   (around the X axis). A true XZ rotation would modify columns 0 and 2.
+!   The naming convention in this file has all three rotation names swapped:
+!     "rotXZ" (FUN_06026E94) = actually rotYZ (columns 1,2, around X)
+!     "rotXY" (FUN_06026EDE) = actually rotXZ (columns 0,2, around Y)
+!     "rotYZ" (FUN_06026F2A) = actually rotXY (columns 0,1, around Z)
+!
+! Rotates columns 1 and 2 of the matrix (YZ plane, around X axis)
 ! Input: r4 = angle (used to look up sin/cos via FUN_06027358)
 !
 ! Algorithm:
@@ -352,7 +399,15 @@ FUN_06026E94:  ! 0x06026E94
 ! =============================================================================
 ! Matrix Rotation XY — Stack A (FUN_06026EDE)
 ! =============================================================================
-! Rotates in XY plane (around Z axis)
+! CONFIDENCE: HIGH — Verified at 0x06026EDE (labeled in aprog.s). Binary:
+!   sts.l pr, loads 0x0608A4E0, mov #4 r5, bsr 0x06027358,
+!   MAC loop on columns 0 and 2 (with skip stride of 4).
+!
+! AUDIT NOTE: Name "rotXY" is misleading. Operates on columns 0 and 2
+!   (X and Z basis vectors) = rotation in XZ plane around Y axis.
+!   See AUDIT NOTE on FUN_06026E94 for full naming discussion.
+!
+! Rotates columns 0 and 2 of the matrix (XZ plane, around Y axis)
 ! Same structure as rotXZ but operates on columns 0 and 2
 
 FUN_06026EDE:  ! 0x06026EDE
@@ -401,7 +456,15 @@ FUN_06026EDE:  ! 0x06026EDE
 ! =============================================================================
 ! Matrix Rotation YZ — Stack A (FUN_06026F2A)
 ! =============================================================================
-! Rotates in YZ plane (around X axis)
+! CONFIDENCE: HIGH — Verified at 0x06026F2A (labeled in aprog.s). Binary:
+!   sts.l pr, loads 0x0608A4E0, mov #8 r5, bsr 0x06027358,
+!   MAC loop on columns 0 and 1.
+!
+! AUDIT NOTE: Name "rotYZ" is misleading. Operates on columns 0 and 1
+!   (X and Y basis vectors) = rotation in XY plane around Z axis.
+!   See AUDIT NOTE on FUN_06026E94 for full naming discussion.
+!
+! Rotates columns 0 and 1 of the matrix (XY plane, around Z axis)
 ! Operates on columns 0 and 1
 
 FUN_06026F2A:  ! 0x06026F2A
@@ -448,6 +511,11 @@ FUN_06026F2A:  ! 0x06026F2A
 ! =============================================================================
 ! Full 3x3 Matrix Multiply — Stack A
 ! =============================================================================
+! CONFIDENCE: HIGH — Verified at 0x06026F72. Loads 0x06089EDC and 0x0608A4F0
+!   (temp buffer), nested 3x3 loop with clrmac/mac.l (strided access for
+!   column reads), then translation update phase and 48-byte copy back.
+!   Complex function but structure is consistent with 3x3 multiply.
+!
 ! Computes: M = M_current * M_input (transposed access pattern)
 ! Uses 0x0608A4F0 as temporary buffer
 !
@@ -527,6 +595,11 @@ mat_fullmul_A:  ! 0x06026F72
 ! =============================================================================
 ! Matrix * Vector + Translation — Stack A (FUN_06026FFC)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Labeled in aprog.s (FUN_06026FFC). Binary: push r14,
+!   loads 0x06089EDC and 0x0608A520, mov #36 for translation offset,
+!   3-iteration loop with clrmac/3x mac.l/xtrct/add translation/store.
+!   Then copies 12 bytes from buffer to output. Classic M*v+t.
+!
 ! Input: r4 = input vector ptr (3 ints), r5 = output vector ptr
 ! Output: result = M * vec + translation, stored to r5 AND 0x0608A520
 !
@@ -571,6 +644,10 @@ FUN_06026FFC:  ! 0x06026FFC
 ! =============================================================================
 ! Matrix * Vector (no translation) — Stack A
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Verified at 0x06027038. Loads 0x06089EDC and
+!   0x0608A520, 3-iteration loop with clrmac/3x mac.l/xtrct/store.
+!   No translation add. Pure rotation transform.
+!
 ! Same as above but WITHOUT adding translation. Pure rotation.
 
 mat_vec_notrans_A:  ! 0x06027038
@@ -605,6 +682,10 @@ mat_vec_notrans_A:  ! 0x06027038
 ! =============================================================================
 ! Sin/Cos Lookup (FUN_06027358)
 ! =============================================================================
+! CONFIDENCE: DEFINITE — This is the same function documented in
+!   math_helpers.s at 0x06027358. Verified byte-for-byte. See math_helpers.s
+!   for full audit details.
+!
 ! Input: r4 = angle (integer, units = 1/65536 of full rotation)
 ! Output: sin value stored at @r5, cos value stored at @r6
 !
@@ -613,7 +694,8 @@ mat_vec_notrans_A:  ! 0x06027038
 ! 8 to the table index before computing cos.
 !
 ! Table entry size: 4 bytes (int32, 16.16 fixed point)
-! Table has 256 entries covering 0-360 degrees
+! AUDIT NOTE: Table has 4096 entries (mask 0x3FFC), not 256.
+! Table has 4096 entries covering 0-360 degrees
 !
 ! Algorithm:
 !   r3 = r4 + (word constant)     (phase shift for cos)
@@ -646,6 +728,9 @@ FUN_06027358:  ! 0x06027358
 ! =============================================================================
 ! Trig Table Lookup — Single Value
 ! =============================================================================
+! CONFIDENCE: DEFINITE — Same as cos_lookup at 0x06027344 in math_helpers.s.
+!   Verified byte-for-byte. See math_helpers.s for full audit.
+!
 ! Input: r4 = angle
 ! Output: r0 = table value
 ! Simpler version for when only one trig value is needed.
@@ -665,6 +750,11 @@ trig_lookup_single:  ! 0x06027344
 ! =============================================================================
 ! Advanced Trig — Piecewise Interpolation
 ! =============================================================================
+! CONFIDENCE: HIGH — Same as atan_piecewise at 0x06027378 in math_helpers.s.
+!   Verified first 4 instructions. See math_helpers.s for full audit.
+!   The "likely used for ATAN2" note below is confirmed by the call chain:
+!   FUN_0602745C (atan2_full) calls this function via bsr 0x06027378.
+!
 ! 0x06027378
 ! Much larger function (~200 bytes) that implements high-precision
 ! trigonometry using piecewise polynomial interpolation.
@@ -689,6 +779,20 @@ trig_lookup_single:  ! 0x06027344
 ! =============================================================================
 ! Stack B Functions (0x06027080 - 0x060272FA)
 ! =============================================================================
+! CONFIDENCE: HIGH — All 12 Stack B addresses verified in aprog.s:
+!   0x06027080 (push), 0x060270BC (pop), 0x060270C6 (identity2),
+!   0x060270D0 (identity), 0x060270F2 (xform), 0x06027124 (scale),
+!   FUN_06027158 (labeled, rotXZ), FUN_060271A2 (labeled, rotXY),
+!   FUN_060271EE (labeled, rotYZ), 0x06027236 (fullmul),
+!   FUN_060272C0 (labeled, vec_trans), 0x060272FC (vec_notrans).
+!   Pool constants confirmed: 0x0608A52C (stack ptr), 0x0608A530 (alt base),
+!   0x0608A6B0/A6C0/A6F0 (vector buffers). Code is structurally identical
+!   to Stack A except for address constants.
+!
+! AUDIT NOTE: The same rotation naming issue from Stack A applies here:
+!   rotXZ_B actually rotates YZ (columns 1,2), rotXY_B rotates XZ (columns
+!   0,2), rotYZ_B rotates XY (columns 0,1).
+!
 ! Exact mirrors of Stack A functions, operating on:
 !   Matrix pointer: 0x0608A52C
 !   Alternate base: 0x0608A530

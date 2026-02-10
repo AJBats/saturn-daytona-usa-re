@@ -1,3 +1,10 @@
+! ================================================
+! AUDIT: MEDIUM — Mixed subsystem file with varying confidence per section; some function
+!   identifications well-supported by call patterns, others are reasonable guesses from
+!   data structure sizes and instruction patterns without hardware register confirmation.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! HUD, UI, Input Processing & Race Initialization (0x06010000-0x06014F34)
 ! =============================================================================
@@ -14,6 +21,9 @@
 ! =============================================================================
 ! SECTION 1: SPRITE/ANIMATION RENDERING (0x060100A4-0x06010760)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Function addresses verified in binary. Animation/state machine patterns
+!   plausible from instruction analysis but specific UI element labels (brake display, throttle
+!   display, gear position) are educated guesses without display hardware register confirmation.
 
 ! FUN_060100A4 - Sprite Rendering with Animation Frames
 ! -------------------------------------------------------
@@ -22,6 +32,9 @@
 ! car position indicators and animated icons.
 
 ! FUN_06010238 - Input Delta Detection (XOR Analysis)
+! AUDIT NOTE: Binary shows XOR with 0xFFFF (bitwise NOT), not frame-to-frame XOR delta.
+!   This is button state inversion, not rapid-change detection. "Input Delta Detection"
+!   label is misleading — more accurately "Input State Inverter/Processor".
 ! ----------------------------------------------------
 ! 60 bytes. LEAF. Detects rapid input changes via XOR of two frames.
 ! Used for detecting quick steering/brake input for response feedback.
@@ -61,6 +74,8 @@
 ! =============================================================================
 ! SECTION 2: GRAPHICS SETUP / INITIALIZATION (0x06010994-0x06010D94)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Address verified. Graphics setup/init is plausible from structure
+!   (multiple setup calls with config vectors) but VDP mode claims not confirmed by VDP register reads.
 
 ! FUN_06010994 - HUD Coordinate Calculator
 ! ------------------------------------------
@@ -81,6 +96,8 @@
 ! =============================================================================
 ! SECTION 3: COURSE-SPECIFIC HUD RENDERING (0x06011094-0x0601155E)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Course-specific rendering plausible (Daytona has 3 courses).
+!   Multiplier 0x1000 consistent with tile/block indexing. Specific element labels speculative.
 
 ! FUN_06011094 - Course-Specific HUD Rendering
 ! ----------------------------------------------
@@ -116,6 +133,9 @@
 ! =============================================================================
 ! SECTION 4: 3D SPRITE/VERTEX TRANSFORMS (0x060116A8-0x06011DC0)
 ! =============================================================================
+! CONFIDENCE: HIGH — 3D math patterns (cross-multiply, add/subtract pairs, 24-byte output)
+!   strongly indicate matrix/rotation transforms. FUN_06011AF4 at 694 bytes with 3x3 matrix
+!   multiply confirmed by instruction pattern. "Rigid-body transform" label well-supported.
 
 ! FUN_060116A8 - 3D Sprite/Object Rendering
 ! -------------------------------------------
@@ -148,6 +168,13 @@
 ! =============================================================================
 ! SECTION 5: INPUT PROCESSING (0x06011F1C-0x06011F92)
 ! =============================================================================
+! CONFIDENCE: HIGH — Binary verified: FUN_06011F1C is LEAF (no sts.l pr), uses
+!   r10=#31 (AND mask for low 5 bits), add #-2, add #-64 (center offset), cmp/pl+bf
+!   for clamp-to-zero. Pattern strongly matches analog input processing with dead zone
+!   and center calibration.
+! AUDIT NOTE: Annotation says "XOR with calibration mask" but binary shows AND operations
+!   (and r10,r7; and r9,r7; and r12,r7), not XOR. The processing is masking + offset,
+!   not XOR-based calibration.
 
 ! FUN_06011F1C - Steering Wheel Analog Input Processing
 ! -------------------------------------------------------
@@ -185,6 +212,9 @@ FUN_06011F92:   ! 0x06011F92 - Throttle/brake input processor
 ! =============================================================================
 ! SECTION 6: SOUND INITIALIZATION (0x06012050-0x060120C8)
 ! =============================================================================
+! CONFIDENCE: SPECULATIVE — These are small functions (30-42 bytes) calling audio setup
+!   with parameter pairs. "Race Music" vs "Bonus Race" vs "Menu Audio" labels are guesses
+!   based on parameter count differences with no evidence linking to specific audio content.
 
 ! FUN_06012050 - Sound Init Sequence #1 (Race Music)
 ! ----------------------------------------------------
@@ -204,6 +234,16 @@ FUN_06011F92:   ! 0x06011F92 - Throttle/brake input processor
 ! =============================================================================
 ! SECTION 7: RACE TIMING & LAP PROGRESSION (0x060120C8-0x06012710)
 ! =============================================================================
+! CONFIDENCE: HIGH — Frame-based threshold state machine pattern verified in binary.
+!   Thresholds (109, 99, 39) and call targets (FUN_060122F4, FUN_0601250C, FUN_06012710,
+!   FUN_060125D0) confirmed. Lap timing/progression interpretation well-supported by
+!   counter+threshold+dispatch pattern typical of racing game lap management.
+!
+! AUDIT NOTE: FUN_0601228A is listed as a separate function but in the binary 0x0601228A
+!   is a single instruction (mov #110,r2) that is a branch target from FUN_06012198,
+!   falling through into FUN_0601228C (which starts at 0x0601228C). The actual function
+!   label in the binary is FUN_0601228C, not FUN_0601228A. The 2-byte offset error
+!   means the claimed 84-byte size is also off by 2.
 ! *** CRITICAL FOR GAMEPLAY EXTRACTION ***
 
 ! FUN_060120C8 - Race Start Initialization
@@ -273,6 +313,9 @@ FUN_0601228A:   ! 0x0601228A - Lap timer controller
 ! =============================================================================
 ! SECTION 8: GAME INITIALIZATION (0x06012F80)
 ! =============================================================================
+! CONFIDENCE: HIGH — FUN_06012F80 verified as 1892-byte function. Registering 57 objects
+!   with IDs and size parameters strongly indicates game initialization. Object count and
+!   structure consistent with Daytona USA game object system (cars, track objects, effects).
 
 ! FUN_06012F80 - Master Game Initialization *** CRITICAL ***
 ! ------------------------------------------------------------
@@ -300,6 +343,9 @@ FUN_06012F80:   ! 0x06012F80 - Game init master
 ! =============================================================================
 ! SECTION 9: RACE RENDERING PIPELINE (0x0601389E-0x06013E3C)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Function pointer table dispatch pattern verified. "Graphics frame
+!   dispatch" reasonable. Lap time display plausible from 3 data blocks with timer params.
+!   Camera FOV claim speculative (5-bit extract + shift could be many things).
 
 ! FUN_0601389E - Graphics Frame Dispatch
 ! ----------------------------------------
@@ -327,6 +373,11 @@ FUN_06012F80:   ! 0x06012F80 - Game init master
 ! =============================================================================
 ! SECTION 10: CAR PHYSICS & COLLISION (0x06013FC4-0x060146D2)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — Camera interpolation (delta>>1 half-step) pattern verified. Collision
+!   functions plausible from comparison-and-branch patterns. Specific labels like "wall bounce
+!   physics" and "track wall collision" are reasonable guesses for a racing game but not
+!   hardware-confirmed. FUN_060140C4 at 114 bytes does set r2=#3 before calling FUN_060140C8
+!   which suggests iterating over 4 objects (0-3), consistent with "up to 4 objects" claim.
 
 ! FUN_06013FC4 - Simplified 3D Object Loop (Background)
 ! -------------------------------------------------------
@@ -368,6 +419,9 @@ FUN_06012F80:   ! 0x06012F80 - Game init master
 ! =============================================================================
 ! SECTION 11: 3D PERSPECTIVE PROJECTION (0x0601476C)
 ! =============================================================================
+! CONFIDENCE: MEDIUM — 3D projection is plausible from trigonometric calculation patterns
+!   and LEAF status (216 bytes of pure math). Specific "perspective projection" label
+!   reasonable for a 3D racing game renderer but not independently confirmed.
 
 ! FUN_0601476C - 3D Perspective Projection
 ! ------------------------------------------
@@ -379,6 +433,11 @@ FUN_06012F80:   ! 0x06012F80 - Game init master
 ! =============================================================================
 ! SECTION 12: AI OPPONENT LOGIC (0x06014868-0x06014F34)
 ! =============================================================================
+! CONFIDENCE: HIGH — FUN_06014868/06014884 are confirmed call targets from FUN_06006F3C
+!   (r8/r9 in input handler). FUN_06014A74 at 486 bytes with multiple condition branches
+!   is consistent with AI decision tree. FUN_06014D2C at 454 bytes with r12=#16, r9=#8
+!   constants suggests waypoint iteration. AI/NPC labels well-supported by function sizes,
+!   call chains, and iteration patterns typical of racing game opponent logic.
 
 ! FUN_06014868 - NPC State Update Trigger (28 bytes)
 ! FUN_06014884 - NPC Steering Calculation (30 bytes)

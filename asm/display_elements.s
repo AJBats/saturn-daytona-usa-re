@@ -1,3 +1,12 @@
+! ================================================
+! AUDIT: HIGH — Display element interpreter pattern confirmed by binary; shared processor
+!   at 0x06032304 loads from 0x060623B0 array with shll2 index, reads display list at +0x2D8.
+!   Thunk chain (0603226C-060322AE) with consecutive r4 values verified. Specific HUD element
+!   labels (speed, RPM, gear, lap time) are reasonable for a racing game HUD but rely on
+!   parameter inference rather than hardware register access.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! VDP Display Element System (0x06030000-0x06033FFF)
 ! =============================================================================
@@ -21,6 +30,10 @@
 !
 ! === Large Display/Sound Controllers ===
 !
+! CONFIDENCE: MEDIUM — FUN_06030548 is genuinely large (2332B) and reads from car object
+!   array and button state. "Sound/music controller" label is plausible (complex state
+!   machine with command dispatching) but no SCSP register access found in this function
+!   directly; it likely communicates through a sound driver layer.
 ! FUN_06030540 (8B) - LEAF stub, minimal return
 ! FUN_06030548 (2332B) - HUGE: Main sound/music controller
 !   Reads from 0x0607E944 (car object), 0x0607ED8C (init flag),
@@ -36,6 +49,8 @@
 !
 ! FUN_0603101E (860B) - HUD number renderer
 !   Large function handling digit-by-digit display of race times,
+! CONFIDENCE: HIGH — 860-byte function with BCD conversion and digit sprite lookup is
+!   a classic number rendering pattern. "HUD number renderer" label well-supported.
 !   lap numbers, speed values. Uses BCD conversion and sprite lookup.
 !
 ! FUN_0603137A (34B) - Display element init stub
@@ -45,10 +60,16 @@
 !
 ! FUN_06031A34 (972B) - Timer/countdown display
 !   Renders race countdown timer with minutes:seconds:centiseconds
+! CONFIDENCE: HIGH — Timer with minutes:seconds:centiseconds format, blinking on low time,
+!   and flash effects are standard racing game countdown patterns.
 !   Handles blinking on low time, color changes, flash effects.
 !
 ! FUN_06031E00 (960B) - Speed/tachometer display
 !   Renders speedometer needle, digital speed value, RPM gauge.
+! CONFIDENCE: MEDIUM — 960-byte function with fixed-point gauge interpolation is consistent
+!   with speedometer/tachometer. mul.l with r6 parameter by 24 at entry suggests indexing
+!   into display element array. "Speed/tachometer" is a reasonable label but specific
+!   gauge type not independently confirmed.
 !   Fixed-point math for gauge interpolation.
 !
 ! === Display Element Setup ===
@@ -59,6 +80,10 @@
 !
 ! === Indexed Display Element Thunks (the "digit renderer" cluster) ===
 !
+! CONFIDENCE: DEFINITE — Binary verified: FUN_0603226C pushes r8-r14, loads r4=0,
+!   falls through to FUN_0603227C which does bsr 0x06032304 (confirmed), then r4=1, etc.
+!   Consecutive r4 values 0-6 confirmed in pool literals. Shared prologue/epilogue pattern
+!   is an unmistakable display element iteration idiom.
 ! FUN_0603226C (16B) - Push r8-r14, load r4=0, fall through to FUN_0603227C
 ! FUN_0603227C (10B) - Call FUN_06032304 (shared processor), set r4=1
 ! FUN_06032286 (10B) - Call FUN_06032304, set r4=2
@@ -114,6 +139,9 @@
 !
 ! === Speed Display Groups ===
 !
+! CONFIDENCE: MEDIUM — Grouped thunks with sequential indices for "hundreds/tens/ones"
+!   digits, "KM/H" label renderer, and decimal point are consistent with speed display.
+!   Specific element names (hundreds digit, tens digit) inferred from rendering order.
 ! FUN_06032840 (74B)  - Speed hundreds digit
 ! FUN_0603288A (14B)  - Speed tens digit
 ! FUN_06032898 (74B)  - Speed ones digit
@@ -129,6 +157,9 @@
 !
 ! === RPM/Tachometer Display Group ===
 !
+! CONFIDENCE: MEDIUM — Similar thunk pattern to Speed group. "RPM" and "tachometer"
+!   labels are reasonable given separate display group for engine-related gauge, but
+!   could be any secondary numeric display.
 ! FUN_06032A62 (142B) - RPM gauge renderer
 ! FUN_06032AF0 (14B) FUN_06032AFE (14B) FUN_06032B0C (14B) - RPM digit thunks
 ! FUN_06032B1A (64B)  - RPM display commit
@@ -156,6 +187,9 @@
 !
 ! === Mini-map/Radar Display Group ===
 !
+! CONFIDENCE: SPECULATIVE — "Mini-map/Radar" label is inferred from multiple small
+!   thunks (car dots, track outline, waypoints). Daytona USA does have a minimap but
+!   the specific element assignments are best guesses based on thunk count and ordering.
 ! FUN_06032EBE (26B)  - Map element offset setter
 ! FUN_06032ED8 (14B) FUN_06032EE6 (22B) FUN_06032EFC (22B)
 ! FUN_06032F12 (14B) FUN_06032F20 (10B) FUN_06032F2A (10B)
@@ -212,6 +246,10 @@
 ! FUN_060337BE (8B)   - Course stub
 !
 ! === Master Display Manager ===
+! CONFIDENCE: HIGH — FUN_060337C6 at 742 bytes is the largest function in range.
+!   Binary confirmed: first instruction is bsr 0x06033504. Per-frame orchestrator
+!   pattern (checks game state, enables/disables element groups) well-supported by
+!   function size and call-out pattern to other display functions.
 !
 ! FUN_060337C6 (742B) - LARGEST in range: Master display element manager
 !   Per-frame orchestrator for all HUD elements.

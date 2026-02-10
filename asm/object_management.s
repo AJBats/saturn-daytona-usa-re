@@ -1,3 +1,7 @@
+! ================================================
+! AUDIT: HIGH -- Car object lifecycle accurately documented; addresses and struct layout verified
+! Audited: 2026-02-10
+! ================================================
 ! ============================================================================
 ! Object Management System — Daytona USA Saturn
 ! ============================================================================
@@ -143,6 +147,8 @@
 ! car iteration loop to set up each car with its config table data.
 !
 ! Call sites: 0x06008956, 0x06008FAC, 0x06009EB2
+! CONFIDENCE: DEFINITE -- Prologue, zero loop, car array base 0x06078900, and jsr targets all verified against binary
+! AUDIT NOTE: Annotation says zero loop uses r5 initialized separately; binary confirms mov r14,r5 at 0x0600EB1E then loop at 0x0600EB20
 
 FUN_0600EB14:                       ! 0x0600EB14
     mov.l   r14,@-r15
@@ -210,6 +216,7 @@ FUN_0600EB14:                       ! 0x0600EB14
 !   - Sets initial sizes (56 at +0x74, +0x90)
 !   - Reads config data from 0x0607ED90
 !   - Calls FUN_0600D280 (position sorting) and FUN_0602E5E4
+! CONFIDENCE: DEFINITE -- Prologue, car array base, stride 0x268, call to FUN_0600E1D4 all verified
 
 FUN_0600629C:                       ! 0x0600629C
     mov.l   r14,@-r15
@@ -327,6 +334,7 @@ FUN_0600629C:                       ! 0x0600629C
 ! (car[0x1C], car[0x20], car[0x24]) from config data.
 !
 ! r14 = car pointer on entry (via *0x0607E940)
+! CONFIDENCE: HIGH -- Config table structure plausible; car pointer via 0x0607E940 verified; field offsets consistent
 
 FUN_0600E1D4:                       ! 0x0600E1D4
     ! (heavy prologue: pushes r14,r13,r12,r11,r10,pr, allocates stack)
@@ -375,6 +383,8 @@ FUN_0600E1D4:                       ! 0x0600E1D4
 !
 ! Has special logic for 2-player/special modes where car processing order
 ! alternates between car[0] and car[1].
+! CONFIDENCE: HIGH -- Prologue, pool constants (0x0607ED8C, 0x0607EAE4, 0x0607ED88, 0x0607E940, 0x0607E944) all verified
+! AUDIT NOTE: Annotation says "Called from State 15 (main race loop) at 0x06009436" but 0x06009436 is inside FUN_060092D0 (state 17), not state 15. State 15 calls FUN_0600DE54 instead.
 
 FUN_0600DE70:                       ! 0x0600DE70
     ! (heavy prologue: pushes r14..r8, pr, allocates 12 bytes stack)
@@ -500,6 +510,7 @@ FUN_0600DE70:                       ! 0x0600DE70
 !   7. Collision (FUN_0600CE66)
 !   8. AI behavior (FUN_0600EA18) [AI only, normal mode]
 !   9. Render pipeline tail call (FUN_0602D9F0) [normal mode]
+! CONFIDENCE: HIGH -- Prologue, car comparison logic, and pipeline stages verified; demo/normal branching confirmed
 
 FUN_0600E4F2:                       ! 0x0600E4F2
     mov.l   r14,@-r15
@@ -703,6 +714,7 @@ FUN_0600E4F2:                       ! 0x0600E4F2
 ! Calls force system + physics pipeline, then does a speed calculation.
 !
 ! Called from FUN_0600DE40 and FUN_0600DF66 (mode 0 dispatch).
+! CONFIDENCE: HIGH -- Force system calls (FUN_060081F4, FUN_060085B8), subsystem calls (FUN_06030A06, FUN_06030EE0) verified in binary
 
 FUN_0600E410:                       ! 0x0600E410
     mov.l   r14,@-r15
@@ -759,6 +771,7 @@ FUN_0600E410:                       ! 0x0600E410
 ! Mode 2 -> FUN_0600E47C (same alternative)
 !
 ! Also calculates half-car-count like the other wrappers.
+! CONFIDENCE: DEFINITE -- Mode dispatch logic, pool constants (0x0607EA98, 0x060786CA, 0x06083261), and bsr targets all verified
 
 FUN_0600DF66:                       ! 0x0600DF66
     sts.l   pr,@-r15
@@ -810,6 +823,7 @@ FUN_0600DF66:                       ! 0x0600DF66
 ! Used during pre-race countdown phase.
 !
 ! Called from: 0x06008A84, 0x06009F7C (state handlers)
+! CONFIDENCE: DEFINITE -- Simple wrapper verified byte-for-byte: half-count calc, bsr FUN_0600E410, bra 0x0600E0C0
 
 FUN_0600DE40:                       ! 0x0600DE40
     sts.l   pr,@-r15
@@ -829,6 +843,8 @@ FUN_0600DE40:                       ! 0x0600DE40
 ! ============================================================================
 ! Copies primary car pointer to active, calls FUN_0600E99C (VS-specific).
 ! Used in versus mode state handling.
+! CONFIDENCE: HIGH -- Pool constants (0x0607E944, 0x0607E940) verified; bsr FUN_0600E99C confirmed
+! AUDIT NOTE: Annotation says "VS Mode Update" but state 15 calls this for ALL race modes, not just VS. More accurately "Race State Update Wrapper".
 
 FUN_0600DE54:                       ! 0x0600DE54
     sts.l   pr,@-r15

@@ -1,3 +1,12 @@
+! ================================================
+! AUDIT: DEFINITE — Frame commit pipeline and sprite command builder.
+!   All function addresses, pool constants (including word-size pools), and
+!   instruction sequences verified against aprog.s. The 600/0x0258 timing
+!   budget, VDP1 0x8000 draw-end marker, 32-byte command size, and all
+!   called function addresses confirmed.
+! Audited: 2026-02-10
+! ================================================
+!
 ! ==========================================================================
 ! Frame Timing & Display Commit — End-of-Frame Pipeline
 ! ==========================================================================
@@ -12,6 +21,8 @@
 ! generates 32-byte VDP1 commands.
 !
 ! FRAME COMMIT PIPELINE (FUN_060078DC):
+! CONFIDENCE: DEFINITE — entire pipeline verified step-by-step against
+!   aprog.s instruction stream from 0x060078DC to function end
 !
 !   1. Timing management: decrement accumulator, check frame budget
 !   2. Conditional DMA: if budget available, transfer sprite/palette data
@@ -26,6 +37,8 @@
 !  11. Cleanup: FUN_06026CE0, reset counters, copy results
 !
 ! SPRITE COMMAND BUILDER (FUN_06007BCC):
+! CONFIDENCE: DEFINITE — loop structure, index computation, and dispatch
+!   verified against aprog.s at 0x06007BCC
 !
 !   For each sprite index in [0x0606A4F8 + i*2]:
 !     entry = 0x0608AC20 + sprite_index * 24
@@ -37,12 +50,15 @@
 !
 ! KEY DATA STRUCTURES:
 !
+! CONFIDENCE: HIGH — all addresses verified as pool constants
 !   Timing state:
 !     0x060620D0  Timing counter (accumulates, compared against 600)
 !     0x060620D4  Timing accumulator (decremented by 600 each frame)
 !     0x0605A008  Frame counter (incremented each frame, reset after commit)
 !     0x0605A00C  Frame-ready flag (set=1 during commit, cleared after)
 !
+! CONFIDENCE: HIGH — addresses verified, 32-byte command size confirmed
+!   by add #32 instruction and shll2/shll2/shll multiply pattern
 !   VDP1 command system:
 !     0x06063F5C  VDP1 command buffer base pointer
 !     0x060785FC  VDP1 command write pointer (advances by 32 per sprite)
@@ -55,6 +71,7 @@
 !     0x0605A016  Phase flag (word, used to index 32-byte display blocks)
 !     0x0605A018  Phase display data base (32 bytes per phase)
 !
+! CONFIDENCE: HIGH — flag values confirmed by or-immediate instructions
 !   Display flags (0x0605B6D8):
 !     Bit 2  (0x00000004) = display update pending
 !     Bit 27 (0x08000000) = extra display flag (when [0x0607EAE0]==0)
@@ -66,12 +83,17 @@
 !     0x0607EAE0  External event flag (controls bit 27)
 !     0x0607EBC4  State bits (mask 0x20228000 controls HUD rendering)
 !
+! CONFIDENCE: HIGH — 24-byte stride confirmed by multiply-by-24 pattern
+!   (shll2+shll for *8 combined with shll2+shll2 for *16, then add)
 !   Sprite entry (24 bytes at 0x0608AC20):
 !     +0x00: data fields (position, attributes)
 !     +0x06: word — sprite type (9 = special, else normal)
 !     +0x08..+0x17: additional rendering data
 !
 ! CALLED FUNCTIONS:
+! CONFIDENCE: HIGH — all called function addresses verified as pool
+!   constants in aprog.s. FUN_060281B8 and FUN_060333D8 exist as code
+!   addresses but lack top-level labels (mid-function or unlabeled entries).
 !     FUN_06027630  — DMA-style sprite data copy (24-byte granularity)
 !     FUN_0602761E  — DMA-style palette/attribute copy (word granularity)
 !     FUN_0602C494  — VDP1 command table header builder
@@ -101,6 +123,13 @@
 ! Called from: State 15, 17, 25, 28, 29 (tail call), State 29 (direct jsr)
 ! Returns to: state handler's caller (since this is a tail call)
 
+! CONFIDENCE: DEFINITE — pool constants verified: r9=600 (word at
+!   [0x060079CE]=0x0258), r10=0x0606A4F8 at [0x060079D4],
+!   r12=0x0605A008 at [0x060079D8], r13=0x060620D4 at [0x060079DC],
+!   r14=0x060620D0 at [0x060079E0]. DMA source 0x0608E460 at [0x060079E4],
+!   sprite table 0x0608AC20 at [0x060079E8], copy fn 0x06027630 at [0x060079EC],
+!   VDP1 cmd header 0x0602C494 at [0x060079F4], SCU DMA 0x0602766C at [0x06007A04].
+!   Prologue and instruction sequence match binary exactly.
 FUN_060078DC:       ! 0x060078DC
     mov.l   r14,@-r15
     mov.l   r13,@-r15
@@ -320,6 +349,15 @@ FUN_060078DC:       ! 0x060078DC
 ! Called from: FUN_060078DC (bsr)
 ! Tail-calls: FUN_060171AC
 
+! CONFIDENCE: DEFINITE — pool constants verified: r8=0x060280F8 at
+!   [0x06007CAC], r9=0x060620D0 at [0x06007CB0], r10=0x00008000 at
+!   [0x06007CB4], r13=0x0608AC20 at [0x06007CB8], r14=0x060785FC at
+!   [0x06007CBC]. Loop counter at 0x06078620 [0x06007CC0], controller
+!   flag at 0x0607861C [0x06007CC4], controller state at 0x06063DA0
+!   [0x06007CC8]. Special builder 0x060281B8 at [0x06007CD0].
+!   HUD mask 0x20228000 at [0x06007CDC], state bits at 0x0607EBC4
+!   [0x06007CD8]. Tail-call target 0x060171AC at [0x06007CE8].
+!   All verified against binary disassembly.
 FUN_06007BCC:       ! 0x06007BCC
     mov.l   r14,@-r15
     mov     #0,r4                   ! r4 = 0 (init value for clear)

@@ -1,3 +1,8 @@
+! ================================================
+! AUDIT: DEFINITE — SMPC controller input pipeline confirmed by hardware register addresses
+! Audited: 2026-02-10
+! ================================================
+!
 ! ============================================================================
 ! input_smpc.s — Saturn SMPC Controller Input System
 ! ============================================================================
@@ -40,6 +45,8 @@
 ! ============================================================================
 ! STAGE 1: FUN_060030FC — SMPC INTBACK Command Sender
 ! ============================================================================
+! CONFIDENCE: DEFINITE — Binary verified: mov.l r14,@-r15; mov #1,r14; r13=0x20100063 (SMPC SF);
+!   writes 0x19 to 0x2010001F (COMREG). All SMPC addresses match Saturn hardware spec exactly.
 ! Called once during system init from the main loop setup.
 ! Sends the INTBACK command (0x19) to SMPC COMREG to request peripheral data.
 ! Polls SMPC SF register waiting for command acceptance, then completion.
@@ -97,6 +104,9 @@ FUN_060030FC:                       ! System init — called once at startup
 ! ============================================================================
 ! STAGE 2: INTBACK Response Handler (at 0x06039924, inside FUN_0603953C)
 ! ============================================================================
+! CONFIDENCE: DEFINITE — Binary verified: r10=0x20100061 (SMPC SR), reads OREG8-15 at
+!   0x20100031-3F, packs into struct at 0x060A4C9C. All register offsets and byte-packing
+!   logic confirmed instruction-by-instruction against aprog.s.
 ! After INTBACK completes, this code reads SMPC Output Registers (OREGs)
 ! and packs them into the raw peripheral data struct at 0x060A4C9C.
 ! This is called from the SMPC processing path, not directly from game code.
@@ -200,6 +210,16 @@ FUN_060030FC:                       ! System init — called once at startup
 ! ============================================================================
 ! STAGE 3: FUN_06006F3C — Button Input Consumer
 ! ============================================================================
+! CONFIDENCE: HIGH — Binary verified: r14=0x0605B6D8 (input state pointer), button bit
+!   tests at 0x04/0x10/0x20/0x40/0x80 match binary exactly. All call targets confirmed.
+!   Button-to-function mapping is structurally sound. Specific button labels (Right/Left/
+!   Start/A/B) are reasonable but not hardware-confirmed (processed, not raw SMPC bits).
+!
+! AUDIT NOTE: The file header says "active-low button bits" for the processed state at
+!   0x0605B6D8, but the tst+bt pattern means branch-if-zero (bit NOT set), so the handlers
+!   fire when bits ARE set. This is active-HIGH, not active-low. The raw SMPC buttons
+!   (OREG10/11) are active-low on Saturn hardware, but the processing stage likely inverts
+!   them before storing to 0x0605B6D8.
 ! This function reads the PROCESSED input state (not the raw SMPC struct).
 ! By the time this runs, raw OREG data has been translated into a 32-bit
 ! button state word at 0x0605B6D8. Each bit = one button, active-low.

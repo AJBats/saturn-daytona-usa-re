@@ -1,3 +1,10 @@
+! ================================================
+! AUDIT: HIGH -- VDP1 init and hardware division verified byte-for-byte against
+!   binary. Camera/viewport functions plausible but annotated mnemonics have
+!   minor ordering discrepancies vs ground truth. VDP1 register map in header
+!   contains address labeling errors (see AUDIT NOTEs below).
+! Audited: 2026-02-09
+! ================================================
 ! ============================================================================
 ! rendering.s — VDP1 Rendering Pipeline
 ! ============================================================================
@@ -63,6 +70,9 @@
 !   6. Clear buffer B: fill 64K words again (double-buffer B)
 !   7. Same cleanup as steps 3-5
 
+! CONFIDENCE: DEFINITE -- Pool constants verified: 0x80000000, 0x25C00000,
+!   0x25C80000, 0x00010000, 0x0605A00C, 0x06026CE0, 0x06059F44 all match
+!   binary exactly. Instruction sequence matches byte-for-byte.
 FUN_0600A140:                            ! 0x0600A140
     mov.l   r14,@-r15                    ! Save r14
     sts.l   pr,@-r15                     ! Save return address
@@ -77,7 +87,10 @@ FUN_0600A140:                            ! 0x0600A140
     mov.l   @(0x54,PC),r5              ! r5 = 0x25C80000 (VDP1 VRAM base)
     mov.l   @(0x58,PC),r4              ! r4 = 0x00010000 (64K words = 256KB)
 
+! AUDIT NOTE: Loop A first instruction is mov r5,r3 (not add #-2,r4).
+!   Binary at 0x0600A150: mov r5,r3; add #-2,r4; add #4,r5; mov.l r14,@r3
 .L_vdp1_clear_loop_A:                   ! 0x0600A150
+    mov     r5,r3                        ! r3 = current write address
     add     #-2,r4                       ! Decrement counter by 2 (word pairs)
     add     #4,r5                        ! Advance write pointer
     mov.l   r14,@r3                      ! Write 0 to current address
@@ -125,9 +138,9 @@ FUN_0600A140:                            ! 0x0600A140
     mov.l   @r15+,r14
 
 ! Pool constants for FUN_0600A140:
-!   0x0600A19C = 0x80000000  (VDP1 enable/reset value)
-!   0x0600A1A0 = 0x25C00000  (VDP1 control register base)
-!   0x0600A1A4 = 0x25C80000  (VDP1 VRAM start)
+!   0x0600A19C = 0x80000000  (VDP1 VRAM init marker)
+!   0x0600A1A0 = 0x25C00000  (VDP1 VRAM base)
+!   0x0600A1A4 = 0x25C80000  (VDP1 VRAM midpoint)
 !   0x0600A1A8 = 0x00010000  (64K words = buffer size)
 !   0x0600A1AC = 0x0605A00C  (command buffer state)
 !   0x0600A1B0 = 0x06026CE0  (texture/palette init function)
@@ -174,6 +187,11 @@ FUN_0600A140:                            ! 0x0600A140
 !   0x98 (152) = secondary clamp value
 !   0x84 (132) = tertiary field
 
+! CONFIDENCE: HIGH -- Address confirmed as FUN_0602EFF0 label in binary.
+!   Pool constant 0x0607E944 verified. Instruction sequence matches ground
+!   truth. Algorithm interpretation is reasonable but field names are inferred.
+! AUDIT NOTE: Called from FUN_0602EEB8 (per-car rendering orchestrator), NOT
+!   directly from state handlers as the file header implies.
 FUN_0602EFF0:                            ! 0x0602EFF0
     mov.l   r14,@-r15
     sts.l   pr,@-r15
@@ -335,6 +353,9 @@ FUN_0602EFF0:                            ! 0x0602EFF0
 !   - If result >= 0x71C → subtract 0x71C (wrap other direction)
 !   - Clamp to [0, 0x71C) range
 
+! CONFIDENCE: HIGH -- Address exists in binary. Called from FUN_0602EEB8
+!   and state handler FUN_06009098. Exponential smoothing interpretation
+!   consistent with shar instruction. Not a FUN_ label in aprog.s.
 ! 0x0602F0E8:
     mov.l   @(0x40,PC),r2              ! r2 = &0x0607E944
     mov.l   @r2,r0                       ! r0 = camera_object
@@ -430,6 +451,10 @@ FUN_0602EFF0:                            ! 0x0602EFF0
 ! differently on different sections of each course.
 ! ============================================================================
 
+! CONFIDENCE: MEDIUM -- Address 0x0602F17C exists in binary (mov r0,r14).
+!   Course boundary table addresses (0x060477AC, 0x0604779C) are plausible
+!   but not independently verified. The course-aware camera interpretation
+!   is reasonable but speculative.
 _0x0602F17C:                            ! 0x0602F17C
     mov     r0,r14                     ! r14 = camera_object
     mov     #0,r5
@@ -503,6 +528,9 @@ _0x0602F17C:                            ! 0x0602F17C
 ! time for the division to complete.
 ! ============================================================================
 
+! CONFIDENCE: DEFINITE -- Every instruction verified byte-for-byte against
+!   binary. Pool constant 0xFFFFFF00 confirmed at 0x0602ECEC. Hardware
+!   divider register addresses (DVSR, DVDNT, result) match SH-2 manual.
 FUN_0602ECCC:                            ! 0x0602ECCC
     mov.l   r3,@-r15                   ! save r3
     mov     #-16,r3                    ! r3 = 0xFFFFFFF0
@@ -528,6 +556,11 @@ FUN_0602ECCC:                            ! 0x0602ECCC
 ! ============================================================================
 ! FUN_06027CA4 — 3D Scene Processor (Polygon Culling & Depth Ordering)
 ! ============================================================================
+! CONFIDENCE: HIGH -- Function label confirmed. Prologue matches exactly.
+!   Pool constants 0x04000000, 0x03FFFFFF, 0x0607EAD8, 0x060C2000, 0x060BF000,
+!   0x060A6000 all verified. Frustum culling interpretation well-supported by
+!   dmuls.l instructions and flag bit testing.
+!
 ! This is the main 3D polygon rendering processor. It processes course
 ! segments and their polygons, performing matrix transforms, backface
 ! culling, and generating VDP1 commands in the correct draw order.

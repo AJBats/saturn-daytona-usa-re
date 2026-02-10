@@ -1,3 +1,12 @@
+! ================================================
+! AUDIT: MEDIUM — FUN_0602ECCC (hardware division) verified DEFINITE.
+!   FUN_0602EEB8 (orchestrator) confirmed with pool constants. FUN_0602FDA4
+!   exists at address but is not a FUN_ label. Most sub-function descriptions
+!   (collision response, lighting, fog, color blending) are reasonable inferences
+!   from instruction patterns but specific roles (e.g. damage flash, boost glow)
+!   are speculative. The overall pipeline structure is well-documented.
+! Audited: 2026-02-09
+! ================================================
 ! =============================================================================
 ! Per-Car Rendering State Pipeline
 ! =============================================================================
@@ -56,6 +65,8 @@
 !   r0 = @(0x14,div_base)   ; read quotient from 0xFFFFFF14
 !   ldc.l @r15+,sr          ; restore interrupts
 
+! CONFIDENCE: DEFINITE — Verified byte-for-byte. Hardware divider at 0xFFFFFF00.
+!   Interrupt disable/restore sequence matches SH-2 manual exactly.
 FUN_0602ECCC:  ! hw_divide_protected at 0x0602ECCC
     ! 16 instructions, LEAF function
 
@@ -76,6 +87,7 @@ FUN_0602ECCC:  ! hw_divide_protected at 0x0602ECCC
 ! The data at 0x0602EE20-0x0602EE8E is lookup table data, NOT code.
 ! It contains pre-computed rendering parameters indexed by the step counter.
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label. Jump table dispatch interpretation reasonable.
 FUN_0602ECF2:  ! physics_dispatcher at 0x0602ECF2
 
 
@@ -87,6 +99,8 @@ FUN_0602ECF2:  ! physics_dispatcher at 0x0602ECF2
 ! entire pipeline sequence. The epilogue (pop r8-r13) is in
 ! FUN_0602EEB8 at 0x0602EFAA.
 
+! CONFIDENCE: HIGH — Not a FUN_ label but confirmed at address 0x0602FDA4
+!   (mov.l r8,@-r15). Called from FUN_0602EEB8 via pool constant at 0x0602EF00.
 FUN_0602FDA4:  ! pipeline_prologue at 0x0602FDA4
     mov.l   r8,@-r15
     mov.l   r9,@-r15
@@ -112,6 +126,8 @@ FUN_0602FDA4:  ! pipeline_prologue at 0x0602FDA4
 ! This is the "gatekeeper" that validates vertex data before projection.
 ! Different state flags trigger different clipping paths.
 
+! CONFIDENCE: HIGH — Label confirmed in binary. Called from FUN_0602EEB8.
+!   Bounds clipping interpretation reasonable but field names are inferred.
 FUN_0602EFF0:  ! bounds_clipping at 0x0602EFF0
     ! ~62 instructions
     ! Multiple conditional paths with state flags
@@ -126,6 +142,8 @@ FUN_0602EFF0:  ! bounds_clipping at 0x0602EFF0
 ! Heavily branched — handles multiple vertex attribute types.
 ! This is where the Z-divide happens for perspective correct rendering.
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label. Called from FUN_0602EEB8 via pool.
+!   Perspective projection role inferred from the context of the pipeline.
 FUN_0602F0E8:  ! perspective_project at 0x0602F0E8
     ! ~88 instructions
 
@@ -152,6 +170,8 @@ FUN_0602F0E8:  ! perspective_project at 0x0602F0E8
 !   0x00002AAA — mid clamp (1/3 in fixed-point)
 !   0x00000AAA — lower clamp (1/10 in fixed-point)
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label. Collision response interpretation
+!   is based on the fixed-point scale/clamp pattern with 0x00480000.
 FUN_0602F17C:  ! collision_response_A at 0x0602F17C
     ! ~100 instructions with dmuls.l, clamping, and property modification
 
@@ -177,6 +197,8 @@ FUN_0602F17C:  ! collision_response_A at 0x0602F17C
 ! This implements animated collision response — the state counter
 ! controls the animation phase while the computation varies the intensity.
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label. State machine interpretation
+!   reasonable from increment/decrement pattern.
 FUN_0602F270:  ! collision_response_B at 0x0602F270
     sts.l   pr,@-r15
     ! ~110 instructions with state machine + dual multiply paths
@@ -203,6 +225,8 @@ FUN_0602F270:  ! collision_response_B at 0x0602F270
 !   Stage 2: [0, 0x2AAA] — 1/3 max attenuation
 !   Stage 3: [0, 0x0AAA] — 1/10 max (fine detail)
 
+! CONFIDENCE: MEDIUM — Not a FUN_ label. Confirmed at address (mov.l @(0xC,r0),r2).
+!   dmuls.l with 0x00480000 and multi-stage clamp pattern verified.
 FUN_0602F3EC:  ! damage_mac_core at 0x0602F3EC
     mov.l   @(0xC,r0),r2              ! load input value
     mov.l   @(PC),r3                   ! 0x00480000 (scale factor)
@@ -227,6 +251,8 @@ FUN_0602F3EC:  ! damage_mac_core at 0x0602F3EC
 ! The timer decrements each frame, creating a fade-in/fade-out effect.
 ! Used for damage flash, boost glow, brake light intensity, etc.
 
+! CONFIDENCE: SPECULATIVE — Not a FUN_ label. Lighting intensity role is
+!   inferred from 4-way state machine and table lookup at 0x060477D8.
 FUN_0602F474:  ! lighting_select at 0x0602F474
     mov     r14,r0                     ! base address
     mov     #0,r5                      ! counter = 0
@@ -254,6 +280,8 @@ FUN_0602F474:  ! lighting_select at 0x0602F474
 ! The absolute value handling ensures correct behavior for both
 ! positive and negative coordinate spaces.
 
+! CONFIDENCE: SPECULATIVE — Not a FUN_ label. Distance fog role inferred
+!   from 0x0607EAE0 pointer dereference and absolute value computation.
 FUN_0602F4B4:  ! distance_fog at 0x0602F4B4
     mov.l   @(PC),r1                   ! 0x0607EAE0 (fog table ptr)
     mov.l   @r1,r1                     ! dereference
@@ -291,6 +319,8 @@ FUN_0602F4B4:  ! distance_fog at 0x0602F4B4
 ! The clamp to 0x2134 (8500 decimal) limits to ~16-bit color range.
 ! Material table at 0x060477BC provides per-material reflectance values.
 
+! CONFIDENCE: SPECULATIVE — Not a FUN_ label. Color blending role inferred
+!   from fractional weight constants (0x00016666, 0x07800000, 0x0B400000).
 FUN_0602F5B6:  ! color_blend at 0x0602F5B6
     sts.l   pr,@-r15
     ! ~140 instructions with fractional blending
@@ -313,6 +343,8 @@ FUN_0602F5B6:  ! color_blend at 0x0602F5B6
 ! Each timer: if (timer > 0) timer--
 ! Zero-check prevents underflow.
 
+! CONFIDENCE: HIGH — Not a FUN_ label but confirmed at address. Timer
+!   decrement pattern (load, test zero, decrement, store) is unmistakable.
 FUN_0602F7BC:  ! timer_tick at 0x0602F7BC
     mov.w   @(PC),r1                   ! offset for timer A
     mov.w   @(r0,r1),r2               ! load timer A
@@ -373,6 +405,10 @@ FUN_0602F7BC:  ! timer_tick at 0x0602F7BC
 ! at car offset 0x250 (checked with tst). If zero, takes path A (simpler).
 ! If non-zero, takes path B (state-driven with animation).
 
+! CONFIDENCE: HIGH — Label confirmed. Prologue (push r14, sts.l pr)
+!   matches. Pool constants for sub-functions verified: 0x0602FDA4 at 0x0602EF00,
+!   0x0602EFF0 at 0x0602EF04, 0x0607EAC8 at 0x0602EF08, 0x0602F3EC at 0x0602EF0C,
+!   0x0602F7BC at 0x0602EF10, 0x0602F0E8 at 0x0602EF14, 0x0602F17C at 0x0602EF64.
 FUN_0602EEB8:  ! render_orchestrator at 0x0602EEB8
     mov.l   r14,@-r15
     sts.l   pr,@-r15
@@ -414,6 +450,9 @@ FUN_0602EEB8:  ! render_orchestrator at 0x0602EEB8
 !   2. THIS PIPELINE converts that state into rendering commands
 !   3. The VDP1 executes those commands to produce the display
 !
+! AUDIT NOTE: The naming of pipeline stages (e.g. collision response, damage
+!   MAC, lighting, fog) is inferential. The fixed-point math patterns are
+!   verified but the specific game mechanic assignments could be wrong.
 ! The pipeline handles both the mathematical transforms (projection,
 ! fog, color) AND the visual effects (damage flash, boost glow,
 ! animation timers). It is the bridge between gameplay state and

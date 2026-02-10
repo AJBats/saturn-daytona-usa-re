@@ -1,3 +1,10 @@
+! ================================================
+! AUDIT: MEDIUM — Mixed file covering track data, HUD overlays, menus, and camera systems.
+!   Function addresses verified in binary. Subsystem groupings are reasonable but some
+!   function-level labels are speculative. Several overlap issues with hud_ui.s noted.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! Track Geometry, HUD Overlays & Menu System (0x06014000-0x0601AFFF)
 ! =============================================================================
@@ -11,6 +18,15 @@
 !
 ! === Track Data Processing (0x06014000-0x060146FF) ===
 !
+! CONFIDENCE: MEDIUM — FUN_060140C8 verified in binary but "Track segment data decompressor"
+!   label is questionable. Binary shows it iterates array at 0x0605AD4C and calls rendering
+!   functions (FUN_06026DBC, FUN_06026E2E, etc.), which looks more like a rendering loop
+!   than decompression. Track normal/elevation labels are reasonable for racing game geometry.
+!
+! AUDIT NOTE: FUN_060140C8 overlaps with hud_ui.s which covers FUN_060140C4 (parent
+!   function, 2 bytes before). hud_ui.s calls it "Dynamic Object Physics" while this file
+!   calls it "Track segment data decompressor" — neither label is well-supported. Binary
+!   shows rendering function calls, not physics or decompression.
 ! FUN_060140C8 (164B) - Track segment data decompressor
 !   Expands compressed track geometry from disc into runtime format
 !
@@ -24,6 +40,10 @@
 !
 ! === HUD Overlay System (0x06015000-0x0601607F) ===
 !
+! CONFIDENCE: HIGH — FUN_0601503A verified: reads display config from 0x06085FF4
+!   (byte flag check confirmed in binary). FUN_06015150 at 488 bytes calls display
+!   element functions in 0x06032-33 range (cross-referenced with display_elements.s).
+!   HUD layout/rendering labels well-supported by call chain to VDP display system.
 ! FUN_0601503A (278B) - HUD layout manager
 !   Positions HUD elements based on screen mode (normal/split)
 !   Reads display config from 0x06085F8A
@@ -47,6 +67,9 @@
 !
 ! === Lap/Position Display (0x060158DE-0x06015E78) ===
 !
+! CONFIDENCE: HIGH — Lap counter, position display with ordinal suffix (st/nd/rd/th),
+!   time comparison, and speed formatting are all standard racing game HUD elements.
+!   Function sizes and parameter counts are consistent with described behaviors.
 ! FUN_060158DE (118B) - Lap counter display updater
 ! FUN_06015954 (336B) - Position change animator
 !   "1st -> 2nd" animation with scale/rotation effect
@@ -62,6 +85,9 @@
 !
 ! === Results Screen (0x06015FB0-0x060167DC) ===
 !
+! CONFIDENCE: HIGH — FUN_06015FC2 at 614 bytes verified. Results screen with final
+!   positions, times, and bonuses is a standard racing game feature. "Start to continue"
+!   input handler plausible from button state check pattern.
 ! FUN_06015FB0 (18B)  - Results init stub
 ! FUN_06015FC2 (614B) - Full results screen renderer
 !   Displays final positions, times, bonuses for all cars
@@ -83,6 +109,9 @@
 !
 ! === Number/Text Rendering Utilities (0x06016940-0x06016CE6) ===
 !
+! CONFIDENCE: HIGH — FUN_06016A60 at 522 bytes verified: extu.b for character extraction,
+!   shll2+shll2 (multiply by 16) for font table indexing. Variable-width text rendering
+!   is a well-known pattern. BCD-to-sprite conversion also confirmed.
 ! FUN_06016940 (16B)  - Text stub
 ! FUN_06016950 (200B) - BCD number to sprite mapper
 !   Converts integer to digit sprites for display
@@ -98,12 +127,18 @@
 !
 ! === Polygon Table Utilities (0x060170FC-0x06017740) ===
 !
+! CONFIDENCE: SPECULATIVE — "Polygon table" functions are small (22-68 bytes) with
+!   generic table lookup patterns. Could be any indexed data structure, not necessarily
+!   polygon-specific.
 ! FUN_060170FC (26B) - Polygon table entry reader
 ! FUN_06017116 (22B) - Polygon table index validator
 ! FUN_06017740 (68B) - Polygon table lookup
 !
 ! === Course Background Loaders (0x06018700-0x06018938) ===
 !
+! CONFIDENCE: HIGH — Three parallel functions (252-260 bytes each) with identical structure
+!   but different data offsets, matching Daytona 3-course architecture (Three Seven,
+!   Dinosaur Canyon, Seaside Street). Course-specific background loading well-supported.
 ! FUN_06018738 (252B) - Course 0 (Three Seven) background loader
 !   Already partially documented in track_geometry.s
 ! FUN_06018834 (260B) - Course 1 (Dinosaur Canyon) background loader
@@ -112,6 +147,9 @@
 !
 ! === Game Mode Transition Helpers (0x06018E00-0x060192FF) ===
 !
+! CONFIDENCE: MEDIUM — State flag setters and transition helpers are generic patterns.
+!   "Save/restore state snapshot" labels are plausible (capture+restore pattern) but
+!   specific game mode context (pause/time-extension) is inferred.
 ! FUN_06018E22 (42B)  - Mode flag setter A
 ! FUN_06018E4C (36B)  - Mode flag setter B
 ! FUN_06018E88 (36B)  - Mode flag setter C
@@ -131,6 +169,14 @@
 !
 ! === Menu State Machines (0x060193FE-0x060197F4) ===
 !
+! CONFIDENCE: HIGH — FUN_060193FE verified: reads from 0x06085FF0 (config byte),
+!   0x0605D245, and 0x06085FF1 at entry. D-pad navigation among 3 choices matches
+!   Daytona 3-course selection. Car select with 3D preview rotation also confirmed
+!   by call to rendering functions.
+!
+! AUDIT NOTE: Annotation says "extended version of FUN_060193F4 (already documented)"
+!   but FUN_060193F4 is not referenced in the binary — the actual label is FUN_060193FE.
+!   The 4-byte discrepancy suggests a Ghidra boundary artifact or stale reference.
 ! FUN_060193FE (270B) - Course select state machine
 !   Full course selection logic:
 !   - D-pad navigation between 3 courses
@@ -147,6 +193,10 @@
 !
 ! === Transmission Select & Pre-Race (0x06019D14-0x0601A578) ===
 !
+! CONFIDENCE: HIGH — FUN_0601A1BA reads from 0x06063D9A (button state, confirmed)
+!   and has mask+compare pattern consistent with button-triggered sequence. Starting
+!   light sequence is a universal racing game feature. Green light -> GO! animation
+!   label strongly plausible.
 ! FUN_06019D14 (164B) - Transmission select (AT/MT)
 ! FUN_06019EF0 (194B) - Pre-race camera sequence
 ! FUN_0601A0F0 (202B) - Grid position camera
@@ -159,6 +209,10 @@
 !
 ! === Track Preview/Replay Camera (0x0601A770-0x0601AFD8) ===
 !
+! CONFIDENCE: MEDIUM — FUN_0601AC88 at 504 bytes verified. Camera systems with smooth
+!   transitions and auto-cut timers are consistent with replay camera. "Spline path
+!   follower" for FUN_0601AAE8 is plausible but specific spline math not verified.
+!   Replay camera interpretation reasonable for a racing game with replay feature.
 ! FUN_0601A770 (60B)  - Preview camera position
 ! FUN_0601A7AC (96B)  - Preview camera target
 ! FUN_0601AAE8 (224B) - Preview camera path follower

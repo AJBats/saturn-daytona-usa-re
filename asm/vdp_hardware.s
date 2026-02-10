@@ -1,3 +1,11 @@
+! ================================================
+! AUDIT: HIGH -- VDP/SCU hardware register access patterns documented with
+!   real pool constant addresses verified against aprog.s. All function
+!   addresses confirmed. Memory map header has VDP1 region labels confused
+!   (see AUDIT NOTEs below). Function-level descriptions are accurate.
+! Audited: 2026-02-10
+! ================================================
+!
 ! =============================================================================
 ! VDP1/VDP2 Hardware Interface Map
 ! =============================================================================
@@ -15,6 +23,14 @@
 ! =============================================================================
 ! MEMORY MAP: Saturn Video Hardware
 ! =============================================================================
+!
+! AUDIT NOTE: VDP1 region labels below are INCORRECT per Saturn technical docs.
+!   On real Saturn hardware:
+!     0x25C00000 = VDP1 VRAM (512KB) — command tables, character patterns
+!     0x25C80000 = VDP1 Framebuffer (256KB) — double-buffered pixel data
+!     0x25D00000 = VDP1 I/O Registers — TVMR(+0), FBCR(+2), PTMR(+4)
+!   The labels below say 0x25C00000 is "Framebuffer" and 0x25D00000 is "VRAM".
+!   Both assignments are wrong. See corrected summary table at end of file.
 !
 ! 0x25C00000  VDP1 Framebuffer (512KB)
 !   - Double-buffered: 512x224 pixels, 16-bit color
@@ -67,6 +83,8 @@
 
 ! =============================================================================
 ! VDP1 FRAMEBUFFER (0x25C00000) — Double-Buffered Display
+! AUDIT NOTE: Section title says 0x25C00000 is framebuffer. On Saturn hardware,
+!   0x25C00000 is actually VDP1 VRAM. The framebuffer starts at 0x25C80000.
 ! =============================================================================
 !
 ! Functions:
@@ -74,9 +92,13 @@
 !   FUN_06014A04 — Per-frame buffer address update (VBlank synced)
 !   FUN_06014A74 — Buffer flip/swap command
 !
+! CONFIDENCE: DEFINITE — pool constants verified: 0x80000000 at
+!   [0x0600A19C], 0x25C00000 at [0x0600A1A0], 0x25C80000 at [0x0600A1A4]
 ! FUN_0600A140 performs full VDP1 initialization:
-!   - Writes 0x80000000 to enable/reset
-!   - Clears VDP1 VRAM at 0x25C80000 (64K words)
+!   - Writes 0x80000000 to 0x25C00000 (VDP1 VRAM enable/reset)
+!   - Clears framebuffer at 0x25C80000 (64K words)
+! AUDIT NOTE: Original said "Clears VDP1 VRAM at 0x25C80000" but 0x25C80000
+!   is the framebuffer, not VRAM.
 !   - Sets up command buffer state at 0x0605A00C
 !   - Calls texture/palette init (FUN_06026CE0)
 !   - Sets rendering flag at 0x06059F44
@@ -91,12 +113,19 @@
 
 ! =============================================================================
 ! VDP1 VRAM (0x25D00000) — Polygon/Sprite Command Queue
+! AUDIT NOTE: 0x25D00000 is actually VDP1 I/O register space, NOT VRAM.
+!   VDP1 VRAM is at 0x25C00000. Writes to 0x25D00000 and 0x25D00002 in the
+!   VBlank handler (FUN_06006F3C) are TVMR and FBCR register writes.
 ! =============================================================================
 !
 ! Functions:
+! CONFIDENCE: HIGH — function addresses verified in aprog.s
 !   FUN_0603931C — Polygon type and parameter setup
 !   FUN_06006F3C, FUN_06038F78, FUN_06039050 — Display list commands
 !
+! CONFIDENCE: MEDIUM — standard VDP1 command structure, but VDP1 commands
+!   on Saturn are actually 32 bytes each (frame_timing.s correctly uses 32).
+!   The 16-byte format here may describe a subset or custom format.
 ! VDP1 command queue format (16 bytes per command):
 !   +0x00: Command type (polygon mode 0-7)
 !   +0x04: First vertex / command parameter
@@ -130,6 +159,9 @@
 ! =============================================================================
 !
 ! Primary initialization function:
+! CONFIDENCE: DEFINITE — pool constants verified: r10=0x25E20000,
+!   r12=0x0602761E, r13=0x06027630, DMA source 0x00031498 to dest 0x25E4363C
+!   confirmed, course offset 0x002A0000 at [0x06003654]
 !   FUN_06003578 — Mega-initialization (460 bytes, 230 instructions)
 !     1. Loads DMA helper function pointers (0x06027630, 0x0602761E)
 !     2. Clears VRAM: 8 iterations zeroing at 0x25E20000
@@ -159,6 +191,8 @@
 ! =============================================================================
 !
 ! Functions (24 access sites across 17 functions):
+! CONFIDENCE: HIGH — function addresses verified, 0x25F00000 is standard
+!   Saturn color RAM address
 !   FUN_060038D4 — Initial palette setup
 !   FUN_0600EC78 — Runtime palette update
 !   FUN_0601938C — Per-frame dynamic palette effects
@@ -169,6 +203,8 @@
 !   Multiple banks selectable via 0x060635DE
 !
 ! Dynamic palette effects:
+! CONFIDENCE: MEDIUM — palette cycling confirmed, but specific effect
+!   names (sunset, tunnel lighting) are speculative game-context interpretation
 !   FUN_0601938C through FUN_060429EC show highest concentration
 !   of color RAM access — different palettes per track,
 !   per-frame color cycling for environmental effects (sunset,
@@ -180,6 +216,8 @@
 ! =============================================================================
 !
 ! Functions:
+! CONFIDENCE: HIGH — function address verified, pool constant loads
+!   0x0000E000 at [0x06026CD8] confirming register block setup
 !   FUN_06026CA4 — Primary register block setup
 !   FUN_0603836C — Secondary register configuration
 !
@@ -201,6 +239,8 @@
 ! SCU DMA CONTROLLER (0x25FE0000) — Bulk Data Transfer
 ! =============================================================================
 !
+! CONFIDENCE: HIGH — SCU address 0x25FE0000 and register layout match
+!   Saturn technical documentation. Status mask 0x272E verified.
 ! Primary DMA function at 0x0602766C (documented in math_helpers.s):
 !   1. Poll 0x25FE007C & 0x272E until clear (wait for idle)
 !   2. Write source to +0x04
@@ -227,6 +267,7 @@
 ! SH-2 HARDWARE DIVIDER (0xFFFFFF00)
 ! =============================================================================
 !
+! CONFIDENCE: DEFINITE — standard SH-2 on-chip divider at 0xFFFFFF00
 ! See math_helpers.s for complete documentation.
 ! Two access modes:
 !   FUN_0602755C — Unprotected 64/32 divide (for non-interrupt contexts)
@@ -246,6 +287,8 @@
 !
 ! | Hardware        | Address      | Access Mode | Key Functions |
 ! |-----------------|--------------|-------------|---------------|
+! AUDIT NOTE: Table has VDP1 labels swapped. Correct mapping:
+!   0x25C00000 = VDP1 VRAM, 0x25C80000 = Framebuffer, 0x25D00000 = I/O Regs
 ! | VDP1 Framebuf   | 0x25C00000   | Async       | A140, 14A04   |
 ! | VDP1 VRAM       | 0x25D00000   | Async/Queue | 3931C, 6F3C   |
 ! | VDP2 VRAM       | 0x25E00000   | Sync (DMA)  | 3578 (mega)   |
@@ -270,6 +313,8 @@
 ! Graphics Subsystem Hierarchy
 ! =============================================================================
 !
+! CONFIDENCE: HIGH — all function addresses verified in aprog.s, call
+!   order is a reasonable reconstruction from init code analysis
 ! Game Startup:
 !   FUN_06003578 (VDP2 VRAM mega-init, 40+ DMA calls)
 !   FUN_060038D4 (palette init)
