@@ -2,7 +2,7 @@
 #include "game.h"
 
 /*
- * vdp_init_dispatcher -- FUN_06003274
+ * vdp_init_dispatcher -- vdp_init_dispatcher
  *
  * Sets up VDP rendering pipeline via BIOS function calls.
  * 6 calls through indirect function pointer at 0x06000310 with

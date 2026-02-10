@@ -38,7 +38,7 @@ const state_handler_t state_handlers[] = {
  * Mirrors the original entry at 0x06003000:
  *   1. Call system_init (FUN_060030FC)
  *   2. Enter main loop:
- *      a. Call FUN_0600A392 (per-frame update)
+ *      a. Call per_frame_setup (per-frame update)
  *      b. Read game state
  *      c. Compute state bitmask (1 << state)
  *      d. Increment frame counter
@@ -53,7 +53,7 @@ void boot(void)
     system_init();
 
     for (;;) {
-        FUN_0600A392();
+        per_frame_setup();
 
         state = GAME_STATE;
         GAME_STATE_COPY = state;

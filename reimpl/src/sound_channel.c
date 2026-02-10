@@ -4,7 +4,7 @@
  *   Each entry is 0x44 (68) bytes apart at base 0x0608782C.
  *   Returns the index (0-15) if found, or 16 if not found.
  *
- * FUN_06026CE0: VBLANK synchronization -- write 1 to 0x060635C4,
+ * vdp1_texture_palette_init: VBLANK synchronization -- write 1 to 0x060635C4,
  *   then busy-wait counting iterations until it changes (cleared by VBlank ISR).
  *   Stores the iteration count at 0x0605A010 (frame timing metric).
  *
@@ -27,7 +27,7 @@ unsigned char FUN_06020E3C(char param_1)
     return i;
 }
 
-void FUN_06026CE0(void)
+void vdp1_texture_palette_init(void)
 {
     int count;
 

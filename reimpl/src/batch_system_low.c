@@ -624,7 +624,7 @@ void FUN_06003430()
 
 }
 
-void FUN_06003578()
+void vdp2_mega_init()
 {
 
   char *puVar1;

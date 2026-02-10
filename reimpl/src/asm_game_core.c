@@ -1,5 +1,5 @@
-void FUN_06006F3C(void) { }
-void FUN_06007268(void) { }
+void vblank_in_handler(void) { }
+void vblank_out_handler(void) { }
 void FUN_060072E6(void) { }
 void FUN_06007370(void) { }
 void FUN_0600747C(void) { }

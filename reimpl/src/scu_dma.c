@@ -1,6 +1,6 @@
 /* scu_dma.c -- SCU DMA transfer setup
  *
- * FUN_0602766C sets up an SCU DMA transfer.
+ * scu_dma_transfer sets up an SCU DMA transfer.
  * SCU DMA registers are at 0x25FE0000:
  *   +0x00: DMA destination (write order depends on original)
  *   +0x04: DMA source
@@ -14,7 +14,7 @@
  * Original address: 0x0602766C
  */
 
-void FUN_0602766C(int param_1, int param_2, int param_3)
+void scu_dma_transfer(int param_1, int param_2, int param_3)
 {
     volatile int *base = (volatile int *)0x25FE0000;
 

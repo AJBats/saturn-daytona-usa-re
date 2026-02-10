@@ -1466,7 +1466,7 @@ int FUN_0601d0bc() { return 0; }
 int FUN_06020dd0() { return 0; }
 int FUN_06031A28() { return 0; }
 int FUN_06031D8C() { return 0; }
-int FUN_060349C4() { return 0; }
+int cd_register_double_read() { return 0; }
 int FUN_06034DEA() { return 0; }
 int FUN_06035C4E() { return 0; }
 int FUN_06035c6e() { return 0; }

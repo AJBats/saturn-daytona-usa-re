@@ -17,27 +17,27 @@
 /* -- Init subsystem stubs (called by system_init / FUN_060030FC) -- */
 
 /* 0x0603BF7C: Hardware subsystem init, param=0 */
-void FUN_0603BF7C(int param) { (void)param; }
+void course_system_init(int param) { (void)param; }
 
 /* 0x06034E58: Graphics/rendering setup */
-void FUN_06034E58(void) { }
+void menu_system_init(void) { }
 
 /* 0x06012CF4: Object/physics table setup */
-void FUN_06012CF4(void) { }
+void game_subsystem_init(void) { }
 
 /* 0x06004A98: Global engine initialization (big function, sets up everything) */
-void FUN_06004A98(void) { }
+void global_engine_init(void) { }
 
 /* 0x06012E6A: now in resource_loader.c */
 
 /* 0x06018EE4: Camera/viewport initialization */
-void FUN_06018EE4(void) { }
+void cd_system_init(void) { }
 
 /* 0x06005174: Animation/sprite frame init */
-void FUN_06005174(void) { }
+void object_system_init(void) { }
 
 /* 0x0601F936: Sound/audio system init */
-void FUN_0601F936(void) { }
+void render_system_init(void) { }
 
 /* 0x0601492C: now in vdp1_cmd.c */
 
@@ -46,7 +46,7 @@ void FUN_0601F936(void) { }
 /* -- Main loop stubs -- */
 
 /* 0x0600A392: Per-frame update (called every iteration of main loop) */
-void FUN_0600A392(void) { }
+void per_frame_setup(void) { }
 
 /* -- State handler stubs (32-state machine, we have 18 slots) -- */
 /* Original addresses from jump table at 0x0600307C */

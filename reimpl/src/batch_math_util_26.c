@@ -22,7 +22,7 @@ extern int DAT_0602805c;
 extern unsigned int FUN_06026362();
 extern unsigned int FUN_0602648e();
 extern void FUN_06026ca4();
-extern void FUN_06027358();
+extern void math_sin_cos();
 extern int PTR_DAT_06026668;
 extern int PTR_DAT_0602684c;
 extern int PTR_DAT_06026cd4;
@@ -1689,7 +1689,7 @@ unsigned int FUN_06026e94()
 
   puVar11 = (unsigned int *)0x0608A4E0;
 
-  FUN_06027358();
+  math_sin_cos();
 
   puVar11[1] = -*piVar10;
 
@@ -2090,7 +2090,7 @@ unsigned int FUN_06026ede()
 
   puVar11 = (unsigned int *)0x0608A4E0;
 
-  FUN_06027358();
+  math_sin_cos();
 
   puVar11[2] = -*piVar10;
 
@@ -2491,7 +2491,7 @@ unsigned int FUN_06026f2a()
 
   puVar11 = (unsigned int *)0x0608A4E0;
 
-  FUN_06027358();
+  math_sin_cos();
 
   puVar11[1] = -*piVar10;
 
@@ -4368,7 +4368,7 @@ unsigned int FUN_06027158()
 
   puVar11 = (unsigned int *)0x0608A6B0;
 
-  FUN_06027358();
+  math_sin_cos();
 
   puVar11[1] = -*piVar10;
 
@@ -4769,7 +4769,7 @@ unsigned int FUN_060271a2()
 
   puVar11 = (unsigned int *)0x0608A6B0;
 
-  FUN_06027358();
+  math_sin_cos();
 
   puVar11[2] = -*piVar10;
 
@@ -5170,7 +5170,7 @@ unsigned int FUN_060271ee()
 
   puVar11 = (unsigned int *)0x0608A6B0;
 
-  FUN_06027358();
+  math_sin_cos();
 
   puVar11[1] = -*piVar10;
 
@@ -5528,7 +5528,7 @@ unsigned int FUN_060271ee()
 
 }
 
-void FUN_06027358(param_1, param_2, param_3)
+void math_sin_cos(param_1, param_2, param_3)
     int param_1;
     int *param_2;
     int *param_3;

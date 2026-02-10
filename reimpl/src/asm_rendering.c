@@ -92,7 +92,7 @@ void FUN_0602E84A(void) { }
 void FUN_0602E870(void) { }
 void FUN_0602E892(void) { }
 void FUN_0602EDA2(void) { }
-void FUN_0602EEB8(void) { }
+void per_car_render_pipeline(void) { }
 void FUN_0602EFDA(void) { }
 void FUN_0602F214(void) { }
 void FUN_0602F270(void) { }

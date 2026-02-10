@@ -8,7 +8,7 @@ void FUN_06030FFC(void) { }
 void FUN_0603101E(void) { }
 void FUN_0603137A(void) { }
 void FUN_0603139C(void) { }
-void FUN_060316D0(void) { }
+void car_collision_response(void) { }
 void FUN_06031700(void) { }
 void FUN_06031898(void) { }
 void FUN_06031A34(void) { }
@@ -318,10 +318,10 @@ void FUN_06036AF8(void) { }
 void FUN_06036B64(void) { }
 void FUN_06036B70(void) { }
 void FUN_06036BA6(void) { }
-void FUN_0603836C(void) { }
+void vdp2_secondary_config(void) { }
 void FUN_06038F6C(void) { }
-void FUN_06038F78(void) { }
-void FUN_06039050(void) { }
+void vdp1_display_list_cmd(void) { }
+void vdp1_vblank_cmd(void) { }
 void FUN_0603990E(void) { }
 void FUN_0603AA82(void) { }
 void FUN_0603ACEA(void) { }
@@ -370,5 +370,5 @@ void FUN_0603F9BC(void) { }
 void FUN_0603FAE4(void) { }
 void FUN_0603FE44(void) { }
 void FUN_0603FE62(void) { }
-void FUN_0603FE80(void) { }
+void scu_dma_runtime(void) { }
 void FUN_0603FF3A(void) { }

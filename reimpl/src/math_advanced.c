@@ -1,13 +1,13 @@
 /* math_advanced.c -- Advanced math: atan2, division, division hardware
  *
- * FUN_0602755C: Hardware-accelerated 32-bit division using SH-2 DIVU registers
+ * math_div64_unprotected: Hardware-accelerated 32-bit division using SH-2 DIVU registers
  *   The SH-2 division unit is at 0xFFFFFF00:
  *     +0x00 = DVSR (divisor), +0x10 = DVDNH (dividend high), +0x14 = DVDNL (dividend low)
  *     +0x1C = DVDNTL (quotient result)
  *
  * FUN_0602744C: atan2(y, x) -- compute angle from two fixed-point deltas
  *   Returns angle in 16-bit fixed point (0x0000-0xFFFF = 0-360 degrees)
- *   Uses FUN_0602755C (division) and FUN_06027378 (atan table lookup)
+ *   Uses math_div64_unprotected (division) and FUN_06027378 (atan table lookup)
  *
  * FUN_060283B8: Unpack nibbles -- extracts 4-bit values from param_4 and writes
  *   them as shorts to a VDP name table row
@@ -19,7 +19,7 @@
 
 extern int FUN_06027378(int);
 
-int FUN_0602755C(int param_1, int param_2)
+int math_div64_unprotected(int param_1, int param_2)
 {
     volatile int *divu = (volatile int *)0xFFFFFF00;
     *divu = param_2;
@@ -40,7 +40,7 @@ int FUN_0602744C(int param_1, int param_2)
         return sVar3;
     }
 
-    int uVar2 = FUN_0602755C(param_1, param_2);
+    int uVar2 = math_div64_unprotected(param_1, param_2);
     sVar3 = FUN_06027378(uVar2);
 
     if (param_2 < 0) {

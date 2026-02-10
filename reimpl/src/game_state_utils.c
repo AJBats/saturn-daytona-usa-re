@@ -9,8 +9,8 @@
  * Translated from production ASM / existing decomp src/*.c
  */
 
-/* FUN_060149E0 -- Clear physics pause flag, trigger update */
-void FUN_060149E0(void)
+/* vdp_system_init_b -- Clear physics pause flag, trigger update */
+void vdp_system_init_b(void)
 {
     *(volatile unsigned short *)0x060A3D88 &= 0x7FFF;
     *(volatile short *)0x060635AC = 1;

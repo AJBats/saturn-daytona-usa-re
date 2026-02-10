@@ -39,7 +39,7 @@ extern int FUN_06019db8();
 extern int FUN_06019fb2();
 extern int FUN_0601a65e();
 extern int FUN_0601a80c();
-extern int FUN_060349C4();
+extern int cd_register_double_read();
 extern int FUN_06034DEA();
 extern int PTR_DAT_060185a4;
 extern int PTR_DAT_06018664;
@@ -862,7 +862,7 @@ int
 FUN_06018eac()
 {
     char buf[16];
-    FUN_060349C4(buf);
+    cd_register_double_read(buf);
     return buf[0] & 0x1f;
 }
 

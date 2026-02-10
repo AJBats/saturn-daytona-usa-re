@@ -408,7 +408,7 @@ int FUN_060085b8()
 
 }
 
-int FUN_06008640()
+int steering_physics_update()
 {
   char *puVar1;
 

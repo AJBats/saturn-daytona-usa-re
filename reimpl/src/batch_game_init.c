@@ -46,7 +46,7 @@ extern int DAT_06005eb0;
 extern int DAT_06005eb2;
 extern int DAT_06005eb4;
 extern int DAT_06006116;
-extern void FUN_06005294();
+extern void vec3_angle_calc();
 extern void FUN_0600553c();
 extern void FUN_06005928();
 extern void FUN_06005a22();
@@ -61,7 +61,7 @@ extern int PTR_DAT_06005c78;
 extern int PTR_DAT_06005d40;
 extern int PTR_DAT_06006118;
 
-void FUN_06004670()
+void obj_template_init()
 {
 
   short uVar1;
@@ -458,7 +458,7 @@ void FUN_0600511e(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_06005198()
+void display_list_process()
 {
 
   unsigned short uVar1;
@@ -545,7 +545,7 @@ void FUN_06005198()
 
 }
 
-void FUN_06005294(param_1, param_2, param_3)
+void vec3_angle_calc(param_1, param_2, param_3)
     int *param_1;
     int *param_2;
     int *param_3;
@@ -852,7 +852,7 @@ void FUN_060055bc(param_1, param_2, param_3, param_4)
 
   (*(int(*)())0x06026E0C)();
 
-  FUN_06005294(&iStack_44,&iStack_50,0x06063EEC);
+  vec3_angle_calc(&iStack_44,&iStack_50,0x06063EEC);
 
   if (*(int *)0x06078663 == '\0') {
 

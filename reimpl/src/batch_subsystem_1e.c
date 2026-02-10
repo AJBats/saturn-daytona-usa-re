@@ -86,7 +86,7 @@ extern void FUN_0601f87a();
 extern void FUN_0601f9cc();
 extern void FUN_0601fd20();
 extern void FUN_0601fec0();
-extern int FUN_06026CE0();
+extern int vdp1_texture_palette_init();
 extern int PTR_DAT_0601e168;
 extern int PTR_DAT_0601ebf0;
 extern int PTR_DAT_0601f808;
@@ -2400,7 +2400,7 @@ void FUN_0601fd20()
 
   INPUT_STATE = INPUT_STATE | 4;
 
-  FUN_06026CE0();
+  vdp1_texture_palette_init();
 
   *(int *)0x060620D0 = 0;
   *(int *)0x0605A000 = 0;

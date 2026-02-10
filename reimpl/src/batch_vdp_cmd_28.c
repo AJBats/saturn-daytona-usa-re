@@ -625,7 +625,7 @@ int * FUN_06028560()
 
 }
 
-long long FUN_06028654(param_1, param_2)
+long long dma_mem_transfer(param_1, param_2)
     unsigned char *param_1;
     unsigned char *param_2;
 {

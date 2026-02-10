@@ -2,7 +2,7 @@
 #include "game.h"
 
 /*
- * sound_timer_init -- FUN_06003218
+ * sound_timer_init -- sound_timer_init
  *
  * Configures SH-2 Free-Running Timer (FRT) and installs a BIOS handler.
  *

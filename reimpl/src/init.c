@@ -10,20 +10,20 @@
  *   1. BIOS call with param 1 (via indirect ptr at 0x06000320)
  *   2. SMPC CKCHG320 -- clock change to 320-pixel mode
  *   3. Memory clear -- zero work RAM regions
- *   4. FUN_0603BF7C(0) -- hardware subsystem init
- *   5. FUN_06034E58()  -- graphics/rendering init
+ *   4. course_system_init(0) -- hardware subsystem init
+ *   5. menu_system_init()  -- graphics/rendering init
  *   6. BIOS call via 0x06000344 with params (-1, 0x0083)
- *   7. FUN_06012CF4()  -- object/physics setup
- *   8. FUN_06003274()  -- VDP init dispatcher
- *   9. FUN_06004A98()  -- engine init
- *  10. FUN_06012E6A()  -- state machine setup
- *  11. FUN_06003218()  -- sound/timer init
- *  12. FUN_06018EE4()  -- camera/viewport init
+ *   7. game_subsystem_init()  -- object/physics setup
+ *   8. vdp_init_dispatcher()  -- VDP init dispatcher
+ *   9. global_engine_init()  -- engine init
+ *  10. game_subsystem_init2()  -- state machine setup
+ *  11. sound_timer_init()  -- sound/timer init
+ *  12. cd_system_init()  -- camera/viewport init
  *  13. BIOS call via 0x06000344 with params (0xFF7C, 0)
- *  14. FUN_06005174()  -- animation/sprite init
- *  15. FUN_0601F936()  -- sound system init
- *  16. FUN_0601492C()  -- game state init
- *  17. FUN_060149E0()  -- physics parameters init
+ *  14. object_system_init()  -- animation/sprite init
+ *  15. render_system_init()  -- sound system init
+ *  16. vdp_system_init_a()  -- game state init
+ *  17. vdp_system_init_b()  -- physics parameters init
  *  18. Set GAME_STATE = 2
  */
 void system_init(void)
@@ -48,38 +48,38 @@ void system_init(void)
         *ptr = 0;
 
     /* Phase 4-5: Hardware and graphics init */
-    FUN_0603BF7C(0);
-    FUN_06034E58();
+    course_system_init(0);
+    menu_system_init();
 
     /* Phase 6: BIOS call (params -1, 0x0083) */
     BIOS_FUNC_0344(-1, 0x0083);
 
     /* Phase 7: Object/physics setup */
-    FUN_06012CF4();
+    game_subsystem_init();
 
     /* Phase 8: VDP initialization */
     vdp_init_dispatcher();
 
     /* Phase 9: Engine init */
-    FUN_06004A98();
+    global_engine_init();
 
     /* Phase 10: State machine setup */
-    FUN_06012E6A();
+    game_subsystem_init2();
 
     /* Phase 11: Sound/timer init */
     sound_timer_init();
 
     /* Phase 12: Camera/viewport init */
-    FUN_06018EE4();
+    cd_system_init();
 
     /* Phase 13: BIOS call (params 0xFF7C, 0) */
     BIOS_FUNC_0344(0xFF7C, 0);
 
     /* Phase 14-17: Animation, sound, game state, physics */
-    FUN_06005174();
-    FUN_0601F936();
-    FUN_0601492C();
-    FUN_060149E0();
+    object_system_init();
+    render_system_init();
+    vdp_system_init_a();
+    vdp_system_init_b();
 
     /* Phase 18: Mark system ready */
     GAME_STATE = 2;
