@@ -48,7 +48,7 @@ extern int DAT_06005eb4;
 extern int DAT_06006116;
 extern void vec3_angle_calc();
 extern void FUN_0600553c();
-extern void FUN_06005928();
+extern void animation_frame_counter();
 extern void FUN_06005a22();
 extern int FUN_06005ae8();
 extern int FUN_06005c98();
@@ -876,7 +876,7 @@ void FUN_060055bc(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_06005788()
+void background_layer_init()
 {
 
   char *puVar1;
@@ -1028,7 +1028,7 @@ void FUN_060058fa()
 
   FUN_06005a22();
 
-  FUN_06005928();
+  animation_frame_counter();
 
   FUN_06005ae8();
 
@@ -1036,7 +1036,7 @@ void FUN_060058fa()
 
 }
 
-void FUN_06005928()
+void animation_frame_counter()
 {
 
   int uVar1;

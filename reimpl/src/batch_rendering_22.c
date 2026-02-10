@@ -139,7 +139,7 @@ extern int PTR_DAT_06025748;
 extern int PTR_DAT_06025bb8;
 extern int PTR_DAT_06025c70;
 
-void FUN_06022140()
+void scene_processing_stage()
 {
 
   char *puVar1;
@@ -1085,7 +1085,7 @@ int FUN_0602382c()
 
 }
 
-void FUN_06025070()
+void scene_finalization_a()
 {
 
   char *puVar1;
@@ -1172,7 +1172,7 @@ void FUN_06025070()
 
 }
 
-void FUN_06025148()
+void scene_finalization_b()
 {
 
   char *puVar1;

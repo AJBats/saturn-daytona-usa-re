@@ -37,7 +37,7 @@ extern int DAT_06021fe0;
 extern int DAT_06022114;
 extern int DAT_06022116;
 extern int DAT_06022118;
-extern int FUN_06020414();
+extern int object_destruction();
 extern int FUN_06020946();
 extern int FUN_06020dd0();
 extern int PTR_DAT_060211d8;
@@ -94,7 +94,7 @@ void FUN_060200a4()
 
 }
 
-int FUN_06020366(param_1)
+int object_creation(param_1)
     unsigned int param_1;
 {
 
@@ -114,13 +114,13 @@ int FUN_06020366(param_1)
 
   pbVar4 = *(unsigned char **)(0x0605F458 + (param_1 & 0xff) << 2);
 
-  uVar3 = FUN_06020414(**(short **)(0x0605F478 + (unsigned int)pbVar4[2] * 4),*pbVar4,pbVar4[1],
+  uVar3 = object_destruction(**(short **)(0x0605F478 + (unsigned int)pbVar4[2] * 4),*pbVar4,pbVar4[1],
 
                        *(short **)(0x0605F478 + (unsigned int)pbVar4[2] * 4) + 2);
 
   while (pbVar5 = pbVar4 + 3, *pbVar5 != uVar1) {
 
-    uVar3 = FUN_06020414(*(short *)(puVar2 + (unsigned int)pbVar4[5] * 0x2a),*pbVar5,pbVar4[4],
+    uVar3 = object_destruction(*(short *)(puVar2 + (unsigned int)pbVar4[5] * 0x2a),*pbVar5,pbVar4[4],
 
                          (short *)((int)(puVar2 + (unsigned int)pbVar4[5] * 0x2a) + 4));
 
@@ -132,7 +132,7 @@ int FUN_06020366(param_1)
 
 }
 
-int FUN_06020414(param_1, param_2, param_3, param_4)
+int object_destruction(param_1, param_2, param_3, param_4)
     char param_1;
     unsigned int param_2;
     unsigned int param_3;
@@ -697,7 +697,7 @@ unsigned int FUN_06021178()
 
 }
 
-void FUN_06021450()
+void track_object_placement()
 {
 
   short uVar1;

@@ -671,7 +671,7 @@ unsigned int FUN_06034848()
 
 }
 
-int FUN_06034900(param_1, param_2, param_3, param_4)
+int terrain_data_lookup(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;

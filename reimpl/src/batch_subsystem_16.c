@@ -54,7 +54,7 @@ extern int FUN_06017784();
 extern void FUN_06017bf4();
 extern void FUN_06017c78();
 extern unsigned int FUN_06017c9c();
-extern int FUN_06018278();
+extern int track_calculation();
 extern int PTR_DAT_060172a0;
 extern int PTR_DAT_060179b8;
 extern int PTR_DAT_06017d9c;
@@ -953,7 +953,7 @@ int FUN_06017784(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_06017814()
+void track_geometry_processor()
 {
 
   short sVar1;
@@ -1571,7 +1571,7 @@ void FUN_06017cec()
 
   (*(int(*)())0x06021178)();
 
-  FUN_06018278();
+  track_calculation();
 
   return;
 

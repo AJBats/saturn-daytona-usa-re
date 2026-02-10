@@ -9,8 +9,8 @@ void FUN_0603101E(void) { }
 void FUN_0603137A(void) { }
 void FUN_0603139C(void) { }
 void car_collision_response(void) { }
-void FUN_06031700(void) { }
-void FUN_06031898(void) { }
+void collision_helper_first_car(void) { }
+void collision_helper_second_car(void) { }
 void FUN_06031A34(void) { }
 void FUN_06031E00(void) { }
 void FUN_060321DC(void) { }

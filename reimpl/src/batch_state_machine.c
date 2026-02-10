@@ -42,7 +42,7 @@ extern int DAT_060088b4;
 extern int DAT_060088b6;
 extern void FUN_060084ca();
 extern void FUN_060086c0();
-extern int FUN_06008730();
+extern int speed_force_timer();
 extern int PTR_DAT_06008360;
 extern int PTR_DAT_06008560;
 extern int counter_0607EBCC;
@@ -155,7 +155,7 @@ void FUN_060081f4()
 
 }
 
-int FUN_06008318()
+int gear_shift_handler()
 {
 
   char *puVar1;
@@ -382,7 +382,7 @@ int FUN_060085b8()
 
     }
 
-    FUN_06008730();
+    speed_force_timer();
 
     iVar2 = (int)DAT_06008624;
 
@@ -416,7 +416,7 @@ int steering_physics_update()
 
   if ((**(unsigned char **)0x0607E940 & 8) == 0) {
     if (*(int *)(CAR_PTR_CURRENT + 0x01BC) != 0) {
-      return FUN_06008730();
+      return speed_force_timer();
     }
     return 0;
   }
@@ -424,7 +424,7 @@ int steering_physics_update()
   **(unsigned char **)0x0607E940 = **(unsigned char **)0x0607E940 & 0xf7;
 
   if (*(int *)(*(int *)puVar1 + 0x01BC) != 0) {
-    return FUN_06008730();
+    return speed_force_timer();
   }
 
   *(short *)(*(int *)puVar1 + 0x00D4) = 0x14;
@@ -470,13 +470,13 @@ void FUN_060086c0(param_1)
 
   FORCE_SETUP_COUNT = FORCE_SETUP_COUNT + cVar3;
 
-  FUN_06008730();
+  speed_force_timer();
 
   return;
 
 }
 
-int FUN_06008730()
+int speed_force_timer()
 {
 
   short sVar1;

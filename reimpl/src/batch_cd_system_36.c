@@ -2578,7 +2578,7 @@ int FUN_06037618(param_1)
 
 }
 
-void FUN_06037660(param_1, param_2)
+void vdp1_command_builder(param_1, param_2)
     unsigned short *param_1;
     unsigned char *param_2;
 {

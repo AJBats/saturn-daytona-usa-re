@@ -1,7 +1,7 @@
 /* array_utils.c -- Array/memory block operations
  *
  * FUN_06033504: Increment block counter at 0x0605A008 and offset table at 0x060785FC
- * FUN_06030EE0: Decrement a timer/counter at offset 0x150 from a base pointer
+ * lap_counter_display: Decrement a timer/counter at offset 0x150 from a base pointer
  * FUN_06038044: Copy 8 shorts from source to a fixed physics mode table
  * FUN_060370C0: Zero 15 bytes of a struct (2 ints + 7 chars)
  * FUN_0603F8B8: Write 6 int values to consecutive array slots
@@ -21,7 +21,7 @@ char *FUN_06033504(void)
     return puVar1;
 }
 
-int FUN_06030EE0(void)
+int lap_counter_display(void)
 {
     short *p;
     short val;

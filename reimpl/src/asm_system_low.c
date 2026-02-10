@@ -5,4 +5,4 @@ void obj_position_update(void) { }
 void obj_coord_setter(void) { }
 void hw_render_dispatcher(void) { }
 void obj_state_writer(void) { }
-void FUN_0600579C(void) { }
+void vdp_mode_setup_disp(void) { }

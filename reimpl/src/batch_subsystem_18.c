@@ -148,7 +148,7 @@ void FUN_06018166()
 
 }
 
-unsigned int FUN_06018278()
+unsigned int track_calculation()
 {
   unsigned int uVar3;
   unsigned short *puVar4;
