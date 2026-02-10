@@ -1,5 +1,7 @@
 # GCC 2.6 Compiler Reconstruction Strategy
 
+> **Status**: COMPLETE — Reconstruction successful, decomp era concluded
+
 ## Context
 
 This document captures findings from a side investigation into whether we can build GCC 2.6 from source and reconstruct the Saturn-specific patches, rather than relying solely on the preserved cygnus-2.7-96Q3 compiler (which cannot byte-match due to register allocation order differences).

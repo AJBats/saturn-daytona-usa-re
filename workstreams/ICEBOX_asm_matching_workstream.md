@@ -1,5 +1,7 @@
 # ASM Matching to Boot Workstream
 
+> **Status**: COMPLETE — Superseded by reimplementation workstream
+
 ## Goal
 Systematically convert FAIL functions to PASS by matching production assembly, then verify each boots correctly.
 

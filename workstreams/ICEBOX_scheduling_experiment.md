@@ -1,5 +1,7 @@
 # Scheduling Experiment: -fno-schedule-insns2
 
+> **Status**: COMPLETE — Hypothesis disproven, scheduling not the cause
+
 **Date**: 2026-02-04
 **Hypothesis**: Post-reload instruction scheduling (`-fno-schedule-insns2`) may be causing instruction reordering differences between our compiler output and the original binary.
 

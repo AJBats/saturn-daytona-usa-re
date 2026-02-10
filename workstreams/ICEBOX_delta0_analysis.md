@@ -1,5 +1,7 @@
 # Delta=0 Opcode Difference Analysis
 
+> **Status**: COMPLETE — All delta=0 functions analyzed, root causes documented
+
 Analysis of 34 functions where our GCC 2.6.3 SH-2 output has the **same instruction count** as
 the original binary, but different opcodes. Classified by root cause pattern.
 

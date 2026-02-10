@@ -1,5 +1,7 @@
 # GCC 2.6.3 SH-2 Backend Patches
 
+> **Status**: COMPLETE — 26 patches applied, decomp era concluded
+
 ## Summary
 Patches applied to `tools/gcc-2.6.3/config/sh/` to make GCC 2.6.3 produce code
 closer to the original Daytona USA Saturn binary.

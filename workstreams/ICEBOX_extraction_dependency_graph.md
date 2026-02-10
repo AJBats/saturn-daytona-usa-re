@@ -1,5 +1,7 @@
 # CCE Transplant: Extraction Dependency Graph
 
+> **Status**: COMPLETE — Superseded by reimplementation workstream
+
 > Which gameplay subsystems to extract from Daytona USA (1995),
 > in what order, and what each depends on.
 

@@ -1,5 +1,7 @@
 # BSR Experiment Results
 
+> **Status**: COMPLETE — Experiment concluded, findings documented
+
 Tested all 44 functions with delta=-1 (26 functions) and delta=-2 (18 functions) to
 determine whether the instruction count difference is caused by BSR (1 instruction)
 vs JSR (2 instructions: mov.l + jsr).
