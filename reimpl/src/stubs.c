@@ -45,8 +45,7 @@ void render_system_init(void) { }
 
 /* -- Main loop stubs -- */
 
-/* 0x0600A392: Per-frame update (called every iteration of main loop) */
-void per_frame_setup(void) { }
+/* per_frame_setup: moved to per_frame_setup.c */
 
 /* -- State handler stubs (32-state machine, we have 18 slots) -- */
 /* Original addresses from jump table at 0x0600307C */
