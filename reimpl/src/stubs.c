@@ -28,8 +28,7 @@ void FUN_06012CF4(void) { }
 /* 0x06004A98: Global engine initialization (big function, sets up everything) */
 void FUN_06004A98(void) { }
 
-/* 0x06012E6A: State machine initialization */
-void FUN_06012E6A(void) { }
+/* 0x06012E6A: now in resource_loader.c */
 
 /* 0x06018EE4: Camera/viewport initialization */
 void FUN_06018EE4(void) { }
@@ -40,11 +39,9 @@ void FUN_06005174(void) { }
 /* 0x0601F936: Sound/audio system init */
 void FUN_0601F936(void) { }
 
-/* 0x0601492C: Game state machine init */
-void FUN_0601492C(void) { }
+/* 0x0601492C: now in vdp1_cmd.c */
 
-/* 0x060149E0: Physics parameters init */
-void FUN_060149E0(void) { }
+/* 0x060149E0: now in game_state_utils.c */
 
 /* -- Main loop stubs -- */
 
