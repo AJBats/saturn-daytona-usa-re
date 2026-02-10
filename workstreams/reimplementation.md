@@ -68,6 +68,65 @@ Every function we implement is a direct translation of annotated ASM:
 The only new code is minimal `#define` names for hardware register addresses,
 for readability. The logic is 100% from the original.
 
+## Reimplementation Quality Levels
+
+Translation happens in iterative passes. Each level builds on the previous one.
+Not every function needs to reach L4 — the target level depends on the end goal.
+
+### L1: Decomp Lift
+- Direct copy from Ghidra output / src/*.c, fixed to compile under modern sh-elf-gcc
+- Hardcoded addresses everywhere: `*(int *)0x060280F4`
+- All functions named `FUN_XXXXXXXX`
+- Raw pointer casts, no structs, no named constants
+- **Value**: compiles and runs, but no more readable than the disassembly
+- **Effort**: low — mostly mechanical syntax fixes
+
+### L2: Named & Structured
+- Hardware registers replaced with `#define` names (`VDP2_TVMD`, `SCSP_SLOT0_VOL`)
+- Known data structures expressed as C structs (`CarState`, `CameraParams`)
+- Functions given meaningful names based on annotated ASM (`update_car_physics`)
+- Named constants for magic numbers (`STATE_RACE_INIT`, `MAX_CARS`)
+- Game globals given descriptive names (`g_frame_counter`, `g_active_car_count`)
+- **Value**: a developer can read a function and understand what it does
+- **Effort**: moderate — requires cross-referencing ASM annotations with code
+
+### L3: Clean Reimpl
+- Code restructured for clarity while preserving exact logic
+- Helper functions extracted where the original used repeated inline patterns
+- Comments explaining *why* (game design intent), not just *what*
+- Control flow simplified where Ghidra produced unnecessarily tangled output
+- **Value**: someone unfamiliar with the project could understand the game logic
+- **Effort**: high — requires deep understanding of each subsystem
+
+### L4: Preservation-Tier ("Time Travel")
+- Written as if you were a Sega AM2 engineer in 1994 writing Daytona from scratch
+- Idiomatic C of the era — no modern patterns, no over-abstraction
+- Function and variable naming consistent with known Sega conventions
+- Could serve as a reference implementation for game preservation archives
+- **Value**: the definitive readable version of Daytona USA Saturn's source
+- **Effort**: very high — requires holistic understanding of the entire codebase
+
+### Current Strategy: Iterative Passes
+
+**Pass 1 (current)**: L1 decomp lift of all ~1200 functions. Get everything compiling
+and linked. This is the "rough cut" — quantity over quality. The goal is complete
+coverage so we can boot and test.
+
+**Pass 2 (next)**: Promote critical-path functions to L2. Priority order:
+1. Hardware init (system_init, VDP, sound) — needed to understand boot
+2. Game loop and state machine — needed to understand flow
+3. Physics and collision — needed for CCE transplant
+4. Rendering pipeline — needed to understand visual output
+
+**Pass 3 (if pursuing preservation)**: Promote gameplay-critical functions to L3/L4.
+This is the "time travel" pass. Only worth doing if we decide the reimpl itself
+is a preservation goal, not just a stepping stone to CCE.
+
+**For CCE transplant**: L2 is the minimum viable level. We need to understand what
+each function does well enough to adapt it for CCE's different memory layout and
+hardware configuration. L1 code with raw addresses can't be transplanted — the
+addresses are different in CCE.
+
 ## Key Hypotheses
 
 ### H1: Cycle count matching is NOT required

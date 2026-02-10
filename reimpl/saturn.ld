@@ -10,7 +10,7 @@ ENTRY(_start)
 MEMORY
 {
     /* High Work RAM: APROG.BIN lives here */
-    HWRAM (rwx) : ORIGIN = 0x06003000, LENGTH = 0x5D000
+    HWRAM (rwx) : ORIGIN = 0x06003000, LENGTH = 0x7D000
 
     /* Low Work RAM: game data, stacks, etc */
     LWRAM (rw)  : ORIGIN = 0x00200000, LENGTH = 0x100000
