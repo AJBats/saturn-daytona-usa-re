@@ -4,6 +4,7 @@ ghidra_project/
 **/__pycache__/
 *.S
 !asm/*.s
+!reimpl/**/*.s
 .claude/
 tools/sh-elf/
 tools/gcc26-build/
