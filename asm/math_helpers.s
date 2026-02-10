@@ -4,6 +4,14 @@
 !
 ! Address range: 0x06027344 - 0x0602766A
 !
+! AUDIT (2026-02-09) - Verified against build/aprog.s
+! AUDIT SUMMARY:
+!   Only FUN_0602745C, FUN_06027498, FUN_060276CC have labels in aprog.s.
+!   All other addresses are unlabeled callable entry points (indirect jsr).
+!   Sin/cos table: 4096 entries (mask 0x3FFC), NOT 256.
+!   0x25FE0000 = SCU DMA (not VDP1 DMA). DMA src/dst description was swapped.
+!   Pool at 0x060274FC = two 16-bit words (0x4000, 0x3FFC), not one longword.
+!
 ! This file documents the core math utility functions used throughout
 ! the game engine. These are the lowest-level building blocks upon which
 ! physics, 3D rendering, collision, and AI all depend.

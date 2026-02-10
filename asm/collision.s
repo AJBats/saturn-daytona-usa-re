@@ -1,3 +1,15 @@
+! ============================================================
+! AUDIT: HIGH
+! Instructions verified against aprog.s ground truth for all
+! 10 functions. Prologue/epilogue, pool constants, branch
+! targets, and struct offsets confirmed. Semantic annotations
+! are well-reasoned; struct field names are inferred, not
+! definitively proven. Sin/cos table interp fraction comment
+! says >>2 per step but is 3x shlr2 = >>6 total (0-3 range
+! is correct for the final value). FUN_0600D12C has misleading
+! Z distance comments when the calc mixes X and Z offsets.
+! ============================================================
+!
 ! ==========================================================================
 ! Collision Detection & Response System
 ! ==========================================================================
@@ -70,6 +82,10 @@
 !
 ! ==========================================================================
 
+! CONFIDENCE: HIGH
+! Prologue, pool constants (0x06027552, 0x0607EBDC, 0x0607E940, 0x06078680),
+! branch targets, and sub-function calls all verified against aprog.s.
+! The three-path decision tree and position integration math confirmed.
 ! ==========================================================================
 ! FUN_0600C5D6 - Player Collision Detection & Position Integration
 ! ==========================================================================
@@ -305,6 +321,9 @@ FUN_0600C5D6:       ! 0x0600C5D6
     mov.l   @r15+,r14
 
 
+! CONFIDENCE: HIGH
+! Prologue, dead zone logic (+/-8, +/-4), and sin/cos table lookup verified.
+! Heading offsets +0x1FC/+0x200 confirmed from pool.
 ! ==========================================================================
 ! FUN_0600CA96 - Course Correction (Gentle Heading Smoothing)
 ! ==========================================================================
@@ -468,6 +487,9 @@ FUN_0600CA96:       ! 0x0600CA96
     mov.l   @r15+,r13
 
 
+! CONFIDENCE: HIGH
+! Prologue and dead zone (+/-8, +/-8 step) verified. The sin/cos lookup
+! body is abbreviated with [same logic] which is acceptable.
 ! ==========================================================================
 ! FUN_0600CC38 - Heading Update (Stronger Correction)
 ! ==========================================================================
@@ -540,6 +562,10 @@ FUN_0600CC38:       ! 0x0600CC38
     mov.l   @r15+,r14
 
 
+! CONFIDENCE: DEFINITE
+! Every instruction verified byte-for-byte against aprog.s.
+! Index calc (shll2+shll=*8, shll2+shll2=*16, sum=*24) confirmed.
+! AUDIT NOTE: Line 566 says index*20 but code computes index*24.
 ! ==========================================================================
 ! FUN_0600CD40 - Track-Relative Position Query
 ! ==========================================================================
@@ -642,6 +668,10 @@ FUN_0600CD40:       ! 0x0600CD40
     mov.l   @r15+,r14
 
 
+! CONFIDENCE: HIGH
+! Prologue, early exits, classification via FUN_06035168, and dispatch
+! logic all verified. Pool constants 0x0607E944, 0x00C00000, 0x06035168
+! confirmed. Head-on (bit 0x02) and side (bit 0x01) paths match.
 ! ==========================================================================
 ! FUN_0600CF58 - Collision Response Dispatcher
 ! ==========================================================================
@@ -879,6 +909,11 @@ FUN_0600CF58:       ! 0x0600CF58
     mov.l   @r15+,r14
 
 
+! CONFIDENCE: MEDIUM
+! Prologue and structure verified. Thresholds 0x000F0000 and 0x00080000
+! confirmed. However, the Z distance annotation is misleading: the code
+! combines X (+0x10) and Z (+0x18) offsets into a diagonal metric,
+! not a pure Z-axis check. Field names like bump_Z are speculative.
 ! ==========================================================================
 ! FUN_0600D12C - Passive Collision Response (Position Separation)
 ! ==========================================================================
@@ -963,6 +998,9 @@ FUN_0600D12C:       ! 0x0600D12C
     ! ...
 
 
+! CONFIDENCE: DEFINITE
+! Every instruction verified. Pool constants 0x01FC, 0xFD00, 0x0300,
+! push +/-16, max 0x0800, timer 64 all confirmed from pool data.
 ! ==========================================================================
 ! FUN_0600D210 - Aggressive Collision Response (Speed-Based Push)
 ! ==========================================================================
@@ -1038,6 +1076,9 @@ FUN_0600D210:       ! 0x0600D210
     nop
 
 
+! CONFIDENCE: HIGH
+! Prologue and structure verified. Pool constant 0x00C00000 confirmed.
+! Clamping logic and dual-path match aprog.s.
 ! ==========================================================================
 ! FUN_0600D0B8 - Simple Collision (No Detailed Partner Info)
 ! ==========================================================================
@@ -1113,6 +1154,9 @@ FUN_0600D0B8:       ! 0x0600D0B8
     nop
 
 
+! CONFIDENCE: DEFINITE
+! Every instruction verified. Shift sequence (shlr8, shlr, extu.w,
+! shll16, sub, 8x shar, extu.w) confirmed. Offsets 72/80 confirmed.
 ! ==========================================================================
 ! FUN_0600C928 - Speed Reduction on Collision
 ! ==========================================================================
@@ -1162,6 +1206,9 @@ FUN_0600C928:       ! 0x0600C928
     mov.l   r3,@(r0,r4)        ! car[+0x50] = same reduced value
 
 
+! CONFIDENCE: DEFINITE
+! Every instruction verified. Bounds [69,98], table 0x0605A1E0,
+! and apply to car[+0x0C] all confirmed.
 ! ==========================================================================
 ! FUN_0600C970 - Speed Boost from Course Table
 ! ==========================================================================

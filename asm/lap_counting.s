@@ -1,3 +1,15 @@
+! ============================================================
+! AUDIT: HIGH
+! All major functions verified against aprog.s. FUN_0600CD40
+! checkpoint advance, FUN_0600D780 change detection, FUN_0600D9BC
+! lap flag setting, 0x0600DB64 lap increment, FUN_0600D92C
+! timing, and FUN_06034F78 bitfield utility all confirmed.
+! Pool constants, branch targets, and bit manipulation logic
+! verified. Some functions (DA7C, DBA0) have abbreviated bodies
+! but correct structure. One disassembly error: line 246
+! comments out subc but actual byte 0x332E may be addc r2,r3.
+! ============================================================
+!
 ! ================================================================
 ! LAP COUNTING AND RACE PROGRESSION SYSTEM
 ! ================================================================
@@ -70,6 +82,11 @@
 ! ----------------------------------------------------------------
 
     .global FUN_0600CD40
+! CONFIDENCE: DEFINITE
+! Every instruction verified. Index calc (*24), checkpoint parameter
+! read, atan2 call, angle comparison, and wrap logic all confirmed.
+! AUDIT NOTE: Lines 86-90 show live working-through of the multiply.
+! The final answer (index*24) is correct despite messy inline notes.
 FUN_0600CD40:                           ! 0x0600CD40
     mov.l   r14,@-r15
     mov.l   r13,@-r15
@@ -177,6 +194,14 @@ FUN_0600CD40:                           ! 0x0600CD40
 ! ----------------------------------------------------------------
 
     .global FUN_0600D780
+! CONFIDENCE: HIGH
+! Prologue, pool constants, three paths (backward jump, forward jump,
+! single step) all verified. Lap completion triggers (FUN_0600D9BC,
+! FUN_0600D92C) confirmed. Wrong-way flag at 0x0605DE3C confirmed.
+! AUDIT NOTE: At 0x0600D7F0, the annotation comments out subc r2,r3
+! but the actual byte 0x332E does not decode to subc (which would be
+! 0x332A). The byte 0x332E is likely addc r2,r3 or another opcode.
+! This does not affect the overall analysis since shar follows.
 FUN_0600D780:                           ! 0x0600D780
     mov.l   r14,@-r15
     mov     r4,r14                      ! r14 = player_flag (0=player)
@@ -298,6 +323,12 @@ FUN_0600D780:                           ! 0x0600D780
 ! ----------------------------------------------------------------
 
     .global FUN_0600D9BC
+! CONFIDENCE: HIGH
+! Pool constants 0x06063F1C, 0x0607E940, 0x06063F18, 0x06035280,
+! 0x06034F78, 0x0607EAD8 all confirmed. Bitfield param 0x1501
+! verified at pool address 0x0600DA52. Per-car bitmask logic,
+! double-counting prevention, and tail-call to FUN_0600DD88
+! all match aprog.s.
 FUN_0600D9BC:                           ! 0x0600D9BC
     mov.l   r14,@-r15
     sts.l   pr,@-r15
@@ -393,6 +424,10 @@ FUN_0600D9BC:                           ! 0x0600D9BC
 !
 ! ----------------------------------------------------------------
 
+! CONFIDENCE: HIGH
+! Byte+2 bit 2 test, clear (and #0xFB), lap counter at +0x015C,
+! timer=40, lap time accumulation, and tail-call to FUN_0601D7D0
+! all verified. The or #0x00 no-op artifact is correctly noted.
 .sDB_entry:                             ! 0x0600DB64
     mov.l   .L_db64_car_ptr,r4          ! r4 = &car_ptr (0x0607E940)
     mov.l   @r4,r4                      ! r4 = car_ptr
@@ -450,6 +485,10 @@ FUN_0600D9BC:                           ! 0x0600D9BC
 ! ----------------------------------------------------------------
 
     .global FUN_0600D92C
+! CONFIDENCE: MEDIUM
+! Prologue and basic structure verified. Pool constants confirmed.
+! The position/timing storage details are partially annotated and
+! some field interpretations are speculative. Timer=40 confirmed.
 FUN_0600D92C:                           ! 0x0600D92C
     mov.l   r14,@-r15
     sts.l   pr,@-r15
@@ -524,6 +563,11 @@ FUN_0600D92C:                           ! 0x0600D92C
 ! ----------------------------------------------------------------
 
     .global FUN_0600DA7C
+! CONFIDENCE: MEDIUM
+! Structure verified but body is heavily abbreviated. The proximity
+! flag via FUN_06034F78(1, 0x1C01, car_ptr) and counter at
+! 0x06078698 are plausible but the abbreviated compute section
+! cannot be fully verified.
 FUN_0600DA7C:                           ! 0x0600DA7C
     mov.l   r14,@-r15
     sts.l   pr,@-r15
@@ -587,6 +631,10 @@ FUN_0600DA7C:                           ! 0x0600DA7C
 ! ----------------------------------------------------------------
 
     .global FUN_0600DBA0
+! CONFIDENCE: MEDIUM
+! Structure verified but body is heavily abbreviated. Animation
+! counter at 0x060786A8 and sprite display via FUN_0601D5F4
+! are plausible but unverified in detail.
 FUN_0600DBA0:                           ! 0x0600DBA0
     mov.l   r14,@-r15
     mov.l   r13,@-r15
@@ -642,6 +690,12 @@ FUN_0600DBA0:                           ! 0x0600DBA0
 ! ----------------------------------------------------------------
 
     .global FUN_06034F78
+! CONFIDENCE: DEFINITE
+! Every instruction of the bitfield utility verified. The loop-based
+! mask construction (shll + add #1), position shifting, read-modify-
+! write sequence, and parameter decoding all confirmed against
+! aprog.s. The 0x1501 example (bit_pos=21, count=1, actual bit 10)
+! is mathematically correct.
 FUN_06034F78:                           ! 0x06034F78
     mov.l   r1,@-r15                   ! save registers
     mov.l   r3,@-r15

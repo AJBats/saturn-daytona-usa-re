@@ -1,3 +1,12 @@
+! ============================================================
+! AUDIT: HIGH
+! State transition graph and per-state annotations are well-supported
+! by ground truth verification. A few data address errors noted inline.
+! FUN_06008EBC prologue is fabricated (shows 8 reg saves, actual is 3).
+! State 15 countdown address is 0x0607EBCC not 0x0607EAAC as annotated.
+! All function entry points verified as real labels in aprog.s.
+! ============================================================
+!
 ! ==========================================================================
 ! Race State Machine — In-Race State Handlers (States 14-29)
 ! ==========================================================================
@@ -105,6 +114,11 @@
 
 
 ! ==========================================================================
+! CONFIDENCE: MEDIUM — address verified, but prologue is wrong
+! AUDIT NOTE: Ground truth shows only 3 reg saves (r14, r13, pr), NOT 8 (r8-r14+pr).
+! The annotation fabricates push/pop of r8-r12. Actual function uses r13=3, r14=0
+! as working registers. First call is jsr FUN_0600A0C0. Pipeline call list is plausible
+! but the annotated instruction sequence below does not match the real binary.
 ! FUN_06008EBC — State 14: First-Frame Race Setup
 ! ==========================================================================
 ! Single-frame initialization that runs once at race start.
@@ -179,6 +193,11 @@ FUN_06008EBC:       ! 0x06008EBC
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — structure verified against ground truth
+! AUDIT NOTE: Countdown timer address is 0x0607EBCC (verified), NOT 0x0607EAAC
+! as stated on line ~240. The 0x0607EAAC address belongs to state 17 countdown.
+! Register assignments (r8-r14) verified against ground truth pool loads.
+! Per-car loop structure confirmed: r12 iterates, 4 jsr calls per car confirmed.
 ! FUN_06009098 — State 15: Main Race Loop (CORE GAMEPLAY)
 ! ==========================================================================
 ! This is THE main gameplay state. Runs every frame during active racing.
@@ -364,6 +383,8 @@ FUN_06009098:       ! 0x06009098
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — small function, fully verified against ground truth
+! Transition to state 17, cleanup dispatch, phase_flag=4 all confirmed.
 ! FUN_06009290 — State 16: Post-Countdown Cleanup
 ! ==========================================================================
 ! Transition state that runs for a single frame after the race timer
@@ -409,6 +430,10 @@ FUN_06009290:       ! 0x06009290
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — complex state, key transitions verified
+! Ground truth confirms: countdown at 0x0607EAAC (correct for this state),
+! start button check, abort flag handling, sound trigger at countdown==200.
+! Five exit paths confirmed. Called functions verified as real labels.
 ! FUN_060092D0 — State 17: Post-Lap Processing / Results Display
 ! ==========================================================================
 ! Complex state that handles the period after a lap/countdown expires.
@@ -678,6 +703,9 @@ FUN_060092D0:       ! 0x060092D0
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — verified against ground truth
+! bsr FUN_06009FFC confirmed. State=19 transition, difficulty save/clear,
+! VDP text calls, sound 0xAE0004FF tail call all match ground truth.
 ! FUN_060096DC — State 18: Time Extension Setup (SINGLE FRAME)
 ! ==========================================================================
 ! One-shot setup state that prepares the time extension UI.
@@ -766,6 +794,11 @@ FUN_060096DC:       ! 0x060096DC
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — complex state, key logic verified
+! Speed selection UI (up/down buttons, range 1-99), start confirmation
+! with 20-frame debounce, A+B+C secret input, blinking text all
+! confirmed structurally. Button masks (0x8000, 0x4000, 0x0070, 0x0800)
+! match known Saturn controller bit assignments.
 ! FUN_06009788 — State 19: Time Extension Active / Input Processing
 ! ==========================================================================
 ! The main time extension state. Runs every frame while the player
@@ -1111,6 +1144,10 @@ FUN_06009788:       ! 0x06009788
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — structure verified against ground truth
+! Prologue register saves match. Player mode dispatch (modes 0/1/2)
+! for overlay bit setting confirmed. Position comparison thresholds
+! (0xFFB80000, 0xFEC60000) are plausible fixed-point world coordinates.
 ! FUN_06009A60 — State 20: Race Completion Initialization
 ! ==========================================================================
 ! Runs when the race timer expires in state 17. Performs end-of-race setup:
@@ -1409,6 +1446,8 @@ FUN_06009A60:       ! 0x06009A60
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — simple function, fully verified
+! Phase=3, cleanup calls, state=25, difficulty=6, car speed clear all confirmed.
 ! FUN_06009CFC — State 24: Post-Race Initialization
 ! ==========================================================================
 ! Single-frame setup for post-race sequence. Sets phase=3, performs
@@ -1483,6 +1522,8 @@ FUN_06009CFC:       ! 0x06009CFC
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — simple display loop, verified
+! FUN_06014D2C call, display enable flag check, pipeline calls confirmed.
 ! FUN_06009D4E — State 25: Post-Race Display Loop
 ! ==========================================================================
 ! Runs every frame after state 24 initialization. Displays the results
@@ -1534,6 +1575,9 @@ FUN_06009D4E:       ! 0x06009D4E
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — verified against ground truth
+! Abort flag check, dead write observation (state=20 overwritten by state=29)
+! is a genuine and insightful annotation. Pipeline calls confirmed.
 ! FUN_06009508 — State 28: Abort Processing
 ! ==========================================================================
 ! Handles the abort path after bit 0 of FLAGS_WORD is set (from state 17
@@ -1611,6 +1655,9 @@ FUN_06009508:       ! 0x06009508
 
 
 ! ==========================================================================
+! CONFIDENCE: HIGH — complex state, transitions verified
+! Start->18, abort->20, mode==0->17 transitions confirmed.
+! FUN_0600A084 bsr for scoring confirmed in ground truth.
 ! FUN_0600955E — State 29: Post-Race Menu / Results Screen
 ! ==========================================================================
 ! The main post-race state. Runs every frame while the results screen is

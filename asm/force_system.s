@@ -1,3 +1,11 @@
+! ============================================================
+! AUDIT: HIGH
+! Gas/brake/steering force pipeline with detailed instruction-level
+! annotations. FUN_060081F4 verified against ground truth including
+! pool constants (0x0607E944, 0x0604540C, 0x0604546C). Per-frame
+! force application logic in 0x06008730 thoroughly annotated.
+! ============================================================
+
 ! =============================================================================
 ! Gas / Brake / Steering Force Pipeline
 ! =============================================================================
@@ -48,6 +56,13 @@
 !   0xAE1102FF  = status change sound
 
 ! =============================================================================
+! CONFIDENCE: HIGH
+! Prologue and pool constants verified: r14=0x0607E944 (confirmed, uses
+! E944 not E940), gas table 0x0604540C, brake table 0x0604546C.
+! Force index negation + 48 bias, timer decrement, flag checks all match.
+! AUDIT NOTE: force_system.s uses 0x0607E944 while player_physics.s uses
+! 0x0607E940. This is correct: 060081F4 operates on iterated car (E944)
+! while FUN_06008318 operates on player car (E940).
 ! FUN_060081F4 — Gas Force Application (Step 1)
 ! =============================================================================
 ! Called from: FUN_0600E4F2 (stage 1), FUN_0600E410 (simplified path)
@@ -240,6 +255,11 @@ FUN_060081F4:  ! 0x060081F4
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH
+! Verified against ground truth 0x060085B8-0x0600861E. Pool constants:
+! 0x0607E940 (indirect), 0x0607EBD4, 0x06078654, 0x0607EBC4, 0x00200000.
+! State==1 check, 0x80 flag test, speed save to car+0x28, difficulty byte
+! write (4=heavy, 1=light) all confirmed. bsr 0x06008730 target verified.
 ! FUN_060085B8 — Brake Force Application (Step 2)
 ! =============================================================================
 ! Called from: FUN_0600E4F2 (stage 2), FUN_0600E410 (simplified path)
@@ -338,6 +358,9 @@ FUN_060085B8:  ! 0x060085B8
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH
+! Same function as in player_physics.s, independently annotated here.
+! Both annotations agree on the decision tree. Pool constants match.
 ! FUN_06008640 — Steering / Heading Angle Handler
 ! =============================================================================
 ! Called from: FUN_060085B8 falls through, or directly from pipeline
@@ -431,6 +454,11 @@ FUN_06008640:  ! 0x06008640
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH
+! Same function as in player_physics.s. The description here adds detail
+! about car+0x1C0, car+0x1BC, car+0x1B8, car+0x208 stores. Pool word
+! constants at 0x06008714-0x0600871E verified: 0x01C0, 0x0101, 0x01B8,
+! 0x01BC, 0x00BC, 0x0208 all match ground truth.
 ! FUN_060086C0 — Force Table Apply
 ! =============================================================================
 ! Called from: FUN_06008640 (steering), FUN_06008418/06008460
@@ -501,6 +529,11 @@ FUN_060086C0:  ! 0x060086C0
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH
+! Detailed per-frame force application with gas/brake/neutral paths.
+! Timer decrements (0x01BC primary, 0x00BC secondary) verified.
+! Force record advancement by 12 bytes, reading words at +4/+6/+8/+0xA
+! all confirmed against ground truth. Countdown expiry clears forces to 0.
 ! FUN_06008730 — Speed / Force Timer Processing
 ! =============================================================================
 ! Called from: FUN_060086C0, FUN_060085B8, FUN_06008640

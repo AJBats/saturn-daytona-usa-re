@@ -1,3 +1,17 @@
+! ============================================================
+! AUDIT: HIGH
+! FUN_0600A914 prologue, pool constants (0x0004B333, 0x0607EA98,
+! 0x06078900, 0x0607EAE0, 0x00E00000), struct size 0x0268,
+! skip flag, outer/inner loop structure, weighted Manhattan
+! distance formula, speed gate 0x00010000, collision call to
+! FUN_060316C4, and second pass for player car all verified
+! against aprog.s. Two annotation issues found:
+! 1) Line 129 uses r11_ptr which is not valid SH-2 (should be r5)
+! 2) Offset 0x1EC is NOT Y position -- struct header says
+!    car[+0x1EC] = speed value, not vertical position.
+!    The dy threshold of 20 is checking a speed/progress field.
+! ============================================================
+!
 ! =============================================================================
 ! Car-Car Collision Detection System
 ! =============================================================================
@@ -59,6 +73,15 @@
 !   (Same algorithm but with *0x0607E940 = car_array[0] = player car)
 !   Checks player against all AI cars for collision
 
+! CONFIDENCE: HIGH
+! Prologue, pool constants, loop structure, distance formula, speed gate,
+! and collision call all verified. Two annotation errors noted:
+! AUDIT NOTE: Line 129 mov.l @(0x10,r11_ptr),r2 uses invalid r11_ptr.
+! Actual register is r5 (j-th car pointer). Should be @(0x10,r5).
+! AUDIT NOTE: Lines 26/42-43 describe offset 0x1EC as Y position, but
+! 0x1EC is not the Y field (+0x0C or +0x14). The field at +0x1EC is
+! more likely a speed/progress value. The threshold of 20 comparison
+! is still valid code, just mislabeled semantically.
 FUN_0600A914:  ! 0x0600A914
     mov.l   r14,@-r15
     mov.l   r13,@-r15

@@ -1,3 +1,16 @@
+! ============================================================
+! AUDIT: HIGH
+! FUN_060316C4/060316D0 register saves, Y comparison, position
+! reads, atan2 call (0x0602744C), force table (0x0605BCC8),
+! height threshold (0x0001638E), collision flag (0x08000000),
+! sin/cos calls, dmuls.l/xtrct multiply, position backup, and
+! half-rotation (0x8000) all verified against aprog.s. The
+! second code path (0x0603188C) is confirmed as a swapped-role
+! mirror. PC-relative pool offsets use shorthand @(PC) instead
+! of exact offsets, which is a stylistic choice, not an error.
+! Difficulty influence via 0x06078654 is speculative.
+! ============================================================
+!
 ! =============================================================================
 ! Car-Car Collision Response System
 ! =============================================================================
@@ -35,6 +48,8 @@
 !   7. Save pre-collision positions for potential rollback
 
 
+! CONFIDENCE: DEFINITE
+! Register save wrapper verified: saves r8-r13, falls through to 060316D0.
 ! =============================================================================
 ! FUN_060316C4 — Entry Point (Register Save)
 ! =============================================================================
@@ -51,6 +66,15 @@ FUN_060316C4:  ! 0x060316C4
     ! Falls through to FUN_060316D0
 
 
+! CONFIDENCE: HIGH
+! Y comparison, position reads (+0x10/+0x18), atan2 call, heading
+! comparison, force table lookup, height check, sin/cos impulse
+! application, position backup, and Newton 3rd law opposite impulse
+! all verified. Pool constants confirmed. PC-relative offsets use
+! shorthand @(PC) rather than exact values -- not incorrect, but
+! less precise than the other .s files.
+! AUDIT NOTE: Lines using mov.l @(PC),r0 are pseudocode shorthand.
+! Actual instructions use specific offsets like @(0x54,PC).
 ! =============================================================================
 ! FUN_060316D0 — Collision Response Main Body
 ! =============================================================================

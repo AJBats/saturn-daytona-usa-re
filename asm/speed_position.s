@@ -1,3 +1,18 @@
+! ================================================================
+! AUDIT: DEFINITE CONFIDENCE
+! ================================================================
+! Verified against build/aprog.s ground truth 2026-02-09.
+! Both FUN_0600C4F8 and FUN_0600C5D6 have complete instruction-
+! level annotations that match binary exactly. All pool constants
+! enumerated and cross-checked against PC-relative addresses in
+! aprog.s. This is the most thoroughly annotated file in the set.
+! Speed model algorithm (two-table lookup, clamp, accumulate) is
+! fully documented with correct arithmetic. Position integration
+! sin/cos path verified instruction-by-instruction. 3D transform
+! path uses elision but function calls and register setup are
+! confirmed correct.
+! ================================================================
+
 ! ============================================================================
 ! speed_position.s — Speed Curve Calculation & Position Integration
 ! ============================================================================
@@ -119,6 +134,16 @@
 
 
 ! ============================================================================
+! CONFIDENCE: DEFINITE — Complete instruction-level listing verified against binary
+! at 0600C4F8-0600C5D4. Every opcode confirmed. All 14 pool constants enumerated at
+! lines 265-279 with addresses and values cross-checked against aprog.s:
+!   0x0600C5A0 = 0x06027552 (multiply), 0x0600C5A4 = 0x0607E940 (car ptr),
+!   0x0600C5A8 = 0x0607EBC4 (state flags), 0x0600C5AC = 0x00008000 (bit 15),
+!   0x0600C5B0 = 0x060477EC (table A), 0x0600C5B4 = 0x060454CC (table B),
+!   0x0600C5B8 = 0xFEC00000 (base offset), 0x0600C61C = 0x00480000 (conv factor).
+! Speed algorithm documented correctly: two-table lookup, scale by car[0x198],
+! clamp delta to [-4014, half], accumulate, floor at 0, convert to index.
+! Timer decrement, bit 15 skip, and deceleration limit paths all match binary.
 ! FUN_0600C4F8 — Speed Curve Calculation
 ! ============================================================================
 ! Called as step 4 of player physics pipeline (FUN_0600E71A).
@@ -307,6 +332,19 @@ FUN_0600C4F8:                               ! 0x0600C4F8
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH — Prologue and main dispatch logic verified instruction-by-
+! instruction against binary at 0600C5D6-0600C74A. Pool constants confirmed:
+!   0x0600C620 = 0x06027552, 0x0600C624 = 0x0607EBDC, 0x0600C628 = 0x0607E940,
+!   0x0600C62C = 0x06078680, 0x0600C630 = 0x06087804, 0x0600C704 = 0x0607E944,
+!   0x0600C710 = 0x00E00000 (3D mask), 0x0600C714 = 0x06027358 (sin/cos).
+! Checkpoint call (FUN_0600CD40) and +24 advance confirmed. Game mode 2/3 branches
+! verified. Flat-ground sin/cos integration path fully verified with X/Z position
+! updates. Steering correction eligibility (counter<=10, position<102) confirmed.
+! 3D transform path (FUN_06006838 + FUN_06027EDE) has stack manipulation that is
+! annotated but uses some elision - the register setup and call sequence match binary
+! but individual stack offsets in that section are less thoroughly documented.
+! AUDIT NOTE: FUN_0600CD40 is labeled "checkpoint processing" here, which is more
+! accurate than the "collision check" label used in player_physics.s.
 ! FUN_0600C5D6 — Position Integration (Collision + Heading + Movement)
 ! ============================================================================
 ! Called as step 5 of player physics pipeline (FUN_0600E71A).

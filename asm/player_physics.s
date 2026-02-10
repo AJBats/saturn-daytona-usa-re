@@ -1,3 +1,11 @@
+! ============================================================
+! AUDIT: HIGH
+! Player car physics pipeline with correct call chain order
+! verified against ground truth. Struct offsets and call targets
+! confirmed. Minor annotation errors in FUN_06008318 store
+! offset and inverted label/logic in FUN_0600E906.
+! ============================================================
+
 ! ============================================================================
 ! player_physics.s — Player Car Physics Pipeline
 ! ============================================================================
@@ -80,6 +88,10 @@
 
 
 ! ============================================================================
+! CONFIDENCE: DEFINITE
+! All 5 jsr targets verified against pool constants in ground truth.
+! Call order: 06008318, 06008640, 0600D266, 0600C4F8, 0600C5D6 confirmed.
+! Timer logic, segment stride calc (24 bytes), and ranking formula match binary.
 ! FUN_0600E71A — Player Physics Orchestrator
 ! ============================================================================
 ! Called when car index == 0 (player car) during race states.
@@ -189,6 +201,11 @@ FUN_0600E71A:                            ! 0x0600E71A
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH
+! Instruction sequence verified against ground truth 0x06008318-0x060083DE.
+! Gear shift detection (bits 0x10/0x20), timer=32, direction +/-1 confirmed.
+! AUDIT NOTE: Line 256 says r0=0x0201 but pool at 0x06008360 = 0x01D8.
+! Store writes to car[0x01D8], NOT car[0x350]. Header also wrong about +0x350.
 ! FUN_06008318 — Controller Input Handler (Gear Shifting & Steering Column)
 ! ============================================================================
 ! Reads controller state from the car object and processes gear shift inputs.
@@ -344,6 +361,9 @@ FUN_06008318:                            ! 0x06008318
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH
+! Decision tree verified: bit 0x08, 0x1BC guard, table selection via
+! 0x0607EBC4 bit 23. Pool constants 0x060453B4/0x060453C4 confirmed.
 ! 0x06008640 — Steering / Force Table Selection (no label in aprog.s)
 ! ============================================================================
 ! Called as step 2 of player physics. Selects which force lookup table to
@@ -435,6 +455,9 @@ FUN_06008318:                            ! 0x06008318
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH
+! Pool constants 0x0607EBD0, 0x0607E940, 0x06034F78, 0x0607EBEC
+! match ground truth at 0x060086C0-0x06008712.
 ! FUN_060086C0 — Force Vector Extraction from Steering Table
 ! ============================================================================
 ! Reads a selected force table entry (r4 = pointer) and applies the force
@@ -509,6 +532,11 @@ FUN_060086C0:                            ! 0x060086C0
 
 
 ! ============================================================================
+! CONFIDENCE: MEDIUM
+! Only partially annotated. Key behavior (12-byte records, gas/brake via
+! 0x40/0x80) consistent with force_tables.s but gas=0x40/brake=0x80 SPECULATIVE.
+! AUDIT NOTE: Header says timers car+0x208/0x1E4 but 0x06008730 decrements
+! 0x01BC/0x00BC. The 0x208/0x1E4 timers are in FUN_0600E71A step 6 instead.
 ! 0x06008730 — Post-Force Update: Timer Decrements & Steering Angle Read
 ! ============================================================================
 ! After force selection (or if skipped), this section:
@@ -546,6 +574,10 @@ FUN_060086C0:                            ! 0x060086C0
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH
+! Prologue, timer, speed table lookups verified instruction-by-instruction.
+! Pool: FUN_06027552, table_A=0x060477EC, table_B=0x060454CC, offset=0xFEC00000,
+! scale=0x00480000 all confirmed.
 ! FUN_0600C4F8 — Speed Computation & Velocity Clamping
 ! ============================================================================
 ! Step 4 of player physics. Computes the car's speed scalar from course
@@ -683,6 +715,10 @@ FUN_0600C4F8:                            ! 0x0600C4F8
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH
+! Prologue, pool constants, branching logic verified against ground truth.
+! AUDIT NOTE: FUN_0600CD40 is more accurately checkpoint processing (returns
+! track entry pointer), not collision detection per se.
 ! FUN_0600C5D6 — Collision Detection & Position Integration
 ! ============================================================================
 ! Step 5 of player physics. Detects collisions and integrates force vectors
@@ -830,6 +866,9 @@ FUN_0600C5D6:                            ! 0x0600C5D6
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH
+! Instruction sequence verified 0x0600CEBA-0x0600CF34. Segment table via
+! 0x0607EB84, stride=4, heading interpolation via FUN_06035228 confirmed.
 ! FUN_0600CEBA — Track Segment Advancement & Heading Interpolation
 ! ============================================================================
 ! Step 7 of player physics. Checks if the car has moved past the current
@@ -933,6 +972,10 @@ FUN_0600CEBA:                            ! 0x0600CEBA
 
 
 ! ============================================================================
+! CONFIDENCE: MEDIUM
+! AUDIT NOTE: Branch logic labels INVERTED. bt/s to 0x0600E948 (main AI
+! processing) fires when car_index==0. Fall-through clears car[0xC] and exits.
+! Label .L_ai_exit actually points to processing body, not exit path.
 ! FUN_0600E906 — AI Car Physics (for comparison)
 ! ============================================================================
 ! The AI counterpart to FUN_0600E71A. Much simpler — no controller input,
@@ -1009,6 +1052,8 @@ FUN_0600E906:                            ! 0x0600E906
 
 
 ! ============================================================================
+! CONFIDENCE: DEFINITE
+! Ground truth: rts + nop at 0x0600D266. Unambiguously a stub.
 ! FUN_0600D266 — Friction Stub (No-op)
 ! ============================================================================
 ! Both player and AI physics call this function. It immediately returns.

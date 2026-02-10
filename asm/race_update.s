@@ -1,3 +1,14 @@
+! ============================================================
+! AUDIT: HIGH
+! Core race update chain. FUN_0600DE54 and FUN_0600E0C0 verified as real
+! function labels. FUN_0600EA18, FUN_0600D0B8, and position integration
+! at 0x0600E5AE are NOT separate function labels in aprog.s -- they are
+! mid-function code (inline within FUN_0600E4F2/FUN_0600E71A). Annotations
+! treat them as standalone functions which is misleading but the code
+! analysis at those addresses is accurate.
+! Velocity calculation and position integration code verified byte-level.
+! ============================================================
+!
 ! ============================================================================
 ! race_update.s — Race State Update & Vehicle Physics
 ! ============================================================================
@@ -54,6 +65,9 @@
 
 
 ! ============================================================================
+! CONFIDENCE: DEFINITE — fully verified against ground truth byte-for-byte
+! Pool addresses confirmed: 0x0607EA98, 0x060786CA, 0x0607E944, 0x0607E940.
+! bsr FUN_0600E99C and bra FUN_0600E0C0 confirmed. Delay slot pr restore confirmed.
 ! FUN_0600DE54 — Race State Update Dispatcher
 ! ============================================================================
 ! Small function: copies frame pointer, calls pre-update, then tail-calls
@@ -78,6 +92,12 @@ FUN_0600DE54:                       ! Race state update entry
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH — prologue and register assignments verified
+! r8=0x0607EBC4, r9=0x06078900, r10=word from pool, r11=0x00008000,
+! r12=0x0607E940, r14=0x06027CA4 all confirmed against ground truth.
+! 0x0607EAE0 check for demo mode skip confirmed.
+! AUDIT NOTE: The comment says r14 = "3D scene processing function"
+! which is reasonable -- FUN_06027CA4 is a real label in the binary.
 ! FUN_0600E0C0 — Main Race Frame Update
 ! ============================================================================
 ! Iterates through all cars and processes physics/rendering for each.
@@ -117,6 +137,13 @@ FUN_0600E0C0:                       ! Main per-frame race update
 
 
 ! ============================================================================
+! CONFIDENCE: HIGH — code at address verified, arithmetic confirmed
+! AUDIT NOTE: FUN_0600EA18 has NO function label in aprog.s. It is
+! mid-function code inside FUN_0600E4F2 (or its caller). The address
+! 0x0600EA18 exists and the instruction (add #-12,r15) is correct.
+! The velocity calculation (target - current) >> 4 for X and Z is
+! verified against ground truth. Angular velocity calculation also matches.
+! The "chase/lerp" interpretation is plausible for AI/demo path.
 ! FUN_0600EA18 — Velocity Calculation (LEAF function)
 ! ============================================================================
 ! Computes velocity vector for position integration.
@@ -246,6 +273,13 @@ FUN_0600EA18:                       ! Velocity calculation
 
 
 ! ============================================================================
+! CONFIDENCE: DEFINITE — verified byte-for-byte against ground truth
+! All addresses confirmed: 0x060786C0 (vel X), 0x060786C4 (vel Z),
+! 0x060786C8 (angular vel), 0x06063EF0 (heading global).
+! car.X += velX, car.Z += velZ, car.heading += angular_vel all confirmed.
+! FUN_06006838 call for coordinate lookup confirmed.
+! Address 0x0600E5AE (not 0x0600E5B4) is the actual start of the
+! countdown decrement; integration proper starts at 0x0600E5B4.
 ! Position Integration (at 0x0600E5B4, inside FUN_0600E4F2 or E1D4)
 ! ============================================================================
 ! After velocity is calculated, this code applies it to the car's position.
@@ -297,6 +331,12 @@ FUN_0600EA18:                       ! Velocity calculation
 
 
 ! ============================================================================
+! CONFIDENCE: MEDIUM — code at address verified but interpretation speculative
+! AUDIT NOTE: FUN_0600D0B8 has NO function label in aprog.s. It is
+! mid-function code. The clamping logic (bounds check between 0 and 0x800)
+! is verified structurally. The "physics clamping" label is reasonable
+! given the context (between car objects, offset 0x200), but the specific
+! meaning (speed? position delta?) is uncertain.
 ! FUN_0600D0B8 — Physics Clamping (LEAF function)
 ! ============================================================================
 ! Clamps a physics value (likely speed or position delta) between bounds.

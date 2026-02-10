@@ -1,3 +1,12 @@
+! ============================================================
+! AUDIT: HIGH
+! Instruction-level annotations verified against aprog.s ground
+! truth for all functions. Opcodes, addresses, branch targets,
+! and pool constants match. Struct field interpretations and
+! gameplay-level descriptions (waypoints, speed zones, steering
+! damping) are reasonable but based on inference, not symbol names.
+! ============================================================
+!
 ! ============================================================================
 ! ai_behavior.s — AI Car Processing Pipeline
 ! ============================================================================
@@ -89,6 +98,9 @@
 !
 ! This function coordinates all AI behavior for one frame:
 ! waypoint targeting, course correction, speed control, and heading update.
+! CONFIDENCE: DEFINITE
+! All opcodes, operands, branch targets, and pool constants verified
+! against aprog.s byte-for-byte. Call chain (bsr/jsr targets) confirmed.
 ! ============================================================================
 
 FUN_0600C74E:                            ! 0x0600C74E
@@ -180,9 +192,10 @@ FUN_0600C74E:                            ! 0x0600C74E
 ! FUN_0600CD40 — Waypoint Targeting
 ! ============================================================================
 ! Finds the next waypoint for this AI car and computes the approach angle.
-! Uses a waypoint record table (20 bytes per record) indexed from AI state.
+! Uses a waypoint record table (24 bytes per record) indexed from AI state.
+! AUDIT NOTE: Originally said 20 bytes; shift math proves 24.
 !
-! Waypoint record layout (20 bytes each):
+! Waypoint record layout (24 bytes each):
 !   +0x00: long  — X position
 !   +0x04: long  — Z position
 !   +0x0E: word  — turn rate / steering factor
@@ -202,6 +215,8 @@ FUN_0600C74E:                            ! 0x0600C74E
 ! The approach angle check determines if the AI is roughly pointed at
 ! the waypoint. If not, the missed-turns counter increases, eventually
 ! triggering course correction.
+! CONFIDENCE: HIGH
+! Opcodes verified. atan2 call at 0x0602744C confirmed.
 ! ============================================================================
 
 FUN_0600CD40:                            ! 0x0600CD40
@@ -308,6 +323,8 @@ FUN_0600CD40:                            ! 0x0600CD40
 !
 ! This creates smooth AI movement between waypoints instead of jerky
 ! snap-to-waypoint behavior.
+! CONFIDENCE: HIGH
+! Opcodes verified. Interpolation math (mul.l + shar*2) confirmed.
 ! ============================================================================
 
 _0x0600CA96:                            ! 0x0600CA96 (no function label)
@@ -469,6 +486,8 @@ _0x0600CA96:                            ! 0x0600CA96 (no function label)
 !
 ! This creates course-specific speed profiles — different parts of the
 ! track have different target speeds for AI.
+! CONFIDENCE: DEFINITE
+! Every opcode verified. Range [69,98], table 0x0605A1E0 confirmed.
 ! ============================================================================
 
 _0x0600C970:                            ! 0x0600C970 (no function label)
@@ -511,6 +530,8 @@ _0x0600C970:                            ! 0x0600C970 (no function label)
 ! The formula (speed << 16 - speed) >> 8 is roughly:
 !   speed × (65536 - 1) / 256 = speed × 255.996 ≈ speed × 256
 ! So it's approximately speed >> 1, giving a drag proportional to speed.
+! CONFIDENCE: DEFINITE
+! All opcodes verified. 8x shar chain, dual store to 0x48/0x50 match.
 ! ============================================================================
 
 _0x0600C928:                            ! 0x0600C928 (no function label)
@@ -562,6 +583,8 @@ _0x0600C928:                            ! 0x0600C928 (no function label)
 !   2. Subtracts AI_state.Z to get distance
 !   3. Calls atan2 to get approach angle
 !   4. Adjusts speed based on angle difference
+! CONFIDENCE: HIGH
+! Opcodes verified through atan2 call. Annotation truncated but accurate.
 ! ============================================================================
 
 FUN_0600C8CC:                            ! 0x0600C8CC
@@ -617,6 +640,8 @@ FUN_0600C8D0:                            ! 0x0600C8D0
 !   - Calls sin_cos_lookup (0x06027358) to convert heading to X/Z components
 !   - Calls fixed_mul (0x06027552) to compute velocity from heading × speed
 !   - Updates X and Z positions
+! CONFIDENCE: DEFINITE
+! Every opcode verified. Speed thresholds, sin_cos, fixed_mul confirmed.
 ! ============================================================================
 
 FUN_0600C7D4:                            ! 0x0600C7D4
@@ -799,6 +824,10 @@ FUN_0600C7D8:                            ! 0x0600C7D8
 ! - Otherwise: increments counter, and if it reaches 160, resets and skips
 ! This implements a "timeout" — if the AI gets stuck, it resets its
 ! velocity computation after ~160 frames (about 2.7 seconds at 60fps).
+! CONFIDENCE: HIGH
+! Opcodes verified. Pool constants confirmed.
+! AUDIT NOTE: Line 906 "mov #16,r2_temp" is pseudocode; real insn is mov #16,r2.
+! AUDIT NOTE: Velocity output address labels in header shifted by one slot.
 ! ============================================================================
 
 _0x0600EA18:                            ! 0x0600EA18 (no function label)
@@ -962,6 +991,8 @@ _0x0600EA18:                            ! 0x0600EA18 (no function label)
 ! The << 6 gives Z 64 columns per row, so the grid is 64 × N.
 !
 ! This is a LEAF function (no stack frame, no calls).
+! CONFIDENCE: DEFINITE
+! Every opcode verified. Pool constants 0x03FFFFFF/0x04000000 confirmed.
 ! ============================================================================
 
 _0x06006838:                            ! 0x06006838 (no function label)
@@ -1009,6 +1040,10 @@ _0x06006838:                            ! 0x06006838 (no function label)
 !
 ! This function is large (~80 instructions) and handles the visual
 ! representation of AI cars on screen.
+! CONFIDENCE: HIGH
+! Prologue and pool constants verified. Function truncated after ~60 insns.
+! AUDIT NOTE: Override table is searched when car_count IS 2, not != 2.
+! AUDIT NOTE: Function is truncated; last ~40 instructions not annotated.
 ! ============================================================================
 
 FUN_06027EDE:                            ! 0x06027EDE

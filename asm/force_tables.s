@@ -1,4 +1,17 @@
 ! ================================================================
+! AUDIT: HIGH CONFIDENCE
+! ================================================================
+! Verified against build/aprog.s ground truth 2026-02-09.
+! All four function blocks match binary. Pool constants verified
+! for FUN_06008318, FUN_060086C0, and 0x06008730. Data table
+! hierarchy (levels 0-2) and force profile format confirmed by
+! cross-referencing descriptor pointers. Gear steering table
+! address (0x060453CC) confirmed in pool at 0x06008374.
+! Only weakness: force profile sample values are hand-transcribed
+! from binary and not exhaustively cross-checked record-by-record.
+! ================================================================
+
+! ================================================================
 ! FORCE TABLE AND ACCELERATION SYSTEM
 ! ================================================================
 !
@@ -97,6 +110,11 @@
 
 
 ! ================================================================
+! CONFIDENCE: HIGH — Instruction flow matches binary exactly. Pool constants
+! verified: 0x0607E940 at [0x06008370], 0x060453CC at [0x06008374], 0x01D8 at
+! [0x06008360]. Branch targets confirmed. FUN_06034F78 bitfield clear params
+! (0x0301/0x0201) match encoding. Timer=32, direction=+/-1, mode=40 all correct.
+! Duplicate of player_physics.s version but independently verified here.
 ! FUN_06008318 — Gear shift handler
 ! ================================================================
 !
@@ -250,6 +268,10 @@ FUN_06008318:                           ! 0x06008318
 
 
 ! ================================================================
+! CONFIDENCE: HIGH — Control flow verified against binary. Table A base 0x060453B4
+! and Table B base 0x060453C4 confirmed in pool. Bit 23 test mask (0x00800000)
+! verified. State&1 shift sequence (shll2+shll = *8) confirmed. Entry guard on
+! car[0x01BC] and bit 0x08 clear logic match binary. Falls through to FUN_060086C0.
 ! 0x06008640 — Force table selection
 ! ================================================================
 !
@@ -340,6 +362,12 @@ FUN_06008318:                           ! 0x06008318
 
 
 ! ================================================================
+! CONFIDENCE: HIGH — All pool constants verified: 0x0607EBD0 at [0x06008720],
+! 0x0607E940 at [0x06008724], 0x06034F78 at [0x06008728], 0x0607EBEC at [0x0600872C].
+! Word constants: 0x01C0 at [0x06008714], 0x0101 at [0x06008716], 0x01B8 at [0x06008718],
+! 0x01BC at [0x0600871A], 0x00BC at [0x0600871C], 0x0208 at [0x0600871E]. Two jsr calls
+! to FUN_06034F78 with bit 31 then bit 30 confirmed. add #-40 and setup counter increment
+! verified. Falls through to 0x06008730 via bra.
 ! FUN_060086C0 — Force table initialization
 ! ================================================================
 !
@@ -417,6 +445,12 @@ FUN_060086C0:                           ! 0x060086C0
 
 
 ! ================================================================
+! CONFIDENCE: DEFINITE — Most thoroughly annotated function in this file. Every
+! instruction verified against binary at 06008730-060088A6. Three gas/brake/neutral
+! code paths match exactly: gas=+X/-Z/-ang, brake=-X/-Z/+ang, neutral=raw. Countdown
+! decrement logic, pointer advance by 12, record field reads at offsets 0/4/6/8/A all
+! confirmed. Steering threshold check and force-clear-on-zero epilogue verified.
+! Phase flag write to 0x0605A016 confirmed in binary.
 ! 0x06008730 — Per-frame force application
 ! ================================================================
 !
@@ -682,6 +716,10 @@ FUN_060086C0:                           ! 0x060086C0
 
 
 ! ================================================================
+! CONFIDENCE: HIGH — Table address 0x060453CC confirmed in FUN_06008318 pool constant.
+! S-curve profile description (ramp up, peak, overshoot, settle) is consistent with
+! the timer*2 word-indexed access pattern. Individual values not exhaustively verified
+! against binary data section but format and access pattern are correct.
 ! GEAR STEERING LOOKUP TABLE (0x060453CC)
 ! ================================================================
 !
@@ -711,6 +749,13 @@ FUN_060086C0:                           ! 0x060086C0
 
 
 ! ================================================================
+! CONFIDENCE: MEDIUM — Profile addresses (0x0604508C and 0x06044C90) confirmed via
+! Level 1 descriptor pointers in binary. Record counts (64 and 85) match descriptor
+! countdown values. 12-byte record format verified by 0x06008730 access pattern
+! (offsets 0,4,6,8,A). Individual sample values are hand-transcribed and not
+! exhaustively verified against the data section in aprog.s. The qualitative
+! observations (monotonic speed_ref, Profile B larger forces) are plausible but
+! should be spot-checked if used for reimplementation.
 ! FORCE PROFILE DATA SAMPLES
 ! ================================================================
 !

@@ -1,3 +1,17 @@
+! ============================================================
+! AUDIT: HIGH
+! Mixed file covering camera, race state calc, interpolation, physics
+! dispatch, race orchestrator, game state machine, and transitions.
+! All major function addresses verified as real labels in aprog.s:
+!   FUN_0600AFB2, FUN_0600B4D2, FUN_0600C010, FUN_0600CB90,
+!   FUN_0600CDD0, FUN_0600D31C, FUN_0600D41C, FUN_0600E7C8,
+!   FUN_0600F424, FUN_0600F870, FUN_0600FFD0 all confirmed.
+! FUN_0600C170 and FUN_0600C286 also verified as real labels.
+! Functions with C source (marked DONE) have highest confidence.
+! Transition handler table (0x0600F650-0x0600FED0) is catalog-level
+! with minimal interpretation -- appropriately conservative.
+! ============================================================
+!
 ! =============================================================================
 ! Race Orchestration & Remaining Gameplay Functions
 ! =============================================================================
@@ -19,6 +33,7 @@
 ! CAMERA POSITIONING (0x0600AFB2-0x0600B4D2)
 ! =============================================================================
 
+! CONFIDENCE: HIGH — has C source, address verified, transform pipeline plausible
 ! FUN_0600AFB2 — Camera tracking & transform setup (164 insns, CALL)
 !   C source: src/FUN_0600AFB2.c
 !   Controls viewpoint during gameplay.
@@ -38,6 +53,9 @@
 !     If flag & 0x20020000: call FUN_0601C3E4()
 !   Double-buffer: adjusts 0x0608A52C -= 0x30
 
+! CONFIDENCE: HIGH — address verified, lerp algorithm well-documented
+! 50% convergence per frame (shar = divide by 2) is a standard smooth-follow technique.
+! Data addresses for camera state dispatch (0x06063488 etc.) are plausible.
 ! FUN_0600B4D2 — Camera position lerping (164 insns, CALL)
 !   NOT YET DECOMPILED - HIGH PRIORITY
 !   Per-frame smooth camera tracking via 50% lerp.
@@ -62,6 +80,11 @@
 ! RACE STATE CALCULATION (0x0600C010-0x0600C286)
 ! =============================================================================
 
+! CONFIDENCE: MEDIUM — address verified but internal details are summary-level
+! The function is real and the flag bits at 0x0607EBC4 are confirmed elsewhere.
+! But the pipeline description is high-level inference, not instruction-verified.
+! AUDIT NOTE: The 0x0608A52C counter (+0x30 per frame) interpretation is plausible
+! but not byte-verified. "Position calculation" description is vague.
 ! FUN_0600C010 — Race state machine (~200+ insns, CALL)
 !   NOT YET DECOMPILED - HIGH PRIORITY
 !   Multi-stage race state orchestrator.
@@ -84,10 +107,15 @@
 !     0x0607EA98 — race position
 !     0x06078664 — position output register
 
+! CONFIDENCE: MEDIUM — address verified as real label, but description is minimal
+! AUDIT NOTE: FUN_0600C170 confirmed as labeled function. Calls FUN_0603C000.
+! "Helper for race state" description lacks detail.
 ! FUN_0600C170 — Race utility calculation (~30 insns, CALL)
 !   Helper for race state. Called from FUN_0600C010.
 !   Small calculation function.
 
+! CONFIDENCE: MEDIUM — address verified as real label, but description is minimal
+! AUDIT NOTE: FUN_0600C286 confirmed as labeled function. Also calls FUN_0603C000.
 ! FUN_0600C286 — Race utility function (~20 insns, CALL)
 !   Helper for race calculations.
 !   Small utility.
@@ -97,6 +125,8 @@
 ! RACE INTERPOLATION (0x0600CB90-0x0600CDD0)
 ! =============================================================================
 
+! CONFIDENCE: DEFINITE — has C source, address verified
+! Bilinear interpolation with stride 0x18 track table confirmed by C source.
 ! FUN_0600CB90 — Race position interpolation (~60 insns, CALL)
 !   C source: src/FUN_0600CB90.c
 !   Bilinear interpolation for smooth race progression.
@@ -110,6 +140,8 @@
 !     param_1[4] = track attribute (short)
 !   Also copies heading data with <<2 scaling.
 
+! CONFIDENCE: DEFINITE — has C source, address verified
+! Track segment advancement via atan2 (FUN_0602744C) confirmed.
 ! FUN_0600CDD0 — Race heading/direction calculator (~40 insns, CALL)
 !   C source: src/FUN_0600CDD0.c
 !   Determines car facing direction relative to track.
@@ -131,6 +163,8 @@
 ! PHYSICS DISPATCH CHAIN (0x0600D31C-0x0600D41C)
 ! =============================================================================
 
+! CONFIDENCE: DEFINITE — has C source, address verified
+! Three-way dispatch confirmed. Flag check at 0x0607EBC4 & 0x00200000 confirmed.
 ! FUN_0600D31C — Physics calculation dispatcher (13 insns, CALL)
 !   C source: src/FUN_0600D31C.c
 !   Three-way dispatch based on game flags:
@@ -140,6 +174,9 @@
 !     FUN_0600D50C() — collision/contact resolution
 !   All three functions always run; D37C is conditional.
 
+! CONFIDENCE: MEDIUM — address verified but no C source or detailed analysis
+! The function is real (label confirmed in aprog.s) but the "traction, handling,
+! steering response" description is inference from its position in the call chain.
 ! FUN_0600D41C — Vehicle state/physics update (~140 insns, CALL)
 !   NOT YET DECOMPILED - HIGH PRIORITY
 !   Sits between dispatcher (D31C) and collision (D50C) in pipeline.
@@ -153,6 +190,9 @@
 ! RACE FRAME ORCHESTRATOR (0x0600E7C8)
 ! =============================================================================
 
+! CONFIDENCE: HIGH — has C source, address verified
+! Six subsystem calls confirmed. Camera mode handling description is detailed
+! and consistent with the C source.
 ! FUN_0600E7C8 — Per-frame race state orchestrator (137 insns, CALL)
 !   C source: src/FUN_0600E7C8.c
 !   Called every frame during active racing.
@@ -183,6 +223,9 @@
 ! GAME STATE MACHINE (0x0600F424-0x0600FFD0)
 ! =============================================================================
 
+! CONFIDENCE: HIGH — has C source, address verified
+! State dispatch table at 0x0605AC2C, button masks at 0x06078656-0x0607865C
+! all consistent with other verified files.
 ! FUN_0600F424 — Game state dispatcher (270 insns, CALL)
 !   C source: src/FUN_0600F424.c
 !   Central game flow controller.
@@ -205,6 +248,7 @@
 !     buffer -= 0x30
 !     FUN_060078DC — frame finalize
 
+! CONFIDENCE: DEFINITE — has C source, address verified, small function
 ! FUN_0600F870 — Race countdown timer (18 insns, CALL)
 !   C source: src/FUN_0600F870.c
 !   Called every frame during countdown.
@@ -214,6 +258,8 @@
 !     FUN_060114AC(0) — clear state
 !     FUN_06011094() — update timer display
 
+! CONFIDENCE: HIGH — has C source, address verified
+! Three-player HUD loop and display mode selection confirmed.
 ! FUN_0600FFD0 — HUD race display (114 insns, CALL)
 !   C source: src/FUN_0600FFD0.c
 !   Per-frame HUD rendering.

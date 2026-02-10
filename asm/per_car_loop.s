@@ -1,3 +1,18 @@
+! ============================================================
+! AUDIT: HIGH
+! Per-car loop alternative path. FUN_0600E0C0 verified as real label
+! with prologue and register assignments matching ground truth exactly.
+! FUN_0600E99C verified as real label. FUN_0600C302 has NO label in
+! aprog.s -- it is mid-function code (address 0x0600C302 follows the
+! rts at 0x0600C2FE of the previous function). The annotation correctly
+! notes this ("no label in aprog.s").
+! FUN_06030A06 and FUN_06030EE0 have no labels but ARE real function
+! entry points (called via jsr from pool constants). The "wheel/tire"
+! and "suspension" labels for these are SPECULATIVE -- FUN_06030EE0 is
+! just a 6-instruction timer decrement function.
+! Player vs AI branch logic verified correct in ground truth.
+! ============================================================
+!
 ! =============================================================================
 ! Per-Car Racing Loop (Alternative Path)
 ! =============================================================================
@@ -26,6 +41,18 @@
 ! (the race state update path), not from the main State 15 loop.
 
 ! =============================================================================
+! CONFIDENCE: HIGH — prologue, register map, and loop structure verified
+! Ground truth confirms: r8=0x0607EBC4, r9=0x06078900, r10=word pool,
+! r11=0x00008000, r12=0x0607E940, r14=FUN_06027CA4. Demo mode skip
+! via 0x0607EAE0 confirmed. Loop starts at car index 1 (not 0).
+! AUDIT NOTE: FUN_06030A06 called "subsystem A (wheel/tire?)" and
+! FUN_06030EE0 called "subsystem B (suspension?)" are SPECULATIVE labels.
+! FUN_06030EE0 is a tiny timer decrement (6 insns: read word at car+0x150,
+! decrement if positive, write back, return). Not clearly "suspension."
+! FUN_06030A06 is slightly larger but still a timer-like function.
+! The 4 scene buffer addresses (0x06063EB0, 0x06063E9C, 0x06063ED8,
+! 0x06063EC4) and the "buffer 0-3" interpretation as different view
+! angles is SPECULATIVE but structurally plausible.
 ! FUN_0600E0C0 — Per-Car Update (Racing Mode, Alternative)
 ! =============================================================================
 ! Called from: FUN_0600DE54 inner path
@@ -189,6 +216,15 @@ FUN_0600E0C0:  ! 0x0600E0C0
 
 
 ! =============================================================================
+! CONFIDENCE: HIGH — fully verified against ground truth
+! Prologue (r14 push, pr push), pool load of 0x0607E944 into r14,
+! bsr FUN_0600E906 confirmed. Camera projection call to FUN_06027552
+! with constant 0x066505B3 confirmed. shlr16 + exts.w pipeline confirmed.
+! Offsets 0x228 and 0x21C for camera target storage confirmed.
+! State cleanup (offset 0x1EC check, clear 0x1EC and 0xE0) confirmed.
+! AUDIT NOTE: The comment says 0x0607EAD8 check means "not in special
+! camera mode" -- this is reasonable since 0x0607EAD8 is used elsewhere
+! as a player/mode indicator, but the exact semantics are MEDIUM confidence.
 ! FUN_0600E99C — Pre-Update Camera/AI Setup
 ! =============================================================================
 ! Called from: FUN_0600DE54 (before per-car loop)
@@ -261,6 +297,19 @@ FUN_0600E99C:  ! 0x0600E99C
 
 
 ! =============================================================================
+! CONFIDENCE: MEDIUM — code at address verified but NOT a labeled function
+! AUDIT NOTE: FUN_0600C302 has NO function label in aprog.s. The address
+! 0x0600C302 is valid code (mov #104,r0) that follows the rts of the
+! previous function ending at 0x0600C300. It appears to be a fall-through
+! entry point or a function whose label was not emitted by the disassembler.
+! The heading << 5 calculation, timer decrements, and speed zone logic
+! are structurally plausible from the instruction sequence.
+! The "zone system controls speed bands" interpretation is SPECULATIVE --
+! the threshold comparisons and zone_mode=18 assignment could serve
+! other purposes (e.g., gear transitions, visual effects).
+! AUDIT NOTE: offset math at line 308: "r0 = 0x68, add #124 -> 0xE4"
+! is actually 104 + 124 = 228 = 0xE4. The annotation notes this seems
+! wrong but the math is correct (it just looks unusual).
 ! FUN_0600C302 — Car State Finalize / Post-Frame Cleanup
 ! =============================================================================
 ! Called from: State 15 (FUN_06009098) after per-car physics
