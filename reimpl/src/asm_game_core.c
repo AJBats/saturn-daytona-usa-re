@@ -126,4 +126,4 @@ void FUN_0600CF58(int r4) { (void)r4; }
 /* FUN_0600C7D4: moved to physics_helpers.c */
 void FUN_06027358(int r4, int *r5, int *r6) { (void)r4; (void)r5; (void)r6; }
 void FUN_06027EDE(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
-void FUN_06034F78(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
+/* FUN_06034F78: moved to bitfield_utils.c */
