@@ -261,7 +261,7 @@ FUN_0600D780:                           ! 0x0600D780
     mov.l   @r6,r3                      ! r3 = total_checkpoints
     mov     #0,r2
     add     #-64,r0                     ! r0 = 0x01E8
-    addc    r2,r3                       \! r3 = total + r2 + T (addc, NOT subc; opcode 0x332E)
+    addc    r2,r3                       ! r3 = total + r2 + T (addc, NOT subc; opcode 0x332E)
     shar    r3                           ! r3 = total / 2
     mov.l   @(r0,r4),r1                ! r1 = car[0x01E8]
     cmp/ge  r3,r1                       ! if progress >= total/2

@@ -147,7 +147,7 @@
 ! =============================================================================
 !
 ! AUDIT NOTE: FIXED: Corrected sizes: FUN_06019BC8=332B, FUN_06019DB8=312B, FUN_06019FB2=318B (were all 282B). Changed 'identical-sized' to 'similar-sized'. Intermediate functions FUN_06019D14, FUN_06019EF0, FUN_0601A0F0 exist between them.
-\! Three similar-sized functions confirm the 3-course architecture.\r\n\! Each function initializes course-specific physics parameters:\r\n\! friction, gravity, traction, speed limits, etc.
+! Three similar-sized functions confirm the 3-course architecture.\r\n! Each function initializes course-specific physics parameters:\r\n! friction, gravity, traction, speed limits, etc.
 
 ! CONFIDENCE: HIGH - Address verified. Three consecutive similar-sized
 !   functions strongly suggest per-course initialization.
@@ -220,12 +220,12 @@
 ! collision mesh to determine surface properties at a given position.
 
 ! CONFIDENCE: MEDIUM - Valid bsr target but NOT a labeled function in binary.
-! AUDIT NOTE: FIXED: Noted as 'not a labeled function in aprog.s' — valid bsr target but mid-function branch target.\r\n\! FUN_0603449C (not a labeled function in aprog.s) â€” Terrain collision mesh lookup (150 bytes, 75 insns)
+! AUDIT NOTE: FIXED: Noted as 'not a labeled function in aprog.s' — valid bsr target but mid-function branch target.\r\n! FUN_0603449C (not a labeled function in aprog.s) â€” Terrain collision mesh lookup (150 bytes, 75 insns)
 !   Queries terrain mesh for collision data at a world position.
 !   Returns surface normal, material type, friction.
 
 ! CONFIDENCE: MEDIUM - Valid bsr target but NOT a labeled function in binary.
-! AUDIT NOTE: FIXED: Noted as 'not a labeled function in aprog.s' — valid bsr target but mid-function branch target.\r\n\! FUN_0603458C (not a labeled function in aprog.s) â€” Track segment accessor (122 bytes, 61 insns)
+! AUDIT NOTE: FIXED: Noted as 'not a labeled function in aprog.s' — valid bsr target but mid-function branch target.\r\n! FUN_0603458C (not a labeled function in aprog.s) â€” Track segment accessor (122 bytes, 61 insns)
 !   Retrieves track segment information for physics calculations.
 !   Maps world position to nearest track segment.
 

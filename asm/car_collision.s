@@ -39,7 +39,7 @@
 !   +0x0C  int   Y position (or vertical — used for height check)
 !   +0x10  int   X position
 !   +0x18  int   Z position
-\!   +0x1EC int   speed/progress field (NOT Y position; used for collision gating)
+!   +0x1EC int   speed/progress field (NOT Y position; used for collision gating)
 !
 ! Algorithm:
 !   if (*0x0607EAE0 != 0): return  (demo mode — skip collisions)
@@ -145,7 +145,7 @@ FUN_0600A914:  ! 0x0600A914
 .check_xz_distance:
     ! XZ distance check (weighted Manhattan approximation)
     mov.l   @(0x10,r14),r6          ! car_i->X
-    mov.l   @(0x10,r5),r2          \! car_j->X
+    mov.l   @(0x10,r5),r2          ! car_j->X
     mov.l   @(0x18,r14),r4          ! car_i->Z
     mov.l   @(0x18,r5),r3           ! car_j->Z
     sub     r2,r6                   ! dx = Xi - Xj

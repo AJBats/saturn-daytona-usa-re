@@ -27,7 +27,7 @@
 !   function, 2 bytes before). hud_ui.s calls it "Dynamic Object Physics" while this file
 !   calls it "Track segment data decompressor" — neither label is well-supported. Binary
 !   shows rendering function calls, not physics or decompression.
-\! FUN_060140C8 (164B) - Rendering iteration loop (see also hud_ui.s FUN_060140C4)\r\n\!   Iterates array at 0x0605AD4C, calls rendering functions (FUN_06026DBC, FUN_06026E2E)
+! FUN_060140C8 (164B) - Rendering iteration loop (see also hud_ui.s FUN_060140C4)\r\n!   Iterates array at 0x0605AD4C, calls rendering functions (FUN_06026DBC, FUN_06026E2E)
 !
 ! FUN_06014468 (164B) - Track normal vector calculator
 !   Computes surface normals for road segments (used by physics)
@@ -181,7 +181,7 @@
 !   - D-pad navigation between 3 courses
 !   - Preview animation triggers
 !   - Confirm/cancel handling
-\!   NOTE: FUN_060193F4 is a separate 10-byte function (label exists in binary). FUN_060193FE starts at +0x0A.
+!   NOTE: FUN_060193F4 is a separate 10-byte function (label exists in binary). FUN_060193FE starts at +0x0A.
 !
 ! FUN_060196B0 (324B) - Course select renderer
 !   Draws course selection UI elements each frame

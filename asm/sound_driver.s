@@ -1,13 +1,13 @@
-\! ================================================
-\! AUDIT: MEDIUM-HIGH -- Most errors from initial audit now corrected.
-\! Command dispatcher (FUN_0601D5F4) and channel handler sections verified.
-\! 0x06086050 correctly identified as timeout error flag. FUN_0601DB84 correctly
-\! described as mailbox busy-wait. FUN_060302C6 correctly identified as per-car
-\! engine sound generator (not sound init). Fabricated filenames removed.
-\! Handshake protocol correctly documented. Course-specific sound descriptions
-\! in FUN_0603072E and FUN_06030B68 remain speculative.
-\! Audited: 2026-02-09, FIXED: 2026-02-10
-\! ================================================
+! ================================================
+! AUDIT: MEDIUM-HIGH -- Most errors from initial audit now corrected.
+! Command dispatcher (FUN_0601D5F4) and channel handler sections verified.
+! 0x06086050 correctly identified as timeout error flag. FUN_0601DB84 correctly
+! described as mailbox busy-wait. FUN_060302C6 correctly identified as per-car
+! engine sound generator (not sound init). Fabricated filenames removed.
+! Handshake protocol correctly documented. Course-specific sound descriptions
+! in FUN_0603072E and FUN_06030B68 remain speculative.
+! Audited: 2026-02-09, FIXED: 2026-02-10
+! ================================================
 
 ! =============================================================================
 ! SCSP Sound Driver & Audio System
@@ -95,7 +95,7 @@
 !   5. Write command to 0x0608604C and 0x25A02C20
 
 ! FUN_0601D6B2 — Direct sound write (26 bytes, 13 insns)
-\! CONFIDENCE: DEFINITE -- Verified byte-for-byte against aprog.s.
+! CONFIDENCE: DEFINITE -- Verified byte-for-byte against aprog.s.
 !   Writes sound command directly without channel routing.
 !   Calls FUN_0601DB84, writes to 0x25A02C20 and 0x0608604C.
 
@@ -148,9 +148,9 @@
 ! The original annotation invented these names speculatively.
 
 ! FUN_0603072E — Sound state dispatcher (542 bytes, 271 insns)
-\! CONFIDENCE: SPECULATIVE -- Address confirmed in binary but course-specific
-\! descriptions (canyon echoes, dinosaur effects, city ambience) are creative
-\! interpretation with no direct binary evidence.
+! CONFIDENCE: SPECULATIVE -- Address confirmed in binary but course-specific
+! descriptions (canyon echoes, dinosaur effects, city ambience) are creative
+! interpretation with no direct binary evidence.
 !   Routes sound commands based on game state.
 !   Different sound banks per course:
 !     Course 0 (Beginner): Standard engine sounds, crowd
@@ -158,9 +158,9 @@
 !     Course 2 (Expert): City ambience, traffic sounds
 
 ! FUN_06030B68 — Sound event handler (578 bytes, 289 insns)
-\! CONFIDENCE: SPECULATIVE -- Address confirmed but descriptions (collision sounds,
-\! tire screech, 3D positional audio) are speculative. No SCSP panning register
-\! writes visible from SH-2 side -- panning would be done by the 68000 driver.
+! CONFIDENCE: SPECULATIVE -- Address confirmed but descriptions (collision sounds,
+! tire screech, 3D positional audio) are speculative. No SCSP panning register
+! writes visible from SH-2 side -- panning would be done by the 68000 driver.
 !   Handles sound events from gameplay:
 !     - Collision sounds (impact severity mapped to volume)
 !     - Tire screech (steering angle mapped to pitch)

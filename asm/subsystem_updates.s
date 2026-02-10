@@ -103,7 +103,7 @@ FUN_06030A06:  ! 0x06030A06
 ! CONFIDENCE: MEDIUM — Valid jsr target but NOT a labeled function in
 !   aprog.s. Simple timer decrement pattern is plausible for a per-car
 !   subsystem update.
-\! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target but not labeled in aprog.s.
+! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target but not labeled in aprog.s.
 ! FUN_06030EE0 (not a labeled function in aprog.s) — Subsystem B: Simple Timer Decrement
 ! =============================================================================
 ! Called from: FUN_0600E0C0, FUN_0600E4F2, FUN_0600E410
@@ -260,7 +260,7 @@ FUN_060061C8:  ! 0x060061C8
 !   Jump table structure at 0x0602ED0C verified: loads step counter from
 !   0x0607EAE4, shll2 for index, loads and jumps to table entry. This is
 !   definitively a jump table dispatch. Physics role is reasonable inference.
-\! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target confirmed from pipeline code.
+! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target confirmed from pipeline code.
 ! FUN_0602ECF2 (not a labeled function in aprog.s) — Physics Integration Dispatcher (Jump Table)
 ! =============================================================================
 ! Called from: FUN_0600E4F2 (late in pipeline)
@@ -307,7 +307,7 @@ FUN_0602ECF2:  ! 0x0602ECF2
 ! CONFIDENCE: MEDIUM — Valid jsr target, NOT a labeled function in
 !   aprog.s. Called after 4x FUN_06027CA4 calls is confirmed from the pipeline
 !   code. Render finalize role is speculative.
-\! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target confirmed from pipeline code.
+! AUDIT NOTE: FIXED: Added '(not a labeled function)' to title. Valid jsr target confirmed from pipeline code.
 ! FUN_0603053C (not a labeled function in aprog.s) — Render Finalize
 ! =============================================================================
 ! Called from: FUN_0600E0C0 (after 4x FUN_06027CA4 calls)
