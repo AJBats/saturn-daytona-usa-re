@@ -14,7 +14,7 @@ void FUN_06007CEC(void) { }
 void FUN_06007D8E(void) { }
 void FUN_06007E08(void) { }
 
-void FUN_060033E6(void) { }
+/* FUN_060033E6: moved to render_setup.c */
 void FUN_060053AC(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
 void FUN_060055BC(void) { }
 void perspective_project(void) __attribute__((alias("FUN_060055BC")));
@@ -85,7 +85,7 @@ void FUN_0600C218(void) { }
 /* FUN_0600E060: moved to visual_physics_update.c */
 /* FUN_0601F8C0: moved to mode_transition.c */
 /* FUN_0601F900: moved to mode_transition.c */
-void FUN_060149E0(void) { }
+/* FUN_060149E0: moved to render_setup.c */
 
 void FUN_0601C978(void) { }
 void FUN_0601CAEE(void) { }

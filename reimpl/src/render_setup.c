@@ -13,13 +13,16 @@
  * FUN_06021128: VDP1 batch render: begin, set flag, draw, end, clear counters
  * FUN_06020BCE: VDP1 draw + set engine flags + call 0x06026CE0
  * FUN_06020DD0: Loop calling FUN_06020DEE for channels 0-15
+ * FUN_060149E0: VDP1 flag clear + enable (clear bit 15, set enable=1)
+ * FUN_060033E6: Conditional VDP batch transfer (flag-based source select)
  *
  * Original addresses: 0x060148FC, 0x06014964, 0x06014994, 0x06012080, 0x0601209E,
- *   0x060210F6, 0x06021128, 0x06020BCE, 0x06020DD0
+ *   0x060210F6, 0x06021128, 0x06020BCE, 0x06020DD0, 0x060149E0, 0x060033E6
  */
 
 extern void FUN_06020DEE(int);
 extern int FUN_06038120(unsigned char *);
+extern void FUN_060284AE(int, int, int, int);
 
 void FUN_060148FC(void)
 {
@@ -121,4 +124,55 @@ void FUN_06020DD0(void)
         FUN_06020DEE(i);
         i = i + 1;
     } while (i < 0x10);
+}
+
+
+/* ================================================================
+ * FUN_060149E0 -- VDP1 Flag Clear + Enable (0x060149E0)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x060149E0-0x060149F2)
+ * Pool verified:
+ *   word pool at 0x060149F4 = 0x7FFF (bit 15 mask)
+ *   0x060149FC = 0x060A3D88 (VDP1 control flag)
+ *   0x06014A00 = 0x060635AC (VDP1 enable register)
+ *
+ * Clears bit 15 of VDP1 control flag at 0x060A3D88, then sets
+ * the VDP1 enable register at 0x060635AC to 1.
+ * Leaf function (no PR save). 10 instructions.
+ * ================================================================ */
+void FUN_060149E0(void)
+{
+    *(volatile short *)0x060A3D88 &= 0x7FFF;
+    *(volatile short *)0x060635AC = 1;
+}
+
+
+/* ================================================================
+ * FUN_060033E6 -- Conditional VDP Batch Transfer (0x060033E6)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x060033E6-0x06003404)
+ * Pool verified:
+ *   0x06003424 = 0x0607EBC8 (engine state flags)
+ *   0x06003428 = 0x06044638 (VDP data source A)
+ *   0x0600342C = 0x0605ACF0 (VDP data source B)
+ *   0x06003420 = 0x060284AE (VDP batch transfer function)
+ *   word pool at 0x0600340A = 0x0090 (size A)
+ *   word pool at 0x0600340C = 0x0C04 (size B)
+ *   word pool at 0x06003406 = 0x0200 (size C)
+ *   word pool at 0x06003408 = 0x5000 (size D)
+ *
+ * Tests bit 2 of engine state flags. If set, transfers from
+ * source A (0x06044638) with sizes 0x0C04/0x0090. If clear,
+ * transfers from source B (0x0605ACF0) with sizes 0x5000/0x0200.
+ * Both paths tail-call FUN_060284AE with cmd=8.
+ *
+ * Leaf function (no PR save). 16 instructions + pool.
+ * ================================================================ */
+void FUN_060033E6(void)
+{
+    if (*(volatile int *)0x0607EBC8 & 0x04) {
+        FUN_060284AE(8, 0x0C04, 0x0090, 0x06044638);
+    } else {
+        FUN_060284AE(8, 0x5000, 0x0200, 0x0605ACF0);
+    }
 }
