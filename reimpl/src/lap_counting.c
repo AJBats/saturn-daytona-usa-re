@@ -90,12 +90,13 @@
 extern int  FUN_0602744C(int dx, int dz);          /* atan2 */
 extern int  FUN_06035280();                          /* bit shift: 1 << index */
 extern void FUN_06034F78(int val, int param, int ptr);  /* bitfield write */
-extern void FUN_0600CDD0(void);                     /* checkpoint retreat (bit 0x08 path) */
+/* FUN_0600CDD0: declared below (checkpoint retreat) */
 extern void FUN_0600DD88(void);                     /* AI lap notification */
 extern void FUN_0600DCC8(void);                     /* checkpoint timing update */
 extern void FUN_0601D7D0(void);                     /* lap display function */
 
 /* Forward declarations */
+void FUN_0600CDD0(void);
 void FUN_0600D9BC(int car_index);
 void FUN_0600D92C(void);
 static void player_checkpoint_track(void);
@@ -169,6 +170,98 @@ int FUN_0600CD40(void)
     }
 
     return entry;  /* return checkpoint entry pointer */
+}
+
+
+/* ================================================================
+ * FUN_0600CDD0 -- Checkpoint Retreat (0x0600CDD0)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600CDD0-0x0600CE64)
+ * Pool verified:
+ *   0x0600CE86 = word 0x01E4 (checkpoint index offset)
+ *   0x0600CE88 = word 0x0184 (segment index offset)
+ *   0x0600CE8A = word 0x01E0 (checkpoint table base offset)
+ *   0x0600CE8C = word 0x4000 (angle threshold)
+ *   0x0600CE90 = 0x0607E940 (CAR_PTR_CURRENT)
+ *   0x0600CE94 = 0x0607EA9C (TOTAL_CHECKPOINTS)
+ *   0x0600CE98 = 0x0602744C (atan2)
+ *
+ * Mirror of FUN_0600CD40 (checkpoint advance) for backward movement.
+ * Called when car flags byte 3 has bit 0x08 set (retreat mode).
+ *
+ * Algorithm:
+ *   1. Compute current checkpoint entry (index * 24 + table_base)
+ *   2. Store unsigned checkpoint parameter to car[0x184] (segment idx)
+ *   3. Determine retreat target: index-1, or TOTAL_CHECKPOINTS if at 0
+ *   4. Compute angle from car to target checkpoint using atan2
+ *      (note: dZ is negated vs CD40 to check backward direction)
+ *   5. If angle difference > 0x4000: set checkpoint index to target
+ *   6. Return current checkpoint entry pointer
+ *
+ * 50 instructions. Uses r11-r14 callee-saved.
+ * ================================================================ */
+void FUN_0600CDD0(void)
+{
+    int car = CAR_PTR_CURRENT;
+    int index = CAR_INT(car, CAR_CHECKPOINT_IDX);
+    int table_base = CAR_INT(car, CAR_CHECKPOINT_BASE);
+    int entry;
+    int target;
+    int target_entry;
+    int dx, dz;
+    int angle;
+    int half_width, threshold;
+    int diff, abs_diff;
+
+    /* Compute current checkpoint entry */
+    entry = table_base + index * CHECKPOINT_ENTRY_SIZE;
+
+    /* Read checkpoint parameter, store as segment index */
+    {
+        unsigned short chk_param = *(volatile unsigned short *)(entry + 0x16);
+        CAR_INT(car, CAR_SEGMENT_IDX) = (int)chk_param;
+    }
+
+    /* Determine retreat target */
+    if (CAR_INT(car, CAR_CHECKPOINT_IDX) != 0) {
+        target = CAR_INT(car, CAR_CHECKPOINT_IDX) - 1;
+    } else {
+        target = TOTAL_CHECKPOINTS;  /* wrap to end */
+    }
+
+    /* Compute target checkpoint entry */
+    target_entry = CAR_INT(car, CAR_CHECKPOINT_BASE) + target * CHECKPOINT_ENTRY_SIZE;
+
+    /* Compute angle from car to target checkpoint
+     * Note: dZ is reversed (car_Z - target_Z) vs CD40's (target_Z - car_Z)
+     * to detect backward crossing */
+    dx = *(volatile int *)target_entry - CAR_INT(car, CAR_X);
+    dz = CAR_INT(car, CAR_Z) - *(volatile int *)(target_entry + 4);
+    angle = FUN_0602744C(dx, dz);
+
+    /* Extend to signed 16-bit */
+    angle = (short)angle;
+
+    /* Read checkpoint half-width, compute threshold = half_width * 4 */
+    half_width = *(volatile short *)(target_entry + 0x0E);
+    threshold = half_width << 2;
+
+    /* Compute angular difference */
+    diff = angle - threshold;
+    if (diff >= 0) {
+        abs_diff = diff;
+    } else {
+        abs_diff = threshold - angle;
+    }
+
+    /* Check if angular difference exceeds crossing threshold */
+    if (abs_diff > ANGLE_THRESHOLD) {
+        /* Checkpoint retreat: set index to target */
+        CAR_INT(car, CAR_CHECKPOINT_IDX) = target;
+    }
+
+    /* Return value: current checkpoint entry pointer (in r0) */
+    /* (Caller FUN_0600CE66 ignores return value) */
 }
 
 

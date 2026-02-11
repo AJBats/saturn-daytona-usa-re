@@ -59,7 +59,7 @@ void FUN_0602D9F0(void) { }
 void FUN_0600C994(void) { }
 
 /* Lap counting system dependencies (from lap_counting.c) */
-void FUN_0600CDD0(void) { }
+/* FUN_0600CDD0: moved to lap_counting.c */
 void FUN_0600DD88(void) { }
 void FUN_0600DCC8(void) { }
 void FUN_0601D7D0(void) { }
