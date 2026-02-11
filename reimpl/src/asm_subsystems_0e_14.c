@@ -1,5 +1,5 @@
 void FUN_0600F650(void) { }
-void FUN_0600F794(void) { }
+/* FUN_0600F794: moved to subsystem_counter.c */
 /* FUN_0600F822: moved to subsystem_counter.c */
 /* FUN_0600F898: moved to subsystem_counter.c */
 /* FUN_0600F8BE: moved to subsystem_counter.c */

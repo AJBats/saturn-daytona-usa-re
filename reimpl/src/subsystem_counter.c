@@ -404,3 +404,65 @@ void FUN_06013C20(void)
     FUN_06013fc4();
     FUN_0601416c();  /* tail-call in original */
 }
+
+
+/* Input processing — mode counter adjust */
+extern void FUN_060102A8(unsigned int param);
+
+/* Secondary input processor */
+extern void FUN_060102ea(int param);
+
+/* Mode-specific setup (no params) */
+extern void FUN_06010238(void);
+
+/* ================================================================
+ * FUN_0600F794 -- Subsystem Init with Mode Dispatch (0x0600F794)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600F794-0x0600F820)
+ * Pool verified:
+ *   [0x0600F7E4] = 0x06063D98 (input state base)
+ *   [0x0600F7E8] = 0x060114AC (subsystem init A)
+ *   [0x0600F7EC] = 0x06011094 (subsystem init B)
+ *   word [0x0600F848] = 0x0800 (bit 11 mask)
+ *   [0x0600F84C] = 0x06085FF4 (flag byte)
+ *   [0x0600F850] = 0x06063D98 (input state base, reloaded)
+ *   [0x0600F854] = 0x06078663 (control byte destination)
+ *
+ * Reads input word from 0x06063D9A, calls init helpers, then
+ * dispatches based on mode byte at 0x06063D9E:
+ *   mode == 16: call FUN_06010238 (setup)
+ *   mode != 16: call FUN_060102A8(input_word) (adjust)
+ * Always calls FUN_060102EA(input_word).
+ * If flag byte at 0x06085FF4 is non-zero, writes bit 11 test
+ * result (0 or 1) to control byte at 0x06078663.
+ *
+ * 40 instructions. Saves r14 + PR.
+ * ================================================================ */
+void FUN_0600F794(void)
+{
+    /* Read input word (sign-extended from 16-bit) */
+    short input_word = *(volatile short *)0x06063D9A;
+
+    /* Initialize subsystems */
+    FUN_060114ac(0);
+    FUN_06011094();
+
+    /* Dispatch based on mode byte */
+    unsigned short mode = *(volatile unsigned short *)0x06063D9E;
+
+    if (mode == 16) {
+        FUN_06010238();
+    } else {
+        FUN_060102A8((unsigned int)(unsigned short)input_word);
+    }
+
+    /* Common input processing */
+    FUN_060102ea((int)(unsigned short)input_word);
+
+    /* If flag byte is set, test input bit 11 and store result */
+    if (*(volatile char *)0x06085FF4 != 0) {
+        unsigned short input0 = *(volatile unsigned short *)0x06063D98;
+        char bit_val = (input0 & 0x0800) ? 1 : 0;
+        *(volatile char *)0x06078663 = bit_val;
+    }
+}
