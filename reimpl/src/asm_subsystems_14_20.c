@@ -117,6 +117,6 @@ void FUN_0601E770(void) { }
 void FUN_0601F464(void) { }
 void FUN_0601F5D0(void) { }
 void FUN_0601F938(void) { }
-void FUN_0601FD9C(void) { }
+/* FUN_0601FD9C: moved to mode_dispatch.c */
 void FUN_0601FFA8(void) { }
 void FUN_0601FFB8(void) { }
