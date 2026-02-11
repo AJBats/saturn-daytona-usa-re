@@ -30,7 +30,7 @@ void FUN_06012450(int a, int b) { (void)a; (void)b; }
 void FUN_0602F99C(void) { }
 
 /* Physics entry dependencies (from physics_entry.c) */
-void FUN_060081F4(void) { }
+/* FUN_060081F4: moved to gear_shift.c */
 void FUN_0600E7C8(void) { }
 /* FUN_06006838: already in batch_game_core.c */
 void FUN_06005ECC(void) { }
