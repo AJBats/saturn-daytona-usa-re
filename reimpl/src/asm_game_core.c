@@ -83,8 +83,8 @@ void FUN_0601389E(void) { }
 /* FUN_0600DFD0: moved to visual_physics_update.c */
 void FUN_0600C218(void) { }
 /* FUN_0600E060: moved to visual_physics_update.c */
-int FUN_0601F8C0(void) { return 0; }
-int FUN_0601F900(void) { return 0; }
+/* FUN_0601F8C0: moved to mode_transition.c */
+/* FUN_0601F900: moved to mode_transition.c */
 void FUN_060149E0(void) { }
 
 void FUN_0601C978(void) { }
@@ -102,7 +102,7 @@ void FUN_0601D3C0(void) { }
 void FUN_060193F4(void) { }
 void FUN_060196A4(void) { }
 void FUN_0601950C(void) { }
-void FUN_060198E0(void) { }
+/* FUN_060198E0: moved to subsystem_setup.c */
 void FUN_06019A48(void) { }
 void FUN_0601B160(void) { }
 int  FUN_0601B418(void) { return 0; }
