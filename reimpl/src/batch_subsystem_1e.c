@@ -1770,52 +1770,32 @@ int FUN_0601f40c(void)
   return 0;
 }
 
-void FUN_0601f4b4(param_1)
-    char *param_1;
+/* bcd_timestamp_decode -- Decode BCD-encoded CD-ROM timestamp to binary.
+ * Reads 7-byte BCD timestamp from CD status block (0x060A4C98) and converts
+ * to binary output: param_1[0]=year, [1]=day_lo, [2]=hour, [3]=minute,
+ * [4]=second, [5]=day_hi. Each BCD byte split into high*10+low nibbles. */
+void FUN_0601f4b4(char *param_1)
 {
+  int base = *(int *)0x060A4C98;
+  *(int *)0x060877E4 = base;                /* cache timestamp pointer */
 
-  unsigned char bVar1;
+  unsigned char sec = *(unsigned char *)(base + 1);
+  unsigned char min = *(unsigned char *)(base + 2);
+  unsigned char hour = *(unsigned char *)(base + 3);
+  unsigned char day = *(unsigned char *)(base + 4);
 
-  unsigned char bVar2;
-
-  unsigned char bVar3;
-
-  unsigned char bVar4;
-
-  int iVar5;
-
-  iVar5 = *(int *)0x060A4C98;
-
-  *(int *)0x060877E4 = iVar5;
-
-  bVar1 = *(unsigned char *)(iVar5 + 1);
-
-  bVar2 = *(unsigned char *)(iVar5 + 2);
-
-  bVar3 = *(unsigned char *)(iVar5 + 3);
-
-  bVar4 = *(unsigned char *)(iVar5 + 4);
-
+  /* Year: BCD decode of bytes 5 and 6 with century offset */
   *param_1 = (char)DAT_0601f5c6 +
+             (char)((int)(unsigned int)*(unsigned char *)(base + 5) >> 4) * '\n' +
+             (*(unsigned char *)(base + 5) & 0xf) +
+             (char)((int)(unsigned int)*(unsigned char *)(base + 6) >> 4) * (char)0x03E8F844 +
+             (*(unsigned char *)(base + 6) & 0xf) * 'd';
 
-             (char)((int)(unsigned int)*(unsigned char *)(iVar5 + 5) >> 4) * '\n' + (*(unsigned char *)(iVar5 + 5) & 0xf) +
-
-             (char)((int)(unsigned int)*(unsigned char *)(iVar5 + 6) >> 4) * (char)0x03E8F844 +
-
-             (*(unsigned char *)(iVar5 + 6) & 0xf) * 'd';
-
-  param_1[1] = bVar4 & 0xf;
-
-  param_1[5] = (char)((int)(unsigned int)bVar4 >> 4);
-
-  param_1[2] = (bVar3 & 0xf) + (char)((int)(unsigned int)bVar3 >> 4) * '\n';
-
-  param_1[3] = (bVar2 & 0xf) + (char)((int)(unsigned int)bVar2 >> 4) * '\n';
-
-  param_1[4] = (bVar1 & 0xf) + (char)((int)(unsigned int)bVar1 >> 4) * '\n';
-
-  return;
-
+  param_1[1] = day & 0xf;                          /* day low nibble */
+  param_1[5] = (char)((int)(unsigned int)day >> 4); /* day high nibble */
+  param_1[2] = (hour & 0xf) + (char)((int)(unsigned int)hour >> 4) * '\n';
+  param_1[3] = (min & 0xf) + (char)((int)(unsigned int)min >> 4) * '\n';
+  param_1[4] = (sec & 0xf) + (char)((int)(unsigned int)sec >> 4) * '\n';
 }
 
 int FUN_0601f5e0()

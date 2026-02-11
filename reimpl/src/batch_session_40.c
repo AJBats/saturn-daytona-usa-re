@@ -1217,131 +1217,80 @@ int FUN_06041034(param_1, param_2, param_3, param_4, param_5)
 
 }
 
-int FUN_06041128(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_session_lock_verify -- Verify session lock and issue stop command.
+ * Validates param_1 against expected filter ID or checks session+0x18 flag.
+ * Verifies session handle matches param_2. Sets lock flag, stores filter ID,
+ * then dispatches stop command via FUN_06041aa0. Returns negative on error. */
+int FUN_06041128(int param_1, int param_2)
 {
+  int *session = (int *)0x060A5400;
+  int offset;
+  char auStack_8[8];
 
-  char *puVar1;
-
-  int iVar2;
-
-  char auStack_8 [8];
-
-  puVar1 = (char *)0x060A5400;
-
-  if ((param_1 != DAT_06041174) && (*(char *)(param_1 + CD_SESSION_BASE + 0x18) != '\x01'))
-
-  {
-
-    return 0xfffffff9;
-
+  if ((param_1 != DAT_06041174) && (*(char *)(param_1 + CD_SESSION_BASE + 0x18) != '\x01')) {
+    return 0xfffffff9;                      /* -7: invalid filter */
   }
-
   if (*(int *)(CD_SESSION_BASE + 0x38) != param_2) {
-
-    return 0xfffffff7;
-
+    return 0xfffffff7;                      /* -9: session mismatch */
   }
 
-  iVar2 = (int)PTR_DAT_06041176;
-
-  *(int *)(CD_SESSION_BASE + iVar2) = 1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
-
+  offset = (int)PTR_DAT_06041176;
+  *(int *)(CD_SESSION_BASE + offset) = 1;
+  *(int *)(*session + offset + 4) = param_1;
   FUN_06041aa0(auStack_8);
-
   return 0;
-
 }
 
-int FUN_060411a0(param_1, param_2, param_3, param_4, param_5)
-    int param_1;
-    int param_2;
-    int param_3;
-    int param_4;
-    int param_5;
+/* cd_read_request_init -- Initialize a CD sector read request.
+ * Checks request slot busy flag. Fills request structure: FAD address (param_1),
+ * sector count (param_2), destination buffer (param_3), transfer mode (param_4),
+ * and callback (param_5). Dispatches via FUN_06041b3c. Returns -1 if busy. */
+int FUN_060411a0(int param_1, int param_2, int param_3, int param_4, int param_5)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  char auStack_8 [8];
-
-  puVar1 = (char *)0x060A5400;
+  int *session = (int *)0x060A5400;
+  int offset;
+  char auStack_8[8];
 
   if (*(int *)(CD_SESSION_BASE + (int)DAT_060411f6) != 0) {
-
-    return 0xffffffff;
-
+    return 0xffffffff;                      /* -1: request slot busy */
   }
 
-  iVar2 = (int)DAT_060411f6;
-
-  *(int *)(CD_SESSION_BASE + iVar2) = 1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 8) = param_2;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0xc) = param_3;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0x10) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0x14) = param_4;
-
-  *(int *)(*(int *)puVar1 + (int)PTR_DAT_060411f8) = param_5;
-
+  offset = (int)DAT_060411f6;
+  *(int *)(CD_SESSION_BASE + offset) = 1;           /* mark slot active */
+  *(int *)(*session + offset + 4)  = param_1;       /* FAD address */
+  *(int *)(*session + offset + 8)  = param_2;       /* sector count */
+  *(int *)(*session + offset + 0xc) = param_3;      /* destination buffer */
+  *(int *)(*session + offset + 0x10) = 0;           /* reserved */
+  *(int *)(*session + offset + 0x14) = param_4;     /* transfer mode */
+  *(int *)(*session + (int)PTR_DAT_060411f8) = param_5;  /* callback */
   FUN_06041b3c(auStack_8);
-
   return 0;
-
 }
 
-int FUN_06041204(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* cd_partition_request -- Request CD data partition setup.
+ * Checks partition slot (offset 0x328) busy and session active flags.
+ * Fills partition request: FAD (param_1), size (param_2), filter (param_3).
+ * Marks session active, dispatches via FUN_06041cc8.
+ * Returns -1 if busy, -5 if session already active. */
+int FUN_06041204(int param_1, int param_2, int param_3)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  char auStack_8 [8];
-
-  puVar1 = (char *)0x060A5400;
+  int *session = (int *)0x060A5400;
+  char auStack_8[8];
 
   if (*(int *)(CD_SESSION_BASE + 0x328) != 0) {
-
-    return 0xffffffff;
-
+    return 0xffffffff;                      /* -1: partition slot busy */
   }
-
   if (*(int *)(CD_SESSION_BASE + 0x34) == 1) {
-
-    return 0xfffffffb;
-
+    return 0xfffffffb;                      /* -5: session already active */
   }
 
-  *(int *)(CD_SESSION_BASE + 0x34) = 1;
-
-  iVar2 = 0x328;
-
-  *(int *)(*(int *)puVar1 + iVar2) = 1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 8) = param_2;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0xc) = param_3;
-
+  *(int *)(CD_SESSION_BASE + 0x34) = 1;    /* mark session active */
+  *(int *)(*session + 0x328) = 1;          /* mark slot active */
+  *(int *)(*session + 0x32C) = param_1;    /* FAD address */
+  *(int *)(*session + 0x330) = param_2;    /* partition size */
+  *(int *)(*session + 0x334) = param_3;    /* filter index */
   FUN_06041cc8(auStack_8);
-
   return 0;
-
 }
 
 /* cd_partition_finalize -- Finalize CD partition after data transfer.
@@ -1370,48 +1319,30 @@ int FUN_06041258(void)
   return 0;
 }
 
-int FUN_060412b2(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* cd_seek_request -- Issue a CD seek command to target FAD.
+ * Checks seek slot (offset 0x338) busy and session active flags.
+ * Fills seek request: FAD (param_1), seek mode (param_2), speed (param_3).
+ * Marks session active, dispatches via FUN_06041d6c.
+ * Returns -1 if busy, -5 if session already active. */
+int FUN_060412b2(int param_1, int param_2, int param_3)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  char auStack_8 [8];
-
-  puVar1 = (char *)0x060A5400;
+  int *session = (int *)0x060A5400;
+  char auStack_8[8];
 
   if (*(int *)(CD_SESSION_BASE + 0x338) != 0) {
-
-    return 0xffffffff;
-
+    return 0xffffffff;                      /* -1: seek slot busy */
   }
-
   if (*(int *)(CD_SESSION_BASE + 0x34) == 1) {
-
-    return 0xfffffffb;
-
+    return 0xfffffffb;                      /* -5: session already active */
   }
 
-  *(int *)(CD_SESSION_BASE + 0x34) = 1;
-
-  iVar2 = 0x338;
-
-  *(int *)(*(int *)puVar1 + iVar2) = 1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 8) = param_2;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0xc) = param_3;
-
+  *(int *)(CD_SESSION_BASE + 0x34) = 1;    /* mark session active */
+  *(int *)(*session + 0x338) = 1;          /* mark slot active */
+  *(int *)(*session + 0x33C) = param_1;    /* FAD target */
+  *(int *)(*session + 0x340) = param_2;    /* seek mode */
+  *(int *)(*session + 0x344) = param_3;    /* seek speed */
   FUN_06041d6c(auStack_8);
-
   return 0;
-
 }
 
 /* cd_session_read_and_process -- Read CD register pair, process if valid.
@@ -1436,45 +1367,28 @@ int FUN_0604134e(int param_1, int expected)
 
 }
 
-int FUN_06041470(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_play_request -- Issue a CD audio play command.
+ * Validates filter at param_2: checks session+0x18 and session+0x00 flags.
+ * If valid and play slot (offset 0x360) is free, fills request with FAD
+ * (param_1) and filter (param_2), dispatches via FUN_06042088.
+ * Returns -1 if slot busy, -5 if filter invalid. */
+int FUN_06041470(int param_1, int param_2)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  char auStack_8 [8];
-
-  puVar1 = (char *)0x060A5400;
+  int *session = (int *)0x060A5400;
+  char auStack_8[8];
 
   if ((*(char *)(param_2 + CD_SESSION_BASE + 0x18) == '\x01') &&
-
-     (*(char *)(param_2 + CD_SESSION_BASE) == '\x01')) {
-
+      (*(char *)(param_2 + CD_SESSION_BASE) == '\x01')) {
     if (*(int *)(CD_SESSION_BASE + 0x360) != 0) {
-
-      return 0xffffffff;
-
+      return 0xffffffff;                    /* -1: play slot busy */
     }
-
-    iVar2 = 0x360;
-
-    *(int *)(CD_SESSION_BASE + iVar2) = 1;
-
-    *(int *)(*(int *)puVar1 + iVar2 + 4) = param_1;
-
-    *(int *)(*(int *)puVar1 + iVar2 + 8) = param_2;
-
+    *(int *)(CD_SESSION_BASE + 0x360) = 1;  /* mark slot active */
+    *(int *)(*session + 0x364) = param_1;   /* FAD to play */
+    *(int *)(*session + 0x368) = param_2;   /* filter index */
     FUN_06042088(auStack_8);
-
     return 0;
-
   }
-
-  return 0xfffffffb;
-
+  return 0xfffffffb;                        /* -5: invalid filter */
 }
 
 int FUN_060414d0(param_1, param_2, param_3)

@@ -381,50 +381,30 @@ void FUN_06004f14(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_0600508a(param_1, param_2, param_3)
-    unsigned short *param_1;
-    int param_2;
-    unsigned int param_3;
+/* vdp1_sprite_upload -- Upload sprite character data and register in display list.
+ * If bit 2 of param_3 is set, copies sprite header (width*height+2 words) to
+ * work buffer at 0x06063D90 and advances VRAM pointers. Registers sprite
+ * pointer and palette offset (param_2) into display list table at 0x06063750.
+ * Increments display list entry count at 0x06059F10. */
+void FUN_0600508a(unsigned short *param_1, int param_2, unsigned int param_3)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  unsigned int uVar3;
-
-  unsigned short *puVar4;
-
-  puVar1 = (char *)0x06063D90;
+  int *work_ptr = (int *)0x06063D90;       /* VRAM work buffer pointer */
+  int *entry_count = (int *)0x06059F10;    /* display list entry count */
 
   if ((param_3 & 4) != 0) {
-
-    puVar4 = *(unsigned short **)0x06063D90;
-
-    uVar3 = ((unsigned int)param_1[1] * (unsigned int)*param_1 + 2) << 1 & 0xffff;
-
-    (*(int(*)())0x0602761E)(puVar4,param_1,uVar3);
-
-    *(unsigned int *)puVar1 = *(int *)puVar1 + uVar3;
-
-    *(unsigned int *)0x06063D94 = *(int *)0x06063D94 + uVar3;
-
-    param_1 = puVar4;
-
+    /* Copy sprite data to work buffer */
+    unsigned short *dest = *(unsigned short **)work_ptr;
+    unsigned int size = ((unsigned int)param_1[1] * (unsigned int)*param_1 + 2) << 1 & 0xffff;
+    (*(int(*)())0x0602761E)(dest, param_1, size);
+    *work_ptr = *work_ptr + size;
+    *(int *)0x06063D94 = *(int *)0x06063D94 + size;
+    param_1 = dest;
   }
 
-  puVar2 = (int *)0x06059F10;
-
-  puVar1 = (char *)0x06063750;
-
-  *(int *)(0x06063750 + *(int *)(0x06059F10 << 3) + 4) = param_2;
-
-  *(unsigned short **)(puVar1 + *(int *)((int)(int)puVar2 << 3)) = param_1;
-
-  *(int *)puVar2 = *(int *)puVar2 + 1;
-
-  return;
-
+  /* Register in display list table (8 bytes per entry) */
+  *(int *)(0x06063750 + *entry_count * 8 + 4) = param_2;
+  *(unsigned short **)(0x06063750 + *entry_count * 8) = param_1;
+  *entry_count = *entry_count + 1;
 }
 
 /* vdp2_upload_conditional -- Upload data to VDP2 VRAM with mode selection.
@@ -655,51 +635,33 @@ void FUN_060053ac(param_1, param_2, param_3)
   dest[2] = param_1[2] - iVar4;
 }
 
-void FUN_0600553c(param_1, param_2)
-    char *param_1;
-    char *param_2;
+/* matrix_push_from_car -- Load transform matrix from car slot position/rotation.
+ * Reads car index from *param_1. Skips if index matches *param_2 (already loaded)
+ * or is -1 (invalid). Loads identity (0x06026E0C), then pushes car XYZ position
+ * (CAR_ARRAY_BASE + slot*0x268 + 0x10/0x14/0x18) and rotations (+0x20/0x1C/0x24)
+ * onto the matrix stack via translate (0x06026E2E) and rotate functions. */
+void FUN_0600553c(char *param_1, char *param_2)
 {
+  char slot = *param_1;
+  int skip = 1;
 
-  char cVar1;
-
-  char *puVar2;
-
-  int bVar3;
-
-  int iVar4;
-
-  cVar1 = *param_1;
-
-  bVar3 = 1;
-
-  if ((param_2 != (char *)0x0) && (cVar1 == *param_2)) {
-
-    bVar3 = 0;
-
+  if ((param_2 != (char *)0x0) && (slot == *param_2)) {
+    skip = 0;
   }
 
-  if ((bVar3) && ((*(int(*)())0x06026E0C)(), puVar2 = 0x06078900, cVar1 != -1)) {
+  if (skip && ((*(int(*)())0x06026E0C)(), slot != -1)) {
+    int off = (int)slot * CAR_STRUCT_SIZE;
+    char *car = (char *)CAR_ARRAY_BASE;
 
-    iVar4 = (int)cVar1 * 0x268;
-
-    (*(int(*)())0x06026E2E)(*(int *)(0x06078900 + iVar4 + 0x10),
-
-               *(int *)(0x06078900 + iVar4 + 0x14),
-
-               *(int *)(0x06078900 + iVar4 + 0x18));
-
-    (*(int(*)())0x06026EDE)(*(int *)(puVar2 + iVar4 + 0x20));
-
-    (*(int(*)())0x06026E94)(*(int *)(puVar2 + iVar4 + 0x1c));
-
-    (*(int(*)())0x06026F2A)(*(int *)(puVar2 + iVar4 + 0x24));
-
-    return;
-
+    /* Push car world position */
+    (*(int(*)())0x06026E2E)(*(int *)(car + off + CAR_X),
+                            *(int *)(car + off + CAR_Y),
+                            *(int *)(car + off + CAR_Z));
+    /* Push car rotations: heading, pitch, roll */
+    (*(int(*)())0x06026EDE)(*(int *)(car + off + CAR_HEADING));
+    (*(int(*)())0x06026E94)(*(int *)(car + off + 0x1c));
+    (*(int(*)())0x06026F2A)(*(int *)(car + off + 0x24));
   }
-
-  return;
-
 }
 
 void FUN_060055bc(param_1, param_2, param_3, param_4)
