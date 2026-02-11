@@ -32,8 +32,7 @@ void hud_racing_state_init(void) __attribute__((alias("FUN_0600BFFC")));
 /* FUN_0600C302: moved to car_iteration.c */
 /* FUN_0600DE54: moved to car_iteration.c */
 /* FUN_0600DE70: moved to car_iteration.c */
-void FUN_0600EB14(void) { }
-void race_init_master(void) __attribute__((alias("FUN_0600EB14")));
+/* FUN_0600EB14: moved to race_init.c */
 void FUN_06010A5C(int arg) { (void)arg; }
 void FUN_060120C8(void) { }
 void FUN_060121A8(void) { }

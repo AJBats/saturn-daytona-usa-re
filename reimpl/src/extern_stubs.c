@@ -29,6 +29,12 @@ void FUN_0600E4F2(void) { }
 void FUN_0600A8BC(void) { }
 void FUN_0602F99C(void) { }
 
+/* Race init dependencies (from race_init.c) */
+void FUN_06026E02(void) { }
+void FUN_060270C6(void) { }
+void FUN_0600629C(void) { }
+void FUN_06021450(void) { }
+
 /* Lap counting system dependencies (from lap_counting.c) */
 void FUN_0600DD88(void) { }
 void FUN_0600DCC8(void) { }
