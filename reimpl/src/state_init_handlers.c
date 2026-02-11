@@ -13,6 +13,10 @@
  *   FUN_06008C14 (0x06008C14) -- State handler: mode transition dispatch
  *   FUN_06008C76 (0x06008C76) -- State handler: conditional mode dispatch
  *   FUN_06008D74 (0x06008D74) -- State handler: countdown + button check
+ *   FUN_06008A18 (0x06008A18) -- State handler: attract mode / title timeout
+ *   FUN_06008CCC (0x06008CCC) -- State handler: pre-attract init (prologue)
+ *   FUN_06008CD0 (0x06008CD0) -- State handler: pre-attract init (body)
+ *   FUN_06009C48 (0x06009C48) -- State handler: post-race gameplay
  *   FUN_06008E00 (0x06008E00) -- State handler: race setup, mode=13
  *   FUN_06008E48 (0x06008E48) -- State handler: race monitor / abort
  *   FUN_06009DD0 (0x06009DD0) -- State handler: race end setup, mode=27
@@ -99,6 +103,69 @@ extern void FUN_0600330A(void);
 
 /* Session communication init */
 extern void FUN_0601AE80(void);
+
+/* Per-frame subsystem update */
+extern void FUN_0600A1F6(void);
+
+/* Graphics state reset (alternate) */
+extern void FUN_06033BC8(void);
+
+/* VDP2 display update */
+extern void FUN_0601FD74(void);
+
+/* Rendering pipeline update */
+extern void FUN_0600DE40(void);
+
+/* Scene/object update dispatch */
+extern void FUN_0600A914(void);
+
+/* Car physics per-frame update */
+extern void FUN_060055BC(void);
+
+/* Timed display/render sequence (param, mode) */
+extern void FUN_0600338C(int param, int mode);
+
+/* Post-frame render finalize */
+extern void FUN_0600BFFC(void);
+
+/* Session result display */
+extern void FUN_0601AEB6(void);
+
+/* Per-frame tail call (VDP sync + return) */
+extern void FUN_060078DC(void);
+
+/* Display subsystem shutdown */
+extern void FUN_0601D2DC(void);
+
+/* Sound engine reset */
+extern void FUN_0601B074(void);
+
+/* CD audio stop/fade */
+extern void FUN_06018FF8(void);
+
+/* VDP1 sprite setup (pre-display) */
+extern void FUN_06014A42(void);
+
+/* Results screen update */
+extern void FUN_0601DF88(void);
+
+/* Results screen animation */
+extern void FUN_0601DBB8(void);
+
+/* AI/object position update */
+extern void FUN_0600DF66(void);
+
+/* Score/results display */
+extern void FUN_0600BB94(void);
+
+/* Triple display overlay (3 display addr params) */
+extern void FUN_060053AC(int addr_c, int addr_b, int addr_a);
+
+/* Course-specific display effect */
+extern void FUN_060033E6(void);
+
+/* End-of-race cleanup */
+extern void FUN_0600A084(void);
 
 /* VDP1 attribute setup (post-mode-transition) */
 extern void FUN_060149E0(void);
@@ -720,4 +787,256 @@ void FUN_06008938(void)
 void FUN_0600893C(void)
 {
     FUN_06008938();
+}
+
+
+/* ================================================================
+ * FUN_06008A18 -- State Handler: Attract Mode / Title Timeout (0x06008A18)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008A18-0x06008AB8)
+ * Pool verified:
+ *   0x06008AC4 = 0x0607EBCC (render param cache)
+ *   0x06008AC8 = 0x0600A1F6 (per-frame subsystem update)
+ *   0x06008ACC = 0x0607EAD8 (frame counter)
+ *   0x06008AD0 = 0x06063D9A (button input state)
+ *   word pool at 0x06008AC0 = 0x0800 (start button mask)
+ *   0x06008AD4 = 0x06018E70 (CD play command)
+ *   0x06008AD8 = 0x0605AD10 (mode selector)
+ *   0x06008ADC = 0x06087804 (display timer)
+ *   0x06008AE0 = 0x06033BC8 (graphics state reset)
+ *   0x06008AE4 = 0x0601FD74 (VDP2 display update)
+ *   0x06008AE8 = 0x0600DE40 (rendering pipeline)
+ *   0x06008AEC = 0x0600A914 (scene/object update)
+ *   0x06008AF0 = 0x060055BC (car physics update)
+ *   0x06008AF4 = 0x0600338C (timed display sequence)
+ *   0x06008AF8 = 0x0600BFFC (post-frame render)
+ *   word pool at 0x06008AC0+2 = 0x0244 (580 timer threshold)
+ *   0x06008AFC = 0x0601AEB6 (session result display)
+ *   0x06008B00 = 0x060078DC (per-frame tail call)
+ *
+ * Decrements render param cache (title screen timer). Two paths:
+ *
+ * Path A (timer >= 0, no start button): Run full display pipeline
+ *   (graphics reset if counter==2, VDP2 update, rendering, scene,
+ *   physics, timed display, post-frame, optional result display
+ *   if timer <= 580), tail-call FUN_060078DC.
+ *
+ * Path B (timer < 0 or start pressed): If start pressed + timer >= 0,
+ *   calls CD play. If timer < 0, increments frame counter mod 3.
+ *   Sets MODE_SELECTOR=4 and display timer=3.
+ *
+ * 80 instructions (incl. delay slots + pool). Saves PR + r14.
+ * ================================================================ */
+void FUN_06008A18(void)
+{
+    volatile int *frame_counter = (volatile int *)0x0607EAD8;
+
+    /* Decrement title screen timer */
+    RENDER_PARAM_CACHE = RENDER_PARAM_CACHE - 1;
+
+    /* Per-frame subsystem update */
+    FUN_0600A1F6();
+
+    if (RENDER_PARAM_CACHE >= 0) {
+        /* Timer still running: check for start button (0x0800) */
+        if (((unsigned short)BUTTON_INPUT_STATE & 0x0800) == 0) {
+            /* No start button: run full display pipeline */
+            if (*frame_counter == 2) {
+                FUN_06033BC8();
+            }
+            FUN_0601FD74();
+            FUN_0600DE40();
+            FUN_0600A914();
+            FUN_060055BC();
+            FUN_0600338C(RENDER_PARAM_CACHE, 21);
+            FUN_0600BFFC();
+            if (RENDER_PARAM_CACHE <= 580) {  /* 0x0244 */
+                FUN_0601AEB6();
+            }
+            FUN_060078DC();
+            return;
+        }
+        /* Start button pressed: play CD and set mode */
+        FUN_06018E70();
+    } else {
+        /* Timer expired: increment frame counter mod 3 */
+        int val = *frame_counter + 1;
+        *frame_counter = val;
+        if ((unsigned int)val >= 3) {
+            *frame_counter = 0;
+        }
+    }
+
+    /* Set mode=4 (state boundary normalizer) and display timer=3 */
+    MODE_SELECTOR = 4;
+    *(volatile short *)0x06087804 = 3;
+}
+
+
+/* ================================================================
+ * FUN_06008CCC -- State Handler: Pre-Attract Init, Prologue (0x06008CCC)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008CCC-0x06008D36)
+ * Pool verified:
+ *   0x06008D3C = 0x06078644 (config register)
+ *   0x06008D40 = 0x060149E0 (VDP1 attribute setup)
+ *   0x06008D44 = 0x06026CE0 (scene callback)
+ *   0x06008D48 = 0x06059F44 (state done flag)
+ *   0x06008D4C = 0x0601D2DC (display subsystem shutdown)
+ *   0x06008D50 = 0x0601B074 (sound engine reset)
+ *   0x06008D54 = 0x0607EBCC (render param cache)
+ *   word pool at 0x06008D38 = 0x0258 (600 = 10sec timer)
+ *   0x06008D58 = 0x06086024 (subsystem state)
+ *   0x06008D5C = 0x0605AD10 (mode selector)
+ *   0x06008D60 = 0x0605B6D8 (engine state flags)
+ *   0x06008D64 = 0x40000000 (engine flag bit 30)
+ *   0x06008D68 = 0x0605A016 (sub-state counter)
+ *   0x06008D6C = 0x0607864B (session byte)
+ *   0x06008D70 = 0x06018FF8 (CD audio stop/fade)
+ *
+ * Prologue saves r14, sets r14=0. Body: stores 0 to config register,
+ * sets up VDP1 attrs, dispatches callbacks, clears state flag,
+ * shuts down display+sound, sets 10-second timer, clears subsystem
+ * state, sets mode=5, engine flag bit 30, dispatches callbacks again,
+ * clears state flag, sets sub-state=3. If session byte == 1, stops
+ * CD audio and clears the byte.
+ *
+ * 52 instructions (incl. delay slots + pool). Saves PR + r14.
+ * ================================================================ */
+void FUN_06008CCC(void)
+{
+    /* Config register = 0 (from prologue: r14 = 0) */
+    *(volatile int *)0x06078644 = 0;
+
+    /* VDP1 attribute setup */
+    FUN_060149E0();
+
+    /* Dispatch scene callbacks */
+    FUN_06026CE0();
+
+    /* Clear state completion flag */
+    STATE_DONE_FLAG = 0;
+
+    /* Shut down display subsystem */
+    FUN_0601D2DC();
+
+    /* Reset sound engine */
+    FUN_0601B074();
+
+    /* Set render parameter cache to 600 (10 seconds) */
+    RENDER_PARAM_CACHE = 600;  /* 0x0258 */
+
+    /* Clear subsystem state */
+    *(volatile int *)0x06086024 = 0;
+
+    /* Set mode to 5 (timed/conditional branch) */
+    MODE_SELECTOR = 5;
+
+    /* Set engine state flag bit 30 */
+    ENGINE_STATE_FLAGS = ENGINE_STATE_FLAGS | 0x40000000;
+
+    /* Dispatch scene callbacks (second time) */
+    FUN_06026CE0();
+
+    /* Clear state completion flag */
+    STATE_DONE_FLAG = 0;
+
+    /* Set sub-state counter to 3 */
+    SUB_STATE_COUNTER = 3;
+
+    /* If session byte is 1, stop CD audio and clear it */
+    if (*(volatile unsigned char *)0x0607864B == 1) {
+        FUN_06018FF8();
+        *(volatile unsigned char *)0x0607864B = 0;
+    }
+}
+
+
+/* ================================================================
+ * FUN_06008CD0 -- State Handler: Pre-Attract Init, Body (0x06008CD0)
+ *
+ * This is the body entry point of FUN_06008CCC. In the original binary,
+ * FUN_06008CCC saves r14 and sets r14=0, then falls through here.
+ * In C, both entry points produce the same behavior.
+ * ================================================================ */
+void FUN_06008CD0(void)
+{
+    FUN_06008CCC();
+}
+
+
+/* ================================================================
+ * FUN_06009C48 -- State Handler: Post-Race Gameplay (0x06009C48)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06009C48-0x06009CB4)
+ * Pool verified:
+ *   0x06009CB8 = 0x06014A42 (VDP1 sprite setup)
+ *   0x06009CBC = 0x0607EAE0 (subsystem flag)
+ *   0x06009CC0 = 0x0601DF88 (results screen update)
+ *   0x06009CC4 = 0x0607EAD8 (frame counter)
+ *   0x06009CC8 = 0x0601DBB8 (results screen animation)
+ *   0x06009CCC = 0x0600DF66 (AI/object position update)
+ *   0x06009CD0 = 0x0600A914 (scene/object update)
+ *   0x06009CD4 = 0x0600BB94 (score/results display)
+ *   0x06009CD8 = 0x06063E24 (display addr C ptr)
+ *   0x06009CDC = 0x06063EEC (display addr B)
+ *   0x06009CE0 = 0x06063EF8 (display addr A)
+ *   0x06009CE4 = 0x060053AC (triple display overlay)
+ *   0x06009CE8 = 0x0600BFFC (post-frame render)
+ *   0x06009CEC = 0x0607ED8C (display counter)
+ *   0x06009CF0 = 0x060033E6 (course-specific display)
+ *   0x06009CF4 = 0x0607E944 (object table pointer)
+ *   word pool at 0x06009CB6 = 0x00BC (188 = struct offset)
+ *   0x06009CF8 = 0x060078DC (per-frame tail call)
+ *
+ * Post-race gameplay state: sets up VDP1 sprites, conditionally
+ * updates results screen (if subsystem flag != 0) and animation
+ * (if frame counter != 0). Then runs scene/object update pipeline,
+ * score display, overlay rendering, post-frame render. Checks
+ * display counter and object table entry for additional effects.
+ * Tail-calls FUN_060078DC.
+ *
+ * 55 instructions (incl. delay slots + pool). Saves PR.
+ * ================================================================ */
+void FUN_06009C48(void)
+{
+    /* VDP1 sprite setup */
+    FUN_06014A42();
+
+    /* Conditional results screen update */
+    if (*(volatile int *)0x0607EAE0 != 0) {
+        FUN_0601DF88();
+        if (*(volatile int *)0x0607EAD8 != 0) {
+            FUN_0601DBB8();
+        }
+    }
+
+    /* AI/object position update */
+    FUN_0600DF66();
+
+    /* Scene/object update dispatch */
+    FUN_0600A914();
+
+    /* Score/results display */
+    FUN_0600BB94();
+
+    /* Triple display overlay (r6 loaded from pointer in delay slot) */
+    FUN_060053AC((int)0x06063EF8, (int)0x06063EEC, *(volatile int *)0x06063E24);
+
+    /* Post-frame render finalize */
+    FUN_0600BFFC();
+
+    /* Course-specific display effect if display counter != 0 */
+    if (*(volatile unsigned short *)0x0607ED8C != 0) {
+        FUN_060033E6();
+    }
+
+    /* Check object table entry at offset 0xBC for cleanup */
+    volatile int *table = *(volatile int * volatile *)0x0607E944;
+    if (*(int *)((char *)table + 0xBC) > 0) {
+        FUN_0600A084();
+    }
+
+    /* Per-frame tail call */
+    FUN_060078DC();
 }
