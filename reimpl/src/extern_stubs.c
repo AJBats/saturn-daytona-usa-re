@@ -75,3 +75,6 @@ void FUN_0602ECF2(void) { }
 void FUN_06012BDC(void) { }
 int  FUN_0603AE08(int command) { (void)command; return 0; }
 int  FUN_0603B1B6(int handle, int zero, int dest, int flag) { (void)handle; (void)zero; (void)dest; (void)flag; return 0; }
+
+/* CD subsystem init dependencies (from stubs.c / game_subsystem_init) */
+int  FUN_0603AC1C(int mode, int src, int config) { (void)mode; (void)src; (void)config; return 3; }
