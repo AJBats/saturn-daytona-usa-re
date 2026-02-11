@@ -21,13 +21,20 @@ int FUN_06027378(int a) { (void)a; return 0; }
 void FUN_06012450(int a, int b) { (void)a; (void)b; }
 
 /* Game loop dependencies (from car_iteration.c) */
-void FUN_0600E0C0(void) { }
+/* FUN_0600E0C0: moved to per_car_loop.c */
 void FUN_0600E410(void) { }
 void FUN_0600E47C(void) { }
-void FUN_0600E99C(void) { }
+/* FUN_0600E99C: moved to camera_setup.c */
 void FUN_0600E4F2(void) { }
 void FUN_0600A8BC(void) { }
 void FUN_0602F99C(void) { }
+
+/* Per-car loop dependencies (from per_car_loop.c) */
+void FUN_06030A06(void) { }
+void FUN_06030EE0(void) { }
+void FUN_060061C8(void) { }
+void FUN_06027CA4(int buffer, int index) { (void)buffer; (void)index; }
+void FUN_0603053C(int arg) { (void)arg; }
 
 /* Race init dependencies (from race_init.c) */
 void FUN_06026E02(void) { }
