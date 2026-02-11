@@ -71,7 +71,7 @@ extern int DAT_0601ff92;
 extern void FUN_0601e26c();
 extern void FUN_0601e2b4();
 extern void FUN_0601e37c();
-extern int FUN_0601e488();
+extern int FUN_0601e488(unsigned short slot);
 extern unsigned int FUN_0601e4d4();
 extern int FUN_0601e6a4();
 extern int FUN_0601e764();
@@ -388,22 +388,21 @@ LAB_0601e46a:
 
 }
 
-int FUN_0601e488(param_1)
-    unsigned short param_1;
+/* sound_slot_play -- Start sound playback for a slot.
+ * Computes slot descriptor at 0x06087094 + (slot * 32),
+ * calls BIOS sound open then play via vtable at 0x06000354. */
+int FUN_0601e488(unsigned short slot)
 {
+    char *desc = (char *)(0x06087094 + (unsigned int)(slot << 5));
+    short sound_id = *(short *)(desc + 0x1C);
 
-  char *puVar1;
+    /* BIOS sound open (vtable[1]) */
+    (*(int(*)())(*(int *)(*(int *)0x06000354 + 4)))(sound_id, 0);
+    /* BIOS sound play (vtable[3]) */
+    (*(int(*)())(*(int *)(*(int *)0x06000354 + 0xC)))(sound_id,
+        *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2)), desc);
 
-  puVar1 = 0x06087094 + (unsigned int)(param_1 << 5);
-
-  (*(int(*)())(*(int *)(*(int *)0x06000354 + 4)))(*(short *)(puVar1 + 0x1c),0);
-
-  (*(int(*)())(*(int *)(*(int *)0x06000354 + 0xc)))(*(short *)(puVar1 + 0x1c),
-
-             *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2)),puVar1);
-
-  return 0;
-
+    return 0;
 }
 
 unsigned int FUN_0601e4d4()
@@ -2118,27 +2117,23 @@ void FUN_0601f8bc()
 
 }
 
-int FUN_0601f8c0()
+/* mode_transition_check -- Check if mode transition is complete.
+ * Clears transition flag, runs transition step (FUN_0601f5e0).
+ * If flag still clear after step, transition still in progress (return 1).
+ * Otherwise, finalize: init render, apply transition, commit. Return 0. */
+int FUN_0601f8c0(void)
 {
+    *(int *)0x0605E05C = 0;
+    FUN_0601f5e0();
 
-  *(int *)0x0605E05C = 0;
+    if (*(int *)0x0605E05C == '\0') {
+        return 1;  /* transition still in progress */
+    }
 
-  FUN_0601f5e0();
-
-  if (*(int *)0x0605E05C == '\0') {
-
-    return 1;
-
-  }
-
-  (*(int(*)())0x060149E0)();
-
-  FUN_0601f9cc();
-
-  (*(int(*)())0x060149CC)();
-
-  return 0;
-
+    (*(int(*)())0x060149E0)();  /* render init */
+    FUN_0601f9cc();             /* apply transition */
+    (*(int(*)())0x060149CC)();  /* commit */
+    return 0;                   /* transition complete */
 }
 
 int FUN_0601f900()
@@ -2395,36 +2390,27 @@ LAB_0601fcd4:
 
 }
 
-void FUN_0601fd20()
+/* mode_transition_vdp_reset -- Reset VDP state for mode transition.
+ * Forces right-direction input, reinits VDP1 textures/palette,
+ * clears render state and command buffer. */
+void FUN_0601fd20(void)
 {
-
-  INPUT_STATE = INPUT_STATE | 4;
-
-  vdp1_texture_palette_init();
-
-  *(int *)0x060620D0 = 0;
-  *(int *)0x0605A000 = 0;
-  *(int *)0x0605A004 = 0;
-  VDP1_CMD_BASE_PTR = 0;
-  VBLANK_OUT_COUNTER = 0;
-
-  return;
-
+    INPUT_STATE |= 4;
+    vdp1_texture_palette_init();
+    *(int *)0x060620D0 = 0;
+    *(int *)0x0605A000 = 0;
+    *(int *)0x0605A004 = 0;
+    VDP1_CMD_BASE_PTR = 0;
+    VBLANK_OUT_COUNTER = 0;
 }
 
-int FUN_0601fd74()
+/* mode_dispatch_cd -- Read CD status, then dispatch via mode handler vtable.
+ * Vtable index stored at 0x06087804. */
+int FUN_0601fd74(void)
 {
-
-  int uVar1;
-
-  int auStack_14 [5];
-
-  (*(int(*)())0x06035168)();
-
-  uVar1 = (*(int(*)())auStack_14[*(int *)0x06087804])();
-
-  return uVar1;
-
+    int auStack_14[5];
+    (*(int(*)())0x06035168)();  /* cd_get_status */
+    return (*(int(*)())auStack_14[*(int *)0x06087804])();
 }
 
 void FUN_0601fe20()

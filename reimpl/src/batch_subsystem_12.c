@@ -1440,19 +1440,15 @@ void FUN_06012f80()
 
 }
 
-void FUN_0601389e()
+/* background_update -- Per-frame background processing.
+ * 1. Dispatch through background mode vtable (indexed by 0x06084AF2)
+ * 2. Update background scroll/animation with fixed-point parameters
+ * 3. Commit frame display (frame_end_display_commit) */
+void FUN_0601389e(void)
 {
-
-  (*(int(*)())(*(int *)(0x0605B6B8 + (unsigned int)(unsigned char)*(int *)(0x06084AF2 << 2))))();
-
-  (*(int(*)())0x06011AF4)(0,0x00960000,0x00010000,0x00010000,0x00008000,0x00010000,
-
-             0);
-
-  (*(int(*)())0x060078DC)();
-
-  return;
-
+    (*(int(*)())(*(int *)(0x0605B6B8 + (unsigned int)(unsigned char)*(int *)(0x06084AF2 << 2))))();
+    (*(int(*)())0x06011AF4)(0, 0x00960000, 0x00010000, 0x00010000, 0x00008000, 0x00010000, 0);
+    (*(int(*)())0x060078DC)();  /* frame_end_display_commit */
 }
 
 int FUN_06013c58()
@@ -1578,23 +1574,15 @@ int FUN_06013c58()
 
 }
 
-void FUN_06013e12()
+/* background_rotation_wobble -- Apply periodic rotation to background.
+ * Uses low 5 bits of FRAME_COUNTER to create a wobble effect.
+ * Only applies rotation when counter > 16, scaling by <<12 for angle. */
+void FUN_06013e12(void)
 {
-
-  unsigned short uVar1;
-
-  uVar1 = (unsigned short)FRAME_COUNTER & 0x1f;
-
-  if (0x10 < uVar1) {
-
-    (*(int(*)())0x06026EDE)((int)(short)(uVar1 << 0xc));
-
-    return;
-
-  }
-
-  return;
-
+    unsigned short phase = (unsigned short)FRAME_COUNTER & 0x1F;
+    if (phase > 0x10) {
+        (*(int(*)())0x06026EDE)((int)(short)(phase << 12));  /* heading_rotation */
+    }
 }
 
 int FUN_06013e3c()

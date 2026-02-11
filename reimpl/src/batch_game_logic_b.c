@@ -1207,20 +1207,26 @@ int FUN_0600cdd0()
   return iVar5;
 }
 
-void FUN_0600ce66()
+/* lap_checkpoint_update -- Update checkpoint/lap state for current car.
+ * Backs up previous checkpoint, dispatches to normal (FUN_0600cd40) or
+ * special (FUN_0600cdd0) based on collision flag (byte +3 bit 3).
+ * Then looks up track segment data from segment table. */
+void FUN_0600ce66(void)
 {
-  register int base asm("r2") = CAR_PTR_CURRENT;
+    register int base asm("r2") = CAR_PTR_CURRENT;
 
-  *(int *)(base + DAT_0600ce8e + 4) = *(int *)(base + DAT_0600ce8e);
+    /* Backup previous checkpoint value */
+    *(int *)(base + DAT_0600ce8e + 4) = *(int *)(base + DAT_0600ce8e);
 
-  if ((*(unsigned char *)(base + 3) & 8) == 0) {
-    FUN_0600cd40();
-  } else {
-    FUN_0600cdd0();
-  }
+    if ((*(unsigned char *)(base + 3) & 8) == 0) {
+        FUN_0600cd40();   /* normal checkpoint processing */
+    } else {
+        FUN_0600cdd0();   /* special/collision checkpoint */
+    }
 
-  *(unsigned int *)(base + DAT_0600cf3a + 0x68) =
-       (unsigned int)*(unsigned short *)((*(int *)(base + DAT_0600cf3a) << 2) + *(int *)0x0607EB84);
+    /* Look up track segment data from segment table */
+    *(unsigned int *)(base + DAT_0600cf3a + 0x68) =
+        (unsigned int)*(unsigned short *)((*(int *)(base + DAT_0600cf3a) << 2) + *(int *)0x0607EB84);
 }
 
 int FUN_0600ceba()
@@ -1728,21 +1734,16 @@ void FUN_0600d280()
 
 }
 
-void FUN_0600d31c()
+/* ranking_update -- Update car ranking/positioning system.
+ * Skips ranking sort (FUN_0600d37c) in VS mode (bit 21 = 2-player).
+ * Always runs ranking display (FUN_0600d3c4) and position update (FUN_0600d50c). */
+void FUN_0600d31c(void)
 {
-
-  if ((GAME_STATE_BIT & (unsigned int)0x00200000) == 0) {
-
-    FUN_0600d37c();
-
-  }
-
-  FUN_0600d3c4();
-
-  FUN_0600d50c();
-
-  return;
-
+    if ((GAME_STATE_BIT & 0x00200000) == 0) {
+        FUN_0600d37c();   /* ranking sort (single-player only) */
+    }
+    FUN_0600d3c4();       /* ranking display */
+    FUN_0600d50c();       /* position update */
 }
 
 void FUN_0600d336()
@@ -2897,24 +2898,28 @@ void FUN_0600df66()
 
 }
 
-void FUN_0600dfd0()
+/* visual_physics_full_update -- Full visual physics update for target car.
+ * Sets up car pointers, computes half-car-count and tile index,
+ * runs wheel transform, updates 4 render transform buffers via FUN_06027CA4,
+ * then runs per-car loop. */
+void FUN_0600dfd0(void)
 {
-  register int func asm("r3") = 0x06027CA4;
-  int iVar3 = CAR_PTR_TARGET;
-  int uVar2;
+    register int buffer_update asm("r3") = 0x06027CA4;
+    int car = CAR_PTR_TARGET;
 
-  *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-  CAR_PTR_CURRENT = iVar3;
-  *(int *)0x0607E948 = 0x06078B68;
+    HALF_CAR_COUNT = (short)(CAR_ITERATION_BASE >> 1);
+    CAR_PTR_CURRENT = car;
+    *(int *)0x0607E948 = 0x06078B68;  /* secondary car pointer */
 
-  (*(int(*)())0x0602DB00)();
-  uVar2 = (*(int(*)())0x06006838)(*(int *)(iVar3 + 0x10), *(int *)(iVar3 + 0x18));
-  *(int *)0x060786B8 = uVar2;
-  (*(int(*)())0x06005ECC)();
+    (*(int(*)())0x0602DB00)();        /* pre-render setup */
+    int tile_idx = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
+    *(int *)0x060786B8 = tile_idx;
+    (*(int(*)())0x06005ECC)();        /* wheel_transform */
 
-  (*(int(*)())func)(0x06063EB0, 0);
-  (*(int(*)())func)(0x06063E9C, 1);
-  (*(int(*)())func)(0x06063ED8, 2);
-  (*(int(*)())func)(0x06063EC4, 3);
-  FUN_0600e0c0();
+    /* Update 4 render transform buffers */
+    (*(int(*)())buffer_update)(0x06063EB0, 0);
+    (*(int(*)())buffer_update)(0x06063E9C, 1);
+    (*(int(*)())buffer_update)(0x06063ED8, 2);
+    (*(int(*)())buffer_update)(0x06063EC4, 3);
+    FUN_0600e0c0();                   /* per_car_loop */
 }

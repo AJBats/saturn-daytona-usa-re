@@ -867,24 +867,27 @@ int FUN_0600e906()
 
 }
 
-void FUN_0600e99c()
+/* camera_setup -- Initialize camera for target car.
+ * Runs camera pre-setup (FUN_0600e906). If no active cars (car_count==0),
+ * computes speed-based camera distance via FUN_06027552 (mul/div helper).
+ * If camera tracking not yet initialized, clears camera state. */
+void FUN_0600e99c(void)
 {
-  register int base asm("r2") = CAR_PTR_TARGET;
-  int result;
+    register int base asm("r2") = CAR_PTR_TARGET;
 
-  FUN_0600e906();
+    FUN_0600e906();   /* camera pre-setup */
 
-  if (CAR_COUNT == 0) {
-    result = (*(int(*)())0x06027552)(*(int *)(base + 0xc), 0x066505B3);
-    *(int *)(base + DAT_0600e9e8) = result;
-    *(int *)(base + DAT_0600e9ea) = result;
-  }
+    if (CAR_COUNT == 0) {
+        int dist = (*(int(*)())0x06027552)(*(int *)(base + CAR_ACCEL), 0x066505B3);
+        *(int *)(base + DAT_0600e9e8) = dist;
+        *(int *)(base + DAT_0600e9ea) = dist;
+    }
 
-  if (*(int *)(base + PTR_DAT_0600e9ec) == 0) {
-    *(int *)0x0607EAD0 = 0;
-    *(int *)(base + 0x228) = 0;
-    *(int *)(base + 0x21C) = 0;
-  }
+    if (*(int *)(base + PTR_DAT_0600e9ec) == 0) {
+        *(int *)0x0607EAD0 = 0;            /* clear camera active flag */
+        *(int *)(base + CAR_RANKING) = 0;
+        *(int *)(base + CAR_WAYPOINT) = 0;
+    }
 }
 
 void FUN_0600ea18(param_1)

@@ -535,20 +535,23 @@ void FUN_060032d4()
 
 }
 
-void FUN_0600330a()
+/* vdp_sprite_batch_setup -- Configure 3 VDP1 sprite command entries.
+ * Reads src/size/offset from sprite descriptor table at 0x06063750,
+ * calls VDP1 command builder (FUN_06028400) for each sprite slot. */
+void FUN_0600330a(void)
 {
-  register int func asm("r3") = 0x06028400;
-  register int base asm("r2") = 0x06063750;
-  int *puVar3;
+    register int vdp_cmd_build asm("r3") = 0x06028400;
+    register int sprite_table asm("r2") = 0x06063750;
+    int *desc;
 
-  puVar3 = (int *)(base + DAT_06003366);
-  (*(int(*)())func)(0xc, *puVar3, 0xbc8, puVar3[1] + (int)DAT_06003368);
+    desc = (int *)(sprite_table + DAT_06003366);
+    (*(int(*)())vdp_cmd_build)(0xC, *desc, 0xBC8, desc[1] + (int)DAT_06003368);
 
-  puVar3 = (int *)(base + DAT_0600336c);
-  (*(int(*)())func)(0xc, *puVar3, (int)DAT_06003370, puVar3[1] + (int)DAT_0600336e);
+    desc = (int *)(sprite_table + DAT_0600336c);
+    (*(int(*)())vdp_cmd_build)(0xC, *desc, (int)DAT_06003370, desc[1] + (int)DAT_0600336e);
 
-  puVar3 = (int *)(base + DAT_06003372);
-  (*(void(*)())func)(0xc, *puVar3, (int)DAT_06003376, puVar3[1] + (int)DAT_06003374);
+    desc = (int *)(sprite_table + DAT_06003372);
+    (*(void(*)())vdp_cmd_build)(0xC, *desc, (int)DAT_06003376, desc[1] + (int)DAT_06003374);
 }
 
 void FUN_0600338c(param_1, param_2)

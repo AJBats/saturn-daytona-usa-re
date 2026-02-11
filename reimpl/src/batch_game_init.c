@@ -1021,19 +1021,14 @@ void background_layer_init()
 
 }
 
-void FUN_060058fa()
+/* intro_sequence_frame -- Single frame of intro/attract sequence.
+ * Runs 4 subsystems: scene update, animation step, frame counter, render. */
+void FUN_060058fa(void)
 {
-
-  FUN_06005c98();
-
-  FUN_06005a22();
-
-  animation_frame_counter();
-
-  FUN_06005ae8();
-
-  return;
-
+    FUN_06005c98();
+    FUN_06005a22();
+    animation_frame_counter();
+    FUN_06005ae8();
 }
 
 void animation_frame_counter()

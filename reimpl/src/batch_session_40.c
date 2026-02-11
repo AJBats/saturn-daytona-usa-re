@@ -1483,34 +1483,25 @@ int FUN_060412b2(param_1, param_2, param_3)
 
 }
 
-void FUN_06041330(param_1)
-    int param_1;
+/* cd_session_read_and_process -- Read CD register pair, process if valid.
+ * If double-read returns non-zero, run sector processing. Always flush. */
+void FUN_06041330(int sector)
 {
-
-  if (cd_register_double_read(param_1) != 0) {
-    FUN_06034984(param_1);
-  }
-
-  FUN_06035C4E();
-
-  return;
-
+    if (cd_register_double_read(sector) != 0) {
+        FUN_06034984(sector);
+    }
+    FUN_06035C4E();
 }
 
-int FUN_0604134e(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_session_verify -- Verify CD session matches expected param.
+ * Returns -9 (0xFFFFFFF7) if session mismatch, 0 on success. */
+int FUN_0604134e(int param_1, int expected)
 {
-
-  if (*(int *)(CD_SESSION_BASE + 0x38) != param_2) {
-
-    return 0xfffffff7;
-
-  }
-
-  (*(int(*)())0x06034DEA)();
-
-  return 0;
+    if (*(int *)(CD_SESSION_BASE + 0x38) != expected) {
+        return 0xFFFFFFF7;  /* session mismatch error */
+    }
+    (*(int(*)())0x06034DEA)();
+    return 0;
 
 }
 

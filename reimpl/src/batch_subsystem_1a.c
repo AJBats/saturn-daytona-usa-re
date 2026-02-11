@@ -254,21 +254,18 @@ void FUN_0601a65e()
 
 }
 
-void FUN_0601a73e()
+/* menu_cursor_sound -- Play menu cursor movement sound effect.
+ * Checks flag at 0x0605D241; plays sound 0x06 if clear, 0x07 if set.
+ * Channel 0xF is the menu/UI sound channel. */
+extern void sound_cmd_dispatch(int channel, int command);
+
+void FUN_0601a73e(void)
 {
-
-  if (*(int *)0x0605D241 == '\0') {
-
-    (*(int(*)())0x0601D5F4)(0xf,0xAE0006FF);
-
-    return;
-
-  }
-
-  (*(int(*)())0x0601D5F4)(0xf,0xAE0007FF);
-
-  return;
-
+    if (*(int *)0x0605D241 == '\0') {
+        sound_cmd_dispatch(0xF, 0xAE0006FF);
+    } else {
+        sound_cmd_dispatch(0xF, 0xAE0007FF);
+    }
 }
 
 void FUN_0601a80c()
@@ -1006,21 +1003,19 @@ void FUN_0601b160()
 
 }
 
-int FUN_0601b418()
+/* menu_frame_update -- Per-frame menu/select screen update.
+ * Dispatches through menu mode vtable (indexed by 0x0608600D),
+ * updates background scroll with fixed-point parameters,
+ * commits frame display, increments menu animation counter.
+ * Returns current menu state byte. */
+int FUN_0601b418(void)
 {
-
-  (*(int(*)())(*(int *)(0x0605DEB4 + (unsigned int)(unsigned char)*(int *)(0x0608600D << 2))))();
-
-  (*(int(*)())0x06011AF4)(0x01000000,0x01000000,0x00200000,0x00200000,0x00008000,
-
-             0x00010000,0x101);
-
-  (*(int(*)())0x060078DC)();
-
-  *(short *)0x0605D4F8 = *(short *)0x0605D4F8 + 1;
-
-  return (int)(char)*(int *)0x0608600C;
-
+    (*(int(*)())(*(int *)(0x0605DEB4 + (unsigned int)(unsigned char)*(int *)(0x0608600D << 2))))();
+    (*(int(*)())0x06011AF4)(0x01000000, 0x01000000, 0x00200000, 0x00200000,
+                            0x00008000, 0x00010000, 0x101);
+    (*(int(*)())0x060078DC)();  /* frame_end_display_commit */
+    *(short *)0x0605D4F8 = *(short *)0x0605D4F8 + 1;
+    return (int)(char)*(int *)0x0608600C;
 }
 
 void FUN_0601b6dc()

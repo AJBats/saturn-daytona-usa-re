@@ -1205,25 +1205,21 @@ void FUN_06019324()
 
 }
 
-void FUN_0601938c()
+/* sound_vdp2_scroll_setup -- DMA-copy 5 scroll plane data blocks to VDP2 VRAM.
+ * Loads sound system visualization data (waveform/spectrum display).
+ *   0x25F00540: color data (0x20 bytes)
+ *   0x25F00000: pattern names (0x20 bytes)
+ *   0x25F00600: cell data (0x20 bytes)
+ *   0x25F00620: animation cells (0xE0 bytes)
+ *   0x25F00780: palette data (0x80 bytes) */
+void FUN_0601938c(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x0602761E;
-
-  (*(int(*)())0x0602761E)(0x25F00540,0x0605CE9C,0x20);
-
-  (*(int(*)())puVar1)(0x25F00000,0x0605CD9C,0x20);
-
-  (*(int(*)())puVar1)(0x25F00600,0x0605CF9C,0x20);
-
-  (*(int(*)())puVar1)(0x25F00620,0x0605CEBC,0xe0);
-
-  (*(int(*)())puVar1)(0x25F00780,0x06049DC4,0x80);
-
-  return;
-
+    register int dma_copy asm("r3") = 0x0602761E;
+    (*(int(*)())dma_copy)(0x25F00540, 0x0605CE9C, 0x20);
+    (*(int(*)())dma_copy)(0x25F00000, 0x0605CD9C, 0x20);
+    (*(int(*)())dma_copy)(0x25F00600, 0x0605CF9C, 0x20);
+    (*(int(*)())dma_copy)(0x25F00620, 0x0605CEBC, 0xE0);
+    (*(int(*)())dma_copy)(0x25F00780, 0x06049DC4, 0x80);
 }
 
 void FUN_060193f4()
