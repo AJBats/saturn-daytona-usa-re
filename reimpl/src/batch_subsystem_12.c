@@ -219,69 +219,45 @@ void FUN_06012050(void)
     scu_int_config(4, 1);      /* VBlank-IN: priority 1 */
 }
 
-void FUN_060120c8()
+/* camera_view_init -- Initialize camera view parameters for 3D scene.
+ * Sets camera enabled flag (0x06078636), clears mode counter, calls
+ * perspective setup (0x06014884). Configures two view parameter blocks
+ * at 0x060788B4 and 0x060788C0 (FOV, near/far plane). Calls CD sync
+ * (0x06035168) 3 times. Sets initial camera angle from DAT_0601214e.
+ * For single-player (CAR_COUNT==0): 60-frame timer, no delay.
+ * For multi-player: 1-frame timer, 20-frame delay, calls FUN_0601228a. */
+void FUN_060120c8(void)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  *(int *)0x06078636 = 1;
-
+  *(int *)0x06078636 = 1;                   /* enable camera system */
   *(int *)0x060788F8 = 0;
+  (*(int(*)())0x06014884)(0x20, 0, 0);      /* perspective setup */
 
-  (*(int(*)())0x06014884)(0x20,0,0);
-
-  puVar1 = (char *)0x060788B4;
-
+  /* View parameter block A: FOV=0x80000, far=0xF3333 */
   *(int *)0x060788B4 = 0;
+  *(int *)0x060788B8 = 0x00080000;
+  *(int *)0x060788BC = 0x000F3333;
 
-  puVar2 = (char *)0x00080000;
-
-  *(char **)(puVar1 + 4) = 0x00080000;
-
-  *(char **)(puVar1 + 8) = 0x000F3333;
-
-  puVar1 = (char *)0x060788C0;
-
+  /* View parameter block B: FOV=0x20000, far=0x53333 */
   *(int *)0x060788C0 = 0;
+  *(int *)0x060788C4 = 0x00080000 >> 2;
+  *(int *)0x060788C8 = 0x00053333;
 
-  *(unsigned int *)(puVar1 + 4) = (unsigned int)puVar2 >> 2;
-
-  *(char **)(puVar1 + 8) = 0x00053333;
-
+  (*(int(*)())0x06035168)();                /* CD sync */
+  (*(int(*)())0x06035168)();
   (*(int(*)())0x06035168)();
 
-  (*(int(*)())0x06035168)();
-
-  (*(int(*)())0x06035168)();
-
-  *(short *)0x060788B0 = DAT_0601214e;
-
+  *(short *)0x060788B0 = DAT_0601214e;     /* initial camera angle */
   *(short *)0x060788B2 = 0;
-
   *(int *)0x060788F0 = 0;
 
-  puVar1 = (char *)0x060788F4;
-
   if (CAR_COUNT == 0) {
-
-    *(int *)0x060788AC = 0x3c;
-
-    *(int *)puVar1 = 0;
-
-    return;
-
+    *(int *)0x060788AC = 0x3c;              /* 60-frame timer */
+    *(int *)0x060788F4 = 0;
+  } else {
+    *(int *)0x060788AC = 1;                 /* 1-frame timer */
+    *(int *)0x060788F4 = 0x14;             /* 20-frame delay */
+    FUN_0601228a();
   }
-
-  *(int *)0x060788AC = 1;
-
-  *(int *)puVar1 = (char *)0x14;
-
-  FUN_0601228a();
-
-  return;
-
 }
 
 void FUN_060121a8()
@@ -934,40 +910,21 @@ void FUN_06012d7c(int param_1)
         FUN_06012c3c(0x06044900, 0x00200000);
 }
 
-void FUN_06012db4(param_1)
-    int param_1;
+/* bg_tilemap_and_pattern_load -- Load background tilemap + pattern pair.
+ * param_1: course index (1/2/default). Loads tilemap to VDP2 VRAM 0x200000
+ * and pattern to 0x240000. Course descriptors at 0x0604490C stride 0x10. */
+void FUN_06012db4(int param_1)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x00240000;
-
   if (param_1 == 1) {
-
-    FUN_06012c3c(0x0604490C,0x00200000);
-
-    FUN_06012c3c(0x0604491C,puVar1);
-
-    return;
-
+    FUN_06012c3c(0x0604490C, 0x00200000);
+    FUN_06012c3c(0x0604491C, 0x00240000);
+  } else if (param_1 == 2) {
+    FUN_06012c3c(0x06044928, 0x00200000);
+    FUN_06012c3c(0x06044938, 0x00240000);
+  } else {
+    FUN_06012c3c(0x06044944, 0x00200000);
+    FUN_06012c3c(0x06044954, 0x00240000);
   }
-
-  if (param_1 == 2) {
-
-    FUN_06012c3c(0x06044928,0x00200000);
-
-    FUN_06012c3c(0x06044938,puVar1);
-
-    return;
-
-  }
-
-  FUN_06012c3c(0x06044944,0x00200000);
-
-  FUN_06012c3c(0x06044954,puVar1);
-
-  return;
-
 }
 
 /* bg_pattern_load -- Load background pattern data for a course.

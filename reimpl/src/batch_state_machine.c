@@ -238,121 +238,77 @@ int gear_shift_handler()
 
 }
 
-void FUN_06008418()
+/* race_finish_trigger_a -- Trigger race finish sequence (variant A).
+ * Checks if target car has completed condition (DAT_060084a2 field == 0).
+ * If so: plays finish sound (0xAE1102FF) when in race state, sets car
+ * activation flag, stores finish time, and dispatches finish handler
+ * FUN_060084ca with result table entry from 0x060453B4. */
+void FUN_06008418(void)
 {
-
-  char *puVar1;
-
-  unsigned char *pbVar2;
-
-  puVar1 = (char *)0x0607E944;
+  int *car_ptr = (int *)0x0607E944;
 
   if (*(int *)(CAR_PTR_TARGET + (int)DAT_060084a2) == 0) {
-
     if ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) {
-
-      (*(int(*)())0x0601D5F4)(0,0xAE1102FF);
-
+      (*(int(*)())0x0601D5F4)(0, 0xAE1102FF);  /* finish sound */
     }
-
-    pbVar2 = (unsigned char *)(*(int *)puVar1 + 1);
-
-    *pbVar2 = *pbVar2 & 0xfe | 1;
-
-    *(int *)(*(int *)puVar1 + (int)DAT_060084a6) = (int)DAT_060084a4;
-
+    unsigned char *flag = (unsigned char *)(*car_ptr + 1);
+    *flag = *flag & 0xfe | 1;                   /* set finish bit */
+    *(int *)(*car_ptr + (int)DAT_060084a6) = (int)DAT_060084a4;
     FUN_060084ca(*(int *)0x060453B4);
-
-    return;
-
   }
-
-  return;
-
 }
 
-void FUN_06008460()
+/* race_finish_trigger_b -- Trigger race finish sequence (variant B).
+ * Identical to race_finish_trigger_a but uses result table at 0x060453BC
+ * (different course or mode variant). */
+void FUN_06008460(void)
 {
-
-  char *puVar1;
-
-  unsigned char *pbVar2;
-
-  puVar1 = (char *)0x0607E944;
+  int *car_ptr = (int *)0x0607E944;
 
   if (*(int *)(CAR_PTR_TARGET + (int)DAT_060084a2) == 0) {
-
     if ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) {
-
-      (*(int(*)())0x0601D5F4)(0,0xAE1102FF);
-
+      (*(int(*)())0x0601D5F4)(0, 0xAE1102FF);  /* finish sound */
     }
-
-    pbVar2 = (unsigned char *)(*(int *)puVar1 + 1);
-
-    *pbVar2 = *pbVar2 & 0xfe | 1;
-
-    *(int *)(*(int *)puVar1 + (int)DAT_060084a6) = (int)DAT_060084a4;
-
+    unsigned char *flag = (unsigned char *)(*car_ptr + 1);
+    *flag = *flag & 0xfe | 1;                   /* set finish bit */
+    *(int *)(*car_ptr + (int)DAT_060084a6) = (int)DAT_060084a4;
     FUN_060084ca(*(int *)0x060453BC);
-
-    return;
-
   }
-
-  return;
-
 }
 
-void FUN_060084ca()
+/* race_finish_dispatch -- Process finish state for current car.
+ * Increments finish counter on target car, clears timer field, calls
+ * FUN_060086c0 for result processing. If player 1 car (0x06078900) is
+ * finishing in race mode: transitions to PHASE_FLAG=3 (results screen),
+ * sets up camera parameters, disables VBL interrupt, stores finish place. */
+void FUN_060084ca(void)
 {
+  int *car_ptr = (int *)0x0607E944;
+  int off = (int)DAT_0600855e;
 
-  char *puVar1;
-
-  int iVar2;
-
-  puVar1 = (char *)0x0607E944;
-
-  iVar2 = (int)DAT_0600855e;
-
-  *(int *)(CAR_PTR_TARGET + iVar2) = *(int *)(CAR_PTR_TARGET + iVar2) + 1;
-
-  *(int *)(*(int *)puVar1 + iVar2 + -0x10) = 0;
-
+  *(int *)(CAR_PTR_TARGET + off) = *(int *)(CAR_PTR_TARGET + off) + 1;
+  *(int *)(*car_ptr + off + -0x10) = 0;
   FUN_060086c0();
 
-  if (((*(char **)puVar1 == 0x06078900) &&
+  /* If player 1 car finished in race mode */
+  if ((*(char **)car_ptr == (char *)CAR_ARRAY_BASE) &&
+      ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) &&
+      ((*(int *)0x06078635 != '\0' || (*(short *)0x0607ED8C == 0)))) {
 
-      ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0)) &&
-
-     ((*(int *)0x06078635 != '\0' || (*(short *)0x0607ED8C == 0)))) {
-
-    PHASE_FLAG = 3;
-
+    PHASE_FLAG = 3;                         /* transition to results */
     *(int *)0x06078654 = 7;
-
     *(int *)0x06063E1C = 2;
-
     *(int *)0x06059F30 = 1;
+    (*(int(*)())0x06038BD4)(8, 0);          /* SCU interrupt config */
 
-    (*(int(*)())0x06038BD4)(8,0);
-
-    *(char **)0x06063E24 = 0x00058000;
-
-    *(char **)0x06063E34 = 0x0000F300;
-
-    *(char **)0x06063E28 = 0x006E0000;
-
-    *(char **)0x06063E2C = 0x00100000;
-
+    /* Camera setup for results screen */
+    *(char **)0x06063E24 = (char *)0x00058000;
+    *(char **)0x06063E34 = (char *)0x0000F300;
+    *(char **)0x06063E28 = (char *)0x006E0000;
+    *(char **)0x06063E2C = (char *)0x00100000;
     *(int *)0x06063E30 = 0;
-
-    *(int *)0x0607866C = (char)*(int *)(*(int *)puVar1 + (int)PTR_DAT_06008560);
-
+    *(int *)0x0607866C = (char)*(int *)(*car_ptr + (int)PTR_DAT_06008560);
   }
-
-  return;
-
 }
 
 int FUN_060085b8()
@@ -438,42 +394,27 @@ int steering_physics_update()
   return 0;
 }
 
-void FUN_060086c0(param_1)
-    int *param_1;
+/* result_table_apply -- Apply race result parameters from table entry.
+ * Reads 2-word result entry from param_1: word 0 = completion code stored
+ * at car+0x1B8, word 1 = timer base stored at DAT_0600871a offset.
+ * Timer-0x28 stored at DAT_0600871c and car+0x208. Calls
+ * FUN_06034F78 twice (CD sync), increments FORCE_SETUP_COUNT, runs timer. */
+void FUN_060086c0(int *param_1)
 {
+  int *car_iter = (int *)0x0607E940;       /* car iteration pointer */
 
-  int iVar1;
+  (*(int(*)())0x06034F78)();                /* CD sync */
+  (*(int(*)())0x06034F78)();                /* CD sync (double) */
 
-  int *piVar2;
+  *(int *)(*car_iter + 0x1b8) = *param_1;  /* completion code */
+  int timer = param_1[1];
+  *(int *)(*car_iter + (int)DAT_0600871a) = timer;
+  timer = timer + -0x28;
+  *(int *)(*car_iter + (int)DAT_0600871c) = timer;
+  *(int *)(*car_iter + 0x208) = timer;
 
-  char cVar3;
-
-  cVar3 = '\x01';
-
-  piVar2 = (int *)0x0607E940;
-
-  (*(int(*)())0x06034F78)();
-
-  (*(int(*)())0x06034F78)();
-
-  *(int *)(*piVar2 + 0x1b8) = *param_1;
-
-  iVar1 = param_1[1];
-
-  *(int *)(*piVar2 + (int)DAT_0600871a) = iVar1;
-
-  iVar1 = iVar1 + -0x28;
-
-  *(int *)(*piVar2 + (int)DAT_0600871c) = iVar1;
-
-  *(int *)(*piVar2 + 0x208) = iVar1;
-
-  FORCE_SETUP_COUNT = FORCE_SETUP_COUNT + cVar3;
-
+  FORCE_SETUP_COUNT = FORCE_SETUP_COUNT + 1;
   speed_force_timer();
-
-  return;
-
 }
 
 int speed_force_timer()

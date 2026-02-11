@@ -897,33 +897,24 @@ void FUN_06010a5c(int slot_idx)
         *(int *)(0x0605D05C + (slot_idx << 2)));
 }
 
-int FUN_06010b54()
+/* sound_bank_load -- Load sound bank for current course or demo mode.
+ * In normal mode, loads bank from course table (0x0604483C indexed by
+ * course ID at 0x0607EAB8). In demo mode, uses fixed bank IDs
+ * (0xAB110BFF or 0xAB110AFF for player 2). Sends via SCSP command (0x0601D5F4). */
+int FUN_06010b54(void)
 {
-
-  int uVar1;
+  int result;
 
   if (DEMO_MODE_FLAG == 0) {
-
-    uVar1 = (*(int(*)())0x0601D5F4)(0,*(int *)(0x0604483C + *(int *)(0x0607EAB8 << 2)));
-
-  }
-
-  else {
-
-    uVar1 = 0xAB110BFF;
-
+    result = (*(int(*)())0x0601D5F4)(0, *(int *)(0x0604483C + *(int *)(0x0607EAB8 << 2)));
+  } else {
+    int bank = 0xAB110BFF;
     if (*(int *)0x06078644 == 1) {
-
-      uVar1 = 0xAB110AFF;
-
+      bank = 0xAB110AFF;                   /* player 2 alternate bank */
     }
-
-    uVar1 = (*(int(*)())0x0601D5F4)(0,uVar1);
-
+    result = (*(int(*)())0x0601D5F4)(0, bank);
   }
-
-  return uVar1;
-
+  return result;
 }
 
 int FUN_06010bc4()
@@ -2040,53 +2031,31 @@ void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5,
 
 }
 
-void FUN_06011dc0()
+/* vdp1_overlay_dispatch -- Emit VDP1 commands for overlay sprite queue.
+ * Iterates overlay entries at 0x060786CC (24 bytes each), count at 0x0605AAA0.
+ * Entry byte +5 selects command type: 0=normal sprite (0x060280F8),
+ * non-zero=polygon (0x060280C4, clears flag after). Advances VDP1 write
+ * pointer by 0x20 per entry, increments frame counter. Resets queue count. */
+void FUN_06011dc0(void)
 {
+  int *vdp1_write = (int *)0x060785FC;     /* VDP1 command write pointer */
+  char *overlay_buf = (char *)0x060786CC;  /* overlay command buffer (24B entries) */
+  int *frame_cnt = (int *)0x0605A008;      /* frame counter */
+  unsigned short *queue_cnt = (unsigned short *)0x0605AAA0;
+  unsigned short i;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned short uVar5;
-
-  puVar4 = (char *)0x060785FC;
-
-  puVar3 = (int *)0x060786CC;
-
-  puVar2 = (char *)0x0605A008;
-
-  puVar1 = (char *)0x0605AAA0;
-
-  for (uVar5 = 0; uVar5 < *(unsigned short *)puVar1; uVar5 = uVar5 + 1) {
-
-    if (puVar3[(short)(uVar5 * 0x18) + 5] == '\0') {
-
-      (*(int(*)())0x060280F8)(puVar3 + (short)(uVar5 * 0x18),*(int *)puVar4);
-
+  for (i = 0; i < *queue_cnt; i++) {
+    int off = (short)(i * 0x18);
+    if (overlay_buf[off + 5] == '\0') {
+      (*(int(*)())0x060280F8)(overlay_buf + off, *vdp1_write);
+    } else {
+      (*(int(*)())0x060280C4)(overlay_buf + off, *vdp1_write);
+      overlay_buf[off + 5] = 0;            /* clear polygon flag */
     }
-
-    else {
-
-      (*(int(*)())0x060280C4)(puVar3 + (short)(uVar5 * 0x18),*(int *)puVar4);
-
-      (puVar3 + (short)(uVar5 * 0x18))[5] = 0;
-
-    }
-
-    *(int *)puVar2 = *(int *)puVar2 + 1;
-
-    *(int *)puVar4 = *(int *)puVar4 + 0x20;
-
+    *frame_cnt = *frame_cnt + 1;
+    *vdp1_write = *vdp1_write + 0x20;
   }
-
-  *(short *)puVar1 = 0;
-
-  return;
-
+  *queue_cnt = 0;
 }
 
 /* subsystem_sprite_pair_update -- Update 2 paired VDP1 sprites.
@@ -2103,33 +2072,24 @@ void FUN_06011e7c(void)
         *(int *)0x060638A4 + y_offset);
 }
 
-void FUN_06011eb4()
+/* sprite_pair_or_single_update -- Update VDP1 sprite(s) for HUD overlay.
+ * In alternate mode (0x06085FF4 != 0): updates both sprites via FUN_06011e7c.
+ * Otherwise: updates single sprite from buffer 0x060638B0 (if 0x0607EADC set)
+ * or 0x060638A0 (default). Uses fixed character ID 0x420 with Y offset. */
+void FUN_06011eb4(void)
 {
-
   if (*(int *)0x06085FF4 != '\0') {
-
-    FUN_06011e7c();
-
+    FUN_06011e7c();                         /* update both sprites */
     return;
-
   }
 
   if (*(int *)0x0607EADC != 0) {
-
-    (*(int(*)())0x06028400)(0xc,*(int *)0x060638B0,0x420,
-
+    (*(int(*)())0x06028400)(0xc, *(int *)0x060638B0, 0x420,
                *(int *)(0x060638B0 + 4) + (int)DAT_06011efe);
-
-    return;
-
+  } else {
+    (*(int(*)())0x06028400)(0xc, *(int *)0x060638A0, 0x420,
+               *(int *)(0x060638A0 + 4) + (int)DAT_06011efe);
   }
-
-  (*(int(*)())0x06028400)(0xc,*(int *)0x060638A0,0x420,
-
-             *(int *)(0x060638A0 + 4) + (int)DAT_06011efe);
-
-  return;
-
 }
 
 void FUN_06011f1c(param_1)
