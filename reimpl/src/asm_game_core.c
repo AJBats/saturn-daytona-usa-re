@@ -81,9 +81,9 @@ void FUN_06014D2C(void) { }
 void FUN_060190B8(void) { }
 void FUN_06012F80(void) { }
 void FUN_0601389E(void) { }
-void FUN_0600DFD0(void) { }
+/* FUN_0600DFD0: moved to visual_physics_update.c */
 void FUN_0600C218(void) { }
-void FUN_0600E060(void) { }
+/* FUN_0600E060: moved to visual_physics_update.c */
 int FUN_0601F8C0(void) { return 0; }
 int FUN_0601F900(void) { return 0; }
 void FUN_060149E0(void) { }

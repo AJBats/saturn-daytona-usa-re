@@ -78,3 +78,7 @@ int  FUN_0603B1B6(int handle, int zero, int dest, int flag) { (void)handle; (voi
 
 /* CD subsystem init dependencies (from stubs.c / game_subsystem_init) */
 int  FUN_0603AC1C(int mode, int src, int config) { (void)mode; (void)src; (void)config; return 3; }
+
+/* Visual physics update dependencies (from visual_physics_update.c) */
+void FUN_0602DB00(void) { }
+void FUN_0602DC18(void) { }
