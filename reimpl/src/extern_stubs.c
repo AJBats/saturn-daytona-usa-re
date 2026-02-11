@@ -22,12 +22,21 @@ void FUN_06012450(int a, int b) { (void)a; (void)b; }
 
 /* Game loop dependencies (from car_iteration.c) */
 /* FUN_0600E0C0: moved to per_car_loop.c */
-void FUN_0600E410(void) { }
-void FUN_0600E47C(void) { }
+/* FUN_0600E410: moved to physics_entry.c */
+/* FUN_0600E47C: moved to physics_entry.c */
 /* FUN_0600E99C: moved to camera_setup.c */
 void FUN_0600E4F2(void) { }
 void FUN_0600A8BC(void) { }
 void FUN_0602F99C(void) { }
+
+/* Physics entry dependencies (from physics_entry.c) */
+void FUN_060081F4(void) { }
+void FUN_0600E7C8(void) { }
+/* FUN_06006838: already in batch_game_core.c */
+void FUN_06005ECC(void) { }
+void FUN_0600DA7C(void) { }
+void FUN_0600CE66(void) { }
+/* FUN_0600D780: already in lap_counting.c */
 
 /* Per-car loop dependencies (from per_car_loop.c) */
 /* FUN_06030A06: moved to timer_update.c */
