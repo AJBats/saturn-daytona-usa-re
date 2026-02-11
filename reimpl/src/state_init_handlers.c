@@ -8,7 +8,9 @@
  *   FUN_06008BD8 (0x06008BD8) -- State handler: link subsystem init, mode=11
  *   FUN_06008BFC (0x06008BFC) -- State handler: conditional mode advance
  *   FUN_06008B04 (0x06008B04) -- State handler: CD play + mode=7 setup
+ *   FUN_06008C14 (0x06008C14) -- State handler: mode transition dispatch
  *   FUN_06008C76 (0x06008C76) -- State handler: conditional mode dispatch
+ *   FUN_06008D74 (0x06008D74) -- State handler: countdown + button check
  *   FUN_06008E00 (0x06008E00) -- State handler: race setup, mode=13
  *   FUN_06008E48 (0x06008E48) -- State handler: race monitor / abort
  *   FUN_06009DD0 (0x06009DD0) -- State handler: race end setup, mode=27
@@ -69,8 +71,14 @@ extern void FUN_060193F4(void);
 /* Post-race subsystem setup */
 extern void FUN_060190B8(void);
 
+/* Mode transition check (returns nonzero when transition complete) */
+extern int FUN_0601F8C0(void);
+
 /* VDP2 flag check (returns nonzero if complete) */
 extern int FUN_0601F900(void);
+
+/* Sound/display subsystem */
+extern void FUN_0601D3C0(void);
 
 /* VDP1 attribute setup (post-mode-transition) */
 extern void FUN_060149E0(void);
@@ -104,6 +112,12 @@ extern int FUN_0601B418(void);
 
 /* Mode override flag (byte, cleared after use) */
 #define MODE_OVERRIDE_FLAG (*(volatile unsigned char *)0x0605E0A2)
+
+/* Course identification register (16-bit) */
+#define COURSE_ID_REG      (*(volatile unsigned short *)0x06063DA0)
+
+/* Button input state (16-bit, bit 8 = start) */
+#define BUTTON_INPUT_STATE (*(volatile unsigned short *)0x06063D9A)
 
 
 /* ================================================================
@@ -469,4 +483,107 @@ void FUN_06009DD0(void)
     FUN_06012F80();
     SUB_STATE_COUNTER = 3;
     FUN_06018DDC(19);  /* original: r4=19, r5=19, r6=0 (tail call) */
+}
+
+
+/* ================================================================
+ * FUN_06008C14 -- State Handler: Mode Transition Dispatch (0x06008C14)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008C14-0x06008C74)
+ * Pool verified:
+ *   0x06008C38 = 0x0605AD10 (mode selector)
+ *   0x06008C50 = 0x0601F8C0 (mode transition check)
+ *   0x06008C54 = 0x0605E0A2 (mode override flag)
+ *   0x06008CB4 = 0x0605E0A2 (mode override flag -- store)
+ *   0x06008CB8 = 0x0605A016 (sub-state counter)
+ *
+ * Checks if mode transition is complete. If complete, dispatches
+ * based on override flag: flag==0 -> mode=4, flag!=0 -> mode=7.
+ * Clears the override flag. If not complete, sets mode=31.
+ * Always sets sub-state=3.
+ *
+ * 50 instructions (incl. delay slots + pool). Saves PR + r14.
+ * ================================================================ */
+void FUN_06008C14(void)
+{
+    int result = FUN_0601F8C0();
+
+    if (result != 0) {
+        /* Transition complete: check override flag */
+        if (MODE_OVERRIDE_FLAG == 0) {
+            MODE_SELECTOR = 4;
+        } else {
+            MODE_SELECTOR = 7;
+        }
+        MODE_OVERRIDE_FLAG = 0;
+    } else {
+        /* Not complete: set mode to 31 (waiting) */
+        MODE_SELECTOR = 31;
+    }
+
+    SUB_STATE_COUNTER = 3;
+}
+
+
+/* ================================================================
+ * FUN_06008D74 -- State Handler: Countdown + Button Check (0x06008D74)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008D74-0x06008DD4)
+ * Pool verified:
+ *   0x06008DD8 = 0x06063DA0 (course ID register)
+ *   0x06008DDC = 0x06078644 (config register)
+ *   0x06008DE0 = 0x0607EBCC (render param cache)
+ *   0x06008DE4 = 0x0605AD10 (mode selector)
+ *   0x06008DE8 = 0x060149E0 (VDP1 attribute setup)
+ *   0x06008DEC = 0x06063D9A (button input state)
+ *   word pool at 0x06008DD6 = 0x0100 (start button mask)
+ *   0x06008DF0 = 0x0601D3C0 (sound/display subsystem)
+ *   0x06008DF4 = 0x0605B6D8 (engine state flags)
+ *   0x06008DF8 = 0x06026CE0 (scene callback)
+ *   0x06008DFC = 0x06059F44 (state flag)
+ *
+ * Checks course ID: if 112 (0x70), sets config to 2.
+ * Decrements render cache. If expired, clears mode and sets up
+ * VDP attrs. Also checks start button (bit 8): if pressed,
+ * forces mode=0 and VDP setup. Then calls display subsystem,
+ * sets engine flag bit 2, dispatches callbacks, clears state flag.
+ *
+ * 50 instructions (incl. delay slots + pool). Saves PR + r14.
+ * ================================================================ */
+void FUN_06008D74(void)
+{
+    /* Check course ID for special config */
+    if (COURSE_ID_REG == 112) {
+        *(volatile int *)0x06078644 = 2;
+    }
+
+    /* Decrement render parameter cache */
+    int counter = RENDER_PARAM_CACHE;
+    counter--;
+    RENDER_PARAM_CACHE = counter;
+
+    if (counter < 0) {
+        /* Timer expired: clear mode, setup VDP attributes */
+        MODE_SELECTOR = 0;
+        FUN_060149E0();
+    }
+
+    /* Check start button (bit 8 = 0x0100) */
+    if (BUTTON_INPUT_STATE & 0x0100) {
+        /* Start pressed: force mode=0, setup VDP attributes */
+        MODE_SELECTOR = 0;
+        FUN_060149E0();
+    }
+
+    /* Call sound/display subsystem */
+    FUN_0601D3C0();
+
+    /* Set engine state flag bit 2 */
+    ENGINE_STATE_FLAGS = ENGINE_STATE_FLAGS | 0x04;
+
+    /* Dispatch scene callbacks */
+    FUN_06026CE0();
+
+    /* Clear state completion flag */
+    STATE_DONE_FLAG = 0;
 }

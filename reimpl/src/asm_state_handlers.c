@@ -8,11 +8,11 @@ void FUN_06008A18(void) { }
 /* FUN_06008B9C: moved to state_init_handlers.c */
 /* FUN_06008BD8: moved to state_init_handlers.c */
 /* FUN_06008BFC: moved to state_init_handlers.c */
-void FUN_06008C14(void) { }
+/* FUN_06008C14: moved to state_init_handlers.c */
 /* FUN_06008C76: moved to state_init_handlers.c */
 void FUN_06008CCC(void) { }
 void FUN_06008CD0(void) { }
-void FUN_06008D74(void) { }
+/* FUN_06008D74: moved to state_init_handlers.c */
 /* FUN_06008E00: moved to state_init_handlers.c */
 /* FUN_06008E48: moved to state_init_handlers.c */
 /* state_14-17: translated in race_state_handlers.c */
