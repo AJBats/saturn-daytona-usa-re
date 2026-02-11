@@ -1158,32 +1158,26 @@ void FUN_060192b4()
 
 }
 
-void FUN_060192ca()
+/* sound_channels_off -- Mute sound channels 1, 3, 2 via sound_cmd_dispatch.
+ * Called during sound system shutdown/reset. */
+extern void sound_cmd_dispatch(int channel, int command);
+
+void FUN_060192ca(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x0601D5F4;
-
-  (*(int(*)())0x0601D5F4)(1,0);
-
-  (*(int(*)())puVar1)(3,0);
-
-  (*(int(*)())puVar1)(2,0);
-
-  return;
-
+    sound_cmd_dispatch(1, 0);
+    sound_cmd_dispatch(3, 0);
+    sound_cmd_dispatch(2, 0);
 }
 
-void FUN_060192e8()
+/* sound_mailbox_timeout -- Busy-wait ~100k iterations then set timeout flag.
+ * Called when SCSP sound mailbox doesn't respond in time. */
+void FUN_060192e8(void)
 {
-  register unsigned int cnt asm("r1") = 100000;
-
-  do {
-    cnt = cnt - 1;
-  } while (cnt != 0);
-
-  SOUND_TIMEOUT_FLAG = 1;
+    register unsigned int cnt asm("r1") = 100000;
+    do {
+        cnt--;
+    } while (cnt != 0);
+    SOUND_TIMEOUT_FLAG = 1;
 }
 
 void FUN_06019324()

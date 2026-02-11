@@ -887,16 +887,14 @@ void FUN_06010994()
 
 }
 
-void FUN_06010a5c(param_1)
-    int param_1;
+/* subsystem_dma_transfer -- DMA-copy data block for subsystem slot.
+ * Computes dest from scroll offset + subsystem base + 0x40,
+ * src from table at 0x0605D05C indexed by param. */
+void FUN_06010a5c(int slot_idx)
 {
-
-  (*(int(*)())0x0602761E)(*(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + PTR_DAT_06010ac8 + 0x40
-
-             ,*(int *)(0x0605D05C + (param_1 << 2)));
-
-  return;
-
+    (*(int(*)())0x0602761E)(
+        *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + PTR_DAT_06010ac8 + 0x40,
+        *(int *)(0x0605D05C + (slot_idx << 2)));
 }
 
 int FUN_06010b54()

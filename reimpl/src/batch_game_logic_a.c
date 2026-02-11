@@ -101,38 +101,43 @@ void FUN_0600a026()
 
 }
 
-void FUN_0600a084()
+/* camera_shake_update -- Apply screen shake based on impact intensity.
+ * If intensity < 2, no shake. Otherwise alternates direction each frame
+ * (positive on even frames, negative on odd). Intensity scaled by 0x8000. */
+void FUN_0600a084(void)
 {
-  register int func asm("r3") = 0x06014884;
-  int val = *(int *)(CAR_PTR_TARGET + (int)DAT_0600a10c);
-  int iVar1;
+    register int shake_func asm("r3") = 0x06014884;
+    int intensity = *(int *)(CAR_PTR_TARGET + (int)DAT_0600a10c);
+    int offset;
 
-  if (val < 2) {
-    (*(void(*)())func)(0x10, 0, 0);
-    return;
-  }
-
-  iVar1 = val << 15;
-  if ((FRAME_COUNTER & 1) != 0) {
-    iVar1 = val * -0x8000;
-  }
-  (*(void(*)())func)(0x10, iVar1, 0);
+    if (intensity < 2) {
+        (*(void(*)())shake_func)(0x10, 0, 0);
+        return;
+    }
+    offset = intensity << 15;
+    if ((FRAME_COUNTER & 1) != 0) {
+        offset = intensity * -0x8000;  /* negate on odd frames */
+    }
+    (*(void(*)())shake_func)(0x10, offset, 0);
 }
 
-void FUN_0600a0c0()
+/* vdp_state_init -- Initialize VDP1/VDP2 rendering state for new frame.
+ * Configures display mode (0x100), resets VBlank counter, sets up
+ * scroll regions, clears command buffer, marks draw-end (0x8000). */
+void FUN_0600a0c0(void)
 {
-  register int func1 asm("r3") = 0x06026CE0;
-  register int ptrAddr asm("r2") = 0x06063F5C;
+    register int render_flush asm("r3") = 0x06026CE0;
+    register int scroll_ptr asm("r2") = 0x06063F5C;
 
-  (*(int(*)())0x06038BD4)(0x100, 0);
-  (*(int(*)())func1)();
-  VBLANK_OUT_COUNTER = 0;
-  (*(int(*)())0x06039250)(ptrAddr);
-  (*(int(*)())0x060393FC)(0, 0, 0, (int)DAT_0600a112, (int)DAT_0600a110);
-  VDP1_CMD_BASE_PTR = 0;
-  **(short **)ptrAddr = (short)0x8000;
-  (*(int(*)())func1)();
-  VBLANK_OUT_COUNTER = 0;
+    (*(int(*)())0x06038BD4)(0x100, 0);         /* VDP2 display mode */
+    (*(int(*)())render_flush)();                /* flush render pipeline */
+    VBLANK_OUT_COUNTER = 0;
+    (*(int(*)())0x06039250)(scroll_ptr);        /* configure scroll plane */
+    (*(int(*)())0x060393FC)(0, 0, 0, (int)DAT_0600a112, (int)DAT_0600a110);
+    VDP1_CMD_BASE_PTR = 0;
+    **(short **)scroll_ptr = (short)0x8000;     /* draw-end command */
+    (*(int(*)())render_flush)();                /* flush again */
+    VBLANK_OUT_COUNTER = 0;
 }
 
 void FUN_0600a140()
@@ -318,27 +323,19 @@ int FUN_0600a294()
   return iVar1;
 }
 
-int FUN_0600a33c()
+/* phase_select -- Map game sub-phase (0x06063E1C) to PHASE_FLAG value.
+ * Sub-phase 0->5, 1->6, 2->7, 3->8. Used during race state transitions. */
+int FUN_0600a33c(void)
 {
-  register int iVar1 asm("r0");
-  register short *dest asm("r2") = (short *)0x0605A016;
+    register int sub_phase asm("r0");
+    sub_phase = *(int *)0x06063E1C;
 
-  iVar1 = *(int *)0x06063E1C;
+    if (sub_phase == 0)      PHASE_FLAG = 5;
+    else if (sub_phase == 1) PHASE_FLAG = 6;
+    else if (sub_phase == 2) PHASE_FLAG = 7;
+    else if (sub_phase == 3) PHASE_FLAG = 8;
 
-  if (iVar1 == 0) {
-    *dest = 5;
-  }
-  else if (iVar1 == 1) {
-    *dest = 6;
-  }
-  else if (iVar1 == 2) {
-    *dest = 7;
-  }
-  else if (iVar1 == 3) {
-    *dest = 8;
-  }
-
-  return iVar1;
+    return sub_phase;
 }
 
 void FUN_0600a474(param_1, param_2, param_3, param_4)
@@ -364,15 +361,12 @@ void FUN_0600a474(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_0600a4aa()
+/* scene_sound_update -- Update scene audio: set BGM tempo and play positional sound.
+ * Reads tempo from game state, position from render globals. */
+void FUN_0600a4aa(void)
 {
-
-  FUN_06031D8C(*(int *)0x06062130, *(int *)0x060621DC);
-
-  FUN_06031A28(*(int *)0x060620DC, *(short *)0x06089E44, *(int *)0x06062184);
-
-  return;
-
+    FUN_06031D8C(*(int *)0x06062130, *(int *)0x060621DC);
+    FUN_06031A28(*(int *)0x060620DC, *(short *)0x06089E44, *(int *)0x06062184);
 }
 
 int FUN_0600a4ca(param_1)

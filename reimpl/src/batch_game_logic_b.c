@@ -2595,13 +2595,15 @@ unsigned int FUN_0600db9e()
 
 }
 
-void FUN_0600dc74()
+/* checkpoint_vdp_clear -- Clear two VDP sprite entries for checkpoint display.
+ * Calls VDP attribute setter (FUN_060284AE) twice with different tile IDs
+ * to blank out checkpoint crossing indicator sprites. */
+void FUN_0600dc74(void)
 {
-  register int addr asm("r0") = 0x0605ACE8;
-  register int func asm("r3") = 0x060284AE;
-
-  (*(int(*)())func)(8,(int)DAT_0600dc9c,0x60,addr);
-  (*(int(*)())func)(8,(int)DAT_0600dc9e,0x60,addr);
+    register int dest asm("r0") = 0x0605ACE8;
+    register int vdp_attr_set asm("r3") = 0x060284AE;
+    (*(int(*)())vdp_attr_set)(8, (int)DAT_0600dc9c, 0x60, dest);
+    (*(int(*)())vdp_attr_set)(8, (int)DAT_0600dc9e, 0x60, dest);
 }
 
 int FUN_0600dcc8()
@@ -2737,32 +2739,24 @@ void FUN_0600dd88(param_1)
 
 }
 
-void FUN_0600de40()
+/* player_car_iteration -- Per-frame player car update entry point.
+ * Sets half car count, then runs physics + per-car loop. */
+void FUN_0600de40(void)
 {
-
-  *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-
-  FUN_0600e410();
-
-  FUN_0600e0c0();
-
-  return;
-
+    HALF_CAR_COUNT = (short)(CAR_ITERATION_BASE >> 1);
+    FUN_0600e410();   /* physics_entry */
+    FUN_0600e0c0();   /* per_car_loop */
 }
 
-void FUN_0600de54()
+/* camera_car_iteration -- Per-frame camera target car update.
+ * Same half-car-count setup, but switches current car to target
+ * and runs camera setup instead of physics. */
+void FUN_0600de54(void)
 {
-
-  *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-
-  CAR_PTR_CURRENT = CAR_PTR_TARGET;
-
-  FUN_0600e99c();
-
-  FUN_0600e0c0();
-
-  return;
-
+    HALF_CAR_COUNT = (short)(CAR_ITERATION_BASE >> 1);
+    CAR_PTR_CURRENT = CAR_PTR_TARGET;
+    FUN_0600e99c();   /* camera_setup */
+    FUN_0600e0c0();   /* per_car_loop */
 }
 
 void FUN_0600de70()

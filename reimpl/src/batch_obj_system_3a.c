@@ -1114,18 +1114,14 @@ int FUN_0603afd0(param_1, param_2, param_3)
 
 }
 
-int FUN_0603b058(param_1)
-    int *param_1;
+/* cd_command_dispatch -- Dispatch CD command via command type vtable.
+ * Reads command type from param[4] byte, looks up handler in CD_STATE_A table,
+ * calls it with param[0], then invokes callback dispatch (FUN_0603b93c). */
+int FUN_0603b058(int *param_1)
 {
-
-  int uVar1;
-
-  uVar1 = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + CD_STATE_A + 0x10)))(*param_1);
-
-  FUN_0603b93c(0);
-
-  return uVar1;
-
+    int result = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + CD_STATE_A + 0x10)))(*param_1);
+    FUN_0603b93c(0);
+    return result;
 }
 
 int FUN_0603b1b6(param_1, param_2, param_3, param_4)

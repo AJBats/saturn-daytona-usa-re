@@ -165,17 +165,14 @@ void FUN_0601a3f4(param_1, param_2)
 
 }
 
-int FUN_0601a5f8()
+/* get_sound_bank_index -- Return sound bank index based on game mode.
+ * Mode 0x10 (16 = VS mode) uses bank 0xA8, all others use 0xA9. */
+int FUN_0601a5f8(void)
 {
-
-  if (*(int *)0x06063D9E == 0x10) {
-
-    return 0xa8;
-
-  }
-
-  return 0xa9;
-
+    if (*(int *)0x06063D9E == 0x10) {
+        return 0xA8;
+    }
+    return 0xA9;
 }
 
 void FUN_0601a65e()
@@ -759,39 +756,36 @@ unsigned int FUN_0601ae2c()
 
 }
 
-void FUN_0601ae80()
+/* display_mode_init -- Initialize display subsystem state and load VDP2 scroll data.
+ * Resets mode counters, then DMA-copies 3 scroll plane data blocks to VRAM:
+ *   VDP2 color RAM (0x25F006C0), scroll plane A (0x25F00180), pattern (0x25F00000). */
+void FUN_0601ae80(void)
 {
-  register int func asm("r3") = 0x0602761E;
+    register int dma_func asm("r3") = 0x0602761E;
 
-  *(int *)0x06086010 = 0;
-  *(int *)0x0608600F = 0x28;
-  *(int *)0x06086011 = 0;
+    *(int *)0x06086010 = 0;
+    *(int *)0x0608600F = 0x28;
+    *(int *)0x06086011 = 0;
 
-  (*(int(*)())func)(0x25F006C0, 0x0604866C, 0x60);
-  (*(int(*)())func)(0x25F00180, 0x060485CC, 0x20);
-  (*(void(*)())0x0602766C)(0x25F00000, 0x0604996C, 0x180);
+    (*(int(*)())dma_func)(0x25F006C0, 0x0604866C, 0x60);      /* color RAM */
+    (*(int(*)())dma_func)(0x25F00180, 0x060485CC, 0x20);       /* scroll plane A */
+    (*(void(*)())0x0602766C)(0x25F00000, 0x0604996C, 0x180);   /* pattern data */
 }
 
-void FUN_0601aeb6()
+/* display_mode_dispatch -- Call handler from display mode vtable.
+ * Reads mode index from 0x06086011, looks up function pointer in
+ * table at 0x0605DEC8, and calls it. */
+void FUN_0601aeb6(void)
 {
-
-  (*(int(*)())(*(int *)(0x0605DEC8 + (unsigned int)(unsigned char)*(int *)(0x06086011 << 2))))();
-
-  return;
-
+    (*(int(*)())(*(int *)(0x0605DEC8 + (unsigned int)(unsigned char)*(int *)(0x06086011 << 2))))();
 }
 
-int FUN_0601b074()
+/* display_region_setup -- Configure display region (320x224 @ offset 48,48).
+ * Calls VDP2 display region function with standard NTSC parameters:
+ *   x=0, y=0x30, w=0x30, h=0, x2=0x160, y2=0x100, w2=0x160, h2=0x100 */
+int FUN_0601b074(void)
 {
-
-  int uVar1;
-
-  uVar1 = (*(int(*)())0x06039100)(0,0x30,0x30,0,0x160,0x100,
-
-                     0x160,0x100);
-
-  return uVar1;
-
+    return (*(int(*)())0x06039100)(0, 0x30, 0x30, 0, 0x160, 0x100, 0x160, 0x100);
 }
 
 void FUN_0601b09a(param_1, param_2, param_3)

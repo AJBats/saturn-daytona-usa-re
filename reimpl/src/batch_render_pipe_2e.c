@@ -244,11 +244,14 @@ int FUN_0602e4bc()
 
 }
 
-void FUN_0602e5e4()
+/* cache_car_render_params -- Copy car render state to fast-access globals.
+ * Caches car +0x238 (render param A) and +0x23C (render param B)
+ * from the target car struct into global scratch. */
+void FUN_0602e5e4(void)
 {
-  int base = CAR_PTR_TARGET;
-  DAT_06083264 = *(int *)(base + 0x238);
-  DAT_06083268 = *(int *)(base + 0x23C);
+    int base = CAR_PTR_TARGET;
+    DAT_06083264 = *(int *)(base + 0x238);
+    DAT_06083268 = *(int *)(base + 0x23C);
 }
 
 int FUN_0602e610()

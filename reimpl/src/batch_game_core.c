@@ -541,15 +541,15 @@ int FUN_060067c8()
   return (int)cVar1;
 }
 
-int FUN_06006838(param_1, param_2)
-    int param_1;
-    int param_2;
+/* world_to_tile_index -- Convert world X,Z coords to flat tile grid index.
+ * World range: X [-0x04000000..+0x03FFFFFF], Z [0..0x03FFFFFF]
+ * Grid: 64 columns. >>21 divides 64M range into 32 steps per axis.
+ * Returns: row * 64 + column */
+int FUN_06006838(int world_x, int world_z)
 {
-
-  return (((unsigned int)(0x03FFFFFF - param_2) >> 0x15) << 6) +
-
-         ((unsigned int)(0x04000000 + param_1) >> 0x15);
-
+    unsigned int row = (unsigned int)(0x03FFFFFF - world_z) >> 21;
+    unsigned int col = (unsigned int)(0x04000000 + world_x) >> 21;
+    return (row << 6) + col;
 }
 
 unsigned int FUN_06006868()

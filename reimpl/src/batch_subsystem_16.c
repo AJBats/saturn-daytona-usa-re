@@ -1263,13 +1263,17 @@ void FUN_06017bf4()
 
 }
 
-void FUN_06017c78()
+/* check_race_complete_sound -- If both race positions match and equal 42 (0x2A),
+ * set completion flag and play race-complete sound effect. */
+extern void sound_cmd_dispatch(int channel, int command);
+
+void FUN_06017c78(void)
 {
-  if ((*(short *)0x0605BE24 == *(short *)0x0605BE22) &&
-     (*(short *)0x0605BE24 == 0x2a)) {
-    *(char *)0x06085FCC = 1;
-    (*(int(*)())0x0601D5F4)(0,0xAE1118FF);
-  }
+    if (*(short *)0x0605BE24 == *(short *)0x0605BE22 &&
+        *(short *)0x0605BE24 == 0x2A) {
+        *(char *)0x06085FCC = 1;
+        sound_cmd_dispatch(0, 0xAE1118FF);
+    }
 }
 
 unsigned int FUN_06017c9c(param_1)

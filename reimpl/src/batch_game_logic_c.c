@@ -1553,10 +1553,11 @@ void FUN_0600f424()
 
 }
 
-void FUN_0600f870()
+/* subsystem_countdown_step -- Run subsystem handlers then decrement countdown.
+ * When countdown reaches 0, sets mode flag to 4 (transition). */
+void FUN_0600f870(void)
 {
     short val;
-
     func_060114AC(0);
     func_06011094();
     val = counter_0607887C;

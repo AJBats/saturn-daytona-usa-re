@@ -597,36 +597,33 @@ int speed_force_timer()
 
 }
 
-void FUN_06009e02()
+/* state_27_countdown -- State 27 handler: countdown to state 30 transition.
+ * Decrements STATE_COUNTDOWN each frame. When it hits 0, transitions
+ * to state 30. Calls background update unconditionally, CD status read
+ * only while still in state 27. */
+void FUN_06009e02(void)
 {
-    counter_0607EBCC = counter_0607EBCC - 1;
-    if (counter_0607EBCC == 0) {
-        state_0605AD10 = 30;
+    STATE_COUNTDOWN--;
+    if (STATE_COUNTDOWN == 0) {
+        GAME_STATE = 30;
     }
     func_0601389E();
-    if (state_0605AD10 != 27) {
+    if (GAME_STATE != 27) {
         func_06018E70();
     }
-    flag_0607864B = 1;
+    STATE_UPDATE_FLAG = 1;
 }
 
-void FUN_06009ffc()
+/* scu_sound_init -- SCU interrupt reconfiguration: mute all sound channels.
+ * Sends 5 sound commands via sound_cmd_dispatch:
+ *   ch1=off, ch3=off, ch2=off, ch0=silence, ch0=master_vol */
+extern void sound_cmd_dispatch(int channel, int command);
+
+void FUN_06009ffc(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x0601D5F4;
-
-  (*(int(*)())0x0601D5F4)(1,0);
-
-  (*(int(*)())puVar1)(3,0);
-
-  (*(int(*)())puVar1)(2,0);
-
-  (*(int(*)())puVar1)(0,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0,0xAE0600FF);
-
-  return;
-
+    sound_cmd_dispatch(1, 0);
+    sound_cmd_dispatch(3, 0);
+    sound_cmd_dispatch(2, 0);
+    sound_cmd_dispatch(0, 0xAE0001FF);
+    sound_cmd_dispatch(0, 0xAE0600FF);
 }

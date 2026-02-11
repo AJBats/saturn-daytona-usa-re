@@ -104,17 +104,13 @@ extern int PTR_DAT_06003ae4;
 extern int PTR_PTR_06002400;
 extern int PTR_VDP1_TVMR_060025c8;
 
-int FUN_06002280()
+/* delay_loop_6 -- Busy-wait delay loop: 6 iterations.
+ * Returns the loop counter (always 6). Used for hardware settling. */
+int FUN_06002280(void)
 {
-
-  short uStack_4;
-
-  for (uStack_4 = 0; uStack_4 < 6; uStack_4 = uStack_4 + 1) {
-
-  }
-
-  return (int)uStack_4;
-
+    short i;
+    for (i = 0; i < 6; i++) { }
+    return (int)i;
 }
 
 void FUN_06002348()
@@ -134,17 +130,14 @@ void FUN_06002348()
 
 }
 
-int FUN_060023e6()
+/* smpc_sync_wait -- Trigger SMPC command and busy-wait for completion.
+ * Writes 1 to SMPC command register, polls until hardware clears it.
+ * Returns the result register value. */
+int FUN_060023e6(void)
 {
-
-  *(int *)PTR_PTR_06002400 = 1;
-
-  do {
-
-  } while (*(int *)PTR_PTR_06002400 == 1);
-
-  return *(int *)PTR_PTR_06002400;
-
+    *(int *)PTR_PTR_06002400 = 1;
+    do { } while (*(int *)PTR_PTR_06002400 == 1);
+    return *(int *)PTR_PTR_06002400;
 }
 
 void FUN_06002404(param_1, param_2, param_3)
@@ -509,15 +502,12 @@ void FUN_0600270a(param_1, param_2)
 
 }
 
-void FUN_06002d88()
+/* warm_reboot -- Call BIOS reset vector, then re-enter initial_program.
+ * 0x06002db8 points to the BIOS warm-start handler. */
+void FUN_06002d88(void)
 {
-
-  (*(int(*)())(*(int *)0x06002db8))();
-
-  initial_program(0,0,0,0);
-
-  return;
-
+    (*(int(*)())(*(int *)0x06002db8))();
+    initial_program(0, 0, 0, 0);
 }
 
 void FUN_060032d4()

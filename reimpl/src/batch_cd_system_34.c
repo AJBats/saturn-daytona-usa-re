@@ -251,14 +251,14 @@ int FUN_06034168()
 
 }
 
-void FUN_0603446c()
+/* cd_clear_transfer_flags -- Clear status byte (+0x26) in all 5 CD transfer slots.
+ * Each slot is 0x2C bytes. Resets transfer completion flags. */
+void FUN_0603446c(void)
 {
-  int i = 0;
-  do {
-    *(char *)((char *)DAT_06082A7C + (unsigned short)i * (unsigned short)0x2C + 0x26) = 0;
-    i++;
-  } while (i < 5);
-  return;
+    int i;
+    for (i = 0; i < 5; i++) {
+        *(char *)((char *)DAT_06082A7C + i * 0x2C + 0x26) = 0;
+    }
 }
 
 char * FUN_0603449c()
@@ -4088,15 +4088,17 @@ void FUN_06035bc8()
 
 }
 
-int FUN_06035c1c(param_1)
-    char *param_1;
+/* cd_strlen -- String length (custom strlen for CD subsystem).
+ * Counts characters until null terminator. Goto/check pattern
+ * matches original SH-2 dt/bf loop. */
+int FUN_06035c1c(char *str)
 {
     register int count asm("r0") = 0;
     goto check;
 body:
     count++;
 check:
-    if (*param_1++ != '\0') goto body;
+    if (*str++ != '\0') goto body;
     return count;
 }
 
@@ -4121,27 +4123,18 @@ int FUN_06035c2c()
 
 }
 
-void FUN_06035c54(param_1)
-    unsigned int param_1;
+/* cd_hirq_set_and_send -- Set HIRQ request bit and send CD command with bit 0 set */
+void FUN_06035c54(unsigned int cmd)
 {
-
-  *(unsigned short *)0x06063590 = *(unsigned short *)0x06063590 | CD_HIRQREQ;
-
-  FUN_06035c6e(param_1 | 1);
-
-  return;
-
+    *(unsigned short *)0x06063590 |= CD_HIRQREQ;
+    FUN_06035c6e(cmd | 1);
 }
 
-void FUN_06035c80()
+/* cd_reset_hirq -- Send CD reset command (0x0BE1) and clear HIRQ status */
+void FUN_06035c80(void)
 {
-
-  FUN_06035c6e(0x0BE1);
-
-  *(short *)0x06063590 = 0;
-
-  return;
-
+    FUN_06035c6e(0x0BE1);
+    *(short *)0x06063590 = 0;
 }
 
 int FUN_06035cbc(param_1, param_2)
@@ -4220,15 +4213,10 @@ int FUN_06035e00(param_1, param_2)
 
 }
 
-int FUN_06035e90()
+/* cd_get_status -- Thin wrapper: query CD drive status via FUN_06035168 */
+int FUN_06035e90(void)
 {
-
-  int uVar1;
-
-  uVar1 = (*(int(*)())0x06035168)();
-
-  return uVar1;
-
+    return (*(int(*)())0x06035168)();
 }
 
 int FUN_06035ea2(param_1, param_2, param_3)

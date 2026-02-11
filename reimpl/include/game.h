@@ -169,7 +169,9 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 #define GAME_STATE_COPY     (*(volatile int *)0x0607EBC0)
 #define GAME_STATE_BIT      (*(volatile int *)0x0607EBC4)
 #define FRAME_COUNTER       (*(volatile int *)0x0607EBC8)
+#define STATE_COUNTDOWN     (*(volatile int *)0x0607EBCC)    /* state transition countdown */
 #define GAME_STATE_VAR      (*(volatile int *)0x0607EBD0)
+#define STATE_TIMER_D4      (*(volatile int *)0x0607EBD4)    /* state-specific timer (e.g. 0x46) */
 
 /* State handler function pointer type */
 typedef void (*state_handler_t)(void);
@@ -233,6 +235,9 @@ typedef void (*state_handler_t)(void);
 #define CAR_PTR_TARGET      (*(volatile int *)0x0607E944)    /* target car ptr (for collision) */
 #define CAR_COUNT           (*(volatile int *)0x0607EAD8)    /* active car count */
 #define DEMO_MODE_FLAG      (*(volatile int *)0x0607EAE0)    /* non-zero = demo (skip collisions) */
+#define HALF_CAR_COUNT      (*(volatile short *)0x060786CA)  /* car_count >> 1, used in iteration */
+#define CAR_ITERATION_BASE  (*(volatile int *)0x0607EA98)    /* base value for half car count */
+#define STATE_UPDATE_FLAG   (*(volatile char *)0x0607864B)   /* set 1 after state handler runs */
 
 
 /* ===================================================================

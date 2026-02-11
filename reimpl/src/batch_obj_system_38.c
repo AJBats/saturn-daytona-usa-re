@@ -403,12 +403,12 @@ void FUN_0603850c(param_1)
 
 }
 
-void FUN_06038520()
+/* vdp1_batch_request -- Request VDP1 batch processing if not already queued */
+void FUN_06038520(void)
 {
-  unsigned short val = VDP1_BATCH_FLAG;
-  if (val == 0) {
-    VDP1_BATCH_FLAG = 1;
-  }
+    if (VDP1_BATCH_FLAG == 0) {
+        VDP1_BATCH_FLAG = 1;
+    }
 }
 
 void FUN_0603853c(param_1, param_2, param_3)

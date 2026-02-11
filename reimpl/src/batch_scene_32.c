@@ -2337,10 +2337,11 @@ int FUN_0603226c()
 
 }
 
-int FUN_060322e8()
+/* scene_frame_counter -- Increment scene frame counter when scene is active */
+int FUN_060322e8(void)
 {
     if (flag_060322fc != 0) {
-        counter_06032300 = counter_06032300 + 1;
+        counter_06032300++;
     }
 }
 
@@ -3484,16 +3485,11 @@ long long FUN_06033278(param_1, param_2)
 
 }
 
-int FUN_06033330()
+/* scene_dma_load_palette -- DMA-copy scene color palette (0x7E0 bytes).
+ * Copies from ROM palette data (0x060430CE) to VDP2 CRAM (0x060629AC). */
+int FUN_06033330(void)
 {
-
-  int uVar1;
-
-  uVar1 = (*(int(*)())0x0602761E)(0x060629AC,0x060430CE,0x7e0)
-
-  ;
-
-  return uVar1;
+    return (*(int(*)())0x0602761E)(0x060629AC, 0x060430CE, 0x7E0);
 
 }
 
@@ -3770,16 +3766,16 @@ int FUN_06033550()
 
 }
 
-int FUN_060335f4(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* scene_car_count_lookup -- Look up scene parameter by car count, then
+ * chain-call two trig/projection helpers with the result.
+ * Table at 0x0603363C is indexed by CAR_COUNT. */
+int FUN_060335f4(int param_1, int param_2, int param_3)
 {
-  register int p2 asm("r2") = param_2;
-  register int p3 asm("r1") = param_3;
-  int uVar2 = *(int *)(0x0603363C + (CAR_COUNT << 2));
-  int uVar1 = (*(int(*)())0x06027348)();
-  return (*(int(*)())0x06027344)(uVar2, p2, p3, uVar1);
+    register int p2 asm("r2") = param_2;
+    register int p3 asm("r1") = param_3;
+    int table_val = *(int *)(0x0603363C + (CAR_COUNT << 2));
+    int intermediate = (*(int(*)())0x06027348)();
+    return (*(int(*)())0x06027344)(table_val, p2, p3, intermediate);
 }
 
 int FUN_06033648()

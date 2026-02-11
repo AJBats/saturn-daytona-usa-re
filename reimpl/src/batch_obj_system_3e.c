@@ -797,28 +797,30 @@ int FUN_0603f342(param_1, param_2, param_3, param_4)
 
 }
 
-int FUN_0603f4e0(param_1)
-    int param_1;
+/* cd_read_word -- Read 16-bit word from CD buffer via DMA double-read pattern.
+ * First read primes the bus, second read gets actual data. */
+int FUN_0603f4e0(int addr)
 {
-  short local_10[2];
-  volatile int saved_param;
-  char auStack_8[8];
+    short result[2];
+    volatile int saved_addr;
+    char dummy_buf[8];
 
-  saved_param = param_1;
-  FUN_0603f3f6(param_1, auStack_8, 2);
-  FUN_0603f3f6(saved_param, local_10, 2);
-  return (int)local_10[0];
+    saved_addr = addr;
+    FUN_0603f3f6(addr, dummy_buf, 2);         /* prime DMA bus */
+    FUN_0603f3f6(saved_addr, result, 2);      /* actual read */
+    return (int)result[0];
 }
 
-int FUN_0603f500(param_1)
-    int param_1;
+/* cd_read_long -- Read 32-bit long from CD buffer via DMA double-read pattern.
+ * Same prime-then-read pattern as cd_read_word but for 4 bytes. */
+int FUN_0603f500(int addr)
 {
-  struct { int val; int saved; char buf[8]; } frame;
+    struct { int val; int saved; char buf[8]; } frame;
 
-  frame.saved = param_1;
-  FUN_0603f3f6(param_1, frame.buf, 4);
-  FUN_0603f3f6(frame.saved, &frame.val, 4);
-  return frame.val;
+    frame.saved = addr;
+    FUN_0603f3f6(addr, frame.buf, 4);         /* prime DMA bus */
+    FUN_0603f3f6(frame.saved, &frame.val, 4); /* actual read */
+    return frame.val;
 }
 
 char FUN_0603f534(param_1)

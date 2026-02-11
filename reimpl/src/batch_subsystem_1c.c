@@ -1925,14 +1925,16 @@ int FUN_0601dbb8()
 
 }
 
-int FUN_0601ddf6()
+/* hud_sprite_setup -- Configure 3 HUD sprite entries for lap/timer display.
+ * Sets VDP sprite attributes for tiles 0x7C2, 0x8C2, 0x9C2 at dest 0x0605ACE3.
+ * Third sprite uses FUN_060283E0 (wide sprite variant, 0xE000 size). */
+int FUN_0601ddf6(void)
 {
-  register int ptr asm("r0") = 0x0605ACE3;
-  register int func1 asm("r3") = 0x060284AE;
-
-  (*(int(*)())func1)(8, 0x7c2, 0x90, ptr);
-  (*(int(*)())func1)(8, 0x8c2, 0x90, ptr);
-  (*(void(*)())0x060283E0)(8, 0x9c2, 0xE000, ptr);
+    register int dest asm("r0") = 0x0605ACE3;
+    register int vdp_attr_set asm("r3") = 0x060284AE;
+    (*(int(*)())vdp_attr_set)(8, 0x7C2, 0x90, dest);
+    (*(int(*)())vdp_attr_set)(8, 0x8C2, 0x90, dest);
+    (*(void(*)())0x060283E0)(8, 0x9C2, 0xE000, dest);
 }
 
 int FUN_0601de50()
