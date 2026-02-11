@@ -73,3 +73,49 @@ void FUN_0600A33C(void)
         *(volatile short *)0x0605A016 = 8;
     }
 }
+
+
+/* ================================================================
+ * FUN_0600A1B8 -- Game Parameter Writer (0x0600A1B8)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600A1B8-0x0600A1F4)
+ * Pool verified:
+ *   0x0600A228 = 0x06078635 (game active flag byte)
+ *   0x0600A22C = 0x0607ED8C (timer/counter short)
+ *   0x0600A230 = 0x0605AD00 (state active flag int)
+ *   0x0600A234 = 0x0607ED90 (destination param struct, 3 bytes)
+ *   0x0600A238 = 0x06063F44 (course param short)
+ *   0x0600A23C = 0x06078868 (game param A int)
+ *   0x0600A240 = 0x0607EAB8 (game param B int)
+ *
+ * Writes 3 parameter bytes to 0x0607ED90:
+ *   [0] = low byte of course param at 0x06063F44
+ *   [1] = low byte of game param A at 0x06078868
+ *   [2] = low byte of game param B at 0x0607EAB8
+ *
+ * Skips writing (returns early) if the game active flag is clear
+ * AND either the timer at 0x0607ED8C or the state at 0x0605AD00
+ * is nonzero.
+ *
+ * Leaf function (no PR save). 29 instructions + pool.
+ * ================================================================ */
+void FUN_0600A1B8(void)
+{
+    unsigned char flag = *(volatile unsigned char *)0x06078635;
+
+    if (flag == 0) {
+        unsigned short timer = *(volatile unsigned short *)0x0607ED8C;
+        if (timer != 0) return;
+
+        int state = *(volatile int *)0x0605AD00;
+        if (state != 0) return;
+    }
+
+    /* Write 3 parameter bytes to destination struct */
+    *(volatile unsigned char *)0x0607ED90 =
+        (unsigned char)(*(volatile short *)0x06063F44);
+    *((volatile unsigned char *)0x0607ED90 + 1) =
+        (unsigned char)(*(volatile int *)0x06078868);
+    *((volatile unsigned char *)0x0607ED90 + 2) =
+        (unsigned char)(*(volatile int *)0x0607EAB8);
+}

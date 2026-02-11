@@ -6,7 +6,7 @@ void scu_interrupt_reconfig(void) { }
 void FUN_06009FFC(void) __attribute__((alias("scu_interrupt_reconfig")));
 void cd_frame_sync_advance(void) { }
 void FUN_06012B58(void) __attribute__((alias("cd_frame_sync_advance")));
-void FUN_0600A1B8(void) { }
+/* FUN_0600A1B8: moved to game_state_utils.c */
 void FUN_060072E6(void) { }
 void FUN_06007370(void) { }
 void FUN_0600747C(void) { }
