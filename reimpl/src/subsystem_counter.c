@@ -466,3 +466,90 @@ void FUN_0600F794(void)
         *(volatile char *)0x06078663 = bit_val;
     }
 }
+
+
+/* Subsystem handler: full reset sequence */
+extern void FUN_06014360(void);
+
+/* Subsystem handler: mode processing */
+extern void FUN_0601424c(void);
+
+/* Subsystem handler: timer calibration */
+extern void FUN_060140c4(void);
+
+/* Controller input handler */
+extern void FUN_0601444C(void);
+
+/* Mode-16 specific handler */
+extern void FUN_06014466(void);
+
+/* Alternate mode handler */
+extern void FUN_0601450c(void);
+
+/* Post-dispatch update */
+extern void FUN_060145bc(void);
+
+/* End-of-round trigger handler */
+extern unsigned int FUN_060146d2(void);
+
+/* ================================================================
+ * FUN_06013A74 -- Subsystem Dispatch Chain (0x06013A74)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06013A74-0x06013AD8)
+ * Pool verified:
+ *   [0x06013AEC] = 0x06063D9E (mode flag, 16-bit)
+ *   [0x06013AF0] = 0x06063D9A (input word, 16-bit)
+ *   word [0x06013AEA] = 0x0800 (bit 11 mask)
+ *   [0x06013AF4] = 0x06084B18 (countdown limit, 32-bit)
+ *   [0x06013AF8] = 0x06084AF0 (counter, 16-bit)
+ *
+ * Calls sequence of 5 subsystem handlers, then mode-dispatches
+ * between FUN_06014466 (mode==16) and FUN_0601450c (other).
+ * After dispatch, calls FUN_060145bc, tests input bit 11, and
+ * conditionally calls FUN_060146d2. Then checks countdown limit
+ * (>=4 triggers end) and decrements counter (<=0 triggers end).
+ *
+ * 50 instructions. Saves PR.
+ * ================================================================ */
+void FUN_06013A74(void)
+{
+    /* Call subsystem handler sequence */
+    FUN_06014360();
+    FUN_0601416c();
+    FUN_0601424c();
+    FUN_060140c4();
+    FUN_0601444C();
+
+    /* Mode dispatch */
+    unsigned short mode = *(volatile unsigned short *)0x06063D9E;
+    if (mode == 16) {
+        FUN_06014466();
+    } else {
+        FUN_0601450c();
+    }
+
+    /* Post-dispatch update */
+    FUN_060145bc();
+
+    /* Test input bit 11 — conditionally call end-of-round trigger */
+    unsigned short input = *(volatile unsigned short *)0x06063D9A;
+    if (input & 0x0800) {
+        FUN_060146d2();
+    }
+
+    /* If countdown limit >= 4, trigger end-of-round */
+    unsigned int countdown = *(volatile unsigned int *)0x06084B18;
+    if (countdown >= 4) {
+        FUN_060146d2();  /* tail-call in original */
+        return;
+    }
+
+    /* Decrement counter; if expired, trigger end-of-round */
+    short counter = *(volatile short *)0x06084AF0;
+    counter--;
+    *(volatile short *)0x06084AF0 = counter;
+
+    if (counter <= 0) {
+        FUN_060146d2();  /* tail-call in original */
+    }
+}
