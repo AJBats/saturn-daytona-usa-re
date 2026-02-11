@@ -86,7 +86,7 @@ extern int DAT_06004610;
 extern int DAT_06004612;
 extern int FUN_060023e6();
 extern int FUN_0600245c();
-extern int FUN_060024d8();
+extern int FUN_060024d8(short param_1);
 extern void FUN_0600270a();
 extern int PTR_DAT_060023fc;
 extern int PTR_DAT_06002558;
@@ -113,21 +113,15 @@ int FUN_06002280(void)
     return (int)i;
 }
 
-void FUN_06002348()
+/* delay_loop_dual -- Two-phase delay loop.
+ * Phase 1: count by 4 up to DAT_0600239e.
+ * Phase 2: count by 1 up to PTR_DAT_060023fc.
+ * Both loops are empty busy-waits for hardware timing. */
+void FUN_06002348(void)
 {
-
-  int local_20;
-
-  for (local_20 = 0; local_20 < (unsigned int)(int)DAT_0600239e; local_20 = local_20 + 4) {
-
-  }
-
-  for (local_20 = 0; local_20 < (unsigned int)(int)PTR_DAT_060023fc; local_20 = local_20 + 1) {
-
-  }
-
-  return;
-
+    int i;
+    for (i = 0; i < (unsigned int)(int)DAT_0600239e; i += 4) { }
+    for (i = 0; i < (unsigned int)(int)PTR_DAT_060023fc; i += 1) { }
 }
 
 /* smpc_sync_wait -- Trigger SMPC command and busy-wait for completion.
@@ -261,75 +255,49 @@ int FUN_06002486(param_1, param_2, param_3, param_4)
 
 }
 
-int FUN_060024d8(param_1)
-    short param_1;
+/* smpc_reg_write -- Write value to 3 consecutive SMPC registers.
+ * Base is PTR_DAT_06002558 + DAT_06002554; writes param_1 to
+ * offsets +0x14, +0x16, +0x18 (SMPC data registers). */
+int FUN_060024d8(short param_1)
 {
-
-  int iVar1;
-
-  
-
-  iVar1 = *(int *)PTR_DAT_06002558 + (int)DAT_06002554;
-
-  *(short *)(iVar1 + 0x14) = param_1;
-
-  *(short *)(iVar1 + 0x16) = param_1;
-
-  *(short *)(iVar1 + 0x18) = param_1;
-
-  return (int)param_1;
-
+    int base = *(int *)PTR_DAT_06002558 + (int)DAT_06002554;
+    *(short *)(base + 0x14) = param_1;
+    *(short *)(base + 0x16) = param_1;
+    *(short *)(base + 0x18) = param_1;
+    return (int)param_1;
 }
 
-int FUN_06002510(param_1)
-    short param_1;
+/* smpc_reg_iterate -- Iterate SMPC register writes with step param_1.
+ * Loops from DAT_06002554 to DAT_06002556, calling smpc_reg_write
+ * and smpc_sync_wait at each step. Final write at end value. */
+int FUN_06002510(short param_1)
 {
+    int result;
+    short idx;
 
-  int uVar1;
+    for (idx = DAT_06002554; (int)(unsigned int)idx < (int)DAT_06002556; idx += param_1) {
+        FUN_060024d8((int)(short)idx);
+        FUN_060023e6();
+    }
 
-  short local_8;
-
-  for (local_8 = DAT_06002554; (int)(unsigned int)local_8 < (int)DAT_06002556; local_8 = local_8 + param_1)
-
-  {
-
-    FUN_060024d8((int)(short)local_8);
-
-    FUN_060023e6();
-
-  }
-
-  FUN_060024d8((int)DAT_06002556);
-
-  uVar1 = FUN_060023e6();
-
-  return uVar1;
-
+    FUN_060024d8((int)DAT_06002556);
+    result = FUN_060023e6();
+    return result;
 }
 
-void FUN_0600255c()
+/* vdp1_regs_clear -- Zero first 6 VDP1 registers starting at TVMR.
+ * Clears TVMR, FBCR, PTMR, EWDR, EWLR, EWRR,
+ * then writes initial value to next VDP1 register. */
+void FUN_0600255c(void)
 {
+    unsigned int i;
+    short *reg = (short *)PTR_VDP1_TVMR_060025c8;
 
-  unsigned int uStack_8;
-
-  short *puStack_4;
-
-  
-
-  puStack_4 = (short *)PTR_VDP1_TVMR_060025c8;
-
-  for (uStack_8 = 0; uStack_8 < 6; uStack_8 = uStack_8 + 1) {
-
-    *puStack_4 = 0;
-
-    puStack_4 = puStack_4 + 1;
-
-  }
-
-  *(short *)PTR_DAT_060025cc = (short)PTR_DAT_060025d0;
-
-  return;
-
+    for (i = 0; i < 6; i++) {
+        *reg = 0;
+        reg++;
+    }
+    *(short *)PTR_DAT_060025cc = (short)PTR_DAT_060025d0;
 }
 
 int FUN_06002594()
@@ -407,24 +375,15 @@ int FUN_06002594()
 
 }
 
-void FUN_060026dc(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* smpc_double_step -- Call FUN_0600270a twice per iteration for param_3 steps.
+ * param_1/param_2 are passed through registers to FUN_0600270a. */
+void FUN_060026dc(int param_1, int param_2, int param_3)
 {
-
-  do {
-
-    FUN_0600270a();
-
-    FUN_0600270a();
-
-    param_3 = param_3 + -1;
-
-  } while (param_3 != 0);
-
-  return;
-
+    do {
+        FUN_0600270a();
+        FUN_0600270a();
+        param_3--;
+    } while (param_3 != 0);
 }
 
 void FUN_0600270a(param_1, param_2)
@@ -510,29 +469,18 @@ void FUN_06002d88(void)
     initial_program(0, 0, 0, 0);
 }
 
-void FUN_060032d4()
+/* vdp1_sprite_clear -- Clear 3 VDP1 sprite command slots.
+ * Calls sprite command writer at 0x060283E0 with mode=8 and
+ * size=0xF000, destination=0x06059ECE for offsets 0, 0xD00, 0xD80. */
+void FUN_060032d4(void)
 {
+    register void (*sprite_write)(int, int, int, int) = (void (*)(int, int, int, int))0x060283E0;
+    int size = 0x0000F000;
+    int dest = 0x06059ECE;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  puVar3 = (int *)0x0000F000;
-
-  puVar2 = (char *)0x060283E0;
-
-  puVar1 = (int *)0x06059ECE;
-
-  (*(int(*)())0x060283E0)(8,0,0x0000F000,0x06059ECE);
-
-  (*(int(*)())puVar2)(8,0xd00,puVar3,puVar1);
-
-  (*(int(*)())puVar2)(8,0xd80,puVar3,puVar1);
-
-  return;
-
+    sprite_write(8, 0,     size, dest);
+    sprite_write(8, 0xd00, size, dest);
+    sprite_write(8, 0xd80, size, dest);
 }
 
 /* vdp_sprite_batch_setup -- Configure 3 VDP1 sprite command entries.
@@ -554,31 +502,23 @@ void FUN_0600330a(void)
     (*(void(*)())vdp_cmd_build)(0xC, *desc, (int)DAT_06003376, desc[1] + (int)DAT_06003374);
 }
 
-void FUN_0600338c(param_1, param_2)
-    unsigned int param_1;
-    int param_2;
+/* hud_conditional_sprite -- Render HUD sprite conditionally on frame counter.
+ * If bit 2 of param_1 is clear: render simple sprite at fixed offset.
+ * If bit 2 is set: render from sprite descriptor at 0x06063AD0
+ * (only if DAT_06003406 flags are clear in display state). */
+void FUN_0600338c(unsigned int param_1, int param_2)
 {
+    int cmd_offset = ((param_2 << 6) + 0xb) << 1;
 
-  if ((param_1 & 4) == 0) {
+    if ((param_1 & 4) == 0) {
+        (*(int(*)())0x060284AE)(0xc, cmd_offset, 0x60, 0x0605ACDD);
+        return;
+    }
 
-    (*(int(*)())0x060284AE)(0xc,((param_2 << 6) + 0xb) << 1,0x60,0x0605ACDD);
-
-    return;
-
-  }
-
-  if ((*(unsigned short *)0x06063DA0 & DAT_06003406) == 0) {
-
-    (*(int(*)())0x06028400)(0xc,*(int *)0x06063AD0,((param_2 << 6) + 0xb) << 1,
-
-               *(int *)(0x06063AD0 + 4) + (int)DAT_06003408);
-
-    return;
-
-  }
-
-  return;
-
+    if ((*(unsigned short *)0x06063DA0 & DAT_06003406) == 0) {
+        (*(int(*)())0x06028400)(0xc, *(int *)0x06063AD0, cmd_offset,
+                   *(int *)(0x06063AD0 + 4) + (int)DAT_06003408);
+    }
 }
 
 /* hud_blink_sprite -- Update blinking HUD sprite based on frame counter.
@@ -721,24 +661,27 @@ void vdp2_mega_init()
 
 }
 
-void FUN_060038d4()
+/* vdp2_cram_load -- Load 14 color palette blocks into VDP2 CRAM (0x25F00000).
+ * Each call copies a palette block from work RAM to VDP2 color RAM.
+ * Function at 0x0602766C is a DMA/memcpy (dest, src, size_words). */
+void FUN_060038d4(void)
 {
-  register int func asm("r3") = 0x0602766C;
+    register void (*dma_copy)(int, int, int) = (void (*)(int, int, int))0x0602766C;
 
-  (*(int(*)())func)(0x25F00000, 0x0604814C, 0x60);
-  (*(int(*)())func)(0x25F00060, 0x0604848C, 0x40);
-  (*(int(*)())func)(0x25F000A0, 0x060484CC, 0x20);
-  (*(int(*)())func)(0x25F000E0, 0x060485AC, 0x20);
-  (*(int(*)())func)(0x25F00100, 0x0604892C, 0x20);
-  (*(int(*)())func)(0x25F00120, 0x060488EC, 0x20);
-  (*(int(*)())func)(0x25F00140, 0x0604890C, 0x20);
-  (*(int(*)())func)(0x25F00160, 0x0605CDBC, 0x20);
-  (*(int(*)())func)(0x25F001A0, 0x060487EC, 0x20);
-  (*(int(*)())func)(0x25F001C0, 0x060483EC, 0x40);
-  (*(int(*)())func)(0x25F00600, 0x0604848C, 0x40);
-  (*(int(*)())func)(0x25F00660, 0x0604888C, 0x60);
-  (*(int(*)())func)(0x25F007A0, 0x060487EC, 0x20);
-  (*(void(*)())func)(0x25F007C0, 0x060483EC, 0x40);
+    dma_copy(0x25F00000, 0x0604814C, 0x60);  /* palette 0:  96 words */
+    dma_copy(0x25F00060, 0x0604848C, 0x40);  /* palette 1:  64 words */
+    dma_copy(0x25F000A0, 0x060484CC, 0x20);  /* palette 2:  32 words */
+    dma_copy(0x25F000E0, 0x060485AC, 0x20);  /* palette 3:  32 words */
+    dma_copy(0x25F00100, 0x0604892C, 0x20);  /* palette 4:  32 words */
+    dma_copy(0x25F00120, 0x060488EC, 0x20);  /* palette 5:  32 words */
+    dma_copy(0x25F00140, 0x0604890C, 0x20);  /* palette 6:  32 words */
+    dma_copy(0x25F00160, 0x0605CDBC, 0x20);  /* palette 7:  32 words */
+    dma_copy(0x25F001A0, 0x060487EC, 0x20);  /* palette 8:  32 words */
+    dma_copy(0x25F001C0, 0x060483EC, 0x40);  /* palette 9:  64 words */
+    dma_copy(0x25F00600, 0x0604848C, 0x40);  /* palette 10: 64 words */
+    dma_copy(0x25F00660, 0x0604888C, 0x60);  /* palette 11: 96 words */
+    dma_copy(0x25F007A0, 0x060487EC, 0x20);  /* palette 12: 32 words */
+    dma_copy(0x25F007C0, 0x060483EC, 0x40);  /* palette 13: 64 words */
 }
 
 void FUN_060039c8()

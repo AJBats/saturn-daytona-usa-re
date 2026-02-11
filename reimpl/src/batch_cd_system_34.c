@@ -4213,70 +4213,47 @@ int FUN_06035e90(void)
     return (*(int(*)())0x06035168)();
 }
 
-int FUN_06035ea2(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    char *param_3;
+/* cd_status_read -- Read CD drive status byte.
+ * Calls low-level CD command (0x06035D22); on success, copies
+ * first byte of response to CD status mirror at 0x06063594. */
+int FUN_06035ea2(int param_1, int param_2, char *param_3)
 {
+    int err = (*(int(*)())0x06035D22)();
+    if (err != 0)
+        return err;
 
-  int iVar1;
-
-  iVar1 = (*(int(*)())0x06035D22)();
-
-  if (iVar1 != 0) {
-
-    return iVar1;
-
-  }
-
-  *(int *)0x06063594 = *param_3;
-
-  return 0;
-
+    *(int *)0x06063594 = *param_3;
+    return 0;
 }
 
-int FUN_06035ec8(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_status_full_read -- Read full CD status and copy to mirror buffer.
+ * Calls low-level CD command into temp buffer, then copies parsed
+ * fields to the CD status mirror at 0x06063594 via FUN_06035f16. */
+int FUN_06035ec8(int param_1, int param_2)
 {
+    int err;
+    char buf[12];
 
-  int iVar1;
+    err = (*(int(*)())0x06035D22)(param_1, param_2, buf);
+    if (err != 0)
+        return err;
 
-  char auStack_10 [12];
-
-  iVar1 = (*(int(*)())0x06035D22)(param_1,param_2,auStack_10);
-
-  if (iVar1 != 0) {
-
-    return iVar1;
-
-  }
-
-  FUN_06035f16(auStack_10,0x06063594);
-
-  return 0;
-
+    FUN_06035f16(buf, (char *)0x06063594);
+    return 0;
 }
 
-void FUN_06035f16(param_1, param_2)
-    char *param_1;
-    char *param_2;
+/* cd_status_unpack -- Unpack CD status from compact 5-byte format to expanded fields.
+ * src[0] -> dest[0] (status byte)
+ * src[1..4] -> dest[4..7] (FAD/track info)
+ * src[4..7] masked to 24-bit -> dest[8..11] (position) */
+void FUN_06035f16(char *src, char *dest)
 {
-
-  *param_2 = *param_1;
-
-  param_2[4] = param_1[1];
-
-  param_2[5] = param_1[2];
-
-  param_2[6] = param_1[3];
-
-  param_2[7] = param_1[4];
-
-  *(unsigned int *)(param_2 + 8) = *(unsigned int *)(param_1 + 4) & 0x00FFFFFF;
-
-  return;
-
+    dest[0] = src[0];
+    dest[4] = src[1];
+    dest[5] = src[2];
+    dest[6] = src[3];
+    dest[7] = src[4];
+    *(unsigned int *)(dest + 8) = *(unsigned int *)(src + 4) & 0x00FFFFFF;
 }
 
 unsigned int FUN_06035f44()

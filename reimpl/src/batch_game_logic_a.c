@@ -338,27 +338,19 @@ int FUN_0600a33c(void)
     return sub_phase;
 }
 
-void FUN_0600a474(param_1, param_2, param_3, param_4)
-    int param_1;
-    int param_2;
-    int param_3;
-    int param_4;
+/* sound_position_update -- Update positional sound for a given source index.
+ * param_1 = sound source index (0-based).
+ * Looks up parameters from 4 parallel arrays at 0x06062820-0x0606291C.
+ * Calls sound tempo setter (0x06031D8C) and sound position updater (0x06031A28). */
+void FUN_0600a474(int param_1, int param_2, int param_3, int param_4)
 {
+    int off = param_1 << 2;
 
-  int iVar1;
+    (*(int(*)())0x06031D8C)(*(int *)(0x06062874 + off), *(int *)(0x060628C8 + off),
+               param_3, param_4, param_1);
 
-  iVar1 = (param_1 << 2);
-
-  (*(int(*)())0x06031D8C)(*(int *)(0x06062874 + iVar1),*(int *)(0x060628C8 + iVar1),
-
-             param_3,param_4,param_1);
-
-  (*(int(*)())0x06031A28)(*(int *)(0x06062820 + iVar1),(int)*(short *)0x06089E9E,
-
-             *(int *)(0x0606291C + iVar1));
-
-  return;
-
+    (*(int(*)())0x06031A28)(*(int *)(0x06062820 + off), (int)*(short *)0x06089E9E,
+               *(int *)(0x0606291C + off));
 }
 
 /* scene_sound_update -- Update scene audio: set BGM tempo and play positional sound.

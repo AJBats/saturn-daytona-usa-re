@@ -474,13 +474,13 @@ int FUN_0602eccc()
 
 }
 
-void FUN_0602ecf2()
+/* render_dispatch -- Dispatch to render handler via indexed jump table.
+ * Uses DEMO_MODE_FLAG-area index at 0x0607EAE4 to select entry from
+ * function pointer table at 0x0602ED0C. */
+void FUN_0602ecf2(void)
 {
-
-  (*(int(*)())(*(int *)(0x0602ED0C + *(int *)(0x0607EAE4 << 2))))();
-
-  return;
-
+    int idx = *(int *)0x0607EAE4;
+    (*(void(*)())(*(int *)(0x0602ED0C + (idx << 2))))();
 }
 
 void FUN_0602efcc()

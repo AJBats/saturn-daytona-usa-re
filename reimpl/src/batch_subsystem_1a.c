@@ -785,20 +785,15 @@ int FUN_0601b074(void)
     return (*(int(*)())0x06039100)(0, 0x30, 0x30, 0, 0x160, 0x100, 0x160, 0x100);
 }
 
-void FUN_0601b09a(param_1, param_2, param_3)
-    char param_1;
-    char param_2;
-    char param_3;
+/* menu_text_render -- Render menu text from lookup table.
+ * Computes index: param_1*6 + param_2*2 + language_byte at 0x0605D4F7.
+ * Looks up text pointer from table at 0x0605DD6C, renders with FUN_0601bbcc.
+ * param_3 = character count (fixed 6). */
+void FUN_0601b09a(char param_1, char param_2, char param_3)
 {
-
-  FUN_0601bbcc(*(int *)
-
-                (0x0605DD6C + (param_1 * 6 + (param_2 << 1) + (unsigned int)(unsigned char)*(int *)0x0605D4F7) << 2)
-
-               ,(int)param_3,6);
-
-  return;
-
+    int idx = param_1 * 6 + (param_2 << 1) + (unsigned int)(unsigned char)*(int *)0x0605D4F7;
+    int text_ptr = *(int *)(0x0605DD6C + (idx << 2));
+    FUN_0601bbcc(text_ptr, (int)param_3, 6);
 }
 
 void FUN_0601b0d8()

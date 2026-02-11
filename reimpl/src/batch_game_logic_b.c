@@ -765,28 +765,20 @@ void FUN_0600c928(param_1)
 
 }
 
-int FUN_0600c970(param_1)
-    int param_1;
+/* car_speed_curve_apply -- Apply speed curve adjustment from lookup table.
+ * Reads checkpoint param (+0x1EC) from car struct; if in range 0x45-0x62,
+ * adds speed delta from table at 0x0605A1E0 to CAR_ACCEL (+0x0C).
+ * Table is indexed by (checkpoint_param - 0x45). */
+int FUN_0600c970(int param_1)
 {
+    int checkpoint_param = *(int *)(param_1 + CAR_CHECKPOINT_PARAM);
 
-  int iVar1;
+    if (checkpoint_param > 0x44 && checkpoint_param < 99) {
+        *(int *)(param_1 + CAR_ACCEL) +=
+            (int)*(short *)(0x0605A1E0 + ((checkpoint_param - 0x45) << 1));
+    }
 
-  int iVar2;
-
-  iVar1 = 0x01EC;
-
-  iVar2 = *(int *)(param_1 + iVar1);
-
-  if ((0x44 < iVar2) && (iVar2 < 99)) {
-
-    *(int *)(param_1 + 0xc) =
-
-         *(int *)(param_1 + 0xc) + (int)*(short *)(0x0605A1E0 + ((iVar2 + -0x45) << 1));
-
-  }
-
-  return iVar1;
-
+    return CAR_CHECKPOINT_PARAM;
 }
 
 void FUN_0600c994()
@@ -1652,11 +1644,10 @@ int FUN_0600d210()
 
 }
 
-void FUN_0600d266()
+/* nop_d266 -- Placeholder / stripped function (no-op). */
+void FUN_0600d266(void)
 {
-
-  return;
-
+    return;
 }
 
 void FUN_0600d280()
@@ -1746,56 +1737,55 @@ void FUN_0600d31c(void)
     FUN_0600d50c();       /* position update */
 }
 
-void FUN_0600d336()
+/* ranking_compare_two -- Compare velocity projection of car 0 vs car 1.
+ * Only runs when GAME_STATE_BIT bit 21 is clear (not VS mode).
+ * Compares CAR_VEL_PROJ (+0x1F4): the faster car gets CAR_LAP_DELTA=1,
+ * the slower gets 0. Used for 2-player position tracking. */
+void FUN_0600d336(void)
 {
-  int base1;
-  int base2;
-  short off;
+    int car0 = CAR_ARRAY_BASE;
+    int car1 = car0 + CAR_STRUCT_SIZE;
 
-  base1 = 0x06078900;
-  base2 = base1 + 0x0268;
-
-  if ((GAME_STATE_BIT & 0x00200000) == 0) {
-
-    off = 0x01F4;
-    if (*(int *)(base1 + off) < *(int *)(base2 + off)) {
-      off = 0x0224;
-      *(int *)(base1 + off) = 1;
-      *(int *)(base2 + off) = 0;
+    if ((GAME_STATE_BIT & 0x00200000) == 0) {
+        if (*(int *)(car0 + CAR_VEL_PROJ) < *(int *)(car1 + CAR_VEL_PROJ)) {
+            *(int *)(car0 + CAR_LAP_DELTA) = 1;
+            *(int *)(car1 + CAR_LAP_DELTA) = 0;
+        } else {
+            *(int *)(car0 + CAR_LAP_DELTA) = 0;
+            *(int *)(car1 + CAR_LAP_DELTA) = 1;
+        }
     }
-    else {
-      off = 0x0224;
-      *(int *)(base1 + off) = 0;
-      *(int *)(base2 + off) = 1;
-    }
-  }
 }
 
-void FUN_0600d37c()
+/* ranking_sort_bubble -- Single-pass bubble sort of car pointers by velocity.
+ * Car pointer array at 0x0607E94C, count from CAR_ITERATION_BASE.
+ * Compares field at DAT_0600d404 offset (velocity projection).
+ * Writes final rank to DAT_0600d406 offset in each car struct. */
+void FUN_0600d37c(void)
 {
-  register int *piVar2 asm("r4") = (int *)0x0607E94C;
-  register unsigned int uVar3 asm("r5") = *(unsigned int *)0x0607EA98;
-  register int iVar5 asm("r12") = 0;
-  int iVar1, iVar4;
+    register int *car_ptrs asm("r4") = (int *)0x0607E94C;
+    register unsigned int count asm("r5") = *(unsigned int *)0x0607EA98;
+    register int rank asm("r12") = 0;
+    int cur_val, next_val;
 
-  iVar1 = *(int *)(*piVar2 + (int)DAT_0600d404);
+    cur_val = *(int *)(*car_ptrs + (int)DAT_0600d404);
 
-  while (uVar3 > 1) {
-    iVar4 = *(int *)(piVar2[1] + (int)DAT_0600d404);
-    if (iVar1 < iVar4) {
-      int tmp = *piVar2;
-      *piVar2 = piVar2[1];
-      piVar2[1] = tmp;
-    } else {
-      iVar4 = iVar1;
+    while (count > 1) {
+        next_val = *(int *)(car_ptrs[1] + (int)DAT_0600d404);
+        if (cur_val < next_val) {
+            int tmp = *car_ptrs;
+            *car_ptrs = car_ptrs[1];
+            car_ptrs[1] = tmp;
+        } else {
+            next_val = cur_val;
+        }
+        cur_val = *car_ptrs++;
+        *(int *)(cur_val + DAT_0600d406) = rank++;
+        cur_val = next_val;
+        count--;
     }
-    iVar1 = *piVar2++;
-    *(int *)(iVar1 + DAT_0600d406) = iVar5++;
-    iVar1 = iVar4;
-    uVar3--;
-  }
 
-  *(int *)(*piVar2 + (int)DAT_0600d406) = iVar5;
+    *(int *)(*car_ptrs + (int)DAT_0600d406) = rank;
 }
 
 void FUN_0600d3c4()

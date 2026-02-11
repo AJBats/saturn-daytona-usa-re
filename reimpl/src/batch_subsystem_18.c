@@ -826,28 +826,19 @@ int FUN_06018ddc(param_1, param_2, param_3)
 
 }
 
-int FUN_06018e1e(param_1)
-    char param_1;
+/* cd_command_send_type2 -- Send CD command type 2 with parameter.
+ * Builds a 3-word command buffer: {cmd=2, flag=1, param=param_1}
+ * and dispatches via CD command handler at 0x06034DEA. */
+int FUN_06018e1e(char param_1)
 {
+    int buf[2];
+    char *bytes = (char *)buf;
 
-  int uVar1;
+    buf[0] = 2;       /* command type */
+    bytes[5] = 1;     /* flag byte */
+    bytes[4] = param_1; /* parameter */
 
-  int local_c;
-
-  char uStack_8;
-
-  char uStack_7;
-
-  local_c = 2;
-
-  uStack_7 = 1;
-
-  uStack_8 = param_1;
-
-  uVar1 = (*(int(*)())0x06034DEA)(&local_c);
-
-  return uVar1;
-
+    return (*(int(*)())0x06034DEA)(buf);
 }
 
 int
@@ -1131,31 +1122,18 @@ void FUN_06019248()
 
 }
 
-void FUN_060192b4()
+/* scsp_ram_clear -- Zero all 512KB of SCSP work RAM (0x25A00000-0x25A7FFFF).
+ * This is the Saturn's 68000 sound CPU work RAM area. */
+void FUN_060192b4(void)
 {
+    char *cnt = (char *)0x0007FFFF;
+    char *dest = (char *)0x25A00000;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  
-
-  puVar1 = (char *)0x0007FFFF;
-
-  puVar2 = (char *)0x25A00000;
-
-  do {
-
-    puVar1 = puVar1 + -1;
-
-    *puVar2 = 0;
-
-    puVar2 = puVar2 + 1;
-
-  } while (puVar1 != (char *)0x0);
-
-  return;
-
+    do {
+        cnt--;
+        *dest = 0;
+        dest++;
+    } while (cnt != (char *)0x0);
 }
 
 /* sound_channels_off -- Mute sound channels 1, 3, 2 via sound_cmd_dispatch.
@@ -1180,29 +1158,21 @@ void FUN_060192e8(void)
     SOUND_TIMEOUT_FLAG = 1;
 }
 
-void FUN_06019324()
+/* peripheral_config_setup -- Configure peripheral interrupt priorities.
+ * Calls SCU interrupt config function at 0x06038BD4 with (mask, priority) pairs.
+ * Sets bit 30 of INPUT_STATE to signal peripheral system ready. */
+void FUN_06019324(void)
 {
+    register void (*scu_int_config)() = (void (*)())0x06038BD4;
 
-  char *puVar1;
+    scu_int_config(0x100, 1);  /* timer 0: priority 1 */
+    scu_int_config(4);         /* VBlank-IN: default */
+    scu_int_config(8, 5);      /* VBlank-OUT: priority 5 */
+    scu_int_config(0x10, 6);   /* HBlank-IN: priority 6 */
+    scu_int_config(0x20, 7);   /* timer 1: priority 7 */
+    scu_int_config(1, 0);      /* level 0 DMA: priority 0 */
 
-  puVar1 = (char *)0x06038BD4;
-
-  (*(int(*)())0x06038BD4)(0x100,1);
-
-  (*(int(*)())puVar1)(4);
-
-  (*(int(*)())puVar1)(8,5);
-
-  (*(int(*)())puVar1)(0x10,6);
-
-  (*(int(*)())puVar1)(0x20,7);
-
-  (*(int(*)())puVar1)(1,0);
-
-  INPUT_STATE = INPUT_STATE | 0x40000000;
-
-  return;
-
+    INPUT_STATE = INPUT_STATE | 0x40000000;
 }
 
 /* sound_vdp2_scroll_setup -- DMA-copy 5 scroll plane data blocks to VDP2 VRAM.

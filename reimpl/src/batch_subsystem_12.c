@@ -205,25 +205,18 @@ extern short DAT_060123e0;
 extern short DAT_060123e2;
 extern short DAT_06012586;
 
-void FUN_06012050()
+/* peripheral_config_alt -- Configure alternate SCU interrupt priorities.
+ * Calls SCU interrupt config at 0x06038BD4 with (mask, priority) pairs.
+ * Different priority mapping from FUN_06019324 (subsystem 18). */
+void FUN_06012050(void)
 {
+    register void (*scu_int_config)() = (void (*)())0x06038BD4;
 
-  char *puVar1;
-
-  puVar1 = (char *)0x06038BD4;
-
-  (*(int(*)())0x06038BD4)(0x10,7);
-
-  (*(int(*)())puVar1)(8,6);
-
-  (*(int(*)())puVar1)(0x100,5);
-
-  (*(int(*)())puVar1)(0x20,3);
-
-  (*(int(*)())puVar1)(4,1);
-
-  return;
-
+    scu_int_config(0x10, 7);   /* HBlank-IN: priority 7 */
+    scu_int_config(8, 6);      /* VBlank-OUT: priority 6 */
+    scu_int_config(0x100, 5);  /* timer 0: priority 5 */
+    scu_int_config(0x20, 3);   /* timer 1: priority 3 */
+    scu_int_config(4, 1);      /* VBlank-IN: priority 1 */
 }
 
 void FUN_060120c8()

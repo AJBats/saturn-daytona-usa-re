@@ -93,11 +93,10 @@ extern int PTR_DAT_0601f808;
 extern int PTR_DAT_0601fa28;
 extern int PTR_DAT_0601fd48;
 
-void FUN_0601e0de()
+/* nop_e0de -- Placeholder / stripped function (no-op). */
+void FUN_0601e0de(void)
 {
-
-  return;
-
+    return;
 }
 
 void FUN_0601e100()
@@ -2106,11 +2105,10 @@ void FUN_0601f87a(param_1)
 
 }
 
-void FUN_0601f8bc()
+/* nop_f8bc -- Placeholder / stripped function (no-op). */
+void FUN_0601f8bc(void)
 {
-
-  return;
-
+    return;
 }
 
 /* mode_transition_check -- Check if mode transition is complete.
@@ -2132,25 +2130,22 @@ int FUN_0601f8c0(void)
     return 0;                   /* transition complete */
 }
 
-int FUN_0601f900()
+/* vdp2_mode_check -- Check VDP2 display mode and apply or reset.
+ * If display flag (0x06063D9A) has target bits set, write VDP2 register
+ * 0x25E7FFFE (TVMD - TV mode) and return 1 (mode active).
+ * Otherwise, call mode_transition_vdp_reset and return 0. */
+int FUN_0601f900(void)
 {
+    short buf[4];
 
-  short local_8 [4];
+    if ((*(unsigned short *)0x06063D9A & DAT_0601f962) != 0) {
+        buf[0] = DAT_0601f964;
+        (*(int(*)())0x06036E90)(0x25E7FFFE, 1, buf);
+        return 1;
+    }
 
-  if ((*(unsigned short *)0x06063D9A & DAT_0601f962) != 0) {
-
-    local_8[0] = DAT_0601f964;
-
-    (*(int(*)())0x06036E90)(0x25E7FFFE,1,local_8);
-
-    return 1;
-
-  }
-
-  FUN_0601fd20();
-
-  return 0;
-
+    FUN_0601fd20();
+    return 0;
 }
 
 void FUN_0601f9cc()

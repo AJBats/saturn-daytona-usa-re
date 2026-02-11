@@ -254,27 +254,20 @@ unsigned int * FUN_060400d6(param_1, param_2, param_3)
 
 }
 
-void FUN_060401f8(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_session_seek -- Seek to position in CD session.
+ * Stores param_2 at session+0x20, calculates sector offset via FUN_060408B0,
+ * clamps to 0 if negative, stores adjusted offset at session+0x24. */
+void FUN_060401f8(int param_1, int param_2)
 {
+    int sector;
 
-  int iVar1;
+    *(int *)(param_1 + 0x20) = param_2;
+    sector = (*(int(*)())0x060408B0)(*(int *)(param_1 + 0x18), 0x7FFFFFFF, 0);
 
-  *(int *)(param_1 + 0x20) = param_2;
+    if (sector < 0)
+        sector = 0;
 
-  iVar1 = (*(int(*)())0x060408B0)(*(int *)(param_1 + 0x18),0x7FFFFFFF,0);
-
-  if (iVar1 < 0) {
-
-    iVar1 = 0;
-
-  }
-
-  *(int *)(param_1 + 0x24) = iVar1 - *(int *)(*(int *)(param_1 + 0x18) + 0x10);
-
-  return;
-
+    *(int *)(param_1 + 0x24) = sector - *(int *)(*(int *)(param_1 + 0x18) + 0x10);
 }
 
 int FUN_06040220(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8)
@@ -431,46 +424,27 @@ int FUN_060405b8(param_1, param_2)
 
 }
 
-int FUN_06040680()
+/* cd_session_is_busy -- Check if CD session is still processing.
+ * Returns 0 if FUN_060405b8 reports state 4 (complete), else 1 (busy). */
+int FUN_06040680(void)
 {
-
-  int iVar1;
-
-  
-
-  iVar1 = FUN_060405b8(0);
-
-  if (iVar1 == 4) {
-
-    return 0;
-
-  }
-
-  return 1;
-
+    return (FUN_060405b8(0) == 4) ? 0 : 1;
 }
 
-int FUN_06040722(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_session_decode -- Decode CD session data if mode byte is set.
+ * If session+0x1E is 0, returns param_2 unchanged (no decoding needed).
+ * Otherwise calls CD decode function (0x06034FFC) then gets decoded length. */
+int FUN_06040722(int param_1, int param_2)
 {
+    int result;
+    int extraout_r3 = 0;
 
-  int iVar1;
+    if (*(char *)(param_1 + 0x1e) == '\0')
+        return param_2;
 
-  int extraout_r3 = 0;
-
-  if (*(char *)(param_1 + 0x1e) == '\0') {
-
-    return param_2;
-
-  }
-
-  (*(int(*)())0x06034FFC)(param_1,param_2,*(char *)(param_1 + 0x1e));
-
-  iVar1 = (*(int(*)())0x06036BE4)();
-
-  return iVar1 + extraout_r3;
-
+    (*(int(*)())0x06034FFC)(param_1, param_2, *(char *)(param_1 + 0x1e));
+    result = (*(int(*)())0x06036BE4)();
+    return result + extraout_r3;
 }
 
 int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)

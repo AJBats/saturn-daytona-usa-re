@@ -982,25 +982,18 @@ void FUN_0601d014(void)
     *(int *)0x06086020 = 0;                                    /* reset display state */
 }
 
-void FUN_0601d074()
+/* countdown_display_init -- Initialize countdown timer display.
+ * Sets VDP sprite slot (4), DMA-copies countdown font data (0x40 bytes),
+ * builds 2 VDP1 sprite commands for countdown digits, clears state. */
+void FUN_0601d074(void)
 {
-
-  (*(int(*)())0x0602853E)(4);
-
-  (*(int(*)())0x0602766C)(0x25F00000,0x0605D17C,0x40);
-
-  (*(int(*)())0x06028400)(4,*(int *)0x06063CF8,0x518,
-
-             *(int *)(0x06063CF8 + 4),0x06063CF8);
-
-  (*(int(*)())0x06028400)(0,*(int *)0x06063D00,0x518,
-
-             *(int *)(0x06063D00 + 4),0x06063D00);
-
-  *(int *)0x06086020 = 0;
-
-  return;
-
+    (*(int(*)())0x0602853E)(4);                                /* VDP sprite slot config */
+    (*(int(*)())0x0602766C)(0x25F00000, 0x0605D17C, 0x40);    /* DMA font data */
+    (*(int(*)())0x06028400)(4, *(int *)0x06063CF8, 0x518,
+        *(int *)(0x06063CF8 + 4), 0x06063CF8);                /* countdown digit 1 */
+    (*(int(*)())0x06028400)(0, *(int *)0x06063D00, 0x518,
+        *(int *)(0x06063D00 + 4), 0x06063D00);                /* countdown digit 2 */
+    *(int *)0x06086020 = 0;                                    /* reset state */
 }
 
 void FUN_0601d12c()
@@ -1202,26 +1195,24 @@ void FUN_0601d3c0()
 
 }
 
-void FUN_0601d57c(param_1)
-    unsigned short param_1;
+/* hud_sprite_table_copy -- Copy 28 sprite entries from source table to HUD buffer.
+ * Source at 0x06094FAC has 0x58-byte stride; dest at 0x0605AAA6 has 4-byte stride.
+ * param_1 selects column offset (<<1). Issues VDP1 command after copy. */
+void FUN_0601d57c(unsigned short param_1)
 {
-  register char *dest asm("r2") = (char *)0x0605AAA6;
-  register char *src asm("r3") = (char *)0x06094FAC;
-  unsigned short uVar3;
-  int srcOff;
-  int destOff;
+    register char *dest asm("r2") = (char *)0x0605AAA6;
+    register char *src asm("r3") = (char *)0x06094FAC;
+    unsigned short i = 0;
 
-  uVar3 = 0;
-  do {
-    destOff = uVar3 << 2;
-    srcOff = uVar3 * 0x58 + (param_1 << 1);
-    uVar3 = uVar3 + 1;
+    do {
+        int dest_off = i << 2;
+        int src_off = i * 0x58 + (param_1 << 1);
+        i++;
+        *(short *)(dest + dest_off)     = *(short *)(src + src_off);
+        *(short *)(dest + dest_off + 2) = *(short *)(src + src_off + 2);
+    } while (i < 0x1c);
 
-    *(short *)(dest + destOff) = *(short *)(src + srcOff);
-    *(short *)(dest + destOff + 2) = *(short *)(src + srcOff + 2);
-  } while (uVar3 < 0x1c);
-
-  (*(void(*)())0x06028400)(0xc, 0x0605AAA2, (param_1 & 0x3f) << 1, 0);
+    (*(void(*)())0x06028400)(0xc, 0x0605AAA2, (param_1 & 0x3f) << 1, 0);
 }
 
 int FUN_0601d5f4(param_1, param_2)

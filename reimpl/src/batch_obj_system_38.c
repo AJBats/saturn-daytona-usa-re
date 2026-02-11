@@ -1304,23 +1304,16 @@ void FUN_06038e54(param_1)
 
 }
 
-void FUN_06038f34()
+/* framebuffer_state_reset -- Reset all framebuffer/frame timing state.
+ * Clears FB_STATE, enables FBCR swap mode, resets all frame counters. */
+void FUN_06038f34(void)
 {
-
-  FB_STATE = 0;
-
-  *(int *)0x060635B8 = 1;
-
-  *(int *)0x060635BC = 0;
-
-  FRAME_SEC_COUNTER = 0;
-
-  FRAME_READY_FLAG = 0;
-
-  *(int *)0x060635C8 = 0;
-
-  return;
-
+    FB_STATE = 0;
+    FBCR_SWAP_MODE = 1;
+    FBCR_SWAP_THRESHOLD = 0;
+    FRAME_SEC_COUNTER = 0;
+    FRAME_READY_FLAG = 0;
+    *(int *)0x060635C8 = 0;
 }
 
 unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,int param_4,short param_5,short param_6,short param_7,short param_8)
@@ -1632,24 +1625,12 @@ void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
 
 }
 
-void FUN_060394f0(param_1)
-    int param_1;
+/* fbcr_mode_select -- Set VDP1 frame buffer control shadow.
+ * param_1=0: single buffer mode (FBCR=0).
+ * param_1!=0: manual erase mode (FBCR=0x10). */
+void FUN_060394f0(int param_1)
 {
-
-  if (param_1 == 0) {
-
-    FBCR_SHADOW = 0;
-
-  }
-
-  else {
-
-    FBCR_SHADOW = 0x10;
-
-  }
-
-  return;
-
+    FBCR_SHADOW = (param_1 == 0) ? 0 : 0x10;
 }
 
 void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param_5,int param_6)

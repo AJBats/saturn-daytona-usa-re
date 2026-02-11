@@ -2314,27 +2314,18 @@ char * FUN_060321c0()
 
 }
 
-int FUN_0603226c()
+/* scene_update_all_layers -- Update all 6 scene layers, then advance frame counter.
+ * Calls FUN_06032304 for layers 0-5, then scene_frame_counter. */
+int FUN_0603226c(void)
 {
+    FUN_06032304(0);
+    FUN_06032304(1);
+    FUN_06032304(2);
+    FUN_06032304(3);
+    FUN_06032304(4);
+    FUN_06032304(5);
 
-  int uVar1;
-
-  FUN_06032304(0x00000000);
-
-  FUN_06032304(0x00000001);
-
-  FUN_06032304(0x00000002);
-
-  FUN_06032304(0x00000003);
-
-  FUN_06032304(0x00000004);
-
-  FUN_06032304(0x00000005);
-
-  uVar1 = FUN_060322e8();
-
-  return uVar1;
-
+    return FUN_060322e8();
 }
 
 /* scene_frame_counter -- Increment scene frame counter when scene is active */
@@ -3315,11 +3306,10 @@ int FUN_060330a0()
 
 }
 
-int FUN_0603316c()
+/* scene_stub_316c -- Stub returning 0 (unused scene function). */
+int FUN_0603316c(void)
 {
-
-  return 0;
-
+    return 0;
 }
 
 long long FUN_06033188(param_1, param_2, param_3)
