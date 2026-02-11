@@ -89,7 +89,7 @@ void FUN_060149E0(void) { }
 
 void FUN_0601C978(void) { }
 void FUN_0601CAEE(void) { }
-void FUN_0600A140(void) { }
+/* FUN_0600A140: moved to vdp1_clear.c */
 void FUN_0600330A(void) { }
 void FUN_0601AE80(void) { }
 void FUN_0600A1F6(void) { }
@@ -97,7 +97,7 @@ void FUN_0600338C(int r4, int r5) { (void)r4; (void)r5; }
 void FUN_0601AEB6(void) { }
 void FUN_0601D2DC(void) { }
 /* FUN_0601B074: moved to display_region_init.c */
-void FUN_06018FF8(void) { }
+/* FUN_06018FF8: moved to sound_init.c */
 void FUN_0601D3C0(void) { }
 void FUN_060193F4(void) { }
 void FUN_060196A4(void) { }

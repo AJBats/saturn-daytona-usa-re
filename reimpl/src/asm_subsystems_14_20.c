@@ -54,7 +54,7 @@ void FUN_06018E22(void) { }
 void FUN_06018E4C(void) { }
 /* FUN_06018E88: moved to cd_command.c */
 void FUN_06018FA8(void) { }
-void FUN_06018FFC(void) { }
+/* FUN_06018FFC: moved to sound_init.c */
 void FUN_0601905C(void) { }
 void FUN_060190BC(void) { }
 void FUN_060190F8(void) { }
