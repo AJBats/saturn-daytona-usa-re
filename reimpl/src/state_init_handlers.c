@@ -7,8 +7,11 @@
  *   FUN_06008B9C (0x06008B9C) -- State handler: subsystem sequence + clear
  *   FUN_06008BD8 (0x06008BD8) -- State handler: link subsystem init, mode=11
  *   FUN_06008BFC (0x06008BFC) -- State handler: conditional mode advance
+ *   FUN_06008B04 (0x06008B04) -- State handler: CD play + mode=7 setup
+ *   FUN_06008C76 (0x06008C76) -- State handler: conditional mode dispatch
  *   FUN_06008E00 (0x06008E00) -- State handler: race setup, mode=13
  *   FUN_06008E48 (0x06008E48) -- State handler: race monitor / abort
+ *   FUN_06009DD0 (0x06009DD0) -- State handler: race end setup, mode=27
  *
  * These are game state machine handlers called from the main loop
  * jump table. Each follows a pattern of calling subsystem functions,
@@ -21,7 +24,8 @@
  *   0x0605A016: Sub-state counter (short)
  *
  * Original addresses: 0x060088CC, 0x06008B34, 0x06008B78, 0x06008B9C,
- *   0x06008BD8, 0x06008BFC, 0x06008E00, 0x06008E48
+ *   0x06008B04, 0x06008BD8, 0x06008BFC, 0x06008C76,
+ *   0x06008E00, 0x06008E48, 0x06009DD0
  */
 
 /* CD command: play/resume */
@@ -59,6 +63,24 @@ extern void FUN_0600EC78(void);
 /* Loading/init continuation */
 extern void FUN_0600F424(void);
 
+/* Pre-race subsystem setup */
+extern void FUN_060193F4(void);
+
+/* Post-race subsystem setup */
+extern void FUN_060190B8(void);
+
+/* VDP2 flag check (returns nonzero if complete) */
+extern int FUN_0601F900(void);
+
+/* VDP1 attribute setup (post-mode-transition) */
+extern void FUN_060149E0(void);
+
+/* VDP command reset */
+extern void FUN_06028560(void);
+
+/* Rendering subsystem init */
+extern void FUN_06012F80(void);
+
 /* Link subsystem init */
 extern void FUN_0601B160(void);
 
@@ -79,6 +101,9 @@ extern int FUN_0601B418(void);
 
 /* Render parameter cache (checked for negative = abort) */
 #define RENDER_PARAM_CACHE (*(volatile int *)0x0607EBCC)
+
+/* Mode override flag (byte, cleared after use) */
+#define MODE_OVERRIDE_FLAG (*(volatile unsigned char *)0x0605E0A2)
 
 
 /* ================================================================
@@ -346,4 +371,102 @@ void FUN_06008E48(void)
     if (MODE_SELECTOR != 13) {
         FUN_06018E70();
     }
+}
+
+
+/* ================================================================
+ * FUN_06008B04 -- State Handler: CD Play + Mode 7 Setup (0x06008B04)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008B04-0x06008B32)
+ * Pool verified:
+ *   0x06008B54 = 0x06018E70 (CD play command)
+ *   0x06008B58 = 0x0605AD10 (mode selector)
+ *   0x06008B5C = 0x060193F4 (pre-race subsystem setup)
+ *   0x06008B60 = 0x060210F6 (VDP1 batch render)
+ *   0x06008B64 = 0x06026CE0 (scene callback)
+ *   0x06008B68 = 0x06059F44 (state flag)
+ *   0x06008B6C = 0x0605A016 (sub-state counter)
+ *
+ * Starts CD playback, sets mode=7, initializes pre-race subsystem,
+ * triggers VDP1 render, dispatches callbacks, clears flag, sub-state=3.
+ *
+ * 24 instructions (incl. delay slots). Saves PR.
+ * ================================================================ */
+void FUN_06008B04(void)
+{
+    FUN_06018E70();
+    MODE_SELECTOR = 7;
+    FUN_060193F4();
+    FUN_060210F6();
+    FUN_06026CE0();
+    STATE_DONE_FLAG = 0;
+    SUB_STATE_COUNTER = 3;
+}
+
+
+/* ================================================================
+ * FUN_06008C76 -- State Handler: Conditional Mode Dispatch (0x06008C76)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008C76-0x06008CB0)
+ * Pool verified:
+ *   0x06008CBC = 0x0601F900 (VDP2 flag check)
+ *   0x06008CC0 = 0x0605AD10 (mode selector)
+ *   0x06008CB4 = 0x0605E0A2 (mode override flag)
+ *   0x06008CC4 = 0x060149E0 (VDP1 attribute setup)
+ *   0x06008CC8 = 0x06026CE0 (scene callback)
+ *
+ * Checks VDP2 completion. If not done, returns immediately.
+ * If done, checks byte flag at 0x0605E0A2:
+ *   - flag==0: mode=4, setup VDP1 attrs, dispatch callbacks
+ *   - flag!=0: mode=6
+ * Either way, clears the flag byte.
+ *
+ * 30 instructions (incl. delay slots). Saves PR.
+ * ================================================================ */
+void FUN_06008C76(void)
+{
+    int result = FUN_0601F900();
+    if (result == 0)
+        return;
+
+    if (MODE_OVERRIDE_FLAG == 0) {
+        MODE_SELECTOR = 4;
+        FUN_060149E0();
+        FUN_06026CE0();
+    } else {
+        MODE_SELECTOR = 6;
+    }
+    MODE_OVERRIDE_FLAG = 0;
+}
+
+
+/* ================================================================
+ * FUN_06009DD0 -- State Handler: Race End Setup (0x06009DD0)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06009DD0-0x06009E00)
+ * Pool verified:
+ *   0x06009E38 = 0x060190B8 (post-race subsystem setup)
+ *   0x06009E3C = 0x0605AD10 (mode selector)
+ *   word pool at 0x06009E34 = 0x0258 (600 = 10sec timer)
+ *   0x06009E40 = 0x0607EBCC (render param cache)
+ *   0x06009E44 = 0x06028560 (VDP command reset)
+ *   0x06009E48 = 0x06012F80 (rendering subsystem init)
+ *   0x06009E4C = 0x0605A016 (sub-state counter)
+ *   0x06009E50 = 0x06018DDC (display mode config -- tail call)
+ *
+ * Sets mode=27 (race end), stores 600 (10 second timer) to render
+ * cache, resets VDP commands, inits rendering subsystem, sets
+ * sub-state=3, tail-calls display config(19,19,0).
+ *
+ * 25 instructions (incl. delay slots). Saves PR.
+ * ================================================================ */
+void FUN_06009DD0(void)
+{
+    FUN_060190B8();
+    MODE_SELECTOR = 27;
+    RENDER_PARAM_CACHE = 0x0258;  /* 600 = 10 seconds at 60fps */
+    FUN_06028560();
+    FUN_06012F80();
+    SUB_STATE_COUNTER = 3;
+    FUN_06018DDC(19);  /* original: r4=19, r5=19, r6=0 (tail call) */
 }
