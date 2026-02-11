@@ -69,4 +69,4 @@ void FUN_0602ECF2(void) { }
 /* FUN_0600CDD0: moved to lap_counting.c */
 /* FUN_0600DD88: moved to lap_counting.c */
 /* FUN_0600DCC8: moved to lap_counting.c */
-void FUN_0601D7D0(void) { }
+/* FUN_0601D7D0: moved to lap_announce.c */
