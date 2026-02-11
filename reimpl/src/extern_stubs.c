@@ -30,8 +30,8 @@ void FUN_0600A8BC(void) { }
 void FUN_0602F99C(void) { }
 
 /* Per-car loop dependencies (from per_car_loop.c) */
-void FUN_06030A06(void) { }
-void FUN_06030EE0(void) { }
+/* FUN_06030A06: moved to timer_update.c */
+/* FUN_06030EE0: moved to timer_update.c */
 void FUN_060061C8(void) { }
 void FUN_06027CA4(int buffer, int index) { (void)buffer; (void)index; }
 void FUN_0603053C(int arg) { (void)arg; }
