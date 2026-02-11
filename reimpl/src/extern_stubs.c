@@ -47,7 +47,7 @@ void FUN_06005ECC(void) { }
 /* FUN_060061C8: moved to car_position_update.c */
 void FUN_06026DBC(void) { }  /* car_position_update dep: position projection */
 void FUN_06026E0C(void) { }  /* car_position_update dep: render state */
-void FUN_06026EDE(int h) { (void)h; }  /* car_position_update dep: heading rotation */
+/* FUN_06026EDE: moved to heading_rotation.c */
 void FUN_06026FFC(int t, int o) { (void)t; (void)o; }  /* car_position_update dep: table lookup */
 void FUN_06027CA4(int buffer, int index) { (void)buffer; (void)index; }
 void FUN_0603053C(int arg) { (void)arg; }
