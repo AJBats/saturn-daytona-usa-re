@@ -9,6 +9,7 @@
  *
  * Functions:
  *   FUN_0600CD40 (0x0600CD40) -- Checkpoint advance (angle-based crossing)
+ *   FUN_0600CE66 (0x0600CE66) -- Checkpoint processing coordinator
  *   FUN_0600D780 (0x0600D780) -- Checkpoint change detection (per frame)
  *   FUN_0600D9BC (0x0600D9BC) -- Set lap completion flag
  *   FUN_0600D92C (0x0600D92C) -- Record lap timing data
@@ -89,6 +90,7 @@
 extern int  FUN_0602744C(int dx, int dz);          /* atan2 */
 extern int  FUN_06035280();                          /* bit shift: 1 << index */
 extern void FUN_06034F78(int val, int param, int ptr);  /* bitfield write */
+extern void FUN_0600CDD0(void);                     /* checkpoint retreat (bit 0x08 path) */
 extern void FUN_0600DD88(void);                     /* AI lap notification */
 extern void FUN_0600DCC8(void);                     /* checkpoint timing update */
 extern void FUN_0601D7D0(void);                     /* lap display function */
@@ -167,6 +169,51 @@ int FUN_0600CD40(void)
     }
 
     return entry;  /* return checkpoint entry pointer */
+}
+
+
+/* ================================================================
+ * FUN_0600CE66 -- Checkpoint Processing Coordinator (0x0600CE66)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600CE66-0x0600CEB8)
+ * Pool verified:
+ *   0x0600CE90 = 0x0607E940 (car pointer global)
+ *   0x0600CE8E = 0x01EC (checkpoint param offset)
+ *   0x0600CF3A = 0x0184 (segment index offset)
+ *   0x0600CF44 = 0x0607EB84 (checkpoint-to-segment table pointer)
+ *
+ * Algorithm:
+ *   1. Backup car[0x1EC] → car[0x1F0] (checkpoint param → prev)
+ *   2. Check car flags byte 3, bit 0x08:
+ *      a. If clear: FUN_0600CD40 (normal checkpoint advance)
+ *      b. If set:   FUN_0600CDD0 (retreat/backward check)
+ *   3. Table lookup: car[0x1EC] = table[car[0x184] * 4] as unsigned word
+ *      where table = *(0x0607EB84) (checkpoint param from segment)
+ *
+ * Called from physics_entry.c (E47C, E4F2).
+ * 40 instructions total.
+ * ================================================================ */
+void FUN_0600CE66(void)
+{
+    int car = CAR_PTR_CURRENT;
+
+    /* Step 1: Backup checkpoint param to previous */
+    CAR_INT(car, CAR_CHECKPOINT_PREV) = CAR_INT(car, CAR_CHECKPOINT_PARAM);
+
+    /* Step 2: Dispatch based on car flags byte 3, bit 0x08 */
+    if (CAR_UBYTE(car, CAR_FLAGS_BYTE3) & 0x08) {
+        FUN_0600CDD0();    /* retreat path */
+    } else {
+        FUN_0600CD40();    /* normal advance */
+    }
+
+    /* Step 3: Table lookup — segment index → checkpoint param */
+    {
+        int seg_idx = CAR_INT(car, CAR_SEGMENT_IDX);
+        int table_ptr = *(volatile int *)0x0607EB84;
+        unsigned short result = *(volatile unsigned short *)(table_ptr + seg_idx * 4);
+        CAR_INT(car, CAR_CHECKPOINT_PARAM) = (int)result;
+    }
 }
 
 

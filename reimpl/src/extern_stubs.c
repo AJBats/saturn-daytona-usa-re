@@ -35,7 +35,7 @@ void FUN_0600E7C8(void) { }
 /* FUN_06006838: already in batch_game_core.c */
 void FUN_06005ECC(void) { }
 void FUN_0600DA7C(void) { }
-void FUN_0600CE66(void) { }
+/* FUN_0600CE66: moved to lap_counting.c */
 /* FUN_0600D780: already in lap_counting.c */
 
 /* Per-car loop dependencies (from per_car_loop.c) */
@@ -59,6 +59,7 @@ void FUN_0602D9F0(void) { }
 void FUN_0600C994(void) { }
 
 /* Lap counting system dependencies (from lap_counting.c) */
+void FUN_0600CDD0(void) { }
 void FUN_0600DD88(void) { }
 void FUN_0600DCC8(void) { }
 void FUN_0601D7D0(void) { }
