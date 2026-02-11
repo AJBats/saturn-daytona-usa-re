@@ -79,6 +79,13 @@ int  FUN_0603B1B6(int handle, int zero, int dest, int flag) { (void)handle; (voi
 /* CD subsystem init dependencies (from stubs.c / game_subsystem_init) */
 int  FUN_0603AC1C(int mode, int src, int config) { (void)mode; (void)src; (void)config; return 3; }
 
+/* CD command dependencies (from cd_command.c) */
+void FUN_060349C4(int *result_buf) { (void)result_buf; }
+
+/* VDP state init dependencies (from vdp_state_init.c) */
+void FUN_06038BD4(int mode, int param) { (void)mode; (void)param; }
+void FUN_060393FC(int r4, int r5, int r6, int r7, int stack_arg) { (void)r4; (void)r5; (void)r6; (void)r7; (void)stack_arg; }
+
 /* Visual physics update dependencies (from visual_physics_update.c) */
 void FUN_0602DB00(void) { }
 void FUN_0602DC18(void) { }

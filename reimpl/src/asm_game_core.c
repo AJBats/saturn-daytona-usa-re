@@ -1,8 +1,7 @@
 void smpc_intback_trigger(void) { }
 void FUN_060389A6(void) __attribute__((alias("smpc_intback_trigger")));
 void FUN_06020C3C(void) { }
-int cd_status_read(void) { return 0; }
-void FUN_06018EAC(void) __attribute__((alias("cd_status_read")));
+/* cd_status_read / FUN_06018EAC: moved to cd_command.c */
 void scu_interrupt_reconfig(void) { }
 void FUN_06009FFC(void) __attribute__((alias("scu_interrupt_reconfig")));
 void cd_frame_sync_advance(void) { }
@@ -22,7 +21,7 @@ void perspective_project(void) __attribute__((alias("FUN_060055BC")));
 void FUN_060078DC(void) { }
 void frame_end_display_commit(void) __attribute__((alias("FUN_060078DC")));
 void FUN_0600A084(void) { }
-void FUN_0600A0C0(void) { }
+/* FUN_0600A0C0: moved to vdp_state_init.c */
 void FUN_0600A33C(void) { }
 /* FUN_0600A914: moved to collision.c */
 void FUN_0600BB94(void) { }
@@ -37,7 +36,7 @@ void FUN_06010A5C(int arg) { (void)arg; }
 void FUN_060120C8(void) { }
 void FUN_060121A8(void) { }
 void FUN_06018A3C(void) { }
-void FUN_06018E70(void) { }
+/* FUN_06018E70: moved to cd_command.c */
 void FUN_060192CA(void) { }
 void FUN_0601D5F4(int r4, int r5) { (void)r4; (void)r5; }
 void sound_cmd_dispatch(int r4, int r5) __attribute__((alias("FUN_0601D5F4")));

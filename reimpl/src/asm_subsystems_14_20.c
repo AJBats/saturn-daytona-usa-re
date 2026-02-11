@@ -52,7 +52,7 @@ void FUN_06018834(void) { }
 void FUN_06018938(void) { }
 void FUN_06018E22(void) { }
 void FUN_06018E4C(void) { }
-void FUN_06018E88(void) { }
+/* FUN_06018E88: moved to cd_command.c */
 void FUN_06018FA8(void) { }
 void FUN_06018FFC(void) { }
 void FUN_0601905C(void) { }
