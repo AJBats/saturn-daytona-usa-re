@@ -96,8 +96,8 @@ void FUN_0601B644(void) { }
 void FUN_0601B6F0(void) { }
 void FUN_0601BBDC(void) { }
 void FUN_0601BE64(void) { }
-void FUN_0601D478(void) { }
-void FUN_0601D4A8(void) { }
+/* FUN_0601D478: moved to display_fade.c */
+/* FUN_0601D4A8: moved to display_fade.c */
 void sound_direct_write(void) { }
 void sound_chan_a_handler(void) { }
 void FUN_0601D6D8(void) { }

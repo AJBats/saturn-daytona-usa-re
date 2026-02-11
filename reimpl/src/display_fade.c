@@ -1,0 +1,101 @@
+/* display_fade.c -- Display brightness fade-in/fade-out control
+ *
+ * Functions:
+ *   FUN_0601D478 (0x0601D478) -- Brightness fade init: set params, start fade
+ *   FUN_0601D4A8 (0x0601D4A8) -- Brightness fade step: per-frame fade update
+ *
+ * These functions control the screen brightness fade effect used
+ * during state transitions (attract mode, post-race, etc.).
+ *
+ * Shared registers:
+ *   0x0605AAA2: Fade mode flag (short, set to 2 during init)
+ *   0x0607885C: Current brightness level (int, decremented by 0x100000)
+ *   0x0607886E: Fade timer (short, decremented by 2 per frame)
+ *   0x0607887F: Fade phase counter (byte, incremented when timer expires)
+ *
+ * Original addresses: 0x0601D478, 0x0601D4A8
+ */
+
+/* Render parameter setter (type, value, flags) */
+extern void FUN_06014884(int type, int value, int flags);
+
+/* Sound/display fade table lookup (lowercase: defined in batch_subsystem_1c.c) */
+extern void FUN_0601d57c(int timer_value);
+
+
+/* ================================================================
+ * FUN_0601D478 -- Brightness Fade Init (0x0601D478)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0601D478-0x0601D4A6)
+ * Pool verified:
+ *   0x0601D4F0 = 0x0605AAA2 (fade mode flag)
+ *   0x0601D4F4 = 0x01500000 (initial brightness)
+ *   0x0601D4F8 = 0x0607885C (brightness register)
+ *   0x0601D4FC = 0x06014884 (render parameter setter)
+ *   0x0601D500 = 0x0607886E (fade timer)
+ *   0x0601D504 = 0x0607887F (fade phase counter)
+ *
+ * Sets fade mode=2, initial brightness=0x01500000, calls render param
+ * setter with mesh attribute (32), sets timer to 42, calls fade table
+ * lookup, increments phase counter.
+ *
+ * 24 instructions (incl. delay slots). Saves PR.
+ * ================================================================ */
+void FUN_0601D478(void)
+{
+    /* Set fade mode flag to 2 */
+    *(volatile short *)0x0605AAA2 = 2;
+
+    /* Set initial brightness level */
+    *(volatile int *)0x0607885C = 0x01500000;
+
+    /* Apply brightness via render parameter: mesh attribute = brightness */
+    FUN_06014884(32, 0x01500000, 0);
+
+    /* Set fade timer to 42 frames (~0.7 seconds) */
+    *(volatile short *)0x0607886E = 42;
+
+    /* Initialize fade table lookup with timer=42 */
+    FUN_0601d57c(42);
+
+    /* Increment fade phase counter */
+    (*(volatile unsigned char *)0x0607887F)++;
+}
+
+
+/* ================================================================
+ * FUN_0601D4A8 -- Brightness Fade Step (0x0601D4A8)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0601D4A8-0x0601D4EE)
+ * Pool verified:
+ *   0x0601D508 = 0x00100000 (fade step amount)
+ *   0x0601D500 = 0x0607886E (fade timer)
+ *   0x0601D4F8 = 0x0607885C (brightness register)
+ *   0x0601D4FC = 0x06014884 (render parameter setter)
+ *   0x0601D504 = 0x0607887F (fade phase counter)
+ *
+ * Per-frame fade update. If timer != 0: decreases brightness by
+ * 0x100000, applies via render param setter, decreases timer by 2,
+ * calls fade table lookup. If timer == 0: increments phase counter,
+ * decreases brightness by 0x100000.
+ *
+ * 36 instructions (incl. delay slots + pool). Saves PR + r13 + r14.
+ * ================================================================ */
+void FUN_0601D4A8(void)
+{
+    unsigned short timer = *(volatile unsigned short *)0x0607886E;
+
+    if (timer != 0) {
+        /* Fade in progress: decrease brightness and update */
+        *(volatile int *)0x0607885C -= 0x00100000;
+        FUN_06014884(32, *(volatile int *)0x0607885C, 0);
+
+        /* Decrease timer by 2 and update fade table */
+        *(volatile short *)0x0607886E = (short)(timer - 2);
+        FUN_0601d57c((int)(timer - 2));
+    } else {
+        /* Fade complete: increment phase counter, final brightness step */
+        (*(volatile unsigned char *)0x0607887F)++;
+        *(volatile int *)0x0607885C -= 0x00100000;
+    }
+}
