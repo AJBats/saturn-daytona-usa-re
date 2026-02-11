@@ -3,14 +3,14 @@ void FUN_0600F794(void) { }
 /* FUN_0600F822: moved to subsystem_counter.c */
 /* FUN_0600F898: moved to subsystem_counter.c */
 /* FUN_0600F8BE: moved to subsystem_counter.c */
-void FUN_0600F914(void) { }
+/* FUN_0600F914: moved to subsystem_counter.c */
 /* FUN_0600F98C: moved to subsystem_counter.c */
 /* FUN_0600F990: moved to subsystem_counter.c */
 void FUN_0600F9C6(void) { }
 void FUN_0600FB78(void) { }
 /* FUN_0600FD54: moved to subsystem_timer_b.c */
 /* FUN_0600FD8A: moved to subsystem_timer_b.c */
-void FUN_0600FDFE(void) { }
+/* FUN_0600FDFE: moved to subsystem_timer_b.c */
 void FUN_0600FE38(void) { }
 void FUN_0600FED0(void) { }
 void FUN_060102EC(void) { }
@@ -27,8 +27,8 @@ void FUN_06011B08(void) { }
 void FUN_060120CC(void) { }
 void FUN_0601228C(void) { }
 void FUN_06012454(void) { }
-void FUN_06012AC4(void) { }
-void FUN_06012AFA(void) { }
+/* FUN_06012AC4: moved to subsystem_render.c */
+/* FUN_06012AFA: moved to subsystem_render.c */
 void FUN_06012BE4(void) { }
 void FUN_060138BE(void) { }
 void FUN_06013948(void) { }

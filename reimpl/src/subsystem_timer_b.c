@@ -3,11 +3,12 @@
  * Functions:
  *   FUN_0600FD54 (0x0600FD54) -- Init: sound stop, timer=120, state=11
  *   FUN_0600FD8A (0x0600FD8A) -- Tick: decrement timer, dispatch or expire
+ *   FUN_0600FDFE (0x0600FDFE) -- Countdown: decrement render cache, expire→sound+reset
  *
  * These use a different timer counter at 0x0607887A (vs 0x0607887C
  * used by subsystem_counter.c). Same state flag at 0x0607887F.
  *
- * Original addresses: 0x0600FD54, 0x0600FD8A
+ * Original addresses: 0x0600FD54, 0x0600FD8A, 0x0600FDFE
  */
 
 /* Sound command dispatch */
@@ -121,5 +122,37 @@ void FUN_0600FD8A(void)
     /* If control flag clear, reinitialize subsystem */
     if (CONTROL_FLAG_B == 0) {
         FUN_060114ac(1);  /* tail-call in original */
+    }
+}
+
+
+/* ================================================================
+ * FUN_0600FDFE -- Render Cache Countdown (0x0600FDFE)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600FDFE-0x0600FE24)
+ * Pool verified:
+ *   0x0600FE28 = 0x0607EBCC (render param cache)
+ *   0x0600FE2C = 0xAB110DFF (sound command parameter)
+ *   0x0600FE30 = 0x0601D5F4 (sound_cmd_dispatch)
+ *   word pool at 0x0600FE26 = 0x00B4 (180)
+ *   0x0600FE34 = 0x0607887F (state flag)
+ *
+ * Decrements render cache counter. If still >= 0, returns.
+ * If < 0 (expired): sends sound command 0xAB110DFF, resets
+ * counter to 180 (3 seconds), sets state flag to 15.
+ *
+ * 20 instructions. Saves PR + r14.
+ * ================================================================ */
+void FUN_0600FDFE(void)
+{
+    int counter = RENDER_PARAM_CACHE;
+    counter--;
+    RENDER_PARAM_CACHE = counter;
+
+    if (counter < 0) {
+        /* Timer expired -- send sound command and reset */
+        FUN_0601D5F4(0, (int)0xAB110DFF);
+        RENDER_PARAM_CACHE = 180;
+        SUBSYS_STATE_FLAG = 15;
     }
 }

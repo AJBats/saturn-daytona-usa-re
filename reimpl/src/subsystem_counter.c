@@ -4,6 +4,7 @@
  *   FUN_0600F822 (0x0600F822) -- Subsystem init: sound cmd + timer setup
  *   FUN_0600F898 (0x0600F898) -- Subsystem reset: clear counters, increment state
  *   FUN_0600F8BE (0x0600F8BE) -- Timer tick: decrement counter, dispatch
+ *   FUN_0600F914 (0x0600F914) -- VDP subsystem init: reset counters, render setup
  *   FUN_0600F98C (0x0600F98C) -- Prologue: set r6=0, call FUN_0600F990
  *   FUN_0600F990 (0x0600F990) -- Advance memory pointer, increment counter, flag check
  *
@@ -46,6 +47,15 @@ extern void FUN_060115F0(void);
 /* Config helper (param=mode selector) */
 extern void FUN_0602853E(int param);
 
+/* VDP2 scroll setup */
+extern void FUN_06011678(void);
+
+/* VDP1 render setup (3 attributes) */
+extern void FUN_06012080(void);
+
+/* Tile DMA transfer */
+extern void FUN_06011450(void);
+
 /* Memory pointer global */
 #define MEM_PTR_GLOBAL     (*(volatile int *)0x0607885C)
 
@@ -60,6 +70,9 @@ extern void FUN_0602853E(int param);
 
 /* Rendering parameter cache (32-bit at 0x0607EBCC) */
 #define RENDER_PARAM_CACHE (*(volatile int *)0x0607EBCC)
+
+/* Display config register (16-bit at 0x0605AAA2) */
+#define DISPLAY_CONFIG_REG (*(volatile short *)0x0605AAA2)
 
 
 /* ================================================================
@@ -163,6 +176,60 @@ void FUN_0600F8BE(void)
     /* Timer expired -- advance to next state */
     FUN_0602853E(4);
     SUBSYS_STATE_FLAG = SUBSYS_STATE_FLAG + 1;
+}
+
+
+/* ================================================================
+ * FUN_0600F914 -- VDP Subsystem Init (0x0600F914)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600F914-0x0600F95C)
+ * Pool verified:
+ *   0x0600F968 = 0x06011678 (VDP2 scroll setup)
+ *   0x0600F96C = 0x06012080 (VDP1 render setup)
+ *   0x0600F970 = 0x0607886E (frame counter)
+ *   0x0600F974 = 0x0605AAA2 (display config register)
+ *   0x0600F978 = 0xFEA00000 (initial memory pointer)
+ *   0x0600F97C = 0x0607885C (memory pointer global)
+ *   0x0600F980 = 0x06014884 (rendering parameter setter)
+ *   0x0600F984 = 0x06011450 (tile DMA transfer)
+ *   0x0600F964 = 0x0607887F (state flag)
+ *   0x0600F988 = 0x0601155E (display refresh — tail call)
+ *
+ * Initializes VDP subsystem: calls scroll + render setup, resets
+ * frame counter, sets memory pointer to 0xFEA00000, configures
+ * rendering params, sets state=7, tail-calls display refresh.
+ *
+ * 34 instructions. Saves PR + r14.
+ * ================================================================ */
+void FUN_0600F914(void)
+{
+    /* Set up VDP2 scroll and VDP1 render attributes */
+    FUN_06011678();
+    FUN_06012080();
+
+    /* Clear frame counter */
+    FRAME_COUNTER = 0;
+
+    /* Set display config to 2 */
+    DISPLAY_CONFIG_REG = 2;
+
+    /* Initialize memory pointer to 0xFEA00000 */
+    MEM_PTR_GLOBAL = (int)0xFEA00000;
+
+    /* Set rendering parameter: type=16, value=ptr, flags=0 */
+    FUN_06014884(16, MEM_PTR_GLOBAL, 0);
+
+    /* Transfer tile data */
+    FUN_06011450();
+
+    /* Set subsystem state to 7 */
+    SUBSYS_STATE_FLAG = 7;
+
+    /* Clear frame counter again (after function calls) */
+    FRAME_COUNTER = 0;
+
+    /* Tail-call display refresh with counter=0 */
+    FUN_0601155e(0);
 }
 
 
