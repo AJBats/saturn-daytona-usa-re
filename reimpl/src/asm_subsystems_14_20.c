@@ -1,7 +1,7 @@
 void FUN_060140C8(void) { }
 void FUN_06014468(void) { }
 void FUN_060146D4(void) { }
-void FUN_06014964(void) { }
+/* FUN_06014964: moved to render_setup.c */
 void FUN_0601503A(void) { }
 void FUN_06015150(void) { }
 void FUN_06015482(void) { }

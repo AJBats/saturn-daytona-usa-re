@@ -5,6 +5,7 @@
  * Attribute keys: 0x100=texture, 4=palette, 8=priority, 0x10=colorCalc, 0x20=mesh, 1=flip
  *
  * FUN_060148FC: Clear all VDP1 sprite attributes to 0
+ * FUN_06014964: Set minimal attribute config (texture=0,palette=1,all others=0)
  * FUN_06014994: Set alternate attribute config (texture=4,palette=1,pri=0,cc=6,mesh=7,flip=0)
  * FUN_06012080: Set 3 VDP1 attributes (pri=7, texture=5, cc=4)
  * FUN_0601209E: Set 4 VDP1 attributes (mesh=7, pri=6, texture=5, cc=4)
@@ -13,7 +14,7 @@
  * FUN_06020BCE: VDP1 draw + set engine flags + call 0x06026CE0
  * FUN_06020DD0: Loop calling FUN_06020DEE for channels 0-15
  *
- * Original addresses: 0x060148FC, 0x06014994, 0x06012080, 0x0601209E,
+ * Original addresses: 0x060148FC, 0x06014964, 0x06014994, 0x06012080, 0x0601209E,
  *   0x060210F6, 0x06021128, 0x06020BCE, 0x06020DD0
  */
 
@@ -25,6 +26,30 @@ void FUN_060148FC(void)
     void (*set_attr)(int, int) = (void (*)(int, int))0x06038BD4;
     set_attr(0x100, 0);
     set_attr(4, 0);
+    set_attr(8, 0);
+    set_attr(0x10, 0);
+    set_attr(0x20, 0);
+    set_attr(1, 0);
+}
+
+/* ================================================================
+ * FUN_06014964 -- VDP1 Minimal Attribute Config (0x06014964)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06014964-0x06014992)
+ * Pool verified:
+ *   word pool at 0x060149C4 = 0x0100 (texture key)
+ *   0x060149C8 = 0x06038BD4 (set_attr function)
+ *
+ * Sets VDP1 attributes: texture=0, palette=1, all others=0.
+ * Used as a reset/minimal config for sprite rendering.
+ *
+ * 24 instructions. Saves PR + r14.
+ * ================================================================ */
+void FUN_06014964(void)
+{
+    void (*set_attr)(int, int) = (void (*)(int, int))0x06038BD4;
+    set_attr(0x100, 0);
+    set_attr(4, 1);
     set_attr(8, 0);
     set_attr(0x10, 0);
     set_attr(0x20, 0);

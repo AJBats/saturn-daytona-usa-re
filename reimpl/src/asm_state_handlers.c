@@ -1,11 +1,11 @@
-void FUN_060088CC(void) { }
+/* FUN_060088CC: moved to state_init_handlers.c */
 void FUN_06008938(void) { }
 void FUN_0600893C(void) { }
 void FUN_06008A18(void) { }
 void FUN_06008B04(void) { }
-void FUN_06008B34(void) { }
-void FUN_06008B78(void) { }
-void FUN_06008B9C(void) { }
+/* FUN_06008B34: moved to state_init_handlers.c */
+/* FUN_06008B78: moved to state_init_handlers.c */
+/* FUN_06008B9C: moved to state_init_handlers.c */
 void FUN_06008BD8(void) { }
 void FUN_06008BFC(void) { }
 void FUN_06008C14(void) { }
