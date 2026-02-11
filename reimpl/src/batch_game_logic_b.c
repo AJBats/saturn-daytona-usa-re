@@ -2724,37 +2724,22 @@ void FUN_0600de70()
 
 }
 
-void FUN_0600df66()
+/* replay_render_dispatch -- Dispatch replay rendering based on replay mode.
+ * Sets half-car-count, then dispatches to FUN_0600e410 (mode 0) or
+ * FUN_0600e47c (mode 1/2) based on replay state at 0x06083261.
+ * Always finishes with per-car loop (FUN_0600e0c0). */
+void FUN_0600df66(void)
 {
-
-  char cVar1;
-
-  *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-
-  cVar1 = *(int *)0x06083261;
-
-  if (cVar1 == '\0') {
-
-    FUN_0600e410();
-
-  }
-
-  else if (cVar1 == '\x01') {
-
-    FUN_0600e47c();
-
-  }
-
-  else if (cVar1 == '\x02') {
-
-    FUN_0600e47c();
-
-  }
-
-  FUN_0600e0c0();
-
-  return;
-
+    char mode = *(int *)0x06083261;
+    *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
+    if (mode == '\0') {
+        FUN_0600e410();
+    } else if (mode == '\x01') {
+        FUN_0600e47c();
+    } else if (mode == '\x02') {
+        FUN_0600e47c();
+    }
+    FUN_0600e0c0();
 }
 
 /* visual_physics_full_update -- Full visual physics update for target car.

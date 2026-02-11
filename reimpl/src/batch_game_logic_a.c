@@ -322,75 +322,49 @@ void FUN_0600a5b2(int course_idx, int param_2, int param_3, int param_4)
 
 }
 
-void FUN_0600a76c()
+/* scene_object_sound -- Position and play 3D sound for up to 2 scene objects.
+ * Reads scene object state from 0x0607EB8C. For each active object (slots 1, 4):
+ * resets matrix (0x06027080), sets world position with Y offset (-13107),
+ * sets scale to 0x8000 uniform, then updates sound tempo (0x06032158)
+ * and positional audio (0x06031DF4) using object index + 14 as table offset.
+ * Decrements OBJ_STATE_SECONDARY by 0x30 per active object. */
+void FUN_0600a76c(void)
 {
+    int scale = 0x00008000;
+    char *pcVar4 = *(char **)0x0607EB8C;
 
-  char *puVar1;
+    if (pcVar4[1] != '\0') {
+        (*(int(*)())0x06027080)();       /* matrix reset */
+        (*(int(*)())0x060270F2)(*(int *)0x06044640 + (int)DAT_0600a856,
+                   *(int *)(0x06044640 + 4) + -13107,
+                   *(int *)(0x06044640 + 8) + 0xFFFF0F5D);
+        (*(int(*)())0x06027124)(scale, scale, scale);
 
-  char *puVar2;
+        int off = (*pcVar4 + 0xe) << 2;
+        (*(int(*)())0x06032158)(*(int *)(0x0606212C + off), *(int *)(0x060621D8 + off));
 
-  int iVar3;
+        off = (*pcVar4 + 0xe) << 2;
+        (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + off), *(short *)0x06089E9C,
+                   *(int *)(0x06062180 + off));
 
-  char *pcVar4;
+        OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
+    }
 
-  puVar2 = (int *)0x00008000;
+    if (pcVar4[4] != '\0') {
+        (*(int(*)())0x06027080)();       /* matrix reset */
+        (*(int(*)())0x060270F2)(*(int *)0x06044670, *(int *)(0x06044670 + 4) + -13107,
+                   0xFFFDB334 - *(int *)(0x06044670 + 8));
+        (*(int(*)())0x06027124)(scale, scale, scale);
 
-  puVar1 = (char *)0x0608A52C;
+        int off = (pcVar4[3] + 0xe) << 2;
+        (*(int(*)())0x06032158)(*(int *)(0x0606212C + off), *(int *)(0x060621D8 + off));
 
-  pcVar4 = *(char **)0x0607EB8C;
+        off = (pcVar4[3] + 0xe) << 2;
+        (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + off), *(short *)0x06089E9C,
+                   *(int *)(0x06062180 + off));
 
-  if (pcVar4[1] != '\0') {
-
-    (*(int(*)())0x06027080)();
-
-    (*(int(*)())0x060270F2)(*(int *)0x06044640 + (int)DAT_0600a856,
-
-               *(int *)(0x06044640 + 4) + -13107,
-
-               *(int *)(0x06044640 + 8) + 0xFFFF0F5D);
-
-    (*(int(*)())0x06027124)(puVar2,puVar2,puVar2);
-
-    iVar3 = (*pcVar4 + 0xe) << 2;
-
-    (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
-
-    iVar3 = (*pcVar4 + 0xe) << 2;
-
-    (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar3),*(short *)0x06089E9C,
-
-               *(int *)(0x06062180 + iVar3));
-
-    *(int *)puVar1 = *(int *)puVar1 + -0x30;
-
-  }
-
-  if (pcVar4[4] != '\0') {
-
-    (*(int(*)())0x06027080)();
-
-    (*(int(*)())0x060270F2)(*(int *)0x06044670,*(int *)(0x06044670 + 4) + -13107,
-
-               0xFFFDB334 - *(int *)(0x06044670 + 8));
-
-    (*(int(*)())0x06027124)(puVar2,puVar2,puVar2);
-
-    iVar3 = (pcVar4[3] + 0xe) << 2;
-
-    (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
-
-    iVar3 = (pcVar4[3] + 0xe) << 2;
-
-    (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar3),*(short *)0x06089E9C,
-
-               *(int *)(0x06062180 + iVar3));
-
-    *(int *)puVar1 = *(int *)puVar1 + -0x30;
-
-  }
-
-  return;
-
+        OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
+    }
 }
 
 /* speed_frame_counter -- Increment frame counter based on car speed.

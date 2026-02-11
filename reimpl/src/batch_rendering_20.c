@@ -37,7 +37,7 @@ extern int DAT_06021fe0;
 extern int DAT_06022114;
 extern int DAT_06022116;
 extern int DAT_06022118;
-extern int object_destruction();
+extern int object_destruction(char, unsigned int, unsigned int, int);
 extern int FUN_06020946();
 extern int FUN_06020dd0();
 extern int PTR_DAT_060211d8;
@@ -45,160 +45,99 @@ extern int PTR_DAT_060212dc;
 extern int PTR_DAT_06021528;
 extern short PTR_DAT_06020b48;
 
-void FUN_060200a4()
+/* vdp2_render_init -- Initialize VDP2 rendering: load color tables, set up DMA,
+ * configure scroll plane, clear SCU interrupt masks, init text rendering state.
+ * Copies VDP2 color RAM (0x25F006C0, 0x25F00060), loads 4 tile pattern sets
+ * via DMA (0x0600511E), configures sprite layer, clears render counters. */
+void FUN_060200a4(void)
 {
+    (*(int(*)())0x0602761E)(0x25F006C0, 0x0604896C, 0x20);  /* color RAM bank 1 */
+    (*(int(*)())0x0602761E)(0x25F00060, 0x0604BC14, 0x20);  /* color RAM bank 2 */
 
-  char *puVar1;
+    (*(int(*)())0x0600511E)(0x25E33AD8, 0x00017700, 0, 8);  /* tile pattern 1 */
+    (*(int(*)())0x0600511E)(0x25E33764, 0x00018B40, 0, 8);  /* tile pattern 2 */
+    (*(int(*)())0x0600511E)(0x0605E164, 0x0001D2A0, 0, 8);  /* tile pattern 3 */
+    (*(int(*)())0x0600511E)(0x25E3398C, 0x00018F20, 0, 8);  /* tile pattern 4 */
 
-  (*(int(*)())0x0602761E)(0x25F006C0,0x0604896C,0x20);
+    (*(int(*)())0x06028400)(0xc, *(int *)0x06063CA0, (int)DAT_0602014c,
+               *(int *)(0x06063CA0 + 4) + (int)DAT_0602014a, 0x06063CA0);
 
-  (*(int(*)())0x0602761E)(0x25F00060,0x0604BC14,0x20);
+    (*(int(*)())0x06014884)(0x20, 0);   /* clear SCU interrupt mask 0x20 */
+    (*(int(*)())0x06014884)(8, 0);      /* clear SCU interrupt mask 0x08 */
 
-  puVar1 = (char *)0x0600511E;
+    FUN_06020dd0();   /* extended render init */
 
-  (*(int(*)())0x0600511E)(0x25E33AD8,0x00017700,0,8);
+    /* Clear text rendering state */
+    *(short *)0x0608780A = 0;
+    *(short *)0x06087808 = 0;
+    *(int *)0x06087814 = 0;
+    *(short *)0x06087806 = 0;
 
-  (*(int(*)())puVar1)(0x25E33764,0x00018B40,0,8);
+    (*(int(*)())0x0601D5F4)(0, 0xAB1128FF);   /* palette init */
 
-  (*(int(*)())puVar1)(0x0605E164,0x0001D2A0,0,8);
-
-  (*(int(*)())puVar1)(0x25E3398C,0x00018F20,0,8);
-
-  (*(int(*)())0x06028400)(0xc,*(int *)0x06063CA0,(int)DAT_0602014c,
-
-             *(int *)(0x06063CA0 + 4) + (int)DAT_0602014a,0x06063CA0);
-
-  (*(int(*)())0x06014884)(0x20,0);
-
-  (*(int(*)())0x06014884)(8,0);
-
-  FUN_06020dd0();
-
-  *(short *)0x0608780A = 0;
-
-  *(short *)0x06087808 = 0;
-
-  *(int *)0x06087814 = 0;
-
-  *(short *)0x06087806 = 0;
-
-  (*(int(*)())0x0601D5F4)(0,0xAB1128FF);
-
-  *(int *)0x06087826 = 0;
-
-  *(int *)0x06087824 = 0;
-
-  *(int *)0x06087825 = 0xf;
-
-  return;
-
+    *(int *)0x06087826 = 0;
+    *(int *)0x06087824 = 0;
+    *(int *)0x06087825 = 0xf;   /* default text attribute */
 }
 
-int object_creation(param_1)
-    unsigned int param_1;
+/* object_creation -- Create a multi-part text/sprite object from template table.
+ * param_1 = object index (low byte). Looks up template chain at 0x0605F458.
+ * Each template entry has: [char_count, row, font_bank]. First part uses
+ * font pointer from 0x0605F478, subsequent parts use font table at 0x0604BD72.
+ * Chain terminates when sentinel value DAT_060203be is encountered. */
+int object_creation(unsigned int param_1)
 {
+    unsigned short sentinel = DAT_060203be;
+    unsigned char *tmpl = *(unsigned char **)(0x0605F458 + (param_1 & 0xff) << 2);
 
-  unsigned short uVar1;
+    int result = object_destruction(
+        **(short **)(0x0605F478 + (unsigned int)tmpl[2] * 4),
+        *tmpl, tmpl[1],
+        *(short **)(0x0605F478 + (unsigned int)tmpl[2] * 4) + 2);
 
-  char *puVar2;
+    unsigned char *next;
+    while (next = tmpl + 3, *next != sentinel) {
+        result = object_destruction(
+            *(short *)(0x0604BD72 + (unsigned int)tmpl[5] * 0x2a),
+            *next, tmpl[4],
+            (short *)((int)(0x0604BD72 + (unsigned int)tmpl[5] * 0x2a) + 4));
+        tmpl = next;
+    }
 
-  int uVar3;
-
-  unsigned char *pbVar4;
-
-  unsigned char *pbVar5;
-
-  puVar2 = (char *)0x0604BD72;
-
-  uVar1 = DAT_060203be;
-
-  pbVar4 = *(unsigned char **)(0x0605F458 + (param_1 & 0xff) << 2);
-
-  uVar3 = object_destruction(**(short **)(0x0605F478 + (unsigned int)pbVar4[2] * 4),*pbVar4,pbVar4[1],
-
-                       *(short **)(0x0605F478 + (unsigned int)pbVar4[2] * 4) + 2);
-
-  while (pbVar5 = pbVar4 + 3, *pbVar5 != uVar1) {
-
-    uVar3 = object_destruction(*(short *)(puVar2 + (unsigned int)pbVar4[5] * 0x2a),*pbVar5,pbVar4[4],
-
-                         (short *)((int)(puVar2 + (unsigned int)pbVar4[5] * 0x2a) + 4));
-
-    pbVar4 = pbVar5;
-
-  }
-
-  return uVar3;
-
+    return result;
 }
 
-int object_destruction(param_1, param_2, param_3, param_4)
-    char param_1;
-    unsigned int param_2;
-    unsigned int param_3;
-    int param_4;
+/* object_destruction -- Render a text string to VDP2 scroll plane.
+ * param_1 = character count, param_2 = X column, param_3 = Y row,
+ * param_4 = character data pointer (16-bit per char).
+ * For each character: space (0x20) maps to tile 0/0, others map to
+ * (ascii - 0x40) * 2 tile pair. Writes via VDP2 command (0x06028400)
+ * at cell position computed from (X + Y*64) * 2. */
+int object_destruction(char param_1, unsigned int param_2, unsigned int param_3, int param_4)
 {
+    char *cmd_buf = (char *)0x0605F44E;
+    short *tile_a = (short *)(0x0605F44E + 4);
+    short *tile_b = (short *)(0x0605F44E + 6);
+    unsigned int idx = 0;
 
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  short sVar3;
-
-  short *psVar4;
-
-  int iVar5;
-
-  short *psVar6;
-
-  unsigned int uVar7;
-
-  puVar2 = (char *)0x0605F44E;
-
-  uVar7 = 0;
-
-  iVar5 = 0x3c79;
-
-  psVar6 = (short *)(0x0605F44E + 4);
-
-  psVar4 = (short *)(0x0605F44E + 6);
-
-  if ('\0' < param_1) {
-
-    do {
-
-      uVar1 = *(unsigned short *)(param_4 + (uVar7 & 0xff) << 1);
-
-      if ((char)uVar1 == ' ') {
-
-        *psVar6 = 0;
-
-        *psVar4 = 0;
-
-      }
-
-      else {
-
-        sVar3 = ((uVar1 & 0xff) - 0x40) << 1;
-
-        *psVar6 = sVar3;
-
-        *psVar4 = sVar3 + 1;
-
-      }
-
-      (*(int(*)())0x06028400)(8,puVar2,((param_2 & 0xffff) + (param_3 & 0xffff) << 6) << 1,iVar5);
-
-      uVar7 = uVar7 + 1;
-
-      param_2 = param_2 + 1;
-
-    } while ((int)(uVar7 & 0xff) < (int)param_1);
-
-  }
-
-  return 0;
-
+    if ('\0' < param_1) {
+        do {
+            unsigned short ch = *(unsigned short *)(param_4 + (idx & 0xff) << 1);
+            if ((char)ch == ' ') {
+                *tile_a = 0;
+                *tile_b = 0;
+            } else {
+                short tile = ((ch & 0xff) - 0x40) << 1;
+                *tile_a = tile;
+                *tile_b = tile + 1;
+            }
+            (*(int(*)())0x06028400)(8, cmd_buf,
+                ((param_2 & 0xffff) + (param_3 & 0xffff) << 6) << 1, 0x3c79);
+            idx++;
+            param_2++;
+        } while ((int)(idx & 0xff) < (int)param_1);
+    }
+    return 0;
 }
 
 /* vdp2_scroll_clear -- Clear VDP2 scroll plane and set initial parameters.
@@ -221,36 +160,42 @@ int FUN_06020b20(void)
     return idx;
 }
 
-unsigned int FUN_06020c3c()
+/* vdp1_display_mode_dispatch -- Select VDP1 display mode based on 0x0608780C.
+ * Calls CD sector read (0x06035228) twice, then dispatches:
+ * Mode 1: 0xC060 display, batch DMA, render via 0x06038044
+ * Mode 2: 0xC044 display, batch DMA, render via 0x06038044
+ * Mode 3: extended render (FUN_06020946)
+ * Mode 4: VDP render clear slot 4 (0x0602853E)
+ * Clears mode register after dispatch. */
+unsigned int FUN_06020c3c(void)
 {
-  register int func asm("r3") = 0x06035228;
-  char auStack_24[16];
-  char auStack_14[20];
-  unsigned int uVar3;
+    register int func asm("r3") = 0x06035228;
+    char auStack_24[16];
+    char auStack_14[20];
 
-  (*(int(*)())func)();
-  (*(int(*)())func)();
+    (*(int(*)())func)();   /* CD sector read 1 */
+    (*(int(*)())func)();   /* CD sector read 2 */
 
-  uVar3 = *(unsigned short *)0x0608780C;
+    unsigned int mode = *(unsigned short *)0x0608780C;
 
-  if (uVar3 == 1) {
-    *(short *)0x060A3DBA = (short)0xC060;
-    *(short *)0x060A3DA8 = 0xf;
-    VDP1_BATCH_FLAG = 1;
-    uVar3 = (*(int(*)())0x06038044)(auStack_14);
-  } else if (uVar3 == 2) {
-    *(short *)0x060A3DBA = (short)0xC044;
-    *(short *)0x060A3DA8 = 0xf;
-    VDP1_BATCH_FLAG = 1;
-    uVar3 = (*(int(*)())0x06038044)(auStack_24);
-  } else if (uVar3 == 3) {
-    uVar3 = FUN_06020946();
-  } else if (uVar3 == 4) {
-    uVar3 = (*(int(*)())0x0602853E)(4);
-  }
+    if (mode == 1) {
+        *(short *)0x060A3DBA = (short)0xC060;
+        *(short *)0x060A3DA8 = 0xf;
+        VDP1_BATCH_FLAG = 1;
+        mode = (*(int(*)())0x06038044)(auStack_14);
+    } else if (mode == 2) {
+        *(short *)0x060A3DBA = (short)0xC044;
+        *(short *)0x060A3DA8 = 0xf;
+        VDP1_BATCH_FLAG = 1;
+        mode = (*(int(*)())0x06038044)(auStack_24);
+    } else if (mode == 3) {
+        mode = FUN_06020946();
+    } else if (mode == 4) {
+        mode = (*(int(*)())0x0602853E)(4);
+    }
 
-  *(short *)0x0608780C = 0;
-  return uVar3;
+    *(short *)0x0608780C = 0;
+    return mode;
 }
 
 void FUN_06020cf4()

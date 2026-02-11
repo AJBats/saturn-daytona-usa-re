@@ -171,132 +171,62 @@ extern short DAT_0600e79e;
 extern short DAT_0600ebd8;
 extern short counter_0607887C;
 
-void FUN_0600e060()
+/* visual_physics_update_alt -- Alternate visual physics update for target car.
+ * Similar to FUN_0600dfd0 but uses alternative pre-render setup (0x0602DC18)
+ * and adds height update via 0x06033020. Sets car pointers, computes
+ * tile index, runs wheel transform, updates 4 render buffers. */
+void FUN_0600e060(void)
 {
-
-  char *puVar1;
-
-  int uVar2;
-
-  int iVar3;
-
-  iVar3 = CAR_PTR_TARGET;
-
-  *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-
-  CAR_PTR_CURRENT = iVar3;
-
-  *(char **)0x0607E948 = 0x06078B68;
-
-  (*(int(*)())0x0602DC18)();
-
-  uVar2 = (*(int(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
-
-  *(int *)0x060786B8 = uVar2;
-
-  (*(int(*)())0x06005ECC)();
-
-  puVar1 = (char *)0x06027CA4;
-
-  (*(int(*)())0x06027CA4)(0x06063EB0,0);
-
-  (*(int(*)())puVar1)(0x06063E9C,1);
-
-  (*(int(*)())puVar1)(0x06063ED8,2);
-
-  (*(int(*)())puVar1)(0x06063EC4,3);
-
-  (*(int(*)())0x06033020)(iVar3 + 0x14);
-
-  FUN_0600e0c0();
-
-  return;
-
+    int car = CAR_PTR_TARGET;
+    *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
+    CAR_PTR_CURRENT = car;
+    *(char **)0x0607E948 = 0x06078B68;
+    (*(int(*)())0x0602DC18)();
+    int tile_idx = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
+    *(int *)0x060786B8 = tile_idx;
+    (*(int(*)())0x06005ECC)();
+    (*(int(*)())0x06027CA4)(0x06063EB0, 0);
+    (*(int(*)())0x06027CA4)(0x06063E9C, 1);
+    (*(int(*)())0x06027CA4)(0x06063ED8, 2);
+    (*(int(*)())0x06027CA4)(0x06063EC4, 3);
+    (*(int(*)())0x06033020)(car + CAR_Y);
+    FUN_0600e0c0();
 }
 
-unsigned int FUN_0600e0c0()
+/* per_car_loop -- Iterate over all non-player cars and run physics+render.
+ * Skips entirely in demo mode. For each car (index 1..car_count-1):
+ * sets CAR_PTR_CURRENT, runs AI behavior (0x06030A06), timer update (0x06030EE0).
+ * If GAME_STATE paused (bit 15): simplified physics (FUN_0600e906).
+ * Else: full physics (FUN_0600e71a), and if render flag set (byte+1 bit7),
+ * updates object positions and 4 render transform buffers. */
+unsigned int FUN_0600e0c0(void)
 {
+    unsigned int uVar7;
+    unsigned int uVar9;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  unsigned int uVar7;
-
-  int iVar8;
-
-  unsigned int uVar9;
-
-  puVar5 = (char *)0x00008000;
-
-  puVar4 = (char *)0x06078900;
-
-  puVar3 = (char *)0x0607EBC4;
-
-  puVar2 = (char *)0x06027CA4;
-
-  puVar1 = (char *)0x0607E940;
-
-  iVar8 = 0x268;
-
-  uVar7 = DEMO_MODE_FLAG;
-
-  if (uVar7 == 0) {
-
-    for (uVar9 = 1; puVar6 = 0x06030A06, uVar9 < *(unsigned int *)0x0607EA98; uVar9 = uVar9 + 1)
-
-    {
-
-      *(char **)puVar1 = puVar4 + uVar9 * iVar8;
-
-      (*(int(*)())puVar6)();
-
-      (*(int(*)())0x06030EE0)();
-
-      if ((*(unsigned int *)puVar3 & (unsigned int)puVar5) == 0) {
-
-        FUN_0600e71a();
-
-        uVar7 = (unsigned int)*(char *)(*(int *)puVar1 + 1);
-
-        if ((uVar7 & 0x80) != 0) {
-
-          (*(int(*)())0x060061C8)();
-
-          (*(int(*)())puVar2)(0x06063EB0,0);
-
-          (*(int(*)())puVar2)(0x06063E9C,1);
-
-          (*(int(*)())puVar2)(0x06063ED8,2);
-
-          (*(int(*)())puVar2)(0x06063EC4,3);
-
-          uVar7 = (*(int(*)())0x0603053C)(1);
-
+    uVar7 = DEMO_MODE_FLAG;
+    if (uVar7 == 0) {
+        for (uVar9 = 1; uVar9 < *(unsigned int *)0x0607EA98; uVar9 = uVar9 + 1) {
+            *(char **)0x0607E940 = (char *)CAR_ARRAY_BASE + uVar9 * CAR_STRUCT_SIZE;
+            (*(int(*)())0x06030A06)();
+            (*(int(*)())0x06030EE0)();
+            if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00008000) == 0) {
+                FUN_0600e71a();
+                uVar7 = (unsigned int)*(char *)(*(int *)0x0607E940 + 1);
+                if ((uVar7 & 0x80) != 0) {
+                    (*(int(*)())0x060061C8)();
+                    (*(int(*)())0x06027CA4)(0x06063EB0, 0);
+                    (*(int(*)())0x06027CA4)(0x06063E9C, 1);
+                    (*(int(*)())0x06027CA4)(0x06063ED8, 2);
+                    (*(int(*)())0x06027CA4)(0x06063EC4, 3);
+                    uVar7 = (*(int(*)())0x0603053C)(1);
+                }
+            } else {
+                uVar7 = FUN_0600e906();
+            }
         }
-
-      }
-
-      else {
-
-        uVar7 = FUN_0600e906();
-
-      }
-
     }
-
-  }
-
-  return uVar7;
-
+    return uVar7;
 }
 
 void FUN_0600e1d4()
@@ -474,88 +404,50 @@ void FUN_0600e1d4()
 
 }
 
-void FUN_0600e410()
+/* replay_physics_simple -- Simple replay physics: run all subsystems then physics.
+ * Sets current car to target, runs gear shift (0x060081F4), steering (0x060085B8),
+ * AI behavior (0x06030A06), timer (0x06030EE0), full physics (FUN_0600e71a),
+ * then computes speed ratio via fixed-point divide for display. */
+void FUN_0600e410(void)
 {
-
-  short extraout_var;
-
-  int iVar1;
-
-  iVar1 = CAR_PTR_TARGET;
-
-  CAR_PTR_CURRENT = iVar1;
-
-  (*(int(*)())0x060081F4)();
-
-  (*(int(*)())0x060085B8)();
-
-  (*(int(*)())0x06030A06)();
-
-  (*(int(*)())0x06030EE0)();
-
-  FUN_0600e71a();
-
-  (*(int(*)())0x06027552)(*(int *)(iVar1 + 0xc),0x066505B3);
-
-  *(int *)(DAT_0600e456 + iVar1) = (int)extraout_var;
-
-  *(int *)(PTR_DAT_0600e458 + iVar1) = (int)extraout_var;
-
-  return;
-
+    short extraout_var;
+    int car = CAR_PTR_TARGET;
+    CAR_PTR_CURRENT = car;
+    (*(int(*)())0x060081F4)();
+    (*(int(*)())0x060085B8)();
+    (*(int(*)())0x06030A06)();
+    (*(int(*)())0x06030EE0)();
+    FUN_0600e71a();
+    (*(int(*)())0x06027552)(*(int *)(car + CAR_ACCEL), 0x066505B3);
+    *(int *)(DAT_0600e456 + car) = (int)extraout_var;
+    *(int *)(PTR_DAT_0600e458 + car) = (int)extraout_var;
 }
 
-void FUN_0600e47c()
+/* replay_physics_full -- Full replay physics with rendering pipeline.
+ * Runs speed counter, gear shift, steering, AI behavior, timer,
+ * alternate physics (FUN_0600e7c8), tile lookup, wheel transform,
+ * 4 render buffer updates, checkpoint crossing, lap update, and rendering. */
+void FUN_0600e47c(void)
 {
-
-  char *puVar1;
-
-  int uVar2;
-
-  int iVar3;
-
-  iVar3 = CAR_PTR_TARGET;
-
-  CAR_PTR_CURRENT = iVar3;
-
-  (*(int(*)())0x0600A8BC)();
-
-  (*(int(*)())0x060081F4)();
-
-  (*(int(*)())0x060085B8)();
-
-  (*(int(*)())0x06030A06)();
-
-  (*(int(*)())0x06030EE0)();
-
-  FUN_0600e7c8();
-
-  uVar2 = (*(int(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
-
-  *(int *)0x060786B8 = uVar2;
-
-  (*(int(*)())0x06005ECC)();
-
-  puVar1 = (char *)0x06027CA4;
-
-  (*(int(*)())0x06027CA4)(0x06063EB0,0);
-
-  (*(int(*)())puVar1)(0x06063E9C,1);
-
-  (*(int(*)())puVar1)(0x06063ED8,2);
-
-  (*(int(*)())puVar1)(0x06063EC4,3);
-
-  (*(int(*)())0x0600DA7C)();
-
-  (*(int(*)())0x0600CE66)();
-
-  (*(int(*)())0x0603053C)(0);
-
-  (*(int(*)())0x0600D780)(0);
-
-  return;
-
+    int car = CAR_PTR_TARGET;
+    CAR_PTR_CURRENT = car;
+    (*(int(*)())0x0600A8BC)();
+    (*(int(*)())0x060081F4)();
+    (*(int(*)())0x060085B8)();
+    (*(int(*)())0x06030A06)();
+    (*(int(*)())0x06030EE0)();
+    FUN_0600e7c8();
+    int tile = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
+    *(int *)0x060786B8 = tile;
+    (*(int(*)())0x06005ECC)();
+    (*(int(*)())0x06027CA4)(0x06063EB0, 0);
+    (*(int(*)())0x06027CA4)(0x06063E9C, 1);
+    (*(int(*)())0x06027CA4)(0x06063ED8, 2);
+    (*(int(*)())0x06027CA4)(0x06063EC4, 3);
+    (*(int(*)())0x0600DA7C)();
+    (*(int(*)())0x0600CE66)();
+    (*(int(*)())0x0603053C)(0);
+    (*(int(*)())0x0600D780)(0);
 }
 
 void FUN_0600e4f2()
@@ -815,61 +707,36 @@ void FUN_0600e7c8()
 
 }
 
-int FUN_0600e906()
+/* camera_pre_setup -- Pre-setup for camera tracking on current car.
+ * If no active cars (CAR_COUNT==0): runs AI heading update (0x0600C74E),
+ * computes speed-based distance, copies heading to heading3, advances ranking.
+ * If cars are present: just clears acceleration. */
+int FUN_0600e906(void)
 {
+    int car = CAR_PTR_CURRENT;
+    short extraout_var;
 
-  char *puVar1;
+    if (CAR_COUNT == 0) {
+        (*(int(*)())0x0600D266)();           /* checkpoint update */
+        (*(int(*)())0x0600C74E)();           /* AI heading and move */
+        (*(int(*)())0x06027552)(*(int *)(car + CAR_ACCEL), 0x00480000);
+        *(int *)(car + CAR_SPEED) = (int)extraout_var;
+        *(int *)(car + CAR_HEADING3) = *(int *)(car + CAR_HEADING);
+        (*(int(*)())0x0600CEBA)();           /* checkpoint advance */
 
-  short extraout_var;
+        /* Advance ranking: ranking = ranking * speed_ratio + base */
+        *(int *)(car + 0x1F4) =
+            *(int *)(car + CAR_RANKING) * *(int *)0x0607EA9C + *(int *)(car + 0x1EC);
 
-  int iVar2;
-
-  int iVar3;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  if (CAR_COUNT == 0) {
-
-    (*(int(*)())0x0600D266)();
-
-    (*(int(*)())0x0600C74E)();
-
-    (*(int(*)())0x06027552)(*(int *)(iVar3 + 0xc),0x00480000);
-
-    *(int *)(iVar3 + 8) = (int)extraout_var;
-
-    puVar1 = (char *)0x0600CEBA;
-
-    *(int *)(iVar3 + 0x30) = *(int *)(iVar3 + 0x20);
-
-    (*(int(*)())puVar1)();
-
-    iVar2 = 0x228;
-
-    *(int *)(iVar3 + iVar2 + -0x34) =
-
-         *(int *)(iVar3 + iVar2) * *(int *)0x0607EA9C + *(int *)(iVar3 + iVar2 + -0x3c);
-
-    if (*(int *)(iVar3 + iVar2 + -0x3c) == 0) {
-
-      iVar2 = (int)DAT_0600e9e4;
-
-      *(int *)(iVar3 + iVar2) = 0;
-
-      *(int *)(iVar3 + iVar2 + -0x18) = 0x200;
-
+        if (*(int *)(car + 0x1EC) == 0) {
+            int off = (int)DAT_0600e9e4;
+            *(int *)(car + off) = 0;
+            *(int *)(car + off - 0x18) = 0x200;
+        }
+    } else {
+        *(int *)(car + CAR_ACCEL) = 0;
     }
-
-  }
-
-  else {
-
-    *(int *)(iVar3 + 0xc) = 0;
-
-  }
-
-  return 0;
-
+    return 0;
 }
 
 /* camera_setup -- Initialize camera for target car.
@@ -895,168 +762,126 @@ void FUN_0600e99c(void)
     }
 }
 
-void FUN_0600ea18(param_1)
-    int param_1;
+/* replay_interp_init -- Initialize replay interpolation for a car.
+ * Checks 4 input bitmask words at car+DAT_0600ea76. If any bits are set
+ * but not all have bit 7 (completion marker), either increments a wait
+ * counter (if no directional bits 0x33) or resets it. After 0xa0 frames
+ * or when all masks are clear, sets up interpolation from current position
+ * to target track segment position with 16-step lerp. */
+void FUN_0600ea18(int param_1)
 {
+    unsigned int *masks = (unsigned int *)(DAT_0600ea76 + param_1);
+    unsigned int any = masks[1] | masks[2] | masks[3] | masks[0];
 
-  short sVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int uVar5;
-
-  unsigned int *puVar6;
-
-  int *piVar7;
-
-  unsigned int uVar8;
-
-  int iVar9;
-
-  int iVar10;
-
-  puVar2 = (char *)0x0605A228;
-
-  puVar6 = (unsigned int *)(DAT_0600ea76 + param_1);
-
-  uVar8 = puVar6[1] | puVar6[2] | puVar6[3] | *puVar6;
-
-  if ((uVar8 != 0) && ((puVar6[3] & *puVar6 & puVar6[2] & puVar6[1] & 0x80) == 0)) {
-
-    if ((uVar8 & 0x33) == 0) {
-
-      iVar3 = *(int *)0x0605A228;
-
-      *(int *)0x0605A228 = iVar3 + 1;
-
-      if (0xa0 <= iVar3 + 1) {
-
-        *(int *)puVar2 = 0;
-
-        goto LAB_0600ea80;
-
-      }
-
+    if ((any != 0) && ((masks[3] & masks[0] & masks[2] & masks[1] & 0x80) == 0)) {
+        if ((any & 0x33) == 0) {
+            int wait = *(int *)0x0605A228;
+            *(int *)0x0605A228 = wait + 1;
+            if (0xa0 <= wait + 1) {
+                *(int *)0x0605A228 = 0;
+                goto setup_interp;
+            }
+        } else {
+            *(int *)0x0605A228 = 0;
+        }
+        return;
     }
 
-    else {
+    *(int *)0x0605A228 = 0;
 
-      *(int *)0x0605A228 = 0;
+setup_interp:
+    ;
+    int cur_x = *(int *)(param_1 + CAR_X);
+    int *seg = (int *)((*(int *)(param_1 + DAT_0600eafa) << 3 + 3) << 4 + *(int *)0x0607EB88);
+    int tgt_x = seg[0];
+    int tgt_z = seg[1];
+    int cur_z = *(int *)(param_1 + CAR_Z);
+    short tgt_hdg = *(short *)((int)seg + 10);
+    int cur_hdg = *(int *)(param_1 + CAR_HEADING3);
 
-    }
+    /* 16-step linear interpolation deltas */
+    *(int *)0x060786BC = 0x10;
+    *(int *)0x060786C0 = (tgt_x - cur_x) >> 4;
+    *(int *)0x060786C4 = (tgt_z - cur_z) >> 4;
+    *(short *)0x060786C8 = (short)(((tgt_hdg << 2) - (short)cur_hdg) >> 4);
 
-    return;
+    /* Clear speed and acceleration */
+    *(int *)(param_1 + CAR_ACCEL) = 0;
+    *(int *)(param_1 + CAR_SPEED) = 0;
 
-  }
-
-  *(int *)0x0605A228 = 0;
-
-LAB_0600ea80:
-
-  iVar3 = *(int *)(param_1 + 0x10);
-
-  piVar7 = (int *)((*(int *)(param_1 + DAT_0600eafa) << 3 + 3) << 4 + *(int *)0x0607EB88);
-
-  iVar9 = *piVar7;
-
-  iVar10 = piVar7[1];
-
-  iVar4 = *(int *)(param_1 + 0x18);
-
-  sVar1 = *(short *)((int)piVar7 + 10);
-
-  uVar5 = *(int *)(param_1 + 0x30);
-
-  *(int *)0x060786BC = 0x10;
-
-  *(int *)0x060786C0 = iVar9 - iVar3 >> 4;
-
-  *(int *)0x060786C4 = iVar10 - iVar4 >> 4;
-
-  *(short *)0x060786C8 = (short)((sVar1 << 2) - (short)uVar5) >> 4;
-
-  *(int *)(param_1 + 0xc) = 0;
-
-  *(int *)(param_1 + 8) = 0;
-
-  iVar3 = 0xe0;
-
-  *(int *)(param_1 + iVar3) = 0;
-
-  *(int *)(param_1 + iVar3 + 4) = 0;
-
-  *(int *)(param_1 + iVar3 + 0x40) = 1;
-
-  *(int *)(param_1 + iVar3 + 0x44) = 1;
-
-  *(int *)(param_1 + iVar3 + 0x48) = 1;
-
-  *(int *)(param_1 + iVar3 + 0x4c) = 1;
-
-  return;
-
+    /* Clear projected values, set activation flags */
+    *(int *)(param_1 + CAR_PROJECTED_A) = 0;
+    *(int *)(param_1 + CAR_PROJECTED_B) = 0;
+    *(int *)(param_1 + CAR_ACTIVATE_1) = 1;
+    *(int *)(param_1 + CAR_ACTIVATE_2) = 1;
+    *(int *)(param_1 + CAR_ACTIVATE_3) = 1;
+    *(int *)(param_1 + CAR_ACTIVATE_4) = 1;
 }
 
-void FUN_0600eb14()
+/* game_state_reset -- Zero entire car array and reset all game state globals.
+ * Clears CAR_ARRAY_BASE (DAT_0600ebd8 words), calls matrix/transform/render init,
+ * sets activation flags to 1, zeros all game state counters/timers/flags,
+ * clears 5 inline data table entries, then calls HUD init (0x06021450)
+ * and sound init (0x06018634). */
+void FUN_0600eb14(void)
 {
-  register int *ptr asm("r4") = (int *)0x06078900;
-  register unsigned int cnt asm("r5") = 0;
-  register int zero asm("r6") = 0;
-  unsigned int limit = (unsigned int)DAT_0600ebd8;
+    register int *ptr asm("r4") = (int *)CAR_ARRAY_BASE;
+    register unsigned int cnt asm("r5") = 0;
+    register int zero asm("r6") = 0;
+    unsigned int limit = (unsigned int)DAT_0600ebd8;
 
-  do {
-    *ptr++ = zero;
-    cnt++;
-  } while (cnt < limit);
+    do {
+        *ptr++ = zero;
+        cnt++;
+    } while (cnt < limit);
 
-  (*(void(*)())0x06026E02)();
-  (*(void(*)())0x060270C6)();
-  (*(void(*)())0x0600629C)();
+    (*(void(*)())0x06026E02)();     /* matrix init */
+    (*(void(*)())0x060270C6)();     /* transform init */
+    (*(void(*)())0x0600629C)();     /* render state init */
 
-  *(int *)0x06078A20 = 1;
-  *(int *)0x06078A24 = 1;
-  *(int *)0x06078A28 = 1;
-  *(int *)0x06078A2C = 1;
+    /* Set activation flags for first 4 car slots */
+    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_1) = 1;
+    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_2) = 1;
+    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_3) = 1;
+    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_4) = 1;
 
-  *(short *)0x06063F46 = zero;
-  *(int *)0x0607EAE4 = zero;
-  *(int *)0x0607EAE8 = zero;
-  *(int *)0x0607EAEC = zero;
-  GAME_STATE_VAR = zero;
-  *(int *)0x0607EBF4 = zero;
-  *(int *)0x06078654 = 5;
-  *(int *)0x0605A1C4 = zero;
-  *(int *)0x06082A30 = zero;
-  *(int *)0x0607EABC = zero;
-  *(int *)0x0607EAC0 = zero;
-  *(int *)0x06083260 = zero;
-  *(int *)0x06082A26 = zero;
-  *(int *)0x060788FC = zero;
-  *(int *)0x06082A38 = zero;
-  *(int *)0x06083261 = zero;
-  *(int *)0x0608325C = zero;
-  *(int *)0x06083258 = zero;
-  *(int *)0x0605A21C = zero;
-  *(short *)0x06086058 = zero;
-  *(int *)0x0608605A = zero;
-  *(int *)0x0605DE3C = zero;
-  *(int *)0x060786A8 = zero;
-  *(int *)0x060786BC = zero;
-  *(int *)0x06085FCC = zero;
-  *(int *)0x06087060 = zero;
+    /* Clear game state globals */
+    *(short *)0x06063F46 = zero;    /* speed frame counter */
+    *(int *)0x0607EAE4 = zero;
+    *(int *)0x0607EAE8 = zero;
+    *(int *)0x0607EAEC = zero;
+    GAME_STATE_VAR = zero;
+    *(int *)0x0607EBF4 = zero;
+    *(int *)0x06078654 = 5;         /* default timer value */
+    *(int *)0x0605A1C4 = zero;
+    *(int *)0x06082A30 = zero;
+    *(int *)0x0607EABC = zero;
+    *(int *)0x0607EAC0 = zero;
+    *(int *)0x06083260 = zero;
+    *(int *)0x06082A26 = zero;
+    *(int *)0x060788FC = zero;
+    *(int *)0x06082A38 = zero;
+    *(int *)0x06083261 = zero;
+    *(int *)0x0608325C = zero;
+    *(int *)0x06083258 = zero;
+    *(int *)0x0605A21C = zero;
+    *(short *)0x06086058 = zero;
+    *(int *)0x0608605A = zero;
+    *(int *)0x0605DE3C = zero;
+    *(int *)0x060786A8 = zero;
+    *(int *)0x060786BC = zero;      /* interpolation step counter */
+    *(int *)0x06085FCC = zero;
+    *(int *)0x06087060 = zero;
 
-  *(short *)0x0602FD98 = zero;
-  *(short *)0x0602FD9A = zero;
-  *(short *)0x0602FD9C = zero;
-  *(short *)0x0602FD9E = zero;
-  *(short *)0x0602FDA0 = zero;
+    /* Clear inline data table entries */
+    *(short *)0x0602FD98 = zero;
+    *(short *)0x0602FD9A = zero;
+    *(short *)0x0602FD9C = zero;
+    *(short *)0x0602FD9E = zero;
+    *(short *)0x0602FDA0 = zero;
 
-  (*(void(*)())0x06021450)();
-  (*(void(*)())0x06018634)();
+    (*(void(*)())0x06021450)();     /* HUD init */
+    (*(void(*)())0x06018634)();     /* sound init */
 }
 
 void FUN_0600ec78()
