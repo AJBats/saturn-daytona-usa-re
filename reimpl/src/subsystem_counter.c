@@ -3,6 +3,7 @@
  * Functions:
  *   FUN_0600F822 (0x0600F822) -- Subsystem init: sound cmd + timer setup
  *   FUN_0600F898 (0x0600F898) -- Subsystem reset: clear counters, increment state
+ *   FUN_0600F8BE (0x0600F8BE) -- Timer tick: decrement counter, dispatch
  *   FUN_0600F98C (0x0600F98C) -- Prologue: set r6=0, call FUN_0600F990
  *   FUN_0600F990 (0x0600F990) -- Advance memory pointer, increment counter, flag check
  *
@@ -38,6 +39,12 @@ extern void FUN_06011094(void);
 
 /* VDP command reset (returns pointer) */
 extern int *FUN_06028560(void);
+
+/* Subsystem processing continuation */
+extern void FUN_060115F0(void);
+
+/* Config helper (param=mode selector) */
+extern void FUN_0602853E(int param);
 
 /* Memory pointer global */
 #define MEM_PTR_GLOBAL     (*(volatile int *)0x0607885C)
@@ -121,6 +128,40 @@ void FUN_0600F898(void)
     FRAME_COUNTER = 0;
 
     /* Increment subsystem state flag */
+    SUBSYS_STATE_FLAG = SUBSYS_STATE_FLAG + 1;
+}
+
+
+/* ================================================================
+ * FUN_0600F8BE -- Timer Tick / Subsystem Dispatch (0x0600F8BE)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600F8BE-0x0600F912)
+ * Pool verified:
+ *   0x0600F8E0 = 0x0607887C (timer counter)
+ *   0x0600F8F4 = 0x060115F0 (subsystem continuation)
+ *   0x0600F960 = 0x0602853E (config helper)
+ *   0x0600F964 = 0x0607887F (state flag)
+ *
+ * Decrements timer counter. If still positive, tail-calls
+ * FUN_060115F0 (subsystem processing). If expired, calls
+ * FUN_0602853E(4) and advances the state flag.
+ *
+ * 22 instructions. Saves PR.
+ * ================================================================ */
+void FUN_0600F8BE(void)
+{
+    short counter = TIMER_COUNTER;
+    counter--;
+    TIMER_COUNTER = counter;
+
+    if (counter > 0) {
+        /* Timer still running -- continue subsystem processing */
+        FUN_060115F0();  /* tail-call in original asm */
+        return;
+    }
+
+    /* Timer expired -- advance to next state */
+    FUN_0602853E(4);
     SUBSYS_STATE_FLAG = SUBSYS_STATE_FLAG + 1;
 }
 

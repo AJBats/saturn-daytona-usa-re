@@ -27,7 +27,7 @@ void FUN_060272C0(void) { }
 void spring_damper_physics(void) { }
 void FUN_060279B0(void) { }
 void FUN_06028368(void) { }
-void FUN_06028384(void) { }
+/* FUN_06028384: moved to vdp1_cmd.c */
 void FUN_0602843A(void) { }
 void FUN_060284BA(void) { }
 void FUN_06028580(void) { }
