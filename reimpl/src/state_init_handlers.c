@@ -5,6 +5,8 @@
  *   FUN_06008B34 (0x06008B34) -- State handler: subsystem dispatch + clear
  *   FUN_06008B78 (0x06008B78) -- State handler: pre-race subsystem init
  *   FUN_06008B9C (0x06008B9C) -- State handler: subsystem sequence + clear
+ *   FUN_06008BD8 (0x06008BD8) -- State handler: link subsystem init, mode=11
+ *   FUN_06008BFC (0x06008BFC) -- State handler: conditional mode advance
  *
  * These are game state machine handlers called from the main loop
  * jump table. Each follows a pattern of calling subsystem functions,
@@ -16,7 +18,8 @@
  *   0x06059F44: State completion flag (int, cleared to 0 on exit)
  *   0x0605A016: Sub-state counter (short)
  *
- * Original addresses: 0x060088CC, 0x06008B34, 0x06008B78, 0x06008B9C
+ * Original addresses: 0x060088CC, 0x06008B34, 0x06008B78, 0x06008B9C,
+ *   0x06008BD8, 0x06008BFC
  */
 
 /* CD command: play/resume */
@@ -41,6 +44,12 @@ extern void FUN_060210F6(void);
 
 /* Scene callback dispatcher */
 extern void FUN_06026CE0(void);
+
+/* Link subsystem init */
+extern void FUN_0601B160(void);
+
+/* Link subsystem poll (returns nonzero when complete) */
+extern int FUN_0601B418(void);
 
 /* Mode selector global */
 #define MODE_SELECTOR      (*(volatile int *)0x0605AD10)
@@ -171,4 +180,52 @@ void FUN_06008B9C(void)
     FUN_06019928();
     FUN_06026CE0();
     STATE_DONE_FLAG = 0;
+}
+
+
+/* ================================================================
+ * FUN_06008BD8 -- State Handler: Link Subsystem Init (0x06008BD8)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008BD8-0x06008BFA)
+ * Pool verified:
+ *   0x06008C38 = 0x0605AD10 (mode selector)
+ *   0x06008C3C = 0x0601B160 (link subsystem init)
+ *   0x06008C40 = 0x06026CE0 (scene callback)
+ *   0x06008C44 = 0x06059F44 (state flag)
+ *   0x06008C48 = 0x0605A016 (sub-state counter)
+ *
+ * Sets mode=11 (link/VS mode), initializes link subsystem,
+ * dispatches scene callbacks, clears state flag, sets sub-state=3.
+ *
+ * 18 instructions. Saves PR.
+ * ================================================================ */
+void FUN_06008BD8(void)
+{
+    MODE_SELECTOR = 11;
+    FUN_0601B160();
+    FUN_06026CE0();
+    STATE_DONE_FLAG = 0;
+    SUB_STATE_COUNTER = 3;
+}
+
+
+/* ================================================================
+ * FUN_06008BFC -- State Handler: Conditional Mode Advance (0x06008BFC)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008BFC-0x06008C12)
+ * Pool verified:
+ *   0x06008C4C = 0x0601B418 (link subsystem poll)
+ *   0x06008C38 = 0x0605AD10 (mode selector)
+ *
+ * Polls link subsystem. If result is nonzero, advances mode to 6.
+ * Otherwise does nothing (stays in current state for next frame).
+ *
+ * 10 instructions. Saves PR.
+ * ================================================================ */
+void FUN_06008BFC(void)
+{
+    int result = FUN_0601B418();
+    if (result != 0) {
+        MODE_SELECTOR = 6;
+    }
 }

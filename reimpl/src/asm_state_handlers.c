@@ -6,8 +6,8 @@ void FUN_06008B04(void) { }
 /* FUN_06008B34: moved to state_init_handlers.c */
 /* FUN_06008B78: moved to state_init_handlers.c */
 /* FUN_06008B9C: moved to state_init_handlers.c */
-void FUN_06008BD8(void) { }
-void FUN_06008BFC(void) { }
+/* FUN_06008BD8: moved to state_init_handlers.c */
+/* FUN_06008BFC: moved to state_init_handlers.c */
 void FUN_06008C14(void) { }
 void FUN_06008C76(void) { }
 void FUN_06008CCC(void) { }
