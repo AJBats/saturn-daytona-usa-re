@@ -107,29 +107,17 @@ void FUN_0603c000()
 
 }
 
-void FUN_0603c05c(param_1, param_2)
-    unsigned int param_1;
-    int param_2;
+/* dma_region_clear -- Zero a memory region via cache-through address.
+ * Converts param_1 to cache-through (mask low 29 bits, set bit 30),
+ * then zeros param_2 bytes in 16-byte (4-word) steps. */
+void FUN_0603c05c(unsigned int param_1, int param_2)
 {
+    int *ptr = (int *)(param_1 & 0x1FFFFFF0 | 0x40000000);
+    int *end = (int *)((int)ptr + param_2);
 
-  int *puVar1;
-
-  int *puVar2;
-
-  
-
-  puVar1 = (int *)(param_1 & 0x1FFFFFF0 | 0x40000000);
-
-  puVar2 = (int *)((int)puVar1 + param_2);
-
-  for (; puVar1 < puVar2; puVar1 = puVar1 + 4) {
-
-    *puVar1 = 0;
-
-  }
-
-  return;
-
+    for (; ptr < end; ptr += 4) {
+        *ptr = 0;
+    }
 }
 
 unsigned int FUN_0603c08c(param_1, param_2)
@@ -143,25 +131,21 @@ unsigned int FUN_0603c08c(param_1, param_2)
 
 }
 
-int FUN_0603c0a0(param_1, param_2)
-    int param_1;
-    int param_2;
+/* sh2_div_fixed16 -- SH-2 hardware 32-bit division for 16.16 fixed-point.
+ * Uses DIVU hardware at 0xFFFFFF00:
+ *   DVSR (+0x00) = divisor
+ *   DVDNT_H (+0x10) = sign-extended upper 16 bits
+ *   DVDNT_L (+0x14) = lower bits shifted left 16
+ * Returns quotient from DVDNT_L. */
+int FUN_0603c0a0(int param_1, int param_2)
 {
+    char *div_base = (char *)0xFFFFFF00;
 
-  char *puVar1;
+    SH2_DVSR = param_2;
+    *(int *)(div_base + 0x10) = (int)(short)((unsigned int)param_1 >> 0x10);
+    *(int *)(div_base + 0x14) = param_1 << 0x10;
 
-  
-
-  puVar1 = (int *)0xFFFFFF00;
-
-  SH2_DVSR = param_2;
-
-  *(int *)(puVar1 + 0x10) = (int)(short)((unsigned int)param_1 >> 0x10);
-
-  *(int *)(puVar1 + 0x14) = param_1 << 0x10;
-
-  return *(int *)(puVar1 + 0x14);
-
+    return *(int *)(div_base + 0x14);
 }
 
 void FUN_0603c104()

@@ -1279,25 +1279,20 @@ int * FUN_0603f93c(param_1)
 
 }
 
-char FUN_0603f970(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_buf_set_mode -- Set buffer mode and apply configuration.
+ * Saves previous mode from +0x35, stores new mode.
+ * If mode is 0-3, applies configuration from 12-byte table at 0x0606364C.
+ * Returns the previous mode. */
+char FUN_0603f970(int param_1, int param_2)
 {
+    char prev = *(char *)(param_1 + 0x35);
+    *(char *)(param_1 + 0x35) = (char)param_2;
 
-  char uVar1;
+    if (param_2 >= 0 && param_2 < 4) {
+        FUN_0603f92c(param_1, 0, 0x0606364C + (char)((char)param_2 * '\f'));
+    }
 
-  uVar1 = *(char *)(param_1 + 0x35);
-
-  *(char *)(param_1 + 0x35) = (char)param_2;
-
-  if ((-1 < param_2) && (param_2 < 4)) {
-
-    FUN_0603f92c(param_1,0,0x0606364C + (char)((char)param_2 * '\f'));
-
-  }
-
-  return uVar1;
-
+    return prev;
 }
 
 unsigned short FUN_0603face(param_1, param_2)
@@ -1485,26 +1480,26 @@ void FUN_0603fc60(param_1, param_2, param_3)
 
 }
 
-void FUN_0603fce4(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* cd_buf_calc_transfer_size -- Calculate transfer size for CD buffer.
+ * If state (+0x30) < 2: remaining = total_size - offset, clamp to param_3 limit.
+ * If state >= 2: use full buffer size.
+ * Stores computed descriptor at +0x0C via FUN_0603F90E. */
+void FUN_0603fce4(int param_1, int param_2, int param_3)
 {
-  register int func1 asm("r3") = 0x0603F8EE;
-  int iVar1;
-  int iVar3;
+    register int size_func asm("r3") = 0x0603F8EE;
+    int size, limit;
 
-  if (*(int *)(param_1 + 0x30) < 2) {
-    iVar3 = *(int *)(*(int *)(param_1 + 4) + 8) - *(int *)(param_1 + 0x1c);
-    iVar1 = (*(int(*)())func1)(param_3);
-    if (iVar1 <= iVar3) {
-      iVar3 = (*(int(*)())func1)(param_3);
+    if (*(int *)(param_1 + 0x30) < 2) {
+        size = *(int *)(*(int *)(param_1 + 4) + 8) - *(int *)(param_1 + 0x1c);
+        limit = (*(int(*)())size_func)(param_3);
+        if (limit <= size) {
+            size = (*(int(*)())size_func)(param_3);
+        }
+    } else {
+        size = *(int *)(*(int *)(param_1 + 4) + 8);
     }
-  } else {
-    iVar3 = *(int *)(*(int *)(param_1 + 4) + 8);
-  }
 
-  *(int *)(param_1 + 0xc) = (*(int(*)())0x0603F90E)(param_3, iVar3);
+    *(int *)(param_1 + 0xc) = (*(int(*)())0x0603F90E)(param_3, size);
 }
 
 void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
@@ -1636,30 +1631,25 @@ void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
 
 }
 
-void FUN_0603ff9c(param_1)
-    int param_1;
+/* cd_buf_transfer_step -- Execute one DMA transfer step for CD buffer.
+ * Reads transfer descriptor from +0x0C, computes source address from
+ * base (+0x04) + stride * offset (+0x1C), calls transfer function (+0x28).
+ * Advances offset by the transfer count. */
+void FUN_0603ff9c(int param_1)
 {
+    int *desc = *(int **)(param_1 + 0xc);
+    int stride = (*(int **)(param_1 + 4))[1];
+    int count = desc[2];
 
-  int iVar1;
+    (*(int(*)())(*(int *)(param_1 + 0x28)))(
+        *(int *)(param_1 + 0x20),    /* dest */
+        *desc,                        /* src offset */
+        desc[1],                      /* src param */
+        stride * *(int *)(param_1 + 0x1c) + **(int **)(param_1 + 4),  /* src addr */
+        stride,                       /* stride */
+        count);                       /* count */
 
-  int *puVar2;
-
-  int iVar3;
-
-  puVar2 = *(int **)(param_1 + 0xc);
-
-  iVar1 = (*(int **)(param_1 + 4))[1];
-
-  iVar3 = puVar2[2];
-
-  (*(int(*)())(*(int *)(param_1 + 0x28)))(*(int *)(param_1 + 0x20),*puVar2,puVar2[1],
-
-             iVar1 * *(int *)(param_1 + 0x1c) + **(int **)(param_1 + 4),iVar1,iVar3);
-
-  *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + iVar3;
-
-  return;
-
+    *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + count;
 }
 
 void FUN_0603ffe6(param_1, param_2, param_3)

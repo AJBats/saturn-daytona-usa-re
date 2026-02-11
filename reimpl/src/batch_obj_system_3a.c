@@ -1034,32 +1034,22 @@ int FUN_0603aee8(param_1)
 
 }
 
-void FUN_0603af94(param_1)
-    int param_1;
+/* cd_request_abort -- Abort a CD request and clean up resources.
+ * Gets abort context via FUN_0603b878; if NULL, report error (-11).
+ * Otherwise: complete active transfer, cancel pending, release request. */
+void FUN_0603af94(int param_1)
 {
+    int ctx = FUN_0603b878();
 
-  int iVar1;
+    if (ctx == 0) {
+        FUN_0603b93c(-11);  /* error: no context */
+        return;
+    }
 
-  iVar1 = FUN_0603b878();
-
-  if (iVar1 == 0) {
-
-    FUN_0603b93c(0xfffffff5);
-
-    return;
-
-  }
-
-  FUN_0603b8b4(param_1);
-
-  FUN_0603b8f4(param_1);
-
-  (*(int(*)())0x0603BF22)(iVar1,param_1);
-
-  FUN_0603b93c(0);
-
-  return;
-
+    FUN_0603b8b4(param_1);       /* cd_transfer_complete */
+    FUN_0603b8f4(param_1);       /* cd_cancel_pending */
+    (*(int(*)())0x0603BF22)(ctx, param_1);  /* cd_request_release */
+    FUN_0603b93c(0);             /* success */
 }
 
 int FUN_0603afd0(param_1, param_2, param_3)

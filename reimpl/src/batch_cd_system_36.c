@@ -125,52 +125,26 @@ char * FUN_060360fc(param_1, param_2, param_3)
 
 }
 
-void FUN_06036144(param_1)
-    char param_1;
+/* cd_cmd_set_filter -- CD-Block command 0x30: Set CD connection filter.
+ * param_1: filter number. Sends via cd_status_full_read with flag=0x40. */
+void FUN_06036144(char param_1)
 {
-
-  char local_10 [4];
-
-  char uStack_c;
-
-  (*(int(*)())0x06035E90)(local_10);
-
-  local_10[0] = 0x30;
-
-  uStack_c = param_1;
-
-  (*(int(*)())0x06035EC8)(0x40,local_10);
-
-  return;
-
+    char buf[8];
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 0x30;
+    buf[4] = param_1;
+    (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
-void FUN_060361fc(param_1, param_2, param_3)
-    char param_1;
-    int param_2;
-    int param_3;
+/* cd_cmd_set_filter_range -- CD-Block command 0x40: Set filter range.
+ * Packs cmd=0x40 with param_2 (start FAD) and param_1+param_3 (end FAD). */
+void FUN_060361fc(char param_1, int param_2, int param_3)
 {
-  int _local_18;
-  int _uStack_14;
-
-  char local_18;
-
-  int uStack_17;
-
-  char uStack_14;
-
-  int uStack_13;
-
-  (*(int(*)())0x06035E90)(&local_18);
-
-  _local_18 = ((0x40) << 24 | (param_2) & 0xFFFFFF);
-
-  _uStack_14 = ((param_1) << 24 | (param_3) & 0xFFFFFF);
-
-  (*(int(*)())0x06035EC8)(0x40,&local_18);
-
-  return;
-
+    int buf[2];
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = (0x40 << 24) | (param_2 & 0xFFFFFF);
+    buf[1] = (param_1 << 24) | (param_3 & 0xFFFFFF);
+    (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
 void FUN_060362a8(param_1, param_2)
@@ -218,29 +192,16 @@ void FUN_060362a8(param_1, param_2)
 
 }
 
-void FUN_06036380(param_1, param_2)
-    char param_1;
-    char param_2;
+/* cd_cmd_set_cddev_conn -- CD-Block command 0x44: Set CD device connection.
+ * param_1: device, param_2: connection filter. */
+void FUN_06036380(char param_1, char param_2)
 {
-
-  char local_14;
-
-  char uStack_13;
-
-  char uStack_10;
-
-  (*(int(*)())0x06035E90)(&local_14);
-
-  local_14 = 0x44;
-
-  uStack_13 = param_2;
-
-  uStack_10 = param_1;
-
-  (*(int(*)())0x06035EC8)(0x40,&local_14);
-
-  return;
-
+    char buf[8];
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 0x44;
+    buf[1] = param_2;
+    buf[4] = param_1;
+    (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
 int FUN_060363bc(param_1, param_2)
@@ -307,29 +268,16 @@ void FUN_06036414(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_060364d4(param_1, param_2)
-    char param_1;
-    char param_2;
+/* cd_cmd_set_filter_subhdr -- CD-Block command 0x48: Set filter subheader.
+ * param_1: subheader mode, param_2: filter number. */
+void FUN_060364d4(char param_1, char param_2)
 {
-
-  char local_14;
-
-  char uStack_13;
-
-  char uStack_10;
-
-  (*(int(*)())0x06035E90)(&local_14);
-
-  local_14 = 0x48;
-
-  uStack_13 = param_1;
-
-  uStack_10 = param_2;
-
-  (*(int(*)())0x06035EC8)(0x40,&local_14);
-
-  return;
-
+    char buf[8];
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 0x48;
+    buf[1] = param_1;
+    buf[4] = param_2;
+    (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
 int FUN_06036518(param_1, param_2, param_3)
@@ -425,53 +373,31 @@ void FUN_060365c4(param_1, param_2, param_3)
 
 }
 
-int FUN_0603660e(param_1)
-    unsigned int *param_1;
+/* cd_cmd_get_toc_entry -- CD-Block command 0x53: Get TOC entry.
+ * Reads a single TOC entry, masks to 24-bit FAD. */
+int FUN_0603660e(unsigned int *param_1)
 {
+    int result;
+    unsigned int response[2];
+    char buf[12];
 
-  int uVar1;
-
-  unsigned int local_18 [2];
-
-  char local_10 [12];
-
-  (*(int(*)())0x06035E90)(local_10);
-
-  local_10[0] = 0x53;
-
-  uVar1 = FUN_06036650(local_10,local_18);
-
-  *param_1 = local_18[0] & 0x00FFFFFF;
-
-  return uVar1;
-
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 0x53;
+    result = FUN_06036650(buf, response);
+    *param_1 = response[0] & 0x00FFFFFF;
+    return result;
 }
 
-int FUN_06036650(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_cmd_send_with_check -- Send CD command only if HIRQ bit 6 is set.
+ * Returns -1 if not ready, otherwise sends via cd_status_read. */
+int FUN_06036650(int param_1, int param_2)
 {
+    unsigned int hirq = (*(int(*)())0x06035C4E)();
 
-  unsigned int uVar1;
+    if ((hirq & 0x40) == 0)
+        return -1;  /* not ready */
 
-  int uVar2;
-
-  uVar1 = (*(int(*)())0x06035C4E)();
-
-  if ((uVar1 & 0x40) == 0) {
-
-    uVar2 = 0xffffffff;
-
-  }
-
-  else {
-
-    uVar2 = (*(int(*)())0x06035EA2)(0,param_1,param_2);
-
-  }
-
-  return uVar2;
-
+    return (*(int(*)())0x06035EA2)(0, param_1, param_2);
 }
 
 void FUN_060367e8(param_1, param_2, param_3)
@@ -569,28 +495,16 @@ void FUN_0603697c(param_1, param_2, param_3, param_4)
 
 }
 
-void FUN_06036a1c(param_1, param_2)
-    char param_1;
-    int param_2;
+/* cd_cmd_set_sector_length -- CD-Block command 0x70: Set sector data length.
+ * param_1: get/put selector, param_2: sector size (masked to 24-bit).
+ * Sends with flag=0x200 (data transfer command class). */
+void FUN_06036a1c(char param_1, int param_2)
 {
-  int _uStack_10;
-
-  char local_14 [4];
-
-  char uStack_10;
-
-  int uStack_f;
-
-  (*(int(*)())0x06035E90)(local_14);
-
-  local_14[0] = 0x70;
-
-  _uStack_10 = ((param_1) << 24 | (param_2) & 0xFFFFFF);
-
-  (*(int(*)())0x06035EC8)(0x200,local_14);
-
-  return;
-
+    char buf[8];
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 0x70;
+    *(int *)(buf + 4) = (param_1 << 24) | (param_2 & 0xFFFFFF);
+    (*(int(*)())0x06035EC8)(0x200, buf);
 }
 
 int FUN_06036a98(param_1, param_2, param_3)
