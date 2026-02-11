@@ -124,6 +124,6 @@ void FUN_0600F424(void) { }
 /* FUN_0600CF58: moved to collision_response.c */
 /* FUN_0600C928: moved to physics_helpers.c */
 /* FUN_0600C7D4: moved to physics_helpers.c */
-void FUN_06027358(int r4, int *r5, int *r6) { (void)r4; (void)r5; (void)r6; }
+/* FUN_06027358: moved to trig_tables.c */
 void FUN_06027EDE(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
 /* FUN_06034F78: moved to bitfield_utils.c */
