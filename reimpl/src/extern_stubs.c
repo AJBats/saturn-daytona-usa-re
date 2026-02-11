@@ -4,7 +4,7 @@
  * As each function gets a real implementation, remove its stub from here.
  */
 
-void FUN_06012C3C(int table, int base) { (void)table; (void)base; }
+/* FUN_06012C3C: moved to cd_io_retry.c */
 void FUN_0603F3F6(void) { }
 void FUN_06034D1C(void) { }
 /* FUN_06041648: moved to cd_status.c */
@@ -70,3 +70,8 @@ void FUN_0602ECF2(void) { }
 /* FUN_0600DD88: moved to lap_counting.c */
 /* FUN_0600DCC8: moved to lap_counting.c */
 /* FUN_0601D7D0: moved to lap_announce.c */
+
+/* CD I/O dependencies (from cd_io_retry.c) */
+void FUN_06012BDC(void) { }
+int  FUN_0603AE08(int command) { (void)command; return 0; }
+int  FUN_0603B1B6(int handle, int zero, int dest, int flag) { (void)handle; (void)zero; (void)dest; (void)flag; return 0; }
