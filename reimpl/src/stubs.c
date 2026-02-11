@@ -161,8 +161,127 @@ void global_engine_init(void) { }
 
 /* 0x06012E6A: now in resource_loader.c */
 
-/* 0x06018EE4: Camera/viewport initialization */
-void cd_system_init(void) { }
+/* 0x06018EE4: Sound system initialization (SCSP + SMPC sound on/off)
+ *
+ * Hand-translated from binary at 0x06018EE4 (72 instructions).
+ *
+ * Full sound system bring-up sequence:
+ *   1. SMPC: wait for SF idle, issue SNDOFF (command 7)
+ *   2. SMPC: wait for command completion
+ *   3. Clear 512KB of SCSP sound RAM at 0x25A00000
+ *   4. Write 0x0200 to SCSP register at 0x25B00400
+ *   5. Load sound driver via FUN_06012E84 (CD→0x25A00000)
+ *   6. Load sound data via FUN_06012EBC (CD→0x25A03000)
+ *   7. SMPC: wait for SF idle, issue SNDON (command 6)
+ *   8. SMPC: wait for command completion
+ *   9. Wait for SCSP handshake: poll 0x25A02DBC until == 0x4F4B ("OK")
+ *  10. Send two sound configuration commands via FUN_0601D5F4
+ *  11. Clear sound state at 0x06086038
+ *  12. Tail-call FUN_06018EC8 (write SCSP slot config)
+ *
+ * SMPC registers:
+ *   0x20100063 = SF (Status Flag) — bit 0 = busy
+ *   0x2010001F = COMREG (Command Register) — 6=SNDON, 7=SNDOFF
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06018EE4-0x06018F72)
+ * Pool verified:
+ *   0x06018F78 = 0x25A02DBC (SCSP handshake word)
+ *   0x06018F7C = 0x20100063 (SMPC SF register)
+ *   0x06018F80 = 0x2010001F (SMPC COMREG)
+ *   0x06018F84 = 0x25B00400 (SCSP control register)
+ *   0x06018F88 = 0x06012E84 (sound driver load)
+ *   0x06018F8C = 0x06012EBC (sound data load)
+ *   0x06018F90 = 0xAE0600FF (sound config param 1)
+ *   0x06018F94 = 0x0601D5F4 (sound command dispatch)
+ *   0x06018F98 = 0xAE0007FF (sound config param 2)
+ *   0x06018F9C = 0x06086038 (sound state variable)
+ *   0x06018FA0 = 0x06018EC8 (SCSP slot config — tail call)
+ * Word pool:
+ *   0x06018F74 = 0x4F4B ("OK" handshake signature)
+ *   0x06018F76 = 0x0200 (SCSP control value)
+ *
+ * 72 instructions. Saves r11-r14, PR. Tail-calls FUN_06018EC8.
+ */
+
+/* SMPC commands */
+#define SMPC_CMD_SNDON   6
+#define SMPC_CMD_SNDOFF  7
+
+/* SCSP handshake and control (not in saturn.h) */
+#define SCSP_HANDSHAKE   (*(volatile unsigned short *)0x25A02DBC)
+#define SCSP_CTRL_REG    (*(volatile unsigned short *)0x25B00400)
+#define SCSP_OK_SIGNATURE  0x4F4B  /* "OK" */
+
+/* Sub-functions */
+extern void FUN_06012E84(void);     /* load sound driver to SCSP RAM */
+extern void FUN_06012EBC(void);     /* load sound data to SCSP RAM */
+extern void FUN_0601D5F4(int channel, int param);  /* sound command dispatch */
+extern void FUN_06018EC8(void);     /* SCSP slot configuration */
+
+void cd_system_init(void)
+{
+    /* === Phase 1: SMPC — turn sound OFF === */
+
+    /* Wait for SMPC status flag idle (bit 0 = 0) */
+    while ((SMPC_SF & 1) == 1)
+        ;
+
+    /* Set SF = 1 (mark command in progress), issue SNDOFF */
+    SMPC_SF = 1;
+    SMPC_COMREG = SMPC_CMD_SNDOFF;
+
+    /* Wait for command completion (SF bit 0 clears) */
+    while ((SMPC_SF & 1) != 0)
+        ;
+
+    /* === Phase 2: Clear and load sound RAM === */
+
+    /* Clear 512KB of SCSP sound RAM (inlined from 0x060192B4) */
+    {
+        volatile unsigned char *p = (volatile unsigned char *)SCSP_RAM_BASE;
+        int i = 0x80000;   /* 512KB — original binary value */
+        while (i > 0) {
+            *p = 0;
+            p++;
+            i--;
+        }
+    }
+
+    /* Set SCSP control register */
+    SCSP_CTRL_REG = 0x0200;
+
+    /* Load sound driver and data from CD */
+    FUN_06012E84();
+    FUN_06012EBC();
+
+    /* === Phase 3: SMPC — turn sound ON === */
+
+    /* Wait for SMPC status flag idle */
+    while ((SMPC_SF & 1) == 1)
+        ;
+
+    /* Set SF = 1, issue SNDON */
+    SMPC_SF = 1;
+    SMPC_COMREG = SMPC_CMD_SNDON;
+
+    /* Wait for command completion */
+    while ((SMPC_SF & 1) != 0)
+        ;
+
+    /* === Phase 4: Wait for SCSP handshake === */
+    while (SCSP_HANDSHAKE != SCSP_OK_SIGNATURE)
+        ;
+
+    /* === Phase 5: Send sound configuration commands === */
+    FUN_0601D5F4(15, (int)0xAE0600FF);
+    FUN_0601D5F4(15, (int)0xAE0007FF);
+
+    /* Clear sound state variable */
+    *(volatile int *)0x06086038 = 0;
+
+    /* === Phase 6: Configure SCSP slots (tail call) === */
+    FUN_06018EC8();
+}
 
 /* 0x06005174: Animation/sprite frame init
  * Clears 8 shorts (16 bytes) at 0x06063D98 — animation state buffer.
