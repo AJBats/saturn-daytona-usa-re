@@ -22,7 +22,7 @@ void FUN_060078DC(void) { }
 void frame_end_display_commit(void) __attribute__((alias("FUN_060078DC")));
 void FUN_0600A084(void) { }
 /* FUN_0600A0C0: moved to vdp_state_init.c */
-void FUN_0600A33C(void) { }
+/* FUN_0600A33C: moved to game_state_utils.c */
 /* FUN_0600A914: moved to collision.c */
 void FUN_0600BB94(void) { }
 void multi_mode_camera(void) __attribute__((alias("FUN_0600BB94")));

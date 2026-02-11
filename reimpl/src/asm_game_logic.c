@@ -6,7 +6,7 @@ void course_specific_renderer(void) { }
 void camera_position_lerping(void) { }
 void race_state_machine(void) { }
 void race_utility_calc(void) { }
-void FUN_0600C286(void) { }
+/* FUN_0600C286: moved to per_frame_render.c */
 /* FUN_0600C7D8: moved to physics_helpers.c (alias of FUN_0600C7D4) */
 /* FUN_0600C8D0: moved to physics_helpers.c (alias of FUN_0600C8CC) */
 void vehicle_state_physics(void) { }
