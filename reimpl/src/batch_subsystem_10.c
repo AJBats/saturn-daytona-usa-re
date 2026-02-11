@@ -2089,18 +2089,18 @@ void FUN_06011dc0()
 
 }
 
-void FUN_06011e7c()
+/* subsystem_sprite_pair_update -- Update 2 paired VDP1 sprites.
+ * Builds VDP1 commands for two sprite entries at 0x060638B0/A0
+ * using shared vertical offset from DAT_06011efe. */
+void FUN_06011e7c(void)
 {
-  register int func asm("r3") = 0x06028400;
-  register int off asm("r2");
+    register int vdp_cmd_build asm("r3") = 0x06028400;
+    register int y_offset asm("r2") = (int)DAT_06011efe;
 
-  off = (int)DAT_06011efe;
-
-  (*(int(*)())func)(0xc,*(int *)0x060638B0,(int)DAT_06011f00,
-                   *(int *)0x060638B4 + off);
-
-  (*(int(*)())func)(0xc,*(int *)0x060638A0,(int)DAT_06011f02,
-                   *(int *)0x060638A4 + off);
+    (*(int(*)())vdp_cmd_build)(0xC, *(int *)0x060638B0, (int)DAT_06011f00,
+        *(int *)0x060638B4 + y_offset);
+    (*(int(*)())vdp_cmd_build)(0xC, *(int *)0x060638A0, (int)DAT_06011f02,
+        *(int *)0x060638A4 + y_offset);
 }
 
 void FUN_06011eb4()

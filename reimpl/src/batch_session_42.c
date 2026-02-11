@@ -294,34 +294,25 @@ int FUN_060423cc()
 
 }
 
-int FUN_0604249c(param_1)
-    int param_1;
+/* cd_lba_to_msf_minutes -- Convert LBA offset (0x005A0000-based) to MSF minutes.
+ * Uses piecewise linear interpolation from lookup table at DAT_060424c8.
+ * Input: LBA value. Returns minutes component. */
+int FUN_0604249c(int lba)
 {
-
-  int iVar1;
-
-  iVar1 = ((unsigned int)((int)0x005A0000 - param_1) >> 0x10) << 2;
-
-  return (unsigned int)*(unsigned short *)(&DAT_060424ca + iVar1) +
-
-         ((unsigned int)*(unsigned short *)(&DAT_060424c8 + iVar1) * ((int)0x005A0000 - param_1 & 0xffffU) >>
-
-         0x10);
-
+    int idx = ((unsigned int)(0x005A0000 - lba) >> 16) << 2;
+    return (unsigned int)*(unsigned short *)(&DAT_060424ca + idx) +
+        ((unsigned int)*(unsigned short *)(&DAT_060424c8 + idx) *
+         (0x005A0000 - lba & 0xFFFFU) >> 16);
 }
 
-int FUN_060424a2(param_1)
-    unsigned int param_1;
+/* cd_lba_to_msf_seconds -- Convert raw LBA to MSF seconds.
+ * Same interpolation table as minutes, but uses raw LBA input. */
+int FUN_060424a2(unsigned int lba)
 {
-
-  int iVar1;
-
-  iVar1 = (param_1 >> 0x10) << 2;
-
-  return (unsigned int)*(unsigned short *)(&DAT_060424ca + iVar1) +
-
-         ((unsigned int)*(unsigned short *)(&DAT_060424c8 + iVar1) * (param_1 & 0xffff) >> 0x10);
-
+    int idx = (lba >> 16) << 2;
+    return (unsigned int)*(unsigned short *)(&DAT_060424ca + idx) +
+        ((unsigned int)*(unsigned short *)(&DAT_060424c8 + idx) *
+         (lba & 0xFFFF) >> 16);
 }
 
 void FUN_060429ec(param_1, param_2, param_3, param_4)

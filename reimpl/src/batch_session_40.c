@@ -146,22 +146,12 @@ int FUN_0604000c(param_1)
 
 }
 
-int FUN_060400b4(param_1)
-    unsigned int param_1;
+/* cd_sector_size_select -- Return CD sector data size based on mode flag.
+ * Standard mode: 0x800 (2048 bytes, Mode 1).
+ * If bit 2 set: 0x914 (2324 bytes, includes subheader/ECC). */
+int FUN_060400b4(unsigned int mode_flags)
 {
-
-  short sVar1;
-
-  sVar1 = 0x0800;
-
-  if ((param_1 & 4) != 0) {
-
-    sVar1 = 0x0914;
-
-  }
-
-  return (int)sVar1;
-
+    return (mode_flags & 4) ? 0x0914 : 0x0800;
 }
 
 unsigned int * FUN_060400d6(param_1, param_2, param_3)

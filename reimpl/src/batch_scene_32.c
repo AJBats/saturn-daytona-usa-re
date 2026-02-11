@@ -3219,25 +3219,17 @@ char * FUN_06033020(param_1)
 
 }
 
-int FUN_0603307c()
+/* scene_palette_check -- Check if scene palette is loaded.
+ * If palette state (indirect ptr at 0x06033864) < 1, load palette
+ * via DMA and initialize scene rendering. Returns palette state. */
+int FUN_0603307c(void)
 {
-
-  int iVar1;
-
-  
-
-  iVar1 = **(int **)0x06033864;
-
-  if (iVar1 < 1) {
-
-    FUN_06033330();
-
-    iVar1 = FUN_060330a0();
-
-  }
-
-  return iVar1;
-
+    int state = **(int **)0x06033864;
+    if (state < 1) {
+        FUN_06033330();         /* scene_dma_load_palette */
+        state = FUN_060330a0(); /* scene render init */
+    }
+    return state;
 }
 
 int FUN_060330a0()

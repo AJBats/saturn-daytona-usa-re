@@ -445,26 +445,18 @@ int FUN_0600a4ca(param_1)
 
 }
 
-void FUN_0600a5b2(param_1, param_2, param_3, param_4)
-    int param_1;
-    int param_2;
-    int param_3;
-    int param_4;
+/* course_sound_update -- Update course-specific positional audio.
+ * Indexes into 4 parallel arrays by course_idx<<2 to get audio params.
+ * Sets BGM tempo (FUN_06031D8C) and positional sound (FUN_06031A28). */
+void FUN_0600a5b2(int course_idx, int param_2, int param_3, int param_4)
 {
+    int off = course_idx << 2;
 
-  int iVar1;
-
-  iVar1 = (param_1 << 2);
-
-  (*(int(*)())0x06031D8C)(*(int *)(0x06063520 + iVar1),*(int *)(0x06063538 + iVar1),
-
-             param_3,param_4,param_1);
-
-  (*(int(*)())0x06031A28)(*(int *)(0x06063514 + iVar1),(int)*(short *)0x06089E98,
-
-             *(int *)(0x0606352C + iVar1));
-
-  return;
+    (*(int(*)())0x06031D8C)(*(int *)(0x06063520 + off), *(int *)(0x06063538 + off),
+        param_3, param_4, course_idx);
+    (*(int(*)())0x06031A28)(*(int *)(0x06063514 + off), (int)*(short *)0x06089E98,
+        *(int *)(0x0606352C + off));
+    return;
 
 }
 

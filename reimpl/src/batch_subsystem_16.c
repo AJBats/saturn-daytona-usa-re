@@ -521,25 +521,15 @@ void FUN_060171ac()
 
 }
 
-void FUN_060172bc()
+/* hud_digits_render_all -- Render all 18 HUD digit slots (0x00-0x11).
+ * For each slot: compute digit value (FUN_060172e4), then render sprite (FUN_06017330). */
+void FUN_060172bc(void)
 {
-
-  unsigned char bVar1;
-
-  bVar1 = 0;
-
-  do {
-
-    FUN_060172e4(bVar1);
-
-    FUN_06017330(bVar1);
-
-    bVar1 = bVar1 + 1;
-
-  } while (bVar1 < 0x12);
-
-  return;
-
+    unsigned char slot;
+    for (slot = 0; slot < 0x12; slot++) {
+        FUN_060172e4(slot);
+        FUN_06017330(slot);
+    }
 }
 
 void FUN_060172e4(param_1)
