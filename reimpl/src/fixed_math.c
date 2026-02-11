@@ -1,14 +1,40 @@
-/* fixed_math.c -- Fixed-point multiply (16.16 format)
+/* fixed_math.c -- Fixed-point arithmetic (16.16 format)
  *
  * FUN_06027552 = fixed-point multiply: (a * b) >> 16
- *   Takes two 16.16 fixed-point values, returns their product in 16.16.
- *   Uses 64-bit intermediate to avoid overflow.
+ * FUN_0602755C = fixed-point divide: (a << 16) / b
  *
- * Original address: 0x06027552
+ * Both fundamental primitives used by all game subsystems.
+ * 16.16 format: top 16 bits = integer, bottom 16 = fraction.
+ *
+ * Original addresses: 0x06027552, 0x0602755C
  */
 
 unsigned int FUN_06027552(int param_1, int param_2)
 {
     return (int)((unsigned long long)((long long)param_2 * (long long)param_1) >> 0x20) << 0x10 |
            (unsigned int)((long long)param_2 * (long long)param_1) >> 0x10;
+}
+
+
+/* ================================================================
+ * FUN_0602755C -- Fixed-Point Divide (0x0602755C)
+ *
+ * CONFIDENCE: DEFINITE (math_helpers.s lines 456-496, binary verified)
+ * Pool verified:
+ *   0x06027570 = 0xFF00 (sign-extended to 0xFFFFFF00, SH-2 div unit base)
+ *
+ * Uses SH-2 hardware division unit for 64/32 division:
+ *   DVSR = divisor
+ *   DVDNTH:DVDNTL = dividend << 16 (as 64-bit signed)
+ *   result = quotient
+ *
+ * This gives (dividend << 16) / divisor, which is the 16.16
+ * fixed-point quotient of dividend / divisor.
+ *
+ * 8 instructions total. LEAF function.
+ * ================================================================ */
+int FUN_0602755C(int dividend, int divisor)
+{
+    long long big_dividend = (long long)dividend << 16;
+    return (int)(big_dividend / divisor);
 }

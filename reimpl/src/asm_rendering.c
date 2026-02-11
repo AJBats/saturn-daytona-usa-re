@@ -23,7 +23,7 @@ void FUN_06024D14(void) { }
 void FUN_06024D24(void) { }
 void FUN_060272C0(void) { }
 void FUN_0602745C(void) { }
-void FUN_06027498(void) { }
+/* FUN_06027498: moved to vec3_math.c */
 void spring_damper_physics(void) { }
 void FUN_060279B0(void) { }
 void FUN_06028368(void) { }
