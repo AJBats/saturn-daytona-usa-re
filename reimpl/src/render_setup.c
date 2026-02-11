@@ -15,14 +15,18 @@
  * FUN_06020DD0: Loop calling FUN_06020DEE for channels 0-15
  * FUN_060149E0: VDP1 flag clear + enable (clear bit 15, set enable=1)
  * FUN_060033E6: Conditional VDP batch transfer (flag-based source select)
+ * FUN_06026CE0: VDP hardware sync -- busy-wait for VDP operation completion
+ * FUN_0600A084: Render tilt parameter -- compute screen tilt from car physics
  *
  * Original addresses: 0x060148FC, 0x06014964, 0x06014994, 0x06012080, 0x0601209E,
- *   0x060210F6, 0x06021128, 0x06020BCE, 0x06020DD0, 0x060149E0, 0x060033E6
+ *   0x060210F6, 0x06021128, 0x06020BCE, 0x06020DD0, 0x060149E0, 0x060033E6,
+ *   0x06026CE0, 0x0600A084
  */
 
 extern void FUN_06020DEE(int);
 extern int FUN_06038120(unsigned char *);
 extern void FUN_060284AE(int, int, int, int);
+extern void FUN_06014884(int type, int value, int flags);
 
 void FUN_060148FC(void)
 {
@@ -175,4 +179,88 @@ void FUN_060033E6(void)
     } else {
         FUN_060284AE(8, 0x5000, 0x0200, 0x0605ACF0);
     }
+}
+
+
+/* ================================================================
+ * FUN_06026CE0 -- VDP Hardware Sync (0x06026CE0)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06026CE0-0x06026D20)
+ * Pool verified:
+ *   0x06026D24 = 0x060635C4 (VDP sync trigger register)
+ *   0x06026D28 = 0x0605A010 (iteration counter output)
+ *
+ * Writes 1 to VDP sync register to trigger an operation, then
+ * busy-waits with 20-nop padding until the register reads != 1
+ * (hardware clears it when done). Counts polling iterations and
+ * stores the count to 0x0605A010.
+ *
+ * Called from 40+ locations across state handlers, VDP init,
+ * and rendering pipeline. Core synchronization primitive.
+ *
+ * Leaf function (no PR save). 34 instructions (20 are nops).
+ * ================================================================ */
+void FUN_06026CE0(void)
+{
+    volatile int *sync_reg = (volatile int *)0x060635C4;
+    int count = 0;
+    int val;
+
+    /* Trigger VDP operation */
+    *sync_reg = 1;
+
+    /* Busy-wait until hardware clears the register */
+    do {
+        val = *sync_reg;
+        /* 20 nops for bus timing / synchronization delay */
+        asm volatile(
+            "nop\n\tnop\n\tnop\n\tnop\n\tnop\n\t"
+            "nop\n\tnop\n\tnop\n\tnop\n\tnop\n\t"
+            "nop\n\tnop\n\tnop\n\tnop\n\tnop\n\t"
+            "nop\n\tnop\n\tnop\n\tnop\n\tnop"
+        );
+        val--;
+        count++;
+    } while (val == 0);
+
+    *(volatile int *)0x0605A010 = count;
+}
+
+
+/* ================================================================
+ * FUN_0600A084 -- Render Tilt Parameter (0x0600A084)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600A084-0x0600A0BE)
+ * Pool verified:
+ *   0x0600A114 = 0x0607E944 (car struct pointer)
+ *   0x0600A10C = 0x00BC (car struct field offset, word pool)
+ *   0x0600A118 = 0x06014884 (render parameter setter)
+ *   0x0600A11C = 0x0607EBC8 (engine state flags)
+ *
+ * Reads car struct field at offset 0xBC (physics/tilt value).
+ * If <= 1: sets render param 16 (colorCalc) to 0.
+ * If > 1: shifts value left 15 bits, negates if engine flag
+ * bit 0 is set, then sets render param 16 to the result.
+ *
+ * Used for screen banking/tilt effect during cornering.
+ * Leaf function (no PR save). 30 instructions.
+ * ================================================================ */
+void FUN_0600A084(void)
+{
+    int *car_ptr = *(int **)0x0607E944;
+    int field = *(int *)((char *)car_ptr + 0xBC);
+
+    if (field <= 1) {
+        FUN_06014884(16, 0, 0);
+        return;
+    }
+
+    int value = *(int *)((char *)car_ptr + 0xBC);
+    value <<= 15;
+
+    if (*(volatile int *)0x0607EBC8 & 1) {
+        value = -value;
+    }
+
+    FUN_06014884(16, value, 0);
 }

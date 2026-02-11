@@ -20,7 +20,7 @@ void FUN_060055BC(void) { }
 void perspective_project(void) __attribute__((alias("FUN_060055BC")));
 void FUN_060078DC(void) { }
 void frame_end_display_commit(void) __attribute__((alias("FUN_060078DC")));
-void FUN_0600A084(void) { }
+/* FUN_0600A084: moved to render_setup.c */
 /* FUN_0600A0C0: moved to vdp_state_init.c */
 /* FUN_0600A33C: moved to game_state_utils.c */
 /* FUN_0600A914: moved to collision.c */
@@ -47,7 +47,7 @@ void FUN_0601DE50(void) { }
 void FUN_0601E100(void) { }
 void FUN_0601F784(void) { }
 void FUN_060268B0(int arg) { (void)arg; }
-void FUN_06026CE0(void) { }
+/* FUN_06026CE0: moved to render_setup.c */
 void FUN_060283E0(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6; (void)r7; }
 void FUN_0602EFF0(void) { }
 void rendering_pass1_camera(void) __attribute__((alias("FUN_0602EFF0")));
