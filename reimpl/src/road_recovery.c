@@ -26,7 +26,7 @@
 #define CONTACT_FLAG_3  0x12C
 
 /* Car struct field for checkpoint segment index */
-#define CAR_CHECKPOINT_IDX  0x01EC
+#define CAR_SEGMENT_BASE_IDX  0x01EC   /* different from CAR_SEGMENT_BASE_IDX (0x1E4) */
 
 /* Off-road frame counter */
 #define RECOVERY_COUNTER    (*(volatile int *)0x0605A228)
@@ -116,7 +116,7 @@ void FUN_0600EA18(int car)
 recalibrate:
     /* Phase 3: Look up nearest checkpoint and compute corrections */
     {
-        int checkpoint_idx = CAR_INT(car, CAR_CHECKPOINT_IDX);
+        int checkpoint_idx = CAR_INT(car, CAR_SEGMENT_BASE_IDX);
         int checkpoint_base = CHECKPOINT_TABLE;
 
         /* Checkpoint entry offset: (index * 8 + 3) * 16 */

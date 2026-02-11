@@ -63,7 +63,7 @@ void FUN_0602ECF2(void) { }
 /* FUN_0600DB64: moved to lap_counting.c */
 /* FUN_0600EA18: moved to road_recovery.c */
 void FUN_0602D9F0(void) { }
-void FUN_0600C994(void) { }
+/* FUN_0600C994: moved to road_segment_find.c */
 
 /* Lap counting system dependencies (from lap_counting.c) */
 /* FUN_0600CDD0: moved to lap_counting.c */
