@@ -25,7 +25,7 @@ void FUN_06012450(int a, int b) { (void)a; (void)b; }
 /* FUN_0600E410: moved to physics_entry.c */
 /* FUN_0600E47C: moved to physics_entry.c */
 /* FUN_0600E99C: moved to camera_setup.c */
-void FUN_0600E4F2(void) { }
+/* FUN_0600E4F2: moved to physics_entry.c */
 void FUN_0600A8BC(void) { }
 void FUN_0602F99C(void) { }
 
@@ -50,6 +50,13 @@ void FUN_06026E02(void) { }
 void FUN_060270C6(void) { }
 void FUN_0600629C(void) { }
 void FUN_06021450(void) { }
+
+/* E4F2 dependencies (from physics_entry.c) */
+void FUN_0602ECF2(void) { }
+void FUN_0600DB64(void) { }
+void FUN_0600EA18(int car) { (void)car; }
+void FUN_0602D9F0(void) { }
+void FUN_0600C994(void) { }
 
 /* Lap counting system dependencies (from lap_counting.c) */
 void FUN_0600DD88(void) { }
