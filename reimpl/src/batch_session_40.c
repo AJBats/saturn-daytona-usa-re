@@ -1124,53 +1124,40 @@ int FUN_06040f16(param_1)
 
 }
 
-int FUN_06040fb8()
+/* cd_session_lock -- Acquire CD session lock.
+ * Returns -5 if already locked (+0x30 == 1).
+ * Sets lock, increments sequence counter at +0x38 (clamped to >= 0).
+ * Returns the new sequence number. */
+int FUN_06040fb8(void)
 {
+    int *base = (int *)0x060A5400;
 
-  int *piVar1;
+    if (*(int *)(CD_SESSION_BASE + 0x30) == 1)
+        return -5;  /* already locked */
 
-  piVar1 = (int *)0x060A5400;
+    *(int *)(CD_SESSION_BASE + 0x30) = 1;
+    *(int *)(*base + 0x38) = *(int *)(*base + 0x38) + 1;
 
-  if (*(int *)(CD_SESSION_BASE + 0x30) == 1) {
+    if (*(int *)(*base + 0x38) < 0)
+        *(int *)(*base + 0x38) = 0;
 
-    return 0xfffffffb;
-
-  }
-
-  *(int *)(CD_SESSION_BASE + 0x30) = 1;
-
-  *(int *)(*piVar1 + 0x38) = *(int *)(*piVar1 + 0x38) + 1;
-
-  if (*(int *)(*piVar1 + 0x38) < 0) {
-
-    *(int *)(*piVar1 + 0x38) = 0;
-
-  }
-
-  return *(int *)(*piVar1 + 0x38);
-
+    return *(int *)(*base + 0x38);
 }
 
-int FUN_06040fea(param_1)
-    int param_1;
+/* cd_session_unlock -- Release CD session lock.
+ * Returns -7 if not locked (+0x30 == 0).
+ * Returns -9 if sequence number doesn't match param_1.
+ * On success, clears lock and returns 0. */
+int FUN_06040fea(int param_1)
 {
+    if (*(int *)(CD_SESSION_BASE + 0x30) == 0)
+        return -7;  /* not locked */
 
-  if (*(int *)(CD_SESSION_BASE + 0x30) == 0) {
+    if (*(int *)(CD_SESSION_BASE + 0x38) != param_1)
+        return -9;  /* sequence mismatch */
 
-    return 0xfffffff9;
-
-  }
-
-  if (*(int *)(CD_SESSION_BASE + 0x38) != param_1) {
-
-    return 0xfffffff7;
-
-  }
-
-  *(int *)(CD_SESSION_BASE + 0x30) = 0;
-
-  return 0;
-
+    *(int *)(CD_SESSION_BASE + 0x30) = 0;
+    return 0;
 }
 
 int FUN_06041034(param_1, param_2, param_3, param_4, param_5)
@@ -1907,25 +1894,21 @@ int FUN_06041826(param_1, param_2)
 
 }
 
-int FUN_0604188c()
+/* cd_session_sync -- Synchronously wait for CD session to complete.
+ * Sets transfer size to 0x8000 (32KB), polls FUN_06041698 until
+ * it returns non-1 (complete or error), then clears transfer size. */
+int FUN_0604188c(void)
 {
+    int result;
 
-  int iVar1;
+    *(char **)(CD_SESSION_BASE + 0x3c) = (char *)0x00008000;
 
-  
+    do {
+        result = FUN_06041698();
+    } while (result == 1);
 
-  *(char **)(CD_SESSION_BASE + 0x3c) = 0x00008000;
-
-  do {
-
-    iVar1 = FUN_06041698();
-
-  } while (iVar1 == 1);
-
-  *(int *)(CD_SESSION_BASE + 0x3c) = 0;
-
-  return iVar1;
-
+    *(int *)(CD_SESSION_BASE + 0x3c) = 0;
+    return result;
 }
 
 int FUN_060418be(param_1)

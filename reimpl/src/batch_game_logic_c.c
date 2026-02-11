@@ -685,32 +685,37 @@ void FUN_0600e4f2()
 
 }
 
-void FUN_0600e71a()
+/* car_physics_update -- Per-frame car physics pipeline.
+ * Runs 5 physics subsystems, processes steering correction timer,
+ * and computes velocity projection for ranking:
+ *   CAR_VEL_PROJ = CAR_RANKING * speed_scale + CAR_CHECKPOINT_PARAM */
+void FUN_0600e71a(void)
 {
-  register int base asm("r14") = CAR_PTR_CURRENT;
-  int tmp;
+    register int base asm("r14") = CAR_PTR_CURRENT;
+    int tmp;
 
-  (*(void(*)())0x06008318)();
-  (*(void(*)())0x06008640)();
-  (*(void(*)())0x0600D266)();
-  (*(void(*)())0x0600C4F8)();
-  (*(void(*)())0x0600C5D6)();
+    (*(void(*)())0x06008318)();  /* collision detect */
+    (*(void(*)())0x06008640)();  /* collision response */
+    (*(void(*)())0x0600D266)();  /* nop (stripped) */
+    (*(void(*)())0x0600C4F8)();  /* speed/accel update */
+    (*(void(*)())0x0600C5D6)();  /* heading update */
 
-  tmp = *(int *)(base + DAT_0600e79c);
-  if (tmp > 0) {
-    tmp = tmp - 1;
-    *(int *)(base + DAT_0600e79c) = tmp;
-    if (tmp == 0) {
-      int idx = *(int *)(base + DAT_0600e79e);
-      int tbl = *(int *)(base + DAT_0600e79e + -4);
-      *(int *)(base + 0x1F8) = (int)*(short *)(idx * 0x18 + tbl + 0x14);
-      *(int *)(base + 0x204) = 0x400;
+    tmp = *(int *)(base + DAT_0600e79c);
+    if (tmp > 0) {
+        tmp--;
+        *(int *)(base + DAT_0600e79c) = tmp;
+        if (tmp == 0) {
+            int idx = *(int *)(base + DAT_0600e79e);
+            int tbl = *(int *)(base + DAT_0600e79e + -4);
+            *(int *)(base + CAR_TARGET_HDG) = (int)*(short *)(idx * 0x18 + tbl + 0x14);
+            *(int *)(base + CAR_STEER_CORRECT) = 0x400;
+        }
     }
-  }
 
-  (*(void(*)())0x0600CEBA)();
+    (*(void(*)())0x0600CEBA)();  /* lap counting */
 
-  *(int *)(base + 0x1F4) = *(int *)(base + 0x228) * *(int *)0x0607EA9C + *(int *)(base + 0x1EC);
+    *(int *)(base + CAR_VEL_PROJ) =
+        *(int *)(base + CAR_RANKING) * *(int *)0x0607EA9C + *(int *)(base + CAR_CHECKPOINT_PARAM);
 }
 
 void FUN_0600e7c8()

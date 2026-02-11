@@ -463,30 +463,33 @@ void FUN_06012344()
   p[2] = p[2] + iVar4;
 }
 
-void FUN_0601250c()
+/* background_render_pipeline -- Full background rendering pipeline.
+ * Initializes render state, sets camera position from 0x060788B4-BC,
+ * configures render params, applies extra effect if STATE_COUNTDOWN > 99.
+ * Then sets up sound BGM tempo and position for last car (CAR_COUNT-1). */
+void FUN_0601250c(void)
 {
-  int idx;
+    int idx;
 
-  (*(int(*)())0x06026DBC)();
-  (*(int(*)())0x06026E0C)();
+    (*(int(*)())0x06026DBC)();   /* render state init */
+    (*(int(*)())0x06026E0C)();   /* render param init */
 
-  (*(int(*)())0x06026E2E)(*(int *)0x060788B4, *(int *)0x060788B8, *(int *)0x060788BC);
+    (*(int(*)())0x06026E2E)(*(int *)0x060788B4, *(int *)0x060788B8, *(int *)0x060788BC);
 
-  (*(int(*)())0x06026F2A)((int)*(short *)0x060788B2);
-  (*(int(*)())0x06026EDE)(0);
-  (*(int(*)())0x06026E94)(0);
+    (*(int(*)())0x06026F2A)((int)*(short *)0x060788B2);
+    (*(int(*)())0x06026EDE)(0);
+    (*(int(*)())0x06026E94)(0);
 
-  if (99 < *(int *)0x0607EBCC) {
-    (*(int(*)())0x06026E94)((int)DAT_06012586);
-  }
+    if (STATE_COUNTDOWN > 99) {
+        (*(int(*)())0x06026E94)((int)DAT_06012586);
+    }
 
-  idx = (CAR_COUNT + -1) << 2;
+    idx = (CAR_COUNT - 1) << 2;
 
-  (*(int(*)())0x06031D8C)(*(int *)(0x0606354C + idx), *(int *)0x06063558);
+    (*(int(*)())0x06031D8C)(*(int *)(0x0606354C + idx), *(int *)0x06063558);
+    (*(int(*)())0x06031A28)(*(int *)(0x06063544 + idx), (int)*(short *)0x06089EA0, *(int *)0x06063554);
 
-  (*(int(*)())0x06031A28)(*(int *)(0x06063544 + idx), (int)*(short *)0x06089EA0, *(int *)0x06063554);
-
-  (*(int(*)())0x06026DF8)();
+    (*(int(*)())0x06026DF8)();   /* render finalize */
 }
 
 void FUN_060125d0()
@@ -918,30 +921,17 @@ void FUN_06012bdc()
 
 }
 
-void FUN_06012d7c(param_1)
-    int param_1;
+/* bg_tilemap_load -- Load background tilemap for a course.
+ * param_1: course index (1/2/default). Selects tilemap descriptor
+ * from table at 0x060448E8 stride 0x0C, loads to VDP2 VRAM at 0x200000. */
+void FUN_06012d7c(int param_1)
 {
-
-  if (param_1 == 1) {
-
-    FUN_06012c3c(0x060448E8,0x00200000);
-
-    return;
-
-  }
-
-  if (param_1 == 2) {
-
-    FUN_06012c3c(0x060448F4,0x00200000);
-
-    return;
-
-  }
-
-  FUN_06012c3c(0x06044900,0x00200000);
-
-  return;
-
+    if (param_1 == 1)
+        FUN_06012c3c(0x060448E8, 0x00200000);
+    else if (param_1 == 2)
+        FUN_06012c3c(0x060448F4, 0x00200000);
+    else
+        FUN_06012c3c(0x06044900, 0x00200000);
 }
 
 void FUN_06012db4(param_1)
@@ -980,30 +970,17 @@ void FUN_06012db4(param_1)
 
 }
 
-void FUN_06012e08(param_1)
-    int param_1;
+/* bg_pattern_load -- Load background pattern data for a course.
+ * param_1: course index (1/2/default). Selects pattern descriptor
+ * from table at 0x0604496C stride 0x0C, loads to VDP2 VRAM at 0x2A8000. */
+void FUN_06012e08(int param_1)
 {
-
-  if (param_1 == 1) {
-
-    FUN_06012c3c(0x0604496C,0x002A8000);
-
-    return;
-
-  }
-
-  if (param_1 == 2) {
-
-    FUN_06012c3c(0x06044978,0x002A8000);
-
-    return;
-
-  }
-
-  FUN_06012c3c(0x06044984,0x002A8000);
-
-  return;
-
+    if (param_1 == 1)
+        FUN_06012c3c(0x0604496C, 0x002A8000);
+    else if (param_1 == 2)
+        FUN_06012c3c(0x06044978, 0x002A8000);
+    else
+        FUN_06012c3c(0x06044984, 0x002A8000);
 }
 
 void FUN_06012f80()

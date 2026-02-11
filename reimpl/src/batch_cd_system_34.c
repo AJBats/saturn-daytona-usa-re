@@ -710,50 +710,38 @@ int terrain_data_lookup(param_1, param_2, param_3, param_4)
 
 }
 
-int FUN_06034984(param_1)
-    int param_1;
+/* cd_init_and_seek -- Initialize CD status, clear command byte, seek to position.
+ * Gets current status via cd_get_status, clears command byte,
+ * calls cd_status_full_read, then seeks to param_1 via FUN_06035F04. */
+int FUN_06034984(int param_1)
 {
+    int result;
+    char buf[12];
 
-  int uVar1;
-
-  char local_14 [12];
-
-  (*(int(*)())0x06035E90)(local_14);
-
-  local_14[0] = 0;
-
-  uVar1 = (*(int(*)())0x06035EC8)(0,local_14);
-
-  (*(int(*)())0x06035F04)(param_1);
-
-  return uVar1;
-
+    (*(int(*)())0x06035E90)(buf);  /* cd_get_status */
+    buf[0] = 0;                     /* clear command */
+    result = (*(int(*)())0x06035EC8)(0, buf);  /* cd_status_full_read */
+    (*(int(*)())0x06035F04)(param_1);          /* seek */
+    return result;
 }
 
-int FUN_060349c4(param_1)
-    unsigned char *param_1;
+/* cd_check_ready -- Check if CD drive is in ready state.
+ * Polls via FUN_06034a10; on success, unpacks status.
+ * Returns -8 if drive reports specific error (DAT_06034a8e) or not ready
+ * (bit 5 clear). Returns 0 on success, or error from FUN_06034a10. */
+int FUN_060349c4(unsigned char *param_1)
 {
+    int err;
+    char buf[12];
 
-  int iVar1;
-
-  char auStack_14 [12];
-
-  iVar1 = FUN_06034a10(auStack_14);
-
-  if (iVar1 == 0) {
-
-    (*(int(*)())0x06035F16)(auStack_14,param_1);
-
-    if ((*param_1 == DAT_06034a8e) || ((*param_1 & 0x20) == 0)) {
-
-      iVar1 = -8;
-
+    err = FUN_06034a10(buf);
+    if (err == 0) {
+        (*(int(*)())0x06035F16)(buf, param_1);  /* cd_status_unpack */
+        if (*param_1 == DAT_06034a8e || (*param_1 & 0x20) == 0) {
+            err = -8;
+        }
     }
-
-  }
-
-  return iVar1;
-
+    return err;
 }
 
 int FUN_06034a10(param_1)
@@ -952,26 +940,20 @@ int FUN_06034c68(param_1)
 
 }
 
-int FUN_06034cc8(param_1)
-    unsigned int *param_1;
+/* cd_get_disc_position -- Read current disc FAD (frame address).
+ * Gets status, sets command byte to 6 (get position),
+ * calls cd_status_read, masks result to 24-bit FAD. */
+int FUN_06034cc8(unsigned int *param_1)
 {
+    int result;
+    unsigned int response[2];
+    char buf[12];
 
-  int uVar1;
-
-  unsigned int local_18 [2];
-
-  char local_10 [12];
-
-  (*(int(*)())0x06035E90)(local_10);
-
-  local_10[0] = 6;
-
-  uVar1 = (*(int(*)())0x06035EA2)(0,local_10,local_18);
-
-  *param_1 = local_18[0] & 0x00FFFFFF;
-
-  return uVar1;
-
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 6;
+    result = (*(int(*)())0x06035EA2)(0, buf, response);
+    *param_1 = response[0] & 0x00FFFFFF;
+    return result;
 }
 
 int FUN_06034d5e(param_1, param_2)
@@ -1039,23 +1021,18 @@ LAB_06034dac:
 
 }
 
-void FUN_06034dea(param_1)
-    int param_1;
+/* cd_play_track -- Start CD audio playback for a track.
+ * Gets status, sets command byte to 0x11 (play),
+ * extracts play params via FUN_06034d5e, sends full status. */
+void FUN_06034dea(int param_1)
 {
+    char buf[12];
 
-  char local_10;
-
-  char auStack_f [11];
-
-  (*(int(*)())0x06035E90)(&local_10);
-
-  local_10 = 0x11;
-
-  FUN_06034d5e(param_1,auStack_f);
-
-  (*(int(*)())0x06035EC8)(0,&local_10);
-
-  return;
+    (*(int(*)())0x06035E90)(buf);
+    buf[0] = 0x11;
+    FUN_06034d5e(param_1, buf + 1);
+    (*(int(*)())0x06035EC8)(0, buf);
+    return;
 
 }
 

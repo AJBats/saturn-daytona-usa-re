@@ -650,25 +650,22 @@ unsigned int FUN_0601476c(param_1)
 
 }
 
-void FUN_06014a04()
+/* hud_init_and_render -- Initialize HUD: DMA palette to VDP1, render digits.
+ * Copies 32 words from 0x06044B64 to VDP1 CRAM at calculated offset
+ * (0x25C00260 + frame-selected bank). Calls hud_digits_render_all.
+ * Sets HUD active flag (bit 0 of 0x0607EBF4), initializes display slots. */
+void FUN_06014a04(void)
 {
+    int in_r7 = 0;
 
-  int in_r7 = 0;
+    (*(int(*)())0x0602761E)(0x25C00000 + 0x260 + *(int *)(0x06059FFC << 3),
+                            0x06044B64, 0x20, in_r7, 0x25C00000);
 
-  (*(int(*)())0x0602761E)(0x25C00000 + 0x260 + *(int *)(0x06059FFC << 3),0x06044B64,
+    (*(int(*)())0x060172BC)();  /* hud_digits_render_all */
 
-             0x20,in_r7,0x25C00000);
-
-  (*(int(*)())0x060172BC)();
-
-  *(unsigned int *)0x0607EBF4 = *(unsigned int *)0x0607EBF4 | 1;
-
-  *(short *)0x06085F90 = 0;
-
-  *(short *)0x06085F94 = 1;
-
-  return;
-
+    *(unsigned int *)0x0607EBF4 = *(unsigned int *)0x0607EBF4 | 1;
+    *(short *)0x06085F90 = 0;
+    *(short *)0x06085F94 = 1;
 }
 
 void FUN_06014a74()

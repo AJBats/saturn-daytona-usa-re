@@ -49,7 +49,7 @@ extern int DAT_06018102;
 extern int DAT_06018104;
 extern void FUN_06016dd8();
 extern void FUN_060172e4();
-extern int FUN_06017330();
+extern int FUN_06017330(unsigned short param_1);
 extern int FUN_06017784();
 extern void FUN_06017bf4();
 extern void FUN_06017c78();
@@ -582,27 +582,31 @@ void FUN_060172e4(param_1)
 
 }
 
-int FUN_06017330(param_1)
-    unsigned short param_1;
+/* hud_slot_clear -- Clear a HUD digit display slot.
+ * Slot array at 0x06085490, stride 0x18 bytes per slot.
+ * param_1 (low byte): slot index.
+ * Zeros: counter (+16), display value (+6), active flag (+5),
+ * and all 8 digit values (+8 to +22). */
+int FUN_06017330(unsigned short param_1)
 {
-  register char *base asm("r2") = (char *)0x06085490;
-  int offset;
-  unsigned char bVar3;
+    register char *base asm("r2") = (char *)0x06085490;
+    int offset;
+    unsigned char i;
 
-  param_1 = param_1 & 0xff;
-  offset = (short)(param_1 * 0x18);
+    param_1 = param_1 & 0xff;
+    offset = (short)(param_1 * 0x18);
 
-  *(int *)(base + offset + 16) = 0;
-  *(short *)(base + offset + 6) = 0;
-  *(base + offset + 5) = 0;
+    *(int *)(base + offset + 16) = 0;
+    *(short *)(base + offset + 6) = 0;
+    *(base + offset + 5) = 0;
 
-  bVar3 = 0;
-  do {
-    *(short *)(base + (bVar3 << 1) + offset + 8) = 0;
-    bVar3 = bVar3 + 1;
-  } while (bVar3 < 8);
+    i = 0;
+    do {
+        *(short *)(base + (i << 1) + offset + 8) = 0;
+        i++;
+    } while (i < 8);
 
-  return 0;
+    return 0;
 }
 
 unsigned char FUN_06017372(param_1)

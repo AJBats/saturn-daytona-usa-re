@@ -516,29 +516,31 @@ int FUN_060064f2()
 
 }
 
-int FUN_060067c8()
+/* sound_bank_and_stereo_setup -- Initialize sound bank and stereo panning.
+ * Gets sound bank index via get_sound_bank_index, applies to mixer.
+ * Then sets stereo panning for L/R channels at 0x06063F48/4A based
+ * on player index at 0x06078663 (0=normal, else=swapped). */
+int FUN_060067c8(void)
 {
-  short uVar4;
-  char cVar1;
-  short uVar2;
+    short bank;
+    char player_idx;
+    short pan_val;
 
-  uVar4 = (*(int(*)())0x0601A5F8)();
-  (*(int(*)())0x06026590)((int)(char)*(char *)0x0605D240, uVar4);
+    bank = (*(int(*)())0x0601A5F8)();  /* get_sound_bank_index */
+    (*(int(*)())0x06026590)((int)(char)*(char *)0x0605D240, bank);
 
-  uVar2 = DAT_06006804;
-  cVar1 = *(char *)0x06078663;
-  uVar4 = (short)0x8000;
+    pan_val = DAT_06006804;
+    player_idx = *(char *)0x06078663;
 
-  if (cVar1 == 0) {
-    *(short *)0x06063F48 = uVar2;
-    *(short *)0x06063F4A = uVar4;
-  }
-  else {
-    *(short *)0x06063F48 = uVar4;
-    *(short *)0x06063F4A = uVar2;
-  }
+    if (player_idx == 0) {
+        *(short *)0x06063F48 = pan_val;
+        *(short *)0x06063F4A = (short)0x8000;
+    } else {
+        *(short *)0x06063F48 = (short)0x8000;
+        *(short *)0x06063F4A = pan_val;
+    }
 
-  return (int)cVar1;
+    return (int)player_idx;
 }
 
 /* world_to_tile_index -- Convert world X,Z coords to flat tile grid index.

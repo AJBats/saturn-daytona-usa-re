@@ -510,31 +510,17 @@ void FUN_0601a940()
 
 }
 
-void FUN_0601ab8c()
+/* course_data_lookup -- Load course-specific data pointers.
+ * Computes index from COURSE_SELECT and CAR_COUNT*12 for first lookup.
+ * Second lookup uses CAR_COUNT-area value shifted + DEMO_MODE_FLAG
+ * to select from course data pointer table at 0x0605DE24. */
+void FUN_0601ab8c(void)
 {
+    *(int *)0x06086004 =
+        *(int *)(0x0605DE40 + (COURSE_SELECT << 2) + (int)(char)((char)CAR_COUNT * '\f'));
 
-  char *puVar1;
-
-  
-
-  puVar1 = (char *)0x0607EAD8;
-
-  *(int *)0x06086004 =
-
-       *(int *)
-
-        (0x0605DE40 +
-
-        (COURSE_SELECT << 2) + (int)(char)((char)CAR_COUNT * '\f'));
-
-  *(int *)0x06086008 =
-
-       *(int *)
-
-        (*(int *)(0x0605DE24 + ((*(int *)(int)puVar1 << 1) + DEMO_MODE_FLAG) << 2) + 4);
-
-  return;
-
+    *(int *)0x06086008 =
+        *(int *)(*(int *)(0x0605DE24 + ((*(int *)0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4);
 }
 
 int FUN_0601abc6()

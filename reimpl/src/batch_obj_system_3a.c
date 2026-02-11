@@ -1465,25 +1465,16 @@ LAB_0603b530:
 
 }
 
-void FUN_0603b734()
+/* cd_vtable_init -- Initialize CD subsystem function pointer table.
+ * Sets 4 handler function pointers in CD_STATE_A structure:
+ * +0x04: read, +0x08: write, +0x0C: status, +0x10: error. */
+void FUN_0603b734(void)
 {
-
-  int iVar1;
-
-  
-
-  iVar1 = CD_STATE_A;
-
-  *(char **)(iVar1 + 4) = 0x060402BC;
-
-  *(char **)(iVar1 + 8) = 0x0604053A;
-
-  *(char **)(iVar1 + 0xc) = 0x060406A6;
-
-  *(char **)(iVar1 + 0x10) = 0x0604069A;
-
-  return;
-
+    int base = CD_STATE_A;
+    *(char **)(base + 0x04) = (char *)0x060402BC;
+    *(char **)(base + 0x08) = (char *)0x0604053A;
+    *(char **)(base + 0x0c) = (char *)0x060406A6;
+    *(char **)(base + 0x10) = (char *)0x0604069A;
 }
 
 void FUN_0603b74c(param_1)
@@ -1645,44 +1636,27 @@ done:
   return iVar1;
 }
 
-void FUN_0603b8b4(param_1)
-    int *param_1;
+/* cd_transfer_complete -- Handle CD transfer completion for a request.
+ * If param_1 matches the active transfer at CD_STATE_A+0xa8,
+ * clears it and calls the completion callback via vtable dispatch. */
+void FUN_0603b8b4(int *param_1)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x060A4D14;
-
-  if (*(int **)(CD_STATE_A + 0xa8) == param_1) {
-
-    *(int *)(CD_STATE_A + 0xa8) = 0;
-
-    (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + *(int *)puVar1 + 8)))(*param_1,1);
-
-    return;
-
-  }
-
-  return;
-
+    if (*(int **)(CD_STATE_A + 0xa8) == param_1) {
+        *(int *)(CD_STATE_A + 0xa8) = 0;
+        (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + *(int *)0x060A4D14 + 8)))(*param_1, 1);
+    }
 }
 
-void FUN_0603b8f4(param_1)
-    int param_1;
+/* cd_cancel_pending -- Cancel a pending CD request if it matches.
+ * Checks CD_STATE_A at offset DAT_0603b91e for param_1.
+ * On match: clears the slot and calls abort handler (0x0603FA1A)
+ * with the request's data pointer and -1 (cancel signal). */
+void FUN_0603b8f4(int param_1)
 {
-
-  if (*(int *)(CD_STATE_A + (int)DAT_0603b91e) == param_1) {
-
-    *(int *)(CD_STATE_A + (int)DAT_0603b91e) = 0;
-
-    (*(int(*)())0x0603FA1A)(*(int *)(param_1 + 8),0xffffffff);
-
-    return;
-
-  }
-
-  return;
-
+    if (*(int *)(CD_STATE_A + (int)DAT_0603b91e) == param_1) {
+        *(int *)(CD_STATE_A + (int)DAT_0603b91e) = 0;
+        (*(int(*)())0x0603FA1A)(*(int *)(param_1 + 8), 0xffffffff);
+    }
 }
 
 int FUN_0603b96a(param_1)
@@ -1715,32 +1689,23 @@ int FUN_0603b96a(param_1)
 
 }
 
-int FUN_0603b9a4(param_1)
-    int param_1;
+/* cd_request_register -- Register a new CD request in the pending queue.
+ * First checks if param_1 is already registered via FUN_0603b96a.
+ * If not found (-1), appends to the queue at CD_STATE_A+0x34,
+ * increments queue count at +0x94, returns 0x60 (success).
+ * If already queued, returns the existing index. */
+int FUN_0603b9a4(int param_1)
 {
+    int idx = FUN_0603b96a();
 
-  int iVar1;
+    if (idx == -1) {
+        int base = CD_STATE_A;
+        *(int *)((*(int *)(base + 0x94) << 2) + base + 0x34) = param_1;
+        idx = 0x60;
+        *(int *)(base + 0x94) = *(int *)(base + 0x94) + 1;
+    }
 
-  int iVar2;
-
-  
-
-  iVar1 = FUN_0603b96a();
-
-  if (iVar1 == -1) {
-
-    iVar2 = CD_STATE_A;
-
-    *(int *)((*(int *)(iVar2 + 0x94) << 2) + iVar2 + 0x34) = param_1;
-
-    iVar1 = 0x60;
-
-    *(int *)(iVar2 + 0x94) = *(int *)(iVar2 + 0x94) + 1;
-
-  }
-
-  return iVar1;
-
+    return idx;
 }
 
 void FUN_0603b9d6(param_1)
@@ -2178,68 +2143,41 @@ int FUN_0603bdac(param_1)
 
 }
 
-void FUN_0603be7c(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_seek_or_reset -- Seek to position or reset based on flags.
+ * If flag bits 5-6 at param_1+0x1D are clear, calls cd_session_seek.
+ * Otherwise, stores position at +0x20 and zeros offset at +0x24. */
+void FUN_0603be7c(int param_1, int param_2)
 {
-
-  if ((*(unsigned char *)(param_1 + 0x1d) & 0x60) == 0) {
-
-    (*(int(*)())0x060401F8)();
-
-    return;
-
-  }
-
-  *(int *)(param_1 + 0x20) = param_2;
-
-  *(int *)(param_1 + 0x24) = 0;
-
-  return;
-
+    if ((*(unsigned char *)(param_1 + 0x1d) & 0x60) == 0) {
+        (*(int(*)())0x060401F8)();
+        return;
+    }
+    *(int *)(param_1 + 0x20) = param_2;
+    *(int *)(param_1 + 0x24) = 0;
 }
 
-void FUN_0603bf22(param_1, param_2)
-    int param_1;
-    int *param_2;
+/* cd_request_release -- Release a CD request and clean up.
+ * Unregisters param_2 via FUN_0603b9d6, clears slot in param_1.
+ * If param_2 is non-NULL, frees the associated buffer via FUN_0604087C. */
+void FUN_0603bf22(int param_1, int *param_2)
 {
+    FUN_0603b9d6(param_2);
+    *(int *)(param_1 + DAT_0603bf6e) = 0;
 
-  FUN_0603b9d6(param_2);
+    if (param_2 == (int *)0x0)
+        return;
 
-  *(int *)(param_1 + DAT_0603bf6e) = 0;
-
-  if (param_2 == (int *)0x0) {
-
-    return;
-
-  }
-
-  (*(int(*)())0x0604087C)(*(int *)(*param_2 + 0x18));
-
-  return;
-
+    (*(int(*)())0x0604087C)(*(int *)(*param_2 + 0x18));
 }
 
-int FUN_0603bf5a(param_1)
-    int *param_1;
+/* cd_get_read_offset -- Get current read offset for a CD request.
+ * If flag bits 5-6 at (*param_1)+0x1D are clear (normal mode),
+ * returns the sector offset from the session structure.
+ * Otherwise returns 0 (no offset in direct mode). */
+int FUN_0603bf5a(int *param_1)
 {
+    if ((*(unsigned char *)(*param_1 + 0x1d) & 0x60) == 0)
+        return *(int *)(*(int *)(*param_1 + 0x18) + 0x24);
 
-  int uVar1;
-
-  
-
-  if ((*(unsigned char *)(*param_1 + 0x1d) & 0x60) == 0) {
-
-    uVar1 = *(int *)(*(int *)(*param_1 + 0x18) + 0x24);
-
-  }
-
-  else {
-
-    uVar1 = 0;
-
-  }
-
-  return uVar1;
-
+    return 0;
 }
