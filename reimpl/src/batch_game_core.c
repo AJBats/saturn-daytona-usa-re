@@ -41,45 +41,37 @@ extern int PTR_DAT_0600741c;
 extern int PTR_DAT_060079d0;
 extern short DAT_06006804;
 
-void FUN_060061c8()
+/* car_to_object_transfer -- Copy car world position into 4 render buffers.
+ * Resets matrix (0x06026DBC), loads identity (0x06026E0C), rotates by heading3,
+ * then transforms 4 object positions from template tables (0x06044640-0x06044664)
+ * into render buffers (0x06063E9C-0x06063EC4). Adds car X/Z offsets, sets Y.
+ * Decrements OBJ_STATE_PRIMARY by 0x30 (one render slot consumed). */
+void FUN_060061c8(void)
 {
-  register int base asm("r11") = CAR_PTR_CURRENT;
-  register int iVar5 asm("r14") = *(int *)(base + 0x10);
-  register int uVar4 asm("r13") = *(int *)(base + 0x14);
-  register int iVar3 asm("r12") = *(int *)(base + 0x18);
-  int *p;
+    register int base asm("r11") = CAR_PTR_CURRENT;
+    register int car_x asm("r14") = *(int *)(base + CAR_X);
+    register int car_y asm("r13") = *(int *)(base + CAR_Y);
+    register int car_z asm("r12") = *(int *)(base + CAR_Z);
 
-  (*(int(*)())0x06026DBC)();
-  (*(int(*)())0x06026E0C)();
-  (*(int(*)())0x06026EDE)(*(int *)(base + 0x30));
+    (*(int(*)())0x06026DBC)();                     /* matrix reset */
+    (*(int(*)())0x06026E0C)();                     /* load identity */
+    (*(int(*)())0x06026EDE)(*(int *)(base + CAR_HEADING3));  /* rotate by heading */
 
-  base = 0x06026FFC;
-  (*(int(*)())base)(0x0604464C, 0x06063E9C);
-  (*(int(*)())base)(0x06044640, 0x06063EB0);
-  (*(int(*)())base)(0x06044658, 0x06063ED8);
-  (*(int(*)())base)(0x06044664, 0x06063EC4);
+    /* Transform 4 object templates into render buffers */
+    void (*xform)(int, int) = (void (*)(int, int))0x06026FFC;
+    xform(0x0604464C, 0x06063E9C);
+    xform(0x06044640, 0x06063EB0);
+    xform(0x06044658, 0x06063ED8);
+    xform(0x06044664, 0x06063EC4);
 
-  p = (int *)0x06063E9C;
-  *p = *p + iVar5;
-  p[1] = uVar4;
-  p[2] = p[2] + iVar3;
+    /* Add car world position to each buffer */
+    int *p;
+    p = (int *)0x06063E9C;  p[0] += car_x;  p[1] = car_y;  p[2] += car_z;
+    p = (int *)0x06063EB0;  p[0] += car_x;  p[1] = car_y;  p[2] += car_z;
+    p = (int *)0x06063ED8;  p[0] += car_x;  p[1] = car_y;  p[2] += car_z;
+    p = (int *)0x06063EC4;  p[0] += car_x;  p[1] = car_y;  p[2] += car_z;
 
-  p = (int *)0x06063EB0;
-  *p = *p + iVar5;
-  p[1] = uVar4;
-  p[2] = p[2] + iVar3;
-
-  p = (int *)0x06063ED8;
-  *p = *p + iVar5;
-  p[1] = uVar4;
-  p[2] = p[2] + iVar3;
-
-  p = (int *)0x06063EC4;
-  *p = *p + iVar5;
-  p[1] = uVar4;
-  p[2] = p[2] + iVar3;
-
-  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
+    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 }
 
 void FUN_0600629c()
@@ -1184,464 +1176,276 @@ void FUN_06007540(unsigned int sprite_id, unsigned int src_id, short color_bank)
     *(int *)0x0606A4F4 = sprite_count + 1;
 }
 
-void FUN_06007590(param_1, param_2)
-    unsigned short *param_1;
-    short param_2;
+/* sprite_slot_register -- Register a sprite into the VDP1 sorted command list.
+ * Looks up source slot from type table (0x060684EC), copies VRAM offset and
+ * character attributes into command table (0x06063F64). For types >= 0xD,
+ * adjusts character index by param_2 * 4. Increments sprite command count. */
+void FUN_06007590(unsigned short *param_1, short param_2)
 {
   int idx;
   unsigned short uVar3;
-  int *cnt = (int *)0x0606A4F4;
+  int *cnt = (int *)0x0606A4F4;         /* sprite command count */
 
   uVar3 = *(unsigned short *)(0x060684EC + (unsigned int)param_1[1] * 2);
-
   *(short *)(0x060684EC + ((unsigned int)*param_1 << 1)) = (short)*cnt;
-
   idx = *cnt << 3;
 
+  /* Copy VRAM offset and character attrs from source slot */
   *(int *)(0x06063F64 + idx) = *(int *)(0x06063F64 + (unsigned int)(uVar3 << 3));
-
   *(short *)(0x06063F64 + idx + 4) = *(short *)(0x06063F64 + (unsigned int)(uVar3 << 3) + 4);
 
   if (param_1[1] < 0xd) {
     uVar3 = param_1[2];
+  } else {
+    uVar3 = param_1[2] + (param_2 << 2);   /* animated sprite frame offset */
   }
-  else {
-    uVar3 = param_1[2] + (param_2 << 2);
-  }
-
   *(unsigned short *)(0x06063F64 + idx + 6) = uVar3;
-
   *cnt = *cnt + 1;
 }
 
-void FUN_06007658(param_1, param_2, param_3, param_4)
-    unsigned short param_1;
-    unsigned short param_2;
-    short param_3;
-    int param_4;
+/* vdp1_char_register -- Register a VDP1 character (sprite) command entry.
+ * Writes VRAM offset, character size, and pattern into sorted command table
+ * (0x06063F64). For types 0xD-0xF (scaled sprites), applies size transform
+ * via 0x06034FE0. Type 10 records sky layer base offset. Advances VRAM
+ * allocation by (width * height) / 2 bytes. */
+void FUN_06007658(unsigned short param_1, unsigned short param_2, short param_3, int param_4)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  unsigned short uVar5;
-
-  unsigned short uVar6;
-
-  puVar3 = (char *)0x0606A4F4;
-
-  puVar2 = (char *)0x0606A4EC;
-
-  puVar1 = (char *)0x06063F64;
+  int *cmd_count = (int *)0x0606A4F4;      /* sprite command count */
+  int *vram_off  = (int *)0x0606A4EC;       /* current VRAM write offset */
+  char *cmd_tbl  = (char *)0x06063F64;      /* sprite command table base */
+  unsigned short uVar4, uVar5, uVar6;
 
   if (param_1 == 10) {
-
     *(int *)0x06063F60 = *(int *)(0x0606A4EC << 3) + *(int *)0x06063F5C;
-
   }
 
   uVar5 = DAT_060076e2;
-
   uVar4 = param_2 & DAT_060076e2;
-
-  *(short *)(0x060684EC + (unsigned int)(param_1 << 1)) = (short)*(int *)puVar3;
-
-  *(int *)(puVar1 + *(int *)((int)(int)puVar3 << 3)) = *(int *)puVar2;
+  *(short *)(0x060684EC + (unsigned int)(param_1 << 1)) = (short)*cmd_count;
+  *(int *)(cmd_tbl + *((int *)cmd_count) * 8) = *vram_off;
 
   if (((param_1 == 0xd) || (param_1 == 0xe)) || (param_1 == 0xf)) {
-
+    /* Scaled sprite: transform character size */
     uVar6 = DAT_0600777e & param_2;
-
-    uVar5 = (*(int(*)())0x06034FE0)(param_2,param_2 & uVar5);
-
-    *(unsigned short *)(puVar1 + *(int *)((int)(int)puVar3 << 3) + 4) = uVar5 | uVar6;
-
-    *(int *)0x0606A4F0 = *(int *)puVar2;
-
+    uVar5 = (*(int(*)())0x06034FE0)(param_2, param_2 & uVar5);
+    *(unsigned short *)(cmd_tbl + *((int *)cmd_count) * 8 + 4) = uVar5 | uVar6;
+    *(int *)0x0606A4F0 = *vram_off;
+  } else {
+    *(unsigned short *)(cmd_tbl + *((int *)cmd_count) * 8 + 4) = param_2;
   }
 
-  else {
-
-    *(unsigned short *)(puVar1 + *(int *)((int)(int)puVar3 << 3) + 4) = param_2;
-
-  }
-
-  *(short *)(puVar1 + *(int *)((int)(int)puVar3 << 3) + 6) = param_3;
-
-  (*(int(*)())0x06028654)(param_4,*(int *)((int)(int)puVar2 << 3) + *(int *)0x06063F5C);
-
-  *(int *)puVar3 = *(int *)puVar3 + 1;
-
-  *(int *)puVar2 = *(int *)puVar2 + ((int)((unsigned int)(param_2 >> 8 & 0x3f) * (unsigned int)uVar4) >> 1);
-
-  return;
-
+  *(short *)(cmd_tbl + *((int *)cmd_count) * 8 + 6) = param_3;
+  (*(int(*)())0x06028654)(param_4, *((int *)vram_off) * 8 + *(int *)0x06063F5C);
+  *cmd_count = *cmd_count + 1;
+  *vram_off = *vram_off + ((int)((unsigned int)(param_2 >> 8 & 0x3f) * (unsigned int)uVar4) >> 1);
 }
 
-void FUN_06007790(param_1, param_2, param_3)
-    unsigned short *param_1;
-    short param_2;
-    int param_3;
+/* vdp1_char_register_ptr -- Register VDP1 character from descriptor pointer.
+ * Like vdp1_char_register but reads type/size/pattern from param_1 array.
+ * param_1[0]=type, param_1[1]=char_size, param_1[2]=pattern_base,
+ * param_1[4..5]=VRAM address offset. For types 0xD-0xF applies scaled
+ * sprite transform. Advances VRAM by (width * height) / 2 bytes. */
+void FUN_06007790(unsigned short *param_1, short param_2, int param_3)
 {
-
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned short uVar5;
-
-  unsigned short uVar6;
-
-  puVar4 = (char *)0x0606A4F4;
-
-  puVar3 = (char *)0x0606A4EC;
-
-  puVar2 = (char *)0x06063F64;
+  int *cmd_count = (int *)0x0606A4F4;      /* sprite command count */
+  int *vram_off  = (int *)0x0606A4EC;       /* current VRAM write offset */
+  char *cmd_tbl  = (char *)0x06063F64;      /* sprite command table base */
+  unsigned short uVar1, uVar5, uVar6;
 
   if (*param_1 == 10) {
-
-    *(int *)0x06063F60 = *(int *)(0x0606A4EC << 3) + *(int *)0x06063F5C;
-
+    *(int *)0x06063F60 = *vram_off * 8 + *(int *)0x06063F5C;
   }
 
   uVar1 = param_1[1];
-
-  *(short *)(0x060684EC + ((unsigned int)(*param_1) << 1)) = (short)*(int *)puVar4;
-
-  *(int *)(puVar2 + *(int *)((int)(int)puVar4 << 3)) = *(int *)puVar3;
-
+  *(short *)(0x060684EC + ((unsigned int)(*param_1) << 1)) = (short)*cmd_count;
+  *(int *)(cmd_tbl + *cmd_count * 8) = *vram_off;
   uVar5 = *param_1;
 
   if (((uVar5 == 0xd) || (uVar5 == 0xe)) || (uVar5 == 0xf)) {
-
+    /* Scaled sprite: transform character size */
     uVar6 = uVar1 & DAT_060078ca;
-
     uVar5 = (*(int(*)())0x06034FE0)();
-
-    *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar4 << 3) + 4) = uVar5 | uVar6;
-
-    *(int *)0x0606A4F0 = *(int *)puVar3;
-
+    *(unsigned short *)(cmd_tbl + *cmd_count * 8 + 4) = uVar5 | uVar6;
+    *(int *)0x0606A4F0 = *vram_off;
+  } else {
+    *(unsigned short *)(cmd_tbl + *cmd_count * 8 + 4) = uVar1;
   }
 
-  else {
-
-    *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar4 << 3) + 4) = uVar1;
-
-  }
-
-  *(unsigned short *)(puVar2 + *(int *)((int)(int)puVar4 << 3) + 6) = param_1[2] + (param_2 << 2);
-
-  (*(int(*)())0x06028654)(*(int *)(param_1 + 4) + param_3,*(int *)((int)(int)puVar3 << 3) + *(int *)0x06063F5C);
-
-  *(int *)puVar4 = *(int *)puVar4 + 1;
-
-  *(int *)puVar3 = *(int *)puVar3 + ((int)((unsigned int)(uVar1 >> 8 & 0x3f) * (unsigned int)(uVar1 & 0xff)) >> 1);
-
-  return;
-
+  *(unsigned short *)(cmd_tbl + *cmd_count * 8 + 6) = param_1[2] + (param_2 << 2);
+  (*(int(*)())0x06028654)(*(int *)(param_1 + 4) + param_3, *vram_off * 8 + *(int *)0x06063F5C);
+  *cmd_count = *cmd_count + 1;
+  *vram_off = *vram_off + ((int)((unsigned int)(uVar1 >> 8 & 0x3f) * (unsigned int)(uVar1 & 0xff)) >> 1);
 }
 
-void FUN_060078dc()
+/* vdp1_render_flush -- Flush accumulated VDP1 commands to framebuffer.
+ * Sorts pending commands (0x0602C494), copies VDP1 command table header
+ * (0x0602766C), dispatches all commands via FUN_06007bcc, then waits for
+ * VBL (0x060394C2). Writes end-of-list marker (0x8000) and resets counters.
+ * Sets INPUT_STATE render-complete bits, DEMO_MODE_FLAG gate. */
+void FUN_060078dc(void)
 {
+  int *render_count   = (int *)0x060620D0;  /* accumulated render commands */
+  int *render_budget  = (int *)0x060620D4;  /* remaining budget this frame */
+  int *frame_counter  = (int *)0x0605A008;  /* VDP1 frame index */
+  char *sort_buf      = (char *)0x0606A4F8; /* sort key buffer */
+  unsigned int budget = (unsigned int)DAT_060079ce;
 
-  char *puVar1;
+  *render_budget = *render_budget - budget;
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  puVar4 = (char *)0x060620D0;
-
-  puVar3 = (char *)0x060620D4;
-
-  puVar2 = (char *)0x0605A008;
-
-  puVar1 = (char *)0x0606A4F8;
-
-  uVar5 = (unsigned int)DAT_060079ce;
-
-  *(unsigned int *)0x060620D4 = *(int *)0x060620D4 - uVar5;
-
-  if (*(unsigned int *)puVar4 < uVar5) {
-
-    (*(int(*)())0x06027630)(0x0608AC20 + ((*(unsigned int *)puVar4 & 0xffff) * 0x18 & 0xffff),0x0608E460,
-
-               *(int *)puVar3 * 0x18);
-
-    (*(int(*)())0x0602761E)(puVar1 + *(int *)((int)(int)puVar4 << 1),puVar1 + PTR_DAT_060079d0,*(int *)(int)puVar3 << 1);
-
+  if ((unsigned int)*render_count < budget) {
+    /* Copy overflow commands to secondary buffer */
+    (*(int(*)())0x06027630)(0x0608AC20 + (((unsigned int)*render_count & 0xffff) * 0x18 & 0xffff),
+               0x0608E460, *render_budget * 0x18);
+    (*(int(*)())0x0602761E)(sort_buf + *render_count * 2, sort_buf + PTR_DAT_060079d0,
+               *render_budget * 2);
   }
 
-  *(int *)puVar4 = *(int *)puVar4 + *(int *)puVar3;
+  *render_count = *render_count + *render_budget;
+  *render_budget = budget;
 
-  *(unsigned int *)puVar3 = uVar5;
+  /* Sort and prepare command list */
+  (*(int(*)())0x0602C494)(*render_count, sort_buf);
+  (*(int(*)())0x0602766C)(*(int *)0x06063F5C, 0x0605A018 + *(short *)(0x0605A016 << 5), 0x20);
+  *(char **)0x060785FC = (char *)0x0606BDFC;
+  *frame_counter = *frame_counter + 1;
 
-  (*(int(*)())0x0602C494)(*(int *)puVar4,puVar1);
-
-  puVar1 = (char *)0x06063F5C;
-
-  (*(int(*)())0x0602766C)(*(int *)0x06063F5C,0x0605A018 + *(short *)(0x0605A016 << 5),
-
-             0x20);
-
-  *(char **)0x060785FC = 0x0606BDFC;
-
-  *(int *)puVar2 = *(int *)puVar2 + 1;
-
+  /* Dispatch all VDP1 draw commands */
   FUN_06007bcc();
 
   VBL_DISABLE_FLAG = 1;
+  (*(int(*)())0x060394C2)();              /* wait for VBL sync */
+  (*(int(*)())0x0602766C)(*(int *)0x06063F5C + 0x20, 0x0606BDFC, (*frame_counter + -1) << 5);
 
-  (*(int(*)())0x060394C2)();
-
-  (*(int(*)())0x0602766C)(*(int *)puVar1 + 0x20,0x0606BDFC,(*(int *)puVar2 + -1) << 5);
-
-  *(short *)(*(int *)((int)(int)puVar2 << 5) + *(int *)puVar1) = (short)0x00008000;
-
-  puVar1 = (char *)0x0605B6D8;
+  /* Write end-of-list marker */
+  *(short *)(*frame_counter * 32 + *(int *)0x06063F5C) = (short)0x00008000;
 
   INPUT_STATE = INPUT_STATE | (unsigned int)0x20000000 | 4;
-
   if (DEMO_MODE_FLAG == 0) {
-
-    *(unsigned int *)puVar1 = *(unsigned int *)puVar1 | 0x08000000;
-
+    *(unsigned int *)0x0605B6D8 = *(unsigned int *)0x0605B6D8 | 0x08000000;
   }
 
   VBL_DISABLE_FLAG = 0;
-
-  (*(int(*)())0x06026CE0)();
-
-  *(int *)puVar4 = 0;
-
-  *(int *)puVar2 = 0;
-
-  puVar1 = (char *)0x06059F44;
-
+  (*(int(*)())0x06026CE0)();              /* post-render cleanup */
+  *render_count = 0;
+  *frame_counter = 0;
   *(int *)0x0606BDF8 = VBLANK_OUT_COUNTER;
-
-  *(int *)puVar1 = 0;
-
-  return;
-
+  *(int *)0x06059F44 = 0;
 }
 
-void FUN_06007a50()
+/* vdp1_shadow_polygon -- Generate car shadow polygon for VDP1.
+ * Computes 4 screen-space vertices from car height (CAR_PTR_TARGET) and
+ * sun angle. Uses fixed-point multiply (0x06027552) and sincos (0x06027358)
+ * to project shadow corners onto ground plane. Vertices written to shadow
+ * command buffer at 0x06078604. Color = 0xA3FF (shadow mesh). */
+void FUN_06007a50(void)
 {
+  int (*fpmul)(int, int) = (int (*)(int, int))0x06027552;
+  short (*fp2scr)(int) = (short (*)(int))0x0602754C;
+  short *shadow = (short *)0x06078604;     /* shadow polygon vertex buffer */
+  short sVar7, sVar9;
+  int iVar6, iVar8;
+  int local_24;         /* sin component */
+  int auStack_20[2];    /* cos component */
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  short sVar7;
-
-  int uVar5;
-
-  int iVar6;
-
-  int iVar8;
-
-  short sVar9;
-
-  int local_24;
-
-  int auStack_20 [2];
-
-  puVar1 = (char *)0x06027552;
-
+  /* Clamp shadow height to car Y position */
   iVar8 = (int)DAT_06007a92;
-
   if (*(int *)(CAR_PTR_TARGET + (int)DAT_06007a94) <= iVar8) {
-
     iVar8 = *(int *)(CAR_PTR_TARGET + (int)DAT_06007a94);
-
   }
+  iVar8 = fpmul(iVar8, 0x0000D1B7);        /* scale factor */
 
-  iVar8 = (*(int(*)())0x06027552)(iVar8,0x0000D1B7);
+  /* Y offset: normal=0x34, alternate=0x24 */
+  sVar9 = (*(int *)0x06085FF4 == '\0') ? 0x34 : 0x24;
 
-  if (*(int *)0x06085FF4 == '\0') {
+  /* Get sin/cos of shadow angle */
+  (*(int(*)())0x06027358)(DAT_06007a96 + iVar8, &local_24, auStack_20);
 
-    sVar9 = 0x34;
+  /* Vertex A: top-left */
+  iVar8 = fpmul(0x00970000, local_24);
+  sVar7 = fp2scr(-iVar8);
+  shadow[4] = sVar7 + 8;
+  iVar8 = fpmul(0x00970000, auStack_20[0]);
+  sVar7 = fp2scr(iVar8);
+  shadow[5] = sVar7 + sVar9;
 
-  }
+  /* Vertex B: top-right */
+  iVar8 = fpmul(0x00020000, auStack_20[0]);
+  iVar6 = fpmul(0x00900000, local_24);
+  sVar7 = fp2scr(iVar8 - iVar6);
+  shadow[6] = sVar7 + 8;
+  iVar8 = fpmul(0x00020000, local_24);
+  iVar6 = fpmul(0x00900000, auStack_20[0]);
+  sVar7 = fp2scr(iVar8 + iVar6);
+  shadow[7] = sVar7 + sVar9;
 
-  else {
+  /* Vertex C: bottom-right */
+  iVar8 = fpmul(0x00890000, local_24);
+  sVar7 = fp2scr(-iVar8);
+  shadow[8] = sVar7 + 8;
+  iVar8 = fpmul(0x00890000, auStack_20[0]);
+  sVar7 = fp2scr(iVar8);
+  shadow[9] = sVar7 + sVar9;
 
-    sVar9 = 0x24;
+  /* Vertex D: bottom-left */
+  iVar8 = fpmul(0xFFFE0000, auStack_20[0]);
+  iVar6 = fpmul(0x00900000, local_24);
+  sVar7 = fp2scr(iVar8 - iVar6);
+  shadow[10] = sVar7 + 8;
+  iVar8 = fpmul(0xFFFE0000, local_24);
+  iVar6 = fpmul(0x00900000, auStack_20[0]);
+  sVar7 = fp2scr(iVar8 + iVar6);
+  shadow[11] = sVar7 + sVar9;
 
-  }
+  shadow[3] = (short)0x0000A3FF;            /* shadow mesh color */
 
-  (*(int(*)())0x06027358)(DAT_06007a96 + iVar8,&local_24,auStack_20);
-
-  puVar3 = (char *)0x06078604;
-
-  puVar2 = (char *)0x0602754C;
-
-  iVar8 = (*(int(*)())puVar1)(0x00970000,local_24);
-
-  sVar7 = (*(int(*)())puVar2)(-iVar8);
-
-  *(short *)(puVar3 + 8) = sVar7 + 8;
-
-  uVar5 = (*(int(*)())puVar1)(0x00970000,auStack_20[0]);
-
-  sVar7 = (*(int(*)())puVar2)(uVar5);
-
-  *(short *)(puVar3 + 10) = sVar7 + sVar9;
-
-  puVar4 = (char *)0x00900000;
-
-  iVar8 = (*(int(*)())puVar1)(0x00020000,auStack_20[0]);
-
-  iVar6 = (*(int(*)())puVar1)(puVar4,local_24);
-
-  sVar7 = (*(int(*)())puVar2)(iVar8 - iVar6);
-
-  *(short *)(puVar3 + 0xc) = sVar7 + 8;
-
-  iVar8 = (*(int(*)())puVar1)(0x00020000,local_24);
-
-  iVar6 = (*(int(*)())puVar1)(puVar4,auStack_20[0]);
-
-  sVar7 = (*(int(*)())puVar2)(iVar8 + iVar6);
-
-  *(short *)(puVar3 + 0xe) = sVar7 + sVar9;
-
-  iVar8 = (*(int(*)())puVar1)(0x00890000,local_24);
-
-  sVar7 = (*(int(*)())puVar2)(-iVar8);
-
-  *(short *)(puVar3 + 0x10) = sVar7 + 8;
-
-  uVar5 = (*(int(*)())puVar1)(0x00890000,auStack_20[0]);
-
-  sVar7 = (*(int(*)())puVar2)(uVar5);
-
-  *(short *)(puVar3 + 0x12) = sVar7 + sVar9;
-
-  iVar8 = (*(int(*)())puVar1)(0xFFFE0000,auStack_20[0]);
-
-  iVar6 = (*(int(*)())puVar1)(puVar4,local_24);
-
-  sVar7 = (*(int(*)())puVar2)(iVar8 - iVar6);
-
-  *(short *)(puVar3 + 0x14) = sVar7 + 8;
-
-  iVar8 = (*(int(*)())puVar1)(0xFFFE0000,local_24);
-
-  iVar6 = (*(int(*)())puVar1)(puVar4,auStack_20[0]);
-
-  sVar7 = (*(int(*)())puVar2)(iVar8 + iVar6);
-
-  *(short *)(puVar3 + 0x16) = sVar7 + sVar9;
-
-  *(short *)(puVar3 + 6) = (short)0x0000A3FF;
-
-  puVar1 = (char *)0x060785FC;
-
-  (*(int(*)())0x060280C4)(puVar3,*(int *)0x060785FC);
-
+  /* Write shadow polygon to VDP1 command list */
+  (*(int(*)())0x060280C4)(shadow, *(int *)0x060785FC);
   VDP1_CMD_BASE_PTR = VDP1_CMD_BASE_PTR + 1;
-
-  *(int *)puVar1 = *(int *)puVar1 + 0x20;
-
-  return;
-
+  *(int *)0x060785FC = *(int *)0x060785FC + 0x20;
 }
 
-void FUN_06007bcc()
+/* vdp1_command_dispatch -- Iterate sorted render list and emit VDP1 draw commands.
+ * Loops over render_count entries in sort buffer (0x0606A4F8), looks up each
+ * command in the 24-byte command array (0x0608AC20). Type 9 uses scaled sprite
+ * writer (0x060281B8), others use normal writer (0x060280F8). Advances VDP1
+ * write pointer by 0x20 per command. After dispatch, optionally draws shadow
+ * polygon (FUN_06007a50) if GAME_STATE_BIT has overlay bits set. */
+void FUN_06007bcc(void)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  unsigned int uVar7;
-
-  puVar5 = (char *)0x060785FC;
-
-  puVar4 = (char *)0x0608AC20;
-
-  puVar3 = (char *)0x00008000;
-
-  puVar2 = (char *)0x060620D0;
-
-  puVar1 = (char *)0x060280F8;
+  int *vdp1_write  = (int *)0x060785FC;    /* VDP1 command write pointer */
+  char *cmd_array  = (char *)0x0608AC20;   /* 24-byte command descriptors */
+  int *render_count = (int *)0x060620D0;   /* number of commands to dispatch */
+  void (*cmd_write)(char *, int) = (void (*)(char *, int))0x060280F8;
+  unsigned int i, idx;
 
   *(int *)0x06078620 = 0;
 
+  /* Check if interlace mode is active */
   if ((*(unsigned short *)0x06063DA0 & 8) == 0) {
-
     *(int *)0x0607861C = 0;
-
-  }
-
-  else {
-
+  } else {
     *(int *)0x0607861C = 1;
-
   }
 
-  for (uVar6 = *(unsigned int *)0x06078620; uVar6 < *(unsigned int *)puVar2; uVar6 = uVar6 + 1) {
-
-    uVar7 = (unsigned int)*(unsigned short *)(0x0606A4F8 + (uVar6 << 1));
-
-    if (*(short *)(puVar4 + (uVar7 * 0x18 & 0xffff) + 6) == 9) {
-
-      (*(int(*)())0x060281B8)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5,puVar3);
-
+  for (i = 0; i < (unsigned int)*render_count; i++) {
+    idx = (unsigned int)*(unsigned short *)(0x0606A4F8 + (i << 1));
+    if (*(short *)(cmd_array + (idx * 0x18 & 0xffff) + 6) == 9) {
+      /* Scaled sprite command */
+      (*(int(*)())0x060281B8)(cmd_array + (idx * 0x18 & 0xffff), *vdp1_write, (int)0x00008000);
+    } else {
+      cmd_write(cmd_array + (idx * 0x18 & 0xffff), *vdp1_write);
     }
-
-    else {
-
-      (*(int(*)())puVar1)(puVar4 + (uVar7 * 0x18 & 0xffff),*(int *)puVar5);
-
-    }
-
-    *(int *)puVar5 = *(int *)puVar5 + 0x20;
-
+    *vdp1_write = *vdp1_write + 0x20;
   }
 
-  VDP1_CMD_BASE_PTR = VDP1_CMD_BASE_PTR + *(int *)puVar2;
+  VDP1_CMD_BASE_PTR = VDP1_CMD_BASE_PTR + *render_count;
 
+  /* Draw shadow polygon overlay if game state requires it */
   if ((GAME_STATE_BIT & (unsigned int)0x20228000) != 0) {
-
     (*(int(*)())0x060333D8)();
-
     FUN_06007a50();
-
   }
 
-  (*(int(*)())0x06011DC0)();
-
-  (*(int(*)())0x060171AC)();
-
-  return;
-
+  (*(int(*)())0x06011DC0)();                /* post-command processing */
+  (*(int(*)())0x060171AC)();                /* frame finalize */
 }

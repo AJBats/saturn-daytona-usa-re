@@ -860,33 +860,22 @@ char * FUN_06040b32(param_1, param_2)
 
 }
 
-int FUN_06040c10(param_1, param_2)
-    int param_1;
-    int param_2;
+/* cd_read_validate -- Validate and initiate a CD read request.
+ * Calls partition setup (0x06041204) with session fields, then verifies
+ * the read completed via status check (0x0604188C). Returns 1 on success,
+ * 0 if either step fails. */
+int FUN_06040c10(int param_1, int param_2)
 {
+  int result;
 
-  int iVar1;
+  result = (*(int(*)())0x06041204)(*(int *)(param_2 + 4), *(int *)(param_2 + 0x10),
+                                   *(int *)(param_1 + 0xc));
+  if (result != 0) return 0;
 
-  iVar1 = (*(int(*)())0x06041204)(*(int *)(param_2 + 4),*(int *)(param_2 + 0x10),
-
-                     *(int *)(param_1 + 0xc));
-
-  if (iVar1 != 0) {
-
-    return 0;
-
-  }
-
-  iVar1 = (*(int(*)())0x0604188C)();
-
-  if (iVar1 != 0) {
-
-    return 0;
-
-  }
+  result = (*(int(*)())0x0604188C)();
+  if (result != 0) return 0;
 
   return 1;
-
 }
 
 int FUN_06040c98(param_1, param_2)
@@ -1355,39 +1344,30 @@ int FUN_06041204(param_1, param_2, param_3)
 
 }
 
-int FUN_06041258()
+/* cd_partition_finalize -- Finalize CD partition after data transfer.
+ * Checks session active flag at CD_SESSION_BASE+0x34; returns -7 if inactive.
+ * Calls partition close (0x06034CC8), clears active flag. On error returns -10.
+ * Reads partition result via callback at 0x06041308, stores first byte. */
+int FUN_06041258(void)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  char local_14 [16];
-
-  puVar1 = (char *)0x060A5400;
+  int *session = (int *)0x060A5400;         /* CD session pointer */
+  int result;
+  char local_14[16];
 
   if (*(int *)(CD_SESSION_BASE + 0x34) == 0) {
-
-    return 0xfffffff9;
-
+    return 0xfffffff9;                      /* -7: session not active */
   }
 
-  iVar2 = (*(int(*)())0x06034CC8)();
+  result = (*(int(*)())0x06034CC8)();
+  *(int *)(*session + 0x34) = 0;            /* clear active flag */
 
-  *(int *)(*(int *)puVar1 + 0x34) = 0;
-
-  if (iVar2 != 0) {
-
-    return 0xfffffff6;
-
+  if (result != 0) {
+    return 0xfffffff6;                      /* -10: close failed */
   }
 
   (*(int(*)())*(int *)0x06041308)(local_14);
-
-  *(char *)(*(int *)puVar1 + 0x40) = local_14[0];
-
+  *(char *)(*session + 0x40) = local_14[0]; /* store partition result */
   return 0;
-
 }
 
 int FUN_060412b2(param_1, param_2, param_3)

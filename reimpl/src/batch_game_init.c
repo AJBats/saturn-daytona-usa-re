@@ -427,35 +427,22 @@ void FUN_0600508a(param_1, param_2, param_3)
 
 }
 
-void FUN_0600511e(param_1, param_2, param_3, param_4)
-    int param_1;
-    int param_2;
-    int param_3;
-    unsigned int param_4;
+/* vdp2_upload_conditional -- Upload data to VDP2 VRAM with mode selection.
+ * Selects VDP2 VRAM bank: bits 0-1 of param_4 select 0x25E00000 (A) or
+ * 0x25E20000 (B). Bit 3 selects transfer mode: 0=bulk copy (0x06027630),
+ * 1=DMA transfer (0x06028654). */
+void FUN_0600511e(int param_1, int param_2, int param_3, unsigned int param_4)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x25E20000;
-
+  char *vdp2_base = (char *)0x25E20000;    /* VDP2 VRAM bank B */
   if ((param_4 & 3) == 0) {
-
-    puVar1 = (char *)0x25E00000;
-
+    vdp2_base = (char *)0x25E00000;         /* VDP2 VRAM bank A */
   }
 
   if ((param_4 & 8) == 0) {
-
-    (*(int(*)())0x06027630)(puVar1 + param_2,param_1,param_3);
-
-    return;
-
+    (*(int(*)())0x06027630)(vdp2_base + param_2, param_1, param_3);  /* bulk copy */
+  } else {
+    (*(int(*)())0x06028654)(param_1, vdp2_base + param_2);           /* DMA transfer */
   }
-
-  (*(int(*)())0x06028654)(param_1,puVar1 + param_2);
-
-  return;
-
 }
 
 void display_list_process()

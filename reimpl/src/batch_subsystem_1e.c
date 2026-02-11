@@ -82,7 +82,7 @@ extern char * FUN_0601efc4();
 extern int FUN_0601f40c();
 extern void FUN_0601f4b4();
 extern int FUN_0601f5e0();
-extern void FUN_0601f87a();
+extern void FUN_0601f87a(unsigned char);
 extern void FUN_0601f9cc();
 extern void FUN_0601fd20();
 extern void FUN_0601fec0();
@@ -196,45 +196,22 @@ void FUN_0601e100()
 
 }
 
-void FUN_0601e26c()
+/* input_state_copy -- Read 8-byte input buffer from peripheral handler.
+ * Calls get_peripheral_data (0x06005DD4), stores base pointer at 0x06087064,
+ * then copies 8 bytes into input state array at 0x0605DFF8 (as unsigned short). */
+void FUN_0601e26c(void)
 {
+  int *periph_ptr = (int *)0x06087064;
+  unsigned short *input_arr = (unsigned short *)(0x0605DFF4 + 4);
+  unsigned char i;
 
-  char *puVar1;
+  *periph_ptr = (*(int(*)())0x06005DD4)();
 
-  char *puVar2;
-
-  int uVar3;
-
-  unsigned int uVar4;
-
-  unsigned int uVar5;
-
-  unsigned char bVar6;
-
-  puVar2 = (char *)0x06087064;
-
-  puVar1 = (char *)0x0605DFF4;
-
-  uVar3 = (*(int(*)())0x06005DD4)();
-
-  *(int *)puVar2 = uVar3;
-
-  bVar6 = 0;
-
+  i = 0;
   do {
-
-    uVar5 = (unsigned int)bVar6;
-
-    uVar4 = (unsigned int)bVar6;
-
-    bVar6 = bVar6 + 1;
-
-    *(unsigned short *)(puVar1 + (uVar5 << 1) + 4) = (unsigned short)*(unsigned char *)(*(int *)puVar2 + uVar4);
-
-  } while (bVar6 < 8);
-
-  return;
-
+    input_arr[i] = (unsigned short)*(unsigned char *)(*periph_ptr + i);
+    i++;
+  } while (i < 8);
 }
 
 void FUN_0601e2b4()
@@ -529,36 +506,23 @@ unsigned int FUN_0601e4d4()
 
 }
 
-int FUN_0601e6a4(param_1)
-    int param_1;
+/* bios_sound_poll -- Poll BIOS sound handler up to 10 times.
+ * Reads function pointer from BIOS vector table (0x06000354 → vtable+8),
+ * calls it with param_1. Returns 0 on first success, or last error
+ * code if all 10 attempts fail. */
+int FUN_0601e6a4(int param_1)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  puVar1 = (char *)0x06000354;
-
-  iVar3 = 0;
+  int *bios_vec = (int *)0x06000354;       /* BIOS vector table pointer */
+  int result;
+  int attempt = 0;
 
   do {
+    result = (*(int(*)())(*(int *)(*bios_vec + 8)))(param_1);
+    if (result == 0) return 0;
+    attempt++;
+  } while (attempt < 10);
 
-    iVar2 = (*(int(*)())(*(int *)(*(int *)puVar1 + 8)))(param_1);
-
-    if (iVar2 == 0) {
-
-      return 0;
-
-    }
-
-    iVar3 = iVar3 + 1;
-
-  } while (iVar3 < 10);
-
-  return iVar2;
-
+  return result;
 }
 
 int FUN_0601e764(param_1, param_2, param_3)
@@ -1783,39 +1747,27 @@ char * FUN_0601efc4()
 
 }
 
-int FUN_0601f40c()
+/* cdda_replay_check -- Check if CD audio track needs replay.
+ * Reads current track index from 0x060877D8, checks enable flag in
+ * table at 0x060877DD. If enabled, stops current playback (FUN_0601efc4),
+ * starts new session via FUN_0601e810 with track descriptor from table
+ * at 0x0604A57C (12 bytes per entry). On failure, sets error state 0xC. */
+int FUN_0601f40c(void)
 {
+  char *track_idx = (char *)0x060877D8;
 
-  char *puVar1;
-
-  int iVar2;
-
-  puVar1 = (char *)0x060877D8;
-
-  if (((int *)0x060877DD)[(unsigned char)*(int *)0x060877D8] != '\0') {
-
+  if (((int *)0x060877DD)[(unsigned char)*track_idx] != '\0') {
     FUN_0601efc4();
-
-    iVar2 = FUN_0601e810(((int *)0x060877D9)[(unsigned char)*puVar1],
-
-                         0x0604A57C + (unsigned int)(unsigned char)*puVar1 * 0xc,
-
-                         *(int *)0x0605E098);
-
-    if (iVar2 != 0) {
-
-      *(int *)0x0605E05C = 0xc;
-
+    int result = FUN_0601e810(((int *)0x060877D9)[(unsigned char)*track_idx],
+                              0x0604A57C + (unsigned int)(unsigned char)*track_idx * 0xc,
+                              *(int *)0x0605E098);
+    if (result != 0) {
+      *(int *)0x0605E05C = 0xc;            /* set CD error state */
       (*(int(*)())0x0601F8BC)();
-
       return 0;
-
     }
-
   }
-
   return 0;
-
 }
 
 void FUN_0601f4b4(param_1)
@@ -2076,33 +2028,20 @@ unsigned int FUN_0601f784()
 
 }
 
-void FUN_0601f87a(param_1)
-    unsigned char param_1;
+/* cdda_buffer_select -- Select CD audio buffer bank (A or B).
+ * param_1=0: use buffer A at 0x060A0FA8, param_1!=0: use buffer B at 0x0607ED90.
+ * Stores selection at 0x060877D8 and sets active buffer pointer at 0x0605E098. */
+void FUN_0601f87a(unsigned char param_1)
 {
-  char *puVar1;
-
   *(unsigned char *)0x060877D8 = param_1;
 
-  puVar1 = (char *)0x06087080;
-
   if (param_1 == '\0') {
-
-    *(char **)0x0605E098 = 0x060A0FA8;
-
-    *puVar1 = 0;
-
+    *(char **)0x0605E098 = (char *)0x060A0FA8;
+    *(char *)0x06087080 = 0;
+  } else {
+    *(char **)0x0605E098 = (char *)0x0607ED90;
+    *(char *)0x06087080 = 1;
   }
-
-  else {
-
-    *(char **)0x0605E098 = 0x0607ED90;
-
-    *puVar1 = 1;
-
-  }
-
-  return;
-
 }
 
 /* nop_f8bc -- Placeholder / stripped function (no-op). */
