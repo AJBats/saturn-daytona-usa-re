@@ -48,7 +48,7 @@ void FUN_06005ECC(void) { }
 /* FUN_06026DBC: moved to transform_stack.c */
 /* FUN_06026E0C: moved to transform_stack.c */
 /* FUN_06026EDE: moved to heading_rotation.c */
-void FUN_06026FFC(int t, int o) { (void)t; (void)o; }  /* car_position_update dep: table lookup */
+/* FUN_06026FFC: moved to matrix_transform.c */
 void FUN_06027CA4(int buffer, int index) { (void)buffer; (void)index; }
 void FUN_0603053C(int arg) { (void)arg; }
 
