@@ -26,7 +26,7 @@ void FUN_06012450(int a, int b) { (void)a; (void)b; }
 /* FUN_0600E47C: moved to physics_entry.c */
 /* FUN_0600E99C: moved to camera_setup.c */
 /* FUN_0600E4F2: moved to physics_entry.c */
-void FUN_0600A8BC(void) { }
+/* FUN_0600A8BC: moved to speed_counter.c */
 void FUN_0602F99C(void) { }
 
 /* Physics entry dependencies (from physics_entry.c) */
