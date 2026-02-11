@@ -9,7 +9,7 @@ void FUN_0603F3F6(void) { }
 void FUN_06034D1C(void) { }
 /* FUN_06041648: moved to cd_status.c */
 void FUN_06014F34(void) { }
-void FUN_0601712C(void) { }
+/* FUN_0601712C: moved to slot_dispatch.c */
 /* FUN_06035F04: moved to cd_command_exec.c */
 int FUN_06035D5A(void) { return 0; }
 int FUN_06035FEC(int a, int b) { (void)a; (void)b; return 0; }
