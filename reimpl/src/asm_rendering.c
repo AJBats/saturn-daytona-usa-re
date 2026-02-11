@@ -22,7 +22,7 @@ void FUN_06023584(void) { }
 void FUN_06024D14(void) { }
 void FUN_06024D24(void) { }
 void FUN_060272C0(void) { }
-void FUN_0602745C(void) { }
+/* FUN_0602745C: moved to atan.c */
 /* FUN_06027498: moved to vec3_math.c */
 void spring_damper_physics(void) { }
 void FUN_060279B0(void) { }

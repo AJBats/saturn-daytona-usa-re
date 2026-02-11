@@ -17,7 +17,7 @@ void FUN_0603FA1A(int *a, int b) { (void)a; (void)b; }
 void FUN_0603B93C(int a) { (void)a; }
 void FUN_06020DEE(int a) { (void)a; }
 void FUN_06038120(int a) { (void)a; }
-int FUN_06027378(int a) { (void)a; return 0; }
+/* FUN_06027378: moved to atan.c */
 void FUN_06012450(int a, int b) { (void)a; (void)b; }
 
 /* Game loop dependencies (from car_iteration.c) */
