@@ -154,130 +154,73 @@ extern short DAT_0600d404;
 extern short DAT_0600d406;
 extern short PTR_DAT_0600c59c;
 
-void FUN_0600c218()
+/* render_frame_basic -- Basic render frame for single-player race replay.
+ * Copies primary render state to secondary (+0x30 block), runs main rendering
+ * pipeline (camera, world tiles, objects), waits for VDP1 completion,
+ * then restores secondary state. */
+void FUN_0600c218(void)
 {
+    unsigned short ready_mask = PTR_DAT_0600c2a8;
+    unsigned char *vdp_status = (unsigned char *)-495;  /* VDP1 status port */
+    int saved = OBJ_STATE_SECONDARY;
 
-  unsigned short uVar1;
+    OBJ_STATE_SECONDARY = saved + 0x30;
+    (*(int(*)())0x06027630)(saved + 0x30, OBJ_STATE_PRIMARY, 0x30);  /* memcpy render state */
 
-  char *puVar2;
+    (*(int(*)())0x0600D31C)();                /* camera update */
+    *(int *)0x06063574 = 0x0600C286;          /* set render callback */
+    *(short *)0x21000000 = (short)0x0000FFFF; /* SCU DMA trigger */
+    (*(int(*)())0x060058FA)();                /* HUD sprites */
+    (*(int(*)())0x06006868)();                /* world tile rendering */
+    (*(int(*)())0x0601BDEC)();                /* object rendering */
 
-  char *puVar3;
+    /* Wait for VDP1 draw completion */
+    do { } while ((*vdp_status & ready_mask) != ready_mask);
+    *vdp_status = *vdp_status & 0xf;
 
-  int iVar4;
-
-  unsigned char *pbVar5;
-
-  puVar2 = (char *)0x0608A52C;
-
-  uVar1 = PTR_DAT_0600c2a8;
-
-  pbVar5 = (unsigned char *)-495;
-
-  iVar4 = OBJ_STATE_SECONDARY;
-
-  OBJ_STATE_SECONDARY = iVar4 + 0x30;
-
-  (*(int(*)())0x06027630)(iVar4 + 0x30,OBJ_STATE_PRIMARY,0x30);
-
-  (*(int(*)())0x0600D31C)();
-
-  *(char **)0x06063574 = 0x0600C286;
-
-  *(short *)0x21000000 = (short)0x0000FFFF;
-
-  (*(int(*)())0x060058FA)();
-
-  (*(int(*)())0x06006868)();
-
-  (*(int(*)())0x0601BDEC)();
-
-  puVar3 = (char *)0x0603C000;
-
-  do {
-
-  } while ((*pbVar5 & uVar1) != uVar1);
-
-  *pbVar5 = *pbVar5 & 0xf;
-
-  (*(int(*)())puVar3)();
-
-  *(int *)puVar2 = *(int *)puVar2 + -0x30;
-
-  return;
-
+    (*(int(*)())0x0603C000)();                /* finalize frame */
+    OBJ_STATE_SECONDARY -= 0x30;
 }
 
-int FUN_0600c302()
+/* heading_expand_and_zone_update -- Expand heading value and update zone timers.
+ * Writes CAR_HEADING_EXP (+0x68 << 5) to projected fields (+0xE0, +0xE4).
+ * Decrements two zone timers if positive.
+ * Then checks zone conditions to set 18-frame countdown timers at +0x172/+0x174. */
+int FUN_0600c302(void)
 {
+    int base = CAR_PTR_TARGET;
+    int expanded = *(int *)(base + CAR_HEADING_EXP) << 5;
 
-  int iVar1;
+    *(int *)(base + CAR_PROJECTED_B) = expanded;
+    *(int *)(base + CAR_PROJECTED_A) = expanded;
 
-  int iVar2;
+    /* Decrement zone timers */
+    if (0 < *(short *)(base + DAT_0600c36a))
+        *(short *)(base + DAT_0600c36a) -= 1;
+    if (0 < *(short *)(base + DAT_0600c36c))
+        *(short *)(base + DAT_0600c36c) -= 1;
 
-  iVar2 = CAR_PTR_TARGET;
+    /* Zone state checks */
+    if (*(short *)(base + DAT_0600c36e) != 0)
+        return (int)*(short *)(base + DAT_0600c36e);
 
-  iVar1 = *(int *)(iVar2 + 0x68) << 5;
+    if ((int)DAT_0600c370 <= *(int *)(base + CAR_HEADING_EXP)) {
+        *(short *)(base + CAR_TIMER_172) = 0x12;
+        *(short *)(base + CAR_TIMER_174) = 0;
+        return CAR_TIMER_174;
+    }
 
-  *(int *)(iVar2 + 0xe4) = iVar1;
+    if (*(int *)(base + DAT_0600c372) < (int)PTR_DAT_0600c374)
+        return (int)DAT_0600c372;
 
-  *(int *)(iVar2 + 0xe0) = iVar1;
+    if (0x9b < *(int *)(base + CAR_HEADING_EXP) &&
+        *(int *)(base + CAR_HEADING_EXP) < (int)DAT_0600c418) {
+        *(short *)(base + CAR_TIMER_172) = 0;
+        *(short *)(base + CAR_TIMER_174) = 0x12;
+        return CAR_TIMER_174;
+    }
 
-  if (0 < *(short *)(iVar2 + DAT_0600c36a)) {
-
-    *(short *)(iVar2 + DAT_0600c36a) = *(short *)(iVar2 + DAT_0600c36a) + -1;
-
-  }
-
-  if (0 < *(short *)(iVar2 + DAT_0600c36c)) {
-
-    *(short *)(iVar2 + DAT_0600c36c) = *(short *)(iVar2 + DAT_0600c36c) + -1;
-
-  }
-
-  if (*(short *)(iVar2 + DAT_0600c36e) != 0) {
-
-    return (int)*(short *)(iVar2 + DAT_0600c36e);
-
-  }
-
-  if ((int)DAT_0600c370 <= *(int *)(iVar2 + 0x68)) {
-
-    iVar1 = 0x172;
-
-    *(short *)(iVar2 + iVar1) = 0x12;
-
-    iVar1 = iVar1 + 2;
-
-    *(short *)(iVar2 + iVar1) = 0;
-
-    return iVar1;
-
-  }
-
-  if (*(int *)(iVar2 + DAT_0600c372) < (int)PTR_DAT_0600c374) {
-
-    return (int)DAT_0600c372;
-
-  }
-
-  iVar1 = 0x68;
-
-  if ((0x9b < *(int *)(iVar2 + 0x68)) && (*(int *)(iVar2 + 0x68) < (int)DAT_0600c418))
-
-  {
-
-    iVar1 = 0x172;
-
-    *(short *)(iVar2 + iVar1) = 0;
-
-    iVar1 = iVar1 + 2;
-
-    *(short *)(iVar2 + iVar1) = 0x12;
-
-  }
-
-  return iVar1;
-
+    return CAR_HEADING_EXP;
 }
 
 unsigned short FUN_0600c3a8(param_1)
@@ -625,144 +568,104 @@ void FUN_0600c74e()
 
 }
 
-void FUN_0600c7d4(param_1, param_2)
-    int param_1;
-    int param_2;
+/* heading_interpolate_and_move -- Interpolate heading toward target based on speed,
+ * then move car along heading vector.
+ * Speed brackets: >0x118 = >>3, >0xFA = >>2, >threshold = >>1, else full delta.
+ * Backs up heading, blends X/Z rotations with track normals,
+ * saves pre-collision position, applies heading drift correction,
+ * then computes sin/cos movement from CAR_ACCEL and heading. */
+void FUN_0600c7d4(int param_1, int param_2)
 {
+    int iVar1;
+    short delta;
 
-  int iVar1;
+    *(int *)(param_1 + DAT_0600c8b6) = *(int *)(param_1 + CAR_HEADING);
 
-  short sVar2;
+    delta = (short)*(int *)(param_1 + CAR_HEADING2) - (short)*(int *)(param_1 + CAR_HEADING);
 
-  *(int *)(param_1 + DAT_0600c8b6) = *(int *)(param_1 + 0x20);
+    /* Scale heading delta by speed bracket */
+    if (0x118 < *(int *)(param_1 + CAR_SPEED))
+        delta = delta >> 3;
+    else if (0xfa < *(int *)(param_1 + CAR_SPEED))
+        delta = delta >> 2;
+    else if ((int)DAT_0600c8bc < *(int *)(param_1 + CAR_SPEED))
+        delta = delta >> 1;
 
-  sVar2 = (short)*(int *)(param_1 + 0x28) - (short)*(int *)(param_1 + 0x20);
+    delta = (short)*(int *)(param_1 + CAR_HEADING) + delta;
+    *(int *)(param_1 + CAR_HEADING) = (int)delta;
 
-  if (0x118 < *(int *)(param_1 + 8)) {
+    /* Compute tertiary heading with drift correction */
+    *(int *)(param_1 + CAR_HEADING3) =
+        (int)(short)((delta - (short)*(int *)(param_1 + DAT_0600c8be)) -
+                    *(short *)(param_2 + 0x12));
 
-    sVar2 = sVar2 >> 3;
+    /* Blend X/Z rotations with track normal */
+    *(int *)(param_1 + CAR_ROT_X) =
+        (int)(short)(*(short *)(param_2 + 0xc) + (short)*(int *)(param_1 + CAR_ROT_X)) >> 1;
+    *(int *)(param_1 + CAR_ROT_Z) =
+        (int)(short)(*(short *)(param_2 + 0x10) + (short)*(int *)(param_1 + CAR_ROT_Z)) >> 1;
 
-  }
+    /* Save pre-collision position */
+    *(int *)(param_1 + CAR_PRE_COLL_X) = *(int *)(param_1 + CAR_X);
+    *(int *)(param_1 + CAR_PRE_COLL_Z) = *(int *)(param_1 + CAR_Z);
 
-  else if (0xfa < *(int *)(param_1 + 8)) {
+    /* Apply heading drift correction */
+    *(int *)(param_1 + CAR_HEADING) =
+        (int)(short)((short)*(int *)(param_1 + CAR_HEADING) +
+                    (short)(-(int)*(short *)(param_2 + 0x12) >> 2));
 
-    sVar2 = sVar2 >> 2;
+    /* Compute sin/cos of heading, multiply by accel to get X/Z velocity */
+    (*(int(*)())0x06027358)(-*(int *)(param_1 + CAR_HEADING2), DAT_0600c8c2 + param_1, DAT_0600c8c0 + param_1);
 
-  }
+    iVar1 = (*(int(*)())0x06027552)(*(int *)(param_1 + CAR_ACCEL), *(int *)(param_1 + DAT_0600c8c2));
+    *(int *)(param_1 + CAR_X) += iVar1;
 
-  else if ((int)DAT_0600c8bc < *(int *)(param_1 + 8)) {
-
-    sVar2 = sVar2 >> 1;
-
-  }
-
-  sVar2 = (short)*(int *)(param_1 + 0x20) + sVar2;
-
-  *(int *)(param_1 + 0x20) = (int)sVar2;
-
-  *(int *)(param_1 + 0x30) =
-
-       (int)(short)((sVar2 - (short)*(int *)(param_1 + DAT_0600c8be)) -
-
-                   *(short *)(param_2 + 0x12));
-
-  *(int *)(param_1 + 0x1c) =
-
-       (int)(short)(*(short *)(param_2 + 0xc) + (short)*(int *)(param_1 + 0x1c)) >> 1;
-
-  *(int *)(param_1 + 0x24) =
-
-       (int)(short)(*(short *)(param_2 + 0x10) + (short)*(int *)(param_1 + 0x24)) >> 1;
-
-  *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x10);
-
-  *(int *)(param_1 + 0x3c) = *(int *)(param_1 + 0x18);
-
-  *(int *)(param_1 + 0x20) =
-
-       (int)(short)((short)*(int *)(param_1 + 0x20) +
-
-                   (short)(-(int)*(short *)(param_2 + 0x12) >> 2));
-
-  (*(int(*)())0x06027358)(-*(int *)(param_1 + 0x28),DAT_0600c8c2 + param_1,DAT_0600c8c0 + param_1);
-
-  iVar1 = (*(int(*)())0x06027552)(*(int *)(param_1 + 0xc),*(int *)(param_1 + DAT_0600c8c2));
-
-  *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + iVar1;
-
-  iVar1 = (*(int(*)())0x06027552)(*(int *)(param_1 + 0xc),*(int *)(param_1 + DAT_0600c8c0));
-
-  *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + iVar1;
-
-  return;
-
+    iVar1 = (*(int(*)())0x06027552)(*(int *)(param_1 + CAR_ACCEL), *(int *)(param_1 + DAT_0600c8c0));
+    *(int *)(param_1 + CAR_Z) += iVar1;
 }
 
-int FUN_0600c8cc(param_1, param_2)
-    int param_1;
-    int *param_2;
+/* car_heading_adjust -- Smoothly adjust car heading towards target.
+ * Computes angle from car X,Z to target X,Z via atan2 (0x0602744C).
+ * Clamps heading change per frame to DAT_0600c962 / 0xFA00 limits.
+ * Updates CAR_HEADING2 (+0x28). Returns computed angle. */
+int FUN_0600c8cc(int param_1, int *param_2)
 {
+    int angle;
+    short delta;
 
-  int iVar1;
+    angle = (*(int(*)())0x0602744C)(
+        *param_2 - *(int *)(param_1 + CAR_X),
+        param_2[2] - *(int *)(param_1 + CAR_Z));
 
-  short sVar2;
+    delta = (short)-angle - (short)*(int *)(param_1 + CAR_HEADING2);
 
-  iVar1 = (*(int(*)())0x0602744C)(*param_2 - *(int *)(param_1 + 0x10),param_2[2] - *(int *)(param_1 + 0x18));
+    if (DAT_0600c962 < delta) {
+        *(int *)(param_1 + CAR_HEADING2) =
+            (int)(short)((short)*(int *)(param_1 + CAR_HEADING2) + DAT_0600c962);
+    } else if (delta < DAT_0600c964) {
+        *(int *)(param_1 + CAR_HEADING2) =
+            (int)(short)((short)*(int *)(param_1 + CAR_HEADING2) + (short)0x0000FA00);
+    } else {
+        *(int *)(param_1 + CAR_HEADING2) = -angle;
+    }
 
-  sVar2 = (short)-iVar1 - (short)*(int *)(param_1 + 0x28);
-
-  if (DAT_0600c962 < sVar2) {
-
-    *(int *)(param_1 + 0x28) = (int)(short)((short)*(int *)(param_1 + 0x28) + DAT_0600c962);
-
-  }
-
-  else if (sVar2 < DAT_0600c964) {
-
-    *(int *)(param_1 + 0x28) =
-
-         (int)(short)((short)*(int *)(param_1 + 0x28) + (short)0x0000FA00);
-
-  }
-
-  else {
-
-    *(int *)(param_1 + 0x28) = -iVar1;
-
-  }
-
-  return iVar1;
-
+    return angle;
 }
 
-void FUN_0600c928(param_1)
-    int param_1;
+/* car_friction_decel -- Apply friction deceleration based on speed.
+ * Computes friction from CAR_ACCEL: (accel >> 9) * 0xFFFF >> 8, clamped to 0x2000.
+ * Subtracts from CAR_COLL_SPEED (+0x48) and copies to CAR_SPEED_COPY (+0x50). */
+void FUN_0600c928(int param_1)
 {
+    unsigned int max_friction = 0x2000;
+    unsigned int friction = (int)((*(unsigned int *)(param_1 + CAR_ACCEL) >> 9 & 0xffff) * 0xffff) >> 8 & 0xffff;
 
-  int iVar1;
+    if ((int)friction < (int)max_friction)
+        max_friction = friction;
 
-  unsigned int uVar2;
-
-  unsigned int uVar3;
-
-  uVar3 = 0x2000;
-
-  uVar2 = (int)((*(unsigned int *)(param_1 + 0xc) >> 9 & 0xffff) * 0xffff) >> 8 & 0xffff;
-
-  if ((int)uVar2 < (int)uVar3) {
-
-    uVar3 = uVar2;
-
-  }
-
-  iVar1 = *(int *)(param_1 + 0x48) - uVar3;
-
-  *(int *)(param_1 + 0x48) = iVar1;
-
-  *(int *)(param_1 + 0x50) = iVar1;
-
-  return;
-
+    int result = *(int *)(param_1 + CAR_COLL_SPEED) - max_friction;
+    *(int *)(param_1 + CAR_COLL_SPEED) = result;
+    *(int *)(param_1 + CAR_SPEED_COPY) = result;
 }
 
 /* car_speed_curve_apply -- Apply speed curve adjustment from lookup table.

@@ -70,35 +70,25 @@ extern short DAT_0600a36e;
 extern short DAT_0600a370;
 extern short DAT_0600a372;
 
-void FUN_0600a026()
+/* vdp_render_reset -- Reset VDP rendering state and SCU interrupt masks.
+ * First clears 4 VDP render slots (0, 4, 8, 0xC) via 0x0602853E,
+ * then finalizes with 0x06028560.
+ * Then resets 4 SCU interrupt masks (4, 8, 0x10, 0x20) to 0 via 0x06014884. */
+void FUN_0600a026(void)
 {
+    register void (*vdp_clear)(int) = (void (*)(int))0x0602853E;
+    register void (*scu_mask)(int, int) = (void (*)(int, int))0x06014884;
 
-  char *puVar1;
+    vdp_clear(0);
+    vdp_clear(4);
+    vdp_clear(8);
+    vdp_clear(0xc);
+    (*(int(*)())0x06028560)();  /* vdp render finalize */
 
-  puVar1 = (char *)0x0602853E;
-
-  (*(int(*)())0x0602853E)(0);
-
-  (*(int(*)())puVar1)(4);
-
-  (*(int(*)())puVar1)(8);
-
-  (*(int(*)())puVar1)(0xc);
-
-  (*(int(*)())0x06028560)();
-
-  puVar1 = (char *)0x06014884;
-
-  (*(int(*)())0x06014884)(4,0);
-
-  (*(int(*)())puVar1)(8,0);
-
-  (*(int(*)())puVar1)(0x10,0);
-
-  (*(int(*)())puVar1)(0x20,0);
-
-  return;
-
+    scu_mask(4, 0);
+    scu_mask(8, 0);
+    scu_mask(0x10, 0);
+    scu_mask(0x20, 0);
 }
 
 /* camera_shake_update -- Apply screen shake based on impact intensity.
@@ -140,187 +130,109 @@ void FUN_0600a0c0(void)
     VBLANK_OUT_COUNTER = 0;
 }
 
-void FUN_0600a140()
+/* vdp1_vram_clear -- Clear VDP1 VRAM framebuffer (0x25C80000) twice.
+ * Sets draw-end command at 0x25C00000, then zeros 64KB of VRAM.
+ * Each pass: clear VRAM, enable VBlank, flush render, reset counter.
+ * Double-clear ensures both front/back buffers are wiped. */
+void FUN_0600a140(void)
 {
+    int *dst;
+    int i;
 
-  char *puVar1;
+    *(int *)0x25C00000 = 0x80000000;  /* VDP1 draw-end command */
 
-  int *puVar2;
+    /* First pass: clear front buffer */
+    dst = (int *)0x25C80000;
+    for (i = 0x10000; i > 0; i -= 2) {
+        dst[0] = 0;
+        dst[1] = 0;
+        dst += 2;
+    }
+    VBL_DISABLE_FLAG = 0;
+    (*(int(*)())0x06026CE0)();  /* render flush */
+    VBLANK_OUT_COUNTER = 0;
 
-  int *puVar3;
-
-  *(int *)0x25C00000 = 0x80000000;
-
-  puVar1 = (char *)0x00010000;
-
-  puVar3 = (int *)0x25C80000;
-
-  do {
-
-    puVar1 = puVar1 + -2;
-
-    puVar2 = puVar3 + 1;
-
-    *puVar3 = 0;
-
-    puVar3 = puVar3 + 2;
-
-    *puVar2 = 0;
-
-  } while (puVar1 != (char *)0x0);
-
-  VBL_DISABLE_FLAG = 0;
-
-  (*(int(*)())0x06026CE0)();
-
-  VBLANK_OUT_COUNTER = 0;
-
-  puVar1 = (char *)0x00010000;
-
-  puVar3 = (int *)0x25C80000;
-
-  do {
-
-    puVar1 = puVar1 + -2;
-
-    puVar2 = puVar3 + 1;
-
-    *puVar3 = 0;
-
-    puVar3 = puVar3 + 2;
-
-    *puVar2 = 0;
-
-  } while (puVar1 != (char *)0x0);
-
-  VBL_DISABLE_FLAG = 0;
-
-  (*(int(*)())0x06026CE0)();
-
-  VBLANK_OUT_COUNTER = 0;
-
-  return;
-
+    /* Second pass: clear back buffer */
+    dst = (int *)0x25C80000;
+    for (i = 0x10000; i > 0; i -= 2) {
+        dst[0] = 0;
+        dst[1] = 0;
+        dst += 2;
+    }
+    VBL_DISABLE_FLAG = 0;
+    (*(int(*)())0x06026CE0)();  /* render flush */
+    VBLANK_OUT_COUNTER = 0;
 }
 
-unsigned int FUN_0600a1b8()
+/* save_course_params -- Save current course parameters to state buffer.
+ * Only writes if in special mode (0x06078635 != 0) or on course 0.
+ * Stores: steering mode (byte 0), gear type (byte 1), car flags (byte 2).
+ * Returns last-read value (car flags or course index). */
+unsigned int FUN_0600a1b8(void)
 {
-  register char *base asm("r2") = (char *)0x0607ED90;
-  unsigned int uVar2;
+    register char *base asm("r2") = (char *)0x0607ED90;
+    unsigned int result;
 
-  if (*(char *)0x06078635 != 0 ||
-     ((uVar2 = *(unsigned short *)0x0607ED8C) == 0 &&
-      (uVar2 = COURSE_SELECT) == 0)) {
-    base[0] = (char)*(short *)0x06063F44;
-    base[1] = (char)*(int *)0x06078868;
-    uVar2 = *(unsigned int *)0x0607EAB8 & 0xff;
-    base[2] = (char)uVar2;
-  }
-  return uVar2;
+    if (*(char *)0x06078635 != 0 ||
+       ((result = *(unsigned short *)0x0607ED8C) == 0 &&
+        (result = COURSE_SELECT) == 0)) {
+        base[0] = (char)*(short *)0x06063F44;
+        base[1] = (char)*(int *)0x06078868;
+        result = *(unsigned int *)0x0607EAB8 & 0xff;
+        base[2] = (char)result;
+    }
+    return result;
 }
 
-int FUN_0600a1f6()
+/* phase_transition_check -- Check state countdown and set PHASE_FLAG.
+ * Uses per-course thresholds (car_count=0/1/2+) to decide when to
+ * transition to phase 3 (pre-race) or 4 (race start).
+ * Returns CAR_COUNT value. */
+int FUN_0600a1f6(void)
 {
+    int count = CAR_COUNT;
 
-  int iVar1;
-
-  if (CAR_COUNT == 0) {
-
-    iVar1 = 0;
-
-    if (*(int *)0x0607EBCC == (int)DAT_0600a224) {
-
-      PHASE_FLAG = 3;
-
+    if (count == 0) {
+        if (STATE_COUNTDOWN == (int)DAT_0600a224)
+            PHASE_FLAG = 3;
+        else if (STATE_COUNTDOWN == 0xa8)
+            PHASE_FLAG = 4;
+    } else if (count == 1) {
+        if (STATE_COUNTDOWN == (int)DAT_0600a2d8)
+            PHASE_FLAG = 3;
+        else if (STATE_COUNTDOWN == 0x271)
+            PHASE_FLAG = 4;
+    } else {
+        if (STATE_COUNTDOWN == (int)DAT_0600a2dc)
+            PHASE_FLAG = 3;
+        else if (STATE_COUNTDOWN == 0x190)
+            PHASE_FLAG = 4;
     }
 
-    else if (*(int *)0x0607EBCC == 0xa8) {
-
-      PHASE_FLAG = 4;
-
-    }
-
-  }
-
-  else {
-
-    iVar1 = CAR_COUNT;
-
-    if (iVar1 == 1) {
-
-      if (*(int *)0x0607EBCC == (int)DAT_0600a2d8) {
-
-        PHASE_FLAG = 3;
-
-      }
-
-      else if (*(int *)0x0607EBCC == 0x271) {
-
-        PHASE_FLAG = 4;
-
-      }
-
-    }
-
-    else if (*(int *)0x0607EBCC == (int)DAT_0600a2dc) {
-
-      PHASE_FLAG = 3;
-
-    }
-
-    else if (*(int *)0x0607EBCC == 0x190) {
-
-      PHASE_FLAG = 4;
-
-    }
-
-  }
-
-  return iVar1;
-
+    return count;
 }
 
-int FUN_0600a294()
+/* phase_transition_extended -- Extended phase transition for 1-2 player modes.
+ * For 1-player: check STATE_COUNTDOWN against 0x371 (phase 3) / 0x352 (phase 4).
+ * For 2-player: check 3 pairs of thresholds for phase 3/4 transitions.
+ * Returns CAR_COUNT. */
+int FUN_0600a294(void)
 {
-  register short *dest asm("r4") = (short *)0x0605A016;
-  register int *src asm("r5") = (int *)0x0607EBCC;
-  register short v3 asm("r7") = 3;
-  register short v4 asm("r6") = 4;
-  int iVar1;
-  int cmp;
+    int count = CAR_COUNT;
+    int countdown = STATE_COUNTDOWN;
 
-  iVar1 = CAR_COUNT;
-  if (iVar1 == 1) {
-    cmp = *src;
-    if (cmp == 0x371) {
-      *dest = v3;
+    if (count == 1) {
+        if (countdown == 0x371)       PHASE_FLAG = 3;
+        else if (countdown == 0x352)  PHASE_FLAG = 4;
+    } else if (count == 2) {
+        if (countdown == 0x3ab)                PHASE_FLAG = 3;
+        else if (countdown == 0x398)           PHASE_FLAG = 4;
+        else if (countdown == (int)DAT_0600a36c) PHASE_FLAG = 3;
+        else if (countdown == (int)DAT_0600a36e) PHASE_FLAG = 4;
+        else if (countdown == (int)DAT_0600a370) PHASE_FLAG = 3;
+        else if (countdown == (int)DAT_0600a372) PHASE_FLAG = 4;
     }
-    else if (cmp == 0x352) {
-      *dest = v4;
-    }
-  }
-  else if (iVar1 == 2) {
-    cmp = *src;
-    if (cmp == 0x3ab) {
-      *dest = v3;
-    }
-    else if (cmp == 0x398) {
-      *dest = v4;
-    }
-    else if (cmp == (int)DAT_0600a36c) {
-      *dest = v3;
-    }
-    else if (cmp == (int)DAT_0600a36e) {
-      *dest = v4;
-    }
-    else if (cmp == (int)DAT_0600a370) {
-      *dest = v3;
-    }
-    else if (cmp == (int)DAT_0600a372) {
-      *dest = v4;
-    }
-  }
-  return iVar1;
+    return count;
 }
 
 /* phase_select -- Map game sub-phase (0x06063E1C) to PHASE_FLAG value.
@@ -361,80 +273,38 @@ void FUN_0600a4aa(void)
     FUN_06031A28(*(int *)0x060620DC, *(short *)0x06089E44, *(int *)0x06062184);
 }
 
-int FUN_0600a4ca(param_1)
-    int param_1;
+/* course_sound_dispatch -- Dispatch course-specific BGM and positional audio.
+ * Selects from 3 parallel table sets based on CAR_COUNT (course 0/1/2).
+ * Sets BGM tempo via FUN_06031D8C, then positional sound via FUN_06031A28.
+ * param_1 = sound source index. */
+int FUN_0600a4ca(int param_1)
 {
+    int off = param_1 << 2;
+    int count = CAR_COUNT;
+    int vol;
+    int pan;
+    char *pos_table;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  char *puVar4;
-
-  int uVar5;
-
-  puVar2 = (int *)0x060634DC;
-
-  puVar4 = (char *)0x06089E44;
-
-  puVar1 = (char *)0x06031A28;
-
-  iVar3 = CAR_COUNT;
-
-  if (iVar3 == 0) {
-
-    iVar3 = (param_1 << 2);
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x06063488 + iVar3),*(int *)(0x060634F8 + iVar3));
-
-    uVar5 = *(int *)(puVar2 + iVar3);
-
-    iVar3 = (int)*(short *)(puVar4 + 0x54);
-
-    puVar4 = (char *)0x06063434;
-
-  }
-
-  else if (iVar3 == 1) {
-
-    iVar3 = (param_1 << 2);
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x060634A4 + iVar3),*(int *)(0x060634F8 + iVar3));
-
-    uVar5 = *(int *)(puVar2 + iVar3);
-
-    iVar3 = (int)*(short *)(puVar4 + 0x54);
-
-    puVar4 = (char *)0x06063450;
-
-  }
-
-  else {
-
-    if (iVar3 != 2) {
-
-      return iVar3;
-
+    if (count == 0) {
+        (*(int(*)())0x06031D8C)(*(int *)(0x06063488 + off), *(int *)(0x060634F8 + off));
+        vol = *(int *)(0x060634DC + off);
+        pan = (int)*(short *)(0x06089E44 + 0x54);
+        pos_table = (char *)0x06063434;
+    } else if (count == 1) {
+        (*(int(*)())0x06031D8C)(*(int *)(0x060634A4 + off), *(int *)(0x060634F8 + off));
+        vol = *(int *)(0x060634DC + off);
+        pan = (int)*(short *)(0x06089E44 + 0x54);
+        pos_table = (char *)0x06063450;
+    } else if (count == 2) {
+        (*(int(*)())0x06031D8C)(*(int *)(0x060634C0 + off), *(int *)(0x060634F8 + off));
+        vol = *(int *)(0x060634DC + off);
+        pan = (int)*(short *)(0x06089E44 + 0x54);
+        pos_table = (char *)0x0606346C;
+    } else {
+        return count;
     }
 
-    iVar3 = (param_1 << 2);
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x060634C0 + iVar3),*(int *)(0x060634F8 + iVar3));
-
-    uVar5 = *(int *)(puVar2 + iVar3);
-
-    iVar3 = (int)*(short *)(puVar4 + 0x54);
-
-    puVar4 = (char *)0x0606346C;
-
-  }
-
-  iVar3 = (*(int(*)())puVar1)(*(int *)(puVar4 + (param_1 << 2)),iVar3,uVar5);
-
-  return iVar3;
-
+    return (*(int(*)())0x06031A28)(*(int *)(pos_table + off), pan, vol);
 }
 
 /* course_sound_update -- Update course-specific positional audio.
@@ -523,55 +393,30 @@ void FUN_0600a76c()
 
 }
 
-unsigned short FUN_0600a8bc()
+/* speed_frame_counter -- Increment frame counter based on car speed.
+ * If CAR_ACCEL (+0x0C) is 0, resets counter.
+ * Otherwise increments by 1/2/4 depending on CAR_SPEED (+0x08) thresholds
+ * (100, 200). Counter wraps at 16 (mask 0x0F). */
+unsigned short FUN_0600a8bc(void)
 {
+    int car = CAR_PTR_CURRENT;
+    unsigned short result;
 
-  char *puVar1;
+    if (*(int *)(car + CAR_ACCEL) == 0) {
+        *(short *)0x06063F46 = 0;
+        result = 0;
+    } else {
+        if (*(int *)(car + CAR_SPEED) < 100)
+            *(short *)0x06063F46 += 1;
+        else if (*(int *)(car + CAR_SPEED) < 0xc8)
+            *(short *)0x06063F46 += 2;
+        else
+            *(short *)0x06063F46 += 4;
 
-  unsigned short uVar2;
-
-  int iVar3;
-
-  puVar1 = (char *)0x06063F46;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  if (*(int *)(iVar3 + 0xc) == 0) {
-
-    *(short *)0x06063F46 = 0;
-
-    uVar2 = 0;
-
-  }
-
-  else {
-
-    if (*(int *)(iVar3 + 8) < 100) {
-
-      *(short *)0x06063F46 = *(short *)0x06063F46 + 1;
-
+        result = *(unsigned short *)0x06063F46 & 0xf;
+        *(unsigned short *)0x06063F46 = result;
     }
-
-    else if (*(int *)(iVar3 + 8) < 0xc8) {
-
-      *(short *)0x06063F46 = *(short *)0x06063F46 + 2;
-
-    }
-
-    else {
-
-      *(short *)0x06063F46 = *(short *)0x06063F46 + 4;
-
-    }
-
-    uVar2 = *(unsigned short *)puVar1 & 0xf;
-
-    *(unsigned short *)puVar1 = uVar2;
-
-  }
-
-  return uVar2;
-
+    return result;
 }
 
 int FUN_0600a914()
@@ -1952,33 +1797,23 @@ void FUN_0600bb94()
 
 }
 
-void FUN_0600bf70()
+/* camera_heading_filter -- Compute filtered camera heading from car rotation.
+ * Blends car's X-rotation (ROT_X at +0x1C) scaled by DAT_0600bfe2 with
+ * the camera base heading (0x06063E34).
+ * If camera phase matches target (0x06063E1C == 0x06063E20), applies IIR
+ * filter (old*0x320 + new*0xE0) >> 10. Otherwise snaps directly. */
+void FUN_0600bf70(void)
 {
+    short blended = (short)((int)(short)*(int *)(CAR_PTR_TARGET + CAR_ROT_X) * (int)DAT_0600bfe2
+                   >> 10) + (short)*(int *)0x06063E34;
 
-  short sVar1;
-
-  sVar1 = (short)((int)(short)*(int *)(CAR_PTR_TARGET + 0x1c) * (int)DAT_0600bfe2
-
-                 >> 10) + (short)*(int *)0x06063E34;
-
-  if (*(int *)0x06063E1C == *(int *)0x06063E20) {
-
-    *(int *)0x06063EEC =
-
-         (int)(short)*(int *)0x06063EEC * 0x320 +
-
-         (int)sVar1 * 0xe0 >> 10;
-
-  }
-
-  else {
-
-    *(int *)0x06063EEC = (int)sVar1;
-
-  }
-
-  return;
-
+    if (*(int *)0x06063E1C == *(int *)0x06063E20) {
+        *(int *)0x06063EEC =
+            (int)(short)*(int *)0x06063EEC * 0x320 +
+            (int)blended * 0xe0 >> 10;
+    } else {
+        *(int *)0x06063EEC = (int)blended;
+    }
 }
 
 void FUN_0600bffc()
