@@ -89,6 +89,7 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 
 /* --- Timers and state (0x150-0x19F) --- */
 #define CAR_TIMER_150       0x150   /* short: timer (decremented by FUN_06030EE0) */
+#define CAR_LAP_COUNT       0x15C   /* int:  lap counter (incremented on lap complete) */
 #define CAR_ACTIVATE_FLAGS  0x160   /* int:  activation flags (bit 0x200000 = active) */
 #define CAR_STATE_FLAGS     0x161   /* byte: state flags (bit 5 = steer override) */
 #define CAR_TIMER_172       0x172   /* short: 18-frame countdown timer 1 */

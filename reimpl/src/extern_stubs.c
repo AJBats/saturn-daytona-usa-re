@@ -53,7 +53,7 @@ void FUN_06021450(void) { }
 
 /* E4F2 dependencies (from physics_entry.c) */
 void FUN_0602ECF2(void) { }
-void FUN_0600DB64(void) { }
+/* FUN_0600DB64: moved to lap_counting.c */
 void FUN_0600EA18(int car) { (void)car; }
 void FUN_0602D9F0(void) { }
 void FUN_0600C994(void) { }

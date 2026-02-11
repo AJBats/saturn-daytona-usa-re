@@ -464,3 +464,54 @@ static void player_checkpoint_track(void)
         }
     }
 }
+
+
+/* ================================================================
+ * FUN_0600DB64 -- Player Lap Flag Consumer (0x0600DB64)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600DB64-0x0600DB9C)
+ * Pool verified:
+ *   0x0600DBDA = word 0x015C (car lap counter offset)
+ *   0x0600DBE0 = 0x0607E940 (CAR_PTR_CURRENT)
+ *   0x0600DBE4 = 0x0607EABC (LAP_DISPLAY_TIMER)
+ *   0x0600DBE8 = 0x0607EAAC (LAP_ACCUM_TIME)
+ *   0x0600DBEC = 0x0607EAA0 (LAP_DELTA_TIME)
+ *   0x0600DBF0 = 0x0601D7D0 (FUN_0601D7D0)
+ *
+ * Consumes the lap completion flag set by FUN_0600D9BC:
+ *   1. Check car byte[2] bit 0x04 (lap flag)
+ *   2. If clear: return immediately
+ *   3. Clear the flag
+ *   4. Increment lap counter at car[0x15C]
+ *   5. Set LAP_DISPLAY_TIMER = 40 (for display overlay)
+ *   6. Accumulate lap time: LAP_ACCUM_TIME += LAP_DELTA_TIME
+ *   7. Tail-call FUN_0601D7D0 (lap display renderer)
+ *
+ * 28 instructions. Leaf function (no callee-saved registers).
+ * ================================================================ */
+void FUN_0600DB64(void)
+{
+    int car = CAR_PTR_CURRENT;
+
+    /* Check lap completion flag: byte[2] bit 0x04 */
+    if (!(CAR_UBYTE(car, 0x002) & 0x04))
+        return;
+
+    /* Clear the lap flag */
+    {
+        volatile unsigned char *p = (volatile unsigned char *)((char *)car + 0x002);
+        *p = *p & 0xFB;
+    }
+
+    /* Increment lap counter */
+    CAR_INT(car, CAR_LAP_COUNT) += 1;
+
+    /* Start lap display timer (40 frames) */
+    LAP_DISPLAY_TIMER = 40;
+
+    /* Accumulate lap time */
+    LAP_ACCUM_TIME += LAP_DELTA_TIME;
+
+    /* Tail-call to lap display renderer */
+    FUN_0601D7D0();
+}
