@@ -868,21 +868,17 @@ int FUN_0601eaa0()
 
 }
 
-void FUN_0601eb1c()
+/* cd_track_play_if_active -- Play CD audio track if channel is marked active.
+ * Checks active-flag array at 0x060877DD indexed by current channel (0x060877D8).
+ * If active, calls track player with channel-ID, track descriptor, and playback state. */
+void FUN_0601eb1c(void)
 {
-
-  if (((int *)0x060877DD)[(unsigned char)*(int *)0x060877D8] != '\0') {
-
-    FUN_0601e810(((int *)0x060877D9)[(unsigned char)*(int *)0x060877D8],
-
-                 0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc,
-
-                 *(int *)0x0605E098);
-
-  }
-
-  return;
-
+    unsigned char ch = (unsigned char)*(int *)0x060877D8;
+    if (((int *)0x060877DD)[ch] != '\0') {
+        FUN_0601e810(((int *)0x060877D9)[ch],
+                     0x0604A57C + (unsigned int)ch * 0xC,
+                     *(int *)0x0605E098);
+    }
 }
 
 unsigned int FUN_0601eb70()

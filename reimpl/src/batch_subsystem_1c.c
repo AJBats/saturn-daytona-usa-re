@@ -968,23 +968,18 @@ void FUN_0601cefc()
 
 }
 
-void FUN_0601d014()
+/* timer_display_init -- Initialize timer/countdown VDP display.
+ * DMA-copies timer font data to VDP2 VRAM (0x25F00000),
+ * sets up 2 VDP1 sprite commands for minutes and seconds digits,
+ * clears timer display state. */
+void FUN_0601d014(void)
 {
-
-  (*(int(*)())0x0602766C)(0x25F00000,0x0604884C,0x40);
-
-  (*(int(*)())0x06028400)(4,*(int *)0x06063968,0x518,
-
-             *(int *)(0x06063968 + 4),0x06063968);
-
-  (*(int(*)())0x06028400)(0,*(int *)0x06063970,0x518,
-
-             *(int *)(0x06063970 + 4),0x06063970);
-
-  *(int *)0x06086020 = 0;
-
-  return;
-
+    (*(int(*)())0x0602766C)(0x25F00000, 0x0604884C, 0x40);   /* DMA font data */
+    (*(int(*)())0x06028400)(4, *(int *)0x06063968, 0x518,
+        *(int *)(0x06063968 + 4), 0x06063968);                /* minutes sprite */
+    (*(int(*)())0x06028400)(0, *(int *)0x06063970, 0x518,
+        *(int *)(0x06063970 + 4), 0x06063970);                /* seconds sprite */
+    *(int *)0x06086020 = 0;                                    /* reset display state */
 }
 
 void FUN_0601d074()

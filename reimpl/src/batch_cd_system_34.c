@@ -504,22 +504,16 @@ int FUN_060346c0()
 
 }
 
-int FUN_06034708(param_1)
-    int param_1;
+/* cd_transfer_step -- Execute one step of CD data transfer.
+ * Copies state+0x0C to state+0x10 (advance read position),
+ * then runs: sector header parse, data validation, transfer completion.
+ * Returns transfer status. */
+int FUN_06034708(int state)
 {
-
-  int uVar1;
-
-  *(int *)(param_1 + 0x00000010) = *(int *)(param_1 + 0x0000000C);
-
-  FUN_06034754();
-
-  FUN_060347a8();
-
-  uVar1 = FUN_06034848();
-
-  return uVar1;
-
+    *(int *)(state + 0x10) = *(int *)(state + 0x0C);
+    FUN_06034754();
+    FUN_060347a8();
+    return FUN_06034848();
 }
 
 int FUN_06034754()

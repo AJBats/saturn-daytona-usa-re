@@ -387,20 +387,14 @@ void FUN_06038300()
 
 }
 
-void FUN_0603850c(param_1)
-    int param_1;
+/* vdp1_batch_complete -- Mark VDP1 batch as complete and set render target.
+ * Clears batch flag if it was pending (1), stores new render target address. */
+void FUN_0603850c(int render_target)
 {
-
-  if (VDP1_BATCH_FLAG == 1) {
-
-    VDP1_BATCH_FLAG = 0;
-
-  }
-
-  *(int *)0x060635A8 = param_1;
-
-  return;
-
+    if (VDP1_BATCH_FLAG == 1) {
+        VDP1_BATCH_FLAG = 0;
+    }
+    *(int *)0x060635A8 = render_target;
 }
 
 /* vdp1_batch_request -- Request VDP1 batch processing if not already queued */

@@ -581,40 +581,25 @@ void FUN_0600338c(param_1, param_2)
 
 }
 
-void FUN_060033e6()
+/* hud_blink_sprite -- Update blinking HUD sprite based on frame counter.
+ * Alternates between two sprite attribute destinations every 4 frames
+ * (bit 2 of FRAME_COUNTER) to create a blink effect. */
+void FUN_060033e6(void)
 {
-
-  if ((FRAME_COUNTER & 4) != 0) {
-
-    (*(int(*)())0x060284AE)(8,(int)DAT_0600340c,0x90,0x06044638);
-
-    return;
-
-  }
-
-  (*(int(*)())0x060284AE)(8,(int)DAT_0600340c,0x90,0x0605ACF0);
-
-  return;
-
+    int dest = (FRAME_COUNTER & 4) ? 0x06044638 : 0x0605ACF0;
+    (*(int(*)())0x060284AE)(8, (int)DAT_0600340c, 0x90, dest);
 }
 
-void FUN_06003430()
+/* hud_render_select -- Render HUD element: full or compact based on mode flag.
+ * If 0x06083255 is clear: full-size sprite (0x900 bytes from 0x06063798).
+ * If set: compact sprite (0x490 bytes from 0x06063790). */
+void FUN_06003430(void)
 {
-
-  if (*(int *)0x06083255 == '\0') {
-
-    (*(int(*)())0x06028400)(4,*(int *)0x06063798,0x900,
-
-               *(int *)(0x06063798 + 4));
-
-    return;
-
-  }
-
-  (*(int(*)())0x06028400)(4,*(int *)0x06063790,0x490,((int *)0x06063790)[1]);
-
-  return;
-
+    if (*(int *)0x06083255 == '\0') {
+        (*(int(*)())0x06028400)(4, *(int *)0x06063798, 0x900, *(int *)(0x06063798 + 4));
+    } else {
+        (*(int(*)())0x06028400)(4, *(int *)0x06063790, 0x490, ((int *)0x06063790)[1]);
+    }
 }
 
 void vdp2_mega_init()

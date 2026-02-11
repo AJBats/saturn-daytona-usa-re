@@ -1499,27 +1499,20 @@ void FUN_060196a4()
 
 }
 
-void FUN_060198e0()
+/* subsystem_setup_init -- Initialize sound/display subsystem for game mode.
+ * Configures VDP sprite slot (0xC), resets VDP sprite system,
+ * sets sound subsystem flags (active=1, channel=1, volume=0xFF),
+ * then runs subsystem data init, display setup, and cursor init. */
+void FUN_060198e0(void)
 {
-
-  (*(int(*)())0x0602853E)(0xc);
-
-  (*(int(*)())0x06028560)();
-
-  *(int *)0x06085FF1 = 1;
-
-  *(int *)0x06085FF6 = 1;
-
-  *(int *)0x06085FF7 = 0xff;
-
-  FUN_06019928();
-
-  FUN_0601a80c();
-
-  (*(int(*)())0x0601A940)();
-
-  return;
-
+    (*(int(*)())0x0602853E)(0xC);    /* VDP sprite slot config */
+    (*(int(*)())0x06028560)();       /* VDP sprite system reset */
+    *(int *)0x06085FF1 = 1;          /* sound subsystem active */
+    *(int *)0x06085FF6 = 1;          /* sound channel active */
+    *(int *)0x06085FF7 = 0xFF;       /* volume = max */
+    FUN_06019928();                  /* subsystem data init */
+    FUN_0601a80c();                  /* display setup */
+    (*(int(*)())0x0601A940)();       /* cursor/selection init */
 }
 
 void FUN_06019928()

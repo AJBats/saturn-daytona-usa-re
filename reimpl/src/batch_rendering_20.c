@@ -201,24 +201,24 @@ int object_destruction(param_1, param_2, param_3, param_4)
 
 }
 
-int FUN_06020b20()
+/* vdp2_scroll_clear -- Clear VDP2 scroll plane and set initial parameters.
+ * Sets VDP2 scroll control register at 0x25F800A4 and name table address,
+ * then zeros 256 entries (1024 bytes) of scroll data at 0x25E5F800. */
+int FUN_06020b20(void)
 {
-  register int base asm("r2") = 0x25E5F800;
-  register int zero asm("r0") = 0;
-  register int idx asm("r3");
-  unsigned short uVar4;
+    register int base asm("r2") = 0x25E5F800;  /* VDP2 scroll plane data */
+    register int zero asm("r0") = 0;
+    register int idx asm("r3");
+    unsigned short i;
 
-  *(int *)0x25F800A4 = 0x12F2FC00;
-  *(short *)0x25F8009A = PTR_DAT_06020b48;
+    *(int *)0x25F800A4 = 0x12F2FC00;  /* scroll control register */
+    *(short *)0x25F8009A = PTR_DAT_06020b48;  /* name table address */
 
-  uVar4 = 0;
-  do {
-    idx = (unsigned short)uVar4 << 2;
-    uVar4 = uVar4 + 1;
-    *(int *)(base + idx) = zero;
-  } while ((unsigned short)uVar4 < 0x100);
-
-  return idx;
+    for (i = 0; i < 0x100; i++) {
+        idx = (unsigned short)i << 2;
+        *(int *)(base + idx) = zero;
+    }
+    return idx;
 }
 
 unsigned int FUN_06020c3c()
