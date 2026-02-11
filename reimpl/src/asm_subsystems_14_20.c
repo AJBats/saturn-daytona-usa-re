@@ -1,11 +1,11 @@
 void FUN_060140C8(void) { }
-void FUN_06014468(void) { }
+/* FUN_06014468: moved to sound_channel.c */
 void FUN_060146D4(void) { }
 /* FUN_06014964: moved to render_setup.c */
 void FUN_0601503A(void) { }
 void FUN_06015150(void) { }
 void FUN_06015482(void) { }
-void FUN_0601550C(void) { }
+/* FUN_0601550C: moved to subsystem_setup.c */
 void FUN_060155A4(void) { }
 void FUN_060156A6(void) { }
 void FUN_060156AC(void) { }

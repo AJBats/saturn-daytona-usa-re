@@ -94,7 +94,7 @@ void FUN_0600330A(void) { }
 void FUN_0601AE80(void) { }
 void FUN_0600A1F6(void) { }
 void FUN_0600338C(int r4, int r5) { (void)r4; (void)r5; }
-void FUN_0601AEB6(void) { }
+/* FUN_0601AEB6: moved to mode_dispatch.c */
 void FUN_0601D2DC(void) { }
 /* FUN_0601B074: moved to display_region_init.c */
 /* FUN_06018FF8: moved to sound_init.c */

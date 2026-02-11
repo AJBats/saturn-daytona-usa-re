@@ -2,15 +2,19 @@
  *
  * Functions:
  *   FUN_0601FD74 (0x0601FD74) -- Dispatch via function pointer table
+ *   FUN_0601AEB6 (0x0601AEB6) -- Jump table dispatcher via byte index
  *
- * Copies a 4-entry function table from ROM (0x0605F498) to the stack,
- * reads a 16-bit mode index from 0x06087804, and calls the function
- * pointer at table[mode]. The table holds up to 4 function pointers
- * for different operational modes.
+ * FUN_0601FD74: Copies a 4-entry function table from ROM (0x0605F498)
+ * to the stack, reads a 16-bit mode index from 0x06087804, and calls
+ * the function pointer at table[mode].
+ *
+ * FUN_0601AEB6: Reads a byte index from 0x06086011, looks up function
+ * pointer in table at 0x0605DEC8, and tail-calls it. Used by
+ * pre_race_state_handlers and state_init_handlers.
  *
  * FUN_06035168 is a block copy function: copy(r0=count, r1=dest, r2=src).
  *
- * Original address: 0x0601FD74
+ * Original addresses: 0x0601FD74, 0x0601AEB6
  */
 
 /* Block copy: copies r0 bytes from r2 to r1 */
@@ -53,4 +57,24 @@ void FUN_0601FD74(void)
         unsigned int mode = MODE_INDEX;
         table[mode]();
     }
+}
+
+
+/* ================================================================
+ * FUN_0601AEB6 -- Jump Table Dispatcher (0x0601AEB6)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0601AEB6-0x0601AEC6)
+ * Pool verified:
+ *   [0x0601AEDC] = 0x06086011 (byte index source)
+ *   [0x0601AF00] = 0x0605DEC8 (function pointer table base)
+ *
+ * Reads a byte index from 0x06086011, looks up in function pointer
+ * table at 0x0605DEC8, and tail-calls the target. 8 instructions.
+ * Leaf function (no PR save), uses jmp for tail-call dispatch.
+ * ================================================================ */
+void FUN_0601AEB6(void)
+{
+    unsigned int idx = *(volatile unsigned char *)0x06086011;
+    void (*fn)(void) = (void (*)(void))*(volatile int *)(0x0605DEC8 + idx * 4);
+    fn();
 }
