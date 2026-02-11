@@ -36,8 +36,8 @@ void FUN_0602D88E(void) { }  /* alt physics dep: misc physics step */
 /* FUN_06006838: already in batch_game_core.c */
 void FUN_06005ECC(void) { }
 /* FUN_0600DA7C: moved to checkpoint_detect.c */
-void FUN_0600DBA0(void) { }  /* checkpoint_detect dep: crossing continuation */
-void FUN_0600DC74(void) { }  /* checkpoint_detect dep: not-crossed path */
+/* FUN_0600DBA0: moved to checkpoint_continue.c */
+/* FUN_0600DC74: moved to checkpoint_clear.c */
 /* FUN_0600CE66: moved to lap_counting.c */
 /* FUN_0600D780: already in lap_counting.c */
 

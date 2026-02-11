@@ -27,8 +27,8 @@
 
 /* External dependencies */
 extern void FUN_06034F78(int val, int param, int ptr);  /* bitfield write */
-extern void FUN_0600DBA0(void);  /* checkpoint continuation (threshold check) */
-extern void FUN_0600DC74(void);  /* checkpoint not-crossed path */
+extern void FUN_0600DBA0(int threshold);  /* checkpoint continuation (threshold check) */
+extern void FUN_0600DC74(void);           /* checkpoint not-crossed path */
 
 /* Detection state globals */
 #define DETECT_FLAG_PTR    ((volatile unsigned short *)0x0607869A)
@@ -87,7 +87,7 @@ void FUN_0600DA7C(void)
         /* Already crossing — keep bit set and count */
         FUN_06034F78(1, 0x1C01, car);
         *DETECT_COUNTER_PTR = *DETECT_COUNTER_PTR + 1;
-        FUN_0600DBA0();  /* tail-call: continuation with threshold=4 */
+        FUN_0600DBA0(4);  /* tail-call: continuation with threshold=4 */
         return;
     }
 
@@ -122,6 +122,6 @@ void FUN_0600DA7C(void)
         FUN_06034F78(1, 0x1C01, car);
         *DETECT_COUNTER_PTR = *DETECT_COUNTER_PTR + 1;
         *DETECT_FLAG_PTR = 1;
-        FUN_0600DBA0();  /* tail-call: continuation with threshold=4 */
+        FUN_0600DBA0(4);  /* tail-call: continuation with threshold=4 */
     }
 }
