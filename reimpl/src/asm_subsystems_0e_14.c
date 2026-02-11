@@ -1,7 +1,7 @@
 void FUN_0600F650(void) { }
 void FUN_0600F794(void) { }
-void FUN_0600F822(void) { }
-void FUN_0600F898(void) { }
+/* FUN_0600F822: moved to subsystem_counter.c */
+/* FUN_0600F898: moved to subsystem_counter.c */
 void FUN_0600F8BE(void) { }
 void FUN_0600F914(void) { }
 /* FUN_0600F98C: moved to subsystem_counter.c */
