@@ -31,7 +31,8 @@ void FUN_0602F99C(void) { }
 
 /* Physics entry dependencies (from physics_entry.c) */
 /* FUN_060081F4: moved to gear_shift.c */
-void FUN_0600E7C8(void) { }
+/* FUN_0600E7C8: moved to alt_physics.c */
+void FUN_0602D88E(void) { }  /* alt physics dep: misc physics step */
 /* FUN_06006838: already in batch_game_core.c */
 void FUN_06005ECC(void) { }
 void FUN_0600DA7C(void) { }
