@@ -69,14 +69,14 @@ void FUN_0600E99C(void)
         raw = FUN_06027552(*(volatile int *)((char *)car + 0xC), 0x066505B3);
         projected = (int)(short)(raw >> 16);
 
-        *(volatile int *)((char *)car + 0xE4) = projected;
-        *(volatile int *)((char *)car + 0xE0) = projected;
+        *(volatile int *)((char *)car + CAR_PROJECTED_B) = projected;
+        *(volatile int *)((char *)car + CAR_PROJECTED_A) = projected;
     }
 
     /* State cleanup: clear camera targets when state is 0 */
     if (*(volatile int *)((char *)car + 0x1EC) == 0) {
         *(volatile int *)0x0607EAD0 = 0;
-        *(volatile int *)((char *)car + 0x228) = 0;
-        *(volatile int *)((char *)car + 0x21C) = 0;
+        *(volatile int *)((char *)car + CAR_RANKING) = 0;
+        *(volatile int *)((char *)car + CAR_WAYPOINT) = 0;
     }
 }

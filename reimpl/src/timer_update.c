@@ -32,10 +32,10 @@
 void FUN_06030EE0(void)
 {
     int car = *(volatile int *)0x0607E940;
-    short t = *(volatile short *)((char *)car + 0x150);
+    short t = *(volatile short *)((char *)car + CAR_TIMER_150);
 
     if (t > 0)
-        *(volatile short *)((char *)car + 0x150) = t - 1;
+        *(volatile short *)((char *)car + CAR_TIMER_150) = t - 1;
 }
 
 
@@ -69,22 +69,22 @@ void FUN_06030EE0(void)
 void FUN_06030A06(void)
 {
     int car = *(volatile int *)0x0607E940;
-    short countdown = *(volatile short *)((char *)car + 0x250);
+    short countdown = *(volatile short *)((char *)car + CAR_COUNTDOWN);
 
     if (countdown == 0)
         return;
 
     countdown--;
-    *(volatile short *)((char *)car + 0x250) = countdown;
+    *(volatile short *)((char *)car + CAR_COUNTDOWN) = countdown;
 
     if (countdown != 0)
         return;
 
     /* Countdown just reached zero: trigger state change */
-    *(volatile int *)((char *)car + 0x80) = (int)0xFFFF0000;
+    *(volatile int *)((char *)car + CAR_COUNTDOWN_TRIG) = (int)0xFFFF0000;
 
     /* Check activation flag at car[0x160] */
-    if (!(*(volatile int *)((char *)car + 0x160) & 0x00200000))
+    if (!(*(volatile int *)((char *)car + CAR_ACTIVATE_FLAGS) & 0x00200000))
         return;
 
     /* Copy state: car[0x1EC] → car[0x1E4] */

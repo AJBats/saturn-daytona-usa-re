@@ -94,8 +94,8 @@ void FUN_0600E410(void)
     /* Steps 7-8: Project Y and store */
     raw = FUN_06027552(*(volatile int *)((char *)car + 0xC), 0x066505B3);
     projected = (int)(short)(raw >> 16);
-    *(volatile int *)((char *)car + 0xE4) = projected;
-    *(volatile int *)((char *)car + 0xE0) = projected;
+    *(volatile int *)((char *)car + CAR_PROJECTED_B) = projected;
+    *(volatile int *)((char *)car + CAR_PROJECTED_A) = projected;
 }
 
 
@@ -319,7 +319,7 @@ void FUN_0600E4F2(void)
     }
 
     /* Step 8: Copy rotation to car[0x1B0] */
-    *(volatile int *)((char *)car + 0x1B0) =
+    *(volatile int *)((char *)car + CAR_HEADING_BACKUP) =
         *(volatile int *)((char *)car + 0x20);
 
     /* Step 9: Player-only post-render */
@@ -336,10 +336,10 @@ void FUN_0600E4F2(void)
 
     /* Step 12: Velocity projection */
     {
-        int vel = *(volatile int *)((char *)car + 0x228);
+        int vel = *(volatile int *)((char *)car + CAR_RANKING);
         int factor = *(volatile int *)0x0607EA9C;
         int base_val = *(volatile int *)((char *)car + 0x1EC);
-        *(volatile int *)((char *)car + 0x1F4) = vel * factor + base_val;
+        *(volatile int *)((char *)car + CAR_VEL_PROJ) = vel * factor + base_val;
     }
 
     /* Step 13: Heading processing */

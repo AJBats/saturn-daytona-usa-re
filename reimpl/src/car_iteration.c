@@ -77,49 +77,49 @@ void FUN_0600C302(void)
     int heading, val84;
 
     /* Expand heading: car[0x68] << 5 -> car[0xE4] and car[0xE0] */
-    heading = *(volatile int *)((char *)car + 0x68);
+    heading = *(volatile int *)((char *)car + CAR_HEADING_EXP);
     heading <<= 5;
-    *(volatile int *)((char *)car + 0xE4) = heading;
-    *(volatile int *)((char *)car + 0xE0) = heading;
+    *(volatile int *)((char *)car + CAR_PROJECTED_B) = heading;
+    *(volatile int *)((char *)car + CAR_PROJECTED_A) = heading;
 
     /* Timer 1 at car[0x172]: decrement if positive */
     {
-        short t = *(volatile short *)((char *)car + 0x172);
+        short t = *(volatile short *)((char *)car + CAR_TIMER_172);
         if (t > 0)
-            *(volatile short *)((char *)car + 0x172) = t - 1;
+            *(volatile short *)((char *)car + CAR_TIMER_172) = t - 1;
     }
 
     /* Timer 2 at car[0x174]: decrement if positive */
     {
-        short t = *(volatile short *)((char *)car + 0x174);
+        short t = *(volatile short *)((char *)car + CAR_TIMER_174);
         if (t > 0)
-            *(volatile short *)((char *)car + 0x174) = t - 1;
+            *(volatile short *)((char *)car + CAR_TIMER_174) = t - 1;
     }
 
     /* Zone timer at car[0xDC]: if active, return early */
-    if (*(volatile short *)((char *)car + 0xDC) != 0)
+    if (*(volatile short *)((char *)car + CAR_ZONE_TIMER) != 0)
         return;
 
     /* Primary zone: heading >= 0xE6 -> set timer1=18, timer2=0 */
-    heading = *(volatile int *)((char *)car + 0x68);
+    heading = *(volatile int *)((char *)car + CAR_HEADING_EXP);
     if (heading >= 0xE6) {
-        *(volatile short *)((char *)car + 0x172) = 18;
-        *(volatile short *)((char *)car + 0x174) = 0;
+        *(volatile short *)((char *)car + CAR_TIMER_172) = 18;
+        *(volatile short *)((char *)car + CAR_TIMER_174) = 0;
         return;
     }
 
     /* Extended check: car[0x84] must be >= 0x8C to continue */
-    val84 = *(volatile int *)((char *)car + 0x84);
+    val84 = *(volatile int *)((char *)car + CAR_EXT_CHECK);
     if (val84 < 0x8C)
         return;
 
     /* Secondary zone: 0x9B < car[0x68] < 0xE6 -> timer1=0, timer2=18 */
-    heading = *(volatile int *)((char *)car + 0x68);
+    heading = *(volatile int *)((char *)car + CAR_HEADING_EXP);
     if (heading <= 0x9B || heading >= 0xE6)
         return;
 
-    *(volatile short *)((char *)car + 0x172) = 0;
-    *(volatile short *)((char *)car + 0x174) = 18;
+    *(volatile short *)((char *)car + CAR_TIMER_172) = 0;
+    *(volatile short *)((char *)car + CAR_TIMER_174) = 18;
 }
 
 

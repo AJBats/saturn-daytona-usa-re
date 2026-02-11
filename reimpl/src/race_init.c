@@ -69,10 +69,10 @@ void FUN_0600EB14(void)
     FUN_0600629C();     /* car array iteration + per-car type init */
 
     /* Step 3: Set car[0] activation flags (4 consecutive ints at +0x120) */
-    *(volatile int *)(CAR_ARRAY_BASE + 0x120) = 1;
-    *(volatile int *)(CAR_ARRAY_BASE + 0x124) = 1;
-    *(volatile int *)(CAR_ARRAY_BASE + 0x128) = 1;
-    *(volatile int *)(CAR_ARRAY_BASE + 0x12C) = 1;
+    *(volatile int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_1) = 1;
+    *(volatile int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_2) = 1;
+    *(volatile int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_3) = 1;
+    *(volatile int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_4) = 1;
 
     /* Step 4: Zero global race state variables
      * Access sizes match binary opcodes exactly (byte/word/long) */

@@ -347,7 +347,7 @@ void state_17_handler(void)
     FUN_060192CA();
     {
         int car_ptr = RACE_TARGET_CAR;
-        int finish_pos = *(volatile int *)(car_ptr + 0x82);
+        int finish_pos = *(volatile int *)(car_ptr + CAR_FINISH_POS);
         RACE_RESULT = finish_pos;
     }
     GAME_STATE = 24;
@@ -421,7 +421,7 @@ section3:
 
     {
         int car_ptr = RACE_TARGET_CAR;
-        int finish = *(volatile int *)(car_ptr + 0x82);
+        int finish = *(volatile int *)(car_ptr + CAR_FINISH_POS);
         if (finish > 0) {
             FUN_0600A084();
         }
@@ -570,10 +570,10 @@ void state_20_handler(void)
 
     {
         int car = RACE_TARGET_CAR;
-        int finish = *(volatile int *)(car + 0x82);
+        int finish = *(volatile int *)(car + CAR_FINISH_POS);
         RACE_RESULT_BYTE = (unsigned char)finish;
         car = RACE_TARGET_CAR;
-        *(volatile int *)&RACE_RESULT = *(volatile int *)(car + 0x9E);
+        *(volatile int *)&RACE_RESULT = *(volatile int *)(car + CAR_RACE_RESULT);
     }
 
     RACE_DATA_DST = RACE_DATA_SRC;
@@ -639,7 +639,7 @@ void state_20_handler(void)
         }
     }
 
-    *(volatile int *)(RACE_TARGET_CAR + 0x40) = 0;
+    *(volatile int *)(RACE_TARGET_CAR + CAR_FIELD_40) = 0;
 
     GAME_STATE = 21;
     RACE_COUNTDOWN = 86;
@@ -671,7 +671,7 @@ void state_21_handler(void)
 
     {
         int car_ptr = RACE_TARGET_CAR;
-        int finish = *(volatile int *)(car_ptr + 0x82);
+        int finish = *(volatile int *)(car_ptr + CAR_FINISH_POS);
         if (finish > 0) {
             FUN_0600A084();
         }
@@ -721,9 +721,9 @@ void state_23_handler(void)
     if (RACE_COUNTDOWN < 0) {
         {
             int car = RACE_TARGET_CAR;
-            *(volatile int *)(car + 0x82) = (unsigned char)RACE_RESULT_BYTE;
+            *(volatile int *)(car + CAR_FINISH_POS) = (unsigned char)RACE_RESULT_BYTE;
             car = RACE_TARGET_CAR;
-            *(volatile int *)(car + 0x9E) = RACE_RESULT;
+            *(volatile int *)(car + CAR_RACE_RESULT) = RACE_RESULT;
         }
         RACE_DATA_SRC = RACE_DATA_DST;
         GAME_STATE = 24;
@@ -928,7 +928,7 @@ main_loop:
     /* Scoring: check car finish position */
     {
         int car_ptr = RACE_TARGET_CAR;
-        int finish = *(volatile int *)(car_ptr + 0xBC);
+        int finish = *(volatile int *)(car_ptr + CAR_PHYS_FIELD_BC);
         if (finish > 0) {
             FUN_0600A084();
         }
@@ -940,7 +940,7 @@ main_loop:
     /* Overlay rendering: check car overlay flags */
     {
         int car_ptr = RACE_TARGET_CAR;
-        int overlay = *(volatile int *)(car_ptr + 0x214);
+        int overlay = *(volatile int *)(car_ptr + CAR_OVERLAY_FLAGS);
         if ((overlay & 0xCC) == 0) {
             int base = 0x06063798;
             FUN_06028400(4, *(volatile int *)base, 0x0214, *(volatile int *)(base + 4));

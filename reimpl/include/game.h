@@ -42,9 +42,10 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 /* Car struct field offsets -- used for raw pointer arithmetic in L1 code.
  * These will become struct fields in L2 when we define CarState. */
 
+/* --- Core identity and motion (0x000-0x03F) --- */
 #define CAR_FLAGS           0x000   /* int:  bit flags (see below) */
 #define CAR_FLAGS_BYTE0     0x000   /* byte: input flags */
-#define CAR_FLAGS_BYTE1     0x001   /* byte: secondary flags */
+#define CAR_FLAGS_BYTE1     0x001   /* byte: secondary flags / render flag (bit 7) */
 #define CAR_FLAGS_BYTE3     0x003   /* byte: collision/state flags */
 #define CAR_SUBTYPE         0x004   /* int:  car sub-type / partner ptr */
 #define CAR_SPEED           0x008   /* int:  speed (heading-relative scalar) */
@@ -52,43 +53,94 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 #define CAR_X               0x010   /* int:  X position (world coords) */
 #define CAR_Y               0x014   /* int:  Y position (world coords) */
 #define CAR_Z               0x018   /* int:  Z position (world coords) */
+#define CAR_ROT_X           0x01C   /* int:  rotation X blend / heading X component */
 #define CAR_HEADING         0x020   /* int:  heading (yaw angle) */
+#define CAR_ROT_Z           0x024   /* int:  rotation Z blend / heading Z component */
 #define CAR_HEADING2        0x028   /* int:  heading copy (stored/target) */
 #define CAR_HEADING3        0x030   /* int:  heading copy (tertiary) */
 #define CAR_PRE_COLL_X      0x038   /* int:  pre-collision X backup */
 #define CAR_PRE_COLL_Z      0x03C   /* int:  pre-collision Z backup */
 
+/* --- Extended motion (0x040-0x0AF) --- */
+#define CAR_FIELD_40        0x040   /* int:  general field (zeroed on state reset) */
+#define CAR_COLL_SPEED      0x048   /* int:  collision friction speed */
+#define CAR_SPEED_COPY      0x050   /* int:  speed copy (written by collision friction) */
+#define CAR_HEADING_EXP     0x068   /* int:  heading <<5 expanded (FUN_0600C302) */
+#define CAR_COUNTDOWN_TRIG  0x080   /* int:  countdown trigger (set 0xFFFF0000) */
+#define CAR_FINISH_POS      0x082   /* short: finish position */
+#define CAR_EXT_CHECK       0x084   /* int:  extended check (compared to +0x8C) */
+#define CAR_RACE_RESULT     0x09E   /* short: race result data */
+
+/* --- Steering and physics (0x0B0-0x0FF) --- */
 #define CAR_STEER_TIMER     0x0B8   /* int:  steering input timer */
 #define CAR_PHYS_FIELD_BC   0x0BC   /* int:  force secondary timer */
 #define CAR_MODE            0x0D4   /* short: mode field (20=force, 40=gear, 10=steer) */
+#define CAR_ZONE_TIMER      0x0DC   /* short: zone timer (FUN_0600C302) */
+#define CAR_PROJECTED_A     0x0E0   /* int:  camera projected value A */
+#define CAR_PROJECTED_B     0x0E4   /* int:  camera projected value B */
 #define CAR_SPEED_DELTA     0x0FC   /* int:  clamped speed delta */
 
-#define CAR_STATE_FLAGS     0x161   /* byte: state flags (bit 5 = steer override) */
+/* --- Collision partners (0x100-0x12F) --- */
+#define CAR_PARTNER_A       0x118   /* int:  collision partner A pointer */
+#define CAR_ACTIVATE_1      0x120   /* int:  activation flag 1 (set 1 at race init) */
+#define CAR_ACTIVATE_2      0x124   /* int:  activation flag 2 */
+#define CAR_ACTIVATE_3      0x128   /* int:  activation flag 3 */
+#define CAR_ACTIVATE_4      0x12C   /* int:  activation flag 4 */
 
+/* --- Timers and state (0x150-0x19F) --- */
+#define CAR_TIMER_150       0x150   /* short: timer (decremented by FUN_06030EE0) */
+#define CAR_ACTIVATE_FLAGS  0x160   /* int:  activation flags (bit 0x200000 = active) */
+#define CAR_STATE_FLAGS     0x161   /* byte: state flags (bit 5 = steer override) */
+#define CAR_TIMER_172       0x172   /* short: 18-frame countdown timer 1 */
+#define CAR_TIMER_174       0x174   /* short: 18-frame countdown timer 2 */
+#define CAR_SEGMENT_IDX     0x184   /* int:  track segment index */
 #define CAR_SIN_HEADING     0x18C   /* int:  sin(-heading) cached */
 #define CAR_COS_HEADING     0x190   /* int:  cos(-heading) cached */
 #define CAR_SPEED_TARGET    0x194   /* int:  speed target */
 #define CAR_SPEED_SCALE     0x198   /* int:  per-car speed curve */
 
+/* --- Heading backup (0x1B0) --- */
+#define CAR_HEADING_BACKUP  0x1B0   /* int:  heading backup (physics, E4F2 convergence) */
+
+/* --- Force system (0x1B4-0x1DC) --- */
 #define CAR_FORCE_SUB       0x1B4   /* int:  force sub-record value */
 #define CAR_FORCE_PTR       0x1B8   /* int:  force running pointer */
 #define CAR_FORCE_COUNT     0x1BC   /* int:  force primary countdown */
 #define CAR_STATE_BITS      0x1C0   /* int:  state bits (bits 30-31) */
+#define CAR_STEER_COUNT     0x1C4   /* int:  steering counter (force system) */
 #define CAR_FORCE_X         0x1C8   /* int:  X force component */
 #define CAR_FORCE_Z         0x1CC   /* int:  Z force component */
 #define CAR_FORCE_ANG       0x1D0   /* int:  angular force */
+#define CAR_FORCE_STATE     0x1D4   /* byte: force state (bit 0x80 = active) */
 #define CAR_STEER_DEFLECT   0x1D8   /* int:  gear steering deflection */
 #define CAR_GEAR_DIR        0x1DC   /* int:  gear direction (+1/-1) */
 
+/* --- Checkpoint / lap system (0x1E0-0x1F4) --- */
 #define CAR_CHECKPOINT_BASE 0x1E0   /* int:  checkpoint table base ptr */
 #define CAR_CHECKPOINT_IDX  0x1E4   /* int:  current checkpoint index */
 #define CAR_CHECKPOINT_CUM  0x1E8   /* int:  cumulative checkpoint count */
-#define CAR_CHECKPOINT_PARAM 0x1EC  /* int:  checkpoint parameter */
+#define CAR_CHECKPOINT_PARAM 0x1EC  /* int:  checkpoint parameter / table segment */
 #define CAR_CHECKPOINT_PREV 0x1F0   /* int:  previous frame checkpoint */
+#define CAR_VEL_PROJ        0x1F4   /* int:  velocity projection / ranking result */
 
+/* --- Course correction / collision response (0x1F8-0x214) --- */
+#define CAR_TARGET_HDG      0x1F8   /* int:  target heading / force push direction */
+#define CAR_CURRENT_HDG     0x1FC   /* int:  current heading reference */
+#define CAR_RESET_VAL       0x200   /* int:  reset field (AI sets to 0x200) */
 #define CAR_STEER_CORRECT   0x204   /* int:  steering correction countdown */
 #define CAR_GENERAL_TIMER   0x208   /* int:  general timer */
+#define CAR_COLL_MODE       0x210   /* int:  collision mode (0/1/2) */
+#define CAR_OVERLAY_FLAGS   0x214   /* int:  overlay flags */
 
+/* --- AI / waypoint / ranking (0x21C-0x234) --- */
+#define CAR_WAYPOINT        0x21C   /* int:  waypoint tracking / camera target */
+#define CAR_LAP_DELTA       0x224   /* int:  collision count / lap position delta */
+#define CAR_RANKING         0x228   /* int:  score/ranking/position counter */
+#define CAR_SPLIT_POS       0x230   /* int:  position storage for split times */
+#define CAR_PARTNER_B       0x234   /* int:  collision partner B pointer */
+
+/* --- Countdown / sound (0x250-0x258) --- */
+#define CAR_COUNTDOWN       0x250   /* short: countdown field */
 #define CAR_GEAR_SOUND      0x258   /* short: gear shift sound param */
 
 /* Car flags (offset +0x000, 32-bit) */
