@@ -8,8 +8,8 @@ void FUN_0600F914(void) { }
 /* FUN_0600F990: moved to subsystem_counter.c */
 void FUN_0600F9C6(void) { }
 void FUN_0600FB78(void) { }
-void FUN_0600FD54(void) { }
-void FUN_0600FD8A(void) { }
+/* FUN_0600FD54: moved to subsystem_timer_b.c */
+/* FUN_0600FD8A: moved to subsystem_timer_b.c */
 void FUN_0600FDFE(void) { }
 void FUN_0600FE38(void) { }
 void FUN_0600FED0(void) { }
