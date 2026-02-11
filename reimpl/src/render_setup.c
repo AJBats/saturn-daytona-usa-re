@@ -18,7 +18,7 @@
  */
 
 extern void FUN_06020DEE(int);
-extern void FUN_06038120(int);
+extern int FUN_06038120(unsigned char *);
 
 void FUN_060148FC(void)
 {
@@ -63,7 +63,7 @@ void FUN_060210F6(void)
 {
     (*(void (*)(int))0x0603850C)(8);
     *(char *)0x06087C87 = 0;
-    FUN_06038120(0x06087C84);
+    FUN_06038120((unsigned char *)0x06087C84);
     (*(void (*)())0x06038520)();
 }
 
@@ -71,7 +71,7 @@ void FUN_06021128(void)
 {
     (*(void (*)(int))0x0603850C)(8);
     *(int *)0x06087C87 = 1;
-    FUN_06038120(0x06087C84);
+    FUN_06038120((unsigned char *)0x06087C84);
     (*(void (*)())0x06038520)();
     *(int *)0x06089594 = 0;
     *(int *)0x06089595 = 0;
