@@ -29,12 +29,9 @@ void FUN_0600BB94(void) { }
 void multi_mode_camera(void) __attribute__((alias("FUN_0600BB94")));
 void FUN_0600BFFC(void) { }
 void hud_racing_state_init(void) __attribute__((alias("FUN_0600BFFC")));
-void FUN_0600C302(void) { }
-void car_state_finalize(void) __attribute__((alias("FUN_0600C302")));
-void FUN_0600DE54(void) { }
-void vs_mode_update(void) __attribute__((alias("FUN_0600DE54")));
-void FUN_0600DE70(void) { }
-void per_frame_car_iteration(void) __attribute__((alias("FUN_0600DE70")));
+/* FUN_0600C302: moved to car_iteration.c */
+/* FUN_0600DE54: moved to car_iteration.c */
+/* FUN_0600DE70: moved to car_iteration.c */
 void FUN_0600EB14(void) { }
 void race_init_master(void) __attribute__((alias("FUN_0600EB14")));
 void FUN_06010A5C(int arg) { (void)arg; }
@@ -71,14 +68,14 @@ void FUN_060284AE(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6
 void FUN_0602834A(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6; (void)r7; }
 void FUN_06018DDC(int arg) { (void)arg; }
 void FUN_06014A04(void) { }
-void FUN_0600DF66(void) { }
+/* FUN_0600DF66: moved to car_iteration.c */
 void FUN_0601DF88(void) { }
 void FUN_0602853E(int arg) { (void)arg; }
 void FUN_06014884(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
 void FUN_060032D4(void) { }
 void FUN_0600A294(void) { }
 void FUN_0601FD74(void) { }
-void FUN_0600DE40(void) { }
+/* FUN_0600DE40: moved to car_iteration.c */
 void FUN_06033EA8(void) { }
 void FUN_06014A74(void) { }
 void FUN_06014D2C(void) { }

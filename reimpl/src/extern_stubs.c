@@ -20,6 +20,15 @@ void FUN_06038120(int a) { (void)a; }
 int FUN_06027378(int a) { (void)a; return 0; }
 void FUN_06012450(int a, int b) { (void)a; (void)b; }
 
+/* Game loop dependencies (from car_iteration.c) */
+void FUN_0600E0C0(void) { }
+void FUN_0600E410(void) { }
+void FUN_0600E47C(void) { }
+void FUN_0600E99C(void) { }
+void FUN_0600E4F2(void) { }
+void FUN_0600A8BC(void) { }
+void FUN_0602F99C(void) { }
+
 /* Lap counting system dependencies (from lap_counting.c) */
 void FUN_0600DD88(void) { }
 void FUN_0600DCC8(void) { }
