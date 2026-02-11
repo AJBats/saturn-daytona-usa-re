@@ -14,7 +14,7 @@ void FUN_06035F04(void) { }
 int FUN_06035D5A(void) { return 0; }
 int FUN_06035FEC(int a, int b) { (void)a; (void)b; return 0; }
 void FUN_0603FA1A(int *a, int b) { (void)a; (void)b; }
-void FUN_0603B93C(int a) { (void)a; }
+/* FUN_0603B93C: moved to callback_dispatch.c */
 /* FUN_06020DEE: moved to slot_clear.c */
 void FUN_06038120(int a) { (void)a; }
 /* FUN_06027378: moved to atan.c */

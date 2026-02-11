@@ -1470,7 +1470,6 @@ int cd_register_double_read() { return 0; }
 int FUN_06034DEA() { return 0; }
 int FUN_06035C4E() { return 0; }
 int FUN_06035c6e() { return 0; }
-int FUN_0603b93c() { return 0; }
 int FUN_0603f3da() { return 0; }
 int FUN_0603f3f6() { return 0; }
 int FUN_0603f92c() { return 0; }
