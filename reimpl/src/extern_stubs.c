@@ -34,7 +34,7 @@ void FUN_0602F99C(void) { }
 /* FUN_0600E7C8: moved to alt_physics.c */
 /* FUN_0602D88E: moved to misc_physics_step.c */
 /* FUN_06006838: already in batch_game_core.c */
-void FUN_06005ECC(void) { }
+/* FUN_06005ECC: moved to wheel_transform.c */
 /* FUN_0600DA7C: moved to checkpoint_detect.c */
 /* FUN_0600DBA0: moved to checkpoint_continue.c */
 /* FUN_0600DC74: moved to checkpoint_clear.c */
