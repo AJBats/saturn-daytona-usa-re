@@ -341,59 +341,49 @@ unsigned short FUN_0600c3a8(param_1)
 
 }
 
-void FUN_0600c4f8()
+/* camera_distance_update -- Update camera distance/acceleration for current car.
+ * Decrements cooldown timer, then computes target acceleration from speed
+ * curve tables, clamping to [-4014, half_max]. Accumulates into CAR_ACCEL,
+ * clamps to non-negative, and divides by fixed constant for speed update. */
+void FUN_0600c4f8(void)
 {
-  register int (*func)() asm("r3") = (int(*)())0x06027552;
-  register int base asm("r14") = CAR_PTR_CURRENT;
-  short extraout_var;
-  int uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
+    register int (*func)() asm("r3") = (int(*)())0x06027552;
+    register int base asm("r14") = CAR_PTR_CURRENT;
+    short extraout_var;
+    int uVar2;
+    int iVar3;
+    int iVar4;
+    int iVar5;
 
-  if (0 < *(short *)(base + DAT_0600c590)) {
-    *(short *)(base + DAT_0600c590) = *(short *)(base + DAT_0600c590) + -1;
-  }
-
-  if ((GAME_STATE_BIT & (unsigned int)0x00008000) == 0) {
-    iVar5 = -4014;
-
-    if ((*(int *)(base + DAT_0600c594) < 1) && (*(int *)(base + DAT_0600c596) == 0)) {
-      iVar3 = *(int *)(base + 8) << 2;
-
-      uVar2 = (*func)(0xFEC00000 + (*(int *)(0x060477EC + iVar3) - *(int *)(0x060454CC + iVar3)), 1);
-
-      iVar3 = (*func)(uVar2, *(int *)(base + DAT_0600c59a));
-
-      iVar4 = *(int *)(base + PTR_DAT_0600c59c) - *(int *)(base + 0xc);
-
-      if (iVar4 < iVar5) {
-        *(int *)(base + DAT_0600c598) = iVar5;
-      }
-      else if (iVar3 >> 1 < iVar4) {
-        *(int *)(base + DAT_0600c598) = iVar3 >> 1;
-      }
-      else {
-        *(int *)(base + DAT_0600c598) = iVar4;
-      }
+    if (0 < *(short *)(base + DAT_0600c590)) {
+        *(short *)(base + DAT_0600c590) = *(short *)(base + DAT_0600c590) + -1;
     }
-    else {
-      *(int *)(base + DAT_0600c598) = iVar5;
+    if ((GAME_STATE_BIT & (unsigned int)0x00008000) == 0) {
+        iVar5 = -4014;
+        if ((*(int *)(base + DAT_0600c594) < 1) && (*(int *)(base + DAT_0600c596) == 0)) {
+            iVar3 = *(int *)(base + CAR_SPEED) << 2;
+            uVar2 = (*func)(0xFEC00000 + (*(int *)(0x060477EC + iVar3) - *(int *)(0x060454CC + iVar3)), 1);
+            iVar3 = (*func)(uVar2, *(int *)(base + DAT_0600c59a));
+            iVar4 = *(int *)(base + PTR_DAT_0600c59c) - *(int *)(base + CAR_ACCEL);
+            if (iVar4 < iVar5) {
+                *(int *)(base + DAT_0600c598) = iVar5;
+            } else if (iVar3 >> 1 < iVar4) {
+                *(int *)(base + DAT_0600c598) = iVar3 >> 1;
+            } else {
+                *(int *)(base + DAT_0600c598) = iVar4;
+            }
+        } else {
+            *(int *)(base + DAT_0600c598) = iVar5;
+        }
+        iVar5 = *(int *)(base + CAR_ACCEL) + *(int *)(base + DAT_0600c598);
+        if (iVar5 < 1) {
+            *(int *)(base + CAR_ACCEL) = 0;
+        } else {
+            *(int *)(base + CAR_ACCEL) = iVar5;
+        }
+        (*func)(*(int *)(base + CAR_ACCEL), 0x00480000);
+        *(int *)(base + CAR_SPEED) = (int)extraout_var;
     }
-
-    iVar5 = *(int *)(base + 0xc) + *(int *)(base + DAT_0600c598);
-
-    if (iVar5 < 1) {
-      *(int *)(base + 0xc) = 0;
-    }
-    else {
-      *(int *)(base + 0xc) = iVar5;
-    }
-
-    (*func)(*(int *)(base + 0xc), 0x00480000);
-
-    *(int *)(base + 8) = (int)extraout_var;
-  }
 }
 
 void FUN_0600c5d6()
@@ -517,55 +507,33 @@ void FUN_0600c5d6()
 
 }
 
-void FUN_0600c74e()
+/* ai_heading_and_move -- AI car heading/movement update (simplified pipeline).
+ * Advances checkpoint, looks up track spline, adjusts heading (or forces
+ * fixed heading in segment range 0x2E-0x3B), applies friction, then
+ * interpolates heading and moves car along resulting vector.
+ * Ends with world_to_tile_index height lookup. */
+void FUN_0600c74e(void)
 {
-
-  char *puVar1;
-
-  int uVar2;
-
-  int iVar3;
-
-  char auStack_10 [8];
-
-  puVar1 = (int *)0x06078680;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  FUN_0600cd40();
-
-  FUN_0600ca96(puVar1);
-
-  if ((*(int *)(iVar3 + DAT_0600c7be) < 0x2e) || (0x3b < *(int *)(iVar3 + DAT_0600c7be))) {
-
-    FUN_0600c8cc(iVar3,puVar1);
-
-  }
-
-  else {
-
-    *(int *)(iVar3 + 0x28) = (int)DAT_0600c7c0;
-
-  }
-
-  *(int *)(iVar3 + 0x20) = *(int *)(iVar3 + 0x28);
-
-  if (*(int *)(iVar3 + 4) == 0) {
-
-    FUN_0600c970(iVar3);
-
-  }
-
-  FUN_0600c928(iVar3);
-
-  FUN_0600c7d4(iVar3,puVar1);
-
-  uVar2 = (*(int(*)())0x06006838)(*(int *)(iVar3 + 0x10),*(int *)(iVar3 + 0x18));
-
-  (*(int(*)())0x06027EDE)(uVar2,iVar3 + 0x10,auStack_10);
-
-  return;
-
+    int uVar2;
+    int iVar3;
+    char auStack_10[8];
+    int *spline_ptr = (int *)0x06078680;
+    iVar3 = CAR_PTR_CURRENT;
+    FUN_0600cd40();
+    FUN_0600ca96(spline_ptr);
+    if ((*(int *)(iVar3 + DAT_0600c7be) < 0x2e) || (0x3b < *(int *)(iVar3 + DAT_0600c7be))) {
+        FUN_0600c8cc(iVar3, spline_ptr);
+    } else {
+        *(int *)(iVar3 + CAR_HEADING2) = (int)DAT_0600c7c0;
+    }
+    *(int *)(iVar3 + CAR_HEADING) = *(int *)(iVar3 + CAR_HEADING2);
+    if (*(int *)(iVar3 + CAR_SUBTYPE) == 0) {
+        FUN_0600c970(iVar3);
+    }
+    FUN_0600c928(iVar3);
+    FUN_0600c7d4(iVar3, spline_ptr);
+    uVar2 = (*(int(*)())0x06006838)(*(int *)(iVar3 + CAR_X), *(int *)(iVar3 + CAR_Z));
+    (*(int(*)())0x06027EDE)(uVar2, iVar3 + CAR_X, auStack_10);
 }
 
 /* heading_interpolate_and_move -- Interpolate heading toward target based on speed,
@@ -1066,40 +1034,38 @@ int * FUN_0600cd40()
 
 }
 
-int FUN_0600cdd0()
+/* checkpoint_advance_alt -- Alternate checkpoint advancement using angular detection.
+ * Looks up segment data from car's current checkpoint index, extracts
+ * segment width, computes angle to next checkpoint waypoint via atan2,
+ * and advances checkpoint if angular deviation exceeds threshold. */
+int FUN_0600cdd0(void)
 {
-  register int base asm("r2") = CAR_PTR_CURRENT;
-  int iVar1;
-  short sVar2;
-  int iVar3;
-  int *piVar4;
-  int iVar5;
+    register int base asm("r2") = CAR_PTR_CURRENT;
+    int iVar1;
+    short sVar2;
+    int iVar3;
+    int *piVar4;
+    int iVar5;
 
-  iVar5 = *(int *)(base + (int)DAT_0600ce86) * 0x18 + *(int *)(base + (int)DAT_0600ce86 - 4);
-
-  iVar1 = (int)DAT_0600ce88;
-  *(unsigned int *)(base + iVar1) = (unsigned int)*(unsigned short *)(iVar5 + 0x16);
-  iVar1 = *(int *)(base + iVar1 + 0x60);
-
-  if (iVar1 == 0) {
-    iVar1 = *(int *)0x0607EA9C;
-  } else {
-    iVar1 = iVar1 - 1;
-  }
-
-  piVar4 = (int *)(iVar1 * 0x18 + *(int *)(base + (int)DAT_0600ce8a));
-  sVar2 = (*(int(*)())0x0602744C)(*piVar4 - *(int *)(base + 0x10), *(int *)(base + 0x18) - piVar4[1]);
-
-  iVar3 = (int)sVar2 + *(short *)(iVar5 + 0xe) * -4;
-  if (iVar3 < 0) {
-    iVar3 = (*(short *)(iVar5 + 0xe) << 2) - (int)sVar2;
-  }
-
-  if ((int)DAT_0600ce8c < iVar3) {
-    *(int *)(base + (int)DAT_0600ce86) = iVar1;
-  }
-
-  return iVar5;
+    iVar5 = *(int *)(base + (int)DAT_0600ce86) * 0x18 + *(int *)(base + (int)DAT_0600ce86 - 4);
+    iVar1 = (int)DAT_0600ce88;
+    *(unsigned int *)(base + iVar1) = (unsigned int)*(unsigned short *)(iVar5 + 0x16);
+    iVar1 = *(int *)(base + iVar1 + 0x60);
+    if (iVar1 == 0) {
+        iVar1 = *(int *)0x0607EA9C;
+    } else {
+        iVar1 = iVar1 - 1;
+    }
+    piVar4 = (int *)(iVar1 * 0x18 + *(int *)(base + (int)DAT_0600ce8a));
+    sVar2 = (*(int(*)())0x0602744C)(*piVar4 - *(int *)(base + CAR_X), *(int *)(base + CAR_Z) - piVar4[1]);
+    iVar3 = (int)sVar2 + *(short *)(iVar5 + 0xe) * -4;
+    if (iVar3 < 0) {
+        iVar3 = (*(short *)(iVar5 + 0xe) << 2) - (int)sVar2;
+    }
+    if ((int)DAT_0600ce8c < iVar3) {
+        *(int *)(base + (int)DAT_0600ce86) = iVar1;
+    }
+    return iVar5;
 }
 
 /* lap_checkpoint_update -- Update checkpoint/lap state for current car.

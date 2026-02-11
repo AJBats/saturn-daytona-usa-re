@@ -27,8 +27,8 @@ extern int DAT_060397f8;
 extern void FUN_060388c0();
 extern void FUN_06038a48();
 extern void FUN_06038ac8();
-extern unsigned short FUN_0603931c();
-extern void FUN_060393fc();
+extern unsigned short FUN_0603931c(unsigned short, unsigned short, short);
+extern void FUN_060393fc(short, unsigned short, unsigned short, short, unsigned short);
 extern void FUN_060394f0();
 extern int FUN_0603a6c0();
 extern int FUN_0603a72c();
@@ -136,255 +136,90 @@ void FUN_0603806c(param_1)
 
 }
 
-void FUN_06038300()
+/* vdp2_state_init -- Initialize all VDP2 shadow register tables.
+ * Resets framebuffer state, clears display list flags, DMA flags,
+ * then zeroes all VDP2 register shadow arrays (scroll params, color calc,
+ * rotation params, window coords). Sets VDP2 base to 0x25F80000.
+ * Triggers VDP1_BATCH_FLAG for first frame. */
+void FUN_06038300(void)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  unsigned short uVar6;
-
-  unsigned short uVar7;
-
-  (*(int(*)())0x06038F34)();
-
-  puVar1 = (char *)0x060A4C60;
-
-  *(int *)0x060A4C60 = 0;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  puVar1 = (char *)0x060A4C68;
-
-  *(int *)0x060A4C68 = 0;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  puVar1 = (char *)0x060A4C78;
-
-  *(int *)0x060A4C78 = 0;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  puVar1 = (char *)0x060A4C40;
-
-  *(short *)0x060A4C40 = 0;
-
-  *(short *)(puVar1 + 2) = 0;
-
-  puVar1 = (char *)0x060A4C54;
-
-  *(short *)0x060A4C54 = 0;
-
-  *(short *)(puVar1 + 2) = 0;
-
-  puVar1 = (char *)0x060A4C44;
-
-  *(int *)0x060A4C44 = 0;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  puVar1 = (char *)0x060A4C4C;
-
-  *(int *)0x060A4C4C = 0;
-
-  puVar2 = (char *)0x0603C104;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  (*(int(*)())puVar2)();
-
-  puVar3 = (char *)0x060A3DB0;
-
-  puVar2 = (char *)0x060A3D88;
-
-  puVar1 = (char *)0x0000FFFF;
-
-  *(char **)0x060A3D84 = 0x25F80000;
-
-  puVar4 = (char *)0x00008000;
-
-  *(short *)puVar2 = (short)0x00008000;
-
-  *(short *)(puVar2 + 2) = 0;
-
-  *(short *)(puVar2 + 6) = 0;
-
-  *(short *)(puVar2 + 0xc) = 0;
-
-  *(short *)(puVar2 + 0xe) = (short)((unsigned int)puVar4 >> 2);
-
-  uVar7 = 0;
-
-  do {
-
-    uVar5 = (unsigned int)uVar7;
-
-    uVar7 = uVar7 + 1;
-
-    *(short *)(puVar2 + (uVar5 << 1) + 0x10) = (short)puVar1;
-
-  } while (uVar7 < 8);
-
-  *(short *)(puVar2 + 0x20) = 0;
-
-  *(short *)(puVar2 + 0x22) = 0;
-
-  *(short *)(puVar2 + 0x24) = 0;
-
-  *(short *)(puVar2 + 0x26) = 0;
-
-  *(short *)puVar3 = 0;
-
-  *(short *)(puVar3 + 2) = 0;
-
-  *(short *)(puVar3 + 4) = 0;
-
-  *(short *)(puVar3 + 6) = 0;
-
-  *(short *)(puVar3 + 8) = 0;
-
-  *(short *)(puVar3 + 10) = 0;
-
-  *(short *)(puVar3 + 0xc) = 0;
-
-  *(short *)(puVar3 + 0xe) = 0;
-
-  *(short *)(puVar3 + 0x10) = 0;
-
-  *(short *)(puVar3 + 0x12) = 0;
-
-  uVar6 = 0;
-
-  *(short *)(puVar3 + 0x14) = 0;
-
-  *(short *)(puVar3 + 0x16) = 0;
-
-  uVar7 = uVar6;
-
-  do {
-
-    uVar5 = (unsigned int)uVar7;
-
-    uVar7 = uVar7 + 1;
-
-    *(short *)(puVar3 + (uVar5 << 1) + 0x18) = 0;
-
-  } while (uVar7 < 8);
-
-  do {
-
-    uVar5 = (unsigned int)uVar6;
-
-    uVar6 = uVar6 + 1;
-
-    *(short *)(puVar3 + (uVar5 << 1) + 0x28) = 0;
-
-    puVar1 = (char *)0x060A3DF8;
-
-  } while (uVar6 < 0x10);
-
-  *(int *)0x060A3DF8 = 0;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  puVar2 = (char *)0x00010000;
-
-  *(char **)(puVar1 + 8) = 0x00010000;
-
-  *(char **)(puVar1 + 0xc) = puVar2;
-
-  *(int *)(puVar1 + 0x10) = 0;
-
-  *(int *)(puVar1 + 0x14) = 0;
-
-  *(char **)(puVar1 + 0x18) = puVar2;
-
-  *(char **)(puVar1 + 0x1c) = puVar2;
-
-  *(short *)(puVar1 + 0x20) = 0;
-
-  *(short *)(puVar1 + 0x22) = 0;
-
-  *(short *)(puVar1 + 0x24) = 0;
-
-  *(short *)(puVar1 + 0x26) = 0;
-
-  *(short *)(puVar1 + 0x28) = 0;
-
-  *(short *)(puVar1 + 0x2a) = 0;
-
-  *(int *)(puVar1 + 0x2c) = 0;
-
-  *(int *)(puVar1 + 0x30) = 0;
-
-  *(int *)(puVar1 + 0x34) = 0;
-
-  *(int *)(puVar1 + 0x38) = 0;
-
-  *(int *)(puVar1 + 0x3c) = 0;
-
-  puVar1 = (char *)0x060A3E38;
-
-  *(short *)0x060A3E38 = 0;
-
-  *(short *)(puVar1 + 2) = 0;
-
-  *(short *)(puVar1 + 4) = 0;
-
-  *(short *)(puVar1 + 6) = 0;
-
-  *(short *)(puVar1 + 8) = 0;
-
-  *(short *)(puVar1 + 10) = 0;
-
-  *(int *)(puVar1 + 0xc) = 0;
-
-  puVar1 = (char *)0x060A3E48;
-
-  *(short *)0x060A3E48 = 0;
-
-  *(short *)(puVar1 + 2) = 0;
-
-  *(short *)(puVar1 + 4) = 0;
-
-  *(short *)(puVar1 + 6) = 0;
-
-  *(short *)(puVar1 + 8) = 0;
-
-  *(short *)(puVar1 + 10) = 0;
-
-  *(short *)(puVar1 + 0xc) = 0;
-
-  *(short *)(puVar1 + 0xe) = 0;
-
-  *(short *)(puVar1 + 0x10) = 0;
-
-  *(short *)(puVar1 + 0x12) = 0;
-
-  *(short *)(puVar1 + 0x14) = 0;
-
-  *(short *)(puVar1 + 0x16) = 0;
-
-  *(int *)(puVar1 + 0x18) = 0;
-
-  *(int *)(puVar1 + 0x1c) = 0;
-
-  if (VDP1_BATCH_FLAG == 0) {
-
-    VDP1_BATCH_FLAG = 1;
-
-  }
-
-  return;
-
+    char *scroll_regs;
+    char *rotation_tbl;
+    char *coord_tbl;
+    unsigned int i;
+    unsigned short j;
+
+    (*(int(*)())0x06038F34)();
+    *(int *)0x060A4C60 = 0;  *(int *)0x060A4C64 = 0;
+    *(int *)0x060A4C68 = 0;  *(int *)0x060A4C6C = 0;
+    *(int *)0x060A4C78 = 0;  *(int *)0x060A4C7C = 0;
+    *(short *)0x060A4C40 = 0;  *(short *)0x060A4C42 = 0;
+    *(short *)0x060A4C54 = 0;  *(short *)0x060A4C56 = 0;
+    *(int *)0x060A4C44 = 0;  *(int *)0x060A4C48 = 0;
+    *(int *)0x060A4C4C = 0;  *(int *)0x060A4C50 = 0;
+    (*(int(*)())0x0603C104)();
+
+    scroll_regs = (char *)0x060A3D88;
+    rotation_tbl = (char *)0x060A3DB0;
+    *(char **)0x060A3D84 = 0x25F80000;
+    *(short *)scroll_regs = (short)0x00008000;
+    *(short *)(scroll_regs + 2) = 0;
+    *(short *)(scroll_regs + 6) = 0;
+    *(short *)(scroll_regs + 0xc) = 0;
+    *(short *)(scroll_regs + 0xe) = (short)(0x8000 >> 2);
+    for (i = 0; i < 8; i++) {
+        *(short *)(scroll_regs + (i << 1) + 0x10) = (short)0xFFFF;
+    }
+    *(short *)(scroll_regs + 0x20) = 0;
+    *(short *)(scroll_regs + 0x22) = 0;
+    *(short *)(scroll_regs + 0x24) = 0;
+    *(short *)(scroll_regs + 0x26) = 0;
+
+    *(short *)(rotation_tbl + 0) = 0;   *(short *)(rotation_tbl + 2) = 0;
+    *(short *)(rotation_tbl + 4) = 0;   *(short *)(rotation_tbl + 6) = 0;
+    *(short *)(rotation_tbl + 8) = 0;   *(short *)(rotation_tbl + 10) = 0;
+    *(short *)(rotation_tbl + 0xc) = 0; *(short *)(rotation_tbl + 0xe) = 0;
+    *(short *)(rotation_tbl + 0x10) = 0; *(short *)(rotation_tbl + 0x12) = 0;
+    *(short *)(rotation_tbl + 0x14) = 0; *(short *)(rotation_tbl + 0x16) = 0;
+    for (i = 0; i < 8; i++) {
+        *(short *)(rotation_tbl + (i << 1) + 0x18) = 0;
+    }
+    for (j = 0; j < 0x10; j++) {
+        *(short *)(rotation_tbl + ((unsigned int)j << 1) + 0x28) = 0;
+    }
+
+    coord_tbl = (char *)0x060A3DF8;
+    *(int *)(coord_tbl + 0) = 0;
+    *(int *)(coord_tbl + 4) = 0;
+    *(char **)(coord_tbl + 8) = 0x00010000;
+    *(char **)(coord_tbl + 0xc) = 0x00010000;
+    *(int *)(coord_tbl + 0x10) = 0;
+    *(int *)(coord_tbl + 0x14) = 0;
+    *(char **)(coord_tbl + 0x18) = 0x00010000;
+    *(char **)(coord_tbl + 0x1c) = 0x00010000;
+    *(short *)(coord_tbl + 0x20) = 0;  *(short *)(coord_tbl + 0x22) = 0;
+    *(short *)(coord_tbl + 0x24) = 0;  *(short *)(coord_tbl + 0x26) = 0;
+    *(short *)(coord_tbl + 0x28) = 0;  *(short *)(coord_tbl + 0x2a) = 0;
+    *(int *)(coord_tbl + 0x2c) = 0;    *(int *)(coord_tbl + 0x30) = 0;
+    *(int *)(coord_tbl + 0x34) = 0;    *(int *)(coord_tbl + 0x38) = 0;
+    *(int *)(coord_tbl + 0x3c) = 0;
+
+    *(short *)0x060A3E38 = 0;  *(short *)0x060A3E3A = 0;
+    *(short *)0x060A3E3C = 0;  *(short *)0x060A3E3E = 0;
+    *(short *)0x060A3E40 = 0;  *(short *)0x060A3E42 = 0;
+    *(int *)0x060A3E44 = 0;
+
+    *(short *)0x060A3E48 = 0;  *(short *)0x060A3E4A = 0;
+    *(short *)0x060A3E4C = 0;  *(short *)0x060A3E4E = 0;
+    *(short *)0x060A3E50 = 0;  *(short *)0x060A3E52 = 0;
+    *(short *)0x060A3E54 = 0;  *(short *)0x060A3E56 = 0;
+    *(short *)0x060A3E58 = 0;  *(short *)0x060A3E5A = 0;
+    *(short *)0x060A3E5C = 0;  *(short *)0x060A3E5E = 0;
+    *(int *)0x060A3E60 = 0;    *(int *)0x060A3E64 = 0;
+
+    if (VDP1_BATCH_FLAG == 0) {
+        VDP1_BATCH_FLAG = 1;
+    }
 }
 
 /* vdp1_batch_complete -- Mark VDP1 batch as complete and set render target.
@@ -810,229 +645,125 @@ LAB_06038802:
 
 }
 
-void FUN_060388c0()
+/* dma_transfer_batch -- Execute batch of word copies to VDP2 hardware.
+ * Conditionally copies display-list segments if flags are set,
+ * then copies render state, scroll, coordinate, color, and attribute
+ * tables from work RAM (0x060A3xxx) to VDP2 base at *(0x060A3D84). */
+void FUN_060388c0(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x060A4C40;
-
-  if ((*(short *)0x060A4C40 != 0) && (*(int *)0x060A4C44 != 0)) {
-
-    FUN_06038a48(*(int *)0x060A4C44,0x060A3F68,*(int *)0x060A4C38 << 1);
-
-    *(short *)puVar1 = 0;
-
-  }
-
-  if ((*(short *)(puVar1 + 2) != 0) && (*(int *)0x060A4C48 != 0)) {
-
-    FUN_06038a48(*(int *)0x060A4C48,0x060A45D0,*(int *)0x060A4C3C << 1);
-
-    *(short *)(puVar1 + 2) = 0;
-
-  }
-
-  if (*(int *)0x060635B2 == 1) {
-
-    FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,0x80);
-
-  }
-
-  else if (*(int *)0x060635B2 == 2) {
-
-    FUN_06038a48(*(int *)0x060A4C5C,0x060A3E68,0x100);
-
-  }
-
-  puVar1 = (char *)0x060A3D84;
-
-  FUN_06038a48(*(int *)0x060A3D84,0x060A3D88,0x28);
-
-  FUN_06038a48(*(int *)puVar1 + 0x28,0x060A3DB0,0x48);
-
-  FUN_06038a48(*(int *)puVar1 + 0x70,0x060A3DF8,0x40);
-
-  FUN_06038a48(*(int *)puVar1 + (int)0x00B000C0,0x060A3E38,0x10);
-
-  FUN_06038a48(*(int *)puVar1 + 0xc0,0x060A3E48,0x20);
-
-  return;
-
+    if ((*(short *)0x060A4C40 != 0) && (*(int *)0x060A4C44 != 0)) {
+        FUN_06038a48(*(int *)0x060A4C44, 0x060A3F68, *(int *)0x060A4C38 << 1);
+        *(short *)0x060A4C40 = 0;
+    }
+    if ((*(short *)0x060A4C42 != 0) && (*(int *)0x060A4C48 != 0)) {
+        FUN_06038a48(*(int *)0x060A4C48, 0x060A45D0, *(int *)0x060A4C3C << 1);
+        *(short *)0x060A4C42 = 0;
+    }
+    if (*(int *)0x060635B2 == 1) {
+        FUN_06038a48(*(int *)0x060A4C5C, 0x060A3E68, 0x80);
+    } else if (*(int *)0x060635B2 == 2) {
+        FUN_06038a48(*(int *)0x060A4C5C, 0x060A3E68, 0x100);
+    }
+    FUN_06038a48(*(int *)0x060A3D84, 0x060A3D88, 0x28);
+    FUN_06038a48(*(int *)0x060A3D84 + 0x28, 0x060A3DB0, 0x48);
+    FUN_06038a48(*(int *)0x060A3D84 + 0x70, 0x060A3DF8, 0x40);
+    FUN_06038a48(*(int *)0x060A3D84 + (int)0x00B000C0, 0x060A3E38, 0x10);
+    FUN_06038a48(*(int *)0x060A3D84 + 0xc0, 0x060A3E48, 0x20);
 }
 
-void FUN_060389a6()
+/* vdp1_batch_dispatch -- Dispatch VDP1 batch transfer based on batch flag.
+ * flag=1: run DMA transfers directly.
+ * flag=2: copy object/sprite tables first, then run DMA.
+ * Clears dispatch flag 0x060635AC after transfer, then runs peripheral DMA. */
+void FUN_060389a6(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x060635AC;
-
-  if (VDP1_BATCH_FLAG == 1) {
-
-    FUN_060388c0();
-
-  }
-
-  else {
-
-    if (VDP1_BATCH_FLAG != 2) goto LAB_06038a42;
-
-    FUN_06038a48(*(int *)0x060A3D70,*(int *)0x060A3D74,
-
-                 (unsigned int)*(unsigned short *)0x060635A0 * 0xc);
-
-    FUN_06038a48(*(int *)0x060A3D78,*(int *)0x060A3D7C,
-
-                 (unsigned int)*(unsigned short *)0x060635A2 << 2);
-
-    FUN_060388c0();
-
-  }
-
-  *(short *)puVar1 = 0;
-
+    if (VDP1_BATCH_FLAG == 1) {
+        FUN_060388c0();
+    } else {
+        if (VDP1_BATCH_FLAG != 2) goto LAB_06038a42;
+        FUN_06038a48(*(int *)0x060A3D70, *(int *)0x060A3D74,
+                     (unsigned int)*(unsigned short *)0x060635A0 * 0xc);
+        FUN_06038a48(*(int *)0x060A3D78, *(int *)0x060A3D7C,
+                     (unsigned int)*(unsigned short *)0x060635A2 << 2);
+        FUN_060388c0();
+    }
+    *(short *)0x060635AC = 0;
 LAB_06038a42:
-
-  FUN_06038ac8();
-
-  return;
-
+    FUN_06038ac8();
 }
 
-void FUN_06038a48(param_1, param_2, param_3)
-    short *param_1;
-    short *param_2;
-    unsigned int param_3;
+/* word_copy -- Copy byte_count/2 words from src to dst.
+ * 16-bit (short) granularity memcpy used for DMA-style block transfers. */
+void FUN_06038a48(short *dst, short *src, unsigned int byte_count)
 {
-
-  unsigned int uVar1;
-
-  
-
-  uVar1 = 0;
-
-  if (param_3 >> 1 != 0) {
-
-    do {
-
-      uVar1 = uVar1 + 1;
-
-      *param_1 = *param_2;
-
-      param_1 = param_1 + 1;
-
-      param_2 = param_2 + 1;
-
-    } while (uVar1 < param_3 >> 1);
-
-  }
-
-  return;
-
+    unsigned int i = 0;
+    if (byte_count >> 1 != 0) {
+        do {
+            i = i + 1;
+            *dst = *src;
+            dst = dst + 1;
+            src = src + 1;
+        } while (i < byte_count >> 1);
+    }
 }
 
-unsigned int FUN_06038a64(param_1)
-    unsigned int param_1;
+/* fbcr_mode_set -- Set FBCR display mode from selector.
+ * mode 0: keep existing bits masked by DAT_06038a9a.
+ * mode 1: set interlace bits 0x10002000.
+ * mode 2: set alternative mode bits (DAT_06038a9e).
+ * Triggers VDP1_BATCH_FLAG for next frame update. */
+unsigned int FUN_06038a64(unsigned int mode)
 {
-
-  unsigned short uVar1;
-
-  if (param_1 == 0) {
-
-    uVar1 = *(unsigned short *)(0x060A3D88 + 0xe) & DAT_06038a9a;
-
-  }
-
-  else if (param_1 == 1) {
-
-    uVar1 = *(unsigned short *)(0x060A3D88 + 0xe) & DAT_06038a9a | 0x10002000;
-
-  }
-
-  else {
-
-    if (param_1 != 2) goto LAB_06038ab0;
-
-    uVar1 = *(unsigned short *)(0x060A3D88 + 0xe) & DAT_06038a9a | DAT_06038a9e;
-
-  }
-
-  param_1 = (unsigned int)uVar1;
-
-  *(unsigned short *)(0x060A3D88 + 0xe) = uVar1;
-
+    unsigned short uVar1;
+    if (mode == 0) {
+        uVar1 = *(unsigned short *)(0x060A3D88 + 0xe) & DAT_06038a9a;
+    } else if (mode == 1) {
+        uVar1 = *(unsigned short *)(0x060A3D88 + 0xe) & DAT_06038a9a | 0x10002000;
+    } else {
+        if (mode != 2) goto LAB_06038ab0;
+        uVar1 = *(unsigned short *)(0x060A3D88 + 0xe) & DAT_06038a9a | DAT_06038a9e;
+    }
+    mode = (unsigned int)uVar1;
+    *(unsigned short *)(0x060A3D88 + 0xe) = uVar1;
 LAB_06038ab0:
-
-  if (VDP1_BATCH_FLAG == 0) {
-
-    VDP1_BATCH_FLAG = 1;
-
-  }
-
-  return param_1;
-
+    if (VDP1_BATCH_FLAG == 0) {
+        VDP1_BATCH_FLAG = 1;
+    }
+    return mode;
 }
 
-void FUN_06038ac8()
+/* peripheral_dma_dispatch -- Transfer peripheral data blocks based on flag bits.
+ * Reads control byte at 0x060A4D58 and dispatches up to 6 DMA copies
+ * for SCSP/peripheral registers. Each bit (0x80..0x04) triggers a
+ * word_copy from work RAM to hardware, followed by a sync call. */
+void FUN_06038ac8(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x060A4D58;
-
-  (*(int(*)())0x0603C728)();
-
-  if (((int)(char)*puVar1 & 0x80U) != 0) {
-
-    FUN_06038a48(*(int *)0x0606360C,0x060A4D18,0x10);
-
-    (*(int(*)())0x06034F78)();
-
-  }
-
-  if ((*puVar1 & 0x40) != 0) {
-
-    FUN_06038a48(*(int *)0x06063610,0x060A4D28,8);
-
-    (*(int(*)())0x06034F78)();
-
-  }
-
-  if ((*puVar1 & 0x20) != 0) {
-
-    FUN_06038a48(*(int *)0x06063614,0x060A4D30,6);
-
-    (*(int(*)())0x06034F78)();
-
-  }
-
-  if ((*puVar1 & 0x10) != 0) {
-
-    FUN_06038a48(*(int *)0x06063618,0x060A4D36,8);
-
-    (*(int(*)())0x06034F78)();
-
-  }
-
-  if ((*puVar1 & 8) != 0) {
-
-    FUN_06038a48(*(int *)0x0606361C,0x060A4D3E,8);
-
-    (*(int(*)())0x06034F78)();
-
-  }
-
-  if ((*puVar1 & 4) != 0) {
-
-    FUN_06038a48(*(int *)0x06063620,0x060A4D46,0x10);
-
-    (*(int(*)())0x06034F78)();
-
-  }
-
-  return;
-
+    char *flags = (char *)0x060A4D58;
+    (*(int(*)())0x0603C728)();
+    if (((int)(char)*flags & 0x80U) != 0) {
+        FUN_06038a48(*(int *)0x0606360C, 0x060A4D18, 0x10);
+        (*(int(*)())0x06034F78)();
+    }
+    if ((*flags & 0x40) != 0) {
+        FUN_06038a48(*(int *)0x06063610, 0x060A4D28, 8);
+        (*(int(*)())0x06034F78)();
+    }
+    if ((*flags & 0x20) != 0) {
+        FUN_06038a48(*(int *)0x06063614, 0x060A4D30, 6);
+        (*(int(*)())0x06034F78)();
+    }
+    if ((*flags & 0x10) != 0) {
+        FUN_06038a48(*(int *)0x06063618, 0x060A4D36, 8);
+        (*(int(*)())0x06034F78)();
+    }
+    if ((*flags & 8) != 0) {
+        FUN_06038a48(*(int *)0x0606361C, 0x060A4D3E, 8);
+        (*(int(*)())0x06034F78)();
+    }
+    if ((*flags & 4) != 0) {
+        FUN_06038a48(*(int *)0x06063620, 0x060A4D46, 0x10);
+        (*(int(*)())0x06034F78)();
+    }
 }
 
 void FUN_06038bd4(param_1, param_2)
@@ -1206,102 +937,43 @@ void FUN_06038bd4(param_1, param_2)
 
 }
 
-void FUN_06038e54(param_1)
-    unsigned short param_1;
+/* fb_state_control -- Set framebuffer state and VDP1 FBCR from mode param.
+ * 0xFFFF: freeze mode (FB_STATE=2), force manual erase.
+ * 0xFFFE: alt freeze mode (FB_STATE=3), force manual erase.
+ * Other: extract swap/interlace bits from param to set VDP1 display mode.
+ * Writes VDP1 FBCR register at 0x25D00002. */
+void FUN_06038e54(unsigned short param_1)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  puVar5 = (char *)0x060635B8;
-
-  puVar4 = (char *)0x060635B4;
-
-  puVar3 = (char *)0x25D00002;
-
-  puVar2 = (char *)0x060A4C92;
-
-  puVar1 = (char *)0x060635BC;
-
-  if ((char *)(unsigned int)param_1 == 0x0000FFFF) {
-
-    FB_STATE = 2;
-
-    *(int *)puVar5 = 0;
-
-    *(unsigned short *)puVar3 = *(unsigned short *)puVar2 | 3;
-
-    *(unsigned int *)puVar1 = (unsigned int)param_1;
-
-  }
-
-  else if ((char *)(unsigned int)param_1 == 0x0000FFFE) {
-
-    FB_STATE = 3;
-
-    *(int *)puVar5 = 0;
-
-    *(unsigned short *)puVar3 = *(unsigned short *)puVar2 | 3;
-
-    *(unsigned int *)puVar1 = (unsigned int)param_1;
-
-  }
-
-  else {
-
-    if ((param_1 & DAT_06038efa) == 0) {
-
-      *(int *)0x060635B8 = 1;
-
+    unsigned int uVar6;
+    if ((unsigned int)param_1 == 0xFFFF) {
+        FB_STATE = 2;
+        *(int *)0x060635B8 = 0;
+        *(unsigned short *)0x25D00002 = *(unsigned short *)0x060A4C92 | 3;
+        *(unsigned int *)0x060635BC = (unsigned int)param_1;
+    } else if ((unsigned int)param_1 == 0xFFFE) {
+        FB_STATE = 3;
+        *(int *)0x060635B8 = 0;
+        *(unsigned short *)0x25D00002 = *(unsigned short *)0x060A4C92 | 3;
+        *(unsigned int *)0x060635BC = (unsigned int)param_1;
+    } else {
+        if ((param_1 & DAT_06038efa) == 0) {
+            *(int *)0x060635B8 = 1;
+        } else {
+            *(int *)0x060635B8 = 0;
+        }
+        uVar6 = (unsigned int)(param_1 & DAT_06038efc);
+        if (uVar6 == 0) {
+            *(short *)0x060635B4 = 0;
+        } else {
+            *(unsigned short *)0x060635B4 = (unsigned short)(uVar6 != 1);
+        }
+        *(unsigned int *)0x060635BC = uVar6;
+        if (*(short *)0x060635B4 == 0) {
+            *(short *)0x25D00002 = *(short *)0x060A4C92;
+        } else {
+            *(unsigned short *)0x25D00002 = *(unsigned short *)0x060A4C92 | 3;
+        }
     }
-
-    else {
-
-      *(int *)0x060635B8 = 0;
-
-    }
-
-    uVar6 = (unsigned int)(param_1 & DAT_06038efc);
-
-    if (uVar6 == 0) {
-
-      *(short *)puVar4 = 0;
-
-    }
-
-    else {
-
-      *(unsigned short *)puVar4 = (unsigned short)(uVar6 != 1);
-
-    }
-
-    *(unsigned int *)puVar1 = uVar6;
-
-    if (*(short *)puVar4 == 0) {
-
-      *(short *)puVar3 = *(short *)puVar2;
-
-    }
-
-    else {
-
-      *(unsigned short *)puVar3 = *(unsigned short *)puVar2 | 3;
-
-    }
-
-  }
-
-  return;
-
 }
 
 /* framebuffer_state_reset -- Reset all framebuffer/frame timing state.
@@ -1443,186 +1115,96 @@ unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,
 
 }
 
-unsigned int FUN_06039250(param_1)
-    int *param_1;
+/* vdp1_init -- Initialize VDP1 command table and display registers.
+ * Sets FBCR to single-buffer, TV mode 0, default erase window,
+ * then writes initial command at VDP1 VRAM base (0x25C00000).
+ * param_1 receives the VDP1 VRAM base pointer. */
+unsigned int FUN_06039250(int *param_1)
 {
-
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  unsigned int in_sr = 0;
-
-  unsigned int uVar3;
-
-  uVar3 = in_sr & -241 & 0xfff0fff | 0xf0;
-
-  FUN_060394f0(0);
-
-  FUN_0603931c(0,0,0);
-
-  VDP1_FBCR = FBCR_SHADOW;
-
-  VDP1_PTMR = 2;
-
-  VDP1_EWDR = (short)0x00008000;
-
-  VDP1_EWLR = 0;
-
-  VDP1_EWRR = (short)0x0000FFFF;
-
-  FUN_060393fc(0x00008000,0,0,*(int *)0x060A4C88 - 1U & 0xffff,
-
-               *(int *)0x060A4C8C - 1U & 0xffff);
-
-  puVar1 = (char *)0x25C00000;
-
-  *param_1 = (int)0x25C00000;
-
-  *puVar1 = (char)PTR_DAT_060392e8;
-
-  *(char *)(*param_1 + 1) = 0;
-
-  uVar2 = (unsigned int)DAT_060392e6;
-
-  *(int *)0x060635CC = 1;
-
-  return (in_sr >> 4 & 0xf) << 4 | uVar3 & uVar2;
-
+    unsigned int in_sr = 0;
+    unsigned int uVar3 = in_sr & -241 & 0xfff0fff | 0xf0;
+    FUN_060394f0(0);
+    FUN_0603931c(0, 0, 0);
+    VDP1_FBCR = FBCR_SHADOW;
+    VDP1_PTMR = 2;
+    VDP1_EWDR = (short)0x00008000;
+    VDP1_EWLR = 0;
+    VDP1_EWRR = (short)0x0000FFFF;
+    FUN_060393fc(0x00008000, 0, 0, *(int *)0x060A4C88 - 1U & 0xffff,
+                 *(int *)0x060A4C8C - 1U & 0xffff);
+    *param_1 = (int)0x25C00000;
+    *(char *)0x25C00000 = (char)PTR_DAT_060392e8;
+    *(char *)(*param_1 + 1) = 0;
+    *(int *)0x060635CC = 1;
+    return (in_sr >> 4 & 0xf) << 4 | uVar3 & (unsigned int)DAT_060392e6;
 }
 
-unsigned short FUN_0603931c(param_1, param_2, param_3)
-    unsigned short param_1;
-    unsigned short param_2;
-    short param_3;
+/* tv_mode_select -- Configure VDP1 TV mode, resolution, and palette bank.
+ * Sets TVMR register (bits 0-2), looks up resolution from mode table,
+ * selects 16-color (bank=1) or 256-color (bank=0) palette mode.
+ * param_3=1 doubles vertical resolution (interlace). */
+unsigned short FUN_0603931c(unsigned short param_1, unsigned short param_2, short param_3)
 {
-
-  char *puVar1;
-
-  short *psVar2;
-
-  puVar1 = (char *)0x060A4C8C;
-
-  TVMR_SHADOW = param_1 & 7;
-
-  VDP1_TVMR = param_1 & 7;
-
-  if (7 < param_2) {
-
-    param_2 = 0;
-
-  }
-
-  psVar2 = (short *)(0x060635E0 + (unsigned int)(param_2 << 2));
-
-  *(int *)0x060A4C88 = (int)*psVar2;
-
-  *(int *)puVar1 = (int)psVar2[1];
-
-  if (param_3 == 1) {
-
-    *(int *)puVar1 = *(int *)(int)puVar1 << 1;
-
-  }
-
-  if ((param_1 == 1) || (param_1 == 3)) {
-
-    PALETTE_BANK_SEL = 1;
-
-  }
-
-  else {
-
-    PALETTE_BANK_SEL = 0;
-
-  }
-
-  if (param_3 == 0) {
-
-    *(short *)0x060A4C94 = 0;
-
-  }
-
-  else {
-
-    *(short *)0x060A4C94 = 8;
-
-  }
-
-  *(short *)0x060A4C96 = 0;
-
-  return param_1;
-
+    short *psVar2;
+    TVMR_SHADOW = param_1 & 7;
+    VDP1_TVMR = param_1 & 7;
+    if (7 < param_2) {
+        param_2 = 0;
+    }
+    psVar2 = (short *)(0x060635E0 + (unsigned int)(param_2 << 2));
+    *(int *)0x060A4C88 = (int)*psVar2;
+    *(int *)0x060A4C8C = (int)psVar2[1];
+    if (param_3 == 1) {
+        *(int *)0x060A4C8C = *(int *)0x060A4C8C << 1;
+    }
+    if ((param_1 == 1) || (param_1 == 3)) {
+        PALETTE_BANK_SEL = 1;
+    } else {
+        PALETTE_BANK_SEL = 0;
+    }
+    if (param_3 == 0) {
+        *(short *)0x060A4C94 = 0;
+    } else {
+        *(short *)0x060A4C94 = 8;
+    }
+    *(short *)0x060A4C96 = 0;
+    return param_1;
 }
 
-void FUN_060393fc(param_1, param_2, param_3, param_4, param_5)
-    short param_1;
-    unsigned short param_2;
-    unsigned short param_3;
-    short param_4;
-    unsigned short param_5;
+/* erase_window_config -- Set VDP1 erase window (EWDR/EWLR/EWRR).
+ * Stores shadow copies of all params, then computes EWLR/EWRR
+ * from X coords (shifted by palette bank: >>3 or >>4) and Y coords
+ * (halved if interlace mode is active at 0x060A4C94). */
+void FUN_060393fc(short erase_data, unsigned short x_left, unsigned short y_top,
+                  short x_right, unsigned short y_bottom)
 {
-
-  unsigned short uVar1;
-
-  *(short *)0x060635D4 = param_1;
-
-  *(unsigned short *)0x060635D6 = param_2;
-
-  *(unsigned short *)0x060635D8 = param_3;
-
-  *(short *)0x060635DA = param_4;
-
-  *(unsigned short *)0x060635DC = param_5;
-
-  VDP1_EWDR = param_1;
-
-  if (PALETTE_BANK_SEL == 0) {
-
-    param_2 = param_2 >> 3;
-
-  }
-
-  else {
-
-    param_2 = param_2 >> 4;
-
-  }
-
-  if (*(short *)0x060A4C94 != 0) {
-
-    param_3 = param_3 >> 1;
-
-  }
-
-  *(unsigned short *)0x060635D0 = (param_2 << 9) + param_3;
-
-  VDP1_EWLR = *(short *)0x060635D0;
-
-  if (PALETTE_BANK_SEL == 0) {
-
-    uVar1 = (unsigned short)(param_4 + 1U) >> 3;
-
-  }
-
-  else {
-
-    uVar1 = (unsigned short)(param_4 + 1U) >> 4;
-
-  }
-
-  if (*(short *)0x060A4C94 != 0) {
-
-    param_5 = param_5 >> 1;
-
-  }
-
-  *(unsigned short *)0x060635D2 = (uVar1 << 9) + param_5;
-
-  VDP1_EWRR = *(short *)0x060635D2;
-
-  return;
-
+    unsigned short uVar1;
+    *(short *)0x060635D4 = erase_data;
+    *(unsigned short *)0x060635D6 = x_left;
+    *(unsigned short *)0x060635D8 = y_top;
+    *(short *)0x060635DA = x_right;
+    *(unsigned short *)0x060635DC = y_bottom;
+    VDP1_EWDR = erase_data;
+    if (PALETTE_BANK_SEL == 0) {
+        x_left = x_left >> 3;
+    } else {
+        x_left = x_left >> 4;
+    }
+    if (*(short *)0x060A4C94 != 0) {
+        y_top = y_top >> 1;
+    }
+    *(unsigned short *)0x060635D0 = (x_left << 9) + y_top;
+    VDP1_EWLR = *(short *)0x060635D0;
+    if (PALETTE_BANK_SEL == 0) {
+        uVar1 = (unsigned short)(x_right + 1U) >> 3;
+    } else {
+        uVar1 = (unsigned short)(x_right + 1U) >> 4;
+    }
+    if (*(short *)0x060A4C94 != 0) {
+        y_bottom = y_bottom >> 1;
+    }
+    *(unsigned short *)0x060635D2 = (uVar1 << 9) + y_bottom;
+    VDP1_EWRR = *(short *)0x060635D2;
 }
 
 /* fbcr_mode_select -- Set VDP1 frame buffer control shadow.

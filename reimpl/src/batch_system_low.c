@@ -85,7 +85,7 @@ extern int DAT_0600460e;
 extern int DAT_06004610;
 extern int DAT_06004612;
 extern int FUN_060023e6();
-extern int FUN_0600245c();
+extern int FUN_0600245c(short *, int, short);
 extern int FUN_060024d8(short param_1);
 extern void FUN_0600270a();
 extern int PTR_DAT_060023fc;
@@ -134,69 +134,28 @@ int FUN_060023e6(void)
     return *(int *)PTR_PTR_06002400;
 }
 
-void FUN_06002404(param_1, param_2, param_3)
-    short *param_1;
-    short *param_2;
-    int param_3;
+/* word_copy_counted -- Copy count words (16-bit) from src to dst.
+ * Unlike FUN_06038a48 which takes byte count, this takes word count directly. */
+void FUN_06002404(short *src, short *dst, int count)
 {
-
-  int local_c;
-
-  short *puStack_8;
-
-  short *puStack_4;
-
-  
-
-  local_c = param_3;
-
-  puStack_8 = param_2;
-
-  puStack_4 = param_1;
-
-  do {
-
-    *puStack_8 = *puStack_4;
-
-    puStack_8 = puStack_8 + 1;
-
-    puStack_4 = puStack_4 + 1;
-
-    local_c = local_c + -1;
-
-  } while (local_c != 0);
-
-  return;
-
+    do {
+        *dst = *src;
+        dst = dst + 1;
+        src = src + 1;
+        count = count + -1;
+    } while (count != 0);
 }
 
-int FUN_0600245c(param_1, param_2, param_3)
-    short *param_1;
-    int param_2;
-    short param_3;
+/* word_fill -- Fill count words (16-bit) at dst with value.
+ * Returns the fill value. */
+int FUN_0600245c(short *dst, int count, short value)
 {
-
-  int iStack_8;
-
-  short *psStack_4;
-
-  
-
-  iStack_8 = param_2;
-
-  psStack_4 = param_1;
-
-  do {
-
-    *psStack_4 = param_3;
-
-    iStack_8 = iStack_8 + -1;
-
-    psStack_4 = psStack_4 + 1;
-
-  } while (iStack_8 != 0);
-
-  return (int)param_3;
+    do {
+        *dst = value;
+        count = count + -1;
+        dst = dst + 1;
+    } while (count != 0);
+    return (int)value;
 
 }
 

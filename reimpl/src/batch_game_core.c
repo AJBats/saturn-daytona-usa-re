@@ -1139,87 +1139,49 @@ int FUN_06006cdc()
 
 }
 
-void FUN_0600736c()
+/* vdp_scroll_setup -- Initialize VDP1 and VDP2 for in-game rendering.
+ * Resets sprite count, sets VRAM allocation pointer, initializes VDP1,
+ * selects TV mode 2, sets erase window, freezes FB state.
+ * Then loads initial command list and sprite table data. */
+void FUN_0600736c(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x06063F5C;
-
-  *(int *)0x0606A4F4 = 0;
-
-  *(int *)0x0606A4EC = (int)DAT_06007412;
-
-  (*(int(*)())0x06039250)(puVar1);
-
-  (*(int(*)())0x0603931C)(0,2);
-
-  (*(int(*)())0x060393FC)(0,0,0,(int)DAT_06007416,(int)DAT_06007414);
-
-  (*(int(*)())0x06038E54)(0x0000FFFF);
-
-  (*(int(*)())0x06012E00)();
-
-  (*(int(*)())0x0602761E)(*(int *)(0x06059FFC << 3) + *(int *)puVar1,0x002A0000,0x3c0);
-
-  if ((*(unsigned int *)0x0607EAB8 & 1) != 0) {
-
-    (*(int(*)())0x0602761E)(*(int *)(0x06059FFC << 3) + *(int *)puVar1 + 0x300,
-
-               0x06059F78,0x80);
-
-  }
-
-  (*(int(*)())0x0602766C)(*(int *)puVar1,0x0605A018,0x60);
-
-  VDP1_CMD_BASE_PTR = 3;
-
-  *(short *)(*(int *)puVar1 + 0x60) = (short)0x00008000;
-
-  (*(int(*)())0x0602382C)();
-
-  (*(int(*)())0x06028654)(0x002A3457,0x0606B178);
-
-  (*(int(*)())0x06026CE0)();
-
-  return;
-
+    *(int *)0x0606A4F4 = 0;
+    *(int *)0x0606A4EC = (int)DAT_06007412;
+    (*(int(*)())0x06039250)(0x06063F5C);
+    (*(int(*)())0x0603931C)(0, 2);
+    (*(int(*)())0x060393FC)(0, 0, 0, (int)DAT_06007416, (int)DAT_06007414);
+    (*(int(*)())0x06038E54)(0x0000FFFF);
+    (*(int(*)())0x06012E00)();
+    (*(int(*)())0x0602761E)(*(int *)(0x06059FFC << 3) + *(int *)0x06063F5C, 0x002A0000, 0x3c0);
+    if ((*(unsigned int *)0x0607EAB8 & 1) != 0) {
+        (*(int(*)())0x0602761E)(*(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + 0x300,
+                                0x06059F78, 0x80);
+    }
+    (*(int(*)())0x0602766C)(*(int *)0x06063F5C, 0x0605A018, 0x60);
+    VDP1_CMD_BASE_PTR = 3;
+    *(short *)(*(int *)0x06063F5C + 0x60) = (short)0x00008000;
+    (*(int(*)())0x0602382C)();
+    (*(int(*)())0x06028654)(0x002A3457, 0x0606B178);
+    (*(int(*)())0x06026CE0)();
 }
 
-void FUN_06007540(param_1, param_2, param_3)
-    unsigned int param_1;
-    unsigned int param_2;
-    short param_3;
+/* sprite_table_entry -- Add a sprite to the VDP1 command table.
+ * Looks up source sprite data from table at 0x060684EC, copies
+ * position/size attributes to command list at 0x06063F64,
+ * sets color bank (param_3), increments sprite count at 0x0606A4F4. */
+void FUN_06007540(unsigned int sprite_id, unsigned int src_id, short color_bank)
 {
+    unsigned short uVar1;
+    int *cmd_src;
+    int sprite_count = *(int *)0x0606A4F4;
 
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int *puVar4;
-
-  puVar2 = (char *)0x0606A4F4;
-
-  uVar1 = *(unsigned short *)(0x060684EC + (param_2 & 0xffff) << 1);
-
-  *(short *)(0x060684EC + (param_1 & 0xffff) << 1) = (short)*(int *)0x0606A4F4;
-
-  puVar3 = (char *)0x06063F64;
-
-  puVar4 = (int *)(0x06063F64 + (unsigned int)(uVar1 << 3));
-
-  *(int *)(0x06063F64 + *(int *)((int)(int)puVar2 << 3)) = *puVar4;
-
-  *(short *)(puVar3 + *(int *)((int)(int)puVar2 << 3) + 4) = *(short *)(puVar4 + 1);
-
-  *(short *)(puVar3 + *(int *)((int)(int)puVar2 << 3) + 6) = param_3;
-
-  *(int *)puVar2 = *(int *)puVar2 + 1;
-
-  return;
-
+    uVar1 = *(unsigned short *)(0x060684EC + (src_id & 0xffff) << 1);
+    *(short *)(0x060684EC + (sprite_id & 0xffff) << 1) = (short)sprite_count;
+    cmd_src = (int *)(0x06063F64 + (unsigned int)(uVar1 << 3));
+    *(int *)(0x06063F64 + (sprite_count << 3)) = *cmd_src;
+    *(short *)(0x06063F64 + (sprite_count << 3) + 4) = *(short *)(cmd_src + 1);
+    *(short *)(0x06063F64 + (sprite_count << 3) + 6) = color_bank;
+    *(int *)0x0606A4F4 = sprite_count + 1;
 }
 
 void FUN_06007590(param_1, param_2)
