@@ -83,6 +83,14 @@
 #define LAP_POSITION_REF       (*(volatile int *)0x060786B0)
 #define LAP_POSITION_STORE     (*(volatile int *)0x060786B4)
 
+/* Position tracking globals (used by DCC8/DD88) */
+#define POS_DIVRESULT          (*(volatile int *)0x0607869C)
+#define POS_DELTA              (*(volatile int *)0x060786A0)
+#define POS_PREV               (*(volatile int *)0x0605A21C)
+
+/* AI checkpoint index array */
+#define AI_CHECKPOINT_ARRAY    (*(volatile int *)0x06063F3C)
+
 
 /* ================================================================
  * Extern helper declarations
@@ -91,7 +99,7 @@ extern int  FUN_0602744C(int dx, int dz);          /* atan2 */
 extern int  FUN_06035280();                          /* bit shift: 1 << index */
 extern void FUN_06034F78(int val, int param, int ptr);  /* bitfield write */
 /* FUN_0600CDD0: declared below (checkpoint retreat) */
-extern void FUN_0600DD88(void);                     /* AI lap notification */
+extern void FUN_0600DD88(int car_index);             /* AI checkpoint timing */
 extern void FUN_0600DCC8(void);                     /* checkpoint timing update */
 extern void FUN_0601D7D0(void);                     /* lap display function */
 
@@ -454,8 +462,8 @@ void FUN_0600D9BC(int car_index)
         /* Check car[3] bit 3 */
         if (CAR_UBYTE(car, 3) & 0x08) return;
 
-        /* Tail-call to AI lap notification */
-        FUN_0600DD88();
+        /* Tail-call to AI checkpoint timing */
+        FUN_0600DD88(car_index);
     }
 }
 
@@ -607,4 +615,161 @@ void FUN_0600DB64(void)
 
     /* Tail-call to lap display renderer */
     FUN_0601D7D0();
+}
+
+
+/* ================================================================
+ * FUN_0600DCC8 -- Checkpoint Timing Update (0x0600DCC8)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600DCC8-0x0600DD60)
+ * Pool verified:
+ *   0x0600DD62 = word 0x01E0 (checkpoint table base offset)
+ *   0x0600DD64 = 0x0607E940 (CAR_PTR_CURRENT)
+ *   0x0600DD68 = 0x0607EA9C (TOTAL_CHECKPOINTS)
+ *   0x0600DD6C = 0x0607869C (POS_DIVRESULT)
+ *   0x0600DD70 = 0x06034FE0 (hardware DIVU wrapper)
+ *   0x0600DD74 = 0x060786B0 (LAP_POSITION_REF)
+ *   0x0600DD78 = 0x0607EBD0 (GAME_STATE_VAR)
+ *   0x0600DD7C = 0x0607EAD8 (CAR_COUNT)
+ *   0x0600DD80 = 0x0605A21C (POS_PREV)
+ *   0x0600DD84 = 0x060786A0 (POS_DELTA)
+ *
+ * Computes normalized position reference for split timing:
+ *   1. Find last checkpoint (total_checkpoints * 24 + table_base)
+ *   2. Manhattan distance to last checkpoint
+ *   3. Divide by car accel (FUN_06034FE0 = hardware DIVU)
+ *   4. LAP_POSITION_REF = GAME_STATE_VAR * 5 - result
+ *   5. If multi-car: update position delta tracking
+ *
+ * Called from FUN_0600D92C (record lap timing).
+ * 49 instructions. Only saves PR (no callee-saved regs).
+ * ================================================================ */
+void FUN_0600DCC8(void)
+{
+    int car = CAR_PTR_CURRENT;
+    int total = TOTAL_CHECKPOINTS;
+    int table_base = CAR_INT(car, CAR_CHECKPOINT_BASE);
+    int last_entry = table_base + total * CHECKPOINT_ENTRY_SIZE;
+    int chk_x, chk_z, car_x, car_z;
+    int abs_dx, abs_dz, manhattan;
+    int accel, div_result;
+
+    /* Get last checkpoint coordinates */
+    chk_x = *(volatile int *)last_entry;
+    chk_z = *(volatile int *)(last_entry + 4);
+
+    /* Get car position */
+    car_x = CAR_INT(car, CAR_X);
+    car_z = CAR_INT(car, CAR_Z);
+
+    /* Manhattan distance: |chk_x - car_x| + |chk_z - car_z| */
+    abs_dx = chk_x - car_x;
+    if (abs_dx < 0) abs_dx = car_x - chk_x;
+
+    abs_dz = chk_z - car_z;
+    if (abs_dz < 0) abs_dz = car_z - chk_z;
+
+    manhattan = abs_dx + abs_dz;
+
+    /* Hardware DIVU: manhattan / car_accel
+     * FUN_06034FE0 takes r0=divisor, r1=dividend via implicit regs.
+     * We inline the division directly. */
+    accel = CAR_INT(car, CAR_ACCEL);
+    if (accel != 0) {
+        div_result = manhattan / accel;
+    } else {
+        div_result = 0;
+    }
+
+    /* Store intermediate result */
+    POS_DIVRESULT = div_result;
+
+    /* Compute position reference */
+    LAP_POSITION_REF = GAME_STATE_VAR * 5 - div_result;
+
+    /* Update delta tracking if multi-car mode */
+    if (CAR_COUNT != 0) {
+        POS_DELTA = LAP_POSITION_REF - POS_PREV;
+        POS_PREV = LAP_POSITION_REF;
+    }
+}
+
+
+/* ================================================================
+ * FUN_0600DD88 -- AI Checkpoint Timing (0x0600DD88)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600DD88-0x0600DE1C)
+ * Pool verified:
+ *   0x0600DE1E = word 0x01E0 (checkpoint table base offset)
+ *   0x0600DE20 = 0x0607E940 (CAR_PTR_CURRENT)
+ *   0x0600DE24 = 0x06063F3C (AI checkpoint index array)
+ *   0x0600DE28 = 0x0607869C (POS_DIVRESULT)
+ *   0x0600DE2C = 0x06034FE0 (hardware DIVU wrapper)
+ *   0x0600DE30 = 0x060786B0 (LAP_POSITION_REF)
+ *   0x0600DE34 = 0x0607EBD0 (GAME_STATE_VAR)
+ *   0x0600DE38 = 0x0605A21C (POS_PREV)
+ *   0x0600DE3C = 0x060786A0 (POS_DELTA)
+ *
+ * Same algorithm as FUN_0600DCC8 but for AI cars:
+ *   1. Look up checkpoint index from AI array at 0x06063F3C
+ *   2. Manhattan distance to that checkpoint
+ *   3. Divide by car accel, compute position reference
+ *   4. Always update position delta tracking
+ *
+ * Called from FUN_0600D9BC (set lap flag) for AI cars.
+ * 46 instructions. Only saves PR (no callee-saved regs).
+ * ================================================================ */
+void FUN_0600DD88(int car_index)
+{
+    int car = CAR_PTR_CURRENT;
+    int chk_index;
+    int table_base, entry;
+    int chk_x, chk_z, car_x, car_z;
+    int abs_dx, abs_dz, manhattan;
+    int accel, div_result;
+
+    /* Look up AI car's checkpoint index from array */
+    {
+        int array_base = *(volatile int *)(AI_CHECKPOINT_ARRAY + 4);
+        chk_index = *(volatile int *)(array_base + (car_index - 1) * 4);
+    }
+
+    /* Compute checkpoint entry */
+    table_base = CAR_INT(car, CAR_CHECKPOINT_BASE);
+    entry = table_base + chk_index * CHECKPOINT_ENTRY_SIZE;
+
+    /* Get checkpoint coordinates */
+    chk_x = *(volatile int *)entry;
+    chk_z = *(volatile int *)(entry + 4);
+
+    /* Get car position */
+    car_x = CAR_INT(car, CAR_X);
+    car_z = CAR_INT(car, CAR_Z);
+
+    /* Manhattan distance */
+    abs_dx = chk_x - car_x;
+    if (abs_dx < 0) abs_dx = car_x - chk_x;
+
+    abs_dz = chk_z - car_z;
+    if (abs_dz < 0) abs_dz = car_z - chk_z;
+
+    manhattan = abs_dx + abs_dz;
+
+    /* Hardware DIVU: manhattan / car_accel */
+    accel = CAR_INT(car, CAR_ACCEL);
+    if (accel != 0) {
+        div_result = manhattan / accel;
+    } else {
+        div_result = 0;
+    }
+
+    /* Store intermediate result */
+    POS_DIVRESULT = div_result;
+
+    /* Compute position reference */
+    LAP_POSITION_REF = GAME_STATE_VAR * 5 - div_result;
+
+    /* Always update delta tracking (AI path) */
+    POS_DELTA = LAP_POSITION_REF - POS_PREV;
+    POS_PREV = LAP_POSITION_REF;
 }
