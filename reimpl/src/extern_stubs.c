@@ -55,7 +55,7 @@ void FUN_0603053C(int arg) { (void)arg; }
 /* Race init dependencies (from race_init.c) */
 /* FUN_06026E02: moved to transform_stack.c */
 /* FUN_060270C6: moved to transform_stack.c */
-void FUN_0600629C(void) { }
+/* FUN_0600629C: moved to car_table_init.c */
 void FUN_06021450(void) { }
 
 /* E4F2 dependencies (from physics_entry.c) */
