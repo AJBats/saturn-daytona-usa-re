@@ -4,8 +4,8 @@ void FUN_0600F822(void) { }
 void FUN_0600F898(void) { }
 void FUN_0600F8BE(void) { }
 void FUN_0600F914(void) { }
-void FUN_0600F98C(void) { }
-void FUN_0600F990(void) { }
+/* FUN_0600F98C: moved to subsystem_counter.c */
+/* FUN_0600F990: moved to subsystem_counter.c */
 void FUN_0600F9C6(void) { }
 void FUN_0600FB78(void) { }
 void FUN_0600FD54(void) { }
@@ -21,9 +21,9 @@ void FUN_060115F0(void) { }
 void FUN_060116BC(void) { }
 void FUN_0601198C(void) { }
 void FUN_06011B08(void) { }
-void FUN_06012054(void) { }
-void FUN_06012084(void) { }
-void FUN_060120A0(void) { }
+/* FUN_06012054: moved to vdp_attr_config.c */
+/* FUN_06012084: moved to vdp_attr_config.c */
+/* FUN_060120A0: moved to vdp_attr_config.c */
 void FUN_060120CC(void) { }
 void FUN_0601228C(void) { }
 void FUN_06012454(void) { }

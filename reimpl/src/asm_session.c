@@ -2,7 +2,7 @@ void FUN_06040010(void) { }
 void FUN_060401FC(void) { }
 void FUN_060402BC(void) { }
 void FUN_0604053A(void) { }
-void FUN_06040668(void) { }
+/* FUN_06040668: moved to session_check.c */
 void FUN_060406B4(void) { }
 void FUN_060406BC(void) { }
 void FUN_06040724(void) { }

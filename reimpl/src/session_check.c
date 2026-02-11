@@ -1,5 +1,6 @@
 /* session_check.c -- CD session/status checking
  *
+ * FUN_06040668: Check if session query returns zero (boolean inverter)
  * FUN_06041014: Check if a CD session param matches the current active session
  * FUN_06041310: Check if a specific CD sector/track is loaded
  * FUN_06041180: Validate CD transfer matches expected param, then call cleanup
@@ -8,10 +9,32 @@
  *
  * The base pointer at 0x060A5400 points to a CD session control block.
  *
- * Original addresses: 0x06041014, 0x06041310, 0x06041180, 0x06040EEC, 0x06040F82
+ * Original addresses: 0x06040668, 0x06041014, 0x06041310, 0x06041180,
+ *   0x06040EEC, 0x06040F82
  */
 
 extern void FUN_06034D1C(void);
+extern int FUN_060405b8(int param);
+
+
+/* ================================================================
+ * FUN_06040668 -- Session Query Boolean Inverter (0x06040668)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06040668-0x0604067E)
+ *
+ * Calls FUN_060405b8 with the given parameter and inverts the
+ * boolean result: returns 1 if the query returned 0, else returns 0.
+ *
+ * Original asm passes caller's r5 to FUN_060405b8's r4 via delay slot.
+ * In C translation, the parameter is passed naturally as the first arg.
+ *
+ * 11 instructions. Saves PR.
+ * ================================================================ */
+int FUN_06040668(int param)
+{
+    return FUN_060405b8(param) == 0 ? 1 : 0;
+}
+
 
 int FUN_06041014(int param_1)
 {
