@@ -1,4 +1,4 @@
-void FUN_0600A000(void) { }
+/* FUN_0600A000: moved to sound_init.c */
 void FUN_0600A478(void) { }
 void FUN_0600A614(void) { }
 void camera_car_transform_setup(void) { }
