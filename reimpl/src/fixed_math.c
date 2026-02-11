@@ -9,10 +9,19 @@
  * Original addresses: 0x06027552, 0x0602755C
  */
 
-unsigned int FUN_06027552(int param_1, int param_2)
+/* ================================================================
+ * FUN_06027552 -- Fixed-Point Multiply (0x06027552)
+ *
+ * Computes (a * b) >> 16 in 16.16 fixed-point format.
+ *
+ * On SH-2: dmuls.l Rm, Rn → 64-bit product in MACH:MACL
+ *          xtrct MACH, MACL → extract middle 32 bits (= product >> 16)
+ *
+ * 4 instructions total. LEAF function.
+ * ================================================================ */
+unsigned int FUN_06027552(int a, int b)
 {
-    return (int)((unsigned long long)((long long)param_2 * (long long)param_1) >> 0x20) << 0x10 |
-           (unsigned int)((long long)param_2 * (long long)param_1) >> 0x10;
+    return (unsigned int)((long long)a * (long long)b >> 16);
 }
 
 
