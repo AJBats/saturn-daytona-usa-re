@@ -1519,79 +1519,36 @@ void FUN_0600d266(void)
     return;
 }
 
-void FUN_0600d280()
+/* ranking_table_init -- Initialize car ranking pointer tables.
+ * Clears two 40-entry ranking arrays at 0x0607E94C and 0x0607E9EC,
+ * plus 3-word summary at 0x0607EA8C. Then fills both arrays with
+ * pointers to car slots (CAR_ARRAY_BASE) in reverse order based
+ * on total car count (0x0607EA98). CAR_STRUCT_SIZE=0x268 per slot. */
+void FUN_0600d280(void)
 {
+  int car_count = *(int *)0x0607EA98;
+  int *rank_a = (int *)0x0607E94C;         /* ranking table A */
+  int *rank_b = (int *)0x0607E9EC;         /* ranking table B */
+  unsigned int i;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned int uVar4;
-
-  int *puVar5;
-
-  int iVar6;
-
-  puVar2 = (char *)0x0607EA98;
-
-  puVar1 = (int *)0x06078900;
-
-  iVar6 = 0x268;
-
-  puVar5 = (int *)0x0607E94C;
-
-  for (uVar4 = 0; uVar4 < 0x28; uVar4 = uVar4 + 2) {
-
-    *puVar5 = 0;
-
-    puVar5[1] = 0;
-
-    puVar5 = puVar5 + 2;
-
+  /* Clear both 40-entry tables */
+  for (i = 0; i < 0x28; i += 2) {
+    rank_a[i] = 0;  rank_a[i + 1] = 0;
   }
-
-  puVar5 = (int *)0x0607E9EC;
-
-  for (uVar4 = 0; puVar3 = 0x0607EA8C, uVar4 < 0x28; uVar4 = uVar4 + 2) {
-
-    *puVar5 = 0;
-
-    puVar5[1] = 0;
-
-    puVar5 = puVar5 + 2;
-
+  for (i = 0; i < 0x28; i += 2) {
+    rank_b[i] = 0;  rank_b[i + 1] = 0;
   }
-
   *(int *)0x0607EA8C = 0;
+  *(int *)0x0607EA90 = 0;
+  *(int *)0x0607EA94 = 0;
 
-  *(int *)(puVar3 + 4) = 0;
-
-  *(int *)(puVar3 + 8) = 0;
-
-  puVar5 = (int *)0x0607E94C;
-
-  for (uVar4 = 1; uVar4 <= *(unsigned int *)puVar2; uVar4 = uVar4 + 1) {
-
-    *puVar5 = puVar1 + (*(int *)puVar2 - uVar4) * iVar6;
-
-    puVar5 = puVar5 + 1;
-
+  /* Fill with car pointers in reverse order */
+  for (i = 1; i <= (unsigned int)car_count; i++) {
+    rank_a[i - 1] = CAR_ARRAY_BASE + (car_count - i) * CAR_STRUCT_SIZE;
   }
-
-  puVar5 = (int *)0x0607E9EC;
-
-  for (uVar4 = 1; uVar4 <= *(unsigned int *)puVar2; uVar4 = uVar4 + 1) {
-
-    *puVar5 = puVar1 + (*(int *)puVar2 - uVar4) * iVar6;
-
-    puVar5 = puVar5 + 1;
-
+  for (i = 1; i <= (unsigned int)car_count; i++) {
+    rank_b[i - 1] = CAR_ARRAY_BASE + (car_count - i) * CAR_STRUCT_SIZE;
   }
-
-  return;
-
 }
 
 /* ranking_update -- Update car ranking/positioning system.

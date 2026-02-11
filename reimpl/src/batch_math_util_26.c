@@ -1156,82 +1156,35 @@ void FUN_06026ca4(int param_1, short param_2)
                             0x0000E000, sprite_data);
 }
 
-void FUN_06026dbc()
+/* matrix_push -- Push current 3x4 matrix onto stack.
+ * Copies 12 ints (3x4 matrix) from current stack top to next slot,
+ * then advances stack pointer at 0x06089EDC by 12 ints (48 bytes). */
+void FUN_06026dbc(void)
 {
+  int *mtx = *(int **)0x06089EDC;          /* current matrix stack top */
+  *(int **)0x06089EDC = mtx + 0xc;         /* advance stack pointer */
 
-  int *puVar1;
-
-  puVar1 = *(int **)0x06089EDC;
-
-  *(int **)0x06089EDC = puVar1 + 0xc;
-
-  puVar1[0xc] = *puVar1;
-
-  puVar1[0xd] = puVar1[1];
-
-  puVar1[0xe] = puVar1[2];
-
-  puVar1[0xf] = puVar1[3];
-
-  puVar1[0x10] = puVar1[4];
-
-  puVar1[0x11] = puVar1[5];
-
-  puVar1[0x12] = puVar1[6];
-
-  puVar1[0x13] = puVar1[7];
-
-  puVar1[0x14] = puVar1[8];
-
-  puVar1[0x15] = puVar1[9];
-
-  puVar1[0x16] = puVar1[10];
-
-  puVar1[0x17] = puVar1[0xb];
-
-  return;
-
+  /* Copy all 12 elements to new top */
+  mtx[0xc] = mtx[0];  mtx[0xd] = mtx[1];  mtx[0xe] = mtx[2];
+  mtx[0xf] = mtx[3];  mtx[0x10] = mtx[4]; mtx[0x11] = mtx[5];
+  mtx[0x12] = mtx[6]; mtx[0x13] = mtx[7]; mtx[0x14] = mtx[8];
+  mtx[0x15] = mtx[9]; mtx[0x16] = mtx[10]; mtx[0x17] = mtx[0xb];
 }
 
-void FUN_06026e02()
+/* matrix_reset -- Reset matrix stack and load identity matrix.
+ * Sets stack pointer (0x06089EDC) to base (0x06089EE0), then writes
+ * 3x4 identity matrix: diagonal = 0x10000 (1.0 in 16.16 fixed-point),
+ * all other elements = 0. Translation column (elements 9-11) = 0. */
+void FUN_06026e02(void)
 {
+  int *mtx = (int *)0x06089EE0;            /* matrix stack base */
+  *(int **)0x06089EDC = mtx;               /* reset stack pointer */
 
-  int *puVar1;
-
-  char *puVar2;
-
-  puVar1 = (int *)0x06089EE0;
-
-  *(int **)0x06089EDC = 0x06089EE0;
-
-  puVar2 = (int *)0x00010000;
-
-  puVar1[1] = 0;
-
-  *puVar1 = puVar2;
-
-  puVar1[2] = 0;
-
-  puVar1[3] = 0;
-
-  puVar1[4] = puVar2;
-
-  puVar1[5] = 0;
-
-  puVar1[6] = 0;
-
-  puVar1[7] = 0;
-
-  puVar1[8] = puVar2;
-
-  puVar1[9] = 0;
-
-  puVar1[10] = 0;
-
-  puVar1[0xb] = 0;
-
-  return;
-
+  /* 3x3 identity (16.16 fixed-point) + zero translation */
+  mtx[0] = 0x00010000;  mtx[1] = 0;          mtx[2] = 0;
+  mtx[3] = 0;           mtx[4] = 0x00010000;  mtx[5] = 0;
+  mtx[6] = 0;           mtx[7] = 0;           mtx[8] = 0x00010000;
+  mtx[9] = 0;           mtx[10] = 0;          mtx[0xb] = 0;
 }
 
 void FUN_06026e0c()

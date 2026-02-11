@@ -165,95 +165,53 @@ int FUN_060100a4(param_1)
 
 }
 
-void FUN_06010238()
+/* player_count_detect -- Detect number of players from cabinet inputs.
+ * Reads raw input word at 0x06063D9C, XOR with 0xFFFF and mask to low byte.
+ * Thresholds: >0x72B = 2 players, >0xC0 = 1 player (additive).
+ * Sets CAR_COUNT (0=single, 1=2P, 2=4P) and mirrors to 0x0607887E. */
+void FUN_06010238(void)
 {
+  unsigned short raw = *(unsigned short *)0x06063D9C;
+  int *player_count = (int *)0x0607EADC;
+  unsigned int input_val = ((unsigned int)raw ^ 0x0000FFFF) & 0xff;
 
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned int uVar4;
-
-  puVar3 = (int *)0x0000FFFF;
-
-  puVar2 = (char *)0x0607EADC;
-
-  uVar1 = *(unsigned short *)0x06063D9C;
-
-  *(int *)0x0607EADC = 0;
-
-  uVar4 = ((unsigned int)uVar1 ^ (unsigned int)puVar3) & 0xff;
-
-  if (0x72b < (int)uVar4) {
-
-    *(int *)puVar2 = *(int *)puVar2 + 1;
-
+  *player_count = 0;
+  if (0x72b < (int)input_val) {
+    *player_count = *player_count + 1;
   }
-
-  if (0xc0 < (int)uVar4) {
-
-    *(int *)puVar2 = *(int *)puVar2 + 1;
-
+  if (0xc0 < (int)input_val) {
+    *player_count = *player_count + 1;
   }
-
-  *(int *)0x0607887E = (char)*(int *)puVar2;
-
-  CAR_COUNT = *(int *)puVar2;
-
-  return;
-
+  *(int *)0x0607887E = (char)*player_count;
+  CAR_COUNT = *player_count;
 }
 
-void FUN_060102ea(param_1)
-    unsigned short param_1;
+/* coin_start_handler -- Handle coin insert / start button during attract.
+ * Decrements start timer at 0x0607EBCC. If start bits (PTR_DAT_0601030c)
+ * are set in param_1: transitions to GAME_STATE=6 (service mode).
+ * Otherwise: if timer expired or confirm button pressed, loads sound bank
+ * for current player count, sets game mode to 2, mirrors CAR_COUNT.
+ * On course 0 with START pressed, enables route select (0x0605AB18). */
+void FUN_060102ea(unsigned short param_1)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  puVar1 = (char *)0x0607EBCC;
-
-  *(int *)0x0607EBCC = *(int *)0x0607EBCC + -1;
+  int *start_timer = (int *)0x0607EBCC;
+  *start_timer = *start_timer - 1;
 
   if ((param_1 & PTR_DAT_0601030c) == 0) {
-
-    if ((*(int *)puVar1 < 1) || ((param_1 & DAT_0601038c) != 0)) {
-
-      (*(int(*)())0x0601D5F4)(0,*(int *)(0x0604481C + *(int *)(0x0607EADC << 2)));
-
-      *(int *)puVar1 = 0;
-
-      *(int *)0x0607887F = 2;
-
+    if ((*start_timer < 1) || ((param_1 & DAT_0601038c) != 0)) {
+      (*(int(*)())0x0601D5F4)(0, *(int *)(0x0604481C + *(int *)(0x0607EADC << 2)));
+      *start_timer = 0;
+      *(int *)0x0607887F = 2;              /* set game mode */
       *(int *)0x06078648 = (char)CAR_COUNT;
-
-      puVar2 = (char *)0x0605AB18;
-
       *(int *)0x0605AB18 = 0;
-
       if ((*(int *)0x06085FF4 == '\0') &&
-
-         ((COURSE_SELECT == 0 && ((*(unsigned short *)0x06063D98 & DAT_0601038e) != 0)))) {
-
-        *puVar2 = 1;
-
+          (COURSE_SELECT == 0 && ((*(unsigned short *)0x06063D98 & DAT_0601038e) != 0))) {
+        *(char *)0x0605AB18 = 1;           /* enable route select */
       }
-
     }
-
+  } else {
+    GAME_STATE = 6;                         /* service mode transition */
   }
-
-  else {
-
-    GAME_STATE = 6;
-
-  }
-
-  return;
-
 }
 
 void FUN_060103b8(param_1)
