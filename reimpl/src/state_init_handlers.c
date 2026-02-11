@@ -1,6 +1,8 @@
 /* state_init_handlers.c -- Early game state machine handlers
  *
  * Functions:
+ *   FUN_06008938 (0x06008938) -- State handler: game session init (full)
+ *   FUN_0600893C (0x0600893C) -- State handler: game session init (body)
  *   FUN_060088CC (0x060088CC) -- State init: CD play, render setup, callbacks
  *   FUN_06008B34 (0x06008B34) -- State handler: subsystem dispatch + clear
  *   FUN_06008B78 (0x06008B78) -- State handler: pre-race subsystem init
@@ -79,6 +81,24 @@ extern int FUN_0601F900(void);
 
 /* Sound/display subsystem */
 extern void FUN_0601D3C0(void);
+
+/* Session/sound init */
+extern void FUN_06018A3C(void);
+
+/* Race/engine init */
+extern void FUN_0600EB14(void);
+
+/* Graphics palette init */
+extern void FUN_06033AAC(void);
+
+/* VDP1 command clear */
+extern void FUN_0600A140(void);
+
+/* Splash/overlay display */
+extern void FUN_0600330A(void);
+
+/* Session communication init */
+extern void FUN_0601AE80(void);
 
 /* VDP1 attribute setup (post-mode-transition) */
 extern void FUN_060149E0(void);
@@ -586,4 +606,118 @@ void FUN_06008D74(void)
 
     /* Clear state completion flag */
     STATE_DONE_FLAG = 0;
+}
+
+
+/* ================================================================
+ * FUN_06008938 -- State Handler: Game Session Init (0x06008938)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06008938-0x060089C0)
+ * Pool verified:
+ *   0x060089C4 = 0x06078634 (session flag A)
+ *   0x060089C8 = 0x06078635 (session flag B)
+ *   0x060089CC = 0x0607ED8C (display counter)
+ *   0x060089D0 = 0x0607864B (session byte)
+ *   0x060089D4 = 0x06018A3C (session/sound init)
+ *   0x060089D8 = 0x0600EB14 (race/engine init)
+ *   0x060089DC = 0x06033AAC (graphics palette init)
+ *   0x060089E0 = 0x0600A140 (VDP1 command clear)
+ *   0x060089E4 = 0x06063DA0 (course ID)
+ *   0x060089E8 = 0x0600330A (splash/overlay display)
+ *   0x060089EC = 0x06087804 (mode timer)
+ *   0x060089F0 = 0x0607EBCC (render param cache)
+ *   word pool at 0x060089C2 = 0x0398 (920 = ~15sec timer)
+ *   0x060089F4 = 0x0607EAE0 (subsystem flag)
+ *   0x060089F8 = 0x0607EAD8 (player count)
+ *   0x060089FC = 0x0601AE80 (session communication init)
+ *   0x06008A04 = 0x40000000 (engine flag bit)
+ *   0x06008A00 = 0x0605B6D8 (engine state flags)
+ *   0x06008A08 = 0x0605AD10 (mode selector)
+ *   0x06008A0C = 0x06026CE0 (scene callback)
+ *   0x06008A10 = 0x06059F44 (state flag)
+ *   0x06008A14 = 0x0605A016 (sub-state counter)
+ *
+ * Entry point FUN_06008938 saves r14 and sets r3=1 before falling
+ * through to FUN_0600893C. Initializes a new game session: sets
+ * session flags, inits sound/engine/graphics, conditionally displays
+ * splash screen, sets timer to 920 (reduced by 60 for 2P mode),
+ * inits communication, sets engine flag bit 30, mode=3, sub-state=4.
+ *
+ * 68 instructions (incl. delay slots + pool). Saves PR + r14.
+ * ================================================================ */
+void FUN_06008938(void)
+{
+    /* Set session flag A to 1 (from prologue: r3=1) */
+    *(volatile char *)0x06078634 = 1;
+
+    /* Clear session flag B */
+    *(volatile char *)0x06078635 = 0;
+
+    /* Clear display counter */
+    *(volatile short *)0x0607ED8C = 0;
+
+    /* Clear session byte */
+    *(volatile char *)0x0607864B = 0;
+
+    /* Initialize session/sound */
+    FUN_06018A3C();
+
+    /* Initialize race/engine */
+    FUN_0600EB14();
+
+    /* Initialize graphics palette */
+    FUN_06033AAC();
+
+    /* Clear VDP1 commands */
+    FUN_0600A140();
+
+    /* If course ID is set, display splash screen */
+    if (COURSE_ID_REG != 0) {
+        FUN_0600330A();
+    }
+
+    /* Clear mode timer */
+    *(volatile short *)0x06087804 = 0;
+
+    /* Set render parameter cache to 920 (~15 seconds) */
+    RENDER_PARAM_CACHE = 0x0398;
+
+    /* Clear subsystem flag */
+    *(volatile int *)0x0607EAE0 = 0;
+
+    /* For 2-player mode, reduce timer by 60 (1 second) */
+    if (*(volatile int *)0x0607EAD8 == 2) {
+        RENDER_PARAM_CACHE = RENDER_PARAM_CACHE - 60;
+    }
+
+    /* Initialize session communication */
+    FUN_0601AE80();
+
+    /* Set engine state flag bit 30 (0x40000000) */
+    ENGINE_STATE_FLAGS = ENGINE_STATE_FLAGS | 0x40000000;
+
+    /* Set mode to 3 */
+    MODE_SELECTOR = 3;
+
+    /* Dispatch scene callbacks */
+    FUN_06026CE0();
+
+    /* Clear state completion flag */
+    STATE_DONE_FLAG = 0;
+
+    /* Set sub-state counter to 4 */
+    SUB_STATE_COUNTER = 4;
+}
+
+
+/* ================================================================
+ * FUN_0600893C -- Game Session Init Body (0x0600893C)
+ *
+ * This is the body of FUN_06008938. In the original binary,
+ * FUN_06008938 saves r14 and sets r3=1, then falls through here.
+ * In C, both entry points produce the same behavior.
+ * ================================================================ */
+void FUN_0600893C(void)
+{
+    FUN_06008938();
 }

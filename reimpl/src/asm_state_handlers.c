@@ -1,6 +1,6 @@
 /* FUN_060088CC: moved to state_init_handlers.c */
-void FUN_06008938(void) { }
-void FUN_0600893C(void) { }
+/* FUN_06008938: moved to state_init_handlers.c */
+/* FUN_0600893C: moved to state_init_handlers.c */
 void FUN_06008A18(void) { }
 /* FUN_06008B04: moved to state_init_handlers.c */
 /* FUN_06008B34: moved to state_init_handlers.c */
