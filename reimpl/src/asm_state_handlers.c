@@ -13,8 +13,8 @@ void FUN_06008C76(void) { }
 void FUN_06008CCC(void) { }
 void FUN_06008CD0(void) { }
 void FUN_06008D74(void) { }
-void FUN_06008E00(void) { }
-void FUN_06008E48(void) { }
+/* FUN_06008E00: moved to state_init_handlers.c */
+/* FUN_06008E48: moved to state_init_handlers.c */
 /* state_14-17: translated in race_state_handlers.c */
 void state_28_abort_processing(void) { }
 void state_29_post_race_menu(void) { }
