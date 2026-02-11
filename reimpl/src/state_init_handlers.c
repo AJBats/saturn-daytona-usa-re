@@ -17,6 +17,8 @@
  *   FUN_06008CCC (0x06008CCC) -- State handler: pre-attract init (prologue)
  *   FUN_06008CD0 (0x06008CD0) -- State handler: pre-attract init (body)
  *   FUN_06009C48 (0x06009C48) -- State handler: post-race gameplay
+ *   FUN_06009E60 (0x06009E60) -- State handler: post-race transition
+ *   FUN_06009F10 (0x06009F10) -- State handler: counter transition
  *   FUN_06008E00 (0x06008E00) -- State handler: race setup, mode=13
  *   FUN_06008E48 (0x06008E48) -- State handler: race monitor / abort
  *   FUN_06009DD0 (0x06009DD0) -- State handler: race end setup, mode=27
@@ -166,6 +168,21 @@ extern void FUN_060033E6(void);
 
 /* End-of-race cleanup */
 extern void FUN_0600A084(void);
+
+/* Post-race subsystem transition */
+extern void FUN_06019058(void);
+
+/* VDP command channel clear (takes channel ID) */
+extern void FUN_0602853E(int channel);
+
+/* Splash screen / overlay init */
+extern void FUN_060032D4(void);
+
+/* Per-frame scene update (alternate) */
+extern void FUN_0600A294(void);
+
+/* 2-player mode display setup */
+extern void FUN_06033EA8(void);
 
 /* VDP1 attribute setup (post-mode-transition) */
 extern void FUN_060149E0(void);
@@ -1038,5 +1055,167 @@ void FUN_06009C48(void)
     }
 
     /* Per-frame tail call */
+    FUN_060078DC();
+}
+
+
+/* ================================================================
+ * FUN_06009E60 -- State Handler: Post-Race Transition (0x06009E60)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06009E60-0x06009ED8)
+ * Pool verified:
+ *   0x06009EDC = 0x06019058 (post-race subsystem transition)
+ *   0x06009EE0 = 0x0602853E (VDP command channel clear)
+ *   0x06009EE4 = 0x06028560 (VDP command reset)
+ *   0x06009EE8 = 0x06014884 (render parameter setter)
+ *   0x06009EEC = 0x060032D4 (splash screen init)
+ *   word pool at 0x06009EDA = 0x03E8 (1000 = ~16.7sec timer)
+ *   0x06009EF0 = 0x0607EBCC (render param cache)
+ *   0x06009EF4 = 0x0605AD10 (mode selector)
+ *   0x06009EF8 = 0x06087804 (display timer)
+ *   0x06009EFC = 0x0600EB14 (race/engine init)
+ *   0x06009F00 = 0x06033AAC (graphics palette init)
+ *   0x06009F04 = 0x0605A016 (sub-state counter)
+ *   0x06009F08 = 0x06078648 (session mode byte)
+ *   0x06009F0C = 0x06018DDC (display mode config -- tail call)
+ *
+ * Runs post-race subsystem transition, clears 3 VDP command channels
+ * (4, 8, 12), resets VDP commands, clears 3 render params (8, 16, 32),
+ * inits splash screen, sets 1000-frame timer (~16.7sec), mode=23,
+ * clears display timer, re-inits engine+palette, sets sub-state=4,
+ * tail-calls display config with mode byte + 14.
+ *
+ * 60 instructions (incl. delay slots + pool). Saves PR + r14.
+ * ================================================================ */
+void FUN_06009E60(void)
+{
+    /* Post-race subsystem transition */
+    FUN_06019058();
+
+    /* Clear VDP command channels 4, 8, 12 */
+    FUN_0602853E(4);
+    FUN_0602853E(8);
+    FUN_0602853E(12);
+
+    /* Reset VDP commands */
+    FUN_06028560();
+
+    /* Clear render parameters: priority, color calc, mesh */
+    FUN_06014884(8, 0, 0);
+    FUN_06014884(16, 0, 0);
+    FUN_06014884(32, 0, 0);
+
+    /* Initialize splash screen */
+    FUN_060032D4();
+
+    /* Set render parameter cache to 1000 (~16.7 seconds at 60fps) */
+    RENDER_PARAM_CACHE = 1000;  /* 0x03E8 */
+
+    /* Set mode to 23 (counter transition) */
+    MODE_SELECTOR = 23;
+
+    /* Clear display timer */
+    *(volatile short *)0x06087804 = 0;
+
+    /* Re-initialize engine and palette */
+    FUN_0600EB14();
+    FUN_06033AAC();
+
+    /* Set sub-state counter to 4 */
+    SUB_STATE_COUNTER = 4;
+
+    /* Tail-call display config with session mode byte + 14 */
+    int mode = (int)(*(volatile unsigned char *)0x06078648) + 14;
+    FUN_06018DDC(mode);  /* original: r4=r5=mode, r6=0 (tail call) */
+}
+
+
+/* ================================================================
+ * FUN_06009F10 -- State Handler: Counter Transition (0x06009F10)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06009F10-0x06009FA4)
+ * Pool verified:
+ *   0x06009FB0 = 0x0607EBCC (render param cache)
+ *   0x06009FB4 = 0x0607E944 (object table pointer)
+ *   0x06009FB8 = 0x06078637 (session config byte)
+ *   word pool at 0x06009FAC = 0x0224 (548 = struct offset)
+ *   0x06009FBC = 0x06078638 (session config word)
+ *   0x06009FC0 = 0x0607863C (config value source)
+ *   0x06009FC4 = 0x060786A4 (config value dest)
+ *   0x06009FC8 = 0x0605AD10 (mode selector)
+ *   0x06009FCC = 0x06087804 (display timer)
+ *   0x06009FD0 = 0x0607EAD8 (player count)
+ *   0x06009FD4 = 0x06033EA8 (2-player display setup)
+ *   0x06009FD8 = 0x0601FD74 (VDP2 display update)
+ *   0x06009FDC = 0x06078900 (car struct base)
+ *   0x06009FE0 = 0x0600DE40 (rendering pipeline)
+ *   0x06009FE4 = 0x0600A914 (scene/object update)
+ *   0x06009FE8 = 0x060055BC (car physics update)
+ *   0x06009FEC = 0x0600BFFC (post-frame render)
+ *   0x06009FF0 = 0x060078DC (per-frame tail call)
+ *   0x06009FF4 = 0x0605A00C (subsystem sync flag)
+ *   0x06009FF8 = 0x06026CE0 (scene callback)
+ *
+ * Decrements timer. If expired: copies session data to object table
+ * at offsets 0x224/0x240, copies config value, sets mode=24, display=3.
+ * If running: checks 2P mode, updates VDP2, then either runs full
+ * display pipeline (physics/render) or short exit (clear sync, callback).
+ * Short exit taken when display timer == 3.
+ *
+ * 70 instructions (incl. delay slots + pool). Saves PR.
+ * ================================================================ */
+void FUN_06009F10(void)
+{
+    /* Per-frame scene update */
+    FUN_0600A294();
+
+    /* Decrement timer */
+    RENDER_PARAM_CACHE = RENDER_PARAM_CACHE - 1;
+
+    if (RENDER_PARAM_CACHE < 0) {
+        /* Timer expired: copy session data to object table */
+        volatile int *table = *(volatile int * volatile *)0x0607E944;
+
+        /* Copy session config byte to table at offset 0x224 (sign-extended) */
+        *(volatile int *)((char *)table + 0x0224) = (int)*(volatile signed char *)0x06078637;
+
+        /* Copy session config word to table at offset 0x240 */
+        *(volatile int *)((char *)table + 0x0240) = *(volatile int *)0x06078638;
+
+        /* Copy config value */
+        *(volatile int *)0x060786A4 = *(volatile int *)0x0607863C;
+
+        /* Set mode=24 (post-race display init), display timer=3 */
+        MODE_SELECTOR = 24;
+        *(volatile short *)0x06087804 = 3;
+        return;
+    }
+
+    /* Timer still running */
+    if (*(volatile int *)0x0607EAD8 == 2) {
+        FUN_06033EA8();
+    }
+
+    /* VDP2 display update */
+    FUN_0601FD74();
+
+    /* Check display timer */
+    if ((unsigned short)*(volatile short *)0x06087804 == 3) {
+        /* Display timer == 3: short exit */
+        *(volatile int *)0x0605A00C = 0;
+        FUN_06026CE0();
+        return;
+    }
+
+    /* Full display pipeline */
+    /* Set bit 7 of car struct flag byte at offset +1 */
+    volatile unsigned char *car_flag = (volatile unsigned char *)0x06078901;
+    *car_flag = (*car_flag & 0x7F) | 0x80;
+
+    /* Run display pipeline */
+    FUN_0600DE40();
+    FUN_0600A914();
+    FUN_060055BC();
+    FUN_0600BFFC();
     FUN_060078DC();
 }

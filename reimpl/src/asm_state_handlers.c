@@ -25,5 +25,5 @@ void state_20_race_completion(void) { }
 void state_24_post_race_init(void) { }
 void state_25_post_race_display(void) { }
 /* FUN_06009DD0: moved to state_init_handlers.c */
-void FUN_06009E60(void) { }
-void FUN_06009F10(void) { }
+/* FUN_06009E60: moved to state_init_handlers.c */
+/* FUN_06009F10: moved to state_init_handlers.c */
