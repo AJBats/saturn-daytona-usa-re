@@ -34,6 +34,6 @@ void FUN_060138BE(void) { }
 void FUN_06013948(void) { }
 void FUN_06013A74(void) { }
 void FUN_06013B04(void) { }
-void FUN_06013C20(void) { }
+/* FUN_06013C20: moved to subsystem_counter.c */
 void FUN_06013E14(void) { }
 void FUN_06013E7A(void) { }

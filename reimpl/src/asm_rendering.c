@@ -1,6 +1,6 @@
 void FUN_060201B8(void) { }
 void FUN_06020284(void) { }
-void FUN_06020330(void) { }
+/* FUN_06020330: moved to slot_clear.c */
 void FUN_06020430(void) { }
 void object_list_iterator(void) { }
 void FUN_060204D0(void) { }

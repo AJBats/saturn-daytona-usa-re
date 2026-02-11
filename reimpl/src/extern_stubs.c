@@ -92,3 +92,6 @@ void FUN_0602DC18(void) { }
 
 /* VDP data decompressor (ASM-only, saves r0-r14) */
 void FUN_06028654(int param_1, int param_2) { (void)param_1; (void)param_2; }
+
+/* Channel rendering processor (ASM-only, heavy register save) */
+void FUN_06020366(int param_1) { (void)param_1; }

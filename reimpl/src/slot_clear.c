@@ -6,6 +6,7 @@
  * Hand-translated from binary at 0x06020DEE (36 instructions).
  *
  * Functions:
+ *   FUN_06020330 (0x06020330) -- Process and clear slot
  *   FUN_06020DEE (0x06020DEE) -- Clear slot entry
  *
  * Takes a byte index, computes base + index*68 to locate a 68-byte
@@ -65,4 +66,38 @@ void FUN_06020DEE(int arg)
     /* Clear tail bytes */
     entry[64] = 0;
     entry[65] = 0;
+}
+
+
+/* Channel rendering processor (heavy function, ASM-only) */
+extern void FUN_06020366(int byte_val);
+
+/* ================================================================
+ * FUN_06020330 -- Process and Clear Slot (0x06020330)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06020330-0x06020364)
+ * Pool verified:
+ *   [0x060203C0] = 0x0608780A (channel active flag, 16-bit)
+ *   [0x060203C4] = 0x0608782C (slot table base)
+ *
+ * If channel flag at 0x0608780A is non-zero, reads byte at
+ * offset 0x40 from the slot entry and calls FUN_06020366 with it.
+ * Always tail-calls FUN_06020DEE(param) to clear the slot.
+ *
+ * 26 instructions. Saves PR.
+ * ================================================================ */
+void FUN_06020330(int param)
+{
+    unsigned char slot = (unsigned char)param;
+
+    /* Check if channel flag is active */
+    if (*(volatile unsigned short *)0x0608780A != 0) {
+        /* Compute slot entry, read byte at offset 0x40 */
+        int offset = (short)((int)slot * SLOT_ENTRY_SIZE);
+        unsigned char byte_val = *(volatile unsigned char *)(SLOT_TABLE_BASE + offset + 0x40);
+        FUN_06020366((int)byte_val);
+    }
+
+    /* Clear the slot entry */
+    FUN_06020DEE((int)slot);  /* tail-call in original */
 }

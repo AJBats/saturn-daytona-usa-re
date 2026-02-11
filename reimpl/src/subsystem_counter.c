@@ -366,3 +366,41 @@ void FUN_0600FE38(void)
     FUN_06011f1c((unsigned short *)0x25F001E0);
     FUN_06011f1c((unsigned short *)0x25F00520);  /* tail-call in original */
 }
+
+
+/* Subsystem processing step (in batch_subsystem_12.c) */
+extern void FUN_06013fc4(void);
+
+/* Subsystem advance handler (in batch_subsystem_14.c) */
+extern void FUN_0601416c(void);
+
+/* ================================================================
+ * FUN_06013C20 -- Subsystem Counter Increment + Advance (0x06013C20)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x06013C20-0x06013C40)
+ * Pool verified:
+ *   [0x06013C54] = 0x06084AF6 (16-bit counter)
+ *
+ * Reads 16-bit counter at 0x06084AF6, increments by 1, clamps to
+ * max 20, writes back. Then calls subsystem processing step and
+ * tail-calls advance handler.
+ *
+ * 17 instructions. Saves PR.
+ * ================================================================ */
+void FUN_06013C20(void)
+{
+    volatile unsigned short *counter = (volatile unsigned short *)0x06084AF6;
+
+    unsigned short val = *counter;
+    val++;
+
+    /* Clamp to max 20 */
+    if ((short)val > 20) {
+        val = 20;
+    }
+    *counter = val;
+
+    /* Process and advance subsystem */
+    FUN_06013fc4();
+    FUN_0601416c();  /* tail-call in original */
+}
