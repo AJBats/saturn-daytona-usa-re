@@ -3,12 +3,13 @@
 /*
  * transform_stack.c -- Display object transform stack operations
  *
- * Hand-translated from binary at 0x06026DBC, 0x06026E02, 0x06026E0C.
+ * Hand-translated from binary at 0x06026DBC, 0x06026E02, 0x06026E0C, 0x060270C6.
  *
  * Functions:
  *   FUN_06026DBC (0x06026DBC) -- Push transform (copy + advance)
- *   FUN_06026E02 (0x06026E02) -- Reset stack + init identity
- *   FUN_06026E0C (0x06026E0C) -- Init identity matrix
+ *   FUN_06026E02 (0x06026E02) -- Reset primary stack + init identity
+ *   FUN_06026E0C (0x06026E0C) -- Init identity at primary stack
+ *   FUN_060270C6 (0x060270C6) -- Reset secondary stack + init identity
  *
  * OBJ_STATE_PRIMARY is a pointer to a 48-byte transform block
  * (3x4 matrix: 3x3 rotation + 3 translation ints). These functions
@@ -20,8 +21,9 @@
 /* Fixed-point 1.0 in 16.16 format */
 #define FP_ONE  0x00010000
 
-/* Initial/base value for the transform stack pointer */
-#define TRANSFORM_STACK_BASE  0x06089EE0
+/* Initial/base values for the transform stack pointers */
+#define TRANSFORM_STACK_PRIMARY_BASE    0x06089EE0
+#define TRANSFORM_STACK_SECONDARY_BASE  0x0608A530
 
 
 /* ================================================================
@@ -95,9 +97,35 @@ void FUN_06026E0C(void)
  * ================================================================ */
 void FUN_06026E02(void)
 {
-    OBJ_STATE_PRIMARY = TRANSFORM_STACK_BASE;
+    OBJ_STATE_PRIMARY = TRANSFORM_STACK_PRIMARY_BASE;
 
-    volatile int *m = (volatile int *)TRANSFORM_STACK_BASE;
+    volatile int *m = (volatile int *)TRANSFORM_STACK_PRIMARY_BASE;
+    m[0]  = FP_ONE; m[1]  = 0; m[2]  = 0; m[3]  = 0;
+    m[4]  = FP_ONE; m[5]  = 0; m[6]  = 0; m[7]  = 0;
+    m[8]  = FP_ONE; m[9]  = 0; m[10] = 0; m[11] = 0;
+}
+
+
+/* ================================================================
+ * FUN_060270C6 -- Reset Secondary Transform Stack + Init Identity
+ *                 (0x060270C6)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x060270C6-0x060270F0)
+ * Pool verified:
+ *   0x06027330 = 0x0608A530 (secondary stack base)
+ *   0x0602732C = 0x0608A52C (&OBJ_STATE_SECONDARY)
+ *   0x06027340 = 0x00010000 (fixed-point 1.0)
+ *
+ * Identical pattern to FUN_06026E02 but operates on the secondary
+ * transform stack (OBJ_STATE_SECONDARY at 0x0608A52C).
+ *
+ * ~21 instructions. Leaf function.
+ * ================================================================ */
+void FUN_060270C6(void)
+{
+    OBJ_STATE_SECONDARY = TRANSFORM_STACK_SECONDARY_BASE;
+
+    volatile int *m = (volatile int *)TRANSFORM_STACK_SECONDARY_BASE;
     m[0]  = FP_ONE; m[1]  = 0; m[2]  = 0; m[3]  = 0;
     m[4]  = FP_ONE; m[5]  = 0; m[6]  = 0; m[7]  = 0;
     m[8]  = FP_ONE; m[9]  = 0; m[10] = 0; m[11] = 0;
