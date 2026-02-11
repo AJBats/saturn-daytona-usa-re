@@ -1726,18 +1726,22 @@ LAB_0601db20:
 
 }
 
-int FUN_0601db84()
+/* scsp_mailbox_wait -- Busy-wait for SCSP sound mailbox at 0x25A02C20.
+ * Polls up to 100,000 iterations (0x186A0). If mailbox stays non-zero
+ * throughout, sets SOUND_TIMEOUT_FLAG = 1. Returns when either the
+ * mailbox clears or the timeout expires. */
+int FUN_0601db84(void)
 {
-  register int *dest asm("r7") = (int *)0x06086050;
-  register int *src asm("r6") = (int *)0x25A02C20;
-  register int val asm("r5") = 1;
-  register int count asm("r4") = 0x000186A0;
+    register int *dest asm("r7") = (int *)0x06086050;
+    register int *src asm("r6") = (int *)0x25A02C20;
+    register int val asm("r5") = 1;
+    register int count asm("r4") = 0x000186A0;
 
 L:
-  if (--count == 0) {
-    *dest = val;
-  }
-  else if (*src != 0) goto L;
+    if (--count == 0) {
+        *dest = val;   /* SOUND_TIMEOUT_FLAG = 1 */
+    }
+    else if (*src != 0) goto L;
 }
 
 int FUN_0601dbb8()

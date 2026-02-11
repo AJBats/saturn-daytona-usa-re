@@ -857,269 +857,170 @@ FUN_06018eac()
     return buf[0] & 0x1f;
 }
 
-void FUN_06018fa4()
+/* scsp_load_driver_a -- Load sound driver bank A into SCSP RAM.
+ * Sends stop+init commands to sound channel 0xF, waits for SCSP ready,
+ * calls loader at 0x06012EDC, clears SCSP register, re-sends stop. */
+void FUN_06018fa4(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);   /* stop */
+    snd_cmd(0xf, 0xAE0005FF);   /* init */
+    FUN_060192e8();              /* busy-wait timeout */
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012EDC)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012EDC)();
+        *(short *)0x25A02DBE = 0;  /* clear SCSP control */
+    }
+    snd_cmd(0xf, 0xAE0001FF);   /* stop */
 }
 
-void FUN_06018ff8()
+/* scsp_load_driver_b -- Load sound driver bank B into SCSP RAM.
+ * Same pattern as _a but calls loader at 0x06012EBC and sends
+ * master volume command (0xAE0600FF) before final stop. */
+void FUN_06018ff8(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012EBC)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0600FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012EBC)();
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0600FF);   /* master volume */
+    snd_cmd(0xf, 0xAE0001FF);   /* stop */
 }
 
-void FUN_06019058()
+/* scsp_load_driver_c -- Load sound driver bank C into SCSP RAM.
+ * Calls loader at 0x06012F10, sends stop then master volume after. */
+void FUN_06019058(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012F10)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0600FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012F10)();
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);   /* stop */
+    snd_cmd(0xf, 0xAE0600FF);   /* master volume */
 }
 
-void FUN_060190b8()
+/* scsp_load_driver_d -- Load sound driver bank D into SCSP RAM.
+ * Calls loader at 0x06012F20. */
+void FUN_060190b8(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012F20)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012F20)();
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);
 }
 
-void FUN_060190f4()
+/* scsp_load_driver_e -- Load sound driver bank E into SCSP RAM.
+ * Calls loader at 0x06012F50. */
+void FUN_060190f4(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012F50)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012F50)();
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);
 }
 
-void FUN_0601914c()
+/* scsp_load_driver_f -- Load sound driver bank F into SCSP RAM.
+ * Calls loader at 0x06012F58. */
+void FUN_0601914c(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012F58)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012F58)();
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);
 }
 
-void FUN_06019188()
+/* scsp_load_driver_g -- Load sound driver bank G into SCSP RAM.
+ * Calls loader at 0x06012F60. */
+void FUN_06019188(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x06012F60)();
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x06012F60)();
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);
 }
 
-void FUN_060191e0()
+/* scsp_dma_load -- Load sound data via DMA into SCSP RAM at 0x25A03000.
+ * Source: 0x00200000, size: 0x0006D000 (445KB). */
+void FUN_060191e0(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x0602760C)(0x25A03000,0x00200000,0x0006D000);
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x0602760C)(0x25A03000, 0x00200000, 0x0006D000);
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);
 }
 
-void FUN_06019248()
+/* scsp_dma_load_alt -- Load alternate sound data via DMA into SCSP RAM.
+ * Source: 0x0026D000, size: 0x0006D000 (445KB). Same dest as scsp_dma_load. */
+void FUN_06019248(void)
 {
+    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
-  char *puVar1;
+    SOUND_TIMEOUT_FLAG = 0;
+    snd_cmd(0xf, 0xAE0001FF);
+    snd_cmd(0xf, 0xAE0005FF);
+    FUN_060192e8();
 
-  puVar1 = (char *)0x0601D5F4;
-
-  SOUND_TIMEOUT_FLAG = 0;
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  (*(int(*)())puVar1)(0xf,0xAE0005FF);
-
-  FUN_060192e8();
-
-  if (SOUND_TIMEOUT_FLAG == 0) {
-
-    (*(int(*)())0x0602760C)(0x25A03000,0x0026D000,0x0006D000);
-
-    *(short *)0x25A02DBE = 0;
-
-  }
-
-  (*(int(*)())puVar1)(0xf,0xAE0001FF);
-
-  return;
-
+    if (SOUND_TIMEOUT_FLAG == 0) {
+        (*(int(*)())0x0602760C)(0x25A03000, 0x0026D000, 0x0006D000);
+        *(short *)0x25A02DBE = 0;
+    }
+    snd_cmd(0xf, 0xAE0001FF);
 }
 
 /* scsp_ram_clear -- Zero all 512KB of SCSP work RAM (0x25A00000-0x25A7FFFF).

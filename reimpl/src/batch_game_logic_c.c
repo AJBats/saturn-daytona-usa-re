@@ -450,131 +450,82 @@ void FUN_0600e47c(void)
     (*(int(*)())0x0600D780)(0);
 }
 
-void FUN_0600e4f2()
+/* replay_frame_update -- Per-frame update for the replay target car.
+ * Copies steering mode, sets current car to target. Runs gear shift (0x060081F4),
+ * steering (0x060085B8), AI behavior (0x06030A06), timer (0x06030EE0).
+ * If interpolation counter (0x060786BC) expired or in special mode: runs full
+ * physics pipeline with tile lookup and 4 render buffer updates.
+ * Otherwise: interpolates position/heading using stored deltas.
+ * Then runs checkpoint detection, ranking update, and optionally
+ * re-initializes interpolation (FUN_0600ea18). */
+void FUN_0600e4f2(void)
 {
+    *(short *)0x06063F44 = *(short *)0x06063D9E;  /* copy steering mode */
 
-  int bVar1;
+    int car = CAR_PTR_TARGET;
+    CAR_PTR_CURRENT = car;
+    int is_npc = (car != CAR_ARRAY_BASE);
+    *(char **)0x0607E948 = (char *)(CAR_ARRAY_BASE + DAT_0600e522);
 
-  char *puVar2;
+    /* Run subsystems */
+    (*(int(*)())0x060081F4)();    /* gear shift */
+    (*(int(*)())0x060085B8)();    /* steering */
+    (*(int(*)())0x06030A06)();    /* AI behavior */
+    (*(int(*)())0x06030EE0)();    /* timer */
 
-  char *puVar3;
+    int *interp_steps = (int *)0x060786BC;
 
-  int uVar4;
+    if ((*interp_steps < 1) || (*(int *)0x06078635 != '\0')) {
+        /* Full physics: tile lookup + 4 render buffer updates */
+        (*(int(*)())0x0602ECF2)();
+        int tile = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
+        *(int *)0x060786B8 = tile;
+        (*(int(*)())0x06005ECC)();
+        (*(int(*)())0x06027CA4)(0x06063EB0, 0);
+        (*(int(*)())0x06027CA4)(0x06063E9C, 1);
+        (*(int(*)())0x06027CA4)(0x06063ED8, 2);
+        (*(int(*)())0x06027CA4)(0x06063EC4, 3);
+    } else {
+        /* Interpolation step: advance position by stored deltas */
+        *interp_steps = *interp_steps - 1;
+        *(int *)(car + CAR_X) += *(int *)0x060786C0;
+        *(int *)(car + CAR_Z) += *(int *)0x060786C4;
+        int hdg = *(int *)(car + CAR_HEADING) + (int)*(short *)0x060786C8;
+        *(int *)(car + CAR_HEADING) = hdg;
+        *(int *)(car + CAR_HEADING3) = hdg;
+        *(int *)(car + CAR_HEADING2) = hdg;
+        *(int *)0x06063EF0 = hdg;
+        int tile = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
+        *(int *)0x060786B8 = tile;
+        (*(int(*)())0x06005ECC)();
+    }
 
-  int iVar5;
+    /* Backup heading */
+    *(int *)(car + DAT_0600e69c) = *(int *)(car + CAR_HEADING);
 
-  char *puVar6;
+    /* Checkpoint and ranking */
+    if (!is_npc) {
+        (*(int(*)())0x0600DB64)();
+    }
+    (*(int(*)())0x0600DA7C)();    /* checkpoint angular detection */
+    (*(int(*)())0x0600CE66)();    /* checkpoint advance */
+    (*(int(*)())0x0603053C)(0);   /* ranking computation */
+    (*(int(*)())0x0600D780)(is_npc);
 
-  puVar2 = (char *)0x060786BC;
+    /* Ranking = ranking * speed_ratio + base */
+    *(int *)(car + 0x1F4) =
+        *(int *)(car + CAR_RANKING) * *(int *)0x0607EA9C + *(int *)(car + 0x1EC);
 
-  *(short *)0x06063F44 = *(short *)0x06063D9E;
+    (*(int(*)())0x0600C994)();    /* speed/accel update */
 
-  puVar6 = *(char **)0x0607E944;
+    /* Re-initialize interpolation if steps exhausted and not in special mode */
+    if ((*interp_steps < 1) && (*(int *)0x06078635 == '\0')) {
+        FUN_0600ea18(car);
+    }
 
-  *(char **)0x0607E940 = puVar6;
-
-  bVar1 = puVar6 != 0x06078900;
-
-  *(char **)0x0607E948 = 0x06078900 + DAT_0600e522;
-
-  (*(int(*)())0x060081F4)();
-
-  (*(int(*)())0x060085B8)();
-
-  (*(int(*)())0x06030A06)();
-
-  (*(int(*)())0x06030EE0)();
-
-  if ((*(int *)puVar2 < 1) || (*(int *)0x06078635 != '\0')) {
-
-    (*(int(*)())0x0602ECF2)();
-
-    uVar4 = (*(int(*)())0x06006838)(*(int *)(puVar6 + 0x10),*(int *)(puVar6 + 0x18));
-
-    *(int *)0x060786B8 = uVar4;
-
-    (*(int(*)())0x06005ECC)();
-
-    puVar3 = (char *)0x06027CA4;
-
-    (*(int(*)())0x06027CA4)(0x06063EB0,0);
-
-    (*(int(*)())puVar3)(0x06063E9C,1);
-
-    (*(int(*)())puVar3)(0x06063ED8,2);
-
-    (*(int(*)())puVar3)(0x06063EC4,3);
-
-  }
-
-  else {
-
-    *(int *)puVar2 = *(int *)puVar2 + -1;
-
-    *(int *)(puVar6 + 0x10) = *(int *)(puVar6 + 0x10) + *(int *)0x060786C0;
-
-    *(int *)(puVar6 + 0x18) = *(int *)(puVar6 + 0x18) + *(int *)0x060786C4;
-
-    iVar5 = *(int *)(puVar6 + 0x20) + (int)*(short *)0x060786C8;
-
-    *(int *)(puVar6 + 0x20) = iVar5;
-
-    *(int *)(puVar6 + 0x30) = iVar5;
-
-    *(int *)(puVar6 + 0x28) = iVar5;
-
-    *(int *)0x06063EF0 = iVar5;
-
-    uVar4 = (*(int(*)())0x06006838)(*(int *)(puVar6 + 0x10),*(int *)(puVar6 + 0x18));
-
-    *(int *)0x060786B8 = uVar4;
-
-    (*(int(*)())0x06005ECC)();
-
-  }
-
-  *(int *)(puVar6 + DAT_0600e69c) = *(int *)(puVar6 + 0x20);
-
-  if (!bVar1) {
-
-    (*(int(*)())0x0600DB64)();
-
-  }
-
-  (*(int(*)())0x0600DA7C)();
-
-  (*(int(*)())0x0600CE66)();
-
-  (*(int(*)())0x0603053C)(0);
-
-  (*(int(*)())0x0600D780)(bVar1);
-
-  puVar3 = (char *)0x0600C994;
-
-  iVar5 = 0x228;
-
-  *(int *)(puVar6 + iVar5 + -0x34) =
-
-       *(int *)(puVar6 + iVar5) * *(int *)0x0607EA9C + *(int *)(puVar6 + iVar5 + -0x3c);
-
-  (*(int(*)())puVar3)();
-
-  if ((*(int *)puVar2 < 1) && (*(int *)0x06078635 == '\0')) {
-
-    FUN_0600ea18(puVar6);
-
-  }
-
-  if ((*(int *)0x06078635 == '\0') && (*(int *)0x06083255 == '\0')) {
-
-    (*(int(*)())0x0602D9F0)();
-
-    return;
-
-  }
-
-  return;
-
+    if ((*(int *)0x06078635 == '\0') && (*(int *)0x06083255 == '\0')) {
+        (*(int(*)())0x0602D9F0)();
+    }
 }
 
 /* car_physics_update -- Per-frame car physics pipeline.

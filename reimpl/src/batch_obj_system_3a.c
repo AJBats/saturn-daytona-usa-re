@@ -472,85 +472,55 @@ char * FUN_0603a0b0()
 
 }
 
-void FUN_0603a6c0()
+/* cd_state_init -- Initialize CD subsystem state variables.
+ * Sets active flag at 0x060A4D0C=1, zeroes 10 state fields
+ * (status bytes, counters, sector index, buffer pointers). */
+void FUN_0603a6c0(void)
 {
-
-  *(int *)0x060A4D0C = 1;
-
-  *(int *)0x060A4D0D = 0;
-
-  *(int *)0x060A4D0E = 0;
-
-  *(int *)0x060A4D0F = 0;
-
-  *(int *)0x060A4D10 = 0;
-
-  *(int *)0x060A4D11 = 0;
-
-  *(int *)0x060A4CD8 = 0;
-
-  *(int *)0x060A4CB4 = 0;
-
-  *(int *)0x060A4CF0 = 0;
-
-  *(int *)0x060A4CF8 = 0;
-
-  *(int *)0x060A4CA9 = 0;
-
-  return;
-
+    *(int *)0x060A4D0C = 1;    /* CD subsystem active */
+    *(int *)0x060A4D0D = 0;
+    *(int *)0x060A4D0E = 0;
+    *(int *)0x060A4D0F = 0;
+    *(int *)0x060A4D10 = 0;
+    *(int *)0x060A4D11 = 0;
+    *(int *)0x060A4CD8 = 0;    /* sector buffer state */
+    *(int *)0x060A4CB4 = 0;    /* sector counter */
+    *(int *)0x060A4CF0 = 0;
+    *(int *)0x060A4CF8 = 0;
+    *(int *)0x060A4CA9 = 0;
 }
 
-int FUN_0603a72c()
+/* smpc_command_issue -- Issue SMPC command if SF (Status Flag) is clear.
+ * Returns 1 if busy (SF already set). Otherwise sets SF=1,
+ * writes IREG0-IREG2 from state at 0x06063602, then issues
+ * INTBACK command (0x10) to COMREG at 0x2010001F. */
+int FUN_0603a72c(void)
 {
+    if ((SMPC_SF & 1) == 1)
+        return 1;   /* SMPC busy */
 
-  char *puVar1;
-
-  char *puVar2;
-
-  if ((SMPC_SF & 1) == 1) {
-
-    return 1;
-
-  }
-
-  SMPC_SF = 1;
-
-  puVar2 = (char *)0x20100001;
-
-  puVar1 = (char *)0x06063602;
-
-  SMPC_IREG0 = *(int *)0x06063602;
-
-  puVar2[2] = puVar1[1];
-
-  puVar2[4] = puVar1[2];
-
-  puVar2[0x1e] = 0x10;
-
-  return 0;
-
+    SMPC_SF = 1;
+    SMPC_IREG0 = *(int *)0x06063602;
+    *(char *)0x20100003 = *(char *)0x06063603;   /* IREG1 */
+    *(char *)0x20100005 = *(char *)0x06063604;   /* IREG2 */
+    *(char *)0x2010001F = 0x10;                  /* COMREG = INTBACK */
+    return 0;
 }
 
-void FUN_0603a766()
+/* cd_sector_process_loop -- Process pending CD sectors in a loop.
+ * Iterates from current sector counter (0x060A4CB4) up to the limit
+ * (0x060A4CAC). Each iteration: flush with mask 0xFF (FUN_0603ab46),
+ * then process next sector (FUN_0603a7b0). */
+void FUN_0603a766(void)
 {
-  int *counter;
-  unsigned short *limit;
+    int *counter = (int *)0x060A4CB4;
+    unsigned short *limit = (unsigned short *)0x060A4CAC;
 
-  counter = (int *)0x060A4CB4;
-  limit = (unsigned short *)0x060A4CAC;
-
-  goto check;
-
-loop:
-  FUN_0603ab46(255);
-  FUN_0603a7b0();
-  *counter = *counter + 1;
-
-check:
-  if (*counter < (int)(unsigned int)*limit) {
-    goto loop;
-  }
+    while (*counter < (int)(unsigned int)*limit) {
+        FUN_0603ab46(255);
+        FUN_0603a7b0();
+        *counter = *counter + 1;
+    }
 }
 
 unsigned int FUN_0603a7b0()

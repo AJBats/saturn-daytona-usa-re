@@ -1270,28 +1270,19 @@ void FUN_06017c78(void)
     }
 }
 
-unsigned int FUN_06017c9c(param_1)
-    short *param_1;
+/* division_adjust -- Adjust a value by hardware division result.
+ * Calls division unit read (0x06035C2C), subtracts low 16 bits from *param_1.
+ * If result >= 4, adds wrap correction of +6 (for base-10 digit carry). */
+unsigned int FUN_06017c9c(short *param_1)
 {
+    unsigned int div_result = (*(int(*)())0x06035C2C)();
 
-  unsigned int uVar1;
-
-  uVar1 = (*(int(*)())0x06035C2C)();
-
-  if ((uVar1 & 0xffff) < 4) {
-
-    *param_1 = *param_1 - (short)uVar1;
-
-  }
-
-  else {
-
-    *param_1 = (*param_1 - (short)uVar1) + 6;
-
-  }
-
-  return uVar1;
-
+    if ((div_result & 0xffff) < 4) {
+        *param_1 = *param_1 - (short)div_result;
+    } else {
+        *param_1 = (*param_1 - (short)div_result) + 6;
+    }
+    return div_result;
 }
 
 void FUN_06017cec()
