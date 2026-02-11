@@ -89,3 +89,6 @@ void FUN_060393FC(int r4, int r5, int r6, int r7, int stack_arg) { (void)r4; (vo
 /* Visual physics update dependencies (from visual_physics_update.c) */
 void FUN_0602DB00(void) { }
 void FUN_0602DC18(void) { }
+
+/* VDP data decompressor (ASM-only, saves r0-r14) */
+void FUN_06028654(int param_1, int param_2) { (void)param_1; (void)param_2; }

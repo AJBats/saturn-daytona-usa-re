@@ -11,7 +11,7 @@ void FUN_0600FB78(void) { }
 /* FUN_0600FD54: moved to subsystem_timer_b.c */
 /* FUN_0600FD8A: moved to subsystem_timer_b.c */
 /* FUN_0600FDFE: moved to subsystem_timer_b.c */
-void FUN_0600FE38(void) { }
+/* FUN_0600FE38: moved to subsystem_counter.c */
 void FUN_0600FED0(void) { }
 void FUN_060102EC(void) { }
 void FUN_06010AA4(void) { }

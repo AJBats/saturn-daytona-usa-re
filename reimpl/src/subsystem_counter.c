@@ -288,3 +288,81 @@ void FUN_0600F98C(void)
 {
     FUN_0600F990();
 }
+
+
+/* VDP data decompressor (r4=source, r5=dest) */
+extern void FUN_06028654(int src, int dest);
+
+/* VDP data transfer (r4=cmd, r5=src, r6=offset, r7=dest) */
+extern int FUN_06028400(int cmd, int src, int offset, int dest);
+
+/* Rendering attribute writer (r4=mode, r5=width, r6=height, r7=table) */
+extern void FUN_060284AE(int mode, int width, int height, int table);
+
+/* VDP2 register writer (r4=register address) */
+extern void FUN_06011f1c(unsigned short *reg_addr);
+
+/* Rendering control word */
+#define RENDER_CTRL_WORD  (*(volatile int *)0x06078864)
+
+/* ================================================================
+ * FUN_0600FE38 -- Subsystem Countdown / Rendering Transition (0x0600FE38)
+ *
+ * CONFIDENCE: DEFINITE (binary verified at 0x0600FE38-0x0600FE90)
+ * Pool verified:
+ *   [0x0600FE98] = 0x0607EBCC (countdown counter / RENDER_PARAM_CACHE)
+ *   word [0x0600FE92] = 0x00AB (threshold = 171)
+ *   [0x0600FE9C] = 0x06094FA8 (rendering data buffer)
+ *   [0x0600FEA0] = 0x060EFB24 (VDP source data)
+ *   [0x0600FEA4] = 0x06028654 (VDP decompressor)
+ *   [0x0600FEA8] = 0x06063838 (VRAM pointer table)
+ *   [0x0600FEAC] = 0x00009000 (VRAM offset)
+ *   [0x0600FEB0] = 0x06028400 (VDP data transfer)
+ *   [0x0600FEB4] = 0x06078864 (rendering control word)
+ *   [0x0600FEB8] = 0x0607887F (subsystem state flag)
+ *   [0x0600FEBC] = 0x0605ACE4 (attribute table base)
+ *   word [0x0600FE94] = 0x0090 (144 = height param)
+ *   word [0x0600FE96] = 0x07A2 (1954 = width param)
+ *   [0x0600FEC0] = 0x060284AE (rendering attribute writer)
+ *   [0x0600FEC4] = 0x25F001E0 (VDP2 register A)
+ *   [0x0600FEC8] = 0x06011F1C (VDP2 register writer)
+ *   [0x0600FECC] = 0x25F00520 (VDP2 register B)
+ *
+ * Decrements countdown counter. At threshold 171: decompresses
+ * VDP data, transfers to VRAM, clears render control, sets state=16.
+ * Always: configures rendering attributes, writes two VDP2 registers.
+ *
+ * 43 instructions. Saves PR. Tail-calls FUN_06011f1c.
+ * ================================================================ */
+void FUN_0600FE38(void)
+{
+    /* Decrement render parameter countdown */
+    int count = RENDER_PARAM_CACHE;
+    count--;
+    RENDER_PARAM_CACHE = count;
+
+    /* At threshold 171: trigger rendering data transfer */
+    if (count == 171) {
+        /* Decompress VDP data from source to buffer */
+        FUN_06028654((int)0x060EFB24, (int)0x06094FA8);
+
+        /* Compute VRAM destination: indirect pointer + 0x9000 offset */
+        int vram_dest = *(volatile int *)0x0606383C + 0x9000;
+
+        /* Transfer rendering data to VRAM */
+        FUN_06028400(4, (int)0x06094FA8, 0, vram_dest);
+
+        /* Clear rendering control word */
+        RENDER_CTRL_WORD = 0;
+
+        /* Set subsystem state to 16 (rendering transition) */
+        SUBSYS_STATE_FLAG = 16;
+    }
+
+    /* Always: configure rendering attributes */
+    FUN_060284AE(12, 1954, 144, (int)0x0605ACE4);
+
+    /* Write VDP2 register pair */
+    FUN_06011f1c((unsigned short *)0x25F001E0);
+    FUN_06011f1c((unsigned short *)0x25F00520);  /* tail-call in original */
+}
