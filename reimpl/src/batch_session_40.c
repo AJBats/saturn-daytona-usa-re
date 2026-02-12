@@ -64,9 +64,9 @@ extern int FUN_06041b3c();
 extern int FUN_06041cc8();
 extern int FUN_06041d6c();
 extern int FUN_06041ee8();
-extern int FUN_06042088();
+extern int cd_session_read_step();
 extern int FUN_06042134();
-extern int FUN_0604231e();
+extern int cd_session_state_reset();
 extern int PTR_DAT_06040dc4;
 extern int PTR_DAT_06041176;
 extern int PTR_DAT_060411f8;
@@ -1266,7 +1266,7 @@ int FUN_0604134e(int param_1, int expected)
 /* cd_play_request -- Issue a CD audio play command.
  * Validates filter at param_2: checks session+0x18 and session+0x00 flags.
  * If valid and play slot (offset 0x360) is free, fills request with FAD
- * (param_1) and filter (param_2), dispatches via FUN_06042088.
+ * (param_1) and filter (param_2), dispatches via cd_session_read_step.
  * Returns -1 if slot busy, -5 if filter invalid. */
 int FUN_06041470(int param_1, int param_2)
 {
@@ -1281,7 +1281,7 @@ int FUN_06041470(int param_1, int param_2)
     *(int *)(CD_SESSION_BASE + 0x360) = 1;  /* mark slot active */
     *(int *)(*session + 0x364) = param_1;   /* FAD to play */
     *(int *)(*session + 0x368) = param_2;   /* filter index */
-    FUN_06042088(auStack_8);
+    cd_session_read_step(auStack_8);
     return 0;
   }
   return 0xfffffffb;                        /* -5: invalid filter */
@@ -1400,7 +1400,7 @@ int FUN_060415c8(param_1, param_2)
 
 /* cd_session_poll_loop -- Poll all 8 CD channels and process pending ops.
  * Decrements session countdown at CD_SESSION_BASE+0x3c. If expired,
- * calls FUN_0604231e and returns 3 (timeout). Otherwise checks interrupt
+ * calls cd_session_state_reset and returns 3 (timeout). Otherwise checks interrupt
  * status via 0x06035C4E: if set, clears interrupt (0x06035C54), reads
  * CD data (0x06034984), and invokes session callback if present.
  * Then iterates 8 channels: skips free slots (FUN_060417a8), dispatches
@@ -1458,7 +1458,7 @@ int FUN_06041698()
             result = 1;                            /* channels still active */
         }
     } else {
-        FUN_0604231e();                            /* timeout handler */
+        cd_session_state_reset();                            /* timeout handler */
         result = 3;
     }
 
@@ -1513,7 +1513,7 @@ LAB_06041818:
  * Routes channel index (0-7) to its processing function:
  * 0=FUN_060418be, 1=FUN_06041aa0 (read poll), 2=FUN_06041b3c,
  * 3=FUN_06041cc8 (write poll), 4=FUN_06041d6c, 5=FUN_06041ee8,
- * 6=FUN_06042134, 7=FUN_06042088. Always returns 0. */
+ * 6=FUN_06042134, 7=cd_session_read_step. Always returns 0. */
 int FUN_06041826(param_1, param_2)
     int param_1;
     int param_2;
@@ -1549,7 +1549,7 @@ int FUN_06041826(param_1, param_2)
     if (param_1 != 7) {
         return 0;
     }
-    FUN_06042088(param_2);
+    cd_session_read_step(param_2);
     return 0;
 }
 

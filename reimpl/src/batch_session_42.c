@@ -26,56 +26,42 @@ extern int PTR_DAT_06042230;
 extern int PTR_DAT_060423f6;
 extern int PTR_DAT_06042cb4;
 
-int FUN_06042088(param_1)
+/* cd_session_read_step -- Advance one step of CD sector read state machine.
+ * State 0: idle. State 1: issue async read via cd_read_sector (0x06036A1C),
+ * store header byte at +0x40, advance to state 2. State 2: poll cd_get_status
+ * until completion bits set, then return to state 0.
+ * Returns current state (0=complete, 1=busy, 2=finishing). */
+int cd_session_read_step(param_1)
     int *param_1;
 {
+    unsigned short status_mask;
+    unsigned short status;
+    int result;
+    char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;    /* CD session base pointer */
 
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  unsigned short uVar4;
-
-  char local_14 [16];
-
-  puVar2 = (char *)0x060A5400;
-
-  if (*(int *)(0x360 + CD_SESSION_BASE) == 1) {
-
-    iVar3 = (*(int(*)())0x06036A1C)(*(int *)(CD_SESSION_BASE + DAT_06042120 + 4),
-
-                       *(int *)(CD_SESSION_BASE + (int)DAT_06042120));
-
-    if (iVar3 != 0) {
-
-      return 1;
-
+    /* State 1: initiate async CD read */
+    if (*(int *)(0x360 + CD_SESSION_BASE) == 1) {
+        result = (*(int(*)())0x06036A1C)(      /* cd_read_sector_async */
+            *(int *)(CD_SESSION_BASE + DAT_06042120 + 4),
+            *(int *)(CD_SESSION_BASE + (int)DAT_06042120));
+        if (result != 0) {
+            return 1;                          /* read still in progress */
+        }
+        (*(int(*)())0x060349B6)(cd_result);    /* cd_get_result */
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];  /* store sector header */
+        *param_1 = *param_1 + 1;              /* increment sectors read */
+        *(int *)(*(int *)session_ptr + 0x360) = 2;  /* advance to completion state */
     }
 
-    (*(int(*)())0x060349B6)(local_14);
+    /* State 2: wait for CD status completion bits */
+    status_mask = DAT_06042122;
+    if ((*(int *)(0x360 + *(int *)session_ptr) == 2) &&
+       (status = (*(int(*)())0x06035C4E)(), (status & status_mask) != 0)) {
+        *(int *)(*(int *)session_ptr + 0x360) = 0;  /* back to idle */
+    }
 
-    *(char *)(*(int *)puVar2 + 0x40) = local_14[0];
-
-    *param_1 = *param_1 + 1;
-
-    *(int *)(*(int *)puVar2 + 0x360) = 2;
-
-  }
-
-  uVar1 = DAT_06042122;
-
-  if ((*(int *)(0x360 + *(int *)puVar2) == 2) &&
-
-     (uVar4 = (*(int(*)())0x06035C4E)(), (uVar4 & uVar1) != 0)) {
-
-    *(int *)(*(int *)puVar2 + 0x360) = 0;
-
-  }
-
-  return *(int *)(0x360 + *(int *)puVar2);
-
+    return *(int *)(0x360 + *(int *)session_ptr);
 }
 
 int FUN_06042134(param_1)
@@ -198,65 +184,45 @@ int FUN_06042134(param_1)
 
 }
 
-void FUN_0604231e()
+/* cd_session_state_reset -- Clear CD session state to initial values.
+ * Zeros filename buffers at +0x00 and +0x18 (23 bytes each),
+ * clears read/write pointers, sets +0x38 to 0xFFFFFFFF (no sector),
+ * and zeros the file table and track list at DAT offsets. */
+void cd_session_state_reset()
 {
+    char *session_ptr = (char *)0x060A5400;    /* CD session base pointer */
+    int tbl_offset;
+    int i;
 
-  char *puVar1;
+    /* Zero filename buffer A (+0x00) and B (+0x18), 23 bytes each */
+    for (i = 0; i < 0x17; i++) {
+        *(char *)(i + *(int *)session_ptr) = 0;
+        *(char *)(*(int *)session_ptr + 0x18 + i) = 0;
+    }
 
-  int iVar2;
+    /* Clear session control fields */
+    *(int *)(*(int *)session_ptr + 0x30) = 0;          /* read offset */
+    *(int *)(*(int *)session_ptr + 0x34) = 0;          /* write offset */
+    *(int *)(*(int *)session_ptr + 0x38) = 0xffffffff; /* current sector (none) */
+    *(int *)(*(int *)session_ptr + 0x3c) = 0;          /* error code */
+    *(int *)(*(int *)session_ptr + 0x4c) = 0;          /* transfer count */
+    *(int *)(*(int *)session_ptr + 0x50) = 0;          /* bytes remaining */
+    *(int *)(*(int *)session_ptr + 0x54) = 0;          /* DMA channel */
+    *(int *)(*(int *)session_ptr + 0x58) = 0;          /* callback pointer */
 
-  puVar1 = (char *)0x060A5400;
+    /* Clear file table entries */
+    tbl_offset = (int)DAT_06042398;
+    *(int *)(*(int *)session_ptr + tbl_offset) = 0;
+    *(int *)(*(int *)session_ptr + tbl_offset + 8) = 0;
+    *(int *)(*(int *)session_ptr + tbl_offset + 0x24) = 0;
+    *(int *)(*(int *)session_ptr + tbl_offset + 0x34) = 0;
+    *(int *)(*(int *)session_ptr + tbl_offset + 0x44) = 0;
+    *(int *)(*(int *)session_ptr + tbl_offset + 0x5c) = 0;
 
-  iVar2 = 0;
-
-  do {
-
-    *(char *)(iVar2 + *(int *)puVar1) = 0;
-
-    *(char *)(*(int *)puVar1 + 0x18 + iVar2) = 0;
-
-    iVar2 = iVar2 + 1;
-
-  } while (iVar2 < 0x17);
-
-  *(int *)(*(int *)puVar1 + 0x30) = 0;
-
-  *(int *)(*(int *)puVar1 + 0x34) = 0;
-
-  *(int *)(*(int *)puVar1 + 0x38) = 0xffffffff;
-
-  *(int *)(*(int *)puVar1 + 0x3c) = 0;
-
-  *(int *)(*(int *)puVar1 + 0x4c) = 0;
-
-  *(int *)(*(int *)puVar1 + 0x50) = 0;
-
-  *(int *)(*(int *)puVar1 + 0x54) = 0;
-
-  *(int *)(*(int *)puVar1 + 0x58) = 0;
-
-  iVar2 = (int)DAT_06042398;
-
-  *(int *)(*(int *)puVar1 + iVar2) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 8) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0x24) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0x34) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0x44) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 0x5c) = 0;
-
-  iVar2 = (int)DAT_0604239a;
-
-  *(int *)(*(int *)puVar1 + iVar2) = 0;
-
-  *(int *)(*(int *)puVar1 + iVar2 + 4) = 0;
-
-  return;
-
+    /* Clear track list */
+    tbl_offset = (int)DAT_0604239a;
+    *(int *)(*(int *)session_ptr + tbl_offset) = 0;
+    *(int *)(*(int *)session_ptr + tbl_offset + 4) = 0;
 }
 
 /* cd_poll_status_ready -- Busy-wait for CD drive status bit, then read.
