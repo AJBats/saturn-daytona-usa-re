@@ -148,44 +148,55 @@ void FUN_0602e450(param_1)
 int FUN_0602e4bc()
 {
   long long lVar1;
-  int in_r0 = 0;
-  short sVar2;
-  char *puVar3;
-  int iVar4;
-  unsigned int uVar5;
-  int iVar6;
-  short sVar7;
-  short sVar8;
+  int car = 0; /* implicit r0 = car pointer */
+  short target_heading;
+  char *turn_clamp;
+  int heading;
+  unsigned int distance_scaled;
+  int segment_ptr;
+  short prev_heading;
+  short turn_delta;
 
-  iVar6 = *(int *)(0x0602E8AC + *(int *)(0x0607EAD8 << 2)) +
-          *(int *)(DAT_0602e51a + in_r0) << 4;
-  sVar2 = (*(int(*)())0x0602744C)(*(int *)(DAT_0602e51c + iVar6) - *(int *)(DAT_0602e520 + in_r0),
-                     *(int *)(DAT_0602e51e + iVar6) - *(int *)(DAT_0602e522 + in_r0));
-  sVar2 = -sVar2;
-  sVar7 = (short)*(int *)(PTR_DAT_0602e524 + in_r0);
-  sVar8 = sVar2 - sVar7;
-  puVar3 = (char *)0xFFFFFF00;
-  if (((int)sVar8 <= (int)0xFFFFFF00) ||
-     (puVar3 = 0x00000100, (int)0x00000100 < (int)sVar8)) {
-    sVar8 = (short)puVar3;
+  /* Look up target segment: table[car_count] + waypoint_idx × 16 */
+  segment_ptr = *(int *)(0x0602E8AC + (*(int *)0x0607EAD8 << 2)) +
+          (*(int *)(car + CAR_WAYPOINT_IDX) << 4);
+
+  /* Compute heading to target: atan2(segment.x - car.x, segment.z - car.z) */
+  target_heading = (*(int(*)())0x0602744C)(*(int *)(segment_ptr + 0) - *(int *)(car + CAR_X),
+                     *(int *)(segment_ptr + 4) - *(int *)(car + CAR_Z));
+  target_heading = -target_heading;
+  prev_heading = (short)*(int *)(car + CAR_HEADING2);
+  turn_delta = target_heading - prev_heading;
+
+  /* Clamp turn rate to +/-256 per frame */
+  turn_clamp = (char *)0xFFFFFF00;
+  if (((int)turn_delta <= (int)0xFFFFFF00) ||
+     (turn_clamp = 0x00000100, (int)0x00000100 < (int)turn_delta)) {
+    turn_delta = (short)turn_clamp;
   }
-  iVar4 = (int)(short)(sVar8 + sVar7);
-  *(int *)(0x00000030 + in_r0) = iVar4;
-  *(int *)(0x00000028 + in_r0) = iVar4;
-  lVar1 = (long long)*(int *)(0x00000008 + iVar6) * (long long)0x0000038E;
-  uVar5 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-  *(unsigned int *)(DAT_0602e5a2 + in_r0) = uVar5;
-  if (((int)uVar5 < *(int *)(DAT_0602e5a4 + in_r0)) && (*(int *)0x0608325C == 0)) {
+  heading = (int)(short)(turn_delta + prev_heading);
+  *(int *)(car + CAR_HEADING3) = heading;
+  *(int *)(car + CAR_HEADING2) = heading;
+
+  /* Compute distance × 0x38E scaling, store as speed target */
+  lVar1 = (long long)*(int *)(segment_ptr + 0x08) * (long long)0x0000038E;
+  distance_scaled = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+  *(unsigned int *)(car + CAR_SPEED_TARGET) = distance_scaled;
+
+  /* If closing fast (distance < accel) and no pending trigger, fire spin event */
+  if (((int)distance_scaled < *(int *)(car + CAR_ACCEL)) && (*(int *)0x0608325C == 0)) {
     *(int *)0x0608325C = 0x10;
-    in_r0 = (*(int(*)())0x0602CCD0)();
+    car = (*(int(*)())0x0602CCD0)();
   }
-  iVar6 = (int)(short)((sVar2 - (short)*(int *)(PTR_DAT_0602e5a8 + in_r0)) +
+
+  /* Check heading in valid range [0, 0x7FFF]; increment waypoint if out of range */
+  heading = (int)(short)((target_heading - (short)*(int *)(car + CAR_HEADING_REF)) +
                       (short)0x00003FFF);
-  if ((0x00000000 <= iVar6) && (iVar6 <= (int)0x00007FFF)) {
-    return in_r0;
+  if ((0x00000000 <= heading) && (heading <= (int)0x00007FFF)) {
+    return car;
   }
-  *(int *)(0x00000244 + in_r0) = *(int *)(0x00000244 + in_r0) + 1;
-  return in_r0;
+  *(int *)(car + CAR_WAYPOINT_IDX) = *(int *)(car + CAR_WAYPOINT_IDX) + 1;
+  return car;
 }
 
 /* cache_car_render_params -- Copy car render state to fast-access globals.
@@ -417,54 +428,64 @@ int FUN_0602f0e8()
  * against per-gear range from table at 0x0602F3CC (8 bytes/entry). */
 void FUN_0602f17c()
 {
-  short sVar1;
-  int in_r0 = 0;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
+  short gear_index;
+  int car = 0; /* implicit r0 = car pointer */
+  unsigned int scaled_speed;
+  int gear_off;
+  int rotation;
+  int speed_delta;
+  int gear_idx_shifted;
 
-  iVar5 = 0xd8;
-  iVar3 = *(int *)(iVar5 + in_r0);
-  iVar4 = 0;
-  if (iVar3 != 0) {
-    if (-1 < iVar3) {
-      iVar3 = iVar3 + -2;
+  /* Asymmetric decay of gear rotation toward zero (positive: -2+1=-1, negative: +1) */
+  rotation = *(int *)(car + CAR_GEAR_ROTATION);
+  speed_delta = 0;
+  if (rotation != 0) {
+    if (-1 < rotation) {
+      rotation = rotation + -2;
     }
-    iVar4 = iVar3 + 1;
+    speed_delta = rotation + 1;
   }
-  *(int *)(iVar5 + in_r0) = iVar4;
-  iVar3 = (int)DAT_0602f1bc;
-  iVar4 = *(short *)(iVar3 + in_r0) << 2;
-  if ((*(int *)(in_r0 + 8) == 0) ||
-     (*(int *)(DAT_0602f1be + in_r0) <= *(int *)(0x060477AC + iVar4))) {
-    if (*(int *)(DAT_0602f1be + in_r0) <= *(int *)(0x0604779C + iVar4)) {
-      *(int *)(iVar5 + in_r0) = 0xfffffffb;
-      iVar4 = *(short *)(iVar3 + in_r0) + -1;
-      *(short *)(iVar3 + in_r0) = (short)iVar4;
-      iVar5 = 0xe0;
-      uVar2 = (*(int(*)())0x0602755C)(*(int *)(iVar5 + in_r0) << 0x10,
-                         *(int *)(0x060477CC + (iVar4 << 2)));
-      *(unsigned int *)(iVar5 + in_r0) = uVar2 >> 0x10;
+  *(int *)(car + CAR_GEAR_ROTATION) = speed_delta;
+
+  /* Read current gear index, compute table offset */
+  gear_off = CAR_ZONE_TIMER;
+  gear_idx_shifted = *(short *)(car + CAR_ZONE_TIMER) << 2;
+
+  if ((*(int *)(car + CAR_SPEED) == 0) ||
+     (*(int *)(car + CAR_DRIVE_SPEED) <= *(int *)(0x060477AC + gear_idx_shifted))) {
+    /* Check downshift threshold */
+    if (*(int *)(car + CAR_DRIVE_SPEED) <= *(int *)(0x0604779C + gear_idx_shifted)) {
+      *(int *)(car + CAR_GEAR_ROTATION) = 0xfffffffb;
+      speed_delta = *(short *)(car + CAR_ZONE_TIMER) + -1;
+      *(short *)(car + CAR_ZONE_TIMER) = (short)speed_delta;
+      /* Scale drive speed by gear ratio for downshift */
+      scaled_speed = (*(int(*)())0x0602755C)(*(int *)(car + CAR_DRIVE_SPEED) << 0x10,
+                         *(int *)(0x060477CC + (speed_delta << 2)));
+      *(unsigned int *)(car + CAR_DRIVE_SPEED) = scaled_speed >> 0x10;
     }
   }
   else {
-    *(int *)(iVar5 + in_r0) = 5;
-    sVar1 = *(short *)(iVar3 + in_r0);
-    *(short *)(iVar3 + in_r0) = sVar1 + 1;
-    *(unsigned int *)(DAT_0602f1f2 + in_r0) =
+    /* Upshift: set rotation to +5, increment gear index */
+    *(int *)(car + CAR_GEAR_ROTATION) = 5;
+    gear_index = *(short *)(car + CAR_ZONE_TIMER);
+    *(short *)(car + CAR_ZONE_TIMER) = gear_index + 1;
+    /* Scale drive speed by gear ratio for upshift */
+    *(unsigned int *)(car + CAR_DRIVE_SPEED) =
          (unsigned int)((unsigned long long)
-                ((long long)(*(int *)(DAT_0602f1f2 + in_r0) << 0x10) *
-                (long long)*(int *)(0x060477CC + (sVar1 << 2))) >> 0x20) & 0xffff;
+                ((long long)(*(int *)(car + CAR_DRIVE_SPEED) << 0x10) *
+                (long long)*(int *)(0x060477CC + (gear_index << 2))) >> 0x20) & 0xffff;
   }
-  iVar5 = (*(int *)(DAT_0602f24c + in_r0) + *(int *)(PTR_DAT_0602f250 + in_r0)) -
-          *(int *)(DAT_0602f24e + in_r0);
-  iVar4 = *(int *)(0x0602F3CC + *(short *)(iVar3 + in_r0) << 3);
-  iVar3 = *(int *)((int)(0x0602F3CC + *(short *)(iVar3 + in_r0) << 3) + 4);
-  if ((iVar4 < iVar5) && (iVar4 = iVar5, iVar3 < iVar5)) {
-    iVar4 = iVar3;
+
+  /* Compute effective speed: drive_speed + drag_offset - projected_B */
+  speed_delta = (*(int *)(car + CAR_DRIVE_SPEED) + *(int *)(car + CAR_DRAG_FLAG)) -
+          *(int *)(car + CAR_PROJECTED_B);
+  /* Clamp to per-gear range from table at 0x0602F3CC (8 bytes/entry: min, max) */
+  gear_idx_shifted = *(int *)(0x0602F3CC + *(short *)(car + CAR_ZONE_TIMER) << 3);
+  gear_off = *(int *)((int)(0x0602F3CC + *(short *)(car + CAR_ZONE_TIMER) << 3) + 4);
+  if ((gear_idx_shifted < speed_delta) && (gear_idx_shifted = speed_delta, gear_off < speed_delta)) {
+    gear_idx_shifted = gear_off;
   }
-  *(int *)(PTR_DAT_0602f26e + in_r0) = *(int *)(DAT_0602f24e + in_r0) + iVar4;
+  *(int *)(car + CAR_PROJECTED_B) = *(int *)(car + CAR_PROJECTED_B) + gear_idx_shifted;
   return;
 }
 
@@ -476,32 +497,39 @@ void FUN_0602f17c()
  * Subtracts drag from car+DAT_0602f464 and car+PTR_DAT_0602f468. */
 void FUN_0602f3ec()
 {
-  int in_r0 = 0;
-  int iVar1;
-  char *puVar2;
-  char *puVar3;
+  int car = 0; /* implicit r0 = car pointer */
+  int drag_coeff;
+  char *secondary_drag;
+  char *clamped_drag;
 
-  iVar1 = (int)(short)((unsigned long long)
-                       ((long long)(int)0x00480000 * (long long)*(int *)(in_r0 + 0xc)) >> 0x20);
-  if (iVar1 < 1) {
-    iVar1 = 0;
+  /* Compute primary drag from speed × 0x00480000 scale, clamp to [0, 0x158] */
+  drag_coeff = (int)(short)((unsigned long long)
+                       ((long long)(int)0x00480000 * (long long)*(int *)(car + CAR_ACCEL)) >> 0x20);
+  if (drag_coeff < 1) {
+    drag_coeff = 0;
   }
-  else if (0x00000158 <= iVar1) {
-    iVar1 = 0x00000158;
+  else if (0x00000158 <= drag_coeff) {
+    drag_coeff = 0x00000158;
   }
-  *(int *)(in_r0 + 8) = iVar1;
-  puVar2 = (char *)((unsigned int)(iVar1 << 8) >> 2);
-  puVar3 = (char *)0x00000000;
-  if ((((int)0x00000000 <= (int)puVar2) &&
-      (puVar3 = 0x00002AAA, (int)puVar2 <= (int)0x00002AAA)) &&
-     (puVar3 = puVar2, (int)0x00000AAA < (int)puVar2)) {
-    puVar3 = (char *)0x00000AAA;
+  *(int *)(car + CAR_SPEED) = drag_coeff;
+
+  /* Derive secondary drag from shifted value, clamp to [0, 0x2AAA] with inner cap 0x0AAA */
+  secondary_drag = (char *)((unsigned int)(drag_coeff << 8) >> 2);
+  clamped_drag = (char *)0x00000000;
+  if ((((int)0x00000000 <= (int)secondary_drag) &&
+      (clamped_drag = 0x00002AAA, (int)secondary_drag <= (int)0x00002AAA)) &&
+     (clamped_drag = secondary_drag, (int)0x00000AAA < (int)secondary_drag)) {
+    clamped_drag = (char *)0x00000AAA;
   }
-  *(int *)(DAT_0602f464 + in_r0) = *(int *)(DAT_0602f464 + in_r0) - (int)puVar3;
-  if (*(int *)(DAT_0602f466 + in_r0) != 0) {
-    puVar3 = (char *)0x00002AAA;
+
+  /* Subtract drag from collision speed */
+  *(int *)(car + CAR_COLL_SPEED) = *(int *)(car + CAR_COLL_SPEED) - (int)clamped_drag;
+  /* If drag flag is set, force max drag */
+  if (*(int *)(car + CAR_DRAG_FLAG) != 0) {
+    clamped_drag = (char *)0x00002AAA;
   }
-  *(int *)(PTR_DAT_0602f468 + in_r0) = *(int *)(PTR_DAT_0602f468 + in_r0) - (int)puVar3;
+  /* Subtract drag from speed copy */
+  *(int *)(car + CAR_SPEED_COPY) = *(int *)(car + CAR_SPEED_COPY) - (int)clamped_drag;
   return;
 }
 
@@ -716,21 +744,24 @@ int FUN_0602f71c()
  * collision immunity, sound cooldown, and effect duration tracking. */
 void FUN_0602f7bc()
 {
-  short sVar1;
-  int in_r0 = 0;
-  int iVar2;
+  short timer;
+  int car = 0; /* implicit r0 = car pointer */
+  int general_timer;
 
-  sVar1 = *(short *)(DAT_0602f7e4 + in_r0);
-  if (sVar1 != 0) {
-    *(short *)(DAT_0602f7e4 + in_r0) = sVar1 + -1;
+  /* Decrement slide/drift timer */
+  timer = *(short *)(car + CAR_SLIDE_TIMER);
+  if (timer != 0) {
+    *(short *)(car + CAR_SLIDE_TIMER) = timer + -1;
   }
-  sVar1 = *(short *)(DAT_0602f7e6 + in_r0);
-  if (sVar1 != 0) {
-    *(short *)(DAT_0602f7e6 + in_r0) = sVar1 + -1;
+  /* Decrement spin event timer */
+  timer = *(short *)(car + CAR_SPIN_TIMER);
+  if (timer != 0) {
+    *(short *)(car + CAR_SPIN_TIMER) = timer + -1;
   }
-  iVar2 = *(int *)(DAT_0602f7e8 + in_r0);
-  if (iVar2 != 0) {
-    *(int *)(DAT_0602f7e8 + in_r0) = iVar2 + -1;
+  /* Decrement general timer */
+  general_timer = *(int *)(car + CAR_GENERAL_TIMER);
+  if (general_timer != 0) {
+    *(int *)(car + CAR_GENERAL_TIMER) = general_timer + -1;
   }
   return;
 }

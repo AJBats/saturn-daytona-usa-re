@@ -77,8 +77,10 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 /* --- Steering and physics (0x0B0-0x0FF) --- */
 #define CAR_STEER_TIMER     0x0B8   /* int:  steering input timer */
 #define CAR_PHYS_FIELD_BC   0x0BC   /* int:  force secondary timer */
+#define CAR_DRAG_FLAG       0x0C0   /* int:  drag override flag (nonzero = max drag applied) */
 #define CAR_YAW_DELTA       0x0D0   /* int:  yaw angle delta per frame */
 #define CAR_MODE            0x0D4   /* short: mode field (20=force, 40=gear, 10=steer) */
+#define CAR_GEAR_ROTATION   0x0D8   /* int:  gear shift rotation (asymmetric decay toward 0) */
 #define CAR_ZONE_TIMER      0x0DC   /* short: zone timer (FUN_0600C302) */
 #define CAR_DRIVE_SPEED     0x0E0   /* int:  drive wheel speed (engine output, clamped) */
 #define CAR_PROJECTED_B     0x0E4   /* int:  camera projected value B */
@@ -160,12 +162,16 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 #define CAR_SPLIT_POS       0x230   /* int:  position storage for split times */
 #define CAR_PARTNER_B       0x234   /* int:  collision partner B pointer */
 
+/* --- Navigation (0x244) --- */
+#define CAR_WAYPOINT_IDX    0x244   /* int:  waypoint/segment counter (incremented on heading OOB) */
+
 /* --- Heading storage (0x248) --- */
 #define CAR_HEADING_STORED  0x248   /* int:  stored heading angle (used in collision path) */
 
 /* --- Countdown / sound (0x250-0x258) --- */
 #define CAR_COUNTDOWN       0x250   /* short: countdown field */
 #define CAR_GEAR_SOUND      0x258   /* short: gear shift sound param */
+#define CAR_HEADING_REF     0x25C   /* int:  heading reference angle (for valid range check) */
 
 /* Engine / drivetrain constants */
 #define GEAR_RATIO_TABLE    0x060477BC  /* int[]: gear ratio table (indexed by gear index) */
