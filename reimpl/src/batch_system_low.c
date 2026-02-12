@@ -104,14 +104,15 @@ extern int PTR_DAT_06003ae4;
 extern int PTR_PTR_06002400;
 extern int PTR_VDP1_TVMR_060025c8;
 
-/* delay_loop_6 -- Busy-wait delay loop: 6 iterations.
- * Returns the loop counter (always 6). Used for hardware settling. */
-int FUN_06002280(void)
+/* hw_settle_delay -- Busy-wait delay loop for hardware register settling.
+ * Returns the iteration count (always 6). */
+int hw_settle_delay(void)
 {
     short i;
     for (i = 0; i < 6; i++) { }
     return (int)i;
 }
+int FUN_06002280(void) __attribute__((alias("hw_settle_delay")));
 
 /* delay_loop_dual -- Two-phase delay loop.
  * Phase 1: count by 4 up to DAT_0600239e.
@@ -224,67 +225,65 @@ int FUN_06002510(short param_1)
     return result;
 }
 
-/* vdp1_regs_clear -- Zero first 6 VDP1 registers starting at TVMR.
- * Clears TVMR, FBCR, PTMR, EWDR, EWLR, EWRR,
- * then writes initial value to next VDP1 register. */
-void FUN_0600255c(void)
+/* vdp1_regs_clear -- Zero VDP1 display registers (TVMR through EWRR),
+ * then write the initial ENDR value. Called during VDP1 initialization. */
+void vdp1_regs_clear(void)
 {
     unsigned int i;
     short *reg = (short *)PTR_VDP1_TVMR_060025c8;
 
     for (i = 0; i < 6; i++) {
-        *reg = 0;
-        reg++;
+        *reg++ = 0;
     }
     *(short *)PTR_DAT_060025cc = (short)PTR_DAT_060025d0;
 }
+void FUN_0600255c(void) __attribute__((alias("vdp1_regs_clear")));
 
-/* vdp1_cmd_table_init -- Initialize VDP1 command table and sprite defaults.
- * Clears command buffer (PTR_DAT_060025d4) with word_fill, sets END cmd flag.
- * Copies 8 default vertex coords from PTR_DAT_060025d8 into first command.
- * Configures VDP2 shadow register base (PTR_DAT_060026b4): scroll offsets,
- * coefficient pointers (PTR_DAT_060026bc), line color mode, priority bits.
+/* vdp1_cmd_table_init -- Initialize VDP1 command table and VDP2 shadow registers.
+ * 1. Clears the VDP1 command buffer with word_fill (all zeros)
+ * 2. Sets END command flag at offset +0x20 of first command entry
+ * 3. Copies 8 default vertex coordinates from template into command +0x10
+ * 4. Configures VDP2 shadow register block: scroll offsets, color calc ratios,
+ *    coefficient table pointers (4 planes), line color mode, priority bits
  * Returns 1 on success. */
-int FUN_06002594()
+int vdp1_cmd_table_init(void)
 {
-  int cmd_base;
-  short *dst;
-  short *src;
-  unsigned int i;
+    int cmd_base;
+    short *dst;
+    short *src;
+    unsigned int i;
 
-  FUN_0600245c(*(int *)PTR_DAT_060025d4, (int)DAT_060025c6, 0);  /* clear command buffer */
-  cmd_base = *(int *)PTR_DAT_060025d4;
-  *(short *)(cmd_base + 0x20) = 1;                       /* END command flag */
-  /* copy 8 default vertex coordinates */
-  src = (short *)PTR_DAT_060025d8;
-  dst = (short *)(cmd_base + 0x10);
-  for (i = 0; i < 8; i = i + 1) {
-    *dst = *src;
-    dst = dst + 1;
-    src = src + 1;
-  }
-  /* configure VDP2 shadow registers */
-  cmd_base = *(int *)PTR_DAT_060026b4;
-  *(short *)(cmd_base + 0x30) = (short)PTR_DAT_060026b8;  /* scroll offset */
-  *(short *)(cmd_base + 0x40) = DAT_060026aa;             /* color calc ratio A */
-  *(short *)(cmd_base + 0x42) = DAT_060026aa;             /* color calc ratio B */
-  /* coefficient table pointers (4 planes) */
-  *(char **)(cmd_base + 0x78) = PTR_DAT_060026bc;
-  *(char **)(cmd_base + 0x7c) = PTR_DAT_060026bc;
-  *(char **)(cmd_base + 0x88) = PTR_DAT_060026bc;
-  *(char **)(cmd_base + 0x8c) = PTR_DAT_060026bc;
-  *(int *)(cmd_base + 0xac) = (int)DAT_060026ac;          /* line color screen mode */
-  *(short *)PTR_DAT_060026c0 = 0;                         /* display enable */
-  *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026ae) = 0x20;  /* priority */
-  *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026b0 + 8) = 7; /* special priority */
-  /* final register block */
-  cmd_base = *(int *)PTR_DAT_060026b4 + (int)DAT_060026b2;
-  *(short *)(cmd_base + 0x10) = 1;                        /* enable flag */
-  *(short *)(cmd_base + 0x18) = DAT_060026b2;
-  *(short *)(cmd_base + 0x16) = DAT_060026b2;
-  *(short *)(cmd_base + 0x14) = DAT_060026b2;
-  return 1;
+    FUN_0600245c(*(int *)PTR_DAT_060025d4, (int)DAT_060025c6, 0);
+    cmd_base = *(int *)PTR_DAT_060025d4;
+    *(short *)(cmd_base + 0x20) = 1;
+
+    src = (short *)PTR_DAT_060025d8;
+    dst = (short *)(cmd_base + 0x10);
+    for (i = 0; i < 8; i++) {
+        *dst++ = *src++;
+    }
+
+    cmd_base = *(int *)PTR_DAT_060026b4;
+    *(short *)(cmd_base + 0x30) = (short)PTR_DAT_060026b8;
+    *(short *)(cmd_base + 0x40) = DAT_060026aa;
+    *(short *)(cmd_base + 0x42) = DAT_060026aa;
+    *(char **)(cmd_base + 0x78) = PTR_DAT_060026bc;
+    *(char **)(cmd_base + 0x7c) = PTR_DAT_060026bc;
+    *(char **)(cmd_base + 0x88) = PTR_DAT_060026bc;
+    *(char **)(cmd_base + 0x8c) = PTR_DAT_060026bc;
+    *(int *)(cmd_base + 0xac) = (int)DAT_060026ac;
+    *(short *)PTR_DAT_060026c0 = 0;
+    *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026ae) = 0x20;
+    *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026b0 + 8) = 7;
+
+    cmd_base = *(int *)PTR_DAT_060026b4 + (int)DAT_060026b2;
+    *(short *)(cmd_base + 0x10) = 1;
+    *(short *)(cmd_base + 0x18) = DAT_060026b2;
+    *(short *)(cmd_base + 0x16) = DAT_060026b2;
+    *(short *)(cmd_base + 0x14) = DAT_060026b2;
+    return 1;
 }
+int FUN_06002594(void) __attribute__((alias("vdp1_cmd_table_init")));
 
 /* smpc_double_step -- Call FUN_0600270a twice per iteration for param_3 steps.
  * param_1/param_2 are passed through registers to FUN_0600270a. */
@@ -398,17 +397,20 @@ void FUN_0600338c(unsigned int param_1, int param_2)
 extern void FUN_060033E6(void);
 void FUN_060033e6(void) { FUN_060033E6(); }
 
-/* hud_render_select -- Render HUD element: full or compact based on mode flag.
- * If 0x06083255 is clear: full-size sprite (0x900 bytes from 0x06063798).
- * If set: compact sprite (0x490 bytes from 0x06063790). */
-void FUN_06003430(void)
+/* hud_render_select -- Render HUD element sized by game mode.
+ * Race mode (RENDER_DEMO_FLAG==0): full-size sprite (0x900 bytes).
+ * Demo mode: compact sprite (0x490 bytes). */
+void hud_render_select(void)
 {
-    if (*(int *)0x06083255 == '\0') {
-        (*(int(*)())0x06028400)(4, *(int *)0x06063798, 0x900, *(int *)(0x06063798 + 4));
+    int vdp1_cmd_build = 0x06028400;
+
+    if (RENDER_DEMO_FLAG == 0) {
+        (*(int(*)())vdp1_cmd_build)(4, *(int *)0x06063798, 0x900, *(int *)(0x06063798 + 4));
     } else {
-        (*(int(*)())0x06028400)(4, *(int *)0x06063790, 0x490, ((int *)0x06063790)[1]);
+        (*(int(*)())vdp1_cmd_build)(4, *(int *)0x06063790, 0x490, ((int *)0x06063790)[1]);
     }
 }
+void FUN_06003430(void) __attribute__((alias("hud_render_select")));
 
 /* vdp2_mega_init -- Bulk-load all VDP2 graphics data from CD-ROM to VRAM.
  * Loads color palette to CRAM (0x25F00800), then ~40 DMA transfers
@@ -485,67 +487,67 @@ void vdp2_mega_init()
   (*(int(*)())dma_block)(0x25E7B168, cd_base + DAT_0600388e, (int)DAT_0600388c);
 }
 
-/* vdp2_cram_load -- Load 14 color palette blocks into VDP2 CRAM (0x25F00000).
- * Each call copies a palette block from work RAM to VDP2 color RAM.
- * Function at 0x0602766C is a DMA/memcpy (dest, src, size_words). */
-void FUN_060038d4(void)
+/* vdp2_cram_load -- Load 14 color palette banks into VDP2 CRAM.
+ * Banks 0-9 go to CRAM 0x000-0x1FF (background palettes).
+ * Banks 10-13 go to CRAM 0x600-0x7FF (sprite/overlay palettes).
+ * Some source addresses are shared between banks (1/10, 8/12, 9/13). */
+void vdp2_cram_load(void)
 {
-    register void (*dma_copy)(int, int, int) = (void (*)(int, int, int))0x0602766C;
-
-    dma_copy(0x25F00000, 0x0604814C, 0x60);  /* palette 0:  96 words */
-    dma_copy(0x25F00060, 0x0604848C, 0x40);  /* palette 1:  64 words */
-    dma_copy(0x25F000A0, 0x060484CC, 0x20);  /* palette 2:  32 words */
-    dma_copy(0x25F000E0, 0x060485AC, 0x20);  /* palette 3:  32 words */
-    dma_copy(0x25F00100, 0x0604892C, 0x20);  /* palette 4:  32 words */
-    dma_copy(0x25F00120, 0x060488EC, 0x20);  /* palette 5:  32 words */
-    dma_copy(0x25F00140, 0x0604890C, 0x20);  /* palette 6:  32 words */
-    dma_copy(0x25F00160, 0x0605CDBC, 0x20);  /* palette 7:  32 words */
-    dma_copy(0x25F001A0, 0x060487EC, 0x20);  /* palette 8:  32 words */
-    dma_copy(0x25F001C0, 0x060483EC, 0x40);  /* palette 9:  64 words */
-    dma_copy(0x25F00600, 0x0604848C, 0x40);  /* palette 10: 64 words */
-    dma_copy(0x25F00660, 0x0604888C, 0x60);  /* palette 11: 96 words */
-    dma_copy(0x25F007A0, 0x060487EC, 0x20);  /* palette 12: 32 words */
-    dma_copy(0x25F007C0, 0x060483EC, 0x40);  /* palette 13: 64 words */
+    DMA_WORD_COPY(0x25F00000, 0x0604814C, 0x60);  /* bank 0:  96 bytes — main BG */
+    DMA_WORD_COPY(0x25F00060, 0x0604848C, 0x40);  /* bank 1:  64 bytes — BG alt */
+    DMA_WORD_COPY(0x25F000A0, 0x060484CC, 0x20);  /* bank 2:  32 bytes */
+    DMA_WORD_COPY(0x25F000E0, 0x060485AC, 0x20);  /* bank 3:  32 bytes */
+    DMA_WORD_COPY(0x25F00100, 0x0604892C, 0x20);  /* bank 4:  32 bytes */
+    DMA_WORD_COPY(0x25F00120, 0x060488EC, 0x20);  /* bank 5:  32 bytes */
+    DMA_WORD_COPY(0x25F00140, 0x0604890C, 0x20);  /* bank 6:  32 bytes */
+    DMA_WORD_COPY(0x25F00160, 0x0605CDBC, 0x20);  /* bank 7:  32 bytes — dynamic */
+    DMA_WORD_COPY(0x25F001A0, 0x060487EC, 0x20);  /* bank 8:  32 bytes */
+    DMA_WORD_COPY(0x25F001C0, 0x060483EC, 0x40);  /* bank 9:  64 bytes */
+    DMA_WORD_COPY(0x25F00600, 0x0604848C, 0x40);  /* bank 10: 64 bytes — =bank 1 src */
+    DMA_WORD_COPY(0x25F00660, 0x0604888C, 0x60);  /* bank 11: 96 bytes — sprites */
+    DMA_WORD_COPY(0x25F007A0, 0x060487EC, 0x20);  /* bank 12: 32 bytes — =bank 8 src */
+    DMA_WORD_COPY(0x25F007C0, 0x060483EC, 0x40);  /* bank 13: 64 bytes — =bank 9 src */
 }
+void FUN_060038d4(void) __attribute__((alias("vdp2_cram_load")));
 
-/* car_palette_load_primary -- DMA-copy primary car color palette to VDP1.
- * Normal mode: 0x60 bytes from table at 0x0605C97C indexed by car select.
- * Demo mode: 0x20 bytes from table at 0x0605CA4C indexed by character select.
- * Destination: VDP1 VRAM palette slot at 0x25F00400. */
-void FUN_060039c8(void)
+/* car_palette_load_primary -- DMA-copy primary car color palette to VDP2 CRAM.
+ * Normal mode: 0x60 bytes, indexed by car selection (0-9).
+ * Demo mode: 0x20 bytes, indexed by character selection.
+ * Palette pointer tables hold addresses of the actual palette data. */
+void car_palette_load_primary(void)
 {
-  int *src;
-  int size;
+    int *pal_entry;
+    int size;
 
-  if (*(int *)0x06083255 == '\0') {
-    size = 0x60;
-    src = (int *)(0x0605C97C + *(int *)(0x06078868 << 2));
-  } else {
-    src = (int *)(0x0605CA4C + *(int *)(0x0607EAB8 << 2));
-    size = 0x20;
-  }
-  (*(int(*)())0x0602766C)(0x25F00400, *src, size);
+    if (RENDER_DEMO_FLAG == 0) {
+        size = 0x60;
+        pal_entry = (int *)(CAR_PAL_TABLE + (CAR_SELECT_IDX << 2));
+    } else {
+        pal_entry = (int *)(CAR_PAL_TABLE_DEMO + (CHAR_SELECT_IDX << 2));
+        size = 0x20;
+    }
+    DMA_WORD_COPY(VDP2_CRAM_SPRITE, *pal_entry, size);
 }
+void FUN_060039c8(void) __attribute__((alias("car_palette_load_primary")));
 
-/* car_palette_load_secondary -- DMA-copy secondary car color palette to VDP1.
- * Same as car_palette_load_primary but offsets the selection index:
- * Normal mode: index + 10 into 0x0605C97C table.
- * Demo mode: index + 2 into 0x0605CA4C table.
- * Destination: VDP1 VRAM palette slot at 0x25F00400. */
-void FUN_060039f2(void)
+/* car_palette_load_secondary -- DMA-copy alternate car color palette to VDP2 CRAM.
+ * Same table as primary but offset: +10 for normal mode, +2 for demo mode.
+ * The alternate palette is used for the second car color scheme. */
+void car_palette_load_secondary(void)
 {
-  int *src;
-  int size;
+    int *pal_entry;
+    int size;
 
-  if (*(int *)0x06083255 == '\0') {
-    size = 0x60;
-    src = (int *)(0x0605C97C + (*(int *)0x06078868 + 10) << 2);
-  } else {
-    src = (int *)(0x0605CA4C + (*(int *)0x0607EAB8 + 2) << 2);
-    size = 0x20;
-  }
-  (*(int(*)())0x0602766C)(0x25F00400, *src, size);
+    if (RENDER_DEMO_FLAG == 0) {
+        size = 0x60;
+        pal_entry = (int *)(CAR_PAL_TABLE + ((CAR_SELECT_IDX + 10) << 2));
+    } else {
+        pal_entry = (int *)(CAR_PAL_TABLE_DEMO + ((CHAR_SELECT_IDX + 2) << 2));
+        size = 0x20;
+    }
+    DMA_WORD_COPY(VDP2_CRAM_SPRITE, *pal_entry, size);
 }
+void FUN_060039f2(void) __attribute__((alias("car_palette_load_secondary")));
 
 /* asset_table_init -- Initialize CD-ROM asset file table and load descriptors.
  * Resets file manager state (0x06063D90/D94), sprite buffer (0x06059F10/18/1C),

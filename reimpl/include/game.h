@@ -299,6 +299,17 @@ typedef void (*state_handler_t)(void);
 /* Color palette bank select */
 #define PALETTE_BANK_SEL    (*(volatile short *)0x060635DE)  /* selects CRAM bank */
 
+/* DMA word copy function (src → dest, size in bytes) — used for palette/CRAM loads */
+#define DMA_WORD_COPY       ((void (*)(int, int, int))0x0602766C)
+
+/* Palette / car selection */
+#define CAR_SELECT_IDX      (*(volatile int *)0x06078868)    /* car color index (0-9) */
+#define CHAR_SELECT_IDX     (*(volatile int *)0x0607EAB8)    /* character select (demo) */
+#define RENDER_DEMO_FLAG    (*(volatile char *)0x06083255)   /* 0=race, non-0=demo/attract */
+#define CAR_PAL_TABLE       0x0605C97C   /* car palette ptr table (normal mode, 10+ entries) */
+#define CAR_PAL_TABLE_DEMO  0x0605CA4C   /* car palette ptr table (demo mode) */
+#define VDP2_CRAM_SPRITE    0x25F00400   /* VDP2 CRAM offset for sprite/car palettes */
+
 
 /* ===================================================================
  * Sound System State
