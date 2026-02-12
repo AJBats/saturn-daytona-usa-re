@@ -49,103 +49,53 @@ extern int PTR_DAT_06019a24;
 extern int PTR_DAT_06019b24;
 extern short PTR_DAT_060182f4;
 
+/* hud_position_ticker -- Animate HUD position/lap indicator sprites.
+ * Increments frame counter at 0x0605BE2C. For first 6 frames, slides
+ * two sprite slots (position/lap) by +0x90 each tick. After 6 frames,
+ * snaps to final positions and resets counter.
+ * On final lap: uses sprite set at 0x06089E28, otherwise 0x06089E2C.
+ * Dispatches to start_banner_state or FUN_060185d8 based on GAME_STATE_BIT. */
 void FUN_06018166()
 {
-
-  int bVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int uVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  puVar4 = (char *)0x060684EC;
-
-  puVar3 = (char *)0x06063F64;
-
-  puVar2 = (char *)0x0605BE2C;
-
-  iVar8 = (int)DAT_06018212;
-
-  iVar5 = CAR_PTR_TARGET;
-
-  *(short *)0x0605BE2C = *(short *)0x0605BE2C + 1;
-
-  bVar1 = *(unsigned int *)(iVar5 + DAT_06018214) < *(int *)0x06063F28 - 1U;
-
-  if (bVar1) {
-
-    uVar6 = *(int *)0x06089E28;
-
+  int is_final_lap;
+  int sprite_value;
+  int slot_a_off = (int)DAT_06018212;
+  int slot_b_off = (int)DAT_06018216;
+  int car = CAR_PTR_TARGET;
+  char *sprite_table = (char *)0x060684EC;    /* HUD sprite index table */
+  char *vdp_slots = (char *)0x06063F64;       /* VDP1 sprite slot array */
+  short *frame_counter = (short *)0x0605BE2C;
+  *frame_counter = *frame_counter + 1;
+  is_final_lap = *(unsigned int *)(car + DAT_06018214) < *(int *)0x06063F28 - 1U;
+  if (is_final_lap) {
+    sprite_value = *(int *)0x06089E28;  /* final lap sprite */
+  } else {
+    sprite_value = *(int *)0x06089E2C;  /* normal lap sprite */
   }
-
-  else {
-
-    uVar6 = *(int *)0x06089E2C;
-
-  }
-
-  iVar5 = (int)DAT_06018216;
-
-  if (*(short *)puVar2 < 6) {
-
-    iVar7 = 0x90;
-
-    *(int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3)) =
-
-         *(int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3)) + iVar7;
-
-    *(int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar5) << 3)) =
-
-         *(int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar5) << 3)) + iVar7;
-
-  }
-
-  else {
-
-    *(int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3)) = uVar6;
-
-    *(int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar5) << 3)) =
-
+  if (*frame_counter < 6) {
+    /* slide-in animation: add 0x90 per frame */
+    *(int *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_a_off) << 3)) =
+         *(int *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_a_off) << 3)) + 0x90;
+    *(int *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_b_off) << 3)) =
+         *(int *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_b_off) << 3)) + 0x90;
+  } else {
+    /* snap to final position, reset counter */
+    *(int *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_a_off) << 3)) = sprite_value;
+    *(int *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_b_off) << 3)) =
          *(int *)0x06089E30;
-
-    *(short *)puVar2 = 0;
-
+    *frame_counter = 0;
   }
-
-  if (bVar1) {
-
-    *(short *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3) + 6) = DAT_060182f2;
-
+  if (is_final_lap) {
+    *(short *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_a_off) << 3) + 6) = DAT_060182f2;
+  } else {
+    *(short *)(vdp_slots + ((unsigned int)*(unsigned short *)(sprite_table + slot_a_off) << 3) + 6) = DAT_0601821a;
   }
-
-  else {
-
-    *(short *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar4 + iVar8) << 3) + 6) = DAT_0601821a;
-
-  }
-
   if ((GAME_STATE_BIT & (unsigned int)0x00800000) != 0) {
-
     FUN_060185d8();
-
     return;
-
   }
-
   FUN_06018320();
-
   return;
-
 }
 
 unsigned int track_calculation()
@@ -186,273 +136,140 @@ unsigned int track_calculation()
   return uVar3;
 }
 
+/* start_banner_state -- START banner scaling/display state machine.
+ * Checks if player car is in start zone (position between DAT_060183ee..DAT_060183f0).
+ * When in zone: detects button press (bit 0x40 toggle), manages 6-state
+ * animation sequence controlling scale_x (puVar6+0) and scale_y (puVar6+4)
+ * with thresholds 0x8000, 0x10000, 0x18000, 0x20000.
+ * Then renders banner via primary matrix pipeline + mesh/texture.
+ * When outside zone: resets all state to zero. */
 void FUN_06018320()
 {
-
-  char cVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  char *puVar8;
-
-  unsigned short uVar9;
-
-  unsigned short uVar10;
-
-  int iVar11;
-
-  puVar8 = (char *)0x0605BE33;
-
-  puVar7 = (char *)0x0605BE34;
-
-  puVar6 = (char *)0x06085FC0;
-
-  puVar5 = (char *)0x0605BE32;
-
-  puVar4 = (char *)0x00008000;
-
-  puVar3 = (char *)0x0607E940;
-
-  puVar2 = (char *)0x0605BE35;
-
+  char anim_phase;
+  unsigned short btn_raw, btn_edge;
+  int scale_step;
+  char *in_zone_flag = (char *)0x0605BE33;
+  char *prev_zone = (char *)0x0605BE34;
+  char *scale_data = (char *)0x06085FC0;  /* scale_x at +0, scale_y at +4 */
+  char *anim_state = (char *)0x0605BE32;
+  char *car_ptr_base = (char *)0x0607E940;
+  char *display_flag = (char *)0x0605BE35;
   *(int *)0x0605BE34 = *(int *)0x0605BE33;
-
-  if (((int)DAT_060183ee <= *(int *)(*(int *)puVar3 + (int)DAT_060183ec)) &&
-
-     (*(int *)(*(int *)puVar3 + (int)DAT_060183ec) <= (int)DAT_060183f0)) {
-
-    *puVar8 = 1;
-
-    uVar9 = *(unsigned short *)0x06063D98 & 0x40;
-
-    uVar10 = (*(unsigned short *)0x0605BE30 ^ uVar9) & uVar9;
-
-    *(unsigned short *)0x0605BE30 = uVar9;
-
+  if (((int)DAT_060183ee <= *(int *)(*(int *)car_ptr_base + (int)DAT_060183ec)) &&
+     (*(int *)(*(int *)car_ptr_base + (int)DAT_060183ec) <= (int)DAT_060183f0)) {
+    /* player car is in start zone */
+    *in_zone_flag = 1;
+    btn_raw = *(unsigned short *)0x06063D98 & 0x40;   /* controller input */
+    btn_edge = (*(unsigned short *)0x0605BE30 ^ btn_raw) & btn_raw;
+    *(unsigned short *)0x0605BE30 = btn_raw;
     if (*(int *)0x0605DE3C == '\0') {
-
-      if ((((*(unsigned char *)(*(int *)puVar3 + 3) & 8) == 0 & (*puVar8 ^ *puVar7)) != 0) &&
-
+      if ((((*(unsigned char *)(*(int *)car_ptr_base + 3) & 8) == 0 & (*in_zone_flag ^ *prev_zone)) != 0) &&
          ((*(unsigned int *)0x0605A010 & 0x3f) == 0)) {
-
-        *puVar2 = 1;
-
+        *display_flag = 1;
       }
-
+    } else {
+      *display_flag = 1;
     }
-
-    else {
-
-      *puVar2 = 1;
-
-    }
-
-    puVar7 = (char *)0x00010000;
-
     if (*(int *)0x06085FF4 == '\0') {
-
-      if ((*(int *)(*(int *)puVar3 + 8) == 0) && (uVar10 != 0)) {
-
-        iVar11 = (int)DAT_060183f2;
-
-        if (*puVar5 == '\0') {
-
-          *(int *)puVar6 = 0;
-
-          iVar11 = *(int *)(puVar6 + 4) + iVar11;
-
-          *(int *)(puVar6 + 4) = iVar11;
-
-          if ((int)puVar7 <= iVar11) {
-
-            *(char **)puVar6 = puVar4;
-
-            *(char **)(puVar6 + 4) = puVar4;
-
-            *puVar5 = *puVar5 + '\x01';
-
+      /* normal mode: 3-state scale animation */
+      if ((*(int *)(*(int *)car_ptr_base + 8) == 0) && (btn_edge != 0)) {
+        scale_step = (int)DAT_060183f2;
+        if (*anim_state == '\0') {
+          /* state 0: grow scale_y until 0x10000 */
+          *(int *)scale_data = 0;
+          scale_step = *(int *)(scale_data + 4) + scale_step;
+          *(int *)(scale_data + 4) = scale_step;
+          if ((int)0x00010000 <= scale_step) {
+            *(int *)scale_data = 0x00008000;
+            *(int *)(scale_data + 4) = 0x00008000;
+            *anim_state = *anim_state + '\x01';
           }
-
-        }
-
-        else if (*puVar5 == '\x01') {
-
-          *(char **)puVar6 = puVar4;
-
-          iVar11 = *(int *)(puVar6 + 4) + iVar11;
-
-          *(int *)(puVar6 + 4) = iVar11;
-
-          if ((int)0x00018000 <= iVar11) {
-
-            *(int *)puVar6 = 0;
-
-            *(int *)(puVar6 + 4) = 0;
-
-            *puVar5 = *puVar5 + '\x01';
-
+        } else if (*anim_state == '\x01') {
+          /* state 1: grow scale_y until 0x18000 */
+          *(int *)scale_data = 0x00008000;
+          scale_step = *(int *)(scale_data + 4) + scale_step;
+          *(int *)(scale_data + 4) = scale_step;
+          if ((int)0x00018000 <= scale_step) {
+            *(int *)scale_data = 0;
+            *(int *)(scale_data + 4) = 0;
+            *anim_state = *anim_state + '\x01';
           }
-
+        } else {
+          /* state 2+: hold at zero */
+          *(int *)scale_data = 0;
+          *(int *)(scale_data + 4) = 0;
         }
-
-        else {
-
-          *(int *)puVar6 = 0;
-
-          *(int *)(puVar6 + 4) = 0;
-
-        }
-
       }
-
+    } else {
+      /* alternate mode: 6-state scale animation */
+      anim_phase = *anim_state;
+      if (anim_phase == '\0') {
+        *(int *)scale_data = 0;
+        *(int *)(scale_data + 4) = 0;
+        if ((*(int *)(*(int *)car_ptr_base + 8) == 0) && (btn_edge != 0)) {
+          *anim_state = *anim_state + '\x01';
+        }
+      } else if (anim_phase == '\x01') {
+        /* grow scale_y by 0x100 until 0x10000 */
+        scale_step = *(int *)(scale_data + 4) + 0x100;
+        *(int *)(scale_data + 4) = scale_step;
+        if ((int)0x00010000 <= scale_step) {
+          *(int *)(scale_data + 4) = 0x00010000;
+          *anim_state = *anim_state + '\x01';
+        }
+      } else if (anim_phase == '\x02') {
+        /* grow scale_x by 0x200 until 0x8000 */
+        scale_step = *(int *)scale_data + 0x200;
+        *(int *)scale_data = scale_step;
+        if ((int)0x00008000 <= scale_step) {
+          *(int *)scale_data = 0x00008000;
+          *anim_state = *anim_state + '\x01';
+        }
+      } else if (anim_phase == '\x03') {
+        /* grow scale_y by 0x100 until 0x20000 */
+        scale_step = *(int *)(scale_data + 4) + 0x100;
+        *(int *)(scale_data + 4) = scale_step;
+        if ((int)0x00020000 <= scale_step) {
+          *(int *)(scale_data + 4) = 0x00020000;
+          *anim_state = *anim_state + '\x01';
+        }
+      } else if (anim_phase == '\x04') {
+        /* grow scale_x by 0x200 until 0x10000 then reset */
+        scale_step = *(int *)scale_data + 0x200;
+        *(int *)scale_data = scale_step;
+        if ((int)0x00010000 <= scale_step) {
+          *(int *)scale_data = 0;
+          *anim_state = *anim_state + '\x01';
+        }
+      } else {
+        /* state 5+: hold at zero */
+        *(int *)scale_data = 0;
+        *(int *)(scale_data + 4) = 0;
+      }
     }
-
-    else {
-
-      cVar1 = *puVar5;
-
-      if (cVar1 == '\0') {
-
-        *(int *)puVar6 = 0;
-
-        *(int *)(puVar6 + 4) = 0;
-
-        if ((*(int *)(*(int *)puVar3 + 8) == 0) && (uVar10 != 0)) {
-
-          *puVar5 = *puVar5 + '\x01';
-
-        }
-
-      }
-
-      else if (cVar1 == '\x01') {
-
-        iVar11 = *(int *)(puVar6 + 4) + 0x100;
-
-        *(int *)(puVar6 + 4) = iVar11;
-
-        if ((int)puVar7 <= iVar11) {
-
-          *(char **)(puVar6 + 4) = puVar7;
-
-          *puVar5 = *puVar5 + '\x01';
-
-        }
-
-      }
-
-      else if (cVar1 == '\x02') {
-
-        iVar11 = *(int *)puVar6 + 0x200;
-
-        *(int *)puVar6 = iVar11;
-
-        if ((int)puVar4 <= iVar11) {
-
-          *(char **)puVar6 = puVar4;
-
-          *puVar5 = *puVar5 + '\x01';
-
-        }
-
-      }
-
-      else if (cVar1 == '\x03') {
-
-        iVar11 = *(int *)(puVar6 + 4) + 0x100;
-
-        *(int *)(puVar6 + 4) = iVar11;
-
-        if ((int)0x00020000 <= iVar11) {
-
-          *(char **)(puVar6 + 4) = 0x00020000;
-
-          *puVar5 = *puVar5 + '\x01';
-
-        }
-
-      }
-
-      else if (cVar1 == '\x04') {
-
-        iVar11 = *(int *)puVar6 + 0x200;
-
-        *(int *)puVar6 = iVar11;
-
-        if ((int)puVar7 <= iVar11) {
-
-          *(int *)puVar6 = 0;
-
-          *puVar5 = *puVar5 + '\x01';
-
-        }
-
-      }
-
-      else {
-
-        *(int *)puVar6 = 0;
-
-        *(int *)(puVar6 + 4) = 0;
-
-      }
-
+    if (*display_flag != '\0') {
+      *(int *)scale_data = 0x00008000;
+      *(int *)(scale_data + 4) = 0x00008000;
     }
-
-    if (*puVar2 != '\0') {
-
-      *(char **)puVar6 = puVar4;
-
-      *(char **)(puVar6 + 4) = puVar4;
-
-    }
-
-    (*(int(*)())0x06026DBC)();
-
-    (*(int(*)())0x06026E2E)(*(int *)0x06048140,*(int *)(0x06048140 + 4),
-
-               *(int *)(0x06048140 + 8));
-
-    (*(int(*)())0x06026EDE)(*(int *)(puVar6 + 4) + (int)DAT_060185a0);
-
-    (*(int(*)())0x06026E94)(*(int *)puVar6);
-
-    puVar2 = (char *)0x00200000;
-
-    (*(int(*)())0x06031D8C)(0x00200000 + (int)0x000BABE0,0x178);
-
-    (*(int(*)())0x06031A28)(puVar2 + (int)0x000BBD80,(int)*(short *)0x06089E98,
-
-               (int)PTR_DAT_060185a4);
-
-    (*(int(*)())0x06026DF8)();
-
+    /* render banner via primary matrix pipeline */
+    (*(int(*)())0x06026DBC)();                          /* matrix_push */
+    (*(int(*)())0x06026E2E)(*(int *)0x06048140, *(int *)(0x06048140 + 4),
+               *(int *)(0x06048140 + 8));               /* matrix_translate */
+    (*(int(*)())0x06026EDE)(*(int *)(scale_data + 4) + (int)DAT_060185a0);  /* matrix_scale_y */
+    (*(int(*)())0x06026E94)(*(int *)scale_data);        /* matrix_scale_x */
+    (*(int(*)())0x06031D8C)(0x00200000 + (int)0x000BABE0, 0x178);  /* mesh_submit */
+    (*(int(*)())0x06031A28)((char *)0x00200000 + (int)0x000BBD80,
+               (int)*(short *)0x06089E98, (int)PTR_DAT_060185a4);  /* texture_submit */
+    (*(int(*)())0x06026DF8)();                          /* matrix_pop */
     return;
-
   }
-
-  *(int *)puVar6 = 0;
-
-  *(int *)(puVar6 + 4) = 0;
-
-  *puVar8 = 0;
-
-  *puVar2 = 0;
-
-  *puVar5 = 0;
-
+  /* outside start zone: reset all state */
+  *(int *)scale_data = 0;
+  *(int *)(scale_data + 4) = 0;
+  *in_zone_flag = 0;
+  *display_flag = 0;
+  *anim_state = 0;
   return;
-
 }
 
 void FUN_060185d8()
@@ -488,73 +305,40 @@ void FUN_060185d8()
 
 }
 
+/* hud_state_reset -- Reset course-specific HUD state registers.
+ * Dispatches on CAR_COUNT (course index 0/1/2):
+ *   Course 0: clears 8 registers at 0x0605BE20..0x0605BE38
+ *   Course 1: clears 4 registers at 0x0605BE1C..0x0605BE38
+ *   Course 2: clears 2 registers at 0x0605BE36..0x0605BE38
+ * Returns CAR_COUNT (or 0 for course 0). */
 int FUN_06018634()
 {
-
-  short *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  puVar2 = (char *)0x0605BE36;
-
-  puVar1 = (char *)0x0605BE38;
-
-  iVar3 = CAR_COUNT;
-
-  if (iVar3 == 0) {
-
+  int course = CAR_COUNT;
+  if (course == 0) {
     *(short *)0x0605BE24 = 0;
-
     *(short *)0x0605BE22 = 0;
-
     *(short *)0x0605BE20 = 0;
-
     *(short *)0x0605BE2A = 0;
-
     *(short *)0x0605BE26 = 0;
-
     *(short *)0x0605BE28 = 0;
-
     *(short *)0x0605BE36 = 0;
-
     *(short *)0x0605BE38 = 0;
-
     return 0;
-
   }
-
-  if (iVar3 == 1) {
-
+  if (course == 1) {
     *(short *)0x0605BE1C = 0;
-
     *(short *)0x0605BE1E = 0;
-
-    iVar3 = 0;
-
-    *(short *)puVar2 = 0;
-
-  }
-
-  else {
-
-    if (iVar3 != 2) {
-
-      return iVar3;
-
-    }
-
+    course = 0;
     *(short *)0x0605BE36 = 0;
-
-    iVar3 = 2;
-
+  } else {
+    if (course != 2) {
+      return course;
+    }
+    *(short *)0x0605BE36 = 0;
+    course = 2;
   }
-
-  *puVar1 = 0;
-
-  return iVar3;
-
+  *(short *)0x0605BE38 = 0;
+  return course;
 }
 
 void FUN_06018a3c()
@@ -1389,81 +1173,52 @@ void FUN_060198e0(void)
     (*(int(*)())0x0601A940)();       /* cursor/selection init */
 }
 
+/* sound_test_render -- Render sound test channel display when dirty flag set.
+ * When 0x06085FF1 == 1: renders 8 channel indicator sprites via VDP1
+ * command dispatcher (0x060284AE). Highlights selected channel at
+ * 0x06085FF0 with priority 0xC. Calls 4 sub-renderers for additional
+ * display elements (FUN_06019bc8..FUN_0601a65e). Clears dirty flag. */
 void FUN_06019928()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  unsigned char bVar6;
-
-  puVar3 = (char *)0x060284AE;
-
-  puVar2 = (char *)0x06049AFC;
-
-  puVar1 = (char *)0x0605D294;
-
-  iVar5 = 0x90;
-
+  char *vdp_cmd = (char *)0x060284AE;      /* VDP1 command dispatcher */
+  char *tile_map = (char *)0x06049AFC;      /* tile coordinate LUT */
+  char *sprite_table = (char *)0x0605D294;  /* sprite descriptor table */
+  unsigned char ch;
+  char *selection = (char *)0x06085FF0;     /* current channel selection index */
   if (*(int *)0x06085FF1 == '\x01') {
-
     INPUT_STATE = INPUT_STATE | 4;
-
-    bVar6 = 0;
-
+    /* render 8 channel indicators (normal priority 8) */
+    ch = 0;
     do {
-
-      (*(int(*)())puVar3)(8,((unsigned int)(unsigned char)(puVar2 + (unsigned int)(bVar6 << 1))[1] * 0x40 +
-
-                          (unsigned int)(unsigned char)puVar2[(unsigned int)(bVar6 << 1)]) << 1,iVar5,
-
-                        *(int *)(puVar1 + (unsigned int)(bVar6 << 2)));
-
-      puVar4 = (char *)0x06085FF0;
-
-      bVar6 = bVar6 + 1;
-
-    } while (bVar6 < 8);
-
-    (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)(puVar2 + (char)*(int *)(0x06085FF0 << 1))[1] * 0x40 +
-
-                          (unsigned int)(unsigned char)puVar2[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar5,
-
-                      *(int *)(puVar1 + (char)*(int *)(0x06085FF0 << 2)));
-
-    (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[(char)(*puVar4 << 1) + 1] * 0x40 + 1) << 1,iVar5,
-
-                      0x06049E44);
-
-    if (*puVar4 != '\x06') {
-
-      (*(int(*)())puVar3)(0xc,((unsigned int)(unsigned char)puVar2[0xd] * 0x40 + (unsigned int)(unsigned char)puVar2[0xc] + 0xd) << 1,
-
-                        iVar5,*(int *)0x0605D4F0,puVar2);
-
+      (*(int(*)())vdp_cmd)(8,
+          ((unsigned int)(unsigned char)(tile_map + (unsigned int)(ch << 1))[1] * 0x40 +
+           (unsigned int)(unsigned char)tile_map[(unsigned int)(ch << 1)]) << 1,
+          0x90, *(int *)(sprite_table + (unsigned int)(ch << 2)));
+      ch = ch + 1;
+    } while (ch < 8);
+    /* highlight selected channel (priority 0xC) */
+    (*(int(*)())vdp_cmd)(0xc,
+        ((unsigned int)(unsigned char)(tile_map + (char)*(int *)(0x06085FF0 << 1))[1] * 0x40 +
+         (unsigned int)(unsigned char)tile_map[(char)*(int *)(0x06085FF0 << 1)]) << 1,
+        0x90, *(int *)(sprite_table + (char)*(int *)(0x06085FF0 << 2)));
+    /* highlight selected channel label */
+    (*(int(*)())vdp_cmd)(0xc,
+        ((unsigned int)(unsigned char)tile_map[(char)(*selection << 1) + 1] * 0x40 + 1) << 1,
+        0x90, 0x06049E44);
+    /* render channel 6 extra indicator if not selected */
+    if (*selection != '\x06') {
+      (*(int(*)())vdp_cmd)(0xc,
+          ((unsigned int)(unsigned char)tile_map[0xd] * 0x40 +
+           (unsigned int)(unsigned char)tile_map[0xc] + 0xd) << 1,
+          0x90, *(int *)0x0605D4F0, tile_map);
     }
-
-    FUN_06019bc8();
-
-    FUN_06019db8();
-
-    FUN_06019fb2();
-
-    FUN_0601a65e();
-
-    *(int *)0x06085FF1 = 0;
-
+    FUN_06019bc8();   /* volume display render */
+    FUN_06019db8();   /* frequency display render */
+    FUN_06019fb2();   /* waveform display render */
+    FUN_0601a65e();   /* envelope display render */
+    *(int *)0x06085FF1 = 0;  /* clear dirty flag */
   }
-
   return;
-
 }
 
 void FUN_06019a48()

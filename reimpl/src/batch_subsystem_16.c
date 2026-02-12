@@ -476,54 +476,34 @@ void FUN_060172bc(void)
     }
 }
 
+/* race_slot_clear -- Zero all fields in a HUD race slot descriptor.
+ * Slot array at 0x06084FC8, stride 0x44 bytes per slot.
+ * param_1 (low byte): slot index. Clears bytes 0-2,
+ * ints at +0x04..+0x38 (14 words), and bytes at +0x40/+0x41. */
 void FUN_060172e4(param_1)
     unsigned short param_1;
 {
-
-  char *puVar1;
-
-  puVar1 = 0x06084FC8 + (short)((param_1 & 0xff) * 0x44);
-
-  puVar1[2] = 0;
-
-  puVar1[1] = 0;
-
-  *puVar1 = 0;
-
-  *(int *)(puVar1 + 0xc) = 0;
-
-  *(int *)(puVar1 + 8) = 0;
-
-  *(int *)(puVar1 + 4) = 0;
-
-  *(int *)(puVar1 + 0x18) = 0;
-
-  *(int *)(puVar1 + 0x14) = 0;
-
-  *(int *)(puVar1 + 0x10) = 0;
-
-  *(int *)(puVar1 + 0x24) = 0;
-
-  *(int *)(puVar1 + 0x20) = 0;
-
-  *(int *)(puVar1 + 0x1c) = 0;
-
-  *(int *)(puVar1 + 0x30) = 0;
-
-  *(int *)(puVar1 + 0x2c) = 0;
-
-  *(int *)(puVar1 + 0x28) = 0;
-
-  *(int *)(puVar1 + 0x38) = 0;
-
-  *(int *)(puVar1 + 0x34) = 0;
-
-  puVar1[0x41] = 0;
-
-  puVar1[0x40] = 0;
-
+  char *slot = (char *)0x06084FC8 + (short)((param_1 & 0xff) * 0x44);
+  slot[2] = 0;
+  slot[1] = 0;
+  *slot = 0;
+  *(int *)(slot + 0x0c) = 0;
+  *(int *)(slot + 0x08) = 0;
+  *(int *)(slot + 0x04) = 0;
+  *(int *)(slot + 0x18) = 0;
+  *(int *)(slot + 0x14) = 0;
+  *(int *)(slot + 0x10) = 0;
+  *(int *)(slot + 0x24) = 0;
+  *(int *)(slot + 0x20) = 0;
+  *(int *)(slot + 0x1c) = 0;
+  *(int *)(slot + 0x30) = 0;
+  *(int *)(slot + 0x2c) = 0;
+  *(int *)(slot + 0x28) = 0;
+  *(int *)(slot + 0x38) = 0;
+  *(int *)(slot + 0x34) = 0;
+  slot[0x41] = 0;
+  slot[0x40] = 0;
   return;
-
 }
 
 /* hud_slot_clear -- Clear a HUD digit display slot.

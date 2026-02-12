@@ -1259,288 +1259,151 @@ void scene_finalization_b()
 
 }
 
+/* scene_sprite_render_a -- Render scene sprite layer A (10 slots).
+ * Dispatches on render mode (0x06061198): mode 4 uses sprite set 0x060590B8,
+ * mode 5 uses 0x060590E0, default uses 0x06059104.
+ * Iterates 10 texture/sprite slot pairs via VDP1 draw command (0x06028400).
+ * Texture coords from LUT at 0x0605904C (primary) and 0x06059060 (secondary).
+ * Sprite descriptors indexed through param_1 into table at 0x06061170. */
 void FUN_06025224(param_1)
     int param_1;
 {
-
-  short sVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  int *piVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int *piVar8;
-
-  int iVar9;
-
-  int *puVar10;
-
-  unsigned int uVar11;
-
-  puVar3 = (char *)0x06028400;
-
-  puVar2 = (char *)0x06063750;
-
-  sVar1 = DAT_0602528a;
-
-  iVar6 = 0xa9;
-
-  iVar9 = 0xc08;
-
-  iVar7 = 0x590;
-
+  short layer_id = DAT_0602528a;
+  unsigned short tex_priority;
+  int *slot_desc;
+  int slot_offset;
+  int *slot_table;
+  int *vdp_pair;
+  unsigned int idx;
+  int sentinel = 0xa9;
+  char *vdp_draw = (char *)0x06028400;       /* VDP1 textured draw */
+  char *sprite_base = (char *)0x06063750;     /* sprite position table */
+  /* render mode dispatch — background/frame sprite */
   if (*(int *)0x06061198 == '\x04') {
-
-    (*(int(*)())0x060284AE)(8,iVar9,0x90,0x060590B8);
-
-    (*(int(*)())puVar3)(8,*(int *)(puVar2 + iVar7),(int)DAT_06025292,
-
-                      *(int *)((int)(puVar2 + iVar7) + 4));
-
-  }
-
-  else {
-
+    (*(int(*)())0x060284AE)(8, 0xc08, 0x90, 0x060590B8);
+    (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + 0x590), (int)DAT_06025292,
+                      *(int *)((int)(sprite_base + 0x590) + 4));
+  } else {
     if (*(int *)0x06061198 == '\x05') {
-
-      (*(int(*)())0x060284AE)(8,iVar9,0x90,0x060590E0);
-
+      (*(int(*)())0x060284AE)(8, 0xc08, 0x90, 0x060590E0);
+    } else {
+      (*(int(*)())0x060284AE)(8, 0xc08, 0x90, 0x06059104);
     }
-
-    else {
-
-      (*(int(*)())0x060284AE)(8,iVar9,0x90,0x06059104);
-
-    }
-
-    puVar10 = (int *)(puVar2 + iVar7);
-
-    (*(int(*)())puVar3)(8,*puVar10,(int)DAT_0602537a,puVar10[1]);
-
-    (*(int(*)())puVar3)(8,*puVar10,(int)DAT_0602537c,puVar10[1]);
-
+    vdp_pair = (int *)(sprite_base + 0x590);
+    (*(int(*)())vdp_draw)(8, *vdp_pair, (int)DAT_0602537a, vdp_pair[1]);
+    (*(int(*)())vdp_draw)(8, *vdp_pair, (int)DAT_0602537c, vdp_pair[1]);
   }
-
-  (*(int(*)())0x060284AE)(8,(int)DAT_0602537e,0x90,0x06058F94 + (param_1 << 3));
-
-  (*(int(*)())puVar3)(8,*(int *)(puVar2 + DAT_06025380),0x10,
-
-                    *(int *)((int)(puVar2 + DAT_06025380) + 4) + (int)DAT_06025382);
-
-  (*(int(*)())puVar3)(8,*(int *)(puVar2 + DAT_06025384),0x2a0,
-
-                    *(int *)((int)(puVar2 + DAT_06025384) + 4) + (int)DAT_06025386);
-
-  (*(int(*)())puVar3)(8,*(int *)(puVar2 + DAT_0602538a),(int)PTR_DAT_0602538c,
-
-                    *(int *)((int)(puVar2 + DAT_0602538a) + 4) + (int)DAT_06025386);
-
-  uVar11 = 0;
-
-  piVar8 = (int *)(0x06061170 + (param_1 << 2));
-
+  /* render selection cursor and fixed overlay sprites */
+  (*(int(*)())0x060284AE)(8, (int)DAT_0602537e, 0x90, 0x06058F94 + (param_1 << 3));
+  (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + DAT_06025380), 0x10,
+                    *(int *)((int)(sprite_base + DAT_06025380) + 4) + (int)DAT_06025382);
+  (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + DAT_06025384), 0x2a0,
+                    *(int *)((int)(sprite_base + DAT_06025384) + 4) + (int)DAT_06025386);
+  (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + DAT_0602538a), (int)PTR_DAT_0602538c,
+                    *(int *)((int)(sprite_base + DAT_0602538a) + 4) + (int)DAT_06025386);
+  /* iterate 10 texture/sprite slot pairs */
+  idx = 0;
+  slot_table = (int *)(0x06061170 + (param_1 << 2));
   do {
-
-    (*(int(*)())0x0601A3F4)(uVar11 & 0xffff,sVar1);
-
-    if ((((unsigned int)*(unsigned short *)((uVar11 << 3) + *piVar8 + 6) != iVar6 + 0xbU) ||
-
+    (*(int(*)())0x0601A3F4)(idx & 0xffff, layer_id);
+    if ((((unsigned int)*(unsigned short *)((idx << 3) + *slot_table + 6) != sentinel + 0xbU) ||
         (*(int *)0x06061198 == '\x04')) || (*(int *)0x06061198 == '\x05')) {
-
-      iVar7 = (uVar11 << 3);
-
-      if ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) == iVar6 + 0xbU) {
-
-        uVar4 = 9;
-
+      slot_offset = (idx << 3);
+      if ((unsigned int)*(unsigned short *)(*slot_table + slot_offset + 6) == sentinel + 0xbU) {
+        tex_priority = 9;
+      } else {
+        tex_priority = 8;
       }
-
-      else {
-
-        uVar4 = 8;
-
-      }
-
-      piVar5 = (int *)(0x06058FBC + iVar7);
-
-      (*(int(*)())puVar3)(piVar5[1] << 2,*(int *)(puVar2 + (*piVar5 << 3)),
-
-                        ((unsigned int)(unsigned char)((char *)(0x0605904C + (uVar11 << 1)))[1] * 0x40 +
-
-                        (unsigned int)(unsigned char)((int *)0x0605904C)[(uVar11 << 1)]) << 1,
-
-                        0x00008000 + *(int *)((int)(puVar2 + (*piVar5 << 3)) + 4));
-
-      (*(int(*)())puVar3)(piVar5[1] << 2,
-
-                        *(int *)(puVar2 + ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3)),
-
-                        ((unsigned int)(unsigned char)((char *)(0x06059060 + (uVar11 << 1)))[1] * 0x40 +
-
-                        (unsigned int)(unsigned char)((int *)0x06059060)[(uVar11 << 1)]) << 1,
-
-                        (unsigned int)(uVar4 << 12) +
-
-                        *(int *)((int)(puVar2 + ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3)) + 4));
-
+      slot_desc = (int *)(0x06058FBC + slot_offset);
+      /* primary texture from LUT at 0x0605904C */
+      (*(int(*)())vdp_draw)(slot_desc[1] << 2, *(int *)(sprite_base + (*slot_desc << 3)),
+                        ((unsigned int)(unsigned char)((char *)(0x0605904C + (idx << 1)))[1] * 0x40 +
+                        (unsigned int)(unsigned char)((int *)0x0605904C)[(idx << 1)]) << 1,
+                        0x00008000 + *(int *)((int)(sprite_base + (*slot_desc << 3)) + 4));
+      /* secondary texture from LUT at 0x06059060 */
+      (*(int(*)())vdp_draw)(slot_desc[1] << 2,
+                        *(int *)(sprite_base + ((unsigned int)*(unsigned short *)(*slot_table + slot_offset + 6) << 3)),
+                        ((unsigned int)(unsigned char)((char *)(0x06059060 + (idx << 1)))[1] * 0x40 +
+                        (unsigned int)(unsigned char)((int *)0x06059060)[(idx << 1)]) << 1,
+                        (unsigned int)(tex_priority << 12) +
+                        *(int *)((int)(sprite_base + ((unsigned int)*(unsigned short *)(*slot_table + slot_offset + 6) << 3)) + 4));
     }
-
-    uVar11 = uVar11 + 1;
-
-  } while ((int)uVar11 < 10);
-
+    idx = idx + 1;
+  } while ((int)idx < 10);
   return;
-
 }
 
+/* scene_sprite_render_b -- Render scene sprite layer B (8 slots).
+ * Same structure as scene_sprite_render_a but processes 8 slots instead of 10.
+ * Uses texture LUTs at 0x06059074 (primary) and 0x06059084 (secondary).
+ * Sprite descriptors at 0x0605900C, slot table at 0x06061184.
+ * Sentinel value 0xB4 (0xa8 + 0xc). */
 void FUN_06025478(param_1)
     int param_1;
 {
-
-  short sVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  int *piVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int *piVar8;
-
-  int iVar9;
-
-  int *puVar10;
-
-  unsigned int uVar11;
-
-  puVar3 = (char *)0x06028400;
-
-  puVar2 = (char *)0x06063750;
-
-  sVar1 = DAT_060254de;
-
-  iVar6 = 0xa8;
-
-  iVar9 = 0xc08;
-
-  iVar7 = 0x590;
-
+  short layer_id = DAT_060254de;
+  unsigned short tex_priority;
+  int *slot_desc;
+  int slot_offset;
+  int *slot_table;
+  int *vdp_pair;
+  unsigned int idx;
+  int sentinel = 0xa8;
+  char *vdp_draw = (char *)0x06028400;       /* VDP1 textured draw */
+  char *sprite_base = (char *)0x06063750;     /* sprite position table */
+  /* render mode dispatch — background/frame sprite */
   if (*(int *)0x06061198 == '\x04') {
-
-    (*(int(*)())0x060284AE)(8,iVar9,0x90,0x060590B8);
-
-    (*(int(*)())puVar3)(8,*(int *)(puVar2 + iVar7),(int)DAT_060254e6,
-
-                      *(int *)((int)(puVar2 + iVar7) + 4));
-
-  }
-
-  else {
-
+    (*(int(*)())0x060284AE)(8, 0xc08, 0x90, 0x060590B8);
+    (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + 0x590), (int)DAT_060254e6,
+                      *(int *)((int)(sprite_base + 0x590) + 4));
+  } else {
     if (*(int *)0x06061198 == '\x05') {
-
-      (*(int(*)())0x060284AE)(8,iVar9,0x90,0x060590E0);
-
+      (*(int(*)())0x060284AE)(8, 0xc08, 0x90, 0x060590E0);
+    } else {
+      (*(int(*)())0x060284AE)(8, 0xc08, 0x90, 0x06059104);
     }
-
-    else {
-
-      (*(int(*)())0x060284AE)(8,iVar9,0x90,0x06059104);
-
-    }
-
-    puVar10 = (int *)(puVar2 + iVar7);
-
-    (*(int(*)())puVar3)(8,*puVar10,(int)DAT_060255ce,puVar10[1]);
-
-    (*(int(*)())puVar3)(8,*puVar10,(int)DAT_060255d0,puVar10[1]);
-
+    vdp_pair = (int *)(sprite_base + 0x590);
+    (*(int(*)())vdp_draw)(8, *vdp_pair, (int)DAT_060255ce, vdp_pair[1]);
+    (*(int(*)())vdp_draw)(8, *vdp_pair, (int)DAT_060255d0, vdp_pair[1]);
   }
-
-  (*(int(*)())0x060284AE)(8,(int)DAT_060255d2,0x90,0x06058F94 + (param_1 << 3));
-
-  (*(int(*)())puVar3)(8,*(int *)(puVar2 + DAT_060255d4),0x10,
-
-                    *(int *)((int)(puVar2 + DAT_060255d4) + 4) + (int)DAT_060255d6);
-
-  (*(int(*)())puVar3)(8,*(int *)(puVar2 + DAT_060255d8),0x2a0,
-
-                    *(int *)((int)(puVar2 + DAT_060255d8) + 4) + (int)DAT_060255da);
-
-  (*(int(*)())puVar3)(8,*(int *)(puVar2 + DAT_060255de),(int)PTR_DAT_060255e0,
-
-                    *(int *)((int)(puVar2 + DAT_060255de) + 4) + (int)DAT_060255da);
-
-  uVar11 = 0;
-
-  piVar8 = (int *)(0x06061184 + (param_1 << 2));
-
+  /* render selection cursor and fixed overlay sprites */
+  (*(int(*)())0x060284AE)(8, (int)DAT_060255d2, 0x90, 0x06058F94 + (param_1 << 3));
+  (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + DAT_060255d4), 0x10,
+                    *(int *)((int)(sprite_base + DAT_060255d4) + 4) + (int)DAT_060255d6);
+  (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + DAT_060255d8), 0x2a0,
+                    *(int *)((int)(sprite_base + DAT_060255d8) + 4) + (int)DAT_060255da);
+  (*(int(*)())vdp_draw)(8, *(int *)(sprite_base + DAT_060255de), (int)PTR_DAT_060255e0,
+                    *(int *)((int)(sprite_base + DAT_060255de) + 4) + (int)DAT_060255da);
+  /* iterate 8 texture/sprite slot pairs */
+  idx = 0;
+  slot_table = (int *)(0x06061184 + (param_1 << 2));
   do {
-
-    (*(int(*)())0x0601A3F4)(uVar11 & 0xffff,sVar1);
-
-    if ((((unsigned int)*(unsigned short *)((uVar11 << 3) + *piVar8 + 6) != iVar6 + 0xcU) ||
-
+    (*(int(*)())0x0601A3F4)(idx & 0xffff, layer_id);
+    if ((((unsigned int)*(unsigned short *)((idx << 3) + *slot_table + 6) != sentinel + 0xcU) ||
         (*(int *)0x06061198 == '\x04')) || (*(int *)0x06061198 == '\x05')) {
-
-      iVar7 = (uVar11 << 3);
-
-      if ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) == iVar6 + 0xcU) {
-
-        uVar4 = 9;
-
+      slot_offset = (idx << 3);
+      if ((unsigned int)*(unsigned short *)(*slot_table + slot_offset + 6) == sentinel + 0xcU) {
+        tex_priority = 9;
+      } else {
+        tex_priority = 8;
       }
-
-      else {
-
-        uVar4 = 8;
-
-      }
-
-      piVar5 = (int *)(0x0605900C + iVar7);
-
-      (*(int(*)())puVar3)(piVar5[1] << 2,*(int *)(puVar2 + (*piVar5 << 3)),
-
-                        ((unsigned int)(unsigned char)((char *)(0x06059074 + (uVar11 << 1)))[1] * 0x40 +
-
-                        (unsigned int)(unsigned char)((int *)0x06059074)[(uVar11 << 1)]) << 1,
-
-                        0x00008000 + *(int *)((int)(puVar2 + (*piVar5 << 3)) + 4));
-
-      (*(int(*)())puVar3)(piVar5[1] << 2,
-
-                        *(int *)(puVar2 + ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3)),
-
-                        ((unsigned int)(unsigned char)((char *)(0x06059084 + (uVar11 << 1)))[1] * 0x40 +
-
-                        (unsigned int)(unsigned char)((int *)0x06059084)[(uVar11 << 1)]) << 1,
-
-                        (unsigned int)(uVar4 << 12) +
-
-                        *(int *)((int)(puVar2 + ((unsigned int)*(unsigned short *)(*piVar8 + iVar7 + 6) << 3)) + 4));
-
+      slot_desc = (int *)(0x0605900C + slot_offset);
+      /* primary texture from LUT at 0x06059074 */
+      (*(int(*)())vdp_draw)(slot_desc[1] << 2, *(int *)(sprite_base + (*slot_desc << 3)),
+                        ((unsigned int)(unsigned char)((char *)(0x06059074 + (idx << 1)))[1] * 0x40 +
+                        (unsigned int)(unsigned char)((int *)0x06059074)[(idx << 1)]) << 1,
+                        0x00008000 + *(int *)((int)(sprite_base + (*slot_desc << 3)) + 4));
+      /* secondary texture from LUT at 0x06059084 */
+      (*(int(*)())vdp_draw)(slot_desc[1] << 2,
+                        *(int *)(sprite_base + ((unsigned int)*(unsigned short *)(*slot_table + slot_offset + 6) << 3)),
+                        ((unsigned int)(unsigned char)((char *)(0x06059084 + (idx << 1)))[1] * 0x40 +
+                        (unsigned int)(unsigned char)((int *)0x06059084)[(idx << 1)]) << 1,
+                        (unsigned int)(tex_priority << 12) +
+                        *(int *)((int)(sprite_base + ((unsigned int)*(unsigned short *)(*slot_table + slot_offset + 6) << 3)) + 4));
     }
-
-    uVar11 = uVar11 + 1;
-
-  } while ((int)uVar11 < 8);
-
+    idx = idx + 1;
+  } while ((int)idx < 8);
   return;
-
 }
 
 void FUN_060256cc()

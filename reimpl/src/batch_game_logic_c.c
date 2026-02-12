@@ -1294,105 +1294,56 @@ void FUN_0600f870(void)
     }
 }
 
+/* countdown_overlay_render -- Render race countdown number sprites.
+ * Calls FUN_060100a4 three times (layers 0-2), then renders the
+ * countdown digit sprite when phase < 5 or == 9.
+ * Phase 9 (GO!) uses priority 0xC; phases 0-4 use priority 8.
+ * Mirror mode (0x06078663 != 0) uses alternate sprite set at 0x0605AB19
+ * and increments position offset up to 0xC. Normal mode decrements. */
 unsigned int FUN_0600ffd0()
 {
-
-  short sVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  unsigned int uVar6;
-
-  puVar3 = (char *)0x0607887F;
-
-  puVar2 = (char *)0x060284AE;
-
-  iVar5 = 0x90;
-
-  uVar6 = 0;
-
+  short sprite_id;
+  int priority;
+  unsigned int result;
+  char *phase = (char *)0x0607887F;           /* countdown phase (0-9) */
+  unsigned int idx = 0;
+  /* render 3 overlay layers */
   do {
-
-    FUN_060100a4(uVar6);
-
-    uVar6 = uVar6 + 1;
-
-  } while ((uVar6 & 0xff) < 3);
-
+    FUN_060100a4(idx);
+    idx = idx + 1;
+  } while ((idx & 0xff) < 3);
   if (*(int *)0x06078663 == '\0') {
-
+    /* normal mode */
     if (*(int *)0x0605AA98 != 0) {
-
-      *(int *)0x0605AA98 = *(int *)0x0605AA98 + -1;
-
+      *(int *)0x0605AA98 = *(int *)0x0605AA98 + -1;  /* decrement position offset */
     }
-
-    uVar6 = (unsigned int)(unsigned char)*puVar3;
-
-    if ((uVar6 < 5) || (uVar6 == 9)) {
-
-      if (*puVar3 == '\t') {
-
-        uVar4 = 0xc;
-
-        sVar1 = DAT_06010044;
-
+    result = (unsigned int)(unsigned char)*phase;
+    if ((result < 5) || (result == 9)) {
+      if (*phase == '\t') {
+        priority = 0xc;                     /* GO! gets high priority */
+        sprite_id = DAT_06010044;
+      } else {
+        priority = 8;
+        sprite_id = DAT_06010046;
       }
-
-      else {
-
-        uVar4 = 8;
-
-        sVar1 = DAT_06010046;
-
-      }
-
-      uVar6 = (*(int(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605ACE4);
-
+      result = (*(int(*)())0x060284AE)(priority, (int)sprite_id, 0x90, 0x0605ACE4);
     }
-
-  }
-
-  else {
-
+  } else {
+    /* mirror mode */
     if (*(int *)0x0605AA98 != 0xc) {
-
-      *(int *)0x0605AA98 = *(int *)0x0605AA98 + 1;
-
+      *(int *)0x0605AA98 = *(int *)0x0605AA98 + 1;  /* increment position offset */
     }
-
-    uVar6 = (unsigned int)(unsigned char)*puVar3;
-
-    if ((uVar6 < 5) || (uVar6 == 9)) {
-
-      if (*puVar3 == '\t') {
-
-        uVar4 = 0xc;
-
-        sVar1 = DAT_060100f2;
-
+    result = (unsigned int)(unsigned char)*phase;
+    if ((result < 5) || (result == 9)) {
+      if (*phase == '\t') {
+        priority = 0xc;
+        sprite_id = DAT_060100f2;
+      } else {
+        priority = 8;
+        sprite_id = DAT_060100f4;
       }
-
-      else {
-
-        uVar4 = 8;
-
-        sVar1 = DAT_060100f4;
-
-      }
-
-      uVar6 = (*(int(*)())puVar2)(uVar4,(int)sVar1,iVar5,0x0605AB19);
-
+      result = (*(int(*)())0x060284AE)(priority, (int)sprite_id, 0x90, 0x0605AB19);
     }
-
   }
-
-  return uVar6;
-
+  return result;
 }
