@@ -567,161 +567,107 @@ void FUN_0601b0d8(void)
     } while (count < 5);
 }
 
+/* menu_scene_init -- Initialize menu/selection screen.
+ * Registers 3 sprite characters, configures sprite table entries,
+ * DMA copies sprite data and palettes, sets up VDP2 scroll planes,
+ * disables input during transition, clears menu state variables. */
 void FUN_0601b160()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  int iVar10;
-
+  char *sprite_src;
+  char *render_flush;
+  char *render_flags;
+  int sprite_id_a;
+  int sprite_data_offset_b;
+  int sprite_data_offset_c;
+  int sprite_id_c;
+  int sprite_id_a_val;
+  int sprite_id_b;
+  int char_height;
+  char *vdp_char_register;   /* 0x06007658 */
+  char *sprite_table_entry;  /* 0x06007540 */
+  char *vdp2_reg_config;     /* 0x06038BD4 */
   *(int *)0x0606A4F4 = 0;
-
   *(int *)0x0606A4EC = (int)DAT_0601b246;
-
+  /* Initialize render subsystem */
   (*(int(*)())0x06039250)(0x06063F5C);
-
   (*(int(*)())0x060393FC)(0,0,0,(int)DAT_0601b24a,(int)DAT_0601b248);
-
   VDP1_CMD_BASE_PTR = 0;
-
   **(short **)0x06063F5C = (short)0x00008000;
-
   (*(int(*)())0x06012E00)();
-
-  puVar1 = (char *)0x002A0000;
-
+  /* DMA copy sprite data from CD buffer (0x002A0000) to VRAM */
+  sprite_src = (char *)0x002A0000;
   (*(int(*)())0x0602761E)(*(int *)(0x06059FFC << 3) + *(int *)0x06063F5C,0x002A0000,
-
              0x640);
-
-  puVar2 = (char *)0x06007658;
-
-  iVar8 = 0x101;
-
-  iVar10 = 0xb40;
-
-  iVar4 = 0x4b46;
-
-  (*(int(*)())0x06007658)(iVar8,iVar10,0x78);
-
-  iVar9 = (int)DAT_0601b254;
-
-  iVar5 = (int)DAT_0601b256;
-
-  (*(int(*)())puVar2)(iVar9,iVar10,0x7c);
-
-  iVar7 = 0x103;
-
-  iVar6 = (int)DAT_0601b25a;
-
-  (*(int(*)())puVar2)(iVar7,iVar10,0x80);
-
-  puVar3 = (char *)0x06007540;
-
-  (*(int(*)())0x06007540)((int)DAT_0601b260,iVar8,(int)DAT_0601b25e);
-
-  (*(int(*)())puVar3)(DAT_0601b262 + 0x7d,iVar9);
-
-  (*(int(*)())puVar3)(PTR_DAT_0601b264 + 0x7a,iVar7);
-
-  (*(int(*)())puVar2)(iVar8,iVar10,0x78,puVar1 + iVar4);
-
-  (*(int(*)())puVar2)(iVar9,iVar10,0x7c,puVar1 + iVar5);
-
-  (*(int(*)())puVar2)(iVar7,iVar10,0x80,puVar1 + iVar6);
-
-  (*(int(*)())puVar3)((int)DAT_0601b260,iVar8,(int)DAT_0601b25e);
-
-  (*(int(*)())puVar3)(DAT_0601b262 + 0x7d,iVar9);
-
-  (*(int(*)())puVar3)(DAT_0601b38a + 0x7a,iVar7);
-
-  (*(int(*)())puVar2)(iVar8,iVar10,0x78,puVar1 + iVar4);
-
-  (*(int(*)())puVar2)(iVar9,iVar10,0x7c,puVar1 + iVar5);
-
-  (*(int(*)())puVar2)(iVar7,iVar10,(int)DAT_0601b38c,puVar1 + iVar6);
-
-  (*(int(*)())puVar3)((int)DAT_0601b390,iVar8,(int)DAT_0601b38e);
-
-  (*(int(*)())puVar3)(DAT_0601b392 + 0x7d,iVar9);
-
-  (*(int(*)())puVar3)(DAT_0601b38a + 0x7a,iVar7);
-
+  /* Register 3 sprite characters with vdp1_char_register */
+  vdp_char_register = (char *)0x06007658;
+  sprite_id_a_val = 0x101;
+  char_height = 0xb40;
+  sprite_data_offset_b = 0x4b46;
+  (*(int(*)())0x06007658)(sprite_id_a_val,char_height,0x78);
+  sprite_id_b = (int)DAT_0601b254;
+  sprite_data_offset_c = (int)DAT_0601b256;
+  (*(int(*)())vdp_char_register)(sprite_id_b,char_height,0x7c);
+  sprite_id_c = 0x103;
+  sprite_id_a = (int)DAT_0601b25a;
+  (*(int(*)())vdp_char_register)(sprite_id_c,char_height,0x80);
+  /* Configure sprite table entries (pass 1) */
+  sprite_table_entry = (char *)0x06007540;
+  (*(int(*)())0x06007540)((int)DAT_0601b260,sprite_id_a_val,(int)DAT_0601b25e);
+  (*(int(*)())sprite_table_entry)(DAT_0601b262 + 0x7d,sprite_id_b);
+  (*(int(*)())sprite_table_entry)(PTR_DAT_0601b264 + 0x7a,sprite_id_c);
+  /* Upload sprite character data (pass 1) */
+  (*(int(*)())vdp_char_register)(sprite_id_a_val,char_height,0x78,sprite_src + sprite_data_offset_b);
+  (*(int(*)())vdp_char_register)(sprite_id_b,char_height,0x7c,sprite_src + sprite_data_offset_c);
+  (*(int(*)())vdp_char_register)(sprite_id_c,char_height,0x80,sprite_src + sprite_id_a);
+  /* Configure sprite table entries (pass 2) */
+  (*(int(*)())sprite_table_entry)((int)DAT_0601b260,sprite_id_a_val,(int)DAT_0601b25e);
+  (*(int(*)())sprite_table_entry)(DAT_0601b262 + 0x7d,sprite_id_b);
+  (*(int(*)())sprite_table_entry)(DAT_0601b38a + 0x7a,sprite_id_c);
+  /* Upload sprite character data (pass 2) */
+  (*(int(*)())vdp_char_register)(sprite_id_a_val,char_height,0x78,sprite_src + sprite_data_offset_b);
+  (*(int(*)())vdp_char_register)(sprite_id_b,char_height,0x7c,sprite_src + sprite_data_offset_c);
+  (*(int(*)())vdp_char_register)(sprite_id_c,char_height,(int)DAT_0601b38c,sprite_src + sprite_id_a);
+  /* Configure sprite table entries (pass 3) */
+  (*(int(*)())sprite_table_entry)((int)DAT_0601b390,sprite_id_a_val,(int)DAT_0601b38e);
+  (*(int(*)())sprite_table_entry)(DAT_0601b392 + 0x7d,sprite_id_b);
+  (*(int(*)())sprite_table_entry)(DAT_0601b38a + 0x7a,sprite_id_c);
   *(short *)0x0605AAA0 = 0;
-
-  puVar2 = (char *)0x06026CE0;
-
-  puVar1 = (char *)0x0605B6D8;
-
+  render_flush = (char *)0x06026CE0;
+  render_flags = (char *)0x0605B6D8;
+  /* Disable input during scene transition */
   INPUT_STATE = INPUT_STATE | 0x80000000;
-
-  (*(int(*)())puVar2)();
-
+  /* Flush render pipeline twice */
+  (*(int(*)())render_flush)();
   (*(int(*)())0x06026CE0)();
-
-  (*(int(*)())0x0602766C)(0x25F00540,0x0604842C,0x40);
-
-  (*(int(*)())0x0602766C)(0x25F001A0,0x060487EC,0x20);
-
+  /* DMA copy palettes to VDP2 color RAM */
+  (*(int(*)())0x0602766C)(0x25F00540,0x0604842C,0x40);  /* palette A → CRAM 0x540 */
+  (*(int(*)())0x0602766C)(0x25F001A0,0x060487EC,0x20);  /* palette B → CRAM 0x1A0 */
+  /* Load VDP2 scroll plane data */
   (*(int(*)())0x0600511E)(0x25E6F9C4,0x00017700,0,9);
-
-  puVar2 = (char *)0x06094FA8;
-
-  (*(int(*)())0x06028654)(0x25E75DDC);
-
-  (*(int(*)())0x06028400)(4,puVar2,0,0x0000B000);
-
+  render_flush = (char *)0x06094FA8;
+  (*(int(*)())0x06028654)(0x25E75DDC);                   /* VDP2 pattern name table */
+  (*(int(*)())0x06028400)(4,render_flush,0,0x0000B000);  /* VDP1 command table flush */
+  /* Flush scroll plane display (layers 0x10 and 0x20) */
   (*(int(*)())0x06014884)(0x10,0,0);
-
   (*(int(*)())0x06014884)(0x20,0,0);
-
-  puVar2 = (char *)0x06038BD4;
-
+  /* Configure VDP2 registers: scroll priorities and display enables */
+  vdp2_reg_config = (char *)0x06038BD4;
   (*(int(*)())0x06038BD4)((int)PTR_DAT_0601b394,7);
-
-  (*(int(*)())puVar2)(4,0);
-
-  (*(int(*)())puVar2)(8,1);
-
-  (*(int(*)())puVar2)(0x10,6);
-
-  (*(int(*)())puVar2)(0x20,5);
-
-  (*(int(*)())puVar2)(1,0);
-
-  (*(int(*)())0x0602853E)(0xc);
-
-  (*(int(*)())0x06028560)();
-
-  *(unsigned int *)puVar1 = *(unsigned int *)puVar1 | 0x40000000;
-
-  *(int *)0x0608600D = 0;
-
-  *(int *)0x0608600C = 0;
-
-  *(int *)0x0608600E = 0;
-
+  (*(int(*)())vdp2_reg_config)(4,0);     /* NBG0 priority */
+  (*(int(*)())vdp2_reg_config)(8,1);     /* NBG1 priority */
+  (*(int(*)())vdp2_reg_config)(0x10,6);  /* NBG2 priority */
+  (*(int(*)())vdp2_reg_config)(0x20,5);  /* NBG3 priority */
+  (*(int(*)())vdp2_reg_config)(1,0);     /* RBG0 priority */
+  (*(int(*)())0x0602853E)(0xc);          /* VDP1 command count */
+  (*(int(*)())0x06028560)();             /* VDP1 command flush */
+  /* Set render flags and clear menu state */
+  *(unsigned int *)render_flags = *(unsigned int *)render_flags | 0x40000000;
+  *(int *)0x0608600D = 0;   /* menu mode index */
+  *(int *)0x0608600C = 0;   /* menu state */
+  *(int *)0x0608600E = 0;   /* menu sub-state */
+  /* Send CD command (mode 4, params 4, 0xF) */
   (*(int(*)())0x06018DDC)(4,4,0xf);
-
   return;
-
 }
 
 /* menu_frame_update -- Per-frame menu/select screen update.
@@ -926,154 +872,93 @@ void select_confirm_display(param_1, param_2, param_3)
   return;
 }
 
+/* leaderboard_table_render -- Render 5-entry leaderboard table.
+ * Each 12-byte entry: name(bytes 0-?), time(+4), hour(+8), star(+9), flag(+10).
+ * Displays position number, name, formatted time, AM/PM clock indicator,
+ * speed unit flag (mph/kmh), and star marker for special entries. */
 int FUN_0601bbcc(param_1, param_2, param_3)
     int param_1;
     char param_2;
     unsigned int param_3;
 {
-
-  char cVar1;
-
-  int bVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  int iVar8;
-
-  int uVar9;
-
-  int *puVar10;
-
-  int iVar11;
-
-  char *pcVar12;
-
-  unsigned char bVar13;
-
-  unsigned int uVar14;
-
-  unsigned int local_44;
-
-  char auStack_24 [8];
-
-  puVar4 = (char *)0x060284AE;
-
-  puVar3 = (char *)0x06028400;
-
-  iVar11 = (int)DAT_0601bcba;
-
-  iVar8 = (*(int(*)())0x06035228)();
-
-  puVar7 = (char *)0x06063920;
-
-  puVar6 = (char *)0x06063D08;
-
-  puVar5 = (int *)0x06063918;
-
-  for (uVar14 = (unsigned int)param_2; (int)(uVar14 & 0xffff) < param_2 + 5; uVar14 = uVar14 + 1) {
-
-    local_44 = (param_3 & 0xffff) << 6;
-
-    (*(int(*)())puVar4)(8,(local_44 + 2) << 1,0x60,
-
-                      *(int *)(0x0605DE64 + (uVar14 & 0xffff) << 2));
-
-    pcVar12 = (char *)((uVar14 & 0xffff) * 0xc + param_1);
-
-    (*(int(*)())puVar4)(8,(local_44 + 9) << 1,0x60,auStack_24);
-
-    if (*pcVar12 != '\0') {
-
-      (*(int(*)())puVar4)(8,((param_3 & 0xffff) << 6 + 9) << 1,0x60,pcVar12);
-
+  char star_flag;
+  int is_pm;
+  char *vdp_render_num;
+  char *vdp_render_sprite;
+  char *mph_data;
+  char *kmh_data;
+  char *star_sprite;
+  int temp;
+  int time_display;
+  int *unit_ptr;
+  int y_offset;
+  char *entry_ptr;
+  unsigned char hour;
+  unsigned int row_idx;
+  unsigned int row_offset;
+  char temp_buf [8];
+  vdp_render_sprite = (char *)0x060284AE;
+  vdp_render_num = (char *)0x06028400;
+  y_offset = (int)DAT_0601bcba;
+  temp = (*(int(*)())0x06035228)();
+  star_sprite = (char *)0x06063920;
+  kmh_data = (char *)0x06063D08;
+  mph_data = (int *)0x06063918;
+  for (row_idx = (unsigned int)param_2; (int)(row_idx & 0xffff) < param_2 + 5; row_idx = row_idx + 1) {
+    row_offset = (param_3 & 0xffff) << 6;
+    /* Position number */
+    (*(int(*)())vdp_render_sprite)(8,(row_offset + 2) << 1,0x60,
+                      *(int *)(0x0605DE64 + (row_idx & 0xffff) << 2));
+    entry_ptr = (char *)((row_idx & 0xffff) * 0xc + param_1);
+    /* Name string (clear then draw) */
+    (*(int(*)())vdp_render_sprite)(8,(row_offset + 9) << 1,0x60,temp_buf);
+    if (*entry_ptr != '\0') {
+      (*(int(*)())vdp_render_sprite)(8,((param_3 & 0xffff) << 6 + 9) << 1,0x60,entry_ptr);
     }
-
-    iVar8 = (uVar14 & 0xffff) * 0xc + param_1;
-
-    uVar9 = (*(int(*)())0x06005DD4)(*(int *)(iVar8 + 4));
-
-    (*(int(*)())puVar4)(8,((param_3 & 0xffff) << 6 + 0x10) << 1,0x78,uVar9);
-
-    bVar13 = *(unsigned char *)(iVar8 + 8);
-
-    bVar2 = 0xb < bVar13;
-
-    if (bVar2) {
-
-      bVar13 = bVar13 - 0xc;
-
+    /* Race time */
+    temp = (row_idx & 0xffff) * 0xc + param_1;
+    time_display = (*(int(*)())0x06005DD4)(*(int *)(temp + 4));
+    (*(int(*)())vdp_render_sprite)(8,((param_3 & 0xffff) << 6 + 0x10) << 1,0x78,time_display);
+    /* AM/PM clock indicator */
+    hour = *(unsigned char *)(temp + 8);
+    is_pm = 0xb < hour;
+    if (is_pm) {
+      hour = hour - 0xc;              /* convert to 12-hour */
     }
-
-    if (9 < bVar13) {
-
-      local_44 = 0x2000000;
-
+    if (9 < hour) {
+      row_offset = 0x2000000;         /* two-digit hour flag */
     }
-
-    iVar8 = (param_3 & 0xffff) << 6;
-
-    (*(int(*)())puVar3)(8,*(int *)
-
-                         (0x06063750 + ((local_44 >> 0x18) + (unsigned int)bVar2 + 0x3c) << 3),
-
-                      (iVar8 + 0x21) << 1,
-
-                      (unsigned int)(bVar13 << 12) +
-
+    temp = (param_3 & 0xffff) << 6;
+    (*(int(*)())vdp_render_num)(8,*(int *)
+                         (0x06063750 + ((row_offset >> 0x18) + (unsigned int)is_pm + 0x3c) << 3),
+                      (temp + 0x21) << 1,
+                      (unsigned int)(hour << 12) +
                       *(int *)((int)(0x06063750 +
-
-                                    ((local_44 >> 0x18) + (unsigned int)bVar2 + 0x3c) << 3) + 4));
-
-    (*(int(*)())puVar4)(0xc,(iVar8 + 0x25) << 1,0x60,0x0604A4B8);
-
-    if (*(char *)((uVar14 & 0xffff) * 0xc + param_1 + 10) != '\0') {
-
+                                    ((row_offset >> 0x18) + (unsigned int)is_pm + 0x3c) << 3) + 4));
+    /* Decorative separator */
+    (*(int(*)())vdp_render_sprite)(0xc,(temp + 0x25) << 1,0x60,0x0604A4B8);
+    /* Speed unit flag (mph/kmh) */
+    if (*(char *)((row_idx & 0xffff) * 0xc + param_1 + 10) != '\0') {
       if (*(int *)0x06078644 == 1) {
-
-        iVar8 = *(int *)(puVar5 + 4);
-
-        puVar10 = (int *)puVar5;
-
+        temp = *(int *)(mph_data + 4);
+        unit_ptr = (int *)mph_data;
       }
-
       else {
-
-        iVar8 = *(int *)(puVar6 + 4);
-
-        puVar10 = (int *)puVar6;
-
+        temp = *(int *)(kmh_data + 4);
+        unit_ptr = (int *)kmh_data;
       }
-
-      (*(int(*)())puVar3)(0xc,*puVar10,((param_3 & 0xffff) << 6 + 0x25) << 1,iVar8 + iVar11);
-
+      (*(int(*)())vdp_render_num)(0xc,*unit_ptr,((param_3 & 0xffff) << 6 + 0x25) << 1,temp + y_offset);
     }
-
-    cVar1 = *(char *)((uVar14 & 0xffff) * 0xc + param_1 + 9);
-
-    iVar8 = (int)cVar1;
-
-    if (cVar1 != '\0') {
-
-      iVar8 = (*(int(*)())puVar3)(0xc,*(int *)puVar7,((param_3 & 0xffff) << 6 + 0x28) << 1,
-
-                                0x00008000 + *(int *)(puVar7 + 4));
-
+    /* Star marker for special entries */
+    star_flag = *(char *)((row_idx & 0xffff) * 0xc + param_1 + 9);
+    temp = (int)star_flag;
+    if (star_flag != '\0') {
+      temp = (*(int(*)())vdp_render_num)(0xc,*(int *)star_sprite,((param_3 & 0xffff) << 6 + 0x28) << 1,
+                                0x00008000 + *(int *)(star_sprite + 4));
     }
-
     param_3 = param_3 + 3;
-
   }
-
-  return iVar8;
-
+  return temp;
 }
 
 /* car_heading_track_update -- Update heading tracking counters for target car.
