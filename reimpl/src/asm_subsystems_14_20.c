@@ -8678,8 +8678,44 @@ __asm__(
 );
 /* FUN_0601D478: moved to display_fade.c */
 /* FUN_0601D4A8: moved to display_fade.c */
-void sound_direct_write(void) { }
-void sound_chan_a_handler(void) { }
+__asm__(
+    ".balign 4\n"
+    ".short 0x0009\n"  /* alignment padding */
+    ".global _sound_direct_write\n"
+    ".type _sound_direct_write, @function\n"
+    ".global _FUN_0601D6B2\n"
+    "_sound_direct_write:\n"
+    "_FUN_0601D6B2:\n"
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0x7FFC\n"  /* add #-4,r15 */
+    ".word 0xB265\n"  /* bsr 0x0601DB84 */
+    ".word 0x2F42\n"  /* mov.l r4,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0xD303\n"  /* mov.l @(0xC,PC),r3  {[0x0601D6CC] = 0x25A02C20} */
+    ".word 0x2322\n"  /* mov.l r2,@r3 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0xD303\n"  /* mov.l @(0xC,PC),r3  {[0x0601D6D0] = 0x0608604C} */
+    ".word 0x7F04\n"  /* add #4,r15 */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x2322\n"  /* mov.l r2,@r3 */
+    ".word 0x25A0\n"  /* mov.b r10,@r5 */
+    ".word 0x2C20\n"  /* mov.b r2,@r12 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x604C\n"  /* extu.b r4,r0 */
+    ".size _sound_direct_write, .-_sound_direct_write\n"
+);
+__asm__(
+    ".balign 4\n"
+    ".global _sound_chan_a_handler\n"
+    ".type _sound_chan_a_handler, @function\n"
+    ".global _FUN_0601D6D4\n"
+    "_sound_chan_a_handler:\n"
+    "_FUN_0601D6D4:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x6E43\n"  /* mov r4,r14 */
+    ".size _sound_chan_a_handler, .-_sound_chan_a_handler\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0601D6D8\n"
@@ -8703,7 +8739,17 @@ __asm__(
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
     ".size _FUN_0601D6D8, .-_FUN_0601D6D8\n"
 );
-void sound_chan_b_handler(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _sound_chan_b_handler\n"
+    ".type _sound_chan_b_handler, @function\n"
+    ".global _FUN_0601D6F8\n"
+    "_sound_chan_b_handler:\n"
+    "_FUN_0601D6F8:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x6E43\n"  /* mov r4,r14 */
+    ".size _sound_chan_b_handler, .-_sound_chan_b_handler\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0601D6FC\n"
@@ -8735,7 +8781,17 @@ __asm__(
     ".word 0xDF98\n"  /* mov.l @(0x260,PC),r15  {[0x0601D98C] = 0xAE1121FF} */
     ".size _FUN_0601D6FC, .-_FUN_0601D6FC\n"
 );
-void sound_chan_c_handler(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _sound_chan_c_handler\n"
+    ".type _sound_chan_c_handler, @function\n"
+    ".global _FUN_0601D72C\n"
+    "_sound_chan_c_handler:\n"
+    "_FUN_0601D72C:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x6E43\n"  /* mov r4,r14 */
+    ".size _sound_chan_c_handler, .-_sound_chan_c_handler\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0601D730\n"
@@ -8786,7 +8842,17 @@ __asm__(
     ".word 0x2C20\n"  /* mov.b r2,@r12 */
     ".size _FUN_0601D750, .-_FUN_0601D750\n"
 );
-void sound_direct_pass(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _sound_direct_pass\n"
+    ".type _sound_direct_pass, @function\n"
+    ".global _FUN_0601D778\n"
+    "_sound_direct_pass:\n"
+    "_FUN_0601D778:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x6E43\n"  /* mov r4,r14 */
+    ".size _sound_direct_pass, .-_sound_direct_pass\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0601D77C\n"
@@ -8810,7 +8876,17 @@ __asm__(
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
     ".size _FUN_0601D77C, .-_FUN_0601D77C\n"
 );
-void sound_chan_d_handler(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _sound_chan_d_handler\n"
+    ".type _sound_chan_d_handler, @function\n"
+    ".global _FUN_0601D79C\n"
+    "_sound_chan_d_handler:\n"
+    "_FUN_0601D79C:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x6E43\n"  /* mov r4,r14 */
+    ".size _sound_chan_d_handler, .-_sound_chan_d_handler\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0601D7A0\n"

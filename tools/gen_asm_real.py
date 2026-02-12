@@ -22,6 +22,63 @@ APROG_S = os.path.join(PROJ, "build", "aprog.s")
 SRC_DIR = os.path.join(PROJ, "reimpl", "src")
 BASE_ADDR = 0x06003000
 
+# Manually resolved name→FUN_ mappings for named stubs without alias declarations
+NAME_TO_FUN = {
+    # asm_game_logic.c
+    'camera_car_transform_setup': 'FUN_0600ADD4',
+    'course_specific_renderer':   'FUN_0600B1A0',
+    'camera_position_lerping':    'FUN_0600B4D2',
+    'race_state_machine':         'FUN_0600C010',
+    'race_utility_calc':          'FUN_0600C170',
+    'vehicle_state_physics':      'FUN_0600D41C',
+    # 'finish_line_display' — already in checkpoint_continue.c
+    # asm_rendering.c
+    'object_list_iterator':       'FUN_060204B4',
+    'object_visibility_test':     'FUN_0602052C',
+    'object_render_list_builder': 'FUN_06022820',
+    'object_render_processor':    'FUN_06022AE0',
+    'render_batch_processor':     'FUN_0602304C',
+    'projection_manager':         'FUN_06023290',
+    'spring_damper_physics':      'FUN_060276CC',
+    'scene_graph_walker':         'FUN_0602B9EC',
+    'vdp1_texture_setup':         'FUN_0602C884',
+    'vdp1_attribute_setup':       'FUN_0602CCEC',
+    'per_frame_command_reset':    'FUN_0602DB22',
+    'per_car_render_pipeline':    'FUN_0602EEB8',
+    # asm_scene_cd_obj.c
+    # 'car_collision_response' — already in collision.c
+    'collision_helper_first_car':   'FUN_06031700',
+    'collision_helper_second_car':  'FUN_06031898',
+    'vdp2_secondary_config':        'FUN_0603836C',
+    'vdp1_display_list_cmd':        'FUN_06038F78',
+    'vdp1_vblank_cmd':              'FUN_06039050',
+    'scu_dma_runtime':              'FUN_0603FE80',
+    # asm_state_handlers.c
+    'state_28_abort_processing':     'FUN_06009508',
+    'state_29_post_race_menu':       'FUN_0600955E',
+    'state_18_time_extension_setup': 'FUN_060096DC',
+    'state_19_time_extension':       'FUN_06009788',
+    'state_20_race_completion':      'FUN_06009A60',
+    'state_24_post_race_init':       'FUN_06009CFC',
+    'state_25_post_race_display':    'FUN_06009D4E',
+    # asm_subsystems_14_20.c
+    'sound_direct_write':   'FUN_0601D6B2',
+    'sound_chan_a_handler':  'FUN_0601D6D4',
+    'sound_chan_b_handler':  'FUN_0601D6F8',
+    'sound_chan_c_handler':  'FUN_0601D72C',
+    'sound_direct_pass':    'FUN_0601D778',
+    'sound_chan_d_handler':  'FUN_0601D79C',
+    # asm_system_low.c
+    'vdp2_data_transfer_course0': 'FUN_06003466',
+    'vdp2_data_transfer_course1': 'FUN_060034D4',
+    'vdp2_data_transfer_course2': 'FUN_06003508',
+    'obj_position_update':        'FUN_06004F28',
+    'obj_coord_setter':           'FUN_0600508C',
+    'hw_render_dispatcher':       'FUN_06005120',
+    'obj_state_writer':           'FUN_06005494',
+    'vdp_mode_setup_disp':        'FUN_0600579C',
+}
+
 BYTE_RE = re.compile(
     r'\s+\.byte\s+0x([0-9a-fA-F]{2}),\s*0x([0-9a-fA-F]{2})'
     r'(?:\s*/\*\s*(.*?)\s*\*/)?'
@@ -247,6 +304,8 @@ def process_file(filepath, fname, func_data, label_addrs, dry_run=False):
         fun_key = None
         if func_name.upper().startswith('FUN_') and len(func_name) >= 12:
             fun_key = func_name.upper()
+        elif func_name in NAME_TO_FUN:
+            fun_key = NAME_TO_FUN[func_name].upper()
         else:
             # Named function — find FUN_ via alias
             for line2 in lines:

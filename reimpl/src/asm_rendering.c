@@ -274,7 +274,29 @@ __asm__(
     ".word 0x8400\n"  /* mov.b @(0x0,r0),r0 */
     ".size _FUN_06020430, .-_FUN_06020430\n"
 );
-void object_list_iterator(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _object_list_iterator\n"
+    ".type _object_list_iterator, @function\n"
+    ".global _FUN_060204B4\n"
+    "_object_list_iterator:\n"
+    "_FUN_060204B4:\n"
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0x7FFC\n"  /* add #-4,r15 */
+    ".word 0xD316\n"  /* mov.l @(0x58,PC),r3  {[0x06020514] = 0x06028560} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x2F40\n"  /* mov.b r4,@r15 */
+    ".word 0xD316\n"  /* mov.l @(0x58,PC),r3  {[0x06020518] = 0x060032D4} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x64F0\n"  /* mov.b @r15,r4 */
+    ".word 0x644C\n"  /* extu.b r4,r4 */
+    ".word 0x7F04\n"  /* add #4,r15 */
+    ".word 0xA490\n"  /* bra 0x06020DEE */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0xE500\n"  /* mov #0,r5 */
+    ".size _object_list_iterator, .-_object_list_iterator\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_060204D0\n"
@@ -328,7 +350,255 @@ __asm__(
     ".word 0x0000\n"  /* .word 0x0000 */
     ".size _FUN_060204D0, .-_FUN_060204D0\n"
 );
-void object_visibility_test(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _object_visibility_test\n"
+    ".type _object_visibility_test, @function\n"
+    ".global _FUN_0602052C\n"
+    "_object_visibility_test:\n"
+    "_FUN_0602052C:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x6043\n"  /* mov r4,r0 */
+    ".word 0xE303\n"  /* mov #3,r3 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0x7FF8\n"  /* add #-8,r15 */
+    ".word 0x80F4\n"  /* mov.b r0,@(0x4,r15) */
+    ".word 0xD231\n"  /* mov.l @(0xC4,PC),r2  {[0x06020600] = 0x06087804} */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0xD331\n"  /* mov.l @(0xC4,PC),r3  {[0x06020604] = 0x06028560} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xD330\n"  /* mov.l @(0xC0,PC),r3  {[0x06020608] = 0x060032D4} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xD330\n"  /* mov.l @(0xC0,PC),r3  {[0x0602060C] = 0x0602853E} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0xE40C\n"  /* mov #12,r4 */
+    ".word 0xD32E\n"  /* mov.l @(0xB8,PC),r3  {[0x0602060C] = 0x0602853E} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0xE404\n"  /* mov #4,r4 */
+    ".word 0xDE2E\n"  /* mov.l @(0xB8,PC),r14  {[0x06020610] = 0x0602761E} */
+    ".word 0xD52E\n"  /* mov.l @(0xB8,PC),r5  {[0x06020614] = 0x0604898C} */
+    ".word 0xD42F\n"  /* mov.l @(0xBC,PC),r4  {[0x06020618] = 0x25F006E0} */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE620\n"  /* mov #32,r6 */
+    ".word 0xD52E\n"  /* mov.l @(0xB8,PC),r5  {[0x0602061C] = 0x060489AC} */
+    ".word 0xD42F\n"  /* mov.l @(0xBC,PC),r4  {[0x06020620] = 0x25F00300} */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE620\n"  /* mov #32,r6 */
+    ".word 0xE620\n"  /* mov #32,r6 */
+    ".word 0xD22E\n"  /* mov.l @(0xB8,PC),r2  {[0x06020624] = 0x060489CC} */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0xD42E\n"  /* mov.l @(0xB8,PC),r4  {[0x06020628] = 0x25F00400} */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0x6523\n"  /* mov r2,r5 */
+    ".word 0xE620\n"  /* mov #32,r6 */
+    ".word 0xD42D\n"  /* mov.l @(0xB4,PC),r4  {[0x0602062C] = 0x25F00060} */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0x65F2\n"  /* mov.l @r15,r5 */
+    ".word 0xDD2C\n"  /* mov.l @(0xB0,PC),r13  {[0x06020630] = 0x06063750} */
+    ".word 0xE600\n"  /* mov #0,r6 */
+    ".word 0xDE2C\n"  /* mov.l @(0xB0,PC),r14  {[0x06020634] = 0x06028400} */
+    ".word 0x9736\n"  /* mov.w @(0x6C,PC),r7 */
+    ".word 0x37DC\n"  /* add r13,r7 */
+    ".word 0x2F72\n"  /* mov.l r7,@r15 */
+    ".word 0x5771\n"  /* mov.l @(0x4,r7),r7 */
+    ".word 0xD32B\n"  /* mov.l @(0xAC,PC),r3  {[0x06020638] = 0x00008000} */
+    ".word 0x65F2\n"  /* mov.l @r15,r5 */
+    ".word 0x373C\n"  /* add r3,r7 */
+    ".word 0x6552\n"  /* mov.l @r5,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0x6463\n"  /* mov r6,r4 */
+    ".word 0x972D\n"  /* mov.w @(0x5A,PC),r7 */
+    ".word 0x37DC\n"  /* add r13,r7 */
+    ".word 0x2F72\n"  /* mov.l r7,@r15 */
+    ".word 0x5771\n"  /* mov.l @(0x4,r7),r7 */
+    ".word 0x962A\n"  /* mov.w @(0x54,PC),r6 */
+    ".word 0x65F2\n"  /* mov.l @r15,r5 */
+    ".word 0x6552\n"  /* mov.l @r5,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE404\n"  /* mov #4,r4 */
+    ".word 0x9726\n"  /* mov.w @(0x4C,PC),r7 */
+    ".word 0x37DC\n"  /* add r13,r7 */
+    ".word 0x2F72\n"  /* mov.l r7,@r15 */
+    ".word 0x5771\n"  /* mov.l @(0x4,r7),r7 */
+    ".word 0x9323\n"  /* mov.w @(0x46,PC),r3 */
+    ".word 0x9623\n"  /* mov.w @(0x46,PC),r6 */
+    ".word 0x65F2\n"  /* mov.l @r15,r5 */
+    ".word 0x373C\n"  /* add r3,r7 */
+    ".word 0x6552\n"  /* mov.l @r5,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE40C\n"  /* mov #12,r4 */
+    ".word 0xE600\n"  /* mov #0,r6 */
+    ".word 0xDE1E\n"  /* mov.l @(0x78,PC),r14  {[0x0602063C] = 0x06014884} */
+    ".word 0x6563\n"  /* mov r6,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE420\n"  /* mov #32,r4 */
+    ".word 0xE600\n"  /* mov #0,r6 */
+    ".word 0x6563\n"  /* mov r6,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE408\n"  /* mov #8,r4 */
+    ".word 0xE600\n"  /* mov #0,r6 */
+    ".word 0x6563\n"  /* mov r6,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE404\n"  /* mov #4,r4 */
+    ".word 0xDE19\n"  /* mov.l @(0x64,PC),r14  {[0x06020640] = 0x06038BD4} */
+    ".word 0x9410\n"  /* mov.w @(0x20,PC),r4 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE500\n"  /* mov #0,r5 */
+    ".word 0xE504\n"  /* mov #4,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0x6453\n"  /* mov r5,r4 */
+    ".word 0xE505\n"  /* mov #5,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE408\n"  /* mov #8,r4 */
+    ".word 0xE506\n"  /* mov #6,r5 */
+    ".word 0xA029\n"  /* bra 0x06020644 */
+    ".word 0xE410\n"  /* mov #16,r4 */
+    ".word 0x0558\n"  /* .word 0x0558 */
+    ".word 0x0560\n"  /* .word 0x0560 */
+    ".word 0x0294\n"  /* mov.b r9,@(r0,r2) */
+    ".word 0x0550\n"  /* .word 0x0550 */
+    ".word 0x6000\n"  /* mov.b @r0,r0 */
+    ".word 0x0082\n"  /* .word 0x0082 */
+    ".word 0x0100\n"  /* .word 0x0100 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x7804\n"  /* add #4,r8 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x8560\n"  /* mov.w @(0x0,r6),r0 */
+    ".word 0x0600\n"  /* .word 0x0600  -> FUN_060032D4 */
+    ".word 0x32D4\n"  /* .word 0x32D4 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x853E\n"  /* mov.w @(0x1C,r3),r0 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x761E\n"  /* add #30,r6 */
+    ".word 0x0604\n"  /* mov.b r0,@(r0,r6) */
+    ".word 0x898C\n"  /* bt 0x06020532 */
+    ".word 0x25F0\n"  /* mov.b r15,@r5 */
+    ".word 0x06E0\n"  /* .word 0x06E0 */
+    ".word 0x0604\n"  /* mov.b r0,@(r0,r6) */
+    ".word 0x89AC\n"  /* bt 0x0602057A */
+    ".word 0x25F0\n"  /* mov.b r15,@r5 */
+    ".word 0x0300\n"  /* .word 0x0300 */
+    ".word 0x0604\n"  /* mov.b r0,@(r0,r6) */
+    ".word 0x89CC\n"  /* bt 0x060205C2 */
+    ".word 0x25F0\n"  /* mov.b r15,@r5 */
+    ".word 0x0400\n"  /* .word 0x0400 */
+    ".word 0x25F0\n"  /* mov.b r15,@r5 */
+    ".word 0x0060\n"  /* .word 0x0060 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3750\n"  /* cmp/eq r5,r7 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x8400\n"  /* mov.b @(0x0,r0),r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x8000\n"  /* mov.b r0,@(0x0,r0) */
+    ".word 0x0601\n"  /* .word 0x0601  -> FUN_06014884 */
+    ".word 0x4884\n"  /* .word 0x4884 */
+    ".word 0x0603\n"  /* .word 0x0603  -> FUN_06038BD4 */
+    ".word 0x8BD4\n"  /* bf 0x060205EE */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xE507\n"  /* mov #7,r5 */
+    ".word 0x4E0B\n"  /* jsr @r14 */
+    ".word 0xE420\n"  /* mov #32,r4 */
+    ".word 0xE201\n"  /* mov #1,r2 */
+    ".word 0xD31D\n"  /* mov.l @(0x74,PC),r3  {[0x060206C8] = 0x06059F6F} */
+    ".word 0x2320\n"  /* mov.b r2,@r3 */
+    ".word 0x84F4\n"  /* mov.b @(0x4,r15),r0 */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0xB3C9\n"  /* bsr 0x06020DEE */
+    ".word 0x644C\n"  /* extu.b r4,r4 */
+    ".word 0xDE1B\n"  /* mov.l @(0x6C,PC),r14  {[0x060206CC] = 0x06087820} */
+    ".word 0xD21C\n"  /* mov.l @(0x70,PC),r2  {[0x060206D0] = 0x00040000} */
+    ".word 0x2E22\n"  /* mov.l r2,@r14 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0xD21B\n"  /* mov.l @(0x6C,PC),r2  {[0x060206D4] = 0x06087818} */
+    ".word 0x2232\n"  /* mov.l r3,@r2 */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0xD21B\n"  /* mov.l @(0x6C,PC),r2  {[0x060206D8] = 0x0608781C} */
+    ".word 0x2232\n"  /* mov.l r3,@r2 */
+    ".word 0xD51B\n"  /* mov.l @(0x6C,PC),r5  {[0x060206DC] = 0x00030000} */
+    ".word 0xD41B\n"  /* mov.l @(0x6C,PC),r4  {[0x060206E0] = 0x00B00000} */
+    ".word 0xD31C\n"  /* mov.l @(0x70,PC),r3  {[0x060206E4] = 0x06027552} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0xD31B\n"  /* mov.l @(0x6C,PC),r3  {[0x060206E8] = 0x0602755C} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x65E2\n"  /* mov.l @r14,r5 */
+    ".word 0xD31A\n"  /* mov.l @(0x68,PC),r3  {[0x060206EC] = 0x06087810} */
+    ".word 0x2302\n"  /* mov.l r0,@r3 */
+    ".word 0x65E2\n"  /* mov.l @r14,r5 */
+    ".word 0xD21A\n"  /* mov.l @(0x68,PC),r2  {[0x060206F0] = 0xFFFF0000} */
+    ".word 0xD41A\n"  /* mov.l @(0x68,PC),r4  {[0x060206F4] = 0x00700000} */
+    ".word 0xD316\n"  /* mov.l @(0x58,PC),r3  {[0x060206E4] = 0x06027552} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x352C\n"  /* add r2,r5 */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0xD315\n"  /* mov.l @(0x54,PC),r3  {[0x060206E8] = 0x0602755C} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x65E2\n"  /* mov.l @r14,r5 */
+    ".word 0xD317\n"  /* mov.l @(0x5C,PC),r3  {[0x060206F8] = 0x06087814} */
+    ".word 0x2302\n"  /* mov.l r0,@r3 */
+    ".word 0xD317\n"  /* mov.l @(0x5C,PC),r3  {[0x060206FC] = 0x0603850C} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0xE408\n"  /* mov #8,r4 */
+    ".word 0xD50D\n"  /* mov.l @(0x34,PC),r5  {[0x060206D8] = 0x0608781C} */
+    ".word 0xD40B\n"  /* mov.l @(0x2C,PC),r4  {[0x060206D4] = 0x06087818} */
+    ".word 0xD316\n"  /* mov.l @(0x58,PC),r3  {[0x06020700] = 0x06038794} */
+    ".word 0x6552\n"  /* mov.l @r5,r5 */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x6442\n"  /* mov.l @r4,r4 */
+    ".word 0xE600\n"  /* mov #0,r6 */
+    ".word 0xD511\n"  /* mov.l @(0x44,PC),r5  {[0x060206F8] = 0x06087814} */
+    ".word 0xD40E\n"  /* mov.l @(0x38,PC),r4  {[0x060206EC] = 0x06087810} */
+    ".word 0xD313\n"  /* mov.l @(0x4C,PC),r3  {[0x06020704] = 0x06038642} */
+    ".word 0x6552\n"  /* mov.l @r5,r5 */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x6442\n"  /* mov.l @r4,r4 */
+    ".word 0x7F08\n"  /* add #8,r15 */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0xD311\n"  /* mov.l @(0x44,PC),r3  {[0x06020708] = 0x06038520} */
+    ".word 0x432B\n"  /* jmp @r3 */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0x9F6F\n"  /* mov.w @(0xDE,PC),r15 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x7820\n"  /* add #32,r8 */
+    ".word 0x0004\n"  /* mov.b r0,@(r0,r0) */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x7818\n"  /* add #24,r8 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x781C\n"  /* add #28,r8 */
+    ".word 0x0003\n"  /* .word 0x0003 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x00B0\n"  /* .word 0x00B0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x7552\n"  /* add #82,r5 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x755C\n"  /* add #92,r5 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x7810\n"  /* add #16,r8 */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0070\n"  /* .word 0x0070 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x7814\n"  /* add #20,r8 */
+    ".word 0x0603\n"  /* .word 0x0603 */
+    ".word 0x850C\n"  /* mov.w @(0x18,r0),r0 */
+    ".word 0x0603\n"  /* .word 0x0603  -> FUN_06038794 */
+    ".word 0x8794\n"  /* .word 0x8794 */
+    ".word 0x0603\n"  /* .word 0x0603  -> FUN_06038642 */
+    ".word 0x8642\n"  /* .word 0x8642 */
+    ".word 0x0603\n"  /* .word 0x0603 */
+    ".word 0x8520\n"  /* mov.w @(0x0,r2),r0 */
+    ".size _object_visibility_test, .-_object_visibility_test\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0602070C\n"
@@ -1366,10 +1636,1748 @@ __asm__(
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
     ".size _FUN_060210B8, .-_FUN_060210B8\n"
 );
-void object_render_list_builder(void) { }
-void object_render_processor(void) { }
-void render_batch_processor(void) { }
-void projection_manager(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _object_render_list_builder\n"
+    ".type _object_render_list_builder, @function\n"
+    ".global _FUN_06022820\n"
+    "_object_render_list_builder:\n"
+    "_FUN_06022820:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
+    ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
+    ".word 0x2FA6\n"  /* mov.l r10,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x7FD4\n"  /* add #-44,r15 */
+    ".word 0xE700\n"  /* mov #0,r7 */
+    ".word 0x964E\n"  /* mov.w @(0x9C,PC),r6 */
+    ".word 0x6EF3\n"  /* mov r15,r14 */
+    ".word 0x7E24\n"  /* add #36,r14 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x1F37\n"  /* mov.l r3,@(0x1C,r15) */
+    ".word 0x6251\n"  /* mov.w @r5,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x7302\n"  /* add #2,r3 */
+    ".word 0x1F33\n"  /* mov.l r3,@(0xC,r15) */
+    ".word 0x6253\n"  /* mov r5,r2 */
+    ".word 0x7202\n"  /* add #2,r2 */
+    ".word 0x1F25\n"  /* mov.l r2,@(0x14,r15) */
+    ".word 0x6121\n"  /* mov.w @r2,r1 */
+    ".word 0x2311\n"  /* mov.w r1,@r3 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x7304\n"  /* add #4,r3 */
+    ".word 0x1F36\n"  /* mov.l r3,@(0x18,r15) */
+    ".word 0x6253\n"  /* mov r5,r2 */
+    ".word 0x7204\n"  /* add #4,r2 */
+    ".word 0x1F22\n"  /* mov.l r2,@(0x8,r15) */
+    ".word 0x6121\n"  /* mov.w @r2,r1 */
+    ".word 0x2311\n"  /* mov.w r1,@r3 */
+    ".word 0x7E06\n"  /* add #6,r14 */
+    ".word 0x1FE8\n"  /* mov.l r14,@(0x20,r15) */
+    ".word 0x6353\n"  /* mov r5,r3 */
+    ".word 0x7306\n"  /* add #6,r3 */
+    ".word 0x1F34\n"  /* mov.l r3,@(0x10,r15) */
+    ".word 0x6231\n"  /* mov.w @r3,r2 */
+    ".word 0x2E21\n"  /* mov.w r2,@r14 */
+    ".word 0x6C43\n"  /* mov r4,r12 */
+    ".word 0x7C04\n"  /* add #4,r12 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7308\n"  /* add #8,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x6243\n"  /* mov r4,r2 */
+    ".word 0x720C\n"  /* add #12,r2 */
+    ".word 0x6A43\n"  /* mov r4,r10 */
+    ".word 0x7A18\n"  /* add #24,r10 */
+    ".word 0x6B43\n"  /* mov r4,r11 */
+    ".word 0x7B1C\n"  /* add #28,r11 */
+    ".word 0x6D23\n"  /* mov r2,r13 */
+    ".word 0x6843\n"  /* mov r4,r8 */
+    ".word 0x7810\n"  /* add #16,r8 */
+    ".word 0x6943\n"  /* mov r4,r9 */
+    ".word 0x7914\n"  /* add #20,r9 */
+    ".word 0x1FD1\n"  /* mov.l r13,@(0x4,r15) */
+    ".word 0x6051\n"  /* mov.w @r5,r0 */
+    ".word 0x600D\n"  /* extu.w r0,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x893C\n"  /* bt 0x06022910 */
+    ".word 0x53F7\n"  /* mov.l @(0x1C,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8938\n"  /* bt 0x06022910 */
+    ".word 0x6E42\n"  /* mov.l @r4,r14 */
+    ".word 0x6DC2\n"  /* mov.l @r12,r13 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x62D3\n"  /* mov r13,r2 */
+    ".word 0x4E00\n"  /* shll r14 */
+    ".word 0x4D00\n"  /* shll r13 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x53F5\n"  /* mov.l @(0x14,r15),r3 */
+    ".word 0x6331\n"  /* mov.w @r3,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8F0E\n"  /* bf/s 0x060228D4 */
+    ".word 0x3D2C\n"  /* add r2,r13 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x52F1\n"  /* mov.l @(0x4,r15),r2 */
+    ".word 0x6332\n"  /* mov.l @r3,r3 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x6322\n"  /* mov.l @r2,r3 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x3D3C\n"  /* add r3,r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x24E2\n"  /* mov.l r14,@r4 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0xA010\n"  /* bra 0x060228F2 */
+    ".word 0x2CD2\n"  /* mov.l r13,@r12 */
+    ".word 0xFE6B\n"  /* .word 0xFE6B */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8B09\n"  /* bf 0x060228F2 */
+    ".word 0x63A2\n"  /* mov.l @r10,r3 */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x3D2C\n"  /* add r2,r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x24E2\n"  /* mov.l r14,@r4 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x2CD2\n"  /* mov.l r13,@r12 */
+    ".word 0x6E42\n"  /* mov.l @r4,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B0B\n"  /* bf 0x06022910 */
+    ".word 0x9230\n"  /* mov.w @(0x60,PC),r2 */
+    ".word 0x3E27\n"  /* cmp/gt r2,r14 */
+    ".word 0x8908\n"  /* bt 0x06022910 */
+    ".word 0x6EC2\n"  /* mov.l @r12,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B05\n"  /* bf 0x06022910 */
+    ".word 0x932B\n"  /* mov.w @(0x56,PC),r3 */
+    ".word 0x3E37\n"  /* cmp/gt r3,r14 */
+    ".word 0x8902\n"  /* bt 0x06022910 */
+    ".word 0x53F7\n"  /* mov.l @(0x1C,r15),r3 */
+    ".word 0x627F\n"  /* exts.w r7,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x53F5\n"  /* mov.l @(0x14,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x600D\n"  /* extu.w r0,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8943\n"  /* bt 0x060229A2 */
+    ".word 0x53F3\n"  /* mov.l @(0xC,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x893F\n"  /* bt 0x060229A2 */
+    ".word 0x6EF2\n"  /* mov.l @r15,r14 */
+    ".word 0x5DF1\n"  /* mov.l @(0x4,r15),r13 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x6EE2\n"  /* mov.l @r14,r14 */
+    ".word 0x6DD2\n"  /* mov.l @r13,r13 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x4E00\n"  /* shll r14 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x63D3\n"  /* mov r13,r3 */
+    ".word 0x4D00\n"  /* shll r13 */
+    ".word 0x3D3C\n"  /* add r3,r13 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022960 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x3D2C\n"  /* add r2,r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x23E2\n"  /* mov.l r14,@r3 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x23D2\n"  /* mov.l r13,@r3 */
+    ".word 0xA012\n"  /* bra 0x06022980 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x6251\n"  /* mov.w @r5,r2 */
+    ".word 0x622D\n"  /* extu.w r2,r2 */
+    ".word 0x2228\n"  /* tst r2,r2 */
+    ".word 0x8B0B\n"  /* bf 0x06022980 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x62C2\n"  /* mov.l @r12,r2 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x3D2C\n"  /* add r2,r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x23E2\n"  /* mov.l r14,@r3 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x23D2\n"  /* mov.l r13,@r3 */
+    ".word 0x6EF2\n"  /* mov.l @r15,r14 */
+    ".word 0x6EE2\n"  /* mov.l @r14,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B0C\n"  /* bf 0x060229A2 */
+    ".word 0x922C\n"  /* mov.w @(0x58,PC),r2 */
+    ".word 0x3E27\n"  /* cmp/gt r2,r14 */
+    ".word 0x8909\n"  /* bt 0x060229A2 */
+    ".word 0x5EF1\n"  /* mov.l @(0x4,r15),r14 */
+    ".word 0x6EE2\n"  /* mov.l @r14,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B05\n"  /* bf 0x060229A2 */
+    ".word 0x9226\n"  /* mov.w @(0x4C,PC),r2 */
+    ".word 0x3E27\n"  /* cmp/gt r2,r14 */
+    ".word 0x8902\n"  /* bt 0x060229A2 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x600D\n"  /* extu.w r0,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x893D\n"  /* bt 0x06022A28 */
+    ".word 0x53F6\n"  /* mov.l @(0x18,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8939\n"  /* bt 0x06022A28 */
+    ".word 0x6E82\n"  /* mov.l @r8,r14 */
+    ".word 0x6D92\n"  /* mov.l @r9,r13 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x62D3\n"  /* mov r13,r2 */
+    ".word 0x4E00\n"  /* shll r14 */
+    ".word 0x4D00\n"  /* shll r13 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x53F4\n"  /* mov.l @(0x10,r15),r3 */
+    ".word 0x6331\n"  /* mov.w @r3,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8F0D\n"  /* bf/s 0x060229E8 */
+    ".word 0x3D2C\n"  /* add r2,r13 */
+    ".word 0x63A2\n"  /* mov.l @r10,r3 */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x3D2C\n"  /* add r2,r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x28E2\n"  /* mov.l r14,@r8 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0xA013\n"  /* bra 0x06022A0A */
+    ".word 0x29D2\n"  /* mov.l r13,@r9 */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x52F5\n"  /* mov.l @(0x14,r15),r2 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8B0B\n"  /* bf 0x06022A0A */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x52F1\n"  /* mov.l @(0x4,r15),r2 */
+    ".word 0x6332\n"  /* mov.l @r3,r3 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x6322\n"  /* mov.l @r2,r3 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x3D3C\n"  /* add r3,r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x28E2\n"  /* mov.l r14,@r8 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x29D2\n"  /* mov.l r13,@r9 */
+    ".word 0x6E82\n"  /* mov.l @r8,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B0B\n"  /* bf 0x06022A28 */
+    ".word 0x932A\n"  /* mov.w @(0x54,PC),r3 */
+    ".word 0x3E37\n"  /* cmp/gt r3,r14 */
+    ".word 0x8908\n"  /* bt 0x06022A28 */
+    ".word 0x6E92\n"  /* mov.l @r9,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B05\n"  /* bf 0x06022A28 */
+    ".word 0x9225\n"  /* mov.w @(0x4A,PC),r2 */
+    ".word 0x3E27\n"  /* cmp/gt r2,r14 */
+    ".word 0x8902\n"  /* bt 0x06022A28 */
+    ".word 0x52F6\n"  /* mov.l @(0x18,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x600D\n"  /* extu.w r0,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x893A\n"  /* bt 0x06022AA8 */
+    ".word 0x53F8\n"  /* mov.l @(0x20,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8936\n"  /* bt 0x06022AA8 */
+    ".word 0x6DA2\n"  /* mov.l @r10,r13 */
+    ".word 0x6EB2\n"  /* mov.l @r11,r14 */
+    ".word 0x63D3\n"  /* mov r13,r3 */
+    ".word 0x62E3\n"  /* mov r14,r2 */
+    ".word 0x4D00\n"  /* shll r13 */
+    ".word 0x4E00\n"  /* shll r14 */
+    ".word 0x3D3C\n"  /* add r3,r13 */
+    ".word 0x6351\n"  /* mov.w @r5,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8F0D\n"  /* bf/s 0x06022A6C */
+    ".word 0x3E2C\n"  /* add r2,r14 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x62C2\n"  /* mov.l @r12,r2 */
+    ".word 0x3D3C\n"  /* add r3,r13 */
+    ".word 0x3E2C\n"  /* add r2,r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x2AD2\n"  /* mov.l r13,@r10 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0xA011\n"  /* bra 0x06022A8A */
+    ".word 0x2BE2\n"  /* mov.l r14,@r11 */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8B09\n"  /* bf 0x06022A8A */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x3D3C\n"  /* add r3,r13 */
+    ".word 0x3E2C\n"  /* add r2,r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x4D21\n"  /* shar r13 */
+    ".word 0x2AD2\n"  /* mov.l r13,@r10 */
+    ".word 0x4E21\n"  /* shar r14 */
+    ".word 0x2BE2\n"  /* mov.l r14,@r11 */
+    ".word 0x6EA2\n"  /* mov.l @r10,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B0B\n"  /* bf 0x06022AA8 */
+    ".word 0x9224\n"  /* mov.w @(0x48,PC),r2 */
+    ".word 0x3E27\n"  /* cmp/gt r2,r14 */
+    ".word 0x8908\n"  /* bt 0x06022AA8 */
+    ".word 0x6EB2\n"  /* mov.l @r11,r14 */
+    ".word 0x3E63\n"  /* cmp/ge r6,r14 */
+    ".word 0x8B05\n"  /* bf 0x06022AA8 */
+    ".word 0x931F\n"  /* mov.w @(0x3E,PC),r3 */
+    ".word 0x3E37\n"  /* cmp/gt r3,r14 */
+    ".word 0x8902\n"  /* bt 0x06022AA8 */
+    ".word 0x53F8\n"  /* mov.l @(0x20,r15),r3 */
+    ".word 0x627F\n"  /* exts.w r7,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x53F7\n"  /* mov.l @(0x1C,r15),r3 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x51F6\n"  /* mov.l @(0x18,r15),r1 */
+    ".word 0x6331\n"  /* mov.w @r3,r3 */
+    ".word 0x6221\n"  /* mov.w @r2,r2 */
+    ".word 0x232B\n"  /* or r2,r3 */
+    ".word 0x6211\n"  /* mov.w @r1,r2 */
+    ".word 0x232B\n"  /* or r2,r3 */
+    ".word 0x51F8\n"  /* mov.l @(0x20,r15),r1 */
+    ".word 0x6211\n"  /* mov.w @r1,r2 */
+    ".word 0x232B\n"  /* or r2,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8B01\n"  /* bf 0x06022AC6 */
+    ".word 0xA002\n"  /* bra 0x06022ACA */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xAEE2\n"  /* bra 0x0602288E */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x7F2C\n"  /* add #44,r15 */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x6BF6\n"  /* mov.l @r15+,r11 */
+    ".word 0x6CF6\n"  /* mov.l @r15+,r12 */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".size _object_render_list_builder, .-_object_render_list_builder\n"
+);
+__asm__(
+    ".balign 4\n"
+    ".global _object_render_processor\n"
+    ".type _object_render_processor, @function\n"
+    ".global _FUN_06022AE0\n"
+    "_object_render_processor:\n"
+    "_FUN_06022AE0:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
+    ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
+    ".word 0x2FA6\n"  /* mov.l r10,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x7FD4\n"  /* add #-44,r15 */
+    ".word 0xE700\n"  /* mov #0,r7 */
+    ".word 0x9662\n"  /* mov.w @(0xC4,PC),r6 */
+    ".word 0x6EF3\n"  /* mov r15,r14 */
+    ".word 0x7E24\n"  /* add #36,r14 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x1F35\n"  /* mov.l r3,@(0x14,r15) */
+    ".word 0x6251\n"  /* mov.w @r5,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x7302\n"  /* add #2,r3 */
+    ".word 0x1F33\n"  /* mov.l r3,@(0xC,r15) */
+    ".word 0x6253\n"  /* mov r5,r2 */
+    ".word 0x7202\n"  /* add #2,r2 */
+    ".word 0x1F27\n"  /* mov.l r2,@(0x1C,r15) */
+    ".word 0x6121\n"  /* mov.w @r2,r1 */
+    ".word 0x2311\n"  /* mov.w r1,@r3 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x7304\n"  /* add #4,r3 */
+    ".word 0x1F32\n"  /* mov.l r3,@(0x8,r15) */
+    ".word 0x6253\n"  /* mov r5,r2 */
+    ".word 0x7204\n"  /* add #4,r2 */
+    ".word 0x1F26\n"  /* mov.l r2,@(0x18,r15) */
+    ".word 0x6121\n"  /* mov.w @r2,r1 */
+    ".word 0x2311\n"  /* mov.w r1,@r3 */
+    ".word 0x7E06\n"  /* add #6,r14 */
+    ".word 0x1FE4\n"  /* mov.l r14,@(0x10,r15) */
+    ".word 0x6353\n"  /* mov r5,r3 */
+    ".word 0x7306\n"  /* add #6,r3 */
+    ".word 0x1F38\n"  /* mov.l r3,@(0x20,r15) */
+    ".word 0x6231\n"  /* mov.w @r3,r2 */
+    ".word 0x2E21\n"  /* mov.w r2,@r14 */
+    ".word 0x6E43\n"  /* mov r4,r14 */
+    ".word 0x7E08\n"  /* add #8,r14 */
+    ".word 0x6943\n"  /* mov r4,r9 */
+    ".word 0x790C\n"  /* add #12,r9 */
+    ".word 0x6B43\n"  /* mov r4,r11 */
+    ".word 0x7B04\n"  /* add #4,r11 */
+    ".word 0x6843\n"  /* mov r4,r8 */
+    ".word 0x7810\n"  /* add #16,r8 */
+    ".word 0x6A43\n"  /* mov r4,r10 */
+    ".word 0x7A14\n"  /* add #20,r10 */
+    ".word 0x6C43\n"  /* mov r4,r12 */
+    ".word 0x7C18\n"  /* add #24,r12 */
+    ".word 0x6D43\n"  /* mov r4,r13 */
+    ".word 0x7D1C\n"  /* add #28,r13 */
+    ".word 0x6251\n"  /* mov.w @r5,r2 */
+    ".word 0x622D\n"  /* extu.w r2,r2 */
+    ".word 0x2228\n"  /* tst r2,r2 */
+    ".word 0x8901\n"  /* bt 0x06022B54 */
+    ".word 0xA095\n"  /* bra 0x06022C7E */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x53F3\n"  /* mov.l @(0xC,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022BB0 */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0x6142\n"  /* mov.l @r4,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x60B2\n"  /* mov.l @r11,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x1F21\n"  /* mov.l r2,@(0x4,r15) */
+    ".word 0x61F2\n"  /* mov.l @r15,r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2E12\n"  /* mov.l r1,@r14 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2932\n"  /* mov.l r3,@r9 */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022BB0 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9313\n"  /* mov.w @(0x26,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022BB0 */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022BB0 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930B\n"  /* mov.w @(0x16,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022BB0 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0xA003\n"  /* bra 0x06022BC0 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xFE6B\n"  /* .word 0xFE6B */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x8929\n"  /* bt 0x06022C16 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x6142\n"  /* mov.l @r4,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x62A2\n"  /* mov.l @r10,r2 */
+    ".word 0x60B2\n"  /* mov.l @r11,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x1F21\n"  /* mov.l r2,@(0x4,r15) */
+    ".word 0x61F2\n"  /* mov.l @r15,r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2812\n"  /* mov.l r1,@r8 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2A32\n"  /* mov.l r3,@r10 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022C16 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x933F\n"  /* mov.w @(0x7E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022C16 */
+    ".word 0x62A2\n"  /* mov.l @r10,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022C16 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9337\n"  /* mov.w @(0x6E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022C16 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8B01\n"  /* bf 0x06022C22 */
+    ".word 0xA1F9\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x63C2\n"  /* mov.l @r12,r3 */
+    ".word 0x6142\n"  /* mov.l @r4,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0x60B2\n"  /* mov.l @r11,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x1F21\n"  /* mov.l r2,@(0x4,r15) */
+    ".word 0x61F2\n"  /* mov.l @r15,r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2C12\n"  /* mov.l r1,@r12 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2D32\n"  /* mov.l r3,@r13 */
+    ".word 0x63C2\n"  /* mov.l @r12,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022C76 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930F\n"  /* mov.w @(0x1E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022C76 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022C76 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9307\n"  /* mov.w @(0xE,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022C76 */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0xA1CD\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x52F7\n"  /* mov.l @(0x1C,r15),r2 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8901\n"  /* bt 0x06022C8C */
+    ".word 0xA094\n"  /* bra 0x06022DB4 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x53F5\n"  /* mov.l @(0x14,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022CE8 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x61E2\n"  /* mov.l @r14,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x1F31\n"  /* mov.l r3,@(0x4,r15) */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x6092\n"  /* mov.l @r9,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x51F1\n"  /* mov.l @(0x4,r15),r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2B32\n"  /* mov.l r3,@r11 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022CE8 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9340\n"  /* mov.w @(0x80,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022CE8 */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022CE8 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9338\n"  /* mov.w @(0x70,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022CE8 */
+    ".word 0x52F5\n"  /* mov.l @(0x14,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022D44 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x61E2\n"  /* mov.l @r14,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x1F31\n"  /* mov.l r3,@(0x4,r15) */
+    ".word 0x62A2\n"  /* mov.l @r10,r2 */
+    ".word 0x6092\n"  /* mov.l @r9,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x51F1\n"  /* mov.l @(0x4,r15),r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2812\n"  /* mov.l r1,@r8 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2A32\n"  /* mov.l r3,@r10 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022D44 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9312\n"  /* mov.w @(0x24,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022D44 */
+    ".word 0x62A2\n"  /* mov.l @r10,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022D44 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930A\n"  /* mov.w @(0x14,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022D44 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0xA002\n"  /* bra 0x06022D52 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x8B01\n"  /* bf 0x06022D58 */
+    ".word 0xA15E\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x63C2\n"  /* mov.l @r12,r3 */
+    ".word 0x61E2\n"  /* mov.l @r14,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x1F31\n"  /* mov.l r3,@(0x4,r15) */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0x6092\n"  /* mov.l @r9,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x51F1\n"  /* mov.l @(0x4,r15),r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2C12\n"  /* mov.l r1,@r12 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2D32\n"  /* mov.l r3,@r13 */
+    ".word 0x63C2\n"  /* mov.l @r12,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022DAC */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930F\n"  /* mov.w @(0x1E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022DAC */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022DAC */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9307\n"  /* mov.w @(0xE,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022DAC */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0xA132\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x52F6\n"  /* mov.l @(0x18,r15),r2 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8901\n"  /* bt 0x06022DC2 */
+    ".word 0xA094\n"  /* bra 0x06022EEA */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x53F5\n"  /* mov.l @(0x14,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022E1E */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x6182\n"  /* mov.l @r8,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x1F31\n"  /* mov.l r3,@(0x4,r15) */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x60A2\n"  /* mov.l @r10,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x51F1\n"  /* mov.l @(0x4,r15),r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2B32\n"  /* mov.l r3,@r11 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022E1E */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9340\n"  /* mov.w @(0x80,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022E1E */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022E1E */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9338\n"  /* mov.w @(0x70,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022E1E */
+    ".word 0x52F5\n"  /* mov.l @(0x14,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022E7A */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0x6182\n"  /* mov.l @r8,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x1F31\n"  /* mov.l r3,@(0x4,r15) */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x60A2\n"  /* mov.l @r10,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x51F1\n"  /* mov.l @(0x4,r15),r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2E12\n"  /* mov.l r1,@r14 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2932\n"  /* mov.l r3,@r9 */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022E7A */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9312\n"  /* mov.w @(0x24,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022E7A */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022E7A */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930A\n"  /* mov.w @(0x14,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022E7A */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0xA002\n"  /* bra 0x06022E88 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x8B01\n"  /* bf 0x06022E8E */
+    ".word 0xA0C3\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x63C2\n"  /* mov.l @r12,r3 */
+    ".word 0x6182\n"  /* mov.l @r8,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0x60A2\n"  /* mov.l @r10,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x1F21\n"  /* mov.l r2,@(0x4,r15) */
+    ".word 0x61F2\n"  /* mov.l @r15,r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2C12\n"  /* mov.l r1,@r12 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2D32\n"  /* mov.l r3,@r13 */
+    ".word 0x63C2\n"  /* mov.l @r12,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022EE2 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930F\n"  /* mov.w @(0x1E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022EE2 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022EE2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9307\n"  /* mov.w @(0xE,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022EE2 */
+    ".word 0x52F4\n"  /* mov.l @(0x10,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0xA097\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x52F8\n"  /* mov.l @(0x20,r15),r2 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x633D\n"  /* extu.w r3,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8901\n"  /* bt 0x06022EF8 */
+    ".word 0xA08E\n"  /* bra 0x06023014 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x53F5\n"  /* mov.l @(0x14,r15),r3 */
+    ".word 0x6031\n"  /* mov.w @r3,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022F54 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x61C2\n"  /* mov.l @r12,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x60D2\n"  /* mov.l @r13,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x1F21\n"  /* mov.l r2,@(0x4,r15) */
+    ".word 0x61F2\n"  /* mov.l @r15,r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2B32\n"  /* mov.l r3,@r11 */
+    ".word 0x6342\n"  /* mov.l @r4,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022F54 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9340\n"  /* mov.w @(0x80,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022F54 */
+    ".word 0x62B2\n"  /* mov.l @r11,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022F54 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9338\n"  /* mov.w @(0x70,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022F54 */
+    ".word 0x52F5\n"  /* mov.l @(0x14,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0x8929\n"  /* bt 0x06022FB0 */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0x61C2\n"  /* mov.l @r12,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x60D2\n"  /* mov.l @r13,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x1F21\n"  /* mov.l r2,@(0x4,r15) */
+    ".word 0x61F2\n"  /* mov.l @r15,r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2E12\n"  /* mov.l r1,@r14 */
+    ".word 0x53F1\n"  /* mov.l @(0x4,r15),r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2932\n"  /* mov.l r3,@r9 */
+    ".word 0x63E2\n"  /* mov.l @r14,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06022FB0 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9312\n"  /* mov.w @(0x24,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06022FB0 */
+    ".word 0x6292\n"  /* mov.l @r9,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06022FB0 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x930A\n"  /* mov.w @(0x14,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06022FB0 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x6021\n"  /* mov.w @r2,r0 */
+    ".word 0x2008\n"  /* tst r0,r0 */
+    ".word 0xA002\n"  /* bra 0x06022FBE */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".word 0x8929\n"  /* bt 0x06023014 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x61C2\n"  /* mov.l @r12,r1 */
+    ".word 0x6233\n"  /* mov r3,r2 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0x331C\n"  /* add r1,r3 */
+    ".word 0x1F31\n"  /* mov.l r3,@(0x4,r15) */
+    ".word 0x62A2\n"  /* mov.l @r10,r2 */
+    ".word 0x60D2\n"  /* mov.l @r13,r0 */
+    ".word 0x6123\n"  /* mov r2,r1 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x321C\n"  /* add r1,r2 */
+    ".word 0x320C\n"  /* add r0,r2 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x51F1\n"  /* mov.l @(0x4,r15),r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x4121\n"  /* shar r1 */
+    ".word 0x2812\n"  /* mov.l r1,@r8 */
+    ".word 0x63F2\n"  /* mov.l @r15,r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x4321\n"  /* shar r3 */
+    ".word 0x2A32\n"  /* mov.l r3,@r10 */
+    ".word 0x6382\n"  /* mov.l @r8,r3 */
+    ".word 0x2F32\n"  /* mov.l r3,@r15 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8B0F\n"  /* bf 0x06023014 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x9327\n"  /* mov.w @(0x4E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x890B\n"  /* bt 0x06023014 */
+    ".word 0x62A2\n"  /* mov.l @r10,r2 */
+    ".word 0x6323\n"  /* mov r2,r3 */
+    ".word 0x3363\n"  /* cmp/ge r6,r3 */
+    ".word 0x8F07\n"  /* bf/s 0x06023014 */
+    ".word 0x2F22\n"  /* mov.l r2,@r15 */
+    ".word 0x62F2\n"  /* mov.l @r15,r2 */
+    ".word 0x931F\n"  /* mov.w @(0x3E,PC),r3 */
+    ".word 0x3237\n"  /* cmp/gt r3,r2 */
+    ".word 0x8902\n"  /* bt 0x06023014 */
+    ".word 0x52F2\n"  /* mov.l @(0x8,r15),r2 */
+    ".word 0x637F\n"  /* exts.w r7,r3 */
+    ".word 0x2231\n"  /* mov.w r3,@r2 */
+    ".word 0x52F5\n"  /* mov.l @(0x14,r15),r2 */
+    ".word 0x51F2\n"  /* mov.l @(0x8,r15),r1 */
+    ".word 0x6321\n"  /* mov.w @r2,r3 */
+    ".word 0x52F3\n"  /* mov.l @(0xC,r15),r2 */
+    ".word 0x6221\n"  /* mov.w @r2,r2 */
+    ".word 0x232B\n"  /* or r2,r3 */
+    ".word 0x6211\n"  /* mov.w @r1,r2 */
+    ".word 0x232B\n"  /* or r2,r3 */
+    ".word 0x51F4\n"  /* mov.l @(0x10,r15),r1 */
+    ".word 0x6211\n"  /* mov.w @r1,r2 */
+    ".word 0x232B\n"  /* or r2,r3 */
+    ".word 0x2338\n"  /* tst r3,r3 */
+    ".word 0x8B01\n"  /* bf 0x06023032 */
+    ".word 0xA002\n"  /* bra 0x06023036 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xAD89\n"  /* bra 0x06022B48 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x7F2C\n"  /* add #44,r15 */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x6BF6\n"  /* mov.l @r15+,r11 */
+    ".word 0x6CF6\n"  /* mov.l @r15+,r12 */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x0195\n"  /* mov.w r9,@(r0,r1) */
+    ".word 0x0131\n"  /* .word 0x0131 */
+    ".size _object_render_processor, .-_object_render_processor\n"
+);
+__asm__(
+    ".balign 4\n"
+    ".global _render_batch_processor\n"
+    ".type _render_batch_processor, @function\n"
+    ".global _FUN_0602304C\n"
+    "_render_batch_processor:\n"
+    "_FUN_0602304C:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
+    ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
+    ".word 0x2FA6\n"  /* mov.l r10,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0xEC00\n"  /* mov #0,r12 */
+    ".word 0xD44A\n"  /* mov.l @(0x128,PC),r4  {[0x06023188] = 0x06089E44} */
+    ".word 0xE003\n"  /* mov #3,r0 */
+    ".word 0x8142\n"  /* mov.w r0,@(0x4,r4) */
+    ".word 0xE004\n"  /* mov #4,r0 */
+    ".word 0x8143\n"  /* mov.w r0,@(0x6,r4) */
+    ".word 0xE005\n"  /* mov #5,r0 */
+    ".word 0x8144\n"  /* mov.w r0,@(0x8,r4) */
+    ".word 0xE006\n"  /* mov #6,r0 */
+    ".word 0x8145\n"  /* mov.w r0,@(0xA,r4) */
+    ".word 0xE007\n"  /* mov #7,r0 */
+    ".word 0x8146\n"  /* mov.w r0,@(0xC,r4) */
+    ".word 0xE008\n"  /* mov #8,r0 */
+    ".word 0x8147\n"  /* mov.w r0,@(0xE,r4) */
+    ".word 0xE009\n"  /* mov #9,r0 */
+    ".word 0x8148\n"  /* mov.w r0,@(0x10,r4) */
+    ".word 0xE00A\n"  /* mov #10,r0 */
+    ".word 0x8149\n"  /* mov.w r0,@(0x12,r4) */
+    ".word 0xE00B\n"  /* mov #11,r0 */
+    ".word 0x814A\n"  /* mov.w r0,@(0x14,r4) */
+    ".word 0xE00C\n"  /* mov #12,r0 */
+    ".word 0x814B\n"  /* mov.w r0,@(0x16,r4) */
+    ".word 0xE00D\n"  /* mov #13,r0 */
+    ".word 0x814C\n"  /* mov.w r0,@(0x18,r4) */
+    ".word 0xE00E\n"  /* mov #14,r0 */
+    ".word 0x814D\n"  /* mov.w r0,@(0x1A,r4) */
+    ".word 0xE00F\n"  /* mov #15,r0 */
+    ".word 0x814E\n"  /* mov.w r0,@(0x1C,r4) */
+    ".word 0xE010\n"  /* mov #16,r0 */
+    ".word 0x814F\n"  /* mov.w r0,@(0x1E,r4) */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7320\n"  /* add #32,r3 */
+    ".word 0xE211\n"  /* mov #17,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7322\n"  /* add #34,r3 */
+    ".word 0xE212\n"  /* mov #18,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7324\n"  /* add #36,r3 */
+    ".word 0xE213\n"  /* mov #19,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7326\n"  /* add #38,r3 */
+    ".word 0xE214\n"  /* mov #20,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7328\n"  /* add #40,r3 */
+    ".word 0xE215\n"  /* mov #21,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x732A\n"  /* add #42,r3 */
+    ".word 0xE216\n"  /* mov #22,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x732C\n"  /* add #44,r3 */
+    ".word 0xE217\n"  /* mov #23,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x732E\n"  /* add #46,r3 */
+    ".word 0xE218\n"  /* mov #24,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7330\n"  /* add #48,r3 */
+    ".word 0xE219\n"  /* mov #25,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7332\n"  /* add #50,r3 */
+    ".word 0xE21A\n"  /* mov #26,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7334\n"  /* add #52,r3 */
+    ".word 0xE21B\n"  /* mov #27,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7336\n"  /* add #54,r3 */
+    ".word 0xE21C\n"  /* mov #28,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7338\n"  /* add #56,r3 */
+    ".word 0xE21D\n"  /* mov #29,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0xE51E\n"  /* mov #30,r5 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x733A\n"  /* add #58,r3 */
+    ".word 0x625D\n"  /* extu.w r5,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x733C\n"  /* add #60,r3 */
+    ".word 0xE21F\n"  /* mov #31,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x733E\n"  /* add #62,r3 */
+    ".word 0xE220\n"  /* mov #32,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7340\n"  /* add #64,r3 */
+    ".word 0xE221\n"  /* mov #33,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7342\n"  /* add #66,r3 */
+    ".word 0xE222\n"  /* mov #34,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7344\n"  /* add #68,r3 */
+    ".word 0xE223\n"  /* mov #35,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7346\n"  /* add #70,r3 */
+    ".word 0xE224\n"  /* mov #36,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7348\n"  /* add #72,r3 */
+    ".word 0xE225\n"  /* mov #37,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x734A\n"  /* add #74,r3 */
+    ".word 0xE226\n"  /* mov #38,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x734C\n"  /* add #76,r3 */
+    ".word 0xE227\n"  /* mov #39,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x734E\n"  /* add #78,r3 */
+    ".word 0xE228\n"  /* mov #40,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7350\n"  /* add #80,r3 */
+    ".word 0xE229\n"  /* mov #41,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7352\n"  /* add #82,r3 */
+    ".word 0xE22A\n"  /* mov #42,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7354\n"  /* add #84,r3 */
+    ".word 0xE236\n"  /* mov #54,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x7456\n"  /* add #86,r4 */
+    ".word 0xE337\n"  /* mov #55,r3 */
+    ".word 0x2431\n"  /* mov.w r3,@r4 */
+    ".word 0x6E5D\n"  /* extu.w r5,r14 */
+    ".word 0xDB04\n"  /* mov.l @(0x10,PC),r11  {[0x0602318C] = 0x002A8000} */
+    ".word 0x9602\n"  /* mov.w @(0x4,PC),r6 */
+    ".word 0xD404\n"  /* mov.l @(0x10,PC),r4  {[0x06023190] = 0x06059FFC} */
+    ".word 0xA008\n"  /* bra 0x06023194 */
+    ".word 0x65B3\n"  /* mov r11,r5 */
+    ".word 0x3AC0\n"  /* cmp/eq r12,r10 */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E44\n"  /* mov.w @(0x88,PC),r14 */
+    ".word 0x002A\n"  /* sts pr,r0 */
+    ".word 0x8000\n"  /* mov.b r0,@(0x0,r0) */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0x9FFC\n"  /* mov.w @(0x1F8,PC),r15 */
+    ".word 0x6442\n"  /* mov.l @r4,r4 */
+    ".word 0xD337\n"  /* mov.l @(0xDC,PC),r3  {[0x06023274] = 0x06063F5C} */
+    ".word 0x926B\n"  /* mov.w @(0xD6,PC),r2 */
+    ".word 0x4408\n"  /* shll2 r4 */
+    ".word 0x6332\n"  /* mov.l @r3,r3 */
+    ".word 0x4400\n"  /* shll r4 */
+    ".word 0x343C\n"  /* add r3,r4 */
+    ".word 0x342C\n"  /* add r2,r4 */
+    ".word 0xD234\n"  /* mov.l @(0xD0,PC),r2  {[0x06023278] = 0x0602761E} */
+    ".word 0x420B\n"  /* jsr @r2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xA03F\n"  /* bra 0x0602322C */
+    ".word 0x6DCD\n"  /* extu.w r12,r13 */
+    ".word 0x64D3\n"  /* mov r13,r4 */
+    ".word 0x63D3\n"  /* mov r13,r3 */
+    ".word 0xD232\n"  /* mov.l @(0xC8,PC),r2  {[0x0602327C] = 0x06054380} */
+    ".word 0x4408\n"  /* shll2 r4 */
+    ".word 0x4308\n"  /* shll2 r3 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x343C\n"  /* add r3,r4 */
+    ".word 0x644F\n"  /* exts.w r4,r4 */
+    ".word 0x342C\n"  /* add r2,r4 */
+    ".word 0x6A42\n"  /* mov.l @r4,r10 */
+    ".word 0x8544\n"  /* mov.w @(0x8,r4),r0 */
+    ".word 0x6803\n"  /* mov r0,r8 */
+    ".word 0x638D\n"  /* extu.w r8,r3 */
+    ".word 0x4315\n"  /* cmp/pl r3 */
+    ".word 0x8F0B\n"  /* bf/s 0x060231E4 */
+    ".word 0x69CD\n"  /* extu.w r12,r9 */
+    ".word 0x66B3\n"  /* mov r11,r6 */
+    ".word 0x65ED\n"  /* extu.w r14,r5 */
+    ".word 0xD32B\n"  /* mov.l @(0xAC,PC),r3  {[0x06023280] = 0x06007790} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x64A3\n"  /* mov r10,r4 */
+    ".word 0x7901\n"  /* add #1,r9 */
+    ".word 0x638D\n"  /* extu.w r8,r3 */
+    ".word 0x629D\n"  /* extu.w r9,r2 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8FF5\n"  /* bf/s 0x060231CE */
+    ".word 0x7A0C\n"  /* add #12,r10 */
+    ".word 0x64D3\n"  /* mov r13,r4 */
+    ".word 0x63D3\n"  /* mov r13,r3 */
+    ".word 0xD224\n"  /* mov.l @(0x90,PC),r2  {[0x0602327C] = 0x06054380} */
+    ".word 0x4408\n"  /* shll2 r4 */
+    ".word 0x4308\n"  /* shll2 r3 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x343C\n"  /* add r3,r4 */
+    ".word 0x644F\n"  /* exts.w r4,r4 */
+    ".word 0x342C\n"  /* add r2,r4 */
+    ".word 0x8545\n"  /* mov.w @(0xA,r4),r0 */
+    ".word 0x6803\n"  /* mov r0,r8 */
+    ".word 0x60DD\n"  /* extu.w r13,r0 */
+    ".word 0x8827\n"  /* cmp/eq #39,r0 */
+    ".word 0x8F01\n"  /* bf/s 0x06023204 */
+    ".word 0x5A41\n"  /* mov.l @(0x4,r4),r10 */
+    ".word 0x7E2F\n"  /* add #47,r14 */
+    ".word 0x628D\n"  /* extu.w r8,r2 */
+    ".word 0x4215\n"  /* cmp/pl r2 */
+    ".word 0x8F0A\n"  /* bf/s 0x06023220 */
+    ".word 0x69CD\n"  /* extu.w r12,r9 */
+    ".word 0x65ED\n"  /* extu.w r14,r5 */
+    ".word 0xD31D\n"  /* mov.l @(0x74,PC),r3  {[0x06023284] = 0x06007590} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x64A3\n"  /* mov r10,r4 */
+    ".word 0x7901\n"  /* add #1,r9 */
+    ".word 0x638D\n"  /* extu.w r8,r3 */
+    ".word 0x629D\n"  /* extu.w r9,r2 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8FF6\n"  /* bf/s 0x0602320C */
+    ".word 0x7A06\n"  /* add #6,r10 */
+    ".word 0x63DD\n"  /* extu.w r13,r3 */
+    ".word 0xE227\n"  /* mov #39,r2 */
+    ".word 0x3323\n"  /* cmp/ge r2,r3 */
+    ".word 0x8900\n"  /* bt 0x0602322A */
+    ".word 0x7E0A\n"  /* add #10,r14 */
+    ".word 0x7D01\n"  /* add #1,r13 */
+    ".word 0x62DD\n"  /* extu.w r13,r2 */
+    ".word 0xE328\n"  /* mov #40,r3 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8BBC\n"  /* bf 0x060231AE */
+    ".word 0x7E15\n"  /* add #21,r14 */
+    ".word 0xD315\n"  /* mov.l @(0x54,PC),r3  {[0x0602328C] = 0x0607886C} */
+    ".word 0xD413\n"  /* mov.l @(0x4C,PC),r4  {[0x06023288] = 0x06054560} */
+    ".word 0x6D42\n"  /* mov.l @r4,r13 */
+    ".word 0x8544\n"  /* mov.w @(0x8,r4),r0 */
+    ".word 0x23E1\n"  /* mov.w r14,@r3 */
+    ".word 0x6903\n"  /* mov r0,r9 */
+    ".word 0x629D\n"  /* extu.w r9,r2 */
+    ".word 0x4215\n"  /* cmp/pl r2 */
+    ".word 0x8F0B\n"  /* bf/s 0x06023260 */
+    ".word 0x6ACD\n"  /* extu.w r12,r10 */
+    ".word 0x66B3\n"  /* mov r11,r6 */
+    ".word 0x65ED\n"  /* extu.w r14,r5 */
+    ".word 0xD30C\n"  /* mov.l @(0x30,PC),r3  {[0x06023280] = 0x06007790} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x64D3\n"  /* mov r13,r4 */
+    ".word 0x7A01\n"  /* add #1,r10 */
+    ".word 0x639D\n"  /* extu.w r9,r3 */
+    ".word 0x62AD\n"  /* extu.w r10,r2 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8FF5\n"  /* bf/s 0x0602324A */
+    ".word 0x7D0C\n"  /* add #12,r13 */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x6BF6\n"  /* mov.l @r15+,r11 */
+    ".word 0x6CF6\n"  /* mov.l @r15+,r12 */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x03C0\n"  /* .word 0x03C0 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3F5C\n"  /* add r5,r15 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x761E\n"  /* add #30,r6 */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0x4380\n"  /* .word 0x4380 */
+    ".word 0x0600\n"  /* .word 0x0600  -> FUN_06007790 */
+    ".word 0x7790\n"  /* add #-112,r7 */
+    ".word 0x0600\n"  /* .word 0x0600 */
+    ".word 0x7590\n"  /* add #-112,r5 */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0x4560\n"  /* .word 0x4560 */
+    ".word 0x0607\n"  /* mul.l r0,r6 */
+    ".word 0x886C\n"  /* cmp/eq #108,r0 */
+    ".size _render_batch_processor, .-_render_batch_processor\n"
+);
+__asm__(
+    ".balign 4\n"
+    ".global _projection_manager\n"
+    ".type _projection_manager, @function\n"
+    ".global _FUN_06023290\n"
+    "_projection_manager:\n"
+    "_FUN_06023290:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
+    ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
+    ".word 0x2FA6\n"  /* mov.l r10,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0xD949\n"  /* mov.l @(0x124,PC),r9  {[0x060233C8] = 0x06056940} */
+    ".word 0xDD4A\n"  /* mov.l @(0x128,PC),r13  {[0x060233CC] = 0x0606A4EC} */
+    ".word 0xD44A\n"  /* mov.l @(0x128,PC),r4  {[0x060233D0] = 0x06089E44} */
+    ".word 0xE003\n"  /* mov #3,r0 */
+    ".word 0x8142\n"  /* mov.w r0,@(0x4,r4) */
+    ".word 0xE004\n"  /* mov #4,r0 */
+    ".word 0x8143\n"  /* mov.w r0,@(0x6,r4) */
+    ".word 0xE005\n"  /* mov #5,r0 */
+    ".word 0x8144\n"  /* mov.w r0,@(0x8,r4) */
+    ".word 0xE006\n"  /* mov #6,r0 */
+    ".word 0x8145\n"  /* mov.w r0,@(0xA,r4) */
+    ".word 0xE007\n"  /* mov #7,r0 */
+    ".word 0x8146\n"  /* mov.w r0,@(0xC,r4) */
+    ".word 0xE008\n"  /* mov #8,r0 */
+    ".word 0x8147\n"  /* mov.w r0,@(0xE,r4) */
+    ".word 0xE009\n"  /* mov #9,r0 */
+    ".word 0x8148\n"  /* mov.w r0,@(0x10,r4) */
+    ".word 0xE00A\n"  /* mov #10,r0 */
+    ".word 0x8149\n"  /* mov.w r0,@(0x12,r4) */
+    ".word 0xE00B\n"  /* mov #11,r0 */
+    ".word 0x814A\n"  /* mov.w r0,@(0x14,r4) */
+    ".word 0xE00C\n"  /* mov #12,r0 */
+    ".word 0x814B\n"  /* mov.w r0,@(0x16,r4) */
+    ".word 0xE00D\n"  /* mov #13,r0 */
+    ".word 0x814C\n"  /* mov.w r0,@(0x18,r4) */
+    ".word 0xE00E\n"  /* mov #14,r0 */
+    ".word 0x814D\n"  /* mov.w r0,@(0x1A,r4) */
+    ".word 0xE00F\n"  /* mov #15,r0 */
+    ".word 0x814E\n"  /* mov.w r0,@(0x1C,r4) */
+    ".word 0xE010\n"  /* mov #16,r0 */
+    ".word 0x814F\n"  /* mov.w r0,@(0x1E,r4) */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7320\n"  /* add #32,r3 */
+    ".word 0xE211\n"  /* mov #17,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7322\n"  /* add #34,r3 */
+    ".word 0xE212\n"  /* mov #18,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7324\n"  /* add #36,r3 */
+    ".word 0xE213\n"  /* mov #19,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7326\n"  /* add #38,r3 */
+    ".word 0xE214\n"  /* mov #20,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7328\n"  /* add #40,r3 */
+    ".word 0xE215\n"  /* mov #21,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x732A\n"  /* add #42,r3 */
+    ".word 0xE216\n"  /* mov #22,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x732C\n"  /* add #44,r3 */
+    ".word 0xE217\n"  /* mov #23,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x732E\n"  /* add #46,r3 */
+    ".word 0xE218\n"  /* mov #24,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7330\n"  /* add #48,r3 */
+    ".word 0xE219\n"  /* mov #25,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7332\n"  /* add #50,r3 */
+    ".word 0xE21A\n"  /* mov #26,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7334\n"  /* add #52,r3 */
+    ".word 0xE21B\n"  /* mov #27,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7336\n"  /* add #54,r3 */
+    ".word 0xE21C\n"  /* mov #28,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7338\n"  /* add #56,r3 */
+    ".word 0xE21D\n"  /* mov #29,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0xE51E\n"  /* mov #30,r5 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x733A\n"  /* add #58,r3 */
+    ".word 0x625D\n"  /* extu.w r5,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x733C\n"  /* add #60,r3 */
+    ".word 0xE21F\n"  /* mov #31,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x733E\n"  /* add #62,r3 */
+    ".word 0xE220\n"  /* mov #32,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7340\n"  /* add #64,r3 */
+    ".word 0xE221\n"  /* mov #33,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7342\n"  /* add #66,r3 */
+    ".word 0xE222\n"  /* mov #34,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7344\n"  /* add #68,r3 */
+    ".word 0xE223\n"  /* mov #35,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7346\n"  /* add #70,r3 */
+    ".word 0xE224\n"  /* mov #36,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7348\n"  /* add #72,r3 */
+    ".word 0xE225\n"  /* mov #37,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x734A\n"  /* add #74,r3 */
+    ".word 0xE226\n"  /* mov #38,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x734C\n"  /* add #76,r3 */
+    ".word 0xE227\n"  /* mov #39,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x734E\n"  /* add #78,r3 */
+    ".word 0xE228\n"  /* mov #40,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7350\n"  /* add #80,r3 */
+    ".word 0xE229\n"  /* mov #41,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7352\n"  /* add #82,r3 */
+    ".word 0xE22A\n"  /* mov #42,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x7354\n"  /* add #84,r3 */
+    ".word 0xE236\n"  /* mov #54,r2 */
+    ".word 0x2321\n"  /* mov.w r2,@r3 */
+    ".word 0x7456\n"  /* add #86,r4 */
+    ".word 0xE337\n"  /* mov #55,r3 */
+    ".word 0x2431\n"  /* mov.w r3,@r4 */
+    ".word 0x6B5D\n"  /* extu.w r5,r11 */
+    ".word 0x9601\n"  /* mov.w @(0x2,PC),r6 */
+    ".word 0xA007\n"  /* bra 0x060233D4 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x4240\n"  /* .word 0x4240 */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0x6940\n"  /* mov.b @r4,r9 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0xA4EC\n"  /* bra 0x06023DAA */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E44\n"  /* mov.w @(0x88,PC),r14 */
+    ".word 0xD52D\n"  /* mov.l @(0xB4,PC),r5  {[0x0602348C] = 0x002A8000} */
+    ".word 0xD42E\n"  /* mov.l @(0xB8,PC),r4  {[0x06023490] = 0x06059FFC} */
+    ".word 0xD32E\n"  /* mov.l @(0xB8,PC),r3  {[0x06023494] = 0x06063F5C} */
+    ".word 0x9253\n"  /* mov.w @(0xA6,PC),r2 */
+    ".word 0x6442\n"  /* mov.l @r4,r4 */
+    ".word 0x6332\n"  /* mov.l @r3,r3 */
+    ".word 0x4408\n"  /* shll2 r4 */
+    ".word 0x4400\n"  /* shll r4 */
+    ".word 0x343C\n"  /* add r3,r4 */
+    ".word 0x342C\n"  /* add r2,r4 */
+    ".word 0xD22B\n"  /* mov.l @(0xAC,PC),r2  {[0x06023498] = 0x0602761E} */
+    ".word 0x420B\n"  /* jsr @r2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xA0A7\n"  /* bra 0x06023540 */
+    ".word 0xEC00\n"  /* mov #0,r12 */
+    ".word 0x64CC\n"  /* extu.b r12,r4 */
+    ".word 0xE213\n"  /* mov #19,r2 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x4408\n"  /* shll2 r4 */
+    ".word 0x4308\n"  /* shll2 r3 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x343C\n"  /* add r3,r4 */
+    ".word 0x644C\n"  /* extu.b r4,r4 */
+    ".word 0x63CD\n"  /* extu.w r12,r3 */
+    ".word 0x349C\n"  /* add r9,r4 */
+    ".word 0x6A42\n"  /* mov.l @r4,r10 */
+    ".word 0x8544\n"  /* mov.w @(0x8,r4),r0 */
+    ".word 0x3327\n"  /* cmp/gt r2,r3 */
+    ".word 0x8F01\n"  /* bf/s 0x06023412 */
+    ".word 0x6803\n"  /* mov r0,r8 */
+    ".word 0x7B36\n"  /* add #54,r11 */
+    ".word 0x628D\n"  /* extu.w r8,r2 */
+    ".word 0x4215\n"  /* cmp/pl r2 */
+    ".word 0x8F5F\n"  /* bf/s 0x060234D8 */
+    ".word 0xEE00\n"  /* mov #0,r14 */
+    ".word 0x60CD\n"  /* extu.w r12,r0 */
+    ".word 0x8813\n"  /* cmp/eq #19,r0 */
+    ".word 0x8B50\n"  /* bf 0x060234C2 */
+    ".word 0x60ED\n"  /* extu.w r14,r0 */
+    ".word 0x8815\n"  /* cmp/eq #21,r0 */
+    ".word 0x8B04\n"  /* bf 0x06023430 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0xD31C\n"  /* mov.l @(0x70,PC),r3  {[0x0602349C] = 0x06089E30} */
+    ".word 0x2322\n"  /* mov.l r2,@r3 */
+    ".word 0xA049\n"  /* bra 0x060234C2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x60ED\n"  /* extu.w r14,r0 */
+    ".word 0x8827\n"  /* cmp/eq #39,r0 */
+    ".word 0x8B04\n"  /* bf 0x06023440 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0xD319\n"  /* mov.l @(0x64,PC),r3  {[0x060234A0] = 0x06089E2C} */
+    ".word 0x2322\n"  /* mov.l r2,@r3 */
+    ".word 0xA041\n"  /* bra 0x060234C2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x60ED\n"  /* extu.w r14,r0 */
+    ".word 0x8840\n"  /* cmp/eq #64,r0 */
+    ".word 0x8B04\n"  /* bf 0x06023450 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0xD316\n"  /* mov.l @(0x58,PC),r3  {[0x060234A4] = 0x06089E34} */
+    ".word 0x2322\n"  /* mov.l r2,@r3 */
+    ".word 0xA039\n"  /* bra 0x060234C2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x60ED\n"  /* extu.w r14,r0 */
+    ".word 0x8844\n"  /* cmp/eq #68,r0 */
+    ".word 0x8B04\n"  /* bf 0x06023460 */
+    ".word 0x62D2\n"  /* mov.l @r13,r2 */
+    ".word 0xD313\n"  /* mov.l @(0x4C,PC),r3  {[0x060234A8] = 0x06089E38} */
+    ".word 0x2322\n"  /* mov.l r2,@r3 */
+    ".word 0xA031\n"  /* bra 0x060234C2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x62ED\n"  /* extu.w r14,r2 */
+    ".word 0x9310\n"  /* mov.w @(0x20,PC),r3 */
+    ".word 0x3230\n"  /* cmp/eq r3,r2 */
+    ".word 0x8B04\n"  /* bf 0x06023472 */
+    ".word 0x63D2\n"  /* mov.l @r13,r3 */
+    ".word 0xD210\n"  /* mov.l @(0x40,PC),r2  {[0x060234AC] = 0x06089E28} */
+    ".word 0x2232\n"  /* mov.l r3,@r2 */
+    ".word 0xA028\n"  /* bra 0x060234C2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x62ED\n"  /* extu.w r14,r2 */
+    ".word 0x9308\n"  /* mov.w @(0x10,PC),r3 */
+    ".word 0x3230\n"  /* cmp/eq r3,r2 */
+    ".word 0x8B1C\n"  /* bf 0x060234B4 */
+    ".word 0x63D2\n"  /* mov.l @r13,r3 */
+    ".word 0xD20C\n"  /* mov.l @(0x30,PC),r2  {[0x060234B0] = 0x06089E3C} */
+    ".word 0x2232\n"  /* mov.l r3,@r2 */
+    ".word 0xA01F\n"  /* bra 0x060234C2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x03C0\n"  /* .word 0x03C0 */
+    ".word 0x0082\n"  /* .word 0x0082 */
+    ".word 0x0088\n"  /* .word 0x0088 */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0x002A\n"  /* sts pr,r0 */
+    ".word 0x8000\n"  /* mov.b r0,@(0x0,r0) */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0x9FFC\n"  /* mov.w @(0x1F8,PC),r15 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3F5C\n"  /* add r5,r15 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x761E\n"  /* add #30,r6 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E30\n"  /* mov.w @(0x60,PC),r14 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E2C\n"  /* mov.w @(0x58,PC),r14 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E34\n"  /* mov.w @(0x68,PC),r14 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E38\n"  /* mov.w @(0x70,PC),r14 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E28\n"  /* mov.w @(0x50,PC),r14 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E3C\n"  /* mov.w @(0x78,PC),r14 */
+    ".word 0x62ED\n"  /* extu.w r14,r2 */
+    ".word 0x9352\n"  /* mov.w @(0xA4,PC),r3 */
+    ".word 0x3230\n"  /* cmp/eq r3,r2 */
+    ".word 0x8B02\n"  /* bf 0x060234C2 */
+    ".word 0x63D2\n"  /* mov.l @r13,r3 */
+    ".word 0xD228\n"  /* mov.l @(0xA0,PC),r2  {[0x06023560] = 0x06089E40} */
+    ".word 0x2232\n"  /* mov.l r3,@r2 */
+    ".word 0x65BD\n"  /* extu.w r11,r5 */
+    ".word 0xD328\n"  /* mov.l @(0xA0,PC),r3  {[0x06023568] = 0x06007790} */
+    ".word 0xD627\n"  /* mov.l @(0x9C,PC),r6  {[0x06023564] = 0x002A8000} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x64A3\n"  /* mov r10,r4 */
+    ".word 0x7E01\n"  /* add #1,r14 */
+    ".word 0x638D\n"  /* extu.w r8,r3 */
+    ".word 0x62ED\n"  /* extu.w r14,r2 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8FA1\n"  /* bf/s 0x0602341A */
+    ".word 0x7A0C\n"  /* add #12,r10 */
+    ".word 0x6ECC\n"  /* extu.b r12,r14 */
+    ".word 0x63E3\n"  /* mov r14,r3 */
+    ".word 0x4E08\n"  /* shll2 r14 */
+    ".word 0x4308\n"  /* shll2 r3 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x3E3C\n"  /* add r3,r14 */
+    ".word 0x6EEC\n"  /* extu.b r14,r14 */
+    ".word 0x3E9C\n"  /* add r9,r14 */
+    ".word 0x5EE1\n"  /* mov.l @(0x4,r14),r14 */
+    ".word 0x2EE8\n"  /* tst r14,r14 */
+    ".word 0x8B01\n"  /* bf 0x060234F2 */
+    ".word 0xA02D\n"  /* bra 0x0602354C */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x68CC\n"  /* extu.b r12,r8 */
+    ".word 0x6383\n"  /* mov r8,r3 */
+    ".word 0x4808\n"  /* shll2 r8 */
+    ".word 0x4308\n"  /* shll2 r3 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x383C\n"  /* add r3,r8 */
+    ".word 0x688C\n"  /* extu.b r8,r8 */
+    ".word 0x389C\n"  /* add r9,r8 */
+    ".word 0x8585\n"  /* mov.w @(0xA,r8),r0 */
+    ".word 0x6803\n"  /* mov r0,r8 */
+    ".word 0x60CD\n"  /* extu.w r12,r0 */
+    ".word 0x8813\n"  /* cmp/eq #19,r0 */
+    ".word 0x8B00\n"  /* bf 0x0602350E */
+    ".word 0x7B53\n"  /* add #83,r11 */
+    ".word 0x628D\n"  /* extu.w r8,r2 */
+    ".word 0x4215\n"  /* cmp/pl r2 */
+    ".word 0x8F0A\n"  /* bf/s 0x0602352A */
+    ".word 0xEA00\n"  /* mov #0,r10 */
+    ".word 0x65BD\n"  /* extu.w r11,r5 */
+    ".word 0xD314\n"  /* mov.l @(0x50,PC),r3  {[0x0602356C] = 0x06007590} */
+    ".word 0x430B\n"  /* jsr @r3 */
+    ".word 0x64E3\n"  /* mov r14,r4 */
+    ".word 0x7A01\n"  /* add #1,r10 */
+    ".word 0x638D\n"  /* extu.w r8,r3 */
+    ".word 0x62AD\n"  /* extu.w r10,r2 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8FF6\n"  /* bf/s 0x06023516 */
+    ".word 0x7E06\n"  /* add #6,r14 */
+    ".word 0x60CD\n"  /* extu.w r12,r0 */
+    ".word 0x8814\n"  /* cmp/eq #20,r0 */
+    ".word 0x8B01\n"  /* bf 0x06023534 */
+    ".word 0xD30F\n"  /* mov.l @(0x3C,PC),r3  {[0x06023570] = 0x0607886C} */
+    ".word 0x23B1\n"  /* mov.w r11,@r3 */
+    ".word 0x62CD\n"  /* extu.w r12,r2 */
+    ".word 0xE313\n"  /* mov #19,r3 */
+    ".word 0x3233\n"  /* cmp/ge r3,r2 */
+    ".word 0x8900\n"  /* bt 0x0602353E */
+    ".word 0x7B0A\n"  /* add #10,r11 */
+    ".word 0x7C01\n"  /* add #1,r12 */
+    ".word 0x63CD\n"  /* extu.w r12,r3 */
+    ".word 0xE214\n"  /* mov #20,r2 */
+    ".word 0x3327\n"  /* cmp/gt r2,r3 */
+    ".word 0x8901\n"  /* bt 0x0602354C */
+    ".word 0xAF53\n"  /* bra 0x060233F2 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x6BF6\n"  /* mov.l @r15+,r11 */
+    ".word 0x6CF6\n"  /* mov.l @r15+,r12 */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x00A9\n"  /* .word 0x00A9 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x9E40\n"  /* mov.w @(0x80,PC),r14 */
+    ".word 0x002A\n"  /* sts pr,r0 */
+    ".word 0x8000\n"  /* mov.b r0,@(0x0,r0) */
+    ".word 0x0600\n"  /* .word 0x0600  -> FUN_06007790 */
+    ".word 0x7790\n"  /* add #-112,r7 */
+    ".word 0x0600\n"  /* .word 0x0600 */
+    ".word 0x7590\n"  /* add #-112,r5 */
+    ".word 0x0607\n"  /* mul.l r0,r6 */
+    ".word 0x886C\n"  /* cmp/eq #108,r0 */
+    ".size _projection_manager, .-_projection_manager\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_06023574\n"
@@ -2391,7 +4399,385 @@ __asm__(
 );
 /* FUN_0602745C: moved to atan.c */
 /* FUN_06027498: moved to vec3_math.c */
-void spring_damper_physics(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _spring_damper_physics\n"
+    ".type _spring_damper_physics, @function\n"
+    ".global _FUN_060276CC\n"
+    "_spring_damper_physics:\n"
+    "_FUN_060276CC:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0xD119\n"  /* mov.l @(0x64,PC),r1  {[0x0602773C] = 0x0000E666} */
+    ".word 0xD21A\n"  /* mov.l @(0x68,PC),r2  {[0x06027740] = 0x00001999} */
+    ".word 0x6055\n"  /* mov.w @r5+,r0 */
+    ".word 0xDE1A\n"  /* mov.l @(0x68,PC),r14  {[0x06027744] = 0x06063F04} */
+    ".word 0x6EE2\n"  /* mov.l @r14,r14 */
+    ".word 0x8801\n"  /* cmp/eq #1,r0 */
+    ".word 0x8B5B\n"  /* bf 0x0602779A */
+    ".word 0x5645\n"  /* mov.l @(0x14,r4),r6 */
+    ".word 0x574B\n"  /* mov.l @(0x2C,r4),r7 */
+    ".word 0x3673\n"  /* cmp/ge r7,r6 */
+    ".word 0x8B2E\n"  /* bf 0x06027748 */
+    ".word 0x6742\n"  /* mov.l @r4,r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x5643\n"  /* mov.l @(0xC,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5741\n"  /* mov.l @(0x4,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x2492\n"  /* mov.l r9,@r4 */
+    ".word 0x5644\n"  /* mov.l @(0x10,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5742\n"  /* mov.l @(0x8,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1491\n"  /* mov.l r9,@(0x4,r4) */
+    ".word 0x5645\n"  /* mov.l @(0x14,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x1492\n"  /* mov.l r9,@(0x8,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x060276EA */
+    ".word 0xA135\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0xE666\n"  /* mov #102,r6 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x1999\n"  /* mov.l r9,@(0x24,r9) */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3F04\n"  /* .word 0x3F04 */
+    ".word 0x6742\n"  /* mov.l @r4,r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x5649\n"  /* mov.l @(0x24,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5741\n"  /* mov.l @(0x4,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x2492\n"  /* mov.l r9,@r4 */
+    ".word 0x564A\n"  /* mov.l @(0x28,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5742\n"  /* mov.l @(0x8,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1491\n"  /* mov.l r9,@(0x4,r4) */
+    ".word 0x564B\n"  /* mov.l @(0x2C,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x1492\n"  /* mov.l r9,@(0x8,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x06027748 */
+    ".word 0xA106\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x6055\n"  /* mov.w @r5+,r0 */
+    ".word 0x8801\n"  /* cmp/eq #1,r0 */
+    ".word 0x8B55\n"  /* bf 0x0602784C */
+    ".word 0x5648\n"  /* mov.l @(0x20,r4),r6 */
+    ".word 0x5742\n"  /* mov.l @(0x8,r4),r7 */
+    ".word 0x3673\n"  /* cmp/ge r7,r6 */
+    ".word 0x8B28\n"  /* bf 0x060277FA */
+    ".word 0x5743\n"  /* mov.l @(0xC,r4),r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x5646\n"  /* mov.l @(0x18,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5744\n"  /* mov.l @(0x10,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1493\n"  /* mov.l r9,@(0xC,r4) */
+    ".word 0x5647\n"  /* mov.l @(0x1C,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5745\n"  /* mov.l @(0x14,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1494\n"  /* mov.l r9,@(0x10,r4) */
+    ".word 0x5648\n"  /* mov.l @(0x20,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x1495\n"  /* mov.l r9,@(0x14,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x060277A8 */
+    ".word 0xA0D6\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x5743\n"  /* mov.l @(0xC,r4),r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x6642\n"  /* mov.l @r4,r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5744\n"  /* mov.l @(0x10,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1493\n"  /* mov.l r9,@(0xC,r4) */
+    ".word 0x5641\n"  /* mov.l @(0x4,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5745\n"  /* mov.l @(0x14,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1494\n"  /* mov.l r9,@(0x10,r4) */
+    ".word 0x5642\n"  /* mov.l @(0x8,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x1495\n"  /* mov.l r9,@(0x14,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x060277FA */
+    ".word 0xA0AD\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x6055\n"  /* mov.w @r5+,r0 */
+    ".word 0x8801\n"  /* cmp/eq #1,r0 */
+    ".word 0x8B55\n"  /* bf 0x060278FE */
+    ".word 0x564B\n"  /* mov.l @(0x2C,r4),r6 */
+    ".word 0x5745\n"  /* mov.l @(0x14,r4),r7 */
+    ".word 0x3673\n"  /* cmp/ge r7,r6 */
+    ".word 0x8B28\n"  /* bf 0x060278AC */
+    ".word 0x5746\n"  /* mov.l @(0x18,r4),r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x5649\n"  /* mov.l @(0x24,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5747\n"  /* mov.l @(0x1C,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1496\n"  /* mov.l r9,@(0x18,r4) */
+    ".word 0x564A\n"  /* mov.l @(0x28,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5748\n"  /* mov.l @(0x20,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1497\n"  /* mov.l r9,@(0x1C,r4) */
+    ".word 0x564B\n"  /* mov.l @(0x2C,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x1498\n"  /* mov.l r9,@(0x20,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x0602785A */
+    ".word 0xA07D\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x5746\n"  /* mov.l @(0x18,r4),r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x5643\n"  /* mov.l @(0xC,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5747\n"  /* mov.l @(0x1C,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1496\n"  /* mov.l r9,@(0x18,r4) */
+    ".word 0x5644\n"  /* mov.l @(0x10,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x5748\n"  /* mov.l @(0x20,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1497\n"  /* mov.l r9,@(0x1C,r4) */
+    ".word 0x5645\n"  /* mov.l @(0x14,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x1498\n"  /* mov.l r9,@(0x20,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x060278AC */
+    ".word 0xA054\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x5642\n"  /* mov.l @(0x8,r4),r6 */
+    ".word 0x5748\n"  /* mov.l @(0x20,r4),r7 */
+    ".word 0x3673\n"  /* cmp/ge r7,r6 */
+    ".word 0x8B28\n"  /* bf 0x06027958 */
+    ".word 0x5749\n"  /* mov.l @(0x24,r4),r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x6642\n"  /* mov.l @r4,r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x574A\n"  /* mov.l @(0x28,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1499\n"  /* mov.l r9,@(0x24,r4) */
+    ".word 0x5641\n"  /* mov.l @(0x4,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x574B\n"  /* mov.l @(0x2C,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x149A\n"  /* mov.l r9,@(0x28,r4) */
+    ".word 0x5642\n"  /* mov.l @(0x8,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x149B\n"  /* mov.l r9,@(0x2C,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x06027906 */
+    ".word 0xA027\n"  /* bra 0x060279A6 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x5749\n"  /* mov.l @(0x24,r4),r7 */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x5646\n"  /* mov.l @(0x18,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x574A\n"  /* mov.l @(0x28,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x1499\n"  /* mov.l r9,@(0x24,r4) */
+    ".word 0x5647\n"  /* mov.l @(0x1C,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x574B\n"  /* mov.l @(0x2C,r4),r7 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x317D\n"  /* dmuls.l r7,r1 */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x149A\n"  /* mov.l r9,@(0x28,r4) */
+    ".word 0x5648\n"  /* mov.l @(0x20,r4),r6 */
+    ".word 0x070A\n"  /* sts mach,r7 */
+    ".word 0x081A\n"  /* sts macl,r8 */
+    ".word 0x326D\n"  /* dmuls.l r6,r2 */
+    ".word 0x287D\n"  /* .word 0x287D */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x296D\n"  /* .word 0x296D */
+    ".word 0x398C\n"  /* add r8,r9 */
+    ".word 0x7904\n"  /* add #4,r9 */
+    ".word 0x149B\n"  /* mov.l r9,@(0x2C,r4) */
+    ".word 0x39E3\n"  /* cmp/ge r14,r9 */
+    ".word 0x8BD8\n"  /* bf 0x06027958 */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".size _spring_damper_physics, .-_spring_damper_physics\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_060279B0\n"
@@ -7571,7 +9957,517 @@ __asm__(
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".size _FUN_0602B334, .-_FUN_0602B334\n"
 );
-void scene_graph_walker(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _scene_graph_walker\n"
+    ".type _scene_graph_walker, @function\n"
+    ".global _FUN_0602B9EC\n"
+    "_scene_graph_walker:\n"
+    "_FUN_0602B9EC:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0x6843\n"  /* mov r4,r8 */
+    ".word 0x6E53\n"  /* mov r5,r14 */
+    ".word 0x6D63\n"  /* mov r6,r13 */
+    ".word 0xDC24\n"  /* mov.l @(0x90,PC),r12  {[0x0602BA88] = 0x06094AE4} */
+    ".word 0xE440\n"  /* mov #64,r4 */
+    ".word 0xE0FF\n"  /* mov #-1,r0 */
+    ".word 0x2C02\n"  /* mov.l r0,@r12 */
+    ".word 0x4410\n"  /* dt r4 */
+    ".word 0x8FFC\n"  /* bf/s 0x0602B9FC */
+    ".word 0x7C10\n"  /* add #16,r12 */
+    ".word 0xDA21\n"  /* mov.l @(0x84,PC),r10  {[0x0602BA8C] = 0x06063F08} */
+    ".word 0x6AA2\n"  /* mov.l @r10,r10 */
+    ".word 0xE018\n"  /* mov #24,r0 */
+    ".word 0x0077\n"  /* mul.l r7,r0 */
+    ".word 0x001A\n"  /* sts macl,r0 */
+    ".word 0x380C\n"  /* add r0,r8 */
+    ".word 0x2F76\n"  /* mov.l r7,@-r15 */
+    ".word 0x78E8\n"  /* add #-24,r8 */
+    ".word 0xDB1E\n"  /* mov.l @(0x78,PC),r11  {[0x0602BA90] = 0x0602BD6C} */
+    ".word 0xD51F\n"  /* mov.l @(0x7C,PC),r5  {[0x0602BA94] = 0x0602BD8C} */
+    ".word 0xD01F\n"  /* mov.l @(0x7C,PC),r0  {[0x0602BA98] = 0x0608A52C} */
+    ".word 0x6602\n"  /* mov.l @r0,r6 */
+    ".word 0x8588\n"  /* mov.w @(0x10,r8),r0 */
+    ".word 0x640D\n"  /* extu.w r0,r4 */
+    ".word 0xB12B\n"  /* bsr 0x0602BC7A */
+    ".word 0xE906\n"  /* mov #6,r9 */
+    ".word 0x2512\n"  /* mov.l r1,@r5 */
+    ".word 0x1521\n"  /* mov.l r2,@(0x4,r5) */
+    ".word 0x1532\n"  /* mov.l r3,@(0x8,r5) */
+    ".word 0xD71C\n"  /* mov.l @(0x70,PC),r7  {[0x0602BA9C] = 0x0602BDB4} */
+    ".word 0x2722\n"  /* mov.l r2,@r7 */
+    ".word 0x8586\n"  /* mov.w @(0xC,r8),r0 */
+    ".word 0xC808\n"  /* tst #0x08,r0 */
+    ".word 0x8B37\n"  /* bf 0x0602BAA4 */
+    ".word 0xD71A\n"  /* mov.l @(0x68,PC),r7  {[0x0602BAA0] = 0x0602BD9C} */
+    ".word 0x6483\n"  /* mov r8,r4 */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x74F4\n"  /* add #-12,r4 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x290D\n"  /* .word 0x290D */
+    ".word 0x2792\n"  /* mov.l r9,@r7 */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x74F4\n"  /* add #-12,r4 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x290D\n"  /* .word 0x290D */
+    ".word 0x1791\n"  /* mov.l r9,@(0x4,r7) */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x76DC\n"  /* add #-36,r6 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x290D\n"  /* .word 0x290D */
+    ".word 0x1792\n"  /* mov.l r9,@(0x8,r7) */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x075F\n"  /* mac.l @r5+,@r7+ */
+    ".word 0x075F\n"  /* mac.l @r5+,@r7+ */
+    ".word 0x075F\n"  /* mac.l @r5+,@r7+ */
+    ".word 0x75F4\n"  /* add #-12,r5 */
+    ".word 0x090A\n"  /* sts mach,r9 */
+    ".word 0x001A\n"  /* sts macl,r0 */
+    ".word 0x209D\n"  /* .word 0x209D */
+    ".word 0x4015\n"  /* cmp/pl r0 */
+    ".word 0x8910\n"  /* bt 0x0602BAA4 */
+    ".word 0xA0DE\n"  /* bra 0x0602BC42 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0609\n"  /* .word 0x0609 */
+    ".word 0x4AE4\n"  /* .word 0x4AE4 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3F08\n"  /* sub r0,r15 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBD6C\n"  /* bsr 0x0602B56E */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBD8C\n"  /* bsr 0x0602B5B2 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0xA52C\n"  /* bra 0x0602C4F6 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBDB4\n"  /* bsr 0x0602B60A */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBD9C\n"  /* bsr 0x0602B5DE */
+    ".word 0x8588\n"  /* mov.w @(0x10,r8),r0 */
+    ".word 0xD720\n"  /* mov.l @(0x80,PC),r7  {[0x0602BB28] = 0x0602BAB6} */
+    ".word 0xB148\n"  /* bsr 0x0602BD3C */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0x2532\n"  /* mov.l r3,@r5 */
+    ".word 0x7504\n"  /* add #4,r5 */
+    ".word 0x8588\n"  /* mov.w @(0x10,r8),r0 */
+    ".word 0xB123\n"  /* bsr 0x0602BCFC */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x8589\n"  /* mov.w @(0x12,r8),r0 */
+    ".word 0xD71C\n"  /* mov.l @(0x70,PC),r7  {[0x0602BB2C] = 0x0602BACC} */
+    ".word 0xB13F\n"  /* bsr 0x0602BD3C */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0xB0DC\n"  /* bsr 0x0602BC7A */
+    ".word 0xE906\n"  /* mov #6,r9 */
+    ".word 0x2532\n"  /* mov.l r3,@r5 */
+    ".word 0x7504\n"  /* add #4,r5 */
+    ".word 0x8589\n"  /* mov.w @(0x12,r8),r0 */
+    ".word 0xB118\n"  /* bsr 0x0602BCFC */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x858A\n"  /* mov.w @(0x14,r8),r0 */
+    ".word 0xD718\n"  /* mov.l @(0x60,PC),r7  {[0x0602BB30] = 0x0602BAE2} */
+    ".word 0xB134\n"  /* bsr 0x0602BD3C */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0xB0D1\n"  /* bsr 0x0602BC7A */
+    ".word 0xE906\n"  /* mov #6,r9 */
+    ".word 0x2532\n"  /* mov.l r3,@r5 */
+    ".word 0x7504\n"  /* add #4,r5 */
+    ".word 0x858A\n"  /* mov.w @(0x14,r8),r0 */
+    ".word 0xB10D\n"  /* bsr 0x0602BCFC */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x858B\n"  /* mov.w @(0x16,r8),r0 */
+    ".word 0xD713\n"  /* mov.l @(0x4C,PC),r7  {[0x0602BB34] = 0x0602BAF8} */
+    ".word 0xB129\n"  /* bsr 0x0602BD3C */
+    ".word 0x6403\n"  /* mov r0,r4 */
+    ".word 0xB0C6\n"  /* bsr 0x0602BC7A */
+    ".word 0xE906\n"  /* mov #6,r9 */
+    ".word 0x2532\n"  /* mov.l r3,@r5 */
+    ".word 0x7504\n"  /* add #4,r5 */
+    ".word 0x858B\n"  /* mov.w @(0x16,r8),r0 */
+    ".word 0xB102\n"  /* bsr 0x0602BCFC */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xD00F\n"  /* mov.l @(0x3C,PC),r0  {[0x0602BB38] = 0x060620D4} */
+    ".word 0xE118\n"  /* mov #24,r1 */
+    ".word 0x6002\n"  /* mov.l @r0,r0 */
+    ".word 0x210E\n"  /* mulu.w r0,r1 */
+    ".word 0xD20E\n"  /* mov.l @(0x38,PC),r2  {[0x0602BB3C] = 0x0608AC20} */
+    ".word 0x091A\n"  /* sts macl,r9 */
+    ".word 0x392C\n"  /* add r2,r9 */
+    ".word 0x7BE0\n"  /* add #-32,r11 */
+    ".word 0x9C0D\n"  /* mov.w @(0x1A,PC),r12 */
+    ".word 0x50B0\n"  /* mov.l @(0x0,r11),r0 */
+    ".word 0x52B2\n"  /* mov.l @(0x8,r11),r2 */
+    ".word 0x54B4\n"  /* mov.l @(0x10,r11),r4 */
+    ".word 0x56B6\n"  /* mov.l @(0x18,r11),r6 */
+    ".word 0x3C07\n"  /* cmp/gt r0,r12 */
+    ".word 0x8B14\n"  /* bf 0x0602BB40 */
+    ".word 0x3C27\n"  /* cmp/gt r2,r12 */
+    ".word 0x8B12\n"  /* bf 0x0602BB40 */
+    ".word 0x3C47\n"  /* cmp/gt r4,r12 */
+    ".word 0x8B10\n"  /* bf 0x0602BB40 */
+    ".word 0x3C67\n"  /* cmp/gt r6,r12 */
+    ".word 0x8B0E\n"  /* bf 0x0602BB40 */
+    ".word 0xA08E\n"  /* bra 0x0602BC42 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xFF50\n"  /* .word 0xFF50 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBAB6\n"  /* bsr 0x0602B09A */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBACC\n"  /* bsr 0x0602B0CA */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBAE2\n"  /* bsr 0x0602B0FA */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBAF8\n"  /* bsr 0x0602B12A */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x20D4\n"  /* mov.b r13,@-r0 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0xAC20\n"  /* bra 0x0602B382 */
+    ".word 0x9C3B\n"  /* mov.w @(0x76,PC),r12 */
+    ".word 0x3C07\n"  /* cmp/gt r0,r12 */
+    ".word 0x8905\n"  /* bt 0x0602BB52 */
+    ".word 0x3C27\n"  /* cmp/gt r2,r12 */
+    ".word 0x8903\n"  /* bt 0x0602BB52 */
+    ".word 0x3C47\n"  /* cmp/gt r4,r12 */
+    ".word 0x8901\n"  /* bt 0x0602BB52 */
+    ".word 0x3C67\n"  /* cmp/gt r6,r12 */
+    ".word 0x8977\n"  /* bt 0x0602BC42 */
+    ".word 0x9C33\n"  /* mov.w @(0x66,PC),r12 */
+    ".word 0x51B1\n"  /* mov.l @(0x4,r11),r1 */
+    ".word 0x53B3\n"  /* mov.l @(0xC,r11),r3 */
+    ".word 0x55B5\n"  /* mov.l @(0x14,r11),r5 */
+    ".word 0x57B7\n"  /* mov.l @(0x1C,r11),r7 */
+    ".word 0x3C17\n"  /* cmp/gt r1,r12 */
+    ".word 0x8B05\n"  /* bf 0x0602BB6C */
+    ".word 0x3C37\n"  /* cmp/gt r3,r12 */
+    ".word 0x8B03\n"  /* bf 0x0602BB6C */
+    ".word 0x3C57\n"  /* cmp/gt r5,r12 */
+    ".word 0x8B01\n"  /* bf 0x0602BB6C */
+    ".word 0x3C77\n"  /* cmp/gt r7,r12 */
+    ".word 0x896A\n"  /* bt 0x0602BC42 */
+    ".word 0x9C27\n"  /* mov.w @(0x4E,PC),r12 */
+    ".word 0x3C17\n"  /* cmp/gt r1,r12 */
+    ".word 0x8905\n"  /* bt 0x0602BB7E */
+    ".word 0x3C37\n"  /* cmp/gt r3,r12 */
+    ".word 0x8903\n"  /* bt 0x0602BB7E */
+    ".word 0x3C57\n"  /* cmp/gt r5,r12 */
+    ".word 0x8901\n"  /* bt 0x0602BB7E */
+    ".word 0x3C77\n"  /* cmp/gt r7,r12 */
+    ".word 0x8B61\n"  /* bf 0x0602BC42 */
+    ".word 0x6C93\n"  /* mov r9,r12 */
+    ".word 0x7C18\n"  /* add #24,r12 */
+    ".word 0x2C75\n"  /* mov.w r7,@-r12 */
+    ".word 0x2C65\n"  /* mov.w r6,@-r12 */
+    ".word 0x2C55\n"  /* mov.w r5,@-r12 */
+    ".word 0x2C45\n"  /* mov.w r4,@-r12 */
+    ".word 0x2C35\n"  /* mov.w r3,@-r12 */
+    ".word 0x2C25\n"  /* mov.w r2,@-r12 */
+    ".word 0x2C15\n"  /* mov.w r1,@-r12 */
+    ".word 0x2C05\n"  /* mov.w r0,@-r12 */
+    ".word 0x8587\n"  /* mov.w @(0xE,r8),r0 */
+    ".word 0x8193\n"  /* mov.w r0,@(0x6,r9) */
+    ".word 0x8586\n"  /* mov.w @(0xC,r8),r0 */
+    ".word 0x4009\n"  /* shlr2 r0 */
+    ".word 0x4009\n"  /* shlr2 r0 */
+    ".word 0xC90F\n"  /* and #0x0F,r0 */
+    ".word 0x8094\n"  /* mov.b r0,@(0x4,r9) */
+    ".word 0x60D3\n"  /* mov r13,r0 */
+    ".word 0x8095\n"  /* mov.b r0,@(0x5,r9) */
+    ".word 0x8586\n"  /* mov.w @(0xC,r8),r0 */
+    ".word 0xD106\n"  /* mov.l @(0x18,PC),r1  {[0x0602BBC0] = 0x0602BDB8} */
+    ".word 0xC907\n"  /* and #0x07,r0 */
+    ".word 0x4008\n"  /* shll2 r0 */
+    ".word 0x021E\n"  /* mov.l @(r0,r1),r2 */
+    ".word 0xC777\n"  /* mova @(0x1DC,PC),r0  {0x0602BD8C} */
+    ".word 0x6302\n"  /* mov.l @r0,r3 */
+    ".word 0x5401\n"  /* mov.l @(0x4,r0),r4 */
+    ".word 0x5502\n"  /* mov.l @(0x8,r0),r5 */
+    ".word 0x422B\n"  /* jmp @r2 */
+    ".word 0x5603\n"  /* mov.l @(0xC,r0),r6 */
+    ".word 0x00B0\n"  /* .word 0x00B0 */
+    ".word 0xFF81\n"  /* .word 0xFF81 */
+    ".word 0x0051\n"  /* .word 0x0051 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBDB8\n"  /* bsr 0x0602B736 */
+    ".word 0x334C\n"  /* add r4,r3 */
+    ".word 0x365C\n"  /* add r5,r6 */
+    ".word 0x336C\n"  /* add r6,r3 */
+    ".word 0xA024\n"  /* bra 0x0602BC16 */
+    ".word 0x4309\n"  /* shlr2 r3 */
+    ".word 0x3433\n"  /* cmp/ge r3,r4 */
+    ".word 0x8900\n"  /* bt 0x0602BBD4 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x3533\n"  /* cmp/ge r3,r5 */
+    ".word 0x8900\n"  /* bt 0x0602BBDA */
+    ".word 0x6353\n"  /* mov r5,r3 */
+    ".word 0x3633\n"  /* cmp/ge r3,r6 */
+    ".word 0x8900\n"  /* bt 0x0602BBE0 */
+    ".word 0x6363\n"  /* mov r6,r3 */
+    ".word 0xA019\n"  /* bra 0x0602BC16 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x3437\n"  /* cmp/gt r3,r4 */
+    ".word 0x8B00\n"  /* bf 0x0602BBEA */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x3537\n"  /* cmp/gt r3,r5 */
+    ".word 0x8B00\n"  /* bf 0x0602BBF0 */
+    ".word 0x6353\n"  /* mov r5,r3 */
+    ".word 0x3637\n"  /* cmp/gt r3,r6 */
+    ".word 0x8B00\n"  /* bf 0x0602BBF6 */
+    ".word 0x6363\n"  /* mov r6,r3 */
+    ".word 0xA00E\n"  /* bra 0x0602BC16 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xE001\n"  /* mov #1,r0 */
+    ".word 0xA001\n"  /* bra 0x0602BC02 */
+    ".word 0x4028\n"  /* shll16 r0 */
+    ".word 0xD012\n"  /* mov.l @(0x48,PC),r0  {[0x0602BC4C] = 0x000B8000} */
+    ".word 0x3437\n"  /* cmp/gt r3,r4 */
+    ".word 0x8B00\n"  /* bf 0x0602BC08 */
+    ".word 0x6343\n"  /* mov r4,r3 */
+    ".word 0x3537\n"  /* cmp/gt r3,r5 */
+    ".word 0x8B00\n"  /* bf 0x0602BC0E */
+    ".word 0x6353\n"  /* mov r5,r3 */
+    ".word 0x3637\n"  /* cmp/gt r3,r6 */
+    ".word 0x8B00\n"  /* bf 0x0602BC14 */
+    ".word 0x6363\n"  /* mov r6,r3 */
+    ".word 0x330C\n"  /* add r0,r3 */
+    ".word 0xD10E\n"  /* mov.l @(0x38,PC),r1  {[0x0602BC50] = 0x0602BDB4} */
+    ".word 0x6112\n"  /* mov.l @r1,r1 */
+    ".word 0xD00E\n"  /* mov.l @(0x38,PC),r0  {[0x0602BC54] = 0x06063F54} */
+    ".word 0x6002\n"  /* mov.l @r0,r0 */
+    ".word 0xD20E\n"  /* mov.l @(0x38,PC),r2  {[0x0602BC58] = 0x00020000} */
+    ".word 0x312C\n"  /* add r2,r1 */
+    ".word 0x3017\n"  /* cmp/gt r1,r0 */
+    ".word 0x8B01\n"  /* bf 0x0602BC2A */
+    ".word 0xD20D\n"  /* mov.l @(0x34,PC),r2  {[0x0602BC5C] = 0x000A0000} */
+    ".word 0x332C\n"  /* add r2,r3 */
+    ".word 0xD20D\n"  /* mov.l @(0x34,PC),r2  {[0x0602BC60] = 0x060620D4} */
+    ".word 0x633B\n"  /* neg r3,r3 */
+    ".word 0xD10D\n"  /* mov.l @(0x34,PC),r1  {[0x0602BC64] = 0x0606A4F8} */
+    ".word 0x4319\n"  /* shlr8 r3 */
+    ".word 0x6022\n"  /* mov.l @r2,r0 */
+    ".word 0x4309\n"  /* shlr2 r3 */
+    ".word 0x4309\n"  /* shlr2 r3 */
+    ".word 0x4000\n"  /* shll r0 */
+    ".word 0x0135\n"  /* mov.w r3,@(r0,r1) */
+    ".word 0x4021\n"  /* shar r0 */
+    ".word 0x7001\n"  /* add #1,r0 */
+    ".word 0x2202\n"  /* mov.l r0,@r2 */
+    ".word 0x67F6\n"  /* mov.l @r15+,r7 */
+    ".word 0x4710\n"  /* dt r7 */
+    ".word 0x890F\n"  /* bt 0x0602BC68 */
+    ".word 0xAEE2\n"  /* bra 0x0602BA10 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x8000\n"  /* mov.b r0,@(0x0,r0) */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBDB4\n"  /* bsr 0x0602B7BE */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3F54\n"  /* .word 0x3F54 */
+    ".word 0x0002\n"  /* stc sr,r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x20D4\n"  /* mov.b r13,@-r0 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0xA4F8\n"  /* bra 0x0602C65A */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0x6CF6\n"  /* mov.l @r15+,r12 */
+    ".word 0x6BF6\n"  /* mov.l @r15+,r11 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x0497\n"  /* mul.l r9,r4 */
+    ".word 0xD41E\n"  /* mov.l @(0x78,PC),r4  {[0x0602BCF8] = 0x0602BDA8} */
+    ".word 0x001A\n"  /* sts macl,r0 */
+    ".word 0x30EC\n"  /* add r14,r0 */
+    ".word 0x6105\n"  /* mov.w @r0+,r1 */
+    ".word 0x6205\n"  /* mov.w @r0+,r2 */
+    ".word 0x6305\n"  /* mov.w @r0+,r3 */
+    ".word 0x4118\n"  /* shll8 r1 */
+    ".word 0x4108\n"  /* shll2 r1 */
+    ".word 0x4100\n"  /* shll r1 */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0x4218\n"  /* shll8 r2 */
+    ".word 0x4208\n"  /* shll2 r2 */
+    ".word 0x4200\n"  /* shll r2 */
+    ".word 0x1421\n"  /* mov.l r2,@(0x4,r4) */
+    ".word 0x4318\n"  /* shll8 r3 */
+    ".word 0x4308\n"  /* shll2 r3 */
+    ".word 0x4300\n"  /* shll r3 */
+    ".word 0x1432\n"  /* mov.l r3,@(0x8,r4) */
+    ".word 0xE718\n"  /* mov #24,r7 */
+    ".word 0x376C\n"  /* add r6,r7 */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x074F\n"  /* mac.l @r4+,@r7+ */
+    ".word 0x074F\n"  /* mac.l @r4+,@r7+ */
+    ".word 0x074F\n"  /* mac.l @r4+,@r7+ */
+    ".word 0x74F4\n"  /* add #-12,r4 */
+    ".word 0x5972\n"  /* mov.l @(0x8,r7),r9 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x031A\n"  /* sts macl,r3 */
+    ".word 0x230D\n"  /* .word 0x230D */
+    ".word 0x339C\n"  /* add r9,r3 */
+    ".word 0x33A7\n"  /* cmp/gt r10,r3 */
+    ".word 0x8BC2\n"  /* bf 0x0602BC42 */
+    ".word 0x9919\n"  /* mov.w @(0x32,PC),r9 */
+    ".word 0x9019\n"  /* mov.w @(0x32,PC),r0 */
+    ".word 0x1904\n"  /* mov.l r0,@(0x10,r9) */
+    ".word 0x1930\n"  /* mov.l r3,@(0x0,r9) */
+    ".word 0xE000\n"  /* mov #0,r0 */
+    ".word 0x1905\n"  /* mov.l r0,@(0x14,r9) */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x74F4\n"  /* add #-12,r4 */
+    ".word 0x6976\n"  /* mov.l @r7+,r9 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x011A\n"  /* sts macl,r1 */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x210D\n"  /* .word 0x210D */
+    ".word 0x319C\n"  /* add r9,r1 */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x064F\n"  /* mac.l @r4+,@r6+ */
+    ".word 0x6976\n"  /* mov.l @r7+,r9 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x021A\n"  /* sts macl,r2 */
+    ".word 0x220D\n"  /* .word 0x220D */
+    ".word 0x329C\n"  /* add r9,r2 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x76E8\n"  /* add #-24,r6 */
+    ".word 0xFF00\n"  /* .word 0xFF00 */
+    ".word 0x00A0\n"  /* .word 0x00A0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBDA8\n"  /* bsr 0x0602B84E */
+    ".word 0x991A\n"  /* mov.w @(0x34,PC),r9 */
+    ".word 0x5797\n"  /* mov.l @(0x1C,r9),r7 */
+    ".word 0x371D\n"  /* dmuls.l r1,r7 */
+    ".word 0x622B\n"  /* neg r2,r2 */
+    ".word 0x010A\n"  /* sts mach,r1 */
+    ".word 0x372D\n"  /* dmuls.l r2,r7 */
+    ".word 0x2B12\n"  /* mov.l r1,@r11 */
+    ".word 0x020A\n"  /* sts mach,r2 */
+    ".word 0x1B21\n"  /* mov.l r2,@(0x4,r11) */
+    ".word 0x7B08\n"  /* add #8,r11 */
+    ".word 0x9711\n"  /* mov.w @(0x22,PC),r7 */
+    ".word 0x3177\n"  /* cmp/gt r7,r1 */
+    ".word 0x8995\n"  /* bt 0x0602BC42 */
+    ".word 0x970F\n"  /* mov.w @(0x1E,PC),r7 */
+    ".word 0x3717\n"  /* cmp/gt r1,r7 */
+    ".word 0x8992\n"  /* bt 0x0602BC42 */
+    ".word 0x970D\n"  /* mov.w @(0x1A,PC),r7 */
+    ".word 0x3277\n"  /* cmp/gt r7,r2 */
+    ".word 0x898F\n"  /* bt 0x0602BC42 */
+    ".word 0x9709\n"  /* mov.w @(0x12,PC),r7 */
+    ".word 0x3727\n"  /* cmp/gt r2,r7 */
+    ".word 0x898C\n"  /* bt 0x0602BC42 */
+    ".word 0x2C02\n"  /* mov.l r0,@r12 */
+    ".word 0x1C11\n"  /* mov.l r1,@(0x4,r12) */
+    ".word 0x1C22\n"  /* mov.l r2,@(0x8,r12) */
+    ".word 0x1C33\n"  /* mov.l r3,@(0xC,r12) */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xFF00\n"  /* .word 0xFF00 */
+    ".word 0x0190\n"  /* .word 0x0190 */
+    ".word 0xFE70\n"  /* .word 0xFE70 */
+    ".word 0x00C8\n"  /* .word 0x00C8 */
+    ".word 0xC93F\n"  /* and #0x3F,r0 */
+    ".word 0xDC09\n"  /* mov.l @(0x24,PC),r12  {[0x0602BD64] = 0x06094AE4} */
+    ".word 0x4008\n"  /* shll2 r0 */
+    ".word 0x4008\n"  /* shll2 r0 */
+    ".word 0x3C0C\n"  /* add r0,r12 */
+    ".word 0x60C2\n"  /* mov.l @r12,r0 */
+    ".word 0x4011\n"  /* cmp/pz r0 */
+    ".word 0x8B0D\n"  /* bf 0x0602BD68 */
+    ".word 0x3400\n"  /* cmp/eq r0,r4 */
+    ".word 0x8B0B\n"  /* bf 0x0602BD68 */
+    ".word 0x51C1\n"  /* mov.l @(0x4,r12),r1 */
+    ".word 0x52C2\n"  /* mov.l @(0x8,r12),r2 */
+    ".word 0x53C3\n"  /* mov.l @(0xC,r12),r3 */
+    ".word 0x2B12\n"  /* mov.l r1,@r11 */
+    ".word 0x1B21\n"  /* mov.l r2,@(0x4,r11) */
+    ".word 0x7B08\n"  /* add #8,r11 */
+    ".word 0x2532\n"  /* mov.l r3,@r5 */
+    ".word 0x472B\n"  /* jmp @r7 */
+    ".word 0x7504\n"  /* add #4,r5 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0609\n"  /* .word 0x0609 */
+    ".word 0x4AE4\n"  /* .word 0x4AE4 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBBC4\n"  /* bsr 0x0602B546 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBBCE\n"  /* bsr 0x0602B55E */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBBE4\n"  /* bsr 0x0602B58E */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBBFA\n"  /* bsr 0x0602B5BE */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xBC00\n"  /* bsr 0x0602B5CE */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2FA6\n"  /* mov.l r10,@-r15 */
+    ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
+    ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".size _scene_graph_walker, .-_scene_graph_walker\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0602BDD8\n"
@@ -8695,8 +11591,204 @@ __asm__(
     ".word 0x2428\n"  /* tst r2,r4 */
     ".size _FUN_0602BDD8, .-_FUN_0602BDD8\n"
 );
-void vdp1_texture_setup(void) { }
-void vdp1_attribute_setup(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _vdp1_texture_setup\n"
+    ".type _vdp1_texture_setup, @function\n"
+    ".global _FUN_0602C884\n"
+    "_vdp1_texture_setup:\n"
+    "_FUN_0602C884:\n"
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0x4C0B\n"  /* jsr @r12 */
+    ".word 0x6093\n"  /* mov r9,r0 */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x60F6\n"  /* mov.l @r15+,r0 */
+    ".word 0x4108\n"  /* shll2 r1 */
+    ".word 0x312C\n"  /* add r2,r1 */
+    ".word 0x6412\n"  /* mov.l @r1,r4 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x0001\n"  /* .word 0x0001 */
+    ".word 0x00EE\n"  /* mov.l @(r0,r14),r0 */
+    ".word 0x0004\n"  /* mov.b r0,@(r0,r0) */
+    ".word 0x00B4\n"  /* mov.b r11,@(r0,r0) */
+    ".word 0x0002\n"  /* stc sr,r0 */
+    ".word 0x00D2\n"  /* .word 0x00D2 */
+    ".word 0x0010\n"  /* .word 0x0010 */
+    ".word 0x00F6\n"  /* mov.l r15,@(r0,r0) */
+    ".word 0x0020\n"  /* .word 0x0020 */
+    ".word 0x00FA\n"  /* .word 0x00FA */
+    ".word 0x0096\n"  /* mov.l r9,@(r0,r0) */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0604\n"  /* mov.b r0,@(r0,r6) */
+    ".word 0x5AEC\n"  /* mov.l @(0x30,r14),r10 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xECCC\n"  /* mov #-52,r12 */
+    ".word 0x4808\n"  /* shll2 r8 */
+    ".word 0x328C\n"  /* add r8,r2 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6422\n"  /* mov.l @r2,r4 */
+    ".word 0x4801\n"  /* shlr r8 */
+    ".word 0x4808\n"  /* shll2 r8 */
+    ".word 0x328C\n"  /* add r8,r2 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6422\n"  /* mov.l @r2,r4 */
+    ".word 0x4809\n"  /* shlr2 r8 */
+    ".word 0x4808\n"  /* shll2 r8 */
+    ".word 0x328C\n"  /* add r8,r2 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x6422\n"  /* mov.l @r2,r4 */
+    ".word 0xE401\n"  /* mov #1,r4 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x4428\n"  /* shll16 r4 */
+    ".size _vdp1_texture_setup, .-_vdp1_texture_setup\n"
+);
+__asm__(
+    ".balign 4\n"
+    ".global _vdp1_attribute_setup\n"
+    ".type _vdp1_attribute_setup, @function\n"
+    ".global _FUN_0602CCEC\n"
+    "_vdp1_attribute_setup:\n"
+    "_FUN_0602CCEC:\n"
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0xE700\n"  /* mov #0,r7 */
+    ".word 0x53E2\n"  /* mov.l @(0x8,r14),r3 */
+    ".word 0x4315\n"  /* cmp/pl r3 */
+    ".word 0x8B51\n"  /* bf 0x0602CD9A */
+    ".word 0x955E\n"  /* mov.w @(0xBC,PC),r5 */
+    ".word 0x915E\n"  /* mov.w @(0xBC,PC),r1 */
+    ".word 0x4528\n"  /* shll16 r5 */
+    ".word 0x031E\n"  /* mov.l @(r0,r1),r3 */
+    ".word 0x4328\n"  /* shll16 r3 */
+    ".word 0x6453\n"  /* mov r5,r4 */
+    ".word 0x3438\n"  /* sub r3,r4 */
+    ".word 0x9259\n"  /* mov.w @(0xB2,PC),r2 */
+    ".word 0xDD31\n"  /* mov.l @(0xC4,PC),r13  {[0x0602CDCC] = 0x0602755C} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x062E\n"  /* mov.l @(r0,r2),r6 */
+    ".word 0x360D\n"  /* dmuls.l r0,r6 */
+    ".word 0x9155\n"  /* mov.w @(0xAA,PC),r1 */
+    ".word 0x9255\n"  /* mov.w @(0xAA,PC),r2 */
+    ".word 0x000A\n"  /* sts mach,r0 */
+    ".word 0x041A\n"  /* sts macl,r4 */
+    ".word 0x240D\n"  /* .word 0x240D */
+    ".word 0x31EC\n"  /* add r14,r1 */
+    ".word 0x32EC\n"  /* add r14,r2 */
+    ".word 0x6512\n"  /* mov.l @r1,r5 */
+    ".word 0x6622\n"  /* mov.l @r2,r6 */
+    ".word 0x356D\n"  /* dmuls.l r6,r5 */
+    ".word 0x060A\n"  /* sts mach,r6 */
+    ".word 0x051A\n"  /* sts macl,r5 */
+    ".word 0x256D\n"  /* .word 0x256D */
+    ".word 0x914A\n"  /* mov.w @(0x94,PC),r1 */
+    ".word 0x31EC\n"  /* add r14,r1 */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x6711\n"  /* mov.w @r1,r7 */
+    ".word 0x9447\n"  /* mov.w @(0x8E,PC),r4 */
+    ".word 0xD127\n"  /* mov.l @(0x9C,PC),r1  {[0x0602CDD0] = 0x0602E938} */
+    ".word 0x34EC\n"  /* add r14,r4 */
+    ".word 0x6441\n"  /* mov.w @r4,r4 */
+    ".word 0xE50A\n"  /* mov #10,r5 */
+    ".word 0x3453\n"  /* cmp/ge r5,r4 */
+    ".word 0x8905\n"  /* bt 0x0602CD4A */
+    ".word 0xE502\n"  /* mov #2,r5 */
+    ".word 0x3450\n"  /* cmp/eq r5,r4 */
+    ".word 0x8902\n"  /* bt 0x0602CD4A */
+    ".word 0x7501\n"  /* add #1,r5 */
+    ".word 0x3450\n"  /* cmp/eq r5,r4 */
+    ".word 0x8B02\n"  /* bf 0x0602CD50 */
+    ".word 0xE502\n"  /* mov #2,r5 */
+    ".word 0x3573\n"  /* cmp/ge r7,r5 */
+    ".word 0x8924\n"  /* bt 0x0602CD9A */
+    ".word 0x4408\n"  /* shll2 r4 */
+    ".word 0x4700\n"  /* shll r7 */
+    ".word 0x4400\n"  /* shll r4 */
+    ".word 0x371C\n"  /* add r1,r7 */
+    ".word 0x374C\n"  /* add r4,r7 */
+    ".word 0x6471\n"  /* mov.w @r7,r4 */
+    ".word 0xE700\n"  /* mov #0,r7 */
+    ".word 0x644D\n"  /* extu.w r4,r4 */
+    ".word 0x6503\n"  /* mov r0,r5 */
+    ".word 0x2F46\n"  /* mov.l r4,@-r15 */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x2F56\n"  /* mov.l r5,@-r15 */
+    ".word 0x912C\n"  /* mov.w @(0x58,PC),r1 */
+    ".word 0x31EC\n"  /* add r14,r1 */
+    ".word 0x2102\n"  /* mov.l r0,@r1 */
+    ".word 0x65F6\n"  /* mov.l @r15+,r5 */
+    ".word 0x64F6\n"  /* mov.l @r15+,r4 */
+    ".word 0x3457\n"  /* cmp/gt r5,r4 */
+    ".word 0x8911\n"  /* bt 0x0602CD9A */
+    ".word 0xB535\n"  /* bsr 0x0602D7E4 */
+    ".word 0x60E3\n"  /* mov r14,r0 */
+    ".word 0x9124\n"  /* mov.w @(0x48,PC),r1 */
+    ".word 0x31EC\n"  /* add r14,r1 */
+    ".word 0x6211\n"  /* mov.w @r1,r2 */
+    ".word 0x4215\n"  /* cmp/pl r2 */
+    ".word 0x890A\n"  /* bt 0x0602CD9A */
+    ".word 0x9118\n"  /* mov.w @(0x30,PC),r1 */
+    ".word 0x31EC\n"  /* add r14,r1 */
+    ".word 0x6712\n"  /* mov.l @r1,r7 */
+    ".word 0x6473\n"  /* mov r7,r4 */
+    ".word 0xD511\n"  /* mov.l @(0x44,PC),r5  {[0x0602CDD4] = 0x23280000} */
+    ".word 0x4700\n"  /* shll r7 */
+    ".word 0x4428\n"  /* shll16 r4 */
+    ".word 0x9619\n"  /* mov.w @(0x32,PC),r6 */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x36EC\n"  /* add r14,r6 */
+    ".word 0x2602\n"  /* mov.l r0,@r6 */
+    ".word 0x60E3\n"  /* mov r14,r0 */
+    ".word 0x910E\n"  /* mov.w @(0x1C,PC),r1 */
+    ".word 0x9213\n"  /* mov.w @(0x26,PC),r2 */
+    ".word 0x031E\n"  /* mov.l @(r0,r1),r3 */
+    ".word 0x042E\n"  /* mov.l @(r0,r2),r4 */
+    ".word 0x3348\n"  /* sub r4,r3 */
+    ".word 0xE501\n"  /* mov #1,r5 */
+    ".word 0x960F\n"  /* mov.w @(0x1E,PC),r6 */
+    ".word 0x4528\n"  /* shll16 r5 */
+    ".word 0x3367\n"  /* cmp/gt r6,r3 */
+    ".word 0x8913\n"  /* bt 0x0602CDD8 */
+    ".word 0x6363\n"  /* mov r6,r3 */
+    ".word 0xA014\n"  /* bra 0x0602CDDE */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x2134\n"  /* mov.b r3,@-r1 */
+    ".word 0x00E0\n"  /* .word 0x00E0 */
+    ".word 0x011C\n"  /* mov.b @(r0,r1),r1 */
+    ".word 0x010C\n"  /* mov.b @(r0,r0),r1 */
+    ".word 0x0144\n"  /* mov.b r4,@(r0,r1) */
+    ".word 0x00DC\n"  /* mov.b @(r0,r13),r0 */
+    ".word 0x007C\n"  /* mov.b @(r0,r7),r0 */
+    ".word 0x0264\n"  /* mov.b r6,@(r0,r2) */
+    ".word 0x016C\n"  /* mov.b @(r0,r6),r1 */
+    ".word 0x0110\n"  /* .word 0x0110 */
+    ".word 0x2B85\n"  /* mov.w r8,@-r11 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0x755C\n"  /* add #92,r5 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xE938\n"  /* mov #56,r9 */
+    ".word 0x2328\n"  /* tst r2,r3 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x3533\n"  /* cmp/ge r3,r5 */
+    ".word 0x8900\n"  /* bt 0x0602CDDE */
+    ".word 0x6353\n"  /* mov r5,r3 */
+    ".word 0x4411\n"  /* cmp/pz r4 */
+    ".word 0x8B02\n"  /* bf 0x0602CDE8 */
+    ".word 0x9506\n"  /* mov.w @(0xC,PC),r5 */
+    ".word 0x3458\n"  /* sub r5,r4 */
+    ".word 0x0246\n"  /* mov.l r4,@(r0,r2) */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x9203\n"  /* mov.w @(0x6,PC),r2 */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0276\n"  /* mov.l r7,@(r0,r2) */
+    ".word 0x05C2\n"  /* .word 0x05C2 */
+    ".word 0x00C0\n"  /* .word 0x00C0 */
+    ".size _vdp1_attribute_setup, .-_vdp1_attribute_setup\n"
+);
 __asm__(
     ".balign 4\n"
     ".short 0x0009\n"  /* alignment padding */
@@ -9050,7 +12142,145 @@ __asm__(
     ".word 0xDD2A\n"  /* mov.l @(0xA8,PC),r13  {[0x0602DBCC] = 0x0601D5F4} */
     ".size _FUN_0602DB14, .-_FUN_0602DB14\n"
 );
-void per_frame_command_reset(void) { }
+__asm__(
+    ".balign 4\n"
+    ".short 0x0009\n"  /* alignment padding */
+    ".global _per_frame_command_reset\n"
+    ".type _per_frame_command_reset, @function\n"
+    ".global _FUN_0602DB22\n"
+    "_per_frame_command_reset:\n"
+    "_FUN_0602DB22:\n"
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0xD42A\n"  /* mov.l @(0xA8,PC),r4  {[0x0602DBD4] = 0x06082A30} */
+    ".word 0xD126\n"  /* mov.l @(0x98,PC),r1  {[0x0602DBC8] = 0x00000000} */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0xD429\n"  /* mov.l @(0xA4,PC),r4  {[0x0602DBD8] = 0x06082A26} */
+    ".word 0x2410\n"  /* mov.b r1,@r4 */
+    ".word 0xD429\n"  /* mov.l @(0xA4,PC),r4  {[0x0602DBDC] = 0x060788FC} */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0xD429\n"  /* mov.l @(0xA4,PC),r4  {[0x0602DBE0] = 0x06082A38} */
+    ".word 0x2412\n"  /* mov.l r1,@r4 */
+    ".word 0xD029\n"  /* mov.l @(0xA4,PC),r0  {[0x0602DBE4] = 0x0607E940} */
+    ".word 0x6002\n"  /* mov.l @r0,r0 */
+    ".word 0xD329\n"  /* mov.l @(0xA4,PC),r3  {[0x0602DBE8] = 0x000000C8} */
+    ".word 0xD12A\n"  /* mov.l @(0xA8,PC),r1  {[0x0602DBEC] = 0x0607EAC8} */
+    ".word 0x2132\n"  /* mov.l r3,@r1 */
+    ".word 0xD320\n"  /* mov.l @(0x80,PC),r3  {[0x0602DBC8] = 0x00000000} */
+    ".word 0x9130\n"  /* mov.w @(0x60,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x912F\n"  /* mov.w @(0x5E,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x912E\n"  /* mov.w @(0x5C,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x912D\n"  /* mov.w @(0x5A,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0xD125\n"  /* mov.l @(0x94,PC),r1  {[0x0602DBF0] = 0x06082A2C} */
+    ".word 0x2132\n"  /* mov.l r3,@r1 */
+    ".word 0x912A\n"  /* mov.w @(0x54,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x9129\n"  /* mov.w @(0x52,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x9128\n"  /* mov.w @(0x50,PC),r1 */
+    ".word 0x031E\n"  /* mov.l @(r0,r1),r3 */
+    ".word 0x9127\n"  /* mov.w @(0x4E,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0x9126\n"  /* mov.w @(0x4C,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0xD315\n"  /* mov.l @(0x54,PC),r3  {[0x0602DBC8] = 0x00000000} */
+    ".word 0x9124\n"  /* mov.w @(0x48,PC),r1 */
+    ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
+    ".word 0xD51F\n"  /* mov.l @(0x7C,PC),r5  {[0x0602DBF4] = 0x00FA0000} */
+    ".word 0xD61F\n"  /* mov.l @(0x7C,PC),r6  {[0x0602DBF8] = 0x0000038E} */
+    ".word 0x365D\n"  /* dmuls.l r5,r6 */
+    ".word 0x050A\n"  /* sts mach,r5 */
+    ".word 0x061A\n"  /* sts macl,r6 */
+    ".word 0x265D\n"  /* .word 0x265D */
+    ".word 0x911D\n"  /* mov.w @(0x3A,PC),r1 */
+    ".word 0x031E\n"  /* mov.l @(r0,r1),r3 */
+    ".word 0xD41D\n"  /* mov.l @(0x74,PC),r4  {[0x0602DBFC] = 0x000000FA} */
+    ".word 0x3437\n"  /* cmp/gt r3,r4 */
+    ".word 0x8901\n"  /* bt 0x0602DB90 */
+    ".word 0xD11C\n"  /* mov.l @(0x70,PC),r1  {[0x0602DC00] = 0x0000000C} */
+    ".word 0x0166\n"  /* mov.l r6,@(r0,r1) */
+    ".word 0xD11C\n"  /* mov.l @(0x70,PC),r1  {[0x0602DC04] = 0x00000194} */
+    ".word 0x0166\n"  /* mov.l r6,@(r0,r1) */
+    ".word 0xD11C\n"  /* mov.l @(0x70,PC),r1  {[0x0602DC08] = 0x0605A1C4} */
+    ".word 0x9214\n"  /* mov.w @(0x28,PC),r2 */
+    ".word 0x2122\n"  /* mov.l r2,@r1 */
+    ".word 0xD11C\n"  /* mov.l @(0x70,PC),r1  {[0x0602DC0C] = 0x06063E1C} */
+    ".word 0x6212\n"  /* mov.l @r1,r2 */
+    ".word 0xD11C\n"  /* mov.l @(0x70,PC),r1  {[0x0602DC10] = 0x06082A34} */
+    ".word 0x2122\n"  /* mov.l r2,@r1 */
+    ".word 0xD11C\n"  /* mov.l @(0x70,PC),r1  {[0x0602DC14] = 0x06063E20} */
+    ".word 0x920D\n"  /* mov.w @(0x1A,PC),r2 */
+    ".word 0x2122\n"  /* mov.l r2,@r1 */
+    ".word 0xA03D\n"  /* bra 0x0602DC26 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0114\n"  /* mov.b r1,@(r0,r1) */
+    ".word 0x00D0\n"  /* .word 0x00D0 */
+    ".word 0x0040\n"  /* .word 0x0040 */
+    ".word 0x0244\n"  /* mov.b r4,@(r0,r2) */
+    ".word 0x0058\n"  /* sets */
+    ".word 0x005C\n"  /* mov.b @(r0,r5),r0 */
+    ".word 0x025C\n"  /* mov.b @(r0,r5),r2 */
+    ".word 0x0030\n"  /* .word 0x0030 */
+    ".word 0x0028\n"  /* clrmac */
+    ".word 0x0148\n"  /* .word 0x0148 */
+    ".word 0x0008\n"  /* clrt */
+    ".word 0x0002\n"  /* stc sr,r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0002\n"  /* stc sr,r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0601\n"  /* .word 0x0601  -> FUN_0601D5F4 */
+    ".word 0xD5F4\n"  /* mov.l @(0x3D0,PC),r5  {[0x0602DFA0] = 0x00000004} */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0003\n"  /* .word 0x0003 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x2A30\n"  /* mov.b r3,@r10 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x2A26\n"  /* mov.l r2,@-r10 */
+    ".word 0x0607\n"  /* mul.l r0,r6 */
+    ".word 0x88FC\n"  /* cmp/eq #-4,r0 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x2A38\n"  /* tst r3,r10 */
+    ".word 0x0607\n"  /* mul.l r0,r6 */
+    ".word 0xE940\n"  /* mov #64,r9 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x00C8\n"  /* .word 0x00C8 */
+    ".word 0x0607\n"  /* mul.l r0,r6 */
+    ".word 0xEAC8\n"  /* mov #-56,r10 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x2A2C\n"  /* .word 0x2A2C */
+    ".word 0x00FA\n"  /* .word 0x00FA */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x038E\n"  /* mov.l @(r0,r8),r3 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x00FA\n"  /* .word 0x00FA */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x000C\n"  /* mov.b @(r0,r0),r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0194\n"  /* mov.b r9,@(r0,r1) */
+    ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
+    ".word 0xA1C4\n"  /* bra 0x0602DF96 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3E1C\n"  /* add r1,r14 */
+    ".word 0x0608\n"  /* .word 0x0608 */
+    ".word 0x2A34\n"  /* mov.b r3,@-r10 */
+    ".word 0x0606\n"  /* mov.l r0,@(r0,r6) */
+    ".word 0x3E20\n"  /* cmp/eq r2,r14 */
+    ".word 0x2F86\n"  /* mov.l r8,@-r15 */
+    ".word 0x2F96\n"  /* mov.l r9,@-r15 */
+    ".word 0x2FA6\n"  /* mov.l r10,@-r15 */
+    ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
+    ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
+    ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
+    ".size _per_frame_command_reset, .-_per_frame_command_reset\n"
+);
 __asm__(
     ".balign 4\n"
     ".global _FUN_0602DC24\n"
@@ -11762,7 +14992,160 @@ __asm__(
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".size _FUN_0602EDA2, .-_FUN_0602EDA2\n"
 );
-void per_car_render_pipeline(void) { }
+__asm__(
+    ".balign 4\n"
+    ".global _per_car_render_pipeline\n"
+    ".type _per_car_render_pipeline, @function\n"
+    ".global _FUN_0602EEB8\n"
+    "_per_car_render_pipeline:\n"
+    "_FUN_0602EEB8:\n"
+    ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
+    ".word 0x4F22\n"  /* sts.l pr,@-r15 */
+    ".word 0xDD10\n"  /* mov.l @(0x40,PC),r13  {[0x0602EF00] = 0x0602FDA4} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD10\n"  /* mov.l @(0x40,PC),r13  {[0x0602EF04] = 0x0602EFF0} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xD10F\n"  /* mov.l @(0x3C,PC),r1  {[0x0602EF08] = 0x0607EAC8} */
+    ".word 0xE200\n"  /* mov #0,r2 */
+    ".word 0x2122\n"  /* mov.l r2,@r1 */
+    ".word 0x9114\n"  /* mov.w @(0x28,PC),r1 */
+    ".word 0x021D\n"  /* mov.w @(r0,r1),r2 */
+    ".word 0x7102\n"  /* add #2,r1 */
+    ".word 0x0125\n"  /* mov.w r2,@(r0,r1) */
+    ".word 0xDD0D\n"  /* mov.l @(0x34,PC),r13  {[0x0602EF0C] = 0x0602F3EC} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0C\n"  /* mov.l @(0x30,PC),r13  {[0x0602EF10] = 0x0602F7BC} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0C\n"  /* mov.l @(0x30,PC),r13  {[0x0602EF14] = 0x0602F0E8} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x9108\n"  /* mov.w @(0x10,PC),r1 */
+    ".word 0x021D\n"  /* mov.w @(r0,r1),r2 */
+    ".word 0x2228\n"  /* tst r2,r2 */
+    ".word 0x8915\n"  /* bt 0x0602EF1C */
+    ".word 0xDD09\n"  /* mov.l @(0x24,PC),r13  {[0x0602EF18] = 0x0602F270} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xA014\n"  /* bra 0x0602EF22 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x0250\n"  /* .word 0x0250 */
+    ".word 0x009C\n"  /* mov.b @(r0,r9),r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xFDA4\n"  /* .word 0xFDA4 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602EFF0 */
+    ".word 0xEFF0\n"  /* mov #-16,r15 */
+    ".word 0x0607\n"  /* mul.l r0,r6 */
+    ".word 0xEAC8\n"  /* mov #-56,r10 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xF3EC\n"  /* .word 0xF3EC */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xF7BC\n"  /* .word 0xF7BC */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xF0E8\n"  /* .word 0xF0E8 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602F270 */
+    ".word 0xF270\n"  /* .word 0xF270 */
+    ".word 0xDD11\n"  /* mov.l @(0x44,PC),r13  {[0x0602EF64] = 0x0602F17C} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD11\n"  /* mov.l @(0x44,PC),r13  {[0x0602EF68] = 0x0602F474} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD10\n"  /* mov.l @(0x40,PC),r13  {[0x0602EF6C] = 0x0602F4B4} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD10\n"  /* mov.l @(0x40,PC),r13  {[0x0602EF70] = 0x0602F5B6} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0F\n"  /* mov.l @(0x3C,PC),r13  {[0x0602EF74] = 0x0602EFCC} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0F\n"  /* mov.l @(0x3C,PC),r13  {[0x0602EF78] = 0x0602C690} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0E\n"  /* mov.l @(0x38,PC),r13  {[0x0602EF7C] = 0x0602C8E2} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0E\n"  /* mov.l @(0x38,PC),r13  {[0x0602EF80] = 0x0602CA84} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x9108\n"  /* mov.w @(0x10,PC),r1 */
+    ".word 0xDC0D\n"  /* mov.l @(0x34,PC),r12  {[0x0602EF84] = 0x0602D08A} */
+    ".word 0x021D\n"  /* mov.w @(r0,r1),r2 */
+    ".word 0xDD0D\n"  /* mov.l @(0x34,PC),r13  {[0x0602EF88] = 0x0602D43C} */
+    ".word 0x2228\n"  /* tst r2,r2 */
+    ".word 0x8919\n"  /* bt 0x0602EF8C */
+    ".word 0x4C0B\n"  /* jsr @r12 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xA018\n"  /* bra 0x0602EF90 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x009E\n"  /* mov.l @(r0,r9),r0 */
+    ".word 0x0000\n"  /* .word 0x0000 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xF17C\n"  /* .word 0xF17C */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xF474\n"  /* .word 0xF474 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xF4B4\n"  /* .word 0xF4B4 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602F5B6 */
+    ".word 0xF5B6\n"  /* .word 0xF5B6 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xEFCC\n"  /* mov #-52,r15 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602C690 */
+    ".word 0xC690\n"  /* mov.l @(0x240,GBR),r0 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602C8E2 */
+    ".word 0xC8E2\n"  /* tst #0xE2,r0 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602CA84 */
+    ".word 0xCA84\n"  /* xor #0x84,r0 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602D08A */
+    ".word 0xD08A\n"  /* mov.l @(0x228,PC),r0  {[0x0602F1B0] = 0x66623643} */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602D43C */
+    ".word 0xD43C\n"  /* mov.l @(0xF0,PC),r4  {[0x0602F07C] = 0x9310213E} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0A\n"  /* mov.l @(0x28,PC),r13  {[0x0602EFBC] = 0x0602CDF6} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD0A\n"  /* mov.l @(0x28,PC),r13  {[0x0602EFC0] = 0x0602D814} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0xDD09\n"  /* mov.l @(0x24,PC),r13  {[0x0602EFC4] = 0x0602D8BC} */
+    ".word 0x4D0B\n"  /* jsr @r13 */
+    ".word 0x0009\n"  /* nop */
+    ".word 0x5200\n"  /* mov.l @(0x0,r0),r2 */
+    ".word 0xD308\n"  /* mov.l @(0x20,PC),r3  {[0x0602EFC8] = 0xFFFFFC3F} */
+    ".word 0x2239\n"  /* and r3,r2 */
+    ".word 0x1020\n"  /* mov.l r2,@(0x0,r0) */
+    ".word 0x4F26\n"  /* lds.l @r15+,pr */
+    ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
+    ".word 0x6CF6\n"  /* mov.l @r15+,r12 */
+    ".word 0x6BF6\n"  /* mov.l @r15+,r11 */
+    ".word 0x6AF6\n"  /* mov.l @r15+,r10 */
+    ".word 0x69F6\n"  /* mov.l @r15+,r9 */
+    ".word 0x000B\n"  /* rts */
+    ".word 0x68F6\n"  /* mov.l @r15+,r8 */
+    ".word 0x0602\n"  /* stc sr,r6  -> FUN_0602CDF6 */
+    ".word 0xCDF6\n"  /* .word 0xCDF6 */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xD814\n"  /* mov.l @(0x50,PC),r8  {[0x0602F014] = 0x31284111} */
+    ".word 0x0602\n"  /* stc sr,r6 */
+    ".word 0xD8BC\n"  /* mov.l @(0x2F0,PC),r8  {[0x0602F2B8] = 0x32308947} */
+    ".word 0xFFFF\n"  /* .word 0xFFFF */
+    ".word 0xFC3F\n"  /* .word 0xFC3F */
+    ".word 0x5409\n"  /* mov.l @(0x24,r0),r4 */
+    ".word 0x950A\n"  /* mov.w @(0x14,PC),r5 */
+    ".word 0x960A\n"  /* mov.w @(0x14,PC),r6 */
+    ".word 0x350C\n"  /* add r0,r5 */
+    ".word 0x360C\n"  /* add r0,r6 */
+    ".word 0x6E03\n"  /* mov r0,r14 */
+    ".word 0xDC04\n"  /* mov.l @(0x10,PC),r12  {[0x0602EFEC] = 0x06027358} */
+    ".size _per_car_render_pipeline, .-_per_car_render_pipeline\n"
+);
 __asm__(
     ".balign 4\n"
     ".short 0x0009\n"  /* alignment padding */
