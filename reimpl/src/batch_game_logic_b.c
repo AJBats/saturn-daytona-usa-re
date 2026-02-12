@@ -847,63 +847,41 @@ void FUN_0600ca96(param_1)
 
 }
 
+/* track_spline_sample -- Sample track spline at given parameter.
+ * Even param_2: reads exact track point from spline table (0x0607EB88).
+ * Odd param_2: interpolates between two adjacent points (average).
+ * Spline index offset from car's +0x1F8 field, base at 0x0607EB88.
+ * Writes X, Z position and rotation data into param_1 output buffer. */
 void FUN_0600cb90(param_1, param_2)
     int *param_1;
     unsigned int param_2;
 {
+    int *spline_pt;
 
-  unsigned int uVar1;
-
-  int *piVar2;
-
-  unsigned int uVar3;
-
-  int *piVar4;
-
-  if ((param_2 & 1) == 0) {
-
-    piVar2 = (int *)(((*(unsigned int *)(CAR_PTR_CURRENT + 0x1f8) >> 8) +
-
+    if ((param_2 & 1) == 0) {
+        /* Exact point */
+        spline_pt = (int *)(((*(unsigned int *)(CAR_PTR_CURRENT + 0x1f8) >> 8) +
                      ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
-
-    *param_1 = *piVar2;
-
-    param_1[2] = piVar2[1];
-
-  }
-
-  else {
-
-    uVar3 = ((param_2 & 0xffff) >> 1) + 1;
-
-    if (*(unsigned int *)0x0607EA9C < uVar3) {
-
-      uVar3 = 0;
-
+        *param_1 = *spline_pt;
+        param_1[2] = spline_pt[1];
+    } else {
+        /* Interpolate between two points */
+        unsigned int next_idx = ((param_2 & 0xffff) >> 1) + 1;
+        if (*(unsigned int *)0x0607EA9C < next_idx) {
+            next_idx = 0;                        /* wrap around */
+        }
+        unsigned int base_off = *(unsigned int *)(CAR_PTR_CURRENT + 0x1f8) >> 8;
+        spline_pt = (int *)((base_off + ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
+        int *next_pt = (int *)((base_off + (next_idx << 3)) << 4 + *(int *)0x0607EB88);
+        *param_1 = *spline_pt + *next_pt >> 1;
+        param_1[2] = spline_pt[1] + next_pt[1] >> 1;
     }
 
-    uVar1 = *(unsigned int *)(CAR_PTR_CURRENT + 0x1f8) >> 8;
-
-    piVar2 = (int *)((uVar1 + ((param_2 & 0xffff) >> 1) << 3) << 4 + *(int *)0x0607EB88);
-
-    piVar4 = (int *)((uVar1 + (uVar3 << 3)) << 4 + *(int *)0x0607EB88);
-
-    *param_1 = *piVar2 + *piVar4 >> 1;
-
-    param_1[2] = piVar2[1] + piVar4[1] >> 1;
-
-  }
-
-  *(short *)(param_1 + 3) = *(short *)(piVar2 + 2);
-
-  *(short *)((int)param_1 + 0xe) = *(short *)((int)piVar2 + 10) << 2;
-
-  *(short *)(param_1 + 4) = *(short *)(piVar2 + 3);
-
-  *(short *)((int)param_1 + 0x12) = 0;
-
-  return;
-
+    /* Copy rotation data */
+    *(short *)(param_1 + 3) = *(short *)(spline_pt + 2);
+    *(short *)((int)param_1 + 0xe) = *(short *)((int)spline_pt + 10) << 2;
+    *(short *)(param_1 + 4) = *(short *)(spline_pt + 3);
+    *(short *)((int)param_1 + 0x12) = 0;
 }
 
 void FUN_0600cc38(param_1, param_2)
@@ -1090,59 +1068,40 @@ void FUN_0600ce66(void)
         (unsigned int)*(unsigned short *)((*(int *)(base + DAT_0600cf3a) << 2) + *(int *)0x0607EB84);
 }
 
+/* checkpoint_progress_track -- Track checkpoint crossing progress.
+ * Saves previous checkpoint value, reads new from track lookup table
+ * (0x0607EB84). Computes delta between current and prior positions.
+ * If delta is positive and exceeds (total_checkpoints - 16), increments
+ * lap counter at +0x228, records time delta (GAME_STATE_VAR - split),
+ * and stores frame counter from 0x0607EBD0. */
 int FUN_0600ceba()
 {
+    int off = (int)DAT_0600cf3a;
+    int car = CAR_PTR_CURRENT;
+    int track_tbl = *(int *)0x0607EB84;
 
-  char *puVar1;
+    /* Shift checkpoint history */
+    *(int *)(car + off + 0x6c) = *(int *)(car + off + 0x68);
+    *(unsigned int *)(car + off + 0x68) =
+        (unsigned int)*(unsigned short *)(*(int *)(car + off) << 2 + track_tbl);
 
-  int iVar2;
+    (*(int(*)())0x06035228)();
+    (*(int(*)())0x06035228)();
 
-  int iVar3;
+    int prev_off = DAT_0600cf40 + -4;
+    int delta = (int)(short)((short)*(int *)(car + DAT_0600cf40) -
+                             (short)*(int *)(car + prev_off));
 
-  int iVar4;
-
-  iVar2 = (int)DAT_0600cf3a;
-
-  iVar4 = CAR_PTR_CURRENT;
-
-  iVar3 = *(int *)0x0607EB84;
-
-  *(int *)(iVar4 + iVar2 + 0x6c) = *(int *)(iVar4 + iVar2 + 0x68);
-
-  *(unsigned int *)(iVar4 + iVar2 + 0x68) = (unsigned int)*(unsigned short *)(*(int *)(iVar4 + iVar2) << 2 + iVar3);
-
-  (*(int(*)())0x06035228)();
-
-  (*(int(*)())0x06035228)();
-
-  iVar2 = DAT_0600cf40 + -4;
-
-  iVar3 = (int)(short)((short)*(int *)(iVar4 + DAT_0600cf40) -
-
-                      (short)*(int *)(iVar4 + iVar2));
-
-  if ((0 < iVar3) && (*(int *)0x0607EA9C + -0x10 < iVar3)) {
-
-    iVar2 = 0x228;
-
-    iVar3 = *(int *)(iVar4 + iVar2) + 1;
-
-    *(int *)(iVar4 + iVar2) = iVar3;
-
-    *(int *)(iVar4 + iVar2 + -0xc) = iVar3;
-
-    puVar1 = (int *)0x0607EBD0;
-
-    *(int *)(iVar4 + iVar2 + -8) = GAME_STATE_VAR - *(int *)(iVar4 + iVar2 + 4);
-
-    iVar2 = iVar2 + 4;
-
-    *(int *)(iVar4 + iVar2) = *(int *)puVar1;
-
-  }
-
-  return iVar2;
-
+    if ((0 < delta) && (*(int *)0x0607EA9C + -0x10 < delta)) {
+        prev_off = 0x228;
+        int lap_count = *(int *)(car + prev_off) + 1;
+        *(int *)(car + prev_off) = lap_count;
+        *(int *)(car + prev_off + -0xc) = lap_count;
+        *(int *)(car + prev_off + -8) = GAME_STATE_VAR - *(int *)(car + prev_off + 4);
+        prev_off = prev_off + 4;
+        *(int *)(car + prev_off) = *(int *)0x0607EBD0;
+    }
+    return prev_off;
 }
 
 unsigned int FUN_0600cf58()
@@ -1296,59 +1255,35 @@ unsigned int FUN_0600cf58()
 
 }
 
+/* ai_speed_target_adjust -- Adjust AI car's speed target relative to player.
+ * Only active if car flags have bits 22-23 set. Compares AI and player
+ * positions (DAT_0600d114 offset). If AI is behind, adds +0x200; if ahead,
+ * subtracts 0x200. Clamps result to 0..0x800 range and stores at +0x1F8.
+ * Also stores step size (0x200) at PTR_DAT_0600d11c. */
 int FUN_0600d0b8()
 {
+    int step = 0x200;
+    unsigned int *player_car = *(unsigned int **)0x0607E940;
+    int ai_car = CAR_PTR_TARGET;
 
-  int iVar1;
-
-  unsigned int *puVar2;
-
-  int iVar3;
-
-  iVar3 = 0x200;
-
-  puVar2 = *(unsigned int **)0x0607E940;
-
-  iVar1 = CAR_PTR_TARGET;
-
-  if ((*puVar2 & (unsigned int)0x00C00000) != 0) {
-
-    if (*(int *)(iVar1 + DAT_0600d114) < *(int *)((int)puVar2 + (int)DAT_0600d114)) {
-
-      iVar1 = *(int *)(iVar1 + DAT_0600d114) + iVar3;
-
+    if ((*player_car & (unsigned int)0x00C00000) != 0) {
+        int adjusted;
+        if (*(int *)(ai_car + DAT_0600d114) < *(int *)((int)player_car + (int)DAT_0600d114)) {
+            adjusted = *(int *)(ai_car + DAT_0600d114) + step;
+        } else {
+            adjusted = *(int *)(ai_car + DAT_0600d114) + -512;
+        }
+        /* Clamp to 0..0x800 */
+        if (adjusted < 0) {
+            *(int *)((int)player_car + 0x1f8) = 0;
+        } else if (DAT_0600d11a < adjusted) {
+            *(int *)((int)player_car + 0x1f8) = 0x800;
+        } else {
+            *(int *)((int)player_car + 0x1f8) = adjusted;
+        }
+        *(int *)((int)player_car + (int)PTR_DAT_0600d11c) = step;
     }
-
-    else {
-
-      iVar1 = *(int *)(iVar1 + DAT_0600d114) + -512;
-
-    }
-
-    if (iVar1 < 0) {
-
-      *(int *)((int)puVar2 + 0x1f8) = 0;
-
-    }
-
-    else if (DAT_0600d11a < iVar1) {
-
-      *(int *)((int)puVar2 + 0x1f8) = 0x800;
-
-    }
-
-    else {
-
-      *(int *)((int)puVar2 + 0x1f8) = iVar1;
-
-    }
-
-    *(int *)((int)puVar2 + (int)PTR_DAT_0600d11c) = iVar3;
-
-  }
-
-  return 0;
-
+    return 0;
 }
 
 int FUN_0600d12c()
@@ -1452,65 +1387,38 @@ LAB_0600d1a4:
 
 }
 
+/* ai_position_approach -- Adjust AI car's position toward target within bounds.
+ * Computes position delta between target and current car. If delta is
+ * within threshold range (DAT_0600d26c..DAT_0600d26e), applies +/-16
+ * nudge toward target. Clamps result to 0..0x800 and stores at
+ * DAT_0600d270. Sets approach step at PTR_DAT_0600d274 = 0x40. */
 int FUN_0600d210()
 {
+    int pos_off = (int)DAT_0600d26a;
+    int car = CAR_PTR_CURRENT;
+    int target_pos = *(int *)(CAR_PTR_TARGET + pos_off);
+    int delta = target_pos - *(int *)(car + pos_off);
+    int result = pos_off;
 
-  int iVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  iVar1 = (int)DAT_0600d26a;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  iVar2 = *(int *)(CAR_PTR_TARGET + iVar1);
-
-  iVar4 = iVar2 - *(int *)(iVar3 + iVar1);
-
-  if ((DAT_0600d26c <= iVar4) && (iVar4 <= DAT_0600d26e)) {
-
-    if (iVar2 < *(int *)(iVar3 + DAT_0600d26a)) {
-
-      iVar2 = iVar2 + -0x10;
-
+    if ((DAT_0600d26c <= delta) && (delta <= DAT_0600d26e)) {
+        /* Apply directional nudge */
+        if (target_pos < *(int *)(car + DAT_0600d26a)) {
+            target_pos = target_pos + -0x10;
+        } else {
+            target_pos = target_pos + 0x10;
+        }
+        /* Clamp to 0..0x800 */
+        if (target_pos < 0) {
+            *(int *)(car + DAT_0600d270) = 0;
+        } else if (DAT_0600d272 < target_pos) {
+            *(int *)(car + DAT_0600d270) = 0x800;
+        } else {
+            *(int *)(car + DAT_0600d270) = target_pos;
+        }
+        result = (int)PTR_DAT_0600d274;
+        *(int *)(car + result) = 0x40;
     }
-
-    else {
-
-      iVar2 = iVar2 + 0x10;
-
-    }
-
-    if (iVar2 < 0) {
-
-      *(int *)(iVar3 + DAT_0600d270) = 0;
-
-    }
-
-    else if (DAT_0600d272 < iVar2) {
-
-      *(int *)(iVar3 + DAT_0600d270) = 0x800;
-
-    }
-
-    else {
-
-      *(int *)(iVar3 + DAT_0600d270) = iVar2;
-
-    }
-
-    iVar1 = (int)PTR_DAT_0600d274;
-
-    *(int *)(iVar3 + iVar1) = 0x40;
-
-  }
-
-  return iVar1;
-
+    return result;
 }
 
 /* nop_d266 -- Placeholder / stripped function (no-op). */

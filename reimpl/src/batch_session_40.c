@@ -78,72 +78,42 @@ extern int PTR_DAT_06041b0c;
 extern int PTR_DAT_06041cac;
 extern int PTR_DAT_06041eb8;
 
+/* cd_subsystem_open -- Open CD subsystem with given mode.
+ * Clears active bit in state flags (DAT_0604009e). Calls low-level
+ * open (0x06040C98) with session buffer +0xD0 and mode param.
+ * On success, sets active bit. Stores max channel (0x17 or -1 based
+ * on mode) at session +0xC8. Maps error codes: -15 -> -3, -14 -> -2,
+ * -13 -> -23, other non-zero -> -1, 0 -> success. */
 int FUN_0604000c(param_1)
     int param_1;
 {
+    char *cd_state_ptr = (char *)0x060A4D14;    /* CD subsystem state */
+    int result;
+    int max_channel;
 
-  char *puVar1;
+    /* Clear active flag */
+    *(unsigned int *)(CD_STATE_A + (int)DAT_0604009e) =
+         *(unsigned int *)(CD_STATE_A + (int)DAT_0604009e) & 0xfffffffe;
 
-  int iVar2;
+    result = (*(int(*)())0x06040C98)(*(int *)cd_state_ptr + 0xd0, param_1);
 
-  int uVar3;
-
-  puVar1 = (char *)0x060A4D14;
-
-  *(unsigned int *)(CD_STATE_A + (int)DAT_0604009e) =
-
-       *(unsigned int *)(CD_STATE_A + (int)DAT_0604009e) & 0xfffffffe;
-
-  iVar2 = (*(int(*)())0x06040C98)(*(int *)puVar1 + 0xd0,param_1);
-
-  if (iVar2 == 0) {
-
-    *(unsigned int *)((int)DAT_0604009e + *(int *)puVar1) =
-
-         *(unsigned int *)(*(int *)puVar1 + (int)DAT_0604009e) | 1;
-
-  }
-
-  if (param_1 == 0) {
-
-    uVar3 = 0xffffffff;
-
-  }
-
-  else {
-
-    uVar3 = 0x17;
-
-  }
-
-  *(int *)(*(int *)puVar1 + 0xc8) = uVar3;
-
-  if (iVar2 == -0xf) {
-
-    return 0xfffffffd;
-
-  }
-
-  if (iVar2 == -0xe) {
-
-    return 0xfffffffe;
-
-  }
-
-  if (iVar2 != -0xd) {
-
-    if (iVar2 != 0) {
-
-      return 0xffffffff;
-
+    if (result == 0) {
+        /* Set active flag on success */
+        *(unsigned int *)((int)DAT_0604009e + *(int *)cd_state_ptr) =
+             *(unsigned int *)(*(int *)cd_state_ptr + (int)DAT_0604009e) | 1;
     }
 
-    return 0;
+    /* Set max channel count based on mode */
+    max_channel = (param_1 == 0) ? 0xffffffff : 0x17;
+    *(int *)(*(int *)cd_state_ptr + 0xc8) = max_channel;
 
-  }
-
-  return 0xffffffe9;
-
+    /* Map error codes */
+    if (result == -0xf) return 0xfffffffd;
+    if (result == -0xe) return 0xfffffffe;
+    if (result != -0xd) {
+        return (result != 0) ? 0xffffffff : 0;
+    }
+    return 0xffffffe9;
 }
 
 /* cd_sector_size_select -- Return CD sector data size based on mode flag.
