@@ -834,138 +834,79 @@ LAB_0601cda4:
 
 }
 
+/* palette_fade_out -- Fade VDP2 palette to black.
+ * Reads 32 palette entries from VDP2 CRAM (0x25F00000),
+ * decomposes each RGB555 color, attenuates R/G/B by step
+ * from fade table at 0x0605DF58, recomposes and DMA-writes
+ * back. Step counter at 0x06086020, max 0x12 frames. */
 void FUN_0601cdc0()
 {
+  short fade_factor;
+  short rgb555;
+  int i;
+  short red[2];
+  short green[2];
+  short blue[2];
+  short *src_palette;
+  short *dst_ptr;
+  short faded_palette[16];
+  char faded_palette_b[40];
 
-  short sVar1;
-
-  short uVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  short local_74 [2];
-
-  short asStack_70 [2];
-
-  short asStack_6c [2];
-
-  short *puStack_68;
-
-  short *psStack_64;
-
-  short local_60 [16];
-
-  char auStack_40 [40];
-
-  puVar3 = (char *)0x06086020;
-
-  if (*(int *)0x06086020 < 0x12) {
-
-    sVar1 = *(short *)(0x0605DF58 + *(int *)(0x06086020 << 1));
-
-    puStack_68 = (short *)0x25F00000;
-
-    psStack_64 = local_60;
-
-    for (iVar4 = 0; iVar4 < 0x20; iVar4 = iVar4 + 1) {
-
-      uVar2 = *puStack_68;
-
-      puStack_68 = puStack_68 + 1;
-
-      FUN_0601d0bc(uVar2,local_74,asStack_70,asStack_6c);
-
-      local_74[0] = (*(int(*)())0x06034FE0)(sVar1 * 0x1d);
-
-      asStack_70[0] = (*(int(*)())0x06034FE0)();
-
-      asStack_6c[0] = (*(int(*)())0x06034FE0)();
-
-      *psStack_64 = asStack_6c[0] * 0x400 + asStack_70[0] * 0x20 + local_74[0];
-
-      psStack_64 = psStack_64 + 1;
-
+  if (*(int *)0x06086020 < 0x12) {                     /* fade not complete */
+    fade_factor = *(short *)(0x0605DF58 + *(int *)(0x06086020 << 1)); /* fade table lookup */
+    src_palette = (short *)0x25F00000;                  /* VDP2 CRAM base */
+    dst_ptr = faded_palette;
+    for (i = 0; i < 0x20; i = i + 1) {
+      rgb555 = *src_palette;
+      src_palette = src_palette + 1;
+      FUN_0601d0bc(rgb555, red, green, blue);           /* decompose RGB555 */
+      red[0] = (*(int(*)())0x06034FE0)(fade_factor * 0x1d);   /* attenuate R */
+      green[0] = (*(int(*)())0x06034FE0)();             /* attenuate G */
+      blue[0] = (*(int(*)())0x06034FE0)();              /* attenuate B */
+      *dst_ptr = blue[0] * 0x400 + green[0] * 0x20 + red[0]; /* recompose RGB555 */
+      dst_ptr = dst_ptr + 1;
     }
-
-    (*(int(*)())0x0602766C)(0x25F00200,local_60,0x20);
-
-    (*(int(*)())0x0602766C)(0x25F00400,auStack_40,0x20);
-
+    (*(int(*)())0x0602766C)(0x25F00200, faded_palette, 0x20);  /* DMA palette bank A */
+    (*(int(*)())0x0602766C)(0x25F00400, faded_palette_b, 0x20); /* DMA palette bank B */
   }
-
-  *(int *)puVar3 = *(int *)puVar3 + 1;
-
-  return;
-
+  *(int *)0x06086020 = *(int *)0x06086020 + 1;         /* advance fade step */
 }
 
+/* palette_fade_in -- Fade VDP2 palette from black to full color.
+ * Inverse of palette_fade_out: uses (100 - step) as blend factor
+ * so colors ramp from black toward original values. Same RGB555
+ * decompose/recompose and DMA pattern. */
 void FUN_0601cefc()
 {
+  short rgb555;
+  int i;
+  short red[2];
+  short green[2];
+  short blue[2];
+  short *src_palette;
+  int inv_fade_factor;
+  short *dst_ptr;
+  short faded_palette[16];
+  char faded_palette_b[40];
 
-  short uVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  short local_74 [2];
-
-  short asStack_70 [2];
-
-  short asStack_6c [2];
-
-  short *puStack_68;
-
-  int iStack_64;
-
-  short *psStack_60;
-
-  short local_5c [16];
-
-  char auStack_3c [40];
-
-  puVar2 = (char *)0x06086020;
-
-  if (*(int *)0x06086020 < 0x12) {
-
-    iStack_64 = 100 - *(short *)(0x0605DF58 + *(int *)(0x06086020 << 1));
-
-    puStack_68 = (short *)0x25F00000;
-
-    psStack_60 = local_5c;
-
-    for (iVar3 = 0; iVar3 < 0x20; iVar3 = iVar3 + 1) {
-
-      uVar1 = *puStack_68;
-
-      puStack_68 = puStack_68 + 1;
-
-      FUN_0601d0bc(uVar1,local_74,asStack_70,asStack_6c);
-
-      local_74[0] = (*(int(*)())0x06034FE0)(iStack_64 * 0x1d);
-
-      asStack_70[0] = (*(int(*)())0x06034FE0)();
-
-      asStack_6c[0] = (*(int(*)())0x06034FE0)();
-
-      *psStack_60 = asStack_6c[0] * 0x400 + asStack_70[0] * 0x20 + local_74[0];
-
-      psStack_60 = psStack_60 + 1;
-
+  if (*(int *)0x06086020 < 0x12) {                     /* fade not complete */
+    inv_fade_factor = 100 - *(short *)(0x0605DF58 + *(int *)(0x06086020 << 1)); /* inverted fade */
+    src_palette = (short *)0x25F00000;                  /* VDP2 CRAM base */
+    dst_ptr = faded_palette;
+    for (i = 0; i < 0x20; i = i + 1) {
+      rgb555 = *src_palette;
+      src_palette = src_palette + 1;
+      FUN_0601d0bc(rgb555, red, green, blue);           /* decompose RGB555 */
+      red[0] = (*(int(*)())0x06034FE0)(inv_fade_factor * 0x1d);  /* blend R */
+      green[0] = (*(int(*)())0x06034FE0)();             /* blend G */
+      blue[0] = (*(int(*)())0x06034FE0)();              /* blend B */
+      *dst_ptr = blue[0] * 0x400 + green[0] * 0x20 + red[0]; /* recompose RGB555 */
+      dst_ptr = dst_ptr + 1;
     }
-
-    (*(int(*)())0x0602766C)(0x25F00200,local_5c,0x20);
-
-    (*(int(*)())0x0602766C)(0x25F00400,auStack_3c,0x20);
-
+    (*(int(*)())0x0602766C)(0x25F00200, faded_palette, 0x20);  /* DMA palette bank A */
+    (*(int(*)())0x0602766C)(0x25F00400, faded_palette_b, 0x20); /* DMA palette bank B */
   }
-
-  *(int *)puVar2 = *(int *)puVar2 + 1;
-
-  return;
-
+  *(int *)0x06086020 = *(int *)0x06086020 + 1;         /* advance fade step */
 }
 
 /* timer_display_init -- Initialize timer/countdown VDP display.
@@ -1838,184 +1779,90 @@ int FUN_0601ddf6(void)
     (*(void(*)())0x060283E0)(8, 0x9C2, 0xE000, dest);
 }
 
+/* lap_record_notify -- Display lap time and "NEW RECORD" indicator.
+ * Renders current lap time via FUN_0601e26c (clamped to 9:59.99),
+ * draws time digits sprite. If lap time beats stored record at
+ * car struct +DAT_0601df18, updates high score table and shows
+ * "NEW RECORD" banner with animation counter at 0x0605DFEC. */
 int FUN_0601de50()
 {
+  int result;
+  int *sprite_data;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int uVar5;
-
-  int *puVar6;
-
-  if ((char *)(GAME_STATE_VAR * 5) < 0x000927BF) {
-
-    FUN_0601e26c();
-
+  if ((char *)(GAME_STATE_VAR * 5) < 0x000927BF) {     /* time within display range */
+    FUN_0601e26c();                                     /* render current time */
+  } else {
+    FUN_0601e26c(0x000927BF);                           /* clamp to 9:59.99 max */
   }
-
-  else {
-
-    FUN_0601e26c(0x000927BF);
-
-  }
-
-  puVar2 = (char *)0x06028400;
-
-  puVar1 = (char *)0x06063750;
-
-  (*(int(*)())0x06028400)(8,0x0605DFF4,(int)DAT_0601df16,
-
+  (*(int(*)())0x06028400)(8, 0x0605DFF4, (int)DAT_0601df16,  /* draw lap time digits */
              0x00009000 + *(int *)(0x06063750 + DAT_0601df14));
-
-  puVar3 = (char *)0x06078900;
-
-  uVar5 = 0;
-
+  result = 0;
   if (*(unsigned int *)(0x06078900 + DAT_0601df18) < *(unsigned int *)0x06086008 &&
-
-      *(int *)(0x06078900 + DAT_0601df1a) != 0) {
-
+      *(int *)(0x06078900 + DAT_0601df1a) != 0) {      /* new record beaten */
     *(int *)
-
      (*(int *)(0x0605DE24 + (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4
-
-     ) = *(int *)(0x06078900 + DAT_0601df18);
-
-    puVar6 = (int *)(puVar1 + DAT_0601df1c);
-
-    (*(int(*)())puVar2)(8,*puVar6,0x3c2,0x0000A000 + puVar6[1]);
-
-    puVar4 = (char *)0x0605DFEC;
-
-    *(int *)0x0605DFEC = *(int *)0x0605DFEC + '@';
-
-    if ((char)*puVar4 < '\0') {
-
-      uVar5 = (*(int(*)())0x060283E0)(8,0x442,0x0000E000,0x0605ACE3);
-
-      return uVar5;
-
+     ) = *(int *)(0x06078900 + DAT_0601df18);           /* update high score table */
+    sprite_data = (int *)(0x06063750 + DAT_0601df1c);
+    (*(int(*)())0x06028400)(8, *sprite_data, 0x3c2,     /* draw record time sprite */
+               0x0000A000 + sprite_data[1]);
+    *(int *)0x0605DFEC = *(int *)0x0605DFEC + '@';      /* advance animation counter */
+    if ((char)*(int *)0x0605DFEC < '\0') {              /* animation overflow → show banner */
+      result = (*(int(*)())0x060283E0)(8, 0x442, 0x0000E000, 0x0605ACE3); /* "NEW RECORD" sprite */
+      return result;
     }
-
-    FUN_0601e26c(*(int *)(puVar3 + DAT_0601df18));
-
-    uVar5 = (*(int(*)())puVar2)(8,0x0605DFF4,(int)PTR_DAT_0601df20,
-
-                              0x0000A000 + *(int *)(puVar1 + DAT_0601df14));
-
+    FUN_0601e26c(*(int *)(0x06078900 + DAT_0601df18));  /* render record time */
+    result = (*(int(*)())0x06028400)(8, 0x0605DFF4, (int)PTR_DAT_0601df20,
+                              0x0000A000 + *(int *)(0x06063750 + DAT_0601df14));
   }
-
-  return uVar5;
-
+  return result;
 }
 
+/* race_time_display -- Show total race time with best-time comparison.
+ * Renders current total time and best lap time from car struct.
+ * If current time beats stored best at 0x0607863C vs 0x06086004,
+ * shows "NEW RECORD" banner with animation counter at 0x0605DFEC.
+ * Uses sprite renderer at 0x06028400, time formatter FUN_0601e26c. */
 int FUN_0601df88()
 {
+  int result;
+  int car_offset;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int uVar7;
-
-  int iVar8;
-
-  puVar5 = (char *)0x06028400;
-
-  puVar4 = (char *)0x0607863C;
-
-  puVar3 = (char *)0x06063750;
-
-  puVar2 = (char *)0x000927BF;
-
-  puVar1 = (char *)0x0000A000;
-
-  iVar8 = 0x2a8;
-
-  if (*(unsigned int *)(0x06078900 + iVar8 + -0x68) < *(unsigned int *)0x06086008) {
-
-    (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + DAT_0601e024),0x3c2,
-
+  car_offset = 0x2a8;
+  /* --- lap split time display --- */
+  if (*(unsigned int *)(0x06078900 + car_offset + -0x68) < *(unsigned int *)0x06086008) {
+    (*(int(*)())0x06028400)(8, *(int *)(0x06063750 + DAT_0601e024), 0x3c2,  /* split label sprite */
                0x0000A000 + *(int *)((int)(0x06063750 + DAT_0601e024) + 4));
-
-    FUN_0601e26c(*(int *)(0x06078900 + DAT_0601e028));
-
-    (*(int(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e02a,puVar1 + *(int *)(puVar3 + iVar8 + 4));
-
+    FUN_0601e26c(*(int *)(0x06078900 + DAT_0601e028));  /* render split time */
+    (*(int(*)())0x06028400)(8, 0x0605DFF4, (int)DAT_0601e02a,  /* split time digits */
+               0x0000A000 + *(int *)(0x06063750 + car_offset + 4));
   }
-
-  FUN_0601e26c(*(int *)puVar4);
-
-  uVar7 = (*(int(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e02c,
-
-                            0x00009000 + *(int *)(puVar3 + iVar8 + 4));
-
-  if (*(unsigned int *)puVar4 < *(unsigned int *)0x06086004) {
-
-    (*(int(*)())puVar5)(8,*(int *)(puVar3 + DAT_0601e02e),0x4c2,
-
-                      puVar1 + *(int *)((int)(puVar3 + DAT_0601e02e) + 4));
-
-    if (*(char **)puVar4 < puVar2) {
-
-      FUN_0601e26c(*(int *)puVar4);
-
+  /* --- total time display --- */
+  FUN_0601e26c(*(int *)0x0607863C);                     /* render total time */
+  result = (*(int(*)())0x06028400)(8, 0x0605DFF4, (int)DAT_0601e02c,  /* total time digits */
+                            0x00009000 + *(int *)(0x06063750 + car_offset + 4));
+  /* --- best time comparison --- */
+  if (*(unsigned int *)0x0607863C < *(unsigned int *)0x06086004) {  /* beat best time */
+    (*(int(*)())0x06028400)(8, *(int *)(0x06063750 + DAT_0601e02e), 0x4c2,  /* best time label */
+                      0x0000A000 + *(int *)((int)(0x06063750 + DAT_0601e02e) + 4));
+    if (*(unsigned int *)0x0607863C < 0x000927BF) {     /* within displayable range */
+      FUN_0601e26c(*(int *)0x0607863C);                 /* render best time */
+    } else {
+      FUN_0601e26c(0x000927BF);                         /* clamp to 9:59.99 */
     }
-
-    else {
-
-      FUN_0601e26c(puVar2);
-
+    (*(int(*)())0x06028400)(8, 0x0605DFF4, (int)DAT_0601e0e2,  /* best time digits row 1 */
+                      0x00009000 + *(int *)(0x06063750 + car_offset + 4));
+    *(int *)0x0605DFEC = *(int *)0x0605DFEC + '@';      /* advance animation counter */
+    if ((char)*(int *)0x0605DFEC < '\0') {              /* animation overflow → show banner */
+      result = (*(int(*)())0x060283E0)(8, 0x542, 0x0000E000, 0x0605ACE3); /* "NEW RECORD" sprite */
+      return result;
     }
-
-    (*(int(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e0e2,
-
-                      0x00009000 + *(int *)(puVar3 + iVar8 + 4));
-
-    puVar6 = (char *)0x0605DFEC;
-
-    *(int *)0x0605DFEC = *(int *)0x0605DFEC + '@';
-
-    if ((char)*puVar6 < '\0') {
-
-      uVar7 = (*(int(*)())0x060283E0)(8,0x542,0x0000E000,0x0605ACE3);
-
-      return uVar7;
-
+    if (*(unsigned int *)0x0607863C < 0x000927BF) {     /* within displayable range */
+      FUN_0601e26c(*(int *)0x0607863C);                 /* render best time again */
+    } else {
+      FUN_0601e26c(0x000927BF);                         /* clamp to 9:59.99 */
     }
-
-    if (*(char **)puVar4 < puVar2) {
-
-      FUN_0601e26c(*(int *)puVar4);
-
-    }
-
-    else {
-
-      FUN_0601e26c(puVar2);
-
-    }
-
-    uVar7 = (*(int(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601e0e4,
-
-                              puVar1 + *(int *)(puVar3 + iVar8 + 4));
-
+    result = (*(int(*)())0x06028400)(8, 0x0605DFF4, (int)DAT_0601e0e4,  /* best time digits row 2 */
+                              0x0000A000 + *(int *)(0x06063750 + car_offset + 4));
   }
-
-  return uVar7;
-
+  return result;
 }
