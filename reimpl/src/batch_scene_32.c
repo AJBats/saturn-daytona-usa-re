@@ -2336,64 +2336,44 @@ int FUN_060322e8(void)
     }
 }
 
-int FUN_06032304(param_1)
-    int param_1;
+/* scene_layer_update -- Update a single scene layer by index.
+ * Reads layer state from table at 0x060623B0[param_1].
+ * If command queue head matches current frame (0x06082A20):
+ *   advance queue pointer (+0x2D8) by 3 ints, dispatch via jump table.
+ * If layer flag (+0x2DC) == 0: full init (palette + geometry + transform).
+ * If layer flag has bit 2: init + return after geometry commit.
+ * Otherwise: commit geometry + finalize. */
+int FUN_06032304(int param_1)
 {
-
   int uVar1;
-
   int *piVar2;
-
   int iVar3;
+  int iVar4 = *(int *)(0x060623B0 + (param_1 << 2));
 
-  int iVar4;
-
-  iVar4 = *(int *)(0x060623B0 + (param_1 << 2));
-
-  piVar2 = *(int **)(iVar4 + 0x000002D8);
-
-  iVar3 = piVar2[1];
+  piVar2 = *(int **)(iVar4 + 0x000002D8);   /* command queue head */
+  iVar3 = piVar2[1];                          /* command type */
 
   if (*piVar2 == *(int *)0x06082A20) {
-
-    *(int **)(iVar4 + 0x000002D8) = piVar2 + 3;
-
+    *(int **)(iVar4 + 0x000002D8) = piVar2 + 3;  /* advance queue */
     uVar1 = (*(int(*)())(*(int *)(0x06032334 + (iVar3 << 2))))();
-
     return uVar1;
-
   }
 
   if (*(unsigned char *)(iVar4 + 0x000002DC) == 0) {
-
+    FUN_06032e6c();              /* palette setup */
+    FUN_0603253c();              /* geometry setup */
+    FUN_0603268c();              /* transform setup */
+  } else if ((*(unsigned char *)(iVar4 + 0x000002DC) & 4) != 0) {
     FUN_06032e6c();
-
     FUN_0603253c();
-
     FUN_0603268c();
-
-  }
-
-  else if ((*(unsigned char *)(iVar4 + 0x000002DC) & 4) != 0) {
-
-    FUN_06032e6c();
-
-    FUN_0603253c();
-
-    FUN_0603268c();
-
-    uVar1 = FUN_06032584();
-
+    uVar1 = FUN_06032584();      /* geometry commit */
     return uVar1;
-
   }
 
   FUN_06032584();
-
-  uVar1 = FUN_06032ea4();
-
+  uVar1 = FUN_06032ea4();        /* finalize */
   return uVar1;
-
 }
 
 char * FUN_0603253c()

@@ -198,82 +198,51 @@ unsigned int FUN_06020c3c(void)
     return mode;
 }
 
-void FUN_06020cf4()
+/* vdp1_cmd_emit_clear_poly -- Emit a VDP1 clear polygon command.
+ * Fills 8 vertex coordinates (shorts at +8..+0x16) with DAT_06020db2
+ * (typically screen bounds for a full-screen clear polygon).
+ * Sets command link=0x17, draw mode=0x003A (transparent clear).
+ * Submits via 0x060280F8, advances VDP1 command pointer by 0x20. */
+void FUN_06020cf4(void)
 {
+  char *cmd = (char *)0x06087C6C;       /* VDP1 command scratch buffer */
+  short clear_val = DAT_06020db2;
 
-  short uVar1;
+  *(short *)(cmd + 8) = clear_val;       /* vertex coords */
+  *(short *)(cmd + 10) = clear_val;
+  *(short *)(cmd + 0xc) = clear_val;
+  *(short *)(cmd + 0xe) = clear_val;
+  *(short *)(cmd + 0x10) = clear_val;
+  *(short *)(cmd + 0x12) = clear_val;
+  *(short *)(cmd + 0x14) = clear_val;
+  *(short *)(cmd + 0x16) = clear_val;
+  *(short *)(cmd + 6) = 0x17;           /* link pointer */
+  cmd[4] = 0;                            /* draw mode high */
+  cmd[5] = 0x3a;                         /* draw mode low */
 
-  char *puVar2;
-
-  char *puVar3;
-
-  puVar2 = (char *)0x06087C6C;
-
-  uVar1 = DAT_06020db2;
-
-  *(short *)(0x06087C6C + 8) = DAT_06020db2;
-
-  *(short *)(puVar2 + 10) = uVar1;
-
-  *(short *)(puVar2 + 0xc) = uVar1;
-
-  *(short *)(puVar2 + 0xe) = uVar1;
-
-  *(short *)(puVar2 + 0x10) = uVar1;
-
-  *(short *)(puVar2 + 0x12) = uVar1;
-
-  *(short *)(puVar2 + 0x14) = uVar1;
-
-  *(short *)(puVar2 + 0x16) = uVar1;
-
-  *(short *)(puVar2 + 6) = 0x17;
-
-  puVar2[4] = 0;
-
-  puVar2[5] = 0x3a;
-
-  puVar3 = (char *)0x060785FC;
-
-  (*(int(*)())0x060280F8)(puVar2,*(int *)0x060785FC);
-
+  (*(int(*)())0x060280F8)(cmd, *(int *)0x060785FC);
   VDP1_CMD_BASE_PTR = VDP1_CMD_BASE_PTR + 1;
-
-  *(int *)puVar3 = *(int *)puVar3 + 0x20;
-
-  return;
-
+  *(int *)0x060785FC = *(int *)0x060785FC + 0x20;
 }
 
-void FUN_06020d46()
+/* render_slot_dispatch -- Iterate 16 render slots and dispatch active ones.
+ * Calls CD sync (0x06035168), then loops slots 0-15 in the render table
+ * at 0x0608782C (stride 0x44). If slot type byte is non-zero, dispatches
+ * to the handler at auStack_38[type-1] passing the slot index. */
+void FUN_06020d46(void)
 {
+  char *slot_table = (char *)0x0608782C;
+  unsigned int i;
+  int auStack_38[10];
 
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  int auStack_38 [10];
-
-  puVar1 = (char *)0x0608782C;
-
-  (*(int(*)())0x06035168)();
-
-  uVar2 = 0;
-
+  (*(int(*)())0x06035168)();              /* CD sync */
+  i = 0;
   do {
-
-    if (puVar1[(short)(((unsigned short)uVar2 & 0xff) * 0x44)] != '\0') {
-
-      (*(int(*)())auStack_38[(unsigned char)puVar1[(short)(((unsigned short)uVar2 & 0xff) * 0x44)] - 1])(uVar2);
-
+    if (slot_table[(short)(((unsigned short)i & 0xff) * 0x44)] != '\0') {
+      (*(int(*)())auStack_38[(unsigned char)slot_table[(short)(((unsigned short)i & 0xff) * 0x44)] - 1])(i);
     }
-
-    uVar2 = uVar2 + 1;
-
-  } while ((uVar2 & 0xff) < 0x10);
-
-  return;
-
+    i = i + 1;
+  } while ((i & 0xff) < 0x10);
 }
 
 int FUN_06020e74()

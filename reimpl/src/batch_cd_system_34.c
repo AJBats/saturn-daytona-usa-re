@@ -744,158 +744,101 @@ int FUN_060349c4(unsigned char *param_1)
     return err;
 }
 
-int FUN_06034a10(param_1)
-    int *param_1;
+/* cd_register_verify -- Read CD register pair and verify consistency.
+ * Reads register via 0x06035E5E into param_1 and a local copy.
+ * Retries up to 100 times until both reads match (word 0 and word 1).
+ * Returns 0 on match, -3 (0xFFFFFFFD) on timeout. */
+int FUN_06034a10(int *param_1)
 {
-
-  char *puVar1;
-
-  int iVar2;
-
+  int retries = 0;
   int local_24;
-
   int iStack_20;
 
-  puVar1 = (int *)0x06035E5E;
-
-  iVar2 = 0;
-
-  while( 1 ) {
-
-    (*(int(*)())puVar1)(param_1);
-
-    (*(int(*)())puVar1)(&local_24);
-
+  while (1) {
+    (*(int(*)())0x06035E5E)(param_1);
+    (*(int(*)())0x06035E5E)(&local_24);
     if ((*param_1 == local_24) && (param_1[1] == iStack_20)) break;
-
-    iVar2 = iVar2 + 1;
-
-    if (99 < iVar2) {
-
-      return 0xfffffffd;
-
+    retries = retries + 1;
+    if (99 < retries) {
+      return 0xfffffffd;            /* timeout error */
     }
-
   }
-
   return 0;
-
 }
 
-int FUN_06034aee(param_1)
-    int param_1;
+/* cd_read_toc -- Read CD table of contents into output buffer.
+ * Sends CD status query (0x06035E90), sets command byte to 2 (read TOC),
+ * issues command (0x06035EA2). On success, masks response to 24-bit sector
+ * count and reads that many words via FUN_06035CBC into param_1. */
+int FUN_06034aee(int param_1)
 {
-
   int iVar1;
-
-  unsigned int local_18 [2];
-
-  char local_10 [12];
+  unsigned int local_18[2];
+  char local_10[12];
 
   (*(int(*)())0x06035E90)(local_10);
-
-  local_10[0] = 2;
-
-  iVar1 = (*(int(*)())0x06035EA2)(0,local_10,local_18);
-
+  local_10[0] = 2;                       /* TOC read command */
+  iVar1 = (*(int(*)())0x06035EA2)(0, local_10, local_18);
   if (iVar1 != 0) {
-
     return iVar1;
-
   }
-
-  iVar1 = (*(int(*)())0x06035CBC)(local_18[0] & 0x00FFFFFF,param_1);
-
+  iVar1 = (*(int(*)())0x06035CBC)(local_18[0] & 0x00FFFFFF, param_1);
   return iVar1;
-
 }
 
-int FUN_06034b54(param_1, param_2)
-    char param_1;
-    int *param_2;
+/* cd_get_session_info -- Query CD session info for given session number.
+ * Sends CD status query, sets command byte to 3 (session info),
+ * session number in byte 1. Returns session data in *param_2. */
+int FUN_06034b54(char param_1, int *param_2)
 {
-
   int uVar1;
-
-  char auStack_1c [4];
-
+  char auStack_1c[4];
   int uStack_18;
-
   char local_14;
-
   char uStack_13;
 
   (*(int(*)())0x06035E90)(&local_14);
-
-  local_14 = 3;
-
-  uStack_13 = param_1;
-
-  uVar1 = (*(int(*)())0x06035EA2)(0,&local_14,auStack_1c);
-
+  local_14 = 3;                          /* session info command */
+  uStack_13 = param_1;                   /* session number */
+  uVar1 = (*(int(*)())0x06035EA2)(0, &local_14, auStack_1c);
   *param_2 = uStack_18;
-
   return uVar1;
-
 }
 
-int FUN_06034b9a(param_1, param_2, param_3, param_4)
-    unsigned int param_1;
-    short param_2;
-    char param_3;
-    char param_4;
+/* cd_play_command -- Issue CD play/seek command with track parameters.
+ * Builds 6-byte command packet: cmd=4, track=param_1, FAD=param_2,
+ * play mode=param_3, repeat=param_4.
+ * If (param_1 & 0x81) == 1: delay loop, set HIRQ bit 0x41, send with
+ * flag 0x40, then reset HIRQ on success.
+ * Otherwise: send command normally with flag 0. */
+int FUN_06034b9a(unsigned int param_1, short param_2, char param_3, char param_4)
 {
-
   int iVar1;
-
   char local_1c;
-
   char uStack_1b;
-
   short uStack_1a;
-
   char uStack_16;
-
   char uStack_15;
 
   (*(int(*)())0x06035E90)(&local_1c);
-
-  local_1c = 4;
-
-  uStack_1b = (char)param_1;
-
-  uStack_1a = param_2;
-
-  uStack_16 = param_3;
-
-  uStack_15 = param_4;
+  local_1c = 4;                          /* play command */
+  uStack_1b = (char)param_1;             /* track number */
+  uStack_1a = param_2;                   /* FAD position */
+  uStack_16 = param_3;                   /* play mode */
+  uStack_15 = param_4;                   /* repeat flag */
 
   if ((0x81 & param_1) == 1) {
-
     for (iVar1 = (int)DAT_06034bf6; 0 < iVar1; iVar1 = iVar1 + -1) {
-
-    }
-
-    (*(int(*)())0x06035C92)(0x41);
-
-    iVar1 = (*(int(*)())0x06035EC8)(0x40,&local_1c);
-
+    }                                    /* busy-wait delay */
+    (*(int(*)())0x06035C92)(0x41);       /* set HIRQ bit */
+    iVar1 = (*(int(*)())0x06035EC8)(0x40, &local_1c);
     if (iVar1 == 0) {
-
-      (*(int(*)())0x06035C80)();
-
+      (*(int(*)())0x06035C80)();         /* reset HIRQ */
     }
-
+  } else {
+    iVar1 = (*(int(*)())0x06035EC8)(0, &local_1c);
   }
-
-  else {
-
-    iVar1 = (*(int(*)())0x06035EC8)(0,&local_1c);
-
-  }
-
   return iVar1;
-
 }
 
 int FUN_06034c68(param_1)
@@ -956,69 +899,42 @@ int FUN_06034cc8(unsigned int *param_1)
     return result;
 }
 
-int FUN_06034d5e(param_1, param_2)
-    int *param_1;
-    unsigned char *param_2;
+/* cd_extract_play_params -- Extract CD play parameters from track descriptor.
+ * Dispatches by descriptor type (*param_1):
+ *   0: call CD sync (0x06035228)
+ *   1: FAD-based — set byte 0 = track|0x80, byte 1 = index, byte 2 = flag
+ *   2: time-based — set byte 0 = 0, byte 1 = minute, byte 2 = second
+ *   3: call CD sync and return immediately
+ *   other: fall through to CD sync */
+int FUN_06034d5e(int *param_1, unsigned char *param_2)
 {
-
   unsigned char bVar1;
-
-  int iVar2;
-
-  iVar2 = *param_1;
+  int iVar2 = *param_1;
 
   if (iVar2 == 0) {
-
 LAB_06034dac:
-
     iVar2 = (*(int(*)())0x06035228)();
-
-  }
-
-  else {
-
+  } else {
     if (iVar2 == 1) {
-
       *param_2 = *(unsigned char *)((int)param_1 + 5) | 0x80;
-
       param_2[1] = *(unsigned char *)((int)param_1 + 6);
-
       bVar1 = *(unsigned char *)((int)param_1 + 7);
-
-    }
-
-    else {
-
+    } else {
       if (iVar2 != 2) {
-
         if (iVar2 == 3) {
-
           iVar2 = (*(int(*)())0x06035228)();
-
           return iVar2;
-
         }
-
         goto LAB_06034dac;
-
       }
-
       *param_2 = 0;
-
       param_2[1] = *(unsigned char *)(param_1 + 1);
-
       bVar1 = *(unsigned char *)((int)param_1 + 5);
-
     }
-
     iVar2 = (int)(char)bVar1;
-
     param_2[2] = bVar1;
-
   }
-
   return iVar2;
-
 }
 
 /* cd_play_track -- Start CD audio playback for a track.
@@ -4108,80 +4024,51 @@ void FUN_06035c80(void)
     *(short *)0x06063590 = 0;
 }
 
-int FUN_06035cbc(param_1, param_2)
-    int param_1;
-    short *param_2;
+/* cd_sector_read_words -- Read param_1 words from CD data register into buffer.
+ * Initializes transfer via FUN_06034C68, then reads words from the CD
+ * data port at 0x25898000 into param_2. After transfer, verifies the
+ * actual word count matches expected. Returns -7 on count mismatch. */
+int FUN_06035cbc(int param_1, short *param_2)
 {
-
-  char *puVar1;
-
+  short *cd_data_port = (short *)0x25898000;
   int iVar2;
-
-  int local_14 [2];
-
-  puVar1 = (int *)0x25898000;
+  int local_14[2];
 
   iVar2 = (*(int(*)())0x06034C68)(0);
-
   if (iVar2 == 0) {
-
     iVar2 = 0;
-
     if (0 < param_1) {
-
       do {
-
         iVar2 = iVar2 + 1;
-
-        *param_2 = *(short *)puVar1;
-
+        *param_2 = *cd_data_port;
         param_2 = param_2 + 1;
-
       } while (iVar2 < param_1);
-
     }
-
     iVar2 = (*(int(*)())0x06034CC8)(local_14);
-
     if ((iVar2 == 0) && (param_1 != local_14[0])) {
-
-      iVar2 = -7;
-
+      iVar2 = -7;                        /* word count mismatch */
     }
-
   }
-
   return iVar2;
-
 }
 
-int FUN_06035e00(param_1, param_2)
-    unsigned short param_1;
-    unsigned short *param_2;
+/* cd_wait_hirq -- Poll CD HIRQ register until requested bits are set.
+ * Spins up to 0x240000 iterations (~2.3M) checking CD_HIRQREQ against
+ * param_1 mask. On match, stores current HIRQ status to *param_2.
+ * Returns 0 on success, -3 (0xFFFFFFFD) on timeout. */
+int FUN_06035e00(unsigned short param_1, unsigned short *param_2)
 {
-
-  int iVar1;
-
-  
-
-  iVar1 = 0;
+  int iVar1 = 0;
 
   do {
-
     if ((CD_HIRQREQ & param_1) != 0) {
-
       *param_2 = CD_HIRQREQ;
-
       return 0;
-
     }
-
     iVar1 = iVar1 + 1;
-
   } while (iVar1 < (int)0x00240000);
 
-  return 0xfffffffd;
-
+  return 0xfffffffd;                     /* timeout */
 }
 
 /* cd_get_status -- Thin wrapper: query CD drive status via FUN_06035168 */

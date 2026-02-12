@@ -53,76 +53,44 @@ void FUN_06036068()
 
 }
 
-char * FUN_060360fc(param_1, param_2, param_3)
-    char *param_1;
-    char *param_2;
-    unsigned int param_3;
+/* memmove_impl -- Overlap-safe byte-level memory copy (memmove).
+ * If dest < src: copies forward (ascending addresses).
+ * If dest > src: copies backward (descending addresses) to handle overlap.
+ * Returns param_1 (dest pointer). */
+char * FUN_060360fc(char *param_1, char *param_2, unsigned int param_3)
 {
-
   char uVar1;
-
   unsigned int uVar2;
-
   char *puVar3;
 
   if (param_1 != param_2) {
-
     if (param_1 < param_2) {
-
       uVar2 = 0;
-
       puVar3 = param_1;
-
       if (param_3 != 0) {
-
         do {
-
           uVar1 = *param_2;
-
           param_2 = param_2 + 1;
-
           uVar2 = uVar2 + 1;
-
           *puVar3 = uVar1;
-
           puVar3 = puVar3 + 1;
-
         } while (uVar2 < param_3);
-
       }
-
-    }
-
-    else {
-
+    } else {
       puVar3 = param_1 + param_3;
-
       param_2 = param_2 + param_3;
-
       uVar2 = 0;
-
       if (param_3 != 0) {
-
         do {
-
           param_2 = param_2 + -1;
-
           uVar2 = uVar2 + 1;
-
           puVar3 = puVar3 + -1;
-
           *puVar3 = *param_2;
-
         } while (uVar2 < param_3);
-
       }
-
     }
-
   }
-
   return param_1;
-
 }
 
 /* cd_cmd_set_filter -- CD-Block command 0x30: Set CD connection filter.
@@ -147,49 +115,26 @@ void FUN_060361fc(char param_1, int param_2, int param_3)
     (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
-void FUN_060362a8(param_1, param_2)
-    char param_1;
-    char *param_2;
+/* cd_cmd_set_filter_mode -- CD-Block command 0x42: Set filter mode.
+ * Packs 6 filter parameter bytes from param_2 into command buffer
+ * (reordered: [1][2][4] → bytes 1-3, [0][3][5] → bytes 5-7),
+ * sets filter number to param_1 (byte 4), sends with flag 0x40. */
+void FUN_060362a8(char param_1, char *param_2)
 {
-
   char local_14;
-
-  char uStack_13;
-
-  char uStack_12;
-
-  char uStack_11;
-
-  char uStack_10;
-
-  char uStack_f;
-
-  char uStack_e;
-
-  char uStack_d;
+  char uStack_13, uStack_12, uStack_11;
+  char uStack_10, uStack_f, uStack_e, uStack_d;
 
   (*(int(*)())0x06035E90)(&local_14);
-
-  local_14 = 0x42;
-
+  local_14 = 0x42;              /* command: set filter mode */
   uStack_13 = param_2[1];
-
   uStack_12 = param_2[2];
-
   uStack_11 = param_2[4];
-
   uStack_f = *param_2;
-
   uStack_e = param_2[3];
-
   uStack_d = param_2[5];
-
-  uStack_10 = param_1;
-
-  (*(int(*)())0x06035EC8)(0x40,&local_14);
-
-  return;
-
+  uStack_10 = param_1;         /* filter number */
+  (*(int(*)())0x06035EC8)(0x40, &local_14);
 }
 
 /* cd_cmd_set_cddev_conn -- CD-Block command 0x44: Set CD device connection.
@@ -204,68 +149,40 @@ void FUN_06036380(char param_1, char param_2)
     (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
-int FUN_060363bc(param_1, param_2)
-    char param_1;
-    unsigned int *param_2;
+/* cd_cmd_get_filter_conn -- CD-Block command 0x45: Get filter connection.
+ * Queries connection info for filter param_1.
+ * Returns connection value (byte) in *param_2. */
+int FUN_060363bc(char param_1, unsigned int *param_2)
 {
-
   int uVar1;
-
   char uStack_1c;
-
   unsigned char bStack_1b;
-
-  char local_14 [4];
-
+  char local_14[4];
   char uStack_10;
 
   (*(int(*)())0x06035E90)(local_14);
-
-  local_14[0] = 0x45;
-
-  uStack_10 = param_1;
-
-  uVar1 = (*(int(*)())0x06035EA2)(0,local_14,&uStack_1c);
-
+  local_14[0] = 0x45;           /* get filter connection */
+  uStack_10 = param_1;          /* filter number */
+  uVar1 = (*(int(*)())0x06035EA2)(0, local_14, &uStack_1c);
   *param_2 = (unsigned int)bStack_1b;
-
   return uVar1;
-
 }
 
-void FUN_06036414(param_1, param_2, param_3, param_4)
-    char param_1;
-    char param_2;
-    char param_3;
-    char param_4;
+/* cd_cmd_set_sector_size -- CD-Block command 0x46: Set sector read size.
+ * param_1: partition, param_2: get size, param_3: put size, param_4: copy size.
+ * Sends with flag 0x40. */
+void FUN_06036414(char param_1, char param_2, char param_3, char param_4)
 {
-
   char local_1c;
-
-  char uStack_1b;
-
-  char uStack_1a;
-
-  char uStack_19;
-
-  char uStack_18;
+  char uStack_1b, uStack_1a, uStack_19, uStack_18;
 
   (*(int(*)())0x06035E90)(&local_1c);
-
-  local_1c = 0x46;
-
-  uStack_1b = param_2;
-
-  uStack_1a = param_3;
-
-  uStack_19 = param_4;
-
-  uStack_18 = param_1;
-
-  (*(int(*)())0x06035EC8)(0x40,&local_1c);
-
-  return;
-
+  local_1c = 0x46;              /* set sector size */
+  uStack_1b = param_2;          /* get size */
+  uStack_1a = param_3;          /* put size */
+  uStack_19 = param_4;          /* copy size */
+  uStack_18 = param_1;          /* partition */
+  (*(int(*)())0x06035EC8)(0x40, &local_1c);
 }
 
 /* cd_cmd_set_filter_subhdr -- CD-Block command 0x48: Set filter subheader.
@@ -280,97 +197,61 @@ void FUN_060364d4(char param_1, char param_2)
     (*(int(*)())0x06035EC8)(0x40, buf);
 }
 
-int FUN_06036518(param_1, param_2, param_3)
-    unsigned int *param_1;
-    unsigned int *param_2;
-    unsigned int *param_3;
+/* cd_cmd_get_buffer_size -- CD-Block command 0x50: Get CD buffer size info.
+ * Returns 3 values: *param_3 = total sectors, *param_2 = free sectors,
+ * *param_1 = max selectable partition. */
+int FUN_06036518(unsigned int *param_1, unsigned int *param_2, unsigned int *param_3)
 {
-
   int uVar1;
-
-  char auStack_20 [2];
-
+  char auStack_20[2];
   unsigned short uStack_1e;
-
   unsigned char bStack_1c;
-
   unsigned short uStack_1a;
-
-  char local_18 [12];
+  char local_18[12];
 
   (*(int(*)())0x06035E90)(local_18);
-
-  local_18[0] = 0x50;
-
-  uVar1 = (*(int(*)())0x06035EA2)(0,local_18,auStack_20);
-
-  *param_3 = (unsigned int)uStack_1e;
-
-  *param_2 = (unsigned int)bStack_1c;
-
-  *param_1 = (unsigned int)uStack_1a;
-
+  local_18[0] = 0x50;           /* get buffer size */
+  uVar1 = (*(int(*)())0x06035EA2)(0, local_18, auStack_20);
+  *param_3 = (unsigned int)uStack_1e;    /* total sectors */
+  *param_2 = (unsigned int)bStack_1c;    /* free sectors */
+  *param_1 = (unsigned int)uStack_1a;    /* max partition */
   return uVar1;
-
 }
 
-int FUN_06036572(param_1, param_2)
-    char param_1;
-    unsigned int *param_2;
+/* cd_cmd_get_partition_size -- CD-Block command 0x51: Get partition sector count.
+ * param_1: partition number. Returns sector count in *param_2. */
+int FUN_06036572(char param_1, unsigned int *param_2)
 {
-
   int uVar1;
-
-  char auStack_1c [6];
-
+  char auStack_1c[6];
   unsigned short uStack_16;
-
-  char local_14 [4];
-
+  char local_14[4];
   char uStack_10;
 
   (*(int(*)())0x06035E90)(local_14);
-
-  local_14[0] = 0x51;
-
-  uStack_10 = param_1;
-
-  uVar1 = (*(int(*)())0x06035EA2)(0,local_14,auStack_1c);
-
+  local_14[0] = 0x51;           /* get partition size */
+  uStack_10 = param_1;          /* partition number */
+  uVar1 = (*(int(*)())0x06035EA2)(0, local_14, auStack_1c);
   *param_2 = (unsigned int)uStack_16;
-
   return uVar1;
-
 }
 
-void FUN_060365c4(param_1, param_2, param_3)
-    char param_1;
-    short param_2;
-    short param_3;
+/* cd_cmd_calc_actual_size -- CD-Block command 0x52: Calculate actual data size.
+ * param_1: partition, param_2: sector offset, param_3: sector count.
+ * Sends with flag 0x40. */
+void FUN_060365c4(char param_1, short param_2, short param_3)
 {
-
-  char local_18 [2];
-
+  char local_18[2];
   short uStack_16;
-
   char uStack_14;
-
   short uStack_12;
 
   (*(int(*)())0x06035E90)(local_18);
-
-  local_18[0] = 0x52;
-
-  uStack_16 = param_2;
-
-  uStack_14 = param_1;
-
-  uStack_12 = param_3;
-
-  (*(int(*)())0x06035EC8)(0x40,local_18);
-
-  return;
-
+  local_18[0] = 0x52;           /* calc actual size */
+  uStack_16 = param_2;          /* sector offset */
+  uStack_14 = param_1;          /* partition */
+  uStack_12 = param_3;          /* sector count */
+  (*(int(*)())0x06035EC8)(0x40, local_18);
 }
 
 /* cd_cmd_get_toc_entry -- CD-Block command 0x53: Get TOC entry.
@@ -400,96 +281,60 @@ int FUN_06036650(int param_1, int param_2)
     return (*(int(*)())0x06035EA2)(0, param_1, param_2);
 }
 
-void FUN_060367e8(param_1, param_2, param_3)
-    char param_1;
-    short param_2;
-    short param_3;
+/* cd_cmd_put_sector -- CD-Block command 0x61: Put sector data to buffer.
+ * param_1: partition, param_2: sector offset, param_3: sector count.
+ * Sends with flag 0x80 (data transfer mode). */
+void FUN_060367e8(char param_1, short param_2, short param_3)
 {
-
-  char local_18 [2];
-
+  char local_18[2];
   short uStack_16;
-
   char uStack_14;
-
   short uStack_12;
 
   (*(int(*)())0x06035E90)(local_18);
-
-  local_18[0] = 0x61;
-
-  uStack_16 = param_2;
-
-  uStack_14 = param_1;
-
-  uStack_12 = param_3;
-
-  (*(int(*)())0x06035EC8)(0x80,local_18);
-
-  return;
-
+  local_18[0] = 0x61;           /* put sector */
+  uStack_16 = param_2;          /* sector offset */
+  uStack_14 = param_1;          /* partition */
+  uStack_12 = param_3;          /* sector count */
+  (*(int(*)())0x06035EC8)(0x80, local_18);
 }
 
-void FUN_0603683c(param_1, param_2, param_3)
-    char param_1;
-    short param_2;
-    short param_3;
+/* cd_cmd_copy_sector -- CD-Block command 0x62: Copy sector within buffer.
+ * param_1: partition, param_2: source offset, param_3: dest offset.
+ * Sends with flag 0x80 (data transfer mode). */
+void FUN_0603683c(char param_1, short param_2, short param_3)
 {
-
-  char local_18 [2];
-
+  char local_18[2];
   short uStack_16;
-
   char uStack_14;
-
   short uStack_12;
 
   (*(int(*)())0x06035E90)(local_18);
-
-  local_18[0] = 0x62;
-
-  uStack_16 = param_2;
-
-  uStack_14 = param_1;
-
-  uStack_12 = param_3;
-
-  (*(int(*)())0x06035EC8)(0x80,local_18);
-
-  return;
-
+  local_18[0] = 0x62;           /* copy sector */
+  uStack_16 = param_2;          /* source offset */
+  uStack_14 = param_1;          /* partition */
+  uStack_12 = param_3;          /* dest offset */
+  (*(int(*)())0x06035EC8)(0x80, local_18);
 }
 
-void FUN_0603697c(param_1, param_2, param_3, param_4)
-    char param_1;
-    short param_2;
-    short param_3;
-    char param_4;
+/* cd_cmd_move_sector -- CD-Block command 0x66: Move sector between partitions.
+ * param_1: source partition, param_2: source offset, param_3: sector count,
+ * param_4: dest partition. Sends with flag 0x100. */
+void FUN_0603697c(char param_1, short param_2, short param_3, char param_4)
 {
-
   char local_1c;
-
   char uStack_1b;
-
   short uStack_1a;
-
   char uStack_18;
-
   short uStack_16;
 
   (*(int(*)())0x06035E90)(&local_1c);
-
-  local_1c = 0x66;
-
-  uStack_1b = param_4;
-
-  uStack_1a = param_2;
-
-  uStack_18 = param_1;
-
-  uStack_16 = param_3;
-
-  (*(int(*)())0x06035EC8)(0x100,&local_1c);
+  local_1c = 0x66;              /* move sector */
+  uStack_1b = param_4;          /* dest partition */
+  uStack_1a = param_2;          /* source offset */
+  uStack_18 = param_1;          /* source partition */
+  uStack_16 = param_3;          /* sector count */
+  (*(int(*)())0x06035EC8)(0x100, &local_1c);
 
   return;
 
@@ -507,67 +352,44 @@ void FUN_06036a1c(char param_1, int param_2)
     (*(int(*)())0x06035EC8)(0x200, buf);
 }
 
-int FUN_06036a98(param_1, param_2, param_3)
-    unsigned int *param_1;
-    unsigned int *param_2;
-    unsigned int *param_3;
+/* cd_cmd_get_calc_result -- CD-Block command 0x72: Get calculation result.
+ * Returns 3 values: *param_2 = word count, *param_3 = status byte (high),
+ * *param_1 = sector count (24-bit). */
+int FUN_06036a98(unsigned int *param_1, unsigned int *param_2, unsigned int *param_3)
 {
-
   int uVar1;
-
-  char auStack_20 [2];
-
+  char auStack_20[2];
   unsigned short uStack_1e;
-
   unsigned int uStack_1c;
-
-  char local_18 [12];
+  char local_18[12];
 
   (*(int(*)())0x06035E90)(local_18);
-
-  local_18[0] = 0x72;
-
-  uVar1 = (*(int(*)())0x06035EA2)(0,local_18,auStack_20);
-
-  *param_2 = (unsigned int)uStack_1e;
-
-  *param_3 = uStack_1c >> 0x18;
-
-  *param_1 = uStack_1c & 0x00FFFFFF;
-
+  local_18[0] = 0x72;           /* get calc result */
+  uVar1 = (*(int(*)())0x06035EA2)(0, local_18, auStack_20);
+  *param_2 = (unsigned int)uStack_1e;       /* word count */
+  *param_3 = uStack_1c >> 0x18;             /* status byte */
+  *param_1 = uStack_1c & 0x00FFFFFF;        /* sector count */
   return uVar1;
-
 }
 
-int FUN_06036af2(param_1, param_2)
-    unsigned int param_1;
-    int param_2;
+/* cd_cmd_get_file_info -- CD-Block command 0x73: Get file system info.
+ * param_1: file index. Sends query, then reads response data (24-bit
+ * word count) via cd_sector_read_words into param_2 buffer. */
+int FUN_06036af2(unsigned int param_1, int param_2)
 {
-
   int iVar1;
-
-  unsigned int local_1c [2];
-
-  char local_14 [4];
-
+  unsigned int local_1c[2];
+  char local_14[4];
   unsigned int uStack_10;
 
   (*(int(*)())0x06035E90)(local_14);
-
-  local_14[0] = 0x73;
-
+  local_14[0] = 0x73;           /* get file info */
   uStack_10 = (unsigned int)param_1;
-
-  iVar1 = (*(int(*)())0x06035EA2)(0,local_14,local_1c);
-
+  iVar1 = (*(int(*)())0x06035EA2)(0, local_14, local_1c);
   if (iVar1 == 0) {
-
-    iVar1 = (*(int(*)())0x06035CBC)(local_1c[0] & 0x00FFFFFF,param_2);
-
+    iVar1 = (*(int(*)())0x06035CBC)(local_1c[0] & 0x00FFFFFF, param_2);
   }
-
   return iVar1;
-
 }
 
 long long FUN_06036be4()
