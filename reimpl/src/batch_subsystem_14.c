@@ -317,112 +317,69 @@ unsigned int FUN_060146d2()
   return mode;
 }
 
+/* cheat_code_check -- Check 3-byte input against cheat code table.
+ * Compares input at 0x06084B14 against entries in table at 0x0605B3C4 (3 bytes each).
+ * On partial match (index < 2): scrambles input with frame-seeded pattern.
+ * On full match (index >= 2): sets found flag at 0x06084FB8.
+ * Stores match value from 0x0605B164 lookup, returns 0 when match found. */
 unsigned int FUN_0601476c(param_1)
     unsigned int *param_1;
 {
-
-  char *puVar1;
-
-  unsigned char *pbVar2;
-
-  unsigned char *pbVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  unsigned int uVar6;
-
-  unsigned int uVar7;
-
-  char cVar8;
-
-  pbVar3 = 0x0605B3C4;
-
-  puVar1 = (char *)0x06084B14;
-
-  uVar6 = (unsigned int)DAT_06014818;
-
-  uVar7 = 1;
-
-  uVar5 = 0;
-
-  *(short *)0x06084FB8 = 0;
-
-  *(unsigned int *)0x0607EBCC = uVar6 - 0x4b;
-
+  char *input_buf;
+  unsigned char *code_next;
+  unsigned char *code_ptr;
+  char *scramble_src;
+  unsigned int code_idx;
+  unsigned int sentinel;
+  unsigned int active;
+  char match_count;
+  code_ptr = 0x0605B3C4;                    /* cheat code table */
+  input_buf = (char *)0x06084B14;            /* 3-byte input buffer */
+  sentinel = (unsigned int)DAT_06014818;
+  active = 1;
+  code_idx = 0;
+  *(short *)0x06084FB8 = 0;                  /* clear found flag */
+  *(unsigned int *)0x0607EBCC = sentinel - 0x4b;
   do {
-
-    cVar8 = *puVar1 == *pbVar3;
-
-    pbVar2 = pbVar3 + 2;
-
-    if (puVar1[1] == pbVar3[1]) {
-
-      cVar8 = cVar8 + '\x01';
-
+    /* Compare 3 input bytes against current code entry */
+    match_count = *input_buf == *code_ptr;
+    code_next = code_ptr + 2;
+    if (input_buf[1] == code_ptr[1]) {
+      match_count = match_count + '\x01';
     }
-
-    pbVar3 = pbVar3 + 3;
-
-    if (puVar1[2] == *pbVar2) {
-
-      cVar8 = cVar8 + '\x01';
-
+    code_ptr = code_ptr + 3;
+    if (input_buf[2] == *code_next) {
+      match_count = match_count + '\x01';
     }
-
-    if (cVar8 == '\x03') {
-
-      *(int *)0x0607EBCC = *(int *)(0x0605B164 + (uVar5 << 2));
-
-      if (uVar5 < 2) {
-
-        if (0x2a < uVar5) {
-
-          uVar5 = 0x2b;
-
+    if (match_count == '\x03') {
+      /* All 3 bytes match — store associated value */
+      *(int *)0x0607EBCC = *(int *)(0x0605B164 + (code_idx << 2));
+      if (code_idx < 2) {
+        /* Partial cheat: scramble input with frame-seeded pattern */
+        if (0x2a < code_idx) {
+          code_idx = 0x2b;
         }
-
-        puVar4 = 0x0605B4A8 +
-
-                 (short)(((short)(uVar5 << 2) + ((unsigned short)FRAME_COUNTER & 3)) * 3);
-
-        *puVar1 = *puVar4;
-
-        puVar1[1] = puVar4[1];
-
-        pbVar3 = puVar4 + 3;
-
-        puVar1[2] = puVar4[2];
-
-        uVar7 = uVar6 & 0xff;
-
+        scramble_src = 0x0605B4A8 +
+                 (short)(((short)(code_idx << 2) + ((unsigned short)FRAME_COUNTER & 3)) * 3);
+        *input_buf = *scramble_src;
+        input_buf[1] = scramble_src[1];
+        code_ptr = scramble_src + 3;
+        input_buf[2] = scramble_src[2];
+        active = sentinel & 0xff;
       }
-
       else {
-
-        uVar7 = 0;
-
+        /* Full cheat code match */
+        active = 0;
         *(short *)0x06084FB8 = 1;
-
       }
-
     }
-
-    uVar5 = uVar5 + 1;
-
-    if (*pbVar3 == uVar6) {
-
-      uVar7 = 0;
-
+    code_idx = code_idx + 1;
+    if (*code_ptr == sentinel) {
+      active = 0;                            /* end of table */
     }
-
-  } while (uVar7 == 1);
-
-  *param_1 = uVar5;
-
-  return uVar7;
-
+  } while (active == 1);
+  *param_1 = code_idx;
+  return active;
 }
 
 /* hud_init_and_render -- Initialize HUD: DMA palette to VDP1, render digits.
@@ -443,157 +400,94 @@ void FUN_06014a04(void)
     *(short *)0x06085F94 = 1;
 }
 
+/* game_display_full_init -- Full game display initialization.
+ * Configures VDP2 scroll/priority registers, uploads palettes to VDP1/VDP2 color RAM,
+ * loads 4 scroll plane patterns, initializes 44 HUD text slots (stride 0x36),
+ * renders digits/sprites, optionally sets up race-specific car state. */
 void FUN_06014a74()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned int uVar4;
-
-  short *puVar5;
-
-  unsigned char bVar6;
-
-  unsigned char bVar7;
-
-  puVar2 = (char *)0x06038BD4;
-
-  puVar1 = (char *)0x06085640;
-
+  char *hud_slots;
+  char *config_fn;
+  char *vdp1_base;
+  unsigned int idx;
+  short *slot_ptr;
+  unsigned char char_idx;
+  unsigned char slot_idx;
+  config_fn = (char *)0x06038BD4;
+  hud_slots = (char *)0x06085640;
+  /* VDP2 scroll/priority register config */
   (*(int(*)())0x06038BD4)(0x100,0);
-
-  (*(int(*)())puVar2)(4,1);
-
-  (*(int(*)())puVar2)(8,1);
-
-  (*(int(*)())puVar2)(0x10,2);
-
-  (*(int(*)())puVar2)(0x20,7);
-
-  (*(int(*)())puVar2)(1,0);
-
+  (*(int(*)())config_fn)(4,1);
+  (*(int(*)())config_fn)(8,1);
+  (*(int(*)())config_fn)(0x10,2);
+  (*(int(*)())config_fn)(0x20,7);
+  (*(int(*)())config_fn)(1,0);
+  /* Scene-specific initialization */
   if (*(int *)0x06085F8A == '\0') {
-
-    (*(int(*)())0x0602853E)(4);
-
-    (*(int(*)())0x06014884)(8,0);
-
-    (*(int(*)())puVar2)(0x10,6);
-
-    (*(int(*)())0x06028560)();
-
-    (*(int(*)())0x060032D4)();
-
+    (*(int(*)())0x0602853E)(4);           /* VDP1 command init */
+    (*(int(*)())0x06014884)(8,0);         /* SCU interrupt clear */
+    (*(int(*)())config_fn)(0x10,6);
+    (*(int(*)())0x06028560)();            /* VDP1 flush */
+    (*(int(*)())0x060032D4)();            /* scene setup */
   }
-
   else {
-
     (*(int(*)())0x06020CF4)();
-
     (*(int(*)())0x060078DC)();
-
   }
-
-  (*(int(*)())puVar2)(0x100,4);
-
+  (*(int(*)())config_fn)(0x100,4);
   (*(int(*)())0x0602853E)(0xc);
-
   (*(int(*)())0x06014884)(0x10,0);
-
   (*(int(*)())0x06014884)(0x20,0);
-
-  puVar2 = (char *)0x0602761E;
-
+  /* Upload 4 palettes to VDP2 color RAM (0x25F00660-0x25F006C0) */
+  config_fn = (char *)0x0602761E;
   (*(int(*)())0x0602761E)(0x25F00660,0x06044A64,0x20);
-
-  (*(int(*)())puVar2)(0x25F00680,0x06044A84,0x20);
-
-  (*(int(*)())puVar2)(0x25F006A0,0x06044AA4,0x20);
-
-  (*(int(*)())puVar2)(0x25F006C0,0x06044AC4,0x20);
-
-  puVar3 = (char *)0x25C00000;
-
-  (*(int(*)())puVar2)(0x25C00000 + 0x260 + *(int *)(0x06059FFC << 3),
-
+  (*(int(*)())config_fn)(0x25F00680,0x06044A84,0x20);
+  (*(int(*)())config_fn)(0x25F006A0,0x06044AA4,0x20);
+  (*(int(*)())config_fn)(0x25F006C0,0x06044AC4,0x20);
+  /* Upload 4 palettes to VDP1 color RAM (frame-bank selected) */
+  vdp1_base = (char *)0x25C00000;
+  (*(int(*)())config_fn)(0x25C00000 + 0x260 + *(int *)(0x06059FFC << 3),
                     0x06044AE4,0x20);
-
-  (*(int(*)())puVar2)(puVar3 + 0x280 + *(int *)(0x06059FFC << 3),0x06044B24,0x20)
-
+  (*(int(*)())config_fn)(vdp1_base + 0x280 + *(int *)(0x06059FFC << 3),0x06044B24,0x20)
   ;
-
-  (*(int(*)())puVar2)(puVar3 + 0x220 + *(int *)(0x06059FFC << 3),0x06044B04,0x20)
-
+  (*(int(*)())config_fn)(vdp1_base + 0x220 + *(int *)(0x06059FFC << 3),0x06044B04,0x20)
   ;
-
-  (*(int(*)())puVar2)(puVar3 + 0x240 + *(int *)(0x06059FFC << 3),0x06044B44,0x20)
-
+  (*(int(*)())config_fn)(vdp1_base + 0x240 + *(int *)(0x06059FFC << 3),0x06044B44,0x20)
   ;
-
-  puVar2 = (char *)0x0600511E;
-
+  /* Load 4 VDP2 scroll plane patterns */
+  config_fn = (char *)0x0600511E;
   (*(int(*)())0x0600511E)(0x25E73B98,0x00017700,0,8);
-
-  (*(int(*)())puVar2)(0x25E74158,0x000189E0,0,8);
-
-  (*(int(*)())puVar2)(0x25E74AFC,0x0001AFA0,0,8);
-
-  (*(int(*)())puVar2)(0x25E75730,0x0001C980,0,8);
-
-  for (bVar7 = 0; bVar7 < 0x2c; bVar7 = bVar7 + 1) {
-
-    puVar5 = (short *)(puVar1 + (short)((unsigned short)bVar7 * 0x36));
-
-    *puVar5 = 1;
-
-    puVar5[1] = 0x19;
-
-    bVar6 = 0;
-
+  (*(int(*)())config_fn)(0x25E74158,0x000189E0,0,8);
+  (*(int(*)())config_fn)(0x25E74AFC,0x0001AFA0,0,8);
+  (*(int(*)())config_fn)(0x25E75730,0x0001C980,0,8);
+  /* Initialize 44 HUD text slots (stride 0x36 bytes each) */
+  for (slot_idx = 0; slot_idx < 0x2c; slot_idx = slot_idx + 1) {
+    slot_ptr = (short *)(hud_slots + (short)((unsigned short)slot_idx * 0x36));
+    *slot_ptr = 1;                         /* active flag */
+    slot_ptr[1] = 0x19;                   /* max chars = 25 */
+    char_idx = 0;
     do {
-
-      uVar4 = (unsigned int)bVar6;
-
-      bVar6 = bVar6 + 1;
-
-      *(short *)(puVar1 + (uVar4 << 1) + (int)(short)((unsigned short)bVar7 * 0x36) + 4) = 0x20;
-
-    } while (bVar6 < 0x19);
-
+      idx = (unsigned int)char_idx;
+      char_idx = char_idx + 1;
+      *(short *)(hud_slots + (idx << 1) + (int)(short)((unsigned short)slot_idx * 0x36) + 4) = 0x20;  /* space */
+    } while (char_idx < 0x19);
   }
-
-  (*(int(*)())0x060172BC)();
-
-  (*(int(*)())0x060173AC)();
-
+  /* Render HUD digits and sprites */
+  (*(int(*)())0x060172BC)();               /* digit render */
+  (*(int(*)())0x060173AC)();               /* sprite render */
   *(int *)0x06085F89 = 0;
-
   *(short *)0x06085F90 = 0;
-
   *(short *)0x06085F94 = 1;
-
   (*(int(*)())0x060149CC)();
-
+  /* Race-specific initialization */
   if (((unsigned int)(*(short *)0x0607ED8C == 2) & *(unsigned int *)0x0607EBF4) != 0) {
-
     *(short *)0x06085F90 = 0x27;
-
-    puVar1 = (char *)0x0607E944;
-
+    hud_slots = (char *)0x0607E944;
     *(int *)(CAR_PTR_TARGET + (int)DAT_06014cf2) = (int)(char)*(int *)0x06078637;
-
-    *(int *)(*(int *)puVar1 + 0x240) = *(int *)0x06078638;
-
+    *(int *)(*(int *)hud_slots + 0x240) = *(int *)0x06078638;
     *(int *)0x060786A4 = *(int *)0x0607863C;
-
   }
-
   return;
-
 }
 
 void FUN_06014d2c()

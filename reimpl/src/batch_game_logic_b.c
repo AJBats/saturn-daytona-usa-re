@@ -1253,151 +1253,89 @@ void FUN_0600d37c(void)
     *(int *)(*car_ptrs + (int)DAT_0600d406) = rank;
 }
 
+/* race_ranking_sort -- Sort car ranking array by checkpoint progress, update position links.
+ * If lead car fell behind threshold: rotates fallen cars to end of array.
+ * Otherwise: bubble-sorts by progress. Then rebuilds prev/next linked list at +0x238/+0x23C. */
 void FUN_0600d3c4()
 {
-
-  int *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  unsigned int uVar5;
-
-  int uVar6;
-
-  unsigned int uVar7;
-
-  int *piVar8;
-
-  int *piVar9;
-
-  unsigned int uVar10;
-
-  int *puVar11;
-
-  int *puVar12;
-
-  puVar12 = (int *)0x0607E9EC;
-
+  int *temp_buf;
+  char *ranking_base;
+  char *car_count_ptr;
+  int temp;
+  unsigned int progress;
+  int entry;
+  unsigned int behind_count;
+  int *first_next;
+  int *iter;
+  unsigned int count;
+  int *src;
+  int *dst;
+  dst = (int *)0x0607E9EC;
   if (*(unsigned int *)(*(int *)0x0607E9EC + (int)PTR_DAT_0600d408) < *(unsigned int *)0x060786B4)
-
   {
-
-    for (uVar7 = 1;
-
-        (uVar10 = uVar7, puVar1 = (int *)0x0607EA8C,
-
-        puVar11 = (int *)0x0607E9EC,
-
-        *(unsigned int *)(*(int *)(0x0607E9EC + (uVar7 << 2)) + (int)DAT_0600d4a6) <
-
-        *(unsigned int *)0x060786B4 && (uVar7 < 3)); uVar7 = uVar7 + 1) {
-
+    /* Count how many leading cars fell behind threshold */
+    for (behind_count = 1;
+        (count = behind_count, temp_buf = (int *)0x0607EA8C,
+        src = (int *)0x0607E9EC,
+        *(unsigned int *)(*(int *)(0x0607E9EC + (behind_count << 2)) + (int)DAT_0600d4a6) <
+        *(unsigned int *)0x060786B4 && (behind_count < 3)); behind_count = behind_count + 1) {
     }
-
-    for (; uVar10 != 0; uVar10 = uVar10 - 1) {
-
-      *puVar1 = *puVar11;
-
-      puVar1 = puVar1 + 1;
-
-      puVar11 = puVar11 + 1;
-
+    /* Copy fallen cars to temp buffer */
+    for (; count != 0; count = count - 1) {
+      *temp_buf = *src;
+      temp_buf = temp_buf + 1;
+      src = src + 1;
     }
-
-    for (uVar10 = *(int *)0x0607EA98 - uVar7; puVar1 = (int *)0x0607EA8C,
-
-        1 < uVar10; uVar10 = uVar10 - 1) {
-
-      uVar6 = *puVar11;
-
-      puVar11 = puVar11 + 1;
-
-      *puVar12 = uVar6;
-
-      puVar12 = puVar12 + 1;
-
+    /* Shift remaining cars to front */
+    for (count = *(int *)0x0607EA98 - behind_count; temp_buf = (int *)0x0607EA8C,
+        1 < count; count = count - 1) {
+      entry = *src;
+      src = src + 1;
+      *dst = entry;
+      dst = dst + 1;
     }
-
-    for (; uVar7 != 0; uVar7 = uVar7 - 1) {
-
-      *puVar12 = *puVar1;
-
-      puVar12 = puVar12 + 1;
-
-      puVar1 = puVar1 + 1;
-
+    /* Append fallen cars at end */
+    for (; behind_count != 0; behind_count = behind_count - 1) {
+      *dst = *temp_buf;
+      dst = dst + 1;
+      temp_buf = temp_buf + 1;
     }
-
   }
-
   else {
-
-    uVar7 = *(unsigned int *)(*(int *)0x0607E9EC + (int)PTR_DAT_0600d408);
-
-    piVar9 = (int *)0x0607E9EC;
-
-    for (uVar10 = *(unsigned int *)0x0607EA98; 1 < uVar10; uVar10 = uVar10 - 1) {
-
-      uVar5 = *(unsigned int *)(piVar9[1] + (int)PTR_DAT_0600d408);
-
-      if (uVar7 < uVar5) {
-
-        iVar4 = *piVar9;
-
-        *piVar9 = piVar9[1];
-
-        piVar9[1] = iVar4;
-
-        uVar5 = uVar7;
-
+    /* Bubble sort by checkpoint progress (ascending) */
+    behind_count = *(unsigned int *)(*(int *)0x0607E9EC + (int)PTR_DAT_0600d408);
+    iter = (int *)0x0607E9EC;
+    for (count = *(unsigned int *)0x0607EA98; 1 < count; count = count - 1) {
+      progress = *(unsigned int *)(iter[1] + (int)PTR_DAT_0600d408);
+      if (behind_count < progress) {
+        temp = *iter;
+        *iter = iter[1];
+        iter[1] = temp;
+        progress = behind_count;
       }
-
-      piVar9 = piVar9 + 1;
-
-      uVar7 = uVar5;
-
+      iter = iter + 1;
+      behind_count = progress;
     }
-
   }
-
-  puVar3 = (char *)0x0607EA98;
-
-  puVar2 = (char *)0x0607E9EC;
-
-  piVar8 = (int *)(0x0607E9EC + 4);
-
-  piVar9 = piVar8;
-
-  for (uVar7 = 1; uVar7 < *(int *)puVar3 - 1U; uVar7 = uVar7 + 1) {
-
-    iVar4 = 0x238;
-
-    *(int *)(*piVar9 + iVar4) = piVar9[-1];
-
-    *(int *)(*piVar9 + iVar4 + 4) = piVar9[1];
-
-    piVar9 = piVar9 + 1;
-
+  /* Rebuild prev/next position links at car+0x238/+0x23C */
+  car_count_ptr = (char *)0x0607EA98;
+  ranking_base = (char *)0x0607E9EC;
+  first_next = (int *)(0x0607E9EC + 4);
+  iter = first_next;
+  for (behind_count = 1; behind_count < *(int *)car_count_ptr - 1U; behind_count = behind_count + 1) {
+    temp = 0x238;
+    *(int *)(*iter + temp) = iter[-1];       /* prev car */
+    *(int *)(*iter + temp + 4) = iter[1];    /* next car */
+    iter = iter + 1;
   }
-
-  *(int *)(*(int *)puVar2 + 0x238) = *piVar9;
-
-  iVar4 = (int)DAT_0600d536;
-
-  *(int *)(*(int *)puVar2 + iVar4) = *piVar8;
-
-  *(int *)(*piVar9 + iVar4 + -4) = piVar9[-1];
-
-  *(int *)(*piVar9 + iVar4) = *(int *)puVar2;
-
-  *(int *)0x060786B4 = *(int *)(*piVar9 + iVar4 + -0x50);
-
+  /* Link first and last cars */
+  *(int *)(*(int *)ranking_base + 0x238) = *iter;
+  temp = (int)DAT_0600d536;
+  *(int *)(*(int *)ranking_base + temp) = *first_next;
+  *(int *)(*iter + temp + -4) = iter[-1];
+  *(int *)(*iter + temp) = *(int *)ranking_base;
+  *(int *)0x060786B4 = *(int *)(*iter + temp + -0x50);
   return;
-
 }
 
 void FUN_0600d50c()
