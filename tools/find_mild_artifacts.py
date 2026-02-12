@@ -18,8 +18,30 @@ HARD_RE = re.compile(r'\bunaff_r|\bin_pr\b|\bin_sr\b|\bSUB4[0-9a-f]|\bin_r[0-3]\
 
 FUNC_RE = re.compile(r'^(?!extern\b)(?:\w[\w *]*\s+)(FUN_[0-9a-fA-F]+)\b')
 
+HAS_HEX_LETTERS = re.compile(r'[A-Fa-f]')
+FORWARDING_RE = re.compile(r'^\s*(?:return\s+)?FUN_[0-9a-fA-F]+\s*\(')
+
 results = {'easy': [], 'moderate': [], 'hard': [], 'clean': []}
 src_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'reimpl', 'src')
+
+# Build set of addresses that have L2 versions in hand-written files
+l2_addrs = set()
+for fname in sorted(os.listdir(src_dir)):
+    if not fname.endswith('.c'):
+        continue
+    if fname.startswith('batch_') or fname.startswith('asm_'):
+        continue
+    if fname in ('linker_stubs.c', 'stubs.c', 'extern_stubs.c'):
+        continue
+    path = os.path.join(src_dir, fname)
+    with open(path, 'r', encoding='utf-8', errors='replace') as f:
+        for line in f:
+            m = FUNC_RE.match(line)
+            if m:
+                func = m.group(1)
+                addr = func[4:].upper()  # extract hex after FUN_
+                if HAS_HEX_LETTERS.search(addr):
+                    l2_addrs.add(addr)
 
 for fname in sorted(os.listdir(src_dir)):
     if not fname.startswith('batch_') or not fname.endswith('.c'):
@@ -46,6 +68,11 @@ for fname in sorted(os.listdir(src_dir)):
 
         func_name = m.group(1)
 
+        # Skip functions that have L2 versions in hand-written files
+        addr = func_name[4:].upper()
+        if HAS_HEX_LETTERS.search(addr) and addr in l2_addrs:
+            continue
+
         # Find function end by brace counting
         brace = 0
         end_i = i
@@ -63,6 +90,12 @@ for fname in sorted(os.listdir(src_dir)):
             continue
 
         body = ''.join(lines[i:end_i+1])
+
+        # Skip forwarding wrappers (body is just a call to another function)
+        body_lines = [l.strip() for l in lines[i:end_i+1] if l.strip() and not l.strip().startswith('{') and not l.strip().startswith('}') and not l.strip().startswith('/*')]
+        real_lines = [l for l in body_lines if l and not FUNC_RE.match(l)]
+        if len(real_lines) == 1 and FORWARDING_RE.match(real_lines[0]):
+            continue
 
         has_hard = bool(HARD_RE.search(body))
         has_moderate = bool(MODERATE_RE.search(body))
