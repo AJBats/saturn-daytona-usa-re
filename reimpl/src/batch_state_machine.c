@@ -50,109 +50,58 @@ extern int func_0601389E();
 extern int func_06018E70();
 extern int state_0605AD10;
 
-void FUN_060081f4()
+/* gear_shift_steering_deflect -- Handle steering deflection during gear shifts.
+ * If steer timer (CAR_STEER_TIMER at +0xB8) is 0: detect new shift input.
+ *   - Right shift (bit 0x10): set timer=0x30, direction=-1
+ *   - Left shift (bit 0x20): set timer=0x30, direction=+1
+ *   - Play shift sound (0xAE111BFF) if in race state
+ * If timer active: decrement, look up deflection from sine table
+ *   (0x0604546C normal / 0x0604540C if flag bit 0x40), apply to steering
+ *   at car+0x1D8, decelerate by 0xE3. Calls CD sync twice. */
+void FUN_060081f4(void)
 {
+    int *car_iter = (int *)0x0607E944;   /* car iteration pointer */
+    int timer_val;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  puVar2 = (char *)0x00020000;
-
-  puVar4 = (char *)0x0607EBC4;
-
-  puVar1 = (char *)0x0607E944;
-
-  if (*(int *)(CAR_PTR_TARGET + 0xb8) == 0) {
-
-    if ((0x13 < *(int *)(CAR_PTR_TARGET + 8)) &&
-
-       (*(int *)(CAR_PTR_TARGET + (int)DAT_060082b2) == 0)) {
-
-      if ((**(unsigned char **)0x0607E944 & 0x10) == 0) {
-
-        if ((**(unsigned char **)0x0607E944 & 0x20) != 0) {
-
-          *(int *)(CAR_PTR_TARGET + 0xb8) = 0x30;
-
-          *(int *)(*(int *)puVar1 + (int)DAT_0600835a) = 1;
-
-          if (((unsigned int)puVar2 & *(unsigned int *)puVar4) != 0) {
-
-            (*(int(*)())0x0601D5F4)(0,0xAE111BFF);
-
-          }
-
+    if (*(int *)(CAR_PTR_TARGET + CAR_STEER_TIMER) == 0) {
+        if ((0x13 < *(int *)(CAR_PTR_TARGET + CAR_SPEED)) &&
+            (*(int *)(CAR_PTR_TARGET + (int)DAT_060082b2) == 0)) {
+            if ((**(unsigned char **)car_iter & 0x10) == 0) {
+                if ((**(unsigned char **)car_iter & 0x20) != 0) {
+                    *(int *)(CAR_PTR_TARGET + CAR_STEER_TIMER) = 0x30;
+                    *(int *)(*(int *)car_iter + (int)DAT_0600835a) = 1;
+                    if (((unsigned int)0x00020000 & *(unsigned int *)0x0607EBC4) != 0) {
+                        (*(int(*)())0x0601D5F4)(0, 0xAE111BFF); /* shift sound */
+                    }
+                }
+            } else {
+                *(int *)(CAR_PTR_TARGET + CAR_STEER_TIMER) = 0x30;
+                *(int *)(*(int *)car_iter + (int)DAT_060082ac) = 0xffffffff;
+                if (((unsigned int)0x00020000 & *(unsigned int *)0x0607EBC4) != 0) {
+                    (*(int(*)())0x0601D5F4)(0, 0xAE111BFF); /* shift sound */
+                }
+            }
         }
+    } else {
+        *(int *)0x0607EBD4 = 0x46;  /* physics mode: steering override */
+        timer_val = *(int *)(*(int *)car_iter + CAR_STEER_TIMER);
+        *(int *)(*(int *)car_iter + CAR_STEER_TIMER) -= 1;
 
-      }
-
-      else {
-
-        *(int *)(CAR_PTR_TARGET + 0xb8) = 0x30;
-
-        *(int *)(*(int *)puVar1 + (int)DAT_060082ac) = 0xffffffff;
-
-        if (((unsigned int)puVar2 & *(unsigned int *)puVar4) != 0) {
-
-          (*(int(*)())0x0601D5F4)(0,0xAE111BFF);
-
+        char *sine_tbl = (char *)0x0604546C;  /* normal deflection table */
+        if ((**(unsigned char **)car_iter & 0x40) != 0) {
+            sine_tbl = (char *)0x0604540C;    /* alternate deflection table */
         }
-
-      }
-
+        int deflect;
+        if (*(int *)(*(int *)car_iter + (int)DAT_060082ac) < 0) {
+            deflect = (int)*(short *)(sine_tbl + ((0x30 - timer_val) << 1));
+        } else {
+            deflect = -(int)*(short *)(sine_tbl + ((0x30 - timer_val) << 1));
+        }
+        *(int *)(*(int *)car_iter + 0x1d8) = deflect;
+        *(int *)(*(int *)car_iter + CAR_ACCEL) -= 0xe3; /* deceleration penalty */
     }
-
-  }
-
-  else {
-
-    *(int *)0x0607EBD4 = 0x46;
-
-    iVar3 = 0xb8;
-
-    iVar5 = *(int *)(*(int *)puVar1 + iVar3);
-
-    *(int *)(*(int *)puVar1 + iVar3) = *(int *)(*(int *)puVar1 + iVar3) + -1;
-
-    puVar4 = (char *)0x0604546C;
-
-    if ((**(unsigned char **)puVar1 & 0x40) != 0) {
-
-      puVar4 = (char *)0x0604540C;
-
-    }
-
-    if (*(int *)(*(int *)puVar1 + (int)DAT_060082ac) < 0) {
-
-      iVar3 = (int)*(short *)(puVar4 + ((0x30 - iVar5) << 1));
-
-    }
-
-    else {
-
-      iVar3 = -(int)*(short *)(puVar4 + ((0x30 - iVar5) << 1));
-
-    }
-
-    *(int *)(*(int *)puVar1 + 0x1d8) = iVar3;
-
-    *(int *)(*(int *)puVar1 + 0xc) = *(int *)(*(int *)puVar1 + 0xc) - 0xe3;
-
-  }
-
-  (*(int(*)())0x06034F78)(0);
-
-  (*(int(*)())0x06034F78)();
-
-  return;
-
+    (*(int(*)())0x06034F78)(0);   /* CD sync */
+    (*(int(*)())0x06034F78)();    /* CD sync */
 }
 
 int gear_shift_handler()
@@ -311,57 +260,35 @@ void FUN_060084ca(void)
   }
 }
 
-int FUN_060085b8()
+/* collision_response_handler -- Handle car collision steering response.
+ * If collision timer (DAT_06008624) is active: sets physics mode 0x46,
+ * snaps heading to heading3 if direction flag == 1 and activation bit set.
+ * Runs speed_force_timer(). When timer < 2: set phase flag based on
+ * game state (4 for VS mode 0x200000, else 1). Returns collision offset. */
+int FUN_060085b8(void)
 {
+    int *car_iter = (int *)0x0607E940;
+    int result = 0;
 
-  char *puVar1;
-
-  int iVar2;
-
-  puVar1 = (char *)0x0607E940;
-
-  iVar2 = 0;
-
-  if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06008624) != 0) {
-
-    *(int *)0x0607EBD4 = 0x46;
-
-    if ((*(int *)((int)DAT_06008626 + *(int *)puVar1) == 1) &&
-
-       (((int)*(char *)(*(int *)puVar1 + 0x160) & 0x80U) != 0)) {
-
-      *(int *)(*(int *)puVar1 + 0x28) = *(int *)(*(int *)puVar1 + 0x30);
-
-      *(int *)(*(int *)puVar1 + DAT_0600862a + -8) =
-
-           *(int *)(*(int *)puVar1 + (int)DAT_0600862a);
-
+    if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06008624) != 0) {
+        *(int *)0x0607EBD4 = 0x46;  /* physics mode: collision override */
+        if ((*(int *)((int)DAT_06008626 + *(int *)car_iter) == 1) &&
+            (((int)*(char *)(*(int *)car_iter + CAR_ACTIVATE_FLAGS) & 0x80U) != 0)) {
+            *(int *)(*(int *)car_iter + CAR_HEADING2) = *(int *)(*(int *)car_iter + CAR_HEADING3);
+            *(int *)(*(int *)car_iter + DAT_0600862a + -8) =
+                *(int *)(*(int *)car_iter + (int)DAT_0600862a);
+        }
+        speed_force_timer();
+        result = (int)DAT_06008624;
+        if (*(int *)(*(int *)car_iter + result) < 2) {
+            if (*(char **)0x0607EBC4 == 0x00200000) {
+                *(int *)0x06078654 = 4;   /* VS mode phase */
+            } else {
+                *(int *)0x06078654 = 1;   /* normal phase */
+            }
+        }
     }
-
-    speed_force_timer();
-
-    iVar2 = (int)DAT_06008624;
-
-    if (*(int *)(*(int *)puVar1 + iVar2) < 2) {
-
-      if (*(char **)0x0607EBC4 == 0x00200000) {
-
-        *(int *)0x06078654 = 4;
-
-      }
-
-      else {
-
-        *(int *)0x06078654 = 1;
-
-      }
-
-    }
-
-  }
-
-  return iVar2;
-
+    return result;
 }
 
 int steering_physics_update()

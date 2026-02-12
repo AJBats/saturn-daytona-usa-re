@@ -214,119 +214,58 @@ void FUN_060102ea(unsigned short param_1)
   }
 }
 
-void FUN_060103b8(param_1)
-    unsigned int param_1;
+/* player_select_dpad -- Handle D-pad input for player/character selection.
+ * Up (bit 0x8000): increment selection (max 1).
+ * Down (DAT_0601043e): decrement selection (min 0).
+ * Mirrors selection to 0x0607EAB8 and 0x06078868, then DMA-copies
+ * the appropriate character sprite data (0xC0 bytes) for both slots. */
+void FUN_060103b8(unsigned int param_1)
 {
+  int *select_idx = (int *)0x0607EADC;  /* player selection index */
 
-  char *puVar1;
-
-  char *puVar2;
-
-  int *puVar3;
-
-  int iVar4;
-
-  puVar1 = (char *)0x0607EADC;
-
-  if (((param_1 & 0xffff & (unsigned int)0x00008000) != 0) && (*(int *)0x0607EADC < 1)) {
-
-    *(int *)0x0607EADC = *(int *)0x0607EADC + 1;
-
+  if (((param_1 & 0xffff & 0x00008000) != 0) && (*select_idx < 1)) {
+    *select_idx = *select_idx + 1;
+  }
+  if (((param_1 & 0xffff & (int)DAT_0601043e) != 0) && (0 < *select_idx)) {
+    *select_idx = *select_idx + -1;
   }
 
-  if (((param_1 & 0xffff & (int)DAT_0601043e) != 0) && (0 < *(int *)0x0607EADC)) {
+  *(int *)0x0607EAB8 = *select_idx;     /* mirror to character select */
+  *(int *)0x06078868 = *select_idx;      /* mirror to car select */
 
-    *(int *)puVar1 = *(int *)puVar1 + -1;
-
+  if (*(int *)0x0607EAB8 == 0) {
+    (*(int(*)())0x0602766C)(*(int *)0x06078884, *(int *)0x0605D05C, 0xc0);
+    (*(int(*)())0x0602766C)(*(int *)0x06078880, *(int *)0x0605D088, 0xc0);
+  } else {
+    (*(int(*)())0x0602766C)(*(int *)0x06078884, *(int *)0x0605D084, 0xc0);
+    (*(int(*)())0x0602766C)(*(int *)0x06078880, *(int *)0x0605D060, 0xc0);
   }
-
-  puVar2 = (char *)0x0607EAB8;
-
-  *(int *)0x0607EAB8 = *(int *)puVar1;
-
-  *(int *)0x06078868 = *(int *)puVar1;
-
-  puVar1 = (char *)0x0602766C;
-
-  iVar4 = 0xc0;
-
-  if (*(int *)puVar2 == 0) {
-
-    (*(int(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D05C,iVar4);
-
-    puVar3 = (int *)0x0605D088;
-
-  }
-
-  else {
-
-    (*(int(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D084,iVar4);
-
-    puVar3 = (int *)0x0605D060;
-
-  }
-
-  (*(int(*)())puVar1)(*(int *)0x06078880,*puVar3,iVar4);
-
-  return;
-
 }
 
-void FUN_06010470()
+/* player_select_analog -- Analog input version of player/character selection.
+ * Reads raw analog value from 0x06063D9C, inverts (XOR 0xFFFF), masks to low byte.
+ * Resets selection to 0, then if analog value > 0xC0 increments to 1.
+ * Mirrors to 0x0607EAB8 and 0x06078868, DMA-copies sprite data (0xC0 bytes). */
+void FUN_06010470(void)
 {
+  int *select_idx = (int *)0x0607EADC;
+  unsigned int analog_val = (unsigned int)*(unsigned short *)0x06063D9C ^ 0x0000FFFF;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  unsigned int uVar3;
-
-  int *puVar4;
-
-  int iVar5;
-
-  puVar1 = (char *)0x0607EADC;
-
-  iVar5 = 0xc0;
-
-  uVar3 = (unsigned int)*(unsigned short *)0x06063D9C ^ (unsigned int)0x0000FFFF;
-
-  *(int *)0x0607EADC = 0;
-
-  if (iVar5 < (int)(uVar3 & 0xff)) {
-
-    *(int *)puVar1 = *(int *)puVar1 + 1;
-
+  *select_idx = 0;
+  if (0xc0 < (int)(analog_val & 0xff)) {
+    *select_idx = *select_idx + 1;
   }
 
-  puVar2 = (char *)0x0607EAB8;
+  *(int *)0x0607EAB8 = *select_idx;     /* mirror to character select */
+  *(int *)0x06078868 = *select_idx;      /* mirror to car select */
 
-  *(int *)0x0607EAB8 = *(int *)puVar1;
-
-  *(int *)0x06078868 = *(int *)puVar1;
-
-  puVar1 = (char *)0x0602766C;
-
-  if (*(int *)puVar2 == 0) {
-
-    (*(int(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D05C,iVar5);
-
-    puVar4 = (int *)0x0605D088;
-
+  if (*(int *)0x0607EAB8 == 0) {
+    (*(int(*)())0x0602766C)(*(int *)0x06078884, *(int *)0x0605D05C, 0xc0);
+    (*(int(*)())0x0602766C)(*(int *)0x06078880, *(int *)0x0605D088, 0xc0);
+  } else {
+    (*(int(*)())0x0602766C)(*(int *)0x06078884, *(int *)0x0605D084, 0xc0);
+    (*(int(*)())0x0602766C)(*(int *)0x06078880, *(int *)0x0605D060, 0xc0);
   }
-
-  else {
-
-    (*(int(*)())0x0602766C)(*(int *)0x06078884,*(int *)0x0605D084,iVar5);
-
-    puVar4 = (int *)0x0605D060;
-
-  }
-
-  (*(int(*)())puVar1)(*(int *)0x06078880,*puVar4,iVar5);
-
-  return;
-
 }
 
 unsigned int FUN_060104e0(param_1)
@@ -790,59 +729,33 @@ LAB_060107c8:
 
 }
 
-void FUN_06010994()
+/* character_sprite_dma -- DMA-copy character sprite data for current selection.
+ * Normal mode (0x06083255 == 0): copies 0xC0 bytes from sprite table indexed
+ *   by car selection (0x06078868), dest from scroll offset + VDP base + 0x40.
+ * Demo mode: copies 0x20 bytes from demo sprite table indexed by 0x0607EAB8,
+ *   dest includes player count offset and additional scroll offset.
+ * Always copies a second sprite block for the overlay at 0x0607ED91. */
+void FUN_06010994(void)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int uVar5;
-
-  int iVar6;
-
-  puVar3 = (int *)0x0602761E;
-
-  puVar2 = (char *)0x06063F5C;
-
-  puVar1 = (char *)0x06059FFC;
+  int scroll_base = *(int *)0x06063F5C;   /* VDP scroll base address */
+  int scroll_page = *(int *)0x06059FFC;   /* current scroll page index */
+  int dest, src, size;
 
   if (*(int *)0x06083255 == '\0') {
-
-    iVar6 = 0xc0;
-
-    uVar5 = *(int *)(0x0605D05C + *(int *)(0x06078868 << 2));
-
-    iVar4 = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + 0x40;
-
+    size = 0xc0;
+    src = *(int *)(0x0605D05C + *(int *)(0x06078868 << 2));
+    dest = *(int *)(scroll_page << 3) + scroll_base + 0x40;
+  } else {
+    size = 0x20;
+    src = *(int *)(0x0605D0AC + *(int *)(0x0607EAB8 << 2));
+    dest = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
+            (unsigned int)*(unsigned short *)0x0607886C) << 5 +
+            *(int *)(scroll_page << 3) + scroll_base;
   }
 
-  else {
-
-    iVar6 = 0x20;
-
-    uVar5 = *(int *)(0x0605D0AC + *(int *)(0x0607EAB8 << 2));
-
-    iVar4 = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
-
-            (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)(0x06059FFC << 3) +
-
-            *(int *)0x06063F5C;
-
-  }
-
-  (*(int(*)())0x0602761E)(iVar4,uVar5,iVar6);
-
-  (*(int(*)())puVar3)(*(int *)((int)(int)puVar1 << 3) + *(int *)puVar2 + DAT_06010a2a + 0x40,
-
+  (*(int(*)())0x0602761E)(dest, src, size);
+  (*(int(*)())0x0602761E)(*(int *)(scroll_page << 3) + scroll_base + DAT_06010a2a + 0x40,
                     *(int *)(0x0605D05C + (unsigned int)(unsigned char)*(int *)(0x0607ED91 << 2)));
-
-  return;
-
 }
 
 /* subsystem_dma_transfer -- DMA-copy data block for subsystem slot.
@@ -1468,94 +1381,57 @@ void FUN_06011310()
 
 }
 
-unsigned int FUN_060114ac(param_1)
-    unsigned int param_1;
+/* gauge_needle_update -- Interpolate gauge needle position toward target.
+ * Reads target position from lookup table at 0x060447A8, indexed by
+ * player selection and param_1. Smooths toward target by halving the
+ * difference each frame (exponential approach).
+ * In game modes 3/0xB, skips rendering on odd frames.
+ * Calls FUN_060116a8 (needle sprite render) and FUN_06011978 (gauge marks). */
+unsigned int FUN_060114ac(unsigned int param_1)
 {
+  int *needle_pos = (int *)0x06078860;  /* current needle position */
+  int target = *(int *)(0x060447A8 + *(int *)(0x0607EADC << 2) + (param_1 & 0xffff) << 4);
+  int delta = target - *needle_pos;
 
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  int *puVar4;
-
-  short *psVar5;
-
-  puVar1 = (char *)0x06078860;
-
-  iVar3 = *(int *)(0x060447A8 + *(int *)(0x0607EADC << 2) + (param_1 & 0xffff) << 4) -
-
-          *(int *)0x06078860;
-
-  *(int *)0x06078860 = *(int *)0x06078860 + ((int)(iVar3 + (unsigned int)(iVar3 < 0)) >> 1);
+  *needle_pos = *needle_pos + ((int)(delta + (unsigned int)(delta < 0)) >> 1);
 
   if (((*(int *)0x0607887F == '\x03') || (*(int *)0x0607887F == '\v')) &&
-
      ((FRAME_COUNTER & 1) != 0)) {
-
     return FRAME_COUNTER;
-
   }
 
-  psVar5 = (short *)(0x060447A4 + (param_1 & 0xffff) << 1);
+  {
+    short *sprite_idx = (short *)(0x060447A4 + (param_1 & 0xffff) << 1);
+    int *needle_data = (int *)(0x060447A8 + (param_1 & 0xffff) << 4 + 0xc);
+    unsigned int uVar2;
 
-  puVar4 = (int *)(0x060447A8 + (param_1 & 0xffff) << 4 + 0xc);
-
-  FUN_060116a8(*(int *)puVar1,*puVar4,(int)DAT_060115c6,0x00010000,(int)*psVar5);
-
-  FUN_06011978(0x06044764,*(int *)puVar1,*puVar4,(int)*psVar5);
-
-  uVar2 = FUN_06011978(0x06044784,*(int *)puVar1,*puVar4,(int)*psVar5);
-
-  return uVar2;
-
+    FUN_060116a8(*needle_pos, *needle_data, (int)DAT_060115c6, 0x00010000, (int)*sprite_idx);
+    FUN_06011978(0x06044764, *needle_pos, *needle_data, (int)*sprite_idx);
+    uVar2 = FUN_06011978(0x06044784, *needle_pos, *needle_data, (int)*sprite_idx);
+    return uVar2;
+  }
 }
 
-void FUN_0601155e(param_1)
-    unsigned short param_1;
+/* sprite_row_data_load -- Load 0x1C sprite row entries from course data table.
+ * Iterates 0x1C entries at stride 0x58 in the course data block (0x06063788),
+ * copying 2-word pairs into the sprite buffer at 0x0605AAA6.
+ * Then triggers DMA via 0x06028400 with the row offset into VRAM. */
+void FUN_0601155e(unsigned short param_1)
 {
-
-  char *puVar1;
-
-  unsigned short uVar2;
-
-  unsigned int uVar3;
-
-  unsigned int uVar4;
-
-  short *puVar5;
-
-  int iVar6;
-
-  puVar1 = (char *)0x0605AAA6;
-
-  uVar2 = 0;
-
-  iVar6 = *(int *)0x06063788;
+  char *sprite_buf = (char *)0x0605AAA6;
+  int course_data = *(int *)0x06063788;
+  unsigned short i = 0;
 
   do {
+    unsigned int idx = (unsigned int)i;
+    short *src = (short *)(idx * 0x58 + (unsigned int)(param_1 << 1) + course_data + 4);
+    *(short *)(sprite_buf + (idx << 2)) = *src;
+    *(short *)((int)(sprite_buf + (idx << 2)) + 2) = src[1];
+    i = i + 1;
+  } while (i < 0x1c);
 
-    uVar3 = (unsigned int)uVar2;
-
-    uVar4 = (unsigned int)uVar2;
-
-    uVar2 = uVar2 + 1;
-
-    puVar5 = (short *)(uVar4 * 0x58 + (unsigned int)(param_1 << 1) + iVar6 + 4);
-
-    *(short *)(puVar1 + (uVar3 << 2)) = *puVar5;
-
-    *(short *)((int)(puVar1 + (uVar3 << 2)) + 2) = puVar5[1];
-
-  } while (uVar2 < 0x1c);
-
-  (*(int(*)())0x06028400)(8,0x0605AAA2,(param_1 & 0x3f) << 1,
-
+  (*(int(*)())0x06028400)(8, 0x0605AAA2, (param_1 & 0x3f) << 1,
              0x0000F000 + *(int *)(0x06063788 + 4));
-
-  return;
-
 }
 
 void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_5)

@@ -898,21 +898,24 @@ void FUN_06018ff8(void)
 
 /* scsp_load_driver_c -- Load sound driver bank C into SCSP RAM.
  * Calls loader at 0x06012F10, sends stop then master volume after. */
+/* scsp_load_driver_c -- Load sound driver bank C into SCSP RAM.
+ * Stops sound channel 0xF, waits for busy timeout via FUN_060192e8,
+ * calls loader at 0x06012F10, clears SCSP register, restores volume. */
 void FUN_06019058(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
 
     SOUND_TIMEOUT_FLAG = 0;
-    snd_cmd(0xf, 0xAE0001FF);
-    snd_cmd(0xf, 0xAE0005FF);
-    FUN_060192e8();
+    snd_cmd(0xf, 0xAE0001FF);   /* stop */
+    snd_cmd(0xf, 0xAE0005FF);   /* init */
+    FUN_060192e8();              /* wait for sound CPU ready */
 
     if (SOUND_TIMEOUT_FLAG == 0) {
-        (*(int(*)())0x06012F10)();
-        *(short *)0x25A02DBE = 0;
+        (*(int(*)())0x06012F10)();       /* load bank C data */
+        *(short *)0x25A02DBE = 0;        /* clear SCSP status */
     }
     snd_cmd(0xf, 0xAE0001FF);   /* stop */
-    snd_cmd(0xf, 0xAE0600FF);   /* master volume */
+    snd_cmd(0xf, 0xAE0600FF);   /* master volume restore */
 }
 
 /* scsp_load_driver_d -- Load sound driver bank D into SCSP RAM.

@@ -260,116 +260,77 @@ void FUN_060120c8(void)
   }
 }
 
-void FUN_060121a8()
+/* camera_sequence_timer -- Step the camera intro sequence by timer phases.
+ * Timer at 0x060788AC increments each frame:
+ *   < 0x14: DMA course data, run camera sweep (FUN_060125d0)
+ *   == 0x14: play sound 0xAE110EFF, load 3 DMA overlay blocks
+ *   0x15..0x28: run camera pan + zoom (FUN_06012344/FUN_06012400)
+ *   > 0x28: disable camera (0x06078636=0), play end sound 0xAE110FFF */
+void FUN_060121a8(void)
 {
+  int *timer = (int *)0x060788AC;
+  *timer = *timer + 1;
 
-  char *puVar1;
-
-  int iVar2;
-
-  puVar1 = (char *)0x060788AC;
-
-  iVar2 = *(int *)0x060788AC;
-
-  *(int *)0x060788AC = iVar2 + 1;
-
-  if (iVar2 + 1 < 0x14) {
-
-    (*(int(*)())0x06028400)(8,*(int *)0x06063AF0,0x390,
-
+  if (*timer < 0x14) {
+    (*(int(*)())0x06028400)(8, *(int *)0x06063AF0, 0x390,
                0x0000B000 + *(int *)(0x06063AF0 + 4));
-
     FUN_060125d0();
-
-  }
-
-  if (*(int *)puVar1 == 0x14) {
-
-    (*(int(*)())0x0601D5F4)(0,0xAE110EFF);
-
-    puVar1 = (char *)0x0605ACF0;
-
-    (*(int(*)())0x060284AE)(8,0x390,0x90,0x0605ACF0);
-
-    (*(int(*)())0x060284AE)(8,0x490,0x90,puVar1);
-
-    (*(int(*)())0x060283E0)(8,0x590,0x0000E000,puVar1);
-
     return;
-
   }
 
-  if (0x28 < *(int *)puVar1) {
-
-    *(int *)0x06078636 = 0;
-
-    (*(int(*)())0x0601D5F4)(0,0xAE110FFF);
-
+  if (*timer == 0x14) {
+    (*(int(*)())0x0601D5F4)(0, 0xAE110EFF);     /* trigger sound */
+    (*(int(*)())0x060284AE)(8, 0x390, 0x90, 0x0605ACF0);
+    (*(int(*)())0x060284AE)(8, 0x490, 0x90, 0x0605ACF0);
+    (*(int(*)())0x060283E0)(8, 0x590, 0x0000E000, 0x0605ACF0);
     return;
-
   }
 
-  if (0x14 < *(int *)puVar1) {
-
-    FUN_06012344();
-
-    FUN_06012400();
-
+  if (0x28 < *timer) {
+    *(int *)0x06078636 = 0;                      /* disable camera */
+    (*(int(*)())0x0601D5F4)(0, 0xAE110FFF);      /* end sound */
     return;
-
   }
 
-  return;
-
+  if (0x14 < *timer) {
+    FUN_06012344();                               /* camera pan */
+    FUN_06012400();                               /* camera zoom */
+    return;
+  }
 }
 
-void FUN_0601228a()
+/* camera_phase_dispatch -- Dispatch camera sub-routines based on countdown.
+ * Countdown timer at 0x0607EBCC selects camera behavior phase:
+ *   > 0x6D (109): full camera motion + overlay + DMA (attract sequence)
+ *   > 99:  clear camera rotation, overlay + DMA
+ *   > 0x27 (39): clear camera rotation, sweep + DMA
+ *   <= 39: reset timer=1, transition to GAME_STATE=0x10, enable camera */
+void FUN_0601228a(void)
 {
+  int countdown = *(int *)0x0607EBCC;
 
-  if (0x6d < *(int *)0x0607EBCC) {
-
-    FUN_060122f4();
-
+  if (0x6d < countdown) {
+    FUN_060122f4();             /* camera rotation animation */
+    FUN_0601250c();             /* overlay render */
+    FUN_06012710();             /* DMA transfer */
+    return;
+  }
+  if (99 < countdown) {
+    *(short *)0x060788B2 = 0;   /* clear camera rotation */
     FUN_0601250c();
-
     FUN_06012710();
-
     return;
-
   }
-
-  if (99 < *(int *)0x0607EBCC) {
-
+  if (0x27 < countdown) {
     *(short *)0x060788B2 = 0;
-
-    FUN_0601250c();
-
+    FUN_060125d0();             /* camera sweep */
     FUN_06012710();
-
     return;
-
   }
 
-  if (0x27 < *(int *)0x0607EBCC) {
-
-    *(short *)0x060788B2 = 0;
-
-    FUN_060125d0();
-
-    FUN_06012710();
-
-    return;
-
-  }
-
-  *(int *)0x0607EBCC = 1;
-
-  GAME_STATE = 0x10;
-
-  *(int *)0x06078636 = 1;
-
-  return;
-
+  *(int *)0x0607EBCC = 1;       /* reset countdown */
+  GAME_STATE = 0x10;             /* transition to next state */
+  *(int *)0x06078636 = 1;       /* enable camera system */
 }
 
 void FUN_060122f4()

@@ -240,409 +240,189 @@ void FUN_06038520(void)
     }
 }
 
-void FUN_0603853c(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* vdp2_scroll_set -- Set VDP2 scroll position for the active render target.
+ * Dispatches by render target selector (0x060635A8):
+ *   1: scroll plane A — set position + optional line scroll trigger
+ *   2: scroll plane B — set position + optional line scroll trigger
+ *   4: rotation A X/Y
+ *   8: rotation B X/Y
+ *   0x10/0x20: coordinate table X/Y (16-bit, upper half of params) */
+void FUN_0603853c(int param_1, int param_2, int param_3)
 {
+    char *rot_tbl_b = (char *)0x060A3EE8;   /* rotation table B */
+    char *rot_tbl_a = (char *)0x060A3E68;   /* rotation table A */
+    char *coord_tbl = (char *)0x060A3DF8;   /* coordinate table */
+    char *line_scroll = (char *)0x060A4C78;  /* line scroll flags */
+    int target = *(int *)0x060635A8;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  short uVar6;
-
-  puVar4 = (char *)0x060A3EE8;
-
-  puVar3 = (char *)0x060A3E68;
-
-  puVar2 = (char *)0x060A3DF8;
-
-  puVar1 = (char *)0x060A4C78;
-
-  iVar5 = *(int *)0x060635A8;
-
-  if (iVar5 == 1) {
-
-    *(int *)(0x060A3E68 + 0x44) = param_1;
-
-    *(int *)(puVar3 + 0x48) = param_2;
-
-    if ((*(int *)0x060A4C44 == 0) ||
-
-       ((*(int *)0x060A4C4C != 0 && (*(int *)0x060A4C70 != 0)))) {
-
-      *(int *)puVar1 = 0;
-
+    if (target == 1) {
+        *(int *)(rot_tbl_a + 0x44) = param_1;
+        *(int *)(rot_tbl_a + 0x48) = param_2;
+        if ((*(int *)0x060A4C44 == 0) ||
+            ((*(int *)0x060A4C4C != 0 && (*(int *)0x060A4C70 != 0)))) {
+            *(int *)line_scroll = 0;
+        } else {
+            *(int *)line_scroll = param_3;
+        }
+        if (*(int *)line_scroll != 0) {
+            (*(int(*)())0x0603DDFC)(0, 0);
+            return;
+        }
+    } else if (target == 2) {
+        *(int *)(rot_tbl_b + 0x44) = param_1;
+        *(int *)(rot_tbl_b + 0x48) = param_2;
+        if ((*(int *)0x060A4C48 == 0) ||
+            ((*(int *)0x060A4C50 != 0 && (*(int *)0x060A4C74 != 0)))) {
+            *(int *)(line_scroll + 4) = 0;
+        } else {
+            *(int *)(line_scroll + 4) = param_3;
+        }
+        if (*(int *)(line_scroll + 4) != 0) {
+            (*(int(*)())0x0603DDFC)(0, 0);
+            return;
+        }
+    } else if (target == 4) {
+        *(int *)coord_tbl = param_1;
+        *(int *)(coord_tbl + 4) = param_2;
+    } else if (target == 8) {
+        *(int *)(coord_tbl + 0x10) = param_1;
+        *(int *)(coord_tbl + 0x14) = param_2;
+    } else {
+        short val_x = (short)((unsigned int)param_1 >> 0x10);
+        if (target == 0x10) {
+            *(short *)(coord_tbl + 0x20) = val_x;
+            target = 0x22;
+        } else {
+            if (target != 0x20) return;
+            *(short *)(coord_tbl + 0x24) = val_x;
+            target = 0x26;
+        }
+        *(short *)(coord_tbl + target) = (short)((unsigned int)param_2 >> 0x10);
     }
-
-    else {
-
-      *(int *)puVar1 = param_3;
-
-    }
-
-    if (*(int *)puVar1 != 0) {
-
-      (*(int(*)())0x0603DDFC)(0,0);
-
-      return;
-
-    }
-
-  }
-
-  else if (iVar5 == 2) {
-
-    *(int *)(0x060A3EE8 + 0x44) = param_1;
-
-    *(int *)(puVar4 + 0x48) = param_2;
-
-    if ((*(int *)0x060A4C48 == 0) ||
-
-       ((*(int *)0x060A4C50 != 0 && (*(int *)0x060A4C74 != 0)))) {
-
-      *(int *)(puVar1 + 4) = 0;
-
-    }
-
-    else {
-
-      *(int *)(puVar1 + 4) = param_3;
-
-    }
-
-    if (*(int *)(puVar1 + 4) != 0) {
-
-      (*(int(*)())0x0603DDFC)(0,0);
-
-      return;
-
-    }
-
-  }
-
-  else if (iVar5 == 4) {
-
-    *(int *)0x060A3DF8 = param_1;
-
-    *(int *)(puVar2 + 4) = param_2;
-
-  }
-
-  else if (iVar5 == 8) {
-
-    *(int *)(0x060A3DF8 + 0x10) = param_1;
-
-    *(int *)(puVar2 + 0x14) = param_2;
-
-  }
-
-  else {
-
-    uVar6 = (short)((unsigned int)param_1 >> 0x10);
-
-    if (iVar5 == 0x10) {
-
-      *(short *)(0x060A3DF8 + 0x20) = uVar6;
-
-      iVar5 = 0x22;
-
-    }
-
-    else {
-
-      if (iVar5 != 0x20) {
-
-        return;
-
-      }
-
-      *(short *)(0x060A3DF8 + 0x24) = uVar6;
-
-      iVar5 = 0x26;
-
-    }
-
-    *(short *)(puVar2 + iVar5) = (short)((unsigned int)param_2 >> 0x10);
-
-  }
-
-  return;
-
 }
 
-int FUN_06038642(param_1, param_2, param_3)
-    int param_1;
-    int param_2;
-    int param_3;
+/* vdp2_scroll_accumulate -- Accumulate (add) VDP2 scroll offset for active render target.
+ * Same dispatch structure as vdp2_scroll_set but adds to existing values.
+ * Returns 0 on success, or result of line scroll handler if triggered. */
+int FUN_06038642(int param_1, int param_2, int param_3)
 {
+    char *rot_tbl_b = (char *)0x060A3EE8;
+    char *rot_tbl_a = (char *)0x060A3E68;
+    char *coord_tbl = (char *)0x060A3DF8;
+    char *line_scroll = (char *)0x060A4C78;
+    int target = *(int *)0x060635A8;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  short sVar6;
-
-  short sVar7;
-
-  puVar4 = (char *)0x060A3EE8;
-
-  puVar3 = (char *)0x060A3E68;
-
-  puVar2 = (char *)0x060A3DF8;
-
-  puVar1 = (char *)0x060A4C78;
-
-  iVar5 = *(int *)0x060635A8;
-
-  if (iVar5 == 1) {
-
-    *(int *)(0x060A3E68 + 0x44) = *(int *)(0x060A3E68 + 0x44) + param_1;
-
-    *(int *)(puVar3 + 0x48) = *(int *)(puVar3 + 0x48) + param_2;
-
-    if ((*(int *)0x060A4C44 == 0) ||
-
-       ((*(int *)0x060A4C4C != 0 && (*(int *)0x060A4C70 != 0)))) {
-
-      *(int *)puVar1 = 0;
-
+    if (target == 1) {
+        *(int *)(rot_tbl_a + 0x44) += param_1;
+        *(int *)(rot_tbl_a + 0x48) += param_2;
+        if ((*(int *)0x060A4C44 == 0) ||
+            ((*(int *)0x060A4C4C != 0 && (*(int *)0x060A4C70 != 0)))) {
+            *(int *)line_scroll = 0;
+        } else {
+            *(int *)line_scroll += param_3;
+        }
+        target = 0;
+        if (*(int *)line_scroll != 0) {
+            target = (*(int(*)())0x0603DDFC)(0, 0);
+            return target;
+        }
+    } else if (target == 2) {
+        *(int *)(rot_tbl_b + 0x44) += param_1;
+        *(int *)(rot_tbl_b + 0x48) += param_2;
+        if ((*(int *)0x060A4C48 == 0) ||
+            ((*(int *)0x060A4C50 != 0 && (*(int *)0x060A4C74 != 0)))) {
+            *(int *)(line_scroll + 4) = 0;
+        } else {
+            *(int *)(line_scroll + 4) += param_3;
+        }
+        target = 0;
+        if (*(int *)(line_scroll + 4) != 0) {
+            target = (*(int(*)())0x0603DDFC)(0, 0);
+            return target;
+        }
+    } else if (target == 4) {
+        *(int *)coord_tbl += param_1;
+        *(int *)(coord_tbl + 4) += param_2;
+    } else if (target == 8) {
+        *(int *)(coord_tbl + 0x10) += param_1;
+        *(int *)(coord_tbl + 0x14) += param_2;
+    } else {
+        short dx = (short)((unsigned int)param_1 >> 0x10);
+        short dy = (short)((unsigned int)param_2 >> 0x10);
+        if (target == 0x10) {
+            *(short *)(coord_tbl + 0x20) += dx;
+            *(short *)(coord_tbl + 0x22) += dy;
+            target = 0x22;
+        } else if (target == 0x20) {
+            *(short *)(coord_tbl + 0x24) += dx;
+            *(short *)(coord_tbl + 0x26) += dy;
+            target = 0x26;
+        }
     }
-
-    else {
-
-      *(int *)puVar1 = *(int *)puVar1 + param_3;
-
-    }
-
-    iVar5 = 0;
-
-    if (*(int *)puVar1 != 0) {
-
-      iVar5 = (*(int(*)())0x0603DDFC)(0,0);
-
-      return iVar5;
-
-    }
-
-  }
-
-  else if (iVar5 == 2) {
-
-    *(int *)(0x060A3EE8 + 0x44) = *(int *)(0x060A3EE8 + 0x44) + param_1;
-
-    *(int *)(puVar4 + 0x48) = *(int *)(puVar4 + 0x48) + param_2;
-
-    if ((*(int *)0x060A4C48 == 0) ||
-
-       ((*(int *)0x060A4C50 != 0 && (*(int *)0x060A4C74 != 0)))) {
-
-      *(int *)(puVar1 + 4) = 0;
-
-    }
-
-    else {
-
-      *(int *)(puVar1 + 4) = *(int *)(puVar1 + 4) + param_3;
-
-    }
-
-    iVar5 = 0;
-
-    if (*(int *)(puVar1 + 4) != 0) {
-
-      iVar5 = (*(int(*)())0x0603DDFC)(0,0);
-
-      return iVar5;
-
-    }
-
-  }
-
-  else if (iVar5 == 4) {
-
-    *(int *)0x060A3DF8 = *(int *)0x060A3DF8 + param_1;
-
-    *(int *)(puVar2 + 4) = *(int *)(puVar2 + 4) + param_2;
-
-  }
-
-  else if (iVar5 == 8) {
-
-    *(int *)(0x060A3DF8 + 0x10) = *(int *)(0x060A3DF8 + 0x10) + param_1;
-
-    *(int *)(puVar2 + 0x14) = *(int *)(puVar2 + 0x14) + param_2;
-
-  }
-
-  else {
-
-    sVar6 = (short)((unsigned int)param_1 >> 0x10);
-
-    sVar7 = (short)((unsigned int)param_2 >> 0x10);
-
-    if (iVar5 == 0x10) {
-
-      *(short *)(0x060A3DF8 + 0x20) = *(short *)(0x060A3DF8 + 0x20) + sVar6;
-
-      *(short *)(puVar2 + 0x22) = *(short *)(puVar2 + 0x22) + sVar7;
-
-      iVar5 = 0x22;
-
-    }
-
-    else if (iVar5 == 0x20) {
-
-      *(short *)(0x060A3DF8 + 0x24) = *(short *)(0x060A3DF8 + 0x24) + sVar6;
-
-      *(short *)(puVar2 + 0x26) = *(short *)(puVar2 + 0x26) + sVar7;
-
-      iVar5 = 0x26;
-
-    }
-
-  }
-
-  return iVar5;
-
+    return target;
 }
 
-void FUN_06038794(param_1, param_2)
-    char *param_1;
-    char *param_2;
+/* vdp2_scale_set -- Set VDP2 zoom/scale for active render target.
+ * For rotation targets (4/8), clamps scale to [DAT_0603881a..0x00FF0000],
+ * defaulting to 0x10000 (1.0 in 16.16) if zero.
+ * Divides 0x10000 by clamped values via 0x0603C0A0 (fixed-point divide).
+ * Dispatches by render target (1/2/4/8) to appropriate VDP2 shadow regs.
+ * Targets 1/2 may trigger line scroll handler if scale flag is set. */
+void FUN_06038794(char *param_1, char *param_2)
 {
+    char *scale_x = param_1;
+    char *scale_y = param_2;
+    char *min_scale = (char *)(int)DAT_0603881a;
+    int target = *(int *)0x060635A8;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  short sVar3;
-
-  int iVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  puVar2 = (char *)0x00010000;
-
-  puVar1 = (char *)0x0603C0A0;
-
-  puVar5 = (char *)(int)DAT_0603881a;
-
-  iVar4 = *(int *)0x060635A8;
-
-  puVar6 = param_2;
-
-  puVar7 = param_1;
-
-  if ((iVar4 != 1) && (iVar4 != 2)) {
-
-    if ((iVar4 != 4) && (iVar4 != 8)) goto LAB_06038802;
-
-    puVar7 = (char *)0x00FF0000;
-
-    if ((((int)param_1 <= (int)0x00FF0000) && (puVar7 = puVar5, (int)puVar5 <= (int)param_1))
-
-       && (puVar7 = param_1, param_1 == (char *)0x0)) {
-
-      puVar7 = (char *)0x00010000;
-
+    if ((target != 1) && (target != 2)) {
+        if ((target != 4) && (target != 8)) goto LAB_06038802;
+        /* Clamp scale_x to [min_scale..0x00FF0000], default 0x10000 if zero */
+        scale_x = (char *)0x00FF0000;
+        if ((((int)param_1 <= (int)0x00FF0000) &&
+             (scale_x = min_scale, (int)min_scale <= (int)param_1)) &&
+            (scale_x = param_1, param_1 == (char *)0x0)) {
+            scale_x = (char *)0x00010000;
+        }
+        scale_y = (char *)0x00FF0000;
+        if ((((int)param_2 <= (int)0x00FF0000) &&
+             (scale_y = min_scale, (int)min_scale <= (int)param_2)) &&
+            (scale_y = param_2, param_2 == (char *)0x0)) {
+            scale_y = (char *)0x00010000;
+        }
     }
-
-    puVar6 = (char *)0x00FF0000;
-
-    if ((((int)param_2 <= (int)0x00FF0000) && (puVar6 = puVar5, (int)puVar5 <= (int)param_2))
-
-       && (puVar6 = param_2, param_2 == (char *)0x0)) {
-
-      puVar6 = (char *)0x00010000;
-
-    }
-
-  }
-
-  param_1 = (char *)(*(int(*)())0x0603C0A0)(0x00010000,puVar7);
-
-  param_2 = (char *)(*(int(*)())puVar1)(puVar2,puVar6);
+    param_1 = (char *)(*(int(*)())0x0603C0A0)(0x00010000, scale_x);  /* reciprocal X */
+    param_2 = (char *)(*(int(*)())0x0603C0A0)(0x00010000, scale_y);  /* reciprocal Y */
 
 LAB_06038802:
+    ;
+    short plane_b_off = PTR_DAT_060388b4;
+    char *coord_tbl = (char *)0x060A3DF8;
+    char *rot_tbl_a = (char *)0x060A3E68;
+    char *color_calc = (char *)0x060A3E38;
+    target = *(int *)0x060635A8;
 
-  sVar3 = PTR_DAT_060388b4;
-
-  puVar6 = (char *)0x060A3DF8;
-
-  puVar2 = (char *)0x060A3E68;
-
-  puVar1 = (char *)0x060A3E38;
-
-  iVar4 = *(int *)0x060635A8;
-
-  if (iVar4 == 1) {
-
-    *(char **)(0x060A3E68 + 0x4c) = param_1;
-
-    *(char **)(puVar2 + 0x50) = param_2;
-
-    if ((*(unsigned short *)(puVar1 + 4) & 0xff) != 0) {
-
-      (*(int(*)())0x0603DDFC)(0,0);
-
-      return;
-
+    if (target == 1) {
+        *(char **)(rot_tbl_a + 0x4c) = param_1;
+        *(char **)(rot_tbl_a + 0x50) = param_2;
+        if ((*(unsigned short *)(color_calc + 4) & 0xff) != 0) {
+            (*(int(*)())0x0603DDFC)(0, 0);
+            return;
+        }
+    } else if (target == 2) {
+        *(char **)(rot_tbl_a + plane_b_off + 0x4c) = param_1;
+        *(char **)(rot_tbl_a + plane_b_off + 0x50) = param_2;
+        if (((unsigned int)*(unsigned short *)(color_calc + 4) & (unsigned int)0x0000FF00) != 0) {
+            (*(int(*)())0x0603DDFC)(0, 0);
+            return;
+        }
+    } else if (target == 4) {
+        *(char **)(coord_tbl + 8) = param_1;
+        *(char **)(coord_tbl + 0xc) = param_2;
+    } else if (target == 8) {
+        *(char **)(coord_tbl + 0x18) = param_1;
+        *(char **)(coord_tbl + 0x1c) = param_2;
     }
-
-  }
-
-  else if (iVar4 == 2) {
-
-    *(char **)(0x060A3E68 + PTR_DAT_060388b4 + 0x4c) = param_1;
-
-    *(char **)(puVar2 + sVar3 + 0x50) = param_2;
-
-    if (((unsigned int)*(unsigned short *)(puVar1 + 4) & (unsigned int)0x0000FF00) != 0) {
-
-      (*(int(*)())0x0603DDFC)(0,0);
-
-      return;
-
-    }
-
-  }
-
-  else if (iVar4 == 4) {
-
-    *(char **)(0x060A3DF8 + 8) = param_1;
-
-    *(char **)(puVar6 + 0xc) = param_2;
-
-  }
-
-  else if (iVar4 == 8) {
-
-    *(char **)(0x060A3DF8 + 0x18) = param_1;
-
-    *(char **)(puVar6 + 0x1c) = param_2;
-
-  }
-
-  return;
-
 }
 
 /* dma_transfer_batch -- Execute batch of word copies to VDP2 hardware.
@@ -988,131 +768,73 @@ void FUN_06038f34(void)
     *(int *)0x060635C8 = 0;
 }
 
-unsigned int FUN_06039100(unsigned int param_1,int param_2,unsigned int param_3,int param_4,short param_5,short param_6,short param_7,short param_8)
+/* vdp2_window_config -- Configure VDP2 display window coordinates and color calc.
+ * param_1: window index (0 = window A, 1 = window B; others return early).
+ * Sets window left/right/top/bottom coords, doubling X if resolution <= 352.
+ * Applies color calculation parameters via function at 0x0603EDC4.
+ * Sets color calc mode (shadow=3 if bit 16 of param_3 set).
+ * Triggers VDP1_BATCH_FLAG for next frame update. */
+unsigned int FUN_06039100(unsigned int param_1, int param_2, unsigned int param_3,
+                          int param_4, short param_5, short param_6, short param_7, short param_8)
 {
+    unsigned int result;
+    short *win_right;
+    short *win_left;
+    int base_idx;
+    int step;
+    int next_idx;
+    char *win_tbl = (char *)0x060A3E48;  /* window coordinate table */
+    char cc_mode;
 
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  short *psVar3;
-
-  short *psVar4;
-
-  int iVar5;
-
-  int uVar6;
-
-  int iVar7;
-
-  char *puVar8;
-
-  char uStack_24;
-
-  puVar8 = (char *)0x060A3E48;
-
-  puVar1 = (char *)0x0603EDC4;
-
-  param_1 = param_1 & 0xff;
-
-  if (param_1 == 0) {
-
-    *(int *)(0x060A3E48 + 0x18) = 0;
-
-    psVar3 = (short *)(puVar8 + 4);
-
-    uStack_24 = 2;
-
-    iVar5 = (int)DAT_0603918c;
-
-    uVar6 = 1;
-
-    iVar7 = iVar5 + 1;
-
-    psVar4 = (short *)puVar8;
-
-  }
-
-  else {
-
-    if (param_1 != 1) {
-
-      return param_1;
-
+    param_1 = param_1 & 0xff;
+    if (param_1 == 0) {
+        *(int *)(win_tbl + 0x18) = 0;
+        win_right = (short *)(win_tbl + 4);
+        cc_mode = 2;
+        base_idx = (int)DAT_0603918c;
+        step = 1;
+        next_idx = base_idx + 1;
+        win_left = (short *)win_tbl;
+    } else {
+        if (param_1 != 1) return param_1;
+        *(int *)(win_tbl + 0x1c) = 0;
+        win_right = (short *)(win_tbl + 0xc);
+        cc_mode = 8;
+        base_idx = (int)DAT_0603918e;
+        step = 4;
+        next_idx = base_idx + 4;
+        win_left = (short *)(win_tbl + 8);
     }
 
-    *(int *)(0x060A3E48 + 0x1c) = 0;
+    win_tbl = win_tbl + 0x10;  /* advance to color calc sub-table */
 
-    psVar3 = (short *)(puVar8 + 0xc);
+    if (0x160 < (int)(unsigned int)*(unsigned short *)0x060635AE) {
+        *win_left = param_5;      /* high-res: use coords directly */
+        *win_right = param_7;
+    } else {
+        *win_left = param_5 << 1; /* low-res: double X coords */
+        *win_right = param_7 << 1;
+    }
+    win_left[1] = param_6;       /* top Y */
+    win_right[1] = param_8;      /* bottom Y */
 
-    uStack_24 = 8;
+    if (param_2 != 0 || param_3 != 0) {
+        (*(int(*)())0x0603EDC4)(param_2, param_3, win_tbl, 0x80, 0x7f);
+    }
+    if (param_4 != 0 || param_3 != 0) {
+        (*(int(*)())0x0603EDC4)(param_4, param_3, win_tbl, step, next_idx);
+    }
+    result = (*(int(*)())0x0603EDC4)(param_3, 0xffffffff, win_tbl, cc_mode, base_idx);
 
-    iVar5 = (int)DAT_0603918e;
-
-    uVar6 = 4;
-
-    iVar7 = iVar5 + 4;
-
-    psVar4 = (short *)(puVar8 + 8);
-
-  }
-
-  puVar8 = puVar8 + 0x10;
-
-  if (0x160 < (int)(unsigned int)*(unsigned short *)0x060635AE) {
-
-    *psVar4 = param_5;
-
-    *psVar3 = param_7;
-
-  }
-
-  else {
-
-    *psVar4 = param_5 << 1;
-
-    *psVar3 = param_7 << 1;
-
-  }
-
-  psVar4[1] = param_6;
-
-  psVar3[1] = param_8;
-
-  if (param_2 != 0 || param_3 != 0) {
-
-    (*(int(*)())puVar1)(param_2,param_3,puVar8,0x80,0x7f);
-
-  }
-
-  if (param_4 != 0 || param_3 != 0) {
-
-    (*(int(*)())puVar1)(param_4,param_3,puVar8,uVar6,iVar7);
-
-  }
-
-  uVar2 = (*(int(*)())puVar1)(param_3,0xffffffff,puVar8,uStack_24,iVar5);
-
-  if ((param_3 & (unsigned int)0x00010000) == 0) {
-
-    *(short *)0x060A3E38 = *(short *)0x060A4C80;
-
-  }
-
-  else {
-
-    *(short *)0x060A3E38 = 3;
-
-  }
-
-  if (VDP1_BATCH_FLAG == 0) {
-
-    VDP1_BATCH_FLAG = 1;
-
-  }
-
-  return uVar2;
-
+    if ((param_3 & (unsigned int)0x00010000) == 0) {
+        *(short *)0x060A3E38 = *(short *)0x060A4C80;
+    } else {
+        *(short *)0x060A3E38 = 3;  /* shadow color calc mode */
+    }
+    if (VDP1_BATCH_FLAG == 0) {
+        VDP1_BATCH_FLAG = 1;
+    }
+    return result;
 }
 
 /* vdp1_init -- Initialize VDP1 command table and display registers.

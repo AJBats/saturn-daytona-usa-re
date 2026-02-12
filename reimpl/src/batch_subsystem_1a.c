@@ -523,53 +523,34 @@ void FUN_0601ab8c(void)
         *(int *)(*(int *)(0x0605DE24 + ((*(int *)0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4);
 }
 
-int FUN_0601abc6()
+/* record_check_init -- Initialize record-checking state.
+ * Clears all record flags, updates best records via best_record_update.
+ * Sets lap-record flag if current lap time beats stored best.
+ * Sets race-record flag if total race time beats stored best.
+ * Returns 0 if no race data, else 0xE8 (offset into record table). */
+int FUN_0601abc6(void)
 {
-
-  int iVar1;
-
-  *(int *)0x06085FF8 = 0;
-
-  *(int *)0x06085FF9 = 0;
-
-  *(int *)0x06085FFC = 0;
-
-  *(int *)0x06086000 = 0;
-
-  FUN_0601adb0();
-
-  if ((*(int *)0x06078638 <
-
-       *(int *)(*(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3)) + 4)) &&
-
-     (0 < *(int *)0x06078638)) {
-
-    *(int *)0x06085FF9 = 1;
-
-  }
-
-  if (*(int *)0x0607EBF4 == 0) {
-
-    return 0;
-
-  }
-
-  iVar1 = 0xe8;
-
-  if (*(unsigned int *)0x060786A4 <
-
-      *(unsigned int *)(*(int *)(0x0605DD6C +
-
-                        (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2) + iVar1))
-
-  {
-
-    *(int *)0x06085FF8 = 1;
-
-  }
-
-  return iVar1;
-
+    int offset;
+    *(int *)0x06085FF8 = 0;
+    *(int *)0x06085FF9 = 0;
+    *(int *)0x06085FFC = 0;
+    *(int *)0x06086000 = 0;
+    FUN_0601adb0();
+    if ((*(int *)0x06078638 <
+         *(int *)(*(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3)) + 4)) &&
+        (0 < *(int *)0x06078638)) {
+        *(int *)0x06085FF9 = 1;      /* lap record beaten */
+    }
+    if (*(int *)0x0607EBF4 == 0) {
+        return 0;
+    }
+    offset = 0xe8;
+    if (*(unsigned int *)0x060786A4 <
+        *(unsigned int *)(*(int *)(0x0605DD6C +
+                          (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2) + offset)) {
+        *(int *)0x06085FF8 = 1;      /* race record beaten */
+    }
+    return offset;
 }
 
 unsigned int FUN_0601ac7c()
@@ -663,80 +644,51 @@ unsigned int FUN_0601ac7c()
 
 }
 
-char * FUN_0601adb0()
+/* best_record_update -- Update best lap/race records if current times are better.
+ * Only operates in non-demo mode (DEMO_MODE_FLAG != 0).
+ * Checks lap time at 0x06078638 against stored best, updates if beaten.
+ * Checks race time at 0x060786A4 against stored best, updates if beaten.
+ * Returns pointer to updated record entry, or NULL if no update. */
+char * FUN_0601adb0(void)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  puVar1 = (char *)0x0607EAD8;
-
-  puVar2 = (char *)0x0;
-
-  if (DEMO_MODE_FLAG != 0) {
-
-    if ((*(int *)0x06078638 <
-
-         *(int *)(*(int *)(0x0605DE24 +
-
-                          (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4)) &&
-
-       (0 < *(int *)0x06078638)) {
-
-      *(int *)
-
-       (*(int *)(0x0605DE24 + (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) +
-
-       4) = *(int *)(0x06078900 + DAT_0601ae3e);
-
+    char *course_ptr = (char *)0x0607EAD8;
+    char *result = (char *)0x0;
+    if (DEMO_MODE_FLAG != 0) {
+        if ((*(int *)0x06078638 <
+             *(int *)(*(int *)(0x0605DE24 +
+                              (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4)) &&
+            (0 < *(int *)0x06078638)) {
+            *(int *)(*(int *)(0x0605DE24 +
+                     (*(int *)(0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4) =
+                *(int *)(CAR_ARRAY_BASE + DAT_0601ae3e);
+        }
+        result = 0x0605DE40 + (char)((char)*(int *)course_ptr * '\f');
+        if ((*(unsigned int *)0x060786A4 < *(unsigned int *)(result + *(int *)(0x0605AD00 << 2))) &&
+            (result = (char *)0x0, *(int *)0x0607EBF4 != 0)) {
+            result = 0x0605DE40 + (char)((char)*(int *)course_ptr * '\f');
+            *(int *)(result + *(int *)(0x0605AD00 << 2)) = *(int *)0x060786A4;
+        }
     }
-
-    puVar2 = 0x0605DE40 + (char)((char)*(int *)puVar1 * '\f');
-
-    if ((*(unsigned int *)0x060786A4 < *(unsigned int *)(puVar2 + *(int *)(0x0605AD00 << 2))) &&
-
-       (puVar2 = (char *)0x0, *(int *)0x0607EBF4 != 0)) {
-
-      puVar2 = 0x0605DE40 + (char)((char)*(int *)puVar1 * '\f');
-
-      *(int *)(puVar2 + *(int *)(0x0605AD00 << 2)) = *(int *)0x060786A4;
-
-    }
-
-  }
-
-  return puVar2;
-
+    return result;
 }
 
-unsigned int FUN_0601ae2c()
+/* get_character_index -- Compute character/car variant index.
+ * Normal mode: read base index from car data (0x06078868).
+ * Demo mode: use low byte of 0x0607EAB8 + 10.
+ * If manual transmission flag (0x06078663) is set, add 12. */
+unsigned int FUN_0601ae2c(void)
 {
-
-  unsigned int uVar1;
-
-  if (*(int *)0x06083255 == '\0') {
-
-    uVar1 = *(unsigned int *)0x06078868;
-
-  }
-
-  else {
-
-    uVar1 = (*(unsigned int *)0x0607EAB8 & 0xff) + 10;
-
-  }
-
-  uVar1 = uVar1 & 0xff;
-
-  if (*(int *)0x06078663 != '\0') {
-
-    uVar1 = uVar1 + 0xc;
-
-  }
-
-  return uVar1;
-
+    unsigned int idx;
+    if (*(int *)0x06083255 == '\0') {
+        idx = *(unsigned int *)0x06078868;
+    } else {
+        idx = (*(unsigned int *)0x0607EAB8 & 0xff) + 10;
+    }
+    idx = idx & 0xff;
+    if (*(int *)0x06078663 != '\0') {
+        idx = idx + 0xc;
+    }
+    return idx;
 }
 
 /* display_mode_init -- Initialize display subsystem state and load VDP2 scroll data.
@@ -782,49 +734,23 @@ void FUN_0601b09a(char param_1, char param_2, char param_3)
     FUN_0601bbcc(text_ptr, (int)param_3, 6);
 }
 
-void FUN_0601b0d8()
+/* tile_row_render_loop -- Render 5 tile rows of text/graphics.
+ * Each iteration draws a header tile (0x0604A490), a body tile (0x0604A4B8),
+ * and a separator tile using the DMA sprite renderer at 0x060284AE.
+ * Row stride is 3 (rows 6-20 in steps of 3). */
+void FUN_0601b0d8(void)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  unsigned short uVar5;
-
-  unsigned int uVar6;
-
-  puVar3 = (char *)0x060284AE;
-
-  puVar2 = (char *)0x0604A4B8;
-
-  puVar1 = (char *)0x0604A490;
-
-  uVar5 = 0;
-
-  uVar6 = 0;
-
-  do {
-
-    iVar4 = ((uVar6 & 0xffff) + 6) << 6;
-
-    (*(int(*)())puVar3)(8,(iVar4 + 2) << 1,0x60,puVar1);
-
-    (*(int(*)())puVar3)(8,(((uVar6 & 0xffff) + 7) << 6 + 0x21) << 1,0x60,puVar2);
-
-    (*(int(*)())puVar3)(0xc,(iVar4 + 0x25) << 1,0x60,puVar2);
-
-    uVar5 = uVar5 + 1;
-
-    uVar6 = uVar6 + 3;
-
-  } while (uVar5 < 5);
-
-  return;
-
+    int row_base;
+    unsigned short count = 0;
+    unsigned int row = 0;
+    do {
+        row_base = ((row & 0xffff) + 6) << 6;
+        (*(int(*)())0x060284AE)(8, (row_base + 2) << 1, 0x60, 0x0604A490);
+        (*(int(*)())0x060284AE)(8, (((row & 0xffff) + 7) << 6 + 0x21) << 1, 0x60, 0x0604A4B8);
+        (*(int(*)())0x060284AE)(0xc, (row_base + 0x25) << 1, 0x60, 0x0604A4B8);
+        count = count + 1;
+        row = row + 3;
+    } while (count < 5);
 }
 
 void FUN_0601b160()

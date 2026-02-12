@@ -996,203 +996,114 @@ void FUN_0601d074(void)
     *(int *)0x06086020 = 0;                                    /* reset state */
 }
 
-void FUN_0601d12c()
+/* cheat_code_input_check -- Detect 11-step cheat code button sequence.
+ * Reads controller input at 0x06063D9A, advances step counter at 0x0608602C
+ * when the expected button mask matches. If wrong input on any step, resets.
+ * Steps 0-1: DAT_0601d18c, step 2: DAT_0601d18e, step 3: DAT_0601d24c,
+ * steps 4,6: DAT_0601d24e, steps 5,7: 0x8000, step 8: PTR_DAT_0601d250,
+ * step 9: DAT_0601d2c6, step 10: PTR_DAT_0601d2c8.
+ * On completion (step 11): set unlock flag (0x06086030=1), play sound 0xAE1146FF. */
+void FUN_0601d12c(void)
 {
+  int *step = (int *)0x0608602C;
+  int prev_step = *step;
+  unsigned short input = *(unsigned short *)0x06063D9A;
 
-  char *puVar1;
-
-  int iVar2;
-
-  puVar1 = (char *)0x0608602C;
-
-  iVar2 = *(int *)0x0608602C;
-
-  if ((iVar2 == 0) && ((*(unsigned short *)0x06063D9A & DAT_0601d18c) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
+  if ((*step == 0) && ((input & DAT_0601d18c) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 1) && ((input & DAT_0601d18c) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 2) && ((input & DAT_0601d18e) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 3) && ((input & DAT_0601d24c) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 4) && ((input & DAT_0601d24e) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 5) && (((unsigned int)input & 0x00008000) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 6) && ((input & DAT_0601d24e) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 7) && (((unsigned int)input & 0x00008000) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 8) && ((input & PTR_DAT_0601d250) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 9) && ((input & DAT_0601d2c6) != 0)) {
+    *step = *step + 1;
+  } else if ((*step == 10) && ((input & PTR_DAT_0601d2c8) != 0)) {
+    *step = *step + 1;
   }
 
-  else if ((*(int *)0x0608602C == 1) && ((*(unsigned short *)0x06063D9A & DAT_0601d18c) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
+  if ((*step == prev_step) && (*(short *)0x06063D9A != 0)) {
+    *step = 0;                               /* wrong input — reset */
   }
-
-  else if ((*(int *)0x0608602C == 2) && ((*(unsigned short *)0x06063D9A & DAT_0601d18e) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
+  if (*step == 0xb) {
+    *(int *)0x06086030 = 1;                  /* cheat unlocked */
+    *step = 0;
+    (*(int(*)())0x0601D5F4)(0, 0xAE1146FF); /* confirmation sound */
   }
-
-  else if ((*(int *)0x0608602C == 3) && ((*(unsigned short *)0x06063D9A & DAT_0601d24c) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 4) && ((*(unsigned short *)0x06063D9A & DAT_0601d24e) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 5) &&
-
-          (((unsigned int)*(unsigned short *)0x06063D9A & (unsigned int)0x00008000) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 6) && ((*(unsigned short *)0x06063D9A & DAT_0601d24e) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 7) &&
-
-          (((unsigned int)*(unsigned short *)0x06063D9A & (unsigned int)0x00008000) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 8) &&
-
-          ((*(unsigned short *)0x06063D9A & PTR_DAT_0601d250) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 9) && ((*(unsigned short *)0x06063D9A & DAT_0601d2c6) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  else if ((*(int *)0x0608602C == 10) &&
-
-          ((*(unsigned short *)0x06063D9A & PTR_DAT_0601d2c8) != 0)) {
-
-    *(int *)0x0608602C = *(int *)0x0608602C + 1;
-
-  }
-
-  if ((*(int *)puVar1 == iVar2) && (*(short *)0x06063D9A != 0)) {
-
-    *(int *)puVar1 = 0;
-
-  }
-
-  if (*(int *)puVar1 == 0xb) {
-
-    *(int *)0x06086030 = 1;
-
-    *(int *)puVar1 = 0;
-
-    (*(int(*)())0x0601D5F4)(0,0xAE1146FF);
-
-    return;
-
-  }
-
-  return;
-
 }
 
-void FUN_0601d2dc()
+/* service_subsystem_init -- Initialize service/test mode subsystem.
+ * Disables interrupts (0x060149E0), configures SCU interrupt priorities
+ * (timer0=0, VBlank-IN=0, VBlank-OUT=0, HBlank-IN=6, timer1=7),
+ * initializes VDP state (0x0600A026), configures VDP2 scroll (0x0600511E).
+ * DMA-copies 3 font/sprite tables to VDP1 VRAM, loads 2 sprite tables
+ * to VDP2 VRAM, sets game mode to 0, re-enables interrupts. */
+void FUN_0601d2dc(void)
 {
+  void (*scu_int_config)(int, int) = (void (*)(int, int))0x06038BD4;
+  void (*dma_copy)(int, int, int) = (void (*)(int, int, int))0x0602766C;
 
-  char *puVar1;
+  (*(int(*)())0x060149E0)();                  /* disable interrupts */
 
-  char *puVar2;
+  scu_int_config(0x100, 0);                   /* timer 0: off */
+  scu_int_config(4, 0);                       /* VBlank-IN: off */
+  scu_int_config(8, 0);                       /* VBlank-OUT: off */
+  scu_int_config(0x10, 6);                    /* HBlank-IN: priority 6 */
+  scu_int_config(0x20, 7);                    /* timer 1: priority 7 */
 
-  (*(int(*)())0x060149E0)();
+  (*(int(*)())0x0600A026)();                  /* VDP state init */
+  (*(int(*)())0x0600511E)(0x25E6F9C4, 0x00017700, 0, 8);  /* VDP2 scroll config */
 
-  puVar1 = (char *)0x06038BD4;
+  dma_copy(0x25F00600, 0x0604842C, 0x40);    /* font table A */
+  dma_copy(0x25F00660, 0x0604888C, 0x60);    /* font table B */
+  dma_copy(0x25F00000, 0x0604842C, 0x60);    /* font table C */
 
-  (*(int(*)())0x06038BD4)(0x100,0);
+  (*(int(*)())0x06028654)(0x25E759EC, 0x06094FA8);   /* sprite table A → VDP2 */
+  (*(int(*)())0x06028654)(0x25E75DDC, 0x06095F48);   /* sprite table B → VDP2 */
+  (*(int(*)())0x06028400)(8, 0x06095F48, 0, (int)DAT_0601d36c);
 
-  (*(int(*)())puVar1)(4,0);
-
-  (*(int(*)())puVar1)(8,0);
-
-  (*(int(*)())puVar1)(0x10,6);
-
-  (*(int(*)())puVar1)(0x20,7);
-
-  (*(int(*)())0x0600A026)();
-
-  (*(int(*)())0x0600511E)(0x25E6F9C4,0x00017700,0,8);
-
-  puVar2 = (char *)0x0604842C;
-
-  puVar1 = (char *)0x0602766C;
-
-  (*(int(*)())0x0602766C)(0x25F00600,0x0604842C,0x40);
-
-  (*(int(*)())puVar1)(0x25F00660,0x0604888C,0x60);
-
-  (*(int(*)())puVar1)(0x25F00000,puVar2,0x60);
-
-  (*(int(*)())0x06028654)(0x25E759EC,0x06094FA8);
-
-  puVar1 = (char *)0x06095F48;
-
-  (*(int(*)())0x06028654)(0x25E75DDC,0x06095F48);
-
-  (*(int(*)())0x06028400)(8,puVar1,0,(int)DAT_0601d36c);
-
-  *(int *)0x0607887F = 0;
-
-  (*(int(*)())0x060149CC)();
-
-  return;
-
+  *(int *)0x0607887F = 0;                     /* game mode = 0 */
+  (*(int(*)())0x060149CC)();                  /* re-enable interrupts */
 }
 
-void FUN_0601d3c0()
+/* service_mode_start -- Handle service mode entry and dispatch.
+ * On first entry (0x06086024==0) with start button (DAT_0601d444):
+ *   - Check for special controller patterns (0xAAA8 → unlock courses,
+ *     DAT_0601d446 → unlock all courses + characters)
+ *   - Initialize perspective (0x06014884), DMA sprite table, set timer=0xC
+ *   - Set game mode to 4, mark as entered (0x06086024=1)
+ * Always dispatches to game mode handler via vtable at 0x0605DF80. */
+void FUN_0601d3c0(void)
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x0605AB16;
+  char *unlock_flags = (char *)0x0605AB16;
 
   if ((*(int *)0x06086024 == 0) && ((*(unsigned short *)0x06063D9A & DAT_0601d444) != 0)) {
-
-    if ((char *)(unsigned int)*(unsigned short *)0x06063D98 == 0x0000AAA8) {
-
-      *(int *)0x0605AB16 = *(int *)0x0605AB16 | 7;
-
+    if ((unsigned int)*(unsigned short *)0x06063D98 == 0x0000AAA8) {
+      *(int *)0x0605AB16 = *(int *)0x0605AB16 | 7;    /* unlock courses */
     }
-
     if ((unsigned int)*(unsigned short *)0x06063D98 == (int)DAT_0601d446) {
-
-      *puVar1 = *puVar1 | 7;
-
-      *(int *)0x0605AB17 = *(int *)0x0605AB17 | 7;
-
+      *unlock_flags = *unlock_flags | 7;               /* unlock courses */
+      *(int *)0x0605AB17 = *(int *)0x0605AB17 | 7;    /* unlock characters */
     }
-
-    (*(int(*)())0x06014884)(0x20,0);
-
-    (*(int(*)())0x06028400)(0xc,0x06094FA8,0);
-
-    *(int *)0x0607EBCC = 0xc;
-
-    *(int *)0x0607887F = 4;
-
-    *(int *)0x06086024 = 1;
-
+    (*(int(*)())0x06014884)(0x20, 0);                  /* perspective init */
+    (*(int(*)())0x06028400)(0xc, 0x06094FA8, 0);       /* DMA sprite table */
+    *(int *)0x0607EBCC = 0xc;                          /* countdown timer */
+    *(int *)0x0607887F = 4;                            /* game mode = 4 */
+    *(int *)0x06086024 = 1;                            /* mark entered */
   }
 
   (*(int(*)())(*(int *)(0x0605DF80 + (unsigned int)(unsigned char)*(int *)(0x0607887F << 2))))();
-
-  return;
-
 }
 
 /* hud_sprite_table_copy -- Copy 28 sprite entries from source table to HUD buffer.
