@@ -489,207 +489,110 @@ LAB_0601277a:
   return;
 }
 
-int FUN_060127e0()
+/* race_result_sequence -- multi-phase race finish presentation and podium sequence.
+ *   Phase 0: fade-in overlay sprites (background + label).
+ *   Phase 1: wait for car checkpoint 0x52 → show "1st PLACE" banner + sound 0xAE1122FF.
+ *   Phase 2: wait for checkpoint 0x58 → show 2nd sprite, enable zoom, sound 0xAE1123FF.
+ *   Phase 3: wait for checkpoint 0x5D → show 3rd sprite, sound 0xAE1124FF.
+ *   Phase 4: wait for checkpoint 0x61 → final result, sound 0xAE1125FF, start position timer.
+ *   Phase 0x13: end sequence — render HUD overlays, disable camera, clear render state.
+ *   Scrolls victory lap speed counter at 0x060788F8 by +0x4CCCC per frame. */
+int race_result_sequence()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  int *puVar10;
-
-  int iVar11;
-
-  int *local_24;
-
-  puVar1 = (char *)0x060788F8;
-
-  *(int *)0x0605B714 = *(int *)0x060788F8;
-
+  char *scroll_speed = (char *)0x060788F8;     /* victory lap scroll counter */
+  char *vdp1_draw_off = (int *)0x060284AE;     /* VDP1 draw with offset */
+  char *phase_counter = (char *)0x060788F4;    /* current sequence phase */
+  char *sprite_table = (char *)0x06063750;
+  char *vdp1_draw = (char *)0x06028400;        /* VDP1 sprite draw */
+  char *hud_dest = (char *)0x0605ACDD;         /* HUD sprite destination */
+  char *sound_dispatch = (char *)0x0601D5F4;   /* SCSP command dispatcher */
+  char *vdp1_wide = (char *)0x060283E0;        /* VDP1 wide sprite draw */
+  int car_checkpoint;
+  int phase;
+  int result;
+  int *sprite_entry;
+  int *btn_sprite;
+  int tile_offset = 0x90;
+  *(int *)0x0605B714 = *(int *)0x060788F8;     /* sync scroll display */
   INPUT_STATE = INPUT_STATE | 0x80;
-
-  *(char **)puVar1 = 0x0004CCCC + *(int *)puVar1;
-
-  puVar7 = (int *)0x060284AE;
-
-  puVar6 = (char *)0x060788F4;
-
-  puVar5 = (char *)0x06063750;
-
-  puVar4 = (char *)0x06028400;
-
-  puVar3 = (char *)0x0605ACDD;
-
-  puVar2 = (char *)0x0601D5F4;
-
-  puVar1 = (char *)0x060283E0;
-
-  iVar9 = *(int *)(CAR_PTR_TARGET + (int)DAT_06012884);
-
-  iVar11 = 0x90;
-
-  iVar8 = *(int *)0x060788F4;
-
-  if (iVar8 == 0) {
-
-    (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_06012888),0x880,
-
+  *(char **)scroll_speed = 0x0004CCCC + *(int *)scroll_speed; /* advance scroll */
+  car_checkpoint = *(int *)(CAR_PTR_TARGET + (int)DAT_06012884);
+  phase = *(int *)0x060788F4;
+  if (phase == 0) {
+    /* Phase 0: fade-in overlay */
+    (*(int(*)())0x06028400)(0xc, *(int *)(0x06063750 + DAT_06012888), 0x880,
                *(int *)((int)(0x06063750 + DAT_06012888) + 4));
-
-    iVar9 = (*(int(*)())puVar4)(0xc,*(int *)(puVar5 + DAT_0601288c),(int)DAT_0601288e,
-
-                              *(int *)((int)(puVar5 + DAT_0601288c) + 4));
-
-    *(int *)puVar6 = *(int *)puVar6 + 1;
-
-  }
-
-  else if (iVar8 == 1) {
-
-    if (iVar9 == 0x52) {
-
+    result = (*(int(*)())vdp1_draw)(0xc, *(int *)(sprite_table + DAT_0601288c), (int)DAT_0601288e,
+                              *(int *)((int)(sprite_table + DAT_0601288c) + 4));
+    *(int *)phase_counter = *(int *)phase_counter + 1;
+  } else if (phase == 1) {
+    /* Phase 1: wait for checkpoint 0x52 → show 1st place */
+    if (car_checkpoint == 0x52) {
       *(int *)0x060788F4 = *(int *)0x060788F4 + 1;
-
-      (*(int(*)())puVar1)(8,(int)DAT_0601299e,0x0000F000,puVar3);
-
-      (*(int(*)())puVar1)(8,(int)DAT_060129a0,0x0000F000,puVar3);
-
-      (*(int(*)())puVar1)(8,(int)DAT_060129a2,0x0000F000,puVar3);
-
-      (*(int(*)())puVar4)(8,*(int *)(puVar5 + 0x78),(int)DAT_060129a6,
-
-                        *(int *)(puVar5 + 0x7c) + (int)DAT_060129a4);
-
-      iVar9 = (*(int(*)())puVar2)(0,0xAE1122FF);
-
-    }
-
-    else {
-
+      (*(int(*)())vdp1_wide)(8, (int)DAT_0601299e, 0x0000F000, hud_dest);
+      (*(int(*)())vdp1_wide)(8, (int)DAT_060129a0, 0x0000F000, hud_dest);
+      (*(int(*)())vdp1_wide)(8, (int)DAT_060129a2, 0x0000F000, hud_dest);
+      (*(int(*)())vdp1_draw)(8, *(int *)(sprite_table + 0x78), (int)DAT_060129a6,
+                        *(int *)(sprite_table + 0x7c) + (int)DAT_060129a4);
+      result = (*(int(*)())sound_dispatch)(0, 0xAE1122FF); /* SCSP: 1st place fanfare */
+    } else {
+      /* Pulsing button prompt while waiting */
       if (((*(unsigned short *)0x06063D98 & *(unsigned short *)0x0608188C) == 0) &&
-
          (*(short *)0x0607ED8C == 0)) {
-
-        local_24 = (int *)(0x06063750 + DAT_0601299a);
-
-        iVar9 = local_24[1] + (int)DAT_0601299c;
-
+        btn_sprite = (int *)(0x06063750 + DAT_0601299a);
+        result = btn_sprite[1] + (int)DAT_0601299c;
+      } else {
+        btn_sprite = (int *)(0x06063750 + tile_offset);
+        result = btn_sprite[1] + (int)DAT_06012890;
       }
-
-      else {
-
-        local_24 = (int *)(0x06063750 + iVar11);
-
-        iVar9 = local_24[1] + (int)DAT_06012890;
-
-      }
-
-      iVar9 = (*(int(*)())0x06028400)(8,*local_24,(int)DAT_0601299e,iVar9);
-
+      result = (*(int(*)())0x06028400)(8, *btn_sprite, (int)DAT_0601299e, result);
     }
-
-  }
-
-  else if (iVar8 == 2) {
-
-    if (iVar9 == 0x58) {
-
-      puVar10 = (int *)(0x06063750 + 0x70);
-
+  } else if (phase == 2) {
+    /* Phase 2: checkpoint 0x58 → show 2nd, enable zoom */
+    if (car_checkpoint == 0x58) {
+      sprite_entry = (int *)(0x06063750 + 0x70);
       *(int *)0x060788F4 = *(int *)0x060788F4 + 1;
-
-      (*(int(*)())puVar4)(8,*puVar10,(int)DAT_060129a6,*(int *)(puVar5 + 0x74) + (int)DAT_060129a4);
-
-      *(int *)0x06078654 = 1;
-
+      (*(int(*)())vdp1_draw)(8, *sprite_entry, (int)DAT_060129a6,
+                        *(int *)(sprite_table + 0x74) + (int)DAT_060129a4);
+      *(int *)0x06078654 = 1;                  /* enable zoom */
       *(int *)0x06063EF0 = *(int *)(CAR_PTR_TARGET + 0x30);
-
-      iVar9 = (*(int(*)())puVar2)(0,0xAE1123FF);
-
+      result = (*(int(*)())sound_dispatch)(0, 0xAE1123FF); /* SCSP: 2nd place */
     }
-
-  }
-
-  else if (iVar8 == 3) {
-
-    if (iVar9 == 0x5d) {
-
-      puVar10 = (int *)(0x06063750 + 0x68);
-
+  } else if (phase == 3) {
+    /* Phase 3: checkpoint 0x5D → show 3rd */
+    if (car_checkpoint == 0x5d) {
+      sprite_entry = (int *)(0x06063750 + 0x68);
       *(int *)0x060788F4 = *(int *)0x060788F4 + 1;
-
-      (*(int(*)())puVar4)(8,*puVar10,(int)DAT_060129a6,*(int *)(puVar5 + 0x6c) + (int)DAT_060129a4);
-
-      iVar9 = (*(int(*)())puVar2)(0,0xAE1124FF);
-
+      (*(int(*)())vdp1_draw)(8, *sprite_entry, (int)DAT_060129a6,
+                        *(int *)(sprite_table + 0x6c) + (int)DAT_060129a4);
+      result = (*(int(*)())sound_dispatch)(0, 0xAE1124FF); /* SCSP: 3rd place */
     }
-
-  }
-
-  else if (iVar8 == 4) {
-
-    if (iVar9 == 0x61) {
-
+  } else if (phase == 4) {
+    /* Phase 4: checkpoint 0x61 → final result */
+    if (car_checkpoint == 0x61) {
       *(int *)0x060788F4 = *(int *)0x060788F4 + 1;
-
-      (*(int(*)())puVar4)(8,*(int *)(puVar5 + DAT_06012a92),0x520,
-
-                        *(int *)((int)(puVar5 + DAT_06012a92) + 4) + (int)DAT_06012a94);
-
-      iVar9 = (*(int(*)())puVar2)(0,0xAE1125FF);
-
-      *(short *)0x06086056 = 0x14;
-
-      *(int *)0x0608605A = 1;
-
+      (*(int(*)())vdp1_draw)(8, *(int *)(sprite_table + DAT_06012a92), 0x520,
+                        *(int *)((int)(sprite_table + DAT_06012a92) + 4) + (int)DAT_06012a94);
+      result = (*(int(*)())sound_dispatch)(0, 0xAE1125FF); /* SCSP: result fanfare */
+      *(short *)0x06086056 = 0x14;             /* position sound timer */
+      *(int *)0x0608605A = 1;                  /* enable finish sequence */
     }
-
-  }
-
-  else if (iVar8 == 0x13) {
-
-    (*(int(*)())0x060284AE)(8,0x520,iVar11,0x0605ACDD);
-
-    (*(int(*)())puVar7)(8,0x620,iVar11,puVar3);
-
-    (*(int(*)())puVar7)(8,0x720,iVar11,puVar3);
-
-    (*(int(*)())puVar1)(8,0x820,0x0000F000,puVar3);
-
-    (*(int(*)())puVar7)(0xc,0x880,iVar11,0x0605AC9C);
-
-    iVar9 = (*(int(*)())puVar7)(0xc,0x980,iVar11,0x0605AC9C);
-
-    *(int *)0x0605B714 = 0;
-
-    *(int *)0x06078636 = 0;
-
-  }
-
-  else {
-
+  } else if (phase == 0x13) {
+    /* Phase 0x13: end sequence — render final HUD overlays */
+    (*(int(*)())0x060284AE)(8, 0x520, tile_offset, 0x0605ACDD);
+    (*(int(*)())vdp1_draw_off)(8, 0x620, tile_offset, hud_dest);
+    (*(int(*)())vdp1_draw_off)(8, 0x720, tile_offset, hud_dest);
+    (*(int(*)())vdp1_wide)(8, 0x820, 0x0000F000, hud_dest);
+    (*(int(*)())vdp1_draw_off)(0xc, 0x880, tile_offset, 0x0605AC9C);
+    result = (*(int(*)())vdp1_draw_off)(0xc, 0x980, tile_offset, 0x0605AC9C);
+    *(int *)0x0605B714 = 0;                    /* clear scroll state */
+    *(int *)0x06078636 = 0;                    /* disable camera */
+  } else {
+    /* Default: auto-advance to next phase */
     *(int *)0x060788F4 = *(int *)0x060788F4 + 1;
-
-    iVar9 = iVar8;
-
+    result = phase;
   }
-
-  return iVar9;
-
+  return result;
 }
 
 /* save_validate_retry -- Validate save data with retry loop.
@@ -722,39 +625,28 @@ void FUN_06012b58()
   return;
 }
 
-void FUN_06012bdc()
+/* save_screen_display -- renders save overlay, waits for BIOS completion, validates save.
+ *   Draws "NOW SAVING" sprite (0x060283E0) with tile DAT_06012c66, copies 0x24 bytes
+ *   via word DMA (0x0602761E) to display buffer. Polls BIOS callback (0x06018EAC)
+ *   until status bit 0 is set. Then draws completion sprite and calls save_validate_retry. */
+void save_screen_display()
 {
-
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  puVar1 = (char *)0x06018EAC;
-
-  iVar3 = (int)DAT_06012c66;
-
-  (*(int(*)())0x060283E0)(8,iVar3,0x0000E000,0x060448D4);
-
-  (*(int(*)())0x0602761E)(*(int *)0x060612B4 + iVar3,0x060612C4 + iVar3,0x24);
-
-  (*(int(*)())0x06034C48)();
-
+  char *bios_poll = (char *)0x06018EAC;        /* BIOS status polling function */
+  unsigned int status;
+  int tile_id;
+  tile_id = (int)DAT_06012c66;
+  /* Draw "NOW SAVING" overlay sprite */
+  (*(int(*)())0x060283E0)(8, tile_id, 0x0000E000, 0x060448D4);
+  (*(int(*)())0x0602761E)(*(int *)0x060612B4 + tile_id, 0x060612C4 + tile_id, 0x24); /* word DMA */
+  (*(int(*)())0x06034C48)();                   /* initiate save operation */
   do {
-
-    uVar2 = (*(int(*)())puVar1)();
-
-  } while ((uVar2 & 0xf) != 1);
-
-  (*(int(*)())0x060283E0)(8,iVar3,0x0000E000,0x0605ACCA);
-
-  (*(int(*)())0x0602761E)(*(int *)0x060612B4 + iVar3,0x060612C4 + iVar3,0x24);
-
-  FUN_06012b58();
-
+    status = (*(int(*)())bios_poll)();
+  } while ((status & 0xf) != 1);              /* wait for BIOS save complete */
+  /* Draw completion sprite */
+  (*(int(*)())0x060283E0)(8, tile_id, 0x0000E000, 0x0605ACCA);
+  (*(int(*)())0x0602761E)(*(int *)0x060612B4 + tile_id, 0x060612C4 + tile_id, 0x24);
+  FUN_06012b58();                              /* validate saved data */
   return;
-
 }
 
 /* bg_tilemap_load -- Load background tilemap for a course.
