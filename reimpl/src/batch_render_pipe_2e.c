@@ -97,6 +97,12 @@ extern int PTR_DAT_0602fc14;
 extern int PTR_DAT_0602fcb8;
 extern int PTR_DAT_0602fcdc;
 
+/* car_steering_offset_compute -- Compute lateral steering displacement.
+ * Implicit r0 = car struct pointer.
+ * If car has special flag (DAT_0602e460), delegates to FUN_0602d924.
+ * Otherwise: uses sin/cos of steering angle (param_1) to compute
+ * lateral (0x18C) and longitudinal (0x190) offsets from car direction,
+ * adds to current position at car+0x10 and car+0x18. */
 void FUN_0602e450(param_1)
     int param_1;
 {
@@ -133,6 +139,12 @@ void FUN_0602e450(param_1)
   return;
 }
 
+/* car_heading_toward_target -- Compute heading toward track segment target.
+ * Implicit r0 = car struct pointer.
+ * Calculates atan2 from car position to target segment, clamps turn rate
+ * to +/-256 per frame. Stores heading at car+0x28/0x30. Computes distance
+ * and triggers special logic (0x0602CCD0) if closing fast. Also checks
+ * angle difference for valid heading range (0-0x7FFF). */
 int FUN_0602e4bc()
 {
   long long lVar1;
@@ -486,6 +498,11 @@ void FUN_0602f474()
   return;
 }
 
+/* car_proximity_collision_check -- Check proximity between cars for collision.
+ * Implicit r0 = car struct pointer.
+ * Skipped in demo mode. Iterates through all car slots, computing Manhattan
+ * distance (X and Z). If distance < 0x1E0000 (30.0 fixed-point), triggers
+ * collision response. Decrements cooldown timer at DAT_0602f51a per frame. */
 int FUN_0602f4b4()
 {
   int in_r0 = 0;
@@ -552,6 +569,11 @@ int FUN_0602f4b4()
   } while( 1 );
 }
 
+/* car_speed_to_rpm_convert -- Convert car speed to engine RPM for display.
+ * Implicit r0 = car struct pointer.
+ * Clamps speed from DAT_0602f5ea to range [0, 0x2134]. Looks up RPM curve
+ * from table (DAT_0602f6e2, indexed by speed>>7). Interpolates between table
+ * entries using fractional part. Stores computed RPM values. */
 void FUN_0602f5b6()
 {
   long long lVar1;

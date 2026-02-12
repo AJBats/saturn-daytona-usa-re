@@ -21,6 +21,13 @@ extern long long FUN_060359da();
 extern int FUN_06035c6e();
 extern void FUN_06035f16();
 
+/* scene_object_position_compute -- Compute 3D position for a scene object.
+ * Implicit r14 = scene object pointer.
+ * Type 3 (obj[1]==3): simple rotation advance at obj+0x1C.
+ * Others: orbit around origin (obj+0x14,0x18,0x1C) at radius (obj+0x20):
+ *   X = origin.X + radius * sin(angle), Z = origin.Z + radius * cos(angle).
+ *   Type 2: grounded — queries terrain height via 0x06006838.
+ *   Type 1/4: computed Y from vertical offset (obj+0x24) and orbit math. */
 int FUN_06034000()
 {
   long long lVar1;
@@ -78,6 +85,13 @@ int FUN_06034000()
   return iVar2;
 }
 
+/* scene_object_transform_render -- Transform and render scene object by type.
+ * Implicit r14 = scene object pointer.
+ * Type 1: push matrix, translate XYZ, rotate by angle, set LOD (billboard), pop.
+ * Type 2: same as 1 but angle += 0x8000 (180°), uses alternate LOD function.
+ * Type 3: translate from origin coords (obj+0x14,0x18,0x1C) instead of XYZ.
+ * Type 4: same as 1, plus duplicates at two fixed offsets for repeating
+ *   scenery (e.g., grandstands). Offsets conditional on track length >= 0x4EC/0x627. */
 int FUN_06034168()
 {
   int iVar1;
@@ -151,6 +165,11 @@ void FUN_0603446c(void)
     }
 }
 
+/* scene_object_visibility_check -- Check if static scene object is visible.
+ * Implicit r14 = scene object pointer. Implicit r10 = scene data source.
+ * Type 2 objects: computes distance from object position to camera
+ * (stored at r10+0x10/0x18). If distance < 0x80000 (8.0 fixed),
+ * marks obj+0x26 = 1 (visible). Returns obj type or visibility flag. */
 char * FUN_0603449c()
 {
   long long lVar1;
@@ -198,19 +217,30 @@ char * FUN_0603449c()
   return puVar4;
 }
 
+/* scene_object_anim_start -- Begin animation on a scene object.
+ * Implicit r14 = scene object pointer (0x06082A7C + index * 0x2C).
+ * Implicit r10 = scene data source pointer.
+ * Copies animation index from source+0x28, sets speed from source+0x0C<<1,
+ * marks animation state at obj+0x26 = 2 (running). */
 int FUN_06034560()
 {
   int iVar1;
   int unaff_r10 = 0;
   int unaff_r14 = 0;
 
-  *(short *)(unaff_r14 + 0x00000002) = (short)*(int *)(unaff_r10 + 0x00000028);
-  *(int *)(unaff_r14 + 0x00000028) = *(int *)(unaff_r10 + 0x0000000C) << 1;
-  iVar1 = 0x00000026;
-  *(char *)(unaff_r14 + 0x00000026) = 2;
+  *(short *)(unaff_r14 + 0x02) = (short)*(int *)(unaff_r10 + 0x28);
+  *(int *)(unaff_r14 + 0x28) = *(int *)(unaff_r10 + 0x0C) << 1;
+  iVar1 = 0x26;
+  *(char *)(unaff_r14 + 0x26) = 2;
   return iVar1;
 }
 
+/* scene_object_anim_step -- Advance animated scene object position.
+ * Implicit r14 = scene object pointer.
+ * Computes X/Z displacement from angle (obj+0x02 + 0x4000) and speed (obj+0x28):
+ *   obj.x += speed * sin(angle), obj.z += speed * cos(angle)
+ * Writes position to global buffer 0x06083238, calls terrain height query
+ * (0x06006838) and matrix transform (0x06027EDE), reads back Y height. */
 int FUN_0603458c()
 {
   long long lVar1;
@@ -222,27 +252,32 @@ int FUN_0603458c()
   int unaff_r14 = 0;
   int in_pr;
 
-  puVar5 = 0x00004000 + *(short *)(unaff_r14 + 0x00000002);
-  iVar4 = *(int *)(unaff_r14 + 0x00000028);
-  iVar2 = (*(int(*)())0x06027344)(puVar5);
+  puVar5 = 0x4000 + *(short *)(unaff_r14 + 0x02);  /* angle index */
+  iVar4 = *(int *)(unaff_r14 + 0x28);                /* animation speed */
+  iVar2 = (*(int(*)())0x06027344)(puVar5);            /* sin(angle) */
   lVar1 = (long long)iVar4 * (long long)iVar2;
-  *(unsigned int *)(unaff_r14 + 0x00000004) =
-       *(int *)(unaff_r14 + 0x00000004) +
+  *(unsigned int *)(unaff_r14 + 0x04) =               /* obj.x += speed * sin */
+       *(int *)(unaff_r14 + 0x04) +
        ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  iVar2 = (*(int(*)())0x06027348)(puVar5);
+  iVar2 = (*(int(*)())0x06027348)(puVar5);            /* cos(angle) */
   lVar1 = (long long)iVar4 * (long long)iVar2;
-  *(unsigned int *)(unaff_r14 + 0x0000000C) =
-       *(int *)(unaff_r14 + 0x0000000C) +
+  *(unsigned int *)(unaff_r14 + 0x0C) =               /* obj.z += speed * cos */
+       *(int *)(unaff_r14 + 0x0C) +
        ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  *(int *)0x06083238 = *(int *)(unaff_r14 + 0x00000004);
-  *(int *)0x06083240 = *(int *)(unaff_r14 + 0x0000000C);
-  uVar3 = (*(int(*)())0x06006838)();
-  (*(int(*)())0x06027EDE)(uVar3,0x06083238,0x06083244,in_r7,in_pr);
-  iVar2 = 0x00000008;
-  *(int *)(unaff_r14 + 0x00000008) = *(int *)0x0608323C;
+  *(int *)0x06083238 = *(int *)(unaff_r14 + 0x04);   /* global X */
+  *(int *)0x06083240 = *(int *)(unaff_r14 + 0x0C);   /* global Z */
+  uVar3 = (*(int(*)())0x06006838)();                  /* terrain height query */
+  (*(int(*)())0x06027EDE)(uVar3, 0x06083238, 0x06083244, in_r7, in_pr);
+  iVar2 = 0x08;
+  *(int *)(unaff_r14 + 0x08) = *(int *)0x0608323C;   /* obj.y = terrain height */
   return iVar2;
 }
 
+/* scene_object_render -- Render a scene object using its position and angle.
+ * Implicit r14 = scene object pointer.
+ * Pushes matrix (0x06026DBC), translates by obj X/Y/Z (0x06026E2E),
+ * rotates by angle at obj+0x02 (0x06026EDE), sets LOD from obj+0x11
+ * (0x0600A4CA), then pops/renders (0x06026DF8). */
 int FUN_06034640()
 {
   int uVar1;
@@ -250,15 +285,22 @@ int FUN_06034640()
   int unaff_r14 = 0;
   int in_pr;
 
-  (*(int(*)())0x06026DBC)();
-  (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004),*(int *)(unaff_r14 + 0x00000008),
-             *(int *)(unaff_r14 + 0x0000000C),in_r7,in_pr);
-  (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x00000002));
-  (*(int(*)())0x0600A4CA)((int)*(char *)(unaff_r14 + 0x00000011));
-  uVar1 = (*(int(*)())0x06026DF8)();
+  (*(int(*)())0x06026DBC)();                                       /* matrix push */
+  (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x04),             /* translate X */
+             *(int *)(unaff_r14 + 0x08),                           /* translate Y */
+             *(int *)(unaff_r14 + 0x0C), in_r7, in_pr);           /* translate Z */
+  (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x02));     /* rotate by angle */
+  (*(int(*)())0x0600A4CA)((int)*(char *)(unaff_r14 + 0x11));      /* set LOD level */
+  uVar1 = (*(int(*)())0x06026DF8)();                               /* matrix pop / render */
   return uVar1;
 }
 
+/* scene_object_anim_advance -- Advance animation frame/variant counters.
+ * Implicit r14 = scene object pointer.
+ * Increments frame counter at obj+0x10. When frame reaches limit
+ * (from table at 0x060631B4, indexed by obj[1]-1), resets frame to 0
+ * and advances variant at obj+0x11. When variant reaches its limit
+ * (from 0x060631B8), resets variant to 0 (loops animation). */
 int FUN_060346c0()
 {
   char cVar1;
@@ -267,20 +309,20 @@ int FUN_060346c0()
   int iVar4;
   int unaff_r14 = 0;
 
-  iVar4 = 0x00000010;
-  iVar3 = *(char *)(unaff_r14 + 0x00000001) + -1;
-  cVar1 = ((int *)0x060631B4)[iVar3];
-  cVar2 = ((int *)0x060631B8)[iVar3];
-  iVar3 = *(char *)(unaff_r14 + 0x00000010) + 1;
-  *(char *)(unaff_r14 + 0x00000010) = (char)iVar3;
+  iVar4 = 0x10;
+  iVar3 = *(char *)(unaff_r14 + 0x01) + -1;        /* object type index */
+  cVar1 = ((int *)0x060631B4)[iVar3];                /* frame limit for this type */
+  cVar2 = ((int *)0x060631B8)[iVar3];                /* variant limit for this type */
+  iVar3 = *(char *)(unaff_r14 + 0x10) + 1;          /* increment frame */
+  *(char *)(unaff_r14 + 0x10) = (char)iVar3;
   if (cVar1 <= iVar3) {
-    *(char *)(unaff_r14 + iVar4) = 0;
-    iVar4 = 0x00000011;
-    iVar3 = *(char *)(unaff_r14 + 0x00000011) + 1;
+    *(char *)(unaff_r14 + iVar4) = 0;               /* reset frame to 0 */
+    iVar4 = 0x11;
+    iVar3 = *(char *)(unaff_r14 + 0x11) + 1;        /* increment variant */
     if (cVar2 <= iVar3) {
-      iVar3 = 0x00000000;
+      iVar3 = 0;                                     /* wrap variant to 0 */
     }
-    *(char *)(unaff_r14 + 0x00000011) = (char)iVar3;
+    *(char *)(unaff_r14 + 0x11) = (char)iVar3;
   }
   return iVar4;
 }
@@ -297,23 +339,35 @@ int FUN_06034708(int state)
     return FUN_06034848();
 }
 
+/* scene_object_wind_effect -- Compute wind sway phase from car speed.
+ * Implicit r14 = scene object pointer.
+ * Multiplies car Z speed (CAR_PTR_TARGET+0x08) by 300.0 fixed-point,
+ * accumulates into obj+0x08. When >= 0x60000 (6.0), wraps to 0.
+ * Extracts wind phase 0-7 from upper bits → obj+0x0C. */
 int FUN_06034754()
 {
   int iVar1;
   unsigned int uVar2;
   int unaff_r14 = 0;
 
-  iVar1 = (*(int(*)())0x0602755C)(*(int *)(CAR_PTR_TARGET + 0x00000008) << 0x10,0x012C0000);
-  uVar2 = *(int *)(unaff_r14 + 0x00000008) + iVar1;
-  if ((int)0x00060000 <= (int)uVar2) {
+  iVar1 = (*(int(*)())0x0602755C)(*(int *)(CAR_PTR_TARGET + 0x08) << 0x10, 0x012C0000);
+  uVar2 = *(int *)(unaff_r14 + 0x08) + iVar1;
+  if ((int)0x60000 <= (int)uVar2) {
     uVar2 = 0;
   }
-  *(unsigned int *)(unaff_r14 + 0x00000008) = uVar2;
-  iVar1 = 0x0000000C;
-  *(unsigned int *)(unaff_r14 + 0x0000000C) = uVar2 >> 0x10 & 0x00000007;
+  *(unsigned int *)(unaff_r14 + 0x08) = uVar2;
+  iVar1 = 0x0C;
+  *(unsigned int *)(unaff_r14 + 0x0C) = uVar2 >> 0x10 & 0x07;
   return iVar1;
 }
 
+/* scene_object_sway_update -- Update oscillation state for two sway channels.
+ * Implicit r14 = scene object pointer.
+ * Channel A (obj+0x00..0x02): triggers when wind phase (obj+0x0C) enters 1.
+ *   Sets amplitude (obj+1) = -1, resets counter (obj+2). Counter increments
+ *   each frame, phase = counter & 3. When phase==3, clears amplitude.
+ * Channel B (obj+0x03..0x05): triggers when wind phase enters 5, same logic.
+ * Used for tree/flag sway animations along the track. */
 int FUN_060347a8()
 {
   int iVar1;
@@ -321,34 +375,45 @@ int FUN_060347a8()
   unsigned char bVar3;
   int unaff_r14 = 0;
 
-  if ((*(int *)(unaff_r14 + 0x0000000C) == 1) && (*(int *)(unaff_r14 + 0x00000010) != 1)) {
-    *(char *)(unaff_r14 + 0x00000001) = (char)0xFFFFFFFF;
-    *(char *)(unaff_r14 + 0x00000002) = 0;
+  /* Channel A: trigger on wind phase transition to 1 */
+  if ((*(int *)(unaff_r14 + 0x0C) == 1) && (*(int *)(unaff_r14 + 0x10) != 1)) {
+    *(char *)(unaff_r14 + 0x01) = (char)0xFF;       /* amplitude = -1 (max sway) */
+    *(char *)(unaff_r14 + 0x02) = 0;                 /* reset counter */
   }
-  if ((*(int *)(unaff_r14 + 0x0000000C) == 5) && (*(int *)(unaff_r14 + 0x00000010) != 5)) {
-    *(char *)(unaff_r14 + 0x00000004) = (char)0xFFFFFFFF;
-    *(char *)(unaff_r14 + 0x00000005) = 0;
+  /* Channel B: trigger on wind phase transition to 5 */
+  if ((*(int *)(unaff_r14 + 0x0C) == 5) && (*(int *)(unaff_r14 + 0x10) != 5)) {
+    *(char *)(unaff_r14 + 0x04) = (char)0xFF;
+    *(char *)(unaff_r14 + 0x05) = 0;
   }
-  bVar3 = *(char *)(unaff_r14 + 0x00000002) + 1;
-  *(unsigned char *)(unaff_r14 + 0x00000002) = bVar3;
+  /* Advance channel A */
+  bVar3 = *(char *)(unaff_r14 + 0x02) + 1;
+  *(unsigned char *)(unaff_r14 + 0x02) = bVar3;
   bVar3 = bVar3 & 3;
-  *(unsigned char *)(unaff_r14 + 0x00000000) = bVar3;
+  *(unsigned char *)(unaff_r14 + 0x00) = bVar3;     /* phase = counter & 3 */
   if (bVar3 == 3) {
-    *(char *)(unaff_r14 + 0x00000001) = 0;
+    *(char *)(unaff_r14 + 0x01) = 0;                 /* stop sway */
   }
-  bVar3 = *(char *)(unaff_r14 + 0x00000005) + 1;
-  *(unsigned char *)(unaff_r14 + 0x00000005) = bVar3;
-  iVar2 = 0x00000003;
+  /* Advance channel B */
+  bVar3 = *(char *)(unaff_r14 + 0x05) + 1;
+  *(unsigned char *)(unaff_r14 + 0x05) = bVar3;
+  iVar2 = 0x03;
   bVar3 = bVar3 & 3;
-  *(unsigned char *)(unaff_r14 + 0x00000003) = bVar3;
-  iVar1 = 0x00000004;
+  *(unsigned char *)(unaff_r14 + 0x03) = bVar3;
+  iVar1 = 0x04;
   if (bVar3 == 3) {
-    *(char *)(unaff_r14 + 0x00000004) = 0;
+    *(char *)(unaff_r14 + 0x04) = 0;
     iVar2 = iVar1;
   }
   return iVar2;
 }
 
+/* scene_object_sound_trigger -- Play wind/sway sound when phase changes.
+ * Implicit r14 = scene object pointer.
+ * If sound enabled (0x06083255 != 0) and game active (bits 0x28000),
+ * and wind phase (obj+0x0C) changed from prev frame (obj+0x10):
+ *   Select sound ID by phase and car speed vs DAT_0603489e threshold:
+ *     phase 0,3,4,5: 0xAE113DFF (distant), 0xAE113CFF (medium), 0xAE113BFF (close)
+ *   Dispatch via sound_cmd_dispatch(0, sound_id). */
 unsigned int FUN_06034848()
 {
   unsigned int uVar1;
@@ -357,24 +422,24 @@ unsigned int FUN_06034848()
 
   uVar1 = 0;
   if (((*(int *)0x06083255 != '\0') &&
-      (uVar1 = GAME_STATE_BIT, ((unsigned int)0x00028000 & uVar1) != 0)) &&
-     (uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C), uVar1 != *(unsigned int *)(unaff_r14 + 0x00000010))) {
-    uVar2 = 0xAE113DFF;
-    if (*(int *)(CAR_PTR_TARGET + 0x00000008) < (int)DAT_0603489e) {
-      uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C);
+      (uVar1 = GAME_STATE_BIT, (0x00028000 & uVar1) != 0)) &&
+     (uVar1 = *(unsigned int *)(unaff_r14 + 0x0C),
+      uVar1 != *(unsigned int *)(unaff_r14 + 0x10))) {
+    uVar2 = 0xAE113DFF;                              /* default = distant sound */
+    if (*(int *)(CAR_PTR_TARGET + 0x08) < (int)DAT_0603489e) {
+      uVar1 = *(unsigned int *)(unaff_r14 + 0x0C);
       if (((uVar1 != 0) && (uVar2 = 0xAE113BFF, uVar1 != 3)) &&
          ((uVar2 = 0xAE113CFF, uVar1 != 4 && (uVar2 = 0xAE113DFF, uVar1 != 5)))) {
         return uVar1;
       }
-    }
-    else {
-      uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C);
-      if (((uVar1 != 0) && (uVar2 = 0xAE113BFF, uVar1 != 3)) && (uVar2 = 0xAE113CFF, uVar1 != 4)
-         ) {
+    } else {
+      uVar1 = *(unsigned int *)(unaff_r14 + 0x0C);
+      if (((uVar1 != 0) && (uVar2 = 0xAE113BFF, uVar1 != 3)) &&
+         (uVar2 = 0xAE113CFF, uVar1 != 4)) {
         return uVar1;
       }
     }
-    uVar1 = (*(int(*)())0x0601D5F4)(0x00000000,uVar2);
+    uVar1 = (*(int(*)())0x0601D5F4)(0, uVar2);       /* sound_cmd_dispatch */
   }
   return uVar1;
 }

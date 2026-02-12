@@ -1255,6 +1255,11 @@ int FUN_06032304(int param_1)
   return uVar1;
 }
 
+/* scene_frame_step_direction -- Determine animation step direction.
+ * Implicit r14 = scene object pointer.
+ * If scene system inactive (0x06082A24 == 0), returns immediately.
+ * Reads flags at obj+0x0E: bit1 = reverse (-1), bit0 = pause (0), default = forward (+1).
+ * Adds step value to frame counter at obj+0x2C4. */
 char * FUN_0603253c()
 {
   char *puVar1;
@@ -1276,6 +1281,12 @@ char * FUN_0603253c()
   return puVar1;
 }
 
+/* scene_track_segment_render -- Render track segment with sub-objects.
+ * Implicit r14 = scene object pointer (track segment data).
+ * Pushes matrix, translates by position (obj+0,4,8), rotates by obj+0x0C.
+ * Selects geometry from obj or fallback (0x06081898) based on obj+0x2DC flags.
+ * Loops 13 sub-objects: push matrix, apply sub-transform (0x06026F72),
+ * set visual params (0x0600A474), pop. Final pop renders the batch. */
 int FUN_06032584()
 {
   char *puVar1;
@@ -1559,6 +1570,12 @@ int FUN_0603268c()
   return uVar3;
 }
 
+/* scene_object_position_from_track -- Set object position from track data.
+ * Implicit r14 = scene object pointer.
+ * Loads track point from table at 0x060624F8 (indexed by game state)
+ * offset by obj+0x2DC, adds base offset from 0x060624A4 (by car count).
+ * Stores combined X/Y/Z at obj+0,4,8 and rotation at obj+0x0C.
+ * Sets visual mode at obj+0x2DD and geometry index at obj+0x2D8. */
 void FUN_06032d90()
 {
   int *piVar1;
@@ -1579,6 +1596,11 @@ void FUN_06032d90()
   return;
 }
 
+/* scene_animation_config_set -- Configure animation parameters by index.
+ * Implicit r14 = scene object pointer.
+ * Loads frame count + frame limit from table at 0x060627F8 (8 bytes per entry).
+ * Stores to obj+0x2D0 (anim index), obj+0x2CC (frame count), obj+0x2C8 (limit).
+ * If reverse flag (bit 1 of obj+0x0E) set, starts at limit-1. */
 void FUN_06032e18(param_1)
     int param_1;
 {
@@ -1598,6 +1620,11 @@ void FUN_06032e18(param_1)
   return;
 }
 
+/* scene_animation_frame_load -- Load current animation frame data.
+ * Implicit r14 = scene object pointer.
+ * Copies 17 ints (0x44 bytes) from animation data at
+ * obj+0x2CC + frame_index (obj+0x2C4) * 0x44 into obj+0x10.
+ * This loads position/rotation/geometry for the current frame. */
 int FUN_06032e6c()
 {
   int iVar1;
@@ -1623,6 +1650,13 @@ int FUN_06032e6c()
   return iVar1;
 }
 
+/* scene_decoration_render -- Render track decoration objects.
+ * Implicit r14 = scene object pointer.
+ * If decoration flags (obj+0x0E bits 2-4) are all clear, returns early.
+ * Otherwise: pushes matrix, translates by obj XYZ, rotates by obj+0x0C.
+ * For each active flag bit (4,8,0x10), renders a decoration element
+ * from table at 0x060624C8 (3 positions at stride 0x10).
+ * Bit 4/8: translate + rotate + render marker. Bit 0x10: flat overlay. */
 unsigned int FUN_06032ea4()
 {
   unsigned int uVar1;
