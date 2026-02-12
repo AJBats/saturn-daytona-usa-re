@@ -91,98 +91,21 @@ void FUN_0600a026(void)
     scu_mask(0x20, 0);
 }
 
-/* camera_shake_update -- Apply screen shake based on impact intensity.
- * If intensity < 2, no shake. Otherwise alternates direction each frame
- * (positive on even frames, negative on odd). Intensity scaled by 0x8000. */
-void FUN_0600a084(void)
-{
-    register int shake_func asm("r3") = 0x06014884;
-    int intensity = *(int *)(CAR_PTR_TARGET + (int)DAT_0600a10c);
-    int offset;
+/* FUN_0600a084: L2 version in render_setup.c */
+extern void FUN_0600A084(void);
+void FUN_0600a084(void) { FUN_0600A084(); }
 
-    if (intensity < 2) {
-        (*(void(*)())shake_func)(0x10, 0, 0);
-        return;
-    }
-    offset = intensity << 15;
-    if ((FRAME_COUNTER & 1) != 0) {
-        offset = intensity * -0x8000;  /* negate on odd frames */
-    }
-    (*(void(*)())shake_func)(0x10, offset, 0);
-}
+/* FUN_0600a0c0: L2 version in vdp_state_init.c */
+extern void FUN_0600A0C0(void);
+void FUN_0600a0c0(void) { FUN_0600A0C0(); }
 
-/* vdp_state_init -- Initialize VDP1/VDP2 rendering state for new frame.
- * Configures display mode (0x100), resets VBlank counter, sets up
- * scroll regions, clears command buffer, marks draw-end (0x8000). */
-void FUN_0600a0c0(void)
-{
-    register int render_flush asm("r3") = 0x06026CE0;
-    register int scroll_ptr asm("r2") = 0x06063F5C;
+/* FUN_0600a140: L2 version in vdp1_clear.c */
+extern void FUN_0600A140(void);
+void FUN_0600a140(void) { FUN_0600A140(); }
 
-    (*(int(*)())0x06038BD4)(0x100, 0);         /* VDP2 display mode */
-    (*(int(*)())render_flush)();                /* flush render pipeline */
-    VBLANK_OUT_COUNTER = 0;
-    (*(int(*)())0x06039250)(scroll_ptr);        /* configure scroll plane */
-    (*(int(*)())0x060393FC)(0, 0, 0, (int)DAT_0600a112, (int)DAT_0600a110);
-    VDP1_CMD_BASE_PTR = 0;
-    **(short **)scroll_ptr = (short)0x8000;     /* draw-end command */
-    (*(int(*)())render_flush)();                /* flush again */
-    VBLANK_OUT_COUNTER = 0;
-}
-
-/* vdp1_vram_clear -- Clear VDP1 VRAM framebuffer (0x25C80000) twice.
- * Sets draw-end command at 0x25C00000, then zeros 64KB of VRAM.
- * Each pass: clear VRAM, enable VBlank, flush render, reset counter.
- * Double-clear ensures both front/back buffers are wiped. */
-void FUN_0600a140(void)
-{
-    int *dst;
-    int i;
-
-    *(int *)0x25C00000 = 0x80000000;  /* VDP1 draw-end command */
-
-    /* First pass: clear front buffer */
-    dst = (int *)0x25C80000;
-    for (i = 0x10000; i > 0; i -= 2) {
-        dst[0] = 0;
-        dst[1] = 0;
-        dst += 2;
-    }
-    VBL_DISABLE_FLAG = 0;
-    (*(int(*)())0x06026CE0)();  /* render flush */
-    VBLANK_OUT_COUNTER = 0;
-
-    /* Second pass: clear back buffer */
-    dst = (int *)0x25C80000;
-    for (i = 0x10000; i > 0; i -= 2) {
-        dst[0] = 0;
-        dst[1] = 0;
-        dst += 2;
-    }
-    VBL_DISABLE_FLAG = 0;
-    (*(int(*)())0x06026CE0)();  /* render flush */
-    VBLANK_OUT_COUNTER = 0;
-}
-
-/* save_course_params -- Save current course parameters to state buffer.
- * Only writes if in special mode (0x06078635 != 0) or on course 0.
- * Stores: steering mode (byte 0), gear type (byte 1), car flags (byte 2).
- * Returns last-read value (car flags or course index). */
-unsigned int FUN_0600a1b8(void)
-{
-    register char *base asm("r2") = (char *)0x0607ED90;
-    unsigned int result;
-
-    if (*(char *)0x06078635 != 0 ||
-       ((result = *(unsigned short *)0x0607ED8C) == 0 &&
-        (result = COURSE_SELECT) == 0)) {
-        base[0] = (char)*(short *)0x06063F44;
-        base[1] = (char)*(int *)0x06078868;
-        result = *(unsigned int *)0x0607EAB8 & 0xff;
-        base[2] = (char)result;
-    }
-    return result;
-}
+/* FUN_0600a1b8: L2 version in game_state_utils.c */
+extern void FUN_0600A1B8(void);
+void FUN_0600a1b8(void) { FUN_0600A1B8(); }
 
 /* phase_transition_check -- Check state countdown and set PHASE_FLAG.
  * Uses per-course thresholds (car_count=0/1/2+) to decide when to
@@ -235,20 +158,9 @@ int FUN_0600a294(void)
     return count;
 }
 
-/* phase_select -- Map game sub-phase (0x06063E1C) to PHASE_FLAG value.
- * Sub-phase 0->5, 1->6, 2->7, 3->8. Used during race state transitions. */
-int FUN_0600a33c(void)
-{
-    register int sub_phase asm("r0");
-    sub_phase = *(int *)0x06063E1C;
-
-    if (sub_phase == 0)      PHASE_FLAG = 5;
-    else if (sub_phase == 1) PHASE_FLAG = 6;
-    else if (sub_phase == 2) PHASE_FLAG = 7;
-    else if (sub_phase == 3) PHASE_FLAG = 8;
-
-    return sub_phase;
-}
+/* FUN_0600a33c: L2 version in game_state_utils.c */
+extern void FUN_0600A33C(void);
+void FUN_0600a33c(void) { FUN_0600A33C(); }
 
 /* sound_position_update -- Update positional sound for a given source index.
  * param_1 = sound source index (0-based).
@@ -367,127 +279,13 @@ void FUN_0600a76c(void)
     }
 }
 
-/* speed_frame_counter -- Increment frame counter based on car speed.
- * If CAR_ACCEL (+0x0C) is 0, resets counter.
- * Otherwise increments by 1/2/4 depending on CAR_SPEED (+0x08) thresholds
- * (100, 200). Counter wraps at 16 (mask 0x0F). */
-unsigned short FUN_0600a8bc(void)
-{
-    int car = CAR_PTR_CURRENT;
-    unsigned short result;
+/* FUN_0600a8bc: L2 version in speed_counter.c */
+extern void FUN_0600A8BC(void);
+void FUN_0600a8bc(void) { FUN_0600A8BC(); }
 
-    if (*(int *)(car + CAR_ACCEL) == 0) {
-        *(short *)0x06063F46 = 0;
-        result = 0;
-    } else {
-        if (*(int *)(car + CAR_SPEED) < 100)
-            *(short *)0x06063F46 += 1;
-        else if (*(int *)(car + CAR_SPEED) < 0xc8)
-            *(short *)0x06063F46 += 2;
-        else
-            *(short *)0x06063F46 += 4;
-
-        result = *(unsigned short *)0x06063F46 & 0xf;
-        *(unsigned short *)0x06063F46 = result;
-    }
-    return result;
-}
-
-/* car_collision_proximity_check -- Detect car-to-car collisions by proximity.
- * Pass 1: For each AI car pair, checks checkpoint gap (<±0x15), then computes
- * weighted Manhattan distance (shorter axis /4). If close (<0x4B333) and speed
- * low enough, calls AI-AI collision handler (0x060316C4).
- * Pass 2: Checks all AI cars vs player car similarly, calls player collision
- * handler (0x06030FC0). Car struct stride 0x268, X at +0x10, Z at +0x18. */
-int FUN_0600a914()
-{
-  char *car_base;
-  char *car_count_ptr;
-  int result;
-  int checkpoint_delta;
-  int dx;
-  int dz;
-  unsigned int i;
-  unsigned int j;
-  int player_car;
-  int car_stride;
-  unsigned int *car_ptr;
-  car_base = (char *)0x06078900;        /* car array base */
-  car_count_ptr = (int *)0x0607EA98;    /* active car count */
-  car_stride = 0x268;
-  result = DEMO_MODE_FLAG;
-  if (result == 0) {
-    /* Pass 1: AI-to-AI collision pairs */
-    for (i = 1; i < *(int *)car_count_ptr - 1U; i = i + 1) {
-      car_ptr = (unsigned int *)(car_base + i * car_stride);
-      *(unsigned int **)0x0607E940 = car_ptr;
-      j = i;
-      if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
-        while (j = j + 1, j < *(unsigned int *)car_count_ptr) {
-          checkpoint_delta = j * car_stride;
-          result = (int)PTR_DAT_0600a99c;
-          /* Check checkpoint proximity (within ±0x15) */
-          dx = *(int *)((int)car_ptr + result) - *(int *)(car_base + result + checkpoint_delta);
-          if ((dx < 0x15) && (-0x15 < dx)) {
-            /* Compute weighted Manhattan distance */
-            dx = *(int *)(car_base + checkpoint_delta + 0x10) - car_ptr[4];  /* delta X */
-            dz = *(int *)(car_base + checkpoint_delta + 0x18) - car_ptr[6];  /* delta Z */
-            if (dx < 0) {
-              dx = -dx;
-            }
-            if (dz < 0) {
-              dz = -dz;
-            }
-            /* Reduce shorter axis by 75% */
-            if (dz < dx) {
-              dz = dz >> 2;
-            }
-            else {
-              dx = dx >> 2;
-            }
-            /* If close enough and speed condition met, handle collision */
-            if ((dx + dz < (int)0x0004B333) &&
-               (result = (int)DAT_0600aa7e, *(int *)(car_base + result + checkpoint_delta) < (int)0x00010000)
-               ) {
-              result = (*(int(*)())0x060316C4)(car_ptr);
-            }
-          }
-        }
-      }
-    }
-    /* Pass 2: AI-to-Player collision check */
-    *(char **)0x0607E940 = car_base;
-    player_car = *(int *)0x0607E940;
-    for (i = 1; i < *(unsigned int *)car_count_ptr; i = i + 1) {
-      car_ptr = (unsigned int *)(car_base + i * car_stride);
-      if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
-        result = (int)PTR_DAT_0600aa80;
-        checkpoint_delta = *(int *)(player_car + result) - *(int *)((int)car_ptr + result);
-        if ((checkpoint_delta < 0x15) && (-0x15 < checkpoint_delta)) {
-          dx = car_ptr[4] - *(int *)(player_car + 0x10);
-          dz = car_ptr[6] - *(int *)(player_car + 0x18);
-          if (dx < 0) {
-            dx = -dx;
-          }
-          if (dz < 0) {
-            dz = -dz;
-          }
-          if (dz < dx) {
-            dz = dz >> 2;
-          }
-          else {
-            dx = dx >> 2;
-          }
-          if ((dx + dz < (int)0x0004B333) &&
-             (result = (int)DAT_0600aa7e, *(int *)((int)car_ptr + result) < (int)0x00010000)) {
-            result = (*(int(*)())0x06030FC0)(player_car,car_ptr);
-          }
-        }
-      }
-    }
-  }
-  return result;
-}
+/* FUN_0600a914: L2 version in collision.c */
+extern void FUN_0600A914(void);
+void FUN_0600a914(void) { FUN_0600A914(); }
 
 /* object_render_primary -- Render 3-part object using primary matrix pipeline.
  * Reads 4-byte descriptor from 0x0605A1D5 + (param_2 * 4) for sub-object

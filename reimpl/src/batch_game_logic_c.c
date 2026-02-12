@@ -147,11 +147,6 @@ extern int DAT_06010044;
 extern int DAT_06010046;
 extern int DAT_060100f2;
 extern int DAT_060100f4;
-extern unsigned int FUN_0600e0c0();
-extern void FUN_0600e71a();
-extern void FUN_0600e7c8();
-extern int FUN_0600e906();
-extern void FUN_0600ea18();
 extern unsigned int FUN_0600ffd0();
 extern int FUN_060100a4();
 extern int PTR_DAT_0600e3f8;
@@ -171,63 +166,13 @@ extern short DAT_0600e79e;
 extern short DAT_0600ebd8;
 extern short counter_0607887C;
 
-/* visual_physics_update_alt -- Alternate visual physics update for target car.
- * Similar to FUN_0600dfd0 but uses alternative pre-render setup (0x0602DC18)
- * and adds height update via 0x06033020. Sets car pointers, computes
- * tile index, runs wheel transform, updates 4 render buffers. */
-void FUN_0600e060(void)
-{
-    int car = CAR_PTR_TARGET;
-    *(short *)0x060786CA = (short)(*(int *)0x0607EA98 >> 1);
-    CAR_PTR_CURRENT = car;
-    *(char **)0x0607E948 = 0x06078B68;
-    (*(int(*)())0x0602DC18)();
-    int tile_idx = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
-    *(int *)0x060786B8 = tile_idx;
-    (*(int(*)())0x06005ECC)();
-    (*(int(*)())0x06027CA4)(0x06063EB0, 0);
-    (*(int(*)())0x06027CA4)(0x06063E9C, 1);
-    (*(int(*)())0x06027CA4)(0x06063ED8, 2);
-    (*(int(*)())0x06027CA4)(0x06063EC4, 3);
-    (*(int(*)())0x06033020)(car + CAR_Y);
-    FUN_0600e0c0();
-}
+/* FUN_0600e060: L2 version in visual_physics_update.c */
+extern void FUN_0600E060(void);
+void FUN_0600e060(void) { FUN_0600E060(); }
 
-/* per_car_loop -- Iterate over all non-player cars and run physics+render.
- * Skips entirely in demo mode. For each car (index 1..car_count-1):
- * sets CAR_PTR_CURRENT, runs AI behavior (0x06030A06), timer update (0x06030EE0).
- * If GAME_STATE paused (bit 15): simplified physics (FUN_0600e906).
- * Else: full physics (FUN_0600e71a), and if render flag set (byte+1 bit7),
- * updates object positions and 4 render transform buffers. */
-unsigned int FUN_0600e0c0(void)
-{
-    unsigned int uVar7;
-    unsigned int uVar9;
-
-    uVar7 = DEMO_MODE_FLAG;
-    if (uVar7 == 0) {
-        for (uVar9 = 1; uVar9 < *(unsigned int *)0x0607EA98; uVar9 = uVar9 + 1) {
-            *(char **)0x0607E940 = (char *)CAR_ARRAY_BASE + uVar9 * CAR_STRUCT_SIZE;
-            (*(int(*)())0x06030A06)();
-            (*(int(*)())0x06030EE0)();
-            if ((*(unsigned int *)0x0607EBC4 & (unsigned int)0x00008000) == 0) {
-                FUN_0600e71a();
-                uVar7 = (unsigned int)*(char *)(*(int *)0x0607E940 + 1);
-                if ((uVar7 & 0x80) != 0) {
-                    (*(int(*)())0x060061C8)();
-                    (*(int(*)())0x06027CA4)(0x06063EB0, 0);
-                    (*(int(*)())0x06027CA4)(0x06063E9C, 1);
-                    (*(int(*)())0x06027CA4)(0x06063ED8, 2);
-                    (*(int(*)())0x06027CA4)(0x06063EC4, 3);
-                    uVar7 = (*(int(*)())0x0603053C)(1);
-                }
-            } else {
-                uVar7 = FUN_0600e906();
-            }
-        }
-    }
-    return uVar7;
-}
+/* FUN_0600e0c0: L2 version in per_car_loop.c */
+extern void FUN_0600E0C0(void);
+void FUN_0600e0c0(void) { FUN_0600E0C0(); }
 
 /* car_spawn_init -- Initialize car parameters at spawn.
  * Reads car type descriptor (12 bytes at 0x06047DE4), sets grip/speed,
@@ -334,436 +279,41 @@ void FUN_0600e1d4()
   return;
 }
 
-/* replay_physics_simple -- Simple replay physics: run all subsystems then physics.
- * Sets current car to target, runs gear shift (0x060081F4), steering (0x060085B8),
- * AI behavior (0x06030A06), timer (0x06030EE0), full physics (FUN_0600e71a),
- * then computes speed ratio via fixed-point divide for display. */
-void FUN_0600e410(void)
-{
-    short extraout_var;
-    int car = CAR_PTR_TARGET;
-    CAR_PTR_CURRENT = car;
-    (*(int(*)())0x060081F4)();
-    (*(int(*)())0x060085B8)();
-    (*(int(*)())0x06030A06)();
-    (*(int(*)())0x06030EE0)();
-    FUN_0600e71a();
-    (*(int(*)())0x06027552)(*(int *)(car + CAR_ACCEL), 0x066505B3);
-    *(int *)(DAT_0600e456 + car) = (int)extraout_var;
-    *(int *)(PTR_DAT_0600e458 + car) = (int)extraout_var;
-}
-
-/* replay_physics_full -- Full replay physics with rendering pipeline.
- * Runs speed counter, gear shift, steering, AI behavior, timer,
- * alternate physics (FUN_0600e7c8), tile lookup, wheel transform,
- * 4 render buffer updates, checkpoint crossing, lap update, and rendering. */
-void FUN_0600e47c(void)
-{
-    int car = CAR_PTR_TARGET;
-    CAR_PTR_CURRENT = car;
-    (*(int(*)())0x0600A8BC)();
-    (*(int(*)())0x060081F4)();
-    (*(int(*)())0x060085B8)();
-    (*(int(*)())0x06030A06)();
-    (*(int(*)())0x06030EE0)();
-    FUN_0600e7c8();
-    int tile = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
-    *(int *)0x060786B8 = tile;
-    (*(int(*)())0x06005ECC)();
-    (*(int(*)())0x06027CA4)(0x06063EB0, 0);
-    (*(int(*)())0x06027CA4)(0x06063E9C, 1);
-    (*(int(*)())0x06027CA4)(0x06063ED8, 2);
-    (*(int(*)())0x06027CA4)(0x06063EC4, 3);
-    (*(int(*)())0x0600DA7C)();
-    (*(int(*)())0x0600CE66)();
-    (*(int(*)())0x0603053C)(0);
-    (*(int(*)())0x0600D780)(0);
-}
-
-/* replay_frame_update -- Per-frame update for the replay target car.
- * Copies steering mode, sets current car to target. Runs gear shift (0x060081F4),
- * steering (0x060085B8), AI behavior (0x06030A06), timer (0x06030EE0).
- * If interpolation counter (0x060786BC) expired or in special mode: runs full
- * physics pipeline with tile lookup and 4 render buffer updates.
- * Otherwise: interpolates position/heading using stored deltas.
- * Then runs checkpoint detection, ranking update, and optionally
- * re-initializes interpolation (FUN_0600ea18). */
-void FUN_0600e4f2(void)
-{
-    *(short *)0x06063F44 = *(short *)0x06063D9E;  /* copy steering mode */
-
-    int car = CAR_PTR_TARGET;
-    CAR_PTR_CURRENT = car;
-    int is_npc = (car != CAR_ARRAY_BASE);
-    *(char **)0x0607E948 = (char *)(CAR_ARRAY_BASE + DAT_0600e522);
-
-    /* Run subsystems */
-    (*(int(*)())0x060081F4)();    /* gear shift */
-    (*(int(*)())0x060085B8)();    /* steering */
-    (*(int(*)())0x06030A06)();    /* AI behavior */
-    (*(int(*)())0x06030EE0)();    /* timer */
-
-    int *interp_steps = (int *)0x060786BC;
-
-    if ((*interp_steps < 1) || (*(int *)0x06078635 != '\0')) {
-        /* Full physics: tile lookup + 4 render buffer updates */
-        (*(int(*)())0x0602ECF2)();
-        int tile = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
-        *(int *)0x060786B8 = tile;
-        (*(int(*)())0x06005ECC)();
-        (*(int(*)())0x06027CA4)(0x06063EB0, 0);
-        (*(int(*)())0x06027CA4)(0x06063E9C, 1);
-        (*(int(*)())0x06027CA4)(0x06063ED8, 2);
-        (*(int(*)())0x06027CA4)(0x06063EC4, 3);
-    } else {
-        /* Interpolation step: advance position by stored deltas */
-        *interp_steps = *interp_steps - 1;
-        *(int *)(car + CAR_X) += *(int *)0x060786C0;
-        *(int *)(car + CAR_Z) += *(int *)0x060786C4;
-        int hdg = *(int *)(car + CAR_HEADING) + (int)*(short *)0x060786C8;
-        *(int *)(car + CAR_HEADING) = hdg;
-        *(int *)(car + CAR_HEADING3) = hdg;
-        *(int *)(car + CAR_HEADING2) = hdg;
-        *(int *)0x06063EF0 = hdg;
-        int tile = (*(int(*)())0x06006838)(*(int *)(car + CAR_X), *(int *)(car + CAR_Z));
-        *(int *)0x060786B8 = tile;
-        (*(int(*)())0x06005ECC)();
-    }
-
-    /* Backup heading */
-    *(int *)(car + DAT_0600e69c) = *(int *)(car + CAR_HEADING);
-
-    /* Checkpoint and ranking */
-    if (!is_npc) {
-        (*(int(*)())0x0600DB64)();
-    }
-    (*(int(*)())0x0600DA7C)();    /* checkpoint angular detection */
-    (*(int(*)())0x0600CE66)();    /* checkpoint advance */
-    (*(int(*)())0x0603053C)(0);   /* ranking computation */
-    (*(int(*)())0x0600D780)(is_npc);
-
-    /* Ranking = ranking * speed_ratio + base */
-    *(int *)(car + 0x1F4) =
-        *(int *)(car + CAR_RANKING) * *(int *)0x0607EA9C + *(int *)(car + 0x1EC);
-
-    (*(int(*)())0x0600C994)();    /* speed/accel update */
-
-    /* Re-initialize interpolation if steps exhausted and not in special mode */
-    if ((*interp_steps < 1) && (*(int *)0x06078635 == '\0')) {
-        FUN_0600ea18(car);
-    }
-
-    if ((*(int *)0x06078635 == '\0') && (*(int *)0x06083255 == '\0')) {
-        (*(int(*)())0x0602D9F0)();
-    }
-}
-
-/* car_physics_update -- Per-frame car physics pipeline.
- * Runs 5 physics subsystems, processes steering correction timer,
- * and computes velocity projection for ranking:
- *   CAR_VEL_PROJ = CAR_RANKING * speed_scale + CAR_CHECKPOINT_PARAM */
-void FUN_0600e71a(void)
-{
-    register int base asm("r14") = CAR_PTR_CURRENT;
-    int tmp;
-
-    (*(void(*)())0x06008318)();  /* collision detect */
-    (*(void(*)())0x06008640)();  /* collision response */
-    (*(void(*)())0x0600D266)();  /* nop (stripped) */
-    (*(void(*)())0x0600C4F8)();  /* speed/accel update */
-    (*(void(*)())0x0600C5D6)();  /* heading update */
-
-    tmp = *(int *)(base + DAT_0600e79c);
-    if (tmp > 0) {
-        tmp--;
-        *(int *)(base + DAT_0600e79c) = tmp;
-        if (tmp == 0) {
-            int idx = *(int *)(base + DAT_0600e79e);
-            int tbl = *(int *)(base + DAT_0600e79e + -4);
-            *(int *)(base + CAR_TARGET_HDG) = (int)*(short *)(idx * 0x18 + tbl + 0x14);
-            *(int *)(base + CAR_STEER_CORRECT) = 0x400;
-        }
-    }
-
-    (*(void(*)())0x0600CEBA)();  /* lap counting */
-
-    *(int *)(base + CAR_VEL_PROJ) =
-        *(int *)(base + CAR_RANKING) * *(int *)0x0607EA9C + *(int *)(base + CAR_CHECKPOINT_PARAM);
-}
-
-void FUN_0600e7c8()
-{
-
-  short extraout_var;
-
-  int iVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  (*(int(*)())0x06008318)();
-
-  (*(int(*)())0x06008640)();
-
-  (*(int(*)())0x0600D266)();
-
-  (*(int(*)())0x0600C4F8)();
-
-  (*(int(*)())0x0602D88E)();
-
-  if (*(int *)0x06083261 == '\x01') {
-
-    iVar1 = (int)(short)((short)((*(int *)(iVar3 + DAT_0600e86c) - *(int *)(iVar3 + 0x28)) << 16
-
-                                >> 0x12) + (short)*(int *)(iVar3 + 0x28));
-
-    *(int *)(iVar3 + 0x30) = iVar1;
-
-    *(int *)(iVar3 + 0x28) = iVar1;
-
-  }
-
-  else if (*(int *)0x06083261 == '\x02') {
-
-    iVar1 = (int)DAT_0600e86c;
-
-    iVar2 = (int)(short)((short)((int)(0x00008000 +
-
-                                      (*(int *)(iVar3 + iVar1) - *(int *)(iVar3 + 0x28))) << 16
-
-                                >> 0x11) + (short)*(int *)(iVar3 + 0x28));
-
-    *(int *)(iVar3 + 0x30) = iVar2;
-
-    *(int *)(iVar3 + 0x28) = iVar2;
-
-    if ((*(int *)(iVar3 + iVar1 + -0x54) != 0) &&
-
-       (iVar1 = *(int *)(iVar3 + DAT_0600e86e) + -1, *(int *)(iVar3 + DAT_0600e86e) = iVar1,
-
-       iVar1 == 0)) {
-
-      iVar1 = 0x1f8;
-
-      *(int *)(iVar3 + iVar1) =
-
-           (int)*(short *)(*(int *)(iVar3 + DAT_0600e870) * 0x18 +
-
-                           *(int *)(iVar3 + DAT_0600e870 + -4) + 0x14);
-
-      *(int *)(iVar3 + iVar1 + 0xc) = 0x400;
-
-    }
-
-  }
-
-  (*(int(*)())0x0600CEBA)();
-
-  iVar1 = 0x228;
-
-  *(int *)(iVar3 + iVar1 + -0x34) =
-
-       *(int *)(iVar3 + iVar1) * *(int *)0x0607EA9C + *(int *)(iVar3 + iVar1 + -0x3c);
-
-  *(int *)(iVar3 + DAT_0600e920) =
-
-       (int)*(short *)(*(int *)(iVar3 + iVar1 + -0x44) * 0x18 + *(int *)(iVar3 + iVar1 + -0x48) +
-
-                      0x14);
-
-  if ((GAME_STATE_BIT & (unsigned int)0x00200000) != 0) {
-
-    (*(int(*)())0x06027552)(*(int *)(iVar3 + 0xc),0x066505B3);
-
-    *(int *)(DAT_0600e922 + iVar3) = (int)extraout_var;
-
-    *(int *)(PTR_DAT_0600e924 + iVar3) = (int)extraout_var;
-
-  }
-
-  return;
-
-}
-
-/* camera_pre_setup -- Pre-setup for camera tracking on current car.
- * If no active cars (CAR_COUNT==0): runs AI heading update (0x0600C74E),
- * computes speed-based distance, copies heading to heading3, advances ranking.
- * If cars are present: just clears acceleration. */
-int FUN_0600e906(void)
-{
-    int car = CAR_PTR_CURRENT;
-    short extraout_var;
-
-    if (CAR_COUNT == 0) {
-        (*(int(*)())0x0600D266)();           /* checkpoint update */
-        (*(int(*)())0x0600C74E)();           /* AI heading and move */
-        (*(int(*)())0x06027552)(*(int *)(car + CAR_ACCEL), 0x00480000);
-        *(int *)(car + CAR_SPEED) = (int)extraout_var;
-        *(int *)(car + CAR_HEADING3) = *(int *)(car + CAR_HEADING);
-        (*(int(*)())0x0600CEBA)();           /* checkpoint advance */
-
-        /* Advance ranking: ranking = ranking * speed_ratio + base */
-        *(int *)(car + 0x1F4) =
-            *(int *)(car + CAR_RANKING) * *(int *)0x0607EA9C + *(int *)(car + 0x1EC);
-
-        if (*(int *)(car + 0x1EC) == 0) {
-            int off = (int)DAT_0600e9e4;
-            *(int *)(car + off) = 0;
-            *(int *)(car + off - 0x18) = 0x200;
-        }
-    } else {
-        *(int *)(car + CAR_ACCEL) = 0;
-    }
-    return 0;
-}
-
-/* camera_setup -- Initialize camera for target car.
- * Runs camera pre-setup (FUN_0600e906). If no active cars (car_count==0),
- * computes speed-based camera distance via FUN_06027552 (mul/div helper).
- * If camera tracking not yet initialized, clears camera state. */
-void FUN_0600e99c(void)
-{
-    register int base asm("r2") = CAR_PTR_TARGET;
-
-    FUN_0600e906();   /* camera pre-setup */
-
-    if (CAR_COUNT == 0) {
-        int dist = (*(int(*)())0x06027552)(*(int *)(base + CAR_ACCEL), 0x066505B3);
-        *(int *)(base + DAT_0600e9e8) = dist;
-        *(int *)(base + DAT_0600e9ea) = dist;
-    }
-
-    if (*(int *)(base + PTR_DAT_0600e9ec) == 0) {
-        *(int *)0x0607EAD0 = 0;            /* clear camera active flag */
-        *(int *)(base + CAR_RANKING) = 0;
-        *(int *)(base + CAR_WAYPOINT) = 0;
-    }
-}
-
-/* replay_interp_init -- Initialize replay interpolation for a car.
- * Checks 4 input bitmask words at car+DAT_0600ea76. If any bits are set
- * but not all have bit 7 (completion marker), either increments a wait
- * counter (if no directional bits 0x33) or resets it. After 0xa0 frames
- * or when all masks are clear, sets up interpolation from current position
- * to target track segment position with 16-step lerp. */
-void FUN_0600ea18(int param_1)
-{
-    unsigned int *masks = (unsigned int *)(DAT_0600ea76 + param_1);
-    unsigned int any = masks[1] | masks[2] | masks[3] | masks[0];
-
-    if ((any != 0) && ((masks[3] & masks[0] & masks[2] & masks[1] & 0x80) == 0)) {
-        if ((any & 0x33) == 0) {
-            int wait = *(int *)0x0605A228;
-            *(int *)0x0605A228 = wait + 1;
-            if (0xa0 <= wait + 1) {
-                *(int *)0x0605A228 = 0;
-                goto setup_interp;
-            }
-        } else {
-            *(int *)0x0605A228 = 0;
-        }
-        return;
-    }
-
-    *(int *)0x0605A228 = 0;
-
-setup_interp:
-    ;
-    int cur_x = *(int *)(param_1 + CAR_X);
-    int *seg = (int *)((*(int *)(param_1 + DAT_0600eafa) << 3 + 3) << 4 + *(int *)0x0607EB88);
-    int tgt_x = seg[0];
-    int tgt_z = seg[1];
-    int cur_z = *(int *)(param_1 + CAR_Z);
-    short tgt_hdg = *(short *)((int)seg + 10);
-    int cur_hdg = *(int *)(param_1 + CAR_HEADING3);
-
-    /* 16-step linear interpolation deltas */
-    *(int *)0x060786BC = 0x10;
-    *(int *)0x060786C0 = (tgt_x - cur_x) >> 4;
-    *(int *)0x060786C4 = (tgt_z - cur_z) >> 4;
-    *(short *)0x060786C8 = (short)(((tgt_hdg << 2) - (short)cur_hdg) >> 4);
-
-    /* Clear speed and acceleration */
-    *(int *)(param_1 + CAR_ACCEL) = 0;
-    *(int *)(param_1 + CAR_SPEED) = 0;
-
-    /* Clear projected values, set activation flags */
-    *(int *)(param_1 + CAR_PROJECTED_A) = 0;
-    *(int *)(param_1 + CAR_PROJECTED_B) = 0;
-    *(int *)(param_1 + CAR_ACTIVATE_1) = 1;
-    *(int *)(param_1 + CAR_ACTIVATE_2) = 1;
-    *(int *)(param_1 + CAR_ACTIVATE_3) = 1;
-    *(int *)(param_1 + CAR_ACTIVATE_4) = 1;
-}
-
-/* game_state_reset -- Zero entire car array and reset all game state globals.
- * Clears CAR_ARRAY_BASE (DAT_0600ebd8 words), calls matrix/transform/render init,
- * sets activation flags to 1, zeros all game state counters/timers/flags,
- * clears 5 inline data table entries, then calls HUD init (0x06021450)
- * and sound init (0x06018634). */
-void FUN_0600eb14(void)
-{
-    register int *ptr asm("r4") = (int *)CAR_ARRAY_BASE;
-    register unsigned int cnt asm("r5") = 0;
-    register int zero asm("r6") = 0;
-    unsigned int limit = (unsigned int)DAT_0600ebd8;
-
-    do {
-        *ptr++ = zero;
-        cnt++;
-    } while (cnt < limit);
-
-    (*(void(*)())0x06026E02)();     /* matrix init */
-    (*(void(*)())0x060270C6)();     /* transform init */
-    (*(void(*)())0x0600629C)();     /* render state init */
-
-    /* Set activation flags for first 4 car slots */
-    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_1) = 1;
-    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_2) = 1;
-    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_3) = 1;
-    *(int *)(CAR_ARRAY_BASE + CAR_ACTIVATE_4) = 1;
-
-    /* Clear game state globals */
-    *(short *)0x06063F46 = zero;    /* speed frame counter */
-    *(int *)0x0607EAE4 = zero;
-    *(int *)0x0607EAE8 = zero;
-    *(int *)0x0607EAEC = zero;
-    GAME_STATE_VAR = zero;
-    *(int *)0x0607EBF4 = zero;
-    *(int *)0x06078654 = 5;         /* default timer value */
-    *(int *)0x0605A1C4 = zero;
-    *(int *)0x06082A30 = zero;
-    *(int *)0x0607EABC = zero;
-    *(int *)0x0607EAC0 = zero;
-    *(int *)0x06083260 = zero;
-    *(int *)0x06082A26 = zero;
-    *(int *)0x060788FC = zero;
-    *(int *)0x06082A38 = zero;
-    *(int *)0x06083261 = zero;
-    *(int *)0x0608325C = zero;
-    *(int *)0x06083258 = zero;
-    *(int *)0x0605A21C = zero;
-    *(short *)0x06086058 = zero;
-    *(int *)0x0608605A = zero;
-    *(int *)0x0605DE3C = zero;
-    *(int *)0x060786A8 = zero;
-    *(int *)0x060786BC = zero;      /* interpolation step counter */
-    *(int *)0x06085FCC = zero;
-    *(int *)0x06087060 = zero;
-
-    /* Clear inline data table entries */
-    *(short *)0x0602FD98 = zero;
-    *(short *)0x0602FD9A = zero;
-    *(short *)0x0602FD9C = zero;
-    *(short *)0x0602FD9E = zero;
-    *(short *)0x0602FDA0 = zero;
-
-    (*(void(*)())0x06021450)();     /* HUD init */
-    (*(void(*)())0x06018634)();     /* sound init */
-}
+/* FUN_0600e410: L2 version in physics_entry.c */
+extern void FUN_0600E410(void);
+void FUN_0600e410(void) { FUN_0600E410(); }
+
+/* FUN_0600e47c: L2 version in physics_entry.c */
+extern void FUN_0600E47C(void);
+void FUN_0600e47c(void) { FUN_0600E47C(); }
+
+/* FUN_0600e4f2: L2 version in physics_entry.c */
+extern void FUN_0600E4F2(void);
+void FUN_0600e4f2(void) { FUN_0600E4F2(); }
+
+/* FUN_0600e71a: L2 version in player_physics.c */
+extern void FUN_0600E71A(void);
+void FUN_0600e71a(void) { FUN_0600E71A(); }
+
+/* FUN_0600e7c8: L2 version in alt_physics.c */
+extern void FUN_0600E7C8(void);
+void FUN_0600e7c8(void) { FUN_0600E7C8(); }
+
+/* FUN_0600e906: L2 version in ai_physics.c */
+extern void FUN_0600E906(void);
+void FUN_0600e906(void) { FUN_0600E906(); }
+
+/* FUN_0600e99c: L2 version in camera_setup.c */
+extern void FUN_0600E99C(void);
+void FUN_0600e99c(void) { FUN_0600E99C(); }
+
+/* FUN_0600ea18: L2 version in road_recovery.c */
+extern void FUN_0600EA18(int car);
+void FUN_0600ea18(int car) { FUN_0600EA18(car); }
+
+/* FUN_0600eb14: L2 version in race_init.c */
+extern void FUN_0600EB14(void);
+void FUN_0600eb14(void) { FUN_0600EB14(); }
 
 /* vdp1_race_sprites_init -- register all VDP1 sprites and palettes for the racing scene */
 void FUN_0600ec78()

@@ -542,25 +542,9 @@ void FUN_06018fa4(void)
     snd_cmd(0xf, 0xAE0001FF);   /* stop */
 }
 
-/* scsp_load_driver_b -- Load sound driver bank B into SCSP RAM.
- * Same pattern as _a but calls loader at 0x06012EBC and sends
- * master volume command (0xAE0600FF) before final stop. */
-void FUN_06018ff8(void)
-{
-    void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
-
-    SOUND_TIMEOUT_FLAG = 0;
-    snd_cmd(0xf, 0xAE0001FF);
-    snd_cmd(0xf, 0xAE0005FF);
-    FUN_060192e8();
-
-    if (SOUND_TIMEOUT_FLAG == 0) {
-        (*(int(*)())0x06012EBC)();
-        *(short *)0x25A02DBE = 0;
-    }
-    snd_cmd(0xf, 0xAE0600FF);   /* master volume */
-    snd_cmd(0xf, 0xAE0001FF);   /* stop */
-}
+/* FUN_06018ff8: L2 version in sound_init.c */
+extern void FUN_06018FF8(void);
+void FUN_06018ff8(void) { FUN_06018FF8(); }
 
 /* scsp_load_driver_c -- Load sound driver bank C into SCSP RAM.
  * Calls loader at 0x06012F10, sends stop then master volume after. */
@@ -932,21 +916,9 @@ void FUN_060196a4()
   return;
 }
 
-/* subsystem_setup_init -- Initialize sound/display subsystem for game mode.
- * Configures VDP sprite slot (0xC), resets VDP sprite system,
- * sets sound subsystem flags (active=1, channel=1, volume=0xFF),
- * then runs subsystem data init, display setup, and cursor init. */
-void FUN_060198e0(void)
-{
-    (*(int(*)())0x0602853E)(0xC);    /* VDP sprite slot config */
-    (*(int(*)())0x06028560)();       /* VDP sprite system reset */
-    *(int *)0x06085FF1 = 1;          /* sound subsystem active */
-    *(int *)0x06085FF6 = 1;          /* sound channel active */
-    *(int *)0x06085FF7 = 0xFF;       /* volume = max */
-    FUN_06019928();                  /* subsystem data init */
-    course_select_display_update();  /* display setup */
-    (*(int(*)())0x0601A940)();       /* cursor/selection init */
-}
+/* FUN_060198e0: L2 version in subsystem_setup.c */
+extern void FUN_060198E0(void);
+void FUN_060198e0(void) { FUN_060198E0(); }
 
 /* sound_test_render -- Render sound test channel display when dirty flag set.
  * When 0x06085FF1 == 1: renders 8 channel indicator sprites via VDP1

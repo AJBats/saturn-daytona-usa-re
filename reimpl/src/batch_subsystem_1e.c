@@ -1287,42 +1287,13 @@ void FUN_0601f8bc(void)
     return;
 }
 
-/* mode_transition_check -- Check if mode transition is complete.
- * Clears transition flag, runs transition step (FUN_0601f5e0).
- * If flag still clear after step, transition still in progress (return 1).
- * Otherwise, finalize: init render, apply transition, commit. Return 0. */
-int FUN_0601f8c0(void)
-{
-    *(int *)0x0605E05C = 0;
-    FUN_0601f5e0();
+/* FUN_0601f8c0: L2 version in mode_transition.c */
+extern int FUN_0601F8C0(void);
+int FUN_0601f8c0(void) { return FUN_0601F8C0(); }
 
-    if (*(int *)0x0605E05C == '\0') {
-        return 1;  /* transition still in progress */
-    }
-
-    (*(int(*)())0x060149E0)();  /* render init */
-    FUN_0601f9cc();             /* apply transition */
-    (*(int(*)())0x060149CC)();  /* commit */
-    return 0;                   /* transition complete */
-}
-
-/* vdp2_mode_check -- Check VDP2 display mode and apply or reset.
- * If display flag (0x06063D9A) has target bits set, write VDP2 register
- * 0x25E7FFFE (TVMD - TV mode) and return 1 (mode active).
- * Otherwise, call mode_transition_vdp_reset and return 0. */
-int FUN_0601f900(void)
-{
-    short buf[4];
-
-    if ((*(unsigned short *)0x06063D9A & DAT_0601f962) != 0) {
-        buf[0] = DAT_0601f964;
-        (*(int(*)())0x06036E90)(0x25E7FFFE, 1, buf);
-        return 1;
-    }
-
-    FUN_0601fd20();
-    return 0;
-}
+/* FUN_0601f900: L2 version in mode_transition.c */
+extern int FUN_0601F900(void);
+int FUN_0601f900(void) { return FUN_0601F900(); }
 
 /* standings_screen_render -- render race results/standings with layout variant per game mode */
 void FUN_0601f9cc()
@@ -1475,14 +1446,9 @@ void FUN_0601fd20(void)
     VBLANK_OUT_COUNTER = 0;
 }
 
-/* mode_dispatch_cd -- Read CD status, then dispatch via mode handler vtable.
- * Vtable index stored at 0x06087804. */
-int FUN_0601fd74(void)
-{
-    int auStack_14[5];
-    (*(int(*)())0x06035168)();  /* cd_get_status */
-    return (*(int(*)())auStack_14[*(int *)0x06087804])();
-}
+/* FUN_0601fd74: L2 version in mode_dispatch.c */
+extern void FUN_0601FD74(void);
+void FUN_0601fd74(void) { FUN_0601FD74(); }
 
 /* replay_car_state_load -- Load car state data from replay descriptor.
  * Reads replay header from pointer at 0x060877F4: [0]=car_count-1,

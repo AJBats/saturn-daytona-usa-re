@@ -512,21 +512,13 @@ void FUN_0601ae80(void)
     (*(void(*)())0x0602766C)(0x25F00000, 0x0604996C, 0x180);   /* pattern data */
 }
 
-/* display_mode_dispatch -- Call handler from display mode vtable.
- * Reads mode index from 0x06086011, looks up function pointer in
- * table at 0x0605DEC8, and calls it. */
-void FUN_0601aeb6(void)
-{
-    (*(int(*)())(*(int *)(0x0605DEC8 + (unsigned int)(unsigned char)*(int *)(0x06086011 << 2))))();
-}
+/* FUN_0601aeb6: L2 version in mode_dispatch.c */
+extern void FUN_0601AEB6(void);
+void FUN_0601aeb6(void) { FUN_0601AEB6(); }
 
-/* display_region_setup -- Configure display region (320x224 @ offset 48,48).
- * Calls VDP2 display region function with standard NTSC parameters:
- *   x=0, y=0x30, w=0x30, h=0, x2=0x160, y2=0x100, w2=0x160, h2=0x100 */
-int FUN_0601b074(void)
-{
-    return (*(int(*)())0x06039100)(0, 0x30, 0x30, 0, 0x160, 0x100, 0x160, 0x100);
-}
+/* FUN_0601b074: L2 version in display_region_init.c */
+extern void FUN_0601B074(void);
+void FUN_0601b074(void) { FUN_0601B074(); }
 
 /* menu_text_render -- Render menu text from lookup table.
  * Computes index: param_1*6 + param_2*2 + language_byte at 0x0605D4F7.

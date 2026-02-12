@@ -96577,11 +96577,9 @@ void FUN_0602d82a()
 
 }
 
-/* misc_physics_step_entry -- Thin wrapper for FUN_0602d8bc (misc physics step) */
-void FUN_0602d88e(void)
-{
-    FUN_0602d8bc();
-}
+/* FUN_0602d88e: L2 version in misc_physics_step.c */
+extern void FUN_0602D88E(void);
+void FUN_0602d88e(void) { FUN_0602D88E(); }
 
 void FUN_0602d8bc()
 {

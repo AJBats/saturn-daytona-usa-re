@@ -41,7 +41,6 @@ extern int DAT_060088b2;
 extern int DAT_060088b4;
 extern int DAT_060088b6;
 extern void FUN_060084ca();
-extern void FUN_060086c0();
 extern int speed_force_timer();
 extern int PTR_DAT_06008360;
 extern int PTR_DAT_06008560;
@@ -50,59 +49,9 @@ extern int func_0601389E();
 extern int func_06018E70();
 extern int state_0605AD10;
 
-/* gear_shift_steering_deflect -- Handle steering deflection during gear shifts.
- * If steer timer (CAR_STEER_TIMER at +0xB8) is 0: detect new shift input.
- *   - Right shift (bit 0x10): set timer=0x30, direction=-1
- *   - Left shift (bit 0x20): set timer=0x30, direction=+1
- *   - Play shift sound (0xAE111BFF) if in race state
- * If timer active: decrement, look up deflection from sine table
- *   (0x0604546C normal / 0x0604540C if flag bit 0x40), apply to steering
- *   at car+0x1D8, decelerate by 0xE3. Calls CD sync twice. */
-void FUN_060081f4(void)
-{
-    int *car_iter = (int *)0x0607E944;   /* car iteration pointer */
-    int timer_val;
-
-    if (*(int *)(CAR_PTR_TARGET + CAR_STEER_TIMER) == 0) {
-        if ((0x13 < *(int *)(CAR_PTR_TARGET + CAR_SPEED)) &&
-            (*(int *)(CAR_PTR_TARGET + (int)DAT_060082b2) == 0)) {
-            if ((**(unsigned char **)car_iter & 0x10) == 0) {
-                if ((**(unsigned char **)car_iter & 0x20) != 0) {
-                    *(int *)(CAR_PTR_TARGET + CAR_STEER_TIMER) = 0x30;
-                    *(int *)(*(int *)car_iter + (int)DAT_0600835a) = 1;
-                    if (((unsigned int)0x00020000 & *(unsigned int *)0x0607EBC4) != 0) {
-                        (*(int(*)())0x0601D5F4)(0, 0xAE111BFF); /* shift sound */
-                    }
-                }
-            } else {
-                *(int *)(CAR_PTR_TARGET + CAR_STEER_TIMER) = 0x30;
-                *(int *)(*(int *)car_iter + (int)DAT_060082ac) = 0xffffffff;
-                if (((unsigned int)0x00020000 & *(unsigned int *)0x0607EBC4) != 0) {
-                    (*(int(*)())0x0601D5F4)(0, 0xAE111BFF); /* shift sound */
-                }
-            }
-        }
-    } else {
-        *(int *)0x0607EBD4 = 0x46;  /* physics mode: steering override */
-        timer_val = *(int *)(*(int *)car_iter + CAR_STEER_TIMER);
-        *(int *)(*(int *)car_iter + CAR_STEER_TIMER) -= 1;
-
-        char *sine_tbl = (char *)0x0604546C;  /* normal deflection table */
-        if ((**(unsigned char **)car_iter & 0x40) != 0) {
-            sine_tbl = (char *)0x0604540C;    /* alternate deflection table */
-        }
-        int deflect;
-        if (*(int *)(*(int *)car_iter + (int)DAT_060082ac) < 0) {
-            deflect = (int)*(short *)(sine_tbl + ((0x30 - timer_val) << 1));
-        } else {
-            deflect = -(int)*(short *)(sine_tbl + ((0x30 - timer_val) << 1));
-        }
-        *(int *)(*(int *)car_iter + 0x1d8) = deflect;
-        *(int *)(*(int *)car_iter + CAR_ACCEL) -= 0xe3; /* deceleration penalty */
-    }
-    (*(int(*)())0x06034F78)(0);   /* CD sync */
-    (*(int(*)())0x06034F78)();    /* CD sync */
-}
+/* FUN_060081f4: L2 version in gear_shift.c */
+extern void FUN_060081F4(void);
+void FUN_060081f4(void) { FUN_060081F4(); }
 
 int gear_shift_handler()
 {
@@ -260,36 +209,9 @@ void FUN_060084ca(void)
   }
 }
 
-/* collision_response_handler -- Handle car collision steering response.
- * If collision timer (DAT_06008624) is active: sets physics mode 0x46,
- * snaps heading to heading3 if direction flag == 1 and activation bit set.
- * Runs speed_force_timer(). When timer < 2: set phase flag based on
- * game state (4 for VS mode 0x200000, else 1). Returns collision offset. */
-int FUN_060085b8(void)
-{
-    int *car_iter = (int *)0x0607E940;
-    int result = 0;
-
-    if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06008624) != 0) {
-        *(int *)0x0607EBD4 = 0x46;  /* physics mode: collision override */
-        if ((*(int *)((int)DAT_06008626 + *(int *)car_iter) == 1) &&
-            (((int)*(char *)(*(int *)car_iter + CAR_ACTIVATE_FLAGS) & 0x80U) != 0)) {
-            *(int *)(*(int *)car_iter + CAR_HEADING2) = *(int *)(*(int *)car_iter + CAR_HEADING3);
-            *(int *)(*(int *)car_iter + DAT_0600862a + -8) =
-                *(int *)(*(int *)car_iter + (int)DAT_0600862a);
-        }
-        speed_force_timer();
-        result = (int)DAT_06008624;
-        if (*(int *)(*(int *)car_iter + result) < 2) {
-            if (*(char **)0x0607EBC4 == 0x00200000) {
-                *(int *)0x06078654 = 4;   /* VS mode phase */
-            } else {
-                *(int *)0x06078654 = 1;   /* normal phase */
-            }
-        }
-    }
-    return result;
-}
+/* FUN_060085b8: L2 version in force_system.c */
+extern void FUN_060085B8(void);
+void FUN_060085b8(void) { FUN_060085B8(); }
 
 int steering_physics_update()
 {
@@ -321,28 +243,9 @@ int steering_physics_update()
   return 0;
 }
 
-/* result_table_apply -- Apply race result parameters from table entry.
- * Reads 2-word result entry from param_1: word 0 = completion code stored
- * at car+0x1B8, word 1 = timer base stored at DAT_0600871a offset.
- * Timer-0x28 stored at DAT_0600871c and car+0x208. Calls
- * FUN_06034F78 twice (CD sync), increments FORCE_SETUP_COUNT, runs timer. */
-void FUN_060086c0(int *param_1)
-{
-  int *car_iter = (int *)0x0607E940;       /* car iteration pointer */
-
-  (*(int(*)())0x06034F78)();                /* CD sync */
-  (*(int(*)())0x06034F78)();                /* CD sync (double) */
-
-  *(int *)(*car_iter + 0x1b8) = *param_1;  /* completion code */
-  int timer = param_1[1];
-  *(int *)(*car_iter + (int)DAT_0600871a) = timer;
-  timer = timer + -0x28;
-  *(int *)(*car_iter + (int)DAT_0600871c) = timer;
-  *(int *)(*car_iter + 0x208) = timer;
-
-  FORCE_SETUP_COUNT = FORCE_SETUP_COUNT + 1;
-  speed_force_timer();
-}
+/* FUN_060086c0: L2 version in force_system.c */
+extern void FUN_060086C0(int descriptor);
+void FUN_060086c0(int descriptor) { FUN_060086C0(descriptor); }
 
 int speed_force_timer()
 {

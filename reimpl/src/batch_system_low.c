@@ -380,19 +380,9 @@ void FUN_06002d88(void)
     initial_program(0, 0, 0, 0);
 }
 
-/* vdp1_sprite_clear -- Clear 3 VDP1 sprite command slots.
- * Calls sprite command writer at 0x060283E0 with mode=8 and
- * size=0xF000, destination=0x06059ECE for offsets 0, 0xD00, 0xD80. */
-void FUN_060032d4(void)
-{
-    register void (*sprite_write)(int, int, int, int) = (void (*)(int, int, int, int))0x060283E0;
-    int size = 0x0000F000;
-    int dest = 0x06059ECE;
-
-    sprite_write(8, 0,     size, dest);
-    sprite_write(8, 0xd00, size, dest);
-    sprite_write(8, 0xd80, size, dest);
-}
+/* FUN_060032d4: L2 version in vdp_sprite_init.c */
+extern void FUN_060032D4(void);
+void FUN_060032d4(void) { FUN_060032D4(); }
 
 /* vdp_sprite_batch_setup -- Configure 3 VDP1 sprite command entries.
  * Reads src/size/offset from sprite descriptor table at 0x06063750,
@@ -432,14 +422,9 @@ void FUN_0600338c(unsigned int param_1, int param_2)
     }
 }
 
-/* hud_blink_sprite -- Update blinking HUD sprite based on frame counter.
- * Alternates between two sprite attribute destinations every 4 frames
- * (bit 2 of FRAME_COUNTER) to create a blink effect. */
-void FUN_060033e6(void)
-{
-    int dest = (FRAME_COUNTER & 4) ? 0x06044638 : 0x0605ACF0;
-    (*(int(*)())0x060284AE)(8, (int)DAT_0600340c, 0x90, dest);
-}
+/* FUN_060033e6: L2 version in render_setup.c */
+extern void FUN_060033E6(void);
+void FUN_060033e6(void) { FUN_060033E6(); }
 
 /* hud_render_select -- Render HUD element: full or compact based on mode flag.
  * If 0x06083255 is clear: full-size sprite (0x900 bytes from 0x06063798).
