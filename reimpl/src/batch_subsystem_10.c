@@ -1231,183 +1231,110 @@ int FUN_06011978(param_1, param_2, param_3, param_4)
   return 0;
 }
 
-void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5,short param_6,short param_7)
+/* rotated_rect_vertex_compute -- Compute 4 rotated vertices for VDP1 polygon.
+ * Like rotated_quad_vertex_compute but with explicit width/height parameters
+ * instead of fixed offsets. Takes center (x,y), half-width, half-height,
+ * rotation angle, scale, and color. Writes 8 coords to polygon table
+ * at 0x060786CC (0x18-byte stride). */
+void FUN_06011af4(int center_x,int center_y,int half_width,int half_height,short angle,short scale,short color)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int uVar7;
-
-  short sVar8;
-
-  short sVar9;
-
-  short sVar10;
-
-  short *psVar11;
-
-  int uStack_38;
-
-  int uStack_34;
-
-  int uStack_30;
-
-  int uStack_2c;
-
-  int iStack_28;
-
-  int iStack_24;
-
-  uStack_30 = param_2;
-
-  uStack_2c = param_1;
-
-  (*(int(*)())0x06027358)((int)param_5,&uStack_38,&uStack_34);
-
-  puVar4 = (char *)0x06027552;
-
-  puVar3 = (int *)0x0602754C;
-
-  puVar2 = (char *)0x0605AAA0;
-
-  puVar1 = (char *)0x060786CC;
-
-  iStack_24 = -param_3;
-
-  psVar11 = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
-
-  iVar5 = (*(int(*)())0x06027552)(iStack_24,uStack_34);
-
-  iVar6 = (*(int(*)())puVar4)(param_4,uStack_38);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_6);
-
-  sVar8 = (*(int(*)())puVar3)(uVar7);
-
-  sVar9 = (*(int(*)())puVar3)(uStack_2c);
-
-  *psVar11 = sVar9 - sVar8;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(iStack_24,uStack_38);
-
-  iVar6 = (*(int(*)())puVar4)(param_4,uStack_34);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_30);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 10) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(param_3,uStack_34);
-
-  iVar6 = (*(int(*)())puVar4)(param_4,uStack_38);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_2c);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xc) = sVar10 - sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(param_3,uStack_38);
-
-  iVar6 = (*(int(*)())puVar4)(param_4,uStack_34);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_30);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xe) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(param_3,uStack_34);
-
-  iStack_28 = -param_4;
-
-  iVar6 = (*(int(*)())puVar4)(iStack_28,uStack_38);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_2c);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x10) = sVar10 - sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(param_3,uStack_38);
-
-  iVar6 = (*(int(*)())puVar4)(iStack_28,uStack_34);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_30);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x12) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(iStack_24,uStack_34);
-
-  iVar6 = (*(int(*)())puVar4)(iStack_28,uStack_38);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_2c);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x14) = sVar10 - sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(iStack_24,uStack_38);
-
-  iVar6 = (*(int(*)())puVar4)(iStack_28,uStack_34);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_6);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(uStack_30);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x16) = sVar10 + sVar9;
-
-  *(short *)(puVar1 + (short)(*(short *)puVar2 * 0x18) + 6) = param_7;
-
-  puVar1[(short)(*(short *)puVar2 * 0x18) + 4] = 0;
-
-  puVar1[(short)(*(short *)puVar2 * 0x18) + 5] = 0;
-
-  *(short *)puVar2 = *(short *)puVar2 + 1;
-
+  char *poly_table;
+  char *poly_count_ptr;
+  char *fixed_to_short;  /* 0x0602754C */
+  char *fixed_mul;       /* 0x06027552 */
+  int sin_val;
+  int cos_val;
+  int rotated;
+  short screen_coord;
+  short center_screen;
+  short slot_idx;
+  short *vertex_ptr;
+  int sin_component;
+  int cos_component;
+  int saved_y;
+  int saved_x;
+  int neg_width;
+  int neg_height;
+  saved_y = center_y;
+  saved_x = center_x;
+  /* Decompose angle into sin/cos */
+  (*(int(*)())0x06027358)((int)angle,&sin_component,&cos_component);
+  fixed_mul = (char *)0x06027552;
+  fixed_to_short = (int *)0x0602754C;
+  poly_count_ptr = (char *)0x0605AAA0;
+  poly_table = (char *)0x060786CC;
+  neg_width = -half_width;
+  vertex_ptr = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
+  /* Vertex 0 X (top-left): (-width * cos - height * sin) * scale */
+  sin_val = (*(int(*)())0x06027552)(neg_width,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(half_height,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_x);
+  *vertex_ptr = center_screen - screen_coord;
+  /* Vertex 0 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(neg_width,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(half_height,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 10) = center_screen + screen_coord;
+  /* Vertex 1 X (top-right): (width * cos - height * sin) * scale */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(half_width,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(half_height,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_x);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0xc) = center_screen - screen_coord;
+  /* Vertex 1 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(half_width,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(half_height,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0xe) = center_screen + screen_coord;
+  /* Vertex 2 X (bottom-right): (width * cos + height * sin) * scale */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(half_width,cos_component);
+  neg_height = -half_height;
+  cos_val = (*(int(*)())fixed_mul)(neg_height,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_x);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x10) = center_screen - screen_coord;
+  /* Vertex 2 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(half_width,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(neg_height,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x12) = center_screen + screen_coord;
+  /* Vertex 3 X (bottom-left): (-width * cos + height * sin) * scale */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(neg_width,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(neg_height,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_x);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x14) = center_screen - screen_coord;
+  /* Vertex 3 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(neg_width,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(neg_height,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(saved_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x16) = center_screen + screen_coord;
+  /* Set polygon color and flags, advance polygon count */
+  *(short *)(poly_table + (short)(*(short *)poly_count_ptr * 0x18) + 6) = color;
+  poly_table[(short)(*(short *)poly_count_ptr * 0x18) + 4] = 0;
+  poly_table[(short)(*(short *)poly_count_ptr * 0x18) + 5] = 0;
+  *(short *)poly_count_ptr = *(short *)poly_count_ptr + 1;
   return;
-
 }
 
 /* vdp1_overlay_dispatch -- Emit VDP1 commands for overlay sprite queue.

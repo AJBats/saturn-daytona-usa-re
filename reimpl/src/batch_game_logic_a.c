@@ -393,173 +393,100 @@ unsigned short FUN_0600a8bc(void)
     return result;
 }
 
+/* car_collision_proximity_check -- Detect car-to-car collisions by proximity.
+ * Pass 1: For each AI car pair, checks checkpoint gap (<±0x15), then computes
+ * weighted Manhattan distance (shorter axis /4). If close (<0x4B333) and speed
+ * low enough, calls AI-AI collision handler (0x060316C4).
+ * Pass 2: Checks all AI cars vs player car similarly, calls player collision
+ * handler (0x06030FC0). Car struct stride 0x268, X at +0x10, Z at +0x18. */
 int FUN_0600a914()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  unsigned int uVar8;
-
-  unsigned int uVar9;
-
-  int iVar10;
-
-  int iVar11;
-
-  unsigned int *puVar12;
-
-  puVar3 = (char *)0x06078900;
-
-  puVar2 = (int *)0x0607EA98;
-
-  puVar1 = (char *)0x0004B333;
-
-  iVar11 = 0x268;
-
-  iVar5 = DEMO_MODE_FLAG;
-
-  if (iVar5 == 0) {
-
-    for (uVar8 = 1; puVar4 = 0x0607E940, uVar8 < *(int *)puVar2 - 1U; uVar8 = uVar8 + 1) {
-
-      puVar12 = (unsigned int *)(puVar3 + uVar8 * iVar11);
-
-      *(unsigned int **)0x0607E940 = puVar12;
-
-      uVar9 = uVar8;
-
-      if ((*puVar12 & (unsigned int)0x00E00000) != 0) {
-
-        while (uVar9 = uVar9 + 1, uVar9 < *(unsigned int *)puVar2) {
-
-          iVar6 = uVar9 * iVar11;
-
-          iVar5 = (int)PTR_DAT_0600a99c;
-
-          iVar10 = *(int *)((int)puVar12 + iVar5) - *(int *)(puVar3 + iVar5 + iVar6);
-
-          if ((iVar10 < 0x15) && (-0x15 < iVar10)) {
-
-            iVar10 = *(int *)(puVar3 + iVar6 + 0x10) - puVar12[4];
-
-            iVar7 = *(int *)(puVar3 + iVar6 + 0x18) - puVar12[6];
-
-            if (iVar10 < 0) {
-
-              iVar10 = -iVar10;
-
+  char *car_base;
+  char *car_count_ptr;
+  int result;
+  int checkpoint_delta;
+  int dx;
+  int dz;
+  unsigned int i;
+  unsigned int j;
+  int player_car;
+  int car_stride;
+  unsigned int *car_ptr;
+  car_base = (char *)0x06078900;        /* car array base */
+  car_count_ptr = (int *)0x0607EA98;    /* active car count */
+  car_stride = 0x268;
+  result = DEMO_MODE_FLAG;
+  if (result == 0) {
+    /* Pass 1: AI-to-AI collision pairs */
+    for (i = 1; i < *(int *)car_count_ptr - 1U; i = i + 1) {
+      car_ptr = (unsigned int *)(car_base + i * car_stride);
+      *(unsigned int **)0x0607E940 = car_ptr;
+      j = i;
+      if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
+        while (j = j + 1, j < *(unsigned int *)car_count_ptr) {
+          checkpoint_delta = j * car_stride;
+          result = (int)PTR_DAT_0600a99c;
+          /* Check checkpoint proximity (within ±0x15) */
+          dx = *(int *)((int)car_ptr + result) - *(int *)(car_base + result + checkpoint_delta);
+          if ((dx < 0x15) && (-0x15 < dx)) {
+            /* Compute weighted Manhattan distance */
+            dx = *(int *)(car_base + checkpoint_delta + 0x10) - car_ptr[4];  /* delta X */
+            dz = *(int *)(car_base + checkpoint_delta + 0x18) - car_ptr[6];  /* delta Z */
+            if (dx < 0) {
+              dx = -dx;
             }
-
-            if (iVar7 < 0) {
-
-              iVar7 = -iVar7;
-
+            if (dz < 0) {
+              dz = -dz;
             }
-
-            if (iVar7 < iVar10) {
-
-              iVar7 = iVar7 >> 2;
-
+            /* Reduce shorter axis by 75% */
+            if (dz < dx) {
+              dz = dz >> 2;
             }
-
             else {
-
-              iVar10 = iVar10 >> 2;
-
+              dx = dx >> 2;
             }
-
-            if ((iVar10 + iVar7 < (int)puVar1) &&
-
-               (iVar5 = (int)DAT_0600aa7e, *(int *)(puVar3 + iVar5 + iVar6) < (int)0x00010000)
-
+            /* If close enough and speed condition met, handle collision */
+            if ((dx + dz < (int)0x0004B333) &&
+               (result = (int)DAT_0600aa7e, *(int *)(car_base + result + checkpoint_delta) < (int)0x00010000)
                ) {
-
-              iVar5 = (*(int(*)())0x060316C4)(puVar12);
-
+              result = (*(int(*)())0x060316C4)(car_ptr);
             }
-
           }
-
         }
-
       }
-
     }
-
-    *(char **)0x0607E940 = puVar3;
-
-    iVar10 = *(int *)puVar4;
-
-    for (uVar8 = 1; uVar8 < *(unsigned int *)puVar2; uVar8 = uVar8 + 1) {
-
-      puVar12 = (unsigned int *)(puVar3 + uVar8 * iVar11);
-
-      if ((*puVar12 & (unsigned int)0x00E00000) != 0) {
-
-        iVar5 = (int)PTR_DAT_0600aa80;
-
-        iVar6 = *(int *)(iVar10 + iVar5) - *(int *)((int)puVar12 + iVar5);
-
-        if ((iVar6 < 0x15) && (-0x15 < iVar6)) {
-
-          iVar6 = puVar12[4] - *(int *)(iVar10 + 0x10);
-
-          iVar7 = puVar12[6] - *(int *)(iVar10 + 0x18);
-
-          if (iVar6 < 0) {
-
-            iVar6 = -iVar6;
-
+    /* Pass 2: AI-to-Player collision check */
+    *(char **)0x0607E940 = car_base;
+    player_car = *(int *)0x0607E940;
+    for (i = 1; i < *(unsigned int *)car_count_ptr; i = i + 1) {
+      car_ptr = (unsigned int *)(car_base + i * car_stride);
+      if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
+        result = (int)PTR_DAT_0600aa80;
+        checkpoint_delta = *(int *)(player_car + result) - *(int *)((int)car_ptr + result);
+        if ((checkpoint_delta < 0x15) && (-0x15 < checkpoint_delta)) {
+          dx = car_ptr[4] - *(int *)(player_car + 0x10);
+          dz = car_ptr[6] - *(int *)(player_car + 0x18);
+          if (dx < 0) {
+            dx = -dx;
           }
-
-          if (iVar7 < 0) {
-
-            iVar7 = -iVar7;
-
+          if (dz < 0) {
+            dz = -dz;
           }
-
-          if (iVar7 < iVar6) {
-
-            iVar7 = iVar7 >> 2;
-
+          if (dz < dx) {
+            dz = dz >> 2;
           }
-
           else {
-
-            iVar6 = iVar6 >> 2;
-
+            dx = dx >> 2;
           }
-
-          if ((iVar6 + iVar7 < (int)puVar1) &&
-
-             (iVar5 = (int)DAT_0600aa7e, *(int *)((int)puVar12 + iVar5) < (int)0x00010000)) {
-
-            iVar5 = (*(int(*)())0x06030FC0)(iVar10,puVar12);
-
+          if ((dx + dz < (int)0x0004B333) &&
+             (result = (int)DAT_0600aa7e, *(int *)((int)car_ptr + result) < (int)0x00010000)) {
+            result = (*(int(*)())0x06030FC0)(player_car,car_ptr);
           }
-
         }
-
       }
-
     }
-
   }
-
-  return iVar5;
-
+  return result;
 }
 
 /* object_render_primary -- Render 3-part object using primary matrix pipeline.

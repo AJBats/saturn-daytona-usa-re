@@ -438,177 +438,104 @@ int FUN_06020e74()
 
 }
 
+/* track_zone_sprite_swap -- Swap sprite/palette data when car enters track zones.
+ * Monitors car X/Z position against two hardcoded zones (pit lane regions).
+ * Zone A: X in (0x760000, 0x14B0000), Z in (-0xD00000, 0xD00000), checkpoint 0x57-0x7A.
+ * Zone B: Three sub-zones at negative X/Z (back section of track).
+ * On zone enter/exit: DMA copies alternate sprite and palette data to VRAM.
+ * Two sprite sets: zone=0 uses 0x0604D408/0x060039C8, zone=1 uses 0x0604D608/0x060039F2. */
 unsigned int FUN_06021178()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int uVar9;
-
-  puVar1 = (char *)0x0608959C;
-
-  iVar6 = *(int *)(CAR_PTR_CURRENT + 0x10);
-
-  iVar8 = *(int *)(CAR_PTR_CURRENT + 0x18);
-
-  if (((((int)0x00760000 < iVar6) && (iVar6 < (int)0x014B0000)) &&
-
-      (iVar8 < (int)0x00D00000)) && (0xFF3B0000 < iVar8)) {
-
+  char *zone_flags;
+  char *dma_copy;       /* 0x0602766C */
+  char *vram_page;      /* 0x06059FFC */
+  char *vram_base;      /* 0x06063F5C */
+  unsigned int result;
+  int car_x;
+  int vram_dst;
+  int vram_offset;
+  int sprite_src;
+  zone_flags = (char *)0x0608959C;
+  car_x = *(int *)(CAR_PTR_CURRENT + 0x10);     /* car X position */
+  vram_offset = *(int *)(CAR_PTR_CURRENT + 0x18);  /* car Z position */
+  /* Zone A: pit lane / tunnel area */
+  if (((((int)0x00760000 < car_x) && (car_x < (int)0x014B0000)) &&
+      (vram_offset < (int)0x00D00000)) && (0xFF3B0000 < vram_offset)) {
     if (((0x57 < *(int *)(CAR_PTR_CURRENT + (int)PTR_DAT_060211d8)) &&
-
         (*(int *)(CAR_PTR_CURRENT + (int)PTR_DAT_060211d8) < 0x7a)) &&
-
        ((*(unsigned short *)0x0608959C & 1) == 0)) {
-
-      *(unsigned short *)0x0608959C = *(unsigned short *)0x0608959C | 1;
-
-      *(unsigned short *)puVar1 = *(unsigned short *)puVar1 | 2;
-
+      *(unsigned short *)0x0608959C = *(unsigned short *)0x0608959C | 1;   /* enter zone */
+      *(unsigned short *)zone_flags = *(unsigned short *)zone_flags | 2;   /* mark dirty */
     }
-
   }
-
-  else if ((((iVar6 < 0xFE9A0000) && (iVar8 < 0xFDCD0000)) ||
-
-           ((iVar6 < 0xFE950000 && (iVar8 < 0xFDD30000)))) ||
-
-          ((iVar6 < 0xFE8F0000 && (iVar8 < 0xFDD80000)))) {
-
+  /* Zone B: back section (3 sub-zones with decreasing thresholds) */
+  else if ((((car_x < 0xFE9A0000) && (vram_offset < 0xFDCD0000)) ||
+           ((car_x < 0xFE950000 && (vram_offset < 0xFDD30000)))) ||
+          ((car_x < 0xFE8F0000 && (vram_offset < 0xFDD80000)))) {
     if ((*(unsigned short *)0x0608959C & 1) == 0) {
-
       *(unsigned short *)0x0608959C = *(unsigned short *)0x0608959C | 1;
-
-      *(unsigned short *)puVar1 = *(unsigned short *)puVar1 | 2;
-
+      *(unsigned short *)zone_flags = *(unsigned short *)zone_flags | 2;
     }
-
   }
-
+  /* Outside all zones: clear zone flag */
   else if ((*(unsigned short *)0x0608959C & 1) != 0) {
-
     *(unsigned short *)0x0608959C = *(unsigned short *)0x0608959C & 0xfffe;
-
-    *(unsigned short *)puVar1 = *(unsigned short *)puVar1 | 2;
-
+    *(unsigned short *)zone_flags = *(unsigned short *)zone_flags | 2;
   }
-
-  puVar4 = (char *)0x0602766C;
-
-  puVar3 = (char *)0x06059FFC;
-
-  puVar2 = (char *)0x06063F5C;
-
-  uVar5 = (unsigned int)(*(unsigned short *)puVar1 >> 1);
-
-  if ((*(unsigned short *)puVar1 >> 1 & 1) != 0) {
-
-    iVar6 = 0xc0;
-
-    if ((*(unsigned short *)puVar1 & 1) == 0) {
-
+  dma_copy = (char *)0x0602766C;
+  vram_page = (char *)0x06059FFC;
+  vram_base = (char *)0x06063F5C;
+  result = (unsigned int)(*(unsigned short *)zone_flags >> 1);
+  /* If dirty flag set, DMA copy new sprite/palette data */
+  if ((*(unsigned short *)zone_flags >> 1 & 1) != 0) {
+    car_x = 0xc0;
+    if ((*(unsigned short *)zone_flags & 1) == 0) {
+      /* Zone inactive: load default sprites */
       (*(int(*)())0x060039C8)();
-
-      (*(int(*)())puVar4)(*(int *)((int)(int)puVar3 << 3) + *(int *)puVar2,0x0604D408,0x200);
-
-      (*(int(*)())puVar4)(*(int *)((int)(int)puVar3 << 3) + *(int *)puVar2 + 0x3c0,0x0604D808,
-
+      (*(int(*)())dma_copy)(*(int *)((int)(int)vram_page << 3) + *(int *)vram_base,0x0604D408,0x200);
+      (*(int(*)())dma_copy)(*(int *)((int)(int)vram_page << 3) + *(int *)vram_base + 0x3c0,0x0604D808,
                         (int)DAT_06021416);
-
       if (*(int *)0x06083255 == '\0') {
-
-        (*(int(*)())puVar4)(*(int *)((int)(int)puVar3 << 3) + *(int *)puVar2 + 0x40,
-
-                          *(int *)(0x0605D05C + *(int *)(0x06078868 << 2)),iVar6);
-
-        uVar9 = *(int *)(0x0605D05C + (unsigned int)(unsigned char)*(int *)(0x0607ED91 << 2));
-
-        iVar8 = 0x100;
-
-        iVar7 = *(int *)((int)(int)puVar3 << 3) + *(int *)puVar2;
-
+        (*(int(*)())dma_copy)(*(int *)((int)(int)vram_page << 3) + *(int *)vram_base + 0x40,
+                          *(int *)(0x0605D05C + *(int *)(0x06078868 << 2)),car_x);
+        sprite_src = *(int *)(0x0605D05C + (unsigned int)(unsigned char)*(int *)(0x0607ED91 << 2));
+        vram_offset = 0x100;
+        vram_dst = *(int *)((int)(int)vram_page << 3) + *(int *)vram_base;
       }
-
       else {
-
-        iVar6 = 0x20;
-
-        uVar9 = *(int *)(0x0605D0AC + *(int *)(0x0607EAB8 << 2));
-
-        iVar7 = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
-
-                (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)((int)(int)puVar3 << 3);
-
-        iVar8 = *(int *)puVar2;
-
+        car_x = 0x20;
+        sprite_src = *(int *)(0x0605D0AC + *(int *)(0x0607EAB8 << 2));
+        vram_dst = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
+                (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)((int)(int)vram_page << 3);
+        vram_offset = *(int *)vram_base;
       }
-
-      uVar5 = (*(int(*)())puVar4)(iVar7 + iVar8,uVar9,iVar6);
-
+      result = (*(int(*)())dma_copy)(vram_dst + vram_offset,sprite_src,car_x);
     }
-
     else {
-
+      /* Zone active: load alternate sprites */
       (*(int(*)())0x060039F2)();
-
-      (*(int(*)())puVar4)(*(int *)((int)(int)puVar3 << 3) + *(int *)puVar2,0x0604D608,0x200);
-
-      (*(int(*)())puVar4)(*(int *)((int)(int)puVar3 << 3) + *(int *)puVar2 + 0x3c0,0x0604EFC8,
-
+      (*(int(*)())dma_copy)(*(int *)((int)(int)vram_page << 3) + *(int *)vram_base,0x0604D608,0x200);
+      (*(int(*)())dma_copy)(*(int *)((int)(int)vram_page << 3) + *(int *)vram_base + 0x3c0,0x0604EFC8,
                         (int)DAT_060212d8);
-
       if (*(int *)0x06083255 == '\0') {
-
-        (*(int(*)())puVar4)(*(int *)((int)(int)puVar3 << 3) + *(int *)puVar2 + 0x40,
-
-                          *(int *)(0x0605D084 + *(int *)(0x06078868 << 2)),iVar6);
-
-        uVar9 = *(int *)(0x0605D084 + (unsigned int)(unsigned char)*(int *)(0x0607ED91 << 2));
-
-        iVar8 = 0x100;
-
-        iVar7 = *(int *)((int)(int)puVar3 << 3) + *(int *)puVar2;
-
+        (*(int(*)())dma_copy)(*(int *)((int)(int)vram_page << 3) + *(int *)vram_base + 0x40,
+                          *(int *)(0x0605D084 + *(int *)(0x06078868 << 2)),car_x);
+        sprite_src = *(int *)(0x0605D084 + (unsigned int)(unsigned char)*(int *)(0x0607ED91 << 2));
+        vram_offset = 0x100;
+        vram_dst = *(int *)((int)(int)vram_page << 3) + *(int *)vram_base;
       }
-
       else {
-
-        iVar6 = 0x20;
-
-        uVar9 = *(int *)(0x0605D0B4 + *(int *)(0x0607EAB8 << 2));
-
-        iVar7 = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
-
-                (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)((int)(int)puVar3 << 3);
-
-        iVar8 = *(int *)puVar2;
-
+        car_x = 0x20;
+        sprite_src = *(int *)(0x0605D0B4 + *(int *)(0x0607EAB8 << 2));
+        vram_dst = ((unsigned int)(unsigned char)((int *)0x060448B5)[CAR_COUNT] +
+                (unsigned int)*(unsigned short *)0x0607886C) << 5 + *(int *)((int)(int)vram_page << 3);
+        vram_offset = *(int *)vram_base;
       }
-
-      uVar5 = (*(int(*)())puVar4)(iVar7 + iVar8,uVar9,iVar6);
-
+      result = (*(int(*)())dma_copy)(vram_dst + vram_offset,sprite_src,car_x);
     }
-
-    *(unsigned short *)puVar1 = *(unsigned short *)puVar1 & 0xfffd;
-
+    *(unsigned short *)zone_flags = *(unsigned short *)zone_flags & 0xfffd;  /* clear dirty */
   }
-
-  return uVar5;
-
+  return result;
 }
 
 void track_object_placement()
