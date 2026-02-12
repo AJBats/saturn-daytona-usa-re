@@ -30,7 +30,7 @@ extern void FUN_0600E47C(void);
 extern void FUN_0600E99C(void);
 extern void FUN_0600E4F2(void);
 extern void FUN_0600A8BC(void);
-extern void FUN_0602F99C(void);
+extern void race_sfx_update(void);
 extern void FUN_06034900(void);
 extern void FUN_0602F7EA(void);
 extern unsigned int FUN_06035340(void);
@@ -289,7 +289,7 @@ void FUN_0600DE70(void)
         FUN_0602F7EA();
 
     /* Finalize */
-    FUN_0602F99C();
+    race_sfx_update();
 
     /* Common per-car physics pipeline */
     FUN_0600E0C0();

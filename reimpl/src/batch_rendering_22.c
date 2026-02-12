@@ -1372,7 +1372,23 @@ void FUN_06025478(param_1)
   return;
 }
 
-void FUN_060256cc()
+/* menu_scroll_a_update -- Menu scroller variant A (10-entry).
+ * Handles sprite-based scrolling menu with VDP1 rendering.
+ * Three phases: init (render all sprites), input (accept selection),
+ * and render (update selected sprite).
+ *
+ * State: 0x06061198 = result (5=confirmed), 0x06061199 = active flag
+ * Selection: 0x06089ECC = slot (0-9), 0x06089ED0 = entry (0-14)
+ * Variant flags: 0x06089ED4/D6 = route variant A/B
+ *
+ * Tables:
+ *   0x06060F2C = sprite data (10 × 8 bytes)
+ *   0x06058FBC = sprite config (10 × 8 bytes)
+ *   0x0605904C/060 = palette indices A/B
+ *   0x06059094 = button bitmask table
+ *   0x060610BC = detail entries (14 × 12 bytes)
+ *   0x06063750 = sprite positions */
+void menu_scroll_a_update()
 {
 
   short uVar1;
@@ -1709,7 +1725,18 @@ void FUN_060256cc()
 
 }
 
-void FUN_06025bf4()
+/* menu_scroll_b_update -- Menu scroller variant B (8-entry).
+ * Handles sprite-based scrolling menu with VDP1 rendering.
+ * Same structure as menu_scroll_a_update but with 8 entries
+ * and different sprite/palette tables.
+ *
+ * Tables:
+ *   0x0606107C = sprite data (8 × 8 bytes)
+ *   0x0605900C = sprite config (8 × 8 bytes)
+ *   0x06059074/084 = palette indices A/B
+ *   0x060590A8 = button bitmask table
+ *   Direction mask: 0xC088 (includes bits 3,7 for extra buttons) */
+void menu_scroll_b_update()
 {
 
   short uVar1;

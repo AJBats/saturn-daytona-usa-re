@@ -27,7 +27,7 @@ void FUN_06012450(int a, int b) { (void)a; (void)b; }
 /* FUN_0600E99C: moved to camera_setup.c */
 /* FUN_0600E4F2: moved to physics_entry.c */
 /* FUN_0600A8BC: moved to speed_counter.c */
-void FUN_0602F99C(void) { }
+/* FUN_0602F99C: moved to batch_render_pipe_2e.c as race_sfx_update */
 
 /* Physics entry dependencies (from physics_entry.c) */
 /* FUN_060081F4: moved to gear_shift.c */

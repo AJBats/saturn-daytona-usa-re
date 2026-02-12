@@ -1225,7 +1225,20 @@ LAB_0602f95a:
   return;
 }
 
-unsigned int FUN_0602f99c()
+/* race_sfx_update -- Race sound effects trigger system.
+ * Per-frame update that triggers SCSP sound commands based on race state:
+ *   - Countdown timers: tire screech (0xAE1103/04), engine rev (0xAE1110-13)
+ *   - Idle engine: start (0xAE1119) / stop (0xAE111A/3E) based on car speed
+ *   - Proximity: overtake warning (0xAE1135), closing (0xAE113A/1130)
+ *   - Gear shift sound (0xAE1132), engine rev (0xAE1137)
+ *   - Track-section sounds, high-speed (0xAE112C), wall impact (0xAE112E)
+ *
+ * All sounds dispatched via sound_cmd_dispatch (0x0601D5F4) to SCSP slot 0x11.
+ * Sound timer state at 0x0602FD98-0x0602FDA1.
+ * Global cooldown at 0x06086054 (short, decremented each frame).
+ *
+ * Called from car_iteration.c per-frame loop. */
+unsigned int race_sfx_update()
 {
 
   int uVar1;
