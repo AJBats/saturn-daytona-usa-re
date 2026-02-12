@@ -1264,342 +1264,198 @@ int FUN_0603d3a8()
   return result;
 }
 
+/* vdp2_map_offset_init -- Clear VDP2 map offset registers for 4 planes.
+ * Register block at 0x060A4D36 (shadow copy of VDP2 map offset regs).
+ * For each of 4 planes: clears low byte (mask 0xFF00) and high nibble
+ * (mask DAT_0603d500). All writes synced via 0x06034F78. */
 void FUN_0603d438()
 {
-
-  unsigned short uVar1;
-
-  unsigned short *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  puVar2 = (unsigned short *)0x060A4D36;
-
-  puVar3 = (char *)0x0000FF00;
-
-  (*(int(*)())0x06034F78)(0x060A4D36,0x060A4D58,1);
-
-  uVar4 = (unsigned short)puVar3;
-
-  *puVar2 = *puVar2 & uVar4;
-
-  uVar1 = DAT_0603d500;
-
+  unsigned short *regs = (unsigned short *)0x060A4D36;
+  unsigned short mask_lo = 0xFF00;
+  unsigned short mask_hi = DAT_0603d500;
+  (*(int(*)())0x06034F78)(0x060A4D36, 0x060A4D58, 1);  /* vdp2_reg_init */
+  regs[0] = regs[0] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & uVar1;
-
+  regs[0] = regs[0] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar4;
-
+  regs[1] = regs[1] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar1;
-
+  regs[1] = regs[1] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = puVar2[2] & uVar4;
-
+  regs[2] = regs[2] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = puVar2[2] & uVar1;
-
+  regs[2] = regs[2] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[3] = puVar2[3] & uVar4;
-
+  regs[3] = regs[3] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = puVar2[2] & uVar1;
-
+  regs[2] = regs[2] & mask_hi;  /* note: reg[2] written twice (original) */
   (*(int(*)())0x06034F78)();
-
   return;
-
 }
 
+/* vdp2_color_calc_init -- Initialize VDP2 color calculation registers.
+ * Register block at 0x060A4D3E (shadow copy of VDP2 color calc regs).
+ * Clears low byte (mask 0xFF00) and high bits (mask DAT_0603d5be) for
+ * regs 0, 1, 3. Zeros reg 2 entirely. All writes synced via 0x06034F78. */
 void FUN_0603d514()
 {
-
-  unsigned short uVar1;
-
-  unsigned short *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  puVar2 = (unsigned short *)0x060A4D3E;
-
-  puVar3 = (char *)0x0000FF00;
-
-  (*(int(*)())0x06034F78)(0x060A4D3E,0x060A4D58,1);
-
-  uVar4 = (unsigned short)puVar3;
-
-  *puVar2 = *puVar2 & uVar4;
-
-  uVar1 = DAT_0603d5be;
-
+  unsigned short *regs = (unsigned short *)0x060A4D3E;
+  unsigned short mask_lo = 0xFF00;
+  unsigned short mask_hi = DAT_0603d5be;
+  (*(int(*)())0x06034F78)(0x060A4D3E, 0x060A4D58, 1);  /* vdp2_reg_init */
+  regs[0] = regs[0] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & uVar1;
-
+  regs[0] = regs[0] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar4;
-
+  regs[1] = regs[1] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar1;
-
+  regs[1] = regs[1] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = 0;
-
+  regs[2] = 0;                  /* color offset = 0 */
   (*(int(*)())0x06034F78)();
-
-  puVar2[3] = puVar2[3] & uVar4;
-
+  regs[3] = regs[3] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[3] = puVar2[3] & uVar1;
-
+  regs[3] = regs[3] & mask_hi;
   (*(int(*)())0x06034F78)();
-
   return;
-
 }
 
+/* vdp2_special_func_init -- Initialize VDP2 special function/priority registers.
+ * Register block at 0x060A4D46 (shadow copy of VDP2 special function regs).
+ * Clears bits 0-6 individually on regs[0] and regs[1] (priority per plane),
+ * then zeros regs[2]-[7] (special function/line color/back screen).
+ * All writes synced via 0x06034F78. */
 int FUN_0603d5d0()
 {
-
-  int uVar1;
-
-  unsigned short *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  puVar2 = (unsigned short *)0x060A4D46;
-
-  puVar3 = (char *)0x0000FFFE;
-
-  (*(int(*)())0x06034F78)(0x060A4D46,0x060A4D58,1);
-
-  uVar4 = (unsigned short)puVar3;
-
-  *puVar2 = *puVar2 & uVar4;
-
+  int result;
+  unsigned short *regs = (unsigned short *)0x060A4D46;
+  (*(int(*)())0x06034F78)(0x060A4D46, 0x060A4D58, 1);  /* vdp2_reg_init */
+  /* clear bits 0-6 of reg[0] (plane priorities) */
+  regs[0] = regs[0] & (unsigned short)0x0000FFFE;  /* bit 0 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & (unsigned short)0x0000FFFD;
-
+  regs[0] = regs[0] & (unsigned short)0x0000FFFD;  /* bit 1 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & (unsigned short)0x0000FFFB;
-
+  regs[0] = regs[0] & (unsigned short)0x0000FFFB;  /* bit 2 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & (unsigned short)0x0000FFF7;
-
+  regs[0] = regs[0] & (unsigned short)0x0000FFF7;  /* bit 3 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & (unsigned short)0x0000FFEF;
-
+  regs[0] = regs[0] & (unsigned short)0x0000FFEF;  /* bit 4 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & (unsigned short)0x0000FFDF;
-
+  regs[0] = regs[0] & (unsigned short)0x0000FFDF;  /* bit 5 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & (unsigned short)0x0000FFBF;
-
+  regs[0] = regs[0] & (unsigned short)0x0000FFBF;  /* bit 6 */
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar4;
-
+  /* clear bits 0-6 of reg[1] */
+  regs[1] = regs[1] & (unsigned short)0x0000FFFE;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & (unsigned short)0x0000FFFD;
-
+  regs[1] = regs[1] & (unsigned short)0x0000FFFD;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & (unsigned short)0x0000FFFB;
-
+  regs[1] = regs[1] & (unsigned short)0x0000FFFB;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & (unsigned short)0x0000FFF7;
-
+  regs[1] = regs[1] & (unsigned short)0x0000FFF7;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & (unsigned short)0x0000FFEF;
-
+  regs[1] = regs[1] & (unsigned short)0x0000FFEF;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & (unsigned short)0x0000FFDF;
-
+  regs[1] = regs[1] & (unsigned short)0x0000FFDF;
   (*(int(*)())0x06034F78)();
-
-  uVar4 = 0;
-
-  puVar2[1] = puVar2[1] & (unsigned short)0x0000FFBF;
-
+  regs[1] = regs[1] & (unsigned short)0x0000FFBF;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = uVar4;
-
+  /* zero regs[2]-[7] (special function data) */
+  regs[2] = 0;
   (*(int(*)())0x06034F78)();
-
-  puVar2[3] = uVar4;
-
+  regs[3] = 0;
   (*(int(*)())0x06034F78)();
-
-  puVar2[4] = uVar4;
-
+  regs[4] = 0;
   (*(int(*)())0x06034F78)();
-
-  puVar2[5] = uVar4;
-
+  regs[5] = 0;
   (*(int(*)())0x06034F78)();
-
-  puVar2[6] = uVar4;
-
+  regs[6] = 0;
   (*(int(*)())0x06034F78)();
-
-  puVar2[7] = uVar4;
-
-  uVar1 = (*(int(*)())0x06034F78)();
-
-  return uVar1;
-
+  regs[7] = 0;
+  result = (*(int(*)())0x06034F78)();
+  return result;
 }
 
+/* fixedpoint_sine -- Compute fixed-point sine from angle.
+ * Uses piecewise lookup via 0x060424A2 (cd_lba_to_msf_seconds).
+ * Angle quadrant mapping:
+ *   0..0x5A0000: direct lookup (Q1)
+ *   0x5A0000..0xB40000: mirror (Q2, use 0xB40000-angle)
+ *   0xB40000..0x10E0000: negate (Q3, use angle-0xB40000)
+ *   >= 0x10E0000: negate mirror (Q4, use 0x1680000-angle)
+ * Clamps 0xFFFF to 0x10000. Negates if sign bit set. */
 char * FUN_0603d9ec(param_1)
     unsigned int param_1;
 {
-
-  int iVar1;
-
-  char *puVar2;
-
-  param_1 = 0x80000000 & param_1;
-
-  iVar1 = (*(int(*)())0x06036BE4)();
-
-  if (iVar1 < (int)0x010E0000) {
-
-    if (iVar1 < (int)0x00B40000) {
-
-      if ((int)0x005A0000 <= iVar1) {
-
-        iVar1 = (int)0x00B40000 - iVar1;
-
+  int angle;
+  char *result;
+  param_1 = 0x80000000 & param_1;  /* save sign bit */
+  angle = (*(int(*)())0x06036BE4)();
+  if (angle < (int)0x010E0000) {
+    if (angle < (int)0x00B40000) {
+      if ((int)0x005A0000 <= angle) {
+        angle = (int)0x00B40000 - angle;  /* Q2: mirror */
       }
-
-      puVar2 = (char *)(*(int(*)())0x060424A2)(iVar1);
-
+      result = (char *)(*(int(*)())0x060424A2)(angle);
+    } else {
+      /* Q3: negate */
+      angle = (*(int(*)())0x060424A2)(0xFF4C0000 + angle);
+      result = (char *)-angle;
     }
-
-    else {
-
-      iVar1 = (*(int(*)())0x060424A2)(0xFF4C0000 + iVar1);
-
-      puVar2 = (char *)-iVar1;
-
-    }
-
+  } else {
+    /* Q4: negate mirror */
+    angle = (*(int(*)())0x060424A2)((int)0x01680000 - angle);
+    result = (char *)-angle;
   }
-
-  else {
-
-    iVar1 = (*(int(*)())0x060424A2)((int)0x01680000 - iVar1);
-
-    puVar2 = (char *)-iVar1;
-
+  if (result == (char *)0x0000FFFF) {
+    result = (char *)0x00010000;  /* clamp to 1.0 */
   }
-
-  if (puVar2 == 0x0000FFFF) {
-
-    puVar2 = (int *)0x00010000;
-
-  }
-
   if (param_1 != 0) {
-
-    puVar2 = (char *)-(int)puVar2;
-
+    result = (char *)-(int)result;  /* apply sign */
   }
-
-  return puVar2;
-
+  return result;
 }
 
+/* fixedpoint_cosine -- Compute fixed-point cosine from angle.
+ * Uses piecewise lookup via 0x0604249C (cd_lba_to_msf_minutes).
+ * Returns 0x10000 (1.0) for angle == 0. Quadrant mapping:
+ *   0..0x5A0000: direct lookup (Q1)
+ *   0x5A0000..0xB40000: negate mirror (Q2)
+ *   0xB40000 exactly: returns -1.0 (0xFFFF0000)
+ *   0xB40000..0x10E0000: negate (Q3)
+ *   >= 0x10E0000: direct (Q4, use 0x1680000-angle) */
 char * FUN_0603da88()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  puVar1 = (char *)(*(int(*)())0x06036BE4)();
-
-  puVar2 = (int *)0x00010000;
-
-  if (puVar1 != (char *)0x0) {
-
-    if ((int)puVar1 < (int)0x010E0000) {
-
-      if ((int)0x00B40000 < (int)puVar1) {
-
-        iVar3 = (*(int(*)())0x0604249C)(puVar1 + 0xFF4C0000);
-
-        puVar2 = (char *)-iVar3;
-
-      }
-
-      else {
-
-        puVar2 = (int *)0xFFFF0000;
-
-        if (puVar1 != 0x00B40000) {
-
-          if ((int)puVar1 < (int)0x005A0000) {
-
-            puVar2 = (char *)(*(int(*)())0x0604249C)(puVar1);
-
+  char *angle;
+  char *result;
+  int lookup;
+  angle = (char *)(*(int(*)())0x06036BE4)();
+  result = (char *)0x00010000;     /* default: cos(0) = 1.0 */
+  if (angle != (char *)0x0) {
+    if ((int)angle < (int)0x010E0000) {
+      if ((int)0x00B40000 < (int)angle) {
+        /* Q3: negate */
+        lookup = (*(int(*)())0x0604249C)(angle + 0xFF4C0000);
+        result = (char *)-lookup;
+      } else {
+        result = (char *)0xFFFF0000;  /* cos(180) = -1.0 */
+        if (angle != (char *)0x00B40000) {
+          if ((int)angle < (int)0x005A0000) {
+            /* Q1: direct */
+            result = (char *)(*(int(*)())0x0604249C)(angle);
+          } else {
+            /* Q2: negate mirror */
+            lookup = (*(int(*)())0x0604249C)((int)0x00B40000 - (int)angle);
+            result = (char *)-lookup;
           }
-
-          else {
-
-            iVar3 = (*(int(*)())0x0604249C)((int)0x00B40000 - (int)puVar1);
-
-            puVar2 = (char *)-iVar3;
-
-          }
-
         }
-
       }
-
+    } else {
+      /* Q4: direct */
+      result = (char *)(*(int(*)())0x0604249C)((int)0x01680000 - (int)angle);
     }
-
-    else {
-
-      puVar2 = (char *)(*(int(*)())0x0604249C)((int)0x01680000 - (int)puVar1);
-
-    }
-
   }
-
-  return puVar2;
-
+  return result;
 }
 
 short * FUN_0603ddfc(param_1, param_2, param_3)

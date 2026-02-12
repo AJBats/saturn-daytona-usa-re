@@ -1428,6 +1428,13 @@ void FUN_0603fce4(int param_1, int param_2, int param_3)
     *(int *)(param_1 + 0xc) = (*(int(*)())0x0603F90E)(param_3, size);
 }
 
+/* dma_transfer_execute -- Set up and execute a DMA block transfer.
+ * Configures transfer descriptor on stack:
+ *   - Direction for src (param_3): -1=decrement(2), 0=fixed(0), +1=increment(1)
+ *   - Direction for dst (param_5): same mapping
+ *   - Sector size from DAT_0603fe2e, stride from PTR_DAT_0603fe30
+ * Calls 0x06042ACA to start transfer, polls 0x06042BEE until complete.
+ * Handles byte remainder via byte_partial_copy, then clears dest via 0x0603C05C. */
 void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
     int param_1;
     int param_2;
@@ -1436,125 +1443,50 @@ void FUN_0603fd40(param_1, param_2, param_3, param_4, param_5, param_6)
     int param_5;
     unsigned int param_6;
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  unsigned int uVar3;
-
-  int iStack_58;
-
-  int iStack_54;
-
+  int poll_result;
+  unsigned int word_count = param_6 >> 2;
+  int iStack_58, iStack_54;
   unsigned int uStack_50;
-
-  int uStack_4c;
-
-  int uStack_48;
-
-  unsigned int uStack_44;
-
-  unsigned int uStack_40;
-
-  int uStack_3c;
-
-  int iStack_34;
-
-  int uStack_30;
-
-  int uStack_2c;
-
-  int uStack_28;
-
-  puVar1 = (char *)0x06042BEE;
-
-  (*(int(*)())0x06042BBE)(param_1);
-
+  int uStack_4c, uStack_48;
+  unsigned int uStack_44, uStack_40;
+  int uStack_3c, iStack_34;
+  int uStack_30, uStack_2c, uStack_28;
+  (*(int(*)())0x06042BBE)(param_1);            /* prepare device */
   uStack_30 = 0;
-
   uStack_2c = 1;
-
   uStack_28 = 7;
-
-  (*(int(*)())0x06042A8C)(&uStack_30);
-
-  uVar3 = param_6 >> 2;
-
+  (*(int(*)())0x06042A8C)(&uStack_30);         /* configure channel */
+  /* map source direction: -1→2(dec), 0→0(fixed), +1→1(inc) */
   if (param_3 < 1) {
-
-    if (param_3 < 0) {
-
-      uStack_4c = 2;
-
-    }
-
-    else {
-
-      uStack_4c = 0;
-
-    }
-
-  }
-
-  else {
-
+    uStack_4c = (param_3 < 0) ? 2 : 0;
+  } else {
     uStack_4c = 1;
-
   }
-
+  /* map dest direction */
   if (param_5 < 1) {
-
-    if (param_5 < 0) {
-
-      uStack_48 = 2;
-
-    }
-
-    else {
-
-      uStack_48 = 0;
-
-    }
-
-  }
-
-  else {
-
+    uStack_48 = (param_5 < 0) ? 2 : 0;
+  } else {
     uStack_48 = 1;
-
   }
-
-  uStack_44 = (unsigned int)DAT_0603fe2e;
-
-  uStack_40 = uStack_44 >> 2;
-
+  uStack_44 = (unsigned int)DAT_0603fe2e;      /* sector size */
+  uStack_40 = uStack_44 >> 2;                  /* sector word count */
   uStack_3c = 0;
-
-  iStack_34 = (int)PTR_DAT_0603fe30;
-
-  iStack_58 = param_4;
-
-  iStack_54 = param_2;
-
-  uStack_50 = uVar3;
-
-  (*(int(*)())0x06042ACA)(&iStack_58,param_1);
-
-  (*(int(*)())0x06042BAC)(param_1);
-
+  iStack_34 = (int)PTR_DAT_0603fe30;           /* stride */
+  iStack_58 = param_4;                         /* dest address */
+  iStack_54 = param_2;                         /* source address */
+  uStack_50 = word_count;                      /* transfer word count */
+  (*(int(*)())0x06042ACA)(&iStack_58, param_1);  /* start transfer */
+  (*(int(*)())0x06042BAC)(param_1);            /* enable transfer */
+  /* poll until transfer complete */
   do {
-
-    iVar2 = (*(int(*)())puVar1)(param_1);
-
-  } while (iVar2 == 0);
-
-  FUN_0603ffe6(param_6 & 3,param_3 * (uVar3 << 2) + param_2,param_5 * (uVar3 << 2) + param_4);
-
-  (*(int(*)())0x0603C05C)(param_2,param_6);
-
+    poll_result = (*(int(*)())0x06042BEE)(param_1);
+  } while (poll_result == 0);
+  /* handle byte remainder (param_6 & 3 leftover bytes) */
+  FUN_0603ffe6(param_6 & 3,
+               param_3 * (word_count << 2) + param_2,
+               param_5 * (word_count << 2) + param_4);
+  (*(int(*)())0x0603C05C)(param_2, param_6);   /* clear dest region */
   return;
-
 }
 
 /* cd_buf_transfer_step -- Execute one DMA transfer step for CD buffer.
@@ -1578,44 +1510,29 @@ void FUN_0603ff9c(int param_1)
     *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + count;
 }
 
+/* byte_partial_copy -- Copy partial bytes from a word source to a byte destination.
+ * Reads one word from *param_3 into local storage, then copies param_1 bytes
+ * from that word (low bytes first) to param_2. Used for DMA remainder
+ * handling when transfer count is not word-aligned (param_1 = count & 3). */
 void FUN_0603ffe6(param_1, param_2, param_3)
     int param_1;
     char *param_2;
     int *param_3;
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  int local_4;
-
-  
-
+  char *src;
+  int idx;
+  int local_word;
   if (0 < param_1) {
-
-    local_4 = *param_3;
-
-    iVar2 = 0;
-
+    local_word = *param_3;
+    idx = 0;
     if (0 < param_1) {
-
       do {
-
-        puVar1 = (char *)((int)&local_4 + iVar2);
-
-        iVar2 = iVar2 + 1;
-
-        *param_2 = *puVar1;
-
+        src = (char *)((int)&local_word + idx);
+        idx = idx + 1;
+        *param_2 = *src;
         param_2 = param_2 + 1;
-
-      } while (iVar2 < param_1);
-
+      } while (idx < param_1);
     }
-
   }
-
   return;
-
 }
