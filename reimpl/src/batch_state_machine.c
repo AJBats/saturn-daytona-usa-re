@@ -482,16 +482,18 @@ void FUN_06009e02(void)
     STATE_UPDATE_FLAG = 1;
 }
 
-/* scu_sound_init -- SCU interrupt reconfiguration: mute all sound channels.
- * Sends 5 sound commands via sound_cmd_dispatch:
- *   ch1=off, ch3=off, ch2=off, ch0=silence, ch0=master_vol */
+/* sound_channels_reset -- Stop all sound channels and reset SCSP slots.
+ * Sends stop commands (data=0) to channels 1, 3, 2, then writes
+ * SCSP slot configuration: slot 0 key-off (0xAE0001FF) and
+ * slot 6 volume reset (0xAE0600FF).
+ * Called during state transitions (states 18, 23) and error recovery. */
 extern void sound_cmd_dispatch(int channel, int command);
 
-void FUN_06009ffc(void)
+void sound_channels_reset(void)
 {
-    sound_cmd_dispatch(1, 0);
-    sound_cmd_dispatch(3, 0);
-    sound_cmd_dispatch(2, 0);
-    sound_cmd_dispatch(0, 0xAE0001FF);
-    sound_cmd_dispatch(0, 0xAE0600FF);
+    sound_cmd_dispatch(1, 0);  /* stop channel 1 */
+    sound_cmd_dispatch(3, 0);  /* stop channel 3 */
+    sound_cmd_dispatch(2, 0);  /* stop channel 2 */
+    sound_cmd_dispatch(0, 0xAE0001FF);  /* SCSP slot 0: key-off */
+    sound_cmd_dispatch(0, 0xAE0600FF);  /* SCSP slot 6: volume reset */
 }

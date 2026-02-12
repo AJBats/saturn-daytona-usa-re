@@ -107,7 +107,7 @@ extern void FUN_0600BFFC(void);
 extern void FUN_060283E0(int r4, int r5, int r6, int r7);
 extern void FUN_060078DC(void);
 extern void FUN_0600A33C(void);
-extern void FUN_060192CA(void);
+extern void sound_channels_stop(void);
 extern void FUN_06018E70(void);
 extern void FUN_0601DE50(void);
 extern void FUN_0601DBB8(void);
@@ -117,7 +117,7 @@ extern void FUN_0600A914(void);
 extern void FUN_0601D9B0(void);
 extern void FUN_0601D5F4(int r4, int r5);
 extern void FUN_0600A084(void);
-extern void FUN_06009FFC(void);
+extern void sound_channels_reset(void);
 extern void FUN_060284AE(int r4, int r5, int r6, int r7);
 extern void FUN_0602834A(int r4, int r5, int r6, int r7);
 extern void FUN_0600A1B8(void);
@@ -344,7 +344,7 @@ void state_17_handler(void)
             goto post_section;
     }
 
-    FUN_060192CA();
+    sound_channels_stop();
     {
         int car_ptr = RACE_TARGET_CAR;
         int finish_pos = *(volatile int *)(car_ptr + CAR_FINISH_POS);
@@ -357,7 +357,7 @@ post_section:
         int flags = RACE_FLAGS_WORD;
         if (flags & 0x01) {
             RACE_FLAGS_WORD = flags & ~1;
-            FUN_060192CA();
+            sound_channels_stop();
             GAME_STATE = 20;
             FUN_06018E70();
             goto section3;
@@ -433,7 +433,7 @@ section3:
 
 void state_18_handler(void)
 {
-    FUN_06009FFC();
+    sound_channels_reset();
 
     GAME_STATE = 19;
 
@@ -561,7 +561,7 @@ void state_20_handler(void)
 
     FUN_06014A04();
     FUN_060210F6();
-    FUN_06009FFC();
+    sound_channels_reset();
 
     {
         int event = (unsigned char)RACE_BTN_EVENT_ID;

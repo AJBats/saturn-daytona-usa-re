@@ -363,379 +363,228 @@ int dma_channel_level_set(channel_mask, level)
   return 0;
 }
 
-unsigned int FUN_0603c728()
+/* palette_fade_update -- Palette color transition controller.
+ *
+ * Manages per-frame color/brightness transitions for VDP2 palettes.
+ * Three transition modes controlled by mode byte at 0x060A4DA6:
+ *
+ *   Mode 1 (Multi-RGB): Per-entry RGB fade toward target colors.
+ *     Each component steps ±1 per frame until all entries match.
+ *     Then writes packed colors to CRAM via palette_cram_write.
+ *     Color packing: VDP2 mode 2 = 24-bit RGB, else = 15-bit 5-5-5.
+ *
+ *   Mode 2 (Brightness): Global brightness ramp ±1 toward target.
+ *     Applies result to all active DMA channels (up to 15 channels).
+ *
+ *   Mode 3 (Vector): RGB velocity-based transition via FUN_0603cc88.
+ *     Subtracts velocity from remaining distance each frame.
+ *     Zeros velocity when it crosses zero (arrival detection).
+ *
+ * All modes use wait_counter/wait_target for frame delay.
+ *
+ * Color table layout at 0x060A4DA8:
+ *   +0x000: Target R [entry_count]
+ *   +0x100: Target G
+ *   +0x200: Target B
+ *   +0x300: Current R (approaches +0x000)
+ *   +0x400: Current G (approaches +0x100)
+ *   +0x500: Current B (approaches +0x200) */
+
+/* Palette fade state block (0x060A4D84 - 0x060A4DA8) */
+#define PFADE_CHANNEL_MASK    (*(volatile unsigned int *)0x060A4D84)
+#define PFADE_WAIT_TARGET     (*(volatile unsigned int *)0x060A4D88)
+#define PFADE_WAIT_COUNTER    (*(volatile unsigned int *)0x060A4D8C)
+#define PFADE_PALETTE_OFFSET  (*(volatile unsigned int *)0x060A4D90)
+#define PFADE_ENTRY_COUNT     (*(volatile unsigned int *)0x060A4D94)
+#define PFADE_VEL_R           (*(volatile short *)0x060A4D98)
+#define PFADE_VEL_G           (*(volatile short *)0x060A4D9A)
+#define PFADE_VEL_B           (*(volatile short *)0x060A4D9C)
+#define PFADE_REMAIN_R        (*(volatile short *)0x060A4D9E)
+#define PFADE_REMAIN_G        (*(volatile short *)0x060A4DA0)
+#define PFADE_REMAIN_B        (*(volatile short *)0x060A4DA2)
+#define PFADE_BRIGHTNESS      (*(volatile unsigned char *)0x060A4DA4)
+#define PFADE_TARGET_BRIGHT   (*(volatile unsigned char *)0x060A4DA5)
+#define PFADE_MODE            (*(volatile unsigned char *)0x060A4DA6)
+#define PFADE_DIRECTION       (*(volatile unsigned char *)0x060A4DA7)
+#define PFADE_COLOR_TABLE     ((volatile unsigned char *)0x060A4DA8)
+
+/* Color table channel offsets */
+#define CTBL_TARGET_R    0x000
+#define CTBL_TARGET_G    0x100
+#define CTBL_TARGET_B    0x200
+#define CTBL_CURRENT_R   0x300   /* pool 0x0603C7E8 = 0x0300 */
+#define CTBL_CURRENT_G   0x400   /* pool 0x0603C7EA = 0x0400 */
+#define CTBL_CURRENT_B   0x500
+
+/* VDP2 color format selector */
+#define VDP2_COLOR_MODE_REG  (*(volatile unsigned short *)0x060A3D96)
+#define COLOR_MODE_MASK      0x3000   /* pool 0x0603C8D4 = 0x3000 */
+#define COLOR_MODE_SHIFT     12
+
+/* DMA channel bits from pool constants */
+#define DMA_CH_12   0x1000   /* pool 0x0603CADE */
+#define DMA_CH_13   0x2000   /* pool 0x0603CAE0 */
+#define DMA_CH_14   0x4000   /* pool 0x0603CAE2 */
+
+/* Palette CRAM write: (channel_mask, palette_index, count, color_data_ptr) */
+#define palette_cram_write  ((unsigned int (*)(int, int, int, unsigned int *))0x060429EC)
+
+unsigned int palette_fade_update(void)
 {
+    unsigned int mode = PFADE_MODE;
+    unsigned int result = mode;
 
-  short sVar1;
+    if (mode == 1) {
+        /* Mode 1: Per-entry RGB color fade */
+        if (PFADE_WAIT_COUNTER < PFADE_WAIT_TARGET) {
+            PFADE_WAIT_COUNTER++;
+        } else {
+            volatile unsigned char *tbl = PFADE_COLOR_TABLE;
+            unsigned int i;
+            PFADE_MODE = 0;  /* tentatively mark done */
 
-  char *puVar2;
+            /* Step each color component toward target by ±1 */
+            for (i = 0; i < PFADE_ENTRY_COUNT; i++) {
+                /* Red */
+                if ((unsigned char)tbl[CTBL_CURRENT_R + i] < (unsigned char)tbl[CTBL_TARGET_R + i]) {
+                    tbl[CTBL_CURRENT_R + i] = tbl[CTBL_CURRENT_R + i] + 1;
+                    PFADE_MODE = 1;
+                } else if ((unsigned char)tbl[CTBL_TARGET_R + i] < (unsigned char)tbl[CTBL_CURRENT_R + i]) {
+                    tbl[CTBL_CURRENT_R + i] = tbl[CTBL_CURRENT_R + i] - 1;
+                    PFADE_MODE = 1;
+                }
+                /* Green */
+                if ((unsigned char)tbl[CTBL_CURRENT_G + i] < (unsigned char)tbl[CTBL_TARGET_G + i]) {
+                    tbl[CTBL_CURRENT_G + i] = tbl[CTBL_CURRENT_G + i] + 1;
+                    PFADE_MODE = 1;
+                } else if ((unsigned char)tbl[CTBL_TARGET_G + i] < (unsigned char)tbl[CTBL_CURRENT_G + i]) {
+                    tbl[CTBL_CURRENT_G + i] = tbl[CTBL_CURRENT_G + i] - 1;
+                    PFADE_MODE = 1;
+                }
+                /* Blue */
+                if ((unsigned char)tbl[CTBL_CURRENT_B + i] < (unsigned char)tbl[CTBL_TARGET_B + i]) {
+                    tbl[CTBL_CURRENT_B + i] = tbl[CTBL_CURRENT_B + i] + 1;
+                    PFADE_MODE = 1;
+                } else if ((unsigned char)tbl[CTBL_TARGET_B + i] < (unsigned char)tbl[CTBL_CURRENT_B + i]) {
+                    tbl[CTBL_CURRENT_B + i] = tbl[CTBL_CURRENT_B + i] - 1;
+                    PFADE_MODE = 1;
+                }
+            }
 
-  char *puVar3;
+            PFADE_WAIT_COUNTER = 0;
 
-  char *puVar4;
+            /* Pack current RGB and write to CRAM */
+            {
+                int color_mode = ((unsigned int)VDP2_COLOR_MODE_REG & COLOR_MODE_MASK) >> COLOR_MODE_SHIFT;
+                if (color_mode == 2) {
+                    /* 24-bit RGB: (R << 16) | (G << 8) | B */
+                    for (i = 0; i < PFADE_ENTRY_COUNT; i++) {
+                        unsigned int color = (unsigned int)(((tbl[CTBL_CURRENT_R + i] << 8) |
+                                            (tbl[CTBL_CURRENT_G + i] & 0xFF)) << 8 |
+                                            (tbl[CTBL_CURRENT_B + i] & 0xFF));
+                        result = palette_cram_write(PFADE_CHANNEL_MASK,
+                                    PFADE_PALETTE_OFFSET + i, 1, &color);
+                    }
+                } else {
+                    /* 15-bit 5-5-5: (R << 10) | (G << 5) | B */
+                    for (i = 0; i < PFADE_ENTRY_COUNT; i++) {
+                        unsigned int color = (unsigned int)(unsigned char)tbl[CTBL_CURRENT_B + i] |
+                                    ((unsigned int)(unsigned char)tbl[CTBL_CURRENT_G + i] |
+                                     (unsigned int)(unsigned char)tbl[CTBL_CURRENT_R + i] << 5) << 5;
+                        result = palette_cram_write(PFADE_CHANNEL_MASK,
+                                    PFADE_PALETTE_OFFSET + i, 1, &color);
+                    }
+                }
+            }
+        }
+    } else if (mode == 2) {
+        /* Mode 2: Global brightness ramp */
+        if (PFADE_WAIT_COUNTER < PFADE_WAIT_TARGET) {
+            PFADE_WAIT_COUNTER++;
+        } else {
+            if (PFADE_DIRECTION == 0) {
+                /* Fade down */
+                PFADE_BRIGHTNESS = PFADE_BRIGHTNESS - 1;
+                if ((unsigned char)PFADE_BRIGHTNESS <= (unsigned char)PFADE_TARGET_BRIGHT) {
+                    PFADE_BRIGHTNESS = PFADE_TARGET_BRIGHT;
+                    PFADE_MODE = 0;
+                }
+            } else {
+                /* Fade up */
+                PFADE_BRIGHTNESS = PFADE_BRIGHTNESS + 1;
+                if ((unsigned char)PFADE_TARGET_BRIGHT <= (unsigned char)PFADE_BRIGHTNESS) {
+                    PFADE_BRIGHTNESS = PFADE_TARGET_BRIGHT;
+                    PFADE_MODE = 0;
+                }
+            }
 
-  unsigned int uVar5;
+            /* Apply brightness to each active DMA channel */
+            {
+                int level = (int)(char)PFADE_BRIGHTNESS;
+                unsigned int mask = PFADE_CHANNEL_MASK;
+                if (mask & 0x100)    dma_channel_level_set(0x100, level);
+                if (mask & 0x200)    dma_channel_level_set(0x200, level);
+                if (mask & 0x400)    dma_channel_level_set(0x400, level);
+                if (mask & 0x800)    dma_channel_level_set(0x800, level);
+                if (mask & DMA_CH_12) dma_channel_level_set(DMA_CH_12, level);
+                if (mask & DMA_CH_13) dma_channel_level_set(DMA_CH_13, level);
+                if (mask & DMA_CH_14) dma_channel_level_set(DMA_CH_14, level);
+                if (mask & 0x8000)   dma_channel_level_set(0x8000, level);
+                if (mask & 0x04)     dma_channel_level_set(0x04, level);
+                if (mask & 0x08)     dma_channel_level_set(0x08, level);
+                if (mask & 0x10)     dma_channel_level_set(0x10, level);
+                if (mask & 0x20)     dma_channel_level_set(0x20, level);
+                if (mask & 0x01)     dma_channel_level_set(0x01, level);
+                if (mask & 0x02)     dma_channel_level_set(0x02, level);
+                result = mask;
+                if (mask & 0x80)
+                    result = dma_channel_level_set(0x80, level);
+            }
+            PFADE_WAIT_COUNTER = 0;
+        }
+    } else if (mode == 3) {
+        /* Mode 3: RGB velocity vector transition */
+        if (PFADE_WAIT_COUNTER < PFADE_WAIT_TARGET) {
+            PFADE_WAIT_COUNTER++;
+        } else {
+            short vel_r = PFADE_VEL_R;
+            result = FUN_0603cc88(PFADE_CHANNEL_MASK,
+                        (int)vel_r, (int)PFADE_VEL_G, (int)PFADE_VEL_B);
 
-  int iVar6;
+            /* Subtract velocity from remaining distance */
+            PFADE_REMAIN_R = PFADE_REMAIN_R - vel_r;
+            PFADE_REMAIN_G = PFADE_REMAIN_G - PFADE_VEL_G;
+            PFADE_REMAIN_B = PFADE_REMAIN_B - PFADE_VEL_B;
 
-  int iVar7;
+            /* Zero velocity when remaining crosses zero */
+            if (vel_r < 1) {
+                if (-1 < PFADE_REMAIN_R)
+                    PFADE_VEL_R = 0;
+            } else if (PFADE_REMAIN_R < 1) {
+                PFADE_VEL_R = 0;
+            }
+            if (PFADE_VEL_G < 1) {
+                if (-1 < PFADE_REMAIN_G)
+                    PFADE_VEL_G = 0;
+            } else if (PFADE_REMAIN_G < 1) {
+                PFADE_VEL_G = 0;
+            }
+            if (PFADE_VEL_B < 1) {
+                if (-1 < PFADE_REMAIN_B)
+                    PFADE_VEL_B = 0;
+            } else if (PFADE_REMAIN_B < 1) {
+                PFADE_VEL_B = 0;
+            }
 
-  unsigned int uVar8;
+            /* All velocities zero = transition complete */
+            if (PFADE_VEL_R == 0 && PFADE_VEL_G == 0 && PFADE_VEL_B == 0)
+                PFADE_MODE = 0;
 
-  unsigned int local_40;
-
-  unsigned int uStack_3c;
-
-  unsigned int local_24 [2];
-
-  puVar4 = (char *)0x060A4DA5;
-
-  puVar3 = (char *)0x060A4DA4;
-
-  puVar2 = (int *)0x060A4DA6;
-
-  iVar6 = 0x500;
-
-  iVar7 = 0x300;
-
-  uVar8 = (unsigned int)DAT_0603c7ea;
-
-  uVar5 = (unsigned int)(unsigned char)*(int *)0x060A4DA6;
-
-  if (uVar5 == 1) {
-
-    if (*(unsigned int *)0x060A4D8C < *(unsigned int *)0x060A4D88) {
-
-      *(int *)0x060A4D8C = *(int *)0x060A4D8C + 1;
-
+            PFADE_WAIT_COUNTER = 0;
+        }
     }
 
-    else {
-
-      *(int *)0x060A4DA6 = 0;
-
-      puVar3 = (char *)0x060A4DA8;
-
-      for (uVar5 = 0; uVar5 < *(unsigned int *)0x060A4D94; uVar5 = uVar5 + 1) {
-
-        if ((unsigned char)(puVar3 + uVar5)[iVar7] < (unsigned char)puVar3[uVar5]) {
-
-          puVar3[iVar7 + uVar5] = puVar3[iVar7 + uVar5] + '\x01';
-
-          *puVar2 = 1;
-
-        }
-
-        else if ((unsigned char)puVar3[uVar5] < (unsigned char)(puVar3 + uVar5)[iVar7]) {
-
-          puVar3[iVar7 + uVar5] = puVar3[iVar7 + uVar5] + -1;
-
-          *puVar2 = 1;
-
-        }
-
-        if ((unsigned char)puVar3[uVar8 + uVar5] < (unsigned char)puVar3[0x100 + uVar5]) {
-
-          puVar3[uVar8 + uVar5] = puVar3[uVar8 + uVar5] + '\x01';
-
-          *puVar2 = 1;
-
-        }
-
-        else if ((unsigned char)puVar3[0x100 + uVar5] < (unsigned char)puVar3[uVar8 + uVar5]) {
-
-          puVar3[uVar8 + uVar5] = puVar3[uVar8 + uVar5] + -1;
-
-          *puVar2 = 1;
-
-        }
-
-        if ((unsigned char)puVar3[iVar6 + uVar5] < (unsigned char)puVar3[0x200 + uVar5]) {
-
-          puVar3[iVar6 + uVar5] = puVar3[iVar6 + uVar5] + '\x01';
-
-          *puVar2 = 1;
-
-        }
-
-        else if ((unsigned char)puVar3[0x200 + uVar5] < (unsigned char)puVar3[iVar6 + uVar5]) {
-
-          puVar3[iVar6 + uVar5] = puVar3[iVar6 + uVar5] + -1;
-
-          *puVar2 = 1;
-
-        }
-
-      }
-
-      *(int *)0x060A4D8C = 0;
-
-      puVar3 = (char *)0x060A4DA8;
-
-      puVar2 = (int *)0x060A4DA8;
-
-      uVar5 = (int)((unsigned int)*(unsigned short *)0x060A3D96 & (int)DAT_0603c8d4) >> 0xc;
-
-      if (uVar5 == 2) {
-
-        for (local_40 = 0; local_40 < *(unsigned int *)0x060A4D94; local_40 = local_40 + 1) {
-
-          local_24[0] = (unsigned int)((((puVar2[iVar7 + local_40]) << 8 | (puVar2[uVar8 + local_40]) & 0xFF)) << 8 | (puVar2[iVar6 + local_40]) & 0xFF);
-
-          uVar5 = (*(int(*)())0x060429EC)(*(int *)0x060A4D84,*(int *)0x060A4D90 + local_40,1,
-
-                             local_24);
-
-        }
-
-      }
-
-      else {
-
-        for (uStack_3c = 0; uStack_3c < *(unsigned int *)0x060A4D94; uStack_3c = uStack_3c + 1) {
-
-          local_24[0] = (unsigned int)(unsigned char)puVar3[iVar6 + uStack_3c] |
-
-                        ((unsigned int)(unsigned char)puVar3[uVar8 + uStack_3c] |
-
-                        (unsigned int)(unsigned char)puVar3[iVar7 + uStack_3c] << 5) << 5;
-
-          uVar5 = (*(int(*)())0x060429EC)(*(int *)0x060A4D84,*(int *)0x060A4D90 + uStack_3c,1,
-
-                             local_24);
-
-        }
-
-      }
-
-    }
-
-  }
-
-  else if (uVar5 == 2) {
-
-    if (*(unsigned int *)0x060A4D8C < *(unsigned int *)0x060A4D88) {
-
-      *(int *)0x060A4D8C = *(int *)0x060A4D8C + 1;
-
-    }
-
-    else {
-
-      if (*(int *)0x060A4DA7 == '\0') {
-
-        *(int *)0x060A4DA4 = *(int *)0x060A4DA4 + -1;
-
-        if ((unsigned char)*puVar3 <= (unsigned char)*puVar4) {
-
-          *puVar3 = *puVar4;
-
-          *puVar2 = 0;
-
-        }
-
-      }
-
-      else {
-
-        *(int *)0x060A4DA4 = *(int *)0x060A4DA4 + '\x01';
-
-        if ((unsigned char)*puVar4 <= (unsigned char)*puVar3) {
-
-          *puVar3 = *puVar4;
-
-          *puVar2 = 0;
-
-        }
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 0x100) != 0) {
-
-        dma_channel_level_set(0x100,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 0x200) != 0) {
-
-        dma_channel_level_set(0x200,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & uVar8) != 0) {
-
-        dma_channel_level_set(uVar8,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 0x800) != 0) {
-
-        dma_channel_level_set(0x800,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & (int)DAT_0603cade) != 0) {
-
-        dma_channel_level_set((int)DAT_0603cade,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & (int)DAT_0603cae0) != 0) {
-
-        dma_channel_level_set((int)DAT_0603cae0,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & (int)DAT_0603cae2) != 0) {
-
-        dma_channel_level_set((int)DAT_0603cae2,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & (unsigned int)0x00008000) != 0) {
-
-        dma_channel_level_set(0x00008000,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 4) != 0) {
-
-        dma_channel_level_set(4,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 8) != 0) {
-
-        dma_channel_level_set(8,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 0x10) != 0) {
-
-        dma_channel_level_set(0x10,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 0x20) != 0) {
-
-        dma_channel_level_set(0x20,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 1) != 0) {
-
-        dma_channel_level_set(1,(int)(char)*puVar3);
-
-      }
-
-      if ((*(unsigned int *)0x060A4D84 & 2) != 0) {
-
-        dma_channel_level_set(2,(int)(char)*puVar3);
-
-      }
-
-      uVar5 = *(unsigned int *)0x060A4D84;
-
-      if ((uVar5 & 0x80) != 0) {
-
-        uVar5 = dma_channel_level_set(0x80,(int)(char)*puVar3);
-
-      }
-
-      *(int *)0x060A4D8C = 0;
-
-    }
-
-  }
-
-  else if (uVar5 == 3) {
-
-    if (*(unsigned int *)0x060A4D8C < *(unsigned int *)0x060A4D88) {
-
-      *(int *)0x060A4D8C = *(int *)0x060A4D8C + 1;
-
-    }
-
-    else {
-
-      uVar5 = FUN_0603cc88(*(int *)0x060A4D84,(int)*(short *)0x060A4D98,
-
-                           (int)*(short *)0x060A4D9A,(int)*(short *)0x060A4D9C);
-
-      puVar3 = (char *)0x060A4D9E;
-
-      sVar1 = *(short *)0x060A4D98;
-
-      *(short *)0x060A4D9E = *(short *)0x060A4D9E - sVar1;
-
-      *(short *)0x060A4DA0 = *(short *)0x060A4DA0 - *(short *)0x060A4D9A;
-
-      *(short *)0x060A4DA2 = *(short *)0x060A4DA2 - *(short *)0x060A4D9C;
-
-      if (sVar1 < 1) {
-
-        if (-1 < *(short *)puVar3) {
-
-          *(short *)0x060A4D98 = 0;
-
-        }
-
-      }
-
-      else if (*(short *)puVar3 < 1) {
-
-        *(short *)0x060A4D98 = 0;
-
-      }
-
-      if (*(short *)0x060A4D9A < 1) {
-
-        if (-1 < *(short *)0x060A4DA0) {
-
-          *(short *)0x060A4D9A = 0;
-
-        }
-
-      }
-
-      else if (*(short *)0x060A4DA0 < 1) {
-
-        *(short *)0x060A4D9A = 0;
-
-      }
-
-      if (*(short *)0x060A4D9C < 1) {
-
-        if (-1 < *(short *)0x060A4DA2) {
-
-          *(short *)0x060A4D9C = 0;
-
-        }
-
-      }
-
-      else if (*(short *)0x060A4DA2 < 1) {
-
-        *(short *)0x060A4D9C = 0;
-
-      }
-
-      if (((*(short *)0x060A4D98 == 0) && (*(short *)0x060A4D9A == 0)) &&
-
-         (*(short *)0x060A4D9C == 0)) {
-
-        *puVar2 = 0;
-
-      }
-
-      *(int *)0x060A4D8C = 0;
-
-    }
-
-  }
-
-  return uVar5;
-
+    return result;
 }
 
 /* vdp2_scroll_offset_set -- Set VDP2 scroll plane X/Y/Z offsets.

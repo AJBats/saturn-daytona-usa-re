@@ -2,8 +2,7 @@ void smpc_intback_trigger(void) { }
 void FUN_060389A6(void) __attribute__((alias("smpc_intback_trigger")));
 void FUN_06020C3C(void) { }
 /* cd_status_read / FUN_06018EAC: moved to cd_command.c */
-void scu_interrupt_reconfig(void) { }
-void FUN_06009FFC(void) __attribute__((alias("scu_interrupt_reconfig")));
+/* FUN_06009FFC: moved to batch_state_machine.c as sound_channels_reset */
 void cd_frame_sync_advance(void) { }
 void FUN_06012B58(void) __attribute__((alias("cd_frame_sync_advance")));
 /* FUN_0600A1B8: moved to game_state_utils.c */
@@ -37,7 +36,7 @@ void FUN_060120C8(void) { }
 void FUN_060121A8(void) { }
 void FUN_06018A3C(void) { }
 /* FUN_06018E70: moved to cd_command.c */
-void FUN_060192CA(void) { }
+/* FUN_060192CA: moved to batch_subsystem_18.c as sound_channels_stop */
 void FUN_0601D5F4(int r4, int r5) { (void)r4; (void)r5; }
 void sound_cmd_dispatch(int r4, int r5) __attribute__((alias("FUN_0601D5F4")));
 void FUN_0601D9B0(void) { }

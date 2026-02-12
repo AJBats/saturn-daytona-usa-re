@@ -706,15 +706,17 @@ void FUN_060192b4(void)
     } while (cnt != (char *)0x0);
 }
 
-/* sound_channels_off -- Mute sound channels 1, 3, 2 via sound_cmd_dispatch.
- * Called during sound system shutdown/reset. */
+/* sound_channels_stop -- Stop sound channels 1-3.
+ * Sends stop command (data=0) to channels 1, 3, 2.
+ * Lighter version of sound_channels_reset (no SCSP slot writes).
+ * Called during race state transitions (states 15, 16). */
 extern void sound_cmd_dispatch(int channel, int command);
 
-void FUN_060192ca(void)
+void sound_channels_stop(void)
 {
-    sound_cmd_dispatch(1, 0);
-    sound_cmd_dispatch(3, 0);
-    sound_cmd_dispatch(2, 0);
+    sound_cmd_dispatch(1, 0);  /* stop channel 1 */
+    sound_cmd_dispatch(3, 0);  /* stop channel 3 */
+    sound_cmd_dispatch(2, 0);  /* stop channel 2 */
 }
 
 /* sound_mailbox_timeout -- Busy-wait ~100k iterations then set timeout flag.
