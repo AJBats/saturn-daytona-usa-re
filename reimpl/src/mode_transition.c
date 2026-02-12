@@ -20,7 +20,7 @@ extern void FUN_0601f9cc(void);
 extern void FUN_060149CC(void);
 
 /* VDP2 VRAM write helper: (dest_addr, count, src_data_ptr) */
-extern void FUN_06036e90(int addr, int count, void *data);
+extern void vdp2_bitmap_load(int addr, int count, void *data);
 
 /* Mode reset/fallback */
 extern void FUN_0601fd20(void);
@@ -88,7 +88,7 @@ int FUN_0601F900(void)
     if ((val & 0x0009) != 0) {
         /* Write 0x0800 to VDP2 VRAM at 0x25E7FFFE */
         short local_data = 0x0800;
-        FUN_06036e90(0x25E7FFFE, 1, &local_data);
+        vdp2_bitmap_load(0x25E7FFFE, 1, &local_data);
         return 1;
     }
 

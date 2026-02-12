@@ -841,46 +841,32 @@ int FUN_06034b9a(unsigned int param_1, short param_2, char param_3, char param_4
   return iVar1;
 }
 
-int FUN_06034c68(param_1)
+/* cd_tray_command -- Open or close the CD tray.
+ * param_1=0: open (cmd 0x02), param_1=1: close (cmd 0x82).
+ * Sends command via 0x06035E00, checks close response for disc-in bit.
+ * On error, reads disc position via FUN_06034cc8.
+ * Clears pending status with mask 0xFFFD via 0x06035C6E. */
+int cd_tray_command(param_1)
     int param_1;
 {
-
-  int iVar1;
-
-  unsigned short local_14 [2];
-
-  char auStack_10 [8];
+  int result;
+  unsigned short status[2];
+  char position_buf[8];
 
   if (param_1 == 0) {
-
-    iVar1 = 2;
-
+    result = 2;                                         /* open tray command */
+  } else {
+    result = 0x82;                                      /* close tray command */
   }
-
-  else {
-
-    iVar1 = 0x82;
-
+  result = (*(int(*)())0x06035E00)(result, status);
+  if (((param_1 == 1) && (result == 0)) && ((status[0] & 0x80) != 0)) {
+    result = -4;                                        /* disc not inserted after close */
   }
-
-  iVar1 = (*(int(*)())0x06035E00)(iVar1,local_14);
-
-  if (((param_1 == 1) && (iVar1 == 0)) && ((local_14[0] & 0x80) != 0)) {
-
-    iVar1 = -4;
-
+  if (result != 0) {
+    FUN_06034cc8(position_buf);                         /* read disc position on error */
   }
-
-  if (iVar1 != 0) {
-
-    FUN_06034cc8(auStack_10);
-
-  }
-
-  (*(int(*)())0x06035C6E)(0x0000FFFD);
-
-  return iVar1;
-
+  (*(int(*)())0x06035C6E)(0x0000FFFD);                 /* clear pending status */
+  return result;
 }
 
 /* cd_get_disc_position -- Read current disc FAD (frame address).

@@ -1578,42 +1578,33 @@ LAB_06036e82:
 
 }
 
-void FUN_06036e90(param_1, param_2, param_3)
+/* vdp2_bitmap_load -- Load bitmap data to VDP2 VRAM and configure display.
+ * Masks address to 19-bit VDP2 VRAM offset, stores in coordinate table
+ * (+0x3C at 0x060A3DF8). Calls DMA copy (0x06038A48) to VDP2 VRAM
+ * (0x25E00000 | offset) with doubled plane index. Shifts stored address
+ * right by 1 for character pattern alignment; sets bit 31 for plane != 1.
+ * Only processes if param_2 matches plane 1 or current active plane
+ * (0x060635B0). Triggers VDP1_BATCH_FLAG for next frame commit. */
+void vdp2_bitmap_load(param_1, param_2, param_3)
     unsigned int param_1;
     unsigned short param_2;
     int param_3;
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x060A3DF8;
-
+  char *coord_tbl = (char *)0x060A3DF8;                /* coordinate table */
   if ((param_2 == 1) || (param_2 == *(unsigned short *)0x060635B0)) {
-
-    param_1 = param_1 & (unsigned int)0x0007FFFF;
-
-    *(unsigned int *)(0x060A3DF8 + 0x3c) = param_1;
-
-    (*(int(*)())0x06038A48)(param_1 | (unsigned int)0x25E00000,param_3,(unsigned int)param_2 << 1);
-
-    *(unsigned int *)(puVar1 + 0x3c) = *(unsigned int *)(puVar1 + 0x3c) >> 1;
-
+    param_1 = param_1 & (unsigned int)0x0007FFFF;      /* 19-bit VRAM offset */
+    *(unsigned int *)(coord_tbl + 0x3c) = param_1;
+    (*(int(*)())0x06038A48)(param_1 | (unsigned int)0x25E00000, param_3,
+                            (unsigned int)param_2 << 1); /* DMA to VDP2 VRAM */
+    *(unsigned int *)(coord_tbl + 0x3c) = *(unsigned int *)(coord_tbl + 0x3c) >> 1;
     if (param_2 != 1) {
-
-      *(unsigned int *)(puVar1 + 0x3c) = *(unsigned int *)(puVar1 + 0x3c) | 0x80000000;
-
+      *(unsigned int *)(coord_tbl + 0x3c) = *(unsigned int *)(coord_tbl + 0x3c) | 0x80000000;
     }
-
     if (VDP1_BATCH_FLAG == 0) {
-
       VDP1_BATCH_FLAG = 1;
-
     }
-
   }
-
   return;
-
 }
 
 void FUN_06036f0c(param_1, param_2, param_3)
