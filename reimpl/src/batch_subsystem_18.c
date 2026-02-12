@@ -893,214 +893,128 @@ void FUN_060193f4()
   return;
 }
 
+/* scene_selection_render -- Render 4 selectable menu items with blinking highlight.
+ * Draws unselected items normally, selected item blinks when anim counter >= 0x10. */
 unsigned int FUN_0601950c()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  unsigned int uVar7;
-
-  int *puVar8;
-
-  char cVar9;
-
-  puVar5 = (char *)0x06049AEC;
-
-  puVar4 = (char *)0x0605D244;
-
-  puVar3 = (char *)0x06063750;
-
-  puVar2 = (char *)0x06028400;
-
-  puVar1 = (char *)0x06049AF4;
-
+  char *sprite_dims;
+  char *selection_idx;
+  char *obj_table;
+  char *vdp_render;
+  char *sprite_ids;
+  char *anim_counter;
+  unsigned int result;
+  int *obj_entry;
+  char item;
+  sprite_dims = (char *)0x06049AEC;
+  selection_idx = (char *)0x0605D244;
+  obj_table = (char *)0x06063750;
+  vdp_render = (char *)0x06028400;
+  sprite_ids = (char *)0x06049AF4;
   if (*(int *)0x06085FF1 != '\0') {
-
+    /* Render background/frame object */
     (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_060195ac),0x14,
-
                *(int *)((int)(0x06063750 + DAT_060195ac) + 4) + (int)DAT_060195ae);
-
-    cVar9 = '\0';
-
+    /* Render 4 items, skip currently selected one */
+    item = '\0';
     do {
-
-      if (cVar9 != *puVar4) {
-
-        puVar8 = (int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar1 + (cVar9 << 1)) << 3));
-
-        (*(int(*)())puVar2)(0xc,*puVar8,
-
-                          ((unsigned int)(unsigned char)(puVar5 + (cVar9 << 1))[1] * 0x40 +
-
-                          (unsigned int)(unsigned char)puVar5[(cVar9 << 1)]) << 1,puVar8[1] + (int)PTR_DAT_060195b0
-
+      if (item != *selection_idx) {
+        obj_entry = (int *)(obj_table + ((unsigned int)*(unsigned short *)(sprite_ids + (item << 1)) << 3));
+        (*(int(*)())vdp_render)(0xc,*obj_entry,
+                          ((unsigned int)(unsigned char)(sprite_dims + (item << 1))[1] * 0x40 +
+                          (unsigned int)(unsigned char)sprite_dims[(item << 1)]) << 1,obj_entry[1] + (int)PTR_DAT_060195b0
                          );
-
       }
-
-      cVar9 = cVar9 + '\x01';
-
-      *(int *)0x06085FF1 = 0;
-
-    } while (cVar9 < '\x04');
-
+      item = item + '\x01';
+      *(int *)0x06085FF1 = 0;   /* clear dirty flag */
+    } while (item < '\x04');
   }
-
-  puVar6 = (char *)0x0605D242;
-
-  uVar7 = (unsigned int)(unsigned char)*(int *)0x06085FF5;
-
-  if (uVar7 == 0) {
-
+  /* Render selected item with blink effect */
+  anim_counter = (char *)0x0605D242;
+  result = (unsigned int)(unsigned char)*(int *)0x06085FF5;
+  if (result == 0) {
     if ((unsigned char)*(int *)0x0605D242 < 0x10) {
-
-      puVar8 = (int *)(puVar3 + ((unsigned int)*(unsigned short *)(puVar1 + (char)(*puVar4 << 1)) << 3));
-
-      uVar7 = (*(int(*)())puVar2)(0xc,*puVar8,
-
-                                ((unsigned int)(unsigned char)(puVar5 + (char)(*puVar4 << 1))[1] * 0x40 +
-
-                                (unsigned int)(unsigned char)puVar5[(char)(*puVar4 << 1)]) << 1,
-
-                                puVar8[1] + (int)DAT_06019694);
-
+      /* Normal render of selected item */
+      obj_entry = (int *)(obj_table + ((unsigned int)*(unsigned short *)(sprite_ids + (char)(*selection_idx << 1)) << 3));
+      result = (*(int(*)())vdp_render)(0xc,*obj_entry,
+                                ((unsigned int)(unsigned char)(sprite_dims + (char)(*selection_idx << 1))[1] * 0x40 +
+                                (unsigned int)(unsigned char)sprite_dims[(char)(*selection_idx << 1)]) << 1,
+                                obj_entry[1] + (int)DAT_06019694);
     }
-
     else {
-
-      (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(puVar5 + (char)(*puVar4 << 1))[1] * 0x40 +
-
-                     (unsigned int)(unsigned char)puVar5[(char)(*puVar4 << 1)]) << 1,0x90,
-
+      /* Blink phase: render as split sprite pair */
+      (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)(sprite_dims + (char)(*selection_idx << 1))[1] * 0x40 +
+                     (unsigned int)(unsigned char)sprite_dims[(char)(*selection_idx << 1)]) << 1,0x90,
                  *(int *)0x0605D4EC);
-
-      uVar7 = (*(int(*)())0x060284AE)(0xc,(((unsigned char)(puVar5 + (char)(*puVar4 << 1))[1] + 2) << 6 +
-
-                             (unsigned int)(unsigned char)puVar5[(char)(*puVar4 << 1)]) << 1,0x90,
-
+      result = (*(int(*)())0x060284AE)(0xc,(((unsigned char)(sprite_dims + (char)(*selection_idx << 1))[1] + 2) << 6 +
+                             (unsigned int)(unsigned char)sprite_dims[(char)(*selection_idx << 1)]) << 1,0x90,
                          *(int *)0x0605D4EC);
-
-      if (0x1e < (unsigned char)*puVar6) {
-
-        *puVar6 = 0;
-
+      if (0x1e < (unsigned char)*anim_counter) {
+        *anim_counter = 0;           /* reset blink cycle */
       }
-
     }
-
   }
-
-  return uVar7;
-
+  return result;
 }
 
+/* scene_selection_input -- Handle input for 4-option selection menu.
+ * Start/Accept confirms, Left/Right cycles through options 0-3,
+ * dispatches to per-option handler via jump table at 0x0605D250. */
 void FUN_060196a4()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  puVar3 = (char *)0x0605D244;
-
-  puVar2 = (char *)0x0605D242;
-
-  puVar1 = (char *)0x06085FF1;
-
-  (*(int(*)())0x06026110)();
-
+  char *dirty_flag;
+  char *anim_counter;
+  char *selection_idx;
+  selection_idx = (char *)0x0605D244;
+  anim_counter = (char *)0x0605D242;
+  dirty_flag = (char *)0x06085FF1;
+  (*(int(*)())0x06026110)();    /* poll input */
+  /* Start/Accept button pressed */
   if ((*(unsigned short *)(0x06063D98 + 2) & DAT_06019762) != 0) {
-
+    /* Render confirmed selection */
     (*(int(*)())0x06028400)(0xc,*(int *)
-
-                    (0x06063750 + (unsigned int)*(unsigned short *)(0x06049AF4 + (char)(*puVar3 << 1)) << 3)
-
-               ,((unsigned int)(unsigned char)((char *)(0x06049AEC + (char)(*puVar3 << 1)))[1] * 0x40 +
-
-                (unsigned int)(unsigned char)((int *)0x06049AEC)[(char)(*puVar3 << 1)]) << 1,
-
+                    (0x06063750 + (unsigned int)*(unsigned short *)(0x06049AF4 + (char)(*selection_idx << 1)) << 3)
+               ,((unsigned int)(unsigned char)((char *)(0x06049AEC + (char)(*selection_idx << 1)))[1] * 0x40 +
+                (unsigned int)(unsigned char)((int *)0x06049AEC)[(char)(*selection_idx << 1)]) << 1,
                *(int *)((int)(0x06063750 +
-
-                             (unsigned int)*(unsigned short *)(0x06049AF4 + (char)(*puVar3 << 1)) << 3) + 4) +
-
+                             (unsigned int)*(unsigned short *)(0x06049AF4 + (char)(*selection_idx << 1)) << 3) + 4) +
                (int)(short)PTR_DAT_06019764);
-
-    if ('\x01' < (char)*puVar3) {
-
-      *puVar3 = 0;
-
+    if ('\x01' < (char)*selection_idx) {
+      *selection_idx = 0;       /* clamp to valid range */
     }
-
     VBLANK_OUT_COUNTER = 0;
-
-    *puVar2 = 0;
-
-    GAME_STATE = 4;
-
-    *puVar1 = 1;
-
+    *anim_counter = 0;
+    GAME_STATE = 4;             /* transition to next state */
+    *dirty_flag = 1;
     *(int *)0x06085FF5 = 1;
-
     return;
-
   }
-
+  /* Right/Down button: increment selection */
   if ((*(unsigned short *)(0x06063D98 + 2) & PTR_DAT_06019764) == 0) {
-
+    /* Left/Up button: decrement selection */
     if ((*(unsigned short *)(0x06063D98 + 2) & DAT_06019864) != 0) {
-
-      *puVar1 = 1;
-
-      *puVar2 = 5;
-
-      *puVar3 = *puVar3 + -1;
-
-      if ((char)*puVar3 < '\0') {
-
-        *puVar3 = 3;
-
+      *dirty_flag = 1;
+      *anim_counter = 5;
+      *selection_idx = *selection_idx + -1;
+      if ((char)*selection_idx < '\0') {
+        *selection_idx = 3;     /* wrap to last option */
       }
-
     }
-
   }
-
   else {
-
-    *puVar1 = 1;
-
-    *puVar2 = 5;
-
-    *puVar3 = *puVar3 + '\x01';
-
-    if ('\x03' < (char)*puVar3) {
-
-      *puVar3 = 0;
-
+    *dirty_flag = 1;
+    *anim_counter = 5;
+    *selection_idx = *selection_idx + '\x01';
+    if ('\x03' < (char)*selection_idx) {
+      *selection_idx = 0;       /* wrap to first option */
     }
-
   }
-
+  /* Advance frame and animation counters */
   *(int *)0x0605D243 = *(int *)0x0605D243 + '\x01';
-
-  *puVar2 = *puVar2 + '\x01';
-
-  (*(int(*)())(*(int *)((char)(*puVar3 << 2) + 0x0605D250)))();
-
+  *anim_counter = *anim_counter + '\x01';
+  /* Dispatch to per-option handler */
+  (*(int(*)())(*(int *)((char)(*selection_idx << 2) + 0x0605D250)))();
   return;
-
 }
 
 /* subsystem_setup_init -- Initialize sound/display subsystem for game mode.
