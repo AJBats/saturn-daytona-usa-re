@@ -33,350 +33,208 @@ extern int PTR_DAT_0602802c;
 extern short DAT_06026576;
 extern short DAT_06026578;
 
+/* input_peripheral_init -- Initialize SMPC peripheral data on first call.
+ * On first invocation (0x06060D78==0): clears 14 input descriptor pairs
+ * at 0x060610BC, then scans primary peripheral table (0x06060D7C) for
+ * connected devices. If found, calls 0x06025070 for primary setup.
+ * Otherwise cross-references descriptor types (0x060610BC +8) against
+ * secondary table (0x06060F2C) to populate mappings. Then repeats for
+ * auxiliary peripheral table. Sets init flag to prevent re-entry. */
 unsigned int FUN_06026110()
 {
+    short sVar1;
+    char *mapped_table  = (int *)0x06060D7C;    /* primary mapped input array */
+    char *desc_table    = (char *)0x060610BC;    /* input descriptor array */
+    char *aux_table     = (char *)0x0606107C;    /* auxiliary input array */
+    char *periph_table  = (int *)0x06060F2C;     /* secondary peripheral table */
+    unsigned int result;
+    unsigned int i;
+    unsigned short slot;
 
-  short sVar1;
+    *(int *)0x06061198 = 0;
+    *(int *)0x06061199 = 0;
+    result = (unsigned int)*(int *)0x06060D78;
 
-  char *puVar2;
+    if (result == 0) {
+        *(int *)0x06060D78 = 1;                  /* set init flag */
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  unsigned int uVar7;
-
-  unsigned int uVar8;
-
-  unsigned short uVar9;
-
-  puVar5 = (int *)0x06060D7C;
-
-  puVar4 = (char *)0x060610BC;
-
-  puVar3 = (char *)0x0606107C;
-
-  puVar2 = (int *)0x06060F2C;
-
-  *(int *)0x06061198 = 0;
-
-  *(int *)0x06061199 = 0;
-
-  uVar6 = (unsigned int)*(int *)0x06060D78;
-
-  if (uVar6 == 0) {
-
-    *(int *)0x06060D78 = 1;
-
-    uVar7 = 0;
-
-    do {
-
-      uVar8 = uVar7 & 0xff;
-
-      uVar7 = uVar7 + 1;
-
-      uVar9 = 0;
-
-      **(short **)(puVar4 + (uVar8 * 0xc & 0xff)) = 0;
-
-      **(short **)((int)(puVar4 + (uVar8 * 0xc & 0xff)) + 4) = 0;
-
-    } while ((uVar7 & 0xffff) < 0xe);
-
-    do {
-
-      if (**(short **)(puVar5 + (unsigned int)(uVar9 << 3)) != 0) break;
-
-      uVar9 = uVar9 + 1;
-
-    } while (uVar9 < 0xe);
-
-    if (uVar9 < 0xe) {
-
-      uVar6 = (*(int(*)())0x06025070)();
-
-    }
-
-    else {
-
-      for (uVar7 = 0; (uVar7 & 0xffff) < 0xe; uVar7 = uVar7 + 1) {
-
-        uVar9 = 0;
-
+        /* Clear 14 input descriptor pairs */
+        i = 0;
         do {
+            unsigned int idx = i & 0xff;
+            i = i + 1;
+            slot = 0;
+            **(short **)(desc_table + (idx * 0xc & 0xff)) = 0;
+            **(short **)((int)(desc_table + (idx * 0xc & 0xff)) + 4) = 0;
+        } while ((i & 0xffff) < 0xe);
 
-          sVar1 = *(short *)(puVar4 + ((uVar7 & 0xff) * 0xc & 0xff) + 8);
+        /* Scan primary mapped inputs for connected device */
+        do {
+            if (**(short **)(mapped_table + (unsigned int)(slot << 3)) != 0) break;
+            slot = slot + 1;
+        } while (slot < 0xe);
 
-          if (*(short *)(puVar2 + (unsigned int)(uVar9 << 3) + 6) == sVar1) {
-
-            sVar1 = *(short *)(puVar2 + (unsigned int)(uVar9 << 3) + 4);
-
-            **(short **)(puVar5 + ((uVar7 & 0xffff) << 3)) = sVar1;
-
-          }
-
-          uVar6 = (unsigned int)sVar1;
-
-          uVar9 = uVar9 + 1;
-
-        } while (uVar9 < 10);
-
-      }
-
-    }
-
-    uVar9 = 0;
-
-    do {
-
-      if (**(short **)(puVar5 + (unsigned int)(uVar9 << 3) + 4) != 0) break;
-
-      uVar9 = uVar9 + 1;
-
-    } while (uVar9 < 0xe);
-
-    if (uVar9 < 0xe) {
-
-      uVar6 = (*(int(*)())0x06025148)();
-
-      return uVar6;
-
-    }
-
-    for (uVar7 = 0; (uVar7 & 0xffff) < 0xe; uVar7 = uVar7 + 1) {
-
-      uVar9 = 0;
-
-      do {
-
-        sVar1 = *(short *)(puVar4 + ((uVar7 & 0xff) * 0xc & 0xff) + 8);
-
-        if (*(short *)(puVar3 + (unsigned int)(uVar9 << 3) + 6) == sVar1) {
-
-          sVar1 = *(short *)(puVar3 + (unsigned int)(uVar9 << 3) + 4);
-
-          **(short **)(puVar5 + (((uVar7 & 0xffff) << 3) + 4)) = sVar1;
-
+        if (slot < 0xe) {
+            result = (*(int(*)())0x06025070)();  /* primary device found */
+        } else {
+            /* Cross-reference descriptors against secondary table */
+            for (i = 0; (i & 0xffff) < 0xe; i = i + 1) {
+                slot = 0;
+                do {
+                    sVar1 = *(short *)(desc_table + ((i & 0xff) * 0xc & 0xff) + 8);
+                    if (*(short *)(periph_table + (unsigned int)(slot << 3) + 6) == sVar1) {
+                        sVar1 = *(short *)(periph_table + (unsigned int)(slot << 3) + 4);
+                        **(short **)(mapped_table + ((i & 0xffff) << 3)) = sVar1;
+                    }
+                    result = (unsigned int)sVar1;
+                    slot = slot + 1;
+                } while (slot < 10);
+            }
         }
 
-        uVar6 = (unsigned int)sVar1;
+        /* Scan auxiliary mapped inputs */
+        slot = 0;
+        do {
+            if (**(short **)(mapped_table + (unsigned int)(slot << 3) + 4) != 0) break;
+            slot = slot + 1;
+        } while (slot < 0xe);
 
-        uVar9 = uVar9 + 1;
+        if (slot < 0xe) {
+            result = (*(int(*)())0x06025148)();  /* auxiliary device found */
+            return result;
+        }
 
-      } while (uVar9 < 8);
-
+        /* Cross-reference descriptors against auxiliary table */
+        for (i = 0; (i & 0xffff) < 0xe; i = i + 1) {
+            slot = 0;
+            do {
+                sVar1 = *(short *)(desc_table + ((i & 0xff) * 0xc & 0xff) + 8);
+                if (*(short *)(aux_table + (unsigned int)(slot << 3) + 6) == sVar1) {
+                    sVar1 = *(short *)(aux_table + (unsigned int)(slot << 3) + 4);
+                    **(short **)(mapped_table + (((i & 0xffff) << 3) + 4)) = sVar1;
+                }
+                result = (unsigned int)sVar1;
+                slot = slot + 1;
+            } while (slot < 8);
+        }
     }
-
-  }
-
-  return uVar6;
-
+    return result;
 }
 
+/* input_peripheral_scan_exclude -- Scan peripherals excluding one slot.
+ * Like input_peripheral_scan but skips the slot matching param_1.
+ * Classifies devices into port A (types 0-1) and port B (types 2-3, 8-11).
+ * Stores port IDs to 0x06089ED4 (port B) and 0x06089ED6 (port A). */
 unsigned int FUN_060262c0(param_1)
     unsigned int param_1;
 {
+    unsigned short dev_desc;
+    char *port_b_id = (char *)0x06089ED4;       /* port B device ID */
+    char *port_a_id = (char *)0x06089ED6;       /* port A device ID */
+    char *periph_table = (int *)0x06060F2C;     /* peripheral data table */
+    unsigned int dev_type;
+    short port_flag;
+    unsigned short slot;
 
-  unsigned short uVar1;
+    *(short *)0x06089ED6 = 0;
+    *(short *)port_b_id = 0;
+    dev_type = 0;
+    slot = 0;
 
-  char *puVar2;
+    do {
+        if (9 < slot) {
+            return dev_type;
+        }
+        if ((slot == param_1) ||
+            (dev_type = (unsigned int)*(unsigned short *)(periph_table + (unsigned int)(slot << 3) + 6) - 0x8a,
+             0xb < dev_type))
+            goto LAB_06026350;
 
-  char *puVar3;
+        dev_desc = ((int *)0x06026338)[dev_type];
 
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  short uVar6;
-
-  unsigned short uVar7;
-
-  puVar4 = (char *)0x06089ED4;
-
-  puVar3 = (char *)0x06089ED6;
-
-  puVar2 = (int *)0x06060F2C;
-
-  uVar5 = 0;
-
-  *(short *)0x06089ED6 = 0;
-
-  *(short *)puVar4 = 0;
-
-  uVar7 = 0;
-
-  do {
-
-    if (9 < uVar7) {
-
-      return uVar5;
-
-    }
-
-    if ((uVar7 == param_1) ||
-
-       (uVar5 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(uVar7 << 3) + 6) - 0x8a, 0xb < uVar5))
-
-    goto LAB_06026350;
-
-    uVar1 = ((int *)0x06026338)[uVar5];
-
-    switch(uVar5) {
-
-    case 0:
-
-    case 1:
-
-      uVar6 = 1;
-
-      break;
-
-    case 2:
-
-    case 3:
-
-      uVar6 = 1;
-
-      goto LAB_0602630a;
-
-    default:
-
-      uVar6 = 2;
-
-      break;
-
-    case 8:
-
-    case 9:
-
-    case 10:
-
-    case 0xb:
-
-      uVar6 = 2;
-
+        switch(dev_type) {
+        case 0:
+        case 1:
+            port_flag = 1;
+            break;
+        case 2:
+        case 3:
+            port_flag = 1;
+            goto LAB_0602630a;
+        default:
+            port_flag = 2;
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 0xb:
+            port_flag = 2;
 LAB_0602630a:
-
-      *(short *)puVar4 = uVar6;
-
-      uVar5 = (int)(short)uVar1;
-
-      goto LAB_06026350;
-
-    }
-
-    *(short *)puVar3 = uVar6;
-
-    uVar5 = (int)(short)uVar1;
+            *(short *)port_b_id = port_flag;
+            dev_type = (int)(short)dev_desc;
+            goto LAB_06026350;
+        }
+        *(short *)port_a_id = port_flag;
+        dev_type = (int)(short)dev_desc;
 
 LAB_06026350:
-
-    uVar7 = uVar7 + 1;
-
-  } while( 1 );
-
+        slot = slot + 1;
+    } while( 1 );
 }
 
+/* input_peripheral_detect -- Detect connected peripherals from secondary table.
+ * Scans 10 slots of the secondary peripheral table (0x06060F2C) and
+ * classifies by device type (offset +6, minus 0x8A). Stores device flags
+ * to port A (0x06060D2A) and port B (0x06060D34). Default flag = 0x8000
+ * for unrecognized types. Returns last device descriptor processed. */
 unsigned int FUN_06026362()
 {
+    unsigned short dev_desc;
+    char *default_flag = (int *)0x00008000;
+    char *port_b_flag  = (char *)0x06060D34;    /* port B device flag */
+    char *port_a_flag  = (char *)0x06060D2A;    /* port A device flag */
+    char *periph_table = (int *)0x06060F2C;     /* secondary peripheral table */
+    unsigned int dev_type;
+    short dev_flag;
+    unsigned short slot;
 
-  unsigned short uVar1;
+    slot = 0;
+    do {
+        dev_type = (unsigned int)*(unsigned short *)(periph_table + (unsigned int)(slot << 3) + 6) - 0x8a;
+        if (0xb < dev_type) goto LAB_060263dc;
 
-  char *puVar2;
+        dev_desc = ((int *)0x060263c4)[dev_type];
+        dev_flag = SUB42(default_flag, 0);
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  short uVar7;
-
-  unsigned short uVar8;
-
-  puVar5 = (int *)0x00008000;
-
-  puVar4 = (char *)0x06060D34;
-
-  puVar3 = (char *)0x06060D2A;
-
-  puVar2 = (int *)0x06060F2C;
-
-  uVar8 = 0;
-
-  do {
-
-    uVar6 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(uVar8 << 3) + 6) - 0x8a;
-
-    if (0xb < uVar6) goto LAB_060263dc;
-
-    uVar1 = ((int *)0x060263c4)[uVar6];
-
-    uVar7 = SUB42(puVar5,0);
-
-    switch(uVar6) {
-
-    case 0:
-
-    case 1:
-
-      uVar7 = 0;
-
-      break;
-
-    case 2:
-
-    case 3:
-
-      uVar7 = 0;
-
-      goto LAB_06026394;
-
-    default:
-
-      break;
-
-    case 8:
-
-    case 9:
-
-    case 10:
-
-    case 0xb:
-
+        switch(dev_type) {
+        case 0:
+        case 1:
+            dev_flag = 0;
+            break;
+        case 2:
+        case 3:
+            dev_flag = 0;
+            goto LAB_06026394;
+        default:
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 0xb:
 LAB_06026394:
-
-      *(short *)puVar4 = uVar7;
-
-      uVar6 = (int)(short)uVar1;
-
-      goto LAB_060263dc;
-
-    }
-
-    *(short *)puVar3 = uVar7;
-
-    uVar6 = (int)(short)uVar1;
+            *(short *)port_b_flag = dev_flag;
+            dev_type = (int)(short)dev_desc;
+            goto LAB_060263dc;
+        }
+        *(short *)port_a_flag = dev_flag;
+        dev_type = (int)(short)dev_desc;
 
 LAB_060263dc:
-
-    uVar8 = uVar8 + 1;
-
-    if (9 < uVar8) {
-
-      return uVar6;
-
-    }
-
-  } while( 1 );
-
+        slot = slot + 1;
+        if (9 < slot) {
+            return dev_type;
+        }
+    } while( 1 );
 }
 
 unsigned int FUN_060263ec(param_1)

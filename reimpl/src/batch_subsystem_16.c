@@ -609,217 +609,131 @@ unsigned char FUN_06017372(param_1)
     return slot;
 }
 
+/* hud_race_panel_render -- Render the full in-race HUD panel.
+ * Draws lap counter, speed display, position display, gear indicator,
+ * and timer digits. Uses two layout tables: normal (0x06044B84) and
+ * demo mode (0x06044BB4). Converts player speed and AI speed to
+ * digit arrays via FUN_06005DD4, clamps speed to 0x927BF max.
+ * Gear display dispatches on remainder (1-4) with special case for
+ * laps 11-13. Demo mode uses simplified single-line layout. */
 int FUN_060173ac()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int uVar4;
-
-  unsigned int uVar5;
-
-  char *puVar6;
-
-  unsigned char bVar8;
-
-  int iVar7;
-
-  unsigned int uVar9;
-
-  unsigned int uVar10;
-
-  int iVar11;
-
-  int iVar12;
-
-  int *puVar13;
-
-  int iVar14;
-
-  short *puVar15;
-
-  short auStack_7c [14];
-
-  short auStack_60 [14];
-
-  char auStack_44 [4];
-
-  short auStack_40 [6];
-
-  short auStack_34 [12];
-
-  puVar1 = (char *)0x06063750;
-
-  iVar11 = (int)DAT_0601748a;
-
-  (*(int(*)())0x06035228)();
-
-  (*(int(*)())0x06035228)();
-
-  puVar15 = (short *)0x06044B84;
-
-  if (DEMO_MODE_FLAG != 0) {
-
-    puVar15 = (short *)0x06044BB4;
-
-  }
-
-  puVar13 = (int *)(puVar1 + DAT_0601748c);
-
-  FUN_06017784(*puVar13,puVar13[1] + iVar11,*puVar15,puVar15[1]);
-
-  FUN_06017784(*(int *)(puVar1 + DAT_0601748e),puVar13[1] + iVar11,puVar15[3],puVar15[4]);
-
-  FUN_06017784(*(int *)(puVar1 + DAT_06017490),puVar13[1] + iVar11,puVar15[9],puVar15[10]);
-
-  puVar2 = (char *)0x06078900;
-
-  uVar4 = *(int *)(0x06078900 + DAT_06017492);
-
-  puVar6 = *(char **)0x060786A4;
-
-  if ((int)0x000927BF <= (int)*(char **)0x060786A4) {
-
-    puVar6 = (char *)0x000927BF;
-
-  }
-
-  if ((*(unsigned int *)0x0607EBF4 & 1) == 0) {
-
-    puVar6 = (char *)(GAME_STATE_VAR * 5);
-
-  }
-
-  iVar3 = (*(int(*)())0x06005DD4)(puVar6);
-
-  bVar8 = 0;
-
-  do {
-
-    uVar9 = (unsigned int)bVar8;
-
-    auStack_40[bVar8] = auStack_7c[*(unsigned char *)(uVar9 + iVar3)];
-
-    uVar5 = (unsigned int)bVar8;
-
-    bVar8 = bVar8 + 1;
-
-    auStack_34[uVar5 + 2] = auStack_60[*(unsigned char *)(uVar9 + iVar3)];
-
-  } while (bVar8 < 8);
-
-  FUN_06017784(auStack_44,*(int *)(puVar1 + DAT_060175b4) + iVar11,puVar15[6],puVar15[7]);
-
-  iVar3 = (*(int(*)())0x06005DD4)(uVar4);
-
-  bVar8 = 0;
-
-  do {
-
-    uVar5 = (unsigned int)bVar8;
-
-    uVar10 = (unsigned int)bVar8;
-
-    uVar9 = (unsigned int)bVar8;
-
-    bVar8 = bVar8 + 1;
-
-    auStack_40[uVar5] = auStack_7c[*(unsigned char *)(uVar10 + iVar3)];
-
-    auStack_34[uVar9 + 2] = auStack_60[*(unsigned char *)(uVar10 + iVar3)];
-
-  } while (bVar8 < 8);
-
-  FUN_06017784(auStack_44,*(int *)(puVar1 + DAT_060175b4) + iVar11,puVar15[0xc],puVar15[0xd]);
-
-  iVar11 = (*(int(*)())0x06034FE0)(*(int *)(puVar2 + DAT_060175b6) + 1,10);
-
-  iVar3 = (*(int(*)())0x06035C2C)();
-
-  if (DEMO_MODE_FLAG == 0) {
-
-    iVar12 = (int)DAT_06017692;
-
-    iVar14 = 0x348;
-
-    iVar7 = *(int *)(puVar2 + DAT_06017696) + 1;
-
-    if (iVar7 < 0xb || 0xd < iVar7) {
-
-      if (iVar3 == 1) {
-
-        FUN_06017784(*(int *)(puVar1 + iVar14),*(int *)((int)(puVar1 + iVar14) + 4) + iVar12,
-
-                     puVar15[0x15],puVar15[0x16]);
-
-      }
-
-      else if (iVar3 == 2) {
-
-        FUN_06017784(*(int *)(puVar1 + DAT_06017698),*(int *)(puVar1 + iVar14 + 4) + iVar12,
-
-                     puVar15[0x15],puVar15[0x16]);
-
-      }
-
-      else if (iVar3 == 3) {
-
-        FUN_06017784(*(int *)(puVar1 + DAT_0601769a),*(int *)(puVar1 + iVar14 + 4) + iVar12,
-
-                     puVar15[0x15],puVar15[0x16]);
-
-      }
-
-      else {
-
-        FUN_06017784(*(int *)(puVar1 + DAT_0601769c),*(int *)(puVar1 + iVar14 + 4) + iVar12,
-
-                     puVar15[0x15],puVar15[0x16]);
-
-      }
-
+    char *sprite_table = (char *)0x06063750;    /* VDP sprite table base */
+    int y_offset = (int)DAT_0601748a;
+    short auStack_7c[14];
+    short auStack_60[14];
+    char auStack_44[4];
+    short auStack_40[6];
+    short auStack_34[12];
+
+    (*(int(*)())0x06035228)();
+    (*(int(*)())0x06035228)();
+
+    /* Select layout table: normal or demo mode */
+    short *layout = (short *)0x06044B84;
+    if (DEMO_MODE_FLAG != 0) {
+        layout = (short *)0x06044BB4;
     }
 
-    else {
+    /* Render lap counter digits */
+    int *lap_data = (int *)(sprite_table + DAT_0601748c);
+    FUN_06017784(*lap_data, lap_data[1] + y_offset, *layout, layout[1]);
+    FUN_06017784(*(int *)(sprite_table + DAT_0601748e), lap_data[1] + y_offset,
+                 layout[3], layout[4]);
+    FUN_06017784(*(int *)(sprite_table + DAT_06017490), lap_data[1] + y_offset,
+                 layout[9], layout[10]);
 
-      FUN_06017784(*(int *)(puVar1 + DAT_06017728),*(int *)(puVar1 + iVar14 + 4) + iVar12,
-
-                   puVar15[0x15],puVar15[0x16]);
-
+    /* Get player speed, clamped to max */
+    char *car_base = (char *)0x06078900;
+    int ai_speed = *(int *)(0x06078900 + DAT_06017492);
+    char *player_speed = *(char **)0x060786A4;
+    if ((int)0x000927BF <= (int)*(char **)0x060786A4) {
+        player_speed = (char *)0x000927BF;
+    }
+    if ((*(unsigned int *)0x0607EBF4 & 1) == 0) {
+        player_speed = (char *)(GAME_STATE_VAR * 5);
     }
 
-    if (iVar11 != 0) {
+    /* Convert player speed to digit array */
+    int digits = (*(int(*)())0x06005DD4)(player_speed);
+    unsigned char idx = 0;
+    do {
+        unsigned int i = (unsigned int)idx;
+        auStack_40[idx] = auStack_7c[*(unsigned char *)(i + digits)];
+        unsigned int j = (unsigned int)idx;
+        idx = idx + 1;
+        auStack_34[j + 2] = auStack_60[*(unsigned char *)(i + digits)];
+    } while (idx < 8);
+    FUN_06017784(auStack_44, *(int *)(sprite_table + DAT_060175b4) + y_offset,
+                 layout[6], layout[7]);
 
-      FUN_06017784(*(int *)(puVar1 + ((iVar11 + 0x5f) << 3)),
+    /* Convert AI speed to digit array */
+    digits = (*(int(*)())0x06005DD4)(ai_speed);
+    idx = 0;
+    do {
+        unsigned int i = (unsigned int)idx;
+        unsigned int k = (unsigned int)idx;
+        unsigned int m = (unsigned int)idx;
+        idx = idx + 1;
+        auStack_40[i] = auStack_7c[*(unsigned char *)(k + digits)];
+        auStack_34[m + 2] = auStack_60[*(unsigned char *)(k + digits)];
+    } while (idx < 8);
+    FUN_06017784(auStack_44, *(int *)(sprite_table + DAT_060175b4) + y_offset,
+                 layout[0xc], layout[0xd]);
 
-                   *(int *)(puVar1 + DAT_0601772a) + (int)DAT_0601772c,puVar15[0xf],puVar15[0x10]);
+    /* Gear and position indicators */
+    int tens_digit = (*(int(*)())0x06034FE0)(*(int *)(car_base + DAT_060175b6) + 1, 10);
+    int ones_digit = (*(int(*)())0x06035C2C)();
 
+    if (DEMO_MODE_FLAG == 0) {
+        int gear_y = (int)DAT_06017692;
+        int gear_off = 0x348;
+        int lap_num = *(int *)(car_base + DAT_06017696) + 1;
+
+        if (lap_num < 0xb || 0xd < lap_num) {
+            /* Normal lap range: dispatch on gear digit */
+            if (ones_digit == 1) {
+                FUN_06017784(*(int *)(sprite_table + gear_off),
+                             *(int *)((int)(sprite_table + gear_off) + 4) + gear_y,
+                             layout[0x15], layout[0x16]);
+            } else if (ones_digit == 2) {
+                FUN_06017784(*(int *)(sprite_table + DAT_06017698),
+                             *(int *)(sprite_table + gear_off + 4) + gear_y,
+                             layout[0x15], layout[0x16]);
+            } else if (ones_digit == 3) {
+                FUN_06017784(*(int *)(sprite_table + DAT_0601769a),
+                             *(int *)(sprite_table + gear_off + 4) + gear_y,
+                             layout[0x15], layout[0x16]);
+            } else {
+                FUN_06017784(*(int *)(sprite_table + DAT_0601769c),
+                             *(int *)(sprite_table + gear_off + 4) + gear_y,
+                             layout[0x15], layout[0x16]);
+            }
+        } else {
+            /* Special lap range (11-13): alternate gear sprite */
+            FUN_06017784(*(int *)(sprite_table + DAT_06017728),
+                         *(int *)(sprite_table + gear_off + 4) + gear_y,
+                         layout[0x15], layout[0x16]);
+        }
+
+        /* Tens digit display (if non-zero) */
+        if (tens_digit != 0) {
+            FUN_06017784(*(int *)(sprite_table + ((tens_digit + 0x5f) << 3)),
+                         *(int *)(sprite_table + DAT_0601772a) + (int)DAT_0601772c,
+                         layout[0xf], layout[0x10]);
+        }
+
+        /* Ones digit display */
+        ai_speed = FUN_06017784(*(int *)(sprite_table + ((ones_digit + 0x5f) << 3)),
+                                *(int *)(sprite_table + DAT_0601772a) + (int)DAT_0601772c,
+                                layout[0x12], layout[0x13]);
+    } else {
+        /* Demo mode: simplified display */
+        ai_speed = FUN_06017784(*(int *)(sprite_table + DAT_060175b8),
+                                *(int *)((int)(sprite_table + DAT_060175b8) + 4) + (int)DAT_060175ba,
+                                layout[0xf], layout[0x10]);
     }
-
-    uVar4 = FUN_06017784(*(int *)(puVar1 + ((iVar3 + 0x5f) << 3)),
-
-                         *(int *)(puVar1 + DAT_0601772a) + (int)DAT_0601772c,puVar15[0x12],
-
-                         puVar15[0x13]);
-
-  }
-
-  else {
-
-    uVar4 = FUN_06017784(*(int *)(puVar1 + DAT_060175b8),
-
-                         *(int *)((int)(puVar1 + DAT_060175b8) + 4) + (int)DAT_060175ba,puVar15[0xf]
-
-                         ,puVar15[0x10]);
-
-  }
-
-  return uVar4;
-
+    return ai_speed;
 }
 
 /* tilemap_row_fill -- Fill remaining tilemap rows with VDP2 tile data.

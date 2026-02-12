@@ -252,91 +252,55 @@ void FUN_0601e2b4()
     do { } while ((*smpc_status & 1) != 0);
 }
 
+/* backup_device_enumerate -- Enumerate backup memory devices (max 3).
+ * Scans device status array at 0x06087086 (stride 4). For each active
+ * device, stores device ID into descriptor array at 0x06087094 (stride 32,
+ * offset +0x1C). Calls FUN_0601e488 to open the device; if result==2,
+ * calls FUN_0601e6a4 to verify and sets write-protect flag (+0x1F).
+ * Checks available space against required size (+0x20 threshold) for
+ * capacity flag (+0x1E). Stores final device count at 0x06087084. */
 void FUN_0601e37c()
 {
+    char *desc_base = (char *)0x06087094;       /* device descriptor array */
+    short default_wp = DAT_0601e444;            /* default write-protect flag */
+    unsigned int dev_count = 0;
+    unsigned short dev_idx = 0;
 
-  short uVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  unsigned short uVar4;
-
-  unsigned int uVar5;
-
-  puVar2 = (char *)0x06087094;
-
-  uVar1 = DAT_0601e444;
-
-  uVar5 = 0;
-
-  uVar4 = 0;
-
-  do {
-
-    if (2 < uVar4) {
-
-      *(short *)0x06087084 = (short)uVar5;
-
-      return;
-
-    }
-
-    if (*(short *)(0x06087086 + (unsigned int)(uVar4 << 2)) != 0) {
-
-      *(unsigned short *)(puVar2 + (((uVar5 & 0xffff) << 5) + 0x1c)) = uVar4;
-
-      iVar3 = FUN_0601e488(uVar5);
-
-      if (iVar3 != 0) {
-
-        if (iVar3 == 1) goto LAB_0601e46a;
-
-        if (iVar3 == 2) {
-
-          iVar3 = FUN_0601e6a4(*(short *)(puVar2 + (((uVar5 & 0xffff) << 5) + 0x1c)));
-
-          if (iVar3 == 0) {
-
-            puVar2[(uVar5 & 0xffff) << 5 + 0x1f] = 1;
-
-          }
-
-          else {
-
-            puVar2[(uVar5 & 0xffff) << 5 + 0x1f] = (char)uVar1;
-
-          }
-
+    do {
+        if (2 < dev_idx) {
+            *(short *)0x06087084 = (short)dev_count;
+            return;
         }
+        if (*(short *)(0x06087086 + (unsigned int)(dev_idx << 2)) != 0) {
+            /* Store device ID in descriptor */
+            *(unsigned short *)(desc_base + (((dev_count & 0xffff) << 5) + 0x1c)) = dev_idx;
+            int status = FUN_0601e488(dev_count);
 
-      }
+            if (status != 0) {
+                if (status == 1) goto LAB_0601e46a;
+                if (status == 2) {
+                    /* Verify device and set write-protect */
+                    int verify = FUN_0601e6a4(*(short *)(desc_base + (((dev_count & 0xffff) << 5) + 0x1c)));
+                    if (verify == 0) {
+                        desc_base[(dev_count & 0xffff) << 5 + 0x1f] = 1;
+                    } else {
+                        desc_base[(dev_count & 0xffff) << 5 + 0x1f] = (char)default_wp;
+                    }
+                }
+            }
 
-      if (*(unsigned int *)(puVar2 + (((uVar5 & 0xffff) << 5) + 0xc)) <
-
-          *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2)) + 0x20U) {
-
-        puVar2[(uVar5 & 0xffff) << 5 + 0x1e] = 0;
-
-      }
-
-      else {
-
-        puVar2[(uVar5 & 0xffff) << 5 + 0x1e] = 1;
-
-      }
-
-      uVar5 = uVar5 + 1;
-
-    }
-
+            /* Check capacity: compare available space vs required */
+            if (*(unsigned int *)(desc_base + (((dev_count & 0xffff) << 5) + 0xc)) <
+                *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2)) + 0x20U) {
+                desc_base[(dev_count & 0xffff) << 5 + 0x1e] = 0;   /* insufficient */
+            } else {
+                desc_base[(dev_count & 0xffff) << 5 + 0x1e] = 1;   /* sufficient */
+            }
+            dev_count = dev_count + 1;
+        }
 LAB_0601e46a:
-
-    uVar4 = uVar4 + 1;
-
-  } while( 1 );
-
+        dev_idx = dev_idx + 1;
+    } while( 1 );
 }
 
 /* sound_slot_play -- Start sound playback for a slot.
@@ -539,211 +503,140 @@ int FUN_0601e764(param_1, param_2, param_3)
     return result;
 }
 
+/* backup_mem_read -- Read save data from backup memory via BIOS.
+ * Truncates filename (param_2) to 11 chars if longer. Also truncates
+ * the channel-specific label at 0x0605E06C to 10 chars. Builds a
+ * save descriptor at 0x060877B4 with filename and label copies, then
+ * acquires SMPC bus and calls BIOS read function (vector +0x10). */
 int FUN_0601e810(param_1, param_2, param_3)
     unsigned short param_1;
     int param_2;
     int param_3;
 {
+    char *smpc_status = (char *)0x20100063;     /* SMPC SF register */
+    char *channel_ptr = (char *)0x060877D8;     /* current channel */
+    char *label_base  = (char *)0x0605E06C;     /* channel label array */
+    int len;
+    int result;
 
-  char *puVar1;
+    /* Truncate filename to 11 chars */
+    len = (*(int(*)())0x06035C1C)(param_2);     /* strlen */
+    if (0xb < len) {
+        *(char *)(param_2 + 0xb) = 0;
+    }
 
-  char *puVar2;
+    /* Truncate channel label to 10 chars */
+    len = (*(int(*)())0x06035C1C)(label_base + (unsigned int)(unsigned char)*channel_ptr * 0xb);
+    if (10 < len) {
+        label_base[(unsigned int)(unsigned char)*channel_ptr * 0xb + 10] = 0;
+    }
 
-  char *puVar3;
+    /* Build save descriptor */
+    FUN_0601f4b4(0x060877E8);
+    char *desc = (char *)0x060877B4;
+    (*(int(*)())0x06035C08)(0x060877B4, param_2);       /* strcpy filename */
+    (*(int(*)())0x06035C08)(desc + 0xc,
+                 label_base + (unsigned int)(unsigned char)*channel_ptr * 0xb);  /* strcpy label */
+    desc[0x17] = 0;
 
-  char *puVar4;
+    /* Get save data size from BIOS */
+    result = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x28)))(0x060877E8);
+    *(int *)(desc + 0x18) = result;
+    *(int *)(desc + 0x1c) = *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)(*channel_ptr << 2));
 
-  int iVar5;
+    /* Acquire SMPC bus */
+    do { } while ((*smpc_status & 1) == 1);
+    *smpc_status = 1;
+    SMPC_COMREG = 0x1a;
+    do { } while ((*smpc_status & 1) != 0);
 
-  int uVar6;
+    /* Call BIOS read function */
+    result = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x10)))(
+                 *(short *)(0x06087094 + (unsigned int)(param_1 << 5) + 0x1c),
+                 0x060877B4, param_3, 0);
 
-  puVar3 = (char *)0x20100063;
+    /* Release SMPC bus */
+    do { } while ((*smpc_status & 1) == 1);
+    *smpc_status = 1;
+    SMPC_COMREG = 0x19;
+    do { } while ((*smpc_status & 1) != 0);
 
-  puVar2 = (char *)0x060877D8;
-
-  puVar1 = (char *)0x0605E06C;
-
-  iVar5 = (*(int(*)())0x06035C1C)(param_2);
-
-  if (0xb < iVar5) {
-
-    *(char *)(param_2 + 0xb) = 0;
-
-  }
-
-  iVar5 = (*(int(*)())0x06035C1C)(puVar1 + (unsigned int)(unsigned char)*puVar2 * 0xb);
-
-  if (10 < iVar5) {
-
-    puVar1[(unsigned int)(unsigned char)*puVar2 * 0xb + 10] = 0;
-
-  }
-
-  FUN_0601f4b4(0x060877E8);
-
-  puVar4 = (char *)0x060877B4;
-
-  (*(int(*)())0x06035C08)(0x060877B4,param_2);
-
-  (*(int(*)())0x06035C08)(puVar4 + 0xc,puVar1 + (unsigned int)(unsigned char)*puVar2 * 0xb);
-
-  puVar4[0x17] = 0;
-
-  uVar6 = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x28)))(0x060877E8);
-
-  *(int *)(puVar4 + 0x18) = uVar6;
-
-  *(int *)(puVar4 + 0x1c) = *(int *)(0x0604A5C0 + (unsigned int)(unsigned char)(*puVar2 << 2));
-
-  do {
-
-  } while ((*puVar3 & 1) == 1);
-
-  *puVar3 = 1;
-
-  SMPC_COMREG = 0x1a;
-
-  do {
-
-  } while ((*puVar3 & 1) != 0);
-
-  uVar6 = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x10)))(*(short *)(0x06087094 + (unsigned int)(param_1 << 5) + 0x1c),
-
-                     0x060877B4,param_3,0);
-
-  do {
-
-  } while ((*puVar3 & 1) == 1);
-
-  *puVar3 = 1;
-
-  SMPC_COMREG = 0x19;
-
-  do {
-
-  } while ((*puVar3 & 1) != 0);
-
-  return uVar6;
-
+    return result;
 }
 
+/* save_data_load_or_create -- Load save data, creating new save if needed.
+ * Reads state byte from 0x0605E05D. If state==0: formats backup memory,
+ * validates CD track, and attempts to read save data. If read succeeds
+ * and data matches reference pattern (0x0604A5AC, 16 bytes), calls
+ * FUN_0601ebda to finalize. On mismatch or failure, sets error state (8)
+ * and calls error handler at 0x0601F8BC. If track invalid, marks channel
+ * inactive and sets state 4. Otherwise resets state to 0. */
 int FUN_0601e958()
 {
+    char *state_ptr     = (char *)0x0605E05C;   /* save operation state */
+    char *error_handler = (char *)0x0601F8BC;   /* error recovery function */
+    char *playback_ptr  = (char *)0x0605E098;   /* playback data pointer */
+    int result;
 
-  char *puVar1;
+    result = (int)(char)*(int *)0x0605E05D;     /* current state byte */
 
-  char *puVar2;
+    if (result == 0) {
+        FUN_0601e2b4();                          /* format backup memory */
 
-  char *puVar3;
+        char *channel_ptr = (char *)0x060877D8;
+        unsigned char ch = (unsigned char)*(int *)0x060877D8;
+        unsigned char track_status = FUN_0601e4d4(0x0604A57C + (unsigned int)ch * 0xc);
 
-  char *puVar4;
+        if (track_status < 7) {
+            ((int *)0x060877DD)[ch] = 1;         /* mark channel active */
 
-  int iVar5;
-
-  unsigned char bVar6;
-
-  puVar3 = (char *)0x0605E05C;
-
-  puVar2 = (char *)0x0601F8BC;
-
-  puVar1 = (char *)0x0605E098;
-
-  iVar5 = (int)(char)*(int *)0x0605E05D;
-
-  if (iVar5 == 0) {
-
-    FUN_0601e2b4();
-
-    puVar4 = (char *)0x060877D8;
-
-    bVar6 = FUN_0601e4d4(0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc);
-
-    if (bVar6 < 7) {
-
-      ((int *)0x060877DD)[(unsigned char)*puVar4] = 1;
-
-      if (2 < bVar6) {
-
-        ((int *)0x060877D9)[(unsigned char)*puVar4] = bVar6 - 3;
-
-        FUN_0601eb70();
-
-        iVar5 = FUN_0601f40c();
-
-        return iVar5;
-
-      }
-
-      ((int *)0x060877D9)[(unsigned char)*puVar4] = bVar6;
-
-      iVar5 = FUN_0601e764(((int *)0x060877D9)[(unsigned char)*puVar4],
-
-                           0x0604A57C + (unsigned int)(unsigned char)*puVar4 * 0xc,
-
-                           *(int *)puVar1);
-
-      if (iVar5 == 0) {
-
-        iVar5 = 0;
-
-        if (*(int *)0x06087080 == '\0') {
-
-          iVar5 = 0;
-
-          while (*(char *)(*(int *)puVar1 + iVar5) == ((int *)0x0604A5AC)[iVar5]) {
-
-            iVar5 = iVar5 + 1;
-
-            if (0xf < iVar5) {
-
-              iVar5 = FUN_0601ebda();
-
-              return iVar5;
-
+            if (2 < track_status) {
+                /* Deferred track: load and validate */
+                ((int *)0x060877D9)[ch] = track_status - 3;
+                FUN_0601eb70();
+                result = FUN_0601f40c();
+                return result;
             }
 
-          }
+            /* Immediate track: attempt save read */
+            ((int *)0x060877D9)[ch] = track_status;
+            result = FUN_0601e764(((int *)0x060877D9)[ch],
+                                  0x0604A57C + (unsigned int)(unsigned char)*channel_ptr * 0xc,
+                                  *(int *)playback_ptr);
 
-          *puVar3 = 8;
-
-          iVar5 = (*(int(*)())puVar2)();
-
+            if (result == 0) {
+                result = 0;
+                if (*(int *)0x06087080 == '\0') {
+                    /* Verify save data matches reference pattern */
+                    result = 0;
+                    while (*(char *)(*(int *)playback_ptr + result) == ((int *)0x0604A5AC)[result]) {
+                        result = result + 1;
+                        if (0xf < result) {
+                            result = FUN_0601ebda();
+                            return result;
+                        }
+                    }
+                    /* Mismatch: error state */
+                    *state_ptr = 8;
+                    result = (*(int(*)())error_handler)();
+                }
+            } else {
+                /* Read failed: error state */
+                *state_ptr = 8;
+                result = (*(int(*)())error_handler)();
+            }
+        } else {
+            /* Track invalid: mark inactive */
+            FUN_0601eb70();
+            ((int *)0x060877DD)[ch] = 0;
+            *state_ptr = 4;
+            result = (*(int(*)())error_handler)();
         }
-
-      }
-
-      else {
-
-        *puVar3 = 8;
-
-        iVar5 = (*(int(*)())puVar2)();
-
-      }
-
+    } else {
+        /* Non-zero state: reset */
+        *(int *)0x0605E05C = 0;
     }
-
-    else {
-
-      FUN_0601eb70();
-
-      ((int *)0x060877DD)[(unsigned char)*puVar4] = 0;
-
-      *puVar3 = 4;
-
-      iVar5 = (*(int(*)())puVar2)();
-
-    }
-
-  }
-
-  else {
-
-    *(int *)0x0605E05C = 0;
-
-  }
-
-  return iVar5;
-
+    return result;
 }
 
 /* cd_track_validate -- Validate current CD audio track and set play state.
