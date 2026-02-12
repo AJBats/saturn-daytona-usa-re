@@ -788,171 +788,92 @@ void menu_item_highlight()
   return;
 }
 
-void FUN_0601b7f4()
+/* dual_column_selector -- two-column menu with per-item value cycling and sprite rendering.
+ *   Column 0 at 0x0605D4F4, column 1 at 0x0605D4F5. Active column at 0x0608600E.
+ *   D-pad left/right (0x8000 / DAT_0601b87e) cycles value within column bounds.
+ *   Renders 3 items per column via VDP1 draw (0x06028400) with blink on selected.
+ *   Background scroll rendered via 0x06011AF4 per item. */
+void dual_column_selector()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char cVar4;
-
-  int *puVar5;
-
-  char *puVar6;
-
-  int iVar7;
-
-  unsigned char bVar8;
-
-  char auStack_38 [4];
-
-  unsigned char local_34 [4];
-
-  int local_30 [3];
-
+  char *sprite_table = (char *)0x06063750;
+  char *col_select = (char *)0x0608600E;       /* active column (0 or 1) */
+  char *col0_val = (char *)0x0605D4F4;         /* column 0 selected value */
+  char *col1_val = (char *)0x0605D4F5;         /* column 1 selected value */
+  char prev_val;
+  int *sprite_entry;
+  char *max_vals;
+  int priority;
+  unsigned char idx;
+  char auStack_38[4];                          /* max value per column */
+  unsigned char local_34[4];
+  int local_30[3];
   unsigned char local_24;
-
   unsigned char local_23;
-
-  puVar1 = (char *)0x06063750;
-
-  (*(int(*)())0x06035228)();
-
-  (*(int(*)())0x06035168)();
-
-  (*(int(*)())0x06035228)();
-
-  puVar6 = auStack_38;
-
-  (*(int(*)())0x06035228)();
-
-  puVar2 = (char *)0x0608600E;
-
+  (*(int(*)())0x06035228)();                   /* read joypad port 1 */
+  (*(int(*)())0x06035168)();                   /* process input */
+  (*(int(*)())0x06035228)();                   /* read joypad port 2 */
+  max_vals = auStack_38;
+  (*(int(*)())0x06035228)();                   /* read joypad (additional) */
   if ((*(unsigned short *)(0x06063D98 + 2) & DAT_0601b87e) == 0) {
-
+    /* No left press — check right (0x8000) */
     if ((((unsigned int)*(unsigned short *)(0x06063D98 + 2) & (unsigned int)0x00008000) != 0) &&
-
-       (cVar4 = ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] + '\x01',
-
-       ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] = cVar4, (char)puVar6[(char)*puVar2] <= cVar4)) {
-
-      ((int *)0x0605D4F4)[(char)*puVar2] = 0;
-
+       (prev_val = ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] + '\x01',
+       ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] = prev_val, (char)max_vals[(char)*col_select] <= prev_val)) {
+      ((int *)0x0605D4F4)[(char)*col_select] = 0; /* wrap to first value */
     }
-
-  }
-
-  else {
-
-    cVar4 = ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] + -1;
-
-    ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] = cVar4;
-
-    if (cVar4 < '\0') {
-
-      ((int *)0x0605D4F4)[(char)*puVar2] = puVar6[(char)*puVar2] + -1;
-
+  } else {
+    /* Left pressed — decrement value */
+    prev_val = ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] + -1;
+    ((int *)0x0605D4F4)[(char)*(int *)0x0608600E] = prev_val;
+    if (prev_val < '\0') {
+      ((int *)0x0605D4F4)[(char)*col_select] = max_vals[(char)*col_select] + -1;
     }
-
   }
-
-  puVar2 = (char *)0x0605D4F4;
-
-  bVar8 = 0;
-
+  /* Render column 0 (3 items at sprite offsets 0x30-0x32) */
+  col_select = (char *)0x0605D4F4;
+  idx = 0;
   do {
-
-    if ((int)(char)*puVar2 == (unsigned int)bVar8) {
-
-      iVar7 = 1;
-
+    if ((int)(char)*col_select == (unsigned int)idx) {
+      priority = 1;                            /* selected: high priority */
+    } else {
+      priority = 4;                            /* unselected: low priority */
     }
-
-    else {
-
-      iVar7 = 4;
-
-    }
-
-    (*(int(*)())0x06011AF4)(local_30[bVar8],0xFFD40000,0x002F0000,0x001C0000,0x00008000,
-
-               0x00010000,(unsigned int)bVar8 + iVar7 + 0x100);
-
-    if ((int)(char)*puVar2 == (unsigned int)bVar8) {
-
+    (*(int(*)())0x06011AF4)(local_30[idx], 0xFFD40000, 0x002F0000, 0x001C0000, 0x00008000,
+               0x00010000, (unsigned int)idx + priority + 0x100);
+    if ((int)(char)*col_select == (unsigned int)idx) {
+      /* Blink selected item based on frame counter */
       if (((*(unsigned short *)0x0605D4F8 & 8) == 0) && (*(int *)0x0608600E == '\0')) {
-
-        iVar7 = 4;
-
+        priority = 4;                          /* dim frame (column 0 active) */
+      } else {
+        priority = 3;                          /* bright frame */
       }
-
-      else {
-
-        iVar7 = 3;
-
-      }
-
+    } else {
+      priority = 4;
     }
-
-    else {
-
-      iVar7 = 4;
-
-    }
-
-    puVar5 = (int *)(puVar1 + ((bVar8 + 0x30) << 3));
-
-    (*(int(*)())0x06028400)(8,*puVar5,((unsigned int)local_34[bVar8] + (unsigned int)(local_24 << 6)) << 1,
-
-               (iVar7 << 12) + puVar5[1]);
-
-    puVar3 = (char *)0x0605D4F5;
-
-    bVar8 = bVar8 + 1;
-
-  } while (bVar8 < 3);
-
-  bVar8 = 0;
-
+    sprite_entry = (int *)(sprite_table + ((idx + 0x30) << 3));
+    (*(int(*)())0x06028400)(8, *sprite_entry, ((unsigned int)local_34[idx] + (unsigned int)(local_24 << 6)) << 1,
+               (priority << 12) + sprite_entry[1]);
+    col1_val = (char *)0x0605D4F5;
+    idx = idx + 1;
+  } while (idx < 3);
+  /* Render column 1 (3 items at sprite offsets 0x33-0x35) */
+  idx = 0;
   do {
-
-    if ((int)(char)*puVar3 == (unsigned int)bVar8) {
-
+    if ((int)(char)*col1_val == (unsigned int)idx) {
       if (((*(unsigned short *)0x0605D4F8 & 8) == 0) && (*(int *)0x0608600E == '\x01')) {
-
-        iVar7 = 4;
-
+        priority = 4;                          /* dim frame (column 1 active) */
+      } else {
+        priority = 3;                          /* bright frame */
       }
-
-      else {
-
-        iVar7 = 3;
-
-      }
-
+    } else {
+      priority = 4;
     }
-
-    else {
-
-      iVar7 = 4;
-
-    }
-
-    puVar5 = (int *)(puVar1 + ((bVar8 + 0x33) << 3));
-
-    (*(int(*)())0x06028400)(8,*puVar5,((unsigned int)local_34[bVar8] + (unsigned int)(local_23 << 6)) << 1,
-
-               (iVar7 << 12) + puVar5[1]);
-
-    bVar8 = bVar8 + 1;
-
-  } while (bVar8 < 3);
-
+    sprite_entry = (int *)(sprite_table + ((idx + 0x33) << 3));
+    (*(int(*)())0x06028400)(8, *sprite_entry, ((unsigned int)local_34[idx] + (unsigned int)(local_23 << 6)) << 1,
+               (priority << 12) + sprite_entry[1]);
+    idx = idx + 1;
+  } while (idx < 3);
   return;
-
 }
 
 void FUN_0601ba50(param_1, param_2, param_3)

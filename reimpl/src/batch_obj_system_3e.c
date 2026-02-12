@@ -90,148 +90,83 @@ int FUN_0603eacc(param_1)
   return rot_b;
 }
 
-int FUN_0603ec40(param_1)
+/* scroll_plane_angle_accumulate -- accumulate rotation angle and update scroll coefficients.
+ *   param_1 = angle delta (fixed-point, wraps at 0x01680000 = 360 degrees).
+ *   Selects active scroll plane via 0x060635A8 (1→plane 0, 2→plane 1).
+ *   Angle stored at 0x060A4C70[plane]. If rotation is active (0x060A4C4C flags),
+ *   computes sin/cos via fixedpoint_sine (0x0603D9EC) / fixedpoint_cosine (0x0603DA88).
+ *   Rotates coefficient pair from 0x060A53A8/0x060A53B0 into output at 0x060A3E68
+ *   (stride 0x80 per plane). Stores rotation matrix: [cos,-sin | sin,cos] at [2..6]. */
+int scroll_plane_angle_accumulate(param_1)
     int param_1;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int *piVar7;
-
-  int *piVar8;
-
-  int iVar9;
-
-  int *piVar10;
-
-  int *puVar11;
-
-  puVar1 = (char *)0x060A4C70;
-
-  iVar3 = *(int *)0x060635A8;
-
-  if (iVar3 == 1) {
-
-    iVar3 = 0;
-
-  }
-
-  else {
-
-    if (iVar3 != 2) {
-
-      return iVar3;
-
+  char *angle_base = (char *)0x060A4C70;       /* per-plane accumulated angle */
+  char *fpmul = (int *)0x0603C08C;             /* fixed-point multiply */
+  int plane_sel;
+  int cos_val, sin_val;
+  int coeff_a, coeff_b;
+  int rot_a, rot_b;
+  int *coeff_src_a;
+  int *coeff_src_b;
+  int plane_off;
+  int *out_coeffs;
+  int *angle_ptr;
+  plane_sel = *(int *)0x060635A8;              /* active scroll plane selector */
+  if (plane_sel == 1) {
+    plane_sel = 0;
+  } else {
+    if (plane_sel != 2) {
+      return plane_sel;
     }
-
-    iVar3 = 1;
-
+    plane_sel = 1;
   }
-
-  iVar9 = (iVar3 << 2);
-
-  if ((*(int *)(0x060A4C4C + iVar9) == 0) ||
-
-     ((*(int *)(0x060A4C60 + iVar9) == 0 && (*(int *)(0x060A4C78 + iVar9) == 0)))) {
-
-    param_1 = *(int *)(0x060A4C70 + (iVar3 << 2)) + param_1;
-
-    *(int *)(0x060A4C70 + (iVar3 << 2)) = param_1;
-
-    if ((int)0x01680000 <= param_1) {
-
-      *(int *)(puVar1 + (iVar3 << 2)) = *(int *)(puVar1 + (iVar3 << 2)) - (int)0x01680000;
-
+  plane_off = (plane_sel << 2);
+  if ((*(int *)(0x060A4C4C + plane_off) == 0) ||
+     ((*(int *)(0x060A4C60 + plane_off) == 0 && (*(int *)(0x060A4C78 + plane_off) == 0)))) {
+    /* Rotation active — accumulate angle */
+    param_1 = *(int *)(0x060A4C70 + (plane_sel << 2)) + param_1;
+    *(int *)(0x060A4C70 + (plane_sel << 2)) = param_1;
+    if ((int)0x01680000 <= param_1) {          /* wrap at 360 degrees */
+      *(int *)(angle_base + (plane_sel << 2)) = *(int *)(angle_base + (plane_sel << 2)) - (int)0x01680000;
     }
-
-    if (*(int *)(puVar1 + (iVar3 << 2)) < 0) {
-
-      *(char **)(puVar1 + (iVar3 << 2)) = 0x01680000 + *(int *)(puVar1 + (iVar3 << 2));
-
+    if (*(int *)(angle_base + (plane_sel << 2)) < 0) {
+      *(char **)(angle_base + (plane_sel << 2)) = 0x01680000 + *(int *)(angle_base + (plane_sel << 2));
     }
-
-    puVar2 = (int *)0x0603C08C;
-
-    iVar9 = (iVar3 << 2);
-
-    puVar11 = (int *)(puVar1 + iVar9);
-
-    piVar10 = (int *)(0x060A3E68 + (iVar3 << 7));
-
-    piVar7 = (int *)(0x060A53A8 + iVar9);
-
-    iVar6 = *piVar7;
-
-    uVar4 = (*(int(*)())0x0603DA88)(*puVar11);
-
-    iVar3 = (*(int(*)())puVar2)(uVar4,iVar6);
-
-    piVar8 = (int *)(0x060A53B0 + iVar9);
-
-    iVar5 = *piVar8;
-
-    iVar9 = (*(int(*)())0x0603D9EC)(*puVar11);
-
-    iVar9 = (*(int(*)())puVar2)(-iVar9,iVar5);
-
-    *piVar10 = (iVar6 - iVar3) - iVar9;
-
-    iVar5 = *piVar8;
-
-    iVar3 = *piVar7;
-
-    uVar4 = (*(int(*)())0x0603D9EC)(*puVar11);
-
-    iVar3 = (*(int(*)())puVar2)(uVar4,iVar3);
-
-    iVar9 = *piVar8;
-
-    uVar4 = (*(int(*)())0x0603DA88)(*puVar11);
-
-    iVar9 = (*(int(*)())puVar2)(uVar4,iVar9);
-
-    piVar10[1] = (iVar5 - iVar3) - iVar9;
-
-    piVar10[2] = 0;
-
-    iVar3 = (*(int(*)())0x0603D9EC)(*puVar11);
-
-    piVar10[3] = -iVar3;
-
-    iVar3 = (*(int(*)())0x0603DA88)(*puVar11);
-
-    piVar10[4] = iVar3;
-
-    iVar3 = (*(int(*)())0x0603DA88)(*puVar11);
-
-    piVar10[5] = iVar3;
-
-    iVar3 = (*(int(*)())0x0603D9EC)(*puVar11);
-
-    piVar10[6] = iVar3;
-
+    plane_off = (plane_sel << 2);
+    angle_ptr = (int *)(angle_base + plane_off);
+    out_coeffs = (int *)(0x060A3E68 + (plane_sel << 7));  /* output buffer (stride 0x80) */
+    coeff_src_a = (int *)(0x060A53A8 + plane_off);        /* original coeff A */
+    coeff_a = *coeff_src_a;
+    cos_val = (*(int(*)())0x0603DA88)(*angle_ptr);         /* fixedpoint_cosine */
+    rot_a = (*(int(*)())fpmul)(cos_val, coeff_a);          /* cos * A */
+    coeff_src_b = (int *)(0x060A53B0 + plane_off);        /* original coeff B */
+    coeff_b = *coeff_src_b;
+    sin_val = (*(int(*)())0x0603D9EC)(*angle_ptr);         /* fixedpoint_sine */
+    rot_b = (*(int(*)())fpmul)(-sin_val, coeff_b);        /* -sin * B */
+    *out_coeffs = (coeff_a - rot_a) - rot_b;              /* rotated coeff [0] */
+    coeff_b = *coeff_src_b;
+    coeff_a = *coeff_src_a;
+    cos_val = (*(int(*)())0x0603D9EC)(*angle_ptr);         /* sin for cross term */
+    rot_a = (*(int(*)())fpmul)(cos_val, coeff_a);          /* sin * A */
+    rot_b = *coeff_src_b;
+    cos_val = (*(int(*)())0x0603DA88)(*angle_ptr);         /* cos for cross term */
+    rot_b = (*(int(*)())fpmul)(cos_val, rot_b);            /* cos * B */
+    out_coeffs[1] = (coeff_b - rot_a) - rot_b;            /* rotated coeff [1] */
+    out_coeffs[2] = 0;                                    /* zero padding */
+    sin_val = (*(int(*)())0x0603D9EC)(*angle_ptr);
+    out_coeffs[3] = -sin_val;                             /* -sin */
+    cos_val = (*(int(*)())0x0603DA88)(*angle_ptr);
+    out_coeffs[4] = cos_val;                              /* cos */
+    cos_val = (*(int(*)())0x0603DA88)(*angle_ptr);
+    out_coeffs[5] = cos_val;                              /* cos (redundant) */
+    sin_val = (*(int(*)())0x0603D9EC)(*angle_ptr);
+    out_coeffs[6] = sin_val;                              /* sin */
+  } else {
+    /* Rotation paused — reset angle */
+    plane_off = (plane_sel << 2);
+    *(int *)(0x060A4C70 + plane_off) = 0;
   }
-
-  else {
-
-    iVar3 = (iVar3 << 2);
-
-    *(int *)(0x060A4C70 + iVar3) = 0;
-
-  }
-
-  return iVar3;
-
+  return plane_off;
 }
 
 /* light_state_bitfield_update -- Update 8 light state bytes from bitmask.
