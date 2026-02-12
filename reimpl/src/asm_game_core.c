@@ -77,7 +77,7 @@ void FUN_06033EA8(void) { }
 void FUN_06014A74(void) { }
 void FUN_06014D2C(void) { }
 void FUN_060190B8(void) { }
-void FUN_06012F80(void) { }
+/* FUN_06012F80: moved to batch_subsystem_12.c as scene_objects_init */
 void FUN_0601389E(void) { }
 /* FUN_0600DFD0: moved to visual_physics_update.c */
 void FUN_0600C218(void) { }

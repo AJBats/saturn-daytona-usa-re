@@ -1704,7 +1704,18 @@ LAB_060370a0:
   return;
 }
 
-unsigned int FUN_060370e4(param_1)
+/* vdp1_texture_config -- Configure VDP1 texture/CLUT banks.
+ * Sets up texture mapping, color lookup tables, and UV coordinates
+ * from a configuration struct pointed to by param_1.
+ *
+ * State registers:
+ *   0x060A3D88 = VDP1 mode shadow registers
+ *   0x060A3E38 = texture bank state
+ *   0x060A4C44 = CLUT output pair (2 ints, cleared on entry)
+ *   0x060A4C4C = config cache (8 bytes from param_1)
+ *
+ * Part of VDP1 texture management subsystem (#15). */
+unsigned int vdp1_texture_config(param_1)
     int *param_1;
 {
 

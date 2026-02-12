@@ -700,7 +700,18 @@ void FUN_06012e08(int param_1)
         FUN_06012c3c(0x06044984, 0x002A8000);
 }
 
-void FUN_06012f80()
+/* scene_objects_init -- Load and initialize scene objects for a course.
+ * Sets up memory regions (0x06084FA8/FAC/FB0), calls VDP and render
+ * init functions, then loads numbered object resources (1..N) via
+ * resource loader at 0x06007658.
+ *
+ * Scene setup variant B (946 instructions). Three parallel variants:
+ *   FUN_0600EC78 = variant A, FUN_06012F80 = variant B (this),
+ *   FUN_0602382C = variant C (largest).
+ * Each variant loads a different course's object set.
+ *
+ * Called from race_state_handlers.c and state_init_handlers.c. */
+void scene_objects_init()
 {
 
   char *puVar1;

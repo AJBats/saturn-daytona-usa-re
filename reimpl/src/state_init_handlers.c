@@ -191,7 +191,7 @@ extern void FUN_060149E0(void);
 extern void FUN_06028560(void);
 
 /* Rendering subsystem init */
-extern void FUN_06012F80(void);
+extern void scene_objects_init(void);
 
 /* Link subsystem init */
 extern void FUN_0601B160(void);
@@ -584,7 +584,7 @@ void FUN_06009DD0(void)
     MODE_SELECTOR = 27;
     RENDER_PARAM_CACHE = 0x0258;  /* 600 = 10 seconds at 60fps */
     FUN_06028560();
-    FUN_06012F80();
+    scene_objects_init();
     SUB_STATE_COUNTER = 3;
     FUN_06018DDC(19);  /* original: r4=19, r5=19, r6=0 (tail call) */
 }

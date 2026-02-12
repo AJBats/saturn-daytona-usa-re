@@ -139,7 +139,7 @@ extern void FUN_0600DE40(void);
 extern void FUN_06014A74(void);
 extern void FUN_06014D2C(void);
 extern void FUN_060190B8(void);
-extern void FUN_06012F80(void);
+extern void scene_objects_init(void);
 extern void FUN_0601389E(void);
 extern void FUN_0600DFD0(void);
 extern void FUN_0600C218(void);
@@ -807,7 +807,7 @@ void state_26_handler(void)
     RACE_COUNTDOWN = 600;
 
     FUN_06028560();
-    FUN_06012F80();
+    scene_objects_init();
 
     RACE_PHASE_WORD = 3;
 

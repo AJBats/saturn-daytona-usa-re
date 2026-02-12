@@ -94417,7 +94417,14 @@ LAB_0602bee8:
 
 }
 
-void FUN_0602c494(param_1, param_2)
+/* vdp1_sprite_list_build -- Build VDP1 sprite command list.
+ * Copies param_1 sprite indices from param_2 into work buffer at 0x060A17A8,
+ * then processes each to generate VDP1 command list entries.
+ * Output: command list at 0x06094FA8 (via pointer at 0x060A2468).
+ *
+ * Part of the VDP1 rendering pipeline (subsystem #27).
+ * Each sprite index references polygon/texture data for rendering. */
+void vdp1_sprite_list_build(param_1, param_2)
     unsigned int param_1;
     unsigned short *param_2;
 {
