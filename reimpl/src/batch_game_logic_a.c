@@ -874,203 +874,123 @@ void FUN_0600b340()
 
 }
 
+/* car_model_render_all -- Render all active AI car 3D models.
+ * Iterates car slots 1..N, builds per-car rotation matrix from position/angles,
+ * applies body roll/pitch if car is moving (+0xB8 or collision state).
+ * Selects model LOD based on car state flags:
+ *   - 0x400000 set or scene state 8: damaged model (LOD_C at 0x0606212C)
+ *   - 0x200000 set: spinning/airborne model (LOD_B at 0x060621D8)
+ *   - Normal with flag bit 7: standard model (LOD_D at 0x060620D8)
+ * Each LOD config has fields at +0x18 (model), +0x28 (matrix A),
+ * +0x2c (matrix B), +0x30 (texture). Car palette from 0x06089E44. */
 unsigned int FUN_0600b6a0()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  int *puVar6;
-
-  int *puVar7;
-
-  int *puVar8;
-
-  int *puVar9;
-
-  short *psVar10;
-
-  int *puVar11;
-
-  int *puVar12;
-
-  int *puVar13;
-
-  int *puVar14;
-
-  int *puVar15;
-
-  int *puVar16;
-
-  int *puVar17;
-
-  int *puVar18;
-
-  int *puVar19;
-
-  int *puVar20;
-
-  int *puVar21;
-
-  int *puVar22;
-
-  unsigned int uVar23;
-
-  unsigned int uVar24;
-
-  unsigned int *puVar25;
-
-  puVar4 = (char *)0x06031A28;
-
-  puVar3 = (char *)0x06031D8C;
-
-  puVar2 = (int *)0x06089E44;
-
-  puVar1 = (char *)0x06089EDC;
-
-  uVar5 = DEMO_MODE_FLAG;
-
-  if (uVar5 == 0) {
-
-    puVar14 = (int *)(0x060621D8 + 0x28);
-
-    puVar9 = (int *)(0x0606212C + 0x28);
-
-    puVar15 = (int *)(0x06062180 + 0x28);
-
-    psVar10 = (short *)(0x06089E44 + 4);
-
-    puVar16 = (int *)(0x060620D8 + 0x28);
-
-    puVar11 = (int *)(0x060621D8 + 0x2c);
-
-    puVar6 = (int *)(0x0606212C + 0x2c);
-
-    puVar17 = (int *)(0x06062180 + 0x2c);
-
-    puVar12 = (int *)(0x060620D8 + 0x2c);
-
-    puVar7 = (int *)(0x060621D8 + 0x30);
-
-    puVar18 = (int *)(0x0606212C + 0x30);
-
-    puVar13 = (int *)(0x06062180 + 0x30);
-
-    puVar8 = (int *)(0x060620D8 + 0x30);
-
-    uVar5 = 0x40;
-
-    puVar20 = (int *)(0x060621D8 + 0x18);
-
-    puVar21 = (int *)(0x0606212C + 0x18);
-
-    puVar19 = (int *)(0x06062180 + 0x18);
-
-    puVar22 = (int *)(0x060620D8 + 0x18);
-
-    for (uVar24 = 1; uVar24 < (unsigned int)(int)*(short *)0x06078664; uVar24 = uVar24 + 1) {
-
-      puVar25 = (unsigned int *)(0x06078900 + uVar24 * 0x268);
-
-      if ((*puVar25 & (unsigned int)0x00E00000) != 0) {
-
-        (*(int(*)())0x06026DBC)();
-
-        (*(int(*)())0x06026E2E)(puVar25[4],puVar25[5] + *(int *)((int)puVar25 + (int)DAT_0600b83a),puVar25[6]);
-
-        (*(int(*)())0x06026EDE)(0x00008000 + puVar25[8]);
-
-        (*(int(*)())0x06026F2A)(-puVar25[9]);
-
-        (*(int(*)())0x06026E94)(-puVar25[7]);
-
-        if (*(int *)((int)puVar25 + (int)DAT_0600b83c) + *(int *)((int)puVar25 + 0xb8)
-
+  char *matrix_stack;    /* 0x06089EDC */
+  char *palette_table;   /* 0x06089E44 */
+  char *model_setup;     /* 0x06031D8C — model data setup function */
+  char *model_render;    /* 0x06031A28 — model render function */
+  unsigned int result;
+  int *lod_c_mat_a;      /* LOD C (0x0606212C) fields */
+  int *lod_b_mat_a;      /* LOD B (0x060621D8) fields */
+  int *lod_a_mat_a;      /* LOD A (0x06062180) fields */
+  int *lod_d_mat_a;      /* LOD D (0x060620D8) fields */
+  short *palette_idx;
+  int *lod_b_mat_b;
+  int *lod_c_mat_b;
+  int *lod_a_mat_b;
+  int *lod_d_mat_b;
+  int *lod_b_tex;
+  int *lod_c_tex;
+  int *lod_a_tex;
+  int *lod_d_tex;
+  int *lod_b_model;
+  int *lod_c_model;
+  int *lod_a_model;
+  int *lod_d_model;
+  unsigned int car_palette_idx;
+  unsigned int slot;
+  unsigned int *car_ptr;
+  model_render = (char *)0x06031A28;
+  model_setup = (char *)0x06031D8C;
+  palette_table = (int *)0x06089E44;
+  matrix_stack = (char *)0x06089EDC;
+  result = DEMO_MODE_FLAG;
+  if (result == 0) {
+    /* Pre-load LOD config pointers for all 4 detail levels */
+    lod_b_mat_a = (int *)(0x060621D8 + 0x28);
+    lod_c_mat_a = (int *)(0x0606212C + 0x28);
+    lod_a_mat_a = (int *)(0x06062180 + 0x28);
+    palette_idx = (short *)(0x06089E44 + 4);
+    lod_d_mat_a = (int *)(0x060620D8 + 0x28);
+    lod_b_mat_b = (int *)(0x060621D8 + 0x2c);
+    lod_c_mat_b = (int *)(0x0606212C + 0x2c);
+    lod_a_mat_b = (int *)(0x06062180 + 0x2c);
+    lod_d_mat_b = (int *)(0x060620D8 + 0x2c);
+    lod_b_tex = (int *)(0x060621D8 + 0x30);
+    lod_c_tex = (int *)(0x0606212C + 0x30);
+    lod_a_tex = (int *)(0x06062180 + 0x30);
+    lod_d_tex = (int *)(0x060620D8 + 0x30);
+    result = 0x40;
+    lod_b_model = (int *)(0x060621D8 + 0x18);
+    lod_c_model = (int *)(0x0606212C + 0x18);
+    lod_a_model = (int *)(0x06062180 + 0x18);
+    lod_d_model = (int *)(0x060620D8 + 0x18);
+    for (slot = 1; slot < (unsigned int)(int)*(short *)0x06078664; slot = slot + 1) {
+      car_ptr = (unsigned int *)(0x06078900 + slot * 0x268);
+      if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
+        /* Build rotation matrix: translate → rotate Y → pitch → roll */
+        (*(int(*)())0x06026DBC)();                   /* reset matrix */
+        (*(int(*)())0x06026E2E)(car_ptr[4],car_ptr[5] + *(int *)((int)car_ptr + (int)DAT_0600b83a),car_ptr[6]);
+        (*(int(*)())0x06026EDE)(0x00008000 + car_ptr[8]);   /* heading */
+        (*(int(*)())0x06026F2A)(-car_ptr[9]);                /* pitch */
+        (*(int(*)())0x06026E94)(-car_ptr[7]);                /* roll */
+        /* Apply body deformation if car is moving or in collision */
+        if (*(int *)((int)car_ptr + (int)DAT_0600b83c) + *(int *)((int)car_ptr + 0xb8)
             != 0) {
-
-          (*(int(*)())0x06026EDE)(-*(int *)((int)puVar25 + DAT_0600b840 + -0xc) -
-
-                     *(int *)((int)puVar25 + 0x1d8));
-
-          (*(int(*)())0x06026F2A)(-*(int *)((int)puVar25 + 0x1d0));
-
-          (*(int(*)())0x06026E94)(-*(int *)((int)puVar25 + 0x1c8));
-
+          (*(int(*)())0x06026EDE)(-*(int *)((int)car_ptr + DAT_0600b840 + -0xc) -
+                     *(int *)((int)car_ptr + 0x1d8));
+          (*(int(*)())0x06026F2A)(-*(int *)((int)car_ptr + 0x1d0));
+          (*(int(*)())0x06026E94)(-*(int *)((int)car_ptr + 0x1c8));
         }
-
-        uVar23 = (unsigned int)(unsigned char)((int *)0x06047FC4)[uVar24];
-
-        if (((*puVar25 & 0x400000) == 0) &&
-
+        car_palette_idx = (unsigned int)(unsigned char)((int *)0x06047FC4)[slot];
+        /* Select model LOD based on car state flags */
+        if (((*car_ptr & 0x400000) == 0) &&
            (*(int *)0x06063E1C + *(int *)0x06063E20 != 8)) {
-
-          if ((*puVar25 & 0x200000) == 0) {
-
-            uVar5 = (unsigned int)*(char *)((int)puVar25 + 1);
-
-            if ((uVar5 & 0x80) != 0) {
-
-              if (*(int *)((int)puVar25 + (int)DAT_0600b90e) < 1) {
-
-                (*(int(*)())puVar3)(*puVar9,*puVar14);
-
-                (*(int(*)())puVar4)(*puVar16,(int)*psVar10,*puVar15);
-
+          if ((*car_ptr & 0x200000) == 0) {
+            /* Normal rendering — check visibility flag (bit 7) */
+            result = (unsigned int)*(char *)((int)car_ptr + 1);
+            if ((result & 0x80) != 0) {
+              if (*(int *)((int)car_ptr + (int)DAT_0600b90e) < 1) {
+                /* Wheel shadow model */
+                (*(int(*)())model_setup)(*lod_c_mat_a,*lod_b_mat_a);
+                (*(int(*)())model_render)(*lod_d_mat_a,(int)*palette_idx,*lod_a_mat_a);
               }
-
-              FUN_0600aa98(puVar25,1);
-
-              (*(int(*)())puVar3)(*puVar21,*puVar20);
-
-              uVar5 = (*(int(*)())puVar4)(*puVar22,(int)*(short *)(puVar2 + (uVar23 << 1)),*puVar19);
-
+              /* Update car state and render standard model */
+              FUN_0600aa98(car_ptr,1);
+              (*(int(*)())model_setup)(*lod_c_model,*lod_b_model);
+              result = (*(int(*)())model_render)(*lod_d_model,(int)*(short *)(palette_table + (car_palette_idx << 1)),*lod_a_model);
             }
-
           }
-
           else {
-
-            (*(int(*)())puVar3)(*puVar18,*puVar7);
-
-            uVar5 = (*(int(*)())puVar4)(*puVar8,(int)*(short *)(puVar2 + (uVar23 << 1)),*puVar13);
-
+            /* Spinning/airborne model (LOD B+D) */
+            (*(int(*)())model_setup)(*lod_c_tex,*lod_b_tex);
+            result = (*(int(*)())model_render)(*lod_d_tex,(int)*(short *)(palette_table + (car_palette_idx << 1)),*lod_a_tex);
           }
-
         }
-
         else {
-
-          if (*(int *)((int)puVar25 + (int)DAT_0600b83c) < 1) {
-
-            (*(int(*)())puVar3)(*puVar9,*puVar14);
-
-            (*(int(*)())puVar4)(*puVar16,(int)*psVar10,*puVar15);
-
+          /* Damaged/crashed model (LOD C) */
+          if (*(int *)((int)car_ptr + (int)DAT_0600b83c) < 1) {
+            (*(int(*)())model_setup)(*lod_c_mat_a,*lod_b_mat_a);
+            (*(int(*)())model_render)(*lod_d_mat_a,(int)*palette_idx,*lod_a_mat_a);
           }
-
-          (*(int(*)())puVar3)(*puVar6,*puVar11);
-
-          uVar5 = (*(int(*)())puVar4)(*puVar12,(int)*(short *)(puVar2 + (uVar23 << 1)),*puVar17);
-
+          (*(int(*)())model_setup)(*lod_c_mat_b,*lod_b_mat_b);
+          result = (*(int(*)())model_render)(*lod_d_mat_b,(int)*(short *)(palette_table + (car_palette_idx << 1)),*lod_a_mat_b);
         }
-
-        *(int *)puVar1 = *(int *)puVar1 + -0x30;
-
+        *(int *)matrix_stack = *(int *)matrix_stack + -0x30;  /* pop matrix */
       }
-
     }
-
   }
-
-  return uVar5;
-
+  return result;
 }
 
 unsigned int FUN_0600b914()

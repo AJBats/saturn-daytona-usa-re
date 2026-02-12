@@ -3861,203 +3861,118 @@ long long FUN_06033aac()
   return CONCAT44(src_entry + 7,unused);
 }
 
+/* track_scenery_lod_update -- Load track scenery objects based on checkpoint position.
+ * Reads car checkpoint at +0x1EC and enables scenery groups by range:
+ *   Zone 1 (0xDC-0xEC): objects 0-2 (roadside structures)
+ *   Zone 2 (0xED-0x104): objects 5-24 (mid-track scenery, 20 objects)
+ *   Zone 3 (0x1B8-0x1E0): objects 25-44 (far scenery, progressive in demo mode)
+ * In demo mode, zone 3 progressively loads objects based on timer at 0x06083250
+ * with thresholds at 0x13B (4 more), 0x276 (5 more), 0x3B1 (10 more).
+ * Timer caps at 0xEC4, resets when leaving zone 3. */
 int FUN_06033bc8()
 {
-
-  int iVar1;
-
-  int bVar2;
-
-  if ((*(int *)(0x000001EC + CAR_PTR_TARGET) < 0x000000DC) ||
-
-     (0x000000EC < *(int *)(0x000001EC + CAR_PTR_TARGET))) {
-
-    bVar2 = 0;
-
+  int timer;
+  int in_zone;
+  int checkpoint = *(int *)(0x000001EC + CAR_PTR_TARGET);
+  /* Zone 1: checkpoint 0xDC-0xEC — roadside structures */
+  if ((checkpoint < 0x000000DC) || (0x000000EC < checkpoint)) {
+    in_zone = 0;
   }
-
   else {
-
-    bVar2 = 1;
-
+    in_zone = 1;
   }
-
-  if (bVar2) {
-
+  if (in_zone) {
     (*(int(*)())0x06033F54)(0);
-
     (*(int(*)())0x06033F54)(1);
-
     (*(int(*)())0x06033F54)(2);
-
   }
-
   else {
-
-    (*(int(*)())0x0603446C)();
-
+    (*(int(*)())0x0603446C)();           /* fallback: unload zone 1 objects */
   }
-
-  if ((*(int *)(0x000001EC + CAR_PTR_TARGET) < 0x000000ED) ||
-
-     (0x00000104 < *(int *)(0x000001EC + CAR_PTR_TARGET))) {
-
-    bVar2 = 0;
-
+  /* Zone 2: checkpoint 0xED-0x104 — mid-track scenery (20 objects) */
+  checkpoint = *(int *)(0x000001EC + CAR_PTR_TARGET);
+  if ((checkpoint < 0x000000ED) || (0x00000104 < checkpoint)) {
+    in_zone = 0;
   }
-
   else {
-
-    bVar2 = 1;
-
+    in_zone = 1;
   }
-
-  if (bVar2) {
-
+  if (in_zone) {
     FUN_06033f54(5);
-
     FUN_06033f54(6);
-
     FUN_06033f54(7);
-
     FUN_06033f54(8);
-
     FUN_06033f54(9);
-
     FUN_06033f54(10);
-
     FUN_06033f54(0xb);
-
     FUN_06033f54(0xc);
-
     FUN_06033f54(0xd);
-
     FUN_06033f54(0xe);
-
     FUN_06033f54(0xf);
-
     FUN_06033f54(0x10);
-
     FUN_06033f54(0x11);
-
     FUN_06033f54(0x12);
-
     FUN_06033f54(0x13);
-
     FUN_06033f54(0x14);
-
     FUN_06033f54(0x15);
-
     FUN_06033f54(0x16);
-
     FUN_06033f54(0x17);
-
     FUN_06033f54(0x18);
-
   }
-
-  if ((*(int *)(0x000001EC + CAR_PTR_TARGET) < 0x000001B8) ||
-
-     (0x000001E0 < *(int *)(0x000001EC + CAR_PTR_TARGET))) {
-
-    bVar2 = 0;
-
+  /* Zone 3: checkpoint 0x1B8-0x1E0 — far scenery (progressive in demo) */
+  checkpoint = *(int *)(0x000001EC + CAR_PTR_TARGET);
+  if ((checkpoint < 0x000001B8) || (0x000001E0 < checkpoint)) {
+    in_zone = 0;
   }
-
   else {
-
-    bVar2 = 1;
-
+    in_zone = 1;
   }
-
-  if (bVar2) {
-
+  if (in_zone) {
     if (DEMO_MODE_FLAG == 0) {
-
-      iVar1 = 0;
-
+      timer = 0;
     }
-
     else {
-
-      FUN_06033f54(0x00000019);
-
-      iVar1 = *(int *)0x06083250;
-
-      if (0x0000013B <= iVar1) {
-
+      /* Demo mode: progressively reveal objects based on timer */
+      FUN_06033f54(0x00000019);          /* always load first far object */
+      timer = *(int *)0x06083250;
+      if (0x0000013B <= timer) {         /* tier 1: 4 more objects */
         FUN_06033f54(0x0000001A);
-
         FUN_06033f54(0x0000001B);
-
         FUN_06033f54(0x0000001C);
-
         FUN_06033f54(0x0000001D);
-
-        if (0x00000276 <= iVar1) {
-
+        if (0x00000276 <= timer) {       /* tier 2: 5 more objects */
           FUN_06033f54(0x1e);
-
           FUN_06033f54(0x1f);
-
           FUN_06033f54(0x20);
-
           FUN_06033f54(0x21);
-
           FUN_06033f54(0x22);
-
-          if (0x000003B1 <= iVar1) {
-
+          if (0x000003B1 <= timer) {     /* tier 3: 10 more objects */
             FUN_06033f54(0x23);
-
             FUN_06033f54(0x24);
-
             FUN_06033f54(0x25);
-
             FUN_06033f54(0x26);
-
             FUN_06033f54(0x27);
-
             FUN_06033f54(0x28);
-
             FUN_06033f54(0x29);
-
             FUN_06033f54(0x2a);
-
             FUN_06033f54(0x2b);
-
             FUN_06033f54(0x2c);
-
           }
-
         }
-
       }
-
-      iVar1 = *(int *)0x06083250 + 1;
-
+      /* Increment timer, cap at 0xEC4 */
+      timer = *(int *)0x06083250 + 1;
       if (0x00000EC4 <= *(int *)0x06083250 + 1) {
-
-        iVar1 = 0x00000EC4;
-
+        timer = 0x00000EC4;
       }
-
-      *(int *)0x06083250 = iVar1;
-
+      *(int *)0x06083250 = timer;
     }
-
   }
-
   else {
-
-    iVar1 = 0;
-
-    *(int *)0x06083250 = 0;
-
+    timer = 0;
+    *(int *)0x06083250 = 0;              /* reset timer when leaving zone */
   }
-
-  return iVar1;
-
+  return timer;
 }
 
 /* scene_object_state_advance -- Advance scene object loading state machine.

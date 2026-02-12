@@ -245,197 +245,100 @@ void FUN_06020d46(void)
   } while ((i & 0xff) < 0x10);
 }
 
+/* road_surface_scroll_update -- Update road surface sprite and scroll offsets.
+ * Part 1: On surface state change, swaps road sprite based on surface flags
+ * (0x00=normal, 0x44=left variant, 0x88=right variant, special).
+ * Part 2: Computes road scroll offsets from car speed (+0x60 >> 14),
+ * fills 22 entries in forward/reverse scroll arrays, applies to VDP2. */
 int FUN_06020e74()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  unsigned char bVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  int iVar10;
-
-  puVar4 = (char *)0x06089595;
-
-  puVar3 = (char *)0x06087C84;
-
-  puVar2 = (char *)0x06078663;
-
-  puVar1 = (char *)0x06089594;
-
+  char *transition_trigger; /* 0x06089595 */
+  char *scroll_data;        /* 0x06087C84 */
+  char *mirror_flag;        /* 0x06078663 */
+  char *cooldown_timer;     /* 0x06089594 */
+  unsigned int surface_bits;
+  unsigned char scroll_idx;
+  int sprite_slot_a;
+  int sprite_slot_b;
+  int scroll_speed;
+  int scroll_base;
+  int scroll_fwd;
+  int scroll_rev;
+  transition_trigger = (char *)0x06089595;
+  scroll_data = (char *)0x06087C84;
+  mirror_flag = (char *)0x06078663;
+  cooldown_timer = (char *)0x06089594;
+  /* Handle transition trigger: reset cooldown to 10 frames */
   if (*(int *)0x06089595 != '\0') {
-
     *(int *)0x06089594 = 10;
-
-    *puVar4 = 0;
-
+    *transition_trigger = 0;
   }
-
-  if (*puVar1 != '\0') {
-
-    *puVar1 = *puVar1 + -1;
-
+  if (*cooldown_timer != '\0') {
+    *cooldown_timer = *cooldown_timer + -1;
   }
-
+  /* Part 1: Swap road surface sprite on state change */
   if ((*(int *)(CAR_PTR_TARGET + (int)DAT_06020f2e) != *(int *)0x06089598) &&
-
      (*(int *)0x06083255 == '\0')) {
-
-    iVar9 = 0x900;
-
-    uVar5 = *(unsigned int *)((int)DAT_06020f2e + CAR_PTR_TARGET) & 0xcc;
-
-    if (uVar5 == 0) {
-
-      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + 0x48),iVar9,
-
+    scroll_speed = 0x900;
+    surface_bits = *(unsigned int *)((int)DAT_06020f2e + CAR_PTR_TARGET) & 0xcc;
+    if (surface_bits == 0) {
+      /* Normal road surface */
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + 0x48),scroll_speed,
                  *(int *)(0x06063750 + 0x4c));
-
     }
-
-    else if (uVar5 == 0x44) {
-
-      if (*puVar2 == '\0') {
-
-        iVar7 = 10;
-
-      }
-
-      else {
-
-        iVar7 = 0xb;
-
-      }
-
-      if (*puVar2 == '\0') {
-
-        iVar8 = 10;
-
-      }
-
-      else {
-
-        iVar8 = 0xb;
-
-      }
-
-      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + (iVar8 << 3)),iVar9,
-
-                 *(int *)(0x06063750 + (iVar7 << 3) + 4));
-
+    else if (surface_bits == 0x44) {
+      /* Left-side surface variant */
+      if (*mirror_flag == '\0') { sprite_slot_a = 10; } else { sprite_slot_a = 0xb; }
+      if (*mirror_flag == '\0') { sprite_slot_b = 10; } else { sprite_slot_b = 0xb; }
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + (sprite_slot_b << 3)),scroll_speed,
+                 *(int *)(0x06063750 + (sprite_slot_a << 3) + 4));
     }
-
-    else if (uVar5 == 0x88) {
-
-      if (*puVar2 == '\0') {
-
-        iVar7 = 0xb;
-
-      }
-
-      else {
-
-        iVar7 = 10;
-
-      }
-
-      if (*puVar2 == '\0') {
-
-        iVar8 = 0xb;
-
-      }
-
-      else {
-
-        iVar8 = 10;
-
-      }
-
-      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + (iVar8 << 3)),iVar9,
-
-                 *(int *)(0x06063750 + (iVar7 << 3) + 4));
-
+    else if (surface_bits == 0x88) {
+      /* Right-side surface variant (mirror of left) */
+      if (*mirror_flag == '\0') { sprite_slot_a = 0xb; } else { sprite_slot_a = 10; }
+      if (*mirror_flag == '\0') { sprite_slot_b = 0xb; } else { sprite_slot_b = 10; }
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + (sprite_slot_b << 3)),scroll_speed,
+                 *(int *)(0x06063750 + (sprite_slot_a << 3) + 4));
     }
-
-    else if (uVar5 == (int)DAT_06020fc8) {
-
-      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + 0x60),iVar9,
-
+    else if (surface_bits == (int)DAT_06020fc8) {
+      /* Special surface (off-road/pit) */
+      (*(int(*)())0x06028400)(4,*(int *)(0x06063750 + 0x60),scroll_speed,
                  *(int *)(0x06063750 + 100));
-
     }
-
   }
-
   *(int *)0x06089598 = *(int *)(CAR_PTR_TARGET + (int)DAT_06020fca);
-
+  /* Part 2: Road scroll based on car speed */
   if (*(int *)0x06063E20 != 1) {
-
     return *(int *)0x06063E20;
-
   }
-
-  iVar10 = 0;
-
-  iVar7 = 0;
-
-  iVar9 = *(int *)(CAR_PTR_TARGET + 0x60) >> 0xe;
-
-  iVar8 = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)(*puVar1 << 2));
-
-  if (*puVar2 != '\0') {
-
-    iVar9 = -iVar9;
-
+  scroll_fwd = 0;
+  scroll_rev = 0;
+  scroll_speed = *(int *)(CAR_PTR_TARGET + 0x60) >> 0xe;  /* car speed >> 14 */
+  scroll_base = *(int *)(0x0604D3E0 + (unsigned int)(unsigned char)(*cooldown_timer << 2));
+  /* Mirror scroll direction if needed */
+  if (*mirror_flag != '\0') {
+    scroll_speed = -scroll_speed;
   }
-
-  if ((iVar9 < DAT_06021098) && (DAT_0602109a < iVar9)) {
-
-    iVar9 = 0;
-
+  /* Dead zone: zero out small scroll speeds */
+  if ((scroll_speed < DAT_06021098) && (DAT_0602109a < scroll_speed)) {
+    scroll_speed = 0;
   }
-
-  *(int *)(puVar3 + DAT_0602109c) = 0;
-
-  bVar6 = 0;
-
+  *(int *)(scroll_data + DAT_0602109c) = 0;
+  /* Fill 22 scroll offset entries (forward and reverse) */
+  scroll_idx = 0;
   do {
-
-    iVar10 = iVar10 + iVar9;
-
-    iVar7 = iVar7 - iVar9;
-
-    uVar5 = (unsigned int)bVar6;
-
-    *(int *)(puVar3 + (((0x15 - (unsigned int)bVar6) << 2) + (int)DAT_0602109e)) = iVar10 + iVar8;
-
-    bVar6 = bVar6 + 1;
-
-    *(int *)(puVar3 + (uVar5 << 2) + (int)DAT_0602109e + 0x58) = iVar7 + iVar8;
-
-  } while (bVar6 < 0x16);
-
+    scroll_fwd = scroll_fwd + scroll_speed;
+    scroll_rev = scroll_rev - scroll_speed;
+    surface_bits = (unsigned int)scroll_idx;
+    *(int *)(scroll_data + (((0x15 - (unsigned int)scroll_idx) << 2) + (int)DAT_0602109e)) = scroll_fwd + scroll_base;
+    scroll_idx = scroll_idx + 1;
+    *(int *)(scroll_data + (surface_bits << 2) + (int)DAT_0602109e + 0x58) = scroll_rev + scroll_base;
+  } while (scroll_idx < 0x16);
+  /* Apply scroll data to VDP2 */
   (*(int(*)())0x0603850C)(8);
-
   (*(int(*)())0x06038120)(0x06087C84);
-
-  iVar9 = (*(int(*)())0x06038520)();
-
-  return iVar9;
-
+  scroll_speed = (*(int(*)())0x06038520)();
+  return scroll_speed;
 }
 
 /* track_zone_sprite_swap -- Swap sprite/palette data when car enters track zones.
