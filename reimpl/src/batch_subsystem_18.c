@@ -326,231 +326,144 @@ int FUN_06018634()
   return course;
 }
 
+/* race_scene_init -- initialize racing scene with course geometry, textures, and subsystems */
 void FUN_06018a3c()
 {
+  char *track_index_ptr;
+  char *segment_count_ptr;
+  char *total_segments_ptr;
+  int table_offset;
+  int course_offset;
+  int palette_mask;
+  int cd_cmd_buf;
+  char cd_cmd_type;
+  char cd_cmd_flag;
+  int cd_subcmd;
+  char cd_timeout_lo;
+  char cd_timeout_hi;
+  char cd_end_marker;
 
-  char *puVar1;
+  track_index_ptr = (char *)0x0607EAD8; /* current track index */
 
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int uVar6;
-
-  int local_30;
-
-  char uStack_2c;
-
-  char uStack_2b;
-
-  int uStack_28;
-
-  char uStack_24;
-
-  char uStack_23;
-
-  char uStack_20;
-
-  puVar1 = (char *)0x0607EAD8;
-
+  /* Set track complexity flags based on track index */
   if (*(int *)0x06078868 < 10) {
-
-    *(int *)0x0607867C = 0;
-
-    *(int *)0x06083255 = 0;
-
+    *(int *)0x0607867C = 0; /* extra_geometry_flag */
+    *(int *)0x06083255 = 0; /* extended_track_flag */
   }
-
   else {
-
     if (*(int *)0x06078868 < 0xc) {
-
       *(int *)0x0607867C = 0;
-
     }
-
     else {
-
-      *(int *)0x0607867C = 1;
-
+      *(int *)0x0607867C = 1; /* enable extra geometry for tracks >= 12 */
     }
-
-    *(int *)0x06083255 = 1;
-
+    *(int *)0x06083255 = 1; /* enable extended track for tracks >= 10 */
   }
 
+  /* Run rendering subsystem chain if not in skip mode */
   if (*(int *)0x0605AD08 == 0) {
-
-    (*(int(*)())0x0600736C)();
-
-    (*(int(*)())0x06012DB4)(*(int *)puVar1);
-
-    (*(int(*)())(*(int *)(0x0605D1BC + *(int *)((int)(int)puVar1 << 2))))();
-
-    (*(int(*)())0x06012D7C)(*(int *)puVar1);
-
+    (*(int(*)())0x0600736C)();        /* car_array_init */
+    (*(int(*)())0x06012DB4)(*(int *)track_index_ptr); /* track_geometry_load */
+    (*(int(*)())(*(int *)(0x0605D1BC + *(int *)((int)(int)track_index_ptr << 2))))(); /* track_type_dispatch */
+    (*(int(*)())0x06012D7C)(*(int *)track_index_ptr); /* track_collision_load */
     if (*(int *)0x06078635 == '\0') {
-
-      (*(int(*)())0x06012E7C)();
-
+      (*(int(*)())0x06012E7C)();      /* scenery_object_load */
     }
-
     if (*(short *)0x0607ED8C == 0) {
-
-      (*(int(*)())0x06018FF8)();
-
+      (*(int(*)())0x06018FF8)();      /* music_init */
     }
-
   }
 
   if (*(short *)0x0607ED8C != 0) {
-
-    (*(int(*)())0x06018FF8)();
-
+    (*(int(*)())0x06018FF8)();        /* music_init (force if flag set) */
   }
 
+  /* Course-specific palette/texture setup */
   if ((GAME_STATE_BIT & (int)DAT_06018b8e) == 0) {
-
-    uVar6 = 0;
-
-    iVar5 = 3;
-
+    palette_mask = 0;
+    course_offset = 3;
   }
-
   else {
-
     if (*(int *)0x0605AB18 == '\0') {
-
       if (COURSE_SELECT == 2) {
-
+        /* Course 2 (expert): build CD command for special asset load */
         (*(int(*)())0x06018E1E)((unsigned char)*(int *)0x06078648 + 6);
-
-        local_30 = 2;
-
-        uStack_2c = 6;
-
-        uStack_2b = 1;
-
-        uStack_28 = 2;
-
-        uStack_24 = 9;
-
-        uStack_23 = 99;
-
-        uStack_20 = 0x8f;
-
-        (*(int(*)())0x06034D1C)(&local_30);
-
+        cd_cmd_buf = 2;
+        cd_cmd_type = 6;
+        cd_cmd_flag = 1;
+        cd_subcmd = 2;
+        cd_timeout_lo = 9;
+        cd_timeout_hi = 99;
+        cd_end_marker = 0x8f;
+        (*(int(*)())0x06034D1C)(&cd_cmd_buf); /* cd_command_dispatch */
       }
-
       else {
-
         (*(int(*)())0x06018DDC)((unsigned char)*(int *)0x06078648 + 6,(unsigned char)*(int *)0x06078648 + 6,0xf);
-
       }
-
       goto LAB_06018bd8;
-
     }
-
-    uVar6 = 0xf;
-
-    iVar5 = (int)(char)((int *)0x0605D23C)[(unsigned char)*(int *)0x06078648];
-
+    palette_mask = 0xf;
+    course_offset = (int)(char)((int *)0x0605D23C)[(unsigned char)*(int *)0x06078648];
   }
 
-  (*(int(*)())0x06018DDC)(iVar5,iVar5,uVar6);
+  (*(int(*)())0x06018DDC)(course_offset,course_offset,palette_mask);
 
 LAB_06018bd8:
-
   *(int *)0x0607EBE4 = 0;
+  table_offset = *(int *)((int)(int)track_index_ptr << 1);
 
-  iVar4 = *(int *)((int)(int)puVar1 << 1);
+  /* Load track geometry parameters from ROM tables at 0x0604800C */
+  *(unsigned int *)0x0607EA9C = (unsigned int)*(unsigned short *)(0x0604806C + table_offset); /* polygon_count */
+  *(char **)0x0607EB84 = 0x060D5840; /* texture_base_a */
+  *(char **)0x0607EB88 = 0x060C6000; /* texture_base_b */
+  *(char **)0x06063F3C = 0x0604800C + *(int *)((int)(int)track_index_ptr << 3); /* track_segment_table */
 
-  *(unsigned int *)0x0607EA9C = (unsigned int)*(unsigned short *)(0x0604806C + iVar4);
+  course_offset = (*(int(*)())0x06035280)(); /* cd_get_track_segment_count */
+  *(int *)0x06063F18 = course_offset + -1; /* max_segment_index */
+  *(int *)0x060786AC = 0;   /* render_segment_start */
+  *(int *)0x06063F1C = 1;   /* render_direction */
+  *(int *)0x06063F20 = 0;   /* render_wrap_flag */
+  *(int *)0x06063F24 = 0;   /* render_lod_bias */
+  *(int *)0x06086034 = 0;   /* scenery_counter */
 
-  *(char **)0x0607EB84 = 0x060D5840;
+  segment_count_ptr = (char *)0x06063F28;
+  course_offset = (int)(char)((char)COURSE_SELECT * '\x06'); /* course * 6 table stride */
+  *(unsigned int *)0x06063F28 = (unsigned int)*(unsigned short *)(0x0604805A + table_offset + course_offset); /* road_segment_count */
+  *(unsigned int *)0x0607EA98 = (unsigned int)*(unsigned short *)(0x06048072 + table_offset); /* track_width */
+  *(unsigned int *)0x0607EAA0 = (unsigned int)*(unsigned short *)(0x06048024 + table_offset); /* track_height */
 
-  *(char **)0x0607EB88 = 0x060C6000;
-
-  *(char **)0x06063F3C = 0x0604800C + *(int *)((int)(int)puVar1 << 3);
-
-  iVar5 = (*(int(*)())0x06035280)();
-
-  *(int *)0x06063F18 = iVar5 + -1;
-
-  *(int *)0x060786AC = 0;
-
-  *(int *)0x06063F1C = 1;
-
-  *(int *)0x06063F20 = 0;
-
-  *(int *)0x06063F24 = 0;
-
-  *(int *)0x06086034 = 0;
-
-  puVar2 = (char *)0x06063F28;
-
-  iVar5 = (int)(char)((char)COURSE_SELECT * '\x06');
-
-  *(unsigned int *)0x06063F28 = (unsigned int)*(unsigned short *)(0x0604805A + iVar4 + iVar5);
-
-  *(unsigned int *)0x0607EA98 = (unsigned int)*(unsigned short *)(0x06048072 + iVar4);
-
-  *(unsigned int *)0x0607EAA0 = (unsigned int)*(unsigned short *)(0x06048024 + iVar4);
-
-  puVar3 = (char *)0x0607EAAC;
-
-  *(unsigned int *)0x0607EAAC = (unsigned int)*(unsigned short *)(0x0604802A + iVar4 + iVar5);
-
-  *(unsigned int *)puVar3 =
-
-       *(int *)puVar3 +
-
+  total_segments_ptr = (char *)0x0607EAAC;
+  *(unsigned int *)0x0607EAAC = (unsigned int)*(unsigned short *)(0x0604802A + table_offset + course_offset); /* total_road_polygons */
+  *(unsigned int *)total_segments_ptr =
+       *(int *)total_segments_ptr +
        (unsigned int)*(unsigned short *)
+              (0x0604803C + table_offset + (char)((char)*(int *)0x0605AD0C * '\x06')) *
+       *(int *)segment_count_ptr;
 
-              (0x0604803C + iVar4 + (char)((char)*(int *)0x0605AD0C * '\x06')) *
-
-       *(int *)puVar2;
-
+  /* DMA copy VDP1 command table */
   (*(int(*)())0x0602761E)(0x25C00220 + *(int *)(0x06059FFC << 3),0x0605CDDC,0xa0);
 
-  (*(int(*)())0x060149E0)();
-
-  (*(int(*)())0x060148FC)();
-
-  (*(int(*)())0x06026CE0)();
-
+  /* Initialize rendering subsystems */
+  (*(int(*)())0x060149E0)(); /* vdp1_sprite_table_init */
+  (*(int(*)())0x060148FC)(); /* vdp1_palette_init */
+  (*(int(*)())0x06026CE0)(); /* matrix_pipeline_init */
   VBLANK_OUT_COUNTER = 0;
 
-  (*(int(*)())0x0600A026)();
+  /* Initialize game subsystems */
+  (*(int(*)())0x0600A026)(); /* car_physics_init */
+  *(int *)0x0605AD08 = 0;   /* clear skip flag */
+  *(char **)0x0607E944 = 0x06078900; /* car_array_base = 0x06078900 */
 
-  *(int *)0x0605AD08 = 0;
-
-  *(char **)0x0607E944 = 0x06078900;
-
-  (*(int(*)())0x06010994)();
-
-  (*(int(*)())0x060038D4)();
-
-  (*(int(*)())0x060039C8)();
-
-  (*(int(*)())(*(int *)(0x0605D1CC + *(int *)((int)(int)puVar1 << 2))))();
-
-  (*(int(*)())0x060032D4)();
-
-  (*(int(*)())0x06003430)();
-
-  (*(int(*)())0x06014994)();
-
-  (*(int(*)())0x06021128)();
+  (*(int(*)())0x06010994)(); /* selection_screen_init */
+  (*(int(*)())0x060038D4)(); /* input_init */
+  (*(int(*)())0x060039C8)(); /* timer_init */
+  (*(int(*)())(*(int *)(0x0605D1CC + *(int *)((int)(int)track_index_ptr << 2))))(); /* course_specific_init */
+  (*(int(*)())0x060032D4)(); /* hud_init */
+  (*(int(*)())0x06003430)(); /* camera_init */
+  (*(int(*)())0x06014994)(); /* collision_map_init */
+  (*(int(*)())0x06021128)(); /* track_sprite_init */
 
   return;
-
 }
 
 /* cd_command_build_type2 -- Build and send a CD command type 2 buffer.

@@ -218,465 +218,274 @@ void FUN_06010470(void)
   }
 }
 
+/* track_select_button_input -- handle digital button input for track/music selection */
 unsigned int FUN_060104e0(param_1)
     unsigned int param_1;
 {
+  char game_mode;
+  char *double_buf_toggle;
+  char *current_index;
+  char *odd_even_flag;
+  char *selection_counter;
+  unsigned int result;
+  int prev_index;
+  unsigned int new_index;
+  int max_entries;
+  int *dma_target;
+  int scroll_offset;
 
-  char cVar1;
+  double_buf_toggle = (short *)0x060788A8; /* double-buffer page toggle */
+  current_index = (char *)0x06078868;      /* displayed track index */
+  odd_even_flag = (int *)0x0607EAB8;       /* odd/even page flag */
+  selection_counter = (char *)0x0607EADC;  /* selection index counter */
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  int iVar7;
-
-  unsigned int uVar8;
-
-  int iVar9;
-
-  int *puVar10;
-
-  int uVar11;
-
-  puVar5 = (short *)0x060788A8;
-
-  puVar4 = (char *)0x06078868;
-
-  puVar3 = (int *)0x0607EAB8;
-
-  puVar2 = (char *)0x0607EADC;
-
-  cVar1 = *(int *)0x0605AB16;
-
-  if ((cVar1 == '\x01') || (cVar1 == '\x02')) {
-
+  /* Determine max selection entries based on game mode */
+  game_mode = *(int *)0x0605AB16;
+  if ((game_mode == '\x01') || (game_mode == '\x02')) {
 LAB_06010504:
-
-    iVar9 = 5;
-
+    max_entries = 5;
   }
-
   else {
-
-    if (cVar1 != '\x03') {
-
-      if (cVar1 == '\x04') goto LAB_06010504;
-
-      if ((cVar1 != '\x05') && (cVar1 != '\x06')) {
-
-        if (cVar1 == '\a') {
-
-          iVar9 = 9;
-
+    if (game_mode != '\x03') {
+      if (game_mode == '\x04') goto LAB_06010504;
+      if ((game_mode != '\x05') && (game_mode != '\x06')) {
+        if (game_mode == '\a') {
+          max_entries = 9;
         }
-
         else {
-
-          iVar9 = 3;
-
+          max_entries = 3;
         }
-
         goto LAB_06010570;
-
       }
-
     }
-
-    iVar9 = 7;
-
+    max_entries = 7;
   }
 
 LAB_06010570:
-
   if (*(int *)0x0605AB17 == '\a') {
-
-    iVar9 = 0xb;
-
+    max_entries = 0xb;
+  }
+  result = (unsigned int)(char)*(int *)0x0605AB17;
+  if (result == 0xf) {
+    max_entries = 0xd;
   }
 
-  uVar6 = (unsigned int)(char)*(int *)0x0605AB17;
-
-  if (uVar6 == 0xf) {
-
-    iVar9 = 0xd;
-
-  }
-
+  /* Check button input: bit 0x8000 = scroll up, DAT_0601064a = scroll down */
   if ((param_1 & 0xffff & (unsigned int)0x00008000) == 0) {
-
+    /* No up button — check down button */
     if ((param_1 & 0xffff & (int)DAT_0601064a) != 0) {
-
-      *(char **)0x0607889C = 0x00010000;
-
-      iVar7 = *(int *)puVar2;
-
-      *(int *)puVar2 = iVar7 + -1;
-
-      if (iVar7 + -1 < 0) {
-
-        *(int *)puVar2 = iVar9;
-
+      /* Scroll down: decrement selection */
+      *(char **)0x0607889C = 0x00010000; /* scroll_direction = positive */
+      prev_index = *(int *)selection_counter;
+      *(int *)selection_counter = prev_index + -1;
+      if (prev_index + -1 < 0) {
+        *(int *)selection_counter = max_entries; /* wrap to end */
       }
-
-      uVar11 = 0xFFF40000;
-
-      uVar6 = (unsigned int)(unsigned char)*puVar5;
-
-      if (uVar6 == 0) {
-
-        *puVar5 = 1;
-
-        *(int *)0x06078898 = uVar11;
-
-        *(int *)0x060788A4 = *(int *)puVar2;
-
+      scroll_offset = 0xFFF40000;
+      result = (unsigned int)(unsigned char)*double_buf_toggle;
+      if (result == 0) {
+        *double_buf_toggle = 1;
+        *(int *)0x06078898 = scroll_offset;
+        *(int *)0x060788A4 = *(int *)selection_counter;
       }
-
       else {
-
-        *puVar5 = 0;
-
-        *(int *)0x06078894 = uVar11;
-
-        *(int *)0x060788A0 = *(int *)puVar2;
-
+        *double_buf_toggle = 0;
+        *(int *)0x06078894 = scroll_offset;
+        *(int *)0x060788A0 = *(int *)selection_counter;
       }
-
     }
-
   }
-
   else {
-
-    *(int *)0x0607889C = 0xFFFF0000;
-
-    iVar7 = *(int *)puVar2;
-
-    *(int *)puVar2 = iVar7 + 1;
-
-    if (iVar9 < iVar7 + 1) {
-
-      *(int *)puVar2 = 0;
-
+    /* Scroll up: increment selection with CD preview load */
+    *(int *)0x0607889C = 0xFFFF0000; /* scroll_direction = negative */
+    prev_index = *(int *)selection_counter;
+    *(int *)selection_counter = prev_index + 1;
+    if (max_entries < prev_index + 1) {
+      *(int *)selection_counter = 0; /* wrap around */
     }
-
-    if (*puVar5 == '\0') {
-
-      *puVar5 = 1;
-
-      (*(int(*)())0x060359E4)();
-
-      uVar6 = (*(int(*)())0x060357B8)();
-
-      *(unsigned int *)0x06078898 = uVar6;
-
-      *(int *)0x060788A4 = *(int *)puVar2;
-
+    if (*double_buf_toggle == '\0') {
+      *double_buf_toggle = 1;
+      (*(int(*)())0x060359E4)();     /* cd_seek_preview */
+      result = (*(int(*)())0x060357B8)(); /* cd_read_preview */
+      *(unsigned int *)0x06078898 = result; /* page_a_offset = cd data */
+      *(int *)0x060788A4 = *(int *)selection_counter;
     }
-
     else {
-
-      *puVar5 = 0;
-
+      *double_buf_toggle = 0;
       (*(int(*)())0x060359E4)();
-
-      uVar6 = (*(int(*)())0x060357B8)();
-
-      *(unsigned int *)0x06078894 = uVar6;
-
-      *(int *)0x060788A0 = *(int *)puVar2;
-
+      result = (*(int(*)())0x060357B8)();
+      *(unsigned int *)0x06078894 = result;
+      *(int *)0x060788A0 = *(int *)selection_counter;
     }
-
   }
 
-  uVar8 = *(unsigned int *)puVar2;
+  /* Update current display index */
+  new_index = *(unsigned int *)selection_counter;
+  *(unsigned int *)current_index = new_index;
+  *(unsigned int *)odd_even_flag = new_index & 1;
 
-  *(unsigned int *)puVar4 = uVar8;
-
-  *(unsigned int *)puVar3 = uVar8 & 1;
-
-  if (*(unsigned int *)puVar4 < 10) {
-
-    if (*puVar5 == '\0') {
-
-      uVar11 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
-
-      puVar10 = (int *)0x06078884;
-
+  /* DMA transfer track preview sprite if index < 10 */
+  if (*(unsigned int *)current_index < 10) {
+    if (*double_buf_toggle == '\0') {
+      scroll_offset = *(int *)(0x0605D05C + *(int *)((int)(int)current_index << 2));
+      dma_target = (int *)0x06078884; /* vdp1_target_a */
     }
-
     else {
-
-      uVar11 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
-
-      puVar10 = (int *)0x06078880;
-
+      scroll_offset = *(int *)(0x0605D05C + *(int *)((int)(int)current_index << 2));
+      dma_target = (int *)0x06078880; /* vdp1_target_b */
     }
-
-    uVar6 = (*(int(*)())0x0602766C)(*puVar10,uVar11,0xc0);
-
+    result = (*(int(*)())0x0602766C)(*dma_target,scroll_offset,0xc0); /* dma_copy_vdp1_alt */
   }
 
+  /* DMA transfer selection highlight when button was pressed */
   if ((param_1 & 0xffff & (unsigned int)0x0000C000) != 0) {
-
-    if (*(unsigned int *)puVar4 < 0xc) {
-
-      iVar9 = *(int *)puVar4;
-
+    if (*(unsigned int *)current_index < 0xc) {
+      max_entries = *(int *)current_index;
     }
-
     else {
-
-      iVar9 = *(int *)puVar4 + -2;
-
+      max_entries = *(int *)current_index + -2;
     }
-
-    uVar6 = (*(int(*)())0x0602761E)(0x25F00000 + (*(int *)((int)(int)puVar3 << 1) + 0x23) << 5,
-
-                       0x0605CA9C + (iVar9 << 6),0x40);
-
-    return uVar6;
-
+    result = (*(int(*)())0x0602761E)(0x25F00000 + (*(int *)((int)(int)odd_even_flag << 1) + 0x23) << 5,
+                       0x0605CA9C + (max_entries << 6),0x40);
+    return result;
   }
 
-  return uVar6;
-
+  return result;
 }
 
+/* track_select_analog_scroll -- handle analog stick input for track/music selection menu */
 unsigned int FUN_06010760()
 {
+  char game_mode;
+  char *dma_copy_fn;
+  char *double_buf_toggle;
+  char *current_index;
+  char *selection_counter;
+  char *scroll_target;
+  unsigned int stick_pos;
+  unsigned int result;
+  unsigned int new_index;
+  int prev_index;
+  int max_entries;
+  int scroll_offset;
 
-  char cVar1;
+  selection_counter = (short *)0x0607EADC; /* selection index counter */
+  current_index = (char *)0x06078868;      /* displayed track index */
+  double_buf_toggle = (int *)0x060788A8;   /* double-buffer page toggle */
+  dma_copy_fn = (char *)0x0602761E;        /* dma_copy_vdp1 function */
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  unsigned int uVar7;
-
-  unsigned int uVar8;
-
-  unsigned int uVar9;
-
-  int iVar10;
-
-  int iVar11;
-
-  int uVar12;
-
-  puVar5 = (short *)0x0607EADC;
-
-  puVar4 = (char *)0x06078868;
-
-  puVar3 = (int *)0x060788A8;
-
-  puVar2 = (char *)0x0602761E;
-
-  cVar1 = *(int *)0x0605AB16;
-
-  if ((cVar1 == '\x01') || (cVar1 == '\x02')) {
-
+  /* Determine max selection entries based on game mode */
+  game_mode = *(int *)0x0605AB16;
+  if ((game_mode == '\x01') || (game_mode == '\x02')) {
 LAB_06010782:
-
-    iVar11 = 5;
-
+    max_entries = 5;
   }
-
   else {
-
-    if (cVar1 != '\x03') {
-
-      if (cVar1 == '\x04') goto LAB_06010782;
-
-      if ((cVar1 != '\x05') && (cVar1 != '\x06')) {
-
-        if (cVar1 == '\a') {
-
-          iVar11 = 9;
-
+    if (game_mode != '\x03') {
+      if (game_mode == '\x04') goto LAB_06010782;
+      if ((game_mode != '\x05') && (game_mode != '\x06')) {
+        if (game_mode == '\a') {
+          max_entries = 9;
         }
-
         else {
-
-          iVar11 = 3;
-
+          max_entries = 3; /* default: 4 entries (0-3) */
         }
-
         goto LAB_060107c8;
-
       }
-
     }
-
-    iVar11 = 7;
-
+    max_entries = 7;
   }
 
 LAB_060107c8:
-
+  /* Special mode overrides */
   if (*(int *)0x0605AB17 == '\a') {
-
-    iVar11 = 0xb;
-
+    max_entries = 0xb;
   }
-
   if (*(int *)0x0605AB17 == '\x0f') {
-
-    iVar11 = 0xd;
-
+    max_entries = 0xd;
   }
 
-  uVar7 = ((unsigned int)*(unsigned short *)0x06063D9C ^ (unsigned int)0x0000FFFF) & 0xff;
+  /* Read analog stick X position (inverted, 8-bit) */
+  stick_pos = ((unsigned int)*(unsigned short *)0x06063D9C ^ (unsigned int)0x0000FFFF) & 0xff;
+  result = stick_pos;
 
-  uVar8 = uVar7;
-
-  if (0x90 < (int)uVar7) {
-
-    *(int *)0x0607889C = 0xFFFF0000;
-
-    *(int *)0x0605AA9C = 0x1e;
-
-    iVar10 = *(int *)puVar5;
-
-    *(int *)puVar5 = iVar10 + 1;
-
-    if (iVar11 < iVar10 + 1) {
-
-      *(int *)puVar5 = 0;
-
+  /* Stick right (> 0x90): scroll forward */
+  if (0x90 < (int)stick_pos) {
+    *(int *)0x0607889C = 0xFFFF0000; /* scroll_direction = negative */
+    *(int *)0x0605AA9C = 0x1e;       /* scroll_repeat_delay = 30 frames */
+    prev_index = *(int *)selection_counter;
+    *(int *)selection_counter = prev_index + 1;
+    if (max_entries < prev_index + 1) {
+      *(int *)selection_counter = 0; /* wrap around */
     }
-
-    puVar6 = (char *)0x000C0000;
-
-    uVar8 = (unsigned int)(unsigned char)*puVar3;
-
-    if (uVar8 == 0) {
-
-      *puVar3 = 1;
-
-      *(char **)0x06078898 = puVar6;
-
-      *(int *)0x060788A4 = *(int *)puVar5;
-
+    scroll_target = (char *)0x000C0000;
+    result = (unsigned int)(unsigned char)*double_buf_toggle;
+    if (result == 0) {
+      *double_buf_toggle = 1;
+      *(char **)0x06078898 = scroll_target; /* page_a_offset */
+      *(int *)0x060788A4 = *(int *)selection_counter; /* page_a_index */
     }
-
     else {
-
-      *puVar3 = 0;
-
-      *(char **)0x06078894 = puVar6;
-
-      *(int *)0x060788A0 = *(int *)puVar5;
-
+      *double_buf_toggle = 0;
+      *(char **)0x06078894 = scroll_target; /* page_b_offset */
+      *(int *)0x060788A0 = *(int *)selection_counter; /* page_b_index */
     }
-
   }
 
-  if (uVar7 < 0x70) {
-
-    *(char **)0x0607889C = 0x00010000;
-
-    *(int *)0x0605AA9C = 0x1e;
-
-    iVar10 = *(int *)puVar5;
-
-    *(int *)puVar5 = iVar10 + -1;
-
-    if (iVar10 + -1 < 0) {
-
-      *(int *)puVar5 = iVar11;
-
+  /* Stick left (< 0x70): scroll backward */
+  if (stick_pos < 0x70) {
+    *(char **)0x0607889C = 0x00010000; /* scroll_direction = positive */
+    *(int *)0x0605AA9C = 0x1e;         /* scroll_repeat_delay */
+    prev_index = *(int *)selection_counter;
+    *(int *)selection_counter = prev_index + -1;
+    if (prev_index + -1 < 0) {
+      *(int *)selection_counter = max_entries; /* wrap to end */
     }
-
-    uVar12 = 0xFFF40000;
-
-    uVar8 = (unsigned int)(unsigned char)*puVar3;
-
-    if (uVar8 == 0) {
-
-      *puVar3 = 1;
-
-      *(int *)0x06078898 = uVar12;
-
-      *(int *)0x060788A4 = *(int *)puVar5;
-
+    scroll_offset = 0xFFF40000;
+    result = (unsigned int)(unsigned char)*double_buf_toggle;
+    if (result == 0) {
+      *double_buf_toggle = 1;
+      *(int *)0x06078898 = scroll_offset;
+      *(int *)0x060788A4 = *(int *)selection_counter;
     }
-
     else {
-
-      *puVar3 = 0;
-
-      *(int *)0x06078894 = uVar12;
-
-      *(int *)0x060788A0 = *(int *)puVar5;
-
+      *double_buf_toggle = 0;
+      *(int *)0x06078894 = scroll_offset;
+      *(int *)0x060788A0 = *(int *)selection_counter;
     }
-
   }
 
-  uVar9 = *(unsigned int *)puVar5;
+  /* Update current display index */
+  new_index = *(unsigned int *)selection_counter;
+  *(unsigned int *)current_index = new_index;
+  *(unsigned int *)0x0607EAB8 = new_index & 1; /* odd/even page flag */
 
-  *(unsigned int *)puVar4 = uVar9;
-
-  *(unsigned int *)0x0607EAB8 = uVar9 & 1;
-
-  if (*(unsigned int *)puVar4 < 10) {
-
-    if (*puVar3 == '\0') {
-
-      uVar12 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
-
-      iVar11 = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + 0x40;
-
+  /* DMA transfer track preview sprite if index < 10 */
+  if (*(unsigned int *)current_index < 10) {
+    if (*double_buf_toggle == '\0') {
+      scroll_offset = *(int *)(0x0605D05C + *(int *)((int)(int)current_index << 2));
+      max_entries = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + 0x40;
     }
-
     else {
-
-      uVar12 = *(int *)(0x0605D05C + *(int *)((int)(int)puVar4 << 2));
-
-      iVar11 = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + DAT_0601096e + 0x40;
-
+      scroll_offset = *(int *)(0x0605D05C + *(int *)((int)(int)current_index << 2));
+      max_entries = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + DAT_0601096e + 0x40;
     }
-
-    uVar8 = (*(int(*)())puVar2)(iVar11,uVar12,0xc0);
-
+    result = (*(int(*)())dma_copy_fn)(max_entries,scroll_offset,0xc0);
   }
 
-  if ((uVar7 < 0x70) || (0x90 < (int)uVar7)) {
-
-    if (*(unsigned int *)puVar4 < 0xc) {
-
-      iVar11 = *(int *)puVar4;
-
+  /* DMA transfer selection highlight arrow when stick moved */
+  if ((stick_pos < 0x70) || (0x90 < (int)stick_pos)) {
+    if (*(unsigned int *)current_index < 0xc) {
+      max_entries = *(int *)current_index;
     }
-
     else {
-
-      iVar11 = *(int *)puVar4 + -2;
-
+      max_entries = *(int *)current_index + -2;
     }
-
-    uVar8 = (*(int(*)())puVar2)(0x25F00000 + (*(int *)(0x0607EAB8 << 1) + 0x23) << 5,
-
-                              0x0605CA9C + (iVar11 << 6),0x40);
-
+    result = (*(int(*)())dma_copy_fn)(0x25F00000 + (*(int *)(0x0607EAB8 << 1) + 0x23) << 5,
+                              0x0605CA9C + (max_entries << 6),0x40);
   }
 
-  return uVar8;
-
+  return result;
 }
 
 /* character_sprite_dma -- DMA-copy character sprite data for current selection.
