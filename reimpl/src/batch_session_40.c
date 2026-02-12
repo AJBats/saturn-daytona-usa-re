@@ -240,7 +240,12 @@ void FUN_060401f8(int param_1, int param_2)
     *(int *)(param_1 + 0x24) = sector - *(int *)(*(int *)(param_1 + 0x18) + 0x10);
 }
 
-int FUN_06040220(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8)
+/* cd_file_info_extract -- Extract fields from CD file record into output params.
+ * Reads FAD (frame address), file size, LBA range, flags, and attributes
+ * from a packed CD file record. Each output pointer may be NULL to skip.
+ * FAD has bit 30 stripped (marks CD-XA). Sectors remaining computed as
+ * start - used, or 0 if interleave flags set. Returns 0x1D or 0. */
+int cd_file_info_extract(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8)
     unsigned int *param_1;
     unsigned int *param_2;
     unsigned int *param_3;
@@ -250,81 +255,55 @@ int FUN_06040220(param_1, param_2, param_3, param_4, param_5, param_6, param_7, 
     unsigned int *param_7;
     unsigned int *param_8;
 {
+    int result = 0;
 
-  int uVar1;
-
-  if (param_2 != (unsigned int *)0x0) {
-
-    if ((*param_1 & 0x40000000) == 0) {
-
-      *param_2 = *param_1;
-
+    /* FAD (frame address) — strip CD-XA flag at bit 30 */
+    if (param_2 != (unsigned int *)0x0) {
+        if ((*param_1 & 0x40000000) == 0) {
+            *param_2 = *param_1;
+        } else {
+            *param_2 = *param_1 & 0x3FFFFFFF;
+        }
     }
 
-    else {
-
-      *param_2 = *param_1 & 0x3FFFFFFF;
-
+    /* File size in bytes */
+    if (param_3 != (unsigned int *)0x0) {
+        *param_3 = param_1[1];
     }
 
-  }
-
-  if (param_3 != (unsigned int *)0x0) {
-
-    *param_3 = param_1[1];
-
-  }
-
-  if (param_7 != (unsigned int *)0x0) {
-
-    *param_7 = (unsigned int)*(unsigned char *)(param_1 + 7);
-
-  }
-
-  if (param_4 != (unsigned int *)0x0) {
-
-    *param_4 = param_1[3];
-
-  }
-
-  if (param_5 != (unsigned int *)0x0) {
-
-    *param_5 = param_1[4];
-
-  }
-
-  uVar1 = 0;
-
-  if (param_8 != (unsigned int *)0x0) {
-
-    uVar1 = 0x1d;
-
-    *param_8 = (unsigned int)*(unsigned char *)((int)param_1 + 0x1d);
-
-  }
-
-  if (param_6 != (int *)0x0) {
-
-    if (((*(unsigned char *)((int)param_1 + 0x1d) & 8) == 0) ||
-
-       (uVar1 = 0x1d, (*(unsigned char *)((int)param_1 + 0x1d) & 4) == 0)) {
-
-      uVar1 = 0x1d;
-
-      *param_6 = param_1[3] - param_1[5];
-
+    /* Flags byte at +0x1C */
+    if (param_7 != (unsigned int *)0x0) {
+        *param_7 = (unsigned int)*(unsigned char *)(param_1 + 7);
     }
 
-    else {
-
-      *param_6 = 0;
-
+    /* LBA start sector */
+    if (param_4 != (unsigned int *)0x0) {
+        *param_4 = param_1[3];
     }
 
-  }
+    /* LBA end sector */
+    if (param_5 != (unsigned int *)0x0) {
+        *param_5 = param_1[4];
+    }
 
-  return uVar1;
+    /* Attributes byte at +0x1D */
+    if (param_8 != (unsigned int *)0x0) {
+        result = 0x1d;
+        *param_8 = (unsigned int)*(unsigned char *)((int)param_1 + 0x1d);
+    }
 
+    /* Sectors remaining (start - used), unless interleave bits 3+2 both set */
+    if (param_6 != (int *)0x0) {
+        if (((*(unsigned char *)((int)param_1 + 0x1d) & 8) == 0) ||
+           (result = 0x1d, (*(unsigned char *)((int)param_1 + 0x1d) & 4) == 0)) {
+            result = 0x1d;
+            *param_6 = param_1[3] - param_1[5];
+        } else {
+            *param_6 = 0;
+        }
+    }
+
+    return result;
 }
 
 /* cd_status_query -- Query CD drive status and classify state.
@@ -552,132 +531,79 @@ int FUN_060408b0(param_1, param_2, param_3)
     return sectors_read;
 }
 
-int FUN_060409e6(param_1, param_2, param_3)
+/* cd_seek_position -- Seek to a target sector position within a CD stream.
+ * param_1 = stream state struct (+4=handle, +8=base_sector, +0x10=offset,
+ * +0x24=seek_mode). param_2 = target sector, param_3 = seek type (1=relative).
+ * For relative seeks, adds to current position. For absolute, resets transfer
+ * first. In mode 0 (sequential): skips sectors forward. In mode 1 (random):
+ * full reset if target is outside current window. Returns final position. */
+int cd_seek_position(param_1, param_2, param_3)
     int param_1;
     int param_2;
     int param_3;
 {
+    int target_sector;
+    int skip_count;
+    int result;
 
-  char *puVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  int local_1c;
-
-  int iStack_18;
-
-  puVar1 = (char *)0x0604188C;
-
-  if (param_2 < 0) {
-
-    param_2 = 0;
-
-  }
-
-  if (param_3 == 1) {
-
-    iVar2 = *(int *)(param_1 + 8) + *(int *)(param_1 + 0x10) + param_2;
-
-    local_1c = param_2;
-
-  }
-
-  else {
-
-    if (*(int *)(param_1 + 8) + *(int *)(param_1 + 0x10) == param_2) {
-
-      return param_2;
-
+    if (param_2 < 0) {
+        param_2 = 0;
     }
 
-    iVar2 = (*(int(*)())0x060411A0)(*(int *)(param_1 + 4),0,0x0000FFFF,&local_1c,0)
-
-    ;
-
-    if (iVar2 != 0) {
-
-      return -1;
-
+    if (param_3 == 1) {
+        /* Relative seek: offset from current position */
+        target_sector = *(int *)(param_1 + 8) + *(int *)(param_1 + 0x10) + param_2;
+        skip_count = param_2;
+    } else {
+        /* Absolute seek: check if already at target */
+        if (*(int *)(param_1 + 8) + *(int *)(param_1 + 0x10) == param_2) {
+            return param_2;                    /* already there */
+        }
+        /* Reset transfer and wait for completion */
+        result = (*(int(*)())0x060411A0)(*(int *)(param_1 + 4), 0, 0x0000FFFF, &skip_count, 0);
+        if (result != 0) {
+            return -1;
+        }
+        result = (*(int(*)())0x0604188C)();    /* cd_wait_complete */
+        if (result != 0) {
+            return -1;
+        }
+        target_sector = param_2;
+        if (skip_count < 0) {
+            skip_count = 0;
+        }
     }
 
-    iVar2 = (*(int(*)())puVar1)();
-
-    if (iVar2 != 0) {
-
-      return -1;
-
+    if (*(int *)(param_1 + 0x24) == 0) {
+        /* Sequential mode: skip forward within current window */
+        if ((*(int *)(param_1 + 8) <= target_sector) &&
+           (target_sector < *(int *)(param_1 + 0x10) + *(int *)(param_1 + 8))) {
+            skip_count = target_sector - *(int *)(param_1 + 8);
+        }
+        if (0 < skip_count) {
+            (*(int(*)())0x060412B2)(*(int *)(param_1 + 4), 0, skip_count);  /* skip sectors */
+            result = (*(int(*)())0x0604188C)();  /* cd_wait_complete */
+            if (result != 0) {
+                return -1;
+            }
+        }
+        *(int *)(param_1 + 8) = target_sector;
+        *(int *)(param_1 + 0x10) = 0;
+    } else if (*(int *)(param_1 + 0x24) == 1) {
+        /* Random access mode: full reset if outside window */
+        if ((target_sector < *(int *)(param_1 + 8)) ||
+           (*(int *)(param_1 + 0x10) + *(int *)(param_1 + 8) + 1 < target_sector)) {
+            (*(int(*)())0x060412B2)(*(int *)(param_1 + 4), 0, 0x0000FFFF);  /* reset all */
+            result = (*(int(*)())0x0604188C)();
+            if (result == 0) {
+                return -1;
+            }
+            *(int *)(param_1 + 8) = target_sector;
+        }
+        *(int *)(param_1 + 0x10) = target_sector - *(int *)(param_1 + 8);
     }
 
-    iVar2 = param_2;
-
-    if (local_1c < 0) {
-
-      local_1c = 0;
-
-    }
-
-  }
-
-  if (*(int *)(param_1 + 0x24) == 0) {
-
-    if ((*(int *)(param_1 + 8) <= iVar2) &&
-
-       (iVar2 < *(int *)(param_1 + 0x10) + *(int *)(param_1 + 8))) {
-
-      local_1c = iVar2 - *(int *)(param_1 + 8);
-
-    }
-
-    if (0 < local_1c) {
-
-      (*(int(*)())0x060412B2)(*(int *)(param_1 + 4),0,local_1c);
-
-      iVar3 = (*(int(*)())puVar1)();
-
-      if (iVar3 != 0) {
-
-        return -1;
-
-      }
-
-    }
-
-    *(int *)(param_1 + 8) = iVar2;
-
-    *(int *)(param_1 + 0x10) = 0;
-
-  }
-
-  else if (*(int *)(param_1 + 0x24) == 1) {
-
-    if ((iVar2 < *(int *)(param_1 + 8)) ||
-
-       (*(int *)(param_1 + 0x10) + *(int *)(param_1 + 8) + 1 < iVar2)) {
-
-      iStack_18 = param_1;
-
-      (*(int(*)())0x060412B2)(*(int *)(param_1 + 4),0,0x0000FFFF);
-
-      iVar3 = (*(int(*)())puVar1)();
-
-      if (iVar3 == 0) {
-
-        return -1;
-
-      }
-
-      *(int *)(param_1 + 8) = iVar2;
-
-    }
-
-    *(int *)(param_1 + 0x10) = iVar2 - *(int *)(param_1 + 8);
-
-  }
-
-  return *(int *)(param_1 + 8) + *(int *)(param_1 + 0x10);
-
+    return *(int *)(param_1 + 8) + *(int *)(param_1 + 0x10);
 }
 
 char * FUN_06040b32(param_1, param_2)
