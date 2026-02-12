@@ -141,7 +141,14 @@ void FUN_0603806c(param_1)
  * then zeroes all VDP2 register shadow arrays (scroll params, color calc,
  * rotation params, window coords). Sets VDP2 base to 0x25F80000.
  * Triggers VDP1_BATCH_FLAG for first frame. */
-void FUN_06038300(void)
+/* vdp2_subsystem_init -- Initialize all VDP2 shadow register tables.
+ * Calls hardware reset (0x06038F34), zeroes scroll/rotation/line-scroll
+ * state, then initializes: VDP2 VRAM base (0x25F80000 at 0x060A3D84),
+ * scroll regs (0x060A3D88), rotation table (0x060A3DB0), coordinate
+ * table (0x060A3DF8 — scale defaults 0x10000 = 1.0 in 16.16),
+ * color calc regs (0x060A3E38), and window table (0x060A3E48).
+ * Triggers VDP1_BATCH_FLAG for next frame commit. */
+void vdp2_subsystem_init(void)
 {
     char *scroll_regs;
     char *rotation_tbl;
@@ -149,32 +156,33 @@ void FUN_06038300(void)
     unsigned int i;
     unsigned short j;
 
-    (*(int(*)())0x06038F34)();
-    *(int *)0x060A4C60 = 0;  *(int *)0x060A4C64 = 0;
-    *(int *)0x060A4C68 = 0;  *(int *)0x060A4C6C = 0;
-    *(int *)0x060A4C78 = 0;  *(int *)0x060A4C7C = 0;
-    *(short *)0x060A4C40 = 0;  *(short *)0x060A4C42 = 0;
-    *(short *)0x060A4C54 = 0;  *(short *)0x060A4C56 = 0;
-    *(int *)0x060A4C44 = 0;  *(int *)0x060A4C48 = 0;
-    *(int *)0x060A4C4C = 0;  *(int *)0x060A4C50 = 0;
-    (*(int(*)())0x0603C104)();
+    (*(int(*)())0x06038F34)();                          /* hardware reset */
+    *(int *)0x060A4C60 = 0;  *(int *)0x060A4C64 = 0;   /* scroll offset A/B */
+    *(int *)0x060A4C68 = 0;  *(int *)0x060A4C6C = 0;   /* scroll offset C/D */
+    *(int *)0x060A4C78 = 0;  *(int *)0x060A4C7C = 0;   /* line scroll A/B */
+    *(short *)0x060A4C40 = 0;  *(short *)0x060A4C42 = 0; /* rotation flags */
+    *(short *)0x060A4C54 = 0;  *(short *)0x060A4C56 = 0; /* rotation flags 2 */
+    *(int *)0x060A4C44 = 0;  *(int *)0x060A4C48 = 0;   /* line scroll enable A/B */
+    *(int *)0x060A4C4C = 0;  *(int *)0x060A4C50 = 0;   /* line scroll mode A/B */
+    (*(int(*)())0x0603C104)();                          /* additional reset */
 
-    scroll_regs = (char *)0x060A3D88;
-    rotation_tbl = (char *)0x060A3DB0;
-    *(char **)0x060A3D84 = 0x25F80000;
-    *(short *)scroll_regs = (short)0x00008000;
-    *(short *)(scroll_regs + 2) = 0;
-    *(short *)(scroll_regs + 6) = 0;
-    *(short *)(scroll_regs + 0xc) = 0;
-    *(short *)(scroll_regs + 0xe) = (short)(0x8000 >> 2);
+    scroll_regs = (char *)0x060A3D88;                   /* VDP2 scroll shadow */
+    rotation_tbl = (char *)0x060A3DB0;                  /* VDP2 rotation shadow */
+    *(char **)0x060A3D84 = 0x25F80000;                  /* VDP2 VRAM base */
+    *(short *)scroll_regs = (short)0x00008000;          /* CHCTLA: 8bpp mode */
+    *(short *)(scroll_regs + 2) = 0;                    /* BMPNA */
+    *(short *)(scroll_regs + 6) = 0;                    /* PNCN0 */
+    *(short *)(scroll_regs + 0xc) = 0;                  /* PLSZ */
+    *(short *)(scroll_regs + 0xe) = (short)(0x8000 >> 2); /* MPOFR */
     for (i = 0; i < 8; i++) {
-        *(short *)(scroll_regs + (i << 1) + 0x10) = (short)0xFFFF;
+        *(short *)(scroll_regs + (i << 1) + 0x10) = (short)0xFFFF; /* MPA-MPH: all banks */
     }
-    *(short *)(scroll_regs + 0x20) = 0;
-    *(short *)(scroll_regs + 0x22) = 0;
-    *(short *)(scroll_regs + 0x24) = 0;
-    *(short *)(scroll_regs + 0x26) = 0;
+    *(short *)(scroll_regs + 0x20) = 0;                /* SCXIN0 */
+    *(short *)(scroll_regs + 0x22) = 0;                /* SCXDN0 */
+    *(short *)(scroll_regs + 0x24) = 0;                /* SCYIN0 */
+    *(short *)(scroll_regs + 0x26) = 0;                /* SCYDN0 */
 
+    /* Clear rotation table A (0x060A3DB0, 24 shorts + loops) */
     *(short *)(rotation_tbl + 0) = 0;   *(short *)(rotation_tbl + 2) = 0;
     *(short *)(rotation_tbl + 4) = 0;   *(short *)(rotation_tbl + 6) = 0;
     *(short *)(rotation_tbl + 8) = 0;   *(short *)(rotation_tbl + 10) = 0;
@@ -182,40 +190,43 @@ void FUN_06038300(void)
     *(short *)(rotation_tbl + 0x10) = 0; *(short *)(rotation_tbl + 0x12) = 0;
     *(short *)(rotation_tbl + 0x14) = 0; *(short *)(rotation_tbl + 0x16) = 0;
     for (i = 0; i < 8; i++) {
-        *(short *)(rotation_tbl + (i << 1) + 0x18) = 0;
+        *(short *)(rotation_tbl + (i << 1) + 0x18) = 0; /* rot matrix entries */
     }
     for (j = 0; j < 0x10; j++) {
-        *(short *)(rotation_tbl + ((unsigned int)j << 1) + 0x28) = 0;
+        *(short *)(rotation_tbl + ((unsigned int)j << 1) + 0x28) = 0; /* rot coeff tbl */
     }
 
+    /* Coordinate table (0x060A3DF8): pos=0, scale=1.0 (0x10000 in 16.16) */
     coord_tbl = (char *)0x060A3DF8;
-    *(int *)(coord_tbl + 0) = 0;
-    *(int *)(coord_tbl + 4) = 0;
-    *(char **)(coord_tbl + 8) = 0x00010000;
-    *(char **)(coord_tbl + 0xc) = 0x00010000;
-    *(int *)(coord_tbl + 0x10) = 0;
-    *(int *)(coord_tbl + 0x14) = 0;
-    *(char **)(coord_tbl + 0x18) = 0x00010000;
-    *(char **)(coord_tbl + 0x1c) = 0x00010000;
-    *(short *)(coord_tbl + 0x20) = 0;  *(short *)(coord_tbl + 0x22) = 0;
-    *(short *)(coord_tbl + 0x24) = 0;  *(short *)(coord_tbl + 0x26) = 0;
-    *(short *)(coord_tbl + 0x28) = 0;  *(short *)(coord_tbl + 0x2a) = 0;
+    *(int *)(coord_tbl + 0) = 0;                        /* NBG0 scroll X */
+    *(int *)(coord_tbl + 4) = 0;                        /* NBG0 scroll Y */
+    *(char **)(coord_tbl + 8) = 0x00010000;             /* NBG0 scale X (1.0) */
+    *(char **)(coord_tbl + 0xc) = 0x00010000;           /* NBG0 scale Y (1.0) */
+    *(int *)(coord_tbl + 0x10) = 0;                     /* NBG1 scroll X */
+    *(int *)(coord_tbl + 0x14) = 0;                     /* NBG1 scroll Y */
+    *(char **)(coord_tbl + 0x18) = 0x00010000;          /* NBG1 scale X (1.0) */
+    *(char **)(coord_tbl + 0x1c) = 0x00010000;          /* NBG1 scale Y (1.0) */
+    *(short *)(coord_tbl + 0x20) = 0;  *(short *)(coord_tbl + 0x22) = 0; /* NBG2 X/Y */
+    *(short *)(coord_tbl + 0x24) = 0;  *(short *)(coord_tbl + 0x26) = 0; /* NBG3 X/Y */
+    *(short *)(coord_tbl + 0x28) = 0;  *(short *)(coord_tbl + 0x2a) = 0; /* reserved */
     *(int *)(coord_tbl + 0x2c) = 0;    *(int *)(coord_tbl + 0x30) = 0;
     *(int *)(coord_tbl + 0x34) = 0;    *(int *)(coord_tbl + 0x38) = 0;
     *(int *)(coord_tbl + 0x3c) = 0;
 
-    *(short *)0x060A3E38 = 0;  *(short *)0x060A3E3A = 0;
-    *(short *)0x060A3E3C = 0;  *(short *)0x060A3E3E = 0;
-    *(short *)0x060A3E40 = 0;  *(short *)0x060A3E42 = 0;
-    *(int *)0x060A3E44 = 0;
+    /* Color calculation shadow regs (0x060A3E38) */
+    *(short *)0x060A3E38 = 0;  *(short *)0x060A3E3A = 0; /* CCRSA/CCRSB */
+    *(short *)0x060A3E3C = 0;  *(short *)0x060A3E3E = 0; /* CLOFEN/CLOFSL */
+    *(short *)0x060A3E40 = 0;  *(short *)0x060A3E42 = 0; /* COAR/COAG */
+    *(int *)0x060A3E44 = 0;                              /* COAB + padding */
 
-    *(short *)0x060A3E48 = 0;  *(short *)0x060A3E4A = 0;
-    *(short *)0x060A3E4C = 0;  *(short *)0x060A3E4E = 0;
-    *(short *)0x060A3E50 = 0;  *(short *)0x060A3E52 = 0;
-    *(short *)0x060A3E54 = 0;  *(short *)0x060A3E56 = 0;
-    *(short *)0x060A3E58 = 0;  *(short *)0x060A3E5A = 0;
-    *(short *)0x060A3E5C = 0;  *(short *)0x060A3E5E = 0;
-    *(int *)0x060A3E60 = 0;    *(int *)0x060A3E64 = 0;
+    /* Window coordinate table (0x060A3E48) */
+    *(short *)0x060A3E48 = 0;  *(short *)0x060A3E4A = 0; /* W0 left X/Y */
+    *(short *)0x060A3E4C = 0;  *(short *)0x060A3E4E = 0; /* W0 right X/Y */
+    *(short *)0x060A3E50 = 0;  *(short *)0x060A3E52 = 0; /* W1 left X/Y */
+    *(short *)0x060A3E54 = 0;  *(short *)0x060A3E56 = 0; /* W1 right X/Y */
+    *(short *)0x060A3E58 = 0;  *(short *)0x060A3E5A = 0; /* window flags */
+    *(short *)0x060A3E5C = 0;  *(short *)0x060A3E5E = 0; /* window flags 2 */
+    *(int *)0x060A3E60 = 0;    *(int *)0x060A3E64 = 0;   /* window CC params */
 
     if (VDP1_BATCH_FLAG == 0) {
         VDP1_BATCH_FLAG = 1;
@@ -304,58 +315,63 @@ void FUN_0603853c(int param_1, int param_2, int param_3)
 /* vdp2_scroll_accumulate -- Accumulate (add) VDP2 scroll offset for active render target.
  * Same dispatch structure as vdp2_scroll_set but adds to existing values.
  * Returns 0 on success, or result of line scroll handler if triggered. */
-int FUN_06038642(int param_1, int param_2, int param_3)
+/* vdp2_scroll_offset -- Add scroll offset to active VDP2 render target.
+ * Dispatches by render target (0x060635A8): rotation planes (1/2) update
+ * rotation table A/B scroll at +0x44/+0x48 and optionally trigger line
+ * scroll via 0x0603DDFC; bitmap planes (4/8) update coordinate table
+ * at 0x060A3DF8; tile planes (0x10/0x20) update NBG2/NBG3 as 16.16→int. */
+int vdp2_scroll_offset(int dx, int dy, int line_delta)
 {
-    char *rot_tbl_b = (char *)0x060A3EE8;
-    char *rot_tbl_a = (char *)0x060A3E68;
-    char *coord_tbl = (char *)0x060A3DF8;
-    char *line_scroll = (char *)0x060A4C78;
-    int target = *(int *)0x060635A8;
+    char *rot_tbl_b = (char *)0x060A3EE8;              /* rotation table B shadow */
+    char *rot_tbl_a = (char *)0x060A3E68;              /* rotation table A shadow */
+    char *coord_tbl = (char *)0x060A3DF8;              /* coordinate table shadow */
+    char *line_scroll = (char *)0x060A4C78;            /* line scroll accumulator */
+    int target = *(int *)0x060635A8;                   /* active render target */
 
-    if (target == 1) {
-        *(int *)(rot_tbl_a + 0x44) += param_1;
-        *(int *)(rot_tbl_a + 0x48) += param_2;
+    if (target == 1) {                                 /* rotation plane A */
+        *(int *)(rot_tbl_a + 0x44) += dx;              /* rot A scroll X */
+        *(int *)(rot_tbl_a + 0x48) += dy;              /* rot A scroll Y */
         if ((*(int *)0x060A4C44 == 0) ||
             ((*(int *)0x060A4C4C != 0 && (*(int *)0x060A4C70 != 0)))) {
-            *(int *)line_scroll = 0;
+            *(int *)line_scroll = 0;                   /* line scroll disabled */
         } else {
-            *(int *)line_scroll += param_3;
+            *(int *)line_scroll += line_delta;          /* accumulate line scroll */
         }
         target = 0;
         if (*(int *)line_scroll != 0) {
-            target = (*(int(*)())0x0603DDFC)(0, 0);
+            target = (*(int(*)())0x0603DDFC)(0, 0);    /* apply line scroll */
             return target;
         }
-    } else if (target == 2) {
-        *(int *)(rot_tbl_b + 0x44) += param_1;
-        *(int *)(rot_tbl_b + 0x48) += param_2;
+    } else if (target == 2) {                          /* rotation plane B */
+        *(int *)(rot_tbl_b + 0x44) += dx;              /* rot B scroll X */
+        *(int *)(rot_tbl_b + 0x48) += dy;              /* rot B scroll Y */
         if ((*(int *)0x060A4C48 == 0) ||
             ((*(int *)0x060A4C50 != 0 && (*(int *)0x060A4C74 != 0)))) {
             *(int *)(line_scroll + 4) = 0;
         } else {
-            *(int *)(line_scroll + 4) += param_3;
+            *(int *)(line_scroll + 4) += line_delta;
         }
         target = 0;
         if (*(int *)(line_scroll + 4) != 0) {
-            target = (*(int(*)())0x0603DDFC)(0, 0);
+            target = (*(int(*)())0x0603DDFC)(0, 0);    /* apply line scroll */
             return target;
         }
-    } else if (target == 4) {
-        *(int *)coord_tbl += param_1;
-        *(int *)(coord_tbl + 4) += param_2;
-    } else if (target == 8) {
-        *(int *)(coord_tbl + 0x10) += param_1;
-        *(int *)(coord_tbl + 0x14) += param_2;
+    } else if (target == 4) {                          /* NBG0 bitmap */
+        *(int *)coord_tbl += dx;                       /* NBG0 scroll X */
+        *(int *)(coord_tbl + 4) += dy;                 /* NBG0 scroll Y */
+    } else if (target == 8) {                          /* NBG1 bitmap */
+        *(int *)(coord_tbl + 0x10) += dx;              /* NBG1 scroll X */
+        *(int *)(coord_tbl + 0x14) += dy;              /* NBG1 scroll Y */
     } else {
-        short dx = (short)((unsigned int)param_1 >> 0x10);
-        short dy = (short)((unsigned int)param_2 >> 0x10);
-        if (target == 0x10) {
-            *(short *)(coord_tbl + 0x20) += dx;
-            *(short *)(coord_tbl + 0x22) += dy;
+        short sdx = (short)((unsigned int)dx >> 0x10); /* 16.16 → integer */
+        short sdy = (short)((unsigned int)dy >> 0x10);
+        if (target == 0x10) {                          /* NBG2 tile */
+            *(short *)(coord_tbl + 0x20) += sdx;
+            *(short *)(coord_tbl + 0x22) += sdy;
             target = 0x22;
-        } else if (target == 0x20) {
-            *(short *)(coord_tbl + 0x24) += dx;
-            *(short *)(coord_tbl + 0x26) += dy;
+        } else if (target == 0x20) {                   /* NBG3 tile */
+            *(short *)(coord_tbl + 0x24) += sdx;
+            *(short *)(coord_tbl + 0x26) += sdy;
             target = 0x26;
         }
     }
