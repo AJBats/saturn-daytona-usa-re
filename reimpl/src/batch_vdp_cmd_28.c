@@ -30,59 +30,38 @@ extern char * FUN_06028306();
 extern int PTR_DAT_060286ac;
 extern int PTR_DAT_06029ea8;
 
+/* vdp1_sprite_cmd_build -- Build a VDP1 sprite draw command from object data.
+ * Looks up texture index from 0x060684EC tilemap, resolves texture info
+ * from 0x06063F64 table. Copies draw mode, color mode, palette,
+ * and 4 vertex coordinates from the source object (param_1) into
+ * the VDP1 command buffer entry (param_2). */
 void FUN_060280f8(param_1, param_2)
     int param_1;
     short *param_2;
 {
+  unsigned short tex_idx;
+  short palette_offset;
+  int *tex_entry;
 
-  unsigned short uVar1;
-
-  short sVar2;
-
-  int uVar3;
-
-  int *puVar4;
-
-  int uVar5;
-
-  int uVar6;
-
-  uVar1 = *(unsigned short *)
-
+  tex_idx = *(unsigned short *)
            (0x060684EC +
-
            ((int)*(short *)(param_1 + 6) + (((unsigned int)*(unsigned char *)(param_1 + 5) << 8) >> 2)) << 1);
 
-  sVar2 = *(short *)(0x06063F64 + (unsigned int)(uVar1 << 3) + 6);
+  palette_offset = *(short *)(0x06063F64 + (unsigned int)(tex_idx << 3) + 6);
 
-  *param_2 = (short)*(int *)(0x06028178 + ((int)*(char *)(param_1 + 4) & 0xc));
+  *param_2 = (short)*(int *)(0x06028178 + ((int)*(char *)(param_1 + 4) & 0xc)); /* draw mode */
+  param_2[2] = *(short *)(0x06028174 + ((int)*(char *)(param_1 + 4) & 1U) << 1); /* color mode */
+  param_2[3] = (short)*(int *)0x06059FFC + palette_offset; /* palette base + offset */
 
-  param_2[2] = *(short *)(0x06028174 + ((int)*(char *)(param_1 + 4) & 1U) << 1);
+  tex_entry = (int *)(0x06063F64 + (unsigned int)(tex_idx << 3));
+  param_2[4] = (short)*tex_entry; /* texture source address */
+  param_2[5] = *(short *)(tex_entry + 1); /* texture size */
 
-  param_2[3] = (short)*(int *)0x06059FFC + sVar2;
-
-  puVar4 = (int *)(0x06063F64 + (unsigned int)(uVar1 << 3));
-
-  uVar3 = *(int *)(param_1 + 0x14);
-
-  param_2[4] = (short)*puVar4;
-
-  uVar6 = *(int *)(param_1 + 0x10);
-
-  param_2[5] = *(short *)(puVar4 + 1);
-
-  uVar5 = *(int *)(param_1 + 0xc);
-
+  /* copy 4 vertex coordinates (8 bytes each = XY pairs) */
   *(int *)(param_2 + 6) = *(int *)(param_1 + 8);
-
-  *(int *)(param_2 + 8) = uVar5;
-
-  *(int *)(param_2 + 10) = uVar6;
-
-  *(int *)(param_2 + 0xc) = uVar3;
-
-  return;
-
+  *(int *)(param_2 + 8) = *(int *)(param_1 + 0xc);
+  *(int *)(param_2 + 10) = *(int *)(param_1 + 0x10);
+  *(int *)(param_2 + 0xc) = *(int *)(param_1 + 0x14);
 }
 
 char * FUN_060282c0(param_1)
@@ -221,349 +200,233 @@ char * FUN_06028306(param_1)
 
 }
 
+/* vdp2_number_draw -- Draw a number as tiles on VDP2 scroll plane.
+ * Converts param_4 (integer) to ASCII via FUN_060282c0 (int-to-string),
+ * then writes 4 character tiles starting at offset +8 of the result
+ * to the scroll plane at param_2 offset. Each char gets param_3 added
+ * as palette offset. Returns 8 (bytes written = 4 tiles * 2 bytes). */
 int FUN_0602834a(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     short param_3;
     int param_4;
 {
-
-  char cVar1;
-
-  int bVar2;
-
-  int iVar3;
-
-  char *pcVar4;
+  char ch;
+  int done;
+  int i;
+  char *digits;
 
   param_2 = param_2 + **(int **)(0x06028614 + param_1);
+  digits = (char *)(FUN_060282c0(param_4) + 8); /* get last 4 digits */
 
-  iVar3 = FUN_060282c0(param_4);
-
-  pcVar4 = (char *)(iVar3 + 8);
-
-  iVar3 = 0;
-
+  i = 0;
   do {
-
-    cVar1 = *pcVar4;
-
-    pcVar4 = pcVar4 + 1;
-
-    *(short *)(param_2 + iVar3) = cVar1 + param_3;
-
-    bVar2 = iVar3 != 6;
-
-    iVar3 = iVar3 + 2;
-
-  } while (bVar2);
+    ch = *digits;
+    digits = digits + 1;
+    *(short *)(param_2 + i) = ch + param_3; /* write tile with palette offset */
+    done = i != 6;
+    i = i + 2;
+  } while (done);
 
   return 8;
-
 }
 
+/* vdp2_string_draw -- Draw a null-terminated string as tiles on VDP2.
+ * Writes characters from param_4 string to scroll plane selected by
+ * param_1, at offset param_2. Each character gets param_3 added as
+ * palette/priority offset. Stops at null terminator. */
 char * FUN_060283e0(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     short param_3;
     char *param_4;
 {
+  char ch;
+  short *dest;
 
-  char cVar1;
+  dest = (short *)(**(int **)(0x06028614 + param_1) + param_2);
 
-  char *puVar2;
-
-  short *psVar3;
-
-  puVar2 = (int *)0x06028614;
-
-  psVar3 = (short *)(**(int **)(0x06028614 + param_1) + param_2);
-
-  while( 1 ) {
-
-    cVar1 = *param_4;
-
+  while (1) {
+    ch = *param_4;
     param_4 = param_4 + 1;
-
-    if (cVar1 == '\0') break;
-
-    *psVar3 = cVar1 + param_3;
-
-    psVar3 = psVar3 + 1;
-
+    if (ch == '\0') break;
+    *dest = ch + param_3; /* write tile with palette offset */
+    dest = dest + 1;
   }
 
-  return puVar2;
-
+  return (char *)0x06028614;
 }
 
+/* vdp2_tilemap_write -- Write tile data to VDP2 pattern name table.
+ * param_1: scroll plane index (selects base from 0x06028614 ptr table)
+ * param_2: tile source (header: [width, height], then tile IDs)
+ * param_3: destination offset within pattern name table
+ * param_4: palette/priority offset added to each tile ID
+ * Copies width*height tiles, advancing dest by 0x80 bytes per row
+ * (64 tiles * 2 bytes = VDP2 page width). */
 int FUN_06028400(param_1, param_2, param_3, param_4)
     int param_1;
     short *param_2;
     int param_3;
     int param_4;
 {
+  short tile_id;
+  int col;
+  int row;
+  int width;
+  short *dest;
 
-  short sVar1;
+  dest = (short *)(param_3 + **(int **)(0x06028614 + param_1));
+  width = (int)*param_2;
+  row = (int)param_2[1];
+  param_2 = param_2 + 2; /* skip header */
 
-  int iVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  short *puVar5;
-
-  puVar5 = (short *)(param_3 + **(int **)(0x06028614 + param_1));
-
-  iVar4 = (int)*param_2;
-
-  iVar3 = (int)param_2[1];
-
-  param_2 = param_2 + 2;
-
-  iVar2 = iVar4;
-
+  col = width;
   do {
-
     do {
-
-      sVar1 = *param_2;
-
+      tile_id = *param_2;
       param_2 = param_2 + 1;
+      *dest = (short)(tile_id + param_4); /* write tile with offset */
+      col = col + -1;
+      dest = dest + 1;
+    } while (col != 0);
+    row = row + -1;
+    dest = (short *)((int)dest - ((width << 1) + -0x80)); /* advance to next row */
+    col = width;
+  } while (row != 0);
 
-      *puVar5 = (short)(sVar1 + param_4);
-
-      iVar2 = iVar2 + -1;
-
-      puVar5 = puVar5 + 1;
-
-    } while (iVar2 != 0);
-
-    iVar3 = iVar3 + -1;
-
-    puVar5 = (short *)((int)puVar5 - ((iVar4 << 1) + -0x80));
-
-    iVar2 = iVar4;
-
-  } while (iVar3 != 0);
-
-  return sVar1 + param_4;
-
+  return tile_id + param_4;
 }
 
+/* vdp2_number_draw_font -- Draw number using proportional font tiles on VDP2.
+ * Converts param_4 to digit string via FUN_06028306 (numeric variant),
+ * then renders each digit as a multi-tile glyph from font table at
+ * 0x06063690 + param_3. Font entry: [base_addr, palette, glyph_w,
+ * glyph_h, char_stride, num_chars, row_advance].
+ * Each digit maps to a row of glyph_w tiles, rendered glyph_h rows high. */
 void FUN_06028430(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     int param_4;
 {
+  char glyph_w;
+  char char_stride;
+  short palette;
+  short row_adv;
+  int digits_str;
+  char *digit_ptr;
+  char *digit_start;
+  int font_base;
+  int glyph_h;
+  int num_chars;
+  short *dest;
+  int *font_entry;
+  short *glyph_src;
+  int col;
 
-  char cVar1;
+  dest = (short *)(param_2 + **(int **)(0x06028614 + param_1));
+  digits_str = FUN_06028306(param_4);
+  font_entry = (int *)(0x06063690 + param_3);
 
-  char cVar2;
+  font_base = *font_entry;
+  palette = *(short *)(font_entry + 1);
+  glyph_w = *(char *)((int)font_entry + 6);
+  glyph_h = (int)*(char *)((int)font_entry + 7);
+  char_stride = *(char *)(font_entry + 2);
+  num_chars = (int)*(char *)((int)font_entry + 9);
+  row_adv = *(short *)((int)font_entry + 10);
 
-  short sVar3;
-
-  short sVar4;
-
-  int iVar5;
-
-  char *pcVar6;
-
-  char *pcVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  short *psVar10;
-
-  int *piVar11;
-
-  int iVar12;
-
-  short *psVar13;
-
-  int iVar14;
-
-  psVar10 = (short *)(param_2 + **(int **)(0x06028614 + param_1));
-
-  iVar5 = FUN_06028306(param_4);
-
-  piVar11 = (int *)(0x06063690 + param_3);
-
-  iVar8 = *piVar11;
-
-  sVar3 = *(short *)(piVar11 + 1);
-
-  cVar1 = *(char *)((int)piVar11 + 6);
-
-  iVar9 = (int)*(char *)((int)piVar11 + 7);
-
-  cVar2 = *(char *)(piVar11 + 2);
-
-  iVar12 = (int)*(char *)((int)piVar11 + 9);
-
-  sVar4 = *(short *)((int)piVar11 + 10);
-
-  pcVar6 = (char *)(iVar5 - (iVar12 + -0xc));
-
-  pcVar7 = pcVar6;
-
-  iVar5 = iVar12;
+  digit_start = (char *)(digits_str - (num_chars + -0xc));
+  digit_ptr = digit_start;
 
   do {
-
     do {
-
-      psVar13 = (short *)(iVar8 + ((int)cVar2 & 0xffffU) * ((int)*pcVar7 & 0xffffU));
-
-      iVar14 = (int)cVar1;
-
+      glyph_src = (short *)(font_base + ((int)char_stride & 0xffffU) * ((int)*digit_ptr & 0xffffU));
+      col = (int)glyph_w;
       do {
-
-        *psVar10 = *psVar13 + sVar3;
-
-        psVar13 = psVar13 + 1;
-
-        iVar14 = iVar14 + -1;
-
-        psVar10 = psVar10 + 1;
-
-      } while (iVar14 != 0);
-
-      iVar5 = iVar5 + -1;
-
-      pcVar7 = pcVar7 + 1;
-
-    } while (iVar5 != 0);
-
-    iVar8 = iVar8 + (cVar1 << 1);
-
-    iVar9 = iVar9 + -1;
-
-    psVar10 = (short *)((int)psVar10 + (int)sVar4);
-
-    pcVar7 = pcVar6;
-
-    iVar5 = iVar12;
-
-  } while (iVar9 != 0);
-
-  return;
-
+        *dest = *glyph_src + palette;
+        glyph_src = glyph_src + 1;
+        col = col + -1;
+        dest = dest + 1;
+      } while (col != 0);
+      num_chars = num_chars + -1;
+      digit_ptr = digit_ptr + 1;
+    } while (num_chars != 0);
+    font_base = font_base + (glyph_w << 1); /* next glyph row */
+    glyph_h = glyph_h + -1;
+    dest = (short *)((int)dest + (int)row_adv);
+    digit_ptr = digit_start;
+    num_chars = (int)*(char *)((int)font_entry + 9);
+  } while (glyph_h != 0);
 }
 
+/* vdp2_string_draw_font -- Draw string using proportional font tiles on VDP2.
+ * Like vdp2_number_draw_font but takes a null-terminated string (param_4)
+ * instead of an integer. First counts string length, then renders each
+ * character as a multi-tile glyph from font table at 0x06063690 + param_3.
+ * Character mapping: index = (char - base_char) where base_char is at +9.
+ * Row advance = -(glyph_w * string_len - 0x40) to wrap to next row. */
 void FUN_060284ae(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     char *param_4;
 {
+  char char_stride;
+  char base_char;
+  char ch;
+  short palette;
+  char *str_ptr;
+  unsigned int glyph_w;
+  int glyph_h;
+  int font_base;
+  short *dest;
+  int *font_entry;
+  short *glyph_src;
+  unsigned int str_len;
+  unsigned int remaining;
+  unsigned int col;
 
-  char cVar1;
+  dest = (short *)(param_2 + **(int **)(0x06028614 + param_1));
+  font_entry = (int *)(0x06063690 + param_3);
+  font_base = *font_entry;
+  palette = *(short *)(font_entry + 1);
+  glyph_w = (unsigned int)*(char *)((int)font_entry + 6);
+  glyph_h = (int)*(char *)((int)font_entry + 7);
+  char_stride = *(char *)(font_entry + 2);
+  base_char = *(char *)((int)font_entry + 9);
 
-  char cVar2;
-
-  char cVar3;
-
-  short sVar4;
-
-  char *pcVar5;
-
-  int iVar6;
-
-  unsigned int uVar7;
-
-  int iVar8;
-
-  short *psVar9;
-
-  int *piVar10;
-
-  short *psVar11;
-
-  unsigned int uVar12;
-
-  unsigned int uVar13;
-
-  unsigned int uVar14;
-
-  psVar9 = (short *)(param_2 + **(int **)(0x06028614 + param_1));
-
-  piVar10 = (int *)(0x06063690 + param_3);
-
-  iVar6 = *piVar10;
-
-  sVar4 = *(short *)(piVar10 + 1);
-
-  uVar7 = (unsigned int)*(char *)((int)piVar10 + 6);
-
-  iVar8 = (int)*(char *)((int)piVar10 + 7);
-
-  cVar1 = *(char *)(piVar10 + 2);
-
-  cVar2 = *(char *)((int)piVar10 + 9);
-
-  uVar13 = 0xffffffff;
-
-  pcVar5 = param_4;
-
+  /* count string length */
+  str_len = 0xffffffff;
+  str_ptr = param_4;
   do {
+    ch = *str_ptr;
+    str_ptr = str_ptr + 1;
+    str_len = str_len + 1;
+  } while (ch != '\0');
 
-    cVar3 = *pcVar5;
-
-    pcVar5 = pcVar5 + 1;
-
-    uVar13 = uVar13 + 1;
-
-  } while (cVar3 != '\0');
-
-  pcVar5 = param_4;
-
-  uVar12 = uVar13;
-
+  str_ptr = param_4;
+  remaining = str_len;
   do {
-
     do {
-
-      psVar11 = (short *)(iVar6 + ((int)cVar1 & 0xffffU) * ((int)*pcVar5 - (int)cVar2 & 0xffffU));
-
-      uVar14 = uVar7;
-
+      glyph_src = (short *)(font_base + ((int)char_stride & 0xffffU) * ((int)*str_ptr - (int)base_char & 0xffffU));
+      col = glyph_w;
       do {
-
-        *psVar9 = *psVar11 + sVar4;
-
-        psVar11 = psVar11 + 1;
-
-        uVar14 = uVar14 - 1;
-
-        psVar9 = psVar9 + 1;
-
-      } while (uVar14 != 0);
-
-      uVar12 = uVar12 - 1;
-
-      pcVar5 = pcVar5 + 1;
-
-    } while (uVar12 != 0);
-
-    iVar6 = iVar6 + (uVar7 << 1);
-
-    iVar8 = iVar8 + -1;
-
-    psVar9 = psVar9 + -((uVar7 & 0xffff) * (uVar13 & 0xffff) + -0x40);
-
-    pcVar5 = param_4;
-
-    uVar12 = uVar13;
-
-  } while (iVar8 != 0);
-
-  return;
-
+        *dest = *glyph_src + palette;
+        glyph_src = glyph_src + 1;
+        col = col - 1;
+        dest = dest + 1;
+      } while (col != 0);
+      remaining = remaining - 1;
+      str_ptr = str_ptr + 1;
+    } while (remaining != 0);
+    font_base = font_base + (glyph_w << 1); /* next glyph row */
+    glyph_h = glyph_h + -1;
+    dest = dest + -((glyph_w & 0xffff) * (str_len & 0xffff) + -0x40); /* row wrap */
+    str_ptr = param_4;
+    remaining = str_len;
+  } while (glyph_h != 0);
 }
 
 int * FUN_0602853e(param_1)

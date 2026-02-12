@@ -26,161 +26,97 @@ extern int PTR_DAT_06014308;
 extern int PTR_DAT_06014684;
 extern int PTR_DAT_06014cf4;
 
+/* hud_position_marker_render -- Render position marker sprite for current car.
+ * Guards on car count < 4. Looks up sprite offset from 0x0605AD4C table,
+ * pushes matrix, sets position/scale, renders via FUN_06013e12,
+ * then draws texture with palette from 0x06062338/0x060622C0 tables. */
 void FUN_060140c4()
 {
-
-  char *puVar1;
-
-  int uVar2;
+  int sprite_offset;
 
   if (*(unsigned int *)0x06084B18 < 4) {
-
-    uVar2 = *(int *)(0x0605AD4C + *(int *)(0x06084B18 << 2));
-
-    (*(int(*)())0x06026DBC)();
-
-    puVar1 = (char *)0x00010000;
-
-    (*(int(*)())0x06026E2E)(uVar2,-13107,0x00010000);
-
-    (*(int(*)())0x06026E60)(puVar1,puVar1,puVar1);
-
-    FUN_06013e12();
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + *(int *)(0x06084B08 << 2)),4);
-
+    sprite_offset = *(int *)(0x0605AD4C + *(int *)(0x06084B18 << 2));
+    (*(int(*)())0x06026DBC)(); /* matrix_push */
+    (*(int(*)())0x06026E2E)(sprite_offset, -13107, 0x00010000); /* set position */
+    (*(int(*)())0x06026E60)(0x00010000, 0x00010000, 0x00010000); /* set scale 1.0 */
+    FUN_06013e12(); /* render digit/marker */
+    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + *(int *)(0x06084B08 << 2)), 4); /* texture select */
     (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + *(int *)(0x06084B08 << 2)),
-
-               (int)*(short *)0x06089E4A,1);
-
-    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
-
+               (int)*(short *)0x06089E4A, 1); /* palette draw */
+    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30; /* advance VDP1 cmd slot */
   }
-
-  return;
-
 }
 
+/* hud_position_digits_render -- Render up to 3 position digit sprites.
+ * Resets matrix, then for each digit slot (up to car count):
+ * looks up position from 0x0605AD4C, maps character to sprite index
+ * ('.' → 0x1A, else char + 0xBF), renders texture from lookup tables. */
 void FUN_0601416c()
 {
+  unsigned char sprite_idx;
+  unsigned int i;
 
-  char *puVar1;
+  (*(int(*)())0x06026E0C)(); /* matrix_reset */
 
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  unsigned char bVar5;
-
-  unsigned int uVar6;
-
-  puVar2 = (char *)0x00010000;
-
-  puVar1 = (char *)0x06089EDC;
-
-  iVar4 = -13107;
-
-  (*(int(*)())0x06026E0C)();
-
-  puVar3 = (char *)0x06089E4A;
-
-  uVar6 = 0;
-
+  i = 0;
   do {
+    if (i < *(unsigned int *)0x06084B18) {
+      (*(int(*)())0x06026DBC)(); /* matrix_push */
+      (*(int(*)())0x06026E2E)(*(int *)(0x0605AD4C + (i << 2)), -13107, 0x00010000); /* position */
+      (*(int(*)())0x06026E60)(0x00010000, 0x00010000, 0x00010000); /* scale 1.0 */
 
-    if (uVar6 < *(unsigned int *)0x06084B18) {
-
-      (*(int(*)())0x06026DBC)();
-
-      (*(int(*)())0x06026E2E)(*(int *)(0x0605AD4C + (uVar6 << 2)),iVar4,puVar2);
-
-      (*(int(*)())0x06026E60)(puVar2,puVar2,puVar2);
-
-      if (((int *)0x06084B14)[uVar6] == '.') {
-
-        bVar5 = 0x1a;
-
+      if (((int *)0x06084B14)[i] == '.') {
+        sprite_idx = 0x1a; /* period character */
+      } else {
+        sprite_idx = ((int *)0x06084B14)[i] + 0xbf; /* ASCII to sprite index */
       }
 
-      else {
-
-        bVar5 = ((int *)0x06084B14)[uVar6] + 0xbf;
-
-      }
-
-      (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + (unsigned int)(bVar5 << 2)),4);
-
-      (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + (unsigned int)(bVar5 << 2)),(int)*(short *)puVar3,1);
-
-      *(int *)puVar1 = *(int *)puVar1 + -0x30;
-
+      (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + (unsigned int)(sprite_idx << 2)), 4);
+      (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + (unsigned int)(sprite_idx << 2)),
+                 (int)*(short *)0x06089E4A, 1);
+      *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30; /* advance VDP1 cmd slot */
     }
-
-    uVar6 = uVar6 + 1;
-
-  } while (uVar6 < 3);
-
-  return;
-
+    i = i + 1;
+  } while (i < 3);
 }
 
+/* hud_indicator_render -- Render HUD indicator with smoothed rotation.
+ * Smooths target angle (exponential half-step toward target from table 0x0605AD5C),
+ * applies fixed-point multiply for position offset,
+ * rotates by frame counter bits (animation), renders at scale 1.0. */
 void FUN_0601424c()
 {
+  int delta;
+  int pos_offset;
+  int *anim_table;
 
-  char *puVar1;
+  (*(int(*)())0x06026E0C)(); /* matrix_reset */
+  (*(int(*)())0x06026DBC)(); /* matrix_push */
+  (*(int(*)())0x06026E2E)(0, (int)DAT_06014306, 0x000108F5); /* set base position */
 
-  char *puVar2;
+  anim_table = (int *)(0x0605AD5C + *(int *)(0x06084B08 << 5));
 
-  int iVar3;
-
-  int *piVar4;
-
-  (*(int(*)())0x06026E0C)();
-
-  (*(int(*)())0x06026DBC)();
-
-  (*(int(*)())0x06026E2E)(0,(int)DAT_06014306,0x000108F5);
-
-  puVar1 = (char *)0x06084AF8;
-
-  piVar4 = (int *)(0x0605AD5C + *(int *)(0x06084B08 << 5));
-
-  iVar3 = (int)*(short *)(piVar4 + 6) - (int)*(short *)0x06084AF8;
-
+  /* smooth angle: move halfway toward target each frame */
+  delta = (int)*(short *)(anim_table + 6) - (int)*(short *)0x06084AF8;
   *(short *)0x06084AF8 =
+       *(short *)0x06084AF8 + (short)((int)(delta + (unsigned int)(delta < 0)) >> 1);
 
-       *(short *)0x06084AF8 + (short)((int)(iVar3 + (unsigned int)(iVar3 < 0)) >> 1);
+  (*(int(*)())0x06026F2A)((int)*(short *)0x06084AF8); /* set rotation */
 
-  (*(int(*)())0x06026F2A)((int)*(short *)puVar1);
-
-  puVar2 = (char *)0x06084AFC;
-
-  iVar3 = (*(int(*)())0x06027552)((*piVar4 - *(int *)0x06084AFC) + (int)PTR_DAT_06014308,
-
+  /* smooth position offset with fixed-point multiply */
+  pos_offset = (*(int(*)())0x06027552)((*anim_table - *(int *)0x06084AFC) + (int)PTR_DAT_06014308,
                      0x00008000);
+  pos_offset = *(int *)0x06084AFC + pos_offset;
+  *(int *)0x06084AFC = pos_offset;
 
-  iVar3 = *(int *)puVar2 + iVar3;
+  (*(int(*)())0x06026E2E)(0, pos_offset); /* apply position */
+  (*(int(*)())0x06026F2A)(-(int)*(short *)0x06084AF8); /* undo rotation */
+  (*(int(*)())0x06026EDE)((FRAME_COUNTER & 0x1f) << 0xb); /* frame-based animation */
+  (*(int(*)())0x06026E60)(0x00010000, 0x00010000, 0x00010000); /* scale 1.0 */
 
-  *(int *)puVar2 = iVar3;
-
-  (*(int(*)())0x06026E2E)(0,iVar3);
-
-  (*(int(*)())0x06026F2A)(-(int)*(short *)puVar1);
-
-  (*(int(*)())0x06026EDE)((FRAME_COUNTER & 0x1f) << 0xb);
-
-  (*(int(*)())0x06026E60)(0x00010000,0x00010000,0x00010000);
-
-  (*(int(*)())0x06031D8C)(*(int *)0x060623AC,4);
-
-  (*(int(*)())0x06031A28)(*(int *)0x06062334,(int)*(short *)0x06089E4A,1);
-
-  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
-
-  return;
-
+  (*(int(*)())0x06031D8C)(*(int *)0x060623AC, 4); /* texture select */
+  (*(int(*)())0x06031A28)(*(int *)0x06062334, (int)*(short *)0x06089E4A, 1); /* draw */
+  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30; /* advance VDP1 cmd slot */
 }
 
 void FUN_06014360()
@@ -309,69 +245,41 @@ unsigned int FUN_06014466()
 
 }
 
+/* hud_camera_angle_update -- Update HUD camera view angle index.
+ * Reads controller input every 4th frame: D-pad up (DAT_06014594)
+ * decrements, bit 15 (analog up) increments (range 0..0x1C).
+ * Clamps to 0x1B..0x1C when car count > 2.
+ * Looks up render flag from table 0x0605AD2C, plays sound on change. */
 void FUN_0601450c()
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  puVar1 = (char *)0x06084B08;
-
-  iVar2 = *(int *)0x06084B08;
+  int prev_angle = *(int *)0x06084B08;
 
   if ((FRAME_COUNTER & 3) == 0) {
-
     if ((*(unsigned short *)0x06063D98 & DAT_06014594) == 0) {
-
       if ((((unsigned int)*(unsigned short *)0x06063D98 & (unsigned int)0x00008000) != 0) &&
-
          (*(unsigned int *)0x06084B08 < 0x1c)) {
-
-        *(int *)0x06084B08 = *(int *)0x06084B08 + 1;
-
+        *(int *)0x06084B08 = *(int *)0x06084B08 + 1; /* increment angle */
       }
-
+    } else if (*(int *)0x06084B08 != 0) {
+      *(int *)0x06084B08 = *(int *)0x06084B08 + -1; /* decrement angle */
     }
-
-    else if (*(int *)0x06084B08 != 0) {
-
-      *(int *)0x06084B08 = *(int *)0x06084B08 + -1;
-
-    }
-
   }
 
+  /* clamp range when 3+ cars */
   if (2 < *(unsigned int *)0x06084B18) {
-
-    if (*(unsigned int *)puVar1 < 0x1b) {
-
-      *(int *)puVar1 = (char *)0x1b;
-
+    if (*(unsigned int *)0x06084B08 < 0x1b) {
+      *(int *)0x06084B08 = 0x1b;
+    } else if (0x1c < *(unsigned int *)0x06084B08) {
+      *(int *)0x06084B08 = 0x1c;
     }
-
-    else if (0x1c < *(unsigned int *)puVar1) {
-
-      *(int *)puVar1 = (char *)0x1c;
-
-    }
-
   }
 
   *(unsigned int *)0x06084B20 =
+       (unsigned int)(unsigned char)((int *)0x0605AD2C)[*(int *)0x06084B08];
 
-       (unsigned int)(unsigned char)((int *)0x0605AD2C)[*(int *)puVar1];
-
-  if (iVar2 != *(int *)puVar1) {
-
-    (*(int(*)())0x0601D5F4)(0,0xAB111DFF);
-
-    return;
-
+  if (prev_angle != *(int *)0x06084B08) {
+    (*(int(*)())0x0601D5F4)(0, 0xAB111DFF); /* play angle change sound */
   }
-
-  return;
-
 }
 
 void FUN_060145bc()
@@ -978,157 +886,102 @@ void FUN_06014d2c()
 
 }
 
+/* replay_init_sequence -- Initialize replay mode state and rendering.
+ * Stops sound (0x06018E70), configures CD transfer (0x06038BD4),
+ * sets GAME_STATE to 0x1E (replay). If demo flags set, may redirect
+ * to state 0x1A. Sets up VDP rendering, clears screen twice,
+ * configures scroll planes, enables input, then dispatches to
+ * course-specific handler via jump table at 0x0605B724. */
 void FUN_06015338()
 {
+  int (*cd_config)(int, int) = (int (*)(int, int))0x06038BD4;
 
-  char *puVar1;
+  (*(int(*)())0x06018E70)(); /* stop sound */
+  cd_config(0x100, 0); /* configure CD transfer */
 
-  int iVar2;
-
-  puVar1 = (char *)0x06038BD4;
-
-  iVar2 = 0x100;
-
-  (*(int(*)())0x06018E70)();
-
-  (*(int(*)())puVar1)(iVar2,0);
-
-  *(int *)0x06085F8A = 0;
-
-  GAME_STATE = 0x1e;
-
-  (*(int(*)())0x0601ABC6)();
+  *(int *)0x06085F8A = 0; /* clear render flag */
+  GAME_STATE = 0x1e; /* set replay state */
+  (*(int(*)())0x0601ABC6)(); /* replay setup */
 
   if (*(int *)0x06085FF8 != '\0' || *(int *)0x06085FF9 != '\0') {
-
     if (*(short *)0x06085F92 == 0) {
-
-      (*(int(*)())0x0601AC7C)();
-
+      (*(int(*)())0x0601AC7C)(); /* demo mode setup */
     }
-
-    GAME_STATE = 0x1a;
-
+    GAME_STATE = 0x1a; /* redirect to attract mode */
   }
 
-  (*(int(*)())0x060172BC)();
+  (*(int(*)())0x060172BC)(); /* init replay subsystem */
+  cd_config(0x100, 0);
+  cd_config(4, 1);
+  cd_config(0x10, 6);
 
-  (*(int(*)())puVar1)(iVar2,0);
-
-  (*(int(*)())puVar1)(4,1);
-
-  (*(int(*)())puVar1)(0x10,6);
-
-  (*(int(*)())0x060149E0)();
-
+  (*(int(*)())0x060149E0)(); /* HUD setup */
   VBL_DISABLE_FLAG = 0;
-
-  (*(int(*)())0x06026CE0)();
-
+  (*(int(*)())0x06026CE0)(); /* VDP sync */
   PHASE_FLAG = 3;
 
-  (*(int(*)())0x06020CF4)();
+  (*(int(*)())0x06020CF4)(); /* vdp1_clear */
+  (*(int(*)())0x060078DC)(); /* wait vblank */
+  (*(int(*)())0x06020CF4)(); /* vdp1_clear (double buffer) */
+  (*(int(*)())0x060078DC)(); /* wait vblank */
 
-  (*(int(*)())0x060078DC)();
+  (*(int(*)())0x0602853E)(4); /* scroll plane setup A */
+  (*(int(*)())0x0602853E)(0xc); /* scroll plane setup B */
+  (*(int(*)())0x06028560)(); /* finalize scroll config */
+  (*(int(*)())0x060032D4)(); /* system sync */
 
-  (*(int(*)())0x06020CF4)();
-
-  (*(int(*)())0x060078DC)();
-
-  (*(int(*)())0x0602853E)(4);
-
-  (*(int(*)())0x0602853E)(0xc);
-
-  (*(int(*)())0x06028560)();
-
-  (*(int(*)())0x060032D4)();
-
-  INPUT_STATE = INPUT_STATE | 4;
-
+  INPUT_STATE = INPUT_STATE | 4; /* enable input */
   VBL_DISABLE_FLAG = 0;
+  (*(int(*)())0x06026CE0)(); /* VDP sync */
+  cd_config(0x100, 4);
+  cd_config(4, 0);
 
-  (*(int(*)())0x06026CE0)();
-
-  (*(int(*)())puVar1)(iVar2,4);
-
-  (*(int(*)())puVar1)(4,0);
-
-  (*(int(*)())(*(int *)(0x0605B724 + *(int *)(0x0607EAD8 << 2))))();
-
-  return;
-
+  (*(int(*)())(*(int *)(0x0605B724 + *(int *)(0x0607EAD8 << 2))))(); /* course handler dispatch */
 }
 
+/* sound_channel_configure -- Configure a sound channel from lookup tables.
+ * param_1 low byte = channel index. Computes table offset from channel's
+ * state byte at 0x06084FC8, loads PCM address/pitch/flags from 0x0605B8B8.
+ * Checks if pitch == 0x100000 (special marker) to set loop flag.
+ * If stereo mode (0x06085F89), also loads alternate PCM parameters.
+ * Increments channel's sequence counter. */
 void FUN_06015eb8(param_1)
     unsigned int param_1;
 {
+  unsigned short chan_idx;
+  unsigned int table_off;
+  int *table_entry;
+  int pitch_check;
+  char *chan_base = (char *)0x06084FC8;
+  char *pcm_table = (char *)0x0605B8B8;
 
-  unsigned short uVar1;
+  chan_idx = (unsigned short)param_1 & 0xff;
+  table_off = (unsigned int)(unsigned char)((int *)0x06084FC8)[(short)(chan_idx * 0x44) + 0x41] * 4 +
+              (param_1 & 0xff) << 4 & 0xff;
 
-  unsigned short uVar2;
+  table_entry = (int *)(0x0605B8B8 + (table_off << 2));
 
-  char *puVar3;
+  *(int *)(0x06084FC8 + (short)(chan_idx * 0x44) + 0x34) = *table_entry; /* PCM address */
+  *(int *)(chan_base + (short)(chan_idx * 0x44) + 0x10) = table_entry[1]; /* pitch */
+  *(int *)(chan_base + (short)(chan_idx * 0x44) + 0x1c) = 0; /* clear loop flag */
 
-  char *puVar4;
-
-  char *puVar5;
-
-  int *puVar6;
-
-  unsigned int uVar7;
-
-  puVar4 = (char *)0x06084FC8;
-
-  puVar3 = (char *)0x0605B8B8;
-
-  uVar2 = (unsigned short)param_1;
-
-  uVar1 = uVar2 & 0xff;
-
-  uVar7 = (unsigned int)(unsigned char)((int *)0x06084FC8)[(short)(uVar1 * 0x44) + 0x41] * 4 + (param_1 & 0xff) << 4 &
-
-          0xff;
-
-  puVar6 = (int *)(0x0605B8B8 + (uVar7 << 2));
-
-  *(int *)(0x06084FC8 + (short)(uVar1 * 0x44) + 0x34) = *puVar6;
-
-  *(int *)(puVar4 + (short)(uVar1 * 0x44) + 0x10) = puVar6[1];
-
-  *(int *)(puVar4 + (short)(uVar1 * 0x44) + 0x1c) = 0;
-
-  puVar5 = (char *)
-
-           (*(int(*)())0x06035438)(*(int *)(puVar4 + (short)(uVar1 * 0x44) + 0x10));
-
-  if (puVar5 == 0x00100000) {
-
-    *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 0x1c) = 1;
-
+  pitch_check = (*(int(*)())0x06035438)(*(int *)(chan_base + (short)(chan_idx * 0x44) + 0x10));
+  if (pitch_check == 0x00100000) {
+    *(int *)(chan_base + (short)(chan_idx * 0x44) + 0x1c) = 1; /* set loop flag */
   }
 
-  *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 0x38) =
-
-       *(int *)(puVar3 + (uVar7 << 2) + 8);
-
-  *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 0x18) =
-
-       *(int *)(puVar3 + (uVar7 << 2) + 0xc);
+  *(int *)(chan_base + (short)(chan_idx * 0x44) + 0x38) =
+       *(int *)(pcm_table + (table_off << 2) + 8); /* volume */
+  *(int *)(chan_base + (short)(chan_idx * 0x44) + 0x18) =
+       *(int *)(pcm_table + (table_off << 2) + 0xc); /* pan */
 
   if (*(int *)0x06085F89 != '\0') {
-
-    *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 0x30) =
-
-         *(int *)((int)(puVar3 + ((((param_1 & 0xff) << 4) + 8) << 2)) + 8);
-
-    *(int *)(puVar4 + (short)((uVar2 & 0xff) * 0x44) + 4) =
-
-         *(int *)(puVar3 + ((((param_1 & 0xff) << 4) + 8) << 2));
-
+    /* stereo mode: load alternate parameters */
+    *(int *)(chan_base + (short)(chan_idx * 0x44) + 0x30) =
+         *(int *)((int)(pcm_table + ((((param_1 & 0xff) << 4) + 8) << 2)) + 8);
+    *(int *)(chan_base + (short)(chan_idx * 0x44) + 4) =
+         *(int *)(pcm_table + ((((param_1 & 0xff) << 4) + 8) << 2));
   }
 
-  puVar4[(short)((uVar2 & 0xff) * 0x44) + 2] = puVar4[(short)((uVar2 & 0xff) * 0x44) + 2] + '\x01';
-
-  return;
-
+  chan_base[(short)(chan_idx * 0x44) + 2] = chan_base[(short)(chan_idx * 0x44) + 2] + '\x01'; /* increment sequence */
 }
