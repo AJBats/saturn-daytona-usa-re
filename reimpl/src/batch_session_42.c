@@ -225,51 +225,39 @@ int FUN_060424a2(unsigned int lba)
          (lba & 0xFFFF) >> 16);
 }
 
-void FUN_060429ec(param_1, param_2, param_3, param_4)
+/* vdp2_vram_write -- Write data to VDP2 VRAM with mode-dependent addressing.
+ * Checks color mode via 0x0603C156: mode 2 = 32-bit (word), else 16-bit (short).
+ * For 32-bit: address = 0x25F00000 + (offset<<2) + (bank<<10).
+ * For 16-bit: address = 0x25F00000 + (offset<<1) + (bank<<9).
+ * Single-word writes use direct store; multi-word uses DMA copy (0x06038A48). */
+void vdp2_vram_write(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     int *param_4;
 {
+    int bank;
+    int color_mode = (*(int(*)())0x0603C156)();  /* get_vdp2_color_mode */
 
-  int iVar1;
-
-  iVar1 = (*(int(*)())0x0603C156)();
-
-  if (iVar1 == 2) {
-
-    iVar1 = (*(int(*)())0x06042BFC)(param_1);
-
-    if (param_3 != 1) {
-
-      (*(int(*)())0x06038A48)(0x25F00000 + (param_2 << 2) + (iVar1 << 10),param_4,param_3 << 2);
-
-      return;
-
+    if (color_mode == 2) {
+        /* 32-bit color mode: word-addressed */
+        bank = (*(int(*)())0x06042BFC)(param_1);  /* get_vram_bank */
+        if (param_3 != 1) {
+            (*(int(*)())0x06038A48)(0x25F00000 + (param_2 << 2) + (bank << 10),
+                                   param_4, param_3 << 2);  /* dma_copy */
+            return;
+        }
+        *(int *)(0x25F00000 + (param_2 << 2) + (bank << 10)) = *param_4;
+    } else {
+        /* 16-bit color mode: short-addressed */
+        bank = (*(int(*)())0x06042BFC)(param_1);  /* get_vram_bank */
+        if (param_3 != 1) {
+            (*(int(*)())0x06038A48)(0x25F00000 + (param_2 << 1) + (bank << 9),
+                                   param_4, param_3 << 1);  /* dma_copy */
+            return;
+        }
+        *(short *)(0x25F00000 + (param_2 << 1) + (bank << 9)) = *(short *)param_4;
     }
-
-    *(int *)(0x25F00000 + (param_2 << 2) + (iVar1 << 10)) = *param_4;
-
-  }
-
-  else {
-
-    iVar1 = (*(int(*)())0x06042BFC)(param_1);
-
-    if (param_3 != 1) {
-
-      (*(int(*)())0x06038A48)(0x25F00000 + (param_2 << 1) + (iVar1 << 9),param_4,param_3 << 1);
-
-      return;
-
-    }
-
-    *(short *)(0x25F00000 + (param_2 << 1) + (iVar1 << 9)) = *(short *)param_4;
-
-  }
-
-  return;
-
 }
 
 void FUN_06042a8c(param_1)

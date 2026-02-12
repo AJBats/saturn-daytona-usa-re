@@ -359,89 +359,49 @@ int cd_directory_entry_search(param_1, param_2, param_3)
     return -1;                                 /* not found */
 }
 
-int FUN_0603f22c()
+/* cd_init_and_read_toc -- Initialize CD drive and read table of contents.
+ * Connects to CD subsystem (0x06041470) with 0x00FFFFFF timeout,
+ * allocates 32KB read buffer (0x06041884), polls until ready,
+ * then reads TOC (0x06036A98). Returns entry count + 2 on success,
+ * or -1 on any failure (no disc, timeout, TOC read error). */
+int cd_init_and_read_toc()
 {
+    int result;
+    int entry_count;
+    char toc_header[4];
+    char toc_data[8];
 
-  int uVar1;
+    /* Try connecting to CD with sector from CD_STATE_A+0xC8 */
+    result = (*(int(*)())0x06041470)(0x00FFFFFF, *(int *)(CD_STATE_A + 0xc8));
+    if (result == -5) {
+        return -1;                             /* no disc present */
+    }
 
-  char *puVar2;
+    /* Allocate 32KB CD read buffer */
+    (*(int(*)())0x06041884)(0x00008000);       /* cd_alloc_buffer */
 
-  char *puVar3;
+    /* Poll until CD is ready */
+    while (result != 0) {
+        result = (*(int(*)())0x06041698)();    /* cd_poll_ready */
+        if (result == -0xc) {
+            return -1;                         /* fatal error */
+        }
+        result = (*(int(*)())0x06041470)(0x00FFFFFF, *(int *)(*(int *)0x060A4D14 + 0xc8));
+    }
 
-  char *puVar4;
-
-  int iVar5;
-
-  int local_24;
-
-  char auStack_20 [4];
-
-  char auStack_1c [8];
-
-  puVar4 = (char *)0x060A4D14;
-
-  puVar3 = (char *)0x06041470;
-
-  puVar2 = (int *)0x06041698;
-
-  uVar1 = 0x00FFFFFF;
-
-  iVar5 = (*(int(*)())0x06041470)(0x00FFFFFF,*(int *)(CD_STATE_A + 0xc8));
-
-  if (iVar5 == -5) {
-
-    local_24 = -1;
-
-  }
-
-  else {
-
-    (*(int(*)())0x06041884)(0x00008000);
-
-    while (iVar5 != 0) {
-
-      iVar5 = (*(int(*)())puVar2)();
-
-      if (iVar5 == -0xc) {
-
+    /* Finalize CD initialization */
+    result = (*(int(*)())0x0604188C)();        /* cd_finalize_init */
+    if (result != 0) {
         return -1;
-
-      }
-
-      iVar5 = (*(int(*)())puVar3)(uVar1,*(int *)(*(int *)puVar4 + 0xc8));
-
     }
 
-    iVar5 = (*(int(*)())0x0604188C)();
-
-    if (iVar5 == 0) {
-
-      iVar5 = (*(int(*)())0x06036A98)(auStack_20,&local_24,auStack_1c);
-
-      if (iVar5 == 0) {
-
-        local_24 = local_24 + 2;
-
-      }
-
-      else {
-
-        local_24 = -1;
-
-      }
-
+    /* Read table of contents */
+    result = (*(int(*)())0x06036A98)(toc_header, &entry_count, toc_data);
+    if (result != 0) {
+        return -1;
     }
 
-    else {
-
-      local_24 = -1;
-
-    }
-
-  }
-
-  return local_24;
-
+    return entry_count + 2;                    /* +2 for volume descriptor + root */
 }
 
 /* cd_dir_read_simple -- Read directory entries (simple variant).
