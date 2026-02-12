@@ -876,80 +876,54 @@ void dual_column_selector()
   return;
 }
 
-void FUN_0601ba50(param_1, param_2, param_3)
+/* select_confirm_display -- renders confirmation screen for car/transmission selection.
+ *   param_1 = car index (selects sprite at offset 0x30+), param_2 = transmission index
+ *   (offset 0x33+), param_3 = display mode. Reads joypad, draws background overlay
+ *   sprites at priority 0xA, selected car/trans sprites at priority 0x9.
+ *   Looks up combination data from table at 0x0605DD6C, renders name initials
+ *   via FUN_0601bbcc, draws record time via 0x06005DD4. */
+void select_confirm_display(param_1, param_2, param_3)
     char param_1;
     char param_2;
     char param_3;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int uVar5;
-
-  char *pcVar6;
-
-  char auStack_1c [8];
-
-  puVar2 = (char *)0x0605D4F7;
-
-  puVar1 = (char *)0x060284AE;
-
-  (*(int(*)())0x06035228)();
-
-  puVar4 = (char *)0x06063750;
-
-  puVar3 = (char *)0x06028400;
-
-  (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601bb3a),0x290,
-
+  char *game_mode = (char *)0x0605D4F7;       /* current game mode byte */
+  char *vdp1_draw_offset = (char *)0x060284AE; /* VDP1 draw with offset */
+  char *sprite_table = (char *)0x06063750;
+  char *vdp1_draw = (char *)0x06028400;        /* VDP1 sprite draw */
+  int time_display;
+  char *record_ptr;
+  char auStack_1c[8];
+  (*(int(*)())0x06035228)();                   /* read joypad */
+  /* Draw background overlay sprites */
+  (*(int(*)())0x06028400)(0xc, *(int *)(0x06063750 + DAT_0601bb3a), 0x290,
              0x0000A000 + *(int *)((int)(0x06063750 + DAT_0601bb3a) + 4));
-
-  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + DAT_0601bb3e),(int)DAT_0601bb40,
-
-                    0x0000A000 + *(int *)((int)(puVar4 + DAT_0601bb3e) + 4));
-
-  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + ((param_1 + 0x30) << 3)),0x390,
-
-                    0x00009000 + *(int *)((int)(puVar4 + ((param_1 + 0x30) << 3)) + 4));
-
-  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + ((param_2 + 0x33) << 3)),(int)DAT_0601bb44,
-
-                    0x00009000 + *(int *)((int)(puVar4 + ((param_2 + 0x33) << 3)) + 4));
-
+  (*(int(*)())vdp1_draw)(0xc, *(int *)(sprite_table + DAT_0601bb3e), (int)DAT_0601bb40,
+                    0x0000A000 + *(int *)((int)(sprite_table + DAT_0601bb3e) + 4));
+  /* Draw selected car sprite */
+  (*(int(*)())vdp1_draw)(0xc, *(int *)(sprite_table + ((param_1 + 0x30) << 3)), 0x390,
+                    0x00009000 + *(int *)((int)(sprite_table + ((param_1 + 0x30) << 3)) + 4));
+  /* Draw selected transmission sprite */
+  (*(int(*)())vdp1_draw)(0xc, *(int *)(sprite_table + ((param_2 + 0x33) << 3)), (int)DAT_0601bb44,
+                    0x00009000 + *(int *)((int)(sprite_table + ((param_2 + 0x33) << 3)) + 4));
+  /* Render name initials from combination table */
   FUN_0601bbcc(*(int *)
-
-                (0x0605DD6C + (param_1 * 6 + (param_2 << 1) + (unsigned int)(unsigned char)*puVar2) << 2),
-
-               (int)param_3,10);
-
-  (*(int(*)())puVar3)(0xc,*(int *)(puVar4 + DAT_0601bb46),(int)DAT_0601bb4a,
-
-                    *(int *)((int)(puVar4 + DAT_0601bb46) + 4) + (int)DAT_0601bb48);
-
-  pcVar6 = *(char **)(0x0605DE24 + ((param_1 << 1) + (unsigned int)(unsigned char)*puVar2) << 2);
-
-  (*(int(*)())puVar1)(8,(int)DAT_0601bbc0,0x60,auStack_1c);
-
-  if (*pcVar6 != '\0') {
-
-    (*(int(*)())puVar1)(8,(int)DAT_0601bbc0,0x60,pcVar6);
-
+                (0x0605DD6C + (param_1 * 6 + (param_2 << 1) + (unsigned int)(unsigned char)*game_mode) << 2),
+               (int)param_3, 10);
+  /* Draw record label sprite */
+  (*(int(*)())vdp1_draw)(0xc, *(int *)(sprite_table + DAT_0601bb46), (int)DAT_0601bb4a,
+                    *(int *)((int)(sprite_table + DAT_0601bb46) + 4) + (int)DAT_0601bb48);
+  /* Draw record time initials */
+  record_ptr = *(char **)(0x0605DE24 + ((param_1 << 1) + (unsigned int)(unsigned char)*game_mode) << 2);
+  (*(int(*)())vdp1_draw_offset)(8, (int)DAT_0601bbc0, 0x60, auStack_1c);
+  if (*record_ptr != '\0') {
+    (*(int(*)())vdp1_draw_offset)(8, (int)DAT_0601bbc0, 0x60, record_ptr);
   }
-
-  uVar5 = (*(int(*)())0x06005DD4)(*(int *)
-
-                      (*(int *)(0x0605DE24 + ((param_1 << 1) + (unsigned int)(unsigned char)*puVar2) << 2) + 4));
-
-  (*(int(*)())puVar1)(8,0xcb2,0x78,uVar5);
-
+  /* Format and draw record time */
+  time_display = (*(int(*)())0x06005DD4)(*(int *)
+                      (*(int *)(0x0605DE24 + ((param_1 << 1) + (unsigned int)(unsigned char)*game_mode) << 2) + 4));
+  (*(int(*)())vdp1_draw_offset)(8, 0xcb2, 0x78, time_display);
   return;
-
 }
 
 int FUN_0601bbcc(param_1, param_2, param_3)

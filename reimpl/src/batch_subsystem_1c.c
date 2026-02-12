@@ -1192,207 +1192,111 @@ int race_position_sound()
   return result;
 }
 
-unsigned int FUN_0601d9b0()
+/* position_sound_sequencer -- sequences race position announcement sounds per checkpoint.
+ *   Checks race-end flag at 0x06085FF4. Maps checkpoint counter (0x06086058)
+ *   to position-specific SCSP cues for player (CAR_COUNT=0), 2nd car (=1), 3rd car (=2).
+ *   Player positions: 1st=0xAE1129FF, 2nd/4th/6th=0xAE112BFF, 3rd=0xAE112AFF, 5th=0xAE112CFF.
+ *   2nd car: 1st/3rd=0xAE112BFF, 6th=0xAE112DFF. 3rd car: 8th=0xAE112FFF.
+ *   Sound interval timer at 0x06086056, delay counter at 0x06086054.
+ *   Finish sequence flag at 0x0608605A triggers final 0xAE1120FF cue. */
+unsigned int position_sound_sequencer()
 {
-
-  short sVar1;
-
-  unsigned short uVar2;
-
-  char *puVar3;
-
-  int uVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  short uVar7;
-
-  puVar3 = (char *)0x06086054;
-
+  short interval_timer;
+  unsigned short finish_timer;
+  char *delay_counter = (char *)0x06086054;    /* sound delay counter */
+  int default_cue;
+  char *finish_flag;
+  unsigned int result;
+  short next_delay;
   if ((int)(char)*(int *)0x06085FF4 != 0) {
-
-    return (int)(char)*(int *)0x06085FF4;
-
+    return (int)(char)*(int *)0x06085FF4;      /* race ended — return status */
   }
-
   if (((*(short *)0x06086056 == 0) || (*(int *)0x0608605A == '\x01')) ||
-
-     (sVar1 = *(short *)0x06086056, *(short *)0x06086056 = sVar1 + -1,
-
-     uVar4 = 0xAE112BFF, sVar1 != 1)) goto LAB_0601db20;
-
+     (interval_timer = *(short *)0x06086056, *(short *)0x06086056 = interval_timer + -1,
+     default_cue = 0xAE112BFF, interval_timer != 1)) goto LAB_0601db20;
   if (CAR_COUNT != 0) {
-
     if (CAR_COUNT == 1) {
-
-      sVar1 = *(short *)0x06086058;
-
-      if (sVar1 == 1) {
-
+      /* 2nd car position sounds */
+      interval_timer = *(short *)0x06086058;   /* checkpoint counter */
+      if (interval_timer == 1) {
         *(short *)0x06086056 = 0;
-
-        scsp_command_dispatch(0,uVar4);
-
-      }
-
-      else if (sVar1 == 3) {
-
+        scsp_command_dispatch(0, default_cue); /* SCSP: 2nd place */
+      } else if (interval_timer == 3) {
         *(short *)0x06086056 = 0;
-
-        scsp_command_dispatch(0,uVar4);
-
-      }
-
-      else {
-
-        if (sVar1 != 6) {
-
-          *(short *)puVar3 = 100;
-
+        scsp_command_dispatch(0, default_cue); /* SCSP: 2nd place (alt) */
+      } else {
+        if (interval_timer != 6) {
+          *(short *)delay_counter = 100;       /* not a trigger point — wait */
           goto LAB_0601db20;
-
         }
-
         *(short *)0x06086056 = 0;
-
-        scsp_command_dispatch(0,0xAE112DFF);
-
+        scsp_command_dispatch(0, 0xAE112DFF);  /* SCSP: 6th place (2nd car) */
       }
-
-      *(short *)puVar3 = (char *)0x28;
-
-    }
-
-    else if ((CAR_COUNT == 2) && (*(short *)0x06086058 == 8)) {
-
+      *(short *)delay_counter = (char *)0x28;
+    } else if ((CAR_COUNT == 2) && (*(short *)0x06086058 == 8)) {
+      /* 3rd car: only triggers at checkpoint 8 */
       *(short *)0x06086056 = 0;
-
-      scsp_command_dispatch(0,0xAE112FFF);
-
-      *(short *)puVar3 = (char *)0x28;
-
+      scsp_command_dispatch(0, 0xAE112FFF);    /* SCSP: position (3rd car) */
+      *(short *)delay_counter = (char *)0x28;
     }
-
     goto LAB_0601db20;
-
   }
-
-  sVar1 = *(short *)0x06086058;
-
-  if (sVar1 == 1) {
-
+  /* Player car (CAR_COUNT == 0) position sounds */
+  interval_timer = *(short *)0x06086058;
+  if (interval_timer == 1) {
     *(short *)0x06086056 = 0;
-
-    scsp_command_dispatch(0,0xAE1129FF);
-
+    scsp_command_dispatch(0, 0xAE1129FF);      /* SCSP: 1st place */
 LAB_0601da72:
-
-    uVar7 = 0x28;
-
-  }
-
-  else {
-
-    if (sVar1 == 2) {
-
+    next_delay = 0x28;
+  } else {
+    if (interval_timer == 2) {
       *(short *)0x06086056 = 0;
-
-      scsp_command_dispatch(0,uVar4);
-
+      scsp_command_dispatch(0, default_cue);   /* SCSP: 2nd place */
       goto LAB_0601da72;
-
     }
-
-    if (sVar1 == 3) {
-
+    if (interval_timer == 3) {
       *(short *)0x06086056 = 0;
-
-      scsp_command_dispatch(0,0xAE112AFF);
-
-      uVar7 = 0x14;
-
-    }
-
-    else {
-
-      if (sVar1 == 4) {
-
+      scsp_command_dispatch(0, 0xAE112AFF);    /* SCSP: 3rd place */
+      next_delay = 0x14;
+    } else {
+      if (interval_timer == 4) {
         *(short *)0x06086056 = 0;
-
-        scsp_command_dispatch(0,uVar4);
-
+        scsp_command_dispatch(0, default_cue); /* SCSP: 4th place */
         goto LAB_0601da72;
-
       }
-
-      if (sVar1 == 5) {
-
+      if (interval_timer == 5) {
         *(short *)0x06086056 = 0;
-
-        scsp_command_dispatch(0,0xAE112CFF);
-
-        uVar7 = 0x14;
-
-      }
-
-      else {
-
-        if (sVar1 != 6) {
-
-          *(short *)puVar3 = 100;
-
+        scsp_command_dispatch(0, 0xAE112CFF);  /* SCSP: 5th place */
+        next_delay = 0x14;
+      } else {
+        if (interval_timer != 6) {
+          *(short *)delay_counter = 100;
           goto LAB_0601db20;
-
         }
-
         *(short *)0x06086056 = 0;
-
-        scsp_command_dispatch(0,uVar4);
-
-        uVar7 = 0x28;
-
+        scsp_command_dispatch(0, default_cue); /* SCSP: 6th place */
+        next_delay = 0x28;
       }
-
     }
-
   }
-
-  *(short *)puVar3 = uVar7;
-
+  *(short *)delay_counter = next_delay;
 LAB_0601db20:
-
-  puVar5 = (char *)0x0608605A;
-
-  uVar6 = (unsigned int)(unsigned char)*(int *)0x0608605A;
-
-  if (uVar6 == 1) {
-
-    uVar2 = *(unsigned short *)0x06086056;
-
-    *(unsigned short *)0x06086056 = uVar2 - 1;
-
-    uVar6 = (unsigned int)uVar2;
-
-    if (uVar6 == 1) {
-
-      *puVar5 = 0;
-
+  /* Finish sequence: countdown to final announcement */
+  finish_flag = (char *)0x0608605A;
+  result = (unsigned int)(unsigned char)*(int *)0x0608605A;
+  if (result == 1) {
+    finish_timer = *(unsigned short *)0x06086056;
+    *(unsigned short *)0x06086056 = finish_timer - 1;
+    result = (unsigned int)finish_timer;
+    if (result == 1) {
+      *finish_flag = 0;
       *(short *)0x06086056 = 0;
-
-      *(short *)puVar3 = (char *)0x28;
-
-      uVar6 = scsp_command_dispatch(0,0xAE1120FF);
-
-      return uVar6;
-
+      *(short *)delay_counter = (char *)0x28;
+      result = scsp_command_dispatch(0, 0xAE1120FF); /* SCSP: finish announcement */
+      return result;
     }
-
   }
-
-  return uVar6;
-
+  return result;
 }
 
 /* scsp_mailbox_wait -- Busy-wait for SCSP sound mailbox at 0x25A02C20.
