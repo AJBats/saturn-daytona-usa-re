@@ -678,111 +678,76 @@ void FUN_0600ac44(param_1, param_2)
     *(int *)mtx_stack = *(int *)mtx_stack + -0x30;
 }
 
+/* car_render_with_transform -- Render player car using secondary matrix stack.
+ * Sets current car from target, pushes matrix, applies translate (XYZ from
+ * car+0x10..+0x18), rotate Y (car+0x20 + 0x8000), rotate Z (-car+0x24).
+ * Camera pitch computed from 0x06078668 vs car heading, with game state
+ * affecting sign. Renders main body mesh + texture, then sub-objects via
+ * object_render_secondary. Steering wheel mesh selected by car flags.
+ * Calls reflection handler (0x0601C3E4) for replay/VS modes. */
 void FUN_0600afb2()
 {
+    char *rotate_x = (char *)0x06027158;           /* matrix_rotate_X */
+    char *cam_table = (char *)0x06063F46;
+    int car = CAR_PTR_TARGET;
+    CAR_PTR_CURRENT = car;
 
-  char *puVar1;
+    (*(int(*)())0x06027080)();                     /* matrix_stack_push */
+    (*(int(*)())0x060270F2)(*(int *)(car + 0x10), *(int *)(car + 0x14),
+               *(int *)(car + 0x18));              /* translate XYZ */
+    (*(int(*)())0x060271A2)(0x00008000 + *(int *)(car + 0x20)); /* rotate Y (+ 180 deg) */
+    (*(int(*)())0x060271EE)(-*(int *)(car + 0x24));             /* rotate Z */
 
-  char *puVar2;
+    /* Compute camera pitch from heading delta */
+    int pitch;
+    if ((GAME_STATE_BIT & (unsigned int)0x00800008) == 0) {
+        pitch = (*(int *)0x06078668 - *(int *)(car + 0x1c)) +
+                *(int *)(0x0605BDCC + (unsigned int)*(unsigned short *)((int)(int)cam_table << 2));
+    } else {
+        pitch = *(int *)(0x0605BDCC + (unsigned int)*(unsigned short *)((int)(int)cam_table << 2)) -
+                *(int *)(car + 0x1c);
+    }
+    (*(int(*)())rotate_x)(pitch);                  /* rotate X (pitch) */
+    (*(int(*)())0x060271A2)(*(int *)(car + DAT_0600b100) +
+               *(int *)(car + DAT_0600b100 + -0xc)); /* additional Y rotation */
 
-  int iVar3;
+    if (*(int *)0x06059F30 != 0) {
+        /* Render main body */
+        (*(int(*)())0x06032158)(*(int *)0x0606213C, *(int *)0x060621E8);
+        (*(int(*)())0x06031DF4)(*(int *)0x060620E8, *(short *)0x06089E44,
+                   *(int *)0x06062190);
 
-  int iVar4;
+        /* Sub-object transforms */
+        (*(int(*)())0x060270F2)(0, *(int *)(car + DAT_0600b102));
+        (*(int(*)())0x060271EE)(*(int *)(car + DAT_0600b104));
+        (*(int(*)())rotate_x)(*(int *)(car + DAT_0600b106));
 
-  puVar2 = (int *)0x06027158;
+        if ((*(int *)0x06082A25 & 2) == 0) {
+            FUN_0600ac44(car, 0);                  /* render sub-objects */
+        }
 
-  puVar1 = (char *)0x06063F46;
-
-  iVar4 = CAR_PTR_TARGET;
-
-  CAR_PTR_CURRENT = iVar4;
-
-  (*(int(*)())0x06027080)();
-
-  (*(int(*)())0x060270F2)(*(int *)(iVar4 + 0x10),*(int *)(iVar4 + 0x14),
-
-             *(int *)(iVar4 + 0x18));
-
-  (*(int(*)())0x060271A2)(0x00008000 + *(int *)(iVar4 + 0x20));
-
-  (*(int(*)())0x060271EE)(-*(int *)(iVar4 + 0x24));
-
-  if ((GAME_STATE_BIT & (unsigned int)0x00800008) == 0) {
-
-    iVar3 = (*(int *)0x06078668 - *(int *)(iVar4 + 0x1c)) +
-
-            *(int *)(0x0605BDCC + (unsigned int)*(unsigned short *)((int)(int)puVar1 << 2));
-
-  }
-
-  else {
-
-    iVar3 = *(int *)(0x0605BDCC + (unsigned int)*(unsigned short *)((int)(int)puVar1 << 2)) - *(int *)(iVar4 + 0x1c);
-
-  }
-
-  (*(int(*)())puVar2)(iVar3);
-
-  (*(int(*)())0x060271A2)(*(int *)(iVar4 + DAT_0600b100) + *(int *)(iVar4 + DAT_0600b100 + -0xc));
-
-  if (*(int *)0x06059F30 != 0) {
-
-    (*(int(*)())0x06032158)(*(int *)0x0606213C,*(int *)0x060621E8);
-
-    (*(int(*)())0x06031DF4)(*(int *)0x060620E8,*(short *)0x06089E44,
-
-               *(int *)0x06062190);
-
-    (*(int(*)())0x060270F2)(0,*(int *)(iVar4 + DAT_0600b102));
-
-    (*(int(*)())0x060271EE)(*(int *)(iVar4 + DAT_0600b104));
-
-    (*(int(*)())puVar2)(*(int *)(iVar4 + DAT_0600b106));
-
-    if ((*(int *)0x06082A25 & 2) == 0) {
-
-      FUN_0600ac44(iVar4,0);
-
+        /* Steering wheel / driver mesh */
+        int mesh_idx = 0;
+        int wheel_rot;
+        if ((*(unsigned char *)(car + 1) & 1) == 0) {
+            wheel_rot = *(int *)0x06083258;
+        } else {
+            mesh_idx = 0xd;
+            wheel_rot = (int)(char)((int *)0x06044740)[*(unsigned short *)cam_table] +
+                        *(int *)0x06083258;
+        }
+        (*(int(*)())rotate_x)(wheel_rot);
+        mesh_idx = (mesh_idx << 2);
+        (*(int(*)())0x06032158)(*(int *)(0x0606212C + mesh_idx), *(int *)(0x060621D8 + mesh_idx));
+        (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + mesh_idx), *(short *)0x06089E44,
+                   *(int *)(0x06062180 + mesh_idx));
     }
 
-    iVar3 = 0;
-
-    if ((*(unsigned char *)(iVar4 + 1) & 1) == 0) {
-
-      iVar4 = *(int *)0x06083258;
-
+    if ((GAME_STATE_BIT & (unsigned int)0x20020000) != 0) {
+        (*(int(*)())0x0601C3E4)();                 /* reflection/shadow handler */
     }
 
-    else {
-
-      iVar3 = 0xd;
-
-      iVar4 = (int)(char)((int *)0x06044740)[*(unsigned short *)puVar1] + *(int *)0x06083258;
-
-    }
-
-    (*(int(*)())puVar2)(iVar4);
-
-    iVar3 = (iVar3 << 2);
-
-    (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar3),*(int *)(0x060621D8 + iVar3));
-
-    (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar3),*(short *)0x06089E44,
-
-               *(int *)(0x06062180 + iVar3));
-
-  }
-
-  if ((GAME_STATE_BIT & (unsigned int)0x20020000) != 0) {
-
-    (*(int(*)())0x0601C3E4)();
-
-  }
-
-  OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
-
-  return;
-
+    OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
 }
 
 void FUN_0600b340()
@@ -1686,125 +1651,80 @@ void FUN_0600bf70(void)
     }
 }
 
+/* frame_render_dispatch -- Main per-frame rendering dispatch.
+ * Calls scene visibility (0x06034708) if active, then dispatches AI
+ * (0x0600D31C/0x0600D336) based on game mode. Copies primary matrix
+ * state to secondary stack. Sets LOD level at 0x06078664 from either
+ * half-max-objects or current descriptor count. Triggers VDP1 draw
+ * start (0x21000000=0xFFFF), calls scene render (0x06006868) and
+ * car render (FUN_0600b6a0). Busy-waits on VDP1 status (0xFFFFFE11)
+ * for frame sync, adjusts LOD up/down based on VDP1 completion. */
 void FUN_0600bffc()
 {
+    char *lod_ptr = (char *)0x0605A1DD;
+    int *mtx_stack = (int *)0x0608A52C;
+    int *game_flags = (int *)0x0607EBC4;
+    unsigned char *vdp1_status = (unsigned char *)-495; /* 0xFFFFFE11 */
+    int overloaded = 0;
 
-  int bVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  unsigned char *pbVar6;
-
-  puVar4 = (char *)0x0605A1DD;
-
-  puVar3 = (char *)0x0608A52C;
-
-  puVar2 = (int *)0x0607EBC4;
-
-  pbVar6 = (unsigned char *)-495;
-
-  bVar1 = 0;
-
-  if (*(int *)0x06083255 != '\0') {
-
-    (*(int(*)())0x06034708)(*(int *)0x0607EB8C);
-
-  }
-
-  if ((*(unsigned int *)puVar2 & (unsigned int)0x02000000) == 0) {
-
-    if (*(int *)0x06078635 == '\0') {
-
-      (*(int(*)())0x0600D31C)();
-
+    if (*(int *)0x06083255 != '\0') {
+        (*(int(*)())0x06034708)(*(int *)0x0607EB8C);
     }
 
-    else {
-
-      (*(int(*)())0x0600D336)();
-
+    /* Dispatch AI / physics update */
+    if ((*(unsigned int *)game_flags & (unsigned int)0x02000000) == 0) {
+        if (*(int *)0x06078635 == '\0') {
+            (*(int(*)())0x0600D31C)();             /* single-player AI */
+        } else {
+            (*(int(*)())0x0600D336)();             /* VS mode AI */
+        }
     }
 
-  }
-
-  if ((*(char **)puVar2 == 0x00020000) && (DEMO_MODE_FLAG == 0)) {
-
-    (*(int(*)())0x0602E610)();
-
-  }
-
-  iVar5 = *(int *)puVar3;
-
-  *(int *)puVar3 = iVar5 + 0x30;
-
-  (*(int(*)())0x06027630)(iVar5 + 0x30,OBJ_STATE_PRIMARY,0x30);
-
-  if (*(int *)0x06059F30 == 0) {
-
-    *(short *)0x06078664 = (short)(*(int *)0x0607EA98 >> 1);
-
-  }
-
-  else {
-
-    *(unsigned short *)0x06078664 = (unsigned short)(unsigned char)*puVar4;
-
-  }
-
-  *(char **)0x06063574 = 0x0600C170;
-
-  *(short *)0x21000000 = (short)0x0000FFFF;
-
-  if ((*(unsigned int *)puVar2 & (unsigned int)0x02800008) == 0) {
-
-    (*(int(*)())0x060058FA)();
-
-  }
-
-  (*(int(*)())0x06006868)();
-
-  FUN_0600b6a0();
-
-  if (*(char **)puVar2 != 0x02000000) {
-
-    (*(int(*)())0x0601BDEC)();
-
-  }
-
-  while ((*pbVar6 & 0x80) != 0x80) {
-
-    bVar1 = 1;
-
-  }
-
-  *pbVar6 = *pbVar6 & 0xf;
-
-  if (bVar1) {
-
-    if ((int)(unsigned int)(unsigned char)*puVar4 < *(int *)0x0607EA98) {
-
-      *puVar4 = *puVar4 + '\x01';
-
+    if ((*(char **)game_flags == 0x00020000) && (DEMO_MODE_FLAG == 0)) {
+        (*(int(*)())0x0602E610)();                 /* replay handler */
     }
 
-  }
+    /* Copy primary matrix to secondary stack */
+    int prev_stack = *mtx_stack;
+    *mtx_stack = prev_stack + 0x30;
+    (*(int(*)())0x06027630)(prev_stack + 0x30, OBJ_STATE_PRIMARY, 0x30);
 
-  else if (1 < (unsigned char)*puVar4) {
+    /* Set LOD level */
+    if (*(int *)0x06059F30 == 0) {
+        *(short *)0x06078664 = (short)(*(int *)0x0607EA98 >> 1);
+    } else {
+        *(unsigned short *)0x06078664 = (unsigned short)(unsigned char)*lod_ptr;
+    }
 
-    *puVar4 = *puVar4 + -1;
+    *(char **)0x06063574 = (char *)0x0600C170;    /* render callback ptr */
+    *(short *)0x21000000 = (short)0x0000FFFF;     /* VDP1: start draw */
 
-  }
+    if ((*(unsigned int *)game_flags & (unsigned int)0x02800008) == 0) {
+        (*(int(*)())0x060058FA)();                 /* pre-render setup */
+    }
 
-  (*(int(*)())0x0603C000)();
+    (*(int(*)())0x06006868)();                     /* scene render */
+    FUN_0600b6a0();                                /* car render */
 
-  *(int *)puVar3 = *(int *)puVar3 + -0x30;
+    if (*(char **)game_flags != (char *)0x02000000) {
+        (*(int(*)())0x0601BDEC)();                 /* post-render effects */
+    }
 
-  return;
+    /* VDP1 busy wait for frame sync */
+    while ((*vdp1_status & 0x80) != 0x80) {
+        overloaded = 1;
+    }
+    *vdp1_status = *vdp1_status & 0xf;
 
+    /* Adjust LOD based on VDP1 completion timing */
+    if (overloaded) {
+        if ((int)(unsigned int)(unsigned char)*lod_ptr < *(int *)0x0607EA98) {
+            *lod_ptr = *lod_ptr + '\x01';          /* reduce detail */
+        }
+    } else if (1 < (unsigned char)*lod_ptr) {
+        *lod_ptr = *lod_ptr + -1;                  /* increase detail */
+    }
+
+    (*(int(*)())0x0603C000)();                     /* frame finalize */
+    *mtx_stack = *mtx_stack + -0x30;               /* pop matrix stack */
 }

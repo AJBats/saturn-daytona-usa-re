@@ -280,129 +280,84 @@ int FUN_0601e488(unsigned short slot)
     return 0;
 }
 
+/* backup_mem_write_all -- Write save data to all available backup devices.
+ * Iterates up to device_count (0x06087084) backup devices in array at
+ * 0x06087094 (stride 0x20, channel at +0x1C). For each: acquires SMPC
+ * bus (cmd 0x1A), calls BIOS device init (vector +4), writes via
+ * FUN_0601e764 using save descriptor from 0x0604A57C. Releases SMPC
+ * bus (cmd 0x19). Returns first successful device index (0-2) if any
+ * write succeeded, or first fallback device index (3+) if write-protect
+ * flag set at +0x1E, or 8 if all failed. */
 unsigned int FUN_0601e4d4()
 {
+    char *smpc_cmd = (char *)0x2010001F;           /* SMPC command register */
+    unsigned char *smpc_sf = (unsigned char *)(0x2010001F + 0x44); /* SMPC SF */
+    char write_protect[4];
+    char write_ok[8];
 
-  char *puVar1;
+    write_protect[0] = '\0';
+    write_ok[0] = '\0';
+    write_protect[1] = 0;
+    write_ok[1] = 0;
+    write_protect[2] = 0;
+    write_ok[2] = 0;
 
-  char *puVar2;
+    char *dev_array;
+    int dev;
+    for (dev = 0;
+         dev_array = (char *)0x06087094,
+         dev < (int)(unsigned int)*(unsigned short *)0x06087084;
+         dev = dev + 1) {
+        /* Acquire SMPC bus */
+        do { } while ((*smpc_sf & 1) == 1);
+        *smpc_sf = 1;
+        *smpc_cmd = (char *)0x1a;                  /* NETLINK OFF / bus acquire */
+        do { } while ((*smpc_sf & 1) != 0);
 
-  int iVar3;
+        /* Init device and write save */
+        (*(int(*)())(*(int *)(*(int *)0x06000354 + 4)))(
+            *(short *)(dev_array + (dev << 5) + 0x1c), 0);
+        int result = FUN_0601e764(
+            (int)*(short *)(dev_array + (dev << 5) + 0x1c),
+            0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc,
+            *(int *)0x0605E098);
 
-  unsigned int uVar4;
+        /* Release SMPC bus */
+        do { } while ((*smpc_sf & 1) == 1);
+        *smpc_sf = 1;
+        *smpc_cmd = (char *)0x19;                  /* NETLINK ON / bus release */
+        do { } while ((*smpc_sf & 1) != 0);
 
-  char *pcVar5;
-
-  int iVar6;
-
-  unsigned char *pbVar7;
-
-  char local_28 [4];
-
-  char local_24 [8];
-
-  puVar1 = (char *)0x2010001F;
-
-  pbVar7 = 0x2010001F + 0x44;
-
-  pcVar5 = local_28;
-
-  local_28[0] = '\0';
-
-  local_24[0] = '\0';
-
-  local_28[1] = 0;
-
-  local_24[1] = 0;
-
-  local_28[2] = 0;
-
-  local_24[2] = 0;
-
-  for (iVar6 = 0; puVar2 = 0x06087094, iVar6 < (int)(unsigned int)*(unsigned short *)0x06087084;
-
-      iVar6 = iVar6 + 1) {
-
-    do {
-
-    } while ((*pbVar7 & 1) == 1);
-
-    *pbVar7 = 1;
-
-    *puVar1 = (char *)0x1a;
-
-    do {
-
-    } while ((*pbVar7 & 1) != 0);
-
-    (*(int(*)())(*(int *)(*(int *)0x06000354 + 4)))(*(short *)(puVar2 + (iVar6 << 5) + 0x1c),0);
-
-    iVar3 = FUN_0601e764((int)*(short *)(puVar2 + (iVar6 << 5) + 0x1c),
-
-                         0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc,
-
-                         *(int *)0x0605E098);
-
-    do {
-
-    } while ((*pbVar7 & 1) == 1);
-
-    *pbVar7 = 1;
-
-    *puVar1 = (char *)0x19;
-
-    do {
-
-    } while ((*pbVar7 & 1) != 0);
-
-    if (iVar3 == 0) {
-
-      local_24[iVar6] = '\x01';
-
+        if (result == 0) {
+            write_ok[dev] = '\x01';
+        }
+        if (dev_array[(dev << 5) + 0x1e] != '\0') {
+            write_protect[dev] = '\x01';
+        }
     }
 
-    if (puVar2[(iVar6 << 5) + 0x1e] != '\0') {
+    /* Return first successful device */
+    unsigned int idx = 0;
+    do {
+        if (write_ok[idx] != '\0') {
+            return idx & 0xff;
+        }
+        idx = idx + 1;
+    } while ((int)idx < 3);
 
-      local_28[iVar6] = '\x01';
-
+    /* Fallback: return first write-protected device */
+    char *scan = write_protect;
+    idx = 3;
+    while (1) {
+        if (write_protect + 3 <= scan) {
+            return 8;                              /* all failed */
+        }
+        if (*scan != '\0') break;
+        scan = scan + 1;
+        idx = idx + 1;
     }
 
-  }
-
-  uVar4 = 0;
-
-  do {
-
-    if (local_24[uVar4] != '\0') {
-
-      return uVar4 & 0xff;
-
-    }
-
-    uVar4 = uVar4 + 1;
-
-  } while ((int)uVar4 < 3);
-
-  uVar4 = 3;
-
-  while( 1 ) {
-
-    if (local_28 + 3 <= pcVar5) {
-
-      return 8;
-
-    }
-
-    if (*pcVar5 != '\0') break;
-
-    pcVar5 = pcVar5 + 1;
-
-    uVar4 = uVar4 + 1;
-
-  }
-
-  return uVar4 & 0xff;
-
+    return idx & 0xff;
 }
 
 /* bios_sound_poll -- Poll BIOS sound handler up to 10 times.
