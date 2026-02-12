@@ -386,125 +386,77 @@ void FUN_0600c4f8(void)
     }
 }
 
+/* ai_car_physics_update -- AI car main physics loop: collision, friction, heading, movement.
+ * Decides between collision recovery, friction braking, or normal movement,
+ * then updates heading and applies position delta via sin/cos or 3D path. */
 void FUN_0600c5d6()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int uVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  char auStack_1c [8];
-
-  puVar3 = (char *)0x06078680;
-
-  puVar2 = (char *)0x0607EBDC;
-
-  puVar1 = (int *)0x06027552;
-
-  iVar7 = CAR_PTR_CURRENT;
-
-  iVar4 = FUN_0600cd40();
-
-  iVar6 = iVar4 + 0x18;
-
-  if (((*(short *)0x06087804 == 2) || (0 < *(int *)(iVar7 + DAT_0600c616))) ||
-
-     (0 < *(int *)(iVar7 + PTR_DAT_0600c618))) {
-
-    FUN_0600ca96(puVar3);
-
+  char *lerp_fn;
+  char *friction_ctr;
+  char *track_data;
+  int track_seg;
+  int result;
+  int track_off;
+  int car_ptr;
+  char temp_vec [8];
+  track_data = (char *)0x06078680;
+  friction_ctr = (char *)0x0607EBDC;
+  lerp_fn = (int *)0x06027552;
+  car_ptr = CAR_PTR_CURRENT;
+  track_seg = FUN_0600cd40();
+  track_off = track_seg + 0x18;
+  /* Collision/recovery path */
+  if (((*(short *)0x06087804 == 2) || (0 < *(int *)(car_ptr + DAT_0600c616))) ||
+     (0 < *(int *)(car_ptr + PTR_DAT_0600c618))) {
+    FUN_0600ca96(track_data);
   }
-
+  /* Normal driving path */
   else if ((((*(unsigned char *)(CAR_PTR_TARGET + 3) & 8) == 0) &&
-
-           (*(int *)(iVar7 + DAT_0600c6f6) < 1)) && ((*(unsigned char *)(iVar7 + DAT_0600c6f8) & 0x20) == 0))
-
+           (*(int *)(car_ptr + DAT_0600c6f6) < 1)) && ((*(unsigned char *)(car_ptr + DAT_0600c6f8) & 0x20) == 0))
   {
-
-    if ((*(int *)puVar2 < 0xb) && (*(int *)(iVar7 + DAT_0600c6fa) < 0x66)) {
-
-      FUN_0600cf58(iVar6);
-
+    /* Speed decision when friction counter is low enough */
+    if ((*(int *)friction_ctr < 0xb) && (*(int *)(car_ptr + DAT_0600c6fa) < 0x66)) {
+      FUN_0600cf58(track_off);
     }
-
-    if (*(int *)(iVar7 + DAT_0600c6fa) < 1) {
-
-      FUN_0600cc38(iVar6,puVar3);
-
+    if (*(int *)(car_ptr + DAT_0600c6fa) < 1) {
+      FUN_0600cc38(track_off,track_data);   /* normal movement */
     }
-
     else {
-
-      *(int *)(iVar7 + DAT_0600c6fa) = *(int *)(iVar7 + DAT_0600c6fa) + -2;
-
-      FUN_0600ca96(puVar3);
-
-      *(int *)puVar2 = *(int *)puVar2 + 1;
-
+      *(int *)(car_ptr + DAT_0600c6fa) = *(int *)(car_ptr + DAT_0600c6fa) + -2;
+      FUN_0600ca96(track_data);             /* friction braking */
+      *(int *)friction_ctr = *(int *)friction_ctr + 1;
     }
-
   }
-
   else {
-
-    FUN_0600cc38(iVar6,puVar3);
-
+    FUN_0600cc38(track_off,track_data);
   }
-
+  /* Mode 3: interpolate track parameter */
   if (*(short *)0x06087804 == 3) {
-
-    uVar5 = (*(int(*)())puVar1)(*(int *)(iVar4 + 0x20),*(int *)(iVar7 + DAT_0600c6fc));
-
-    *(int *)(DAT_0600c6fe + iVar7) = uVar5;
-
+    result = (*(int(*)())lerp_fn)(*(int *)(track_seg + 0x20),*(int *)(car_ptr + DAT_0600c6fc));
+    *(int *)(DAT_0600c6fe + car_ptr) = result;
   }
-
-  FUN_0600c8cc(iVar7,puVar3);
-
+  /* Update heading */
+  FUN_0600c8cc(car_ptr,track_data);
+  /* Apply position delta */
   if ((**(unsigned int **)0x0607E940 & (unsigned int)0x00E00000) == 0) {
-
-    *(int *)(iVar7 + 0x20) = (int)*(short *)(puVar3 + 0xe);
-
-    (*(int(*)())0x06027358)(-*(int *)(iVar7 + 0x28),DAT_0600c702 + iVar7,DAT_0600c700 + iVar7);
-
-    iVar4 = (*(int(*)())puVar1)(*(int *)(iVar7 + 0xc),*(int *)(iVar7 + DAT_0600c702));
-
-    *(int *)(iVar7 + 0x10) = *(int *)(iVar7 + 0x10) + iVar4;
-
-    iVar4 = (*(int(*)())puVar1)(*(int *)(iVar7 + 0xc),*(int *)(iVar7 + DAT_0600c700));
-
-    *(int *)(iVar7 + 0x18) = *(int *)(iVar7 + 0x18) + iVar4;
-
-    *(int *)(iVar7 + 0x14) = 0;
-
+    /* Simple 2D: sin/cos heading → X/Z movement */
+    *(int *)(car_ptr + 0x20) = (int)*(short *)(track_data + 0xe);
+    (*(int(*)())0x06027358)(-*(int *)(car_ptr + 0x28),DAT_0600c702 + car_ptr,DAT_0600c700 + car_ptr);
+    track_seg = (*(int(*)())lerp_fn)(*(int *)(car_ptr + 0xc),*(int *)(car_ptr + DAT_0600c702));
+    *(int *)(car_ptr + 0x10) = *(int *)(car_ptr + 0x10) + track_seg;
+    track_seg = (*(int(*)())lerp_fn)(*(int *)(car_ptr + 0xc),*(int *)(car_ptr + DAT_0600c700));
+    *(int *)(car_ptr + 0x18) = *(int *)(car_ptr + 0x18) + track_seg;
+    *(int *)(car_ptr + 0x14) = 0;             /* Y = 0 (ground) */
   }
-
   else {
-
-    FUN_0600c928(iVar7);
-
-    FUN_0600c7d4(iVar7,puVar3);
-
-    uVar5 = (*(int(*)())0x06006838)(*(int *)(iVar7 + 0x10),*(int *)(iVar7 + 0x18))
-
+    /* 3D path: height lookup via world_to_tile_index */
+    FUN_0600c928(car_ptr);
+    FUN_0600c7d4(car_ptr,track_data);
+    result = (*(int(*)())0x06006838)(*(int *)(car_ptr + 0x10),*(int *)(car_ptr + 0x18))
     ;
-
-    (*(int(*)())0x06027EDE)(uVar5,iVar7 + 0x10,auStack_1c);
-
+    (*(int(*)())0x06027EDE)(result,car_ptr + 0x10,temp_vec);
   }
-
   return;
-
 }
 
 /* ai_heading_and_move -- AI car heading/movement update (simplified pipeline).
@@ -652,119 +604,69 @@ int FUN_0600c970(int param_1)
     return CAR_CHECKPOINT_PARAM;
 }
 
+/* track_boundary_nearest_angle -- Find nearest track boundary angle for AI steering.
+ * Samples 8 track boundary point pairs at next checkpoint, computes atan2 angles,
+ * finds minimum deviation from track heading, stores best-match index in car struct. */
 void FUN_0600c994()
 {
-
-  short sVar1;
-
-  unsigned short uVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  short sVar5;
-
-  int iVar6;
-
-  unsigned int uVar7;
-
-  unsigned short uVar8;
-
-  unsigned int uVar9;
-
-  int *piVar10;
-
-  int iVar11;
-
-  unsigned short uVar12;
-
-  short *psVar13;
-
-  short local_30 [8];
-
-  short local_20 [2];
-
-  puVar4 = (char *)0x0607EB88;
-
-  puVar3 = (char *)0x0602744C;
-
-  uVar2 = DAT_0600c9e6;
-
-  iVar11 = CAR_PTR_TARGET;
-
-  iVar6 = *(int *)(iVar11 + DAT_0600c9e4) + 1;
-
-  sVar1 = *(short *)(((iVar6 << 3) + 3) << 4 + *(int *)0x0607EB88 + 10);
-
-  iVar6 = (iVar6 << 7);
-
-  for (psVar13 = local_30; psVar13 < local_20; psVar13 = psVar13 + 2) {
-
-    piVar10 = (int *)(*(int *)puVar4 + iVar6);
-
-    sVar5 = (*(int(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
-
-                              piVar10[1] - *(int *)(iVar11 + 0x18));
-
-    *psVar13 = -sVar5;
-
-    piVar10 = (int *)(*(int *)puVar4 + iVar6 + 0x10);
-
-    sVar5 = (*(int(*)())puVar3)(*piVar10 - *(int *)(iVar11 + 0x10),
-
-                              piVar10[1] - *(int *)(iVar11 + 0x18));
-
-    psVar13[1] = -sVar5;
-
-    iVar6 = iVar6 + 0x20;
-
+  short heading_bias;
+  unsigned short angle_step;
+  char *atan2_fn;
+  char *spline_data;
+  short angle;
+  int spline_off;
+  unsigned int min_dist;
+  unsigned short step_acc;
+  unsigned int dist;
+  int *boundary_pt;
+  int car_ptr;
+  unsigned short best_index;
+  short *angle_ptr;
+  short angle_array [8];
+  short angle_end [2];
+  spline_data = (char *)0x0607EB88;
+  atan2_fn = (char *)0x0602744C;
+  angle_step = DAT_0600c9e6;
+  car_ptr = CAR_PTR_TARGET;
+  /* Get next checkpoint spline data */
+  spline_off = *(int *)(car_ptr + DAT_0600c9e4) + 1;
+  heading_bias = *(short *)(((spline_off << 3) + 3) << 4 + *(int *)0x0607EB88 + 10);
+  spline_off = (spline_off << 7);
+  /* Compute angles to 8 boundary point pairs */
+  for (angle_ptr = angle_array; angle_ptr < angle_end; angle_ptr = angle_ptr + 2) {
+    boundary_pt = (int *)(*(int *)spline_data + spline_off);
+    angle = (*(int(*)())atan2_fn)(*boundary_pt - *(int *)(car_ptr + 0x10),
+                              boundary_pt[1] - *(int *)(car_ptr + 0x18));
+    *angle_ptr = -angle;
+    boundary_pt = (int *)(*(int *)spline_data + spline_off + 0x10);
+    angle = (*(int(*)())atan2_fn)(*boundary_pt - *(int *)(car_ptr + 0x10),
+                              boundary_pt[1] - *(int *)(car_ptr + 0x18));
+    angle_ptr[1] = -angle;
+    spline_off = spline_off + 0x20;
   }
-
-  sVar1 = sVar1 * -4;
-
-  uVar7 = (unsigned int)(short)(local_30[0] + sVar1);
-
-  if ((int)uVar7 < 0) {
-
-    uVar7 = -uVar7;
-
+  /* Find angle closest to heading (minimum absolute deviation) */
+  heading_bias = heading_bias * -4;
+  min_dist = (unsigned int)(short)(angle_array[0] + heading_bias);
+  if ((int)min_dist < 0) {
+    min_dist = -min_dist;
   }
-
-  uVar7 = uVar7 & 0xffff;
-
-  uVar12 = 0;
-
-  psVar13 = local_30;
-
-  uVar8 = uVar2;
-
-  while (psVar13 = psVar13 + 1, psVar13 < local_20) {
-
-    uVar9 = (unsigned int)(short)(*psVar13 + sVar1);
-
-    if ((int)uVar9 < 0) {
-
-      uVar9 = -uVar9;
-
+  min_dist = min_dist & 0xffff;
+  best_index = 0;
+  angle_ptr = angle_array;
+  step_acc = angle_step;
+  while (angle_ptr = angle_ptr + 1, angle_ptr < angle_end) {
+    dist = (unsigned int)(short)(*angle_ptr + heading_bias);
+    if ((int)dist < 0) {
+      dist = -dist;
     }
-
-    if ((int)uVar9 < (int)uVar7) {
-
-      uVar7 = uVar9 & 0xffff;
-
-      uVar12 = uVar8;
-
+    if ((int)dist < (int)min_dist) {
+      min_dist = dist & 0xffff;
+      best_index = step_acc;
     }
-
-    uVar8 = uVar8 + uVar2;
-
+    step_acc = step_acc + angle_step;
   }
-
-  *(unsigned int *)(iVar11 + DAT_0600cac0) = (unsigned int)uVar12;
-
+  *(unsigned int *)(car_ptr + DAT_0600cac0) = (unsigned int)best_index;
   return;
-
 }
 
 /* track_spline_smooth -- Sample track spline with smoothing interpolation.
@@ -1037,155 +939,91 @@ int FUN_0600ceba()
     return prev_off;
 }
 
+/* ai_speed_decision -- AI speed adjustment decision tree.
+ * Evaluates relative positions and speeds of current vs target car,
+ * decides whether to accelerate, decelerate, or attempt overtake.
+ * Sets speed preset (0x300/0x400) and step size (0x80) at car+0x1F8/+0x204. */
 unsigned int FUN_0600cf58()
 {
-
-  unsigned int uVar1;
-
-  unsigned int uVar2;
-
-  unsigned int uVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  unsigned char local_18;
-
-  iVar4 = 0x80;
-
-  iVar6 = CAR_PTR_CURRENT;
-
-  iVar5 = CAR_PTR_TARGET;
-
-  if ((*(unsigned int *)(iVar6 + 4) != 0) && ((int)DAT_0600cfe4 < *(int *)(iVar6 + 8))) {
-
+  unsigned int result;
+  unsigned int target_pos_ratio;
+  unsigned int current_pos_ratio;
+  int step_size;
+  int target_car;
+  int current_car;
+  unsigned char decision_flags;
+  step_size = 0x80;
+  current_car = CAR_PTR_CURRENT;
+  target_car = CAR_PTR_TARGET;
+  if ((*(unsigned int *)(current_car + 4) != 0) && ((int)DAT_0600cfe4 < *(int *)(current_car + 8))) {
+    /* Car flags check: need certain bits set */
     if ((**(unsigned int **)0x0607E940 & (unsigned int)0x00C00000) == 0) {
-
-      return *(unsigned int *)(iVar6 + 4);
-
+      return *(unsigned int *)(current_car + 4);
     }
-
-    (*(int(*)())0x06035168)();
-
-    if (*(int *)(iVar6 + DAT_0600cfe6) == 0) {
-
-      uVar1 = FUN_0600d0b8();
-
-      return uVar1;
-
+    (*(int(*)())0x06035168)();         /* update AI state */
+    if (*(int *)(current_car + DAT_0600cfe6) == 0) {
+      result = FUN_0600d0b8();         /* default speed calc */
+      return result;
     }
-
-    uVar1 = (unsigned int)(char)local_18;
-
-    if ((uVar1 & 2) != 0) {
-
-      if (*(int *)(iVar6 + 8) <= *(int *)(iVar5 + 8)) {
-
-        iVar5 = (int)PTR_DAT_0600cfe8;
-
-        *(int *)(iVar6 + iVar5 + -4) = *(int *)(iVar6 + iVar5);
-
-        *(int *)(iVar6 + iVar5 + 8U) = iVar4;
-
-        return iVar5 + 8U;
-
+    result = (unsigned int)(char)decision_flags;
+    /* Decision flag bit 1: speed matching */
+    if ((result & 2) != 0) {
+      if (*(int *)(current_car + 8) <= *(int *)(target_car + 8)) {
+        /* Target is faster — copy speed state and set step */
+        target_car = (int)PTR_DAT_0600cfe8;
+        *(int *)(current_car + target_car + -4) = *(int *)(current_car + target_car);
+        *(int *)(current_car + target_car + 8U) = step_size;
+        return target_car + 8U;
       }
-
-      uVar1 = FUN_0600d12c();
-
+      result = FUN_0600d12c();         /* gradual adjust */
     }
-
-    if (*(int *)(iVar5 + 8) < *(int *)(iVar6 + 8)) {
-
-      return uVar1;
-
+    if (*(int *)(target_car + 8) < *(int *)(current_car + 8)) {
+      return result;                   /* already faster than target */
     }
-
-    if ((local_18 & 1) != 0) {
-
-      if (*(int *)(iVar6 + DAT_0600d0aa) == 2) {
-
-        if ((0xaf0 < *(int *)(iVar5 + 8)) && (*(int *)(iVar6 + DAT_0600d0ae) < 10)) {
-
-          uVar1 = FUN_0600d210();
-
-          return uVar1;
-
+    /* Decision flag bit 0: overtake/positioning logic */
+    if ((decision_flags & 1) != 0) {
+      if (*(int *)(current_car + DAT_0600d0aa) == 2) {
+        /* Aggressive overtake at high speed */
+        if ((0xaf0 < *(int *)(target_car + 8)) && (*(int *)(current_car + DAT_0600d0ae) < 10)) {
+          result = FUN_0600d210();     /* overtake maneuver */
+          return result;
         }
-
-        uVar1 = FUN_0600d12c();
-
-        return uVar1;
-
+        result = FUN_0600d12c();
+        return result;
       }
-
-      if (*(unsigned int *)(iVar6 + DAT_0600d0aa) != 1) {
-
-        return *(unsigned int *)(iVar6 + DAT_0600d0aa);
-
+      if (*(unsigned int *)(current_car + DAT_0600d0aa) != 1) {
+        return *(unsigned int *)(current_car + DAT_0600d0aa);
       }
-
-      uVar1 = (unsigned int)DAT_0600d0b0;
-
-      uVar2 = *(int *)(iVar5 + uVar1) >> 8;
-
-      uVar3 = *(int *)(iVar6 + uVar1) >> 8;
-
-      if ((uVar2 < 2) && (uVar3 < 3)) {
-
-        iVar5 = 0x1f8;
-
-        *(int *)(iVar6 + iVar5) = 0x300;
-
-        uVar1 = iVar5 + 0xc;
-
-        *(int *)(iVar6 + uVar1) = iVar4;
-
-        return uVar1;
-
+      /* Position-based speed preset selection */
+      result = (unsigned int)DAT_0600d0b0;
+      target_pos_ratio = *(int *)(target_car + result) >> 8;
+      current_pos_ratio = *(int *)(current_car + result) >> 8;
+      if ((target_pos_ratio < 2) && (current_pos_ratio < 3)) {
+        target_car = 0x1f8;
+        *(int *)(current_car + target_car) = 0x300;  /* moderate speed */
+        result = target_car + 0xc;
+        *(int *)(current_car + result) = step_size;
+        return result;
       }
-
-      if (uVar2 < 6) {
-
-        return uVar1;
-
+      if (target_pos_ratio < 6) {
+        return result;
       }
-
-      if (uVar3 < 5) {
-
-        return uVar1;
-
+      if (current_pos_ratio < 5) {
+        return result;
       }
-
-      iVar5 = 0x1f8;
-
-      *(int *)(iVar6 + iVar5) = 0x400;
-
-      uVar1 = iVar5 + 0xc;
-
-      *(int *)(iVar6 + uVar1) = iVar4;
-
-      return uVar1;
-
+      target_car = 0x1f8;
+      *(int *)(current_car + target_car) = 0x400;    /* high speed */
+      result = target_car + 0xc;
+      *(int *)(current_car + result) = step_size;
+      return result;
     }
-
     FUN_0600d12c();
-
   }
-
-  uVar1 = *(unsigned int *)(iVar6 + 4);
-
-  if (uVar1 == 0) {
-
-    uVar1 = FUN_0600d12c();
-
+  result = *(unsigned int *)(current_car + 4);
+  if (result == 0) {
+    result = FUN_0600d12c();
   }
-
-  return uVar1;
-
+  return result;
 }
 
 /* ai_speed_target_adjust -- Adjust AI car's speed target relative to player.
