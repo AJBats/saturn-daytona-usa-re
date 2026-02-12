@@ -342,6 +342,11 @@ extern int PTR_DAT_0602d7dc;
 extern int PTR_DAT_0602d80c;
 extern int PTR_DAT_0602e3cc;
 
+/* polygon_render_textured_6p -- Render textured polygon with 6 parameters.
+ * Full polygon rendering pipeline: vertex transform, perspective divide,
+ * screen clipping, VDP1 command generation. Uses software 32-bit MAC
+ * for fixed-point math. Implicit r8 = polygon state, r3 = vertex data.
+ * Writes VDP1 sprite commands with texture coordinates and color. */
 unsigned int FUN_0602a134(param_1, param_2, param_3, param_4, param_5, param_6)
     int param_1;
     int param_2;
@@ -2648,6 +2653,10 @@ LAB_06029d04:
   goto LAB_0602a1b6;
 }
 
+/* polygon_render_textured_4p -- Render textured polygon with 4 parameters.
+ * Same pipeline as FUN_0602a134 but takes texture index as param_3 (char).
+ * Vertex transform, perspective projection, screen clipping, VDP1 output.
+ * Software 32-bit MAC for all fixed-point multiply operations. */
 unsigned int FUN_0602a214(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -4978,6 +4987,9 @@ LAB_0602a7d6:
   } while( 1 );
 }
 
+/* polygon_render_gouraud_6p -- Render Gouraud-shaded polygon (6 params).
+ * Same vertex pipeline as FUN_0602a134 but with per-vertex color
+ * interpolation for Gouraud shading. VDP1 output includes color table. */
 unsigned int FUN_0602a754(param_1, param_2, param_3, param_4, param_5, param_6)
     int param_1;
     int param_2;
@@ -7284,6 +7296,9 @@ LAB_0602a324:
   goto LAB_0602a7d6;
 }
 
+/* polygon_render_gouraud_4p -- Render Gouraud-shaded polygon (4 params).
+ * Same pipeline as FUN_0602a754 with texture index in param_3 (char).
+ * Vertex transform, Gouraud color interpolation, screen clip, VDP1 out. */
 unsigned int FUN_0602a834(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -8999,6 +9014,11 @@ LAB_0602aa74:
   goto LAB_0602aa74;
 }
 
+/* polygon_render_flat_init_a -- Initialize flat-shaded polygon rendering (pipeline A).
+ * No explicit params — reads state from implicit registers (in_r1/r2/r3).
+ * Sets up vertex data, performs transform and clipping, generates
+ * VDP1 commands for flat-colored polygons. Uses extraout registers
+ * for intermediate results from trig functions. */
 unsigned int FUN_0602ab00()
 {
   unsigned int uVar1;
@@ -9670,6 +9690,10 @@ LAB_0602aa74:
   goto LAB_0602aa74;
 }
 
+/* polygon_cache_lookup_a -- Cache lookup for polygon pipeline A.
+ * Reads 64-entry cache at 0x0608A820 (indexed by in_r0 & 0x3F, stride 16).
+ * If cache hit (unaff_r9 matches), reads cached transform data.
+ * On miss, dispatches through UNRECOVERED_JUMPTABLE for computation. */
 int FUN_0602ab3a(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
     int param_1;
     int *param_2;
@@ -9697,6 +9721,9 @@ int FUN_0602ab3a(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
   return iVar1;
 }
 
+/* polygon_render_textured_4p_b -- Render textured polygon (pipeline B).
+ * Variant of FUN_0602a214 using alternate transform state. Same overall
+ * structure: vertex transform, perspective, clipping, VDP1 generation. */
 unsigned int FUN_0602abb8(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -11412,6 +11439,9 @@ LAB_0602adf8:
   goto LAB_0602adf8;
 }
 
+/* polygon_render_flat_init_b -- Initialize flat-shaded polygon rendering (pipeline B).
+ * Same structure as FUN_0602ab00 but for the alternate rendering pipeline.
+ * Reads state from implicit registers, generates VDP1 flat-color commands. */
 unsigned int FUN_0602ae84()
 {
   unsigned int uVar1;
@@ -12083,6 +12113,9 @@ LAB_0602adf8:
   goto LAB_0602adf8;
 }
 
+/* polygon_cache_lookup_b -- Cache lookup for polygon pipeline B.
+ * Hash table at 0x06094220, indexed by r0 & 0x3F. If cached entry matches
+ * unaff_r9, returns cached vertex data; otherwise dispatches via jump table. */
 int FUN_0602aebe(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
     int param_1;
     int *param_2;
@@ -12110,6 +12143,9 @@ int FUN_0602aebe(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
   return iVar1;
 }
 
+/* polygon_render_textured_4p_c -- Render textured polygon (pipeline C, 4 params).
+ * Vertex buffer at 0x06094AB0, dispatches sub-renderers via table at 0x0602B314.
+ * Processes vertex strip with texture coords and depth sorting. */
 unsigned int FUN_0602af3c(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -13822,6 +13858,9 @@ LAB_0602b19e:
   } while( 1 );
 }
 
+/* polygon_render_flat_init_c -- Initialize flat-shaded polygon rendering (pipeline C).
+ * Reads vertex/polygon state from implicit registers (r0-r3, r8, r11-r13).
+ * Generates VDP1 flat-color polygon commands for the third rendering pipeline. */
 void FUN_0602b258()
 {
   unsigned int uVar1;
@@ -14487,6 +14526,9 @@ LAB_0602b19e:
   } while( 1 );
 }
 
+/* polygon_cache_lookup_c -- Cache lookup for polygon pipeline C.
+ * Hash table at 0x06094620, indexed by r0 & 0x3F. If cached entry matches
+ * param_1, returns cached vertex data; otherwise dispatches via jump table. */
 int FUN_0602b298(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
     int param_1;
     int *param_2;
@@ -14513,6 +14555,9 @@ int FUN_0602b298(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
   return iVar1;
 }
 
+/* polygon_render_textured_4p_d -- Render textured polygon (pipeline D, 4 params).
+ * Vertex buffer at 0x06094AB0, processes vertex strips with texture coordinates.
+ * Uses 0x06063F08 for state, dispatches via 0x0602B314 render table. */
 unsigned int FUN_0602b328(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -16865,6 +16910,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* polygon_render_vertex_transform_a -- Polygon render with implicit vertex input.
+ * No explicit parameters — reads vertex data from implicit registers (r0, r8, r10-r14).
+ * Transforms vertices through 0x06094AB0 buffer and submits to VDP1. */
 unsigned int FUN_0602b546()
 {
   short sVar1;
@@ -19216,6 +19264,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* polygon_render_vertex_transform_b -- Polygon render with implicit vertex input (variant B).
+ * Same structure as FUN_0602b546 but reads initial r0 as int instead of unsigned short.
+ * Transforms vertices through 0x06094AB0 and submits polygon commands. */
 unsigned int FUN_0602b55a()
 {
   short sVar1;
@@ -21569,6 +21620,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* polygon_render_vertex_transform_c -- Polygon render with explicit vertex pointer.
+ * Takes vertex buffer pointer param_1, reads vertex data from implicit registers.
+ * Writes transformed vertex output to 0x06094AB0 and renders polygon. */
 unsigned int FUN_0602b55e(param_1)
     unsigned int *param_1;
 {
@@ -23923,6 +23977,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* polygon_render_vertex_transform_d -- Polygon render with explicit vertex pointer (variant D).
+ * Takes vertex buffer pointer param_1. Reads initial r2 as vertex coord,
+ * shifts vertex data by 0xB bits for fixed-point scaling. */
 unsigned int FUN_0602b572(param_1)
     unsigned int *param_1;
 {
@@ -26277,6 +26334,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* vertex_transform_project_a -- Transform and project vertices (5-param variant A).
+ * Transforms vertex strip from param_3/param_4 arrays, writes projected 2D coords
+ * to param_1/param_2 output buffers. param_5 = vertex count. */
 unsigned int FUN_0602b58e(param_1, param_2, param_3, param_4, param_5)
     unsigned int *param_1;
     int *param_2;
@@ -28638,6 +28698,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* vertex_transform_project_b -- Transform and project vertices (5-param variant B).
+ * Same structure as FUN_0602b58e. Transforms vertex strip with MAC multiply-accumulate
+ * for 16.16 fixed-point matrix multiply, writes to output buffers. */
 unsigned int FUN_0602b5a2(param_1, param_2, param_3, param_4, param_5)
     unsigned int *param_1;
     int *param_2;
@@ -30999,6 +31062,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* vertex_transform_project_c -- Transform and project vertices (5-param variant C).
+ * Similar to FUN_0602b58e but param_1 is int (not pointer). Adds depth offset
+ * from param_4[0xB] after fixed-point multiply for Z-buffer positioning. */
 unsigned int FUN_0602b5be(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int *param_2;
@@ -33357,6 +33423,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* vertex_transform_project_d -- Transform and project vertices (5-param variant D).
+ * Uses short-based vertex reads with bVar3 byte extraction for packed vertex data.
+ * Writes visibility flag to output+6, reads next vertex coords from short array. */
 unsigned int FUN_0602b5ce(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int param_2;
@@ -35723,6 +35792,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* vertex_transform_project_e -- Transform and project vertices (5-param variant E).
+ * Same packed short vertex format as FUN_0602b5ce. Combines vertex sum (r3 = short[0]+short[2])
+ * and adds visibility flag before next iteration. */
 unsigned int FUN_0602b5d2(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int param_2;
@@ -38085,6 +38157,9 @@ LAB_0602b972:
   } while( 1 );
 }
 
+/* polygon_render_deformed -- Render polygon with velocity-based deformation (5 params).
+ * Combines vertex transformation with velocity lookup from table at 0x0602E8B8.
+ * Falls through to FUN_0602b328 rendering path at LAB_0602b972 for final output. */
 unsigned int FUN_0602b8dc(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int param_2;
@@ -40422,6 +40497,9 @@ LAB_0602b444:
   goto LAB_0602b972;
 }
 
+/* polygon_render_textured_4p_e -- Render textured polygon (pipeline E, 4 params).
+ * Dispatches sub-renderers via table at 0x0602BDB8 (different from 0x0602B314).
+ * Processes vertex strip with texture coords for the fifth rendering pipeline. */
 unsigned int FUN_0602b9e0(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -42134,6 +42212,9 @@ LAB_0602bc42:
   } while( 1 );
 }
 
+/* polygon_render_flat_init_d -- Initialize flat-shaded polygon rendering (pipeline D).
+ * Same structure as FUN_0602b258 but dispatches via table at 0x0602BDB8.
+ * Reads vertex/polygon state from implicit registers and generates VDP1 flat-color commands. */
 void FUN_0602bcfc()
 {
   unsigned int uVar1;
@@ -42799,6 +42880,9 @@ LAB_0602bc42:
   } while( 1 );
 }
 
+/* polygon_cache_lookup_d -- Cache lookup for polygon pipeline D.
+ * Hash table at 0x06094AE4, indexed by r0 & 0x3F. If cached entry matches
+ * param_1, returns cached vertex data; otherwise dispatches via jump table. */
 int FUN_0602bd3c(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
     int param_1;
     int *param_2;
@@ -42825,6 +42909,9 @@ int FUN_0602bd3c(param_1, param_2, param_3, UNRECOVERED_JUMPTABLE)
   return iVar1;
 }
 
+/* polygon_render_textured_4p_f -- Render textured polygon (pipeline F, 4 params).
+ * Final textured polygon renderer variant. Uses 0x06094AB0 vertex buffer,
+ * processes vertex strips with texture coordinates and depth sorting. */
 unsigned int FUN_0602bdcc(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -45177,6 +45264,9 @@ LAB_0602c416:
   } while( 1 );
 }
 
+/* polygon_render_deformed_alt -- Render polygon with velocity-based deformation (alt pipeline).
+ * Same structure as FUN_0602b8dc but uses table at 0x0602BDB8 instead of 0x0602B314.
+ * Falls through to FUN_0602bdcc rendering path at LAB_0602c416 for final output. */
 unsigned int FUN_0602c380(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int param_2;
@@ -47882,6 +47972,10 @@ void vdp1_sprite_list_build(param_1, param_2)
 
 }
 
+/* car_force_vector_compute -- Compute longitudinal/lateral force vectors for car physics.
+ * Uses cos (0x06027348) and trig tables, multiplies by gravity constants (0x03700000, 0x02D00000).
+ * Clamps output to [0x01600000..0x0C080000] and [0x01200000..0x09D80000] ranges.
+ * Applies exponential smoothing: new = old + (target - old) >> 2. */
 void FUN_0602c690()
 {
   long long lVar1;
@@ -47962,6 +48056,9 @@ void FUN_0602c690()
   return;
 }
 
+/* input_bit_weight_classify -- Count set bits in param_1 against hardware mask registers.
+ * Tests param_1 against DAT masks (0602c89c, 0602c8a0, 0x10, 0x20) to compute popcount.
+ * Returns 0 for counts 0-2 or 4; calls sh2_divide_start (0x0602ECCC) for count >= 5. */
 int FUN_0602c7fc(param_1)
     unsigned int param_1;
 {
@@ -48008,6 +48105,10 @@ int FUN_0602c7fc(param_1)
   return 0;
 }
 
+/* car_collision_state_update -- Update car collision state machine per frame.
+ * Checks velocity direction changes, speed thresholds (0xe00), and timer countdowns.
+ * Triggers spin events, decays damage timers, and applies deceleration via 0x0602ECCC.
+ * Operates on car struct via implicit r0 (in_r0) and r14 (unaff_r14). */
 void FUN_0602c8e2()
 {
   short sVar1;
@@ -48105,6 +48206,10 @@ void FUN_0602c8e2()
   return;
 }
 
+/* car_traction_force_compute -- Compute traction and cornering forces for car physics.
+ * Calculates slip angle from velocity components, computes traction circle limits,
+ * applies gravity constants (0x03700000, 0x02D00000). Calls FUN_0602ccd0 for spin events.
+ * Uses fixed-point division via 0x0602755C and steering output via func_0x0602ccec. */
 void FUN_0602ca84()
 {
   long long lVar1;
@@ -48232,6 +48337,9 @@ void FUN_0602ca84()
   return;
 }
 
+/* car_spin_event_trigger -- Trigger spin event if conditions met.
+ * Sets 10-frame spin timer if car state counter < 5 and game frame > 0x14.
+ * Called from car_traction_force_compute when traction ratio drops below threshold. */
 void FUN_0602ccd0()
 {
   int in_r0 = 0;
@@ -48242,6 +48350,10 @@ void FUN_0602ccd0()
   return;
 }
 
+/* car_steering_angle_update -- Update steering angle from wheel input and car dynamics.
+ * Computes steering correction using cos (0x06027348), sin (0x06027344), atan2 (0x0602744C).
+ * Applies yaw rate smoothing and drift compensation via fixed-point division (0x0602755C).
+ * Updates car heading at offset +0x28 and yaw velocity at offset +0x30. */
 void FUN_0602cdf6()
 {
   int bVar1;
@@ -48393,6 +48505,11 @@ LAB_0602cf08:
   return;
 }
 
+/* car_lateral_slide_front -- Compute front-wheel lateral slide and drift physics.
+ * Detects drift onset when lateral velocity exceeds threshold (0x2E0).
+ * Uses SH-2 hardware divider at 0xFFFFFF00 for fixed-point division.
+ * Applies slip damping, spin-out detection, and lateral force clamping to +/-0x300.
+ * Updates car yaw at offset +0x178 and lateral damping at DAT offsets. */
 void FUN_0602d08a()
 {
   long long lVar1;
@@ -48555,6 +48672,10 @@ LAB_0602d254:
   return;
 }
 
+/* car_lateral_slide_rear -- Compute rear-wheel lateral slide and drift physics.
+ * Same structure as FUN_0602d08a but with rear-specific thresholds (0x2F8)
+ * and different speed check (0xF0 vs 0x46). Drift timer max = 10 (vs 15 for front).
+ * Handles rear-wheel oversteer and spin recovery. */
 void FUN_0602d43c()
 {
   long long lVar1;
@@ -48718,6 +48839,9 @@ LAB_0602d610:
   return;
 }
 
+/* car_collision_timer_reset -- Reset collision recovery timer.
+ * If car speed > 0 (offset +8) and collision counter < 4, sets recovery timer
+ * to 10 frames (or 7 if counter != 0). Short helper called from slide physics. */
 void FUN_0602d7e4()
 {
   short sVar1;
@@ -48735,6 +48859,10 @@ void FUN_0602d7e4()
   return;
 }
 
+/* car_engine_speed_compute -- Compute engine output speed from RPM and gear ratio.
+ * Looks up gear ratio from table at 0x060477BC indexed by car gear state.
+ * Applies scaling constant 0x0221AC91, clamps to max 0x2134.
+ * Writes drive speed to DAT_0602d866 offset, excess to DAT_0602d88c. */
 void FUN_0602d814()
 {
   long long lVar1;
@@ -48775,6 +48903,9 @@ void FUN_0602d814()
   return;
 }
 
+/* car_engine_speed_compute_simple -- Simplified engine speed computation.
+ * Same gear ratio lookup and 0x0221AC91 scaling as FUN_0602d814 but without
+ * the velocity integration step. Used when car is not accelerating. */
 void FUN_0602d82a()
 {
   long long lVar1;
@@ -48811,6 +48942,10 @@ void FUN_0602d82a()
 extern void FUN_0602D88E(void);
 void FUN_0602d88e(void) { FUN_0602D88E(); }
 
+/* car_position_integrate -- Integrate car position from heading and speed.
+ * Two paths: if collision flag (offset +0x250) is set, applies velocity table at 0x0602E8B8
+ * for bounce physics with direction bit check at +0x300. Otherwise integrates X/Z
+ * from sin/cos (0x06027344/0x06027348) of heading angle times speed. */
 void FUN_0602d8bc()
 {
   long long lVar1;
@@ -48886,6 +49021,10 @@ void FUN_0602d8bc()
   return;
 }
 
+/* car_position_integrate_simple -- Simplified car position integration (collision path only).
+ * Always applies velocity table at 0x0602E8B8 and direction bit check at +0x300.
+ * No normal-driving path — assumes collision state is active.
+ * Updates X (offset +4) and Z (offset +6) from heading and speed. */
 void FUN_0602d924()
 {
   long long lVar1;
