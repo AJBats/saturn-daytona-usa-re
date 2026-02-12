@@ -12,7 +12,10 @@ LD      := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 OBJDUMP := $(TOOLDIR)/sh-elf-objdump
 
-CFLAGS  := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -Iinclude
+CFLAGS  := -m2 -mb -Os -Wall -nostdlib -ffreestanding -fno-builtin -Iinclude
+
+# batch_cd_system_34.c ICEs with -Os on sh-elf-gcc 13.3.0 — fall back to -O2
+CFLAGS_O2 := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -Iinclude
 LIBGCC  := $(PROJDIR)/tools/sh-elf/lib/gcc/sh-elf/13.3.0/libgcc.a
 LDFLAGS := -T saturn.ld -nostdlib
 
@@ -48,6 +51,10 @@ $(BIN): $(ELF)
 
 $(ELF): $(OBJS) saturn.ld
 	$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LIBGCC)
+
+# Explicit rule for files that ICE with -Os
+$(BUILDDIR)/batch_cd_system_34.o: src/batch_cd_system_34.c | $(BUILDDIR)
+	$(CC) $(CFLAGS_O2) -c $< -o $@
 
 $(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@

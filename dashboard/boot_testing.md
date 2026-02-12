@@ -88,5 +88,20 @@
 | FUN_0603C0A0 | 9 | 11% | Constant loading strategy diff |
 | FUN_0603F202 | 8 | 0% | Better optimization |
 
+## Reimpl Boot Progress
+
+| Date | Build | Screenshot | Notes |
+|------|-------|------------|-------|
+| 2026-02-10 | L1 pass complete (no-op stubs) | Black screen | Expected: 729 ASM stubs are no-ops |
+| 2026-02-12 | ASM import (630/729 real bytes) | **SEGA logo** | Past black screen — but may be hung at SEGA logo |
+| 2026-02-12 | ASM import (675/729 real bytes) | Saturn BIOS menu | "Start Application" shown — disc recognized as game |
+
+### 2026-02-12: ASM Import Progress
+- Imported 675 ASM-only functions as raw binary bytes via `__asm__()` blocks
+- Binary: 552KB (675 blocks) → now 564KB (675 blocks, named stubs resolved)
+- 3 stubs remain: FUN_060302C6 (no aprog.s entry), 2 already implemented elsewhere
+- HWRAM expanded from 512KB to 896KB to fit larger binary
+- **Concern**: Binary is 43% larger than original (565KB vs 385KB) — may overwrite disc data
+
 ---
-*Last updated: 2026-02-05*
+*Last updated: 2026-02-12*
