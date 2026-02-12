@@ -657,43 +657,28 @@ void FUN_0603072e(param_1, param_2)
 
 }
 
+/* collision_timer_decrement -- Decrement collision invulnerability timer.
+ * Car +0x250 is the collision timer. When it reaches 0:
+ * sets DAT_06030a40 to 0xFFFF0000 (max negative = full recovery),
+ * and if bit 21 of car +0x160 (flags) is set, restores position
+ * from checkpoint backup (DAT_06030a46 → DAT_06030a44, +0x30 → +0x28). */
 int FUN_06030a06()
 {
+  int car = CAR_PTR_CURRENT;
+  int timer;
 
-  int iVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  iVar2 = CAR_PTR_CURRENT;
-
-  iVar1 = 0x250;
-
-  if ((*(short *)(iVar2 + iVar1) != 0) &&
-
-     (iVar3 = *(short *)(iVar2 + iVar1) + -1, *(short *)(iVar2 + iVar1) = (short)iVar3, iVar3 == 0))
-
-  {
-
-    iVar1 = 0x160;
-
-    *(int *)(DAT_06030a40 + iVar2) = 0xFFFF0000;
-
-    if (((unsigned int)0x00200000 & *(unsigned int *)(iVar2 + iVar1)) != 0) {
-
-      iVar1 = (int)DAT_06030a44;
-
-      *(int *)(iVar2 + iVar1) = *(int *)(DAT_06030a46 + iVar2);
-
-      *(int *)(iVar2 + 0x28) = *(int *)(iVar2 + 0x30);
-
+  if ((*(short *)(car + 0x250) != 0) &&
+     (timer = *(short *)(car + 0x250) + -1, *(short *)(car + 0x250) = (short)timer, timer == 0)) {
+    *(int *)(DAT_06030a40 + car) = 0xFFFF0000; /* full recovery */
+    if (((unsigned int)0x00200000 & *(unsigned int *)(car + 0x160)) != 0) {
+      /* restore from checkpoint backup */
+      *(int *)(car + (int)DAT_06030a44) = *(int *)(DAT_06030a46 + car);
+      *(int *)(car + 0x28) = *(int *)(car + 0x30);
+      return (int)DAT_06030a44;
     }
-
+    return 0x160;
   }
-
-  return iVar1;
-
+  return 0x250;
 }
 
 void FUN_06030a9c(param_1, param_2, param_3, param_4)

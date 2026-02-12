@@ -483,54 +483,55 @@ LAB_0602647c:
 
 }
 
+/* input_peripheral_scan -- Scan 8 SMPC peripheral slots and classify input devices.
+ * Reads device type from peripheral data array (0x0606107C, stride 8, offset +6).
+ * Subtracts 0x8A to map to 12 recognized types, looks up device descriptor
+ * from table at 0x060264F0. Types 0-1 map to port A, types 2-3 and 8-11 map
+ * to port B (0x06060D34), others to port A (0x06060D2A). */
 unsigned int FUN_0602648e()
 {
-  unsigned short uVar1;
-  unsigned int uVar6;
-  short uVar7;
-  unsigned short uVar8;
+    unsigned short dev_desc;
+    unsigned int dev_type;
+    short dev_flag;
+    unsigned short slot;
 
-  uVar8 = 0;
+    slot = 0;
+    do {
+        dev_type = (unsigned int)*(unsigned short *)(0x0606107C + (unsigned int)(slot << 3) + 6) - 0x8a;
+        if (0xb < dev_type) goto LAB_06026508;
 
-  do {
-    uVar6 = (unsigned int)*(unsigned short *)(0x0606107C + (unsigned int)(uVar8 << 3) + 6) - 0x8a;
+        dev_desc = ((int *)0x060264f0)[dev_type];
+        dev_flag = (short)0x8000;
 
-    if (0xb < uVar6) goto LAB_06026508;
-
-    uVar1 = ((int *)0x060264f0)[uVar6];
-    uVar7 = (short)0x8000;
-
-    switch(uVar6) {
-    case 0:
-    case 1:
-      uVar7 = 0;
-      break;
-    case 2:
-    case 3:
-      uVar7 = 0;
-      goto LAB_060264c0;
-    default:
-      break;
-    case 8:
-    case 9:
-    case 10:
-    case 0xb:
+        switch(dev_type) {
+        case 0:
+        case 1:
+            dev_flag = 0;
+            break;
+        case 2:
+        case 3:
+            dev_flag = 0;
+            goto LAB_060264c0;
+        default:
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 0xb:
 LAB_060264c0:
-      *(short *)0x06060D34 = uVar7;
-      uVar6 = (int)(short)uVar1;
-      goto LAB_06026508;
-    }
-
-    *(short *)0x06060D2A = uVar7;
-    uVar6 = (int)(short)uVar1;
+            *(short *)0x06060D34 = dev_flag;   /* port B device flag */
+            dev_type = (int)(short)dev_desc;
+            goto LAB_06026508;
+        }
+        *(short *)0x06060D2A = dev_flag;        /* port A device flag */
+        dev_type = (int)(short)dev_desc;
 
 LAB_06026508:
-    uVar8 = uVar8 + 1;
-
-    if (7 < uVar8) {
-      return uVar6;
-    }
-  } while( 1 );
+        slot = slot + 1;
+        if (7 < slot) {
+            return dev_type;
+        }
+    } while( 1 );
 }
 
 /* hud_speedometer_update -- Update speedometer VDP sprites.
@@ -1552,48 +1553,33 @@ char * FUN_06026e2e(param_1, param_2, param_3)
 
 }
 
+/* matrix_scale_alt -- Scale the alternate matrix (0x06089EDC) by X/Y/Z factors.
+ * Applies 16.16 fixed-point multiplication to each row of the 3x3 portion:
+ * row[0] *= param_1 (X scale), row[1] *= param_2 (Y scale),
+ * row[2] *= param_3 (Z scale). Iterates 3 columns. */
 unsigned int FUN_06026e60(param_1, param_2, param_3)
     int param_1;
     int param_2;
     int param_3;
 {
+    long long lVar1;
+    unsigned int uVar2;
+    int col;
+    unsigned int *mtx = *(unsigned int **)0x06089EDC;
 
-  long long lVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  unsigned int *puVar4;
-
-  puVar4 = *(unsigned int **)0x06089EDC;
-
-  iVar3 = 3;
-
-  do {
-
-    *puVar4 = (int)((unsigned long long)((long long)param_1 * (long long)(int)*puVar4) >> 0x20) << 0x10 |
-
-              (unsigned int)((long long)param_1 * (long long)(int)*puVar4) >> 0x10;
-
-    uVar2 = puVar4[6];
-
-    lVar1 = (long long)param_3 * (long long)(int)uVar2;
-
-    puVar4[3] = (int)((unsigned long long)((long long)param_2 * (long long)(int)puVar4[3]) >> 0x20) << 0x10 |
-
-                (unsigned int)((long long)param_2 * (long long)(int)puVar4[3]) >> 0x10;
-
-    iVar3 = iVar3 + -1;
-
-    puVar4[6] = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
-    puVar4 = puVar4 + 1;
-
-  } while (iVar3 != 0);
-
-  return uVar2;
-
+    col = 3;
+    do {
+        *mtx = (int)((unsigned long long)((long long)param_1 * (long long)(int)*mtx) >> 0x20) << 0x10 |
+               (unsigned int)((long long)param_1 * (long long)(int)*mtx) >> 0x10;
+        uVar2 = mtx[6];
+        lVar1 = (long long)param_3 * (long long)(int)uVar2;
+        mtx[3] = (int)((unsigned long long)((long long)param_2 * (long long)(int)mtx[3]) >> 0x20) << 0x10 |
+                 (unsigned int)((long long)param_2 * (long long)(int)mtx[3]) >> 0x10;
+        col = col + -1;
+        mtx[6] = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+        mtx = mtx + 1;
+    } while (col != 0);
+    return uVar2;
 }
 
 unsigned int FUN_06026e94()
@@ -3788,123 +3774,68 @@ void FUN_06026ffc(param_1, param_2)
 
 }
 
+/* matrix_stack_push -- Push current 4x3 matrix onto the matrix stack.
+ * Copies 12 ints (4x3 matrix) from current stack top to next slot,
+ * then advances the stack pointer at 0x0608A52C by 12 words (48 bytes). */
 void FUN_06027080()
 {
-
-  int *puVar1;
-
-  puVar1 = *(int **)0x0608A52C;
-
-  *(int **)0x0608A52C = puVar1 + 0xc;
-
-  puVar1[0xc] = *puVar1;
-
-  puVar1[0xd] = puVar1[1];
-
-  puVar1[0xe] = puVar1[2];
-
-  puVar1[0xf] = puVar1[3];
-
-  puVar1[0x10] = puVar1[4];
-
-  puVar1[0x11] = puVar1[5];
-
-  puVar1[0x12] = puVar1[6];
-
-  puVar1[0x13] = puVar1[7];
-
-  puVar1[0x14] = puVar1[8];
-
-  puVar1[0x15] = puVar1[9];
-
-  puVar1[0x16] = puVar1[10];
-
-  puVar1[0x17] = puVar1[0xb];
-
-  return;
-
+    int *mtx = *(int **)0x0608A52C;
+    *(int **)0x0608A52C = mtx + 0xc;
+    mtx[0xc] = *mtx;
+    mtx[0xd] = mtx[1];
+    mtx[0xe] = mtx[2];
+    mtx[0xf] = mtx[3];
+    mtx[0x10] = mtx[4];
+    mtx[0x11] = mtx[5];
+    mtx[0x12] = mtx[6];
+    mtx[0x13] = mtx[7];
+    mtx[0x14] = mtx[8];
+    mtx[0x15] = mtx[9];
+    mtx[0x16] = mtx[10];
+    mtx[0x17] = mtx[0xb];
 }
 
+/* matrix_stack_reset_identity -- Reset matrix stack and load identity matrix.
+ * Sets stack pointer to base (0x0608A530), fills 4x3 matrix with identity:
+ * diagonal = 0x10000 (1.0 in 16.16 fixed-point), rest = 0. */
 void FUN_060270c6()
 {
-
-  int *puVar1;
-
-  char *puVar2;
-
-  puVar1 = (int *)0x0608A530;
-
-  *(int **)0x0608A52C = 0x0608A530;
-
-  puVar2 = (int *)0x00010000;
-
-  puVar1[1] = 0;
-
-  *puVar1 = puVar2;
-
-  puVar1[2] = 0;
-
-  puVar1[3] = 0;
-
-  puVar1[4] = puVar2;
-
-  puVar1[5] = 0;
-
-  puVar1[6] = 0;
-
-  puVar1[7] = 0;
-
-  puVar1[8] = puVar2;
-
-  puVar1[9] = 0;
-
-  puVar1[10] = 0;
-
-  puVar1[0xb] = 0;
-
-  return;
-
+    int *mtx = (int *)0x0608A530;
+    *(int **)0x0608A52C = (int *)0x0608A530;    /* reset stack pointer to base */
+    char *one = (int *)0x00010000;               /* 1.0 in 16.16 fixed-point */
+    mtx[1] = 0;
+    *mtx = one;
+    mtx[2] = 0;
+    mtx[3] = 0;
+    mtx[4] = one;
+    mtx[5] = 0;
+    mtx[6] = 0;
+    mtx[7] = 0;
+    mtx[8] = one;
+    mtx[9] = 0;
+    mtx[10] = 0;
+    mtx[0xb] = 0;
 }
 
+/* matrix_load_identity -- Load identity matrix at current stack top.
+ * Same as reset but doesn't move the stack pointer — overwrites
+ * the current 4x3 matrix with identity (1.0 on diagonal). */
 void FUN_060270d0()
 {
-
-  char *puVar1;
-
-  int *puVar2;
-
-  
-
-  puVar1 = (int *)0x00010000;
-
-  puVar2 = *(int **)0x0608A52C;
-
-  puVar2[1] = 0;
-
-  *puVar2 = puVar1;
-
-  puVar2[2] = 0;
-
-  puVar2[3] = 0;
-
-  puVar2[4] = puVar1;
-
-  puVar2[5] = 0;
-
-  puVar2[6] = 0;
-
-  puVar2[7] = 0;
-
-  puVar2[8] = puVar1;
-
-  puVar2[9] = 0;
-
-  puVar2[10] = 0;
-
-  puVar2[0xb] = 0;
-
-  return;
-
+    char *one = (int *)0x00010000;               /* 1.0 in 16.16 fixed-point */
+    int *mtx = *(int **)0x0608A52C;
+    mtx[1] = 0;
+    *mtx = one;
+    mtx[2] = 0;
+    mtx[3] = 0;
+    mtx[4] = one;
+    mtx[5] = 0;
+    mtx[6] = 0;
+    mtx[7] = 0;
+    mtx[8] = one;
+    mtx[9] = 0;
+    mtx[10] = 0;
+    mtx[0xb] = 0;
 }
 
 char * FUN_060270f2(param_1, param_2, param_3)
@@ -4231,48 +4162,33 @@ char * FUN_060270f2(param_1, param_2, param_3)
 
 }
 
+/* matrix_scale -- Scale the current matrix stack top by X/Y/Z factors.
+ * Applies 16.16 fixed-point multiplication to each row of the 3x3 portion:
+ * row[0] *= param_1 (X scale), row[1] *= param_2 (Y scale),
+ * row[2] *= param_3 (Z scale). Iterates 3 columns. */
 unsigned int FUN_06027124(param_1, param_2, param_3)
     int param_1;
     int param_2;
     int param_3;
 {
+    long long lVar1;
+    unsigned int uVar2;
+    int col;
+    unsigned int *mtx = *(unsigned int **)0x0608A52C;
 
-  long long lVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  unsigned int *puVar4;
-
-  puVar4 = *(unsigned int **)0x0608A52C;
-
-  iVar3 = 3;
-
-  do {
-
-    *puVar4 = (int)((unsigned long long)((long long)param_1 * (long long)(int)*puVar4) >> 0x20) << 0x10 |
-
-              (unsigned int)((long long)param_1 * (long long)(int)*puVar4) >> 0x10;
-
-    uVar2 = puVar4[6];
-
-    lVar1 = (long long)param_3 * (long long)(int)uVar2;
-
-    puVar4[3] = (int)((unsigned long long)((long long)param_2 * (long long)(int)puVar4[3]) >> 0x20) << 0x10 |
-
-                (unsigned int)((long long)param_2 * (long long)(int)puVar4[3]) >> 0x10;
-
-    iVar3 = iVar3 + -1;
-
-    puVar4[6] = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
-    puVar4 = puVar4 + 1;
-
-  } while (iVar3 != 0);
-
-  return uVar2;
-
+    col = 3;
+    do {
+        *mtx = (int)((unsigned long long)((long long)param_1 * (long long)(int)*mtx) >> 0x20) << 0x10 |
+               (unsigned int)((long long)param_1 * (long long)(int)*mtx) >> 0x10;
+        uVar2 = mtx[6];
+        lVar1 = (long long)param_3 * (long long)(int)uVar2;
+        mtx[3] = (int)((unsigned long long)((long long)param_2 * (long long)(int)mtx[3]) >> 0x20) << 0x10 |
+                 (unsigned int)((long long)param_2 * (long long)(int)mtx[3]) >> 0x10;
+        col = col + -1;
+        mtx[6] = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+        mtx = mtx + 1;
+    } while (col != 0);
+    return uVar2;
 }
 
 unsigned int FUN_06027158()

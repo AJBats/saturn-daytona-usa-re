@@ -214,67 +214,42 @@ void FUN_0601e26c(void)
   } while (i < 8);
 }
 
+/* backup_mem_format -- Format backup memory partition.
+ * If not already formatted (0x06087080 == 0), zeroes out the partition
+ * buffer at 0x0605E068 for the size specified at 0x0604A5C0 indexed
+ * by current channel. Acquires SMPC bus, calls BIOS format routine
+ * via vector at 0x06000358, then calls FUN_0601e37c for post-format
+ * setup. Releases SMPC bus when done. */
 void FUN_0601e2b4()
 {
+    char *smpc_status = (char *)0x20100063;     /* SMPC SF register */
+    char *buf_ptr     = (char *)0x0605E068;     /* partition buffer pointer */
+    char *size_table  = (char *)0x0604A5C0;     /* partition size table */
+    char *channel_ptr = (char *)0x060877D8;     /* current channel */
+    unsigned int i;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  puVar4 = (char *)0x20100063;
-
-  puVar3 = (char *)0x0605E068;
-
-  puVar2 = (char *)0x0604A5C0;
-
-  puVar1 = (char *)0x060877D8;
-
-  if (*(int *)0x06087080 == '\0') {
-
-    for (uVar5 = 0; uVar5 < *(unsigned int *)(puVar2 + (unsigned int)(unsigned char)(*puVar1 << 2)); uVar5 = uVar5 + 1) {
-
-      *(char *)(*(int *)puVar3 + uVar5) = 0;
-
+    /* Clear partition buffer if not yet formatted */
+    if (*(int *)0x06087080 == '\0') {
+        for (i = 0; i < *(unsigned int *)(size_table + (unsigned int)(unsigned char)(*channel_ptr << 2)); i = i + 1) {
+            *(char *)(*(int *)buf_ptr + i) = 0;
+        }
     }
 
-  }
+    /* Acquire SMPC bus */
+    do { } while ((*smpc_status & 1) == 1);
+    *smpc_status = 1;
+    SMPC_COMREG = 0x1a;
+    do { } while ((*smpc_status & 1) != 0);
 
-  do {
+    /* Call BIOS format function */
+    (*(int(*)())(*(int *)0x06000358))(*(int *)0x0605E060, *(int *)0x0605E064, 0x06087086);
+    FUN_0601e37c();
 
-  } while ((*puVar4 & 1) == 1);
-
-  *puVar4 = 1;
-
-  SMPC_COMREG = 0x1a;
-
-  do {
-
-  } while ((*puVar4 & 1) != 0);
-
-  (*(int(*)())(*(int *)0x06000358))(*(int *)0x0605E060,*(int *)0x0605E064,0x06087086);
-
-  FUN_0601e37c();
-
-  do {
-
-  } while ((*puVar4 & 1) == 1);
-
-  *puVar4 = 1;
-
-  SMPC_COMREG = 0x19;
-
-  do {
-
-  } while ((*puVar4 & 1) != 0);
-
-  return;
-
+    /* Release SMPC bus */
+    do { } while ((*smpc_status & 1) == 1);
+    *smpc_status = 1;
+    SMPC_COMREG = 0x19;
+    do { } while ((*smpc_status & 1) != 0);
 }
 
 void FUN_0601e37c()
@@ -525,58 +500,43 @@ int FUN_0601e6a4(int param_1)
   return result;
 }
 
+/* backup_mem_write -- Write data to backup memory device via BIOS.
+ * Truncates data to 11 bytes if longer. Acquires SMPC bus (cmd 0x1A),
+ * calls BIOS save function via vector table at 0x06000354 (+0x14),
+ * using device channel from 0x06087094 array (stride 0x20, offset +0x1C).
+ * Releases SMPC bus (cmd 0x19) when done. */
 int FUN_0601e764(param_1, param_2, param_3)
     unsigned short param_1;
     int param_2;
     int param_3;
 {
+    char *smpc_status = (char *)0x20100063;     /* SMPC SF register */
+    int len;
+    int result;
 
-  char *puVar1;
+    len = (*(int(*)())0x06035C1C)(param_2);     /* strlen */
+    if (0xb < len) {
+        *(char *)(param_2 + 0xb) = 0;           /* truncate to 11 chars */
+    }
 
-  int iVar2;
+    /* Acquire SMPC bus */
+    do { } while ((*smpc_status & 1) == 1);
+    *smpc_status = 1;
+    SMPC_COMREG = 0x1a;                         /* NETLINK OFF / bus acquire */
+    do { } while ((*smpc_status & 1) != 0);
 
-  int uVar3;
+    /* Call BIOS backup write */
+    result = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x14)))(
+                 *(short *)(0x06087094 + (unsigned int)(param_1 << 5) + 0x1c),
+                 param_2, param_3);
 
-  puVar1 = (char *)0x20100063;
+    /* Release SMPC bus */
+    do { } while ((*smpc_status & 1) == 1);
+    *smpc_status = 1;
+    SMPC_COMREG = 0x19;                         /* NETLINK ON / bus release */
+    do { } while ((*smpc_status & 1) != 0);
 
-  iVar2 = (*(int(*)())0x06035C1C)(param_2);
-
-  if (0xb < iVar2) {
-
-    *(char *)(param_2 + 0xb) = 0;
-
-  }
-
-  do {
-
-  } while ((*puVar1 & 1) == 1);
-
-  *puVar1 = 1;
-
-  SMPC_COMREG = 0x1a;
-
-  do {
-
-  } while ((*puVar1 & 1) != 0);
-
-  uVar3 = (*(int(*)())(*(int *)(*(int *)0x06000354 + 0x14)))(*(short *)(0x06087094 + (unsigned int)(param_1 << 5) + 0x1c),param_2,param_3
-
-                    );
-
-  do {
-
-  } while ((*puVar1 & 1) == 1);
-
-  *puVar1 = 1;
-
-  SMPC_COMREG = 0x19;
-
-  do {
-
-  } while ((*puVar1 & 1) != 0);
-
-  return uVar3;
-
+    return result;
 }
 
 int FUN_0601e810(param_1, param_2, param_3)
@@ -786,49 +746,31 @@ int FUN_0601e958()
 
 }
 
+/* cd_track_validate -- Validate current CD audio track and set play state.
+ * Reads channel from 0x060877D8, calls FUN_0601e4d4 with track descriptor
+ * (0x0604A57C + channel * 0xC). If result < 7, marks channel active and
+ * stores track ID (shifted by -3 if >= 3). Returns 1 if track ID < 3
+ * (immediate play), 0 otherwise. */
 int FUN_0601eaa0()
 {
+    char *channel_ptr = (char *)0x060877D8;
+    int result = 0;
+    unsigned char ch = (unsigned char)*(int *)0x060877D8;
 
-  char *puVar1;
+    unsigned char track_status = FUN_0601e4d4(0x0604A57C + (unsigned int)ch * 0xc);
 
-  unsigned char bVar2;
-
-  int uVar3;
-
-  puVar1 = (char *)0x060877D8;
-
-  uVar3 = 0;
-
-  bVar2 = FUN_0601e4d4(0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc);
-
-  if (bVar2 < 7) {
-
-    ((int *)0x060877DD)[(unsigned char)*puVar1] = 1;
-
-    if (bVar2 < 3) {
-
-      ((int *)0x060877D9)[(unsigned char)*puVar1] = bVar2;
-
-      uVar3 = 1;
-
+    if (track_status < 7) {
+        ((int *)0x060877DD)[ch] = 1;            /* mark channel active */
+        if (track_status < 3) {
+            ((int *)0x060877D9)[ch] = track_status;
+            result = 1;                          /* immediate play */
+        } else {
+            ((int *)0x060877D9)[ch] = track_status - 3;
+        }
+    } else {
+        ((int *)0x060877DD)[ch] = 0;            /* mark channel inactive */
     }
-
-    else {
-
-      ((int *)0x060877D9)[(unsigned char)*puVar1] = bVar2 - 3;
-
-    }
-
-  }
-
-  else {
-
-    ((int *)0x060877DD)[(unsigned char)*puVar1] = 0;
-
-  }
-
-  return uVar3;
-
+    return result;
 }
 
 /* cd_track_play_if_active -- Play CD audio track if channel is marked active.
@@ -2323,61 +2265,36 @@ int FUN_0601fd74(void)
     return (*(int(*)())auStack_14[*(int *)0x06087804])();
 }
 
+/* replay_car_state_load -- Load car state data from replay descriptor.
+ * Reads replay header from pointer at 0x060877F4: [0]=car_count-1,
+ * [1]=frame_count, [2]=course_id, [3]=data_start. Iterates each car,
+ * assigning car struct pointers (stride 0x268 at 0x06078900) into
+ * 0x0607E940, then calls FUN_0601fec0 to load per-car replay data. */
 void FUN_0601fe20()
 {
+    char *car_count_ptr = (char *)0x0607EA98;   /* replay car count */
+    char *car_base      = (char *)0x06078900;   /* car struct array */
+    char *car_ptr_slot  = (char *)0x0607E940;   /* current car pointer */
+    int car_stride = 0x268;
+    int *replay_hdr = *(int **)0x060877F4;      /* replay data header */
+    unsigned int car_idx;
 
-  char *puVar1;
+    *(int *)0x060877FC = replay_hdr[1];         /* store frame count */
+    *(int *)car_count_ptr = *replay_hdr + -1;   /* car count (0-based) */
+    (*(int(*)())0x060054EA)(replay_hdr[2]);     /* set course */
 
-  char *puVar2;
+    int data_ptr = replay_hdr[3];               /* per-car data start */
+    *(short *)0x06087800 = 0;
+    *(short *)0x06087802 = 0;
 
-  char *puVar3;
+    for (car_idx = 0; car_idx <= *(unsigned int *)car_count_ptr; car_idx = car_idx + 1) {
+        *(char **)car_ptr_slot = car_base + car_idx * car_stride;
+        FUN_0601fec0(data_ptr);
+        data_ptr = data_ptr + 8;
+    }
 
-  int iVar4;
-
-  int iVar5;
-
-  int *piVar6;
-
-  unsigned int uVar7;
-
-  puVar3 = (char *)0x0607EA98;
-
-  puVar2 = (char *)0x06078900;
-
-  puVar1 = (char *)0x0607E940;
-
-  iVar4 = 0x268;
-
-  piVar6 = *(int **)0x060877F4;
-
-  *(int *)0x060877FC = piVar6[1];
-
-  *(int *)puVar3 = *piVar6 + -1;
-
-  (*(int(*)())0x060054EA)(piVar6[2]);
-
-  iVar5 = piVar6[3];
-
-  *(short *)0x06087800 = 0;
-
-  *(short *)0x06087802 = 0;
-
-  for (uVar7 = 0; uVar7 <= *(unsigned int *)puVar3; uVar7 = uVar7 + 1) {
-
-    *(char **)puVar1 = puVar2 + uVar7 * iVar4;
-
-    FUN_0601fec0(iVar5);
-
-    iVar5 = iVar5 + 8;
-
-  }
-
-  (*(int(*)())0x0600D280)();
-
-  *(short *)0x06087804 = 2;
-
-  return;
-
+    (*(int(*)())0x0600D280)();                  /* post-load finalize */
+    *(short *)0x06087804 = 2;                   /* set replay state = active */
 }
 
 void FUN_0601fec0(param_1)

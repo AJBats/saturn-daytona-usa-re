@@ -74,438 +74,223 @@ void FUN_060061c8(void)
     OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 }
 
+/* race_init_cars_and_camera -- Initialize car array and camera for race start.
+ * Clears 4 lap counter shorts (0x0605DF4E-54).
+ * Normal mode: iterates all cars (0x0607EA98 count), sets car pointers
+ *   in 0x06078900 array (stride 0x268), calls init (0x0600E1D4) per car.
+ * VS mode (0x06078635): initializes player car at slot 1 first with
+ *   speed/handling params from 0x0607ED90, then reinits as slot 0.
+ * Sets player car physics fields (+0x74, +0x90 = 0x38 base speed).
+ * Initializes camera state: zoom=0x58000, near=0xF300, far=0x6E0000,
+ * height=0x100000, Y offset=0, mode=2, depth bias=0xFEA00000.
+ * Enables AI demo mode if state==0xE and single player (CAR_COUNT==0). */
 void FUN_0600629c()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  puVar4 = (char *)0x0607E940;
-
-  puVar3 = (char *)0x0607E944;
-
-  puVar2 = (char *)0x0600E1D4;
-
-  puVar1 = (char *)0x06078900;
-
-  iVar7 = 0x268;
+  int *car_ptr = (int *)0x0607E940;
+  int *car_ptr2 = (int *)0x0607E944;
+  int car_base = 0x06078900;
+  int i;
+  int car;
 
   *(short *)0x0605DF4E = 0;
-
   *(short *)0x0605DF50 = 0;
-
   *(short *)0x0605DF52 = 0;
-
   *(short *)0x0605DF54 = 0;
 
   if (*(int *)0x06078635 == '\0') {
-
-    for (iVar6 = 0; iVar6 < *(int *)0x0607EA98; iVar6 = iVar6 + 1) {
-
-      *(char **)puVar4 = puVar1 + iVar6 * iVar7;
-
-      *(int *)(puVar1 + iVar6 * iVar7 + 4) = iVar6;
-
-      (*(int(*)())puVar2)();
-
+    /* normal mode: init all cars */
+    for (i = 0; i < *(int *)0x0607EA98; i = i + 1) {
+      *car_ptr = car_base + i * 0x268;
+      *(int *)(car_base + i * 0x268 + 4) = i; /* car index */
+      (*(int(*)())0x0600E1D4)(); /* init car */
     }
+  } else {
+    /* VS mode: init player car at slot 1, then slot 0 */
+    *car_ptr = car_base + 0x268;
+    *car_ptr2 = car_base + 0x268;
+    *(int *)(*car_ptr + 4) = 0;
+    (*(int(*)())0x0600E1D4)();
 
-  }
-
-  else {
-
-    *(char **)puVar4 = puVar1 + iVar7;
-
-    *(char **)puVar3 = puVar1 + iVar7;
-
-    *(int *)(*(int *)puVar4 + 4) = 0;
-
-    (*(int(*)())puVar2)();
-
-    *(int *)(*(int *)puVar3 + 0x74) = 0x38;
-
-    *(int *)(*(int *)puVar3 + 0x90) = 0x38;
-
-    puVar5 = (char *)0x0607ED90;
-
-    *(unsigned short *)(*(int *)puVar3 + 0x9e) = (unsigned short)(unsigned char)*(int *)0x0607ED90;
-
-    *(unsigned short *)(*(int *)puVar3 + 0x7c) = (unsigned short)(unsigned char)puVar5[1];
-
-    *(unsigned short *)(*(int *)puVar3 + (int)DAT_06006360) = (unsigned short)(unsigned char)puVar5[2];
+    *(int *)(*car_ptr2 + 0x74) = 0x38; /* base speed */
+    *(int *)(*car_ptr2 + 0x90) = 0x38;
+    *(unsigned short *)(*car_ptr2 + 0x9e) = (unsigned short)(unsigned char)*(int *)0x0607ED90;
+    *(unsigned short *)(*car_ptr2 + 0x7c) = (unsigned short)(unsigned char)((char *)0x0607ED90)[1];
+    *(unsigned short *)(*car_ptr2 + (int)DAT_06006360) = (unsigned short)(unsigned char)((char *)0x0607ED90)[2];
 
     if (CAR_COUNT == 0) {
-
-      iVar7 = (int)DAT_06006362;
-
-      *(short *)(*(int *)puVar4 + iVar7) = 3;
-
-      *(short *)(*(int *)puVar4 + iVar7 + 2) = 3;
-
+      *(short *)(*car_ptr + (int)DAT_06006362) = 3;
+      *(short *)(*car_ptr + (int)DAT_06006362 + 2) = 3;
+    } else {
+      *(short *)(*car_ptr + (int)DAT_06006362) = 0;
+      *(short *)(*car_ptr + (int)DAT_06006362 + 2) = 0;
     }
 
-    else {
-
-      iVar7 = (int)DAT_06006362;
-
-      *(short *)(*(int *)puVar4 + iVar7) = 0;
-
-      *(short *)(*(int *)puVar4 + iVar7 + 2) = 0;
-
-    }
-
-    *(char **)puVar4 = puVar1;
-
-    *(char **)puVar3 = puVar1;
-
-    *(int *)(*(int *)puVar4 + 4) = 0;
-
-    (*(int(*)())puVar2)();
-
+    *car_ptr = car_base; /* switch to slot 0 */
+    *car_ptr2 = car_base;
+    *(int *)(*car_ptr + 4) = 0;
+    (*(int(*)())0x0600E1D4)();
   }
 
-  *(int *)(*(int *)puVar3 + 0x74) = 0x38;
+  car = *car_ptr2;
+  *(int *)(car + 0x74) = 0x38; /* base speed */
+  *(int *)(car + 0x90) = 0x38;
+  *(short *)(car + 0x9c) = (short)*(int *)0x0607EAB8; /* course ID */
+  *(short *)(car + 0x9e) = *(short *)0x06063F42;
+  *(short *)(car + 0x7c) = (short)*(int *)0x06078868;
 
-  *(int *)(*(int *)puVar3 + 0x90) = 0x38;
-
-  *(short *)(*(int *)puVar3 + 0x9c) = (short)*(int *)0x0607EAB8;
-
-  *(short *)(*(int *)puVar3 + 0x9e) = *(short *)0x06063F42;
-
-  *(short *)(*(int *)puVar3 + 0x7c) = (short)*(int *)0x06078868;
-
-  (*(int(*)())0x0600D280)();
-
-  (*(int(*)())0x0602E5E4)();
+  (*(int(*)())0x0600D280)(); /* physics init */
+  (*(int(*)())0x0602E5E4)(); /* object system init */
 
   if ((GAME_STATE_COPY == 0xe) && (CAR_COUNT == 0)) {
-
-    *(int *)0x0607EAD0 = 1;
-
-  }
-
-  else {
-
+    *(int *)0x0607EAD0 = 1; /* enable AI demo mode */
+  } else {
     *(int *)0x0607EAD0 = 0;
-
   }
 
-  puVar1 = (char *)0x06063EF0;
-
-  iVar7 = *(int *)puVar3;
-
-  *(int *)0x06063EF0 = *(int *)(iVar7 + 0x20);
-
-  *(int *)(puVar1 + 4) = 0;
-
+  /* camera position init */
+  *(int *)0x06063EF0 = *(int *)(car + 0x20);
+  *(int *)0x06063EF4 = 0;
   *(int *)0x06063F10 = 0;
 
-  puVar1 = (char *)0x06063E78;
-
+  /* camera history chain: 0→E78→E8C→E64→E50 */
   *(int *)0x06063E78 = 0;
+  *(int *)0x06063E8C = 0;
+  *(int *)0x06063E64 = 0;
+  *(int *)0x06063E50 = 0;
 
-  puVar2 = (char *)0x06063E8C;
-
-  *(int *)0x06063E8C = *(int *)puVar1;
-
-  puVar1 = (char *)0x06063E64;
-
-  *(int *)0x06063E64 = *(int *)puVar2;
-
-  *(int *)0x06063E50 = *(int *)puVar1;
-
-  *(int *)0x06063F14 = 0xFEA00000;
+  *(int *)0x06063F14 = 0xFEA00000; /* depth bias */
 
   if (CAR_COUNT == 0) {
-
-    iVar6 = (int)PTR_DAT_0600654c;
-
-    *(short *)(iVar7 + iVar6) = 3;
-
-    *(short *)(iVar7 + iVar6 + 2) = 3;
-
-  }
-
-  else {
-
-    iVar6 = (int)PTR_DAT_0600644c;
-
-    *(short *)(iVar7 + iVar6) = 0;
-
-    *(short *)(iVar7 + iVar6 + 2) = 0;
-
+    *(short *)(car + (int)PTR_DAT_0600654c) = 3;
+    *(short *)(car + (int)PTR_DAT_0600654c + 2) = 3;
+  } else {
+    *(short *)(car + (int)PTR_DAT_0600644c) = 0;
+    *(short *)(car + (int)PTR_DAT_0600644c + 2) = 0;
   }
 
   *(int *)0x060620D0 = 0;
+  *(int *)0x06063E1C = 2; /* zoom level */
+  *(int *)0x06059F30 = 1; /* scene rendering enabled */
+  (*(int(*)())0x06038BD4)(8, 0); /* CD config */
 
-  *(int *)0x06063E1C = 2;
+  /* initial camera params */
+  *(int *)0x06063E24 = 0x00058000; /* zoom value */
+  *(int *)0x06063E34 = 0x0000F300; /* near plane */
+  *(int *)0x06063E28 = 0x006E0000; /* far plane */
+  *(int *)0x06063E2C = 0x00100000; /* height */
+  *(int *)0x06063E30 = 0;          /* Y offset */
+  *(int *)0x06063EEC = 0x0000F300; /* near clip backup */
+  *(int *)0x06063E20 = 2; /* camera mode */
 
-  *(int *)0x06059F30 = 1;
-
-  (*(int(*)())0x06038BD4)(8,0);
-
-  *(char **)0x06063E24 = 0x00058000;
-
-  puVar1 = (char *)0x0000F300;
-
-  *(char **)0x06063E34 = 0x0000F300;
-
-  *(char **)0x06063E28 = 0x006E0000;
-
-  *(char **)0x06063E2C = 0x00100000;
-
-  *(int *)0x06063E30 = 0;
-
-  *(char **)0x06063EEC = puVar1;
-
-  *(int *)0x06063E20 = 2;
-
-  FUN_060067c8();
-
-  return;
-
+  FUN_060067c8(); /* sound_bank_and_stereo_setup */
 }
 
+/* camera_zoom_step -- Step the camera zoom level toward its target.
+ * Target zoom from table 0x060446B8 indexed by camera mode (0x06063E20).
+ * Current zoom at 0x06063E24; zoom level (0-4) at 0x06063E1C.
+ * When zoom > target: decreases zoom and adjusts FOV/clipping at
+ * 0x06063E34 (near plane), 0x06063E28 (far plane), 0x06063E2C (height),
+ * 0x06063E30 (Y offset). Thresholds: 0x8000, 0x58000, 0x78000.
+ * When zoom < target: increases with mirrored adjustments.
+ * Computes render scale via fixed-point multiply (0x06027552).
+ * Disables scene rendering (0x06059F30=0) for levels 0 and 1-below-2. */
 int FUN_060064f2()
 {
+  int *zoom_val = (int *)0x06063E24;
+  int *zoom_level = (int *)0x06063E1C;
+  int *target = (int *)0x06063F4C;
+  int *near_plane = (int *)0x06063E34;
+  int *far_plane = (int *)0x06063E28;
+  int *height = (int *)0x06063E2C;
+  int *y_offset = (int *)0x06063E30;
+  int scale;
+  int result;
 
-  char *puVar1;
+  *target = *(int *)(0x060446B8 + *(int *)(0x06063E20 << 2));
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  char *puVar8;
-
-  char *puVar9;
-
-  char *puVar10;
-
-  int uVar11;
-
-  int iVar12;
-
-  puVar4 = (char *)0x06063F4C;
-
-  puVar3 = (char *)0x00008000;
-
-  puVar2 = (char *)0x06063E24;
-
-  puVar1 = (char *)0x06063E1C;
-
-  *(int *)0x06063F4C = *(int *)(0x060446B8 + *(int *)(0x06063E20 << 2))
-
-  ;
-
-  if (((int)puVar3 < *(int *)puVar2) || (*(int *)0x06078654 == '\x04')) {
-
-    (*(int(*)())0x06038BD4)(8,0);
-
+  if (((int)0x00008000 < *zoom_val) || (*(int *)0x06078654 == '\x04')) {
+    (*(int(*)())0x06038BD4)(8, 0); /* CD normal speed */
+  } else {
+    (*(int(*)())0x06038BD4)(8, 5); /* CD reduced speed */
   }
 
-  else {
-
-    (*(int(*)())0x06038BD4)(8,5);
-
-  }
-
-  puVar10 = (char *)0x06063E34;
-
-  puVar9 = (char *)0x06063E28;
-
-  puVar8 = (char *)0x06063E2C;
-
-  puVar7 = (char *)0x06063E30;
-
-  puVar6 = (char *)0x00010000;
-
-  puVar5 = (char *)0x00058000;
-
-  if (*(int *)puVar2 == *(int *)puVar4) {
-
-    *(int *)puVar1 = *(int *)0x06063E20;
-
-  }
-
-  else if (*(int *)puVar4 < *(int *)puVar2) {
-
-    if ((int)0x00078000 < *(int *)puVar2) {
-
-      *(int *)puVar1 = 4;
-
-      *(int *)puVar2 = *(int *)puVar2 - (int)puVar6;
-
-      *(int *)puVar10 = *(int *)puVar10 - -576;
-
-      *(int *)puVar9 = *(int *)puVar9 - (int)0x0003C000;
-
-    }
-
-    else if ((int)0x00058000 < *(int *)puVar2) {
-
-      *(int *)puVar1 = 3;
-
-      *(int *)puVar2 = *(int *)puVar2 - (int)0x4000E000;
-
-      *(int *)puVar10 = *(int *)puVar10 + 0x80;
-
-      *(int *)puVar9 = *(int *)puVar9 - (int)0x0001C000;
-
-    }
-
-    else if ((int)puVar3 < *(int *)puVar2) {
-
-      *(int *)puVar1 = 2;
-
-      *(int *)puVar2 = *(int *)puVar2 - (int)0x0000A000;
-
-      *(int *)puVar10 = *(int *)puVar10 + 0x40;
-
-      *(int *)puVar9 = *(int *)puVar9 - (int)puVar6;
-
-      *(int *)puVar7 = *(int *)puVar7 - (int)DAT_06006666;
-
-    }
-
-    else if (*(int *)puVar2 < 1) {
-
-      *(int *)puVar1 = 0;
-
-    }
-
-    else {
-
-      *(int *)puVar1 = 1;
-
-      *(int *)puVar2 = *(int *)puVar2 - (int)DAT_06006668;
-
-      *(int *)puVar10 = *(int *)puVar10 - -352;
-
-      *(int *)puVar9 = *(int *)puVar9 - (int)puVar5;
-
-      *(int *)puVar8 = *(int *)puVar8 - (int)0x000D0000;
-
+  if (*zoom_val == *target) {
+    *zoom_level = *(int *)0x06063E20;
+  } else if (*target < *zoom_val) {
+    /* zoom out (decrease) */
+    if ((int)0x00078000 < *zoom_val) {
+      *zoom_level = 4;
+      *zoom_val = *zoom_val - (int)0x00010000;
+      *near_plane = *near_plane - -576;
+      *far_plane = *far_plane - (int)0x0003C000;
+    } else if ((int)0x00058000 < *zoom_val) {
+      *zoom_level = 3;
+      *zoom_val = *zoom_val - (int)0x4000E000;
+      *near_plane = *near_plane + 0x80;
+      *far_plane = *far_plane - (int)0x0001C000;
+    } else if ((int)0x00008000 < *zoom_val) {
+      *zoom_level = 2;
+      *zoom_val = *zoom_val - (int)0x0000A000;
+      *near_plane = *near_plane + 0x40;
+      *far_plane = *far_plane - (int)0x00010000;
+      *y_offset = *y_offset - (int)DAT_06006666;
+    } else if (*zoom_val < 1) {
+      *zoom_level = 0;
+    } else {
+      *zoom_level = 1;
+      *zoom_val = *zoom_val - (int)DAT_06006668;
+      *near_plane = *near_plane - -352;
+      *far_plane = *far_plane - (int)0x00058000;
+      *height = *height - (int)0x000D0000;
       if (*(int *)0x06083255 != '\0') {
-
-        *(int *)puVar8 = *(int *)puVar8 - (int)0x000A0000;
-
+        *height = *height - (int)0x000A0000;
       }
-
     }
-
-  }
-
-  else if (*(int *)puVar2 < *(int *)puVar4) {
-
-    if (*(int *)puVar2 < (int)puVar3) {
-
-      *(int *)puVar1 = 0;
-
-      *(int *)puVar2 = *(int *)puVar2 + (int)DAT_06006752;
-
-      *(int *)puVar10 = *(int *)puVar10 + -352;
-
-      *(char **)puVar9 = puVar5 + *(int *)puVar9;
-
-      *(char **)puVar8 = 0x000D0000 + *(int *)puVar8;
-
+  } else if (*zoom_val < *target) {
+    /* zoom in (increase) */
+    if (*zoom_val < (int)0x00008000) {
+      *zoom_level = 0;
+      *zoom_val = *zoom_val + (int)DAT_06006752;
+      *near_plane = *near_plane + -352;
+      *far_plane = *far_plane + (int)0x00058000;
+      *height = *height + (int)0x000D0000;
       if (*(int *)0x06083255 != '\0') {
-
-        *(char **)puVar8 = 0x000A0000 + *(int *)puVar8;
-
+        *height = *height + (int)0x000A0000;
       }
-
+    } else if (*zoom_val < (int)0x00058000) {
+      *zoom_level = 1;
+      *zoom_val = *zoom_val + (int)0x0000A000;
+      *near_plane = *near_plane + -0x40;
+      *far_plane = *far_plane + (int)0x00010000;
+      *y_offset = *y_offset + (int)DAT_06006756;
+    } else if (*zoom_val < (int)0x00078000) {
+      *zoom_level = 2;
+      *zoom_val = *zoom_val + (int)DAT_06006758;
+      *near_plane = *near_plane + -0x80;
+      *far_plane = *far_plane + (int)0x0001C000;
+    } else if (*zoom_val < (int)0x00178000) {
+      *zoom_level = 3;
+      *zoom_val = *zoom_val + (int)0x00010000;
+      *near_plane = *near_plane + -576;
+      *far_plane = *far_plane + (int)0x0003C000;
+    } else {
+      *zoom_level = 4;
     }
-
-    else if (*(int *)puVar2 < (int)0x00058000) {
-
-      *(int *)puVar1 = 1;
-
-      *(char **)puVar2 = 0x0000A000 + *(int *)puVar2;
-
-      *(int *)puVar10 = *(int *)puVar10 + -0x40;
-
-      *(char **)puVar9 = puVar6 + *(int *)puVar9;
-
-      *(int *)puVar7 = *(int *)puVar7 + (int)DAT_06006756;
-
-    }
-
-    else if (*(int *)puVar2 < (int)0x00078000) {
-
-      *(int *)puVar1 = 2;
-
-      *(int *)puVar2 = *(int *)puVar2 + (int)DAT_06006758;
-
-      *(int *)puVar10 = *(int *)puVar10 + -0x80;
-
-      *(char **)puVar9 = 0x0001C000 + *(int *)puVar9;
-
-    }
-
-    else if (*(int *)puVar2 < (int)0x00178000) {
-
-      *(int *)puVar1 = 3;
-
-      *(char **)puVar2 = puVar6 + *(int *)puVar2;
-
-      *(int *)puVar10 = *(int *)puVar10 + -576;
-
-      *(char **)puVar9 = 0x0003C000 + *(int *)puVar9;
-
-    }
-
-    else {
-
-      *(int *)puVar1 = 4;
-
-    }
-
   }
 
-  uVar11 = (*(int(*)())0x06027552)(*(int *)puVar2,(int)DAT_06006802);
+  scale = (*(int(*)())0x06027552)(*zoom_val, (int)DAT_06006802); /* fixed-point scale */
+  *(int *)0x06063F04 = scale;
+  result = (*(int(*)())0x06027552)(*zoom_val, (int)DAT_06006802);
+  *(int *)0x06063F08 = result;
 
-  *(int *)0x06063F04 = uVar11;
-
-  iVar12 = (*(int(*)())0x06027552)(*(int *)puVar2,(int)DAT_06006802);
-
-  *(int *)0x06063F08 = iVar12;
-
-  if ((*(int *)puVar1 == 0) ||
-
-     ((iVar12 = *(int *)puVar1, iVar12 == 1 && (*(unsigned int *)0x06063E20 < 2)))) {
-
-    *(int *)0x06059F30 = 0;
-
+  if ((*zoom_level == 0) ||
+     ((result = *zoom_level, result == 1 && (*(unsigned int *)0x06063E20 < 2)))) {
+    *(int *)0x06059F30 = 0; /* disable scene rendering */
+  } else {
+    *(int *)0x06059F30 = 1; /* enable scene rendering */
   }
 
-  else {
-
-    *(int *)0x06059F30 = 1;
-
-  }
-
-  return iVar12;
-
+  return result;
 }
 
 /* sound_bank_and_stereo_setup -- Initialize sound bank and stereo panning.
@@ -729,406 +514,206 @@ unsigned int FUN_06006868()
 
 }
 
+/* scene_border_tiles_render -- Render border/edge tiles of the scene grid.
+ * Iterates a 5x5 grid centered on camera position, but only renders tiles
+ * on the outer border (row/col == -2 or +2). Looks up tile indices from
+ * course tile maps at 0x06062260, dispatches to course-specific renderers
+ * (0x0602BDCC/0x0602A214 for layer A, 0x0602B9E0/0x0602ABB8 for layer B).
+ * Course 2 uses alternate render paths. */
 int FUN_06006a9c()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int uVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int uVar9;
-
-  int iVar10;
-
-  unsigned int uVar11;
-
-  int iVar12;
-
-  unsigned int uVar13;
-
-  int iVar14;
-
-  short sVar15;
-
-  int iVar16;
-
-  short sVar17;
-
-  int iStack_40;
-
-  int iStack_28;
-
-  int iStack_24;
-
-  puVar3 = (char *)0x0607EAD8;
-
-  puVar2 = (char *)0x06089E44;
-
-  puVar1 = (char *)0x060620D4;
-
-  uVar9 = *(int *)(0x06062248 + *(int *)(0x0607EAD8 << 3));
-
-  uVar6 = *(int *)(0x06062248 + (*(int *)(0x0607EAD8 << 1) + 1) << 2);
-
-  iVar4 = *(int *)(0x06062260 + *(int *)(0x0607EAD8 << 4));
-
-  iVar12 = *(int *)(0x0607EAD8 << 2);
-
-  iVar10 = *(int *)(0x06062260 + (iVar12 + 1) << 2);
-
-  iVar7 = *(int *)(0x06062260 + (iVar12 + 2) << 2);
-
-  iVar12 = (iVar12 + 3) << 2;
-
-  iVar5 = *(int *)(0x06062260 + iVar12);
-
-  uVar11 = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
-
-  uVar13 = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
-
-  iVar14 = -2;
-
-  iStack_24 = -2;
-
-  iStack_40 = 2;
-
-  iStack_28 = 2;
-
-  if (uVar13 < 0x3e) {
-
-    if (uVar13 < 2) {
-
-      iVar14 = -uVar13;
-
-    }
-
-  }
-
-  else {
-
-    iStack_40 = 0x3f - uVar13;
-
-  }
-
-  if (uVar11 < 0x3e) {
-
-    if (uVar11 < 2) {
-
-      iStack_24 = -uVar11;
-
-    }
-
-  }
-
-  else {
-
-    iStack_28 = 0x3f - uVar11;
-
-  }
-
-  for (iVar14 = iVar14 << 6; iVar16 = iStack_24, iVar14 < iStack_40 << 6; iVar14 = iVar14 + 0x40) {
-
-    for (; iVar16 < iStack_28; iVar16 = iVar16 + 1) {
-
-      iVar12 = iVar14;
-
-      if ((((iVar14 == -0x80) || (iVar14 == DAT_06006c1e)) || (iVar12 = iVar16, iVar16 == -2)) ||
-
-         (iVar16 == 2)) {
-
-        iVar8 = iVar14 + iVar16 + (uVar13 << 6) + uVar11;
-
-        sVar17 = *(short *)(iVar4 + (iVar8 << 1));
-
-        sVar15 = *(short *)((iVar8 << 1) + iVar7);
-
-        if (0 < sVar17) {
-
-          iVar12 = *(int *)(0x06062230 + *(int *)((int)(int)puVar3 << 3)) + *(int *)(iVar10 + (iVar8 << 2));
-
-          if ((unsigned int)0x640 <= (unsigned int)((int)sVar17 + *(int *)puVar1)) {
-
-            sVar17 = PTR_DAT_06006c20 - (short)*(int *)puVar1;
-
-          }
-
-          if (*(int *)puVar3 == 2) {
-
-            iVar12 = (*(int(*)())0x0602BDCC)(iVar12,uVar9,*(short *)(puVar2 + 0x52),(int)sVar17);
-
-          }
-
-          else {
-
-            iVar12 = (*(int(*)())0x0602A214)(iVar12,uVar9,*(short *)(puVar2 + 0x52),(int)sVar17);
-
-          }
-
+    char *course_id     = (char *)0x0607EAD8;   /* current course index */
+    char *camera_data   = (char *)0x06089E44;   /* camera/view data base */
+    char *render_budget = (char *)0x060620D4;   /* render budget ptr */
+
+    int layer_a_map  = *(int *)(0x06062248 + *(int *)(0x0607EAD8 << 3));
+    int layer_b_map  = *(int *)(0x06062248 + (*(int *)(0x0607EAD8 << 1) + 1) << 2);
+    int tile_map_a   = *(int *)(0x06062260 + *(int *)(0x0607EAD8 << 4));
+    int course_base  = *(int *)(0x0607EAD8 << 2);
+    int tile_offs_a  = *(int *)(0x06062260 + (course_base + 1) << 2);
+    int tile_map_b   = *(int *)(0x06062260 + (course_base + 2) << 2);
+    course_base = (course_base + 3) << 2;
+    int tile_offs_b  = *(int *)(0x06062260 + course_base);
+
+    /* Convert camera world position to tile grid coordinates */
+    unsigned int grid_x = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
+    unsigned int grid_z = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
+
+    /* Border iteration range: -2..+2 around camera tile, clamped to 0..63 */
+    int row_start = -2;
+    int col_start = -2;
+    int row_end   = 2;
+    int col_end   = 2;
+
+    if (grid_z < 0x3e) {
+        if (grid_z < 2) {
+            row_start = -grid_z;
         }
-
-        if (0 < sVar15) {
-
-          iVar12 = *(int *)(0x06062230 + (*(int *)((int)(int)puVar3 << 1) + 1) << 2) +
-
-                   *(int *)(iVar5 + (iVar8 << 2));
-
-          if ((unsigned int)0x640 <= (unsigned int)((int)sVar15 + *(int *)puVar1)) {
-
-            sVar15 = DAT_06006cca - (short)*(int *)puVar1;
-
-          }
-
-          if (*(int *)puVar3 == 2) {
-
-            iVar12 = (*(int(*)())0x0602B9E0)(iVar12,uVar6,*(short *)(puVar2 + 0x52),(int)sVar15);
-
-          }
-
-          else {
-
-            iVar12 = (*(int(*)())0x0602ABB8)(iVar12,uVar6,*(short *)(puVar2 + 0x52),(int)sVar15);
-
-          }
-
+    } else {
+        row_end = 0x3f - grid_z;
+    }
+    if (grid_x < 0x3e) {
+        if (grid_x < 2) {
+            col_start = -grid_x;
         }
-
-      }
-
+    } else {
+        col_end = 0x3f - grid_x;
     }
 
-  }
+    int result;
+    int row, col;
+    for (row = row_start << 6; col = col_start, row < row_end << 6; row = row + 0x40) {
+        for (; col < col_end; col = col + 1) {
+            result = row;
+            /* Only render tiles on the border edges */
+            if (((row == -0x80) || (row == DAT_06006c1e)) ||
+                (result = col, col == -2) || (col == 2)) {
 
-  return iVar12;
+                int tile_idx = row + col + (grid_z << 6) + grid_x;
+                short tile_a = *(short *)(tile_map_a + (tile_idx << 1));
+                short tile_b = *(short *)((tile_idx << 1) + tile_map_b);
 
+                /* Render layer A tile */
+                if (0 < tile_a) {
+                    result = *(int *)(0x06062230 + *(int *)((int)(int)course_id << 3)) +
+                             *(int *)(tile_offs_a + (tile_idx << 2));
+                    if ((unsigned int)0x640 <= (unsigned int)((int)tile_a + *(int *)render_budget)) {
+                        tile_a = PTR_DAT_06006c20 - (short)*(int *)render_budget;
+                    }
+                    if (*(int *)course_id == 2) {
+                        result = (*(int(*)())0x0602BDCC)(result, layer_a_map,
+                                  *(short *)(camera_data + 0x52), (int)tile_a);
+                    } else {
+                        result = (*(int(*)())0x0602A214)(result, layer_a_map,
+                                  *(short *)(camera_data + 0x52), (int)tile_a);
+                    }
+                }
+
+                /* Render layer B tile */
+                if (0 < tile_b) {
+                    result = *(int *)(0x06062230 + (*(int *)((int)(int)course_id << 1) + 1) << 2) +
+                             *(int *)(tile_offs_b + (tile_idx << 2));
+                    if ((unsigned int)0x640 <= (unsigned int)((int)tile_b + *(int *)render_budget)) {
+                        tile_b = DAT_06006cca - (short)*(int *)render_budget;
+                    }
+                    if (*(int *)course_id == 2) {
+                        result = (*(int(*)())0x0602B9E0)(result, layer_b_map,
+                                  *(short *)(camera_data + 0x52), (int)tile_b);
+                    } else {
+                        result = (*(int(*)())0x0602ABB8)(result, layer_b_map,
+                                  *(short *)(camera_data + 0x52), (int)tile_b);
+                    }
+                }
+            }
+        }
+    }
+    return result;
 }
 
+/* scene_interior_tiles_render -- Render interior 11x11 scene tile grid.
+ * Uses visibility map at 0x002F0000 indexed by frame rotation angle to
+ * determine which tiles are visible. For each visible tile, dispatches
+ * to course-specific renderers for both layer A and layer B.
+ * Grid is 11x11 centered on camera, clamped to 0..63 tile range. */
 int FUN_06006cdc()
 {
-
-  short sVar1;
-
-  short sVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  int iVar10;
-
-  int uVar11;
-
-  int iVar12;
-
-  int iVar13;
-
-  int uVar14;
-
-  int iVar15;
-
-  unsigned int uVar16;
-
-  unsigned int uVar17;
-
-  int iVar18;
-
-  int iVar19;
-
-  unsigned int uVar20;
-
-  short sVar21;
-
-  short sVar22;
-
-  unsigned int uVar23;
-
-  unsigned int uStack_5c;
-
-  unsigned int uStack_58;
-
-  unsigned int uStack_44;
-
-  unsigned int uStack_2c;
-
-  unsigned int uStack_28;
-
-  puVar6 = (char *)0x06089E96;
-
-  puVar5 = (char *)0x002F0000;
-
-  puVar4 = (char *)0x0607EAD8;
-
-  puVar3 = (char *)0x060620D4;
-
-  sVar2 = DAT_06006da6;
-
-  uVar23 = (unsigned int)DAT_06006da6;
-
-  uVar16 = *(int *)0x06063EF0 + 0x800 & (unsigned int)0x0000FFFF;
-
-  uVar14 = *(int *)(0x06062248 + *(int *)(0x0607EAD8 << 3));
-
-  uVar11 = *(int *)(0x06062248 + (*(int *)(0x0607EAD8 << 1) + 1) << 2);
-
-  iVar7 = 0xf2;
-
-  iVar8 = (int)PTR_DAT_06006dac;
-
-  iVar9 = *(int *)(0x06062260 + *(int *)(0x0607EAD8 << 4));
-
-  iVar19 = *(int *)(0x0607EAD8 << 2);
-
-  iVar15 = *(int *)(0x06062260 + (iVar19 + 1) << 2);
-
-  iVar12 = *(int *)(0x06062260 + (iVar19 + 2) << 2);
-
-  iVar19 = (iVar19 + 3) << 2;
-
-  iVar10 = *(int *)(0x06062260 + iVar19);
-
-  uVar17 = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
-
-  uVar20 = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
-
-  iVar13 = (uVar20 << 6) + uVar17;
-
-  uStack_2c = 0;
-
-  uStack_58 = 0;
-
-  uStack_44 = 0xb;
-
-  uStack_28 = 0xb;
-
-  if (uVar20 < 0x3b) {
-
-    if (uVar20 < 5) {
-
-      uStack_58 = 5 - uVar20;
-
-    }
-
-  }
-
-  else {
-
-    uStack_28 = 0x45 - uVar20;
-
-  }
-
-  if (uVar17 < 0x3b) {
-
-    if (uVar17 < 5) {
-
-      uStack_2c = 5 - uVar17;
-
-    }
-
-  }
-
-  else {
-
-    uStack_44 = 0x45 - uVar17;
-
-  }
-
-  for (; uStack_58 < uStack_28; uStack_58 = uStack_58 + 1) {
-
-    for (uStack_5c = uStack_2c; uStack_5c < uStack_44; uStack_5c = uStack_5c + 1) {
-
-      iVar19 = (uStack_58 * 0xb + uStack_5c) << 1;
-
-      sVar1 = *(short *)(puVar5 + iVar19 + iVar8 + (uVar16 >> 0xc) * iVar7);
-
-      if (sVar1 != 0) {
-
-        iVar18 = (sVar1 + iVar13) << 1;
-
-        sVar22 = *(short *)(iVar9 + iVar18);
-
-        sVar21 = *(short *)(iVar18 + iVar12);
-
-        if (0 < sVar22) {
-
-          iVar19 = *(int *)(iVar15 + (sVar1 + iVar13) << 2) +
-
-                   *(int *)(0x06062230 + *(int *)((int)(int)puVar4 << 3));
-
-          if (uVar23 <= (unsigned int)((int)sVar22 + *(int *)puVar3)) {
-
-            sVar22 = sVar2 - (short)*(int *)puVar3;
-
-          }
-
-          if (*(int *)puVar4 == 2) {
-
-            iVar19 = (*(int(*)())0x0602B9E0)(iVar19,uVar14,*(short *)puVar6,(int)sVar22);
-
-          }
-
-          else {
-
-            iVar19 = (*(int(*)())0x0602ABB8)(iVar19,uVar14,*(short *)puVar6,(int)sVar22);
-
-          }
-
+    char *fog_distance  = (char *)0x06089E96;   /* fog/draw distance param */
+    char *vis_map_base  = (char *)0x002F0000;   /* visibility map base */
+    char *course_id     = (char *)0x0607EAD8;   /* current course index */
+    char *render_budget = (char *)0x060620D4;   /* render budget ptr */
+
+    short max_draw_dist     = DAT_06006da6;
+    unsigned int draw_limit = (unsigned int)DAT_06006da6;
+
+    /* Frame rotation angle -> visibility table row */
+    unsigned int rot_angle = *(int *)0x06063EF0 + 0x800 & (unsigned int)0x0000FFFF;
+
+    int layer_a_map = *(int *)(0x06062248 + *(int *)(0x0607EAD8 << 3));
+    int layer_b_map = *(int *)(0x06062248 + (*(int *)(0x0607EAD8 << 1) + 1) << 2);
+    int vis_row_stride = 0xf2;                  /* visibility row stride */
+    int vis_table_base = (int)PTR_DAT_06006dac; /* visibility table offset */
+    int tile_map_a  = *(int *)(0x06062260 + *(int *)(0x0607EAD8 << 4));
+    int course_base = *(int *)(0x0607EAD8 << 2);
+    int tile_offs_a = *(int *)(0x06062260 + (course_base + 1) << 2);
+    int tile_map_b  = *(int *)(0x06062260 + (course_base + 2) << 2);
+    course_base = (course_base + 3) << 2;
+    int tile_offs_b = *(int *)(0x06062260 + course_base);
+
+    /* Camera world position to tile grid coordinates */
+    unsigned int grid_x = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
+    unsigned int grid_z = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
+    int grid_origin = (grid_z << 6) + grid_x;
+
+    /* Iteration bounds: 11x11 grid, clamped to map edges */
+    unsigned int col_start = 0;
+    unsigned int row_start = 0;
+    unsigned int col_end   = 0xb;
+    unsigned int row_end   = 0xb;
+
+    if (grid_z < 0x3b) {
+        if (grid_z < 5) {
+            row_start = 5 - grid_z;
         }
-
-        if (0 < sVar21) {
-
-          iVar19 = *(int *)(0x06062230 + (*(int *)((int)(int)puVar4 << 1) + 1) << 2) +
-
-                   *(int *)(iVar10 + (sVar1 + iVar13) << 2);
-
-          if (uVar23 <= (unsigned int)((int)sVar21 + *(int *)puVar3)) {
-
-            sVar21 = sVar2 - (short)*(int *)puVar3;
-
-          }
-
-          if (*(int *)puVar4 == 2) {
-
-            iVar19 = (*(int(*)())0x0602B9E0)(iVar19,uVar11,*(short *)puVar6,(int)sVar21);
-
-          }
-
-          else {
-
-            iVar19 = (*(int(*)())0x0602ABB8)(iVar19,uVar11,*(short *)puVar6,(int)sVar21);
-
-          }
-
+    } else {
+        row_end = 0x45 - grid_z;
+    }
+    if (grid_x < 0x3b) {
+        if (grid_x < 5) {
+            col_start = 5 - grid_x;
         }
-
-      }
-
+    } else {
+        col_end = 0x45 - grid_x;
     }
 
-  }
+    int result;
+    unsigned int row, col;
+    for (; row_start < row_end; row_start = row_start + 1) {
+        for (col = col_start; col < col_end; col = col + 1) {
+            /* Look up visibility from angle-indexed map */
+            int vis_idx = (row_start * 0xb + col) << 1;
+            short vis_tile = *(short *)(vis_map_base + vis_idx + vis_table_base +
+                              (rot_angle >> 0xc) * vis_row_stride);
 
-  return iVar19;
+            if (vis_tile != 0) {
+                int tile_idx = (vis_tile + grid_origin) << 1;
+                short tile_a = *(short *)(tile_map_a + tile_idx);
+                short tile_b = *(short *)(tile_idx + tile_map_b);
 
+                /* Render layer A tile */
+                if (0 < tile_a) {
+                    result = *(int *)(tile_offs_a + (vis_tile + grid_origin) << 2) +
+                             *(int *)(0x06062230 + *(int *)((int)(int)course_id << 3));
+                    if (draw_limit <= (unsigned int)((int)tile_a + *(int *)render_budget)) {
+                        tile_a = max_draw_dist - (short)*(int *)render_budget;
+                    }
+                    if (*(int *)course_id == 2) {
+                        result = (*(int(*)())0x0602B9E0)(result, layer_a_map,
+                                  *(short *)fog_distance, (int)tile_a);
+                    } else {
+                        result = (*(int(*)())0x0602ABB8)(result, layer_a_map,
+                                  *(short *)fog_distance, (int)tile_a);
+                    }
+                }
+
+                /* Render layer B tile */
+                if (0 < tile_b) {
+                    result = *(int *)(0x06062230 + (*(int *)((int)(int)course_id << 1) + 1) << 2) +
+                             *(int *)(tile_offs_b + (vis_tile + grid_origin) << 2);
+                    if (draw_limit <= (unsigned int)((int)tile_b + *(int *)render_budget)) {
+                        tile_b = max_draw_dist - (short)*(int *)render_budget;
+                    }
+                    if (*(int *)course_id == 2) {
+                        result = (*(int(*)())0x0602B9E0)(result, layer_b_map,
+                                  *(short *)fog_distance, (int)tile_b);
+                    } else {
+                        result = (*(int(*)())0x0602ABB8)(result, layer_b_map,
+                                  *(short *)fog_distance, (int)tile_b);
+                    }
+                }
+            }
+        }
+    }
+    return result;
 }
 
 /* vdp_scroll_setup -- Initialize VDP1 and VDP2 for in-game rendering.

@@ -59,67 +59,51 @@ extern int PTR_DAT_060172a0;
 extern int PTR_DAT_060179b8;
 extern int PTR_DAT_06017d9c;
 
+/* race_slot_init -- Initialize a race slot with position data from course table.
+ * Clears slot state, loads 5 position values from 0x0605BB74 (indexed by
+ * param_2 * 5, offset +0x28 for mirror mode). Stores as 16.16 fixed-point
+ * into slot fields at +4/+8/+C/+10/+34. Then calls FUN_06016dd8 for
+ * further init, and sets up display entry at 0x06085490 (stride 0x18). */
 void FUN_06016cdc(param_1, param_2)
     unsigned char param_1;
     unsigned char param_2;
 {
+    char *slot_base = (char *)0x06084FC8;       /* race slot array base */
+    char *pos_table = (char *)0x0605BB74;       /* course position table */
+    int slot_off = (short)((unsigned short)param_1 * 0x44);
+    int tbl_idx;
 
-  char *puVar1;
+    ((int *)0x06084FC8)[slot_off + 1] = 0;     /* clear slot state */
+    tbl_idx = 0;
 
-  char *puVar2;
+    /* Mirror mode: offset position table by 0x28 entries */
+    if (((unsigned int)(*(int *)0x06085F89 == '\0') & *(unsigned int *)0x0607EBF4) != 0) {
+        tbl_idx = 0x28;
+        *(char **)(slot_base + slot_off + 0x2c) = 0x00008000;
+    }
 
-  int iVar3;
+    tbl_idx = (unsigned int)param_2 * 5 + tbl_idx;
 
-  puVar1 = (char *)0x06084FC8;
+    /* Load 5 position values as 16.16 fixed-point */
+    *(int *)(slot_base + slot_off + 4) =
+         (int)*(short *)(0x0605BB74 + (tbl_idx << 1)) << 0x10;
+    *(int *)(slot_base + slot_off + 8) =
+         (int)*(short *)(pos_table + ((tbl_idx + 1) << 1)) << 0x10;
+    *(int *)(slot_base + slot_off + 0xc) =
+         (int)*(short *)(pos_table + ((tbl_idx + 2) << 1)) << 0x10;
+    *(int *)(slot_base + slot_off + 0x10) =
+         (int)*(short *)(pos_table + ((tbl_idx + 3) << 1)) << 0x10;
+    *(int *)(slot_base + slot_off + 0x34) =
+         (int)*(short *)(pos_table + ((tbl_idx + 4) << 1)) << 0x10;
 
-  ((int *)0x06084FC8)[(short)((unsigned short)param_1 * 0x44) + 1] = 0;
+    FUN_06016dd8(param_1);
 
-  iVar3 = 0;
-
-  if (((unsigned int)(*(int *)0x06085F89 == '\0') & *(unsigned int *)0x0607EBF4) != 0) {
-
-    iVar3 = 0x28;
-
-    *(char **)(puVar1 + (short)((unsigned short)param_1 * 0x44) + 0x2c) = 0x00008000;
-
-  }
-
-  puVar2 = (char *)0x0605BB74;
-
-  iVar3 = (unsigned int)param_2 * 5 + iVar3;
-
-  *(int *)(puVar1 + (short)((unsigned short)param_1 * 0x44) + 4) =
-
-       (int)*(short *)(0x0605BB74 + (iVar3 << 1)) << 0x10;
-
-  *(int *)(puVar1 + (short)((unsigned short)param_1 * 0x44) + 8) =
-
-       (int)*(short *)(puVar2 + ((iVar3 + 1) << 1)) << 0x10;
-
-  *(int *)(puVar1 + (short)((unsigned short)param_1 * 0x44) + 0xc) =
-
-       (int)*(short *)(puVar2 + ((iVar3 + 2) << 1)) << 0x10;
-
-  *(int *)(puVar1 + (short)((unsigned short)param_1 * 0x44) + 0x10) =
-
-       (int)*(short *)(puVar2 + ((iVar3 + 3) << 1)) << 0x10;
-
-  *(int *)(puVar1 + (short)((unsigned short)param_1 * 0x44) + 0x34) =
-
-       (int)*(short *)(puVar2 + ((iVar3 + 4) << 1)) << 0x10;
-
-  FUN_06016dd8(param_1);
-
-  puVar1 = (char *)0x06085490;
-
-  *(unsigned short *)(0x06085490 + (short)((unsigned short)param_1 * 0x18) + 6) = param_2 + 0x17;
-
-  puVar1[(short)((unsigned short)param_1 * 0x18) + 4] = 1;
-
-  puVar1[(short)((unsigned short)param_1 * 0x18) + 5] = 0x3a;
-
-  return;
-
+    /* Set up display entry for this slot */
+    char *disp_base = (char *)0x06085490;
+    int disp_off = (short)((unsigned short)param_1 * 0x18);
+    *(unsigned short *)(0x06085490 + disp_off + 6) = param_2 + 0x17;
+    disp_base[disp_off + 4] = 1;
+    disp_base[disp_off + 5] = 0x3a;
 }
 
 void FUN_06016dd8(param_1)
@@ -609,30 +593,20 @@ int FUN_06017330(unsigned short param_1)
     return 0;
 }
 
+/* race_slot_find_by_id -- Find a race slot index matching a car ID.
+ * Scans 18 (0x12) slots of stride 0x44 bytes at 0x06084FC8, comparing
+ * byte 0 (car ID) to param_1. Returns slot index, or 0x12 if not found. */
 unsigned char FUN_06017372(param_1)
     char param_1;
 {
-
-  unsigned char bVar1;
-
-  
-
-  bVar1 = 0;
-
-  do {
-
-    if (param_1 == *(char *)((short)((unsigned short)bVar1 * 0x44) + 0x06084FC8)) {
-
-      return bVar1;
-
-    }
-
-    bVar1 = bVar1 + 1;
-
-  } while (bVar1 < 0x12);
-
-  return bVar1;
-
+    unsigned char slot = 0;
+    do {
+        if (param_1 == *(char *)((short)((unsigned short)slot * 0x44) + 0x06084FC8)) {
+            return slot;
+        }
+        slot = slot + 1;
+    } while (slot < 0x12);
+    return slot;
 }
 
 int FUN_060173ac()
@@ -848,42 +822,26 @@ int FUN_060173ac()
 
 }
 
+/* tilemap_row_fill -- Fill remaining tilemap rows with VDP2 tile data.
+ * Starting from param_1, writes (0x2C - param_1) rows to VDP2 via
+ * tilemap writer at 0x06028400. Each row is 0x36 bytes in the source
+ * table at 0x06085640. Tile offset starts at (param_1 + 0x40) * 2. */
 void FUN_0601772e(param_1)
     int param_1;
 {
+    char *tile_src  = (char *)0x06085640;       /* tilemap source data */
+    char *tile_write = (char *)0x06028400;      /* vdp2_tilemap_write */
+    unsigned int remaining = 0x2cU - param_1 & 0xff;
+    unsigned char idx = 0;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  unsigned int uVar3;
-
-  unsigned char bVar4;
-
-  puVar2 = (char *)0x06085640;
-
-  puVar1 = (char *)0x06028400;
-
-  uVar3 = 0x2cU - param_1 & 0xff;
-
-  bVar4 = 0;
-
-  if (uVar3 != 0) {
-
-    do {
-
-      (*(int(*)())puVar1)(0xc,puVar2 + (short)((unsigned short)bVar4 * 0x36),(param_1 + 0x40) << 1,0);
-
-      bVar4 = bVar4 + 1;
-
-      param_1 = param_1 + 1;
-
-    } while (bVar4 < uVar3);
-
-  }
-
-  return;
-
+    if (remaining != 0) {
+        do {
+            (*(int(*)())tile_write)(0xc, tile_src + (short)((unsigned short)idx * 0x36),
+                                    (param_1 + 0x40) << 1, 0);
+            idx = idx + 1;
+            param_1 = param_1 + 1;
+        } while (idx < remaining);
+    }
 }
 
 int FUN_06017784(param_1, param_2, param_3, param_4)
@@ -1210,51 +1168,31 @@ LAB_06017b4e:
 
 }
 
+/* race_bonus_check -- Check if all 3 lap positions match for bonus award.
+ * Only active in 2-player VS mode (0x0607EBC4 == 0x20000). If all 3
+ * position trackers at 0x0605BE20/22/24 agree: awards bonus points to
+ * score at 0x0607EAAC. Position 0x2A awards DAT_06017c52 bonus,
+ * position 0x12 awards 100 points. Sets completion flag and plays sound. */
 void FUN_06017bf4()
 {
-
-  char *puVar1;
-
-  puVar1 = (char *)0x0605BE28;
-
-  if (*(char **)0x0607EBC4 != 0x00020000) {
-
-    return;
-
-  }
-
-  if ((*(short *)0x0605BE24 == *(short *)0x0605BE22) &&
-
-     (*(short *)0x0605BE24 == *(short *)0x0605BE20)) {
-
-    if (*(short *)0x0605BE24 == 0x2a) {
-
-      *(int *)0x0607EAAC = *(int *)0x0607EAAC + (int)DAT_06017c52;
-
-      *(short *)puVar1 = 1;
-
-      (*(int(*)())0x0601D5F4)(0,0xAE1117FF);
-
-      return;
-
+    if (*(char **)0x0607EBC4 != 0x00020000) {
+        return;
     }
-
-    if (*(short *)0x0605BE24 == 0x12) {
-
-      *(int *)0x0607EAAC = *(int *)0x0607EAAC + 100;
-
-      *(short *)puVar1 = 1;
-
-      (*(int(*)())0x0601D5F4)(0,0xAE1117FF);
-
-      return;
-
+    if ((*(short *)0x0605BE24 == *(short *)0x0605BE22) &&
+        (*(short *)0x0605BE24 == *(short *)0x0605BE20)) {
+        if (*(short *)0x0605BE24 == 0x2a) {
+            *(int *)0x0607EAAC = *(int *)0x0607EAAC + (int)DAT_06017c52;
+            *(short *)0x0605BE28 = 1;
+            (*(int(*)())0x0601D5F4)(0, 0xAE1117FF);
+            return;
+        }
+        if (*(short *)0x0605BE24 == 0x12) {
+            *(int *)0x0607EAAC = *(int *)0x0607EAAC + 100;
+            *(short *)0x0605BE28 = 1;
+            (*(int(*)())0x0601D5F4)(0, 0xAE1117FF);
+            return;
+        }
     }
-
-  }
-
-  return;
-
 }
 
 /* check_race_complete_sound -- If both race positions match and equal 42 (0x2A),
