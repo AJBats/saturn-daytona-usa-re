@@ -3203,87 +3203,44 @@ int FUN_0603307c(void)
     return state;
 }
 
+/* car_proximity_render -- Render nearby cars within distance threshold.
+ * Gets current car's X (+0x10) and Z (+0x18) position. Iterates all
+ * other car slots (stride 0x268). For each: computes X distance with
+ * 1.5x scale, checks <= 0x220000. Then checks Z distance <= 0x1A0000.
+ * If both pass, dispatches render via FUN_0603316c/FUN_06033188/FUN_0603320c. */
 int FUN_060330a0()
 {
+    int car_base = FUN_0603316c();
+    int stride = 0x268;                            /* CAR_STRUCT_SIZE */
+    int cur_x = *(int *)(0x10 + car_base);
+    int cur_z = *(int *)(0x18 + car_base);
+    int other = car_base + 0x268;
+    int remaining = **(int **)0x0603386C + -1;
 
-  int iVar1;
+    do {
+        int dx = cur_x - *(int *)(0x10 + other);
+        int dz = cur_z - *(int *)(0x18 + other);
+        /* 1.5x scaled X distance */
+        dx = dx + (dx >> 1);
+        if (dx < 0) {
+            dx = -dx;
+        }
+        if (dx <= (int)0x00220000) {               /* X threshold */
+            int abs_dz = dz;
+            if (dz < 0) {
+                abs_dz = -dz;
+            }
+            if (abs_dz <= (int)0x001A0000) {       /* Z threshold */
+                FUN_0603316c(dz);
+                FUN_06033188();
+                FUN_0603320c(0x0000FFFF);
+            }
+        }
+        other = other + stride;
+        remaining = remaining + -1;
+    } while (0 < remaining);
 
-  int iVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  iVar4 = FUN_0603316c();
-
-  iVar3 = 0x00000268;
-
-  iVar2 = 0x00000018;
-
-  iVar1 = 0x00000010;
-
-  iVar8 = *(int *)(0x00000010 + iVar4);
-
-  iVar9 = *(int *)(0x00000018 + iVar4);
-
-  iVar4 = iVar4 + 0x00000268;
-
-  iVar5 = **(int **)0x0603386C + -1;
-
-  do {
-
-    iVar6 = iVar8 - *(int *)(iVar1 + iVar4);
-
-    iVar7 = iVar9 - *(int *)(iVar2 + iVar4);
-
-    iVar6 = iVar6 + (iVar6 >> 1);
-
-    if (iVar6 < 0) {
-
-      iVar6 = -iVar6;
-
-    }
-
-    if (iVar6 <= (int)0x00220000) {
-
-      iVar6 = iVar7;
-
-      if (iVar7 < 0) {
-
-        iVar6 = -iVar7;
-
-      }
-
-      if (iVar6 <= (int)0x001A0000) {
-
-        FUN_0603316c(iVar7);
-
-        FUN_06033188();
-
-        FUN_0603320c(0x0000FFFF);
-
-      }
-
-    }
-
-    iVar4 = iVar4 + iVar3;
-
-    iVar5 = iVar5 + -1;
-
-  } while (0 < iVar5);
-
-  return iVar4;
-
+    return other;
 }
 
 /* scene_stub_316c -- Stub returning 0 (unused scene function). */
@@ -3577,75 +3534,45 @@ int FUN_060333d8(param_1, param_2, param_3, param_4)
 
 }
 
+/* vdp_sprite_quad_setup -- Build a VDP1 sprite quad from table data.
+ * Reads coordinates from table at 0x060338C4 indexed by course pointer.
+ * Sets up VDP1 command at 0x06062970 with 4-corner vertex coords.
+ * Mirror mode swaps left/right X coordinates. Submits to VDP1 via
+ * FUN_060280F8 and advances with FUN_06033504. */
 int FUN_06033470()
 {
+    char *cmd = (char *)0x06062970;
+    short *table = (short *)(0x060338C4 + **(int **)(0x06033874 << 3));
+    short x_base = *table;
+    short y_base = table[1];
 
-  short sVar1;
+    *(int *)0x06062970 = 0;
+    cmd[4] = 1;
+    cmd[5] = (char)(**(unsigned int **)0x0603387C >> 6);
+    *(short *)(cmd + 6) = 0xe;
 
-  short sVar2;
+    /* Set up X coordinates (swap if mirror mode) */
+    short x_left = x_base;
+    short x_right = table[2] + x_base;
+    if ('\0' < **(char **)0x06033884) {
+        x_left = table[2] + x_base;
+        x_right = x_base;
+    }
 
-  char *puVar3;
+    *(short *)(cmd + 8) = x_left;                  /* vertex 0 X */
+    *(short *)(cmd + 0x14) = x_left;               /* vertex 3 X */
+    *(short *)(cmd + 0xc) = x_right;               /* vertex 1 X */
+    *(short *)(cmd + 0x10) = x_right;              /* vertex 2 X */
 
-  short sVar5;
+    /* Set up Y coordinates */
+    *(short *)(cmd + 10) = y_base;                 /* vertex 0 Y */
+    *(short *)(cmd + 0xe) = y_base;                /* vertex 1 Y */
+    short y_bottom = table[3] + y_base;
+    *(short *)(cmd + 0x12) = y_bottom;             /* vertex 2 Y */
+    *(short *)(cmd + 0x16) = y_bottom;             /* vertex 3 Y */
 
-  int uVar4;
-
-  short *psVar6;
-
-  short sVar7;
-
-  puVar3 = (char *)0x06062970;
-
-  psVar6 = (short *)(0x060338C4 + **(int **)(0x06033874 << 3));
-
-  sVar1 = *psVar6;
-
-  sVar2 = psVar6[1];
-
-  *(int *)0x06062970 = 0;
-
-  puVar3[4] = 1;
-
-  puVar3[5] = (char)(**(unsigned int **)0x0603387C >> 6);
-
-  *(short *)(puVar3 + 6) = 0xe;
-
-  sVar5 = sVar1;
-
-  sVar7 = psVar6[2] + sVar1;
-
-  if ('\0' < **(char **)0x06033884) {
-
-    sVar5 = psVar6[2] + sVar1;
-
-    sVar7 = sVar1;
-
-  }
-
-  *(short *)(puVar3 + 8) = sVar5;
-
-  *(short *)(puVar3 + 0x14) = sVar5;
-
-  *(short *)(puVar3 + 0xc) = sVar7;
-
-  *(short *)(puVar3 + 0x10) = sVar7;
-
-  *(short *)(puVar3 + 10) = sVar2;
-
-  *(short *)(puVar3 + 0xe) = sVar2;
-
-  sVar1 = psVar6[3];
-
-  *(short *)(puVar3 + 0x12) = sVar1 + sVar2;
-
-  *(short *)(puVar3 + 0x16) = sVar1 + sVar2;
-
-  (*(int(*)())0x060280F8)(puVar3,*(int *)0x060785FC);
-
-  uVar4 = FUN_06033504();
-
-  return uVar4;
-
+    (*(int(*)())0x060280F8)(cmd, *(int *)0x060785FC);
+    return FUN_06033504();
 }
 
 void FUN_06033520()
@@ -4206,115 +4133,79 @@ int FUN_06033bc8()
 
 }
 
+/* scene_object_state_advance -- Advance scene object loading state machine.
+ * Increments state counter at 0x06083254 when vsync flag (0x06063E08) == 1.
+ * State 1: initialize 4 object slots (0, 1, 2, 4) via FUN_06033F54.
+ * State 2: batch-load remaining slots 6..24 via FUN_06033f54. */
 int FUN_06033ea8()
 {
+    int state;
 
-  int iVar1;
+    if (*(short *)0x06063E08 == 1) {
+        *(int *)0x06083254 = *(int *)0x06083254 + '\x01';
+    }
 
-  int iVar2;
+    if (*(int *)0x06083254 == '\x01') {
+        /* State 1: init primary object slots */
+        (*(int(*)())0x06033F54)(0x00000000);
+        (*(int(*)())0x06033F54)(0x00000001);
+        (*(int(*)())0x06033F54)(0x00000002);
+        (*(int(*)())0x06033F54)(0x00000004);
+    }
 
-  if (*(short *)0x06063E08 == 1) {
+    state = (int)(char)*(int *)0x06083254;
+    int slot = 0x00000006;
+    if ((char)*(int *)0x06083254 == 2) {
+        /* State 2: load remaining slots 6 through 24 */
+        do {
+            FUN_06033f54();
+            slot = slot + 1;
+            state = 0x00000019;
+        } while (slot < 0x00000019);
+    }
 
-    *(int *)0x06083254 = *(int *)0x06083254 + '\x01';
-
-  }
-
-  if (*(int *)0x06083254 == '\x01') {
-
-    (*(int(*)())0x06033F54)(0x00000000);
-
-    (*(int(*)())0x06033F54)(0x00000001);
-
-    (*(int(*)())0x06033F54)(0x00000002);
-
-    (*(int(*)())0x06033F54)(0x00000004);
-
-  }
-
-  iVar1 = (int)(char)*(int *)0x06083254;
-
-  iVar2 = 0x00000006;
-
-  if ((char)*(int *)0x06083254 == 2) {
-
-    do {
-
-      FUN_06033f54();
-
-      iVar2 = iVar2 + 1;
-
-      iVar1 = 0x00000019;
-
-    } while (iVar2 < 0x00000019);
-
-  }
-
-  return iVar1;
-
+    return state;
 }
 
+/* scene_object_update -- Update a scene object slot by index.
+ * Object array at 0x06082A7C, stride 0x2C. Checks object state at
+ * slot+1: if 1 or 4, renders directly (FUN_06034000/FUN_06034168).
+ * Otherwise checks animation flag at slot+0x26:
+ *   0=static (load + render), 1=animate (FUN_06034560 + process),
+ *   2=process directly. All paths end with FUN_060346c0. */
 int FUN_06033f54(param_1)
     unsigned short param_1;
 {
+    int result;
+    int slot_off = (0x2C & 0xffff) * (unsigned int)param_1;
 
-  char cVar1;
-
-  int uVar2;
-
-  int iVar3;
-
-  iVar3 = (0x0000002C & 0xffff) * (unsigned int)param_1;
-
-  if ((((int *)0x06082A7C)[0x00000001 + iVar3] == '\x01') ||
-
-     (((int *)0x06082A7C)[0x00000001 + iVar3] == '\x04')) {
+    if ((((int *)0x06082A7C)[1 + slot_off] == '\x01') ||
+       (((int *)0x06082A7C)[1 + slot_off] == '\x04')) {
 
 LAB_06033f80:
+        FUN_06034000();                            /* load object data */
+        FUN_06034168();                            /* transform/render */
+        result = FUN_060346c0();                   /* finalize */
+    } else {
+        char anim_flag = ((int *)0x06082A7C)[0x26 + slot_off];
+        if (anim_flag == '\0') {
+            /* Static object: load geometry + render */
+            FUN_0603449c();
+            FUN_06034000();
+            FUN_06034168();
+            result = FUN_060346c0();
+            return result;
+        }
+        if (anim_flag == '\x01') {
+            FUN_06034560();                        /* start animation */
+        } else if (anim_flag != '\x02') goto LAB_06033f80;
 
-    FUN_06034000();
-
-    FUN_06034168();
-
-    uVar2 = FUN_060346c0();
-
-  }
-
-  else {
-
-    cVar1 = ((int *)0x06082A7C)[0x00000026 + iVar3];
-
-    if (cVar1 == '\0') {
-
-      FUN_0603449c();
-
-      FUN_06034000();
-
-      FUN_06034168();
-
-      uVar2 = FUN_060346c0();
-
-      return uVar2;
-
+        /* Animated: process + transform */
+        FUN_0603449c();
+        FUN_0603458c();
+        FUN_06034640();
+        result = FUN_060346c0();
     }
 
-    if (cVar1 == '\x01') {
-
-      FUN_06034560();
-
-    }
-
-    else if (cVar1 != '\x02') goto LAB_06033f80;
-
-    FUN_0603449c();
-
-    FUN_0603458c();
-
-    FUN_06034640();
-
-    uVar2 = FUN_060346c0();
-
-  }
-
-  return uVar2;
-
+    return result;
 }

@@ -410,99 +410,59 @@ void FUN_06016dd8(param_1)
 
 }
 
+/* hud_sprite_layer_render -- Render HUD sprite layers for race/results.
+ * Active in game states 0x19 (race) and 0x15 (results) when race slot
+ * at 0x06084FC8 is valid. Sprite table at 0x06085490, each entry 0x18 bytes.
+ * State 0x19 renders 4 extra layers (8 total), state 0x15 renders 4.
+ * Each VDP1 command submitted via FUN_060280F8, write pointer at
+ * 0x060785FC advances by 0x20, sprite counter at 0x0605A008 increments. */
 void FUN_060171ac()
 {
+    int *vdp_ptr = (int *)0x060785FC;
+    int *sprite_count = (int *)0x0605A008;
+    char *vdp_submit = (char *)0x060280F8;         /* VDP1 command submit */
+    char *sprite_base = (char *)0x06085490;
+    int pos;
 
-  char *puVar1;
+    if ((GAME_STATE == 0x19 || GAME_STATE == 0x15) &&
+       (((int *)0x06084FC8)[1] == '\0' && *(int *)0x06084FC8 != '\0')) {
 
-  char *puVar2;
+        if (GAME_STATE == 0x19) {
+            /* Full HUD: 4 extra layers */
+            (*(int(*)())0x060280F8)(sprite_base + DAT_0601729e, *vdp_ptr);
+            *sprite_count = *sprite_count + 1;
+            pos = *vdp_ptr;
+            *vdp_ptr = pos + 0x20;
+            (*(int(*)())vdp_submit)(sprite_base + PTR_DAT_060172a0, pos + 0x20);
+            *sprite_count = *sprite_count + 1;
+            pos = *vdp_ptr;
+            *vdp_ptr = pos + 0x20;
+            (*(int(*)())vdp_submit)(sprite_base + 0x78, pos + 0x20);
+            *sprite_count = *sprite_count + 1;
+            pos = *vdp_ptr;
+            *vdp_ptr = pos + 0x20;
+            (*(int(*)())vdp_submit)(sprite_base + 0x60, pos + 0x20);
+            *sprite_count = *sprite_count + 1;
+            *vdp_ptr = *vdp_ptr + 0x20;
+        }
 
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  puVar4 = (char *)0x060785FC;
-
-  puVar3 = (char *)0x0605A008;
-
-  puVar2 = (char *)0x060280F8;
-
-  puVar1 = (char *)0x06085490;
-
-  if ((GAME_STATE == 0x19 || GAME_STATE == 0x15) &&
-
-     (((int *)0x06084FC8)[1] == '\0' && *(int *)0x06084FC8 != '\0')) {
-
-    if (GAME_STATE == 0x19) {
-
-      (*(int(*)())0x060280F8)(0x06085490 + DAT_0601729e,*(int *)0x060785FC);
-
-      *(int *)puVar3 = *(int *)puVar3 + 1;
-
-      iVar5 = *(int *)puVar4;
-
-      *(int *)puVar4 = iVar5 + 0x20;
-
-      (*(int(*)())puVar2)(puVar1 + PTR_DAT_060172a0,iVar5 + 0x20);
-
-      *(int *)puVar3 = *(int *)puVar3 + 1;
-
-      iVar5 = *(int *)puVar4;
-
-      *(int *)puVar4 = iVar5 + 0x20;
-
-      (*(int(*)())puVar2)(puVar1 + 0x78,iVar5 + 0x20);
-
-      *(int *)puVar3 = *(int *)puVar3 + 1;
-
-      iVar5 = *(int *)puVar4;
-
-      *(int *)puVar4 = iVar5 + 0x20;
-
-      (*(int(*)())puVar2)(puVar1 + 0x60,iVar5 + 0x20);
-
-      *(int *)puVar3 = *(int *)puVar3 + 1;
-
-      *(int *)puVar4 = *(int *)puVar4 + 0x20;
-
+        /* Common: 4 bottom sprite layers */
+        (*(int(*)())vdp_submit)(sprite_base + 0x48, *vdp_ptr);
+        *sprite_count = *sprite_count + 1;
+        pos = *vdp_ptr;
+        *vdp_ptr = pos + 0x20;
+        (*(int(*)())vdp_submit)(sprite_base + 0x30, pos + 0x20);
+        *sprite_count = *sprite_count + 1;
+        pos = *vdp_ptr;
+        *vdp_ptr = pos + 0x20;
+        (*(int(*)())vdp_submit)(sprite_base + 0x18, pos + 0x20);
+        *sprite_count = *sprite_count + 1;
+        pos = *vdp_ptr;
+        *vdp_ptr = pos + 0x20;
+        (*(int(*)())vdp_submit)(sprite_base, pos + 0x20);
+        *sprite_count = *sprite_count + 1;
+        *vdp_ptr = *vdp_ptr + 0x20;
     }
-
-    (*(int(*)())puVar2)(puVar1 + 0x48,*(int *)puVar4);
-
-    *(int *)puVar3 = *(int *)puVar3 + 1;
-
-    iVar5 = *(int *)puVar4;
-
-    *(int *)puVar4 = iVar5 + 0x20;
-
-    (*(int(*)())puVar2)(puVar1 + 0x30,iVar5 + 0x20);
-
-    *(int *)puVar3 = *(int *)puVar3 + 1;
-
-    iVar5 = *(int *)puVar4;
-
-    *(int *)puVar4 = iVar5 + 0x20;
-
-    (*(int(*)())puVar2)(puVar1 + 0x18,iVar5 + 0x20);
-
-    *(int *)puVar3 = *(int *)puVar3 + 1;
-
-    iVar5 = *(int *)puVar4;
-
-    *(int *)puVar4 = iVar5 + 0x20;
-
-    (*(int(*)())puVar2)(puVar1,iVar5 + 0x20);
-
-    *(int *)puVar3 = *(int *)puVar3 + 1;
-
-    *(int *)puVar4 = *(int *)puVar4 + 0x20;
-
-  }
-
-  return;
-
 }
 
 /* hud_digits_render_all -- Render all 18 HUD digit slots (0x00-0x11).
@@ -758,65 +718,40 @@ void FUN_0601772e(param_1)
     }
 }
 
+/* tilemap_block_fill -- Fill a rectangular region in the VDP2 tilemap.
+ * Reads width/height from param_1[0]/param_1[1], tile data from param_1[2+].
+ * Writes to tilemap buffer at 0x06085640, each row stride 0x36 tiles.
+ * param_2 = tile ID offset, param_3 = start column, param_4 = start row.
+ * Nested loop copies width*height tiles with row/column indexing. */
 int FUN_06017784(param_1, param_2, param_3, param_4)
     unsigned short *param_1;
     short param_2;
     unsigned short param_3;
     int param_4;
 {
+    char *tilemap = (char *)0x06085640;
+    unsigned short width = *param_1;
+    unsigned short height = param_1[1];
+    unsigned int row = param_4 + 2;
+    unsigned short y;
 
-  unsigned short uVar1;
-
-  unsigned short uVar2;
-
-  char *puVar3;
-
-  unsigned int uVar4;
-
-  unsigned int uVar5;
-
-  unsigned short uVar6;
-
-  unsigned short uVar7;
-
-  puVar3 = (char *)0x06085640;
-
-  uVar1 = *param_1;
-
-  uVar2 = param_1[1];
-
-  uVar5 = param_4 + 2;
-
-  for (uVar6 = 0; uVar6 < uVar2; uVar6 = uVar6 + 1) {
-
-    uVar7 = 0;
-
-    if (uVar1 != 0) {
-
-      do {
-
-        uVar4 = (unsigned int)uVar7;
-
-        uVar7 = uVar7 + 1;
-
-        *(unsigned short *)(puVar3 + (((uVar5 & 0xff) << 1) + (int)(short)((param_3 & 0xff) * 0x36))) =
-
-             param_1[(unsigned int)uVar6 * (unsigned int)uVar1 + uVar4 + 2] + param_2;
-
-        param_3 = param_3 + 1;
-
-      } while (uVar7 < uVar1);
-
+    for (y = 0; y < height; y = y + 1) {
+        unsigned short x = 0;
+        if (width != 0) {
+            do {
+                unsigned int col = (unsigned int)x;
+                x = x + 1;
+                *(unsigned short *)(tilemap + (((row & 0xff) << 1) +
+                    (int)(short)((param_3 & 0xff) * 0x36))) =
+                    param_1[(unsigned int)y * (unsigned int)width + col + 2] + param_2;
+                param_3 = param_3 + 1;
+            } while (x < width);
+        }
+        param_3 = param_3 - width;                 /* reset column for next row */
+        row = row + 1;
     }
 
-    param_3 = param_3 - uVar1;
-
-    uVar5 = uVar5 + 1;
-
-  }
-
-  return 0;
-
+    return 0;
 }
 
 void track_geometry_processor()
@@ -1113,12 +1048,15 @@ void FUN_06017bf4()
  * set completion flag and play race-complete sound effect. */
 extern void sound_cmd_dispatch(int channel, int command);
 
+/* time_limit_warning -- Trigger time limit warning sound.
+ * When both timer values at 0x0605BE24 and 0x0605BE22 equal 0x2A (42),
+ * sets warning flag at 0x06085FCC and plays sound 0xAE1118FF. */
 void FUN_06017c78(void)
 {
     if (*(short *)0x0605BE24 == *(short *)0x0605BE22 &&
         *(short *)0x0605BE24 == 0x2A) {
-        *(char *)0x06085FCC = 1;
-        sound_cmd_dispatch(0, 0xAE1118FF);
+        *(char *)0x06085FCC = 1;                   /* warning active flag */
+        sound_cmd_dispatch(0, 0xAE1118FF);         /* time warning sound */
     }
 }
 
