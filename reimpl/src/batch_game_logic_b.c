@@ -2044,135 +2044,100 @@ int FUN_0600d780(param_1)
 
 }
 
+/* checkpoint_position_validate -- Validate checkpoint crossing position.
+ * Computes delta between current and previous checkpoint index. If delta
+ * is 1..15 (normal forward progress), stores checkpoint. Otherwise checks
+ * if position matches halfway or halfway+2 (for lap counter logic).
+ * On match, stores position and updates render offset (0x06063F20). */
 int FUN_0600d84c()
 {
+    int car = CAR_PTR_CURRENT;
+    int cur_cp = *(int *)(car + DAT_0600d894);
+    int prev_off = DAT_0600d894 + -4;
+    int delta = cur_cp - *(int *)(car + prev_off);
+    int result;
 
-  int iVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  iVar2 = CAR_PTR_CURRENT;
-
-  iVar3 = *(int *)(iVar2 + DAT_0600d894);
-
-  iVar1 = DAT_0600d894 + -4;
-
-  iVar4 = iVar3 - *(int *)(iVar2 + iVar1);
-
-  if ((iVar4 < 1) || (0xf < iVar4)) {
-
-    iVar4 = (int)(*(int *)0x0607EA9C + (unsigned int)(*(int *)0x0607EA9C < 0)) >> 1;
-
-    if ((iVar3 == iVar4) || (iVar3 == iVar4 + 2)) {
-
-      iVar1 = 0x1e8;
-
-      *(int *)(iVar2 + iVar1) = iVar3;
-
-      iVar1 = iVar1 + 0x40;
-
-      *(int *)0x06063F20 = *(int *)(iVar2 + iVar1);
-
+    if ((delta < 1) || (0xf < delta)) {
+        /* Not normal forward: check halfway point */
+        int halfway = (int)(*(int *)0x0607EA9C + (unsigned int)(*(int *)0x0607EA9C < 0)) >> 1;
+        if ((cur_cp == halfway) || (cur_cp == halfway + 2)) {
+            result = 0x1e8;
+            *(int *)(car + result) = cur_cp;
+            result = result + 0x40;
+            *(int *)0x06063F20 = *(int *)(car + result);
+        }
+    } else {
+        /* Normal forward progress */
+        result = 0x1e8;
+        *(int *)(car + result) = cur_cp;
     }
-
-  }
-
-  else {
-
-    iVar1 = 0x1e8;
-
-    *(int *)(iVar2 + iVar1) = iVar3;
-
-  }
-
-  return iVar1;
-
+    return result;
 }
 
+/* checkpoint_collision_scan -- Scan checkpoint objects for player collision.
+ * Iterates through checkpoint object array at 0x06063F3C. For each entry,
+ * compares object ID against car's checkpoint field (+0x1EC). If match
+ * and param_1==0, calls FUN_0600d9bc to process crossing. If car flag
+ * byte+3 bit 3 is set, marks collision flag at 0x060786AC. */
 int FUN_0600d8a4(param_1)
     int param_1;
 {
-  char *puVar1;
-  char *puVar2;
-  char *puVar3;
-  char *puVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
+    char *cp_list_ptr = (char *)0x06063F3C;     /* checkpoint object list */
+    char *coll_flag   = (char *)0x060786AC;     /* collision detected flag */
+    char *car_ptr     = (char *)0x0607E940;     /* current car pointer */
+    char *car_ptr2    = (int *)0x0607E944;      /* secondary car pointer */
+    unsigned int idx = 0;
+    unsigned int count = **(unsigned int **)0x06063F3C;
 
-  puVar4 = (char *)0x06063F3C;
-  puVar3 = (char *)0x060786AC;
-  puVar2 = (char *)0x0607E940;
-  puVar1 = (int *)0x0607E944;
-  uVar6 = 0;
-  uVar5 = **(unsigned int **)0x06063F3C;
-
-  if (uVar5 != 0) {
-    do {
-      if (((*(int *)((uVar6 << 2) + *(int *)(*(int *)puVar4 + 4)) ==
-            *(int *)(*(int *)puVar2 + 0x01EC)) && (param_1 == 0)) &&
-         (FUN_0600d9bc(uVar6 + 1), (*(unsigned char *)(*(int *)puVar1 + 3) & 8) != 0)) {
-        *(int *)puVar3 = 1;
-      }
-      uVar6 = uVar6 + 1;
-    } while (uVar6 < uVar5);
-  }
+    if (count != 0) {
+        do {
+            if (((*(int *)((idx << 2) + *(int *)(*(int *)cp_list_ptr + 4)) ==
+                  *(int *)(*(int *)car_ptr + 0x01EC)) && (param_1 == 0)) &&
+                (FUN_0600d9bc(idx + 1), (*(unsigned char *)(*(int *)car_ptr2 + 3) & 8) != 0)) {
+                *(int *)coll_flag = 1;
+            }
+            idx = idx + 1;
+        } while (idx < count);
+    }
 }
 
+/* lap_complete_update -- Process lap completion for current car.
+ * If checkpoint count exceeds total-1, sets race finish flag (0x0607EBF4=3)
+ * and increments car's lap counter. Resets lap timer (0x0607EAC0=0x28),
+ * calls FUN_0600dcc8 for lap-end processing. Computes lap time delta from
+ * 0x060786B0, stores per-lap time in array at 0x0607EBF8, and tracks
+ * best lap time at PTR_DAT_0600d99c. */
 int FUN_0600d92c()
 {
+    int car = CAR_PTR_CURRENT;
 
-  int iVar1;
+    /* Check if all checkpoints completed */
+    if (*(int *)0x06063F28 - 1U < *(unsigned int *)(car + DAT_0600d996)) {
+        *(int *)0x0607EBF4 = 3;                 /* race complete flag */
+        *(int *)(car + DAT_0600d998) = *(int *)(car + DAT_0600d998) + 1;
+    }
 
-  int iVar2;
+    *(int *)0x0607EAC0 = 0x28;                  /* reset lap timer */
+    FUN_0600dcc8();
 
-  int iVar3;
+    /* Compute lap time delta */
+    int time_off = (int)DAT_0600d99a;
+    int cur_time = *(int *)0x060786B0;
+    int prev_time = *(int *)(car + time_off);
+    *(int *)(car + time_off) = *(int *)0x060786B0;
+    int lap_time = cur_time - prev_time;
+    *(int *)0x060786A4 = *(int *)(car + time_off);
+    *(int *)(car + time_off + -0xc) = lap_time;
 
-  int iVar4;
+    /* Store per-lap time */
+    *(int *)(0x0607EBF8 + (*(int *)(car + time_off + -0x10) + -1) << 2) = lap_time;
 
-  iVar4 = CAR_PTR_CURRENT;
-
-  if (*(int *)0x06063F28 - 1U < *(unsigned int *)(iVar4 + DAT_0600d996)) {
-
-    *(int *)0x0607EBF4 = 3;
-
-    *(int *)(iVar4 + DAT_0600d998) = *(int *)(iVar4 + DAT_0600d998) + 1;
-
-  }
-
-  *(int *)0x0607EAC0 = 0x28;
-
-  FUN_0600dcc8();
-
-  iVar1 = (int)DAT_0600d99a;
-
-  iVar3 = *(int *)0x060786B0;
-
-  iVar2 = *(int *)(iVar4 + iVar1);
-
-  *(int *)(iVar4 + iVar1) = *(int *)0x060786B0;
-
-  iVar3 = iVar3 - iVar2;
-
-  *(int *)0x060786A4 = *(int *)(iVar4 + iVar1);
-
-  *(int *)(iVar4 + iVar1 + -0xc) = iVar3;
-
-  *(int *)(0x0607EBF8 + (*(int *)(iVar4 + iVar1 + -0x10) + -1) << 2) = iVar3;
-
-  iVar1 = *(int *)(iVar4 + iVar1 + 0x14);
-
-  if ((iVar3 < iVar1) || (iVar1 == 0)) {
-
-    *(int *)(iVar4 + PTR_DAT_0600d99c) = iVar3;
-
-  }
-
-  return 0;
-
+    /* Update best lap time */
+    int best = *(int *)(car + time_off + 0x14);
+    if ((lap_time < best) || (best == 0)) {
+        *(int *)(car + PTR_DAT_0600d99c) = lap_time;
+    }
+    return 0;
 }
 
 void FUN_0600d9bc(param_1)
@@ -2302,37 +2267,23 @@ void FUN_0600da7c()
 
 }
 
+/* car_item_pickup_check -- Check if car has picked up an item (flag bit 2).
+ * If car flag byte +2 has bit 2 set: clears it, increments pickup counter
+ * at DAT_0600dbda, resets pickup timer (0x0607EABC=0x28), adds score
+ * from 0x0607EAA0 to total at 0x0607EAAC, and calls sound handler
+ * (0x0601D7D0). Returns car flag byte otherwise. */
 unsigned int FUN_0600db64()
 {
+    int car = CAR_PTR_CURRENT;
 
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  if (((int)*(char *)(iVar3 + 2) & 4U) != 0) {
-
-    *(unsigned char *)(iVar3 + 2) = *(unsigned char *)(iVar3 + 2) & 0xfb;
-
-    *(int *)(iVar3 + DAT_0600dbda) = *(int *)(iVar3 + DAT_0600dbda) + 1;
-
-    *(int *)0x0607EABC = 0x28;
-
-    puVar1 = (int *)0x0601D7D0;
-
-    *(int *)0x0607EAAC = *(int *)0x0607EAAC + *(int *)0x0607EAA0;
-
-    uVar2 = (*(int(*)())puVar1)();
-
-    return uVar2;
-
-  }
-
-  return (int)*(char *)(iVar3 + 2);
-
+    if (((int)*(char *)(car + 2) & 4U) != 0) {
+        *(unsigned char *)(car + 2) = *(unsigned char *)(car + 2) & 0xfb;
+        *(int *)(car + DAT_0600dbda) = *(int *)(car + DAT_0600dbda) + 1;
+        *(int *)0x0607EABC = 0x28;
+        *(int *)0x0607EAAC = *(int *)0x0607EAAC + *(int *)0x0607EAA0;
+        return (*(int(*)())0x0601D7D0)();
+    }
+    return (int)*(char *)(car + 2);
 }
 
 unsigned int FUN_0600db9e()
@@ -2423,137 +2374,70 @@ void FUN_0600dc74(void)
     (*(int(*)())vdp_attr_set)(8, (int)DAT_0600dc9e, 0x60, dest);
 }
 
+/* race_distance_compute -- Compute car's distance to next checkpoint.
+ * Reads checkpoint position from track data (stride 0x18, indexed by
+ * 0x0607EA9C). Computes absolute X and Z deltas from car position,
+ * divides sum via 0x06034FE0 to get distance. Stores at 0x0607869C.
+ * Computes speed estimate (GAME_STATE_VAR*5 - distance) at 0x060786B0.
+ * For multiplayer (CAR_COUNT!=0), also stores speed delta. */
 int FUN_0600dcc8()
 {
+    int car = CAR_PTR_CURRENT;
+    int *cp_pos = (int *)(*(int *)0x0607EA9C * 0x18 + *(int *)(car + DAT_0600dd62));
 
-  char *puVar1;
+    /* Compute absolute distance to checkpoint */
+    int cp_x = *cp_pos;
+    int dx = cp_x - *(int *)(car + 0x10);
+    if (dx < 0) {
+        dx = *(int *)(car + 0x10) - cp_x;
+    }
+    int cp_z = cp_pos[1];
+    int dz = cp_z - *(int *)(car + 0x18);
+    if (dz < 0) {
+        dz = *(int *)(car + 0x18) - cp_z;
+    }
 
-  char *puVar2;
+    int dist = (*(int(*)())0x06034FE0)(car, dx + dz);
+    *(int *)0x0607869C = dist;
+    *(int *)0x060786B0 = GAME_STATE_VAR * 5 - dist;
 
-  int iVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int *piVar6;
-
-  int iVar7;
-
-  iVar5 = CAR_PTR_CURRENT;
-
-  piVar6 = (int *)(*(int *)0x0607EA9C * 0x18 + *(int *)(iVar5 + DAT_0600dd62));
-
-  iVar3 = *piVar6;
-
-  iVar7 = iVar3 - *(int *)(iVar5 + 0x10);
-
-  if (iVar7 < 0) {
-
-    iVar7 = *(int *)(iVar5 + 0x10) - iVar3;
-
-  }
-
-  iVar4 = piVar6[1];
-
-  iVar3 = iVar4 - *(int *)(iVar5 + 0x18);
-
-  if (iVar3 < 0) {
-
-    iVar3 = *(int *)(iVar5 + 0x18) - iVar4;
-
-  }
-
-  piVar6 = (int *)0x0607869C;
-
-  iVar3 = (*(int(*)())0x06034FE0)(iVar5,iVar7 + iVar3);
-
-  *piVar6 = iVar3;
-
-  puVar1 = (int *)0x060786B0;
-
-  *(int *)0x060786B0 = GAME_STATE_VAR * 5 - iVar3;
-
-  puVar2 = (char *)0x0605A21C;
-
-  iVar3 = CAR_COUNT;
-
-  if (iVar3 != 0) {
-
-    *(int *)0x060786A0 = *(int *)puVar1 - *(int *)0x0605A21C;
-
-    *(int *)puVar2 = *(int *)puVar1;
-
-  }
-
-  return iVar3;
-
+    int count = CAR_COUNT;
+    if (count != 0) {
+        *(int *)0x060786A0 = *(int *)0x060786B0 - *(int *)0x0605A21C;
+        *(int *)0x0605A21C = *(int *)0x060786B0;
+    }
+    return count;
 }
 
+/* race_distance_compute_indexed -- Compute distance to indexed checkpoint object.
+ * Like race_distance_compute but uses checkpoint list (0x06063F3C) to
+ * look up checkpoint object by param_1 index. Computes absolute X/Z
+ * distance, stores result and speed estimate. Always stores speed delta
+ * (unlike FUN_0600dcc8 which gates on CAR_COUNT). */
 void FUN_0600dd88(param_1)
     int param_1;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int *piVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  iVar6 = CAR_PTR_CURRENT;
-
-  piVar5 = (int *)(*(int *)(iVar6 + DAT_0600de1e) +
-
+    int car = CAR_PTR_CURRENT;
+    int *cp_pos = (int *)(*(int *)(car + DAT_0600de1e) +
                   *(int *)((param_1 + -1) << 2 + *(int *)(*(int *)0x06063F3C + 4)) * 0x18);
 
-  iVar7 = *piVar5;
+    int cp_x = *cp_pos;
+    int dx = cp_x - *(int *)(car + 0x10);
+    if (dx < 0) {
+        dx = *(int *)(car + 0x10) - cp_x;
+    }
+    int cp_z = cp_pos[1];
+    int dz = cp_z - *(int *)(car + 0x18);
+    if (dz < 0) {
+        dz = *(int *)(car + 0x18) - cp_z;
+    }
 
-  iVar3 = iVar7 - *(int *)(iVar6 + 0x10);
-
-  if (iVar3 < 0) {
-
-    iVar3 = *(int *)(iVar6 + 0x10) - iVar7;
-
-  }
-
-  iVar4 = piVar5[1];
-
-  iVar7 = iVar4 - *(int *)(iVar6 + 0x18);
-
-  if (iVar7 < 0) {
-
-    iVar7 = *(int *)(iVar6 + 0x18) - iVar4;
-
-  }
-
-  piVar5 = (int *)0x0607869C;
-
-  iVar3 = (*(int(*)())0x06034FE0)(iVar3 + iVar7);
-
-  *piVar5 = iVar3;
-
-  puVar1 = (int *)0x060786B0;
-
-  iVar3 = GAME_STATE_VAR * 5 - iVar3;
-
-  *(int *)0x060786B0 = iVar3;
-
-  puVar2 = (char *)0x0605A21C;
-
-  *(int *)0x060786A0 = iVar3 - *(int *)0x0605A21C;
-
-  *(int *)puVar2 = *(int *)puVar1;
-
-  return;
-
+    int dist = (*(int(*)())0x06034FE0)(dx + dz);
+    *(int *)0x0607869C = dist;
+    int speed = GAME_STATE_VAR * 5 - dist;
+    *(int *)0x060786B0 = speed;
+    *(int *)0x060786A0 = speed - *(int *)0x0605A21C;
+    *(int *)0x0605A21C = *(int *)0x060786B0;
 }
 
 /* player_car_iteration -- Per-frame player car update entry point.

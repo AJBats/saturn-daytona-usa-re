@@ -575,64 +575,43 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
 }
 
+/* cd_session_read_sectors -- Read sectors from CD session and adjust position.
+ * Calls sector read (0x060411A0) with session params. On success, calls
+ * polling function (0x0604188C). If param_3 is non-null and read data
+ * extends past track boundary, adjusts param_3 by wrap-around offset.
+ * Returns number of sectors read, or 0 on error. */
 int FUN_060408b0(param_1, param_2, param_3)
     int *param_1;
     int param_2;
     int *param_3;
 {
+    int result;
+    int sectors_read;
+    int wrap_offset;
+    int track_start;
+    int track_end;
+    int saved_param2;
 
-  int iVar1;
+    saved_param2 = param_2;
+    result = (*(int(*)())0x060411A0)(param_1[1], param_1[4], param_2, &sectors_read, param_3);
 
-  int local_24;
-
-  int iStack_20;
-
-  int iStack_1c;
-
-  int iStack_18;
-
-  int uStack_14;
-
-  uStack_14 = param_2;
-
-  iVar1 = (*(int(*)())0x060411A0)(param_1[1],param_1[4],param_2,&local_24,param_3);
-
-  if (iVar1 == 0) {
-
-    iVar1 = (*(int(*)())0x0604188C)();
-
-    if (iVar1 == 0) {
-
-      if ((((param_3 != (int *)0x0) &&
-
-           ((*(int(*)())0x06040220)(*param_1,0,0,&iStack_1c,&iStack_18,&iStack_20,0,0),
-
-           iStack_18 <= param_1[2] + param_1[4] + local_24)) && (iStack_20 != 0)) && (0 < local_24))
-
-      {
-
-        *param_3 = *param_3 - (iStack_1c - iStack_20);
-
-      }
-
+    if (result == 0) {
+        result = (*(int(*)())0x0604188C)();
+        if (result == 0) {
+            /* Adjust position for wrap-around if needed */
+            if ((((param_3 != (int *)0x0) &&
+                 ((*(int(*)())0x06040220)(*param_1, 0, 0, &track_start, &track_end, &wrap_offset, 0, 0),
+                 track_end <= param_1[2] + param_1[4] + sectors_read)) &&
+                 (wrap_offset != 0)) && (0 < sectors_read)) {
+                *param_3 = *param_3 - (track_start - wrap_offset);
+            }
+        } else {
+            sectors_read = 0;
+        }
+    } else {
+        sectors_read = 0;
     }
-
-    else {
-
-      local_24 = 0;
-
-    }
-
-  }
-
-  else {
-
-    local_24 = 0;
-
-  }
-
-  return local_24;
-
+    return sectors_read;
 }
 
 int FUN_060409e6(param_1, param_2, param_3)
@@ -1057,60 +1036,39 @@ int FUN_06040c98(param_1, param_2)
 
 }
 
+/* cd_session_close -- Close an open CD session by channel index.
+ * Validates param_1 is in range 0..23. If session is open (byte==1),
+ * calls FUN_060412b2 to start close, sets blocking flag (+0x3C=0x8000),
+ * then polls FUN_06041698/FUN_06041310 until complete. Returns -6 for
+ * out-of-range, -7 for not-open, -12 for timeout, 0 on success. */
 int FUN_06040f16(param_1)
     int param_1;
 {
+    char *session_ptr = (char *)0x060A5400;
+    int result;
 
-  char *puVar1;
+    if ((param_1 < 0) || (0x17 < param_1)) {
+        result = 0xfffffffa;                     /* out of range */
+    } else if (*(char *)(param_1 + CD_SESSION_BASE) == '\x01') {
+        int poll;
+        FUN_060412b2(param_1, 0, 0x0000FFFF);
+        *(char **)(*(int *)session_ptr + 0x3c) = 0x00008000;   /* set blocking */
 
-  int uVar2;
+        do {
+            poll = FUN_06041698();
+            if (poll == 3) {
+                return 0xfffffff4;               /* timeout */
+            }
+            poll = FUN_06041310(param_1);
+        } while (poll != 1);
 
-  int iVar3;
-
-  puVar1 = (char *)0x060A5400;
-
-  if ((param_1 < 0) || (0x17 < param_1)) {
-
-    uVar2 = 0xfffffffa;
-
-  }
-
-  else if (*(char *)(param_1 + CD_SESSION_BASE) == '\x01') {
-
-    FUN_060412b2(param_1,0,0x0000FFFF);
-
-    *(char **)(*(int *)puVar1 + 0x3c) = 0x00008000;
-
-    do {
-
-      iVar3 = FUN_06041698();
-
-      if (iVar3 == 3) {
-
-        return 0xfffffff4;
-
-      }
-
-      iVar3 = FUN_06041310(param_1);
-
-    } while (iVar3 != 1);
-
-    *(int *)(*(int *)puVar1 + 0x3c) = 0;
-
-    *(char *)(param_1 + *(int *)puVar1) = 0;
-
-    uVar2 = 0;
-
-  }
-
-  else {
-
-    uVar2 = 0xfffffff9;
-
-  }
-
-  return uVar2;
-
+        *(int *)(*(int *)session_ptr + 0x3c) = 0;
+        *(char *)(param_1 + *(int *)session_ptr) = 0;
+        result = 0;
+    } else {
+        result = 0xfffffff9;                     /* not open */
+    }
+    return result;
 }
 
 /* cd_session_lock -- Acquire CD session lock.
@@ -1467,57 +1425,39 @@ int FUN_060414d0(param_1, param_2, param_3)
 
 }
 
+/* cd_session_seek -- Seek to a position on CD and verify track state.
+ * Queries CD subsystem state via 0x06036A98. If state != 2 or seek
+ * position exceeds track end + 2, returns -11 (0xFFFFFFF5) error.
+ * Otherwise performs seek via 0x06036AF2, reads TOC status, and
+ * stores first byte into session +0x40. */
 int FUN_060415c8(param_1, param_2)
     int param_1;
     int param_2;
 {
+    int result;
+    int cd_state;
+    int track_end;
+    int seek_pos;
+    char seek_buf[4];
+    int seek_param;
+    char toc_buf[16];
 
-  int iVar1;
-
-  int local_24;
-
-  int iStack_20;
-
-  int iStack_1c;
-
-  char auStack_18 [4];
-
-  int uStack_14;
-
-  char local_10 [16];
-
-  iStack_1c = param_1;
-
-  uStack_14 = param_2;
-
-  iVar1 = (*(int(*)())0x06036A98)(&local_24,&iStack_20,auStack_18);
-
-  if (iVar1 != 0) {
-
-    return 0xfffffff5;
-
-  }
-
-  if ((local_24 == 2) && (iStack_1c < iStack_20 + 2)) {
-
-    iVar1 = (*(int(*)())0x06036AF2)(iStack_1c,uStack_14);
-
-    if (iVar1 != 0) {
-
-      return 0xfffffff5;
-
+    seek_pos = param_1;
+    seek_param = param_2;
+    result = (*(int(*)())0x06036A98)(&cd_state, &track_end, seek_buf);
+    if (result != 0) {
+        return 0xfffffff5;                       /* CD error */
     }
-
-    (*(int(*)())0x060349B6)(local_10);
-
-    *(char *)(CD_SESSION_BASE + 0x40) = local_10[0];
-
-    return 0;
-
-  }
-
-  return 0xfffffff5;
-
+    if ((cd_state == 2) && (seek_pos < track_end + 2)) {
+        result = (*(int(*)())0x06036AF2)(seek_pos, seek_param);
+        if (result != 0) {
+            return 0xfffffff5;
+        }
+        (*(int(*)())0x060349B6)(toc_buf);
+        *(char *)(CD_SESSION_BASE + 0x40) = toc_buf[0];
+        return 0;
+    }
+    return 0xfffffff5;
 }
 
 int FUN_06041698()
@@ -1929,48 +1869,35 @@ int FUN_060418be(param_1)
 
 }
 
+/* cd_session_read_poll -- Poll CD read state and advance on completion.
+ * When session state == 1: calls CD read (0x06036144), increments
+ * param_1 counter, advances to state 2 on success. Reads disc TOC
+ * into local buffer and stores first byte into session +0x40.
+ * When state == 2: checks status register bit 6, clears completion
+ * field on set. Returns completion field value. */
 int FUN_06041aa0(param_1)
     int *param_1;
 {
+    char *session_ptr = (char *)0x060A5400;     /* CD session pointer */
+    int status;
+    unsigned short flags;
+    char toc_buf[16];
 
-  char *puVar1;
-
-  int iVar2;
-
-  unsigned short uVar3;
-
-  char local_14 [16];
-
-  puVar1 = (char *)0x060A5400;
-
-  if (*(int *)((int)DAT_06041b0a + CD_SESSION_BASE) == 1) {
-
-    iVar2 = (*(int(*)())0x06036144)(*(int *)(CD_SESSION_BASE + 0x308));
-
-    *param_1 = *param_1 + 1;
-
-    if (iVar2 == 0) {
-
-      *(int *)(*(int *)puVar1 + (int)DAT_06041b0a) = 2;
-
+    if (*(int *)((int)DAT_06041b0a + CD_SESSION_BASE) == 1) {
+        status = (*(int(*)())0x06036144)(*(int *)(CD_SESSION_BASE + 0x308));
+        *param_1 = *param_1 + 1;
+        if (status == 0) {
+            *(int *)(*(int *)session_ptr + (int)DAT_06041b0a) = 2;
+        }
+        (*(int(*)())0x060349B6)(toc_buf);
+        *(char *)(*(int *)session_ptr + 0x40) = toc_buf[0];
     }
 
-    (*(int(*)())0x060349B6)(local_14);
-
-    *(char *)(*(int *)puVar1 + 0x40) = local_14[0];
-
-  }
-
-  if ((*(int *)((int)DAT_06041b0a + *(int *)puVar1) == 2) &&
-
-     (uVar3 = (*(int(*)())0x06035C4E)(), (uVar3 & 0x40) != 0)) {
-
-    *(int *)(*(int *)puVar1 + (int)DAT_06041bc6) = 0;
-
-  }
-
-  return *(int *)((int)DAT_06041bc6 + *(int *)puVar1);
-
+    if ((*(int *)((int)DAT_06041b0a + *(int *)session_ptr) == 2) &&
+        (flags = (*(int(*)())0x06035C4E)(), (flags & 0x40) != 0)) {
+        *(int *)(*(int *)session_ptr + (int)DAT_06041bc6) = 0;
+    }
+    return *(int *)((int)DAT_06041bc6 + *(int *)session_ptr);
 }
 
 int FUN_06041b3c(param_1)
@@ -2121,56 +2048,39 @@ int FUN_06041b3c(param_1)
 
 }
 
+/* cd_session_write_poll -- Poll CD write state and advance on completion.
+ * When state == 1 at session +0x328: calls CD write (0x060367E8) with
+ * 3 session parameters. On failure returns 1 (busy). On success reads
+ * TOC, stores first byte, increments counter, advances to state 2.
+ * When state == 2: calls finalize (0x06034C68). Returns 0 on complete,
+ * 1 if still in progress. */
 int FUN_06041cc8(param_1)
     int *param_1;
 {
+    char *session_ptr = (char *)0x060A5400;     /* CD session pointer */
+    int result;
+    char toc_buf[16];
 
-  char *puVar1;
-
-  int iVar2;
-
-  char local_14 [16];
-
-  puVar1 = (char *)0x060A5400;
-
-  if (*(int *)(0x328 + CD_SESSION_BASE) == 1) {
-
-    iVar2 = (int)DAT_06041d5a;
-
-    iVar2 = (*(int(*)())0x060367E8)(*(int *)(CD_SESSION_BASE + iVar2 + -8),
-
-                       *(int *)(CD_SESSION_BASE + iVar2 + -4),
-
-                       *(int *)(CD_SESSION_BASE + iVar2));
-
-    if (iVar2 != 0) {
-
-      return 1;
-
+    if (*(int *)(0x328 + CD_SESSION_BASE) == 1) {
+        int param_off = (int)DAT_06041d5a;
+        result = (*(int(*)())0x060367E8)(*(int *)(CD_SESSION_BASE + param_off + -8),
+                                         *(int *)(CD_SESSION_BASE + param_off + -4),
+                                         *(int *)(CD_SESSION_BASE + param_off));
+        if (result != 0) {
+            return 1;
+        }
+        (*(int(*)())0x060349B6)(toc_buf);
+        *(char *)(*(int *)session_ptr + 0x40) = toc_buf[0];
+        *param_1 = *param_1 + 1;
+        *(int *)(*(int *)session_ptr + 0x328) = 2;
     }
 
-    (*(int(*)())0x060349B6)(local_14);
-
-    *(char *)(*(int *)puVar1 + 0x40) = local_14[0];
-
-    *param_1 = *param_1 + 1;
-
-    *(int *)(*(int *)puVar1 + 0x328) = 2;
-
-  }
-
-  if ((*(int *)(0x328 + *(int *)puVar1) == 2) &&
-
-     (iVar2 = (*(int(*)())0x06034C68)(0), iVar2 == 0)) {
-
-    *(int *)(*(int *)puVar1 + 0x328) = 0;
-
-    return 0;
-
-  }
-
-  return 1;
-
+    if ((*(int *)(0x328 + *(int *)session_ptr) == 2) &&
+        (result = (*(int(*)())0x06034C68)(0), result == 0)) {
+        *(int *)(*(int *)session_ptr + 0x328) = 0;
+        return 0;
+    }
+    return 1;
 }
 
 int FUN_06041d6c(param_1)
