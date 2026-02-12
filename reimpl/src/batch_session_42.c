@@ -259,39 +259,21 @@ void FUN_0604231e()
 
 }
 
-int FUN_060423cc()
+/* cd_poll_status_ready -- Busy-wait for CD drive status bit, then read.
+ * Spins on cd_get_status (0x06035C4E) until required bits
+ * (PTR_DAT_060423f6) are set, then reads sector via cd_read (0x06035C54)
+ * with mask 0xFBFF. Returns read result. */
+int cd_poll_status_ready()
 {
+    unsigned short status_mask = PTR_DAT_060423f6;
+    unsigned short status;
 
-  unsigned short uVar1;
+    /* Busy-wait until CD status bits are ready */
+    do {
+        status = (*(int(*)())0x06035C4E)();    /* cd_get_status */
+    } while ((status & status_mask) == 0);
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned short uVar6;
-
-  int uVar5;
-
-  puVar4 = (char *)0x0000FBFF;
-
-  puVar3 = (char *)0x06035C4E;
-
-  puVar2 = (char *)0x06035C54;
-
-  uVar1 = PTR_DAT_060423f6;
-
-  do {
-
-    uVar6 = (*(int(*)())puVar3)();
-
-  } while ((uVar6 & uVar1) == 0);
-
-  uVar5 = (*(int(*)())puVar2)((unsigned int)puVar4 & 0xffff);
-
-  return uVar5;
-
+    return (*(int(*)())0x06035C54)(0xFBFF);    /* cd_read_sector */
 }
 
 /* cd_lba_to_msf_minutes -- Convert LBA offset (0x005A0000-based) to MSF minutes.

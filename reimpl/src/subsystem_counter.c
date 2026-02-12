@@ -369,7 +369,7 @@ void FUN_0600FE38(void)
 
 
 /* Subsystem processing step (in batch_subsystem_12.c) */
-extern void FUN_06013fc4(void);
+extern void podium_object_render_static(void);
 
 /* Subsystem advance handler (in batch_subsystem_14.c) */
 extern void FUN_0601416c(void);
@@ -401,7 +401,7 @@ void FUN_06013C20(void)
     *counter = val;
 
     /* Process and advance subsystem */
-    FUN_06013fc4();
+    podium_object_render_static();
     FUN_0601416c();  /* tail-call in original */
 }
 

@@ -1280,75 +1280,46 @@ int podium_object_animate()
     return render_result;
 }
 
-void FUN_06013fc4()
+/* podium_object_render_static -- Render podium objects without animation.
+ * Simpler variant of podium_object_animate: uses fixed Y offset and
+ * constant scale factor instead of phase-interpolated values.
+ * Iterates the same 32-byte transform table at 0x0605AD5C. */
+void podium_object_render_static()
 {
+    int scale;
+    int obj_index = 0;
+    int *table_end = (int *)(0x0605AD5C + DAT_06014080);
+    int *obj = (int *)0x0605AD5C;              /* object transform table */
+    unsigned int anim_phase;
 
-  char *puVar1;
+    (*(int(*)())0x06026E0C)();                 /* matrix_identity_load */
 
-  char *puVar2;
+    do {
+        anim_phase = (unsigned int)*(unsigned short *)0x06084AF6;
 
-  char *puVar3;
+        (*(int(*)())0x06026DBC)();             /* matrix_push */
 
-  char *puVar4;
+        /* Fixed Y translation (no animated bounce) */
+        (*(int(*)())0x06026E2E)(0, (int)DAT_06014082, 0x00010000);  /* translate(0, y_offset, 1.0) */
 
-  char *puVar5;
+        /* Tilt rotation around object center */
+        (*(int(*)())0x06026F2A)((int)*(short *)(obj + 6));   /* rotate_z(tilt) */
+        (*(int(*)())0x06026E2E)(0, *obj);                     /* translate(0, y_base) */
+        (*(int(*)())0x06026F2A)(-(int)*(short *)(obj + 6));  /* rotate_z(-tilt) */
 
-  int iVar6;
+        /* Animated uniform scale */
+        scale = (*(int(*)())0x06027552)((int)DAT_06014084, anim_phase * 0x00010000);
+        scale = DAT_06014086 + scale;
+        (*(int(*)())0x06026E60)(scale, scale, scale);  /* scale(s, s, s) */
 
-  int *puVar7;
+        /* Set texture and render mesh */
+        (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + obj_index), 4);      /* obj_set_texture */
+        (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + obj_index), (int)*(short *)0x06089E4A, 1);
 
-  int iVar8;
+        obj = obj + 8;                         /* next entry (32 bytes) */
+        *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;  /* decrement render slot */
+        obj_index = obj_index + 4;
+    } while (obj < table_end);
 
-  int *puVar9;
-
-  puVar4 = (char *)0x00010000;
-
-  puVar3 = (char *)0x06026E2E;
-
-  puVar2 = (char *)0x06089EDC;
-
-  puVar1 = (char *)0x06026F2A;
-
-  (*(int(*)())0x06026E0C)();
-
-  puVar5 = (char *)0x06089E4A;
-
-  iVar8 = 0;
-
-  puVar7 = (int *)(0x0605AD5C + DAT_06014080);
-
-  puVar9 = (int *)0x0605AD5C;
-
-  do {
-
-    (*(int(*)())0x06026DBC)();
-
-    (*(int(*)())puVar3)(0,(int)DAT_06014082,puVar4);
-
-    (*(int(*)())puVar1)((int)*(short *)(puVar9 + 6));
-
-    (*(int(*)())puVar3)(0,*puVar9);
-
-    (*(int(*)())puVar1)(-(int)*(short *)(puVar9 + 6));
-
-    iVar6 = (*(int(*)())0x06027552)((int)DAT_06014084,(unsigned int)*(unsigned short *)0x06084AF6 * (int)puVar4);
-
-    iVar6 = DAT_06014086 + iVar6;
-
-    (*(int(*)())0x06026E60)(iVar6,iVar6,iVar6);
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + iVar8),4);
-
-    (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + iVar8),(int)*(short *)puVar5,1);
-
-    puVar9 = puVar9 + 8;
-
-    *(int *)puVar2 = *(int *)puVar2 + -0x30;
-
-    iVar8 = iVar8 + 4;
-
-  } while (puVar9 < puVar7);
-
-  return;
-
+    return;
 }
