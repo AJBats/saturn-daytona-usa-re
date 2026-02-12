@@ -282,103 +282,65 @@ void obj_template_init()
 
 }
 
+/* vdp_char_register -- Register sprite character data and upload pixels to VDP VRAM.
+ * param_2 flags: bit2=copy header to display list, bits0-1=VRAM bank select,
+ * bit3=use DMA instead of memcpy. Uploads to 0x25E00000 (VDP1) or 0x25E20000 (VDP2). */
 void FUN_06004f14(param_1, param_2, param_3, param_4)
     short *param_1;
     unsigned int param_2;
     int param_3;
     int param_4;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned short uVar5;
-
-  short *psVar6;
-
-  puVar4 = (char *)0x06059F10;
-
-  puVar3 = (char *)0x06059F18;
-
-  puVar2 = (int *)0x06059F1C;
-
-  puVar1 = (char *)0x06063750;
-
+  char *obj_table;
+  char *vram_b_ptr;
+  char *vram_a_ptr;
+  char *slot_idx;
+  unsigned short data_size;
+  short *sprite_ptr;
+  slot_idx = (char *)0x06059F10;
+  vram_a_ptr = (char *)0x06059F18;
+  vram_b_ptr = (int *)0x06059F1C;
+  obj_table = (char *)0x06063750;
+  /* Copy sprite header to display list buffer if flagged */
   if ((param_2 & 4) != 0) {
-
-    uVar5 = (param_1[1] * *param_1 + 2) << 1;
-
-    psVar6 = *(short **)0x06063D90;
-
-    (*(int(*)())0x0602761E)(psVar6,param_1,uVar5);
-
-    *(unsigned int *)0x06063D90 = *(int *)0x06063D90 + (unsigned int)uVar5;
-
-    *(unsigned int *)0x06063D94 = *(int *)0x06063D94 + (unsigned int)uVar5;
-
-    param_1 = psVar6;
-
+    data_size = (param_1[1] * *param_1 + 2) << 1;
+    sprite_ptr = *(short **)0x06063D90;
+    (*(int(*)())0x0602761E)(sprite_ptr,param_1,data_size);  /* memcpy */
+    *(unsigned int *)0x06063D90 = *(int *)0x06063D90 + (unsigned int)data_size;
+    *(unsigned int *)0x06063D94 = *(int *)0x06063D94 + (unsigned int)data_size;
+    param_1 = sprite_ptr;
   }
-
   if (param_3 == 0) {
-
-    *(int *)(puVar1 + (*(int *)puVar4 << 3) + 4) =
-
-         *(int *)(puVar1 + ((*(int *)puVar4 + -1) << 3) + 4);
-
+    /* No pixel data — reuse previous slot's VRAM offset */
+    *(int *)(obj_table + (*(int *)slot_idx << 3) + 4) =
+         *(int *)(obj_table + ((*(int *)slot_idx + -1) << 3) + 4);
   }
-
   else if ((param_2 & 3) == 0) {
-
-    *(int *)(puVar1 + *(int *)((int)(int)puVar4 << 3) + 4) = *(int *)puVar3;
-
+    /* Upload to VDP1 VRAM (bank A at 0x25E00000) */
+    *(int *)(obj_table + *(int *)((int)(int)slot_idx << 3) + 4) = *(int *)vram_a_ptr;
     if ((param_2 & 8) == 0) {
-
-      (*(int(*)())0x0602761E)(0x25E00000 + *(int *)((int)(int)puVar3 << 5),param_3,param_4 << 5);
-
+      (*(int(*)())0x0602761E)(0x25E00000 + *(int *)((int)(int)vram_a_ptr << 5),param_3,param_4 << 5);
     }
-
     else {
-
-      (*(int(*)())0x06028654)(param_3,0x25E00000 + *(int *)((int)(int)puVar3 << 5));
-
+      (*(int(*)())0x06028654)(param_3,0x25E00000 + *(int *)((int)(int)vram_a_ptr << 5));  /* DMA */
     }
-
-    *(int *)puVar3 = *(int *)puVar3 + param_4;
-
+    *(int *)vram_a_ptr = *(int *)vram_a_ptr + param_4;
   }
-
   else {
-
-    *(int *)(puVar1 + *(int *)((int)(int)puVar4 << 3) + 4) = *(int *)puVar2;
-
+    /* Upload to VDP2 VRAM (bank B at 0x25E20000) */
+    *(int *)(obj_table + *(int *)((int)(int)slot_idx << 3) + 4) = *(int *)vram_b_ptr;
     if ((param_2 & 8) == 0) {
-
-      (*(int(*)())0x0602761E)(0x25E20000 + *(int *)((int)(int)puVar2 << 5),param_3,param_4 << 5);
-
+      (*(int(*)())0x0602761E)(0x25E20000 + *(int *)((int)(int)vram_b_ptr << 5),param_3,param_4 << 5);
     }
-
     else {
-
-      (*(int(*)())0x06028654)(param_3,0x25E20000 + *(int *)((int)(int)puVar2 << 5));
-
+      (*(int(*)())0x06028654)(param_3,0x25E20000 + *(int *)((int)(int)vram_b_ptr << 5));  /* DMA */
     }
-
-    *(int *)puVar2 = *(int *)puVar2 + param_4;
-
+    *(int *)vram_b_ptr = *(int *)vram_b_ptr + param_4;
   }
-
-  *(short **)(puVar1 + *(int *)((int)(int)puVar4 << 3)) = param_1;
-
-  *(int *)puVar4 = *(int *)puVar4 + 1;
-
+  /* Store sprite pointer in object table and advance slot */
+  *(short **)(obj_table + *(int *)((int)(int)slot_idx << 3)) = param_1;
+  *(int *)slot_idx = *(int *)slot_idx + 1;
   return;
-
 }
 
 /* vdp1_sprite_upload -- Upload sprite character data and register in display list.
@@ -665,165 +627,98 @@ void FUN_0600553c(char *param_1, char *param_2)
   }
 }
 
+/* camera_path_interpolate -- Interpolate camera position/rotation along spline path.
+ * Advances through path segments, lerps position and rotation vectors between
+ * keyframes, computes view angles, and applies camera transform. */
 void FUN_060055bc(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     int param_4;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  short *psVar6;
-
-  short *psVar7;
-
-  char *puVar8;
-
-  int iStack_50;
-
-  int iStack_4c;
-
-  int iStack_48;
-
-  int iStack_44;
-
-  int iStack_40;
-
-  int iStack_3c;
-
-  int iStack_38;
-
-  int iStack_34;
-
-  int iStack_30;
-
-  int iStack_2c;
-
-  int iStack_28;
-
-  int iStack_24;
-
-  puVar8 = (char *)0x06063E08;
-
-  puVar1 = (char *)0x06063EEC;
-
-  psVar6 = *(short **)0x06063E04;
-
-  psVar7 = psVar6 + 0x10;
-
-  if ((int)*psVar7 <= (int)(unsigned int)*(unsigned short *)0x06063E08) {
-
-    if (*psVar7 == -1) {
-
-      psVar7 = *(short **)(psVar6 + 0x12);
-
+  char *cam_state;
+  char *mtx_mult;
+  char *lerp_fn;
+  int t_factor;
+  int temp;
+  short *seg_start;
+  short *seg_end;
+  char *frame_ctr;
+  int rot_x;
+  int rot_y;
+  int rot_z;
+  int pos_x;
+  int pos_y;
+  int pos_z;
+  int end_x;
+  int end_y;
+  int end_z;
+  int start_x;
+  int start_y;
+  int start_z;
+  frame_ctr = (char *)0x06063E08;
+  cam_state = (char *)0x06063EEC;
+  seg_start = *(short **)0x06063E04;
+  seg_end = seg_start + 0x10;
+  /* Advance to next segment if past endpoint */
+  if ((int)*seg_end <= (int)(unsigned int)*(unsigned short *)0x06063E08) {
+    if (*seg_end == -1) {
+      seg_end = *(short **)(seg_start + 0x12);  /* loop pointer */
     }
-
-    psVar6 = psVar7;
-
-    *(short **)0x06063E04 = psVar6;
-
-    psVar7 = psVar6 + 0x10;
-
-    if (*psVar6 == 0) {
-
-      *(short *)puVar8 = 0;
-
+    seg_start = seg_end;
+    *(short **)0x06063E04 = seg_start;
+    seg_end = seg_start + 0x10;
+    if (*seg_start == 0) {
+      *(short *)frame_ctr = 0;        /* reset frame counter */
     }
-
   }
-
-  iVar5 = (int)*psVar6;
-
-  uVar4 = (*(int(*)())0x0602755C)(((unsigned int)*(unsigned short *)puVar8 - iVar5) << 16,(*psVar7 - iVar5) << 16,param_3
-
-                     ,param_4,iVar5);
-
-  FUN_0600553c(psVar6 + 1,0);
-
-  puVar2 = (int *)0x06026FFC;
-
-  (*(int(*)())0x06026FFC)(psVar6 + 4,&iStack_2c);
-
-  FUN_0600553c(psVar7 + 1,psVar6 + 1);
-
-  (*(int(*)())puVar2)(psVar7 + 4,&iStack_38);
-
-  puVar3 = (char *)0x06027552;
-
-  iVar5 = iStack_2c;
-
-  iStack_44 = (*(int(*)())0x06027552)(iStack_38 - iStack_2c,uVar4);
-
-  iStack_44 = iStack_44 + iVar5;
-
-  iVar5 = iStack_28;
-
-  iStack_40 = (*(int(*)())puVar3)(iStack_34 - iStack_28,uVar4);
-
-  iStack_40 = iStack_40 + iVar5;
-
-  iVar5 = iStack_24;
-
-  iStack_3c = (*(int(*)())puVar3)(iStack_30 - iStack_24,uVar4);
-
-  iStack_3c = iStack_3c + iVar5;
-
-  FUN_0600553c((int)psVar6 + 3,psVar7 + 1);
-
-  (*(int(*)())puVar2)(psVar6 + 10,&iStack_2c);
-
-  FUN_0600553c((int)psVar7 + 3,(int)psVar6 + 3);
-
-  (*(int(*)())puVar2)(psVar7 + 10,&iStack_38);
-
-  iStack_50 = (*(int(*)())puVar3)(iStack_38 - iStack_2c,uVar4);
-
-  iStack_50 = iStack_50 + iStack_2c;
-
-  iStack_4c = (*(int(*)())puVar3)(iStack_34 - iStack_28,uVar4);
-
-  iStack_4c = iStack_4c + iStack_28;
-
-  iStack_48 = (*(int(*)())puVar3)(iStack_30 - iStack_24,uVar4);
-
-  iStack_48 = iStack_48 + iStack_24;
-
-  *(short *)puVar8 = *(short *)puVar8 + 1;
-
-  (*(int(*)())0x06026E0C)();
-
-  vec3_angle_calc(&iStack_44,&iStack_50,0x06063EEC);
-
+  /* Compute interpolation factor t between segment start and end */
+  temp = (int)*seg_start;
+  t_factor = (*(int(*)())0x0602755C)(((unsigned int)*(unsigned short *)frame_ctr - temp) << 16,(*seg_end - temp) << 16,param_3
+                     ,param_4,temp);
+  /* Interpolate position vector (set 1) */
+  FUN_0600553c(seg_start + 1,0);
+  mtx_mult = (int *)0x06026FFC;
+  (*(int(*)())0x06026FFC)(seg_start + 4,&start_x);
+  FUN_0600553c(seg_end + 1,seg_start + 1);
+  (*(int(*)())mtx_mult)(seg_end + 4,&end_x);
+  lerp_fn = (char *)0x06027552;
+  temp = start_x;
+  pos_x = (*(int(*)())0x06027552)(end_x - start_x,t_factor);
+  pos_x = pos_x + temp;
+  temp = start_y;
+  pos_y = (*(int(*)())lerp_fn)(end_y - start_y,t_factor);
+  pos_y = pos_y + temp;
+  temp = start_z;
+  pos_z = (*(int(*)())lerp_fn)(end_z - start_z,t_factor);
+  pos_z = pos_z + temp;
+  /* Interpolate rotation vector (set 2) */
+  FUN_0600553c((int)seg_start + 3,seg_end + 1);
+  (*(int(*)())mtx_mult)(seg_start + 10,&start_x);
+  FUN_0600553c((int)seg_end + 3,(int)seg_start + 3);
+  (*(int(*)())mtx_mult)(seg_end + 10,&end_x);
+  rot_x = (*(int(*)())lerp_fn)(end_x - start_x,t_factor);
+  rot_x = rot_x + start_x;
+  rot_y = (*(int(*)())lerp_fn)(end_y - start_y,t_factor);
+  rot_y = rot_y + start_y;
+  rot_z = (*(int(*)())lerp_fn)(end_z - start_z,t_factor);
+  rot_z = rot_z + start_z;
+  /* Advance frame and apply camera transform */
+  *(short *)frame_ctr = *(short *)frame_ctr + 1;
+  (*(int(*)())0x06026E0C)();          /* reset identity matrix */
+  vec3_angle_calc(&pos_x,&rot_x,0x06063EEC);
+  /* Compute Y offset based on game mode */
   if (*(int *)0x06078663 == '\0') {
-
-    puVar8 = (char *)(*(int *)(puVar1 + 4) * -0x400 + 0xFFA00000);
-
+    frame_ctr = (char *)(*(int *)(cam_state + 4) * -0x400 + 0xFFA00000);
   }
-
   else {
-
-    puVar8 = 0x01A00000 + *(int *)(puVar1 + 4) << 10;
-
+    frame_ctr = 0x01A00000 + *(int *)(cam_state + 4) << 10;
   }
-
+  /* Apply view transform */
   (*(int(*)())0x0603850C)(4);
-
-  (*(int(*)())0x0603853C)(puVar8,0x003A0000 + *(int *)puVar1 * -0x200,0);
-
+  (*(int(*)())0x0603853C)(frame_ctr,0x003A0000 + *(int *)cam_state * -0x200,0);
   (*(int(*)())0x06038520)();
-
   return;
-
 }
 
 void background_layer_init()
