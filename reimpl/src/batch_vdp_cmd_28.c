@@ -369,64 +369,72 @@ void FUN_060284ae(param_1, param_2, param_3, param_4)
   } while (glyph_h != 0);
 }
 
-int * FUN_0602853e(param_1)
-    int param_1;
+/* vdp_display_list_fill -- Fill a VDP1 command list channel with a pattern.
+ *
+ * Pool verified (0x06028556-0x0602855E):
+ *   0x06028558 = 0x06028644 (fill value table, indexed by channel*4)
+ *   0x0602855C = 0x0602862C (dest pointer table, indexed by channel*4)
+ *   0x06028556 = 0x0800 (2048 words per channel)
+ *
+ * Called with channel offsets 4, 8, 12 from race state handlers.
+ * Fills 2048 words (8KB) at the destination with the channel's fill pattern. */
+#define VDP1_FILL_TABLE   0x06028644
+#define VDP1_DEST_TABLE   0x0602862C
+#define VDP1_CHANNEL_SIZE 0x0800
+int * vdp_display_list_fill(channel)
+    int channel;
 {
+    int *dest;
+    int count;
+    int fill_value;
 
-  int *puVar1;
+    fill_value = *(int *)(VDP1_FILL_TABLE + channel);
+    dest = (int *)**(int **)(VDP1_DEST_TABLE + channel);
+    count = VDP1_CHANNEL_SIZE;
 
-  int iVar2;
+    do {
+        *dest = fill_value;
+        count = count + -1;
+        dest = dest + 1;
+    } while (count != 0);
 
-  int uVar3;
-
-  uVar3 = *(int *)(0x06028644 + param_1);
-
-  puVar1 = (int *)**(int **)(0x0602862C + param_1);
-
-  iVar2 = 0x0800;
-
-  do {
-
-    *puVar1 = uVar3;
-
-    iVar2 = iVar2 + -1;
-
-    puVar1 = puVar1 + 1;
-
-  } while (iVar2 != 0);
-
-  return puVar1;
-
+    return dest;
 }
+#undef VDP1_FILL_TABLE
+#undef VDP1_DEST_TABLE
+#undef VDP1_CHANNEL_SIZE
 
-int * FUN_06028560()
+/* vdp2_pattern_table_clear -- Clear VDP2 pattern name table to blank tiles.
+ *
+ * Pool verified (0x06028572-0x06028578):
+ *   0x06028574 = 0x060612C4 (pattern name table shadow buffer)
+ *   0x06028578 = 0x00200020 (blank tile pattern: tile 0x20 both planes)
+ *   0x06028572 = 0x0380 (896 entries)
+ *
+ * Fills 896 words at the shadow buffer with the blank tile pattern.
+ * Called from race state and subsystem init handlers. */
+#define VDP2_PNT_SHADOW   ((int *)0x060612C4)
+#define VDP2_BLANK_TILE   0x00200020
+#define VDP2_PNT_SIZE     0x0380
+int * vdp2_pattern_table_clear()
 {
+    int *dest;
+    int count;
 
-  char *puVar1;
+    count = VDP2_PNT_SIZE;
+    dest = VDP2_PNT_SHADOW;
 
-  int *puVar2;
+    do {
+        *dest = (char *)VDP2_BLANK_TILE;
+        count = count + -1;
+        dest = dest + 1;
+    } while (count != 0);
 
-  int iVar3;
-
-  puVar1 = (int *)0x00200020;
-
-  iVar3 = 0x0380;
-
-  puVar2 = (int *)0x060612C4;
-
-  do {
-
-    *puVar2 = puVar1;
-
-    iVar3 = iVar3 + -1;
-
-    puVar2 = puVar2 + 1;
-
-  } while (iVar3 != 0);
-
-  return puVar2;
-
+    return dest;
 }
+#undef VDP2_PNT_SHADOW
+#undef VDP2_BLANK_TILE
+#undef VDP2_PNT_SIZE
 
 long long dma_mem_transfer(param_1, param_2)
     unsigned char *param_1;

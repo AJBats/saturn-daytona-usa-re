@@ -124,10 +124,18 @@ int FUN_060400b4(unsigned int mode_flags)
     return (mode_flags & 4) ? 0x0914 : 0x0800;
 }
 
-unsigned int * FUN_060400d6(param_1, param_2, param_3)
-    unsigned int *param_1;
-    unsigned int *param_2;
-    unsigned int param_3;
+/* cd_session_open -- Initialize a CD session context for playback.
+ *
+ * If source (param_2) is NULL: opens a new session by querying track info
+ * via 0x060415C8, setting up block size, sector offset, and volume.
+ * If source is non-NULL: copies configuration from an existing session.
+ * Sets track/flags word, clears position/state, sets sentinel to 0x7FFFFFFF.
+ *
+ * Returns the session pointer, or NULL if track info query fails. */
+unsigned int * cd_track_context_init(session, source, track_flags)
+    unsigned int *session;
+    unsigned int *source;
+    unsigned int track_flags;
 {
 
   int iVar1;
@@ -146,11 +154,11 @@ unsigned int * FUN_060400d6(param_1, param_2, param_3)
 
   char uStack_15;
 
-  if (param_2 == (unsigned int *)0x0) {
+  if (source == (unsigned int *)0x0) {
 
-    *param_1 = 0x40000000 | param_3;
+    *session = 0x40000000 | track_flags;
 
-    iVar1 = (*(int(*)())0x060415C8)(param_3,&local_20);
+    iVar1 = (*(int(*)())0x060415C8)(track_flags,&local_20);
 
     if (iVar1 != 0) {
 
@@ -158,69 +166,69 @@ unsigned int * FUN_060400d6(param_1, param_2, param_3)
 
     }
 
-    param_1[1] = local_20;
+    session[1] = local_20;
 
     uVar2 = FUN_060400b4(uStack_15);
 
-    param_1[3] = uVar2;
+    session[3] = uVar2;
 
     uVar2 = (*(int(*)())0x06035F44)();
 
-    param_1[4] = uVar2;
+    session[4] = uVar2;
 
     (*(int(*)())0x06036BE4)(uStack_1c);
 
     uVar2 = (*(int(*)())0x06036BE4)();
 
-    param_1[5] = uVar2;
+    session[5] = uVar2;
 
-    *(char *)(param_1 + 7) = uStack_16;
+    *(char *)(session + 7) = uStack_16;
 
-    *(char *)((int)param_1 + 0x1d) = uStack_15;
+    *(char *)((int)session + 0x1d) = uStack_15;
 
-    *(char *)((int)param_1 + 0x1e) = uStack_18;
+    *(char *)((int)session + 0x1e) = uStack_18;
 
-    *(char *)((int)param_1 + 0x1f) = uStack_17;
+    *(char *)((int)session + 0x1f) = uStack_17;
 
   }
 
   else {
 
-    *param_1 = param_3;
+    *session = track_flags;
 
-    param_1[1] = *param_2;
+    session[1] = *source;
 
-    uVar2 = FUN_060400b4(*(char *)((int)param_2 + 0xb));
+    uVar2 = FUN_060400b4(*(char *)((int)source + 0xb));
 
-    param_1[3] = uVar2;
+    session[3] = uVar2;
 
-    param_1[4] = (int)DAT_060401e8 + param_2[1] >> 0xb;
+    session[4] = (int)DAT_060401e8 + source[1] >> 0xb;
 
     (*(int(*)())0x06036BE4)();
 
     uVar2 = (*(int(*)())0x06036BE4)();
 
-    param_1[5] = uVar2;
+    session[5] = uVar2;
 
-    *(char *)(param_1 + 7) = *(char *)((int)param_2 + 10);
+    *(char *)(session + 7) = *(char *)((int)source + 10);
 
-    *(char *)((int)param_1 + 0x1d) = *(char *)((int)param_2 + 0xb);
+    *(char *)((int)session + 0x1d) = *(char *)((int)source + 0xb);
 
-    *(char *)((int)param_1 + 0x1e) = *(char *)(param_2 + 2);
+    *(char *)((int)session + 0x1e) = *(char *)(source + 2);
 
-    *(char *)((int)param_1 + 0x1f) = *(char *)((int)param_2 + 9);
+    *(char *)((int)session + 0x1f) = *(char *)((int)source + 9);
 
   }
 
-  param_1[6] = 0;
+  session[6] = 0;
 
-  param_1[9] = 0;
+  session[9] = 0;
 
-  param_1[8] = 0;
+  session[8] = 0;
 
-  param_1[10] = 0x7FFFFFFF;
+  session[10] = 0x7FFFFFFF;
 
-  return param_1;
+  return session;
 
 }
 
@@ -364,12 +372,19 @@ int FUN_06040722(int param_1, int param_2)
     return result + extraout_r3;
 }
 
-int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
-    int *param_1;
-    int param_2;
-    int param_3;
-    char param_4;
-    int param_5;
+/* cd_session_create -- Create and configure a new CD audio session.
+ *
+ * Sets up a session context struct for CD audio playback. Initializes
+ * track number, size, format byte, and playback mode. Then opens the
+ * CD subsystem via a chain of init calls (0x06040EEC, 0x06040E88,
+ * 0x06041034, 0x060414D0, 0x0604188C). Returns session pointer on
+ * success, NULL if any init step fails. */
+int * cd_session_create(session, track_num, track_size, format, play_mode)
+    int *session;
+    int track_num;
+    int track_size;
+    char format;
+    int play_mode;
 {
 
   int iVar1;
@@ -390,29 +405,29 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
   char uStack_f;
 
-  *param_1 = param_2;
+  *session = track_num;
 
-  param_1[2] = 0;
+  session[2] = 0;
 
-  *(char *)(param_1 + 6) = param_4;
+  *(char *)(session + 6) = format;
 
-  param_1[3] = param_3;
+  session[3] = track_size;
 
-  param_1[4] = 0;
+  session[4] = 0;
 
-  param_1[8] = 1;
+  session[8] = 1;
 
-  *(char *)((int)param_1 + 0x19) = 0;
+  *(char *)((int)session + 0x19) = 0;
 
-  *(char *)((int)param_1 + 0x1a) = 0;
+  *(char *)((int)session + 0x1a) = 0;
 
-  *(char *)((int)param_1 + 0x1b) = 0;
+  *(char *)((int)session + 0x1b) = 0;
 
-  param_1[9] = (unsigned int)param_5;
+  session[9] = (unsigned int)play_mode;
 
-  local_14 = *(char *)(param_1 + 6);
+  local_14 = *(char *)(session + 6);
 
-  uStack_13 = *(char *)((int)param_1 + 0x19);
+  uStack_13 = *(char *)((int)session + 0x19);
 
   uStack_12 = 0;
 
@@ -424,21 +439,21 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
   (*(int(*)())0x06035228)();
 
-  param_1[10] = 0xffffffff;
+  session[10] = 0xffffffff;
 
   iVar1 = (*(int(*)())0x06040EEC)(&uStack_18);
 
   if (iVar1 == 0) {
 
-    param_1[1] = uStack_18;
+    session[1] = uStack_18;
 
     iVar1 = (*(int(*)())0x06040E88)(&local_1c);
 
     if (iVar1 == 0) {
 
-      param_1[5] = local_1c;
+      session[5] = local_1c;
 
-      iVar1 = (*(int(*)())0x06041034)(local_1c,param_1[8],&local_14,0,0);
+      iVar1 = (*(int(*)())0x06041034)(local_1c,session[8],&local_14,0,0);
 
       if (iVar1 == 0) {
 
@@ -450,7 +465,7 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
           if (iVar1 != 0) {
 
-            param_1 = (int *)0x0;
+            session = (int *)0x0;
 
           }
 
@@ -458,7 +473,7 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
         else {
 
-          param_1 = (int *)0x0;
+          session = (int *)0x0;
 
         }
 
@@ -466,7 +481,7 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
       else {
 
-        param_1 = (int *)0x0;
+        session = (int *)0x0;
 
       }
 
@@ -476,7 +491,7 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
       (*(int(*)())0x06040F16)(uStack_18);
 
-      param_1 = (int *)0x0;
+      session = (int *)0x0;
 
     }
 
@@ -484,11 +499,11 @@ int * FUN_0604077c(param_1, param_2, param_3, param_4, param_5)
 
   else {
 
-    param_1 = (int *)0x0;
+    session = (int *)0x0;
 
   }
 
-  return param_1;
+  return session;
 
 }
 

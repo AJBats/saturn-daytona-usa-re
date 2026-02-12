@@ -14,8 +14,8 @@
  * Original addresses: 0x060198E0, 0x0601550C
  */
 
-extern void FUN_0602853E(int param);
-extern int *FUN_06028560(void);
+extern int *vdp_display_list_fill(int channel);
+extern int *vdp2_pattern_table_clear(void);
 extern void FUN_06019928(void);
 extern void course_select_display_update(void);
 extern void FUN_0601a940(void);
@@ -44,8 +44,8 @@ extern void FUN_0601a940(void);
  * ================================================================ */
 void FUN_060198E0(void)
 {
-    FUN_0602853E(12);
-    FUN_06028560();
+    vdp_display_list_fill(12);
+    vdp2_pattern_table_clear();
 
     /* Configure state bytes */
     SUBSYS_STATE_A = 1;

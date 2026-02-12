@@ -172,8 +172,8 @@ extern void FUN_0600A084(void);
 /* Post-race subsystem transition */
 extern void FUN_06019058(void);
 
-/* VDP command channel clear (takes channel ID) */
-extern void FUN_0602853E(int channel);
+/* VDP display list fill (takes channel offset: 4, 8, 12) */
+extern int *vdp_display_list_fill(int channel);
 
 /* Splash screen / overlay init */
 extern void FUN_060032D4(void);
@@ -187,8 +187,8 @@ extern void FUN_06033EA8(void);
 /* VDP1 attribute setup (post-mode-transition) */
 extern void FUN_060149E0(void);
 
-/* VDP command reset */
-extern void FUN_06028560(void);
+/* VDP2 pattern name table clear */
+extern int *vdp2_pattern_table_clear(void);
 
 /* Rendering subsystem init */
 extern void scene_objects_init(void);
@@ -583,7 +583,7 @@ void FUN_06009DD0(void)
     FUN_060190B8();
     MODE_SELECTOR = 27;
     RENDER_PARAM_CACHE = 0x0258;  /* 600 = 10 seconds at 60fps */
-    FUN_06028560();
+    vdp2_pattern_table_clear();
     scene_objects_init();
     SUB_STATE_COUNTER = 3;
     FUN_06018DDC(19);  /* original: r4=19, r5=19, r6=0 (tail call) */
@@ -1093,12 +1093,12 @@ void FUN_06009E60(void)
     FUN_06019058();
 
     /* Clear VDP command channels 4, 8, 12 */
-    FUN_0602853E(4);
-    FUN_0602853E(8);
-    FUN_0602853E(12);
+    vdp_display_list_fill(4);
+    vdp_display_list_fill(8);
+    vdp_display_list_fill(12);
 
     /* Reset VDP commands */
-    FUN_06028560();
+    vdp2_pattern_table_clear();
 
     /* Clear render parameters: priority, color calc, mesh */
     FUN_06014884(8, 0, 0);

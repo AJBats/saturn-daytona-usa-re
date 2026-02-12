@@ -38,14 +38,12 @@ extern void FUN_0601D5F4(int cmd, int param);
 extern unsigned int FUN_060114ac(int param);
 extern void FUN_06011094(void);
 
-/* VDP command reset (returns pointer) */
-extern int *FUN_06028560(void);
+/* VDP display list fill / pattern table clear */
+extern int *vdp_display_list_fill(int channel);
+extern int *vdp2_pattern_table_clear(void);
 
 /* Subsystem processing continuation */
 extern void FUN_060115F0(void);
-
-/* Config helper (param=mode selector) */
-extern void FUN_0602853E(int param);
 
 /* VDP2 scroll setup */
 extern void FUN_06011678(void);
@@ -129,7 +127,7 @@ void FUN_0600F822(void)
 void FUN_0600F898(void)
 {
     /* Reset VDP command state */
-    FUN_06028560();
+    vdp2_pattern_table_clear();
 
     /* Set render parameter cache to 1800 (30 seconds at 60fps) */
     RENDER_PARAM_CACHE = 0x0708;
@@ -157,7 +155,7 @@ void FUN_0600F898(void)
  *
  * Decrements timer counter. If still positive, tail-calls
  * FUN_060115F0 (subsystem processing). If expired, calls
- * FUN_0602853E(4) and advances the state flag.
+ * vdp_display_list_fill(4) and advances the state flag.
  *
  * 22 instructions. Saves PR.
  * ================================================================ */
@@ -174,7 +172,7 @@ void FUN_0600F8BE(void)
     }
 
     /* Timer expired -- advance to next state */
-    FUN_0602853E(4);
+    vdp_display_list_fill(4);
     SUBSYS_STATE_FLAG = SUBSYS_STATE_FLAG + 1;
 }
 

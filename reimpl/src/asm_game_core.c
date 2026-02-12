@@ -67,7 +67,7 @@ void FUN_06018DDC(int arg) { (void)arg; }
 void FUN_06014A04(void) { }
 /* FUN_0600DF66: moved to car_iteration.c */
 void FUN_0601DF88(void) { }
-void FUN_0602853E(int arg) { (void)arg; }
+/* FUN_0602853E: moved to batch_vdp_cmd_28.c as vdp_display_list_fill */
 void FUN_06014884(int r4, int r5, int r6) { (void)r4; (void)r5; (void)r6; }
 /* FUN_060032D4: moved to vdp_sprite_init.c */
 void FUN_0600A294(void) { }

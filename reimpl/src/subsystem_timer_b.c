@@ -19,7 +19,7 @@ extern int FUN_06010bc4(void);
 extern void FUN_06011eb4(void);
 
 /* Config helper */
-extern void FUN_0602853E(int param);
+extern int *vdp_display_list_fill(int channel);
 
 /* Subsystem init (returns unsigned int) */
 extern unsigned int FUN_060114ac(int param);
@@ -94,7 +94,7 @@ void FUN_0600FD54(void)
  *   0x0600FDEC = 0x060114AC (subsystem init)
  *
  * Decrements secondary timer. If expired (< 0): sets state=12,
- * calls FUN_0602853E(12) and (4), stores 20 to render cache.
+ * calls vdp_display_list_fill(12) and (4), stores 20 to render cache.
  * If still running (>= 0): runs processing helpers, conditionally
  * tail-calls FUN_060114ac(1).
  *
@@ -109,8 +109,8 @@ void FUN_0600FD8A(void)
     if (counter < 0) {
         /* Timer expired -- transition to next state */
         SUBSYS_STATE_FLAG = 12;
-        FUN_0602853E(12);
-        FUN_0602853E(4);
+        vdp_display_list_fill(12);
+        vdp_display_list_fill(4);
         RENDER_PARAM_CACHE = 20;
         return;
     }

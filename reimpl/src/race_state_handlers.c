@@ -128,8 +128,8 @@ extern void FUN_06014A42(void);
 extern void FUN_0601DF88(void);
 extern void FUN_0600DF66(void);
 extern void FUN_06019058(void);
-extern void FUN_0602853E(int arg);
-extern void FUN_06028560(void);
+extern int *vdp_display_list_fill(int channel);
+extern int *vdp2_pattern_table_clear(void);
 extern void FUN_06014884(int r4, int r5, int r6);
 extern void FUN_060032D4(void);
 extern void FUN_0600A294(void);
@@ -685,10 +685,10 @@ void state_22_handler(void)
 {
     FUN_06019058();
 
-    FUN_0602853E(4);
-    FUN_0602853E(8);
-    FUN_0602853E(12);
-    FUN_06028560();
+    vdp_display_list_fill(4);
+    vdp_display_list_fill(8);
+    vdp_display_list_fill(12);
+    vdp2_pattern_table_clear();
 
     FUN_06014884(8, 0, 0);
     FUN_06014884(16, 0, 0);
@@ -806,7 +806,7 @@ void state_26_handler(void)
     GAME_STATE = 27;
     RACE_COUNTDOWN = 600;
 
-    FUN_06028560();
+    vdp2_pattern_table_clear();
     scene_objects_init();
 
     RACE_PHASE_WORD = 3;
