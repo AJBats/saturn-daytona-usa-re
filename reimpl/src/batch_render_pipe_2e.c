@@ -198,6 +198,12 @@ void FUN_0602e5e4(void)
     DAT_06083268 = *(int *)(base + 0x23C);
 }
 
+/* rival_car_indicator_update -- Update directional indicator for nearest rival cars.
+ * Reads target car's rival pointers at +0x238 and +0x23C.
+ * Computes distance via sqrt(dx^2+dz^2) using 0x06027476 (sqrt) and
+ * 0x06027552 (square). If distance < 0xF0000, computes atan2 heading
+ * between cars, checks angle threshold DAT_0602e80a, and dispatches
+ * sound via 0x0601D5F4 with indicator type based on distance (<0x50). */
 int FUN_0602e610()
 {
   short sVar1;
@@ -301,6 +307,9 @@ LAB_0602e78c:
   return iVar10;
 }
 
+/* sh2_divide_start -- Start SH-2 hardware division unit operation.
+ * Writes dividend (in_r0) to SH2_DVSR (0xFFFFFF00) and divisor (in_r1)
+ * to DVSR+4. Hardware division result is read back later. */
 int FUN_0602eccc()
 {
   char *puVar1;
@@ -322,6 +331,10 @@ void FUN_0602ecf2(void)
     (*(void(*)())(*(int *)(0x0602ED0C + (idx << 2))))();
 }
 
+/* car_angle_trig_compute -- Compute sin/cos for car rotation angle.
+ * Implicit r0 = car object pointer. Reads angle at obj+0x24,
+ * calls trig function at 0x06027358 with angle and two car-relative
+ * offsets (DAT_0602efe6, PTR_DAT_0602efe8). */
 void FUN_0602efcc()
 {
   int in_r0 = 0;
@@ -330,6 +343,11 @@ void FUN_0602efcc()
   return;
 }
 
+/* car_physics_division_chain -- Chain three SH-2 hardware divisions for car physics.
+ * Uses target car pointer. First division: param_2 / car+DAT_0602f01e.
+ * Stores result at car+DAT_0602f064, saves previous value at car+DAT_0602f066.
+ * Chains two more divisions, storing results at car+extraout_r3 offsets.
+ * Uses FUN_0602eccc (sh2_divide_start) for hardware division pipelining. */
 int FUN_0602eff0(param_1, param_2)
     int param_1;
     int param_2;
@@ -390,6 +408,13 @@ int FUN_0602f0e8()
   return car_ptr;
 }
 
+/* car_gear_ratio_update -- Update gear ratio and speed limits per gear.
+ * Implicit r0 = car object pointer. Reads rotation field at obj+0xD8,
+ * decays toward zero. Reads current gear index at obj+DAT_0602f1bc,
+ * compares speed against gear-specific thresholds from tables at
+ * 0x060477AC/0x0604779C (shift up/down). Adjusts gear index and
+ * scales speed ratio from table at 0x060477CC. Clamps final speed
+ * against per-gear range from table at 0x0602F3CC (8 bytes/entry). */
 void FUN_0602f17c()
 {
   short sVar1;
@@ -443,6 +468,12 @@ void FUN_0602f17c()
   return;
 }
 
+/* car_drag_coefficient_apply -- Apply aerodynamic drag to car speed fields.
+ * Implicit r0 = car object pointer. Computes drag from speed (obj+0x0C)
+ * scaled by 0x00480000 fixed-point multiplier, clamps to [0, 0x158].
+ * Stores clipped value at obj+8. Derives secondary drag from bit-shifted
+ * value, clamped to [0, 0x2AAA] with inner cap at 0x0AAA.
+ * Subtracts drag from car+DAT_0602f464 and car+PTR_DAT_0602f468. */
 void FUN_0602f3ec()
 {
   int in_r0 = 0;
@@ -474,6 +505,11 @@ void FUN_0602f3ec()
   return;
 }
 
+/* car_suspension_damping_lookup -- Look up suspension damping coefficient.
+ * Implicit r14 = car object pointer. Reads countdown timer at
+ * obj+DAT_0602f4aa, decrements toward zero. Maps timer value to
+ * index (0-4) and loads damping coefficient from table at 0x060477D8.
+ * Stores result at obj+PTR_DAT_0602f4ac. */
 void FUN_0602f474()
 {
   int iVar1;
@@ -629,6 +665,12 @@ void FUN_0602f5b6()
   return;
 }
 
+/* wheel_surface_type_classify -- Classify wheel surface type from contact flags.
+ * Implicit r0 = car object pointer. Reads 4 wheel collision flag words at
+ * obj+DAT_0602f788, checks each against mask DAT_0602f786 for surface contact.
+ * Counts contacting wheels (0-4). If zero → no surface. Otherwise checks
+ * combined flags for airborne (bit 0x10) and speed category (DAT_0602f78a)
+ * to determine surface type. Always returns 0 in current L1 form. */
 int FUN_0602f71c()
 {
   short sVar1;
@@ -667,6 +709,11 @@ int FUN_0602f71c()
   return 0;
 }
 
+/* car_cooldown_timers_tick -- Decrement car cooldown timers each frame.
+ * Implicit r0 = car object pointer. Decrements three independent timers
+ * at obj+DAT_0602f7e4 (short), obj+DAT_0602f7e6 (short), and
+ * obj+DAT_0602f7e8 (int) toward zero, stopping at zero. Used for
+ * collision immunity, sound cooldown, and effect duration tracking. */
 void FUN_0602f7bc()
 {
   short sVar1;

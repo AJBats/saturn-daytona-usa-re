@@ -721,6 +721,9 @@ void FUN_06034dea(int param_1)
 extern void FUN_06034F78(int val, int param, int ptr);
 void FUN_06034f78(int val, int param, int ptr) { FUN_06034F78(val, param, ptr); }
 
+/* sh2_div32_signed -- Signed 32-bit division via SH-2 hardware divider.
+ * Writes dividend (in_r0) and divisor (in_r1) to SH-2 DIVU registers
+ * at 0xFFFFFF00. Clears overflow flag, returns quotient from DVDNT+20. */
 int FUN_06034fe0()
 {
   int in_r0 = 0;
@@ -734,6 +737,10 @@ int FUN_06034fe0()
   return puVar1[5];
 }
 
+/* softfloat_double_multiply -- Software IEEE 754 double-precision multiply.
+ * Implicit in_r0/in_r1 = operand A (hi/lo 32-bit), stack = operand B.
+ * Extracts exponents (bits 20-30), multiplies mantissas with 64-bit
+ * intermediate, normalizes result and handles overflow/underflow. */
 int FUN_06034ffc()
 {
   int bVar1;
@@ -1484,6 +1491,9 @@ long long FUN_060350b0()
   return CONCAT44(uVar8,in_r0 + uVar10);
 }
 
+/* memcpy_word_or_dispatch -- Word-aligned memory copy or dispatch table call.
+ * If in_r0 < 0x41, dispatches through function table at 0x060351C4.
+ * Otherwise copies in_r0 bytes from in_r2 to in_r1, 4 bytes at a time. */
 void FUN_06035168()
 {
   unsigned int in_r0 = 0;
@@ -1511,6 +1521,9 @@ void FUN_06035168()
   return;
 }
 
+/* memcpy_byte -- Byte-by-byte memory copy with length check.
+ * Copies in_r0 bytes from in_r2 to in_r1. Handles unaligned copies
+ * by processing 1-4 bytes per iteration with bounds checking. */
 void FUN_06035228()
 {
   int in_r0 = 0;
@@ -1543,6 +1556,10 @@ void FUN_06035228()
   return;
 }
 
+/* shift_left_dispatch -- Logical left shift via jump table.
+ * Returns in_r0 if in_r1 < 0, shifts in_r0 left by in_r1 bits if
+ * in_r1 < 32, returns 0 if in_r1 >= 32. Jump table at 0x06035260
+ * with dispatch stubs at 0x060352AA for each shift count 0-31. */
 int FUN_06035280()
 {
   int in_r0 = 0;
@@ -1559,6 +1576,11 @@ int FUN_06035280()
   return 0;
 }
 
+/* shift_right_arithmetic_dispatch -- Arithmetic right shift via jump table.
+ * Returns in_r0 if in_r1 < 0. For in_r1 < 32, uses jump table at
+ * 0x06035338 with dispatch at 0x060353BE; special case for positive values
+ * with shift > 8 calls 0x06036068. For in_r1 >= 32, returns 0 or 0xFFFFFFFF
+ * depending on sign bit (arithmetic extension). */
 unsigned int FUN_06035340()
 {
   unsigned int in_r0 = 0;
@@ -1582,6 +1604,11 @@ unsigned int FUN_06035340()
   return 0xffffffff;
 }
 
+/* softfloat_double_add -- Software IEEE 754 double-precision addition.
+ * Operands via in_r0/stack (64-bit doubles split into hi/lo 32-bit).
+ * Extracts exponents (0x7FF00000 mask), aligns mantissas by exponent
+ * difference, adds/subtracts based on sign bits, normalizes result.
+ * Handles denormals, infinity, and NaN edge cases. */
 int FUN_06035460()
 {
   long long lVar1;
@@ -1895,6 +1922,10 @@ long long FUN_060357b8()
   return CONCAT44(in_r1,uVar2);
 }
 
+/* softfloat_double_compare_equal -- IEEE 754 double equality comparison.
+ * Two 64-bit doubles via stack (4 x 32-bit words). Returns 1 if equal
+ * (including +0 == -0), 0 if either is NaN (exponent 0x7FF with
+ * non-zero mantissa) or values differ. */
 int FUN_06035844()
 {
   int bVar1;
@@ -1938,6 +1969,10 @@ int FUN_06035844()
   return bVar1;
 }
 
+/* softfloat_int_to_double -- Convert signed 32-bit integer to IEEE 754 double.
+ * Input: in_r0 (signed int). Output via stack pointer in_stack_00000000.
+ * Left-shifts until MSB is 1, computes exponent as 0x041F minus shift
+ * count, packs mantissa into IEEE 754 double format (sign|exponent|mantissa). */
 void FUN_060358ec()
 {
   unsigned int in_r0 = 0;
@@ -1993,6 +2028,10 @@ long long FUN_060359da()
   return in_stack_0000003c;
 }
 
+/* softfloat_double_divide -- Software IEEE 754 double-precision division.
+ * Divides operand A (in_r0/stack) by operand B (stack). Handles special
+ * cases: infinity, NaN, zero divisor. Subtracts exponents, divides
+ * mantissas via iterative shift-subtract, normalizes result. */
 int FUN_060359e4()
 {
   unsigned int uVar1;
@@ -2164,6 +2203,10 @@ LAB_06035af4:
   return in_r0;
 }
 
+/* softfloat_double_compare_unordered -- IEEE 754 double unordered comparison.
+ * Returns 1 if either operand is NaN (exponent 0x7FF with non-zero
+ * mantissa) or if values are not equal. Returns 0 only if both
+ * operands are valid and equal. Used for != comparisons. */
 int FUN_06035b34()
 {
   unsigned int in_stack_00000000 = 0;
@@ -2207,6 +2250,10 @@ int FUN_06035b34()
   return 1;
 }
 
+/* softfloat_uint_to_double -- Convert unsigned 32-bit integer to IEEE 754 double.
+ * Input: in_r0 (unsigned int). Output via stack pointer in_stack_00000000.
+ * Same algorithm as FUN_060358ec but treats input as unsigned.
+ * Left-shifts until MSB is 1, exponent starts at 0x041F. */
 void FUN_06035bc8()
 {
   unsigned int in_r0 = 0;
@@ -2248,6 +2295,9 @@ check:
     return count;
 }
 
+/* sh2_div32_remainder -- Signed 32-bit division via SH-2 hardware, return remainder.
+ * Same as FUN_06034fe0 but returns remainder from DVDNT+16 instead
+ * of quotient. Writes dividend/divisor to SH-2 DIVU at 0xFFFFFF00. */
 int FUN_06035c2c()
 {
   int in_r0 = 0;
@@ -2371,6 +2421,10 @@ void FUN_06035f16(char *src, char *dest)
     *(unsigned int *)(dest + 8) = *(unsigned int *)(src + 4) & 0x00FFFFFF;
 }
 
+/* softfloat_double_subtract -- Software IEEE 754 double-precision subtraction.
+ * Negates second operand sign bit and falls through to addition logic.
+ * Handles exponent alignment, mantissa subtraction with borrow,
+ * normalization, and special cases (NaN, infinity, denormals). */
 unsigned int FUN_06035f44()
 {
   char cVar1;

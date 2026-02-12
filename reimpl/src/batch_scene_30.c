@@ -422,6 +422,11 @@ void FUN_0603053c(param_1)
   return;
 }
 
+/* scene_palette_update_if_changed -- Update scene palette if value changed.
+ * Implicit r14 = scene object pointer.
+ * Compares param_2 against current value at obj+DAT_06030742.
+ * If different, stores new value and dispatches palette update handler
+ * from function pointer table at 0x06030F1C (indexed by param_1). */
 void FUN_0603072e(param_1, param_2)
     int param_1;
     int param_2;
@@ -440,6 +445,12 @@ void FUN_0603072e(param_1, param_2)
 extern void FUN_06030A06(void);
 void FUN_06030a06(void) { FUN_06030A06(); }
 
+/* collision_response_apply -- Apply collision response to car after impact.
+ * Implicit r14 = car object pointer.
+ * Computes angular deflection from impact angle (param_3) vs car heading (obj[10]).
+ * Sets collision state flags, applies velocity changes using impact normal
+ * and magnitude from collision record at 0x060A6000 (param_4+0x0E * 0x34).
+ * Updates physics state, marks car as impacted (0x0607866D=0xF, 0x06089595=1). */
 void FUN_06030a9c(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -509,6 +520,15 @@ void FUN_06030a9c(param_1, param_2, param_3, param_4)
   return;
 }
 
+/* wall_collision_response -- Handle car collision with wall/barrier at specific wheel.
+ * Implicit r14 = car object pointer.
+ * param_1 = wheel index (0=FL, 1=left, 2=FR/rear, 3=right).
+ * param_2 = surface heading angle from collision record.
+ * If heading difference vs car heading is in 0x1000-0x6FFF range, redirects
+ * to scene_palette_update (glancing blow). Otherwise: sets per-wheel collision
+ * flags (0x40/0x80/0x100/0x200), stores collision source direction at +0x260,
+ * loads collision record from table at 0x060A6000 (0x34-byte entries),
+ * applies velocity using cos-based projection. Calls FUN_06030dfe for physics. */
 void FUN_06030b68(param_1, param_2, param_3, param_4)
     int param_1;
     short param_2;
@@ -641,6 +661,14 @@ LAB_06030c48:
   return;
 }
 
+/* collision_velocity_update -- Apply post-collision velocity to car position.
+ * Implicit r14 = car object pointer.
+ * Saves previous position (obj+0x10/0x18 → obj+0x38/0x3C), computes new
+ * position using sin(heading)/cos(heading) at 0x06027344/0x06027348.
+ * param_6 controls directional bias: if nonzero, scales by cos of heading
+ * difference. param_5 determines sign of velocity application.
+ * Applies speed damping factor based on collision severity at obj+DAT_06030eae:
+ *   severity < 8 → 0xC000, severity 6-7 → 0xFAE1, else → 0xDEB8. */
 void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7)
 {
   short sVar1;
@@ -703,6 +731,10 @@ void FUN_06030dfe(int param_1,int param_2,int param_3,int param_4,int param_5,in
 extern void FUN_06030FC0(int car_a, int car_b, int dist);
 void FUN_06030fc0(int car_a, int car_b, int dist) { FUN_06030FC0(car_a, car_b, dist); }
 
+/* collision_angle_classify -- Set head-on collision flag based on angle threshold.
+ * Uses DAT_0603135c as angle threshold. Compares doubled threshold against
+ * implicit register in_r1. Sets flag at 0x06031A24: 1 if within threshold
+ * range and positive, 0 otherwise. Called by car-to-car collision code. */
 void FUN_06031340()
 {
   int in_r1 = 0;
@@ -721,6 +753,14 @@ void FUN_06031340()
   return;
 }
 
+/* car_to_car_collision_resolve -- Resolve collision between two cars.
+ * Implicit r14 = car A pointer, r13 = car B pointer, r8/r9 = contact position.
+ * Computes atan2 between cars for collision angle, classifies as head-on
+ * or side impact via FUN_06031340. Uses collision lookup at 0x0605BCC8.
+ * Head-on: sets 0x08000000 flag if combined speed > 0x42AAA.
+ * Side impact: applies directional flags (0x40/0x80/0x20000000/0x10000000),
+ * transfers velocity via sin/cos projection weighted by speed difference.
+ * Updates both cars' position and velocity using trig-based deflection. */
 int FUN_0603136e(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -921,6 +961,17 @@ int FUN_0603136e(param_1, param_2, param_3, param_4)
 extern void FUN_060316C4(int car_a, int car_b, int dist);
 void FUN_060316c4(int car_a, int car_b, int dist) { FUN_060316C4(car_a, car_b, dist); }
 
+/* polygon_face_project_and_clip -- Project polygon faces through view matrix and clip.
+ * param_1 = polygon face data base, param_2 = face color/material type,
+ * param_3 = face count (processes backwards).
+ * Each face is 0x18 bytes with vertex normals at offsets -6..-1 and face
+ * index at -2. Loads face normals from table at 0x06094FA8 (0xC-byte entries).
+ * Transforms vertices by 3x3 view matrix at *(0x06089EDC) using software
+ * 32-bit fixed-point MAC multiply-accumulate (no FPU).
+ * Performs screen-space bounds check via FUN_06031d1a (DAT_06031d36/d38/d3a).
+ * Writes clipped quad to output buffer at 0x0608AC20 (0x18-byte entries,
+ * indexed by 0x060620D0). Dispatches final render via function pointer
+ * table at 0x06031D78 (indexed by face type & 7). */
 unsigned int FUN_06031a28(param_1, param_2, param_3)
     int param_1;
     char param_2;
@@ -1618,6 +1669,12 @@ LAB_06031cf2:
   } while( 1 );
 }
 
+/* polygon_bounds_check -- Test projected polygon coordinates against screen bounds.
+ * Implicit registers: r8 = polygon data pointer, r14 = face counter.
+ * Checks projected X/Y against bounds DAT_06031d36/d38/d3a.
+ * If all coordinates are out of screen, jumps to next polygon in the
+ * processing loop (LAB_06031cf2). Returns depth value for visible faces.
+ * Called by polygon_face_project_and_clip as inner-loop helper. */
 unsigned int FUN_06031d1a()
 {
   char *puVar1;
@@ -2304,6 +2361,13 @@ LAB_06031cf2:
   goto LAB_06031cf2;
 }
 
+/* vertex_normal_transform -- Transform vertex normals by view matrix.
+ * param_1 = input normal vectors (3-component fixed-point),
+ * param_2 = vertex count. Reads view matrix from OBJ_STATE_PRIMARY
+ * (3x3 rotation). Performs dot product of each normal with matrix rows
+ * using software 32-bit fixed-point MAC. Writes transformed normals
+ * to polygon table at 0x06094FA8 (3 ints per entry, 0xC bytes each).
+ * Also reads face depth from input[9] for sorting. */
 void FUN_06031d8c(param_1, param_2)
     unsigned int *param_1;
     int param_2;
@@ -2723,6 +2787,14 @@ void FUN_06031d8c(param_1, param_2)
   return;
 }
 
+/* polygon_face_project_and_clip_alt -- Alternate polygon face projection (course 2).
+ * Same algorithm as FUN_06031a28 but uses different data tables:
+ *   polygon table at 0x060961A8 (vs 0x06094FA8),
+ *   view matrix at *(0x0608A52C) (vs *(0x06089EDC)),
+ *   output buffer scratch at 0x06032108/0x06032128/0x06032138,
+ *   render dispatch table at 0x06032144 (vs 0x06031D78).
+ * Used for alternate course or mirror-mode polygon rendering.
+ * Calls FUN_060320e6 for bounds checking (equivalent of FUN_06031d1a). */
 unsigned int FUN_06031df4(param_1, param_2, param_3)
     int param_1;
     char param_2;

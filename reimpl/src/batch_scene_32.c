@@ -51,6 +51,10 @@ extern int PTR_DAT_06033344;
 extern int PTR_DAT_060333b0;
 extern int counter_06032300;
 
+/* polygon_bounds_check_alt -- Bounds check for alternate polygon pipeline.
+ * Equivalent of FUN_06031d1a for the alt course rendering path.
+ * Checks projected coordinates (in_r1, in_r2) against screen bounds
+ * at 0x06032102-0x06032106. Returns early to next polygon if out of bounds. */
 unsigned int FUN_060320e6()
 {
   char *puVar1;
@@ -737,6 +741,11 @@ LAB_060320be:
   goto LAB_060320be;
 }
 
+/* vertex_normal_transform_alt -- Transform vertex normals for alternate course.
+ * Same algorithm as FUN_06031d8c but uses alternate view matrix from
+ * OBJ_STATE_PRIMARY. param_1 = input normals, param_2 = count.
+ * Performs 3-component dot product using software 32-bit MAC multiply.
+ * Writes to polygon table at 0x060961A8 (alternate course path). */
 void FUN_06032158(param_1, param_2)
     unsigned int *param_1;
     int param_2;
@@ -1318,6 +1327,11 @@ int FUN_06032584()
   return uVar2;
 }
 
+/* scene_camera_matrix_setup -- Initialize scene camera transform and lighting.
+ * Implicit r14 = scene object pointer. Pushes matrix stack (0x06026DBC),
+ * applies camera offset (0x06026E0C), translates by obj position (+0x10/14/18),
+ * copies 12 words of view matrix from *(0x06089EDC) into object slots
+ * at +0x54 and +0x84 for forward/inverse transforms. */
 int FUN_0603268c()
 {
   char *puVar1;
@@ -1920,6 +1934,11 @@ int FUN_06033354()
   return uVar4;
 }
 
+/* hud_sprite_render_sequence -- Render HUD sprites for race overlay.
+ * Sets display priority flags at 0x060629AA, calls depth offset computation
+ * (FUN_06033550) and car state update (FUN_06033648). Conditionally
+ * renders sprites to VDP1 tables at 0x0607E910 (play mode) or
+ * 0x0607E90C (demo mode) via 0x0602761E. */
 int FUN_060333d8(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -1986,6 +2005,10 @@ int FUN_06033470()
     return FUN_06033504();
 }
 
+/* vdp1_sprite_cmd_init -- Initialize VDP1 sprite command at 0x06062970.
+ * Copies display priority bits from 0x0605B734 (>>6) into command byte,
+ * sets quad vertex count. Dispatches to VDP1 command builder via
+ * function pointer table at 0x0603380C (FUN_060337fc). */
 void FUN_06033520()
 {
   char *puVar1;
@@ -2002,6 +2025,11 @@ void FUN_06033520()
   return;
 }
 
+/* scene_depth_offset_compute -- Compute scene sprite depth from camera distance.
+ * Implicit r0 = camera struct. Subtracts sum of three camera distance fields
+ * (+0x20, +0x1D8, +0x1CC) from course-indexed lookup at 0x06033630.
+ * Applies projection via FUN_060335f4 and squares results using 0x06027552.
+ * Stores final depth in output buffer. */
 int FUN_06033550()
 {
   int in_r0 = 0;
@@ -2043,6 +2071,11 @@ int FUN_060335f4(int param_1, int param_2, int param_3)
     return (*(int(*)())0x06027344)(table_val, p2, p3, intermediate);
 }
 
+/* hud_car_state_priority_set -- Find active car and set HUD sprite priority.
+ * Iterates car slots at 0x06078900 (stride 0x268) checking for state flag
+ * match. Sets sprite display priority bits at 0x0606299A/0x060629A8
+ * based on demo mode and total car count. Chains to FUN_06033550
+ * for depth computation. */
 int FUN_06033648()
 {
   int in_r0 = 0;
@@ -2081,6 +2114,8 @@ int FUN_06033648()
   return in_r0;
 }
 
+/* identity_return_r0 -- No-op stub, returns implicit r0 unchanged.
+ * Likely a removed or disabled rendering callback. */
 int FUN_060336c8()
 {
   int in_r0 = 0;
@@ -2088,6 +2123,8 @@ int FUN_060336c8()
   return in_r0;
 }
 
+/* identity_return_r0_b -- No-op stub, returns implicit r0 unchanged.
+ * Second disabled rendering callback placeholder. */
 int FUN_060336f2()
 {
   int in_r0 = 0;
@@ -2095,6 +2132,12 @@ int FUN_060336f2()
   return in_r0;
 }
 
+/* hud_sprite_quad_submit -- Transform and submit a HUD sprite quad to VDP1.
+ * param_3 = sprite definition (position, priority at +0xE, size).
+ * Reads course-specific offset table at 0x06033894 (indexed by 0x0607EAD8).
+ * Applies rotation correction via 0x0602755C (16.16 multiply).
+ * Mirrors X for reversed mode (0x06078663). Builds sprite command at
+ * 0x06062970 and submits via 0x060280F8 to current VDP1 table. */
 int FUN_06033700(param_1, param_2, param_3)
     int param_1;
     int param_2;
@@ -2136,6 +2179,9 @@ int FUN_06033700(param_1, param_2, param_3)
   return in_r0;
 }
 
+/* vdp1_cmd_dispatch -- Dispatch VDP1 command via indexed function pointer table.
+ * Reads in_r0 as index, calls function from table at 0x0603380C.
+ * Used to select appropriate VDP1 command builder (sprite, polygon, etc.). */
 void FUN_060337fc()
 {
   int in_r0 = 0;
