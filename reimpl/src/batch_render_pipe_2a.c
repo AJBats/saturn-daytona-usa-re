@@ -49217,6 +49217,10 @@ char * FUN_0602db00()
   return result;
 }
 
+/* car_per_frame_update -- Main per-car physics and state update dispatcher.
+ * Dispatches via jump table at 0x0602DC44, then calls subsystem chain:
+ * drag, cooldown, timer_update, engine_speed, gear_ratio, steering, wheel contact.
+ * Handles race state transitions at car offset +0x244, decrements event timers. */
 char * FUN_0602dc18(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;

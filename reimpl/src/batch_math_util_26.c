@@ -1735,6 +1735,10 @@ void FUN_060270d0()
     mtx[0xb] = 0;
 }
 
+/* matrix_vector_multiply_alt -- Multiply 3D vector by 3x3 matrix (alt pipeline).
+ * Writes input vector (param_1, param_2, param_3) to 0x0608A6B0, then multiplies
+ * by matrix at alt pipeline stack base 0x0608A52C. Uses software 16.16 fixed-point
+ * MAC multiply with sign handling. Returns transformed vector components. */
 char * FUN_060270f2(param_1, param_2, param_3)
     int param_1;
     int param_2;
