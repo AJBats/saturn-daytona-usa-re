@@ -884,203 +884,112 @@ void FUN_060394f0(int param_1)
     FBCR_SHADOW = (param_1 == 0) ? 0 : 0x10;
 }
 
-void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param_5,int param_6)
+/* display_mode_init -- Initialize VDP display mode and timing configuration.
+ * Clears VDP status registers (0x20100079..7F), installs VBlank handler
+ * (0x0603990E via BIOS 0x47), sets interrupt mask. Configures display mode
+ * at 0x060A4CAA (0=off, 1=non-interlace, 2=interlace), frame timing params,
+ * and computes stride offsets for the 5-slot display config ring buffer
+ * based on resolution mode (0x060A4CAF). Performs initial field swap. */
+void display_mode_init(char mode, short line_count, char res_mode, char scan_lines,
+                       int base_addr, int frame_threshold)
 {
+  char mode_val;
+  unsigned short res;
+  int stride;
+  char *display_flags = (char *)0x06063602;             /* display mode flags */
+  char *scan_cfg = (char *)0x060A4CAE;                  /* scan line config */
 
-  char cVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  char *puVar8;
-
-  unsigned short uVar9;
-
-  int iVar10;
-
-  puVar8 = (char *)0x20100079;
-
-  puVar7 = (char *)0x060A4CB0;
-
-  puVar6 = (char *)0x060A4CAC;
-
-  puVar5 = (char *)0x060A4CC0;
-
-  puVar4 = (char *)0x06063602;
-
-  puVar3 = (char *)0x060A4CBC;
-
-  puVar2 = (char *)0x060A4CAE;
-
+  /* Clear VDP status registers */
   *(int *)0x20100079 = 0;
+  *(int *)0x2010007B = 0;                               /* +2 */
+  *(int *)0x2010007F = 0;                               /* +6 */
+  *(int *)0x2010007D = 0;                               /* +4 */
 
-  puVar8[2] = 0;
+  /* Install VBlank interrupt handler */
+  (*(int(*)())(BIOS_FUNC_0300))(0x47, 0x0603990E);
+  (*(int(*)())(BIOS_FUNC_0344))(-129, 0);              /* set interrupt mask */
 
-  puVar8[6] = 0;
+  *(int *)0x060A4CAA = mode;                            /* display mode */
+  mode_val = *(char *)0x060A4CAA;
 
-  puVar8[4] = 0;
-
-  (*(int(*)())(BIOS_FUNC_0300))(0x47,0x0603990E);
-
-  (*(int(*)())(BIOS_FUNC_0344))(-129,0);
-
-  puVar8 = (char *)0x060A4CAA;
-
-  *(int *)0x060A4CAA = param_1;
-
-  cVar1 = *puVar8;
-
-  if (cVar1 == '\0') {
-
-    *puVar4 = 1;
-
-    puVar4[1] = 0;
-
+  if (mode_val == '\0') {                               /* mode 0: display off */
+    *display_flags = 1;
+    display_flags[1] = 0;
     *(int *)0x060A4CA8 = 0;
-
-    (*(int(*)())0x0603A72C)();
-
+    (*(int(*)())0x0603A72C)();                          /* query display state */
     return;
-
   }
 
-  if (cVar1 == '\x01') {
-
-    *puVar4 = 0;
-
-    puVar4[1] = 8;
-
+  if (mode_val == '\x01') {                             /* mode 1: non-interlace */
+    *display_flags = 0;
+    display_flags[1] = 8;
+  }
+  else if (mode_val == '\x02') {                        /* mode 2: interlace */
+    *display_flags = 1;
+    display_flags[1] = 8;
+    *(int *)0x060A4CD8 = 0;                             /* interlace field counter */
   }
 
-  else if (cVar1 == '\x02') {
+  /* Store timing parameters */
+  *scan_cfg = scan_lines;
+  *(short *)0x060A4CAC = line_count;                    /* lines per frame */
+  *(int *)0x060A4CAB = frame_threshold;                 /* frame count threshold */
+  *(int *)0x060A4CAF = res_mode;                        /* resolution mode */
+  *(int *)0x060A4CB0 = base_addr;                       /* display buffer base */
+  *(int *)0x060A4CB8 = 0;                               /* frame counter: reset */
 
-    *puVar4 = 1;
-
-    puVar4[1] = 8;
-
-    *(int *)0x060A4CD8 = 0;
-
+  if (0xf < (unsigned char)*scan_cfg) {
+    display_flags[1] = display_flags[1] | 0x50;        /* hi-res scan flag */
   }
 
-  *puVar2 = param_4;
+  /* Initialize display config ring buffer pointers */
+  *(char **)0x060A4CE8 = 0x060A4CD9;                   /* slot[4] = config base */
+  *(char **)0x060A4C98 = (char *)0x060A4CD9 + 7;       /* slot[0] = base + 7 */
+  *(int *)0x060A4CBC = *(int *)0x060A4CB0;              /* slot[2] = base_addr */
 
-  *(short *)puVar6 = param_2;
-
-  *(int *)0x060A4CAB = param_6;
-
-  *(int *)0x060A4CAF = param_3;
-
-  *(int *)puVar7 = param_5;
-
-  *(int *)0x060A4CB8 = 0;
-
-  if (0xf < (unsigned char)*puVar2) {
-
-    puVar4[1] = puVar4[1] | 0x50;
-
+  /* Compute stride offsets based on resolution mode */
+  res = (unsigned short)(unsigned char)*(int *)0x060A4CAF;
+  if (res == 0) {                                       /* 320×224 */
+    *(unsigned int *)0x060A4CC0 = (unsigned int)*(unsigned short *)0x060A4CAC * 6 + *(int *)0x060A4CB0;
+    *(unsigned int *)0x060A4CC8 = (unsigned int)*(unsigned short *)0x060A4CAC * 0xc + *(int *)0x060A4CB0;
+  }
+  else if (res == 0x10) {                               /* 352×224 */
+    *(unsigned int *)0x060A4CC0 = (unsigned int)*(unsigned short *)0x060A4CAC * 0x12 + *(int *)0x060A4CB0;
+    *(unsigned int *)0x060A4CC8 = (unsigned int)*(unsigned short *)0x060A4CAC * 0x24 + *(int *)0x060A4CB0;
+  }
+  else if (res == 0x20) {                               /* 640×224 */
+    *(unsigned int *)0x060A4CC0 = (unsigned int)*(unsigned short *)0x060A4CAC * 0x12 + *(int *)0x060A4CB0;
+    *(unsigned int *)0x060A4CC8 = (unsigned int)*(unsigned short *)0x060A4CAC * 0x24 + *(int *)0x060A4CB0;
+  }
+  else if (res == 0x30) {                               /* 704×224 */
+    *(unsigned int *)0x060A4CC0 = (unsigned int)*(unsigned short *)0x060A4CAC * 10 + *(int *)0x060A4CB0;
+    *(unsigned int *)0x060A4CC8 = (unsigned int)*(unsigned short *)0x060A4CAC * 0x14 + *(int *)0x060A4CB0;
+  }
+  else if (res == DAT_060397f4) {                       /* custom mode A */
+    *(unsigned int *)0x060A4CC0 = (unsigned int)*(unsigned short *)0x060A4CAC * 3 + *(int *)0x060A4CB0;
+    *(unsigned int *)0x060A4CC8 = (unsigned int)*(unsigned short *)0x060A4CAC * 6 + *(int *)0x060A4CB0;
+  }
+  else if (res == DAT_060397f6) {                       /* custom mode B */
+    *(unsigned int *)0x060A4CC0 = (unsigned int)*(unsigned short *)0x060A4CAC * 6 + *(int *)0x060A4CB0;
+    *(unsigned int *)0x060A4CC8 = (unsigned int)*(unsigned short *)0x060A4CAC * 0xc + *(int *)0x060A4CB0;
+  }
+  else if (res == DAT_060397f8) {                       /* custom mode C */
+    stride = ((unsigned char)*scan_cfg + 1) * (unsigned int)*(unsigned short *)0x060A4CAC;
+    *(int *)0x060A4CC0 = *(int *)0x060A4CB0 + stride;
+    *(int *)0x060A4CC8 = (stride << 1) + *(int *)0x060A4CB0;
   }
 
-  puVar4 = (char *)0x060A4CD9;
-
-  *(char **)0x060A4CE8 = 0x060A4CD9;
-
-  *(char **)0x060A4C98 = puVar4 + 7;
-
-  *(int *)puVar3 = *(int *)puVar7;
-
-  puVar4 = (char *)0x060A4CC8;
-
-  uVar9 = (unsigned short)(unsigned char)*(int *)0x060A4CAF;
-
-  if (uVar9 == 0) {
-
-    *(unsigned int *)puVar5 = (unsigned int)*(unsigned short *)puVar6 * 6 + *(int *)puVar7;
-
-    *(unsigned int *)puVar4 = (unsigned int)*(unsigned short *)puVar6 * 0xc + *(int *)puVar7;
-
-  }
-
-  else if (uVar9 == 0x10) {
-
-    *(unsigned int *)puVar5 = (unsigned int)*(unsigned short *)puVar6 * 0x12 + *(int *)puVar7;
-
-    *(unsigned int *)puVar4 = (unsigned int)*(unsigned short *)puVar6 * 0x24 + *(int *)puVar7;
-
-  }
-
-  else if (uVar9 == 0x20) {
-
-    *(unsigned int *)puVar5 = (unsigned int)*(unsigned short *)puVar6 * 0x12 + *(int *)puVar7;
-
-    *(unsigned int *)puVar4 = (unsigned int)*(unsigned short *)puVar6 * 0x24 + *(int *)puVar7;
-
-  }
-
-  else if (uVar9 == 0x30) {
-
-    *(unsigned int *)puVar5 = (unsigned int)*(unsigned short *)puVar6 * 10 + *(int *)puVar7;
-
-    *(unsigned int *)puVar4 = (unsigned int)*(unsigned short *)puVar6 * 0x14 + *(int *)puVar7;
-
-  }
-
-  else if (uVar9 == DAT_060397f4) {
-
-    *(unsigned int *)puVar5 = (unsigned int)*(unsigned short *)puVar6 * 3 + *(int *)puVar7;
-
-    *(unsigned int *)puVar4 = (unsigned int)*(unsigned short *)puVar6 * 6 + *(int *)puVar7;
-
-  }
-
-  else if (uVar9 == DAT_060397f6) {
-
-    *(unsigned int *)puVar5 = (unsigned int)*(unsigned short *)puVar6 * 6 + *(int *)puVar7;
-
-    *(unsigned int *)puVar4 = (unsigned int)*(unsigned short *)puVar6 * 0xc + *(int *)puVar7;
-
-  }
-
-  else if (uVar9 == DAT_060397f8) {
-
-    iVar10 = ((unsigned char)*puVar2 + 1) * (unsigned int)*(unsigned short *)puVar6;
-
-    *(int *)puVar5 = *(int *)puVar7 + iVar10;
-
-    *(int *)puVar4 = (iVar10 << 1) + *(int *)puVar7;
-
-  }
-
+  /* Perform initial field swap and display commit */
   *(int *)0x060A4CB4 = 0;
-
-  (*(int(*)())0x0603A766)();
-
-  puVar2 = (char *)0x060A4CC4;
-
-  *(int *)0x060A4CC4 = *(int *)puVar5;
-
-  *(int *)puVar5 = *(int *)puVar3;
-
-  *(int *)puVar3 = *(int *)puVar2;
-
+  (*(int(*)())0x0603A766)();                            /* field swap */
+  *(int *)0x060A4CC4 = *(int *)0x060A4CC0;              /* rotate ring: slot[1] = slot[3] */
+  *(int *)0x060A4CC0 = *(int *)0x060A4CBC;              /* slot[3] = slot[2] */
+  *(int *)0x060A4CBC = *(int *)0x060A4CC4;              /* slot[2] = slot[1] */
   *(int *)0x060A4CB4 = 0;
-
-  (*(int(*)())0x0603A766)();
-
-  FUN_0603a6c0();
-
-  FUN_0603a72c();
-
+  (*(int(*)())0x0603A766)();                            /* field swap again */
+  FUN_0603a6c0();                                       /* commit display config */
+  FUN_0603a72c();                                       /* query display mode */
   return;
-
 }
 
 /* framebuffer_vsync_poll -- Poll VDP vsync and advance frame timing.

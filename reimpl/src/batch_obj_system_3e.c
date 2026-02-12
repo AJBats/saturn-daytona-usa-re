@@ -24,7 +24,7 @@ extern unsigned int FUN_0603f582();
 extern void cd_parse_dir_entry();
 extern int FUN_0603f92c();
 extern char FUN_0603f970();
-extern void FUN_0603fc60();
+extern void cd_buf_request_read();
 extern void FUN_0603fce4();
 extern void FUN_0603ff9c();
 extern void FUN_0603ffe6();
@@ -944,7 +944,7 @@ unsigned short FUN_0603face(param_1, param_2)
 
   if (uVar3 == 0) {
 
-    FUN_0603fc60(param_1,uVar5,uVar4);
+    cd_buf_request_read(param_1,uVar5,uVar4);
 
     if (param_1[1] == 0) goto LAB_0603fc40;
 
@@ -1026,62 +1026,41 @@ LAB_0603fc40:
 
 }
 
-void FUN_0603fc60(param_1, param_2, param_3)
+/* cd_buf_request_read -- Request a CD buffer read with size negotiation.
+ * Computes available = total_size(+0x14) - bytes_read(+0x18), clamped to
+ * max_chunk(+0x10). If state(+0x30) >= 2 (multi-buffer), also queries
+ * available space via 0x06034FFC and takes the minimum. If no active
+ * buffer (+0x04 == 0), allocates one via 0x0603F900 and resets offset(+0x1C). */
+void cd_buf_request_read(param_1, param_2, param_3)
     int param_1;
     int param_2;
     int param_3;
 {
-
-  int iVar1;
-
-  int iVar2;
-
-  iVar2 = *(int *)(param_1 + 0x14) - *(int *)(param_1 + 0x18);
-
-  if (*(int *)(param_1 + 0x10) < iVar2) {
-
-    iVar2 = *(int *)(param_1 + 0x10);
-
+  int avail;
+  int buf_space;
+  avail = *(int *)(param_1 + 0x14) - *(int *)(param_1 + 0x18); /* remaining bytes */
+  if (*(int *)(param_1 + 0x10) < avail) {
+    avail = *(int *)(param_1 + 0x10);                   /* clamp to max chunk */
   }
-
-  iVar1 = iVar2;
-
-  if (1 < *(int *)(param_1 + 0x30)) {
-
+  buf_space = avail;
+  if (1 < *(int *)(param_1 + 0x30)) {                   /* multi-buffer mode */
     if (*(int *)(param_1 + 4) != 0) {
-
-      iVar2 = (*(int(*)())0x06034FFC)();
-
+      avail = (*(int(*)())0x06034FFC)();                 /* query buffer space */
     }
-
-    (*(int(*)())0x0603F8EE)(param_3);
-
-    iVar1 = (*(int(*)())0x06034FFC)();
-
-    if (iVar2 < iVar1) {
-
-      iVar1 = iVar2;
-
+    (*(int(*)())0x0603F8EE)(param_3);                    /* set buffer mode */
+    buf_space = (*(int(*)())0x06034FFC)();               /* re-query after mode set */
+    if (avail < buf_space) {
+      buf_space = avail;                                 /* take minimum */
     }
-
   }
-
-  if (*(int *)(param_1 + 4) == 0) {
-
-    iVar2 = (*(int(*)())0x0603F900)(param_2,iVar1);
-
-    *(int *)(param_1 + 4) = iVar2;
-
-    if (iVar2 != 0) {
-
-      *(int *)(param_1 + 0x1c) = 0;
-
+  if (*(int *)(param_1 + 4) == 0) {                     /* no active buffer */
+    int buf = (*(int(*)())0x0603F900)(param_2, buf_space); /* allocate buffer */
+    *(int *)(param_1 + 4) = buf;
+    if (buf != 0) {
+      *(int *)(param_1 + 0x1c) = 0;                     /* reset read offset */
     }
-
   }
-
   return;
-
 }
 
 /* cd_buf_calc_transfer_size -- Calculate transfer size for CD buffer.
