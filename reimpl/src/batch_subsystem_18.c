@@ -272,37 +272,22 @@ void FUN_06018320()
   return;
 }
 
-void FUN_060185d8()
+/* scene_object_render_state3 -- Render scene overlay object in game state 3.
+ * Guards on state flag (0x06083254 == 3). Pushes matrix, sets position from
+ * table at 0x06048140, applies rotation (DAT_06018660), renders texture
+ * from ROM offsets 0x002BABE0 (tiles) and 0x002BBD80 (palette), pops matrix. */
+void FUN_060185d8(void)
 {
-
-  char *puVar1;
-
-  if (*(int *)0x06083254 == '\x03') {
-
-    (*(int(*)())0x06026DBC)();
-
-    (*(int(*)())0x06026E2E)(*(int *)0x06048140,*(int *)(0x06048140 + 4),
-
-               *(int *)(0x06048140 + 8));
-
-    (*(int(*)())0x06026EDE)((int)DAT_06018660);
-
-    puVar1 = (char *)0x00200000;
-
-    (*(int(*)())0x06031D8C)(0x00200000 + (int)0x000BABE0,0x178);
-
-    (*(int(*)())0x06031A28)(puVar1 + (int)0x000BBD80,(int)*(short *)0x06089E98,
-
-               (int)PTR_DAT_06018664);
-
-    (*(int(*)())0x06026DF8)();
-
-    return;
-
-  }
-
-  return;
-
+    if (*(int *)0x06083254 == '\x03') {
+        (*(int(*)())0x06026DBC)();  /* matrix_push */
+        (*(int(*)())0x06026E2E)(*(int *)0x06048140, *(int *)(0x06048140 + 4),
+                   *(int *)(0x06048140 + 8));  /* set_position */
+        (*(int(*)())0x06026EDE)((int)DAT_06018660);  /* set_rotation */
+        (*(int(*)())0x06031D8C)(0x00200000 + (int)0x000BABE0, 0x178);  /* texture_select */
+        (*(int(*)())0x06031A28)((char *)0x00200000 + (int)0x000BBD80,
+                   (int)*(short *)0x06089E98, (int)PTR_DAT_06018664);  /* palette_draw */
+        (*(int(*)())0x06026DF8)();  /* matrix_pop */
+    }
 }
 
 /* hud_state_reset -- Reset course-specific HUD state registers.
@@ -568,46 +553,30 @@ LAB_06018bd8:
 
 }
 
+/* cd_command_build_type2 -- Build and send a CD command type 2 buffer.
+ * Constructs a command buffer on stack with fixed fields (cmd=2, flag=1,
+ * subcmd=2, timeout=99) and caller-supplied parameters. Dispatches
+ * via CD command handler at 0x06034D1C. */
 int FUN_06018ddc(param_1, param_2, param_3)
     char param_1;
     char param_2;
     char param_3;
 {
+    int result;
+    int cmd_buf[2];     /* 8-byte command buffer on stack */
+    char cmd_params[8]; /* parameter bytes */
 
-  int uVar1;
+    /* Build command buffer */
+    cmd_buf[0] = 2;            /* command type */
+    ((char *)cmd_buf)[5] = 1;  /* flag byte */
+    cmd_buf[1] = 2;            /* sub-command */
+    cmd_params[1] = 99;        /* timeout */
+    ((char *)cmd_buf)[4] = param_1;  /* user param 1 */
+    cmd_params[0] = param_2;         /* user param 2 */
+    cmd_params[4] = param_3;         /* user param 3 */
 
-  int local_18;
-
-  char uStack_14;
-
-  char uStack_13;
-
-  int uStack_10;
-
-  char uStack_c;
-
-  char uStack_b;
-
-  char uStack_8;
-
-  local_18 = 2;
-
-  uStack_13 = 1;
-
-  uStack_10 = 2;
-
-  uStack_b = 99;
-
-  uStack_14 = param_1;
-
-  uStack_c = param_2;
-
-  uStack_8 = param_3;
-
-  uVar1 = (*(int(*)())0x06034D1C)(&local_18);
-
-  return uVar1;
-
+    result = (*(int(*)())0x06034D1C)(cmd_buf);  /* cd_command_dispatch */
+    return result;
 }
 
 /* cd_command_send_type2 -- Send CD command type 2 with parameter.

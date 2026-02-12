@@ -3160,34 +3160,27 @@ unsigned int FUN_06032ea4()
 
 }
 
+/* scene_wind_smoothing -- Smooth wind effect value toward target.
+ * If wind enable bit (0x06082A25 & 1) is set, target is 0x3333 (fixed-point);
+ * otherwise target is 0. Moves current value (0x06082A28) halfway toward
+ * target each frame (exponential decay), adds result to param_1 accumulator.
+ * Returns pointer to wind state at 0x06082A28. */
 char * FUN_06033020(param_1)
     int *param_1;
 {
+    int target = 0x00003333;     /* wind target intensity */
+    int current;
+    int smoothed;
 
-  char *puVar1;
+    if ((0x00000001 & (int)(char)*(int *)0x06082A25) == 0) {
+        target = 0;              /* wind disabled */
+    }
 
-  int iVar2;
+    smoothed = *(int *)0x06082A28 + ((target - *(int *)0x06082A28) >> 1);  /* half-step */
+    *(int *)0x06082A28 = smoothed;  /* update current */
+    *param_1 = *param_1 + smoothed; /* accumulate */
 
-  char *puVar3;
-
-  puVar1 = (char *)0x06082A28;
-
-  puVar3 = (char *)0x00003333;
-
-  if ((0x00000001 & (int)(char)*(int *)0x06082A25) == 0) {
-
-    puVar3 = (char *)0x0;
-
-  }
-
-  iVar2 = *(int *)0x06082A28 + ((int)puVar3 - *(int *)0x06082A28 >> 1);
-
-  *(int *)0x06082A28 = iVar2;
-
-  *param_1 = *param_1 + iVar2;
-
-  return puVar1;
-
+    return (char *)0x06082A28;
 }
 
 /* scene_palette_check -- Check if scene palette is loaded.

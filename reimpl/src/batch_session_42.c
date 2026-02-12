@@ -260,6 +260,11 @@ void vdp2_vram_write(param_1, param_2, param_3, param_4)
     }
 }
 
+/* dma_register_config -- Configure on-chip DMA0 register from parameter block.
+ * param_1[0] = value OR'd into DMA0R (bit 3 cleared first).
+ * param_1[1] = additional OR value for bit 0 (if flags & 4).
+ * param_1[2] = flags: bit 2 = set enable, bit 0 = clear bit 2, bit 1 = clear bit 1.
+ * Applied sequentially to Onchip_DMA0R. */
 void FUN_06042a8c(param_1)
     unsigned int *param_1;
 {
@@ -268,22 +273,22 @@ void FUN_06042a8c(param_1)
   int val;
 
   val = *reg;
-  val = (val & 0xfffffff7) | *param_1;
+  val = (val & 0xfffffff7) | *param_1;  /* clear bit 3, OR config */
   *reg = val;
 
   flags = param_1[2];
 
-  if ((flags & 4) == 4) {
+  if ((flags & 4) == 4) {  /* set enable bit */
     val = (val & 0xfffffffe) | param_1[1];
     *reg = val;
   }
 
-  if ((flags & 1) == 1) {
+  if ((flags & 1) == 1) {  /* clear transfer bit */
     val = val & 0xfffffffb;
     *reg = val;
   }
 
-  if ((flags & 2) == 2) {
+  if ((flags & 2) == 2) {  /* clear direction bit */
     val = val & 0xfffffffd;
     *reg = val;
   }

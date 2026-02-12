@@ -1076,31 +1076,37 @@ int FUN_0601bbcc(param_1, param_2, param_3)
 
 }
 
-void FUN_0601bdec()
+/* car_heading_track_update -- Update heading tracking counters for target car.
+ * Increments frame counter (0x06059F3C) by CD time delta + 1 (wraps at 0x50).
+ * Compares previous heading (0x06086018) with current car heading (car+0x20):
+ * if turning right, increments direction accumulator (0x06059F38) by 2;
+ * if turning left, decrements by 2 (wraps to 0 above 0xA0).
+ * Saves current heading for next frame. */
+void FUN_0601bdec(void)
 {
-  register int base asm("r2") = CAR_PTR_TARGET;
-  unsigned int *puVar2 = (unsigned int *)0x06059F38;
-  unsigned int *puVar4 = (unsigned int *)0x06059F3C;
-  int *piVar5 = (int *)0x06086018;
-  int iVar1, diff;
+    register int base asm("r2") = CAR_PTR_TARGET;
+    unsigned int *dir_accum   = (unsigned int *)0x06059F38;  /* direction accumulator */
+    unsigned int *frame_count = (unsigned int *)0x06059F3C;  /* frame counter */
+    int *prev_heading = (int *)0x06086018;                   /* previous heading */
+    int cd_delta, heading_diff;
 
-  iVar1 = (*(int(*)())0x06034FE0)();
-  *puVar4 = *puVar4 + iVar1 + 1;
+    cd_delta = (*(int(*)())0x06034FE0)();  /* cd_time_delta */
+    *frame_count = *frame_count + cd_delta + 1;
 
-  diff = *piVar5 - *(int *)(base + 0x20);
-  if (diff >= 1) {
-    *puVar2 = *puVar2 + 2;
-  } else if (diff < 0) {
-    *puVar2 = *puVar2 - 2;
-  }
+    heading_diff = *prev_heading - *(int *)(base + 0x20);
+    if (heading_diff >= 1) {
+        *dir_accum = *dir_accum + 2;       /* turning right */
+    } else if (heading_diff < 0) {
+        *dir_accum = *dir_accum - 2;       /* turning left */
+    }
 
-  if (*puVar4 > 0x50) {
-    *puVar4 = *puVar4 - 0x50;
-  }
+    if (*frame_count > 0x50) {
+        *frame_count = *frame_count - 0x50; /* wrap frame counter */
+    }
 
-  if (*puVar2 > 0xa0) {
-    *puVar2 = 0;
-  }
+    if (*dir_accum > 0xa0) {
+        *dir_accum = 0;                    /* wrap direction */
+    }
 
-  *piVar5 = *(int *)(base + 0x20);
+    *prev_heading = *(int *)(base + 0x20); /* save current heading */
 }
