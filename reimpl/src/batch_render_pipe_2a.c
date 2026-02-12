@@ -96818,213 +96818,145 @@ void FUN_0602d924()
 
 }
 
+/* race_countdown_update -- init race state, run countdown timer, dispatch subsystem chain */
 char * FUN_0602db00()
 {
+  char *result;
+  int car_ptr;
+  char *anim_counter_ptr;
+  int zero;
+  int countdown;
+  unsigned int initial_speed;
 
-  char *puVar1;
+  /* Silence crash (ch2) and screech (ch3) sound channels */
+  (*(int(*)())0x0601D5F4)(0x00000002,0x00000000); /* scsp_command(2, 0) */
+  (*(int(*)())0x0601D5F4)(0x00000003,0x00000000); /* scsp_command(3, 0) */
 
-  int iVar2;
+  /* Clear race state globals */
+  zero = 0x00000000;
+  *(int *)0x06082A30 = 0x00000000; /* race_state_index */
+  *(int *)0x06082A26 = (char)zero;
+  *(int *)0x060788FC = zero;
+  *(int *)0x06082A38 = zero;
 
-  char *puVar3;
+  car_ptr = CAR_PTR_CURRENT;
+  *(int *)0x0607EAC8 = 0x000000C8; /* countdown_timer = 200 frames */
 
-  int uVar4;
+  /* Clear car state fields */
+  zero = 0x00000000;
+  *(int *)(DAT_0602dbac + car_ptr) = 0x00000000;
+  *(int *)(DAT_0602dbae + car_ptr) = zero;
+  *(int *)(DAT_0602dbb0 + car_ptr) = zero;
+  *(int *)(DAT_0602dbb2 + car_ptr) = zero;
+  *(int *)0x06082A2C = zero; /* race_frame_counter */
+  *(int *)(DAT_0602dbb4 + car_ptr) = zero;
+  *(int *)(DAT_0602dbb6 + car_ptr) = zero;
 
-  int iVar5;
+  /* Copy base speed to two speed slots */
+  zero = *(int *)(DAT_0602dbb8 + car_ptr);
+  *(int *)(DAT_0602dbba + car_ptr) = zero;
+  *(int *)(DAT_0602dbbc + car_ptr) = zero;
+  *(int *)(DAT_0602dbbe + car_ptr) = 0x00000000;
 
-  unsigned int uVar6;
-
-  (*(int(*)())0x0601D5F4)(0x00000002,0x00000000);
-
-  (*(int(*)())0x0601D5F4)(0x00000003,0x00000000);
-
-  uVar4 = 0x00000000;
-
-  *(int *)0x06082A30 = 0x00000000;
-
-  *(int *)0x06082A26 = (char)uVar4;
-
-  *(int *)0x060788FC = uVar4;
-
-  *(int *)0x06082A38 = uVar4;
-
-  iVar2 = CAR_PTR_CURRENT;
-
-  *(int *)0x0607EAC8 = 0x000000C8;
-
-  uVar4 = 0x00000000;
-
-  *(int *)(DAT_0602dbac + iVar2) = 0x00000000;
-
-  *(int *)(DAT_0602dbae + iVar2) = uVar4;
-
-  *(int *)(DAT_0602dbb0 + iVar2) = uVar4;
-
-  *(int *)(DAT_0602dbb2 + iVar2) = uVar4;
-
-  *(int *)0x06082A2C = uVar4;
-
-  *(int *)(DAT_0602dbb4 + iVar2) = uVar4;
-
-  *(int *)(DAT_0602dbb6 + iVar2) = uVar4;
-
-  uVar4 = *(int *)(DAT_0602dbb8 + iVar2);
-
-  *(int *)(DAT_0602dbba + iVar2) = uVar4;
-
-  *(int *)(DAT_0602dbbc + iVar2) = uVar4;
-
-  *(int *)(DAT_0602dbbe + iVar2) = 0x00000000;
-
-  uVar6 = (int)((unsigned long long)((long long)0x0000038E * (long long)(int)0x00FA0000) >> 0x20) <<
-
+  /* Compute initial speed: 0x38E * 0xFA0000 (fixed-point) */
+  initial_speed = (int)((unsigned long long)((long long)0x0000038E * (long long)(int)0x00FA0000) >> 0x20) <<
           0x10 | (unsigned int)((long long)0x0000038E * (long long)(int)0x00FA0000) >> 0x10;
 
-  if (0x000000FA <= *(int *)(DAT_0602dbc0 + iVar2)) {
-
-    *(unsigned int *)(0x0000000C + iVar2) = uVar6;
-
+  if (0x000000FA <= *(int *)(DAT_0602dbc0 + car_ptr)) {
+    *(unsigned int *)(0x0000000C + car_ptr) = initial_speed; /* car+0x0C = forward speed */
   }
-
-  *(unsigned int *)(0x00000194 + iVar2) = uVar6;
+  *(unsigned int *)(0x00000194 + car_ptr) = initial_speed; /* car+0x194 = target speed */
 
   *(int *)0x0605A1C4 = (int)DAT_0602dbc2;
-
-  *(int *)0x06082A34 = *(int *)0x06063E1C;
-
+  *(int *)0x06082A34 = *(int *)0x06063E1C; /* save track reference */
   *(int *)0x06063E20 = (int)DAT_0602dbc2;
 
+  /* Dispatch race state machine via jump table */
   (*(int(*)())(*(int *)(0x0602DC44 + *(int *)(0x06082A30 << 2))))();
 
-  puVar1 = (char *)0x0608325C;
-
-  iVar2 = *(int *)0x0608325C;
-
-  if (iVar2 != 0) {
-
-    *(int *)0x06083258 = *(int *)(0x0602EC54 + (iVar2 << 2));
-
-    *(int *)puVar1 = iVar2 + -1;
-
+  /* Animation frame counter — decrement and lookup */
+  anim_counter_ptr = (char *)0x0608325C;
+  car_ptr = *(int *)0x0608325C;
+  if (car_ptr != 0) {
+    *(int *)0x06083258 = *(int *)(0x0602EC54 + (car_ptr << 2)); /* anim_table lookup */
+    *(int *)anim_counter_ptr = car_ptr + -1;
   }
 
-  (*(int(*)())0x0600DB64)();
+  (*(int(*)())0x0600DB64)(); /* checkpoint_update */
 
-  iVar2 = CAR_PTR_CURRENT;
-
-  if (*(int *)(0x00000244 + iVar2) < 0x00000007) {
-
-    iVar5 = *(int *)0x0607EAC8 - 0x00000001;
-
-    if (0x00000028 == iVar5) {
-
-      *(unsigned int *)(DAT_0602e284 + iVar2) =
-
-           *(unsigned int *)(DAT_0602e284 + iVar2) & ~0x88 & ~(int)DAT_0602e288 &
-
+  car_ptr = CAR_PTR_CURRENT;
+  if (*(int *)(0x00000244 + car_ptr) < 0x00000007) {
+    /* Normal racing — decrement countdown */
+    countdown = *(int *)0x0607EAC8 - 0x00000001;
+    if (0x00000028 == countdown) {
+      /* At frame 40: clear movement restriction flags */
+      *(unsigned int *)(DAT_0602e284 + car_ptr) =
+           *(unsigned int *)(DAT_0602e284 + car_ptr) & ~0x88 & ~(int)DAT_0602e288 &
            ~(int)DAT_0602e28a & ~0x11;
-
-      iVar5 = *(int *)0x0607EAC8 - 0x00000001;
-
+      countdown = *(int *)0x0607EAC8 - 0x00000001;
     }
-
-    *(int *)0x0607EAC8 = iVar5;
-
+    *(int *)0x0607EAC8 = countdown;
   }
-
   else {
-
+    /* Race finished — reset to idle state */
     *(char **)0x0605A1D0 = 0x00010000;
-
     *(int *)0x06063E20 = *(int *)0x06082A34;
-
     *(int *)0x06082A30 = 0x00000000;
-
     *(int *)0x0605A1C4 = 0x0;
-
-    *(int *)(0x0607EAC8 + iVar2) = 0x00000001;
-
-    *(int *)(PTR_DAT_0602e3cc + iVar2) = 0x0;
-
+    *(int *)(0x0607EAC8 + car_ptr) = 0x00000001;
+    *(int *)(PTR_DAT_0602e3cc + car_ptr) = 0x0;
   }
 
-  iVar5 = *(int *)(DAT_0602e28e + iVar2);
-
-  if (iVar5 != 0x00000000) {
-
-    *(int *)(DAT_0602e28e + iVar2) = iVar5 - 0x00000001;
-
+  /* Decrement invincibility/recovery timer */
+  countdown = *(int *)(DAT_0602e28e + car_ptr);
+  if (countdown != 0x00000000) {
+    *(int *)(DAT_0602e28e + car_ptr) = countdown - 0x00000001;
   }
 
-  *(int *)(0x000000C0 + iVar2) = 0x00000000;
+  *(int *)(0x000000C0 + car_ptr) = 0x00000000; /* clear frame flags */
 
-  (*(int(*)())0x0602F3EC)();
+  /* Run full subsystem chain */
+  (*(int(*)())0x0602F3EC)(); /* physics_update */
+  (*(int(*)())0x0602F7BC)(); /* tire_physics */
+  (*(int(*)())0x06030A06)(); /* surface_collision */
+  (*(int(*)())0x06030EE0)(); /* wheel_contact */
+  (*(int(*)())0x060085B8)(); /* position_update */
+  (*(int(*)())0x0600C4F8)(); /* ai_steering */
+  (*(int(*)())0x0602D82A)(); /* race_logic */
+  (*(int(*)())0x0602F17C)(); /* speed_limit */
 
-  (*(int(*)())0x0602F7BC)();
-
-  (*(int(*)())0x06030A06)();
-
-  (*(int(*)())0x06030EE0)();
-
-  (*(int(*)())0x060085B8)();
-
-  (*(int(*)())0x0600C4F8)();
-
-  (*(int(*)())0x0602D82A)();
-
-  (*(int(*)())0x0602F17C)();
-
-  iVar2 = (*(int(*)())0x0602ECCC)();
-
-  if (iVar2 < 2) {
-
-    iVar2 = 1;
-
+  /* Compute engine volume — clamp to [1, 127] */
+  car_ptr = (*(int(*)())0x0602ECCC)(); /* get_engine_rpm */
+  if (car_ptr < 2) {
+    car_ptr = 1;
   }
-
-  else if (0x7e < iVar2) {
-
-    iVar2 = 0x7f;
-
+  else if (0x7e < car_ptr) {
+    car_ptr = 0x7f;
   }
+  (*(int(*)())0x0601D5F4)(1,car_ptr); /* scsp_command(1=engine, volume) */
 
-  (*(int(*)())0x0601D5F4)(1,iVar2);
+  (*(int(*)())0x0602E450)(*(int *)((int)DAT_0602e372 + CAR_PTR_CURRENT)); /* gear_update */
+  (*(int(*)())0x0602E4BC)(); /* transmission_update */
+  (*(int(*)())0x0600CE66)(); /* collision_response */
+  (*(int(*)())0x0603053C)(0x00000000); /* wheel_surface_contact_dispatch(0) */
+  (*(int(*)())0x0600D780)(0x00000000); /* lod_update(0) */
 
-  (*(int(*)())0x0602E450)(*(int *)((int)DAT_0602e372 + CAR_PTR_CURRENT));
+  result = *(char **)0x0607E940;
+  *(int *)(result + DAT_0602e376) = *(int *)(result + 0x00300020);
 
-  (*(int(*)())0x0602E4BC)();
-
-  (*(int(*)())0x0600CE66)();
-
-  (*(int(*)())0x0603053C)(0x00000000);
-
-  (*(int(*)())0x0600D780)(0x00000000);
-
-  puVar3 = *(char **)0x0607E940;
-
-  *(int *)(puVar3 + DAT_0602e376) = *(int *)(puVar3 + 0x00300020);
-
-  puVar1 = (char *)0x06082A26;
-
+  anim_counter_ptr = (char *)0x06082A26;
   if (0x00000028 <= *(int *)0x06082A2C) {
-
+    /* After 40 frames — check finish condition */
     if (((int)(char)*(int *)0x06082A25 & 0x00000004) == 0) {
-
-      puVar3 = (char *)(*(int(*)())0x0603226C)();
-
+      result = (char *)(*(int(*)())0x0603226C)(); /* finish_check */
     }
-
     else {
-
       *(int *)0x06082A26 = (char)0x00000000;
-
-      puVar3 = puVar1;
-
+      result = anim_counter_ptr;
     }
-
   }
 
-  return puVar3;
-
+  return result;
 }
 
 char * FUN_0602dc18(param_1, param_2, param_3, param_4)

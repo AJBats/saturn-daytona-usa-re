@@ -418,222 +418,135 @@ void FUN_060302c6()
 
 }
 
+/* wheel_surface_contact_dispatch -- detect which wheels contact surface and apply heading correction */
 void FUN_0603053c(param_1)
     short param_1;
 {
-
-  char *puVar1;
-
-  unsigned int *puVar2;
-
-  int iVar3;
-
-  unsigned int uVar4;
-
-  short sVar6;
-
-  int iVar5;
-
-  unsigned int uVar7;
-
-  char *puVar8;
-
-  unsigned char bVar9;
-
-  int uVar10;
-
-  int iVar11;
+  char *front_ref;
+  unsigned int *wheel_flags;
+  int heading_offset;
+  unsigned int heading_delta;
+  short ref_heading;
+  int ref_position;
+  unsigned int all_contact;
+  char *surface_ref;
+  unsigned char contact_mask;
+  int wheel_index;
+  int car_ptr;
 
   *(short *)0x06030FBE = param_1;
+  car_ptr = CAR_PTR_CURRENT;
+  wheel_flags = (unsigned int *)(DAT_0603056a + car_ptr); /* 4 wheel collision flags */
+  heading_delta = wheel_flags[2];
 
-  iVar11 = CAR_PTR_CURRENT;
+  /* Check: any wheel has ground contact (0x80) AND not all grounded (0x01) */
+  if (((0x80 & (*wheel_flags | wheel_flags[1] | heading_delta | wheel_flags[3])) != 0) &&
+     (all_contact = wheel_flags[3] & heading_delta & wheel_flags[1] & *wheel_flags, (0x1 & all_contact) == 0)) {
 
-  puVar2 = (unsigned int *)(DAT_0603056a + iVar11);
-
-  uVar4 = puVar2[2];
-
-  if (((0x80 & (*puVar2 | puVar2[1] | uVar4 | puVar2[3])) != 0) &&
-
-     (uVar7 = puVar2[3] & uVar4 & puVar2[1] & *puVar2, (0x1 & uVar7) == 0)) {
-
-    if ((0x80 & uVar7) != 0) {
-
-      FUN_06030a9c(0,uVar4,*(int *)(0x06063EC4 + 0x10));
-
+    if ((0x80 & all_contact) != 0) {
+      /* All 4 wheels on surface — use rear reference */
+      FUN_06030a9c(0,heading_delta,*(int *)(0x06063EC4 + 0x10));
       return;
-
     }
 
-    if (((int)DAT_060305ae & uVar7) == 0) {
-
-      uVar4 = (unsigned int)DAT_06030602;
-
-      bVar9 = (uVar4 & *puVar2) != 0;
-
-      if ((uVar4 & puVar2[1]) != 0) {
-
-        bVar9 = bVar9 + 2;
-
+    if (((int)DAT_060305ae & all_contact) == 0) {
+      /* Build per-wheel contact bitmask: FL=1, FR=2, RL=4, RR=8 */
+      heading_delta = (unsigned int)DAT_06030602; /* surface contact flag */
+      contact_mask = (heading_delta & *wheel_flags) != 0;
+      if ((heading_delta & wheel_flags[1]) != 0) {
+        contact_mask = contact_mask + 2;
+      }
+      if ((heading_delta & wheel_flags[2]) != 0) {
+        contact_mask = contact_mask + 4;
+      }
+      if ((heading_delta & wheel_flags[3]) != 0) {
+        contact_mask = contact_mask + 8;
       }
 
-      if ((uVar4 & puVar2[2]) != 0) {
+      *(int *)(DAT_06030604 + car_ptr) = 8; /* set contact response mode */
+      front_ref = (char *)0x06063E9C;  /* front surface reference */
+      surface_ref = (char *)0x06063EC4; /* rear surface reference */
 
-        bVar9 = bVar9 + 4;
-
-      }
-
-      if ((uVar4 & puVar2[3]) != 0) {
-
-        bVar9 = bVar9 + 8;
-
-      }
-
-      *(int *)(DAT_06030604 + iVar11) = 8;
-
-      puVar1 = (char *)0x06063E9C;
-
-      puVar8 = (char *)0x06063EC4;
-
-      if (bVar9 == 3) {
-
-        iVar3 = (int)DAT_06030680;
-
-        uVar4 = (*(int *)(iVar11 + 0x30) + 0x8000) - (*(int *)(0x06063E9C + 0x10) + iVar3);
-
-        sVar6 = (short)*(int *)(0x06063E9C + 0x10);
-
-        if ((int)uVar4 < 0) {
-
-          uVar4 = -uVar4;
-
+      if (contact_mask == 3) {
+        /* Front pair (FL+FR) — heading from front reference with half-turn bias */
+        heading_offset = (int)DAT_06030680;
+        heading_delta = (*(int *)(car_ptr + 0x30) + 0x8000) - (*(int *)(0x06063E9C + 0x10) + heading_offset);
+        ref_heading = (short)*(int *)(0x06063E9C + 0x10);
+        if ((int)heading_delta < 0) {
+          heading_delta = -heading_delta;
         }
-
-        if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
-
-          sVar6 = sVar6 + (DAT_06030680 << 1);
-
+        if ((heading_offset <= (int)(heading_delta & 0xffff)) && ((int)(heading_delta & 0xffff) <= heading_offset * 3)) {
+          ref_heading = ref_heading + (DAT_06030680 << 1);
         }
-
-        *(short *)0x06030FBC = sVar6 + DAT_06030680;
-
-        FUN_06030b68(0,*(int *)(puVar1 + 0x10));
-
+        *(short *)0x06030FBC = ref_heading + DAT_06030680;
+        FUN_06030b68(0,*(int *)(front_ref + 0x10));
         return;
-
       }
 
-      if (bVar9 == 0xc) {
-
-        iVar3 = (int)DAT_0603063a;
-
-        uVar4 = *(int *)(iVar11 + 0x30) - (*(int *)(0x06063EC4 + 0x10) + iVar3);
-
-        sVar6 = (short)*(int *)(0x06063EC4 + 0x10);
-
-        if ((int)uVar4 < 0) {
-
-          uVar4 = -uVar4;
-
+      if (contact_mask == 0xc) {
+        /* Rear pair (RL+RR) — heading from rear reference */
+        heading_offset = (int)DAT_0603063a;
+        heading_delta = *(int *)(car_ptr + 0x30) - (*(int *)(0x06063EC4 + 0x10) + heading_offset);
+        ref_heading = (short)*(int *)(0x06063EC4 + 0x10);
+        if ((int)heading_delta < 0) {
+          heading_delta = -heading_delta;
         }
-
-        if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
-
-          sVar6 = sVar6 + (DAT_0603063a << 1);
-
+        if ((heading_offset <= (int)(heading_delta & 0xffff)) && ((int)(heading_delta & 0xffff) <= heading_offset * 3)) {
+          ref_heading = ref_heading + (DAT_0603063a << 1);
         }
-
-        *(short *)0x06030FBC = sVar6 + DAT_0603063a;
-
-        FUN_06030b68(2,*(int *)(puVar8 + 0x10));
-
+        *(short *)0x06030FBC = ref_heading + DAT_0603063a;
+        FUN_06030b68(2,*(int *)(surface_ref + 0x10));
         return;
-
       }
 
-      if (((bVar9 & 5) != 5) && (((bVar9 & 5) == 0 || ((bVar9 & 10) != 0)))) {
-
-        uVar10 = 1;
-
-        puVar8 = (char *)0x06063EB0;
-
-        if ((bVar9 & 2) == 0) {
-
-          uVar10 = 3;
-
-          puVar8 = (char *)0x06063ED8;
-
+      if (((contact_mask & 5) != 5) && (((contact_mask & 5) == 0 || ((contact_mask & 10) != 0)))) {
+        /* Lateral pair — left side (0x06063EB0) or right side (0x06063ED8) */
+        wheel_index = 1;
+        surface_ref = (char *)0x06063EB0; /* left surface reference */
+        if ((contact_mask & 2) == 0) {
+          wheel_index = 3;
+          surface_ref = (char *)0x06063ED8; /* right surface reference */
         }
-
-        iVar3 = (int)DAT_060306c8;
-
-        iVar5 = *(int *)(puVar8 + 0x10);
-
-        uVar4 = *(int *)(iVar11 + 0x30) - iVar5;
-
-        if ((int)uVar4 < 0) {
-
-          uVar4 = -uVar4;
-
+        heading_offset = (int)DAT_060306c8;
+        ref_position = *(int *)(surface_ref + 0x10);
+        heading_delta = *(int *)(car_ptr + 0x30) - ref_position;
+        if ((int)heading_delta < 0) {
+          heading_delta = -heading_delta;
         }
-
-        if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
-
-          iVar5 = iVar5 + (iVar3 << 1);
-
+        if ((heading_offset <= (int)(heading_delta & 0xffff)) && ((int)(heading_delta & 0xffff) <= heading_offset * 3)) {
+          ref_position = ref_position + (heading_offset << 1);
         }
-
-        *(short *)0x06030FBC = (short)iVar5 + DAT_060306c8;
-
-        FUN_06030b68(uVar10,*(int *)(puVar8 + 0x10));
-
+        *(short *)0x06030FBC = (short)ref_position + DAT_060306c8;
+        FUN_06030b68(wheel_index,*(int *)(surface_ref + 0x10));
         return;
-
       }
 
-      uVar10 = 0;
-
-      puVar8 = (char *)0x06063E9C;
-
-      if ((bVar9 & 1) == 0) {
-
-        uVar10 = 2;
-
-        puVar8 = (char *)0x06063EC4;
-
+      /* Diagonal pair — front-left (0x06063E9C) or front-right (0x06063EC4) */
+      wheel_index = 0;
+      surface_ref = (char *)0x06063E9C;
+      if ((contact_mask & 1) == 0) {
+        wheel_index = 2;
+        surface_ref = (char *)0x06063EC4;
       }
-
-      iVar3 = (int)DAT_06030714;
-
-      iVar5 = *(int *)(puVar8 + 0x10);
-
-      uVar4 = *(int *)(iVar11 + 0x30) - iVar5;
-
-      if ((int)uVar4 < 0) {
-
-        uVar4 = -uVar4;
-
+      heading_offset = (int)DAT_06030714;
+      ref_position = *(int *)(surface_ref + 0x10);
+      heading_delta = *(int *)(car_ptr + 0x30) - ref_position;
+      if ((int)heading_delta < 0) {
+        heading_delta = -heading_delta;
       }
-
-      if ((iVar3 <= (int)(uVar4 & 0xffff)) && ((int)(uVar4 & 0xffff) <= iVar3 * 3)) {
-
-        iVar5 = iVar5 + (iVar3 << 1);
-
+      if ((heading_offset <= (int)(heading_delta & 0xffff)) && ((int)(heading_delta & 0xffff) <= heading_offset * 3)) {
+        ref_position = ref_position + (heading_offset << 1);
       }
-
-      *(short *)0x06030FBC = (short)iVar5 + DAT_06030716;
-
-      FUN_06030b68(uVar10,*(int *)(puVar8 + 0x10));
-
+      *(short *)0x06030FBC = (short)ref_position + DAT_06030716;
+      FUN_06030b68(wheel_index,*(int *)(surface_ref + 0x10));
       return;
-
     }
 
-    *(short *)(iVar11 + DAT_060305b0) = 0xf;
-
+    /* All flags set — mark full contact */
+    *(short *)(car_ptr + DAT_060305b0) = 0xf;
   }
 
   return;
-
 }
 
 void FUN_0603072e(param_1, param_2)
