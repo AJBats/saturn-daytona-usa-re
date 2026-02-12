@@ -606,101 +606,64 @@ int cd_seek_position(param_1, param_2, param_3)
     return *(int *)(param_1 + 8) + *(int *)(param_1 + 0x10);
 }
 
-char * FUN_06040b32(param_1, param_2)
+/* cd_read_buffer_setup -- Allocate and configure a CD read descriptor.
+ * Uses static descriptor at 0x0606367C (returns NULL if already active).
+ * Calls cd_read_start (0x060411A0) to initiate sector transfer, waits
+ * for completion, then fills descriptor: [0]=status, [8]=sectors_read,
+ * [0xC]=sector_offset, [0x10]=active flag. Adjusts sector count if
+ * file extends past track boundary. Returns descriptor pointer or NULL. */
+char * cd_read_buffer_setup(param_1, param_2)
     int *param_1;
     int param_2;
 {
+    char *desc;
+    int result;
+    int cd_status;
+    int sector_offset;
+    int sectors_read;
+    int sectors_remaining;
+    int lba_start;
+    int lba_end;
 
-  char *puVar1;
-
-  int iVar2;
-
-  int uVar3;
-
-  int local_24;
-
-  int iStack_20;
-
-  int iStack_1c;
-
-  int iStack_18;
-
-  int iStack_14;
-
-  int uStack_10;
-
-  if (((int *)0x0606367C)[0x10] == '\0') {
-
-    uStack_10 = param_2;
-
-    iVar2 = (*(int(*)())0x060411A0)(param_1[1],param_1[4],param_2,&local_24,&iStack_20);
-
-    if (iVar2 == 0) {
-
-      iVar2 = (*(int(*)())0x0604188C)();
-
-      if (iVar2 == 0) {
-
-        if (iStack_20 < 1) {
-
-          puVar1 = (char *)0x0;
-
-        }
-
-        else {
-
-          (*(int(*)())0x06040220)(*param_1,0,0,&iStack_18,&iStack_14,&iStack_1c,0,0);
-
-          puVar1 = (char *)0x0606367C;
-
-          if (((iStack_14 <= param_1[2] + param_1[4] + local_24) && (iStack_1c != 0)) &&
-
-             (0 < local_24)) {
-
-            iStack_20 = iStack_20 - (iStack_18 - iStack_1c);
-
-          }
-
-          uVar3 = (*(int(*)())0x06035C48)();
-
-          *(int *)puVar1 = uVar3;
-
-          *(int *)(puVar1 + 4) = 0;
-
-          *(int *)(puVar1 + 8) = iStack_20;
-
-          *(int *)(puVar1 + 0xc) = local_24;
-
-          puVar1[0x10] = 1;
-
-        }
-
-      }
-
-      else {
-
-        puVar1 = (char *)0x0;
-
-      }
-
+    /* Check if read descriptor is available */
+    if (((int *)0x0606367C)[0x10] != '\0') {
+        return (char *)0x0;                    /* descriptor busy */
     }
 
-    else {
-
-      puVar1 = (char *)0x0;
-
+    /* Initiate sector read transfer */
+    result = (*(int(*)())0x060411A0)(param_1[1], param_1[4], param_2, &sector_offset, &sectors_read);
+    if (result != 0) {
+        return (char *)0x0;
     }
 
-  }
+    result = (*(int(*)())0x0604188C)();        /* cd_wait_complete */
+    if (result != 0) {
+        return (char *)0x0;
+    }
 
-  else {
+    if (sectors_read < 1) {
+        return (char *)0x0;                    /* no sectors read */
+    }
 
-    puVar1 = (char *)0x0;
+    /* Get file LBA range for boundary check */
+    (*(int(*)())0x06040220)(*param_1, 0, 0, &lba_start, &lba_end, &sectors_remaining, 0, 0);
+    desc = (char *)0x0606367C;
 
-  }
+    /* Adjust if file extends past track boundary */
+    if (((lba_end <= param_1[2] + param_1[4] + sector_offset) && (sectors_remaining != 0)) &&
+       (0 < sector_offset)) {
+        sectors_read = sectors_read - (lba_start - sectors_remaining);
+    }
 
-  return puVar1;
+    /* Fill read descriptor */
+    cd_status = (*(int(*)())0x06035C48)();     /* cd_get_transfer_status */
+    *(int *)desc = cd_status;
+    *(int *)(desc + 4) = 0;                    /* read position */
+    *(int *)(desc + 8) = sectors_read;
+    *(int *)(desc + 0xc) = sector_offset;
+    desc[0x10] = 1;                            /* mark active */
 
+    return desc;
 }
 
 /* cd_read_validate -- Validate and initiate a CD read request.
@@ -971,72 +934,52 @@ int FUN_06040fea(int param_1)
     return 0;
 }
 
-int FUN_06041034(param_1, param_2, param_3, param_4, param_5)
+/* cd_command_enqueue -- Add a CD command to the session command queue.
+ * Queue stored at session+0x5C, 16 bytes per entry (max 24 entries).
+ * Entry format: [0]=channel, [1]=filter, [8]=callback, [0xC]=userdata.
+ * Sets dispatch flag (+0x58) on first entry. Increments queue counter
+ * at +0x54. Dispatches immediately via FUN_060418be.
+ * Returns 0 on success, -8 (queue full), -7 (channel not open). */
+int cd_command_enqueue(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int param_2;
     int param_3;
     int param_4;
     int param_5;
 {
+    char *session_ptr = (char *)0x060A5400;
+    int queue_count = *(int *)(CD_SESSION_BASE + 0x54);
+    int queue_offset;
+    char dispatch_buf[8];
 
-  char *puVar1;
+    /* Verify channel is open */
+    if (*(char *)(param_1 + CD_SESSION_BASE + 0x18) != '\x01') {
+        return 0xfffffff9;                     /* -7: channel not open */
+    }
 
-  int uVar2;
+    /* Check queue capacity (max 24 entries) */
+    if (queue_count >= 0x18) {
+        return 0xfffffff8;                     /* -8: queue full */
+    }
 
-  int iVar3;
-
-  char auStack_10 [8];
-
-  puVar1 = (char *)0x060A5400;
-
-  iVar3 = *(int *)(CD_SESSION_BASE + 0x54);
-
-  if (*(char *)(param_1 + CD_SESSION_BASE + 0x18) == '\x01') {
-
-    if (iVar3 < 0x18) {
-
-      if (*(int *)(CD_SESSION_BASE + 0x58) == 0) {
-
+    /* Set dispatch flag on first queue entry */
+    if (*(int *)(CD_SESSION_BASE + 0x58) == 0) {
         *(int *)(CD_SESSION_BASE + 0x58) = 1;
-
-      }
-
-      iVar3 = (iVar3 << 4);
-
-      *(char *)(*(int *)puVar1 + 0x5c + iVar3) = (char)param_1;
-
-      *(char *)(*(int *)puVar1 + iVar3 + 0x5d) = param_2;
-
-      (*(int(*)())0x06035228)();
-
-      *(int *)(*(int *)puVar1 + iVar3 + 100) = param_4;
-
-      *(int *)(iVar3 + *(int *)puVar1 + 0x68) = param_5;
-
-      *(int *)(*(int *)puVar1 + 0x54) = *(int *)(*(int *)puVar1 + 0x54) + 1;
-
-      FUN_060418be(auStack_10);
-
-      uVar2 = 0;
-
     }
 
-    else {
+    /* Write queue entry (16 bytes at +0x5C + index*16) */
+    queue_offset = (queue_count << 4);
+    *(char *)(*(int *)session_ptr + 0x5c + queue_offset) = (char)param_1;   /* channel */
+    *(char *)(*(int *)session_ptr + queue_offset + 0x5d) = param_2;         /* filter */
+    (*(int(*)())0x06035228)();                 /* cd_sync */
+    *(int *)(*(int *)session_ptr + queue_offset + 100) = param_4;           /* callback */
+    *(int *)(queue_offset + *(int *)session_ptr + 0x68) = param_5;          /* userdata */
 
-      uVar2 = 0xfffffff8;
+    /* Increment queue counter and dispatch */
+    *(int *)(*(int *)session_ptr + 0x54) = *(int *)(*(int *)session_ptr + 0x54) + 1;
+    FUN_060418be(dispatch_buf);
 
-    }
-
-  }
-
-  else {
-
-    uVar2 = 0xfffffff9;
-
-  }
-
-  return uVar2;
-
+    return 0;
 }
 
 /* cd_session_lock_verify -- Verify session lock and issue stop command.
