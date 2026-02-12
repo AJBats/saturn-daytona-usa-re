@@ -93,7 +93,7 @@
 extern void FUN_0600e1d4(void);        /* per-car initialization */
 extern void FUN_0600d280(void);        /* player car config */
 extern void FUN_0602e5e4(void);        /* physics table setup */
-extern void FUN_06038bd4(int, int);    /* mode configuration */
+extern void vdp2_priority_set(int, int);    /* VDP2 priority/color calc */
 extern int  FUN_060067c8(void);        /* additional race setup (tail call) */
 
 
@@ -235,7 +235,7 @@ void FUN_0600629C(void)
     G_COUNTER_20D0 = 0;
     G_MODE_E1C = 2;
     G_FLAG_9F30 = 1;
-    FUN_06038bd4(8, 0);
+    vdp2_priority_set(8, 0);
 
     /* Camera position defaults */
     G_POS_E24 = CAM_POS_X_DEFAULT;

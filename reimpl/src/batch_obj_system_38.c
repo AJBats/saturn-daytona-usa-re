@@ -546,175 +546,106 @@ void FUN_06038ac8(void)
     }
 }
 
-void FUN_06038bd4(param_1, param_2)
+/* vdp2_priority_set -- Set VDP2 layer priority and color calculation registers.
+ * param_1 is a bitmask selecting which register fields to update.
+ * param_2 (low byte) is the value to write. Each bit dispatches to a
+ * different VDP2 shadow register nibble at 0x060A4D28 (PRISA-PRISD)
+ * or 0x060A4D30 (CCRSA/CCRSB/CCRSC):
+ *   Bits 8-15: priority registers A-D (low/high nibble per pair)
+ *   Bits 1-5,7,0x80: color calculation registers
+ *   Bit 0: direct write to CCRS offset +4
+ * Calls sync (0x06034F78) before each register update. */
+void vdp2_priority_set(param_1, param_2)
     unsigned int param_1;
     unsigned int param_2;
 {
-
-  unsigned short uVar1;
-
-  unsigned short uVar2;
-
-  unsigned short uVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  short uVar7;
-
-  unsigned short *puVar8;
-
-  unsigned int uVar9;
-
-  puVar6 = (char *)0x060A4D30;
-
-  puVar5 = (char *)0x0000F0FF;
-
-  puVar4 = (char *)0x0000FF00;
-
-  uVar3 = DAT_06038cc8;
-
-  uVar9 = 1;
-
-  param_2 = param_2 & 0xff;
-
-  uVar1 = (unsigned short)0x0000FFF0;
-
-  puVar8 = (unsigned short *)0x060A4D28;
-
-  if ((0x100 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *puVar8 = *puVar8 & uVar1 | (unsigned short)param_2;
-
-  }
-
-  uVar2 = (unsigned short)puVar5;
-
-  if ((0x200 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *puVar8 = *puVar8 & uVar2 | (unsigned short)((param_2 & 0xffff) << 8);
-
-  }
-
-  if ((0x400 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    puVar8[1] = puVar8[1] & uVar1 | (unsigned short)param_2;
-
-  }
-
-  if ((0x800 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    puVar8[1] = puVar8[1] & uVar2 | (unsigned short)((param_2 & 0xff) << 8);
-
-  }
-
-  if (((int)DAT_06038cd4 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    puVar8[2] = puVar8[2] & uVar1 | (unsigned short)param_2;
-
-  }
-
-  if (((int)DAT_06038cd6 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    puVar8[2] = puVar8[2] & uVar2 | (unsigned short)((param_2 & 0xff) << 8);
-
-  }
-
-  if (((int)DAT_06038e1a & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    puVar8[3] = puVar8[3] & uVar1 | (unsigned short)param_2;
-
-  }
-
-  if (((unsigned int)0x00008000 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    puVar8[3] = puVar8[3] & uVar2 | (unsigned short)((param_2 & 0xff) << 8);
-
-  }
-
-  uVar1 = (unsigned short)puVar4;
-
-  if ((param_1 & 4) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar1 | (unsigned short)param_2;
-
-  }
-
-  if ((param_1 & 2) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar1 | (unsigned short)param_2;
-
-  }
-
-  if ((param_1 & 8) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar3 | (unsigned short)((param_2 & 0xffff) << 8);
-
-  }
-
-  if ((0x80 & param_1) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)puVar6 = *(unsigned short *)puVar6 & uVar3 | (unsigned short)((param_2 & 0xffff) << 8);
-
-  }
-
-  if ((param_1 & 0x10) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar6 + 2) = *(unsigned short *)(puVar6 + 2) & uVar1 | (unsigned short)param_2;
-
-  }
-
-  uVar7 = (short)param_2;
-
-  if ((param_1 & 0x20) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    uVar7 = (short)param_2;
-
-    *(unsigned short *)(puVar6 + 2) = *(unsigned short *)(puVar6 + 2) & uVar3 | (unsigned short)((param_2 & 0xff) << 8);
-
-  }
-
-  if ((param_1 & uVar9) != 0) {
-
-    (*(int(*)())0x06034F78)();
-
-    *(short *)(puVar6 + 4) = uVar7;
-
-  }
-
-  return;
-
+    unsigned short lo_mask = (unsigned short)0x0000FFF0;
+    unsigned short hi_mask = (unsigned short)0x0000F0FF;
+    unsigned short cc_lo_mask = (unsigned short)0x0000FF00;
+    unsigned short cc_hi_mask = DAT_06038cc8;
+    unsigned short *pris_base = (unsigned short *)0x060A4D28;  /* VDP2 PRISA shadow */
+    char *ccrs_base = (char *)0x060A4D30;                     /* VDP2 CCRSA shadow */
+    short val;
+
+    param_2 = param_2 & 0xff;
+
+    /* Priority register A low nibble (NBG0) */
+    if ((0x100 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        *pris_base = *pris_base & lo_mask | (unsigned short)param_2;
+    }
+    /* Priority register A high nibble (NBG1) */
+    if ((0x200 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        *pris_base = *pris_base & hi_mask | (unsigned short)((param_2 & 0xffff) << 8);
+    }
+    /* Priority register B low (NBG2) */
+    if ((0x400 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        pris_base[1] = pris_base[1] & lo_mask | (unsigned short)param_2;
+    }
+    /* Priority register B high (NBG3) */
+    if ((0x800 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        pris_base[1] = pris_base[1] & hi_mask | (unsigned short)((param_2 & 0xff) << 8);
+    }
+    /* Priority register C low (RBG0) */
+    if (((int)DAT_06038cd4 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        pris_base[2] = pris_base[2] & lo_mask | (unsigned short)param_2;
+    }
+    /* Priority register C high */
+    if (((int)DAT_06038cd6 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        pris_base[2] = pris_base[2] & hi_mask | (unsigned short)((param_2 & 0xff) << 8);
+    }
+    /* Priority register D low */
+    if (((int)DAT_06038e1a & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        pris_base[3] = pris_base[3] & lo_mask | (unsigned short)param_2;
+    }
+    /* Priority register D high */
+    if (((unsigned int)0x00008000 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        pris_base[3] = pris_base[3] & hi_mask | (unsigned short)((param_2 & 0xff) << 8);
+    }
+    /* Color calculation A low (bit 2: NBG0, bit 4: NBG2) */
+    if ((param_1 & 4) != 0) {
+        (*(int(*)())0x06034F78)();
+        *(unsigned short *)ccrs_base = *(unsigned short *)ccrs_base & cc_lo_mask | (unsigned short)param_2;
+    }
+    /* Color calculation A low (bit 1: sprite) */
+    if ((param_1 & 2) != 0) {
+        (*(int(*)())0x06034F78)();
+        *(unsigned short *)ccrs_base = *(unsigned short *)ccrs_base & cc_lo_mask | (unsigned short)param_2;
+    }
+    /* Color calculation A high (bit 3: NBG1) */
+    if ((param_1 & 8) != 0) {
+        (*(int(*)())0x06034F78)();
+        *(unsigned short *)ccrs_base = *(unsigned short *)ccrs_base & cc_hi_mask | (unsigned short)((param_2 & 0xffff) << 8);
+    }
+    /* Color calculation A high (bit 7: RBG0) */
+    if ((0x80 & param_1) != 0) {
+        (*(int(*)())0x06034F78)();
+        *(unsigned short *)ccrs_base = *(unsigned short *)ccrs_base & cc_hi_mask | (unsigned short)((param_2 & 0xffff) << 8);
+    }
+    /* Color calculation B low (bit 4: NBG3) */
+    if ((param_1 & 0x10) != 0) {
+        (*(int(*)())0x06034F78)();
+        *(unsigned short *)(ccrs_base + 2) = *(unsigned short *)(ccrs_base + 2) & cc_lo_mask | (unsigned short)param_2;
+    }
+    /* Color calculation B high (bit 5) */
+    val = (short)param_2;
+    if ((param_1 & 0x20) != 0) {
+        (*(int(*)())0x06034F78)();
+        val = (short)param_2;
+        *(unsigned short *)(ccrs_base + 2) = *(unsigned short *)(ccrs_base + 2) & cc_hi_mask | (unsigned short)((param_2 & 0xff) << 8);
+    }
+    /* Direct color calc write (bit 0) */
+    if ((param_1 & 1) != 0) {
+        (*(int(*)())0x06034F78)();
+        *(short *)(ccrs_base + 4) = val;
+    }
 }
 
 /* fb_state_control -- Set framebuffer state and VDP1 FBCR from mode param.
@@ -1136,126 +1067,64 @@ void FUN_0603950c(char param_1,short param_2,char param_3,char param_4,int param
 
 }
 
-int FUN_06039808(param_1)
+/* framebuffer_vsync_poll -- Poll VDP vsync and advance frame timing.
+ * Monitors interlace mode (0x060A4CAA) and VDP status register bit 4
+ * (0x20100061) to count vsync events. When frame counter (0x060A4CB8)
+ * reaches threshold (0x060A4CAB), rotates the 5-slot display config
+ * ring buffer (0x060A4CBC..CE8) and commits the new display params.
+ * Returns: 0 = still counting, 1 = inactive mode, or display query result. */
+int framebuffer_vsync_poll(param_1)
     int *param_1;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  puVar2 = (char *)0x06063608;
-
-  puVar1 = (char *)0x06063601;
-
-  if ((*(int *)0x060A4CAA == '\x01') || (*(int *)0x060A4CAA == '\x02')) {
-
-    if ((*(int *)0x20100061 & 0x10) == 0x10) {
-
-      iVar5 = *(int *)0x06063608;
-
-      *(int *)0x06063608 = iVar5 + 1;
-
-      if (2 < iVar5 + 1) {
-
-        *puVar1 = 1;
-
-        *(int *)puVar2 = *(int *)puVar2 + -1;
-
+  int vsync_count;
+  int result;
+  int display_mode = *(int *)0x060A4CAA;               /* interlace mode */
+  if (display_mode == 1 || display_mode == 2) {
+    if ((*(int *)0x20100061 & 0x10) == 0x10) {         /* VDP status: vsync active */
+      vsync_count = *(int *)0x06063608;                 /* vsync frame counter */
+      *(int *)0x06063608 = vsync_count + 1;
+      if (2 < vsync_count + 1) {
+        *(int *)0x06063601 = 1;                         /* vsync flag: ready */
+        *(int *)0x06063608 = *(int *)0x06063608 + -1;
       }
-
     }
-
     else {
-
-      *(int *)0x06063601 = 0;
-
-      *(int *)puVar2 = 0;
-
+      *(int *)0x06063601 = 0;                           /* vsync flag: reset */
+      *(int *)0x06063608 = 0;                           /* vsync counter: reset */
     }
-
     if ((int)(unsigned int)(unsigned char)*(int *)0x060A4CAB <= *(int *)0x060A4CB8) {
-
-      *(int *)0x060A4CB8 = 0;
-
-      puVar1 = (char *)0x06063600;
-
+      *(int *)0x060A4CB8 = 0;                           /* frame counter: reset */
       if (*(int *)0x060A4CB4 < (int)(unsigned int)*(unsigned short *)0x060A4CAC) {
-
-        *(int *)0x06063600 = *(int *)0x06063600 + '\x01';
-
-        if (2 < (unsigned char)*puVar1) {
-
-          FUN_0603a766();
-
-          *puVar1 = *puVar1 + -1;
-
+        *(int *)0x06063600 = *(int *)0x06063600 + 1;    /* interlace field counter */
+        if (2 < (unsigned char)*(int *)0x06063600) {
+          FUN_0603a766();                               /* interlace field swap */
+          *(int *)0x06063600 = *(int *)0x06063600 + -1;
         }
-
       }
-
       else {
-
-        *(int *)0x06063600 = 0;
-
+        *(int *)0x06063600 = 0;                         /* field counter: reset */
       }
-
-      puVar2 = (char *)0x060A4CC4;
-
-      puVar1 = (char *)0x060A4CE8;
-
-      *(int *)0x060A4CC4 = *(int *)0x060A4CE8;
-
-      puVar3 = (char *)0x060A4C98;
-
-      *(int *)puVar1 = *(int *)0x060A4C98;
-
-      *(int *)puVar3 = *(int *)puVar2;
-
-      puVar1 = (char *)0x060A4CC0;
-
-      *(int *)puVar2 = *(int *)0x060A4CC0;
-
-      puVar3 = (char *)0x060A4CBC;
-
-      *(int *)puVar1 = *(int *)0x060A4CBC;
-
-      uVar4 = *(int *)puVar2;
-
-      *(int *)puVar3 = uVar4;
-
-      *param_1 = uVar4;
-
-      FUN_0603a6c0();
-
-      uVar4 = FUN_0603a72c();
-
-      return uVar4;
-
+      /* rotate 5-slot display config ring buffer */
+      *(int *)0x060A4CC4 = *(int *)0x060A4CE8;         /* slot[1] = slot[4] */
+      *(int *)0x060A4CE8 = *(int *)0x060A4C98;         /* slot[4] = slot[0] (base) */
+      *(int *)0x060A4C98 = *(int *)0x060A4CC4;         /* slot[0] = slot[1] */
+      *(int *)0x060A4CC4 = *(int *)0x060A4CC0;         /* slot[1] = slot[3] */
+      *(int *)0x060A4CC0 = *(int *)0x060A4CBC;         /* slot[3] = slot[2] */
+      result = *(int *)0x060A4CC4;
+      *(int *)0x060A4CBC = result;                      /* slot[2] = slot[1] */
+      *param_1 = result;
+      FUN_0603a6c0();                                   /* commit display config */
+      result = FUN_0603a72c();                          /* query display mode */
+      return result;
     }
-
-    *(int *)0x060A4CB8 = *(int *)0x060A4CB8 + 1;
-
-    uVar4 = 0;
-
+    *(int *)0x060A4CB8 = *(int *)0x060A4CB8 + 1;       /* frame counter++ */
+    result = 0;
   }
-
   else {
-
     *param_1 = 0;
-
-    uVar4 = 1;
-
+    result = 1;
   }
-
-  return uVar4;
-
+  return result;
 }
 
 /* smpc_check_version -- Check SMPC firmware version register.
