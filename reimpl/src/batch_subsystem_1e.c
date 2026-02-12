@@ -1710,237 +1710,141 @@ int FUN_0601f900(void)
     return 0;
 }
 
+/* standings_screen_render -- render race results/standings with layout variant per game mode */
 void FUN_0601f9cc()
 {
+  short final_y;
+  char layout_mode;
+  char *sprite_cmd;
+  char *layout_base;
+  char *position_render;
+  char *position_table;
+  int base_y;
+  int header_cmd;
+  int header_data;
+  int header_y;
+  int *standings_entry;
+  int row_height;
+  int *entry_ptr;
+  short vdp2_priority[4];
 
-  short sVar1;
+  vdp2_priority[0] = DAT_0601fa26;
 
-  char cVar2;
+  (*(int(*)())0x0602853E)(0xc);  /* sprite_priority_set(12) */
+  (*(int(*)())0x06028560)();     /* sprite_layer_clear */
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int iVar7;
-
-  int uVar8;
-
-  int uVar9;
-
-  int iVar10;
-
-  int *puVar11;
-
-  int iVar12;
-
-  int *local_28;
-
-  short auStack_24 [4];
-
-  auStack_24[0] = DAT_0601fa26;
-
-  (*(int(*)())0x0602853E)(0xc);
-
-  (*(int(*)())0x06028560)();
-
-  puVar4 = (char *)0x06028400;
-
-  puVar3 = (char *)0x06063750;
+  sprite_cmd = (char *)0x06028400;  /* sprite_render_full */
+  layout_base = (char *)0x06063750; /* standings layout data */
 
   if (*(int *)0x06078644 == 1) {
+    /* Single-player mode: compact layout */
+    (*(int(*)())0x0600511E)(0x25E72194,0x00017700,0,8); /* vdp2_register_write */
+    (*(int(*)())0x0602761E)(0x25F00600,0x0604894C,0x20); /* dma_copy palette */
 
-    (*(int(*)())0x0600511E)(0x25E72194,0x00017700,0,8);
-
-    (*(int(*)())0x0602761E)(0x25F00600,0x0604894C,0x20);
-
-    cVar2 = *(int *)0x0605E05C;
-
-    if (cVar2 == '\x04') {
-
-      local_28 = (int *)(puVar3 + PTR_DAT_0601fa28);
-
-      uVar8 = local_28[1];
-
-      iVar7 = 0;
-
+    layout_mode = *(int *)0x0605E05C;
+    if (layout_mode == '\x04') {
+      /* Layout 4: top standings */
+      entry_ptr = (int *)(layout_base + PTR_DAT_0601fa28);
+      header_data = entry_ptr[1];
+      base_y = 0;
     }
-
     else {
-
-      if (cVar2 != '\b') {
-
-        if (cVar2 == '\f') {
-
-          (*(int(*)())puVar4)(0xc,*(int *)(puVar3 + DAT_0601fac8),0x400,
-
-                            *(int *)((int)(puVar3 + DAT_0601fac8) + 4));
-
+      if (layout_mode != '\b') {
+        if (layout_mode == '\f') {
+          /* Layout 12: minimal standings */
+          (*(int(*)())sprite_cmd)(0xc,*(int *)(layout_base + DAT_0601fac8),0x400,
+                            *(int *)((int)(layout_base + DAT_0601fac8) + 4));
         }
-
         goto LAB_0601fcd4;
-
       }
-
-      local_28 = (int *)(puVar3 + DAT_0601fac4);
-
-      uVar8 = local_28[1];
-
-      iVar7 = 0x380;
-
+      /* Layout 8: mid standings */
+      entry_ptr = (int *)(layout_base + DAT_0601fac4);
+      header_data = entry_ptr[1];
+      base_y = 0x380;
     }
-
-    (*(int(*)())puVar4)(0xc,*local_28,iVar7,uVar8);
-
+    (*(int(*)())sprite_cmd)(0xc,*entry_ptr,base_y,header_data);
   }
-
   else {
+    /* Multi-player mode: full standings with position rows */
+    (*(int(*)())0x0602761E)(0x25F00600,0x0605CD9C,0x20); /* dma_copy palette */
 
-    (*(int(*)())0x0602761E)(0x25F00600,0x0605CD9C,0x20);
+    position_table = (int *)0x0605E0A4; /* position name sprites */
+    position_render = (char *)0x060284AE; /* position_sprite_render */
+    base_y = 0x590;
+    header_y = base_y + 8;
+    row_height = 0x90;
 
-    puVar6 = (int *)0x0605E0A4;
-
-    puVar5 = (char *)0x060284AE;
-
-    iVar7 = 0x590;
-
-    iVar10 = iVar7 + 8;
-
-    iVar12 = 0x90;
-
-    cVar2 = *(int *)0x0605E05C;
-
-    if (cVar2 == '\x04') {
-
-      (*(int(*)())0x060284AE)(0xc,0x80,iVar12,*(int *)0x0605E0A4);
-
-      (*(int(*)())puVar4)(0xc,*(int *)(puVar3 + iVar10),0x98,
-
-                        *(int *)((int)(puVar3 + iVar10) + 4));
-
-      (*(int(*)())puVar5)(0xc,0x180,iVar12,*(int *)(puVar6 + 4));
-
-      (*(int(*)())puVar5)(0xc,0x280,iVar12,*(int *)(puVar6 + 8));
-
-      puVar11 = (int *)(puVar3 + iVar7);
-
-      (*(int(*)())puVar4)(0xc,*puVar11,(int)DAT_0601fbae,puVar11[1]);
-
-      (*(int(*)())puVar5)(0xc,0x400,iVar12,*(int *)(puVar6 + 0xc));
-
-      (*(int(*)())puVar5)(0xc,0x500,iVar12,*(int *)(puVar6 + 0x10));
-
-      (*(int(*)())puVar4)(0xc,*puVar11,(int)DAT_0601fbb4,puVar11[1]);
-
-      (*(int(*)())puVar5)(0xc,0x600,iVar12,*(int *)(puVar6 + 0x14));
-
-      (*(int(*)())puVar5)(0xc,0x700,iVar12,*(int *)(puVar6 + 0x18));
-
-      (*(int(*)())puVar4)(0xc,*puVar11,0x730,puVar11[1]);
-
-      (*(int(*)())puVar5)(0xc,0x800,iVar12,*(int *)(puVar6 + 0x1c));
-
-      (*(int(*)())puVar5)(0xc,0x900,iVar12,*(int *)(puVar6 + 0x20));
-
-      (*(int(*)())puVar5)(0xc,0xa00,iVar12,*(int *)(puVar6 + 0x24));
-
-      (*(int(*)())puVar5)(0xc,0xb00,iVar12,*(int *)(puVar6 + 0x28));
-
-      (*(int(*)())puVar4)(0xc,*puVar11,(int)DAT_0601fbc4,puVar11[1]);
-
-      (*(int(*)())puVar5)(0xc,0xc80,iVar12,*(int *)0x0605E0E4);
-
-      uVar9 = puVar11[1];
-
-      uVar8 = *puVar11;
-
-      sVar1 = DAT_0601fbc8;
-
+    layout_mode = *(int *)0x0605E05C;
+    if (layout_mode == '\x04') {
+      /* Layout 4: full 13-row leaderboard */
+      (*(int(*)())0x060284AE)(0xc,0x80,row_height,*(int *)0x0605E0A4);
+      (*(int(*)())sprite_cmd)(0xc,*(int *)(layout_base + header_y),0x98,
+                        *(int *)((int)(layout_base + header_y) + 4));
+      (*(int(*)())position_render)(0xc,0x180,row_height,*(int *)(position_table + 4));
+      (*(int(*)())position_render)(0xc,0x280,row_height,*(int *)(position_table + 8));
+      standings_entry = (int *)(layout_base + base_y);
+      (*(int(*)())sprite_cmd)(0xc,*standings_entry,(int)DAT_0601fbae,standings_entry[1]);
+      (*(int(*)())position_render)(0xc,0x400,row_height,*(int *)(position_table + 0xc));
+      (*(int(*)())position_render)(0xc,0x500,row_height,*(int *)(position_table + 0x10));
+      (*(int(*)())sprite_cmd)(0xc,*standings_entry,(int)DAT_0601fbb4,standings_entry[1]);
+      (*(int(*)())position_render)(0xc,0x600,row_height,*(int *)(position_table + 0x14));
+      (*(int(*)())position_render)(0xc,0x700,row_height,*(int *)(position_table + 0x18));
+      (*(int(*)())sprite_cmd)(0xc,*standings_entry,0x730,standings_entry[1]);
+      (*(int(*)())position_render)(0xc,0x800,row_height,*(int *)(position_table + 0x1c));
+      (*(int(*)())position_render)(0xc,0x900,row_height,*(int *)(position_table + 0x20));
+      (*(int(*)())position_render)(0xc,0xa00,row_height,*(int *)(position_table + 0x24));
+      (*(int(*)())position_render)(0xc,0xb00,row_height,*(int *)(position_table + 0x28));
+      (*(int(*)())sprite_cmd)(0xc,*standings_entry,(int)DAT_0601fbc4,standings_entry[1]);
+      (*(int(*)())position_render)(0xc,0xc80,row_height,*(int *)0x0605E0E4);
+      header_data = standings_entry[1];
+      header_cmd = *standings_entry;
+      final_y = DAT_0601fbc8;
     }
-
     else {
-
-      if (cVar2 != '\b') {
-
-        if (cVar2 == '\f') {
-
-          (*(int(*)())0x060284AE)(0xc,0x480,iVar12,*(int *)0x0605E0DC);
-
-          (*(int(*)())puVar4)(0xc,*(int *)(puVar3 + iVar10),0x498,
-
-                            *(int *)((int)(puVar3 + iVar10) + 4));
-
-          (*(int(*)())puVar5)(0xc,0x600,iVar12,*(int *)0x0605E0E0);
-
-          puVar11 = (int *)(puVar3 + iVar7);
-
-          (*(int(*)())puVar4)(0xc,*puVar11,0x620,puVar11[1]);
-
-          (*(int(*)())puVar5)(0xc,0x800,iVar12,*(int *)0x0605E0E4);
-
-          (*(int(*)())puVar4)(0xc,*puVar11,0x852,puVar11[1]);
-
+      if (layout_mode != '\b') {
+        if (layout_mode == '\f') {
+          /* Layout 12: compact 3-row results */
+          (*(int(*)())0x060284AE)(0xc,0x480,row_height,*(int *)0x0605E0DC);
+          (*(int(*)())sprite_cmd)(0xc,*(int *)(layout_base + header_y),0x498,
+                            *(int *)((int)(layout_base + header_y) + 4));
+          (*(int(*)())position_render)(0xc,0x600,row_height,*(int *)0x0605E0E0);
+          standings_entry = (int *)(layout_base + base_y);
+          (*(int(*)())sprite_cmd)(0xc,*standings_entry,0x620,standings_entry[1]);
+          (*(int(*)())position_render)(0xc,0x800,row_height,*(int *)0x0605E0E4);
+          (*(int(*)())sprite_cmd)(0xc,*standings_entry,0x852,standings_entry[1]);
         }
-
         goto LAB_0601fcd4;
-
       }
-
-      (*(int(*)())0x060284AE)(0xc,0x380,iVar12,*(int *)0x0605E0D0);
-
-      (*(int(*)())puVar4)(0xc,*(int *)(puVar3 + iVar10),0x398,
-
-                        *(int *)((int)(puVar3 + iVar10) + 4));
-
-      (*(int(*)())puVar5)(0xc,0x500,iVar12,*(int *)0x0605E0D4);
-
-      puVar11 = (int *)(puVar3 + iVar7);
-
-      (*(int(*)())puVar4)(0xc,*puVar11,(int)DAT_0601fc94,puVar11[1]);
-
-      (*(int(*)())puVar5)(0xc,0x680,iVar12,*(int *)0x0605E0D8);
-
-      (*(int(*)())puVar4)(0xc,*puVar11,0x6b2,puVar11[1]);
-
-      (*(int(*)())puVar5)(0xc,0x880,iVar12,*(int *)0x0605E0E4);
-
-      uVar9 = puVar11[1];
-
-      uVar8 = *puVar11;
-
-      sVar1 = DAT_0601fc9c;
-
+      /* Layout 8: mid 5-row results */
+      (*(int(*)())0x060284AE)(0xc,0x380,row_height,*(int *)0x0605E0D0);
+      (*(int(*)())sprite_cmd)(0xc,*(int *)(layout_base + header_y),0x398,
+                        *(int *)((int)(layout_base + header_y) + 4));
+      (*(int(*)())position_render)(0xc,0x500,row_height,*(int *)0x0605E0D4);
+      standings_entry = (int *)(layout_base + base_y);
+      (*(int(*)())sprite_cmd)(0xc,*standings_entry,(int)DAT_0601fc94,standings_entry[1]);
+      (*(int(*)())position_render)(0xc,0x680,row_height,*(int *)0x0605E0D8);
+      (*(int(*)())sprite_cmd)(0xc,*standings_entry,0x6b2,standings_entry[1]);
+      (*(int(*)())position_render)(0xc,0x880,row_height,*(int *)0x0605E0E4);
+      header_data = standings_entry[1];
+      header_cmd = *standings_entry;
+      final_y = DAT_0601fc9c;
     }
-
-    (*(int(*)())puVar4)(0xc,uVar8,(int)sVar1,uVar9);
-
+    (*(int(*)())sprite_cmd)(0xc,header_cmd,(int)final_y,header_data);
   }
 
 LAB_0601fcd4:
-
-  puVar3 = (char *)0x06038BD4;
-
+  /* Reset all matrix transforms and write VDP2 CRAM priority marker */
+  layout_base = (char *)0x06038BD4; /* matrix_set function */
   (*(int(*)())0x06038BD4)(0x100,0);
-
-  (*(int(*)())puVar3)(4,0);
-
-  (*(int(*)())puVar3)(8,0);
-
-  (*(int(*)())puVar3)(0x10,0);
-
-  (*(int(*)())puVar3)(0x20,7);
-
-  (*(int(*)())puVar3)(1,0);
-
-  (*(int(*)())0x06036E90)(0x25E7FFFE,1,auStack_24);
-
-  (*(int(*)())puVar3)(0x20,7);
+  (*(int(*)())layout_base)(4,0);
+  (*(int(*)())layout_base)(8,0);
+  (*(int(*)())layout_base)(0x10,0);
+  (*(int(*)())layout_base)(0x20,7);
+  (*(int(*)())layout_base)(1,0);
+  (*(int(*)())0x06036E90)(0x25E7FFFE,1,vdp2_priority); /* vdp2_cram_write */
+  (*(int(*)())layout_base)(0x20,7);
 
   return;
-
 }
 
 /* mode_transition_vdp_reset -- Reset VDP state for mode transition.

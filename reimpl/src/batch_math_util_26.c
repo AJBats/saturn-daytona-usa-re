@@ -542,310 +542,172 @@ int FUN_060266cc()
     return result;
 }
 
+/* demo_replay_sequence_update -- advance timed sprite sequence for intro/demo, per car-count variant */
 void FUN_060268b0(param_1)
     short param_1;
 {
+  char *sprite_render;
+  char *frame_counter;
+  char *vblank_ref;
+  char *trigger_flag;
+  char *seq_position;
+  int car_count;
+  int priority;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  puVar5 = (int *)0x06061238;
-
-  puVar4 = (char *)0x0606123A;
-
-  puVar3 = (char *)0x0607864C;
-
-  puVar2 = (int *)0x0606123C;
-
-  puVar1 = (int *)0x060283E0;
-
-  iVar7 = (int)DAT_06026922;
+  seq_position = (int *)0x06061238;   /* current sequence position */
+  frame_counter = (char *)0x0606123A; /* frame within current position */
+  vblank_ref = (char *)0x0607864C;    /* vblank reference timestamp */
+  trigger_flag = (int *)0x0606123C;   /* new-position trigger */
+  sprite_render = (int *)0x060283E0;  /* sprite_render_command function */
+  priority = (int)DAT_06026922;
 
   if (param_1 == 0) {
+    car_count = CAR_COUNT;
 
-    iVar6 = CAR_COUNT;
-
-    if (iVar6 == 0) {
-
+    if (car_count == 0) {
+      /* Single player: 54 sequence positions, timing table at 0x060597B8, frame stride 0x20 */
       if (*(short *)0x06061238 < 0x36) {
-
         if ((unsigned int)(*(short *)(0x060597B8 + *(short *)(0x06061238 << 1)) * 3) <=
-
             VBLANK_COUNTER) {
-
           *(short *)0x06061238 = *(short *)0x06061238 + 1;
-
-          *(short *)puVar4 = 0;
-
-          (*(int(*)())puVar1)(0xc,iVar7,0x0000F000,0x06059826);
-
-          *(short *)puVar2 = 1;
-
+          *(short *)frame_counter = 0;
+          (*(int(*)())sprite_render)(0xc,priority,0x0000F000,0x06059826); /* clear sprite */
+          *(short *)trigger_flag = 1;
         }
-
       }
-
       else if ((*(short *)0x06061238 == 0x36) &&
-
               ((unsigned int)(*(short *)(0x060597B8 + *(short *)(0x06061238 << 1)) * 3) <=
-
                VBLANK_COUNTER)) {
-
-        (*(int(*)())0x060283E0)(0xc,iVar7,0x0000F000,0x06059826);
-
-        *(short *)puVar5 = 0;
-
-        *(short *)puVar4 = 0;
-
-        *(short *)0x0606123E = 1;
-
+        (*(int(*)())0x060283E0)(0xc,priority,0x0000F000,0x06059826);
+        *(short *)seq_position = 0;
+        *(short *)frame_counter = 0;
+        *(short *)0x0606123E = 1; /* sequence_complete */
       }
-
-      if (*(short *)puVar2 != 0) {
-
-        (*(int(*)())puVar1)(0xc,iVar7,0x0000F000,
-
+      if (*(short *)trigger_flag != 0) {
+        (*(int(*)())sprite_render)(0xc,priority,0x0000F000,
                           *(int *)
-
-                           (0x060611FC + (char)((int *)0x060591BA)[*(short *)puVar5 + -1] * 4));
-
+                           (0x060611FC + (char)((int *)0x060591BA)[*(short *)seq_position + -1] * 4));
       }
-
-      *(short *)puVar2 = 0;
-
-      if (0 < *(short *)puVar5) {
-
-        while ((((unsigned int)(((int)*(short *)(0x060597B8 + (*(short *)puVar5 + -1) << 1) +
-
+      *(short *)trigger_flag = 0;
+      if (0 < *(short *)seq_position) {
+        while ((((unsigned int)(((int)*(short *)(0x060597B8 + (*(short *)seq_position + -1) << 1) +
                         (int)((char *)0x060595D8)
-
-                                   [(int)*(short *)puVar4 +
-
-                                    (char)((int *)0x060591BA)[*(short *)puVar5 + -1] * 0x20]) * 3) <=
-
-                 *(unsigned int *)puVar3 &&
-
+                                   [(int)*(short *)frame_counter +
+                                    (char)((int *)0x060591BA)[*(short *)seq_position + -1] * 0x20]) * 3) <=
+                 *(unsigned int *)vblank_ref &&
                 (((char *)0x060595D8)
-
-                       [(int)*(short *)puVar4 + (char)((int *)0x060591BA)[*(short *)puVar5 + -1] * 0x20
-
-                       ] != -1)) && (*(short *)puVar4 < 0x20))) {
-
+                       [(int)*(short *)frame_counter + (char)((int *)0x060591BA)[*(short *)seq_position + -1] * 0x20
+                       ] != -1)) && (*(short *)frame_counter < 0x20))) {
           FUN_06026ca4(*(int *)
-
-                        (0x060611FC + (char)((int *)0x060591BA)[*(short *)puVar5 + -1] * 4),
-
-                       (int)*(short *)puVar4);
-
-          *(short *)puVar4 = *(short *)puVar4 + 1;
-
+                        (0x060611FC + (char)((int *)0x060591BA)[*(short *)seq_position + -1] * 4),
+                       (int)*(short *)frame_counter);
+          *(short *)frame_counter = *(short *)frame_counter + 1;
         }
-
       }
-
     }
 
-    else if (iVar6 == 1) {
-
+    else if (car_count == 1) {
+      /* VS mode: 58 positions, timing at 0x060591F0, frame stride 0x24 */
       if (*(short *)0x06061238 < 0x3a) {
-
         if ((unsigned int)(*(short *)(0x060591F0 + *(short *)(0x06061238 << 1)) * 3) <=
-
             VBLANK_COUNTER) {
-
           *(short *)0x06061238 = *(short *)0x06061238 + 1;
-
-          *(short *)puVar4 = 0;
-
-          (*(int(*)())puVar1)(0xc,iVar7,0x0000F000,0x06059826);
-
-          *(short *)puVar2 = 1;
-
+          *(short *)frame_counter = 0;
+          (*(int(*)())sprite_render)(0xc,priority,0x0000F000,0x06059826);
+          *(short *)trigger_flag = 1;
         }
-
       }
-
       else if ((*(short *)0x06061238 == 0x3a) &&
-
               ((unsigned int)(*(short *)(0x060591F0 + *(short *)(0x06061238 << 1)) * 3) <=
-
                VBLANK_COUNTER)) {
-
-        (*(int(*)())0x060283E0)(0xc,iVar7,0x0000F000,0x06059826);
-
-        *(short *)puVar5 = 0;
-
-        *(short *)puVar4 = 0;
-
+        (*(int(*)())0x060283E0)(0xc,priority,0x0000F000,0x06059826);
+        *(short *)seq_position = 0;
+        *(short *)frame_counter = 0;
         *(short *)0x0606123E = 1;
-
       }
-
-      if (*(short *)puVar2 != 0) {
-
-        (*(int(*)())puVar1)(0xc,iVar7,0x0000F000,
-
+      if (*(short *)trigger_flag != 0) {
+        (*(int(*)())sprite_render)(0xc,priority,0x0000F000,
                           *(int *)
-
-                           (0x0606119C + (char)((int *)0x0605914C)[*(short *)puVar5 + -1] * 4));
-
+                           (0x0606119C + (char)((int *)0x0605914C)[*(short *)seq_position + -1] * 4));
       }
-
-      *(short *)puVar2 = 0;
-
-      if (0 < *(short *)puVar5) {
-
-        while ((((unsigned int)(((int)*(short *)(0x060591F0 + (*(short *)puVar5 + -1) << 1) +
-
+      *(short *)trigger_flag = 0;
+      if (0 < *(short *)seq_position) {
+        while ((((unsigned int)(((int)*(short *)(0x060591F0 + (*(short *)seq_position + -1) << 1) +
                         (int)((char *)0x06059266)
-
-                                   [(int)*(short *)puVar4 +
-
-                                    (int)(short)((char)((int *)0x0605914C)[*(short *)puVar5 + -1] *
-
-                                                0x24)]) * 3) <= *(unsigned int *)puVar3 &&
-
+                                   [(int)*(short *)frame_counter +
+                                    (int)(short)((char)((int *)0x0605914C)[*(short *)seq_position + -1] *
+                                                0x24)]) * 3) <= *(unsigned int *)vblank_ref &&
                 (((char *)0x06059266)
-
-                       [(int)*(short *)puVar4 +
-
-                        (int)(short)((char)((int *)0x0605914C)[*(short *)puVar5 + -1] * 0x24)] != -1))
-
-               && (*(short *)puVar4 < 0x24))) {
-
+                       [(int)*(short *)frame_counter +
+                        (int)(short)((char)((int *)0x0605914C)[*(short *)seq_position + -1] * 0x24)] != -1))
+               && (*(short *)frame_counter < 0x24))) {
           FUN_06026ca4(*(int *)
-
-                        (0x0606119C + (char)((int *)0x0605914C)[*(short *)puVar5 + -1] * 4),
-
-                       (int)*(short *)puVar4);
-
-          *(short *)puVar4 = *(short *)puVar4 + 1;
-
+                        (0x0606119C + (char)((int *)0x0605914C)[*(short *)seq_position + -1] * 4),
+                       (int)*(short *)frame_counter);
+          *(short *)frame_counter = *(short *)frame_counter + 1;
         }
-
       }
-
     }
 
-    else if (iVar6 == 2) {
-
+    else if (car_count == 2) {
+      /* Expert mode: 52 positions, timing at 0x0605956E, frame stride 0x19 */
       if (*(short *)0x06061238 < 0x34) {
-
         if ((unsigned int)(*(short *)(0x0605956E + *(short *)(0x06061238 << 1)) * 3) <=
-
             VBLANK_COUNTER) {
-
           *(short *)0x06061238 = *(short *)0x06061238 + 1;
-
-          *(short *)puVar4 = 0;
-
-          (*(int(*)())puVar1)(0xc,iVar7,0x0000F000,0x06059826);
-
-          *(short *)puVar2 = 1;
-
+          *(short *)frame_counter = 0;
+          (*(int(*)())sprite_render)(0xc,priority,0x0000F000,0x06059826);
+          *(short *)trigger_flag = 1;
         }
-
       }
-
       else if ((*(short *)0x06061238 == 0x34) &&
-
               ((unsigned int)(*(short *)(0x0605956E + *(short *)(0x06061238 << 1)) * 3) <=
-
                VBLANK_COUNTER)) {
-
-        (*(int(*)())0x060283E0)(0xc,iVar7,0x0000F000,0x06059826);
-
-        *(short *)puVar5 = 0;
-
-        *(short *)puVar4 = 0;
-
+        (*(int(*)())0x060283E0)(0xc,priority,0x0000F000,0x06059826);
+        *(short *)seq_position = 0;
+        *(short *)frame_counter = 0;
         *(short *)0x0606123E = 1;
-
       }
-
-      if (*(short *)puVar2 != 0) {
-
-        (*(int(*)())puVar1)(0xc,iVar7,0x0000F000,
-
+      if (*(short *)trigger_flag != 0) {
+        (*(int(*)())sprite_render)(0xc,priority,0x0000F000,
                           *(int *)
-
-                           (0x060611DC + (char)((int *)0x06059186)[*(short *)puVar5 + -1] * 4));
-
+                           (0x060611DC + (char)((int *)0x06059186)[*(short *)seq_position + -1] * 4));
       }
-
-      *(short *)puVar2 = 0;
-
-      if (0 < *(short *)puVar5) {
-
-        while ((((unsigned int)(((int)*(short *)(0x0605956E + (*(short *)puVar5 + -1) << 1) +
-
+      *(short *)trigger_flag = 0;
+      if (0 < *(short *)seq_position) {
+        while ((((unsigned int)(((int)*(short *)(0x0605956E + (*(short *)seq_position + -1) << 1) +
                         (int)((char *)0x060594A6)
-
-                                   [(int)*(short *)puVar4 +
-
-                                    (((int)(char)((int *)0x06059186)[*(short *)puVar5 + -1] & 0xffffU)
-
-                                     * 0x19 & 0xff)]) * 3) <= *(unsigned int *)puVar3 &&
-
+                                   [(int)*(short *)frame_counter +
+                                    (((int)(char)((int *)0x06059186)[*(short *)seq_position + -1] & 0xffffU)
+                                     * 0x19 & 0xff)]) * 3) <= *(unsigned int *)vblank_ref &&
                 (((char *)0x060594A6)
-
-                       [(int)*(short *)puVar4 +
-
-                        (((int)(char)((int *)0x06059186)[*(short *)puVar5 + -1] & 0xffffU) * 0x19 &
-
-                        0xff)] != -1)) && (*(short *)puVar4 < 0x19))) {
-
+                       [(int)*(short *)frame_counter +
+                        (((int)(char)((int *)0x06059186)[*(short *)seq_position + -1] & 0xffffU) * 0x19 &
+                        0xff)] != -1)) && (*(short *)frame_counter < 0x19))) {
           FUN_06026ca4(*(int *)
-
-                        (0x060611DC + (char)((int *)0x06059186)[*(short *)puVar5 + -1] * 4),
-
-                       (int)*(short *)puVar4);
-
-          *(short *)puVar4 = *(short *)puVar4 + 1;
-
+                        (0x060611DC + (char)((int *)0x06059186)[*(short *)seq_position + -1] * 4),
+                       (int)*(short *)frame_counter);
+          *(short *)frame_counter = *(short *)frame_counter + 1;
         }
-
       }
-
     }
 
+    /* Check for sequence completion */
     if (*(short *)0x0606123E != 0) {
-
-      *(int *)puVar3 = 0;
-
+      *(int *)vblank_ref = 0;
       *(short *)0x0606123E = 0;
-
     }
-
   }
-
   else {
-
+    /* Reset sequence state */
     *(short *)0x0606123C = 0;
-
-    *(short *)puVar4 = 0;
-
-    *(short *)puVar5 = 0;
-
+    *(short *)frame_counter = 0;
+    *(short *)seq_position = 0;
     *(short *)0x0606123E = 0;
-
-    *(int *)puVar3 = 0;
-
+    *(int *)vblank_ref = 0;
   }
 
   return;
-
 }
 
 /* hud_digit_render -- Render a single HUD digit sprite.
@@ -5099,289 +4961,182 @@ void math_sin_cos(param_1, param_2, param_3)
 
 }
 
+/* track_surface_collision_query -- determine track surface type under car from grid-based polygon test */
 void FUN_06027ca4(param_1, param_2)
     unsigned int *param_1;
     int param_2;
 {
+  short search_id;
+  unsigned int *poly_record;
+  short rpm_value;
+  unsigned int *grid_cell;
+  short *search_ptr;
+  unsigned int surface_flags;
+  int half_space;
+  unsigned int hit_found;
+  int poly_count;
+  char *poly_index_ptr;
 
-  short sVar1;
-
-  unsigned int *puVar2;
-
-  short uVar3;
-
-  unsigned int *puVar4;
-
-  short *psVar5;
-
-  unsigned int uVar6;
-
-  int iVar7;
-
-  unsigned int uVar8;
-
-  int iVar9;
-
-  char *puVar10;
-
-  puVar4 = (unsigned int *)(((unsigned int)(0x04000000 + *param_1) >> 0x15) +
-
+  /* Compute grid cell from X/Z world position (21-bit quantization, 64-wide grid) */
+  grid_cell = (unsigned int *)(((unsigned int)(0x04000000 + *param_1) >> 0x15) +
                    (0x03FFFFFF - param_1[2] >> 0x15) << 6);
 
   if (CAR_COUNT == 2) {
-
-    iVar9 = 0;
-
-    psVar5 = (short *)0x06061270;
-
+    /* 2-player: search override table */
+    poly_count = 0;
+    search_ptr = (short *)0x06061270;
     while( 1 ) {
-
-      sVar1 = *psVar5;
-
-      psVar5 = psVar5 + 1;
-
-      if ((unsigned int *)(int)sVar1 == (unsigned int *)0x0) break;
-
-      if (puVar4 == (unsigned int *)(int)sVar1) {
-
+      search_id = *search_ptr;
+      search_ptr = search_ptr + 1;
+      if ((unsigned int *)(int)search_id == (unsigned int *)0x0) break;
+      if (grid_cell == (unsigned int *)(int)search_id) {
         if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06027d26) < 0x47) {
-
-          sVar1 = *(short *)(0x06061240 + (iVar9 << 1));
-
-          iVar9 = (int)*(short *)((int)(0x06061240 + (iVar9 << 1)) + 2);
-
-          *(short *)0x06063F50 = sVar1;
-
-          puVar10 = (char *)(int)sVar1;
-
+          search_id = *(short *)(0x06061240 + (poly_count << 1));
+          poly_count = (int)*(short *)((int)(0x06061240 + (poly_count << 1)) + 2);
+          *(short *)0x06063F50 = search_id;
+          poly_index_ptr = (char *)(int)search_id;
           goto LAB_06027d36;
-
         }
-
         break;
-
       }
-
-      iVar9 = iVar9 + 2;
-
+      poly_count = poly_count + 2;
     }
-
-    iVar9 = 0;
-
-    puVar10 = (char *)0x0607EAD8;
+    poly_count = 0;
+    poly_index_ptr = (char *)0x0607EAD8;
 
 LAB_06027d36:
-
-    if (iVar9 != 0) goto LAB_06027d50;
-
+    if (poly_count != 0) goto LAB_06027d50;
   }
 
-  puVar10 = (char *)(unsigned int)*(unsigned short *)(0x060C2000 + (int)((int)(int)puVar4 << 2));
-
-  iVar9 = (int)(short)*(unsigned short *)((int)(0x060C2000 + (int)((int)(int)puVar4 << 2)) + 2);
+  /* Standard lookup from collision table at 0x060C2000 */
+  poly_index_ptr = (char *)(unsigned int)*(unsigned short *)(0x060C2000 + (int)((int)(int)grid_cell << 2));
+  poly_count = (int)(short)*(unsigned short *)((int)(0x060C2000 + (int)((int)(int)grid_cell << 2)) + 2);
 
 LAB_06027d50:
-
+  /* Test each polygon's 4 half-space planes with directional sign flags */
   do {
-
-    if (iVar9 < 1) {
-
-      uVar6 = 0;
-
-      uVar8 = 0;
+    if (poly_count < 1) {
+      /* No hit found */
+      surface_flags = 0;
+      hit_found = 0;
 
 LAB_06027e6a:
+      *(short *)(param_1 + 3) = (short)surface_flags; /* surface type output */
 
-      *(short *)(param_1 + 3) = (short)uVar6;
-
-      if (uVar8 == 0) {
-
-        iVar9 = CAR_PTR_CURRENT;
-
+      if (hit_found == 0) {
+        poly_count = CAR_PTR_CURRENT;
       }
-
       else {
-
-        sVar1 = *(short *)(puVar4 + 0xc);
-
-        param_1[4] = (int)sVar1;
-
-        uVar3 = (*(int(*)())0x0602ECCC)();
-
-        *(short *)((int)param_1 + 0xe) = uVar3;
-
-        iVar9 = CAR_PTR_CURRENT;
-
+        /* Hit found — extract surface properties */
+        search_id = *(short *)(grid_cell + 0xc);
+        param_1[4] = (int)search_id; /* surface_material */
+        rpm_value = (*(int(*)())0x0602ECCC)(); /* get_engine_rpm */
+        *(short *)((int)param_1 + 0xe) = rpm_value;
+        poly_count = CAR_PTR_CURRENT;
         if (param_2 < 1) {
-
-          *(int *)(DAT_06027e9a + iVar9) = (int)sVar1;
-
+          *(int *)(DAT_06027e9a + poly_count) = (int)search_id; /* store primary surface */
         }
-
       }
 
-      *(unsigned int *)((unsigned int)*(unsigned short *)(0x0606128A + (param_2 << 1)) + iVar9) = uVar6;
-
+      /* Write surface flags to per-car indexed offset */
+      *(unsigned int *)((unsigned int)*(unsigned short *)(0x0606128A + (param_2 << 1)) + poly_count) = surface_flags;
       return;
-
     }
 
-    puVar2 = (unsigned int *)(0x060A6000 + *(short *)(puVar10 + (int)0x060BF000) * 0x34);
+    poly_record = (unsigned int *)(0x060A6000 + *(short *)(poly_index_ptr + (int)0x060BF000) * 0x34);
+    surface_flags = *poly_record;
 
-    uVar6 = *puVar2;
-
-    iVar7 = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)puVar2[4]) >> 0x20) << 0x10
-
-            | (unsigned int)((long long)(int)*param_1 * (long long)(int)puVar2[4]) >> 0x10) + puVar2[5];
-
-    if ((uVar6 & 0x1000000) == 0) {
-
-      iVar7 = iVar7 + param_1[2];
-
+    /* Plane 0 test */
+    half_space = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)poly_record[4]) >> 0x20) << 0x10
+            | (unsigned int)((long long)(int)*param_1 * (long long)(int)poly_record[4]) >> 0x10) + poly_record[5];
+    if ((surface_flags & 0x1000000) == 0) {
+      half_space = half_space + param_1[2];
     }
 
-    if ((0x100 & uVar6) == 0) {
-
-      if (iVar7 < 0) {
-
-        puVar10 = puVar10 + 2;
-
-        iVar9 = iVar9 + -1;
-
+    if ((0x100 & surface_flags) == 0) {
+      if (half_space < 0) {
+        poly_index_ptr = poly_index_ptr + 2;
+        poly_count = poly_count + -1;
         goto LAB_06027d50;
-
       }
 
 LAB_06027db6:
-
-      iVar7 = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)puVar2[6]) >> 0x20) <<
-
-               0x10 | (unsigned int)((long long)(int)*param_1 * (long long)(int)puVar2[6]) >> 0x10) +
-
-              puVar2[7];
-
-      if ((uVar6 & 0x2000000) == 0) {
-
-        iVar7 = iVar7 + param_1[2];
-
+      /* Plane 1 test */
+      half_space = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)poly_record[6]) >> 0x20) <<
+               0x10 | (unsigned int)((long long)(int)*param_1 * (long long)(int)poly_record[6]) >> 0x10) +
+              poly_record[7];
+      if ((surface_flags & 0x2000000) == 0) {
+        half_space = half_space + param_1[2];
       }
+      grid_cell = param_1;
 
-      puVar4 = param_1;
-
-      if ((0x200 & uVar6) == 0) {
-
-        if (iVar7 < 0) {
-
-          puVar10 = puVar10 + 2;
-
-          iVar9 = iVar9 + -1;
-
+      if ((0x200 & surface_flags) == 0) {
+        if (half_space < 0) {
+          poly_index_ptr = poly_index_ptr + 2;
+          poly_count = poly_count + -1;
           goto LAB_06027d50;
-
         }
-
       }
-
-      else if (0 < iVar7) {
-
-        puVar10 = puVar10 + 2;
-
-        iVar9 = iVar9 + -1;
-
+      else if (0 < half_space) {
+        poly_index_ptr = poly_index_ptr + 2;
+        poly_count = poly_count + -1;
         goto LAB_06027d50;
-
       }
 
-      iVar7 = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)puVar2[8]) >> 0x20) <<
-
-               0x10 | (unsigned int)((long long)(int)*param_1 * (long long)(int)puVar2[8]) >> 0x10) +
-
-              puVar2[9];
-
-      if ((uVar6 & 0x4000000) == 0) {
-
-        iVar7 = iVar7 + param_1[2];
-
+      /* Plane 2 test */
+      half_space = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)poly_record[8]) >> 0x20) <<
+               0x10 | (unsigned int)((long long)(int)*param_1 * (long long)(int)poly_record[8]) >> 0x10) +
+              poly_record[9];
+      if ((surface_flags & 0x4000000) == 0) {
+        half_space = half_space + param_1[2];
       }
 
-      if ((0x400 & uVar6) == 0) {
-
-        if (iVar7 < 0) {
-
-          puVar10 = puVar10 + 2;
-
-          iVar9 = iVar9 + -1;
-
+      if ((0x400 & surface_flags) == 0) {
+        if (half_space < 0) {
+          poly_index_ptr = poly_index_ptr + 2;
+          poly_count = poly_count + -1;
           goto LAB_06027d50;
-
         }
-
       }
-
-      else if (0 < iVar7) {
-
-        puVar10 = puVar10 + 2;
-
-        iVar9 = iVar9 + -1;
-
+      else if (0 < half_space) {
+        poly_index_ptr = poly_index_ptr + 2;
+        poly_count = poly_count + -1;
         goto LAB_06027d50;
-
       }
 
-      iVar7 = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)puVar2[10]) >> 0x20) <<
-
-               0x10 | (unsigned int)((long long)(int)*param_1 * (long long)(int)puVar2[10]) >> 0x10) +
-
-              puVar2[0xb];
-
-      if ((uVar6 & 0x8000000) == 0) {
-
-        iVar7 = iVar7 + param_1[2];
-
+      /* Plane 3 test */
+      half_space = ((int)((unsigned long long)((long long)(int)*param_1 * (long long)(int)poly_record[10]) >> 0x20) <<
+               0x10 | (unsigned int)((long long)(int)*param_1 * (long long)(int)poly_record[10]) >> 0x10) +
+              poly_record[0xb];
+      if ((surface_flags & 0x8000000) == 0) {
+        half_space = half_space + param_1[2];
       }
 
-      if ((0x00000800 & uVar6) == 0) {
-
-        if (iVar7 < 0) {
-
-          puVar10 = puVar10 + 2;
-
-          iVar9 = iVar9 + -1;
-
+      if ((0x00000800 & surface_flags) == 0) {
+        if (half_space < 0) {
+          poly_index_ptr = poly_index_ptr + 2;
+          poly_count = poly_count + -1;
           goto LAB_06027d50;
-
         }
-
       }
-
-      else if (0 < iVar7) {
-
-        puVar10 = puVar10 + 2;
-
-        iVar9 = iVar9 + -1;
-
+      else if (0 < half_space) {
+        poly_index_ptr = poly_index_ptr + 2;
+        poly_count = poly_count + -1;
         goto LAB_06027d50;
-
       }
 
-      puVar4 = (unsigned int *)(0x060A6000 + *(short *)(puVar10 + (int)0x060BF000) * 0x34);
-
-      uVar8 = (unsigned int)DAT_06027e98;
-
-      uVar6 = *puVar4 & uVar8;
-
+      /* All 4 planes pass — polygon hit */
+      grid_cell = (unsigned int *)(0x060A6000 + *(short *)(poly_index_ptr + (int)0x060BF000) * 0x34);
+      hit_found = (unsigned int)DAT_06027e98;
+      surface_flags = *grid_cell & hit_found;
       goto LAB_06027e6a;
-
     }
 
-    if (iVar7 < 1) goto LAB_06027db6;
-
-    puVar10 = puVar10 + 2;
-
-    iVar9 = iVar9 + -1;
-
+    /* Plane 0 sign-inverted test */
+    if (half_space < 1) goto LAB_06027db6;
+    poly_index_ptr = poly_index_ptr + 2;
+    poly_count = poly_count + -1;
   } while( 1 );
-
 }
 
 /* track_polygon_collision_test -- test point against track collision polygons, return height */
