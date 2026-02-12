@@ -371,286 +371,175 @@ void FUN_06026518(unsigned int input_flags)
         *(int *)0x06063B8C + (int)DAT_06026578);
 }
 
+/* input_descriptor_table_refresh -- Rebuild input descriptor table for given mode.
+ * Clears all input descriptor pairs at 0x060610BC, re-detects connected
+ * peripherals (mode 4 calls input_peripheral_detect/scan), then applies
+ * bitmask OR from dispatch tables (0x06061170 for primary/10 slots,
+ * 0x06061184 for secondary/8 slots). If mode 4, writes back descriptor
+ * state for next frame. param_1=mode, param_2=descriptor count. */
 void FUN_06026590(param_1, param_2)
     char param_1;
     unsigned int param_2;
 {
+    short *desc_ptr;
+    unsigned short *mask_ptr;
+    unsigned int scan_offset;
+    int *desc_base = (int *)0x060610BC;     /* input descriptor array */
+    int *temp;
+    int slot_offset;
+    int *desc_end;
+    int *cur;
+    int desc_size = 0xa8;                   /* descriptor table size */
+    int *dispatch;
 
-  short *puVar1;
+    if ((param_2 & 0xffff) == desc_size + 1U) {
+        /* Primary mode (0xA9 descriptors): clear table */
+        desc_end = (int *)(0x060610BC + desc_size);
+        cur = (int *)0x060610BC;
+        do {
+            desc_ptr = (short *)*cur;
+            *(short *)cur[1] = 0;
+            *desc_ptr = 0;
+            desc_ptr = (short *)cur[3];
+            temp = cur + 4;
+            cur = cur + 6;
+            *(short *)*temp = 0;
+            *desc_ptr = 0;
+        } while (cur < desc_end);
 
-  unsigned short *puVar2;
+        if (param_1 == '\x04') {
+            FUN_06026362();  /* input_peripheral_detect */
+        }
 
-  unsigned int uVar3;
+        /* Apply bitmask OR from primary dispatch table (10 slots) */
+        slot_offset = 0;
+        dispatch = (int *)(0x06061170 + (param_1 << 2));
+        for (scan_offset = 0; scan_offset < 0x50; scan_offset = scan_offset + 8) {
+            if (*(int *)(*dispatch + scan_offset) != 0) {
+                cur = (int *)(*dispatch + slot_offset);
+                mask_ptr = (unsigned short *)*cur;
+                *mask_ptr = *mask_ptr | *(unsigned short *)(cur + 1);
+            }
+            slot_offset = slot_offset + 8;
+        }
+    } else {
+        /* Secondary mode: clear table */
+        desc_end = (int *)(0x060610BC + desc_size);
+        cur = (int *)0x060610BC;
+        do {
+            desc_ptr = (short *)*cur;
+            *(short *)cur[1] = 0;
+            *desc_ptr = 0;
+            desc_ptr = (short *)cur[3];
+            temp = cur + 4;
+            cur = cur + 6;
+            *(short *)*temp = 0;
+            *desc_ptr = 0;
+        } while (cur < desc_end);
 
-  int *puVar4;
+        if (param_1 == '\x04') {
+            FUN_0602648e();  /* input_peripheral_scan */
+        }
 
-  int *puVar5;
+        /* Apply bitmask OR from secondary dispatch table (8 slots) */
+        slot_offset = 0;
+        dispatch = (int *)(0x06061184 + (param_1 << 2));
+        for (scan_offset = 0; scan_offset < 0x40; scan_offset = scan_offset + 8) {
+            if (*(int *)(*dispatch + scan_offset) != 0) {
+                cur = (int *)(*dispatch + slot_offset);
+                mask_ptr = (unsigned short *)*cur;
+                *mask_ptr = *mask_ptr | *(unsigned short *)(cur + 1);
+            }
+            slot_offset = slot_offset + 8;
+        }
+    }
 
-  int iVar6;
-
-  int *puVar7;
-
-  int *puVar8;
-
-  int iVar9;
-
-  int *piVar10;
-
-  puVar4 = (int *)0x060610BC;
-
-  iVar9 = 0xa8;
-
-  if ((param_2 & 0xffff) == iVar9 + 1U) {
-
-    puVar7 = (int *)(0x060610BC + iVar9);
-
-    puVar8 = (int *)0x060610BC;
-
-    do {
-
-      puVar1 = (short *)*puVar8;
-
-      *(short *)puVar8[1] = 0;
-
-      *puVar1 = 0;
-
-      puVar1 = (short *)puVar8[3];
-
-      puVar5 = puVar8 + 4;
-
-      puVar8 = puVar8 + 6;
-
-      *(short *)*puVar5 = 0;
-
-      *puVar1 = 0;
-
-    } while (puVar8 < puVar7);
-
+    /* Mode 4: write back descriptor state for next frame */
     if (param_1 == '\x04') {
-
-      FUN_06026362();
-
+        cur = (int *)((int)desc_base + desc_size);
+        do {
+            temp = desc_base + 3;
+            *(short *)*desc_base = *(short *)desc_base[1];
+            desc_end = desc_base + 4;
+            desc_base = desc_base + 6;
+            *(short *)*temp = *(short *)*desc_end;
+        } while (desc_base < cur);
     }
-
-    iVar6 = 0;
-
-    piVar10 = (int *)(0x06061170 + (param_1 << 2));
-
-    for (uVar3 = 0; uVar3 < 0x50; uVar3 = uVar3 + 8) {
-
-      if (*(int *)(*piVar10 + uVar3) != 0) {
-
-        puVar8 = (int *)(*piVar10 + iVar6);
-
-        puVar2 = (unsigned short *)*puVar8;
-
-        *puVar2 = *puVar2 | *(unsigned short *)(puVar8 + 1);
-
-      }
-
-      iVar6 = iVar6 + 8;
-
-    }
-
-  }
-
-  else {
-
-    puVar7 = (int *)(0x060610BC + iVar9);
-
-    puVar8 = (int *)0x060610BC;
-
-    do {
-
-      puVar1 = (short *)*puVar8;
-
-      *(short *)puVar8[1] = 0;
-
-      *puVar1 = 0;
-
-      puVar1 = (short *)puVar8[3];
-
-      puVar5 = puVar8 + 4;
-
-      puVar8 = puVar8 + 6;
-
-      *(short *)*puVar5 = 0;
-
-      *puVar1 = 0;
-
-    } while (puVar8 < puVar7);
-
-    if (param_1 == '\x04') {
-
-      FUN_0602648e();
-
-    }
-
-    iVar6 = 0;
-
-    piVar10 = (int *)(0x06061184 + (param_1 << 2));
-
-    for (uVar3 = 0; uVar3 < 0x40; uVar3 = uVar3 + 8) {
-
-      if (*(int *)(*piVar10 + uVar3) != 0) {
-
-        puVar8 = (int *)(*piVar10 + iVar6);
-
-        puVar2 = (unsigned short *)*puVar8;
-
-        *puVar2 = *puVar2 | *(unsigned short *)(puVar8 + 1);
-
-      }
-
-      iVar6 = iVar6 + 8;
-
-    }
-
-  }
-
-  if (param_1 == '\x04') {
-
-    puVar8 = (int *)((int)puVar4 + iVar9);
-
-    do {
-
-      puVar5 = puVar4 + 3;
-
-      *(short *)*puVar4 = *(short *)puVar4[1];
-
-      puVar7 = puVar4 + 4;
-
-      puVar4 = puVar4 + 6;
-
-      *(short *)*puVar5 = *(short *)*puVar7;
-
-    } while (puVar4 < puVar8);
-
-  }
-
-  return;
-
 }
 
+/* hud_gear_selector_render -- Render gear/transmission selection HUD.
+ * Draws base gear sprites via VDP1 attribute setter (0x060284AE), then
+ * dispatches on controller input (0x06063D9A) to cycle through gear
+ * selections (range 0x12-0x14 at 0x06089EDA). On confirm (DAT_0602672e
+ * or 0x100), sets render mode 6 at 0x06061198 and draws 3 sprites.
+ * On D-pad left/right (DAT_0602684a/PTR_0602684c), shifts selection ±2.
+ * If display bit 4 set, uses static mode; otherwise dynamic from 0x06063B88. */
 int FUN_060266cc()
 {
+    unsigned short input_state;
+    char *sprite_base = (int *)0x06059128;   /* gear sprite data base */
+    char *vdp_attr_set = (char *)0x060284AE; /* VDP1 attribute setter */
+    char *selection_ptr = (char *)0x06089EDA; /* current gear selection */
+    char *render_mode = (int *)0x06061198;   /* render mode output */
+    int result;
+    int sprite_a = (int)DAT_0602672a;        /* gear sprite A dimensions */
+    int sprite_b = (int)DAT_0602672c;        /* gear sprite B dimensions */
+    int priority = 0x90;                     /* sprite priority */
 
-  unsigned short uVar1;
+    /* Draw base gear indicator sprites */
+    (*(int(*)())0x060284AE)(8,sprite_a,priority,0x0605912C);
+    (*(int(*)())vdp_attr_set)(8,sprite_b,priority,0x06059134);
 
-  char *puVar2;
+    input_state = *(unsigned short *)0x06063D9A;  /* controller input */
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int uVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  puVar4 = (char *)0x06089EDA;
-
-  puVar3 = (char *)0x060284AE;
-
-  puVar2 = (int *)0x06059128;
-
-  iVar9 = 0x90;
-
-  iVar7 = (int)DAT_0602672a;
-
-  (*(int(*)())0x060284AE)(8,iVar7,iVar9,0x0605912C);
-
-  iVar8 = (int)DAT_0602672c;
-
-  (*(int(*)())puVar3)(8,iVar8,iVar9,0x06059134);
-
-  puVar5 = (int *)0x06061198;
-
-  uVar1 = *(unsigned short *)0x06063D9A;
-
-  if (uVar1 != 0) {
-
-    if ((uVar1 & DAT_0602672e) != 0) {
-
-      *(unsigned short *)0x06089ED8 = (unsigned short)(*(short *)puVar4 == 0x12);
-
-      *puVar5 = 6;
-
-      (*(int(*)())puVar3)(8,((unsigned int)*(unsigned short *)((int)(int)puVar4 << 6) + 0x11) << 1,iVar9,puVar2);
-
-      (*(int(*)())puVar3)(8,iVar7,iVar9,0x0605913C);
-
-      uVar6 = (*(int(*)())puVar3)(8,iVar8,iVar9,0x06059144);
-
-      return uVar6;
-
+    if (input_state != 0) {
+        /* Confirm button A (DAT_0602672e bitmask) */
+        if ((input_state & DAT_0602672e) != 0) {
+            *(unsigned short *)0x06089ED8 = (unsigned short)(*(short *)selection_ptr == 0x12);
+            *render_mode = 6;
+            (*(int(*)())vdp_attr_set)(8,((unsigned int)*(unsigned short *)((int)(int)selection_ptr << 6) + 0x11) << 1,priority,sprite_base);
+            (*(int(*)())vdp_attr_set)(8,sprite_a,priority,0x0605913C);
+            result = (*(int(*)())vdp_attr_set)(8,sprite_b,priority,0x06059144);
+            return result;
+        }
+        /* Confirm button B (start = 0x100) */
+        if ((unsigned int)input_state == 0x100) {
+            *(short *)0x06089ED8 = 0;
+            *render_mode = 6;
+            (*(int(*)())vdp_attr_set)(8,((unsigned int)*(unsigned short *)((int)(int)selection_ptr << 6) + 0x11) << 1,priority,sprite_base);
+            (*(int(*)())vdp_attr_set)(8,sprite_a,priority,0x0605913C);
+            result = (*(int(*)())vdp_attr_set)(8,sprite_b,priority,0x06059144);
+            return result;
+        }
+        /* D-pad left: shift selection -2 */
+        if ((unsigned int)input_state == (int)DAT_0602684a) {
+            (*(int(*)())vdp_attr_set)(8,((unsigned int)*(unsigned short *)((int)(int)selection_ptr << 6) + 0x11) << 1,priority,sprite_base);
+            *(short *)selection_ptr = *(short *)selection_ptr + -2;
+        }
+        /* D-pad right: shift selection +2 */
+        if ((unsigned int)input_state == (int)PTR_DAT_0602684c) {
+            (*(int(*)())vdp_attr_set)(8,((unsigned int)*(unsigned short *)((int)(int)selection_ptr << 6) + 0x11) << 1,priority,sprite_base);
+            *(short *)selection_ptr = *(short *)selection_ptr + 2;
+        }
+        /* Clamp selection to valid range [0x12, 0x14] */
+        if (0x14 < *(unsigned short *)selection_ptr) {
+            *(short *)selection_ptr = (char *)0x12;
+        }
+        if (*(unsigned short *)selection_ptr < 0x12) {
+            *(short *)selection_ptr = (char *)0x14;
+        }
     }
 
-    if ((unsigned int)uVar1 == 0x100) {
-
-      *(short *)0x06089ED8 = 0;
-
-      *puVar5 = 6;
-
-      (*(int(*)())puVar3)(8,((unsigned int)*(unsigned short *)((int)(int)puVar4 << 6) + 0x11) << 1,iVar9,puVar2);
-
-      (*(int(*)())puVar3)(8,iVar7,iVar9,0x0605913C);
-
-      uVar6 = (*(int(*)())puVar3)(8,iVar8,iVar9,0x06059144);
-
-      return uVar6;
-
+    /* Static render mode (display bit 4) */
+    if ((*(unsigned short *)0x06089EC6 & 4) != 0) {
+        result = (*(int(*)())vdp_attr_set)(8,((unsigned int)*(unsigned short *)((int)(int)selection_ptr << 6) + 0x11) << 1,priority,sprite_base);
+        return result;
     }
 
-    if ((unsigned int)uVar1 == (int)DAT_0602684a) {
-
-      (*(int(*)())puVar3)(8,((unsigned int)*(unsigned short *)((int)(int)puVar4 << 6) + 0x11) << 1,iVar9,puVar2);
-
-      *(short *)puVar4 = *(short *)puVar4 + -2;
-
-    }
-
-    if ((unsigned int)uVar1 == (int)PTR_DAT_0602684c) {
-
-      (*(int(*)())puVar3)(8,((unsigned int)*(unsigned short *)((int)(int)puVar4 << 6) + 0x11) << 1,iVar9,puVar2);
-
-      *(short *)puVar4 = *(short *)puVar4 + 2;
-
-    }
-
-    if (0x14 < *(unsigned short *)puVar4) {
-
-      *(short *)puVar4 = (char *)0x12;
-
-    }
-
-    if (*(unsigned short *)puVar4 < 0x12) {
-
-      *(short *)puVar4 = (char *)0x14;
-
-    }
-
-  }
-
-  if ((*(unsigned short *)0x06089EC6 & 4) != 0) {
-
-    uVar6 = (*(int(*)())puVar3)(8,((unsigned int)*(unsigned short *)((int)(int)puVar4 << 6) + 0x11) << 1,iVar9,puVar2);
-
-    return uVar6;
-
-  }
-
-  uVar6 = (*(int(*)())0x06028400)(8,*(int *)0x06063B88,((unsigned int)*(unsigned short *)((int)(int)puVar4 << 6) + 0x11) << 1,
-
-                     *(int *)(0x06063B88 + 4) + (int)DAT_060268a6);
-
-  return uVar6;
-
+    /* Dynamic render mode: use speed display state */
+    result = (*(int(*)())0x06028400)(8,*(int *)0x06063B88,((unsigned int)*(unsigned short *)((int)(int)selection_ptr << 6) + 0x11) << 1,
+                       *(int *)(0x06063B88 + 4) + (int)DAT_060268a6);
+    return result;
 }
 
 void FUN_060268b0(param_1)
