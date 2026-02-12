@@ -1081,359 +1081,205 @@ void FUN_06019928()
   return;
 }
 
+/* options_menu_input -- Handle input for 8-option settings/sound-test menu.
+ * Start/Accept confirms (transitions to state 7 or selects option 7),
+ * Right/Left cycles through options 0-7, dispatches via jump table at 0x0605D260. */
 void FUN_06019a48()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  puVar2 = (char *)0x06085FF0;
-
-  puVar1 = (char *)0x06085FF1;
-
+  char *dirty_flag;
+  char *selection_idx;
+  int sprite_size;
+  selection_idx = (char *)0x06085FF0;
+  dirty_flag = (char *)0x06085FF1;
   if (*(int *)0x06085FF3 == '\0') {
-
-    iVar3 = 0x90;
-
-    if (((unsigned int)*(unsigned short *)(0x06063D98 + 2) & iVar3 + 0x70U) == 0) {
-
+    sprite_size = 0x90;
+    /* Start/Accept button */
+    if (((unsigned int)*(unsigned short *)(0x06063D98 + 2) & sprite_size + 0x70U) == 0) {
+      /* Right/Down button */
       if ((*(unsigned short *)(0x06063D98 + 2) & PTR_DAT_06019b24) == 0) {
-
+        /* Left/Up button */
         if ((*(unsigned short *)(0x06063D98 + 2) & DAT_06019bfc) != 0) {
-
           (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)((char *)(0x06049AFC + (char)*(int *)(0x06085FF0 << 1)))[1] * 0x40 +
-
-                         (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar3,
-
+                         (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,sprite_size,
                      *(int *)0x0605D4F0);
-
-          *puVar2 = *puVar2 + -1;
-
-          if ((char)*puVar2 < '\0') {
-
-            *puVar2 = 7;
-
+          *selection_idx = *selection_idx + -1;
+          if ((char)*selection_idx < '\0') {
+            *selection_idx = 7;   /* wrap to last option */
           }
-
-          *puVar1 = 1;
-
+          *dirty_flag = 1;
         }
-
       }
-
       else {
-
         (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)((char *)(0x06049AFC + (char)*(int *)(0x06085FF0 << 1)))[1] * 0x40 +
-
-                       (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar3,
-
+                       (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,sprite_size,
                    *(int *)0x0605D4F0);
-
-        *puVar2 = *puVar2 + '\x01';
-
-        if ('\a' < (char)*puVar2) {
-
-          *puVar2 = 0;
-
+        *selection_idx = *selection_idx + '\x01';
+        if ('\a' < (char)*selection_idx) {
+          *selection_idx = 0;     /* wrap to first option */
         }
-
-        *puVar1 = 1;
-
+        *dirty_flag = 1;
       }
-
     }
-
     else {
-
+      /* Start/Accept: confirm selection */
       (*(int(*)())0x060284AE)(0xc,((unsigned int)(unsigned char)((char *)(0x06049AFC + (char)*(int *)(0x06085FF0 << 1)))[1] * 0x40 +
-
-                     (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,iVar3,
-
+                     (unsigned int)(unsigned char)((int *)0x06049AFC)[(char)*(int *)(0x06085FF0 << 1)]) << 1,sprite_size,
                  *(int *)0x0605D4F0);
-
-      if (*puVar2 == '\a') {
-
-        GAME_STATE = 7;
-
+      if (*selection_idx == '\a') {
+        GAME_STATE = 7;           /* exit to state 7 */
       }
-
       else {
-
-        *puVar2 = 7;
-
-        *puVar1 = 1;
-
+        *selection_idx = 7;
+        *dirty_flag = 1;
         VBLANK_OUT_COUNTER = 0;
-
-        (*(int(*)())0x06026CE0)();
-
+        (*(int(*)())0x06026CE0)();  /* flush render */
       }
-
     }
-
   }
-
+  /* Advance frame and animation counters */
   *(int *)0x0605D243 = *(int *)0x0605D243 + '\x01';
-
   *(int *)0x0605D242 = *(int *)0x0605D242 + '\x01';
-
-  (*(int(*)())(*(int *)(0x0605D260 + (char)(*puVar2 << 2))))();
-
+  /* Dispatch to per-option handler */
+  (*(int(*)())(*(int *)(0x0605D260 + (char)(*selection_idx << 2))))();
   return;
-
 }
 
+/* volume_display_render -- Render 3 volume level indicators with highlight/blink.
+ * Active item (matching COURSE_SELECT) blinks when anim counter >= 8,
+ * priority: 3=dim, 5=inactive, 6=selected, 7=blink. */
 int FUN_06019bc8()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  unsigned char bVar6;
-
-  puVar3 = (char *)0x06028400;
-
-  puVar2 = (char *)0x06049B12;
-
-  puVar1 = (char *)0x0605D242;
-
+  char *anim_counter;
+  char *sprite_ids;
+  char *vdp_render;
+  int result;
+  int priority;
+  unsigned char item;
+  vdp_render = (char *)0x06028400;
+  sprite_ids = (char *)0x06049B12;
+  anim_counter = (char *)0x0605D242;
   if (*(int *)0x06085FF0 == '\0') {
-
-    bVar6 = 0;
-
+    /* Active selection on this row — blink selected item */
+    item = 0;
     do {
-
-      if ((unsigned int)bVar6 == COURSE_SELECT) {
-
-        if ((unsigned char)*puVar1 < 8) {
-
-          iVar5 = 6;
-
+      if ((unsigned int)item == COURSE_SELECT) {
+        if ((unsigned char)*anim_counter < 8) {
+          priority = 6;                /* highlight */
         }
-
         else {
-
-          iVar5 = 7;
-
-          if (0x10 < (unsigned char)*puVar1) {
-
-            *puVar1 = 0;
-
+          priority = 7;               /* blink phase */
+          if (0x10 < (unsigned char)*anim_counter) {
+            *anim_counter = 0;        /* reset blink cycle */
           }
-
         }
-
       }
-
       else {
-
-        iVar5 = 3;
-
+        priority = 3;                  /* dim unselected */
       }
-
-      uVar4 = (*(int(*)())puVar3)(0xc,*(int *)
-
+      result = (*(int(*)())vdp_render)(0xc,*(int *)
                                      (0x06063750 +
-
-                                     (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3),
-
-                                ((unsigned int)(unsigned char)((char *)(0x06049B0C + (unsigned int)(bVar6 << 1)))[1] * 0x40 +
-
-                                (unsigned int)(unsigned char)((int *)0x06049B0C)[(unsigned int)(bVar6 << 1)]) << 1,
-
-                                (iVar5 << 12) +
-
+                                     (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3),
+                                ((unsigned int)(unsigned char)((char *)(0x06049B0C + (unsigned int)(item << 1)))[1] * 0x40 +
+                                (unsigned int)(unsigned char)((int *)0x06049B0C)[(unsigned int)(item << 1)]) << 1,
+                                (priority << 12) +
                                 *(int *)((int)(0x06063750 +
-
-                                              (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3) + 4))
-
+                                              (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3) + 4))
       ;
-
-      bVar6 = bVar6 + 1;
-
-    } while (bVar6 < 3);
-
+      item = item + 1;
+    } while (item < 3);
   }
-
   else {
-
-    bVar6 = 0;
-
+    /* Inactive row — static display */
+    item = 0;
     do {
-
-      if ((unsigned int)bVar6 == COURSE_SELECT) {
-
-        iVar5 = 6;
-
+      if ((unsigned int)item == COURSE_SELECT) {
+        priority = 6;                  /* selected */
       }
-
       else {
-
-        iVar5 = 5;
-
+        priority = 5;                  /* inactive */
       }
-
-      uVar4 = (*(int(*)())puVar3)(0xc,*(int *)
-
+      result = (*(int(*)())vdp_render)(0xc,*(int *)
                                      (0x06063750 +
-
-                                     (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3),
-
-                                ((unsigned int)(unsigned char)((char *)(0x06049B0C + (unsigned int)(bVar6 << 1)))[1] * 0x40 +
-
-                                (unsigned int)(unsigned char)((int *)0x06049B0C)[(unsigned int)(bVar6 << 1)]) << 1,
-
-                                (iVar5 << 12) +
-
+                                     (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3),
+                                ((unsigned int)(unsigned char)((char *)(0x06049B0C + (unsigned int)(item << 1)))[1] * 0x40 +
+                                (unsigned int)(unsigned char)((int *)0x06049B0C)[(unsigned int)(item << 1)]) << 1,
+                                (priority << 12) +
                                 *(int *)((int)(0x06063750 +
-
-                                              (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(bVar6 << 1)) << 3) + 4))
-
+                                              (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3) + 4))
       ;
-
-      bVar6 = bVar6 + 1;
-
-    } while (bVar6 < 3);
-
+      item = item + 1;
+    } while (item < 3);
   }
-
-  return uVar4;
-
+  return result;
 }
 
+/* frequency_display_render -- Render 5 frequency/mode indicators with highlight/blink.
+ * Active item (matching selection at 0x0605AD0C) blinks when anim counter >= 8,
+ * priority: 3=dim, 5=inactive, 6=selected, 7=blink. */
 int FUN_06019db8()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  unsigned char bVar6;
-
-  puVar3 = (char *)0x0605D242;
-
-  puVar2 = (char *)0x06028400;
-
-  puVar1 = (char *)0x06049B2C;
-
+  char *sprite_ids;
+  char *vdp_render;
+  char *anim_counter;
+  int result;
+  int priority;
+  unsigned char item;
+  anim_counter = (char *)0x0605D242;
+  vdp_render = (char *)0x06028400;
+  sprite_ids = (char *)0x06049B2C;
   if (*(int *)0x06085FF0 == '\x01') {
-
-    bVar6 = 0;
-
+    /* Active selection on this row — blink selected item */
+    item = 0;
     do {
-
-      if ((unsigned int)bVar6 == *(unsigned int *)0x0605AD0C) {
-
-        if ((unsigned char)*puVar3 < 8) {
-
-          iVar5 = 6;
-
+      if ((unsigned int)item == *(unsigned int *)0x0605AD0C) {
+        if ((unsigned char)*anim_counter < 8) {
+          priority = 6;                /* highlight */
         }
-
         else {
-
-          iVar5 = 7;
-
-          if (0x10 < (unsigned char)*puVar3) {
-
-            *puVar3 = 0;
-
+          priority = 7;               /* blink phase */
+          if (0x10 < (unsigned char)*anim_counter) {
+            *anim_counter = 0;        /* reset blink cycle */
           }
-
         }
-
       }
-
       else {
-
-        iVar5 = 3;
-
+        priority = 3;                  /* dim unselected */
       }
-
-      uVar4 = (*(int(*)())puVar2)(0xc,*(int *)
-
+      result = (*(int(*)())vdp_render)(0xc,*(int *)
                                      (0x06063750 +
-
-                                     (unsigned int)*(unsigned short *)(puVar1 + (unsigned int)(bVar6 << 1)) << 3),
-
-                                ((unsigned int)(unsigned char)((char *)(0x06049B18 + (unsigned int)(bVar6 << 1)))[1] * 0x40 +
-
-                                (unsigned int)(unsigned char)((int *)0x06049B18)[(unsigned int)(bVar6 << 1)]) << 1,
-
-                                (iVar5 << 12) +
-
+                                     (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3),
+                                ((unsigned int)(unsigned char)((char *)(0x06049B18 + (unsigned int)(item << 1)))[1] * 0x40 +
+                                (unsigned int)(unsigned char)((int *)0x06049B18)[(unsigned int)(item << 1)]) << 1,
+                                (priority << 12) +
                                 *(int *)((int)(0x06063750 +
-
-                                              (unsigned int)*(unsigned short *)(puVar1 + (unsigned int)(bVar6 << 1)) << 3) + 4))
-
+                                              (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3) + 4))
       ;
-
-      bVar6 = bVar6 + 1;
-
-    } while (bVar6 < 5);
-
+      item = item + 1;
+    } while (item < 5);
   }
-
   else {
-
-    bVar6 = 0;
-
+    /* Inactive row — static display */
+    item = 0;
     do {
-
-      if ((unsigned int)bVar6 == *(unsigned int *)0x0605AD0C) {
-
-        iVar5 = 6;
-
+      if ((unsigned int)item == *(unsigned int *)0x0605AD0C) {
+        priority = 6;                  /* selected */
       }
-
       else {
-
-        iVar5 = 5;
-
+        priority = 5;                  /* inactive */
       }
-
-      uVar4 = (*(int(*)())puVar2)(0xc,*(int *)
-
+      result = (*(int(*)())vdp_render)(0xc,*(int *)
                                      (0x06063750 +
-
-                                     (unsigned int)*(unsigned short *)(puVar1 + (unsigned int)(bVar6 << 1)) << 3),
-
-                                ((unsigned int)(unsigned char)((char *)(0x06049B18 + (unsigned int)(bVar6 << 1)))[1] * 0x40 +
-
-                                (unsigned int)(unsigned char)((int *)0x06049B18)[(unsigned int)(bVar6 << 1)]) << 1,
-
-                                (iVar5 << 12) +
-
+                                     (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3),
+                                ((unsigned int)(unsigned char)((char *)(0x06049B18 + (unsigned int)(item << 1)))[1] * 0x40 +
+                                (unsigned int)(unsigned char)((int *)0x06049B18)[(unsigned int)(item << 1)]) << 1,
+                                (priority << 12) +
                                 *(int *)((int)(0x06063750 +
-
-                                              (unsigned int)*(unsigned short *)(puVar1 + (unsigned int)(bVar6 << 1)) << 3) + 4))
-
+                                              (unsigned int)*(unsigned short *)(sprite_ids + (unsigned int)(item << 1)) << 3) + 4))
       ;
-
-      bVar6 = bVar6 + 1;
-
-    } while (bVar6 < 5);
-
+      item = item + 1;
+    } while (item < 5);
   }
-
-  return uVar4;
-
+  return result;
 }
 
 int FUN_06019fb2()
