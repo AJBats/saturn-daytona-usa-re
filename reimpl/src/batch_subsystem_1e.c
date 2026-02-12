@@ -630,848 +630,462 @@ unsigned int FUN_0601eb70()
     return dev_idx;
 }
 
+/* save_state_load -- deserialize save data from backup RAM into game state */
 char * FUN_0601ebda()
 {
+  char *settings_ptr;
+  char *result;
+  char *src;
+  char *src_end;
+  int block_size;
+  char *dst_next;
+  int *table_end;
+  char *dst;
+  int *table_ptr;
+  char *dst_block;
 
-  char *puVar1;
+  block_size = 0xf0;
+  result = (char *)(unsigned int)(unsigned char)*(int *)0x06087080; /* save_error_flag */
 
-  char *puVar2;
+  if (result == (char *)0x0) {
+    src = (char *)(*(int *)0x0605E098 + 0x10); /* save_buffer + header_size */
 
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  char *puVar6;
-
-  int *puVar7;
-
-  char *puVar8;
-
-  int *puVar9;
-
-  char *puVar10;
-
-  iVar5 = 0xf0;
-
-  puVar2 = (char *)(unsigned int)(unsigned char)*(int *)0x06087080;
-
-  if (puVar2 == (char *)0x0) {
-
-    puVar3 = (char *)(*(int *)0x0605E098 + 0x10);
-
-    puVar9 = (int *)(0x0605DD6C + 0x48);
-
-    puVar7 = (int *)0x0605DD6C;
-
+    /* Block 1: copy 0xF0 bytes per entry from 9 pointer table entries at 0x0605DD6C */
+    table_end = (int *)(0x0605DD6C + 0x48);
+    table_ptr = (int *)0x0605DD6C;
     do {
-
-      puVar10 = (char *)*puVar7;
-
-      puVar2 = puVar10;
-
+      dst_block = (char *)*table_ptr;
+      result = dst_block;
       do {
+        *result = *src;
+        result[1] = src[1];
+        result[2] = src[2];
+        result[3] = src[3];
+        result[4] = src[4];
+        result[5] = src[5];
+        result[6] = src[6];
+        result[7] = src[7];
+        result[8] = src[8];
+        dst_next = result + 0xc;
+        result[9] = src[9];
+        src_end = src + 0xb;
+        result[10] = src[10];
+        src = src + 0xc;
+        result[0xb] = *src_end;
+        result = dst_next;
+      } while (dst_next < dst_block + block_size);
+      table_ptr = table_ptr + 2;
+    } while (table_ptr < table_end);
 
-        *puVar2 = *puVar3;
-
-        puVar2[1] = puVar3[1];
-
-        puVar2[2] = puVar3[2];
-
-        puVar2[3] = puVar3[3];
-
-        puVar2[4] = puVar3[4];
-
-        puVar2[5] = puVar3[5];
-
-        puVar2[6] = puVar3[6];
-
-        puVar2[7] = puVar3[7];
-
-        puVar2[8] = puVar3[8];
-
-        puVar6 = puVar2 + 0xc;
-
-        puVar2[9] = puVar3[9];
-
-        puVar4 = puVar3 + 0xb;
-
-        puVar2[10] = puVar3[10];
-
-        puVar3 = puVar3 + 0xc;
-
-        puVar2[0xb] = *puVar4;
-
-        puVar2 = puVar6;
-
-      } while (puVar6 < puVar10 + iVar5);
-
-      puVar7 = puVar7 + 2;
-
-    } while (puVar7 < puVar9);
-
-    puVar9 = (int *)(0x0605DE24 + 0x18);
-
-    puVar7 = (int *)0x0605DE24;
-
+    /* Block 2: copy 8 bytes per entry from 6 pointer table entries at 0x0605DE24 */
+    table_end = (int *)(0x0605DE24 + 0x18);
+    table_ptr = (int *)0x0605DE24;
     do {
+      result = (char *)*table_ptr;
+      table_ptr = table_ptr + 1;
+      *result = *src;
+      result[1] = src[1];
+      result[2] = src[2];
+      result[3] = src[3];
+      result[4] = src[4];
+      result[5] = src[5];
+      dst_block = src + 7;
+      result[6] = src[6];
+      src = src + 8;
+      result[7] = *dst_block;
+    } while (table_ptr < table_end);
 
-      puVar2 = (char *)*puVar7;
-
-      puVar7 = puVar7 + 1;
-
-      *puVar2 = *puVar3;
-
-      puVar2[1] = puVar3[1];
-
-      puVar2[2] = puVar3[2];
-
-      puVar2[3] = puVar3[3];
-
-      puVar2[4] = puVar3[4];
-
-      puVar2[5] = puVar3[5];
-
-      puVar10 = puVar3 + 7;
-
-      puVar2[6] = puVar3[6];
-
-      puVar3 = puVar3 + 8;
-
-      puVar2[7] = *puVar10;
-
-    } while (puVar7 < puVar9);
-
-    puVar10 = 0x0605DDB4 + 0x20;
-
-    puVar8 = (char *)0x0605DDB4;
-
+    /* Block 3: copy 0x20 bytes to 0x0605DDB4 (leaderboard times A) */
+    dst_block = 0x0605DDB4 + 0x20;
+    dst = (char *)0x0605DDB4;
     do {
+      *dst = *src;
+      dst[1] = src[1];
+      dst[2] = src[2];
+      dst[3] = src[3];
+      dst_next = dst + 8;
+      dst[4] = src[4];
+      dst[5] = src[5];
+      src_end = src + 7;
+      dst[6] = src[6];
+      src = src + 8;
+      dst[7] = *src_end;
+      dst = dst_next;
+    } while (dst_next < dst_block);
 
-      *puVar8 = *puVar3;
-
-      puVar8[1] = puVar3[1];
-
-      puVar8[2] = puVar3[2];
-
-      puVar8[3] = puVar3[3];
-
-      puVar6 = puVar8 + 8;
-
-      puVar8[4] = puVar3[4];
-
-      puVar8[5] = puVar3[5];
-
-      puVar4 = puVar3 + 7;
-
-      puVar8[6] = puVar3[6];
-
-      puVar3 = puVar3 + 8;
-
-      puVar8[7] = *puVar4;
-
-      puVar8 = puVar6;
-
-    } while (puVar6 < puVar10);
-
-    puVar10 = 0x0605DDD4 + 0x20;
-
-    puVar8 = (char *)0x0605DDD4;
-
+    /* Block 4: copy 0x20 bytes to 0x0605DDD4 (leaderboard times B) */
+    dst_block = 0x0605DDD4 + 0x20;
+    dst = (char *)0x0605DDD4;
     do {
+      *dst = *src;
+      dst[1] = src[1];
+      dst[2] = src[2];
+      dst[3] = src[3];
+      dst_next = dst + 8;
+      dst[4] = src[4];
+      dst[5] = src[5];
+      src_end = src + 7;
+      dst[6] = src[6];
+      src = src + 8;
+      dst[7] = *src_end;
+      dst = dst_next;
+    } while (dst_next < dst_block);
 
-      *puVar8 = *puVar3;
-
-      puVar8[1] = puVar3[1];
-
-      puVar8[2] = puVar3[2];
-
-      puVar8[3] = puVar3[3];
-
-      puVar6 = puVar8 + 8;
-
-      puVar8[4] = puVar3[4];
-
-      puVar8[5] = puVar3[5];
-
-      puVar4 = puVar3 + 7;
-
-      puVar8[6] = puVar3[6];
-
-      puVar3 = puVar3 + 8;
-
-      puVar8[7] = *puVar4;
-
-      puVar8 = puVar6;
-
-    } while (puVar6 < puVar10);
-
-    puVar10 = 0x0605DE40 + 0x24;
-
-    puVar8 = (char *)0x0605DE40;
-
+    /* Block 5: copy 0x24 bytes to 0x0605DE40 (race records) */
+    dst_block = 0x0605DE40 + 0x24;
+    dst = (char *)0x0605DE40;
     do {
-
-      puVar4 = puVar3;
-
-      *puVar8 = *puVar4;
-
-      puVar8[1] = puVar4[1];
-
-      puVar8[2] = puVar4[2];
-
-      puVar8[3] = puVar4[3];
-
-      puVar8[4] = puVar4[4];
-
-      puVar8[5] = puVar4[5];
-
-      puVar8[6] = puVar4[6];
-
-      puVar8[7] = puVar4[7];
-
-      puVar8[8] = puVar4[8];
-
-      puVar8[9] = puVar4[9];
-
-      puVar6 = puVar8 + 0xc;
-
-      puVar8[10] = puVar4[10];
-
-      puVar8[0xb] = puVar4[0xb];
-
-      puVar1 = (char *)0x0605AD00;
-
-      puVar3 = puVar4 + 0xc;
-
-      puVar8 = puVar6;
-
-    } while (puVar6 < puVar10);
-
-    COURSE_SELECT = puVar4[0xc];
-
-    puVar1[1] = puVar4[0xd];
-
-    puVar1[2] = puVar4[0xe];
-
-    puVar1[3] = puVar4[0xf];
-
-    puVar8 = (char *)0x0605AD04;
-
-    *(int *)0x0605AD04 = puVar4[0x10];
-
-    puVar8[1] = puVar4[0x11];
-
-    puVar8[2] = puVar4[0x12];
-
-    puVar8[3] = puVar4[0x13];
-
-    puVar8 = (char *)0x0605AD0C;
-
-    *(int *)0x0605AD0C = puVar4[0x14];
-
-    puVar8[1] = puVar4[0x15];
-
-    puVar8[2] = puVar4[0x16];
-
-    puVar8[3] = puVar4[0x17];
-
-    *(int *)0x0605AB16 = puVar4[0x18];
-
-    *(int *)0x0605AB17 = puVar4[0x19];
-
-    *(int *)0x0605D240 = puVar4[0x1a];
-
-    *(int *)0x0605D241 = puVar4[0x1b];
-
-    puVar8 = (char *)0x06060D44;
-
-    *(int *)0x06060D44 = puVar4[0x1c];
-
-    puVar8[1] = puVar4[0x1d];
-
-    puVar8 = (char *)0x06060D46;
-
-    *(int *)0x06060D46 = puVar4[0x1e];
-
-    puVar8[1] = puVar4[0x1f];
-
-    puVar8 = (char *)0x06060D40;
-
-    *(int *)0x06060D40 = puVar4[0x20];
-
-    puVar8[1] = puVar4[0x21];
-
-    puVar8 = (char *)0x06060D42;
-
-    *(int *)0x06060D42 = puVar4[0x22];
-
-    puVar8[1] = puVar4[0x23];
-
-    puVar8 = (char *)0x06060D48;
-
-    *(int *)0x06060D48 = puVar4[0x24];
-
-    puVar8[1] = puVar4[0x25];
-
-    puVar8 = (char *)0x06060D4A;
-
-    *(int *)0x06060D4A = puVar4[0x26];
-
-    puVar8[1] = puVar4[0x27];
-
-    puVar8 = (char *)0x06060D4C;
-
-    *(int *)0x06060D4C = puVar4[0x28];
-
-    puVar8[1] = puVar4[0x29];
-
-    puVar8 = (char *)0x06060D4E;
-
-    *(int *)0x06060D4E = puVar4[0x2a];
-
-    puVar8[1] = puVar4[0x2b];
-
-    puVar8 = (char *)0x06060D54;
-
-    *(int *)0x06060D54 = puVar4[0x2c];
-
-    puVar8[1] = puVar4[0x2d];
-
-    puVar8[2] = puVar4[0x2e];
-
-    puVar8[3] = puVar4[0x2f];
-
-    puVar8 = (char *)0x06060D58;
-
-    *(int *)0x06060D58 = puVar4[0x30];
-
-    puVar8[1] = puVar4[0x31];
-
-    puVar8[2] = puVar4[0x32];
-
-    puVar8[3] = puVar4[0x33];
-
-    puVar8 = (char *)0x06060D50;
-
-    *(int *)0x06060D50 = puVar4[0x34];
-
-    puVar8[1] = puVar4[0x35];
-
-    puVar8[2] = puVar4[0x36];
-
-    puVar8[3] = puVar4[0x37];
-
-    puVar8 = (char *)0x06060D60;
-
-    *(int *)0x06060D60 = puVar4[0x38];
-
-    puVar8[1] = puVar4[0x39];
-
-    puVar8 = (char *)0x06060D62;
-
-    *(int *)0x06060D62 = puVar4[0x3a];
-
-    puVar8[1] = puVar4[0x3b];
-
-    puVar3 = 0x06060D5C + 1;
-
-    *(int *)0x06060D5C = puVar4[0x3c];
-
-    *puVar3 = puVar4[0x3d];
-
-    puVar8 = (char *)0x06060D5E;
-
-    *(int *)0x06060D5E = puVar4[0x3e];
-
-    puVar8[1] = puVar4[0x3f];
-
-    puVar8 = (char *)0x06060D64;
-
-    *(int *)0x06060D64 = puVar4[0x40];
-
-    puVar8[1] = puVar4[0x41];
-
-    puVar8 = (char *)0x06060D66;
-
-    *(int *)0x06060D66 = puVar4[0x42];
-
-    puVar8[1] = puVar4[0x43];
-
-    puVar8 = (char *)0x06060D68;
-
-    *(int *)0x06060D68 = puVar4[0x44];
-
-    puVar8[1] = puVar4[0x45];
-
-    puVar8 = (char *)0x06060D6A;
-
-    *(int *)0x06060D6A = puVar4[0x46];
-
-    puVar8[1] = puVar4[0x47];
-
-    puVar8 = (char *)0x06060D70;
-
-    *(int *)0x06060D70 = puVar4[0x48];
-
-    puVar8[1] = puVar4[0x49];
-
-    puVar8[2] = puVar4[0x4a];
-
-    puVar8[3] = puVar4[0x4b];
-
-    puVar8 = (char *)0x06060D74;
-
-    *(int *)0x06060D74 = puVar4[0x4c];
-
-    puVar8[1] = puVar4[0x4d];
-
-    puVar8[2] = puVar4[0x4e];
-
-    puVar8[3] = puVar4[0x4f];
-
-    puVar8 = (char *)0x06060D6C;
-
-    *(int *)0x06060D6C = puVar4[0x50];
-
-    puVar8[1] = puVar4[0x51];
-
-    puVar8[2] = puVar4[0x52];
-
-    puVar8[3] = puVar4[0x53];
-
+      src_end = src;
+      *dst = *src_end;
+      dst[1] = src_end[1];
+      dst[2] = src_end[2];
+      dst[3] = src_end[3];
+      dst[4] = src_end[4];
+      dst[5] = src_end[5];
+      dst[6] = src_end[6];
+      dst[7] = src_end[7];
+      dst[8] = src_end[8];
+      dst[9] = src_end[9];
+      dst_next = dst + 0xc;
+      dst[10] = src_end[10];
+      dst[0xb] = src_end[0xb];
+      settings_ptr = (char *)0x0605AD00;
+      src = src_end + 0xc;
+      dst = dst_next;
+    } while (dst_next < dst_block);
+
+    /* Deserialize game settings from save buffer */
+    COURSE_SELECT = src_end[0xc];          /* 0x0605AD00 */
+    settings_ptr[1] = src_end[0xd];
+    settings_ptr[2] = src_end[0xe];
+    settings_ptr[3] = src_end[0xf];
+    dst = (char *)0x0605AD04;
+    *(int *)0x0605AD04 = src_end[0x10];    /* difficulty */
+    dst[1] = src_end[0x11];
+    dst[2] = src_end[0x12];
+    dst[3] = src_end[0x13];
+    dst = (char *)0x0605AD0C;
+    *(int *)0x0605AD0C = src_end[0x14];    /* laps */
+    dst[1] = src_end[0x15];
+    dst[2] = src_end[0x16];
+    dst[3] = src_end[0x17];
+    *(int *)0x0605AB16 = src_end[0x18];    /* game_mode */
+    *(int *)0x0605AB17 = src_end[0x19];    /* sub_mode */
+    *(int *)0x0605D240 = src_end[0x1a];    /* option_a */
+    *(int *)0x0605D241 = src_end[0x1b];    /* option_b */
+    /* Leaderboard names and records: 0x06060D40-0x06060D74 (20 two-byte fields + 3 four-byte fields) */
+    dst = (char *)0x06060D44;
+    *(int *)0x06060D44 = src_end[0x1c];
+    dst[1] = src_end[0x1d];
+    dst = (char *)0x06060D46;
+    *(int *)0x06060D46 = src_end[0x1e];
+    dst[1] = src_end[0x1f];
+    dst = (char *)0x06060D40;
+    *(int *)0x06060D40 = src_end[0x20];
+    dst[1] = src_end[0x21];
+    dst = (char *)0x06060D42;
+    *(int *)0x06060D42 = src_end[0x22];
+    dst[1] = src_end[0x23];
+    dst = (char *)0x06060D48;
+    *(int *)0x06060D48 = src_end[0x24];
+    dst[1] = src_end[0x25];
+    dst = (char *)0x06060D4A;
+    *(int *)0x06060D4A = src_end[0x26];
+    dst[1] = src_end[0x27];
+    dst = (char *)0x06060D4C;
+    *(int *)0x06060D4C = src_end[0x28];
+    dst[1] = src_end[0x29];
+    dst = (char *)0x06060D4E;
+    *(int *)0x06060D4E = src_end[0x2a];
+    dst[1] = src_end[0x2b];
+    dst = (char *)0x06060D54;
+    *(int *)0x06060D54 = src_end[0x2c];
+    dst[1] = src_end[0x2d];
+    dst[2] = src_end[0x2e];
+    dst[3] = src_end[0x2f];
+    dst = (char *)0x06060D58;
+    *(int *)0x06060D58 = src_end[0x30];
+    dst[1] = src_end[0x31];
+    dst[2] = src_end[0x32];
+    dst[3] = src_end[0x33];
+    dst = (char *)0x06060D50;
+    *(int *)0x06060D50 = src_end[0x34];
+    dst[1] = src_end[0x35];
+    dst[2] = src_end[0x36];
+    dst[3] = src_end[0x37];
+    dst = (char *)0x06060D60;
+    *(int *)0x06060D60 = src_end[0x38];
+    dst[1] = src_end[0x39];
+    dst = (char *)0x06060D62;
+    *(int *)0x06060D62 = src_end[0x3a];
+    dst[1] = src_end[0x3b];
+    src = 0x06060D5C + 1;
+    *(int *)0x06060D5C = src_end[0x3c];
+    *src = src_end[0x3d];
+    dst = (char *)0x06060D5E;
+    *(int *)0x06060D5E = src_end[0x3e];
+    dst[1] = src_end[0x3f];
+    dst = (char *)0x06060D64;
+    *(int *)0x06060D64 = src_end[0x40];
+    dst[1] = src_end[0x41];
+    dst = (char *)0x06060D66;
+    *(int *)0x06060D66 = src_end[0x42];
+    dst[1] = src_end[0x43];
+    dst = (char *)0x06060D68;
+    *(int *)0x06060D68 = src_end[0x44];
+    dst[1] = src_end[0x45];
+    dst = (char *)0x06060D6A;
+    *(int *)0x06060D6A = src_end[0x46];
+    dst[1] = src_end[0x47];
+    dst = (char *)0x06060D70;
+    *(int *)0x06060D70 = src_end[0x48];
+    dst[1] = src_end[0x49];
+    dst[2] = src_end[0x4a];
+    dst[3] = src_end[0x4b];
+    dst = (char *)0x06060D74;
+    *(int *)0x06060D74 = src_end[0x4c];
+    dst[1] = src_end[0x4d];
+    dst[2] = src_end[0x4e];
+    dst[3] = src_end[0x4f];
+    dst = (char *)0x06060D6C;
+    *(int *)0x06060D6C = src_end[0x50];
+    dst[1] = src_end[0x51];
+    dst[2] = src_end[0x52];
+    dst[3] = src_end[0x53];
   }
 
-  return puVar2;
-
+  return result;
 }
 
+/* save_state_store -- serialize game state into backup RAM save buffer */
 char * FUN_0601efc4()
 {
+  char *settings_ptr;
+  char *result;
+  char *dst;
+  int block_size;
+  char *src_next;
+  int *table_end;
+  char *src;
+  int *table_ptr;
+  char *src_block;
 
-  char *puVar1;
+  block_size = 0xf0;
+  result = (char *)(unsigned int)(unsigned char)*(int *)0x06087080; /* save_error_flag */
 
-  char *puVar2;
+  if (result == (char *)0x0) {
+    dst = (char *)(*(int *)0x0605E098 + 0x10); /* save_buffer + header_size */
 
-  char *puVar3;
-
-  int iVar4;
-
-  char *puVar5;
-
-  int *puVar6;
-
-  char *puVar7;
-
-  char *puVar8;
-
-  int *puVar9;
-
-  char *puVar10;
-
-  iVar4 = 0xf0;
-
-  puVar2 = (char *)(unsigned int)(unsigned char)*(int *)0x06087080;
-
-  if (puVar2 == (char *)0x0) {
-
-    puVar3 = (char *)(*(int *)0x0605E098 + 0x10);
-
-    puVar9 = (int *)(0x0605DD6C + 0x48);
-
-    puVar6 = (int *)0x0605DD6C;
-
+    /* Block 1: serialize 0xF0 bytes per entry from 9 pointer table entries at 0x0605DD6C */
+    table_end = (int *)(0x0605DD6C + 0x48);
+    table_ptr = (int *)0x0605DD6C;
     do {
-
-      puVar10 = (char *)*puVar6;
-
-      puVar2 = puVar10;
-
+      src_block = (char *)*table_ptr;
+      result = src_block;
       do {
+        *dst = *result;
+        dst[1] = result[1];
+        dst[2] = result[2];
+        dst[3] = result[3];
+        dst[4] = result[4];
+        dst[5] = result[5];
+        dst[6] = result[6];
+        dst[7] = result[7];
+        src_next = result + 0xc;
+        dst[8] = result[8];
+        dst[9] = result[9];
+        dst[10] = result[10];
+        dst[0xb] = result[0xb];
+        dst = dst + 0xc;
+        result = src_next;
+      } while (src_next < src_block + block_size);
+      table_ptr = table_ptr + 2;
+    } while (table_ptr < table_end);
 
-        *puVar3 = *puVar2;
-
-        puVar3[1] = puVar2[1];
-
-        puVar3[2] = puVar2[2];
-
-        puVar3[3] = puVar2[3];
-
-        puVar3[4] = puVar2[4];
-
-        puVar3[5] = puVar2[5];
-
-        puVar3[6] = puVar2[6];
-
-        puVar3[7] = puVar2[7];
-
-        puVar5 = puVar2 + 0xc;
-
-        puVar3[8] = puVar2[8];
-
-        puVar3[9] = puVar2[9];
-
-        puVar3[10] = puVar2[10];
-
-        puVar3[0xb] = puVar2[0xb];
-
-        puVar3 = puVar3 + 0xc;
-
-        puVar2 = puVar5;
-
-      } while (puVar5 < puVar10 + iVar4);
-
-      puVar6 = puVar6 + 2;
-
-    } while (puVar6 < puVar9);
-
-    puVar9 = (int *)(0x0605DE24 + 0x18);
-
-    puVar6 = (int *)0x0605DE24;
-
+    /* Block 2: serialize 8 bytes per entry from 6 pointer table entries at 0x0605DE24 */
+    table_end = (int *)(0x0605DE24 + 0x18);
+    table_ptr = (int *)0x0605DE24;
     do {
+      result = (char *)*table_ptr;
+      table_ptr = table_ptr + 1;
+      *dst = *result;
+      dst[1] = result[1];
+      dst[2] = result[2];
+      dst[3] = result[3];
+      dst[4] = result[4];
+      dst[5] = result[5];
+      dst[6] = result[6];
+      dst[7] = result[7];
+      dst = dst + 8;
+    } while (table_ptr < table_end);
 
-      puVar2 = (char *)*puVar6;
-
-      puVar6 = puVar6 + 1;
-
-      *puVar3 = *puVar2;
-
-      puVar3[1] = puVar2[1];
-
-      puVar3[2] = puVar2[2];
-
-      puVar3[3] = puVar2[3];
-
-      puVar3[4] = puVar2[4];
-
-      puVar3[5] = puVar2[5];
-
-      puVar3[6] = puVar2[6];
-
-      puVar3[7] = puVar2[7];
-
-      puVar3 = puVar3 + 8;
-
-    } while (puVar6 < puVar9);
-
-    puVar10 = 0x0605DDB4 + 0x20;
-
-    puVar7 = (int *)0x0605DDB4;
-
+    /* Block 3: serialize 0x20 bytes from 0x0605DDB4 (leaderboard times A) */
+    src_block = 0x0605DDB4 + 0x20;
+    src = (int *)0x0605DDB4;
     do {
+      *dst = *src;
+      dst[1] = src[1];
+      dst[2] = src[2];
+      dst[3] = src[3];
+      src_next = src + 8;
+      dst[4] = src[4];
+      dst[5] = src[5];
+      dst[6] = src[6];
+      dst[7] = src[7];
+      dst = dst + 8;
+      src = src_next;
+    } while (src_next < src_block);
 
-      *puVar3 = *puVar7;
-
-      puVar3[1] = puVar7[1];
-
-      puVar3[2] = puVar7[2];
-
-      puVar3[3] = puVar7[3];
-
-      puVar5 = puVar7 + 8;
-
-      puVar3[4] = puVar7[4];
-
-      puVar3[5] = puVar7[5];
-
-      puVar3[6] = puVar7[6];
-
-      puVar3[7] = puVar7[7];
-
-      puVar3 = puVar3 + 8;
-
-      puVar7 = puVar5;
-
-    } while (puVar5 < puVar10);
-
-    puVar10 = 0x0605DDD4 + 0x20;
-
-    puVar7 = (int *)0x0605DDD4;
-
+    /* Block 4: serialize 0x20 bytes from 0x0605DDD4 (leaderboard times B) */
+    src_block = 0x0605DDD4 + 0x20;
+    src = (int *)0x0605DDD4;
     do {
+      *dst = *src;
+      dst[1] = src[1];
+      dst[2] = src[2];
+      dst[3] = src[3];
+      src_next = src + 8;
+      dst[4] = src[4];
+      dst[5] = src[5];
+      dst[6] = src[6];
+      dst[7] = src[7];
+      dst = dst + 8;
+      src = src_next;
+    } while (src_next < src_block);
 
-      *puVar3 = *puVar7;
-
-      puVar3[1] = puVar7[1];
-
-      puVar3[2] = puVar7[2];
-
-      puVar3[3] = puVar7[3];
-
-      puVar5 = puVar7 + 8;
-
-      puVar3[4] = puVar7[4];
-
-      puVar3[5] = puVar7[5];
-
-      puVar3[6] = puVar7[6];
-
-      puVar3[7] = puVar7[7];
-
-      puVar3 = puVar3 + 8;
-
-      puVar7 = puVar5;
-
-    } while (puVar5 < puVar10);
-
-    puVar10 = 0x0605DE40 + 0x24;
-
-    puVar7 = (int *)0x0605DE40;
-
+    /* Block 5: serialize 0x24 bytes from 0x0605DE40 (race records) */
+    src_block = 0x0605DE40 + 0x24;
+    src = (int *)0x0605DE40;
     do {
-
-      puVar5 = puVar3;
-
-      *puVar5 = *puVar7;
-
-      puVar5[1] = puVar7[1];
-
-      puVar5[2] = puVar7[2];
-
-      puVar5[3] = puVar7[3];
-
-      puVar5[4] = puVar7[4];
-
-      puVar5[5] = puVar7[5];
-
-      puVar5[6] = puVar7[6];
-
-      puVar5[7] = puVar7[7];
-
-      puVar5[8] = puVar7[8];
-
-      puVar5[9] = puVar7[9];
-
-      puVar8 = puVar7 + 0xc;
-
-      puVar5[10] = puVar7[10];
-
-      puVar5[0xb] = puVar7[0xb];
-
-      puVar1 = (char *)0x0605AD00;
-
-      puVar3 = puVar5 + 0xc;
-
-      puVar7 = puVar8;
-
-    } while (puVar8 < puVar10);
-
-    puVar3 = 0x0605AD00 + 1;
-
-    puVar5[0xc] = COURSE_SELECT;
-
-    puVar5[0xd] = *puVar3;
-
-    puVar5[0xe] = puVar1[2];
-
-    puVar5[0xf] = puVar1[3];
-
-    puVar7 = (int *)0x0605AD04;
-
-    puVar3 = 0x0605AD04 + 1;
-
-    puVar5[0x10] = *(int *)0x0605AD04;
-
-    puVar5[0x11] = *puVar3;
-
-    puVar5[0x12] = puVar7[2];
-
-    puVar5[0x13] = puVar7[3];
-
-    puVar7 = (int *)0x0605AD0C;
-
-    puVar3 = 0x0605AD0C + 1;
-
-    puVar5[0x14] = *(int *)0x0605AD0C;
-
-    puVar5[0x15] = *puVar3;
-
-    puVar5[0x16] = puVar7[2];
-
-    puVar5[0x17] = puVar7[3];
-
-    puVar5[0x18] = *(int *)0x0605AB16;
-
-    puVar5[0x19] = *(int *)0x0605AB17;
-
-    puVar5[0x1a] = *(int *)0x0605D240;
-
-    puVar5[0x1b] = *(int *)0x0605D241;
-
-    puVar3 = 0x06060D44 + 1;
-
-    puVar5[0x1c] = *(int *)0x06060D44;
-
-    puVar5[0x1d] = *puVar3;
-
-    puVar3 = 0x06060D46 + 1;
-
-    puVar5[0x1e] = *(int *)0x06060D46;
-
-    puVar5[0x1f] = *puVar3;
-
-    puVar3 = 0x06060D40 + 1;
-
-    puVar5[0x20] = *(int *)0x06060D40;
-
-    puVar5[0x21] = *puVar3;
-
-    puVar3 = 0x06060D42 + 1;
-
-    puVar5[0x22] = *(int *)0x06060D42;
-
-    puVar5[0x23] = *puVar3;
-
-    puVar3 = 0x06060D48 + 1;
-
-    puVar5[0x24] = *(int *)0x06060D48;
-
-    puVar5[0x25] = *puVar3;
-
-    puVar3 = 0x06060D4A + 1;
-
-    puVar5[0x26] = *(int *)0x06060D4A;
-
-    puVar5[0x27] = *puVar3;
-
-    puVar3 = 0x06060D4C + 1;
-
-    puVar5[0x28] = *(int *)0x06060D4C;
-
-    puVar5[0x29] = *puVar3;
-
-    puVar3 = 0x06060D4E + 1;
-
-    puVar5[0x2a] = *(int *)0x06060D4E;
-
-    puVar5[0x2b] = *puVar3;
-
-    puVar7 = (int *)0x06060D54;
-
-    puVar3 = 0x06060D54 + 1;
-
-    puVar5[0x2c] = *(int *)0x06060D54;
-
-    puVar5[0x2d] = *puVar3;
-
-    puVar5[0x2e] = puVar7[2];
-
-    puVar5[0x2f] = puVar7[3];
-
-    puVar7 = (int *)0x06060D58;
-
-    puVar3 = 0x06060D58 + 1;
-
-    puVar5[0x30] = *(int *)0x06060D58;
-
-    puVar5[0x31] = *puVar3;
-
-    puVar5[0x32] = puVar7[2];
-
-    puVar5[0x33] = puVar7[3];
-
-    puVar7 = (int *)0x06060D50;
-
-    puVar3 = 0x06060D50 + 1;
-
-    puVar5[0x34] = *(int *)0x06060D50;
-
-    puVar5[0x35] = *puVar3;
-
-    puVar5[0x36] = puVar7[2];
-
-    puVar5[0x37] = puVar7[3];
-
-    puVar3 = 0x06060D60 + 1;
-
-    puVar5[0x38] = *(int *)0x06060D60;
-
-    puVar5[0x39] = *puVar3;
-
-    puVar3 = 0x06060D62 + 1;
-
-    puVar5[0x3a] = *(int *)0x06060D62;
-
-    puVar5[0x3b] = *puVar3;
-
-    puVar3 = 0x06060D5C + 1;
-
-    puVar5[0x3c] = *(int *)0x06060D5C;
-
-    puVar5[0x3d] = *puVar3;
-
-    puVar3 = 0x06060D5E + 1;
-
-    puVar5[0x3e] = *(int *)0x06060D5E;
-
-    puVar5[0x3f] = *puVar3;
-
-    puVar3 = 0x06060D64 + 1;
-
-    puVar5[0x40] = *(int *)0x06060D64;
-
-    puVar5[0x41] = *puVar3;
-
-    puVar3 = 0x06060D66 + 1;
-
-    puVar5[0x42] = *(int *)0x06060D66;
-
-    puVar5[0x43] = *puVar3;
-
-    puVar3 = 0x06060D68 + 1;
-
-    puVar5[0x44] = *(int *)0x06060D68;
-
-    puVar5[0x45] = *puVar3;
-
-    puVar3 = 0x06060D6A + 1;
-
-    puVar5[0x46] = *(int *)0x06060D6A;
-
-    puVar5[0x47] = *puVar3;
-
-    puVar7 = (int *)0x06060D70;
-
-    puVar3 = 0x06060D70 + 1;
-
-    puVar5[0x48] = *(int *)0x06060D70;
-
-    puVar5[0x49] = *puVar3;
-
-    puVar5[0x4a] = puVar7[2];
-
-    puVar5[0x4b] = puVar7[3];
-
-    puVar7 = (int *)0x06060D74;
-
-    puVar3 = 0x06060D74 + 1;
-
-    puVar5[0x4c] = *(int *)0x06060D74;
-
-    puVar5[0x4d] = *puVar3;
-
-    puVar5[0x4e] = puVar7[2];
-
-    puVar5[0x4f] = puVar7[3];
-
-    puVar7 = (int *)0x06060D6C;
-
-    puVar3 = 0x06060D6C + 1;
-
-    puVar5[0x50] = *(int *)0x06060D6C;
-
-    puVar5[0x51] = *puVar3;
-
-    puVar5[0x52] = puVar7[2];
-
-    puVar5[0x53] = puVar7[3];
-
+      src_next = dst;
+      *src_next = *src;
+      src_next[1] = src[1];
+      src_next[2] = src[2];
+      src_next[3] = src[3];
+      src_next[4] = src[4];
+      src_next[5] = src[5];
+      src_next[6] = src[6];
+      src_next[7] = src[7];
+      src_next[8] = src[8];
+      src_next[9] = src[9];
+      src = src + 0xc;
+      src_next[10] = src[10];
+      src_next[0xb] = src[0xb];
+      settings_ptr = (char *)0x0605AD00;
+      dst = src_next + 0xc;
+      src = src;
+    } while (src < src_block);
+
+    /* Serialize game settings to save buffer */
+    dst = 0x0605AD00 + 1;
+    src_next[0xc] = COURSE_SELECT;
+    src_next[0xd] = *dst;
+    src_next[0xe] = settings_ptr[2];
+    src_next[0xf] = settings_ptr[3];
+    src = (int *)0x0605AD04;
+    dst = 0x0605AD04 + 1;
+    src_next[0x10] = *(int *)0x0605AD04;
+    src_next[0x11] = *dst;
+    src_next[0x12] = src[2];
+    src_next[0x13] = src[3];
+    src = (int *)0x0605AD0C;
+    dst = 0x0605AD0C + 1;
+    src_next[0x14] = *(int *)0x0605AD0C;
+    src_next[0x15] = *dst;
+    src_next[0x16] = src[2];
+    src_next[0x17] = src[3];
+    src_next[0x18] = *(int *)0x0605AB16;
+    src_next[0x19] = *(int *)0x0605AB17;
+    src_next[0x1a] = *(int *)0x0605D240;
+    src_next[0x1b] = *(int *)0x0605D241;
+    /* Leaderboard names and records: 0x06060D40-0x06060D74 */
+    dst = 0x06060D44 + 1;
+    src_next[0x1c] = *(int *)0x06060D44;
+    src_next[0x1d] = *dst;
+    dst = 0x06060D46 + 1;
+    src_next[0x1e] = *(int *)0x06060D46;
+    src_next[0x1f] = *dst;
+    dst = 0x06060D40 + 1;
+    src_next[0x20] = *(int *)0x06060D40;
+    src_next[0x21] = *dst;
+    dst = 0x06060D42 + 1;
+    src_next[0x22] = *(int *)0x06060D42;
+    src_next[0x23] = *dst;
+    dst = 0x06060D48 + 1;
+    src_next[0x24] = *(int *)0x06060D48;
+    src_next[0x25] = *dst;
+    dst = 0x06060D4A + 1;
+    src_next[0x26] = *(int *)0x06060D4A;
+    src_next[0x27] = *dst;
+    dst = 0x06060D4C + 1;
+    src_next[0x28] = *(int *)0x06060D4C;
+    src_next[0x29] = *dst;
+    dst = 0x06060D4E + 1;
+    src_next[0x2a] = *(int *)0x06060D4E;
+    src_next[0x2b] = *dst;
+    src = (int *)0x06060D54;
+    dst = 0x06060D54 + 1;
+    src_next[0x2c] = *(int *)0x06060D54;
+    src_next[0x2d] = *dst;
+    src_next[0x2e] = src[2];
+    src_next[0x2f] = src[3];
+    src = (int *)0x06060D58;
+    dst = 0x06060D58 + 1;
+    src_next[0x30] = *(int *)0x06060D58;
+    src_next[0x31] = *dst;
+    src_next[0x32] = src[2];
+    src_next[0x33] = src[3];
+    src = (int *)0x06060D50;
+    dst = 0x06060D50 + 1;
+    src_next[0x34] = *(int *)0x06060D50;
+    src_next[0x35] = *dst;
+    src_next[0x36] = src[2];
+    src_next[0x37] = src[3];
+    dst = 0x06060D60 + 1;
+    src_next[0x38] = *(int *)0x06060D60;
+    src_next[0x39] = *dst;
+    dst = 0x06060D62 + 1;
+    src_next[0x3a] = *(int *)0x06060D62;
+    src_next[0x3b] = *dst;
+    dst = 0x06060D5C + 1;
+    src_next[0x3c] = *(int *)0x06060D5C;
+    src_next[0x3d] = *dst;
+    dst = 0x06060D5E + 1;
+    src_next[0x3e] = *(int *)0x06060D5E;
+    src_next[0x3f] = *dst;
+    dst = 0x06060D64 + 1;
+    src_next[0x40] = *(int *)0x06060D64;
+    src_next[0x41] = *dst;
+    dst = 0x06060D66 + 1;
+    src_next[0x42] = *(int *)0x06060D66;
+    src_next[0x43] = *dst;
+    dst = 0x06060D68 + 1;
+    src_next[0x44] = *(int *)0x06060D68;
+    src_next[0x45] = *dst;
+    dst = 0x06060D6A + 1;
+    src_next[0x46] = *(int *)0x06060D6A;
+    src_next[0x47] = *dst;
+    src = (int *)0x06060D70;
+    dst = 0x06060D70 + 1;
+    src_next[0x48] = *(int *)0x06060D70;
+    src_next[0x49] = *dst;
+    src_next[0x4a] = src[2];
+    src_next[0x4b] = src[3];
+    src = (int *)0x06060D74;
+    dst = 0x06060D74 + 1;
+    src_next[0x4c] = *(int *)0x06060D74;
+    src_next[0x4d] = *dst;
+    src_next[0x4e] = src[2];
+    src_next[0x4f] = src[3];
+    src = (int *)0x06060D6C;
+    dst = 0x06060D6C + 1;
+    src_next[0x50] = *(int *)0x06060D6C;
+    src_next[0x51] = *dst;
+    src_next[0x52] = src[2];
+    src_next[0x53] = src[3];
   }
 
-  return puVar2;
-
+  return result;
 }
 
 /* cdda_replay_check -- Check if CD audio track needs replay.

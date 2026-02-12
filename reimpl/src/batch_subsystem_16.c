@@ -1055,283 +1055,171 @@ unsigned int FUN_06017c9c(short *param_1)
     return div_result;
 }
 
+/* track_scenery_sprite_animate -- animate roadside scenery sprites and render track-side 3D objects */
 void FUN_06017cec()
 {
+  unsigned short sprite_id;
+  char *model_base;
+  char *sprite_table;
+  char *scenery_state;
+  char *vdp1_base;
+  char *tree_reset_pos;
+  short priority_val;
+  int base_pos;
+  int tree_table_offset;
+  int car_checkpoint;
+  int scenery_table_offset;
+  int *rotation_entry;
+  unsigned int obj_index;
+  unsigned int obj_next;
 
-  unsigned short uVar1;
+  vdp1_base = (char *)0x06063F64;       /* VDP1 sprite command table */
+  sprite_table = (char *)0x060684EC;     /* scenery sprite index table */
+  scenery_state = (char *)0x0605BE10;    /* scenery animation state (X/Z rotation) */
+  model_base = (char *)0x00088734;       /* model data base offset */
+  car_checkpoint = CAR_PTR_TARGET;
+  base_pos = *(int *)0x06089E28;         /* road marker base position */
 
-  char *puVar2;
+  /* Increment animation frame counters */
+  *(short *)0x0605BE2C = *(short *)0x0605BE2C + 1; /* marker_frame */
+  *(short *)0x0605BE2E = *(short *)0x0605BE2E + 1; /* tree_frame */
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  short uVar7;
-
-  int uVar8;
-
-  int iVar9;
-
-  int iVar10;
-
-  int iVar11;
-
-  int *puVar12;
-
-  unsigned int uVar13;
-
-  unsigned int uVar14;
-
-  puVar5 = (char *)0x06063F64;
-
-  puVar4 = (char *)0x060684EC;
-
-  puVar3 = (char *)0x0605BE10;
-
-  puVar2 = (char *)0x00088734;
-
-  iVar10 = CAR_PTR_TARGET;
-
-  uVar8 = *(int *)0x06089E28;
-
-  *(short *)0x0605BE2C = *(short *)0x0605BE2C + 1;
-
-  *(short *)0x0605BE2E = *(short *)0x0605BE2E + 1;
-
-  if (*(unsigned int *)(iVar10 + DAT_06017d92) < *(int *)0x06063F28 - 1U) {
-
-    uVar1 = *(unsigned short *)(puVar4 + DAT_06017d94);
-
-    uVar7 = DAT_06017d98;
-
+  /* Set road marker priority based on car position vs track segment count */
+  if (*(unsigned int *)(car_checkpoint + DAT_06017d92) < *(int *)0x06063F28 - 1U) {
+    sprite_id = *(unsigned short *)(sprite_table + DAT_06017d94);
+    priority_val = DAT_06017d98; /* normal priority */
   }
-
   else {
-
-    uVar8 = *(int *)0x06089E2C;
-
-    uVar1 = *(unsigned short *)(puVar4 + DAT_06017d94);
-
-    uVar7 = DAT_06017d96;
-
+    base_pos = *(int *)0x06089E2C; /* alternate base for last segment */
+    sprite_id = *(unsigned short *)(sprite_table + DAT_06017d94);
+    priority_val = DAT_06017d96;  /* end-of-track priority */
   }
+  *(short *)(vdp1_base + (unsigned int)(sprite_id << 3) + 6) = priority_val;
 
-  *(short *)(puVar5 + (unsigned int)(uVar1 << 3) + 6) = uVar7;
-
-  iVar11 = (int)DAT_06017d9a;
-
+  /* Road marker animation: advance by 0x90 per frame, reset every 6 frames */
+  scenery_table_offset = (int)DAT_06017d9a;
   if (*(short *)0x0605BE2C < 6) {
-
-    iVar9 = 0x90;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017d94) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017d94) << 3)) + iVar9;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11) << 3)) + iVar9;
-
+    car_checkpoint = 0x90;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + DAT_06017d94) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + DAT_06017d94) << 3)) + car_checkpoint;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset) << 3)) + car_checkpoint;
   }
-
   else {
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017ea6) << 3)) = uVar8;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11) << 3)) =
-
+    /* Reset marker positions from base values */
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + DAT_06017ea6) << 3)) = base_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset) << 3)) =
          *(int *)0x06089E30;
-
     *(short *)0x0605BE2C = 0;
-
   }
 
-  puVar6 = (char *)0x06089E34;
-
-  iVar11 = (int)DAT_06017ea8;
-
+  /* Tree/scenery sprite animation: reset positions every 4 frames, scroll by 0x40 otherwise */
+  tree_reset_pos = (char *)0x06089E34;
+  scenery_table_offset = (int)DAT_06017ea8;
   if ((*(unsigned short *)0x0605BE2E & 3) == 0) {
-
-    iVar9 = (int)DAT_06017eaa;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9) << 3)) =
-
+    /* Every 4 frames: snap tree sprites to base positions */
+    car_checkpoint = (int)DAT_06017eaa;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint) << 3)) =
          *(int *)0x06089E34;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x18) << 3)) = *(int *)puVar6;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x2a) << 3)) = *(int *)puVar6;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x3a) << 3)) = *(int *)puVar6;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x4a) << 3)) = *(int *)puVar6;
-
-    puVar6 = (char *)0x06089E38;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11 + -8) << 3)) =
-
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x18) << 3)) = *(int *)tree_reset_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x2a) << 3)) = *(int *)tree_reset_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x3a) << 3)) = *(int *)tree_reset_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x4a) << 3)) = *(int *)tree_reset_pos;
+    tree_reset_pos = (char *)0x06089E38;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset + -8) << 3)) =
          *(int *)0x06089E38;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11) << 3)) = *(int *)puVar6;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x20) << 3)) = *(int *)puVar6;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x32) << 3)) = *(int *)puVar6;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x42) << 3)) = *(int *)puVar6;
-
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset) << 3)) = *(int *)tree_reset_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x20) << 3)) = *(int *)tree_reset_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x32) << 3)) = *(int *)tree_reset_pos;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x42) << 3)) = *(int *)tree_reset_pos;
   }
-
   else {
-
-    iVar9 = (int)DAT_06017fdc;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11 + -8) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11 + -8) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar11) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x18) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x18) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x20) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x20) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x2a) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x2a) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x32) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x32) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x3a) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x3a) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x42) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x42) << 3)) + 0x40;
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x4a) << 3)) =
-
-         *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + iVar9 + 0x4a) << 3)) + 0x40;
-
+    /* Intermediate frames: scroll all scenery sprites by 0x40 */
+    car_checkpoint = (int)DAT_06017fdc;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset + -8) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset + -8) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + scenery_table_offset) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x18) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x18) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x20) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x20) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x2a) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x2a) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x32) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x32) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x3a) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x3a) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x42) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x42) << 3)) + 0x40;
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x4a) << 3)) =
+         *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + car_checkpoint + 0x4a) << 3)) + 0x40;
   }
 
+  /* Checkpoint blinking indicator: toggles every 16 frames */
   if ((*(unsigned short *)0x0605BE2E & 0x10) == 0) {
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017fde) << 3)) =
-
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + DAT_06017fde) << 3)) =
          *(int *)0x06089E40;
-
   }
-
   else {
-
-    *(int *)(puVar5 + ((unsigned int)*(unsigned short *)(puVar4 + DAT_06017fde) << 3)) =
-
-         *(int *)0x06089E40 + 0x100;
-
+    *(int *)(vdp1_base + ((unsigned int)*(unsigned short *)(sprite_table + DAT_06017fde) << 3)) =
+         *(int *)0x06089E40 + 0x100; /* blink offset */
   }
 
-  iVar10 = *(int *)(iVar10 + DAT_06017fe2);
-
-  if ((iVar10 < DAT_06017fe4) || (DAT_06017fe6 < iVar10)) {
-
-    *(short *)0x0605BE36 = 0;
-
+  /* Track zone flags based on car checkpoint position */
+  car_checkpoint = *(int *)(CAR_PTR_TARGET + DAT_06017fe2);
+  if ((car_checkpoint < DAT_06017fe4) || (DAT_06017fe6 < car_checkpoint)) {
+    *(short *)0x0605BE36 = 0; /* not in zone A */
   }
-
   else {
-
-    *(short *)0x0605BE36 = 1;
-
+    *(short *)0x0605BE36 = 1; /* in zone A */
   }
-
-  if ((iVar10 < 0x4b) || (0x57 < iVar10)) {
-
-    *(short *)0x0605BE38 = 0;
-
+  if ((car_checkpoint < 0x4b) || (0x57 < car_checkpoint)) {
+    *(short *)0x0605BE38 = 0; /* not in zone B */
   }
-
   else {
-
-    *(short *)0x0605BE38 = 4;
-
+    *(short *)0x0605BE38 = 4; /* in zone B */
   }
 
-  if ((DAT_060180fc <= iVar10) && (iVar10 <= DAT_060180fe)) {
+  /* Render 3D roadside objects (trees/signs) if in special track zone */
+  if ((DAT_060180fc <= car_checkpoint) && (car_checkpoint <= DAT_060180fe)) {
+    /* Advance rotation angles */
+    *(int *)scenery_state = *(int *)scenery_state + 0x333;        /* X rotation step */
+    *(int *)(scenery_state + 4) = *(int *)(scenery_state + 4) + (int)DAT_06018102; /* Z rotation step */
 
-    *(int *)puVar3 = *(int *)puVar3 + 0x333;
-
-    *(int *)(puVar3 + 4) = *(int *)(puVar3 + 4) + (int)DAT_06018102;
-
-    puVar4 = (char *)0x06089E98;
-
-    uVar13 = 0;
-
+    sprite_table = (char *)0x06089E98; /* tree sprite ID table */
+    obj_index = 0;
     do {
+      /* Render object A (even index) */
+      (*(int(*)())0x06026DBC)();  /* matrix_identity */
+      rotation_entry = (int *)(0x06048078 + ((obj_index & 0xff) * 0xc & 0xff));
+      (*(int(*)())0x06026E2E)(*rotation_entry,rotation_entry[1],-rotation_entry[2]); /* matrix_set_rotation */
+      (*(int(*)())0x06026EDE)(0x0000C000); /* matrix_set_scale */
+      (*(int(*)())0x06026F2A)(*(int *)scenery_state + (obj_index & 3) * (int)DAT_06018104); /* matrix_set_position */
+      vdp1_base = (char *)0x00200000;
+      (*(int(*)())0x06031D8C)(0x00200000 + (int)model_base,0xc); /* render_model */
+      (*(int(*)())0x06031A28)(vdp1_base + (int)0x000887C4,(int)*(short *)sprite_table,3); /* render_texture */
+      (*(int(*)())0x06026DF8)(); /* matrix_flush */
 
+      /* Render object B (odd index) */
+      obj_next = obj_index + 1;
       (*(int(*)())0x06026DBC)();
-
-      puVar12 = (int *)(0x06048078 + ((uVar13 & 0xff) * 0xc & 0xff));
-
-      (*(int(*)())0x06026E2E)(*puVar12,puVar12[1],-puVar12[2]);
-
+      rotation_entry = (int *)(0x06048078 + ((obj_next & 0xff) * 0xc & 0xff));
+      (*(int(*)())0x06026E2E)(*rotation_entry,rotation_entry[1],-rotation_entry[2]);
       (*(int(*)())0x06026EDE)(0x0000C000);
-
-      (*(int(*)())0x06026F2A)(*(int *)puVar3 + (uVar13 & 3) * (int)DAT_06018104);
-
-      puVar5 = (char *)0x00200000;
-
-      (*(int(*)())0x06031D8C)(0x00200000 + (int)puVar2,0xc);
-
-      (*(int(*)())0x06031A28)(puVar5 + (int)0x000887C4,(int)*(short *)puVar4,3);
-
+      (*(int(*)())0x06026F2A)(*(int *)(scenery_state + ((obj_next & 1) << 2)) + (obj_next & 3) * (int)DAT_06018104);
+      (*(int(*)())0x06031D8C)(vdp1_base + (int)model_base,0xc);
+      (*(int(*)())0x06031A28)(vdp1_base + (int)0x000887C4,(int)*(short *)sprite_table,3);
       (*(int(*)())0x06026DF8)();
 
-      uVar14 = uVar13 + 1;
-
-      (*(int(*)())0x06026DBC)();
-
-      puVar12 = (int *)(0x06048078 + ((uVar14 & 0xff) * 0xc & 0xff));
-
-      (*(int(*)())0x06026E2E)(*puVar12,puVar12[1],-puVar12[2]);
-
-      (*(int(*)())0x06026EDE)(0x0000C000);
-
-      (*(int(*)())0x06026F2A)(*(int *)(puVar3 + ((uVar14 & 1) << 2)) + (uVar14 & 3) * (int)DAT_06018104);
-
-      (*(int(*)())0x06031D8C)(puVar5 + (int)puVar2,0xc);
-
-      (*(int(*)())0x06031A28)(puVar5 + (int)0x000887C4,(int)*(short *)puVar4,3);
-
-      (*(int(*)())0x06026DF8)();
-
-      uVar13 = uVar13 + 2;
-
-    } while ((int)uVar13 < 0xe);
-
+      obj_index = obj_index + 2;
+    } while ((int)obj_index < 0xe); /* 7 pairs = 14 objects */
   }
 
-  (*(int(*)())0x06021178)();
-
+  (*(int(*)())0x06021178)(); /* track_zone_sprite_swap */
   track_calculation();
 
   return;
-
 }
