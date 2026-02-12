@@ -893,45 +893,19 @@ void FUN_06026e02(void)
   mtx[9] = 0;           mtx[10] = 0;          mtx[0xb] = 0;
 }
 
-void FUN_06026e0c()
+/* matrix_set_identity -- Set current matrix stack entry to identity.
+ * Reads matrix pointer from 0x06089EDC (current matrix stack top).
+ * Sets 4x3 matrix: diagonal = 0x10000 (1.0 in 16.16 fixed-point),
+ * all other entries = 0. Used to reset transformations. */
+void FUN_06026e0c(void)
 {
+    int identity = 0x00010000;  /* 1.0 in 16.16 fixed-point */
+    int *mtx = *(int **)0x06089EDC;  /* current matrix stack entry */
 
-  char *puVar1;
-
-  int *puVar2;
-
-  
-
-  puVar1 = (int *)0x00010000;
-
-  puVar2 = *(int **)0x06089EDC;
-
-  puVar2[1] = 0;
-
-  *puVar2 = puVar1;
-
-  puVar2[2] = 0;
-
-  puVar2[3] = 0;
-
-  puVar2[4] = puVar1;
-
-  puVar2[5] = 0;
-
-  puVar2[6] = 0;
-
-  puVar2[7] = 0;
-
-  puVar2[8] = puVar1;
-
-  puVar2[9] = 0;
-
-  puVar2[10] = 0;
-
-  puVar2[0xb] = 0;
-
-  return;
-
+    mtx[0]  = identity;  mtx[1]  = 0;  mtx[2]  = 0;
+    mtx[3]  = 0;         mtx[4]  = identity;  mtx[5]  = 0;
+    mtx[6]  = 0;         mtx[7]  = 0;  mtx[8]  = identity;
+    mtx[9]  = 0;         mtx[10] = 0;  mtx[0xb] = 0;
 }
 
 char * FUN_06026e2e(param_1, param_2, param_3)

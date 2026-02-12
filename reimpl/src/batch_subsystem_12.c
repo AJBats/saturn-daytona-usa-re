@@ -351,42 +351,50 @@ void FUN_060122f4()
   *(short *)0x060788B2 = *(short *)0x060788B2 + 0x1800;  /* rotate heading */
 }
 
-void FUN_06012344()
+/* camera_vibration_apply -- Apply camera vibration to 4 view matrix rows.
+ * Computes 3 sinusoidal offsets from half-heading (0x060788AC >> 1) using
+ * fixed-point multiply (0x06027552) with frequency constants (DAT_060123de-e2).
+ * Applies cross-axis perturbations to 4 consecutive 3-vectors at
+ * 0x060788C0, 0x060788CC, 0x060788D8, 0x060788E4 (view frustum corners).
+ * CD time delta (0x06034FE0) affects row 3 Y-axis. */
+void FUN_06012344(void)
 {
-  register int (*func)() asm("r3") = (int(*)())0x06027552;
-  int iVar1;
-  int iVar2;
-  int *p;
-  int iVar4;
-  int tmp;
+    register int (*fpmul)() asm("r3") = (int(*)())0x06027552;  /* fixed-point multiply */
+    int sin_a, sin_b, sin_c;
+    int *row;
+    int half_heading;
+    int heading = *(int *)0x060788AC;
 
-  tmp = *(int *)0x060788AC;
-  iVar4 = ((int)(tmp + (unsigned int)(tmp < 0)) >> 1) << 0x10;
+    half_heading = ((int)(heading + (unsigned int)(heading < 0)) >> 1) << 0x10;
 
-  iVar1 = (*func)(iVar4, (int)DAT_060123de);
-  iVar2 = (*func)(iVar4, (int)DAT_060123e0);
-  iVar4 = (*func)(iVar4, (int)DAT_060123e2);
+    sin_a = (*fpmul)(half_heading, (int)DAT_060123de);
+    sin_b = (*fpmul)(half_heading, (int)DAT_060123e0);
+    sin_c = (*fpmul)(half_heading, (int)DAT_060123e2);
 
-  p = (int *)0x060788C0;
-  p[0] = p[0] + iVar1 * -2;
-  p[1] = p[1] + iVar2;
-  p[2] = p[2] + iVar4;
+    /* Row 0: 0x060788C0 */
+    row = (int *)0x060788C0;
+    row[0] = row[0] + sin_a * -2;
+    row[1] = row[1] + sin_b;
+    row[2] = row[2] + sin_c;
 
-  p = (int *)0x060788CC;
-  p[0] = p[0] - iVar2;
-  p[1] = p[1] - iVar1;
-  p[2] = p[2] - iVar1;
+    /* Row 1: 0x060788CC */
+    row = (int *)0x060788CC;
+    row[0] = row[0] - sin_b;
+    row[1] = row[1] - sin_a;
+    row[2] = row[2] - sin_a;
 
-  p = (int *)0x060788D8;
-  p[0] = p[0] + (iVar1 << 1);
-  iVar1 = (*(int(*)())0x06034FE0)();
-  p[1] = p[1] - iVar1;
-  p[2] = p[2] - iVar4;
+    /* Row 2: 0x060788D8 (Y adjusted by CD time delta) */
+    row = (int *)0x060788D8;
+    row[0] = row[0] + (sin_a << 1);
+    sin_a = (*(int(*)())0x06034FE0)();  /* cd_time_delta */
+    row[1] = row[1] - sin_a;
+    row[2] = row[2] - sin_c;
 
-  p = (int *)0x060788E4;
-  p[0] = p[0] + iVar2;
-  p[1] = p[1] + iVar2;
-  p[2] = p[2] + iVar4;
+    /* Row 3: 0x060788E4 */
+    row = (int *)0x060788E4;
+    row[0] = row[0] + sin_b;
+    row[1] = row[1] + sin_b;
+    row[2] = row[2] + sin_c;
 }
 
 /* background_render_pipeline -- Full background rendering pipeline.

@@ -1897,44 +1897,48 @@ int FUN_0600d92c()
     return 0;
 }
 
+/* race_progress_track -- Track race progress via CD sector reads and lap changes.
+ * If param_1==0 (player car): monitors lap field (car+0x228) for changes,
+ * increments lap counter (0x06063F24), stores to car+0x21C. Resets CD read
+ * flag (0x06063F1C) when lap count reaches threshold (0x06063F28).
+ * Then checks CD sector availability (0x06035280), issues CD read (0x06034F78),
+ * increments sector counter (car+0x230). For multi-car races, calls
+ * 0x0600dd88 for AI progress if car flag bit 3 not set. */
 void FUN_0600d9bc(param_1)
     int param_1;
 {
-  register int *puVar1 asm("r14") = (int *)0x06063F1C;
-  register int base asm("r5") = CAR_PTR_CURRENT;
-  unsigned int uVar4;
-  int offset;
-  int iVar5;
+    register int *cd_read_flag asm("r14") = (int *)0x06063F1C;
+    register int car asm("r5") = CAR_PTR_CURRENT;
+    unsigned int sector_mask;
 
-  if (param_1 == 0) {
-    if (*(int *)0x06063F18 == *puVar1) {
-      offset = 0x228;
-      if (*(int *)(base + offset) != *(int *)0x06063F20) {
-        *(int *)0x06063F20 = *(int *)(base + offset);
-        iVar5 = *(int *)0x06063F24;
-        *(int *)0x06063F24 = iVar5 + 1;
-        *(int *)(base + offset + -0xc) = iVar5 + 1;
-        if ((unsigned int)*(int *)0x06063F24 < *(unsigned int *)0x06063F28) {
-          *puVar1 = 0;
+    if (param_1 == 0) {
+        if (*(int *)0x06063F18 == *cd_read_flag) {
+            if (*(int *)(car + 0x228) != *(int *)0x06063F20) {
+                *(int *)0x06063F20 = *(int *)(car + 0x228);  /* save current lap */
+                int lap_count = *(int *)0x06063F24;
+                *(int *)0x06063F24 = lap_count + 1;
+                *(int *)(car + 0x21C) = lap_count + 1;  /* write to car struct */
+                if ((unsigned int)*(int *)0x06063F24 < *(unsigned int *)0x06063F28) {
+                    *cd_read_flag = 0;  /* reset for next sector batch */
+                }
+            }
         }
-      }
     }
-  }
 
-  uVar4 = (*(int(*)())0x06035280)();
-  if (((unsigned int)*puVar1 & uVar4) == 0) {
-    *puVar1 = *puVar1 | uVar4;
-    (*(int(*)())0x06034F78)();
-    *(int *)(base + 0x230) = *(int *)(base + 0x230) + 1;
-    if (CAR_COUNT != 0) {
-      if (param_1 != 0) {
-        if ((*(unsigned char *)(base + 3) & 8) == 0) {
-          (*(void(*)())0x0600dd88)();
-          return;
+    sector_mask = (*(int(*)())0x06035280)();  /* cd_sector_available */
+    if (((unsigned int)*cd_read_flag & sector_mask) == 0) {
+        *cd_read_flag = *cd_read_flag | sector_mask;
+        (*(int(*)())0x06034F78)();  /* cd_read_sector */
+        *(int *)(car + 0x230) = *(int *)(car + 0x230) + 1;  /* increment sector count */
+        if (CAR_COUNT != 0) {
+            if (param_1 != 0) {
+                if ((*(unsigned char *)(car + 3) & 8) == 0) {
+                    (*(void(*)())0x0600dd88)();  /* ai_progress_update */
+                    return;
+                }
+            }
         }
-      }
     }
-  }
 }
 
 void FUN_0600da7c()
