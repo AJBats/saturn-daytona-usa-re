@@ -684,183 +684,105 @@ int FUN_06040c10(int param_1, int param_2)
   return 1;
 }
 
-int FUN_06040c98(param_1, param_2)
+/* cd_session_open -- Initialize and open a CD session.
+ * Sets CD_SESSION_BASE, clears state via cd_session_state_reset,
+ * configures mode flags. Queries drive status: 6=tray open (-13),
+ * 7=no disc (-14), 9/10=fatal (-10). Sets up partition table,
+ * polls until ready (status 1 or 2), initializes directory,
+ * verifies CD-XA flag, configures default filter, and waits for
+ * completion with 0x8000 iteration timeout. Returns 0 on success. */
+int cd_session_open(param_1, param_2)
     int param_1;
     int param_2;
 {
+    int ready_flag;
+    unsigned char cd_status;
+    int result;
+    unsigned short poll_status;
+    unsigned short status_mask;
+    int part_offset;
+    int state_base;
+    int filter_id = (int)DAT_06040d2c;
+    unsigned char part_count[4];
+    unsigned char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;
+    int retry_count;
 
-  int bVar1;
+    /* Initialize session */
+    CD_SESSION_BASE = param_1;
+    (*(int(*)())0x0604231E)();                 /* cd_session_state_reset */
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned char bVar8;
-
-  int iVar5;
-
-  unsigned short uVar6;
-
-  unsigned short uVar7;
-
-  int iVar9;
-
-  int iVar10;
-
-  int iVar11;
-
-  unsigned char local_30 [4];
-
-  unsigned char local_2c [16];
-
-  puVar4 = (char *)0x0604231E;
-
-  puVar3 = (char *)0x060A5400;
-
-  puVar2 = (char *)0x06034984;
-
-  iVar11 = (int)DAT_06040d2c;
-
-  CD_SESSION_BASE = param_1;
-
-  (*(int(*)())puVar4)();
-
-  if (param_2 == 0) {
-
-    *(char *)(*(int *)puVar3 + 0x17) = 0;
-
-    *(char *)(*(int *)puVar3 + 0x2f) = 0;
-
-  }
-
-  else {
-
-    *(char *)(*(int *)puVar3 + 0x17) = 1;
-
-    *(char *)(*(int *)puVar3 + 0x2f) = 1;
-
-  }
-
-  (*(int(*)())puVar2)(local_2c);
-
-  bVar8 = local_2c[0] & 0xf;
-
-  if (bVar8 == 6) {
-
-    return 0xfffffff3;
-
-  }
-
-  if (bVar8 == 7) {
-
-    return 0xfffffff2;
-
-  }
-
-  if ((bVar8 != 9) && (bVar8 != 10)) {
-
-    iVar5 = (*(int(*)())0x06034B9A)(iVar11,0x0000FFFF,iVar11,iVar11);
-
-    if (iVar5 != 0) {
-
-      return 0xfffffffe;
-
+    /* Set mode flags based on param_2 */
+    if (param_2 == 0) {
+        *(char *)(*(int *)session_ptr + 0x17) = 0;
+        *(char *)(*(int *)session_ptr + 0x2f) = 0;
+    } else {
+        *(char *)(*(int *)session_ptr + 0x17) = 1;
+        *(char *)(*(int *)session_ptr + 0x2f) = 1;
     }
 
-    iVar5 = 0;
+    /* Query initial drive status */
+    (*(int(*)())0x06034984)(cd_result);        /* cd_get_result */
+    cd_status = cd_result[0] & 0xf;
+    if (cd_status == 6) return 0xfffffff3;     /* -13: tray open */
+    if (cd_status == 7) return 0xfffffff2;     /* -14: no disc */
+    if ((cd_status == 9) || (cd_status == 10)) {
+        return 0xfffffff6;                     /* -10: fatal error */
+    }
 
-    bVar1 = 0;
+    /* Initialize partition table */
+    result = (*(int(*)())0x06034B9A)(filter_id, 0x0000FFFF, filter_id, filter_id);
+    if (result != 0) return 0xfffffffe;        /* -2: init failed */
 
-    while (uVar7 = DAT_06040dc0, !bVar1) {
+    /* Poll until drive reports ready (status 1=playing or 2=paused) */
+    retry_count = 0;
+    ready_flag = 0;
+    while (status_mask = DAT_06040dc0, !ready_flag) {
+        poll_status = (*(int(*)())0x06035C4E)();  /* cd_get_status */
+        if ((poll_status & status_mask) != 0) {
+            (*(int(*)())0x06035C54)(0x0000FBFF);  /* cd_acknowledge */
+            retry_count++;
+            if (DAT_06040dc2 < retry_count) return 0xfffffffe;  /* -2: timeout */
 
-      uVar6 = (*(int(*)())0x06035C4E)();
-
-      if ((uVar6 & uVar7) != 0) {
-
-        (*(int(*)())0x06035C54)(0x0000FBFF);
-
-        iVar5 = iVar5 + 1;
-
-        if (DAT_06040dc2 < iVar5) {
-
-          return 0xfffffffe;
-
+            (*(int(*)())0x06034984)(cd_result);
+            cd_status = cd_result[0] & 0xf;
+            if ((cd_status == 1) || (cd_status == 2)) {
+                ready_flag = 1;
+            } else if ((cd_status == 9) || (cd_status == 10)) {
+                return 0xfffffff6;             /* -10: drive error during init */
+            }
         }
-
-        (*(int(*)())puVar2)(local_2c);
-
-        bVar8 = local_2c[0] & 0xf;
-
-        if ((bVar8 == 1) || (bVar8 == 2)) {
-
-          bVar1 = 1;
-
-        }
-
-        else if ((bVar8 == 9) || (bVar8 == 10)) {
-
-          return 0xfffffff6;
-
-        }
-
-      }
-
     }
 
-    iVar9 = (int)PTR_DAT_06040dc4;
+    /* Initialize directory from partition table */
+    part_offset = (int)PTR_DAT_06040dc4;
+    state_base = CD_STATE_A;
+    result = (*(int(*)())0x06034AEE)(state_base + part_offset);  /* cd_init_partition */
+    if (result != 0) return 0xfffffffe;
 
-    iVar10 = CD_STATE_A;
-
-    iVar5 = (*(int(*)())0x06034AEE)(iVar10 + iVar9);
-
-    if (iVar5 != 0) {
-
-      return 0xfffffffe;
-
+    /* Get partition count and verify CD-XA flag (bit 30) */
+    (*(int(*)())0x06034B54)(0, part_count);    /* cd_get_partition_count */
+    (*(int(*)())0x06034B54)(part_count[0], part_count);
+    if ((*(unsigned int *)(state_base + part_offset + (part_count[0] - 1) << 2) & 0x40000000) == 0) {
+        return 0xfffffff1;                     /* -15: not CD-XA */
     }
 
-    (*(int(*)())0x06034B54)(0,local_30);
-
-    (*(int(*)())0x06034B54)(local_30[0],local_30);
-
-    if ((*(unsigned int *)(iVar10 + iVar9 + (local_30[0] - 1) << 2) & 0x40000000) == 0) {
-
-      return 0xfffffff1;
-
-    }
-
-    (*(int(*)())0x060364D4)((int)DAT_06040e72,iVar11);
-
-    *(char **)(*(int *)puVar3 + 0x3c) = 0x00008000;
+    /* Configure default filter and wait for completion */
+    (*(int(*)())0x060364D4)((int)DAT_06040e72, filter_id);  /* cd_set_filter */
+    *(char **)(*(int *)session_ptr + 0x3c) = 0x00008000;    /* timeout counter */
 
     do {
+        poll_status = (*(int(*)())0x06035C4E)();  /* cd_get_status */
+        if ((poll_status & 0x40) != 0) {
+            *(int *)(*(int *)session_ptr + 0x3c) = 0;
+            (*(int(*)())0x06034984)(*(int *)session_ptr + 0x40);  /* store final result */
+            return 0;                          /* success */
+        }
+        filter_id = *(int *)(*(int *)session_ptr + 0x3c) + -1;
+        *(int *)(*(int *)session_ptr + 0x3c) = filter_id;
+    } while (filter_id != 0);
 
-      uVar7 = (*(int(*)())0x06035C4E)();
-
-      if ((uVar7 & 0x40) != 0) {
-
-        *(int *)(*(int *)puVar3 + 0x3c) = 0;
-
-        (*(int(*)())puVar2)(*(int *)puVar3 + 0x40);
-
-        return 0;
-
-      }
-
-      iVar11 = *(int *)(*(int *)puVar3 + 0x3c) + -1;
-
-      *(int *)(*(int *)puVar3 + 0x3c) = iVar11;
-
-    } while (iVar11 != 0);
-
-    return 0xfffffffe;
-
-  }
-
-  return 0xfffffff6;
-
+    return 0xfffffffe;                         /* -2: timeout */
 }
 
 /* cd_session_close -- Close an open CD session by channel index.
@@ -1156,80 +1078,62 @@ int FUN_06041470(int param_1, int param_2)
   return 0xfffffffb;                        /* -5: invalid filter */
 }
 
-int FUN_060414d0(param_1, param_2, param_3)
+/* cd_file_transfer_enqueue -- Queue a file transfer between CD channels.
+ * Validates source (param_1), filter (param_2), and dest (param_3) channel
+ * indices: must be 0-23, -2 (any), or DAT_0604155e (default). Checks that
+ * channels are open. Adds 12-byte entry (src, filter, dest) to file table
+ * at DAT_060415ee offset. Dispatches immediately via cd_session_file_batch.
+ * Returns 0 on success, -6 (out of range), -7 (not open), -8 (table full). */
+int cd_file_transfer_enqueue(param_1, param_2, param_3)
     int param_1;
     int param_2;
     int param_3;
 {
+    char *session_ptr = (char *)0x060A5400;
+    int default_ch = (int)DAT_0604155e;
+    int table_count = *(int *)(CD_SESSION_BASE + (int)DAT_0604155c);
+    int entry_offset;
+    int table_base;
+    char dispatch_buf[8];
 
-  char *puVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  char auStack_c [8];
-
-  puVar1 = (char *)0x060A5400;
-
-  iVar3 = (int)DAT_0604155e;
-
-  iVar2 = *(int *)(CD_SESSION_BASE + (int)DAT_0604155c);
-
-  if ((((param_1 != iVar3) && (param_1 != -2)) && ((param_1 < 0 || (0x17 < param_1)))) ||
-
-     (((param_2 < 0 || (0x17 < param_2)) ||
-
-      ((param_3 != iVar3 && ((param_3 != -2 && ((param_3 < 0 || (0x17 < param_3)))))))))) {
-
-    return 0xfffffffa;
-
-  }
-
-  if (((param_1 == iVar3) ||
-
-      ((param_1 == -2 || (*(char *)(param_1 + CD_SESSION_BASE + 0x18) == '\x01')))) &&
-
-     (((param_3 == iVar3 ||
-
-       ((param_3 == -2 || (*(char *)(param_3 + CD_SESSION_BASE + 0x18) == '\x01')))) &&
-
-      (*(char *)(param_2 + CD_SESSION_BASE) == '\x01')))) {
-
-    if (0x17 < iVar2) {
-
-      return 0xfffffff8;
-
+    /* Validate channel indices (0-23, -2=any, default_ch=wildcard) */
+    if ((((param_1 != default_ch) && (param_1 != -2)) && ((param_1 < 0 || (0x17 < param_1)))) ||
+       (((param_2 < 0 || (0x17 < param_2)) ||
+        ((param_3 != default_ch && ((param_3 != -2 && ((param_3 < 0 || (0x17 < param_3)))))))))) {
+        return 0xfffffffa;                     /* -6: out of range */
     }
 
-    if (*(int *)(CD_SESSION_BASE + 0x1e0) == 0) {
+    /* Verify channels are open (or special value) */
+    if (((param_1 == default_ch) ||
+        ((param_1 == -2 || (*(char *)(param_1 + CD_SESSION_BASE + 0x18) == '\x01')))) &&
+       (((param_3 == default_ch ||
+         ((param_3 == -2 || (*(char *)(param_3 + CD_SESSION_BASE + 0x18) == '\x01')))) &&
+        (*(char *)(param_2 + CD_SESSION_BASE) == '\x01')))) {
 
-      *(int *)(CD_SESSION_BASE + 0x1e0) = 1;
+        if (0x17 < table_count) {
+            return 0xfffffff8;                 /* -8: file table full */
+        }
 
+        /* Set active flag on first entry */
+        if (*(int *)(CD_SESSION_BASE + 0x1e0) == 0) {
+            *(int *)(CD_SESSION_BASE + 0x1e0) = 1;
+        }
+
+        /* Write 12-byte file entry (src_channel, filter, dest_channel) */
+        entry_offset = (int)(short)((short)table_count * 0xc);
+        table_base = (int)DAT_060415ee;
+        *(int *)(*(int *)session_ptr + table_base + entry_offset) = param_1;
+        *(int *)(table_base + *(int *)session_ptr + entry_offset + 4) = param_2;
+        *(int *)(entry_offset + (int)DAT_060415ee + *(int *)session_ptr + 8) = param_3;
+
+        /* Increment file count and dispatch */
+        *(int *)(*(int *)session_ptr + (int)PTR_DAT_060415f0) =
+             *(int *)(*(int *)session_ptr + (int)PTR_DAT_060415f0) + 1;
+        cd_session_file_batch(dispatch_buf);
+        return 0;
     }
 
-    iVar3 = (int)(short)((short)iVar2 * 0xc);
-
-    iVar2 = (int)DAT_060415ee;
-
-    *(int *)(*(int *)puVar1 + iVar2 + iVar3) = param_1;
-
-    *(int *)(iVar2 + *(int *)puVar1 + iVar3 + 4) = param_2;
-
-    *(int *)(iVar3 + (int)DAT_060415ee + *(int *)puVar1 + 8) = param_3;
-
-    *(int *)(*(int *)puVar1 + (int)PTR_DAT_060415f0) =
-
-         *(int *)(*(int *)puVar1 + (int)PTR_DAT_060415f0) + 1;
-
-    cd_session_file_batch(auStack_c);
-
-    return 0;
-
-  }
-
-  return 0xfffffff9;
-
+    return 0xfffffff9;                         /* -7: channel not open */
 }
 
 /* cd_session_seek -- Seek to a position on CD and verify track state.
