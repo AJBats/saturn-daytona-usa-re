@@ -119,130 +119,69 @@ void FUN_0601424c()
   OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30; /* advance VDP1 cmd slot */
 }
 
+/* sprite_table_3d_render -- Render 29 course/car selection sprites with 3D transforms.
+ * Iterates 0x1D (29) entries from descriptor table at 0x0605AD5C (stride 0x20).
+ * For each: pushes matrix, translates Y by DAT_0601440e, rotates by heading,
+ * translates by position, un-rotates. Highlights current selection (0x06084B08)
+ * via FUN_06013e12. Scales by 0x4CCC, submits mesh + texture.
+ * Decrements VDP1 command slot counter at 0x06089EDC by 0x30 per entry. */
 void FUN_06014360()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int *puVar6;
-
-  unsigned int uVar7;
-
-  int iVar8;
-
-  puVar3 = (char *)0x06089EDC;
-
-  puVar2 = (char *)0x06026E2E;
-
-  puVar1 = (char *)0x06026F2A;
-
-  iVar5 = (int)DAT_0601440e;
-
-  iVar8 = 0x4ccc;
-
-  (*(int(*)())0x06026E0C)();
-
-  puVar4 = (char *)0x06089E4A;
-
-  uVar7 = 0;
-
+  int *desc;
+  unsigned int idx = 0;
+  int y_offset = (int)DAT_0601440e;
+  int scale = 0x4ccc;
+  (*(int(*)())0x06026E0C)();               /* matrix_identity */
   do {
-
-    puVar6 = (int *)(0x0605AD5C + (uVar7 << 5));
-
-    (*(int(*)())0x06026DBC)();
-
-    (*(int(*)())puVar2)(0,iVar5,0x00010000);
-
-    (*(int(*)())puVar1)((int)*(short *)(puVar6 + 6));
-
-    (*(int(*)())puVar2)(0,*puVar6);
-
-    (*(int(*)())puVar1)(-(int)*(short *)(puVar6 + 6));
-
-    if (*(unsigned int *)0x06084B08 == uVar7) {
-
-      FUN_06013e12();
-
+    desc = (int *)(0x0605AD5C + (idx << 5));
+    (*(int(*)())0x06026DBC)();             /* matrix_push */
+    (*(int(*)())0x06026E2E)(0, y_offset, 0x00010000);  /* matrix_translate */
+    (*(int(*)())0x06026F2A)((int)*(short *)(desc + 6));  /* matrix_rotate */
+    (*(int(*)())0x06026E2E)(0, *desc);     /* matrix_translate(pos) */
+    (*(int(*)())0x06026F2A)(-(int)*(short *)(desc + 6));  /* matrix_unrotate */
+    if (*(unsigned int *)0x06084B08 == idx) {
+      FUN_06013e12();                      /* highlight selection */
     }
-
-    (*(int(*)())0x06026E60)(iVar8,iVar8,iVar8);
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + (uVar7 << 2)),4);
-
-    (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + (uVar7 << 2)),(int)*(short *)puVar4,1);
-
-    uVar7 = uVar7 + 1;
-
-    *(int *)puVar3 = *(int *)puVar3 + -0x30;
-
-  } while (uVar7 < 0x1d);
-
+    (*(int(*)())0x06026E60)(scale, scale, scale);  /* matrix_scale */
+    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + (idx << 2)), 4);  /* mesh_submit */
+    (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + (idx << 2)),
+               (int)*(short *)0x06089E4A, 1);  /* texture_submit */
+    idx = idx + 1;
+    *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;  /* advance VDP1 cmd slot */
+  } while (idx < 0x1d);
   return;
-
 }
 
+/* analog_to_view_index -- Map analog steering input to camera view index.
+ * Reads analog stick value from controller (+4), inverts and shifts to 0..0x1C range.
+ * Saves previous index for change detection. Clamps to 0x1B..0x1C when
+ * car count > 2. Plays sound 0xAB111DFF on index change.
+ * Writes render flag from lookup table 0x0605AD2C to 0x06084B20. */
 unsigned int FUN_06014466()
 {
-
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  unsigned int uVar3;
-
-  puVar1 = (char *)0x06084B08;
-
-  uVar2 = (int)(((unsigned int)*(unsigned short *)(0x06063D98 + 4) ^ (unsigned int)0x0000FFFF) & 0xff) >> 3;
-
-  uVar3 = uVar2;
-
-  if (0x1c < uVar2) {
-
-    uVar3 = 0x1c;
-
+  unsigned int prev_result;
+  unsigned int analog_raw = (int)(((unsigned int)*(unsigned short *)(0x06063D98 + 4) ^ (unsigned int)0x0000FFFF) & 0xff) >> 3;
+  unsigned int view_idx = analog_raw;
+  if (0x1c < analog_raw) {
+    view_idx = 0x1c;            /* clamp max */
   }
-
-  *(int *)0x06084B0C = *(int *)0x06084B08;
-
-  *(unsigned int *)puVar1 = uVar3;
-
+  *(int *)0x06084B0C = *(int *)0x06084B08;  /* save previous */
+  *(unsigned int *)0x06084B08 = view_idx;
   if (2 < *(unsigned int *)0x06084B18) {
-
-    if (uVar3 < 0xf) {
-
-      *(int *)puVar1 = (char *)0x1b;
-
+    /* restrict range when 3+ cars */
+    if (view_idx < 0xf) {
+      *(int *)0x06084B08 = 0x1b;
+    } else {
+      *(int *)0x06084B08 = 0x1c;
     }
-
-    else {
-
-      *(int *)puVar1 = (char *)0x1c;
-
-    }
-
   }
-
-  if (*(int *)puVar1 != *(int *)0x06084B0C) {
-
-    uVar2 = (*(int(*)())0x0601D5F4)(0,0xAB111DFF);
-
+  prev_result = analog_raw;
+  if (*(int *)0x06084B08 != *(int *)0x06084B0C) {
+    prev_result = (*(int(*)())0x0601D5F4)(0, 0xAB111DFF);  /* view change sound */
   }
-
   *(unsigned int *)0x06084B20 =
-
-       (unsigned int)(unsigned char)((int *)0x0605AD2C)[*(int *)puVar1];
-
-  return uVar2;
-
+       (unsigned int)(unsigned char)((int *)0x0605AD2C)[*(int *)0x06084B08];
+  return prev_result;
 }
 
 /* hud_camera_angle_update -- Update HUD camera view angle index.
@@ -282,172 +221,100 @@ void FUN_0601450c()
   }
 }
 
+/* name_entry_keyboard -- Handle keyboard input for name entry screen.
+ * Button press (DAT_06014682): dispatches based on selected character:
+ *   0x7B ('{' = confirm): calls FUN_060146d2 to validate/save
+ *   0x7D ('}' = backspace): does nothing (blocked)
+ *   other: appends character to name buffer at 0x06084B14,
+ *          plays letter sound from table 0x0605B0FC (A-Z mapped)
+ * Backspace (PTR_DAT_06014684): decrements count, clears last char.
+ * When count reaches 3: forces view to 0x1C, plays confirm sound.
+ * Empty name + backspace: clears all 4 chars. */
 void FUN_060145bc()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int uVar6;
-
-  puVar4 = (char *)0x06084B20;
-
-  puVar3 = (char *)0x06084B14;
-
-  puVar2 = (char *)0x06084B18;
-
-  puVar1 = (char *)0x0601D5F4;
-
+  int pos;
+  int snd_code;
+  char *name_buf = (char *)0x06084B14;   /* 4-byte name buffer */
+  int *name_len = (int *)0x06084B18;     /* current name length */
+  int *sel_char = (int *)0x06084B20;     /* currently selected character */
+  void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
   if ((*(unsigned short *)(0x06063D98 + 2) & DAT_06014682) != 0) {
-
     if ((*(unsigned short *)(0x06063D98 + 2) & PTR_DAT_06014684) == 0 &&
-
-        *(int *)0x06084B20 != 0x7d) {
-
-      if (*(int *)0x06084B20 == 0x7b) {
-
-        FUN_060146d2();
-
+        *sel_char != 0x7d) {
+      if (*sel_char == 0x7b) {
+        FUN_060146d2();           /* confirm entry */
         return;
-
       }
-
-      iVar5 = *(int *)0x06084B18;
-
-      *(int *)0x06084B18 = iVar5 + 1;
-
-      puVar3[iVar5] = (char)*(int *)puVar4;
-
-      uVar6 = 0xAB1102FF;
-
-      if (-1 < *(int *)puVar4 + -0x41) {
-
-        uVar6 = *(int *)(0x0605B0FC + (*(int *)puVar4 + -0x41) << 2);
-
+      /* append selected character */
+      pos = *name_len;
+      *name_len = pos + 1;
+      name_buf[pos] = (char)*sel_char;
+      snd_code = 0xAB1102FF;     /* default keypress sound */
+      if (-1 < *sel_char + -0x41) {
+        snd_code = *(int *)(0x0605B0FC + (*sel_char + -0x41) << 2);  /* letter sound */
       }
-
-      (*(int(*)())puVar1)(0,uVar6);
-
-      if (*(int *)puVar2 == 3) {
-
-        *(int *)0x06084B08 = 0x1c;
-
-        (*(int(*)())puVar1)(0,0xAB111EFF);
-
+      snd_cmd(0, snd_code);
+      if (*name_len == 3) {
+        *(int *)0x06084B08 = 0x1c;  /* auto-advance view to confirm */
+        snd_cmd(0, 0xAB111EFF);     /* name complete sound */
       }
-
-    }
-
-    else if (*(int *)0x06084B18 == 0) {
-
+    } else if (*name_len == 0) {
+      /* empty name + backspace: clear buffer */
       *(int *)0x06084B14 = 0;
-
-      puVar3[1] = 0;
-
-      puVar3[2] = 0;
-
-      puVar3[3] = 0;
-
+      name_buf[1] = 0;
+      name_buf[2] = 0;
+      name_buf[3] = 0;
+    } else {
+      /* backspace: remove last character */
+      snd_cmd(0, 0xAB1101FF);
+      pos = *name_len;
+      *name_len = pos + -1;
+      name_buf[pos + -1] = 0;
     }
-
-    else {
-
-      (*(int(*)())0x0601D5F4)(0,0xAB1101FF);
-
-      iVar5 = *(int *)puVar2;
-
-      *(int *)puVar2 = iVar5 + -1;
-
-      puVar3[iVar5 + -1] = 0;
-
-    }
-
   }
-
   return;
-
 }
 
+/* name_entry_confirm -- Validate and store entered name.
+ * Resets countdown, checks cheat code table via FUN_0601476c:
+ *   cheat detected (return != 0): sets state to 6 (easter egg)
+ *   normal: sets state to 4 (standard entry)
+ * If mode flag (0x06084B10) bit 0 is clear, copies 4-byte name
+ * to two destination slots (0x06085FFC and 0x06086000) for
+ * high score table insertion. Returns mode flag. */
 unsigned int FUN_060146d2()
 {
-
-  char *puVar1;
-
-  char cVar3;
-
-  unsigned int uVar2;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  *(int *)0x0607EBCC = 0;
-
-  cVar3 = FUN_0601476c(0x06084FB4);
-
-  if (cVar3 == '\0') {
-
-    *(int *)0x06084AF2 = 4;
-
+  char cheat_found;
+  unsigned int mode;
+  char *name_buf = (char *)0x06084B14;
+  char *dest;
+  *(int *)0x0607EBCC = 0;               /* reset countdown timer */
+  cheat_found = FUN_0601476c(0x06084FB4);  /* check cheat code table */
+  if (cheat_found == '\0') {
+    *(int *)0x06084AF2 = 4;              /* normal entry state */
+  } else {
+    *(int *)0x06084AF2 = 6;              /* cheat code detected state */
   }
-
-  else {
-
-    *(int *)0x06084AF2 = 6;
-
-  }
-
-  puVar1 = (char *)0x06084B14;
-
-  uVar2 = *(unsigned int *)0x06084B10;
-
-  if ((uVar2 & 1) == 0) {
-
-    puVar4 = *(char **)0x06085FFC;
-
-    if (puVar4 != (char *)0x0) {
-
-      puVar5 = 0x06084B14 + 1;
-
-      *puVar4 = *(int *)0x06084B14;
-
-      puVar4[1] = *puVar5;
-
-      puVar4[2] = puVar1[2];
-
-      puVar4[3] = puVar1[3];
-
+  mode = *(unsigned int *)0x06084B10;
+  if ((mode & 1) == 0) {
+    /* copy name to high score slot A */
+    dest = *(char **)0x06085FFC;
+    if (dest != (char *)0x0) {
+      dest[0] = name_buf[0];
+      dest[1] = name_buf[1];
+      dest[2] = name_buf[2];
+      dest[3] = name_buf[3];
     }
-
-    puVar1 = (char *)0x06084B14;
-
-    puVar4 = *(char **)0x06086000;
-
-    if (puVar4 != (char *)0x0) {
-
-      puVar5 = 0x06084B14 + 1;
-
-      *puVar4 = *(int *)0x06084B14;
-
-      puVar4[1] = *puVar5;
-
-      puVar4[2] = puVar1[2];
-
-      puVar4[3] = puVar1[3];
-
+    /* copy name to high score slot B */
+    dest = *(char **)0x06086000;
+    if (dest != (char *)0x0) {
+      dest[0] = name_buf[0];
+      dest[1] = name_buf[1];
+      dest[2] = name_buf[2];
+      dest[3] = name_buf[3];
     }
-
   }
-
-  return uVar2;
-
+  return mode;
 }
 
 unsigned int FUN_0601476c(param_1)

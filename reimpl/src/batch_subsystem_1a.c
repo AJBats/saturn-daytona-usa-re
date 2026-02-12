@@ -64,105 +64,55 @@ extern int PTR_DAT_0601b0c8;
 extern int PTR_DAT_0601b264;
 extern int PTR_DAT_0601b394;
 
+/* course_vdp_tile_load -- Load course-specific VDP tile sprites.
+ * Dispatches on param_2 (bank 0xA8 vs 0xA9):
+ *   0xA8: uses tile table 0x06049C28, count table 0x06049CCC,
+ *          index table 0x06049CD4. Slots 1/4 get priority 2, others 3.
+ *   0xA9: uses tile table 0x06049B36, count table 0x06049C14,
+ *          index table 0x06049C1E. Slots 5/8 get priority 2, others 3.
+ * Renders tile count sprites via VDP1 draw (0x060283E0),
+ * then renders final overlay sprite via 0x060284AE at priority 0x60. */
 void FUN_0601a3f4(param_1, param_2)
     unsigned short param_1;
     unsigned int param_2;
 {
-
-  unsigned char bVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  unsigned char *pbVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  unsigned char bVar7;
-
-  puVar3 = (char *)0x06049E54;
-
-  puVar2 = (char *)0x060283E0;
-
-  puVar5 = (int *)0x06049B36;
-
+  unsigned char base_idx;
+  unsigned char *count_ptr;
+  unsigned char tile_idx;
+  int priority;
+  char *sprite_data = (char *)0x06049E54;
   if ((param_2 & 0xffff) == 0xa8) {
-
-    bVar1 = ((int *)0x06049CD4)[param_1];
-
-    if ((param_1 == 1) || (param_1 == 4)) {
-
-      iVar6 = 2;
-
+    /* bank A (0xA8) */
+    base_idx = ((int *)0x06049CD4)[param_1];
+    priority = ((param_1 == 1) || (param_1 == 4)) ? 2 : 3;
+    count_ptr = (unsigned char *)0x06049CCC + param_1;
+    for (tile_idx = 0; tile_idx < *count_ptr; tile_idx = tile_idx + 1) {
+      (*(int(*)())0x060283E0)(priority << 2,
+          ((unsigned int)(unsigned char)((char *)(0x06049C28 + ((unsigned int)base_idx + (unsigned int)tile_idx) << 1))[1] * 0x40
+          + (unsigned int)(unsigned char)((int *)0x06049C28)[((unsigned int)base_idx + (unsigned int)tile_idx) << 1]) << 1,
+          0, sprite_data);
     }
-
-    else {
-
-      iVar6 = 3;
-
+    count_ptr = (unsigned char *)0x06059084 + (unsigned int)(param_1 << 1);
+    sprite_data = (char *)0x06049E58;
+  } else {
+    /* bank B (0xA9) */
+    base_idx = ((int *)0x06049C1E)[param_1];
+    priority = ((param_1 == 5) || (param_1 == 8)) ? 2 : 3;
+    count_ptr = (unsigned char *)0x06049C14 + param_1;
+    for (tile_idx = 0; tile_idx < *count_ptr; tile_idx = tile_idx + 1) {
+      (*(int(*)())0x060283E0)(priority << 2,
+          ((unsigned int)(unsigned char)((char *)0x06049B36 + (((unsigned int)base_idx + (unsigned int)tile_idx) << 1))[1] * 0x40 +
+          (unsigned int)(unsigned char)((char *)0x06049B36)[((unsigned int)base_idx + (unsigned int)tile_idx) << 1]) << 1,
+          0, sprite_data);
     }
-
-    pbVar4 = 0x06049CCC + param_1;
-
-    for (bVar7 = 0; bVar7 < *pbVar4; bVar7 = bVar7 + 1) {
-
-      (*(int(*)())puVar2)(iVar6 << 2,
-
-                        ((unsigned int)(unsigned char)((char *)(0x06049C28 + ((unsigned int)bVar1 + (unsigned int)bVar7) << 1))[1] * 0x40
-
-                        + (unsigned int)(unsigned char)((int *)0x06049C28)[((unsigned int)bVar1 + (unsigned int)bVar7) << 1]) << 1,0,
-
-                        puVar3);
-
-    }
-
-    pbVar4 = 0x06059084 + (unsigned int)(param_1 << 1);
-
-    puVar5 = (int *)0x06049E58;
-
+    count_ptr = (unsigned char *)0x06059060 + (unsigned int)(param_1 << 1);
+    sprite_data = (char *)0x06049E58;
   }
-
-  else {
-
-    bVar1 = ((int *)0x06049C1E)[param_1];
-
-    if ((param_1 == 5) || (param_1 == 8)) {
-
-      iVar6 = 2;
-
-    }
-
-    else {
-
-      iVar6 = 3;
-
-    }
-
-    pbVar4 = 0x06049C14 + param_1;
-
-    for (bVar7 = 0; bVar7 < *pbVar4; bVar7 = bVar7 + 1) {
-
-      (*(int(*)())puVar2)(iVar6 << 2,
-
-                        ((unsigned int)(unsigned char)(puVar5 + (((unsigned int)bVar1 + (unsigned int)bVar7) << 1))[1] * 0x40 +
-
-                        (unsigned int)(unsigned char)puVar5[((unsigned int)bVar1 + (unsigned int)bVar7) << 1]) << 1,0,puVar3);
-
-    }
-
-    pbVar4 = 0x06059060 + (unsigned int)(param_1 << 1);
-
-    puVar5 = (int *)0x06049E58;
-
-  }
-
-  (*(int(*)())0x060284AE)(iVar6 << 2,((unsigned int)pbVar4[1] * 0x40 + (unsigned int)*pbVar4) << 1,0x60,puVar5);
-
+  /* render final overlay sprite */
+  (*(int(*)())0x060284AE)(priority << 2,
+      ((unsigned int)count_ptr[1] * 0x40 + (unsigned int)*count_ptr) << 1,
+      0x60, sprite_data);
   return;
-
 }
 
 /* get_sound_bank_index -- Return sound bank index based on game mode.
@@ -175,83 +125,46 @@ int FUN_0601a5f8(void)
     return 0xA9;
 }
 
+/* menu_cursor_animate -- Render animated cursor sprite on menu screen.
+ * Selection at 0x06085FF0 == 3: uses priority 3, alternate sprite (6 or 7)
+ * based on animation counter 0x0605D242 (resets at 0x10).
+ * Otherwise: uses priority 5/6 pair.
+ * Mode flag 0x0605D241: selects between two sprite position sets.
+ * Renders two sprites via VDP1 draw (0x06028400) at priority 0xC. */
 void FUN_0601a65e()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int *local_18;
-
+  int priority_a, priority_b;
+  int *sprite_pair;
+  char *sprite_base = (char *)0x06063750;
   if (*(int *)0x06085FF0 == '\x03') {
-
-    iVar3 = 3;
-
+    priority_a = 3;
     if ((unsigned char)*(int *)0x0605D242 < 8) {
-
-      iVar4 = 6;
-
-    }
-
-    else {
-
-      iVar4 = 7;
-
+      priority_b = 6;
+    } else {
+      priority_b = 7;
       if (0x10 < (unsigned char)*(int *)0x0605D242) {
-
-        *(int *)0x0605D242 = 0;
-
+        *(int *)0x0605D242 = 0;  /* reset animation counter */
       }
-
     }
-
+  } else {
+    priority_b = 6;
+    priority_a = 5;
   }
-
-  else {
-
-    iVar4 = 6;
-
-    iVar3 = 5;
-
-  }
-
-  puVar2 = (char *)0x06028400;
-
-  puVar1 = (char *)0x06063750;
-
   if (*(int *)0x0605D241 == '\0') {
-
-    (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a6de),(int)DAT_0601a6e0,
-
-               (iVar4 << 12) + *(int *)((int)(0x06063750 + DAT_0601a6de) + 4));
-
-    local_18 = (int *)(puVar1 + DAT_0601a6e2);
-
-    iVar3 = (iVar3 << 12) + local_18[1];
-
+    /* normal mode: position set A */
+    (*(int(*)())0x06028400)(0xc, *(int *)(0x06063750 + DAT_0601a6de), (int)DAT_0601a6e0,
+               (priority_b << 12) + *(int *)((int)(0x06063750 + DAT_0601a6de) + 4));
+    sprite_pair = (int *)(sprite_base + DAT_0601a6e2);
+    priority_a = (priority_a << 12) + sprite_pair[1];
+  } else {
+    /* alternate mode: position set B */
+    (*(int(*)())0x06028400)(0xc, *(int *)(0x06063750 + DAT_0601a756), (int)DAT_0601a758,
+               (priority_a << 12) + *(int *)((int)(0x06063750 + DAT_0601a756) + 4));
+    sprite_pair = (int *)(sprite_base + DAT_0601a75a);
+    priority_a = (priority_b << 12) + sprite_pair[1];
   }
-
-  else {
-
-    (*(int(*)())0x06028400)(0xc,*(int *)(0x06063750 + DAT_0601a756),(int)DAT_0601a758,
-
-               (iVar3 << 12) + *(int *)((int)(0x06063750 + DAT_0601a756) + 4));
-
-    local_18 = (int *)(puVar1 + DAT_0601a75a);
-
-    iVar3 = (iVar4 << 12) + local_18[1];
-
-  }
-
-  (*(int(*)())puVar2)(0xc,*local_18,(int)PTR_DAT_0601a75c,iVar3);
-
+  (*(int(*)())0x06028400)(0xc, *sprite_pair, (int)PTR_DAT_0601a75c, priority_a);
   return;
-
 }
 
 /* menu_cursor_sound -- Play menu cursor movement sound effect.
