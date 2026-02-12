@@ -649,17 +649,17 @@ unsigned int FUN_0600b6a0()
       if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
         /* Build rotation matrix: translate → rotate Y → pitch → roll */
         (*(int(*)())0x06026DBC)();                   /* reset matrix */
-        (*(int(*)())0x06026E2E)(car_ptr[4],car_ptr[5] + *(int *)((int)car_ptr + (int)DAT_0600b83a),car_ptr[6]);
+        (*(int(*)())0x06026E2E)(car_ptr[4],car_ptr[5] + *(int *)((int)car_ptr + CAR_FORCE_SUB),car_ptr[6]);
         (*(int(*)())0x06026EDE)(0x00008000 + car_ptr[8]);   /* heading */
         (*(int(*)())0x06026F2A)(-car_ptr[9]);                /* pitch */
         (*(int(*)())0x06026E94)(-car_ptr[7]);                /* roll */
         /* Apply body deformation if car is moving or in collision */
-        if (*(int *)((int)car_ptr + (int)DAT_0600b83c) + *(int *)((int)car_ptr + 0xb8)
+        if (*(int *)((int)car_ptr + CAR_FORCE_COUNT) + *(int *)((int)car_ptr + CAR_STEER_TIMER)
             != 0) {
-          (*(int(*)())0x06026EDE)(-*(int *)((int)car_ptr + DAT_0600b840 + -0xc) -
-                     *(int *)((int)car_ptr + 0x1d8));
-          (*(int(*)())0x06026F2A)(-*(int *)((int)car_ptr + 0x1d0));
-          (*(int(*)())0x06026E94)(-*(int *)((int)car_ptr + 0x1c8));
+          (*(int(*)())0x06026EDE)(-*(int *)((int)car_ptr + CAR_FORCE_Z) -
+                     *(int *)((int)car_ptr + CAR_STEER_DEFLECT));
+          (*(int(*)())0x06026F2A)(-*(int *)((int)car_ptr + CAR_FORCE_ANG));
+          (*(int(*)())0x06026E94)(-*(int *)((int)car_ptr + CAR_FORCE_X));
         }
         car_palette_idx = (unsigned int)(unsigned char)((int *)0x06047FC4)[slot];
         /* Select model LOD based on car state flags */
@@ -669,7 +669,7 @@ unsigned int FUN_0600b6a0()
             /* Normal rendering — check visibility flag (bit 7) */
             result = (unsigned int)*(char *)((int)car_ptr + 1);
             if ((result & 0x80) != 0) {
-              if (*(int *)((int)car_ptr + (int)DAT_0600b90e) < 1) {
+              if (*(int *)((int)car_ptr + CAR_FORCE_COUNT) < 1) {
                 /* Wheel shadow model */
                 (*(int(*)())model_setup)(*lod_c_mat_a,*lod_b_mat_a);
                 (*(int(*)())model_render)(*lod_d_mat_a,(int)*palette_idx,*lod_a_mat_a);
@@ -688,7 +688,7 @@ unsigned int FUN_0600b6a0()
         }
         else {
           /* Damaged/crashed model (LOD C) */
-          if (*(int *)((int)car_ptr + (int)DAT_0600b83c) < 1) {
+          if (*(int *)((int)car_ptr + CAR_FORCE_COUNT) < 1) {
             (*(int(*)())model_setup)(*lod_c_mat_a,*lod_b_mat_a);
             (*(int(*)())model_render)(*lod_d_mat_a,(int)*palette_idx,*lod_a_mat_a);
           }
@@ -766,16 +766,16 @@ unsigned int FUN_0600b914()
       if ((*car_ptr & (unsigned int)0x00E00000) != 0) {
         /* Build rotation matrix using secondary pipeline */
         (*(int(*)())0x06027080)();
-        (*(int(*)())0x060270F2)(car_ptr[4],car_ptr[5] + *(int *)((int)car_ptr + (int)DAT_0600bab2),car_ptr[6]);
+        (*(int(*)())0x060270F2)(car_ptr[4],car_ptr[5] + *(int *)((int)car_ptr + CAR_FORCE_SUB),car_ptr[6]);
         (*(int(*)())0x060271A2)(0x00008000 + car_ptr[8]);
         (*(int(*)())0x060271EE)(-car_ptr[9]);
         (*(int(*)())0x06027158)(-car_ptr[7]);
-        if (*(int *)((int)car_ptr + (int)DAT_0600bab4) + *(int *)((int)car_ptr + 0xb8)
+        if (*(int *)((int)car_ptr + CAR_FORCE_COUNT) + *(int *)((int)car_ptr + CAR_STEER_TIMER)
             != 0) {
-          (*(int(*)())0x060271A2)(-*(int *)((int)car_ptr + DAT_0600bab8 + -0xc) -
-                     *(int *)((int)car_ptr + 0x1d8));
-          (*(int(*)())0x060271EE)(-*(int *)((int)car_ptr + 0x1d0));
-          (*(int(*)())0x06027158)(-*(int *)((int)car_ptr + 0x1c8));
+          (*(int(*)())0x060271A2)(-*(int *)((int)car_ptr + CAR_FORCE_Z) -
+                     *(int *)((int)car_ptr + CAR_STEER_DEFLECT));
+          (*(int(*)())0x060271EE)(-*(int *)((int)car_ptr + CAR_FORCE_ANG));
+          (*(int(*)())0x06027158)(-*(int *)((int)car_ptr + CAR_FORCE_X));
         }
         car_palette_idx = (unsigned int)(unsigned char)((int *)0x06047FC4)[slot];
         /* Select model LOD based on state flags */
@@ -784,7 +784,7 @@ unsigned int FUN_0600b914()
           if ((*car_ptr & 0x200000) == 0) {
             result = (unsigned int)*(char *)((int)car_ptr + 1);
             if ((result & 0x80) != 0) {
-              if (*(int *)((int)car_ptr + (int)PTR_DAT_0600bb8c) < 1) {
+              if (*(int *)((int)car_ptr + CAR_FORCE_COUNT) < 1) {
                 (*(int(*)())model_setup)(*lod_c_mat_a,*lod_b_mat_a);
                 (*(int(*)())model_render)(*lod_d_mat_a,*palette_idx,*lod_a_mat_a);
               }
@@ -799,7 +799,7 @@ unsigned int FUN_0600b914()
           }
         }
         else {
-          if (*(int *)((int)car_ptr + (int)DAT_0600bab4) < 1) {
+          if (*(int *)((int)car_ptr + CAR_FORCE_COUNT) < 1) {
             (*(int(*)())model_setup)(*lod_c_mat_a,*lod_b_mat_a);
             (*(int(*)())model_render)(*lod_d_mat_a,*palette_idx,*lod_a_mat_a);
           }
