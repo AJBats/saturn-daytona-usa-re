@@ -40,6 +40,11 @@ extern int PTR_DAT_06039190;
 extern int PTR_DAT_0603923c;
 extern int PTR_DAT_060392e8;
 
+/* cd_toc_table_init -- Initialize CD table-of-contents data structure.
+ * param_1 = TOC buffer pointer. Clears first 16 bytes (flags/counters),
+ * initializes 64 FAD entries at +DAT_06038108. For each of 0x200 entries,
+ * converts position data via softfloat (FUN_06035BC8 = uint-to-double),
+ * processes through double multiply and divide chain. */
 void FUN_0603806c(param_1)
     char *param_1;
 {

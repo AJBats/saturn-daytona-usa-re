@@ -42,6 +42,9 @@ extern int PTR_DAT_0603743c;
 extern int PTR_DAT_06037900;
 extern int PTR_DAT_06037c98;
 
+/* shift_right_large_dispatch -- Arithmetic right shift for counts > 8.
+ * Dispatches through offset table at 0x0603603C indexed by in_r1.
+ * Target stubs at 0x06036086 handle specific shift amounts. */
 void FUN_06036068()
 {
   int in_r1 = 0;
@@ -781,6 +784,10 @@ long long FUN_06036be4()
   return ZEXT48(puVar9) << 0x20;
 }
 
+/* strcpy_word_aligned -- Word-aligned string copy (4 bytes at a time).
+ * Copies from in_r1 to in_r0 checking for null terminator in each
+ * 4-byte word. Falls back to byte-by-byte copy when null detected
+ * within a word. Implicit in_r0 = dest, in_r1 = src. */
 void FUN_06036cb0()
 {
   char cVar1;
@@ -844,6 +851,11 @@ LAB_06036ce8:
   } while( 1 );
 }
 
+/* strcmp_impl -- String comparison (strcmp).
+ * If both in_r0 and in_r1 are 4-byte aligned, dispatches to
+ * word-aligned comparator at 0x06036E1C. Otherwise compares
+ * byte-by-byte, 4 bytes per iteration, returns difference of
+ * first mismatching pair or 0 if equal. */
 int FUN_06036d14()
 {
   char cVar1;

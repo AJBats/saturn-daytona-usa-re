@@ -297,6 +297,12 @@ void FUN_060026dc(int param_1, int param_2, int param_3)
     } while (param_3 != 0);
 }
 
+/* vdp_palette_write_masked -- Write palette entries with bitmask filter.
+ * param_1 = color value, param_2 = write mode (0=single, 1=block, 2=fill).
+ * Implicit r0 = palette register index, r8 = channel bitmask, r9 = dest ptr.
+ * For mode 0: writes single entry if bitmask bit set.
+ * For mode 1: writes param_2-sized block using bitmask to select channels.
+ * For mode 2: fills destination with param_1 for all masked channels. */
 void FUN_0600270a(param_1, param_2)
     unsigned char param_1;
     int param_2;

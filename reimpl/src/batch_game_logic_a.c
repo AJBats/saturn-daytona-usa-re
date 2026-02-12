@@ -475,6 +475,13 @@ void FUN_0600afb2()
     OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
 }
 
+/* car_model_render_setup -- Set up car model rendering with matrix transforms.
+ * Uses CAR_PTR_TARGET for car data. Pushes matrix stack (0x06027080),
+ * translates by car position (+0x10/14/18), applies X/Y/Z rotations
+ * via 0x060271A2/0x060271EE/0x06027158. If scene rendering enabled
+ * (0x06059F30 != 0), transforms normals via FUN_06032158 and projects
+ * polygons via FUN_06031DF4. Selects vertex/normal tables based on
+ * CAR_COUNT (0/1/2 → different 0x06063434-0x06063488 addresses). */
 void FUN_0600b340()
 {
   char *puVar1;

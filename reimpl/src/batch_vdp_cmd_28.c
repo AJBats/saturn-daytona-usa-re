@@ -543,6 +543,11 @@ long long dma_mem_transfer(param_1, param_2)
 
 }
 
+/* vdp1_textured_quad_render -- Render a textured quad via VDP1 sprite commands.
+ * param_1 = X position, param_2 = Y position, param_3 = texture index,
+ * param_4 = priority/flags. Builds VDP1 command structure with vertex
+ * coordinates, applies software 32-bit fixed-point MAC transforms
+ * for perspective projection. Clips against screen bounds via SR flags. */
 unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;

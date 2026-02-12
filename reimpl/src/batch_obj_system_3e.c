@@ -515,6 +515,12 @@ char FUN_0603f534(int *param_1)
   return acStack_c[0];
 }
 
+/* cd_file_header_parse -- Parse CD file header and extract metadata.
+ * param_1 = file descriptor, param_2 = output buffer (>= 0x74 bytes).
+ * If file descriptor is null, clears output. Otherwise reads header
+ * fields into structured output: flags, sizes, offsets, timestamps.
+ * Uses multi-byte extraction from CD sector buffer with byte-level
+ * parsing of dates, permissions, and extent information. */
 unsigned int FUN_0603f582(param_1, param_2)
     int *param_1;
     unsigned char *param_2;

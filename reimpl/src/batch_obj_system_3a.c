@@ -370,6 +370,12 @@ void FUN_0603a766(void)
     }
 }
 
+/* cd_vdp_command_build -- Build VDP display command from CD data descriptor.
+ * Reads mode byte at 0x060A4CAF and index at 0x060A4CB4, base at 0x060A4CC0.
+ * For mode 0x00: 6-byte entry, writes 0xFFFF marker.
+ * For mode 0x10: 18-byte entry, writes marker + clears 7 shorts.
+ * For mode 0x20: 18-byte entry, writes marker at offset +2.
+ * For mode 0x30: 10-byte entry with stride. */
 unsigned int FUN_0603a7b0()
 {
   short uVar1;

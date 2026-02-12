@@ -931,6 +931,10 @@ unsigned int FUN_06026e60(param_1, param_2, param_3)
     return uVar2;
 }
 
+/* matrix_rotate_x -- Apply X-axis rotation to current view matrix.
+ * Computes sin/cos via math_sin_cos(), stores rotation at 0x0608A4E0.
+ * Multiplies current view matrix at *(0x06089EDC) by the X rotation
+ * using software 32-bit fixed-point MAC (3x3 multiply). */
 unsigned int FUN_06026e94()
 {
   unsigned int uVar1;
@@ -1138,6 +1142,10 @@ unsigned int FUN_06026e94()
 extern void FUN_06026EDE(int heading);
 void FUN_06026ede(int heading) { FUN_06026EDE(heading); }
 
+/* matrix_rotate_y_alt -- Apply Y-axis rotation to current view matrix (variant).
+ * Same pattern as FUN_06026e94 but rotates around Y axis.
+ * Sin/cos at 0x0608A4E0, negates element [1] for Y-axis rotation sign.
+ * Multiplies against matrix at *(0x06089EDC). */
 unsigned int FUN_06026f2a()
 {
   unsigned int uVar1;
@@ -1341,6 +1349,11 @@ unsigned int FUN_06026f2a()
   return uVar13;
 }
 
+/* matrix_multiply_3x3 -- Multiply current view matrix by arbitrary 3x3 matrix.
+ * param_1 = pointer to 3x3 matrix (9 ints). Reads current matrix from
+ * *(0x06089EDC), performs row-by-column dot products using software
+ * 32-bit fixed-point MAC, writes result back to same matrix location.
+ * 3-iteration outer loop (iVar8=3) processes all 3 output rows. */
 void FUN_06026f72(param_1)
     unsigned int *param_1;
 {
@@ -1917,6 +1930,10 @@ unsigned int FUN_06027124(param_1, param_2, param_3)
     return uVar2;
 }
 
+/* matrix_rotate_x_alt -- Apply X-axis rotation to alternate view matrix.
+ * Same algorithm as FUN_06026e94 but uses alternate matrix stack:
+ * sin/cos buffer at 0x0608A6B0, matrix at *(0x0608A52C).
+ * Used for the second rendering pipeline (course 2 / mirror). */
 unsigned int FUN_06027158()
 {
   unsigned int uVar1;
@@ -2120,6 +2137,10 @@ unsigned int FUN_06027158()
   return uVar13;
 }
 
+/* matrix_rotate_y_alt2 -- Apply Y-axis rotation to alternate view matrix.
+ * Same algorithm as FUN_06026f2a but uses alternate matrix stack:
+ * sin/cos buffer at 0x0608A6B0 (element [2] negated for Y rotation),
+ * matrix at *(0x0608A52C). Used for second rendering pipeline. */
 unsigned int FUN_060271a2()
 {
   unsigned int uVar1;
@@ -2323,6 +2344,10 @@ unsigned int FUN_060271a2()
   return uVar13;
 }
 
+/* matrix_rotate_z_alt -- Apply Z-axis rotation to alternate view matrix.
+ * Same algorithm as rotate_x/y_alt but for Z axis rotation:
+ * sin/cos at 0x0608A6B0 (element [1] negated for Z rotation),
+ * matrix at *(0x0608A52C). Used for second rendering pipeline. */
 unsigned int FUN_060271ee()
 {
   unsigned int uVar1;
