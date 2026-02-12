@@ -234,6 +234,13 @@ int FUN_0603ec40(param_1)
 
 }
 
+/* light_state_bitfield_update -- Update 8 light state bytes from bitmask.
+ * For each bit in param_2 (change mask): if the corresponding bit in
+ * param_1 (new state) is set, OR the target byte with param_4 (set mask);
+ * otherwise AND with param_5 (clear mask). Maps 8 bit positions to
+ * 8 bytes in param_3: bit 2/3→[1], bit 8/0x80→[0], bit 0x10→[3],
+ * bit 0x20→[2], bit 1→[5], bit 0x100→[4], bit 0x10000→[7], bit 0x20000→[6].
+ * Used for VDP2 special color calculation and priority enable registers. */
 unsigned int FUN_0603edc4(param_1, param_2, param_3, param_4, param_5)
     unsigned int param_1;
     unsigned int param_2;
@@ -241,155 +248,80 @@ unsigned int FUN_0603edc4(param_1, param_2, param_3, param_4, param_5)
     unsigned char param_4;
     unsigned char param_5;
 {
-
-  unsigned int uVar1;
-
-  uVar1 = (unsigned int)(char)param_5;
-
+  unsigned int result;
+  result = (unsigned int)(char)param_5;
+  /* byte [1]: bits 2 and 4 */
   if (((param_2 & 4) != 0) || ((param_2 & 2) != 0)) {
-
     if (((param_1 & 4) == 0) && ((param_1 & 2) == 0)) {
-
-      uVar1 = (int)(char)param_3[1] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[1] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[1] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[1] | (unsigned int)param_4;
-
-    }
-
-    param_3[1] = (unsigned char)uVar1;
-
+    param_3[1] = (unsigned char)result;
   }
-
+  /* byte [0]: bits 8 and 0x80 */
   if (((param_2 & 8) != 0) || ((0x80 & param_2) != 0)) {
-
     if (((param_1 & 8) == 0) && ((0x80 & param_1) == 0)) {
-
       *param_3 = *param_3 & param_5;
-
-    }
-
-    else {
-
+    } else {
       *param_3 = *param_3 | param_4;
-
     }
-
   }
-
+  /* byte [3]: bit 0x10 */
   if ((param_2 & 0x10) != 0) {
-
     if ((param_1 & 0x10) == 0) {
-
-      uVar1 = (int)(char)param_3[3] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[3] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[3] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[3] | (unsigned int)param_4;
-
-    }
-
-    param_3[3] = (unsigned char)uVar1;
-
+    param_3[3] = (unsigned char)result;
   }
-
+  /* byte [2]: bit 0x20 */
   if ((param_2 & 0x20) != 0) {
-
     if ((param_1 & 0x20) == 0) {
-
-      uVar1 = (int)(char)param_3[2] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[2] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[2] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[2] | (unsigned int)param_4;
-
-    }
-
-    param_3[2] = (unsigned char)uVar1;
-
+    param_3[2] = (unsigned char)result;
   }
-
+  /* byte [5]: bit 1 */
   if ((param_2 & 1) != 0) {
-
     if ((param_1 & 1) == 0) {
-
-      uVar1 = (int)(char)param_3[5] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[5] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[5] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[5] | (unsigned int)param_4;
-
-    }
-
-    param_3[5] = (unsigned char)uVar1;
-
+    param_3[5] = (unsigned char)result;
   }
-
+  /* byte [4]: bit 0x100 */
   if ((0x100 & param_2) != 0) {
-
     if ((0x100 & param_1) == 0) {
-
-      uVar1 = (int)(char)param_3[4] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[4] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[4] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[4] | (unsigned int)param_4;
-
-    }
-
-    param_3[4] = (unsigned char)uVar1;
-
+    param_3[4] = (unsigned char)result;
   }
-
+  /* byte [7]: bit 0x10000 */
   if (((unsigned int)0x00010000 & param_2) != 0) {
-
     if (((unsigned int)0x00010000 & param_1) == 0) {
-
-      uVar1 = (int)(char)param_3[7] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[7] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[7] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[7] | (unsigned int)param_4;
-
-    }
-
-    param_3[7] = (unsigned char)uVar1;
-
+    param_3[7] = (unsigned char)result;
   }
-
+  /* byte [6]: bit 0x20000 */
   if ((param_2 & (unsigned int)0x00020000) != 0) {
-
     if ((param_1 & (unsigned int)0x00020000) == 0) {
-
-      uVar1 = (int)(char)param_3[6] & (unsigned int)param_5;
-
+      result = (int)(char)param_3[6] & (unsigned int)param_5;
+    } else {
+      result = (int)(char)param_3[6] | (unsigned int)param_4;
     }
-
-    else {
-
-      uVar1 = (int)(char)param_3[6] | (unsigned int)param_4;
-
-    }
-
-    param_3[6] = (unsigned char)uVar1;
-
+    param_3[6] = (unsigned char)result;
   }
-
-  return uVar1;
-
+  return result;
 }
 
 /* cd_calc_sectors_remaining -- Calculate number of sectors available for transfer.

@@ -1176,155 +1176,83 @@ int FUN_0601d5f4(param_1, param_2)
 
 }
 
-int FUN_0601d7d0()
+/* race_position_sound -- dispatches SCSP sound cues based on race checkpoint progress
+ *   Monitors player checkpoint position relative to course total, triggers
+ *   final-lap fanfare and position approach sounds via SCSP command dispatcher.
+ *   Sound codes: 0xAE1121FF=final lap, 0xAE1127FF=approach far, 0xAE1126FF=approach near, 0xAE1146FF=generic
+ */
+int race_position_sound()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int uVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  puVar4 = (char *)0x06086058;
-
-  puVar3 = (char *)0x06087060;
-
-  puVar2 = (char *)0x0607EAD8;
-
-  puVar1 = (char *)0x06086054;
-
-  iVar7 = *(int *)(0x0604A50C +
-
+  char *delay_timer = (char *)0x06086058;       /* sound delay timer (short) */
+  char *final_lap_flag = (char *)0x06087060;    /* final lap triggered flag */
+  char *lap_state = (char *)0x0607EAD8;         /* race lap state (1=lap2, 2=lap3) */
+  char *delay_counter = (char *)0x06086054;     /* sound delay counter (short) */
+  int result;
+  int car_base;
+  int total_ckpts;
+  total_ckpts = *(int *)(0x0604A50C +           /* checkpoint count for current course */
                   *(int *)(0x0605AD00 << 2) +
-
                   (int)(char)((char)CAR_COUNT * '\f'));
-
-  iVar6 = CAR_PTR_TARGET;
-
+  car_base = CAR_PTR_TARGET;
   if (*(int *)0x06085FF4 == '\0') {
-
-    if ((CAR_COUNT == 0) && (iVar7 - *(int *)(iVar6 + PTR_DAT_0601d884) < 9)) {
-
+    /* Normal race — not on final stretch */
+    if ((CAR_COUNT == 0) && (total_ckpts - *(int *)(car_base + PTR_DAT_0601d884) < 9)) {
+      /* Player within 9 checkpoints of finish */
       if ((*(int *)0x06087060 == '\0') && (COURSE_SELECT != 0)) {
-
         *(int *)0x06087060 = 1;
-
-        *(short *)puVar4 = 0;
-
-      }
-
-      else {
-
+        *(short *)delay_timer = 0;
+      } else {
         *(short *)0x06086058 = *(short *)0x06086058 + 1;
-
       }
-
     }
-
-    if ((*(int *)puVar2 == 1) && (iVar7 - *(int *)(iVar6 + DAT_0601d974) < 5)) {
-
-      if ((*puVar3 == '\0') && (COURSE_SELECT != 0)) {
-
-        *puVar3 = 1;
-
+    if ((*(int *)lap_state == 1) && (total_ckpts - *(int *)(car_base + DAT_0601d974) < 5)) {
+      /* Lap 2: within 5 checkpoints of lap end */
+      if ((*final_lap_flag == '\0') && (COURSE_SELECT != 0)) {
+        *final_lap_flag = 1;
+      } else {
+        *(short *)delay_timer = *(short *)delay_timer + 1;
       }
-
-      else {
-
-        *(short *)puVar4 = *(short *)puVar4 + 1;
-
-      }
-
     }
-
-    if ((*(int *)puVar2 == 2) && (iVar7 - *(int *)(iVar6 + DAT_0601d974) < 3)) {
-
-      if ((*puVar3 == '\0') && (COURSE_SELECT != 0)) {
-
-        *puVar3 = 1;
-
+    if ((*(int *)lap_state == 2) && (total_ckpts - *(int *)(car_base + DAT_0601d974) < 3)) {
+      /* Lap 3: within 3 checkpoints of lap end */
+      if ((*final_lap_flag == '\0') && (COURSE_SELECT != 0)) {
+        *final_lap_flag = 1;
+      } else {
+        *(short *)delay_timer = *(short *)delay_timer + 1;
       }
-
-      else {
-
-        *(short *)puVar4 = *(short *)puVar4 + 1;
-
-      }
-
     }
-
-    puVar2 = (char *)0x06086056;
-
-    if ((int)(iVar7 + (unsigned int)(iVar7 < 0)) >> 1 < *(int *)(iVar6 + DAT_0601d974) + 1) {
-
-      if ((*(int *)(iVar6 + DAT_0601d974) == *(int *)0x06063F28 + -1) &&
-
+    lap_state = (char *)0x06086056;             /* repurpose as sound interval ptr */
+    if ((int)(total_ckpts + (unsigned int)(total_ckpts < 0)) >> 1 < *(int *)(car_base + DAT_0601d974) + 1) {
+      /* Past halfway through course */
+      if ((*(int *)(car_base + DAT_0601d974) == *(int *)0x06063F28 + -1) &&
          (*(int *)0x06086034 == 0)) {
-
-        uVar5 = FUN_0601d5f4(0,0xAE1121FF);
-
-        *(short *)puVar2 = (char *)0x50;
-
-        *(short *)puVar1 = (char *)0x50;
-
-        *(int *)0x06086034 = 1;
-
+        /* At final checkpoint — FINAL LAP fanfare */
+        result = FUN_0601d5f4(0,0xAE1121FF);    /* SCSP: final lap fanfare */
+        *(short *)lap_state = (char *)0x50;
+        *(short *)delay_counter = (char *)0x50;
+        *(int *)0x06086034 = 1;                 /* mark final lap sound played */
+      } else {
+        result = FUN_0601d5f4(0,0xAE1127FF);    /* SCSP: approach sound (far) */
+        *(short *)delay_counter = PTR_DAT_0601da3c;
+        *(short *)lap_state = (char *)0x14;
       }
-
-      else {
-
-        uVar5 = FUN_0601d5f4(0,0xAE1127FF);
-
-        *(short *)puVar1 = PTR_DAT_0601da3c;
-
-        *(short *)puVar2 = (char *)0x14;
-
-      }
-
+    } else {
+      result = FUN_0601d5f4(0,0xAE1126FF);      /* SCSP: approach sound (near) */
+      *(short *)delay_counter = DAT_0601d976;
+      *(short *)lap_state = (char *)0x14;
     }
-
-    else {
-
-      uVar5 = FUN_0601d5f4(0,0xAE1126FF);
-
-      *(short *)puVar1 = DAT_0601d976;
-
-      *(short *)puVar2 = (char *)0x14;
-
-    }
-
-  }
-
-  else {
-
-    if ((*(int *)(iVar6 + PTR_DAT_0601d884) != *(int *)0x06063F28 + -1) ||
-
+  } else {
+    /* Final lap active or race complete */
+    if ((*(int *)(car_base + PTR_DAT_0601d884) != *(int *)0x06063F28 + -1) ||
        (*(int *)0x06086034 != 0)) {
-
-      uVar5 = FUN_0601d5f4(0,0xAE1146FF);
-
-      return uVar5;
-
+      result = FUN_0601d5f4(0,0xAE1146FF);      /* SCSP: generic position cue */
+      return result;
     }
-
-    uVar5 = FUN_0601d5f4(0,0xAE1121FF);
-
-    *(short *)puVar1 = (char *)0x50;
-
-    *(int *)0x06086034 = 1;
-
+    result = FUN_0601d5f4(0,0xAE1121FF);        /* SCSP: final lap fanfare */
+    *(short *)delay_counter = (char *)0x50;
+    *(int *)0x06086034 = 1;                     /* mark final lap sound played */
   }
-
-  return uVar5;
-
+  return result;
 }
 
 unsigned int FUN_0601d9b0()
