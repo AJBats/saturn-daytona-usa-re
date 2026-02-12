@@ -1607,232 +1607,127 @@ void vdp2_bitmap_load(param_1, param_2, param_3)
   return;
 }
 
-void FUN_06036f0c(param_1, param_2, param_3)
+/* vdp2_tv_mode_config -- Configure VDP2 TV mode, interlace, and resolution.
+ * param_1: color depth (0=default, 2=hi-color 0x80, 3=true-color 0xC0,
+ *   mode 3 also doubles active plane count).
+ * param_2: horizontal resolution (0=320px, 1=352px bit 0x10, 2=640px bit 0x20).
+ *   Sets active plane count at 0x060635B0.
+ * param_3: interlace/scan mode (0-7), configures BIOS display mode via
+ *   BIOS_FUNC_0320 (0=non-interlace, 1=interlace), sets line count at
+ *   0x060635AE, and encodes mode bits 0-3 of CHCTLA (0x060A3D88).
+ *   Modes 4-7 additionally set plane override (DAT_06036fba).
+ * Triggers VDP1_BATCH_FLAG for next frame commit. */
+void vdp2_tv_mode_config(param_1, param_2, param_3)
     char param_1;
     char param_2;
     char param_3;
 {
+  short plane_override;
+  unsigned short chctla_bits;
+  char *chctla_reg = (char *)0x060A3D88;               /* CHCTLA shadow */
+  char *active_planes = (char *)0x060635B0;             /* active plane count */
+  int *line_count = (int *)0x060635AE;                  /* line count setting */
+  int bios_mode = *(int *)0x06000324;                   /* current BIOS display mode */
+  plane_override = DAT_06036fba;
 
-  short uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  unsigned short uVar5;
-
-  int iVar6;
-
-  puVar4 = (char *)0x060A3D88;
-
-  puVar3 = (char *)0x060635B0;
-
-  puVar2 = (int *)0x060635AE;
-
-  uVar1 = DAT_06036fba;
-
-  iVar6 = *(int *)0x06000324;
-
-  *(unsigned short *)0x060A3D88 = *(unsigned short *)0x060A3D88 & (unsigned short)0x0000FFCF;
-
-  if (param_2 == '\0') {
-
-    *(short *)puVar3 = DAT_06036fbc;
-
-  }
-
-  else {
-
-    if (param_2 == '\x01') {
-
-      *(short *)puVar3 = DAT_06036fbe;
-
-      uVar5 = *(unsigned short *)puVar4 | 0x10;
-
+  /* --- Horizontal resolution (bits 4-5 of CHCTLA) --- */
+  *(unsigned short *)chctla_reg = *(unsigned short *)chctla_reg & (unsigned short)0x0000FFCF;
+  if (param_2 == '\0') {                                /* 320px normal */
+    *(short *)active_planes = DAT_06036fbc;
+  } else {
+    if (param_2 == '\x01') {                            /* 352px */
+      *(short *)active_planes = DAT_06036fbe;
+      chctla_bits = *(unsigned short *)chctla_reg | 0x10;
+    } else {
+      if (param_2 != '\x02') goto LAB_06036f58;        /* 640px hi-res */
+      *(short *)active_planes = DAT_06036fc0;
+      chctla_bits = *(unsigned short *)chctla_reg | 0x20;
     }
-
-    else {
-
-      if (param_2 != '\x02') goto LAB_06036f58;
-
-      *(short *)puVar3 = DAT_06036fc0;
-
-      uVar5 = *(unsigned short *)puVar4 | 0x20;
-
-    }
-
-    *(unsigned short *)puVar4 = uVar5;
-
+    *(unsigned short *)chctla_reg = chctla_bits;
   }
-
 LAB_06036f58:
-
-  *(unsigned short *)puVar4 = *(unsigned short *)puVar4 & (unsigned short)0x0000FF3F;
-
+  /* --- Color depth (bits 6-7 of CHCTLA) --- */
+  *(unsigned short *)chctla_reg = *(unsigned short *)chctla_reg & (unsigned short)0x0000FF3F;
   if (param_1 != '\0') {
-
-    if (param_1 == '\x02') {
-
-      uVar5 = *(unsigned short *)puVar4 | 0x80;
-
+    if (param_1 == '\x02') {                            /* hi-color mode */
+      chctla_bits = *(unsigned short *)chctla_reg | 0x80;
+    } else {
+      if (param_1 != '\x03') goto LAB_06036f86;        /* true-color mode */
+      *(short *)active_planes = *(short *)active_planes + *(short *)active_planes; /* 2x planes */
+      chctla_bits = *(unsigned short *)chctla_reg | 0xc0;
     }
-
-    else {
-
-      if (param_1 != '\x03') goto LAB_06036f86;
-
-      *(short *)puVar3 = *(short *)puVar3 + *(short *)puVar3;
-
-      uVar5 = *(unsigned short *)puVar4 | 0xc0;
-
-    }
-
-    *(unsigned short *)puVar4 = uVar5;
-
+    *(unsigned short *)chctla_reg = chctla_bits;
   }
-
 LAB_06036f86:
-
-  *(unsigned short *)puVar4 = *(unsigned short *)puVar4 & (unsigned short)0x0000FFF0;
-
-  if (param_3 == '\0') {
-
-    if (iVar6 != 0) {
-
+  /* --- Interlace/scan mode (bits 0-3 of CHCTLA) --- */
+  *(unsigned short *)chctla_reg = *(unsigned short *)chctla_reg & (unsigned short)0x0000FFF0;
+  if (param_3 == '\0') {                                /* mode 0: non-interlace, standard */
+    if (bios_mode != 0) {
       (*(int(*)())(BIOS_FUNC_0320))(0);
-
     }
-
-    *(short *)puVar2 = DAT_06036fc2;
-
-  }
-
-  else {
-
-    if (param_3 == '\x01') {
-
-      if (iVar6 != 1) {
-
+    *(short *)line_count = DAT_06036fc2;
+  } else {
+    if (param_3 == '\x01') {                            /* mode 1: interlace */
+      if (bios_mode != 1) {
         (*(int(*)())(BIOS_FUNC_0320))(1);
-
       }
-
-      *(short *)puVar2 = PTR_DAT_06036fc4;
-
-      uVar5 = *(unsigned short *)puVar4 | 1;
-
+      *(short *)line_count = PTR_DAT_06036fc4;
+      chctla_bits = *(unsigned short *)chctla_reg | 1;
     }
-
-    else if (param_3 == '\x02') {
-
-      if (iVar6 != 0) {
-
+    else if (param_3 == '\x02') {                       /* mode 2: non-interlace, alt lines */
+      if (bios_mode != 0) {
         (*(int(*)())(BIOS_FUNC_0320))(0);
-
       }
-
-      *(short *)puVar2 = DAT_06037078;
-
-      uVar5 = *(unsigned short *)puVar4 | 2;
-
+      *(short *)line_count = DAT_06037078;
+      chctla_bits = *(unsigned short *)chctla_reg | 2;
     }
-
-    else if (param_3 == '\x03') {
-
-      if (iVar6 != 1) {
-
+    else if (param_3 == '\x03') {                       /* mode 3: interlace, alt lines */
+      if (bios_mode != 1) {
         (*(int(*)())(BIOS_FUNC_0320))(1);
-
       }
-
-      *(short *)puVar2 = DAT_0603707a;
-
-      uVar5 = *(unsigned short *)puVar4 | 3;
-
+      *(short *)line_count = DAT_0603707a;
+      chctla_bits = *(unsigned short *)chctla_reg | 3;
     }
-
-    else if (param_3 == '\x04') {
-
-      if (iVar6 != 0) {
-
+    else if (param_3 == '\x04') {                       /* mode 4: non-interlace + override */
+      if (bios_mode != 0) {
         (*(int(*)())(BIOS_FUNC_0320))(0);
-
       }
-
-      *(short *)puVar2 = DAT_0603707c;
-
-      *(short *)puVar3 = uVar1;
-
-      uVar5 = *(unsigned short *)puVar4 | 4;
-
+      *(short *)line_count = DAT_0603707c;
+      *(short *)active_planes = plane_override;
+      chctla_bits = *(unsigned short *)chctla_reg | 4;
     }
-
-    else if (param_3 == '\x05') {
-
-      if (iVar6 != 1) {
-
+    else if (param_3 == '\x05') {                       /* mode 5: interlace + override */
+      if (bios_mode != 1) {
         (*(int(*)())(BIOS_FUNC_0320))(1);
-
       }
-
-      *(short *)puVar2 = DAT_0603707e;
-
-      *(short *)puVar3 = uVar1;
-
-      uVar5 = *(unsigned short *)puVar4 | 5;
-
+      *(short *)line_count = DAT_0603707e;
+      *(short *)active_planes = plane_override;
+      chctla_bits = *(unsigned short *)chctla_reg | 5;
     }
-
-    else if (param_3 == '\x06') {
-
-      if (iVar6 != 0) {
-
+    else if (param_3 == '\x06') {                       /* mode 6: non-interlace + override */
+      if (bios_mode != 0) {
         (*(int(*)())(BIOS_FUNC_0320))(0);
-
       }
-
-      *(short *)puVar2 = DAT_06037078;
-
-      *(short *)puVar3 = uVar1;
-
-      uVar5 = *(unsigned short *)puVar4 | 6;
-
+      *(short *)line_count = DAT_06037078;
+      *(short *)active_planes = plane_override;
+      chctla_bits = *(unsigned short *)chctla_reg | 6;
     }
-
     else {
-
-      if (param_3 != '\a') goto LAB_060370a0;
-
-      if (iVar6 != 1) {
-
+      if (param_3 != '\a') goto LAB_060370a0;          /* mode 7: interlace + override */
+      if (bios_mode != 1) {
         (*(int(*)())(BIOS_FUNC_0320))(1);
-
       }
-
-      *(short *)puVar2 = DAT_0603707a;
-
-      *(short *)puVar3 = uVar1;
-
-      uVar5 = *(unsigned short *)puVar4 | 7;
-
+      *(short *)line_count = DAT_0603707a;
+      *(short *)active_planes = plane_override;
+      chctla_bits = *(unsigned short *)chctla_reg | 7;
     }
-
-    *(unsigned short *)puVar4 = uVar5;
-
+    *(unsigned short *)chctla_reg = chctla_bits;
   }
-
 LAB_060370a0:
-
   if (VDP1_BATCH_FLAG == 0) {
-
     VDP1_BATCH_FLAG = 1;
-
   }
-
   return;
-
 }
 
 unsigned int FUN_060370e4(param_1)
