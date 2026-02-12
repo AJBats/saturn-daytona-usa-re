@@ -989,412 +989,239 @@ void FUN_06005a22(void)
     (*(int(*)())0x060284AE)(8, (int)DAT_06005ac0, 0x90, 0x0605ACDD);
 }
 
+/* hud_race_display_render -- Render race HUD: speed, position, lap count, and time/countdown.
+ * Displays speed scaled by 0x9F1A factor, position rank (if not demo),
+ * lap count, and a countdown timer with sound effects in final seconds. */
 int FUN_06005ae8()
 {
-
-  short sVar1;
-
-  short sVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  int bVar8;
-
-  unsigned int uVar9;
-
-  int iVar10;
-
-  puVar7 = (short *)0x06028430;
-
-  puVar6 = (short *)0x06063E0C;
-
-  puVar5 = (short *)0x06063E10;
-
-  puVar4 = (char *)0x0607EAAC;
-
-  puVar3 = (char *)0x06085FF4;
-
-  iVar10 = CAR_PTR_TARGET;
-
-  if (*(int *)(iVar10 + DAT_06005b7c) + 1U <= *(unsigned int *)0x06063F28) {
-
+  short sprite_id;
+  short lap_offset;
+  char *race_flag;
+  char *timer_ptr;
+  char *countdown_period;
+  char *countdown_value;
+  char *vdp_render_num;
+  int show_time;
+  unsigned int speed;
+  int car_ptr;
+  vdp_render_num = (short *)0x06028430;
+  countdown_value = (short *)0x06063E0C;
+  countdown_period = (short *)0x06063E10;
+  timer_ptr = (char *)0x0607EAAC;
+  race_flag = (char *)0x06085FF4;
+  car_ptr = CAR_PTR_TARGET;
+  /* Goal indicator — show when past finish frame */
+  if (*(int *)(car_ptr + DAT_06005b7c) + 1U <= *(unsigned int *)0x06063F28) {
     (*(int(*)())0x06028430)(8,0x108,0xc);
-
   }
-
-  sVar1 = DAT_06005b82;
-
-  if (*puVar3 != '\0') {
-
-    sVar1 = DAT_06005b80;
-
+  /* Speed display */
+  sprite_id = DAT_06005b82;
+  if (*race_flag != '\0') {
+    sprite_id = DAT_06005b80;
   }
-
   if (*(int *)0x06078644 == 0) {
-
-    uVar9 = (unsigned int)(*(int *)(iVar10 + 8) * (int)0x00009F1A) >> 0x10;
-
+    speed = (unsigned int)(*(int *)(car_ptr + 8) * (int)0x00009F1A) >> 0x10;  /* km/h scale */
   }
-
   else {
-
-    uVar9 = *(unsigned int *)(iVar10 + 8);
-
+    speed = *(unsigned int *)(car_ptr + 8);  /* mph raw */
   }
-
-  (*(int(*)())puVar7)(8,(int)sVar1,0x24,uVar9);
-
+  (*(int(*)())vdp_render_num)(8,(int)sprite_id,0x24,speed);
+  /* Position/rank display (hidden in demo mode) */
   if (DEMO_MODE_FLAG == 0) {
-
-    (*(int(*)())puVar7)(8,0x142,0x30,*(int *)(iVar10 + DAT_06005b84) + 1);
-
+    (*(int(*)())vdp_render_num)(8,0x142,0x30,*(int *)(car_ptr + DAT_06005b84) + 1);
   }
-
-  sVar1 = DAT_06005b8a;
-
-  if (*puVar3 != '\0') {
-
-    sVar1 = DAT_06005b88;
-
+  /* Lap count display */
+  sprite_id = DAT_06005b8a;
+  if (*race_flag != '\0') {
+    sprite_id = DAT_06005b88;
   }
-
-  sVar2 = DAT_06005c74;
-
+  lap_offset = DAT_06005c74;
   if (*(int *)0x0607EAB8 != 0) {
-
-    sVar2 = PTR_DAT_06005b8c;
-
+    lap_offset = PTR_DAT_06005b8c;
   }
-
-  (*(int(*)())puVar7)(8,(int)sVar1,0x6c,*(short *)(iVar10 + sVar2) + 1);
-
-  iVar10 = (int)(char)*puVar3;
-
-  if (iVar10 == 0) {
-
-    bVar8 = 1;
-
+  (*(int(*)())vdp_render_num)(8,(int)sprite_id,0x6c,*(short *)(car_ptr + lap_offset) + 1);
+  /* Time/countdown display */
+  car_ptr = (int)(char)*race_flag;
+  if (car_ptr == 0) {
+    show_time = 1;
+    /* Countdown timer logic (final seconds warning) */
     if ((GAME_STATE_BIT & (unsigned int)0x00020000) != 0) {
-
-      if (*(int *)puVar4 == 0x78) {
-
-        *(int *)puVar6 = (short *)0x3c;
-
-        *(int *)puVar5 = 8;
-
+      if (*(int *)timer_ptr == 0x78) {
+        *(int *)countdown_value = (short *)0x3c;
+        *(int *)countdown_period = 8;
       }
-
-      if ((*(int *)puVar4 < 0x78) &&
-
-         (iVar10 = *(int *)puVar5, *(int *)puVar5 = iVar10 + -1, iVar10 + -1 == 0)) {
-
-        (*(int(*)())0x0601D5F4)(0,0xAE1114FF);
-
-        iVar10 = *(int *)puVar6;
-
-        *(int *)puVar6 = iVar10 + -3;
-
-        if (iVar10 + -3 < 8) {
-
-          *(int *)puVar6 = 8;
-
+      if ((*(int *)timer_ptr < 0x78) &&
+         (car_ptr = *(int *)countdown_period, *(int *)countdown_period = car_ptr + -1, car_ptr + -1 == 0)) {
+        (*(int(*)())0x0601D5F4)(0,0xAE1114FF);  /* countdown beep */
+        car_ptr = *(int *)countdown_value;
+        *(int *)countdown_value = car_ptr + -3;
+        if (car_ptr + -3 < 8) {
+          *(int *)countdown_value = 8;
         }
-
-        *(int *)puVar5 = (*(int *)puVar6 >> 3) + 1;
-
-        bVar8 = 0;
-
+        *(int *)countdown_period = (*(int *)countdown_value >> 3) + 1;
+        show_time = 0;
       }
-
     }
-
-    if (!bVar8) {
-
-      iVar10 = (*(int(*)())0x060284AE)(8,0xa6,0x60,0x0605ACF3);
-
-      return iVar10;
-
+    if (!show_time) {
+      car_ptr = (*(int(*)())0x060284AE)(8,0xa6,0x60,0x0605ACF3);
+      return car_ptr;
     }
-
-    iVar10 = (*(int(*)())0x06034FE0)();
-
-    if (DAT_06005c76 < iVar10) {
-
-      iVar10 = (int)DAT_06005c76;
-
+    /* Normal time display */
+    car_ptr = (*(int(*)())0x06034FE0)();
+    if (DAT_06005c76 < car_ptr) {
+      car_ptr = (int)DAT_06005c76;
     }
-
-    iVar10 = (*(int(*)())puVar7)(8,(int)PTR_DAT_06005c78,0x18,iVar10);
-
+    car_ptr = (*(int(*)())vdp_render_num)(8,(int)PTR_DAT_06005c78,0x18,car_ptr);
   }
-
-  return iVar10;
-
+  return car_ptr;
 }
 
+/* hud_lap_times_render -- Render lap time history or current split time.
+ * In split mode (0x0607EAC0==0x28), shows last 8 lap times with best highlighted.
+ * Otherwise shows single estimated time entry. Times capped at 0x927BF. */
 int FUN_06005c98()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int uVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  unsigned int uVar7;
-
-  int uVar8;
-
-  int iVar9;
-
-  char *puVar10;
-
-  char *puVar11;
-
-  unsigned int local_28;
-
-  puVar11 = (char *)0x000927BF;
-
-  puVar2 = (int *)0x060284AE;
-
-  puVar1 = (char *)0x06028430;
-
-  iVar6 = CAR_PTR_TARGET;
-
-  uVar7 = *(int *)0x06063F28 - 1;
-
-  if (*(unsigned int *)(iVar6 + DAT_06005d3e) < uVar7) {
-
-    uVar7 = *(unsigned int *)(iVar6 + DAT_06005d3e);
-
+  char *vdp_render_num;
+  char *vdp_render_sprite;
+  int result;
+  int formatted_time;
+  char *best_time;
+  int car_ptr;
+  unsigned int frame_count;
+  int y_offset;
+  int row;
+  char *time_entry;
+  char *max_time;
+  unsigned int display_count;
+  max_time = (char *)0x000927BF;             /* ~9:59.99 max displayable */
+  vdp_render_sprite = (int *)0x060284AE;
+  vdp_render_num = (char *)0x06028430;
+  car_ptr = CAR_PTR_TARGET;
+  frame_count = *(int *)0x06063F28 - 1;
+  if (*(unsigned int *)(car_ptr + DAT_06005d3e) < frame_count) {
+    frame_count = *(unsigned int *)(car_ptr + DAT_06005d3e);
   }
-
   if (*(int *)0x0607EAC0 == 0x28) {
-
-    iVar3 = 0x240;
-
-    puVar5 = *(char **)(iVar6 + iVar3);
-
-    iVar6 = uVar7 - 7;
-
-    if (iVar6 < 0) {
-
-      iVar6 = 0;
-
+    /* Split time mode — show last 8 lap times */
+    result = 0x240;
+    best_time = *(char **)(car_ptr + result);
+    car_ptr = frame_count - 7;
+    if (car_ptr < 0) {
+      car_ptr = 0;
     }
-
-    iVar9 = 0;
-
-    for (; iVar6 <= (int)uVar7; iVar6 = iVar6 + 1) {
-
-      puVar10 = *(char **)(0x0607EBF8 + (iVar6 << 2));
-
-      if ((int)puVar11 < (int)*(char **)(0x0607EBF8 + (iVar6 << 2))) {
-
-        puVar10 = puVar11;
-
+    row = 0;
+    for (; car_ptr <= (int)frame_count; car_ptr = car_ptr + 1) {
+      time_entry = *(char **)(0x0607EBF8 + (car_ptr << 2));
+      if ((int)max_time < (int)*(char **)(0x0607EBF8 + (car_ptr << 2))) {
+        time_entry = max_time;
       }
-
-      uVar4 = FUN_06005dd4(puVar10);
-
-      if (puVar10 == puVar5) {
-
-        uVar8 = 0x54;
-
+      formatted_time = FUN_06005dd4(time_entry);
+      if (time_entry == best_time) {
+        y_offset = 0x54;              /* highlight best lap */
       }
-
       else {
-
-        uVar8 = 0x48;
-
+        y_offset = 0x48;              /* normal lap */
       }
-
-      iVar3 = (iVar9 + 5) << 6;
-
-      (*(int(*)())puVar2)(8,(iVar3 + 3) << 1,uVar8,uVar4);
-
-      iVar3 = (*(int(*)())puVar1)(8,(iVar3 + 1) << 1,0x3c,iVar6 + 1);
-
-      iVar9 = iVar9 + 1;
-
+      result = (row + 5) << 6;
+      (*(int(*)())vdp_render_sprite)(8,(result + 3) << 1,y_offset,formatted_time);
+      result = (*(int(*)())vdp_render_num)(8,(result + 1) << 1,0x3c,car_ptr + 1);
+      row = row + 1;
     }
-
   }
-
   else {
-
-    iVar3 = (int)DAT_06005dcc;
-
-    if (*(int *)(iVar6 + iVar3) != *(int *)0x06063F28) {
-
-      local_28 = uVar7;
-
-      if (6 < (int)uVar7) {
-
-        local_28 = 7;
-
+    /* Single entry mode — estimated time */
+    result = (int)DAT_06005dcc;
+    if (*(int *)(car_ptr + result) != *(int *)0x06063F28) {
+      display_count = frame_count;
+      if (6 < (int)frame_count) {
+        display_count = 7;
       }
-
-      puVar11 = (char *)(GAME_STATE_VAR * 5 - *(int *)(iVar6 + DAT_06005dce));
-
-      if ((int)0x000927BF < (int)puVar11) {
-
-        puVar11 = (char *)0x000927BF;
-
+      max_time = (char *)(GAME_STATE_VAR * 5 - *(int *)(car_ptr + DAT_06005dce));
+      if ((int)0x000927BF < (int)max_time) {
+        max_time = (char *)0x000927BF;
       }
-
-      uVar4 = FUN_06005dd4(puVar11);
-
-      iVar6 = (local_28 + 5) << 6;
-
-      (*(int(*)())puVar2)(8,(iVar6 + 3) << 1,0x48,uVar4);
-
-      iVar3 = (*(int(*)())puVar1)(8,(iVar6 + 1) << 1,0x3c,uVar7 + 1);
-
+      formatted_time = FUN_06005dd4(max_time);
+      car_ptr = (display_count + 5) << 6;
+      (*(int(*)())vdp_render_sprite)(8,(car_ptr + 3) << 1,0x48,formatted_time);
+      result = (*(int(*)())vdp_render_num)(8,(car_ptr + 1) << 1,0x3c,frame_count + 1);
     }
-
   }
-
-  return iVar3;
-
+  return result;
 }
 
+/* time_to_display_string -- Format time value as M:SS.HH tile string.
+ * Uses SH-2 hardware division unit to extract digits.
+ * Output buffer at 0x06063E14: [min_hi][min_lo][0xC=':'][sec_hi][sec_lo][0xD='.'][hund_hi][hund_lo][0]
+ * Tile indices are 1-based (digit 0 = tile 1), 0xB = blank, 0xC/0xD = separators. */
 char * FUN_06005dd4(param_1)
     int param_1;
 {
-
-  char *puVar1;
-
-  int *puVar2;
-
-  int uVar3;
-
-  unsigned int uVar4;
-
-  char cVar5;
-
-  int *puVar6;
-
-  int *puVar7;
-
-  unsigned int *puVar8;
-
-  int *puVar9;
-
-  puVar1 = (char *)0x06063E14;
-
-  puVar9 = (int *)-252;
-
-  puVar7 = puVar9 + 1;
-
-  puVar6 = (int *)-256;
-
-  *puVar6 = 10;
-
-  *puVar7 = 0;
-
-  *puVar9 = param_1;
-
-  puVar1[8] = 0;
-
-  puVar8 = (unsigned int *)-232;
-
-  uVar4 = *puVar8;
-
-  puVar2 = (int *)-228;
-
-  uVar3 = *puVar2;
-
-  *puVar6 = 10;
-
-  *puVar7 = 0;
-
-  *puVar9 = uVar3;
-
-  puVar1[7] = (char)uVar4 + '\x01';
-
-  uVar4 = *puVar8;
-
-  uVar3 = *puVar2;
-
-  *puVar6 = 10;
-
-  *puVar7 = 0;
-
-  *puVar9 = uVar3;
-
-  puVar1[6] = (char)uVar4 + '\x01';
-
-  uVar4 = *puVar8;
-
-  uVar3 = *puVar2;
-
-  *puVar6 = 6;
-
-  *puVar7 = 0;
-
-  *puVar9 = uVar3;
-
-  puVar1[5] = 0xd;
-
-  puVar1[4] = (char)uVar4 + '\x01';
-
-  uVar4 = *puVar8;
-
-  uVar3 = *puVar2;
-
-  *puVar6 = 10;
-
-  *puVar7 = 0;
-
-  *puVar9 = uVar3;
-
-  puVar1[3] = (char)uVar4 + '\x01';
-
-  uVar4 = *puVar8;
-
-  uVar3 = *puVar2;
-
-  *puVar6 = 10;
-
-  *puVar7 = 0;
-
-  *puVar9 = uVar3;
-
-  puVar1[2] = 0xc;
-
-  puVar1[1] = (char)uVar4 + '\x01';
-
-  if ((*puVar8 & 0xff) == 0) {
-
-    cVar5 = '\v';
-
+  char *buf;
+  int *quotient_reg;
+  int remainder;
+  unsigned int digit;
+  char leading;
+  int *dvsr;
+  int *dvcr;
+  unsigned int *remainder_reg;
+  int *dvdnt;
+  buf = (char *)0x06063E14;
+  dvdnt = (int *)-252;               /* SH-2 DVDNT at 0xFFFFFF04 */
+  dvcr = dvdnt + 1;                  /* SH-2 DVCR at 0xFFFFFF08 */
+  dvsr = (int *)-256;                /* SH-2 DVSR at 0xFFFFFF00 */
+  /* Hundredths ones digit: param_1 / 10 */
+  *dvsr = 10;
+  *dvcr = 0;
+  *dvdnt = param_1;
+  buf[8] = 0;                        /* null terminator */
+  remainder_reg = (unsigned int *)-232;  /* remainder at 0xFFFFFF18 */
+  digit = *remainder_reg;
+  quotient_reg = (int *)-228;        /* quotient at 0xFFFFFF1C */
+  remainder = *quotient_reg;
+  /* Hundredths tens digit */
+  *dvsr = 10;
+  *dvcr = 0;
+  *dvdnt = remainder;
+  buf[7] = (char)digit + '\x01';
+  digit = *remainder_reg;
+  remainder = *quotient_reg;
+  /* Seconds ones digit */
+  *dvsr = 10;
+  *dvcr = 0;
+  *dvdnt = remainder;
+  buf[6] = (char)digit + '\x01';
+  digit = *remainder_reg;
+  remainder = *quotient_reg;
+  /* Seconds tens digit (mod 6 for 0-59 range) */
+  *dvsr = 6;
+  *dvcr = 0;
+  *dvdnt = remainder;
+  buf[5] = 0xd;                      /* '.' separator */
+  buf[4] = (char)digit + '\x01';
+  digit = *remainder_reg;
+  remainder = *quotient_reg;
+  /* Minutes ones digit */
+  *dvsr = 10;
+  *dvcr = 0;
+  *dvdnt = remainder;
+  buf[3] = (char)digit + '\x01';
+  digit = *remainder_reg;
+  remainder = *quotient_reg;
+  /* Minutes tens digit */
+  *dvsr = 10;
+  *dvcr = 0;
+  *dvdnt = remainder;
+  buf[2] = 0xc;                      /* ':' separator */
+  buf[1] = (char)digit + '\x01';
+  /* Leading digit or blank */
+  if ((*remainder_reg & 0xff) == 0) {
+    leading = '\v';                   /* blank tile */
   }
-
   else {
-
-    cVar5 = (char)*puVar8 + '\x01';
-
+    leading = (char)*remainder_reg + '\x01';
   }
-
-  *puVar1 = cVar5;
-
-  return puVar1;
-
+  *buf = leading;
+  return buf;
 }
 
 void FUN_06005ecc()
