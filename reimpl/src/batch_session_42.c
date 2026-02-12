@@ -372,58 +372,37 @@ unsigned int FUN_06042aca(param_1, param_2)
 
 }
 
-char * FUN_06042bfc(param_1)
+/* vdp2_get_vram_bank -- Return VDP2 VRAM bank number for a given layer.
+ * Reads VDP2 RAMCTL/CYCA/CYCB registers cached at 0x060A4D18.
+ * param_1 selects the layer: 1=NBG0, 2/4=NBG1, 8/0x80=NBG2,
+ * 0x10=NBG3, 0x20=RBG0, 0x100=sprite, 0x40000=raw pointer.
+ * Returns bank index (0-7) extracted from the appropriate register bits. */
+char * vdp2_get_vram_bank(param_1)
     char *param_1;
 {
-
-  if (param_1 == (void *)0x00000001) {
-
-    return (char *)(*(unsigned short *)(0x060A4D18 + 6) & 7);
-
-  }
-
-  if ((param_1 == (void *)0x00000002) || (param_1 == (void *)0x00000004)) {
-
-    return (char *)(*(unsigned short *)(0x060A4D18 + 4) & 7);
-
-  }
-
-  if (param_1 != (void *)0x00000008) {
-
-    if (param_1 == (void *)0x00000010) {
-
-      return (char *)((int)((unsigned int)*(unsigned short *)(0x060A4D18 + 4) & 0x700) >> 8);
-
+    if (param_1 == (void *)0x00000001) {       /* NBG0: CYCB bits 0-2 */
+        return (char *)(*(unsigned short *)(0x060A4D18 + 6) & 7);
     }
-
-    if (param_1 == (void *)0x00000020) {
-
-      return (char *)
-
-             ((int)((unsigned int)*(unsigned short *)(0x060A4D18 + 4) & (int)DAT_06042c7a) >> 0xc);
-
+    if ((param_1 == (void *)0x00000002) || (param_1 == (void *)0x00000004)) {
+        return (char *)(*(unsigned short *)(0x060A4D18 + 4) & 7);  /* NBG1: CYCA bits 0-2 */
     }
-
-    if (param_1 != (char *)0x80) {
-
-      if (param_1 == (char *)0x100) {
-
-        return (char *)((int)(*(unsigned short *)(0x060A4D18 + 6) & 0x70) >> 4);
-
-      }
-
-      if (param_1 != 0x00040000) {
-
-        return param_1;
-
-      }
-
-      return *(char **)0x060A4D5C;
-
+    if (param_1 != (void *)0x00000008) {
+        if (param_1 == (void *)0x00000010) {   /* NBG3: CYCA bits 8-10 */
+            return (char *)((int)((unsigned int)*(unsigned short *)(0x060A4D18 + 4) & 0x700) >> 8);
+        }
+        if (param_1 == (void *)0x00000020) {   /* RBG0: CYCA bits 12-14 */
+            return (char *)
+                   ((int)((unsigned int)*(unsigned short *)(0x060A4D18 + 4) & (int)DAT_06042c7a) >> 0xc);
+        }
+        if (param_1 != (char *)0x80) {
+            if (param_1 == (char *)0x100) {    /* Sprite: CYCB bits 4-6 */
+                return (char *)((int)(*(unsigned short *)(0x060A4D18 + 6) & 0x70) >> 4);
+            }
+            if (param_1 != 0x00040000) {
+                return param_1;                /* unknown — pass through */
+            }
+            return *(char **)0x060A4D5C;       /* raw pointer mode */
+        }
     }
-
-  }
-
-  return (char *)((int)(*(unsigned short *)(0x060A4D18 + 4) & 0x70) >> 4);
-
+    return (char *)((int)(*(unsigned short *)(0x060A4D18 + 4) & 0x70) >> 4);  /* NBG2: CYCA bits 4-6 */
 }

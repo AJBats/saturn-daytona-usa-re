@@ -21,7 +21,7 @@ extern int FUN_0603f4e0();
 extern int FUN_0603f500();
 extern char FUN_0603f534();
 extern unsigned int FUN_0603f582();
-extern void FUN_0603f84c();
+extern void cd_parse_dir_entry();
 extern int FUN_0603f92c();
 extern char FUN_0603f970();
 extern void FUN_0603fc60();
@@ -421,7 +421,7 @@ int FUN_0603f2e0(param_1, param_2, param_3, param_4)
 
   iVar1 = 0;
   while ((0 < param_3 && (FUN_0603f582(auStack_24, local_44), local_44[0] != '\0'))) {
-    FUN_0603f84c(param_2, local_44); /* parse entry into 0xC-byte record */
+    cd_parse_dir_entry(param_2, local_44); /* parse entry into 0xC-byte record */
     param_2 = param_2 + 0xc; /* advance to next record slot */
     param_3 = param_3 + -1;
     iVar1 = iVar1 + 1;
@@ -455,7 +455,7 @@ int FUN_0603f342(param_1, param_2, param_3, param_4)
   while ((0 < param_3 && (FUN_0603f582(auStack_2c, local_4c), local_4c[0] != '\0'))) {
     if ((iVar3 < 3) ||
        (iVar2 = memcmp_fn(param_2 + -0xc, auStack_3c, 0xc), iVar2 != 0)) {
-      FUN_0603f84c(param_2, local_4c); /* parse entry into record */
+      cd_parse_dir_entry(param_2, local_4c); /* parse entry into record */
       memcpy_fn(param_2 + 0xc, auStack_3c, 0xc); /* copy 12-byte supplementary data */
     }
     param_2 = param_2 + 0x18; /* advance to next record slot */
@@ -832,85 +832,36 @@ LAB_0603f716:
 
 }
 
-void FUN_0603f84c(param_1, param_2)
+/* cd_parse_dir_entry -- Parse raw ISO9660 directory record into compact form.
+ * Reads LBA extent (param_2+4), size (param_2+8), and flags (param_2+0xC)
+ * from raw 32-byte directory record. Decomposes ISO flags into compact
+ * bit field at output +0xB: bit4=directory, bit3=hidden, bit2=system,
+ * bit1=read-only. Copies name length (+0xE) and interleave (+0xF). */
+void cd_parse_dir_entry(param_1, param_2)
     int *param_1;
     int param_2;
 {
+    char dir_flag, hidden_flag, sys_flag, ro_flag;
+    unsigned int iso_flags;
 
-  char cVar1;
+    /* Copy LBA extent start and data size */
+    *param_1 = *(int *)(param_2 + 4);         /* extent LBA */
+    param_1[1] = *(int *)(param_2 + 8);       /* data length */
+    *(char *)((int)param_1 + 10) = *(char *)(param_2 + 0x1d);  /* recording date */
 
-  char cVar2;
+    /* Decompose ISO9660 file flags into compact bit field */
+    iso_flags = (unsigned int)*(unsigned short *)(param_2 + 0xc);
 
-  char cVar3;
+    dir_flag   = (0x00008000 & iso_flags) ? '\x10' : '\0';  /* bit 15 → directory */
+    hidden_flag = (0x800 & iso_flags)     ? '\b'   : '\0';  /* bit 11 → hidden */
+    sys_flag   = ((int)DAT_0603f8ae & iso_flags) ? '\x04' : '\0';  /* system file */
+    ro_flag    = ((int)PTR_DAT_0603f8b0 & iso_flags) ? '\x02' : '\0';  /* read-only */
 
-  char cVar4;
+    *(char *)((int)param_1 + 0xb) = dir_flag + hidden_flag + sys_flag + ro_flag;
 
-  unsigned int uVar5;
-
-  *param_1 = *(int *)(param_2 + 4);
-
-  param_1[1] = *(int *)(param_2 + 8);
-
-  *(char *)((int)param_1 + 10) = *(char *)(param_2 + 0x1d);
-
-  uVar5 = (unsigned int)*(unsigned short *)(param_2 + 0xc);
-
-  if (((unsigned int)0x00008000 & uVar5) == 0) {
-
-    cVar4 = '\0';
-
-  }
-
-  else {
-
-    cVar4 = '\x10';
-
-  }
-
-  if ((0x800 & uVar5) == 0) {
-
-    cVar1 = '\0';
-
-  }
-
-  else {
-
-    cVar1 = '\b';
-
-  }
-
-  if (((int)DAT_0603f8ae & uVar5) == 0) {
-
-    cVar2 = '\0';
-
-  }
-
-  else {
-
-    cVar2 = '\x04';
-
-  }
-
-  if (((int)PTR_DAT_0603f8b0 & uVar5) == 0) {
-
-    cVar3 = '\0';
-
-  }
-
-  else {
-
-    cVar3 = '\x02';
-
-  }
-
-  *(char *)((int)param_1 + 0xb) = cVar4 + cVar1 + cVar2 + cVar3;
-
-  *(char *)(param_1 + 2) = *(char *)(param_2 + 0xe);
-
-  *(char *)((int)param_1 + 9) = *(char *)(param_2 + 0xf);
-
-  return;
-
+    /* Copy name length and interleave gap */
+    *(char *)(param_1 + 2) = *(char *)(param_2 + 0xe);    /* name length */
+    *(char *)((int)param_1 + 9) = *(char *)(param_2 + 0xf);  /* interleave */
 }
 
 /* cd_buf_init -- Initialize a CD buffer descriptor to default state.
