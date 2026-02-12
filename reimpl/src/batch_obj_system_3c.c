@@ -122,47 +122,30 @@ int FUN_0603c0a0(int param_1, int param_2)
     return *(int *)(div_base + 0x14);
 }
 
-void FUN_0603c104()
+/* scu_dma_subsystem_init -- Initialize SCU DMA controller and interrupt tables.
+ * Calls FUN_0603cd5c to reset DMA state, then initializes 5 DMA channel
+ * handlers (0x0603D2CC..0x0603D5D0). Clears 8-slot interrupt dispatch
+ * table at 0x060A4D60, resets DMA pending flag (0x060A4D80) and
+ * interrupt acknowledge register (0x060A4DA6). */
+void scu_dma_subsystem_init()
 {
+  unsigned int i;
+  char *int_table = (int *)0x060A4D60;                  /* interrupt dispatch table */
 
-  char *puVar1;
+  FUN_0603cd5c();                                       /* reset DMA state */
+  (*(int(*)())0x0603D2CC)();                            /* init DMA channel 0 */
+  (*(int(*)())0x0603D3A8)();                            /* init DMA channel 1 */
+  (*(int(*)())0x0603D438)();                            /* init DMA channel 2 */
+  (*(int(*)())0x0603D514)();                            /* init DMA channel 3 */
+  (*(int(*)())0x0603D5D0)();                            /* init DMA channel 4 */
 
-  unsigned int uVar2;
-
-  unsigned char bVar3;
-
-  puVar1 = (int *)0x060A4D60;
-
-  FUN_0603cd5c();
-
-  (*(int(*)())0x0603D2CC)();
-
-  (*(int(*)())0x0603D3A8)();
-
-  (*(int(*)())0x0603D438)();
-
-  (*(int(*)())0x0603D514)();
-
-  (*(int(*)())0x0603D5D0)();
-
-  bVar3 = 0;
-
-  do {
-
-    uVar2 = (unsigned int)bVar3;
-
-    bVar3 = bVar3 + 1;
-
-    *(int *)(puVar1 + (uVar2 << 2)) = 0;
-
-  } while (bVar3 < 8);
-
-  *(int *)0x060A4D80 = 0;
-
-  *(int *)0x060A4DA6 = 0;
-
+  /* Clear 8-slot interrupt dispatch table */
+  for (i = 0; i < 8; i++) {
+    *(int *)(int_table + (i << 2)) = 0;
+  }
+  *(int *)0x060A4D80 = 0;                               /* DMA pending flag: clear */
+  *(int *)0x060A4DA6 = 0;                               /* interrupt ack: clear */
   return;
-
 }
 
 int FUN_0603c1a8(param_1, param_2)

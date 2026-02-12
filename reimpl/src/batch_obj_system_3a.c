@@ -49,7 +49,7 @@ extern void FUN_0603ab46();
 extern void FUN_0603adac();
 extern int FUN_0603aee8();
 extern void FUN_0603af94();
-extern int FUN_0603afd0();
+extern int cd_seek_to_offset();
 extern int FUN_0603b058();
 extern int FUN_0603b21c();
 extern int FUN_0603b28e();
@@ -85,70 +85,42 @@ extern int PTR_DAT_0603bcd0;
 extern int PTR_DAT_0603bd64;
 extern int PTR_DAT_0603be10;
 
-char FUN_0603a01c(param_1)
+/* display_config_copy -- Copy display config from ring buffer to write pointer.
+ * Calls func_0x0603aa82 to advance the ring, snapshots buffer addresses
+ * (0x060A4CC8→0x060A4CD0/CD4), sets active flag (0x060A4CCC=1).
+ * If config byte (0x060A4CFC) == 0x20 (space), adjusts write pointer
+ * based on version byte (0x060A4D02). Then copies bytes from source
+ * pointer (0x060A4CEC) to destination (0x060A4CD4) until param_1.
+ * Returns the config byte value. */
+char display_config_copy(param_1)
     unsigned int param_1;
 {
+  char config_byte;
+  char *write_ptr = (char *)0x060A4CD4;                 /* destination write ptr */
+  char *src_ptr = (char *)0x060A4CEC;                   /* source read ptr */
 
-  char cVar1;
+  func_0x0603aa82();                                    /* advance ring buffer */
 
-  char *puVar2;
+  *(int *)0x060A4CD0 = *(int *)0x060A4CC8;              /* snapshot buffer start */
+  *(int *)write_ptr = *(int *)0x060A4CC8;               /* copy start to write ptr */
+  *(int *)0x060A4CCC = 1;                               /* set active flag */
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  puVar3 = (char *)0x060A4CD4;
-
-  puVar2 = (char *)0x060A4CEC;
-
-  func_0x0603aa82();
-
-  puVar5 = (char *)0x060A4CD0;
-
-  puVar4 = (char *)0x060A4CC8;
-
-  *(int *)0x060A4CD0 = *(int *)0x060A4CC8;
-
-  *(int *)puVar3 = *(int *)puVar4;
-
-  *(int *)0x060A4CCC = 1;
-
-  puVar4 = (char *)0x060A4CFD;
-
-  cVar1 = *(int *)0x060A4CFC;
-
-  if (cVar1 == ' ') {
-
+  config_byte = *(int *)0x060A4CFC;
+  if (config_byte == ' ') {                             /* space = extended config */
     if ((unsigned char)*(int *)0x060A4D02 < 5) {
-
-      *(char **)puVar5 = (char *)0x060A4CFD;
-
-      *(char **)puVar3 = puVar4 + 2;
-
+      *(char **)0x060A4CD0 = (char *)0x060A4CFD;
+      *(char **)write_ptr = (char *)0x060A4CFD + 2;
+    } else {
+      *(int *)write_ptr = *(int *)write_ptr + 2;
     }
-
-    else {
-
-      *(int *)puVar3 = *(int *)puVar3 + 2;
-
-    }
-
   }
-
-  while (*(unsigned int *)puVar2 < param_1) {
-
-    **(char **)puVar3 = **(char **)puVar2;
-
-    *(int *)puVar3 = *(int *)puVar3 + 1;
-
-    *(int *)puVar2 = *(int *)puVar2 + 2;
-
+  /* Copy bytes from source to destination until limit */
+  while (*(unsigned int *)src_ptr < param_1) {
+    **(char **)write_ptr = **(char **)src_ptr;
+    *(int *)write_ptr = *(int *)write_ptr + 1;
+    *(int *)src_ptr = *(int *)src_ptr + 2;
   }
-
-  return cVar1;
-
+  return config_byte;
 }
 
 char * FUN_0603a0b0()
@@ -874,56 +846,43 @@ void FUN_0603af94(int param_1)
     FUN_0603b93c(0);             /* success */
 }
 
-int FUN_0603afd0(param_1, param_2, param_3)
+/* cd_seek_to_offset -- Seek CD read position with offset mode.
+ * param_3 selects offset mode:
+ *   0: absolute — use param_2 directly
+ *   1: relative to current — add current position (vtable[3]) to param_2
+ *   2: relative to end — add total size (handle+0x10) to param_2
+ * Validates offset >= 0 (returns -0x0F on underflow).
+ * Calls seek handler (vtable[2]) with resolved offset.
+ * Returns result via FUN_0603b93c (CD callback). */
+int cd_seek_to_offset(param_1, param_2, param_3)
     int *param_1;
     int param_2;
     int param_3;
 {
+  int cur_pos;
+  int result;
+  int vtable = CD_STATE_A + 4 + (unsigned int)*(unsigned char *)(param_1 + 4) << 4;
 
-  int iVar1;
-
-  int uVar2;
-
-  int iVar3;
-
-  iVar3 = CD_STATE_A + 4 + (unsigned int)*(unsigned char *)(param_1 + 4) << 4;
-
-  if (param_3 == 1) {
-
-    iVar1 = (*(int(*)())(*(int *)(iVar3 + 0xc)))(*param_1);
-
-    param_2 = param_2 + iVar1;
-
+  if (param_3 == 1) {                                   /* relative to current */
+    cur_pos = (*(int(*)())(*(int *)(vtable + 0xc)))(*param_1);
+    param_2 = param_2 + cur_pos;
   }
-
-  else if (param_3 == 2) {
-
+  else if (param_3 == 2) {                              /* relative to end */
     param_2 = param_2 + *(int *)(*param_1 + 0x10);
-
+  }
+  else if (param_3 != 0) {                              /* invalid mode */
+    result = FUN_0603b93c(0xfffffff3);
+    return result;
   }
 
-  else if (param_3 != 0) {
-
-    uVar2 = FUN_0603b93c(0xfffffff3);
-
-    return uVar2;
-
+  if (param_2 < 0) {                                    /* underflow check */
+    result = FUN_0603b93c(0xfffffff1);
+    return result;
   }
 
-  if (param_2 < 0) {
-
-    uVar2 = FUN_0603b93c(0xfffffff1);
-
-    return uVar2;
-
-  }
-
-  uVar2 = (*(int(*)())(*(int *)(iVar3 + 8)))(*param_1,param_2);
-
+  result = (*(int(*)())(*(int *)(vtable + 8)))(*param_1, param_2); /* seek handler */
   FUN_0603b93c(0);
-
-  return uVar2;
-
+  return result;
 }
 
 /* cd_command_dispatch -- Dispatch CD command via command type vtable.
@@ -951,7 +910,7 @@ int FUN_0603b1b6(int param_1, int param_2, int param_3, int param_4)
     return iVar2;
   }
 
-  FUN_0603afd0(piVar1, param_2, 0);
+  cd_seek_to_offset(piVar1, param_2, 0);
   param_2 = *(int *)(*piVar1 + 0x10) - param_2;
   if (param_4 == -1) {
     param_4 = param_2 * DAT_0603b270;   /* auto-calculate size */
@@ -1181,7 +1140,7 @@ unsigned int FUN_0603b424(param_1)
 
       iVar3 = (*(int(*)())0x0603F9F6)(*(int *)(param_1 + 8));
 
-      FUN_0603afd0(param_1,iVar1 - iVar3,1);
+      cd_seek_to_offset(param_1,iVar1 - iVar3,1);
 
       *(char *)(param_1 + 0x12) = 0;
 
