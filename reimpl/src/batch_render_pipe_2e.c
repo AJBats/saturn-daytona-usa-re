@@ -537,63 +537,39 @@ int FUN_0602eff0(param_1, param_2)
 
 }
 
+/* car_angle_smooth_decay -- Smooth car angle field, decay rotation at +0xD0 toward zero. */
 int FUN_0602f0e8()
 {
-
-  int iVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  iVar1 = CAR_PTR_TARGET;
-
-  *(int *)(DAT_0602f120 + iVar1) =
-
-       *(int *)(DAT_0602f11e + iVar1) << 8 + *(int *)(DAT_0602f120 + iVar1) >> 1;
-
-  if ((*(int *)(DAT_0602f122 + iVar1) == 0) && (*(int *)(DAT_0602f124 + iVar1) == 0)) {
-
-    *(int *)(0x00000084 + iVar1) = *(int *)(DAT_0602f126 + iVar1);
-
-    *(int *)(DAT_0602f12a + iVar1) = *(int *)(DAT_0602f128 + iVar1);
-
-    return iVar1;
-
+  int car_ptr;
+  int angle_off;
+  int delta;
+  car_ptr = CAR_PTR_TARGET;
+  /* Exponential smoothing of angle field */
+  *(int *)(DAT_0602f120 + car_ptr) =
+       *(int *)(DAT_0602f11e + car_ptr) << 8 + *(int *)(DAT_0602f120 + car_ptr) >> 1;
+  if ((*(int *)(DAT_0602f122 + car_ptr) == 0) && (*(int *)(DAT_0602f124 + car_ptr) == 0)) {
+    /* No active rotation — copy default values */
+    *(int *)(0x00000084 + car_ptr) = *(int *)(DAT_0602f126 + car_ptr);
+    *(int *)(DAT_0602f12a + car_ptr) = *(int *)(DAT_0602f128 + car_ptr);
+    return car_ptr;
   }
-
-  *(short *)(DAT_0602f15a + iVar1) = 0;
-
-  iVar3 = (int)DAT_0602f15c;
-
-  *(int *)(DAT_0602f15e + iVar1) = iVar3;
-
-  *(int *)(DAT_0602f160 + iVar1) = iVar3;
-
-  iVar2 = 0xd0;
-
-  iVar3 = 0x0000071C;
-
-  if (-1 < *(int *)(iVar2 + iVar1)) {
-
-    iVar3 = -0x0000071C;
-
+  /* Active rotation — reset and decay */
+  *(short *)(DAT_0602f15a + car_ptr) = 0;
+  delta = (int)DAT_0602f15c;
+  *(int *)(DAT_0602f15e + car_ptr) = delta;
+  *(int *)(DAT_0602f160 + car_ptr) = delta;
+  angle_off = 0xd0;
+  delta = 0x0000071C;                        /* decay step */
+  if (-1 < *(int *)(angle_off + car_ptr)) {
+    delta = -0x0000071C;                     /* negate for positive angles */
   }
-
-  iVar3 = *(int *)(iVar2 + iVar1) + iVar3;
-
-  if (-1 < iVar3) {
-
-    *(int *)(iVar2 + iVar1) = 0;
-
-    return iVar1;
-
+  delta = *(int *)(angle_off + car_ptr) + delta;
+  if (-1 < delta) {
+    *(int *)(angle_off + car_ptr) = 0;       /* clamped to zero */
+    return car_ptr;
   }
-
-  *(int *)(iVar2 + iVar1) = iVar3;
-
-  return iVar1;
-
+  *(int *)(angle_off + car_ptr) = delta;
+  return car_ptr;
 }
 
 void FUN_0602f17c()

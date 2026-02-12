@@ -64,140 +64,80 @@ void FUN_060280f8(param_1, param_2)
   *(int *)(param_2 + 0xc) = *(int *)(param_1 + 0x14);
 }
 
+/* int_to_ascii_decimal -- Convert integer to right-justified space-padded ASCII string.
+ * Uses SH-2 hardware division unit (0xFFFFFF00) for digit extraction. */
 char * FUN_060282c0(param_1)
     int param_1;
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int *puVar5;
-
-  char uVar6;
-
-  puVar2 = (int *)0x20202020;
-
-  puVar1 = (int *)0x060620C4;
-
+  char *buf;
+  char *fill;
+  int pos;
+  int prev_pos;
+  int *div_unit;
+  char sign_char;
+  fill = (int *)0x20202020;           /* ASCII space fill */
+  buf = (int *)0x060620C4;            /* output buffer */
   *(char **)0x060620C4 = 0x20202020;
-
-  *(char **)(puVar1 + 4) = puVar2;
-
-  *(char **)(puVar1 + 8) = puVar2;
-
-  puVar1[0xb] = 0;
-
-  uVar6 = 0x20;
-
+  *(char **)(buf + 4) = fill;
+  *(char **)(buf + 8) = fill;
+  buf[0xb] = 0;                       /* null terminator */
+  sign_char = 0x20;                   /* ' ' default */
   if (param_1 < 0) {
-
     param_1 = -param_1;
-
-    uVar6 = 0x2d;
-
+    sign_char = 0x2d;                 /* '-' for negative */
   }
-
-  puVar5 = (int *)-256;
-
-  *puVar5 = 10;
-
-  iVar3 = 10;
-
+  div_unit = (int *)-256;             /* SH-2 DVSR at 0xFFFFFF00 */
+  *div_unit = 10;                     /* divisor = 10 */
+  pos = 10;
   do {
-
-    iVar4 = iVar3;
-
+    prev_pos = pos;
     if (param_1 == 0) break;
-
-    puVar5[1] = param_1;
-
-    iVar4 = iVar3 + -1;
-
-    puVar1[iVar3 + 1] = (char)puVar5[6];
-
-    param_1 = puVar5[7];
-
-    iVar3 = iVar4;
-
-  } while (iVar4 != 0);
-
-  puVar1[iVar4] = uVar6;
-
-  return puVar1;
-
+    div_unit[1] = param_1;            /* DVDNT: trigger division */
+    prev_pos = pos + -1;
+    buf[pos + 1] = (char)div_unit[6]; /* remainder → digit char */
+    param_1 = div_unit[7];            /* quotient → next dividend */
+    pos = prev_pos;
+  } while (prev_pos != 0);
+  buf[prev_pos] = sign_char;
+  return buf;
 }
 
+/* int_to_tile_decimal -- Convert integer to right-justified tile-index string.
+ * Same as int_to_ascii_decimal but fills with tile 0x0A (blank) instead of space. */
 char * FUN_06028306(param_1)
     int param_1;
 {
-
-  char *puVar1;
-
-  int uVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int *puVar5;
-
-  char uVar6;
-
-  uVar2 = 0x0A0A0A0A;
-
-  puVar1 = (int *)0x060620C4;
-
+  char *buf;
+  int tile_fill;
+  int pos;
+  int prev_pos;
+  int *div_unit;
+  char sign_tile;
+  tile_fill = 0x0A0A0A0A;             /* blank tile fill */
+  buf = (int *)0x060620C4;            /* output buffer */
   *(int *)0x060620C4 = 0x0A0A0A0A;
-
-  *(int *)(puVar1 + 4) = uVar2;
-
-  *(int *)(puVar1 + 8) = uVar2;
-
-  puVar1[0xb] = 0;
-
-  uVar6 = 10;
-
+  *(int *)(buf + 4) = tile_fill;
+  *(int *)(buf + 8) = tile_fill;
+  buf[0xb] = 0;                       /* null terminator */
+  sign_tile = 10;                     /* blank tile default */
   if (param_1 < 0) {
-
     param_1 = -param_1;
-
-    uVar6 = 0x2d;
-
+    sign_tile = 0x2d;                 /* '-' tile for negative */
   }
-
-  puVar5 = (int *)-256;
-
-  *puVar5 = 10;
-
-  iVar3 = 10;
-
+  div_unit = (int *)-256;             /* SH-2 DVSR at 0xFFFFFF00 */
+  *div_unit = 10;                     /* divisor = 10 */
+  pos = 10;
   do {
-
-    iVar4 = iVar3;
-
+    prev_pos = pos;
     if (param_1 == 0) break;
-
-    puVar5[1] = param_1;
-
-    iVar4 = iVar3 + -1;
-
-    puVar1[iVar3 + 1] = (char)puVar5[6];
-
-    param_1 = puVar5[7];
-
-    iVar3 = iVar4;
-
-  } while (iVar4 != 0);
-
-  puVar1[iVar4] = uVar6;
-
-  return puVar1;
-
+    div_unit[1] = param_1;            /* DVDNT: trigger division */
+    prev_pos = pos + -1;
+    buf[pos + 1] = (char)div_unit[6]; /* remainder → digit tile */
+    param_1 = div_unit[7];            /* quotient → next dividend */
+    pos = prev_pos;
+  } while (prev_pos != 0);
+  buf[prev_pos] = sign_tile;
+  return buf;
 }
 
 /* vdp2_number_draw -- Draw a number as tiles on VDP2 scroll plane.

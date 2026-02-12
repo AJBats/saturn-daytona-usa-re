@@ -2249,69 +2249,41 @@ void FUN_06032158(param_1, param_2)
 
 }
 
+/* scene_object_table_init -- Initialize 6 scene objects with slot IDs and 13-byte name strings. */
 char * FUN_060321c0()
 {
-
-  char uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  iVar5 = 0;
-
+  char ch;
+  char *state_ptr;
+  char *dst;
+  char *src;
+  int slot_idx;
+  int obj_ptr;
+  slot_idx = 0;
   do {
-
-    iVar6 = *(int *)(0x060623B0 + (iVar5 << 2));
-
-    *(char *)(iVar6 + 0x000002DC) = (char)iVar5;
-
+    obj_ptr = *(int *)(0x060623B0 + (slot_idx << 2));  /* object pointer table */
+    *(char *)(obj_ptr + 0x000002DC) = (char)slot_idx;   /* store slot index */
     FUN_06032d90();
-
-    *(short *)(iVar6 + 0x0000000E) = (short)0x00000004;
-
+    *(short *)(obj_ptr + 0x0000000E) = (short)0x00000004;  /* state = 4 */
     FUN_06032e18(0x00000000);
-
-    puVar4 = *(char **)(0x06062464 + (iVar5 << 2));
-
-    puVar3 = (char *)(0x000002DE + iVar6);
-
-    iVar6 = 0x0000000D;
-
+    /* Copy 13-byte name string from name table to object+0x2DE */
+    src = *(char **)(0x06062464 + (slot_idx << 2));
+    dst = (char *)(0x000002DE + obj_ptr);
+    obj_ptr = 0x0000000D;  /* 13 bytes to copy */
     do {
-
-      uVar1 = *puVar4;
-
-      puVar4 = puVar4 + 1;
-
-      *puVar3 = uVar1;
-
-      puVar3 = puVar3 + 1;
-
-      iVar6 = iVar6 + -1;
-
-    } while (iVar6 != 0);
-
-    iVar5 = iVar5 + 1;
-
-  } while (iVar5 <= 0x00000005);
-
+      ch = *src;
+      src = src + 1;
+      *dst = ch;
+      dst = dst + 1;
+      obj_ptr = obj_ptr + -1;
+    } while (obj_ptr != 0);
+    slot_idx = slot_idx + 1;
+  } while (slot_idx <= 0x00000005);
+  /* Clear scene state globals */
   *(int *)0x06082A20 = 0;
-
   *(int *)0x06082A24 = 0;
-
-  puVar2 = (int *)0x06082A25;
-
+  state_ptr = (int *)0x06082A25;
   *(int *)0x06082A25 = 0;
-
-  return puVar2;
-
+  return state_ptr;
 }
 
 /* scene_update_all_layers -- Update all 6 scene layers, then advance frame counter.
