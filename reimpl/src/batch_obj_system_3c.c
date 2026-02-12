@@ -43,7 +43,7 @@ extern int DAT_0603e93e;
 extern int DAT_0603ea46;
 extern int FUN_0603c1a8();
 extern int FUN_0603cc88();
-extern void FUN_0603cd5c();
+extern void dma_register_state_clear();
 extern char * FUN_0603d9ec();
 extern char * FUN_0603da88();
 extern int FUN_0603eacc();
@@ -123,7 +123,7 @@ int FUN_0603c0a0(int param_1, int param_2)
 }
 
 /* scu_dma_subsystem_init -- Initialize SCU DMA controller and interrupt tables.
- * Calls FUN_0603cd5c to reset DMA state, then initializes 5 DMA channel
+ * Calls dma_register_state_clear to reset DMA state, then initializes 5 DMA channel
  * handlers (0x0603D2CC..0x0603D5D0). Clears 8-slot interrupt dispatch
  * table at 0x060A4D60, resets DMA pending flag (0x060A4D80) and
  * interrupt acknowledge register (0x060A4DA6). */
@@ -132,7 +132,7 @@ void scu_dma_subsystem_init()
   unsigned int i;
   char *int_table = (int *)0x060A4D60;                  /* interrupt dispatch table */
 
-  FUN_0603cd5c();                                       /* reset DMA state */
+  dma_register_state_clear();                                       /* reset DMA state */
   (*(int(*)())0x0603D2CC)();                            /* init DMA channel 0 */
   (*(int(*)())0x0603D3A8)();                            /* init DMA channel 1 */
   (*(int(*)())0x0603D438)();                            /* init DMA channel 2 */
@@ -926,271 +926,159 @@ int FUN_0603cc88(param_1, param_2, param_3, param_4)
   return 0;
 }
 
-void FUN_0603cd5c()
+/* dma_register_state_clear -- Reset all DMA channel shadow registers.
+ * Shadow register array at 0x060A4D18 (8 unsigned shorts):
+ *   [0] = control register (mode, enable bits)
+ *   [1] = interrupt enable register
+ *   [2]-[3] = channel config (source/dest/transfer size)
+ *   [4] = channel enable (per-channel on/off bits)
+ *   [5] = priority register (per-channel priority)
+ *   [6] = additional control (timing, mode flags)
+ *   [7] = extended priority register
+ * Each AND-mask operation clears specific bit fields while
+ * preserving others. Sync function (0x06034F78) called between
+ * each register write to ensure hardware handshake. */
+void dma_register_state_clear()
 {
-
-  unsigned short uVar1;
-
-  unsigned short uVar2;
-
-  unsigned short uVar3;
-
-  unsigned short uVar4;
-
-  unsigned short uVar5;
-
-  unsigned short *puVar6;
-
-  char *puVar7;
-
-  unsigned short uVar8;
-
-  uVar3 = DAT_0603ce8e;
-
-  puVar6 = (unsigned short *)0x060A4D18;
-
-  (*(int(*)())0x06034F78)(0x060A4D18,0x060A4D58,1);
-
-  *puVar6 = *puVar6 & uVar3 | DAT_0603ce90;
-
+  unsigned short mask_ffef;
+  unsigned short mask_fffe;
+  unsigned short mask_fffd;
+  unsigned short mask_fffb;
+  unsigned short mask_fff0;
+  unsigned short *shadow_regs;
+  char *temp;
+  unsigned short mask_ffdf;
+  shadow_regs = (unsigned short *)0x060A4D18;               /* DMA shadow registers */
+  /* initial sync with hardware */
+  (*(int(*)())0x06034F78)(0x060A4D18,0x060A4D58,1);         /* dma_sync */
+  /* reg[0]: set mode bits from constants */
+  *shadow_regs = *shadow_regs & DAT_0603ce8e | DAT_0603ce90;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & (unsigned short)0x0000FFBF;
-
-  puVar7 = (char *)0x0000FFDF;
-
+  shadow_regs[6] = shadow_regs[6] & (unsigned short)0x0000FFBF;  /* reg[6]: clear bit 6 */
+  temp = (char *)0x0000FFDF;
   (*(int(*)())0x06034F78)();
-
-  uVar8 = (unsigned short)puVar7;
-
-  *puVar6 = *puVar6 & uVar8 | 0x20;
-
-  puVar7 = (char *)0x0000FFEF;
-
+  mask_ffdf = (unsigned short)temp;
+  *shadow_regs = *shadow_regs & mask_ffdf | 0x20;           /* reg[0]: set bit 5 */
+  temp = (char *)0x0000FFEF;
   (*(int(*)())0x06034F78)();
-
-  uVar1 = (unsigned short)puVar7;
-
-  *puVar6 = *puVar6 & uVar1;
-
-  puVar7 = (char *)0x0000FFF0;
-
+  mask_ffef = (unsigned short)temp;
+  *shadow_regs = *shadow_regs & mask_ffef;                   /* reg[0]: clear bit 4 */
+  temp = (char *)0x0000FFF0;
   (*(int(*)())0x06034F78)();
-
-  uVar5 = (unsigned short)puVar7;
-
-  *puVar6 = *puVar6 & uVar5 | 7;
-
+  mask_fff0 = (unsigned short)temp;
+  *shadow_regs = *shadow_regs & mask_fff0 | 7;              /* reg[0]: set low 3 bits (mode 7) */
+  /* reg[2]-[3]: clear channel config fields */
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & uVar5;
-
-  puVar7 = (char *)0x0000FF0F;
-
+  shadow_regs[2] = shadow_regs[2] & mask_fff0;              /* reg[2]: clear low nibble */
+  temp = (char *)0x0000FF0F;
   (*(int(*)())0x06034F78)();
-
-  uVar2 = (unsigned short)puVar7;
-
-  puVar6[2] = puVar6[2] & uVar2;
-
+  mask_fffe = (unsigned short)temp;
+  shadow_regs[2] = shadow_regs[2] & mask_fffe;              /* reg[2]: clear nibble 1 */
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & (unsigned short)0x0000F0FF;
-
+  shadow_regs[2] = shadow_regs[2] & (unsigned short)0x0000F0FF;  /* reg[2]: clear nibble 2 */
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & uVar3;
-
+  shadow_regs[2] = shadow_regs[2] & DAT_0603ce8e;           /* reg[2]: clear high nibble */
   (*(int(*)())0x06034F78)();
-
-  puVar6[3] = puVar6[3] & uVar5;
-
+  shadow_regs[3] = shadow_regs[3] & mask_fff0;              /* reg[3]: clear low nibble */
   (*(int(*)())0x06034F78)();
-
-  puVar6[3] = puVar6[3] & uVar2;
-
+  shadow_regs[3] = shadow_regs[3] & mask_fffe;              /* reg[3]: clear nibble 1 */
+  /* reg[2]-[3]: second pass for remaining channels */
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & uVar5;
-
+  shadow_regs[2] = shadow_regs[2] & mask_fff0;
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & uVar2;
-
+  shadow_regs[2] = shadow_regs[2] & mask_fffe;
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & (unsigned short)0x0000F0FF;
-
+  shadow_regs[2] = shadow_regs[2] & (unsigned short)0x0000F0FF;
   (*(int(*)())0x06034F78)();
-
-  puVar6[2] = puVar6[2] & uVar3;
-
+  shadow_regs[2] = shadow_regs[2] & DAT_0603ce8e;
   (*(int(*)())0x06034F78)();
-
-  puVar6[3] = puVar6[3] & uVar5;
-
+  shadow_regs[3] = shadow_regs[3] & mask_fff0;
   (*(int(*)())0x06034F78)();
-
-  puVar6[3] = puVar6[3] & uVar2;
-
-  puVar7 = (char *)0x0000FFFE;
-
+  shadow_regs[3] = shadow_regs[3] & mask_fffe;
+  /* reg[4]: clear per-channel enable bits */
+  temp = (char *)0x0000FFFE;
   (*(int(*)())0x06034F78)();
-
-  uVar2 = (unsigned short)puVar7;
-
-  puVar6[4] = puVar6[4] & uVar2;
-
-  puVar7 = (char *)0x0000FFFD;
-
+  mask_fffe = (unsigned short)temp;
+  shadow_regs[4] = shadow_regs[4] & mask_fffe;              /* clear ch0 enable */
+  temp = (char *)0x0000FFFD;
   (*(int(*)())0x06034F78)();
-
-  uVar3 = (unsigned short)puVar7;
-
-  puVar6[4] = puVar6[4] & uVar3;
-
-  puVar7 = (char *)0x0000FFFB;
-
+  mask_fffd = (unsigned short)temp;
+  shadow_regs[4] = shadow_regs[4] & mask_fffd;              /* clear ch1 enable */
+  temp = (char *)0x0000FFFB;
   (*(int(*)())0x06034F78)();
-
-  uVar5 = uVar5 + 7;
-
-  uVar4 = (unsigned short)puVar7;
-
-  puVar6[4] = puVar6[4] & uVar4;
-
+  mask_fff0 = mask_fff0 + 7;                                /* 0xFFF7 */
+  mask_fffb = (unsigned short)temp;
+  shadow_regs[4] = shadow_regs[4] & mask_fffb;              /* clear ch2 enable */
   (*(int(*)())0x06034F78)();
-
-  puVar6[4] = puVar6[4] & uVar5;
-
+  shadow_regs[4] = shadow_regs[4] & mask_fff0;              /* clear ch3 enable */
   (*(int(*)())0x06034F78)();
-
-  puVar6[4] = puVar6[4] & uVar1;
-
+  shadow_regs[4] = shadow_regs[4] & mask_ffef;              /* clear ch4 enable */
   (*(int(*)())0x06034F78)();
-
-  puVar6[4] = puVar6[4] & uVar8;
-
+  shadow_regs[4] = shadow_regs[4] & mask_ffdf;              /* clear ch5 enable */
+  /* reg[5]: clear priority bits (2-bit fields for each channel) */
   (*(int(*)())0x06034F78)();
-
-  puVar6[5] = puVar6[5] & (unsigned short)0x0000FFFC;
-
+  shadow_regs[5] = shadow_regs[5] & (unsigned short)0x0000FFFC;  /* ch0 priority */
   (*(int(*)())0x06034F78)();
-
-  puVar6[5] = puVar6[5] & (unsigned short)0x0000FFF3;
-
+  shadow_regs[5] = shadow_regs[5] & (unsigned short)0x0000FFF3;  /* ch1 priority */
   (*(int(*)())0x06034F78)();
-
-  puVar6[5] = puVar6[5] & (unsigned short)0x0000FFCF;
-
+  shadow_regs[5] = shadow_regs[5] & (unsigned short)0x0000FFCF;  /* ch2 priority */
   (*(int(*)())0x06034F78)();
-
-  puVar6[5] = puVar6[5] & (unsigned short)0x0000FF3F;
-
+  shadow_regs[5] = shadow_regs[5] & (unsigned short)0x0000FF3F;  /* ch3 priority */
   (*(int(*)())0x06034F78)();
-
-  puVar6[5] = puVar6[5] & (unsigned short)0x0000FCFF;
-
+  shadow_regs[5] = shadow_regs[5] & (unsigned short)0x0000FCFF;  /* ch4 priority */
+  /* reg[6]: clear control/timing flags */
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & DAT_0603d034;
-
+  shadow_regs[6] = shadow_regs[6] & DAT_0603d034;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & (unsigned short)0x00008FFF;
-
+  shadow_regs[6] = shadow_regs[6] & (unsigned short)0x00008FFF;  /* clear bits 12-14 */
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & (unsigned short)0x0000FBFF;
-
+  shadow_regs[6] = shadow_regs[6] & (unsigned short)0x0000FBFF;  /* clear bit 10 */
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & (unsigned short)0x0000FDFF;
-
+  shadow_regs[6] = shadow_regs[6] & (unsigned short)0x0000FDFF;  /* clear bit 9 */
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & (unsigned short)0x0000FEFF | DAT_0603d1c2;
-
+  shadow_regs[6] = shadow_regs[6] & (unsigned short)0x0000FEFF | DAT_0603d1c2;  /* set timing constant */
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & (unsigned short)0x0000FFBF;
-
+  shadow_regs[6] = shadow_regs[6] & (unsigned short)0x0000FFBF;  /* clear bit 6 */
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & uVar8;
-
+  shadow_regs[6] = shadow_regs[6] & mask_ffdf;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & uVar1;
-
+  shadow_regs[6] = shadow_regs[6] & mask_ffef;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & uVar5;
-
+  shadow_regs[6] = shadow_regs[6] & mask_fff0;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & uVar4;
-
+  shadow_regs[6] = shadow_regs[6] & mask_fffb;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & uVar3;
-
+  shadow_regs[6] = shadow_regs[6] & mask_fffd;
   (*(int(*)())0x06034F78)();
-
-  puVar6[6] = puVar6[6] & uVar2;
-
+  shadow_regs[6] = shadow_regs[6] & mask_fffe;
+  /* reg[7]: clear extended priority bits */
   (*(int(*)())0x06034F78)();
-
-  puVar6[7] = puVar6[7] & (unsigned short)0x0000FFFC;
-
+  shadow_regs[7] = shadow_regs[7] & (unsigned short)0x0000FFFC;
   (*(int(*)())0x06034F78)();
-
-  puVar6[7] = puVar6[7] & (unsigned short)0x0000FFF3;
-
+  shadow_regs[7] = shadow_regs[7] & (unsigned short)0x0000FFF3;
   (*(int(*)())0x06034F78)();
-
-  puVar6[7] = puVar6[7] & (unsigned short)0x0000FFCF;
-
+  shadow_regs[7] = shadow_regs[7] & (unsigned short)0x0000FFCF;
   (*(int(*)())0x06034F78)();
-
-  puVar6[7] = puVar6[7] & (unsigned short)0x0000FF3F;
-
+  shadow_regs[7] = shadow_regs[7] & (unsigned short)0x0000FF3F;
   (*(int(*)())0x06034F78)();
-
-  puVar6[7] = puVar6[7] & (unsigned short)0x0000FCFF;
-
+  shadow_regs[7] = shadow_regs[7] & (unsigned short)0x0000FCFF;
+  /* reg[1]: clear interrupt enable bits */
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & uVar2;
-
+  shadow_regs[1] = shadow_regs[1] & mask_fffe;
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & uVar3;
-
+  shadow_regs[1] = shadow_regs[1] & mask_fffd;
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & uVar4;
-
+  shadow_regs[1] = shadow_regs[1] & mask_fffb;
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & uVar5;
-
+  shadow_regs[1] = shadow_regs[1] & mask_fff0;
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & uVar1;
-
+  shadow_regs[1] = shadow_regs[1] & mask_ffef;
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & uVar8;
-
+  shadow_regs[1] = shadow_regs[1] & mask_ffdf;
   (*(int(*)())0x06034F78)();
-
-  puVar6[1] = puVar6[1] & (unsigned short)0x0000FEFF;
-
+  shadow_regs[1] = shadow_regs[1] & (unsigned short)0x0000FEFF;  /* clear bit 8 */
   (*(int(*)())0x06034F78)();
-
   return;
-
 }
 
 /* vdp2_palette_bank_init -- Clear palette assignment bits for 4 scroll planes.

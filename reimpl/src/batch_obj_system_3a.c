@@ -123,325 +123,199 @@ char display_config_copy(param_1)
   return config_byte;
 }
 
-char * FUN_0603a0b0()
+/* cd_command_packet_decode -- Decode CD subsystem command packets.
+ * State context at 0x060A4C.. addresses:
+ *   0x060A4CD0 = data_ptr (source packed data)
+ *   0x060A4CCC = stride (byte offset between fields)
+ *   0x060A4CC0 = output_table (decoded output)
+ *   0x060A4CB4 = entry_index (current entry in output table)
+ *   0x060A4CAE = field_count (number of fields per entry)
+ *   0x060A4CBC = mask_table (bit masks for change detection)
+ *   0x060A4CFC = command type selector
+ * When command == 0x20: pre-processes bit flags from packed data,
+ *   clears specific bits (0x80/0x40/0x20/0x10/0x08/0x04/0x02/0x01)
+ *   based on cross-field conditions and thresholds.
+ * Then dispatches on packet format (0x060A4CAF):
+ *   0x00 = short entry (6 bytes: 16-bit value + 16-bit change mask)
+ *   0x10 = long entry (0x12 bytes: value + 4 fields + deltas from mask)
+ *   0x20 = signed entry (0x12 bytes: value + signed magnitude fields)
+ *   0x30 = compact entry (10 bytes: value + inverted flags + extra)
+ *   0xE1 = byte entry (3 bytes: single byte + change mask)
+ *   0xE2 = word entry (6 bytes: 16-bit value + change mask)
+ *   DAT_0603a6fe = variable-length (N+1 bytes, field_count fields) */
+char * cd_command_packet_decode()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  short sVar8;
-
-  unsigned short *puVar9;
-
-  int iVar10;
-
-  unsigned char *pbVar11;
-
-  unsigned int uVar12;
-
-  puVar5 = (char *)0x060A4CD0;
-
-  puVar4 = (char *)0x060A4CCC;
-
-  puVar3 = (char *)0x060A4CC0;
-
-  puVar2 = (char *)0x060A4CB4;
-
-  puVar1 = (char *)0x060A4CAE;
-
+  char *field_count;
+  char *entry_index;
+  char *output_table;
+  char *stride;
+  char *data_ptr;
+  char *mask_table;
+  char *result;
+  short delta;
+  unsigned short *out_entry;
+  int out_offset;
+  unsigned char *byte_entry;
+  unsigned int field_i;
+  data_ptr = (char *)0x060A4CD0;                            /* source packed data */
+  stride = (char *)0x060A4CCC;                              /* byte stride between fields */
+  output_table = (char *)0x060A4CC0;                        /* decoded output base */
+  entry_index = (char *)0x060A4CB4;                         /* current entry index */
+  field_count = (char *)0x060A4CAE;                         /* fields per entry */
   if (*(int *)0x060A4CFC == ' ') {
-
+    /* pre-process: apply bit flag conditions from packed data */
     **(char **)0x060A4CD0 = (char)DAT_0603a1a2;
-
-    *(char *)((unsigned int)(unsigned char)*puVar4 + *(int *)puVar5) = (char)DAT_0603a1a2;
-
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 0x80) == PTR_DAT_0603a1a4) {
-
-      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x20) == 0x20) {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xdf;
-
+    *(char *)((unsigned int)(unsigned char)*stride + *(int *)data_ptr) = (char)DAT_0603a1a2;
+    /* check bit 0x80 condition */
+    if ((*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1)) & 0x80) == PTR_DAT_0603a1a4) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*stride << 1) + *(int *)data_ptr) & 0x20) == 0x20) {
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xdf;  /* clear bit 5 */
       }
-
       else {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xef;
-
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xef;  /* clear bit 4 */
       }
-
     }
-
-    else if (10 < *(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 2) + *(int *)puVar5)) {
-
-      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x20) == 0x20) {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xdf;
-
+    else if (10 < *(unsigned char *)((unsigned int)(unsigned char)(*stride << 2) + *(int *)data_ptr)) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*stride << 1) + *(int *)data_ptr) & 0x20) == 0x20) {
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xdf;
       }
-
       else {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xef;
-
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xef;
       }
-
     }
-
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 0x40) == 0x40) {
-
-      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x10) == 0x10) {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xbf;
-
+    /* check bit 0x40 condition */
+    if ((*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1)) & 0x40) == 0x40) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*stride << 1) + *(int *)data_ptr) & 0x10) == 0x10) {
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xbf;  /* clear bit 6 */
       }
-
       else {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & (unsigned char)DAT_0603a2ca;
-
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & (unsigned char)DAT_0603a2ca;
       }
-
     }
-
-    else if (10 < *(unsigned char *)((unsigned int)(unsigned char)*puVar4 * 3 + *(int *)puVar5)) {
-
-      if ((*(unsigned char *)((unsigned int)(unsigned char)(*puVar4 << 1) + *(int *)puVar5) & 0x10) == 0x10) {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xbf;
-
+    else if (10 < *(unsigned char *)((unsigned int)(unsigned char)*stride * 3 + *(int *)data_ptr)) {
+      if ((*(unsigned char *)((unsigned int)(unsigned char)(*stride << 1) + *(int *)data_ptr) & 0x10) == 0x10) {
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xbf;
       }
-
       else {
-
-        **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & (unsigned char)DAT_0603a2ca;
-
+        **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & (unsigned char)DAT_0603a2ca;
       }
-
     }
-
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 1) == 1) {
-
-      **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xfb;
-
+    /* check individual direction bits */
+    if ((*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1)) & 1) == 1) {
+      **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xfb;  /* clear bit 2 */
     }
-
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 4) == 4) {
-
-      **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xfe;
-
+    if ((*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1)) & 4) == 4) {
+      **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xfe;  /* clear bit 0 */
     }
-
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 2) == 2) {
-
-      **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xfd;
-
+    if ((*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1)) & 2) == 2) {
+      **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xfd;  /* clear bit 1 */
     }
-
-    if ((*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1)) & 8) == 8) {
-
-      **(unsigned char **)puVar5 = **(unsigned char **)puVar5 & 0xf7;
-
+    if ((*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1)) & 8) == 8) {
+      **(unsigned char **)data_ptr = **(unsigned char **)data_ptr & 0xf7;  /* clear bit 3 */
     }
-
-    *puVar1 = *(int *)0x060A4D02;
-
+    *field_count = *(int *)0x060A4D02;                       /* update field count */
   }
-
-  puVar6 = (char *)0x060A4CBC;
-
-  puVar7 = (char *)(unsigned int)(unsigned char)*(int *)0x060A4CAF;
-
-  if (puVar7 == (char *)0x0) {
-
-    *(unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3) =
-
-         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
-
-    puVar9 = (unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3);
-
-    puVar7 = (char *)
-
-             (~(unsigned int)*(unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar6) & 0xffff | (unsigned int)*puVar9);
-
-    puVar9[1] = (unsigned short)puVar7;
-
+  /* dispatch on packet format type */
+  mask_table = (char *)0x060A4CBC;                           /* change detection masks */
+  result = (char *)(unsigned int)(unsigned char)*(int *)0x060A4CAF;  /* format type */
+  if (result == (char *)0x0) {
+    /* format 0x00: short entry (6 bytes) */
+    *(unsigned short *)(*(int *)entry_index * 6 + *(int *)output_table) =
+         ((**(char **)data_ptr) << 8 | ((unsigned char *)*(int *)data_ptr)[(unsigned char)*stride]);
+    out_entry = (unsigned short *)(*(int *)entry_index * 6 + *(int *)output_table);
+    result = (char *)
+             (~(unsigned int)*(unsigned short *)(*(int *)entry_index * 6 + *(int *)mask_table) & 0xffff | (unsigned int)*out_entry);
+    out_entry[1] = (unsigned short)result;                   /* change mask */
   }
-
-  else if (puVar7 == (char *)0x00000010) {
-
-    *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3) =
-
-         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
-
-    *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 2) =
-
-         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1));
-
-    *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 4) =
-
-         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*puVar4 * 3);
-
-    *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 6) =
-
-         (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 2));
-
-    puVar9 = (unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3);
-
-    puVar9[4] = ~*(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar6) | *puVar9;
-
-    iVar10 = *(int *)puVar2 * 0x12 + *(int *)puVar3;
-
-    *(short *)(iVar10 + 10) =
-
-         *(short *)(*(int *)puVar2 * 0x12 + *(int *)puVar6 + 2) - *(short *)(iVar10 + 2);
-
-    iVar10 = *(int *)puVar2 * 0x12 + *(int *)puVar3;
-
-    *(short *)(iVar10 + 0xc) =
-
-         *(short *)(*(int *)puVar2 * 0x12 + *(int *)puVar6 + 4) - *(short *)(iVar10 + 4);
-
-    iVar10 = *(int *)puVar2 * 0x12 + *(int *)puVar3;
-
-    sVar8 = *(short *)(*(int *)puVar2 * 0x12 + *(int *)puVar6 + 6) - *(short *)(iVar10 + 6);
-
-    puVar7 = (char *)(int)sVar8;
-
-    *(short *)(iVar10 + 0xe) = sVar8;
-
+  else if (result == (char *)0x00000010) {
+    /* format 0x10: long entry (0x12 bytes with deltas) */
+    *(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table) =
+         ((**(char **)data_ptr) << 8 | ((unsigned char *)*(int *)data_ptr)[(unsigned char)*stride]);
+    *(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table + 2) =
+         (unsigned short)*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1));
+    *(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table + 4) =
+         (unsigned short)*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)*stride * 3);
+    *(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table + 6) =
+         (unsigned short)*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 2));
+    out_entry = (unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table);
+    out_entry[4] = ~*(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)mask_table) | *out_entry;
+    /* compute deltas from mask table */
+    out_offset = *(int *)entry_index * 0x12 + *(int *)output_table;
+    *(short *)(out_offset + 10) =
+         *(short *)(*(int *)entry_index * 0x12 + *(int *)mask_table + 2) - *(short *)(out_offset + 2);
+    out_offset = *(int *)entry_index * 0x12 + *(int *)output_table;
+    *(short *)(out_offset + 0xc) =
+         *(short *)(*(int *)entry_index * 0x12 + *(int *)mask_table + 4) - *(short *)(out_offset + 4);
+    out_offset = *(int *)entry_index * 0x12 + *(int *)output_table;
+    delta = *(short *)(*(int *)entry_index * 0x12 + *(int *)mask_table + 6) - *(short *)(out_offset + 6);
+    result = (char *)(int)delta;
+    *(short *)(out_offset + 0xe) = delta;
   }
-
-  else if (puVar7 == (char *)0x00000020) {
-
-    *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3) =
-
-         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
-
-    *(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3 + 2) =
-
-         ~(unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1));
-
-    iVar10 = *(int *)puVar2 * 0x12 + *(int *)puVar3;
-
-    if ((*(unsigned short *)(iVar10 + 2) & 0x10) == 0x10) {
-
-      sVar8 = 1;
-
+  else if (result == (char *)0x00000020) {
+    /* format 0x20: signed entry (0x12 bytes with sign bits) */
+    *(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table) =
+         ((**(char **)data_ptr) << 8 | ((unsigned char *)*(int *)data_ptr)[(unsigned char)*stride]);
+    *(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table + 2) =
+         ~(unsigned short)*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1));
+    out_offset = *(int *)entry_index * 0x12 + *(int *)output_table;
+    if ((*(unsigned short *)(out_offset + 2) & 0x10) == 0x10) {
+      delta = 1;                                             /* positive sign */
     }
-
     else {
-
-      sVar8 = -1;
-
+      delta = -1;                                            /* negative sign */
     }
-
-    *(unsigned short *)(iVar10 + 4) = (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)*puVar4 * 3) * sVar8;
-
-    iVar10 = *(int *)puVar2 * 0x12 + *(int *)puVar3;
-
-    if ((*(unsigned short *)(iVar10 + 2) & 0x20) == 0x20) {
-
-      sVar8 = 1;
-
+    *(unsigned short *)(out_offset + 4) = (unsigned short)*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)*stride * 3) * delta;
+    out_offset = *(int *)entry_index * 0x12 + *(int *)output_table;
+    if ((*(unsigned short *)(out_offset + 2) & 0x20) == 0x20) {
+      delta = 1;
     }
-
     else {
-
-      sVar8 = -1;
-
+      delta = -1;
     }
-
-    *(unsigned short *)(iVar10 + 6) = (unsigned short)*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 2)) * sVar8;
-
-    puVar9 = (unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar3);
-
-    puVar7 = (char *)
-
-             (~(unsigned int)*(unsigned short *)(*(int *)puVar2 * 0x12 + *(int *)puVar6) & 0xffff | (unsigned int)*puVar9);
-
-    puVar9[4] = (unsigned short)puVar7;
-
+    *(unsigned short *)(out_offset + 6) = (unsigned short)*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 2)) * delta;
+    out_entry = (unsigned short *)(*(int *)entry_index * 0x12 + *(int *)output_table);
+    result = (char *)
+             (~(unsigned int)*(unsigned short *)(*(int *)entry_index * 0x12 + *(int *)mask_table) & 0xffff | (unsigned int)*out_entry);
+    out_entry[4] = (unsigned short)result;
   }
-
-  else if (puVar7 == (char *)0x00000030) {
-
-    *(unsigned short *)(*(int *)puVar2 * 10 + *(int *)puVar3) =
-
-         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
-
-    *(unsigned char *)(*(int *)puVar2 * 10 + *(int *)puVar3 + 2) =
-
-         ~*(unsigned char *)(*(int *)puVar5 + (unsigned int)(unsigned char)(*puVar4 << 1));
-
-    *(char *)(*(int *)puVar2 * 10 + *(int *)puVar3 + 3) =
-
-         *(char *)((unsigned int)(unsigned char)*puVar4 * 3 + *(int *)puVar5);
-
-    puVar9 = (unsigned short *)(*(int *)puVar2 * 10 + *(int *)puVar3);
-
-    puVar7 = (char *)
-
-             (~(unsigned int)*(unsigned short *)(*(int *)puVar2 * 10 + *(int *)puVar6) & 0xffff | (unsigned int)*puVar9);
-
-    puVar9[2] = (unsigned short)puVar7;
-
+  else if (result == (char *)0x00000030) {
+    /* format 0x30: compact entry (10 bytes) */
+    *(unsigned short *)(*(int *)entry_index * 10 + *(int *)output_table) =
+         ((**(char **)data_ptr) << 8 | ((unsigned char *)*(int *)data_ptr)[(unsigned char)*stride]);
+    *(unsigned char *)(*(int *)entry_index * 10 + *(int *)output_table + 2) =
+         ~*(unsigned char *)(*(int *)data_ptr + (unsigned int)(unsigned char)(*stride << 1));
+    *(char *)(*(int *)entry_index * 10 + *(int *)output_table + 3) =
+         *(char *)((unsigned int)(unsigned char)*stride * 3 + *(int *)data_ptr);
+    out_entry = (unsigned short *)(*(int *)entry_index * 10 + *(int *)output_table);
+    result = (char *)
+             (~(unsigned int)*(unsigned short *)(*(int *)entry_index * 10 + *(int *)mask_table) & 0xffff | (unsigned int)*out_entry);
+    out_entry[2] = (unsigned short)result;
   }
-
-  else if (puVar7 == (char *)0xe1) {
-
-    *(char *)(*(int *)puVar2 * 3 + *(int *)puVar3) = **(char **)puVar5;
-
-    pbVar11 = (unsigned char *)(*(int *)puVar2 * 3 + *(int *)puVar3);
-
-    puVar7 = (char *)
-
-             (~(unsigned int)*(unsigned char *)(*(int *)puVar2 * 3 + *(int *)puVar6) & 0xff | (unsigned int)*pbVar11);
-
-    pbVar11[1] = (unsigned char)puVar7;
-
+  else if (result == (char *)0xe1) {
+    /* format 0xE1: byte entry (3 bytes) */
+    *(char *)(*(int *)entry_index * 3 + *(int *)output_table) = **(char **)data_ptr;
+    byte_entry = (unsigned char *)(*(int *)entry_index * 3 + *(int *)output_table);
+    result = (char *)
+             (~(unsigned int)*(unsigned char *)(*(int *)entry_index * 3 + *(int *)mask_table) & 0xff | (unsigned int)*byte_entry);
+    byte_entry[1] = (unsigned char)result;
   }
-
-  else if (puVar7 == (char *)0xe2) {
-
-    *(unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3) =
-
-         ((**(char **)puVar5) << 8 | ((unsigned char *)*(int *)puVar5)[(unsigned char)*puVar4]);
-
-    puVar9 = (unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar3);
-
-    puVar7 = (char *)
-
-             (~(unsigned int)*(unsigned short *)(*(int *)puVar2 * 6 + *(int *)puVar6) & 0xffff | (unsigned int)*puVar9);
-
-    puVar9[1] = (unsigned short)puVar7;
-
+  else if (result == (char *)0xe2) {
+    /* format 0xE2: word entry (6 bytes) */
+    *(unsigned short *)(*(int *)entry_index * 6 + *(int *)output_table) =
+         ((**(char **)data_ptr) << 8 | ((unsigned char *)*(int *)data_ptr)[(unsigned char)*stride]);
+    out_entry = (unsigned short *)(*(int *)entry_index * 6 + *(int *)output_table);
+    result = (char *)
+             (~(unsigned int)*(unsigned short *)(*(int *)entry_index * 6 + *(int *)mask_table) & 0xffff | (unsigned int)*out_entry);
+    out_entry[1] = (unsigned short)result;
   }
-
-  else if (puVar7 == (char *)(int)DAT_0603a6fe) {
-
-    for (uVar12 = 0; uVar12 < (unsigned char)*puVar1; uVar12 = uVar12 + 1) {
-
-      puVar7 = (char *)((unsigned char)*puVar4 * uVar12 + *(int *)puVar5);
-
-      *(char *)(((unsigned char)*puVar1 + 1) * *(int *)puVar2 + *(int *)puVar3 + uVar12 + 1) = *puVar7;
-
+  else if (result == (char *)(int)DAT_0603a6fe) {
+    /* variable-length format: copy field_count bytes */
+    for (field_i = 0; field_i < (unsigned char)*field_count; field_i = field_i + 1) {
+      result = (char *)((unsigned char)*stride * field_i + *(int *)data_ptr);
+      *(char *)(((unsigned char)*field_count + 1) * *(int *)entry_index + *(int *)output_table + field_i + 1) = *result;
     }
-
   }
-
-  return puVar7;
-
+  return result;
 }
 
 /* cd_state_init -- Initialize CD subsystem state variables.

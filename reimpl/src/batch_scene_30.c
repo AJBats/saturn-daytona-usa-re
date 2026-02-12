@@ -109,313 +109,186 @@ extern int PTR_DAT_06031f30;
 extern int PTR_DAT_06031f74;
 extern int PTR_DAT_0603204c;
 
-void FUN_060302c6()
+/* replay_input_process -- Read/record input state for replay/ghost car mode.
+ * Replay buffer at 0x0607ED88 (read index), 0x0607ED90 (data array).
+ * When replay active (0x0607ED8C != 0): reads packed byte from buffer,
+ *   low 2 bits = steering direction → car+DAT_060304ac
+ *   bit 0x80 = accelerate (ramps car+DAT_060304ae speed, max PTR_DAT_060304b0)
+ *   bit 0x40 = brake (ramps car+0x90 brake, capped at 0xB8)
+ *   no bit = decelerate toward 0x38 minimum
+ * When recording: reads digital input (0x06063D9A for steering, 0x06063D98
+ *   for buttons), maps D-pad to steering 0-3 via masks at 0x06081890-96,
+ *   shoulder buttons for increment/decrement via 0x06081888/8A,
+ *   button masks at 0x0608188C (accel) and 0x0608188E (brake).
+ *   Packs state byte and writes to replay buffer, wraps at DAT_0603045e. */
+void replay_input_process()
 {
-
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  unsigned int uVar4;
-
-  short sVar6;
-
-  int iVar5;
-
-  int uVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  unsigned char bVar10;
-
-  puVar2 = (char *)0x0607ED88;
-
-  iVar3 = CAR_PTR_TARGET;
-
+  unsigned short button_state;
+  char *replay_buf_ptr;
+  int car_ptr;
+  unsigned int input_raw;
+  short steer_val;
+  int speed;
+  int accel_flag;
+  int offset;
+  int max_speed;
+  unsigned char packed_state;
+  replay_buf_ptr = (char *)0x0607ED88;                      /* replay buffer read index */
+  car_ptr = CAR_PTR_TARGET;
   if (*(short *)0x0607ED8C != 0) {
-
-    iVar8 = *(int *)0x0607ED88;
-
-    bVar10 = ((int *)0x0607ED90)[iVar8];
-
-    *(unsigned short *)(DAT_060304ac + iVar3) = bVar10 & 3;
-
-    *(int *)puVar2 = iVar8 + 2;
-
-    uVar7 = 1;
-
-    if ((bVar10 & 0x80) == 0) {
-
-      uVar7 = 0x38;
-
-      iVar8 = *(int *)(DAT_060304f0 + iVar3) + -2;
-
-      if (iVar8 < 0x38) {
-
-        iVar8 = 0x38;
-
+    /* replay playback: read packed input byte from buffer */
+    offset = *(int *)0x0607ED88;
+    packed_state = ((int *)0x0607ED90)[offset];              /* replay data array */
+    *(unsigned short *)(DAT_060304ac + car_ptr) = packed_state & 3;  /* steering direction (0-3) */
+    *(int *)replay_buf_ptr = offset + 2;                     /* advance read index */
+    accel_flag = 1;
+    if ((packed_state & 0x80) == 0) {
+      /* no accelerate: decelerate toward 0x38 */
+      accel_flag = 0x38;
+      offset = *(int *)(DAT_060304f0 + car_ptr) + -2;
+      if (offset < 0x38) {
+        offset = 0x38;                                       /* clamp minimum speed */
       }
-
-      *(int *)(DAT_060304f0 + iVar3) = iVar8;
-
-      *(int *)(0x0000006C + iVar3) = 0;
-
+      *(int *)(DAT_060304f0 + car_ptr) = offset;
+      *(int *)(0x0000006C + car_ptr) = 0;                   /* clear acceleration flag */
     }
-
     else {
-
-      iVar8 = (int)DAT_060304ae;
-
-      *(int *)(iVar8 + iVar3) = 1;
-
-      iVar8 = iVar8 + 8;
-
-      iVar5 = *(int *)(iVar8 + iVar3);
-
-      if (iVar5 <= PTR_DAT_060304b0) {
-
-        iVar5 = iVar5 + 4;
-
+      /* accelerate: ramp up speed */
+      offset = (int)DAT_060304ae;
+      *(int *)(offset + car_ptr) = 1;                        /* set accel active */
+      offset = offset + 8;
+      speed = *(int *)(offset + car_ptr);
+      if (speed <= PTR_DAT_060304b0) {
+        speed = speed + 4;                                   /* ramp up by 4 */
       }
-
-      *(int *)(iVar8 + iVar3) = iVar5;
-
+      *(int *)(offset + car_ptr) = speed;
     }
-
-    if ((bVar10 & 0x40) == 0) {
-
-      iVar8 = *(int *)(0x00000090 + iVar3);
-
-      *(int *)(0x0000008C + iVar3) = iVar8;
-
-      iVar8 = iVar8 + -5;
-
-      if (iVar8 < 0x38) {
-
-        iVar8 = 0x38;
-
+    if ((packed_state & 0x40) == 0) {
+      /* no brake: reduce brake pressure */
+      offset = *(int *)(0x00000090 + car_ptr);
+      *(int *)(0x0000008C + car_ptr) = offset;              /* save previous brake */
+      offset = offset + -5;
+      if (offset < 0x38) {
+        offset = 0x38;                                       /* clamp minimum */
       }
-
-      *(int *)(0x00000090 + iVar3) = iVar8;
-
-      *(int *)(0x00000088 + iVar3) = 0;
-
+      *(int *)(0x00000090 + car_ptr) = offset;
+      *(int *)(0x00000088 + car_ptr) = 0;                   /* clear brake flag */
     }
-
     else {
-
-      *(int *)(0x00000088 + iVar3) = uVar7;
-
-      iVar8 = 0x00000090;
-
-      iVar5 = *(int *)(0x00000090 + iVar3);
-
-      iVar9 = 0xb8;
-
-      *(int *)(0x0000008C + iVar3) = iVar5;
-
-      if (iVar5 <= iVar9) {
-
-        iVar5 = iVar5 + 5;
-
+      /* brake active: ramp up brake pressure */
+      *(int *)(0x00000088 + car_ptr) = accel_flag;
+      offset = 0x00000090;
+      speed = *(int *)(0x00000090 + car_ptr);
+      max_speed = 0xb8;
+      *(int *)(0x0000008C + car_ptr) = speed;
+      if (speed <= max_speed) {
+        speed = speed + 5;                                   /* ramp up by 5 */
       }
-
-      *(int *)(iVar8 + iVar3) = iVar5;
-
+      *(int *)(offset + car_ptr) = speed;
     }
-
     return;
-
   }
-
-  uVar4 = (unsigned int)*(unsigned short *)0x06063D9A;
-
-  iVar8 = (int)PTR_DAT_06030318;
-
+  /* recording mode: read live input and pack into replay buffer */
+  input_raw = (unsigned int)*(unsigned short *)0x06063D9A;   /* digital input state */
+  offset = (int)PTR_DAT_06030318;
+  /* map D-pad to steering direction (0-3) */
   if (*(short *)0x0608188A < 1) {
-
-    if ((uVar4 & (int)*(short *)0x06081896) == 0) {
-
-      if ((uVar4 & (int)*(short *)0x06081894) == 0) {
-
-        if ((uVar4 & (int)*(short *)0x06081892) == 0) {
-
-          if ((uVar4 & (int)*(short *)0x06081890) != 0) {
-
-            *(short *)(iVar8 + iVar3) = 0;
-
+    if ((input_raw & (int)*(short *)0x06081896) == 0) {
+      if ((input_raw & (int)*(short *)0x06081894) == 0) {
+        if ((input_raw & (int)*(short *)0x06081892) == 0) {
+          if ((input_raw & (int)*(short *)0x06081890) != 0) {
+            *(short *)(offset + car_ptr) = 0;                /* steer direction 0 */
           }
-
         }
-
         else {
-
-          *(short *)(iVar8 + iVar3) = 1;
-
+          *(short *)(offset + car_ptr) = 1;                  /* steer direction 1 */
         }
-
       }
-
       else {
-
-        *(short *)(iVar8 + iVar3) = 2;
-
+        *(short *)(offset + car_ptr) = 2;                    /* steer direction 2 */
       }
-
     }
-
     else {
-
-      *(short *)(iVar8 + iVar3) = 3;
-
+      *(short *)(offset + car_ptr) = 3;                      /* steer direction 3 */
     }
-
   }
-
-  else if ((uVar4 & (int)*(short *)0x0608188A) == 0) {
-
-    if ((uVar4 & (int)*(short *)0x06081888) != 0) {
-
-      sVar6 = *(short *)(iVar8 + iVar3);
-
-      if (sVar6 != 3) {
-
-        sVar6 = sVar6 + 1;
-
+  else if ((input_raw & (int)*(short *)0x0608188A) == 0) {
+    /* shoulder down: increment steering (max 3) */
+    if ((input_raw & (int)*(short *)0x06081888) != 0) {
+      steer_val = *(short *)(offset + car_ptr);
+      if (steer_val != 3) {
+        steer_val = steer_val + 1;
       }
-
-      *(short *)(iVar8 + iVar3) = sVar6;
-
+      *(short *)(offset + car_ptr) = steer_val;
     }
-
   }
-
   else {
-
-    sVar6 = *(short *)(iVar8 + iVar3);
-
-    if (sVar6 != 0) {
-
-      sVar6 = sVar6 + -1;
-
+    /* shoulder up: decrement steering (min 0) */
+    steer_val = *(short *)(offset + car_ptr);
+    if (steer_val != 0) {
+      steer_val = steer_val + -1;
     }
-
-    *(short *)(iVar8 + iVar3) = sVar6;
-
+    *(short *)(offset + car_ptr) = steer_val;
   }
-
-  bVar10 = (unsigned char)*(short *)(iVar8 + iVar3);
-
-  uVar1 = *(unsigned short *)0x06063D98;
-
-  uVar7 = 1;
-
-  if ((uVar1 & *(unsigned short *)0x0608188C) == 0) {
-
-    uVar7 = 0x38;
-
-    iVar8 = *(int *)(DAT_06030402 + iVar3) + -2;
-
-    if (iVar8 < 0x39) {
-
-      iVar8 = 0x38;
-
+  packed_state = (unsigned char)*(short *)(offset + car_ptr);
+  button_state = *(unsigned short *)0x06063D98;              /* button input */
+  accel_flag = 1;
+  if ((button_state & *(unsigned short *)0x0608188C) == 0) {
+    /* no accel button: decelerate */
+    accel_flag = 0x38;
+    offset = *(int *)(DAT_06030402 + car_ptr) + -2;
+    if (offset < 0x39) {
+      offset = 0x38;
     }
-
-    *(int *)(DAT_06030402 + iVar3) = iVar8;
-
-    *(int *)(0x0000006C + iVar3) = 0;
-
+    *(int *)(DAT_06030402 + car_ptr) = offset;
+    *(int *)(0x0000006C + car_ptr) = 0;
   }
-
   else {
-
-    bVar10 = bVar10 | 0x80;
-
-    iVar8 = (int)DAT_060303b6;
-
-    *(int *)(iVar8 + iVar3) = 1;
-
-    iVar8 = iVar8 + 8;
-
-    iVar5 = *(int *)(iVar8 + iVar3);
-
-    if (iVar5 <= PTR_DAT_060303b8) {
-
-      iVar5 = iVar5 + 4;
-
+    /* accel button pressed: set bit 0x80, ramp speed */
+    packed_state = packed_state | 0x80;
+    offset = (int)DAT_060303b6;
+    *(int *)(offset + car_ptr) = 1;
+    offset = offset + 8;
+    speed = *(int *)(offset + car_ptr);
+    if (speed <= PTR_DAT_060303b8) {
+      speed = speed + 4;
     }
-
-    *(int *)(iVar8 + iVar3) = iVar5;
-
+    *(int *)(offset + car_ptr) = speed;
   }
-
-  if ((uVar1 & *(unsigned short *)0x0608188E) == 0) {
-
-    iVar8 = *(int *)(0x00000090 + iVar3);
-
-    *(int *)(0x0000008C + iVar3) = iVar8;
-
-    iVar8 = iVar8 + -5;
-
-    if (iVar8 < 0x38) {
-
-      iVar8 = 0x38;
-
+  if ((button_state & *(unsigned short *)0x0608188E) == 0) {
+    /* no brake button: reduce brake */
+    offset = *(int *)(0x00000090 + car_ptr);
+    *(int *)(0x0000008C + car_ptr) = offset;
+    offset = offset + -5;
+    if (offset < 0x38) {
+      offset = 0x38;
     }
-
-    *(int *)(0x00000090 + iVar3) = iVar8;
-
-    *(int *)(0x00000088 + iVar3) = 0;
-
+    *(int *)(0x00000090 + car_ptr) = offset;
+    *(int *)(0x00000088 + car_ptr) = 0;
   }
-
   else {
-
-    bVar10 = bVar10 | 0x40;
-
-    *(int *)(0x00000088 + iVar3) = uVar7;
-
-    iVar8 = 0x00000090;
-
-    iVar5 = *(int *)(0x00000090 + iVar3);
-
-    iVar9 = 0xb8;
-
-    *(int *)(0x0000008C + iVar3) = iVar5;
-
-    if (iVar5 <= iVar9) {
-
-      iVar5 = iVar5 + 5;
-
+    /* brake button pressed: set bit 0x40, ramp brake */
+    packed_state = packed_state | 0x40;
+    *(int *)(0x00000088 + car_ptr) = accel_flag;
+    offset = 0x00000090;
+    speed = *(int *)(0x00000090 + car_ptr);
+    max_speed = 0xb8;
+    *(int *)(0x0000008C + car_ptr) = speed;
+    if (speed <= max_speed) {
+      speed = speed + 5;
     }
-
-    *(int *)(iVar8 + iVar3) = iVar5;
-
+    *(int *)(offset + car_ptr) = speed;
   }
-
-  puVar2 = (char *)0x0607ED88;
-
-  iVar8 = *(int *)0x0607ED88;
-
-  ((int *)0x0607ED90)[iVar8] = bVar10;
-
-  iVar3 = iVar8 + 2;
-
-  if ((int)DAT_0603045e <= iVar8 + 2) {
-
-    iVar3 = iVar8;
-
+  /* write packed state to replay buffer */
+  replay_buf_ptr = (char *)0x0607ED88;
+  offset = *(int *)0x0607ED88;
+  ((int *)0x0607ED90)[offset] = packed_state;
+  car_ptr = offset + 2;
+  if ((int)DAT_0603045e <= offset + 2) {
+    car_ptr = offset;                                        /* wrap buffer index */
   }
-
-  *(int *)puVar2 = iVar3;
-
+  *(int *)replay_buf_ptr = car_ptr;
   return;
-
 }
 
 /* wheel_surface_contact_dispatch -- detect which wheels contact surface and apply heading correction */
