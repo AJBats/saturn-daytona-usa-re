@@ -1413,175 +1413,95 @@ L:
     else if (*src != 0) goto L;
 }
 
-int FUN_0601dbb8()
+/* lap_time_record_display -- shows lap completion time and checks for new record.
+ *   Triggers on race completion flags (0x0607EBF4, 0x0607EABC).
+ *   Stores current lap time from 0x060786A0 into record buffer at 0x06087070.
+ *   Compares with best time from record table (0x0605DDB4 or 0x0605DDD4 for 2P).
+ *   Renders time display sprites via VDP1 draw (0x06028400) with animation.
+ *   Timer at 0x0608706A counts down display duration; 0x0605DFED controls animation phase.
+ *   Falls through to hud_sprite_setup (FUN_0601ddf6) on completion or race end. */
+int lap_time_record_display()
 {
-
-  char cVar1;
-
-  short sVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  char *puVar8;
-
-  char *puVar9;
-
-  int uVar10;
-
-  int iVar11;
-
-  char *puVar12;
-
-  puVar8 = (char *)0x06087070;
-
-  puVar7 = (char *)0x06087068;
-
-  puVar6 = (char *)0x06087074;
-
-  puVar5 = (char *)0x06028400;
-
-  puVar4 = (char *)0x0608706C;
-
-  puVar3 = (char *)0x00009000;
-
+  char anim_phase;
+  short display_timer;
+  char *sprite_priority = (char *)0x00009000;
+  char *record_time = (char *)0x06087070;      /* stored lap time for comparison */
+  char *display_active = (char *)0x06087068;   /* display active flag */
+  char *record_source = (char *)0x06087074;    /* record table index (3 or 6) */
+  char *vdp1_draw = (char *)0x06028400;        /* VDP1 sprite draw */
+  char *best_time = (char *)0x0608706C;        /* best time from record table */
+  int result;
+  int idx;
+  char *record_table;
   if (*(int *)0x060786AC != 0) {
-
-    uVar10 = FUN_0601ddf6();
-
-    return uVar10;
-
+    /* Race already ended — just show HUD */
+    result = FUN_0601ddf6();
+    return result;
   }
-
   if ((((unsigned int)(*(int *)0x06087068 == '\0') & *(unsigned int *)0x0607EBF4) != 0) ||
-
      (((unsigned int)((((int *)0x06078900)[3] & 8) == 0) &
-
       (unsigned int)(*(int *)0x06087068 == '\0') & *(unsigned int *)0x0607EABC) != 0)) {
-
+    /* Lap just completed — initialize record display */
     *(int *)0x06087068 = 1;
-
-    *(short *)0x0608706A = DAT_0601dd30;
-
-    *(int *)0x0605DFED = 0;
-
-    *(int *)puVar8 = *(int *)0x060786A0;
-
-    puVar12 = (char *)0x0605DDB4;
-
-    *(int *)puVar6 = 3;
-
-    puVar9 = (char *)0x0605DDD4;
-
+    *(short *)0x0608706A = DAT_0601dd30;       /* display duration timer */
+    *(int *)0x0605DFED = 0;                    /* reset animation phase */
+    *(int *)record_time = *(int *)0x060786A0;  /* store current lap time */
+    record_table = (char *)0x0605DDB4;         /* 1P record table */
+    *(int *)record_source = 3;
+    char *record_table_2p = (char *)0x0605DDD4;
     if (CAR_COUNT == 2) {
-
-      *(int *)puVar6 = 6;
-
-      puVar12 = puVar9;
-
+      *(int *)record_source = 6;               /* 2P record table offset */
+      record_table = record_table_2p;
     }
-
-    iVar11 = (*(int(*)())0x060350B0)();
-
-    *(int *)puVar4 = *(int *)(puVar12 + (iVar11 << 2));
-
-    *(int *)0x0608707C = 9;
-
-    if (*(unsigned int *)puVar8 < *(unsigned int *)puVar4) {
-
-      *(int *)0x0608707C = 10;
-
-      *(int *)puVar4 = *(int *)puVar8;
-
-      iVar11 = (*(int(*)())0x060350B0)();
-
-      *(int *)(puVar12 + (iVar11 << 2)) = *(int *)puVar8;
-
+    idx = (*(int(*)())0x060350B0)();            /* get course index */
+    *(int *)best_time = *(int *)(record_table + (idx << 2));
+    *(int *)0x0608707C = 9;                    /* sprite tile base */
+    if (*(unsigned int *)record_time < *(unsigned int *)best_time) {
+      /* New record! */
+      *(int *)0x0608707C = 10;                 /* alternate tile for record */
+      *(int *)best_time = *(int *)record_time;
+      idx = (*(int(*)())0x060350B0)();
+      *(int *)(record_table + (idx << 2)) = *(int *)record_time;
     }
-
   }
-
-  if (*puVar7 == '\0') {
-
-    uVar10 = 0;
-
-  }
-
-  else {
-
-    cVar1 = *(int *)0x0605DFED;
-
-    *(int *)0x0605DFED = cVar1 + 0x30U;
-
-    puVar6 = (char *)0x060639F8;
-
-    if ((short)(unsigned short)(unsigned char)(cVar1 + 0x30U) < DAT_0601dd34) {
-
-      iVar11 = (*(int(*)())0x060350B0)();
-
-      (*(int(*)())puVar5)(8,0x0605E008 + iVar11 * 0xe);
-
-      puVar12 = (char *)0x060639E0;
-
-      (*(int(*)())puVar5)(8,*(int *)0x060639D8,0x842,
-
+  if (*display_active == '\0') {
+    result = 0;
+  } else {
+    /* Animate time display */
+    anim_phase = *(int *)0x0605DFED;
+    *(int *)0x0605DFED = anim_phase + 0x30U;
+    record_source = (char *)0x060639F8;        /* sprite data table */
+    if ((short)(unsigned short)(unsigned char)(anim_phase + 0x30U) < DAT_0601dd34) {
+      /* Normal display — render time sprites */
+      idx = (*(int(*)())0x060350B0)();
+      (*(int(*)())vdp1_draw)(8, 0x0605E008 + idx * 0xe);
+      record_table = (char *)0x060639E0;       /* sprite position table */
+      (*(int(*)())vdp1_draw)(8, *(int *)0x060639D8, 0x842,
                         *(int *)(0x060639E0 + 4) + (unsigned int)(unsigned char)*(int *)(0x0608707C << 12));
-
-      (*(int(*)())puVar5)(8,*(int *)puVar12,0x942,puVar3 + *(int *)(puVar12 + 4));
-
-      FUN_0601e26c(*(int *)puVar4);
-
-      (*(int(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601de24,puVar3 + *(int *)(puVar6 + 4));
-
-      if (*(char **)puVar8 < 0x000927BF) {
-
-        FUN_0601e26c(*(int *)puVar8);
-
+      (*(int(*)())vdp1_draw)(8, *(int *)record_table, 0x942, sprite_priority + *(int *)(record_table + 4));
+      FUN_0601e26c(*(int *)best_time);         /* format best time */
+      (*(int(*)())vdp1_draw)(8, 0x0605DFF4, (int)DAT_0601de24, sprite_priority + *(int *)(record_source + 4));
+      if (*(char **)record_time < 0x000927BF) {
+        FUN_0601e26c(*(int *)record_time);     /* format current time */
+      } else {
+        FUN_0601e26c(0x000927BF);              /* clamp to 9:59.99 */
       }
-
-      else {
-
-        FUN_0601e26c(0x000927BF);
-
-      }
-
-      uVar10 = (*(int(*)())puVar5)(8,0x0605DFF4,(int)DAT_0601de26,
-
-                                 puVar3 + *(int *)(0x060639F8 + 4));
-
+      result = (*(int(*)())vdp1_draw)(8, 0x0605DFF4, (int)DAT_0601de26,
+                                 sprite_priority + *(int *)(0x060639F8 + 4));
+    } else {
+      /* Animation overflow — show HUD sprites */
+      result = FUN_0601ddf6();
     }
-
-    else {
-
-      uVar10 = FUN_0601ddf6();
-
+    display_timer = *(short *)0x0608706A;
+    *(short *)0x0608706A = display_timer + -1;
+    if ((short)(display_timer + -1) == 0) {
+      /* Display timer expired — hide */
+      *display_active = 0;
+      result = FUN_0601ddf6();
+      return result;
     }
-
-    sVar2 = *(short *)0x0608706A;
-
-    *(short *)0x0608706A = sVar2 + -1;
-
-    if ((short)(sVar2 + -1) == 0) {
-
-      *puVar7 = 0;
-
-      uVar10 = FUN_0601ddf6();
-
-      return uVar10;
-
-    }
-
   }
-
-  return uVar10;
-
+  return result;
 }
 
 /* hud_sprite_setup -- Configure 3 HUD sprite entries for lap/timer display.

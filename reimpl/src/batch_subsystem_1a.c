@@ -739,91 +739,53 @@ int FUN_0601b418(void)
     return (int)(char)*(int *)0x0608600C;
 }
 
-void FUN_0601b6dc()
+/* menu_item_highlight -- cycles through 3 menu items with input and renders highlight.
+ *   Reads joypad input (0x06063D98+2) for up/down navigation.
+ *   Cycles selection index at 0x0608600E through 0-2 range.
+ *   Renders 3 sprites via VDP1 draw (0x06028400) with blink effect
+ *   on selected item (priority 1 vs 2 based on frame counter bit 2). */
+void menu_item_highlight()
 {
-
-  char cVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  unsigned char bVar4;
-
-  unsigned char local_28 [4];
-
-  unsigned char local_24 [8];
-
-  puVar2 = (char *)0x0608600E;
-
-  (*(int(*)())0x06035228)();
-
-  (*(int(*)())0x06035228)();
-
+  char prev_sel;
+  char *sel_index = (char *)0x0608600E;    /* current selection (0-2) */
+  int priority;
+  unsigned char idx;
+  unsigned char local_28[4];
+  unsigned char local_24[8];
+  (*(int(*)())0x06035228)();               /* read joypad state */
+  (*(int(*)())0x06035228)();               /* read joypad state (2nd port) */
   if ((*(unsigned short *)(0x06063D98 + 2) & DAT_0601b76c) == 0) {
-
+    /* No up press — check down */
     if (((*(unsigned short *)(0x06063D98 + 2) & DAT_0601b76e) != 0) &&
-
-       (cVar1 = *puVar2, *puVar2 = cVar1 + '\x01', '\x02' < (char)(cVar1 + '\x01'))) {
-
-      *puVar2 = 0;
-
+       (prev_sel = *sel_index, *sel_index = prev_sel + '\x01', '\x02' < (char)(prev_sel + '\x01'))) {
+      *sel_index = 0;                      /* wrap to first item */
     }
-
-  }
-
-  else {
-
-    cVar1 = *puVar2;
-
-    *puVar2 = cVar1 + -1;
-
-    if ((char)(cVar1 + -1) < '\0') {
-
-      *puVar2 = 2;
-
+  } else {
+    /* Up pressed — decrement selection */
+    prev_sel = *sel_index;
+    *sel_index = prev_sel + -1;
+    if ((char)(prev_sel + -1) < '\0') {
+      *sel_index = 2;                      /* wrap to last item */
     }
-
   }
-
-  bVar4 = 0;
-
+  idx = 0;
   do {
-
-    if ((int)(char)*puVar2 == (unsigned int)bVar4) {
-
+    if ((int)(char)*sel_index == (unsigned int)idx) {
+      /* Selected item: blink priority based on frame counter */
       if ((*(unsigned short *)0x0605D4F8 & 4) == 0) {
-
-        iVar3 = 2;
-
+        priority = 2;
+      } else {
+        priority = 1;                      /* bright frame */
       }
-
-      else {
-
-        iVar3 = 1;
-
-      }
-
+    } else {
+      priority = 2;                        /* unselected items: normal */
     }
-
-    else {
-
-      iVar3 = 2;
-
-    }
-
-    (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + (bVar4 + 0x36) << 3),
-
-               ((unsigned int)local_28[bVar4] * 0x40 + (unsigned int)local_24[bVar4]) << 1,
-
-               (iVar3 << 12) + *(int *)((int)(0x06063750 + (bVar4 + 0x36) << 3) + 4));
-
-    bVar4 = bVar4 + 1;
-
-  } while (bVar4 < 3);
-
+    (*(int(*)())0x06028400)(8, *(int *)(0x06063750 + (idx + 0x36) << 3),
+               ((unsigned int)local_28[idx] * 0x40 + (unsigned int)local_24[idx]) << 1,
+               (priority << 12) + *(int *)((int)(0x06063750 + (idx + 0x36) << 3) + 4));
+    idx = idx + 1;
+  } while (idx < 3);
   return;
-
 }
 
 void FUN_0601b7f4()
