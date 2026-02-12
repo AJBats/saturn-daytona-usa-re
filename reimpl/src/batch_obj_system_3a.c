@@ -1038,130 +1038,77 @@ void FUN_0603b3fa(int param_1, unsigned int *param_2)
     FUN_0603b93c(0);
 }
 
+/* cd_read_poll_status -- Poll CD read operation and handle status/errors.
+ * Checks command status (0=complete, 1=retry, 2=seek correction, 3-6=errors).
+ * Error codes map to negative return values via FUN_0603b93c.
+ * On seek error (status 2, sub-status 5): re-seeks and re-initializes read. */
 unsigned int FUN_0603b424(param_1)
     int param_1;
 {
-
-  int iVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  unsigned char bVar4;
-
+  int cmd_status;
+  unsigned int result;
+  int sub_status;
+  unsigned char state_byte;
   if (*(char *)(param_1 + 0x12) != '\0') {
-
-    iVar1 = FUN_0603bd1c(param_1);
-
-    if (iVar1 == 0) {
-
+    cmd_status = FUN_0603bd1c(param_1);
+    if (cmd_status == 0) {
+      /* Read complete */
       if (*(char *)(param_1 + 0x11) == '\x02') {
-
         *(char *)(param_1 + 0x12) = 0;
-
-        FUN_0603b9d6(param_1);
-
+        FUN_0603b9d6(param_1);         /* cleanup */
         FUN_0603b93c(0);
-
-        bVar4 = *(unsigned char *)(param_1 + 0x12);
-
+        state_byte = *(unsigned char *)(param_1 + 0x12);
         goto LAB_0603b530;
-
       }
-
     }
-
-    else if (iVar1 == 1) {
-
-      iVar3 = FUN_0603bf5a(param_1);
-
-      if (iVar3 == 1) {
-
+    else if (cmd_status == 1) {
+      /* Retry check */
+      sub_status = FUN_0603bf5a(param_1);
+      if (sub_status == 1) {
         *(char *)(param_1 + 0x12) = (char)DAT_0603b4ce;
-
-        uVar2 = FUN_0603b93c(0xffffffe8);
-
-        return uVar2;
-
+        result = FUN_0603b93c(0xffffffe8);  /* error: -24 */
+        return result;
       }
-
     }
-
     else {
-
-      if (iVar1 == 3) {
-
+      /* Error codes 3-6 */
+      if (cmd_status == 3) {
         *(char *)(param_1 + 0x12) = (char)DAT_0603b4c8;
-
-        uVar2 = FUN_0603b93c(0xffffffe9);
-
-        return uVar2;
-
+        result = FUN_0603b93c(0xffffffe9);  /* error: -23 */
+        return result;
       }
-
-      if (iVar1 == 4) {
-
+      if (cmd_status == 4) {
         *(char *)(param_1 + 0x12) = (char)DAT_0603b4ca;
-
-        uVar2 = FUN_0603b93c(0xfffffffe);
-
-        return uVar2;
-
+        result = FUN_0603b93c(0xfffffffe);  /* error: -2 */
+        return result;
       }
-
-      if (iVar1 == 5) {
-
+      if (cmd_status == 5) {
         *(char *)(param_1 + 0x12) = (char)DAT_0603b4cc;
-
-        uVar2 = FUN_0603b93c(0xffffffec);
-
-        return uVar2;
-
+        result = FUN_0603b93c(0xffffffec);  /* error: -20 */
+        return result;
       }
-
-      if (iVar1 == 6) {
-
+      if (cmd_status == 6) {
         *(char *)(param_1 + 0x12) = (char)DAT_0603b4c6;
-
-        uVar2 = FUN_0603b93c(0xffffffff);
-
-        return uVar2;
-
+        result = FUN_0603b93c(0xffffffff);  /* error: -1 */
+        return result;
       }
-
     }
-
-    iVar3 = FUN_0603bdac(param_1);
-
-    if ((iVar1 == 2) && (iVar3 == 5)) {
-
-      iVar1 = (*(int(*)())0x0603F9F2)(*(int *)(param_1 + 8));
-
-      iVar3 = (*(int(*)())0x0603F9F6)(*(int *)(param_1 + 8));
-
-      cd_seek_to_offset(param_1,iVar1 - iVar3,1);
-
+    /* Seek correction path */
+    sub_status = FUN_0603bdac(param_1);
+    if ((cmd_status == 2) && (sub_status == 5)) {
+      cmd_status = (*(int(*)())0x0603F9F2)(*(int *)(param_1 + 8));
+      sub_status = (*(int(*)())0x0603F9F6)(*(int *)(param_1 + 8));
+      cd_seek_to_offset(param_1,cmd_status - sub_status,1);
       *(char *)(param_1 + 0x12) = 0;
-
-      FUN_0603b8b4(param_1);
-
+      FUN_0603b8b4(param_1);            /* re-init read */
       FUN_0603b8f4(param_1);
-
       FUN_0603b9d6(param_1);
-
     }
-
   }
-
   FUN_0603b93c(0);
-
-  bVar4 = *(unsigned char *)(param_1 + 0x12);
-
+  state_byte = *(unsigned char *)(param_1 + 0x12);
 LAB_0603b530:
-
-  return (unsigned int)bVar4;
-
+  return (unsigned int)state_byte;
 }
 
 /* cd_vtable_init -- Initialize CD subsystem function pointer table.

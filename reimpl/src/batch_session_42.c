@@ -294,87 +294,57 @@ void FUN_06042a8c(param_1)
   }
 }
 
+/* timer_channel_config -- Configure SH-2 on-chip timer channel from 10-element config struct.
+ * param_1[0..8] = register values, param_1[9] = bitmask of which fields to write.
+ * Writes to on-chip registers at (param_2 << 4) - 0x80 address range.
+ * Fields: base addr, compare A, compare B, then bit-field updates for control register. */
 unsigned int FUN_06042aca(param_1, param_2)
     int *param_1;
     int param_2;
 {
-
-  unsigned int uVar1;
-
-  unsigned int uVar2;
-
-  unsigned int uVar3;
-
-  unsigned int *puVar4;
-
+  unsigned int flags;
+  unsigned int reg_val;
+  unsigned int updated;
+  unsigned int *ctrl_reg;
+  /* Write base timer value */
   *(int *)((param_2 << 4) + -0x80) = *param_1;
-
+  /* Compare register A */
   if ((param_1[9] & 1) == 1) {
-
     *(int *)((param_2 << 4) + -0x7c) = param_1[1];
-
   }
-
+  /* Compare register B */
   if ((param_1[9] & 2) == 2) {
-
     *(int *)((param_2 << 4) + -0x78) = param_1[2];
-
   }
-
-  puVar4 = (unsigned int *)((param_2 << 4) + -0x74);
-
-  uVar2 = *puVar4;
-
-  if ((param_1[9] & 4) == 4) {
-
-    uVar2 = uVar2 & 0xFFFF3FFF | param_1[3] << 0xe;
-
+  /* Control register — selective bit-field updates */
+  ctrl_reg = (unsigned int *)((param_2 << 4) + -0x74);
+  reg_val = *ctrl_reg;
+  if ((param_1[9] & 4) == 4) {         /* bits 14-15 */
+    reg_val = reg_val & 0xFFFF3FFF | param_1[3] << 0xe;
   }
-
-  if ((param_1[9] & 8) == 8) {
-
-    uVar2 = uVar2 & -12289 | param_1[4] << 0xc;
-
+  if ((param_1[9] & 8) == 8) {         /* bits 12-13 */
+    reg_val = reg_val & -12289 | param_1[4] << 0xc;
   }
-
-  if ((param_1[9] & 0x10) == 0x10) {
-
-    uVar2 = uVar2 & -3073 | param_1[5];
-
+  if ((param_1[9] & 0x10) == 0x10) {   /* bits 10-11 */
+    reg_val = reg_val & -3073 | param_1[5];
   }
-
-  if ((param_1[9] & 0x20) == 0x20) {
-
-    uVar2 = uVar2 & -513 | param_1[6];
-
+  if ((param_1[9] & 0x20) == 0x20) {   /* bit 9 */
+    reg_val = reg_val & -513 | param_1[6];
   }
-
-  uVar1 = param_1[9];
-
-  uVar3 = uVar2 & 0xffffffe7;
-
-  if ((uVar1 & 0x40) == 0x40) {
-
-    uVar3 = uVar2 & 0xffffffe3 | param_1[7];
-
+  flags = param_1[9];
+  updated = reg_val & 0xffffffe7;
+  if ((flags & 0x40) == 0x40) {         /* bits 3-4 */
+    updated = reg_val & 0xffffffe3 | param_1[7];
   }
-
-  if ((param_1[9] & 0x100) == 0x100) {
-
-    uVar3 = uVar3 & 0xfffffffd;
-
+  if ((param_1[9] & 0x100) == 0x100) { /* bit 1: clear enable */
+    updated = updated & 0xfffffffd;
   }
-
-  *puVar4 = uVar3;
-
+  *ctrl_reg = updated;
+  /* Optional byte write */
   if ((param_1[9] & 0x80) == 0x80) {
-
     *(char *)(param_2 + DAT_06042ba6) = (char)param_1[8];
-
   }
-
-  return uVar1 & 0x40;
-
+  return flags & 0x40;
 }
 
 /* vdp2_get_vram_bank -- Return VDP2 VRAM bank number for a given layer.

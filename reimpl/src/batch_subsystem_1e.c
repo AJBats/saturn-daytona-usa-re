@@ -1525,131 +1525,80 @@ void FUN_0601f4b4(char *param_1)
   param_1[4] = (sec & 0xf) + (char)((int)(unsigned int)sec >> 4) * '\n';
 }
 
+/* save_score_check_update -- Check and update high score in save data.
+ * Copies current score from save buffer, compares against best score at 0x060786A4.
+ * On new high score: writes score, fills table with 0x40/0x80 pairs, writes player initials
+ * (defaults to "DAY" if no name entry), reformats and validates save data. */
 int FUN_0601f5e0()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  unsigned int uVar6;
-
-  puVar1 = (char *)0x0607ED90;
-
-  uVar6 = (unsigned int)DAT_0601f6ba;
-
+  char *save_data;
+  char *temp_score;
+  int result;
+  char *name_ptr;
+  unsigned int slot;
+  unsigned int table_end;
+  save_data = (char *)0x0607ED90;
+  table_end = (unsigned int)DAT_0601f6ba;
   FUN_0601f87a(0);
-
-  (*(int(*)())0x0601E2B4)();
-
-  (*(int(*)())0x0601EB70)();
-
-  (*(int(*)())0x0601F40C)();
-
-  puVar2 = (char *)0x060877F0;
-
+  (*(int(*)())0x0601E2B4)();            /* format save buffer */
+  (*(int(*)())0x0601EB70)();            /* validate track data */
+  (*(int(*)())0x0601F40C)();            /* checksum update */
+  temp_score = (char *)0x060877F0;
   if (*(int *)0x06078635 == '\0') {
-
-    iVar3 = 0;
-
+    result = 0;
   }
-
   else {
-
-    *(int *)0x060877F0 = puVar1[4];
-
-    puVar2[1] = puVar1[5];
-
-    puVar2[2] = puVar1[6];
-
-    puVar2[3] = puVar1[7];
-
+    /* Copy saved score to temp buffer */
+    *(int *)0x060877F0 = save_data[4];
+    temp_score[1] = save_data[5];
+    temp_score[2] = save_data[6];
+    temp_score[3] = save_data[7];
+    /* Check if current score beats saved best */
     if ((*(unsigned int *)0x060786A4 < *(unsigned int *)0x060877F0) ||
-
-       (iVar3 = *(int *)0x060877F0, iVar3 == 0)) {
-
+       (result = *(int *)0x060877F0, result == 0)) {
+      /* New high score — update save data */
       *(int *)0x0605E0A1 = 1;
-
       *(int *)0x0605E0A0 = (char)CAR_COUNT;
-
-      puVar2 = (char *)0x060786A4;
-
-      puVar4 = 0x060786A4 + 1;
-
-      puVar1[4] = *(int *)0x060786A4;
-
-      puVar1[5] = *puVar4;
-
-      puVar1[6] = puVar2[2];
-
-      puVar1[7] = puVar2[3];
-
-      for (uVar5 = *(unsigned int *)0x0607ED88; uVar5 < uVar6; uVar5 = uVar5 + 2) {
-
-        puVar1[uVar5] = 0x40;
-
-        puVar1[uVar5 + 1] = 0x80;
-
+      temp_score = (char *)0x060786A4;
+      name_ptr = 0x060786A4 + 1;
+      save_data[4] = *(int *)0x060786A4;
+      save_data[5] = *name_ptr;
+      save_data[6] = temp_score[2];
+      save_data[7] = temp_score[3];
+      /* Fill score table entries */
+      for (slot = *(unsigned int *)0x0607ED88; slot < table_end; slot = slot + 2) {
+        save_data[slot] = 0x40;
+        save_data[slot + 1] = 0x80;
       }
-
       FUN_0601f87a(CAR_COUNT + 1U & 0xff);
-
-      puVar2 = (char *)0x060877D8;
-
-      puVar1 = (char *)0x0605E06C;
-
-      puVar4 = (char *)0x0;
-
+      /* Write player initials (3 chars at 11-byte entry stride) */
+      temp_score = (char *)0x060877D8;
+      save_data = (char *)0x0605E06C;
+      name_ptr = (char *)0x0;
       if (*(int *)0x06085FFC != 0) {
-
-        puVar4 = *(char **)0x06085FFC;
-
+        name_ptr = *(char **)0x06085FFC;
       }
-
       if (*(int *)0x06086000 != 0) {
-
-        puVar4 = *(char **)0x06086000;
-
+        name_ptr = *(char **)0x06086000;
       }
-
-      if (puVar4 == (char *)0x0) {
-
+      if (name_ptr == (char *)0x0) {
+        /* Default initials "DAY" */
         ((int *)0x0605E06C)[(char)(*(int *)0x060877D8 * '\v') + 7] = 0x44;
-
-        puVar1[(char)(*puVar2 * '\v') + 8] = 0x41;
-
-        puVar1[(char)(*puVar2 * '\v') + 9] = 0x59;
-
+        save_data[(char)(*temp_score * '\v') + 8] = 0x41;
+        save_data[(char)(*temp_score * '\v') + 9] = 0x59;
       }
-
       else {
-
-        ((int *)0x0605E06C)[(char)(*(int *)0x060877D8 * '\v') + 7] = *puVar4;
-
-        puVar1[(char)(*puVar2 * '\v') + 8] = puVar4[1];
-
-        puVar1[(char)(*puVar2 * '\v') + 9] = puVar4[2];
-
+        /* Copy initials from name entry */
+        ((int *)0x0605E06C)[(char)(*(int *)0x060877D8 * '\v') + 7] = *name_ptr;
+        save_data[(char)(*temp_score * '\v') + 8] = name_ptr[1];
+        save_data[(char)(*temp_score * '\v') + 9] = name_ptr[2];
       }
-
-      (*(int(*)())0x0601E2B4)();
-
-      iVar3 = (*(int(*)())0x0601EB1C)();
-
-      return iVar3;
-
+      (*(int(*)())0x0601E2B4)();        /* reformat buffer */
+      result = (*(int(*)())0x0601EB1C)();  /* validate and commit */
+      return result;
     }
-
   }
-
-  return iVar3;
-
+  return result;
 }
 
 /* save_data_write_validate -- Write and validate save data to backup device.
