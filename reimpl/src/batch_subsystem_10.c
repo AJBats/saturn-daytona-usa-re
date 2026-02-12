@@ -1608,171 +1608,89 @@ void FUN_06011eb4(void)
   }
 }
 
+/* palette_darken -- Attenuate 16 RGB555 palette entries toward black.
+ * For each entry: decomposes into R (bits 0-4), G (masked by DAT_06011fd4),
+ * B (masked by DAT_06011fd6). Subtracts 2 from R, 0x40 from G, 0x800 from B
+ * (clamping each to 0). Recomposes into RGB555 and writes back.
+ * Used for fade-to-black transitions. */
 void FUN_06011f1c(param_1)
     unsigned short *param_1;
 {
+  unsigned short rgb;
+  unsigned short green_mask, blue_mask;
+  short i;
+  int red, green, blue;
 
-  unsigned short uVar1;
-
-  unsigned short uVar2;
-
-  unsigned short uVar3;
-
-  short sVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  uVar3 = DAT_06011fd6;
-
-  uVar2 = DAT_06011fd4;
-
-  iVar7 = -2048;
-
-  sVar4 = 0;
-
+  blue_mask = DAT_06011fd6;
+  green_mask = DAT_06011fd4;
+  i = 0;
   do {
-
-    uVar1 = *param_1;
-
+    rgb = *param_1;
     *param_1 = 0;
-
-    iVar5 = ((int)(short)uVar1 & 0x1fU) - 2;
-
-    if (iVar5 < 1) {
-
-      iVar5 = 0;
-
-    }
-
-    iVar6 = (short)(uVar1 & uVar2) + -0x40;
-
-    *param_1 = *param_1 | (unsigned short)iVar5;
-
-    if (iVar6 < 1) {
-
-      iVar6 = 0;
-
-    }
-
-    *param_1 = *param_1 | (unsigned short)iVar6;
-
-    iVar5 = (short)(uVar1 & uVar3) + iVar7;
-
-    if (iVar5 < 1) {
-
-      iVar5 = 0;
-
-    }
-
-    sVar4 = sVar4 + 1;
-
-    *param_1 = *param_1 | (unsigned short)iVar5;
-
+    red = ((int)(short)rgb & 0x1fU) - 2;                /* attenuate R by 2 */
+    if (red < 1) red = 0;
+    green = (short)(rgb & green_mask) + -0x40;           /* attenuate G by 0x40 */
+    *param_1 = *param_1 | (unsigned short)red;
+    if (green < 1) green = 0;
+    *param_1 = *param_1 | (unsigned short)green;
+    blue = (short)(rgb & blue_mask) + -2048;             /* attenuate B by 0x800 */
+    if (blue < 1) blue = 0;
+    i = i + 1;
+    *param_1 = *param_1 | (unsigned short)blue;
     param_1 = param_1 + 1;
-
-  } while (sVar4 < 0x10);
-
-  return;
-
+  } while (i < 0x10);
 }
 
+/* palette_blend_toward -- Blend 16 RGB555 entries toward target palette.
+ * For each entry: increments R by 1 (capped at target R), increments
+ * G by 0x20 (capped at target G), increments B by 0x400 (capped at
+ * target B). param_1 = current palette, param_2 = target palette.
+ * Used for fade-in or palette transition effects. */
 void FUN_06011f92(param_1, param_2)
     unsigned short *param_1;
     unsigned short *param_2;
 {
+  unsigned short cur_rgb;
+  unsigned short tgt_rgb;
+  int channel;
+  unsigned short result;
+  unsigned short blue_mask;
+  unsigned int green_mask;
+  short i;
 
-  unsigned short uVar1;
-
-  unsigned short uVar2;
-
-  int iVar3;
-
-  unsigned short uVar4;
-
-  unsigned short uVar5;
-
-  unsigned int uVar6;
-
-  int iVar7;
-
-  short sVar8;
-
-  uVar2 = DAT_06011fd6;
-
-  iVar7 = 0x400;
-
-  uVar6 = iVar7 - 0x20;
-
-  sVar8 = 0;
-
+  blue_mask = DAT_06011fd6;
+  green_mask = 0x400 - 0x20;                             /* green channel mask (0x3E0) */
+  i = 0;
   do {
-
-    uVar1 = *param_1;
-
-    uVar5 = *param_2;
-
+    cur_rgb = *param_1;
+    tgt_rgb = *param_2;
     *param_1 = 0;
-
-    iVar3 = ((int)(short)uVar1 & 0x1fU) + 1;
-
-    if (iVar3 < (short)uVar5) {
-
-      uVar4 = (unsigned short)iVar3;
-
+    /* red channel: increment by 1, cap at target */
+    channel = ((int)(short)cur_rgb & 0x1fU) + 1;
+    if (channel < (short)tgt_rgb) {
+      result = (unsigned short)channel;
+    } else {
+      result = tgt_rgb & 0x1f;                           /* cap at target R */
     }
-
-    else {
-
-      uVar4 = uVar5 & 0x1f;
-
+    *param_1 = *param_1 | result;
+    /* green channel: increment by 0x20, cap at target */
+    channel = ((int)(short)cur_rgb & green_mask) + 0x20;
+    if ((((short)tgt_rgb <= channel ^ 1) & green_mask) == 0) {
+      result = tgt_rgb & (unsigned short)green_mask;     /* cap at target G */
+    } else {
+      result = (unsigned short)channel;
     }
-
-    *param_1 = *param_1 | uVar4;
-
-    iVar3 = ((int)(short)uVar1 & uVar6) + 0x20;
-
-    if ((((short)uVar5 <= iVar3 ^ 1) & uVar6) == 0) {
-
-      uVar4 = uVar5 & (unsigned short)uVar6;
-
+    channel = (short)(cur_rgb & blue_mask) + 0x400;
+    *param_1 = *param_1 | result;
+    /* blue channel: increment by 0x400, cap at target */
+    if ((((short)tgt_rgb <= channel ^ 1) & blue_mask) == 0) {
+      tgt_rgb = tgt_rgb & blue_mask;                     /* cap at target B */
+    } else {
+      tgt_rgb = (unsigned short)channel;
     }
-
-    else {
-
-      uVar4 = (unsigned short)iVar3;
-
-    }
-
-    iVar3 = (short)(uVar1 & uVar2) + iVar7;
-
-    *param_1 = *param_1 | uVar4;
-
-    if ((((short)uVar5 <= iVar3 ^ 1) & uVar2) == 0) {
-
-      uVar5 = uVar5 & uVar2;
-
-    }
-
-    else {
-
-      uVar5 = (unsigned short)iVar3;
-
-    }
-
-    sVar8 = sVar8 + 1;
-
-    *param_1 = *param_1 | uVar5;
-
+    i = i + 1;
+    *param_1 = *param_1 | tgt_rgb;
     param_1 = param_1 + 1;
-
     param_2 = param_2 + 1;
-
-  } while (sVar8 < 0x10);
-
-  return;
-
+  } while (i < 0x10);
 }

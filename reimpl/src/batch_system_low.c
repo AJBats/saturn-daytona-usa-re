@@ -159,59 +159,39 @@ int FUN_0600245c(short *dst, int count, short value)
 
 }
 
+/* word_fill_sequential -- Fill a 2D grid of words with sequential values.
+ * Starting at param_1, writes incrementing values starting from param_2.
+ * Each row has param_3 columns (words). Row stride is DAT_060024d6 bytes.
+ * param_4 = number of rows. Returns next value after last written.
+ * Used for VDP2 map/pattern number table initialization. */
 int FUN_06002486(param_1, param_2, param_3, param_4)
     short *param_1;
     short param_2;
     int param_3;
     int param_4;
 {
+  int last_val;
+  short *row_ptr;
+  short *col_ptr;
+  int cols_left;
+  short fill_val;
 
-  int iVar1;
-
-  short *local_18;
-
-  int iStack_14;
-
-  int iStack_10;
-
-  short local_6;
-
-  short *psStack_4;
-
-  iStack_10 = param_4;
-
-  local_6 = param_2;
-
-  psStack_4 = param_1;
-
+  fill_val = param_2;
+  row_ptr = param_1;
   do {
-
-    local_18 = psStack_4;
-
-    iStack_14 = param_3;
-
+    col_ptr = row_ptr;
+    cols_left = param_3;
     do {
-
-      *local_18 = local_6;
-
-      iVar1 = (int)local_6;
-
-      local_6 = (short)(iVar1 + 1);
-
-      local_18 = local_18 + 1;
-
-      iStack_14 = iStack_14 + -1;
-
-    } while (iStack_14 != 0);
-
-    psStack_4 = (short *)((int)psStack_4 + (int)DAT_060024d6);
-
-    iStack_10 = iStack_10 + -1;
-
-  } while (iStack_10 != 0);
-
-  return iVar1 + 1;
-
+      *col_ptr = fill_val;
+      last_val = (int)fill_val;
+      fill_val = (short)(last_val + 1);                  /* sequential increment */
+      col_ptr = col_ptr + 1;
+      cols_left = cols_left + -1;
+    } while (cols_left != 0);
+    row_ptr = (short *)((int)row_ptr + (int)DAT_060024d6); /* advance to next row */
+    param_4 = param_4 + -1;
+  } while (param_4 != 0);
+  return last_val + 1;
 }
 
 /* smpc_reg_write -- Write value to 3 consecutive SMPC registers.
@@ -259,79 +239,51 @@ void FUN_0600255c(void)
     *(short *)PTR_DAT_060025cc = (short)PTR_DAT_060025d0;
 }
 
+/* vdp1_cmd_table_init -- Initialize VDP1 command table and sprite defaults.
+ * Clears command buffer (PTR_DAT_060025d4) with word_fill, sets END cmd flag.
+ * Copies 8 default vertex coords from PTR_DAT_060025d8 into first command.
+ * Configures VDP2 shadow register base (PTR_DAT_060026b4): scroll offsets,
+ * coefficient pointers (PTR_DAT_060026bc), line color mode, priority bits.
+ * Returns 1 on success. */
 int FUN_06002594()
 {
+  int cmd_base;
+  short *dst;
+  short *src;
+  unsigned int i;
 
-  short sVar1;
-
-  int iVar2;
-
-  short *local_30;
-
-  short *puStack_2c;
-
-  unsigned int uStack_8;
-
-  FUN_0600245c(*(int *)PTR_DAT_060025d4,(int)DAT_060025c6,0);
-
-  iVar2 = *(int *)PTR_DAT_060025d4;
-
-  *(short *)(iVar2 + 0x20) = 1;
-
-  puStack_2c = (short *)PTR_DAT_060025d8;
-
-  local_30 = (short *)(iVar2 + 0x10);
-
-  for (uStack_8 = 0; uStack_8 < 8; uStack_8 = uStack_8 + 1) {
-
-    *local_30 = *puStack_2c;
-
-    local_30 = local_30 + 1;
-
-    puStack_2c = puStack_2c + 1;
-
+  FUN_0600245c(*(int *)PTR_DAT_060025d4, (int)DAT_060025c6, 0);  /* clear command buffer */
+  cmd_base = *(int *)PTR_DAT_060025d4;
+  *(short *)(cmd_base + 0x20) = 1;                       /* END command flag */
+  /* copy 8 default vertex coordinates */
+  src = (short *)PTR_DAT_060025d8;
+  dst = (short *)(cmd_base + 0x10);
+  for (i = 0; i < 8; i = i + 1) {
+    *dst = *src;
+    dst = dst + 1;
+    src = src + 1;
   }
-
-  iVar2 = *(int *)PTR_DAT_060026b4;
-
-  *(short *)(iVar2 + 0x30) = (short)PTR_DAT_060026b8;
-
-  *(short *)(iVar2 + 0x40) = DAT_060026aa;
-
-  *(short *)(iVar2 + 0x42) = DAT_060026aa;
-
-  iVar2 = *(int *)PTR_DAT_060026b4;
-
-  *(char **)(iVar2 + 0x78) = PTR_DAT_060026bc;
-
-  *(char **)(iVar2 + 0x7c) = PTR_DAT_060026bc;
-
-  *(char **)(iVar2 + 0x88) = PTR_DAT_060026bc;
-
-  *(char **)(iVar2 + 0x8c) = PTR_DAT_060026bc;
-
-  *(int *)(iVar2 + 0xac) = (int)DAT_060026ac;
-
-  *(short *)PTR_DAT_060026c0 = 0;
-
-  *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026ae) = 0x20;
-
-  *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026b0 + 8) = 7;
-
-  iVar2 = *(int *)PTR_DAT_060026b4 + (int)DAT_060026b2;
-
-  *(short *)(iVar2 + 0x10) = 1;
-
-  sVar1 = DAT_060026b2;
-
-  *(short *)(iVar2 + 0x18) = DAT_060026b2;
-
-  *(short *)(iVar2 + 0x16) = sVar1;
-
-  *(short *)(iVar2 + 0x14) = sVar1;
-
+  /* configure VDP2 shadow registers */
+  cmd_base = *(int *)PTR_DAT_060026b4;
+  *(short *)(cmd_base + 0x30) = (short)PTR_DAT_060026b8;  /* scroll offset */
+  *(short *)(cmd_base + 0x40) = DAT_060026aa;             /* color calc ratio A */
+  *(short *)(cmd_base + 0x42) = DAT_060026aa;             /* color calc ratio B */
+  /* coefficient table pointers (4 planes) */
+  *(char **)(cmd_base + 0x78) = PTR_DAT_060026bc;
+  *(char **)(cmd_base + 0x7c) = PTR_DAT_060026bc;
+  *(char **)(cmd_base + 0x88) = PTR_DAT_060026bc;
+  *(char **)(cmd_base + 0x8c) = PTR_DAT_060026bc;
+  *(int *)(cmd_base + 0xac) = (int)DAT_060026ac;          /* line color screen mode */
+  *(short *)PTR_DAT_060026c0 = 0;                         /* display enable */
+  *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026ae) = 0x20;  /* priority */
+  *(short *)(*(int *)PTR_DAT_060026b4 + (int)DAT_060026b0 + 8) = 7; /* special priority */
+  /* final register block */
+  cmd_base = *(int *)PTR_DAT_060026b4 + (int)DAT_060026b2;
+  *(short *)(cmd_base + 0x10) = 1;                        /* enable flag */
+  *(short *)(cmd_base + 0x18) = DAT_060026b2;
+  *(short *)(cmd_base + 0x16) = DAT_060026b2;
+  *(short *)(cmd_base + 0x14) = DAT_060026b2;
   return 1;
-
 }
 
 /* smpc_double_step -- Call FUN_0600270a twice per iteration for param_3 steps.
