@@ -83,6 +83,7 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 #define CAR_GEAR_ROTATION   0x0D8   /* int:  gear shift rotation (asymmetric decay toward 0) */
 #define CAR_ZONE_TIMER      0x0DC   /* short: zone timer (FUN_0600C302) */
 #define CAR_DRIVE_SPEED     0x0E0   /* int:  drive wheel speed (engine output, clamped) */
+#define CAR_PROJECTED_A     0x0E0   /* int:  camera projected value A (alias of DRIVE_SPEED) */
 #define CAR_PROJECTED_B     0x0E4   /* int:  camera projected value B */
 #define CAR_SPEED_EXCESS    0x0E8   /* int:  excess speed above drive cap (positive or 0) */
 #define CAR_FORCE_AUX       0x0F4   /* int:  auxiliary force component */

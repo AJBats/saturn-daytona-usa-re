@@ -9,8 +9,11 @@ ENTRY(_start)
 
 MEMORY
 {
-    /* High Work RAM: APROG.BIN lives here */
-    HWRAM (rwx) : ORIGIN = 0x06003000, LENGTH = 0x7D000
+    /* High Work RAM: APROG.BIN lives here
+     * Full range is 0x06000000-0x060FFFFF (1MB)
+     * We start at 0x06003000 (matching original load address)
+     * Allow up to ~900KB for code+data (leaving room for stack/heap) */
+    HWRAM (rwx) : ORIGIN = 0x06003000, LENGTH = 0xE0000
 
     /* Low Work RAM: game data, stacks, etc */
     LWRAM (rw)  : ORIGIN = 0x00200000, LENGTH = 0x100000

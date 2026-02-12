@@ -108,9 +108,20 @@ Not every function needs to reach L4 — the target level depends on the end goa
 
 ### Current Strategy: Iterative Passes
 
-**Pass 1 (current)**: L1 decomp lift of all ~1200 functions. Get everything compiling
-and linked. This is the "rough cut" — quantity over quality. The goal is complete
-coverage so we can boot and test.
+**Pass 1 (COMPLETE)**: L1 decomp lift of all ~1200 functions. Everything compiles
+and links. 842 Ghidra decomp lifts + 729 ASM-only no-op stubs. Binary boots
+(black screen — expected because ASM stubs are no-ops).
+
+**Pass 1.5 (ACTIVE — ASM import)**: Replace 729 ASM-only no-op stubs with real
+original binary bytes. Uses file-scope `__asm__()` blocks in C files with `.word`
+directives + disassembly annotation comments. This is NOT decompilation — it's
+verbatim binary import, keeping constant pools intact. Approach:
+- Extract raw instruction bytes from `build/aprog.bin`
+- Extract disassembly annotations from `build/aprog.s`
+- Emit as `__asm__(".global FUN_xxx\nFUN_xxx:\n.word 0xNNNN /* disasm */\n")`
+- File-scope asm avoids GCC prologue/epilogue (naked not supported on SH)
+- Raw `.word` bytes are bit-perfect — no reassembly, no constant pool issues
+- ~472 of these are rendering functions — critical path to getting past black screen
 
 **Pass 2 (next)**: Promote critical-path functions to L2. Priority order:
 1. Hardware init (system_init, VDP, sound) — needed to understand boot
