@@ -1130,127 +1130,83 @@ void FUN_0601389e(void)
     (*(int(*)())0x060078DC)();  /* frame_end_display_commit */
 }
 
-int FUN_06013c58()
+/* race_results_hud_display -- Render the race results screen HUD.
+ * Draws background sprites, formats race/lap times, shows finishing
+ * position with rank number and trophy sprite. Handles both single
+ * and multiplayer result layouts via mode flags at 0x06085FF4/FF8. */
+int race_results_hud_display()
 {
+    short sprite_sel;
+    int time_str;
+    unsigned int rank;
+    unsigned int rank_clamped;
+    int y_offset = (int)DAT_06013ccc;
+    char *sprite_table = (char *)0x06063750;   /* sprite data table */
+    char *car_base = (char *)0x06078900;       /* car struct base */
 
-  short sVar1;
+    (*(int(*)())0x0602853E)(4);                /* set_draw_priority(4) */
+    (*(int(*)())0x0602853E)(0xc);              /* set_draw_priority(12) */
+    (*(int(*)())0x06028560)();                 /* draw_flush */
 
-  char *puVar2;
+    /* Background panel sprite */
+    (*(int(*)())0x06028400)(8, *(int *)(sprite_table + DAT_06013cca), 0,
+                          *(int *)((int)(sprite_table + DAT_06013cca) + 4));
 
-  char *puVar3;
+    (*(int(*)())0x0602853E)(4);                /* set_draw_priority(4) */
 
-  char *puVar4;
+    /* Race time label sprite */
+    (*(int(*)())0x06028400)(4, *(int *)(sprite_table + DAT_06013cce), 0x18,
+                          *(int *)((int)(sprite_table + DAT_06013cce) + 4) + y_offset);
+    /* Lap time label sprite */
+    (*(int(*)())0x06028400)(4, *(int *)(sprite_table + DAT_06013cd0), 0xcb0,
+                          *(int *)((int)(sprite_table + DAT_06013cd0) + 4) + y_offset);
 
-  int uVar5;
+    /* Select best lap or default sprite based on VS mode flag */
+    sprite_sel = DAT_06013dc6;
+    if (*(int *)0x06085FF4 == '\0') {          /* not VS mode */
+        sprite_sel = PTR_DAT_06013cd4;
+    }
+    (*(int(*)())0x06028400)(4, *(int *)(sprite_table + sprite_sel), (int)DAT_06013dc8,
+                          *(int *)((int)(sprite_table + sprite_sel) + 4) + y_offset);
 
-  char *puVar6;
+    /* Clear race/lap/best time digit displays */
+    (*(int(*)())0x06014884)(8, 0);             /* format_time_display(RACE, 0) */
+    (*(int(*)())0x06014884)(0x10, 0);          /* format_time_display(LAP, 0) */
+    (*(int(*)())0x06014884)(0x20, 0);          /* format_time_display(BEST, 0) */
 
-  unsigned int uVar7;
+    /* Format and draw total race time */
+    time_str = (*(int(*)())0x06005DD4)(*(int *)(car_base + DAT_06013dca));
+    (*(int(*)())0x060284AE)(0xc, (int)DAT_06013dce, (int)DAT_06013dcc, time_str);
 
-  int iVar8;
+    /* Format and draw best lap time (capped at 9:59.99 = 0x927BF frames) */
+    car_base = (char *)0x000927BF;
+    if (*(char **)0x060786A4 <= (char *)0x000927BF) {
+        car_base = *(char **)0x060786A4;       /* use actual best if under cap */
+    }
+    time_str = (*(int(*)())0x06005DD4)(car_base);
+    (*(int(*)())0x060284AE)(0xc, 0xc98, (int)DAT_06013dcc, time_str);
 
-  unsigned int uVar9;
+    /* Single-player: draw "GOAL" banner */
+    if (*(int *)0x06085FF8 == '\0') {
+        time_str = (*(int(*)())0x060283E0)(0xc, (int)DAT_06013dd6, 0x0000F000, 0x06044A58);
+        return time_str;
+    }
 
-  puVar4 = (char *)0x0602853E;
+    /* Multiplayer: draw rank number (1st/2nd/3rd etc.) */
+    (*(int(*)())0x06028430)(0xc, (int)DAT_06013dd2, 0x30, (unsigned char)*(int *)0x06086012 + 1);
 
-  puVar6 = (char *)0x06078900;
-
-  puVar3 = (char *)0x06063750;
-
-  puVar2 = (char *)0x06028400;
-
-  (*(int(*)())0x0602853E)(4);
-
-  (*(int(*)())puVar4)(0xc);
-
-  (*(int(*)())0x06028560)();
-
-  (*(int(*)())puVar2)(8,*(int *)(puVar3 + DAT_06013cca),0,
-
-                    *(int *)((int)(puVar3 + DAT_06013cca) + 4));
-
-  (*(int(*)())puVar4)(4);
-
-  iVar8 = (int)DAT_06013ccc;
-
-  (*(int(*)())puVar2)(4,*(int *)(puVar3 + DAT_06013cce),0x18,
-
-                    *(int *)((int)(puVar3 + DAT_06013cce) + 4) + iVar8);
-
-  (*(int(*)())puVar2)(4,*(int *)(puVar3 + DAT_06013cd0),0xcb0,
-
-                    *(int *)((int)(puVar3 + DAT_06013cd0) + 4) + iVar8);
-
-  sVar1 = DAT_06013dc6;
-
-  if (*(int *)0x06085FF4 == '\0') {
-
-    sVar1 = PTR_DAT_06013cd4;
-
-  }
-
-  (*(int(*)())puVar2)(4,*(int *)(puVar3 + sVar1),(int)DAT_06013dc8,
-
-                    *(int *)((int)(puVar3 + sVar1) + 4) + iVar8);
-
-  puVar4 = (char *)0x06014884;
-
-  (*(int(*)())0x06014884)(8,0);
-
-  (*(int(*)())puVar4)(0x10,0);
-
-  (*(int(*)())puVar4)(0x20,0);
-
-  puVar4 = (char *)0x06005DD4;
-
-  uVar5 = (*(int(*)())0x06005DD4)(*(int *)(puVar6 + DAT_06013dca));
-
-  (*(int(*)())0x060284AE)(0xc,(int)DAT_06013dce,(int)DAT_06013dcc,uVar5);
-
-  puVar6 = (char *)0x000927BF;
-
-  if (*(char **)0x060786A4 <= 0x000927BF) {
-
-    puVar6 = *(char **)0x060786A4;
-
-  }
-
-  uVar5 = (*(int(*)())puVar4)(puVar6);
-
-  (*(int(*)())0x060284AE)(0xc,0xc98,(int)DAT_06013dcc,uVar5);
-
-  if (*(int *)0x06085FF8 == '\0') {
-
-    uVar5 = (*(int(*)())0x060283E0)(0xc,(int)DAT_06013dd6,0x0000F000,0x06044A58);
-
-    return uVar5;
-
-  }
-
-  (*(int(*)())0x06028430)(0xc,(int)DAT_06013dd2,0x30,(unsigned char)*(int *)0x06086012 + 1);
-
-  uVar9 = (unsigned int)(unsigned char)*(int *)0x06086012;
-
-  uVar7 = uVar9;
-
-  if (2 < uVar9) {
-
-    uVar7 = 3;
-
-  }
-
-  if (2 < uVar9) {
-
-    uVar9 = 3;
-
-  }
-
-  uVar5 = (*(int(*)())puVar2)(0xc,*(int *)(puVar3 + ((uVar9 + 0x48) << 3)),(int)DAT_06013dd4,
-
-                            *(int *)(puVar3 + ((uVar7 + 0x48) << 3) + 4));
-
-  return uVar5;
-
+    /* Draw trophy sprite for rank (clamp to 3 max) */
+    rank = (unsigned int)(unsigned char)*(int *)0x06086012;
+    rank_clamped = rank;
+    if (2 < rank) {
+        rank_clamped = 3;
+    }
+    if (2 < rank) {
+        rank = 3;
+    }
+    time_str = (*(int(*)())0x06028400)(0xc, *(int *)(sprite_table + ((rank + 0x48) << 3)), (int)DAT_06013dd4,
+                                     *(int *)(sprite_table + ((rank_clamped + 0x48) << 3) + 4));
+    return time_str;
 }
 
 /* background_rotation_wobble -- Apply periodic rotation to background.
@@ -1264,99 +1220,64 @@ void FUN_06013e12(void)
     }
 }
 
-int FUN_06013e3c()
+/* podium_object_animate -- Render animated 3D podium objects.
+ * Iterates through object transform table at 0x0605AD5C, applying
+ * animated position/rotation/scale from animation phase. Each entry
+ * is 32 bytes with position, rotation angles, and scale factor.
+ * Uses matrix stack for per-object local transforms. */
+int podium_object_animate()
 {
+    int temp;
+    int x_pos, z_pos;
+    int y_base;
+    int render_result;
+    int obj_index = 0;
+    int *table_end = (int *)(0x0605AD5C + DAT_06013f46);
+    int *obj = (int *)0x0605AD5C;              /* object transform table */
+    unsigned int anim_phase;                    /* animation interpolation */
 
-  char *puVar1;
+    (*(int(*)())0x06026E0C)();                 /* matrix_identity_load */
 
-  char *puVar2;
+    do {
+        anim_phase = (unsigned int)*(unsigned short *)0x06084AF6;
 
-  char *puVar3;
+        (*(int(*)())0x06026DBC)();             /* matrix_push */
 
-  char *puVar4;
+        /* Global Y translation (animated bounce) */
+        temp = (*(int(*)())0x06027552)(anim_phase * 0x00010000, (int)DAT_06013f48, 0x00010000);
+        (*(int(*)())0x06026E2E)(0, DAT_06013f4a + temp, 0x00010000);  /* translate(0, y, 1.0) */
 
-  char *puVar5;
+        /* Pre-tilt rotation */
+        (*(int(*)())0x06026F2A)((int)*(short *)(obj + 6));  /* rotate_z(tilt_angle) */
 
-  int iVar6;
+        /* Animated X/Y/Z position */
+        x_pos = (*(int(*)())0x06027552)(obj[1], anim_phase * 0x00010000);  /* fmul(x, phase) */
+        temp = (*(int(*)())0x06027552)(obj[2], anim_phase * 0x00010000);   /* fmul(elevation, phase) */
+        y_base = *obj;
+        z_pos = (*(int(*)())0x06027552)(obj[3], anim_phase * 0x00010000);  /* fmul(z, phase) */
+        (*(int(*)())0x06026E2E)(x_pos, y_base - temp, z_pos);             /* translate(x, y-elev, z) */
 
-  int uVar7;
+        /* Undo tilt, apply per-object rotations */
+        (*(int(*)())0x06026F2A)(-(int)*(short *)(obj + 6));                /* rotate_z(-tilt) */
+        (*(int(*)())0x06026E94)((int)*(short *)((int)obj + 0x1a) * anim_phase);  /* rotate_x(pitch) */
+        (*(int(*)())0x06026EDE)((int)*(short *)(obj + 7) * anim_phase);          /* rotate_y(heading) */
+        (*(int(*)())0x06026F2A)((int)*(short *)((int)obj + 0x1e) * anim_phase);  /* rotate_z(roll) */
 
-  int uVar8;
+        /* Animated uniform scale */
+        temp = (*(int(*)())0x06027552)(obj[4], anim_phase * 0x00010000);   /* fmul(scale, phase) */
+        temp = DAT_06013f4c + temp;
+        (*(int(*)())0x06026E60)(temp, temp, temp);  /* scale(s, s, s) */
 
-  int iVar9;
+        /* Set texture and render mesh */
+        (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + obj_index), 4);      /* obj_set_texture */
+        render_result = (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + obj_index), (int)*(short *)0x06089E4A, 1);
 
-  int *piVar10;
+        obj = obj + 8;                         /* next entry (32 bytes) */
+        OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;  /* decrement render slot */
+        obj_index = obj_index + 4;
+    } while (obj < table_end);
 
-  int iVar11;
-
-  int *piVar12;
-
-  puVar4 = (char *)0x00010000;
-
-  puVar3 = (char *)0x06084AF6;
-
-  puVar2 = (char *)0x06027552;
-
-  puVar1 = (char *)0x06026F2A;
-
-  (*(int(*)())0x06026E0C)();
-
-  puVar5 = (char *)0x06089E4A;
-
-  iVar11 = 0;
-
-  piVar10 = (int *)(0x0605AD5C + DAT_06013f46);
-
-  piVar12 = (int *)0x0605AD5C;
-
-  do {
-
-    (*(int(*)())0x06026DBC)();
-
-    iVar6 = (*(int(*)())puVar2)((unsigned int)*(unsigned short *)puVar3 * (int)puVar4,(int)DAT_06013f48,puVar4);
-
-    (*(int(*)())0x06026E2E)(0,DAT_06013f4a + iVar6,puVar4);
-
-    (*(int(*)())puVar1)((int)*(short *)(piVar12 + 6));
-
-    uVar7 = (*(int(*)())puVar2)(piVar12[1],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
-
-    iVar6 = (*(int(*)())puVar2)(piVar12[2],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
-
-    iVar9 = *piVar12;
-
-    uVar8 = (*(int(*)())puVar2)(piVar12[3],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
-
-    (*(int(*)())0x06026E2E)(uVar7,iVar9 - iVar6,uVar8);
-
-    (*(int(*)())puVar1)(-(int)*(short *)(piVar12 + 6));
-
-    (*(int(*)())0x06026E94)((int)*(short *)((int)piVar12 + 0x1a) * (unsigned int)*(unsigned short *)puVar3);
-
-    (*(int(*)())0x06026EDE)((int)*(short *)(piVar12 + 7) * (unsigned int)*(unsigned short *)puVar3);
-
-    (*(int(*)())puVar1)((int)*(short *)((int)piVar12 + 0x1e) * (unsigned int)*(unsigned short *)puVar3);
-
-    iVar6 = (*(int(*)())puVar2)(piVar12[4],(unsigned int)*(unsigned short *)puVar3 * (int)puVar4);
-
-    iVar6 = DAT_06013f4c + iVar6;
-
-    (*(int(*)())0x06026E60)(iVar6,iVar6,iVar6);
-
-    (*(int(*)())0x06031D8C)(*(int *)(0x06062338 + iVar11),4);
-
-    uVar7 = (*(int(*)())0x06031A28)(*(int *)(0x060622C0 + iVar11),(int)*(short *)puVar5,1);
-
-    piVar12 = piVar12 + 8;
-
-    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
-
-    iVar11 = iVar11 + 4;
-
-  } while (piVar12 < piVar10);
-
-  return uVar7;
-
+    return render_result;
 }
 
 void FUN_06013fc4()
