@@ -178,6 +178,46 @@ compatibility risks. Instead, growing the game from scratch means:
 Risk: we can't play the "full game" until late milestones. But each milestone
 produces a concrete, testable artifact (VBlank firing, sprite drawn, menu working).
 
+## CRITICAL: Binary Size Parity
+
+**Mandate**: The reimpl binary MUST be the same size or smaller than the original
+APROG.BIN (394,896 bytes). Every byte of Work RAM counts — the Saturn only has 1MB
+of low RAM and 1MB of high RAM, and the game likely uses every last inch.
+
+### Current Size Budget
+
+| Component | Bytes | % | Notes |
+|-----------|-------|---|-------|
+| ASM imports (675 funcs) | ~226KB | 40% | Bit-perfect — same as original |
+| L1 Ghidra lifts (842 funcs) | ~298KB | 52% | **BLOATED 2.3x** — the problem |
+| L2+ hand-written (140 funcs) | ~40KB | 7% | Reasonably sized |
+| **Total** | **530KB** | — | **135KB over budget** |
+| **Target** | **385KB** | — | Original APROG.BIN |
+
+### Why the Ghidra Code is Bloated
+
+GCC 13.3.0 is NOT the problem — it actually produces 12.5% smaller code than GCC 2.6.3
+on the same source. The bloat comes from Ghidra's decompilation:
+
+- Ghidra decompiles `if (a) { b; c; }` into separate nested ifs
+- Control flow is over-complicated (goto spaghetti, unnecessary flag variables)
+- Operations are broken into more temporaries than the original source used
+- Casts and type conversions add extra instructions
+- Result: Ghidra C compiles to ~2.3x the size of the (lost) original C
+
+### Path to Size Parity
+
+**L2 elevation is the fix.** When functions are rewritten with proper control flow,
+named structs, and clean logic, the code shrinks significantly. Each L2 pass batch
+reduces the binary size because human-written C is much more compact than Ghidra output.
+
+The -Os compiler flag saves ~35KB vs -O2, but the real savings come from code quality.
+
+### Tracking
+
+Every commit that elevates L1 → L2 should note the size delta in the commit message.
+Size regression must be flagged immediately.
+
 ## Open Questions
 
 ### Q1: Which modern toolchain?

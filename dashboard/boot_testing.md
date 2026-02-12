@@ -94,14 +94,23 @@
 |------|-------|------------|-------|
 | 2026-02-10 | L1 pass complete (no-op stubs) | Black screen | Expected: 729 ASM stubs are no-ops |
 | 2026-02-12 | ASM import (630/729 real bytes) | **SEGA logo** | Past black screen — but may be hung at SEGA logo |
-| 2026-02-12 | ASM import (675/729 real bytes) | Saturn BIOS menu | "Start Application" shown — disc recognized as game |
+| 2026-02-12 | ASM import (675/729 real bytes) | Saturn BIOS menu | Disc builder corrupt — overflowed into COURSE0 |
+| 2026-02-12 | -Os build + disc fix | Black screen (SEGA logo appears & disappears) | Disc builder fixed. SEGA logo boot normal. Game reaches init then hangs. |
+
+### 2026-02-12: Size Optimization & Disc Fix
+- Switched Makefile from -O2 → -Os (batch_cd_system_34.c uses -O2 fallback for ICE)
+- Binary: 564KB → 530KB (-35KB). Still 135KB over original (395KB).
+- GCC 13 is actually 12.5% MORE efficient than GCC 2.6.3 on same source
+- **Root cause of bloat**: Ghidra decompiled C is 2.3x more verbose than original source
+- **Fix**: L2 elevation of all batch_*.c files will shrink code toward original size
+- Disc builder (inject_binary.py) now shifts all files when APROG overflows,
+  patches ISO 9660 directory LBAs + PVD volume size + sector MSF headers
 
 ### 2026-02-12: ASM Import Progress
 - Imported 675 ASM-only functions as raw binary bytes via `__asm__()` blocks
 - Binary: 552KB (675 blocks) → now 564KB (675 blocks, named stubs resolved)
 - 3 stubs remain: FUN_060302C6 (no aprog.s entry), 2 already implemented elsewhere
 - HWRAM expanded from 512KB to 896KB to fit larger binary
-- **Concern**: Binary is 43% larger than original (565KB vs 385KB) — may overwrite disc data
 
 ---
 *Last updated: 2026-02-12*
