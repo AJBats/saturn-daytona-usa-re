@@ -99,101 +99,61 @@ void FUN_0601e0de(void)
     return;
 }
 
+/* menu_vdp_palette_setup -- Load VDP2 palettes for menu/save screen.
+ * Normal mode: loads single palette from 0x0604892C to VDP2 CRAM 0x25F00100,
+ *   then submits one VDP1 command from table at 0x06063750.
+ * Demo mode: loads palette from 0x0605DFCC, course-specific selection
+ *   (0x06078644==1 uses alt offset), submits 4 VDP1 commands for
+ *   multi-layer display, calls FUN_0601AB8C and FUN_0601e26c for
+ *   dynamic palette animation. Clears state at 0x06087068/0x0605DFF0. */
 void FUN_0601e100()
 {
+    short tile_off;
+    char *vdp_base = (char *)0x00008000;           /* VDP2 VRAM base */
+    char *vdp_submit = (char *)0x06028400;         /* VDP1 command submit */
+    char *gfx_table = (char *)0x06063750;
 
-  short sVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  puVar4 = (char *)0x00008000;
-
-  puVar2 = (char *)0x06028400;
-
-  puVar3 = (char *)0x06063750;
-
-  if (DEMO_MODE_FLAG == 0) {
-
-    (*(int(*)())0x0602761E)(0x25F00100,0x0604892C,0x20);
-
-    (*(int(*)())puVar2)(8,*(int *)(puVar3 + 0x10),(int)DAT_0601e162,
-
-                      puVar4 + *(int *)(puVar3 + 0x14));
-
-    puVar4 = puVar4 + *(int *)((int)(puVar3 + DAT_0601e164) + 4);
-
-    puVar3 = *(char **)(puVar3 + DAT_0601e164);
-
-    sVar1 = DAT_0601e166;
-
-  }
-
-  else {
-
-    (*(int(*)())0x0602761E)(0x25F00100,0x0605DFCC,0x20);
-
-    sVar1 = DAT_0601e238;
-
-    if (*(int *)0x06078644 == 1) {
-
-      sVar1 = PTR_DAT_0601e168;
-
+    if (DEMO_MODE_FLAG == 0) {
+        /* Normal mode: single palette + sprite */
+        (*(int(*)())0x0602761E)(0x25F00100, 0x0604892C, 0x20);
+        (*(int(*)())vdp_submit)(8, *(int *)(gfx_table + 0x10), (int)DAT_0601e162,
+                              vdp_base + *(int *)(gfx_table + 0x14));
+        vdp_base = vdp_base + *(int *)((int)(gfx_table + DAT_0601e164) + 4);
+        gfx_table = *(char **)(gfx_table + DAT_0601e164);
+        tile_off = DAT_0601e166;
+    } else {
+        /* Demo mode: multi-layer palette + sprites */
+        (*(int(*)())0x0602761E)(0x25F00100, 0x0605DFCC, 0x20);
+        tile_off = DAT_0601e238;
+        if (*(int *)0x06078644 == 1) {
+            tile_off = PTR_DAT_0601e168;           /* alternate course */
+        }
+        (*(int(*)())vdp_submit)(8, *(int *)(gfx_table + tile_off), (int)DAT_0601e23a,
+                              vdp_base + *(int *)((int)(gfx_table + tile_off) + 4));
+        vdp_base = (char *)0x00009000;
+        (*(int(*)())vdp_submit)(8, *(int *)(gfx_table + DAT_0601e23c), 0x3c2,
+                              0x00009000 + *(int *)((int)(gfx_table + DAT_0601e23c) + 4));
+        (*(int(*)())vdp_submit)(8, *(int *)(gfx_table + DAT_0601e240), 0x4c2,
+                              vdp_base + *(int *)((int)(gfx_table + DAT_0601e240) + 4));
+        (*(int(*)())vdp_submit)(8, *(int *)(gfx_table + DAT_0601e244), 0x5c2,
+                              vdp_base + *(int *)((int)(gfx_table + DAT_0601e244) + 4));
+        (*(int(*)())0x0601AB8C)();                 /* animation handler */
+        FUN_0601e26c(*(int *)0x06086008);
+        tile_off = DAT_0601e248;
+        (*(int(*)())vdp_submit)(8, 0x0605DFF4, (int)DAT_0601e24a,
+                              vdp_base + *(int *)(gfx_table + DAT_0601e248 + 4));
+        FUN_0601e26c(*(int *)0x06086004);
+        (*(int(*)())vdp_submit)(8, 0x0605DFF4, (int)DAT_0601e24c,
+                              vdp_base + *(int *)(gfx_table + tile_off + 4));
+        FUN_0601e26c(0);
+        vdp_base = vdp_base + *(int *)(gfx_table + tile_off + 4);
+        gfx_table = (char *)0x0605DFF4;
+        tile_off = DAT_0601e24e;
     }
 
-    (*(int(*)())puVar2)(8,*(int *)(puVar3 + sVar1),(int)DAT_0601e23a,
-
-                      puVar4 + *(int *)((int)(puVar3 + sVar1) + 4));
-
-    puVar4 = (char *)0x00009000;
-
-    (*(int(*)())puVar2)(8,*(int *)(puVar3 + DAT_0601e23c),0x3c2,
-
-                      0x00009000 + *(int *)((int)(puVar3 + DAT_0601e23c) + 4));
-
-    (*(int(*)())puVar2)(8,*(int *)(puVar3 + DAT_0601e240),0x4c2,
-
-                      puVar4 + *(int *)((int)(puVar3 + DAT_0601e240) + 4));
-
-    (*(int(*)())puVar2)(8,*(int *)(puVar3 + DAT_0601e244),0x5c2,
-
-                      puVar4 + *(int *)((int)(puVar3 + DAT_0601e244) + 4));
-
-    (*(int(*)())0x0601AB8C)();
-
-    FUN_0601e26c(*(int *)0x06086008);
-
-    sVar1 = DAT_0601e248;
-
-    (*(int(*)())puVar2)(8,0x0605DFF4,(int)DAT_0601e24a,
-
-                      puVar4 + *(int *)(puVar3 + DAT_0601e248 + 4));
-
-    FUN_0601e26c(*(int *)0x06086004);
-
-    (*(int(*)())puVar2)(8,0x0605DFF4,(int)DAT_0601e24c,puVar4 + *(int *)(puVar3 + sVar1 + 4));
-
-    FUN_0601e26c(0);
-
-    puVar4 = puVar4 + *(int *)(puVar3 + sVar1 + 4);
-
-    puVar3 = (char *)0x0605DFF4;
-
-    sVar1 = DAT_0601e24e;
-
-  }
-
-  (*(int(*)())puVar2)(8,puVar3,(int)sVar1,puVar4);
-
-  *(int *)0x06087068 = 0;
-
-  *(int *)0x0605DFF0 = 0;
-
-  return;
-
+    (*(int(*)())vdp_submit)(8, gfx_table, (int)tile_off, vdp_base);
+    *(int *)0x06087068 = 0;
+    *(int *)0x0605DFF0 = 0;
 }
 
 /* input_state_copy -- Read 8-byte input buffer from peripheral handler.
@@ -679,63 +639,40 @@ void FUN_0601eb1c(void)
     }
 }
 
+/* save_data_template_init -- Initialize save data buffer from template.
+ * When save state (0x06087080) is 0: clears the save buffer at
+ * 0x0605E098 (length from table at 0x0604A5C0 indexed by device ID
+ * at 0x060877D8), then copies 16-byte template from 0x0604A5AC to
+ * the output buffer at 0x0605E09C. Returns device index. */
 unsigned int FUN_0601eb70()
 {
+    char *out_buf = (char *)0x0605E09C;
+    char *template = (char *)0x0604A5AC;
+    char *save_buf = (char *)0x0605E098;
+    char *device_id = (char *)0x060877D8;
+    char *size_table = (char *)0x0604A5C0;
+    unsigned int dev_idx = (unsigned int)(unsigned char)*(int *)0x06087080;
 
-  char *puVar1;
+    if (dev_idx == 0) {
+        /* Clear save buffer */
+        unsigned int i;
+        for (i = 0;
+             dev_idx = (unsigned int)(unsigned char)(*device_id << 2),
+             i < *(unsigned int *)(size_table + dev_idx);
+             i = i + 1) {
+            *(char *)(*(int *)save_buf + i) = 0;
+        }
 
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  unsigned int uVar7;
-
-  int iVar8;
-
-  puVar5 = (char *)0x0605E09C;
-
-  puVar4 = (char *)0x0604A5AC;
-
-  puVar3 = (char *)0x0605E098;
-
-  puVar2 = (char *)0x060877D8;
-
-  puVar1 = (char *)0x0604A5C0;
-
-  uVar6 = (unsigned int)(unsigned char)*(int *)0x06087080;
-
-  if (uVar6 == 0) {
-
-    for (uVar7 = 0; uVar6 = (unsigned int)(unsigned char)(*puVar2 << 2), uVar7 < *(unsigned int *)(puVar1 + uVar6);
-
-        uVar7 = uVar7 + 1) {
-
-      *(char *)(*(int *)puVar3 + uVar7) = 0;
-
+        /* Copy 16-byte template */
+        int j = 0;
+        do {
+            *(char *)(*(int *)out_buf + j) = template[j];
+            *(char *)(*(int *)out_buf + j + 1) = template[j + 1];
+            j = j + 2;
+        } while (j < 0x10);
     }
 
-    iVar8 = 0;
-
-    do {
-
-      *(char *)(*(int *)puVar5 + iVar8) = puVar4[iVar8];
-
-      *(char *)(*(int *)puVar5 + iVar8 + 1) = puVar4[iVar8 + 1];
-
-      iVar8 = iVar8 + 2;
-
-    } while (iVar8 < 0x10);
-
-  }
-
-  return uVar6;
-
+    return dev_idx;
 }
 
 char * FUN_0601ebda()
@@ -1760,87 +1697,54 @@ int FUN_0601f5e0()
 
 }
 
+/* save_data_write_validate -- Write and validate save data to backup device.
+ * Only active when game mode byte (0x06078635) is set. Prepares car count
+ * via FUN_0601f87a, formats backup (0x0601E2B4), validates CD track
+ * (0x0601EAA0). If validation passes and save state allows, writes data
+ * via FUN_06027630 using course-specific size (0x0607EAD8 selects course).
+ * Fills unused buffer bytes with 0x40/0x80 pattern, clears dirty flag. */
 unsigned int FUN_0601f784()
 {
+    int *course_sel = (int *)0x0607EAD8;
+    char *save_buf = (char *)0x0607ED90;
+    unsigned int buf_size = (unsigned int)DAT_0601f804;
+    unsigned int result = 0;
 
-  char *puVar1;
+    if (*(int *)0x06078635 != '\0') {
+        FUN_0601f87a(CAR_COUNT + 1U & 0xff);
+        (*(int(*)())0x0601E2B4)();                 /* backup_mem_format */
+        result = (*(int(*)())0x0601EAA0)();        /* cd_track_validate */
+        result = result & 0xff;
 
-  char *puVar2;
-
-  unsigned int uVar3;
-
-  unsigned int uVar4;
-
-  unsigned int uVar5;
-
-  puVar2 = (char *)0x0607EAD8;
-
-  puVar1 = (char *)0x0607ED90;
-
-  uVar5 = (unsigned int)DAT_0601f804;
-
-  uVar3 = 0;
-
-  if (*(int *)0x06078635 != '\0') {
-
-    FUN_0601f87a(CAR_COUNT + 1U & 0xff);
-
-    (*(int(*)())0x0601E2B4)();
-
-    uVar3 = (*(int(*)())0x0601EAA0)();
-
-    uVar3 = uVar3 & 0xff;
-
-    if ((uVar3 == 0) &&
-
-       ((*(int *)0x0605E0A1 == '\0' || ((unsigned int)(unsigned char)*(int *)0x0605E0A0 != CAR_COUNT)))
-
-       ) {
-
-      if (*(int *)puVar2 == 0) {
-
-        uVar3 = (*(int(*)())0x06027630)(puVar1,0x002F8000,(int)DAT_0601f806);
-
-      }
-
-      else if (*(int *)puVar2 == 1) {
-
-        uVar3 = (*(int(*)())0x06027630)(puVar1,0x002F8000,(int)PTR_DAT_0601f808);
-
-      }
-
-      else {
-
-        uVar3 = *(unsigned int *)puVar2;
-
-        if (uVar3 == 2) {
-
-          uVar3 = (*(int(*)())0x06027630)(puVar1,0x002F8000,uVar5);
-
+        if ((result == 0) &&
+           ((*(int *)0x0605E0A1 == '\0' ||
+            ((unsigned int)(unsigned char)*(int *)0x0605E0A0 != CAR_COUNT)))) {
+            /* Write save data, course-specific size */
+            if (*course_sel == 0) {
+                result = (*(int(*)())0x06027630)(save_buf, 0x002F8000, (int)DAT_0601f806);
+            } else if (*course_sel == 1) {
+                result = (*(int(*)())0x06027630)(save_buf, 0x002F8000, (int)PTR_DAT_0601f808);
+            } else {
+                result = *(unsigned int *)course_sel;
+                if (result == 2) {
+                    result = (*(int(*)())0x06027630)(save_buf, 0x002F8000, buf_size);
+                }
+            }
         }
 
-      }
+        /* Fill unused buffer tail with 0x40/0x80 pattern */
+        unsigned int pos;
+        for (pos = *(unsigned int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2));
+             pos < buf_size; pos = pos + 2) {
+            result = pos + 1;
+            save_buf[pos] = 0x40;
+            save_buf[result] = 0x80;
+        }
 
+        *(int *)0x0605E0A1 = 0;                    /* clear dirty flag */
     }
 
-    for (uVar4 = *(unsigned int *)(0x0604A5C0 + (unsigned int)(unsigned char)*(int *)(0x060877D8 << 2)); uVar4 < uVar5;
-
-        uVar4 = uVar4 + 2) {
-
-      uVar3 = uVar4 + 1;
-
-      puVar1[uVar4] = 0x40;
-
-      puVar1[uVar3] = 0x80;
-
-    }
-
-    *(int *)0x0605E0A1 = 0;
-
-  }
-
-  return uVar3;
-
+    return result;
 }
 
 /* cdda_buffer_select -- Select CD audio buffer bank (A or B).
@@ -2190,96 +2094,63 @@ void FUN_0601fe20()
     *(short *)0x06087804 = 2;                   /* set replay state = active */
 }
 
+/* car_replay_state_init -- Initialize car from replay data record.
+ * Reads speed (param_1[0] >> 1), heading (param_1[1]), and steering
+ * (param_1[2]) from replay record. Sets car speed at multiple physics
+ * offsets around DAT_0601ff8a. Computes heading angle via FUN_06027552.
+ * Samples track spline via FUN_0600CB90 to get XYZ position (+0x10..+0x18)
+ * and rotation (+0x1C..+0x24). Copies rotation to physics state at
+ * +0x1A4..+0x1B0. Increments lap counter at +0x1EC, wraps if needed. */
 void FUN_0601fec0(param_1)
     unsigned short *param_1;
 {
+    char *spline_buf = (char *)0x06078680;
+    int speed_off = (int)DAT_0601ff8a;
+    int car = CAR_PTR_CURRENT;
+    int half_speed = (int)(unsigned int)*param_1 >> 1;
 
-  unsigned short uVar1;
+    /* Set speed at 4 adjacent offsets */
+    *(int *)(car + speed_off) = half_speed;
+    *(int *)(car + speed_off + 4) = half_speed;
+    *(int *)(car + speed_off + -4) = half_speed;
+    *(int *)(car + speed_off + -8) = half_speed;
 
-  char *puVar2;
+    /* Compute heading angle */
+    unsigned short heading = param_1[1];
+    *(unsigned int *)(car + 8) = (unsigned int)heading;
+    int angle = (*(int(*)())0x06027552)(0x35a, (unsigned int)heading << 0x10);
+    *(int *)(car + 0xc) = angle;
+    *(int *)(car + DAT_0601ff8e) = angle;
 
-  int iVar3;
+    /* Set steering at two adjacent offsets */
+    unsigned short steering = param_1[2];
+    int steer_off = (int)DAT_0601ff90;
+    *(unsigned int *)(car + steer_off) = (unsigned int)steering;
+    *(unsigned int *)(car + steer_off + -4) = (unsigned int)steering;
 
-  int uVar4;
+    /* Sample track spline for position/rotation */
+    (*(int(*)())0x0600CB90)(spline_buf, *param_1);
+    *(int *)(car + 0x10) = *(int *)spline_buf;                /* X */
+    *(int *)(car + 0x14) = *(int *)(spline_buf + 4);          /* Y */
+    *(int *)(car + 0x18) = *(int *)(spline_buf + 8);          /* Z */
+    *(int *)(car + 0x1c) = (int)*(short *)(spline_buf + 0xc); /* rot X */
+    *(int *)(car + 0x20) = (int)*(short *)(spline_buf + 0xe); /* rot Y */
+    *(int *)(car + 0x24) = (int)*(short *)(spline_buf + 0x10);/* rot Z */
 
-  int iVar5;
+    /* Copy rotation to physics state */
+    *(int *)(car + 0x30) = *(int *)(car + 0x20);
+    *(int *)(car + 0x28) = *(int *)(car + 0x20);
+    int phys_off = 0x1b0;
+    *(int *)(car + phys_off) = *(int *)(car + 0x20);
+    *(int *)(car + phys_off + -0xc) = *(int *)(car + 0x1c);
+    *(int *)(car + phys_off + -8) = *(int *)(car + 0x20);
+    *(int *)(car + phys_off + -4) = *(int *)(car + 0x24);
 
-  int iVar6;
-
-  puVar2 = (char *)0x06078680;
-
-  iVar3 = (int)DAT_0601ff8a;
-
-  iVar6 = CAR_PTR_CURRENT;
-
-  iVar5 = (int)(unsigned int)*param_1 >> 1;
-
-  *(int *)(iVar6 + iVar3) = iVar5;
-
-  *(int *)(iVar6 + iVar3 + 4) = iVar5;
-
-  *(int *)(iVar6 + iVar3 + -4) = iVar5;
-
-  *(int *)(iVar6 + iVar3 + -8) = iVar5;
-
-  uVar1 = param_1[1];
-
-  *(unsigned int *)(iVar6 + 8) = (unsigned int)uVar1;
-
-  uVar4 = (*(int(*)())0x06027552)(0x35a,(unsigned int)uVar1 << 0x10);
-
-  *(int *)(iVar6 + 0xc) = uVar4;
-
-  *(int *)(iVar6 + DAT_0601ff8e) = uVar4;
-
-  uVar1 = param_1[2];
-
-  iVar3 = (int)DAT_0601ff90;
-
-  *(unsigned int *)(iVar6 + iVar3) = (unsigned int)uVar1;
-
-  *(unsigned int *)(iVar6 + iVar3 + -4) = (unsigned int)uVar1;
-
-  (*(int(*)())0x0600CB90)(puVar2,*param_1);
-
-  *(int *)(iVar6 + 0x10) = *(int *)puVar2;
-
-  *(int *)(iVar6 + 0x14) = *(int *)(puVar2 + 4);
-
-  *(int *)(iVar6 + 0x18) = *(int *)(puVar2 + 8);
-
-  *(int *)(iVar6 + 0x1c) = (int)*(short *)(puVar2 + 0xc);
-
-  *(int *)(iVar6 + 0x20) = (int)*(short *)(puVar2 + 0xe);
-
-  *(int *)(iVar6 + 0x24) = (int)*(short *)(puVar2 + 0x10);
-
-  *(int *)(iVar6 + 0x30) = *(int *)(iVar6 + 0x20);
-
-  *(int *)(iVar6 + 0x28) = *(int *)(iVar6 + 0x20);
-
-  iVar3 = 0x1b0;
-
-  *(int *)(iVar6 + iVar3) = *(int *)(iVar6 + 0x20);
-
-  *(int *)(iVar6 + iVar3 + -0xc) = *(int *)(iVar6 + 0x1c);
-
-  *(int *)(iVar6 + iVar3 + -8) = *(int *)(iVar6 + 0x20);
-
-  *(int *)(iVar6 + iVar3 + -4) = *(int *)(iVar6 + 0x24);
-
-  iVar3 = iVar3 + 0x3c;
-
-  *(int *)(iVar6 + iVar3) = *(int *)(iVar6 + iVar3) + 1;
-
-  if (*(int *)0x0607EA9C < *(int *)(iVar6 + iVar3)) {
-
-    *(int *)(iVar6 + DAT_0601ff8a) = *(int *)(iVar6 + DAT_0601ff8a) - *(int *)0x0607EA9C;
-
-  }
-
-  *(int *)(iVar6 + DAT_0601ff8a + -8) = *(int *)(iVar6 + DAT_0601ff8a);
-
-  return;
-
+    /* Increment lap counter, wrap if exceeds total */
+    int lap_off = phys_off + 0x3c;
+    *(int *)(car + lap_off) = *(int *)(car + lap_off) + 1;
+    if (*(int *)0x0607EA9C < *(int *)(car + lap_off)) {
+        *(int *)(car + DAT_0601ff8a) = *(int *)(car + DAT_0601ff8a) - *(int *)0x0607EA9C;
+    }
+    *(int *)(car + DAT_0601ff8a + -8) = *(int *)(car + DAT_0601ff8a);
 }

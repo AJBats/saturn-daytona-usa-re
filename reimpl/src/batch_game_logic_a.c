@@ -562,224 +562,120 @@ int FUN_0600a914()
 
 }
 
+/* object_render_primary -- Render 3-part object using primary matrix pipeline.
+ * Reads 4-byte descriptor from 0x0605A1D5 + (param_2 * 4) for sub-object
+ * indices. Each part: resets primary matrix (0x06026DBC), applies camera
+ * translation (0x06044640/4C/70), Y rotation (param_1+0x40 doubled),
+ * X rotation (param_1+0x48 negated), then renders mesh (0x06031D8C)
+ * and applies texture/color (0x06031A28) with palette from 0x06089E44.
+ * Decrements OBJ_STATE_PRIMARY by 0x30 per sub-object. Third part uses
+ * separate rotation (param_1+0x50) without Y-rotate. */
 void FUN_0600aa98(param_1, param_2)
     int param_1;
     int param_2;
 {
+    unsigned char *desc = (unsigned char *)(0x0605A1D5 + (param_2 << 2));
+    unsigned char palette_idx = desc[3];
+    int rot_x = *(int *)(param_1 + 0x48);
+    int rot_y = *(int *)(param_1 + 0x40) << 1;
+    unsigned char part0 = *desc;
+    char *mesh_table = (char *)0x0606212C;
+    char *tex_table = (char *)0x060620D8;
+    char *mtx_alt = (char *)0x06089EDC;
+    short *palette = (short *)(0x06089E44 + (unsigned int)(palette_idx << 1));
 
-  unsigned char bVar1;
+    /* Part 0: main body */
+    (*(int(*)())0x06026DBC)();                     /* matrix_reset */
+    (*(int(*)())0x06026E2E)(*(int *)0x06044640, *(int *)(0x06044640 + 4),
+               -*(int *)(0x06044640 + 8));         /* translate (camera 0) */
+    (*(int(*)())0x06026EDE)(rot_y);                /* rotate Y */
+    (*(int(*)())0x06026E94)(-rot_x);              /* rotate X */
+    int idx = (unsigned int)(part0 << 2);
+    (*(int(*)())0x06031D8C)(*(int *)(0x0606212C + idx), *(int *)(0x060621D8 + idx));
+    (*(int(*)())0x06031A28)(*(int *)(0x060620D8 + idx), (int)*palette,
+               *(int *)(0x06062180 + idx));
+    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
 
-  unsigned char bVar2;
+    /* Part 1: secondary body */
+    unsigned char part1 = desc[1];
+    (*(int(*)())0x06026DBC)();
+    (*(int(*)())0x06026E2E)(*(int *)0x0604464C, *(int *)(0x0604464C + 4),
+               -*(int *)(0x0604464C + 8));         /* translate (camera 1) */
+    (*(int(*)())0x06026EDE)(rot_y);
+    (*(int(*)())0x06026E94)(-rot_x);
+    idx = (unsigned int)(part1 << 2);
+    (*(int(*)())0x06031D8C)(*(int *)(mesh_table + idx), *(int *)(0x060621D8 + idx));
+    (*(int(*)())0x06031A28)(*(int *)(tex_table + idx), (int)*palette, *(int *)(0x06062180 + idx));
+    *(int *)mtx_alt = *(int *)mtx_alt + -0x30;
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  short *psVar8;
-
-  unsigned char *pbVar9;
-
-  int iVar10;
-
-  pbVar9 = 0x0605A1D5 + (param_2 << 2);
-
-  bVar2 = pbVar9[3];
-
-  iVar6 = *(int *)(param_1 + 0x48);
-
-  iVar7 = *(int *)(param_1 + 0x40) << 1;
-
-  bVar1 = *pbVar9;
-
-  (*(int(*)())0x06026DBC)();
-
-  (*(int(*)())0x06026E2E)(*(int *)0x06044640,*(int *)(0x06044640 + 4),
-
-             -*(int *)(0x06044640 + 8));
-
-  (*(int(*)())0x06026EDE)(iVar7);
-
-  (*(int(*)())0x06026E94)(-iVar6);
-
-  puVar3 = (char *)0x0606212C;
-
-  iVar10 = (unsigned int)(bVar1 << 2);
-
-  (*(int(*)())0x06031D8C)(*(int *)(0x0606212C + iVar10),*(int *)(0x060621D8 + iVar10));
-
-  puVar4 = (char *)0x060620D8;
-
-  psVar8 = (short *)(0x06089E44 + (unsigned int)(bVar2 << 1));
-
-  (*(int(*)())0x06031A28)(*(int *)(0x060620D8 + iVar10),(int)*psVar8,
-
-             *(int *)(0x06062180 + iVar10));
-
-  puVar5 = (char *)0x06089EDC;
-
-  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
-
-  bVar1 = pbVar9[1];
-
-  (*(int(*)())0x06026DBC)();
-
-  (*(int(*)())0x06026E2E)(*(int *)0x0604464C,*(int *)(0x0604464C + 4),
-
-             -*(int *)(0x0604464C + 8));
-
-  (*(int(*)())0x06026EDE)(iVar7);
-
-  (*(int(*)())0x06026E94)(-iVar6);
-
-  iVar6 = (unsigned int)(bVar1 << 2);
-
-  (*(int(*)())0x06031D8C)(*(int *)(puVar3 + iVar6),*(int *)(0x060621D8 + iVar6));
-
-  (*(int(*)())0x06031A28)(*(int *)(puVar4 + iVar6),(int)*psVar8,*(int *)(0x06062180 + iVar6))
-
-  ;
-
-  *(int *)puVar5 = *(int *)puVar5 + -0x30;
-
-  iVar6 = *(int *)(param_1 + 0x50);
-
-  bVar1 = pbVar9[2];
-
-  (*(int(*)())0x06026DBC)();
-
-  (*(int(*)())0x06026E2E)(*(int *)0x06044670,*(int *)(0x06044670 + 4),
-
-             -*(int *)(0x06044670 + 8));
-
-  (*(int(*)())0x06026E94)(-iVar6);
-
-  iVar6 = (unsigned int)(bVar1 << 2);
-
-  (*(int(*)())0x06031D8C)(*(int *)(puVar3 + iVar6),*(int *)(0x060621D8 + iVar6));
-
-  (*(int(*)())0x06031A28)(*(int *)(puVar4 + iVar6),(int)*psVar8,*(int *)(0x06062180 + iVar6))
-
-  ;
-
-  *(int *)puVar5 = *(int *)puVar5 + -0x30;
-
-  return;
-
+    /* Part 2: tertiary (separate X rotation) */
+    int rot_x2 = *(int *)(param_1 + 0x50);
+    unsigned char part2 = desc[2];
+    (*(int(*)())0x06026DBC)();
+    (*(int(*)())0x06026E2E)(*(int *)0x06044670, *(int *)(0x06044670 + 4),
+               -*(int *)(0x06044670 + 8));         /* translate (camera 2) */
+    (*(int(*)())0x06026E94)(-rot_x2);
+    idx = (unsigned int)(part2 << 2);
+    (*(int(*)())0x06031D8C)(*(int *)(mesh_table + idx), *(int *)(0x060621D8 + idx));
+    (*(int(*)())0x06031A28)(*(int *)(tex_table + idx), (int)*palette, *(int *)(0x06062180 + idx));
+    *(int *)mtx_alt = *(int *)mtx_alt + -0x30;
 }
 
+/* object_render_secondary -- Render 3-part object using secondary matrix stack.
+ * Same structure as object_render_primary but uses secondary matrix
+ * pipeline: stack push (0x06027080), translate (0x060270F2), rotate Y
+ * (0x060271A2), rotate X (0x06027158). Renders via 0x06032158 and
+ * textures via 0x06031DF4. Decrements OBJ_STATE_SECONDARY and matrix
+ * stack pointer at 0x0608A52C by 0x30 per sub-object. */
 void FUN_0600ac44(param_1, param_2)
     int param_1;
     int param_2;
 {
+    unsigned char *desc = (unsigned char *)(0x0605A1D5 + (param_2 << 2));
+    unsigned char palette_idx = desc[3];
+    int rot_x = *(int *)(param_1 + 0x48);
+    int rot_y = *(int *)(param_1 + 0x40) << 1;
+    unsigned char part0 = *desc;
+    char *mesh_table = (char *)0x0606212C;
+    char *tex_table = (char *)0x060620D8;
+    char *mtx_stack = (char *)0x0608A52C;
+    short *palette = (short *)(0x06089E44 + (unsigned int)(palette_idx << 1));
 
-  unsigned char bVar1;
+    /* Part 0: main body */
+    (*(int(*)())0x06027080)();                     /* matrix_stack_push */
+    (*(int(*)())0x060270F2)(*(int *)0x06044640, *(int *)(0x06044640 + 4),
+               -*(int *)(0x06044640 + 8));         /* translate (camera 0) */
+    (*(int(*)())0x060271A2)(rot_y);                /* rotate Y */
+    (*(int(*)())0x06027158)(-rot_x);              /* rotate X */
+    int idx = (unsigned int)(part0 << 2);
+    (*(int(*)())0x06032158)(*(int *)(0x0606212C + idx), *(int *)(0x060621D8 + idx));
+    (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + idx), *palette,
+               *(int *)(0x06062180 + idx));
+    OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
 
-  unsigned char bVar2;
+    /* Part 1: secondary body */
+    unsigned char part1 = desc[1];
+    (*(int(*)())0x06027080)();
+    (*(int(*)())0x060270F2)(*(int *)0x0604464C, *(int *)(0x0604464C + 4),
+               -*(int *)(0x0604464C + 8));         /* translate (camera 1) */
+    (*(int(*)())0x060271A2)(rot_y);
+    (*(int(*)())0x06027158)(-rot_x);
+    idx = (unsigned int)(part1 << 2);
+    (*(int(*)())0x06032158)(*(int *)(mesh_table + idx), *(int *)(0x060621D8 + idx));
+    (*(int(*)())0x06031DF4)(*(int *)(tex_table + idx), *palette, *(int *)(0x06062180 + idx));
+    *(int *)mtx_stack = *(int *)mtx_stack + -0x30;
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  short *puVar8;
-
-  unsigned char *pbVar9;
-
-  int iVar10;
-
-  pbVar9 = 0x0605A1D5 + (param_2 << 2);
-
-  bVar2 = pbVar9[3];
-
-  iVar6 = *(int *)(param_1 + 0x48);
-
-  iVar7 = *(int *)(param_1 + 0x40) << 1;
-
-  bVar1 = *pbVar9;
-
-  (*(int(*)())0x06027080)();
-
-  (*(int(*)())0x060270F2)(*(int *)0x06044640,*(int *)(0x06044640 + 4),
-
-             -*(int *)(0x06044640 + 8));
-
-  (*(int(*)())0x060271A2)(iVar7);
-
-  (*(int(*)())0x06027158)(-iVar6);
-
-  puVar3 = (char *)0x0606212C;
-
-  iVar10 = (unsigned int)(bVar1 << 2);
-
-  (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar10),*(int *)(0x060621D8 + iVar10));
-
-  puVar4 = (char *)0x060620D8;
-
-  puVar8 = (short *)(0x06089E44 + (unsigned int)(bVar2 << 1));
-
-  (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar10),*puVar8,
-
-             *(int *)(0x06062180 + iVar10));
-
-  puVar5 = (char *)0x0608A52C;
-
-  OBJ_STATE_SECONDARY = OBJ_STATE_SECONDARY + -0x30;
-
-  bVar1 = pbVar9[1];
-
-  (*(int(*)())0x06027080)();
-
-  (*(int(*)())0x060270F2)(*(int *)0x0604464C,*(int *)(0x0604464C + 4),
-
-             -*(int *)(0x0604464C + 8));
-
-  (*(int(*)())0x060271A2)(iVar7);
-
-  (*(int(*)())0x06027158)(-iVar6);
-
-  iVar6 = (unsigned int)(bVar1 << 2);
-
-  (*(int(*)())0x06032158)(*(int *)(puVar3 + iVar6),*(int *)(0x060621D8 + iVar6));
-
-  (*(int(*)())0x06031DF4)(*(int *)(puVar4 + iVar6),*puVar8,*(int *)(0x06062180 + iVar6));
-
-  *(int *)puVar5 = *(int *)puVar5 + -0x30;
-
-  iVar6 = *(int *)(param_1 + 0x50);
-
-  bVar1 = pbVar9[2];
-
-  (*(int(*)())0x06027080)();
-
-  (*(int(*)())0x060270F2)(*(int *)0x06044670,*(int *)(0x06044670 + 4),
-
-             -*(int *)(0x06044670 + 8));
-
-  (*(int(*)())0x06027158)(-iVar6);
-
-  iVar6 = (unsigned int)(bVar1 << 2);
-
-  (*(int(*)())0x06032158)(*(int *)(puVar3 + iVar6),*(int *)(0x060621D8 + iVar6));
-
-  (*(int(*)())0x06031DF4)(*(int *)(puVar4 + iVar6),*puVar8,*(int *)(0x06062180 + iVar6))
-
-  ;
-
-  *(int *)puVar5 = *(int *)puVar5 + -0x30;
-
-  return;
-
+    /* Part 2: tertiary (separate X rotation) */
+    int rot_x2 = *(int *)(param_1 + 0x50);
+    unsigned char part2 = desc[2];
+    (*(int(*)())0x06027080)();
+    (*(int(*)())0x060270F2)(*(int *)0x06044670, *(int *)(0x06044670 + 4),
+               -*(int *)(0x06044670 + 8));         /* translate (camera 2) */
+    (*(int(*)())0x06027158)(-rot_x2);
+    idx = (unsigned int)(part2 << 2);
+    (*(int(*)())0x06032158)(*(int *)(mesh_table + idx), *(int *)(0x060621D8 + idx));
+    (*(int(*)())0x06031DF4)(*(int *)(tex_table + idx), *palette, *(int *)(0x06062180 + idx));
+    *(int *)mtx_stack = *(int *)mtx_stack + -0x30;
 }
 
 void FUN_0600afb2()
