@@ -850,82 +850,55 @@ int FUN_0603ac1c(param_1, param_2, param_3)
 
 }
 
-void FUN_0603adac(param_1)
-    int param_1;
+/* cd_transfer_init -- Initialize or reset a CD data transfer.
+ * param_1==0: if a transfer is active (+0xa0), report error -7.
+ *   Otherwise clear transfer state at CD_STATE_A+0x98 (bytes 4,8,C).
+ * param_1!=0: sync CD (0x06035168), allocate transfer buffer (FUN_0603b7c0),
+ *   store buffer pointer at +0xA4.
+ * Reports success (0) via FUN_0603b93c. */
+void FUN_0603adac(int param_1)
 {
-
   int uVar1;
-
-  int iVar2;
-
-  iVar2 = CD_STATE_A + 0x98;
+  int state_base = CD_STATE_A + 0x98;
 
   if (param_1 == 0) {
-
     if (*(int *)(CD_STATE_A + 0xa0) != 0) {
-
-      FUN_0603b93c(0xfffffff9);
-
+      FUN_0603b93c(0xfffffff9);          /* error: transfer active */
       return;
-
     }
-
-    *(int *)(iVar2 + 8) = 0;
-
-    *(int *)(iVar2 + 0xc) = 0;
-
-    *(int *)(iVar2 + 4) = 0;
-
+    *(int *)(state_base + 8) = 0;
+    *(int *)(state_base + 0xc) = 0;
+    *(int *)(state_base + 4) = 0;
+  } else {
+    (*(int(*)())0x06035168)();           /* CD sync */
+    uVar1 = FUN_0603b7c0();             /* allocate buffer */
+    *(int *)(state_base + 0xc) = uVar1;
   }
-
-  else {
-
-    (*(int(*)())0x06035168)();
-
-    uVar1 = FUN_0603b7c0();
-
-    *(int *)(iVar2 + 0xc) = uVar1;
-
-  }
-
   FUN_0603b93c(0);
-
-  return;
-
 }
 
-int FUN_0603ae08(param_1)
-    int param_1;
+/* cd_transfer_submit -- Submit a CD read transfer request.
+ * Requires active transfer (+0xa0 != 0) and state==1 (+0x98).
+ * Calls file read (0x0603F148) with active handle, param_1 (sector count),
+ * and buffer from PTR_DAT_0603ae64 offset.
+ * Reports -7 on read failure, -8 if no active transfer. */
+int FUN_0603ae08(int param_1)
 {
-
   int iVar1;
 
   if ((*(int *)(CD_STATE_A + 0xa0) != 0) &&
-
      (*(int *)(0x98 + CD_STATE_A) == 1)) {
-
-    iVar1 = (*(int(*)())0x0603F148)(*(int *)(CD_STATE_A + 0xa0),param_1,
-
+    iVar1 = (*(int(*)())0x0603F148)(*(int *)(CD_STATE_A + 0xa0), param_1,
                        *(int *)(CD_STATE_A + (int)PTR_DAT_0603ae64));
-
     if (iVar1 < 0) {
-
       iVar1 = FUN_0603b93c(0xfffffff7);
-
       return iVar1;
-
     }
-
     FUN_0603b93c(0);
-
     return iVar1;
-
   }
-
-  iVar1 = FUN_0603b93c(0xfffffff8);
-
+  iVar1 = FUN_0603b93c(0xfffffff8);     /* no active transfer */
   return iVar1;
-
 }
 
 int FUN_0603aee8(param_1)
@@ -1572,14 +1545,15 @@ int FUN_0603b81e()
 
 }
 
-int FUN_0603b878(param_1)
-    int param_1;
+/* cd_find_request_slot -- Search CD request slots for a matching handle.
+ * Iterates slots at 0x060A4D14 base + 0x0C3C (stride 0xF0) up to
+ * the active slot count. Returns slot pointer if found, 0 if not found. */
+int FUN_0603b878(int param_1)
 {
   int iVar1;
   int iVar2;
-  int *pp;
+  int *pp = (int *)0x060A4D14;
 
-  pp = (int *)0x060A4D14;
   iVar2 = 0;
   iVar1 = *(int *)pp + 0x0C3C;
   goto check;
@@ -1591,7 +1565,7 @@ check:
   if (iVar2 < **(int **)pp) goto loop;
 done:
   if (iVar2 == **(int **)pp) {
-    iVar1 = 0;
+    iVar1 = 0;                           /* not found */
   }
   return iVar1;
 }
@@ -1619,34 +1593,24 @@ void FUN_0603b8f4(int param_1)
     }
 }
 
+/* cd_request_find -- Search CD pending request queue for a handle.
+ * Scans queue at CD_STATE_A+0x34 (count at +0x94) for param_1.
+ * Returns queue index if found, -1 if not found.
+ * Note: param_1 passed implicitly via register (K&R convention). */
 int FUN_0603b96a(param_1)
     int param_1;
 {
-
   int iVar1;
-
-  int iVar2;
-
-  
-
-  iVar2 = CD_STATE_A;
+  int iVar2 = CD_STATE_A;
 
   for (iVar1 = 0;
-
       (iVar1 < *(int *)(iVar2 + 0x94) && (param_1 != *(int *)((iVar1 << 2) + iVar2 + 0x34)));
-
       iVar1 = iVar1 + 1) {
-
   }
-
   if (iVar1 == *(int *)(iVar2 + 0x94)) {
-
-    iVar1 = -1;
-
+    iVar1 = -1;                          /* not found */
   }
-
   return iVar1;
-
 }
 
 /* cd_request_register -- Register a new CD request in the pending queue.
@@ -2019,88 +1983,54 @@ int FUN_0603bc86(param_1, param_2, param_3, param_4)
 
 }
 
-int FUN_0603bd1c(param_1)
-    int *param_1;
+/* cd_transfer_step -- Step a CD transfer request forward.
+ * If no active transfer or this request IS the active transfer:
+ *   dispatch handler via vtable at CD_STATE_A+4 (indexed by request type).
+ *   Result 0: set this request as active. Result 2: clear active slot.
+ * If another transfer is active: return 5 (busy). */
+int FUN_0603bd1c(int *param_1)
 {
-
-  char *puVar1;
-
   int iVar2;
 
-  puVar1 = (char *)0x060A4D14;
-
-  if ((*(int **)(CD_STATE_A + 0xa8) == (int *)0x0
-
-      ) || (*(int **)(CD_STATE_A + 0xa8) == param_1)) {
-
+  if ((*(int **)(CD_STATE_A + 0xa8) == (int *)0x0) ||
+      (*(int **)(CD_STATE_A + 0xa8) == param_1)) {
     iVar2 = (*(int(*)())(*(int *)((unsigned int)*(unsigned char *)(param_1 + 4) << 4 + CD_STATE_A + 4)))(*param_1);
-
     if (iVar2 == 0) {
-
-      *(int **)(*(int *)puVar1 + 0xa8) = param_1;
-
+      *(int **)(*(int *)0x060A4D14 + 0xa8) = param_1;
+    } else if ((iVar2 == 2) && (*(int **)(*(int *)0x060A4D14 + 0xa8) == param_1)) {
+      *(int *)(*(int *)0x060A4D14 + 0xa8) = 0;
     }
-
-    else if ((iVar2 == 2) && (*(int **)(*(int *)puVar1 + 0xa8) == param_1)) {
-
-      *(int *)(*(int *)puVar1 + 0xa8) = 0;
-
-    }
-
+  } else {
+    iVar2 = 5;                           /* busy */
   }
-
-  else {
-
-    iVar2 = 5;
-
-  }
-
   return iVar2;
-
 }
 
-int FUN_0603bdac(param_1)
-    int param_1;
+/* cd_request_poll -- Poll status of a CD request and handle completion.
+ * Queries request status via 0x0603FACE. If status==5 (complete) or
+ * file handle invalid (0x0603EFD4 returns 0): release handle, clear
+ * active slot if it matches, return 5.
+ * If status!=0 and not complete: set as active slot, mark pending. */
+int FUN_0603bdac(int param_1)
 {
-
-  char *puVar1;
-
   int iVar2;
-
   int iVar3;
+  char auStack_14[8];
 
-  char auStack_14 [8];
-
-  iVar2 = (*(int(*)())0x0603FACE)(*(int *)(param_1 + 8),auStack_14);
-
-  puVar1 = (char *)0x060A4D14;
+  iVar2 = (*(int(*)())0x0603FACE)(*(int *)(param_1 + 8), auStack_14);
 
   if ((iVar2 == 5) ||
-
      (iVar3 = (*(int(*)())0x0603EFD4)(*(int *)(param_1 + 4)), iVar3 == 0)) {
-
-    (*(int(*)())0x0603FA1A)(*(int *)(param_1 + 8),0xffffffff);
-
-    if (*(int *)(*(int *)puVar1 + (int)PTR_DAT_0603be10) == param_1) {
-
-      *(int *)(*(int *)puVar1 + (int)PTR_DAT_0603be10) = 0;
-
+    (*(int(*)())0x0603FA1A)(*(int *)(param_1 + 8), 0xffffffff);
+    if (*(int *)(*(int *)0x060A4D14 + (int)PTR_DAT_0603be10) == param_1) {
+      *(int *)(*(int *)0x060A4D14 + (int)PTR_DAT_0603be10) = 0;
     }
-
-    iVar2 = 5;
-
+    iVar2 = 5;                           /* complete */
+  } else if (iVar2 != 0) {
+    *(int *)(*(int *)0x060A4D14 + (int)PTR_DAT_0603be10) = param_1;
+    *(char *)(param_1 + 0x12) = 1;       /* mark pending */
   }
-
-  else if (iVar2 != 0) {
-
-    *(int *)(*(int *)puVar1 + (int)PTR_DAT_0603be10) = param_1;
-
-    *(char *)(param_1 + 0x12) = 1;
-
-  }
-
   return iVar2;
-
 }
 
 /* cd_seek_or_reset -- Seek to position or reset based on flags.

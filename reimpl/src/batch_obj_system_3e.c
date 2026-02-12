@@ -823,34 +823,26 @@ int FUN_0603f500(int addr)
     return frame.val;
 }
 
-char FUN_0603f534(param_1)
-    int *param_1;
+/* cd_buf_advance_sector -- Advance to next CD sector in buffer.
+ * Reads current sector status. If empty (0) and not at end sector:
+ *   requests next 0x800-byte sector read from CD (0x0603B21C),
+ *   resets read offset, re-reads status.
+ * Returns sector status byte (0 = empty, non-zero = data ready). */
+char FUN_0603f534(int *param_1)
 {
-
   int iVar1;
+  char local_10[4];
+  char acStack_c[8];
 
-  char local_10 [4];
-
-  char acStack_c [8];
-
-  FUN_0603f3f6(param_1,acStack_c,1);
-
+  FUN_0603f3f6(param_1, acStack_c, 1);
   if ((acStack_c[0] == '\0') &&
-
      (iVar1 = param_1[3], param_1[3] = iVar1 + 1, iVar1 + 1 != param_1[4])) {
-
-    (*(int(*)())0x0603B21C)(*param_1,1,param_1[1],0x800);
-
-    param_1[2] = 0;
-
-    FUN_0603f3f6(param_1,local_10,1);
-
+    (*(int(*)())0x0603B21C)(*param_1, 1, param_1[1], 0x800);
+    param_1[2] = 0;                     /* reset read offset */
+    FUN_0603f3f6(param_1, local_10, 1);
     acStack_c[0] = local_10[0];
-
   }
-
   return acStack_c[0];
-
 }
 
 unsigned int FUN_0603f582(param_1, param_2)
@@ -1251,32 +1243,23 @@ void FUN_0603f84c(param_1, param_2)
 
 }
 
-int * FUN_0603f93c(param_1)
-    int *param_1;
+/* cd_buf_init -- Initialize a CD buffer descriptor to default state.
+ * Clears all fields (handle, offset, position, start sector),
+ * sets end sector to 1, clears flags. Sets mode to 3 (raw read),
+ * marks as active (field 0xC=1), clears status byte. */
+int * FUN_0603f93c(int *param_1)
 {
-
-  *param_1 = 0;
-
-  param_1[1] = 0;
-
-  param_1[2] = 0;
-
-  param_1[3] = 0;
-
-  param_1[4] = 1;
-
-  param_1[5] = 0;
-
-  param_1[6] = 0;
-
-  FUN_0603f970(param_1,3);
-
-  param_1[0xc] = 1;
-
-  *(char *)(param_1 + 0xd) = 0;
-
+  *param_1 = 0;           /* handle */
+  param_1[1] = 0;         /* buffer offset */
+  param_1[2] = 0;         /* read position */
+  param_1[3] = 0;         /* start sector */
+  param_1[4] = 1;         /* end sector */
+  param_1[5] = 0;         /* flags A */
+  param_1[6] = 0;         /* flags B */
+  FUN_0603f970(param_1, 3);  /* set mode = raw read */
+  param_1[0xc] = 1;       /* active flag */
+  *(char *)(param_1 + 0xd) = 0;  /* status */
   return param_1;
-
 }
 
 /* cd_buf_set_mode -- Set buffer mode and apply configuration.

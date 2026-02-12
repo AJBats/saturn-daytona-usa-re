@@ -594,10 +594,11 @@ void vec3_angle_calc(param_1, param_2, param_3)
 
 }
 
-void FUN_060053ac(param_1, param_2, param_3)
-    int *param_1;
-    int *param_2;
-    int param_3;
+/* object_position_transform -- Transform object position into world space.
+ * Builds rotation matrix from param_2 (Y/Z/X Euler angles, negated),
+ * translates by param_1 (negated), then applies param_3 (distance scale)
+ * via fixed-point multiply (0x06027552). Stores result at 0x06063DF8. */
+void FUN_060053ac(int *param_1, int *param_2, int param_3)
 {
   register int (*func)() asm("r3") = (int(*)())0x06027552;
   register int *dest asm("r2") = (int *)0x06063DF8;

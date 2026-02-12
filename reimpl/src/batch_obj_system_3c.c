@@ -120,15 +120,13 @@ void FUN_0603c05c(unsigned int param_1, int param_2)
     }
 }
 
-unsigned int FUN_0603c08c(param_1, param_2)
-    int param_1;
-    int param_2;
+/* sh2_mul_fixed16 -- 32x32 multiply returning 16.16 fixed-point result.
+ * Performs 64-bit multiply, extracts middle 32 bits (bits 16-47)
+ * to produce a 16.16 fixed-point product. */
+unsigned int FUN_0603c08c(int param_1, int param_2)
 {
-
   return (int)((unsigned long long)((long long)param_2 * (long long)param_1) >> 0x20) << 0x10 |
-
          (unsigned int)((long long)param_2 * (long long)param_1) >> 0x10;
-
 }
 
 /* sh2_div_fixed16 -- SH-2 hardware 32-bit division for 16.16 fixed-point.

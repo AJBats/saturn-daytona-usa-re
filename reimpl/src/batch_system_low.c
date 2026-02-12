@@ -643,62 +643,43 @@ void FUN_060038d4(void)
     dma_copy(0x25F007C0, 0x060483EC, 0x40);  /* palette 13: 64 words */
 }
 
-void FUN_060039c8()
+/* car_palette_load_primary -- DMA-copy primary car color palette to VDP1.
+ * Normal mode: 0x60 bytes from table at 0x0605C97C indexed by car select.
+ * Demo mode: 0x20 bytes from table at 0x0605CA4C indexed by character select.
+ * Destination: VDP1 VRAM palette slot at 0x25F00400. */
+void FUN_060039c8(void)
 {
-
-  int *puVar1;
-
-  int uVar2;
+  int *src;
+  int size;
 
   if (*(int *)0x06083255 == '\0') {
-
-    uVar2 = 0x60;
-
-    puVar1 = (int *)(0x0605C97C + *(int *)(0x06078868 << 2));
-
+    size = 0x60;
+    src = (int *)(0x0605C97C + *(int *)(0x06078868 << 2));
+  } else {
+    src = (int *)(0x0605CA4C + *(int *)(0x0607EAB8 << 2));
+    size = 0x20;
   }
-
-  else {
-
-    puVar1 = (int *)(0x0605CA4C + *(int *)(0x0607EAB8 << 2));
-
-    uVar2 = 0x20;
-
-  }
-
-  (*(int(*)())0x0602766C)(0x25F00400,*puVar1,uVar2);
-
-  return;
-
+  (*(int(*)())0x0602766C)(0x25F00400, *src, size);
 }
 
-void FUN_060039f2()
+/* car_palette_load_secondary -- DMA-copy secondary car color palette to VDP1.
+ * Same as car_palette_load_primary but offsets the selection index:
+ * Normal mode: index + 10 into 0x0605C97C table.
+ * Demo mode: index + 2 into 0x0605CA4C table.
+ * Destination: VDP1 VRAM palette slot at 0x25F00400. */
+void FUN_060039f2(void)
 {
-
-  int *puVar1;
-
-  int uVar2;
+  int *src;
+  int size;
 
   if (*(int *)0x06083255 == '\0') {
-
-    uVar2 = 0x60;
-
-    puVar1 = (int *)(0x0605C97C + (*(int *)0x06078868 + 10) << 2);
-
+    size = 0x60;
+    src = (int *)(0x0605C97C + (*(int *)0x06078868 + 10) << 2);
+  } else {
+    src = (int *)(0x0605CA4C + (*(int *)0x0607EAB8 + 2) << 2);
+    size = 0x20;
   }
-
-  else {
-
-    puVar1 = (int *)(0x0605CA4C + (*(int *)0x0607EAB8 + 2) << 2);
-
-    uVar2 = 0x20;
-
-  }
-
-  (*(int(*)())0x0602766C)(0x25F00400,*puVar1,uVar2);
-
-  return;
-
+  (*(int(*)())0x0602766C)(0x25F00400, *src, size);
 }
 
 int FUN_06003a3c()
