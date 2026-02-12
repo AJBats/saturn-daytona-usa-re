@@ -453,123 +453,79 @@ void FUN_06003430(void)
     }
 }
 
+/* vdp2_mega_init -- Bulk-load all VDP2 graphics data from CD-ROM to VRAM.
+ * Loads color palette to CRAM (0x25F00800), then ~40 DMA transfers
+ * from CD data area (base 0x002A0000) to VDP2 VRAM banks:
+ *   0x25E0xxxx: background tile/pattern data
+ *   0x25E4xxxx: scroll plane A/B tile data
+ *   0x25E6xxxx: scroll plane C/D + coefficient tables
+ *   0x25E7xxxx: rotation scroll data + sprite patterns
+ *   0x25E3xxxx: character font/text tiles
+ *   0x060Exxxx: work RAM sprite buffer (5 blocks)
+ * Uses two DMA routines: 0x06027630 (block DMA) and 0x0602761E (word DMA).
+ * Clears 4 words at 0x25E20000 before loading (VDP2 bitmap clear). */
 void vdp2_mega_init()
 {
+  int cd_base = 0x002A0000;                              /* CD-ROM data area base */
+  int dma_block = 0x06027630;                            /* block DMA function */
+  int dma_word = 0x0602761E;                             /* word DMA function */
+  int i;
+  int tile_size;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  puVar3 = (int *)0x06027630;
-
-  puVar2 = (char *)0x0602761E;
-
-  puVar1 = (int *)0x25E20000;
-
-  (*(int(*)())0x0602761E)(0x25F00800,0x060481AC,0x240);
-
-  (*(int(*)())puVar3)(0x25E00000,0x002CF108,(int)DAT_06003620);
-
-  iVar5 = 8;
-
+  (*(int(*)())dma_word)(0x25F00800, 0x060481AC, 0x240);  /* color palette → CRAM */
+  (*(int(*)())dma_block)(0x25E00000, 0x002CF108, (int)DAT_06003620); /* BG tiles */
+  /* clear VDP2 bitmap area */
+  i = 8;
   do {
-
-    iVar5 = iVar5 + -2;
-
-    *(int *)puVar1 = 0;
-
-    puVar4 = (char *)0x002A0000;
-
-  } while (iVar5 != 0);
-
-  (*(int(*)())puVar3)(0x25E4363C,0x00031498 + (int)0x002A0000,(int)DAT_06003622);
-
-  (*(int(*)())puVar3)(0x25E497E4,0x00037640 + (int)puVar4,(int)DAT_06003624);
-
-  (*(int(*)())puVar3)(0x25E4EFEC,0x0003CE44 + (int)puVar4,0x00008094);
-
-  (*(int(*)())puVar3)(0x25E40000,0x00044ED8 + (int)puVar4,0x7f0);
-
-  (*(int(*)())puVar3)(0x25E407F0,0x000456C8 + (int)puVar4,(int)DAT_06003628);
-
-  (*(int(*)())puVar3)(0x25E4108C,0x00045F64 + (int)puVar4,0x998);
-
-  (*(int(*)())puVar3)(0x25E41A24,0x000468FC + (int)puVar4,(int)DAT_0600362c);
-
-  (*(int(*)())puVar3)(0x25E42300,0x000471D8 + (int)puVar4,0x978);
-
-  (*(int(*)())puVar3)(0x25E42C78,0x00047B50 + (int)puVar4,(int)DAT_06003630);
-
-  (*(int(*)())puVar3)(0x25E61CEC,0x0001F370 + (int)puVar4,0x48e8);
-
-  (*(int(*)())puVar3)(0x25E665D4,0x00023C58 + (int)puVar4,0x43f8);
-
-  (*(int(*)())puVar3)(0x25E6A9CC,0x00028050 + (int)puVar4,0x4ff8);
-
-  iVar5 = (int)DAT_06003774;
-
-  (*(int(*)())puVar3)(0x25E60000,0x0002D41C + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar3)(0x25E609A4,0x0002DDC0 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar3)(0x25E61348,0x0002E764 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar3)(0x25E6F9C4,puVar4 + DAT_06003778,(int)DAT_06003776);
-
-  (*(int(*)())puVar3)(0x25E70E40,puVar4 + DAT_0600377c,(int)DAT_0600377a);
-
-  (*(int(*)())puVar3)(0x25E72194,0x0000EAB0 + (int)puVar4,(int)DAT_0600377e);
-
-  (*(int(*)())puVar3)(0x25E73B98,0x00017114 + (int)puVar4,0x5c0);
-
-  (*(int(*)())puVar3)(0x25E74158,0x000176D0 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar3)(0x25E74AFC,0x00018074 + (int)puVar4,(int)DAT_06003782);
-
-  (*(int(*)())puVar3)(0x25E75730,0x00018B10 + (int)puVar4,(int)DAT_06003784);
-
-  (*(int(*)())puVar2)(0x25E759EC,0x00008F84 + (int)puVar4,0x3f0);
-
-  (*(int(*)())puVar2)(0x25E75DDC,0x00009374 + (int)puVar4,0x3f0);
-
-  (*(int(*)())puVar3)(0x25E76174,0x00048514 + (int)puVar4,0x88);
-
-  (*(int(*)())puVar3)(0x25E761FC,0x0004859C + (int)puVar4,0xd00);
-
-  (*(int(*)())puVar3)(0x25E76EFC,0x0004929C + (int)puVar4,(int)DAT_0600378c);
-
-  (*(int(*)())puVar3)(0x25E77B18,0x00049EB8 + (int)puVar4,(int)DAT_0600378e);
-
-  iVar5 = (int)PTR_DAT_06003790;
-
-  (*(int(*)())puVar2)(0x060EE300,0x0000AA54 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar2)(0x060EE7D4,0x0000AF28 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar2)(0x060EECA8,0x0000B3FC + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar2)(0x060EF17C,0x0000B8D0 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar2)(0x060EF650,0x0000BDA4 + (int)puVar4,iVar5);
-
-  (*(int(*)())puVar2)(0x060EFB24,0x0002D048 + (int)puVar4,(int)DAT_06003884);
-
-  (*(int(*)())puVar3)(0x25E33AD8,0x00019BC4 + (int)puVar4,0x528);
-
-  (*(int(*)())puVar3)(0x25E33764,0x0001A0EC + (int)puVar4,0x228);
-
-  (*(int(*)())puVar3)(0x25E3398C,0x0004FEEC + (int)puVar4,(int)DAT_0600388a);
-
-  (*(int(*)())puVar3)(0x25E7B168,puVar4 + DAT_0600388e,(int)DAT_0600388c);
-
-  return;
-
+    i = i + -2;
+    *(int *)0x25E20000 = 0;
+  } while (i != 0);
+  /* scroll plane tile data */
+  (*(int(*)())dma_block)(0x25E4363C, 0x00031498 + cd_base, (int)DAT_06003622);
+  (*(int(*)())dma_block)(0x25E497E4, 0x00037640 + cd_base, (int)DAT_06003624);
+  (*(int(*)())dma_block)(0x25E4EFEC, 0x0003CE44 + cd_base, 0x00008094);
+  (*(int(*)())dma_block)(0x25E40000, 0x00044ED8 + cd_base, 0x7f0);
+  (*(int(*)())dma_block)(0x25E407F0, 0x000456C8 + cd_base, (int)DAT_06003628);
+  (*(int(*)())dma_block)(0x25E4108C, 0x00045F64 + cd_base, 0x998);
+  (*(int(*)())dma_block)(0x25E41A24, 0x000468FC + cd_base, (int)DAT_0600362c);
+  (*(int(*)())dma_block)(0x25E42300, 0x000471D8 + cd_base, 0x978);
+  (*(int(*)())dma_block)(0x25E42C78, 0x00047B50 + cd_base, (int)DAT_06003630);
+  /* rotation scroll coefficient data */
+  (*(int(*)())dma_block)(0x25E61CEC, 0x0001F370 + cd_base, 0x48e8);
+  (*(int(*)())dma_block)(0x25E665D4, 0x00023C58 + cd_base, 0x43f8);
+  (*(int(*)())dma_block)(0x25E6A9CC, 0x00028050 + cd_base, 0x4ff8);
+  tile_size = (int)DAT_06003774;
+  (*(int(*)())dma_block)(0x25E60000, 0x0002D41C + cd_base, tile_size);
+  (*(int(*)())dma_block)(0x25E609A4, 0x0002DDC0 + cd_base, tile_size);
+  (*(int(*)())dma_block)(0x25E61348, 0x0002E764 + cd_base, tile_size);
+  (*(int(*)())dma_block)(0x25E6F9C4, cd_base + DAT_06003778, (int)DAT_06003776);
+  (*(int(*)())dma_block)(0x25E70E40, cd_base + DAT_0600377c, (int)DAT_0600377a);
+  (*(int(*)())dma_block)(0x25E72194, 0x0000EAB0 + cd_base, (int)DAT_0600377e);
+  (*(int(*)())dma_block)(0x25E73B98, 0x00017114 + cd_base, 0x5c0);
+  (*(int(*)())dma_block)(0x25E74158, 0x000176D0 + cd_base, tile_size);
+  (*(int(*)())dma_block)(0x25E74AFC, 0x00018074 + cd_base, (int)DAT_06003782);
+  (*(int(*)())dma_block)(0x25E75730, 0x00018B10 + cd_base, (int)DAT_06003784);
+  /* sprite pattern data (word DMA) */
+  (*(int(*)())dma_word)(0x25E759EC, 0x00008F84 + cd_base, 0x3f0);
+  (*(int(*)())dma_word)(0x25E75DDC, 0x00009374 + cd_base, 0x3f0);
+  /* character/text font tiles */
+  (*(int(*)())dma_block)(0x25E76174, 0x00048514 + cd_base, 0x88);
+  (*(int(*)())dma_block)(0x25E761FC, 0x0004859C + cd_base, 0xd00);
+  (*(int(*)())dma_block)(0x25E76EFC, 0x0004929C + cd_base, (int)DAT_0600378c);
+  (*(int(*)())dma_block)(0x25E77B18, 0x00049EB8 + cd_base, (int)DAT_0600378e);
+  /* work RAM sprite buffers */
+  tile_size = (int)PTR_DAT_06003790;
+  (*(int(*)())dma_word)(0x060EE300, 0x0000AA54 + cd_base, tile_size);
+  (*(int(*)())dma_word)(0x060EE7D4, 0x0000AF28 + cd_base, tile_size);
+  (*(int(*)())dma_word)(0x060EECA8, 0x0000B3FC + cd_base, tile_size);
+  (*(int(*)())dma_word)(0x060EF17C, 0x0000B8D0 + cd_base, tile_size);
+  (*(int(*)())dma_word)(0x060EF650, 0x0000BDA4 + cd_base, tile_size);
+  (*(int(*)())dma_word)(0x060EFB24, 0x0002D048 + cd_base, (int)DAT_06003884);
+  /* miscellaneous tiles */
+  (*(int(*)())dma_block)(0x25E33AD8, 0x00019BC4 + cd_base, 0x528);
+  (*(int(*)())dma_block)(0x25E33764, 0x0001A0EC + cd_base, 0x228);
+  (*(int(*)())dma_block)(0x25E3398C, 0x0004FEEC + cd_base, (int)DAT_0600388a);
+  (*(int(*)())dma_block)(0x25E7B168, cd_base + DAT_0600388e, (int)DAT_0600388c);
 }
 
 /* vdp2_cram_load -- Load 14 color palette blocks into VDP2 CRAM (0x25F00000).

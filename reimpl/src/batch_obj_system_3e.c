@@ -32,136 +32,62 @@ extern int PTR_DAT_0603f180;
 extern int PTR_DAT_0603f8b0;
 extern int PTR_DAT_0603fe30;
 
+/* scroll_plane_rotate -- Apply 2D rotation to VDP2 scroll plane coefficients.
+ * Selects active scroll plane (0x060635A8: 1→plane 0, 2→plane 1).
+ * Computes sin/cos of param_1 via fixedpoint_sine (0x0603D9EC) and
+ * fixedpoint_cosine (0x0603DA88). Rotates 3 coefficient pairs
+ * (6 values total) in scroll table at 0x060A53B8 (stride 0x24 per
+ * plane) using 2D rotation: x' = x*cos + y*sin, y' = y*cos - x*sin.
+ * Fixed-point multiply via 0x0603C08C. Copies results to scroll
+ * output buffer at 0x060A3E68 (stride 0x80 per plane). */
 int FUN_0603eacc(param_1)
     int param_1;
 {
+  int sin_val, cos_val;
+  int plane_idx;
+  int orig_a, orig_b;
+  int rot_a, rot_b;
+  int *coeff;
 
-  char *puVar1;
-
-  int iVar2;
-
-  int uVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int *piVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  int iVar10;
-
-  int *piVar11;
-
-  int iVar12;
-
-  int *piVar13;
-
-  int iVar14;
-
-  unsigned short uVar15;
-
-  int *piVar16;
-
-  iVar2 = *(int *)0x060635A8;
-
-  if (iVar2 == 1) {
-
-    uVar15 = 0;
-
+  plane_idx = *(int *)0x060635A8;
+  if (plane_idx == 1) {
+    plane_idx = 0;
+  } else if (plane_idx == 2) {
+    plane_idx = 1;
+  } else {
+    return plane_idx;                                    /* invalid plane */
   }
-
-  else {
-
-    if (iVar2 != 2) {
-
-      return iVar2;
-
-    }
-
-    uVar15 = 1;
-
-  }
-
-  uVar3 = (*(int(*)())0x0603D9EC)(param_1);
-
-  uVar4 = (*(int(*)())0x0603DA88)(param_1);
-
-  puVar1 = (char *)0x0603C08C;
-
-  piVar16 = (int *)(0x060A53B8 + (char)((char)uVar15 * '$'));
-
-  iVar14 = *piVar16;
-
-  piVar13 = piVar16 + 1;
-
-  iVar10 = *piVar13;
-
-  piVar11 = piVar16 + 3;
-
-  iVar6 = *piVar11;
-
-  piVar7 = piVar16 + 4;
-
-  iVar9 = *piVar7;
-
-  iVar12 = piVar16[6];
-
-  iVar8 = piVar16[7];
-
-  iVar2 = (*(int(*)())0x0603C08C)(iVar14,uVar4);
-
-  iVar5 = (*(int(*)())puVar1)(iVar10,uVar3);
-
-  *piVar16 = iVar5 + iVar2;
-
-  iVar2 = (*(int(*)())puVar1)(iVar14,uVar3);
-
-  iVar5 = (*(int(*)())puVar1)(iVar10,uVar4);
-
-  *piVar13 = iVar5 - iVar2;
-
-  iVar2 = (*(int(*)())puVar1)(iVar6,uVar4);
-
-  iVar5 = (*(int(*)())puVar1)(iVar9,uVar3);
-
-  *piVar11 = iVar5 + iVar2;
-
-  iVar2 = (*(int(*)())puVar1)(iVar6,uVar3);
-
-  iVar5 = (*(int(*)())puVar1)(iVar9,uVar4);
-
-  *piVar7 = iVar5 - iVar2;
-
-  iVar2 = (*(int(*)())puVar1)(iVar12,uVar4);
-
-  iVar5 = (*(int(*)())puVar1)(iVar8,uVar3);
-
-  piVar16[6] = iVar5 + iVar2;
-
-  iVar2 = (*(int(*)())puVar1)(iVar12,uVar3);
-
-  iVar5 = (*(int(*)())puVar1)(iVar8,uVar4);
-
-  piVar16[7] = iVar5 - iVar2;
-
-  puVar1 = (char *)0x060A3E68;
-
-  *(int *)(0x060A3E68 + (unsigned int)(uVar15 << 7) + 0x1c) = *piVar16;
-
-  *(int *)(puVar1 + (unsigned int)(uVar15 << 7) + 0x20) = *piVar13;
-
-  *(int *)(puVar1 + (unsigned int)(uVar15 << 7) + 0x28) = *piVar11;
-
-  *(int *)(puVar1 + (unsigned int)(uVar15 << 7) + 0x2c) = *piVar7;
-
-  return iVar5 - iVar2;
-
+  sin_val = (*(int(*)())0x0603D9EC)(param_1);            /* fixedpoint_sine */
+  cos_val = (*(int(*)())0x0603DA88)(param_1);            /* fixedpoint_cosine */
+  coeff = (int *)(0x060A53B8 + (char)((char)plane_idx * '$')); /* coefficient array */
+  /* rotate pair 0 (coeff[0], coeff[1]) */
+  orig_a = coeff[0];
+  orig_b = coeff[1];
+  coeff[0] = (*(int(*)())0x0603C08C)(orig_b, sin_val) +
+             (*(int(*)())0x0603C08C)(orig_a, cos_val);   /* a*cos + b*sin */
+  coeff[1] = (*(int(*)())0x0603C08C)(orig_b, cos_val) -
+             (*(int(*)())0x0603C08C)(orig_a, sin_val);   /* b*cos - a*sin */
+  /* rotate pair 1 (coeff[3], coeff[4]) */
+  orig_a = coeff[3];
+  orig_b = coeff[4];
+  coeff[3] = (*(int(*)())0x0603C08C)(orig_b, sin_val) +
+             (*(int(*)())0x0603C08C)(orig_a, cos_val);
+  coeff[4] = (*(int(*)())0x0603C08C)(orig_b, cos_val) -
+             (*(int(*)())0x0603C08C)(orig_a, sin_val);
+  /* rotate pair 2 (coeff[6], coeff[7]) */
+  orig_a = coeff[6];
+  orig_b = coeff[7];
+  coeff[6] = (*(int(*)())0x0603C08C)(orig_b, sin_val) +
+             (*(int(*)())0x0603C08C)(orig_a, cos_val);
+  rot_b = (*(int(*)())0x0603C08C)(orig_b, cos_val) -
+          (*(int(*)())0x0603C08C)(orig_a, sin_val);
+  coeff[7] = rot_b;
+  /* copy rotated coefficients to scroll output buffer */
+  *(int *)(0x060A3E68 + (unsigned int)(plane_idx << 7) + 0x1c) = coeff[0];
+  *(int *)(0x060A3E68 + (unsigned int)(plane_idx << 7) + 0x20) = coeff[1];
+  *(int *)(0x060A3E68 + (unsigned int)(plane_idx << 7) + 0x28) = coeff[3];
+  *(int *)(0x060A3E68 + (unsigned int)(plane_idx << 7) + 0x2c) = coeff[4];
+  return rot_b;
 }
 
 int FUN_0603ec40(param_1)

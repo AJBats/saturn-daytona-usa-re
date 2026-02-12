@@ -376,117 +376,69 @@ int FUN_0601c3e4()
 
 }
 
+/* results_screen_init -- Initialize results/record display screen.
+ * Clears display counters (0x0608602C, 0x06086030), sets initial
+ * palette color (DAT_0601ca3a), calls HUD setup (0x060149E0) and
+ * VDP sync (0x06026CE0). Fills VDP2 CRAM banks A (0x25F00200) and
+ * B (0x25F00400) with base color. Loads race palette from 0x0604880C,
+ * two tile banks via CD (0x0600511E), two VDP1 sprite overlays.
+ * Configures 5 CD audio channels (0x06038BD4), enables palette
+ * interrupt (0x06036E90), sets INPUT_STATE display flag, re-syncs VDP. */
 void FUN_0601c978()
 {
+  int count;
+  short *cram_ptr;
+  short *next;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  short *puVar4;
-
-  short *puVar5;
-
-  puVar1 = (char *)0x06086028;
-
-  *(int *)0x0608602C = 0;
-
-  *(int *)0x06086030 = 0;
-
-  puVar2 = (char *)0x060149E0;
-
-  *(short *)puVar1 = DAT_0601ca3a;
-
-  (*(int(*)())puVar2)();
-
-  (*(int(*)())0x060148FC)();
-
-  (*(int(*)())0x06026CE0)();
-
+  *(int *)0x0608602C = 0;                               /* clear display counter A */
+  *(int *)0x06086030 = 0;                               /* clear display counter B */
+  *(short *)0x06086028 = DAT_0601ca3a;                  /* base palette color */
+  (*(int(*)())0x060149E0)();                             /* HUD layout setup */
+  (*(int(*)())0x060148FC)();                             /* HUD state reset */
+  (*(int(*)())0x06026CE0)();                             /* VDP vsync */
   VBLANK_OUT_COUNTER = 0;
-
-  (*(int(*)())0x0600A026)();
-
-  *(int *)0x0608601C = (int)DAT_0601ca3c;
-
-  *(int *)0x06086020 = 0;
-
-  *(int *)0x06086024 = 0;
-
-  iVar3 = 0x20;
-
-  puVar5 = (short *)0x25F00200;
-
+  (*(int(*)())0x0600A026)();                             /* timing reset */
+  *(int *)0x0608601C = (int)DAT_0601ca3c;               /* display mode */
+  *(int *)0x06086020 = 0;                               /* fade step counter */
+  *(int *)0x06086024 = 0;                               /* animation counter */
+  /* fill VDP2 CRAM bank A (0x25F00200) with base color */
+  count = 0x20;
+  cram_ptr = (short *)0x25F00200;
   do {
-
-    iVar3 = iVar3 + -2;
-
-    *puVar5 = *(short *)puVar1;
-
-    puVar4 = puVar5 + 1;
-
-    puVar5 = puVar5 + 2;
-
-    *puVar4 = *(short *)puVar1;
-
-  } while (iVar3 != 0);
-
-  iVar3 = 0x20;
-
-  puVar5 = (short *)0x25F00400;
-
+    count = count + -2;
+    *cram_ptr = *(short *)0x06086028;
+    next = cram_ptr + 1;
+    cram_ptr = cram_ptr + 2;
+    *next = *(short *)0x06086028;
+  } while (count != 0);
+  /* fill VDP2 CRAM bank B (0x25F00400) with base color */
+  count = 0x20;
+  cram_ptr = (short *)0x25F00400;
   do {
-
-    iVar3 = iVar3 + -2;
-
-    *puVar5 = *(short *)puVar1;
-
-    puVar4 = puVar5 + 1;
-
-    puVar5 = puVar5 + 2;
-
-    *puVar4 = *(short *)puVar1;
-
-  } while (iVar3 != 0);
-
-  (*(int(*)())0x0602766C)(0x25F00000,0x0604880C,0x40);
-
-  (*(int(*)())0x0600511E)(0x25E70E40,0x00014000,0,9);
-
-  (*(int(*)())0x0600511E)(0x25E7B168,0x00016BC0,0,9);
-
-  (*(int(*)())0x06028400)(4,*(int *)0x06063958,0x518,
-
-             *(int *)(0x06063958 + 4),0x06063958);
-
-  (*(int(*)())0x06028400)(0,*(int *)0x06063960,0x518,
-
-             *(int *)(0x06063960 + 4),0x06063960);
-
-  puVar1 = (char *)0x06038BD4;
-
-  (*(int(*)())0x06038BD4)(0x100,0);
-
-  (*(int(*)())puVar1)(4,1);
-
-  (*(int(*)())puVar1)(8,2);
-
-  (*(int(*)())puVar1)(0x10,0);
-
-  (*(int(*)())puVar1)(0x20,0);
-
-  (*(int(*)())0x06036E90)(0x25F00FFE,1,0x06086028);
-
-  INPUT_STATE = INPUT_STATE | 0x40000000;
-
-  (*(int(*)())0x06026CE0)();
-
+    count = count + -2;
+    *cram_ptr = *(short *)0x06086028;
+    next = cram_ptr + 1;
+    cram_ptr = cram_ptr + 2;
+    *next = *(short *)0x06086028;
+  } while (count != 0);
+  (*(int(*)())0x0602766C)(0x25F00000, 0x0604880C, 0x40); /* DMA race palette */
+  (*(int(*)())0x0600511E)(0x25E70E40, 0x00014000, 0, 9); /* load tile bank A from CD */
+  (*(int(*)())0x0600511E)(0x25E7B168, 0x00016BC0, 0, 9); /* load tile bank B from CD */
+  /* VDP1 sprite overlays for results screen */
+  (*(int(*)())0x06028400)(4, *(int *)0x06063958, 0x518,
+             *(int *)(0x06063958 + 4), 0x06063958);
+  (*(int(*)())0x06028400)(0, *(int *)0x06063960, 0x518,
+             *(int *)(0x06063960 + 4), 0x06063960);
+  /* CD audio channel configuration */
+  (*(int(*)())0x06038BD4)(0x100, 0);                     /* master volume */
+  (*(int(*)())0x06038BD4)(4, 1);                         /* channel 1 */
+  (*(int(*)())0x06038BD4)(8, 2);                         /* channel 2 */
+  (*(int(*)())0x06038BD4)(0x10, 0);                      /* channel 3 */
+  (*(int(*)())0x06038BD4)(0x20, 0);                      /* channel 4 */
+  (*(int(*)())0x06036E90)(0x25F00FFE, 1, 0x06086028);    /* palette interrupt enable */
+  INPUT_STATE = INPUT_STATE | 0x40000000;                /* set display active flag */
+  (*(int(*)())0x06026CE0)();                             /* VDP vsync */
   VBLANK_OUT_COUNTER = 0;
-
-  return;
-
 }
 
 void FUN_0601caee()
