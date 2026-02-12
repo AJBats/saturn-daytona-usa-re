@@ -331,187 +331,102 @@ int FUN_06006838(int world_x, int world_z)
     return (row << 6) + col;
 }
 
-unsigned int FUN_06006868()
+/* scene_tile_render_near -- Render nearby scene tiles (3x3 grid around camera).
+ * Converts camera world position (0x06063DF8) to tile grid coordinates,
+ * then iterates a 3x3 neighborhood (clamped at grid edges 0..63).
+ * For each tile, looks up layer A/B tile counts and renders via
+ * course-specific renderers: course 2 uses 0x0602B328/0x0602AF3C,
+ * others use 0x06029BF4/0x0602A834. After tiles, dispatches to
+ * course-specific road renderer (0x06017814/0x06017CEC/0x06018166)
+ * unless GAME_STATE_BIT has pause/menu flags (0x30000000). */
+unsigned int scene_tile_render_near()
 {
+  short layer_b_count;
+  int course_id_base;
+  int tile_idx;
+  unsigned int result;
+  char *course_ptr = (char *)0x0607EAD8;               /* course select */
+  char *camera_param = (char *)0x06089E96;              /* camera render param */
 
-  short sVar1;
+  *(int *)0x06063F54 = *(int *)(CAR_PTR_TARGET + 0x14); /* store car Y for depth sort */
 
-  char *puVar2;
+  int layer_a_map = *(int *)(0x06062248 + *(int *)((int)(int)course_ptr << 3));
+  int layer_b_map = *(int *)(0x06062248 + (*(int *)((int)(int)course_ptr << 1) + 1) << 2);
+  int tile_count_a = *(int *)(0x06062260 + *(int *)((int)(int)course_ptr << 4));
+  course_id_base = *(int *)((int)(int)course_ptr << 2);
+  int tile_offset_a = *(int *)(0x06062260 + (course_id_base + 1) << 2);
+  int tile_count_b = *(int *)(0x06062260 + (course_id_base + 2) << 2);
+  int tile_offset_b = *(int *)(0x06062260 + (course_id_base + 3) << 2);
 
-  char *puVar3;
+  /* Convert camera world pos to 64x64 tile grid coords */
+  unsigned int grid_col = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
+  unsigned int grid_row = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
+  int center_tile = (grid_row << 6) + grid_col;
 
-  int iVar4;
-
-  int uVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int uVar8;
-
-  int iVar9;
-
-  unsigned int uVar10;
-
-  int iVar11;
-
-  unsigned int uVar12;
-
-  int iVar13;
-
-  int iVar14;
-
-  int iVar15;
-
-  int local_4c;
-
-  int iStack_40;
-
-  int iStack_28;
-
-  int iStack_24;
-
-  puVar2 = (char *)0x0607EAD8;
-
-  *(int *)0x06063F54 = *(int *)(CAR_PTR_TARGET + 0x14);
-
-  puVar3 = (char *)0x06089E96;
-
-  uVar8 = *(int *)(0x06062248 + *(int *)((int)(int)puVar2 << 3));
-
-  uVar5 = *(int *)(0x06062248 + (*(int *)((int)(int)puVar2 << 1) + 1) << 2);
-
-  iVar4 = *(int *)(0x06062260 + *(int *)((int)(int)puVar2 << 4));
-
-  iVar11 = *(int *)((int)(int)puVar2 << 2);
-
-  iVar9 = *(int *)(0x06062260 + (iVar11 + 1) << 2);
-
-  iVar6 = *(int *)(0x06062260 + (iVar11 + 2) << 2);
-
-  iVar11 = *(int *)(0x06062260 + (iVar11 + 3) << 2);
-
-  uVar10 = (unsigned int)(0x04000000 + *(int *)0x06063DF8) >> 0x15;
-
-  uVar12 = (unsigned int)(0x04000000 + (-1 - *(int *)(0x06063DF8 + 8))) >> 0x15;
-
-  iVar7 = (uVar12 << 6) + uVar10;
-
-  iStack_28 = 0x40;
-
-  iStack_24 = -1;
-
-  iStack_40 = 1;
-
-  local_4c = -0x40;
-
-  if (uVar12 == 0x3f) {
-
-    iStack_28 = 0;
-
+  /* Set up 3x3 neighborhood bounds, clamped at grid edges */
+  int row_end = 0x40;                                   /* +1 row (64 tiles/row) */
+  int col_start = -1;
+  int col_end = 1;
+  int row_start = -0x40;                                /* -1 row */
+  if (grid_row == 0x3f) {
+    row_end = 0;                                        /* at bottom edge: no row below */
+  }
+  else if (grid_row == 0) {
+    row_start = 0;                                      /* at top edge: no row above */
+  }
+  if (grid_col == 0x3f) {
+    col_end = 0;                                        /* at right edge */
+  }
+  else if (grid_col == 0) {
+    col_start = 0;                                      /* at left edge */
   }
 
-  else if (uVar12 == 0) {
-
-    local_4c = 0;
-
-  }
-
-  if (uVar10 == 0x3f) {
-
-    iStack_40 = 0;
-
-  }
-
-  else if (uVar10 == 0) {
-
-    iStack_24 = 0;
-
-  }
-
-  for (; local_4c <= iStack_28; local_4c = local_4c + 0x40) {
-
-    iVar14 = local_4c + iStack_24 + iVar7;
-
-    for (iVar15 = iStack_24; iVar15 <= iStack_40; iVar15 = iVar15 + 1) {
-
-      sVar1 = *(short *)((iVar14 << 1) + iVar6);
-
-      if (0 < *(short *)(iVar4 + (iVar14 << 1))) {
-
-        iVar13 = *(int *)(0x06062230 + *(int *)((int)(int)puVar2 << 3)) + *(int *)(iVar9 + (iVar14 << 2));
-
-        if (*(int *)puVar2 == 2) {
-
-          uVar10 = (*(int(*)())0x0602B328)(iVar13,uVar8,(int)*(short *)puVar3);
-
+  /* Iterate 3x3 tile neighborhood */
+  for (; row_start <= row_end; row_start = row_start + 0x40) {
+    tile_idx = row_start + col_start + center_tile;
+    int col;
+    for (col = col_start; col <= col_end; col = col + 1) {
+      layer_b_count = *(short *)((tile_idx << 1) + tile_count_b);
+      /* Render layer A if tile has geometry */
+      if (0 < *(short *)(tile_count_a + (tile_idx << 1))) {
+        int mesh_base = *(int *)(0x06062230 + *(int *)((int)(int)course_ptr << 3)) +
+                        *(int *)(tile_offset_a + (tile_idx << 2));
+        if (*(int *)course_ptr == 2) {
+          result = (*(int(*)())0x0602B328)(mesh_base, layer_a_map, (int)*(short *)camera_param);
+        } else {
+          result = (*(int(*)())0x06029BF4)(mesh_base, layer_a_map, (int)*(short *)camera_param);
         }
-
-        else {
-
-          uVar10 = (*(int(*)())0x06029BF4)(iVar13,uVar8,(int)*(short *)puVar3);
-
-        }
-
       }
-
-      if (0 < sVar1) {
-
-        iVar13 = *(int *)(0x06062230 + (*(int *)((int)(int)puVar2 << 1) + 1) << 2) +
-
-                 *(int *)(iVar11 + (iVar14 << 2));
-
-        if (*(int *)puVar2 == 2) {
-
-          uVar10 = (*(int(*)())0x0602AF3C)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
-
+      /* Render layer B if tile has geometry */
+      if (0 < layer_b_count) {
+        int mesh_base = *(int *)(0x06062230 + (*(int *)((int)(int)course_ptr << 1) + 1) << 2) +
+                        *(int *)(tile_offset_b + (tile_idx << 2));
+        if (*(int *)course_ptr == 2) {
+          result = (*(int(*)())0x0602AF3C)(mesh_base, layer_b_map, (int)*(short *)camera_param, (int)layer_b_count);
+        } else {
+          result = (*(int(*)())0x0602A834)(mesh_base, layer_b_map, (int)*(short *)camera_param, (int)layer_b_count);
         }
-
-        else {
-
-          uVar10 = (*(int(*)())0x0602A834)(iVar13,uVar5,(int)*(short *)puVar3,(int)sVar1);
-
-        }
-
       }
-
-      iVar14 = iVar14 + 1;
-
+      tile_idx = tile_idx + 1;
     }
-
   }
 
+  /* Dispatch to course-specific road/track renderer unless paused */
   if ((GAME_STATE_BIT & 0x30000000) == 0) {
-
-    iVar4 = *(int *)puVar2;
-
-    if (iVar4 == 0) {
-
-      (*(int(*)())0x06017814)();
-
+    int course = *(int *)course_ptr;
+    if (course == 0) {
+      (*(int(*)())0x06017814)();                        /* course 0: beginner road */
     }
-
-    else if (iVar4 == 1) {
-
-      (*(int(*)())0x06017CEC)();
-
+    else if (course == 1) {
+      (*(int(*)())0x06017CEC)();                        /* course 1: advanced road */
     }
-
-    else if (iVar4 == 2) {
-
-      (*(int(*)())0x06018166)();
-
+    else if (course == 2) {
+      (*(int(*)())0x06018166)();                        /* course 2: expert road */
     }
-
-    uVar10 = (*(int(*)())0x06022140)();
-
-    return uVar10;
-
+    result = (*(int(*)())0x06022140)();                 /* final scene post-process */
+    return result;
   }
-
-  return uVar10;
-
+  return result;
 }
 
 /* scene_border_tiles_render -- Render border/edge tiles of the scene grid.
