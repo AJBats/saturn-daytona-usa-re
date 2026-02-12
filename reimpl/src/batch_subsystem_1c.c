@@ -55,7 +55,7 @@ extern void FUN_0601d014();
 extern void FUN_0601d074();
 extern int FUN_0601d0bc();
 extern void FUN_0601d12c();
-extern int FUN_0601d5f4();
+extern int scsp_command_dispatch();
 extern int FUN_0601db84();
 extern int FUN_0601ddf6();
 extern int FUN_0601e26c();
@@ -1019,161 +1019,98 @@ void FUN_0601d57c(unsigned short param_1)
     (*(void(*)())0x06028400)(0xc, 0x0605AAA2, (param_1 & 0x3f) << 1, 0);
 }
 
-int FUN_0601d5f4(param_1, param_2)
+/* scsp_command_dispatch -- routes sound commands to SCSP mailbox by channel.
+ *   param_1 = channel (0=direct, 1-5=tracked channels, 0xF=direct bypass)
+ *   param_2 = sound command or track ID (shifted into 0xAn7000FF format for ch 1-5)
+ *   Channels 1-5 build command word 0xAn7000FF + (param_2 << 8) and skip if unchanged.
+ *   Channel 0 and 0xF send raw command if it has 0xA0000000 signature.
+ *   Channel 4 sends param_2 directly without encoding.
+ *   Returns channel number on success, SOUND_TIMEOUT_FLAG on timeout. */
+int scsp_command_dispatch(param_1, param_2)
     int param_1;
     unsigned int param_2;
 {
-
-  int iVar1;
-
-  int iVar2;
-
-  iVar1 = SOUND_TIMEOUT_FLAG;
-
+  int result;
+  int cmd_word;
+  result = SOUND_TIMEOUT_FLAG;
   if (SOUND_TIMEOUT_FLAG == 0) {
-
-    iVar1 = param_1;
-
+    result = param_1;
     if (param_1 == 0) {
-
+      /* Channel 0: direct SCSP command (must have 0xA0 signature) */
       if ((param_2 & 0xA0000000) == 0xA0000000) {
-
-        iVar1 = FUN_0601db84();
-
+        result = FUN_0601db84();             /* wait for SCSP mailbox ready */
         SCSP_MAILBOX = param_2;
-
         SOUND_CMD_MIRROR = param_2;
-
       }
-
-    }
-
-    else {
-
+    } else {
       if (param_1 == 1) {
-
-        iVar2 = 0xA07000FF + (param_2 << 8);
-
-        iVar1 = 1;
-
-        if (SOUND_CHAN_STATE != iVar2) {
-
-          iVar1 = FUN_0601db84();
-
-          SOUND_CHAN_STATE = iVar2;
-
-          SOUND_CMD_MIRROR = iVar2;
-
-          SCSP_MAILBOX = iVar2;
-
+        /* Channel 1: BGM / main music (0xA07000FF base) */
+        cmd_word = 0xA07000FF + (param_2 << 8);
+        result = 1;
+        if (SOUND_CHAN_STATE != cmd_word) {
+          result = FUN_0601db84();
+          SOUND_CHAN_STATE = cmd_word;
+          SOUND_CMD_MIRROR = cmd_word;
+          SCSP_MAILBOX = cmd_word;
         }
-
-        return iVar1;
-
+        return result;
       }
-
       if (param_1 == 2) {
-
-        iVar2 = 0xA17000FF + (param_2 << 8);
-
-        iVar1 = 2;
-
-        if (*(int *)0x0605DF98 != iVar2) {
-
-          iVar1 = FUN_0601db84();
-
-          *(int *)0x0605DF98 = iVar2;
-
-          SOUND_CMD_MIRROR = iVar2;
-
-          SCSP_MAILBOX = iVar2;
-
+        /* Channel 2: secondary audio (0xA17000FF base) */
+        cmd_word = 0xA17000FF + (param_2 << 8);
+        result = 2;
+        if (*(int *)0x0605DF98 != cmd_word) {
+          result = FUN_0601db84();
+          *(int *)0x0605DF98 = cmd_word;     /* channel 2 state */
+          SOUND_CMD_MIRROR = cmd_word;
+          SCSP_MAILBOX = cmd_word;
         }
-
-        return iVar1;
-
+        return result;
       }
-
       if (param_1 == 3) {
-
-        iVar2 = 0xA27000FF + (param_2 << 8);
-
-        iVar1 = 3;
-
-        if (*(int *)0x0605DF9C != iVar2) {
-
-          iVar1 = FUN_0601db84();
-
-          *(int *)0x0605DF9C = iVar2;
-
-          SOUND_CMD_MIRROR = iVar2;
-
-          SCSP_MAILBOX = iVar2;
-
+        /* Channel 3: tertiary audio (0xA27000FF base) */
+        cmd_word = 0xA27000FF + (param_2 << 8);
+        result = 3;
+        if (*(int *)0x0605DF9C != cmd_word) {
+          result = FUN_0601db84();
+          *(int *)0x0605DF9C = cmd_word;     /* channel 3 state */
+          SOUND_CMD_MIRROR = cmd_word;
+          SCSP_MAILBOX = cmd_word;
         }
-
-        return iVar1;
-
+        return result;
       }
-
       if (param_1 == 4) {
-
-        iVar1 = 4;
-
+        /* Channel 4: raw command pass-through */
+        result = 4;
         if (*(unsigned int *)0x0605DFA4 != param_2) {
-
-          iVar1 = FUN_0601db84();
-
-          *(unsigned int *)0x0605DFA4 = param_2;
-
+          result = FUN_0601db84();
+          *(unsigned int *)0x0605DFA4 = param_2; /* channel 4 state */
           SOUND_CMD_MIRROR = param_2;
-
           SCSP_MAILBOX = param_2;
-
         }
-
-        return iVar1;
-
+        return result;
       }
-
       if (param_1 == 5) {
-
-        iVar2 = 0xA37000FF + (param_2 << 8);
-
-        iVar1 = 5;
-
-        if (*(int *)0x0605DFA8 != iVar2) {
-
-          iVar1 = FUN_0601db84();
-
-          *(int *)0x0605DFA8 = iVar2;
-
-          SOUND_CMD_MIRROR = iVar2;
-
-          SCSP_MAILBOX = iVar2;
-
+        /* Channel 5: effect audio (0xA37000FF base) */
+        cmd_word = 0xA37000FF + (param_2 << 8);
+        result = 5;
+        if (*(int *)0x0605DFA8 != cmd_word) {
+          result = FUN_0601db84();
+          *(int *)0x0605DFA8 = cmd_word;     /* channel 5 state */
+          SOUND_CMD_MIRROR = cmd_word;
+          SCSP_MAILBOX = cmd_word;
         }
-
-        return iVar1;
-
+        return result;
       }
-
       if ((param_1 == 0xf) && ((param_2 & 0xA0000000) == 0xA0000000)) {
-
-        iVar1 = FUN_0601db84();
-
+        /* Channel 0xF: direct bypass (same as channel 0) */
+        result = FUN_0601db84();
         SCSP_MAILBOX = param_2;
-
         SOUND_CMD_MIRROR = param_2;
-
       }
-
     }
-
   }
-
-  return iVar1;
-
+  return result;
 }
 
 /* race_position_sound -- dispatches SCSP sound cues based on race checkpoint progress
@@ -1227,17 +1164,17 @@ int race_position_sound()
       if ((*(int *)(car_base + DAT_0601d974) == *(int *)0x06063F28 + -1) &&
          (*(int *)0x06086034 == 0)) {
         /* At final checkpoint — FINAL LAP fanfare */
-        result = FUN_0601d5f4(0,0xAE1121FF);    /* SCSP: final lap fanfare */
+        result = scsp_command_dispatch(0,0xAE1121FF);    /* SCSP: final lap fanfare */
         *(short *)lap_state = (char *)0x50;
         *(short *)delay_counter = (char *)0x50;
         *(int *)0x06086034 = 1;                 /* mark final lap sound played */
       } else {
-        result = FUN_0601d5f4(0,0xAE1127FF);    /* SCSP: approach sound (far) */
+        result = scsp_command_dispatch(0,0xAE1127FF);    /* SCSP: approach sound (far) */
         *(short *)delay_counter = PTR_DAT_0601da3c;
         *(short *)lap_state = (char *)0x14;
       }
     } else {
-      result = FUN_0601d5f4(0,0xAE1126FF);      /* SCSP: approach sound (near) */
+      result = scsp_command_dispatch(0,0xAE1126FF);      /* SCSP: approach sound (near) */
       *(short *)delay_counter = DAT_0601d976;
       *(short *)lap_state = (char *)0x14;
     }
@@ -1245,10 +1182,10 @@ int race_position_sound()
     /* Final lap active or race complete */
     if ((*(int *)(car_base + PTR_DAT_0601d884) != *(int *)0x06063F28 + -1) ||
        (*(int *)0x06086034 != 0)) {
-      result = FUN_0601d5f4(0,0xAE1146FF);      /* SCSP: generic position cue */
+      result = scsp_command_dispatch(0,0xAE1146FF);      /* SCSP: generic position cue */
       return result;
     }
-    result = FUN_0601d5f4(0,0xAE1121FF);        /* SCSP: final lap fanfare */
+    result = scsp_command_dispatch(0,0xAE1121FF);        /* SCSP: final lap fanfare */
     *(short *)delay_counter = (char *)0x50;
     *(int *)0x06086034 = 1;                     /* mark final lap sound played */
   }
@@ -1296,7 +1233,7 @@ unsigned int FUN_0601d9b0()
 
         *(short *)0x06086056 = 0;
 
-        FUN_0601d5f4(0,uVar4);
+        scsp_command_dispatch(0,uVar4);
 
       }
 
@@ -1304,7 +1241,7 @@ unsigned int FUN_0601d9b0()
 
         *(short *)0x06086056 = 0;
 
-        FUN_0601d5f4(0,uVar4);
+        scsp_command_dispatch(0,uVar4);
 
       }
 
@@ -1320,7 +1257,7 @@ unsigned int FUN_0601d9b0()
 
         *(short *)0x06086056 = 0;
 
-        FUN_0601d5f4(0,0xAE112DFF);
+        scsp_command_dispatch(0,0xAE112DFF);
 
       }
 
@@ -1332,7 +1269,7 @@ unsigned int FUN_0601d9b0()
 
       *(short *)0x06086056 = 0;
 
-      FUN_0601d5f4(0,0xAE112FFF);
+      scsp_command_dispatch(0,0xAE112FFF);
 
       *(short *)puVar3 = (char *)0x28;
 
@@ -1348,7 +1285,7 @@ unsigned int FUN_0601d9b0()
 
     *(short *)0x06086056 = 0;
 
-    FUN_0601d5f4(0,0xAE1129FF);
+    scsp_command_dispatch(0,0xAE1129FF);
 
 LAB_0601da72:
 
@@ -1362,7 +1299,7 @@ LAB_0601da72:
 
       *(short *)0x06086056 = 0;
 
-      FUN_0601d5f4(0,uVar4);
+      scsp_command_dispatch(0,uVar4);
 
       goto LAB_0601da72;
 
@@ -1372,7 +1309,7 @@ LAB_0601da72:
 
       *(short *)0x06086056 = 0;
 
-      FUN_0601d5f4(0,0xAE112AFF);
+      scsp_command_dispatch(0,0xAE112AFF);
 
       uVar7 = 0x14;
 
@@ -1384,7 +1321,7 @@ LAB_0601da72:
 
         *(short *)0x06086056 = 0;
 
-        FUN_0601d5f4(0,uVar4);
+        scsp_command_dispatch(0,uVar4);
 
         goto LAB_0601da72;
 
@@ -1394,7 +1331,7 @@ LAB_0601da72:
 
         *(short *)0x06086056 = 0;
 
-        FUN_0601d5f4(0,0xAE112CFF);
+        scsp_command_dispatch(0,0xAE112CFF);
 
         uVar7 = 0x14;
 
@@ -1412,7 +1349,7 @@ LAB_0601da72:
 
         *(short *)0x06086056 = 0;
 
-        FUN_0601d5f4(0,uVar4);
+        scsp_command_dispatch(0,uVar4);
 
         uVar7 = 0x28;
 
@@ -1446,7 +1383,7 @@ LAB_0601db20:
 
       *(short *)puVar3 = (char *)0x28;
 
-      uVar6 = FUN_0601d5f4(0,0xAE1120FF);
+      uVar6 = scsp_command_dispatch(0,0xAE1120FF);
 
       return uVar6;
 

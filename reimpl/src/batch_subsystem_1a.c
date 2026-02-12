@@ -172,12 +172,15 @@ void FUN_0601a65e()
  * Channel 0xF is the menu/UI sound channel. */
 extern void sound_cmd_dispatch(int channel, int command);
 
-void FUN_0601a73e(void)
+/* sound_mode_select -- selects BGM track based on game mode flag.
+ *   Flag at 0x0605D241: 0 = normal mode (track 0x06), non-zero = alt mode (track 0x07).
+ *   Dispatches via sound_cmd_dispatch channel 0xF (direct SCSP command). */
+void sound_mode_select(void)
 {
     if (*(int *)0x0605D241 == '\0') {
-        sound_cmd_dispatch(0xF, 0xAE0006FF);
+        sound_cmd_dispatch(0xF, 0xAE0006FF);   /* SCSP: BGM track 0x06 (normal) */
     } else {
-        sound_cmd_dispatch(0xF, 0xAE0007FF);
+        sound_cmd_dispatch(0xF, 0xAE0007FF);   /* SCSP: BGM track 0x07 (alt) */
     }
 }
 
