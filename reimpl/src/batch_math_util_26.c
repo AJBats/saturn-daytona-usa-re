@@ -237,108 +237,66 @@ LAB_060263dc:
     } while( 1 );
 }
 
+/* input_aux_peripheral_scan_exclude -- Scan auxiliary peripherals excluding one slot.
+ * Like input_peripheral_scan_exclude but scans 8 auxiliary port slots (0x0606107C).
+ * Classifies devices into port A (types 0-1) and port B (types 2-3, 8-11).
+ * Stores port IDs to 0x06089ED4 (port B) and 0x06089ED6 (port A).
+ * Returns last device descriptor processed. */
 unsigned int FUN_060263ec(param_1)
     unsigned int param_1;
 {
+    unsigned short dev_desc;
+    char *port_b_id = (char *)0x06089ED4;       /* port B device ID */
+    char *port_a_id = (char *)0x06089ED6;       /* port A device ID */
+    char *aux_table = (int *)0x0606107C;         /* auxiliary peripheral table */
+    unsigned int dev_type;
+    short port_flag;
+    unsigned short slot;
 
-  unsigned short uVar1;
+    *(short *)0x06089ED6 = 0;
+    *(short *)port_b_id = 0;
+    dev_type = 0;
+    slot = 0;
 
-  char *puVar2;
+    do {
+        if (7 < slot) {
+            return dev_type;
+        }
+        if ((slot == param_1) ||
+            (dev_type = (unsigned int)*(unsigned short *)(aux_table + (unsigned int)(slot << 3) + 6) - 0x8a,
+             0xb < dev_type))
+            goto LAB_0602647c;
 
-  char *puVar3;
+        dev_desc = ((int *)0x06026464)[dev_type];
 
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  short uVar6;
-
-  unsigned short uVar7;
-
-  puVar4 = (char *)0x06089ED4;
-
-  puVar3 = (char *)0x06089ED6;
-
-  puVar2 = (int *)0x0606107C;
-
-  uVar5 = 0;
-
-  *(short *)0x06089ED6 = 0;
-
-  *(short *)puVar4 = 0;
-
-  uVar7 = 0;
-
-  do {
-
-    if (7 < uVar7) {
-
-      return uVar5;
-
-    }
-
-    if ((uVar7 == param_1) ||
-
-       (uVar5 = (unsigned int)*(unsigned short *)(puVar2 + (unsigned int)(uVar7 << 3) + 6) - 0x8a, 0xb < uVar5))
-
-    goto LAB_0602647c;
-
-    uVar1 = ((int *)0x06026464)[uVar5];
-
-    switch(uVar5) {
-
-    case 0:
-
-    case 1:
-
-      uVar6 = 1;
-
-      break;
-
-    case 2:
-
-    case 3:
-
-      uVar6 = 1;
-
-      goto LAB_06026436;
-
-    default:
-
-      uVar6 = 2;
-
-      break;
-
-    case 8:
-
-    case 9:
-
-    case 10:
-
-    case 0xb:
-
-      uVar6 = 2;
-
+        switch(dev_type) {
+        case 0:
+        case 1:
+            port_flag = 1;
+            break;
+        case 2:
+        case 3:
+            port_flag = 1;
+            goto LAB_06026436;
+        default:
+            port_flag = 2;
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 0xb:
+            port_flag = 2;
 LAB_06026436:
-
-      *(short *)puVar4 = uVar6;
-
-      uVar5 = (int)(short)uVar1;
-
-      goto LAB_0602647c;
-
-    }
-
-    *(short *)puVar3 = uVar6;
-
-    uVar5 = (int)(short)uVar1;
+            *(short *)port_b_id = port_flag;
+            dev_type = (int)(short)dev_desc;
+            goto LAB_0602647c;
+        }
+        *(short *)port_a_id = port_flag;
+        dev_type = (int)(short)dev_desc;
 
 LAB_0602647c:
-
-    uVar7 = uVar7 + 1;
-
-  } while( 1 );
-
+        slot = slot + 1;
+    } while( 1 );
 }
 
 /* input_peripheral_scan -- Scan 8 SMPC peripheral slots and classify input devices.
