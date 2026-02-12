@@ -95,3 +95,7 @@ void FUN_06028654(int param_1, int param_2) { (void)param_1; (void)param_2; }
 
 /* Channel rendering processor (ASM-only, heavy register save) */
 void FUN_06020366(int param_1) { (void)param_1; }
+
+/* Ghidra phantom sub-functions (mid-function offsets, not real entry points) */
+int FUN_0603ec40(int a) { (void)a; return 0; }
+int FUN_06013c58(void) { return 0; }

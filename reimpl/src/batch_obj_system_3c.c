@@ -41,7 +41,7 @@ extern int DAT_0603e93a;
 extern int DAT_0603e93c;
 extern int DAT_0603e93e;
 extern int DAT_0603ea46;
-extern int FUN_0603c1a8();
+extern int dma_channel_level_set();
 extern int FUN_0603cc88();
 extern void dma_register_state_clear();
 extern char * FUN_0603d9ec();
@@ -148,373 +148,219 @@ void scu_dma_subsystem_init()
   return;
 }
 
-int FUN_0603c1a8(param_1, param_2)
-    unsigned int param_1;
-    unsigned int param_2;
+/* dma_channel_level_set -- Set DMA transfer level for selected channels.
+ * channel_mask: bitmask selecting which DMA channels to configure:
+ *   0x100/0x200 = channel 0 (low/high byte of reg at 0x060A4D36)
+ *   0x400/0x800 = channel 1 (low/high byte of reg at 0x060A4D38)
+ *   DAT_0603c496/c49a = channel 2 (low/high byte of reg at 0x060A4D3A)
+ *   DAT_0603c49c/0x8000 = channel 3 (low/high byte of reg at 0x060A4D3C)
+ *   0x04/0x02 = alternate ch A (low byte of reg at 0x060A4D3E)
+ *   0x08/0x80 = alternate ch B (high byte of reg at 0x060A4D3E)
+ *   0x10 = alternate ch C (low byte of reg at 0x060A4D40)
+ *   0x20 = alternate ch D (high byte of reg at 0x060A4D40)
+ *   0x01 = alternate ch E (reg at 0x060A4D42)
+ * level: value to write (must be < 0x20 to enable, >= 0x20 disables).
+ * Each channel write is synced via 0x06034F78 and sets/clears
+ * the enable bit in control reg[6] at 0x060A4D18+0xC. */
+int dma_channel_level_set(channel_mask, level)
+    unsigned int channel_mask;
+    unsigned int level;
 {
-
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned short uVar6;
-
-  char *puVar7;
-
-  unsigned int uVar8;
-
-  puVar4 = (char *)0x060A4D36;
-
-  puVar3 = (char *)0x0000FFBF;
-
-  puVar2 = (int *)0x060A4D3E;
-
-  puVar5 = (char *)0x0000FF00;
-
-  uVar8 = 1;
-
-  puVar7 = (char *)0x060A4D18;
-
+  unsigned short high_mask;
+  char *ch_reg_a;
+  char *mask_ffbf_ptr;
+  char *ch_reg_b;
+  char *mask_ff00_ptr;
+  unsigned short mask_ffbf;
+  char *shadow_base;
+  unsigned int one;
+  ch_reg_a = (char *)0x060A4D36;                            /* DMA channel 0-3 level regs */
+  mask_ffbf_ptr = (char *)0x0000FFBF;
+  ch_reg_b = (int *)0x060A4D3E;                             /* DMA alternate channel regs */
+  mask_ff00_ptr = (char *)0x0000FF00;
+  one = 1;
+  shadow_base = (char *)0x060A4D18;                         /* DMA shadow register base */
+  /* clear enable bits 9 and 8 in control reg[6] */
+  (*(int(*)())0x06034F78)();                                 /* dma_sync */
+  *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FDFF;
   (*(int(*)())0x06034F78)();
-
-  *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FDFF;
-
-  (*(int(*)())0x06034F78)();
-
-  *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FEFF;
-
-  uVar1 = (unsigned short)puVar5;
-
-  uVar6 = (unsigned short)puVar3;
-
-  if ((0x100 & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FEFF;
+  high_mask = (unsigned short)mask_ff00_ptr;
+  mask_ffbf = (unsigned short)mask_ffbf_ptr;
+  /* channel 0 low byte (bit 0x100) */
+  if ((0x100 & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)puVar4 = *(unsigned short *)puVar4 & uVar1 | (unsigned short)param_2 & 0xff;
-
+      *(unsigned short *)ch_reg_a = *(unsigned short *)ch_reg_a & high_mask | (unsigned short)level & 0xff;
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if ((0x200 & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 0 high byte (bit 0x200) */
+  if ((0x200 & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)puVar4 = *(unsigned short *)puVar4 & 0xff | (unsigned short)((param_2 & 0xff) << 8);
-
+      *(unsigned short *)ch_reg_a = *(unsigned short *)ch_reg_a & 0xff | (unsigned short)((level & 0xff) << 8);
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if ((0x400 & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 1 low byte (bit 0x400) */
+  if ((0x400 & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar4 + 2) = *(unsigned short *)(puVar4 + 2) & uVar1 | (unsigned short)param_2 & 0xff;
-
+      *(unsigned short *)(ch_reg_a + 2) = *(unsigned short *)(ch_reg_a + 2) & high_mask | (unsigned short)level & 0xff;
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if ((0x800 & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 1 high byte (bit 0x800) */
+  if ((0x800 & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar4 + 2) = *(unsigned short *)(puVar4 + 2) & 0xff | (unsigned short)((param_2 & 0xff) << 8);
-
+      *(unsigned short *)(ch_reg_a + 2) = *(unsigned short *)(ch_reg_a + 2) & 0xff | (unsigned short)((level & 0xff) << 8);
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if (((int)DAT_0603c496 & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 2 low byte */
+  if (((int)DAT_0603c496 & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar4 + 4) = *(unsigned short *)(puVar4 + 4) & uVar1 | (unsigned short)param_2 & 0xff;
-
+      *(unsigned short *)(ch_reg_a + 4) = *(unsigned short *)(ch_reg_a + 4) & high_mask | (unsigned short)level & 0xff;
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if (((int)DAT_0603c49a & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 2 high byte */
+  if (((int)DAT_0603c49a & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar4 + 4) = *(unsigned short *)(puVar4 + 4) & 0xff | (unsigned short)((param_2 & 0xff) << 8);
-
+      *(unsigned short *)(ch_reg_a + 4) = *(unsigned short *)(ch_reg_a + 4) & 0xff | (unsigned short)((level & 0xff) << 8);
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if (((int)DAT_0603c49c & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 3 low byte */
+  if (((int)DAT_0603c49c & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar4 + 6) = *(unsigned short *)(puVar4 + 6) & uVar1 | (unsigned short)param_2 & 0xff;
-
+      *(unsigned short *)(ch_reg_a + 6) = *(unsigned short *)(ch_reg_a + 6) & high_mask | (unsigned short)level & 0xff;
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if (((unsigned int)0x00008000 & param_1) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* channel 3 high byte (bit 0x8000) */
+  if (((unsigned int)0x00008000 & channel_mask) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6 | 0x40;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf | 0x40;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar4 + 6) = *(unsigned short *)(puVar4 + 6) & 0xff | (unsigned short)((param_2 & 0xff) << 8);
-
+      *(unsigned short *)(ch_reg_a + 6) = *(unsigned short *)(ch_reg_a + 6) & 0xff | (unsigned short)((level & 0xff) << 8);
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & uVar6;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & mask_ffbf;
     }
-
   }
-
-  if (((param_1 & 4) != 0) || ((param_1 & 2) != 0)) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* alternate channel A: bits 4 or 2 */
+  if (((channel_mask & 4) != 0) || ((channel_mask & 2) != 0)) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) =
-
-           *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFFE | (unsigned short)uVar8;
-
+      *(unsigned short *)(shadow_base + 0xc) =
+           *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFFE | (unsigned short)one;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)puVar2 = *(unsigned short *)puVar2 & uVar1 | (unsigned short)param_2 & 0xff;
-
+      *(unsigned short *)ch_reg_b = *(unsigned short *)ch_reg_b & high_mask | (unsigned short)level & 0xff;
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFFE;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFFE;
     }
-
   }
-
-  if (((param_1 & 8) != 0) || ((0x80 & param_1) != 0)) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* alternate channel B: bits 8 or 0x80 */
+  if (((channel_mask & 8) != 0) || ((0x80 & channel_mask) != 0)) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFFD | 2;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFFD | 2;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)puVar2 = *(unsigned short *)puVar2 & 0xff | (unsigned short)((param_2 & 0xff) << 8);
-
+      *(unsigned short *)ch_reg_b = *(unsigned short *)ch_reg_b & 0xff | (unsigned short)((level & 0xff) << 8);
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFFD;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFFD;
     }
-
   }
-
-  if ((param_1 & 0x10) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* alternate channel C: bit 0x10 */
+  if ((channel_mask & 0x10) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFFB | 4;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFFB | 4;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar2 + 2) = *(unsigned short *)(puVar2 + 2) & uVar1 | (unsigned short)param_2 & 0xff;
-
+      *(unsigned short *)(ch_reg_b + 2) = *(unsigned short *)(ch_reg_b + 2) & high_mask | (unsigned short)level & 0xff;
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFFB;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFFB;
     }
-
   }
-
-  if ((param_1 & 0x20) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
+  /* alternate channel D: bit 0x20 */
+  if ((channel_mask & 0x20) != 0) {
+    if ((level & 0xff) < 0x20) {
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFF7 | 8;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFF7 | 8;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar2 + 2) = *(unsigned short *)(puVar2 + 2) & 0xff | (unsigned short)((param_2 & 0xff) << 8);
-
+      *(unsigned short *)(ch_reg_b + 2) = *(unsigned short *)(ch_reg_b + 2) & 0xff | (unsigned short)((level & 0xff) << 8);
     }
-
     else {
-
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)0x0000FFF7;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)0x0000FFF7;
     }
-
   }
-
-  uVar6 = (unsigned short)param_2;
-
-  if ((param_1 & uVar8) != 0) {
-
-    if ((param_2 & 0xff) < 0x20) {
-
-      puVar5 = (char *)0x0000FFEF;
-
+  /* alternate channel E: bit 0x01 */
+  mask_ffbf = (unsigned short)level;
+  if ((channel_mask & one) != 0) {
+    if ((level & 0xff) < 0x20) {
+      mask_ff00_ptr = (char *)0x0000FFEF;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)puVar5 | 0x10;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)mask_ff00_ptr | 0x10;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar2 + 4) = uVar6 & 0xff;
-
+      *(unsigned short *)(ch_reg_b + 4) = mask_ffbf & 0xff;
     }
-
     else {
-
-      puVar5 = (char *)0x0000FFEF;
-
+      mask_ff00_ptr = (char *)0x0000FFEF;
       (*(int(*)())0x06034F78)();
-
-      *(unsigned short *)(puVar7 + 0xc) = *(unsigned short *)(puVar7 + 0xc) & (unsigned short)puVar5;
-
+      *(unsigned short *)(shadow_base + 0xc) = *(unsigned short *)(shadow_base + 0xc) & (unsigned short)mask_ff00_ptr;
     }
-
   }
-
   return 0;
-
 }
 
 unsigned int FUN_0603c728()
@@ -706,85 +552,85 @@ unsigned int FUN_0603c728()
 
       if ((*(unsigned int *)0x060A4D84 & 0x100) != 0) {
 
-        FUN_0603c1a8(0x100,(int)(char)*puVar3);
+        dma_channel_level_set(0x100,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 0x200) != 0) {
 
-        FUN_0603c1a8(0x200,(int)(char)*puVar3);
+        dma_channel_level_set(0x200,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & uVar8) != 0) {
 
-        FUN_0603c1a8(uVar8,(int)(char)*puVar3);
+        dma_channel_level_set(uVar8,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 0x800) != 0) {
 
-        FUN_0603c1a8(0x800,(int)(char)*puVar3);
+        dma_channel_level_set(0x800,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & (int)DAT_0603cade) != 0) {
 
-        FUN_0603c1a8((int)DAT_0603cade,(int)(char)*puVar3);
+        dma_channel_level_set((int)DAT_0603cade,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & (int)DAT_0603cae0) != 0) {
 
-        FUN_0603c1a8((int)DAT_0603cae0,(int)(char)*puVar3);
+        dma_channel_level_set((int)DAT_0603cae0,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & (int)DAT_0603cae2) != 0) {
 
-        FUN_0603c1a8((int)DAT_0603cae2,(int)(char)*puVar3);
+        dma_channel_level_set((int)DAT_0603cae2,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & (unsigned int)0x00008000) != 0) {
 
-        FUN_0603c1a8(0x00008000,(int)(char)*puVar3);
+        dma_channel_level_set(0x00008000,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 4) != 0) {
 
-        FUN_0603c1a8(4,(int)(char)*puVar3);
+        dma_channel_level_set(4,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 8) != 0) {
 
-        FUN_0603c1a8(8,(int)(char)*puVar3);
+        dma_channel_level_set(8,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 0x10) != 0) {
 
-        FUN_0603c1a8(0x10,(int)(char)*puVar3);
+        dma_channel_level_set(0x10,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 0x20) != 0) {
 
-        FUN_0603c1a8(0x20,(int)(char)*puVar3);
+        dma_channel_level_set(0x20,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 1) != 0) {
 
-        FUN_0603c1a8(1,(int)(char)*puVar3);
+        dma_channel_level_set(1,(int)(char)*puVar3);
 
       }
 
       if ((*(unsigned int *)0x060A4D84 & 2) != 0) {
 
-        FUN_0603c1a8(2,(int)(char)*puVar3);
+        dma_channel_level_set(2,(int)(char)*puVar3);
 
       }
 
@@ -792,7 +638,7 @@ unsigned int FUN_0603c728()
 
       if ((uVar5 & 0x80) != 0) {
 
-        uVar5 = FUN_0603c1a8(0x80,(int)(char)*puVar3);
+        uVar5 = dma_channel_level_set(0x80,(int)(char)*puVar3);
 
       }
 
