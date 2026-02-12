@@ -490,161 +490,94 @@ void FUN_06014a74()
   return;
 }
 
+/* hud_page_scroll_handler -- Handle HUD page scroll transitions and configure car entry Y-offsets.
+ * Button press cycles through display pages. Behavior depends on HUD active flag (0x0607EBF4 bit 0).
+ * Clears display lines 8-15 when transitioning through certain page ranges.
+ * Sets Y offsets for 8 car entries based on validity (0x44/0x4C normal, 0x48/0x50 invalid). */
 void FUN_06014d2c()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  short uVar3;
-
-  int iVar4;
-
-  char *puVar5;
-
-  unsigned char bVar6;
-
-  puVar2 = (char *)0x06085F90;
-
-  puVar1 = (char *)0x06063F64;
-
-  puVar5 = (char *)0x06085F94;
-
+  char *entry_table;
+  char *scroll_pos;
+  short target_state;
+  int base_offset;
+  char *dirty_flag;
+  unsigned char idx;
+  scroll_pos = (char *)0x06085F90;
+  entry_table = (char *)0x06063F64;
+  dirty_flag = (char *)0x06085F94;
+  /* Handle page scroll button press */
   if ((*(int *)0x06085F89 == '\0') && ((*(unsigned short *)0x06063D9A & DAT_06014de4) != 0)) {
-
     if ((*(unsigned int *)0x0607EBF4 & 1) == 0) {
-
+      /* HUD inactive mode */
       if (*(unsigned short *)0x06085F90 < 0xc || 0x15 < *(unsigned short *)0x06085F90) {
-
         if (3 < *(unsigned short *)0x06085F90 && *(unsigned short *)0x06085F90 < 0x16) {
-
           *(int *)0x06085F89 = 1;
-
-          *(short *)puVar5 = 1;
-
-          *(short *)puVar2 = *(short *)puVar2 + 0x12;
-
+          *(short *)dirty_flag = 1;
+          *(short *)scroll_pos = *(short *)scroll_pos + 0x12;
         }
-
       }
-
       else {
-
+        /* Clear display lines 8-15 */
         *(int *)0x06085F89 = 1;
-
-        bVar6 = 8;
-
+        idx = 8;
         do {
-
-          (*(int(*)())0x060172E4)(bVar6);
-
-          bVar6 = bVar6 + 1;
-
-        } while (bVar6 < 0x10);
-
-        *(short *)puVar5 = 1;
-
-        uVar3 = 0x20;
-
-        if (0x14 < *(unsigned short *)puVar2) {
-
-          uVar3 = 0x22;
-
+          (*(int(*)())0x060172E4)(idx);
+          idx = idx + 1;
+        } while (idx < 0x10);
+        *(short *)dirty_flag = 1;
+        target_state = 0x20;
+        if (0x14 < *(unsigned short *)scroll_pos) {
+          target_state = 0x22;
         }
-
-        *(short *)puVar2 = uVar3;
-
+        *(short *)scroll_pos = target_state;
       }
-
     }
-
     else if (*(unsigned short *)0x06085F90 < 0xc || 0x16 < *(unsigned short *)0x06085F90) {
-
+      /* HUD active mode — simple offset */
       if (3 < *(unsigned short *)0x06085F90 && *(unsigned short *)0x06085F90 < 0x17) {
-
         *(int *)0x06085F89 = 1;
-
-        *(short *)puVar5 = 1;
-
-        *(short *)puVar2 = *(short *)puVar2 + 0x13;
-
+        *(short *)dirty_flag = 1;
+        *(short *)scroll_pos = *(short *)scroll_pos + 0x13;
       }
-
     }
-
     else {
-
+      /* HUD active mode — clear and transition */
       *(int *)0x06085F89 = 1;
-
-      bVar6 = 8;
-
+      idx = 8;
       do {
-
-        (*(int(*)())0x060172E4)(bVar6);
-
-        bVar6 = bVar6 + 1;
-
-      } while (bVar6 < 0x10);
-
-      *(short *)puVar5 = 1;
-
-      uVar3 = 0x23;
-
-      if (0x14 < *(unsigned short *)puVar2) {
-
-        uVar3 = 0x26;
-
+        (*(int(*)())0x060172E4)(idx);
+        idx = idx + 1;
+      } while (idx < 0x10);
+      *(short *)dirty_flag = 1;
+      target_state = 0x23;
+      if (0x14 < *(unsigned short *)scroll_pos) {
+        target_state = 0x26;
       }
-
-      *(short *)puVar2 = uVar3;
-
+      *(short *)scroll_pos = target_state;
     }
-
   }
-
   if (*(int *)0x06085F8A != '\0') {
-
     (*(int(*)())0x06020CF4)();
-
   }
-
   FUN_06014f34();
-
   (*(int(*)())0x0601712C)();
-
-  bVar6 = 0;
-
-  iVar4 = *(int *)0x06085F98;
-
+  /* Configure Y offsets for 8 car entries */
+  idx = 0;
+  base_offset = *(int *)0x06085F98;
   do {
-
-    puVar5 = *(char **)(0x06084FC8 + (short)((unsigned short)bVar6 * 0x44) + 0x2c);
-
-    if ((puVar5 == (char *)0x0 || puVar5 == 0x00008000) || puVar5 == 0x00010000) {
-
-      *(short *)(puVar1 + (((unsigned int)bVar6 + iVar4) << 3) + 6) = 0x4c;
-
-      uVar3 = 0x50;
-
+    dirty_flag = *(char **)(0x06084FC8 + (short)((unsigned short)idx * 0x44) + 0x2c);
+    if ((dirty_flag == (char *)0x0 || dirty_flag == 0x00008000) || dirty_flag == 0x00010000) {
+      *(short *)(entry_table + (((unsigned int)idx + base_offset) << 3) + 6) = 0x4c;  /* invalid car */
+      target_state = 0x50;
     }
-
     else {
-
-      *(short *)(puVar1 + (((unsigned int)bVar6 + iVar4) << 3) + 6) = 0x44;
-
-      uVar3 = 0x48;
-
+      *(short *)(entry_table + (((unsigned int)idx + base_offset) << 3) + 6) = 0x44;  /* valid car */
+      target_state = 0x48;
     }
-
-    bVar6 = bVar6 + 1;
-
-    *(short *)(puVar1 + ((iVar4 + 6) << 3) + 6) = uVar3;
-
-  } while (bVar6 < 8);
-
+    idx = idx + 1;
+    *(short *)(entry_table + ((base_offset + 6) << 3) + 6) = target_state;
+  } while (idx < 8);
   return;
-
 }
 
 /* replay_init_sequence -- Initialize replay mode state and rendering.
