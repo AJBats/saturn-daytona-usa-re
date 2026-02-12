@@ -738,171 +738,100 @@ int FUN_06010b54(void)
   return result;
 }
 
+/* character_select_anim_update -- Character selection 3D model animation.
+ * First-run path: set initial position, trigger DMA, poll for completion.
+ * Ongoing path: apply velocity/damping, clamp at zero, trigger DMA.
+ * DMA status register at 0xFFFFFE11 (SH-2 DMAC), object render at 0x0603C000. */
 int FUN_06010bc4()
 {
-
-  unsigned short uVar1;
-
-  short sVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int uVar7;
-
-  unsigned char *pbVar8;
-
-  puVar6 = (char *)0x06078878;
-
-  puVar5 = (short *)0x0608A52C;
-
-  puVar4 = (char *)0x06078898;
-
-  puVar3 = (int *)0x06078894;
-
-  sVar2 = PTR_DAT_06010c50;
-
-  uVar1 = DAT_06010c4e;
-
-  pbVar8 = (unsigned char *)-495;
-
+  unsigned short dma_complete_mask;
+  short angle_step;
+  char *pos_y;          /* 0x06078894 */
+  char *pos_z;          /* 0x06078898 */
+  char *anim_counter;   /* 0x0608A52C */
+  char *rotation;       /* 0x06078878 */
+  int result;
+  unsigned char *dma_status;  /* 0xFFFFFE11 — SH-2 DMA operation register */
+  rotation = (char *)0x06078878;
+  anim_counter = (short *)0x0608A52C;
+  pos_z = (char *)0x06078898;
+  pos_y = (int *)0x06078894;
+  angle_step = PTR_DAT_06010c50;
+  dma_complete_mask = DAT_06010c4e;
+  dma_status = (unsigned char *)-495;          /* 0xFFFFFE11 */
   if (*(int *)0x06085FF4 == '\0') {
-
-    *(int *)0x060788A0 = 1;
-
-    *(short *)puVar6 = *(short *)puVar6 + sVar2;
-
+    /* First-run: initial position setup */
+    *(int *)0x060788A0 = 1;                    /* model slot active */
+    *(short *)rotation = *(short *)rotation + angle_step;
     FUN_06011310();
-
-    puVar3 = (int *)0x060270D0;
-
-    *(int *)puVar5 = *(int *)puVar5 + 0x30;
-
-    (*(int(*)())puVar3)();
-
-    *(int *)0x0607884C = 1;
-
-    *(char **)0x06078850 = 0x00038000;
-
-    *(int *)0x06078854 = 0xFFFF0000;
-
-    *(char **)0x06078858 = 0x0006B333;
-
-    *(char **)0x06063574 = 0x06010F04;
-
-    *(short *)0x21000000 = (short)0x0000FFFF;
-
+    pos_y = (int *)0x060270D0;                 /* matrix push function */
+    *(int *)anim_counter = *(int *)anim_counter + 0x30;
+    (*(int(*)())pos_y)();
+    /* Set initial 3D position (fixed-point) */
+    *(int *)0x0607884C = 1;                    /* model visible */
+    *(char **)0x06078850 = 0x00038000;         /* initial X */
+    *(int *)0x06078854 = 0xFFFF0000;           /* initial Y (-1.0) */
+    *(char **)0x06078858 = 0x0006B333;         /* initial Z (+6.7) */
+    *(char **)0x06063574 = 0x06010F04;         /* render callback */
+    *(short *)0x21000000 = (short)0x0000FFFF;  /* VDP1 system clip */
     FUN_06010d94(0,0xFFFC8000,0xFFFF0000,0x0006B333);
-
-    puVar3 = (int *)0x0603C000;
-
+    pos_y = (int *)0x0603C000;                 /* object render */
+    /* Poll DMA completion */
     do {
-
-    } while ((*pbVar8 & uVar1) != uVar1);
-
-    *pbVar8 = *pbVar8 & 0xf;
-
-    uVar7 = (*(int(*)())puVar3)();
-
+    } while ((*dma_status & dma_complete_mask) != dma_complete_mask);
+    *dma_status = *dma_status & 0xf;           /* clear DMA status */
+    result = (*(int(*)())pos_y)();
   }
-
   else {
-
+    /* Ongoing: apply velocity with clamping */
     *(short *)0x06078878 = *(short *)0x06078878 + PTR_DAT_06010c50;
-
-    puVar6 = (char *)0x0607889C;
-
-    *(int *)puVar3 = *(int *)puVar3 + *(int *)0x0607889C;
-
-    *(int *)puVar4 = *(int *)puVar4 + *(int *)puVar6;
-
-    if (*(int *)puVar6 < 0) {
-
+    rotation = (char *)0x0607889C;             /* velocity */
+    *(int *)pos_y = *(int *)pos_y + *(int *)0x0607889C;
+    *(int *)pos_z = *(int *)pos_z + *(int *)rotation;
+    /* Clamp position at zero based on velocity direction and axis */
+    if (*(int *)rotation < 0) {
       if (*(int *)0x060788A8 == '\0') {
-
-        if (*(int *)puVar3 < 1) {
-
-          *(int *)puVar3 = 0;
-
-          *(int *)puVar6 = 0;
-
+        if (*(int *)pos_y < 1) {
+          *(int *)pos_y = 0;
+          *(int *)rotation = 0;
         }
-
       }
-
-      else if ((*(int *)0x060788A8 == '\x01') && (*(int *)puVar4 < 1)) {
-
-        *(int *)puVar4 = 0;
-
-        *(int *)puVar6 = 0;
-
+      else if ((*(int *)0x060788A8 == '\x01') && (*(int *)pos_z < 1)) {
+        *(int *)pos_z = 0;
+        *(int *)rotation = 0;
       }
-
     }
-
     else if (*(int *)0x060788A8 == '\0') {
-
-      if (-1 < *(int *)puVar3) {
-
-        *(int *)puVar3 = 0;
-
-        *(int *)puVar6 = 0;
-
+      if (-1 < *(int *)pos_y) {
+        *(int *)pos_y = 0;
+        *(int *)rotation = 0;
       }
-
     }
-
-    else if ((*(int *)0x060788A8 == '\x01') && (-1 < *(int *)puVar4)) {
-
-      *(int *)puVar4 = 0;
-
-      *(int *)puVar6 = 0;
-
+    else if ((*(int *)0x060788A8 == '\x01') && (-1 < *(int *)pos_z)) {
+      *(int *)pos_z = 0;
+      *(int *)rotation = 0;
     }
-
     FUN_060111e2();
-
-    puVar6 = (char *)0x060270D0;
-
-    *(int *)puVar5 = *(int *)puVar5 + 0x30;
-
-    (*(int(*)())puVar6)();
-
+    rotation = (char *)0x060270D0;             /* matrix push */
+    *(int *)anim_counter = *(int *)anim_counter + 0x30;
+    (*(int(*)())rotation)();
+    /* Set current position for rendering */
     *(int *)0x0607884C = 1;
-
-    *(int *)0x06078850 = *(int *)puVar4;
-
-    *(int *)0x06078854 = 0xFFFF3334;
-
-    *(char **)0x06078858 = 0x00063333;
-
-    *(char **)0x06063574 = 0x06010F04;
-
-    *(short *)0x21000000 = (short)0x0000FFFF;
-
-    FUN_06010d94(0,*(int *)puVar3,0xFFFF3334,0x00063333);
-
-    puVar3 = (int *)0x0603C000;
-
+    *(int *)0x06078850 = *(int *)pos_z;
+    *(int *)0x06078854 = 0xFFFF3334;           /* Y offset (-0.8) */
+    *(char **)0x06078858 = 0x00063333;         /* Z offset (+6.2) */
+    *(char **)0x06063574 = 0x06010F04;         /* render callback */
+    *(short *)0x21000000 = (short)0x0000FFFF;  /* VDP1 system clip */
+    FUN_06010d94(0,*(int *)pos_y,0xFFFF3334,0x00063333);
+    pos_y = (int *)0x0603C000;                 /* object render */
+    /* Poll DMA completion */
     do {
-
-    } while ((*pbVar8 & uVar1) != uVar1);
-
-    *pbVar8 = *pbVar8 & 0xf;
-
-    uVar7 = (*(int(*)())puVar3)();
-
+    } while ((*dma_status & dma_complete_mask) != dma_complete_mask);
+    *dma_status = *dma_status & 0xf;
+    result = (*(int(*)())pos_y)();
   }
-
-  *(int *)puVar5 = *(int *)puVar5 + -0x30;
-
-  return uVar7;
-
+  *(int *)anim_counter = *(int *)anim_counter + -0x30;
+  return result;
 }
 
 /* character_model_3d_render -- Render 3D character model with matrix pipeline.
@@ -1156,171 +1085,105 @@ void FUN_0601155e(unsigned short param_1)
              0x0000F000 + *(int *)(0x06063788 + 4));
 }
 
-void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_5)
+/* rotated_quad_vertex_compute -- Compute 4 rotated vertices for VDP1 polygon.
+ * Takes center position (x,y), rotation angle, scale, and color.
+ * Writes 8 vertex coordinates (4 corners x X,Y) to polygon command table
+ * at 0x060786CC with 0x18-byte stride. Uses sin/cos decomposition
+ * with asymmetric offsets to form a trapezoidal gauge shape. */
+void FUN_060116a8(int center_x,int center_y,short angle,int scale,short color)
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  int uVar7;
-
-  short sVar8;
-
-  short sVar9;
-
-  short sVar10;
-
-  short *psVar11;
-
-  int uStack_2c;
-
-  int uStack_28;
-
-  short sStack_24;
-
-  sStack_24 = param_3;
-
-  (*(int(*)())0x06027358)((int)param_3,&uStack_2c,&uStack_28);
-
-  puVar4 = (char *)0x06027552;
-
-  puVar3 = (char *)0x0602754C;
-
-  puVar2 = (char *)0x0605AAA0;
-
-  puVar1 = (char *)0x060786CC;
-
-  psVar11 = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
-
-  iVar5 = (*(int(*)())0x06027552)(0xFFC80000,uStack_28);
-
-  iVar6 = (*(int(*)())puVar4)(0x001E0000,uStack_2c);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_4);
-
-  sVar8 = (*(int(*)())puVar3)(uVar7);
-
-  sVar9 = (*(int(*)())puVar3)(param_1);
-
-  *psVar11 = sVar9 + sVar8;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0xFFC80000,uStack_2c);
-
-  iVar6 = (*(int(*)())puVar4)(0x001E0000,uStack_28);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_2);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 10) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0x00380000,uStack_28);
-
-  iVar6 = (*(int(*)())puVar4)(0x001E0000,uStack_2c);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_1);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xc) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0x00380000,uStack_2c);
-
-  iVar6 = (*(int(*)())puVar4)(0x001E0000,uStack_28);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_2);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xe) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0x00380000,uStack_28);
-
-  iVar6 = (*(int(*)())puVar4)(0xFFE20000,uStack_2c);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_1);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x10) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0x00380000,uStack_2c);
-
-  iVar6 = (*(int(*)())puVar4)(0xFFE20000,uStack_28);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_2);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x12) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0xFFC80000,uStack_28);
-
-  iVar6 = (*(int(*)())puVar4)(0xFFE20000,uStack_2c);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 - iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_1);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x14) = sVar10 + sVar9;
-
-  sVar8 = *(short *)puVar2;
-
-  iVar5 = (*(int(*)())puVar4)(0xFFC80000,uStack_2c);
-
-  iVar6 = (*(int(*)())puVar4)(0xFFE20000,uStack_28);
-
-  uVar7 = (*(int(*)())puVar4)(iVar5 + iVar6,param_4);
-
-  sVar9 = (*(int(*)())puVar3)(uVar7);
-
-  sVar10 = (*(int(*)())puVar3)(param_2);
-
-  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x16) = sVar10 + sVar9;
-
-  *(short *)(puVar1 + (short)(*(short *)puVar2 * 0x18) + 6) = param_5;
-
-  puVar1[(short)(*(short *)puVar2 * 0x18) + 4] = 0;
-
-  puVar1[(short)(*(short *)puVar2 * 0x18) + 5] = 1;
-
-  *(short *)puVar2 = *(short *)puVar2 + 1;
-
+  char *poly_table;
+  char *poly_count_ptr;
+  char *fixed_to_short;  /* 0x0602754C */
+  char *fixed_mul;       /* 0x06027552 */
+  int sin_val;
+  int cos_val;
+  int rotated;
+  short screen_coord;
+  short center_screen;
+  short slot_idx;
+  short *vertex_ptr;
+  int sin_component;
+  int cos_component;
+  short angle_copy;
+  angle_copy = angle;
+
+  /* Decompose angle into sin/cos */
+  (*(int(*)())0x06027358)((int)angle,&sin_component,&cos_component);
+  fixed_mul = (char *)0x06027552;
+  fixed_to_short = (char *)0x0602754C;
+  poly_count_ptr = (char *)0x0605AAA0;
+  poly_table = (char *)0x060786CC;
+  vertex_ptr = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
+  /* Vertex 0 X (top-left): offset (-56, +30) rotated */
+  sin_val = (*(int(*)())0x06027552)(0xFFC80000,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(0x001E0000,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_x);
+  *vertex_ptr = center_screen + screen_coord;
+  /* Vertex 0 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0xFFC80000,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(0x001E0000,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 10) = center_screen + screen_coord;
+  /* Vertex 1 X (top-right): offset (+56, +30) rotated */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0x00380000,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(0x001E0000,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_x);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0xc) = center_screen + screen_coord;
+  /* Vertex 1 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0x00380000,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(0x001E0000,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0xe) = center_screen + screen_coord;
+  /* Vertex 2 X (bottom-right): offset (+56, -30) rotated */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0x00380000,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(0xFFE20000,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_x);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x10) = center_screen + screen_coord;
+  /* Vertex 2 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0x00380000,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(0xFFE20000,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x12) = center_screen + screen_coord;
+  /* Vertex 3 X (bottom-left): offset (-56, -30) rotated */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0xFFC80000,cos_component);
+  cos_val = (*(int(*)())fixed_mul)(0xFFE20000,sin_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val - cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_x);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x14) = center_screen + screen_coord;
+  /* Vertex 3 Y */
+  slot_idx = *(short *)poly_count_ptr;
+  sin_val = (*(int(*)())fixed_mul)(0xFFC80000,sin_component);
+  cos_val = (*(int(*)())fixed_mul)(0xFFE20000,cos_component);
+  rotated = (*(int(*)())fixed_mul)(sin_val + cos_val,scale);
+  screen_coord = (*(int(*)())fixed_to_short)(rotated);
+  center_screen = (*(int(*)())fixed_to_short)(center_y);
+  *(short *)(poly_table + (short)(slot_idx * 0x18) + 0x16) = center_screen + screen_coord;
+  /* Set polygon color and flags, advance polygon count */
+  *(short *)(poly_table + (short)(*(short *)poly_count_ptr * 0x18) + 6) = color;
+  poly_table[(short)(*(short *)poly_count_ptr * 0x18) + 4] = 0;    /* draw mode */
+  poly_table[(short)(*(short *)poly_count_ptr * 0x18) + 5] = 1;    /* visible */
+  *(short *)poly_count_ptr = *(short *)poly_count_ptr + 1;
   return;
-
 }
 
 /* gauge_mark_render -- Render gauge tick mark as VDP1 polygon.

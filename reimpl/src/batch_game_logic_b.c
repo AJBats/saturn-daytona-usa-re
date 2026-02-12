@@ -1338,187 +1338,111 @@ void FUN_0600d3c4()
   return;
 }
 
+/* car_lod_proximity_update -- Assign detail levels to cars based on distance.
+ * Computes Manhattan distance from reference point (camera or player car),
+ * assigns LOD tiers: close (<0xC0000, max 3), medium (<0x230000, max 7),
+ * far (<0x780000). Also adjusts LOD based on checkpoint gap from player. */
 void FUN_0600d50c()
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  char *puVar4;
-
-  unsigned int uVar5;
-
-  int *piVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int iVar9;
-
-  int local_30;
-
-  int iStack_2c;
-
-  int iStack_28;
-
-  int iStack_24;
-
-  puVar1 = (int *)0x0607EA98;
-
-  puVar4 = (char *)0x0607E944;
-
+  char *car_count_ptr;
+  int dx;
+  int car_ptr;
+  char *player_car_ptr;
+  unsigned int i;
+  int *car_slot_array;
+  int dz;
+  int lod_medium_count;
+  int car_ptr_rev;
+  int ref_x;
+  int ref_z;
+  int lod_close_count;
+  int car_z;
+  car_count_ptr = (int *)0x0607EA98;        /* active car count */
+  player_car_ptr = (char *)0x0607E944;      /* player car pointer */
   *(int *)0x0607EBDC = 0;
-
-  iStack_28 = 0;
-
-  iVar8 = 0;
-
-  piVar6 = (int *)0x0607E94C;
-
-  for (uVar5 = 0; uVar5 < *(unsigned int *)puVar1; uVar5 = uVar5 + 1) {
-
-    iVar3 = *piVar6;
-
-    piVar6 = piVar6 + 1;
-
-    *(int *)(iVar3 + DAT_0600d5d6) = 0;
-
+  lod_close_count = 0;
+  lod_medium_count = 0;
+  car_slot_array = (int *)0x0607E94C;       /* car pointer array */
+  /* Pass 1: Clear detail flags for all cars */
+  for (i = 0; i < *(unsigned int *)car_count_ptr; i = i + 1) {
+    car_ptr = *car_slot_array;
+    car_slot_array = car_slot_array + 1;
+    *(int *)(car_ptr + DAT_0600d5d6) = 0;
     (*(int(*)())0x06034F78)();
-
     (*(int(*)())0x06034F78)();
-
     (*(int(*)())0x06034F78)();
-
     (*(int(*)())0x06034F78)();
-
     (*(int(*)())0x06034F78)();
-
   }
-
-  iVar3 = *(int *)puVar4;
-
+  /* Compute reference position for distance calculation */
+  car_ptr = *(int *)player_car_ptr;
   if ((GAME_STATE_BIT & 0x10060000) == 0) {
-
-    (*(int(*)())0x06027358)(*(int *)0x06063EF0,&local_30,&iStack_2c);
-
-    local_30 = (*(int(*)())0x06027552)(-local_30,0x00070000);
-
-    iStack_2c = (*(int(*)())0x06027552)(iStack_2c,0x00070000);
-
-    local_30 = local_30 + *(int *)0x06063DF8;
-
-    iStack_2c = iStack_2c + *(int *)(0x06063DF8 + 8);
-
+    /* Normal mode: use camera angle + offset from camera position */
+    (*(int(*)())0x06027358)(*(int *)0x06063EF0,&ref_x,&ref_z);
+    ref_x = (*(int(*)())0x06027552)(-ref_x,0x00070000);
+    ref_z = (*(int(*)())0x06027552)(ref_z,0x00070000);
+    ref_x = ref_x + *(int *)0x06063DF8;        /* camera X */
+    ref_z = ref_z + *(int *)(0x06063DF8 + 8);  /* camera Z */
   }
-
   else {
-
-    (*(int(*)())0x06027358)(*(int *)(*(int *)puVar4 + 0x20),&local_30,&iStack_2c);
-
-    local_30 = (*(int(*)())0x06027552)(-local_30,0x00050000);
-
-    iStack_2c = (*(int(*)())0x06027552)(iStack_2c,0x00050000);
-
-    local_30 = local_30 + *(int *)(*(int *)puVar4 + 0x10);
-
-    iStack_2c = iStack_2c + *(int *)(*(int *)puVar4 + 0x18);
-
+    /* Replay/VS mode: use player car angle + offset from car position */
+    (*(int(*)())0x06027358)(*(int *)(*(int *)player_car_ptr + 0x20),&ref_x,&ref_z);
+    ref_x = (*(int(*)())0x06027552)(-ref_x,0x00050000);
+    ref_z = (*(int(*)())0x06027552)(ref_z,0x00050000);
+    ref_x = ref_x + *(int *)(*(int *)player_car_ptr + 0x10);  /* car X */
+    ref_z = ref_z + *(int *)(*(int *)player_car_ptr + 0x18);  /* car Z */
   }
-
-  iVar9 = iVar3;
-
-  for (uVar5 = *(unsigned int *)puVar1; 1 < uVar5; uVar5 = uVar5 - 1) {
-
-    iVar2 = 0x238;
-
-    iVar3 = *(int *)(iVar3 + iVar2);
-
-    iVar9 = *(int *)(iVar9 + iVar2 + 4);
-
-    *(unsigned int *)(iVar3 + iVar2 + -0x20) = uVar5;
-
-    *(unsigned int *)(iVar9 + iVar2 + -0x20) = uVar5;
-
-    iVar2 = local_30 - *(int *)(iVar3 + 0x10);
-
-    if (iVar2 < 0) {
-
-      iVar2 = *(int *)(iVar3 + 0x10) - local_30;
-
+  /* Pass 2: Walk ranked car list, assign LOD by Manhattan distance */
+  car_ptr_rev = car_ptr;
+  for (i = *(unsigned int *)car_count_ptr; 1 < i; i = i - 1) {
+    dx = 0x238;
+    car_ptr = *(int *)(car_ptr + dx);          /* next car via +0x238 link */
+    car_ptr_rev = *(int *)(car_ptr_rev + dx + 4);  /* prev car via +0x23C link */
+    *(unsigned int *)(car_ptr + dx + -0x20) = i;     /* ranking at +0x218 */
+    *(unsigned int *)(car_ptr_rev + dx + -0x20) = i;
+    /* Manhattan distance from reference point */
+    dx = ref_x - *(int *)(car_ptr + 0x10);     /* car X at +0x10 */
+    if (dx < 0) {
+      dx = *(int *)(car_ptr + 0x10) - ref_x;
     }
-
-    iStack_24 = *(int *)(iVar3 + 0x18);
-
-    iVar7 = iStack_2c - iStack_24;
-
-    if (iVar7 < 0) {
-
-      iVar7 = iStack_24 - iStack_2c;
-
+    car_z = *(int *)(car_ptr + 0x18);          /* car Z at +0x18 */
+    dz = ref_z - car_z;
+    if (dz < 0) {
+      dz = car_z - ref_z;
     }
-
-    iVar2 = iVar2 + iVar7;
-
-    if ((iVar2 < (int)0x000C0000) && (iStack_28 < 3)) {
-
-      (*(int(*)())0x06034F78)();
-
-      iStack_28 = iStack_28 + 1;
-
+    dx = dx + dz;
+    /* Assign LOD tier based on distance thresholds */
+    if ((dx < (int)0x000C0000) && (lod_close_count < 3)) {
+      (*(int(*)())0x06034F78)();               /* LOD close (high detail) */
+      lod_close_count = lod_close_count + 1;
     }
-
-    else if ((iVar2 < (int)0x00230000) && (iVar8 < 7)) {
-
-      (*(int(*)())0x06034F78)();
-
-      iVar8 = iVar8 + 1;
-
+    else if ((dx < (int)0x00230000) && (lod_medium_count < 7)) {
+      (*(int(*)())0x06034F78)();               /* LOD medium */
+      lod_medium_count = lod_medium_count + 1;
     }
-
-    else if (iVar2 < (int)0x00780000) {
-
-      (*(int(*)())0x06034F78)();
-
+    else if (dx < (int)0x00780000) {
+      (*(int(*)())0x06034F78)();               /* LOD far (low detail) */
     }
-
   }
-
   (*(int(*)())0x06034F78)();
-
-  iVar8 = *(int *)(*(int *)puVar4 + (int)DAT_0600d76a);
-
-  puVar4 = (char *)0x06078B68;
-
-  for (uVar5 = 1; uVar5 < *(unsigned int *)puVar1; uVar5 = uVar5 + 1) {
-
-    iVar3 = *(int *)(puVar4 + DAT_0600d76a) - iVar8;
-
+  /* Pass 3: Adjust LOD based on checkpoint gap from player */
+  lod_medium_count = *(int *)(*(int *)player_car_ptr + (int)DAT_0600d76a);
+  player_car_ptr = (char *)0x06078B68;        /* car slot 1 base */
+  for (i = 1; i < *(unsigned int *)car_count_ptr; i = i + 1) {
+    car_ptr = *(int *)(player_car_ptr + DAT_0600d76a) - lod_medium_count;
     (*(int(*)())0x06034F78)();
-
     (*(int(*)())0x06034F78)();
-
-    if ((iVar3 < 3) && (0 < iVar3)) {
-
+    /* Slightly ahead (1-2 checkpoints) — boost detail */
+    if ((car_ptr < 3) && (0 < car_ptr)) {
       (*(int(*)())0x06034F78)();
-
     }
-
-    if ((iVar3 < 1) && (-2 < iVar3)) {
-
+    /* Slightly behind or same checkpoint — boost detail */
+    if ((car_ptr < 1) && (-2 < car_ptr)) {
       (*(int(*)())0x06034F78)();
-
     }
-
-    puVar4 = puVar4 + PTR_DAT_0600d770;
-
+    player_car_ptr = player_car_ptr + PTR_DAT_0600d770;  /* next car slot (stride 0x268) */
   }
-
   return;
-
 }
 
 /* checkpoint_crossing_handler -- Handle checkpoint transitions for car.
