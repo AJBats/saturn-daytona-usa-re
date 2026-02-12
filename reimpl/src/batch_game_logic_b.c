@@ -767,84 +767,53 @@ void FUN_0600c994()
 
 }
 
+/* track_spline_smooth -- Sample track spline with smoothing interpolation.
+ * Computes position delta from DAT_0600cac2 history. Small deltas (<8)
+ * snap directly; larger deltas adjust smoothing accumulator at DAT_0600cb84
+ * by +/-4. Extracts fractional (6-bit sub-segment) and segment index
+ * from accumulator. If fractional==0 or segment>6, samples exact point;
+ * otherwise blends between adjacent points with weighted average.
+ * Writes position and rotation data to param_1 output buffer. */
 void FUN_0600ca96(param_1)
     int *param_1;
 {
+    int car = CAR_PTR_CURRENT;
+    int *spline_pt;
+    int delta = *(int *)(car + DAT_0600cac2) - *(int *)(car + DAT_0600cac2 + 4);
 
-  int iVar1;
+    /* Update smoothing accumulator */
+    if ((delta < 8) && (-8 < delta)) {
+        *(int *)(car + DAT_0600cac2 + 4) = *(int *)(car + DAT_0600cac2);
+    } else if (delta < 1) {
+        *(int *)(car + DAT_0600cb84) = *(int *)(car + DAT_0600cb84) + -4;
+    } else {
+        *(int *)(car + DAT_0600cb84) = *(int *)(car + DAT_0600cb84) + 4;
+    }
 
-  int *piVar2;
+    /* Extract fractional and segment index */
+    unsigned int frac = (*(unsigned int *)(car + DAT_0600cb84) & (int)DAT_0600cb86 & 0xffff) >> 6;
+    unsigned int seg  = (*(unsigned int *)(car + DAT_0600cb84) & 0xffff) >> 8;
 
-  int iVar3;
+    if ((frac == 0) || (6 < seg)) {
+        /* Exact point sample */
+        spline_pt = (int *)((seg + *(int *)(car + PTR_DAT_0600cb88) << 3) << 4 +
+                     *(int *)0x0607EB88);
+        *param_1 = *spline_pt;
+        param_1[2] = spline_pt[1];
+    } else {
+        /* Weighted blend between adjacent points */
+        int base_idx = seg + *(int *)(car + PTR_DAT_0600cb88) << 3;
+        spline_pt = (int *)((base_idx << 4) + *(int *)0x0607EB88);
+        int *next_pt = (int *)((base_idx + 1) << 4 + *(int *)0x0607EB88);
+        *param_1 = (int)(*spline_pt * (4 - frac) + *next_pt * frac) >> 2;
+        param_1[2] = (int)(spline_pt[1] * (4 - frac) + next_pt[1] * frac) >> 2;
+    }
 
-  unsigned int uVar4;
-
-  int *piVar5;
-
-  unsigned int uVar6;
-
-  iVar1 = CAR_PTR_CURRENT;
-
-  iVar3 = *(int *)(iVar1 + DAT_0600cac2) - *(int *)(iVar1 + DAT_0600cac2 + 4);
-
-  if ((iVar3 < 8) && (-8 < iVar3)) {
-
-    *(int *)(iVar1 + DAT_0600cac2 + 4) = *(int *)(iVar1 + DAT_0600cac2);
-
-  }
-
-  else if (iVar3 < 1) {
-
-    *(int *)(iVar1 + DAT_0600cb84) = *(int *)(iVar1 + DAT_0600cb84) + -4;
-
-  }
-
-  else {
-
-    *(int *)(iVar1 + DAT_0600cb84) = *(int *)(iVar1 + DAT_0600cb84) + 4;
-
-  }
-
-  uVar6 = (*(unsigned int *)(iVar1 + DAT_0600cb84) & (int)DAT_0600cb86 & 0xffff) >> 6;
-
-  uVar4 = (*(unsigned int *)(iVar1 + DAT_0600cb84) & 0xffff) >> 8;
-
-  if ((uVar6 == 0) || (6 < uVar4)) {
-
-    piVar2 = (int *)((uVar4 + *(int *)(iVar1 + PTR_DAT_0600cb88) << 3) << 4 +
-
-                    *(int *)0x0607EB88);
-
-    *param_1 = *piVar2;
-
-    param_1[2] = piVar2[1];
-
-  }
-
-  else {
-
-    iVar1 = uVar4 + *(int *)(iVar1 + PTR_DAT_0600cb88) << 3;
-
-    piVar2 = (int *)((iVar1 << 4) + *(int *)0x0607EB88);
-
-    piVar5 = (int *)((iVar1 + 1) << 4 + *(int *)0x0607EB88);
-
-    *param_1 = (int)(*piVar2 * (4 - uVar6) + *piVar5 * uVar6) >> 2;
-
-    param_1[2] = (int)(piVar2[1] * (4 - uVar6) + piVar5[1] * uVar6) >> 2;
-
-  }
-
-  *(short *)(param_1 + 3) = *(short *)(piVar2 + 2);
-
-  *(short *)((int)param_1 + 0xe) = *(short *)((int)piVar2 + 10) << 2;
-
-  *(short *)(param_1 + 4) = *(short *)(piVar2 + 3);
-
-  *(short *)((int)param_1 + 0x12) = 0;
-
-  return;
-
+    /* Copy rotation data */
+    *(short *)(param_1 + 3) = *(short *)(spline_pt + 2);
+    *(short *)((int)param_1 + 0xe) = *(short *)((int)spline_pt + 10) << 2;
+    *(short *)(param_1 + 4) = *(short *)(spline_pt + 3);
+    *(short *)((int)param_1 + 0x12) = 0;
 }
 
 /* track_spline_sample -- Sample track spline at given parameter.
@@ -884,87 +853,51 @@ void FUN_0600cb90(param_1, param_2)
     *(short *)((int)param_1 + 0x12) = 0;
 }
 
+/* track_spline_smooth_ext -- Sample track spline from external AI descriptor.
+ * Like track_spline_smooth but reads spline parameter from param_1 +0x14
+ * and copies rotation data from param_1 descriptor. Delta smoothing uses
+ * DAT_0600ccf6 history, step size +/-8. Output written to param_2. */
 void FUN_0600cc38(param_1, param_2)
     int param_1;
     int *param_2;
 {
+    int *spline_pt;
+    int car = CAR_PTR_CURRENT;
+    int delta = *(int *)(car + DAT_0600ccf6) - *(int *)(car + DAT_0600ccf6 + 4);
 
-  int *piVar1;
+    /* Update smoothing accumulator (step +/-8) */
+    if ((delta < 8) && (-8 < delta)) {
+        *(int *)(car + DAT_0600ccf6 + 4) = *(int *)(car + DAT_0600ccf6);
+    } else if (delta < 1) {
+        *(int *)(car + DAT_0600ccf8) = *(int *)(car + DAT_0600ccf8) + -8;
+    } else {
+        *(int *)(car + DAT_0600ccf8) = *(int *)(car + DAT_0600ccf8) + 8;
+    }
 
-  int iVar2;
+    /* Read spline parameter from AI descriptor */
+    *(int *)(car + DAT_0600ccf6) = (int)*(short *)(param_1 + 0x14);
+    unsigned int frac = (unsigned int)((*(unsigned short *)(param_1 + 0x14) & 0xff) >> 6);
+    unsigned int seg  = (unsigned int)(*(unsigned short *)(param_1 + 0x14) >> 8);
 
-  int *piVar3;
+    if ((frac == 0) || (6 < seg)) {
+        /* Exact point sample */
+        spline_pt = (int *)((seg + *(int *)(car + DAT_0600cdbc) << 3) << 4 + *(int *)0x0607EB88);
+        *param_2 = *spline_pt;
+        param_2[2] = spline_pt[1];
+    } else {
+        /* Weighted blend between adjacent points */
+        int base_idx = seg + *(int *)(car + DAT_0600ccfa) << 3;
+        spline_pt = (int *)((base_idx << 4) + *(int *)0x0607EB88);
+        int *next_pt = (int *)((base_idx + 1) << 4 + *(int *)0x0607EB88);
+        *param_2 = (int)(*spline_pt * (4 - frac) + *next_pt * frac) >> 2;
+        param_2[2] = (int)(spline_pt[1] * (4 - frac) + next_pt[1] * frac) >> 2;
+    }
 
-  int iVar4;
-
-  unsigned int uVar5;
-
-  unsigned int uVar6;
-
-  iVar2 = CAR_PTR_CURRENT;
-
-  iVar4 = *(int *)(iVar2 + DAT_0600ccf6) - *(int *)(iVar2 + DAT_0600ccf6 + 4);
-
-  if ((iVar4 < 8) && (-8 < iVar4)) {
-
-    *(int *)(iVar2 + DAT_0600ccf6 + 4) = *(int *)(iVar2 + DAT_0600ccf6);
-
-  }
-
-  else if (iVar4 < 1) {
-
-    *(int *)(iVar2 + DAT_0600ccf8) = *(int *)(iVar2 + DAT_0600ccf8) + -8;
-
-  }
-
-  else {
-
-    *(int *)(iVar2 + DAT_0600ccf8) = *(int *)(iVar2 + DAT_0600ccf8) + 8;
-
-  }
-
-  *(int *)(iVar2 + DAT_0600ccf6) = (int)*(short *)(param_1 + 0x14);
-
-  uVar6 = (unsigned int)((*(unsigned short *)(param_1 + 0x14) & 0xff) >> 6);
-
-  uVar5 = (unsigned int)(*(unsigned short *)(param_1 + 0x14) >> 8);
-
-  if ((uVar6 == 0) || (6 < uVar5)) {
-
-    piVar1 = (int *)((uVar5 + *(int *)(iVar2 + DAT_0600cdbc) << 3) << 4 + *(int *)0x0607EB88)
-
-    ;
-
-    *param_2 = *piVar1;
-
-    param_2[2] = piVar1[1];
-
-  }
-
-  else {
-
-    iVar2 = uVar5 + *(int *)(iVar2 + DAT_0600ccfa) << 3;
-
-    piVar1 = (int *)((iVar2 << 4) + *(int *)0x0607EB88);
-
-    piVar3 = (int *)((iVar2 + 1) << 4 + *(int *)0x0607EB88);
-
-    *param_2 = (int)(*piVar1 * (4 - uVar6) + *piVar3 * uVar6) >> 2;
-
-    param_2[2] = (int)(piVar1[1] * (4 - uVar6) + piVar3[1] * uVar6) >> 2;
-
-  }
-
-  *(short *)(param_2 + 3) = *(short *)(param_1 + 0xc);
-
-  *(short *)((int)param_2 + 0xe) = *(short *)(param_1 + 0xe) << 2;
-
-  *(short *)(param_2 + 4) = *(short *)(param_1 + 0x10);
-
-  *(short *)((int)param_2 + 0x12) = *(short *)(param_1 + 0x12);
-
-  return;
-
+    /* Copy rotation data from AI descriptor */
+    *(short *)(param_2 + 3) = *(short *)(param_1 + 0xc);
+    *(short *)((int)param_2 + 0xe) = *(short *)(param_1 + 0xe) << 2;
+    *(short *)(param_2 + 4) = *(short *)(param_1 + 0x10);
+    *(short *)((int)param_2 + 0x12) = *(short *)(param_1 + 0x12);
 }
 
 int * FUN_0600cd40()
@@ -1286,105 +1219,65 @@ int FUN_0600d0b8()
     return 0;
 }
 
+/* ai_follow_target_select -- Select and follow closest AI target.
+ * Checks primary target (car + DAT_0600d192) and secondary (PTR_DAT_0600d194).
+ * If secondary exists and is within 0x80000 distance, uses it; else primary.
+ * If primary distance >= 0xF0000, returns (too far). Within range, adjusts
+ * AI position by +/-0x300 toward target, clamps to 0..0x800. Sets follow
+ * flag at PTR_DAT_0600d208 = 0x100 and stores target ref at +0x30. */
 int FUN_0600d12c()
 {
+    int car = CAR_PTR_CURRENT;
+    int primary = *(int *)(car + DAT_0600d192);
+    int target = *(int *)(car + PTR_DAT_0600d194);
+    int distance;
 
-  int iVar1;
+    if (target == 0) {
+        /* No secondary: compute distance to primary */
+        distance = ((*(int *)(primary + 0x10) - *(int *)(car + 0x10)) +
+                    *(int *)(primary + 0x18)) - *(int *)(car + 0x18);
+    } else {
+        /* Secondary exists: check if close enough */
+        if (((*(int *)(target + 0x10) - *(int *)(car + 0x10)) +
+             *(int *)(target + 0x18)) - *(int *)(car + 0x18) < (int)0x00080000)
+            goto LAB_0600d1a4;
+        /* Secondary too far: fall back to primary */
+        distance = ((*(int *)(primary + 0x10) - *(int *)(car + 0x10)) +
+                    *(int *)(primary + 0x18)) - *(int *)(car + 0x18);
+    }
 
-  int iVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  iVar2 = CAR_PTR_CURRENT;
-
-  iVar1 = *(int *)(iVar2 + DAT_0600d192);
-
-  iVar5 = *(int *)(iVar2 + PTR_DAT_0600d194);
-
-  if (iVar5 == 0) {
-
-    iVar2 = ((*(int *)(iVar1 + 0x10) - *(int *)(iVar2 + 0x10)) + *(int *)(iVar1 + 0x18)) -
-
-            *(int *)(iVar2 + 0x18);
-
-  }
-
-  else {
-
-    if (((*(int *)(iVar5 + 0x10) - *(int *)(iVar2 + 0x10)) + *(int *)(iVar5 + 0x18)) -
-
-        *(int *)(iVar2 + 0x18) < (int)0x00080000) goto LAB_0600d1a4;
-
-    iVar2 = ((*(int *)(iVar1 + 0x10) - *(int *)(iVar2 + 0x10)) + *(int *)(iVar1 + 0x18)) -
-
-            *(int *)(iVar2 + 0x18);
-
-  }
-
-  iVar5 = iVar1;
-
-  if ((int)0x000F0000 <= iVar2) {
-
-    return (int)PTR_DAT_0600d194;
-
-  }
+    target = primary;
+    if ((int)0x000F0000 <= distance) {
+        return (int)PTR_DAT_0600d194;              /* primary too far — bail */
+    }
 
 LAB_0600d1a4:
+    ;
+    int pos_off = (int)DAT_0600d1fa;
+    int car2 = CAR_PTR_CURRENT;
+    int target_pos = *(int *)(target + pos_off);
+    int pos_delta = target_pos - *(int *)(car2 + pos_off);
 
-  iVar1 = (int)DAT_0600d1fa;
-
-  iVar3 = CAR_PTR_CURRENT;
-
-  iVar2 = *(int *)(iVar5 + iVar1);
-
-  iVar4 = iVar2 - *(int *)(iVar3 + iVar1);
-
-  if ((DAT_0600d1fc <= iVar4) && (iVar4 <= DAT_0600d1fe)) {
-
-    iVar1 = 0x300;
-
-    if (DAT_0600d200 < iVar2) {
-
-      iVar1 = -iVar1;
-
+    if ((DAT_0600d1fc <= pos_delta) && (pos_delta <= DAT_0600d1fe)) {
+        int adjust = 0x300;
+        if (DAT_0600d200 < target_pos) {
+            adjust = -adjust;
+        }
+        target_pos = target_pos + adjust;
+        if (target_pos < 0) {
+            *(int *)(car2 + DAT_0600d202) = 0;
+        } else if (DAT_0600d204 < target_pos) {
+            *(int *)(car2 + DAT_0600d202) = 0x800;
+        } else {
+            *(int *)(car2 + DAT_0600d202) = target_pos;
+        }
+        pos_off = (int)PTR_DAT_0600d208;
+        *(int *)(car2 + pos_off) = 0x100;          /* set follow mode flag */
+        pos_off = pos_off + 0x30;
+        *(int *)(car2 + pos_off) = target;
     }
 
-    iVar2 = iVar2 + iVar1;
-
-    if (iVar2 < 0) {
-
-      *(int *)(iVar3 + DAT_0600d202) = 0;
-
-    }
-
-    else if (DAT_0600d204 < iVar2) {
-
-      *(int *)(iVar3 + DAT_0600d202) = 0x800;
-
-    }
-
-    else {
-
-      *(int *)(iVar3 + DAT_0600d202) = iVar2;
-
-    }
-
-    iVar1 = (int)PTR_DAT_0600d208;
-
-    *(int *)(iVar3 + iVar1) = 0x100;
-
-    iVar1 = iVar1 + 0x30;
-
-    *(int *)(iVar3 + iVar1) = iVar5;
-
-  }
-
-  return iVar1;
-
+    return pos_off;
 }
 
 /* ai_position_approach -- Adjust AI car's position toward target within bounds.
@@ -1852,104 +1745,60 @@ void FUN_0600d50c()
 
 }
 
+/* checkpoint_crossing_handler -- Handle checkpoint transitions for car.
+ * Computes delta between current and previous checkpoint IDs.
+ * Delta < -1: forward lap wrap (increment lap at +0x228, trigger complete).
+ * Delta -1..+1: normal crossing (validate position, scan collisions).
+ * Delta > +1: backward crossing (decrement lap, check halfway).
+ * Sets 0x0605DE3C = 0 (forward) or 1 (backward) on lap completion. */
 int FUN_0600d780(param_1)
     int param_1;
 {
+    int *lap_total = (int *)0x0607EA9C;
+    int *checkpoint_flags = (int *)0x06063F1C;
+    int car = CAR_PTR_CURRENT;
+    int cur_cp = *(int *)(car + DAT_0600d82a);
+    int prev_off = DAT_0600d82a + 4;
+    int delta = cur_cp - *(int *)(car + prev_off);
+    int result;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  int iVar6;
-
-  puVar2 = (char *)0x0607EA9C;
-
-  puVar1 = (int *)0x06063F1C;
-
-  iVar4 = CAR_PTR_CURRENT;
-
-  iVar5 = *(int *)(iVar4 + DAT_0600d82a);
-
-  iVar3 = DAT_0600d82a + 4;
-
-  iVar6 = iVar5 - *(int *)(iVar4 + iVar3);
-
-  if (iVar5 != *(int *)(iVar4 + iVar3)) {
-
-    if (iVar6 < -1) {
-
-      iVar3 = 0x228;
-
-      *(int *)(iVar4 + iVar3) = *(int *)(iVar4 + iVar3) + 1;
-
-      iVar3 = iVar3 + -0x40;
-
-      if ((*(int *)(iVar4 + iVar3) == *(int *)puVar2) && (param_1 == 0)) {
-
-        *(int *)(iVar4 + DAT_0600d82e) = 0;
-
-        *(int *)puVar1 = *(int *)0x06063F18;
-
-        FUN_0600d9bc(0);
-
-        iVar3 = FUN_0600d92c();
-
-        *(int *)0x0605DE3C = 0;
-
-      }
-
+    if (cur_cp != *(int *)(car + prev_off)) {
+        if (delta < -1) {
+            /* Forward lap wrap: crossed start going forward */
+            result = 0x228;
+            *(int *)(car + result) = *(int *)(car + result) + 1;
+            result = result + -0x40;
+            if ((*(int *)(car + result) == *lap_total) && (param_1 == 0)) {
+                *(int *)(car + DAT_0600d82e) = 0;
+                *checkpoint_flags = *(int *)0x06063F18;
+                FUN_0600d9bc(0);
+                result = FUN_0600d92c();
+                *(int *)0x0605DE3C = 0;            /* forward direction */
+            }
+        } else if (delta < 2) {
+            /* Normal crossing: adjacent checkpoint */
+            if (param_1 == 0) {
+                FUN_0600d84c();
+                result = FUN_0600d8a4(0);
+                return result;
+            }
+        } else {
+            /* Backward crossing: crossed start going backward */
+            result = 0x228;
+            *(int *)(car + result) = *(int *)(car + result) + -1;
+            int half = *lap_total;
+            result = result + -0x40;
+            if (((int)(half + (unsigned int)(half < 0)) >> 1 <= *(int *)(car + result)) && (param_1 == 0)) {
+                *(int *)(car + DAT_0600d82e) = 0;
+                *checkpoint_flags = *(int *)0x06063F18;
+                FUN_0600d9bc(0);
+                result = FUN_0600d92c();
+                *(int *)0x0605DE3C = 1;            /* backward direction */
+            }
+        }
     }
 
-    else if (iVar6 < 2) {
-
-      if (param_1 == 0) {
-
-        FUN_0600d84c();
-
-        iVar3 = FUN_0600d8a4(0);
-
-        return iVar3;
-
-      }
-
-    }
-
-    else {
-
-      iVar3 = 0x228;
-
-      *(int *)(iVar4 + iVar3) = *(int *)(iVar4 + iVar3) + -1;
-
-      iVar5 = *(int *)puVar2;
-
-      iVar3 = iVar3 + -0x40;
-
-      if (((int)(iVar5 + (unsigned int)(iVar5 < 0)) >> 1 <= *(int *)(iVar4 + iVar3)) && (param_1 == 0)) {
-
-        *(int *)(iVar4 + DAT_0600d82e) = 0;
-
-        *(int *)puVar1 = *(int *)0x06063F18;
-
-        FUN_0600d9bc(0);
-
-        iVar3 = FUN_0600d92c();
-
-        *(int *)0x0605DE3C = 1;
-
-      }
-
-    }
-
-  }
-
-  return iVar3;
-
+    return result;
 }
 
 /* checkpoint_position_validate -- Validate checkpoint crossing position.
@@ -2194,81 +2043,50 @@ unsigned int FUN_0600db64()
     return (int)*(char *)(car + 2);
 }
 
+/* checkpoint_vdp_render -- Render checkpoint crossing VDP sprites.
+ * On first 4 frames of 8-frame cycle, draws sprites via FUN_06028400
+ * using course-specific tile data (0x060637F8 or 0x06063808).
+ * On frames 4-7, clears sprites (FUN_0600dc74). Every 64 frames,
+ * plays checkpoint sound (0xAE1138FF/0xAE1139FF) and cycles animation
+ * counter at 0x060786A8 (resets after 7 cycles). */
 unsigned int FUN_0600db9e()
 {
+    int *anim_counter = (int *)0x060786A8;
+    unsigned int result;
 
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  int iVar3;
-
-  int uVar4;
-
-  puVar1 = (int *)0x060786A8;
-
-  if ((*(unsigned short *)0x06078698 & 7) < 4) {
-
-    if (*(int *)0x06078644 == 1) {
-
-      (*(int(*)())0x06028400)(8,*(int *)0x060637F8,0xac0,
-
-                 *(int *)(0x060637F8 + 4) + (int)DAT_0600dbdc,0x060637F8);
-
+    if ((*(unsigned short *)0x06078698 & 7) < 4) {
+        /* First 4 frames: draw checkpoint sprites */
+        if (*(int *)0x06078644 == 1) {
+            (*(int(*)())0x06028400)(8, *(int *)0x060637F8, 0xac0,
+                       *(int *)(0x060637F8 + 4) + (int)DAT_0600dbdc, 0x060637F8);
+        } else {
+            (*(int(*)())0x06028400)(8, *(int *)0x06063808, (int)DAT_0600dc9a,
+                       *(int *)(0x06063808 + 4) + (int)DAT_0600dc98, 0x06063808);
+        }
+    } else {
+        FUN_0600dc74();                            /* clear checkpoint sprites */
     }
 
-    else {
+    result = (unsigned int)*(unsigned short *)0x06078698;
 
-      (*(int(*)())0x06028400)(8,*(int *)0x06063808,(int)DAT_0600dc9a,
-
-                 *(int *)(0x06063808 + 4) + (int)DAT_0600dc98,0x06063808);
-
+    /* Every 64 frames: play sound and cycle animation */
+    if ((*(unsigned short *)0x06078698 & 0x3f) == 0) {
+        int count = *anim_counter;
+        *(unsigned int *)anim_counter = count + 1U;
+        if (count + 1U < 7) {
+            result = (*(int(*)())0x0601D5F4)(0, 0xAE1138FF);
+        } else {
+            int sound_id = 0xAE1138FF;
+            if (*(int *)0x06078644 == 1) {
+                sound_id = 0xAE1139FF;             /* alternate course sound */
+            }
+            result = (*(int(*)())0x0601D5F4)(0, sound_id);
+            *(short *)0x06086054 = 0x28;           /* animation timer reset */
+            *anim_counter = 0;
+        }
     }
 
-  }
-
-  else {
-
-    FUN_0600dc74();
-
-  }
-
-  uVar2 = (unsigned int)*(unsigned short *)0x06078698;
-
-  if ((*(unsigned short *)0x06078698 & 0x3f) == 0) {
-
-    iVar3 = *(int *)puVar1;
-
-    *(unsigned int *)puVar1 = iVar3 + 1U;
-
-    if (iVar3 + 1U < 7) {
-
-      uVar2 = (*(int(*)())0x0601D5F4)(0,0xAE1138FF);
-
-    }
-
-    else {
-
-      uVar4 = 0xAE1138FF;
-
-      if (*(int *)0x06078644 == 1) {
-
-        uVar4 = 0xAE1139FF;
-
-      }
-
-      uVar2 = (*(int(*)())0x0601D5F4)(0,uVar4);
-
-      *(short *)0x06086054 = 0x28;
-
-      *(int *)puVar1 = 0;
-
-    }
-
-  }
-
-  return uVar2;
-
+    return result;
 }
 
 /* checkpoint_vdp_clear -- Clear two VDP sprite entries for checkpoint display.
@@ -2368,109 +2186,53 @@ void FUN_0600de54(void)
     FUN_0600e0c0();   /* per_car_loop */
 }
 
+/* race_frame_render_all -- Main per-frame race rendering loop.
+ * Queries car count via FUN_06035340, stores at 0x060786CA.
+ * Iterates each car slot: sets mode flags at 0x0607EAE4/0x0607ED8C,
+ * configures car pointers at 0x0607E940/0x0607E944, calls FUN_0600e4f2.
+ * After loop: post-render (0x0600A8BC), dispatch to FUN_0602F7EA or
+ * FUN_06034900 based on 0x06083255, then FUN_0602F99C and FUN_0600e0c0. */
 void FUN_0600de70()
 {
+    short *ranking_ptr = (short *)0x0607ED88;
+    char *mode_flag = (char *)0x0607EAE4;
+    char *active_flag = (char *)0x0607ED8C;
+    char *car_target = (char *)0x0607E940;
+    int *car_source = (int *)0x0607E944;
+    short car_count = (*(int(*)())0x06035340)();
+    *(short *)0x060786CA = car_count;
+    char *base_car = (char *)0x06078900;           /* CAR_ARRAY_BASE */
+    int saved_state = *(int *)0x06063EF0;
+    char *first_car = (char *)(0x06078900 + DAT_0600deb2);
+    unsigned short i;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  short uVar7;
-
-  int uVar8;
-
-  char *puVar9;
-
-  unsigned short uVar10;
-
-  puVar5 = (short *)0x0607ED88;
-
-  puVar4 = (char *)0x0607EAE4;
-
-  puVar3 = (char *)0x0607ED8C;
-
-  puVar2 = (char *)0x0607E940;
-
-  puVar1 = (int *)0x0607E944;
-
-  uVar7 = (*(int(*)())0x06035340)();
-
-  *(short *)0x060786CA = uVar7;
-
-  puVar6 = (char *)0x06078900;
-
-  uVar8 = *(int *)0x06063EF0;
-
-  puVar9 = 0x06078900 + DAT_0600deb2;
-
-  for (uVar10 = 0; uVar10 < (unsigned char)*(int *)0x06078634; uVar10 = uVar10 + 1) {
-
-    if (*(int *)0x06078635 == '\0') {
-
-      if (*(int *)puVar4 == 0) {
-
-        *(int *)puVar4 = 1;
-
-      }
-
+    for (i = 0; i < (unsigned char)*(int *)0x06078634; i = i + 1) {
+        if (*(int *)0x06078635 == '\0') {
+            if (*(int *)mode_flag == 0) {
+                *(int *)mode_flag = 1;
+            }
+        } else if (i == 0) {
+            *(short *)active_flag = 1;
+            *(char **)car_source = first_car;
+            *(char **)car_target = first_car;
+        } else {
+            *(short *)active_flag = 0;
+            *(int *)ranking_ptr = *(int *)ranking_ptr + -2;
+            *(char **)car_source = base_car;
+            *(int *)0x06063EF0 = saved_state;
+            *(int *)car_target = *(int *)car_source;
+        }
+        FUN_0600e4f2();                            /* per-car render */
     }
 
-    else if (uVar10 == 0) {
-
-      *(short *)puVar3 = 1;
-
-      *(char **)puVar1 = puVar9;
-
-      *(char **)puVar2 = puVar9;
-
+    (*(int(*)())0x0600A8BC)();                     /* post-render cleanup */
+    if (*(int *)0x06083255 == '\0') {
+        (*(int(*)())0x0602F7EA)();                 /* normal render path */
+    } else {
+        (*(int(*)())0x06034900)();                 /* alternate render path */
     }
-
-    else {
-
-      *(short *)puVar3 = 0;
-
-      *(int *)puVar5 = *(int *)puVar5 + -2;
-
-      *(char **)puVar1 = puVar6;
-
-      *(int *)0x06063EF0 = uVar8;
-
-      *(int *)puVar2 = *(int *)puVar1;
-
-    }
-
-    FUN_0600e4f2();
-
-  }
-
-  (*(int(*)())0x0600A8BC)();
-
-  if (*(int *)0x06083255 == '\0') {
-
-    (*(int(*)())0x0602F7EA)();
-
-  }
-
-  else {
-
-    (*(int(*)())0x06034900)();
-
-  }
-
-  (*(int(*)())0x0602F99C)();
-
-  FUN_0600e0c0();
-
-  return;
-
+    (*(int(*)())0x0602F99C)();                     /* final render pass */
+    FUN_0600e0c0();                                /* per-car cleanup */
 }
 
 /* replay_render_dispatch -- Dispatch replay rendering based on replay mode.

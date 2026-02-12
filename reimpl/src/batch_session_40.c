@@ -327,71 +327,39 @@ int FUN_06040220(param_1, param_2, param_3, param_4, param_5, param_6, param_7, 
 
 }
 
+/* cd_status_query -- Query CD drive status and classify state.
+ * Reads CD register pair via FUN_06041330, optionally returns raw
+ * status in param_2 and position in param_1. Maps status nibble to
+ * state codes: 0=playing, 1=seeking, 2=stopped/paused, 3=scan,
+ * 4=complete, 5=error. */
 int FUN_060405b8(param_1, param_2)
     int *param_1;
     short *param_2;
 {
+    short raw_status;
+    unsigned char reg_data[8];
+    int position;
 
-  short uVar1;
+    raw_status = (*(int(*)())0x06041330)(reg_data);
+    if (param_2 != (short *)0x0) {
+        *param_2 = raw_status;
+    }
+    if (param_1 != (int *)0x0) {
+        *param_1 = position;
+    }
 
-  unsigned char local_10 [8];
-
-  int uStack_8;
-
-  uVar1 = (*(int(*)())0x06041330)(local_10);
-
-  if (param_2 != (short *)0x0) {
-
-    *param_2 = uVar1;
-
-  }
-
-  if (param_1 != (int *)0x0) {
-
-    *param_1 = uStack_8;
-
-  }
-
-  switch(local_10[0] & 0xf) {
-
-  case 0:
-
-    return 2;
-
-  case 1:
-
-  case 2:
-
-    return 0;
-
-  case 3:
-
-  case 8:
-
-    return 1;
-
-  case 4:
-
-    return 2;
-
-  case 5:
-
-    return 1;
-
-  case 6:
-
-    return 3;
-
-  case 7:
-
-    return 4;
-
-  default:
-
-    return 5;
-
-  }
-
+    switch (reg_data[0] & 0xf) {
+    case 0:  return 2;                             /* stopped */
+    case 1:
+    case 2:  return 0;                             /* playing */
+    case 3:
+    case 8:  return 1;                             /* seeking */
+    case 4:  return 2;                             /* paused */
+    case 5:  return 1;                             /* seeking (retry) */
+    case 6:  return 3;                             /* scanning */
+    case 7:  return 4;                             /* complete */
+    default: return 5;                             /* error/unknown */
+    }
 }
 
 /* cd_session_is_busy -- Check if CD session is still processing.
@@ -1430,272 +1398,159 @@ int FUN_060415c8(param_1, param_2)
     return 0xfffffff5;
 }
 
+/* cd_session_poll_loop -- Poll all 8 CD channels and process pending ops.
+ * Decrements session countdown at CD_SESSION_BASE+0x3c. If expired,
+ * calls FUN_0604231e and returns 3 (timeout). Otherwise checks interrupt
+ * status via 0x06035C4E: if set, clears interrupt (0x06035C54), reads
+ * CD data (0x06034984), and invokes session callback if present.
+ * Then iterates 8 channels: skips free slots (FUN_060417a8), dispatches
+ * active ones (FUN_06041826). Returns 1 if any channel exceeds 30
+ * retries, 0 if all idle, 1 if any active. */
 int FUN_06041698()
 {
+    char *session_table = (char *)0x060A5400;
+    int result;
+    int active_count = 0;
+    int retry_count = 0;
+    unsigned int irq_mask = (unsigned int)PTR_DAT_0604172a;
+    char cd_buffer[16];
+    int countdown;
 
-  char *puVar1;
+    if ((*(int *)(CD_SESSION_BASE + 0x3c) == 0) ||
+       (countdown = *(int *)(CD_SESSION_BASE + 0x3c) + -1,
+       *(int *)(CD_SESSION_BASE + 0x3c) = countdown, 0 < countdown)) {
 
-  int uVar2;
+        short irq_status = (*(int(*)())0x06035C4E)();
 
-  short sVar4;
-
-  int iVar3;
-
-  int iVar5;
-
-  int iVar6;
-
-  int local_30;
-
-  unsigned int uStack_2c;
-
-  char auStack_28 [16];
-
-  puVar1 = (char *)0x060A5400;
-
-  local_30 = 0;
-
-  iVar6 = 0;
-
-  if ((*(int *)(CD_SESSION_BASE + 0x3c) == 0) ||
-
-     (iVar5 = *(int *)(CD_SESSION_BASE + 0x3c) + -1,
-
-     *(int *)(CD_SESSION_BASE + 0x3c) = iVar5, 0 < iVar5)) {
-
-    uStack_2c = (unsigned int)PTR_DAT_0604172a;
-
-    sVar4 = (*(int(*)())0x06035C4E)();
-
-    if (((int)sVar4 & uStack_2c) == 0) {
-
-      iVar5 = (*(int(*)())0x060349C4)(auStack_28);
-
-      if (iVar5 == 0) {
-
-        (*(int(*)())0x06035168)();
-
-      }
-
-    }
-
-    else {
-
-      (*(int(*)())0x06035C54)(0x0000FBFF);
-
-      (*(int(*)())0x06034984)(auStack_28);
-
-      (*(int(*)())0x06035168)();
-
-      if (*(int *)(*(int *)puVar1 + 0x4c) != 0) {
-
-        iVar5 = *(int *)puVar1;
-
-        (*(int(*)())(*(int *)(iVar5 + 0x4c)))(*(int *)(iVar5 + 0x50));
-
-      }
-
-    }
-
-    for (iVar5 = 0; iVar5 < 8; iVar5 = iVar5 + 1) {
-
-      iVar3 = FUN_060417a8(iVar5);
-
-      if (iVar3 == 0) {
-
-        iVar3 = FUN_06041826(iVar5,&local_30);
-
-        iVar6 = iVar6 + iVar3;
-
-        if (0x1e < local_30) {
-
-          return 1;
-
+        if (((int)irq_status & irq_mask) == 0) {
+            /* No interrupt: try reading CD register */
+            int read_ok = (*(int(*)())0x060349C4)(cd_buffer);
+            if (read_ok == 0) {
+                (*(int(*)())0x06035168)();         /* acknowledge */
+            }
+        } else {
+            /* Interrupt pending: clear and process */
+            (*(int(*)())0x06035C54)(0x0000FBFF);   /* clear IRQ bit */
+            (*(int(*)())0x06034984)(cd_buffer);    /* read CD data */
+            (*(int(*)())0x06035168)();             /* acknowledge */
+            if (*(int *)(*(int *)session_table + 0x4c) != 0) {
+                int session = *(int *)session_table;
+                (*(int(*)())(*(int *)(session + 0x4c)))(*(int *)(session + 0x50));
+            }
         }
 
-      }
+        /* Poll all 8 CD channels */
+        int ch;
+        for (ch = 0; ch < 8; ch = ch + 1) {
+            int free = FUN_060417a8(ch);
+            if (free == 0) {
+                int dispatched = FUN_06041826(ch, &retry_count);
+                active_count = active_count + dispatched;
+                if (0x1e < retry_count) {
+                    return 1;                      /* retry limit exceeded */
+                }
+            }
+        }
 
+        if (active_count < 1) {
+            result = 0;                            /* all channels idle */
+        } else {
+            result = 1;                            /* channels still active */
+        }
+    } else {
+        FUN_0604231e();                            /* timeout handler */
+        result = 3;
     }
 
-    if (iVar6 < 1) {
-
-      uVar2 = 0;
-
-    }
-
-    else {
-
-      uVar2 = 1;
-
-    }
-
-  }
-
-  else {
-
-    FUN_0604231e();
-
-    uVar2 = 3;
-
-  }
-
-  return uVar2;
-
+    return result;
 }
 
+/* cd_channel_slot_lookup -- Check if a CD channel slot is free.
+ * Maps channel index (0-7) to session struct offset, reads the slot
+ * pointer. Returns 1 if slot is NULL (free), 0 if occupied.
+ * Channel offsets: 0=0x58, 1=DAT_060417d8, 2=DAT_060417da, 3=0x328,
+ * 4=0x338, 5=0x348, 6=0x1e0, 7=0x360. */
 int FUN_060417a8(param_1)
     int param_1;
 {
+    int offset;
+    int base;
 
-  int iVar1;
+    if (param_1 == 0) {
+        base = CD_SESSION_BASE;
+        offset = 0x58;
+    } else if (param_1 == 1) {
+        offset = (int)DAT_060417d8;
+        base = CD_SESSION_BASE;
+    } else if (param_1 == 2) {
+        offset = (int)DAT_060417da;
+        base = CD_SESSION_BASE;
+    } else if (param_1 == 3) {
+        offset = 0x328;
+        base = CD_SESSION_BASE;
+    } else if (param_1 == 4) {
+        offset = 0x338;
+        base = CD_SESSION_BASE;
+    } else if (param_1 == 5) {
+        offset = 0x348;
+        base = CD_SESSION_BASE;
+    } else if (param_1 == 6) {
+        offset = 0x1e0;
+        base = CD_SESSION_BASE;
+    } else {
+        if (param_1 != 7) goto LAB_06041818;
+        base = CD_SESSION_BASE;
+        offset = 0x360;
+    }
 
-  int iVar2;
-
-  if (param_1 == 0) {
-
-    iVar2 = CD_SESSION_BASE;
-
-    iVar1 = 0x58;
-
-  }
-
-  else if (param_1 == 1) {
-
-    iVar1 = (int)DAT_060417d8;
-
-    iVar2 = CD_SESSION_BASE;
-
-  }
-
-  else if (param_1 == 2) {
-
-    iVar1 = (int)DAT_060417da;
-
-    iVar2 = CD_SESSION_BASE;
-
-  }
-
-  else if (param_1 == 3) {
-
-    iVar1 = 0x328;
-
-    iVar2 = CD_SESSION_BASE;
-
-  }
-
-  else if (param_1 == 4) {
-
-    iVar1 = 0x338;
-
-    iVar2 = CD_SESSION_BASE;
-
-  }
-
-  else if (param_1 == 5) {
-
-    iVar1 = 0x348;
-
-    iVar2 = CD_SESSION_BASE;
-
-  }
-
-  else if (param_1 == 6) {
-
-    iVar1 = 0x1e0;
-
-    iVar2 = CD_SESSION_BASE;
-
-  }
-
-  else {
-
-    if (param_1 != 7) goto LAB_06041818;
-
-    iVar2 = CD_SESSION_BASE;
-
-    iVar1 = 0x360;
-
-  }
-
-  param_1 = *(int *)(iVar2 + iVar1);
+    param_1 = *(int *)(base + offset);
 
 LAB_06041818:
-
-  return param_1 == 0;
-
+    return param_1 == 0;
 }
 
+/* cd_channel_dispatch -- Dispatch CD channel handler by index.
+ * Routes channel index (0-7) to its processing function:
+ * 0=FUN_060418be, 1=FUN_06041aa0 (read poll), 2=FUN_06041b3c,
+ * 3=FUN_06041cc8 (write poll), 4=FUN_06041d6c, 5=FUN_06041ee8,
+ * 6=FUN_06042134, 7=FUN_06042088. Always returns 0. */
 int FUN_06041826(param_1, param_2)
     int param_1;
     int param_2;
 {
-
-  if (param_1 == 0) {
-
-    FUN_060418be(param_2);
-
+    if (param_1 == 0) {
+        FUN_060418be(param_2);
+        return 0;
+    }
+    if (param_1 == 1) {
+        FUN_06041aa0(param_2);                     /* cd_session_read_poll */
+        return 0;
+    }
+    if (param_1 == 2) {
+        FUN_06041b3c(param_2);
+        return 0;
+    }
+    if (param_1 == 3) {
+        FUN_06041cc8(param_2);                     /* cd_session_write_poll */
+        return 0;
+    }
+    if (param_1 == 4) {
+        FUN_06041d6c(param_2);
+        return 0;
+    }
+    if (param_1 == 5) {
+        FUN_06041ee8(param_2);
+        return 0;
+    }
+    if (param_1 == 6) {
+        FUN_06042134(param_2);
+        return 0;
+    }
+    if (param_1 != 7) {
+        return 0;
+    }
+    FUN_06042088(param_2);
     return 0;
-
-  }
-
-  if (param_1 == 1) {
-
-    FUN_06041aa0(param_2);
-
-    return 0;
-
-  }
-
-  if (param_1 == 2) {
-
-    FUN_06041b3c(param_2);
-
-    return 0;
-
-  }
-
-  if (param_1 == 3) {
-
-    FUN_06041cc8(param_2);
-
-    return 0;
-
-  }
-
-  if (param_1 == 4) {
-
-    FUN_06041d6c(param_2);
-
-    return 0;
-
-  }
-
-  if (param_1 == 5) {
-
-    FUN_06041ee8(param_2);
-
-    return 0;
-
-  }
-
-  if (param_1 == 6) {
-
-    FUN_06042134(param_2);
-
-    return 0;
-
-  }
-
-  if (param_1 != 7) {
-
-    return 0;
-
-  }
-
-  FUN_06042088(param_2);
-
-  return 0;
-
 }
 
 /* cd_session_sync -- Synchronously wait for CD session to complete.
