@@ -58,9 +58,9 @@ extern int FUN_06041310();
 extern int FUN_06041698();
 extern int FUN_060417a8();
 extern int FUN_06041826();
-extern int FUN_060418be();
+extern int cd_command_queue_process();
 extern int FUN_06041aa0();
-extern int FUN_06041b3c();
+extern int cd_dma_transfer_poll();
 extern int FUN_06041cc8();
 extern int FUN_06041d6c();
 extern int FUN_06041ee8();
@@ -860,7 +860,7 @@ int FUN_06040fea(int param_1)
  * Queue stored at session+0x5C, 16 bytes per entry (max 24 entries).
  * Entry format: [0]=channel, [1]=filter, [8]=callback, [0xC]=userdata.
  * Sets dispatch flag (+0x58) on first entry. Increments queue counter
- * at +0x54. Dispatches immediately via FUN_060418be.
+ * at +0x54. Dispatches immediately via cd_command_queue_process.
  * Returns 0 on success, -8 (queue full), -7 (channel not open). */
 int cd_command_enqueue(param_1, param_2, param_3, param_4, param_5)
     int param_1;
@@ -899,7 +899,7 @@ int cd_command_enqueue(param_1, param_2, param_3, param_4, param_5)
 
     /* Increment queue counter and dispatch */
     *(int *)(*(int *)session_ptr + 0x54) = *(int *)(*(int *)session_ptr + 0x54) + 1;
-    FUN_060418be(dispatch_buf);
+    cd_command_queue_process(dispatch_buf);
 
     return 0;
 }
@@ -931,7 +931,7 @@ int FUN_06041128(int param_1, int param_2)
 /* cd_read_request_init -- Initialize a CD sector read request.
  * Checks request slot busy flag. Fills request structure: FAD address (param_1),
  * sector count (param_2), destination buffer (param_3), transfer mode (param_4),
- * and callback (param_5). Dispatches via FUN_06041b3c. Returns -1 if busy. */
+ * and callback (param_5). Dispatches via cd_dma_transfer_poll. Returns -1 if busy. */
 int FUN_060411a0(int param_1, int param_2, int param_3, int param_4, int param_5)
 {
   int *session = (int *)0x060A5400;
@@ -950,7 +950,7 @@ int FUN_060411a0(int param_1, int param_2, int param_3, int param_4, int param_5
   *(int *)(*session + offset + 0x10) = 0;           /* reserved */
   *(int *)(*session + offset + 0x14) = param_4;     /* transfer mode */
   *(int *)(*session + (int)PTR_DAT_060411f8) = param_5;  /* callback */
-  FUN_06041b3c(auStack_8);
+  cd_dma_transfer_poll(auStack_8);
   return 0;
 }
 
@@ -1284,7 +1284,7 @@ LAB_06041818:
 
 /* cd_channel_dispatch -- Dispatch CD channel handler by index.
  * Routes channel index (0-7) to its processing function:
- * 0=FUN_060418be, 1=FUN_06041aa0 (read poll), 2=FUN_06041b3c,
+ * 0=cd_command_queue_process, 1=FUN_06041aa0 (read poll), 2=cd_dma_transfer_poll,
  * 3=FUN_06041cc8 (write poll), 4=FUN_06041d6c, 5=FUN_06041ee8,
  * 6=cd_session_file_batch, 7=cd_session_read_step. Always returns 0. */
 int FUN_06041826(param_1, param_2)
@@ -1292,7 +1292,7 @@ int FUN_06041826(param_1, param_2)
     int param_2;
 {
     if (param_1 == 0) {
-        FUN_060418be(param_2);
+        cd_command_queue_process(param_2);
         return 0;
     }
     if (param_1 == 1) {
@@ -1300,7 +1300,7 @@ int FUN_06041826(param_1, param_2)
         return 0;
     }
     if (param_1 == 2) {
-        FUN_06041b3c(param_2);
+        cd_dma_transfer_poll(param_2);
         return 0;
     }
     if (param_1 == 3) {
@@ -1343,128 +1343,84 @@ int FUN_0604188c(void)
     return result;
 }
 
-int FUN_060418be(param_1)
+/* cd_command_queue_process -- Process CD command queue entries sequentially.
+ * Iterates through queue at session+0x5C (16 bytes per entry).
+ * Three-state machine at +0x58:
+ *   State 1: cd_connect (0x06036380) with channel + filter
+ *   State 2: cd_set_sector (0x060362A8) with channel + sector data
+ *   State 3: cd_read_cmd (0x060361FC) with channel + callback + userdata
+ * After each step: reads cd_result, stores header byte at +0x40.
+ * On break (command failure): compacts remaining entries and updates count.
+ * Clears dispatch flag (+0x58) when queue empty and CD status bit 0x40 set.
+ * Returns remaining queue count. */
+int cd_command_queue_process(param_1)
     int *param_1;
 {
+    int result;
+    unsigned short cd_status;
+    char *entry;
+    int cmd_idx;
+    char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;
 
-  char *puVar1;
+    for (cmd_idx = 0; cmd_idx < *(int *)(*(int *)session_ptr + 0x54); cmd_idx++) {
+        /* State 1: connect to channel */
+        if (*(int *)(*(int *)session_ptr + 0x58) == 1) {
+            entry = (char *)(*(int *)session_ptr + 0x5c + (cmd_idx << 4));
+            result = (*(int(*)())0x06036380)((int)*entry, (int)entry[1]);  /* cd_connect */
+            if (result != 0) break;
+            (*(int(*)())0x060349B6)(cd_result);
+            *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+            *param_1 = *param_1 + 1;
+            *(int *)(*(int *)session_ptr + 0x58) = 2;
+        }
 
-  char *puVar2;
+        /* State 2: set sector parameters */
+        if (*(int *)(*(int *)session_ptr + 0x58) == 2) {
+            entry = (char *)(*(int *)session_ptr + 0x5c + (cmd_idx << 4));
+            result = (*(int(*)())0x060362A8)((int)*entry, entry + 2);  /* cd_set_sector */
+            if (result != 0) break;
+            (*(int(*)())0x060349B6)(cd_result);
+            *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+            *param_1 = *param_1 + 1;
+            if (*(int *)((cmd_idx << 4) + *(int *)session_ptr + 0x68) == 0) {
+                *(int *)(*(int *)session_ptr + 0x58) = 1;  /* no callback — next entry */
+            } else {
+                *(int *)(*(int *)session_ptr + 0x58) = 3;  /* has callback — issue read */
+            }
+        }
 
-  int iVar3;
-
-  unsigned short uVar4;
-
-  char *pcVar5;
-
-  int iVar6;
-
-  char local_2c [16];
-
-  puVar2 = (char *)0x060349B6;
-
-  puVar1 = (char *)0x060A5400;
-
-  for (iVar6 = 0; iVar6 < *(int *)(*(int *)puVar1 + 0x54); iVar6 = iVar6 + 1) {
-
-    if (*(int *)(*(int *)puVar1 + 0x58) == 1) {
-
-      pcVar5 = (char *)(*(int *)puVar1 + 0x5c + (iVar6 << 4));
-
-      iVar3 = (*(int(*)())0x06036380)((int)*pcVar5,(int)pcVar5[1]);
-
-      if (iVar3 != 0) break;
-
-      (*(int(*)())puVar2)(local_2c);
-
-      *(char *)(*(int *)puVar1 + 0x40) = local_2c[0];
-
-      *param_1 = *param_1 + 1;
-
-      *(int *)(*(int *)puVar1 + 0x58) = 2;
-
+        /* State 3: issue read command with callback */
+        if (*(int *)(*(int *)session_ptr + 0x58) == 3) {
+            entry = (char *)(*(int *)session_ptr + 0x5c + (cmd_idx << 4));
+            result = (*(int(*)())0x060361FC)((int)*entry, *(int *)(entry + 8), *(int *)(entry + 0xc));
+            if (result != 0) break;
+            (*(int(*)())0x060349B6)(cd_result);
+            *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+            *param_1 = *param_1 + 1;
+            *(int *)(*(int *)session_ptr + 0x58) = 1;  /* back to connect for next */
+        }
     }
 
-    if (*(int *)(*(int *)puVar1 + 0x58) == 2) {
-
-      pcVar5 = (char *)(*(int *)puVar1 + 0x5c + (iVar6 << 4));
-
-      iVar3 = (*(int(*)())0x060362A8)((int)*pcVar5,pcVar5 + 2);
-
-      if (iVar3 != 0) break;
-
-      (*(int(*)())puVar2)(local_2c);
-
-      *(char *)(*(int *)puVar1 + 0x40) = local_2c[0];
-
-      *param_1 = *param_1 + 1;
-
-      if (*(int *)((iVar6 << 4) + *(int *)puVar1 + 0x68) == 0) {
-
-        *(int *)(*(int *)puVar1 + 0x58) = 1;
-
-      }
-
-      else {
-
-        *(int *)(*(int *)puVar1 + 0x58) = 3;
-
-      }
-
+    /* Compact remaining entries if interrupted mid-queue */
+    if (cmd_idx < *(int *)(*(int *)session_ptr + 0x54)) {
+        int compact_idx = 0;
+        for (; cmd_idx < *(int *)(*(int *)session_ptr + 0x54); cmd_idx++) {
+            (*(int(*)())0x06035168)(compact_idx, *(int *)session_ptr + 0x5c);  /* copy entry */
+            compact_idx++;
+        }
+        *(int *)(*(int *)session_ptr + 0x54) = compact_idx;
+    } else {
+        *(int *)(*(int *)session_ptr + 0x54) = 0;  /* all processed */
     }
 
-    if (*(int *)(*(int *)puVar1 + 0x58) == 3) {
-
-      pcVar5 = (char *)(*(int *)puVar1 + 0x5c + (iVar6 << 4));
-
-      iVar3 = (*(int(*)())0x060361FC)((int)*pcVar5,*(int *)(pcVar5 + 8),*(int *)(pcVar5 + 0xc));
-
-      if (iVar3 != 0) break;
-
-      (*(int(*)())puVar2)(local_2c);
-
-      *(char *)(*(int *)puVar1 + 0x40) = local_2c[0];
-
-      *param_1 = *param_1 + 1;
-
-      *(int *)(*(int *)puVar1 + 0x58) = 1;
-
+    /* Clear dispatch flag when queue empty and CD ready */
+    cd_status = (*(int(*)())0x06035C4E)();
+    if (((cd_status & 0x40) != 0) && (*(int *)(*(int *)session_ptr + 0x54) == 0)) {
+        *(int *)(*(int *)session_ptr + 0x58) = 0;
     }
 
-  }
-
-  if (iVar6 < *(int *)(*(int *)puVar1 + 0x54)) {
-
-    iVar3 = 0;
-
-    for (; iVar6 < *(int *)(*(int *)puVar1 + 0x54); iVar6 = iVar6 + 1) {
-
-      (*(int(*)())0x06035168)(iVar3,*(int *)puVar1 + 0x5c);
-
-      iVar3 = iVar3 + 1;
-
-    }
-
-    *(int *)(*(int *)puVar1 + 0x54) = iVar3;
-
-  }
-
-  else {
-
-    *(int *)(*(int *)puVar1 + 0x54) = 0;
-
-  }
-
-  uVar4 = (*(int(*)())0x06035C4E)();
-
-  if (((uVar4 & 0x40) != 0) && (*(int *)(*(int *)puVar1 + 0x54) == 0)) {
-
-    *(int *)(*(int *)puVar1 + 0x58) = 0;
-
-  }
-
-  return *(int *)(*(int *)puVar1 + 0x54);
-
+    return *(int *)(*(int *)session_ptr + 0x54);
 }
 
 /* cd_session_read_poll -- Poll CD read state and advance on completion.
@@ -1498,152 +1454,100 @@ int FUN_06041aa0(param_1)
     return *(int *)((int)DAT_06041bc6 + *(int *)session_ptr);
 }
 
-int FUN_06041b3c(param_1)
+/* cd_dma_transfer_poll -- Poll CD DMA transfer state machine.
+ * Three-state machine at DAT_06041bc8/DAT_06041caa offsets:
+ *   State 1: Query available sectors via 0x06036572, compute transfer size
+ *            (clamped to buffer at +0x318). Store size at *[+0x320].
+ *            If no sectors: clear state, optionally clear callback result.
+ *            If DMA enabled (+DAT_06041ca8): advance to state 2.
+ *   State 2: Acquire lock (+0x34), initiate DMA via 0x060365C4 with
+ *            source (+0x310), dest (+0x314), and size (*[+0x320]).
+ *            Advance to state 3 on success.
+ *   State 3: Poll DMA completion via 0x0603660E. On complete: store
+ *            transferred byte count (<<1) at callback pointer, clear lock.
+ * Returns 0 (complete), 1 (in progress), or 2 (DMA busy). */
+int cd_dma_transfer_poll(param_1)
     int *param_1;
 {
+    int available_sectors;
+    int transfer_size;
+    int result;
+    int dma_bytes;
+    char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;
 
-  char *puVar1;
+    /* State 1: query and compute transfer size */
+    if (*(int *)((int)DAT_06041bc8 + CD_SESSION_BASE) == 1) {
+        (*(int(*)())0x06036572)(*(int *)(CD_SESSION_BASE + 0x310), &available_sectors);
+        (*(int(*)())0x060349B6)(cd_result);    /* cd_get_result */
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+        *param_1 = *param_1 + 1;
 
-  char *puVar2;
+        /* Clamp to buffer capacity */
+        transfer_size = available_sectors - *(int *)(*(int *)session_ptr + (int)DAT_06041bcc);
+        available_sectors = *(int *)(*(int *)session_ptr + 0x318);
+        if (transfer_size < available_sectors) {
+            available_sectors = transfer_size;
+        }
+        **(int **)(*(int *)session_ptr + 0x320) = available_sectors;
 
-  int uVar3;
+        /* No data available: complete immediately */
+        if (available_sectors < 1) {
+            transfer_size = (int)DAT_06041bc8;
+            *(int *)(*(int *)session_ptr + transfer_size) = 0;
+            if (*(int *)(*(int *)session_ptr + transfer_size + 0x18) != 0) {
+                **(int **)(*(int *)session_ptr + (int)DAT_06041bd2) = 0;
+            }
+            return 0;
+        }
 
-  int iVar4;
-
-  int local_28;
-
-  int iStack_24;
-
-  char local_20 [16];
-
-  puVar2 = (char *)0x060A5400;
-
-  puVar1 = (char *)0x060349B6;
-
-  if (*(int *)((int)DAT_06041bc8 + CD_SESSION_BASE) == 1) {
-
-    (*(int(*)())0x06036572)(*(int *)(CD_SESSION_BASE + 0x310),&local_28);
-
-    (*(int(*)())puVar1)(local_20);
-
-    *(char *)(*(int *)puVar2 + 0x40) = local_20[0];
-
-    *param_1 = *param_1 + 1;
-
-    iVar4 = local_28 - *(int *)(*(int *)puVar2 + (int)DAT_06041bcc);
-
-    local_28 = *(int *)(*(int *)puVar2 + 0x318);
-
-    if (iVar4 < local_28) {
-
-      local_28 = iVar4;
-
+        /* Check if DMA is enabled */
+        if (*(int *)(*(int *)session_ptr + (int)DAT_06041ca8) == 0) {
+            *(int *)(*(int *)session_ptr + (int)DAT_06041caa) = 0;
+            return 0;                          /* no DMA — done */
+        }
+        *(int *)(*(int *)session_ptr + (int)DAT_06041caa) = 2;  /* advance to DMA */
     }
 
-    **(int **)(*(int *)puVar2 + 0x320) = local_28;
+    /* State 2: initiate DMA transfer */
+    if (*(int *)((int)DAT_06041caa + *(int *)session_ptr) == 2) {
+        if (*(int *)(*(int *)session_ptr + 0x34) == 1) {
+            return 2;                          /* DMA lock held — busy */
+        }
+        *(int *)(*(int *)session_ptr + 0x34) = 1;  /* acquire lock */
 
-    if (local_28 < 1) {
+        result = (*(int(*)())0x060365C4)(      /* cd_dma_start */
+            *(int *)(*(int *)session_ptr + 0x310),
+            *(int *)(*(int *)session_ptr + 0x314),
+            **(int **)(*(int *)session_ptr + 0x320));
+        if (result != 0) {
+            return 2;                          /* DMA start failed */
+        }
 
-      iVar4 = (int)DAT_06041bc8;
-
-      *(int *)(*(int *)puVar2 + iVar4) = 0;
-
-      if (*(int *)(*(int *)puVar2 + iVar4 + 0x18) != 0) {
-
-        **(int **)(*(int *)puVar2 + (int)DAT_06041bd2) = 0;
-
-      }
-
-      return 0;
-
+        (*(int(*)())0x060349B6)(cd_result);
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+        *param_1 = *param_1 + 1;
+        *(int *)(*(int *)session_ptr + (int)DAT_06041caa) = 3;
     }
 
-    if (*(int *)(*(int *)puVar2 + (int)DAT_06041ca8) == 0) {
+    /* State 3: poll DMA completion */
+    if (*(int *)((int)DAT_06041caa + *(int *)session_ptr) == 3) {
+        result = (*(int(*)())0x0603660E)(&dma_bytes);  /* cd_dma_poll */
+        if (result == 0) {
+            (*(int(*)())0x060349B6)(cd_result);
+            *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+            *param_1 = *param_1 + 1;
 
-      *(int *)(*(int *)puVar2 + (int)DAT_06041caa) = 0;
-
-      return 0;
-
+            transfer_size = (int)DAT_06041caa;
+            *(int *)(*(int *)session_ptr + transfer_size) = 0;  /* clear state */
+            **(int **)(*(int *)session_ptr + transfer_size + 0x18) = dma_bytes << 1;  /* store byte count */
+            *(int *)(*(int *)session_ptr + 0x34) = 0;  /* release lock */
+            return 0;                          /* complete */
+        }
+        return 1;                              /* DMA in progress */
     }
 
-    *(int *)(*(int *)puVar2 + (int)DAT_06041caa) = 2;
-
-  }
-
-  if (*(int *)((int)DAT_06041caa + *(int *)puVar2) == 2) {
-
-    if (*(int *)(*(int *)puVar2 + 0x34) == 1) {
-
-      return 2;
-
-    }
-
-    *(int *)(*(int *)puVar2 + 0x34) = 1;
-
-    iVar4 = 0x320;
-
-    iVar4 = (*(int(*)())0x060365C4)(*(int *)(*(int *)puVar2 + iVar4 + -0x10),
-
-                       *(int *)(*(int *)puVar2 + iVar4 + -0xc),
-
-                       **(int **)(*(int *)puVar2 + iVar4));
-
-    if (iVar4 != 0) {
-
-      return 2;
-
-    }
-
-    (*(int(*)())puVar1)(local_20);
-
-    *(char *)(*(int *)puVar2 + 0x40) = local_20[0];
-
-    *param_1 = *param_1 + 1;
-
-    *(int *)(*(int *)puVar2 + (int)DAT_06041caa) = 3;
-
-  }
-
-  if (*(int *)((int)DAT_06041caa + *(int *)puVar2) == 3) {
-
-    iVar4 = (*(int(*)())0x0603660E)(&iStack_24);
-
-    if (iVar4 == 0) {
-
-      (*(int(*)())puVar1)(local_20);
-
-      *(char *)(*(int *)puVar2 + 0x40) = local_20[0];
-
-      *param_1 = *param_1 + 1;
-
-      iVar4 = (int)DAT_06041caa;
-
-      *(int *)(*(int *)puVar2 + iVar4) = 0;
-
-      **(int **)(*(int *)puVar2 + iVar4 + 0x18) = iStack_24 << 1;
-
-      *(int *)(*(int *)puVar2 + 0x34) = 0;
-
-      uVar3 = 0;
-
-    }
-
-    else {
-
-      uVar3 = 1;
-
-    }
-
-  }
-
-  else {
-
-    uVar3 = 1;
-
-  }
-
-  return uVar3;
-
+    return 1;
 }
 
 /* cd_session_write_poll -- Poll CD write state and advance on completion.
