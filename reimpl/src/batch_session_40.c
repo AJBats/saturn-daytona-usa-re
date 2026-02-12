@@ -62,8 +62,8 @@ extern int cd_command_queue_process();
 extern int FUN_06041aa0();
 extern int cd_dma_transfer_poll();
 extern int FUN_06041cc8();
-extern int FUN_06041d6c();
-extern int FUN_06041ee8();
+extern int cd_session_skip_poll();
+extern int cd_session_play_poll();
 extern int cd_session_read_step();
 extern int cd_session_file_batch();
 extern int cd_session_state_reset();
@@ -1009,7 +1009,7 @@ int FUN_06041258(void)
 /* cd_seek_request -- Issue a CD seek command to target FAD.
  * Checks seek slot (offset 0x338) busy and session active flags.
  * Fills seek request: FAD (param_1), seek mode (param_2), speed (param_3).
- * Marks session active, dispatches via FUN_06041d6c.
+ * Marks session active, dispatches via cd_session_skip_poll.
  * Returns -1 if busy, -5 if session already active. */
 int FUN_060412b2(int param_1, int param_2, int param_3)
 {
@@ -1028,7 +1028,7 @@ int FUN_060412b2(int param_1, int param_2, int param_3)
   *(int *)(*session + 0x33C) = param_1;    /* FAD target */
   *(int *)(*session + 0x340) = param_2;    /* seek mode */
   *(int *)(*session + 0x344) = param_3;    /* seek speed */
-  FUN_06041d6c(auStack_8);
+  cd_session_skip_poll(auStack_8);
   return 0;
 }
 
@@ -1285,7 +1285,7 @@ LAB_06041818:
 /* cd_channel_dispatch -- Dispatch CD channel handler by index.
  * Routes channel index (0-7) to its processing function:
  * 0=cd_command_queue_process, 1=FUN_06041aa0 (read poll), 2=cd_dma_transfer_poll,
- * 3=FUN_06041cc8 (write poll), 4=FUN_06041d6c, 5=FUN_06041ee8,
+ * 3=FUN_06041cc8 (write poll), 4=cd_session_skip_poll, 5=cd_session_play_poll,
  * 6=cd_session_file_batch, 7=cd_session_read_step. Always returns 0. */
 int FUN_06041826(param_1, param_2)
     int param_1;
@@ -1308,11 +1308,11 @@ int FUN_06041826(param_1, param_2)
         return 0;
     }
     if (param_1 == 4) {
-        FUN_06041d6c(param_2);
+        cd_session_skip_poll(param_2);
         return 0;
     }
     if (param_1 == 5) {
-        FUN_06041ee8(param_2);
+        cd_session_play_poll(param_2);
         return 0;
     }
     if (param_1 == 6) {
@@ -1585,234 +1585,155 @@ int FUN_06041cc8(param_1)
     return 1;
 }
 
-int FUN_06041d6c(param_1)
+/* cd_session_skip_poll -- Poll CD skip/seek state machine.
+ * Four-state machine at session +0x338:
+ *   State 1: If filter=0xFFFF and no offset, set default filter (0x060364D4)
+ *            → state 4. If filter=0, complete immediately. Else → state 2.
+ *   State 2: Issue skip command (0x0603683C) → state 3 on success.
+ *   State 3: Poll status bits (PTR_DAT_06041eb8). Complete when set.
+ *   State 4: Poll status bit 0x40. Complete when set.
+ * On completion: acknowledge (0xFFF7), clear state and lock.
+ * Returns 1 (busy) or 0 (complete). */
+int cd_session_skip_poll(param_1)
     int *param_1;
 {
+    int busy = 1;
+    int result;
+    unsigned short cd_status;
+    unsigned short completion_mask;
+    char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;
 
-  int bVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  unsigned short uVar4;
-
-  unsigned short uVar5;
-
-  char local_1c [16];
-
-  puVar2 = (char *)0x060A5400;
-
-  bVar1 = 1;
-
-  if (*(int *)(CD_SESSION_BASE + 0x338) == 1) {
-
-    if ((*(int *)(CD_SESSION_BASE + 0x340) == 0) &&
-
-       (*(char **)(CD_SESSION_BASE + (int)DAT_06041df0) == 0x0000FFFF)) {
-
-      iVar3 = (*(int(*)())0x060364D4)(0,*(int *)(CD_SESSION_BASE + (int)DAT_06041df2));
-
-      if (iVar3 != 0) {
-
-        return 1;
-
-      }
-
-      (*(int(*)())0x060349B6)(local_1c);
-
-      *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
-
-      *param_1 = *param_1 + 1;
-
-      *(int *)(*(int *)puVar2 + 0x338) = 4;
-
+    /* State 1: determine skip mode */
+    if (*(int *)(CD_SESSION_BASE + 0x338) == 1) {
+        if ((*(int *)(CD_SESSION_BASE + 0x340) == 0) &&
+           (*(char **)(CD_SESSION_BASE + (int)DAT_06041df0) == (char *)0x0000FFFF)) {
+            /* Default filter mode: set filter and skip to state 4 */
+            result = (*(int(*)())0x060364D4)(0, *(int *)(CD_SESSION_BASE + (int)DAT_06041df2));
+            if (result != 0) return 1;
+            (*(int(*)())0x060349B6)(cd_result);
+            *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+            *param_1 = *param_1 + 1;
+            *(int *)(*(int *)session_ptr + 0x338) = 4;
+        } else if (*(int *)(CD_SESSION_BASE + (int)DAT_06041df0) == 0) {
+            busy = 0;                          /* no filter — done immediately */
+        } else {
+            *(int *)(CD_SESSION_BASE + 0x338) = 2;  /* normal skip */
+        }
     }
 
-    else if (*(int *)(CD_SESSION_BASE + (int)DAT_06041df0) == 0) {
-
-      bVar1 = 0;
-
+    /* State 2: issue skip command */
+    if (*(int *)(0x338 + *(int *)session_ptr) == 2) {
+        int param_off = (int)DAT_06041eb6;
+        result = (*(int(*)())0x0603683C)(      /* cd_skip_sectors */
+            *(int *)(*(int *)session_ptr + param_off + -8),
+            *(int *)(*(int *)session_ptr + param_off + -4),
+            *(int *)(*(int *)session_ptr + param_off));
+        *param_1 = *param_1 + 1;
+        if (result == 0) {
+            *(int *)(*(int *)session_ptr + 0x338) = 3;
+            (*(int(*)())0x060349B6)(cd_result);
+            *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+        }
     }
 
-    else {
-
-      *(int *)(CD_SESSION_BASE + 0x338) = 2;
-
+    /* State 3: poll for skip completion */
+    completion_mask = PTR_DAT_06041eb8;
+    if ((*(int *)(0x338 + *(int *)session_ptr) == 3) &&
+       (cd_status = (*(int(*)())0x06035C4E)(), (cd_status & completion_mask) != 0)) {
+        busy = 0;
     }
 
-  }
-
-  if (*(int *)(0x338 + *(int *)puVar2) == 2) {
-
-    iVar3 = (int)DAT_06041eb6;
-
-    iVar3 = (*(int(*)())0x0603683C)(*(int *)(*(int *)puVar2 + iVar3 + -8),
-
-                       *(int *)(*(int *)puVar2 + iVar3 + -4),
-
-                       *(int *)(*(int *)puVar2 + iVar3));
-
-    *param_1 = *param_1 + 1;
-
-    if (iVar3 == 0) {
-
-      *(int *)(*(int *)puVar2 + 0x338) = 3;
-
-      (*(int(*)())0x060349B6)(local_1c);
-
-      *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
-
+    /* State 4: poll for filter completion (bit 0x40) */
+    if ((*(int *)(0x338 + *(int *)session_ptr) == 4) &&
+       (cd_status = (*(int(*)())0x06035C4E)(), (cd_status & 0x40) != 0)) {
+        busy = 0;
     }
 
-  }
+    /* On completion: acknowledge and clear state */
+    if (!busy) {
+        (*(int(*)())0x06035C54)(0x0000FFF7);   /* cd_acknowledge */
+        *(int *)(*(int *)session_ptr + (int)DAT_06041f90) = 0;
+        *(int *)(*(int *)session_ptr + 0x34) = 0;  /* release lock */
+    }
 
-  uVar5 = PTR_DAT_06041eb8;
-
-  if ((*(int *)(0x338 + *(int *)puVar2) == 3) &&
-
-     (uVar4 = (*(int(*)())0x06035C4E)(), (uVar4 & uVar5) != 0)) {
-
-    bVar1 = 0;
-
-  }
-
-  if ((*(int *)(0x338 + *(int *)puVar2) == 4) &&
-
-     (uVar5 = (*(int(*)())0x06035C4E)(), (uVar5 & 0x40) != 0)) {
-
-    bVar1 = 0;
-
-  }
-
-  if (!bVar1) {
-
-    (*(int(*)())0x06035C54)(0x0000FFF7);
-
-    *(int *)(*(int *)puVar2 + (int)DAT_06041f90) = 0;
-
-    *(int *)(*(int *)puVar2 + 0x34) = 0;
-
-  }
-
-  return bVar1;
-
+    return busy;
 }
 
-int FUN_06041ee8(param_1)
+/* cd_session_play_poll -- Poll CD audio play/stream state machine.
+ * Five-state machine at session +0x348:
+ *   State 1: Set up filter (0x060363BC), connect channel (0x06036380).
+ *   State 2: Issue play command (0x0603697C) with 4 parameters.
+ *   State 3: Poll status bits (DAT_0604207c), advance to state 4.
+ *   State 4: Reconnect channel (0x06036380) for playback monitoring.
+ *   State 5: Poll status bit 0x40, return to state 0 (complete).
+ * Returns state value (0=done, 1-5=in progress). */
+int cd_session_play_poll(param_1)
     int *param_1;
 {
+    int result;
+    unsigned short cd_status;
+    unsigned short play_mask;
+    char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;
 
-  char *puVar1;
+    /* State 1: configure filter and connect channel */
+    if (*(int *)(0x348 + CD_SESSION_BASE) == 1) {
+        (*(int(*)())0x060363BC)(               /* cd_set_filter */
+            *(int *)(CD_SESSION_BASE + (int)DAT_06041f96),
+            CD_SESSION_BASE + (int)DAT_06041f94);
+        *param_1 = *param_1 + 1;
+        (*(int(*)())0x060349B6)(cd_result);
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
 
-  char *puVar2;
+        result = (*(int(*)())0x06036380)(      /* cd_connect */
+            *(int *)(*(int *)session_ptr + (int)DAT_06041f96), 0);
+        if (result != 0) return 1;
 
-  int iVar3;
-
-  unsigned short uVar4;
-
-  unsigned short uVar5;
-
-  char local_1c [16];
-
-  puVar2 = (char *)0x060A5400;
-
-  puVar1 = (char *)0x060349B6;
-
-  if (*(int *)(0x348 + CD_SESSION_BASE) == 1) {
-
-    (*(int(*)())0x060363BC)(*(int *)(CD_SESSION_BASE + (int)DAT_06041f96),
-
-               CD_SESSION_BASE + (int)DAT_06041f94);
-
-    *param_1 = *param_1 + 1;
-
-    (*(int(*)())puVar1)(local_1c);
-
-    *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
-
-    iVar3 = (*(int(*)())0x06036380)(*(int *)(*(int *)puVar2 + (int)DAT_06041f96),0);
-
-    if (iVar3 != 0) {
-
-      return 1;
-
+        (*(int(*)())0x060349B6)(cd_result);
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+        *param_1 = *param_1 + 1;
+        *(int *)(*(int *)session_ptr + 0x348) = 2;
     }
 
-    (*(int(*)())puVar1)(local_1c);
+    /* State 2: issue play command */
+    if (*(int *)(0x348 + *(int *)session_ptr) == 2) {
+        int param_off = (int)DAT_06041f96;
+        result = (*(int(*)())0x0603697C)(      /* cd_play */
+            *(int *)(*(int *)session_ptr + param_off + 4),
+            *(int *)(*(int *)session_ptr + param_off + 8),
+            *(int *)(*(int *)session_ptr + param_off + 0xc),
+            *(int *)(*(int *)session_ptr + param_off));
+        if (result != 0) return 1;
 
-    *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
-
-    *param_1 = *param_1 + 1;
-
-    *(int *)(*(int *)puVar2 + 0x348) = 2;
-
-  }
-
-  if (*(int *)(0x348 + *(int *)puVar2) == 2) {
-
-    iVar3 = (int)DAT_06041f96;
-
-    iVar3 = (*(int(*)())0x0603697C)(*(int *)(*(int *)puVar2 + iVar3 + 4),
-
-                       *(int *)(*(int *)puVar2 + iVar3 + 8),
-
-                       *(int *)(*(int *)puVar2 + iVar3 + 0xc),
-
-                       *(int *)(*(int *)puVar2 + iVar3));
-
-    if (iVar3 != 0) {
-
-      return 1;
-
+        (*(int(*)())0x060349B6)(cd_result);
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];
+        *param_1 = *param_1 + 1;
+        *(int *)(*(int *)session_ptr + 0x348) = 3;
     }
 
-    (*(int(*)())puVar1)(local_1c);
-
-    *(char *)(*(int *)puVar2 + 0x40) = local_1c[0];
-
-    *param_1 = *param_1 + 1;
-
-    *(int *)(*(int *)puVar2 + 0x348) = 3;
-
-  }
-
-  uVar5 = DAT_0604207c;
-
-  if ((*(int *)(0x348 + *(int *)puVar2) == 3) &&
-
-     (uVar4 = (*(int(*)())0x06035C4E)(), (uVar4 & uVar5) != 0)) {
-
-    *(int *)(*(int *)puVar2 + 0x348) = 4;
-
-  }
-
-  if (*(int *)(0x348 + *(int *)puVar2) == 4) {
-
-    iVar3 = (*(int(*)())0x06036380)(*(int *)(*(int *)puVar2 + DAT_0604207e + -0x10),
-
-                       *(int *)(*(int *)puVar2 + (int)DAT_0604207e));
-
-    if (iVar3 != 0) {
-
-      return 1;
-
+    /* State 3: poll for play start */
+    play_mask = DAT_0604207c;
+    if ((*(int *)(0x348 + *(int *)session_ptr) == 3) &&
+       (cd_status = (*(int(*)())0x06035C4E)(), (cd_status & play_mask) != 0)) {
+        *(int *)(*(int *)session_ptr + 0x348) = 4;
     }
 
-    *param_1 = *param_1 + 1;
+    /* State 4: reconnect channel for monitoring */
+    if (*(int *)(0x348 + *(int *)session_ptr) == 4) {
+        result = (*(int(*)())0x06036380)(      /* cd_connect */
+            *(int *)(*(int *)session_ptr + DAT_0604207e + -0x10),
+            *(int *)(*(int *)session_ptr + (int)DAT_0604207e));
+        if (result != 0) return 1;
+        *param_1 = *param_1 + 1;
+        *(int *)(*(int *)session_ptr + 0x348) = 5;
+    }
 
-    *(int *)(*(int *)puVar2 + 0x348) = 5;
+    /* State 5: poll for playback completion (bit 0x40) */
+    if ((*(int *)(0x348 + *(int *)session_ptr) == 5) &&
+       (cd_status = (*(int(*)())0x06035C4E)(), (cd_status & 0x40) != 0)) {
+        *(int *)(*(int *)session_ptr + 0x348) = 0;  /* complete */
+    }
 
-  }
-
-  if ((*(int *)(0x348 + *(int *)puVar2) == 5) &&
-
-     (uVar5 = (*(int(*)())0x06035C4E)(), (uVar5 & 0x40) != 0)) {
-
-    *(int *)(*(int *)puVar2 + 0x348) = 0;
-
-  }
-
-  return *(int *)(0x348 + *(int *)puVar2);
-
+    return *(int *)(0x348 + *(int *)session_ptr);
 }
