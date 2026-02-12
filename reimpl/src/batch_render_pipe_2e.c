@@ -100,148 +100,80 @@ extern int PTR_DAT_0602fcdc;
 void FUN_0602e450(param_1)
     int param_1;
 {
-
   long long lVar1;
-
   int in_r0 = 0;
-
   int iVar2;
-
   int iVar3;
-
   int iVar4;
-
   int extraout_r3 = 0;
-
   unsigned int uVar5;
-
   int iVar6;
-
   int iVar7;
 
   if (*(short *)(DAT_0602e460 + in_r0) != 0) {
-
     FUN_0602d924();
-
     return;
-
   }
-
   param_1 = -param_1;
-
   iVar4 = *(int *)(in_r0 + 0xc);
-
   iVar6 = *(int *)(in_r0 + 0x10);
-
   iVar7 = *(int *)(in_r0 + 0x18);
-
   *(int *)(in_r0 + 0x38) = iVar6;
-
   *(int *)(in_r0 + 0x3c) = iVar7;
-
   iVar2 = (*(int(*)())0x06027344)();
-
   iVar3 = (*(int(*)())0x06027348)(param_1);
-
   uVar5 = (int)((unsigned long long)((long long)extraout_r3 * (long long)iVar3) >> 0x20) << 0x10 |
-
           (unsigned int)((long long)extraout_r3 * (long long)iVar3) >> 0x10;
-
   *(unsigned int *)(0x0000018C + in_r0) = uVar5;
-
   *(unsigned int *)(in_r0 + 0x10) = iVar6 + uVar5;
-
   lVar1 = (long long)iVar4 * (long long)iVar2;
-
   uVar5 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
   *(unsigned int *)(0x00000190 + in_r0) = uVar5;
-
   *(unsigned int *)(in_r0 + 0x18) = iVar7 + uVar5;
-
   return;
-
 }
 
 int FUN_0602e4bc()
 {
-
   long long lVar1;
-
   int in_r0 = 0;
-
   short sVar2;
-
   char *puVar3;
-
   int iVar4;
-
   unsigned int uVar5;
-
   int iVar6;
-
   short sVar7;
-
   short sVar8;
 
   iVar6 = *(int *)(0x0602E8AC + *(int *)(0x0607EAD8 << 2)) +
-
           *(int *)(DAT_0602e51a + in_r0) << 4;
-
   sVar2 = (*(int(*)())0x0602744C)(*(int *)(DAT_0602e51c + iVar6) - *(int *)(DAT_0602e520 + in_r0),
-
                      *(int *)(DAT_0602e51e + iVar6) - *(int *)(DAT_0602e522 + in_r0));
-
   sVar2 = -sVar2;
-
   sVar7 = (short)*(int *)(PTR_DAT_0602e524 + in_r0);
-
   sVar8 = sVar2 - sVar7;
-
   puVar3 = (char *)0xFFFFFF00;
-
   if (((int)sVar8 <= (int)0xFFFFFF00) ||
-
      (puVar3 = 0x00000100, (int)0x00000100 < (int)sVar8)) {
-
     sVar8 = (short)puVar3;
-
   }
-
   iVar4 = (int)(short)(sVar8 + sVar7);
-
   *(int *)(0x00000030 + in_r0) = iVar4;
-
   *(int *)(0x00000028 + in_r0) = iVar4;
-
   lVar1 = (long long)*(int *)(0x00000008 + iVar6) * (long long)0x0000038E;
-
   uVar5 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
   *(unsigned int *)(DAT_0602e5a2 + in_r0) = uVar5;
-
   if (((int)uVar5 < *(int *)(DAT_0602e5a4 + in_r0)) && (*(int *)0x0608325C == 0)) {
-
     *(int *)0x0608325C = 0x10;
-
     in_r0 = (*(int(*)())0x0602CCD0)();
-
   }
-
   iVar6 = (int)(short)((sVar2 - (short)*(int *)(PTR_DAT_0602e5a8 + in_r0)) +
-
                       (short)0x00003FFF);
-
   if ((0x00000000 <= iVar6) && (iVar6 <= (int)0x00007FFF)) {
-
     return in_r0;
-
   }
-
   *(int *)(0x00000244 + in_r0) = *(int *)(0x00000244 + in_r0) + 1;
-
   return in_r0;
-
 }
 
 /* cache_car_render_params -- Copy car render state to fast-access globals.
@@ -256,222 +188,117 @@ void FUN_0602e5e4(void)
 
 int FUN_0602e610()
 {
-
   short sVar1;
-
   int iVar2;
-
   unsigned int uVar3;
-
   int iVar4;
-
   int iVar5;
-
   unsigned int uVar6;
-
   unsigned int uVar7;
-
   int iVar8;
-
   int iVar9;
-
   int iVar10;
-
   int in_pr;
 
   iVar9 = CAR_PTR_TARGET;
-
   iVar10 = *(int *)(iVar9 + 0x00000238);
-
   if (*(int *)0x06083264 == iVar10) goto LAB_0602e78c;
-
   if (*(int *)0x06083268 == iVar10) {
-
     iVar8 = *(int *)(iVar10 + 0x00000008) - *(int *)(iVar9 + 0x00000008);
-
     if (iVar8 < 0) {
-
       iVar8 = -iVar8;
-
     }
-
     iVar5 = *(int *)(iVar9 + 0x00000018);
-
     iVar2 = *(int *)(iVar10 + 0x00000018);
-
     iVar4 = *(int *)(iVar10 + 0x00000010) - *(int *)(iVar9 + 0x00000010);
-
     iVar4 = (*(int(*)())0x06027552)(iVar4,iVar4,iVar5);
-
     iVar2 = (*(int(*)())0x06027552)(iVar2 - iVar5,iVar2 - iVar5);
-
     uVar7 = iVar4 + iVar2;
-
     if ((int)uVar7 < 0) {
-
       iVar4 = (*(int(*)())0x06027476)(uVar7 >> 2);
-
       iVar4 = iVar4 << 1;
-
     }
-
     else {
-
       iVar4 = (*(int(*)())0x06027476)(uVar7);
-
     }
-
     iVar2 = iVar4;
-
     if (iVar4 < 0) {
-
       iVar2 = -iVar4;
-
     }
-
     if ((int)0x000F0000 <= iVar2) goto LAB_0602e78c;
-
   }
-
   else {
-
     iVar10 = *(int *)(iVar9 + 0x0000023C);
-
     if (iVar10 != *(int *)0x06083264) goto LAB_0602e78c;
-
     iVar8 = *(int *)(iVar10 + 0x00000008) - *(int *)(iVar9 + 0x00000008);
-
     if (iVar8 < 0) {
-
       iVar8 = -iVar8;
-
     }
-
     iVar5 = *(int *)(iVar9 + 0x00000018);
-
     iVar2 = *(int *)(iVar10 + 0x00000018);
-
     iVar4 = *(int *)(iVar10 + 0x00000010) - *(int *)(iVar9 + 0x00000010);
-
     iVar4 = (*(int(*)())0x06027552)(iVar4,iVar4,iVar5);
-
     iVar2 = (*(int(*)())0x06027552)(iVar2 - iVar5,iVar2 - iVar5);
-
     uVar7 = iVar4 + iVar2;
-
     if ((int)uVar7 < 0) {
-
       iVar4 = (*(int(*)())0x06027476)(uVar7 >> 2);
-
       iVar4 = iVar4 << 1;
-
     }
-
     else {
-
       iVar4 = (*(int(*)())0x06027476)(uVar7);
-
     }
-
     iVar2 = iVar4;
-
     if (iVar4 < 0) {
-
       iVar2 = -iVar4;
-
     }
-
     if ((int)0x000F0000 <= iVar2) goto LAB_0602e78c;
-
   }
-
   sVar1 = (*(int(*)())0x0602744C)(*(int *)(iVar10 + 0x10) - *(int *)(iVar9 + 0x10),
-
                      *(int *)(iVar10 + 0x18) - *(int *)(iVar9 + 0x18),*(int *)(iVar9 + 0x10),
-
                      *(int *)(iVar9 + 0x18),in_pr,iVar4);
-
   uVar3 = (unsigned int)DAT_0602e80a;
-
   uVar6 = (unsigned int)(unsigned short)-sVar1 | uVar3 << 1;
-
   uVar7 = *(int *)(iVar9 + 0x28) - uVar6;
-
   if ((int)uVar7 < 1) {
-
     uVar7 = -uVar7;
-
   }
-
   iVar10 = (int)(char)*(int *)0x06078663;
-
   if (iVar10 == 0) {
-
     if ((uVar7 & 0xffff) < uVar3) {
-
 LAB_0602e864:
-
       if (iVar8 < 0x00000050) {
-
         (*(int(*)())0x0601D5F4)(0x00000000,0xAE1105FF,uVar6,iVar10,in_pr);
-
       }
-
       else {
-
         (*(int(*)())0x0601D5F4)(0x00000000,0xAE1109FF,uVar6,iVar10,in_pr);
-
       }
-
       goto LAB_0602e78c;
-
     }
-
   }
-
   else if (uVar3 <= (uVar7 & 0xffff)) goto LAB_0602e864;
-
   if (iVar8 < 0x00000050) {
-
     (*(int(*)())0x0601D5F4)(0x00000000,0xAE1106FF,uVar6,iVar10,in_pr);
-
   }
-
   else {
-
     (*(int(*)())0x0601D5F4)(0x00000000,0xAE110AFF,uVar6,iVar10,in_pr);
-
   }
-
 LAB_0602e78c:
-
   *(int *)0x06083264 = *(int *)(iVar9 + 0x00000238);
-
   iVar10 = 0x0000023C;
-
   *(int *)0x06083268 = *(int *)(iVar9 + 0x0000023C);
-
   return iVar10;
-
 }
 
 int FUN_0602eccc()
 {
-
   char *puVar1;
-
   int in_r0 = 0;
-
   int in_r1 = 0;
 
   puVar1 = (char *)0xFFFFFF00;
-
   SH2_DVSR = in_r0;
-
   *(int *)(puVar1 + 4) = in_r1;
-
   return 0;
-
 }
 
 /* render_dispatch -- Dispatch to render handler via indexed jump table.
@@ -485,56 +312,35 @@ void FUN_0602ecf2(void)
 
 void FUN_0602efcc()
 {
-
   int in_r0 = 0;
 
   (*(int(*)())0x06027358)(*(int *)(in_r0 + 0x24),DAT_0602efe6 + in_r0,PTR_DAT_0602efe8 + in_r0);
-
   return;
-
 }
 
 int FUN_0602eff0(param_1, param_2)
     int param_1;
     int param_2;
 {
-
   int iVar1;
-
   int uVar2;
-
   int iVar3;
-
   int extraout_r1 = 0;
-
   int extraout_r1_00;
-
   int extraout_r3 = 0;
-
   int uVar4;
 
   iVar1 = CAR_PTR_TARGET;
-
   uVar2 = FUN_0602eccc(0,param_2,*(int *)(DAT_0602f01e + iVar1),0);
-
   iVar3 = (int)DAT_0602f066;
-
   uVar4 = *(int *)(DAT_0602f064 + iVar1);
-
   *(int *)(DAT_0602f064 + iVar1) = uVar2;
-
   *(int *)(iVar3 + iVar1) = uVar4;
-
   FUN_0602eccc();
-
   *(int *)(extraout_r3 + iVar1) = extraout_r1;
-
   FUN_0602eccc();
-
   *(int *)(PTR_DAT_0602f0e0 + iVar1) = extraout_r1_00;
-
   return iVar1;
-
 }
 
 /* car_angle_smooth_decay -- Smooth car angle field, decay rotation at +0xD0 toward zero. */
@@ -574,543 +380,290 @@ int FUN_0602f0e8()
 
 void FUN_0602f17c()
 {
-
   short sVar1;
-
   int in_r0 = 0;
-
   unsigned int uVar2;
-
   int iVar3;
-
   int iVar4;
-
   int iVar5;
 
   iVar5 = 0xd8;
-
   iVar3 = *(int *)(iVar5 + in_r0);
-
   iVar4 = 0;
-
   if (iVar3 != 0) {
-
     if (-1 < iVar3) {
-
       iVar3 = iVar3 + -2;
-
     }
-
     iVar4 = iVar3 + 1;
-
   }
-
   *(int *)(iVar5 + in_r0) = iVar4;
-
   iVar3 = (int)DAT_0602f1bc;
-
   iVar4 = *(short *)(iVar3 + in_r0) << 2;
-
   if ((*(int *)(in_r0 + 8) == 0) ||
-
      (*(int *)(DAT_0602f1be + in_r0) <= *(int *)(0x060477AC + iVar4))) {
-
     if (*(int *)(DAT_0602f1be + in_r0) <= *(int *)(0x0604779C + iVar4)) {
-
       *(int *)(iVar5 + in_r0) = 0xfffffffb;
-
       iVar4 = *(short *)(iVar3 + in_r0) + -1;
-
       *(short *)(iVar3 + in_r0) = (short)iVar4;
-
       iVar5 = 0xe0;
-
       uVar2 = (*(int(*)())0x0602755C)(*(int *)(iVar5 + in_r0) << 0x10,
-
                          *(int *)(0x060477CC + (iVar4 << 2)));
-
       *(unsigned int *)(iVar5 + in_r0) = uVar2 >> 0x10;
-
     }
-
   }
-
   else {
-
     *(int *)(iVar5 + in_r0) = 5;
-
     sVar1 = *(short *)(iVar3 + in_r0);
-
     *(short *)(iVar3 + in_r0) = sVar1 + 1;
-
     *(unsigned int *)(DAT_0602f1f2 + in_r0) =
-
          (unsigned int)((unsigned long long)
-
                 ((long long)(*(int *)(DAT_0602f1f2 + in_r0) << 0x10) *
-
                 (long long)*(int *)(0x060477CC + (sVar1 << 2))) >> 0x20) & 0xffff;
-
   }
-
   iVar5 = (*(int *)(DAT_0602f24c + in_r0) + *(int *)(PTR_DAT_0602f250 + in_r0)) -
-
           *(int *)(DAT_0602f24e + in_r0);
-
   iVar4 = *(int *)(0x0602F3CC + *(short *)(iVar3 + in_r0) << 3);
-
   iVar3 = *(int *)((int)(0x0602F3CC + *(short *)(iVar3 + in_r0) << 3) + 4);
-
   if ((iVar4 < iVar5) && (iVar4 = iVar5, iVar3 < iVar5)) {
-
     iVar4 = iVar3;
-
   }
-
   *(int *)(PTR_DAT_0602f26e + in_r0) = *(int *)(DAT_0602f24e + in_r0) + iVar4;
-
   return;
-
 }
 
 void FUN_0602f3ec()
 {
-
   int in_r0 = 0;
-
   int iVar1;
-
   char *puVar2;
-
   char *puVar3;
 
   iVar1 = (int)(short)((unsigned long long)
-
                        ((long long)(int)0x00480000 * (long long)*(int *)(in_r0 + 0xc)) >> 0x20);
-
   if (iVar1 < 1) {
-
     iVar1 = 0;
-
   }
-
   else if (0x00000158 <= iVar1) {
-
     iVar1 = 0x00000158;
-
   }
-
   *(int *)(in_r0 + 8) = iVar1;
-
   puVar2 = (char *)((unsigned int)(iVar1 << 8) >> 2);
-
   puVar3 = (char *)0x00000000;
-
   if ((((int)0x00000000 <= (int)puVar2) &&
-
       (puVar3 = 0x00002AAA, (int)puVar2 <= (int)0x00002AAA)) &&
-
      (puVar3 = puVar2, (int)0x00000AAA < (int)puVar2)) {
-
     puVar3 = (char *)0x00000AAA;
-
   }
-
   *(int *)(DAT_0602f464 + in_r0) = *(int *)(DAT_0602f464 + in_r0) - (int)puVar3;
-
   if (*(int *)(DAT_0602f466 + in_r0) != 0) {
-
     puVar3 = (char *)0x00002AAA;
-
   }
-
   *(int *)(PTR_DAT_0602f468 + in_r0) = *(int *)(PTR_DAT_0602f468 + in_r0) - (int)puVar3;
-
   return;
-
 }
 
 void FUN_0602f474()
 {
-
   int iVar1;
-
   int iVar2;
-
   int unaff_r14 = 0;
 
   iVar2 = 0;
-
   iVar1 = (int)*(short *)(DAT_0602f4aa + unaff_r14);
-
   if (iVar1 != 0) {
-
     iVar1 = iVar1 + -1;
-
     *(short *)(DAT_0602f4aa + unaff_r14) = (short)iVar1;
-
     if (iVar1 != 0) {
-
       if (iVar1 != 1) {
-
         iVar2 = (iVar1 != 2) + 1;
-
       }
-
       iVar2 = iVar2 + 1;
-
     }
-
     iVar2 = iVar2 + 1;
-
   }
-
   *(int *)(PTR_DAT_0602f4ac + unaff_r14) =
-
        *(int *)(0x060477D8 + (iVar2 << 2));
-
   return;
-
 }
 
 int FUN_0602f4b4()
 {
-
   int in_r0 = 0;
-
   short sVar1;
-
   int iVar2;
-
   int iVar3;
-
   int iVar4;
-
   int iVar5;
-
   int iVar6;
-
   int iVar7;
-
   int iVar8;
-
   unsigned int uVar9;
-
   int in_pr;
 
   if (DEMO_MODE_FLAG != 0) {
-
     return in_r0;
-
   }
-
   iVar2 = (int)DAT_0602f51a;
-
   if (0 < *(short *)(iVar2 + in_r0)) {
-
     *(short *)(iVar2 + in_r0) = *(short *)(iVar2 + in_r0) + -1;
-
   }
-
   iVar5 = *(int *)0x0607EA98;
-
   iVar6 = *(int *)0x0607E948;
-
   iVar7 = *(int *)(DAT_0602f51c + in_r0);
-
   iVar8 = *(int *)(DAT_0602f51e + in_r0);
-
   do {
-
     iVar3 = iVar7 - *(int *)(DAT_0602f51c + iVar6);
-
     if (iVar3 < 1) {
-
       iVar3 = -iVar3;
-
     }
-
     iVar4 = iVar8 - *(int *)(DAT_0602f51e + iVar6);
-
     if (iVar4 < 1) {
-
       iVar4 = -iVar4;
-
     }
-
     if (iVar3 < iVar4) {
-
       iVar4 = iVar4 + (iVar3 >> 1);
-
     }
-
     else {
-
       iVar4 = (iVar4 >> 1) + iVar3;
-
     }
-
     if (iVar4 < (int)0x001E0000) {
-
       sVar1 = (*(int(*)())0x0602744C)(*(int *)(DAT_0602f51c + iVar6) - iVar7,
-
                          *(int *)(DAT_0602f51e + iVar6) - iVar8,iVar6,iVar7,in_pr);
-
       uVar9 = (int)-sVar1 - *(int *)(in_r0 + 0x28);
-
       if (((unsigned int)0x00008000 & uVar9) == 0) {
-
         uVar9 = uVar9 & (unsigned int)0x0000FFFF;
-
       }
-
       else {
-
         uVar9 = uVar9 | 0xFFFF0000;
-
       }
-
       if ((int)uVar9 < 0) {
-
         uVar9 = -uVar9;
-
       }
-
       if ((int)uVar9 < 0x0000071C) {
-
         *(short *)(iVar2 + in_r0) = 0x14;
-
         return in_r0;
-
       }
-
     }
-
     iVar6 = iVar6 + DAT_0602f5b4;
-
     iVar5 = iVar5 + -1;
-
     if (iVar5 == 0) {
-
       return in_r0;
-
     }
-
   } while( 1 );
-
 }
 
 void FUN_0602f5b6()
 {
-
   long long lVar1;
-
   long long lVar2;
-
   int in_r0 = 0;
-
   int iVar3;
-
   unsigned int uVar4;
-
   char *puVar5;
-
   char *puVar6;
-
   int iVar7;
 
   puVar5 = *(char **)(DAT_0602f5ea + in_r0);
-
   puVar6 = (char *)0x00000000;
-
   if (((int)0x00000000 < (int)puVar5) && (puVar6 = puVar5, (int)0x00002134 <= (int)puVar5))
-
   {
-
     puVar6 = (char *)0x00002134;
-
   }
-
   lVar1 = (long long)*(int *)(*(int *)(DAT_0602f6e2 + in_r0) + ((unsigned int)puVar6 >> 7) << 2) *
-
           (long long)*(int *)(0x060477BC + *(short *)(DAT_0602f6e0 + in_r0) << 2);
-
   lVar1 = (long long)
-
           (int)(((int)((unsigned long long)
-
                        ((long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f5e8 + in_r0) << 2) *
-
                        (long long)(int)0x00016666) >> 0x20) << 0x10 |
-
                 (unsigned int)((long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f5e8 + in_r0) << 2) *
-
                       (long long)(int)0x00016666) >> 0x10) - (int)0x00006666) *
-
           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-
   iVar3 = (*(int(*)())0x0602755C)(*(int *)(DAT_0602f6e4 + in_r0) << 0x10,0x00019999);
-
   *(unsigned int *)(DAT_0602f6e6 + in_r0) =
-
        ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) - iVar3;
-
   lVar1 = (long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f6e8 + in_r0) << 2) *
-
           (long long)*(int *)(0x06045AEC + *(int *)(DAT_0602f6e8 + in_r0) << 2);
-
   uVar4 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
   lVar1 = (long long)0x0B400000 * (long long)(int)uVar4;
-
   lVar2 = (long long)(int)0x07800000 * (long long)(int)uVar4;
-
   *(unsigned int *)(DAT_0602f6ea + in_r0) = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
   *(unsigned int *)(DAT_0602f6ec + in_r0) = (int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10;
-
   iVar3 = *(int *)(DAT_0602f6ee + in_r0);
-
   if (0 < iVar3) {
-
     iVar3 = iVar3 >> 1;
-
   }
-
   puVar6 = (char *)0x06400000;
-
   iVar3 = (*(int(*)())0x06027348)(iVar3);
-
   iVar7 = (int)((unsigned long long)((long long)(int)puVar6 * (long long)iVar3) >> 0x20);
-
   *(int *)(DAT_0602f6f0 + in_r0) =
-
        (int)(iVar7 << 0x10 | (unsigned int)((long long)(int)puVar6 * (long long)iVar3) >> 0x10) >> 1;
-
   uVar4 = *(unsigned int *)(0x060454CC + *(int *)(in_r0 + 8) << 2);
-
   if (0 < *(short *)(DAT_0602f6f2 + in_r0)) {
-
     iVar7 = (int)((unsigned long long)((long long)(int)uVar4 * (long long)(int)DAT_0602f6f4) >> 0x20);
-
     uVar4 = iVar7 << 0x10 | (unsigned int)((long long)(int)uVar4 * (long long)(int)DAT_0602f6f4) >> 0x10;
-
   }
-
   iVar3 = FUN_0602f71c();
-
   *(int *)(DAT_0602f6f6 + iVar3) = (int)(uVar4 + iVar7) >> 1;
-
   return;
-
 }
 
 int FUN_0602f71c()
 {
-
   short sVar1;
-
   int in_r0 = 0;
-
   unsigned int *puVar2;
-
   unsigned int uVar3;
-
   unsigned char bVar4;
 
   uVar3 = (unsigned int)DAT_0602f786;
-
   puVar2 = (unsigned int *)(DAT_0602f788 + in_r0);
-
   bVar4 = (uVar3 & *puVar2) != 0;
-
   if ((uVar3 & puVar2[1]) != 0) {
-
     bVar4 = bVar4 + 1;
-
   }
-
   if ((uVar3 & puVar2[2]) != 0) {
-
     bVar4 = bVar4 + 1;
-
   }
-
   if ((uVar3 & puVar2[3]) != 0) {
-
     bVar4 = bVar4 + 1;
-
   }
-
   if (bVar4 == 0) {
-
     return 0;
-
   }
-
   if ((((*puVar2 | puVar2[1] | puVar2[2] | puVar2[3]) & 0x10) == 0) &&
-
      (sVar1 = *(short *)(DAT_0602f78a + in_r0), sVar1 < 10)) {
-
     if (7 < sVar1) {
-
       return 0;
-
     }
-
     if ((sVar1 != 4) && (sVar1 != 5)) {
-
       if (bVar4 < 3) {
-
         return 0;
-
       }
-
       return 0;
-
     }
-
   }
-
   return 0;
-
 }
 
 void FUN_0602f7bc()
 {
-
   short sVar1;
-
   int in_r0 = 0;
-
   int iVar2;
 
   sVar1 = *(short *)(DAT_0602f7e4 + in_r0);
-
   if (sVar1 != 0) {
-
     *(short *)(DAT_0602f7e4 + in_r0) = sVar1 + -1;
-
   }
-
   sVar1 = *(short *)(DAT_0602f7e6 + in_r0);
-
   if (sVar1 != 0) {
-
     *(short *)(DAT_0602f7e6 + in_r0) = sVar1 + -1;
-
   }
-
   iVar2 = *(int *)(DAT_0602f7e8 + in_r0);
-
   if (iVar2 != 0) {
-
     *(int *)(DAT_0602f7e8 + in_r0) = iVar2 + -1;
-
   }
-
   return;
-
 }
 
 /* car_sound_effects_update -- Update car sound effects based on game state.

@@ -23,232 +23,122 @@ extern void FUN_06035f16();
 
 int FUN_06034000()
 {
-
   long long lVar1;
-
   int iVar2;
-
   int uVar3;
-
   int uVar4;
-
   int iVar5;
-
   unsigned int uVar6;
-
   int in_r7 = 0;
-
   int iVar7;
-
   int unaff_r14 = 0;
-
   int in_pr;
 
   if (*(char *)(unaff_r14 + 0x00000001) == '\x03') {
-
     iVar2 = 0x0000001C;
-
     *(int *)(unaff_r14 + 0x0000001C) =
-
          *(int *)(unaff_r14 + 0x0000001C) + (int)*(short *)(unaff_r14 + 0x00000012);
-
     return iVar2;
-
   }
-
   iVar5 = (int)*(short *)(unaff_r14 + 0x00000002) + (int)*(short *)(unaff_r14 + 0x00000012);
-
   *(short *)(unaff_r14 + 0x00000002) = (short)iVar5;
-
   iVar2 = (*(int(*)())0x06027344)(iVar5);
-
   iVar7 = *(int *)(unaff_r14 + 0x00000020);
-
   *(unsigned int *)(unaff_r14 + 0x00000004) =
-
        ((int)((unsigned long long)((long long)iVar7 * (long long)iVar2) >> 0x20) << 0x10 |
-
        (unsigned int)((long long)iVar7 * (long long)iVar2) >> 0x10) + *(int *)(unaff_r14 + 0x00000014);
-
   iVar5 = (*(int(*)())0x06027348)(iVar5);
-
   *(unsigned int *)(unaff_r14 + 0x0000000C) =
-
        ((int)((unsigned long long)((long long)iVar7 * (long long)iVar5) >> 0x20) << 0x10 |
-
        (unsigned int)((long long)iVar7 * (long long)iVar5) >> 0x10) + *(int *)(unaff_r14 + 0x0000001C);
-
   if (*(char *)(unaff_r14 + 0x00000001) == '\x02') {
-
     *(int *)0x06083238 = *(int *)(unaff_r14 + 0x00000004);
-
     *(int *)0x06083240 = *(int *)(unaff_r14 + 0x0000000C);
-
     uVar3 = (*(int(*)())0x06006838)();
-
     (*(int(*)())0x06027EDE)(uVar3,0x06083238,0x06083244,in_r7,in_pr);
-
     iVar2 = 0x00000008;
-
     *(int *)(unaff_r14 + 0x00000008) = *(int *)0x0608323C;
-
   }
-
   else {
-
     if (*(short *)(unaff_r14 + 0x00000024) == 0) {
-
       uVar6 = 0;
-
     }
-
     else {
-
       lVar1 = (long long)(int)*(short *)(unaff_r14 + 0x00000024) * (long long)iVar2;
-
       uVar6 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
       uVar3 = (*(int(*)())0x06027348)(uVar6);
-
       uVar4 = (*(int(*)())0x06027344)(uVar6);
-
       iVar2 = (*(int(*)())0x0602755C)(uVar3,uVar4);
-
       uVar6 = (int)((unsigned long long)((long long)iVar7 * (long long)iVar2) >> 0x20) << 0x10 |
-
               (unsigned int)((long long)iVar7 * (long long)iVar2) >> 0x10;
-
     }
-
     iVar2 = 0x00000008;
-
     *(unsigned int *)(unaff_r14 + 0x00000008) = uVar6 + *(int *)(unaff_r14 + 0x00000018);
-
   }
-
   return iVar2;
-
 }
 
 int FUN_06034168()
 {
-
   int iVar1;
-
   int in_r7 = 0;
-
   int unaff_r14 = 0;
-
   int in_pr;
 
   iVar1 = (int)*(char *)(unaff_r14 + 0x00000001);
-
   if (iVar1 == 1) {
-
     (*(int(*)())0x06026DBC)();
-
     (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004),*(int *)(unaff_r14 + 0x00000008),
-
                *(int *)(unaff_r14 + 0x0000000C),in_r7,in_pr);
-
     (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x00000002));
-
     (*(int(*)())0x0600A5B2)((int)*(char *)(unaff_r14 + 0x00000011));
-
     iVar1 = (*(int(*)())0x06026DF8)();
-
   }
-
   else if (iVar1 == 2) {
-
     (*(int(*)())0x06026DBC)();
-
     (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004),*(int *)(unaff_r14 + 0x00000008),
-
                *(int *)(unaff_r14 + 0x0000000C),in_r7,in_pr);
-
     (*(int(*)())0x06026EDE)((int)(short)(*(short *)(unaff_r14 + 0x00000002) + (short)0x00008000));
-
     (*(int(*)())0x0600A4CA)((int)*(char *)(unaff_r14 + 0x00000011));
-
     iVar1 = (*(int(*)())0x06026DF8)();
-
   }
-
   else if (iVar1 == 3) {
-
     (*(int(*)())0x06026DBC)();
-
     (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000014),*(int *)(unaff_r14 + 0x00000018),
-
                *(int *)(unaff_r14 + 0x0000001C),in_r7,in_pr);
-
     (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x00000002));
-
     (*(int(*)())0x0600A4CA)((int)*(char *)(unaff_r14 + 0x00000011));
-
     iVar1 = (*(int(*)())0x06026DF8)();
-
   }
-
   else if (iVar1 == 4) {
-
     (*(int(*)())0x06026DBC)();
-
     (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004),*(int *)(unaff_r14 + 0x00000008),
-
                *(int *)(unaff_r14 + 0x0000000C),in_r7,in_pr);
-
     (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x00000002));
-
     (*(int(*)())0x0600A5B2)((int)*(char *)(unaff_r14 + 0x00000011));
-
     (*(int(*)())0x06026DF8)();
-
     iVar1 = 0x000004EC;
-
     if (0x000004EC <= *(int *)0x06083250) {
-
       (*(int(*)())0x06026DBC)();
-
       (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004) - (int)0x00280000,
-
                  *(int *)(unaff_r14 + 0x00000008),
-
                  *(int *)(unaff_r14 + 0x0000000C) - (int)0x003E0000,in_r7,in_pr);
-
       (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x00000002));
-
       (*(int(*)())0x0600A5B2)((int)*(char *)(unaff_r14 + 0x00000011));
-
       (*(int(*)())0x06026DF8)();
-
       iVar1 = 0x00000627;
-
       if (0x00000627 <= *(int *)0x06083250) {
-
         (*(int(*)())0x06026DBC)();
-
         (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004) - (int)0x00190000,
-
                    *(int *)(unaff_r14 + 0x00000008),
-
                    *(int *)(unaff_r14 + 0x0000000C) - (int)0x001C0000,in_r7,in_pr);
-
         (*(int(*)())0x06026EDE)(*(short *)(unaff_r14 + 0x00000002) + 0x00000002);
-
         (*(int(*)())0x0600A5B2)((int)*(char *)(unaff_r14 + 0x00000011));
-
         iVar1 = (*(int(*)())0x06026DF8)();
-
       }
-
     }
-
   }
-
   return iVar1;
-
 }
 
 /* cd_clear_transfer_flags -- Clear status byte (+0x26) in all 5 CD transfer slots.
@@ -263,245 +153,136 @@ void FUN_0603446c(void)
 
 char * FUN_0603449c()
 {
-
   long long lVar1;
-
   char *puVar2;
-
   int iVar3;
-
   char *puVar4;
-
   int uVar5;
-
   unsigned int uVar6;
-
   int uVar7;
-
   int uVar8;
-
   int unaff_r10 = 0;
-
   int unaff_r14 = 0;
 
   puVar2 = (int *)0x06083238;
-
   puVar4 = (char *)(int)*(char *)(unaff_r14 + 0x00000001);
-
   if ((char *)(int)*(char *)(unaff_r14 + 0x00000001) == (void *)0x00000002) {
-
     uVar5 = *(int *)(unaff_r14 + 0x0000000C);
-
     uVar7 = *(int *)(unaff_r10 + 0x00000010);
-
     uVar8 = *(int *)(unaff_r10 + 0x00000018);
-
     *(int *)0x06083238 = *(int *)(unaff_r14 + 0x00000004);
-
     *(int *)(puVar2 + 4) = uVar5;
-
     *(int *)(puVar2 + 8) = uVar7;
-
     *(int *)(puVar2 + 0xc) = uVar8;
-
     lVar1 = (long long)(*(int *)(puVar2 + 8) - *(int *)puVar2) *
-
             (long long)(*(int *)(puVar2 + 8) - *(int *)puVar2);
-
     *(unsigned int *)(puVar2 + 0x10) = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
     lVar1 = (long long)(*(int *)(puVar2 + 0xc) - *(int *)(puVar2 + 4)) *
-
             (long long)(*(int *)(puVar2 + 0xc) - *(int *)(puVar2 + 4));
-
     uVar6 = *(int *)(puVar2 + 0x10) +
-
             ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-
     if ((int)uVar6 < 0) {
-
       iVar3 = (*(int(*)())0x06027476)(uVar6 >> 2);
-
       iVar3 = iVar3 << 1;
-
     }
-
     else {
-
       iVar3 = (*(int(*)())0x06027476)();
-
     }
-
     puVar2 = (int *)0x00000026;
-
     puVar4 = (char *)0x00080000;
-
     if (iVar3 < (int)0x00080000) {
-
       ((int *)0x00000026)[unaff_r14] = (char)0x00000001;
-
       puVar4 = puVar2;
-
     }
-
   }
-
   return puVar4;
-
 }
 
 int FUN_06034560()
 {
-
   int iVar1;
-
   int unaff_r10 = 0;
-
   int unaff_r14 = 0;
 
   *(short *)(unaff_r14 + 0x00000002) = (short)*(int *)(unaff_r10 + 0x00000028);
-
   *(int *)(unaff_r14 + 0x00000028) = *(int *)(unaff_r10 + 0x0000000C) << 1;
-
   iVar1 = 0x00000026;
-
   *(char *)(unaff_r14 + 0x00000026) = 2;
-
   return iVar1;
-
 }
 
 int FUN_0603458c()
 {
-
   long long lVar1;
-
   int iVar2;
-
   int uVar3;
-
   int in_r7 = 0;
-
   int iVar4;
-
   char *puVar5;
-
   int unaff_r14 = 0;
-
   int in_pr;
 
   puVar5 = 0x00004000 + *(short *)(unaff_r14 + 0x00000002);
-
   iVar4 = *(int *)(unaff_r14 + 0x00000028);
-
   iVar2 = (*(int(*)())0x06027344)(puVar5);
-
   lVar1 = (long long)iVar4 * (long long)iVar2;
-
   *(unsigned int *)(unaff_r14 + 0x00000004) =
-
        *(int *)(unaff_r14 + 0x00000004) +
-
        ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-
   iVar2 = (*(int(*)())0x06027348)(puVar5);
-
   lVar1 = (long long)iVar4 * (long long)iVar2;
-
   *(unsigned int *)(unaff_r14 + 0x0000000C) =
-
        *(int *)(unaff_r14 + 0x0000000C) +
-
        ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-
   *(int *)0x06083238 = *(int *)(unaff_r14 + 0x00000004);
-
   *(int *)0x06083240 = *(int *)(unaff_r14 + 0x0000000C);
-
   uVar3 = (*(int(*)())0x06006838)();
-
   (*(int(*)())0x06027EDE)(uVar3,0x06083238,0x06083244,in_r7,in_pr);
-
   iVar2 = 0x00000008;
-
   *(int *)(unaff_r14 + 0x00000008) = *(int *)0x0608323C;
-
   return iVar2;
-
 }
 
 int FUN_06034640()
 {
-
   int uVar1;
-
   int in_r7 = 0;
-
   int unaff_r14 = 0;
-
   int in_pr;
 
   (*(int(*)())0x06026DBC)();
-
   (*(int(*)())0x06026E2E)(*(int *)(unaff_r14 + 0x00000004),*(int *)(unaff_r14 + 0x00000008),
-
              *(int *)(unaff_r14 + 0x0000000C),in_r7,in_pr);
-
   (*(int(*)())0x06026EDE)((int)*(short *)(unaff_r14 + 0x00000002));
-
   (*(int(*)())0x0600A4CA)((int)*(char *)(unaff_r14 + 0x00000011));
-
   uVar1 = (*(int(*)())0x06026DF8)();
-
   return uVar1;
-
 }
 
 int FUN_060346c0()
 {
-
   char cVar1;
-
   char cVar2;
-
   int iVar3;
-
   int iVar4;
-
   int unaff_r14 = 0;
 
   iVar4 = 0x00000010;
-
   iVar3 = *(char *)(unaff_r14 + 0x00000001) + -1;
-
   cVar1 = ((int *)0x060631B4)[iVar3];
-
   cVar2 = ((int *)0x060631B8)[iVar3];
-
   iVar3 = *(char *)(unaff_r14 + 0x00000010) + 1;
-
   *(char *)(unaff_r14 + 0x00000010) = (char)iVar3;
-
   if (cVar1 <= iVar3) {
-
     *(char *)(unaff_r14 + iVar4) = 0;
-
     iVar4 = 0x00000011;
-
     iVar3 = *(char *)(unaff_r14 + 0x00000011) + 1;
-
     if (cVar2 <= iVar3) {
-
       iVar3 = 0x00000000;
-
     }
-
     *(char *)(unaff_r14 + 0x00000011) = (char)iVar3;
-
   }
-
   return iVar4;
-
 }
 
 /* cd_transfer_step -- Execute one step of CD data transfer.
@@ -518,151 +299,84 @@ int FUN_06034708(int state)
 
 int FUN_06034754()
 {
-
   int iVar1;
-
   unsigned int uVar2;
-
   int unaff_r14 = 0;
 
   iVar1 = (*(int(*)())0x0602755C)(*(int *)(CAR_PTR_TARGET + 0x00000008) << 0x10,0x012C0000);
-
   uVar2 = *(int *)(unaff_r14 + 0x00000008) + iVar1;
-
   if ((int)0x00060000 <= (int)uVar2) {
-
     uVar2 = 0;
-
   }
-
   *(unsigned int *)(unaff_r14 + 0x00000008) = uVar2;
-
   iVar1 = 0x0000000C;
-
   *(unsigned int *)(unaff_r14 + 0x0000000C) = uVar2 >> 0x10 & 0x00000007;
-
   return iVar1;
-
 }
 
 int FUN_060347a8()
 {
-
   int iVar1;
-
   int iVar2;
-
   unsigned char bVar3;
-
   int unaff_r14 = 0;
 
   if ((*(int *)(unaff_r14 + 0x0000000C) == 1) && (*(int *)(unaff_r14 + 0x00000010) != 1)) {
-
     *(char *)(unaff_r14 + 0x00000001) = (char)0xFFFFFFFF;
-
     *(char *)(unaff_r14 + 0x00000002) = 0;
-
   }
-
   if ((*(int *)(unaff_r14 + 0x0000000C) == 5) && (*(int *)(unaff_r14 + 0x00000010) != 5)) {
-
     *(char *)(unaff_r14 + 0x00000004) = (char)0xFFFFFFFF;
-
     *(char *)(unaff_r14 + 0x00000005) = 0;
-
   }
-
   bVar3 = *(char *)(unaff_r14 + 0x00000002) + 1;
-
   *(unsigned char *)(unaff_r14 + 0x00000002) = bVar3;
-
   bVar3 = bVar3 & 3;
-
   *(unsigned char *)(unaff_r14 + 0x00000000) = bVar3;
-
   if (bVar3 == 3) {
-
     *(char *)(unaff_r14 + 0x00000001) = 0;
-
   }
-
   bVar3 = *(char *)(unaff_r14 + 0x00000005) + 1;
-
   *(unsigned char *)(unaff_r14 + 0x00000005) = bVar3;
-
   iVar2 = 0x00000003;
-
   bVar3 = bVar3 & 3;
-
   *(unsigned char *)(unaff_r14 + 0x00000003) = bVar3;
-
   iVar1 = 0x00000004;
-
   if (bVar3 == 3) {
-
     *(char *)(unaff_r14 + 0x00000004) = 0;
-
     iVar2 = iVar1;
-
   }
-
   return iVar2;
-
 }
 
 unsigned int FUN_06034848()
 {
-
   unsigned int uVar1;
-
   int uVar2;
-
   int unaff_r14 = 0;
 
   uVar1 = 0;
-
   if (((*(int *)0x06083255 != '\0') &&
-
       (uVar1 = GAME_STATE_BIT, ((unsigned int)0x00028000 & uVar1) != 0)) &&
-
      (uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C), uVar1 != *(unsigned int *)(unaff_r14 + 0x00000010))) {
-
     uVar2 = 0xAE113DFF;
-
     if (*(int *)(CAR_PTR_TARGET + 0x00000008) < (int)DAT_0603489e) {
-
       uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C);
-
       if (((uVar1 != 0) && (uVar2 = 0xAE113BFF, uVar1 != 3)) &&
-
          ((uVar2 = 0xAE113CFF, uVar1 != 4 && (uVar2 = 0xAE113DFF, uVar1 != 5)))) {
-
         return uVar1;
-
       }
-
     }
-
     else {
-
       uVar1 = *(unsigned int *)(unaff_r14 + 0x0000000C);
-
       if (((uVar1 != 0) && (uVar2 = 0xAE113BFF, uVar1 != 3)) && (uVar2 = 0xAE113CFF, uVar1 != 4)
-
          ) {
-
         return uVar1;
-
       }
-
     }
-
     uVar1 = (*(int(*)())0x0601D5F4)(0x00000000,uVar2);
-
   }
-
   return uVar1;
-
 }
 
 int terrain_data_lookup(param_1, param_2, param_3, param_4)
@@ -944,2948 +658,1515 @@ void FUN_06034f78(int val, int param, int ptr) { FUN_06034F78(val, param, ptr); 
 
 int FUN_06034fe0()
 {
-
   int in_r0 = 0;
-
   int in_r1 = 0;
-
   int *puVar1;
 
   puVar1 = (int *)-256;
-
   *puVar1 = in_r0;
-
   puVar1[2] = 0;
-
   puVar1[1] = in_r1;
-
   return puVar1[5];
-
 }
 
 int FUN_06034ffc()
 {
-
   int bVar1;
-
   unsigned int uVar2;
-
   char cVar3;
-
   int bVar4;
-
   int bVar5;
-
   unsigned int uVar6;
-
   int in_r0 = 0;
-
   int in_r1 = 0;
-
   unsigned int uVar7;
-
   unsigned int uVar8;
-
   unsigned int uVar9;
-
   unsigned int uVar11;
-
   unsigned int uVar12;
-
   unsigned int uVar14;
-
   unsigned int uVar15;
-
   unsigned int uVar16;
-
   unsigned int uVar17;
-
   unsigned int uVar18;
-
   unsigned int uVar19;
-
   unsigned int uVar20;
-
   unsigned int uVar21;
-
   unsigned int uVar22;
-
   unsigned int uVar23;
-
   unsigned int uVar24;
-
   unsigned int uVar25;
-
   unsigned int uVar26;
-
   unsigned int uVar27;
-
   unsigned int uVar28;
-
   unsigned int uVar29;
-
   unsigned int uVar30;
-
   unsigned int uVar31;
-
   unsigned int uVar32;
-
   unsigned int uVar33;
-
   unsigned int uVar34;
-
   unsigned int uVar35;
-
   unsigned int uVar36;
-
   unsigned int uVar37;
-
   unsigned int uVar38;
-
   unsigned int uVar39;
-
   unsigned int uVar40;
-
   unsigned int uVar41;
-
   unsigned int uVar42;
-
   unsigned int uVar10;
-
   unsigned int uVar13;
 
   if (in_r0 != 0) {
-
     uVar6 = -(unsigned int)(in_r1 < 0);
-
     uVar7 = in_r1 - (unsigned int)(uVar6 != 0);
-
     bVar1 = in_r0 < 0;
-
     uVar2 = (unsigned int)bVar1 << 9;
-
     uVar12 = (uVar7 << 1);
-
     uVar7 = (unsigned int)(in_r1 < 0) * -2 | (unsigned int)((uVar7 & 0x80000000) != 0);
-
     bVar4 = (int)uVar6 < 0 == bVar1;
-
     bVar5 = bVar1 == ((uVar6 & 0x80000000) != 0);
-
     uVar8 = (unsigned int)bVar4 * (uVar7 - in_r0) + (unsigned int)!bVar4 * (uVar7 + in_r0);
-
     cVar3 = bVar4 * (uVar7 < uVar8) + !bVar4 * (uVar8 < uVar7);
-
     uVar7 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar13 = uVar2 | uVar7;
-
     uVar9 = (uVar8 << 1) | (unsigned int)((uVar12 & 0x80000000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar8 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar9 - in_r0) + (unsigned int)!bVar4 * (uVar9 + in_r0);
-
     cVar3 = bVar4 * (uVar9 < uVar10) + !bVar4 * (uVar10 < uVar9);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar14 = uVar2 | uVar7 & 0xfffffeff | uVar13;
-
     uVar9 = uVar2 | uVar7 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x40000000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar15 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x20000000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar16 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x10000000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar17 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x8000000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar18 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x4000000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar19 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x2000000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar20 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x1000000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar21 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x800000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar22 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x400000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar23 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x200000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar24 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x100000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar25 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x80000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar26 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x40000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar27 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x20000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar28 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x10000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar29 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x8000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar30 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x4000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar31 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x2000) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar32 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x1000) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar33 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x800) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar34 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x400) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar35 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x200) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar36 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x100) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar37 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x80) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar38 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x40) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar39 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x20) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar40 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x10) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar41 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 8) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar13 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar42 = uVar9 | uVar8 & 0xfffffeff | uVar13;
-
     uVar9 = uVar9 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar9 | uVar13;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 4) != 0);
-
     bVar4 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar4 * (uVar11 - in_r0) + (unsigned int)!bVar4 * (uVar11 + in_r0);
-
     cVar3 = bVar4 * (uVar11 < uVar10) + !bVar4 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     uVar11 = uVar9 | uVar13 & 0xfffffeff | uVar8;
-
     uVar9 = uVar9 | uVar13 & 0xfffffefe;
-
     uVar13 = uVar9 | uVar8;
-
     uVar12 = (uVar10 << 1) | (unsigned int)((uVar12 & 2) != 0);
-
     bVar4 = ((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1);
-
     bVar5 = (int)((unsigned char)(uVar13 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar13 = (unsigned int)bVar4 * (uVar12 - in_r0) + (unsigned int)!bVar4 * (uVar12 + in_r0);
-
     cVar3 = bVar4 * (uVar12 < uVar13) + !bVar4 * (uVar13 < uVar12);
-
     uVar13 = uVar9 | uVar8 & 0xfffffeff |
-
              (unsigned int)(unsigned char)(bVar5 * cVar3 + (!bVar5 && cVar3 == '\0')) << 8;
-
     return ((((((((((((((((((((((((((((((((unsigned int)(((unsigned char)((uVar2 | uVar7) >> 8) & 1) ==
-
                                                 ((unsigned char)((uVar2 | uVar7) >> 9) & 1)) << 1 |
-
                                          (unsigned int)(((unsigned char)(uVar14 >> 8) & 1) ==
-
                                                ((unsigned char)(uVar14 >> 9) & 1))) << 1 |
-
                                         (unsigned int)(((unsigned char)(uVar15 >> 8) & 1) ==
-
                                               ((unsigned char)(uVar15 >> 9) & 1))) << 1 |
-
                                        (unsigned int)(((unsigned char)(uVar16 >> 8) & 1) == ((unsigned char)(uVar16 >> 9) & 1)
-
                                              )) << 1 |
-
                                       (unsigned int)(((unsigned char)(uVar17 >> 8) & 1) == ((unsigned char)(uVar17 >> 9) & 1))
-
                                       ) << 1 | (unsigned int)(((unsigned char)(uVar18 >> 8) & 1) ==
-
                                                      ((unsigned char)(uVar18 >> 9) & 1))) << 1 |
-
                                     (unsigned int)(((unsigned char)(uVar19 >> 8) & 1) == ((unsigned char)(uVar19 >> 9) & 1)))
-
                                     << 1 | (unsigned int)(((unsigned char)(uVar20 >> 8) & 1) ==
-
                                                  ((unsigned char)(uVar20 >> 9) & 1))) << 1 |
-
                                   (unsigned int)(((unsigned char)(uVar21 >> 8) & 1) == ((unsigned char)(uVar21 >> 9) & 1))) <<
-
                                   1 | (unsigned int)(((unsigned char)(uVar22 >> 8) & 1) == ((unsigned char)(uVar22 >> 9) & 1))
-
                                  ) << 1 | (unsigned int)(((unsigned char)(uVar23 >> 8) & 1) ==
-
                                                 ((unsigned char)(uVar23 >> 9) & 1))) << 1 |
-
                                (unsigned int)(((unsigned char)(uVar24 >> 8) & 1) == ((unsigned char)(uVar24 >> 9) & 1))) << 1
-
                               | (unsigned int)(((unsigned char)(uVar25 >> 8) & 1) == ((unsigned char)(uVar25 >> 9) & 1))) << 1
-
                              | (unsigned int)(((unsigned char)(uVar26 >> 8) & 1) == ((unsigned char)(uVar26 >> 9) & 1))) << 1
-
                             | (unsigned int)(((unsigned char)(uVar27 >> 8) & 1) == ((unsigned char)(uVar27 >> 9) & 1))) << 1 |
-
                            (unsigned int)(((unsigned char)(uVar28 >> 8) & 1) == ((unsigned char)(uVar28 >> 9) & 1))) << 1 |
-
                           (unsigned int)(((unsigned char)(uVar29 >> 8) & 1) == ((unsigned char)(uVar29 >> 9) & 1))) << 1 |
-
                          (unsigned int)(((unsigned char)(uVar30 >> 8) & 1) == ((unsigned char)(uVar30 >> 9) & 1))) << 1 |
-
                         (unsigned int)(((unsigned char)(uVar31 >> 8) & 1) == ((unsigned char)(uVar31 >> 9) & 1))) << 1 |
-
                        (unsigned int)(((unsigned char)(uVar32 >> 8) & 1) == ((unsigned char)(uVar32 >> 9) & 1))) << 1 |
-
                       (unsigned int)(((unsigned char)(uVar33 >> 8) & 1) == ((unsigned char)(uVar33 >> 9) & 1))) << 1 |
-
                      (unsigned int)(((unsigned char)(uVar34 >> 8) & 1) == ((unsigned char)(uVar34 >> 9) & 1))) << 1 |
-
                     (unsigned int)(((unsigned char)(uVar35 >> 8) & 1) == ((unsigned char)(uVar35 >> 9) & 1))) << 1 |
-
                    (unsigned int)(((unsigned char)(uVar36 >> 8) & 1) == ((unsigned char)(uVar36 >> 9) & 1))) << 1 |
-
                   (unsigned int)(((unsigned char)(uVar37 >> 8) & 1) == ((unsigned char)(uVar37 >> 9) & 1))) << 1 |
-
                  (unsigned int)(((unsigned char)(uVar38 >> 8) & 1) == ((unsigned char)(uVar38 >> 9) & 1))) << 1 |
-
                 (unsigned int)(((unsigned char)(uVar39 >> 8) & 1) == ((unsigned char)(uVar39 >> 9) & 1))) << 1 |
-
                (unsigned int)(((unsigned char)(uVar40 >> 8) & 1) == ((unsigned char)(uVar40 >> 9) & 1))) << 1 |
-
               (unsigned int)(((unsigned char)(uVar41 >> 8) & 1) == ((unsigned char)(uVar41 >> 9) & 1))) << 1 |
-
              (unsigned int)(((unsigned char)(uVar42 >> 8) & 1) == ((unsigned char)(uVar42 >> 9) & 1))) << 1 |
-
             (unsigned int)(((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1))) << 1 |
-
            (unsigned int)(((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1))) +
-
            (unsigned int)(bVar1 != (int)uVar6 < 0);
-
   }
-
   *(int *)0x060A246C = 0x0000044E;
-
   return 0;
-
 }
 
 long long FUN_060350b0()
 {
-
   char cVar1;
-
   int bVar2;
-
   int bVar3;
-
   int bVar4;
-
   unsigned char bVar5;
-
   unsigned int uVar6;
-
   char *puVar7;
-
   int in_r0 = 0;
-
   unsigned int in_r1 = 0;
-
   unsigned int uVar8;
-
   unsigned int uVar10;
-
   unsigned int uVar12;
-
   unsigned int uVar13;
-
   unsigned int uVar14;
-
   unsigned int uVar15;
-
   unsigned int uVar16;
-
   unsigned int uVar17;
-
   unsigned int uVar18;
-
   unsigned int uVar19;
-
   unsigned int uVar20;
-
   unsigned int uVar21;
-
   unsigned int uVar22;
-
   unsigned int uVar23;
-
   unsigned int uVar24;
-
   unsigned int uVar25;
-
   unsigned int uVar26;
-
   unsigned int uVar27;
-
   unsigned int uVar28;
-
   unsigned int uVar29;
-
   unsigned int uVar30;
-
   unsigned int uVar31;
-
   unsigned int uVar32;
-
   unsigned int uVar33;
-
   unsigned int uVar34;
-
   unsigned int uVar35;
-
   unsigned int uVar36;
-
   unsigned int uVar37;
-
   unsigned int uVar38;
-
   unsigned int uVar39;
-
   unsigned int uVar40;
-
   unsigned int uVar41;
-
   unsigned int uVar9;
-
   unsigned int uVar11;
 
   puVar7 = (char *)0x060A246C;
-
   if (in_r0 == 0) {
-
     *(int *)0x060A246C = 0x0000044E;
-
     return ZEXT48(puVar7) << 0x20;
-
   }
-
   uVar8 = (unsigned int)((in_r1 & 0x80000000) != 0);
-
   uVar9 = uVar8 - in_r0;
-
   bVar4 = uVar9 <= uVar8;
-
   uVar13 = in_r1 << 2;
-
   bVar3 = (uVar9 & 0x80000000) == 0;
-
   uVar8 = (uVar9 << 1) | (unsigned int)((in_r1 & 0x40000000) != 0);
-
   uVar9 = (unsigned int)bVar4 * (uVar8 - in_r0) + (unsigned int)!bVar4 * (uVar8 + in_r0);
-
   cVar1 = bVar4 * (uVar8 < uVar9) + !bVar4 * (uVar9 < uVar8);
-
   bVar5 = bVar3 * cVar1 + (!bVar3 && cVar1 == '\0');
-
   uVar8 = (unsigned int)bVar5 << 8;
-
   uVar10 = (uVar9 << 1) | (unsigned int)((uVar13 & 0x80000000) != 0);
-
   bVar3 = (bVar5 & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar9 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar10 - in_r0) + (unsigned int)!bVar3 * (uVar10 + in_r0);
-
   cVar1 = bVar3 * (uVar10 < uVar11) + !bVar3 * (uVar11 < uVar10);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar14 = uVar8 & 0xfffffeff | uVar9;
-
   uVar6 = uVar8 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x40000000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar15 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x20000000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar16 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x10000000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar17 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x8000000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar18 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x4000000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar19 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x2000000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar20 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x1000000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar21 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x800000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar22 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x400000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar23 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x200000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar24 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x100000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar25 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x80000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar26 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x40000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar27 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x20000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar28 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x10000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar29 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x8000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar30 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x4000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar31 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x2000) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar32 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x1000) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar33 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x800) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar34 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x400) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar35 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x200) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar36 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x100) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar37 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x80) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar38 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x40) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar39 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x20) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar40 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 0x10) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar10 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar41 = uVar6 | uVar9 & 0xfffffeff | uVar10;
-
   uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
   uVar9 = uVar6 | uVar10;
-
   uVar12 = (uVar11 << 1) | (unsigned int)((uVar13 & 8) != 0);
-
   bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar11 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
   cVar1 = bVar3 * (uVar12 < uVar11) + !bVar3 * (uVar11 < uVar12);
-
   uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   uVar12 = uVar6 | uVar10 & 0xfffffeff | uVar9;
-
   uVar6 = uVar6 | uVar10 & 0xfffffefe;
-
   uVar10 = uVar6 | uVar9;
-
   uVar8 = ((((((((((((((((((((((((((((((unsigned int)bVar4 << 1 |
-
                                       (unsigned int)((bVar5 & 1) == ((unsigned char)(uVar8 >> 9) & 1))) << 1 |
-
                                      (unsigned int)(((unsigned char)(uVar14 >> 8) & 1) == ((unsigned char)(uVar14 >> 9) & 1)))
-
                                      << 1 | (unsigned int)(((unsigned char)(uVar15 >> 8) & 1) ==
-
                                                   ((unsigned char)(uVar15 >> 9) & 1))) << 1 |
-
                                    (unsigned int)(((unsigned char)(uVar16 >> 8) & 1) == ((unsigned char)(uVar16 >> 9) & 1)))
-
                                    << 1 | (unsigned int)(((unsigned char)(uVar17 >> 8) & 1) ==
-
                                                 ((unsigned char)(uVar17 >> 9) & 1))) << 1 |
-
                                  (unsigned int)(((unsigned char)(uVar18 >> 8) & 1) == ((unsigned char)(uVar18 >> 9) & 1))) <<
-
                                  1 | (unsigned int)(((unsigned char)(uVar19 >> 8) & 1) == ((unsigned char)(uVar19 >> 9) & 1)))
-
                                 << 1 | (unsigned int)(((unsigned char)(uVar20 >> 8) & 1) == ((unsigned char)(uVar20 >> 9) & 1)
-
                                              )) << 1 |
-
                               (unsigned int)(((unsigned char)(uVar21 >> 8) & 1) == ((unsigned char)(uVar21 >> 9) & 1))) << 1 |
-
                              (unsigned int)(((unsigned char)(uVar22 >> 8) & 1) == ((unsigned char)(uVar22 >> 9) & 1))) << 1 |
-
                             (unsigned int)(((unsigned char)(uVar23 >> 8) & 1) == ((unsigned char)(uVar23 >> 9) & 1))) << 1 |
-
                            (unsigned int)(((unsigned char)(uVar24 >> 8) & 1) == ((unsigned char)(uVar24 >> 9) & 1))) << 1 |
-
                           (unsigned int)(((unsigned char)(uVar25 >> 8) & 1) == ((unsigned char)(uVar25 >> 9) & 1))) << 1 |
-
                          (unsigned int)(((unsigned char)(uVar26 >> 8) & 1) == ((unsigned char)(uVar26 >> 9) & 1))) << 1 |
-
                         (unsigned int)(((unsigned char)(uVar27 >> 8) & 1) == ((unsigned char)(uVar27 >> 9) & 1))) << 1 |
-
                        (unsigned int)(((unsigned char)(uVar28 >> 8) & 1) == ((unsigned char)(uVar28 >> 9) & 1))) << 1 |
-
                       (unsigned int)(((unsigned char)(uVar29 >> 8) & 1) == ((unsigned char)(uVar29 >> 9) & 1))) << 1 |
-
                      (unsigned int)(((unsigned char)(uVar30 >> 8) & 1) == ((unsigned char)(uVar30 >> 9) & 1))) << 1 |
-
                     (unsigned int)(((unsigned char)(uVar31 >> 8) & 1) == ((unsigned char)(uVar31 >> 9) & 1))) << 1 |
-
                    (unsigned int)(((unsigned char)(uVar32 >> 8) & 1) == ((unsigned char)(uVar32 >> 9) & 1))) << 1 |
-
                   (unsigned int)(((unsigned char)(uVar33 >> 8) & 1) == ((unsigned char)(uVar33 >> 9) & 1))) << 1 |
-
                  (unsigned int)(((unsigned char)(uVar34 >> 8) & 1) == ((unsigned char)(uVar34 >> 9) & 1))) << 1 |
-
                 (unsigned int)(((unsigned char)(uVar35 >> 8) & 1) == ((unsigned char)(uVar35 >> 9) & 1))) << 1 |
-
                (unsigned int)(((unsigned char)(uVar36 >> 8) & 1) == ((unsigned char)(uVar36 >> 9) & 1))) << 1 |
-
               (unsigned int)(((unsigned char)(uVar37 >> 8) & 1) == ((unsigned char)(uVar37 >> 9) & 1))) << 1 |
-
              (unsigned int)(((unsigned char)(uVar38 >> 8) & 1) == ((unsigned char)(uVar38 >> 9) & 1))) << 1 |
-
             (unsigned int)(((unsigned char)(uVar39 >> 8) & 1) == ((unsigned char)(uVar39 >> 9) & 1))) << 1 |
-
            (unsigned int)(((unsigned char)(uVar40 >> 8) & 1) == ((unsigned char)(uVar40 >> 9) & 1))) << 1 |
-
           (unsigned int)(((unsigned char)(uVar41 >> 8) & 1) == ((unsigned char)(uVar41 >> 9) & 1))) << 1 |
-
           (unsigned int)(((unsigned char)(uVar12 >> 8) & 1) == ((unsigned char)(uVar12 >> 9) & 1));
-
   uVar13 = (uVar11 << 1) | (unsigned int)((uVar13 & 4) != 0);
-
   bVar3 = ((unsigned char)(uVar10 >> 8) & 1) == ((unsigned char)(uVar10 >> 9) & 1);
-
   bVar2 = (int)((unsigned char)(uVar10 >> 9) & 1) == ((uVar11 & 0x80000000) != 0);
-
   uVar10 = (unsigned int)bVar3 * (uVar13 - in_r0) + (unsigned int)!bVar3 * (uVar13 + in_r0);
-
   cVar1 = bVar3 * (uVar13 < uVar10) + !bVar3 * (uVar10 < uVar13);
-
   uVar9 = uVar6 | uVar9 & 0xfffffeff | (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
   if (((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1)) {
-
     return CONCAT44(uVar8,uVar10);
-
   }
-
   return CONCAT44(uVar8,in_r0 + uVar10);
-
 }
 
 void FUN_06035168()
 {
-
   unsigned int in_r0 = 0;
-
   int *in_r1;
-
   int *in_r2;
-
   int *puVar1;
-
   int *puVar2;
 
   if (in_r0 < 0x41) {
-
     (*(int(*)())(*(int *)(0x060351C4 + in_r0)))();
-
     return;
-
   }
-
   puVar2 = (int *)((int)in_r2 + in_r0);
-
   while( 1 ) {
-
     puVar1 = in_r2 + 1;
-
     if (puVar2 < puVar1) {
-
       return;
-
     }
-
     *in_r1 = *in_r2;
-
     in_r2 = in_r2 + 2;
-
     if (puVar2 < in_r2) break;
-
     in_r1[1] = *puVar1;
-
     in_r1 = in_r1 + 2;
-
   }
-
   return;
-
 }
 
 void FUN_06035228()
 {
-
   int in_r0 = 0;
-
   char *in_r1;
-
   char *in_r2;
-
   char *puVar1;
-
   char *puVar2;
 
   if (in_r0 != 0) {
-
     puVar2 = in_r2 + in_r0;
-
     do {
-
       *in_r1 = *in_r2;
-
       if (puVar2 <= in_r2 + 1) {
-
         return;
-
       }
-
       in_r1[1] = in_r2[1];
-
       if (puVar2 <= in_r2 + 2) {
-
         return;
-
       }
-
       puVar1 = in_r2 + 3;
-
       in_r1[2] = in_r2[2];
-
       if (puVar2 <= puVar1) {
-
         return;
-
       }
-
       in_r2 = in_r2 + 4;
-
       in_r1[3] = *puVar1;
-
       in_r1 = in_r1 + 4;
-
     } while (in_r2 < puVar2);
-
   }
-
   return;
-
 }
 
 int FUN_06035280()
 {
-
   int in_r0 = 0;
-
   int uVar1;
-
   int in_r1 = 0;
 
   if (in_r1 < 0) {
-
     return in_r0;
-
   }
-
   if (in_r1 < 0x20) {
-
     uVar1 = (*(int(*)())(0x060352AA + (char)((int *)0x06035260)[in_r1]))();
-
     return uVar1;
-
   }
-
   return 0;
-
 }
 
 unsigned int FUN_06035340()
 {
-
   unsigned int in_r0 = 0;
-
   unsigned int uVar1;
-
   int in_r1 = 0;
 
   if (in_r1 < 0) {
-
     return in_r0;
-
   }
-
   if (in_r1 < 0x20) {
-
     if (((in_r0 & 0x80000000) == 0) && (8 < in_r1)) {
-
       uVar1 = (*(int(*)())0x06036068)();
-
       return uVar1;
-
     }
-
     uVar1 = (*(int(*)())(0x060353BE + (char)((int *)0x06035338)[in_r1 + -0x18]))();
-
     return uVar1;
-
   }
-
   if ((in_r0 & 0x80000000) == 0) {
-
     return 0;
-
   }
-
   return 0xffffffff;
-
 }
 
 int FUN_06035460()
 {
-
   long long lVar1;
-
   long long lVar2;
-
   int bVar3;
-
   int in_r0 = 0;
-
   int iVar4;
-
   unsigned int uVar5;
-
   unsigned int uVar6;
-
   char *puVar8;
-
   char *puVar9;
-
   char *puVar10;
-
   unsigned int uVar11;
-
   unsigned int uVar12;
-
   char *puVar13;
-
   char *puVar14;
-
   unsigned int uVar15;
-
   unsigned int uVar16;
-
   unsigned int *in_stack_00000000;
-
   unsigned int in_stack_00000004 = 0;
-
   char *in_stack_00000008;
-
   unsigned int in_stack_0000000c = 0;
-
   char *in_stack_00000010;
-
   unsigned int uVar7;
 
   uVar5 = in_stack_0000000c << 1 | (unsigned int)((in_stack_0000000c & 0x80000000) != 0);
-
   uVar11 = (in_stack_00000004 ^ 0x80000000) << 1 |
-
            (unsigned int)(((in_stack_00000004 ^ 0x80000000) & 0x80000000) != 0);
-
   uVar7 = uVar5;
-
   puVar9 = in_stack_00000010;
-
   if (uVar5 < uVar11) {
-
     uVar7 = uVar11;
-
     puVar9 = in_stack_00000008;
-
     uVar11 = uVar5;
-
     in_stack_00000008 = in_stack_00000010;
-
   }
-
   uVar5 = uVar7 << 0x1f;
-
   uVar6 = uVar7 >> 1 | uVar5;
-
   uVar7 = uVar11 << 0x1f;
-
   uVar12 = uVar11 >> 1 | uVar7;
-
   uVar11 = uVar6 >> 0x14 & 0x000007FF;
-
   uVar16 = uVar12 >> 0x14 & 0x000007FF;
-
   puVar8 = (char *)(uVar6 & 0x000FFFFF);
-
   puVar13 = (char *)(uVar12 & 0x000FFFFF);
-
   if (uVar11 == 0x000007FF) {
-
     if (((puVar8 != (char *)0x0) || (puVar9 != (char *)0x0)) ||
-
        ((uVar16 == 0x000007FF &&
-
         ((in_stack_00000008 != (char *)0x0 || ((uVar5 != 0) != (uVar7 != 0))))))) {
-
       uVar6 = 0;
-
       puVar8 = (char *)0x0;
-
       puVar9 = (void *)0x00000008;
-
     }
-
     goto LAB_060356ca;
-
   }
-
   uVar15 = uVar11;
-
   if (uVar16 == 0) {
-
     if (uVar11 == 0) {
-
       if ((puVar8 == (char *)0x0) && (puVar9 == (char *)0x0)) {
-
         if (in_stack_00000008 == (char *)0x0) {
-
           uVar6 = uVar6 & uVar12;
-
           goto LAB_060356ca;
-
         }
-
         uVar11 = 0;
-
         puVar8 = puVar13;
-
         puVar9 = in_stack_00000008;
-
         uVar6 = uVar12;
-
       }
-
       else if ((puVar13 != (char *)0x0) || (in_stack_00000008 != (char *)0x0)) {
-
         for (puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0));
-
             puVar9 = (char *)((int)(int)puVar9 << 1), (int)puVar8 < (int)0x00100000;
-
             puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0))) {
-
           uVar11 = uVar11 - 1;
-
         }
-
         goto LAB_060354ee;
-
       }
-
     }
-
     else if ((puVar13 != (char *)0x0) || (in_stack_00000008 != (char *)0x0)) {
-
 LAB_060354ee:
-
       for (puVar13 = (char *)
-
                      ((int)(int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0));
-
           in_stack_00000008 = (char *)((int)(int)in_stack_00000008 << 1), uVar15 = uVar11,
-
           (int)puVar13 < (int)0x00100000;
-
           puVar13 = (char *)
-
                     ((int)(int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0))) {
-
         uVar16 = uVar16 - 1;
-
       }
-
       goto LAB_0603556e;
-
     }
-
     uVar7 = (unsigned int)puVar9 & 0x80000000;
-
     uVar5 = (unsigned int)puVar9 & 0x40000000;
-
     uVar16 = (unsigned int)puVar9 & 0x20000000;
-
     puVar9 = (char *)((int)(int)puVar9 << 3);
-
     puVar8 = (char *)
-
              ((((int)(int)puVar8 << 1 | (unsigned int)(uVar7 != 0)) << 1 | (unsigned int)(uVar5 != 0)) << 1 |
-
              (unsigned int)(uVar16 != 0));
-
   }
-
   else {
-
 LAB_0603556e:
-
     puVar10 = (char *)((int)((int)(int)puVar9 << 3));
-
     puVar14 = (char *)((int)(int)in_stack_00000008 << 3);
-
     puVar9 = (char *)
-
              ((((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0)) << 1 |
-
               (unsigned int)(((unsigned int)puVar9 & 0x40000000) != 0)) << 1 |
-
               (unsigned int)(((unsigned int)puVar9 & 0x20000000) != 0) | (unsigned int)0x00800000);
-
     puVar8 = (char *)
-
              ((((int)(int)puVar13 << 1 | (unsigned int)(((unsigned int)in_stack_00000008 & 0x80000000) != 0)) << 1 |
-
               (unsigned int)(((unsigned int)in_stack_00000008 & 0x40000000) != 0)) << 1 |
-
               (unsigned int)(((unsigned int)in_stack_00000008 & 0x20000000) != 0) | (unsigned int)0x00800000);
-
     iVar4 = uVar15 - uVar16;
-
     if (iVar4 != 0) {
-
       if (iVar4 < 4) {
-
         do {
-
           uVar11 = (unsigned int)puVar8 & 1;
-
           puVar8 = (char *)((unsigned int)puVar8 >> 1);
-
           puVar14 = (char *)((unsigned int)puVar14 >> 1 | (unsigned int)(uVar11 == 1) * -0x80000000);
-
           iVar4 = iVar4 + -1;
-
         } while (iVar4 != 0);
-
       }
-
       else if (iVar4 < 0x37) {
-
         if (0x20 < iVar4) {
-
           iVar4 = iVar4 + -0x20;
-
           bVar3 = puVar14 != (char *)0x0;
-
           puVar14 = puVar8;
-
           if (bVar3) {
-
             puVar14 = (char *)((unsigned int)puVar8 | 1);
-
           }
-
           puVar8 = (char *)0x0;
-
         }
-
         lVar1 = ZEXT48(puVar14) * (unsigned long long)*(unsigned int *)(&DAT_06035734 + (iVar4 << 2));
-
         lVar2 = ZEXT48(puVar8) * (unsigned long long)*(unsigned int *)(&DAT_06035734 + (iVar4 << 2));
-
         puVar8 = (char *)((unsigned long long)lVar2 >> 0x20);
-
         puVar14 = (char *)((unsigned int)((unsigned long long)lVar1 >> 0x20) | (unsigned int)lVar2);
-
         if ((int)lVar1 != 0) {
-
           puVar14 = (char *)((unsigned int)puVar14 | 1);
-
         }
-
       }
-
       else {
-
         puVar8 = (char *)0x0;
-
         puVar14 = (void *)0x00000001;
-
       }
-
     }
-
     if ((uVar5 != 0) == (uVar7 != 0)) {
-
       puVar14 = puVar10 + (int)puVar14;
-
       puVar8 = puVar9 + (int)puVar8 + (puVar14 < puVar10);
-
       uVar11 = uVar15;
-
       if ((int)0x01000000 <= (int)puVar8) {
-
         uVar7 = (unsigned int)puVar8 & 1;
-
         puVar8 = (char *)((unsigned int)puVar8 >> 1);
-
         uVar11 = uVar15 + 1;
-
         puVar14 = (char *)
-
                   ((unsigned int)puVar14 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000 |
-
                   (unsigned int)(((unsigned int)puVar14 & 1) != 0));
-
         if (uVar11 == 0x000007FF) {
-
           puVar8 = (char *)0x0;
-
           puVar9 = (char *)0x0;
-
           goto LAB_060356ca;
-
         }
-
       }
-
     }
-
     else {
-
       if ((puVar8 == puVar9) && (puVar14 == puVar10)) {
-
         uVar6 = 0;
-
         uVar11 = 0;
-
         puVar8 = (char *)0x0;
-
         puVar9 = (char *)0x0;
-
         goto LAB_060356ca;
-
       }
-
       puVar13 = puVar10 + -(int)puVar14;
-
       puVar14 = puVar9 + -(int)puVar8;
-
       puVar8 = puVar14 + -(unsigned int)(puVar10 < puVar13);
-
       if (puVar9 < puVar14 || puVar14 < puVar8) {
-
         puVar13 = (char *)-(int)puVar13;
-
         puVar8 = (char *)(-(unsigned int)(puVar13 != (char *)0x0) - (int)puVar8);
-
         uVar6 = uVar12;
-
       }
-
       puVar9 = puVar13;
-
       if (puVar8 == (char *)0x0) {
-
         puVar9 = (char *)0x0;
-
         uVar15 = uVar15 - 0x20;
-
         puVar8 = puVar13;
-
       }
-
       if (((unsigned int)puVar8 & 0xFFFF0000) == 0) {
-
         puVar8 = (char *)((int)(int)puVar8 << 0x10 | (unsigned int)puVar9 >> 0x10);
-
         puVar9 = (char *)((int)(int)puVar9 << 0x10);
-
         uVar15 = uVar15 - 0x10;
-
       }
-
       puVar13 = puVar8;
-
       if (puVar8 < 0x01000000) {
-
         for (; puVar14 = puVar9, uVar11 = uVar15, (int)puVar8 < (int)0x00800000;
-
             puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar14 & 0x80000000) != 0))) {
-
           puVar14 = (char *)((int)(int)puVar9 << 1);
-
           puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(((unsigned int)puVar9 & 0x80000000) != 0));
-
           uVar11 = uVar15 - 1;
-
           if ((int)0x00800000 <= (int)puVar8) break;
-
           uVar7 = (unsigned int)puVar14 & 0x80000000;
-
           puVar14 = (char *)((int)(int)puVar9 << 2);
-
           puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(uVar7 != 0));
-
           uVar11 = uVar15 - 2;
-
           if ((int)0x00800000 <= (int)puVar8) break;
-
           uVar7 = (unsigned int)puVar14 & 0x80000000;
-
           puVar14 = (char *)((int)(int)puVar9 << 3);
-
           puVar8 = (char *)((int)(int)puVar8 << 1 | (unsigned int)(uVar7 != 0));
-
           uVar11 = uVar15 - 3;
-
           if ((int)0x00800000 <= (int)puVar8) break;
-
           puVar9 = (char *)((int)(int)puVar9 << 4);
-
           uVar15 = uVar15 - 4;
-
         }
-
       }
-
       else {
-
         do {
-
           puVar8 = (char *)((unsigned int)puVar13 >> 1);
-
           puVar14 = (char *)
-
                     ((unsigned int)puVar9 >> 1 | (unsigned int)(((unsigned int)puVar13 & 1) == 1) * -0x80000000);
-
           uVar11 = uVar15 + 1;
-
           if (puVar8 < 0x01000000) break;
-
           uVar7 = (unsigned int)puVar8 & 1;
-
           puVar8 = (char *)((unsigned int)puVar13 >> 2);
-
           puVar14 = (char *)((unsigned int)puVar14 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000);
-
           uVar11 = uVar15 + 2;
-
           if (puVar8 < 0x01000000) break;
-
           uVar7 = (unsigned int)puVar8 & 1;
-
           puVar8 = (char *)((unsigned int)puVar13 >> 3);
-
           puVar14 = (char *)((unsigned int)puVar14 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000);
-
           uVar11 = uVar15 + 3;
-
           if (puVar8 < 0x01000000) break;
-
           uVar7 = (unsigned int)puVar8 & 1;
-
           puVar8 = (char *)((unsigned int)puVar13 >> 4);
-
           puVar9 = (char *)((unsigned int)puVar14 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000);
-
           uVar15 = uVar15 + 4;
-
           puVar13 = puVar8;
-
           puVar14 = puVar9;
-
           uVar11 = uVar15;
-
         } while (0x01000000 <= puVar8);
-
       }
-
     }
-
     if ((int)uVar11 < 1) {
-
       iVar4 = 1 - uVar11;
-
       do {
-
         uVar7 = (unsigned int)puVar8 & 1;
-
         puVar8 = (char *)((unsigned int)puVar8 >> 1);
-
         puVar14 = (char *)((unsigned int)puVar14 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000);
-
         iVar4 = iVar4 + -1;
-
         uVar11 = 0;
-
       } while (iVar4 != 0);
-
     }
-
     puVar9 = puVar14;
-
     if ((((unsigned int)puVar14 & 4) != 0) && (((unsigned int)puVar14 & 0xb) != 0)) {
-
       puVar9 = puVar14 + 8;
-
       puVar8 = puVar8 + (puVar9 < puVar14);
-
       if ((int)0x01000000 <= (int)puVar8) {
-
         uVar7 = (unsigned int)puVar8 & 1;
-
         puVar8 = (char *)((unsigned int)puVar8 >> 1);
-
         puVar9 = (char *)((unsigned int)puVar9 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000);
-
         uVar11 = uVar11 + 1;
-
       }
-
     }
-
   }
-
 LAB_060356ca:
-
   *in_stack_00000000 =
-
        (unsigned int)puVar8 >> 3 & 0x000FFFFF | (uVar11 & 0x7ff) << 0x14 |
-
        (unsigned int)((uVar6 & 0x80000000) != 0) * -0x80000000;
-
   in_stack_00000000[1] =
-
        (((unsigned int)puVar9 >> 1 | (unsigned int)(((unsigned int)puVar8 & 1) == 1) * -0x80000000) >> 1 |
-
        (unsigned int)(((unsigned int)puVar8 >> 1 & 1) == 1) * -0x80000000) >> 1 |
-
        (unsigned int)(((unsigned int)puVar8 >> 2 & 1) == 1) * -0x80000000;
-
   return in_r0;
-
 }
 
 long long FUN_060357b8()
 {
-
   unsigned int uVar1;
-
   unsigned int uVar2;
-
   int in_r1 = 0;
-
   int iVar3;
-
   int iVar4;
-
   unsigned int in_stack_00000000 = 0;
-
   unsigned int in_stack_00000004 = 0;
 
   iVar3 = (in_stack_00000000 >> 0x14 & 0x000007FF) - 0x000003FF;
-
   if ((iVar3 < 0) || (0x53 < iVar3)) {
-
     uVar2 = 0;
-
   }
-
   else {
-
     uVar2 = in_stack_00000000 & 0x000FFFFF | (unsigned int)0x00100000;
-
     iVar4 = iVar3 + -0x14;
-
     if (iVar4 < 0) {
-
       iVar4 = -iVar4;
-
       do {
-
         iVar4 = iVar4 + -1;
-
         uVar2 = uVar2 >> 1;
-
       } while (iVar4 != 0);
-
     }
-
     else if (iVar4 < 0x20) {
-
       iVar3 = iVar3 + -0x13;
-
       while (iVar3 = iVar3 + -1, iVar3 != 0) {
-
         uVar1 = in_stack_00000004 & 0x80000000;
-
         in_stack_00000004 = in_stack_00000004 << 1;
-
         uVar2 = uVar2 << 1 | (unsigned int)(uVar1 != 0);
-
       }
-
     }
-
     else {
-
       uVar2 = in_stack_00000004;
-
       for (iVar3 = iVar3 + -0x34; iVar3 != 0; iVar3 = iVar3 + -1) {
-
         uVar2 = uVar2 << 1;
-
       }
-
     }
-
     if ((in_stack_00000000 & 0x80000000) != 0) {
-
       uVar2 = -uVar2;
-
     }
-
   }
-
   return CONCAT44(in_r1,uVar2);
-
 }
 
 int FUN_06035844()
 {
-
   int bVar1;
-
   unsigned int in_stack_00000000 = 0;
-
   unsigned int in_stack_00000004 = 0;
-
   unsigned int in_stack_00000008 = 0;
-
   unsigned int in_stack_0000000c = 0;
 
   if ((((in_stack_00000008 & 0x7FF00000) == 0x7FF00000) &&
-
       (((in_stack_00000008 & 0x000FFFFF) != 0 || (in_stack_0000000c != 0)))) ||
-
      (((in_stack_00000000 & 0x7FF00000) == 0x7FF00000 &&
-
       (((in_stack_00000000 & 0x000FFFFF) != 0 || (in_stack_00000004 != 0)))))) {
-
     bVar1 = 0;
-
   }
-
   else if (((((in_stack_00000008 & 0x7FF00000) == 0) && ((in_stack_00000000 & 0x7FF00000) == 0))
-
            && ((in_stack_00000008 & 0x000FFFFF) == 0)) &&
-
           (((in_stack_0000000c == 0 && ((in_stack_00000000 & 0x000FFFFF) == 0)) &&
-
            (in_stack_00000004 == 0)))) {
-
     bVar1 = 0;
-
   }
-
   else if ((int)in_stack_00000008 < 0 == (int)in_stack_00000000 < 0) {
-
     if (-1 < (int)in_stack_00000008) {
-
       in_stack_00000008 = in_stack_00000000 - in_stack_00000008;
-
       bVar1 = in_stack_00000000 < in_stack_00000008 ||
-
               in_stack_00000008 <
-
               in_stack_00000008 - (in_stack_00000004 < in_stack_00000004 - in_stack_0000000c);
-
     }
-
     else {
-
       in_stack_00000004 = in_stack_0000000c - in_stack_00000004;
-
       in_stack_00000000 = in_stack_00000008 - in_stack_00000000;
-
       bVar1 = in_stack_00000008 < in_stack_00000000 ||
-
               in_stack_00000000 <
-
               in_stack_00000000 -
-
               (in_stack_0000000c < in_stack_00000004 ||
-
               in_stack_00000004 < in_stack_00000004 - (-1 < (int)in_stack_00000008));
-
     }
-
   }
-
   else {
-
     bVar1 = -1 < (int)in_stack_00000008;
-
   }
-
   return bVar1;
-
 }
 
 void FUN_060358ec()
 {
-
   unsigned int in_r0 = 0;
-
   unsigned int uVar1;
-
   unsigned int uVar2;
-
   int iVar3;
-
   unsigned int uVar4;
-
   unsigned int *in_stack_00000000;
 
   if (in_r0 == 0) {
-
     uVar4 = 0;
-
     uVar2 = 0;
-
   }
-
   else {
-
     uVar2 = in_r0;
-
     iVar3 = 0x0000041F;
-
     if ((int)in_r0 < 0) {
-
       uVar2 = -in_r0;
-
     }
-
     do {
-
       uVar1 = uVar2;
-
       iVar3 = iVar3 + -1;
-
       uVar2 = uVar1 << 1;
-
     } while ((uVar1 & 0x80000000) == 0);
-
     uVar4 = uVar1 << 0x15;
-
     uVar2 = (uVar1 << 1) >> 0xc | (iVar3 << 20) & 0x7fffffffU |
-
             (unsigned int)((int)in_r0 < 0) * -0x80000000;
-
   }
-
   *in_stack_00000000 = uVar2;
-
   in_stack_00000000[1] = uVar4;
-
   return;
-
 }
 
 long long FUN_060359d2()
 {
-
   unsigned int unaff_r10 = 0;
-
   long long in_stack_0000003c;
-
   unsigned int *in_stack_00000044;
 
   *in_stack_00000044 =
-
        (0x000007FF & 0x7ff) << 0x14 | (unsigned int)((unaff_r10 & 0x80000000) != 0) * -0x80000000;
-
   in_stack_00000044[1] = 0;
-
   return in_stack_0000003c;
-
 }
 
 long long FUN_060359da()
 {
-
   long long in_stack_0000003c;
-
   int *in_stack_00000044;
 
   *in_stack_00000044 = (0x000007FF & 0x7ff) << 0x14;
-
   in_stack_00000044[1] = 1;
-
   return in_stack_0000003c;
-
 }
 
 int FUN_060359e4()
 {
-
   unsigned int uVar1;
-
   unsigned int uVar5;
-
   long long lVar2;
-
   long long lVar3;
-
   long long lVar4;
-
   int in_r0 = 0;
-
   int uVar6;
-
   unsigned int uVar7;
-
   unsigned int uVar8;
-
   unsigned int uVar9;
-
   unsigned int uVar10;
-
   int iVar11;
-
   unsigned int uVar12;
-
   unsigned int uVar13;
-
   unsigned int uVar14;
-
   unsigned int *in_stack_00000000;
-
   unsigned int in_stack_00000004 = 0;
-
   unsigned int in_stack_00000008 = 0;
-
   unsigned int in_stack_0000000c = 0;
-
   unsigned int in_stack_00000010 = 0;
 
   uVar13 = in_stack_00000004 ^ in_stack_0000000c;
-
   uVar10 = in_stack_00000004 >> 0x14 & 0x000007FF;
-
   uVar12 = in_stack_0000000c >> 0x14 & 0x000007FF;
-
   in_stack_00000004 = in_stack_00000004 & 0x000FFFFF;
-
   in_stack_0000000c = in_stack_0000000c & 0x000FFFFF;
-
   if (uVar10 == 0x000007FF) {
-
     if ((in_stack_00000004 == 0) && (in_stack_00000008 == 0)) {
-
       if (uVar12 != 0x000007FF) {
-
         if (((uVar12 == 0) && (in_stack_0000000c == 0)) && (in_stack_00000010 == 0)) {
-
           uVar6 = FUN_060359da();
-
           return uVar6;
-
         }
-
         goto code_r0x060359d2;
-
       }
-
       if ((in_stack_0000000c == 0) && (in_stack_00000010 == 0)) {
-
         uVar6 = FUN_060359d2();
-
         return uVar6;
-
       }
-
     }
-
 code_r0x060359da:
-
     uVar13 = 0;
-
     uVar8 = 0;
-
     uVar12 = 8;
-
     uVar10 = 0x000007FF;
-
   }
-
   else {
-
     if (uVar12 != 0x000007FF) {
-
       if (uVar10 == 0) {
-
         if ((in_stack_00000004 != 0) || (in_stack_00000008 != 0)) {
-
           for (in_stack_00000004 =
-
                     in_stack_00000004 << 1 | (unsigned int)((in_stack_00000008 & 0x80000000) != 0);
-
               in_stack_00000008 = in_stack_00000008 << 1,
-
               (int)in_stack_00000004 < (int)0x00100000;
-
               in_stack_00000004 =
-
                    in_stack_00000004 << 1 | (unsigned int)((in_stack_00000008 & 0x80000000) != 0)) {
-
             uVar10 = uVar10 - 1;
-
           }
-
           goto LAB_06035a3a;
-
         }
-
       }
-
       else {
-
 LAB_06035a3a:
-
         if (uVar12 == 0) {
-
           if ((in_stack_0000000c == 0) && (in_stack_00000010 == 0)) goto LAB_060359c8;
-
           for (in_stack_0000000c =
-
                     in_stack_0000000c << 1 | (unsigned int)((in_stack_00000010 & 0x80000000) != 0);
-
               in_stack_00000010 = in_stack_00000010 << 1,
-
               (int)in_stack_0000000c < (int)0x00100000;
-
               in_stack_0000000c =
-
                    in_stack_0000000c << 1 | (unsigned int)((in_stack_00000010 & 0x80000000) != 0)) {
-
             uVar12 = uVar12 - 1;
-
           }
-
         }
-
         uVar10 = (uVar10 + uVar12) - 0x000003FF;
-
         if ((int)0x000007FF <= (int)uVar10) goto code_r0x060359d2;
-
         if (-0x36 < (int)uVar10) {
-
           uVar5 = (unsigned int)((unsigned long long)in_stack_00000010 * (unsigned long long)in_stack_00000008);
-
           lVar2 = (unsigned long long)(in_stack_0000000c | (unsigned int)0x00100000) *
-
                   (unsigned long long)(in_stack_00000004 | (unsigned int)0x00100000);
-
           uVar8 = (unsigned int)lVar2;
-
           lVar3 = (unsigned long long)in_stack_00000010 *
-
                   (unsigned long long)(in_stack_00000004 | (unsigned int)0x00100000);
-
           uVar9 = (unsigned int)lVar3;
-
           lVar4 = (unsigned long long)(in_stack_0000000c | (unsigned int)0x00100000) *
-
                   (unsigned long long)in_stack_00000008;
-
           uVar14 = (unsigned int)((unsigned long long)lVar4 >> 0x20);
-
           uVar1 = (unsigned int)lVar4;
-
           uVar7 = uVar9 + (int)((unsigned long long)in_stack_00000010 * (unsigned long long)in_stack_00000008 >> 0x20)
-
           ;
-
           uVar12 = uVar14 + (int)((unsigned long long)lVar3 >> 0x20);
-
           uVar9 = uVar12 + (uVar7 < uVar9);
-
           uVar7 = uVar1 + uVar7;
-
           uVar12 = uVar7 + (uVar12 < uVar14 || uVar9 < uVar12);
-
           uVar9 = uVar8 + uVar9;
-
           uVar7 = uVar9 + (uVar7 < uVar1 || uVar12 < uVar7);
-
           if (uVar5 != 0) {
-
             uVar12 = uVar12 | 1;
-
           }
-
           uVar1 = uVar12 >> 0x10;
-
           uVar14 = uVar7 >> 0x10;
-
           uVar9 = ((int)((unsigned long long)lVar2 >> 0x20) + (unsigned int)(uVar9 < uVar8 || uVar7 < uVar9)) << 16 | uVar14;
-
           uVar8 = uVar9 >> 1;
-
           uVar7 = ((uVar7 << 16) | uVar1) >> 1 | (unsigned int)((uVar14 & 1) == 1) * -0x80000000;
-
           uVar12 = (uVar12 << 0x10 | uVar5 >> 0x10) >> 1 | (unsigned int)((uVar1 & 1) != 0) * -0x80000000;
-
           if ((uVar8 & (unsigned int)0x01000000) != 0) {
-
             uVar8 = uVar9 >> 2;
-
             uVar7 = uVar7 >> 1 | (unsigned int)((uVar14 & 2) == 2) * -0x80000000;
-
             uVar12 = uVar12 >> 1 | (unsigned int)((uVar1 & 2) != 0) * -0x80000000;
-
             uVar10 = uVar10 + 1;
-
             if (uVar10 == 0x000007FF) {
-
               uVar6 = FUN_060359d2();
-
               return uVar6;
-
             }
-
           }
-
           if (uVar12 != 0) {
-
             uVar7 = uVar7 | 1;
-
           }
-
           if ((int)uVar10 < 1) {
-
             iVar11 = 1 - uVar10;
-
             do {
-
               uVar10 = uVar8 & 1;
-
               uVar8 = uVar8 >> 1;
-
               iVar11 = iVar11 + -1;
-
               uVar7 = uVar7 >> 1 | (unsigned int)(uVar10 == 1) * -0x80000000 | (unsigned int)((uVar7 & 1) != 0);
-
               uVar10 = 0;
-
             } while (iVar11 != 0);
-
           }
-
           uVar12 = uVar7;
-
           if (((uVar7 & 4) != 0) && ((uVar7 & 0xb) != 0)) {
-
             uVar12 = uVar7 + 8;
-
             uVar8 = uVar8 + (uVar12 < uVar7);
-
             if ((int)0x01000000 <= (int)uVar8) {
-
               uVar7 = uVar8 & 1;
-
               uVar8 = uVar8 >> 1;
-
               uVar12 = uVar12 >> 1 | (unsigned int)(uVar7 == 1) * -0x80000000;
-
               uVar10 = uVar10 + 1;
-
             }
-
           }
-
           goto LAB_06035ad6;
-
         }
-
       }
-
 LAB_060359c8:
-
       uVar12 = 0;
-
       uVar10 = (unsigned int)((uVar13 & 0x80000000) != 0) << 0x1f;
-
       goto LAB_06035af4;
-
     }
-
     if ((in_stack_0000000c != 0) || (in_stack_00000010 != 0)) goto code_r0x060359da;
-
     if (((uVar10 == 0) && (in_stack_00000004 == 0)) && (in_stack_00000008 == 0)) {
-
       uVar6 = FUN_060359da();
-
       return uVar6;
-
     }
-
 code_r0x060359d2:
-
     uVar8 = 0;
-
     uVar12 = 0;
-
     uVar10 = 0x000007FF;
-
   }
-
 LAB_06035ad6:
-
   uVar12 = ((uVar12 >> 1 | (unsigned int)((uVar8 & 1) == 1) * -0x80000000) >> 1 |
-
            (unsigned int)((uVar8 >> 1 & 1) == 1) * -0x80000000) >> 1 |
-
            (unsigned int)((uVar8 >> 2 & 1) == 1) * -0x80000000;
-
   uVar10 = uVar8 >> 3 & 0x000FFFFF | (uVar10 & 0x7ff) << 0x14 |
-
            (unsigned int)((uVar13 & 0x80000000) != 0) * -0x80000000;
-
 LAB_06035af4:
-
   *in_stack_00000000 = uVar10;
-
   in_stack_00000000[1] = uVar12;
-
   return in_r0;
-
 }
 
 int FUN_06035b34()
 {
-
   unsigned int in_stack_00000000 = 0;
-
   int in_stack_00000004 = 0;
-
   unsigned int in_stack_00000008 = 0;
-
   int in_stack_0000000c = 0;
 
   if ((in_stack_00000008 & 0x7FF00000) == 0x7FF00000) {
-
     if ((in_stack_00000008 & 0x000FFFFF) != 0) {
-
       return 1;
-
     }
-
     if (in_stack_0000000c != 0) {
-
       return 1;
-
     }
-
   }
-
   if ((in_stack_00000000 & 0x7FF00000) == 0x7FF00000) {
-
     if ((in_stack_00000000 & 0x000FFFFF) != 0) {
-
       return 1;
-
     }
-
     if (in_stack_00000004 != 0) {
-
       return 1;
-
     }
-
   }
-
   if ((in_stack_00000008 & 0x7FF00000) == 0) {
-
     if ((in_stack_00000000 & 0x7FF00000) != 0) {
-
       return 1;
-
     }
-
     if (((in_stack_00000008 & 0x000FFFFF) == 0) && (in_stack_0000000c == 0)) {
-
       if ((in_stack_00000000 & 0x000FFFFF) != 0) {
-
         return 1;
-
       }
-
       if (in_stack_00000004 != 0) {
-
         return 1;
-
       }
-
       return 0;
-
     }
-
   }
-
   if ((in_stack_00000000 == in_stack_00000008) && (in_stack_00000004 == in_stack_0000000c)) {
-
     return 0;
-
   }
-
   return 1;
-
 }
 
 void FUN_06035bc8()
 {
-
   unsigned int in_r0 = 0;
-
   unsigned int uVar1;
-
   int iVar2;
-
   unsigned int uVar3;
-
   unsigned int *in_stack_00000000;
 
   iVar2 = 0x0000041F;
-
   if (in_r0 == 0) {
-
     uVar3 = 0;
-
     uVar1 = 0;
-
   }
-
   else {
-
     do {
-
       uVar1 = in_r0;
-
       iVar2 = iVar2 + -1;
-
       in_r0 = uVar1 << 1;
-
     } while ((uVar1 & 0x80000000) == 0);
-
     uVar3 = uVar1 << 0x15;
-
     uVar1 = (uVar1 << 1) >> 0xc | (iVar2 << 20);
-
   }
-
   *in_stack_00000000 = uVar1;
-
   in_stack_00000000[1] = uVar3;
-
   return;
-
 }
 
 /* cd_strlen -- String length (custom strlen for CD subsystem).
@@ -3904,23 +2185,15 @@ check:
 
 int FUN_06035c2c()
 {
-
   int in_r0 = 0;
-
   int in_r1 = 0;
-
   int *puVar1;
 
   puVar1 = (int *)-256;
-
   *puVar1 = in_r0;
-
   puVar1[2] = 0;
-
   puVar1[1] = in_r1;
-
   return puVar1[4];
-
 }
 
 /* cd_hirq_set_and_send -- Set HIRQ request bit and send CD command with bit 0 set */
@@ -4035,725 +2308,365 @@ void FUN_06035f16(char *src, char *dest)
 
 unsigned int FUN_06035f44()
 {
-
   char cVar1;
-
   int bVar2;
-
   int bVar3;
-
   int bVar4;
-
   unsigned char bVar5;
-
   unsigned int uVar6;
-
   int in_r0 = 0;
-
   unsigned int in_r1 = 0;
-
   unsigned int uVar7;
-
   unsigned int uVar9;
-
   unsigned int uVar11;
-
   unsigned int uVar12;
-
   unsigned int uVar13;
-
   unsigned int uVar14;
-
   unsigned int uVar15;
-
   unsigned int uVar16;
-
   unsigned int uVar17;
-
   unsigned int uVar18;
-
   unsigned int uVar19;
-
   unsigned int uVar20;
-
   unsigned int uVar21;
-
   unsigned int uVar22;
-
   unsigned int uVar23;
-
   unsigned int uVar24;
-
   unsigned int uVar25;
-
   unsigned int uVar26;
-
   unsigned int uVar27;
-
   unsigned int uVar28;
-
   unsigned int uVar29;
-
   unsigned int uVar30;
-
   unsigned int uVar31;
-
   unsigned int uVar32;
-
   unsigned int uVar33;
-
   unsigned int uVar34;
-
   unsigned int uVar35;
-
   unsigned int uVar36;
-
   unsigned int uVar37;
-
   unsigned int uVar38;
-
   unsigned int uVar39;
-
   unsigned int uVar40;
-
   unsigned int uVar8;
-
   unsigned int uVar10;
 
   if (in_r0 != 0) {
-
     uVar7 = (unsigned int)((in_r1 & 0x80000000) != 0);
-
     uVar8 = uVar7 - in_r0;
-
     bVar4 = uVar8 <= uVar7;
-
     uVar12 = in_r1 << 2;
-
     bVar3 = (uVar8 & 0x80000000) == 0;
-
     uVar7 = (uVar8 << 1) | (unsigned int)((in_r1 & 0x40000000) != 0);
-
     uVar8 = (unsigned int)bVar4 * (uVar7 - in_r0) + (unsigned int)!bVar4 * (uVar7 + in_r0);
-
     cVar1 = bVar4 * (uVar7 < uVar8) + !bVar4 * (uVar8 < uVar7);
-
     bVar5 = bVar3 * cVar1 + (!bVar3 && cVar1 == '\0');
-
     uVar7 = (unsigned int)bVar5 << 8;
-
     uVar9 = (uVar8 << 1) | (unsigned int)((uVar12 & 0x80000000) != 0);
-
     bVar3 = (bVar5 & 1) == ((unsigned char)(uVar7 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar7 >> 9) & 1) == ((uVar8 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar9 - in_r0) + (unsigned int)!bVar3 * (uVar9 + in_r0);
-
     cVar1 = bVar3 * (uVar9 < uVar10) + !bVar3 * (uVar10 < uVar9);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar13 = uVar7 & 0xfffffeff | uVar8;
-
     uVar6 = uVar7 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x40000000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar14 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x20000000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar15 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x10000000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar16 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x8000000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar17 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x4000000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar18 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x2000000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar19 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x1000000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar20 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x800000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar21 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x400000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar22 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x200000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar23 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x100000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar24 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x80000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar25 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x40000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar26 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x20000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar27 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x10000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar28 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x8000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar29 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x4000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar30 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x2000) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar31 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x1000) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar32 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x800) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar33 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x400) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar34 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x200) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar35 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x100) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar36 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x80) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar37 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x40) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar38 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x20) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar39 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 0x10) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar9 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar40 = uVar6 | uVar8 & 0xfffffeff | uVar9;
-
     uVar6 = uVar6 | uVar8 & 0xfffffefe;
-
     uVar8 = uVar6 | uVar9;
-
     uVar11 = (uVar10 << 1) | (unsigned int)((uVar12 & 8) != 0);
-
     bVar3 = ((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar8 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar10 = (unsigned int)bVar3 * (uVar11 - in_r0) + (unsigned int)!bVar3 * (uVar11 + in_r0);
-
     cVar1 = bVar3 * (uVar11 < uVar10) + !bVar3 * (uVar10 < uVar11);
-
     uVar8 = (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     uVar11 = uVar6 | uVar9 & 0xfffffeff | uVar8;
-
     uVar6 = uVar6 | uVar9 & 0xfffffefe;
-
     uVar9 = uVar6 | uVar8;
-
     uVar12 = (uVar10 << 1) | (unsigned int)((uVar12 & 4) != 0);
-
     bVar3 = ((unsigned char)(uVar9 >> 8) & 1) == ((unsigned char)(uVar9 >> 9) & 1);
-
     bVar2 = (int)((unsigned char)(uVar9 >> 9) & 1) == ((uVar10 & 0x80000000) != 0);
-
     uVar9 = (unsigned int)bVar3 * (uVar12 - in_r0) + (unsigned int)!bVar3 * (uVar12 + in_r0);
-
     cVar1 = bVar3 * (uVar12 < uVar9) + !bVar3 * (uVar9 < uVar12);
-
     uVar8 = uVar6 | uVar8 & 0xfffffeff |
-
             (unsigned int)(unsigned char)(bVar2 * cVar1 + (!bVar2 && cVar1 == '\0')) << 8;
-
     return (((((((((((((((((((((((((((((((unsigned int)bVar4 << 1 |
-
                                         (unsigned int)((bVar5 & 1) == ((unsigned char)(uVar7 >> 9) & 1))) << 1 |
-
                                        (unsigned int)(((unsigned char)(uVar13 >> 8) & 1) == ((unsigned char)(uVar13 >> 9) & 1)
-
                                              )) << 1 |
-
                                       (unsigned int)(((unsigned char)(uVar14 >> 8) & 1) == ((unsigned char)(uVar14 >> 9) & 1))
-
                                       ) << 1 | (unsigned int)(((unsigned char)(uVar15 >> 8) & 1) ==
-
                                                      ((unsigned char)(uVar15 >> 9) & 1))) << 1 |
-
                                     (unsigned int)(((unsigned char)(uVar16 >> 8) & 1) == ((unsigned char)(uVar16 >> 9) & 1)))
-
                                     << 1 | (unsigned int)(((unsigned char)(uVar17 >> 8) & 1) ==
-
                                                  ((unsigned char)(uVar17 >> 9) & 1))) << 1 |
-
                                   (unsigned int)(((unsigned char)(uVar18 >> 8) & 1) == ((unsigned char)(uVar18 >> 9) & 1))) <<
-
                                   1 | (unsigned int)(((unsigned char)(uVar19 >> 8) & 1) == ((unsigned char)(uVar19 >> 9) & 1))
-
                                  ) << 1 | (unsigned int)(((unsigned char)(uVar20 >> 8) & 1) ==
-
                                                 ((unsigned char)(uVar20 >> 9) & 1))) << 1 |
-
                                (unsigned int)(((unsigned char)(uVar21 >> 8) & 1) == ((unsigned char)(uVar21 >> 9) & 1))) << 1
-
                               | (unsigned int)(((unsigned char)(uVar22 >> 8) & 1) == ((unsigned char)(uVar22 >> 9) & 1))) << 1
-
                              | (unsigned int)(((unsigned char)(uVar23 >> 8) & 1) == ((unsigned char)(uVar23 >> 9) & 1))) << 1
-
                             | (unsigned int)(((unsigned char)(uVar24 >> 8) & 1) == ((unsigned char)(uVar24 >> 9) & 1))) << 1 |
-
                            (unsigned int)(((unsigned char)(uVar25 >> 8) & 1) == ((unsigned char)(uVar25 >> 9) & 1))) << 1 |
-
                           (unsigned int)(((unsigned char)(uVar26 >> 8) & 1) == ((unsigned char)(uVar26 >> 9) & 1))) << 1 |
-
                          (unsigned int)(((unsigned char)(uVar27 >> 8) & 1) == ((unsigned char)(uVar27 >> 9) & 1))) << 1 |
-
                         (unsigned int)(((unsigned char)(uVar28 >> 8) & 1) == ((unsigned char)(uVar28 >> 9) & 1))) << 1 |
-
                        (unsigned int)(((unsigned char)(uVar29 >> 8) & 1) == ((unsigned char)(uVar29 >> 9) & 1))) << 1 |
-
                       (unsigned int)(((unsigned char)(uVar30 >> 8) & 1) == ((unsigned char)(uVar30 >> 9) & 1))) << 1 |
-
                      (unsigned int)(((unsigned char)(uVar31 >> 8) & 1) == ((unsigned char)(uVar31 >> 9) & 1))) << 1 |
-
                     (unsigned int)(((unsigned char)(uVar32 >> 8) & 1) == ((unsigned char)(uVar32 >> 9) & 1))) << 1 |
-
                    (unsigned int)(((unsigned char)(uVar33 >> 8) & 1) == ((unsigned char)(uVar33 >> 9) & 1))) << 1 |
-
                   (unsigned int)(((unsigned char)(uVar34 >> 8) & 1) == ((unsigned char)(uVar34 >> 9) & 1))) << 1 |
-
                  (unsigned int)(((unsigned char)(uVar35 >> 8) & 1) == ((unsigned char)(uVar35 >> 9) & 1))) << 1 |
-
                 (unsigned int)(((unsigned char)(uVar36 >> 8) & 1) == ((unsigned char)(uVar36 >> 9) & 1))) << 1 |
-
                (unsigned int)(((unsigned char)(uVar37 >> 8) & 1) == ((unsigned char)(uVar37 >> 9) & 1))) << 1 |
-
               (unsigned int)(((unsigned char)(uVar38 >> 8) & 1) == ((unsigned char)(uVar38 >> 9) & 1))) << 1 |
-
              (unsigned int)(((unsigned char)(uVar39 >> 8) & 1) == ((unsigned char)(uVar39 >> 9) & 1))) << 1 |
-
             (unsigned int)(((unsigned char)(uVar40 >> 8) & 1) == ((unsigned char)(uVar40 >> 9) & 1))) << 1 |
-
            (unsigned int)(((unsigned char)(uVar11 >> 8) & 1) == ((unsigned char)(uVar11 >> 9) & 1))) << 1 |
-
            (unsigned int)(((unsigned char)(uVar8 >> 8) & 1) == ((unsigned char)(uVar8 >> 9) & 1));
-
   }
-
   *(int *)0x060A246C = 0x0000044E;
-
   return 0;
-
 }

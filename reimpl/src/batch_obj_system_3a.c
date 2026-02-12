@@ -75,6 +75,7 @@ extern int FUN_0603bdac();
 extern void FUN_0603be7c();
 extern void FUN_0603bf22();
 extern int FUN_0603bf5a();
+extern int FUN_0603f0fc();
 extern int PTR_DAT_0603a1a4;
 extern int PTR_DAT_0603aa80;
 extern int PTR_DAT_0603addc;
@@ -371,151 +372,79 @@ void FUN_0603a766(void)
 
 unsigned int FUN_0603a7b0()
 {
-
   short uVar1;
-
   char *puVar2;
-
   char *puVar3;
-
   char *puVar4;
-
   char *puVar5;
-
   unsigned int uVar6;
-
   int iVar7;
-
   unsigned int uVar8;
-
   unsigned char bVar9;
 
   puVar5 = (char *)0x0000FFFF;
-
   puVar4 = (char *)0x060A4CC0;
-
   puVar3 = (char *)0x060A4CB4;
-
   puVar2 = (char *)0x060A4CAE;
-
   uVar6 = (unsigned int)(unsigned char)*(int *)0x060A4CAF;
-
   uVar1 = SUB42(0x0000FFFF,0);
-
   if (uVar6 == 0) {
-
     *(short *)(*(int *)0x060A4CB4 * 6 + *(int *)0x060A4CC0) = uVar1;
-
     iVar7 = *(int *)puVar3;
-
   }
-
   else {
-
     if (uVar6 == 0x10) {
-
       *(short *)(*(int *)0x060A4CB4 * 0x12 + *(int *)0x060A4CC0) = uVar1;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 2) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 4) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 6) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 8) = uVar1;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 10) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 0xc) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 0xe) = 0;
-
       return 0;
-
     }
-
     if (uVar6 == 0x20) {
-
       *(short *)(*(int *)0x060A4CB4 * 0x12 + *(int *)0x060A4CC0 + 2) = uVar1;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 4) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 6) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4) = uVar1;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 10) = uVar1;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 0xc) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 0xe) = 0;
-
       *(short *)(*(int *)puVar3 * 0x12 + *(int *)puVar4 + 8) = uVar1;
-
       return (unsigned int)puVar5 & 0xffff;
-
     }
-
     bVar9 = (unsigned char)DAT_0603a8bc;
-
     if (uVar6 == 0x30) {
-
       *(short *)(*(int *)0x060A4CB4 * 10 + *(int *)0x060A4CC0) = uVar1;
-
       *(unsigned char *)(*(int *)puVar3 * 10 + *(int *)puVar4 + 2) = bVar9;
-
       *(unsigned char *)(*(int *)puVar3 * 10 + *(int *)puVar4 + 3) = bVar9;
-
       *(short *)(*(int *)puVar3 * 10 + *(int *)puVar4 + 4) = uVar1;
-
       *(unsigned char *)(*(int *)puVar3 * 10 + *(int *)puVar4 + 6) = bVar9;
-
       *(unsigned char *)(*(int *)puVar3 * 10 + *(int *)puVar4 + 7) = bVar9;
-
       return (unsigned int)bVar9;
-
     }
-
     if (uVar6 == 0xe1) {
-
       *(unsigned char *)(*(int *)0x060A4CB4 * 3 + *(int *)0x060A4CC0) = bVar9;
-
       *(unsigned char *)(*(int *)puVar3 * 3 + *(int *)puVar4 + 1) = bVar9;
-
       return (unsigned int)bVar9;
-
     }
-
     if (uVar6 != 0xe2) {
-
       if (uVar6 != (int)PTR_DAT_0603aa80) {
-
         return uVar6;
-
       }
-
       for (uVar8 = 0; uVar8 < (unsigned char)*puVar2; uVar8 = uVar8 + 1) {
-
         uVar6 = (unsigned int)bVar9;
-
         *(unsigned char *)(((unsigned char)*puVar2 + 1) * *(int *)puVar3 + *(int *)puVar4 + uVar8 + 1) = bVar9;
-
       }
-
       return uVar6;
-
     }
-
     *(short *)(*(int *)0x060A4CB4 * 6 + *(int *)0x060A4CC0) = uVar1;
-
     iVar7 = *(int *)puVar3;
-
   }
-
   *(short *)(iVar7 * 6 + *(int *)puVar4 + 2) = uVar1;
-
   return (unsigned int)puVar5 & 0xffff;
-
 }
 
 /* cd_sector_write_by_mode -- Write byte to CD sector buffer by transfer mode.
@@ -1323,56 +1252,35 @@ int FUN_0603bb86(param_1)
   return result;
 }
 
-int FUN_0603bc12(param_1)
-    int param_1;
+/* cd_volume_open -- Open CD volume for file access.
+ * Reads volume descriptor via cd_volume_info_read (FUN_0603bb86),
+ * allocates handle (FUN_0603b81e), sets up file pipeline (FUN_0603ba2c).
+ * If CD is ready (status bit at CD_STATE_A+0xC4 clear) or pipeline
+ * is active, flushes and opens file via cd_flush_and_open (FUN_0603f0fc).
+ * Releases handle on completion. Returns file handle or -3 if CD not ready. */
+int FUN_0603bc12(int *param_1)
 {
+  int handle = 0;
+  int pipe_result;
+  int result;
+  int vol_info[3];
 
-  int iVar1;
-
-  int uVar2;
-
-  int unaff_r13 = 0;
-
-  char auStack_18 [4];
-
-  int uStack_14;
-
-  iVar1 = FUN_0603bb86(auStack_18);
-
-  if (iVar1 == 0) {
-
-    iVar1 = 0;
-
+  pipe_result = FUN_0603bb86(vol_info);
+  if (pipe_result == 0) {
+    pipe_result = 0;
+  } else {
+    handle = FUN_0603b81e();
+    pipe_result = FUN_0603ba2c(handle, vol_info, 0);
   }
-
-  else {
-
-    unaff_r13 = FUN_0603b81e();
-
-    iVar1 = FUN_0603ba2c(unaff_r13,auStack_18,0);
-
-  }
-
-  if (((*(unsigned int *)((int)DAT_0603bc56 + CD_STATE_A) & 1) == 0) || (iVar1 != 0)) {
-
-    uVar2 = (*(int(*)())0x0603F0FC)(iVar1,param_1,uStack_14);
-
-    if (iVar1 != 0) {
-
-      FUN_0603bf22(unaff_r13,iVar1);
-
+  if ((*(unsigned int *)((int)DAT_0603bc56 + CD_STATE_A) & 1) == 0 || pipe_result != 0) {
+    result = FUN_0603f0fc(pipe_result, param_1, vol_info[1]);
+    if (pipe_result != 0) {
+      FUN_0603bf22(handle, pipe_result);
     }
-
+  } else {
+    result = -3;
   }
-
-  else {
-
-    uVar2 = 0xfffffffd;
-
-  }
-
-  return uVar2;
-
+  return result;
 }
 
 /* cd_file_data_setup -- Initialize file data structures for a CD handle.

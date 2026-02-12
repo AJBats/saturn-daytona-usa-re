@@ -150,8 +150,6 @@ for cat, label in [('clean', 'CLEAN'), ('easy', 'EASY'), ('moderate', 'MODERATE'
             print(f"  ... and {len(results[cat]) - 30} more")
 
 if results['hard']:
-    print(f"\n--- HARD ({len(results['hard'])}) --- (first 10)")
-    for size, fname, linenum, func, arts in results['hard'][:10]:
+    print(f"\n--- HARD ({len(results['hard'])}) ---")
+    for size, fname, linenum, func, arts in results['hard']:
         print(f"  {fname}:{linenum} {func} ({size} lines) [{arts}]")
-    if len(results['hard']) > 10:
-        print(f"  ... and {len(results['hard']) - 10} more")

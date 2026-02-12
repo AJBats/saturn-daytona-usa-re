@@ -241,10 +241,8 @@ void FUN_060401f8(int param_1, int param_2)
 
     *(int *)(param_1 + 0x20) = param_2;
     sector = (*(int(*)())0x060408B0)(*(int *)(param_1 + 0x18), 0x7FFFFFFF, 0);
-
     if (sector < 0)
         sector = 0;
-
     *(int *)(param_1 + 0x24) = sector - *(int *)(*(int *)(param_1 + 0x18) + 0x10);
 }
 
@@ -842,16 +840,12 @@ int FUN_06040f16(param_1)
 int FUN_06040fb8(void)
 {
     int *base = (int *)0x060A5400;
-
     if (*(int *)(CD_SESSION_BASE + 0x30) == 1)
         return -5;  /* already locked */
-
     *(int *)(CD_SESSION_BASE + 0x30) = 1;
     *(int *)(*base + 0x38) = *(int *)(*base + 0x38) + 1;
-
     if (*(int *)(*base + 0x38) < 0)
         *(int *)(*base + 0x38) = 0;
-
     return *(int *)(*base + 0x38);
 }
 
