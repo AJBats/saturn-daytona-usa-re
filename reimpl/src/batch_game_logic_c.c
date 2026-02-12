@@ -229,179 +229,109 @@ unsigned int FUN_0600e0c0(void)
     return uVar7;
 }
 
+/* car_spawn_init -- Initialize car parameters at spawn.
+ * Reads car type descriptor (12 bytes at 0x06047DE4), sets grip/speed,
+ * determines difficulty multiplier from course+transmission lookup,
+ * positions car at spawn point (0x06078680), copies rotation angles,
+ * and looks up ground height at initial position. */
 void FUN_0600e1d4()
 {
-
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int uVar5;
-
-  int iVar6;
-
-  unsigned int uVar7;
-
-  int *puVar8;
-
-  int iVar9;
-
-  char auStack_1c [8];
-
-  puVar3 = (char *)0x06078680;
-
-  puVar2 = (char *)0x0607EAD8;
-
-  iVar9 = CAR_PTR_CURRENT;
-
-  *(int *)(iVar9 + DAT_0600e2ba) = 0;
-
-  puVar8 = (int *)(0x06047DE4 + *(int *)(iVar9 + 4) * 0xc);
-
-  uVar1 = *(unsigned short *)((int)puVar8 + 6);
-
-  iVar4 = 0x1f0;
-
-  *(unsigned int *)(iVar9 + iVar4) = (unsigned int)uVar1;
-
-  *(unsigned int *)(iVar9 + iVar4 + -8) = (unsigned int)uVar1;
-
-  uVar5 = (*(int(*)())0x06035C2C)();
-
-  *(int *)(DAT_0600e2be + iVar9) = uVar5;
-
-  *(int *)(iVar9 + DAT_0600e2c0) =
-
-       *(int *)(0x06085FD0 + (unsigned int)*(unsigned short *)(puVar8 + 1) << 2);
-
-  *(unsigned int *)(iVar9 + DAT_0600e2c2) = (unsigned int)*(unsigned short *)(puVar8 + 2);
-
-  uVar7 = (unsigned int)((unsigned char *)0x06047DD0)
-
-                      [*(int *)0x0605AD04 + (int)(char)((char)*(int *)puVar2 * '\x05')]
-
+  unsigned short grip_value;
+  char *transmission_ptr;  /* 0x0607EAD8 */
+  char *spawn_point;       /* 0x06078680 */
+  int field_offset;
+  int computed_val;
+  int temp;
+  unsigned int difficulty_idx;
+  int *car_type_desc;
+  int car_ptr;
+  char height_buf[8];
+  spawn_point = (char *)0x06078680;
+  transmission_ptr = (char *)0x0607EAD8;
+  car_ptr = CAR_PTR_CURRENT;
+  *(int *)(car_ptr + DAT_0600e2ba) = 0;
+  /* Read car type descriptor (12 bytes per type, indexed by car+4) */
+  car_type_desc = (int *)(0x06047DE4 + *(int *)(car_ptr + 4) * 0xc);
+  grip_value = *(unsigned short *)((int)car_type_desc + 6);
+  field_offset = 0x1f0;
+  *(unsigned int *)(car_ptr + field_offset) = (unsigned int)grip_value;
+  *(unsigned int *)(car_ptr + field_offset + -8) = (unsigned int)grip_value;
+  /* Compute initial speed parameter */
+  computed_val = (*(int(*)())0x06035C2C)();
+  *(int *)(DAT_0600e2be + car_ptr) = computed_val;
+  *(int *)(car_ptr + DAT_0600e2c0) =
+       *(int *)(0x06085FD0 + (unsigned int)*(unsigned short *)(car_type_desc + 1) << 2);
+  *(unsigned int *)(car_ptr + DAT_0600e2c2) = (unsigned int)*(unsigned short *)(car_type_desc + 2);
+  /* Determine difficulty/speed multiplier from course + transmission */
+  difficulty_idx = (unsigned int)((unsigned char *)0x06047DD0)
+                      [*(int *)0x0605AD04 + (int)(char)((char)*(int *)transmission_ptr * '\x05')]
           + COURSE_SELECT;
-
   if (*(int *)0x06086030 != '\0') {
-
-    uVar7 = (unsigned int)(unsigned char)((int *)0x06047DDF)[*(int *)puVar2];
-
+    difficulty_idx = (unsigned int)(unsigned char)((int *)0x06047DDF)[*(int *)transmission_ptr];
   }
-
-  uVar5 = (*(int(*)())0x06027552)(*(int *)(0x06047D8C + (uVar7 << 2)),*puVar8);
-
-  *(int *)(DAT_0600e2c4 + iVar9) = uVar5;
-
-  uVar5 = (*(int(*)())0x06027552)(*(int *)(iVar9 + DAT_0600e2c4),0x372f);
-
-  *(int *)(DAT_0600e2c8 + iVar9) = uVar5;
-
-  if (*(int *)(iVar9 + DAT_0600e2be) <
-
+  /* Apply difficulty multiplier to base speed */
+  computed_val = (*(int(*)())0x06027552)(*(int *)(0x06047D8C + (difficulty_idx << 2)),*car_type_desc);
+  *(int *)(DAT_0600e2c4 + car_ptr) = computed_val;
+  computed_val = (*(int(*)())0x06027552)(*(int *)(car_ptr + DAT_0600e2c4),0x372f);
+  *(int *)(DAT_0600e2c8 + car_ptr) = computed_val;
+  /* Set initial race position flags */
+  if (*(int *)(car_ptr + DAT_0600e2be) <
       (int)(*(int *)0x0607EA9C + (unsigned int)(*(int *)0x0607EA9C < 0)) >> 1) {
-
-    *(int *)(iVar9 + DAT_0600e2ca) = 0;
-
+    *(int *)(car_ptr + DAT_0600e2ca) = 0;
   }
-
   else {
-
-    *(int *)(iVar9 + DAT_0600e3e8) = 0xffffffff;
-
+    *(int *)(car_ptr + DAT_0600e3e8) = 0xffffffff;
   }
-
-  *(int *)(iVar9 + DAT_0600e3ea + -8) = *(int *)(iVar9 + DAT_0600e3ea);
-
-  uVar7 = *(unsigned int *)(iVar9 + 4) & 1;
-
-  if (*(int *)puVar2 == 0) {
-
-    if (uVar7 == 0) {
-
-      *(int *)(iVar9 + DAT_0600e3ec + 0x7c) = 0x180;
-
-      *(char **)(iVar9 + 0xc) = 0x00042000;
-
-      iVar6 = (int)DAT_0600e3f4;
-
-      iVar4 = (int)DAT_0600e3f2;
-
-      *(int *)(iVar9 + iVar4) = iVar6;
-
-      *(int *)(iVar9 + iVar4 + -4) = iVar6;
-
+  *(int *)(car_ptr + DAT_0600e3ea + -8) = *(int *)(car_ptr + DAT_0600e3ea);
+  /* Set model/palette based on car slot parity and transmission */
+  difficulty_idx = *(unsigned int *)(car_ptr + 4) & 1;
+  if (*(int *)transmission_ptr == 0) {
+    if (difficulty_idx == 0) {
+      *(int *)(car_ptr + DAT_0600e3ec + 0x7c) = 0x180;
+      *(char **)(car_ptr + 0xc) = 0x00042000;     /* model data pointer */
+      temp = (int)DAT_0600e3f4;
+      field_offset = (int)DAT_0600e3f2;
+      *(int *)(car_ptr + field_offset) = temp;
+      *(int *)(car_ptr + field_offset + -4) = temp;
     }
-
     else {
-
-      *(int *)(iVar9 + DAT_0600e3f0) = 0x580;
-
-      *(char **)(iVar9 + 0xc) = 0x00042E38;
-
+      *(int *)(car_ptr + DAT_0600e3f0) = 0x580;
+      *(char **)(car_ptr + 0xc) = 0x00042E38;
     }
-
   }
-
   else {
-
-    if (uVar7 == 0) {
-
-      *(int *)(iVar9 + DAT_0600e3f0) = 0x580;
-
+    if (difficulty_idx == 0) {
+      *(int *)(car_ptr + DAT_0600e3f0) = 0x580;
     }
-
     else {
-
-      *(int *)(iVar9 + DAT_0600e3ec + 0x7c) = 0x180;
-
+      *(int *)(car_ptr + DAT_0600e3ec + 0x7c) = 0x180;
     }
-
-    iVar4 = (int)DAT_0600e3f2;
-
-    *(int *)(iVar9 + iVar4) = 0;
-
-    *(int *)(iVar9 + iVar4 + -4) = 0;
-
+    field_offset = (int)DAT_0600e3f2;
+    *(int *)(car_ptr + field_offset) = 0;
+    *(int *)(car_ptr + field_offset + -4) = 0;
   }
-
-  *(int *)(iVar9 + DAT_0600e3f0 + -4) = *(int *)(iVar9 + DAT_0600e3f0);
-
-  (*(int(*)())0x0600CA96)(puVar3);
-
-  *(int *)(iVar9 + 0x10) = *(int *)puVar3;
-
-  *(int *)(iVar9 + 0x18) = *(int *)(puVar3 + 8);
-
-  if ((*(int *)(iVar9 + 4) == 0) && (*(int *)puVar2 == 2)) {
-
-    *(short *)(puVar3 + 0xe) = DAT_0600e3f6;
-
+  *(int *)(car_ptr + DAT_0600e3f0 + -4) = *(int *)(car_ptr + DAT_0600e3f0);
+  /* Position car at spawn point */
+  (*(int(*)())0x0600CA96)(spawn_point);
+  *(int *)(car_ptr + 0x10) = *(int *)spawn_point;           /* X */
+  *(int *)(car_ptr + 0x18) = *(int *)(spawn_point + 8);     /* Z */
+  /* Override heading for car 0 on course 2 */
+  if ((*(int *)(car_ptr + 4) == 0) && (*(int *)transmission_ptr == 2)) {
+    *(short *)(spawn_point + 0xe) = DAT_0600e3f6;
   }
-
-  uVar5 = (*(int(*)())0x06006838)(*(int *)(iVar9 + 0x10),*(int *)(iVar9 + 0x18));
-
-  (*(int(*)())0x06027EDE)(uVar5,iVar9 + 0x10,auStack_1c);
-
-  *(int *)(iVar9 + 0x1c) = (int)*(short *)(puVar3 + 0xc);
-
-  *(int *)(iVar9 + 0x20) = (int)*(short *)(puVar3 + 0xe);
-
-  *(int *)(iVar9 + 0x24) = (int)*(short *)(puVar3 + 0x10);
-
-  *(int *)(iVar9 + 0x30) = *(int *)(iVar9 + 0x20);
-
-  *(int *)(iVar9 + 0x34) = *(int *)(iVar9 + 0x20);
-
-  *(int *)(iVar9 + 0x28) = *(int *)(iVar9 + 0x20);
-
-  *(int *)(iVar9 + PTR_DAT_0600e3f8) = *(int *)(iVar9 + 0x20);
-
+  /* Look up ground height at spawn position */
+  computed_val = (*(int(*)())0x06006838)(*(int *)(car_ptr + 0x10),*(int *)(car_ptr + 0x18));
+  (*(int(*)())0x06027EDE)(computed_val,car_ptr + 0x10,height_buf);
+  /* Copy rotation from spawn point angles */
+  *(int *)(car_ptr + 0x1c) = (int)*(short *)(spawn_point + 0xc);    /* roll */
+  *(int *)(car_ptr + 0x20) = (int)*(short *)(spawn_point + 0xe);    /* heading */
+  *(int *)(car_ptr + 0x24) = (int)*(short *)(spawn_point + 0x10);   /* pitch */
+  /* Copy heading to multiple rotation state fields */
+  *(int *)(car_ptr + 0x30) = *(int *)(car_ptr + 0x20);
+  *(int *)(car_ptr + 0x34) = *(int *)(car_ptr + 0x20);
+  *(int *)(car_ptr + 0x28) = *(int *)(car_ptr + 0x20);
+  *(int *)(car_ptr + PTR_DAT_0600e3f8) = *(int *)(car_ptr + 0x20);
   return;
-
 }
 
 /* replay_physics_simple -- Simple replay physics: run all subsystems then physics.

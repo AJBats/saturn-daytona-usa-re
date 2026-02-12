@@ -1224,189 +1224,114 @@ char * FUN_06005dd4(param_1)
   return buf;
 }
 
+/* car_ground_contact_compute -- Compute car ground contact and tilt angles.
+ * Transforms 8 reference points (4 wheels + 4 axles) through car rotation
+ * matrix, translates to world space, looks up terrain height at each,
+ * then computes roll (+0x1c) and pitch (+0x24) from height differences. */
 void FUN_06005ecc()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int uVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  char *puVar9;
-
-  int iVar10;
-
-  char auStack_38 [4];
-
-  int iStack_34;
-
-  int iStack_30;
-
-  int iStack_2c;
-
-  int iStack_28;
-
-  int iStack_24;
-
-  puVar4 = (char *)0x06063E60;
-
-  puVar3 = (char *)0x06063E74;
-
-  puVar2 = (int *)0x06063E4C;
-
-  puVar1 = (char *)0x06063E88;
-
-  iVar10 = CAR_PTR_TARGET;
-
-  iVar8 = *(int *)(iVar10 + 0x10);
-
-  iVar6 = *(int *)(iVar10 + 0x14);
-
-  iVar7 = *(int *)(iVar10 + 0x18);
-
-  (*(int(*)())0x06026DBC)();
-
-  (*(int(*)())0x06026E0C)();
-
-  (*(int(*)())0x06026EDE)(*(int *)(iVar10 + 0x20) + *(int *)0x06063F10);
-
-  (*(int(*)())0x06026FFC)(0x0604464C,puVar2);
-
-  (*(int(*)())0x06026FFC)(0x06044640,puVar4);
-
-  (*(int(*)())0x06026FFC)(0x06044658,puVar1);
-
-  (*(int(*)())0x06026FFC)(0x06044664,puVar3);
-
-  (*(int(*)())0x06026FFC)(0x06044688,0x06063E9C);
-
-  (*(int(*)())0x06026FFC)(0x0604467C,0x06063EB0);
-
-  (*(int(*)())0x06026FFC)(0x06044694,0x06063ED8);
-
-  (*(int(*)())0x06026FFC)(0x060446A0,0x06063EC4);
-
-  *(int *)puVar2 = *(int *)puVar2 + iVar8;
-
-  *(int *)(puVar2 + 4) = *(int *)(puVar2 + 4) + iVar6;
-
-  *(int *)(puVar2 + 8) = *(int *)(puVar2 + 8) + iVar7;
-
-  *(int *)puVar4 = *(int *)puVar4 + iVar8;
-
-  *(int *)(puVar4 + 4) = *(int *)(puVar4 + 4) + iVar6;
-
-  *(int *)(puVar4 + 8) = *(int *)(puVar4 + 8) + iVar7;
-
-  *(int *)puVar1 = *(int *)puVar1 + iVar8;
-
-  *(int *)(puVar1 + 4) = *(int *)(puVar1 + 4) + iVar6;
-
-  *(int *)(puVar1 + 8) = *(int *)(puVar1 + 8) + iVar7;
-
-  *(int *)puVar3 = *(int *)puVar3 + iVar8;
-
-  *(int *)(puVar3 + 4) = *(int *)(puVar3 + 4) + iVar6;
-
-  *(int *)(puVar3 + 8) = *(int *)(puVar3 + 8) + iVar7;
-
-  puVar9 = (char *)0x06063E9C;
-
-  *(int *)0x06063E9C = *(int *)0x06063E9C + iVar8;
-
-  *(int *)(puVar9 + 8) = *(int *)(puVar9 + 8) + iVar7;
-
-  puVar9 = (char *)0x06063EB0;
-
-  *(int *)0x06063EB0 = *(int *)0x06063EB0 + iVar8;
-
-  *(int *)(puVar9 + 8) = *(int *)(puVar9 + 8) + iVar7;
-
-  puVar9 = (char *)0x06063ED8;
-
-  *(int *)0x06063ED8 = *(int *)0x06063ED8 + iVar8;
-
-  *(int *)(puVar9 + 8) = *(int *)(puVar9 + 8) + iVar7;
-
-  puVar9 = (char *)0x06063EC4;
-
-  *(int *)0x06063EC4 = *(int *)0x06063EC4 + iVar8;
-
-  *(int *)(puVar9 + 8) = *(int *)(puVar9 + 8) + iVar7;
-
-  uVar5 = (*(int(*)())0x06006838)(*(int *)puVar2,*(int *)(puVar2 + 8));
-
-  (*(int(*)())0x06027EDE)(uVar5,puVar2,puVar2 + 0xe);
-
-  uVar5 = (*(int(*)())0x06006838)(*(int *)puVar4,*(int *)(puVar4 + 8));
-
-  (*(int(*)())0x06027EDE)(uVar5,puVar4,puVar4 + 0xe);
-
-  uVar5 = (*(int(*)())0x06006838)(*(int *)puVar1,*(int *)(puVar1 + 8));
-
-  (*(int(*)())0x06027EDE)(uVar5,puVar1,puVar1 + 0xe);
-
-  uVar5 = (*(int(*)())0x06006838)(*(int *)puVar3,*(int *)(puVar3 + 8));
-
-  (*(int(*)())0x06027EDE)(uVar5,puVar3,puVar3 + 0xe);
-
-  iVar6 = *(int *)(puVar4 + 4) + *(int *)(puVar2 + 4) + *(int *)(puVar1 + 4) + *(int *)(puVar3 + 4)
-
+  char *wheel_fl;   /* 0x06063E60 — front-left contact point */
+  char *wheel_rl;   /* 0x06063E74 — rear-left */
+  char *wheel_fr;   /* 0x06063E4C — front-right */
+  char *wheel_rr;   /* 0x06063E88 — rear-right */
+  int height_result;
+  int avg_y;
+  int front_avg;
+  int rear_avg;
+  int left_avg;
+  int right_avg;
+  char *axle_ptr;
+  int car_ptr;
+  char normal_buf[4];
+  int center_y_avg;
+  int center_y_right;
+  int center_x;
+  int center_y;
+  int center_z;
+  char *roll_divisor;
+  wheel_fl = (char *)0x06063E60;
+  wheel_rl = (char *)0x06063E74;
+  wheel_fr = (int *)0x06063E4C;
+  wheel_rr = (char *)0x06063E88;
+  car_ptr = CAR_PTR_TARGET;
+  front_avg = *(int *)(car_ptr + 0x10);     /* car X */
+  avg_y = *(int *)(car_ptr + 0x14);         /* car Y */
+  rear_avg = *(int *)(car_ptr + 0x18);      /* car Z */
+  /* Build rotation matrix from car heading */
+  (*(int(*)())0x06026DBC)();                /* reset matrix */
+  (*(int(*)())0x06026E0C)();                /* push matrix */
+  (*(int(*)())0x06026EDE)(*(int *)(car_ptr + 0x20) + *(int *)0x06063F10);  /* rotate Y */
+  /* Transform 8 reference points from local to world space */
+  (*(int(*)())0x06026FFC)(0x0604464C,wheel_fr);   /* front-right wheel */
+  (*(int(*)())0x06026FFC)(0x06044640,wheel_fl);    /* front-left wheel */
+  (*(int(*)())0x06026FFC)(0x06044658,wheel_rr);    /* rear-right wheel */
+  (*(int(*)())0x06026FFC)(0x06044664,wheel_rl);    /* rear-left wheel */
+  (*(int(*)())0x06026FFC)(0x06044688,0x06063E9C);  /* axle point A */
+  (*(int(*)())0x06026FFC)(0x0604467C,0x06063EB0);  /* axle point B */
+  (*(int(*)())0x06026FFC)(0x06044694,0x06063ED8);  /* axle point C */
+  (*(int(*)())0x06026FFC)(0x060446A0,0x06063EC4);  /* axle point D */
+  /* Translate all 4 wheel points to world coordinates */
+  *(int *)wheel_fr = *(int *)wheel_fr + front_avg;
+  *(int *)(wheel_fr + 4) = *(int *)(wheel_fr + 4) + avg_y;
+  *(int *)(wheel_fr + 8) = *(int *)(wheel_fr + 8) + rear_avg;
+  *(int *)wheel_fl = *(int *)wheel_fl + front_avg;
+  *(int *)(wheel_fl + 4) = *(int *)(wheel_fl + 4) + avg_y;
+  *(int *)(wheel_fl + 8) = *(int *)(wheel_fl + 8) + rear_avg;
+  *(int *)wheel_rr = *(int *)wheel_rr + front_avg;
+  *(int *)(wheel_rr + 4) = *(int *)(wheel_rr + 4) + avg_y;
+  *(int *)(wheel_rr + 8) = *(int *)(wheel_rr + 8) + rear_avg;
+  *(int *)wheel_rl = *(int *)wheel_rl + front_avg;
+  *(int *)(wheel_rl + 4) = *(int *)(wheel_rl + 4) + avg_y;
+  *(int *)(wheel_rl + 8) = *(int *)(wheel_rl + 8) + rear_avg;
+  /* Translate axle points (X and Z only) */
+  axle_ptr = (char *)0x06063E9C;
+  *(int *)0x06063E9C = *(int *)0x06063E9C + front_avg;
+  *(int *)(axle_ptr + 8) = *(int *)(axle_ptr + 8) + rear_avg;
+  axle_ptr = (char *)0x06063EB0;
+  *(int *)0x06063EB0 = *(int *)0x06063EB0 + front_avg;
+  *(int *)(axle_ptr + 8) = *(int *)(axle_ptr + 8) + rear_avg;
+  axle_ptr = (char *)0x06063ED8;
+  *(int *)0x06063ED8 = *(int *)0x06063ED8 + front_avg;
+  *(int *)(axle_ptr + 8) = *(int *)(axle_ptr + 8) + rear_avg;
+  axle_ptr = (char *)0x06063EC4;
+  *(int *)0x06063EC4 = *(int *)0x06063EC4 + front_avg;
+  *(int *)(axle_ptr + 8) = *(int *)(axle_ptr + 8) + rear_avg;
+  /* Look up terrain height at each wheel contact point */
+  height_result = (*(int(*)())0x06006838)(*(int *)wheel_fr,*(int *)(wheel_fr + 8));
+  (*(int(*)())0x06027EDE)(height_result,wheel_fr,wheel_fr + 0xe);
+  height_result = (*(int(*)())0x06006838)(*(int *)wheel_fl,*(int *)(wheel_fl + 8));
+  (*(int(*)())0x06027EDE)(height_result,wheel_fl,wheel_fl + 0xe);
+  height_result = (*(int(*)())0x06006838)(*(int *)wheel_rr,*(int *)(wheel_rr + 8));
+  (*(int(*)())0x06027EDE)(height_result,wheel_rr,wheel_rr + 0xe);
+  height_result = (*(int(*)())0x06006838)(*(int *)wheel_rl,*(int *)(wheel_rl + 8));
+  (*(int(*)())0x06027EDE)(height_result,wheel_rl,wheel_rl + 0xe);
+  /* Average Y height from 4 wheels */
+  avg_y = *(int *)(wheel_fl + 4) + *(int *)(wheel_fr + 4) + *(int *)(wheel_rr + 4) + *(int *)(wheel_rl + 4)
           >> 2;
-
-  *(int *)(iVar10 + 0x14) = iVar6;
-
-  (*(int(*)())0x06026FFC)(0x060446AC,&iStack_2c);
-
-  iStack_2c = iStack_2c + iVar8;
-
-  iStack_28 = iStack_28 + iVar6;
-
-  iStack_24 = iStack_24 + iVar7;
-
-  uVar5 = (*(int(*)())0x06006838)(iStack_2c,iStack_24);
-
-  (*(int(*)())0x06027EDE)(uVar5,&iStack_2c,auStack_38);
-
-  if ((iVar6 == iStack_28) ||
-
-     ((iVar6 = iStack_28, puVar9 = 0x000D6666, CAR_COUNT == 1 &&
-
-      ((int)PTR_DAT_06006118 <= *(int *)(iVar10 + DAT_06006116))))) {
-
-    iVar6 = (*(int(*)())0x06027552)(0x00008000,*(int *)(puVar2 + 4) + *(int *)(puVar4 + 4));
-
-    puVar9 = (char *)0x0002CCCC;
-
+  *(int *)(car_ptr + 0x14) = avg_y;          /* update car Y */
+  /* Transform center reference point for tilt comparison */
+  (*(int(*)())0x06026FFC)(0x060446AC,&center_x);
+  center_x = center_x + front_avg;
+  center_y = center_y + avg_y;
+  center_z = center_z + rear_avg;
+  height_result = (*(int(*)())0x06006838)(center_x,center_z);
+  (*(int(*)())0x06027EDE)(height_result,&center_x,normal_buf);
+  /* Determine roll angle from left-right height difference */
+  if ((avg_y == center_y) ||
+     ((avg_y = center_y, roll_divisor = 0x000D6666, CAR_COUNT == 1 &&
+      ((int)PTR_DAT_06006118 <= *(int *)(car_ptr + DAT_06006116))))) {
+    avg_y = (*(int(*)())0x06027552)(0x00008000,*(int *)(wheel_fr + 4) + *(int *)(wheel_fl + 4));
+    roll_divisor = (char *)0x0002CCCC;
   }
-
-  iStack_34 = (*(int(*)())0x06027552)(0x00008000,*(int *)(puVar3 + 4) + *(int *)(puVar1 + 4));
-
-  iVar7 = (*(int(*)())0x06027552)(0x00008000,*(int *)(puVar3 + 4) + *(int *)(puVar2 + 4));
-
-  iStack_30 = (*(int(*)())0x06027552)(0x00008000,*(int *)(puVar1 + 4) + *(int *)(puVar4 + 4));
-
-  uVar5 = (*(int(*)())0x0602744C)(iVar6 - iStack_34,puVar9);
-
-  *(int *)(iVar10 + 0x1c) = uVar5;
-
-  uVar5 = (*(int(*)())0x0602744C)(iVar7 - iStack_30,0x00011998);
-
-  *(int *)(iVar10 + 0x24) = uVar5;
-
-  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;
-
+  center_y_avg = (*(int(*)())0x06027552)(0x00008000,*(int *)(wheel_rl + 4) + *(int *)(wheel_rr + 4));
+  front_avg = (*(int(*)())0x06027552)(0x00008000,*(int *)(wheel_rl + 4) + *(int *)(wheel_fr + 4));
+  center_y_right = (*(int(*)())0x06027552)(0x00008000,*(int *)(wheel_rr + 4) + *(int *)(wheel_fl + 4));
+  /* Compute roll angle (left-right height delta) */
+  height_result = (*(int(*)())0x0602744C)(avg_y - center_y_avg,roll_divisor);
+  *(int *)(car_ptr + 0x1c) = height_result;
+  /* Compute pitch angle (front-rear height delta) */
+  height_result = (*(int(*)())0x0602744C)(front_avg - center_y_right,0x00011998);
+  *(int *)(car_ptr + 0x24) = height_result;
+  OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30;   /* pop matrix stack */
   return;
-
 }

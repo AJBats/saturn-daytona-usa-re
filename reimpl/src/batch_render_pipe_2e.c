@@ -1113,195 +1113,116 @@ void FUN_0602f7bc()
 
 }
 
+/* car_sound_effects_update -- Update car sound effects based on game state.
+ * Checks checkpoint position against music trigger zones per course.
+ * Computes engine volume from RPM (clamped 1-127), sends to SCSP channel 1.
+ * Triggers collision/surface sounds on specific car states.
+ * Computes tire screech volume from lateral velocity (>>10, max 7).
+ * SCSP command function at 0x0601D5F4, sound IDs use 0xAExxxxFF format. */
 void FUN_0602f7ea()
 {
-
-  char cVar1;
-
-  short sVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  short *psVar5;
-
-  int iVar6;
-
-  int uVar7;
-
-  unsigned int uVar8;
-
-  unsigned int *puVar9;
-
-  puVar3 = (char *)0x0601D5F4;
-
-  puVar9 = *(unsigned int **)0x0607E944;
-
-  iVar6 = (int)*(short *)(0x0602FD3C + *(int *)(0x0607EAD8 << 2));
-
-  if (iVar6 != 0) {
-
-    psVar5 = (short *)(0x0602FD48 +
-
+  char cooldown_val;
+  short surface_type;
+  char *scsp_cmd;       /* 0x0601D5F4 — SCSP command sender */
+  char *cooldown_ptr;
+  short *trigger_range;
+  int trigger_count;
+  int sound_id;
+  unsigned int screech_level;
+  unsigned int *player_car;
+  scsp_cmd = (char *)0x0601D5F4;
+  player_car = *(unsigned int **)0x0607E944;
+  /* Check checkpoint-based music triggers for current course */
+  trigger_count = (int)*(short *)(0x0602FD3C + *(int *)(0x0607EAD8 << 2));
+  if (trigger_count != 0) {
+    trigger_range = (short *)(0x0602FD48 +
                       *(short *)((int)(0x0602FD3C + *(int *)(0x0607EAD8 << 2)) + 2));
-
     do {
-
-      if (((int)*psVar5 <= *(int *)((int)DAT_0602f842 + (int)puVar9)) &&
-
-         (*(int *)((int)DAT_0602f842 + (int)puVar9) <= (int)psVar5[1])) {
-
-        if (0x100000 < (int)puVar9[5]) {
-
-          if (((int)DAT_0602f844 & *puVar9) == 0) {
-
-            *puVar9 = *puVar9 | (int)DAT_0602f844;
-
-            (*(int(*)())puVar3)(4,0xAE0601FF);
-
+      /* Check if car checkpoint is within trigger range */
+      if (((int)*trigger_range <= *(int *)((int)DAT_0602f842 + (int)player_car)) &&
+         (*(int *)((int)DAT_0602f842 + (int)player_car) <= (int)trigger_range[1])) {
+        /* In range and speed > 0x100000: trigger zone music */
+        if (0x100000 < (int)player_car[5]) {
+          if (((int)DAT_0602f844 & *player_car) == 0) {
+            *player_car = *player_car | (int)DAT_0602f844;
+            (*(int(*)())scsp_cmd)(4,0xAE0601FF);  /* zone music ON */
           }
-
         }
-
         goto LAB_0602f87c;
-
       }
-
-      iVar6 = iVar6 + -1;
-
-      psVar5 = psVar5 + 2;
-
-    } while (iVar6 != 0);
-
-    if (((int)DAT_0602f890 & *puVar9) != 0) {
-
-      *puVar9 = *puVar9 & ~(int)DAT_0602f890;
-
-      (*(int(*)())puVar3)(4,0xAE0600FF);
-
+      trigger_count = trigger_count + -1;
+      trigger_range = trigger_range + 2;
+    } while (trigger_count != 0);
+    /* Left all trigger zones: stop zone music */
+    if (((int)DAT_0602f890 & *player_car) != 0) {
+      *player_car = *player_car & ~(int)DAT_0602f890;
+      (*(int(*)())scsp_cmd)(4,0xAE0600FF);         /* zone music OFF */
     }
-
   }
-
 LAB_0602f87c:
-
-  iVar6 = FUN_0602eccc();
-
-  if (iVar6 < 2) {
-
-    iVar6 = 1;
-
+  /* Engine volume from RPM (channel 1) */
+  trigger_count = FUN_0602eccc();
+  if (trigger_count < 2) {
+    trigger_count = 1;                              /* minimum volume */
   }
-
-  else if (0x7e < iVar6) {
-
-    iVar6 = 0x7f;
-
+  else if (0x7e < trigger_count) {
+    trigger_count = 0x7f;                           /* maximum volume */
   }
-
-  (*(int(*)())puVar3)(1,iVar6);
-
-  if ((*(int *)((int)DAT_0602f8f0 + (int)puVar9) == 0) &&
-
-     (sVar2 = *(short *)((int)DAT_0602f8f2 + (int)puVar9), sVar2 != 0)) {
-
-    if (sVar2 == 10) {
-
-      uVar7 = 0xAE111EFF;
-
+  (*(int(*)())scsp_cmd)(1,trigger_count);
+  /* Collision/surface sounds (channel 0) */
+  if ((*(int *)((int)DAT_0602f8f0 + (int)player_car) == 0) &&
+     (surface_type = *(short *)((int)DAT_0602f8f2 + (int)player_car), surface_type != 0)) {
+    if (surface_type == 10) {
+      sound_id = 0xAE111EFF;                        /* gravel surface */
       if (*(int *)0x0605D241 != '\0') {
-
-        uVar7 = 0xAE1142FF;
-
+        sound_id = 0xAE1142FF;                      /* alternate gravel */
       }
-
     }
-
     else {
-
-      if (sVar2 != 3) goto LAB_0602f910;
-
-      uVar7 = 0xAE111CFF;
-
+      if (surface_type != 3) goto LAB_0602f910;
+      sound_id = 0xAE111CFF;                        /* grass surface */
       if (*(int *)0x0605D241 != '\0') {
-
-        uVar7 = 0xAE1140FF;
-
+        sound_id = 0xAE1140FF;                      /* alternate grass */
       }
-
     }
-
-    (*(int(*)())puVar3)(0,uVar7);
-
+    (*(int(*)())scsp_cmd)(0,sound_id);
   }
-
 LAB_0602f910:
-
-  if (*(int *)(0xb8 + (int)puVar9) == 0x2c) {
-
-    uVar7 = 0xAE111BFF;
-
+  /* Braking sound when car state == 0x2C */
+  if (*(int *)(0xb8 + (int)player_car) == 0x2c) {
+    sound_id = 0xAE111BFF;                          /* brake screech */
     if (*(int *)0x0605D241 != '\0') {
-
-      uVar7 = 0xAE113FFF;
-
+      sound_id = 0xAE113FFF;                        /* alternate brake */
     }
-
-    (*(int(*)())puVar3)(0,uVar7);
-
+    (*(int(*)())scsp_cmd)(0,sound_id);
   }
-
-  puVar4 = (char *)0x0602FD9F;
-
-  cVar1 = *(int *)0x0602FD9F;
-
-  if (cVar1 == '\0') {
-
+  /* Crash sound with cooldown timer (channel 3) */
+  cooldown_ptr = (char *)0x0602FD9F;
+  cooldown_val = *(int *)0x0602FD9F;
+  if (cooldown_val == '\0') {
 LAB_0602f93e:
-
-    if ((puVar9[3] == 0) || (*(int *)((int)puVar9 + (int)DAT_0602f980) < 0xc9)) goto LAB_0602f95a;
-
-    *puVar4 = 10;
-
-    uVar7 = 1;
-
+    if ((player_car[3] == 0) || (*(int *)((int)player_car + (int)DAT_0602f980) < 0xc9)) goto LAB_0602f95a;
+    *cooldown_ptr = 10;                             /* reset cooldown to 10 frames */
+    sound_id = 1;
   }
-
   else {
-
-    uVar7 = 0;
-
-    *(int *)0x0602FD9F = cVar1 + -1;
-
-    if (cVar1 != '\x01') goto LAB_0602f93e;
-
+    sound_id = 0;
+    *(int *)0x0602FD9F = cooldown_val + -1;         /* decrement cooldown */
+    if (cooldown_val != '\x01') goto LAB_0602f93e;
   }
-
-  (*(int(*)())puVar3)(3,uVar7);
-
+  (*(int(*)())scsp_cmd)(3,sound_id);
 LAB_0602f95a:
-
-  uVar8 = *(unsigned int *)((int)puVar9 + (int)DAT_0602f982);
-
-  if ((int)uVar8 < 0) {
-
-    uVar8 = -uVar8;
-
+  /* Tire screech volume from lateral velocity (channel 2) */
+  screech_level = *(unsigned int *)((int)player_car + (int)DAT_0602f982);
+  if ((int)screech_level < 0) {
+    screech_level = -screech_level;
   }
-
-  uVar8 = uVar8 >> 10;
-
-  if (7 < uVar8) {
-
-    uVar8 = 7;
-
+  screech_level = screech_level >> 10;
+  if (7 < screech_level) {
+    screech_level = 7;                              /* max screech level */
   }
-
-  (*(int(*)())puVar3)(2,uVar8);
-
+  (*(int(*)())scsp_cmd)(2,screech_level);
   return;
-
 }
 
 unsigned int FUN_0602f99c()
