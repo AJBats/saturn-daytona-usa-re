@@ -205,19 +205,20 @@ extern short DAT_060123e0;
 extern short DAT_060123e2;
 extern short DAT_06012586;
 
-/* peripheral_config_alt -- Configure alternate SCU interrupt priorities.
- * Calls SCU interrupt config at 0x06038BD4 with (mask, priority) pairs.
- * Different priority mapping from FUN_06019324 (subsystem 18). */
-void FUN_06012050(void)
+/* scu_interrupt_priorities_alt -- Configure alternate SCU interrupt priority map.
+ * Used during attract/demo mode (different from race-mode priorities).
+ * HBlank-IN highest (7), VBlank-IN lowest (1). */
+void scu_interrupt_priorities_alt(void)
 {
-    register void (*scu_int_config)() = (void (*)())0x06038BD4;
+    void (*scu_int_config)(int, int) = (void (*)(int, int))0x06038BD4;
 
-    scu_int_config(0x10, 7);   /* HBlank-IN: priority 7 */
-    scu_int_config(8, 6);      /* VBlank-OUT: priority 6 */
-    scu_int_config(0x100, 5);  /* timer 0: priority 5 */
-    scu_int_config(0x20, 3);   /* timer 1: priority 3 */
-    scu_int_config(4, 1);      /* VBlank-IN: priority 1 */
+    scu_int_config(0x10,  7);   /* HBlank-IN:  priority 7 (highest) */
+    scu_int_config(0x08,  6);   /* VBlank-OUT: priority 6 */
+    scu_int_config(0x100, 5);   /* Timer 0:    priority 5 */
+    scu_int_config(0x20,  3);   /* Timer 1:    priority 3 */
+    scu_int_config(0x04,  1);   /* VBlank-IN:  priority 1 (lowest) */
 }
+void FUN_06012050(void) __attribute__((alias("scu_interrupt_priorities_alt")));
 
 /* camera_view_init -- Initialize camera view parameters for 3D scene.
  * Sets camera enabled flag (0x06078636), clears mode counter, calls
@@ -333,23 +334,25 @@ void FUN_0601228a(void)
   *(int *)0x06078636 = 1;       /* enable camera system */
 }
 
-/* camera_fov_interpolate -- Animate camera FOV and far-plane toward targets.
- * Camera params at 0x060788B4: [0]=pos, [1]=FOV, [2]=far_plane.
- * Decays FOV by 0x2999/frame (min 0x20000), far-plane by 0x4000/frame
- * (min 0x4CCCC). Rotates camera heading at 0x060788B2 by +0x1800/frame. */
-void FUN_060122f4()
+/* camera_fov_interpolate -- Animate camera FOV and far-plane during intro.
+ * Camera params array at 0x060788B4: [0]=unused, [1]=FOV, [2]=far_plane.
+ * Each frame: FOV shrinks by 0x2999 (min 0x20000 = 2.0 fixed-point),
+ * far-plane shrinks by 0x4000 (min 0x4CCCC = 4.8 fixed-point).
+ * Camera heading rotates 0x1800 per frame (~33 degrees). */
+void camera_fov_interpolate(void)
 {
-  volatile int *cam = (volatile int *)0x060788B4;
-  cam[1] = cam[1] - 0x2999;           /* decay FOV */
-  cam[2] = cam[2] - 0x4000;           /* decay far-plane */
-  if (!(cam[1] >= 0x00020000)) {
-    cam[1] = 0x00020000;              /* clamp FOV minimum */
-  }
-  if (!(cam[2] >= 0x0004CCCC)) {
-    cam[2] = 0x0004CCCC;              /* clamp far-plane minimum */
-  }
-  *(short *)0x060788B2 = *(short *)0x060788B2 + 0x1800;  /* rotate heading */
+    volatile int *cam = (volatile int *)0x060788B4;
+
+    cam[1] -= 0x2999;
+    cam[2] -= 0x4000;
+    if (cam[1] < 0x20000)
+        cam[1] = 0x20000;
+    if (cam[2] < 0x4CCCC)
+        cam[2] = 0x4CCCC;
+
+    *(short *)0x060788B2 += 0x1800;
 }
+void FUN_060122f4(void) __attribute__((alias("camera_fov_interpolate")));
 
 /* camera_vibration_apply -- Apply camera vibration to 4 view matrix rows.
  * Computes 3 sinusoidal offsets from half-heading (0x060788AC >> 1) using

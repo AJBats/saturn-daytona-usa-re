@@ -115,26 +115,26 @@ int FUN_060100a4(param_1)
   return tex_x;
 }
 
-/* player_count_detect -- Detect number of players from cabinet inputs.
- * Reads raw input word at 0x06063D9C, XOR with 0xFFFF and mask to low byte.
- * Thresholds: >0x72B = 2 players, >0xC0 = 1 player (additive).
- * Sets CAR_COUNT (0=single, 1=2P, 2=4P) and mirrors to 0x0607887E. */
-void FUN_06010238(void)
+/* player_count_detect -- Detect player count from cabinet analog input.
+ * Reads inverted analog input, checks two thresholds:
+ *   >0x72B = one additional player, >0xC0 = one additional player
+ * Result: 0=single, 1=2P, 2=4P. Mirrors to CAR_COUNT and game state. */
+void player_count_detect(void)
 {
-  unsigned short raw = *(unsigned short *)0x06063D9C;
-  int *player_count = (int *)0x0607EADC;
-  unsigned int input_val = ((unsigned int)raw ^ 0x0000FFFF) & 0xff;
+    unsigned short raw = *(unsigned short *)0x06063D9C;
+    int *player_count = (int *)0x0607EADC;
+    unsigned int input_val = ((unsigned int)raw ^ 0xFFFF) & 0xFF;
 
-  *player_count = 0;
-  if (0x72b < (int)input_val) {
-    *player_count = *player_count + 1;
-  }
-  if (0xc0 < (int)input_val) {
-    *player_count = *player_count + 1;
-  }
-  *(int *)0x0607887E = (char)*player_count;
-  CAR_COUNT = *player_count;
+    *player_count = 0;
+    if ((int)input_val > 0x72B)
+        *player_count += 1;
+    if ((int)input_val > 0xC0)
+        *player_count += 1;
+
+    *(int *)0x0607887E = (char)*player_count;
+    CAR_COUNT = *player_count;
 }
+void FUN_06010238(void) __attribute__((alias("player_count_detect")));
 
 /* coin_start_handler -- Handle coin insert / start button during attract.
  * Decrements start timer at 0x0607EBCC. If start bits (PTR_DAT_0601030c)
@@ -517,35 +517,39 @@ void FUN_06010994(void)
                     *(int *)(0x0605D05C + (unsigned int)(unsigned char)*(int *)(0x0607ED91 << 2)));
 }
 
-/* subsystem_dma_transfer -- DMA-copy data block for subsystem slot.
- * Computes dest from scroll offset + subsystem base + 0x40,
- * src from table at 0x0605D05C indexed by param. */
-void FUN_06010a5c(int slot_idx)
+/* subsystem_slot_dma -- DMA a sprite data block for subsystem HUD slot.
+ * Destination: scroll page base + HUD offset + 0x40.
+ * Source: character sprite table indexed by slot_idx. */
+void subsystem_slot_dma(int slot_idx)
 {
-    (*(int(*)())0x0602761E)(
-        *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + PTR_DAT_06010ac8 + 0x40,
-        *(int *)(0x0605D05C + (slot_idx << 2)));
+    int dest = *(int *)(0x06059FFC << 3) + *(int *)0x06063F5C + PTR_DAT_06010ac8 + 0x40;
+    int src = *(int *)(0x0605D05C + (slot_idx << 2));
+    (*(int(*)())0x0602761E)(dest, src);
 }
+void FUN_06010a5c(int slot_idx) __attribute__((alias("subsystem_slot_dma")));
 
-/* sound_bank_load -- Load sound bank for current course or demo mode.
- * In normal mode, loads bank from course table (0x0604483C indexed by
- * course ID at 0x0607EAB8). In demo mode, uses fixed bank IDs
- * (0xAB110BFF or 0xAB110AFF for player 2). Sends via SCSP command (0x0601D5F4). */
-int FUN_06010b54(void)
+/* sound_bank_load -- Load the sound bank for the current course/mode.
+ * Normal mode: look up bank ID from course sound table, indexed by course.
+ * Demo mode: use fixed SCSP bank IDs (different bank for player 2).
+ * The SCSP command function at 0x0601D5F4 sends the bank load command. */
+int sound_bank_load(void)
 {
-  int result;
+    int scsp_cmd = 0x0601D5F4;
+    int result;
 
-  if (DEMO_MODE_FLAG == 0) {
-    result = (*(int(*)())0x0601D5F4)(0, *(int *)(0x0604483C + *(int *)(0x0607EAB8 << 2)));
-  } else {
-    int bank = 0xAB110BFF;
-    if (*(int *)0x06078644 == 1) {
-      bank = 0xAB110AFF;                   /* player 2 alternate bank */
+    if (DEMO_MODE_FLAG == 0) {
+        int course = CHAR_SELECT_IDX;
+        int bank_id = *(int *)(0x0604483C + (course << 2));
+        result = (*(int(*)())scsp_cmd)(0, bank_id);
+    } else {
+        int bank = 0xAB110BFF;
+        if (*(int *)0x06078644 == 1)
+            bank = 0xAB110AFF;
+        result = (*(int(*)())scsp_cmd)(0, bank);
     }
-    result = (*(int(*)())0x0601D5F4)(0, bank);
-  }
-  return result;
+    return result;
 }
+int FUN_06010b54(void) __attribute__((alias("sound_bank_load")));
 
 /* character_select_anim_update -- Character selection 3D model animation.
  * First-run path: set initial position, trigger DMA, poll for completion.
