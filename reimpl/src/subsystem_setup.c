@@ -17,7 +17,7 @@
 extern void FUN_0602853E(int param);
 extern int *FUN_06028560(void);
 extern void FUN_06019928(void);
-extern void FUN_0601a80c(void);
+extern void course_select_display_update(void);
 extern void FUN_0601a940(void);
 
 /* State configuration bytes */
@@ -54,7 +54,7 @@ void FUN_060198E0(void)
 
     /* Chain into subsystem handlers */
     FUN_06019928();
-    FUN_0601a80c();
+    course_select_display_update();
     FUN_0601a940();  /* original: tail-jump via jmp @r3 */
 }
 

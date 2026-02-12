@@ -223,123 +223,96 @@ int FUN_0600c302(void)
     return CAR_HEADING_EXP;
 }
 
-unsigned short FUN_0600c3a8(param_1)
-    unsigned short param_1;
+/* camera_view_select -- Select camera view based on controller input.
+ *
+ * Pool verified (0x0600C41C-0x0600C4DC):
+ *   0x0600C41C = 0x06063E20 (CAMERA_MODE)
+ *   0x0600C420 = 0x06083255 (RENDER_FLAG_BYTE)
+ *   0x0600C424 = 0x0607865E (CAM_MODE_SELECTOR)
+ *   0x0600C428 = 0x00008000 (CAM_DIRECT_MODE)
+ *   0x0600C42C = 0x06078656 (CAM_BTN_CLOSE)
+ *   0x0600C430 = 0x06078658 (CAM_BTN_FAR)
+ *   0x0600C434 = 0x0607865A (CAM_BTN_BUMPER)
+ *   0x0600C438 = 0x0607865C (CAM_BTN_REAR)
+ *
+ * In direct mode (selector == 0x8000), buttons map to views 0-3.
+ * In cycle mode, increment/decrement with wrap based on render flag.
+ * After mode selection, sets PHASE_FLAG for render distance if in race.
+ *
+ * Called from game logic with edge-triggered controller input. */
+#define CAMERA_MODE           (*(volatile int *)0x06063E20)
+#define CAMERA_PHASE_REF      (*(volatile int *)0x06063E1C)
+#define CAM_MODE_SELECTOR     (*(volatile unsigned short *)0x0607865E)
+#define CAM_BTN_CLOSE         (*(volatile unsigned short *)0x06078656)
+#define CAM_BTN_FAR           (*(volatile unsigned short *)0x06078658)
+#define CAM_BTN_BUMPER        (*(volatile unsigned short *)0x0607865A)
+#define CAM_BTN_REAR          (*(volatile unsigned short *)0x0607865C)
+#define CAM_CYCLE_BTN         (*(volatile unsigned short *)0x06078660)
+#define CAM_MAX_MODE          (*(volatile int *)0x06078662)
+#define CAM_DIRECT_MODE       0x8000
+unsigned short camera_view_select(input_buttons)
+    unsigned short input_buttons;
 {
+    unsigned short result;
+    int new_mode;
+    short phase;
 
-  char *puVar1;
-
-  unsigned short uVar2;
-
-  int iVar3;
-
-  short uVar4;
-
-  puVar1 = (int *)0x06063E20;
-
-  if ((char *)(unsigned int)*(unsigned short *)0x0607865E == 0x00008000) {
-
-    if ((param_1 & *(unsigned short *)0x06078656) == 0) {
-
-      if ((param_1 & *(unsigned short *)0x06078658) == 0) {
-
-        if ((param_1 & *(unsigned short *)0x0607865A) == 0) {
-
-          if ((param_1 & *(unsigned short *)0x0607865C) != 0) {
-
-            *(int *)0x06063E20 = 3;
-
-          }
-
+    if ((unsigned int)CAM_MODE_SELECTOR == CAM_DIRECT_MODE) {
+        /* Direct mode: each button selects a specific camera view */
+        if ((input_buttons & CAM_BTN_CLOSE) != 0) {
+            CAMERA_MODE = 0;
+        } else if ((input_buttons & CAM_BTN_FAR) != 0) {
+            if (*(int *)0x06083255 == '\0') {
+                CAMERA_MODE = 1;
+            }
+        } else if ((input_buttons & CAM_BTN_BUMPER) != 0) {
+            CAMERA_MODE = 2;
+        } else if ((input_buttons & CAM_BTN_REAR) != 0) {
+            CAMERA_MODE = 3;
         }
-
-        else {
-
-          *(int *)0x06063E20 = 2;
-
+    } else if (((input_buttons & CAM_MODE_SELECTOR) == 0) || (CAMERA_MODE == 0)) {
+        /* Cycle up: increment camera mode */
+        if (((input_buttons & CAM_CYCLE_BTN) != 0) &&
+           ((unsigned int)CAMERA_MODE < (unsigned int)(int)(char)CAM_MAX_MODE)) {
+            if ((*(int *)0x06083255 == '\0') || (CAMERA_MODE != 0)) {
+                CAMERA_MODE = CAMERA_MODE + 1;
+            } else {
+                CAMERA_MODE = CAMERA_MODE + 2;
+            }
         }
-
-      }
-
-      else if (*(int *)0x06083255 == '\0') {
-
-        *(int *)0x06063E20 = 1;
-
-      }
-
+    } else {
+        /* Cycle down: decrement camera mode */
+        if ((*(int *)0x06083255 == '\0') || (CAMERA_MODE != 2)) {
+            new_mode = CAMERA_MODE + -1;
+        } else {
+            new_mode = CAMERA_MODE + -2;
+        }
+        CAMERA_MODE = new_mode;
     }
 
-    else {
-
-      *(int *)0x06063E20 = 0;
-
+    /* Set render phase flag based on camera distance */
+    result = (unsigned short)(unsigned char)*(int *)0x06078635;
+    if ((result == 0) && (result = *(unsigned short *)0x0607ED8C, result != 0)) {
+        if ((unsigned int)(CAMERA_PHASE_REF + CAMERA_MODE) < 7) {
+            phase = 4;
+        } else {
+            phase = 3;
+        }
+        PHASE_FLAG = phase;
     }
 
-  }
-
-  else if (((param_1 & *(unsigned short *)0x0607865E) == 0) || (*(int *)0x06063E20 == 0)) {
-
-    if (((param_1 & *(unsigned short *)0x06078660) != 0) &&
-
-       (*(unsigned int *)0x06063E20 < (unsigned int)(int)(char)*(int *)0x06078662)) {
-
-      if ((*(int *)0x06083255 == '\0') || (*(int *)0x06063E20 != 0)) {
-
-        *(int *)0x06063E20 = *(int *)0x06063E20 + 1;
-
-      }
-
-      else {
-
-        *(int *)0x06063E20 = *(int *)0x06063E20 + 2;
-
-      }
-
-    }
-
-  }
-
-  else {
-
-    if ((*(int *)0x06083255 == '\0') || (*(int *)0x06063E20 != 2)) {
-
-      iVar3 = *(int *)0x06063E20 + -1;
-
-    }
-
-    else {
-
-      iVar3 = *(int *)0x06063E20 + -2;
-
-    }
-
-    *(int *)0x06063E20 = iVar3;
-
-  }
-
-  uVar2 = (unsigned short)(unsigned char)*(int *)0x06078635;
-
-  if ((uVar2 == 0) && (uVar2 = *(unsigned short *)0x0607ED8C, uVar2 != 0)) {
-
-    if ((unsigned int)(*(int *)0x06063E1C + *(int *)puVar1) < 7) {
-
-      uVar4 = 4;
-
-    }
-
-    else {
-
-      uVar4 = 3;
-
-    }
-
-    PHASE_FLAG = uVar4;
-
-  }
-
-  return uVar2;
-
+    return result;
 }
+#undef CAMERA_MODE
+#undef CAMERA_PHASE_REF
+#undef CAM_MODE_SELECTOR
+#undef CAM_BTN_CLOSE
+#undef CAM_BTN_FAR
+#undef CAM_BTN_BUMPER
+#undef CAM_BTN_REAR
+#undef CAM_CYCLE_BTN
+#undef CAM_MAX_MODE
+#undef CAM_DIRECT_MODE
 
 /* camera_distance_update -- Update camera distance/acceleration for current car.
  * Decrements cooldown timer, then computes target acceleration from speed

@@ -38,7 +38,7 @@ extern int FUN_06019bc8();
 extern int FUN_06019db8();
 extern int FUN_06019fb2();
 extern int FUN_0601a65e();
-extern int FUN_0601a80c();
+extern void course_select_display_update();
 extern int cd_register_double_read();
 extern int FUN_06034DEA();
 extern int PTR_DAT_060185a4;
@@ -944,7 +944,7 @@ void FUN_060198e0(void)
     *(int *)0x06085FF6 = 1;          /* sound channel active */
     *(int *)0x06085FF7 = 0xFF;       /* volume = max */
     FUN_06019928();                  /* subsystem data init */
-    FUN_0601a80c();                  /* display setup */
+    course_select_display_update();  /* display setup */
     (*(int(*)())0x0601A940)();       /* cursor/selection init */
 }
 

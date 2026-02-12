@@ -899,132 +899,102 @@ char FUN_0603f970(int param_1, int param_2)
     return prev;
 }
 
-unsigned short FUN_0603face(param_1, param_2)
-    int *param_1;
-    int *param_2;
+/* cd_stream_advance -- Advance CD streaming state machine one step.
+ *
+ * Pool verified (0x0603FB22-0x0603FCB6):
+ *   DAT_0603fb22 = 0x0080 (CDSTREAM_READY_BIT)
+ *   DAT_0603fb24 = 0xFF7F (CDSTREAM_STATE_MASK — clears bit 7)
+ *   DAT_0603fcb6 = 0xFF7F (same mask, reused)
+ *   0x0603F91C = cd_buf_release (buffer release function)
+ *
+ * Stream context struct (param_1):
+ *   [0] = source address      [1] = read buffer handle
+ *   [2] = dest address        [3] = decode buffer handle
+ *   [5] = total size           [6] = bytes transferred
+ *   [7] = current position    [8] = callback param
+ *   [9] = decode func ptr     [0xb] = transfer func ptr
+ *   [0xd] byte = status (bit7=ready, bits0-6=state 0-5)
+ *
+ * States: 0=request_read, 1=decode_start, 2=process, 3=transfer, 4=complete
+ * Returns state number. Sets *out_complete = 1 when transfer chunk finishes. */
+#define CDSTREAM_READY_BIT   0x0080
+#define CDSTREAM_STATE_MASK  0xFF7F
+#define cd_buf_release       ((void (*)(int, int, int))0x0603F91C)
+unsigned short cd_stream_advance(ctx, out_complete)
+    int *ctx;
+    int *out_complete;
 {
+    unsigned char ready_mask;
+    unsigned short state;
+    int result;
+    int src_addr;
+    int dst_addr;
+    int completed = 0;
 
-  unsigned char bVar1;
+    src_addr = *ctx;
+    dst_addr = ctx[2];
 
-  unsigned short uVar3;
+    if ((int)ctx[5] < 1) {
+        *out_complete = 0;
+        return 5;
+    }
 
-  int iVar2;
+    if ((*(unsigned char *)(ctx + 0xd) & CDSTREAM_READY_BIT) != CDSTREAM_READY_BIT) {
+        *out_complete = 0;
+        return *(unsigned char *)(ctx + 0xd) & CDSTREAM_STATE_MASK;
+    }
 
-  int uVar4;
+    state = *(unsigned char *)(ctx + 0xd) & CDSTREAM_STATE_MASK;
+    ready_mask = (unsigned char)CDSTREAM_READY_BIT;
 
-  int uVar5;
+    if (state == 0) {
+        cd_buf_request_read(ctx, src_addr, dst_addr);
+        if (ctx[1] == 0) goto done;
+        *(unsigned char *)(ctx + 0xd) = *(unsigned char *)(ctx + 0xd) & ready_mask | 1;
+state_1:
+        FUN_0603fce4(ctx, src_addr, dst_addr);
+        if (ctx[3] == 0) goto done;
+        *(unsigned char *)(ctx + 0xd) = *(unsigned char *)(ctx + 0xd) & ready_mask | 2;
+state_2:
+        result = (*(int(*)())ctx[9])(ctx[8]);
+        if (result == 0) goto done;
+        FUN_0603ff9c(ctx);
+        *(unsigned char *)(ctx + 0xd) = *(unsigned char *)(ctx + 0xd) & ready_mask | 3;
+state_3:
+        result = (*(int(*)())ctx[0xb])(ctx[8]);
+        if (0 < result) goto done;
+        completed = 1;
+        *(unsigned char *)(ctx + 0xd) = *(unsigned char *)(ctx + 0xd) & ready_mask | 4;
+    } else {
+        if (state == 1) goto state_1;
+        if (state == 2) goto state_2;
+        if (state == 3) goto state_3;
+        if (state != 4) goto done;
+    }
 
-  int uVar6;
+    /* State 4: chunk complete — release buffers and check if more data */
+    if (ctx[7] == *(int *)(ctx[1] + 8)) {
+        cd_buf_release(src_addr, ctx[1], 0xffffffff);
+        ctx[6] = ctx[6] + *(int *)(ctx[1] + 0xc);
+        ctx[1] = 0;
+    }
 
-  uVar6 = 0;
+    cd_buf_release(dst_addr, ctx[3], 0xffffffff);
+    ctx[3] = 0;
 
-  uVar5 = *param_1;
+    if ((int)ctx[6] < (int)ctx[5]) {
+        *(unsigned char *)(ctx + 0xd) = *(unsigned char *)(ctx + 0xd) & ready_mask;
+    } else {
+        *(unsigned char *)(ctx + 0xd) = *(unsigned char *)(ctx + 0xd) & ready_mask | 5;
+    }
 
-  uVar4 = param_1[2];
-
-  if ((int)param_1[5] < 1) {
-
-    *param_2 = 0;
-
-    return 5;
-
-  }
-
-  if ((*(unsigned char *)(param_1 + 0xd) & DAT_0603fb22) != DAT_0603fb22) {
-
-    *param_2 = 0;
-
-    return *(unsigned char *)(param_1 + 0xd) & DAT_0603fb24;
-
-  }
-
-  uVar3 = *(unsigned char *)(param_1 + 0xd) & DAT_0603fb24;
-
-  bVar1 = (unsigned char)DAT_0603fb22;
-
-  if (uVar3 == 0) {
-
-    cd_buf_request_read(param_1,uVar5,uVar4);
-
-    if (param_1[1] == 0) goto LAB_0603fc40;
-
-    *(unsigned char *)(param_1 + 0xd) = *(unsigned char *)(param_1 + 0xd) & bVar1 | 1;
-
-LAB_0603fb50:
-
-    FUN_0603fce4(param_1,uVar5,uVar4);
-
-    if (param_1[3] == 0) goto LAB_0603fc40;
-
-    *(unsigned char *)(param_1 + 0xd) = *(unsigned char *)(param_1 + 0xd) & bVar1 | 2;
-
-LAB_0603fb74:
-
-    iVar2 = (*(int(*)())param_1[9])(param_1[8]);
-
-    if (iVar2 == 0) goto LAB_0603fc40;
-
-    FUN_0603ff9c(param_1);
-
-    *(unsigned char *)(param_1 + 0xd) = *(unsigned char *)(param_1 + 0xd) & bVar1 | 3;
-
-LAB_0603fba0:
-
-    iVar2 = (*(int(*)())param_1[0xb])(param_1[8]);
-
-    if (0 < iVar2) goto LAB_0603fc40;
-
-    uVar6 = 1;
-
-    *(unsigned char *)(param_1 + 0xd) = *(unsigned char *)(param_1 + 0xd) & bVar1 | 4;
-
-  }
-
-  else {
-
-    if (uVar3 == 1) goto LAB_0603fb50;
-
-    if (uVar3 == 2) goto LAB_0603fb74;
-
-    if (uVar3 == 3) goto LAB_0603fba0;
-
-    if (uVar3 != 4) goto LAB_0603fc40;
-
-  }
-
-  if (param_1[7] == *(int *)(param_1[1] + 8)) {
-
-    (*(int(*)())0x0603F91C)(uVar5,param_1[1],0xffffffff);
-
-    param_1[6] = param_1[6] + *(int *)(param_1[1] + 0xc);
-
-    param_1[1] = 0;
-
-  }
-
-  (*(int(*)())0x0603F91C)(uVar4,param_1[3],0xffffffff);
-
-  param_1[3] = 0;
-
-  if ((int)param_1[6] < (int)param_1[5]) {
-
-    *(unsigned char *)(param_1 + 0xd) = *(unsigned char *)(param_1 + 0xd) & bVar1;
-
-  }
-
-  else {
-
-    *(unsigned char *)(param_1 + 0xd) = *(unsigned char *)(param_1 + 0xd) & bVar1 | 5;
-
-  }
-
-LAB_0603fc40:
-
-  *param_2 = uVar6;
-
-  return *(unsigned char *)(param_1 + 0xd) & DAT_0603fcb6;
-
+done:
+    *out_complete = completed;
+    return *(unsigned char *)(ctx + 0xd) & CDSTREAM_STATE_MASK;
 }
+#undef CDSTREAM_READY_BIT
+#undef CDSTREAM_STATE_MASK
+#undef cd_buf_release
 
 /* cd_buf_request_read -- Request a CD buffer read with size negotiation.
  * Computes available = total_size(+0x14) - bytes_read(+0x18), clamped to

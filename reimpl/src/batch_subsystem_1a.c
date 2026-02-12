@@ -184,112 +184,103 @@ void sound_mode_select(void)
     }
 }
 
-void FUN_0601a80c()
+/* course_select_display_update -- Update course selection display scroll.
+ *
+ * Pool verified (0x0601A874-0x0601A93C):
+ *   0x0601A874 = 0x06063D98 (INPUT_BASE — controller input words)
+ *   0x0601A878 = 0x0605D248 (CSEL_SCROLL_INDEX)
+ *   0x0601A87C = 0x00008000 (DPAD_UP)
+ *   0x0601A880 = 0x0605D243 (CSEL_REPEAT_TIMER)
+ *   0x0601A926 = 0x0600 (CSEL_CONFIRM_MASK)
+ *   0x0601A928 = 0x079C (scroll plane A ID)
+ *   0x0601A92A = 0x081C (scroll plane B ID)
+ *   0x0601A92C = 0x06018DDC (FUN_06018DDC — confirm handler)
+ *   0x0601A930 = 0x060283E0 (vdp2_scroll_set — VDP2 scroll register writer)
+ *   0x0601A934 = 0x06049CDC (scroll param table)
+ *   0x0601A938 = 0x0605D2B4 (scroll offset table)
+ *   0x0601A93C = 0x0000E000 (VDP2 scroll page offset)
+ *
+ * Handles D-pad up/down to change course selection index (0..0x14).
+ * Auto-repeat at threshold 0x14 frames. Renders two VDP2 scroll
+ * planes (A and B) with course-dependent offsets from lookup table. */
+#define CSEL_INPUT_BASE       ((volatile unsigned short *)0x06063D98)
+#define CSEL_SCROLL_INDEX     (*(volatile int *)0x0605D248)
+#define CSEL_REPEAT_TIMER     (*(volatile char *)0x0605D243)
+#define DPAD_UP               0x8000
+#define CSEL_REPEAT_THRESHOLD 0x14
+#define CSEL_CONFIRM_MASK     0x0600
+#define CSEL_SCROLL_TABLE     0x0605D2B4
+#define vdp2_scroll_set       ((void (*)(int, int, int, int))0x060283E0)
+#define SCROLL_PARAM_TABLE    0x06049CDC
+#define VDP2_SCROLL_PAGE      0x0000E000
+#define SCROLL_PLANE_A_ID     0x079C
+#define SCROLL_PLANE_B_ID     0x081C
+void course_select_display_update()
 {
+    int index_val;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int in_r7 = 0;
-
-  puVar3 = (char *)0x0605D243;
-
-  puVar2 = (char *)0x0605D248;
-
-  puVar1 = (char *)0x06063D98;
-
-  if (((unsigned int)*(unsigned short *)(0x06063D98 + 2) & (unsigned int)0x00008000) == 0) {
-
-    if ((*(unsigned short *)(0x06063D98 + 2) & DAT_0601a872) == 0) {
-
-      if (((unsigned int)*(unsigned short *)0x06063D98 & (unsigned int)0x00008000) == 0) {
-
-        if (((*(unsigned short *)0x06063D98 & DAT_0601a872) != 0) && (*(int *)0x0605D243 == '\x14')) {
-
-          *(int *)0x0605D248 = *(int *)0x0605D248 + -1;
-
-          *puVar3 = 0;
-
+    /* D-pad input: up/down changes scroll index */
+    if ((CSEL_INPUT_BASE[1] & DPAD_UP) != 0) {
+        /* Edge-triggered UP pressed */
+        CSEL_SCROLL_INDEX = CSEL_SCROLL_INDEX + 1;
+        CSEL_REPEAT_TIMER = 0;
+    } else if ((CSEL_INPUT_BASE[1] & DAT_0601a872) != 0) {
+        /* Edge-triggered DOWN pressed */
+        CSEL_SCROLL_INDEX = CSEL_SCROLL_INDEX + -1;
+        CSEL_REPEAT_TIMER = 0;
+    } else if ((CSEL_INPUT_BASE[0] & DPAD_UP) != 0) {
+        /* Held UP with repeat */
+        if (CSEL_REPEAT_TIMER == CSEL_REPEAT_THRESHOLD) {
+            CSEL_SCROLL_INDEX = CSEL_SCROLL_INDEX + 1;
+            CSEL_REPEAT_TIMER = 0;
         }
-
-      }
-
-      else if (*(int *)0x0605D243 == '\x14') {
-
-        *(int *)0x0605D248 = *(int *)0x0605D248 + 1;
-
-        *puVar3 = 0;
-
-      }
-
+    } else if ((CSEL_INPUT_BASE[0] & DAT_0601a872) != 0) {
+        /* Held DOWN with repeat */
+        if (CSEL_REPEAT_TIMER == CSEL_REPEAT_THRESHOLD) {
+            CSEL_SCROLL_INDEX = CSEL_SCROLL_INDEX + -1;
+            CSEL_REPEAT_TIMER = 0;
+        }
     }
 
-    else {
-
-      *(int *)0x0605D248 = *(int *)0x0605D248 + -1;
-
-      *puVar3 = 0;
-
+    /* Clamp and wrap scroll index */
+    if ((CSEL_INPUT_BASE[1] & 0xf8) != 0) {
+        CSEL_SCROLL_INDEX = 0;
+    }
+    if (CSEL_SCROLL_INDEX > CSEL_REPEAT_THRESHOLD) {
+        CSEL_SCROLL_INDEX = 0;
+    }
+    if (CSEL_SCROLL_INDEX < 0) {
+        CSEL_SCROLL_INDEX = (char *)CSEL_REPEAT_THRESHOLD;
     }
 
-  }
+    /* Handle confirm button */
+    if ((CSEL_INPUT_BASE[1] & CSEL_CONFIRM_MASK) != 0) {
+        index_val = CSEL_SCROLL_INDEX + 2;
+        (*(int(*)())0x06018DDC)(index_val, index_val, 0, 0, index_val);
+    }
 
-  else {
+    /* Render VDP2 scroll planes: clear then set with course-specific offsets */
+    vdp2_scroll_set(0xc, SCROLL_PLANE_A_ID, 0, SCROLL_PARAM_TABLE);
+    vdp2_scroll_set(0xc, SCROLL_PLANE_B_ID, 0, SCROLL_PARAM_TABLE);
 
-    *(int *)0x0605D248 = *(int *)0x0605D248 + 1;
+    vdp2_scroll_set(0xc, SCROLL_PLANE_A_ID, VDP2_SCROLL_PAGE,
+                    *(int *)(CSEL_SCROLL_TABLE + (CSEL_SCROLL_INDEX << 3)));
 
-    *puVar3 = 0;
-
-  }
-
-  if ((*(unsigned short *)(puVar1 + 2) & 0xf8) != 0) {
-
-    *(int *)puVar2 = 0;
-
-  }
-
-  if (0x14 < *(int *)puVar2) {
-
-    *(int *)puVar2 = 0;
-
-  }
-
-  if (*(int *)puVar2 < 0) {
-
-    *(int *)puVar2 = (char *)0x14;
-
-  }
-
-  if ((*(unsigned short *)(puVar1 + 2) & DAT_0601a926) != 0) {
-
-    iVar4 = *(int *)puVar2 + 2;
-
-    (*(int(*)())0x06018DDC)(iVar4,iVar4,0,in_r7,iVar4);
-
-  }
-
-  puVar1 = (char *)0x060283E0;
-
-  (*(int(*)())0x060283E0)(0xc,(int)DAT_0601a928,0,0x06049CDC);
-
-  (*(int(*)())puVar1)(0xc,(int)DAT_0601a92a,0,0x06049CDC);
-
-  (*(int(*)())puVar1)(0xc,(int)DAT_0601a928,0x0000E000,
-
-                    *(int *)(0x0605D2B4 + *(int *)((int)(int)puVar2 << 3)));
-
-  (*(int(*)())puVar1)(0xc,(int)DAT_0601a92a,0x0000E000,
-
-                    *(int *)(0x0605D2B4 + (*(int *)((int)(int)puVar2 << 1) + 1) << 2));
-
-  return;
-
+    vdp2_scroll_set(0xc, SCROLL_PLANE_B_ID, VDP2_SCROLL_PAGE,
+                    *(int *)(CSEL_SCROLL_TABLE + ((CSEL_SCROLL_INDEX << 1) + 1) << 2));
 }
+#undef CSEL_INPUT_BASE
+#undef CSEL_SCROLL_INDEX
+#undef CSEL_REPEAT_TIMER
+#undef DPAD_UP
+#undef CSEL_REPEAT_THRESHOLD
+#undef CSEL_CONFIRM_MASK
+#undef CSEL_SCROLL_TABLE
+#undef vdp2_scroll_set
+#undef SCROLL_PARAM_TABLE
+#undef VDP2_SCROLL_PAGE
+#undef SCROLL_PLANE_A_ID
+#undef SCROLL_PLANE_B_ID
 
 /* course_select_input -- Handle D-pad input for course/music selection menu.
  * Reads input from 0x06063D98 (raw + edge-triggered). Up/Down changes

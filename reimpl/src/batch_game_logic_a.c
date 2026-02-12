@@ -52,7 +52,7 @@ extern void FUN_0600aa98();
 extern void FUN_0600ac44();
 extern unsigned int FUN_0600b6a0();
 extern void FUN_0600bf70();
-extern int FUN_0600c3a8();
+extern unsigned short camera_view_select();
 extern int FUN_06031A28();
 extern int FUN_06031D8C();
 extern int PTR_DAT_0600a900;
@@ -1138,7 +1138,7 @@ void FUN_0600bb94()
           /* Track car heading + steering offset */
           *(int *)(0x06063EEC + 4) = *(int *)(car_ptr + 0x20) + *(int *)(car_ptr + DAT_0600bc2e);
         }
-        FUN_0600c3a8((int)*(short *)0x06063D9A); /* camera_steering_input */
+        camera_view_select((int)*(short *)0x06063D9A); /* camera_steering_input */
       }
     }
 
@@ -1213,7 +1213,7 @@ void FUN_0600bb94()
           *(int *)0x06063E24 = *(int *)0x06063E24 - zoom_step;
         }
       }
-      FUN_0600c3a8((int)*(short *)0x06063D9A);
+      camera_view_select((int)*(short *)0x06063D9A);
     }
   }
 
