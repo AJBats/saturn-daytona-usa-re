@@ -47,7 +47,7 @@ extern int DAT_060180fe;
 extern int DAT_06018100;
 extern int DAT_06018102;
 extern int DAT_06018104;
-extern void FUN_06016dd8();
+extern void hud_sprite_vertex_project();
 extern void FUN_060172e4();
 extern int FUN_06017330(unsigned short param_1);
 extern int FUN_06017784();
@@ -62,7 +62,7 @@ extern int PTR_DAT_06017d9c;
 /* race_slot_init -- Initialize a race slot with position data from course table.
  * Clears slot state, loads 5 position values from 0x0605BB74 (indexed by
  * param_2 * 5, offset +0x28 for mirror mode). Stores as 16.16 fixed-point
- * into slot fields at +4/+8/+C/+10/+34. Then calls FUN_06016dd8 for
+ * into slot fields at +4/+8/+C/+10/+34. Then calls hud_sprite_vertex_project for
  * further init, and sets up display entry at 0x06085490 (stride 0x18). */
 void FUN_06016cdc(param_1, param_2)
     unsigned char param_1;
@@ -96,7 +96,7 @@ void FUN_06016cdc(param_1, param_2)
     *(int *)(slot_base + slot_off + 0x34) =
          (int)*(short *)(pos_table + ((tbl_idx + 4) << 1)) << 0x10;
 
-    FUN_06016dd8(param_1);
+    hud_sprite_vertex_project(param_1);
 
     /* Set up display entry for this slot */
     char *disp_base = (char *)0x06085490;
@@ -106,8 +106,19 @@ void FUN_06016cdc(param_1, param_2)
     disp_base[disp_off + 5] = 0x3a;
 }
 
-void FUN_06016dd8(param_1)
-    char param_1;
+/* hud_sprite_vertex_project -- Project 4 corners of a HUD sprite element.
+ * Takes slot index into object table at 0x06084FC8 (0x44 bytes/entry).
+ * Reads rotation angles at +0x2C and +0x30 within the slot.
+ * Decomposes angle via matrix function (0x06027358) into sin/cos,
+ * then transforms 4 corner offsets (half-width/half-height) through
+ * rotation matrix using fixed-point multiply (0x06027552).
+ * Corner sizes: normal=0x10/0xC, results mode (0x15)=0x20/0x18.
+ * Second pass applies depth correction with divide (0x0602755C).
+ * Third pass writes final screen X/Y to sprite table at 0x06085490
+ * (0x18 bytes/entry, corners at +8). NOTE: Heavy Ghidra stack artifacts
+ * (stack0x...) — Ghidra failed to resolve the stack frame layout. */
+void hud_sprite_vertex_project(slot_index)
+    char slot_index;
 {
   int stack0xfffffff0;
   int stack0x0000002c;
@@ -129,285 +140,155 @@ void FUN_06016dd8(param_1)
   int stack0x0000004c;
   int stack0x00000002;
   int stack0x00000000;
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int uVar4;
-
-  int iVar5;
-
-  short uVar6;
-
-  int *puVar7;
-
-  short sVar9;
-
-  short *psVar8;
-
-  short sVar10;
-
-  int iVar11;
-
-  unsigned char bVar12;
-
-  unsigned char bVar14;
-
-  int *piVar13;
-
-  int aiStack_28 [2];
-
-  int local_20;
-
-  puVar1 = (char *)0x06027552;
-
-  iVar3 = -140;
-
-  sVar9 = 0x10;
-
-  (&stack0xffffffec)[iVar3] = param_1;
-
-  sVar10 = 0xc;
-
-  if (GAME_STATE == 0x15) {
-
-    sVar9 = 0x20;
-
-    sVar10 = 0x18;
-
+  char *multiply_fn;
+  char *slot_table;
+  int frame_offset;
+  int mul_result;
+  int cross_result;
+  short half_width;
+  int *corner_ptr;
+  short sprite_half_w;
+  short *y_offset_ptr;
+  short sprite_half_h;
+  int corner_idx;
+  unsigned char vertex_i;
+  unsigned char slot_id;
+  int *depth_ptr;
+  int temp_buf[2];
+  int cos_component;
+  multiply_fn = (char *)0x06027552;                          /* fixed-point multiply */
+  frame_offset = -140;
+  sprite_half_w = 0x10;
+  (&stack0xffffffec)[frame_offset] = slot_index;
+  sprite_half_h = 0xc;
+  if (GAME_STATE == 0x15) {                                  /* results screen: larger sprites */
+    sprite_half_w = 0x20;
+    sprite_half_h = 0x18;
   }
-
-  *(short *)(&stack0x00000004 + iVar3) = -sVar9;
-
-  *(short *)(&stack0x00000006 + iVar3) = sVar9;
-
-  *(short *)(&stack0x00000008 + iVar3) = sVar9;
-
-  *(short *)(&stack0x0000000a + iVar3) = -sVar9;
-
-  *(short *)(&stack0xfffffffc + iVar3) = -sVar10;
-
-  *(short *)(&stack0xfffffffe + iVar3) = -sVar10;
-
-  *(short *)(&stack0x00000000 + iVar3) = sVar10;
-
-  *(short *)(&stack0x00000002 + iVar3) = sVar10;
-
-  (*(int(*)())0x06027358)(*(int *)
-
-              (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x44) + 0x30),
-
-             (int)&local_20 + iVar3,&stack0xffffffe4 + iVar3);
-
-  bVar14 = 0;
-
+  /* set up 4 corner X offsets: -W, +W, +W, -W */
+  *(short *)(&stack0x00000004 + frame_offset) = -sprite_half_w;
+  *(short *)(&stack0x00000006 + frame_offset) = sprite_half_w;
+  *(short *)(&stack0x00000008 + frame_offset) = sprite_half_w;
+  *(short *)(&stack0x0000000a + frame_offset) = -sprite_half_w;
+  /* set up 4 corner Y offsets: -H, -H, +H, +H */
+  *(short *)(&stack0xfffffffc + frame_offset) = -sprite_half_h;
+  *(short *)(&stack0xfffffffe + frame_offset) = -sprite_half_h;
+  *(short *)(&stack0x00000000 + frame_offset) = sprite_half_h;
+  *(short *)(&stack0x00000002 + frame_offset) = sprite_half_h;
+  /* decompose angle at slot+0x30 into sin/cos components */
+  (*(int(*)())0x06027358)(*(int *)                           /* matrix_decompose */
+              (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x44) + 0x30),
+             (int)&cos_component + frame_offset,&stack0xffffffe4 + frame_offset);
+  /* pass 1: rotate 4 corners by angle (X*cos + Y*sin, Y*cos - X*sin) */
+  slot_id = 0;
   do {
-
-    iVar11 = (unsigned int)(bVar14 << 2);
-
-    *(char **)((int)aiStack_28 + iVar3 + 4) = &stack0x0000005c + iVar11 + iVar3;
-
-    *(unsigned int *)(&stack0xffffffe8 + iVar3) = (unsigned int)(bVar14 << 1);
-
-    *(char **)(&stack0xfffffff0 + iVar3) = &stack0x00000004 + (unsigned int)(bVar14 << 1) + iVar3;
-
-    uVar4 = (*(int(*)())puVar1)((int)*(short *)(&stack0x00000004 + (unsigned int)(bVar14 << 1) + iVar3) << 0x10,
-
-                              *(int *)(&stack0xffffffe4 + iVar3));
-
-    *(int *)((int)aiStack_28 + iVar3) = uVar4;
-
-    psVar8 = (short *)(*(int *)(&stack0xffffffe8 + iVar3) + (int)(&stack0xfffffffc + iVar3));
-
-    *(short **)(&stack0xfffffff4 + iVar3) = psVar8;
-
-    iVar5 = (*(int(*)())puVar1)((int)*psVar8 << 0x10,*(int *)((int)&local_20 + iVar3));
-
-    **(int **)((int)aiStack_28 + iVar3 + 4) = iVar5 + *(int *)((int)aiStack_28 + iVar3);
-
-    *(char **)((int)aiStack_28 + iVar3 + 4) = &stack0x0000004c + iVar11 + iVar3;
-
-    uVar4 = (*(int(*)())puVar1)((int)**(short **)(&stack0xfffffff4 + iVar3) << 0x10,
-
-                              *(int *)(&stack0xffffffe4 + iVar3));
-
-    *(int *)((int)aiStack_28 + iVar3) = uVar4;
-
-    iVar5 = (*(int(*)())puVar1)((int)**(short **)(&stack0xfffffff0 + iVar3) << 0x10,
-
-                              *(int *)((int)&local_20 + iVar3));
-
-    bVar14 = bVar14 + 1;
-
-    **(int **)((int)aiStack_28 + iVar3 + 4) = *(int *)((int)aiStack_28 + iVar3) - iVar5;
-
-    *(int *)(&stack0x0000003c + iVar11 + iVar3) = 0;
-
-  } while (bVar14 < 4);
-
-  *(int *)(&stack0xfffffff8 + iVar3) =
-
+    corner_idx = (unsigned int)(slot_id << 2);
+    *(char **)((int)temp_buf + frame_offset + 4) = &stack0x0000005c + corner_idx + frame_offset;
+    *(unsigned int *)(&stack0xffffffe8 + frame_offset) = (unsigned int)(slot_id << 1);
+    *(char **)(&stack0xfffffff0 + frame_offset) = &stack0x00000004 + (unsigned int)(slot_id << 1) + frame_offset;
+    mul_result = (*(int(*)())multiply_fn)((int)*(short *)(&stack0x00000004 + (unsigned int)(slot_id << 1) + frame_offset) << 0x10,
+                              *(int *)(&stack0xffffffe4 + frame_offset));
+    *(int *)((int)temp_buf + frame_offset) = mul_result;
+    y_offset_ptr = (short *)(*(int *)(&stack0xffffffe8 + frame_offset) + (int)(&stack0xfffffffc + frame_offset));
+    *(short **)(&stack0xfffffff4 + frame_offset) = y_offset_ptr;
+    cross_result = (*(int(*)())multiply_fn)((int)*y_offset_ptr << 0x10,*(int *)((int)&cos_component + frame_offset));
+    **(int **)((int)temp_buf + frame_offset + 4) = cross_result + *(int *)((int)temp_buf + frame_offset);
+    *(char **)((int)temp_buf + frame_offset + 4) = &stack0x0000004c + corner_idx + frame_offset;
+    mul_result = (*(int(*)())multiply_fn)((int)**(short **)(&stack0xfffffff4 + frame_offset) << 0x10,
+                              *(int *)(&stack0xffffffe4 + frame_offset));
+    *(int *)((int)temp_buf + frame_offset) = mul_result;
+    cross_result = (*(int(*)())multiply_fn)((int)**(short **)(&stack0xfffffff0 + frame_offset) << 0x10,
+                              *(int *)((int)&cos_component + frame_offset));
+    slot_id = slot_id + 1;
+    **(int **)((int)temp_buf + frame_offset + 4) = *(int *)((int)temp_buf + frame_offset) - cross_result;
+    *(int *)(&stack0x0000003c + corner_idx + frame_offset) = 0;
+  } while (slot_id < 4);
+  /* save original angle at slot+0x2C, apply highlight offset if needed */
+  *(int *)(&stack0xfffffff8 + frame_offset) =
        *(int *)
-
-        (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x44) + 0x2c);
-
-  if (*(int *)0x06078663 != '\0') {
-
+        (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x44) + 0x2c);
+  if (*(int *)0x06078663 != '\0') {                          /* highlight active flag */
     *(char **)
-
-     (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x44) + 0x2c) =
-
+     (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x44) + 0x2c) =
          0x00008000 +
-
-         *(int *)(0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x44) + 0x2c)
-
+         *(int *)(0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x44) + 0x2c)
     ;
-
   }
-
-  (*(int(*)())0x06027358)(*(int *)
-
-              (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x44) + 0x2c),
-
-             (int)&local_20 + iVar3,&stack0xffffffe4 + iVar3);
-
-  bVar14 = 0;
-
+  /* decompose angle at slot+0x2C (heading) into sin/cos */
+  (*(int(*)())0x06027358)(*(int *)                           /* matrix_decompose */
+              (0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x44) + 0x2c),
+             (int)&cos_component + frame_offset,&stack0xffffffe4 + frame_offset);
+  /* pass 2: apply heading rotation with depth correction */
+  slot_id = 0;
   do {
-
-    iVar11 = (unsigned int)(bVar14 << 2);
-
-    *(char **)(&stack0xffffffe8 + iVar3) = &stack0x0000000c + iVar11 + iVar3;
-
-    *(char **)((int)aiStack_28 + iVar3 + 4) = &stack0x0000000c + iVar11 + iVar3;
-
-    puVar7 = (int *)((int)aiStack_28 + iVar11 + DAT_06016ffa + iVar3 + 4);
-
-    *(int **)(&stack0xfffffff4 + iVar3) = puVar7;
-
-    uVar4 = (*(int(*)())puVar1)(*puVar7,*(int *)((int)&local_20 + iVar3));
-
-    *(int *)((int)aiStack_28 + iVar3) = uVar4;
-
-    *(char **)(&stack0xfffffff0 + iVar3) = &stack0x0000003c + iVar11 + iVar3;
-
-    iVar5 = (*(int(*)())puVar1)(*(int *)(&stack0x0000003c + iVar11 + iVar3),
-
-                              *(int *)(&stack0xffffffe4 + iVar3));
-
-    **(int **)((int)aiStack_28 + iVar3 + 4) = iVar5 + *(int *)((int)aiStack_28 + iVar3);
-
-    *(char **)((int)aiStack_28 + iVar3 + 4) = &stack0x0000002c + iVar11 + iVar3;
-
-    uVar4 = (*(int(*)())puVar1)(**(int **)(&stack0xfffffff4 + iVar3),
-
-                              *(int *)(&stack0xffffffe4 + iVar3));
-
-    *(int *)((int)aiStack_28 + iVar3) = uVar4;
-
-    iVar5 = (*(int(*)())puVar1)(**(int **)(&stack0xfffffff0 + iVar3),
-
-                              *(int *)((int)&local_20 + iVar3));
-
-    **(int **)((int)aiStack_28 + iVar3 + 4) = *(int *)((int)aiStack_28 + iVar3) - iVar5;
-
-    *(int *)(&stack0x0000001c + iVar11 + iVar3) =
-
-         *(int *)(&stack0x0000004c + iVar11 + iVar3);
-
-    if (**(int **)(&stack0xffffffe8 + iVar3) != 0) {
-
-      iVar11 = (unsigned int)(bVar14 << 2);
-
-      puVar7 = (int *)(&stack0x0000002c + iVar11 + iVar3);
-
-      *(int **)(&stack0xfffffff4 + iVar3) = puVar7;
-
-      *(int **)((int)aiStack_28 + iVar3 + 4) = puVar7;
-
-      *(int *)(&stack0xffffffe8 + iVar3) = *puVar7;
-
-      *(char **)(&stack0xfffffff0 + iVar3) = &stack0x0000000c + iVar11 + iVar3;
-
-      iVar5 = (*(int(*)())0x0602755C)(*(int *)(&stack0xffffffe8 + iVar3),
-
-                         *(int *)(&stack0x0000000c + iVar11 + iVar3));
-
-      **(int **)((int)aiStack_28 + iVar3 + 4) = iVar5 + *(int *)(&stack0xffffffe8 + iVar3);
-
-      piVar13 = (int *)(&stack0x0000001c + iVar11 + iVar3);
-
-      *(int **)(&stack0xfffffff4 + iVar3) = piVar13;
-
-      iVar5 = *piVar13;
-
-      *(int *)(&stack0xffffffe8 + iVar3) = iVar5;
-
-      (*(int(*)())0x0602755C)(iVar5,**(int **)(&stack0xfffffff0 + iVar3));
-
-      iVar5 = (*(int(*)())0x06034FE0)();
-
-      *piVar13 = *(int *)(&stack0xffffffe8 + iVar3) - iVar5;
-
+    corner_idx = (unsigned int)(slot_id << 2);
+    *(char **)(&stack0xffffffe8 + frame_offset) = &stack0x0000000c + corner_idx + frame_offset;
+    *(char **)((int)temp_buf + frame_offset + 4) = &stack0x0000000c + corner_idx + frame_offset;
+    corner_ptr = (int *)((int)temp_buf + corner_idx + DAT_06016ffa + frame_offset + 4);
+    *(int **)(&stack0xfffffff4 + frame_offset) = corner_ptr;
+    mul_result = (*(int(*)())multiply_fn)(*corner_ptr,*(int *)((int)&cos_component + frame_offset));
+    *(int *)((int)temp_buf + frame_offset) = mul_result;
+    *(char **)(&stack0xfffffff0 + frame_offset) = &stack0x0000003c + corner_idx + frame_offset;
+    cross_result = (*(int(*)())multiply_fn)(*(int *)(&stack0x0000003c + corner_idx + frame_offset),
+                              *(int *)(&stack0xffffffe4 + frame_offset));
+    **(int **)((int)temp_buf + frame_offset + 4) = cross_result + *(int *)((int)temp_buf + frame_offset);
+    *(char **)((int)temp_buf + frame_offset + 4) = &stack0x0000002c + corner_idx + frame_offset;
+    mul_result = (*(int(*)())multiply_fn)(**(int **)(&stack0xfffffff4 + frame_offset),
+                              *(int *)(&stack0xffffffe4 + frame_offset));
+    *(int *)((int)temp_buf + frame_offset) = mul_result;
+    cross_result = (*(int(*)())multiply_fn)(**(int **)(&stack0xfffffff0 + frame_offset),
+                              *(int *)((int)&cos_component + frame_offset));
+    **(int **)((int)temp_buf + frame_offset + 4) = *(int *)((int)temp_buf + frame_offset) - cross_result;
+    *(int *)(&stack0x0000001c + corner_idx + frame_offset) =
+         *(int *)(&stack0x0000004c + corner_idx + frame_offset);
+    /* depth correction: divide to adjust for perspective */
+    if (**(int **)(&stack0xffffffe8 + frame_offset) != 0) {
+      corner_idx = (unsigned int)(slot_id << 2);
+      corner_ptr = (int *)(&stack0x0000002c + corner_idx + frame_offset);
+      *(int **)(&stack0xfffffff4 + frame_offset) = corner_ptr;
+      *(int **)((int)temp_buf + frame_offset + 4) = corner_ptr;
+      *(int *)(&stack0xffffffe8 + frame_offset) = *corner_ptr;
+      *(char **)(&stack0xfffffff0 + frame_offset) = &stack0x0000000c + corner_idx + frame_offset;
+      cross_result = (*(int(*)())0x0602755C)(*(int *)(&stack0xffffffe8 + frame_offset),  /* fixed_divide */
+                         *(int *)(&stack0x0000000c + corner_idx + frame_offset));
+      **(int **)((int)temp_buf + frame_offset + 4) = cross_result + *(int *)(&stack0xffffffe8 + frame_offset);
+      depth_ptr = (int *)(&stack0x0000001c + corner_idx + frame_offset);
+      *(int **)(&stack0xfffffff4 + frame_offset) = depth_ptr;
+      cross_result = *depth_ptr;
+      *(int *)(&stack0xffffffe8 + frame_offset) = cross_result;
+      (*(int(*)())0x0602755C)(cross_result,**(int **)(&stack0xfffffff0 + frame_offset));  /* fixed_divide */
+      cross_result = (*(int(*)())0x06034FE0)();              /* get_divide_result */
+      *depth_ptr = *(int *)(&stack0xffffffe8 + frame_offset) - cross_result;
     }
-
-    bVar14 = bVar14 + 1;
-
-  } while (bVar14 < 4);
-
-  *(int *)(0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x44) + 0x2c)
-
-       = *(int *)(&stack0xfffffff8 + iVar3);
-
-  puVar2 = (char *)0x06084FC8;
-
-  *(char **)(&stack0xfffffff0 + iVar3) =
-
-       0x06085490 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[iVar3] * 0x18) + 8;
-
-  bVar12 = 0;
-
-  bVar14 = (&stack0xffffffec)[iVar3];
-
+    slot_id = slot_id + 1;
+  } while (slot_id < 4);
+  /* restore original angle at slot+0x2C */
+  *(int *)(0x06084FC8 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x44) + 0x2c)
+       = *(int *)(&stack0xfffffff8 + frame_offset);
+  /* pass 3: convert rotated corners to screen coordinates */
+  slot_table = (char *)0x06084FC8;                           /* HUD object slot table */
+  *(char **)(&stack0xfffffff0 + frame_offset) =
+       0x06085490 + (short)((unsigned short)(unsigned char)(&stack0xffffffec)[frame_offset] * 0x18) + 8;  /* sprite output table */
+  vertex_i = 0;
+  slot_id = (&stack0xffffffec)[frame_offset];
   do {
-
-    iVar5 = (unsigned int)(bVar12 << 2) + *(int *)(&stack0xfffffff0 + iVar3);
-
-    *(int *)(&stack0xffffffec + iVar3) = iVar5;
-
-    *(int *)((int)aiStack_28 + iVar3 + 4) = iVar5;
-
-    uVar4 = *(int *)(puVar2 + (short)((unsigned short)bVar14 * 0x44) + 0xc);
-
-    *(unsigned int *)(&stack0xffffffe8 + iVar3) = (unsigned int)(bVar12 << 2);
-
-    iVar5 = (*(int(*)())puVar1)(*(int *)(&stack0x0000002c + (unsigned int)(bVar12 << 2) + iVar3),uVar4);
-
-    uVar6 = (*(int(*)())0x0602754C)(*(int *)(puVar2 + (short)((unsigned short)bVar14 * 0x44) + 4) + iVar5);
-
-    **(short **)((int)aiStack_28 + iVar3 + 4) = uVar6;
-
-    *(int *)((int)aiStack_28 + iVar3 + 4) = *(int *)(&stack0xffffffec + iVar3) + 2;
-
-    iVar5 = (*(int(*)())puVar1)(*(int *)
-
-                               (&stack0x0000001c + *(int *)(&stack0xffffffe8 + iVar3) + iVar3),
-
-                              *(int *)(puVar2 + (short)((unsigned short)bVar14 * 0x44) + 0xc));
-
-    uVar6 = (*(int(*)())0x0602754C)(*(int *)(puVar2 + (short)((unsigned short)bVar14 * 0x44) + 8) + iVar5);
-
-    bVar12 = bVar12 + 1;
-
-    **(short **)((int)aiStack_28 + iVar3 + 4) = uVar6;
-
-  } while (bVar12 < 4);
-
+    cross_result = (unsigned int)(vertex_i << 2) + *(int *)(&stack0xfffffff0 + frame_offset);
+    *(int *)(&stack0xffffffec + frame_offset) = cross_result;
+    *(int *)((int)temp_buf + frame_offset + 4) = cross_result;
+    mul_result = *(int *)(slot_table + (short)((unsigned short)slot_id * 0x44) + 0xc);  /* slot depth */
+    *(unsigned int *)(&stack0xffffffe8 + frame_offset) = (unsigned int)(vertex_i << 2);
+    cross_result = (*(int(*)())multiply_fn)(*(int *)(&stack0x0000002c + (unsigned int)(vertex_i << 2) + frame_offset),mul_result);
+    half_width = (*(int(*)())0x0602754C)(*(int *)(slot_table + (short)((unsigned short)slot_id * 0x44) + 4) + cross_result);  /* truncate_to_short: screen X */
+    **(short **)((int)temp_buf + frame_offset + 4) = half_width;
+    *(int *)((int)temp_buf + frame_offset + 4) = *(int *)(&stack0xffffffec + frame_offset) + 2;
+    cross_result = (*(int(*)())multiply_fn)(*(int *)
+                               (&stack0x0000001c + *(int *)(&stack0xffffffe8 + frame_offset) + frame_offset),
+                              *(int *)(slot_table + (short)((unsigned short)slot_id * 0x44) + 0xc));
+    half_width = (*(int(*)())0x0602754C)(*(int *)(slot_table + (short)((unsigned short)slot_id * 0x44) + 8) + cross_result);  /* truncate_to_short: screen Y */
+    vertex_i = vertex_i + 1;
+    **(short **)((int)temp_buf + frame_offset + 4) = half_width;
+  } while (vertex_i < 4);
   return;
-
 }
 
 /* hud_sprite_layer_render -- Render HUD sprite layers for race/results.

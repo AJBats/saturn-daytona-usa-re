@@ -67,313 +67,180 @@ extern int PTR_DAT_0601da3c;
 extern int PTR_DAT_0601df20;
 extern int PTR_DAT_0601e030;
 
-int FUN_0601c3e4()
+/* tire_skid_particle_render -- Render tire smoke/skid effects for 4 wheels.
+ * Checks car state flags at CAR_PTR_TARGET+2/+3 for skid triggers:
+ *   byte+3 bit 0x40 = front-left, bit 0x80 = front-right
+ *   byte+2 bit 0x01 = rear-left, bit 0x02 = rear-right
+ * Each wheel has an 8-frame timer at 0x0605DF4E/50/52/54 that counts down.
+ * Priority order: FL > FR > RL > RR (only one rendered per frame).
+ * Each effect uses matrix pipeline: reset (0x06027080), translate (0x060270F2),
+ * rotate (0x060271A2), then renders 3D model via 0x06032158/0x06031DF4.
+ * Animation cycles through 3 frames (mod 3) at 0x0605DF56/57.
+ * In 2-player mode (both 0x06063E1C/20 == 1), uses different depth scale.
+ * Also renders steering indicator when car has lateral velocity
+ * (offsets at DAT_0601c93c/93e), position from 0x06044670.
+ * Sprite budget at 0x0608A52C decremented by 0x30 per effect. */
+int tire_skid_particle_render()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int uVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  puVar5 = (char *)0x0605DF56;
-
-  puVar4 = (char *)0x0605DF57;
-
-  puVar3 = (char *)0x0608A52C;
-
-  puVar2 = (char *)0x00008000;
-
-  puVar1 = (char *)0x0605DF44;
-
-  iVar8 = CAR_PTR_TARGET;
-
+  char *steer_anim_ptr;
+  char *depth_scale;
+  char *sprite_budget;
+  char *anim_frame_ptr;
+  char *anim_alt_ptr;
+  int result;
+  int model_idx;
+  int car_ptr;
+  anim_alt_ptr = (char *)0x0605DF56;                        /* rear wheel anim frame */
+  anim_frame_ptr = (char *)0x0605DF57;                      /* front wheel anim frame */
+  sprite_budget = (char *)0x0608A52C;                       /* sprite budget counter */
+  depth_scale = (char *)0x00008000;                         /* fixed-point 0.5 */
+  steer_anim_ptr = (char *)0x0605DF44;                      /* steering indicator frame */
+  car_ptr = CAR_PTR_TARGET;
   if ((*(int *)0x06063E1C == 0) || (*(int *)0x06063E20 == 0)) {
-
+    /* no players active — consume 4 random seeds */
+    (*(int(*)())0x06034F78)();                               /* random_next */
     (*(int(*)())0x06034F78)();
-
     (*(int(*)())0x06034F78)();
-
-    (*(int(*)())0x06034F78)();
-
-    uVar6 = (*(int(*)())0x06034F78)();
-
+    result = (*(int(*)())0x06034F78)();
   }
-
   else {
-
-    if ((*(unsigned char *)(iVar8 + 3) & 0x40) != 0) {
-
-      *(short *)0x0605DF4E = 8;
-
-      (*(int(*)())0x06034F78)();
-
+    /* check each wheel's skid flag, set 8-frame timer */
+    if ((*(unsigned char *)(car_ptr + 3) & 0x40) != 0) {
+      *(short *)0x0605DF4E = 8;                              /* FL skid timer */
+      (*(int(*)())0x06034F78)();                             /* random_next */
     }
-
-    if (((int)*(char *)(iVar8 + 3) & 0x80U) != 0) {
-
-      *(short *)0x0605DF50 = 8;
-
+    if (((int)*(char *)(car_ptr + 3) & 0x80U) != 0) {
+      *(short *)0x0605DF50 = 8;                              /* FR skid timer */
       (*(int(*)())0x06034F78)();
-
     }
-
-    if ((*(unsigned char *)(iVar8 + 2) & 1) != 0) {
-
-      *(short *)0x0605DF52 = 8;
-
+    if ((*(unsigned char *)(car_ptr + 2) & 1) != 0) {
+      *(short *)0x0605DF52 = 8;                              /* RL skid timer */
       (*(int(*)())0x06034F78)();
-
     }
-
-    if ((*(unsigned char *)(iVar8 + 2) & 2) != 0) {
-
-      *(short *)0x0605DF54 = 8;
-
+    if ((*(unsigned char *)(car_ptr + 2) & 2) != 0) {
+      *(short *)0x0605DF54 = 8;                              /* RR skid timer */
       (*(int(*)())0x06034F78)();
-
     }
-
+    /* render highest-priority active effect (FL > FR > RL > RR) */
     if (*(short *)0x0605DF4E == 0) {
-
       if (*(short *)0x0605DF50 == 0) {
-
         if (*(short *)0x0605DF52 == 0) {
-
           if (*(short *)0x0605DF54 != 0) {
-
-            (*(int(*)())0x06027080)();
-
-            (*(int(*)())0x060270F2)(0xFFFE9DF4,puVar2,0x00013333);
-
-            (*(int(*)())0x060271A2)((int)DAT_0601c844);
-
-            iVar7 = ((unsigned char)*puVar4 + 0x12) << 2;
-
-            (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar7),
-
-                       *(int *)(0x060621D8 + iVar7));
-
-            iVar7 = ((unsigned char)*puVar4 + 0x12) << 2;
-
-            (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar7),*(short *)0x06089E9C,
-
-                       *(int *)(0x06062180 + iVar7));
-
-            *(int *)puVar3 = *(int *)puVar3 + -0x30;
-
-            *puVar4 = *puVar4 + '\x01';
-
-            if (2 < (unsigned char)*puVar4) {
-
-              *puVar4 = 0;
-
+            /* rear-right skid effect */
+            (*(int(*)())0x06027080)();                       /* matrix_reset */
+            (*(int(*)())0x060270F2)(0xFFFE9DF4,depth_scale,0x00013333);  /* translate: RR position */
+            (*(int(*)())0x060271A2)((int)DAT_0601c844);      /* rotate: RR angle */
+            model_idx = ((unsigned char)*anim_frame_ptr + 0x12) << 2;
+            (*(int(*)())0x06032158)(*(int *)(0x0606212C + model_idx),  /* model_set_texture */
+                       *(int *)(0x060621D8 + model_idx));
+            model_idx = ((unsigned char)*anim_frame_ptr + 0x12) << 2;
+            (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + model_idx),*(short *)0x06089E9C,  /* model_render */
+                       *(int *)(0x06062180 + model_idx));
+            *(int *)sprite_budget = *(int *)sprite_budget + -0x30;
+            *anim_frame_ptr = *anim_frame_ptr + '\x01';
+            if (2 < (unsigned char)*anim_frame_ptr) {
+              *anim_frame_ptr = 0;                           /* wrap anim frame (mod 3) */
             }
-
             *(short *)0x0605DF54 = *(short *)0x0605DF54 + -1;
-
           }
-
         }
-
         else {
-
-          (*(int(*)())0x06027080)();
-
-          (*(int(*)())0x060270F2)(0x0001620C,puVar2,0x00013333);
-
-          (*(int(*)())0x060271A2)((int)DAT_0601c77c);
-
-          iVar7 = ((unsigned char)*puVar5 + 0x12) << 2;
-
-          (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar7),
-
-                     *(int *)(0x060621D8 + iVar7));
-
-          iVar7 = ((unsigned char)*puVar5 + 0x12) << 2;
-
-          (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar7),*(short *)0x06089E9C,
-
-                     *(int *)(0x06062180 + iVar7));
-
-          *(int *)puVar3 = *(int *)puVar3 + -0x30;
-
-          *puVar5 = *puVar5 + '\x01';
-
-          if (2 < (unsigned char)*puVar5) {
-
-            *puVar5 = 0;
-
+          /* rear-left skid effect */
+          (*(int(*)())0x06027080)();                         /* matrix_reset */
+          (*(int(*)())0x060270F2)(0x0001620C,depth_scale,0x00013333);  /* translate: RL position */
+          (*(int(*)())0x060271A2)((int)DAT_0601c77c);        /* rotate: RL angle */
+          model_idx = ((unsigned char)*anim_alt_ptr + 0x12) << 2;
+          (*(int(*)())0x06032158)(*(int *)(0x0606212C + model_idx),
+                     *(int *)(0x060621D8 + model_idx));
+          model_idx = ((unsigned char)*anim_alt_ptr + 0x12) << 2;
+          (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + model_idx),*(short *)0x06089E9C,
+                     *(int *)(0x06062180 + model_idx));
+          *(int *)sprite_budget = *(int *)sprite_budget + -0x30;
+          *anim_alt_ptr = *anim_alt_ptr + '\x01';
+          if (2 < (unsigned char)*anim_alt_ptr) {
+            *anim_alt_ptr = 0;
           }
-
           *(short *)0x0605DF52 = *(short *)0x0605DF52 + -1;
-
         }
-
       }
-
       else {
-
-        (*(int(*)())0x06027080)();
-
+        /* front-right skid effect */
+        (*(int(*)())0x06027080)();                           /* matrix_reset */
         if ((*(int *)0x06063E1C == 1) && (*(int *)0x06063E20 == 1)) {
-
-          (*(int(*)())0x060270F2)(0xFFFEB78E,puVar2,0xFFFE4000);
-
-          (*(int(*)())0x06027124)((int)DAT_0601c5fa,(int)DAT_0601c5fa);
-
+          (*(int(*)())0x060270F2)(0xFFFEB78E,depth_scale,0xFFFE4000);  /* 2P mode: deeper Z */
+          (*(int(*)())0x06027124)((int)DAT_0601c5fa,(int)DAT_0601c5fa);  /* scale for 2P */
         }
-
         else {
-
-          (*(int(*)())0x060270F2)(0xFFFEB78E,puVar2,0xFFFF0000);
-
+          (*(int(*)())0x060270F2)(0xFFFEB78E,depth_scale,0xFFFF0000);  /* 1P mode */
         }
-
-        (*(int(*)())0x060271A2)((int)DAT_0601c6c0);
-
-        iVar7 = ((unsigned char)*puVar4 + 0x12) << 2;
-
-        (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar7),
-
-                   *(int *)(0x060621D8 + iVar7));
-
-        iVar7 = ((unsigned char)*puVar4 + 0x12) << 2;
-
-        (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar7),*(short *)0x06089E9C,
-
-                   *(int *)(0x06062180 + iVar7));
-
-        *(int *)puVar3 = *(int *)puVar3 + -0x30;
-
-        *puVar4 = *puVar4 + '\x01';
-
-        if (2 < (unsigned char)*puVar4) {
-
-          *puVar4 = 0;
-
+        (*(int(*)())0x060271A2)((int)DAT_0601c6c0);          /* rotate: FR angle */
+        model_idx = ((unsigned char)*anim_frame_ptr + 0x12) << 2;
+        (*(int(*)())0x06032158)(*(int *)(0x0606212C + model_idx),
+                   *(int *)(0x060621D8 + model_idx));
+        model_idx = ((unsigned char)*anim_frame_ptr + 0x12) << 2;
+        (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + model_idx),*(short *)0x06089E9C,
+                   *(int *)(0x06062180 + model_idx));
+        *(int *)sprite_budget = *(int *)sprite_budget + -0x30;
+        *anim_frame_ptr = *anim_frame_ptr + '\x01';
+        if (2 < (unsigned char)*anim_frame_ptr) {
+          *anim_frame_ptr = 0;
         }
-
         *(short *)0x0605DF50 = *(short *)0x0605DF50 + -1;
-
       }
-
     }
-
     else {
-
-      (*(int(*)())0x06027080)();
-
+      /* front-left skid effect (highest priority) */
+      (*(int(*)())0x06027080)();                             /* matrix_reset */
       if ((*(int *)0x06063E1C == 1) && (*(int *)0x06063E20 == 1)) {
-
-        (*(int(*)())0x060270F2)(0x00014872,puVar2,0xFFFE4000);
-
-        (*(int(*)())0x06027124)((int)DAT_0601c510,(int)DAT_0601c510);
-
+        (*(int(*)())0x060270F2)(0x00014872,depth_scale,0xFFFE4000);  /* 2P mode */
+        (*(int(*)())0x06027124)((int)DAT_0601c510,(int)DAT_0601c510);  /* scale for 2P */
       }
-
       else {
-
-        (*(int(*)())0x060270F2)(0x00014872,puVar2,0xFFFF0000);
-
+        (*(int(*)())0x060270F2)(0x00014872,depth_scale,0xFFFF0000);  /* 1P mode */
       }
-
-      (*(int(*)())0x060271A2)((int)DAT_0601c5f8);
-
-      iVar7 = ((unsigned char)*puVar5 + 0x12) << 2;
-
-      (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar7),*(int *)(0x060621D8 + iVar7)
-
-                );
-
-      iVar7 = ((unsigned char)*puVar5 + 0x12) << 2;
-
-      (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar7),*(short *)0x06089E9C,
-
-                 *(int *)(0x06062180 + iVar7));
-
-      *(int *)puVar3 = *(int *)puVar3 + -0x30;
-
-      *puVar5 = *puVar5 + '\x01';
-
-      if (2 < (unsigned char)*puVar5) {
-
-        *puVar5 = 0;
-
+      (*(int(*)())0x060271A2)((int)DAT_0601c5f8);            /* rotate: FL angle */
+      model_idx = ((unsigned char)*anim_alt_ptr + 0x12) << 2;
+      (*(int(*)())0x06032158)(*(int *)(0x0606212C + model_idx),*(int *)(0x060621D8 + model_idx));
+      model_idx = ((unsigned char)*anim_alt_ptr + 0x12) << 2;
+      (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + model_idx),*(short *)0x06089E9C,
+                 *(int *)(0x06062180 + model_idx));
+      *(int *)sprite_budget = *(int *)sprite_budget + -0x30;
+      *anim_alt_ptr = *anim_alt_ptr + '\x01';
+      if (2 < (unsigned char)*anim_alt_ptr) {
+        *anim_alt_ptr = 0;
       }
-
       *(short *)0x0605DF4E = *(short *)0x0605DF4E + -1;
-
     }
-
+    /* steering/wheel alignment indicator */
     if (*(int *)0x06059F30 == 0) {
-
-      uVar6 = 0;
-
+      result = 0;
     }
-
     else {
-
-      if ((*(short *)(iVar8 + DAT_0601c93c) == 0) && (*(short *)(iVar8 + DAT_0601c93e) == 0)) {
-
-        *(short *)puVar1 = 0;
-
+      if ((*(short *)(car_ptr + DAT_0601c93c) == 0) && (*(short *)(car_ptr + DAT_0601c93e) == 0)) {
+        *(short *)steer_anim_ptr = 0;                        /* reset steer anim when no lateral vel */
       }
-
-      if ((*(short *)(iVar8 + DAT_0601c93c) != 0) ||
-
-         (uVar6 = 0, *(short *)(iVar8 + DAT_0601c93e) != 0)) {
-
-        (*(int(*)())0x06027080)();
-
-        (*(int(*)())0x060270F2)(*(int *)0x06044670,
-
-                   *(int *)(0x06044670 + 4) + -13107,
-
-                   0xFFFF6000 - *(int *)(0x06044670 + 8));
-
-        (*(int(*)())0x060271A2)(puVar2);
-
-        iVar8 = (*(short *)(0x0605DF46 + *(short *)((int)(int)puVar1 << 1)) + 0xe) << 2;
-
-        (*(int(*)())0x06032158)(*(int *)(0x0606212C + iVar8),
-
-                   *(int *)(0x060621D8 + iVar8));
-
-        iVar8 = (*(short *)(0x0605DF46 + *(short *)((int)(int)puVar1 << 1)) + 0xe) << 2;
-
-        uVar6 = (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + iVar8),*(short *)0x06089E9C
-
-                           ,*(int *)(0x06062180 + iVar8));
-
-        *(int *)puVar3 = *(int *)puVar3 + -0x30;
-
-        *(short *)puVar1 = *(short *)puVar1 + 1;
-
-        if (3 < *(short *)puVar1) {
-
-          *(short *)puVar1 = 0;
-
+      if ((*(short *)(car_ptr + DAT_0601c93c) != 0) ||
+         (result = 0, *(short *)(car_ptr + DAT_0601c93e) != 0)) {
+        (*(int(*)())0x06027080)();                           /* matrix_reset */
+        (*(int(*)())0x060270F2)(*(int *)0x06044670,          /* steer indicator position X */
+                   *(int *)(0x06044670 + 4) + -13107,        /* position Y - offset */
+                   0xFFFF6000 - *(int *)(0x06044670 + 8));   /* position Z (behind car) */
+        (*(int(*)())0x060271A2)(depth_scale);                /* rotate */
+        car_ptr = (*(short *)(0x0605DF46 + *(short *)((int)(int)steer_anim_ptr << 1)) + 0xe) << 2;
+        (*(int(*)())0x06032158)(*(int *)(0x0606212C + car_ptr),  /* model_set_texture */
+                   *(int *)(0x060621D8 + car_ptr));
+        car_ptr = (*(short *)(0x0605DF46 + *(short *)((int)(int)steer_anim_ptr << 1)) + 0xe) << 2;
+        result = (*(int(*)())0x06031DF4)(*(int *)(0x060620D8 + car_ptr),*(short *)0x06089E9C  /* model_render */
+                           ,*(int *)(0x06062180 + car_ptr));
+        *(int *)sprite_budget = *(int *)sprite_budget + -0x30;
+        *(short *)steer_anim_ptr = *(short *)steer_anim_ptr + 1;
+        if (3 < *(short *)steer_anim_ptr) {
+          *(short *)steer_anim_ptr = 0;                      /* wrap steer anim (mod 4) */
         }
-
       }
-
     }
-
   }
-
-  return uVar6;
-
+  return result;
 }
 
 /* results_screen_init -- Initialize results/record display screen.
@@ -441,349 +308,207 @@ void FUN_0601c978()
   VBLANK_OUT_COUNTER = 0;
 }
 
-void FUN_0601caee()
+/* results_screen_update -- Update results screen with save data and palette transitions.
+ * Decrements display timer at 0x0608601C each frame. On button press
+ * (0x06063D98 & DAT_0601cb48), probes backup RAM for save data at
+ * cascading size thresholds (0x40680000, 0x40568000) via backup_init
+ * (0x060358EC) and backup_read (0x06035844). Sets transition state
+ * at 0x06086024 (1=large found, 2=medium found, 3=both found).
+ * Calls FUN_0601d12c for rendering, then either:
+ *   - State 0: tries deeper save probes (0x40726000, 0x406D4000, etc.)
+ *     with cascading fallbacks to different handlers
+ *   - State 1/2/3: loads palette tables via DMA (0x0602766C) to
+ *     VDP2 CRAM banks A (0x25F00200) and B (0x25F00400)
+ * Ends by setting GAME_STATE=2 (return to menu), then VDP vsync. */
+void results_screen_update()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int iVar7;
-
-  int *puVar8;
-
-  int local_48;
-
-  int local_44;
-
-  char *local_40 [3];
-
-  int local_34;
-
-  int local_30;
-
-  char *local_2c [3];
-
-  char local_20 [4];
-
-  puVar6 = (char *)0x0608601C;
-
-  puVar5 = (char *)0x06086024;
-
-  puVar4 = (char *)0x0602766C;
-
-  puVar3 = (char *)0x25F00400;
-
-  puVar2 = (char *)0x25F00200;
-
-  puVar1 = (char *)0x06086020;
-
-  *(int *)0x0608601C = *(int *)0x0608601C + -1;
-
-  puVar8 = (int *)local_20;
-
+  char *fade_step_ptr;
+  char *cram_bank_a;
+  char *cram_bank_b;
+  char *dma_copy_fn;
+  char *transition_state;
+  char *display_timer;
+  int save_result;
+  int *save_ctx;
+  int save_buf_c;
+  int save_pad_c;
+  char *save_desc_c[3];
+  int save_buf_b;
+  int save_pad_b;
+  char *save_desc_b[3];
+  char save_base[4];
+  display_timer = (char *)0x0608601C;                       /* results display countdown */
+  transition_state = (char *)0x06086024;                    /* palette transition state */
+  dma_copy_fn = (char *)0x0602766C;                         /* DMA block copy */
+  cram_bank_b = (char *)0x25F00400;                         /* VDP2 CRAM bank B */
+  cram_bank_a = (char *)0x25F00200;                         /* VDP2 CRAM bank A */
+  fade_step_ptr = (char *)0x06086020;                       /* fade step counter */
+  *(int *)0x0608601C = *(int *)0x0608601C + -1;             /* decrement display timer */
+  save_ctx = (int *)save_base;
+  /* check for button press to trigger save probe */
   if (((*(unsigned short *)0x06063D98 & DAT_0601cb48) != 0) &&
-
-     (puVar8 = (int *)local_20, *(int *)0x06086024 == 0)) {
-
-    local_2c[0] = (char *)local_2c;
-
-    (*(int(*)())0x060358EC)();
-
-    local_30 = 0;
-
-    local_34 = 0x40680000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 == 0) {
-
-      local_40[0] = (char *)local_40;
-
-      (*(int(*)())0x060358EC)();
-
-      local_44 = 0;
-
-      puVar8 = &local_48;
-
-      local_48 = 0x40568000;
-
-      iVar7 = (*(int(*)())0x06035844)();
-
-      if (iVar7 == 0) {
-
-        *(int *)puVar5 = 3;
-
+     (save_ctx = (int *)save_base, *(int *)0x06086024 == 0)) {
+    /* probe backup RAM at size 0x40680000 (large) */
+    save_desc_b[0] = (char *)save_desc_b;
+    (*(int(*)())0x060358EC)();                               /* backup_init */
+    save_pad_b = 0;
+    save_buf_b = 0x40680000;
+    save_result = (*(int(*)())0x06035844)();                 /* backup_read */
+    if (save_result == 0) {
+      /* large save not found, try medium (0x40568000) */
+      save_desc_c[0] = (char *)save_desc_c;
+      (*(int(*)())0x060358EC)();                             /* backup_init */
+      save_pad_c = 0;
+      save_ctx = &save_buf_c;
+      save_buf_c = 0x40568000;
+      save_result = (*(int(*)())0x06035844)();               /* backup_read */
+      if (save_result == 0) {
+        *(int *)transition_state = 3;                        /* both sizes found */
       }
-
       else {
-
-        *(int *)puVar5 = 2;
-
-        puVar8 = &local_48;
-
+        *(int *)transition_state = 2;                        /* only medium found */
+        save_ctx = &save_buf_c;
       }
-
     }
-
     else {
-
-      *(int *)puVar5 = 1;
-
-      puVar8 = &local_34;
-
+      *(int *)transition_state = 1;                          /* large found */
+      save_ctx = &save_buf_b;
     }
-
   }
-
-  FUN_0601d12c();
-
-  if (*(int *)puVar5 == 0) {
-
-    *(char **)((int)puVar8 + -0xc) = (char *)((int)puVar8 + -0xc);
-
+  FUN_0601d12c();                                            /* render results display */
+  if (*(int *)transition_state == 0) {
+    /* no button pressed — try deeper save probes with cascading sizes */
+    /* probe 1: size 0x40726000 */
+    *(char **)((int)save_ctx + -0xc) = (char *)((int)save_ctx + -0xc);
+    (*(int(*)())0x060358EC)();                               /* backup_init */
+    *(int *)((int)save_ctx + -0x10) = 0;
+    *(int *)((int)save_ctx + -0x14) = 0x40726000;
+    save_result = (*(int(*)())0x06035844)();                 /* backup_read */
+    if (save_result != 0) goto LAB_0601cda4;
+    /* probe 2: size 0x406D4000 */
+    *(char **)((int)save_ctx + -0x20) = (char *)((int)save_ctx + -0x20);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x10) = 0;
-
-    *(int *)((int)puVar8 + -0x14) = 0x40726000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 != 0) goto LAB_0601cda4;
-
-    *(char **)((int)puVar8 + -0x20) = (char *)((int)puVar8 + -0x20);
-
-    (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x24) = 0;
-
-    *(int *)((int)puVar8 + -0x28) = 0x406D4000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 != 0) {
-
-      FUN_0601cdc0();
-
+    *(int *)((int)save_ctx + -0x24) = 0;
+    *(int *)((int)save_ctx + -0x28) = 0x406D4000;
+    save_result = (*(int(*)())0x06035844)();
+    if (save_result != 0) {
+      FUN_0601cdc0();                                        /* fallback handler A */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0x34) = (char *)((int)puVar8 + -0x34);
-
+    /* probe 3: verify size 0x406D4000 */
+    *(char **)((int)save_ctx + -0x34) = (char *)((int)save_ctx + -0x34);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x38) = 0;
-
-    *(int *)((int)puVar8 + -0x3c) = 0x406D4000;
-
-    iVar7 = (*(int(*)())0x06035B34)();
-
-    if (iVar7 == 0) {
-
-      *(int *)puVar1 = 0;
-
+    *(int *)((int)save_ctx + -0x38) = 0;
+    *(int *)((int)save_ctx + -0x3c) = 0x406D4000;
+    save_result = (*(int(*)())0x06035B34)();                 /* backup_verify */
+    if (save_result == 0) {
+      *(int *)fade_step_ptr = 0;                             /* reset fade step */
     }
-
-    *(char **)((int)puVar8 + -0x48) = (char *)((int)puVar8 + -0x48);
-
+    /* probe 4: size 0x40680000 */
+    *(char **)((int)save_ctx + -0x48) = (char *)((int)save_ctx + -0x48);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x4c) = 0;
-
-    *(int *)((int)puVar8 + -0x50) = 0x40680000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 != 0) {
-
-      FUN_0601cefc();
-
+    *(int *)((int)save_ctx + -0x4c) = 0;
+    *(int *)((int)save_ctx + -0x50) = 0x40680000;
+    save_result = (*(int(*)())0x06035844)();
+    if (save_result != 0) {
+      FUN_0601cefc();                                        /* fallback handler B */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0x5c) = (char *)((int)puVar8 + -0x5c);
-
+    /* probe 5: verify size 0x40680000 */
+    *(char **)((int)save_ctx + -0x5c) = (char *)((int)save_ctx + -0x5c);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x60) = 0;
-
-    *(int *)((int)puVar8 + -100) = 0x40680000;
-
-    iVar7 = (*(int(*)())0x06035B34)();
-
-    if (iVar7 == 0) {
-
-      FUN_0601d014();
-
+    *(int *)((int)save_ctx + -0x60) = 0;
+    *(int *)((int)save_ctx + -100) = 0x40680000;
+    save_result = (*(int(*)())0x06035B34)();
+    if (save_result == 0) {
+      FUN_0601d014();                                        /* transition handler A */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0x70) = (char *)((int)puVar8 + -0x70);
-
+    /* probe 6: size 0x40608000 */
+    *(char **)((int)save_ctx + -0x70) = (char *)((int)save_ctx + -0x70);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x74) = 0;
-
-    *(int *)((int)puVar8 + -0x78) = 0x40608000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 != 0) {
-
-      FUN_0601cdc0();
-
+    *(int *)((int)save_ctx + -0x74) = 0;
+    *(int *)((int)save_ctx + -0x78) = 0x40608000;
+    save_result = (*(int(*)())0x06035844)();
+    if (save_result != 0) {
+      FUN_0601cdc0();                                        /* fallback handler A */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0x84) = (char *)((int)puVar8 + -0x84);
-
+    /* probe 7: verify size 0x40608000 */
+    *(char **)((int)save_ctx + -0x84) = (char *)((int)save_ctx + -0x84);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x88) = 0;
-
-    *(int *)((int)puVar8 + -0x8c) = 0x40608000;
-
-    iVar7 = (*(int(*)())0x06035B34)();
-
-    if (iVar7 == 0) {
-
-      *(int *)puVar1 = 0;
-
+    *(int *)((int)save_ctx + -0x88) = 0;
+    *(int *)((int)save_ctx + -0x8c) = 0x40608000;
+    save_result = (*(int(*)())0x06035B34)();
+    if (save_result == 0) {
+      *(int *)fade_step_ptr = 0;                             /* reset fade step */
     }
-
-    *(char **)((int)puVar8 + -0x98) = (char *)((int)puVar8 + -0x98);
-
+    /* probe 8: size 0x40568000 */
+    *(char **)((int)save_ctx + -0x98) = (char *)((int)save_ctx + -0x98);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0x9c) = 0;
-
-    *(int *)((int)puVar8 + -0xa0) = 0x40568000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 != 0) {
-
-      FUN_0601cefc();
-
+    *(int *)((int)save_ctx + -0x9c) = 0;
+    *(int *)((int)save_ctx + -0xa0) = 0x40568000;
+    save_result = (*(int(*)())0x06035844)();
+    if (save_result != 0) {
+      FUN_0601cefc();                                        /* fallback handler B */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0xac) = (char *)((int)puVar8 + -0xac);
-
+    /* probe 9: verify size 0x40568000 */
+    *(char **)((int)save_ctx + -0xac) = (char *)((int)save_ctx + -0xac);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0xb0) = 0;
-
-    *(int *)((int)puVar8 + -0xb4) = 0x40568000;
-
-    iVar7 = (*(int(*)())0x06035B34)();
-
-    if (iVar7 == 0) {
-
-      FUN_0601d074();
-
+    *(int *)((int)save_ctx + -0xb0) = 0;
+    *(int *)((int)save_ctx + -0xb4) = 0x40568000;
+    save_result = (*(int(*)())0x06035B34)();
+    if (save_result == 0) {
+      FUN_0601d074();                                        /* transition handler B */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0xc0) = (char *)((int)puVar8 + -0xc0);
-
+    /* probe 10: size 0x403E0000 (smallest) */
+    *(char **)((int)save_ctx + -0xc0) = (char *)((int)save_ctx + -0xc0);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0xc4) = 0;
-
-    *(int *)((int)puVar8 + -200) = 0x403E0000;
-
-    iVar7 = (*(int(*)())0x06035844)();
-
-    if (iVar7 != 0) {
-
-      FUN_0601cdc0();
-
+    *(int *)((int)save_ctx + -0xc4) = 0;
+    *(int *)((int)save_ctx + -200) = 0x403E0000;
+    save_result = (*(int(*)())0x06035844)();
+    if (save_result != 0) {
+      FUN_0601cdc0();                                        /* fallback handler A */
       goto LAB_0601cda4;
-
     }
-
-    *(char **)((int)puVar8 + -0xd4) = (char *)((int)puVar8 + -0xd4);
-
+    /* probe 11: verify size 0x403E0000 */
+    *(char **)((int)save_ctx + -0xd4) = (char *)((int)save_ctx + -0xd4);
     (*(int(*)())0x060358EC)();
-
-    *(int *)((int)puVar8 + -0xd8) = 0;
-
-    *(int *)((int)puVar8 + -0xdc) = 0x403E0000;
-
-    iVar7 = (*(int(*)())0x06035B34)();
-
-    if (iVar7 == 0) {
-
-      *(int *)puVar1 = 0;
-
+    *(int *)((int)save_ctx + -0xd8) = 0;
+    *(int *)((int)save_ctx + -0xdc) = 0x403E0000;
+    save_result = (*(int(*)())0x06035B34)();
+    if (save_result == 0) {
+      *(int *)fade_step_ptr = 0;                             /* reset fade step */
     }
-
-    if (0 < *(int *)puVar6) {
-
-      FUN_0601cefc();
-
+    /* if display timer still positive, apply fade and exit early */
+    if (0 < *(int *)display_timer) {
+      FUN_0601cefc();                                        /* fallback handler B */
       goto LAB_0601cda4;
-
     }
-
   }
-
   else {
-
-    if (*(int *)puVar5 == 1) {
-
-      (*(int(*)())puVar4)(puVar2,0x0604880C,0x20);
-
-      (*(int(*)())puVar4)(puVar3,0x0604882C,0x20);
-
+    /* palette DMA based on transition state */
+    if (*(int *)transition_state == 1) {
+      (*(int(*)())dma_copy_fn)(cram_bank_a,0x0604880C,0x20);  /* palette set A → CRAM bank A */
+      (*(int(*)())dma_copy_fn)(cram_bank_b,0x0604882C,0x20);  /* palette set A → CRAM bank B */
     }
-
-    if (*(int *)puVar5 == 2) {
-
-      FUN_0601d014();
-
-      (*(int(*)())puVar4)(puVar2,0x0604884C,0x20);
-
-      (*(int(*)())puVar4)(puVar3,0x0604886C,0x20);
-
+    if (*(int *)transition_state == 2) {
+      FUN_0601d014();                                        /* transition handler A */
+      (*(int(*)())dma_copy_fn)(cram_bank_a,0x0604884C,0x20);  /* palette set B → CRAM bank A */
+      (*(int(*)())dma_copy_fn)(cram_bank_b,0x0604886C,0x20);  /* palette set B → CRAM bank B */
     }
-
-    if (*(int *)puVar5 == 3) {
-
-      (*(int(*)())puVar4)(puVar2,0x0605D17C,0x20);
-
-      (*(int(*)())puVar4)(puVar3,0x0605D19C,0x20);
-
+    if (*(int *)transition_state == 3) {
+      (*(int(*)())dma_copy_fn)(cram_bank_a,0x0605D17C,0x20);  /* palette set C → CRAM bank A */
+      (*(int(*)())dma_copy_fn)(cram_bank_b,0x0605D19C,0x20);  /* palette set C → CRAM bank B */
     }
-
   }
-
-  GAME_STATE = 2;
-
+  GAME_STATE = 2;                                           /* return to menu */
 LAB_0601cda4:
-
-  (*(int(*)())0x06026CE0)();
-
+  (*(int(*)())0x06026CE0)();                                 /* VDP vsync */
   VBLANK_OUT_COUNTER = 0;
-
   return;
-
 }
 
 /* palette_fade_out -- Fade VDP2 palette to black.
