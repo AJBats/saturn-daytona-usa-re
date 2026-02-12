@@ -1104,289 +1104,182 @@ unsigned int FUN_0600b914()
   return result;
 }
 
+/* camera_position_update -- update camera position/orientation based on car state and camera mode */
 void FUN_0600bb94()
 {
+  char camera_mode;
+  char *matrix_apply;
+  char *cam_z_offset;
+  char *cam_y_offset;
+  char *cam_world_pos;
+  char *cam_track_arr;
+  int zoom_step;
+  char *cam_lateral;
+  int car_ptr;
+  int sin_result;
+  int cos_result[2];
 
-  char cVar1;
+  cam_lateral = (char *)0x06063E24;  /* camera X lateral offset */
+  cam_track_arr = (int *)0x06063EEC; /* +4=heading, +8=pitch */
+  cam_world_pos = (char *)0x06063EF8; /* camera world X/Y/Z */
+  cam_y_offset = (char *)0x06063E30; /* camera Y offset */
+  cam_z_offset = (char *)0x06063E28; /* camera Z offset */
+  matrix_apply = (int *)0x06038520;  /* matrix_apply function */
+  car_ptr = CAR_PTR_TARGET;
+  zoom_step = (int)DAT_0600bc2c;    /* camera zoom increment */
 
-  char *puVar2;
+  camera_mode = *(int *)0x06078654;
+  if (camera_mode != '\0') {
 
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int iVar7;
-
-  char *puVar8;
-
-  int iVar9;
-
-  int local_28;
-
-  int aiStack_24 [2];
-
-  puVar8 = (char *)0x06063E24;
-
-  puVar6 = (int *)0x06063EEC;
-
-  puVar5 = (char *)0x06063EF8;
-
-  puVar4 = (char *)0x06063E30;
-
-  puVar3 = (char *)0x06063E28;
-
-  puVar2 = (int *)0x06038520;
-
-  iVar9 = CAR_PTR_TARGET;
-
-  iVar7 = (int)DAT_0600bc2c;
-
-  cVar1 = *(int *)0x06078654;
-
-  if (cVar1 != '\0') {
-
-    if (cVar1 == '\x01') {
-
+    if (camera_mode == '\x01') {
+      /* Mode 1: Normal following camera */
       if (*(int *)0x0605A1C4 == 0) {
-
         if (*(unsigned int *)0x06063E20 < 2) {
-
-          *(int *)(0x06063EEC + 4) = *(int *)(iVar9 + 0x20) + *(int *)(iVar9 + DAT_0600bc2e);
-
+          /* Track car heading + steering offset */
+          *(int *)(0x06063EEC + 4) = *(int *)(car_ptr + 0x20) + *(int *)(car_ptr + DAT_0600bc2e);
         }
-
-        FUN_0600c3a8((int)*(short *)0x06063D9A);
-
+        FUN_0600c3a8((int)*(short *)0x06063D9A); /* camera_steering_input */
       }
-
     }
 
-    else if (cVar1 == '\x04') {
-
-      if (*(int *)(iVar9 + DAT_0600bcee) == 0) {
-
-        *(int *)0x06063E20 = 2;
-
+    else if (camera_mode == '\x04') {
+      /* Mode 4: Crash/recovery — time-based zoom with heading interpolation */
+      if (*(int *)(car_ptr + DAT_0600bcee) == 0) {
+        *(int *)0x06063E20 = 2; /* set camera state = zoomed */
       }
-
-      else if (*(int *)(iVar9 + DAT_0600bcee) < 0x31) {
-
-        if (*(int *)(iVar9 + DAT_0600bcee) < 0x29) {
-
-          if (*(int *)(iVar9 + DAT_0600bcee) < 0x11) {
-
-            if (*(int *)(iVar9 + DAT_0600bcee) < 9) {
-
-              if ((*(int *)(iVar9 + DAT_0600bdac) == 8) || (*(int *)(iVar9 + DAT_0600bdac) == 7)) {
-
+      else if (*(int *)(car_ptr + DAT_0600bcee) < 0x31) {
+        if (*(int *)(car_ptr + DAT_0600bcee) < 0x29) {
+          if (*(int *)(car_ptr + DAT_0600bcee) < 0x11) {
+            if (*(int *)(car_ptr + DAT_0600bcee) < 9) {
+              /* Early crash frames: snap to overhead if collision type 7 or 8 */
+              if ((*(int *)(car_ptr + DAT_0600bdac) == 8) || (*(int *)(car_ptr + DAT_0600bdac) == 7)) {
                 *(int *)0x06063E1C = 2;
-
                 *(int *)0x06059F30 = 1;
-
-                (*(int(*)())0x06038BD4)(8,0);
-
-                *(char **)puVar8 = (char *)0x00058000;
-
-                *(char **)0x06063E34 = 0x0000F300;
-
-                *(char **)puVar3 = (char *)0x006E0000;
-
-                *(char **)0x06063E2C = 0x00100000;
-
-                *(int *)puVar4 = 0;
-
+                (*(int(*)())0x06038BD4)(8,0); /* matrix_reset */
+                *(char **)cam_lateral = (char *)0x00058000;
+                *(char **)0x06063E34 = 0x0000F300; /* cam_base_heading */
+                *(char **)cam_z_offset = (char *)0x006E0000;
+                *(char **)0x06063E2C = 0x00100000; /* cam_pitch_offset */
+                *(int *)cam_y_offset = 0;
               }
-
             }
-
             else {
-
-              *(int *)0x06063E24 = *(int *)0x06063E24 + iVar7;
-
+              /* Frames 9-16: zoom in */
+              *(int *)0x06063E24 = *(int *)0x06063E24 + zoom_step;
             }
-
           }
-
         }
-
         else {
-
-          *(int *)0x06063E24 = *(int *)0x06063E24 - iVar7;
-
+          /* Frames 41-48: zoom out */
+          *(int *)0x06063E24 = *(int *)0x06063E24 - zoom_step;
         }
-
       }
 
-      iVar7 = (int)DAT_0600bdae;
-
-      *(int *)(puVar6 + 4) = *(int *)(iVar9 + 0x20) - *(int *)(iVar9 + iVar7);
-
-      *(int *)(iVar9 + iVar7) =
-
-           *(int *)(iVar9 + iVar7) + ((int)0x00008000 - *(int *)(iVar9 + iVar7) >> 4);
-
+      /* Interpolate heading toward 0x8000 (forward) */
+      zoom_step = (int)DAT_0600bdae;
+      *(int *)(cam_track_arr + 4) = *(int *)(car_ptr + 0x20) - *(int *)(car_ptr + zoom_step);
+      *(int *)(car_ptr + zoom_step) =
+           *(int *)(car_ptr + zoom_step) + ((int)0x00008000 - *(int *)(car_ptr + zoom_step) >> 4);
     }
 
-    else if (cVar1 == '\x06') {
-
+    else if (camera_mode == '\x06') {
+      /* Mode 6: Set camera state to 3 (transition) */
       *(int *)0x06063E20 = 3;
-
     }
 
-    else if (cVar1 == '\a') {
-
-      if (*(int *)(iVar9 + PTR_DAT_0600bc30) < 0x31) {
-
-        if (*(int *)(iVar9 + PTR_DAT_0600bc30) < 0x29) {
-
-          if (*(int *)(iVar9 + PTR_DAT_0600bc30) < 0x11) {
-
-            if (*(int *)(iVar9 + PTR_DAT_0600bc30) < 9) {
-
-              if ((*(int *)(iVar9 + DAT_0600bcee) == 8) || (*(int *)(iVar9 + DAT_0600bcee) == 7)) {
-
+    else if (camera_mode == '\a') {
+      /* Mode 7: Same crash zoom as mode 4, plus steering input */
+      if (*(int *)(car_ptr + PTR_DAT_0600bc30) < 0x31) {
+        if (*(int *)(car_ptr + PTR_DAT_0600bc30) < 0x29) {
+          if (*(int *)(car_ptr + PTR_DAT_0600bc30) < 0x11) {
+            if (*(int *)(car_ptr + PTR_DAT_0600bc30) < 9) {
+              if ((*(int *)(car_ptr + DAT_0600bcee) == 8) || (*(int *)(car_ptr + DAT_0600bcee) == 7)) {
                 *(int *)0x06063E1C = 2;
-
                 *(int *)0x06059F30 = 1;
-
                 (*(int(*)())0x06038BD4)(8,0);
-
-                *(char **)puVar8 = (char *)0x00058000;
-
+                *(char **)cam_lateral = (char *)0x00058000;
                 *(char **)0x06063E34 = 0x0000F300;
-
-                *(char **)puVar3 = (char *)0x006E0000;
-
+                *(char **)cam_z_offset = (char *)0x006E0000;
                 *(char **)0x06063E2C = 0x00100000;
-
-                *(int *)puVar4 = 0;
-
+                *(int *)cam_y_offset = 0;
               }
-
             }
-
             else {
-
-              *(int *)0x06063E24 = *(int *)0x06063E24 + iVar7;
-
+              *(int *)0x06063E24 = *(int *)0x06063E24 + zoom_step;
             }
-
           }
-
         }
-
         else {
-
-          *(int *)0x06063E24 = *(int *)0x06063E24 - iVar7;
-
+          *(int *)0x06063E24 = *(int *)0x06063E24 - zoom_step;
         }
-
       }
-
       FUN_0600c3a8((int)*(short *)0x06063D9A);
-
     }
-
   }
 
+  /* Compute camera lateral offset from heading direction */
   if (*(int *)0x06078663 == '\0') {
-
-    puVar8 = (char *)(*(int *)(puVar6 + 4) * -0x400 + 0xFFA00000);
-
+    cam_lateral = (char *)(*(int *)(cam_track_arr + 4) * -0x400 + 0xFFA00000);
   }
-
   else {
-
-    puVar8 = 0x01A00000 + *(int *)(puVar6 + 4) << 10;
-
+    cam_lateral = 0x01A00000 + *(int *)(cam_track_arr + 4) << 10;
   }
 
   if (*(int *)0x06082A30 == 0) {
-
-    if (*(int *)(iVar9 + PTR_DAT_0600be4c) == 0) {
-
-      (*(int(*)())0x060064F2)();
-
+    /* Normal racing — full camera pipeline */
+    if (*(int *)(car_ptr + PTR_DAT_0600be4c) == 0) {
+      (*(int(*)())0x060064F2)(); /* camera_auto_adjust */
     }
-
     else {
-
-      iVar7 = (int)DAT_0600bf3c;
-
-      *(int *)0x06063F04 = iVar7;
-
-      *(int *)0x06063F08 = iVar7;
-
+      zoom_step = (int)DAT_0600bf3c;
+      *(int *)0x06063F04 = zoom_step; /* cam_near_clip */
+      *(int *)0x06063F08 = zoom_step; /* cam_far_clip */
     }
 
-    (*(int(*)())0x0603850C)(4);
+    /* Build camera lateral rotation matrix */
+    (*(int(*)())0x0603850C)(4); /* matrix_mode(4) = lateral */
+    (*(int(*)())0x0603853C)(cam_lateral,*(int *)cam_z_offset,0);
+    (*(int(*)())matrix_apply)();
 
-    (*(int(*)())0x0603853C)(puVar8,*(int *)puVar3,0);
-
-    (*(int(*)())puVar2)();
-
-    iVar7 = *(int *)(iVar9 + 0x1c) << 8;
-
-    if (iVar7 < 0) {
-
-      iVar7 = *(int *)(iVar9 + 0x1c) << 9;
-
+    /* Build camera pitch rotation matrix */
+    zoom_step = *(int *)(car_ptr + 0x1c) << 8; /* car roll * 256 */
+    if (zoom_step < 0) {
+      zoom_step = *(int *)(car_ptr + 0x1c) << 9; /* double scale for negative */
     }
-
-    (*(int(*)())0x0603850C)(8);
-
+    (*(int(*)())0x0603850C)(8); /* matrix_mode(8) = pitch */
     (*(int(*)())0x0603853C)(0,*(int *)(0x0605BDCC + (*(unsigned short *)0x06063F46 & 0xc) << 2) << 9 +
+                 *(int *)0x06063E2C + zoom_step);
+    (*(int(*)())matrix_apply)();
 
-                 *(int *)0x06063E2C + iVar7);
+    (*(int(*)())0x06020E74)(); /* road_surface_scroll_update */
 
-    (*(int(*)())puVar2)();
+    /* Decompose camera heading into sin/cos for world position */
+    (*(int(*)())0x06027358)(*(int *)(cam_track_arr + 4),&sin_result,cos_result);
+    *(int *)cam_world_pos = *(int *)(car_ptr + 0x10) - sin_result;       /* cam_X = car_X - sin */
+    *(int *)(cam_world_pos + 4) = *(int *)(car_ptr + 0x14) + *(int *)cam_y_offset; /* cam_Y */
+    *(int *)(cam_world_pos + 8) = *(int *)(car_ptr + 0x18) + cos_result[0]; /* cam_Z = car_Z + cos */
 
-    (*(int(*)())0x06020E74)();
+    FUN_0600bf70(); /* camera_clamp_bounds */
 
-    (*(int(*)())0x06027358)(*(int *)(puVar6 + 4),&local_28,aiStack_24);
-
-    *(int *)puVar5 = *(int *)(iVar9 + 0x10) - local_28;
-
-    *(int *)(puVar5 + 4) = *(int *)(iVar9 + 0x14) + *(int *)puVar4;
-
-    *(int *)(puVar5 + 8) = *(int *)(iVar9 + 0x18) + aiStack_24[0];
-
-    FUN_0600bf70();
-
-    iVar7 = (*(int(*)())0x06027344)(*(int *)(puVar6 + 4) - *(int *)(iVar9 + 0x20));
-
-    *(int *)0x06078668 = -(iVar7 >> 7);
-
-    iVar7 = (*(int(*)())0x06027552)(*(int *)(iVar9 + 0x24),iVar7);
-
-    *(int *)(puVar6 + 8) = iVar7 + *(int *)(puVar6 + 8) >> 1;
-
+    /* Compute filtered yaw from heading delta */
+    zoom_step = (*(int(*)())0x06027344)(*(int *)(cam_track_arr + 4) - *(int *)(car_ptr + 0x20));
+    *(int *)0x06078668 = -(zoom_step >> 7); /* yaw_rate = -delta/128 */
+    zoom_step = (*(int(*)())0x06027552)(*(int *)(car_ptr + 0x24),zoom_step); /* fixed_multiply */
+    *(int *)(cam_track_arr + 8) = zoom_step + *(int *)(cam_track_arr + 8) >> 1; /* IIR filter pitch */
   }
-
   else {
-
+    /* Non-racing state — simplified camera with replay offset */
     (*(int(*)())0x0603850C)(4);
+    (*(int(*)())0x0603853C)(cam_lateral,*(int *)cam_z_offset,0);
+    (*(int(*)())matrix_apply)();
 
-    (*(int(*)())0x0603853C)(puVar8,*(int *)puVar3,0);
-
-    (*(int(*)())puVar2)();
-
-    (*(int(*)())0x06027358)(*(int *)(puVar6 + 4),&local_28,aiStack_24);
-
-    *(int *)puVar5 = (*(int *)(iVar9 + 0x10) - local_28) + *(int *)0x06082A70;
-
-    *(int *)(puVar5 + 4) = *(int *)(iVar9 + 0x14) + *(int *)puVar4;
-
-    *(int *)(puVar5 + 8) = *(int *)(iVar9 + 0x18) + aiStack_24[0] + *(int *)0x06082A78;
-
+    (*(int(*)())0x06027358)(*(int *)(cam_track_arr + 4),&sin_result,cos_result);
+    *(int *)cam_world_pos = (*(int *)(car_ptr + 0x10) - sin_result) + *(int *)0x06082A70; /* + replay_offset_X */
+    *(int *)(cam_world_pos + 4) = *(int *)(car_ptr + 0x14) + *(int *)cam_y_offset;
+    *(int *)(cam_world_pos + 8) = *(int *)(car_ptr + 0x18) + cos_result[0] + *(int *)0x06082A78; /* + replay_offset_Z */
   }
 
   return;
-
 }
 
 /* camera_heading_filter -- Compute filtered camera heading from car rotation.

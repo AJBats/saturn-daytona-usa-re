@@ -5384,232 +5384,143 @@ LAB_06027db6:
 
 }
 
+/* track_polygon_collision_test -- test point against track collision polygons, return height */
 unsigned int FUN_06027ede(param_1, param_2, param_3)
     int param_1;
     int *param_2;
     short *param_3;
 {
+  short search_id;
+  long long height_a;
+  long long height_b;
+  char *poly_index_table;
+  char *object_table;
+  unsigned int result;
+  short *search_ptr;
+  int half_space;
+  unsigned int poly_flags;
+  unsigned int *poly_record;
+  int search_index;
+  unsigned int poly_offset;
+  int poly_count;
+  int position_x;
+  int position_z;
 
-  short sVar1;
-
-  long long lVar2;
-
-  long long lVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  unsigned int uVar6;
-
-  short *psVar7;
-
-  int iVar8;
-
-  unsigned int uVar9;
-
-  unsigned int *puVar10;
-
-  int iVar11;
-
-  unsigned int uVar12;
-
-  int iVar13;
-
-  int iVar14;
-
-  int iVar15;
-
-  puVar5 = (int *)0x060BF000;
-
-  puVar4 = (char *)0x060C2000;
-
-  iVar15 = *param_2;
-
-  iVar14 = param_2[2];
+  poly_index_table = (int *)0x060BF000; /* polygon index lookup table */
+  object_table = (char *)0x060C2000;    /* object collision table */
+  position_x = *param_2;
+  position_z = param_2[2];
 
   if (CAR_COUNT == 2) {
-
-    iVar11 = 0;
-
-    psVar7 = (short *)0x06061270;
-
+    /* 2-player mode: search special override table at 0x06061270 */
+    search_index = 0;
+    search_ptr = (short *)0x06061270;
     while( 1 ) {
-
-      sVar1 = *psVar7;
-
-      psVar7 = psVar7 + 1;
-
-      if (sVar1 == 0) break;
-
-      if (param_1 == sVar1) {
-
+      search_id = *search_ptr;
+      search_ptr = search_ptr + 1;
+      if (search_id == 0) break;
+      if (param_1 == search_id) {
+        /* Match found — use override if car is before checkpoint 0x47 */
         if (*(int *)(CAR_PTR_CURRENT + (int)DAT_06027f56) < 0x47) {
-
-          iVar13 = (int)*(short *)((int)(0x06061240 + (iVar11 << 1)) + 2);
-
-          *(short *)0x06063F50 = *(short *)(0x06061240 + (iVar11 << 1));
-
+          poly_count = (int)*(short *)((int)(0x06061240 + (search_index << 1)) + 2);
+          *(short *)0x06063F50 = *(short *)(0x06061240 + (search_index << 1));
           goto LAB_06027f66;
-
         }
-
         break;
-
       }
-
-      iVar11 = iVar11 + 2;
-
+      search_index = search_index + 2;
     }
-
-    iVar13 = 0;
+    poly_count = 0;
 
 LAB_06027f66:
-
-    if (iVar13 == 0) {
-
-      iVar13 = (int)*(short *)(puVar4 + (((param_1 << 1) + 1) << 1));
-
-      uVar12 = (unsigned int)(int)*(short *)(puVar4 + (param_1 << 2)) >> 1;
-
+    if (poly_count == 0) {
+      /* No override — use standard object table */
+      poly_count = (int)*(short *)(object_table + (((param_1 << 1) + 1) << 1));
+      poly_offset = (unsigned int)(int)*(short *)(object_table + (param_1 << 2)) >> 1;
     }
-
     else {
-
-      uVar12 = (unsigned int)(int)*(short *)0x06063F50 >> 1;
-
+      poly_offset = (unsigned int)(int)*(short *)0x06063F50 >> 1;
     }
-
   }
-
   else {
-
-    iVar13 = (int)*(short *)(0x060C2000 + ((param_1 << 1) + 1) << 1);
-
-    uVar12 = (unsigned int)(int)*(short *)(0x060C2000 + (param_1 << 2)) >> 1;
-
+    /* Single player: direct object table lookup */
+    poly_count = (int)*(short *)(0x060C2000 + ((param_1 << 1) + 1) << 1);
+    poly_offset = (unsigned int)(int)*(short *)(0x060C2000 + (param_1 << 2)) >> 1;
   }
 
-  iVar11 = 0;
-
+  /* Test point against each polygon's 4 half-space planes */
+  search_index = 0;
   do {
+    /* Each polygon record is 0x34 bytes at 0x060A6000 */
+    poly_record = (unsigned int *)(0x060A6000 +
+                      (unsigned int)*(unsigned short *)(poly_index_table + (poly_offset << 1)) * (0x00000034 & 0xffff));
+    poly_flags = *poly_record;
 
-    puVar10 = (unsigned int *)(0x060A6000 +
-
-                      (unsigned int)*(unsigned short *)(puVar5 + (uVar12 << 1)) * (0x00000034 & 0xffff));
-
-    uVar9 = *puVar10;
-
-    iVar8 = ((int)((unsigned long long)((long long)(int)puVar10[4] * (long long)iVar15) >> 0x20) << 0x10 |
-
-            (unsigned int)((long long)(int)puVar10[4] * (long long)iVar15) >> 0x10) + puVar10[5];
-
-    if ((uVar9 & (unsigned int)0x01000000) == 0) {
-
-      iVar8 = iVar8 + iVar14;
-
+    /* Plane 0: normal[0] * position_x + offset[0] */
+    half_space = ((int)((unsigned long long)((long long)(int)poly_record[4] * (long long)position_x) >> 0x20) << 0x10 |
+            (unsigned int)((long long)(int)poly_record[4] * (long long)position_x) >> 0x10) + poly_record[5];
+    if ((poly_flags & (unsigned int)0x01000000) == 0) {
+      half_space = half_space + position_z; /* add Z component if flag clear */
+    }
+    result = (unsigned int)PTR_DAT_06027fc0;
+    if ((result & poly_flags) != 0) {
+      half_space = -half_space; /* negate if sign flag set */
     }
 
-    uVar6 = (unsigned int)PTR_DAT_06027fc0;
-
-    if ((uVar6 & uVar9) != 0) {
-
-      iVar8 = -iVar8;
-
-    }
-
-    if (-1 < iVar8) {
-
-      iVar8 = ((int)((unsigned long long)((long long)(int)puVar10[6] * (long long)iVar15) >> 0x20) << 0x10 |
-
-              (unsigned int)((long long)(int)puVar10[6] * (long long)iVar15) >> 0x10) + puVar10[7];
-
-      if (((unsigned int)0x02000000 & uVar9) == 0) {
-
-        iVar8 = iVar8 + iVar14;
-
+    if (-1 < half_space) {
+      /* Plane 1: normal[1] * position_x + offset[1] */
+      half_space = ((int)((unsigned long long)((long long)(int)poly_record[6] * (long long)position_x) >> 0x20) << 0x10 |
+              (unsigned int)((long long)(int)poly_record[6] * (long long)position_x) >> 0x10) + poly_record[7];
+      if (((unsigned int)0x02000000 & poly_flags) == 0) {
+        half_space = half_space + position_z;
+      }
+      result = (unsigned int)PTR_DAT_06027ffc;
+      if ((result & poly_flags) != 0) {
+        half_space = -half_space;
       }
 
-      uVar6 = (unsigned int)PTR_DAT_06027ffc;
-
-      if ((uVar6 & uVar9) != 0) {
-
-        iVar8 = -iVar8;
-
-      }
-
-      if (-1 < iVar8) {
-
-        iVar8 = ((int)((unsigned long long)((long long)(int)puVar10[8] * (long long)iVar15) >> 0x20) << 0x10 |
-
-                (unsigned int)((long long)(int)puVar10[8] * (long long)iVar15) >> 0x10) + puVar10[9];
-
-        if (((unsigned int)0x04000000 & uVar9) == 0) {
-
-          iVar8 = iVar8 + iVar14;
-
+      if (-1 < half_space) {
+        /* Plane 2: normal[2] * position_x + offset[2] */
+        half_space = ((int)((unsigned long long)((long long)(int)poly_record[8] * (long long)position_x) >> 0x20) << 0x10 |
+                (unsigned int)((long long)(int)poly_record[8] * (long long)position_x) >> 0x10) + poly_record[9];
+        if (((unsigned int)0x04000000 & poly_flags) == 0) {
+          half_space = half_space + position_z;
+        }
+        result = (unsigned int)PTR_DAT_0602802c;
+        if ((result & poly_flags) != 0) {
+          half_space = -half_space;
         }
 
-        uVar6 = (unsigned int)PTR_DAT_0602802c;
-
-        if ((uVar6 & uVar9) != 0) {
-
-          iVar8 = -iVar8;
-
-        }
-
-        if (-1 < iVar8) {
-
-          iVar8 = ((int)((unsigned long long)((long long)(int)puVar10[10] * (long long)iVar15) >> 0x20) << 0x10
-
-                  | (unsigned int)((long long)(int)puVar10[10] * (long long)iVar15) >> 0x10) + puVar10[0xb];
-
-          if ((0x08000000 & uVar9) == 0) {
-
-            iVar8 = iVar8 + iVar14;
-
+        if (-1 < half_space) {
+          /* Plane 3: normal[3] * position_x + offset[3] */
+          half_space = ((int)((unsigned long long)((long long)(int)poly_record[10] * (long long)position_x) >> 0x20) << 0x10
+                  | (unsigned int)((long long)(int)poly_record[10] * (long long)position_x) >> 0x10) + poly_record[0xb];
+          if ((0x08000000 & poly_flags) == 0) {
+            half_space = half_space + position_z;
           }
-
-          uVar6 = (unsigned int)DAT_0602805c;
-
-          if ((uVar6 & uVar9) != 0) {
-
-            iVar8 = -iVar8;
-
+          result = (unsigned int)DAT_0602805c;
+          if ((result & poly_flags) != 0) {
+            half_space = -half_space;
           }
-
-          if (-1 < iVar8) break;
-
+          if (-1 < half_space) break; /* all 4 planes pass — point is inside polygon */
         }
-
       }
-
     }
 
-    iVar11 = iVar11 + 1;
+    search_index = search_index + 1;
+    poly_offset = poly_offset + 1;
+  } while (search_index < poly_count);
 
-    uVar12 = uVar12 + 1;
-
-  } while (iVar11 < iVar13);
-
-  if ((param_3 != (short *)0x0) && (iVar13 != iVar11)) {
-
-    lVar2 = (long long)*(int *)((int)puVar10 + 0x00000004) * (long long)iVar15;
-
-    lVar3 = (long long)*(int *)((int)puVar10 + 0x00000008) * (long long)iVar14;
-
-    param_2[1] = ((int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10) +
-
-                 ((int)((unsigned long long)lVar3 >> 0x20) << 0x10 | (unsigned int)lVar3 >> 0x10) +
-
-                 *(int *)((int)puVar10 + 0x0000000C);
-
-    uVar6 = (uVar12 << 1);
-
-    *param_3 = *(short *)(puVar5 + uVar6);
-
+  /* If hit found and output pointer provided, compute Y height from plane equation */
+  if ((param_3 != (short *)0x0) && (poly_count != search_index)) {
+    height_a = (long long)*(int *)((int)poly_record + 0x00000004) * (long long)position_x;
+    height_b = (long long)*(int *)((int)poly_record + 0x00000008) * (long long)position_z;
+    param_2[1] = ((int)((unsigned long long)height_a >> 0x20) << 0x10 | (unsigned int)height_a >> 0x10) +
+                 ((int)((unsigned long long)height_b >> 0x20) << 0x10 | (unsigned int)height_b >> 0x10) +
+                 *(int *)((int)poly_record + 0x0000000C);
+    result = (poly_offset << 1);
+    *param_3 = *(short *)(poly_index_table + result); /* output polygon ID */
   }
 
-  return uVar6;
-
+  return result;
 }
