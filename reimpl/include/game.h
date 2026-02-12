@@ -65,6 +65,9 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 #define CAR_FIELD_40        0x040   /* int:  general field (zeroed on state reset) */
 #define CAR_COLL_SPEED      0x048   /* int:  collision friction speed */
 #define CAR_SPEED_COPY      0x050   /* int:  speed copy (written by collision friction) */
+#define CAR_VEL_DIR         0x05C   /* int:  velocity direction indicator (sign tracks heading) */
+#define CAR_VEL_LATERAL_A   0x060   /* int:  lateral velocity component A */
+#define CAR_VEL_LATERAL_B   0x064   /* int:  lateral velocity component B */
 #define CAR_HEADING_EXP     0x068   /* int:  heading <<5 expanded (FUN_0600C302) */
 #define CAR_COUNTDOWN_TRIG  0x080   /* int:  countdown trigger (set 0xFFFF0000) */
 #define CAR_FINISH_POS      0x082   /* short: finish position */
@@ -74,24 +77,41 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 /* --- Steering and physics (0x0B0-0x0FF) --- */
 #define CAR_STEER_TIMER     0x0B8   /* int:  steering input timer */
 #define CAR_PHYS_FIELD_BC   0x0BC   /* int:  force secondary timer */
+#define CAR_YAW_DELTA       0x0D0   /* int:  yaw angle delta per frame */
 #define CAR_MODE            0x0D4   /* short: mode field (20=force, 40=gear, 10=steer) */
 #define CAR_ZONE_TIMER      0x0DC   /* short: zone timer (FUN_0600C302) */
-#define CAR_PROJECTED_A     0x0E0   /* int:  camera projected value A */
+#define CAR_DRIVE_SPEED     0x0E0   /* int:  drive wheel speed (engine output, clamped) */
 #define CAR_PROJECTED_B     0x0E4   /* int:  camera projected value B */
-#define CAR_SPEED_DELTA     0x0FC   /* int:  clamped speed delta */
+#define CAR_SPEED_EXCESS    0x0E8   /* int:  excess speed above drive cap (positive or 0) */
+#define CAR_FORCE_AUX       0x0F4   /* int:  auxiliary force component */
+#define CAR_SPEED_DELTA     0x0FC   /* int:  clamped speed delta / velocity rate */
 
 /* --- Collision partners (0x100-0x12F) --- */
+#define CAR_TRACTION_COMP   0x100   /* int:  traction force component (sign-checked vs lateral vel) */
+#define CAR_GRIP_FACTOR     0x104   /* int:  surface grip factor (gravity multiply input) */
+#define CAR_DECEL_COEFF     0x11C   /* int:  deceleration coefficient (collision decay) */
 #define CAR_PARTNER_A       0x118   /* int:  collision partner A pointer */
 #define CAR_ACTIVATE_1      0x120   /* int:  activation flag 1 (set 1 at race init) */
 #define CAR_ACTIVATE_2      0x124   /* int:  activation flag 2 */
 #define CAR_ACTIVATE_3      0x128   /* int:  activation flag 3 */
 #define CAR_ACTIVATE_4      0x12C   /* int:  activation flag 4 */
 
+/* --- Force output (0x140-0x14F) --- */
+#define CAR_LONG_GRIP       0x140   /* int:  longitudinal grip force (smoothed) */
+#define CAR_LAT_GRIP        0x144   /* int:  lateral grip force (smoothed, collision-modified) */
+
 /* --- Timers and state (0x150-0x19F) --- */
 #define CAR_TIMER_150       0x150   /* short: timer (decremented by FUN_06030EE0) */
+#define CAR_SPIN_TIMER      0x152   /* short: spin event timer (set 10 on oversteer) */
 #define CAR_LAP_COUNT       0x15C   /* int:  lap counter (incremented on lap complete) */
 #define CAR_ACTIVATE_FLAGS  0x160   /* int:  activation flags (bit 0x200000 = active) */
 #define CAR_STATE_FLAGS     0x161   /* byte: state flags (bit 5 = steer override) */
+#define CAR_SLIDE_TIMER     0x166   /* short: slide/drift recovery timer (10 or 7 frames) */
+#define CAR_COLL_OUTPUT     0x168   /* short: collision state output flag */
+#define CAR_COLL_TIMER_0    0x16A   /* short: collision deceleration timer */
+#define CAR_COLL_TIMER_1    0x16C   /* short: collision spin timer */
+#define CAR_COLL_TIMER_2    0x16E   /* short: collision recovery timer 2 */
+#define CAR_COLL_TIMER_3    0x170   /* short: collision recovery timer 3 */
 #define CAR_TIMER_172       0x172   /* short: 18-frame countdown timer 1 */
 #define CAR_TIMER_174       0x174   /* short: 18-frame countdown timer 2 */
 #define CAR_SEGMENT_IDX     0x184   /* int:  track segment index */
@@ -140,9 +160,21 @@ typedef int angle16;    /* 16-bit angle in 32-bit container */
 #define CAR_SPLIT_POS       0x230   /* int:  position storage for split times */
 #define CAR_PARTNER_B       0x234   /* int:  collision partner B pointer */
 
+/* --- Heading storage (0x248) --- */
+#define CAR_HEADING_STORED  0x248   /* int:  stored heading angle (used in collision path) */
+
 /* --- Countdown / sound (0x250-0x258) --- */
 #define CAR_COUNTDOWN       0x250   /* short: countdown field */
 #define CAR_GEAR_SOUND      0x258   /* short: gear shift sound param */
+
+/* Engine / drivetrain constants */
+#define GEAR_RATIO_TABLE    0x060477BC  /* int[]: gear ratio table (indexed by gear index) */
+#define ENGINE_SPEED_SCALE  0x0221AC91  /* fixed-point scaling: RPM-to-speed conversion */
+#define MAX_DRIVE_SPEED     0x2134      /* maximum clamped drive wheel speed */
+
+/* Collision / physics constants */
+#define SPIN_YAW_THRESHOLD  0x1000      /* yaw delta threshold for spin event detection */
+#define COLL_SPEED_THRESHOLD 0xE00      /* velocity threshold for collision flag */
 
 /* Car flags (offset +0x000, 32-bit) */
 #define CAR_FLAG_GAS        0x40    /* byte 0 bit 6: gas button */

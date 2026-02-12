@@ -47979,80 +47979,97 @@ void vdp1_sprite_list_build(param_1, param_2)
 void FUN_0602c690()
 {
   long long lVar1;
-  long long lVar2;
-  long long lVar3;
-  long long lVar4;
-  int in_r0 = 0;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  int iVar8;
-  unsigned int uVar9;
-  int iVar10;
-  int iVar11;
-  int iVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  char *puVar15;
-  char *puVar16;
-  char *puVar17;
+  long long gravity_lat, gravity_long;
+  long long drag_single, drag_double;
+  int car = 0; /* implicit r0 = car pointer */
+  int car2;
+  unsigned int coeff_long;
+  unsigned int coeff_lat;
+  int cos_val;
+  unsigned int cos_weighted;
+  int lat_vel_a;
+  int cos_correction;
+  int lat_vel_b;
+  unsigned int gravity_lat_scaled;
+  unsigned int traction;
+  char *force_long;
+  char *clamped_long;
+  char *force_lat;
 
-  uVar6 = *(unsigned int *)(DAT_0602c71c + in_r0) | *(unsigned int *)(DAT_0602c71a + in_r0);
-  iVar5 = FUN_0602c7fc();
-  uVar7 = *(unsigned int *)(DAT_0602c720 + iVar5) | *(unsigned int *)(DAT_0602c71e + iVar5);
-  iVar5 = FUN_0602c7fc();
-  iVar10 = *(int *)(DAT_0602c722 + iVar5);
-  iVar12 = *(int *)(DAT_0602c724 + iVar5);
-  uVar14 = *(unsigned int *)(DAT_0602c726 + iVar5);
-  if ((int)(uVar14 ^ -iVar10) < 0) {
-    uVar14 = 0;
+  /* Build composite force coefficients from activation field pairs */
+  coeff_long = *(unsigned int *)(car + CAR_ACTIVATE_2) | *(unsigned int *)(car + CAR_ACTIVATE_1);
+  car2 = FUN_0602c7fc();
+  coeff_lat = *(unsigned int *)(car2 + CAR_ACTIVATE_4) | *(unsigned int *)(car2 + CAR_ACTIVATE_3);
+  car2 = FUN_0602c7fc();
+
+  /* Read lateral velocity and traction components */
+  lat_vel_a = *(int *)(car2 + CAR_VEL_LATERAL_A);
+  lat_vel_b = *(int *)(car2 + CAR_VEL_LATERAL_B);
+  traction = *(unsigned int *)(car2 + CAR_TRACTION_COMP);
+  if ((int)(traction ^ -lat_vel_a) < 0) {
+    traction = 0;
   }
-  lVar1 = (long long)(int)0x03700000 * (long long)*(int *)(DAT_0602c728 + iVar5);
-  lVar2 = (long long)(int)0x02D00000 * (long long)*(int *)(DAT_0602c728 + iVar5);
-  iVar8 = *(int *)(iVar5 + 0x1c);
-  uVar13 = (int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10;
-  if (iVar8 < 0) {
-    iVar8 = 0;
+
+  /* Gravity force computation: longitudinal (0x03700000) and lateral (0x02D00000) */
+  gravity_long = (long long)(int)0x03700000 * (long long)*(int *)(car2 + CAR_GRIP_FACTOR);
+  gravity_lat = (long long)(int)0x02D00000 * (long long)*(int *)(car2 + CAR_GRIP_FACTOR);
+  cos_val = *(int *)(car2 + CAR_ROT_X);
+  gravity_lat_scaled = (int)((unsigned long long)gravity_lat >> 0x20) << 0x10 | (unsigned int)gravity_lat >> 0x10;
+  if (cos_val < 0) {
+    cos_val = 0;
   }
-  iVar11 = 0x00000645;
-  iVar8 = (*(int(*)())0x06027348)(iVar8 >> 1);
-  uVar9 = (int)((unsigned long long)((long long)iVar11 * (long long)iVar8) >> 0x20) << 0x10 |
-          (unsigned int)((long long)iVar11 * (long long)iVar8) >> 0x10;
-  lVar2 = (long long)(int)(*(int *)(DAT_0602c72a + iVar5) + uVar9) * (long long)(int)0x251B1285;
-  lVar3 = (long long)(int)((uVar9 << 1) + *(int *)(DAT_0602c72a + iVar5)) *
+
+  /* Cos-weighted correction factor (0x645 = cosine scale) */
+  cos_correction = 0x00000645;
+  cos_val = (*(int(*)())0x06027348)(cos_val >> 1);
+  cos_weighted = (int)((unsigned long long)((long long)cos_correction * (long long)cos_val) >> 0x20) << 0x10 |
+          (unsigned int)((long long)cos_correction * (long long)cos_val) >> 0x10;
+
+  /* Drag force with speed delta: single and double correction */
+  drag_single = (long long)(int)(*(int *)(car2 + CAR_SPEED_DELTA) + cos_weighted) * (long long)(int)0x251B1285;
+  drag_double = (long long)(int)((cos_weighted << 1) + *(int *)(car2 + CAR_SPEED_DELTA)) *
           (long long)(int)0x251B1285;
-  lVar4 = (long long)-iVar10 * (long long)(int)uVar14;
+
+  /* Longitudinal force: traction cross product + gravity - drag, scaled by coeff */
+  lVar1 = (long long)-lat_vel_a * (long long)(int)traction;
   lVar1 = (long long)
-          (int)((((int)((unsigned long long)lVar4 >> 0x20) << 0x10 | (unsigned int)lVar4 >> 0x10) +
-                ((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10)) -
-               ((int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10)) *
-          (long long)(int)uVar6;
+          (int)((((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) +
+                ((int)((unsigned long long)gravity_long >> 0x20) << 0x10 | (unsigned int)gravity_long >> 0x10)) -
+               ((int)((unsigned long long)drag_single >> 0x20) << 0x10 | (unsigned int)drag_single >> 0x10)) *
+          (long long)(int)coeff_long;
   lVar1 = (long long)(int)0x00028000 *
           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  puVar15 = (char *)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  lVar1 = (long long)(int)uVar14 * (long long)-iVar12;
-  lVar1 = (long long)(int)uVar7 *
+  force_long = (char *)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
+
+  /* Lateral force: traction × lateral vel B + gravity + drag, scaled by coeff */
+  lVar1 = (long long)(int)traction * (long long)-lat_vel_b;
+  lVar1 = (long long)(int)coeff_lat *
           (long long)
-          (int)(((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) + uVar13 +
-               ((int)((unsigned long long)lVar3 >> 0x20) << 0x10 | (unsigned int)lVar3 >> 0x10));
+          (int)(((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) + gravity_lat_scaled +
+               ((int)((unsigned long long)drag_double >> 0x20) << 0x10 | (unsigned int)drag_double >> 0x10));
   lVar1 = (long long)(int)0x00028000 *
           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  puVar17 = (char *)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  puVar16 = (char *)0x01600000;
-  if (((int)0x01600000 < (int)puVar15) &&
-     (puVar16 = puVar15, (int)0x0C080000 < (int)puVar15)) {
-    puVar16 = (char *)0x0C080000;
+  force_lat = (char *)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
+
+  /* Clamp longitudinal force to [0x01600000..0x0C080000] */
+  clamped_long = (char *)0x01600000;
+  if (((int)0x01600000 < (int)force_long) &&
+     (clamped_long = force_long, (int)0x0C080000 < (int)force_long)) {
+    clamped_long = (char *)0x0C080000;
   }
-  puVar15 = (char *)0x01200000;
-  if (((int)0x01200000 < (int)puVar17) &&
-     (puVar15 = puVar17, (int)0x09D80000 < (int)puVar17)) {
-    puVar15 = (char *)0x09D80000;
+
+  /* Clamp lateral force to [0x01200000..0x09D80000] */
+  force_long = (char *)0x01200000;
+  if (((int)0x01200000 < (int)force_lat) &&
+     (force_long = force_lat, (int)0x09D80000 < (int)force_lat)) {
+    force_long = (char *)0x09D80000;
   }
-  iVar12 = (int)DAT_0602c7fa;
-  iVar10 = *(int *)(DAT_0602c7f8 + iVar5);
-  iVar8 = *(int *)(iVar12 + iVar5);
-  *(int *)(DAT_0602c7f8 + iVar5) = iVar10 + ((int)puVar16 - iVar10 >> 2);
-  *(int *)(iVar12 + iVar5) = iVar8 + ((int)puVar15 - iVar8 >> 2);
+
+  /* Exponential smoothing: new = old + (target - old) >> 2 */
+  lat_vel_b = *(int *)(car2 + CAR_LONG_GRIP);
+  cos_val = *(int *)(car2 + CAR_LAT_GRIP);
+  *(int *)(car2 + CAR_LONG_GRIP) = lat_vel_b + ((int)clamped_long - lat_vel_b >> 2);
+  *(int *)(car2 + CAR_LAT_GRIP) = cos_val + ((int)force_long - cos_val >> 2);
   return;
 }
 
@@ -48111,96 +48128,118 @@ int FUN_0602c7fc(param_1)
  * Operates on car struct via implicit r0 (in_r0) and r14 (unaff_r14). */
 void FUN_0602c8e2()
 {
-  short sVar1;
+  short timer;
   long long lVar2;
-  int bVar3;
-  int in_r0 = 0;
-  int iVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  int iVar7;
-  int unaff_r14 = 0;
+  int high_speed_collision;
+  int car = 0; /* implicit r0 = car pointer */
+  int speed;
+  unsigned int vel_dir;
+  unsigned int abs_vel;
+  int car2 = 0; /* implicit r14 = same car pointer (Ghidra alias) */
 
-  bVar3 = 0;
-  uVar5 = *(unsigned int *)(DAT_0602c9cc + in_r0);
-  uVar6 = 0;
-  if ((-1 < (int)(*(unsigned int *)(DAT_0602c9ce + in_r0) ^ uVar5)) && (uVar6 = uVar5, (int)uVar5 < 0)) {
-    uVar6 = -uVar5;
+  high_speed_collision = 0;
+
+  /* Check velocity direction change */
+  vel_dir = *(unsigned int *)(car + CAR_FIELD_40);
+  abs_vel = 0;
+  if ((-1 < (int)(*(unsigned int *)(car + CAR_VEL_DIR) ^ vel_dir)) && (abs_vel = vel_dir, (int)vel_dir < 0)) {
+    abs_vel = -vel_dir;
   }
-  iVar4 = *(int *)(in_r0 + 8);
-  if ((0x46 < iVar4) &&
-     ((int)(*(unsigned int *)(DAT_0602c9d2 + in_r0) ^ *(unsigned int *)(DAT_0602c9d0 + in_r0)) < 0)) {
-    if (((int)DAT_0602c9d6 <= *(int *)(DAT_0602c9d4 + in_r0)) ||
-       (-(int)DAT_0602c9d6 < *(int *)(DAT_0602c9d4 + in_r0))) {
-      *(short *)(DAT_0602c9d8 + in_r0) = 10;
+
+  /* Spin detection: if speed > 70 and lateral velocity changed sign, check yaw threshold */
+  speed = *(int *)(car + CAR_SPEED);
+  if ((0x46 < speed) &&
+     ((int)(*(unsigned int *)(car + CAR_VEL_LATERAL_B) ^ *(unsigned int *)(car + CAR_VEL_LATERAL_A)) < 0)) {
+    if ((SPIN_YAW_THRESHOLD <= *(int *)(car + CAR_YAW_DELTA)) ||
+       (-SPIN_YAW_THRESHOLD < *(int *)(car + CAR_YAW_DELTA))) {
+      *(short *)(car + CAR_COLL_TIMER_1) = 10;
     }
   }
-  if ((99 < iVar4) && (0xe00 <= (int)uVar6)) {
-    bVar3 = 1;
+
+  /* High-speed collision flag: speed > 99 and velocity >= 0xE00 */
+  if ((99 < speed) && (COLL_SPEED_THRESHOLD <= (int)abs_vel)) {
+    high_speed_collision = 1;
   }
-  if (*(short *)(DAT_0602c9dc + in_r0) != 0) {
-    *(short *)(DAT_0602c9de + in_r0) = 0x10;
+
+  /* If mode is nonzero, set collision timer 3 to 16 frames */
+  if (*(short *)(car + CAR_MODE) != 0) {
+    *(short *)(car + CAR_COLL_TIMER_3) = 0x10;
   }
-  if ((0x500 < *(int *)(in_r0 + 0x1c)) &&
-     ((((*(unsigned int *)(DAT_0602c9e2 + in_r0) & 4) != 0 && (*(int *)(DAT_0602c9cc + in_r0) < 0)) ||
-      (((*(unsigned int *)(DAT_0602c9e2 + 4 + in_r0) & 4) != 0 && (-1 < *(int *)(DAT_0602c9cc + in_r0)))))))
+
+  /* Large rotation with wheel contact: set 20-frame spin timer */
+  if ((0x500 < *(int *)(car + CAR_ROT_X)) &&
+     ((((*(unsigned int *)(car + CAR_ACTIVATE_3) & 4) != 0 && (*(int *)(car + CAR_FIELD_40) < 0)) ||
+      (((*(unsigned int *)(car + CAR_ACTIVATE_3 + 4) & 4) != 0 && (-1 < *(int *)(car + CAR_FIELD_40)))))))
   {
-    *(short *)(DAT_0602c9d8 + in_r0) = 0x14;
+    *(short *)(car + CAR_COLL_TIMER_1) = 0x14;
   }
-  iVar7 = 0x16a;
-  iVar4 = (int)*(short *)(iVar7 + in_r0);
-  if (bVar3) {
-    iVar4 = iVar4 + 1;
+
+  /* === Collision timer cascade (6 shorts starting at 0x16A) === */
+
+  /* Timer 0 (0x16A): deceleration timer */
+  speed = (int)*(short *)(car + CAR_COLL_TIMER_0);
+  if (high_speed_collision) {
+    speed = speed + 1;
   }
-  if (-1 < iVar4) {
-    *(short *)(iVar7 + in_r0) = (short)iVar4 + -1;
-    iVar4 = (*(int(*)())0x0602ECCC)(*(int *)(PTR_DAT_0602c9e8 + in_r0),
-                       *(int *)(DAT_0602c9d2 + in_r0),
+  if (-1 < speed) {
+    *(short *)(car + CAR_COLL_TIMER_0) = (short)speed + -1;
+    speed = (*(int(*)())0x0602ECCC)(*(int *)(car + CAR_DECEL_COEFF),
+                       *(int *)(car + CAR_VEL_LATERAL_B),
                        (int)((unsigned long long)
-                             ((long long)*(int *)(DAT_0602c9e6 + in_r0) *
-                             (long long)*(int *)(DAT_0602c9e6 + in_r0)) >> 0x20));
-    uVar6 = *(unsigned int *)(PTR_DAT_0602c9e8 + unaff_r14);
-    lVar2 = (long long)(int)uVar6 * (long long)(iVar4 << 0x10);
-    uVar5 = (int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10;
-    if ((int)uVar5 < 0) {
-      uVar5 = 0;
+                             ((long long)*(int *)(car + CAR_LAT_GRIP) *
+                             (long long)*(int *)(car + CAR_LAT_GRIP)) >> 0x20));
+    abs_vel = *(unsigned int *)(car2 + CAR_DECEL_COEFF);
+    lVar2 = (long long)(int)abs_vel * (long long)(speed << 0x10);
+    vel_dir = (int)((unsigned long long)lVar2 >> 0x20) << 0x10 | (unsigned int)lVar2 >> 0x10;
+    if ((int)vel_dir < 0) {
+      vel_dir = 0;
     }
-    if ((int)uVar6 < 1) {
-      uVar6 = 0;
+    if ((int)abs_vel < 1) {
+      abs_vel = 0;
     }
-    else if ((int)uVar5 < (int)uVar6) {
-      uVar6 = uVar5;
+    else if ((int)vel_dir < (int)abs_vel) {
+      abs_vel = vel_dir;
     }
-    *(unsigned int *)(PTR_DAT_0602c9e8 + unaff_r14) = uVar6;
-    in_r0 = unaff_r14;
+    *(unsigned int *)(car2 + CAR_DECEL_COEFF) = abs_vel;
+    car = car2;
   }
-  sVar1 = *(short *)(iVar7 + 2 + in_r0);
-  if (-1 < sVar1) {
-    *(short *)(iVar7 + 2 + in_r0) = sVar1 + -1;
-    *(short *)(DAT_0602ca72 + in_r0) = 0;
+
+  /* Timer 1 (0x16C): spin timer — clears collision output */
+  timer = *(short *)(car + CAR_COLL_TIMER_1);
+  if (-1 < timer) {
+    *(short *)(car + CAR_COLL_TIMER_1) = timer + -1;
+    *(short *)(car + CAR_COLL_OUTPUT) = 0;
   }
-  sVar1 = *(short *)(iVar7 + 4 + in_r0);
-  if (0 < sVar1) {
-    *(short *)(iVar7 + 4 + in_r0) = sVar1 + -1;
-    *(short *)(DAT_0602ca74 + in_r0) =
-         (short)((unsigned int)((int)0x00011999 * *(int *)(DAT_0602ca74 + in_r0)) >> 0x10);
+
+  /* Timer 2 (0x16E): recovery timer — decay lateral grip by 0x11999 scale */
+  timer = *(short *)(car + CAR_COLL_TIMER_2);
+  if (0 < timer) {
+    *(short *)(car + CAR_COLL_TIMER_2) = timer + -1;
+    *(short *)(car + CAR_LAT_GRIP) =
+         (short)((unsigned int)((int)0x00011999 * *(int *)(car + CAR_LAT_GRIP)) >> 0x10);
   }
-  sVar1 = *(short *)(iVar7 + 6 + in_r0);
-  if (0 < sVar1) {
-    *(short *)(iVar7 + 6 + in_r0) = sVar1 + -1;
-    *(int *)(DAT_0602ca74 + in_r0) = 0x09D80000;
+
+  /* Timer 3 (0x170): recovery timer — set lateral grip to large constant */
+  timer = *(short *)(car + CAR_COLL_TIMER_3);
+  if (0 < timer) {
+    *(short *)(car + CAR_COLL_TIMER_3) = timer + -1;
+    *(int *)(car + CAR_LAT_GRIP) = 0x09D80000;
   }
-  sVar1 = *(short *)(iVar7 + 8 + in_r0);
-  if (0 < sVar1) {
-    *(short *)(iVar7 + 8 + in_r0) = sVar1 + -1;
-    *(int *)(DAT_0602ca74 + in_r0) = *(int *)(DAT_0602ca74 + in_r0) >> 1;
-    *(int *)(DAT_0602ca76 + in_r0) = 0;
+
+  /* Timer 4 (0x172): recovery timer — halve lateral grip, clear aux force */
+  timer = *(short *)(car + CAR_TIMER_172);
+  if (0 < timer) {
+    *(short *)(car + CAR_TIMER_172) = timer + -1;
+    *(int *)(car + CAR_LAT_GRIP) = *(int *)(car + CAR_LAT_GRIP) >> 1;
+    *(int *)(car + CAR_FORCE_AUX) = 0;
   }
-  sVar1 = *(short *)(iVar7 + 10 + in_r0);
-  if (0 < sVar1) {
-    *(short *)(iVar7 + 10 + in_r0) = sVar1 + -1;
-    if (-1 < *(int *)(PTR_DAT_0602ca78 + in_r0)) {
-      *(int *)(DAT_0602ca76 + in_r0) = -*(int *)(PTR_DAT_0602ca78 + in_r0);
+
+  /* Timer 5 (0x174): recovery timer — negate decel coeff into aux force */
+  timer = *(short *)(car + CAR_TIMER_174);
+  if (0 < timer) {
+    *(short *)(car + CAR_TIMER_174) = timer + -1;
+    if (-1 < *(int *)(car + CAR_DECEL_COEFF)) {
+      *(int *)(car + CAR_FORCE_AUX) = -*(int *)(car + CAR_DECEL_COEFF);
     }
   }
   return;
@@ -48338,16 +48377,15 @@ void FUN_0602ca84()
 }
 
 /* car_spin_event_trigger -- Trigger spin event if conditions met.
- * Sets 10-frame spin timer if car state counter < 5 and game frame > 0x14.
+ * Sets 10-frame spin timer if spin counter < 5 and car speed > 20.
  * Called from car_traction_force_compute when traction ratio drops below threshold. */
 void FUN_0602ccd0()
 {
-  int in_r0 = 0;
+  int car = 0; /* implicit r0 = car pointer */
 
-  if ((*(short *)(PTR_DAT_0602ccea + in_r0) < 5) && (0x14 < *(int *)(in_r0 + 8))) {
-    *(short *)(PTR_DAT_0602ccea + in_r0) = 10;
+  if (*(short *)(car + CAR_SPIN_TIMER) < 5 && *(int *)(car + CAR_SPEED) > 0x14) {
+    *(short *)(car + CAR_SPIN_TIMER) = 10;
   }
-  return;
 }
 
 /* car_steering_angle_update -- Update steering angle from wheel input and car dynamics.
@@ -48840,67 +48878,67 @@ LAB_0602d610:
 }
 
 /* car_collision_timer_reset -- Reset collision recovery timer.
- * If car speed > 0 (offset +8) and collision counter < 4, sets recovery timer
- * to 10 frames (or 7 if counter != 0). Short helper called from slide physics. */
+ * If car speed > 0 and slide timer < 4, sets recovery timer
+ * to 10 frames (or 7 if timer was already counting). Called from slide physics. */
 void FUN_0602d7e4()
 {
-  short sVar1;
-  int in_r0 = 0;
-  short sVar2;
+  int car = 0; /* implicit r0 = car pointer */
+  short timer;
 
-  if ((0 < *(int *)(in_r0 + 8)) && (sVar1 = *(short *)(PTR_DAT_0602d80c + in_r0), sVar1 < 4))
-  {
-    sVar2 = (short)0x0000000A;
-    if (sVar1 != 0) {
-      sVar2 = sVar2 + -3;
+  if (*(int *)(car + CAR_SPEED) > 0) {
+    timer = *(short *)(car + CAR_SLIDE_TIMER);
+    if (timer < 4) {
+      *(short *)(car + CAR_SLIDE_TIMER) = (timer != 0) ? 7 : 10;
     }
-    *(short *)(PTR_DAT_0602d80c + in_r0) = sVar2;
   }
-  return;
 }
 
 /* car_engine_speed_compute -- Compute engine output speed from RPM and gear ratio.
- * Looks up gear ratio from table at 0x060477BC indexed by car gear state.
- * Applies scaling constant 0x0221AC91, clamps to max 0x2134.
- * Writes drive speed to DAT_0602d866 offset, excess to DAT_0602d88c. */
+ * Integrates velocity rate into acceleration, multiplies by gear ratio from table,
+ * scales by ENGINE_SPEED_SCALE, clamps to MAX_DRIVE_SPEED.
+ * Writes drive speed and excess to car struct. */
 void FUN_0602d814()
 {
   long long lVar1;
-  unsigned long long uVar2;
-  int iVar3;
-  int iVar4;
-  char *puVar5;
-  char *puVar6;
-  int unaff_r14 = 0;
+  unsigned long long scaled;
+  int raw_speed, clamped_speed, excess;
+  int car = 0; /* implicit r14 = car pointer */
+  int gear_index;
+  int accel;
 
-  iVar3 = (int)DAT_0602d862;
-  iVar4 = *(int *)(unaff_r14 + 0xc) + *(int *)(iVar3 + unaff_r14);
-  *(int *)(unaff_r14 + 0xc) = iVar4;
-  if (iVar4 < 0) {
-    *(int *)(unaff_r14 + 0xc) = 0;
-    *(int *)(iVar3 + unaff_r14) = 0;
+  /* Integrate velocity rate into acceleration */
+  accel = *(int *)(car + CAR_ACCEL) + *(int *)(car + CAR_SPEED_DELTA);
+  *(int *)(car + CAR_ACCEL) = accel;
+  if (accel < 0) {
+    *(int *)(car + CAR_ACCEL) = 0;
+    *(int *)(car + CAR_SPEED_DELTA) = 0;
   }
-  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + unaff_r14) << 2) *
-          (long long)*(int *)(unaff_r14 + 0xc);
-  uVar2 = (long long)(int)0x0221AC91 *
-          (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  puVar5 = (char *)((unsigned int)(uVar2 >> 0x20) & 0xffff);
-  if ((uVar2 & 0xffff00000000) == 0) {
-    puVar6 = (char *)0x0;
-  }
-  else {
-    puVar6 = puVar5;
-    if ((int)0x00002134 <= (int)puVar5) {
-      puVar6 = (char *)0x00002134;
+
+  /* Look up gear ratio and multiply by acceleration */
+  gear_index = *(short *)(car + CAR_ZONE_TIMER); /* 0xDC: gear index into ratio table */
+  lVar1 = (long long)*(int *)(GEAR_RATIO_TABLE + (gear_index << 2)) *
+          (long long)*(int *)(car + CAR_ACCEL);
+
+  /* Scale by engine constant (16.16 fixed-point multiply → extract top 16 bits) */
+  scaled = (long long)(int)ENGINE_SPEED_SCALE *
+           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
+  raw_speed = (int)((unsigned int)(scaled >> 0x20) & 0xffff);
+
+  /* Clamp drive speed to MAX_DRIVE_SPEED */
+  if ((scaled & 0xffff00000000) == 0) {
+    clamped_speed = 0;
+  } else {
+    clamped_speed = raw_speed;
+    if (raw_speed >= MAX_DRIVE_SPEED) {
+      clamped_speed = MAX_DRIVE_SPEED;
     }
   }
-  *(char **)(DAT_0602d866 + unaff_r14) = puVar6;
-  iVar3 = (int)puVar5 - (int)puVar6;
-  if (iVar3 < 0) {
-    iVar3 = 0;
-  }
-  *(int *)(DAT_0602d88c + unaff_r14) = iVar3;
-  return;
+
+  /* Store drive speed and excess */
+  *(int *)(car + CAR_DRIVE_SPEED) = clamped_speed;
+  excess = raw_speed - clamped_speed;
+  if (excess < 0) excess = 0;
+  *(int *)(car + CAR_SPEED_EXCESS) = excess;
 }
 
 /* car_engine_speed_compute_simple -- Simplified engine speed computation.
@@ -48909,33 +48947,30 @@ void FUN_0602d814()
 void FUN_0602d82a()
 {
   long long lVar1;
-  unsigned long long uVar2;
-  int in_r0 = 0;
-  char *puVar3;
-  char *puVar4;
-  int iVar5;
+  unsigned long long scaled;
+  int raw_speed, clamped_speed, excess;
+  int car = 0; /* implicit r0 = car pointer */
+  int gear_index;
 
-  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + in_r0) << 2) *
-          (long long)*(int *)(in_r0 + 0xc);
-  uVar2 = (long long)(int)0x0221AC91 *
+  gear_index = *(short *)(car + CAR_ZONE_TIMER);
+  lVar1 = (long long)*(int *)(GEAR_RATIO_TABLE + (gear_index << 2)) *
+          (long long)*(int *)(car + CAR_ACCEL);
+  scaled = (long long)(int)ENGINE_SPEED_SCALE *
           (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-  puVar3 = (char *)((unsigned int)(uVar2 >> 0x20) & 0xffff);
-  if ((uVar2 & 0xffff00000000) == 0) {
-    puVar4 = (char *)0x0;
+  raw_speed = (int)((unsigned int)(scaled >> 0x20) & 0xffff);
+  if ((scaled & 0xffff00000000) == 0) {
+    clamped_speed = 0;
   }
   else {
-    puVar4 = puVar3;
-    if ((int)0x00002134 <= (int)puVar3) {
-      puVar4 = (char *)0x00002134;
+    clamped_speed = raw_speed;
+    if (raw_speed >= MAX_DRIVE_SPEED) {
+      clamped_speed = MAX_DRIVE_SPEED;
     }
   }
-  *(char **)(DAT_0602d866 + in_r0) = puVar4;
-  iVar5 = (int)puVar3 - (int)puVar4;
-  if (iVar5 < 0) {
-    iVar5 = 0;
-  }
-  *(int *)(DAT_0602d88c + in_r0) = iVar5;
-  return;
+  *(int *)(car + CAR_DRIVE_SPEED) = clamped_speed;
+  excess = raw_speed - clamped_speed;
+  if (excess < 0) excess = 0;
+  *(int *)(car + CAR_SPEED_EXCESS) = excess;
 }
 
 /* FUN_0602d88e: L2 version in misc_physics_step.c */
@@ -48949,75 +48984,82 @@ void FUN_0602d88e(void) { FUN_0602D88E(); }
 void FUN_0602d8bc()
 {
   long long lVar1;
-  unsigned int *in_r0;
-  int iVar2;
+  int car = 0; /* implicit r0 = car pointer (unsigned int*) */
+  int sin_val;
   int extraout_r1 = 0;
-  unsigned int uVar3;
+  unsigned int heading_angle;
   int extraout_r3 = 0;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  char *puVar7;
-  unsigned int uVar8;
-  int unaff_r14 = 0;
-  long long uVar9;
+  unsigned int prev_x, prev_z;
+  int neg_heading;
+  unsigned int vel_component;
+  char *scaled_speed;
+  unsigned int cos_cache;
+  int car2 = 0; /* implicit r14 = same car pointer (Ghidra alias) */
+  long long cos_result;
 
-  if (*(short *)(0x250 + (int)in_r0) != 0) {
-    uVar3 = in_r0[0xc];
+  if (*(short *)(car + CAR_COUNTDOWN) != 0) {
+    /* === Collision path: apply velocity decay table === */
+    heading_angle = *(unsigned int *)(car + CAR_HEADING3);
     (*(int(*)())0x0602ECCC)();
-    iVar2 = extraout_r1;
-    if ((*in_r0 & 0x00000300) == 0) {
-      iVar2 = -extraout_r1;
+    sin_val = extraout_r1;
+    if ((*(int *)(car + CAR_FLAGS) & 0x00000300) == 0) {
+      sin_val = -extraout_r1;
     }
-    in_r0[0xc] = uVar3 + iVar2;
-    in_r0[8] = uVar3 + iVar2;
-    uVar3 = *(unsigned int *)(0x248 + (int)in_r0);
-    in_r0[10] = uVar3;
-    puVar7 = (char *)
+    *(unsigned int *)(car + CAR_HEADING3) = heading_angle + sin_val;
+    *(unsigned int *)(car + CAR_HEADING) = heading_angle + sin_val;
+    heading_angle = *(unsigned int *)(car + CAR_HEADING_STORED);
+    *(unsigned int *)(car + CAR_HEADING2) = heading_angle;
+
+    /* Decay speed using velocity table indexed by countdown */
+    scaled_speed = (char *)
              ((int)((unsigned long long)
                     ((long long)
-                     *(int *)(0x0602E8B8 + *(short *)(0x250 + (int)in_r0) << 2) *
-                    (long long)(int)in_r0[3]) >> 0x20) << 0x10 |
+                     *(int *)(0x0602E8B8 + *(short *)(car + CAR_COUNTDOWN) << 2) *
+                    (long long)*(int *)(car + CAR_ACCEL)) >> 0x20) << 0x10 |
              (unsigned int)((long long)
-                    *(int *)(0x0602E8B8 + *(short *)(0x250 + (int)in_r0) << 2) *
-                   (long long)(int)in_r0[3]) >> 0x10);
-    in_r0[3] = (unsigned int)puVar7;
-    if ((int)in_r0[2] < 0x29) {
-      puVar7 = (char *)0x00006AAA;
+                    *(int *)(0x0602E8B8 + *(short *)(car + CAR_COUNTDOWN) << 2) *
+                   (long long)*(int *)(car + CAR_ACCEL)) >> 0x10);
+    *(int *)(car + CAR_ACCEL) = (int)scaled_speed;
+    if (*(int *)(car + CAR_SPEED) < 0x29) {
+      scaled_speed = (char *)0x00006AAA;
     }
-    uVar4 = in_r0[4];
-    uVar6 = in_r0[6];
-    in_r0[0xe] = uVar4;
-    in_r0[0xf] = uVar6;
-    iVar2 = (*(int(*)())0x06027344)();
-    uVar9 = (*(int(*)())0x06027348)(-uVar3);
-    lVar1 = (long long)(int)puVar7 * (long long)(int)uVar9;
-    uVar3 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-    *(unsigned int *)(0x0000018C + (int)in_r0) = uVar3;
-    in_r0[4] = uVar4 + uVar3;
-    lVar1 = (long long)(int)((unsigned long long)uVar9 >> 0x20) * (long long)iVar2;
-    uVar3 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-    *(unsigned int *)(0x00000190 + (int)in_r0) = uVar3;
-    in_r0[6] = uVar6 + uVar3;
+
+    /* Save previous position, compute new from trig */
+    prev_x = *(unsigned int *)(car + CAR_X);
+    prev_z = *(unsigned int *)(car + CAR_Z);
+    *(unsigned int *)(car + CAR_PRE_COLL_X) = prev_x;
+    *(unsigned int *)(car + CAR_PRE_COLL_Z) = prev_z;
+    sin_val = (*(int(*)())0x06027344)();
+    cos_result = (*(int(*)())0x06027348)(-heading_angle);
+    lVar1 = (long long)(int)scaled_speed * (long long)(int)cos_result;
+    cos_cache = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+    *(unsigned int *)(car + CAR_SIN_HEADING) = cos_cache;
+    *(unsigned int *)(car + CAR_X) = prev_x + cos_cache;
+    lVar1 = (long long)(int)((unsigned long long)cos_result >> 0x20) * (long long)sin_val;
+    cos_cache = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+    *(unsigned int *)(car + CAR_COS_HEADING) = cos_cache;
+    *(unsigned int *)(car + CAR_Z) = prev_z + cos_cache;
     return;
   }
-  in_r0[8] = in_r0[0xc];
-  iVar5 = -in_r0[10];
-  uVar3 = in_r0[3];
-  uVar6 = in_r0[4];
-  uVar8 = in_r0[6];
-  in_r0[0xe] = uVar6;
-  in_r0[0xf] = uVar8;
-  iVar2 = (*(int(*)())0x06027344)();
-  iVar5 = (*(int(*)())0x06027348)(iVar5);
-  uVar4 = (int)((unsigned long long)((long long)extraout_r3 * (long long)iVar5) >> 0x20) << 0x10 |
-          (unsigned int)((long long)extraout_r3 * (long long)iVar5) >> 0x10;
-  *(unsigned int *)(DAT_0602d918 + unaff_r14) = uVar4;
-  *(unsigned int *)(unaff_r14 + 0x10) = uVar6 + uVar4;
-  uVar3 = (int)((unsigned long long)((long long)(int)uVar3 * (long long)iVar2) >> 0x20) << 0x10 |
-          (unsigned int)((long long)(int)uVar3 * (long long)iVar2) >> 0x10;
-  *(unsigned int *)(DAT_0602d91a + unaff_r14) = uVar3;
-  *(unsigned int *)(unaff_r14 + 0x18) = uVar8 + uVar3;
+
+  /* === Normal driving path: integrate from heading and speed === */
+  *(unsigned int *)(car + CAR_HEADING) = *(unsigned int *)(car + CAR_HEADING3);
+  neg_heading = -*(int *)(car + CAR_HEADING2);
+  heading_angle = *(unsigned int *)(car + CAR_ACCEL);
+  prev_x = *(unsigned int *)(car + CAR_X);
+  prev_z = *(unsigned int *)(car + CAR_Z);
+  *(unsigned int *)(car + CAR_PRE_COLL_X) = prev_x;
+  *(unsigned int *)(car + CAR_PRE_COLL_Z) = prev_z;
+  sin_val = (*(int(*)())0x06027344)();
+  neg_heading = (*(int(*)())0x06027348)(neg_heading);
+  vel_component = (int)((unsigned long long)((long long)extraout_r3 * (long long)neg_heading) >> 0x20) << 0x10 |
+          (unsigned int)((long long)extraout_r3 * (long long)neg_heading) >> 0x10;
+  *(unsigned int *)(car2 + CAR_SIN_HEADING) = vel_component;
+  *(unsigned int *)(car2 + CAR_X) = prev_x + vel_component;
+  heading_angle = (int)((unsigned long long)((long long)(int)heading_angle * (long long)sin_val) >> 0x20) << 0x10 |
+          (unsigned int)((long long)(int)heading_angle * (long long)sin_val) >> 0x10;
+  *(unsigned int *)(car2 + CAR_COS_HEADING) = heading_angle;
+  *(unsigned int *)(car2 + CAR_Z) = prev_z + heading_angle;
   return;
 }
 
@@ -49028,51 +49070,56 @@ void FUN_0602d8bc()
 void FUN_0602d924()
 {
   long long lVar1;
-  unsigned int *in_r0;
-  int iVar2;
+  int car = 0; /* implicit r0 = car pointer */
+  int sin_val;
   int extraout_r1 = 0;
-  unsigned int uVar3;
-  char *puVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  long long uVar7;
+  unsigned int heading_angle;
+  char *scaled_speed;
+  unsigned int prev_x, prev_z;
+  unsigned int vel_component;
+  long long cos_result;
 
-  uVar3 = in_r0[0xc];
+  /* Apply heading correction from divide */
+  heading_angle = *(unsigned int *)(car + CAR_HEADING3);
   (*(int(*)())0x0602ECCC)();
-  iVar2 = extraout_r1;
-  if ((*in_r0 & 0x00000300) == 0) {
-    iVar2 = -extraout_r1;
+  sin_val = extraout_r1;
+  if ((*(int *)(car + CAR_FLAGS) & 0x00000300) == 0) {
+    sin_val = -extraout_r1;
   }
-  in_r0[0xc] = uVar3 + iVar2;
-  in_r0[8] = uVar3 + iVar2;
-  uVar3 = *(unsigned int *)(0x248 + (int)in_r0);
-  in_r0[10] = uVar3;
-  puVar4 = (char *)
+  *(unsigned int *)(car + CAR_HEADING3) = heading_angle + sin_val;
+  *(unsigned int *)(car + CAR_HEADING) = heading_angle + sin_val;
+  heading_angle = *(unsigned int *)(car + CAR_HEADING_STORED);
+  *(unsigned int *)(car + CAR_HEADING2) = heading_angle;
+
+  /* Decay speed using velocity table indexed by countdown */
+  scaled_speed = (char *)
            ((int)((unsigned long long)
                   ((long long)
-                   *(int *)(0x0602E8B8 + *(short *)(0x250 + (int)in_r0) << 2) *
-                  (long long)(int)in_r0[3]) >> 0x20) << 0x10 |
+                   *(int *)(0x0602E8B8 + *(short *)(car + CAR_COUNTDOWN) << 2) *
+                  (long long)*(int *)(car + CAR_ACCEL)) >> 0x20) << 0x10 |
            (unsigned int)((long long)
-                  *(int *)(0x0602E8B8 + *(short *)(0x250 + (int)in_r0) << 2) *
-                 (long long)(int)in_r0[3]) >> 0x10);
-  in_r0[3] = (unsigned int)puVar4;
-  if ((int)in_r0[2] < 0x29) {
-    puVar4 = (char *)0x00006AAA;
+                  *(int *)(0x0602E8B8 + *(short *)(car + CAR_COUNTDOWN) << 2) *
+                 (long long)*(int *)(car + CAR_ACCEL)) >> 0x10);
+  *(int *)(car + CAR_ACCEL) = (int)scaled_speed;
+  if (*(int *)(car + CAR_SPEED) < 0x29) {
+    scaled_speed = (char *)0x00006AAA;
   }
-  uVar5 = in_r0[4];
-  uVar6 = in_r0[6];
-  in_r0[0xe] = uVar5;
-  in_r0[0xf] = uVar6;
-  iVar2 = (*(int(*)())0x06027344)();
-  uVar7 = (*(int(*)())0x06027348)(-uVar3);
-  lVar1 = (long long)(int)puVar4 * (long long)(int)uVar7;
-  uVar3 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-  *(unsigned int *)(0x0000018C + (int)in_r0) = uVar3;
-  in_r0[4] = uVar5 + uVar3;
-  lVar1 = (long long)(int)((unsigned long long)uVar7 >> 0x20) * (long long)iVar2;
-  uVar3 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-  *(unsigned int *)(0x00000190 + (int)in_r0) = uVar3;
-  in_r0[6] = uVar6 + uVar3;
+
+  /* Save previous position, compute new from trig */
+  prev_x = *(unsigned int *)(car + CAR_X);
+  prev_z = *(unsigned int *)(car + CAR_Z);
+  *(unsigned int *)(car + CAR_PRE_COLL_X) = prev_x;
+  *(unsigned int *)(car + CAR_PRE_COLL_Z) = prev_z;
+  sin_val = (*(int(*)())0x06027344)();
+  cos_result = (*(int(*)())0x06027348)(-heading_angle);
+  lVar1 = (long long)(int)scaled_speed * (long long)(int)cos_result;
+  vel_component = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+  *(unsigned int *)(car + CAR_SIN_HEADING) = vel_component;
+  *(unsigned int *)(car + CAR_X) = prev_x + vel_component;
+  lVar1 = (long long)(int)((unsigned long long)cos_result >> 0x20) * (long long)sin_val;
+  vel_component = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
+  *(unsigned int *)(car + CAR_COS_HEADING) = vel_component;
+  *(unsigned int *)(car + CAR_Z) = prev_z + vel_component;
   return;
 }
 
