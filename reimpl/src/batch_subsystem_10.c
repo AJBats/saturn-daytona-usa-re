@@ -954,331 +954,153 @@ void FUN_06010d94(param_1, param_2, param_3, param_4)
   }
 }
 
+/* course_banner_render -- Render 3-layer course selection banner sprites.
+ * Draws course name/icon in 3 priority layers via VDP1 (0x06028400).
+ * Layer priority flickers based on FRAME_COUNTER (mode 3: every frame,
+ * otherwise every 2 frames) for the active player's selection.
+ * Non-selected players forced to priority 3.
+ * Sprite data from 0x0605AC70 (car table) and 0x0605AB98 (course table).
+ * Banner position from 0x06063750 + DAT_0601112c. */
 void FUN_06011094()
 {
+  int priority_base;
+  int pos_x, pos_y;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  int local_30;
-
-  int iStack_2c;
-
-  int iStack_28;
-
-  puVar3 = (int *)0x0605AC70;
-
-  puVar2 = (char *)0x06028400;
-
-  puVar1 = (char *)0x0607EADC;
-
+  /* flicker priority based on game mode and frame counter */
   if (*(int *)0x0607887F == '\x03') {
-
-    if ((FRAME_COUNTER & 1) == 0) {
-
-      iStack_28 = 4;
-
-    }
-
-    else {
-
-      iStack_28 = 3;
-
-    }
-
+    priority_base = ((FRAME_COUNTER & 1) == 0) ? 4 : 3;
+  } else if ((FRAME_COUNTER & 3) < 2) {
+    priority_base = 3;
+  } else {
+    priority_base = 4;
   }
-
-  else if ((FRAME_COUNTER & 3) < 2) {
-
-    iStack_28 = 3;
-
+  pos_x = *(int *)(0x06063750 + DAT_0601112c);          /* banner X position */
+  pos_y = *(int *)(0x06063750 + DAT_0601112c + 0x10);   /* banner Y position */
+  /* --- layer 0: player 0 selection --- */
+  {
+    int pri_0 = priority_base;
+    if (*(int *)0x0607EADC != 0) pri_0 = 3;             /* non-active: force priority 3 */
+    (*(int(*)())0x06028400)(4, *(int *)(0x0605AC70 + *(int *)(0x06078644 << 2)),
+               0x282, (pri_0 << 12) + pos_x);           /* car banner */
+    (*(int(*)())0x06028400)(8, *(int *)(0x0605AB98 + *(int *)(0x0605AD00 << 2)),
+               (int)PTR_DAT_06011130, (pri_0 << 12) + pos_y); /* course banner */
   }
-
-  else {
-
-    iStack_28 = 4;
-
+  /* --- layer 1: player 1 selection --- */
+  {
+    int pri_1 = priority_base;
+    if (*(int *)0x0607EADC != 1) pri_1 = 3;
+    int offset_1 = (pri_1 + 2) << 12;
+    (*(int(*)())0x06028400)(4, *(int *)(0x0605AC70 + *(int *)(0x06078644 << 2) + 0xc),
+               (int)DAT_06011206, offset_1 + pos_x);
+    (*(int(*)())0x06028400)(8, *(int *)(0x0605AB98 + *(int *)(0x0605AD00 << 2) + 0xc),
+               0x4a8, offset_1 + pos_y);
   }
-
-  iVar8 = *(int *)(0x06063750 + DAT_0601112c);
-
-  iVar7 = *(int *)(0x06063750 + DAT_0601112c + 0x10);
-
-  local_30 = iStack_28;
-
-  if (*(int *)0x0607EADC != 0) {
-
-    local_30 = 3;
-
+  /* --- layer 2: player 2 selection --- */
+  {
+    int pri_2 = priority_base;
+    if (*(int *)0x0607EADC != 2) pri_2 = 3;
+    int offset_2 = (pri_2 + 4) << 12;
+    (*(int(*)())0x06028400)(4, *(int *)(0x0605AC70 + *(int *)(0x06078644 << 2) + 0x18),
+               0x2ba, offset_2 + pos_x);
+    (*(int(*)())0x06028400)(8, *(int *)(0x0605AB98 + *(int *)(0x0605AD00 << 2) + 0x18),
+               (int)PTR_DAT_0601120c, offset_2 + pos_y);
   }
-
-  (*(int(*)())0x06028400)(4,*(int *)(0x0605AC70 + *(int *)(0x06078644 << 2)),0x282,
-
-             (local_30 << 12) + iVar8);
-
-  puVar5 = (short *)0x0605AB98;
-
-  puVar4 = (char *)0x0605AD00;
-
-  (*(int(*)())puVar2)(8,*(int *)(0x0605AB98 + *(int *)(0x0605AD00 << 2)),
-
-                    (int)PTR_DAT_06011130,(local_30 << 12) + iVar7);
-
-  iStack_2c = iStack_28;
-
-  if (*(int *)puVar1 != 1) {
-
-    iStack_2c = 3;
-
-  }
-
-  iVar6 = (iStack_2c + 2) << 12;
-
-  (*(int(*)())puVar2)(4,*(int *)(puVar3 + *(int *)(0x06078644 << 2) + 0xc),(int)DAT_06011206
-
-                    ,iVar6 + iVar8);
-
-  (*(int(*)())puVar2)(8,*(int *)(puVar5 + *(int *)((int)(int)puVar4 << 2) + 0xc),0x4a8,
-
-                    iVar6 + iVar7);
-
-  if (*(int *)puVar1 != 2) {
-
-    iStack_28 = 3;
-
-  }
-
-  iVar6 = (iStack_28 + 4) << 12;
-
-  (*(int(*)())puVar2)(4,*(int *)(puVar3 + *(int *)(0x06078644 << 2) + 0x18),
-
-                    0x2ba,iVar6 + iVar8);
-
-  (*(int(*)())puVar2)(8,*(int *)(puVar5 + *(int *)((int)(int)puVar4 << 2) + 0x18),
-
-                    (int)PTR_DAT_0601120c,iVar6 + iVar7);
-
-  return;
-
 }
 
+/* char_select_sprite -- Render character selection sprite overlay.
+ * Draws 3 VDP1 sprites for character select: background banner,
+ * character icon (from 0x0605ABBC indexed by car selection), and
+ * transmission indicator (manual=0x0605A9B0, auto=0x0605A9B8).
+ * Player A (0x0607EAB8==0): base priority, player B: priority+2.
+ * Mode 0xB: flicker priority 3↔4 on alternating frames.
+ * Position from scroll offset table at 0x06063828+4. */
 void FUN_060111e2()
 {
+  int priority;
+  int *sprite_pos = (int *)0x06063828;
+  int vdp1_draw = 0x06028400;
+  int *trans_sprite;
+  int cmd_offset;
+  int pos;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  puVar3 = (int *)0x06063828;
-
-  puVar2 = (char *)0x06028400;
-
-  puVar1 = (char *)0x06078644;
-
-  iVar5 = 3;
-
+  priority = 3;
   if ((*(int *)0x0607887F == '\v') && ((FRAME_COUNTER & 1) == 0)) {
-
-    iVar5 = 4;
-
+    priority = 4;                                        /* flicker on mode 0xB */
   }
-
-  if (*(int *)0x0607EAB8 == 0) {
-
-    iVar5 = (iVar5 << 12);
-
-    (*(int(*)())0x06028400)(4,0x0605A7FC,0x2a0,*(int *)(0x06063828 + 4) + iVar5);
-
-    (*(int(*)())puVar2)(4,*(int *)
-
+  if (*(int *)0x0607EAB8 == 0) {                         /* player A selected */
+    pos = *(int *)(sprite_pos + 4) + (priority << 12);
+    (*(int(*)())vdp1_draw)(4, 0x0605A7FC, 0x2a0, pos);  /* background banner A */
+    (*(int(*)())vdp1_draw)(4, *(int *)
                          (0x0605ABBC +
-
-                         (unsigned int)(*(int *)puVar1 != 0) << 2 + *(int *)(0x06078868 << 3)),
-
-                      0x530,*(int *)(puVar3 + 4) + iVar5);
-
-    iVar4 = (int)DAT_060112e6;
-
-    iVar5 = *(int *)(puVar3 + 4) + iVar5;
-
-    puVar3 = (int *)0x0605A9B8;
-
-    if (*(int *)puVar1 != 0) {
-
-      puVar3 = (int *)0x0605A9B0;
-
+                         (unsigned int)(*(int *)0x06078644 != 0) << 2 + *(int *)(0x06078868 << 3)),
+                      0x530, pos);                       /* character icon */
+    cmd_offset = (int)DAT_060112e6;
+    trans_sprite = (int *)0x0605A9B8;                    /* auto transmission sprite */
+    if (*(int *)0x06078644 != 0) {
+      trans_sprite = (int *)0x0605A9B0;                  /* manual transmission sprite */
     }
-
-  }
-
-  else {
-
-    iVar5 = (iVar5 + 2) << 12;
-
-    (*(int(*)())0x06028400)(4,0x0605A8B6,0x2a0,*(int *)(0x06063828 + 4) + iVar5);
-
-    (*(int(*)())puVar2)(4,*(int *)
-
+  } else {                                               /* player B selected */
+    pos = *(int *)(sprite_pos + 4) + ((priority + 2) << 12);
+    (*(int(*)())vdp1_draw)(4, 0x0605A8B6, 0x2a0, pos);  /* background banner B */
+    (*(int(*)())vdp1_draw)(4, *(int *)
                          (0x0605ABBC +
-
-                         (unsigned int)(*(int *)puVar1 != 0) << 2 + *(int *)(0x06078868 << 3)),
-
-                      0x530,*(int *)(puVar3 + 4) + iVar5);
-
-    iVar4 = (int)DAT_060112e6;
-
-    iVar5 = *(int *)(puVar3 + 4) + iVar5;
-
-    puVar3 = (int *)0x0605A9B8;
-
-    if (*(int *)puVar1 != 0) {
-
-      puVar3 = (int *)0x0605A9B0;
-
+                         (unsigned int)(*(int *)0x06078644 != 0) << 2 + *(int *)(0x06078868 << 3)),
+                      0x530, pos);                       /* character icon */
+    cmd_offset = (int)DAT_060112e6;
+    trans_sprite = (int *)0x0605A9B8;
+    if (*(int *)0x06078644 != 0) {
+      trans_sprite = (int *)0x0605A9B0;
     }
-
   }
-
-  (*(int(*)())puVar2)(4,puVar3,iVar4,iVar5);
-
-  return;
-
+  (*(int(*)())vdp1_draw)(4, trans_sprite, cmd_offset, pos); /* transmission indicator */
 }
 
+/* dual_char_select_sprite -- Render character selection for 2-player mode.
+ * Draws 2 sets of 3 sprites each (banner, transmission, car variant)
+ * via VDP1 (0x06028400). Player 0: uses priority flicker, forced to
+ * priority 3 if not selected (0x0607EADC != 0). Player 1: priority+2.
+ * Transmission sprites: auto=0x0605A9B8/0x0605A978, manual=0x0605A9B0/0x0605A998.
+ * Position from scroll offset 0x06063828+4. */
 void FUN_06011310()
 {
+  int priority_base;
+  int pos;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  int iVar5;
-
-  int local_20;
-
-  puVar2 = (char *)0x06063828;
-
-  puVar1 = (char *)0x06028400;
-
+  /* determine flicker priority */
   if (*(int *)0x0607887F == '\v') {
-
-    if ((FRAME_COUNTER & 1) == 0) {
-
-      iVar5 = 4;
-
-    }
-
-    else {
-
-      iVar5 = 3;
-
-    }
-
+    priority_base = ((FRAME_COUNTER & 1) == 0) ? 4 : 3;
+  } else if ((FRAME_COUNTER & 3) < 2) {
+    priority_base = 3;
+  } else {
+    priority_base = 4;
   }
-
-  else if ((FRAME_COUNTER & 3) < 2) {
-
-    iVar5 = 3;
-
+  /* --- player 0 sprites --- */
+  {
+    int pri_0 = priority_base;
+    if (*(int *)0x0607EADC != 0) pri_0 = 3;             /* non-active: force 3 */
+    pos = *(int *)(0x06063828 + 4) + (pri_0 << 12);
+    (*(int(*)())0x06028400)(4, 0x0605A7FC, 0x288, pos); /* banner A */
+    char *trans_0 = (char *)0x0605A9B8;                  /* auto transmission */
+    if (*(int *)0x06078644 != 0) trans_0 = (char *)0x0605A9B0; /* manual */
+    (*(int(*)())0x06028400)(4, trans_0, (int)DAT_060113b4, pos);
+    char *car_0 = (char *)0x0605A978;                    /* auto car variant */
+    if (*(int *)0x06078644 != 0) car_0 = (char *)0x0605A998; /* manual */
+    (*(int(*)())0x06028400)(4, car_0, 0x518, pos);
   }
-
-  else {
-
-    iVar5 = 4;
-
+  /* --- player 1 sprites --- */
+  {
+    int pri_1 = priority_base;
+    if (*(int *)0x0607EADC != 1) pri_1 = 3;
+    int offset_1 = (pri_1 + 2) << 12;
+    pos = *(int *)(0x06063828 + 4) + offset_1;
+    (*(int(*)())0x06028400)(4, 0x0605A8B6, (int)DAT_06011462, pos); /* banner B */
+    char *trans_1 = (char *)0x0605A9B8;
+    if (*(int *)0x06078644 != 0) trans_1 = (char *)0x0605A9B0;
+    (*(int(*)())0x06028400)(4, trans_1, 0x54a, pos);
+    char *car_1 = (char *)0x0605A980;
+    if (*(int *)0x06078644 != 0) car_1 = (char *)0x0605A9A0;
+    (*(int(*)())0x06028400)(4, car_1, (int)DAT_06011466, pos);
   }
-
-  local_20 = iVar5;
-
-  if (*(int *)0x0607EADC != 0) {
-
-    local_20 = 3;
-
-  }
-
-  local_20 = (local_20 << 12);
-
-  (*(int(*)())0x06028400)(4,0x0605A7FC,0x288,*(int *)(0x06063828 + 4) + local_20);
-
-  puVar3 = (int *)0x06078644;
-
-  puVar4 = (char *)0x0605A9B8;
-
-  if (*(int *)0x06078644 != 0) {
-
-    puVar4 = (char *)0x0605A9B0;
-
-  }
-
-  (*(int(*)())puVar1)(4,puVar4,(int)DAT_060113b4,*(int *)(puVar2 + 4) + local_20);
-
-  puVar4 = (char *)0x0605A978;
-
-  if (*(int *)puVar3 != 0) {
-
-    puVar4 = (char *)0x0605A998;
-
-  }
-
-  (*(int(*)())puVar1)(4,puVar4,0x518,*(int *)(puVar2 + 4) + local_20);
-
-  local_20 = iVar5;
-
-  if (*(int *)0x0607EADC != 1) {
-
-    local_20 = 3;
-
-  }
-
-  iVar5 = (local_20 + 2) << 12;
-
-  (*(int(*)())puVar1)(4,0x0605A8B6,(int)DAT_06011462,*(int *)(puVar2 + 4) + iVar5);
-
-  puVar4 = (char *)0x0605A9B8;
-
-  if (*(int *)puVar3 != 0) {
-
-    puVar4 = (char *)0x0605A9B0;
-
-  }
-
-  (*(int(*)())puVar1)(4,puVar4,0x54a,*(int *)(puVar2 + 4) + iVar5);
-
-  puVar4 = (char *)0x0605A980;
-
-  if (*(int *)puVar3 != 0) {
-
-    puVar4 = (char *)0x0605A9A0;
-
-  }
-
-  (*(int(*)())puVar1)(4,puVar4,(int)DAT_06011466,*(int *)(puVar2 + 4) + iVar5);
-
-  return;
-
 }
 
 /* gauge_needle_update -- Interpolate gauge needle position toward target.
@@ -1501,89 +1323,49 @@ void FUN_060116a8(int param_1,int param_2,short param_3,int param_4,short param_
 
 }
 
+/* gauge_mark_render -- Render gauge tick mark as VDP1 polygon.
+ * Writes 4-vertex polygon (8 coords) to VDP1 command table at
+ * 0x060786CC, stride 0x18 per entry. Each vertex pair computed
+ * as fixed-point truncation (0x0602754C) of template offsets
+ * (param_1[0..7]) + needle position (param_2=X, param_3=Y).
+ * Sets sprite index (param_4), flags (visible=1), and advances
+ * the command table counter at 0x0605AAA0. */
 int FUN_06011978(param_1, param_2, param_3, param_4)
     int *param_1;
     int param_2;
     int param_3;
     short param_4;
 {
+  short *cmd_counter = (short *)0x0605AAA0;
+  char *cmd_table = (int *)0x060786CC;
+  int fp_trunc = 0x0602754C;                             /* fixed-point truncate */
+  short idx;
+  short *vertex_base;
 
-  short sVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  short uVar5;
-
-  short *puVar6;
-
-  puVar4 = (char *)0x0605AAA0;
-
-  puVar3 = (int *)0x060786CC;
-
-  puVar2 = (char *)0x0602754C;
-
-  puVar6 = (short *)(0x060786CC + (short)(*(short *)0x0605AAA0 * 0x18) + 8);
-
-  uVar5 = (*(int(*)())0x0602754C)(*param_1 + param_2);
-
-  *puVar6 = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[1] + param_3);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 10) = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[2] + param_2);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0xc) = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[3] + param_3);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0xe) = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[4] + param_2);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x10) = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[5] + param_3);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x12) = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[6] + param_2);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x14) = uVar5;
-
-  sVar1 = *(short *)puVar4;
-
-  uVar5 = (*(int(*)())puVar2)(param_1[7] + param_3);
-
-  *(short *)(puVar3 + (short)(sVar1 * 0x18) + 0x16) = uVar5;
-
-  *(short *)(puVar3 + (short)(*(short *)puVar4 * 0x18) + 6) = param_4;
-
-  puVar3[(short)(*(short *)puVar4 * 0x18) + 4] = 0;
-
-  puVar3[(short)(*(short *)puVar4 * 0x18) + 5] = 1;
-
-  *(short *)puVar4 = *(short *)puVar4 + 1;
-
+  idx = *cmd_counter;
+  vertex_base = (short *)(0x060786CC + (short)(idx * 0x18) + 8);
+  /* vertex 0: X */
+  *vertex_base = (*(int(*)())fp_trunc)(*param_1 + param_2);
+  /* vertex 0: Y */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 10) = (*(int(*)())fp_trunc)(param_1[1] + param_3);
+  /* vertex 1: X */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 0xc) = (*(int(*)())fp_trunc)(param_1[2] + param_2);
+  /* vertex 1: Y */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 0xe) = (*(int(*)())fp_trunc)(param_1[3] + param_3);
+  /* vertex 2: X */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 0x10) = (*(int(*)())fp_trunc)(param_1[4] + param_2);
+  /* vertex 2: Y */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 0x12) = (*(int(*)())fp_trunc)(param_1[5] + param_3);
+  /* vertex 3: X */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 0x14) = (*(int(*)())fp_trunc)(param_1[6] + param_2);
+  /* vertex 3: Y */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 0x16) = (*(int(*)())fp_trunc)(param_1[7] + param_3);
+  /* command metadata */
+  *(short *)(cmd_table + (short)(idx * 0x18) + 6) = param_4;  /* sprite index */
+  cmd_table[(short)(idx * 0x18) + 4] = 0;               /* flags low */
+  cmd_table[(short)(idx * 0x18) + 5] = 1;               /* visible flag */
+  *cmd_counter = *cmd_counter + 1;                       /* advance counter */
   return 0;
-
 }
 
 void FUN_06011af4(int param_1,int param_2,int param_3,int param_4,short param_5,short param_6,short param_7)
