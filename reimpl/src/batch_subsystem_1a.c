@@ -288,139 +288,76 @@ void FUN_0601a80c()
 
 }
 
+/* course_select_input -- Handle D-pad input for course/music selection menu.
+ * Reads input from 0x06063D98 (raw + edge-triggered). Up/Down changes
+ * selection index at 0x0605D24C (range 0..0x31). Input repeat timer
+ * at 0x0605D243 (threshold 0x14). On confirm (DAT_0601aa3a), resets
+ * attract mode flags, switches sound bank if crossing threshold 0x24,
+ * plays selection sound via SCSP (0x0601D5F4). Renders 4 sprite
+ * layers for the selection highlight via VDP1 (0x060283E0). */
 void FUN_0601a940()
 {
+  char *repeat_timer = (char *)0x0605D243;
+  char *select_idx = (char *)0x0605D24C;
+  char *input_base = (char *)0x06063D98;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  puVar3 = (char *)0x0605D243;
-
-  puVar2 = (char *)0x0605D24C;
-
-  puVar1 = (char *)0x06063D98;
-
+  /* --- D-pad input processing (edge + held with repeat) --- */
   if (((unsigned int)*(unsigned short *)(0x06063D98 + 2) & (unsigned int)0x00008000) == 0) {
-
     if ((*(unsigned short *)(0x06063D98 + 2) & DAT_0601a9a4) == 0) {
-
       if (((unsigned int)*(unsigned short *)0x06063D98 & (unsigned int)0x00008000) == 0) {
-
-        if (((*(unsigned short *)0x06063D98 & DAT_0601a9a4) != 0) && (*(int *)0x0605D243 == '\x14')) {
-
-          *(int *)0x0605D24C = *(int *)0x0605D24C + -1;
-
-          *puVar3 = 0;
-
+        if (((*(unsigned short *)0x06063D98 & DAT_0601a9a4) != 0) &&
+            (*(int *)0x0605D243 == '\x14')) {            /* repeat threshold met */
+          *(int *)0x0605D24C = *(int *)0x0605D24C + -1;  /* decrement selection */
+          *repeat_timer = 0;
         }
-
+      } else if (*(int *)0x0605D243 == '\x14') {
+        *(int *)0x0605D24C = *(int *)0x0605D24C + '\x01'; /* increment selection */
+        *repeat_timer = 0;
       }
-
-      else if (*(int *)0x0605D243 == '\x14') {
-
-        *(int *)0x0605D24C = *(int *)0x0605D24C + '\x01';
-
-        *puVar3 = 0;
-
-      }
-
+    } else {
+      *(int *)0x0605D24C = *(int *)0x0605D24C + -1;     /* edge-triggered down */
+      *repeat_timer = 0;
     }
-
-    else {
-
-      *(int *)0x0605D24C = *(int *)0x0605D24C + -1;
-
-      *puVar3 = 0;
-
-    }
-
+  } else {
+    *(int *)0x0605D24C = *(int *)0x0605D24C + '\x01';   /* edge-triggered up */
+    *repeat_timer = 0;
   }
-
-  else {
-
-    *(int *)0x0605D24C = *(int *)0x0605D24C + '\x01';
-
-    *puVar3 = 0;
-
+  /* --- clamp selection to 0..0x31 with wrap --- */
+  if ('1' < (char)*select_idx) {
+    *select_idx = 0;
   }
-
-  if ('1' < (char)*puVar2) {
-
-    *puVar2 = 0;
-
+  if ((char)*select_idx < '\0') {
+    *select_idx = (char *)0x31;                          /* wrap to max */
   }
-
-  if ((char)*puVar2 < '\0') {
-
-    *puVar2 = (char *)0x31;
-
+  if ((*(unsigned short *)(input_base + 2) & 0xf8) != 0) { /* any button: reset to 0 */
+    *select_idx = 0;
   }
-
-  if ((*(unsigned short *)(puVar1 + 2) & 0xf8) != 0) {
-
-    *puVar2 = 0;
-
-  }
-
-  if ((*(unsigned short *)(puVar1 + 2) & DAT_0601aa3a) != 0) {
-
-    if (*(int *)0x06085FF6 != '\0') {
-
+  /* --- confirm button handling --- */
+  if ((*(unsigned short *)(input_base + 2) & DAT_0601aa3a) != 0) {
+    if (*(int *)0x06085FF6 != '\0') {                    /* reset attract state */
       (*(int(*)())0x06012EC4)();
-
       (*(int(*)())0x06012F00)();
-
       *(int *)0x06085FF6 = 0;
-
     }
-
-    puVar1 = (char *)0x06085FF7;
-
-    if ((char)*puVar2 < '$') {
-
+    if ((char)*select_idx < '$') {                       /* below sound bank threshold */
       if (*(int *)0x06085FF7 != '\0') {
-
-        (*(int(*)())0x060191E0)();
-
-        *puVar1 = 0;
-
+        (*(int(*)())0x060191E0)();                       /* switch to bank A */
+        *(int *)0x06085FF7 = 0;
       }
-
+    } else if (*(int *)0x06085FF7 != '\x01') {
+      (*(int(*)())0x06019248)();                         /* switch to bank B */
+      *(int *)0x06085FF7 = 1;
     }
-
-    else if (*(int *)0x06085FF7 != '\x01') {
-
-      (*(int(*)())0x06019248)();
-
-      *puVar1 = 1;
-
-    }
-
-    (*(int(*)())0x0601D5F4)(0,0xAE0001FF);
-
-    (*(int(*)())0x0601D5F4)(0,*(int *)(0x06049CFC + (char)(*puVar2 << 2)));
-
+    (*(int(*)())0x0601D5F4)(0, 0xAE0001FF);             /* confirm sound */
+    (*(int(*)())0x0601D5F4)(0, *(int *)(0x06049CFC + (char)(*select_idx << 2))); /* selection sound */
   }
-
-  puVar1 = (char *)0x060283E0;
-
-  (*(int(*)())0x060283E0)(0xc,(int)DAT_0601aac2,0,0x06049CDC);
-
-  (*(int(*)())puVar1)(0xc,(int)0x091CFFFF,0,0x06049CDC);
-
-  (*(int(*)())puVar1)(0xc,(int)0x091CFFFF,0x0000E000,
-
-                    *(int *)(0x0605D35C + (char)(*puVar2 << 3)));
-
-  (*(int(*)())puVar1)(0xc,(int)DAT_0601aac2,0x0000E000,
-
-                    *(int *)(0x0605D35C + (char)(*puVar2 << 3) + 4));
-
-  return;
-
+  /* --- sprite rendering: 4 layers for selection highlight --- */
+  (*(int(*)())0x060283E0)(0xc, (int)DAT_0601aac2, 0, 0x06049CDC);           /* background A */
+  (*(int(*)())0x060283E0)(0xc, (int)0x091CFFFF, 0, 0x06049CDC);             /* background B */
+  (*(int(*)())0x060283E0)(0xc, (int)0x091CFFFF, 0x0000E000,                 /* highlight A */
+                    *(int *)(0x0605D35C + (char)(*select_idx << 3)));
+  (*(int(*)())0x060283E0)(0xc, (int)DAT_0601aac2, 0x0000E000,               /* highlight B */
+                    *(int *)(0x0605D35C + (char)(*select_idx << 3) + 4));
 }
 
 /* course_data_lookup -- Load course-specific data pointers.
@@ -466,95 +403,56 @@ int FUN_0601abc6(void)
     return offset;
 }
 
+/* high_score_insert -- Insert new race time into high score table.
+ * Looks up course-specific score table from 0x0605DD6C indexed by
+ * CAR_COUNT*6 + course. Scans 0x13 entries (stride 0xC) to find
+ * insertion point for race time at 0x060786A4. Shifts entries down
+ * via memcpy (0x06035168), writes new entry: time at +4, character
+ * index at +8 (via FUN_0601ae2c), difficulty at +9, demo flag at +10.
+ * Also checks lap record: updates best lap at table+4 if beaten.
+ * Stores result pointer at 0x06085FFC, rank at 0x06086012. */
 unsigned int FUN_0601ac7c()
 {
+  unsigned int result;
+  char char_idx;
+  int score_table;
+  int lap_table;
+  char *entry;
+  unsigned char rank;
 
-  char *puVar1;
-
-  unsigned int uVar2;
-
-  char uVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  char *puVar6;
-
-  unsigned char bVar7;
-
-  puVar1 = (char *)0x060786A4;
-
-  iVar4 = *(int *)(0x0605DD6C +
-
-                  (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2);
-
-  iVar5 = *(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3));
-
-  uVar2 = (unsigned int)PTR_DAT_0601ace4;
-
-  bVar7 = 0x13;
-
-  if ((*(unsigned int *)0x060786A4 < *(unsigned int *)(iVar4 + uVar2)) &&
-
-     (uVar2 = 0, *(int *)0x0607EBF4 != 0)) {
-
+  score_table = *(int *)(0x0605DD6C +
+                  (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2);  /* course score table */
+  lap_table = *(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3));       /* lap record table */
+  result = (unsigned int)PTR_DAT_0601ace4;
+  rank = 0x13;                                           /* start from bottom (19th place) */
+  if ((*(unsigned int *)0x060786A4 < *(unsigned int *)(score_table + result)) &&
+     (result = 0, *(int *)0x0607EBF4 != 0)) {           /* race completed & beats worst */
     do {
-
-      if (*(unsigned int *)((bVar7 - 1) * 0xc + iVar4 + 4) <= *(unsigned int *)puVar1) break;
-
-      (*(int(*)())0x06035168)();
-
-      bVar7 = bVar7 - 1;
-
-    } while (bVar7 != 0);
-
-    puVar6 = (char *)((unsigned int)bVar7 * 0xc + iVar4);
-
-    *(int *)(puVar6 + 4) = *(int *)puVar1;
-
-    uVar3 = FUN_0601ae2c();
-
-    puVar6[8] = uVar3;
-
-    puVar6[9] = *(int *)0x0605DE3C;
-
-    uVar2 = DEMO_MODE_FLAG & 0xff;
-
-    puVar6[10] = (char)DEMO_MODE_FLAG;
-
-    *puVar6 = 0;
-
-    *(char **)0x06085FFC = puVar6;
-
-    *(int *)0x06086012 = bVar7;
-
+      if (*(unsigned int *)((rank - 1) * 0xc + score_table + 4) <= *(unsigned int *)0x060786A4) break;
+      (*(int(*)())0x06035168)();                         /* shift entry down (memcpy) */
+      rank = rank - 1;
+    } while (rank != 0);
+    entry = (char *)((unsigned int)rank * 0xc + score_table);
+    *(int *)(entry + 4) = *(int *)0x060786A4;            /* write race time */
+    char_idx = FUN_0601ae2c();                           /* get character index */
+    entry[8] = char_idx;
+    entry[9] = *(int *)0x0605DE3C;                       /* difficulty level */
+    result = DEMO_MODE_FLAG & 0xff;
+    entry[10] = (char)DEMO_MODE_FLAG;                    /* demo flag */
+    *entry = 0;                                          /* mark entry valid */
+    *(char **)0x06085FFC = entry;                        /* store result pointer */
+    *(int *)0x06086012 = rank;                           /* store final rank */
+  } else {
+    *(int *)0x06085FFC = 0;                              /* no new record */
   }
-
-  else {
-
-    *(int *)0x06085FFC = 0;
-
-  }
-
-  puVar1 = (char *)0x06086000;
-
-  if ((*(int *)0x06078638 < *(int *)(iVar5 + 4)) && (0 < *(int *)0x06078638)) {
-
-    *(int *)(iVar5 + 4) = *(int *)0x06078638;
-
-    *(int *)puVar1 = iVar5;
-
-  }
-
-  else {
-
+  /* --- lap record check --- */
+  if ((*(int *)0x06078638 < *(int *)(lap_table + 4)) && (0 < *(int *)0x06078638)) {
+    *(int *)(lap_table + 4) = *(int *)0x06078638;        /* update best lap */
+    *(int *)0x06086000 = lap_table;
+  } else {
     *(int *)0x06086000 = 0;
-
   }
-
-  return uVar2;
-
+  return result;
 }
 
 /* best_record_update -- Update best lap/race records if current times are better.

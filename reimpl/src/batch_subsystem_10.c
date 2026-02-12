@@ -53,116 +53,66 @@ extern short DAT_06011efe;
 extern short DAT_06011f00;
 extern short DAT_06011f02;
 
+/* player_sprite_render -- Render player car sprite with animation/scaling.
+ * Loads sprite data from table at 0x060447C8 indexed by player slot.
+ * DMA-copies palette (0x20 bytes) to VRAM. If game mode > 4, advances
+ * animation frame counter at 0x06078870 (max 0x1E for active, 0x1D for
+ * inactive players). Active player uses stride from DAT_060101b2,
+ * others use 0x72B. Calls 3D sprite renderer (FUN_06011AF4) with
+ * computed position, scale, and texture from course lookup table. */
 int FUN_060100a4(param_1)
     unsigned char param_1;
 {
+  short y_offset;
+  unsigned short anim_frame;
+  char *palette_src;
+  int tex_x;
+  char *tex_y;
+  int scale_y;
+  char *scale_x;
+  int anim_stride;
 
-  short sVar1;
-
-  unsigned short uVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  char *puVar5;
-
-  int iVar6;
-
-  char *puVar7;
-
-  int iVar8;
-
-  puVar7 = (char *)0x00010000;
-
-  sVar1 = (unsigned short)param_1 + DAT_060100f6;
-
-  iVar6 = (int)DAT_060100f8;
-
-  iVar4 = *(int *)(0x060447C8 + (unsigned int)(param_1 << 4));
-
-  puVar5 = *(char **)((int)(0x060447C8 + (unsigned int)(param_1 << 4)) + 4);
-
+  scale_x = (char *)0x00010000;
+  y_offset = (unsigned short)param_1 + DAT_060100f6;
+  scale_y = (int)DAT_060100f8;
+  tex_x = *(int *)(0x060447C8 + (unsigned int)(param_1 << 4));         /* sprite table X */
+  tex_y = *(char **)((int)(0x060447C8 + (unsigned int)(param_1 << 4)) + 4); /* sprite table Y */
   if ((unsigned int)param_1 == CAR_COUNT) {
-
-    puVar3 = 0x0605D0BC + (unsigned int)(param_1 << 5);
-
+    palette_src = 0x0605D0BC + (unsigned int)(param_1 << 5);            /* active player palette */
+  } else {
+    palette_src = 0x0605D0BC + (param_1 + 3) << 5;                     /* inactive player palette */
   }
-
-  else {
-
-    puVar3 = 0x0605D0BC + (param_1 + 3) << 5;
-
-  }
-
-  (*(int(*)())0x0602766C)(*(int *)(0x06078888 + (unsigned int)(param_1 << 2)),puVar3,0x20);
-
-  if (4 < (unsigned char)*(int *)0x0607887F) {
-
-    if ((unsigned int)param_1 == CAR_COUNT) {
-
+  (*(int(*)())0x0602766C)(*(int *)(0x06078888 + (unsigned int)(param_1 << 2)), palette_src, 0x20);
+  if (4 < (unsigned char)*(int *)0x0607887F) {          /* game mode > 4: animate */
+    if ((unsigned int)param_1 == CAR_COUNT) {            /* active player */
       if (*(unsigned short *)(0x06078870 + (unsigned int)(param_1 << 1)) < 0x1e) {
-
-        uVar2 = *(short *)(0x06078870 + (unsigned int)(param_1 << 1)) + 1;
-
-        *(unsigned short *)(0x06078870 + (unsigned int)(param_1 << 1)) = uVar2;
-
-      }
-
-      else {
-
+        anim_frame = *(short *)(0x06078870 + (unsigned int)(param_1 << 1)) + 1;
+        *(unsigned short *)(0x06078870 + (unsigned int)(param_1 << 1)) = anim_frame;
+      } else {
         *(short *)(0x06078870 + (unsigned int)(param_1 << 1)) = 0x20;
-
-        uVar2 = 0x20;
-
+        anim_frame = 0x20;
       }
-
-      iVar4 = iVar4 + *(int *)(0x060447F8 + (char)(param_1 * '\f')) * (unsigned int)uVar2;
-
-      puVar5 = puVar5 + *(int *)((int)(0x060447F8 + (char)(param_1 * '\f')) + 4) * (unsigned int)uVar2
-
-      ;
-
-      iVar8 = (unsigned int)uVar2 * (int)DAT_060101b2;
-
-    }
-
-    else {
-
+      tex_x = tex_x + *(int *)(0x060447F8 + (char)(param_1 * '\f')) * (unsigned int)anim_frame;
+      tex_y = tex_y + *(int *)((int)(0x060447F8 + (char)(param_1 * '\f')) + 4) * (unsigned int)anim_frame;
+      anim_stride = (unsigned int)anim_frame * (int)DAT_060101b2;
+    } else {                                             /* inactive player */
       if (0x1d < *(unsigned short *)(0x06078870 + (unsigned int)(param_1 << 1))) {
-
-        return (unsigned int)(param_1 << 1);
-
+        return (unsigned int)(param_1 << 1);             /* animation complete */
       }
-
-      uVar2 = *(short *)(0x06078870 + (unsigned int)(param_1 << 1)) + 1;
-
-      *(unsigned short *)(0x06078870 + (unsigned int)(param_1 << 1)) = uVar2;
-
-      iVar8 = (unsigned int)uVar2 * 0x72b;
-
+      anim_frame = *(short *)(0x06078870 + (unsigned int)(param_1 << 1)) + 1;
+      *(unsigned short *)(0x06078870 + (unsigned int)(param_1 << 1)) = anim_frame;
+      anim_stride = (unsigned int)anim_frame * 0x72b;
     }
-
-    iVar6 = iVar6 + (unsigned int)uVar2 * -0x800;
-
-    puVar7 = puVar7 + -iVar8;
-
+    scale_y = scale_y + (unsigned int)anim_frame * -0x800;
+    scale_x = scale_x + -anim_stride;
   }
-
-  if (0xb < (unsigned char)*(int *)0x0607887F) {
-
-    puVar5 = (short *)0x00960000;
-
+  if (0xb < (unsigned char)*(int *)0x0607887F) {        /* mode > 11: override Y */
+    tex_y = (short *)0x00960000;
   }
-
-  iVar4 = (*(int(*)())0x06011AF4)(iVar4,puVar5,
-
+  tex_x = (*(int(*)())0x06011AF4)(tex_x, tex_y,        /* 3D sprite render */
                      (*(unsigned int *)(0x06044844 + *(int *)(0x0605AA98 << 2)) >> 1) << 0x10,
-
-                     0x00200000,iVar6,puVar7,(int)sVar1);
-
-  return iVar4;
-
+                     0x00200000, scale_y, scale_x, (int)y_offset);
+  return tex_x;
 }
 
 /* player_count_detect -- Detect number of players from cabinet inputs.
@@ -955,103 +905,53 @@ int FUN_06010bc4()
 
 }
 
+/* character_model_3d_render -- Render 3D character model with matrix pipeline.
+ * Only renders if slot index at 0x060788A0 < 10 (max visible models).
+ * Pushes matrix stack (0x06026E0C), translates by param position,
+ * rotates by heading angle from 0x06078878. Then renders 3 body
+ * segments (torso/arms/legs) each with: multiply (0x06031D8C),
+ * scale (0x06031A28), matrix pop (0x06026DBC), translate, repeat.
+ * Transform data at 0x06044640-0x06044678, rotation index from
+ * table at 0x06089E44. State pointer at 0x06089EDC tracks stack. */
 void FUN_06010d94(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     int param_4;
 {
+  short *rot_entry;
 
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  char *puVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  char *puVar7;
-
-  short *psVar8;
-
-  puVar2 = (char *)0x06026E0C;
-
-  puVar1 = (char *)0x06089EDC;
-
-  if (*(unsigned int *)0x060788A0 < 10) {
-
-    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + 0x30;
-
-    (*(int(*)())puVar2)();
-
-    puVar2 = (char *)0x06026E2E;
-
-    (*(int(*)())0x06026E2E)(param_2,param_3,param_4);
-
-    (*(int(*)())0x06026EDE)((int)*(short *)0x06078878);
-
-    puVar3 = (int *)0x0606212C;
-
-    (*(int(*)())0x06031D8C)(*(int *)0x0606212C,*(int *)0x060621D8);
-
-    puVar6 = (char *)0x06062180;
-
-    puVar5 = (short *)0x06031A28;
-
-    puVar4 = (char *)0x060620D8;
-
-    psVar8 = (short *)(0x06089E44 + (param_1 << 1));
-
-    (*(int(*)())0x06031A28)(*(int *)0x060620D8,(int)*psVar8,*(int *)0x06062180);
-
-    (*(int(*)())0x06026DBC)();
-
-    (*(int(*)())puVar2)(*(int *)0x06044640,*(int *)0x06044644,
-
+  if (*(unsigned int *)0x060788A0 < 10) {               /* max visible models */
+    OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + 0x30;        /* advance state */
+    (*(int(*)())0x06026E0C)();                           /* matrix_push */
+    (*(int(*)())0x06026E2E)(param_2, param_3, param_4);  /* matrix_translate */
+    (*(int(*)())0x06026EDE)((int)*(short *)0x06078878);  /* matrix_rotate_y (heading) */
+    rot_entry = (short *)(0x06089E44 + (param_1 << 1));  /* rotation index table */
+    /* --- segment 0: torso --- */
+    (*(int(*)())0x06031D8C)(*(int *)0x0606212C, *(int *)0x060621D8);  /* matrix_multiply */
+    (*(int(*)())0x06031A28)(*(int *)0x060620D8, (int)*rot_entry, *(int *)0x06062180); /* matrix_scale */
+    (*(int(*)())0x06026DBC)();                           /* matrix_pop */
+    (*(int(*)())0x06026E2E)(*(int *)0x06044640, *(int *)0x06044644,   /* translate seg 1 */
                       -*(int *)0x06044648);
-
-    (*(int(*)())0x06031D8C)(*(int *)(puVar3 + 4),*(int *)0x060621DC);
-
-    (*(int(*)())puVar5)(*(int *)(puVar4 + 4),(int)*psVar8,*(int *)(puVar6 + 4));
-
-    puVar7 = (char *)0x06026DBC;
-
-    *(int *)puVar1 = *(int *)puVar1 + -0x30;
-
-    (*(int(*)())puVar7)();
-
-    (*(int(*)())puVar2)(*(int *)0x0604464C,*(int *)0x06044650,
-
+    /* --- segment 1: arms --- */
+    (*(int(*)())0x06031D8C)(*(int *)(0x0606212C + 4), *(int *)0x060621DC);
+    (*(int(*)())0x06031A28)(*(int *)(0x060620D8 + 4), (int)*rot_entry, *(int *)(0x06062180 + 4));
+    *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;     /* stack adjust */
+    (*(int(*)())0x06026DBC)();                           /* matrix_pop */
+    (*(int(*)())0x06026E2E)(*(int *)0x0604464C, *(int *)0x06044650,   /* translate seg 2 */
                       -*(int *)0x06044654);
-
-    (*(int(*)())0x06031D8C)(*(int *)(puVar3 + 8),*(int *)0x060621E0);
-
-    (*(int(*)())puVar5)(*(int *)(puVar4 + 8),(int)*psVar8,*(int *)(puVar6 + 8));
-
-    puVar7 = (char *)0x06026DBC;
-
-    *(int *)puVar1 = *(int *)puVar1 + -0x30;
-
-    (*(int(*)())puVar7)();
-
-    (*(int(*)())puVar2)(*(int *)0x06044670,*(int *)0x06044674,
-
+    /* --- segment 2: legs --- */
+    (*(int(*)())0x06031D8C)(*(int *)(0x0606212C + 8), *(int *)0x060621E0);
+    (*(int(*)())0x06031A28)(*(int *)(0x060620D8 + 8), (int)*rot_entry, *(int *)(0x06062180 + 8));
+    *(int *)0x06089EDC = *(int *)0x06089EDC + -0x30;     /* stack adjust */
+    (*(int(*)())0x06026DBC)();                           /* matrix_pop */
+    (*(int(*)())0x06026E2E)(*(int *)0x06044670, *(int *)0x06044674,   /* translate seg 3 */
                       -*(int *)0x06044678);
-
-    (*(int(*)())0x06031D8C)(*(int *)(puVar3 + 0xc),*(int *)0x060621E4);
-
-    (*(int(*)())puVar5)(*(int *)(puVar4 + 0xc),(int)*psVar8,*(int *)(puVar6 + 0xc));
-
-    *(int *)puVar1 = *(int *)puVar1 + -0x60;
-
+    /* --- segment 3: extra --- */
+    (*(int(*)())0x06031D8C)(*(int *)(0x0606212C + 0xc), *(int *)0x060621E4);
+    (*(int(*)())0x06031A28)(*(int *)(0x060620D8 + 0xc), (int)*rot_entry, *(int *)(0x06062180 + 0xc));
+    *(int *)0x06089EDC = *(int *)0x06089EDC + -0x60;     /* stack adjust (2 levels) */
   }
-
-  return;
-
 }
 
 void FUN_06011094()
