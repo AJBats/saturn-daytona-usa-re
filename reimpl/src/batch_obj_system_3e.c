@@ -466,90 +466,56 @@ unsigned int FUN_0603edc4(param_1, param_2, param_3, param_4, param_5)
 
 }
 
-char * FUN_0603ef64(param_1, param_2, param_3)
-    int param_1;
-    char *param_2;
-    int *param_3;
+/* cd_calc_sectors_remaining -- Calculate number of sectors available for transfer.
+ * Computes from file size (+0x10) minus current position (+0x14),
+ * scaled by DAT_0603ef8a, shifted right 11. Clamps to param_2 (or
+ * 0x7FFFFFFF if param_2 == 0xFFFF). If param_3 is non-null, stores
+ * byte count (sectors << 11) and adjusts for CD sector alignment. */
+char * FUN_0603ef64(int param_1, char *param_2, int *param_3)
 {
-
   int iVar1;
-
   char *puVar2;
 
   if (param_2 == 0x0000FFFF) {
-
     param_2 = (int *)0x7FFFFFFF;
-
   }
-
   puVar2 = (char *)
-
-           ((unsigned int)((int)DAT_0603ef8a + (*(int *)(param_1 + 0x10) - *(int *)(param_1 + 0x14))) >> 0xb
-
-           );
-
+           ((unsigned int)((int)DAT_0603ef8a + (*(int *)(param_1 + 0x10) - *(int *)(param_1 + 0x14))) >> 0xb);
   if (param_2 < puVar2) {
-
     puVar2 = param_2;
-
   }
-
   if ((((param_3 != (int *)0x0) &&
-
        (*param_3 = (int)((int)(int)puVar2 << 11),
-
        *(int *)(param_1 + 0x10) < *(int *)(param_1 + 0x14) + (int)((int)(int)puVar2 << 11))) &&
-
       (iVar1 = (*(int(*)())0x06036BE4)(), *param_3 != 0)) && (iVar1 != 0)) {
-
     *param_3 = *param_3 - (DAT_0603eff4 - iVar1);
-
   }
-
   return puVar2;
-
 }
 
-int FUN_0603f0fc(param_1, param_2, param_3)
-    int param_1;
-    int *param_2;
-    int param_3;
+/* cd_flush_and_open -- Flush pending CD write, then open file for access.
+ * If param_1 is valid: issues write request (0x0603B31C), polls until
+ * complete (0x0603B424 loop).
+ * Then opens file based on param_2[0]: 0 = FUN_0603f2e0 (by sector),
+ * non-zero = FUN_0603f342 (by name). */
+int FUN_0603f0fc(int param_1, int *param_2, int param_3)
 {
-
-  char *puVar1;
-
   int iVar2;
-
   int uVar3;
 
-  puVar1 = (char *)0x0603B424;
-
   if (param_1 != 0) {
-
-    (*(int(*)())0x0603B31C)(param_1,param_3);
-
+    (*(int(*)())0x0603B31C)(param_1, param_3);   /* start write */
     do {
-
-      iVar2 = (*(int(*)())puVar1)(param_1);
-
+      iVar2 = (*(int(*)())0x0603B424)(param_1);  /* poll */
     } while (iVar2 != 0);
-
   }
 
   if (*param_2 == 0) {
-
-    uVar3 = FUN_0603f2e0(param_1,param_2[2],param_2[1]);
-
+    uVar3 = FUN_0603f2e0(param_1, param_2[2], param_2[1]);
+  } else {
+    uVar3 = FUN_0603f342(param_1, param_2[2], param_2[1]);
   }
-
-  else {
-
-    uVar3 = FUN_0603f342(param_1,param_2[2],param_2[1]);
-
-  }
-
   return uVar3;
-
 }
 
 int FUN_0603f148(param_1, param_2, param_3)
@@ -711,90 +677,67 @@ int FUN_0603f22c()
 
 }
 
+/* cd_dir_read_simple -- Read directory entries (simple variant).
+ * Like cd_dir_read_entries but uses 0xC-byte records without
+ * supplementary data validation. Marks last entry with bit 7. */
 int FUN_0603f2e0(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     int param_4;
 {
-
   int iVar1;
-
   char local_44 [32];
-
   char auStack_24 [24];
 
-  FUN_0603f3da(auStack_24,param_1,param_3,param_4,param_1);
+  FUN_0603f3da(auStack_24, param_1, param_3, param_4, param_1);
 
   iVar1 = 0;
-
-  while ((0 < param_3 && (FUN_0603f582(auStack_24,local_44), local_44[0] != '\0'))) {
-
-    FUN_0603f84c(param_2,local_44);
-
-    param_2 = param_2 + 0xc;
-
+  while ((0 < param_3 && (FUN_0603f582(auStack_24, local_44), local_44[0] != '\0'))) {
+    FUN_0603f84c(param_2, local_44); /* parse entry into 0xC-byte record */
+    param_2 = param_2 + 0xc; /* advance to next record slot */
     param_3 = param_3 + -1;
-
     iVar1 = iVar1 + 1;
-
   }
 
-  *(unsigned char *)(param_2 + -1) = *(unsigned char *)(param_2 + -1) | 0x80;
-
+  *(unsigned char *)(param_2 + -1) = *(unsigned char *)(param_2 + -1) | 0x80; /* mark last entry */
   return iVar1;
-
 }
 
+/* cd_dir_read_entries -- Read directory entries from CD filesystem.
+ * Iterates through up to param_3 entries, populating 0x18-byte records
+ * at param_2. First 3 entries always accepted; subsequent entries
+ * validated via memcmp at 0x06036D94. Returns number of entries read. */
 int FUN_0603f342(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
     int param_3;
     int param_4;
 {
-
-  char *puVar1;
-
   int iVar2;
-
   int iVar3;
-
   char local_4c [16];
-
   char auStack_3c [16];
-
   char auStack_2c [24];
+  int (*memcmp_fn)(int, char *, int) = (int (*)(int, char *, int))0x06036D94;
+  int (*memcpy_fn)(int, char *, int) = (int (*)(int, char *, int))0x06036DDC;
 
-  puVar1 = (char *)0x06036DDC;
-
-  FUN_0603f3da(auStack_2c,param_1,param_3,param_4,param_1);
+  FUN_0603f3da(auStack_2c, param_1, param_3, param_4, param_1);
 
   iVar3 = 0;
-
-  while ((0 < param_3 && (FUN_0603f582(auStack_2c,local_4c), local_4c[0] != '\0'))) {
-
+  while ((0 < param_3 && (FUN_0603f582(auStack_2c, local_4c), local_4c[0] != '\0'))) {
     if ((iVar3 < 3) ||
-
-       (iVar2 = (*(int(*)())0x06036D94)(param_2 + -0xc,auStack_3c,0xc), iVar2 != 0)) {
-
-      FUN_0603f84c(param_2,local_4c);
-
-      (*(int(*)())puVar1)(param_2 + 0xc,auStack_3c,0xc);
-
+       (iVar2 = memcmp_fn(param_2 + -0xc, auStack_3c, 0xc), iVar2 != 0)) {
+      FUN_0603f84c(param_2, local_4c); /* parse entry into record */
+      memcpy_fn(param_2 + 0xc, auStack_3c, 0xc); /* copy 12-byte supplementary data */
     }
-
-    param_2 = param_2 + 0x18;
-
+    param_2 = param_2 + 0x18; /* advance to next record slot */
     iVar3 = iVar3 + 1;
-
     param_3 = param_3 + -1;
-
   }
 
-  *(unsigned char *)(param_2 + -0xd) = *(unsigned char *)(param_2 + -0xd) | 0x80;
-
+  *(unsigned char *)(param_2 + -0xd) = *(unsigned char *)(param_2 + -0xd) | 0x80; /* mark last entry */
   return iVar3;
-
 }
 
 /* cd_read_word -- Read 16-bit word from CD buffer via DMA double-read pattern.
