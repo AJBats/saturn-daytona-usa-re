@@ -311,78 +311,52 @@ int FUN_0603f0fc(int param_1, int *param_2, int param_3)
   return uVar3;
 }
 
-int FUN_0603f148(param_1, param_2, param_3)
+/* cd_directory_entry_search -- Search CD directory for matching entry.
+ * Reads TOC entries via cd_read_toc (0x06036D14). First two calls
+ * skip the header entries (returns 0/1). Then iterates directory
+ * entries (24 bytes each) starting at param_1+0x30, reading 12 bytes
+ * from CD (0x06036D94) into each entry. Checks flag byte at +0xB
+ * against bit mask. Returns entry index or -1 if not found. */
+int cd_directory_entry_search(param_1, param_2, param_3)
     int param_1;
     int param_2;
     int param_3;
 {
+    unsigned short flag_mask = PTR_DAT_0603f180;
+    int toc_result;
+    int read_result;
+    int entry_idx;
 
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  puVar2 = (int *)0x06036D94;
-
-  uVar1 = PTR_DAT_0603f180;
-
-  iVar3 = (*(int(*)())0x06036D14)();
-
-  if (iVar3 == 0) {
-
-    iVar3 = 0;
-
-  }
-
-  else {
-
-    iVar3 = (*(int(*)())0x06036D14)();
-
-    if (iVar3 == 0) {
-
-      iVar3 = 1;
-
+    /* Read first TOC entry (volume descriptor) */
+    toc_result = (*(int(*)())0x06036D14)();    /* cd_read_toc */
+    if (toc_result == 0) {
+        return 0;                              /* no TOC — empty disc */
     }
 
-    else {
+    /* Read second TOC entry (root directory) */
+    toc_result = (*(int(*)())0x06036D14)();    /* cd_read_toc */
+    if (toc_result == 0) {
+        return 1;                              /* only root entry */
+    }
 
-      iVar3 = 2;
-
-      param_1 = param_1 + 0x30;
-
-      if (2 < param_3) {
-
+    /* Search directory entries starting at index 2 */
+    entry_idx = 2;
+    param_1 = param_1 + 0x30;                 /* skip header area */
+    if (2 < param_3) {
         do {
-
-          iVar4 = (*(int(*)())puVar2)(param_2,param_1 + 0xc,0xc);
-
-          if (iVar4 == 0) {
-
-            return iVar3;
-
-          }
-
-          if ((*(unsigned char *)(param_1 + 0xb) & uVar1) != 0) break;
-
-          iVar3 = iVar3 + 1;
-
-          param_1 = param_1 + 0x18;
-
-        } while (iVar3 < param_3);
-
-      }
-
-      iVar3 = -1;
-
+            /* Read 12 bytes of directory entry data from CD */
+            read_result = (*(int(*)())0x06036D94)(param_2, param_1 + 0xc, 0xc);
+            if (read_result == 0) {
+                return entry_idx;              /* read failed — return last good */
+            }
+            /* Check if entry's flag byte matches search mask */
+            if ((*(unsigned char *)(param_1 + 0xb) & flag_mask) != 0) break;
+            entry_idx++;
+            param_1 = param_1 + 0x18;         /* next entry (24 bytes) */
+        } while (entry_idx < param_3);
     }
 
-  }
-
-  return iVar3;
-
+    return -1;                                 /* not found */
 }
 
 int FUN_0603f22c()

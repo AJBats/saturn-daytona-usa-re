@@ -64,124 +64,86 @@ int cd_session_read_step(param_1)
     return *(int *)(0x360 + *(int *)session_ptr);
 }
 
-int FUN_06042134(param_1)
+/* cd_session_file_batch -- Process pending CD file seeks in batch.
+ * Iterates through file table entries (12 bytes each at DAT_0604222e offset).
+ * For each: builds LBA range flags from start/end (-2 = use default),
+ * calls cd_seek_file (0x06036414). On success, reads result header.
+ * If interrupted mid-batch, compacts remaining entries into pending table.
+ * Clears transfer state (+0x1E0) when all files done and CD status bit 0x40 set.
+ * Returns pending file count. */
+int cd_session_file_batch(param_1)
     int *param_1;
 {
+    unsigned short cd_status;
+    int seek_result;
+    unsigned char range_flags;
+    int start_lba, end_lba;
+    int default_lba = (int)DAT_0604222c;
+    int file_idx;
+    int compact_idx;
+    short entry_off;
+    char cd_result[16];
+    char *session_ptr = (char *)0x060A5400;    /* CD session base pointer */
+    int file_count = *(int *)(*(int *)session_ptr + (int)PTR_DAT_06042230);
 
-  char *puVar1;
+    /* Process each file entry in the table */
+    for (file_idx = 0; file_idx < file_count; file_idx++) {
+        entry_off = (short)((short)file_idx * 0xc);
 
-  char *puVar2;
+        /* Check start LBA: -2 means use default */
+        range_flags = *(int *)(*(int *)session_ptr + (int)DAT_0604222e + (int)entry_off + 4) != -2;
+        start_lba = default_lba;
+        if ((int)range_flags) {
+            start_lba = *(int *)(*(int *)session_ptr + (int)DAT_0604222e + (int)entry_off + 4);
+        }
 
-  unsigned short uVar3;
+        /* Check end LBA: -2 means use default */
+        end_lba = default_lba;
+        if (*(int *)(*(int *)session_ptr + (int)DAT_0604222e + (int)entry_off + 8) != -2) {
+            range_flags = range_flags | 2;
+            end_lba = *(int *)(*(int *)session_ptr + (int)DAT_0604222e + (int)entry_off + 8);
+        }
 
-  int iVar4;
+        /* Issue CD seek for this file entry */
+        seek_result = (*(int(*)())0x06036414)(   /* cd_seek_file */
+            *(int *)(*(int *)session_ptr + (int)DAT_0604222e + (int)entry_off),
+            range_flags, start_lba, end_lba);
+        if (seek_result != 0) break;             /* seek failed, stop batch */
 
-  unsigned char bVar5;
-
-  int iVar6;
-
-  int iVar7;
-
-  int iVar8;
-
-  short sVar9;
-
-  char local_2c [16];
-
-  puVar2 = (char *)0x060A5400;
-
-  puVar1 = (char *)0x060349B6;
-
-  iVar7 = (int)DAT_0604222c;
-
-  for (iVar8 = 0; iVar8 < *(int *)(*(int *)puVar2 + (int)PTR_DAT_06042230); iVar8 = iVar8 + 1)
-
-  {
-
-    sVar9 = (short)iVar8;
-
-    bVar5 = *(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 4) != -2;
-
-    iVar4 = iVar7;
-
-    if ((int)bVar5) {
-
-      iVar4 = *(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 4);
-
+        (*(int(*)())0x060349B6)(cd_result);      /* cd_get_result */
+        *(char *)(*(int *)session_ptr + 0x40) = cd_result[0];  /* store header byte */
+        *param_1 = *param_1 + 1;                /* increment files processed */
     }
 
-    iVar6 = iVar7;
+    /* If stopped early: compact remaining entries into pending table */
+    if (file_idx < *(int *)(*(int *)session_ptr + (int)PTR_DAT_06042230)) {
+        compact_idx = 0;
+        for (; file_idx < *(int *)(*(int *)session_ptr + (int)DAT_0604230c); file_idx++) {
+            int dst_off = (int)(short)((short)compact_idx * 0xc);
+            int src_off = (int)(short)((short)file_idx * 0xc);
 
-    if (*(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 8) != -2) {
-
-      bVar5 = bVar5 | 2;
-
-      iVar6 = *(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 8);
-
+            /* Copy 12-byte entry (sector, start_lba, end_lba) */
+            *(int *)(*(int *)session_ptr + (int)DAT_0604230a + dst_off) =
+                 *(int *)(*(int *)session_ptr + (int)DAT_0604230a + src_off);
+            *(int *)(*(int *)session_ptr + (int)DAT_0604230a + dst_off + 4) =
+                 *(int *)(*(int *)session_ptr + (int)DAT_0604230a + src_off + 4);
+            *(int *)(dst_off + *(int *)session_ptr + (int)DAT_0604230a + 8) =
+                 *(int *)(src_off + *(int *)session_ptr + (int)DAT_0604230a + 8);
+            compact_idx++;
+        }
+        *(int *)(*(int *)session_ptr + (int)DAT_0604230c) = compact_idx;
+    } else {
+        /* All files processed — clear file count */
+        *(int *)(*(int *)session_ptr + (int)PTR_DAT_06042230) = 0;
     }
 
-    iVar4 = (*(int(*)())0x06036414)(*(int *)
-
-                        (*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc)),bVar5,iVar4
-
-                       ,iVar6);
-
-    if (iVar4 != 0) break;
-
-    (*(int(*)())puVar1)(local_2c);
-
-    *(char *)(*(int *)puVar2 + 0x40) = local_2c[0];
-
-    *param_1 = *param_1 + 1;
-
-  }
-
-  if (iVar8 < *(int *)(*(int *)puVar2 + (int)PTR_DAT_06042230)) {
-
-    iVar7 = 0;
-
-    for (; iVar8 < *(int *)(*(int *)puVar2 + (int)DAT_0604230c); iVar8 = iVar8 + 1) {
-
-      iVar4 = (int)(short)((short)iVar7 * 0xc);
-
-      iVar6 = (int)(short)((short)iVar8 * 0xc);
-
-      *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar4) =
-
-           *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar6);
-
-      *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar4 + 4) =
-
-           *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar6 + 4);
-
-      *(int *)(iVar4 + *(int *)puVar2 + (int)DAT_0604230a + 8) =
-
-           *(int *)(iVar6 + *(int *)puVar2 + (int)DAT_0604230a + 8);
-
-      iVar7 = iVar7 + 1;
-
+    /* If CD ready (bit 0x40) and no pending files, clear transfer state */
+    cd_status = (*(int(*)())0x06035C4E)();       /* cd_get_status */
+    if (((cd_status & 0x40) != 0) && (*(int *)(*(int *)session_ptr + (int)DAT_0604230c) == 0)) {
+        *(int *)(*(int *)session_ptr + 0x1e0) = 0;
     }
 
-    *(int *)(*(int *)puVar2 + (int)DAT_0604230c) = iVar7;
-
-  }
-
-  else {
-
-    *(int *)(*(int *)puVar2 + (int)PTR_DAT_06042230) = 0;
-
-  }
-
-  uVar3 = (*(int(*)())0x06035C4E)();
-
-  if (((uVar3 & 0x40) != 0) && (*(int *)(*(int *)puVar2 + (int)DAT_0604230c) == 0)) {
-
-    *(int *)(*(int *)puVar2 + 0x1e0) = 0;
-
-  }
-
-  return *(int *)((int)DAT_0604230c + *(int *)puVar2);
-
+    return *(int *)((int)DAT_0604230c + *(int *)session_ptr);
 }
 
 /* cd_session_state_reset -- Clear CD session state to initial values.

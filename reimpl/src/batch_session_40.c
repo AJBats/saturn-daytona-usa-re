@@ -65,7 +65,7 @@ extern int FUN_06041cc8();
 extern int FUN_06041d6c();
 extern int FUN_06041ee8();
 extern int cd_session_read_step();
-extern int FUN_06042134();
+extern int cd_session_file_batch();
 extern int cd_session_state_reset();
 extern int PTR_DAT_06040dc4;
 extern int PTR_DAT_06041176;
@@ -1353,7 +1353,7 @@ int FUN_060414d0(param_1, param_2, param_3)
 
          *(int *)(*(int *)puVar1 + (int)PTR_DAT_060415f0) + 1;
 
-    FUN_06042134(auStack_c);
+    cd_session_file_batch(auStack_c);
 
     return 0;
 
@@ -1513,7 +1513,7 @@ LAB_06041818:
  * Routes channel index (0-7) to its processing function:
  * 0=FUN_060418be, 1=FUN_06041aa0 (read poll), 2=FUN_06041b3c,
  * 3=FUN_06041cc8 (write poll), 4=FUN_06041d6c, 5=FUN_06041ee8,
- * 6=FUN_06042134, 7=cd_session_read_step. Always returns 0. */
+ * 6=cd_session_file_batch, 7=cd_session_read_step. Always returns 0. */
 int FUN_06041826(param_1, param_2)
     int param_1;
     int param_2;
@@ -1543,7 +1543,7 @@ int FUN_06041826(param_1, param_2)
         return 0;
     }
     if (param_1 == 6) {
-        FUN_06042134(param_2);
+        cd_session_file_batch(param_2);
         return 0;
     }
     if (param_1 != 7) {
