@@ -849,71 +849,48 @@ void FUN_0601938c(void)
     (*(int(*)())dma_copy)(0x25F00780, 0x06049DC4, 0x80);
 }
 
+/* scene_state_init_flush -- Reset state flags, flush render pipeline, load VDP2 scroll data. */
 void FUN_060193f4()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
+  char *render_flags;
+  char *scu_int_clear;
+  /* Clear scene state flags */
   *(int *)0x06085FF0 = 0;
-
   *(int *)0x0605D245 = 0;
-
   *(int *)0x06085FF1 = 1;
-
   *(int *)0x06085FF2 = 0;
-
   *(int *)0x06085FF3 = 0;
-
   *(int *)0x06085FF5 = 0;
-
+  /* Sound command: stop/reset */
   (*(int(*)())0x0601D5F4)(0xf,0xAE0003FF);
-
-  puVar2 = (char *)0x06026CE0;
-
-  puVar1 = (char *)0x0605B6D8;
-
-  INPUT_STATE = INPUT_STATE | 0x80000000;
-
-  (*(int(*)())puVar2)();
-
+  scu_int_clear = (char *)0x06026CE0;
+  render_flags = (char *)0x0605B6D8;
+  INPUT_STATE = INPUT_STATE | 0x80000000;  /* disable input processing */
+  /* Flush render pipeline (twice) */
+  (*(int(*)())scu_int_clear)();
   (*(int(*)())0x06026CE0)();
-
+  /* DMA copy VDP register blocks */
   FUN_0601938c();
-
   (*(int(*)())0x0601A73E)();
-
-  (*(int(*)())0x0600511E)(0x25E76174,0x00014000,0,9);
-
-  (*(int(*)())0x0600511E)(0x25E761FC,0x00017700,0,8);
-
-  puVar2 = (char *)0x06014884;
-
+  /* Load VDP2 scroll plane data */
+  (*(int(*)())0x0600511E)(0x25E76174,0x00014000,0,9);   /* scroll plane A */
+  (*(int(*)())0x0600511E)(0x25E761FC,0x00017700,0,8);   /* scroll plane B */
+  /* Clear SCU interrupt masks */
+  scu_int_clear = (char *)0x06014884;
   (*(int(*)())0x06014884)(8,0);
-
-  (*(int(*)())puVar2)(0x10,0);
-
-  (*(int(*)())puVar2)(0x20,0);
-
+  (*(int(*)())scu_int_clear)(0x10,0);
+  (*(int(*)())scu_int_clear)(0x20,0);
+  /* VDP1 command list setup */
   (*(int(*)())0x0602853E)(4);
-
   (*(int(*)())0x0602853E)(0xc);
-
-  puVar2 = (char *)0x06028560;
-
-  *(unsigned int *)puVar1 = *(unsigned int *)puVar1 | 4;
-
-  (*(int(*)())puVar2)();
-
+  scu_int_clear = (char *)0x06028560;
+  *(unsigned int *)render_flags = *(unsigned int *)render_flags | 4;  /* enable render flag */
+  (*(int(*)())scu_int_clear)();  /* flush VDP1 commands */
+  /* Render initial scene object */
   (*(int(*)())0x06028400)(4,*(int *)0x06063AF8,0,0x0000A000 + *(int *)(0x06063AF8 + 4),
-
              0x06063AF8);
-
   FUN_06019324();
-
   return;
-
 }
 
 unsigned int FUN_0601950c()

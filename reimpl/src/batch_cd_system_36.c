@@ -1359,50 +1359,36 @@ int FUN_06036d14()
 
 }
 
+/* strncmp_impl -- Compare two strings up to param_3 bytes.
+ * Returns difference of first mismatching byte (unsigned), or 0 if
+ * all param_3 bytes match. Stops early on null terminator.
+ * Equivalent to standard strncmp. */
 int FUN_06036d94(param_1, param_2, param_3)
     char *param_1;
     char *param_2;
     unsigned int param_3;
 {
+    char ch;
+    char *ptr;
+    unsigned int i;
 
-  char cVar1;
+    if (param_3 == 0) {
+        return 0;
+    }
 
-  char *pcVar2;
-
-  unsigned int uVar3;
-
-  if (param_3 == 0) {
-
-    return 0;
-
-  }
-
-  uVar3 = 0;
-
-  pcVar2 = param_1;
-
-  if (param_3 != 0) {
-
-    do {
-
-      param_1 = pcVar2 + 1;
-
-      cVar1 = *param_2;
-
-      param_2 = param_2 + 1;
-
-      if ((*pcVar2 != cVar1) || (*pcVar2 == '\0')) break;
-
-      uVar3 = uVar3 + 1;
-
-      pcVar2 = param_1;
-
-    } while (uVar3 < param_3);
-
-  }
-
-  return (unsigned int)(unsigned char)param_1[-1] - (unsigned int)(unsigned char)param_2[-1];
-
+    i = 0;
+    ptr = param_1;
+    if (param_3 != 0) {
+        do {
+            param_1 = ptr + 1;
+            ch = *param_2;
+            param_2 = param_2 + 1;
+            if ((*ptr != ch) || (*ptr == '\0')) break;
+            i = i + 1;
+            ptr = param_1;
+        } while (i < param_3);
+    }
+    return (unsigned int)(unsigned char)param_1[-1] - (unsigned int)(unsigned char)param_2[-1];
 }
 
 /* strncpy_impl -- Copy string with length limit and null padding.
@@ -2144,48 +2130,29 @@ unsigned int FUN_060370e4(param_1)
 
 }
 
-int FUN_06037618(param_1)
-    char *param_1;
+/* cd_descriptor_clear -- Zero-initialize a CD transfer descriptor (0x4C bytes). */
+int FUN_06037618(desc)
+    char *desc;
 {
-
-  unsigned int uVar1;
-
-  unsigned char bVar2;
-
-  *param_1 = 0;
-
-  param_1[1] = 0;
-
-  param_1[2] = 0;
-
-  param_1[3] = 0;
-
-  param_1[4] = 0;
-
-  param_1[5] = 0;
-
-  bVar2 = 0;
-
-  param_1[6] = 0;
-
-  param_1[8] = 0;
-
-  param_1[7] = 0;
-
-  *(short *)(param_1 + 10) = 0;
-
+  unsigned int idx;
+  unsigned char i;
+  desc[0] = 0;
+  desc[1] = 0;
+  desc[2] = 0;
+  desc[3] = 0;
+  desc[4] = 0;
+  desc[5] = 0;
+  i = 0;
+  desc[6] = 0;
+  desc[8] = 0;
+  desc[7] = 0;
+  *(short *)(desc + 10) = 0;
   do {
-
-    uVar1 = (unsigned int)bVar2;
-
-    bVar2 = bVar2 + 1;
-
-    *(int *)(param_1 + (uVar1 << 2) + 0xc) = 0;
-
-  } while (bVar2 < 0x10);
-
+    idx = (unsigned int)i;
+    i = i + 1;
+    *(int *)(desc + (idx << 2) + 0xc) = 0;  /* clear 16 int slots */
+  } while (i < 0x10);
   return 0;
-
 }
 
 void vdp1_command_builder(param_1, param_2)

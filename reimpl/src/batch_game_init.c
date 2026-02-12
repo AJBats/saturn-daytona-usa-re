@@ -1050,59 +1050,48 @@ void animation_frame_counter()
 
 }
 
-void FUN_06005a22()
+/* hud_blink_sprite_render -- Render blinking HUD sprite with countdown timer.
+ * Decrements countdown at 0x0607EABC each frame. On odd frames: draws
+ * sprite from display list (index 0x21 or 0xB0 depending on mode flag
+ * 0x06085FF4) using VDP1 draw command (0x06028400). Selects between
+ * two priority values (DAT_06005abe/DAT_06005ac0) based on 0x0607EAC0.
+ * On even frames: draws static attribute sprites at fixed position. */
+void FUN_06005a22(void)
 {
+    int countdown;
+    int sprite_idx;
 
-  int iVar1;
-
-  if (*(int *)0x0607EABC < 1) {
-
-    return;
-
-  }
-
-  iVar1 = *(int *)0x0607EABC;
-
-  *(unsigned int *)0x0607EABC = iVar1 - 1U;
-
-  if ((iVar1 - 1U & 1) != 0) {
-
-    if (*(int *)0x06085FF4 == '\0') {
-
-      iVar1 = 0x21;
-
+    if (*(int *)0x0607EABC < 1) {
+        return;
     }
 
-    else {
+    countdown = *(int *)0x0607EABC;
+    *(unsigned int *)0x0607EABC = countdown - 1U;
 
-      iVar1 = 0xb0;
+    if ((countdown - 1U & 1) != 0) {
+        /* Odd frame: draw from display list */
+        if (*(int *)0x06085FF4 == '\0') {
+            sprite_idx = 0x21;  /* normal mode sprite */
+        } else {
+            sprite_idx = 0xb0;  /* alternate mode sprite */
+        }
 
+        if (*(int *)0x0607EAC0 != 0) {
+            (*(int(*)())0x06028400)(8, *(int *)(0x06063750 + (sprite_idx << 3)),
+                       (int)DAT_06005abe,
+                       *(int *)((int)(0x06063750 + (sprite_idx << 3)) + 4) + (int)DAT_06005abc);
+            return;
+        }
+
+        (*(int(*)())0x06028400)(8, *(int *)(0x06063750 + (sprite_idx << 3)),
+                   (int)DAT_06005ac0,
+                   *(int *)((int)(0x06063750 + (sprite_idx << 3)) + 4) + (int)DAT_06005abc);
+        return;
     }
 
-    if (*(int *)0x0607EAC0 != 0) {
-
-      (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + (iVar1 << 3)),(int)DAT_06005abe,
-
-                 *(int *)((int)(0x06063750 + (iVar1 << 3)) + 4) + (int)DAT_06005abc);
-
-      return;
-
-    }
-
-    (*(int(*)())0x06028400)(8,*(int *)(0x06063750 + (iVar1 << 3)),(int)DAT_06005ac0,
-
-               *(int *)((int)(0x06063750 + (iVar1 << 3)) + 4) + (int)DAT_06005abc);
-
-    return;
-
-  }
-
-  (*(int(*)())0x060284AE)(8,(int)DAT_06005abe,0x90,0x0605ACDD);
-
-  (*(int(*)())0x060284AE)(8,(int)DAT_06005ac0,0x90,0x0605ACDD);
-
-  return;
-
+    /* Even frame: static attribute sprites */
+    (*(int(*)())0x060284AE)(8, (int)DAT_06005abe, 0x90, 0x0605ACDD);
+    (*(int(*)())0x060284AE)(8, (int)DAT_06005ac0, 0x90, 0x0605ACDD);
 }
 
 int FUN_06005ae8()
