@@ -52,59 +52,35 @@ extern int PTR_DAT_0603c7ec;
 extern int PTR_DAT_0603e53c;
 extern int PTR_DAT_0603e620;
 
+/* vdp2_vram_bank_clear -- Clear VDP2 VRAM banks via cache-through writes.
+ * Base address 0x60000000 (VDP2 VRAM cache-through).
+ * Bank control register at -366 (0xFFFFFE92 = VDP2 RAMCTL).
+ * Iterates banks (0x40 step per bank, up to DAT_0603c07a),
+ * selects bank via bits 6-7, then zeros 0x40 words in 2-word steps.
+ * Disables VRAM access (bit 0 clear) before, re-enables after. */
 void FUN_0603c000()
 {
-
-  int *puVar1;
-
-  unsigned int uVar2;
-
-  int *puVar3;
-
-  unsigned char *pbVar4;
-
-  int iVar5;
-
-  unsigned int uVar6;
-
-  puVar1 = (int *)0x60000000;
-
-  uVar6 = (unsigned int)DAT_0603c07a;
-
-  pbVar4 = (unsigned char *)-366;
-
-  *pbVar4 = *pbVar4 & 0xfe;
-
-  uVar2 = 0;
-
+  int *vram_base = (int *)0x60000000;     /* VDP2 VRAM cache-through */
+  unsigned int bank_limit = (unsigned int)DAT_0603c07a;
+  unsigned char *ramctl = (unsigned char *)-366;  /* 0xFFFFFE92 VDP2 RAMCTL */
+  int *ptr;
+  int count;
+  unsigned int bank = 0;
+  *ramctl = *ramctl & 0xfe;               /* disable VRAM access */
   do {
-
-    *pbVar4 = *pbVar4 & 0x3f | (unsigned char)uVar2;
-
-    iVar5 = 0x40;
-
-    puVar3 = puVar1;
-
+    *ramctl = *ramctl & 0x3f | (unsigned char)bank;  /* select bank */
+    count = 0x40;
+    ptr = vram_base;
     do {
-
-      iVar5 = iVar5 + -2;
-
-      *puVar3 = 0;
-
-      puVar3[4] = 0;
-
-      puVar3 = puVar3 + 8;
-
-    } while (iVar5 != 0);
-
-    uVar2 = uVar2 + 0x40;
-
-  } while (uVar2 < uVar6);
-
-  *pbVar4 = *pbVar4 & 0xfe | 1;
-
+      count = count + -2;
+      *ptr = 0;
+      ptr[4] = 0;
+      ptr = ptr + 8;
+    } while (count != 0);
+    bank = bank + 0x40;
+  } while (bank < bank_limit);
+  *ramctl = *ramctl & 0xfe | 1;           /* re-enable VRAM access */
   return;
-
 }
 
 /* dma_region_clear -- Zero a memory region via cache-through address.
@@ -933,55 +909,38 @@ unsigned int FUN_0603c728()
 
 }
 
+/* vdp2_scroll_offset_set -- Set VDP2 scroll plane X/Y/Z offsets.
+ * Register block at 0x060A4D46 (shadow copy of VDP2 scroll registers).
+ * param_1 == 0: sets scroll plane A offsets (regs +4, +6, +8)
+ * param_1 != 0: sets scroll plane B offsets (regs +10, +12, +14)
+ * Each write syncs via 0x06034F78 (VDP2 register commit).
+ * Mask DAT_0603cd4c preserves high bits, adds new offset value. */
 int FUN_0603cc88(param_1, param_2, param_3, param_4)
     int param_1;
     short param_2;
     short param_3;
     short param_4;
 {
-
-  unsigned short uVar1;
-
-  char *puVar2;
-
-  puVar2 = (int *)0x060A4D46;
-
-  uVar1 = DAT_0603cd4c;
-
+  unsigned short mask = DAT_0603cd4c;
+  unsigned short *regs = (unsigned short *)0x060A4D46;
   if (param_1 == 0) {
-
+    /* scroll plane A: offsets at +4, +6, +8 */
+    (*(int(*)())0x06034F78)();   /* vdp2_reg_sync */
+    *(unsigned short *)((char *)regs + 4) = (*(unsigned short *)((char *)regs + 4) & mask) + param_2;
     (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar2 + 4) = (*(unsigned short *)(puVar2 + 4) & uVar1) + param_2;
-
+    *(unsigned short *)((char *)regs + 6) = (*(unsigned short *)((char *)regs + 6) & mask) + param_3;
     (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar2 + 6) = (*(unsigned short *)(puVar2 + 6) & uVar1) + param_3;
-
+    *(unsigned short *)((char *)regs + 8) = (*(unsigned short *)((char *)regs + 8) & mask) + param_4;
+  } else {
+    /* scroll plane B: offsets at +10, +12, +14 */
     (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar2 + 8) = (*(unsigned short *)(puVar2 + 8) & uVar1) + param_4;
-
+    *(unsigned short *)((char *)regs + 10) = (*(unsigned short *)((char *)regs + 10) & mask) + param_2;
+    (*(int(*)())0x06034F78)();
+    *(unsigned short *)((char *)regs + 0xc) = (*(unsigned short *)((char *)regs + 0xc) & mask) + param_3;
+    (*(int(*)())0x06034F78)();
+    *(unsigned short *)((char *)regs + 0xe) = (*(unsigned short *)((char *)regs + 0xe) & mask) + param_4;
   }
-
-  else {
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar2 + 10) = (*(unsigned short *)(puVar2 + 10) & uVar1) + param_2;
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar2 + 0xc) = (*(unsigned short *)(puVar2 + 0xc) & uVar1) + param_3;
-
-    (*(int(*)())0x06034F78)();
-
-    *(unsigned short *)(puVar2 + 0xe) = (*(unsigned short *)(puVar2 + 0xe) & uVar1) + param_4;
-
-  }
-
   return 0;
-
 }
 
 void FUN_0603cd5c()
@@ -1251,110 +1210,58 @@ void FUN_0603cd5c()
 
 }
 
+/* vdp2_palette_bank_init -- Clear palette assignment bits for 4 scroll planes.
+ * VDP2 palette control registers at 0x060A4D28 (shadow copy).
+ * For each of 4 planes (regs [0]-[3]), clears:
+ *   - bits 0-3 (mask 0xFFF0): palette number low nibble
+ *   - bits 8-11 (mask 0xF0FF): palette number high nibble
+ * Each register write synced via 0x06034F78. */
 void FUN_0603d2cc()
 {
-
-  unsigned short uVar1;
-
-  unsigned short *puVar2;
-
-  char *puVar3;
-
-  unsigned short uVar4;
-
-  puVar2 = (unsigned short *)0x060A4D28;
-
-  puVar3 = (char *)0x0000FFF0;
-
-  (*(int(*)())0x06034F78)(0x060A4D28,0x060A4D58,1);
-
-  uVar4 = (unsigned short)puVar3;
-
-  *puVar2 = *puVar2 & uVar4;
-
-  puVar3 = (char *)0x0000F0FF;
-
+  unsigned short *regs = (unsigned short *)0x060A4D28;
+  unsigned short mask_lo = 0xFFF0;
+  unsigned short mask_hi = 0xF0FF;
+  (*(int(*)())0x06034F78)(0x060A4D28, 0x060A4D58, 1);  /* vdp2_reg_init */
+  regs[0] = regs[0] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  uVar1 = (unsigned short)puVar3;
-
-  *puVar2 = *puVar2 & uVar1;
-
+  regs[0] = regs[0] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar4;
-
+  regs[1] = regs[1] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar1;
-
+  regs[1] = regs[1] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = puVar2[2] & uVar4;
-
+  regs[2] = regs[2] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = puVar2[2] & uVar1;
-
+  regs[2] = regs[2] & mask_hi;
   (*(int(*)())0x06034F78)();
-
-  puVar2[3] = puVar2[3] & uVar4;
-
+  regs[3] = regs[3] & mask_lo;
   (*(int(*)())0x06034F78)();
-
-  puVar2[3] = puVar2[3] & uVar1;
-
+  regs[3] = regs[3] & mask_hi;
   (*(int(*)())0x06034F78)();
-
   return;
-
 }
 
+/* vdp2_scroll_plane_config -- Configure VDP2 scroll plane character/pattern.
+ * VDP2 character control registers at 0x060A4D30.
+ * Sets plane A: char size = 3 (low byte), pattern = DAT_0603d426 (high byte).
+ * Sets plane B: char size = 1 (low byte), pattern cleared (high byte).
+ * Sets plane C: fixed value 4. All writes synced via 0x06034F78. */
 int FUN_0603d3a8()
 {
-
-  int uVar1;
-
-  unsigned short *puVar2;
-
-  unsigned short uVar3;
-
-  char *puVar4;
-
-  unsigned short uVar5;
-
-  uVar3 = 1;
-
-  puVar2 = (unsigned short *)0x060A4D30;
-
-  puVar4 = (char *)0x0000FF00;
-
-  (*(int(*)())0x06034F78)(0x060A4D30,1,0x060A4D58);
-
-  uVar5 = (unsigned short)puVar4;
-
-  *puVar2 = *puVar2 & uVar5 | 3;
-
+  int result;
+  unsigned short *regs = (unsigned short *)0x060A4D30;
+  (*(int(*)())0x06034F78)(0x060A4D30, 1, 0x060A4D58);  /* vdp2_reg_init */
+  regs[0] = (regs[0] & 0xFF00) | 3;              /* plane A char size = 3 */
   (*(int(*)())0x06034F78)();
-
-  *puVar2 = *puVar2 & 0xff | DAT_0603d426;
-
+  regs[0] = (regs[0] & 0xff) | DAT_0603d426;     /* plane A pattern number */
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & uVar5 | uVar3;
-
+  regs[1] = (regs[1] & 0xFF00) | 1;              /* plane B char size = 1 */
   (*(int(*)())0x06034F78)();
-
-  puVar2[1] = puVar2[1] & 0xff;
-
+  regs[1] = regs[1] & 0xff;                      /* plane B pattern = 0 */
   (*(int(*)())0x06034F78)();
-
-  puVar2[2] = 4;
-
-  uVar1 = (*(int(*)())0x06034F78)();
-
-  return uVar1;
-
+  regs[2] = 4;                                    /* plane C = 4 */
+  result = (*(int(*)())0x06034F78)();
+  return result;
 }
 
 void FUN_0603d438()

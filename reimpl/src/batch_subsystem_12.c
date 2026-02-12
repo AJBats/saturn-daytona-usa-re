@@ -333,33 +333,22 @@ void FUN_0601228a(void)
   *(int *)0x06078636 = 1;       /* enable camera system */
 }
 
+/* camera_fov_interpolate -- Animate camera FOV and far-plane toward targets.
+ * Camera params at 0x060788B4: [0]=pos, [1]=FOV, [2]=far_plane.
+ * Decays FOV by 0x2999/frame (min 0x20000), far-plane by 0x4000/frame
+ * (min 0x4CCCC). Rotates camera heading at 0x060788B2 by +0x1800/frame. */
 void FUN_060122f4()
 {
-  volatile int *base;
-  short sub1, sub2, add_val;
-  int limit1, limit2;
-  short *pw;
-
-  base = (volatile int *)0x060788B4;
-  sub1 = 0x2999;
-  base[1] = base[1] - sub1;
-
-  sub2 = 0x4000;
-  base[2] = base[2] - sub2;
-
-  limit1 = 0x00020000;
-  if (!(base[1] >= limit1)) {
-    base[1] = limit1;
+  volatile int *cam = (volatile int *)0x060788B4;
+  cam[1] = cam[1] - 0x2999;           /* decay FOV */
+  cam[2] = cam[2] - 0x4000;           /* decay far-plane */
+  if (!(cam[1] >= 0x00020000)) {
+    cam[1] = 0x00020000;              /* clamp FOV minimum */
   }
-
-  limit2 = 0x0004CCCC;
-  if (!(base[2] >= limit2)) {
-    base[2] = limit2;
+  if (!(cam[2] >= 0x0004CCCC)) {
+    cam[2] = 0x0004CCCC;              /* clamp far-plane minimum */
   }
-
-  pw = (short *)0x060788B2;
-  add_val = 0x1800;
-  *pw = *pw + add_val;
+  *(short *)0x060788B2 = *(short *)0x060788B2 + 0x1800;  /* rotate heading */
 }
 
 void FUN_06012344()
@@ -429,132 +418,75 @@ void FUN_0601250c(void)
     (*(int(*)())0x06026DF8)();   /* render finalize */
 }
 
+/* bg_sweep_render -- Render background with camera sweep and heading interpolation.
+ * Sets up matrix pipeline from camera params at 0x060788B4,
+ * applies heading rotation, renders sky dome via VDP1 draw (0x06028400).
+ * Interpolates heading toward target (0x0605AC94), then renders
+ * background mesh/texture for last car slot. */
 void FUN_060125d0()
 {
-
-  char *puVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  int *puVar4;
-
-  unsigned short auStack_14 [6];
-
-  puVar1 = (char *)0x060788B0;
-
-  (*(int(*)())0x06035228)();
-
-  (*(int(*)())0x06026DBC)();
-
-  (*(int(*)())0x06026E0C)();
-
-  (*(int(*)())0x06026E2E)(*(int *)0x060788B4,*(int *)(0x060788B4 + 4),
-
-             *(int *)(0x060788B4 + 8));
-
-  (*(int(*)())0x06026F2A)((int)*(short *)0x060788B2);
-
-  iVar2 = (*(int(*)())0x06034FE0)();
-
-  iVar3 = (iVar2 << 1);
-
-  puVar4 = (int *)(0x06063750 + (unsigned int)auStack_14[iVar2] * 8);
-
-  (*(int(*)())0x06028400)(8,*puVar4,0x390,0x0000B000 + puVar4[1],puVar4,iVar3,iVar2);
-
-  if (*(short *)puVar1 != *(short *)(0x0605AC94 + iVar3)) {
-
-    *(short *)puVar1 = *(short *)puVar1 - DAT_060126a4;
-
+  int course_idx;
+  int course_x2;
+  int *sprite_pair;
+  unsigned short auStack_14[6];
+  short *heading = (short *)0x060788B0;
+  (*(int(*)())0x06035228)();                          /* cd_sync */
+  (*(int(*)())0x06026DBC)();                          /* matrix_push */
+  (*(int(*)())0x06026E0C)();                          /* matrix_identity */
+  (*(int(*)())0x06026E2E)(*(int *)0x060788B4, *(int *)(0x060788B4 + 4),
+             *(int *)(0x060788B4 + 8));               /* matrix_translate */
+  (*(int(*)())0x06026F2A)((int)*(short *)0x060788B2); /* matrix_rotate_heading */
+  course_idx = (*(int(*)())0x06034FE0)();             /* get_course_index */
+  course_x2 = (course_idx << 1);
+  sprite_pair = (int *)(0x06063750 + (unsigned int)auStack_14[course_idx] * 8);
+  (*(int(*)())0x06028400)(8, *sprite_pair, 0x390,
+             0x0000B000 + sprite_pair[1], sprite_pair, course_x2, course_idx);
+  if (*heading != *(short *)(0x0605AC94 + course_x2)) {
+    *heading = *heading - DAT_060126a4;  /* interpolate toward target */
   }
-
-  (*(int(*)())0x06026EDE)(0);
-
-  (*(int(*)())0x06026E94)((int)*(short *)puVar1);
-
+  (*(int(*)())0x06026EDE)(0);                         /* matrix_scale_y(0) */
+  (*(int(*)())0x06026E94)((int)*heading);             /* matrix_scale_x(heading) */
   (*(int(*)())0x06031D8C)(*(int *)(0x0606354C + (CAR_COUNT + -1) << 2),
-
-             *(int *)0x06063558);
-
+             *(int *)0x06063558);                     /* mesh_submit */
   (*(int(*)())0x06031A28)(*(int *)(0x06063544 + (CAR_COUNT + -1) << 2),
-
-             (int)*(short *)0x06089EA0,*(int *)0x06063554);
-
-  (*(int(*)())0x06026DF8)();
-
+             (int)*(short *)0x06089EA0, *(int *)0x06063554);  /* texture_submit */
+  (*(int(*)())0x06026DF8)();                          /* matrix_pop */
   return;
-
 }
 
+/* attract_sound_dispatch -- Play sound cues at specific countdown thresholds.
+ * Reads countdown timer at 0x0607EBCC and dispatches SCSP commands:
+ *   40 (0x28): play "5" voice + engine sfx, set timer display
+ *   60 (0x3C): play "4" voice
+ *   80 (0x50): play "3" voice
+ *   100: play "2" voice, enable camera mode, store car heading
+ * After threshold check, if countdown > 110 and CD idle, play start jingle. */
 void FUN_06012710()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  int uVar3;
-
-  int iVar4;
-
-  int uVar5;
-
-  uVar3 = 0xAE1115FF;
-
-  puVar2 = (char *)0x0601D5F4;
-
-  puVar1 = (char *)0x0607EBCC;
-
-  iVar4 = *(int *)0x0607EBCC;
-
-  if (iVar4 == 0x28) {
-
-    (*(int(*)())0x0601D5F4)(0,0xAE1125FF);
-
-    (*(int(*)())puVar2)(0,0xAE1116FF);
-
+  int countdown = *(int *)0x0607EBCC;
+  int snd_code;
+  void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
+  if (countdown == 0x28) {
+    snd_cmd(0, 0xAE1125FF);     /* "5" voice */
+    snd_cmd(0, 0xAE1116FF);     /* engine sfx */
     *(short *)0x06086056 = 0x3c;
-
     *(int *)0x0608605A = 1;
-
-  }
-
-  else {
-
-    uVar5 = 0xAE1124FF;
-
-    if ((iVar4 != 0x3c) && (uVar5 = 0xAE1123FF, iVar4 != 0x50)) {
-
-      if (iVar4 != 100) goto LAB_0601277a;
-
-      *(int *)0x06078654 = 1;
-
-      *(int *)0x06063EF0 = *(int *)(CAR_PTR_TARGET + 0x30);
-
-      uVar5 = 0xAE1122FF;
-
+  } else {
+    snd_code = 0xAE1124FF;      /* "4" voice (countdown == 0x3C) */
+    if ((countdown != 0x3c) && (snd_code = 0xAE1123FF, countdown != 0x50)) {
+      if (countdown != 100) goto LAB_0601277a;
+      *(int *)0x06078654 = 1;   /* enable camera mode */
+      *(int *)0x06063EF0 = *(int *)(CAR_PTR_TARGET + 0x30);  /* store heading */
+      snd_code = 0xAE1122FF;    /* "2" voice */
     }
-
-    (*(int(*)())puVar2)(0,uVar5);
-
-    (*(int(*)())puVar2)(0,uVar3);
-
+    snd_cmd(0, snd_code);
+    snd_cmd(0, 0xAE1115FF);     /* common sound */
   }
-
 LAB_0601277a:
-
-  iVar4 = (*(int(*)())0x06035C2C)();
-
-  if (0x6e < *(int *)puVar1 && iVar4 == 0) {
-
-    (*(int(*)())puVar2)(0,0xAE110CFF);
-
+  if (0x6e < *(int *)0x0607EBCC && (*(int(*)())0x06035C2C)() == 0) {
+    snd_cmd(0, 0xAE110CFF);     /* start jingle */
   }
-
   return;
-
 }
 
 int FUN_060127e0()
@@ -760,67 +692,34 @@ int FUN_060127e0()
 
 }
 
+/* save_validate_retry -- Validate save data with retry loop.
+ * Sets up save descriptor at 0x06084360 (type=1, size=0x50, buf=0x0608436C).
+ * Retries BIOS read (0x0603AC1C) up to 5 times against device at 0x06083274.
+ * If retry count < 3: sets error flag at 0x06084AEC.
+ * Otherwise validates checksum via 0x0603AE08. */
 void FUN_06012b58()
 {
-
-  char *puVar1;
-
-  char *puVar2;
-
-  char *puVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  puVar2 = (char *)0x06084360;
-
-  puVar1 = (char *)0x0603AC1C;
-
-  iVar4 = -1;
-
-  *(int *)0x06084360 = 1;
-
-  *(char **)(puVar2 + 8) = 0x0608436C;
-
-  *(int *)(puVar2 + 4) = 0x50;
-
-  puVar2 = (char *)0x06083274;
-
-  iVar5 = 0;
-
-  while (puVar3 = 0x06084AEC, iVar5 = iVar5 + 1, iVar5 < 5) {
-
-    iVar4 = (*(int(*)())puVar1)(5,puVar2,0x06084360);
-
+  int result = -1;
+  int retry = 0;
+  char *error_flag;
+  /* set up save descriptor */
+  *(int *)0x06084360 = 1;             /* descriptor type */
+  *(int *)(0x06084360 + 8) = 0x0608436C;  /* buffer pointer */
+  *(int *)(0x06084360 + 4) = 0x50;    /* data size */
+  while (error_flag = (char *)0x06084AEC, retry = retry + 1, retry < 5) {
+    result = (*(int(*)())0x0603AC1C)(5, (char *)0x06083274, (char *)0x06084360);
   }
-
-  if (iVar4 < 3) {
-
-    *(int *)0x06084AEC = 1;
-
-  }
-
-  else {
-
-    iVar4 = (*(int(*)())0x0603AE08)(0x060448C8);
-
-    if (iVar4 < 0) {
-
-      *puVar3 = 1;
-
+  if (result < 3) {
+    *(int *)0x06084AEC = 1;           /* insufficient retries — error */
+  } else {
+    result = (*(int(*)())0x0603AE08)(0x060448C8);  /* checksum validate */
+    if (result < 0) {
+      *error_flag = 1;                /* checksum failed */
+    } else {
+      *error_flag = 0;                /* save valid */
     }
-
-    else {
-
-      *puVar3 = 0;
-
-    }
-
   }
-
   return;
-
 }
 
 void FUN_06012bdc()
