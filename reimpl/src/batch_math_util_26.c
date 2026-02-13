@@ -772,62 +772,21 @@ char * FUN_06026e2e(param_1, param_2, param_3)
     { long long _m31 = (long long)(int)uVar5 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m31 >> 32);
       uVar13 = (unsigned int)_m31; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar13 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar13 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = *(unsigned int *)(puVar8 + 4);
     uVar5 = puVar10[1];
     { long long _m30 = (long long)(int)uVar6 * (int)uVar5;
       uVar5 = (unsigned int)((unsigned long long)_m30 >> 32);
       uVar14 = (unsigned int)_m30; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar14 = uVar13 + uVar14;
-      uVar12 = uVar5 + (uVar14 < uVar13) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar14 = uVar13 + uVar14;
-      uVar12 = uVar5 + (uVar14 < uVar13) + uVar12;
-    }
+    uVar14 = uVar13 + uVar14;
+    uVar12 = uVar5 + (uVar14 < uVar13) + uVar12;
     uVar6 = *(unsigned int *)(puVar8 + 8);
     uVar5 = puVar10[2];
     puVar10 = puVar10 + 3;
     { long long _m29 = (long long)(int)uVar6 * (int)uVar5;
       uVar5 = (unsigned int)((unsigned long long)_m29 >> 32);
       uVar15 = (unsigned int)_m29; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar5 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar5 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar5 + (uVar15 < uVar14) + uVar12;
     iVar9 = iVar9 + -1;
     in_sr = in_sr & 0xfffffffe;
     *puVar11 = (uVar12 << 0x10 | uVar15 >> 0x10) + *puVar11;
@@ -904,77 +863,25 @@ unsigned int FUN_06026e94()
     { long long _m28 = (long long)(int)uVar13 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m28 >> 32);
       uVar14 = (unsigned int)_m28; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = puVar9[1];
     uVar13 = puVar11[1];
     { long long _m27 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m27 >> 32);
       uVar15 = (unsigned int)_m27; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
     uVar6 = *puVar9;
     uVar13 = puVar11[2];
     { long long _m26 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m26 >> 32);
       uVar16 = (unsigned int)_m26; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar13 < -0x8000) {
-        uVar13 = 0xffff8000;
-        uVar16 = 0;
-      }
-      if (0x7fff < (int)uVar13) {
-        uVar13 = 0x7fff;
-        uVar16 = 0xffffffff;
-      }
-      uVar13 = uVar13 & 0xffff;
-    }
     uVar1 = puVar9[1];
     uVar6 = puVar11[3];
     { long long _m25 = (long long)(int)uVar1 * (int)uVar6;
       uVar6 = (unsigned int)((unsigned long long)_m25 >> 32);
       uVar17 = (unsigned int)_m25; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar17 = uVar16 + uVar17;
-      uVar6 = uVar6 + (uVar17 < uVar16) + (uVar13 & 0xffff);
-      if ((int)uVar6 < -0x8000) {
-        uVar6 = 0xffff8000;
-        uVar17 = 0;
-      }
-      if (0x7fff < (int)uVar6) {
-        uVar6 = 0x7fff;
-        uVar17 = 0xffffffff;
-      }
-      uVar13 = uVar6 & 0xffff | uVar13 & 0xffff0000;
-    }
-    else {
-      uVar17 = uVar16 + uVar17;
-      uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
-    }
+    uVar17 = uVar16 + uVar17;
+    uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
     *puVar9 = uVar12 << 0x10 | uVar15 >> 0x10;
     iVar8 = iVar8 + -1;
     in_sr = in_sr & 0xfffffffe;
@@ -1027,77 +934,25 @@ unsigned int FUN_06026f2a()
     { long long _m24 = (long long)(int)uVar13 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m24 >> 32);
       uVar14 = (unsigned int)_m24; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = puVar9[1];
     uVar13 = puVar11[1];
     { long long _m23 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m23 >> 32);
       uVar15 = (unsigned int)_m23; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
     uVar6 = *puVar9;
     uVar13 = puVar11[2];
     { long long _m22 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m22 >> 32);
       uVar16 = (unsigned int)_m22; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar13 < -0x8000) {
-        uVar13 = 0xffff8000;
-        uVar16 = 0;
-      }
-      if (0x7fff < (int)uVar13) {
-        uVar13 = 0x7fff;
-        uVar16 = 0xffffffff;
-      }
-      uVar13 = uVar13 & 0xffff;
-    }
     uVar1 = puVar9[1];
     uVar6 = puVar11[3];
     { long long _m21 = (long long)(int)uVar1 * (int)uVar6;
       uVar6 = (unsigned int)((unsigned long long)_m21 >> 32);
       uVar17 = (unsigned int)_m21; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar17 = uVar16 + uVar17;
-      uVar6 = uVar6 + (uVar17 < uVar16) + (uVar13 & 0xffff);
-      if ((int)uVar6 < -0x8000) {
-        uVar6 = 0xffff8000;
-        uVar17 = 0;
-      }
-      if (0x7fff < (int)uVar6) {
-        uVar6 = 0x7fff;
-        uVar17 = 0xffffffff;
-      }
-      uVar13 = uVar6 & 0xffff | uVar13 & 0xffff0000;
-    }
-    else {
-      uVar17 = uVar16 + uVar17;
-      uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
-    }
+    uVar17 = uVar16 + uVar17;
+    uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
     *puVar9 = uVar12 << 0x10 | uVar15 >> 0x10;
     iVar8 = iVar8 + -1;
     in_sr = in_sr & 0xfffffffe;
@@ -1150,39 +1005,13 @@ void FUN_06026f72(param_1)
       { long long _m20 = (long long)(int)uVar7 * (int)uVar5;
         uVar5 = (unsigned int)((unsigned long long)_m20 >> 32);
         uVar17 = (unsigned int)_m20; }
-      if (((unsigned char)(uVar11 >> 1) & 1) == 1) {
-        if ((int)uVar5 < -0x8000) {
-          uVar5 = 0xffff8000;
-          uVar17 = 0;
-        }
-        if (0x7fff < (int)uVar5) {
-          uVar5 = 0x7fff;
-          uVar17 = 0xffffffff;
-        }
-        uVar5 = uVar5 & 0xffff;
-      }
       uVar9 = puVar12[1];
       uVar7 = puVar10[3];
       { long long _m19 = (long long)(int)uVar9 * (int)uVar7;
         uVar7 = (unsigned int)((unsigned long long)_m19 >> 32);
         uVar18 = (unsigned int)_m19; }
-      if (((unsigned char)(uVar11 >> 1) & 1) == 1) {
-        uVar18 = uVar17 + uVar18;
-        uVar5 = uVar7 + (uVar18 < uVar17) + (uVar5 & 0xffff);
-        if ((int)uVar5 < -0x8000) {
-          uVar5 = 0xffff8000;
-          uVar18 = 0;
-        }
-        if (0x7fff < (int)uVar5) {
-          uVar5 = 0x7fff;
-          uVar18 = 0xffffffff;
-        }
-        uVar5 = uVar5 & 0xffff;
-      }
-      else {
-        uVar18 = uVar17 + uVar18;
-        uVar5 = uVar7 + (uVar18 < uVar17) + uVar5;
-      }
+      uVar18 = uVar17 + uVar18;
+      uVar5 = uVar7 + (uVar18 < uVar17) + uVar5;
       iVar6 = iVar6 + -1;
       in_sr = uVar11 & 0xfffffffe;
       uVar9 = puVar12[2];
@@ -1190,23 +1019,8 @@ void FUN_06026f72(param_1)
       { long long _m18 = (long long)(int)uVar9 * (int)uVar7;
         uVar7 = (unsigned int)((unsigned long long)_m18 >> 32);
         uVar19 = (unsigned int)_m18; }
-      if (((unsigned char)(uVar11 >> 1) & 1) == 1) {
-        uVar19 = uVar18 + uVar19;
-        uVar5 = uVar7 + (uVar19 < uVar18) + (uVar5 & 0xffff);
-        if ((int)uVar5 < -0x8000) {
-          uVar5 = 0xffff8000;
-          uVar19 = 0;
-        }
-        if (0x7fff < (int)uVar5) {
-          uVar5 = 0x7fff;
-          uVar19 = 0xffffffff;
-        }
-        uVar5 = uVar5 & 0xffff;
-      }
-      else {
-        uVar19 = uVar18 + uVar19;
-        uVar5 = uVar7 + (uVar19 < uVar18) + uVar5;
-      }
+      uVar19 = uVar18 + uVar19;
+      uVar5 = uVar7 + (uVar19 < uVar18) + uVar5;
       *puVar15 = uVar5 << 0x10 | uVar19 >> 0x10;
       puVar15 = puVar15 + 1;
       param_1 = puVar10 + 1;
@@ -1225,39 +1039,13 @@ void FUN_06026f72(param_1)
     { long long _m17 = (long long)(int)uVar7 * (int)uVar5;
       uVar5 = (unsigned int)((unsigned long long)_m17 >> 32);
       uVar17 = (unsigned int)_m17; }
-    if (((unsigned char)(uVar11 >> 1) & 1) == 1) {
-      if ((int)uVar5 < -0x8000) {
-        uVar5 = 0xffff8000;
-        uVar17 = 0;
-      }
-      if (0x7fff < (int)uVar5) {
-        uVar5 = 0x7fff;
-        uVar17 = 0xffffffff;
-      }
-      uVar5 = uVar5 & 0xffff;
-    }
     uVar9 = puVar13[1];
     uVar7 = puVar10[8];
     { long long _m16 = (long long)(int)uVar9 * (int)uVar7;
       uVar7 = (unsigned int)((unsigned long long)_m16 >> 32);
       uVar18 = (unsigned int)_m16; }
-    if (((unsigned char)(uVar11 >> 1) & 1) == 1) {
-      uVar18 = uVar17 + uVar18;
-      uVar5 = uVar7 + (uVar18 < uVar17) + (uVar5 & 0xffff);
-      if ((int)uVar5 < -0x8000) {
-        uVar5 = 0xffff8000;
-        uVar18 = 0;
-      }
-      if (0x7fff < (int)uVar5) {
-        uVar5 = 0x7fff;
-        uVar18 = 0xffffffff;
-      }
-      uVar5 = uVar5 & 0xffff;
-    }
-    else {
-      uVar18 = uVar17 + uVar18;
-      uVar5 = uVar7 + (uVar18 < uVar17) + uVar5;
-    }
+    uVar18 = uVar17 + uVar18;
+    uVar5 = uVar7 + (uVar18 < uVar17) + uVar5;
     iVar8 = iVar8 + -1;
     uVar9 = puVar13[2];
     puVar13 = puVar13 + 3;
@@ -1265,23 +1053,8 @@ void FUN_06026f72(param_1)
     { long long _m15 = (long long)(int)uVar9 * (int)uVar7;
       uVar7 = (unsigned int)((unsigned long long)_m15 >> 32);
       uVar19 = (unsigned int)_m15; }
-    if (((unsigned char)(uVar11 >> 1) & 1) == 1) {
-      uVar19 = uVar18 + uVar19;
-      uVar5 = uVar7 + (uVar19 < uVar18) + (uVar5 & 0xffff);
-      if ((int)uVar5 < -0x8000) {
-        uVar5 = 0xffff8000;
-        uVar19 = 0;
-      }
-      if (0x7fff < (int)uVar5) {
-        uVar5 = 0x7fff;
-        uVar19 = 0xffffffff;
-      }
-      uVar5 = uVar5 & 0xffff;
-    }
-    else {
-      uVar19 = uVar18 + uVar19;
-      uVar5 = uVar7 + (uVar19 < uVar18) + uVar5;
-    }
+    uVar19 = uVar18 + uVar19;
+    uVar5 = uVar7 + (uVar19 < uVar18) + uVar5;
     *puVar12 = (uVar5 << 0x10 | uVar19 >> 0x10) + *puVar16;
     puVar15 = puVar12 + 1;
     puVar4 = puVar16 + 1;
@@ -1401,62 +1174,21 @@ char * FUN_060270f2(param_1, param_2, param_3)
     { long long _m14 = (long long)(int)uVar5 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m14 >> 32);
       uVar13 = (unsigned int)_m14; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar13 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar13 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = *(unsigned int *)(puVar8 + 4);
     uVar5 = puVar10[1];
     { long long _m13 = (long long)(int)uVar6 * (int)uVar5;
       uVar5 = (unsigned int)((unsigned long long)_m13 >> 32);
       uVar14 = (unsigned int)_m13; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar14 = uVar13 + uVar14;
-      uVar12 = uVar5 + (uVar14 < uVar13) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar14 = uVar13 + uVar14;
-      uVar12 = uVar5 + (uVar14 < uVar13) + uVar12;
-    }
+    uVar14 = uVar13 + uVar14;
+    uVar12 = uVar5 + (uVar14 < uVar13) + uVar12;
     uVar6 = *(unsigned int *)(puVar8 + 8);
     uVar5 = puVar10[2];
     puVar10 = puVar10 + 3;
     { long long _m12 = (long long)(int)uVar6 * (int)uVar5;
       uVar5 = (unsigned int)((unsigned long long)_m12 >> 32);
       uVar15 = (unsigned int)_m12; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar5 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar5 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar5 + (uVar15 < uVar14) + uVar12;
     iVar9 = iVar9 + -1;
     in_sr = in_sr & 0xfffffffe;
     *puVar11 = (uVar12 << 0x10 | uVar15 >> 0x10) + *puVar11;
@@ -1533,77 +1265,25 @@ unsigned int FUN_06027158()
     { long long _m11 = (long long)(int)uVar13 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m11 >> 32);
       uVar14 = (unsigned int)_m11; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = puVar9[1];
     uVar13 = puVar11[1];
     { long long _m10 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m10 >> 32);
       uVar15 = (unsigned int)_m10; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
     uVar6 = *puVar9;
     uVar13 = puVar11[2];
     { long long _m9 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m9 >> 32);
       uVar16 = (unsigned int)_m9; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar13 < -0x8000) {
-        uVar13 = 0xffff8000;
-        uVar16 = 0;
-      }
-      if (0x7fff < (int)uVar13) {
-        uVar13 = 0x7fff;
-        uVar16 = 0xffffffff;
-      }
-      uVar13 = uVar13 & 0xffff;
-    }
     uVar1 = puVar9[1];
     uVar6 = puVar11[3];
     { long long _m8 = (long long)(int)uVar1 * (int)uVar6;
       uVar6 = (unsigned int)((unsigned long long)_m8 >> 32);
       uVar17 = (unsigned int)_m8; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar17 = uVar16 + uVar17;
-      uVar6 = uVar6 + (uVar17 < uVar16) + (uVar13 & 0xffff);
-      if ((int)uVar6 < -0x8000) {
-        uVar6 = 0xffff8000;
-        uVar17 = 0;
-      }
-      if (0x7fff < (int)uVar6) {
-        uVar6 = 0x7fff;
-        uVar17 = 0xffffffff;
-      }
-      uVar13 = uVar6 & 0xffff | uVar13 & 0xffff0000;
-    }
-    else {
-      uVar17 = uVar16 + uVar17;
-      uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
-    }
+    uVar17 = uVar16 + uVar17;
+    uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
     *puVar9 = uVar12 << 0x10 | uVar15 >> 0x10;
     iVar8 = iVar8 + -1;
     in_sr = in_sr & 0xfffffffe;
@@ -1652,77 +1332,25 @@ unsigned int FUN_060271a2()
     { long long _m7 = (long long)(int)uVar13 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m7 >> 32);
       uVar14 = (unsigned int)_m7; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = puVar9[2];
     uVar13 = puVar11[1];
     { long long _m6 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m6 >> 32);
       uVar15 = (unsigned int)_m6; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
     uVar6 = *puVar9;
     uVar13 = puVar11[2];
     { long long _m5 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m5 >> 32);
       uVar16 = (unsigned int)_m5; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar13 < -0x8000) {
-        uVar13 = 0xffff8000;
-        uVar16 = 0;
-      }
-      if (0x7fff < (int)uVar13) {
-        uVar13 = 0x7fff;
-        uVar16 = 0xffffffff;
-      }
-      uVar13 = uVar13 & 0xffff;
-    }
     uVar1 = puVar9[2];
     uVar6 = puVar11[3];
     { long long _m4 = (long long)(int)uVar1 * (int)uVar6;
       uVar6 = (unsigned int)((unsigned long long)_m4 >> 32);
       uVar17 = (unsigned int)_m4; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar17 = uVar16 + uVar17;
-      uVar6 = uVar6 + (uVar17 < uVar16) + (uVar13 & 0xffff);
-      if ((int)uVar6 < -0x8000) {
-        uVar6 = 0xffff8000;
-        uVar17 = 0;
-      }
-      if (0x7fff < (int)uVar6) {
-        uVar6 = 0x7fff;
-        uVar17 = 0xffffffff;
-      }
-      uVar13 = uVar6 & 0xffff | uVar13 & 0xffff0000;
-    }
-    else {
-      uVar17 = uVar16 + uVar17;
-      uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
-    }
+    uVar17 = uVar16 + uVar17;
+    uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
     *puVar9 = uVar12 << 0x10 | uVar15 >> 0x10;
     iVar8 = iVar8 + -1;
     in_sr = in_sr & 0xfffffffe;
@@ -1771,77 +1399,25 @@ unsigned int FUN_060271ee()
     { long long _m3 = (long long)(int)uVar13 * (int)uVar12;
       uVar12 = (unsigned int)((unsigned long long)_m3 >> 32);
       uVar14 = (unsigned int)_m3; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar14 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar14 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
     uVar6 = puVar9[1];
     uVar13 = puVar11[1];
     { long long _m2 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m2 >> 32);
       uVar15 = (unsigned int)_m2; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + (uVar12 & 0xffff);
-      if ((int)uVar12 < -0x8000) {
-        uVar12 = 0xffff8000;
-        uVar15 = 0;
-      }
-      if (0x7fff < (int)uVar12) {
-        uVar12 = 0x7fff;
-        uVar15 = 0xffffffff;
-      }
-      uVar12 = uVar12 & 0xffff;
-    }
-    else {
-      uVar15 = uVar14 + uVar15;
-      uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
-    }
+    uVar15 = uVar14 + uVar15;
+    uVar12 = uVar13 + (uVar15 < uVar14) + uVar12;
     uVar6 = *puVar9;
     uVar13 = puVar11[2];
     { long long _m1 = (long long)(int)uVar6 * (int)uVar13;
       uVar13 = (unsigned int)((unsigned long long)_m1 >> 32);
       uVar16 = (unsigned int)_m1; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      if ((int)uVar13 < -0x8000) {
-        uVar13 = 0xffff8000;
-        uVar16 = 0;
-      }
-      if (0x7fff < (int)uVar13) {
-        uVar13 = 0x7fff;
-        uVar16 = 0xffffffff;
-      }
-      uVar13 = uVar13 & 0xffff;
-    }
     uVar1 = puVar9[1];
     uVar6 = puVar11[3];
     { long long _m0 = (long long)(int)uVar1 * (int)uVar6;
       uVar6 = (unsigned int)((unsigned long long)_m0 >> 32);
       uVar17 = (unsigned int)_m0; }
-    if (((unsigned char)(in_sr >> 1) & 1) == 1) {
-      uVar17 = uVar16 + uVar17;
-      uVar6 = uVar6 + (uVar17 < uVar16) + (uVar13 & 0xffff);
-      if ((int)uVar6 < -0x8000) {
-        uVar6 = 0xffff8000;
-        uVar17 = 0;
-      }
-      if (0x7fff < (int)uVar6) {
-        uVar6 = 0x7fff;
-        uVar17 = 0xffffffff;
-      }
-      uVar13 = uVar6 & 0xffff | uVar13 & 0xffff0000;
-    }
-    else {
-      uVar17 = uVar16 + uVar17;
-      uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
-    }
+    uVar17 = uVar16 + uVar17;
+    uVar13 = uVar6 + (uVar17 < uVar16) + uVar13;
     *puVar9 = uVar12 << 0x10 | uVar15 >> 0x10;
     iVar8 = iVar8 + -1;
     in_sr = in_sr & 0xfffffffe;
