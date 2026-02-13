@@ -68,24 +68,25 @@ extern int DAT_0601ff8c;
 extern int DAT_0601ff8e;
 extern int DAT_0601ff90;
 extern int DAT_0601ff92;
-extern void FUN_0601e26c();
-extern void FUN_0601e2b4();
-extern void FUN_0601e37c();
-extern int FUN_0601e488(unsigned short slot);
-extern unsigned int FUN_0601e4d4();
-extern int FUN_0601e6a4();
-extern int FUN_0601e764();
-extern int FUN_0601e810();
+extern void input_state_copy();
+extern void backup_mem_format();
+extern void backup_device_enumerate();
+extern int backup_device_open(unsigned short slot);
+extern unsigned int backup_mem_write_all();
+extern int bios_sound_poll();
+extern int backup_mem_write();
+extern int backup_mem_read();
 extern unsigned int FUN_0601eb70();
 extern char * FUN_0601ebda();
 extern char * FUN_0601efc4();
-extern int FUN_0601f40c();
-extern void FUN_0601f4b4();
-extern int FUN_0601f5e0();
-extern void FUN_0601f87a(unsigned char);
-extern void FUN_0601f9cc();
-extern void FUN_0601fd20();
-extern void FUN_0601fec0();
+extern int cdda_replay_check();
+extern void bcd_timestamp_decode();
+extern int save_score_check_update();
+extern void cdda_buffer_select(unsigned char);
+extern void standings_screen_render();
+extern void mode_transition_vdp_reset();
+extern void replay_car_state_load();
+extern void car_replay_state_init();
 extern int vdp1_texture_palette_init();
 extern int PTR_DAT_0601e168;
 extern int PTR_DAT_0601ebf0;
@@ -100,13 +101,9 @@ void FUN_0601e0de(void)
 }
 
 /* menu_vdp_palette_setup -- Load VDP2 palettes for menu/save screen.
- * Normal mode: loads single palette from 0x0604892C to VDP2 CRAM 0x25F00100,
- *   then submits one VDP1 command from table at 0x06063750.
- * Demo mode: loads palette from 0x0605DFCC, course-specific selection
- *   (0x06078644==1 uses alt offset), submits 4 VDP1 commands for
- *   multi-layer display, calls FUN_0601AB8C and FUN_0601e26c for
- *   dynamic palette animation. Clears state at 0x06087068/0x0605DFF0. */
-void FUN_0601e100()
+ * Normal mode: single palette + sprite. Demo mode: multi-layer palette
+ * with 4 sprites, dynamic animation, and course-specific variant. */
+void menu_vdp_palette_setup()
 {
     short tile_off;
     char *vdp_base = (char *)0x00008000;           /* VDP2 VRAM base */
@@ -155,11 +152,10 @@ void FUN_0601e100()
     *(int *)0x06087068 = 0;
     *(int *)0x0605DFF0 = 0;
 }
+void FUN_0601e100() __attribute__((alias("menu_vdp_palette_setup")));
 
-/* input_state_copy -- Read 8-byte input buffer from peripheral handler.
- * Calls get_peripheral_data (0x06005DD4), stores base pointer at 0x06087064,
- * then copies 8 bytes into input state array at 0x0605DFF8 (as unsigned short). */
-void FUN_0601e26c(void)
+/* input_state_copy -- Read 8-byte input buffer from peripheral handler. */
+void input_state_copy(void)
 {
   int *periph_ptr = (int *)0x06087064;
   unsigned short *input_arr = (unsigned short *)(0x0605DFF4 + 4);
@@ -173,14 +169,12 @@ void FUN_0601e26c(void)
     i++;
   } while (i < 8);
 }
+void FUN_0601e26c() __attribute__((alias("input_state_copy")));
 
-/* backup_mem_format -- Format backup memory partition.
- * If not already formatted (0x06087080 == 0), zeroes out the partition
- * buffer at 0x0605E068 for the size specified at 0x0604A5C0 indexed
- * by current channel. Acquires SMPC bus, calls BIOS format routine
- * via vector at 0x06000358, then calls FUN_0601e37c for post-format
- * setup. Releases SMPC bus when done. */
-void FUN_0601e2b4()
+/* backup_mem_format -- Format backup memory partition via BIOS.
+ * Zeroes partition buffer, acquires SMPC bus, calls BIOS format,
+ * then enumerates devices via backup_device_enumerate. */
+void backup_mem_format()
 {
     char *smpc_status = (char *)0x20100063;     /* SMPC SF register */
     char *buf_ptr     = (char *)0x0605E068;     /* partition buffer pointer */
@@ -203,7 +197,7 @@ void FUN_0601e2b4()
 
     /* Call BIOS format function */
     (*(int(*)())(*(int *)0x06000358))(*(int *)0x0605E060, *(int *)0x0605E064, 0x06087086);
-    FUN_0601e37c();
+    backup_device_enumerate();
 
     /* Release SMPC bus */
     do { } while ((*smpc_status & 1) == 1);
@@ -212,14 +206,9 @@ void FUN_0601e2b4()
     do { } while ((*smpc_status & 1) != 0);
 }
 
-/* backup_device_enumerate -- Enumerate backup memory devices (max 3).
- * Scans device status array at 0x06087086 (stride 4). For each active
- * device, stores device ID into descriptor array at 0x06087094 (stride 32,
- * offset +0x1C). Calls FUN_0601e488 to open the device; if result==2,
- * calls FUN_0601e6a4 to verify and sets write-protect flag (+0x1F).
- * Checks available space against required size (+0x20 threshold) for
- * capacity flag (+0x1E). Stores final device count at 0x06087084. */
-void FUN_0601e37c()
+/* backup_device_enumerate -- Scan up to 3 backup devices, open each,
+ * verify, check capacity, and store descriptors. */
+void backup_device_enumerate()
 {
     char *desc_base = (char *)0x06087094;       /* device descriptor array */
     short default_wp = DAT_0601e444;            /* default write-protect flag */
@@ -234,13 +223,13 @@ void FUN_0601e37c()
         if (*(short *)(0x06087086 + (unsigned int)(dev_idx << 2)) != 0) {
             /* Store device ID in descriptor */
             *(unsigned short *)(desc_base + (((dev_count & 0xffff) << 5) + 0x1c)) = dev_idx;
-            int status = FUN_0601e488(dev_count);
+            int status = backup_device_open(dev_count);
 
             if (status != 0) {
                 if (status == 1) goto LAB_0601e46a;
                 if (status == 2) {
                     /* Verify device and set write-protect */
-                    int verify = FUN_0601e6a4(*(short *)(desc_base + (((dev_count & 0xffff) << 5) + 0x1c)));
+                    int verify = bios_sound_poll(*(short *)(desc_base + (((dev_count & 0xffff) << 5) + 0x1c)));
                     if (verify == 0) {
                         desc_base[(dev_count & 0xffff) << 5 + 0x1f] = 1;
                     } else {
@@ -262,11 +251,10 @@ LAB_0601e46a:
         dev_idx = dev_idx + 1;
     } while( 1 );
 }
+void FUN_0601e37c() __attribute__((alias("backup_device_enumerate")));
 
-/* sound_slot_play -- Start sound playback for a slot.
- * Computes slot descriptor at 0x06087094 + (slot * 32),
- * calls BIOS sound open then play via vtable at 0x06000354. */
-int FUN_0601e488(unsigned short slot)
+/* backup_device_open -- Open a backup device slot via BIOS vector table. */
+int backup_device_open(unsigned short slot)
 {
     char *desc = (char *)(0x06087094 + (unsigned int)(slot << 5));
     short sound_id = *(short *)(desc + 0x1C);
@@ -279,16 +267,11 @@ int FUN_0601e488(unsigned short slot)
 
     return 0;
 }
+int FUN_0601e488(unsigned short slot) __attribute__((alias("backup_device_open")));
 
-/* backup_mem_write_all -- Write save data to all available backup devices.
- * Iterates up to device_count (0x06087084) backup devices in array at
- * 0x06087094 (stride 0x20, channel at +0x1C). For each: acquires SMPC
- * bus (cmd 0x1A), calls BIOS device init (vector +4), writes via
- * FUN_0601e764 using save descriptor from 0x0604A57C. Releases SMPC
- * bus (cmd 0x19). Returns first successful device index (0-2) if any
- * write succeeded, or first fallback device index (3+) if write-protect
- * flag set at +0x1E, or 8 if all failed. */
-unsigned int FUN_0601e4d4()
+/* backup_mem_write_all -- Write save data to all backup devices.
+ * Returns first successful device index, or 8 if all failed. */
+unsigned int backup_mem_write_all()
 {
     char *smpc_cmd = (char *)0x2010001F;           /* SMPC command register */
     unsigned char *smpc_sf = (unsigned char *)(0x2010001F + 0x44); /* SMPC SF */
@@ -317,7 +300,7 @@ unsigned int FUN_0601e4d4()
         /* Init device and write save */
         (*(int(*)())(*(int *)(*(int *)0x06000354 + 4)))(
             *(short *)(dev_array + (dev << 5) + 0x1c), 0);
-        int result = FUN_0601e764(
+        int result = backup_mem_write(
             (int)*(short *)(dev_array + (dev << 5) + 0x1c),
             0x0604A57C + (unsigned int)(unsigned char)*(int *)0x060877D8 * 0xc,
             *(int *)0x0605E098);
@@ -359,12 +342,10 @@ unsigned int FUN_0601e4d4()
 
     return idx & 0xff;
 }
+unsigned int FUN_0601e4d4() __attribute__((alias("backup_mem_write_all")));
 
-/* bios_sound_poll -- Poll BIOS sound handler up to 10 times.
- * Reads function pointer from BIOS vector table (0x06000354 → vtable+8),
- * calls it with param_1. Returns 0 on first success, or last error
- * code if all 10 attempts fail. */
-int FUN_0601e6a4(int param_1)
+/* bios_sound_poll -- Poll BIOS handler up to 10 times, return 0 on success. */
+int bios_sound_poll(int param_1)
 {
   int *bios_vec = (int *)0x06000354;       /* BIOS vector table pointer */
   int result;
@@ -378,13 +359,11 @@ int FUN_0601e6a4(int param_1)
 
   return result;
 }
+int FUN_0601e6a4(int param_1) __attribute__((alias("bios_sound_poll")));
 
-/* backup_mem_write -- Write data to backup memory device via BIOS.
- * Truncates data to 11 bytes if longer. Acquires SMPC bus (cmd 0x1A),
- * calls BIOS save function via vector table at 0x06000354 (+0x14),
- * using device channel from 0x06087094 array (stride 0x20, offset +0x1C).
- * Releases SMPC bus (cmd 0x19) when done. */
-int FUN_0601e764(param_1, param_2, param_3)
+/* backup_mem_write -- Write data to backup memory via BIOS.
+ * Truncates filename to 11 chars, acquires SMPC bus, calls BIOS save. */
+int backup_mem_write(param_1, param_2, param_3)
     unsigned short param_1;
     int param_2;
     int param_3;
@@ -417,13 +396,11 @@ int FUN_0601e764(param_1, param_2, param_3)
 
     return result;
 }
+int FUN_0601e764() __attribute__((alias("backup_mem_write")));
 
 /* backup_mem_read -- Read save data from backup memory via BIOS.
- * Truncates filename (param_2) to 11 chars if longer. Also truncates
- * the channel-specific label at 0x0605E06C to 10 chars. Builds a
- * save descriptor at 0x060877B4 with filename and label copies, then
- * acquires SMPC bus and calls BIOS read function (vector +0x10). */
-int FUN_0601e810(param_1, param_2, param_3)
+ * Truncates filename/label, builds save descriptor, acquires SMPC bus. */
+int backup_mem_read(param_1, param_2, param_3)
     unsigned short param_1;
     int param_2;
     int param_3;
@@ -447,7 +424,7 @@ int FUN_0601e810(param_1, param_2, param_3)
     }
 
     /* Build save descriptor */
-    FUN_0601f4b4(0x060877E8);
+    bcd_timestamp_decode(0x060877E8);
     char *desc = (char *)0x060877B4;
     (*(int(*)())0x06035C08)(0x060877B4, param_2);       /* strcpy filename */
     (*(int(*)())0x06035C08)(desc + 0xc,
@@ -478,15 +455,11 @@ int FUN_0601e810(param_1, param_2, param_3)
 
     return result;
 }
+int FUN_0601e810() __attribute__((alias("backup_mem_read")));
 
-/* save_data_load_or_create -- Load save data, creating new save if needed.
- * Reads state byte from 0x0605E05D. If state==0: formats backup memory,
- * validates CD track, and attempts to read save data. If read succeeds
- * and data matches reference pattern (0x0604A5AC, 16 bytes), calls
- * FUN_0601ebda to finalize. On mismatch or failure, sets error state (8)
- * and calls error handler at 0x0601F8BC. If track invalid, marks channel
- * inactive and sets state 4. Otherwise resets state to 0. */
-int FUN_0601e958()
+/* save_data_load_or_create -- Load save data, creating new if needed.
+ * Formats backup, validates CD track, reads save, verifies pattern. */
+int save_data_load_or_create()
 {
     char *state_ptr     = (char *)0x0605E05C;   /* save operation state */
     char *error_handler = (char *)0x0601F8BC;   /* error recovery function */
@@ -496,11 +469,11 @@ int FUN_0601e958()
     result = (int)(char)*(int *)0x0605E05D;     /* current state byte */
 
     if (result == 0) {
-        FUN_0601e2b4();                          /* format backup memory */
+        backup_mem_format();                     /* format backup memory */
 
         char *channel_ptr = (char *)0x060877D8;
         unsigned char ch = (unsigned char)*(int *)0x060877D8;
-        unsigned char track_status = FUN_0601e4d4(0x0604A57C + (unsigned int)ch * 0xc);
+        unsigned char track_status = backup_mem_write_all(0x0604A57C + (unsigned int)ch * 0xc);
 
         if (track_status < 7) {
             ((int *)0x060877DD)[ch] = 1;         /* mark channel active */
@@ -509,13 +482,13 @@ int FUN_0601e958()
                 /* Deferred track: load and validate */
                 ((int *)0x060877D9)[ch] = track_status - 3;
                 FUN_0601eb70();
-                result = FUN_0601f40c();
+                result = cdda_replay_check();
                 return result;
             }
 
             /* Immediate track: attempt save read */
             ((int *)0x060877D9)[ch] = track_status;
-            result = FUN_0601e764(((int *)0x060877D9)[ch],
+            result = backup_mem_write(((int *)0x060877D9)[ch],
                                   0x0604A57C + (unsigned int)(unsigned char)*channel_ptr * 0xc,
                                   *(int *)playback_ptr);
 
@@ -553,19 +526,16 @@ int FUN_0601e958()
     }
     return result;
 }
+int FUN_0601e958() __attribute__((alias("save_data_load_or_create")));
 
-/* cd_track_validate -- Validate current CD audio track and set play state.
- * Reads channel from 0x060877D8, calls FUN_0601e4d4 with track descriptor
- * (0x0604A57C + channel * 0xC). If result < 7, marks channel active and
- * stores track ID (shifted by -3 if >= 3). Returns 1 if track ID < 3
- * (immediate play), 0 otherwise. */
-int FUN_0601eaa0()
+/* cd_track_validate -- Validate CD audio track, mark channel active/inactive. */
+int cd_track_validate()
 {
     char *channel_ptr = (char *)0x060877D8;
     int result = 0;
     unsigned char ch = (unsigned char)*(int *)0x060877D8;
 
-    unsigned char track_status = FUN_0601e4d4(0x0604A57C + (unsigned int)ch * 0xc);
+    unsigned char track_status = backup_mem_write_all(0x0604A57C + (unsigned int)ch * 0xc);
 
     if (track_status < 7) {
         ((int *)0x060877DD)[ch] = 1;            /* mark channel active */
@@ -580,19 +550,19 @@ int FUN_0601eaa0()
     }
     return result;
 }
+int FUN_0601eaa0() __attribute__((alias("cd_track_validate")));
 
-/* cd_track_play_if_active -- Play CD audio track if channel is marked active.
- * Checks active-flag array at 0x060877DD indexed by current channel (0x060877D8).
- * If active, calls track player with channel-ID, track descriptor, and playback state. */
-void FUN_0601eb1c(void)
+/* cd_track_play_if_active -- Play CD audio track if channel is active. */
+void cd_track_play_if_active(void)
 {
     unsigned char ch = (unsigned char)*(int *)0x060877D8;
     if (((int *)0x060877DD)[ch] != '\0') {
-        FUN_0601e810(((int *)0x060877D9)[ch],
+        backup_mem_read(((int *)0x060877D9)[ch],
                      0x0604A57C + (unsigned int)ch * 0xC,
                      *(int *)0x0605E098);
     }
 }
+void FUN_0601eb1c(void) __attribute__((alias("cd_track_play_if_active")));
 
 /* save_data_template_init -- Initialize save data buffer from template.
  * When save state (0x06087080) is 0: clears the save buffer at
@@ -1088,18 +1058,14 @@ char * FUN_0601efc4()
   return result;
 }
 
-/* cdda_replay_check -- Check if CD audio track needs replay.
- * Reads current track index from 0x060877D8, checks enable flag in
- * table at 0x060877DD. If enabled, stops current playback (FUN_0601efc4),
- * starts new session via FUN_0601e810 with track descriptor from table
- * at 0x0604A57C (12 bytes per entry). On failure, sets error state 0xC. */
-int FUN_0601f40c(void)
+/* cdda_replay_check -- Check if CD audio needs replay, restart if enabled. */
+int cdda_replay_check(void)
 {
   char *track_idx = (char *)0x060877D8;
 
   if (((int *)0x060877DD)[(unsigned char)*track_idx] != '\0') {
     FUN_0601efc4();
-    int result = FUN_0601e810(((int *)0x060877D9)[(unsigned char)*track_idx],
+    int result = backup_mem_read(((int *)0x060877D9)[(unsigned char)*track_idx],
                               0x0604A57C + (unsigned int)(unsigned char)*track_idx * 0xc,
                               *(int *)0x0605E098);
     if (result != 0) {
@@ -1110,12 +1076,10 @@ int FUN_0601f40c(void)
   }
   return 0;
 }
+int FUN_0601f40c(void) __attribute__((alias("cdda_replay_check")));
 
-/* bcd_timestamp_decode -- Decode BCD-encoded CD-ROM timestamp to binary.
- * Reads 7-byte BCD timestamp from CD status block (0x060A4C98) and converts
- * to binary output: param_1[0]=year, [1]=day_lo, [2]=hour, [3]=minute,
- * [4]=second, [5]=day_hi. Each BCD byte split into high*10+low nibbles. */
-void FUN_0601f4b4(char *param_1)
+/* bcd_timestamp_decode -- Decode BCD-encoded CD timestamp to binary. */
+void bcd_timestamp_decode(char *param_1)
 {
   int base = *(int *)0x060A4C98;
   *(int *)0x060877E4 = base;                /* cache timestamp pointer */
@@ -1138,12 +1102,11 @@ void FUN_0601f4b4(char *param_1)
   param_1[3] = (min & 0xf) + (char)((int)(unsigned int)min >> 4) * '\n';
   param_1[4] = (sec & 0xf) + (char)((int)(unsigned int)sec >> 4) * '\n';
 }
+void FUN_0601f4b4(char *param_1) __attribute__((alias("bcd_timestamp_decode")));
 
 /* save_score_check_update -- Check and update high score in save data.
- * Copies current score from save buffer, compares against best score at 0x060786A4.
- * On new high score: writes score, fills table with 0x40/0x80 pairs, writes player initials
- * (defaults to "DAY" if no name entry), reformats and validates save data. */
-int FUN_0601f5e0()
+ * Compares current vs saved score, updates on new high, defaults to "DAY". */
+int save_score_check_update()
 {
   char *save_data;
   char *temp_score;
@@ -1153,7 +1116,7 @@ int FUN_0601f5e0()
   unsigned int table_end;
   save_data = (char *)0x0607ED90;
   table_end = (unsigned int)DAT_0601f6ba;
-  FUN_0601f87a(0);
+  cdda_buffer_select(0);
   (*(int(*)())0x0601E2B4)();            /* format save buffer */
   (*(int(*)())0x0601EB70)();            /* validate track data */
   (*(int(*)())0x0601F40C)();            /* checksum update */
@@ -1184,7 +1147,7 @@ int FUN_0601f5e0()
         save_data[slot] = 0x40;
         save_data[slot + 1] = 0x80;
       }
-      FUN_0601f87a(CAR_COUNT + 1U & 0xff);
+      cdda_buffer_select(CAR_COUNT + 1U & 0xff);
       /* Write player initials (3 chars at 11-byte entry stride) */
       temp_score = (char *)0x060877D8;
       save_data = (char *)0x0605E06C;
@@ -1214,14 +1177,11 @@ int FUN_0601f5e0()
   }
   return result;
 }
+int FUN_0601f5e0() __attribute__((alias("save_score_check_update")));
 
-/* save_data_write_validate -- Write and validate save data to backup device.
- * Only active when game mode byte (0x06078635) is set. Prepares car count
- * via FUN_0601f87a, formats backup (0x0601E2B4), validates CD track
- * (0x0601EAA0). If validation passes and save state allows, writes data
- * via FUN_06027630 using course-specific size (0x0607EAD8 selects course).
- * Fills unused buffer bytes with 0x40/0x80 pattern, clears dirty flag. */
-unsigned int FUN_0601f784()
+/* save_data_write_validate -- Write and validate save data to backup.
+ * Prepares car count, formats backup, validates CD track, writes data. */
+unsigned int save_data_write_validate()
 {
     int *course_sel = (int *)0x0607EAD8;
     char *save_buf = (char *)0x0607ED90;
@@ -1229,7 +1189,7 @@ unsigned int FUN_0601f784()
     unsigned int result = 0;
 
     if (*(int *)0x06078635 != '\0') {
-        FUN_0601f87a(CAR_COUNT + 1U & 0xff);
+        cdda_buffer_select(CAR_COUNT + 1U & 0xff);
         (*(int(*)())0x0601E2B4)();                 /* backup_mem_format */
         result = (*(int(*)())0x0601EAA0)();        /* cd_track_validate */
         result = result & 0xff;
@@ -1264,11 +1224,10 @@ unsigned int FUN_0601f784()
 
     return result;
 }
+unsigned int FUN_0601f784() __attribute__((alias("save_data_write_validate")));
 
-/* cdda_buffer_select -- Select CD audio buffer bank (A or B).
- * param_1=0: use buffer A at 0x060A0FA8, param_1!=0: use buffer B at 0x0607ED90.
- * Stores selection at 0x060877D8 and sets active buffer pointer at 0x0605E098. */
-void FUN_0601f87a(unsigned char param_1)
+/* cdda_buffer_select -- Select CD audio buffer bank (A or B). */
+void cdda_buffer_select(unsigned char param_1)
 {
   *(unsigned char *)0x060877D8 = param_1;
 
@@ -1280,6 +1239,7 @@ void FUN_0601f87a(unsigned char param_1)
     *(char *)0x06087080 = 1;
   }
 }
+void FUN_0601f87a(unsigned char param_1) __attribute__((alias("cdda_buffer_select")));
 
 /* nop_f8bc -- Placeholder / stripped function (no-op). */
 void FUN_0601f8bc(void)
@@ -1295,8 +1255,8 @@ int FUN_0601f8c0(void) { return FUN_0601F8C0(); }
 extern int FUN_0601F900(void);
 int FUN_0601f900(void) { return FUN_0601F900(); }
 
-/* standings_screen_render -- render race results/standings with layout variant per game mode */
-void FUN_0601f9cc()
+/* standings_screen_render -- Render race standings with layout per game mode. */
+void standings_screen_render()
 {
   short final_y;
   char layout_mode;
@@ -1431,11 +1391,10 @@ LAB_0601fcd4:
 
   return;
 }
+void FUN_0601f9cc() __attribute__((alias("standings_screen_render")));
 
-/* mode_transition_vdp_reset -- Reset VDP state for mode transition.
- * Forces right-direction input, reinits VDP1 textures/palette,
- * clears render state and command buffer. */
-void FUN_0601fd20(void)
+/* mode_transition_vdp_reset -- Reset VDP state for mode transition. */
+void mode_transition_vdp_reset(void)
 {
     INPUT_STATE |= 4;
     vdp1_texture_palette_init();
@@ -1445,6 +1404,7 @@ void FUN_0601fd20(void)
     VDP1_CMD_BASE_PTR = 0;
     VBLANK_OUT_COUNTER = 0;
 }
+void FUN_0601fd20() __attribute__((alias("mode_transition_vdp_reset")));
 
 /* FUN_0601fd74: L2 version in mode_dispatch.c */
 extern void FUN_0601FD74(void);
@@ -1455,7 +1415,7 @@ void FUN_0601fd74(void) { FUN_0601FD74(); }
  * [1]=frame_count, [2]=course_id, [3]=data_start. Iterates each car,
  * assigning car struct pointers (stride 0x268 at 0x06078900) into
  * 0x0607E940, then calls FUN_0601fec0 to load per-car replay data. */
-void FUN_0601fe20()
+void replay_car_state_load()
 {
     char *car_count_ptr = (char *)0x0607EA98;   /* replay car count */
     char *car_base      = (char *)0x06078900;   /* car struct array */
@@ -1474,13 +1434,14 @@ void FUN_0601fe20()
 
     for (car_idx = 0; car_idx <= *(unsigned int *)car_count_ptr; car_idx = car_idx + 1) {
         *(char **)car_ptr_slot = car_base + car_idx * car_stride;
-        FUN_0601fec0(data_ptr);
+        car_replay_state_init(data_ptr);
         data_ptr = data_ptr + 8;
     }
 
     (*(int(*)())0x0600D280)();                  /* post-load finalize */
     *(short *)0x06087804 = 2;                   /* set replay state = active */
 }
+void FUN_0601fe20() __attribute__((alias("replay_car_state_load")));
 
 /* car_replay_state_init -- Initialize car from replay data record.
  * Reads speed (param_1[0] >> 1), heading (param_1[1]), and steering
@@ -1489,7 +1450,7 @@ void FUN_0601fe20()
  * Samples track spline via FUN_0600CB90 to get XYZ position (+0x10..+0x18)
  * and rotation (+0x1C..+0x24). Copies rotation to physics state at
  * +0x1A4..+0x1B0. Increments lap counter at +0x1EC, wraps if needed. */
-void FUN_0601fec0(param_1)
+void car_replay_state_init(param_1)
     unsigned short *param_1;
 {
     char *spline_buf = (char *)0x06078680;
@@ -1542,3 +1503,4 @@ void FUN_0601fec0(param_1)
     }
     *(int *)(car + DAT_0601ff8a + -8) = *(int *)(car + DAT_0601ff8a);
 }
+void FUN_0601fec0() __attribute__((alias("car_replay_state_init")));
