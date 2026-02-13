@@ -596,32 +596,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       puVar14 = *(unsigned int **)0x06089EDC;
       uVar7 = *puVar14;
       uVar19 = *puVar13;
-      uVar20 = uVar7 ^ uVar19;
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      if ((int)uVar19 < 0) {
-        uVar19 = -uVar19;
-      }
-      uVar2 = (uVar19 & 0xffff) * (uVar7 & 0xffff);
-      iVar9 = (uVar19 >> 0x10) * (uVar7 & 0xffff);
-      iVar8 = 0;
-      uVar1 = iVar9 + (uVar19 & 0xffff) * (uVar7 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar21 = uVar2 + (uVar1 << 16);
-      uVar19 = iVar8 + (unsigned int)(uVar21 < uVar2) + (uVar1 >> 0x10) + (uVar19 >> 0x10) * (uVar7 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar20 < 0) < 0) {
-        uVar19 = ~uVar19;
-        if (uVar21 == 0) {
-          uVar19 = uVar19 + 1;
-        }
-        else {
-          uVar21 = ~uVar21 + 1;
-        }
-      }
+      { long long _m47 = (long long)(int)uVar7 * (int)uVar19;
+        uVar19 = (unsigned int)((unsigned long long)_m47 >> 32);
+        uVar21 = (unsigned int)_m47; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         if ((int)uVar19 < -0x8000) {
           uVar19 = 0xffff8000;
@@ -635,32 +612,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[1];
       uVar7 = puVar13[1];
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar23 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar26 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m46 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m46 >> 32);
+        uVar26 = (unsigned int)_m46; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         uVar26 = uVar21 + uVar26;
         uVar19 = uVar7 + (uVar26 < uVar21) + (uVar19 & 0xffff);
@@ -680,32 +634,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[2];
       uVar7 = puVar13[2];
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar23 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m45 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m45 >> 32);
+        uVar23 = (unsigned int)_m45; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         uVar23 = uVar26 + uVar23;
         uVar19 = uVar7 + (uVar23 < uVar26) + (uVar19 & 0xffff);
@@ -725,32 +656,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[3];
       uVar7 = *puVar13;
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar26 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar26 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m44 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m44 >> 32);
+        uVar26 = (unsigned int)_m44; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         if ((int)uVar7 < -0x8000) {
           uVar7 = 0xffff8000;
@@ -764,32 +672,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[4];
       uVar20 = puVar13[1];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar24 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar22 = uVar24 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar22 < uVar24) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar22 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar22 = ~uVar22 + 1;
-        }
-      }
+      { long long _m43 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m43 >> 32);
+        uVar22 = (unsigned int)_m43; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         uVar22 = uVar26 + uVar22;
         uVar7 = uVar20 + (uVar22 < uVar26) + (uVar7 & 0xffff);
@@ -810,32 +695,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)0x0608A70C = (uVar19 << 0x10 | uVar23 >> 0x10) + puVar14[9];
       uVar20 = puVar14[5];
       uVar19 = puVar13[2];
-      uVar1 = uVar20 ^ uVar19;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar19 < 0) {
-        uVar19 = -uVar19;
-      }
-      uVar21 = (uVar19 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar19 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar19 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar19 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) +
-               (uVar19 >> 0x10) * (uVar20 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar19 = ~uVar19;
-        if (uVar23 == 0) {
-          uVar19 = uVar19 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m42 = (long long)(int)uVar20 * (int)uVar19;
+        uVar19 = (unsigned int)((unsigned long long)_m42 >> 32);
+        uVar23 = (unsigned int)_m42; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         uVar23 = uVar22 + uVar23;
         uVar7 = uVar19 + (uVar23 < uVar22) + (uVar7 & 0xffff);
@@ -855,32 +717,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[6];
       uVar19 = *puVar13;
-      uVar1 = uVar20 ^ uVar19;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar19 < 0) {
-        uVar19 = -uVar19;
-      }
-      uVar21 = (uVar19 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar19 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar19 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar21 + (uVar2 << 16);
-      uVar19 = iVar8 + (unsigned int)(uVar26 < uVar21) + (uVar2 >> 0x10) +
-               (uVar19 >> 0x10) * (uVar20 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar19 = ~uVar19;
-        if (uVar26 == 0) {
-          uVar19 = uVar19 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m41 = (long long)(int)uVar20 * (int)uVar19;
+        uVar19 = (unsigned int)((unsigned long long)_m41 >> 32);
+        uVar26 = (unsigned int)_m41; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         if ((int)uVar19 < -0x8000) {
           uVar19 = 0xffff8000;
@@ -894,32 +733,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[7];
       uVar20 = puVar13[1];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar24 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar22 = uVar24 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar22 < uVar24) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar22 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar22 = ~uVar22 + 1;
-        }
-      }
+      { long long _m40 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m40 >> 32);
+        uVar22 = (unsigned int)_m40; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         uVar22 = uVar26 + uVar22;
         uVar19 = uVar20 + (uVar22 < uVar26) + (uVar19 & 0xffff);
@@ -940,32 +756,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)(puVar3 + 4) = (uVar7 << 0x10 | uVar23 >> 0x10) + puVar14[10];
       uVar20 = puVar14[8];
       uVar7 = puVar13[2];
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar23 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m39 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m39 >> 32);
+        uVar23 = (unsigned int)_m39; }
       if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
         uVar23 = uVar22 + uVar23;
         uVar19 = uVar7 + (uVar23 < uVar22) + (uVar19 & 0xffff);
@@ -992,32 +785,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         puVar13 = *(unsigned int **)0x06089EDC;
         uVar20 = *puVar13;
         uVar7 = *puVar16;
-        uVar1 = uVar20 ^ uVar7;
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        if ((int)uVar7 < 0) {
-          uVar7 = -uVar7;
-        }
-        uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-        iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-        iVar8 = 0;
-        uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar23 = uVar21 + (uVar2 << 16);
-        uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) +
-                (uVar7 >> 0x10) * (uVar20 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-          uVar7 = ~uVar7;
-          if (uVar23 == 0) {
-            uVar7 = uVar7 + 1;
-          }
-          else {
-            uVar23 = ~uVar23 + 1;
-          }
-        }
+        { long long _m38 = (long long)(int)uVar20 * (int)uVar7;
+          uVar7 = (unsigned int)((unsigned long long)_m38 >> 32);
+          uVar23 = (unsigned int)_m38; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           if ((int)uVar7 < -0x8000) {
             uVar7 = 0xffff8000;
@@ -1031,32 +801,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = puVar13[1];
         uVar20 = puVar15[-5];
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar26 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar24 = uVar26 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar24 < uVar26) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar24 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar24 = ~uVar24 + 1;
-          }
-        }
+        { long long _m37 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m37 >> 32);
+          uVar24 = (unsigned int)_m37; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar24 = uVar23 + uVar24;
           uVar7 = uVar20 + (uVar24 < uVar23) + (uVar7 & 0xffff);
@@ -1076,32 +823,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = puVar13[2];
         uVar20 = puVar15[-4];
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar26 = uVar23 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar26 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar26 = ~uVar26 + 1;
-          }
-        }
+        { long long _m36 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m36 >> 32);
+          uVar26 = (unsigned int)_m36; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar26 = uVar24 + uVar26;
           uVar7 = uVar20 + (uVar26 < uVar24) + (uVar7 & 0xffff);
@@ -1121,32 +845,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = puVar13[3];
         uVar20 = *puVar16;
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar24 = uVar23 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar24 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar24 = ~uVar24 + 1;
-          }
-        }
+        { long long _m35 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m35 >> 32);
+          uVar24 = (unsigned int)_m35; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           if ((int)uVar20 < -0x8000) {
             uVar20 = 0xffff8000;
@@ -1161,32 +862,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         *(unsigned int *)0x0608A73C = uVar7 << 0x10 | uVar26 >> 0x10;
         uVar1 = puVar13[4];
         uVar7 = puVar15[-5];
-        uVar2 = uVar1 ^ uVar7;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar7 < 0) {
-          uVar7 = -uVar7;
-        }
-        uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar26 = uVar23 + (uVar21 << 16);
-        uVar7 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-                (uVar7 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar7 = ~uVar7;
-          if (uVar26 == 0) {
-            uVar7 = uVar7 + 1;
-          }
-          else {
-            uVar26 = ~uVar26 + 1;
-          }
-        }
+        { long long _m34 = (long long)(int)uVar1 * (int)uVar7;
+          uVar7 = (unsigned int)((unsigned long long)_m34 >> 32);
+          uVar26 = (unsigned int)_m34; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar26 = uVar24 + uVar26;
           uVar20 = uVar7 + (uVar26 < uVar24) + (uVar20 & 0xffff);
@@ -1206,32 +884,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = puVar13[5];
         uVar7 = puVar15[-4];
-        uVar2 = uVar1 ^ uVar7;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar7 < 0) {
-          uVar7 = -uVar7;
-        }
-        uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar24 = uVar23 + (uVar21 << 16);
-        uVar7 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) +
-                (uVar7 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar7 = ~uVar7;
-          if (uVar24 == 0) {
-            uVar7 = uVar7 + 1;
-          }
-          else {
-            uVar24 = ~uVar24 + 1;
-          }
-        }
+        { long long _m33 = (long long)(int)uVar1 * (int)uVar7;
+          uVar7 = (unsigned int)((unsigned long long)_m33 >> 32);
+          uVar24 = (unsigned int)_m33; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar24 = uVar26 + uVar24;
           uVar20 = uVar7 + (uVar24 < uVar26) + (uVar20 & 0xffff);
@@ -1251,32 +906,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = puVar13[6];
         uVar7 = *puVar16;
-        uVar2 = uVar1 ^ uVar7;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar7 < 0) {
-          uVar7 = -uVar7;
-        }
-        uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar26 = uVar23 + (uVar21 << 16);
-        uVar7 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-                (uVar7 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar7 = ~uVar7;
-          if (uVar26 == 0) {
-            uVar7 = uVar7 + 1;
-          }
-          else {
-            uVar26 = ~uVar26 + 1;
-          }
-        }
+        { long long _m32 = (long long)(int)uVar1 * (int)uVar7;
+          uVar7 = (unsigned int)((unsigned long long)_m32 >> 32);
+          uVar26 = (unsigned int)_m32; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           if ((int)uVar7 < -0x8000) {
             uVar7 = 0xffff8000;
@@ -1291,32 +923,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         *(unsigned int *)(puVar3 + 4) = uVar20 << 0x10 | uVar24 >> 0x10;
         uVar1 = puVar13[7];
         uVar20 = puVar15[-5];
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar24 = uVar23 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar24 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar24 = ~uVar24 + 1;
-          }
-        }
+        { long long _m31 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m31 >> 32);
+          uVar24 = (unsigned int)_m31; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar24 = uVar26 + uVar24;
           uVar7 = uVar20 + (uVar24 < uVar26) + (uVar7 & 0xffff);
@@ -1336,32 +945,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = puVar13[8];
         uVar20 = puVar15[-4];
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar26 = uVar23 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar26 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar26 = ~uVar26 + 1;
-          }
-        }
+        { long long _m30 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m30 >> 32);
+          uVar26 = (unsigned int)_m30; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar26 = uVar24 + uVar26;
           uVar7 = uVar20 + (uVar26 < uVar24) + (uVar7 & 0xffff);
@@ -1382,32 +968,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         *(unsigned int *)(puVar3 + 8) = uVar7 << 0x10 | uVar26 >> 0x10;
         uVar20 = *(unsigned int *)puVar3;
         uVar7 = *(unsigned int *)0x0608A70C;
-        uVar1 = uVar20 ^ uVar7;
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        if ((int)uVar7 < 0) {
-          uVar7 = -uVar7;
-        }
-        uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-        iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-        iVar8 = 0;
-        uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar23 = uVar21 + (uVar2 << 16);
-        uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) +
-                (uVar7 >> 0x10) * (uVar20 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-          uVar7 = ~uVar7;
-          if (uVar23 == 0) {
-            uVar7 = uVar7 + 1;
-          }
-          else {
-            uVar23 = ~uVar23 + 1;
-          }
-        }
+        { long long _m29 = (long long)(int)uVar20 * (int)uVar7;
+          uVar7 = (unsigned int)((unsigned long long)_m29 >> 32);
+          uVar23 = (unsigned int)_m29; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           if ((int)uVar7 < -0x8000) {
             uVar7 = 0xffff8000;
@@ -1421,32 +984,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = *(unsigned int *)(puVar3 + 4);
         uVar20 = *(unsigned int *)(0x0608A70C + 4);
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar26 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar24 = uVar26 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar24 < uVar26) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar24 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar24 = ~uVar24 + 1;
-          }
-        }
+        { long long _m28 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m28 >> 32);
+          uVar24 = (unsigned int)_m28; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar24 = uVar23 + uVar24;
           uVar7 = uVar20 + (uVar24 < uVar23) + (uVar7 & 0xffff);
@@ -1466,32 +1006,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
         }
         uVar1 = *(unsigned int *)(puVar3 + 8);
         uVar20 = *(unsigned int *)(0x0608A70C + 8);
-        uVar2 = uVar1 ^ uVar20;
-        if ((int)uVar1 < 0) {
-          uVar1 = -uVar1;
-        }
-        if ((int)uVar20 < 0) {
-          uVar20 = -uVar20;
-        }
-        uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-        iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-        iVar8 = 0;
-        uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-        if (iVar9 != 0) {
-          iVar8 = 0x10000;
-        }
-        uVar26 = uVar23 + (uVar21 << 16);
-        uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-                 (uVar20 >> 0x10) * (uVar1 >> 0x10);
-        if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-          uVar20 = ~uVar20;
-          if (uVar26 == 0) {
-            uVar20 = uVar20 + 1;
-          }
-          else {
-            uVar26 = ~uVar26 + 1;
-          }
-        }
+        { long long _m27 = (long long)(int)uVar1 * (int)uVar20;
+          uVar20 = (unsigned int)((unsigned long long)_m27 >> 32);
+          uVar26 = (unsigned int)_m27; }
         if (((unsigned char)(uVar18 >> 1) & 1) == 1) {
           uVar26 = uVar24 + uVar26;
           uVar7 = uVar20 + (uVar26 < uVar24) + (uVar7 & 0xffff);
@@ -1518,32 +1035,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       puVar14 = *(unsigned int **)0x06089EDC;
       uVar7 = *puVar14;
       uVar18 = *puVar13;
-      uVar20 = uVar7 ^ uVar18;
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      if ((int)uVar18 < 0) {
-        uVar18 = -uVar18;
-      }
-      uVar2 = (uVar18 & 0xffff) * (uVar7 & 0xffff);
-      iVar9 = (uVar18 >> 0x10) * (uVar7 & 0xffff);
-      iVar8 = 0;
-      uVar1 = iVar9 + (uVar18 & 0xffff) * (uVar7 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar21 = uVar2 + (uVar1 << 16);
-      uVar18 = iVar8 + (unsigned int)(uVar21 < uVar2) + (uVar1 >> 0x10) + (uVar18 >> 0x10) * (uVar7 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar20 < 0) < 0) {
-        uVar18 = ~uVar18;
-        if (uVar21 == 0) {
-          uVar18 = uVar18 + 1;
-        }
-        else {
-          uVar21 = ~uVar21 + 1;
-        }
-      }
+      { long long _m26 = (long long)(int)uVar7 * (int)uVar18;
+        uVar18 = (unsigned int)((unsigned long long)_m26 >> 32);
+        uVar21 = (unsigned int)_m26; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar18 < -0x8000) {
           uVar18 = 0xffff8000;
@@ -1557,32 +1051,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[1];
       uVar7 = puVar13[1];
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar23 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar26 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m25 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m25 >> 32);
+        uVar26 = (unsigned int)_m25; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar21 + uVar26;
         uVar18 = uVar7 + (uVar26 < uVar21) + (uVar18 & 0xffff);
@@ -1602,32 +1073,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[2];
       uVar7 = puVar13[2];
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar23 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m24 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m24 >> 32);
+        uVar23 = (unsigned int)_m24; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar23 = uVar26 + uVar23;
         uVar18 = uVar7 + (uVar23 < uVar26) + (uVar18 & 0xffff);
@@ -1647,32 +1095,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[3];
       uVar7 = *puVar13;
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar26 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar26 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m23 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m23 >> 32);
+        uVar26 = (unsigned int)_m23; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar7 < -0x8000) {
           uVar7 = 0xffff8000;
@@ -1686,32 +1111,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[4];
       uVar20 = puVar13[1];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar24 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar22 = uVar24 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar22 < uVar24) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar22 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar22 = ~uVar22 + 1;
-        }
-      }
+      { long long _m22 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m22 >> 32);
+        uVar22 = (unsigned int)_m22; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar22 = uVar26 + uVar22;
         uVar7 = uVar20 + (uVar22 < uVar26) + (uVar7 & 0xffff);
@@ -1732,32 +1134,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)0x0608A718 = (uVar18 << 0x10 | uVar23 >> 0x10) + puVar14[9];
       uVar20 = puVar14[5];
       uVar18 = puVar13[2];
-      uVar1 = uVar20 ^ uVar18;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar18 < 0) {
-        uVar18 = -uVar18;
-      }
-      uVar21 = (uVar18 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar18 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar18 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar18 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) +
-               (uVar18 >> 0x10) * (uVar20 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar18 = ~uVar18;
-        if (uVar23 == 0) {
-          uVar18 = uVar18 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m21 = (long long)(int)uVar20 * (int)uVar18;
+        uVar18 = (unsigned int)((unsigned long long)_m21 >> 32);
+        uVar23 = (unsigned int)_m21; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar23 = uVar22 + uVar23;
         uVar7 = uVar18 + (uVar23 < uVar22) + (uVar7 & 0xffff);
@@ -1777,32 +1156,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar20 = puVar14[6];
       uVar18 = *puVar13;
-      uVar1 = uVar20 ^ uVar18;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar18 < 0) {
-        uVar18 = -uVar18;
-      }
-      uVar21 = (uVar18 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar18 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar18 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar21 + (uVar2 << 16);
-      uVar18 = iVar8 + (unsigned int)(uVar26 < uVar21) + (uVar2 >> 0x10) +
-               (uVar18 >> 0x10) * (uVar20 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar18 = ~uVar18;
-        if (uVar26 == 0) {
-          uVar18 = uVar18 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m20 = (long long)(int)uVar20 * (int)uVar18;
+        uVar18 = (unsigned int)((unsigned long long)_m20 >> 32);
+        uVar26 = (unsigned int)_m20; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar18 < -0x8000) {
           uVar18 = 0xffff8000;
@@ -1816,32 +1172,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[7];
       uVar20 = puVar13[1];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar24 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar22 = uVar24 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar22 < uVar24) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar22 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar22 = ~uVar22 + 1;
-        }
-      }
+      { long long _m19 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m19 >> 32);
+        uVar22 = (unsigned int)_m19; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar22 = uVar26 + uVar22;
         uVar18 = uVar20 + (uVar22 < uVar26) + (uVar18 & 0xffff);
@@ -1862,32 +1195,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)(puVar3 + 4) = (uVar7 << 0x10 | uVar23 >> 0x10) + puVar14[10];
       uVar20 = puVar14[8];
       uVar7 = puVar13[2];
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar23 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m18 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m18 >> 32);
+        uVar23 = (unsigned int)_m18; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar23 = uVar22 + uVar23;
         uVar18 = uVar7 + (uVar23 < uVar22) + (uVar18 & 0xffff);
@@ -1913,32 +1223,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       puVar14 = *(unsigned int **)0x06089EDC;
       uVar20 = *puVar14;
       uVar7 = *puVar13;
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar23 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m17 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m17 >> 32);
+        uVar23 = (unsigned int)_m17; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar7 < -0x8000) {
           uVar7 = 0xffff8000;
@@ -1952,32 +1239,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[1];
       uVar20 = puVar13[1];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar26 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar24 = uVar26 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar24 < uVar26) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar24 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar24 = ~uVar24 + 1;
-        }
-      }
+      { long long _m16 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m16 >> 32);
+        uVar24 = (unsigned int)_m16; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar24 = uVar23 + uVar24;
         uVar7 = uVar20 + (uVar24 < uVar23) + (uVar7 & 0xffff);
@@ -1997,32 +1261,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[2];
       uVar20 = puVar13[2];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar26 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m15 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m15 >> 32);
+        uVar26 = (unsigned int)_m15; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar24 + uVar26;
         uVar7 = uVar20 + (uVar26 < uVar24) + (uVar7 & 0xffff);
@@ -2042,32 +1283,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[3];
       uVar20 = *puVar13;
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar24 = uVar23 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar24 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar24 = ~uVar24 + 1;
-        }
-      }
+      { long long _m14 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m14 >> 32);
+        uVar24 = (unsigned int)_m14; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar20 < -0x8000) {
           uVar20 = 0xffff8000;
@@ -2081,32 +1299,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar2 = puVar14[4];
       uVar1 = puVar13[1];
-      uVar21 = uVar2 ^ uVar1;
-      if ((int)uVar2 < 0) {
-        uVar2 = -uVar2;
-      }
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      uVar22 = (uVar1 & 0xffff) * (uVar2 & 0xffff);
-      iVar9 = (uVar1 >> 0x10) * (uVar2 & 0xffff);
-      iVar8 = 0;
-      uVar23 = iVar9 + (uVar1 & 0xffff) * (uVar2 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar25 = uVar22 + (uVar23 << 16);
-      uVar1 = iVar8 + (unsigned int)(uVar25 < uVar22) + (uVar23 >> 0x10) + (uVar1 >> 0x10) * (uVar2 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar21 < 0) < 0) {
-        uVar1 = ~uVar1;
-        if (uVar25 == 0) {
-          uVar1 = uVar1 + 1;
-        }
-        else {
-          uVar25 = ~uVar25 + 1;
-        }
-      }
+      { long long _m13 = (long long)(int)uVar2 * (int)uVar1;
+        uVar1 = (unsigned int)((unsigned long long)_m13 >> 32);
+        uVar25 = (unsigned int)_m13; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar25 = uVar24 + uVar25;
         uVar20 = uVar1 + (uVar25 < uVar24) + (uVar20 & 0xffff);
@@ -2127,32 +1322,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)0x0608A724 = (uVar7 << 0x10 | uVar26 >> 0x10) + puVar14[9];
       uVar1 = puVar14[5];
       uVar7 = puVar13[2];
-      uVar2 = uVar1 ^ uVar7;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar21 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) + (uVar7 >> 0x10) * (uVar1 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar26 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m12 = (long long)(int)uVar1 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m12 >> 32);
+        uVar26 = (unsigned int)_m12; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar25 + uVar26;
         uVar20 = uVar7 + (uVar26 < uVar25) + (uVar20 & 0xffff);
@@ -2172,32 +1344,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[6];
       uVar7 = *puVar13;
-      uVar2 = uVar1 ^ uVar7;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar24 = uVar23 + (uVar21 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) + (uVar7 >> 0x10) * (uVar1 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar24 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar24 = ~uVar24 + 1;
-        }
-      }
+      { long long _m11 = (long long)(int)uVar1 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m11 >> 32);
+        uVar24 = (unsigned int)_m11; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar7 < -0x8000) {
           uVar7 = 0xffff8000;
@@ -2211,32 +1360,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar2 = puVar14[7];
       uVar1 = puVar13[1];
-      uVar21 = uVar2 ^ uVar1;
-      if ((int)uVar2 < 0) {
-        uVar2 = -uVar2;
-      }
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      uVar22 = (uVar1 & 0xffff) * (uVar2 & 0xffff);
-      iVar9 = (uVar1 >> 0x10) * (uVar2 & 0xffff);
-      iVar8 = 0;
-      uVar23 = iVar9 + (uVar1 & 0xffff) * (uVar2 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar25 = uVar22 + (uVar23 << 16);
-      uVar1 = iVar8 + (unsigned int)(uVar25 < uVar22) + (uVar23 >> 0x10) + (uVar1 >> 0x10) * (uVar2 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar21 < 0) < 0) {
-        uVar1 = ~uVar1;
-        if (uVar25 == 0) {
-          uVar1 = uVar1 + 1;
-        }
-        else {
-          uVar25 = ~uVar25 + 1;
-        }
-      }
+      { long long _m10 = (long long)(int)uVar2 * (int)uVar1;
+        uVar1 = (unsigned int)((unsigned long long)_m10 >> 32);
+        uVar25 = (unsigned int)_m10; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar25 = uVar24 + uVar25;
         uVar7 = uVar1 + (uVar25 < uVar24) + (uVar7 & 0xffff);
@@ -2257,32 +1383,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)(puVar3 + 4) = (uVar20 << 0x10 | uVar26 >> 0x10) + puVar14[10];
       uVar1 = puVar14[8];
       uVar20 = puVar13[2];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar26 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m9 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m9 >> 32);
+        uVar26 = (unsigned int)_m9; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar25 + uVar26;
         uVar7 = uVar20 + (uVar26 < uVar25) + (uVar7 & 0xffff);
@@ -2307,32 +1410,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       puVar14 = *(unsigned int **)0x06089EDC;
       uVar20 = *puVar14;
       uVar7 = *puVar13;
-      uVar1 = uVar20 ^ uVar7;
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar21 = (uVar7 & 0xffff) * (uVar20 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar20 & 0xffff);
-      iVar8 = 0;
-      uVar2 = iVar9 + (uVar7 & 0xffff) * (uVar20 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar23 = uVar21 + (uVar2 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar23 < uVar21) + (uVar2 >> 0x10) + (uVar7 >> 0x10) * (uVar20 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar1 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar23 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar23 = ~uVar23 + 1;
-        }
-      }
+      { long long _m8 = (long long)(int)uVar20 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m8 >> 32);
+        uVar23 = (unsigned int)_m8; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar7 < -0x8000) {
           uVar7 = 0xffff8000;
@@ -2346,32 +1426,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[1];
       uVar20 = puVar13[1];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar26 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar24 = uVar26 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar24 < uVar26) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar24 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar24 = ~uVar24 + 1;
-        }
-      }
+      { long long _m7 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m7 >> 32);
+        uVar24 = (unsigned int)_m7; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar24 = uVar23 + uVar24;
         uVar7 = uVar20 + (uVar24 < uVar23) + (uVar7 & 0xffff);
@@ -2391,32 +1448,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[2];
       uVar20 = puVar13[2];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar26 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m6 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m6 >> 32);
+        uVar26 = (unsigned int)_m6; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar24 + uVar26;
         uVar7 = uVar20 + (uVar26 < uVar24) + (uVar7 & 0xffff);
@@ -2436,32 +1470,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[3];
       uVar20 = *puVar13;
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar24 = uVar23 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar24 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar24 = ~uVar24 + 1;
-        }
-      }
+      { long long _m5 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m5 >> 32);
+        uVar24 = (unsigned int)_m5; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar20 < -0x8000) {
           uVar20 = 0xffff8000;
@@ -2475,32 +1486,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar2 = puVar14[4];
       uVar1 = puVar13[1];
-      uVar21 = uVar2 ^ uVar1;
-      if ((int)uVar2 < 0) {
-        uVar2 = -uVar2;
-      }
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      uVar22 = (uVar1 & 0xffff) * (uVar2 & 0xffff);
-      iVar9 = (uVar1 >> 0x10) * (uVar2 & 0xffff);
-      iVar8 = 0;
-      uVar23 = iVar9 + (uVar1 & 0xffff) * (uVar2 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar25 = uVar22 + (uVar23 << 16);
-      uVar1 = iVar8 + (unsigned int)(uVar25 < uVar22) + (uVar23 >> 0x10) + (uVar1 >> 0x10) * (uVar2 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar21 < 0) < 0) {
-        uVar1 = ~uVar1;
-        if (uVar25 == 0) {
-          uVar1 = uVar1 + 1;
-        }
-        else {
-          uVar25 = ~uVar25 + 1;
-        }
-      }
+      { long long _m4 = (long long)(int)uVar2 * (int)uVar1;
+        uVar1 = (unsigned int)((unsigned long long)_m4 >> 32);
+        uVar25 = (unsigned int)_m4; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar25 = uVar24 + uVar25;
         uVar20 = uVar1 + (uVar25 < uVar24) + (uVar20 & 0xffff);
@@ -2521,32 +1509,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)0x0608A730 = (uVar7 << 0x10 | uVar26 >> 0x10) + puVar14[9];
       uVar1 = puVar14[5];
       uVar7 = puVar13[2];
-      uVar2 = uVar1 ^ uVar7;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar21 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) + (uVar7 >> 0x10) * (uVar1 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar26 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m3 = (long long)(int)uVar1 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m3 >> 32);
+        uVar26 = (unsigned int)_m3; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar25 + uVar26;
         uVar20 = uVar7 + (uVar26 < uVar25) + (uVar20 & 0xffff);
@@ -2566,32 +1531,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar1 = puVar14[6];
       uVar7 = *puVar13;
-      uVar2 = uVar1 ^ uVar7;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar7 < 0) {
-        uVar7 = -uVar7;
-      }
-      uVar23 = (uVar7 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar7 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar7 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar24 = uVar23 + (uVar21 << 16);
-      uVar7 = iVar8 + (unsigned int)(uVar24 < uVar23) + (uVar21 >> 0x10) + (uVar7 >> 0x10) * (uVar1 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar7 = ~uVar7;
-        if (uVar24 == 0) {
-          uVar7 = uVar7 + 1;
-        }
-        else {
-          uVar24 = ~uVar24 + 1;
-        }
-      }
+      { long long _m2 = (long long)(int)uVar1 * (int)uVar7;
+        uVar7 = (unsigned int)((unsigned long long)_m2 >> 32);
+        uVar24 = (unsigned int)_m2; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         if ((int)uVar7 < -0x8000) {
           uVar7 = 0xffff8000;
@@ -2605,32 +1547,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       }
       uVar2 = puVar14[7];
       uVar1 = puVar13[1];
-      uVar21 = uVar2 ^ uVar1;
-      if ((int)uVar2 < 0) {
-        uVar2 = -uVar2;
-      }
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      uVar22 = (uVar1 & 0xffff) * (uVar2 & 0xffff);
-      iVar9 = (uVar1 >> 0x10) * (uVar2 & 0xffff);
-      iVar8 = 0;
-      uVar23 = iVar9 + (uVar1 & 0xffff) * (uVar2 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar25 = uVar22 + (uVar23 << 16);
-      uVar1 = iVar8 + (unsigned int)(uVar25 < uVar22) + (uVar23 >> 0x10) + (uVar1 >> 0x10) * (uVar2 >> 0x10)
-      ;
-      if ((int)-(unsigned int)((int)uVar21 < 0) < 0) {
-        uVar1 = ~uVar1;
-        if (uVar25 == 0) {
-          uVar1 = uVar1 + 1;
-        }
-        else {
-          uVar25 = ~uVar25 + 1;
-        }
-      }
+      { long long _m1 = (long long)(int)uVar2 * (int)uVar1;
+        uVar1 = (unsigned int)((unsigned long long)_m1 >> 32);
+        uVar25 = (unsigned int)_m1; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar25 = uVar24 + uVar25;
         uVar7 = uVar1 + (uVar25 < uVar24) + (uVar7 & 0xffff);
@@ -2651,32 +1570,9 @@ unsigned int FUN_06029bf4(param_1, param_2, param_3, param_4)
       *(unsigned int *)(puVar3 + 4) = (uVar20 << 0x10 | uVar26 >> 0x10) + puVar14[10];
       uVar1 = puVar14[8];
       uVar20 = puVar13[2];
-      uVar2 = uVar1 ^ uVar20;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar20 < 0) {
-        uVar20 = -uVar20;
-      }
-      uVar23 = (uVar20 & 0xffff) * (uVar1 & 0xffff);
-      iVar9 = (uVar20 >> 0x10) * (uVar1 & 0xffff);
-      iVar8 = 0;
-      uVar21 = iVar9 + (uVar20 & 0xffff) * (uVar1 >> 0x10);
-      if (iVar9 != 0) {
-        iVar8 = 0x10000;
-      }
-      uVar26 = uVar23 + (uVar21 << 16);
-      uVar20 = iVar8 + (unsigned int)(uVar26 < uVar23) + (uVar21 >> 0x10) +
-               (uVar20 >> 0x10) * (uVar1 >> 0x10);
-      if ((int)-(unsigned int)((int)uVar2 < 0) < 0) {
-        uVar20 = ~uVar20;
-        if (uVar26 == 0) {
-          uVar20 = uVar20 + 1;
-        }
-        else {
-          uVar26 = ~uVar26 + 1;
-        }
-      }
+      { long long _m0 = (long long)(int)uVar1 * (int)uVar20;
+        uVar20 = (unsigned int)((unsigned long long)_m0 >> 32);
+        uVar26 = (unsigned int)_m0; }
       if (((unsigned char)(uVar19 >> 1) & 1) == 1) {
         uVar26 = uVar25 + uVar26;
         uVar7 = uVar20 + (uVar26 < uVar25) + (uVar7 & 0xffff);
