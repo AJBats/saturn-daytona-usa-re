@@ -1021,6 +1021,7 @@ int DAT_0602e5a2 = 0x194;
 int DAT_0602e5a4 = 12;
 int DAT_0602e80a = -0x8000;
 int DAT_0602efe6 = 0x100;
+int DAT_0602f01e = 0;
 int DAT_0602f064 = 176;
 int DAT_0602f066 = 180;
 int DAT_0602f11e = 176;

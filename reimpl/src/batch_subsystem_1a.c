@@ -115,15 +115,6 @@ void FUN_0601a3f4(param_1, param_2)
   return;
 }
 
-/* get_sound_bank_index -- Return sound bank index based on game mode.
- * Mode 0x10 (16 = VS mode) uses bank 0xA8, all others use 0xA9. */
-int FUN_0601a5f8(void)
-{
-    if (*(int *)0x06063D9E == 0x10) {
-        return 0xA8;
-    }
-    return 0xA9;
-}
 
 /* menu_cursor_animate -- Render animated cursor sprite on menu screen.
  * Selection at 0x06085FF0 == 3: uses priority 3, alternate sprite (6 or 7)
@@ -354,48 +345,7 @@ void FUN_0601a940()
                     *(int *)(0x0605D35C + (char)(*select_idx << 3) + 4));
 }
 
-/* course_data_lookup -- Load course-specific data pointers.
- * Computes index from COURSE_SELECT and CAR_COUNT*12 for first lookup.
- * Second lookup uses CAR_COUNT-area value shifted + DEMO_MODE_FLAG
- * to select from course data pointer table at 0x0605DE24. */
-void FUN_0601ab8c(void)
-{
-    *(int *)0x06086004 =
-        *(int *)(0x0605DE40 + (COURSE_SELECT << 2) + (int)(char)((char)CAR_COUNT * '\f'));
 
-    *(int *)0x06086008 =
-        *(int *)(*(int *)(0x0605DE24 + ((*(int *)0x0607EAD8 << 1) + DEMO_MODE_FLAG) << 2) + 4);
-}
-
-/* record_check_init -- Initialize record-checking state.
- * Clears all record flags, updates best records via best_record_update.
- * Sets lap-record flag if current lap time beats stored best.
- * Sets race-record flag if total race time beats stored best.
- * Returns 0 if no race data, else 0xE8 (offset into record table). */
-int FUN_0601abc6(void)
-{
-    int offset;
-    *(int *)0x06085FF8 = 0;
-    *(int *)0x06085FF9 = 0;
-    *(int *)0x06085FFC = 0;
-    *(int *)0x06086000 = 0;
-    FUN_0601adb0();
-    if ((*(int *)0x06078638 <
-         *(int *)(*(int *)(0x0605DE24 + *(int *)(0x0607EAD8 << 3)) + 4)) &&
-        (0 < *(int *)0x06078638)) {
-        *(int *)0x06085FF9 = 1;      /* lap record beaten */
-    }
-    if (*(int *)0x0607EBF4 == 0) {
-        return 0;
-    }
-    offset = 0xe8;
-    if (*(unsigned int *)0x060786A4 <
-        *(unsigned int *)(*(int *)(0x0605DD6C +
-                          (CAR_COUNT * 6 + *(int *)(0x0605AD00 << 1)) << 2) + offset)) {
-        *(int *)0x06085FF8 = 1;      /* race record beaten */
-    }
-    return offset;
-}
 
 /* high_score_insert -- Insert new race time into high score table.
  * Looks up course-specific score table from 0x0605DD6C indexed by
@@ -477,24 +427,6 @@ char * FUN_0601adb0(void)
     return result;
 }
 
-/* get_character_index -- Compute character/car variant index.
- * Normal mode: read base index from car data (0x06078868).
- * Demo mode: use low byte of 0x0607EAB8 + 10.
- * If manual transmission flag (0x06078663) is set, add 12. */
-unsigned int FUN_0601ae2c(void)
-{
-    unsigned int idx;
-    if (*(int *)0x06083255 == '\0') {
-        idx = *(unsigned int *)0x06078868;
-    } else {
-        idx = (*(unsigned int *)0x0607EAB8 & 0xff) + 10;
-    }
-    idx = idx & 0xff;
-    if (*(int *)0x06078663 != '\0') {
-        idx = idx + 0xc;
-    }
-    return idx;
-}
 
 /* display_mode_init -- Initialize display subsystem state and load VDP2 scroll data.
  * Resets mode counters, then DMA-copies 3 scroll plane data blocks to VRAM:
@@ -518,6 +450,9 @@ void FUN_0601aeb6(void) { FUN_0601AEB6(); }
 
 /* FUN_0601b074: L2 version in display_region_init.c */
 extern void FUN_0601B074(void);
+extern void FUN_0601abc6();
+extern void FUN_0601ab8c();
+extern void FUN_0601a5f8();
 void FUN_0601b074(void) { FUN_0601B074(); }
 
 /* menu_text_render -- Render menu text from lookup table.

@@ -77,6 +77,7 @@ extern int PTR_DAT_0604172a;
 extern int PTR_DAT_06041b0c;
 extern int PTR_DAT_06041cac;
 extern int PTR_DAT_06041eb8;
+extern void FUN_06040722();
 
 /* cd_subsystem_open -- Open CD subsystem with given mode.
  * Clears active bit in state flags (DAT_0604009e). Calls low-level
@@ -116,13 +117,6 @@ int FUN_0604000c(param_1)
     return 0xffffffe9;
 }
 
-/* cd_sector_size_select -- Return CD sector data size based on mode flag.
- * Standard mode: 0x800 (2048 bytes, Mode 1).
- * If bit 2 set: 0x914 (2324 bytes, includes subheader/ECC). */
-int FUN_060400b4(unsigned int mode_flags)
-{
-    return (mode_flags & 4) ? 0x0914 : 0x0800;
-}
 
 /* cd_session_open -- Initialize a CD session context for playback.
  *
@@ -354,21 +348,6 @@ int FUN_06040680(void)
     return (FUN_060405b8(0) == 4) ? 0 : 1;
 }
 
-/* cd_session_decode -- Decode CD session data if mode byte is set.
- * If session+0x1E is 0, returns param_2 unchanged (no decoding needed).
- * Otherwise calls CD decode function (0x06034FFC) then gets decoded length. */
-int FUN_06040722(int param_1, int param_2)
-{
-    int result;
-    int extraout_r3 = 0;
-
-    if (*(char *)(param_1 + 0x1e) == '\0')
-        return param_2;
-
-    (*(int(*)())0x06034FFC)(param_1, param_2, *(char *)(param_1 + 0x1e));
-    result = (*(int(*)())0x06036BE4)();
-    return result + extraout_r3;
-}
 
 /* cd_session_create -- Create and configure a new CD audio session.
  *
@@ -1247,49 +1226,6 @@ int FUN_06041698()
     return result;
 }
 
-/* cd_channel_slot_lookup -- Check if a CD channel slot is free.
- * Maps channel index (0-7) to session struct offset, reads the slot
- * pointer. Returns 1 if slot is NULL (free), 0 if occupied.
- * Channel offsets: 0=0x58, 1=DAT_060417d8, 2=DAT_060417da, 3=0x328,
- * 4=0x338, 5=0x348, 6=0x1e0, 7=0x360. */
-int FUN_060417a8(param_1)
-    int param_1;
-{
-    int offset;
-    int base;
-
-    if (param_1 == 0) {
-        base = CD_SESSION_BASE;
-        offset = 0x58;
-    } else if (param_1 == 1) {
-        offset = (int)DAT_060417d8;
-        base = CD_SESSION_BASE;
-    } else if (param_1 == 2) {
-        offset = (int)DAT_060417da;
-        base = CD_SESSION_BASE;
-    } else if (param_1 == 3) {
-        offset = 0x328;
-        base = CD_SESSION_BASE;
-    } else if (param_1 == 4) {
-        offset = 0x338;
-        base = CD_SESSION_BASE;
-    } else if (param_1 == 5) {
-        offset = 0x348;
-        base = CD_SESSION_BASE;
-    } else if (param_1 == 6) {
-        offset = 0x1e0;
-        base = CD_SESSION_BASE;
-    } else {
-        if (param_1 != 7) goto LAB_06041818;
-        base = CD_SESSION_BASE;
-        offset = 0x360;
-    }
-
-    param_1 = *(int *)(base + offset);
-
-LAB_06041818:
-    return param_1 == 0;
-}
 
 /* cd_channel_dispatch -- Dispatch CD channel handler by index.
  * Routes channel index (0-7) to its processing function:

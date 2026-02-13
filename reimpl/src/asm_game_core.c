@@ -553,6 +553,8 @@ __asm__(
     ".word 0x3F5C\n"  /* add r5,r15 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x761E\n"  /* add #30,r6 */
+    ".global _FUN_06007540\n"
+    "_FUN_06007540:\n"
     ".word 0x7FFC\n"  /* add #-4,r15 */
     ".word 0x605D\n"  /* extu.w r5,r0 */
     ".word 0xD72C\n"  /* mov.l @(0xB0,PC),r7  {[0x060075F8] = 0x060684EC} */
@@ -593,6 +595,8 @@ __asm__(
     ".word 0x2532\n"  /* mov.l r3,@r5 */
     ".word 0x000B\n"  /* rts */
     ".word 0x7F04\n"  /* add #4,r15 */
+    ".global _FUN_06007590\n"
+    "_FUN_06007590:\n"
     ".word 0x7FF8\n"  /* add #-8,r15 */
     ".word 0xD71B\n"  /* mov.l @(0x6C,PC),r7  {[0x06007600] = 0x06063F64} */
     ".word 0xD619\n"  /* mov.l @(0x64,PC),r6  {[0x060075FC] = 0x0606A4F4} */
@@ -1979,6 +1983,8 @@ __asm__(
     ".word 0x0009\n"  /* nop */
     ".word 0x000B\n"  /* rts */
     ".word 0x0009\n"  /* nop */
+    ".global _FUN_0601db84\n"
+    "_FUN_0601db84:\n"
     ".word 0xD706\n"  /* mov.l @(0x18,PC),r7  {[0x0601DBA0] = 0x06086050} */
     ".word 0xD607\n"  /* mov.l @(0x1C,PC),r6  {[0x0601DBA4] = 0x25A02C20} */
     ".word 0xE501\n"  /* mov #1,r5 */

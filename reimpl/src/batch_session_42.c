@@ -25,6 +25,8 @@ extern int Onchip_DMA0R;
 extern int PTR_DAT_06042230;
 extern int PTR_DAT_060423f6;
 extern int PTR_DAT_06042cb4;
+extern void FUN_060424a2();
+extern void FUN_0604249c();
 
 /* cd_session_read_step -- Advance one step of CD sector read state machine.
  * State 0: idle. State 1: issue async read via cd_read_sector (0x06036A1C),
@@ -204,26 +206,7 @@ int cd_poll_status_ready()
     return (*(int(*)())0x06035C54)(0xFBFF);    /* cd_read_sector */
 }
 
-/* cd_lba_to_msf_minutes -- Convert LBA offset (0x005A0000-based) to MSF minutes.
- * Uses piecewise linear interpolation from lookup table at DAT_060424c8.
- * Input: LBA value. Returns minutes component. */
-int FUN_0604249c(int lba)
-{
-    int idx = ((unsigned int)(0x005A0000 - lba) >> 16) << 2;
-    return (unsigned int)*(unsigned short *)(&DAT_060424ca + idx) +
-        ((unsigned int)*(unsigned short *)(&DAT_060424c8 + idx) *
-         (0x005A0000 - lba & 0xFFFFU) >> 16);
-}
 
-/* cd_lba_to_msf_seconds -- Convert raw LBA to MSF seconds.
- * Same interpolation table as minutes, but uses raw LBA input. */
-int FUN_060424a2(unsigned int lba)
-{
-    int idx = (lba >> 16) << 2;
-    return (unsigned int)*(unsigned short *)(&DAT_060424ca + idx) +
-        ((unsigned int)*(unsigned short *)(&DAT_060424c8 + idx) *
-         (lba & 0xFFFF) >> 16);
-}
 
 /* vdp2_vram_write -- Write data to VDP2 VRAM with mode-dependent addressing.
  * Checks color mode via 0x0603C156: mode 2 = 32-bit (word), else 16-bit (short).

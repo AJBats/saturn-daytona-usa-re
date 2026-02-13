@@ -39,6 +39,7 @@ extern int PTR_DAT_06038e20;
 extern int PTR_DAT_06039190;
 extern int PTR_DAT_0603923c;
 extern int PTR_DAT_060392e8;
+extern void FUN_06039fe8();
 
 /* cd_toc_table_init -- Initialize CD table-of-contents data structure.
  * param_1 = TOC buffer pointer. Clears first 16 bytes (flags/counters),
@@ -1012,13 +1013,3 @@ int framebuffer_vsync_poll(param_1)
   return result;
 }
 
-/* smpc_check_version -- Check SMPC firmware version register.
- * If SMPC area pointer (0x060A4CEC) is >= 0x20100061 AND
- * the firmware byte at 0x20100061 has bit 5 set, mark version=2. */
-void FUN_06039fe8(void)
-{
-    if ((0x20100061 <= *(char **)0x060A4CEC) &&
-        ((*(int *)0x20100061 & 0x20) == 0x20)) {
-        *(int *)0x060A4CF4 = 2;
-    }
-}

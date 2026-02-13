@@ -676,19 +676,6 @@ void FUN_06019248(void)
     snd_cmd(0xf, 0xAE0001FF);
 }
 
-/* scsp_ram_clear -- Zero all 512KB of SCSP work RAM (0x25A00000-0x25A7FFFF).
- * This is the Saturn's 68000 sound CPU work RAM area. */
-void FUN_060192b4(void)
-{
-    char *cnt = (char *)0x0007FFFF;
-    char *dest = (char *)0x25A00000;
-
-    do {
-        cnt--;
-        *dest = 0;
-        dest++;
-    } while (cnt != (char *)0x0);
-}
 
 /* sound_channels_stop -- Stop sound channels 1-3.
  * Sends stop command (data=0) to channels 1, 3, 2.
@@ -703,16 +690,6 @@ void sound_channels_stop(void)
     sound_cmd_dispatch(2, 0);  /* stop channel 2 */
 }
 
-/* sound_mailbox_timeout -- Busy-wait ~100k iterations then set timeout flag.
- * Called when SCSP sound mailbox doesn't respond in time. */
-void FUN_060192e8(void)
-{
-    register unsigned int cnt asm("r1") = 100000;
-    do {
-        cnt--;
-    } while (cnt != 0);
-    SOUND_TIMEOUT_FLAG = 1;
-}
 
 /* peripheral_config_setup -- Configure peripheral interrupt priorities.
  * Calls SCU interrupt config function at 0x06038BD4 with (mask, priority) pairs.
@@ -918,6 +895,7 @@ void FUN_060196a4()
 
 /* FUN_060198e0: L2 version in subsystem_setup.c */
 extern void FUN_060198E0(void);
+extern void FUN_060192b4();
 void FUN_060198e0(void) { FUN_060198E0(); }
 
 /* sound_test_render -- Render sound test channel display when dirty flag set.

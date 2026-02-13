@@ -47,6 +47,8 @@ void FUN_060061c8(void) { FUN_060061C8(); }
 
 /* FUN_0600629c: L2 version in car_table_init.c */
 extern void FUN_0600629C(void);
+extern void FUN_06007590();
+extern void FUN_06007540();
 void FUN_0600629c(void) { FUN_0600629C(); }
 
 /* camera_zoom_step -- Step the camera zoom level toward its target.
@@ -521,51 +523,7 @@ void FUN_0600736c(void)
     (*(int(*)())0x06026CE0)();
 }
 
-/* sprite_table_entry -- Add a sprite to the VDP1 command table.
- * Looks up source sprite data from table at 0x060684EC, copies
- * position/size attributes to command list at 0x06063F64,
- * sets color bank (param_3), increments sprite count at 0x0606A4F4. */
-void FUN_06007540(unsigned int sprite_id, unsigned int src_id, short color_bank)
-{
-    unsigned short uVar1;
-    int *cmd_src;
-    int sprite_count = *(int *)0x0606A4F4;
 
-    uVar1 = *(unsigned short *)(0x060684EC + (src_id & 0xffff) << 1);
-    *(short *)(0x060684EC + (sprite_id & 0xffff) << 1) = (short)sprite_count;
-    cmd_src = (int *)(0x06063F64 + (unsigned int)(uVar1 << 3));
-    *(int *)(0x06063F64 + (sprite_count << 3)) = *cmd_src;
-    *(short *)(0x06063F64 + (sprite_count << 3) + 4) = *(short *)(cmd_src + 1);
-    *(short *)(0x06063F64 + (sprite_count << 3) + 6) = color_bank;
-    *(int *)0x0606A4F4 = sprite_count + 1;
-}
-
-/* sprite_slot_register -- Register a sprite into the VDP1 sorted command list.
- * Looks up source slot from type table (0x060684EC), copies VRAM offset and
- * character attributes into command table (0x06063F64). For types >= 0xD,
- * adjusts character index by param_2 * 4. Increments sprite command count. */
-void FUN_06007590(unsigned short *param_1, short param_2)
-{
-  int idx;
-  unsigned short uVar3;
-  int *cnt = (int *)0x0606A4F4;         /* sprite command count */
-
-  uVar3 = *(unsigned short *)(0x060684EC + (unsigned int)param_1[1] * 2);
-  *(short *)(0x060684EC + ((unsigned int)*param_1 << 1)) = (short)*cnt;
-  idx = *cnt << 3;
-
-  /* Copy VRAM offset and character attrs from source slot */
-  *(int *)(0x06063F64 + idx) = *(int *)(0x06063F64 + (unsigned int)(uVar3 << 3));
-  *(short *)(0x06063F64 + idx + 4) = *(short *)(0x06063F64 + (unsigned int)(uVar3 << 3) + 4);
-
-  if (param_1[1] < 0xd) {
-    uVar3 = param_1[2];
-  } else {
-    uVar3 = param_1[2] + (param_2 << 2);   /* animated sprite frame offset */
-  }
-  *(unsigned short *)(0x06063F64 + idx + 6) = uVar3;
-  *cnt = *cnt + 1;
-}
 
 /* vdp1_char_register -- Register a VDP1 character (sprite) command entry.
  * Writes VRAM offset, character size, and pattern into sorted command table

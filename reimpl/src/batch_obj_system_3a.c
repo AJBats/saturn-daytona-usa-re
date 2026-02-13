@@ -453,39 +453,6 @@ unsigned int FUN_0603a7b0()
   return (unsigned int)puVar5 & 0xffff;
 }
 
-/* cd_sector_write_by_mode -- Write byte to CD sector buffer by transfer mode.
- * Mode byte at 0x060A4CAF selects record stride/offset:
- *   0x00: stride 6, offset +4
- *   0x10: stride 0x12, offset +0x10
- *   0x20: stride 0x12, offset +0x10
- *   0x30: stride 10, offset +8
- *   DAT_0603ac16: stride 3, offset +2
- *   DAT_0603ac18: stride 6, offset +4
- *   DAT_0603ac1a: stride (byte+1), offset +0
- * Index from 0x060A4CB4, base from 0x060A4CC0. */
-void FUN_0603ab46(param_1)
-    char param_1;
-{
-  unsigned short mode;
-  int idx;
-
-  mode = (unsigned short)(unsigned char)*(int *)0x060A4CAF;
-  idx = *(int *)0x060A4CB4;
-
-  if (mode == 0) {
-    *(char *)(idx * 6 + *(int *)0x060A4CC0 + 4) = param_1;
-  } else if (mode == 0x10 || mode == 0x20) {
-    *(char *)(idx * 0x12 + *(int *)0x060A4CC0 + 0x10) = param_1;
-  } else if (mode == 0x30) {
-    *(char *)(idx * 10 + *(int *)0x060A4CC0 + 8) = param_1;
-  } else if (mode == DAT_0603ac16) {
-    *(char *)(idx * 3 + *(int *)0x060A4CC0 + 2) = param_1;
-  } else if (mode == DAT_0603ac18) {
-    *(char *)(idx * 6 + *(int *)0x060A4CC0 + 4) = param_1;
-  } else if (mode == DAT_0603ac1a) {
-    *(char *)(((unsigned char)*(int *)0x060A4CAE + 1) * idx + *(int *)0x060A4CC0) = param_1;
-  }
-}
 
 /* cd_subsystem_init -- Initialize CD subsystem with work area and config.
  * param_1: sector count (must be 1..24)
@@ -837,15 +804,6 @@ void FUN_0603b31c(int *param_1, int param_2)
   FUN_0603b93c(0xfffffff0);              /* already pending */
 }
 
-/* cd_block_read_start -- Start CD block data read.
- * Extracts sector count from offset +0x11, sets max read length (0x7FFFFFFF),
- * calls CD read function (0x0603EF64), then resets CD state via FUN_0603b93c. */
-void FUN_0603b3fa(int param_1, unsigned int *param_2)
-{
-    *param_2 = (unsigned int)*(unsigned char *)(param_1 + 0x11);
-    (*(int(*)())0x0603EF64)(*(int *)(param_1 + 4), 0x7FFFFFFF);
-    FUN_0603b93c(0);
-}
 
 /* cd_read_poll_status -- Poll CD read operation and handle status/errors.
  * Checks command status (0=complete, 1=retry, 2=seek correction, 3-6=errors).
@@ -920,17 +878,6 @@ LAB_0603b530:
   return (unsigned int)state_byte;
 }
 
-/* cd_vtable_init -- Initialize CD subsystem function pointer table.
- * Sets 4 handler function pointers in CD_STATE_A structure:
- * +0x04: read, +0x08: write, +0x0C: status, +0x10: error. */
-void FUN_0603b734(void)
-{
-    int base = CD_STATE_A;
-    *(char **)(base + 0x04) = (char *)0x060402BC;
-    *(char **)(base + 0x08) = (char *)0x0604053A;
-    *(char **)(base + 0x0c) = (char *)0x060406A6;
-    *(char **)(base + 0x10) = (char *)0x0604069A;
-}
 
 /* cd_state_table_init -- Initialize CD state tables and slot array.
  * Sets max handle count, installs vtable via FUN_0603b734,

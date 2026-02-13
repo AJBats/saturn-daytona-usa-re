@@ -44,6 +44,7 @@ extern int PTR_DAT_060211d8;
 extern int PTR_DAT_060212dc;
 extern int PTR_DAT_06021528;
 extern short PTR_DAT_06020b48;
+extern void FUN_06020b20();
 
 /* vdp2_render_init -- Initialize VDP2 rendering: load color tables, set up DMA,
  * configure scroll plane, clear SCU interrupt masks, init text rendering state.
@@ -140,25 +141,6 @@ int object_destruction(char param_1, unsigned int param_2, unsigned int param_3,
     return 0;
 }
 
-/* vdp2_scroll_clear -- Clear VDP2 scroll plane and set initial parameters.
- * Sets VDP2 scroll control register at 0x25F800A4 and name table address,
- * then zeros 256 entries (1024 bytes) of scroll data at 0x25E5F800. */
-int FUN_06020b20(void)
-{
-    register int base asm("r2") = 0x25E5F800;  /* VDP2 scroll plane data */
-    register int zero asm("r0") = 0;
-    register int idx asm("r3");
-    unsigned short i;
-
-    *(int *)0x25F800A4 = 0x12F2FC00;  /* scroll control register */
-    *(short *)0x25F8009A = PTR_DAT_06020b48;  /* name table address */
-
-    for (i = 0; i < 0x100; i++) {
-        idx = (unsigned short)i << 2;
-        *(int *)(base + idx) = zero;
-    }
-    return idx;
-}
 
 /* vdp1_display_mode_dispatch -- Select VDP1 display mode based on 0x0608780C.
  * Calls CD sector read (0x06035228) twice, then dispatches:

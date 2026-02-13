@@ -4817,6 +4817,8 @@ __asm__(
     ".word 0x760C\n"  /* add #12,r6 */
     ".word 0x25A0\n"  /* mov.b r10,@r5 */
     ".word 0x2DBE\n"  /* mulu.w r11,r13 */
+    ".global _FUN_060192b4\n"
+    "_FUN_060192b4:\n"
     ".word 0xE500\n"  /* mov #0,r5 */
     ".word 0xD611\n"  /* mov.l @(0x44,PC),r6  {[0x060192FC] = 0x25A00000} */
     ".word 0xD411\n"  /* mov.l @(0x44,PC),r4  {[0x06019300] = 0x0007FFFF} */
@@ -4850,6 +4852,8 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".global _FUN_060192e8\n"
+    "_FUN_060192e8:\n"
     ".word 0xD107\n"  /* mov.l @(0x1C,PC),r1  {[0x06019308] = 0x06086050} */
     ".word 0xD708\n"  /* mov.l @(0x20,PC),r7  {[0x0601930C] = 0x25A02DBE} */
     ".word 0xD608\n"  /* mov.l @(0x20,PC),r6  {[0x06019310] = 0x0000FFFF} */
@@ -6043,6 +6047,8 @@ __asm__(
     ".word 0xD317\n"  /* mov.l @(0x5C,PC),r3  {[0x0601A650] = 0x0601938C} */
     ".word 0x432B\n"  /* jmp @r3 */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
+    ".global _FUN_0601a5f8\n"
+    "_FUN_0601a5f8:\n"
     ".word 0xD016\n"  /* mov.l @(0x58,PC),r0  {[0x0601A654] = 0x06063D9E} */
     ".word 0x6001\n"  /* mov.w @r0,r0 */
     ".word 0x600D\n"  /* extu.w r0,r0 */
@@ -6275,6 +6281,8 @@ __asm__(
     ".word 0xD5F4\n"  /* mov.l @(0x3D0,PC),r5  {[0x0601AF58] = 0x2230D405} */
     ".word 0x0601\n"  /* .word 0x0601  -> FUN_06018E70 */
     ".word 0x8E70\n"  /* .word 0x8E70 */
+    ".global _FUN_0601ab8c\n"
+    "_FUN_0601ab8c:\n"
     ".word 0xD421\n"  /* mov.l @(0x84,PC),r4  {[0x0601AC14] = 0x0607EAD8} */
     ".word 0xD222\n"  /* mov.l @(0x88,PC),r2  {[0x0601AC18] = 0x0605DE40} */
     ".word 0x6042\n"  /* mov.l @r4,r0 */
@@ -6304,6 +6312,8 @@ __asm__(
     ".word 0xD01A\n"  /* mov.l @(0x68,PC),r0  {[0x0601AC2C] = 0x06086008} */
     ".word 0x000B\n"  /* rts */
     ".word 0x2012\n"  /* mov.l r1,@r0 */
+    ".global _FUN_0601abc6\n"
+    "_FUN_0601abc6:\n"
     ".word 0xE400\n"  /* mov #0,r4 */
     ".size _FUN_0601AAE8, .-_FUN_0601AAE8\n"
 );
@@ -6619,6 +6629,8 @@ __asm__(
     ".word 0x0236\n"  /* mov.l r3,@(r0,r2) */
     ".word 0x000B\n"  /* rts */
     ".word 0x0009\n"  /* nop */
+    ".global _FUN_0601ae2c\n"
+    "_FUN_0601ae2c:\n"
     ".word 0xD00D\n"  /* mov.l @(0x34,PC),r0  {[0x0601AE64] = 0x06083255} */
     ".word 0x6000\n"  /* mov.b @r0,r0 */
     ".word 0x2008\n"  /* tst r0,r0 */
