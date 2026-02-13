@@ -188,14 +188,14 @@ extern int DAT_06014080;
 extern int DAT_06014082;
 extern int DAT_06014084;
 extern int DAT_06014086;
-extern void FUN_0601228a();
-extern void FUN_060122f4();
-extern void FUN_06012344();
+extern void camera_phase_dispatch();
+extern void camera_fov_interpolate();
+extern void camera_vibration_apply();
 extern int FUN_06012400();
-extern void FUN_0601250c();
-extern void FUN_060125d0();
-extern void FUN_06012710();
-extern void FUN_06012b58();
+extern void background_render_pipeline();
+extern void camera_sweep_render();
+extern void attract_sound_dispatch();
+extern void save_validate_retry();
 extern int FUN_06012c3c();
 extern int FUN_06013c58();
 extern int PTR_DAT_060137c4;
@@ -221,118 +221,115 @@ void scu_interrupt_priorities_alt(void)
 void FUN_06012050(void) __attribute__((alias("scu_interrupt_priorities_alt")));
 
 /* camera_view_init -- Initialize camera view parameters for 3D scene.
- * Sets camera enabled flag (0x06078636), clears mode counter, calls
- * perspective setup (0x06014884). Configures two view parameter blocks
- * at 0x060788B4 and 0x060788C0 (FOV, near/far plane). Calls CD sync
- * (0x06035168) 3 times. Sets initial camera angle from DAT_0601214e.
- * For single-player (CAR_COUNT==0): 60-frame timer, no delay.
- * For multi-player: 1-frame timer, 20-frame delay, calls FUN_0601228a. */
-void FUN_060120c8(void)
+ * Configures two view parameter blocks (FOV, far-plane), sets initial
+ * camera angle, and starts intro timer. Multi-player calls phase dispatch. */
+void camera_view_init(void)
 {
-  *(int *)0x06078636 = 1;                   /* enable camera system */
-  *(int *)0x060788F8 = 0;
-  (*(int(*)())0x06014884)(0x20, 0, 0);      /* perspective setup */
+    *(int *)0x06078636 = 1;                   /* enable camera system */
+    *(int *)0x060788F8 = 0;
+    (*(int(*)())0x06014884)(0x20, 0, 0);      /* perspective setup */
 
-  /* View parameter block A: FOV=0x80000, far=0xF3333 */
-  *(int *)0x060788B4 = 0;
-  *(int *)0x060788B8 = 0x00080000;
-  *(int *)0x060788BC = 0x000F3333;
+    /* View block A: FOV=0x80000 (8.0), far=0xF3333 (15.2) */
+    *(int *)0x060788B4 = 0;
+    *(int *)0x060788B8 = 0x00080000;
+    *(int *)0x060788BC = 0x000F3333;
 
-  /* View parameter block B: FOV=0x20000, far=0x53333 */
-  *(int *)0x060788C0 = 0;
-  *(int *)0x060788C4 = 0x00080000 >> 2;
-  *(int *)0x060788C8 = 0x00053333;
+    /* View block B: FOV=0x20000 (2.0), far=0x53333 (5.2) */
+    *(int *)0x060788C0 = 0;
+    *(int *)0x060788C4 = 0x00080000 >> 2;
+    *(int *)0x060788C8 = 0x00053333;
 
-  (*(int(*)())0x06035168)();                /* CD sync */
-  (*(int(*)())0x06035168)();
-  (*(int(*)())0x06035168)();
+    (*(int(*)())0x06035168)();                /* cd_sync */
+    (*(int(*)())0x06035168)();
+    (*(int(*)())0x06035168)();
 
-  *(short *)0x060788B0 = DAT_0601214e;     /* initial camera angle */
-  *(short *)0x060788B2 = 0;
-  *(int *)0x060788F0 = 0;
+    *(short *)0x060788B0 = DAT_0601214e;      /* initial camera angle */
+    *(short *)0x060788B2 = 0;
+    *(int *)0x060788F0 = 0;
 
-  if (CAR_COUNT == 0) {
-    *(int *)0x060788AC = 0x3c;              /* 60-frame timer */
-    *(int *)0x060788F4 = 0;
-  } else {
-    *(int *)0x060788AC = 1;                 /* 1-frame timer */
-    *(int *)0x060788F4 = 0x14;             /* 20-frame delay */
-    FUN_0601228a();
-  }
+    if (CAR_COUNT == 0) {
+        *(int *)0x060788AC = 0x3C;            /* 60-frame intro timer */
+        *(int *)0x060788F4 = 0;
+    } else {
+        *(int *)0x060788AC = 1;               /* 1-frame timer */
+        *(int *)0x060788F4 = 0x14;            /* 20-frame delay */
+        camera_phase_dispatch();
+    }
 }
+void FUN_060120c8(void) __attribute__((alias("camera_view_init")));
 
 /* camera_sequence_timer -- Step the camera intro sequence by timer phases.
- * Timer at 0x060788AC increments each frame:
- *   < 0x14: DMA course data, run camera sweep (FUN_060125d0)
- *   == 0x14: play sound 0xAE110EFF, load 3 DMA overlay blocks
- *   0x15..0x28: run camera pan + zoom (FUN_06012344/FUN_06012400)
- *   > 0x28: disable camera (0x06078636=0), play end sound 0xAE110FFF */
-void FUN_060121a8(void)
+ *   < 20: DMA course data + camera sweep
+ *   == 20: trigger sound, load 3 overlay blocks
+ *   21..40: camera vibration + zoom
+ *   > 40: disable camera, play end sound */
+void camera_sequence_timer(void)
 {
-  int *timer = (int *)0x060788AC;
-  *timer = *timer + 1;
+    int *timer = (int *)0x060788AC;
+    *timer += 1;
 
-  if (*timer < 0x14) {
-    (*(int(*)())0x06028400)(8, *(int *)0x06063AF0, 0x390,
-               0x0000B000 + *(int *)(0x06063AF0 + 4));
-    FUN_060125d0();
-    return;
-  }
+    if (*timer < 0x14) {
+        (*(int(*)())0x06028400)(8, *(int *)0x06063AF0, 0x390,
+                   0x0000B000 + *(int *)(0x06063AF0 + 4));
+        camera_sweep_render();
+        return;
+    }
 
-  if (*timer == 0x14) {
-    (*(int(*)())0x0601D5F4)(0, 0xAE110EFF);     /* trigger sound */
-    (*(int(*)())0x060284AE)(8, 0x390, 0x90, 0x0605ACF0);
-    (*(int(*)())0x060284AE)(8, 0x490, 0x90, 0x0605ACF0);
-    (*(int(*)())0x060283E0)(8, 0x590, 0x0000E000, 0x0605ACF0);
-    return;
-  }
+    if (*timer == 0x14) {
+        (*(int(*)())0x0601D5F4)(0, 0xAE110EFF);     /* trigger sound */
+        (*(int(*)())0x060284AE)(8, 0x390, 0x90, 0x0605ACF0);
+        (*(int(*)())0x060284AE)(8, 0x490, 0x90, 0x0605ACF0);
+        (*(int(*)())0x060283E0)(8, 0x590, 0x0000E000, 0x0605ACF0);
+        return;
+    }
 
-  if (0x28 < *timer) {
-    *(int *)0x06078636 = 0;                      /* disable camera */
-    (*(int(*)())0x0601D5F4)(0, 0xAE110FFF);      /* end sound */
-    return;
-  }
+    if (*timer > 0x28) {
+        *(int *)0x06078636 = 0;                      /* disable camera */
+        (*(int(*)())0x0601D5F4)(0, 0xAE110FFF);      /* end sound */
+        return;
+    }
 
-  if (0x14 < *timer) {
-    FUN_06012344();                               /* camera pan */
-    FUN_06012400();                               /* camera zoom */
-    return;
-  }
+    if (*timer > 0x14) {
+        camera_vibration_apply();
+        FUN_06012400();                               /* camera zoom */
+        return;
+    }
 }
+void FUN_060121a8(void) __attribute__((alias("camera_sequence_timer")));
 
 /* camera_phase_dispatch -- Dispatch camera sub-routines based on countdown.
- * Countdown timer at 0x0607EBCC selects camera behavior phase:
- *   > 0x6D (109): full camera motion + overlay + DMA (attract sequence)
- *   > 99:  clear camera rotation, overlay + DMA
- *   > 0x27 (39): clear camera rotation, sweep + DMA
- *   <= 39: reset timer=1, transition to GAME_STATE=0x10, enable camera */
-void FUN_0601228a(void)
+ *   > 109: FOV animation + background render + attract sound
+ *   > 99: clear rotation, background render + attract sound
+ *   > 39: clear rotation, camera sweep + attract sound
+ *   <= 39: reset countdown, transition to GAME_STATE=0x10 */
+void camera_phase_dispatch(void)
 {
-  int countdown = *(int *)0x0607EBCC;
+    int countdown = *(int *)0x0607EBCC;
 
-  if (0x6d < countdown) {
-    FUN_060122f4();             /* camera rotation animation */
-    FUN_0601250c();             /* overlay render */
-    FUN_06012710();             /* DMA transfer */
-    return;
-  }
-  if (99 < countdown) {
-    *(short *)0x060788B2 = 0;   /* clear camera rotation */
-    FUN_0601250c();
-    FUN_06012710();
-    return;
-  }
-  if (0x27 < countdown) {
-    *(short *)0x060788B2 = 0;
-    FUN_060125d0();             /* camera sweep */
-    FUN_06012710();
-    return;
-  }
+    if (countdown > 0x6D) {
+        camera_fov_interpolate();
+        background_render_pipeline();
+        attract_sound_dispatch();
+        return;
+    }
+    if (countdown > 99) {
+        *(short *)0x060788B2 = 0;   /* clear camera rotation */
+        background_render_pipeline();
+        attract_sound_dispatch();
+        return;
+    }
+    if (countdown > 0x27) {
+        *(short *)0x060788B2 = 0;
+        camera_sweep_render();
+        attract_sound_dispatch();
+        return;
+    }
 
-  *(int *)0x0607EBCC = 1;       /* reset countdown */
-  GAME_STATE = 0x10;             /* transition to next state */
-  *(int *)0x06078636 = 1;       /* enable camera system */
+    *(int *)0x0607EBCC = 1;         /* reset countdown */
+    GAME_STATE = 0x10;               /* transition to next state */
+    *(int *)0x06078636 = 1;         /* enable camera system */
 }
+void FUN_0601228a(void) __attribute__((alias("camera_phase_dispatch")));
 
 /* camera_fov_interpolate -- Animate camera FOV and far-plane during intro.
  * Camera params array at 0x060788B4: [0]=unused, [1]=FOV, [2]=far_plane.
@@ -354,13 +351,10 @@ void camera_fov_interpolate(void)
 }
 void FUN_060122f4(void) __attribute__((alias("camera_fov_interpolate")));
 
-/* camera_vibration_apply -- Apply camera vibration to 4 view matrix rows.
- * Computes 3 sinusoidal offsets from half-heading (0x060788AC >> 1) using
- * fixed-point multiply (0x06027552) with frequency constants (DAT_060123de-e2).
- * Applies cross-axis perturbations to 4 consecutive 3-vectors at
- * 0x060788C0, 0x060788CC, 0x060788D8, 0x060788E4 (view frustum corners).
- * CD time delta (0x06034FE0) affects row 3 Y-axis. */
-void FUN_06012344(void)
+/* camera_vibration_apply -- Apply sinusoidal vibration to the 4×3 view matrix.
+ * Computes 3 frequency offsets from half-heading, perturbs 4 matrix rows
+ * at 0x060788C0..E4 (view frustum corners). Row 2 Y uses CD time delta. */
+void camera_vibration_apply(void)
 {
     register int (*fpmul)() asm("r3") = (int(*)())0x06027552;  /* fixed-point multiply */
     int sin_a, sin_b, sin_c;
@@ -399,36 +393,36 @@ void FUN_06012344(void)
     row[1] = row[1] + sin_b;
     row[2] = row[2] + sin_c;
 }
+void FUN_06012344(void) __attribute__((alias("camera_vibration_apply")));
 
 /* background_render_pipeline -- Full background rendering pipeline.
- * Initializes render state, sets camera position from 0x060788B4-BC,
- * configures render params, applies extra effect if STATE_COUNTDOWN > 99.
- * Then sets up sound BGM tempo and position for last car (CAR_COUNT-1). */
-void FUN_0601250c(void)
+ * Sets camera from view params, applies extra tilt if countdown > 99,
+ * renders mesh/texture for last car slot, then finalizes. */
+void background_render_pipeline(void)
 {
     int idx;
 
-    (*(int(*)())0x06026DBC)();   /* render state init */
-    (*(int(*)())0x06026E0C)();   /* render param init */
+    (*(int(*)())0x06026DBC)();   /* matrix_push */
+    (*(int(*)())0x06026E0C)();   /* matrix_identity */
     (*(int(*)())0x06026E2E)(*(int *)0x060788B4, *(int *)0x060788B8, *(int *)0x060788BC);
-    (*(int(*)())0x06026F2A)((int)*(short *)0x060788B2);
-    (*(int(*)())0x06026EDE)(0);
-    (*(int(*)())0x06026E94)(0);
-    if (STATE_COUNTDOWN > 99) {
-        (*(int(*)())0x06026E94)((int)DAT_06012586);
-    }
-    idx = (CAR_COUNT - 1) << 2;
-    (*(int(*)())0x06031D8C)(*(int *)(0x0606354C + idx), *(int *)0x06063558);
-    (*(int(*)())0x06031A28)(*(int *)(0x06063544 + idx), (int)*(short *)0x06089EA0, *(int *)0x06063554);
-    (*(int(*)())0x06026DF8)();   /* render finalize */
-}
+    (*(int(*)())0x06026F2A)((int)*(short *)0x060788B2);  /* rotate_heading */
+    (*(int(*)())0x06026EDE)(0);  /* rotate_y(0) */
+    (*(int(*)())0x06026E94)(0);  /* rotate_x(0) */
+    if (STATE_COUNTDOWN > 99)
+        (*(int(*)())0x06026E94)((int)DAT_06012586);      /* extra tilt */
 
-/* bg_sweep_render -- Render background with camera sweep and heading interpolation.
- * Sets up matrix pipeline from camera params at 0x060788B4,
- * applies heading rotation, renders sky dome via VDP1 draw (0x06028400).
- * Interpolates heading toward target (0x0605AC94), then renders
- * background mesh/texture for last car slot. */
-void FUN_060125d0()
+    idx = (CAR_COUNT - 1) << 2;
+    (*(int(*)())0x06031D8C)(*(int *)(0x0606354C + idx), *(int *)0x06063558);    /* mesh_submit */
+    (*(int(*)())0x06031A28)(*(int *)(0x06063544 + idx),
+                 (int)*(short *)0x06089EA0, *(int *)0x06063554);                /* texture_submit */
+    (*(int(*)())0x06026DF8)();   /* matrix_pop */
+}
+void FUN_0601250c(void) __attribute__((alias("background_render_pipeline")));
+
+/* camera_sweep_render -- Render background with camera sweep and heading interpolation.
+ * Sets up matrix from camera params, renders sky dome, interpolates
+ * heading toward target angle, then renders mesh/texture for last car slot. */
+void camera_sweep_render()
 {
   int course_idx;
   int course_x2;
@@ -458,15 +452,12 @@ void FUN_060125d0()
   (*(int(*)())0x06026DF8)();                          /* matrix_pop */
   return;
 }
+void FUN_060125d0() __attribute__((alias("camera_sweep_render")));
 
-/* attract_sound_dispatch -- Play sound cues at specific countdown thresholds.
- * Reads countdown timer at 0x0607EBCC and dispatches SCSP commands:
- *   40 (0x28): play "5" voice + engine sfx, set timer display
- *   60 (0x3C): play "4" voice
- *   80 (0x50): play "3" voice
- *   100: play "2" voice, enable camera mode, store car heading
- * After threshold check, if countdown > 110 and CD idle, play start jingle. */
-void FUN_06012710()
+/* attract_sound_dispatch -- Play countdown voice cues at specific thresholds.
+ *   40: "5" + engine sfx, 60: "4", 80: "3", 100: "2" + enable camera.
+ *   After thresholds, if countdown > 110 and CD idle, play start jingle. */
+void attract_sound_dispatch()
 {
   int countdown = *(int *)0x0607EBCC;
   int snd_code;
@@ -493,6 +484,7 @@ LAB_0601277a:
   }
   return;
 }
+void FUN_06012710() __attribute__((alias("attract_sound_dispatch")));
 
 /* race_result_sequence -- multi-phase race finish presentation and podium sequence.
  *   Phase 0: fade-in overlay sprites (background + label).
@@ -601,11 +593,8 @@ int race_result_sequence()
 }
 
 /* save_validate_retry -- Validate save data with retry loop.
- * Sets up save descriptor at 0x06084360 (type=1, size=0x50, buf=0x0608436C).
- * Retries BIOS read (0x0603AC1C) up to 5 times against device at 0x06083274.
- * If retry count < 3: sets error flag at 0x06084AEC.
- * Otherwise validates checksum via 0x0603AE08. */
-void FUN_06012b58()
+ * Retries BIOS read up to 5 times, then validates checksum. */
+void save_validate_retry()
 {
   int result = -1;
   int retry = 0;
@@ -629,11 +618,10 @@ void FUN_06012b58()
   }
   return;
 }
+void FUN_06012b58() __attribute__((alias("save_validate_retry")));
 
-/* save_screen_display -- renders save overlay, waits for BIOS completion, validates save.
- *   Draws "NOW SAVING" sprite (0x060283E0) with tile DAT_06012c66, copies 0x24 bytes
- *   via word DMA (0x0602761E) to display buffer. Polls BIOS callback (0x06018EAC)
- *   until status bit 0 is set. Then draws completion sprite and calls save_validate_retry. */
+/* save_screen_display -- Render "NOW SAVING" overlay, poll BIOS for
+ *   completion, then validate saved data. */
 void save_screen_display()
 {
   char *bios_poll = (char *)0x06018EAC;        /* BIOS status polling function */
@@ -650,14 +638,13 @@ void save_screen_display()
   /* Draw completion sprite */
   (*(int(*)())0x060283E0)(8, tile_id, 0x0000E000, 0x0605ACCA);
   (*(int(*)())0x0602761E)(*(int *)0x060612B4 + tile_id, 0x060612C4 + tile_id, 0x24);
-  FUN_06012b58();                              /* validate saved data */
+  save_validate_retry();                        /* validate saved data */
   return;
 }
 
 /* bg_tilemap_load -- Load background tilemap for a course.
- * param_1: course index (1/2/default). Selects tilemap descriptor
- * from table at 0x060448E8 stride 0x0C, loads to VDP2 VRAM at 0x200000. */
-void FUN_06012d7c(int param_1)
+ * Selects tilemap descriptor by course index, loads to VDP2 VRAM 0x200000. */
+void bg_tilemap_load(int param_1)
 {
     if (param_1 == 1)
         FUN_06012c3c(0x060448E8, 0x00200000);
@@ -666,11 +653,11 @@ void FUN_06012d7c(int param_1)
     else
         FUN_06012c3c(0x06044900, 0x00200000);
 }
+void FUN_06012d7c(int param_1) __attribute__((alias("bg_tilemap_load")));
 
 /* bg_tilemap_and_pattern_load -- Load background tilemap + pattern pair.
- * param_1: course index (1/2/default). Loads tilemap to VDP2 VRAM 0x200000
- * and pattern to 0x240000. Course descriptors at 0x0604490C stride 0x10. */
-void FUN_06012db4(int param_1)
+ * Loads tilemap to VDP2 VRAM 0x200000 and pattern to 0x240000. */
+void bg_tilemap_and_pattern_load(int param_1)
 {
   if (param_1 == 1) {
     FUN_06012c3c(0x0604490C, 0x00200000);
@@ -683,11 +670,11 @@ void FUN_06012db4(int param_1)
     FUN_06012c3c(0x06044954, 0x00240000);
   }
 }
+void FUN_06012db4(int param_1) __attribute__((alias("bg_tilemap_and_pattern_load")));
 
 /* bg_pattern_load -- Load background pattern data for a course.
- * param_1: course index (1/2/default). Selects pattern descriptor
- * from table at 0x0604496C stride 0x0C, loads to VDP2 VRAM at 0x2A8000. */
-void FUN_06012e08(int param_1)
+ * Selects pattern descriptor by course index, loads to VDP2 VRAM 0x2A8000. */
+void bg_pattern_load(int param_1)
 {
     if (param_1 == 1)
         FUN_06012c3c(0x0604496C, 0x002A8000);
@@ -696,6 +683,7 @@ void FUN_06012e08(int param_1)
     else
         FUN_06012c3c(0x06044984, 0x002A8000);
 }
+void FUN_06012e08(int param_1) __attribute__((alias("bg_pattern_load")));
 
 /* scene_objects_init -- Load and initialize scene objects for a course.
  * Sets up memory regions (0x06084FA8/FAC/FB0), calls VDP and render
@@ -1139,12 +1127,13 @@ void scene_objects_init()
  * 1. Dispatch through background mode vtable (indexed by 0x06084AF2)
  * 2. Update background scroll/animation with fixed-point parameters
  * 3. Commit frame display (frame_end_display_commit) */
-void FUN_0601389e(void)
+void hud_render_frame(void)
 {
     (*(int(*)())(*(int *)(0x0605B6B8 + (unsigned int)(unsigned char)*(int *)(0x06084AF2 << 2))))();
     (*(int(*)())0x06011AF4)(0, 0x00960000, 0x00010000, 0x00010000, 0x00008000, 0x00010000, 0);
     (*(int(*)())0x060078DC)();  /* frame_end_display_commit */
 }
+void FUN_0601389e(void) __attribute__((alias("hud_render_frame")));
 
 /* race_results_hud_display -- Render the race results screen HUD.
  * Draws background sprites, formats race/lap times, shows finishing
@@ -1226,15 +1215,15 @@ int race_results_hud_display()
 }
 
 /* background_rotation_wobble -- Apply periodic rotation to background.
- * Uses low 5 bits of FRAME_COUNTER to create a wobble effect.
- * Only applies rotation when counter > 16, scaling by <<12 for angle. */
-void FUN_06013e12(void)
+ * Uses low 5 bits of FRAME_COUNTER, applies rotation when phase > 16. */
+void background_rotation_wobble(void)
 {
     unsigned short phase = (unsigned short)FRAME_COUNTER & 0x1F;
     if (phase > 0x10) {
         (*(int(*)())0x06026EDE)((int)(short)(phase << 12));  /* heading_rotation */
     }
 }
+void FUN_06013e12(void) __attribute__((alias("background_rotation_wobble")));
 
 /* podium_object_animate -- Render animated 3D podium objects.
  * Iterates through object transform table at 0x0605AD5C, applying
