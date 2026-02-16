@@ -292,6 +292,32 @@ When spawning WSL processes from Windows Python (`subprocess.Popen(["wsl", ...])
 - **Fix**: Use a temporary HOME dir, copy firmware with `cp /root/.mednafen/firmware/*`,
   and explicitly set DISPLAY=:0 in the launch command
 
+## Phase 4 Progress: Boot Diagnosis
+
+### First Coarse Scan (2026-02-16)
+
+Ran `parallel_compare.py --max-frames 200 --coarse-step 10 --compare-memory`:
+
+| Frame Range | Result | Notes |
+|-------------|--------|-------|
+| 0–50 | MATCH | BIOS init (PC in 0x000xxxxx range) |
+| 50–60 | MATCH | BIOS → game handoff (PC at 0x06001660) |
+| 60–160 | MATCH | Game init running identically |
+| ~170 | **DIVERGENCE** | 20 register differences (R0–R15, PC, SR, PR...) |
+
+**Key findings**:
+- Game code at 0x06003000 is **byte-identical** (first 256 bytes verified)
+- Both instances execute through BIOS init and 100+ frames of game init identically
+- First divergence at frame ~170 — all registers differ, indicating execution paths split
+
+**Next steps**:
+1. Fix memory dump timeout in comparison tool (sequential command timing issue)
+2. Fine scan: frame-by-frame between 160–170 to find exact divergent frame
+3. Instruction trace: PC trace the divergent frame to find exact instruction
+4. Identify which function/data causes the split
+
+---
+
 ## Known Issues from Previous Attempts
 
 ### Black screen despite 83.9% binary match

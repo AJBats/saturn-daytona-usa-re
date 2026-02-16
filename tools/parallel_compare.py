@@ -88,7 +88,9 @@ class MednafenInstance:
         # Launch Mednafen via WSL with isolated HOME
         # DISPLAY=:0 is needed because WSLg doesn't propagate it when spawned from Windows Python
         launch_cmd = (
-            f'export HOME="{home_wsl}" DISPLAY=:0; "{mednafen_wsl}" '
+            f'export HOME="{home_wsl}" DISPLAY=:0 MEDNAFEN_ALLOWMULTI=1; '
+            f'rm -f "{home_wsl}/.mednafen/mednafen.lck"; '
+            f'"{mednafen_wsl}" '
             f'--sound 0 --automation "{self.ipc_dir_wsl}" "{cue_wsl}"'
         )
         # Log stdout to a file for debugging; pipe stderr
@@ -288,9 +290,15 @@ def dump_and_compare_memory(inst_a, inst_b, regions, ipc_a, ipc_b):
     for addr, size, desc in regions:
         path_a = os.path.join(ipc_a, f"mem_{addr:08X}.bin")
         path_b = os.path.join(ipc_b, f"mem_{addr:08X}.bin")
-        inst_a.dump_mem_bin(addr, size, path_a)
-        inst_b.dump_mem_bin(addr, size, path_b)
-        time.sleep(0.2)
+        try:
+            inst_a.dump_mem_bin(addr, size, path_a)
+            time.sleep(0.1)  # Let action file mtime settle between commands
+            inst_b.dump_mem_bin(addr, size, path_b)
+            time.sleep(0.2)
+        except (TimeoutError, RuntimeError) as e:
+            print(f"  {desc} (0x{addr:08X}): ERROR dumping: {e}")
+            all_match = False
+            continue
 
         try:
             with open(path_a, "rb") as f:
