@@ -306,6 +306,48 @@ def write_sector_to_bytes(data, lba, user_data):
     data[zero_off:zero_off + RESERVED_SIZE + ECC_SIZE] = b'\x00' * (RESERVED_SIZE + ECC_SIZE)
 
 
+def generate_cue(orig_cue, out_dir, cue_path):
+    """Parse original CUE, copy audio track BINs, write full CUE sheet."""
+    with open(orig_cue, 'r') as f:
+        cue_lines = f.readlines()
+
+    orig_dir = os.path.dirname(orig_cue)
+    new_lines = []
+    track_num = 0
+
+    for line in cue_lines:
+        stripped = line.strip()
+        if stripped.startswith('FILE'):
+            parts = stripped.split('"')
+            if len(parts) >= 2:
+                orig_filename = parts[1]
+                if track_num == 0:
+                    # Data track — already injected as Track 01.bin
+                    new_lines.append('FILE "Track 01.bin" BINARY\n')
+                else:
+                    # Audio track — copy from original disc
+                    src = os.path.join(orig_dir, orig_filename)
+                    dst_name = os.path.basename(orig_filename)
+                    dst = os.path.join(out_dir, dst_name)
+                    if os.path.exists(src):
+                        if not os.path.exists(dst):
+                            print("  Copying audio track: %s" % dst_name)
+                            shutil.copy2(src, dst)
+                    else:
+                        print("  WARNING: Audio track not found: %s" % src)
+                    new_lines.append('FILE "%s" BINARY\n' % dst_name)
+                track_num += 1
+            else:
+                new_lines.append(line)
+        else:
+            new_lines.append(line)
+
+    with open(cue_path, 'w') as f:
+        f.writelines(new_lines)
+
+    print("\nCUE: %d tracks (%d audio)" % (track_num, track_num - 1))
+
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: %s <binary> [disc_image]" % sys.argv[0])
@@ -336,11 +378,14 @@ def main():
 
     inject_binary(bin_path, disc_path, output_track)
 
+    # Generate full CUE sheet with audio tracks from original disc
+    orig_cue = os.path.join(
+        project_dir, "external_resources",
+        "Daytona USA (USA)",
+        "Daytona USA (USA).cue"
+    )
     cue_path = os.path.join(out_dir, "daytona_rebuilt.cue")
-    with open(cue_path, 'w') as f:
-        f.write('FILE "Track 01.bin" BINARY\n')
-        f.write('  TRACK 01 MODE1/2352\n')
-        f.write('    INDEX 01 00:00:00\n')
+    generate_cue(orig_cue, out_dir, cue_path)
 
     print("CUE: %s" % cue_path)
 
