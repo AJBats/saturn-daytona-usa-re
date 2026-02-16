@@ -83,21 +83,24 @@ if ($title -match "Error") {
     exit 1
 }
 
-# Wait for BIOS screen to appear
-Start-Sleep -Seconds 2
+# Wait for Mednafen to finish loading disc and reach BIOS screen
+Start-Sleep -Seconds 4
 
-# Grab focus
+# Grab focus and spam Enter to skip BIOS animation
+# (Saturn Start = Enter in Mednafen; send multiple times to ensure it lands)
 $hwnd = $medProc.MainWindowHandle
 [Win32]::ShowWindow($hwnd, 9) | Out-Null
 Start-Sleep -Milliseconds 200
 [Win32]::SetForegroundWindow($hwnd) | Out-Null
 Start-Sleep -Milliseconds 300
 
-# Send Enter to skip BIOS animation (VK_RETURN=0x0D, scan=0x1C)
-Send-Key 0x0D 0x1C
+for ($k = 0; $k -lt 5; $k++) {
+    Send-Key 0x0D 0x1C
+    Start-Sleep -Milliseconds 500
+}
 
 # Wait for game to load past license screen to title/attract
-Start-Sleep -Seconds 17
+Start-Sleep -Seconds 15
 
 # Re-check process is alive (crash = black screen = no process or frozen)
 $medProc = Get-Process -Name "mednafen" -ErrorAction SilentlyContinue

@@ -12,3 +12,8 @@ tools/old-gcc/
 tools/check_prologues.py
 .setup-tmp/
 sotn-reference/
+
+# Generated build artifacts (reimpl two-pass pipeline)
+reimpl/daytona_sizing.elf
+reimpl/saturn_fixed.ld
+reimpl/src/trampolines.s

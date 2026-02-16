@@ -249,6 +249,11 @@ def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_tram
         else:
             # Include the FUN_ section at the original address.
             input_sections.append('*(%s)' % section_name)
+            # Also include lowercase hex variant -- Ghidra L1 lifts use lowercase
+            # (e.g., .text.FUN_06005ecc vs .text.FUN_06005ECC)
+            lower_hex = name[:4] + name[4:].lower()
+            if lower_hex != name:
+                input_sections.append('*(.text.%s)' % lower_hex)
             # Also include the C alias section if this function was renamed
             # (e.g., system_init -> FUN_060030FC). GCC -ffunction-sections puts
             # code in .text.system_init, not .text.FUN_060030FC.

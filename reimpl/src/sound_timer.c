@@ -65,4 +65,5 @@ void sound_timer_init(void)
     SH2_FRT_OCRX_L = 0x00;
 }
 
-void FUN_06003218(void) __attribute__((alias("sound_timer_init")));
+/* FUN_06003218 alias removed — ASM-imported in asm_restored_stubs.c for boot.
+ * The C reimpl (sound_timer_init) remains available for reference/future use. */

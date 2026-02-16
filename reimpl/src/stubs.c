@@ -156,8 +156,9 @@ void game_subsystem_init(void)
     } while (result <= 2);
 }
 
-/* 0x06004A98: Global engine initialization (big function, sets up everything) */
-void global_engine_init(void) { }
+/* 0x06004A98: Global engine initialization — real code in asm_restored_stubs.c as FUN_06004A98 */
+extern void FUN_06004A98(void);
+void global_engine_init(void) { FUN_06004A98(); }
 
 /* 0x06012E6A: now in resource_loader.c */
 

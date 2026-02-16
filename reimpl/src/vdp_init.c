@@ -38,4 +38,5 @@ void vdp_init_dispatcher(void)
     bios_fn((int)(short)0xFE16, 0x06028248);
 }
 
-void FUN_06003274(void) __attribute__((alias("vdp_init_dispatcher")));
+/* FUN_06003274 alias removed — ASM-imported in asm_restored_stubs.c for boot.
+ * The C reimpl (vdp_init_dispatcher) remains available for reference/future use. */

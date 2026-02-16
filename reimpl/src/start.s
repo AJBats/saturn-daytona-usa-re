@@ -1,25 +1,137 @@
-! start.s -- Entry point for Daytona USA reimplementation
-! Placed at 0x06003000 by linker script (.text.startup section)
-! IP.BIN loads APROG.BIN here and jumps to _start
+! start.s -- Original main function entry point
+! Binary code for main loop (0x06003000-0x060030FC)
+! Pool constants: system_init, per_frame_setup, state handler jump table
+! Data gaps filled by tools/patch_data_holes.py post-build
 
     .section .text.startup
     .global _start
     .type _start, @function
-    .align 2
+    .balign 4
 
 _start:
-    ! Set stack pointer (high work RAM, above our code)
-    mov.l   stack_addr, r15
-    ! Clear status register (all interrupts enabled)
-    mov     #0, r0
-    ldc     r0, sr
-    ! Jump to C boot function
-    mov.l   boot_addr, r0
-    jmp     @r0
-    nop
-
-    .align 2
-stack_addr:
-    .long   0x06060000
-boot_addr:
-    .long   _boot
+    .word 0xD117
+    .word 0xE000
+    .word 0xDF18
+    .word 0x410B
+    .word 0x400E
+    .word 0xD016
+    .word 0x400B
+    .word 0x0009
+    .word 0xC71A
+    .word 0xD118
+    .word 0xD215
+    .word 0x6112
+    .word 0xD315
+    .word 0x2212
+    .word 0x6613
+    .word 0xE401
+    .word 0xE510
+    .word 0x3567
+    .word 0x8D02
+    .word 0xE508
+    .word 0x4428
+    .word 0x76F0
+    .word 0x3567
+    .word 0x8D02
+    .word 0xE506
+    .word 0x4418
+    .word 0x76F8
+    .word 0x3567
+    .word 0x8903
+    .word 0x4408
+    .word 0x4408
+    .word 0x4408
+    .word 0x76FA
+    .word 0x2668
+    .word 0x8902
+    .word 0x4610
+    .word 0x8FFD
+    .word 0x4400
+    .word 0xD20A
+    .word 0x2342
+    .word 0x6522
+    .word 0x4108
+    .word 0x001E
+    .word 0x7501
+    .word 0x400B
+    .word 0x2252
+    .word 0xAFD5
+    .word 0x0009
+    .word 0x0600  ! pool: system_init
+    .word 0x30FC
+    .word 0x0600  ! pool: per_frame_setup
+    .word 0xA392
+    .word 0x0600  ! pool: stack base
+    .word 0x3000
+    .word 0x0607
+    .word 0xEBC0
+    .word 0x0607
+    .word 0xEBC4
+    .word 0x0605
+    .word 0xAD10
+    .word 0x0607
+    .word 0xEBC8
+    .word 0x0600  ! state handler jump table start
+    .word 0x88CC
+    .word 0x0600
+    .word 0x890A
+    .word 0x0600
+    .word 0x8938
+    .word 0x0600
+    .word 0x8A18
+    .word 0x0600
+    .word 0x8CCC
+    .word 0x0600
+    .word 0x8D74
+    .word 0x0600
+    .word 0x8B04
+    .word 0x0600
+    .word 0x8B34
+    .word 0x0600
+    .word 0x8B78
+    .word 0x0600
+    .word 0x8B9C
+    .word 0x0600
+    .word 0x8BD8
+    .word 0x0600
+    .word 0x8BFC
+    .word 0x0600
+    .word 0x8E00
+    .word 0x0600
+    .word 0x8E48
+    .word 0x0600
+    .word 0x8EBC
+    .word 0x0600
+    .word 0x9098
+    .word 0x0600
+    .word 0x9290
+    .word 0x0600
+    .word 0x92D0
+    .word 0x0600
+    .word 0x96DC
+    .word 0x0600
+    .word 0x9788
+    .word 0x0600
+    .word 0x9A60
+    .word 0x0600
+    .word 0x9C48
+    .word 0x0600
+    .word 0x9E60
+    .word 0x0600
+    .word 0x9F10
+    .word 0x0600
+    .word 0x9CFC
+    .word 0x0600
+    .word 0x9D4E
+    .word 0x0600
+    .word 0x9DD0
+    .word 0x0600
+    .word 0x9E02
+    .word 0x0600
+    .word 0x9508
+    .word 0x0600
+    .word 0x955E
+    .word 0x0600
+    .word 0x8C14
+    .word 0x0600
+    .word 0x8C76

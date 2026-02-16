@@ -20,7 +20,7 @@ LIBGCC  := $(PROJDIR)/tools/sh-elf/lib/gcc/sh-elf/13.3.0/libgcc.a
 LDSCRIPT := saturn_fixed.ld
 # --noinhibit-exec: 3 ASM functions have 2-byte section alignment padding that
 # overlaps harmlessly with the next function (assembler pads to 4-byte boundary)
-LDFLAGS := -T $(LDSCRIPT) -nostdlib --noinhibit-exec
+LDFLAGS := -T $(LDSCRIPT) -nostdlib --noinhibit-exec -Map=$(BUILDDIR)/daytona.map
 
 BUILDDIR := build
 
@@ -45,11 +45,16 @@ APROG_SIZE := 394896
 $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 	@SIZE=$$(wc -c < $@); \
-	if [ $$SIZE -lt $(APROG_SIZE) ]; then \
+	if [ $$SIZE -gt $(APROG_SIZE) ]; then \
+		echo "ERROR: $@ is $$SIZE bytes — exceeds original APROG.BIN ($(APROG_SIZE) bytes)"; \
+		echo "Binary size parity VIOLATED. Fix overflow before proceeding."; \
+		rm -f $@; \
+		exit 1; \
+	elif [ $$SIZE -lt $(APROG_SIZE) ]; then \
 		truncate -s $(APROG_SIZE) $@; \
 		echo "Built: $@ ($$SIZE bytes code, padded to $(APROG_SIZE))"; \
 	else \
-		echo "Built: $@ ($$SIZE bytes)"; \
+		echo "Built: $@ ($$SIZE bytes — exact match)"; \
 	fi
 
 $(ELF): $(OBJS) $(LDSCRIPT)

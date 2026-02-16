@@ -5,20 +5,20 @@
  */
 
 /* FUN_06012C3C: moved to cd_io_retry.c */
-void FUN_0603F3F6(void) { }
-void FUN_06034D1C(void) { }
+/* FUN_0603F3F6: moved to asm_restored_stubs.c (ASM import) */
+/* FUN_06034D1C: moved to asm_restored_stubs.c (ASM import) */
 /* FUN_06041648: moved to cd_status.c */
 /* FUN_06014F34: moved to sequence_player.c */
 /* FUN_0601712C: moved to slot_dispatch.c */
 /* FUN_06035F04: moved to cd_command_exec.c */
-int FUN_06035D5A(void) { return 0; }
+/* FUN_06035D5A: moved to asm_restored_stubs.c (ASM import) */
 int FUN_06035FEC(int a, int b) { (void)a; (void)b; return 0; }
-void FUN_0603FA1A(int *a, int b) { (void)a; (void)b; }
+/* FUN_0603FA1A: moved to asm_restored_stubs.c (ASM import) */
 /* FUN_0603B93C: moved to callback_dispatch.c */
 /* FUN_06020DEE: moved to slot_clear.c */
 /* FUN_06038120: moved to vdp_polygon_setup.c */
 /* FUN_06027378: moved to atan.c */
-void FUN_06012450(int a, int b) { (void)a; (void)b; }
+/* FUN_06012450: moved to asm_restored_stubs.c (ASM import) */
 
 /* Game loop dependencies (from car_iteration.c) */
 /* FUN_0600E0C0: moved to per_car_loop.c */
@@ -49,14 +49,14 @@ void FUN_06012450(int a, int b) { (void)a; (void)b; }
 /* FUN_06026E0C: moved to transform_stack.c */
 /* FUN_06026EDE: moved to heading_rotation.c */
 /* FUN_06026FFC: moved to matrix_transform.c */
-void FUN_06027CA4(int buffer, int index) { (void)buffer; (void)index; }
+/* FUN_06027CA4: moved to asm_restored_stubs.c (ASM import) */
 void FUN_0603053C(int arg) { (void)arg; }
 
 /* Race init dependencies (from race_init.c) */
 /* FUN_06026E02: moved to transform_stack.c */
 /* FUN_060270C6: moved to transform_stack.c */
 /* FUN_0600629C: moved to car_table_init.c */
-void FUN_06021450(void) { }
+/* FUN_06021450: moved to asm_restored_stubs.c (ASM import) */
 
 /* E4F2 dependencies (from physics_entry.c) */
 void FUN_0602ECF2(void) { }
@@ -72,30 +72,31 @@ void FUN_0602ECF2(void) { }
 /* FUN_0601D7D0: moved to lap_announce.c */
 
 /* CD I/O dependencies (from cd_io_retry.c) */
-void FUN_06012BDC(void) { }
-int  FUN_0603AE08(int command) { (void)command; return 0; }
-int  FUN_0603B1B6(int handle, int zero, int dest, int flag) { (void)handle; (void)zero; (void)dest; (void)flag; return 0; }
+/* FUN_06012BDC: moved to asm_restored_stubs.c (ASM import) */
+/* FUN_0603AE08: moved to asm_restored_stubs.c (ASM import) */
+/* FUN_0603B1B6: moved to asm_restored_stubs.c (ASM import) */
 
 /* CD subsystem init dependencies (from stubs.c / game_subsystem_init) */
-int  FUN_0603AC1C(int mode, int src, int config) { (void)mode; (void)src; (void)config; return 3; }
+/* FUN_0603AC1C: moved to asm_restored_stubs.c (ASM import) */
 
 /* CD command dependencies (from cd_command.c) */
-void FUN_060349C4(int *result_buf) { (void)result_buf; }
+/* FUN_060349C4: moved to asm_restored_stubs.c (ASM import) */
 
 /* VDP state init dependencies (from vdp_state_init.c) */
-void FUN_06038BD4(int mode, int param) { (void)mode; (void)param; }
+/* FUN_06038BD4: moved to asm_restored_stubs.c (ASM import) */
 void FUN_060393FC(int r4, int r5, int r6, int r7, int stack_arg) { (void)r4; (void)r5; (void)r6; (void)r7; (void)stack_arg; }
+/* NOTE: FUN_060393FC is a mid-function entry at 0x060393FC within FUN_0603931C */
 
 /* Visual physics update dependencies (from visual_physics_update.c) */
 void FUN_0602DB00(void) { }
 void FUN_0602DC18(void) { }
 
 /* VDP data decompressor (ASM-only, saves r0-r14) */
-void FUN_06028654(int param_1, int param_2) { (void)param_1; (void)param_2; }
+/* FUN_06028654: moved to asm_restored_stubs.c (ASM import) */
 
 /* Channel rendering processor (ASM-only, heavy register save) */
-void FUN_06020366(int param_1) { (void)param_1; }
+/* FUN_06020366: moved to asm_restored_stubs.c (ASM import) */
 
 /* Ghidra phantom sub-functions (mid-function offsets, not real entry points) */
-int FUN_0603ec40(int a) { (void)a; return 0; }
-int FUN_06013c58(void) { return 0; }
+/* FUN_0603EC40: moved to asm_restored_stubs.c (ASM import) */
+/* FUN_06013C58: moved to asm_restored_stubs.c (ASM import) */
