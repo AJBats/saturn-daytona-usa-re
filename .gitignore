@@ -12,6 +12,9 @@ tools/old-gcc/
 tools/check_prologues.py
 .setup-tmp/
 sotn-reference/
+mednafen/
+.tmp/
+.vscode/
 
 # Generated build artifacts (reimpl two-pass pipeline)
 reimpl/daytona_sizing.elf

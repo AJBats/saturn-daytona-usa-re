@@ -104,97 +104,90 @@ data region at the tail of the original binary (116KB). This must be:
 
 We need three capabilities from Mednafen that the stock build doesn't provide.
 
-### T1: Background Window (no focus steal)
+### T1: Background Window (no focus steal) — IMPLEMENTED
 
 **Problem**: Stock Mednafen opens an SDL window that grabs keyboard focus. Our
-automated test pipeline (`test_boot.ps1`) breaks when another window is active.
+automated test pipeline breaks when another window is active.
 
-**Requirements**:
-- Window still renders (user can alt-tab to peek)
-- Opens behind the active window, not on top
-- Does not grab keyboard focus on startup
-- Gameplay inputs and screenshots work without window focus
+**Implementation** (in `mednafen/src/drivers/`):
+- `automation.cpp`: `Automation_SuppressRaise()` returns true in automation mode
+- `video.cpp`: `SDL_ShowWindow`/`SDL_RaiseWindow` calls guarded by SuppressRaise
+- Window starts hidden in automation mode (SDL_WINDOW_HIDDEN at creation)
+- OpenGL rendering still works on the hidden surface for screenshots
+- `show_window` / `hide_window` commands allow on-demand visibility control
+- `video.cpp`: `Video_AutomationShowWindow()` / `Video_AutomationHideWindow()`
+- `main.cpp`: Consumes pending flags from automation after each frame poll
 
-**Implementation approach**:
-- Patch SDL window creation: remove `SDL_WINDOW_INPUT_GRABBED`, don't call
-  `SDL_RaiseWindow()`
-- Win32: call `SetWindowPos(hwnd, HWND_BOTTOM, ...)` after window creation
-- All real input comes from the action file (T2), not keyboard
+### T2: File-Based Action Interface — IMPLEMENTED
 
-### T2: File-Based Action Interface
+**Implementation** (`automation.cpp`, ~500 lines):
 
-**Problem**: We need to control Mednafen programmatically — send inputs, take
-screenshots, advance frames — without keyboard focus or interactive terminals.
-
-**Design**: Two-file handshake protocol.
-
-**Action file** (`mednafen_action.txt`): Written by Claude/scripts.
-```
-# Commands (one per line):
-frame_advance <N>           # run N frames, then pause
-screenshot <path>           # save framebuffer to file
-input <button>              # press button (START, A, B, C, UP, DOWN, LEFT, RIGHT)
-input_release <button>      # release button
-run_to_frame <N>            # run until frame counter == N, then pause
-quit                        # clean shutdown
-```
-
-**Acknowledgment file** (`mednafen_ack.txt`): Written by Mednafen after each command.
-```
-done frame_advance 300      # command completed
-done screenshot /path/to/screenshot.png
-error <message>             # command failed
-```
-
-**Protocol**:
-1. Mednafen starts paused, polls action file every frame
-2. Claude writes command to action file
-3. Mednafen reads command, executes, writes ack
-4. Claude reads ack, writes next command
-5. Repeat
-
-**Implementation**: ~100 lines in Mednafen's main loop. Check file mtime each
-frame. Parse simple text commands. Write ack after execution.
-
-### T3: Debug Trace Interface
-
-**Problem**: When the reimpl binary shows a black screen, we need to find exactly
-where execution diverges from the original. Currently we guess by reading
-disassembly — this is slow and unreliable.
-
-**Design**: Extension of the action file protocol with debug commands.
+Two-file handshake protocol. External tool writes to `mednafen_action.txt`,
+Mednafen executes and writes result to `mednafen_ack.txt`.
 
 ```
-# Debug commands:
-step <N>                    # execute N instructions, write trace
-run_to <addr>               # run until PC == addr, then pause
-breakpoint <addr>           # add breakpoint (pause when PC hits addr)
-dump_regs                   # write all SH-2 registers to ack file
-dump_mem <addr> <size>      # write memory contents to ack file
-dump_pc_trace <N>           # record last N PC values
+# Full command set (implemented):
+frame_advance [N]              pause                 run
+run_to_frame <N>               screenshot <path>     quit
+input <button>                 input_release <btn>   input_clear
+dump_regs                      dump_mem <addr> <sz>  status
+dump_regs_bin <path>           dump_mem_bin <a> <s> <path>
+pc_trace_frame <path>          show_window           hide_window
+step [N]                       breakpoint <addr>     continue
+breakpoint_clear               breakpoint_list
 ```
 
-**Ack format for debug commands**:
-```
-regs PC=060030FC SR=000000F0 PR=06003058 R0=00000000 R1=06003000 ...
-mem 06078900 00000000 00000000 00000000 00000001 ...
-pc_trace 060030FC 060030FE 06003100 06003102 ...
-```
+Protocol: Mednafen starts paused (frame 0), polls action file mtime every frame.
+Commands are processed immediately. Ack written after each command.
 
-**Usage pattern — side-by-side comparison**:
-1. Launch Mednafen instance A with original APROG.BIN
-2. Launch Mednafen instance B with reimpl APROG.BIN
-3. Set breakpoint at function entry (e.g., 0x0603BF7C = course_system_init)
-4. Both instances run to breakpoint
-5. Dump registers from both — compare
-6. Step both N instructions — compare
-7. Find exact divergence point
+### T3: Debug Trace Interface — IMPLEMENTED
 
-**Implementation**: Hooks in the SH-2 CPU execution loop. Breakpoint is a simple
-address check before each instruction. Register dump is trivial (read CPU struct).
-Memory dump is a memcpy. PC trace is a circular buffer.
+**Implementation** (in `automation.cpp` + `ss.cpp` hooks):
 
-Estimated effort: ~200-300 lines of C++ in Mednafen's Saturn SH-2 core.
+- `dump_regs` / `dump_regs_bin` — SH-2 master CPU registers (R0-R15, PC, SR, PR, GBR, VBR, MACH)
+- `dump_mem` / `dump_mem_bin` — arbitrary memory reads up to 1MB
+- `pc_trace_frame` — records every master CPU PC for one frame to binary file
+- All debug data available in both text (ack file) and binary (file path) formats
+
+### T4: Instruction Stepping & Breakpoints — IMPLEMENTED
+
+**Implementation** (in `automation.cpp`, using `ss.cpp` CPU debug hook):
+
+- `step [N]` — execute exactly N CPU instructions, then pause. The debug hook
+  decrements a counter on each instruction and spin-waits when it hits zero.
+- `breakpoint <addr>` — add a PC breakpoint. When the CPU reaches this address,
+  execution pauses inside the debug hook's spin-wait loop.
+- `breakpoint_clear` — remove all breakpoints
+- `breakpoint_list` — list currently set breakpoints
+- `continue` — resume execution from instruction-level pause (runs until next
+  breakpoint or external pause command)
+
+Pausing happens INSIDE the SH-2 CPU execution loop via `Automation_DebugHook()`.
+This means registers and memory reflect the exact state at that instruction — not
+at a frame boundary. Commands like `dump_regs`, `dump_mem` work while instruction-paused.
+
+The CPU hook is enabled/disabled dynamically via `update_cpu_hook()`:
+- Active when: pc_trace, stepping, or breakpoints are in use
+- Inactive otherwise: zero overhead for frame-level comparison
+
+**Usage pattern — breakpoint comparison** (`tools/parallel_compare.py --breakpoint-at`):
+1. Launch both Mednafen instances
+2. Set same breakpoint (e.g. `0x060030FC` — system_init entry) in both
+3. `continue` both — they run until breakpoint hit
+4. Compare registers + memory at that exact instruction
+5. Identify which function/data differs first
+
+**Usage pattern — instruction stepping**:
+1. Set breakpoint at function entry in both instances
+2. `continue` both to breakpoint
+3. `step 1` in both — advance one instruction
+4. Compare registers after each step to find exact divergence instruction
+
+**Usage pattern — frame scan** (`tools/parallel_compare.py`):
+1. Launch both instances (start paused at frame 0)
+2. `frame_advance N` in lockstep, compare registers each step
+3. When divergence found: restart, `--breakpoint-at` the function entry
+4. Step through to find the exact instruction that diverges
 
 ## Phase Plan
 
@@ -240,6 +233,64 @@ Estimated effort: ~200-300 lines of C++ in Mednafen's Saturn SH-2 core.
 4. Fix the divergent function (C bug, missing data, wrong address)
 5. Iterate until reimpl binary matches original through full init sequence
 6. Verify: reimpl binary shows title screen
+
+## Learnings: Windows Native Mednafen Build (ABANDONED)
+
+We attempted to build Mednafen natively for Windows to avoid WSLg focus-stealing
+and environment issues. This section documents what we learned so it doesn't have
+to be rediscovered.
+
+### What We Tried
+
+1. Cross-compiled Mednafen using WSL MinGW-w64 (x86_64-w64-mingw32-g++)
+2. Successfully compiled all source files
+3. Fixed link error: `mingw_app_type` vs `__mingw_app_type` (stub in mingw_compat.c)
+4. Produced mednafen.exe (146MB PE32+)
+
+### Why It Crashed
+
+**Crash 1 — ACCESS_VIOLATION at 0x100000000 (4GB boundary)**:
+Mednafen compiles with `-mcmodel=small -fno-pic` which generates 32-bit absolute
+addresses. Windows PE default base is 0x140000000 (above 4GB). Fixed with
+`-Wl,--image-base,0x400000 -Wl,--disable-dynamicbase`.
+
+**Crash 2 — NULL pointer dereference (jump to 0x0)**:
+Switch/case jump tables. The `-mcmodel=small` flag makes GCC emit 32-bit jump
+table entries, but standard MinGW GCC still generates 64-bit entries for x86-64
+targets. This causes the computed jump address to be garbage.
+
+### Root Cause: Custom GCC Toolchain Required
+
+The official Mednafen Windows build uses a **custom-patched GCC 4.9.4** toolchain.
+The patch is at `mednafen/mswin/gcc-4.9.4-mingw-w64-noforcepic-smalljmptab.patch`
+and modifies four files in the i386 backend:
+- `cygming.h` — don't force PIC on 64-bit
+- `i386.c` — emit ASM_LONG (32-bit) jump table entries in small code model
+- `i386.h` — CASE_VECTOR_MODE returns SImode for small code model
+- `i386.md` — sign-extend 32-bit jump table entries to 64-bit
+
+Without this patch, **no standard MinGW GCC will produce a working binary**.
+
+The full custom toolchain build process is in `mednafen/mswin/build-toolchain.sh`
+and includes: binutils 2.28.1, MinGW-w64 5.0.5, GCC 4.9.4+patches, libiconv,
+zlib, SDL2, FLAC — all cross-compiled. This is a multi-hour build process.
+
+### Decision
+
+Building the custom toolchain is not worth the effort when WSL Mednafen works.
+We solved the focus-stealing problem by:
+- Defaulting to **hidden window** in automation mode (SDL_ShowWindow skipped)
+- Adding **show_window/hide_window** automation commands for on-demand peeking
+- Running Python orchestrator from Windows, Mednafen from WSL
+
+### WSLg Environment Gotchas
+
+When spawning WSL processes from Windows Python (`subprocess.Popen(["wsl", ...])`):
+- `$HOME` is `/c/Users/<user>` (DrvFS), NOT `/root` — firmware lookup fails
+- `$DISPLAY` may be `needs-to-be-defined` — must set `DISPLAY=:0` explicitly
+- Shell globs like `~/.mednafen/firmware/*` don't expand through the subprocess chain
+- **Fix**: Use a temporary HOME dir, copy firmware with `cp /root/.mednafen/firmware/*`,
+  and explicitly set DISPLAY=:0 in the launch command
 
 ## Known Issues from Previous Attempts
 
