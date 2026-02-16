@@ -61,6 +61,14 @@ class MednafenInstance:
         self.last_ack = ""
         self._cmd_seq = 0  # Monotonic counter for action file change detection
 
+    @staticmethod
+    def kill_stale():
+        """Kill any leftover Mednafen automation processes from previous runs."""
+        subprocess.run(["wsl", "-d", "Ubuntu", "-e", "bash", "-c",
+                        "pkill -9 -f 'mednafen.*--automation' 2>/dev/null; true"],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(0.5)
+
     def start(self):
         os.makedirs(self.ipc_dir, exist_ok=True)
         for f in [self.action_file, self.ack_file]:
@@ -413,6 +421,7 @@ def compare_traces(path_a, path_b, symbols):
 
 def run_breakpoint_comparison(args, symbols):
     """Run both instances to the same breakpoint address, then compare everything."""
+    MednafenInstance.kill_stale()
     bp_addr = int(args.breakpoint_at, 16) if isinstance(args.breakpoint_at, str) else args.breakpoint_at
 
     ipc_a = os.path.join(TMPDIR, "emu_prod")
@@ -496,6 +505,9 @@ def main():
     parser.add_argument("--compare-memory", action="store_true",
                         help="Also compare memory regions during frame scan")
     args = parser.parse_args()
+
+    # Kill stale Mednafen processes before doing anything
+    MednafenInstance.kill_stale()
 
     symbols = load_symbols(SYMS_FILE)
     print(f"Loaded {len(symbols)} symbols from {SYMS_FILE}")

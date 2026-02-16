@@ -294,27 +294,167 @@ When spawning WSL processes from Windows Python (`subprocess.Popen(["wsl", ...])
 
 ## Phase 4 Progress: Boot Diagnosis
 
-### First Coarse Scan (2026-02-16)
+### Milestone: Reimpl Is Functionally Identical (2026-02-16)
 
-Ran `parallel_compare.py --max-frames 200 --coarse-step 10 --compare-memory`:
+Full 1MB work RAM comparison between prod and reimpl at various frame counts:
 
-| Frame Range | Result | Notes |
-|-------------|--------|-------|
-| 0–50 | MATCH | BIOS init (PC in 0x000xxxxx range) |
-| 50–60 | MATCH | BIOS → game handoff (PC at 0x06001660) |
-| 60–160 | MATCH | Game init running identically |
-| ~170 | **DIVERGENCE** | 20 register differences (R0–R15, PC, SR, PR...) |
+| Frame | RAM Diffs | Notes |
+|-------|-----------|-------|
+| 60 | **0** | All code + data identical after BIOS init |
+| 100 | **0** | Full 1MB perfect match |
+| 200 | **0** | Full 1MB perfect match |
+| 400 | **15** | All timing artifacts (counters off by 2, frame-boundary sampling) |
+| 600 | ~58 in 256B spot | Growing but still executing same code |
+| 1200 | 186 in 256B spot | **Reimpl crashes** — PC drops to BIOS at 0x06000956 |
 
 **Key findings**:
-- Game code at 0x06003000 is **byte-identical** (first 256 bytes verified)
-- Both instances execute through BIOS init and 100+ frames of game init identically
-- First divergence at frame ~170 — all registers differ, indicating execution paths split
+- Game code at 0x06003000 is **byte-identical** in emulator memory
+- PC trace for individual frames: **319,911 instructions identical** (same function, same order)
+- Frame-level register divergence is **noise** (CPU at different pipeline position when frame ends)
+- The actual RAM state is identical for hundreds of frames
+- Reimpl crashes between frame 600–1200 — PC falls to BIOS exception area
 
-**Next steps**:
-1. Fix memory dump timeout in comparison tool (sequential command timing issue)
-2. Fine scan: frame-by-frame between 160–170 to find exact divergent frame
-3. Instruction trace: PC trace the divergent frame to find exact instruction
-4. Identify which function/data causes the split
+### Frame-Level Comparison Is Unreliable
+
+Coarse frame scans show "divergence" that fine scans can't reproduce. This is because
+registers are sampled at the frame boundary, which doesn't align with deterministic
+execution points. The CPU is simply at a different instruction when the frame ends.
+
+**Correct approach**: Use breakpoints at known function entry points from our symbol
+table (1234 labels). Compare registers + memory at those deterministic code locations.
+
+### Bug Fix: Missing Audio Tracks in Rebuilt Disc (commit e708700)
+
+**Symptom**: Reimpl binary frozen on SEGA logo (BIOS screen), never reaching game code.
+
+**Root cause**: `inject_binary.py` was building a disc image with only 1 track (data).
+The original disc has 22 tracks (1 data + 21 audio). The Saturn CD subsystem reads the
+disc TOC on startup, and the missing audio tracks caused it to loop forever in TOC
+processing, never signaling "loading complete" to the game code.
+
+**Fix**: Added `generate_cue()` function to `inject_binary.py` that:
+1. Parses the original disc's CUE file to discover all audio track filenames
+2. Copies original audio track BIN files into the rebuilt disc directory
+3. Generates a complete 22-track CUE sheet referencing all tracks
+
+**Class of issue**: Disc environment fidelity — the game doesn't just read data from the
+disc; it also interacts with the CD subsystem's metadata (TOC, track count, session info).
+The reimpl disc must be a complete disc image, not just the data track.
+
+### Narrowed Crash Window: Frame 670–680
+
+After fixing audio tracks, the reimpl now gets past the SEGA logo BIOS animation.
+Detailed frame-level comparison:
+
+| Frame | Prod | Reimpl | Notes |
+|-------|------|--------|-------|
+| 0–600 | Spinloop 0x060023F4 | Spinloop 0x060023F4 | Both polling 0x06002D84 |
+| 670 | Still polling | Still polling | Both waiting for CD load |
+| 675 | Still polling | **Flag changes to 0** | Reimpl disc loads faster |
+| 679 | **Flag changes to 0** | Exited spinloop | Prod disc loads (4 frames later) |
+| 680 | Exits spinloop → main() | main() → **CRASH** | Reimpl enters exception handler |
+
+The spinloop at 0x060023F4 polls `*(volatile int *)0x06002D84`, waiting for the
+value to change from 1 (CD loading in progress) to 0 (loading complete). This is
+system code, identical in both binaries.
+
+**Key insight**: The reimpl disc loads slightly faster (4 frames), which is expected
+since the rebuilt disc may have different sector layout. This timing difference is
+harmless — both exit the spinloop correctly.
+
+### Crash Chain: main() → FUN_060030FC → Exception
+
+After exiting the spinloop, both binaries enter `main()` at 0x06003000. The first
+instructions of main:
+
+```
+06003000: D117  mov.l @(0x06003060),R1  ; R1 = 0x060030FC
+06003002: E000  mov #0,R0
+06003004: DF18  mov.l @(0x06003068),R15  ; R15 = initial SP
+06003006: 410B  jsr @R1                  ; call FUN_060030FC ← game init
+06003008: 400E  ldc R0,SR               ; (delay slot)
+0600300A: D016  mov.l ...,R0             ; main loop top — never reached
+```
+
+**Production**: Calls FUN_060030FC, returns, enters main loop at 0x0600300A.
+**Reimpl**: Calls FUN_060030FC, **crashes**. PR=0x0600300A confirms the crash
+happened inside FUN_060030FC (or one of its callees). PC ends up at 0x06000956
+which is the BIOS exception/reset handler.
+
+**Next target**: FUN_060030FC is the game's master initialization function. It
+calls subsystem init routines (VDP, sound, input, etc.). One of our L1 C
+reimplementations of these callees is causing a CPU exception — likely an illegal
+memory access, divide by zero, or invalid instruction.
+
+### Tooling Fix: Cache-Aware Memory Reads (uncommitted — ss.cpp)
+
+**Problem**: `Automation_ReadMem8` was reading directly from WorkRAMH (the backing
+RAM array), bypassing the SH-2 instruction cache. This meant memory dumps of
+executable code at 0x06003000+ showed **all zeros** even though the CPU was clearly
+executing instructions there.
+
+**Root cause**: The SH-2 has a 4-way set-associative instruction cache (64 sets ×
+4 ways × 16 bytes per line). Code loaded from disc is cached by the CPU during the
+first fetch, but the backing RAM (WorkRAMH) may never be updated if the code is
+only ever fetched through the cache. Mednafen's own `DBG_MemPeek` (in debug.inc)
+is stubbed out — it returns 0xAA for everything. So even the built-in debugger
+can't read memory truthfully.
+
+**Fix**: `Automation_ReadMem8` now checks the master SH-2 cache first:
+1. If address is in cacheable region (bits [28:26] == 0) and cache is enabled (CCR_CE)
+2. Compute cache set index and tag, scan all 4 ways for a tag match
+3. On cache hit: return the byte from cached data
+4. On cache miss: fall through to backing RAM read
+
+This is critical for tool trustworthiness. Without it, we can't inspect the code
+the CPU is actually executing.
+
+**Class of issue**: Observability gap — when debugging an emulated system, we must
+read through the same path the CPU uses. Reading backing store directly gives a
+stale/wrong view. All future memory inspection tools should go through this
+cache-aware path.
+
+### Classes of Issues Identified
+
+These categories of bugs will recur. Each instance teaches a pattern.
+
+| Class | Example | Pattern |
+|-------|---------|---------|
+| **Disc environment** | Missing audio tracks | Game interacts with CD subsystem metadata, not just data |
+| **System→game handoff** | Spinloop timing | System code is identical, but timing differences are normal |
+| **Observability** | Cache vs backing RAM | Debug tools must read through CPU's view, not raw memory |
+| **L1 reimpl quality** | FUN_060030FC crash | Ghidra decomp produces compilable-but-wrong C code |
+
+### Debugging Methodology Lessons
+
+1. **Breakpoints >> single-stepping**: Setting a breakpoint at a target address and
+   running `continue` at full CPU speed is infinitely faster than stepping one instruction
+   at a time via file-based IPC (~100ms per step = hours for 200K instructions).
+
+2. **Register dump endianness**: `Automation_DumpRegsBin` writes native-endian (little-endian
+   on x86 Linux). Must read with `struct.unpack('<I', ...)`, not `>I`.
+
+3. **Saturn boot sequence**: SEGA logo (BIOS animation) → black screen (game init) →
+   attract mode (full boot). Frozen on SEGA logo = worst outcome (system code stuck).
+   Black screen after logo = game code entered but rendering failed (better).
+
+4. **Logarithmic bisection**: When divergence occurs over a range of N frames/instructions,
+   binary search to narrow to exact point. Don't brute-force scan.
+
+5. **test_boot.ps1 options**: `-Cue vanilla` (original disc), `-Cue rebuilt` (reimpl disc),
+   `-Cue patched` (old pipeline disc). There is NO `-Cue prod` option.
+
+### Next Steps
+
+1. **Debug FUN_060030FC** — the game init function that crashes on reimpl
+   - Set breakpoint at 0x060030FC in both instances
+   - Step through and compare register state to find exact divergence instruction
+   - The crash is in our L1 C code (or its callees), not system code
+2. Apply logarithmic bisection: FUN_060030FC likely calls many subsystem inits
+   - Find the specific callee that crashes
+   - Fix it (better Ghidra lift, or ASM-import if unreliable)
+3. Iterate: fix crash → retest → find next divergence → fix → repeat
+4. Commit the Mednafen cache fix (ss.cpp)
 
 ---
 
@@ -344,3 +484,4 @@ handles data restoration.
 
 ---
 *Created: 2026-02-16*
+*Updated: 2026-02-16 — Phase 4 deep diagnosis session*
