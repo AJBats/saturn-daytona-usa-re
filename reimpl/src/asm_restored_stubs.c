@@ -9,6 +9,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_06012450, \"ax\"\n"
 
     ".global _FUN_06012450\n"
@@ -21,6 +22,7 @@ __asm__(
 /* FUN_06012BDC @ 0x06012BDC (8 bytes) — restored from original binary */
 __asm__(
     ".balign 2\n"
+
 
 
     ".section .text.FUN_06012BDC, \"ax\"\n"
@@ -39,9 +41,11 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_06013C58, \"ax\"\n"
 
     ".global _FUN_06013C58\n"
+
 
 
     ".section .text.FUN_06013c58, \"ax\"\n"
@@ -279,6 +283,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_06020366, \"ax\"\n"
 
     ".global _FUN_06020366\n"
@@ -376,6 +381,7 @@ __asm__(
 /* FUN_06021450 @ 0x06021450 (3312 bytes) — restored from original binary */
 __asm__(
     ".balign 2\n"
+
 
 
     ".section .text.FUN_06021450, \"ax\"\n"
@@ -2046,6 +2052,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_06027CA4, \"ax\"\n"
 
     ".global _FUN_06027CA4\n"
@@ -2341,6 +2348,7 @@ __asm__(
 /* FUN_06028654 @ 0x06028654 (4332 bytes) — restored from original binary */
 __asm__(
     ".balign 2\n"
+
 
 
     ".section .text.FUN_06028654, \"ax\"\n"
@@ -4521,6 +4529,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_060349C4, \"ax\"\n"
 
     ".global _FUN_060349C4\n"
@@ -4571,6 +4580,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_06034D1C, \"ax\"\n"
 
     ".global _FUN_06034D1C\n"
@@ -4583,6 +4593,7 @@ __asm__(
 /* FUN_06035D5A @ 0x06035D5A (166 bytes) — restored from original binary */
 __asm__(
     ".balign 2\n"
+
 
 
     ".section .text.FUN_06035D5A, \"ax\"\n"
@@ -4678,6 +4689,7 @@ __asm__(
 /* FUN_06038BD4 @ 0x06038BD4 (640 bytes) — restored from original binary */
 __asm__(
     ".balign 2\n"
+
 
 
     ".section .text.FUN_06038BD4, \"ax\"\n"
@@ -5012,6 +5024,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_0603AC1C, \"ax\"\n"
 
     ".global _FUN_0603AC1C\n"
@@ -5127,6 +5140,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_0603AE08, \"ax\"\n"
 
     ".global _FUN_0603AE08\n"
@@ -5193,6 +5207,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_0603B1B6, \"ax\"\n"
 
     ".global _FUN_0603B1B6\n"
@@ -5256,9 +5271,11 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_0603EC40, \"ax\"\n"
 
     ".global _FUN_0603EC40\n"
+
 
 
     ".section .text.FUN_0603ec40, \"ax\"\n"
@@ -5676,6 +5693,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_0603F3F6, \"ax\"\n"
 
     ".global _FUN_0603F3F6\n"
@@ -5781,6 +5799,7 @@ __asm__(
     ".balign 2\n"
 
 
+
     ".section .text.FUN_0603FA1A, \"ax\"\n"
 
     ".global _FUN_0603FA1A\n"
@@ -5881,6 +5900,7 @@ __asm__(
 /* FUN_06004A98 @ 0x06004A98 (1148 bytes) — restored from original binary */
 __asm__(
     ".balign 2\n"
+
 
 
     ".section .text.FUN_06004A98, \"ax\"\n"
@@ -6471,6 +6491,7 @@ __asm__(
  */
 __asm__(
     ".balign 2\n"
+
     ".section .text.FUN_06003218, \"ax\"\n"
 
     ".global _FUN_06003218\n"
@@ -6531,6 +6552,7 @@ __asm__(
  */
 __asm__(
     ".balign 2\n"
+
     ".section .text.FUN_06003274, \"ax\"\n"
 
     ".global _FUN_06003274\n"

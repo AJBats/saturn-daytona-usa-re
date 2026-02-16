@@ -14,6 +14,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600A478, \"ax\"\n"
 
     ".global _FUN_0600A478\n"
@@ -50,6 +51,7 @@ __asm__(
 
 
     ".balign 2\n"
+
 
 
 
@@ -245,6 +247,7 @@ __asm__(
     ".balign 2\n"
     ".global _camera_car_transform_setup\n"
     ".type _camera_car_transform_setup, @function\n"
+
 
 
 
@@ -514,6 +517,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600B1A0, \"ax\"\n"
 
     ".global _FUN_0600B1A0\n"
@@ -733,6 +737,7 @@ __asm__(
     ".balign 4\n"
     ".global _camera_position_lerping\n"
     ".type _camera_position_lerping, @function\n"
+
 
 
 
@@ -994,6 +999,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600C010, \"ax\"\n"
 
     ".global _FUN_0600C010\n"
@@ -1192,6 +1198,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600C170, \"ax\"\n"
 
     ".global _FUN_0600C170\n"
@@ -1293,6 +1300,7 @@ __asm__(
     ".balign 2\n"
     ".global _vehicle_state_physics\n"
     ".type _vehicle_state_physics, @function\n"
+
 
 
 

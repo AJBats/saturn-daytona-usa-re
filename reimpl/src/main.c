@@ -52,17 +52,17 @@ const state_handler_t state_handlers[] = {
 };
 
 /*
- * boot() -- C entry point, called from start.s
+ * boot() -- C entry point, called from start.s crt0
  *
- * Mirrors the original entry at 0x06003000:
- *   1. Call system_init (FUN_060030FC)
+ * start.s sets SP and clears SR, then jumps here.
+ * All function calls use linker-resolved symbols — no hardcoded addresses.
+ *
+ * Sequence:
+ *   1. Call system_init (FUN_060030FC) — game hardware + subsystem init
  *   2. Enter main loop:
  *      a. Call per_frame_setup (per-frame update)
- *      b. Read game state
- *      c. Compute state bitmask (1 << state)
- *      d. Increment frame counter
- *      e. Dispatch to state handler
- *      f. Repeat
+ *      b. Read game state, compute bitmask, increment frame counter
+ *      c. Dispatch to state handler via jump table
  */
 void boot(void) __attribute__((noreturn));
 void boot(void)

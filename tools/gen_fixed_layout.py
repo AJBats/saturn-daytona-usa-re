@@ -547,21 +547,17 @@ def main():
     overflows = find_overflows(orig_sizes, asm_globals, elf_sizes, reverse_map)
     print("  %d C functions overflow their original slot" % len(overflows))
 
-    # Step 6: Find which overflows are referenced by ASM constant pools
-    print("Scanning ASM constant pools for references...")
-    asm_referenced_addrs = scan_asm_constant_pools(asm_globals)
-    print("  %d unique addresses found in ASM constant pools" % len(asm_referenced_addrs))
+    # Step 6: ALL overflow functions get trampolines
+    #
+    # Previously, only overflows referenced by ASM constant pools got trampolines.
+    # This was wrong: start.s wasn't scanned, and the "free overflow" functions
+    # left empty sections at their original addresses — unreachable dead zones.
+    # A trampoline is only 10 bytes and sits in otherwise-unused space.
+    # CLASS 3 FIX: every overflow function gets a trampoline. No exceptions.
+    print("All %d overflow functions will get trampolines (Class 3 fix)..." % len(overflows))
 
-    overflows_needing_trampoline = []
+    overflows_needing_trampoline = list(overflows)
     overflows_free = []
-    for fun_name, orig_addr, orig_size, our_size in overflows:
-        if orig_addr in asm_referenced_addrs:
-            overflows_needing_trampoline.append((fun_name, orig_addr, orig_size, our_size))
-        else:
-            overflows_free.append((fun_name, orig_addr, orig_size, our_size))
-
-    print("  %d overflows need trampolines (ASM-referenced)" % len(overflows_needing_trampoline))
-    print("  %d overflows can float freely (not ASM-referenced)" % len(overflows_free))
 
     tiny_trampolines = [o for o in overflows_needing_trampoline if o[2] < TRAMPOLINE_SIZE]
     if tiny_trampolines:
