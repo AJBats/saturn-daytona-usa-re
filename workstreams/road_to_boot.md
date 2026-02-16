@@ -9,6 +9,35 @@
 Boot the reimplemented Daytona USA Saturn binary to the title screen in Mednafen.
 Every step must be observable, reproducible, and automated.
 
+## The Method: Ground Truth Validation Loop
+
+Everything before emulator comparison was inference — Ghidra decomp, manual annotation,
+C reimplementation. Smart guesses, but guesses. The emulator running production and
+reimpl side-by-side is our **oracle**. It doesn't guess. It tells us exactly where
+reality diverges from our assumptions.
+
+**The loop:**
+
+1. **Run against ground truth** — prod vs reimpl, same emulator, same inputs
+2. **Find one divergence** — crash, wrong register, wrong memory, wrong path
+3. **Extract the class** — not "bug at address X" but "what category of assumption
+   was wrong?" Every divergence reveals a *class* of issues, not just one bug.
+4. **Fix the class** — audit and fix every instance of that category, not just
+   the one that crashed
+5. **Repeat** — the next divergence teaches the next class
+
+This is how we win. We don't fix 1234 functions one at a time. We find the handful
+of systematic issues that affect dozens of functions each, and we fix the system.
+
+**Classes identified so far:**
+
+| # | Class | First Instance | Scope |
+|---|-------|----------------|-------|
+| 1 | Disc environment fidelity | Missing audio tracks (TOC) | inject_binary.py, disc rebuild |
+| 2 | Observability gaps | Cache vs backing RAM reads | Mednafen debug tools |
+| 3 | Overflow without trampoline | system_init unreachable at 0x060030FC | Every `/* overflow: goes to catchall */` in linker script |
+| 4 | *(next divergence)* | | |
+
 ## Holy Commandments
 
 These are non-negotiable constraints. No exceptions. No "temporary" violations.
