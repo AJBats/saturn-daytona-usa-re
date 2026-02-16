@@ -1,6 +1,17 @@
 /* FUN_0600A000: moved to sound_init.c */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0600A478, \"ax\"\n"
+
     ".global _FUN_0600A478\n"
     ".type _FUN_0600A478, @function\n"
     "_FUN_0600A478:\n"
@@ -29,10 +40,20 @@ __asm__(
     ".word 0xD31F\n"  /* mov.l @(0x7C,PC),r3  {[0x0600A524] = 0x06031A28} */
     ".word 0x432B\n"  /* jmp @r3 */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_0600A478, .-_FUN_0600A478\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0600A614, \"ax\"\n"
+
     ".global _FUN_0600A614\n"
     ".type _FUN_0600A614, @function\n"
     "_FUN_0600A614:\n"
@@ -208,12 +229,20 @@ __asm__(
     ".word 0x20D8\n"  /* tst r13,r0 */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0x1A28\n"  /* mov.l r2,@(0x20,r10) */
-    ".size _FUN_0600A614, .-_FUN_0600A614\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _camera_car_transform_setup\n"
     ".type _camera_car_transform_setup, @function\n"
+
+
+
+
+    ".section .text.FUN_0600ADD4, \"ax\"\n"
+
     ".global _FUN_0600ADD4\n"
     "_camera_car_transform_setup:\n"
     "_FUN_0600ADD4:\n"
@@ -459,9 +488,18 @@ __asm__(
     ".size _camera_car_transform_setup, .-_camera_car_transform_setup\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _course_specific_renderer\n"
     ".type _course_specific_renderer, @function\n"
+
+
+
+
+    ".section .text.FUN_0600B1A0, \"ax\"\n"
+
     ".global _FUN_0600B1A0\n"
     "_course_specific_renderer:\n"
     "_FUN_0600B1A0:\n"
@@ -677,9 +715,14 @@ __asm__(
 );
 __asm__(
     ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
     ".global _camera_position_lerping\n"
     ".type _camera_position_lerping, @function\n"
+
+
+
+
+    ".section .text.FUN_0600B4D2, \"ax\"\n"
+
     ".global _FUN_0600B4D2\n"
     "_camera_position_lerping:\n"
     "_FUN_0600B4D2:\n"
@@ -917,9 +960,18 @@ __asm__(
     ".size _camera_position_lerping, .-_camera_position_lerping\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _race_state_machine\n"
     ".type _race_state_machine, @function\n"
+
+
+
+
+    ".section .text.FUN_0600C010, \"ax\"\n"
+
     ".global _FUN_0600C010\n"
     "_race_state_machine:\n"
     "_FUN_0600C010:\n"
@@ -1102,9 +1154,18 @@ __asm__(
     ".size _race_state_machine, .-_race_state_machine\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _race_utility_calc\n"
     ".type _race_utility_calc, @function\n"
+
+
+
+
+    ".section .text.FUN_0600C170, \"ax\"\n"
+
     ".global _FUN_0600C170\n"
     "_race_utility_calc:\n"
     "_FUN_0600C170:\n"
@@ -1198,9 +1259,18 @@ __asm__(
 /* FUN_0600C7D8: moved to physics_helpers.c (alias of FUN_0600C7D4) */
 /* FUN_0600C8D0: moved to physics_helpers.c (alias of FUN_0600C8CC) */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _vehicle_state_physics\n"
     ".type _vehicle_state_physics, @function\n"
+
+
+
+
+    ".section .text.FUN_0600D41C, \"ax\"\n"
+
     ".global _FUN_0600D41C\n"
     "_vehicle_state_physics:\n"
     "_FUN_0600D41C:\n"

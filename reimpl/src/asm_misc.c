@@ -1,5 +1,16 @@
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06046E48, \"ax\"\n"
+
     ".global _FUN_06046E48\n"
     ".type _FUN_06046E48, @function\n"
     "_FUN_06046E48:\n"
@@ -58407,5 +58418,4 @@ __asm__(
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x0000\n"  /* .word 0x0000 */
-    ".size _FUN_06046E48, .-_FUN_06046E48\n"
 );

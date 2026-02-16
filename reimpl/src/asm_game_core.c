@@ -1,8 +1,13 @@
 __asm__(
     ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
     ".global _smpc_intback_trigger\n"
     ".type _smpc_intback_trigger, @function\n"
+
+
+
+
+    ".section .text.FUN_060389A6, \"ax\"\n"
+
     ".global _FUN_060389A6\n"
     "_smpc_intback_trigger:\n"
     "_FUN_060389A6:\n"
@@ -159,9 +164,18 @@ void FUN_06020C3C(void) { FUN_06020c3c(); }
 /* cd_status_read / FUN_06018EAC: moved to cd_command.c */
 /* FUN_06009FFC: moved to batch_state_machine.c as sound_channels_reset */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _cd_frame_sync_advance\n"
     ".type _cd_frame_sync_advance, @function\n"
+
+
+
+
+    ".section .text.FUN_06012B58, \"ax\"\n"
+
     ".global _FUN_06012B58\n"
     "_cd_frame_sync_advance:\n"
     "_FUN_06012B58:\n"
@@ -235,8 +249,18 @@ __asm__(
 );
 /* FUN_0600A1B8: moved to game_state_utils.c */
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060072E6, \"ax\"\n"
+
     ".global _FUN_060072E6\n"
     ".type _FUN_060072E6, @function\n"
     "_FUN_060072E6:\n"
@@ -307,10 +331,20 @@ __asm__(
     ".word 0x0344\n"  /* mov.b r4,@(r0,r3) */
     ".word 0x0605\n"  /* mov.w r0,@(r0,r6) */
     ".word 0x9F40\n"  /* mov.w @(0x80,PC),r15 */
-    ".size _FUN_060072E6, .-_FUN_060072E6\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06007370, \"ax\"\n"
+
     ".global _FUN_06007370\n"
     ".type _FUN_06007370, @function\n"
     "_FUN_06007370:\n"
@@ -448,10 +482,20 @@ __asm__(
     ".word 0x8654\n"  /* .word 0x8654 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x6CE0\n"  /* mov.b @r14,r12 */
-    ".size _FUN_06007370, .-_FUN_06007370\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0600747C, \"ax\"\n"
+
     ".global _FUN_0600747C\n"
     ".type _FUN_0600747C, @function\n"
     "_FUN_0600747C:\n"
@@ -697,10 +741,20 @@ __asm__(
     ".word 0x3F64\n"  /* .word 0x3F64 */
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0xFF00\n"  /* .word 0xFF00 */
-    ".size _FUN_0600747C, .-_FUN_0600747C\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06007CEC, \"ax\"\n"
+
     ".global _FUN_06007CEC\n"
     ".type _FUN_06007CEC, @function\n"
     "_FUN_06007CEC:\n"
@@ -785,11 +839,20 @@ __asm__(
     ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_06007CEC, .-_FUN_06007CEC\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06007D8E, \"ax\"\n"
+
     ".global _FUN_06007D8E\n"
     ".type _FUN_06007D8E, @function\n"
     "_FUN_06007D8E:\n"
@@ -854,10 +917,20 @@ __asm__(
     ".word 0xA1C0\n"  /* bra 0x06008186 */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0xC000\n"  /* mov.b r0,@(0x0,GBR) */
-    ".size _FUN_06007D8E, .-_FUN_06007D8E\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06007E08, \"ax\"\n"
+
     ".global _FUN_06007E08\n"
     ".type _FUN_06007E08, @function\n"
     "_FUN_06007E08:\n"
@@ -1363,7 +1436,6 @@ __asm__(
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
     ".word 0x0000\n"  /* .word 0x0000 */
-    ".size _FUN_06007E08, .-_FUN_06007E08\n"
 );
 
 /* FUN_060033E6: moved to render_setup.c */
@@ -1371,7 +1443,18 @@ extern void FUN_060053ac(int, int, int);
 extern void FUN_060053ac(int, int, int);
 void FUN_060053AC(int r4, int r5, int r6) { FUN_060053ac(r4, r5, r6); }
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060055BC, \"ax\"\n"
+
     ".global _FUN_060055BC\n"
     ".type _FUN_060055BC, @function\n"
     ".global _perspective_project\n"
@@ -1607,7 +1690,6 @@ __asm__(
     ".word 0x853C\n"  /* mov.w @(0x18,r3),r0 */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0x8520\n"  /* mov.w @(0x0,r2),r0 */
-    ".size _FUN_060055BC, .-_FUN_060055BC\n"
 );
 extern void FUN_060078dc(void);
 extern void FUN_060078dc(void);
@@ -1641,7 +1723,18 @@ void FUN_06018A3C(void) { FUN_06018a3c(); }
 /* FUN_06018E70: moved to cd_command.c */
 /* FUN_060192CA: moved to batch_subsystem_18.c as sound_channels_stop */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0601D5F4, \"ax\"\n"
+
     ".global _FUN_0601D5F4\n"
     ".type _FUN_0601D5F4, @function\n"
     ".global _sound_cmd_dispatch\n"
@@ -1742,10 +1835,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_0601D5F4, .-_FUN_0601D5F4\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0601D9B0, \"ax\"\n"
+
     ".global _FUN_0601D9B0\n"
     ".type _FUN_0601D9B0, @function\n"
     "_FUN_0601D9B0:\n"
@@ -2011,10 +2114,20 @@ __asm__(
     ".word 0x2230\n"  /* mov.b r3,@r2 */
     ".word 0x25A0\n"  /* mov.b r10,@r5 */
     ".word 0x2D97\n"  /* .word 0x2D97 */
-    ".size _FUN_0601D9B0, .-_FUN_0601D9B0\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0601DBB8, \"ax\"\n"
+
     ".global _FUN_0601DBB8\n"
     ".type _FUN_0601DBB8, @function\n"
     ".global _replay_camera_controller\n"
@@ -2307,7 +2420,6 @@ __asm__(
     ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_0601DBB8, .-_FUN_0601DBB8\n"
 );
 extern void FUN_0601de50(void);
 extern void FUN_0601de50(void);
@@ -2343,7 +2455,18 @@ extern void FUN_06033bc8(void);
 extern void FUN_06033bc8(void);
 void FUN_06033BC8(void) { FUN_06033bc8(); }
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06034900, \"ax\"\n"
+
     ".global _FUN_06034900\n"
     ".type _FUN_06034900, @function\n"
     "_FUN_06034900:\n"
@@ -2376,13 +2499,22 @@ __asm__(
     ".word 0xD410\n"  /* mov.l @(0x40,PC),r4  {[0x06034978] = 0x00000000} */
     ".word 0xD511\n"  /* mov.l @(0x44,PC),r5  {[0x0603497C] = 0xAE1128FF} */
     ".word 0xD011\n"  /* mov.l @(0x44,PC),r0  {[0x06034980] = 0x0601D5F4} */
-    ".size _FUN_06034900, .-_FUN_06034900\n"
 );
 
 void FUN_060284AE(int r4, int r5, int r6, int r7) { (void)r4; (void)r5; (void)r6; (void)r7; }
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602834A, \"ax\"\n"
+
     ".global _FUN_0602834A\n"
     ".type _FUN_0602834A, @function\n"
     "_FUN_0602834A:\n"
@@ -2401,7 +2533,6 @@ __asm__(
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x8614\n"  /* .word 0x8614 */
-    ".size _FUN_0602834A, .-_FUN_0602834A\n"
 );
 extern void FUN_06018ddc(int);
 extern void FUN_06018ddc(int);
@@ -2415,7 +2546,18 @@ extern void FUN_0601df88(void);
 void FUN_0601DF88(void) { FUN_0601df88(); }
 /* FUN_0602853E: moved to batch_vdp_cmd_28.c as vdp_display_list_fill */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06014884, \"ax\"\n"
+
     ".global _FUN_06014884\n"
     ".type _FUN_06014884, @function\n"
     "_FUN_06014884:\n"
@@ -2434,7 +2576,6 @@ __asm__(
     ".word 0xD313\n"  /* mov.l @(0x4C,PC),r3  {[0x060148EC] = 0x06038520} */
     ".word 0x432B\n"  /* jmp @r3 */
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
-    ".size _FUN_06014884, .-_FUN_06014884\n"
 );
 /* FUN_060032D4: moved to vdp_sprite_init.c */
 extern void FUN_0600a294(void);
@@ -2471,8 +2612,18 @@ extern void FUN_0601c978(void);
 extern void FUN_0601c978(void);
 void FUN_0601C978(void) { FUN_0601c978(); }
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0601CAEE, \"ax\"\n"
+
     ".global _FUN_0601CAEE\n"
     ".type _FUN_0601CAEE, @function\n"
     "_FUN_0601CAEE:\n"
@@ -2837,7 +2988,6 @@ __asm__(
     ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_0601CAEE, .-_FUN_0601CAEE\n"
 );
 /* FUN_0600A140: moved to vdp1_clear.c */
 extern void FUN_0600330a(void);

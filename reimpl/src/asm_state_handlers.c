@@ -17,9 +17,18 @@
 /* FUN_06008E48: moved to state_init_handlers.c */
 /* state_14-17: translated in race_state_handlers.c */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _state_28_abort_processing\n"
     ".type _state_28_abort_processing, @function\n"
+
+
+
+
+    ".section .text.FUN_06009508, \"ax\"\n"
+
     ".global _FUN_06009508\n"
     "_state_28_abort_processing:\n"
     "_FUN_06009508:\n"
@@ -70,9 +79,14 @@ __asm__(
 );
 __asm__(
     ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
     ".global _state_29_post_race_menu\n"
     ".type _state_29_post_race_menu, @function\n"
+
+
+
+
+    ".section .text.FUN_0600955E, \"ax\"\n"
+
     ".global _FUN_0600955E\n"
     "_state_29_post_race_menu:\n"
     "_FUN_0600955E:\n"
@@ -270,9 +284,18 @@ __asm__(
     ".size _state_29_post_race_menu, .-_state_29_post_race_menu\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _state_18_time_extension_setup\n"
     ".type _state_18_time_extension_setup, @function\n"
+
+
+
+
+    ".section .text.FUN_060096DC, \"ax\"\n"
+
     ".global _FUN_060096DC\n"
     "_state_18_time_extension_setup:\n"
     "_FUN_060096DC:\n"
@@ -365,9 +388,18 @@ __asm__(
     ".size _state_18_time_extension_setup, .-_state_18_time_extension_setup\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _state_19_time_extension\n"
     ".type _state_19_time_extension, @function\n"
+
+
+
+
+    ".section .text.FUN_06009788, \"ax\"\n"
+
     ".global _FUN_06009788\n"
     "_state_19_time_extension:\n"
     "_FUN_06009788:\n"
@@ -738,9 +770,18 @@ __asm__(
     ".size _state_19_time_extension, .-_state_19_time_extension\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _state_20_race_completion\n"
     ".type _state_20_race_completion, @function\n"
+
+
+
+
+    ".section .text.FUN_06009A60, \"ax\"\n"
+
     ".global _FUN_06009A60\n"
     "_state_20_race_completion:\n"
     "_FUN_06009A60:\n"
@@ -992,9 +1033,18 @@ __asm__(
 );
 /* FUN_06009C48: moved to state_init_handlers.c */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _state_24_post_race_init\n"
     ".type _state_24_post_race_init, @function\n"
+
+
+
+
+    ".section .text.FUN_06009CFC, \"ax\"\n"
+
     ".global _FUN_06009CFC\n"
     "_state_24_post_race_init:\n"
     "_FUN_06009CFC:\n"
@@ -1043,9 +1093,14 @@ __asm__(
 );
 __asm__(
     ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
     ".global _state_25_post_race_display\n"
     ".type _state_25_post_race_display, @function\n"
+
+
+
+
+    ".section .text.FUN_06009D4E, \"ax\"\n"
+
     ".global _FUN_06009D4E\n"
     "_state_25_post_race_display:\n"
     "_FUN_06009D4E:\n"

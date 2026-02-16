@@ -1,5 +1,16 @@
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060201B8, \"ax\"\n"
+
     ".global _FUN_060201B8\n"
     ".type _FUN_060201B8, @function\n"
     "_FUN_060201B8:\n"
@@ -105,10 +116,20 @@ __asm__(
     ".word 0xF4A8\n"  /* .word 0xF4A8 */
     ".word 0x0608\n"  /* .word 0x0608 */
     ".word 0x782C\n"  /* add #44,r8 */
-    ".size _FUN_060201B8, .-_FUN_060201B8\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020284, \"ax\"\n"
+
     ".global _FUN_06020284\n"
     ".type _FUN_06020284, @function\n"
     "_FUN_06020284:\n"
@@ -198,11 +219,21 @@ __asm__(
     ".word 0x8000\n"  /* mov.b r0,@(0x0,r0) */
     ".word 0x0608\n"  /* .word 0x0608 */
     ".word 0x7824\n"  /* add #36,r8 */
-    ".size _FUN_06020284, .-_FUN_06020284\n"
 );
 /* FUN_06020330: moved to slot_clear.c */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020430, \"ax\"\n"
+
     ".global _FUN_06020430\n"
     ".type _FUN_06020430, @function\n"
     "_FUN_06020430:\n"
@@ -272,12 +303,20 @@ __asm__(
     ".word 0xF44E\n"  /* .word 0xF44E */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x8400\n"  /* mov.b @(0x0,r0),r0 */
-    ".size _FUN_06020430, .-_FUN_06020430\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _object_list_iterator\n"
     ".type _object_list_iterator, @function\n"
+
+
+
+
+    ".section .text.FUN_060204B4, \"ax\"\n"
+
     ".global _FUN_060204B4\n"
     "_object_list_iterator:\n"
     "_FUN_060204B4:\n"
@@ -298,7 +337,18 @@ __asm__(
     ".size _object_list_iterator, .-_object_list_iterator\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060204D0, \"ax\"\n"
+
     ".global _FUN_060204D0\n"
     ".type _FUN_060204D0, @function\n"
     "_FUN_060204D0:\n"
@@ -348,12 +398,20 @@ __asm__(
     ".word 0x4884\n"  /* .word 0x4884 */
     ".word 0x0098\n"  /* .word 0x0098 */
     ".word 0x0000\n"  /* .word 0x0000 */
-    ".size _FUN_060204D0, .-_FUN_060204D0\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _object_visibility_test\n"
     ".type _object_visibility_test, @function\n"
+
+
+
+
+    ".section .text.FUN_0602052C, \"ax\"\n"
+
     ".global _FUN_0602052C\n"
     "_object_visibility_test:\n"
     "_FUN_0602052C:\n"
@@ -600,7 +658,18 @@ __asm__(
     ".size _object_visibility_test, .-_object_visibility_test\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602070C, \"ax\"\n"
+
     ".global _FUN_0602070C\n"
     ".type _FUN_0602070C, @function\n"
     "_FUN_0602070C:\n"
@@ -736,10 +805,20 @@ __asm__(
     ".word 0x4884\n"  /* .word 0x4884 */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0x8520\n"  /* mov.w @(0x0,r2),r0 */
-    ".size _FUN_0602070C, .-_FUN_0602070C\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020814, \"ax\"\n"
+
     ".global _FUN_06020814\n"
     ".type _FUN_06020814, @function\n"
     "_FUN_06020814:\n"
@@ -896,10 +975,20 @@ __asm__(
     ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
     ".word 0xA254\n"  /* bra 0x06020DEE */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_06020814, .-_FUN_06020814\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020950, \"ax\"\n"
+
     ".global _FUN_06020950\n"
     ".type _FUN_06020950, @function\n"
     "_FUN_06020950:\n"
@@ -949,10 +1038,20 @@ __asm__(
     ".word 0xF52A\n"  /* .word 0xF52A */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0x5228\n"  /* mov.l @(0x20,r2),r2 */
-    ".size _FUN_06020950, .-_FUN_06020950\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060209AC, \"ax\"\n"
+
     ".global _FUN_060209AC\n"
     ".type _FUN_060209AC, @function\n"
     "_FUN_060209AC:\n"
@@ -1172,10 +1271,20 @@ __asm__(
     ".word 0xFC00\n"  /* .word 0xFC00 */
     ".word 0x25F8\n"  /* tst r15,r5 */
     ".word 0x00A4\n"  /* mov.b r10,@(r0,r0) */
-    ".size _FUN_060209AC, .-_FUN_060209AC\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020B58, \"ax\"\n"
+
     ".global _FUN_06020B58\n"
     ".type _FUN_06020B58, @function\n"
     "_FUN_06020B58:\n"
@@ -1238,10 +1347,20 @@ __asm__(
     ".word 0x6DF6\n"  /* mov.l @r15+,r13 */
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_06020B58, .-_FUN_06020B58\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020D50, \"ax\"\n"
+
     ".global _FUN_06020D50\n"
     ".type _FUN_06020D50, @function\n"
     "_FUN_06020D50:\n"
@@ -1309,10 +1428,20 @@ __asm__(
     ".word 0xF5A8\n"  /* .word 0xF5A8 */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0x5168\n"  /* mov.l @(0x20,r6),r1 */
-    ".size _FUN_06020D50, .-_FUN_06020D50\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06020E84, \"ax\"\n"
+
     ".global _FUN_06020E84\n"
     ".type _FUN_06020E84, @function\n"
     "_FUN_06020E84:\n"
@@ -1598,10 +1727,20 @@ __asm__(
     ".word 0x8120\n"  /* mov.w r0,@(0x0,r2) */
     ".word 0x0603\n"  /* .word 0x0603 */
     ".word 0x8520\n"  /* mov.w @(0x0,r2),r0 */
-    ".size _FUN_06020E84, .-_FUN_06020E84\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060210B8, \"ax\"\n"
+
     ".global _FUN_060210B8\n"
     ".type _FUN_060210B8, @function\n"
     "_FUN_060210B8:\n"
@@ -1636,12 +1775,20 @@ __asm__(
     ".word 0xD30B\n"  /* mov.l @(0x2C,PC),r3  {[0x06021120] = 0x06038520} */
     ".word 0x432B\n"  /* jmp @r3 */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
-    ".size _FUN_060210B8, .-_FUN_060210B8\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _object_render_list_builder\n"
     ".type _object_render_list_builder, @function\n"
+
+
+
+
+    ".section .text.FUN_06022820, \"ax\"\n"
+
     ".global _FUN_06022820\n"
     "_object_render_list_builder:\n"
     "_FUN_06022820:\n"
@@ -2000,9 +2147,18 @@ __asm__(
     ".size _object_render_list_builder, .-_object_render_list_builder\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _object_render_processor\n"
     ".type _object_render_processor, @function\n"
+
+
+
+
+    ".section .text.FUN_06022AE0, \"ax\"\n"
+
     ".global _FUN_06022AE0\n"
     "_object_render_processor:\n"
     "_FUN_06022AE0:\n"
@@ -2703,9 +2859,18 @@ __asm__(
     ".size _object_render_processor, .-_object_render_processor\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _render_batch_processor\n"
     ".type _render_batch_processor, @function\n"
+
+
+
+
+    ".section .text.FUN_0602304C, \"ax\"\n"
+
     ".global _FUN_0602304C\n"
     "_render_batch_processor:\n"
     "_FUN_0602304C:\n"
@@ -3002,9 +3167,18 @@ __asm__(
     ".size _render_batch_processor, .-_render_batch_processor\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _projection_manager\n"
     ".type _projection_manager, @function\n"
+
+
+
+
+    ".section .text.FUN_06023290, \"ax\"\n"
+
     ".global _FUN_06023290\n"
     "_projection_manager:\n"
     "_FUN_06023290:\n"
@@ -3381,7 +3555,18 @@ __asm__(
     ".size _projection_manager, .-_projection_manager\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06023574, \"ax\"\n"
+
     ".global _FUN_06023574\n"
     ".type _FUN_06023574, @function\n"
     "_FUN_06023574:\n"
@@ -3393,10 +3578,20 @@ __asm__(
     ".word 0x2F96\n"  /* mov.l r9,@-r15 */
     ".word 0x2F86\n"  /* mov.l r8,@-r15 */
     ".word 0xE91D\n"  /* mov #29,r9 */
-    ".size _FUN_06023574, .-_FUN_06023574\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06023584, \"ax\"\n"
+
     ".global _FUN_06023584\n"
     ".type _FUN_06023584, @function\n"
     "_FUN_06023584:\n"
@@ -3740,10 +3935,20 @@ __asm__(
     ".word 0x7590\n"  /* add #-112,r5 */
     ".word 0x0607\n"  /* mul.l r0,r6 */
     ".word 0x886C\n"  /* cmp/eq #108,r0 */
-    ".size _FUN_06023584, .-_FUN_06023584\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06024D14, \"ax\"\n"
+
     ".global _FUN_06024D14\n"
     ".type _FUN_06024D14, @function\n"
     "_FUN_06024D14:\n"
@@ -3755,10 +3960,20 @@ __asm__(
     ".word 0x2F96\n"  /* mov.l r9,@-r15 */
     ".word 0x2F86\n"  /* mov.l r8,@-r15 */
     ".word 0xE904\n"  /* mov #4,r9 */
-    ".size _FUN_06024D14, .-_FUN_06024D14\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06024D24, \"ax\"\n"
+
     ".global _FUN_06024D24\n"
     ".type _FUN_06024D24, @function\n"
     "_FUN_06024D24:\n"
@@ -4184,10 +4399,20 @@ __asm__(
     ".word 0x9F44\n"  /* mov.w @(0x88,PC),r15 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x6CE0\n"  /* mov.b @r14,r12 */
-    ".size _FUN_06024D24, .-_FUN_06024D24\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060272C0, \"ax\"\n"
+
     ".global _FUN_060272C0\n"
     ".type _FUN_060272C0, @function\n"
     "_FUN_060272C0:\n"
@@ -4397,14 +4622,22 @@ __asm__(
     ".word 0x600B\n"  /* neg r0,r0 */
     ".word 0x000B\n"  /* rts */
     ".word 0x0009\n"  /* nop */
-    ".size _FUN_060272C0, .-_FUN_060272C0\n"
 );
 /* FUN_0602745C: moved to atan.c */
 /* FUN_06027498: moved to vec3_math.c */
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _spring_damper_physics\n"
     ".type _spring_damper_physics, @function\n"
+
+
+
+
+    ".section .text.FUN_060276CC, \"ax\"\n"
+
     ".global _FUN_060276CC\n"
     "_spring_damper_physics:\n"
     "_FUN_060276CC:\n"
@@ -4781,7 +5014,18 @@ __asm__(
     ".size _spring_damper_physics, .-_spring_damper_physics\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060279B0, \"ax\"\n"
+
     ".global _FUN_060279B0\n"
     ".type _FUN_060279B0, @function\n"
     "_FUN_060279B0:\n"
@@ -5163,10 +5407,20 @@ __asm__(
     ".word 0x000B\n"  /* rts */
     ".word 0x6EF6\n"  /* mov.l @r15+,r14 */
     ".word 0x0000\n"  /* .word 0x0000 */
-    ".size _FUN_060279B0, .-_FUN_060279B0\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06028368, \"ax\"\n"
+
     ".global _FUN_06028368\n"
     ".type _FUN_06028368, @function\n"
     "_FUN_06028368:\n"
@@ -5184,12 +5438,21 @@ __asm__(
     ".word 0xE000\n"  /* mov #0,r0 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x8614\n"  /* .word 0x8614 */
-    ".size _FUN_06028368, .-_FUN_06028368\n"
 );
 /* FUN_06028384: moved to vdp1_cmd.c */
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602843A, \"ax\"\n"
+
     ".global _FUN_0602843A\n"
     ".type _FUN_0602843A, @function\n"
     "_FUN_0602843A:\n"
@@ -5259,11 +5522,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602843A, .-_FUN_0602843A\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_060284BA, \"ax\"\n"
+
     ".global _FUN_060284BA\n"
     ".type _FUN_060284BA, @function\n"
     "_FUN_060284BA:\n"
@@ -5366,10 +5638,20 @@ __asm__(
     ".word 0x0020\n"  /* .word 0x0020 */
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x2800\n"  /* mov.b r0,@r8 */
-    ".size _FUN_060284BA, .-_FUN_060284BA\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06028580, \"ax\"\n"
+
     ".global _FUN_06028580\n"
     ".type _FUN_06028580, @function\n"
     "_FUN_06028580:\n"
@@ -5385,10 +5667,20 @@ __asm__(
     ".word 0x8D01\n"  /* bt/s 0x06028598 */
     ".word 0x0C29\n"  /* .word 0x0C29 */
     ".word 0x666B\n"  /* neg r6,r6 */
-    ".size _FUN_06028580, .-_FUN_06028580\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06028598, \"ax\"\n"
+
     ".global _FUN_06028598\n"
     ".type _FUN_06028598, @function\n"
     "_FUN_06028598:\n"
@@ -5486,10 +5778,20 @@ __asm__(
     ".word 0x0020\n"  /* .word 0x0020 */
     ".word 0x0020\n"  /* .word 0x0020 */
     ".word 0x0020\n"  /* .word 0x0020 */
-    ".size _FUN_06028598, .-_FUN_06028598\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_06029740, \"ax\"\n"
+
     ".global _FUN_06029740\n"
     ".type _FUN_06029740, @function\n"
     "_FUN_06029740:\n"
@@ -7679,10 +7981,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_06029740, .-_FUN_06029740\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602A840, \"ax\"\n"
+
     ".global _FUN_0602A840\n"
     ".type _FUN_0602A840, @function\n"
     "_FUN_0602A840:\n"
@@ -8144,10 +8456,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602A840, .-_FUN_0602A840\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602ABC4, \"ax\"\n"
+
     ".global _FUN_0602ABC4\n"
     ".type _FUN_0602ABC4, @function\n"
     "_FUN_0602ABC4:\n"
@@ -8609,10 +8931,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602ABC4, .-_FUN_0602ABC4\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602AF48, \"ax\"\n"
+
     ".global _FUN_0602AF48\n"
     ".type _FUN_0602AF48, @function\n"
     "_FUN_0602AF48:\n"
@@ -9126,10 +9458,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602AF48, .-_FUN_0602AF48\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602B334, \"ax\"\n"
+
     ".global _FUN_0602B334\n"
     ".type _FUN_0602B334, @function\n"
     "_FUN_0602B334:\n"
@@ -10015,12 +10357,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602B334, .-_FUN_0602B334\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _scene_graph_walker\n"
     ".type _scene_graph_walker, @function\n"
+
+
+
+
+    ".section .text.FUN_0602B9EC, \"ax\"\n"
+
     ".global _FUN_0602B9EC\n"
     "_scene_graph_walker:\n"
     "_FUN_0602B9EC:\n"
@@ -10529,7 +10879,18 @@ __asm__(
     ".size _scene_graph_walker, .-_scene_graph_walker\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602BDD8, \"ax\"\n"
+
     ".global _FUN_0602BDD8\n"
     ".type _FUN_0602BDD8, @function\n"
     "_FUN_0602BDD8:\n"
@@ -11651,12 +12012,20 @@ __asm__(
     ".word 0x17A8\n"  /* mov.l r10,@(0x20,r7) */
     ".word 0x060A\n"  /* sts mach,r6 */
     ".word 0x2428\n"  /* tst r2,r4 */
-    ".size _FUN_0602BDD8, .-_FUN_0602BDD8\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _vdp1_texture_setup\n"
     ".type _vdp1_texture_setup, @function\n"
+
+
+
+
+    ".section .text.FUN_0602C884, \"ax\"\n"
+
     ".global _FUN_0602C884\n"
     "_vdp1_texture_setup:\n"
     "_FUN_0602C884:\n"
@@ -11710,9 +12079,18 @@ __asm__(
     ".size _vdp1_texture_setup, .-_vdp1_texture_setup\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _vdp1_attribute_setup\n"
     ".type _vdp1_attribute_setup, @function\n"
+
+
+
+
+    ".section .text.FUN_0602CCEC, \"ax\"\n"
+
     ".global _FUN_0602CCEC\n"
     "_vdp1_attribute_setup:\n"
     "_FUN_0602CCEC:\n"
@@ -11852,8 +12230,18 @@ __asm__(
     ".size _vdp1_attribute_setup, .-_vdp1_attribute_setup\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602D89A, \"ax\"\n"
+
     ".global _FUN_0602D89A\n"
     ".type _FUN_0602D89A, @function\n"
     "_FUN_0602D89A:\n"
@@ -11881,11 +12269,20 @@ __asm__(
     ".word 0x021D\n"  /* mov.w @(r0,r1),r2 */
     ".word 0x3240\n"  /* cmp/eq r4,r2 */
     ".word 0x8B2E\n"  /* bf 0x0602D924 */
-    ".size _FUN_0602D89A, .-_FUN_0602D89A\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602D8C6, \"ax\"\n"
+
     ".global _FUN_0602D8C6\n"
     ".type _FUN_0602D8C6, @function\n"
     "_FUN_0602D8C6:\n"
@@ -11936,10 +12333,20 @@ __asm__(
     ".word 0x7344\n"  /* add #68,r3 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x7348\n"  /* add #72,r3 */
-    ".size _FUN_0602D8C6, .-_FUN_0602D8C6\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602D934, \"ax\"\n"
+
     ".global _FUN_0602D934\n"
     ".type _FUN_0602D934, @function\n"
     "_FUN_0602D934:\n"
@@ -12179,10 +12586,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602D934, .-_FUN_0602D934\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DB0C, \"ax\"\n"
+
     ".global _FUN_0602DB0C\n"
     ".type _FUN_0602DB0C, @function\n"
     "_FUN_0602DB0C:\n"
@@ -12190,10 +12607,20 @@ __asm__(
     ".word 0xD42D\n"  /* mov.l @(0xB4,PC),r4  {[0x0602DBC4] = 0x00000002} */
     ".word 0xD52D\n"  /* mov.l @(0xB4,PC),r5  {[0x0602DBC8] = 0x00000000} */
     ".word 0xDD2E\n"  /* mov.l @(0xB8,PC),r13  {[0x0602DBCC] = 0x0601D5F4} */
-    ".size _FUN_0602DB0C, .-_FUN_0602DB0C\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DB14, \"ax\"\n"
+
     ".global _FUN_0602DB14\n"
     ".type _FUN_0602DB14, @function\n"
     "_FUN_0602DB14:\n"
@@ -12204,13 +12631,17 @@ __asm__(
     ".word 0xD42C\n"  /* mov.l @(0xB0,PC),r4  {[0x0602DBD0] = 0x00000003} */
     ".word 0xD52A\n"  /* mov.l @(0xA8,PC),r5  {[0x0602DBC8] = 0x00000000} */
     ".word 0xDD2A\n"  /* mov.l @(0xA8,PC),r13  {[0x0602DBCC] = 0x0601D5F4} */
-    ".size _FUN_0602DB14, .-_FUN_0602DB14\n"
 );
 __asm__(
     ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
     ".global _per_frame_command_reset\n"
     ".type _per_frame_command_reset, @function\n"
+
+
+
+
+    ".section .text.FUN_0602DB22, \"ax\"\n"
+
     ".global _FUN_0602DB22\n"
     "_per_frame_command_reset:\n"
     "_FUN_0602DB22:\n"
@@ -12346,7 +12777,18 @@ __asm__(
     ".size _per_frame_command_reset, .-_per_frame_command_reset\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DC24, \"ax\"\n"
+
     ".global _FUN_0602DC24\n"
     ".type _FUN_0602DC24, @function\n"
     "_FUN_0602DC24:\n"
@@ -12356,10 +12798,20 @@ __asm__(
     ".word 0x4008\n"  /* shll2 r0 */
     ".word 0xD104\n"  /* mov.l @(0x10,PC),r1  {[0x0602DC40] = 0x0602DC44} */
     ".word 0x001E\n"  /* mov.l @(r0,r1),r0 */
-    ".size _FUN_0602DC24, .-_FUN_0602DC24\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DC30, \"ax\"\n"
+
     ".global _FUN_0602DC30\n"
     ".type _FUN_0602DC30, @function\n"
     "_FUN_0602DC30:\n"
@@ -12391,10 +12843,20 @@ __asm__(
     ".word 0x3430\n"  /* cmp/eq r3,r4 */
     ".word 0x8B08\n"  /* bf 0x0602DC78 */
     ".word 0xDD0F\n"  /* mov.l @(0x3C,PC),r13  {[0x0602DCA4] = 0x060321C0} */
-    ".size _FUN_0602DC30, .-_FUN_0602DC30\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DC68, \"ax\"\n"
+
     ".global _FUN_0602DC68\n"
     ".type _FUN_0602DC68, @function\n"
     "_FUN_0602DC68:\n"
@@ -12554,10 +13016,20 @@ __asm__(
     ".word 0x3108\n"  /* sub r0,r1 */
     ".word 0x6043\n"  /* mov r4,r0 */
     ".word 0xDC41\n"  /* mov.l @(0x104,PC),r12  {[0x0602DEA4] = 0x06034FFC} */
-    ".size _FUN_0602DC68, .-_FUN_0602DC68\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DDA0, \"ax\"\n"
+
     ".global _FUN_0602DDA0\n"
     ".type _FUN_0602DDA0, @function\n"
     "_FUN_0602DDA0:\n"
@@ -12582,11 +13054,20 @@ __asm__(
     ".word 0x3108\n"  /* sub r0,r1 */
     ".word 0x6043\n"  /* mov r4,r0 */
     ".word 0xDC36\n"  /* mov.l @(0xD8,PC),r12  {[0x0602DEA4] = 0x06034FFC} */
-    ".size _FUN_0602DDA0, .-_FUN_0602DDA0\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DDCA, \"ax\"\n"
+
     ".global _FUN_0602DDCA\n"
     ".type _FUN_0602DDCA, @function\n"
     "_FUN_0602DDCA:\n"
@@ -12613,10 +13094,20 @@ __asm__(
     ".word 0x3108\n"  /* sub r0,r1 */
     ".word 0x6043\n"  /* mov r4,r0 */
     ".word 0xDC2B\n"  /* mov.l @(0xAC,PC),r12  {[0x0602DEA4] = 0x06034FFC} */
-    ".size _FUN_0602DDCA, .-_FUN_0602DDCA\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DDF8, \"ax\"\n"
+
     ".global _FUN_0602DDF8\n"
     ".type _FUN_0602DDF8, @function\n"
     "_FUN_0602DDF8:\n"
@@ -12641,11 +13132,20 @@ __asm__(
     ".word 0x3108\n"  /* sub r0,r1 */
     ".word 0x6043\n"  /* mov r4,r0 */
     ".word 0xDC20\n"  /* mov.l @(0x80,PC),r12  {[0x0602DEA4] = 0x06034FFC} */
-    ".size _FUN_0602DDF8, .-_FUN_0602DDF8\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DE22, \"ax\"\n"
+
     ".global _FUN_0602DE22\n"
     ".type _FUN_0602DE22, @function\n"
     "_FUN_0602DE22:\n"
@@ -12670,10 +13170,20 @@ __asm__(
     ".word 0x3108\n"  /* sub r0,r1 */
     ".word 0x6043\n"  /* mov r4,r0 */
     ".word 0xDC16\n"  /* mov.l @(0x58,PC),r12  {[0x0602DEA4] = 0x06034FFC} */
-    ".size _FUN_0602DE22, .-_FUN_0602DE22\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DE4C, \"ax\"\n"
+
     ".global _FUN_0602DE4C\n"
     ".type _FUN_0602DE4C, @function\n"
     "_FUN_0602DE4C:\n"
@@ -12688,11 +13198,20 @@ __asm__(
     ".word 0xD01E\n"  /* mov.l @(0x78,PC),r0  {[0x0602DED8] = 0x06082A68} */
     ".word 0x2012\n"  /* mov.l r1,@r0 */
     ".word 0xDD1E\n"  /* mov.l @(0x78,PC),r13  {[0x0602DEDC] = 0x06012AFA} */
-    ".size _FUN_0602DE4C, .-_FUN_0602DE4C\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602DE62, \"ax\"\n"
+
     ".global _FUN_0602DE62\n"
     ".type _FUN_0602DE62, @function\n"
     "_FUN_0602DE62:\n"
@@ -12964,11 +13483,20 @@ __asm__(
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x0001\n"  /* .word 0x0001 */
     ".word 0xDD12\n"  /* mov.l @(0x48,PC),r13  {[0x0602E0C4] = 0x06012AC4} */
-    ".size _FUN_0602DE62, .-_FUN_0602DE62\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E07A, \"ax\"\n"
+
     ".global _FUN_0602E07A\n"
     ".type _FUN_0602E07A, @function\n"
     "_FUN_0602E07A:\n"
@@ -13108,11 +13636,20 @@ __asm__(
     ".word 0xD00B\n"  /* mov.l @(0x2C,PC),r0  {[0x0602E1B4] = 0x0607E940} */
     ".word 0x6002\n"  /* mov.l @r0,r0 */
     ".word 0xDD0B\n"  /* mov.l @(0x2C,PC),r13  {[0x0602E1B8] = 0x0600DB64} */
-    ".size _FUN_0602E07A, .-_FUN_0602E07A\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E18A, \"ax\"\n"
+
     ".global _FUN_0602E18A\n"
     ".type _FUN_0602E18A, @function\n"
     "_FUN_0602E18A:\n"
@@ -13185,10 +13722,20 @@ __asm__(
     ".word 0xD126\n"  /* mov.l @(0x98,PC),r1  {[0x0602E2A8] = 0x000000C0} */
     ".word 0x0136\n"  /* mov.l r3,@(r0,r1) */
     ".word 0xDD26\n"  /* mov.l @(0x98,PC),r13  {[0x0602E2AC] = 0x0602F3EC} */
-    ".size _FUN_0602E18A, .-_FUN_0602E18A\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E214, \"ax\"\n"
+
     ".global _FUN_0602E214\n"
     ".type _FUN_0602E214, @function\n"
     "_FUN_0602E214:\n"
@@ -13198,10 +13745,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0x0009\n"  /* nop */
     ".word 0xDD24\n"  /* mov.l @(0x90,PC),r13  {[0x0602E2B0] = 0x0602F7BC} */
-    ".size _FUN_0602E214, .-_FUN_0602E214\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E220, \"ax\"\n"
+
     ".global _FUN_0602E220\n"
     ".type _FUN_0602E220, @function\n"
     "_FUN_0602E220:\n"
@@ -13211,10 +13768,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0x0009\n"  /* nop */
     ".word 0xDD22\n"  /* mov.l @(0x88,PC),r13  {[0x0602E2B4] = 0x06030A06} */
-    ".size _FUN_0602E220, .-_FUN_0602E220\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E22C, \"ax\"\n"
+
     ".global _FUN_0602E22C\n"
     ".type _FUN_0602E22C, @function\n"
     "_FUN_0602E22C:\n"
@@ -13223,11 +13790,20 @@ __asm__(
     ".word 0x0009\n"  /* nop */
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0xDD20\n"  /* mov.l @(0x80,PC),r13  {[0x0602E2B8] = 0x06030EE0} */
-    ".size _FUN_0602E22C, .-_FUN_0602E22C\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E236, \"ax\"\n"
+
     ".global _FUN_0602E236\n"
     ".type _FUN_0602E236, @function\n"
     "_FUN_0602E236:\n"
@@ -13236,10 +13812,20 @@ __asm__(
     ".word 0x0009\n"  /* nop */
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0xDD1F\n"  /* mov.l @(0x7C,PC),r13  {[0x0602E2BC] = 0x060085B8} */
-    ".size _FUN_0602E236, .-_FUN_0602E236\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E240, \"ax\"\n"
+
     ".global _FUN_0602E240\n"
     ".type _FUN_0602E240, @function\n"
     "_FUN_0602E240:\n"
@@ -13248,11 +13834,20 @@ __asm__(
     ".word 0x0009\n"  /* nop */
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0xDD1D\n"  /* mov.l @(0x74,PC),r13  {[0x0602E2C0] = 0x0600C4F8} */
-    ".size _FUN_0602E240, .-_FUN_0602E240\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E24A, \"ax\"\n"
+
     ".global _FUN_0602E24A\n"
     ".type _FUN_0602E24A, @function\n"
     "_FUN_0602E24A:\n"
@@ -13264,11 +13859,20 @@ __asm__(
     ".word 0xD01B\n"  /* mov.l @(0x6C,PC),r0  {[0x0602E2C4] = 0x0607E940} */
     ".word 0x6002\n"  /* mov.l @r0,r0 */
     ".word 0xDD1B\n"  /* mov.l @(0x6C,PC),r13  {[0x0602E2C8] = 0x0602D82A} */
-    ".size _FUN_0602E24A, .-_FUN_0602E24A\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E25A, \"ax\"\n"
+
     ".global _FUN_0602E25A\n"
     ".type _FUN_0602E25A, @function\n"
     "_FUN_0602E25A:\n"
@@ -13277,10 +13881,20 @@ __asm__(
     ".word 0x0009\n"  /* nop */
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0xDD1A\n"  /* mov.l @(0x68,PC),r13  {[0x0602E2CC] = 0x0602F17C} */
-    ".size _FUN_0602E25A, .-_FUN_0602E25A\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E264, \"ax\"\n"
+
     ".global _FUN_0602E264\n"
     ".type _FUN_0602E264, @function\n"
     "_FUN_0602E264:\n"
@@ -13346,10 +13960,20 @@ __asm__(
     ".word 0x900D\n"  /* mov.w @(0x1A,PC),r0 */
     ".word 0x4101\n"  /* shlr r1 */
     ".word 0xDC07\n"  /* mov.l @(0x1C,PC),r12  {[0x0602E2FC] = 0x0602ECCC} */
-    ".size _FUN_0602E264, .-_FUN_0602E264\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E2E0, \"ax\"\n"
+
     ".global _FUN_0602E2E0\n"
     ".type _FUN_0602E2E0, @function\n"
     "_FUN_0602E2E0:\n"
@@ -13375,10 +13999,20 @@ __asm__(
     ".word 0x6503\n"  /* mov r0,r5 */
     ".word 0xE401\n"  /* mov #1,r4 */
     ".word 0xDC1C\n"  /* mov.l @(0x70,PC),r12  {[0x0602E37C] = 0x0601D5F4} */
-    ".size _FUN_0602E2E0, .-_FUN_0602E2E0\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E30C, \"ax\"\n"
+
     ".global _FUN_0602E30C\n"
     ".type _FUN_0602E30C, @function\n"
     "_FUN_0602E30C:\n"
@@ -13392,10 +14026,20 @@ __asm__(
     ".word 0x912A\n"  /* mov.w @(0x54,PC),r1 */
     ".word 0x041E\n"  /* mov.l @(r0,r1),r4 */
     ".word 0xDD19\n"  /* mov.l @(0x64,PC),r13  {[0x0602E384] = 0x0602E450} */
-    ".size _FUN_0602E30C, .-_FUN_0602E30C\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E320, \"ax\"\n"
+
     ".global _FUN_0602E320\n"
     ".type _FUN_0602E320, @function\n"
     "_FUN_0602E320:\n"
@@ -13405,10 +14049,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0x0009\n"  /* nop */
     ".word 0xDD17\n"  /* mov.l @(0x5C,PC),r13  {[0x0602E388] = 0x0602E4BC} */
-    ".size _FUN_0602E320, .-_FUN_0602E320\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E32C, \"ax\"\n"
+
     ".global _FUN_0602E32C\n"
     ".type _FUN_0602E32C, @function\n"
     "_FUN_0602E32C:\n"
@@ -13418,10 +14072,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0x0009\n"  /* nop */
     ".word 0xDD15\n"  /* mov.l @(0x54,PC),r13  {[0x0602E38C] = 0x0600CE66} */
-    ".size _FUN_0602E32C, .-_FUN_0602E32C\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E338, \"ax\"\n"
+
     ".global _FUN_0602E338\n"
     ".type _FUN_0602E338, @function\n"
     "_FUN_0602E338:\n"
@@ -13431,10 +14095,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0xD413\n"  /* mov.l @(0x4C,PC),r4  {[0x0602E390] = 0x00000000} */
     ".word 0xDD14\n"  /* mov.l @(0x50,PC),r13  {[0x0602E394] = 0x0603053C} */
-    ".size _FUN_0602E338, .-_FUN_0602E338\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E344, \"ax\"\n"
+
     ".global _FUN_0602E344\n"
     ".type _FUN_0602E344, @function\n"
     "_FUN_0602E344:\n"
@@ -13444,10 +14118,20 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".word 0xD410\n"  /* mov.l @(0x40,PC),r4  {[0x0602E390] = 0x00000000} */
     ".word 0xDD12\n"  /* mov.l @(0x48,PC),r13  {[0x0602E398] = 0x0600D780} */
-    ".size _FUN_0602E344, .-_FUN_0602E344\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E350, \"ax\"\n"
+
     ".global _FUN_0602E350\n"
     ".type _FUN_0602E350, @function\n"
     "_FUN_0602E350:\n"
@@ -13562,11 +14246,20 @@ __asm__(
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0xDD07\n"  /* mov.l @(0x1C,PC),r13  {[0x0602E44C] = 0x0603226C} */
-    ".size _FUN_0602E350, .-_FUN_0602E350\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E42E, \"ax\"\n"
+
     ".global _FUN_0602E42E\n"
     ".type _FUN_0602E42E, @function\n"
     "_FUN_0602E42E:\n"
@@ -13598,11 +14291,20 @@ __asm__(
     ".word 0xAA62\n"  /* bra 0x0602D924 */
     ".word 0x0009\n"  /* nop */
     ".word 0x0250\n"  /* .word 0x0250 */
-    ".size _FUN_0602E42E, .-_FUN_0602E42E\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E462, \"ax\"\n"
+
     ".global _FUN_0602E462\n"
     ".type _FUN_0602E462, @function\n"
     "_FUN_0602E462:\n"
@@ -13681,10 +14383,20 @@ __asm__(
     ".word 0x6563\n"  /* mov r6,r5 */
     ".word 0x3588\n"  /* sub r8,r5 */
     ".word 0xD00F\n"  /* mov.l @(0x3C,PC),r0  {[0x0602E530] = 0x0602744C} */
-    ".size _FUN_0602E462, .-_FUN_0602E462\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E4F4, \"ax\"\n"
+
     ".global _FUN_0602E4F4\n"
     ".type _FUN_0602E4F4, @function\n"
     "_FUN_0602E4F4:\n"
@@ -13754,10 +14466,20 @@ __asm__(
     ".word 0x9318\n"  /* mov.w @(0x30,PC),r3 */
     ".word 0x2132\n"  /* mov.l r3,@r1 */
     ".word 0xDD13\n"  /* mov.l @(0x4C,PC),r13  {[0x0602E5C4] = 0x0602CCD0} */
-    ".size _FUN_0602E4F4, .-_FUN_0602E4F4\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E578, \"ax\"\n"
+
     ".global _FUN_0602E578\n"
     ".type _FUN_0602E578, @function\n"
     "_FUN_0602E578:\n"
@@ -13847,10 +14569,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602E578, .-_FUN_0602E578\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E61C, \"ax\"\n"
+
     ".global _FUN_0602E61C\n"
     ".type _FUN_0602E61C, @function\n"
     "_FUN_0602E61C:\n"
@@ -13900,10 +14632,20 @@ __asm__(
     ".word 0x3538\n"  /* sub r3,r5 */
     ".word 0x6453\n"  /* mov r5,r4 */
     ".word 0xDD10\n"  /* mov.l @(0x40,PC),r13  {[0x0602E6B8] = 0x06027552} */
-    ".size _FUN_0602E61C, .-_FUN_0602E61C\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E678, \"ax\"\n"
+
     ".global _FUN_0602E678\n"
     ".type _FUN_0602E678, @function\n"
     "_FUN_0602E678:\n"
@@ -13916,11 +14658,20 @@ __asm__(
     ".word 0x3468\n"  /* sub r6,r4 */
     ".word 0x6543\n"  /* mov r4,r5 */
     ".word 0xDD0B\n"  /* mov.l @(0x2C,PC),r13  {[0x0602E6B8] = 0x06027552} */
-    ".size _FUN_0602E678, .-_FUN_0602E678\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E68A, \"ax\"\n"
+
     ".global _FUN_0602E68A\n"
     ".type _FUN_0602E68A, @function\n"
     "_FUN_0602E68A:\n"
@@ -13934,11 +14685,20 @@ __asm__(
     ".word 0x6473\n"  /* mov r7,r4 */
     ".word 0x4409\n"  /* shlr2 r4 */
     ".word 0xDD07\n"  /* mov.l @(0x1C,PC),r13  {[0x0602E6BC] = 0x06027476} */
-    ".size _FUN_0602E68A, .-_FUN_0602E68A\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E69E, \"ax\"\n"
+
     ".global _FUN_0602E69E\n"
     ".type _FUN_0602E69E, @function\n"
     "_FUN_0602E69E:\n"
@@ -13961,10 +14721,20 @@ __asm__(
     ".word 0x7476\n"  /* add #118,r4 */
     ".word 0x6473\n"  /* mov r7,r4 */
     ".word 0xDD07\n"  /* mov.l @(0x1C,PC),r13  {[0x0602E6E0] = 0x06027476} */
-    ".size _FUN_0602E69E, .-_FUN_0602E69E\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E6C4, \"ax\"\n"
+
     ".global _FUN_0602E6C4\n"
     ".type _FUN_0602E6C4, @function\n"
     "_FUN_0602E6C4:\n"
@@ -14008,10 +14778,20 @@ __asm__(
     ".word 0x3538\n"  /* sub r3,r5 */
     ".word 0x6453\n"  /* mov r5,r4 */
     ".word 0xDD12\n"  /* mov.l @(0x48,PC),r13  {[0x0602E75C] = 0x06027552} */
-    ".size _FUN_0602E6C4, .-_FUN_0602E6C4\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E714, \"ax\"\n"
+
     ".global _FUN_0602E714\n"
     ".type _FUN_0602E714, @function\n"
     "_FUN_0602E714:\n"
@@ -14024,11 +14804,20 @@ __asm__(
     ".word 0x3468\n"  /* sub r6,r4 */
     ".word 0x6543\n"  /* mov r4,r5 */
     ".word 0xDD0D\n"  /* mov.l @(0x34,PC),r13  {[0x0602E75C] = 0x06027552} */
-    ".size _FUN_0602E714, .-_FUN_0602E714\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E726, \"ax\"\n"
+
     ".global _FUN_0602E726\n"
     ".type _FUN_0602E726, @function\n"
     "_FUN_0602E726:\n"
@@ -14042,11 +14831,20 @@ __asm__(
     ".word 0x6473\n"  /* mov r7,r4 */
     ".word 0x4409\n"  /* shlr2 r4 */
     ".word 0xDD09\n"  /* mov.l @(0x24,PC),r13  {[0x0602E760] = 0x06027476} */
-    ".size _FUN_0602E726, .-_FUN_0602E726\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E73A, \"ax\"\n"
+
     ".global _FUN_0602E73A\n"
     ".type _FUN_0602E73A, @function\n"
     "_FUN_0602E73A:\n"
@@ -14073,10 +14871,20 @@ __asm__(
     ".word 0x7476\n"  /* add #118,r4 */
     ".word 0x6473\n"  /* mov r7,r4 */
     ".word 0xDD07\n"  /* mov.l @(0x1C,PC),r13  {[0x0602E784] = 0x06027476} */
-    ".size _FUN_0602E73A, .-_FUN_0602E73A\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E768, \"ax\"\n"
+
     ".global _FUN_0602E768\n"
     ".type _FUN_0602E768, @function\n"
     "_FUN_0602E768:\n"
@@ -14134,10 +14942,20 @@ __asm__(
     ".word 0x65C3\n"  /* mov r12,r5 */
     ".word 0x3578\n"  /* sub r7,r5 */
     ".word 0xD00E\n"  /* mov.l @(0x38,PC),r0  {[0x0602E80C] = 0x0602744C} */
-    ".size _FUN_0602E768, .-_FUN_0602E768\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E7D4, \"ax\"\n"
+
     ".global _FUN_0602E7D4\n"
     ".type _FUN_0602E7D4, @function\n"
     "_FUN_0602E7D4:\n"
@@ -14182,11 +15000,20 @@ __asm__(
     ".word 0xD405\n"  /* mov.l @(0x14,PC),r4  {[0x0602E838] = 0x00000000} */
     ".word 0xD506\n"  /* mov.l @(0x18,PC),r5  {[0x0602E83C] = 0xAE1106FF} */
     ".word 0xDD06\n"  /* mov.l @(0x18,PC),r13  {[0x0602E840] = 0x0601D5F4} */
-    ".size _FUN_0602E7D4, .-_FUN_0602E7D4\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E826, \"ax\"\n"
+
     ".global _FUN_0602E826\n"
     ".type _FUN_0602E826, @function\n"
     "_FUN_0602E826:\n"
@@ -14208,11 +15035,20 @@ __asm__(
     ".word 0xD404\n"  /* mov.l @(0x10,PC),r4  {[0x0602E858] = 0x00000000} */
     ".word 0xD505\n"  /* mov.l @(0x14,PC),r5  {[0x0602E85C] = 0xAE110AFF} */
     ".word 0xDD05\n"  /* mov.l @(0x14,PC),r13  {[0x0602E860] = 0x0601D5F4} */
-    ".size _FUN_0602E826, .-_FUN_0602E826\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E84A, \"ax\"\n"
+
     ".global _FUN_0602E84A\n"
     ".type _FUN_0602E84A, @function\n"
     "_FUN_0602E84A:\n"
@@ -14235,10 +15071,20 @@ __asm__(
     ".word 0xD405\n"  /* mov.l @(0x14,PC),r4  {[0x0602E880] = 0x00000000} */
     ".word 0xD505\n"  /* mov.l @(0x14,PC),r5  {[0x0602E884] = 0xAE1105FF} */
     ".word 0xDD06\n"  /* mov.l @(0x18,PC),r13  {[0x0602E888] = 0x0601D5F4} */
-    ".size _FUN_0602E84A, .-_FUN_0602E84A\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E870, \"ax\"\n"
+
     ".global _FUN_0602E870\n"
     ".type _FUN_0602E870, @function\n"
     "_FUN_0602E870:\n"
@@ -14259,11 +15105,20 @@ __asm__(
     ".word 0xD404\n"  /* mov.l @(0x10,PC),r4  {[0x0602E8A0] = 0x00000000} */
     ".word 0xD505\n"  /* mov.l @(0x14,PC),r5  {[0x0602E8A4] = 0xAE1109FF} */
     ".word 0xDD05\n"  /* mov.l @(0x14,PC),r13  {[0x0602E8A8] = 0x0601D5F4} */
-    ".size _FUN_0602E870, .-_FUN_0602E870\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602E892, \"ax\"\n"
+
     ".global _FUN_0602E892\n"
     ".type _FUN_0602E892, @function\n"
     "_FUN_0602E892:\n"
@@ -14919,11 +15774,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602E892, .-_FUN_0602E892\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602EDA2, \"ax\"\n"
+
     ".global _FUN_0602EDA2\n"
     ".type _FUN_0602EDA2, @function\n"
     "_FUN_0602EDA2:\n"
@@ -15066,12 +15930,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602EDA2, .-_FUN_0602EDA2\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _per_car_render_pipeline\n"
     ".type _per_car_render_pipeline, @function\n"
+
+
+
+
+    ".section .text.FUN_0602EEB8, \"ax\"\n"
+
     ".global _FUN_0602EEB8\n"
     "_per_car_render_pipeline:\n"
     "_FUN_0602EEB8:\n"
@@ -15223,8 +16095,18 @@ __asm__(
     ".size _per_car_render_pipeline, .-_per_car_render_pipeline\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602EFDA, \"ax\"\n"
+
     ".global _FUN_0602EFDA\n"
     ".type _FUN_0602EFDA, @function\n"
     "_FUN_0602EFDA:\n"
@@ -15239,10 +16121,20 @@ __asm__(
     ".word 0x0000\n"  /* .word 0x0000 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x7358\n"  /* add #88,r3 */
-    ".size _FUN_0602EFDA, .-_FUN_0602EFDA\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602F214, \"ax\"\n"
+
     ".global _FUN_0602F214\n"
     ".type _FUN_0602F214, @function\n"
     "_FUN_0602F214:\n"
@@ -15292,10 +16184,20 @@ __asm__(
     ".word 0x000B\n"  /* rts */
     ".word 0x0146\n"  /* mov.l r4,@(r0,r1) */
     ".word 0x00E4\n"  /* mov.b r14,@(r0,r0) */
-    ".size _FUN_0602F214, .-_FUN_0602F214\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602F270, \"ax\"\n"
+
     ".global _FUN_0602F270\n"
     ".type _FUN_0602F270, @function\n"
     "_FUN_0602F270:\n"
@@ -15673,10 +16575,20 @@ __asm__(
     ".word 0x65A3\n"  /* mov r10,r5 */
     ".word 0x3588\n"  /* sub r8,r5 */
     ".word 0xD00B\n"  /* mov.l @(0x2C,PC),r0  {[0x0602F57C] = 0x0602744C} */
-    ".size _FUN_0602F270, .-_FUN_0602F270\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602F550, \"ax\"\n"
+
     ".global _FUN_0602F550\n"
     ".type _FUN_0602F550, @function\n"
     "_FUN_0602F550:\n"
@@ -15731,11 +16643,20 @@ __asm__(
     ".word 0x000B\n"  /* rts */
     ".word 0x0009\n"  /* nop */
     ".word 0x0268\n"  /* .word 0x0268 */
-    ".size _FUN_0602F550, .-_FUN_0602F550\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602F7F2, \"ax\"\n"
+
     ".global _FUN_0602F7F2\n"
     ".type _FUN_0602F7F2, @function\n"
     "_FUN_0602F7F2:\n"
@@ -15952,11 +16873,20 @@ __asm__(
     ".word 0x3FFF\n"  /* .word 0x3FFF */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0xFD9F\n"  /* .word 0xFD9F */
-    ".size _FUN_0602F7F2, .-_FUN_0602F7F2\n"
 );
 __asm__(
-    ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602F9A6, \"ax\"\n"
+
     ".global _FUN_0602F9A6\n"
     ".type _FUN_0602F9A6, @function\n"
     "_FUN_0602F9A6:\n"
@@ -16477,10 +17407,20 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602F9A6, .-_FUN_0602F9A6\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
+
+
+
+
+
+
+    ".section .text.FUN_0602FDB0, \"ax\"\n"
+
     ".global _FUN_0602FDB0\n"
     ".type _FUN_0602FDB0, @function\n"
     "_FUN_0602FDB0:\n"
@@ -17141,5 +18081,4 @@ __asm__(
     ".word 0x2FB6\n"  /* mov.l r11,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
-    ".size _FUN_0602FDB0, .-_FUN_0602FDB0\n"
 );

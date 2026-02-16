@@ -12,12 +12,15 @@ LD      := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 OBJDUMP := $(TOOLDIR)/sh-elf-objdump
 
-CFLAGS  := -m2 -mb -Os -Wall -nostdlib -ffreestanding -fno-builtin -Iinclude
+CFLAGS  := -m2 -mb -Os -Wall -nostdlib -ffreestanding -fno-builtin -ffunction-sections -Iinclude
 
 # batch_cd_system_34.c ICEs with -Os on sh-elf-gcc 13.3.0 — fall back to -O2
-CFLAGS_O2 := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -Iinclude
+CFLAGS_O2 := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -ffunction-sections -Iinclude
 LIBGCC  := $(PROJDIR)/tools/sh-elf/lib/gcc/sh-elf/13.3.0/libgcc.a
-LDFLAGS := -T saturn.ld -nostdlib
+LDSCRIPT := saturn_fixed.ld
+# --noinhibit-exec: 3 ASM functions have 2-byte section alignment padding that
+# overlaps harmlessly with the next function (assembler pads to 4-byte boundary)
+LDFLAGS := -T $(LDSCRIPT) -nostdlib --noinhibit-exec
 
 BUILDDIR := build
 
@@ -33,7 +36,7 @@ OBJS     := $(ASM_OBJS) $(C_OBJS)
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
 
-.PHONY: all clean disc dump info
+.PHONY: all clean disc dump info sizing
 
 all: $(BIN)
 
@@ -49,7 +52,7 @@ $(BIN): $(ELF)
 		echo "Built: $@ ($$SIZE bytes)"; \
 	fi
 
-$(ELF): $(OBJS) saturn.ld
+$(ELF): $(OBJS) $(LDSCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LIBGCC)
 
 # Explicit rule for files that ICE with -Os

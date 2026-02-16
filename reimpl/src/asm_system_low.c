@@ -1,8 +1,13 @@
 __asm__(
     ".balign 4\n"
-    ".short 0x0009\n"  /* alignment padding */
     ".global _vdp2_data_transfer_course0\n"
     ".type _vdp2_data_transfer_course0, @function\n"
+
+
+
+
+    ".section .text.FUN_06003466, \"ax\"\n"
+
     ".global _FUN_06003466\n"
     "_vdp2_data_transfer_course0:\n"
     "_FUN_06003466:\n"
@@ -64,9 +69,18 @@ __asm__(
     ".size _vdp2_data_transfer_course0, .-_vdp2_data_transfer_course0\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _vdp2_data_transfer_course1\n"
     ".type _vdp2_data_transfer_course1, @function\n"
+
+
+
+
+    ".section .text.FUN_060034D4, \"ax\"\n"
+
     ".global _FUN_060034D4\n"
     "_vdp2_data_transfer_course1:\n"
     "_FUN_060034D4:\n"
@@ -99,9 +113,18 @@ __asm__(
     ".size _vdp2_data_transfer_course1, .-_vdp2_data_transfer_course1\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _vdp2_data_transfer_course2\n"
     ".type _vdp2_data_transfer_course2, @function\n"
+
+
+
+
+    ".section .text.FUN_06003508, \"ax\"\n"
+
     ".global _FUN_06003508\n"
     "_vdp2_data_transfer_course2:\n"
     "_FUN_06003508:\n"
@@ -164,9 +187,18 @@ __asm__(
     ".size _vdp2_data_transfer_course2, .-_vdp2_data_transfer_course2\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _obj_position_update\n"
     ".type _obj_position_update, @function\n"
+
+
+
+
+    ".section .text.FUN_06004F28, \"ax\"\n"
+
     ".global _FUN_06004F28\n"
     "_obj_position_update:\n"
     "_FUN_06004F28:\n"
@@ -351,9 +383,18 @@ __asm__(
     ".size _obj_position_update, .-_obj_position_update\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _obj_coord_setter\n"
     ".type _obj_coord_setter, @function\n"
+
+
+
+
+    ".section .text.FUN_0600508C, \"ax\"\n"
+
     ".global _FUN_0600508C\n"
     "_obj_coord_setter:\n"
     "_FUN_0600508C:\n"
@@ -434,9 +475,18 @@ __asm__(
     ".size _obj_coord_setter, .-_obj_coord_setter\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _hw_render_dispatcher\n"
     ".type _hw_render_dispatcher, @function\n"
+
+
+
+
+    ".section .text.FUN_06005120, \"ax\"\n"
+
     ".global _FUN_06005120\n"
     "_hw_render_dispatcher:\n"
     "_FUN_06005120:\n"
@@ -503,9 +553,18 @@ __asm__(
     ".size _hw_render_dispatcher, .-_hw_render_dispatcher\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _obj_state_writer\n"
     ".type _obj_state_writer, @function\n"
+
+
+
+
+    ".section .text.FUN_06005494, \"ax\"\n"
+
     ".global _FUN_06005494\n"
     "_obj_state_writer:\n"
     "_FUN_06005494:\n"
@@ -596,9 +655,18 @@ __asm__(
     ".size _obj_state_writer, .-_obj_state_writer\n"
 );
 __asm__(
-    ".balign 4\n"
+
+
+
+    ".balign 2\n"
     ".global _vdp_mode_setup_disp\n"
     ".type _vdp_mode_setup_disp, @function\n"
+
+
+
+
+    ".section .text.FUN_0600579C, \"ax\"\n"
+
     ".global _FUN_0600579C\n"
     "_vdp_mode_setup_disp:\n"
     "_FUN_0600579C:\n"
