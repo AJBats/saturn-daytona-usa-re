@@ -88,27 +88,19 @@ FUN_06008A18:
     .byte 0x6E, 0xF6
     .byte 0x08, 0x00
     .byte 0x02, 0x44
-    .byte 0x06, 0x07
-    .byte 0xEB, 0xCC
-    .byte 0x06, 0x00
-    .byte 0xA1, 0xF6
-    .byte 0x06, 0x07
-    .byte 0xEA, 0xD8
-    .byte 0x06, 0x06
-    .byte 0x3D, 0x9A
+    .4byte sym_0607EBCC
+    .4byte sym_0600A1F6
+    .4byte sym_0607EAD8
+    .4byte sym_06063D9A
     .4byte FUN_06018E70
-    .byte 0x06, 0x05
-    .byte 0xAD, 0x10
-    .byte 0x06, 0x08
-    .byte 0x78, 0x04
+    .4byte sym_0605AD10
+    .4byte sym_06087804
     .4byte FUN_06033BC8
     .4byte FUN_0601FD74
     .4byte FUN_0600DE40
     .4byte FUN_0600A914
     .4byte FUN_060055BC
-    .byte 0x06, 0x00
-    .byte 0x33, 0x8C
+    .4byte sym_0600338C
     .4byte FUN_0600BFFC
-    .byte 0x06, 0x01
-    .byte 0xAE, 0xB6
+    .4byte sym_0601AEB6
     .4byte FUN_060078DC

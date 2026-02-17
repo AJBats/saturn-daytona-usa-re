@@ -58,19 +58,15 @@ FUN_0603C10C:
     .byte 0x00, 0x0B
     .byte 0x40, 0x21
     .byte 0x30, 0x00
-    .byte 0x06, 0x0A
-    .byte 0x4D, 0x60
+    .4byte sym_060A4D60
     .4byte FUN_0603D2CC
     .4byte FUN_0603D3A8
     .4byte FUN_0603D438
     .4byte FUN_0603D514
     .4byte FUN_0603D5D0
-    .byte 0x06, 0x0A
-    .byte 0x4D, 0x80
-    .byte 0x06, 0x0A
-    .byte 0x4D, 0xA6
-    .byte 0x06, 0x0A
-    .byte 0x3D, 0x96
+    .4byte sym_060A4D80
+    .4byte sym_060A4DA6
+    .4byte sym_060A3D96
     .byte 0xE3, 0x00
     .byte 0xD2, 0x27
     .byte 0x00, 0x0B

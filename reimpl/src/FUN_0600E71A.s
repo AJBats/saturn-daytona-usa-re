@@ -73,15 +73,11 @@ FUN_0600E71A:
     .byte 0x04, 0x00
     .byte 0x02, 0x28
     .byte 0xFF, 0xFF
-    .byte 0x06, 0x07
-    .byte 0xE9, 0x40
+    .4byte sym_0607E940
     .4byte FUN_06008318
-    .byte 0x06, 0x00
-    .byte 0x86, 0x40
-    .byte 0x06, 0x00
-    .byte 0xD2, 0x66
+    .4byte sym_06008640
+    .4byte sym_0600D266
     .4byte FUN_0600C4F8
     .4byte FUN_0600C5D6
     .4byte FUN_0600CEBA
-    .byte 0x06, 0x07
-    .byte 0xEA, 0x9C
+    .4byte sym_0607EA9C

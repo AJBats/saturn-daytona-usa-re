@@ -80,5 +80,4 @@ FUN_060408B0:
     .byte 0x6E, 0xF6
     .4byte FUN_060411A0
     .4byte FUN_0604188C
-    .byte 0x06, 0x04
-    .byte 0x02, 0x20
+    .4byte sym_06040220

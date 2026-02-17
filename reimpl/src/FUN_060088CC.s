@@ -43,10 +43,7 @@ FUN_060088CC:
     .4byte FUN_06014884
     .4byte FUN_06018DDC
     .4byte FUN_060210F6
-    .byte 0x06, 0x05
-    .byte 0xAD, 0x10
-    .byte 0x06, 0x02
-    .byte 0x6C, 0xE0
-    .byte 0x06, 0x05
-    .byte 0x9F, 0x44
+    .4byte sym_0605AD10
+    .4byte sym_06026CE0
+    .4byte sym_06059F44
     .4byte FUN_0601CAEE

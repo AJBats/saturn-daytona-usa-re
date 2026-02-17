@@ -30,17 +30,12 @@ FUN_06009E02:
     .byte 0x02, 0x58
     .byte 0xFF, 0xFF
     .4byte FUN_060190B8
-    .byte 0x06, 0x05
-    .byte 0xAD, 0x10
-    .byte 0x06, 0x07
-    .byte 0xEB, 0xCC
-    .byte 0x06, 0x02
-    .byte 0x85, 0x60
+    .4byte sym_0605AD10
+    .4byte sym_0607EBCC
+    .4byte sym_06028560
     .4byte FUN_06012F80
-    .byte 0x06, 0x05
-    .byte 0xA0, 0x16
+    .4byte sym_0605A016
     .4byte FUN_06018DDC
     .4byte FUN_0601389E
     .4byte FUN_06018E70
-    .byte 0x06, 0x07
-    .byte 0x86, 0x4B
+    .4byte sym_0607864B

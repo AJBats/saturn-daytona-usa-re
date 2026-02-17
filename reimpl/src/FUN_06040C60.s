@@ -27,5 +27,4 @@ FUN_06040C60:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .4byte FUN_06041258
-    .byte 0x06, 0x06
-    .byte 0x36, 0x7C
+    .4byte sym_0606367C

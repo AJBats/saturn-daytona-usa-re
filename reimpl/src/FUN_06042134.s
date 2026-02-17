@@ -131,8 +131,7 @@ FUN_06042134:
     .byte 0x01, 0xDC
     .byte 0xFF, 0xFF
     .4byte FUN_060349B6
-    .byte 0x06, 0x0A
-    .byte 0x54, 0x00
+    .4byte sym_060A5400
     .4byte FUN_06036414
     .byte 0xA0, 0x29
     .byte 0x65, 0xC3

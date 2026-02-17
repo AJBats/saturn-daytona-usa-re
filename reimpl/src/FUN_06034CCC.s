@@ -33,8 +33,7 @@ FUN_06034CCC:
     .4byte FUN_06035E00
     .byte 0x00, 0x00
     .byte 0xFF, 0xFD
-    .byte 0x06, 0x03
-    .byte 0x5C, 0x6E
+    .4byte sym_06035C6E
     .4byte FUN_06035E90
     .4byte FUN_06035EA2
     .byte 0x00, 0xFF

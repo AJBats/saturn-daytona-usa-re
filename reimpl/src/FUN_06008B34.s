@@ -19,15 +19,11 @@ FUN_06008B34:
     .byte 0x23, 0x22
     .byte 0xFF, 0xFF
     .4byte FUN_06018E70
-    .byte 0x06, 0x05
-    .byte 0xAD, 0x10
+    .4byte sym_0605AD10
     .4byte FUN_060193F4
     .4byte FUN_060210F6
-    .byte 0x06, 0x02
-    .byte 0x6C, 0xE0
-    .byte 0x06, 0x05
-    .byte 0x9F, 0x44
-    .byte 0x06, 0x05
-    .byte 0xA0, 0x16
+    .4byte sym_06026CE0
+    .4byte sym_06059F44
+    .4byte sym_0605A016
     .4byte FUN_060196A4
     .4byte FUN_0601950C

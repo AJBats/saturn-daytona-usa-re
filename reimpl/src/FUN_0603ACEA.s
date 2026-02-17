@@ -39,8 +39,7 @@ FUN_0603ACEA:
     .byte 0x00, 0xA0
     .4byte FUN_0603F22C
     .4byte FUN_0603BC12
-    .byte 0x06, 0x0A
-    .byte 0x4D, 0x14
+    .4byte sym_060A4D14
     .4byte FUN_0603F238
     .byte 0x62, 0xD2
     .byte 0x90, 0x4A

@@ -1,6 +1,6 @@
 # Sawyer L2 — Relocatable Assembly Source
 
-> **Status**: Active — primary workstream
+> **Status**: Active — Phase 2 COMPLETE, Phase 3 next
 > **Created**: 2026-02-17
 > **Predecessor**: DONE_function_audit.md, ICEBOX_gameplay_extraction.md (Sawyer annotations)
 > **Paused**: road_to_boot.md, reimplementation.md (resume after bootable ASM base)
@@ -61,51 +61,38 @@ Three experiments validated the approach:
 
 ## Plan
 
-### Phase 1: Build Pipeline Setup
+### Phase 1: Build Pipeline Setup — DONE
 
 **Goal**: Fresh build system in `reimpl/` that assembles `.s` files and links them.
 
-1. Archive old C source: `reimpl/src/` → `reimpl/src_c_archive/`
-2. Create `reimpl/src/` for new `.s` source files
-3. Write new Makefile:
-   - Discovers `src/*.s` files
-   - Assembles each with `sh-elf-as -big` → `.o`
-   - Links all `.o` files with `sh-elf-ld -EB` → `APROG.BIN`
-   - Runs `cmp` against original as validation gate
-4. Linker script: sequential placement starting at 0x06003000, functions in address order
-5. Verify: empty build compiles and links (even if the binary is wrong)
+**Completed 2026-02-17:**
+- Archived old C source: `reimpl/src/` → `reimpl/src_c_archive/` (git mv)
+- New Makefile: discovers `src/*.s`, assembles with `sh-elf-as --isa=sh2 -big`, links with `sh-elf-ld`
+- `SORT_BY_NAME(.text.FUN_*)` linker ordering — section names sort lexicographically in address order
+- `make validate` target runs `cmp` against original binary
+- `make disc` target injects into disc image for Mednafen testing
 
-### Phase 2: Sawyer L2 — Automated Symbolization
+### Phase 2: Sawyer L2 — Automated Symbolization — DONE
 
 **Goal**: All 1,234 functions as `.s` files with symbolic pool entries. Byte-identical output.
 
-1. Build `tools/symbolize_pools.py`:
-   - Input: `build/aprog.s` (full disassembly)
-   - Input: symbol table (1,234 FUN_ + ~1,482 DAT_ addresses)
-   - For each function:
-     a. Extract the `.byte` block
-     b. Identify the constant pool region (4-byte-aligned entries after the last instruction)
-     c. For each 4-byte value: check against symbol table
-     d. Match → `.4byte _FUN_XXXX` or `.4byte _DAT_XXXX`
-     e. No match → keep as `.byte` (numeric constant or unknown)
-   - Output: one `.s` file per function in `reimpl/src/`
-   - Output: linker script with function ordering + symbol PROVIDE declarations
+**Completed 2026-02-17:**
+- Built `tools/symbolize_pools.py` — reads `build/aprog.bin` directly, generates all `.s` files + linker script
+- **1,259 `.s` files** generated (1,258 functions + `_start.s`)
+- Symbol sources:
+  - 1,258 FUN_ symbols from `build/aprog_syms.txt`
+  - 1,341 DAT_ symbols from `reimpl/src_c_archive/linker_stubs.c`
+  - 1,749 synthetic sym_ symbols extracted from `build/aprog.s` disassembly comments
+  - **4,348 total symbols**
+- **7,236 pool entries symbolized** (from initial 1,146 — 6.3x improvement)
+- Auto-generated `reimpl/sawyer.ld` with PROVIDE declarations for all symbols
+- **Gate PASSED**: `cmp` — byte-identical to original (394,896 bytes)
 
-2. Handle data gaps between functions:
-   - The original binary has data interleaved with code
-   - `patch_data_holes.py` already handles this — fill gaps post-link
-   - OR: emit gap data as `.byte` blocks in the `.s` files
-
-3. Handle FUN_06046E48 (the 116KB data tail):
-   - Not a function — it's parameter tables, strings, lookup tables
-   - Emit as a data `.s` file or let gap patcher handle it
-
-4. Validation loop:
-   - `make` → assemble + link → `cmp build/APROG.BIN build/original_aprog.bin`
-   - Fix mismatches: wrong symbol classification, missed pool entries, alignment issues
-   - Iterate until byte-identical
-
-5. **Gate**: `cmp` passes. The relocatable source produces the exact original binary.
+**Key design decisions:**
+- `.4byte` (not `.long`) for pool entries — avoids alignment enforcement for 2-mod-4 functions
+- Each function in its own section (`.text.FUN_XXXXXXXX`) for SORT_BY_NAME ordering
+- Synthetic symbols (sym_XXXXXXXX) created for addresses in 0x06000000-0x060FFFFF range
+  that appear in disassembly comment annotations but aren't in FUN_/DAT_ tables
 
 ### Phase 3: Free Layout + Boot Test
 
@@ -207,18 +194,17 @@ computed offsets, or symbols we haven't catalogued.
 1. **RAM budget**: Need a work RAM audit to determine actual wiggle room beyond
    394,896 bytes. If there's headroom, C functions that compile larger are fine.
 
-2. **Data gaps**: Should interleaved data be emitted in `.s` files or handled by
-   the gap patcher post-link? Gap patcher is simpler but less self-contained.
+2. ~~**Data gaps**~~: RESOLVED — symbolize_pools.py emits all bytes including inter-function
+   gaps as part of the `.s` files. No separate gap patcher needed.
 
-3. **Alignment**: Functions starting at 2 mod 4 need pool entries at 4-byte boundaries.
-   The L2 approach (`.byte` instructions + `.4byte` pools) handles this with `.4byte`
-   which doesn't enforce section-relative alignment. L3 (real mnemonics) needs explicit
-   padding — manageable but needs care.
+3. ~~**Alignment**~~: RESOLVED — using `.4byte` (not `.long`) avoids alignment enforcement.
+   Functions at 2-mod-4 addresses work correctly because `.4byte` just emits 4 bytes.
 
-4. **Unknown addresses**: Pool values in 0x0600XXXX that don't match any symbol.
-   These need new labels created, or they stay as literals and we accept that those
-   specific references won't relocate. Phase 3 boot testing will expose any that matter.
+4. ~~**Unknown addresses**~~: LARGELY RESOLVED — synthetic symbols (sym_XXXXXXXX) cover
+   1,749 additional addresses extracted from disassembly comments. Remaining unsymbolized
+   pool entries are numeric constants, MMIO addresses, or addresses outside work RAM.
+   Phase 3 boot test will validate.
 
 ---
 *Created: 2026-02-17*
-*Updated: 2026-02-17 — POC results, full phase plan*
+*Updated: 2026-02-17 — Phase 1+2 COMPLETE. 1,259 .s files, 4,348 symbols, 7,236 pool entries symbolized. Byte-identical build validated.*

@@ -35,12 +35,9 @@ FUN_060148A2:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
-    .byte 0x06, 0x03
-    .byte 0x85, 0x0C
+    .4byte sym_0603850C
     .4byte FUN_06038794
-    .byte 0x06, 0x03
-    .byte 0x85, 0x20
+    .4byte sym_06038520
     .4byte FUN_0603853C
-    .byte 0x06, 0x05
-    .byte 0xB7, 0x1C
+    .4byte sym_0605B71C
     .4byte FUN_06038BD4

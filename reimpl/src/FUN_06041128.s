@@ -43,5 +43,4 @@ FUN_06041128:
     .byte 0x00, 0xFF
     .byte 0x03, 0x04
     .4byte FUN_060349B6
-    .byte 0x06, 0x0A
-    .byte 0x54, 0x00
+    .4byte sym_060A5400

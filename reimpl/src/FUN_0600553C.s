@@ -54,12 +54,9 @@ FUN_0600553C:
     .byte 0x6E, 0xF6
     .byte 0x02, 0x68
     .byte 0xFF, 0xFF
-    .byte 0x06, 0x02
-    .byte 0x6E, 0x0C
-    .byte 0x06, 0x07
-    .byte 0x89, 0x00
-    .byte 0x06, 0x02
-    .byte 0x6E, 0x2E
+    .4byte sym_06026E0C
+    .4byte sym_06078900
+    .4byte sym_06026E2E
     .4byte FUN_06026EDE
     .4byte FUN_06026E94
     .4byte FUN_06026F2A

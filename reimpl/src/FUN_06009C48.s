@@ -59,27 +59,19 @@ FUN_06009C48:
     .byte 0x4F, 0x26
     .byte 0x00, 0xBC
     .4byte FUN_06014A42
-    .byte 0x06, 0x07
-    .byte 0xEA, 0xE0
+    .4byte sym_0607EAE0
     .4byte FUN_0601DF88
-    .byte 0x06, 0x07
-    .byte 0xEA, 0xD8
+    .4byte sym_0607EAD8
     .4byte FUN_0601DBB8
     .4byte FUN_0600DF66
     .4byte FUN_0600A914
     .4byte FUN_0600BB94
-    .byte 0x06, 0x06
-    .byte 0x3E, 0x24
-    .byte 0x06, 0x06
-    .byte 0x3E, 0xEC
-    .byte 0x06, 0x06
-    .byte 0x3E, 0xF8
+    .4byte sym_06063E24
+    .4byte sym_06063EEC
+    .4byte sym_06063EF8
     .4byte FUN_060053AC
     .4byte FUN_0600BFFC
-    .byte 0x06, 0x07
-    .byte 0xED, 0x8C
-    .byte 0x06, 0x00
-    .byte 0x33, 0xE6
-    .byte 0x06, 0x07
-    .byte 0xE9, 0x44
+    .4byte sym_0607ED8C
+    .4byte sym_060033E6
+    .4byte sym_0607E944
     .4byte FUN_060078DC

@@ -94,8 +94,7 @@ FUN_06041EE8:
     .byte 0xFF, 0xF7
     .4byte FUN_06035C54
     .4byte FUN_060349B6
-    .byte 0x06, 0x0A
-    .byte 0x54, 0x00
+    .4byte sym_060A5400
     .4byte FUN_060363BC
     .4byte FUN_06036380
     .4byte FUN_0603697C
@@ -201,6 +200,5 @@ FUN_06041EE8:
     .byte 0x03, 0x48
     .byte 0x01, 0x00
     .byte 0x03, 0x5C
-    .byte 0x06, 0x03
-    .byte 0x5C, 0x4E
+    .4byte sym_06035C4E
     .4byte FUN_06036380

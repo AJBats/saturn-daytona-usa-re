@@ -76,8 +76,7 @@ FUN_06041CC8:
     .byte 0x6E, 0xF6
     .byte 0x03, 0x28
     .byte 0x03, 0x34
-    .byte 0x06, 0x0A
-    .byte 0x54, 0x00
+    .4byte sym_060A5400
     .4byte FUN_060367E8
     .4byte FUN_060349B6
     .4byte FUN_06034C68

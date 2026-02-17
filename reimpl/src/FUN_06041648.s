@@ -20,8 +20,7 @@ FUN_06041648:
     .byte 0xE0, 0xF6
     .4byte FUN_06036AF2
     .4byte FUN_060349B6
-    .byte 0x06, 0x0A
-    .byte 0x54, 0x00
+    .4byte sym_060A5400
     .4byte FUN_06036518
     .byte 0x64, 0xF3
     .byte 0xD3, 0x2C

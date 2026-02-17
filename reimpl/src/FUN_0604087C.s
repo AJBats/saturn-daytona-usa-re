@@ -23,5 +23,4 @@ FUN_0604087C:
     .4byte FUN_060414D0
     .4byte FUN_0604188C
     .4byte FUN_06040F16
-    .byte 0x06, 0x04
-    .byte 0x0E, 0xBA
+    .4byte sym_06040EBA
