@@ -31,32 +31,43 @@ DRY_RUN = "--dry-run" in sys.argv
 
 
 def parse_elf_sections():
-    """Parse ELF section headers to find claimed address ranges.
+    """Parse ELF section headers directly from the binary file.
 
-    Uses objdump -h to get section name, size, VMA for all sections.
+    Reads ELF32 section headers to find claimed address ranges.
+    No external tools needed — pure Python ELF parsing.
     Returns sorted list of (start, end) tuples.
     """
-    result = subprocess.run(
-        [OBJDUMP, "-h", ELF_FILE],
-        capture_output=True, text=True
-    )
+    with open(ELF_FILE, "rb") as f:
+        # ELF header
+        magic = f.read(4)
+        assert magic == b'\x7fELF', f"Not an ELF file: {ELF_FILE}"
+        ei_class = struct.unpack('B', f.read(1))[0]  # 1=32bit, 2=64bit
+        ei_data = struct.unpack('B', f.read(1))[0]    # 1=LE, 2=BE
+        assert ei_class == 1, "Expected 32-bit ELF"
 
-    claimed = []
-    for line in result.stdout.splitlines():
-        # Format: idx name  size  VMA  LMA  file_off  2**align
-        # Example:  3 .func_FUN_06003218 00000054  06003218  06003218  00003218  2**0
-        parts = line.strip().split()
-        if len(parts) >= 6:
-            try:
-                idx = int(parts[0])
-                name = parts[1]
-                size = int(parts[2], 16)
-                vma = int(parts[3], 16)
+        endian = '>' if ei_data == 2 else '<'
 
-                if size > 0 and 0x06003000 <= vma < 0x060A0000:
-                    claimed.append((vma, vma + size))
-            except (ValueError, IndexError):
-                continue
+        # Read relevant ELF header fields
+        f.seek(32)  # e_shoff
+        e_shoff = struct.unpack(endian + 'I', f.read(4))[0]
+        f.seek(46)  # e_shentsize
+        e_shentsize = struct.unpack(endian + 'H', f.read(2))[0]
+        e_shnum = struct.unpack(endian + 'H', f.read(2))[0]
+
+        # Parse section headers
+        claimed = []
+        for i in range(e_shnum):
+            f.seek(e_shoff + i * e_shentsize)
+            sh_data = f.read(e_shentsize)
+            # Section header: name(4) type(4) flags(4) addr(4) offset(4) size(4) ...
+            sh_name, sh_type, sh_flags, sh_addr, sh_offset, sh_size = struct.unpack(
+                endian + 'IIIIII', sh_data[:24]
+            )
+
+            # SHT_PROGBITS=1 (code/data), SHF_ALLOC=2
+            if sh_type == 1 and (sh_flags & 2) and sh_size > 0:
+                if 0x06003000 <= sh_addr < 0x060A0000:
+                    claimed.append((sh_addr, sh_addr + sh_size))
 
     # Merge overlapping ranges
     claimed.sort()

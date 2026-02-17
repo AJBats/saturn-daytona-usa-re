@@ -86,6 +86,9 @@ info:
 	@echo "Objects:     $(OBJS)"
 
 # Inject into disc image for Mednafen testing
+# patch_data_holes.py fills unclaimed regions with original binary data
 disc: $(BIN)
+	@echo "Patching data holes with original binary..."
+	python3 $(PROJDIR)/tools/patch_data_holes.py
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
