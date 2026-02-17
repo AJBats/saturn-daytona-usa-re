@@ -364,3 +364,265 @@ char * vdp2_get_vram_bank(param_1)
     }
     return (char *)((int)(*(unsigned short *)(0x060A4D18 + 4) & 0x70) >> 4);  /* NBG2: CYCA bits 4-6 */
 }
+
+/* --- FUN_06042088 (L1 import from src/FUN_06042088.c) --- */
+
+int FUN_06042088(param_1)
+    int *param_1;
+{
+
+  unsigned short uVar1;
+
+  char *puVar2;
+
+  int iVar3;
+
+  unsigned short uVar4;
+
+  char local_14 [16];
+
+  puVar2 = (char *)0x060A5400;
+
+  if (*(int *)(0x360 + *(int *)0x060A5400) == 1) {
+
+    iVar3 = (*(int(*)())0x06036A1C)(*(int *)(*(int *)0x060A5400 + DAT_06042120 + 4),
+
+                       *(int *)(*(int *)0x060A5400 + (int)DAT_06042120));
+
+    if (iVar3 != 0) {
+
+      return 1;
+
+    }
+
+    (*(int(*)())0x060349B6)(local_14);
+
+    *(char *)(*(int *)puVar2 + 0x40) = local_14[0];
+
+    *param_1 = *param_1 + 1;
+
+    *(int *)(*(int *)puVar2 + 0x360) = 2;
+
+  }
+
+  uVar1 = DAT_06042122;
+
+  if ((*(int *)(0x360 + *(int *)puVar2) == 2) &&
+
+     (uVar4 = (*(int(*)())0x06035C4E)(), (uVar4 & uVar1) != 0)) {
+
+    *(int *)(*(int *)puVar2 + 0x360) = 0;
+
+  }
+
+  return *(int *)(0x360 + *(int *)puVar2);
+
+}
+
+/* --- FUN_06042134 (L1 import from src/FUN_06042134.c) --- */
+
+int FUN_06042134(param_1)
+    int *param_1;
+{
+
+  char *puVar1;
+
+  char *puVar2;
+
+  unsigned short uVar3;
+
+  int iVar4;
+
+  unsigned char bVar5;
+
+  int iVar6;
+
+  int iVar7;
+
+  int iVar8;
+
+  short sVar9;
+
+  char local_2c [16];
+
+  puVar2 = (char *)0x060A5400;
+
+  puVar1 = (char *)0x060349B6;
+
+  iVar7 = (int)DAT_0604222c;
+
+  for (iVar8 = 0; iVar8 < *(int *)(*(int *)puVar2 + (int)PTR_DAT_06042230); iVar8 = iVar8 + 1)
+
+  {
+
+    sVar9 = (short)iVar8;
+
+    bVar5 = *(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 4) != -2;
+
+    iVar4 = iVar7;
+
+    if ((int)bVar5) {
+
+      iVar4 = *(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 4);
+
+    }
+
+    iVar6 = iVar7;
+
+    if (*(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 8) != -2) {
+
+      bVar5 = bVar5 | 2;
+
+      iVar6 = *(int *)(*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc) + 8);
+
+    }
+
+    iVar4 = (*(int(*)())0x06036414)(*(int *)
+
+                        (*(int *)puVar2 + (int)DAT_0604222e + (int)(short)(sVar9 * 0xc)),bVar5,iVar4
+
+                       ,iVar6);
+
+    if (iVar4 != 0) break;
+
+    (*(int(*)())puVar1)(local_2c);
+
+    *(char *)(*(int *)puVar2 + 0x40) = local_2c[0];
+
+    *param_1 = *param_1 + 1;
+
+  }
+
+  if (iVar8 < *(int *)(*(int *)puVar2 + (int)PTR_DAT_06042230)) {
+
+    iVar7 = 0;
+
+    for (; iVar8 < *(int *)(*(int *)puVar2 + (int)DAT_0604230c); iVar8 = iVar8 + 1) {
+
+      iVar4 = (int)(short)((short)iVar7 * 0xc);
+
+      iVar6 = (int)(short)((short)iVar8 * 0xc);
+
+      *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar4) =
+
+           *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar6);
+
+      *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar4 + 4) =
+
+           *(int *)(*(int *)puVar2 + (int)DAT_0604230a + iVar6 + 4);
+
+      *(int *)(iVar4 + *(int *)puVar2 + (int)DAT_0604230a + 8) =
+
+           *(int *)(iVar6 + *(int *)puVar2 + (int)DAT_0604230a + 8);
+
+      iVar7 = iVar7 + 1;
+
+    }
+
+    *(int *)(*(int *)puVar2 + (int)DAT_0604230c) = iVar7;
+
+  }
+
+  else {
+
+    *(int *)(*(int *)puVar2 + (int)PTR_DAT_06042230) = 0;
+
+  }
+
+  uVar3 = (*(int(*)())0x06035C4E)();
+
+  if (((uVar3 & 0x40) != 0) && (*(int *)(*(int *)puVar2 + (int)DAT_0604230c) == 0)) {
+
+    *(int *)(*(int *)puVar2 + 0x1e0) = 0;
+
+  }
+
+  return *(int *)((int)DAT_0604230c + *(int *)puVar2);
+
+}
+
+/* --- FUN_060423CC (L1 import from src/FUN_060423CC.c) --- */
+
+int FUN_060423cc()
+{
+
+  unsigned short uVar1;
+
+  char *puVar2;
+
+  char *puVar3;
+
+  char *puVar4;
+
+  unsigned short uVar6;
+
+  int uVar5;
+
+  puVar4 = (char *)0x0000FBFF;
+
+  puVar3 = (char *)0x06035C4E;
+
+  puVar2 = (char *)0x06035C54;
+
+  uVar1 = PTR_DAT_060423f6;
+
+  do {
+
+    uVar6 = (*(int(*)())puVar3)();
+
+  } while ((uVar6 & uVar1) == 0);
+
+  uVar5 = (*(int(*)())puVar2)((unsigned int)puVar4 & 0xffff);
+
+  return uVar5;
+
+}
+
+/* --- FUN_060429EC (L1 import from src/FUN_060429EC.c) --- */
+
+void FUN_060429ec(param_1, param_2, param_3, param_4)
+    int param_1;
+    int param_2;
+    int param_3;
+    int *param_4;
+{
+
+  int iVar1;
+
+  iVar1 = (*(int(*)())0x0603C156)();
+
+  if (iVar1 == 2) {
+
+    iVar1 = (*(int(*)())0x06042BFC)(param_1);
+
+    if (param_3 != 1) {
+
+      (*(int(*)())0x06038A48)(0x25F00000 + (param_2 << 2) + (iVar1 << 10),param_4,param_3 << 2);
+
+      return;
+
+    }
+
+    *(int *)(0x25F00000 + (param_2 << 2) + (iVar1 << 10)) = *param_4;
+
+  }
+
+  else {
+
+    iVar1 = (*(int(*)())0x06042BFC)(param_1);
+
+    if (param_3 != 1) {
+
+      (*(int(*)())0x06038A48)(0x25F00000 + (param_2 << 1) + (iVar1 << 9),param_4,param_3 << 1);
+
+      return;
+
+    }
+
+    *(short *)(0x25F00000 + (param_2 << 1) + (iVar1 << 9)) = *(short *)param_4;
+
+  }
+
+  return;
+
+}

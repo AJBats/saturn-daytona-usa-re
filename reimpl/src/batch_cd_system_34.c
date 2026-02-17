@@ -917,3 +917,47 @@ unsigned int FUN_06035f44()
   *(int *)0x060A246C = 0x0000044E;
   return 0;
 }
+
+/* --- FUN_06034C68 (L1 import from src/FUN_06034C68.c) --- */
+
+int FUN_06034c68(param_1)
+    int param_1;
+{
+
+  int iVar1;
+
+  unsigned short local_14 [2];
+
+  char auStack_10 [8];
+
+  if (param_1 == 0) {
+
+    iVar1 = 2;
+
+  }
+
+  else {
+
+    iVar1 = 0x82;
+
+  }
+
+  iVar1 = (*(int(*)())0x06035E00)(iVar1,local_14);
+
+  if (((param_1 == 1) && (iVar1 == 0)) && ((local_14[0] & 0x80) != 0)) {
+
+    iVar1 = -4;
+
+  }
+
+  if (iVar1 != 0) {
+
+    FUN_06034cc8(auStack_10);
+
+  }
+
+  (*(int(*)())0x06035C6E)(0x0000FFFD);
+
+  return iVar1;
+
+}

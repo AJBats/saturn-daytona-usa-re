@@ -679,3 +679,43 @@ void FUN_06015eb8(param_1)
 
   chan_base[(short)(chan_idx * 0x44) + 2] = chan_base[(short)(chan_idx * 0x44) + 2] + '\x01'; /* increment sequence */
 }
+
+/* --- FUN_06014868 (L1 import from src/FUN_06014868.c) --- */
+
+void FUN_06014868(param_1, param_2, param_3)
+    int param_1;
+    int param_2;
+    int param_3;
+{
+  register int p2 asm("r2") = param_2;
+  register int p3 asm("r3") = param_3;
+
+  (*(int(*)())0x0603850C)();
+  (*(int(*)())0x06038794)(p2, p3);
+  (*(void(*)())0x06038520)();
+}
+
+/* --- FUN_0601492C (L1 import from src/FUN_0601492C.c) --- */
+
+void FUN_0601492c()
+{
+
+  char *puVar1;
+
+  puVar1 = (char *)0x06038BD4;
+
+  (*(int(*)())0x06038BD4)(0x100,4);
+
+  (*(int(*)())puVar1)(4,1);
+
+  (*(int(*)())puVar1)(8,5);
+
+  (*(int(*)())puVar1)(0x10,6);
+
+  (*(int(*)())puVar1)(0x20,7);
+
+  (*(int(*)())puVar1)(1,0);
+
+  return;
+
+}

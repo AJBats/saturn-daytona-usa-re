@@ -400,3 +400,70 @@ void sound_channels_reset(void)
     sound_cmd_dispatch(0, 0xAE0001FF);  /* SCSP slot 0: key-off */
     sound_cmd_dispatch(0, 0xAE0600FF);  /* SCSP slot 6: volume reset */
 }
+
+/* --- FUN_06009FFC (L1 import from src/FUN_06009FFC.c) --- */
+
+void FUN_06009ffc()
+{
+
+  char *puVar1;
+
+  puVar1 = (char *)0x0601D5F4;
+
+  (*(int(*)())0x0601D5F4)(1,0);
+
+  (*(int(*)())puVar1)(3,0);
+
+  (*(int(*)())puVar1)(2,0);
+
+  (*(int(*)())puVar1)(0,0xAE0001FF);
+
+  (*(int(*)())puVar1)(0,0xAE0600FF);
+
+  return;
+
+}
+
+/* FUN_06008EBC -- Class 4 stub (no source exists) */
+__asm__(
+    ".section .text.FUN_06008EBC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06008EBC\n"
+    ".type _FUN_06008EBC, @function\n"
+    "_FUN_06008EBC:\n"
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0009\n"  /* nop (delay slot) */
+);
+
+/* FUN_06009098 -- Class 4 stub (no source exists) */
+__asm__(
+    ".section .text.FUN_06009098, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06009098\n"
+    ".type _FUN_06009098, @function\n"
+    "_FUN_06009098:\n"
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0009\n"  /* nop (delay slot) */
+);
+
+/* FUN_06009290 -- Class 4 stub (no source exists) */
+__asm__(
+    ".section .text.FUN_06009290, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06009290\n"
+    ".type _FUN_06009290, @function\n"
+    "_FUN_06009290:\n"
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0009\n"  /* nop (delay slot) */
+);
+
+/* FUN_060092D0 -- Class 4 stub (no source exists) */
+__asm__(
+    ".section .text.FUN_060092D0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060092D0\n"
+    ".type _FUN_060092D0, @function\n"
+    "_FUN_060092D0:\n"
+    ".word 0x000B\n"  /* rts */
+    ".word 0x0009\n"  /* nop (delay slot) */
+);
