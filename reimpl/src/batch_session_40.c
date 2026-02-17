@@ -1441,6 +1441,7 @@ int FUN_0604188c(void)
 }
 #endif
 
+/* 0x060418BE: cd_command_queue_process */
 /* cd_command_queue_process -- Process CD command queue entries sequentially.
  * Iterates through queue at session+0x5C (16 bytes per entry).
  * Three-state machine at +0x58:

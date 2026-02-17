@@ -824,6 +824,8 @@ void FUN_06019248(void)
 #endif
 
 
+#if 0 /* sound_channels_stop -- redirected to ASM import via linker PROVIDE */
+/* 0x0601935E: sound_channels_stop */
 /* sound_channels_stop -- Stop sound channels 1-3.
  * Sends stop command (data=0) to channels 1, 3, 2.
  * Lighter version of sound_channels_reset (no SCSP slot writes).
@@ -836,6 +838,7 @@ void sound_channels_stop(void)
     sound_cmd_dispatch(3, 0);  /* stop channel 3 */
     sound_cmd_dispatch(2, 0);  /* stop channel 2 */
 }
+#endif /* sound_channels_stop */
 
 
 /* peripheral_config_setup -- Configure peripheral interrupt priorities.

@@ -585,6 +585,7 @@ __asm__(
 /* REMOVED: conflicting alias */ // void FUN_06012710() __attribute__((alias("attract_sound_dispatch")));
 #endif
 
+/* 0x060127E0: race_result_sequence */
 int race_result_sequence()
 {
   char *scroll_speed = (char *)0x060788F8;     /* victory lap scroll counter */

@@ -206,13 +206,13 @@ def scan_named_context_map():
         # Method 5: Comment-based address before function def
         # Pattern: /* 0xXXXXXXXX: description */\nvoid name(...)
         for i, line in enumerate(lines):
-            m = re.match(r'\s*/\*\s*(?:0x)?(0600[0-9a-fA-F]{4}):', line)
+            m = re.match(r'\s*/\*\s*(?:0x)?(060[0-9a-fA-F]{5}):', line)
             if not m:
                 continue
             addr = int(m.group(1), 16)
             fun_name = 'FUN_%08X' % addr
-            # Look for function def in the next few lines
-            for k in range(i + 1, min(i + 5, len(lines))):
+            # Look for function def in the next lines (up to 75 — doc blocks can be long)
+            for k in range(i + 1, min(i + 75, len(lines))):
                 fm = re.match(
                     r'\s*(?:void|int|unsigned\s+int|char|short|long)\s+'
                     r'([a-z_][a-z0-9_]+)\s*\(',
@@ -222,7 +222,8 @@ def scan_named_context_map():
                     name = fm.group(1)
                     skip = {'if', 'while', 'for', 'return', 'switch',
                             'int', 'void', 'char', 'short', 'unsigned'}
-                    if name not in skip and name not in named_to_fun:
+                    if name not in skip:
+                        # Method 5 is authoritative — override Method 2 heuristic
                         named_to_fun[name] = fun_name
                     break
 
@@ -340,6 +341,42 @@ def find_overflows(orig_sizes, asm_globals, elf_sizes, reverse_map=None):
     return overflows
 
 
+def find_redirected_named_functions(reverse_map):
+    """Find named functions wrapped in #if 0 /* name -- redirected to ASM import via linker PROVIDE */.
+
+    Returns list of (named_sym, FUN_sym) tuples for PROVIDE alias generation.
+    """
+    provides = []
+    for fname in sorted(os.listdir(SRC_DIR)):
+        if not fname.endswith('.c'):
+            continue
+        with open(os.path.join(SRC_DIR, fname)) as f:
+            content = f.read()
+        for m in re.finditer(
+            r'#if\s+0\s*/\*\s*(\w+)\s+--\s+redirected\s+to\s+ASM\s+import\s+via\s+linker\s+PROVIDE',
+            content
+        ):
+            named = m.group(1)
+            # Find the FUN_ address from reverse_map or context
+            fun = None
+            for fun_name, c_name in reverse_map.items():
+                if c_name == named:
+                    fun = fun_name
+                    break
+            if not fun:
+                # Try to find from the #if 0 block content
+                pos = m.end()
+                block_end = content.find('#endif', pos)
+                if block_end > 0:
+                    block = content[pos:block_end]
+                    fm = re.search(r'(FUN_[0-9A-Fa-f]+)', block)
+                    if fm:
+                        fun = fm.group(1).upper()
+            if fun:
+                provides.append((named, fun))
+    return provides
+
+
 def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_trampoline,
                            overflows_free, alias_map, reverse_map, sub_entries=None):
     """Generate saturn_fixed.ld with per-function sections at original addresses."""
@@ -403,6 +440,12 @@ def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_tram
             lower_hex = name[:4] + name[4:].lower()
             if lower_hex != name:
                 input_sections.append('*(.text.%s)' % lower_hex)
+            # Also capture named alias section (e.g. .text.car_palette_load_primary
+            # when FUN_060039C8 is an alias of car_palette_load_primary). Without
+            # this, GCC puts code in .text.named_function which goes to overflow.
+            if upper_name in reverse_map:
+                c_name = reverse_map[upper_name]
+                input_sections.append('*(.text.%s)' % c_name)
         elif upper_name in free_overflow_funs:
             # Overflowing but not ASM-referenced -- the C code will land in
             # the overflow catchall. But still include the standard FUN_ glob
@@ -411,6 +454,10 @@ def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_tram
             lower_hex = name[:4] + name[4:].lower()
             if lower_hex != name:
                 input_sections.append('*(.text.%s)' % lower_hex)
+            # Also capture named alias section
+            if upper_name in reverse_map:
+                c_name = reverse_map[upper_name]
+                input_sections.append('*(.text.%s)' % c_name)
         else:
             # Include the FUN_ section at the original address.
             input_sections.append('*(%s)' % section_name)
@@ -422,9 +469,7 @@ def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_tram
             # Also include the C alias section if this function was renamed
             # (e.g., system_init -> FUN_060030FC). GCC -ffunction-sections puts
             # code in .text.system_init, not .text.FUN_060030FC.
-            # BUT skip if the FUN_ is also defined in asm_*.c (dual definition)
-            # -- in that case, the C reimpl goes to overflow, only ASM stays here.
-            if upper_name in reverse_map and upper_name not in asm_globals:
+            if upper_name in reverse_map:
                 c_name = reverse_map[upper_name]
                 input_sections.append('*(.text.%s)' % c_name)
 
@@ -433,6 +478,17 @@ def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_tram
         for inp in input_sections:
             lines.append('        %s' % inp)
         lines.append('    } > HWRAM')
+
+    # PROVIDE aliases for named functions redirected to ASM imports
+    provides = find_redirected_named_functions(reverse_map)
+    if provides:
+        lines.append('')
+        lines.append('    /* Named function PROVIDE aliases -- auto-generated')
+        lines.append('     * Maps named C symbols to their FUN_ ASM import addresses.')
+        lines.append('     * Active only when the named C function is wrapped in #if 0.')
+        lines.append('     */')
+        for named, fun in sorted(provides, key=lambda x: x[1]):
+            lines.append('    PROVIDE(_%s = _%s);' % (named, fun))
 
     lines.append('')
     lines.append('    /* Overflow area for C functions that exceed their original slot */')

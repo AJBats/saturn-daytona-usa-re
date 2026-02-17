@@ -414,6 +414,7 @@ void hud_render_select(void)
 }
 void FUN_06003430(void) __attribute__((alias("hud_render_select")));
 
+/* 0x06003578: vdp2_mega_init */
 /* vdp2_mega_init -- Bulk-load all VDP2 graphics data from CD-ROM to VRAM.
  * Loads color palette to CRAM (0x25F00800), then ~40 DMA transfers
  * from CD data area (base 0x002A0000) to VDP2 VRAM banks:
@@ -592,6 +593,7 @@ void FUN_060039f2(void) __attribute__((alias("car_palette_load_secondary")));
  * 0x0600508A (sprite batch register). Assets span CD-ROM addresses 0x002Axxxx-
  * 0x002Exxxx and include: course geometry, sprite sheets, 3D model data,
  * road/track segments, HUD elements, and animation tables. */
+/* 0x06003A3C: asset_table_init */
 int asset_table_init()
 {
   int result;

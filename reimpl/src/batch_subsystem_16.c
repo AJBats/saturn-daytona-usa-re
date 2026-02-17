@@ -119,6 +119,7 @@ void FUN_06016cdc(param_1, param_2)
  * Third pass writes final screen X/Y to sprite table at 0x06085490
  * (0x18 bytes/entry, corners at +8). NOTE: Heavy Ghidra stack artifacts
  * (stack0x...) — Ghidra failed to resolve the stack frame layout. */
+/* 0x06016DD8: hud_sprite_vertex_project */
 void hud_sprite_vertex_project(slot_index)
     char slot_index;
 {

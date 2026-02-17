@@ -366,6 +366,7 @@ int dma_channel_level_set(channel_mask, level)
   return 0;
 }
 
+/* 0x0603C1A8: palette_fade_update */
 /* palette_fade_update -- Palette color transition controller.
  *
  * Manages per-frame color/brightness transitions for VDP2 palettes.

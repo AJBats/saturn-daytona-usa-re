@@ -703,6 +703,7 @@ LAB_060370a0:
  *   0x060A4C4C = config cache (8 bytes from param_1)
  *
  * Part of VDP1 texture management subsystem (#15). */
+/* 0x060370E4: vdp1_texture_config */
 unsigned int vdp1_texture_config(param_1)
     int *param_1;
 {

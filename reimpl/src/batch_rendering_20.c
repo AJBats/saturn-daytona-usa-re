@@ -467,6 +467,7 @@ unsigned int FUN_06021178()
   return result;
 }
 
+/* 0x06021450: track_object_placement */
 void track_object_placement()
 {
 

@@ -227,6 +227,7 @@ int FUN_06006838(int world_x, int world_z)
     return (row << 6) + col;
 }
 
+#if 0 /* scene_tile_render_near -- redirected to FUN_06006868 (duplicate C def in same file) */
 /* scene_tile_render_near -- Render nearby scene tiles (3x3 grid around camera).
  * Converts camera world position (0x06063DF8) to tile grid coordinates,
  * then iterates a 3x3 neighborhood (clamped at grid edges 0..63).
@@ -324,6 +325,7 @@ unsigned int scene_tile_render_near()
   }
   return result;
 }
+#endif /* scene_tile_render_near */
 /* REMOVED: conflicting alias — FUN_06006868 defined later in same file */
 
 /* scene_border_tiles_render -- Render border/edge tiles of the scene grid.
