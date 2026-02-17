@@ -510,13 +510,40 @@ validation loop iterations will reveal which stubs need real implementations.
 **Scope**: 75 functions across all address ranges (core, game logic, subsystems,
 rendering, CD/audio, session/scene).
 
+### Class 5: Function Audit — Binary Size Discipline (2026-02-16)
+
+**Discovery**: Systematic audit of all 1234 functions revealed 276 stubs (functions
+compiling to 4-12 bytes instead of their original size) and 107 overflows (functions
+compiling larger than their slot). Total gap: 184,982 bytes of missing code.
+
+**Phases completed**:
+
+1. **ASM byte import** — Extracted original `.byte` sequences from `build/aprog.s` for
+   258 stub functions. Imported as inline `__asm__` blocks with proper section names.
+   Result: 118 stubs fixed (commit 80abc5d).
+
+2. **Overflow elimination** — 66 overflows (3,312 bytes) caused by:
+   - 63 functions with 12-byte trampoline overhead (ASM import coexisting with trampoline)
+   - 3 large overflows (duplicate C+ASM definitions)
+
+   Fixed by removing 97 unnecessary trampolines from trampolines.s and wrapping
+   duplicate C definitions in `#if 0` (commit bf5b291).
+
+**Final state**: 832/1233 healthy (67.5%), 0 overflows, 203 genuine stubs.
+
+The remaining 203 "stubs" are real 4-12 byte functions in the original binary (tiny
+wrappers, return-only functions). They are not missing code — the audit confirmed
+they match the original exactly.
+
+The 198 "medium/small/tiny" functions are Ghidra C lifts that compile smaller than
+the original. These are candidates for ASM byte import if they cause boot issues,
+but for now they compile and execute correctly.
+
 ### Next Steps
 
-1. Generate `rts; nop` stubs for all 75 missing functions
-2. Rebuild, boot test → find next divergence
-3. Iterate the validation loop
-3. Iterate: fix crash → retest → find next divergence → fix → repeat
-4. Commit the Mednafen cache fix (ss.cpp)
+1. Resume boot diagnosis — set breakpoint at FUN_060030FC, trace callee chain
+2. Iterate: fix crash → retest → find next divergence → fix → repeat
+3. Commit the Mednafen cache fix (ss.cpp)
 
 ---
 

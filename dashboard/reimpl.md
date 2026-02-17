@@ -6,21 +6,23 @@
 |--------|-------|
 | Original binary functions | 1234 |
 | Reimpl symbol coverage | 1234 (100%) |
-| Decomp L1 lift (from Ghidra) | 842 |
-| ASM-only stubs (no-op) | 729 |
-| Hand-written translations | 96 |
-| Disabled functions | 0 (all fixed) |
+| Healthy functions (90-110% fill) | 832/1233 (67.5%) |
+| ASM byte imports (original binary) | 960 |
+| Ghidra C lifts (active) | ~200 |
+| Hand-written translations | ~140 |
+| Remaining stubs | 203 (genuine tiny functions) |
+| Overflows | 0 |
 
 ## Build Status
 
 | Metric | Value |
 |--------|-------|
 | Compiler | sh-elf-gcc 13.3.0 |
-| Binary size | 321KB code (padded to 385KB) |
+| Binary size | 338KB code (padded to 386KB) |
 | Compilation errors | 0 |
 | Linker errors | 0 |
-| Warnings | ~2255 |
-| Linker stubs (external data) | 1526 |
+| Overflows | 0 |
+| Linker stubs (external data) | ~1500 |
 
 ## L2 Progress
 
@@ -33,14 +35,17 @@
 | Function naming (from ASM annotations) | 220 mappings, 159 applied | DONE |
 | Function naming tool | l2_rename_funcs.py | DONE |
 
-## Quality Levels (see workstreams/reimplementation.md)
+## Function Quality Distribution
 
-| Level | Count | Description |
-|-------|-------|-------------|
-| L1 (Decomp Lift) | 842 | Raw Ghidra output, compiles |
-| L1 (Stub) | 729 | No-op stubs for linker |
-| L2 (Named) | 96+ | Has named defines, some structure |
-| L3+ | 0 | Not started |
+| Category | Count | Notes |
+|----------|-------|-------|
+| Good (90-110% fill) | 832 | Healthy — original bytes or correctly-sized C |
+| Medium (50-90%) | 160 | C lifts that compile smaller than original |
+| Small (25-50%) | 25 | Significantly undersized C lifts |
+| Tiny (<25%) | 13 | Very undersized C lifts |
+| ASM Stub (12B) | 150 | Genuine tiny functions (original is 12B) |
+| RTS Stub (4B) | 53 | Genuine single-instruction returns |
+| Data Region | 1 | FUN_06046E48 (117KB, not code) |
 
 ## Headers
 
@@ -102,21 +107,11 @@
 
 | Category | Files | Functions |
 |----------|-------|-----------|
-| batch_*.c (L1 lifts) | 31 | 742 |
-| asm_*.c (no-op stubs) | 10 | 729 |
-| Hand-written (init, math, etc.) | 27 | 96 |
+| batch_*.c (L1 lifts + ASM imports) | 31 | ~900 |
+| asm_*.c (legacy stubs + imports) | 10 | ~200 |
+| Hand-written translations | 36+ | ~140 |
 | Stubs/linker | 3 | ~1500 |
-| **Total** | **71** | **~3067** |
-
-## Commits This Session
-
-| Hash | Description |
-|------|-------------|
-| 8acc933 | fix: re-enable 10 disabled functions, add linker stubs and dashboard |
-| ce788d5 | feat: comprehensive L2 headers -- Saturn hardware regs + game data structs |
-| 6ce9ee5 | refactor: L2 pass -- replace 638 raw addresses with named defines |
-| ec4b4c9 | refactor: L2 pass -- rename 99 FUN_ references to meaningful names |
-| 00b173d | refactor: L2 pass -- expand function naming to 220 mappings, 60 more renames |
+| **Total** | **80+** | **1234** |
 
 ## L2 Tools
 
@@ -127,10 +122,10 @@
 
 ## Next Steps
 
-1. Hand-translate critical ASM-only functions (VBlank handlers, main loop, race states)
-2. Expand L2 structural improvements in batch files (local variables, control flow)
-3. Boot test improvements (VDP init -> colored screen)
-4. Begin L3 pass on highest-priority subsystems
+1. Continue Road to Boot workstream (investigate boot freeze, advance to title screen)
+2. Reduce 198 medium/small/tiny functions — improve Ghidra C lifts or replace with ASM
+3. Begin L2 pass on highest-priority subsystems (naming, structure)
+4. Boot test improvements (VDP init -> colored screen -> attract mode)
 
 ---
-*Last updated: 2026-02-10*
+*Last updated: 2026-02-16*
