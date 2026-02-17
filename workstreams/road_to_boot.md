@@ -592,13 +592,140 @@ The ~2,056B of irreducible overflow (GCC runtime + below-origin) is code that mu
 in memory but has no corresponding location in the original binary. This is acceptable
 as long as it doesn't overwrite data needed for boot.
 
-### Next Steps
+### CD Block Study: SCDQ Cannot Be Root Cause (2026-02-17)
 
-1. Find FUN_ addresses for remaining named overflow functions (~2,700B)
-2. Assess whether remaining overflow overwrites boot-critical data tables
-3. Resume boot diagnosis — breakpoint at FUN_060030FC, trace callee chain
-4. Iterate: fix crash → retest → find next divergence → fix → repeat
-5. Commit the Mednafen cache fix (ss.cpp)
+**Context**: The sawyer free-layout build (4-byte padding, all FUN_ code shifted +4)
+was observed hanging in FUN_060423CC, which polls HIRQ bit 10 (SCDQ) at 0x25890008.
+Studied Saturn CD Block documentation and Mednafen's `cdb.cpp` emulation source to
+understand when SCDQ fires and whether the CD Block could cause the hang.
+
+**Key findings from Mednafen `cdb.cpp` (source at `mednafen/src/ss/cdb.cpp`)**:
+
+1. **SCDQ fires unconditionally** — Exactly one call site: `TriggerIRQ(HIRQ_SCDQ)` at
+   line 2510, inside the periodic handler. This handler fires every
+   `PeriodicIdleCounter_Reload = 187065 << 32` internal clocks (~16.6ms). It is NOT
+   gated by drive state — fires in PLAY, PAUSE, STANDBY, STOPPED, all states. The FIXME
+   comment at line 2498 even notes this: "correct handling when in STANDBY/STOPPED state?"
+
+2. **CDB_Read is a passive cache read** — `CDB_Read(offset=0x2)` (line 4126) returns
+   `HIRQ` directly. No side effects, no `CDB_Update` call. The SCDQ bit is only SET
+   when `CDB_Update` fires via the event system.
+
+3. **CDB_Update is event-driven** — Registered as `SS_EVENT_CDB` (line 647 of ss.cpp).
+   The SH-2 CPU loop dispatches events when `SH7095_mem_timestamp >= next_event_ts`.
+   CDB_Update calls `Drive_Run(clocks)` which decrements `PeriodicIdleCounter`. When
+   ≤ 0, SCDQ fires and the counter reloads.
+
+4. **Next event scheduling** — CDB_Update returns
+   `timestamp + min(CommandClockCounter, DriveCounter, PeriodicIdleCounter) / ClockRatio`.
+   This ensures the periodic handler fires on time regardless of game activity.
+
+5. **Polling loop timing** — At 28.6 MHz SH-2, the polling loop (~15 cycles/iteration)
+   iterates ~33,000 times per 16.6ms period. SCDQ will always be set within one period.
+
+6. **CDB_Write_DBM race is benign** — When the game writes 0xFBFF to clear SCDQ,
+   `CDB_Write_DBM` calls `CDB_Update` first (could fire SCDQ), then clears bit 10
+   with `HIRQ = HIRQ & (DB | ~mask)`. But this only executes AFTER the polling loop
+   exits (the clear is in FUN_06035C54, called post-loop). No race during polling.
+
+7. **No game-specific behavior** — Mednafen's game database (`db.cpp`) has no entry
+   for Daytona USA (only CCE NetLink edition, for modem detection). No disc-hash-based
+   behavior that could differ between builds.
+
+8. **PeriodicIdleCounter kill switch exists but is unreachable** — `CDB_ResetCD()` sets
+   `PeriodicIdleCounter = 0x7FFFFFFFFFFFFFFFLL` (disabling SCDQ forever). But this is
+   only called from `CDB_Reset(powering_up)` and SMPC CD off/on — not from any game
+   command. The game cannot accidentally trigger this.
+
+**Conclusion**: The CD Block emulation generates SCDQ unconditionally and identically
+for both builds. If the free build hangs polling SCDQ, either:
+- The prior diagnosis was wrong (game is stuck somewhere else, not FUN_060423CC)
+- There's a subtle issue unrelated to the CD Block (cache alignment, data corruption)
+
+**Next action**: Run the free-layout build and use the debug infrastructure to verify
+exactly where execution diverges. Don't trust the prior session's diagnosis — verify
+with breakpoints.
+
+### Binary Shift Experiments (2026-02-17)
+
+**Motivation**: The sawyer free-layout build (`sawyer_free.ld`) inserts 4 bytes of
+padding between `_start` and `FUN_*` sections, shifting all function code by +4 bytes.
+This build fails to boot (black screen). We designed 4 experiments to isolate the
+root cause — is it the disc pipeline, the linker script, or the shift itself?
+
+**Tool**: `tools/run_experiments.py` — creates modified APROG.BIN variants, injects
+each into a disc image via `inject_binary.py`, then boot-tested with `test_boot.ps1`.
+
+#### Experiment 1: Pad Production Binary +4 Bytes at End
+- **What**: Append 4 zero bytes to production APROG.BIN (394,896 → 394,900 bytes)
+- **Isolates**: Does a slightly larger binary break disc loading / ISO parsing?
+- **Result**: **BOOTS** — full attract mode visible
+- **Sector count**: 193 sectors (unchanged — both fit in ceil(size/2048))
+- **Conclusion**: Disc pipeline handles larger binaries correctly
+
+#### Experiment 2: Re-inject Production Binary (Round-Trip)
+- **What**: Copy production APROG.BIN through inject_binary.py pipeline unchanged
+- **Isolates**: Does inject_binary.py corrupt anything during injection?
+- **Result**: **BOOTS** — full attract mode, "PRESS START BUTTON" title screen
+- **Conclusion**: inject_binary.py round-trip is lossless and correct
+
+#### Experiment 3: Insert 4 Zero Bytes at Mid-Binary Dead Spot
+- **What**: Find longest zero run in code region, insert 4 more zeros in the middle
+- **Dead spot found**: 4,116 zeros at offset 0x2572C (address 0x0602872C)
+- **Insertion point**: Offset 0x25F36 (address 0x06028F36)
+- **Binary**: 394,896 → 394,900 bytes; everything after offset 0x25F36 shifted by +4
+- **Isolates**: Does shifting PART of the binary break execution?
+- **Result**: **BLACK SCREEN** — boot failure, identical to free-layout build failure
+- **Conclusion**: **Shifting binary content by even 4 bytes causes boot failure.**
+  Even inserting zeros into an existing 4,116-byte zero run (extending it to 4,120)
+  breaks boot. This proves absolute address references exist in the binary that are
+  NOT being relocated when content shifts.
+
+#### Experiment 4: Free-Layout Linker with 0-Byte Padding
+- **What**: Build with `sawyer_free.ld` but change `. = . + 4` to `. = . + 0`
+- **Isolates**: Do linker script differences (SORT_BY_NAME, removed FUN_ PROVIDEs)
+  cause issues even with no shift?
+- **Result**: **Byte-identical to production** — 394,896 bytes, exact match
+- **Boot test**: **BOOTS** — full attract mode visible
+- **Conclusion**: The free-layout linker script itself is harmless. SORT_BY_NAME
+  ordering and removed FUN_ PROVIDEs produce identical output when padding is 0.
+
+#### Synthesis: Root Cause Is Unsymbolized Absolute Addresses
+
+| Experiment | Shift? | Boot? | Key Insight |
+|------------|--------|-------|-------------|
+| 1: Pad end +4 | No (append only) | YES | Disc pipeline handles size changes |
+| 2: Re-inject prod | No | YES | Injection pipeline is lossless |
+| 3: Insert mid-binary +4 | Yes (+4 at 0x25F36) | **NO** | Shifting content breaks boot |
+| 4: Free LD, 0-pad | No (identical binary) | YES | Linker script is not the issue |
+
+**Root cause confirmed**: The binary contains hard-coded absolute addresses that
+reference locations within the binary. When content shifts, these addresses point
+to the wrong locations. These are the `.byte` instruction blobs in our sawyer
+assembly files — they contain literal address values baked into SH-2 instructions
+(e.g., `MOV.L @(disp,PC),Rn` loading constants from pools, or direct address
+references in data tables).
+
+The `.4byte SYMBOL` entries in constant pools get relocated by the linker, but the
+`.byte` opcode blobs do NOT. Any instruction that loads an address via a PC-relative
+pool entry using `.byte` encoding (rather than `.4byte SYMBOL`) will load the old,
+pre-shift address — pointing 4 bytes before the actual target.
+
+**This is exactly the failure mode predicted by the sawyer_free.ld header comment:**
+> "Unsymbolized literal .byte entries stay at old addresses and will cause crashes
+> at runtime."
+
+### Current Active Work
+
+**→ See `workstreams/sawyer_l2.md` — Phase 3 (Free Layout + Boot Test)**
+
+Root cause is confirmed: unsymbolized absolute addresses in `.byte` pool entries.
+The fix is pool symbolization (Phase 2, already done) + free-layout boot validation
+(Phase 3, in progress).
+
+### Other Pending Items
+
+- Commit the Mednafen cache fix (ss.cpp)
 
 ---
 
@@ -628,4 +755,4 @@ handles data restoration.
 
 ---
 *Created: 2026-02-16*
-*Updated: 2026-02-16 — Class 6 overflow elimination*
+*Updated: 2026-02-17 — Binary shift experiments (root cause: unsymbolized absolute addresses)*

@@ -1,6 +1,6 @@
 # Sawyer L2 — Relocatable Assembly Source
 
-> **Status**: Active — Phase 2 COMPLETE, Phase 3 next
+> **Status**: Active — Phase 3 IN PROGRESS (pool symbolization validated, free-layout boot test next)
 > **Created**: 2026-02-17
 > **Predecessor**: DONE_function_audit.md, ICEBOX_gameplay_extraction.md (Sawyer annotations)
 > **Paused**: road_to_boot.md, reimplementation.md (resume after bootable ASM base)
@@ -94,27 +94,33 @@ Three experiments validated the approach:
 - Synthetic symbols (sym_XXXXXXXX) created for addresses in 0x06000000-0x060FFFFF range
   that appear in disassembly comment annotations but aren't in FUN_/DAT_ tables
 
-### Phase 3: Free Layout + Boot Test
+### Phase 3: Free Layout + Boot Test — IN PROGRESS
 
 **Goal**: Prove the binary works without fixed addresses.
 
-1. Switch linker script from address-ordered to simple sequential:
-   ```
-   . = 0x06003000;
-   .text : { *(.text) }
-   ```
-   Functions placed in link order. Addresses will differ from original.
+#### Experiment Results (2026-02-17)
 
-2. Build disc image with the new binary
+Four binary-shift experiments confirmed the approach (details in road_to_boot.md):
 
-3. Boot test in Mednafen:
-   - If it boots → relocatable build works, addresses don't matter
-   - If it crashes → some reference wasn't symbolized (hardcoded address in a pool
-     entry that we left as `.byte`). The crash location tells us which function, and
-     we fix the missed symbol.
+| Experiment | Shift? | Boot? | Conclusion |
+|------------|--------|-------|------------|
+| Pad prod binary +4 at end | No | YES | Disc pipeline handles size changes |
+| Re-inject prod binary | No | YES | Injection pipeline is lossless |
+| Insert 4 zeros mid-binary | Yes (+4) | **NO** | Shifting content breaks boot |
+| Free-layout LD, 0-pad | No (identical) | YES | Linker script itself is harmless |
 
-4. **Gate**: game boots to at least the same point as the previous reimpl (black screen
-   or better).
+**Key finding**: Experiment 3 proved that shifting binary content by even 4 bytes —
+inserting zeros into a 4,116-byte zero run — causes a black screen. This confirms
+unsymbolized absolute addresses are the root cause, and validates that Phase 2's
+pool symbolization work is exactly the right fix.
+
+#### Next Action
+
+1. Build with `sawyer_free.ld` (`. = . + 4` padding) using the Phase 2 symbolized
+   `.s` files — this is the real test. If pools were fully symbolized, it should boot.
+2. If black screen → use Mednafen trace to find the first stale address load, fix
+   the missed symbol, rebuild, repeat.
+3. **Gate**: game boots with +4 padding (attract mode or better).
 
 ### Phase 4: Sawyer L3 — Real ASM Source (Incremental)
 

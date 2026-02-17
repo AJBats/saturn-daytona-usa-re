@@ -7,7 +7,7 @@ FREE_PATH = "d:/Projects/SaturnReverseTest/reimpl/build/APROG.BIN"
 SYMS_PATH = "d:/Projects/SaturnReverseTest/build/aprog_syms.txt"
 
 CODE_LO = 0x06003000
-CODE_HI = 0x06060000
+CODE_HI = None  # Set dynamically from binary size
 BASE_ADDR = 0x06003000
 SHIFT = 4
 
@@ -15,6 +15,8 @@ with open(ORIG_PATH, "rb") as f:
     orig = f.read()
 with open(FREE_PATH, "rb") as f:
     free = f.read()
+
+CODE_HI = BASE_ADDR + len(orig)  # dynamic: covers entire binary
 
 print("Original binary: {:,} bytes ({})".format(len(orig), ORIG_PATH))
 print("Free-layout binary: {:,} bytes ({})".format(len(free), FREE_PATH))
