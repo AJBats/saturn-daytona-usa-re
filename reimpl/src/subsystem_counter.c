@@ -124,23 +124,18 @@ void FUN_0600F822(void)
  *
  * 20 instructions. Saves PR.
  * ================================================================ */
-void FUN_0600F898(void)
-{
-    /* Reset VDP command state */
-    vdp2_pattern_table_clear();
+/* FUN_0600F898 -- original binary (38 bytes) */
+__asm__(
+    ".section .text.FUN_0600F898, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600F898\n"
+    ".type _FUN_0600F898, @function\n"
+    "_FUN_0600F898:\n"
+    ".byte 0x4F, 0x22, 0xD3, 0x13, 0x43, 0x0B, 0x00, 0x09, 0x92, 0x18, 0xD3, 0x12, 0x23, 0x22, 0xE2, 0x14\n"  /* 0x0600F898 */
+    ".byte 0xD3, 0x0D, 0x23, 0x21, 0xE2, 0x00, 0xD3, 0x10, 0x23, 0x21, 0xD4, 0x0C, 0x4F, 0x26, 0x62, 0x40\n"  /* 0x0600F8A8 */
+    ".byte 0x72, 0x01, 0x00, 0x0B, 0x24, 0x20\n"  /* 0x0600F8B8 */
+);
 
-    /* Set render parameter cache to 1800 (30 seconds at 60fps) */
-    RENDER_PARAM_CACHE = 0x0708;
-
-    /* Set timer to 20 frames */
-    TIMER_COUNTER = 20;
-
-    /* Clear frame counter */
-    FRAME_COUNTER = 0;
-
-    /* Increment subsystem state flag */
-    SUBSYS_STATE_FLAG = SUBSYS_STATE_FLAG + 1;
-}
 
 
 /* ================================================================
@@ -245,32 +240,19 @@ void FUN_0600F914(void)
  *
  * 27 instructions. Saves PR, uses r14 for global pointer.
  * ================================================================ */
-void FUN_0600F990(void)
-{
-    int val;
-    short cnt;
+/* FUN_0600F990 -- original binary (54 bytes) */
+__asm__(
+    ".section .text.FUN_0600F990, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600F990\n"
+    ".type _FUN_0600F990, @function\n"
+    "_FUN_0600F990:\n"
+    ".byte 0x4F, 0x22, 0xDE, 0x1D, 0xD3, 0x1D, 0x62, 0xE2, 0x32, 0x3C, 0x65, 0x23, 0x2E, 0x22, 0xD3, 0x1C\n"  /* 0x0600F990 */
+    ".byte 0x43, 0x0B, 0xE4, 0x10, 0xD4, 0x1B, 0xD3, 0x1B, 0x64, 0x41, 0x74, 0x02, 0x23, 0x41, 0xD3, 0x1A\n"  /* 0x0600F9A0 */
+    ".byte 0x43, 0x0B, 0x00, 0x09, 0x60, 0xE2, 0x20, 0x08, 0x8B, 0x02, 0xE3, 0x08, 0xD2, 0x17, 0x22, 0x30\n"  /* 0x0600F9B0 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0600F9C0 */
+);
 
-    /* Advance memory pointer by 1MB */
-    val = MEM_PTR_GLOBAL;
-    val += 0x100000;
-    MEM_PTR_GLOBAL = val;
-
-    /* Set rendering parameter: type=16, value=new pointer, flags=0 */
-    FUN_06014884(16, val, 0);
-
-    /* Increment frame counter by 2 */
-    cnt = FRAME_COUNTER;
-    cnt += 2;
-    FRAME_COUNTER = cnt;
-
-    /* Call display refresh with current counter */
-    FUN_0601155e((unsigned short)cnt);
-
-    /* If memory pointer wrapped to zero, flag subsystem state */
-    if (MEM_PTR_GLOBAL == 0) {
-        SUBSYS_STATE_FLAG = 8;
-    }
-}
 
 
 /* ================================================================
@@ -509,45 +491,21 @@ extern unsigned int FUN_060146d2(void);
  *
  * 50 instructions. Saves PR.
  * ================================================================ */
-void FUN_06013A74(void)
-{
-    /* Call subsystem handler sequence */
-    FUN_06014360();
-    FUN_0601416c();
-    FUN_0601424c();
-    FUN_060140c4();
-    FUN_0601444C();
+/* FUN_06013A74 -- original binary (144 bytes) */
+__asm__(
+    ".section .text.FUN_06013A74, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06013A74\n"
+    ".type _FUN_06013A74, @function\n"
+    "_FUN_06013A74:\n"
+    ".byte 0x4F, 0x22, 0xB4, 0x73, 0x00, 0x09, 0xB3, 0x77, 0x00, 0x09, 0xB3, 0xE5, 0x00, 0x09, 0xB3, 0x1F\n"  /* 0x06013A74 */
+    ".byte 0x00, 0x09, 0xB4, 0xE1, 0x00, 0x09, 0xD0, 0x18, 0x60, 0x01, 0x60, 0x0D, 0x88, 0x10, 0x8B, 0x03\n"  /* 0x06013A84 */
+    ".byte 0xB4, 0xE7, 0x00, 0x09, 0xA0, 0x02, 0x00, 0x09, 0xB5, 0x36, 0x00, 0x09, 0xB5, 0x8C, 0x00, 0x09\n"  /* 0x06013A94 */
+    ".byte 0xD2, 0x12, 0x63, 0x21, 0x92, 0x1F, 0x63, 0x3D, 0x23, 0x29, 0x23, 0x38, 0x89, 0x01, 0xB6, 0x0E\n"  /* 0x06013AA4 */
+    ".byte 0x00, 0x09, 0xE3, 0x04, 0xD2, 0x0E, 0x62, 0x22, 0x32, 0x32, 0x89, 0x07, 0xD3, 0x0D, 0xD2, 0x0D\n"  /* 0x06013AB4 */
+    ".byte 0x63, 0x31, 0x73, 0xFF, 0x22, 0x31, 0x63, 0x3F, 0x43, 0x15, 0x89, 0x01, 0xA5, 0xFF, 0x4F, 0x26\n"  /* 0x06013AC4 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09, 0xE3, 0x05, 0xD2, 0x07, 0x22, 0x30, 0xE3, 0x00, 0xD2, 0x07\n"  /* 0x06013AD4 */
+    ".byte 0x22, 0x31, 0xA0, 0x0D, 0x00, 0x09, 0x08, 0x00, 0x06, 0x06, 0x3D, 0x9E, 0x06, 0x06, 0x3D, 0x9A\n"  /* 0x06013AE4 */
+    ".byte 0x06, 0x08, 0x4B, 0x18, 0x06, 0x08, 0x4A, 0xF0, 0x06, 0x08, 0x4A, 0xF2, 0x06, 0x08, 0x4A, 0xF6\n"  /* 0x06013AF4 */
+);
 
-    /* Mode dispatch */
-    unsigned short mode = *(volatile unsigned short *)0x06063D9E;
-    if (mode == 16) {
-        FUN_06014466();
-    } else {
-        FUN_0601450c();
-    }
-
-    /* Post-dispatch update */
-    FUN_060145bc();
-
-    /* Test input bit 11 — conditionally call end-of-round trigger */
-    unsigned short input = *(volatile unsigned short *)0x06063D9A;
-    if (input & 0x0800) {
-        FUN_060146d2();
-    }
-
-    /* If countdown limit >= 4, trigger end-of-round */
-    unsigned int countdown = *(volatile unsigned int *)0x06084B18;
-    if (countdown >= 4) {
-        FUN_060146d2();  /* tail-call in original */
-        return;
-    }
-
-    /* Decrement counter; if expired, trigger end-of-round */
-    short counter = *(volatile short *)0x06084AF0;
-    counter--;
-    *(volatile short *)0x06084AF0 = counter;
-
-    if (counter <= 0) {
-        FUN_060146d2();  /* tail-call in original */
-    }
-}

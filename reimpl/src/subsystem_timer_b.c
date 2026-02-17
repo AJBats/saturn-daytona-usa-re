@@ -57,26 +57,19 @@ extern unsigned int FUN_060114ac(int param);
  *
  * 26 instructions. Saves PR.
  * ================================================================ */
-void FUN_0600FD54(void)
-{
-    /* Sound stop command */
-    FUN_0601D5F4(0, (int)0xAB1101FF);
+/* FUN_0600FD54 -- original binary (54 bytes) */
+__asm__(
+    ".section .text.FUN_0600FD54, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600FD54\n"
+    ".type _FUN_0600FD54, @function\n"
+    "_FUN_0600FD54:\n"
+    ".byte 0x4F, 0x22, 0xD5, 0x1F, 0xD3, 0x1F, 0x43, 0x0B, 0xE4, 0x00, 0xE2, 0x78, 0xD3, 0x1E, 0x23, 0x21\n"  /* 0x0600FD54 */
+    ".byte 0xE2, 0x0B, 0xD3, 0x1E, 0x23, 0x20, 0xB7, 0x2B, 0x00, 0x09, 0xD3, 0x1D, 0x43, 0x0B, 0x00, 0x09\n"  /* 0x0600FD64 */
+    ".byte 0xD0, 0x1C, 0x60, 0x00, 0x20, 0x08, 0x8B, 0x03, 0xE4, 0x01, 0xD3, 0x1B, 0x43, 0x2B, 0x4F, 0x26\n"  /* 0x0600FD74 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x0600FD84 */
+);
 
-    /* Set secondary timer to 120 frames (2 seconds) */
-    TIMER_B_COUNTER = 120;
-
-    /* Set subsystem state to 11 */
-    SUBSYS_STATE_FLAG = 11;
-
-    /* Run subsystem processing */
-    FUN_06010bc4();
-    FUN_06011eb4();
-
-    /* If control flag clear, initialize subsystem */
-    if (CONTROL_FLAG_B == 0) {
-        FUN_060114ac(1);  /* tail-call in original */
-    }
-}
 
 
 /* ================================================================
@@ -143,16 +136,16 @@ void FUN_0600FD8A(void)
  *
  * 20 instructions. Saves PR + r14.
  * ================================================================ */
-void FUN_0600FDFE(void)
-{
-    int counter = RENDER_PARAM_CACHE;
-    counter--;
-    RENDER_PARAM_CACHE = counter;
+/* FUN_0600FDFE -- original binary (58 bytes) */
+__asm__(
+    ".section .text.FUN_0600FDFE, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600FDFE\n"
+    ".type _FUN_0600FDFE, @function\n"
+    "_FUN_0600FDFE:\n"
+    ".byte 0x2F, 0xE6, 0x4F, 0x22, 0xDE, 0x09, 0x63, 0xE2, 0x73, 0xFF, 0x43, 0x11, 0x8D, 0x09, 0x2E, 0x32\n"  /* 0x0600FDFE */
+    ".byte 0xD5, 0x07, 0xD3, 0x07, 0x43, 0x0B, 0xE4, 0x00, 0x92, 0x06, 0x2E, 0x22, 0xE3, 0x0F, 0xD2, 0x05\n"  /* 0x0600FE0E */
+    ".byte 0x22, 0x30, 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6, 0x00, 0xB4, 0x06, 0x07, 0xEB, 0xCC, 0xAB, 0x11\n"  /* 0x0600FE1E */
+    ".byte 0x0D, 0xFF, 0x06, 0x01, 0xD5, 0xF4, 0x06, 0x07, 0x88, 0x7F\n"  /* 0x0600FE2E */
+);
 
-    if (counter < 0) {
-        /* Timer expired -- send sound command and reset */
-        FUN_0601D5F4(0, (int)0xAB110DFF);
-        RENDER_PARAM_CACHE = 180;
-        SUBSYS_STATE_FLAG = 15;
-    }
-}

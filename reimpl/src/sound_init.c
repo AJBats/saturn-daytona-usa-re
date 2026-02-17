@@ -42,23 +42,18 @@ extern void FUN_06012EBC(void);
  *
  * 18 instructions. Saves r14, PR.
  * ================================================================ */
-void FUN_0600A000(void)
-{
-    /* Initialize sound channel (cmd 1 ignores value parameter) */
-    sound_cmd_dispatch(1, 0);
+/* FUN_0600A000 -- original binary (38 bytes) */
+__asm__(
+    ".section .text.FUN_0600A000, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600A000\n"
+    ".type _FUN_0600A000, @function\n"
+    "_FUN_0600A000:\n"
+    ".byte 0x4F, 0x22, 0xDE, 0x1A, 0x4E, 0x0B, 0xE4, 0x01, 0xE5, 0x00, 0x4E, 0x0B, 0xE4, 0x03, 0xE5, 0x00\n"  /* 0x0600A000 */
+    ".byte 0x4E, 0x0B, 0xE4, 0x02, 0xD5, 0x16, 0x4E, 0x0B, 0xE4, 0x00, 0xD5, 0x16, 0x4E, 0x0B, 0xE4, 0x00\n"  /* 0x0600A010 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0600A020 */
+);
 
-    /* Mute all channels */
-    sound_cmd_dispatch(3, 0);
-
-    /* Set volume to zero */
-    sound_cmd_dispatch(2, 0);
-
-    /* Configure SCSP slot 0 */
-    sound_cmd_dispatch(0, (int)0xAE0001FF);
-
-    /* Configure SCSP slot 6 */
-    sound_cmd_dispatch(0, (int)0xAE0600FF);
-}
 
 
 /* ================================================================
@@ -77,32 +72,21 @@ void FUN_0600A000(void)
  * Body of FUN_06018FF8. Prologue sets r3=0 (flag clear value).
  * 30 instructions. Saves PR, uses r14 for sound_cmd_dispatch.
  * ================================================================ */
-void FUN_06018FFC(void)
-{
-    /* Clear sound state flag */
-    SOUND_STATE_FLAG = 0;
+/* FUN_06018FFC -- original binary (92 bytes) */
+__asm__(
+    ".section .text.FUN_06018FFC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06018FFC\n"
+    ".type _FUN_06018FFC, @function\n"
+    "_FUN_06018FFC:\n"
+    ".byte 0x4F, 0x22, 0xDE, 0x0F, 0xD2, 0x0F, 0x22, 0x32, 0xD5, 0x0F, 0x4E, 0x0B, 0xE4, 0x0F, 0xD5, 0x0F\n"  /* 0x06018FFC */
+    ".byte 0x4E, 0x0B, 0xE4, 0x0F, 0xB1, 0x6A, 0x00, 0x09, 0xD0, 0x0A, 0x60, 0x02, 0x20, 0x08, 0x8B, 0x05\n"  /* 0x0601900C */
+    ".byte 0xD3, 0x0B, 0x43, 0x0B, 0x00, 0x09, 0xE2, 0x00, 0xD3, 0x0A, 0x23, 0x21, 0xD5, 0x0A, 0x4E, 0x0B\n"  /* 0x0601901C */
+    ".byte 0xE4, 0x0F, 0xD5, 0x05, 0x4E, 0x0B, 0xE4, 0x0F, 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6, 0xFF, 0xFF\n"  /* 0x0601902C */
+    ".byte 0x06, 0x01, 0xD5, 0xF4, 0x06, 0x08, 0x60, 0x50, 0xAE, 0x00, 0x01, 0xFF, 0xAE, 0x00, 0x05, 0xFF\n"  /* 0x0601903C */
+    ".byte 0x06, 0x01, 0x2E, 0xBC, 0x25, 0xA0, 0x2D, 0xBE, 0xAE, 0x06, 0x00, 0xFF\n"  /* 0x0601904C */
+);
 
-    /* Configure SCSP slot 0 (cmd 15 = direct SCSP write) */
-    sound_cmd_dispatch(15, (int)0xAE0001FF);
-
-    /* Configure SCSP slot 5 */
-    sound_cmd_dispatch(15, (int)0xAE0005FF);
-
-    /* Run sound subsystem init */
-    FUN_060192e8();
-
-    /* If flag still clear, load sound data and reset VDP2 sync */
-    if (SOUND_STATE_FLAG == 0) {
-        FUN_06012EBC();
-        VDP2_SOUND_SYNC = 0;
-    }
-
-    /* Configure SCSP slot 6 */
-    sound_cmd_dispatch(15, (int)0xAE0600FF);
-
-    /* Re-configure SCSP slot 0 */
-    sound_cmd_dispatch(15, (int)0xAE0001FF);
-}
 
 
 /* ================================================================

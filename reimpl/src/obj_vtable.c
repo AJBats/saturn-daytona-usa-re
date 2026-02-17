@@ -34,16 +34,26 @@ int FUN_0603F4B0(void)
     return buf[0];
 }
 
-int FUN_0603F4CC(int a, int b)
-{
-    short buf[2];
-    FUN_0603F3F6(buf, b, 2);
-    return buf[0];
-}
+/* FUN_0603F4CC -- original binary (20 bytes) */
+__asm__(
+    ".section .text.FUN_0603F4CC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F4CC\n"
+    ".type _FUN_0603F4CC, @function\n"
+    "_FUN_0603F4CC:\n"
+    ".byte 0x4F, 0x22, 0xE6, 0x02, 0x7F, 0xFC, 0xBF, 0x90, 0x65, 0xF3, 0x60, 0xF1, 0x7F, 0x04, 0x4F, 0x26\n"  /* 0x0603F4CC */
+    ".byte 0x00, 0x0B, 0x00, 0x09\n"  /* 0x0603F4DC */
+);
 
-int FUN_0603F520(int a, int b)
-{
-    int buf[1];
-    FUN_0603F3F6(buf, b, 4);
-    return buf[0];
-}
+
+/* FUN_0603F520 -- original binary (20 bytes) */
+__asm__(
+    ".section .text.FUN_0603F520, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F520\n"
+    ".type _FUN_0603F520, @function\n"
+    "_FUN_0603F520:\n"
+    ".byte 0x4F, 0x22, 0xE6, 0x04, 0x7F, 0xFC, 0xBF, 0x66, 0x65, 0xF3, 0x60, 0xF2, 0x7F, 0x04, 0x4F, 0x26\n"  /* 0x0603F520 */
+    ".byte 0x00, 0x0B, 0x00, 0x09\n"  /* 0x0603F530 */
+);
+

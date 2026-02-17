@@ -294,28 +294,21 @@ void FUN_0600CDD0(void)
  * Called from physics_entry.c (E47C, E4F2).
  * 40 instructions total.
  * ================================================================ */
-void FUN_0600CE66(void)
-{
-    int car = CAR_PTR_CURRENT;
+/* FUN_0600CE66 -- original binary (84 bytes) */
+__asm__(
+    ".section .text.FUN_0600CE66, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600CE66\n"
+    ".type _FUN_0600CE66, @function\n"
+    "_FUN_0600CE66:\n"
+    ".byte 0x2F, 0xE6, 0x4F, 0x22, 0xDE, 0x09, 0x90, 0x0F, 0x6E, 0xE2, 0x03, 0xEE, 0x70, 0x04, 0x0E, 0x36\n"  /* 0x0600CE66 */
+    ".byte 0x60, 0xE3, 0x84, 0x03, 0xC8, 0x08, 0x8B, 0x0E, 0xBF, 0x5F, 0x00, 0x09, 0xA0, 0x0D, 0x00, 0x09\n"  /* 0x0600CE76 */
+    ".byte 0x01, 0xE4, 0x01, 0x84, 0x01, 0xE0, 0x40, 0x00, 0x01, 0xEC, 0x06, 0x07, 0xE9, 0x40, 0x06, 0x07\n"  /* 0x0600CE86 */
+    ".byte 0xEA, 0x9C, 0x06, 0x02, 0x74, 0x4C, 0xBF, 0x98, 0x00, 0x09, 0x90, 0x4B, 0xD3, 0x28, 0x02, 0xEE\n"  /* 0x0600CE96 */
+    ".byte 0x63, 0x32, 0x42, 0x08, 0x70, 0x68, 0x32, 0x3C, 0x62, 0x21, 0x62, 0x2D, 0x0E, 0x26, 0x4F, 0x26\n"  /* 0x0600CEA6 */
+    ".byte 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0600CEB6 */
+);
 
-    /* Step 1: Backup checkpoint param to previous */
-    CAR_INT(car, CAR_CHECKPOINT_PREV) = CAR_INT(car, CAR_CHECKPOINT_PARAM);
-
-    /* Step 2: Dispatch based on car flags byte 3, bit 0x08 */
-    if (CAR_UBYTE(car, CAR_FLAGS_BYTE3) & 0x08) {
-        FUN_0600CDD0();    /* retreat path */
-    } else {
-        FUN_0600CD40();    /* normal advance */
-    }
-
-    /* Step 3: Table lookup — segment index → checkpoint param */
-    {
-        int seg_idx = CAR_INT(car, CAR_SEGMENT_IDX);
-        int table_ptr = *(volatile int *)0x0607EB84;
-        unsigned short result = *(volatile unsigned short *)(table_ptr + seg_idx * 4);
-        CAR_INT(car, CAR_CHECKPOINT_PARAM) = (int)result;
-    }
-}
 
 
 /* ================================================================

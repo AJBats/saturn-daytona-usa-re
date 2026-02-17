@@ -63,20 +63,7 @@ extern unsigned int FUN_06027552(int a, int b);    /* fixed-point multiply */
 
 /* Forward declarations */
 void FUN_060316C4(int car_a, int car_b, int dist);
-void FUN_060316D0(int car_a, int car_b, int dist);
-void FUN_06030FC0(int car_a, int car_b, int dist);
 
-
-/* ================================================================
- * Helper: fixed-point multiply via dmuls.l/xtrct pattern
- *
- * On SH-2: dmuls.l a,b -> MACH:MACL = a*b (64-bit signed)
- *           xtrct MACH,MACL -> result = (int)((long long)a*b >> 16)
- * ================================================================ */
-static int fixed_mul(int a, int b)
-{
-    return (int)(((long long)a * (long long)b) >> 16);
-}
 
 
 /* ================================================================

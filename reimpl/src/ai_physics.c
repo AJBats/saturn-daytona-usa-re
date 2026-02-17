@@ -71,31 +71,6 @@ extern int          FUN_06006838(int x, int z);
 extern void         FUN_06027EDE(int transform, int pos_ptr, int output);
 
 /* Forward declaration */
-void FUN_0600C74E(void);
-
-
-/* ================================================================
- * ai_speed_boost (0x0600C970) -- Speed Boost Lookup
- *
- * CONFIDENCE: DEFINITE (ai_behavior.s lines 478-515)
- * Every opcode verified. Range [69,98], table 0x0605A1E0 confirmed.
- *
- * If track position is in [69, 98], adds a signed 16-bit speed
- * adjustment from a 30-entry table to car[0x0C] (accumulator).
- * Creates course-specific speed profiles for AI cars.
- * ================================================================ */
-static void ai_speed_boost(int car)
-{
-    int track_pos = CAR_INT(car, 0x1EC);
-
-    if (track_pos >= BOOST_ZONE_LOW && track_pos <= BOOST_ZONE_HIGH) {
-        int index = track_pos - BOOST_ZONE_LOW;
-        short adjustment = *(volatile short *)(SPEED_BOOST_TABLE + index * 2);
-        CAR_INT(car, 0x0C) += (int)adjustment;
-    }
-}
-
-
 /* ================================================================
  * FUN_0600C74E -- AI Processing Orchestrator (0x0600C74E)
  *
@@ -193,51 +168,22 @@ void FUN_0600C74E(void)
  *   7. Score/ranking computation
  *   8. Conditional waypoint tracking reset
  * ================================================================ */
-void FUN_0600E906(void)
-{
-    int car = CAR_PTR_CURRENT;      /* *0x0607E940 */
-    int flag = *(volatile int *)AI_FLAG_ADDR;
+/* FUN_0600E906 -- original binary (150 bytes) */
+__asm__(
+    ".section .text.FUN_0600E906, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600E906\n"
+    ".type _FUN_0600E906, @function\n"
+    "_FUN_0600E906:\n"
+    ".byte 0x2F, 0xE6, 0x4F, 0x22, 0x4F, 0x12, 0xDE, 0x0C, 0xD0, 0x0D, 0x60, 0x02, 0x20, 0x08, 0x8D, 0x18\n"  /* 0x0600E906 */
+    ".byte 0x6E, 0xE2, 0xE3, 0x00, 0xA0, 0x3B, 0x1E, 0x33, 0x02, 0x28, 0x01, 0xF8, 0x00, 0xE4, 0x00, 0xE0\n"  /* 0x0600E916 */
+    ".byte 0xFF, 0xFF, 0x06, 0x00, 0xCE, 0xBA, 0x06, 0x07, 0xEA, 0x9C, 0x06, 0x07, 0xEB, 0xC4, 0x00, 0x20\n"  /* 0x0600E926 */
+    ".byte 0x00, 0x00, 0x06, 0x65, 0x05, 0xB3, 0x06, 0x02, 0x75, 0x52, 0x06, 0x07, 0xE9, 0x40, 0x06, 0x07\n"  /* 0x0600E936 */
+    ".byte 0xEA, 0xD8, 0xD3, 0x29, 0x43, 0x0B, 0x00, 0x09, 0xD3, 0x29, 0x43, 0x0B, 0x00, 0x09, 0xD5, 0x28\n"  /* 0x0600E946 */
+    ".byte 0xD3, 0x29, 0x43, 0x0B, 0x54, 0xE3, 0x40, 0x29, 0x60, 0x0F, 0x1E, 0x02, 0x52, 0xE8, 0xD3, 0x26\n"  /* 0x0600E956 */
+    ".byte 0x43, 0x0B, 0x1E, 0x2C, 0x90, 0x3A, 0xD3, 0x25, 0x02, 0xEE, 0x63, 0x32, 0x70, 0xC4, 0x02, 0x37\n"  /* 0x0600E966 */
+    ".byte 0x03, 0xEE, 0x02, 0x1A, 0x70, 0x08, 0x32, 0x3C, 0x0E, 0x26, 0x70, 0xF8, 0x00, 0xEE, 0x20, 0x08\n"  /* 0x0600E976 */
+    ".byte 0x8B, 0x05, 0xE3, 0x00, 0x90, 0x2B, 0x0E, 0x36, 0x93, 0x2A, 0x70, 0xE8, 0x0E, 0x36, 0x4F, 0x16\n"  /* 0x0600E986 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0600E996 */
+);
 
-    /* If flag nonzero: clear accumulator and return immediately */
-    if (flag != 0) {
-        CAR_INT(car, 0x0C) = 0;
-        return;
-    }
-
-    /* Step 1: Friction (no-op stub, shared with player) */
-    FUN_0600D266();
-
-    /* Step 2: AI processing orchestrator */
-    FUN_0600C74E();
-
-    /* Step 3: Speed computation (same formula as player)
-     * speed = (short)(fixed_mul(accel, 0x480000) >> 16) */
-    {
-        int speed_raw = (int)FUN_06027552(CAR_INT(car, 0x0C),
-                                          SPEED_CONV_FACTOR);
-        speed_raw >>= 16;
-        CAR_INT(car, 0x08) = (short)speed_raw;
-    }
-
-    /* Step 4: Copy heading to car[0x30] */
-    CAR_INT(car, 0x30) = CAR_INT(car, 0x20);
-
-    /* Step 5: Track segment advancement */
-    FUN_0600CEBA();
-
-    /* Step 6: Score/ranking computation
-     * ranking = car[0x228] * total_car_count + car[0x1EC] */
-    {
-        int position = CAR_INT(car, 0x228);
-        int count = *(volatile int *)TOTAL_CAR_COUNT_ADDR;
-        int base = CAR_INT(car, 0x1EC);
-        CAR_INT(car, 0x1F4) = position * count + base;
-    }
-
-    /* Step 7: Conditional waypoint tracking reset
-     * If track position index is zero: reset tracking fields */
-    if (CAR_INT(car, 0x1EC) == 0) {
-        CAR_INT(car, 0x21C) = 0;
-        CAR_INT(car, 0x204) = 0x0200;  /* 512 */
-    }
-}

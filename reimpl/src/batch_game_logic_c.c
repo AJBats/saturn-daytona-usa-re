@@ -168,7 +168,9 @@ extern short counter_0607887C;
 
 /* FUN_0600e060: L2 version in visual_physics_update.c */
 extern void FUN_0600E060(void);
+#if 0 /* FUN_0600E060 -- replaced by ASM import of original bytes */
 void FUN_0600e060(void) { FUN_0600E060(); }
+#endif
 
 /* FUN_0600e0c0: L2 version in per_car_loop.c */
 extern void FUN_0600E0C0(void);
@@ -281,11 +283,15 @@ void FUN_0600e1d4()
 
 /* FUN_0600e410: L2 version in physics_entry.c */
 extern void FUN_0600E410(void);
+#if 0 /* FUN_0600E410 -- replaced by ASM import of original bytes */
 void FUN_0600e410(void) { FUN_0600E410(); }
+#endif
 
 /* FUN_0600e47c: L2 version in physics_entry.c */
 extern void FUN_0600E47C(void);
+#if 0 /* FUN_0600E47C -- replaced by ASM import of original bytes */
 void FUN_0600e47c(void) { FUN_0600E47C(); }
+#endif
 
 /* FUN_0600e4f2: L2 version in physics_entry.c */
 extern void FUN_0600E4F2(void);
@@ -297,11 +303,15 @@ void FUN_0600e71a(void) { FUN_0600E71A(); }
 
 /* FUN_0600e7c8: L2 version in alt_physics.c */
 extern void FUN_0600E7C8(void);
+#if 0 /* FUN_0600E7C8 -- replaced by ASM import of original bytes */
 void FUN_0600e7c8(void) { FUN_0600E7C8(); }
+#endif
 
 /* FUN_0600e906: L2 version in ai_physics.c */
 extern void FUN_0600E906(void);
+#if 0 /* FUN_0600E906 -- replaced by ASM import of original bytes */
 void FUN_0600e906(void) { FUN_0600E906(); }
+#endif
 
 /* FUN_0600e99c: L2 version in camera_setup.c */
 extern void FUN_0600E99C(void);

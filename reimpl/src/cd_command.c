@@ -31,12 +31,17 @@ extern void FUN_060349C4(int *result_buf);  /* CD status query */
  *
  * 10 instructions. Saves PR.
  * ================================================================ */
-void FUN_06018E70(void)
-{
-    int buf[2];
-    buf[0] = 3;
-    FUN_06034DEA(buf);
-}
+/* FUN_06018E70 -- original binary (24 bytes) */
+__asm__(
+    ".section .text.FUN_06018E70, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06018E70\n"
+    ".type _FUN_06018E70, @function\n"
+    "_FUN_06018E70:\n"
+    ".byte 0x4F, 0x22, 0xE2, 0x03, 0x7F, 0xF8, 0x63, 0xF3, 0x23, 0x22, 0xD3, 0x0B, 0x43, 0x0B, 0x64, 0xF3\n"  /* 0x06018E70 */
+    ".byte 0x7F, 0x08, 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x06018E80 */
+);
+
 
 
 /* ================================================================

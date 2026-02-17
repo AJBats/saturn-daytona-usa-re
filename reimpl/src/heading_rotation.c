@@ -45,38 +45,17 @@ extern void FUN_06027358(int angle, int *sin_out, int *cos_out);
  * Uses MAC.L + xtrct pattern for fixed-point dot products.
  * 38 instructions. Saves PR only.
  * ================================================================ */
-void FUN_06026EDE(int heading)
-{
-    volatile int *rot = ROTATION_BUF;
+/* FUN_06026EDE -- original binary (76 bytes) */
+__asm__(
+    ".section .text.FUN_06026EDE, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06026EDE\n"
+    ".type _FUN_06026EDE, @function\n"
+    "_FUN_06026EDE:\n"
+    ".byte 0x4F, 0x22, 0xD6, 0x63, 0xE5, 0x04, 0xB2, 0x38, 0x35, 0x6C, 0x4F, 0x26, 0x61, 0x52, 0x62, 0x62\n"  /* 0x06026EDE */
+    ".byte 0x61, 0x1B, 0x16, 0x12, 0xD0, 0x5D, 0x16, 0x23, 0x64, 0x02, 0xE3, 0x03, 0x65, 0x43, 0x67, 0x63\n"  /* 0x06026EEE */
+    ".byte 0x00, 0x28, 0x05, 0x7F, 0x75, 0x04, 0x05, 0x7F, 0x75, 0xF4, 0x00, 0x0A, 0x01, 0x1A, 0x21, 0x0D\n"  /* 0x06026EFE */
+    ".byte 0x00, 0x28, 0x05, 0x7F, 0x75, 0x04, 0x05, 0x7F, 0x14, 0x10, 0x43, 0x10, 0x00, 0x0A, 0x02, 0x1A\n"  /* 0x06026F0E */
+    ".byte 0x22, 0x0D, 0x14, 0x22, 0x8F, 0xEA, 0x74, 0x0C, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x06026F1E */
+);
 
-    /* Phase 1: Compute sin/cos from heading angle */
-    FUN_06027358(heading, (int *)(rot + 1), (int *)rot);
-
-    /* Phase 2: Build 2D rotation matrix */
-    int sin_val = rot[1];
-    int cos_val = rot[0];
-    rot[2] = -sin_val;
-    rot[3] = cos_val;
-
-    /* Phase 3: Apply rotation to 3 transform matrix rows */
-    volatile int *matrix = (volatile int *)(int)OBJ_STATE_PRIMARY;
-    int i;
-
-    for (i = 0; i < 3; i++) {
-        int col0 = matrix[0];
-        int col2 = matrix[2];
-
-        /* MAC.L + xtrct: (a*b + c*d) >> 16 */
-        long long acc_a = (long long)cos_val * (long long)col0
-                        + (long long)sin_val * (long long)col2;
-        int new_col0 = (int)(acc_a >> 16);
-
-        long long acc_b = (long long)(-sin_val) * (long long)col0
-                        + (long long)cos_val * (long long)col2;
-        int new_col2 = (int)(acc_b >> 16);
-
-        matrix[0] = new_col0;
-        matrix[2] = new_col2;
-        matrix += 3;  /* next row: 12 bytes */
-    }
-}

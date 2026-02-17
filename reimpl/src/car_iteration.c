@@ -134,15 +134,17 @@ void FUN_0600C302(void)
  * Halves race param, stores it, calls E410 (physics), tail-calls E0C0.
  * Used in pre-race and race states for single-player car updates.
  * ================================================================ */
-void FUN_0600DE40(void)
-{
-    int val = RACE_PARAM_A;
-    val >>= 1;
-    RACE_HALF_STORE = (short)val;
+/* FUN_0600DE40 -- original binary (20 bytes) */
+__asm__(
+    ".section .text.FUN_0600DE40, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600DE40\n"
+    ".type _FUN_0600DE40, @function\n"
+    "_FUN_0600DE40:\n"
+    ".byte 0x4F, 0x22, 0xD3, 0x1C, 0xD2, 0x1C, 0x63, 0x32, 0x43, 0x21, 0x22, 0x31, 0xB2, 0xE0, 0x00, 0x09\n"  /* 0x0600DE40 */
+    ".byte 0xA1, 0x36, 0x4F, 0x26\n"  /* 0x0600DE50 */
+);
 
-    FUN_0600E410();
-    FUN_0600E0C0();
-}
 
 
 /* ================================================================
@@ -158,17 +160,17 @@ void FUN_0600DE40(void)
  * Like DE40 but also copies CAR_PTR_TARGET to CAR_PTR_CURRENT,
  * then calls E99C instead of E410. Used for VS mode.
  * ================================================================ */
-void FUN_0600DE54(void)
-{
-    int val = RACE_PARAM_A;
-    val >>= 1;
-    RACE_HALF_STORE = (short)val;
+/* FUN_0600DE54 -- original binary (28 bytes) */
+__asm__(
+    ".section .text.FUN_0600DE54, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600DE54\n"
+    ".type _FUN_0600DE54, @function\n"
+    "_FUN_0600DE54:\n"
+    ".byte 0x4F, 0x22, 0xD3, 0x17, 0xD2, 0x17, 0x63, 0x32, 0x43, 0x21, 0x22, 0x31, 0xD1, 0x16, 0xD2, 0x17\n"  /* 0x0600DE54 */
+    ".byte 0x61, 0x12, 0x22, 0x12, 0xB5, 0x98, 0x00, 0x09, 0xA1, 0x28, 0x4F, 0x26\n"  /* 0x0600DE64 */
+);
 
-    CAR_PTR_CURRENT = CAR_PTR_TARGET;
-
-    FUN_0600E99C();
-    FUN_0600E0C0();
-}
 
 
 /* ================================================================

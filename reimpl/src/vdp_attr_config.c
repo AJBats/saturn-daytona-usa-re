@@ -35,14 +35,18 @@ extern void FUN_06038BD4(int key, int value);
  * Body of FUN_06012050. First call's value (r5) = 7 from prologue.
  * 18 instructions. Saves PR, uses r14 as function pointer.
  * ================================================================ */
-void FUN_06012054(void)
-{
-    FUN_06038BD4(0x10, 7);     /* colorCalc = 7 */
-    FUN_06038BD4(8, 6);        /* priority = 6 */
-    FUN_06038BD4(0x100, 5);    /* texture = 5 */
-    FUN_06038BD4(0x20, 3);     /* mesh = 3 */
-    FUN_06038BD4(4, 1);        /* palette = 1 */
-}
+/* FUN_06012054 -- original binary (44 bytes) */
+__asm__(
+    ".section .text.FUN_06012054, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06012054\n"
+    ".type _FUN_06012054, @function\n"
+    "_FUN_06012054:\n"
+    ".byte 0x4F, 0x22, 0xDE, 0x09, 0x4E, 0x0B, 0xE4, 0x10, 0xE5, 0x06, 0x4E, 0x0B, 0xE4, 0x08, 0x94, 0x0A\n"  /* 0x06012054 */
+    ".byte 0x4E, 0x0B, 0xE5, 0x05, 0xE5, 0x03, 0x4E, 0x0B, 0xE4, 0x20, 0xE5, 0x01, 0x4E, 0x0B, 0xE4, 0x04\n"  /* 0x06012064 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6, 0x01, 0x00, 0x06, 0x03, 0x8B, 0xD4\n"  /* 0x06012074 */
+);
+
 
 
 /* ================================================================
@@ -56,12 +60,17 @@ void FUN_06012054(void)
  * Body of FUN_06012080. First call's value (r5) = 7 from prologue.
  * 14 instructions. Saves PR, uses r14 as function pointer.
  * ================================================================ */
-void FUN_06012084(void)
-{
-    FUN_06038BD4(8, 7);        /* priority = 7 */
-    FUN_06038BD4(0x100, 5);    /* texture = 5 */
-    FUN_06038BD4(0x10, 4);     /* colorCalc = 4 */
-}
+/* FUN_06012084 -- original binary (28 bytes) */
+__asm__(
+    ".section .text.FUN_06012084, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06012084\n"
+    ".type _FUN_06012084, @function\n"
+    "_FUN_06012084:\n"
+    ".byte 0x4F, 0x22, 0xDE, 0x0F, 0x4E, 0x0B, 0xE4, 0x08, 0x94, 0x19, 0x4E, 0x0B, 0xE5, 0x05, 0xE5, 0x04\n"  /* 0x06012084 */
+    ".byte 0x4E, 0x0B, 0xE4, 0x10, 0x4F, 0x26, 0x00, 0x0B, 0x6E, 0xF6, 0xE5, 0x07\n"  /* 0x06012094 */
+);
+
 
 
 /* ================================================================
@@ -75,10 +84,15 @@ void FUN_06012084(void)
  * Body of FUN_0601209E. First call's value (r5) = 7 from prologue.
  * 18 instructions. Saves r14, PR, uses r14 as function pointer.
  * ================================================================ */
-void FUN_060120A0(void)
-{
-    FUN_06038BD4(0x20, 7);     /* mesh = 7 */
-    FUN_06038BD4(8, 6);        /* priority = 6 */
-    FUN_06038BD4(0x100, 5);    /* texture = 5 */
-    FUN_06038BD4(0x10, 4);     /* colorCalc = 4 */
-}
+/* FUN_060120A0 -- original binary (40 bytes) */
+__asm__(
+    ".section .text.FUN_060120A0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060120A0\n"
+    ".type _FUN_060120A0, @function\n"
+    "_FUN_060120A0:\n"
+    ".byte 0x2F, 0xE6, 0x4F, 0x22, 0xDE, 0x07, 0x4E, 0x0B, 0xE4, 0x20, 0xE5, 0x06, 0x4E, 0x0B, 0xE4, 0x08\n"  /* 0x060120A0 */
+    ".byte 0x94, 0x07, 0x4E, 0x0B, 0xE5, 0x05, 0xE5, 0x04, 0x4E, 0x0B, 0xE4, 0x10, 0x4F, 0x26, 0x00, 0x0B\n"  /* 0x060120B0 */
+    ".byte 0x6E, 0xF6, 0x01, 0x00, 0x06, 0x03, 0x8B, 0xD4\n"  /* 0x060120C0 */
+);
+

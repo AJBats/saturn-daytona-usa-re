@@ -41,26 +41,18 @@ extern void FUN_0601d57c(int timer_value);
  *
  * 24 instructions (incl. delay slots). Saves PR.
  * ================================================================ */
-void FUN_0601D478(void)
-{
-    /* Set fade mode flag to 2 */
-    *(volatile short *)0x0605AAA2 = 2;
+/* FUN_0601D478 -- original binary (48 bytes) */
+__asm__(
+    ".section .text.FUN_0601D478, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0601D478\n"
+    ".type _FUN_0601D478, @function\n"
+    "_FUN_0601D478:\n"
+    ".byte 0x4F, 0x22, 0xE2, 0x02, 0xE6, 0x00, 0xD3, 0x1C, 0x23, 0x21, 0xD3, 0x1C, 0xD2, 0x1C, 0x22, 0x32\n"  /* 0x0601D478 */
+    ".byte 0x65, 0x23, 0xD3, 0x1C, 0x65, 0x52, 0x43, 0x0B, 0xE4, 0x20, 0xE2, 0x2A, 0xD3, 0x1A, 0x23, 0x21\n"  /* 0x0601D488 */
+    ".byte 0xB0, 0x70, 0x64, 0x23, 0xD4, 0x19, 0x4F, 0x26, 0x62, 0x40, 0x72, 0x01, 0x00, 0x0B, 0x24, 0x20\n"  /* 0x0601D498 */
+);
 
-    /* Set initial brightness level */
-    *(volatile int *)0x0607885C = 0x01500000;
-
-    /* Apply brightness via render parameter: mesh attribute = brightness */
-    FUN_06014884(32, 0x01500000, 0);
-
-    /* Set fade timer to 42 frames (~0.7 seconds) */
-    *(volatile short *)0x0607886E = 42;
-
-    /* Initialize fade table lookup with timer=42 */
-    FUN_0601d57c(42);
-
-    /* Increment fade phase counter */
-    (*(volatile unsigned char *)0x0607887F)++;
-}
 
 
 /* ================================================================

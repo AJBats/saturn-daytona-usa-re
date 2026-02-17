@@ -39,26 +39,18 @@ extern void FUN_06035168(void);
  *
  * 20 instructions. Saves PR.
  * ================================================================ */
-void FUN_0601FD74(void)
-{
-    typedef void (*func_ptr)(void);
-    func_ptr table[4];
+/* FUN_0601FD74 -- original binary (40 bytes) */
+__asm__(
+    ".section .text.FUN_0601FD74, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0601FD74\n"
+    ".type _FUN_0601FD74, @function\n"
+    "_FUN_0601FD74:\n"
+    ".byte 0x4F, 0x22, 0x7F, 0xF0, 0x61, 0xF3, 0xD2, 0x1E, 0xD3, 0x1E, 0x43, 0x0B, 0xE0, 0x10, 0x63, 0xF3\n"  /* 0x0601FD74 */
+    ".byte 0xD2, 0x1D, 0x62, 0x21, 0x62, 0x2D, 0x42, 0x08, 0x32, 0x3C, 0x62, 0x22, 0x42, 0x0B, 0x00, 0x09\n"  /* 0x0601FD84 */
+    ".byte 0x7F, 0x10, 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x0601FD94 */
+);
 
-    /* Copy 4 function pointers from ROM table to local stack */
-    {
-        volatile int *src = (volatile int *)FUNC_TABLE_SRC;
-        table[0] = (func_ptr)src[0];
-        table[1] = (func_ptr)src[1];
-        table[2] = (func_ptr)src[2];
-        table[3] = (func_ptr)src[3];
-    }
-
-    /* Read mode index (0-3) and dispatch */
-    {
-        unsigned int mode = MODE_INDEX;
-        table[mode]();
-    }
-}
 
 
 /* ================================================================

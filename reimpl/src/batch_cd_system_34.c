@@ -84,13 +84,17 @@ char * FUN_0603449c()
  * Copies state+0x0C to state+0x10 (advance read position),
  * then runs: sector header parse, data validation, transfer completion.
  * Returns transfer status. */
-int FUN_06034708(int state)
-{
-    *(int *)(state + 0x10) = *(int *)(state + 0x0C);
-    FUN_06034754();
-    FUN_060347a8();
-    return FUN_06034848();
-}
+/* FUN_06034708 -- original binary (24 bytes) */
+__asm__(
+    ".section .text.FUN_06034708, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06034708\n"
+    ".type _FUN_06034708, @function\n"
+    "_FUN_06034708:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0x2F, 0xA6, 0x2F, 0x96, 0x2F, 0x86, 0x6E, 0x43\n"  /* 0x06034708 */
+    ".byte 0xD0, 0x0C, 0x02, 0xEE, 0xD0, 0x0C, 0x0E, 0x26\n"  /* 0x06034718 */
+);
+
 
 
 
@@ -143,17 +147,19 @@ int terrain_data_lookup(param_1, param_2, param_3, param_4)
 /* cd_init_and_seek -- Initialize CD status, clear command byte, seek to position.
  * Gets current status via cd_get_status, clears command byte,
  * calls cd_status_full_read, then seeks to param_1 via FUN_06035F04. */
-int FUN_06034984(int param_1)
-{
-    int result;
-    char buf[12];
+/* FUN_06034984 -- original binary (50 bytes) */
+__asm__(
+    ".section .text.FUN_06034984, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06034984\n"
+    ".type _FUN_06034984, @function\n"
+    "_FUN_06034984:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x4F, 0x22, 0x6D, 0x43, 0x7F, 0xF8, 0xD3, 0x13, 0x43, 0x0B, 0x64, 0xF3\n"  /* 0x06034984 */
+    ".byte 0x62, 0xF3, 0xE3, 0x00, 0x65, 0xF3, 0x22, 0x30, 0xD3, 0x10, 0x43, 0x0B, 0xE4, 0x00, 0x6E, 0x03\n"  /* 0x06034994 */
+    ".byte 0xD3, 0x0F, 0x43, 0x0B, 0x64, 0xD3, 0x60, 0xE3, 0x7F, 0x08, 0x4F, 0x26, 0x6D, 0xF6, 0x00, 0x0B\n"  /* 0x060349A4 */
+    ".byte 0x6E, 0xF6\n"  /* 0x060349B4 */
+);
 
-    (*(int(*)())0x06035E90)(buf);  /* cd_get_status */
-    buf[0] = 0;                     /* clear command */
-    result = (*(int(*)())0x06035EC8)(0, buf);  /* cd_status_full_read */
-    (*(int(*)())0x06035F04)(param_1);          /* seek */
-    return result;
-}
 
 /* cd_check_ready -- Check if CD drive is in ready state.
  * Polls via FUN_06034a10; on success, unpacks status.
@@ -501,10 +507,12 @@ int FUN_06035e00(unsigned short param_1, unsigned short *param_2)
 }
 
 /* cd_get_status -- Thin wrapper: query CD drive status via FUN_06035168 */
+#if 0 /* FUN_06035E90 -- replaced by ASM import of original bytes */
 int FUN_06035e90(void)
 {
     return (*(int(*)())0x06035168)();
 }
+#endif
 
 /* cd_status_read -- Read CD drive status byte.
  * Calls low-level CD command (0x06035D22); on success, copies
@@ -920,6 +928,7 @@ unsigned int FUN_06035f44()
 
 /* --- FUN_06034C68 (L1 import from src/FUN_06034C68.c) --- */
 
+#if 0 /* FUN_06034C68 -- replaced by ASM import of original bytes */
 int FUN_06034c68(param_1)
     int param_1;
 {
@@ -961,3 +970,30 @@ int FUN_06034c68(param_1)
   return iVar1;
 
 }
+#endif
+
+/* FUN_06034C68 -- original binary (96 bytes) */
+__asm__(
+    ".section .text.FUN_06034C68, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06034C68\n"
+    ".type _FUN_06034C68, @function\n"
+    "_FUN_06034C68:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x4F, 0x22, 0x6D, 0x43, 0x7F, 0xF8, 0x2D, 0xD8, 0x8B, 0x0A, 0xA0, 0x0A\n"  /* 0x06034C68 */
+    ".byte 0xE4, 0x02, 0xFF, 0xFF, 0x06, 0x03, 0x5C, 0x92, 0x06, 0x03, 0x5E, 0xC8, 0x06, 0x03, 0x5C, 0x80\n"  /* 0x06034C78 */
+    ".byte 0x06, 0x03, 0x5E, 0x90, 0x94, 0x39, 0xD3, 0x1D, 0x43, 0x0B, 0x65, 0xF3, 0x6E, 0x03, 0x60, 0xD3\n"  /* 0x06034C88 */
+    ".byte 0x88, 0x01, 0x8B, 0x06, 0x2E, 0xE8, 0x8B, 0x04, 0x60, 0xF1, 0x60, 0x0D, 0xC8, 0x80, 0x89, 0x00\n"  /* 0x06034C98 */
+    ".byte 0xEE, 0xFC, 0x2E, 0xE8, 0x89, 0x02, 0x64, 0xF3, 0xB0, 0x0A, 0x74, 0x04, 0xD4, 0x14, 0xD3, 0x15\n"  /* 0x06034CA8 */
+    ".byte 0x43, 0x0B, 0x00, 0x09, 0x60, 0xE3, 0x7F, 0x08, 0x4F, 0x26, 0x6D, 0xF6, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x06034CB8 */
+);
+
+/* FUN_06035E90 -- original binary (18 bytes) */
+__asm__(
+    ".section .text.FUN_06035E90, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06035E90\n"
+    ".type _FUN_06035E90, @function\n"
+    "_FUN_06035E90:\n"
+    ".byte 0x4F, 0x22, 0x61, 0x43, 0xD2, 0x13, 0xD3, 0x14, 0x43, 0x0B, 0xE0, 0x08, 0x4F, 0x26, 0x00, 0x0B\n"  /* 0x06035E90 */
+    ".byte 0x00, 0x09\n"  /* 0x06035EA0 */
+);

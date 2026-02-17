@@ -51,13 +51,17 @@ int FUN_06041310(int param_1)
     return 1;
 }
 
-int FUN_06041180(int param_1, int param_2)
-{
-    if (((int **)0x060A5400)[0][14] != param_2)
-        return -9;
-    FUN_06034D1C();
-    return 0;
-}
+/* FUN_06041180 -- original binary (32 bytes) */
+__asm__(
+    ".section .text.FUN_06041180, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06041180\n"
+    ".type _FUN_06041180, @function\n"
+    "_FUN_06041180:\n"
+    ".byte 0x4F, 0x22, 0xD3, 0x1E, 0x63, 0x32, 0x52, 0x3E, 0x32, 0x50, 0x89, 0x02, 0x4F, 0x26, 0x00, 0x0B\n"  /* 0x06041180 */
+    ".byte 0xE0, 0xF7, 0xD3, 0x1B, 0x43, 0x0B, 0x00, 0x09, 0xE0, 0x00, 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x06041190 */
+);
+
 
 int FUN_06040EEC(int *param_1)
 {

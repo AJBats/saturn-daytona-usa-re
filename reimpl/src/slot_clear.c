@@ -86,18 +86,16 @@ extern void FUN_06020366(int byte_val);
  *
  * 26 instructions. Saves PR.
  * ================================================================ */
-void FUN_06020330(int param)
-{
-    unsigned char slot = (unsigned char)param;
+/* FUN_06020330 -- original binary (54 bytes) */
+__asm__(
+    ".section .text.FUN_06020330, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06020330\n"
+    ".type _FUN_06020330, @function\n"
+    "_FUN_06020330:\n"
+    ".byte 0x4F, 0x22, 0x7F, 0xFC, 0x2F, 0x40, 0xD0, 0x22, 0x60, 0x01, 0x60, 0x0D, 0x20, 0x08, 0x89, 0x0D\n"  /* 0x06020330 */
+    ".byte 0xE0, 0x40, 0x64, 0xF0, 0xD2, 0x1F, 0x64, 0x4C, 0x63, 0x43, 0x44, 0x08, 0x43, 0x08, 0x43, 0x08\n"  /* 0x06020340 */
+    ".byte 0x43, 0x08, 0x34, 0x3C, 0x64, 0x4F, 0x34, 0x2C, 0xB0, 0x05, 0x04, 0x4C, 0x64, 0xF0, 0x64, 0x4C\n"  /* 0x06020350 */
+    ".byte 0x7F, 0x04, 0xA5, 0x44, 0x4F, 0x26\n"  /* 0x06020360 */
+);
 
-    /* Check if channel flag is active */
-    if (*(volatile unsigned short *)0x0608780A != 0) {
-        /* Compute slot entry, read byte at offset 0x40 */
-        int offset = (short)((int)slot * SLOT_ENTRY_SIZE);
-        unsigned char byte_val = *(volatile unsigned char *)(SLOT_TABLE_BASE + offset + 0x40);
-        FUN_06020366((int)byte_val);
-    }
-
-    /* Clear the slot entry */
-    FUN_06020DEE((int)slot);  /* tail-call in original */
-}

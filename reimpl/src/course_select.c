@@ -44,10 +44,16 @@ void FUN_06012198(void)
 
 int FUN_06040964(void);
 
-int FUN_06040954(void)
-{
-    return FUN_06040964() << 11;
-}
+/* FUN_06040954 -- original binary (16 bytes) */
+__asm__(
+    ".section .text.FUN_06040954, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06040954\n"
+    ".type _FUN_06040954, @function\n"
+    "_FUN_06040954:\n"
+    ".byte 0x4F, 0x22, 0xB0, 0x05, 0x00, 0x09, 0x40, 0x18, 0x4F, 0x26, 0x40, 0x08, 0x00, 0x0B, 0x40, 0x00\n"  /* 0x06040954 */
+);
+
 
 int FUN_06040964(void)
 {
