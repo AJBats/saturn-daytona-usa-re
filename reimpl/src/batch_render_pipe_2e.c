@@ -400,6 +400,7 @@ void FUN_0602f7bc()
  * Triggers collision/surface sounds on specific car states.
  * Computes tire screech volume from lateral velocity (>>10, max 7).
  * SCSP command function at 0x0601D5F4, sound IDs use 0xAExxxxFF format. */
+#if 0 /* FUN_0602F7EA -- replaced by ASM import */
 void FUN_0602f7ea()
 {
   char cooldown_val;
@@ -505,6 +506,7 @@ LAB_0602f95a:
   (*(int(*)())scsp_cmd)(2,screech_level);
   return;
 }
+#endif
 
 /* race_sfx_update -- Race sound effects trigger system.
  * Per-frame update that triggers SCSP sound commands based on race state:
@@ -924,6 +926,7 @@ LAB_0602fcc0:
 
 /* --- FUN_0602F99C (L1 import from src/FUN_0602F99C.c) --- */
 
+#if 0 /* FUN_0602F99C -- replaced by ASM import */
 unsigned int FUN_0602f99c()
 {
 
@@ -1326,3 +1329,14 @@ LAB_0602fcc0:
   return uVar5;
 
 }
+#endif
+
+/* FUN_0602F99C -- original binary (10 bytes) */
+__asm__(
+    ".section .text.FUN_0602F99C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0602F99C\n"
+    ".type _FUN_0602F99C, @function\n"
+    "_FUN_0602F99C:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0xDE, 0x18\n"  /* 0x0602F99C */
+);

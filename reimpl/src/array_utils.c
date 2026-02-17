@@ -71,9 +71,21 @@ int *FUN_0603F8B8(int *param_1, int p2, int p3, int p4, int p5, int p6, int p7)
     return param_1;
 }
 
+#if 0 /* FUN_0603F9B8 -- replaced by ASM import */
 void FUN_0603F9B8(int *param_1, int param_2, int param_3)
 {
     FUN_0603FA1A(param_1, 0xffffffff);
     *param_1 = param_2;
     param_1[2] = param_3;
 }
+#endif
+
+/* FUN_0603F9B8 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_0603F9B8, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F9B8\n"
+    ".type _FUN_0603F9B8, @function\n"
+    "_FUN_0603F9B8:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43\n"  /* 0x0603F9B8 */
+);

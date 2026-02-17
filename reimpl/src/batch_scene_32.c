@@ -57,6 +57,7 @@ extern int counter_06032300;
 
 
 
+#if 0 /* FUN_060321c0 -- replaced by ASM import in asm_game_core.c */
 /* scene_object_table_init -- Initialize 6 scene objects with slot IDs and 13-byte name strings. */
 char * FUN_060321c0()
 {
@@ -93,9 +94,11 @@ char * FUN_060321c0()
   *(int *)0x06082A25 = 0;
   return state_ptr;
 }
+#endif
 
 /* scene_update_all_layers -- Update all 6 scene layers, then advance frame counter.
  * Calls FUN_06032304 for layers 0-5, then scene_frame_counter. */
+#if 0 /* FUN_0603226C -- replaced by ASM import */
 int FUN_0603226c(void)
 {
     FUN_06032304(0);
@@ -107,6 +110,7 @@ int FUN_0603226c(void)
 
     return FUN_060322e8();
 }
+#endif
 
 
 
@@ -258,6 +262,7 @@ long long FUN_06033aac()
  * In demo mode, zone 3 progressively loads objects based on timer at 0x06083250
  * with thresholds at 0x13B (4 more), 0x276 (5 more), 0x3B1 (10 more).
  * Timer caps at 0xEC4, resets when leaving zone 3. */
+#if 0 /* FUN_06033BC8 -- replaced by ASM import */
 int FUN_06033bc8()
 {
   int timer;
@@ -363,11 +368,13 @@ int FUN_06033bc8()
   }
   return timer;
 }
+#endif
 
 /* scene_object_state_advance -- Advance scene object loading state machine.
  * Increments state counter at 0x06083254 when vsync flag (0x06063E08) == 1.
  * State 1: initialize 4 object slots (0, 1, 2, 4) via FUN_06033F54.
  * State 2: batch-load remaining slots 6..24 via FUN_06033f54. */
+#if 0 /* FUN_06033EA8 -- replaced by ASM import */
 int FUN_06033ea8()
 {
     int state;
@@ -397,4 +404,15 @@ int FUN_06033ea8()
 
     return state;
 }
+#endif
 
+
+/* FUN_0603226C -- original binary (16 bytes) */
+__asm__(
+    ".section .text.FUN_0603226C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603226C\n"
+    ".type _FUN_0603226C, @function\n"
+    "_FUN_0603226C:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0x2F, 0xA6, 0x2F, 0x96, 0x2F, 0x86, 0xD4, 0x15\n"  /* 0x0603226C */
+);

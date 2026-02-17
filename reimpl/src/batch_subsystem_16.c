@@ -64,6 +64,7 @@ extern int PTR_DAT_06017d9c;
  * param_2 * 5, offset +0x28 for mirror mode). Stores as 16.16 fixed-point
  * into slot fields at +4/+8/+C/+10/+34. Then calls hud_sprite_vertex_project for
  * further init, and sets up display entry at 0x06085490 (stride 0x18). */
+#if 0 /* FUN_06016CDC -- replaced by ASM import */
 void FUN_06016cdc(param_1, param_2)
     unsigned char param_1;
     unsigned char param_2;
@@ -105,6 +106,7 @@ void FUN_06016cdc(param_1, param_2)
     disp_base[disp_off + 4] = 1;
     disp_base[disp_off + 5] = 0x3a;
 }
+#endif
 
 /* hud_sprite_vertex_project -- Project 4 corners of a HUD sprite element.
  * Takes slot index into object table at 0x06084FC8 (0x44 bytes/entry).
@@ -561,6 +563,7 @@ int FUN_060173ac()
  * Starting from param_1, writes (0x2C - param_1) rows to VDP2 via
  * tilemap writer at 0x06028400. Each row is 0x36 bytes in the source
  * table at 0x06085640. Tile offset starts at (param_1 + 0x40) * 2. */
+#if 0 /* FUN_0601772E -- replaced by ASM import */
 void FUN_0601772e(param_1)
     int param_1;
 {
@@ -578,6 +581,7 @@ void FUN_0601772e(param_1)
         } while (idx < remaining);
     }
 }
+#endif
 
 /* tilemap_block_fill -- Fill a rectangular region in the VDP2 tilemap.
  * Reads width/height from param_1[0]/param_1[1], tile data from param_1[2+].
@@ -1675,3 +1679,24 @@ LAB_06017b4e:
   return;
 
 }
+
+/* FUN_06016CDC -- original binary (10 bytes) */
+__asm__(
+    ".section .text.FUN_06016CDC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06016CDC\n"
+    ".type _FUN_06016CDC, @function\n"
+    "_FUN_06016CDC:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43, 0x2F, 0xD6, 0xE4, 0x00, 0x63, 0xEC\n"  /* 0x06016CDC */
+);
+
+/* FUN_0601772E -- original binary (18 bytes) */
+__asm__(
+    ".section .text.FUN_0601772E, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0601772E\n"
+    ".type _FUN_0601772E, @function\n"
+    "_FUN_0601772E:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x6D, 0x43, 0x2F, 0xC6, 0xEC, 0x2C, 0x2F, 0xB6, 0x3C, 0xD8, 0x2F, 0xA6\n"  /* 0x0601772E */
+    ".byte 0x6C, 0xCC\n"  /* 0x0601773E */
+);

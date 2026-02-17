@@ -590,6 +590,7 @@ void FUN_0601cefc()
  * DMA-copies timer font data to VDP2 VRAM (0x25F00000),
  * sets up 2 VDP1 sprite commands for minutes and seconds digits,
  * clears timer display state. */
+#if 0 /* FUN_0601D014 -- replaced by ASM import */
 void FUN_0601d014(void)
 {
     (*(int(*)())0x0602766C)(0x25F00000, 0x0604884C, 0x40);   /* DMA font data */
@@ -599,6 +600,7 @@ void FUN_0601d014(void)
         *(int *)(0x06063970 + 4), 0x06063970);                /* seconds sprite */
     *(int *)0x06086020 = 0;                                    /* reset display state */
 }
+#endif
 
 /* countdown_display_init -- Initialize countdown timer display.
  * Sets VDP sprite slot (4), DMA-copies countdown font data (0x40 bytes),
@@ -667,6 +669,7 @@ void FUN_0601d12c(void)
  * initializes VDP state (0x0600A026), configures VDP2 scroll (0x0600511E).
  * DMA-copies 3 font/sprite tables to VDP1 VRAM, loads 2 sprite tables
  * to VDP2 VRAM, sets game mode to 0, re-enables interrupts. */
+#if 0 /* FUN_0601D2DC -- replaced by ASM import */
 void FUN_0601d2dc(void)
 {
   void (*scu_int_config)(int, int) = (void (*)(int, int))0x06038BD4;
@@ -694,6 +697,7 @@ void FUN_0601d2dc(void)
   *(int *)0x0607887F = 0;                     /* game mode = 0 */
   (*(int(*)())0x060149CC)();                  /* re-enable interrupts */
 }
+#endif
 
 /* service_mode_start -- Handle service mode entry and dispatch.
  * On first entry (0x06086024==0) with start button (DAT_0601d444):
@@ -702,6 +706,7 @@ void FUN_0601d2dc(void)
  *   - Initialize perspective (0x06014884), DMA sprite table, set timer=0xC
  *   - Set game mode to 4, mark as entered (0x06086024=1)
  * Always dispatches to game mode handler via vtable at 0x0605DF80. */
+#if 0 /* FUN_0601D3C0 -- replaced by ASM import */
 void FUN_0601d3c0(void)
 {
   char *unlock_flags = (char *)0x0605AB16;
@@ -723,6 +728,7 @@ void FUN_0601d3c0(void)
 
   (*(int(*)())(*(int *)(0x0605DF80 + (unsigned int)(unsigned char)*(int *)(0x0607887F << 2))))();
 }
+#endif
 
 /* hud_sprite_table_copy -- Copy 28 sprite entries from source table to HUD buffer.
  * Source at 0x06094FAC has 0x58-byte stride; dest at 0x0605AAA6 has 4-byte stride.
@@ -1133,6 +1139,7 @@ int FUN_0601ddf6(void)
  * draws time digits sprite. If lap time beats stored record at
  * car struct +DAT_0601df18, updates high score table and shows
  * "NEW RECORD" banner with animation counter at 0x0605DFEC. */
+#if 0 /* FUN_0601DE50 -- replaced by ASM import */
 int FUN_0601de50()
 {
   int result;
@@ -1165,6 +1172,7 @@ int FUN_0601de50()
   }
   return result;
 }
+#endif
 
 /* race_time_display -- Show total race time with best-time comparison.
  * Renders current total time and best lap time from car struct.
@@ -1526,3 +1534,18 @@ int FUN_0601c3e4()
   return uVar6;
 
 }
+
+/* FUN_0601D014 -- original binary (96 bytes) */
+__asm__(
+    ".section .text.FUN_0601D014, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0601D014\n"
+    ".type _FUN_0601D014, @function\n"
+    "_FUN_0601D014:\n"
+    ".byte 0x4F, 0x22, 0x7F, 0xFC, 0xD5, 0x0F, 0xD4, 0x10, 0xD3, 0x10, 0x43, 0x0B, 0xE6, 0x40, 0xD2, 0x10\n"  /* 0x0601D014 */
+    ".byte 0x2F, 0x22, 0x67, 0x23, 0x65, 0x23, 0x96, 0x14, 0xD3, 0x0E, 0x57, 0x71, 0x65, 0x52, 0x43, 0x0B\n"  /* 0x0601D024 */
+    ".byte 0xE4, 0x04, 0xD2, 0x0D, 0x2F, 0x22, 0x67, 0x23, 0x65, 0x23, 0x96, 0x0A, 0xD3, 0x09, 0x57, 0x71\n"  /* 0x0601D034 */
+    ".byte 0x65, 0x52, 0x43, 0x0B, 0xE4, 0x00, 0xE2, 0x00, 0xD3, 0x08, 0x7F, 0x04, 0x4F, 0x26, 0x00, 0x0B\n"  /* 0x0601D044 */
+    ".byte 0x23, 0x22, 0x05, 0x18, 0x06, 0x04, 0x88, 0x4C, 0x25, 0xF0, 0x00, 0x00, 0x06, 0x02, 0x76, 0x6C\n"  /* 0x0601D054 */
+    ".byte 0x06, 0x06, 0x39, 0x68, 0x06, 0x02, 0x84, 0x00, 0x06, 0x06, 0x39, 0x70, 0x06, 0x08, 0x60, 0x20\n"  /* 0x0601D064 */
+);

@@ -142,6 +142,7 @@ extern int  FUN_0602744C(int delta, int scale);      /* atan2 angle */
  *
  * 302 instructions. Saves r8-r14, PR. 28-byte stack frame.
  * ================================================================ */
+#if 0 /* FUN_06005ECC -- replaced by ASM import */
 void FUN_06005ECC(void)
 {
     volatile int *car = (volatile int *)(int)CAR_PTR;
@@ -274,3 +275,4 @@ void FUN_06005ECC(void)
         *stack_reg = *stack_reg - 48;
     }
 }
+#endif

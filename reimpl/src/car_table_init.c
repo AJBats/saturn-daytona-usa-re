@@ -134,6 +134,7 @@ extern int  FUN_060067c8(void);        /* additional race setup (tail call) */
  *
  * 238 instructions. Saves r8-r14, PR, MACL.
  * ================================================================ */
+#if 0 /* FUN_0600629C -- replaced by ASM import */
 void FUN_0600629C(void)
 {
     /* Phase 1: Zero timer/counter shorts */
@@ -249,3 +250,4 @@ void FUN_0600629C(void)
     /* Phase 9: Tail call to additional race setup */
     FUN_060067c8();
 }
+#endif

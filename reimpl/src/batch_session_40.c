@@ -85,6 +85,7 @@ extern void FUN_06040722();
  * On success, sets active bit. Stores max channel (0x17 or -1 based
  * on mode) at session +0xC8. Maps error codes: -15 -> -3, -14 -> -2,
  * -13 -> -23, other non-zero -> -1, 0 -> success. */
+#if 0 /* FUN_0604000C -- replaced by ASM import */
 int FUN_0604000c(param_1)
     int param_1;
 {
@@ -116,6 +117,7 @@ int FUN_0604000c(param_1)
     }
     return 0xffffffe9;
 }
+#endif
 
 
 /* cd_session_open -- Initialize a CD session context for playback.
@@ -229,6 +231,7 @@ unsigned int * cd_track_context_init(session, source, track_flags)
 /* cd_session_seek -- Seek to position in CD session.
  * Stores param_2 at session+0x20, calculates sector offset via FUN_060408B0,
  * clamps to 0 if negative, stores adjusted offset at session+0x24. */
+#if 0 /* FUN_060401F8 -- replaced by ASM import */
 void FUN_060401f8(int param_1, int param_2)
 {
     int sector;
@@ -239,6 +242,7 @@ void FUN_060401f8(int param_1, int param_2)
         sector = 0;
     *(int *)(param_1 + 0x24) = sector - *(int *)(*(int *)(param_1 + 0x18) + 0x10);
 }
+#endif
 
 /* cd_file_info_extract -- Extract fields from CD file record into output params.
  * Reads FAD (frame address), file size, LBA range, flags, and attributes
@@ -782,6 +786,7 @@ int cd_session_open(param_1, param_2)
  * calls FUN_060412b2 to start close, sets blocking flag (+0x3C=0x8000),
  * then polls FUN_06041698/FUN_06041310 until complete. Returns -6 for
  * out-of-range, -7 for not-open, -12 for timeout, 0 on success. */
+#if 0 /* FUN_06040F16 -- replaced by ASM import */
 int FUN_06040f16(param_1)
     int param_1;
 {
@@ -811,6 +816,7 @@ int FUN_06040f16(param_1)
     }
     return result;
 }
+#endif
 
 /* cd_session_lock -- Acquire CD session lock.
  * Returns -5 if already locked (+0x30 == 1).
@@ -920,6 +926,7 @@ int FUN_06041128(int param_1, int param_2)
  * Checks request slot busy flag. Fills request structure: FAD address (param_1),
  * sector count (param_2), destination buffer (param_3), transfer mode (param_4),
  * and callback (param_5). Dispatches via cd_dma_transfer_poll. Returns -1 if busy. */
+#if 0 /* FUN_060411A0 -- replaced by ASM import */
 int FUN_060411a0(int param_1, int param_2, int param_3, int param_4, int param_5)
 {
   int *session = (int *)0x060A5400;
@@ -941,6 +948,7 @@ int FUN_060411a0(int param_1, int param_2, int param_3, int param_4, int param_5
   cd_dma_transfer_poll(auStack_8);
   return 0;
 }
+#endif
 
 /* cd_partition_request -- Request CD data partition setup.
  * Checks partition slot (offset 0x328) busy and session active flags.
@@ -1203,6 +1211,7 @@ __asm__(
 /* cd_session_sync -- Synchronously wait for CD session to complete.
  * Sets transfer size to 0x8000 (32KB), polls FUN_06041698 until
  * it returns non-1 (complete or error), then clears transfer size. */
+#if 0 /* FUN_0604188C -- replaced by ASM import */
 int FUN_0604188c(void)
 {
     int result;
@@ -1216,6 +1225,7 @@ int FUN_0604188c(void)
     *(int *)(CD_SESSION_BASE + 0x3c) = 0;
     return result;
 }
+#endif
 
 /* cd_command_queue_process -- Process CD command queue entries sequentially.
  * Iterates through queue at session+0x5C (16 bytes per entry).
@@ -2587,6 +2597,7 @@ int FUN_06041b3c(param_1)
 
 /* --- FUN_06041D6C (L1 import from src/FUN_06041D6C.c) --- */
 
+#if 0 /* FUN_06041D6C -- replaced by ASM import */
 int FUN_06041d6c(param_1)
     int *param_1;
 {
@@ -2700,6 +2711,7 @@ int FUN_06041d6c(param_1)
   return bVar1;
 
 }
+#endif
 
 /* --- FUN_06041EE8 (L1 import from src/FUN_06041EE8.c) --- */
 
@@ -2900,4 +2912,73 @@ __asm__(
     ".byte 0x06, 0x04, 0x10, 0x34, 0x96, 0x24, 0x55, 0xF1, 0xD3, 0x12, 0x43, 0x0B, 0x64, 0xF2, 0x20, 0x08\n"  /* 0x0604084C */
     ".byte 0x89, 0x01, 0xA0, 0x08, 0xE0, 0x00, 0xD3, 0x10, 0x43, 0x0B, 0x00, 0x09, 0x20, 0x08, 0x89, 0x01\n"  /* 0x0604085C */
     ".byte 0xA0, 0x01, 0xE0, 0x00, 0x60, 0xE3, 0x7F, 0x10, 0x4F, 0x26, 0x6D, 0xF6, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0604086C */
+);
+
+/* FUN_06041D6C -- original binary (8 bytes) */
+__asm__(
+    ".section .text.FUN_06041D6C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06041D6C\n"
+    ".type _FUN_06041D6C, @function\n"
+    "_FUN_06041D6C:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0xED, 0x00\n"  /* 0x06041D6C */
+);
+
+/* FUN_0604000C -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_0604000C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0604000C\n"
+    ".type _FUN_0604000C, @function\n"
+    "_FUN_0604000C:\n"
+    ".byte 0x2F, 0xE6, 0xE2, 0xFE\n"  /* 0x0604000C */
+);
+
+/* FUN_06040F16 -- original binary (6 bytes) */
+__asm__(
+    ".section .text.FUN_06040F16, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06040F16\n"
+    ".type _FUN_06040F16, @function\n"
+    "_FUN_06040F16:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x6E, 0x43\n"  /* 0x06040F16 */
+);
+
+/* FUN_060401F8 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_060401F8, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060401F8\n"
+    ".type _FUN_060401F8, @function\n"
+    "_FUN_060401F8:\n"
+    ".byte 0x2F, 0xE6, 0xE6, 0x00\n"  /* 0x060401F8 */
+);
+
+/* FUN_060411A0 -- original binary (100 bytes) */
+__asm__(
+    ".section .text.FUN_060411A0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060411A0\n"
+    ".type _FUN_060411A0, @function\n"
+    "_FUN_060411A0:\n"
+    ".byte 0x4F, 0x22, 0x7F, 0xFC, 0xD1, 0x15, 0x90, 0x26, 0x63, 0x12, 0x00, 0x3E, 0x20, 0x08, 0x89, 0x03\n"  /* 0x060411A0 */
+    ".byte 0x7F, 0x04, 0x4F, 0x26, 0x00, 0x0B, 0xE0, 0xFF, 0x63, 0x12, 0xE2, 0x01, 0x90, 0x1B, 0x03, 0x26\n"  /* 0x060411B0 */
+    ".byte 0x63, 0x12, 0x70, 0x04, 0xE2, 0x00, 0x03, 0x46, 0x63, 0x12, 0x70, 0x04, 0x03, 0x56, 0x70, 0x04\n"  /* 0x060411C0 */
+    ".byte 0x63, 0x12, 0x03, 0x66, 0x63, 0x12, 0x70, 0x04, 0x03, 0x26, 0x70, 0x04, 0x63, 0x12, 0x03, 0x76\n"  /* 0x060411D0 */
+    ".byte 0x63, 0x12, 0x52, 0xF2, 0x90, 0x08, 0x03, 0x26, 0xB4, 0xA8, 0x64, 0xF3, 0xE0, 0x00, 0x7F, 0x04\n"  /* 0x060411E0 */
+    ".byte 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09, 0x03, 0x0C, 0x03, 0x24, 0xFF, 0xFF, 0x06, 0x0A, 0x54, 0x00\n"  /* 0x060411F0 */
+    ".byte 0x06, 0x03, 0x4D, 0x1C\n"  /* 0x06041200 */
+);
+
+/* FUN_0604188C -- original binary (50 bytes) */
+__asm__(
+    ".section .text.FUN_0604188C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0604188C\n"
+    ".type _FUN_0604188C, @function\n"
+    "_FUN_0604188C:\n"
+    ".byte 0x4F, 0x22, 0xD4, 0x07, 0xD3, 0x05, 0x63, 0x32, 0x13, 0x4F, 0xBE, 0xFF, 0x00, 0x09, 0x88, 0x01\n"  /* 0x0604188C */
+    ".byte 0x8D, 0x02, 0x64, 0x03, 0xA0, 0x06, 0x00, 0x09, 0xAF, 0xF7, 0x00, 0x09, 0x06, 0x0A, 0x54, 0x00\n"  /* 0x0604189C */
+    ".byte 0x00, 0x00, 0x80, 0x00, 0xE5, 0x00, 0xD2, 0x2A, 0x62, 0x22, 0x12, 0x5F, 0x4F, 0x26, 0x00, 0x0B\n"  /* 0x060418AC */
+    ".byte 0x60, 0x43\n"  /* 0x060418BC */
 );

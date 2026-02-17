@@ -12823,6 +12823,7 @@ __asm__(
     ".word 0xD52D\n"  /* mov.l @(0xB4,PC),r5  {[0x0602DBC8] = 0x00000000} */
     ".word 0xDD2E\n"  /* mov.l @(0xB8,PC),r13  {[0x0602DBCC] = 0x0601D5F4} */
 );
+#if 0 /* FUN_0602DB14 -- duplicated in batch_render_pipe_2a.c */
 __asm__(
 
 
@@ -12852,6 +12853,7 @@ __asm__(
     ".word 0xD52A\n"  /* mov.l @(0xA8,PC),r5  {[0x0602DBC8] = 0x00000000} */
     ".word 0xDD2A\n"  /* mov.l @(0xA8,PC),r13  {[0x0602DBCC] = 0x0601D5F4} */
 );
+#endif
 __asm__(
     ".balign 4\n"
     ".global _per_frame_command_reset\n"

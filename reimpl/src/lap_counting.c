@@ -104,7 +104,9 @@ extern void FUN_0600DCC8(void);                     /* checkpoint timing update 
 extern void FUN_0601D7D0(void);                     /* lap display function */
 
 /* Forward declarations */
+#if 0 /* FUN_0600CDD0 -- replaced by ASM import */
 void FUN_0600CDD0(void);
+#endif
 void FUN_0600D9BC(int car_index);
 void FUN_0600D92C(void);
 static void player_checkpoint_track(void);
@@ -208,6 +210,7 @@ int FUN_0600CD40(void)
  *
  * 50 instructions. Uses r11-r14 callee-saved.
  * ================================================================ */
+#if 0 /* FUN_0600CDD0 -- replaced by ASM import */
 void FUN_0600CDD0(void)
 {
     int car = CAR_PTR_CURRENT;
@@ -271,6 +274,7 @@ void FUN_0600CDD0(void)
     /* Return value: current checkpoint entry pointer (in r0) */
     /* (Caller FUN_0600CE66 ignores return value) */
 }
+#endif
 
 
 /* ================================================================

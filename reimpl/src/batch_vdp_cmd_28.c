@@ -147,6 +147,7 @@ char * FUN_06028306(param_1)
  * then writes 4 character tiles starting at offset +8 of the result
  * to the scroll plane at param_2 offset. Each char gets param_3 added
  * as palette offset. Returns 8 (bytes written = 4 tiles * 2 bytes). */
+#if 0 /* FUN_0602834A -- replaced by ASM import */
 int FUN_0602834a(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -172,6 +173,7 @@ int FUN_0602834a(param_1, param_2, param_3, param_4)
 
   return 8;
 }
+#endif
 
 /* vdp2_string_draw -- Draw a null-terminated string as tiles on VDP2.
  * Writes characters from param_4 string to scroll plane selected by
@@ -478,3 +480,14 @@ long long dma_mem_transfer(param_1, param_2)
 
 }
 
+
+/* FUN_0602834A -- original binary (30 bytes) */
+__asm__(
+    ".section .text.FUN_0602834A, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0602834A\n"
+    ".type _FUN_0602834A, @function\n"
+    "_FUN_0602834A:\n"
+    ".byte 0x4F, 0x22, 0xD0, 0x05, 0x02, 0x4E, 0x62, 0x22, 0x35, 0x2C, 0xBF, 0xB4, 0x64, 0x73, 0x61, 0x03\n"  /* 0x0602834A */
+    ".byte 0xE7, 0x06, 0x71, 0x08, 0xA0, 0x1B, 0xE0, 0x00, 0x00, 0x00, 0x06, 0x02, 0x86, 0x14\n"  /* 0x0602835A */
+);

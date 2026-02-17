@@ -728,6 +728,7 @@ void FUN_06008D74(void)
  *
  * 68 instructions (incl. delay slots + pool). Saves PR + r14.
  * ================================================================ */
+#if 0 /* FUN_06008938 -- replaced by ASM import */
 void FUN_06008938(void)
 {
     /* Set session flag A to 1 (from prologue: r3=1) */
@@ -791,6 +792,7 @@ void FUN_06008938(void)
     /* Set sub-state counter to 4 */
     SUB_STATE_COUNTER = 4;
 }
+#endif
 
 
 /* ================================================================
@@ -938,6 +940,7 @@ void FUN_06008A18(void)
  *
  * 52 instructions (incl. delay slots + pool). Saves PR + r14.
  * ================================================================ */
+#if 0 /* FUN_06008CCC -- replaced by ASM import */
 void FUN_06008CCC(void)
 {
     /* Config register = 0 (from prologue: r14 = 0) */
@@ -985,6 +988,7 @@ void FUN_06008CCC(void)
         *(volatile unsigned char *)0x0607864B = 0;
     }
 }
+#endif
 
 
 /* ================================================================
@@ -1232,3 +1236,23 @@ void FUN_06009F10(void)
     FUN_0600BFFC();
     FUN_060078DC();
 }
+
+/* FUN_06008938 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06008938, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06008938\n"
+    ".type _FUN_06008938, @function\n"
+    "_FUN_06008938:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x01\n"  /* 0x06008938 */
+);
+
+/* FUN_06008CCC -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06008CCC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06008CCC\n"
+    ".type _FUN_06008CCC, @function\n"
+    "_FUN_06008CCC:\n"
+    ".byte 0x2F, 0xE6, 0xEE, 0x00\n"  /* 0x06008CCC */
+);

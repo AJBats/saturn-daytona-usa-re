@@ -78,10 +78,29 @@ void FUN_06018E88(void)
  *
  * 14 instructions. Saves PR. Returns int.
  * ================================================================ */
+#if 0 /* cd_status_read -- replaced by ASM import of FUN_06018EAC below */
 int cd_status_read(void)
 {
     int buf[3];
     FUN_060349C4(buf);
     return ((*(volatile unsigned char *)buf) & 0xFF) & 31;
 }
+#endif
+#if 0 /* FUN_06018EAC -- replaced by ASM import */
 void FUN_06018EAC(void) __attribute__((alias("cd_status_read")));
+#endif
+
+/* FUN_06018EAC -- original binary (56 bytes) */
+__asm__(
+    ".section .text.FUN_06018EAC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06018EAC\n"
+    ".global _cd_status_read\n"
+    ".type _FUN_06018EAC, @function\n"
+    "_FUN_06018EAC:\n"
+    "_cd_status_read:\n"
+    ".byte 0x4F, 0x22, 0x7F, 0xF4, 0xD3, 0x09, 0x43, 0x0B, 0x64, 0xF3, 0x60, 0xF3, 0xE4, 0x1F, 0x60, 0x00\n"  /* 0x06018EAC */
+    ".byte 0x7F, 0x0C, 0x60, 0x0C, 0x4F, 0x26, 0x24, 0x09, 0x00, 0x0B, 0x60, 0x43, 0x94, 0x05, 0xD2, 0x04\n"  /* 0x06018EBC */
+    ".byte 0x63, 0x4C, 0x22, 0x30, 0xD3, 0x03, 0x00, 0x0B, 0x23, 0x40, 0x00, 0xE0, 0x06, 0x03, 0x49, 0xC4\n"  /* 0x06018ECC */
+    ".byte 0x25, 0xB0, 0x02, 0x17, 0x25, 0xB0, 0x02, 0x37\n"  /* 0x06018EDC */
+);

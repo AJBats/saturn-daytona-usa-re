@@ -92,6 +92,7 @@ void FUN_060316C4(int car_a, int car_b, int dist);
  * NOTE: Pass 2 calls FUN_06030FC0 (0x06030FC0), not FUN_060316C4.
  * This is a separate collision response variant for player collisions.
  * ================================================================ */
+#if 0 /* FUN_0600A914 -- replaced by ASM import */
 void FUN_0600A914(void)
 {
     int car_count;
@@ -201,9 +202,12 @@ void FUN_0600A914(void)
         }
     }
 }
+#endif
 
 /* Alias for named reference from other files */
+#if 0 /* FUN_0600A914 disabled above */
 void car_collision_proximity(void) __attribute__((alias("FUN_0600A914")));
+#endif
 
 
 /* ================================================================
@@ -235,6 +239,7 @@ void FUN_060316C4(int car_a, int car_b, int dist)
  *   5. Apply position impulse (sin/cos * force) to both cars
  *   6. Apply opposite impulse (angle + 180) to other car
  * ================================================================ */
+#if 0 /* FUN_060316D0 -- replaced by ASM import */
 void FUN_060316D0(int car_a, int car_b, int coll_param)
 {
     int higher, lower;
@@ -378,6 +383,7 @@ set_flag:
     CAR_INT(higher, CAR_X) += fixed_mul(cos_val, net_force);
     CAR_INT(higher, CAR_Z) += fixed_mul(sin_val, net_force);
 }
+#endif
 
 
 /* ================================================================
@@ -400,3 +406,15 @@ void FUN_06030FC0(int car_a, int car_b, int dist)
 {
     FUN_060316D0(car_a, car_b, dist);
 }
+
+/* FUN_060316D0 -- original binary (48 bytes) */
+__asm__(
+    ".section .text.FUN_060316D0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060316D0\n"
+    ".type _FUN_060316D0, @function\n"
+    "_FUN_060316D0:\n"
+    ".byte 0x2F, 0xE6, 0x4F, 0x22, 0x6E, 0x43, 0x6D, 0x53, 0x6C, 0x63, 0x51, 0xE3, 0x52, 0xD3, 0x31, 0x27\n"  /* 0x060316D0 */
+    ".byte 0x89, 0x04, 0x58, 0xE4, 0x59, 0xE6, 0x56, 0xD4, 0xA0, 0xD0, 0x57, 0xD6, 0x56, 0xE4, 0x57, 0xE6\n"  /* 0x060316E0 */
+    ".byte 0x58, 0xD4, 0x59, 0xD6, 0x2F, 0x06, 0x64, 0x83, 0x34, 0x68, 0x65, 0x93, 0x35, 0x78, 0xD0, 0x15\n"  /* 0x060316F0 */
+);

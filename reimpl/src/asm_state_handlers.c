@@ -16,6 +16,7 @@
 /* FUN_06008E00: moved to state_init_handlers.c */
 /* FUN_06008E48: moved to state_init_handlers.c */
 /* state_14-17: translated in race_state_handlers.c */
+#if 0 /* FUN_06009508 -- duplicated in batch_state_machine.c */
 __asm__(
 
 
@@ -82,6 +83,7 @@ __asm__(
     ".word 0x4F26\n"  /* lds.l @r15+,pr */
     ".size _state_28_abort_processing, .-_state_28_abort_processing\n"
 );
+#endif
 __asm__(
     ".balign 4\n"
     ".global _state_29_post_race_menu\n"
@@ -1057,6 +1059,7 @@ __asm__(
     ".size _state_20_race_completion, .-_state_20_race_completion\n"
 );
 /* FUN_06009C48: moved to state_init_handlers.c */
+#if 0 /* FUN_06009CFC -- duplicated in batch_state_machine.c */
 __asm__(
 
 
@@ -1121,6 +1124,7 @@ __asm__(
     ".word 0x2322\n"  /* mov.l r2,@r3 */
     ".size _state_24_post_race_init, .-_state_24_post_race_init\n"
 );
+#endif
 __asm__(
     ".balign 4\n"
     ".global _state_25_post_race_display\n"

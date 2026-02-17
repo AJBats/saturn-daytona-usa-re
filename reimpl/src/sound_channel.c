@@ -43,6 +43,7 @@ void vdp1_texture_palette_init(void)
     *(int *)0x0605A010 = count;
 }
 
+#if 0 /* FUN_06020946 -- replaced by ASM import */
 void FUN_06020946(void)
 {
     char auStack_70[96];
@@ -56,6 +57,7 @@ void FUN_06020946(void)
         i = i + 1;
     } while (i < 0x1c);
 }
+#endif
 
 
 /* sound_cmd_dispatch: FUN_0601D5F4(r4, r5) */
@@ -130,3 +132,13 @@ void FUN_06014468(int unused, int max_val)
         *(volatile int *)0x06084B20 = entry;
     }
 }
+
+/* FUN_06020946 -- original binary (10 bytes) */
+__asm__(
+    ".section .text.FUN_06020946, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06020946\n"
+    ".type _FUN_06020946, @function\n"
+    "_FUN_06020946:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0xEB, 0x1C\n"  /* 0x06020946 */
+);

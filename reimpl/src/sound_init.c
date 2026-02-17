@@ -98,7 +98,9 @@ __asm__(
  * falls through to FUN_06018FFC. In C, just calls FUN_06018FFC
  * (the r3=0 is hardcoded in the body).
  * ================================================================ */
+#if 0 /* FUN_06018FF8 -- replaced by ASM import */
 void FUN_06018FF8(void)
 {
     FUN_06018FFC();
 }
+#endif

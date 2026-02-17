@@ -30,6 +30,7 @@ extern int PTR_DAT_06014cf4;
  * Guards on car count < 4. Looks up sprite offset from 0x0605AD4C table,
  * pushes matrix, sets position/scale, renders via FUN_06013e12,
  * then draws texture with palette from 0x06062338/0x060622C0 tables. */
+#if 0 /* FUN_060140C4 -- replaced by ASM import */
 void FUN_060140c4()
 {
   int sprite_offset;
@@ -46,6 +47,7 @@ void FUN_060140c4()
     OBJ_STATE_PRIMARY = OBJ_STATE_PRIMARY + -0x30; /* advance VDP1 cmd slot */
   }
 }
+#endif
 
 /* hud_position_digits_render -- Render up to 3 position digit sprites.
  * Resets matrix, then for each digit slot (up to car count):
@@ -386,6 +388,7 @@ unsigned int FUN_0601476c(param_1)
  * Copies 32 words from 0x06044B64 to VDP1 CRAM at calculated offset
  * (0x25C00260 + frame-selected bank). Calls hud_digits_render_all.
  * Sets HUD active flag (bit 0 of 0x0607EBF4), initializes display slots. */
+#if 0 /* FUN_06014A04 -- replaced by ASM import */
 void FUN_06014a04(void)
 {
     int in_r7 = 0;
@@ -399,6 +402,7 @@ void FUN_06014a04(void)
     *(short *)0x06085F90 = 0;
     *(short *)0x06085F94 = 1;
 }
+#endif
 
 /* game_display_full_init -- Full game display initialization.
  * Configures VDP2 scroll/priority registers, uploads palettes to VDP1/VDP2 color RAM,
@@ -666,6 +670,7 @@ void FUN_06015eb8(param_1)
 
 /* --- FUN_06014868 (L1 import from src/FUN_06014868.c) --- */
 
+#if 0 /* FUN_06014868 -- replaced by ASM import */
 void FUN_06014868(param_1, param_2, param_3)
     int param_1;
     int param_2;
@@ -678,6 +683,7 @@ void FUN_06014868(param_1, param_2, param_3)
   (*(int(*)())0x06038794)(p2, p3);
   (*(void(*)())0x06038520)();
 }
+#endif
 
 /* --- FUN_0601492C (L1 import from src/FUN_0601492C.c) --- */
 
@@ -703,3 +709,24 @@ void FUN_0601492c()
   return;
 
 }
+
+/* FUN_060140C4 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_060140C4, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060140C4\n"
+    ".type _FUN_060140C4, @function\n"
+    "_FUN_060140C4:\n"
+    ".byte 0x2F, 0xE6, 0xE2, 0x03\n"  /* 0x060140C4 */
+);
+
+/* FUN_06014868 -- original binary (28 bytes) */
+__asm__(
+    ".section .text.FUN_06014868, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06014868\n"
+    ".type _FUN_06014868, @function\n"
+    "_FUN_06014868:\n"
+    ".byte 0x4F, 0x22, 0x7F, 0xF8, 0x2F, 0x52, 0xD3, 0x1D, 0x43, 0x0B, 0x1F, 0x61, 0x55, 0xF1, 0xD3, 0x1C\n"  /* 0x06014868 */
+    ".byte 0x43, 0x0B, 0x64, 0xF2, 0x7F, 0x08, 0xD3, 0x1B, 0x43, 0x2B, 0x4F, 0x26\n"  /* 0x06014878 */
+);

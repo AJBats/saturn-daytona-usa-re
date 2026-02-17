@@ -108,6 +108,7 @@ void FUN_0600C928(int car)
  * FUN_0600C8CC is a trampoline: push r14, mov r4->r14, fall through
  * to FUN_0600C8D0. In C we implement it directly.
  * ================================================================ */
+#if 0 /* FUN_0600C8CC -- replaced by ASM import */
 void FUN_0600C8CC(int car, int course_data)
 {
     int waypoint_z, waypoint_x, delta_z, delta_x;
@@ -145,6 +146,7 @@ void FUN_0600C8CC(int car, int course_data)
         CAR_INT(car, 0x28) = new_target;
     }
 }
+#endif
 
 /* Alias for trampoline entry point (FUN_0600C8D0 is never called directly,
  * but it's a global label in the binary. Signature matches to avoid warnings.) */

@@ -291,6 +291,7 @@ char * FUN_0603ef64(int param_1, char *param_2, int *param_3)
  * complete (0x0603B424 loop).
  * Then opens file based on param_2[0]: 0 = FUN_0603f2e0 (by sector),
  * non-zero = FUN_0603f342 (by name). */
+#if 0 /* FUN_0603F0FC -- replaced by ASM import */
 int FUN_0603f0fc(int param_1, int *param_2, int param_3)
 {
   int iVar2;
@@ -310,6 +311,7 @@ int FUN_0603f0fc(int param_1, int *param_2, int param_3)
   }
   return uVar3;
 }
+#endif
 
 /* cd_directory_entry_search -- Search CD directory for matching entry.
  * Reads TOC entries via cd_read_toc (0x06036D14). First two calls
@@ -407,6 +409,7 @@ int cd_init_and_read_toc()
 /* cd_dir_read_simple -- Read directory entries (simple variant).
  * Like cd_dir_read_entries but uses 0xC-byte records without
  * supplementary data validation. Marks last entry with bit 7. */
+#if 0 /* FUN_0603F2E0 -- replaced by ASM import */
 int FUN_0603f2e0(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -430,11 +433,13 @@ int FUN_0603f2e0(param_1, param_2, param_3, param_4)
   *(unsigned char *)(param_2 + -1) = *(unsigned char *)(param_2 + -1) | 0x80; /* mark last entry */
   return iVar1;
 }
+#endif
 
 /* cd_dir_read_entries -- Read directory entries from CD filesystem.
  * Iterates through up to param_3 entries, populating 0x18-byte records
  * at param_2. First 3 entries always accepted; subsequent entries
  * validated via memcmp at 0x06036D94. Returns number of entries read. */
+#if 0 /* FUN_0603F342 -- replaced by ASM import */
 int FUN_0603f342(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -466,9 +471,11 @@ int FUN_0603f342(param_1, param_2, param_3, param_4)
   *(unsigned char *)(param_2 + -0xd) = *(unsigned char *)(param_2 + -0xd) | 0x80; /* mark last entry */
   return iVar3;
 }
+#endif
 
 /* cd_read_word -- Read 16-bit word from CD buffer via DMA double-read pattern.
  * First read primes the bus, second read gets actual data. */
+#if 0 /* FUN_0603F4E0 -- replaced by ASM import */
 int FUN_0603f4e0(int addr)
 {
     short result[2];
@@ -480,9 +487,11 @@ int FUN_0603f4e0(int addr)
     FUN_0603f3f6(saved_addr, result, 2);      /* actual read */
     return (int)result[0];
 }
+#endif
 
 /* cd_read_long -- Read 32-bit long from CD buffer via DMA double-read pattern.
  * Same prime-then-read pattern as cd_read_word but for 4 bytes. */
+#if 0 /* FUN_0603F500 -- replaced by ASM import */
 int FUN_0603f500(int addr)
 {
     struct { int val; int saved; char buf[8]; } frame;
@@ -492,12 +501,14 @@ int FUN_0603f500(int addr)
     FUN_0603f3f6(frame.saved, &frame.val, 4); /* actual read */
     return frame.val;
 }
+#endif
 
 /* cd_buf_advance_sector -- Advance to next CD sector in buffer.
  * Reads current sector status. If empty (0) and not at end sector:
  *   requests next 0x800-byte sector read from CD (0x0603B21C),
  *   resets read offset, re-reads status.
  * Returns sector status byte (0 = empty, non-zero = data ready). */
+#if 0 /* FUN_0603F534 -- replaced by ASM import */
 char FUN_0603f534(int *param_1)
 {
   int iVar1;
@@ -514,6 +525,7 @@ char FUN_0603f534(int *param_1)
   }
   return acStack_c[0];
 }
+#endif
 
 /* cd_file_header_parse -- Parse CD file header and extract metadata.
  * param_1 = file descriptor, param_2 = output buffer (>= 0x74 bytes).
@@ -719,6 +731,7 @@ void cd_parse_dir_entry(param_1, param_2)
  * Clears all fields (handle, offset, position, start sector),
  * sets end sector to 1, clears flags. Sets mode to 3 (raw read),
  * marks as active (field 0xC=1), clears status byte. */
+#if 0 /* FUN_0603F93C -- replaced by ASM import */
 int * FUN_0603f93c(int *param_1)
 {
   *param_1 = 0;           /* handle */
@@ -733,11 +746,13 @@ int * FUN_0603f93c(int *param_1)
   *(char *)(param_1 + 0xd) = 0;  /* status */
   return param_1;
 }
+#endif
 
 /* cd_buf_set_mode -- Set buffer mode and apply configuration.
  * Saves previous mode from +0x35, stores new mode.
  * If mode is 0-3, applies configuration from 12-byte table at 0x0606364C.
  * Returns the previous mode. */
+#if 0 /* FUN_0603F970 -- replaced by ASM import */
 char FUN_0603f970(int param_1, int param_2)
 {
     char prev = *(char *)(param_1 + 0x35);
@@ -749,6 +764,7 @@ char FUN_0603f970(int param_1, int param_2)
 
     return prev;
 }
+#endif
 
 /* cd_stream_advance -- Advance CD streaming state machine one step.
  *
@@ -1093,6 +1109,7 @@ int FUN_0603f148(param_1, param_2, param_3)
 
 /* --- FUN_0603FACE (L1 import from src/FUN_0603FACE.c) --- */
 
+#if 0 /* FUN_0603FACE -- replaced by ASM import */
 unsigned short FUN_0603face(param_1, param_2)
     int *param_1;
     int *param_2;
@@ -1219,6 +1236,7 @@ LAB_0603fc40:
   return *(unsigned char *)(param_1 + 0xd) & DAT_0603fcb6;
 
 }
+#endif
 
 /* --- FUN_0603FC60 (L1 import from src/FUN_0603FC60.c) --- */
 
@@ -1298,4 +1316,102 @@ __asm__(
     ".byte 0x6D, 0x43, 0x50, 0xE1, 0x20, 0x08, 0x8B, 0x08, 0x65, 0xD3, 0xD3, 0x1A, 0x43, 0x0B, 0x64, 0xF2\n"  /* 0x0603FCC0 */
     ".byte 0x1E, 0x01, 0x20, 0x08, 0x89, 0x01, 0xE3, 0x00, 0x1E, 0x37, 0x7F, 0x08, 0x4F, 0x26, 0x6D, 0xF6\n"  /* 0x0603FCD0 */
     ".byte 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0603FCE0 */
+);
+
+/* FUN_0603FACE -- original binary (22 bytes) */
+__asm__(
+    ".section .text.FUN_0603FACE, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603FACE\n"
+    ".type _FUN_0603FACE, @function\n"
+    "_FUN_0603FACE:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x6E, 0x43, 0x2F, 0xC6, 0x2F, 0xB6, 0x2F, 0xA6, 0xEB, 0x00, 0x2F, 0x96\n"  /* 0x0603FACE */
+    ".byte 0x6C, 0xB3, 0x2F, 0x86, 0x68, 0x53\n"  /* 0x0603FADE */
+);
+
+/* FUN_0603F342 -- original binary (18 bytes) */
+__asm__(
+    ".section .text.FUN_0603F342, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F342\n"
+    ".type _FUN_0603F342, @function\n"
+    "_FUN_0603F342:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x6E, 0x53, 0x2F, 0xC6, 0x65, 0x43, 0x2F, 0xB6, 0xEC, 0x02, 0x2F, 0xA6\n"  /* 0x0603F342 */
+    ".byte 0x6B, 0x63\n"  /* 0x0603F352 */
+);
+
+/* FUN_0603F2E0 -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_0603F2E0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F2E0\n"
+    ".type _FUN_0603F2E0, @function\n"
+    "_FUN_0603F2E0:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x65, 0x43, 0x2F, 0xC6, 0x6D, 0x63\n"  /* 0x0603F2E0 */
+);
+
+/* FUN_0603F534 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_0603F534, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F534\n"
+    ".type _FUN_0603F534, @function\n"
+    "_FUN_0603F534:\n"
+    ".byte 0x2F, 0xE6, 0xE6, 0x01\n"  /* 0x0603F534 */
+);
+
+/* FUN_0603F93C -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_0603F93C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F93C\n"
+    ".type _FUN_0603F93C, @function\n"
+    "_FUN_0603F93C:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x01, 0xE5, 0x03, 0x6E, 0x43, 0x2F, 0xD6, 0xED, 0x00\n"  /* 0x0603F93C */
+);
+
+/* FUN_0603F970 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_0603F970, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F970\n"
+    ".type _FUN_0603F970, @function\n"
+    "_FUN_0603F970:\n"
+    ".byte 0x2F, 0xE6, 0xE0, 0x35\n"  /* 0x0603F970 */
+);
+
+/* FUN_0603F4E0 -- original binary (32 bytes) */
+__asm__(
+    ".section .text.FUN_0603F4E0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F4E0\n"
+    ".type _FUN_0603F4E0, @function\n"
+    "_FUN_0603F4E0:\n"
+    ".byte 0x4F, 0x22, 0xE6, 0x02, 0x7F, 0xF4, 0x65, 0xF3, 0x1F, 0x41, 0xBF, 0x84, 0x75, 0x08, 0xE6, 0x02\n"  /* 0x0603F4E0 */
+    ".byte 0x65, 0xF3, 0xBF, 0x80, 0x54, 0xF1, 0x60, 0xF1, 0x7F, 0x0C, 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x0603F4F0 */
+);
+
+/* FUN_0603F0FC -- original binary (76 bytes) */
+__asm__(
+    ".section .text.FUN_0603F0FC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F0FC\n"
+    ".type _FUN_0603F0FC, @function\n"
+    "_FUN_0603F0FC:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43, 0x2F, 0xD6, 0x2F, 0xC6, 0x4F, 0x22, 0x7F, 0xFC, 0xDC, 0x1E, 0x2F, 0x62\n"  /* 0x0603F0FC */
+    ".byte 0x2E, 0xE8, 0x8D, 0x08, 0x6D, 0x53, 0x65, 0xF2, 0xD3, 0x1C, 0x43, 0x0B, 0x64, 0xE3, 0x4C, 0x0B\n"  /* 0x0603F10C */
+    ".byte 0x64, 0xE3, 0x20, 0x08, 0x8B, 0xFB, 0x60, 0xD2, 0x20, 0x08, 0x8B, 0x05, 0x56, 0xD1, 0x55, 0xD2\n"  /* 0x0603F11C */
+    ".byte 0xB0, 0xD8, 0x64, 0xE3, 0xA0, 0x04, 0x00, 0x09, 0x56, 0xD1, 0x55, 0xD2, 0xB1, 0x03, 0x64, 0xE3\n"  /* 0x0603F12C */
+    ".byte 0x7F, 0x04, 0x4F, 0x26, 0x6C, 0xF6, 0x6D, 0xF6, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x0603F13C */
+);
+
+/* FUN_0603F500 -- original binary (32 bytes) */
+__asm__(
+    ".section .text.FUN_0603F500, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603F500\n"
+    ".type _FUN_0603F500, @function\n"
+    "_FUN_0603F500:\n"
+    ".byte 0x4F, 0x22, 0xE6, 0x04, 0x7F, 0xF4, 0x65, 0xF3, 0x1F, 0x41, 0xBF, 0x74, 0x75, 0x08, 0xE6, 0x04\n"  /* 0x0603F500 */
+    ".byte 0x65, 0xF3, 0xBF, 0x70, 0x54, 0xF1, 0x60, 0xF2, 0x7F, 0x0C, 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x0603F510 */
 );

@@ -264,10 +264,12 @@ __asm__(
  * FUN_06014884), falls through to FUN_0600F990.
  * In C, just calls FUN_0600F990 (r6=0 is hardcoded in body).
  * ================================================================ */
+#if 0 /* FUN_0600F98C -- replaced by ASM import */
 void FUN_0600F98C(void)
 {
     FUN_0600F990();
 }
+#endif
 
 
 /* VDP data decompressor (r4=source, r5=dest) */
@@ -509,3 +511,13 @@ __asm__(
     ".byte 0x06, 0x08, 0x4B, 0x18, 0x06, 0x08, 0x4A, 0xF0, 0x06, 0x08, 0x4A, 0xF2, 0x06, 0x08, 0x4A, 0xF6\n"  /* 0x06013AF4 */
 );
 
+
+/* FUN_0600F98C -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_0600F98C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0600F98C\n"
+    ".type _FUN_0600F98C, @function\n"
+    "_FUN_0600F98C:\n"
+    ".byte 0x2F, 0xE6, 0xE6, 0x00\n"  /* 0x0600F98C */
+);

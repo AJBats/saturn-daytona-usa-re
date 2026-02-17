@@ -78,6 +78,7 @@ void FUN_06014994(void)
     set_attr(1, 0);
 }
 
+#if 0 /* FUN_06012080 -- replaced by ASM import */
 void FUN_06012080(void)
 {
     void (*set_attr)(int, int) = (void (*)(int, int))0x06038BD4;
@@ -85,6 +86,7 @@ void FUN_06012080(void)
     set_attr(0x100, 5);
     set_attr(0x10, 4);
 }
+#endif
 
 void FUN_0601209E(void)
 {
@@ -272,3 +274,13 @@ void FUN_0600A084(void)
 
     FUN_06014884(16, value, 0);
 }
+
+/* FUN_06012080 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06012080, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06012080\n"
+    ".type _FUN_06012080, @function\n"
+    "_FUN_06012080:\n"
+    ".byte 0x2F, 0xE6, 0xE5, 0x07\n"  /* 0x06012080 */
+);

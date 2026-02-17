@@ -41,6 +41,7 @@ extern void FUN_060393FC(int r4, int r5, int r6, int r7, int stack_arg);  /* dis
  *
  * 36 instructions. Saves r14, PR.
  * ================================================================ */
+#if 0 /* FUN_0600A0C0 -- replaced by ASM import */
 void FUN_0600A0C0(void)
 {
     /* Configure display mode: width=256, param=0 */
@@ -73,3 +74,4 @@ void FUN_0600A0C0(void)
     /* Clear render state (ensures write ordering) */
     RENDER_STATE_A = 0;
 }
+#endif

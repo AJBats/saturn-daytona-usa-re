@@ -99,6 +99,7 @@ char * FUN_060360fc(char *param_1, char *param_2, unsigned int param_3)
 
 /* cd_cmd_set_filter -- CD-Block command 0x30: Set CD connection filter.
  * param_1: filter number. Sends via cd_status_full_read with flag=0x40. */
+#if 0 /* FUN_06036144 -- replaced by ASM import */
 void FUN_06036144(char param_1)
 {
     char buf[8];
@@ -107,9 +108,11 @@ void FUN_06036144(char param_1)
     buf[4] = param_1;
     (*(int(*)())0x06035EC8)(0x40, buf);
 }
+#endif
 
 /* cd_cmd_set_filter_range -- CD-Block command 0x40: Set filter range.
  * Packs cmd=0x40 with param_2 (start FAD) and param_1+param_3 (end FAD). */
+#if 0 /* FUN_060361FC -- replaced by ASM import */
 void FUN_060361fc(char param_1, int param_2, int param_3)
 {
     int buf[2];
@@ -118,11 +121,13 @@ void FUN_060361fc(char param_1, int param_2, int param_3)
     buf[1] = (param_1 << 24) | (param_3 & 0xFFFFFF);
     (*(int(*)())0x06035EC8)(0x40, buf);
 }
+#endif
 
 /* cd_cmd_set_filter_mode -- CD-Block command 0x42: Set filter mode.
  * Packs 6 filter parameter bytes from param_2 into command buffer
  * (reordered: [1][2][4] → bytes 1-3, [0][3][5] → bytes 5-7),
  * sets filter number to param_1 (byte 4), sends with flag 0x40. */
+#if 0 /* FUN_060362A8 -- replaced by ASM import */
 void FUN_060362a8(char param_1, char *param_2)
 {
   char local_14;
@@ -140,6 +145,7 @@ void FUN_060362a8(char param_1, char *param_2)
   uStack_10 = param_1;         /* filter number */
   (*(int(*)())0x06035EC8)(0x40, &local_14);
 }
+#endif
 
 /* cd_cmd_set_cddev_conn -- CD-Block command 0x44: Set CD device connection.
  * param_1: device, param_2: connection filter. */
@@ -157,6 +163,7 @@ __asm__(
 /* cd_cmd_get_filter_conn -- CD-Block command 0x45: Get filter connection.
  * Queries connection info for filter param_1.
  * Returns connection value (byte) in *param_2. */
+#if 0 /* FUN_060363BC -- replaced by ASM import */
 int FUN_060363bc(char param_1, unsigned int *param_2)
 {
   int uVar1;
@@ -172,6 +179,7 @@ int FUN_060363bc(char param_1, unsigned int *param_2)
   *param_2 = (unsigned int)bStack_1b;
   return uVar1;
 }
+#endif
 
 /* cd_cmd_set_sector_size -- CD-Block command 0x46: Set sector read size.
  * param_1: partition, param_2: get size, param_3: put size, param_4: copy size.
@@ -189,6 +197,7 @@ __asm__(
 
 /* cd_cmd_set_filter_subhdr -- CD-Block command 0x48: Set filter subheader.
  * param_1: subheader mode, param_2: filter number. */
+#if 0 /* FUN_060364D4 -- replaced by ASM import */
 void FUN_060364d4(char param_1, char param_2)
 {
     char buf[8];
@@ -198,10 +207,12 @@ void FUN_060364d4(char param_1, char param_2)
     buf[4] = param_2;
     (*(int(*)())0x06035EC8)(0x40, buf);
 }
+#endif
 
 /* cd_cmd_get_buffer_size -- CD-Block command 0x50: Get CD buffer size info.
  * Returns 3 values: *param_3 = total sectors, *param_2 = free sectors,
  * *param_1 = max selectable partition. */
+#if 0 /* FUN_06036518 -- replaced by ASM import */
 int FUN_06036518(unsigned int *param_1, unsigned int *param_2, unsigned int *param_3)
 {
   int uVar1;
@@ -219,6 +230,7 @@ int FUN_06036518(unsigned int *param_1, unsigned int *param_2, unsigned int *par
   *param_1 = (unsigned int)uStack_1a;    /* max partition */
   return uVar1;
 }
+#endif
 
 /* cd_cmd_get_partition_size -- CD-Block command 0x51: Get partition sector count.
  * param_1: partition number. Returns sector count in *param_2. */
@@ -236,6 +248,7 @@ __asm__(
 /* cd_cmd_calc_actual_size -- CD-Block command 0x52: Calculate actual data size.
  * param_1: partition, param_2: sector offset, param_3: sector count.
  * Sends with flag 0x40. */
+#if 0 /* FUN_060365C4 -- replaced by ASM import */
 void FUN_060365c4(char param_1, short param_2, short param_3)
 {
   char local_18[2];
@@ -250,6 +263,7 @@ void FUN_060365c4(char param_1, short param_2, short param_3)
   uStack_12 = param_3;          /* sector count */
   (*(int(*)())0x06035EC8)(0x40, local_18);
 }
+#endif
 
 /* cd_cmd_get_toc_entry -- CD-Block command 0x53: Get TOC entry.
  * Reads a single TOC entry, masks to 24-bit FAD. */
@@ -284,6 +298,7 @@ __asm__(
 /* cd_cmd_put_sector -- CD-Block command 0x61: Put sector data to buffer.
  * param_1: partition, param_2: sector offset, param_3: sector count.
  * Sends with flag 0x80 (data transfer mode). */
+#if 0 /* FUN_060367E8 -- replaced by ASM import */
 void FUN_060367e8(char param_1, short param_2, short param_3)
 {
   char local_18[2];
@@ -298,10 +313,12 @@ void FUN_060367e8(char param_1, short param_2, short param_3)
   uStack_12 = param_3;          /* sector count */
   (*(int(*)())0x06035EC8)(0x80, local_18);
 }
+#endif
 
 /* cd_cmd_copy_sector -- CD-Block command 0x62: Copy sector within buffer.
  * param_1: partition, param_2: source offset, param_3: dest offset.
  * Sends with flag 0x80 (data transfer mode). */
+#if 0 /* FUN_0603683C -- replaced by ASM import */
 void FUN_0603683c(char param_1, short param_2, short param_3)
 {
   char local_18[2];
@@ -316,10 +333,12 @@ void FUN_0603683c(char param_1, short param_2, short param_3)
   uStack_12 = param_3;          /* dest offset */
   (*(int(*)())0x06035EC8)(0x80, local_18);
 }
+#endif
 
 /* cd_cmd_move_sector -- CD-Block command 0x66: Move sector between partitions.
  * param_1: source partition, param_2: source offset, param_3: sector count,
  * param_4: dest partition. Sends with flag 0x100. */
+#if 0 /* FUN_0603697C -- replaced by ASM import */
 void FUN_0603697c(char param_1, short param_2, short param_3, char param_4)
 {
   char local_1c;
@@ -339,10 +358,12 @@ void FUN_0603697c(char param_1, short param_2, short param_3, char param_4)
   return;
 
 }
+#endif
 
 /* cd_cmd_set_sector_length -- CD-Block command 0x70: Set sector data length.
  * param_1: get/put selector, param_2: sector size (masked to 24-bit).
  * Sends with flag=0x200 (data transfer command class). */
+#if 0 /* FUN_06036A1C -- replaced by ASM import */
 void FUN_06036a1c(char param_1, int param_2)
 {
     char buf[8];
@@ -351,10 +372,12 @@ void FUN_06036a1c(char param_1, int param_2)
     *(int *)(buf + 4) = (param_1 << 24) | (param_2 & 0xFFFFFF);
     (*(int(*)())0x06035EC8)(0x200, buf);
 }
+#endif
 
 /* cd_cmd_get_calc_result -- CD-Block command 0x72: Get calculation result.
  * Returns 3 values: *param_2 = word count, *param_3 = status byte (high),
  * *param_1 = sector count (24-bit). */
+#if 0 /* FUN_06036A98 -- replaced by ASM import */
 int FUN_06036a98(unsigned int *param_1, unsigned int *param_2, unsigned int *param_3)
 {
   int uVar1;
@@ -371,10 +394,12 @@ int FUN_06036a98(unsigned int *param_1, unsigned int *param_2, unsigned int *par
   *param_1 = uStack_1c & 0x00FFFFFF;        /* sector count */
   return uVar1;
 }
+#endif
 
 /* cd_cmd_get_file_info -- CD-Block command 0x73: Get file system info.
  * param_1: file index. Sends query, then reads response data (24-bit
  * word count) via cd_sector_read_words into param_2 buffer. */
+#if 0 /* FUN_06036AF2 -- replaced by ASM import */
 int FUN_06036af2(unsigned int param_1, int param_2)
 {
   int iVar1;
@@ -391,6 +416,7 @@ int FUN_06036af2(unsigned int param_1, int param_2)
   }
   return iVar1;
 }
+#endif
 
 
 
@@ -1655,6 +1681,7 @@ void FUN_06036e90(param_1, param_2, param_3)
 
 /* --- FUN_06036F0C (L1 import from src/FUN_06036F0C.c) --- */
 
+#if 0 /* FUN_06036F0C -- replaced by ASM import */
 void FUN_06036f0c(param_1, param_2, param_3)
     char param_1;
     char param_2;
@@ -1882,6 +1909,7 @@ LAB_060370a0:
   return;
 
 }
+#endif
 
 /* --- FUN_060370E4 (L1 import from src/FUN_060370E4.c) --- */
 
@@ -2917,4 +2945,173 @@ __asm__(
     ".byte 0x60, 0x5C, 0x80, 0x46, 0x60, 0x5C, 0x80, 0x48, 0x60, 0x5C, 0x80, 0x47, 0x63, 0x5D, 0x60, 0x33\n"  /* 0x06037634 */
     ".byte 0x81, 0x45, 0x66, 0x5C, 0x63, 0x6C, 0x62, 0x43, 0x43, 0x08, 0x76, 0x01, 0x72, 0x0C, 0x33, 0x2C\n"  /* 0x06037644 */
     ".byte 0x23, 0x52, 0x63, 0x6C, 0x33, 0x73, 0x8B, 0xF5, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x06037654 */
+);
+
+/* FUN_06036518 -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_06036518, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06036518\n"
+    ".type _FUN_06036518, @function\n"
+    "_FUN_06036518:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x63, 0x2F, 0xD6, 0x6D, 0x43, 0x2F, 0xC6, 0x6C, 0x53\n"  /* 0x06036518 */
+);
+
+/* FUN_060361FC -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_060361FC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060361FC\n"
+    ".type _FUN_060361FC, @function\n"
+    "_FUN_060361FC:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x6D, 0x43, 0x2F, 0xC6, 0x6C, 0x63\n"  /* 0x060361FC */
+);
+
+/* FUN_06036AF2 -- original binary (6 bytes) */
+__asm__(
+    ".section .text.FUN_06036AF2, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06036AF2\n"
+    ".type _FUN_06036AF2, @function\n"
+    "_FUN_06036AF2:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x6E, 0x43\n"  /* 0x06036AF2 */
+);
+
+/* FUN_06036A1C -- original binary (8 bytes) */
+__asm__(
+    ".section .text.FUN_06036A1C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06036A1C\n"
+    ".type _FUN_06036A1C, @function\n"
+    "_FUN_06036A1C:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x6D, 0x43\n"  /* 0x06036A1C */
+);
+
+/* FUN_06036A98 -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_06036A98, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06036A98\n"
+    ".type _FUN_06036A98, @function\n"
+    "_FUN_06036A98:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43, 0x2F, 0xD6, 0x6D, 0x53, 0x2F, 0xC6, 0x6C, 0x63\n"  /* 0x06036A98 */
+);
+
+/* FUN_060364D4 -- original binary (8 bytes) */
+__asm__(
+    ".section .text.FUN_060364D4, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060364D4\n"
+    ".type _FUN_060364D4, @function\n"
+    "_FUN_060364D4:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43, 0x2F, 0xD6, 0x6D, 0x53\n"  /* 0x060364D4 */
+);
+
+/* FUN_06036144 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06036144, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06036144\n"
+    ".type _FUN_06036144, @function\n"
+    "_FUN_06036144:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43\n"  /* 0x06036144 */
+);
+
+/* FUN_060363BC -- original binary (8 bytes) */
+__asm__(
+    ".section .text.FUN_060363BC, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060363BC\n"
+    ".type _FUN_060363BC, @function\n"
+    "_FUN_060363BC:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x43, 0x2F, 0xD6, 0x6D, 0x53\n"  /* 0x060363BC */
+);
+
+/* FUN_060362A8 -- original binary (8 bytes) */
+__asm__(
+    ".section .text.FUN_060362A8, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060362A8\n"
+    ".type _FUN_060362A8, @function\n"
+    "_FUN_060362A8:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x6D, 0x43\n"  /* 0x060362A8 */
+);
+
+/* FUN_0603697C -- original binary (16 bytes) */
+__asm__(
+    ".section .text.FUN_0603697C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603697C\n"
+    ".type _FUN_0603697C, @function\n"
+    "_FUN_0603697C:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x73, 0x2F, 0xD6, 0x6D, 0x43, 0x2F, 0xC6, 0x6C, 0x63, 0x2F, 0xB6, 0x6B, 0x53\n"  /* 0x0603697C */
+);
+
+/* FUN_060365C4 -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_060365C4, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060365C4\n"
+    ".type _FUN_060365C4, @function\n"
+    "_FUN_060365C4:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x6D, 0x63, 0x2F, 0xC6, 0x6C, 0x43\n"  /* 0x060365C4 */
+);
+
+/* FUN_060367E8 -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_060367E8, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060367E8\n"
+    ".type _FUN_060367E8, @function\n"
+    "_FUN_060367E8:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x6D, 0x63, 0x2F, 0xC6, 0x6C, 0x43\n"  /* 0x060367E8 */
+);
+
+/* FUN_0603683C -- original binary (12 bytes) */
+__asm__(
+    ".section .text.FUN_0603683C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0603683C\n"
+    ".type _FUN_0603683C, @function\n"
+    "_FUN_0603683C:\n"
+    ".byte 0x2F, 0xE6, 0x6E, 0x53, 0x2F, 0xD6, 0x6D, 0x63, 0x2F, 0xC6, 0x6C, 0x43\n"  /* 0x0603683C */
+);
+
+/* FUN_06036F0C -- original binary (472 bytes) */
+__asm__(
+    ".section .text.FUN_06036F0C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06036F0C\n"
+    ".type _FUN_06036F0C, @function\n"
+    "_FUN_06036F0C:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0x2F, 0xA6, 0x4F, 0x22, 0x9A, 0x4F, 0xDC, 0x2B\n"  /* 0x06036F0C */
+    ".byte 0xDD, 0x2B, 0xDE, 0x2C, 0xD7, 0x2C, 0x67, 0x72, 0xD3, 0x2C, 0x62, 0xE1, 0x22, 0x39, 0x2E, 0x21\n"  /* 0x06036F1C */
+    ".byte 0xA0, 0x0E, 0x60, 0x5C, 0x92, 0x44, 0xA0, 0x11, 0x2D, 0x21, 0x92, 0x42, 0x2D, 0x21, 0x60, 0xE1\n"  /* 0x06036F2C */
+    ".byte 0xA0, 0x04, 0xCB, 0x10, 0x92, 0x3E, 0x2D, 0x21, 0x60, 0xE1, 0xCB, 0x20, 0xA0, 0x06, 0x2E, 0x01\n"  /* 0x06036F3C */
+    ".byte 0x88, 0x00, 0x89, 0xEF, 0x88, 0x01, 0x89, 0xF0, 0x88, 0x02, 0x89, 0xF3, 0xD2, 0x20, 0x63, 0xE1\n"  /* 0x06036F4C */
+    ".byte 0x23, 0x29, 0x2E, 0x31, 0xA0, 0x0B, 0x60, 0x4C, 0x60, 0xE1, 0xA0, 0x06, 0xCB, 0x80, 0x62, 0xD1\n"  /* 0x06036F5C */
+    ".byte 0x63, 0xD1, 0x33, 0x2C, 0x2D, 0x31, 0x60, 0xE1, 0xCB, 0xC0, 0xA0, 0x06, 0x2E, 0x01, 0x88, 0x00\n"  /* 0x06036F6C */
+    ".byte 0x89, 0x03, 0x88, 0x02, 0x89, 0xF0, 0x88, 0x03, 0x89, 0xF1, 0xD2, 0x16, 0x63, 0xE1, 0x23, 0x29\n"  /* 0x06036F7C */
+    ".byte 0x2E, 0x31, 0xDB, 0x15, 0xA0, 0x76, 0x60, 0x6C, 0x27, 0x78, 0x89, 0x02, 0x63, 0xB2, 0x43, 0x0B\n"  /* 0x06036F8C */
+    ".byte 0xE4, 0x00, 0x92, 0x10, 0xA0, 0x7E, 0x2C, 0x21, 0x60, 0x73, 0x88, 0x01, 0x89, 0x02, 0x63, 0xB2\n"  /* 0x06036F9C */
+    ".byte 0x43, 0x0B, 0xE4, 0x01, 0x92, 0x08, 0x2C, 0x21, 0x60, 0xE1, 0xA0, 0x5D, 0xCB, 0x01, 0x01, 0xE0\n"  /* 0x06036FAC */
+    ".byte 0x00, 0xE0, 0x00, 0xF0, 0x01, 0x00, 0x01, 0x40, 0x01, 0x60, 0xFF, 0xFF, 0x06, 0x06, 0x35, 0xAE\n"  /* 0x06036FBC */
+    ".byte 0x06, 0x06, 0x35, 0xB0, 0x06, 0x0A, 0x3D, 0x88, 0x06, 0x00, 0x03, 0x24, 0x00, 0x00, 0xFF, 0xCF\n"  /* 0x06036FCC */
+    ".byte 0x00, 0x00, 0xFF, 0x3F, 0x00, 0x00, 0xFF, 0xF0, 0x06, 0x00, 0x03, 0x20, 0x27, 0x78, 0x89, 0x02\n"  /* 0x06036FDC */
+    ".byte 0x63, 0xB2, 0x43, 0x0B, 0xE4, 0x00, 0x92, 0x41, 0x2C, 0x21, 0x60, 0xE1, 0xA0, 0x3C, 0xCB, 0x02\n"  /* 0x06036FEC */
+    ".byte 0x60, 0x73, 0x88, 0x01, 0x89, 0x02, 0x63, 0xB2, 0x43, 0x0B, 0xE4, 0x01, 0x92, 0x37, 0x2C, 0x21\n"  /* 0x06036FFC */
+    ".byte 0x60, 0xE1, 0xA0, 0x31, 0xCB, 0x03, 0x27, 0x78, 0x89, 0x02, 0x63, 0xB2, 0x43, 0x0B, 0xE4, 0x00\n"  /* 0x0603700C */
+    ".byte 0x92, 0x2E, 0x2C, 0x21, 0x63, 0xAD, 0x2D, 0x31, 0x60, 0xE1, 0xA0, 0x25, 0xCB, 0x04, 0x60, 0x73\n"  /* 0x0603701C */
+    ".byte 0x88, 0x01, 0x89, 0x02, 0x63, 0xB2, 0x43, 0x0B, 0xE4, 0x01, 0x92, 0x22, 0x2C, 0x21, 0x63, 0xAD\n"  /* 0x0603702C */
+    ".byte 0x2D, 0x31, 0x60, 0xE1, 0xA0, 0x18, 0xCB, 0x05, 0x27, 0x78, 0x89, 0x02, 0x63, 0xB2, 0x43, 0x0B\n"  /* 0x0603703C */
+    ".byte 0xE4, 0x00, 0x92, 0x13, 0x2C, 0x21, 0x63, 0xAD, 0x2D, 0x31, 0x60, 0xE1, 0xA0, 0x0C, 0xCB, 0x06\n"  /* 0x0603704C */
+    ".byte 0x60, 0x73, 0x88, 0x01, 0x89, 0x02, 0x63, 0xB2, 0x43, 0x0B, 0xE4, 0x01, 0x92, 0x07, 0x2C, 0x21\n"  /* 0x0603705C */
+    ".byte 0x63, 0xAD, 0x2D, 0x31, 0x60, 0xE1, 0xCB, 0x07, 0xA0, 0x14, 0x2E, 0x01, 0x02, 0x80, 0x02, 0xC0\n"  /* 0x0603706C */
+    ".byte 0x01, 0x40, 0x01, 0x60, 0x88, 0x00, 0x89, 0x87, 0x88, 0x01, 0x89, 0x8D, 0x88, 0x02, 0x89, 0xAD\n"  /* 0x0603707C */
+    ".byte 0x88, 0x03, 0x89, 0xB5, 0x88, 0x04, 0x89, 0xBE, 0x88, 0x05, 0x89, 0xC8, 0x88, 0x06, 0x89, 0xD3\n"  /* 0x0603708C */
+    ".byte 0x88, 0x07, 0x89, 0xDD, 0xD4, 0x06, 0x62, 0x41, 0x62, 0x2D, 0x22, 0x28, 0x8B, 0x01, 0xE3, 0x01\n"  /* 0x0603709C */
+    ".byte 0x24, 0x31, 0x4F, 0x26, 0x6A, 0xF6, 0x6B, 0xF6, 0x6C, 0xF6, 0x6D, 0xF6, 0x00, 0x0B, 0x6E, 0xF6\n"  /* 0x060370AC */
+    ".byte 0x06, 0x06, 0x35, 0xAC, 0xE5, 0x00, 0x60, 0x5C, 0x24, 0x52, 0x14, 0x51, 0x80, 0x48, 0x60, 0x5C\n"  /* 0x060370BC */
+    ".byte 0x80, 0x49, 0x60, 0x5C, 0x80, 0x4A, 0x60, 0x5C, 0x80, 0x4B, 0x60, 0x5C, 0x80, 0x4C, 0x60, 0x5C\n"  /* 0x060370CC */
+    ".byte 0x80, 0x4D, 0x60, 0x5C, 0x00, 0x0B, 0x80, 0x4E\n"  /* 0x060370DC */
 );

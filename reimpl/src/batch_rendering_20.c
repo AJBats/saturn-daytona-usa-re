@@ -185,6 +185,7 @@ unsigned int FUN_06020c3c(void)
  * (typically screen bounds for a full-screen clear polygon).
  * Sets command link=0x17, draw mode=0x003A (transparent clear).
  * Submits via 0x060280F8, advances VDP1 command pointer by 0x20. */
+#if 0 /* FUN_06020CF4 -- replaced by ASM import */
 void FUN_06020cf4(void)
 {
   char *cmd = (char *)0x06087C6C;       /* VDP1 command scratch buffer */
@@ -206,11 +207,13 @@ void FUN_06020cf4(void)
   VDP1_CMD_BASE_PTR = VDP1_CMD_BASE_PTR + 1;
   *(int *)0x060785FC = *(int *)0x060785FC + 0x20;
 }
+#endif
 
 /* render_slot_dispatch -- Iterate 16 render slots and dispatch active ones.
  * Calls CD sync (0x06035168), then loops slots 0-15 in the render table
  * at 0x0608782C (stride 0x44). If slot type byte is non-zero, dispatches
  * to the handler at auStack_38[type-1] passing the slot index. */
+#if 0 /* FUN_06020D46 -- replaced by ASM import */
 void FUN_06020d46(void)
 {
   char *slot_table = (char *)0x0608782C;
@@ -226,12 +229,14 @@ void FUN_06020d46(void)
     i = i + 1;
   } while ((i & 0xff) < 0x10);
 }
+#endif
 
 /* road_surface_scroll_update -- Update road surface sprite and scroll offsets.
  * Part 1: On surface state change, swaps road sprite based on surface flags
  * (0x00=normal, 0x44=left variant, 0x88=right variant, special).
  * Part 2: Computes road scroll offsets from car speed (+0x60 >> 14),
  * fills 22 entries in forward/reverse scroll arrays, applies to VDP2. */
+#if 0 /* FUN_06020E74 -- replaced by ASM import */
 int FUN_06020e74()
 {
   char *transition_trigger; /* 0x06089595 */
@@ -322,6 +327,7 @@ int FUN_06020e74()
   scroll_speed = (*(int(*)())0x06038520)();
   return scroll_speed;
 }
+#endif
 
 /* track_zone_sprite_swap -- Swap sprite/palette data when car enters track zones.
  * Monitors car X/Z position against two hardcoded zones (pit lane regions).
@@ -1546,6 +1552,7 @@ void track_object_placement()
 
 /* --- FUN_06020414 (L1 import from src/FUN_06020414.c) --- */
 
+#if 0 /* FUN_06020414 -- replaced by ASM import */
 void FUN_06020414(param_1, param_2, param_3, param_4)
     char param_1;
     unsigned int param_2;
@@ -1614,3 +1621,50 @@ void FUN_06020414(param_1, param_2, param_3, param_4)
   return;
 
 }
+#endif
+
+/* FUN_06020E74 -- original binary (16 bytes) */
+__asm__(
+    ".section .text.FUN_06020E74, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06020E74\n"
+    ".type _FUN_06020E74, @function\n"
+    "_FUN_06020E74:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0x2F, 0xA6, 0x2F, 0x96, 0x2F, 0x86, 0xE8, 0x15\n"  /* 0x06020E74 */
+);
+
+/* FUN_06020414 -- original binary (28 bytes) */
+__asm__(
+    ".section .text.FUN_06020414, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06020414\n"
+    ".type _FUN_06020414, @function\n"
+    "_FUN_06020414:\n"
+    ".byte 0x2F, 0xE6, 0x66, 0x6D, 0x2F, 0xD6, 0xEE, 0x00, 0x46, 0x08, 0x2F, 0xC6, 0x6D, 0xEC, 0x46, 0x08\n"  /* 0x06020414 */
+    ".byte 0x2F, 0xB6, 0x46, 0x08, 0x2F, 0xA6, 0x2F, 0x96, 0x2F, 0x86, 0x68, 0x53\n"  /* 0x06020424 */
+);
+
+/* FUN_06020D46 -- original binary (10 bytes) */
+__asm__(
+    ".section .text.FUN_06020D46, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06020D46\n"
+    ".type _FUN_06020D46, @function\n"
+    "_FUN_06020D46:\n"
+    ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0xEB, 0x10\n"  /* 0x06020D46 */
+);
+
+/* FUN_06020CF4 -- original binary (82 bytes) */
+__asm__(
+    ".section .text.FUN_06020CF4, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06020CF4\n"
+    ".type _FUN_06020CF4, @function\n"
+    "_FUN_06020CF4:\n"
+    ".byte 0x2F, 0xE6, 0x4F, 0x22, 0x95, 0x5B, 0xD4, 0x2E, 0x60, 0x5F, 0x81, 0x44, 0x60, 0x5F, 0x81, 0x45\n"  /* 0x06020CF4 */
+    ".byte 0x60, 0x5F, 0x81, 0x46, 0x60, 0x5F, 0x81, 0x47, 0x60, 0x5F, 0x81, 0x48, 0x60, 0x5F, 0x81, 0x49\n"  /* 0x06020D04 */
+    ".byte 0x60, 0x5F, 0x81, 0x4A, 0x60, 0x5F, 0x81, 0x4B, 0xE0, 0x17, 0x81, 0x43, 0xE0, 0x00, 0x80, 0x44\n"  /* 0x06020D14 */
+    ".byte 0xE0, 0x3A, 0x80, 0x45, 0xDE, 0x23, 0xD3, 0x24, 0x65, 0xE2, 0x43, 0x0B, 0x00, 0x09, 0xD4, 0x23\n"  /* 0x06020D24 */
+    ".byte 0x62, 0x42, 0x72, 0x01, 0x24, 0x22, 0x63, 0xE2, 0x73, 0x20, 0x2E, 0x32, 0x4F, 0x26, 0x00, 0x0B\n"  /* 0x06020D34 */
+    ".byte 0x6E, 0xF6\n"  /* 0x06020D44 */
+);

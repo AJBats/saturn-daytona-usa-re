@@ -507,6 +507,7 @@ int FUN_06018e1e(char param_1)
     return (*(int(*)())0x06034DEA)(buf);
 }
 
+#if 0 /* FUN_06018e70 -- replaced by ASM import in cd_command.c */
 int
 FUN_06018e70()
 {
@@ -514,7 +515,9 @@ FUN_06018e70()
     buf[0] = 3;
     return FUN_06034DEA(buf);
 }
+#endif
 
+#if 0 /* FUN_06018eac -- replaced by ASM import in cd_command.c */
 int
 FUN_06018eac()
 {
@@ -522,10 +525,12 @@ FUN_06018eac()
     cd_register_double_read(buf);
     return buf[0] & 0x1f;
 }
+#endif
 
 /* scsp_load_driver_a -- Load sound driver bank A into SCSP RAM.
  * Sends stop+init commands to sound channel 0xF, waits for SCSP ready,
  * calls loader at 0x06012EDC, clears SCSP register, re-sends stop. */
+#if 0 /* FUN_06018FA4 -- replaced by ASM import */
 void FUN_06018fa4(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -541,16 +546,20 @@ void FUN_06018fa4(void)
     }
     snd_cmd(0xf, 0xAE0001FF);   /* stop */
 }
+#endif
 
 /* FUN_06018ff8: L2 version in sound_init.c */
 extern void FUN_06018FF8(void);
+#if 0 /* FUN_06018FF8 -- replaced by ASM import */
 void FUN_06018ff8(void) { FUN_06018FF8(); }
+#endif
 
 /* scsp_load_driver_c -- Load sound driver bank C into SCSP RAM.
  * Calls loader at 0x06012F10, sends stop then master volume after. */
 /* scsp_load_driver_c -- Load sound driver bank C into SCSP RAM.
  * Stops sound channel 0xF, waits for busy timeout via FUN_060192e8,
  * calls loader at 0x06012F10, clears SCSP register, restores volume. */
+#if 0 /* FUN_06019058 -- replaced by ASM import */
 void FUN_06019058(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -567,9 +576,11 @@ void FUN_06019058(void)
     snd_cmd(0xf, 0xAE0001FF);   /* stop */
     snd_cmd(0xf, 0xAE0600FF);   /* master volume restore */
 }
+#endif
 
 /* scsp_load_driver_d -- Load sound driver bank D into SCSP RAM.
  * Calls loader at 0x06012F20. */
+#if 0 /* FUN_060190B8 -- replaced by ASM import */
 void FUN_060190b8(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -585,9 +596,11 @@ void FUN_060190b8(void)
     }
     snd_cmd(0xf, 0xAE0001FF);
 }
+#endif
 
 /* scsp_load_driver_e -- Load sound driver bank E into SCSP RAM.
  * Calls loader at 0x06012F50. */
+#if 0 /* FUN_060190F4 -- replaced by ASM import */
 void FUN_060190f4(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -603,9 +616,11 @@ void FUN_060190f4(void)
     }
     snd_cmd(0xf, 0xAE0001FF);
 }
+#endif
 
 /* scsp_load_driver_f -- Load sound driver bank F into SCSP RAM.
  * Calls loader at 0x06012F58. */
+#if 0 /* FUN_0601914C -- replaced by ASM import */
 void FUN_0601914c(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -621,9 +636,11 @@ void FUN_0601914c(void)
     }
     snd_cmd(0xf, 0xAE0001FF);
 }
+#endif
 
 /* scsp_load_driver_g -- Load sound driver bank G into SCSP RAM.
  * Calls loader at 0x06012F60. */
+#if 0 /* FUN_06019188 -- replaced by ASM import */
 void FUN_06019188(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -639,9 +656,11 @@ void FUN_06019188(void)
     }
     snd_cmd(0xf, 0xAE0001FF);
 }
+#endif
 
 /* scsp_dma_load -- Load sound data via DMA into SCSP RAM at 0x25A03000.
  * Source: 0x00200000, size: 0x0006D000 (445KB). */
+#if 0 /* FUN_060191E0 -- replaced by ASM import */
 void FUN_060191e0(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -657,9 +676,11 @@ void FUN_060191e0(void)
     }
     snd_cmd(0xf, 0xAE0001FF);
 }
+#endif
 
 /* scsp_dma_load_alt -- Load alternate sound data via DMA into SCSP RAM.
  * Source: 0x0026D000, size: 0x0006D000 (445KB). Same dest as scsp_dma_load. */
+#if 0 /* FUN_06019248 -- replaced by ASM import */
 void FUN_06019248(void)
 {
     void (*snd_cmd)(int, int) = (void (*)(int, int))0x0601D5F4;
@@ -675,6 +696,7 @@ void FUN_06019248(void)
     }
     snd_cmd(0xf, 0xAE0001FF);
 }
+#endif
 
 
 /* sound_channels_stop -- Stop sound channels 1-3.
@@ -726,6 +748,7 @@ void FUN_0601938c(void)
 }
 
 /* scene_state_init_flush -- Reset state flags, flush render pipeline, load VDP2 scroll data. */
+#if 0 /* FUN_060193F4 -- replaced by ASM import */
 void FUN_060193f4()
 {
   char *render_flags;
@@ -768,9 +791,11 @@ void FUN_060193f4()
   FUN_06019324();
   return;
 }
+#endif
 
 /* scene_selection_render -- Render 4 selectable menu items with blinking highlight.
  * Draws unselected items normally, selected item blinks when anim counter >= 0x10. */
+#if 0 /* FUN_0601950C -- replaced by ASM import */
 unsigned int FUN_0601950c()
 {
   char *sprite_dims;
@@ -832,10 +857,12 @@ unsigned int FUN_0601950c()
   }
   return result;
 }
+#endif
 
 /* scene_selection_input -- Handle input for 4-option selection menu.
  * Start/Accept confirms, Left/Right cycles through options 0-3,
  * dispatches to per-option handler via jump table at 0x0605D250. */
+#if 0 /* FUN_060196A4 -- replaced by ASM import */
 void FUN_060196a4()
 {
   char *dirty_flag;
@@ -892,6 +919,7 @@ void FUN_060196a4()
   (*(int(*)())(*(int *)((char)(*selection_idx << 2) + 0x0605D250)))();
   return;
 }
+#endif
 
 /* FUN_060198e0: L2 version in subsystem_setup.c */
 extern void FUN_060198E0(void);
@@ -936,6 +964,7 @@ __asm__(
 /* options_menu_input -- Handle input for 8-option settings/sound-test menu.
  * Start/Accept confirms (transitions to state 7 or selects option 7),
  * Right/Left cycles through options 0-7, dispatches via jump table at 0x0605D260. */
+#if 0 /* FUN_06019A48 -- replaced by ASM import */
 void FUN_06019a48()
 {
   char *dirty_flag;
@@ -995,6 +1024,7 @@ void FUN_06019a48()
   (*(int(*)())(*(int *)(0x0605D260 + (char)(*selection_idx << 2))))();
   return;
 }
+#endif
 
 /* volume_display_render -- Render 3 volume level indicators with highlight/blink.
  * Active item (matching COURSE_SELECT) blinks when anim counter >= 8,
@@ -1331,4 +1361,74 @@ __asm__(
     ".byte 0x06, 0x07, 0xEB, 0xC4, 0x00, 0x80, 0x00, 0x00, 0x06, 0x06, 0x3D, 0x9A, 0x06, 0x05, 0xBE, 0x1C\n"  /* 0x060182F8 */
     ".byte 0x06, 0x05, 0xBE, 0x1E, 0x06, 0x04, 0x81, 0x20, 0x06, 0x03, 0x52, 0x80, 0x06, 0x06, 0x3F, 0x64\n"  /* 0x06018308 */
     ".byte 0x06, 0x06, 0x9B, 0xB6, 0x06, 0x08, 0x9E, 0x3C\n"  /* 0x06018318 */
+);
+
+/* FUN_06019248 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06019248, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06019248\n"
+    ".type _FUN_06019248, @function\n"
+    "_FUN_06019248:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x06019248 */
+);
+
+/* FUN_060191E0 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_060191E0, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060191E0\n"
+    ".type _FUN_060191E0, @function\n"
+    "_FUN_060191E0:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x060191E0 */
+);
+
+/* FUN_06019058 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06019058, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06019058\n"
+    ".type _FUN_06019058, @function\n"
+    "_FUN_06019058:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x06019058 */
+);
+
+/* FUN_06019188 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06019188, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06019188\n"
+    ".type _FUN_06019188, @function\n"
+    "_FUN_06019188:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x06019188 */
+);
+
+/* FUN_060190F4 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_060190F4, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_060190F4\n"
+    ".type _FUN_060190F4, @function\n"
+    "_FUN_060190F4:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x060190F4 */
+);
+
+/* FUN_0601914C -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_0601914C, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_0601914C\n"
+    ".type _FUN_0601914C, @function\n"
+    "_FUN_0601914C:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x0601914C */
+);
+
+/* FUN_06018FF8 -- original binary (4 bytes) */
+__asm__(
+    ".section .text.FUN_06018FF8, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06018FF8\n"
+    ".type _FUN_06018FF8, @function\n"
+    "_FUN_06018FF8:\n"
+    ".byte 0x2F, 0xE6, 0xE3, 0x00\n"  /* 0x06018FF8 */
 );

@@ -83,6 +83,7 @@ extern void FUN_06035228(void);
 
 /* Forward declarations (defined later in this file) */
 void FUN_06008318(void);
+#if 0 /* FUN_0600CEBA -- replaced by ASM import */
 void FUN_0600CEBA(void);
 
 
@@ -96,6 +97,7 @@ void FUN_0600CEBA(void);
 void FUN_0600D266(void)
 {
 }
+#endif
 
 
 /* ================================================================
@@ -113,6 +115,7 @@ void FUN_0600D266(void)
  *   5. Accumulate into car[0x0C], floor at 0
  *   6. Convert accumulator to speed index car[0x08]
  * ================================================================ */
+#if 0 /* FUN_0600C4F8 -- replaced by ASM import */
 void FUN_0600C4F8(void)
 {
     int car = CAR_PTR_CURRENT;
@@ -179,6 +182,7 @@ void FUN_0600C4F8(void)
     raw = FUN_06027552(CAR_INT(car, CAR_ACCEL), SPEED_CONV_FACTOR);
     CAR_INT(car, CAR_SPEED) = (int)(short)(raw >> 16);
 }
+#endif
 
 
 /* ================================================================
@@ -249,6 +253,7 @@ __asm__(
  *   7. FUN_0600CEBA -- Track segment advancement
  *   8. (inline)     -- Score/ranking computation
  * ================================================================ */
+#if 0 /* FUN_0600E71A -- replaced by ASM import */
 void FUN_0600E71A(void)
 {
     int car = CAR_PTR_CURRENT;
@@ -299,6 +304,7 @@ void FUN_0600E71A(void)
         CAR_INT(car, 0x1F4) = position * count + base;
     }
 }
+#endif
 
 
 /* ================================================================
@@ -392,6 +398,7 @@ void FUN_06008318(void)
  * segment table, interpolates car heading toward target, and
  * checks for segment boundary crossing.
  * ================================================================ */
+#if 0 /* FUN_0600CEBA -- replaced by ASM import */
 void FUN_0600CEBA(void)
 {
     int car = CAR_PTR_CURRENT;
@@ -441,3 +448,4 @@ void FUN_0600CEBA(void)
         }
     }
 }
+#endif
