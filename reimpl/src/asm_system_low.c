@@ -34,6 +34,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06003466, \"ax\"\n"
 
     ".global _FUN_06003466\n"
@@ -133,9 +134,11 @@ __asm__(
 
 
 
+
     ".section .text.FUN_060034D4, \"ax\"\n"
 
     ".global _FUN_060034D4\n"
+
 
 
 
@@ -196,6 +199,7 @@ __asm__(
     ".balign 2\n"
     ".global _vdp2_data_transfer_course2\n"
     ".type _vdp2_data_transfer_course2, @function\n"
+
 
 
 
@@ -328,9 +332,11 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06004F28, \"ax\"\n"
 
     ".global _FUN_06004F28\n"
+
 
 
 
@@ -573,9 +579,11 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600508C, \"ax\"\n"
 
     ".global _FUN_0600508C\n"
+
 
 
 
@@ -716,6 +724,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06005120, \"ax\"\n"
 
     ".global _FUN_06005120\n"
@@ -790,6 +799,7 @@ __asm__(
     ".balign 2\n"
     ".global _obj_state_writer\n"
     ".type _obj_state_writer, @function\n"
+
 
 
 
@@ -950,9 +960,11 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600579C, \"ax\"\n"
 
     ".global _FUN_0600579C\n"
+
 
 
 

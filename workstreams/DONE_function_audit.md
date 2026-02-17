@@ -1,7 +1,8 @@
 # Function Audit
 
-> **Status**: Active
+> **Status**: COMPLETE — superseded by Sawyer L2 workstream
 > **Created**: 2026-02-16
+> **Completed**: 2026-02-17
 > **Depends on**: reimplementation.md (L1 pass), road_to_boot.md (Class 4 discovery)
 
 ## Genesis
@@ -197,3 +198,42 @@ Boot-blocking issues first:
   by fixing function coverage issues found here.
 - **Reimplementation**: The L2 pass should prioritize functions flagged by the audit
   tool as problematic (undersized, overflow).
+
+## Final State (2026-02-17)
+
+### Coverage Breakdown
+
+| Category | Count | Notes |
+|----------|-------|-------|
+| ASM-imported (original bytes) | 536 | Bit-perfect `.byte` arrays from `build/aprog.s` |
+| C reimpl disabled (`#if 0`) | 624 | Redirected to ASM imports via PROVIDE aliases |
+| Active C reimpl | ~98 | Ghidra L1 lifts + hand-written L2+ |
+| Empty (zeros) | 1 | FUN_06040954 — needs investigation |
+| Data stub | 1 | FUN_06046E48 — not real code, it's the data region |
+| **Total** | **1,258** | (1,234 FUN_ labels + some named functions) |
+
+### Binary Match Quality (866 functions tested by binary_diff)
+
+| Level | Count | % |
+|-------|-------|---|
+| L3 Byte-perfect | 9 | 1.0% |
+| L2 Structural | 20 | 2.3% |
+| L1 Mnemonic | 24 | 2.8% |
+| DIFF (wrong opcodes) | 813 | 93.9% |
+| (no link) — size mismatch | 34 | can't compare at address |
+
+### Binary Size
+
+- Code: 283,360 bytes (within 394,896B budget)
+- Overflow: 4,880 bytes (down from 17,960B)
+
+### Conclusion
+
+The function audit achieved its goal: every function is accounted for and categorized.
+However, the audit revealed that the reimpl is **92% original binary bytes reimported**
+and only **~8% actual C reimplementation**. The fixed-address layout approach creates
+an inherent slot-size constraint that forces ASM imports whenever C output doesn't
+match the original function size.
+
+**Superseded by**: sawyer_l2.md — a fundamentally different approach that produces
+relocatable assembly source (pre-link), eliminating the fixed-slot constraint entirely.
