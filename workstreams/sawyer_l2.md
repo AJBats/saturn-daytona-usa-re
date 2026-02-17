@@ -1,6 +1,6 @@
 # Sawyer L2 — Relocatable Assembly Source
 
-> **Status**: Active — Phase 3 root cause FOUND (1,544 absolute PROVIDEs; fix pending)
+> **Status**: Active — Phase 3 PROVIDE fix applied, relocation complete, black screen persists (investigation round 2)
 > **Created**: 2026-02-17
 > **Predecessor**: DONE_function_audit.md, ICEBOX_gameplay_extraction.md (Sawyer annotations)
 > **Paused**: road_to_boot.md, reimplementation.md (resume after bootable ASM base)
@@ -195,34 +195,76 @@ effect (1,544+ stale values in the binary). GT3 would only confirm what we
 already know — a CPU trace would show execution jumping to a stale address.
 Skipping GT3 in favor of building and testing the fix directly.
 
-#### Root Cause
+#### PROVIDE Fix — Applied, Verified, Necessary but Not Sufficient
 
-The `.4byte SYMBOL` pool entries are correctly symbolized. The linker correctly
-resolves them. But `PROVIDE(sym_X = 0xABCDEF)` creates an **absolute** symbol.
-The linker emits the literal value 0xABCDEF regardless of where the section
-containing that address ends up. This is by design — PROVIDE with a constant
-creates an absolute symbol.
+**Root Cause (partial)**: `PROVIDE(sym_X = 0xABCDEF)` creates an absolute symbol.
+The linker emits the literal value regardless of where the section ends up.
 
-**Fix**: For the 1,544 in-binary PROVIDEs, change from absolute:
-```
-PROVIDE(DAT_06003366 = 0x06003366);
-```
-to relative (parent function + offset):
-```
-PROVIDE(DAT_06003366 = FUN_0600330A + 0x5C);
-```
-Since `FUN_0600330A` is a section label (defined in its `.s` file), the expression
-`FUN_0600330A + 0x5C` is relocatable. When FUN_0600330A shifts, DAT_06003366 shifts
-with it. In production layout (no shift), the result is identical to the absolute form.
+**Fix**: `tools/fix_provide_symbols.py` converts 1,543 in-binary PROVIDEs from
+absolute to relative expressions: `PROVIDE(sym_X = FUN_parent + offset)`.
 
-Script: `tools/fix_provide_symbols.py`
+**Results** (commit `7f5310d`):
+- sawyer.ld: 1,258 converted, `make validate` PASS (byte-identical)
+- sawyer_free.ld: 1,543 converted, all 5,027 pool entries correctly shift +4
+- 661 PROVIDEs kept absolute (runtime data outside binary, correct as-is)
+- **Boot test: still BLACK SCREEN**
 
-#### Validation Plan
+**Post-fix stale analysis**: Only 15 remaining "stale" values at 4-byte alignment,
+ALL are data constants (bit masks like 0x0601FFFF, pattern data like 0x06010001).
+**Zero genuine stale address references remain in the binary.**
 
-1. Run `fix_provide_symbols.py` to update both `sawyer.ld` and `sawyer_free.ld`
-2. Build with `sawyer.ld` (production) → `make validate` must PASS (byte-identical)
-3. Build with `sawyer_free.ld` (+4 shift) → `make disc` → boot test
-4. **Gate**: game boots with +4 padding (attract mode or better)
+The 2-byte alignment scan found 37 total, but the extras are overlapping byte windows
+creating false positives (e.g., two adjacent 16-bit DAT_ values that coincidentally
+form a 0x0600xxxx 32-bit value). Verified by reading the .s source — confirmed not
+pool entries.
+
+**Conclusion**: Address relocation within APROG.BIN is COMPLETE. The black screen
+has a different root cause. The PROVIDE fix was necessary but not sufficient.
+
+#### Investigation Round 2 — What Else Could Cause the Black Screen?
+
+The following assumptions are untested. Each has a specific ground truth test.
+Any one of these being wrong would explain the black screen.
+
+**RT1: Byte-Level Diff (linker structural integrity)**
+- Assumption: The free binary is EXACTLY prod content with +4 offset plus address fixups.
+- Test: Compare every single byte — `prod[i]` vs `free[i+4]` for all `i >= 0xFC`.
+  Any unexpected byte difference reveals the linker added alignment padding, reordered
+  sections, or otherwise changed the binary structure.
+- Ground truth source: raw binary bytes (no tools to trust)
+
+**RT2: Round-Trip Injection (disc integrity)**
+- Assumption: `inject_binary.py` puts our exact bytes onto the disc.
+- Test: Extract APROG.BIN back OUT of the disc image and compare byte-for-byte to
+  `reimpl/build/APROG.BIN`. If they differ, the inject script corrupts the binary.
+- Ground truth source: disc image bytes vs build output bytes
+
+**RT3: Boot Header Size (IP.BIN load size)**
+- Assumption: The Saturn loads all 394,900 bytes of APROG.BIN.
+- Test: Read the IP.BIN boot header from the disc. Check if it hardcodes a load size
+  for APROG.BIN. If it says "load 394,896 bytes", our 394,900-byte binary gets truncated
+  and the last 4 bytes (shifted content) are missing.
+- Ground truth source: IP.BIN hex dump
+
+**GT3 (revived): Mednafen Debugger Trace (CPU-level execution)**
+- Previously superseded, now critical. The PROVIDE fix didn't solve the black screen.
+- Test: Boot the free-layout disc in Mednafen. Set breakpoint at 0x06003000 (_start).
+  Step through execution. Watch where the CPU goes. Does it reach FUN_060030FC (at
+  its new address 0x06003100)? Does the init chain proceed? Where does execution
+  diverge from normal?
+- Ground truth source: CPU register and PC values (the ultimate truth)
+- This tells us: crash vs hang vs running-but-not-drawing.
+
+**RT5: External Data File Scan (hardcoded cross-references)**
+- Assumption: Only APROG.BIN contains addresses pointing into APROG.BIN's code space.
+- Test: Scan COURSE0.BIN, COURSE1.BIN, COURSE2.BIN, TABLE.BIN, PIT.BIN, POLYGON.BIN
+  for 4-byte big-endian values in the range 0x06003000-0x06063690. If any data file
+  contains such values, they're hardcoded pointers into APROG that become stale after
+  the +4 shift. The Sawyer L1 annotations (46 files in `asm/`) document the parsing
+  code for these files and can help us understand the data formats.
+- Ground truth source: raw hex scan of data files
+
+**Execution order**: RT2 (quickest, highest suspicion) → RT1 → RT3 → RT5 → GT3
 
 **Gate**: game boots with +4 padding (attract mode or better).
 
@@ -317,4 +359,4 @@ computed offsets, or symbols we haven't catalogued.
 
 ---
 *Created: 2026-02-17*
-*Updated: 2026-02-17 — Phase 3 root cause found: 1,544 absolute PROVIDE symbols. Fix script ready.*
+*Updated: 2026-02-17 — PROVIDE fix applied (commit 7f5310d), relocation complete but black screen persists. Investigation round 2 planned.*
