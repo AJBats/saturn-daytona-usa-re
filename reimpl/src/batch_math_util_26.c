@@ -1597,7 +1597,6 @@ unsigned int FUN_060271ee()
   return uVar13;
 }
 
-#if 0 /* math_sin_cos -- redirected to ASM import via linker PROVIDE */
 void math_sin_cos(param_1, param_2, param_3)
     int param_1;
     int *param_2;
@@ -1623,7 +1622,7 @@ void math_sin_cos(param_1, param_2, param_3)
   return;
 
 }
-#endif /* math_sin_cos */
+/* end math_sin_cos */
 
 /* track_surface_collision_query -- determine track surface type under car from grid-based polygon test */
 #if 0 /* FUN_06027CA4 -- replaced by ASM import */

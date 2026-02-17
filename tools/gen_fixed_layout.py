@@ -165,7 +165,7 @@ def scan_named_context_map():
                     # Look for named function def in the next few lines
                     for k in range(j + 1, min(j + 5, len(lines))):
                         fm = re.match(
-                            r'\s*(?:void|int|unsigned\s+int|char|short|long)\s+'
+                            r'\s*(?:void|int|unsigned\s+(?:int|short|char|long)|char|short|long)\s+'
                             r'([a-z_][a-z0-9_]+)\s*\(',
                             lines[k]
                         )
@@ -214,7 +214,7 @@ def scan_named_context_map():
             # Look for function def in the next lines (up to 75 — doc blocks can be long)
             for k in range(i + 1, min(i + 75, len(lines))):
                 fm = re.match(
-                    r'\s*(?:void|int|unsigned\s+int|char|short|long)\s+'
+                    r'\s*(?:void|int|unsigned\s+(?:int|short|char|long)|char|short|long)\s+'
                     r'([a-z_][a-z0-9_]+)\s*\(',
                     lines[k]
                 )

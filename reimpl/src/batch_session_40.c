@@ -781,6 +781,7 @@ __asm__(
  * polls until ready (status 1 or 2), initializes directory,
  * verifies CD-XA flag, configures default filter, and waits for
  * completion with 0x8000 iteration timeout. Returns 0 on success. */
+/* 0x060400D6: cd_session_open */
 int cd_session_open(param_1, param_2)
     int param_1;
     int param_2;

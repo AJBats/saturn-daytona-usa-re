@@ -151,6 +151,7 @@ void scu_dma_subsystem_init()
 #endif /* scu_dma_subsystem_init */
 /* REMOVED: conflicting alias */ // void FUN_0603C104(void) __attribute__((alias("scu_dma_subsystem_init")));
 
+/* 0x0603C1A8: dma_channel_level_set */
 /* dma_channel_level_set -- Set DMA transfer level for selected channels.
  * channel_mask: bitmask selecting which DMA channels to configure:
  *   0x100/0x200 = channel 0 (low/high byte of reg at 0x060A4D36)
@@ -366,7 +367,7 @@ int dma_channel_level_set(channel_mask, level)
   return 0;
 }
 
-/* 0x0603C1A8: palette_fade_update */
+/* 0x0603C728: palette_fade_update */
 /* palette_fade_update -- Palette color transition controller.
  *
  * Manages per-frame color/brightness transitions for VDP2 palettes.

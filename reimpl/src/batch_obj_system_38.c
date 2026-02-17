@@ -1124,6 +1124,7 @@ void display_mode_init(char mode, short line_count, char res_mode, char scan_lin
  * reaches threshold (0x060A4CAB), rotates the 5-slot display config
  * ring buffer (0x060A4CBC..CE8) and commits the new display params.
  * Returns: 0 = still counting, 1 = inactive mode, or display query result. */
+/* 0x0603950C: framebuffer_vsync_poll */
 int framebuffer_vsync_poll(param_1)
     int *param_1;
 {

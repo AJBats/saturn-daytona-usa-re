@@ -200,6 +200,7 @@ void FUN_0600c302(void) { FUN_0600C302(); }
 #define CAM_CYCLE_BTN         (*(volatile unsigned short *)0x06078660)
 #define CAM_MAX_MODE          (*(volatile int *)0x06078662)
 #define CAM_DIRECT_MODE       0x8000
+/* 0x0600C286: camera_view_select */
 unsigned short camera_view_select(input_buttons)
     unsigned short input_buttons;
 {
