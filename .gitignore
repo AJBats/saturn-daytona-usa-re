@@ -5,6 +5,7 @@ ghidra_project/
 *.S
 !asm/*.s
 !reimpl/**/*.s
+!experiments/**/*.s
 .claude/
 tools/sh-elf/
 tools/gcc26-build/

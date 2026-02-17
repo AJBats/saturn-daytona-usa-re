@@ -3,218 +3,222 @@
 > **Status**: Active — primary workstream
 > **Created**: 2026-02-17
 > **Predecessor**: DONE_function_audit.md, ICEBOX_gameplay_extraction.md (Sawyer annotations)
-> **Paused**: road_to_boot.md, reimplementation.md (resume after Sawyer L2 base is established)
+> **Paused**: road_to_boot.md, reimplementation.md (resume after bootable ASM base)
 
 ## The Problem
 
-The reimpl is 92% original binary bytes reimported. The fixed-address layout forces
-every function into a size-constrained slot — if the C output is even 1 byte larger
-than the original, it overflows into its neighbor. This created an endless cycle:
+The reimpl is 92% original binary bytes reimported as frozen `.byte` blobs. The
+fixed-address layout forces every function into a size-constrained slot — if C output
+is even 1 byte larger, it overflows into its neighbor. This created an endless cycle:
 
     C too large → overflow → ASM import → hardcoded addresses → fixed layout → C too large
 
-We spent weeks on linker scripts, overflow sections, trampolines, and address mappings.
-The fundamental architecture was wrong.
+The root cause: our "ASM imports" are post-link bytes with baked-in addresses. They
+can't be moved. They force fixed layout.
 
 ## The Insight
 
 Sega AM2 shipped Daytona with a mix of C and hand-written assembly. They never had
-the slot-size problem because their assembly was **source** — `.s` files with symbolic
-labels, assembled into relocatable `.o` files, linked by the linker. The linker resolved
-all addresses. No function knew its own address. No function knew anyone else's address.
+the slot problem because their ASM was **source** — `.s` files with symbolic labels,
+assembled into relocatable `.o` files, linked by the linker. No function knew its own
+address or anyone else's. The linker decided everything.
 
-Our "ASM imports" are fundamentally different — they're raw bytes extracted from the
-**final linked binary**, with all addresses baked in. They can't be moved. They force
-fixed layout. They're the root cause of the slot-size problem.
+We need to reconstruct that pre-link source from the post-link binary.
 
-## The Approach
+## Quality Levels
 
-Produce real assembly source — the kind that existed before the linker ran. Start from
-`build/aprog.s` (the full disassembly) and the 46 Sawyer annotation files (which document
-what every function does), and convert hardcoded addresses to symbolic references.
+| Level | Instructions | Pool entries | Relocatable | Validation |
+|-------|-------------|-------------|-------------|------------|
+| **L1** (current reimpl) | `.byte` blobs in C | hardcoded bytes | No | N/A |
+| **L2** (byte-perfect) | `.byte` blobs in `.s` | `.4byte _SYMBOL` | **Yes** | `cmp` vs original |
+| **L3** (real source) | SH-2 mnemonics | `.4byte _SYMBOL` | Yes | boot test |
+| **L4** (C reimpl) | C source | N/A (compiler pools) | Yes | boot test |
 
-### What "Relocatable" Means
+**L2 is the minimum work that breaks the cage.** Instructions stay as opaque bytes,
+only the constant pool entries are symbolized. Because instruction bytes are identical,
+we can verify the conversion with `cmp`. This is automatable.
 
-Original disassembly (post-link, hardcoded):
-```asm
-FUN_0600E71A:
-    mov.l   @(0x84,PC),r3        ! r3 = 0x06008318
-    jsr     @r3
-    ...
-    .long   0x06008318            ! ← hardcoded address
-```
+**L3 is understanding.** Converting `.byte` pairs to real mnemonics. Done incrementally
+using the 46 Sawyer annotation files as reference. Validated by boot test.
 
-Sawyer L2 source (pre-link, symbolic):
-```asm
-    .global _FUN_0600E71A
-_FUN_0600E71A:
-    mov.l   .L_E71A_pool_0,r3    ! r3 = &FUN_06008318 (input handler)
-    jsr     @r3
-    ...
-    .align 2
-.L_E71A_pool_0:
-    .long   _FUN_06008318         ! ← symbolic reference, linker resolves
-```
+**L4 is the endgame.** Replacing ASM functions with C. No slot constraints because
+the linker handles placement. The 93 hand-written C files and 624 Ghidra lifts are
+the starting material.
 
-The assembler (`sh-elf-as`) encodes the `mov.l` displacement (distance from instruction
-to pool entry) and emits a relocation record saying "fill in the address of
-`_FUN_06008318` here." The linker resolves it at link time.
+## POC Results (2026-02-17)
 
-### Why This Kills the Slot Problem
+Three experiments validated the approach:
 
-When every reference is symbolic, the linker places functions wherever they fit.
-If function A grows by 20 bytes, functions B, C, D shift — and their references
-update automatically. No overflow, no trampolines, no corruption.
+1. **Symbolic pool → byte-identical**: Replaced `.byte` pool entries with `.4byte _SYMBOL`,
+   linked at original addresses. Output: **174 bytes, byte-identical to original.** ✓
 
-The only hard constraint is **total binary size** (must fit in work RAM), not
-individual function sizes.
+2. **Symbolic pool → relocation works**: Same `.o` file linked at different addresses.
+   Instructions identical, pool values updated to new addresses. **Relocation confirmed.** ✓
 
-## Pipeline
+3. **Real mnemonics assemble correctly**: Full function rewritten as SH-2 mnemonics.
+   Assembles and links. 4 byte differences traced to transcription errors in mov.w
+   label targets, not toolchain issues. **Mechanism proven.** ✓
 
-```
-build/aprog.s                    46 Sawyer annotation files
-(206K lines, 1234 functions)     (asm/*.s — rich comments, struct docs)
-         │                                │
-         └──────────┬─────────────────────┘
-                    │
-         ┌──────────▼──────────┐
-         │  symbolize_asm.py   │  Convert hardcoded addresses to labels
-         │                     │  using symbol table + Sawyer knowledge
-         └──────────┬──────────┘
-                    │
-         ┌──────────▼──────────┐
-         │  sawyer_l2/src/*.s  │  Relocatable assembly source
-         │  (one .s per func)  │  with symbolic references
-         └──────────┬──────────┘
-                    │
-         ┌──────────▼──────────┐
-         │   sh-elf-as → .o    │  Assemble to relocatable objects
-         └──────────┬──────────┘
-                    │
-         ┌──────────▼──────────┐
-         │   sh-elf-ld → BIN   │  Link all objects → APROG.BIN
-         └──────────┬──────────┘
-                    │
-         ┌──────────▼──────────┐
-         │    diff vs original │  Byte-for-byte comparison
-         └─────────────────────┘
-```
+## Plan
 
-### Verification
+### Phase 1: Build Pipeline Setup
 
-The assembled + linked output should be **byte-identical** to the original APROG.BIN.
-Same instructions, same constant pool values, same function order. If it's not identical,
-the symbolization has a bug — fix it until it matches.
+**Goal**: Fresh build system in `reimpl/` that assembles `.s` files and links them.
 
-This gives us a **known-good baseline**: the binary is perfect because it's the same code,
-just represented differently (source vs frozen bytes).
+1. Archive old C source: `reimpl/src/` → `reimpl/src_c_archive/`
+2. Create `reimpl/src/` for new `.s` source files
+3. Write new Makefile:
+   - Discovers `src/*.s` files
+   - Assembles each with `sh-elf-as -big` → `.o`
+   - Links all `.o` files with `sh-elf-ld -EB` → `APROG.BIN`
+   - Runs `cmp` against original as validation gate
+4. Linker script: sequential placement starting at 0x06003000, functions in address order
+5. Verify: empty build compiles and links (even if the binary is wrong)
 
-### Then: Introduce C
+### Phase 2: Sawyer L2 — Automated Symbolization
 
-Once the ASM base links and matches, replace functions with C one at a time:
+**Goal**: All 1,234 functions as `.s` files with symbolic pool entries. Byte-identical output.
 
-1. Pick a function (start with the 93 hand-written L2+ files we already have)
-2. Remove its `.s` file, add the `.c` file to the build
-3. Rebuild and link
-4. Boot test
-5. If it works → commit. If not → the C has a bug, fix it or revert.
+1. Build `tools/symbolize_pools.py`:
+   - Input: `build/aprog.s` (full disassembly)
+   - Input: symbol table (1,234 FUN_ + ~1,482 DAT_ addresses)
+   - For each function:
+     a. Extract the `.byte` block
+     b. Identify the constant pool region (4-byte-aligned entries after the last instruction)
+     c. For each 4-byte value: check against symbol table
+     d. Match → `.4byte _FUN_XXXX` or `.4byte _DAT_XXXX`
+     e. No match → keep as `.byte` (numeric constant or unknown)
+   - Output: one `.s` file per function in `reimpl/src/`
+   - Output: linker script with function ordering + symbol PROVIDE declarations
 
-Because everything is relocatable, a C function that's 20% larger than the original
-**just works** — the linker shifts everything else. No overflow. No trampolines.
+2. Handle data gaps between functions:
+   - The original binary has data interleaved with code
+   - `patch_data_holes.py` already handles this — fill gaps post-link
+   - OR: emit gap data as `.byte` blocks in the `.s` files
 
-## Resources
+3. Handle FUN_06046E48 (the 116KB data tail):
+   - Not a function — it's parameter tables, strings, lookup tables
+   - Emit as a data `.s` file or let gap patcher handle it
 
-### Symbol Table
+4. Validation loop:
+   - `make` → assemble + link → `cmp build/APROG.BIN build/original_aprog.bin`
+   - Fix mismatches: wrong symbol classification, missed pool entries, alignment issues
+   - Iterate until byte-identical
 
-- `build/aprog_syms.txt` — 1,234 function addresses (FUN_ labels)
-- `reimpl/src/linker_stubs.c` — ~1,482 data symbols (DAT_, PTR_DAT_)
-- Hardware registers (0x25XXXXXX) — not relocatable, stay as literal constants
+5. **Gate**: `cmp` passes. The relocatable source produces the exact original binary.
 
-### Sawyer Annotations (46 files in asm/)
+### Phase 3: Free Layout + Boot Test
 
-These document what each function does, struct layouts, call chains, and data addresses.
-They contain the knowledge needed to classify each constant pool entry:
+**Goal**: Prove the binary works without fixed addresses.
 
-- Function pointer → `.long _FUN_XXXXXXXX` (symbolic)
-- Data address → `.long _DAT_XXXXXXXX` (symbolic)
-- Hardware register → `.long 0x25XXXXXX` (literal, keep as-is)
-- Numeric constant → `.long 0x00000FFF` (literal, keep as-is)
+1. Switch linker script from address-ordered to simple sequential:
+   ```
+   . = 0x06003000;
+   .text : { *(.text) }
+   ```
+   Functions placed in link order. Addresses will differ from original.
 
-### Existing C Source (keep for Phase 2)
+2. Build disc image with the new binary
 
-- 93 hand-written L2+ files (257 functions) — real reverse engineering work
-- 624 disabled Ghidra L1 lifts — starting points for future C conversion
-- These stay in the repo, ready to swap in once the ASM base is stable
+3. Boot test in Mednafen:
+   - If it boots → relocatable build works, addresses don't matter
+   - If it crashes → some reference wasn't symbolized (hardcoded address in a pool
+     entry that we left as `.byte`). The crash location tells us which function, and
+     we fix the missed symbol.
+
+4. **Gate**: game boots to at least the same point as the previous reimpl (black screen
+   or better).
+
+### Phase 4: Sawyer L3 — Real ASM Source (Incremental)
+
+**Goal**: Convert opaque `.byte` instructions to readable SH-2 mnemonics.
+
+1. Priority order:
+   - Functions with Sawyer annotations (46 files covering gameplay subsystems)
+   - Boot-critical init chain (FUN_060030FC and callees)
+   - Large functions (more value per conversion)
+
+2. Per-function workflow:
+   - Read Sawyer annotation for understanding
+   - Replace `.byte` pairs with mnemonics
+   - Boot test (not byte-compare — mnemonics may produce different pool layouts)
+   - Commit
+
+3. This is ongoing work. No gate — L3 conversion happens continuously alongside
+   other work. A function at L2 (`.byte` + symbolic pools) is already relocatable
+   and correct. L3 adds readability, not correctness.
+
+### Phase 5: C Introduction (The Payoff)
+
+**Goal**: Replace ASM functions with C, one at a time. No slot constraints.
+
+1. Start with the 93 hand-written L2+ C files (257 functions)
+   - These are already understood and documented
+   - Move from `reimpl/src_c_archive/` back into `reimpl/src/`
+   - Remove the corresponding `.s` file
+
+2. Makefile builds `.s` and `.c` together:
+   - `.s` files → `sh-elf-as` → `.o`
+   - `.c` files → `sh-elf-gcc` → `.o`
+   - All `.o` → `sh-elf-ld` → `APROG.BIN`
+
+3. Per-function validation: rebuild, boot test
+   - If boot breaks → the C has a bug. Fix or revert.
+   - If binary too large → optimize the C or accept the growth (see RAM audit)
+
+4. Eventually: tackle the 624 disabled Ghidra lifts as starting points for more C
+
+5. **No slot size constraints.** A C function that's 20% larger just shifts everything
+   after it. The linker resolves all references. This is why we did all of this.
 
 ## Constant Pool Classification
 
-The core challenge. Every `.long` in a constant pool must be classified:
+The core challenge of L2. Every 4-byte value in a constant pool must be classified:
 
-| Address Range | Type | Action |
-|---------------|------|--------|
-| 0x06003000–0x06063C10 | Code/data in binary | Check symbol table, symbolize |
-| 0x06064000–0x060FFFFF | Runtime data region | Symbolize as data label |
-| 0x00200000–0x002FFFFF | Low work RAM | Symbolize as data label |
-| 0x25XXXXXX | Hardware MMIO | Keep as literal |
-| 0x20XXXXXX | SMPC registers | Keep as literal |
-| 0xFFFFFEXX | On-chip registers | Keep as literal |
-| Other | Numeric constants | Keep as literal |
+| Value Range | Type | Action |
+|-------------|------|--------|
+| Matches known FUN_ symbol | Code pointer | `.4byte _FUN_XXXXXXXX` |
+| Matches known DAT_ symbol | Data pointer | `.4byte _DAT_XXXXXXXX` |
+| 0x0600XXXX but no symbol match | Unknown addr | Keep as `.byte`, flag for review |
+| 0x25XXXXXX | VDP/SCSP MMIO | Keep as `.byte` (literal) |
+| 0x20XXXXXX | SMPC registers | Keep as `.byte` (literal) |
+| 0xFFFFFEXX | On-chip I/O | Keep as `.byte` (literal) |
+| Everything else | Numeric constant | Keep as `.byte` (literal) |
 
-Values in the 0x0600XXXX range that match a known FUN_ or DAT_ symbol get replaced.
-Values that don't match any symbol are likely mid-function addresses or computed offsets —
-these need investigation (potentially new labels).
+**Conservative approach**: only symbolize values that exactly match a known symbol.
+Leave everything else as literal bytes. This guarantees byte-identical output.
+Unknown 0x0600XXXX values get flagged — they might be mid-function addresses,
+computed offsets, or symbols we haven't catalogued.
+
+## Resources
+
+- `build/aprog.s` — full disassembly (206K lines, 1,234 function labels)
+- `build/aprog_syms.txt` — symbol table (function addresses)
+- `reimpl/src/linker_stubs.c` — ~1,482 data symbol addresses
+- `asm/*.s` — 46 Sawyer annotation files (rich comments, struct layouts)
+- `reimpl/src_c_archive/` — archived C source (93 hand-written + 624 Ghidra lifts)
+- `experiments/` — POC validation (2026-02-17), all use FUN_0600E71A (player physics orchestrator, 174 bytes):
+  - `poc_original.s` / `poc_link.ld` / `poc_test.sh` — baseline: function as raw `.byte` directives
+  - `poc_symbolic.s` / `poc_relocated.ld` / `poc_reloc_test.sh` — L2 test: `.4byte _SYMBOL` pool entries, proves relocation works
+  - `poc_real_asm.s` / `poc_real_link.ld` / `poc_real_test.sh` — L3 test: real SH-2 mnemonics, proves assembler produces correct output
 
 ## Open Questions
 
-1. **Link order**: The linker places functions in the order they appear. We need to match
-   the original order (by address) to get byte-identical output. This means the linker
-   script or the link command must list objects in address order.
+1. **RAM budget**: Need a work RAM audit to determine actual wiggle room beyond
+   394,896 bytes. If there's headroom, C functions that compile larger are fine.
 
-2. **Data regions**: The binary has interleaved code and data. Data regions between
-   functions must also be represented in the source (as `.byte`/`.long` directives)
-   or handled by the gap patcher.
+2. **Data gaps**: Should interleaved data be emitted in `.s` files or handled by
+   the gap patcher post-link? Gap patcher is simpler but less self-contained.
 
-3. **Constant pool placement**: The assembler decides where to place literal pools.
-   The original compiler may have placed them differently (inline vs end-of-function).
-   We may need `.ltorg` directives to match original pool positions.
+3. **Alignment**: Functions starting at 2 mod 4 need pool entries at 4-byte boundaries.
+   The L2 approach (`.byte` instructions + `.4byte` pools) handles this with `.4byte`
+   which doesn't enforce section-relative alignment. L3 (real mnemonics) needs explicit
+   padding — manageable but needs care.
 
-4. **Branch targets within functions**: Internal labels (loop heads, if/else branches)
-   are PC-relative and don't need symbolization — the assembler handles them. But we
-   need to verify the disassembler generated correct local labels.
-
-5. **Total binary size budget**: Need a work RAM audit to determine actual wiggle room
-   beyond the original 394,896 bytes.
-
-## Milestones
-
-### M1: Proof of Concept (1 function)
-
-Take one well-understood function (e.g., FUN_0600E71A — player physics orchestrator,
-fully annotated in Sawyer), convert to relocatable source, assemble, link, verify
-bytes match the original.
-
-### M2: Symbolization Tool
-
-Build `symbolize_asm.py` that processes `build/aprog.s`:
-- Splits into per-function `.s` files
-- Replaces constant pool addresses with symbol references
-- Adds `.global` directives for function entry points
-- Generates a linker script that orders functions by address
-
-### M3: Full Binary Build
-
-All 1,234 functions as relocatable `.s` source. Assemble, link, diff against original.
-Goal: byte-identical output.
-
-### M4: First C Swap
-
-Replace one ASM function with its C equivalent. Rebuild, boot test. Prove the
-incremental replacement workflow works.
-
-### M5: Mass C Introduction
-
-Systematically swap in the 93 hand-written C files. Each swap: rebuild, test,
-commit. Track which C functions boot-test clean.
+4. **Unknown addresses**: Pool values in 0x0600XXXX that don't match any symbol.
+   These need new labels created, or they stay as literals and we accept that those
+   specific references won't relocate. Phase 3 boot testing will expose any that matter.
 
 ---
 *Created: 2026-02-17*
+*Updated: 2026-02-17 — POC results, full phase plan*

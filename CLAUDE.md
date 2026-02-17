@@ -6,7 +6,7 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Function Audit** | **ACTIVE** |workstreams\function_audit.md |
+| 1 | **Sawyer L2** | **ACTIVE** | workstreams\sawyer_l2.md
 | 2 | **Road To Boot** | **Paused until audit complete** | workstreams\road_to_boot.md |
 | 3 | **Daytona USA Re-implementation** | **Fallthrough** | workstreams\reimplementation.md |
 
