@@ -128,6 +128,7 @@ __asm__(
 );
 
 
+#if 0 /* track_calculation -- redirected to ASM import via linker PROVIDE */
 unsigned int track_calculation()
 {
   unsigned int uVar3;
@@ -165,6 +166,7 @@ unsigned int track_calculation()
 
   return uVar3;
 }
+#endif /* track_calculation */
 /* REMOVED: conflicting alias */ // void FUN_06018278(void) __attribute__((alias("track_calculation")));
 
 /* start_banner_state -- START banner scaling/display state machine.

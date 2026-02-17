@@ -393,13 +393,24 @@ def generate_linker_script(syms, orig_sizes, asm_globals, overflows_needing_tram
         input_sections = []
 
         # If this function needs a trampoline (overflow + ASM-referenced),
-        # the trampoline goes here instead of the real function
+        # the trampoline goes here instead of the real function.
+        # Also always include the standard FUN_ section -- ASM byte imports
+        # create .text.FUN_XXXXXXXX sections that must land at the correct address.
         if upper_name in trampoline_funs:
             input_sections.append('*(.text.trampoline_%s)' % name)
+            input_sections.append('*(%s)' % section_name)
+            # Also lowercase hex variant
+            lower_hex = name[:4] + name[4:].lower()
+            if lower_hex != name:
+                input_sections.append('*(.text.%s)' % lower_hex)
         elif upper_name in free_overflow_funs:
-            # Overflowing but not ASM-referenced -- skip placement here,
-            # it will land in the overflow catchall section via *(.text.*)
-            input_sections.append('/* overflow: %s goes to catchall */' % name)
+            # Overflowing but not ASM-referenced -- the C code will land in
+            # the overflow catchall. But still include the standard FUN_ glob
+            # so ASM byte imports (if any) land at the correct address.
+            input_sections.append('*(%s)' % section_name)
+            lower_hex = name[:4] + name[4:].lower()
+            if lower_hex != name:
+                input_sections.append('*(.text.%s)' % lower_hex)
         else:
             # Include the FUN_ section at the original address.
             input_sections.append('*(%s)' % section_name)

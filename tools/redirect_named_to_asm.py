@@ -185,6 +185,7 @@ OTHER_NAMED_MAP = {
 SKIP_REDIRECT = {
     'scu_dma_transfer',    # FUN_0602766C only defined via alias in scu_dma.c
     'cdda_buffer_select',  # FUN_0601f87a only defined via alias in batch_subsystem_1e.c
+    'vdp1_cmd_table_init', # FUN_06002594 only defined via alias in batch_system_low.c
 }
 
 
@@ -246,8 +247,13 @@ def find_named_function_files():
             if in_if0 > 0:
                 continue
 
-            # Match function definitions
-            m = re.match(r'^(?:void|int|unsigned|short|char|long)\s+(\w+)\s*\(', line)
+            # Match function definitions — handle multi-word types and pointer returns
+            # Examples: void foo(), int bar(), unsigned int baz(), char * qux()
+            m = re.match(
+                r'^(?:void|int|unsigned\s+int|unsigned\s+char|unsigned\s+short|unsigned|'
+                r'short|char|long|signed)[\s\*]+(\w+)\s*\(',
+                line
+            )
             if m:
                 name = m.group(1)
                 if not name.startswith('FUN_'):

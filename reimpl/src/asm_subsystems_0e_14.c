@@ -19,9 +19,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_0600F650, \"ax\"\n"
 
     ".global _FUN_0600F650\n"
+
+
+
 
 
 
@@ -222,9 +228,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_0600F9C6, \"ax\"\n"
 
     ".global _FUN_0600F9C6\n"
+
+
+
 
 
 
@@ -473,9 +485,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_0600FB78, \"ax\"\n"
 
     ".global _FUN_0600FB78\n"
+
+
+
 
 
 
@@ -749,9 +767,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_0600FED0, \"ax\"\n"
 
     ".global _FUN_0600FED0\n"
+
+
+
 
 
 
@@ -911,9 +935,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_060102EC, \"ax\"\n"
 
     ".global _FUN_060102EC\n"
+
+
+
 
 
 
@@ -1047,9 +1077,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06010AA4, \"ax\"\n"
 
     ".global _FUN_06010AA4\n"
+
+
+
 
 
 
@@ -1169,9 +1205,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06010F04, \"ax\"\n"
 
     ".global _FUN_06010F04\n"
+
+
+
 
 
 
@@ -1403,9 +1445,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_060114B8, \"ax\"\n"
 
     ".global _FUN_060114B8\n"
+
+
+
 
 
 
@@ -1520,9 +1568,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_060115F0, \"ax\"\n"
 
     ".global _FUN_060115F0\n"
+
+
+
 
 
 
@@ -1622,9 +1676,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_060116BC, \"ax\"\n"
 
     ".global _FUN_060116BC\n"
+
+
+
 
 
 
@@ -2006,9 +2066,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_0601198C, \"ax\"\n"
 
     ".global _FUN_0601198C\n"
+
+
+
 
 
 
@@ -2220,9 +2286,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06011B08, \"ax\"\n"
 
     ".global _FUN_06011B08\n"
+
+
+
 
 
 
@@ -2605,9 +2677,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_060120CC, \"ax\"\n"
 
     ".global _FUN_060120CC\n"
+
+
+
 
 
 
@@ -2749,9 +2827,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_0601228C, \"ax\"\n"
 
     ".global _FUN_0601228C\n"
+
+
+
 
 
 
@@ -2859,6 +2943,9 @@ __asm__(
 
 
     ".balign 2\n"
+
+
+
 
 
 
@@ -2998,9 +3085,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06012BE4, \"ax\"\n"
 
     ".global _FUN_06012BE4\n"
+
+
+
 
 
 
@@ -3076,9 +3169,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_060138BE, \"ax\"\n"
 
     ".global _FUN_060138BE\n"
+
+
+
 
 
 
@@ -3163,6 +3262,9 @@ __asm__(
 
 
     ".balign 2\n"
+
+
+
 
 
 
@@ -3359,9 +3461,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06013B04, \"ax\"\n"
 
     ".global _FUN_06013B04\n"
+
+
+
 
 
 
@@ -3536,9 +3644,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06013E14, \"ax\"\n"
 
     ".global _FUN_06013E14\n"
+
+
+
 
 
 
@@ -3590,9 +3704,15 @@ __asm__(
 
 
 
+
+
+
     ".section .text.FUN_06013E7A, \"ax\"\n"
 
     ".global _FUN_06013E7A\n"
+
+
+
 
 
 

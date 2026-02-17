@@ -1094,6 +1094,7 @@ int race_position_sound()
  *   2nd car: 1st/3rd=0xAE112BFF, 6th=0xAE112DFF. 3rd car: 8th=0xAE112FFF.
  *   Sound interval timer at 0x06086056, delay counter at 0x06086054.
  *   Finish sequence flag at 0x0608605A triggers final 0xAE1120FF cue. */
+#if 0 /* position_sound_sequencer -- redirected to ASM import via linker PROVIDE */
 unsigned int position_sound_sequencer()
 {
   short interval_timer;
@@ -1193,6 +1194,7 @@ LAB_0601db20:
   }
   return result;
 }
+#endif /* position_sound_sequencer */
 /* REMOVED: conflicting alias */ // void FUN_0601D9B0(void) __attribute__((alias("position_sound_sequencer")));
 
 

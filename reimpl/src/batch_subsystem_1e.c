@@ -1365,6 +1365,7 @@ __asm__(
 /* REMOVED: conflicting alias */ // int FUN_0601f5e0() __attribute__((alias("save_score_check_update")));
 #endif
 
+#if 0 /* save_data_write_validate -- redirected to ASM import via linker PROVIDE */
 unsigned int save_data_write_validate()
 {
     int *course_sel = (int *)0x0607EAD8;
@@ -1408,6 +1409,7 @@ unsigned int save_data_write_validate()
 
     return result;
 }
+#endif /* save_data_write_validate */
 #if 0 /* FUN_0601F784 -- replaced by ASM import of original bytes */
 /* REMOVED: conflicting alias */ // unsigned int FUN_0601f784() __attribute__((alias("save_data_write_validate")));
 #endif

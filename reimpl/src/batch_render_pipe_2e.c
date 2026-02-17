@@ -571,6 +571,7 @@ LAB_0602f95a:
  * Global cooldown at 0x06086054 (short, decremented each frame).
  *
  * Called from car_iteration.c per-frame loop. */
+#if 0 /* race_sfx_update -- redirected to ASM import via linker PROVIDE */
 unsigned int race_sfx_update()
 /* REMOVED: conflicting alias */ // void FUN_0602F99C(void) __attribute__((alias("race_sfx_update")));
 {
@@ -974,6 +975,7 @@ LAB_0602fcc0:
   return uVar5;
 
 }
+#endif /* race_sfx_update */
 
 /* --- FUN_0602F99C (L1 import from src/FUN_0602F99C.c) --- */
 
