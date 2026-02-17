@@ -539,11 +539,66 @@ The 198 "medium/small/tiny" functions are Ghidra C lifts that compile smaller th
 the original. These are candidates for ASM byte import if they cause boot issues,
 but for now they compile and execute correctly.
 
+### Class 6: Overflow Section Elimination (2026-02-16)
+
+**Discovery**: After mass ASM import (240 functions) and PROVIDE alias redirection (141
+named functions), the `.text.overflow` section was still 17.9KB — enough to overwrite
+critical data tables at the end of the binary.
+
+**Root cause**: `gen_fixed_layout.py` generates the linker script that assigns each
+function to its original address. Functions whose sections weren't captured fell through
+to the overflow catchall at 0x06046E50+, overwriting the data region.
+
+**Systematic issues found and fixed**:
+
+1. **Named section capture** — When a C function `foo` has alias `FUN_XXXXXXXX`, GCC names
+   the section `.text.foo` (not `.text.FUN_XXXXXXXX`). The linker script must explicitly
+   capture `*(.text.foo)` at the FUN_ address. Fixed all 3 code paths in gen_fixed_layout.py.
+
+2. **Method 5 address comments** — Added `/* 0xADDRESS: function_name */` comments before
+   function definitions so gen_fixed_layout.py can map named functions to FUN_ addresses
+   even without alias declarations. Fixed regex to match all Saturn addresses (060xxxxx)
+   and scan 75 lines ahead for the function definition.
+
+3. **Method priority conflicts** — Method 2 (heuristic) was overriding Method 5 (address
+   comment, authoritative). Fixed Method 5 to always override.
+
+4. **Return type regex** — Function signature regex didn't match `unsigned short`,
+   `unsigned char` return types. Fixed in both Method 2 and Method 5.
+
+5. **PROVIDE alias generation** — Integrated into gen_fixed_layout.py to auto-generate
+   `PROVIDE(_named = _FUN_XXXXXXXX)` for functions wrapped in `#if 0` redirects.
+
+**Address mappings found** (via constant analysis in build/aprog.s):
+- track_object_placement → FUN_06021450
+- asset_table_init → FUN_06003A3C
+- vdp1_texture_config → FUN_060370E4
+- hud_sprite_vertex_project → FUN_06016DD8
+- palette_fade_update → FUN_0603C728
+- dma_channel_level_set → FUN_0603C1A8
+- cd_session_open → FUN_060400D6
+- camera_view_select → FUN_0600C286
+- framebuffer_vsync_poll → FUN_0603950C
+
+**Progress**: Overflow reduced from 17,960B → 5,784B across 4 commits.
+
+**Remaining overflow composition** (5,784B):
+- Named functions without FUN_ addresses: ~2,700B (need more address mappings)
+- GCC runtime library (__ashiftrt, __sdivsi3, etc.): ~1,448B (irreducible)
+- Below-origin functions (addr < 0x06003000): ~608B (irreducible)
+- Small utility helpers (boot, abs_val, obj_*): ~400B (need addresses)
+
+The ~2,056B of irreducible overflow (GCC runtime + below-origin) is code that must exist
+in memory but has no corresponding location in the original binary. This is acceptable
+as long as it doesn't overwrite data needed for boot.
+
 ### Next Steps
 
-1. Resume boot diagnosis — set breakpoint at FUN_060030FC, trace callee chain
-2. Iterate: fix crash → retest → find next divergence → fix → repeat
-3. Commit the Mednafen cache fix (ss.cpp)
+1. Find FUN_ addresses for remaining named overflow functions (~2,700B)
+2. Assess whether remaining overflow overwrites boot-critical data tables
+3. Resume boot diagnosis — breakpoint at FUN_060030FC, trace callee chain
+4. Iterate: fix crash → retest → find next divergence → fix → repeat
+5. Commit the Mednafen cache fix (ss.cpp)
 
 ---
 
@@ -573,4 +628,4 @@ handles data restoration.
 
 ---
 *Created: 2026-02-16*
-*Updated: 2026-02-16 — Phase 4 deep diagnosis session*
+*Updated: 2026-02-16 — Class 6 overflow elimination*

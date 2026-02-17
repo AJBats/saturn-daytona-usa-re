@@ -329,6 +329,7 @@ int FUN_06034b9a(unsigned int param_1, short param_2, char param_3, char param_4
 }
 #endif
 
+/* 0x06034C68: cd_tray_command */
 /* cd_tray_command -- Open or close the CD tray.
  * param_1=0: open (cmd 0x02), param_1=1: close (cmd 0x82).
  * Sends command via 0x06035E00, checks close response for disc-in bit.

@@ -1516,6 +1516,7 @@ LAB_0602c416:
 }
 
 
+/* 0x0602BDD8: vdp1_sprite_list_build */
 /* vdp1_sprite_list_build -- Build VDP1 sprite command list.
  * Copies param_1 sprite indices from param_2 into work buffer at 0x060A17A8,
  * then processes each to generate VDP1 command list entries.

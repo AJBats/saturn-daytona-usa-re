@@ -215,6 +215,7 @@ int cd_poll_status_ready()
 
 
 
+/* 0x060429EC: vdp2_vram_write */
 /* vdp2_vram_write -- Write data to VDP2 VRAM with mode-dependent addressing.
  * Checks color mode via 0x0603C156: mode 2 = 32-bit (word), else 16-bit (short).
  * For 32-bit: address = 0x25F00000 + (offset<<2) + (bank<<10).
