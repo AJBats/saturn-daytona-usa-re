@@ -179,6 +179,7 @@ void input_state_copy(void)
 /* REMOVED: conflicting alias */ // void FUN_0601e26c() __attribute__((alias("input_state_copy")));
 #endif
 
+#if 0 /* backup_mem_format -- redirected to ASM import via linker PROVIDE */
 void backup_mem_format()
 {
     char *smpc_status = (char *)0x20100063;     /* SMPC SF register */
@@ -210,6 +211,7 @@ void backup_mem_format()
     SMPC_COMREG = 0x19;
     do { } while ((*smpc_status & 1) != 0);
 }
+#endif /* backup_mem_format */
 
 /* FUN_0601E26C -- original binary (72 bytes) */
 __asm__(

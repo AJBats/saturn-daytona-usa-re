@@ -368,6 +368,7 @@ __asm__(
 );
 
 
+#if 0 /* speed_force_timer -- redirected to ASM import via linker PROVIDE */
 int speed_force_timer()
 {
 
@@ -488,6 +489,7 @@ int speed_force_timer()
   return iVar3;
 
 }
+#endif /* speed_force_timer */
 
 /* state_27_countdown -- State 27 handler: countdown to state 30 transition.
  * Decrements STATE_COUNTDOWN each frame. When it hits 0, transitions

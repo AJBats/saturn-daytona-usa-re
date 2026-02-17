@@ -128,6 +128,7 @@ int FUN_0604000c(param_1)
  * Sets track/flags word, clears position/state, sets sentinel to 0x7FFFFFFF.
  *
  * Returns the session pointer, or NULL if track info query fails. */
+#if 0 /* cd_track_context_init -- redirected to ASM import via linker PROVIDE */
 unsigned int * cd_track_context_init(session, source, track_flags)
     unsigned int *session;
     unsigned int *source;
@@ -227,6 +228,7 @@ unsigned int * cd_track_context_init(session, source, track_flags)
   return session;
 
 }
+#endif /* cd_track_context_init */
 
 /* cd_session_seek -- Seek to position in CD session.
  * Stores param_2 at session+0x20, calculates sector offset via FUN_060408B0,
@@ -249,6 +251,7 @@ void FUN_060401f8(int param_1, int param_2)
  * from a packed CD file record. Each output pointer may be NULL to skip.
  * FAD has bit 30 stripped (marks CD-XA). Sectors remaining computed as
  * start - used, or 0 if interleave flags set. Returns 0x1D or 0. */
+#if 0 /* cd_file_info_extract -- redirected to ASM import via linker PROVIDE */
 int cd_file_info_extract(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8)
     unsigned int *param_1;
     unsigned int *param_2;
@@ -309,6 +312,7 @@ int cd_file_info_extract(param_1, param_2, param_3, param_4, param_5, param_6, p
 
     return result;
 }
+#endif /* cd_file_info_extract */
 
 /* cd_status_query -- Query CD drive status and classify state.
  * Reads CD register pair via FUN_06041330, optionally returns raw
@@ -529,6 +533,7 @@ int * cd_session_create(session, track_num, track_size, format, play_mode)
 
 }
 
+void FUN_060407A0(void) __attribute__((alias("cd_session_create")));
 /* cd_session_read_sectors -- Read sectors from CD session and adjust position.
  * Calls sector read (0x060411A0) with session params. On success, calls
  * polling function (0x0604188C). If param_3 is non-null and read data
@@ -599,6 +604,7 @@ __asm__(
  * For relative seeks, adds to current position. For absolute, resets transfer
  * first. In mode 0 (sequential): skips sectors forward. In mode 1 (random):
  * full reset if target is outside current window. Returns final position. */
+#if 0 /* cd_seek_position -- redirected to ASM import via linker PROVIDE */
 int cd_seek_position(param_1, param_2, param_3)
     int param_1;
     int param_2;
@@ -667,6 +673,7 @@ int cd_seek_position(param_1, param_2, param_3)
 
     return *(int *)(param_1 + 8) + *(int *)(param_1 + 0x10);
 }
+#endif /* cd_seek_position */
 
 /* cd_read_buffer_setup -- Allocate and configure a CD read descriptor.
  * Uses static descriptor at 0x0606367C (returns NULL if already active).
@@ -674,6 +681,7 @@ int cd_seek_position(param_1, param_2, param_3)
  * for completion, then fills descriptor: [0]=status, [8]=sectors_read,
  * [0xC]=sector_offset, [0x10]=active flag. Adjusts sector count if
  * file extends past track boundary. Returns descriptor pointer or NULL. */
+#if 0 /* cd_read_buffer_setup -- redirected to ASM import via linker PROVIDE */
 char * cd_read_buffer_setup(param_1, param_2)
     int *param_1;
     int param_2;
@@ -727,6 +735,7 @@ char * cd_read_buffer_setup(param_1, param_2)
 
     return desc;
 }
+#endif /* cd_read_buffer_setup */
 
 /* cd_read_validate -- Validate and initiate a CD read request.
  * Calls partition setup (0x06041204) with session fields, then verifies
@@ -941,6 +950,7 @@ int FUN_06040fea(int param_1)
  * Sets dispatch flag (+0x58) on first entry. Increments queue counter
  * at +0x54. Dispatches immediately via cd_command_queue_process.
  * Returns 0 on success, -8 (queue full), -7 (channel not open). */
+#if 0 /* cd_command_enqueue -- redirected to ASM import via linker PROVIDE */
 int cd_command_enqueue(param_1, param_2, param_3, param_4, param_5)
     int param_1;
     int param_2;
@@ -982,6 +992,7 @@ int cd_command_enqueue(param_1, param_2, param_3, param_4, param_5)
 
     return 0;
 }
+#endif /* cd_command_enqueue */
 
 /* cd_session_lock_verify -- Verify session lock and issue stop command.
  * Validates param_1 against expected filter ID or checks session+0x18 flag.
@@ -1258,6 +1269,7 @@ __asm__(
  * channels are open. Adds 12-byte entry (src, filter, dest) to file table
  * at DAT_060415ee offset. Dispatches immediately via cd_session_file_batch.
  * Returns 0 on success, -6 (out of range), -7 (not open), -8 (table full). */
+#if 0 /* cd_file_transfer_enqueue -- redirected to ASM import via linker PROVIDE */
 int cd_file_transfer_enqueue(param_1, param_2, param_3)
     int param_1;
     int param_2;
@@ -1309,6 +1321,7 @@ int cd_file_transfer_enqueue(param_1, param_2, param_3)
 
     return 0xfffffff9;                         /* -7: channel not open */
 }
+#endif /* cd_file_transfer_enqueue */
 
 /* cd_session_seek -- Seek to a position on CD and verify track state.
  * Queries CD subsystem state via 0x06036A98. If state != 2 or seek
@@ -1575,6 +1588,7 @@ __asm__(
  *   State 3: Poll DMA completion via 0x0603660E. On complete: store
  *            transferred byte count (<<1) at callback pointer, clear lock.
  * Returns 0 (complete), 1 (in progress), or 2 (DMA busy). */
+#if 0 /* cd_dma_transfer_poll -- redirected to ASM import via linker PROVIDE */
 int cd_dma_transfer_poll(param_1)
     int *param_1;
 {
@@ -1658,6 +1672,7 @@ int cd_dma_transfer_poll(param_1)
 
     return 1;
 }
+#endif /* cd_dma_transfer_poll */
 
 /* cd_session_write_poll -- Poll CD write state and advance on completion.
  * When state == 1 at session +0x328: calls CD write (0x060367E8) with
@@ -1802,6 +1817,7 @@ int cd_session_skip_poll(param_1)
  *   State 4: Reconnect channel (0x06036380) for playback monitoring.
  *   State 5: Poll status bit 0x40, return to state 0 (complete).
  * Returns state value (0=done, 1-5=in progress). */
+#if 0 /* cd_session_play_poll -- redirected to ASM import via linker PROVIDE */
 int cd_session_play_poll(param_1)
     int *param_1;
 {
@@ -1871,6 +1887,7 @@ int cd_session_play_poll(param_1)
 
     return *(int *)(0x348 + *(int *)session_ptr);
 }
+#endif /* cd_session_play_poll */
 
 /* --- FUN_060400D6 (L1 import from src/FUN_060400D6.c) --- */
 

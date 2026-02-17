@@ -121,6 +121,7 @@ extern int PTR_DAT_0603204c;
  *   shoulder buttons for increment/decrement via 0x06081888/8A,
  *   button masks at 0x0608188C (accel) and 0x0608188E (brake).
  *   Packs state byte and writes to replay buffer, wraps at DAT_0603045e. */
+#if 0 /* replay_input_process -- redirected to ASM import via linker PROVIDE */
 void replay_input_process()
 {
   unsigned short button_state;
@@ -290,6 +291,7 @@ void replay_input_process()
   *(int *)replay_buf_ptr = car_ptr;
   return;
 }
+#endif /* replay_input_process */
 
 
 

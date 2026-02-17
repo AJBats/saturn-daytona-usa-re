@@ -135,6 +135,7 @@ __asm__(
  *   computes sin/cos via fixedpoint_sine (0x0603D9EC) / fixedpoint_cosine (0x0603DA88).
  *   Rotates coefficient pair from 0x060A53A8/0x060A53B0 into output at 0x060A3E68
  *   (stride 0x80 per plane). Stores rotation matrix: [cos,-sin | sin,cos] at [2..6]. */
+#if 0 /* scroll_plane_angle_accumulate -- redirected to ASM import via linker PROVIDE */
 int scroll_plane_angle_accumulate(param_1)
     int param_1;
 {
@@ -206,6 +207,7 @@ int scroll_plane_angle_accumulate(param_1)
   }
   return plane_off;
 }
+#endif /* scroll_plane_angle_accumulate */
 
 /* light_state_bitfield_update -- Update 8 light state bytes from bitmask.
  * For each bit in param_2 (change mask): if the corresponding bit in
@@ -357,6 +359,7 @@ int FUN_0603f0fc(int param_1, int *param_2, int param_3)
  * entries (24 bytes each) starting at param_1+0x30, reading 12 bytes
  * from CD (0x06036D94) into each entry. Checks flag byte at +0xB
  * against bit mask. Returns entry index or -1 if not found. */
+#if 0 /* cd_directory_entry_search -- redirected to ASM import via linker PROVIDE */
 int cd_directory_entry_search(param_1, param_2, param_3)
     int param_1;
     int param_2;
@@ -398,12 +401,14 @@ int cd_directory_entry_search(param_1, param_2, param_3)
 
     return -1;                                 /* not found */
 }
+#endif /* cd_directory_entry_search */
 
 /* cd_init_and_read_toc -- Initialize CD drive and read table of contents.
  * Connects to CD subsystem (0x06041470) with 0x00FFFFFF timeout,
  * allocates 32KB read buffer (0x06041884), polls until ready,
  * then reads TOC (0x06036A98). Returns entry count + 2 on success,
  * or -1 on any failure (no disc, timeout, TOC read error). */
+#if 0 /* cd_init_and_read_toc -- redirected to ASM import via linker PROVIDE */
 int cd_init_and_read_toc()
 {
     int result;
@@ -443,7 +448,8 @@ int cd_init_and_read_toc()
 
     return entry_count + 2;                    /* +2 for volume descriptor + root */
 }
-void FUN_0603F22C(void) __attribute__((alias("cd_init_and_read_toc")));
+#endif /* cd_init_and_read_toc */
+/* REMOVED: conflicting alias */ // void FUN_0603F22C(void) __attribute__((alias("cd_init_and_read_toc")));
 
 /* cd_dir_read_simple -- Read directory entries (simple variant).
  * Like cd_dir_read_entries but uses 0xC-byte records without
@@ -739,6 +745,7 @@ LAB_0603f716:
  * from raw 32-byte directory record. Decomposes ISO flags into compact
  * bit field at output +0xB: bit4=directory, bit3=hidden, bit2=system,
  * bit1=read-only. Copies name length (+0xE) and interleave (+0xF). */
+#if 0 /* cd_parse_dir_entry -- redirected to ASM import via linker PROVIDE */
 void cd_parse_dir_entry(param_1, param_2)
     int *param_1;
     int param_2;
@@ -765,6 +772,7 @@ void cd_parse_dir_entry(param_1, param_2)
     *(char *)(param_1 + 2) = *(char *)(param_2 + 0xe);    /* name length */
     *(char *)((int)param_1 + 9) = *(char *)(param_2 + 0xf);  /* interleave */
 }
+#endif /* cd_parse_dir_entry */
 
 /* cd_buf_init -- Initialize a CD buffer descriptor to default state.
  * Clears all fields (handle, offset, position, start sector),
@@ -826,6 +834,7 @@ char FUN_0603f970(int param_1, int param_2)
 #define CDSTREAM_READY_BIT   0x0080
 #define CDSTREAM_STATE_MASK  0xFF7F
 #define cd_buf_release       ((void (*)(int, int, int))0x0603F91C)
+#if 0 /* cd_stream_advance -- redirected to ASM import via linker PROVIDE */
 unsigned short cd_stream_advance(ctx, out_complete)
     int *ctx;
     int *out_complete;
@@ -898,6 +907,7 @@ done:
     *out_complete = completed;
     return *(unsigned char *)(ctx + 0xd) & CDSTREAM_STATE_MASK;
 }
+#endif /* cd_stream_advance */
 #undef CDSTREAM_READY_BIT
 #undef CDSTREAM_STATE_MASK
 #undef cd_buf_release
@@ -907,6 +917,7 @@ done:
  * max_chunk(+0x10). If state(+0x30) >= 2 (multi-buffer), also queries
  * available space via 0x06034FFC and takes the minimum. If no active
  * buffer (+0x04 == 0), allocates one via 0x0603F900 and resets offset(+0x1C). */
+#if 0 /* cd_buf_request_read -- redirected to ASM import via linker PROVIDE */
 void cd_buf_request_read(param_1, param_2, param_3)
     int param_1;
     int param_2;
@@ -938,6 +949,7 @@ void cd_buf_request_read(param_1, param_2, param_3)
   }
   return;
 }
+#endif /* cd_buf_request_read */
 
 /* cd_buf_calc_transfer_size -- Calculate transfer size for CD buffer.
  * If state (+0x30) < 2: remaining = total_size - offset, clamp to param_3 limit.

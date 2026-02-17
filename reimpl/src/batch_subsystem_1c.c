@@ -918,6 +918,7 @@ __asm__(
  *   Channel 0 and 0xF send raw command if it has 0xA0000000 signature.
  *   Channel 4 sends param_2 directly without encoding.
  *   Returns channel number on success, SOUND_TIMEOUT_FLAG on timeout. */
+#if 0 /* scsp_command_dispatch -- redirected to ASM import via linker PROVIDE */
 int scsp_command_dispatch(param_1, param_2)
     int param_1;
     unsigned int param_2;
@@ -1004,6 +1005,7 @@ int scsp_command_dispatch(param_1, param_2)
   }
   return result;
 }
+#endif /* scsp_command_dispatch */
 
 /* race_position_sound -- dispatches SCSP sound cues based on race checkpoint progress
  *   Monitors player checkpoint position relative to course total, triggers

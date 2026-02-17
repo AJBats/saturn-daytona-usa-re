@@ -29,6 +29,7 @@ int slot_alloc(int *out_slot)
 }
 
 /* FUN_06040EBA -- Release slot, return 0 on success, -6 on bad index, -7 on not allocated */
+#if 0 /* slot_free -- redirected to ASM import via linker PROVIDE */
 int slot_free(int slot)
 {
     char *table;
@@ -43,9 +44,12 @@ int slot_free(int slot)
     table[slot] = 0;
     return 0;
 }
+#endif /* slot_free */
 
 /* FUN_06041884 -- Set field at +0x3C of slot table struct */
+#if 0 /* slot_set_field3c -- redirected to ASM import via linker PROVIDE */
 void slot_set_field3c(int val)
 {
     *(int *)(SLOT_TABLE_PTR + 0x3C) = val;
 }
+#endif /* slot_set_field3c */

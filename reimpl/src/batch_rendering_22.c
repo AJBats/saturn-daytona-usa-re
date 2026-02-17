@@ -139,6 +139,7 @@ extern int PTR_DAT_06025748;
 extern int PTR_DAT_06025bb8;
 extern int PTR_DAT_06025c70;
 
+#if 0 /* scene_processing_stage -- redirected to ASM import via linker PROVIDE */
 void scene_processing_stage()
 {
 
@@ -611,6 +612,7 @@ LAB_060227ca:
   } while( 1 );
 
 }
+#endif /* scene_processing_stage */
 
 /* sprite_char_table_init -- Initialize VDP1 sprite character table.
  * Registers all sprite characters and builds the sprite-to-character mapping table.

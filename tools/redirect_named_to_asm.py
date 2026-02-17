@@ -178,6 +178,84 @@ OTHER_NAMED_MAP = {
 
     # batch_session_42.c
     'cd_poll_status_ready':   'FUN_06040C98',
+
+    # --- Discovered via size-matching analysis (overflow reduction) ---
+
+    # batch_cd_system_34.c
+    'terrain_data_lookup':    'FUN_06034AEE',
+
+    # batch_cd_system_36.c
+    'vdp2_tv_mode_config':    'FUN_06036F0C',
+    'vdp1_command_builder':   'FUN_060370E4',
+
+    # batch_game_core.c
+    'scene_tile_render_near': 'FUN_06006868',
+
+    # batch_game_init.c
+    'vec3_angle_calc':        'FUN_06005294',
+
+    # batch_math_util_26.c
+    'math_sin_cos':           'FUN_0602745C',
+
+    # batch_obj_system_3a.c
+    'cd_seek_to_offset':      'FUN_0603B93C',
+
+    # batch_obj_system_3e.c
+    'scroll_plane_angle_accumulate': 'FUN_0603EACC',
+    'cd_directory_entry_search':'FUN_0603F2EC',
+    'cd_init_and_read_toc':   'FUN_0603F244',
+    'cd_parse_dir_entry':     'FUN_0603F538',
+    'cd_buf_request_read':    'FUN_0603FF9C',
+    'cd_stream_advance':      'FUN_0603FAE4',
+
+    # batch_obj_system_38.c
+    'display_mode_init':      'FUN_0603950C',
+    'vdp2_priority_set':      'FUN_06038BD4',
+
+    # batch_rendering_22.c
+    'scene_processing_stage': 'FUN_06016DD8',
+
+    # batch_state_machine.c
+    'speed_force_timer':      'FUN_0600955E',
+
+    # batch_subsystem_1a.c
+    'course_select_display_update': 'FUN_06019928',
+    'sound_mode_select':      'FUN_06018DDC',
+
+    # batch_subsystem_1c.c
+    'scsp_command_dispatch':  'FUN_0601D5F4',
+
+    # batch_subsystem_12.c
+    'scene_objects_init':     'FUN_06012F80',
+    'camera_vibration_apply': 'FUN_06012344',
+    'race_results_hud_display':'FUN_06013C58',
+    'podium_object_animate':  'FUN_06013948',
+
+    # batch_session_40.c
+    'cd_command_enqueue':     'FUN_06041034',
+    'cd_dma_transfer_poll':   'FUN_06041B3C',
+    'cd_file_transfer_enqueue':'FUN_060414D0',
+    'cd_read_buffer_setup':   'FUN_060408B0',
+    'cd_seek_position':       'FUN_060409E6',
+    'cd_session_play_poll':   'FUN_060416A8',
+    'cd_track_context_init':  'FUN_06040010',
+    'replay_input_process':   'FUN_06031898',
+    'slot_free':              'FUN_06041180',
+    'slot_set_field3c':       'FUN_06041D6C',
+
+    # batch_session_42.c
+    'cd_session_read_step':   'FUN_06042088',
+    'cd_file_info_extract':   'FUN_06040B90',
+    'cd_session_file_batch':  'FUN_06041D74',
+
+    # batch_subsystem_1e.c
+    'backup_mem_format':      'FUN_0601E26C',
+
+    # vblank_handlers.c
+    'vblank_in_handler':      'FUN_0601CAEE',
+
+    # batch_obj_system_3a.c
+    'display_config_copy':    'FUN_0603AFDC',
 }
 
 # Functions to SKIP: their FUN_ has no independent definition (only the alias provides it)

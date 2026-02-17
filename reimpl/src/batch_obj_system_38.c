@@ -661,6 +661,7 @@ __asm__(
  *   Bits 1-5,7,0x80: color calculation registers
  *   Bit 0: direct write to CCRS offset +4
  * Calls sync (0x06034F78) before each register update. */
+#if 0 /* vdp2_priority_set -- redirected to ASM import via linker PROVIDE */
 void vdp2_priority_set(param_1, param_2)
     unsigned int param_1;
     unsigned int param_2;
@@ -753,6 +754,7 @@ void vdp2_priority_set(param_1, param_2)
         *(short *)(ccrs_base + 4) = val;
     }
 }
+#endif /* vdp2_priority_set */
 
 /* fb_state_control -- Set framebuffer state and VDP1 FBCR from mode param.
  * 0xFFFF: freeze mode (FB_STATE=2), force manual erase.
@@ -1012,6 +1014,7 @@ void FUN_060394f0(int param_1)
  * at 0x060A4CAA (0=off, 1=non-interlace, 2=interlace), frame timing params,
  * and computes stride offsets for the 5-slot display config ring buffer
  * based on resolution mode (0x060A4CAF). Performs initial field swap. */
+#if 0 /* display_mode_init -- redirected to ASM import via linker PROVIDE */
 void display_mode_init(char mode, short line_count, char res_mode, char scan_lines,
                        int base_addr, int frame_threshold)
 {
@@ -1113,6 +1116,7 @@ void display_mode_init(char mode, short line_count, char res_mode, char scan_lin
   FUN_0603a72c();                                       /* query display mode */
   return;
 }
+#endif /* display_mode_init */
 
 /* framebuffer_vsync_poll -- Poll VDP vsync and advance frame timing.
  * Monitors interlace mode (0x060A4CAA) and VDP status register bit 4

@@ -32,6 +32,7 @@ extern void FUN_06033354(void);
 #define INPUT_ADDR_0605B6F4 (*(volatile int *)0x0605B6F4)
 #define INPUT_ADDR_0605B6F8 (*(volatile int *)0x0605B6F8)
 
+#if 0 /* vblank_in_handler -- redirected to ASM import via linker PROVIDE */
 void vblank_in_handler(void)
 {
     int input;
@@ -156,6 +157,7 @@ timing_compute:
 epilogue:
     VBLANK_PHASE = 2;
 }
+#endif /* vblank_in_handler */
 
 
 void vblank_out_handler(void)

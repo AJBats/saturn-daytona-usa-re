@@ -369,6 +369,7 @@ void FUN_060122f4(void) __attribute__((alias("camera_fov_interpolate")));
 /* camera_vibration_apply -- Apply sinusoidal vibration to the 4×3 view matrix.
  * Computes 3 frequency offsets from half-heading, perturbs 4 matrix rows
  * at 0x060788C0..E4 (view frustum corners). Row 2 Y uses CD time delta. */
+#if 0 /* camera_vibration_apply -- redirected to ASM import via linker PROVIDE */
 void camera_vibration_apply(void)
 {
     register int (*fpmul)() asm("r3") = (int(*)())0x06027552;  /* fixed-point multiply */
@@ -408,6 +409,7 @@ void camera_vibration_apply(void)
     row[1] = row[1] + sin_b;
     row[2] = row[2] + sin_c;
 }
+#endif /* camera_vibration_apply */
 /* FUN_06012344 -- original binary (188 bytes) */
 __asm__(
     ".section .text.FUN_06012344, \"ax\"\n"
@@ -828,6 +830,7 @@ void bg_pattern_load(int param_1)
 /* REMOVED: conflicting alias */ // void FUN_06012e08(int param_1) __attribute__((alias("bg_pattern_load")));
 #endif
 
+#if 0 /* scene_objects_init -- redirected to ASM import via linker PROVIDE */
 void scene_objects_init()
 {
 
@@ -1254,6 +1257,7 @@ void scene_objects_init()
   return;
 
 }
+#endif /* scene_objects_init */
 
 /* FUN_06012E08 -- original binary (98 bytes) */
 __asm__(
@@ -1290,6 +1294,7 @@ void hud_render_frame(void)
 /* REMOVED: conflicting alias */ // void FUN_0601389e(void) __attribute__((alias("hud_render_frame")));
 #endif
 
+#if 0 /* race_results_hud_display -- redirected to ASM import via linker PROVIDE */
 int race_results_hud_display()
 {
     short sprite_sel;
@@ -1364,6 +1369,7 @@ int race_results_hud_display()
                                      *(int *)(sprite_table + ((rank_clamped + 0x48) << 3) + 4));
     return time_str;
 }
+#endif /* race_results_hud_display */
 
 /* background_rotation_wobble -- Apply periodic rotation to background.
  * Uses low 5 bits of FRAME_COUNTER, applies rotation when phase > 16. */
@@ -1381,6 +1387,7 @@ void FUN_06013e12(void) __attribute__((alias("background_rotation_wobble")));
  * animated position/rotation/scale from animation phase. Each entry
  * is 32 bytes with position, rotation angles, and scale factor.
  * Uses matrix stack for per-object local transforms. */
+#if 0 /* podium_object_animate -- redirected to ASM import via linker PROVIDE */
 int podium_object_animate()
 {
     int temp;
@@ -1435,6 +1442,7 @@ int podium_object_animate()
 
     return render_result;
 }
+#endif /* podium_object_animate */
 
 /* podium_object_render_static -- Render podium objects without animation.
  * Simpler variant of podium_object_animate: uses fixed Y offset and

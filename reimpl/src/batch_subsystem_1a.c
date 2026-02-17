@@ -236,6 +236,7 @@ extern void sound_cmd_dispatch(int channel, int command);
 /* sound_mode_select -- selects BGM track based on game mode flag.
  *   Flag at 0x0605D241: 0 = normal mode (track 0x06), non-zero = alt mode (track 0x07).
  *   Dispatches via sound_cmd_dispatch channel 0xF (direct SCSP command). */
+#if 0 /* sound_mode_select -- redirected to ASM import via linker PROVIDE */
 void sound_mode_select(void)
 {
     if (*(int *)0x0605D241 == '\0') {
@@ -244,6 +245,7 @@ void sound_mode_select(void)
         sound_cmd_dispatch(0xF, 0xAE0007FF);   /* SCSP: BGM track 0x07 (alt) */
     }
 }
+#endif /* sound_mode_select */
 
 /* course_select_display_update -- Update course selection display scroll.
  *
@@ -276,6 +278,7 @@ void sound_mode_select(void)
 #define VDP2_SCROLL_PAGE      0x0000E000
 #define SCROLL_PLANE_A_ID     0x079C
 #define SCROLL_PLANE_B_ID     0x081C
+#if 0 /* course_select_display_update -- redirected to ASM import via linker PROVIDE */
 void course_select_display_update()
 {
     int index_val;
@@ -330,6 +333,7 @@ void course_select_display_update()
     vdp2_scroll_set(0xc, SCROLL_PLANE_B_ID, VDP2_SCROLL_PAGE,
                     *(int *)(CSEL_SCROLL_TABLE + ((CSEL_SCROLL_INDEX << 1) + 1) << 2));
 }
+#endif /* course_select_display_update */
 #undef CSEL_INPUT_BASE
 #undef CSEL_SCROLL_INDEX
 #undef CSEL_REPEAT_TIMER

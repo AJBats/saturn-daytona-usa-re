@@ -99,6 +99,7 @@ __asm__(
 
 
 
+#if 0 /* terrain_data_lookup -- redirected to ASM import via linker PROVIDE */
 int terrain_data_lookup(param_1, param_2, param_3, param_4)
     int param_1;
     int param_2;
@@ -143,6 +144,7 @@ int terrain_data_lookup(param_1, param_2, param_3, param_4)
   return uVar1;
 
 }
+#endif /* terrain_data_lookup */
 
 /* cd_init_and_seek -- Initialize CD status, clear command byte, seek to position.
  * Gets current status via cd_get_status, clears command byte,

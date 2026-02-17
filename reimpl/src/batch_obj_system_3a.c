@@ -93,6 +93,7 @@ extern int PTR_DAT_0603be10;
  * based on version byte (0x060A4D02). Then copies bytes from source
  * pointer (0x060A4CEC) to destination (0x060A4CD4) until param_1.
  * Returns the config byte value. */
+#if 0 /* display_config_copy -- redirected to ASM import via linker PROVIDE */
 char display_config_copy(param_1)
     unsigned int param_1;
 {
@@ -123,6 +124,7 @@ char display_config_copy(param_1)
   }
   return config_byte;
 }
+#endif /* display_config_copy */
 
 /* cd_command_packet_decode -- Decode CD subsystem command packets.
  * State context at 0x060A4C.. addresses:
@@ -703,6 +705,7 @@ void FUN_0603af94(int param_1)
  * Validates offset >= 0 (returns -0x0F on underflow).
  * Calls seek handler (vtable[2]) with resolved offset.
  * Returns result via FUN_0603b93c (CD callback). */
+#if 0 /* cd_seek_to_offset -- redirected to ASM import via linker PROVIDE */
 int cd_seek_to_offset(param_1, param_2, param_3)
     int *param_1;
     int param_2;
@@ -733,6 +736,7 @@ int cd_seek_to_offset(param_1, param_2, param_3)
   FUN_0603b93c(0);
   return result;
 }
+#endif /* cd_seek_to_offset */
 
 /* cd_command_dispatch -- Dispatch CD command via command type vtable.
  * Reads command type from param[4] byte, looks up handler in CD_STATE_A table,

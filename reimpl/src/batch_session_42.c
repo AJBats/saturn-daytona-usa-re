@@ -33,6 +33,7 @@ extern void FUN_0604249c();
  * store header byte at +0x40, advance to state 2. State 2: poll cd_get_status
  * until completion bits set, then return to state 0.
  * Returns current state (0=complete, 1=busy, 2=finishing). */
+#if 0 /* cd_session_read_step -- redirected to ASM import via linker PROVIDE */
 int cd_session_read_step(param_1)
     int *param_1;
 {
@@ -65,6 +66,7 @@ int cd_session_read_step(param_1)
 
     return *(int *)(0x360 + *(int *)session_ptr);
 }
+#endif /* cd_session_read_step */
 
 /* cd_session_file_batch -- Process pending CD file seeks in batch.
  * Iterates through file table entries (12 bytes each at DAT_0604222e offset).
@@ -73,6 +75,7 @@ int cd_session_read_step(param_1)
  * If interrupted mid-batch, compacts remaining entries into pending table.
  * Clears transfer state (+0x1E0) when all files done and CD status bit 0x40 set.
  * Returns pending file count. */
+#if 0 /* cd_session_file_batch -- redirected to ASM import via linker PROVIDE */
 int cd_session_file_batch(param_1)
     int *param_1;
 {
@@ -147,6 +150,7 @@ int cd_session_file_batch(param_1)
 
     return *(int *)((int)DAT_0604230c + *(int *)session_ptr);
 }
+#endif /* cd_session_file_batch */
 
 /* cd_session_state_reset -- Clear CD session state to initial values.
  * Zeros filename buffers at +0x00 and +0x18 (23 bytes each),

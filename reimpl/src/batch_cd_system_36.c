@@ -566,6 +566,7 @@ void vdp2_bitmap_load(param_1, param_2, param_3)
   return;
 }
 
+void FUN_06036E1C(void) __attribute__((alias("vdp2_bitmap_load")));
 /* vdp2_tv_mode_config -- Configure VDP2 TV mode, interlace, and resolution.
  * param_1: color depth (0=default, 2=hi-color 0x80, 3=true-color 0xC0,
  *   mode 3 also doubles active plane count).
@@ -576,6 +577,7 @@ void vdp2_bitmap_load(param_1, param_2, param_3)
  *   0x060635AE, and encodes mode bits 0-3 of CHCTLA (0x060A3D88).
  *   Modes 4-7 additionally set plane override (DAT_06036fba).
  * Triggers VDP1_BATCH_FLAG for next frame commit. */
+#if 0 /* vdp2_tv_mode_config -- redirected to ASM import via linker PROVIDE */
 void vdp2_tv_mode_config(param_1, param_2, param_3)
     char param_1;
     char param_2;
@@ -688,6 +690,7 @@ LAB_060370a0:
   }
   return;
 }
+#endif /* vdp2_tv_mode_config */
 
 /* vdp1_texture_config -- Configure VDP1 texture/CLUT banks.
  * Sets up texture mapping, color lookup tables, and UV coordinates
@@ -1151,6 +1154,7 @@ int FUN_06037618(desc)
   return 0;
 }
 
+#if 0 /* vdp1_command_builder -- redirected to ASM import via linker PROVIDE */
 void vdp1_command_builder(param_1, param_2)
     unsigned short *param_1;
     unsigned char *param_2;
@@ -1657,6 +1661,7 @@ LAB_06037e88:
   return;
 
 }
+#endif /* vdp1_command_builder */
 
 /* --- FUN_06036E90 (L1 import from src/FUN_06036E90.c) --- */
 

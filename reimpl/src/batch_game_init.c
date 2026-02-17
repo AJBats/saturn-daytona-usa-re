@@ -482,6 +482,7 @@ void display_list_process()
 #endif /* display_list_process */
 /* REMOVED: conflicting alias */ // void FUN_06005198(void) __attribute__((alias("display_list_process")));
 
+#if 0 /* vec3_angle_calc -- redirected to ASM import via linker PROVIDE */
 void vec3_angle_calc(param_1, param_2, param_3)
     int *param_1;
     int *param_2;
@@ -563,6 +564,7 @@ void vec3_angle_calc(param_1, param_2, param_3)
   return;
 
 }
+#endif /* vec3_angle_calc */
 
 /* object_position_transform -- Transform object position into world space.
  * Builds rotation matrix from param_2 (Y/Z/X Euler angles, negated),
