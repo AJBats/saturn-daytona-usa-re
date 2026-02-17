@@ -412,7 +412,9 @@ __asm__(
     ".section .text.FUN_0603226C, \"ax\"\n"
     ".balign 2\n"
     ".global _FUN_0603226C\n"
+    ".global _FUN_0603226c\n"
     ".type _FUN_0603226C, @function\n"
     "_FUN_0603226C:\n"
+    "_FUN_0603226c:\n"
     ".byte 0x2F, 0xE6, 0x2F, 0xD6, 0x2F, 0xC6, 0x2F, 0xB6, 0x2F, 0xA6, 0x2F, 0x96, 0x2F, 0x86, 0xD4, 0x15\n"  /* 0x0603226C */
 );

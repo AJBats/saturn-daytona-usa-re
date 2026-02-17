@@ -11,6 +11,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06003466, \"ax\"\n"
 
     ".global _FUN_06003466\n"
@@ -89,11 +90,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_060034D4, \"ax\"\n"
 
     ".global _FUN_060034D4\n"
+    ".global _FUN_060034d4\n"
     "_vdp2_data_transfer_course1:\n"
     "_FUN_060034D4:\n"
+    "_FUN_060034d4:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0x9630\n"  /* mov.w @(0x60,PC),r6 */
@@ -129,6 +133,7 @@ __asm__(
     ".balign 2\n"
     ".global _vdp2_data_transfer_course2\n"
     ".type _vdp2_data_transfer_course2, @function\n"
+
 
 
 
@@ -217,11 +222,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06004F28, \"ax\"\n"
 
     ".global _FUN_06004F28\n"
+    ".global _FUN_06004f28\n"
     "_obj_position_update:\n"
     "_FUN_06004F28:\n"
+    "_FUN_06004f28:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0x4F12\n"  /* sts.l macl,@-r15 */
     ".word 0x7FF4\n"  /* add #-12,r15 */
@@ -418,11 +426,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600508C, \"ax\"\n"
 
     ".global _FUN_0600508C\n"
+    ".global _FUN_0600508c\n"
     "_obj_coord_setter:\n"
     "_FUN_0600508C:\n"
+    "_FUN_0600508c:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2639\n"  /* and r3,r6 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
@@ -515,6 +526,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06005120, \"ax\"\n"
 
     ".global _FUN_06005120\n"
@@ -589,6 +601,7 @@ __asm__(
     ".balign 2\n"
     ".global _obj_state_writer\n"
     ".type _obj_state_writer, @function\n"
+
 
 
 
@@ -705,11 +718,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600579C, \"ax\"\n"
 
     ".global _FUN_0600579C\n"
+    ".global _FUN_0600579c\n"
     "_vdp_mode_setup_disp:\n"
     "_FUN_0600579C:\n"
+    "_FUN_0600579c:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0x66E3\n"  /* mov r14,r6 */
     ".word 0x7FFC\n"  /* add #-4,r15 */

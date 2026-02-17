@@ -15,11 +15,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600A478, \"ax\"\n"
 
     ".global _FUN_0600A478\n"
+    ".global _FUN_0600a478\n"
     ".type _FUN_0600A478, @function\n"
     "_FUN_0600A478:\n"
+    "_FUN_0600a478:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0x4E08\n"  /* shll2 r14 */
     ".word 0x7FFC\n"  /* add #-4,r15 */
@@ -62,11 +65,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600A614, \"ax\"\n"
 
     ".global _FUN_0600A614\n"
+    ".global _FUN_0600a614\n"
     ".type _FUN_0600A614, @function\n"
     "_FUN_0600A614:\n"
+    "_FUN_0600a614:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
@@ -256,11 +262,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600ADD4, \"ax\"\n"
 
     ".global _FUN_0600ADD4\n"
+    ".global _FUN_0600add4\n"
     "_camera_car_transform_setup:\n"
     "_FUN_0600ADD4:\n"
+    "_FUN_0600add4:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
@@ -518,11 +527,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600B1A0, \"ax\"\n"
 
     ".global _FUN_0600B1A0\n"
+    ".global _FUN_0600b1a0\n"
     "_course_specific_renderer:\n"
     "_FUN_0600B1A0:\n"
+    "_FUN_0600b1a0:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
@@ -746,11 +758,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600B4D2, \"ax\"\n"
 
     ".global _FUN_0600B4D2\n"
+    ".global _FUN_0600b4d2\n"
     "_camera_position_lerping:\n"
     "_FUN_0600B4D2:\n"
+    "_FUN_0600b4d2:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
@@ -1000,11 +1015,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600C010, \"ax\"\n"
 
     ".global _FUN_0600C010\n"
+    ".global _FUN_0600c010\n"
     "_race_state_machine:\n"
     "_FUN_0600C010:\n"
+    "_FUN_0600c010:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0xD820\n"  /* mov.l @(0x80,PC),r8  {[0x0600C094] = 0x0607EBC4} */
     ".word 0x9A3C\n"  /* mov.w @(0x78,PC),r10 */
@@ -1199,11 +1217,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600C170, \"ax\"\n"
 
     ".global _FUN_0600C170\n"
+    ".global _FUN_0600c170\n"
     "_race_utility_calc:\n"
     "_FUN_0600C170:\n"
+    "_FUN_0600c170:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0xD30F\n"  /* mov.l @(0x3C,PC),r3  {[0x0600C1B0] = 0x0603C000} */
     ".word 0x430B\n"  /* jsr @r3 */
@@ -1309,11 +1330,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600D41C, \"ax\"\n"
 
     ".global _FUN_0600D41C\n"
+    ".global _FUN_0600d41c\n"
     "_vehicle_state_physics:\n"
     "_FUN_0600D41C:\n"
+    "_FUN_0600d41c:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */

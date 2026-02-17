@@ -33,6 +33,7 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06009508, \"ax\"\n"
 
     ".global _FUN_06009508\n"
@@ -97,11 +98,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_0600955E, \"ax\"\n"
 
     ".global _FUN_0600955E\n"
+    ".global _FUN_0600955e\n"
     "_state_29_post_race_menu:\n"
     "_FUN_0600955E:\n"
+    "_FUN_0600955e:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0x7FFC\n"  /* add #-4,r15 */
@@ -311,11 +315,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_060096DC, \"ax\"\n"
 
     ".global _FUN_060096DC\n"
+    ".global _FUN_060096dc\n"
     "_state_18_time_extension_setup:\n"
     "_FUN_060096DC:\n"
+    "_FUN_060096dc:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0x7FFC\n"  /* add #-4,r15 */
@@ -411,6 +418,7 @@ __asm__(
     ".balign 2\n"
     ".global _state_19_time_extension\n"
     ".type _state_19_time_extension, @function\n"
+
 
 
 
@@ -807,11 +815,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06009A60, \"ax\"\n"
 
     ".global _FUN_06009A60\n"
+    ".global _FUN_06009a60\n"
     "_state_20_race_completion:\n"
     "_FUN_06009A60:\n"
+    "_FUN_06009a60:\n"
     ".word 0x2FE6\n"  /* mov.l r14,@-r15 */
     ".word 0x2FD6\n"  /* mov.l r13,@-r15 */
     ".word 0x2FC6\n"  /* mov.l r12,@-r15 */
@@ -1076,11 +1087,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06009CFC, \"ax\"\n"
 
     ".global _FUN_06009CFC\n"
+    ".global _FUN_06009cfc\n"
     "_state_24_post_race_init:\n"
     "_FUN_06009CFC:\n"
+    "_FUN_06009cfc:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0xE303\n"  /* mov #3,r3 */
     ".word 0xD21E\n"  /* mov.l @(0x78,PC),r2  {[0x06009D7C] = 0x0605A016} */
@@ -1138,11 +1152,14 @@ __asm__(
 
 
 
+
     ".section .text.FUN_06009D4E, \"ax\"\n"
 
     ".global _FUN_06009D4E\n"
+    ".global _FUN_06009d4e\n"
     "_state_25_post_race_display:\n"
     "_FUN_06009D4E:\n"
+    "_FUN_06009d4e:\n"
     ".word 0x4F22\n"  /* sts.l pr,@-r15 */
     ".word 0xD316\n"  /* mov.l @(0x58,PC),r3  {[0x06009DAC] = 0x06014D2C} */
     ".word 0x430B\n"  /* jsr @r3 */

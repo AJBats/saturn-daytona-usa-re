@@ -85,7 +85,9 @@ __asm__(
     ".section .text.FUN_0603F9B8, \"ax\"\n"
     ".balign 2\n"
     ".global _FUN_0603F9B8\n"
+    ".global _FUN_0603f9b8\n"
     ".type _FUN_0603F9B8, @function\n"
     "_FUN_0603F9B8:\n"
+    "_FUN_0603f9b8:\n"
     ".byte 0x2F, 0xE6, 0x6E, 0x43\n"  /* 0x0603F9B8 */
 );

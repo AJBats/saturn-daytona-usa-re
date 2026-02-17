@@ -99,6 +99,22 @@ def find_gaps(claimed, bin_start, bin_end):
     return gaps
 
 
+def find_overflow_section():
+    """Find the .text.overflow section address and size from ELF."""
+    result = subprocess.run([OBJDUMP, "-h", ELF_FILE],
+                          capture_output=True, text=True)
+    for line in result.stdout.split('\n'):
+        if '.text.overflow' in line:
+            # objdump -h format: IDX NAME SIZE VMA LMA OFFSET ALIGN
+            m = re.match(r'\s*\d+\s+\.text\.overflow\s+([0-9a-f]+)\s+([0-9a-f]+)',
+                        line)
+            if m:
+                size = int(m.group(1), 16)
+                vma = int(m.group(2), 16)
+                return vma, size
+    return None, None
+
+
 def main():
     with open(ORIG_BIN, "rb") as f:
         orig = bytearray(f.read())
@@ -172,6 +188,11 @@ def main():
     for addr, end, size, _ in patches:
         off = addr - BASE_ADDR
         ours[off:off + size] = orig[off:off + size]
+
+    # NOTE: .text.overflow contains named C functions that are called at runtime.
+    # Overwriting it with original data bytes would destroy those functions and
+    # cause crashes. The overflow section must be preserved until functions are
+    # properly relocated via linker script or ASM imports.
 
     with open(OUR_BIN, "wb") as f:
         f.write(ours)

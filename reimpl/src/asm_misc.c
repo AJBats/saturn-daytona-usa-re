@@ -13,8 +13,10 @@
  */
 __asm__(
     ".global _FUN_06046E48\n"
+    ".global _FUN_06046e48\n"
     ".type _FUN_06046E48, @function\n"
     "_FUN_06046E48:\n"
+    "_FUN_06046e48:\n"
     "rts\n"
     "nop\n"
 );

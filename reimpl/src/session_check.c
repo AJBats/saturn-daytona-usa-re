@@ -30,10 +30,24 @@ extern int FUN_060405b8(int param);
  *
  * 11 instructions. Saves PR.
  * ================================================================ */
+#if 0 /* FUN_06040668 -- replaced by ASM import */
 int FUN_06040668(int param)
 {
     return FUN_060405b8(param) == 0 ? 1 : 0;
 }
+#endif
+
+/* FUN_06040668 -- original binary (24 bytes) */
+__asm__(
+    ".section .text.FUN_06040668, \"ax\"\n"
+    ".balign 2\n"
+    ".global _FUN_06040668\n"
+    ".type _FUN_06040668, @function\n"
+    "_FUN_06040668:\n"
+    ".byte 0x4F, 0x22, 0xBF, 0xA5, 0x64, 0x53, 0x20, 0x08, 0x8B, 0x02, 0x4F, 0x26, 0x00, 0x0B, 0xE0, 0x01\n"  /* 0x06040668 */
+    ".byte 0xE0, 0x00, 0x4F, 0x26, 0x00, 0x0B, 0x00, 0x09\n"  /* 0x06040678 */
+);
+
 
 
 int FUN_06041014(int param_1)
