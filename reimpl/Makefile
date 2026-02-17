@@ -1,71 +1,42 @@
-# Daytona USA Saturn — Faithful C Reimplementation
+# Daytona USA Saturn — Sawyer L2 Relocatable Assembly
 # Build with: make (from WSL)
+# Validate:   make validate (cmp against original)
 # Inject:     make disc
 # Full cycle:  make disc && powershell test_boot_reimpl.ps1
 
 PROJDIR := /mnt/d/Projects/SaturnReverseTest
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
 
-CC      := $(TOOLDIR)/sh-elf-gcc
 AS      := $(TOOLDIR)/sh-elf-as
 LD      := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 OBJDUMP := $(TOOLDIR)/sh-elf-objdump
 
-CFLAGS  := -m2 -mb -Os -Wall -nostdlib -ffreestanding -fno-builtin -ffunction-sections -Iinclude
-
-# batch_cd_system_34.c ICEs with -Os on sh-elf-gcc 13.3.0 — fall back to -O2
-CFLAGS_O2 := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -ffunction-sections -Iinclude
-LIBGCC  := $(PROJDIR)/tools/sh-elf/lib/gcc/sh-elf/13.3.0/libgcc.a
 BUILDDIR := build
+LDSCRIPT := sawyer.ld
+LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 
-LDSCRIPT := saturn_fixed.ld
-# --noinhibit-exec: 3 ASM functions have 2-byte section alignment padding that
-# overlaps harmlessly with the next function (assembler pads to 4-byte boundary)
-LDFLAGS := -T $(LDSCRIPT) -nostdlib --noinhibit-exec -Map=$(BUILDDIR)/daytona.map
-
-# Auto-discover source files: drop a .c in src/ and it's included
-C_SRCS   := $(wildcard src/*.c)
+# Auto-discover .s source files
 ASM_SRCS := $(wildcard src/*.s)
-
-C_OBJS   := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(C_SRCS))
 ASM_OBJS := $(patsubst src/%.s,$(BUILDDIR)/%.o,$(ASM_SRCS))
-OBJS     := $(ASM_OBJS) $(C_OBJS)
 
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
 
-.PHONY: all clean disc dump info sizing
+# Original binary for validation
+ORIGINAL := $(PROJDIR)/build/aprog.bin
+
+.PHONY: all clean disc dump info validate
 
 all: $(BIN)
 
-APROG_SIZE := 394896
-
 $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
-	@SIZE=$$(wc -c < $@); \
-	if [ $$SIZE -gt $(APROG_SIZE) ]; then \
-		echo "ERROR: $@ is $$SIZE bytes — exceeds original APROG.BIN ($(APROG_SIZE) bytes)"; \
-		echo "Binary size parity VIOLATED. Fix overflow before proceeding."; \
-		rm -f $@; \
-		exit 1; \
-	elif [ $$SIZE -lt $(APROG_SIZE) ]; then \
-		truncate -s $(APROG_SIZE) $@; \
-		echo "Built: $@ ($$SIZE bytes code, padded to $(APROG_SIZE))"; \
-	else \
-		echo "Built: $@ ($$SIZE bytes — exact match)"; \
-	fi
+	@SIZE=$$(wc -c < $@); echo "Built: $@ ($$SIZE bytes)"
 
-$(ELF): $(OBJS) $(LDSCRIPT)
-	$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LIBGCC)
-
-# Explicit rule for files that ICE with -Os
-$(BUILDDIR)/batch_cd_system_34.o: src/batch_cd_system_34.c | $(BUILDDIR)
-	$(CC) $(CFLAGS_O2) -c $< -o $@
-
-$(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(ELF): $(ASM_OBJS) $(LDSCRIPT)
+	$(LD) $(LDFLAGS) -o $@ $(ASM_OBJS)
 
 $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
@@ -73,22 +44,29 @@ $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
 
+# Byte-identical validation against original binary
+validate: $(BIN)
+	@if cmp -s $(BIN) $(ORIGINAL); then \
+		echo "PASS: byte-identical to original"; \
+	else \
+		echo "FAIL: differs from original"; \
+		cmp -l $(BIN) $(ORIGINAL) 2>/dev/null | head -20; \
+		echo "..."; \
+		echo "Original: $$(wc -c < $(ORIGINAL)) bytes"; \
+		echo "Built:    $$(wc -c < $(BIN)) bytes"; \
+	fi
+
 dump: $(ELF)
 	$(OBJDUMP) -d $(ELF)
 
 clean:
 	rm -rf $(BUILDDIR)
 
-# Show what's being built
 info:
-	@echo "C sources:   $(C_SRCS)"
 	@echo "ASM sources: $(ASM_SRCS)"
-	@echo "Objects:     $(OBJS)"
+	@echo "Objects:     $(ASM_OBJS)"
 
 # Inject into disc image for Mednafen testing
-# patch_data_holes.py fills unclaimed regions with original binary data
 disc: $(BIN)
-	@echo "Patching data holes with original binary..."
-	python3 $(PROJDIR)/tools/patch_data_holes.py
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN

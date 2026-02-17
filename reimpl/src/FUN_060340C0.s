@@ -1,0 +1,11 @@
+    .section .text.FUN_060340C0
+    .global FUN_060340C0
+    .type FUN_060340C0, @function
+FUN_060340C0:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0x69, 0x03
+    .byte 0x64, 0xA3
+    .byte 0xD0, 0x0B
