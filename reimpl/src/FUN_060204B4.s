@@ -15,4 +15,6 @@ FUN_060204B4:
     .byte 0x7F, 0x04
     .byte 0xA4, 0x90
     .byte 0x4F, 0x26
+    .global sym_060204CE
+sym_060204CE:
     .byte 0xE5, 0x00

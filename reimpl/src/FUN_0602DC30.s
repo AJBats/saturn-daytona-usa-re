@@ -10,6 +10,8 @@ FUN_0602DC30:
     .byte 0x00, 0x09
     .4byte sym_06082A30
     .4byte sym_0602DC44
+    .global sym_0602DC44
+sym_0602DC44:
     .byte 0x06, 0x02
     .byte 0xDC, 0x58
     .byte 0x06, 0x02

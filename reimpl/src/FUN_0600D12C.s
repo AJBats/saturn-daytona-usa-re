@@ -157,6 +157,8 @@ FUN_0600D12C:
     .byte 0x05, 0x36
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global sym_0600D266
+sym_0600D266:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x01, 0xFC
@@ -168,6 +170,8 @@ FUN_0600D12C:
     .byte 0xFF, 0xFF
     .4byte sym_0607E940
     .4byte sym_0607E944
+    .global sym_0600D280
+sym_0600D280:
     .byte 0x2F, 0xC6
     .byte 0x4F, 0x12
     .byte 0xDC, 0x20

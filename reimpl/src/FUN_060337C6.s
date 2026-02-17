@@ -30,6 +30,8 @@ FUN_060337C6:
     .byte 0x40, 0x2B
     .byte 0x00, 0x09
     .4byte sym_0603380C
+    .global sym_0603380C
+sym_0603380C:
     .byte 0x06, 0x03
     .byte 0x38, 0x1C
     .byte 0x06, 0x03
@@ -74,18 +76,36 @@ FUN_060337C6:
     .byte 0x24, 0x85
     .byte 0x00, 0x0B
     .byte 0x24, 0x75
+    .global sym_06033864
+sym_06033864:
     .4byte sym_0607EAE0
+    .global sym_06033868
+sym_06033868:
     .4byte sym_0607EAB8
+    .global sym_0603386C
+sym_0603386C:
     .4byte sym_0607EA98
+    .global sym_06033870
+sym_06033870:
     .4byte sym_06078900
+    .global sym_06033874
+sym_06033874:
     .4byte sym_0607EAD8
     .4byte sym_06063750
+    .global sym_0603387C
+sym_0603387C:
     .4byte sym_0605B734
+    .global sym_06033880
+sym_06033880:
     .4byte sym_06078635
+    .global sym_06033884
+sym_06033884:
     .4byte sym_06078663
     .4byte sym_06063D98
     .4byte sym_0605D240
     .4byte sym_06085FF4
+    .global sym_06033894
+sym_06033894:
     .byte 0x00, 0x84
     .byte 0x00, 0x0A
     .byte 0x00, 0x00
@@ -110,6 +130,8 @@ FUN_060337C6:
     .byte 0x00, 0x00
     .byte 0x00, 0x18
     .byte 0x00, 0x00
+    .global sym_060338C4
+sym_060338C4:
     .byte 0x00, 0x60
     .byte 0xFF, 0xEA
     .byte 0x00, 0x48
@@ -122,18 +144,24 @@ FUN_060337C6:
     .byte 0xFF, 0xF0
     .byte 0x00, 0x60
     .byte 0x00, 0x40
+    .global sym_060338DC
+sym_060338DC:
     .byte 0x44, 0x44
     .byte 0x44, 0x44
     .byte 0x65, 0x56
     .byte 0x65, 0x56
     .byte 0x65, 0x56
     .byte 0x44, 0x44
+    .global sym_060338E8
+sym_060338E8:
     .byte 0x55, 0x55
     .byte 0x55, 0x55
     .byte 0x62, 0x26
     .byte 0x62, 0x26
     .byte 0x62, 0x26
     .byte 0x55, 0x55
+    .global sym_060338F4
+sym_060338F4:
     .byte 0x00, 0x00
     .byte 0x00, 0x40
     .byte 0x00, 0xE0
@@ -146,6 +174,8 @@ FUN_060337C6:
     .byte 0x00, 0x60
     .byte 0x07, 0xA0
     .byte 0x00, 0x40
+    .global sym_0603390C
+sym_0603390C:
     .byte 0x00, 0x07
     .byte 0x70, 0x00
     .byte 0x00, 0x07
@@ -338,6 +368,8 @@ FUN_060337C6:
     .byte 0x22, 0x00
     .byte 0x00, 0x00
     .byte 0x77, 0x00
+    .global sym_06033A8C
+sym_06033A8C:
     .byte 0x00, 0x00
     .byte 0x01, 0x00
     .byte 0x02, 0x00

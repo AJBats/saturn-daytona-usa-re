@@ -18,6 +18,8 @@ FUN_0602D89A:
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
     .4byte sym_0607E944
+    .global sym_0602D8BC
+sym_0602D8BC:
     .byte 0xE4, 0x00
     .byte 0x91, 0x2A
     .byte 0x02, 0x1D

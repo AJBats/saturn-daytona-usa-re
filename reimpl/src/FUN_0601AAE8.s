@@ -70,6 +70,8 @@ FUN_0601AAE8:
     .byte 0x01, 0xFF
     .4byte FUN_0601D5F4
     .4byte FUN_06018E70
+    .global sym_0601AB8C
+sym_0601AB8C:
     .byte 0xD4, 0x21
     .byte 0xD2, 0x22
     .byte 0x60, 0x42
@@ -99,4 +101,6 @@ FUN_0601AAE8:
     .byte 0xD0, 0x1A
     .byte 0x00, 0x0B
     .byte 0x20, 0x12
+    .global sym_0601ABC6
+sym_0601ABC6:
     .byte 0xE4, 0x00

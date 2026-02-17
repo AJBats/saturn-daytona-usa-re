@@ -13,12 +13,16 @@ FUN_06033614:
     .4byte sym_0603363C
     .4byte sym_06027348
     .4byte sym_06027344
+    .global sym_06033630
+sym_06033630:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .byte 0x8E, 0x00
+    .global sym_0603363C
+sym_0603363C:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00

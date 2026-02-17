@@ -29,4 +29,6 @@ FUN_0601F900:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global sym_0601F936
+sym_0601F936:
     .byte 0xE3, 0x00

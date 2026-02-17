@@ -143,5 +143,7 @@ FUN_0601F784:
     .4byte sym_0605E098
     .4byte sym_060A0FA8
     .4byte sym_0607ED90
+    .global sym_0601F8BC
+sym_0601F8BC:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09

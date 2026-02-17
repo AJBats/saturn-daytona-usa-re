@@ -812,6 +812,8 @@ FUN_0603A0B0:
     .4byte sym_060A4CF0
     .4byte sym_060A4CF8
     .4byte sym_060A4CA9
+    .global sym_0603A72C
+sym_0603A72C:
     .byte 0xD5, 0x1B
     .byte 0xE4, 0x01
     .byte 0x63, 0x50

@@ -18,6 +18,8 @@ FUN_0602E42E:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .4byte FUN_0603226C
+    .global sym_0602E450
+sym_0602E450:
     .byte 0x6E, 0x03
     .byte 0x91, 0x05
     .byte 0x02, 0x1D

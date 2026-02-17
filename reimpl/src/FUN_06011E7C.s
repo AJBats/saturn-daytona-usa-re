@@ -30,6 +30,8 @@ FUN_06011E7C:
     .byte 0xD3, 0x17
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
+    .global sym_06011EB4
+sym_06011EB4:
     .byte 0x7F, 0xFC
     .byte 0xD0, 0x17
     .byte 0x60, 0x00
@@ -77,6 +79,8 @@ FUN_06011E7C:
     .4byte sym_060638A0
     .4byte sym_06085FF4
     .4byte sym_0607EADC
+    .global sym_06011F1C
+sym_06011F1C:
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
     .byte 0x2F, 0xB6

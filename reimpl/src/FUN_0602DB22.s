@@ -113,6 +113,8 @@ FUN_0602DB22:
     .4byte sym_06063E1C
     .4byte sym_06082A34
     .4byte sym_06063E20
+    .global sym_0602DC18
+sym_0602DC18:
     .byte 0x2F, 0x86
     .byte 0x2F, 0x96
     .byte 0x2F, 0xA6

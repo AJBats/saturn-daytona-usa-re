@@ -26,6 +26,8 @@ FUN_06034E24:
     .byte 0xFF, 0xFF
     .4byte FUN_06035E90
     .4byte FUN_06035EC8
+    .global sym_06034E58
+sym_06034E58:
     .byte 0x7F, 0xFC
     .byte 0xE3, 0x00
     .byte 0xD2, 0x23

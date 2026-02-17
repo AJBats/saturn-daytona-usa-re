@@ -603,6 +603,8 @@ FUN_06029740:
     .byte 0x6C, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global sym_06029BF4
+sym_06029BF4:
     .byte 0x2F, 0x86
     .byte 0x2F, 0x96
     .byte 0x2F, 0xA6
@@ -1339,16 +1341,22 @@ FUN_06029740:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
+    .global sym_0602A1E0
+sym_0602A1E0:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte FUN_060276CC
     .4byte FUN_060279B0
     .4byte FUN_06029740
+    .global sym_0602A1F0
+sym_0602A1F0:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte FUN_06007E08
     .4byte FUN_06022820
     .4byte FUN_06022AE0
+    .global sym_0602A200
+sym_0602A200:
     .byte 0x06, 0x02
     .byte 0xA1, 0x34
     .byte 0x06, 0x02
@@ -1359,6 +1367,8 @@ FUN_06029740:
     .byte 0xA1, 0x88
     .byte 0x06, 0x02
     .byte 0xA1, 0x6C
+    .global sym_0602A214
+sym_0602A214:
     .byte 0x2F, 0x86
     .byte 0x2F, 0x96
     .byte 0x2F, 0xA6
@@ -2095,16 +2105,22 @@ FUN_06029740:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
+    .global sym_0602A800
+sym_0602A800:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte FUN_060276CC
     .4byte FUN_060279B0
     .4byte FUN_06029740
+    .global sym_0602A810
+sym_0602A810:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte FUN_06007E08
     .4byte FUN_06022820
     .4byte FUN_06022AE0
+    .global sym_0602A820
+sym_0602A820:
     .byte 0x06, 0x02
     .byte 0xA7, 0x54
     .byte 0x06, 0x02
@@ -2115,6 +2131,8 @@ FUN_06029740:
     .byte 0xA7, 0xA8
     .byte 0x06, 0x02
     .byte 0xA7, 0x8C
+    .global sym_0602A834
+sym_0602A834:
     .byte 0x2F, 0x86
     .byte 0x2F, 0x96
     .byte 0x2F, 0xA6

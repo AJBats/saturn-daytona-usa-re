@@ -47,6 +47,8 @@ FUN_060067C8:
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte sym_06078663
+    .global sym_06006838
+sym_06006838:
     .byte 0xD3, 0x09
     .byte 0xD2, 0x0A
     .byte 0x33, 0x58

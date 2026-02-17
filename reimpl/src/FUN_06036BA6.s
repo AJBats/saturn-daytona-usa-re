@@ -29,6 +29,8 @@ FUN_06036BA6:
     .4byte FUN_06035E90
     .4byte FUN_06035EC8
     .4byte sym_06035C92
+    .global sym_06036BE4
+sym_06036BE4:
     .byte 0x20, 0x08
     .byte 0x2F, 0x26
     .byte 0x89, 0x55
@@ -130,6 +132,8 @@ FUN_06036BA6:
     .byte 0x04, 0x4E
     .byte 0x2F, 0x36
     .byte 0x2F, 0x46
+    .global sym_06036CB0
+sym_06036CB0:
     .byte 0x2F, 0x56
     .byte 0x2F, 0x66
     .byte 0x63, 0x03
@@ -180,6 +184,8 @@ FUN_06036BA6:
     .byte 0x64, 0xF6
     .byte 0x00, 0x0B
     .byte 0x63, 0xF6
+    .global sym_06036D14
+sym_06036D14:
     .byte 0x2F, 0x36
     .byte 0x2F, 0x46
     .byte 0xE3, 0x03
@@ -229,6 +235,8 @@ FUN_06036BA6:
     .byte 0x00, 0x09
     .byte 0x00, 0x09
     .4byte FUN_06036E1C
+    .global sym_06036D78
+sym_06036D78:
     .byte 0xE7, 0x00
     .byte 0x63, 0x73
     .byte 0x33, 0x62
@@ -243,6 +251,8 @@ FUN_06036BA6:
     .byte 0x00, 0x0B
     .byte 0x60, 0x43
     .byte 0x00, 0x00
+    .global sym_06036D94
+sym_06036D94:
     .byte 0x26, 0x68
     .byte 0x8F, 0x02
     .byte 0x67, 0x53

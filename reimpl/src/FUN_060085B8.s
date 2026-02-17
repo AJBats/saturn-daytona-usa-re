@@ -66,6 +66,8 @@ FUN_060085B8:
     .4byte sym_0607EBC4
     .byte 0x00, 0x20
     .byte 0x00, 0x00
+    .global sym_06008640
+sym_06008640:
     .byte 0xD4, 0x19
     .byte 0x62, 0x42
     .byte 0x60, 0x23

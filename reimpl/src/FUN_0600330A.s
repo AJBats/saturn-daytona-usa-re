@@ -63,6 +63,8 @@ FUN_0600330A:
     .byte 0xF0, 0x00
     .4byte sym_06063750
     .4byte sym_06028400
+    .global sym_0600338C
+sym_0600338C:
     .byte 0x7F, 0xF8
     .byte 0xE3, 0x04
     .byte 0x2F, 0x52
@@ -108,6 +110,8 @@ FUN_0600330A:
     .byte 0x7F, 0x08
     .byte 0x00, 0x0B
     .byte 0x7F, 0x08
+    .global sym_060033E6
+sym_060033E6:
     .byte 0xD0, 0x0F
     .byte 0x60, 0x02
     .byte 0xC8, 0x04
@@ -137,6 +141,8 @@ FUN_0600330A:
     .4byte sym_0607EBC8
     .4byte sym_06044638
     .4byte sym_0605ACF0
+    .global sym_06003430
+sym_06003430:
     .byte 0x7F, 0xFC
     .byte 0xD3, 0x1B
     .byte 0x63, 0x30

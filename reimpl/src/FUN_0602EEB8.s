@@ -120,6 +120,8 @@ FUN_0602EEB8:
     .4byte sym_0602D8BC
     .byte 0xFF, 0xFF
     .byte 0xFC, 0x3F
+    .global sym_0602EFCC
+sym_0602EFCC:
     .byte 0x54, 0x09
     .byte 0x95, 0x0A
     .byte 0x96, 0x0A

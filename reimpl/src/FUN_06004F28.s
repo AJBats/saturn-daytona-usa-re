@@ -171,4 +171,6 @@ FUN_06004F28:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global sym_0600508A
+sym_0600508A:
     .byte 0xE3, 0x04

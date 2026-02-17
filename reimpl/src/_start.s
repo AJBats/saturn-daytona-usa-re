@@ -1,6 +1,8 @@
     .section .text.startup
     .global _start
 _start:
+    .global sym_06003000
+sym_06003000:
     .byte 0xD1, 0x17
     .byte 0xE0, 0x00
     .byte 0xDF, 0x18

@@ -94,6 +94,8 @@ FUN_0600747C:
     .4byte sym_0606A4EC
     .4byte sym_06063F5C
     .4byte sym_0602761E
+    .global sym_06007540
+sym_06007540:
     .byte 0x7F, 0xFC
     .byte 0x60, 0x5D
     .byte 0xD7, 0x2C
@@ -134,6 +136,8 @@ FUN_0600747C:
     .byte 0x25, 0x32
     .byte 0x00, 0x0B
     .byte 0x7F, 0x04
+    .global sym_06007590
+sym_06007590:
     .byte 0x7F, 0xF8
     .byte 0xD7, 0x1B
     .byte 0xD6, 0x19
