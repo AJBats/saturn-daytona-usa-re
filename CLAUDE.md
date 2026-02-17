@@ -6,8 +6,9 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Road To Boot** | **ACTIVE** | workstreams\road_to_boot.md |
-| 2 | **Daytona USA Re-implementation** | **Fallthrough** | workstreams\reimplementation.md |
+| 1 | **Function Audit** | **ACTIVE** |workstreams\function_audit.md |
+| 2 | **Road To Boot** | **Paused until audit complete** | workstreams\road_to_boot.md |
+| 3 | **Daytona USA Re-implementation** | **Fallthrough** | workstreams\reimplementation.md |
 
 
 

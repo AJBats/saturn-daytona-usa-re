@@ -36,7 +36,8 @@ of systematic issues that affect dozens of functions each, and we fix the system
 | 1 | Disc environment fidelity | Missing audio tracks (TOC) | inject_binary.py, disc rebuild |
 | 2 | Observability gaps | Cache vs backing RAM reads | Mednafen debug tools |
 | 3 | Overflow without trampoline | system_init unreachable at 0x060030FC | Every `/* overflow: goes to catchall */` in linker script |
-| 4 | *(next divergence)* | | |
+| 4 | Missing function definitions | FUN_06040C98 → zeros → exception | 75 functions with linker sections but no source code |
+| 5 | *(next divergence)* | | |
 
 ## Holy Commandments
 
@@ -456,32 +457,64 @@ These categories of bugs will recur. Each instance teaches a pattern.
 
 ### Debugging Methodology Lessons
 
-1. **Breakpoints >> single-stepping**: Setting a breakpoint at a target address and
+1. **Function breakpoints are deterministic; frame counts are not.** Frame boundaries
+   sample the CPU at an arbitrary instruction — two instances can be executing the same
+   code but appear "divergent" because they're at different points in a loop when the
+   frame boundary hits. Function entry breakpoints always fire at the exact same PC,
+   making comparisons perfectly reproducible. **Use breakpoints for all parallel
+   comparisons.** Frame-level scans are only useful for rough triage, never for root
+   cause analysis.
+
+2. **Breakpoints >> single-stepping**: Setting a breakpoint at a target address and
    running `continue` at full CPU speed is infinitely faster than stepping one instruction
    at a time via file-based IPC (~100ms per step = hours for 200K instructions).
 
-2. **Register dump endianness**: `Automation_DumpRegsBin` writes native-endian (little-endian
+3. **Sequential single-breakpoint test**: To avoid false positives from BIOS interrupt
+   handlers executing at low addresses, set ONE breakpoint at a time, `continue`, verify
+   the hit, clear it, set the next. This gave clean results where multi-breakpoint tests
+   with broad catch-all conditions produced confusing false positives.
+
+4. **Register dump endianness**: `Automation_DumpRegsBin` writes native-endian (little-endian
    on x86 Linux). Must read with `struct.unpack('<I', ...)`, not `>I`.
 
-3. **Saturn boot sequence**: SEGA logo (BIOS animation) → black screen (game init) →
+5. **Saturn boot sequence**: SEGA logo (BIOS animation) → black screen (game init) →
    attract mode (full boot). Frozen on SEGA logo = worst outcome (system code stuck).
    Black screen after logo = game code entered but rendering failed (better).
 
-4. **Logarithmic bisection**: When divergence occurs over a range of N frames/instructions,
+6. **Logarithmic bisection**: When divergence occurs over a range of N frames/instructions,
    binary search to narrow to exact point. Don't brute-force scan.
 
-5. **test_boot.ps1 options**: `-Cue vanilla` (original disc), `-Cue rebuilt` (reimpl disc),
+7. **test_boot.ps1 options**: `-Cue vanilla` (original disc), `-Cue rebuilt` (reimpl disc),
    `-Cue patched` (old pipeline disc). There is NO `-Cue prod` option.
+
+### Class 4: Missing Function Definitions (75 functions)
+
+**Discovery**: system_init() → game_subsystem_init() → FUN_0603AC1C → FUN_06040010 →
+`jsr FUN_06040C98` → crash (jumps into zeros, illegal instruction exception).
+
+**Root cause**: 75 functions exist in the original binary (labeled in `build/aprog.s`,
+sections defined in `saturn_fixed.ld`) but have **no source code** in any `reimpl/src/*.c`
+file. The linker creates empty sections at these addresses. When ASM imports call these
+addresses through constant pools, the CPU jumps into zeros → exception.
+
+**How they went missing**: The L1 sweep (`gen_l1_batch.py`) processes Ghidra decompiler
+output. Some functions may not have been in the Ghidra export, or were referenced in
+comments/extern declarations but never given actual bodies. The linker doesn't warn
+about empty sections — it silently produces gaps.
+
+**Fix approach**: Generate `rts; nop` stubs for all 75, placed in the correct sections.
+This is the same pattern as `gen_asm_stubs.py` for ASM-only functions. The stubs
+won't do the right thing, but they'll return cleanly instead of crashing. Subsequent
+validation loop iterations will reveal which stubs need real implementations.
+
+**Scope**: 75 functions across all address ranges (core, game logic, subsystems,
+rendering, CD/audio, session/scene).
 
 ### Next Steps
 
-1. **Debug FUN_060030FC** — the game init function that crashes on reimpl
-   - Set breakpoint at 0x060030FC in both instances
-   - Step through and compare register state to find exact divergence instruction
-   - The crash is in our L1 C code (or its callees), not system code
-2. Apply logarithmic bisection: FUN_060030FC likely calls many subsystem inits
-   - Find the specific callee that crashes
-   - Fix it (better Ghidra lift, or ASM-import if unreliable)
+1. Generate `rts; nop` stubs for all 75 missing functions
+2. Rebuild, boot test → find next divergence
+3. Iterate the validation loop
 3. Iterate: fix crash → retest → find next divergence → fix → repeat
 4. Commit the Mednafen cache fix (ss.cpp)
 
