@@ -47,6 +47,8 @@ FUN_0601CAEE:
     .byte 0xE2, 0x01
     .byte 0xA0, 0x37
     .byte 0x2D, 0x22
+    .global DAT_0601cb48
+DAT_0601cb48:
     .byte 0x08, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06086028

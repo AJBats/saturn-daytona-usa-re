@@ -113,12 +113,22 @@ FUN_0600C7D8:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_0600c8b6
+DAT_0600c8b6:
     .byte 0x01, 0xB0
     .byte 0x01, 0x18
     .byte 0x00, 0xFA
+    .global DAT_0600c8bc
+DAT_0600c8bc:
     .byte 0x00, 0xDC
+    .global DAT_0600c8be
+DAT_0600c8be:
     .byte 0x01, 0xD8
+    .global DAT_0600c8c0
+DAT_0600c8c0:
     .byte 0x01, 0x90
+    .global DAT_0600c8c2
+DAT_0600c8c2:
     .byte 0x01, 0x8C
     .4byte sym_06027358
     .4byte FUN_06027552

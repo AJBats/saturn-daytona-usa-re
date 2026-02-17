@@ -94,9 +94,13 @@ FUN_060081F4:
     .byte 0xA0, 0x29
     .byte 0x00, 0x09
     .byte 0x00, 0xB8
+    .global DAT_060082ac
+DAT_060082ac:
     .byte 0x01, 0xDC
     .byte 0x01, 0xD8
     .byte 0x00, 0xE3
+    .global DAT_060082b2
+DAT_060082b2:
     .byte 0x00, 0xBC
     .4byte sym_0607E944
     .4byte sym_0607EBD4

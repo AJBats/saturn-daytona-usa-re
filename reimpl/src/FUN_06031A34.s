@@ -26,6 +26,8 @@ FUN_06031A34:
     .byte 0x89, 0x09
     .byte 0xA1, 0x47
     .byte 0x00, 0x09
+    .global DAT_06031a64
+DAT_06031a64:
     .byte 0xFF, 0x00
     .byte 0x00, 0x00
     .4byte sym_06031D5C
@@ -116,6 +118,8 @@ FUN_06031A34:
     .byte 0x89, 0x04
     .byte 0xA0, 0xE8
     .byte 0x00, 0x09
+    .global DAT_06031b22
+DAT_06031b22:
     .byte 0x00, 0xA0
     .4byte sym_06094FA8
     .byte 0x1D, 0x31
@@ -289,11 +293,15 @@ FUN_06031A34:
     .byte 0x00, 0x51
     .byte 0x00, 0x00
     .4byte sym_06031D78
+    .global loc_06031C88
+loc_06031C88:
     .byte 0x33, 0x4C
     .byte 0x36, 0x5C
     .byte 0x33, 0x6C
     .byte 0xA0, 0x24
     .byte 0x43, 0x09
+    .global loc_06031C92
+loc_06031C92:
     .byte 0x34, 0x33
     .byte 0x89, 0x00
     .byte 0x63, 0x43
@@ -305,6 +313,8 @@ FUN_06031A34:
     .byte 0x63, 0x63
     .byte 0xA0, 0x19
     .byte 0x00, 0x09
+    .global loc_06031CA8
+loc_06031CA8:
     .byte 0x34, 0x37
     .byte 0x8B, 0x00
     .byte 0x63, 0x43
@@ -316,9 +326,13 @@ FUN_06031A34:
     .byte 0x63, 0x63
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
+    .global loc_06031CBE
+loc_06031CBE:
     .byte 0xE0, 0x20
     .byte 0xA0, 0x01
     .byte 0x40, 0x28
+    .global loc_06031CC4
+loc_06031CC4:
     .byte 0xD0, 0x0D
     .byte 0x34, 0x37
     .byte 0x8B, 0x00
@@ -374,8 +388,14 @@ FUN_06031A34:
     .byte 0x89, 0xDF
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global DAT_06031d36
+DAT_06031d36:
     .byte 0x01, 0x90
+    .global DAT_06031d38
+DAT_06031d38:
     .byte 0xFE, 0x70
+    .global DAT_06031d3a
+DAT_06031d3a:
     .byte 0x00, 0xC8
     .global sym_06031D3C
 sym_06031D3C:
@@ -415,16 +435,11 @@ sym_06031D6C:
     .byte 0xFF, 0xFF
     .global sym_06031D78
 sym_06031D78:
-    .byte 0x06, 0x03
-    .byte 0x1C, 0x88
-    .byte 0x06, 0x03
-    .byte 0x1C, 0x92
-    .byte 0x06, 0x03
-    .byte 0x1C, 0xA8
-    .byte 0x06, 0x03
-    .byte 0x1C, 0xBE
-    .byte 0x06, 0x03
-    .byte 0x1C, 0xC4
+    .4byte loc_06031C88
+    .4byte loc_06031C92
+    .4byte loc_06031CA8
+    .4byte loc_06031CBE
+    .4byte loc_06031CC4
     .global sym_06031D8C
 sym_06031D8C:
     .byte 0xD0, 0x17

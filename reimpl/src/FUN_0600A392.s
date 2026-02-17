@@ -98,6 +98,8 @@ FUN_0600A392:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_0600a460
+DAT_0600a460:
     .byte 0x08, 0x00
     .byte 0x07, 0x00
     .4byte FUN_06012B58

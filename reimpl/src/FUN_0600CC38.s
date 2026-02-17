@@ -97,8 +97,14 @@ FUN_0600CC38:
     .byte 0x41, 0x21
     .byte 0xA0, 0x15
     .byte 0x15, 0x12
+    .global DAT_0600ccf6
+DAT_0600ccf6:
     .byte 0x01, 0xF8
+    .global DAT_0600ccf8
+DAT_0600ccf8:
     .byte 0x01, 0xFC
+    .global DAT_0600ccfa
+DAT_0600ccfa:
     .byte 0x01, 0xEC
     .4byte sym_0607E940
     .4byte sym_0607EB88

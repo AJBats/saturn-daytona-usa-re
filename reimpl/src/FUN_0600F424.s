@@ -229,10 +229,18 @@ FUN_0600F424:
     .byte 0xD3, 0x0F
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
+    .global DAT_0600f612
+DAT_0600f612:
     .byte 0x08, 0xA4
+    .global DAT_0600f614
+DAT_0600f614:
     .byte 0x50, 0x00
     .byte 0x00, 0x90
+    .global DAT_0600f618
+DAT_0600f618:
     .byte 0x09, 0xA4
+    .global DAT_0600f61a
+DAT_0600f61a:
     .byte 0x0A, 0xA4
     .4byte sym_0607865C
     .4byte sym_0607EAE0

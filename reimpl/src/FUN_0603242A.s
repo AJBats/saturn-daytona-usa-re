@@ -10,6 +10,8 @@ FUN_0603242A:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .4byte FUN_0601D5F4
+    .global loc_0603243C
+loc_0603243C:
     .byte 0xD2, 0x04
     .byte 0xD0, 0x05
     .byte 0x61, 0x00
@@ -24,6 +26,8 @@ FUN_0603242A:
     .byte 0x00, 0x01
     .4byte sym_06082A25
     .4byte sym_06082A28
+    .global loc_0603245C
+loc_0603245C:
     .byte 0xD2, 0x03
     .byte 0xD0, 0x04
     .byte 0x62, 0x27
@@ -35,6 +39,8 @@ FUN_0603242A:
     .byte 0x00, 0x00
     .byte 0x00, 0x01
     .4byte sym_06082A25
+    .global loc_06032474
+loc_06032474:
     .byte 0xD2, 0x03
     .byte 0xD0, 0x04
     .byte 0x62, 0x27
@@ -46,6 +52,8 @@ FUN_0603242A:
     .byte 0x00, 0x00
     .byte 0x00, 0x02
     .4byte sym_06082A25
+    .global loc_0603248C
+loc_0603248C:
     .byte 0xD2, 0x02
     .byte 0xD0, 0x03
     .byte 0x61, 0x00
@@ -55,6 +63,8 @@ FUN_0603242A:
     .byte 0x00, 0x00
     .byte 0x00, 0x02
     .4byte sym_06082A25
+    .global loc_060324A0
+loc_060324A0:
     .byte 0xD0, 0x07
     .byte 0x60, 0x02
     .byte 0x61, 0x02

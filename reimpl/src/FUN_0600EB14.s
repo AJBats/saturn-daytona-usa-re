@@ -100,6 +100,8 @@ FUN_0600EB14:
     .byte 0x81, 0x41
     .byte 0xA0, 0x40
     .byte 0x00, 0x09
+    .global DAT_0600ebd8
+DAT_0600ebd8:
     .byte 0x18, 0x10
     .byte 0x01, 0x20
     .4byte sym_06078900

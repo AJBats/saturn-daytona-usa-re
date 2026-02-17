@@ -78,11 +78,21 @@ FUN_0600C4F8:
     .byte 0x8B, 0x17
     .byte 0xA0, 0x18
     .byte 0x1E, 0x43
+    .global DAT_0600c590
+DAT_0600c590:
     .byte 0x00, 0xD4
     .byte 0xF0, 0x52
+    .global DAT_0600c594
+DAT_0600c594:
     .byte 0x00, 0xBC
+    .global DAT_0600c596
+DAT_0600c596:
     .byte 0x00, 0xB8
+    .global DAT_0600c598
+DAT_0600c598:
     .byte 0x00, 0xFC
+    .global DAT_0600c59a
+DAT_0600c59a:
     .byte 0x01, 0x98
     .byte 0x01, 0x94
     .byte 0xFF, 0xFF

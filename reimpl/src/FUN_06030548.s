@@ -19,6 +19,8 @@ FUN_06030548:
     .byte 0x8B, 0x08
     .byte 0xA0, 0xDD
     .byte 0x00, 0x09
+    .global DAT_0603056a
+DAT_0603056a:
     .byte 0x01, 0x20
     .byte 0x00, 0x80
     .byte 0x00, 0x00
@@ -50,7 +52,11 @@ FUN_06030548:
     .byte 0xE2, 0x0F
     .byte 0xA0, 0xBB
     .byte 0x0E, 0x25
+    .global DAT_060305ae
+DAT_060305ae:
     .byte 0x00, 0x04
+    .global DAT_060305b0
+DAT_060305b0:
     .byte 0x01, 0x6C
     .byte 0xEC, 0x00
     .byte 0x95, 0x25
@@ -92,7 +98,11 @@ FUN_06030548:
     .byte 0x89, 0x6C
     .byte 0xA0, 0x45
     .byte 0x00, 0x09
+    .global DAT_06030602
+DAT_06030602:
     .byte 0x00, 0x80
+    .global DAT_06030604
+DAT_06030604:
     .byte 0x02, 0x08
     .byte 0xD7, 0x0D
     .byte 0x94, 0x17
@@ -120,6 +130,8 @@ FUN_06030548:
     .byte 0xE4, 0x02
     .byte 0xA2, 0x97
     .byte 0x55, 0x74
+    .global DAT_0603063a
+DAT_0603063a:
     .byte 0x40, 0x00
     .4byte sym_06063EC4
     .4byte sym_06030FBC
@@ -153,6 +165,8 @@ FUN_06030548:
     .byte 0x23, 0x51
     .byte 0xA2, 0x74
     .byte 0x55, 0x74
+    .global DAT_06030680
+DAT_06030680:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .4byte sym_06063E9C
@@ -187,6 +201,8 @@ FUN_06030548:
     .byte 0x55, 0x74
     .byte 0xA2, 0x50
     .byte 0x64, 0xD3
+    .global DAT_060306c8
+DAT_060306c8:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .4byte sym_06063EB0
@@ -222,7 +238,11 @@ FUN_06030548:
     .byte 0x55, 0x74
     .byte 0xA2, 0x2A
     .byte 0x64, 0xD3
+    .global DAT_06030714
+DAT_06030714:
     .byte 0x40, 0x00
+    .global DAT_06030716
+DAT_06030716:
     .byte 0xC0, 0x00
     .4byte sym_06063E9C
     .4byte sym_06063EC4
@@ -242,6 +262,8 @@ FUN_06030548:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6C, 0xF6
+    .global DAT_06030742
+DAT_06030742:
     .byte 0x00, 0x80
     .byte 0x21, 0x52
     .byte 0x2F, 0x56
@@ -252,6 +274,8 @@ FUN_06030548:
     .byte 0x41, 0x2B
     .byte 0xEC, 0x00
     .4byte sym_06030F1C
+    .global loc_06030758
+loc_06030758:
     .byte 0xD0, 0x09
     .byte 0xE5, 0x08
     .byte 0x20, 0x50
@@ -274,6 +298,8 @@ FUN_06030548:
     .byte 0x00, 0x00
     .4byte sym_0607866D
     .4byte sym_06089595
+    .global loc_06030788
+loc_06030788:
     .byte 0xD0, 0x09
     .byte 0xE5, 0x04
     .byte 0x20, 0x50
@@ -296,6 +322,8 @@ FUN_06030548:
     .byte 0x00, 0x00
     .4byte sym_0607866D
     .4byte sym_06089595
+    .global loc_060307B8
+loc_060307B8:
     .byte 0xD0, 0x09
     .byte 0xE5, 0x02
     .byte 0x20, 0x50
@@ -318,6 +346,8 @@ FUN_06030548:
     .byte 0x00, 0x00
     .4byte sym_0607866D
     .4byte sym_06089595
+    .global loc_060307E8
+loc_060307E8:
     .byte 0xD0, 0x26
     .byte 0xE5, 0x01
     .byte 0x20, 0x50
@@ -608,9 +638,15 @@ sym_06030A06:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x02, 0x50
+    .global DAT_06030a40
+DAT_06030a40:
     .byte 0x00, 0x80
     .byte 0x01, 0x60
+    .global DAT_06030a44
+DAT_06030a44:
     .byte 0x01, 0xE4
+    .global DAT_06030a46
+DAT_06030a46:
     .byte 0x01, 0xEC
     .4byte sym_0607E940
     .byte 0xFF, 0xFF
@@ -715,9 +751,17 @@ sym_06030A06:
     .byte 0x2F, 0x56
     .byte 0xA0, 0x16
     .byte 0x65, 0xF6
+    .global DAT_06030b24
+DAT_06030b24:
     .byte 0x80, 0x00
+    .global DAT_06030b26
+DAT_06030b26:
     .byte 0x02, 0x4C
+    .global DAT_06030b28
+DAT_06030b28:
     .byte 0x00, 0x0A
+    .global DAT_06030b2a
+DAT_06030b2a:
     .byte 0x02, 0x14
     .byte 0x00, 0xCC
     .byte 0x00, 0x00
@@ -915,6 +959,8 @@ sym_06030A06:
     .byte 0x60, 0x93
     .byte 0xA0, 0x31
     .byte 0x00, 0x09
+    .global DAT_06030cca
+DAT_06030cca:
     .byte 0x40, 0x00
     .4byte sym_0602FD9B
     .4byte sym_060A6000
@@ -957,6 +1003,8 @@ sym_06030A06:
     .byte 0x4D, 0x28
     .byte 0xAF, 0xB5
     .byte 0x5A, 0x15
+    .global DAT_06030d22
+DAT_06030d22:
     .byte 0x40, 0x00
     .4byte sym_0602FD9C
     .4byte sym_060A6000
@@ -1018,6 +1066,8 @@ sym_06030A06:
     .byte 0x40, 0x18
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
+    .global DAT_06030da2
+DAT_06030da2:
     .byte 0x7F, 0xFF
     .4byte sym_0602755C
     .byte 0x23, 0x2D

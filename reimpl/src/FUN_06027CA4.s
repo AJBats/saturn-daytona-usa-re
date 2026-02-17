@@ -65,6 +65,8 @@ FUN_06027CA4:
     .byte 0x6C, 0x01
     .byte 0xA0, 0x08
     .byte 0x21, 0x21
+    .global DAT_06027d26
+DAT_06027d26:
     .byte 0x01, 0xEC
     .4byte sym_0607E940
     .4byte sym_06061240
@@ -244,7 +246,11 @@ FUN_06027CA4:
     .byte 0x91, 0x02
     .byte 0xA0, 0x0B
     .byte 0x01, 0x86
+    .global DAT_06027e98
+DAT_06027e98:
     .byte 0x00, 0xFF
+    .global DAT_06027e9a
+DAT_06027e9a:
     .byte 0x02, 0x5C
     .4byte sym_060A6000
     .4byte sym_0602ECCC

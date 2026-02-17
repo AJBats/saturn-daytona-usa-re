@@ -63,6 +63,8 @@ FUN_0601250C:
     .byte 0xD3, 0x12
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
+    .global DAT_06012586
+DAT_06012586:
     .byte 0x10, 0x00
     .4byte sym_06026DBC
     .4byte sym_06026E0C

@@ -18,11 +18,19 @@ FUN_0602E264:
     .byte 0x61, 0x33
     .byte 0xA0, 0x29
     .byte 0x00, 0x09
+    .global DAT_0602e284
+DAT_0602e284:
     .byte 0x02, 0x14
     .byte 0x00, 0x88
+    .global DAT_0602e288
+DAT_0602e288:
     .byte 0x00, 0x44
+    .global DAT_0602e28a
+DAT_0602e28a:
     .byte 0x00, 0x22
     .byte 0x00, 0x11
+    .global DAT_0602e28e
+DAT_0602e28e:
     .byte 0x02, 0x08
     .byte 0x00, 0xE4
     .byte 0x07, 0x08

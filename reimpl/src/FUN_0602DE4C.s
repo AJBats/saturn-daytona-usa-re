@@ -12,4 +12,6 @@ FUN_0602DE4C:
     .byte 0x61, 0x1B
     .byte 0xD0, 0x1E
     .byte 0x20, 0x12
+    .global loc_0602DE60
+loc_0602DE60:
     .byte 0xDD, 0x1E

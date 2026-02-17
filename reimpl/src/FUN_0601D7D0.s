@@ -202,7 +202,11 @@ FUN_0601D7D0:
     .byte 0x23, 0xC2
     .byte 0xA0, 0x15
     .byte 0x00, 0x09
+    .global DAT_0601d974
+DAT_0601d974:
     .byte 0x02, 0x1C
+    .global DAT_0601d976
+DAT_0601d976:
     .byte 0x04, 0xB0
     .4byte sym_0605AD00
     .4byte sym_06086056

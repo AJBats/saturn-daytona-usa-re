@@ -149,9 +149,17 @@ FUN_0600AFB2:
     .byte 0x62, 0x22
     .byte 0xA0, 0x26
     .byte 0x34, 0x2C
+    .global DAT_0600b100
+DAT_0600b100:
     .byte 0x01, 0xD8
+    .global DAT_0600b102
+DAT_0600b102:
     .byte 0x01, 0xB4
+    .global DAT_0600b104
+DAT_0600b104:
     .byte 0x01, 0xD0
+    .global DAT_0600b106
+DAT_0600b106:
     .byte 0x01, 0xC8
     .4byte sym_06078668
     .4byte sym_0605BDCC

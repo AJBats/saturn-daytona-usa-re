@@ -100,10 +100,20 @@ FUN_0601DE50:
     .byte 0xE4, 0x08
     .byte 0xA0, 0x2D
     .byte 0x00, 0x09
+    .global DAT_0601df14
+DAT_0601df14:
     .byte 0x02, 0xAC
+    .global DAT_0601df16
+DAT_0601df16:
     .byte 0x06, 0x44
+    .global DAT_0601df18
+DAT_0601df18:
     .byte 0x02, 0x40
+    .global DAT_0601df1a
+DAT_0601df1a:
     .byte 0x02, 0x1C
+    .global DAT_0601df1c
+DAT_0601df1c:
     .byte 0x02, 0x78
     .byte 0x03, 0xC2
     .byte 0x04, 0x44

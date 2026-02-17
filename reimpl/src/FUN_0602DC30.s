@@ -12,16 +12,13 @@ FUN_0602DC30:
     .4byte sym_0602DC44
     .global sym_0602DC44
 sym_0602DC44:
-    .byte 0x06, 0x02
-    .byte 0xDC, 0x58
-    .byte 0x06, 0x02
-    .byte 0xDD, 0x10
-    .byte 0x06, 0x02
-    .byte 0xDE, 0x60
-    .byte 0x06, 0x02
-    .byte 0xE0, 0x78
-    .byte 0x06, 0x02
-    .byte 0xE1, 0x08
+    .4byte loc_0602DC58
+    .4byte loc_0602DD10
+    .4byte loc_0602DE60
+    .4byte loc_0602E078
+    .4byte loc_0602E108
+    .global loc_0602DC58
+loc_0602DC58:
     .byte 0xD1, 0x10
     .byte 0x63, 0x12
     .byte 0x73, 0x01

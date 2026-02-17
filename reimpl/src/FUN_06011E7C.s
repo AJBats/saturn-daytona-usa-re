@@ -69,8 +69,14 @@ sym_06011EB4:
     .byte 0xD3, 0x04
     .byte 0x43, 0x2B
     .byte 0x7F, 0x04
+    .global DAT_06011efe
+DAT_06011efe:
     .byte 0x40, 0x00
+    .global DAT_06011f00
+DAT_06011f00:
     .byte 0x04, 0xBE
+    .global DAT_06011f02
+DAT_06011f02:
     .byte 0x04, 0x86
     .byte 0x04, 0x20
     .byte 0xFF, 0xFF

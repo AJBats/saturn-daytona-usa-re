@@ -47,6 +47,8 @@ FUN_0601D4A8:
     .4byte sym_0607887F
     .byte 0x00, 0x10
     .byte 0x00, 0x00
+    .global loc_0601D50C
+loc_0601D50C:
     .byte 0xD0, 0x10
     .byte 0x60, 0x02
     .byte 0x20, 0x08
@@ -76,6 +78,8 @@ FUN_0601D4A8:
     .byte 0x72, 0x01
     .byte 0x00, 0x0B
     .byte 0x24, 0x20
+    .global loc_0601D546
+loc_0601D546:
     .byte 0xE5, 0x17
     .byte 0xD4, 0x05
     .byte 0xD3, 0x06
@@ -87,6 +91,8 @@ FUN_0601D4A8:
     .4byte sym_0607887F
     .4byte sym_0607EBCC
     .4byte sym_0600338C
+    .global loc_0601D568
+loc_0601D568:
     .byte 0xD3, 0x1C
     .byte 0xE2, 0x01
     .byte 0x63, 0x32

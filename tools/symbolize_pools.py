@@ -137,11 +137,157 @@ def build_function_ranges(fun_syms, binary_len):
 # Code section boundary — sym_ addresses in this range must become labels in .s files
 # (they move with the code). Addresses outside stay as fixed PROVIDEs.
 CODE_START = 0x06003000
-CODE_END = 0x06060000  # End of code section (data starts after this)
+# CODE_END is set dynamically in main() after loading the binary.
+# It must cover the ENTIRE binary (BASE_ADDR + binary_size), not just
+# an estimated boundary. The tail of FUN_06046E48 extends to ~0x06063690,
+# well past 0x06060000 — any sym_ label in that range must be a .global
+# in the .s file so it relocates with the code in free-layout builds.
+CODE_END = None  # Set in main()
+
+
+def discover_jump_tables(binary_data, all_symbols, fun_ranges):
+    """Discover unsymbolized jump table entries by adjacency to known pool entries.
+
+    SH-2 functions end with constant pools (and sometimes have pool islands
+    mid-function). Jump table entries are 4-byte code addresses stored
+    contiguously with regular pool entries. We find them by:
+      1. Identifying all 4-byte-aligned positions with values already in all_symbols
+      2. Expanding outward from those positions to find adjacent code-range values
+      3. Creating loc_XXXXXXXX symbols for each discovered target
+
+    Returns: dict {target_addr: symbol_name} for newly discovered symbols.
+    """
+    # Step 1: Find all positions in the binary that contain known symbol values
+    # These are confirmed data/pool positions
+    pool_positions = set()
+    for start, end, _ in fun_ranges:
+        off_start = start - BASE_ADDR
+        off_end = end - BASE_ADDR
+        # Align to next 4-byte boundary (functions may start at 2-byte aligned)
+        aligned_start = (off_start + 3) & ~3
+        for i in range(aligned_start, off_end - 3, 4):
+            val = struct.unpack(">I", binary_data[i:i + 4])[0]
+            if val in all_symbols:
+                pool_positions.add(i)
+
+    # Step 1b: Seed from code-range sym_ labels that are data table pointers.
+    # These addresses appear in ref_values (loaded via mov.l from constant pools),
+    # meaning they point to data tables. Mark positions near them as data.
+    for addr, name in all_symbols.items():
+        if not name.startswith("sym_"):
+            continue
+        if addr < CODE_START or addr >= CODE_END:
+            continue
+        off = addr - BASE_ADDR
+        if 0 <= off < len(binary_data) - 3:
+            pool_positions.add(off)
+
+    # Step 2: Iteratively expand from known pool positions
+    # Check adjacent 4-byte-aligned positions for code-range values
+    new_symbols = {}
+    WINDOW = 12  # check within 3 slots (bridges multi-field struct patterns)
+    changed = True
+    iterations = 0
+    while changed:
+        changed = False
+        iterations += 1
+        for start, end, _ in fun_ranges:
+            off_start = start - BASE_ADDR
+            off_end = end - BASE_ADDR
+            aligned_start = (off_start + 3) & ~3
+            for i in range(aligned_start, off_end - 3, 4):
+                if i in pool_positions:
+                    continue
+                val = struct.unpack(">I", binary_data[i:i + 4])[0]
+                if not (CODE_START <= val < CODE_END):
+                    continue
+                if val % 2 != 0:
+                    continue
+                # Check if any position within WINDOW bytes is a known pool position
+                found = False
+                for check in range(i - WINDOW, i + WINDOW + 1, 4):
+                    if check != i and check in pool_positions:
+                        found = True
+                        break
+                if found:
+                    sym_name = f"loc_{val:08X}"
+                    if val not in all_symbols:
+                        new_symbols[val] = sym_name
+                    pool_positions.add(i)
+                    changed = True
+        if iterations > 20:
+            break  # safety limit
+
+    # Step 3: Brute-force pass — symbolize any remaining even code-range values
+    # at 4-byte-aligned positions. Don't skip pool_positions — Step 1b seeds
+    # sym_ label positions but the VALUES there may still need new symbols.
+    brute_count = 0
+    for start, end, _ in fun_ranges:
+        off_start = start - BASE_ADDR
+        off_end = end - BASE_ADDR
+        aligned_start = (off_start + 3) & ~3
+        for i in range(aligned_start, off_end - 3, 4):
+            val = struct.unpack(">I", binary_data[i:i + 4])[0]
+            if not (CODE_START <= val < CODE_END):
+                continue
+            if val % 2 != 0:
+                continue
+            if val in all_symbols or val in new_symbols:
+                continue  # value already has a symbol
+            sym_name = f"loc_{val:08X}"
+            new_symbols[val] = sym_name
+            brute_count += 1
+            pool_positions.add(i)
+
+    if brute_count:
+        print(f"    (brute-force pass added {brute_count} more)")
+
+    # Step 4: Odd code-range values — byte-level data pointers.
+    # These point to individual bytes within embedded data tables.
+    # Filter out bitmask patterns (0xXXXXFFFF, low16 < 0x10, repeated bytes).
+    odd_count = 0
+    for start, end, _ in fun_ranges:
+        off_start = start - BASE_ADDR
+        off_end = end - BASE_ADDR
+        aligned_start = (off_start + 3) & ~3
+        for i in range(aligned_start, off_end - 3, 4):
+            val = struct.unpack(">I", binary_data[i:i + 4])[0]
+            if not (CODE_START <= val < CODE_END):
+                continue
+            if val % 2 == 0:
+                continue  # already handled in Step 3
+            if val in all_symbols or val in new_symbols:
+                continue
+            # Filter out likely bitmask/constant patterns
+            low16 = val & 0xFFFF
+            if low16 == 0xFFFF:
+                continue  # bitmask pattern: 0x06XXXXFFFF
+            if low16 < 0x0100:
+                continue  # small low16 = likely config constant (e.g. 0x06010001)
+            # Check adjacency — only symbolize if near a known pool position
+            near_pool = False
+            for check in range(i - 12, i + 16, 4):
+                if check != i and check in pool_positions:
+                    near_pool = True
+                    break
+            if not near_pool:
+                continue
+            sym_name = f"dat_{val:08X}"
+            new_symbols[val] = sym_name
+            odd_count += 1
+            pool_positions.add(i)
+
+    if odd_count:
+        print(f"    (odd data pointers: {odd_count})")
+
+    return new_symbols
 
 
 def find_code_labels(all_symbols, fun_ranges):
-    """Find sym_ symbols in the code range and map them to containing functions.
+    """Find sym_/loc_/DAT_ symbols in the code range and map them to containing functions.
+
+    All symbols pointing into function bodies must be emitted as labels in .s
+    files so they relocate with the code in free-layout builds.
 
     Returns:
         code_labels: {func_name: [(offset, sym_name), ...]} sorted by offset
@@ -151,13 +297,10 @@ def find_code_labels(all_symbols, fun_ranges):
     code_label_addrs = set()
 
     for addr, name in all_symbols.items():
-        if not name.startswith("sym_"):
+        if not (name.startswith("sym_") or name.startswith("loc_") or
+                name.startswith("DAT_") or name.startswith("dat_")):
             continue
         if addr < CODE_START or addr >= CODE_END:
-            continue
-        # Only embed labels at 2-byte-aligned addresses (SH-2 instruction boundary)
-        # Odd addresses are data byte pointers — keep as fixed PROVIDEs
-        if addr % 2 != 0:
             continue
 
         # Find the containing function
@@ -221,9 +364,11 @@ def emit_function(name, start, end, binary_data, all_symbols, internal_labels=No
 
         # Check for 4-byte-aligned position with a known symbol value
         if addr % 4 == 0 and i + 4 <= func_size:
-            # Check if a label falls at offset i+2 (middle of this 4-byte entry)
-            # If so, we must NOT emit .4byte — split into .byte pairs instead
-            if (i + 2) not in label_at:
+            # Check if any label falls inside this 4-byte entry (at i+1, i+2, or i+3)
+            # If so, we must NOT emit .4byte — split into bytes instead
+            label_inside = ((i + 1) in label_at or (i + 2) in label_at or
+                            (i + 3) in label_at)
+            if not label_inside:
                 value = struct.unpack(">I", func_bytes[i : i + 4])[0]
                 if value in all_symbols:
                     sym_name = all_symbols[value]
@@ -232,8 +377,11 @@ def emit_function(name, start, end, binary_data, all_symbols, internal_labels=No
                     sym_count += 1
                     continue
 
-        # Emit as .byte pair (2 bytes per line, matching SH-2 instruction width)
-        if i + 2 <= func_size:
+        # Check if there's a label at the next byte (odd offset) — emit single byte
+        if i + 1 < func_size and (i + 1) in label_at:
+            lines.append(f"    .byte 0x{func_bytes[i]:02X}")
+            i += 1
+        elif i + 2 <= func_size:
             lines.append(f"    .byte 0x{func_bytes[i]:02X}, 0x{func_bytes[i+1]:02X}")
             i += 2
         else:
@@ -320,12 +468,17 @@ def generate_linker_script(fun_syms, provide_syms, code_label_addrs=None):
 
 
 def main():
+    global CODE_END
     print("=== Sawyer L2: symbolize_pools.py ===")
 
     # Load inputs
     print(f"Loading binary: {BINARY_PATH}")
     binary_data = load_binary(BINARY_PATH)
     print(f"  Binary size: {len(binary_data)} bytes")
+
+    # Set CODE_END to cover the entire binary
+    CODE_END = BASE_ADDR + len(binary_data)
+    print(f"  Code range: 0x{CODE_START:08X} - 0x{CODE_END:08X}")
 
     print(f"Loading FUN_ symbols: {SYMS_PATH}")
     fun_syms = load_fun_symbols(SYMS_PATH)
@@ -362,7 +515,14 @@ def main():
     ranges = build_function_ranges(fun_syms, len(binary_data))
     print(f"  {len(ranges)} functions (including _start)")
 
-    # Find code-range sym_ labels that should be embedded in .s files
+    # Discover jump table entries by adjacency to known pool entries
+    print(f"\nDiscovering jump table entries...")
+    jt_syms = discover_jump_tables(binary_data, all_symbols, ranges)
+    all_symbols.update(jt_syms)
+    print(f"  {len(jt_syms)} jump table targets discovered (loc_ symbols)")
+    print(f"  {len(all_symbols)} total symbols after discovery")
+
+    # Find code-range sym_ and loc_ labels that should be embedded in .s files
     code_labels, code_label_addrs = find_code_labels(all_symbols, ranges)
     print(f"\nCode-range labels:")
     print(f"  {len(code_label_addrs)} sym_ addresses embedded as labels in .s files")

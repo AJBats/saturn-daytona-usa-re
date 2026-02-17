@@ -84,8 +84,14 @@ FUN_0600E7C8:
     .byte 0x0E, 0x36
     .byte 0xA0, 0x1A
     .byte 0x00, 0x09
+    .global DAT_0600e86c
+DAT_0600e86c:
     .byte 0x02, 0x5C
+    .global DAT_0600e86e
+DAT_0600e86e:
     .byte 0x02, 0x08
+    .global DAT_0600e870
+DAT_0600e870:
     .byte 0x01, 0xE4
     .byte 0x01, 0xF8
     .byte 0x04, 0x00

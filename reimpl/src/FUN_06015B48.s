@@ -115,6 +115,8 @@ FUN_06015B48:
     .4byte sym_06084FC8
     .4byte FUN_06016DD8
     .4byte sym_060172E4
+    .global loc_06015C30
+loc_06015C30:
     .byte 0x7F, 0xFC
     .byte 0x2F, 0x40
     .byte 0x63, 0xF0

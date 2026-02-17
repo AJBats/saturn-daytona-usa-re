@@ -20,6 +20,8 @@ sym_06040894:
     .byte 0x65, 0x5C
     .byte 0x00, 0x0B
     .byte 0x14, 0x59
+    .global DAT_0604089c
+DAT_0604089c:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
     .4byte FUN_060414D0

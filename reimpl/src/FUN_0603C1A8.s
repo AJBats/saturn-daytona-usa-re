@@ -370,9 +370,15 @@ FUN_0603C1A8:
     .byte 0x60, 0x23
     .byte 0xA0, 0x13
     .byte 0x81, 0xD3
+    .global DAT_0603c496
+DAT_0603c496:
     .byte 0x10, 0x00
     .byte 0x03, 0x01
+    .global DAT_0603c49a
+DAT_0603c49a:
     .byte 0x20, 0x00
+    .global DAT_0603c49c
+DAT_0603c49c:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06034F78

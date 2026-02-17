@@ -101,6 +101,8 @@ FUN_06025070:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_06025136
+DAT_06025136:
     .byte 0x00, 0xB4
     .4byte sym_060610BC
     .4byte sym_06060F2C

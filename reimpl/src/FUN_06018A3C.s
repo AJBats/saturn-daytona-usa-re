@@ -166,6 +166,8 @@ FUN_06018A3C:
     .byte 0x64, 0x53
     .byte 0xA0, 0x25
     .byte 0x00, 0x09
+    .global DAT_06018b8e
+DAT_06018b8e:
     .byte 0x40, 0x00
     .4byte FUN_0600736C
     .4byte FUN_06012DB4

@@ -28,6 +28,8 @@ FUN_06019BC8:
     .byte 0x8B, 0x13
     .byte 0xA0, 0x13
     .byte 0x6A, 0xBC
+    .global DAT_06019bfc
+DAT_06019bfc:
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_0605D4F0

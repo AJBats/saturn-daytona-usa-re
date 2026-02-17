@@ -119,6 +119,8 @@ FUN_0600A76C:
     .byte 0xA0, 0x24
     .byte 0x00, 0x09
     .byte 0xCC, 0xCD
+    .global DAT_0600a856
+DAT_0600a856:
     .byte 0x80, 0x00
     .4byte sym_0608A52C
     .byte 0x00, 0x00

@@ -20,9 +20,17 @@ FUN_0600DC74:
     .byte 0xD3, 0x0C
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
+    .global DAT_0600dc98
+DAT_0600dc98:
     .byte 0x40, 0x00
+    .global DAT_0600dc9a
+DAT_0600dc9a:
     .byte 0x0B, 0x3C
+    .global DAT_0600dc9c
+DAT_0600dc9c:
     .byte 0x0A, 0xBC
+    .global DAT_0600dc9e
+DAT_0600dc9e:
     .byte 0x0B, 0xBC
     .4byte sym_06063808
     .4byte sym_06028400

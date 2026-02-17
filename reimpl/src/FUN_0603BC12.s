@@ -33,9 +33,17 @@ FUN_0603BC12:
     .byte 0x8B, 0x09
     .byte 0xA0, 0x16
     .byte 0xE0, 0xFD
+    .global DAT_0603bc50
+DAT_0603bc50:
     .byte 0x04, 0x3C
+    .global DAT_0603bc52
+DAT_0603bc52:
     .byte 0x00, 0x9C
+    .global DAT_0603bc54
+DAT_0603bc54:
     .byte 0x00, 0x96
+    .global DAT_0603bc56
+DAT_0603bc56:
     .byte 0x00, 0xC4
     .4byte sym_060360FC
     .4byte sym_060A4D14

@@ -78,6 +78,8 @@ FUN_06017814:
     .byte 0xA0, 0x33
     .byte 0x00, 0x09
     .byte 0x03, 0x33
+    .global DAT_060178ac
+DAT_060178ac:
     .byte 0x1C, 0xCB
     .byte 0xFF, 0xFF
     .4byte sym_0605BE18
@@ -434,8 +436,14 @@ FUN_06017814:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_06017bd4
+DAT_06017bd4:
     .byte 0x15, 0x1A
+    .global DAT_06017bd6
+DAT_06017bd6:
     .byte 0x15, 0x1C
+    .global DAT_06017bd8
+DAT_06017bd8:
     .byte 0x15, 0x1E
     .byte 0xFF, 0xFF
     .4byte sym_0605BE22
@@ -491,6 +499,8 @@ FUN_06017814:
     .byte 0xE4, 0x00
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global DAT_06017c52
+DAT_06017c52:
     .byte 0x00, 0x8C
     .4byte sym_0607EBC4
     .byte 0x00, 0x02

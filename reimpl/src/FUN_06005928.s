@@ -91,12 +91,26 @@ FUN_06005928:
     .byte 0xD3, 0x0C
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
+    .global DAT_060059da
+DAT_060059da:
     .byte 0x05, 0xA4
+    .global DAT_060059dc
+DAT_060059dc:
     .byte 0x02, 0x1C
+    .global DAT_060059de
+DAT_060059de:
     .byte 0x02, 0x20
+    .global DAT_060059e0
+DAT_060059e0:
     .byte 0x02, 0x40
+    .global DAT_060059e2
+DAT_060059e2:
     .byte 0x70, 0x00
+    .global DAT_060059e4
+DAT_060059e4:
     .byte 0x06, 0x1C
+    .global DAT_060059e6
+DAT_060059e6:
     .byte 0x50, 0x00
     .byte 0x00, 0x90
     .byte 0xFF, 0xFF

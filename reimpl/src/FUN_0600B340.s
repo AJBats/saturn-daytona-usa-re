@@ -149,8 +149,14 @@ FUN_0600B340:
     .byte 0x6D, 0xF6
     .byte 0xA0, 0x2C
     .byte 0x6E, 0xF6
+    .global DAT_0600b47a
+DAT_0600b47a:
     .byte 0x01, 0xD8
+    .global DAT_0600b47c
+DAT_0600b47c:
     .byte 0x01, 0xB4
+    .global DAT_0600b47e
+DAT_0600b47e:
     .byte 0x01, 0xD0
     .byte 0x01, 0xC8
     .byte 0xFF, 0xFF

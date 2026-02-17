@@ -29,8 +29,12 @@ FUN_06038A64:
     .byte 0x60, 0x23
     .byte 0xA0, 0x0B
     .byte 0x81, 0x57
+    .global DAT_06038a9a
+DAT_06038a9a:
     .byte 0x0F, 0xFF
     .byte 0x10, 0x00
+    .global DAT_06038a9e
+DAT_06038a9e:
     .byte 0x20, 0x00
     .4byte sym_060A3D88
     .byte 0x88, 0x00

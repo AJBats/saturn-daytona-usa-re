@@ -115,6 +115,8 @@ sym_0600A1F6:
     .byte 0x24, 0x61
     .byte 0xA0, 0x36
     .byte 0x00, 0x09
+    .global DAT_0600a224
+DAT_0600a224:
     .byte 0x00, 0xC4
     .byte 0x00, 0xA8
     .4byte sym_06078635
@@ -195,8 +197,12 @@ sym_0600A1F6:
     .byte 0x67, 0x7F
     .byte 0xA0, 0x30
     .byte 0x24, 0x71
+    .global DAT_0600a2d8
+DAT_0600a2d8:
     .byte 0x02, 0x87
     .byte 0x02, 0x71
+    .global DAT_0600a2dc
+DAT_0600a2dc:
     .byte 0x01, 0xAE
     .byte 0x01, 0x90
     .byte 0x03, 0x71
@@ -268,9 +274,17 @@ sym_0600A33C:
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
     .byte 0x03, 0x98
+    .global DAT_0600a36c
+DAT_0600a36c:
     .byte 0x03, 0x6D
+    .global DAT_0600a36e
+DAT_0600a36e:
     .byte 0x03, 0x36
+    .global DAT_0600a370
+DAT_0600a370:
     .byte 0x02, 0x1A
+    .global DAT_0600a372
+DAT_0600a372:
     .byte 0x01, 0xB4
     .4byte sym_0605A016
     .4byte sym_06063E1C

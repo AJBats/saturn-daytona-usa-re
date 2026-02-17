@@ -238,6 +238,25 @@ def inject_binary(bin_path, disc_path, output_path):
         # Binary fits — simple injection (original behavior)
         shutil.copy2(disc_path, output_path)
 
+        # Update APROG size in ISO directory if it changed
+        if bin_size != APROG_ORIG_SIZE:
+            for off, name, lba, size, flags in entries:
+                if name.startswith('APROG'):
+                    patch_dir_size(root_dir, off, bin_size)
+            # Write patched root directory to sector 20 in the output
+            with open(output_path, 'r+b') as f:
+                dir_offset = 20 * SECTOR_SIZE + USER_DATA_OFFSET
+                f.seek(dir_offset)
+                f.write(bytes(root_dir))
+                # Recompute EDC for dir sector
+                f.seek(20 * SECTOR_SIZE)
+                sector_header = f.read(USER_DATA_OFFSET)
+                sector_for_edc = sector_header + bytes(root_dir)
+                edc = compute_edc(sector_for_edc)
+                edc_pos = 20 * SECTOR_SIZE + USER_DATA_OFFSET + USER_DATA_SIZE
+                f.seek(edc_pos)
+                f.write(struct.pack('<I', edc))
+
         with open(output_path, 'r+b') as f:
             for i in range(new_sectors):
                 lba = APROG_START_SECTOR + i

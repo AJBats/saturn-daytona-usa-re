@@ -35,6 +35,8 @@ FUN_0600DE70:
     .byte 0x1F, 0x31
     .byte 0xA0, 0x38
     .byte 0x2F, 0x42
+    .global DAT_0600deb2
+DAT_0600deb2:
     .byte 0x02, 0x68
     .4byte sym_0607EA98
     .4byte sym_060786CA

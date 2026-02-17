@@ -167,9 +167,17 @@ FUN_0600B4D2:
     .byte 0x34, 0xBC
     .byte 0xA0, 0x28
     .byte 0x64, 0x42
+    .global DAT_0600b630
+DAT_0600b630:
     .byte 0x80, 0x00
+    .global DAT_0600b632
+DAT_0600b632:
     .byte 0x01, 0xD8
+    .global DAT_0600b634
+DAT_0600b634:
     .byte 0x01, 0xB4
+    .global DAT_0600b636
+DAT_0600b636:
     .byte 0x01, 0xD0
     .byte 0x01, 0xC8
     .byte 0xFF, 0xFF

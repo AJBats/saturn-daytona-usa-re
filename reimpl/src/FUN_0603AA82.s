@@ -199,6 +199,12 @@ sym_0603AB46:
     .byte 0x89, 0xA0
     .byte 0x00, 0x0B
     .byte 0x4F, 0x16
+    .global DAT_0603ac16
+DAT_0603ac16:
     .byte 0x00, 0xE1
+    .global DAT_0603ac18
+DAT_0603ac18:
     .byte 0x00, 0xE2
+    .global DAT_0603ac1a
+DAT_0603ac1a:
     .byte 0x00, 0xFF

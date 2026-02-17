@@ -83,10 +83,20 @@ FUN_0603B424:
     .byte 0x00, 0xEC
     .byte 0xA0, 0x35
     .byte 0x60, 0x0C
+    .global DAT_0603b4c6
+DAT_0603b4c6:
     .byte 0x00, 0xFF
+    .global DAT_0603b4c8
+DAT_0603b4c8:
     .byte 0x00, 0xE9
+    .global DAT_0603b4ca
+DAT_0603b4ca:
     .byte 0x00, 0xFE
+    .global DAT_0603b4cc
+DAT_0603b4cc:
     .byte 0x00, 0xEC
+    .global DAT_0603b4ce
+DAT_0603b4ce:
     .byte 0x00, 0xE8
     .byte 0x88, 0x00
     .byte 0x89, 0xE8

@@ -26,6 +26,8 @@ FUN_0600E4F2:
     .byte 0x23, 0x22
     .byte 0xA0, 0x32
     .byte 0xEC, 0x00
+    .global DAT_0600e522
+DAT_0600e522:
     .byte 0x02, 0x68
     .4byte sym_0607E944
     .4byte sym_0607E940
@@ -191,6 +193,8 @@ FUN_0600E4F2:
     .byte 0xD3, 0x1C
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
+    .global DAT_0600e69c
+DAT_0600e69c:
     .byte 0x01, 0xB0
     .byte 0x02, 0x28
     .4byte FUN_060081F4

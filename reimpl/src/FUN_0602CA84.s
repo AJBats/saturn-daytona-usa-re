@@ -66,11 +66,23 @@ FUN_0602CA84:
     .byte 0x43, 0x21
     .byte 0xA0, 0x0F
     .byte 0x36, 0x3C
+    .global DAT_0602cb04
+DAT_0602cb04:
     .byte 0x01, 0x04
+    .global DAT_0602cb06
+DAT_0602cb06:
     .byte 0x01, 0x00
+    .global DAT_0602cb08
+DAT_0602cb08:
     .byte 0x00, 0x60
+    .global DAT_0602cb0a
+DAT_0602cb0a:
     .byte 0x00, 0x64
+    .global DAT_0602cb0c
+DAT_0602cb0c:
     .byte 0x01, 0x48
+    .global DAT_0602cb0e
+DAT_0602cb0e:
     .byte 0x00, 0xEC
     .byte 0x00, 0xF8
     .byte 0x00, 0x00
@@ -121,10 +133,20 @@ FUN_0602CA84:
     .byte 0x47, 0x21
     .byte 0xA0, 0x17
     .byte 0x33, 0x7C
+    .global DAT_0602cb72
+DAT_0602cb72:
     .byte 0x01, 0x40
+    .global DAT_0602cb74
+DAT_0602cb74:
     .byte 0x01, 0x08
+    .global DAT_0602cb76
+DAT_0602cb76:
     .byte 0x00, 0xF4
+    .global DAT_0602cb78
+DAT_0602cb78:
     .byte 0x00, 0xF0
+    .global DAT_0602cb7a
+DAT_0602cb7a:
     .byte 0x01, 0x1C
     .byte 0x00, 0x01
     .byte 0x00, 0x00
@@ -269,21 +291,53 @@ FUN_0602CA84:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x04, 0x36
+    .global DAT_0602cc9c
+DAT_0602cc9c:
     .byte 0x01, 0x44
+    .global DAT_0602cc9e
+DAT_0602cc9e:
     .byte 0x01, 0x0C
+    .global DAT_0602cca0
+DAT_0602cca0:
     .byte 0x00, 0xD8
+    .global DAT_0602cca2
+DAT_0602cca2:
     .byte 0x00, 0xD0
+    .global DAT_0602cca4
+DAT_0602cca4:
     .byte 0x00, 0x40
+    .global DAT_0602cca6
+DAT_0602cca6:
     .byte 0x01, 0x50
+    .global DAT_0602cca8
+DAT_0602cca8:
     .byte 0x00, 0x58
+    .global DAT_0602ccaa
+DAT_0602ccaa:
     .byte 0x00, 0x5C
+    .global DAT_0602ccac
+DAT_0602ccac:
     .byte 0x00, 0x60
+    .global DAT_0602ccae
+DAT_0602ccae:
     .byte 0x00, 0x64
+    .global DAT_0602ccb0
+DAT_0602ccb0:
     .byte 0x02, 0x50
+    .global DAT_0602ccb2
+DAT_0602ccb2:
     .byte 0x01, 0x10
+    .global DAT_0602ccb4
+DAT_0602ccb4:
     .byte 0x01, 0x08
+    .global DAT_0602ccb6
+DAT_0602ccb6:
     .byte 0x01, 0x14
+    .global DAT_0602ccb8
+DAT_0602ccb8:
     .byte 0x00, 0x7C
+    .global DAT_0602ccba
+DAT_0602ccba:
     .byte 0x00, 0xFC
     .4byte sym_0602755C
     .byte 0x00, 0x00

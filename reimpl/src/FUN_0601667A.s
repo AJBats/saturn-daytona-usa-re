@@ -51,6 +51,8 @@ FUN_0601667A:
     .4byte sym_06035228
     .4byte sym_06085F89
     .4byte sym_06084FC8
+    .global loc_060166E4
+loc_060166E4:
     .byte 0x7F, 0xFC
     .byte 0x2F, 0x40
     .byte 0xD5, 0x18
@@ -83,6 +85,8 @@ FUN_0601667A:
     .byte 0x64, 0x4C
     .byte 0xA5, 0xE0
     .byte 0x7F, 0x04
+    .global loc_06016724
+loc_06016724:
     .byte 0xE6, 0x00
     .byte 0x65, 0x4C
     .byte 0xD2, 0x08

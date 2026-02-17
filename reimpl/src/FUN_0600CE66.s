@@ -18,10 +18,20 @@ FUN_0600CE66:
     .byte 0x00, 0x09
     .byte 0xA0, 0x0D
     .byte 0x00, 0x09
+    .global DAT_0600ce86
+DAT_0600ce86:
     .byte 0x01, 0xE4
+    .global DAT_0600ce88
+DAT_0600ce88:
     .byte 0x01, 0x84
+    .global DAT_0600ce8a
+DAT_0600ce8a:
     .byte 0x01, 0xE0
+    .global DAT_0600ce8c
+DAT_0600ce8c:
     .byte 0x40, 0x00
+    .global DAT_0600ce8e
+DAT_0600ce8e:
     .byte 0x01, 0xEC
     .4byte sym_0607E940
     .4byte sym_0607EA9C

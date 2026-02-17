@@ -104,10 +104,20 @@ sym_0600C302:
     .byte 0x89, 0x10
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global DAT_0600c36a
+DAT_0600c36a:
     .byte 0x01, 0x72
+    .global DAT_0600c36c
+DAT_0600c36c:
     .byte 0x01, 0x74
+    .global DAT_0600c36e
+DAT_0600c36e:
     .byte 0x00, 0xDC
+    .global DAT_0600c370
+DAT_0600c370:
     .byte 0x00, 0xE6
+    .global DAT_0600c372
+DAT_0600c372:
     .byte 0x00, 0x84
     .byte 0x00, 0x8C
     .byte 0xFF, 0xFF
@@ -189,6 +199,8 @@ sym_0600C302:
     .byte 0xA0, 0x49
     .byte 0x00, 0x09
     .byte 0x00, 0x9B
+    .global DAT_0600c418
+DAT_0600c418:
     .byte 0x00, 0xE6
     .byte 0x01, 0x72
     .4byte sym_06063E20

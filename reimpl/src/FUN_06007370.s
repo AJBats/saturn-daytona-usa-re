@@ -83,8 +83,14 @@ FUN_06007370:
     .byte 0xD3, 0x1A
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
+    .global DAT_06007412
+DAT_06007412:
     .byte 0x24, 0x68
+    .global DAT_06007414
+DAT_06007414:
     .byte 0x00, 0xDF
+    .global DAT_06007416
+DAT_06007416:
     .byte 0x01, 0x5F
     .byte 0x03, 0xC0
     .byte 0x00, 0x80

@@ -26,6 +26,8 @@ FUN_06031E00:
     .byte 0x89, 0x09
     .byte 0xA1, 0x47
     .byte 0x00, 0x09
+    .global DAT_06031e30
+DAT_06031e30:
     .byte 0xFF, 0x00
     .byte 0x00, 0x00
     .4byte sym_06032128
@@ -116,6 +118,8 @@ FUN_06031E00:
     .byte 0x89, 0x04
     .byte 0xA0, 0xE8
     .byte 0x00, 0x09
+    .global DAT_06031eee
+DAT_06031eee:
     .byte 0x00, 0xA0
     .4byte sym_060961A8
     .byte 0x1D, 0x31
@@ -289,11 +293,15 @@ FUN_06031E00:
     .byte 0x00, 0x51
     .byte 0x00, 0x00
     .4byte sym_06032144
+    .global loc_06032054
+loc_06032054:
     .byte 0x33, 0x4C
     .byte 0x36, 0x5C
     .byte 0x33, 0x6C
     .byte 0xA0, 0x24
     .byte 0x43, 0x09
+    .global loc_0603205E
+loc_0603205E:
     .byte 0x34, 0x33
     .byte 0x89, 0x00
     .byte 0x63, 0x43
@@ -305,6 +313,8 @@ FUN_06031E00:
     .byte 0x63, 0x63
     .byte 0xA0, 0x19
     .byte 0x00, 0x09
+    .global loc_06032074
+loc_06032074:
     .byte 0x34, 0x37
     .byte 0x8B, 0x00
     .byte 0x63, 0x43
@@ -316,9 +326,13 @@ FUN_06031E00:
     .byte 0x63, 0x63
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
+    .global loc_0603208A
+loc_0603208A:
     .byte 0xE0, 0x20
     .byte 0xA0, 0x01
     .byte 0x40, 0x28
+    .global loc_06032090
+loc_06032090:
     .byte 0xD0, 0x0D
     .byte 0x34, 0x37
     .byte 0x8B, 0x00
@@ -374,8 +388,14 @@ FUN_06031E00:
     .byte 0x89, 0xDF
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global DAT_06032102
+DAT_06032102:
     .byte 0x01, 0x90
+    .global DAT_06032104
+DAT_06032104:
     .byte 0xFE, 0x70
+    .global DAT_06032106
+DAT_06032106:
     .byte 0x00, 0xC8
     .global sym_06032108
 sym_06032108:
@@ -415,16 +435,11 @@ sym_06032138:
     .byte 0xFF, 0xFF
     .global sym_06032144
 sym_06032144:
-    .byte 0x06, 0x03
-    .byte 0x20, 0x54
-    .byte 0x06, 0x03
-    .byte 0x20, 0x5E
-    .byte 0x06, 0x03
-    .byte 0x20, 0x74
-    .byte 0x06, 0x03
-    .byte 0x20, 0x8A
-    .byte 0x06, 0x03
-    .byte 0x20, 0x90
+    .4byte loc_06032054
+    .4byte loc_0603205E
+    .4byte loc_06032074
+    .4byte loc_0603208A
+    .4byte loc_06032090
     .global sym_06032158
 sym_06032158:
     .byte 0xD0, 0x17

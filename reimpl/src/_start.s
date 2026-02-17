@@ -59,8 +59,7 @@ sym_06003000:
     .4byte sym_0605AD10
     .4byte sym_0607EBC8
     .4byte FUN_060088CC
-    .byte 0x06, 0x00
-    .byte 0x89, 0x0A
+    .4byte loc_0600890A
     .4byte FUN_06008938
     .4byte FUN_06008A18
     .4byte FUN_06008CCC

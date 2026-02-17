@@ -51,4 +51,6 @@ FUN_0602F550:
     .byte 0x8B, 0x99
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global DAT_0602f5b4
+DAT_0602f5b4:
     .byte 0x02, 0x68

@@ -15,7 +15,11 @@ FUN_060422F0:
     .byte 0x89, 0x06
     .byte 0xA0, 0x06
     .byte 0xE0, 0x01
+    .global DAT_0604230a
+DAT_0604230a:
     .byte 0x01, 0xE4
+    .global DAT_0604230c
+DAT_0604230c:
     .byte 0x01, 0xDC
     .byte 0x01, 0xE0
     .4byte sym_06035C4E
@@ -87,6 +91,10 @@ sym_0604231E:
     .byte 0x70, 0x04
     .byte 0x00, 0x0B
     .byte 0x03, 0x46
+    .global DAT_06042398
+DAT_06042398:
     .byte 0x03, 0x04
+    .global DAT_0604239a
+DAT_0604239a:
     .byte 0x01, 0xDC
     .4byte sym_060A5400

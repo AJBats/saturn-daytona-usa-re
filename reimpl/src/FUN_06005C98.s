@@ -85,6 +85,8 @@ FUN_06005C98:
     .byte 0x79, 0x01
     .byte 0xA0, 0x3D
     .byte 0x00, 0x09
+    .global DAT_06005d3e
+DAT_06005d3e:
     .byte 0x02, 0x1C
     .byte 0x02, 0x40
     .byte 0xFF, 0xFF
@@ -150,6 +152,10 @@ FUN_06005C98:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_06005dcc
+DAT_06005dcc:
     .byte 0x02, 0x1C
+    .global DAT_06005dce
+DAT_06005dce:
     .byte 0x02, 0x2C
     .4byte sym_0607EBD0

@@ -53,10 +53,14 @@ FUN_06025478:
     .byte 0xE4, 0x08
     .byte 0xA0, 0x17
     .byte 0x00, 0x09
+    .global DAT_060254de
+DAT_060254de:
     .byte 0x00, 0xA8
     .byte 0x0C, 0x08
     .byte 0x05, 0x90
     .byte 0x00, 0x90
+    .global DAT_060254e6
+DAT_060254e6:
     .byte 0x0C, 0x3E
     .4byte sym_06063750
     .4byte sym_06028400
@@ -167,14 +171,30 @@ FUN_06025478:
     .byte 0xA0, 0x19
     .byte 0xE2, 0x08
     .byte 0x00, 0x90
+    .global DAT_060255ce
+DAT_060255ce:
     .byte 0x0C, 0x34
+    .global DAT_060255d0
+DAT_060255d0:
     .byte 0x0C, 0x4E
+    .global DAT_060255d2
+DAT_060255d2:
     .byte 0x02, 0xA4
+    .global DAT_060255d4
+DAT_060255d4:
     .byte 0x04, 0x28
+    .global DAT_060255d6
+DAT_060255d6:
     .byte 0x60, 0x00
+    .global DAT_060255d8
+DAT_060255d8:
     .byte 0x04, 0x30
+    .global DAT_060255da
+DAT_060255da:
     .byte 0x70, 0x00
     .byte 0x02, 0xA0
+    .global DAT_060255de
+DAT_060255de:
     .byte 0x04, 0x38
     .byte 0x02, 0xB4
     .byte 0xFF, 0xFF

@@ -124,5 +124,7 @@ FUN_0603FD40:
     .4byte FUN_06042ACA
     .4byte sym_06042BAC
     .4byte sym_0603C05C
+    .global loc_0603FE40
+loc_0603FE40:
     .byte 0x00, 0x0B
     .byte 0xE0, 0x01

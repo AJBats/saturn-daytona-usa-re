@@ -69,20 +69,16 @@ sym_06028614:
     .4byte sym_06061298
     .4byte sym_0606129C
     .4byte sym_060612A0
-    .byte 0x06, 0x06
-    .byte 0x12, 0xA4
-    .byte 0x06, 0x06
-    .byte 0x12, 0xA8
+    .4byte loc_060612A4
+    .4byte loc_060612A8
     .global sym_0602862C
 sym_0602862C:
     .4byte sym_060612AC
     .4byte sym_060612B0
     .4byte sym_060612B4
     .4byte sym_060612B8
-    .byte 0x06, 0x06
-    .byte 0x12, 0xBC
-    .byte 0x06, 0x06
-    .byte 0x12, 0xC0
+    .4byte loc_060612BC
+    .4byte loc_060612C0
     .global sym_06028644
 sym_06028644:
     .byte 0x00, 0x00

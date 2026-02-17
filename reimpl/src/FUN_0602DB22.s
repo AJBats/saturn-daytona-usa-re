@@ -71,17 +71,41 @@ FUN_0602DB22:
     .byte 0x21, 0x22
     .byte 0xA0, 0x3D
     .byte 0x00, 0x09
+    .global DAT_0602dbac
+DAT_0602dbac:
     .byte 0x01, 0x14
+    .global DAT_0602dbae
+DAT_0602dbae:
     .byte 0x00, 0xD0
+    .global DAT_0602dbb0
+DAT_0602dbb0:
     .byte 0x00, 0x40
+    .global DAT_0602dbb2
+DAT_0602dbb2:
     .byte 0x02, 0x44
+    .global DAT_0602dbb4
+DAT_0602dbb4:
     .byte 0x00, 0x58
+    .global DAT_0602dbb6
+DAT_0602dbb6:
     .byte 0x00, 0x5C
+    .global DAT_0602dbb8
+DAT_0602dbb8:
     .byte 0x02, 0x5C
+    .global DAT_0602dbba
+DAT_0602dbba:
     .byte 0x00, 0x30
+    .global DAT_0602dbbc
+DAT_0602dbbc:
     .byte 0x00, 0x28
+    .global DAT_0602dbbe
+DAT_0602dbbe:
     .byte 0x01, 0x48
+    .global DAT_0602dbc0
+DAT_0602dbc0:
     .byte 0x00, 0x08
+    .global DAT_0602dbc2
+DAT_0602dbc2:
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x00, 0x02

@@ -60,7 +60,11 @@ FUN_0600FFD0:
     .byte 0xA0, 0x29
     .byte 0x00, 0x09
     .byte 0x00, 0x90
+    .global DAT_06010044
+DAT_06010044:
     .byte 0x06, 0xA2
+    .global DAT_06010046
+DAT_06010046:
     .byte 0x0B, 0x22
     .4byte sym_060284AE
     .4byte sym_0607887F

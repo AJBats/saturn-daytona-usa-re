@@ -88,10 +88,18 @@ FUN_06018166:
     .byte 0x90, 0x05
     .byte 0xA0, 0x23
     .byte 0x81, 0x23
+    .global DAT_06018212
+DAT_06018212:
     .byte 0x16, 0x18
+    .global DAT_06018214
+DAT_06018214:
     .byte 0x02, 0x1C
+    .global DAT_06018216
+DAT_06018216:
     .byte 0x16, 0x30
     .byte 0x00, 0x90
+    .global DAT_0601821a
+DAT_0601821a:
     .byte 0x05, 0x6C
     .4byte sym_06026DF8
     .4byte FUN_06021178

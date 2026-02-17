@@ -29,6 +29,8 @@ FUN_06016C6A:
     .byte 0x6E, 0xF6
     .4byte sym_06084FC8
     .4byte sym_06085F88
+    .global loc_06016CA4
+loc_06016CA4:
     .byte 0x7F, 0xFC
     .byte 0x2F, 0x40
     .byte 0x63, 0xF0

@@ -76,6 +76,8 @@ FUN_0602DC68:
     .4byte sym_06082A30
     .byte 0x00, 0x00
     .byte 0x00, 0x01
+    .global loc_0602DD10
+loc_0602DD10:
     .byte 0xD3, 0x0B
     .byte 0x63, 0x32
     .byte 0x43, 0x08

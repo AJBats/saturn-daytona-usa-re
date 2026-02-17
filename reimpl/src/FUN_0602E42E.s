@@ -28,4 +28,6 @@ sym_0602E450:
     .byte 0x89, 0x02
     .byte 0xAA, 0x62
     .byte 0x00, 0x09
+    .global DAT_0602e460
+DAT_0602e460:
     .byte 0x02, 0x50

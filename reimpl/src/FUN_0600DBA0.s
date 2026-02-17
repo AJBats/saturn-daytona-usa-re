@@ -31,7 +31,11 @@ FUN_0600DBA0:
     .byte 0xE4, 0x08
     .byte 0xA0, 0x27
     .byte 0x00, 0x09
+    .global DAT_0600dbda
+DAT_0600dbda:
     .byte 0x01, 0x5C
+    .global DAT_0600dbdc
+DAT_0600dbdc:
     .byte 0x40, 0x00
     .byte 0x0A, 0xC0
     .4byte sym_0607E940

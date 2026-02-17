@@ -74,6 +74,8 @@ FUN_0601D2DC:
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
+    .global DAT_0601d36c
+DAT_0601d36c:
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_060149E0

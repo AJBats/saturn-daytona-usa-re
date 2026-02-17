@@ -79,8 +79,14 @@ FUN_06012344:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_060123de
+DAT_060123de:
     .byte 0x07, 0xAE
+    .global DAT_060123e0
+DAT_060123e0:
     .byte 0x17, 0x0A
+    .global DAT_060123e2
+DAT_060123e2:
     .byte 0x26, 0x66
     .4byte sym_060788AC
     .4byte FUN_06027552

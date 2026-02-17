@@ -34,6 +34,8 @@ FUN_060204D0:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global loc_06020510
+loc_06020510:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .4byte sym_06028560

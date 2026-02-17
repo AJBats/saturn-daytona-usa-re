@@ -160,6 +160,8 @@ sym_0602B054:
     .byte 0x8B, 0x0E
     .byte 0xA0, 0x8E
     .byte 0x00, 0x09
+    .global DAT_0602b082
+DAT_0602b082:
     .byte 0xFF, 0x50
     .4byte sym_0602B012
     .4byte sym_0602B028
@@ -228,15 +230,25 @@ sym_0602B054:
     .byte 0x55, 0x02
     .byte 0x42, 0x2B
     .byte 0x56, 0x03
+    .global DAT_0602b116
+DAT_0602b116:
     .byte 0x00, 0xB0
+    .global DAT_0602b118
+DAT_0602b118:
     .byte 0xFF, 0x81
+    .global DAT_0602b11a
+DAT_0602b11a:
     .byte 0x00, 0x51
     .4byte sym_0602B314
+    .global loc_0602B120
+loc_0602B120:
     .byte 0x33, 0x4C
     .byte 0x36, 0x5C
     .byte 0x33, 0x6C
     .byte 0xA0, 0x24
     .byte 0x43, 0x09
+    .global loc_0602B12A
+loc_0602B12A:
     .byte 0x34, 0x33
     .byte 0x89, 0x00
     .byte 0x63, 0x43
@@ -248,6 +260,8 @@ sym_0602B054:
     .byte 0x63, 0x63
     .byte 0xA0, 0x19
     .byte 0x00, 0x09
+    .global loc_0602B140
+loc_0602B140:
     .byte 0x34, 0x37
     .byte 0x8B, 0x00
     .byte 0x63, 0x43
@@ -259,9 +273,13 @@ sym_0602B054:
     .byte 0x63, 0x63
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
+    .global loc_0602B156
+loc_0602B156:
     .byte 0xE0, 0x01
     .byte 0xA0, 0x01
     .byte 0x40, 0x28
+    .global loc_0602B15C
+loc_0602B15C:
     .byte 0xD0, 0x12
     .byte 0x34, 0x37
     .byte 0x8B, 0x00
@@ -412,8 +430,14 @@ sym_0602B054:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0x00
+    .global DAT_0602b292
+DAT_0602b292:
     .byte 0x01, 0x90
+    .global DAT_0602b294
+DAT_0602b294:
     .byte 0xFE, 0x70
+    .global DAT_0602b296
+DAT_0602b296:
     .byte 0x00, 0xC8
     .byte 0xC9, 0x3F
     .byte 0xDC, 0x09
@@ -460,10 +484,16 @@ sym_0602B2C8:
 sym_0602B2E8:
     .byte 0xFF, 0xFF
     .byte 0xFF, 0xFF
+    .global DAT_0602b2ec
+DAT_0602b2ec:
     .byte 0xFF, 0xFF
     .byte 0xFF, 0xFF
+    .global DAT_0602b2f0
+DAT_0602b2f0:
     .byte 0xFF, 0xFF
     .byte 0xFF, 0xFF
+    .global DAT_0602b2f4
+DAT_0602b2f4:
     .byte 0xFF, 0xFF
     .byte 0xFF, 0xFF
     .global sym_0602B2F8
@@ -488,16 +518,11 @@ sym_0602B310:
     .byte 0xFF, 0xFF
     .global sym_0602B314
 sym_0602B314:
-    .byte 0x06, 0x02
-    .byte 0xB1, 0x20
-    .byte 0x06, 0x02
-    .byte 0xB1, 0x2A
-    .byte 0x06, 0x02
-    .byte 0xB1, 0x40
-    .byte 0x06, 0x02
-    .byte 0xB1, 0x56
-    .byte 0x06, 0x02
-    .byte 0xB1, 0x5C
+    .4byte loc_0602B120
+    .4byte loc_0602B12A
+    .4byte loc_0602B140
+    .4byte loc_0602B156
+    .4byte loc_0602B15C
     .global sym_0602B328
 sym_0602B328:
     .byte 0x2F, 0x86

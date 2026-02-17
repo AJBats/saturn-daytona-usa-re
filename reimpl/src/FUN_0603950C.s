@@ -354,8 +354,14 @@ FUN_0603950C:
     .byte 0x6D, 0xF6
     .byte 0xA7, 0x9C
     .byte 0x6E, 0xF6
+    .global DAT_060397f4
+DAT_060397f4:
     .byte 0x00, 0xE1
+    .global DAT_060397f6
+DAT_060397f6:
     .byte 0x00, 0xE2
+    .global DAT_060397f8
+DAT_060397f8:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
     .4byte sym_060A4CB4

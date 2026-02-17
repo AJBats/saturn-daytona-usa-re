@@ -77,6 +77,8 @@ FUN_0600DD88:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x25, 0x32
+    .global DAT_0600de1e
+DAT_0600de1e:
     .byte 0x01, 0xE0
     .4byte sym_0607E940
     .4byte sym_06063F3C

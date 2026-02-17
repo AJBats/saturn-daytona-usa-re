@@ -31,7 +31,11 @@ FUN_060067C8:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global DAT_06006802
+DAT_06006802:
     .byte 0x19, 0x99
+    .global DAT_06006804
+DAT_06006804:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
     .4byte FUN_06027552

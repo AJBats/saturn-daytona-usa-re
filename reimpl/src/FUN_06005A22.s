@@ -79,8 +79,14 @@ FUN_06005A22:
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
     .byte 0x00, 0xB0
+    .global DAT_06005abc
+DAT_06005abc:
     .byte 0x50, 0x00
+    .global DAT_06005abe
+DAT_06005abe:
     .byte 0x04, 0x9C
+    .global DAT_06005ac0
+DAT_06005ac0:
     .byte 0x05, 0x9C
     .byte 0x00, 0x90
     .4byte sym_0607EABC

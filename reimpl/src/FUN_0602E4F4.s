@@ -21,10 +21,20 @@ FUN_0602E4F4:
     .byte 0x89, 0x10
     .byte 0xA0, 0x12
     .byte 0x00, 0x09
+    .global DAT_0602e51a
+DAT_0602e51a:
     .byte 0x02, 0x44
+    .global DAT_0602e51c
+DAT_0602e51c:
     .byte 0x00, 0x00
+    .global DAT_0602e51e
+DAT_0602e51e:
     .byte 0x00, 0x04
+    .global DAT_0602e520
+DAT_0602e520:
     .byte 0x00, 0x10
+    .global DAT_0602e522
+DAT_0602e522:
     .byte 0x00, 0x18
     .byte 0x00, 0x28
     .byte 0x00, 0x00

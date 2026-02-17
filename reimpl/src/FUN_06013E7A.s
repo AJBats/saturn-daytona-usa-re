@@ -104,9 +104,17 @@ FUN_06013E7A:
     .byte 0x62, 0x22
     .byte 0xA0, 0x27
     .byte 0x00, 0x09
+    .global DAT_06013f46
+DAT_06013f46:
     .byte 0x03, 0xA0
+    .global DAT_06013f48
+DAT_06013f48:
     .byte 0x05, 0x1E
+    .global DAT_06013f4a
+DAT_06013f4a:
     .byte 0x80, 0x00
+    .global DAT_06013f4c
+DAT_06013f4c:
     .byte 0x4C, 0xCC
     .byte 0xFF, 0xFF
     .4byte FUN_06026F2A

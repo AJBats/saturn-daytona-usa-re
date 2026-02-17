@@ -207,6 +207,8 @@ FUN_0601AC88:
     .byte 0x64, 0x4C
     .byte 0xA0, 0x19
     .byte 0x74, 0x0A
+    .global DAT_0601ae3e
+DAT_0601ae3e:
     .byte 0x02, 0x40
     .4byte sym_0607EAD8
     .4byte sym_0607EAE0

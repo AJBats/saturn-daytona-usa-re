@@ -106,9 +106,15 @@ FUN_06021450:
     .byte 0x2F, 0x12
     .byte 0xA0, 0x20
     .byte 0x00, 0x09
+    .global DAT_06021520
+DAT_06021520:
     .byte 0x0E, 0x39
+    .global DAT_06021522
+DAT_06021522:
     .byte 0x08, 0x00
     .byte 0x01, 0x40
+    .global DAT_06021526
+DAT_06021526:
     .byte 0x00, 0x8C
     .byte 0x00, 0xF0
     .byte 0xFF, 0xFF
@@ -571,7 +577,11 @@ FUN_06021450:
     .byte 0x62, 0x2B
     .byte 0xA0, 0x21
     .byte 0x00, 0x09
+    .global DAT_060218de
+DAT_060218de:
     .byte 0x00, 0x80
+    .global DAT_060218e0
+DAT_060218e0:
     .byte 0x00, 0x84
     .byte 0x00, 0x88
     .byte 0x00, 0x20
@@ -988,8 +998,12 @@ FUN_06021450:
     .byte 0x71, 0x10
     .byte 0xA0, 0x0F
     .byte 0x2F, 0x16
+    .global DAT_06021c2e
+DAT_06021c2e:
     .byte 0xF6, 0xB0
     .byte 0x40, 0x00
+    .global DAT_06021c32
+DAT_06021c32:
     .byte 0x80, 0x00
     .4byte sym_06034FE0
     .4byte sym_06089B18
@@ -1289,7 +1303,11 @@ FUN_06021450:
     .byte 0x1F, 0x32
     .byte 0xA0, 0x18
     .byte 0x00, 0x09
+    .global DAT_06021e98
+DAT_06021e98:
     .byte 0x0A, 0xA9
+    .global DAT_06021e9a
+DAT_06021e9a:
     .byte 0x04, 0x00
     .byte 0x40, 0x13
     .byte 0x99, 0x99
@@ -1448,6 +1466,8 @@ FUN_06021450:
     .byte 0x72, 0x10
     .byte 0xA0, 0x14
     .byte 0x2F, 0x26
+    .global DAT_06021fe0
+DAT_06021fe0:
     .byte 0xED, 0xB7
     .byte 0xFF, 0xFF
     .4byte sym_06089B18
@@ -1597,8 +1617,14 @@ FUN_06021450:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_06022114
+DAT_06022114:
     .byte 0xED, 0xB7
+    .global DAT_06022116
+DAT_06022116:
     .byte 0x02, 0x80
+    .global DAT_06022118
+DAT_06022118:
     .byte 0xFA, 0x13
     .byte 0xFF, 0xFF
     .4byte sym_060359E4

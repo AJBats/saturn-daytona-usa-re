@@ -59,6 +59,8 @@ sym_0601AEB6:
     .byte 0x00, 0x00
     .4byte sym_0602766C
     .4byte sym_0605DEC8
+    .global loc_0601AF04
+loc_0601AF04:
     .byte 0xD4, 0x19
     .byte 0x63, 0x40
     .byte 0x63, 0x3C

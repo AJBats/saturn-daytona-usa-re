@@ -16,12 +16,9 @@ FUN_0602E892:
     .4byte FUN_0601D5F4
     .global sym_0602E8AC
 sym_0602E8AC:
-    .byte 0x06, 0x06
-    .byte 0x0B, 0xD4
-    .byte 0x06, 0x06
-    .byte 0x0C, 0x44
-    .byte 0x06, 0x06
-    .byte 0x0C, 0xB4
+    .4byte loc_06060BD4
+    .4byte loc_06060C44
+    .4byte loc_06060CB4
     .global sym_0602E8B8
 sym_0602E8B8:
     .byte 0x00, 0x01
@@ -146,6 +143,8 @@ sym_0602E938:
     .byte 0x68, 0xF5
     .byte 0x50, 0x00
     .byte 0x51, 0x7A
+    .global loc_0602E9A8
+loc_0602E9A8:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -260,6 +259,8 @@ sym_0602E938:
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
     .byte 0xFF, 0xFF
+    .global loc_0602EA8C
+loc_0602EA8C:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -374,6 +375,8 @@ sym_0602E938:
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
     .byte 0xFF, 0xFF
+    .global loc_0602EB70
+loc_0602EB70:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -546,14 +549,10 @@ sym_0602ECAC:
     .byte 0x00, 0x00
     .global sym_0602ECBC
 sym_0602ECBC:
-    .byte 0x06, 0x02
-    .byte 0xE9, 0xA8
-    .byte 0x06, 0x02
-    .byte 0xEA, 0x8C
-    .byte 0x06, 0x02
-    .byte 0xEB, 0x70
-    .byte 0x06, 0x02
-    .byte 0xEA, 0x8C
+    .4byte loc_0602E9A8
+    .4byte loc_0602EA8C
+    .4byte loc_0602EB70
+    .4byte loc_0602EA8C
     .global sym_0602ECCC
 sym_0602ECCC:
     .byte 0x2F, 0x36
@@ -590,12 +589,11 @@ sym_0602ECF2:
     .4byte sym_0602ED0C
     .global sym_0602ED0C
 sym_0602ED0C:
-    .byte 0x06, 0x02
-    .byte 0xED, 0x18
-    .byte 0x06, 0x02
-    .byte 0xED, 0x18
-    .byte 0x06, 0x02
-    .byte 0xEE, 0xAC
+    .4byte loc_0602ED18
+    .4byte loc_0602ED18
+    .4byte loc_0602EEAC
+    .global loc_0602ED18
+loc_0602ED18:
     .byte 0xD0, 0x2A
     .byte 0xE1, 0x50
     .byte 0x20, 0x10

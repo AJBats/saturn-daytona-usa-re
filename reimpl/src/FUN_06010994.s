@@ -41,6 +41,8 @@ FUN_06010994:
     .byte 0xA0, 0x0D
     .byte 0x34, 0x1C
     .byte 0x96, 0x23
+    .global loc_060109E2
+loc_060109E2:
     .byte 0xD5, 0x1B
     .byte 0xD3, 0x1B
     .byte 0x64, 0xC2
@@ -77,6 +79,8 @@ FUN_06010994:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global DAT_06010a2a
+DAT_06010a2a:
     .byte 0x00, 0xC0
     .4byte sym_06059FFC
     .4byte sym_06063F5C
