@@ -443,6 +443,7 @@ int cd_init_and_read_toc()
 
     return entry_count + 2;                    /* +2 for volume descriptor + root */
 }
+void FUN_0603F22C(void) __attribute__((alias("cd_init_and_read_toc")));
 
 /* cd_dir_read_simple -- Read directory entries (simple variant).
  * Like cd_dir_read_entries but uses 0xC-byte records without

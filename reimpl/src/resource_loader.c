@@ -26,11 +26,14 @@ void FUN_06012E62(void)
     FUN_06012C3C(0x06044990, 0x002A0000);
 }
 
+#if 0 /* game_subsystem_init2 -- redirected to ASM import via linker PROVIDE */
 void game_subsystem_init2(void)
 {
     FUN_06012C3C(0x0604499C, 0x002F0000);
     FUN_06012C3C(0x060449A8, 0x060F8000);
 }
+#endif /* game_subsystem_init2 */
+/* REMOVED: conflicting alias */ // void FUN_06012E6A(void) __attribute__((alias("game_subsystem_init2")));
 
 void FUN_06012E7C(void)
 {

@@ -324,6 +324,7 @@ unsigned int scene_tile_render_near()
   }
   return result;
 }
+/* REMOVED: conflicting alias — FUN_06006868 defined later in same file */
 
 /* scene_border_tiles_render -- Render border/edge tiles of the scene grid.
  * Iterates a 5x5 grid centered on camera position, but only renders tiles

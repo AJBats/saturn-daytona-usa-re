@@ -28,3 +28,4 @@ void scu_dma_transfer(int param_1, int param_2, int param_3)
     base[5] = 7;
     base[4] = 0x101;
 }
+void FUN_0602766C(void) __attribute__((alias("scu_dma_transfer")));

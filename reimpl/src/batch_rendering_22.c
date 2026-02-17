@@ -620,7 +620,9 @@ LAB_060227ca:
  * Phase 4: Register UI/effects characters and secondary sprite set
  * Each vdp1_char_register call: (char_id, dimensions, flags, rom_offset)
  * Each sprite_table_entry call: (sprite_id, char_id, flags) */
+#if 0 /* sprite_char_table_init -- redirected to ASM import via linker PROVIDE */
 int sprite_char_table_init(void)
+/* REMOVED: conflicting alias */ // void FUN_0600EC78(void) __attribute__((alias("sprite_char_table_init")));
 {
   unsigned short base_id;
   int car_count;
@@ -1050,7 +1052,9 @@ int sprite_char_table_init(void)
   return result;
 
 }
+#endif /* sprite_char_table_init */
 
+#if 0 /* scene_finalization_a -- redirected to ASM import via linker PROVIDE */
 void scene_finalization_a()
 {
 
@@ -1137,7 +1141,10 @@ void scene_finalization_a()
   return;
 
 }
+#endif /* scene_finalization_a */
+/* REMOVED: conflicting alias */ // void FUN_06025070(void) __attribute__((alias("scene_finalization_a")));
 
+#if 0 /* scene_finalization_b -- redirected to ASM import via linker PROVIDE */
 void scene_finalization_b()
 {
 
@@ -1224,6 +1231,8 @@ void scene_finalization_b()
   return;
 
 }
+#endif /* scene_finalization_b */
+/* REMOVED: conflicting alias */ // void FUN_06025148(void) __attribute__((alias("scene_finalization_b")));
 
 /* scene_sprite_render_a -- Render scene sprite layer A (10 slots).
  * Dispatches on render mode (0x06061198): mode 4 uses sprite set 0x060590B8,
@@ -1488,7 +1497,9 @@ __asm__(
  *   0x06059094 = button bitmask table
  *   0x060610BC = detail entries (14 × 12 bytes)
  *   0x06063750 = sprite positions */
+#if 0 /* menu_scroll_a_update -- redirected to ASM import via linker PROVIDE */
 void menu_scroll_a_update()
+/* REMOVED: conflicting alias */ // void FUN_060256CC(void) __attribute__((alias("menu_scroll_a_update")));
 {
 
   short uVar1;
@@ -1824,6 +1835,7 @@ void menu_scroll_a_update()
   return;
 
 }
+#endif /* menu_scroll_a_update */
 
 /* menu_scroll_b_update -- Menu scroller variant B (8-entry).
  * Handles sprite-based scrolling menu with VDP1 rendering.
@@ -1836,7 +1848,9 @@ void menu_scroll_a_update()
  *   0x06059074/084 = palette indices A/B
  *   0x060590A8 = button bitmask table
  *   Direction mask: 0xC088 (includes bits 3,7 for extra buttons) */
+#if 0 /* menu_scroll_b_update -- redirected to ASM import via linker PROVIDE */
 void menu_scroll_b_update()
+/* REMOVED: conflicting alias */ // void FUN_06025BF4(void) __attribute__((alias("menu_scroll_b_update")));
 {
 
   short uVar1;
@@ -2178,6 +2192,7 @@ void menu_scroll_b_update()
   return;
 
 }
+#endif /* menu_scroll_b_update */
 
 /* --- FUN_06022140 (L1 import from src/FUN_06022140.c) --- */
 

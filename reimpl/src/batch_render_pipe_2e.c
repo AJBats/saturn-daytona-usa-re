@@ -572,6 +572,7 @@ LAB_0602f95a:
  *
  * Called from car_iteration.c per-frame loop. */
 unsigned int race_sfx_update()
+/* REMOVED: conflicting alias */ // void FUN_0602F99C(void) __attribute__((alias("race_sfx_update")));
 {
 
   int uVar1;

@@ -13,6 +13,7 @@ extern void FUN_06020BCE(void);
 #define FRAME_SYNC_VALUE    (*(volatile char *)0x06078649)
 #define STATUS_WORD_BASE    ((volatile unsigned short *)0x06063D98)
 
+#if 0 /* per_frame_setup -- redirected to ASM import via linker PROVIDE */
 void per_frame_setup(void)
 {
     int cd_status;
@@ -60,3 +61,4 @@ void per_frame_setup(void)
         }
     }
 }
+#endif /* per_frame_setup */

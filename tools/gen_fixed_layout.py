@@ -75,6 +75,160 @@ def find_asm_globals():
     return asm_globals
 
 
+def scan_extra_fun_addrs(known_addrs):
+    """Scan ALL source files for FUN_ addresses not in aprog_syms.txt.
+
+    Returns list of (addr, name) for extra FUN_ functions found in C code.
+    Only includes addresses within the binary range (0x06003000-END_ADDR).
+    """
+    extra = {}  # addr -> name
+
+    for fname in sorted(os.listdir(SRC_DIR)):
+        if not fname.endswith('.c'):
+            continue
+        filepath = os.path.join(SRC_DIR, fname)
+        with open(filepath, errors='replace') as f:
+            content = f.read()
+
+        # Find FUN_ function definitions (C code)
+        # Match any line where FUN_xxxxxxxx appears as a function definition
+        # (preceded by a C type, possibly with * for pointer return)
+        for m in re.finditer(
+            r'(?:^|\n)\s*(?:(?:void|int|unsigned|char|short|long|struct\s+\w+)'
+            r'[\s\*]+)(FUN_([0-9a-fA-F]{6,8}))\s*\(',
+            content
+        ):
+            fun_name = m.group(1)
+            hex_part = m.group(2)
+            try:
+                addr = int(hex_part, 16)
+            except ValueError:
+                continue
+            if BASE_ADDR <= addr < END_ADDR and addr not in known_addrs:
+                upper_name = 'FUN_' + hex_part.upper()
+                extra[addr] = upper_name
+
+        # Find FUN_ in inline ASM .global directives (batch_*.c files too)
+        for m in re.finditer(r'\.global\s+_?(FUN_([0-9a-fA-F]{6,8}))', content):
+            hex_part = m.group(2)
+            try:
+                addr = int(hex_part, 16)
+            except ValueError:
+                continue
+            if BASE_ADDR <= addr < END_ADDR and addr not in known_addrs:
+                upper_name = 'FUN_' + hex_part.upper()
+                extra[addr] = upper_name
+
+    return sorted(extra.items())
+
+
+def scan_named_context_map():
+    """Scan source files for named → FUN_ mappings using broader heuristics.
+
+    Finds mappings from:
+    1. __attribute__((alias("..."))) declarations (authoritative)
+    2. Named function defs immediately after #if 0 /* FUN_xxx */ blocks
+    3. Comments like /* was FUN_xxx */ or /* replaces FUN_xxx */
+    """
+    named_to_fun = {}  # named -> FUN_XXXXXXXX
+
+    for fname in sorted(os.listdir(SRC_DIR)):
+        if not fname.endswith('.c'):
+            continue
+        filepath = os.path.join(SRC_DIR, fname)
+        with open(filepath, errors='replace') as f:
+            lines = f.readlines()
+            content = ''.join(lines)
+
+        # Method 1: alias declarations (most reliable)
+        for m in re.finditer(
+            r'(?:void|int|unsigned\s+int|char\s*\*?|short)\s+'
+            r'(\w+)\s*\([^)]*\)\s*__attribute__\s*\(\s*\(\s*alias\s*\(\s*"(\w+)"\s*\)',
+            content
+        ):
+            sym1, sym2 = m.group(1), m.group(2)
+            if sym1.startswith('FUN_') and not sym2.startswith('FUN_'):
+                named_to_fun[sym2] = sym1.upper()
+            elif sym2.startswith('FUN_') and not sym1.startswith('FUN_'):
+                named_to_fun[sym1] = sym2.upper()
+
+        # Method 2: #if 0 /* FUN_xxx ... */ followed by named function def
+        for i, line in enumerate(lines):
+            m = re.match(r'\s*#if\s+0\s*/\*\s*(FUN_[0-9a-fA-F]+)', line)
+            if not m:
+                continue
+            fun_name = m.group(1).upper()
+
+            # Look ahead for #endif, then a named function def
+            for j in range(i + 1, min(i + 50, len(lines))):
+                if re.match(r'\s*#endif', lines[j]):
+                    # Look for named function def in the next few lines
+                    for k in range(j + 1, min(j + 5, len(lines))):
+                        fm = re.match(
+                            r'\s*(?:void|int|unsigned\s+int|char|short|long)\s+'
+                            r'([a-z_][a-z0-9_]+)\s*\(',
+                            lines[k]
+                        )
+                        if fm:
+                            name = fm.group(1)
+                            skip = {'if', 'while', 'for', 'return', 'switch',
+                                    'int', 'void', 'char', 'short', 'unsigned'}
+                            if name not in skip and name not in named_to_fun:
+                                named_to_fun[name] = fun_name
+                    break
+
+        # Method 3: REMOVED alias comments (from fix_alias_conflicts.py)
+        # Pattern: /* REMOVED: conflicting alias */ // void FUN_XXX(...) __attribute__((alias("name")));
+        for m in re.finditer(
+            r'/\*\s*REMOVED:.*?\*/\s*//\s*(?:void|int|unsigned\s+int|char\s*\*?|short)\s+'
+            r'(\w+)\s*\([^)]*\)\s*__attribute__\s*\(\s*\(\s*alias\s*\(\s*"(\w+)"\s*\)',
+            content
+        ):
+            sym1, sym2 = m.group(1), m.group(2)
+            if sym1.startswith('FUN_') and not sym2.startswith('FUN_'):
+                if sym2 not in named_to_fun:
+                    named_to_fun[sym2] = sym1.upper()
+            elif sym2.startswith('FUN_') and not sym1.startswith('FUN_'):
+                if sym1 not in named_to_fun:
+                    named_to_fun[sym1] = sym2.upper()
+
+        # Method 4: #if 0 /* name -- redirected to ASM import via linker PROVIDE */
+        # These are functions wrapped by redirect_named_to_asm.py
+        for i, line in enumerate(lines):
+            m = re.match(r'\s*#if\s+0\s*/\*\s+([a-z_][a-z0-9_]+)\s+--\s+redirected', line)
+            if not m:
+                continue
+            name = m.group(1)
+            # The PROVIDE mapping is in the linker script, but we can also check
+            # the function def inside the #if 0 block for the address
+            # Skip -- these are already handled by PROVIDE in the linker script
+
+        # Method 5: Comment-based address before function def
+        # Pattern: /* 0xXXXXXXXX: description */\nvoid name(...)
+        for i, line in enumerate(lines):
+            m = re.match(r'\s*/\*\s*(?:0x)?(0600[0-9a-fA-F]{4}):', line)
+            if not m:
+                continue
+            addr = int(m.group(1), 16)
+            fun_name = 'FUN_%08X' % addr
+            # Look for function def in the next few lines
+            for k in range(i + 1, min(i + 5, len(lines))):
+                fm = re.match(
+                    r'\s*(?:void|int|unsigned\s+int|char|short|long)\s+'
+                    r'([a-z_][a-z0-9_]+)\s*\(',
+                    lines[k]
+                )
+                if fm:
+                    name = fm.group(1)
+                    skip = {'if', 'while', 'for', 'return', 'switch',
+                            'int', 'void', 'char', 'short', 'unsigned'}
+                    if name not in skip and name not in named_to_fun:
+                        named_to_fun[name] = fun_name
+                    break
+
+    return named_to_fun
+
+
 def get_elf_func_sizes(elf_path=None):
     """Get compiled function sizes from our ELF via nm."""
     if elf_path is None:
@@ -514,9 +668,24 @@ def main():
     # Step 1: Parse function symbols
     print("Parsing function symbols...")
     syms = parse_syms()
-    orig_sizes = compute_sizes(syms)
-    print("  %d functions, address range 0x%08X-0x%08X" % (
+    known_addrs = {addr for addr, name in syms}
+    print("  %d functions from aprog_syms.txt, range 0x%08X-0x%08X" % (
         len(syms), syms[0][0], syms[-1][0]))
+
+    # Step 1b: Scan source files for extra FUN_ addresses not in aprog_syms.txt
+    print("Scanning source files for extra FUN_ addresses...")
+    extra_syms = scan_extra_fun_addrs(known_addrs)
+    if extra_syms:
+        print("  %d extra FUN_ addresses found in source code" % len(extra_syms))
+    else:
+        print("  No extra FUN_ addresses found")
+
+    # Keep original syms separate for sub-entry detection (extra FUN_ addresses
+    # are always independent functions, not sub-entries)
+    orig_syms = list(syms)
+    syms = sorted(set(syms) | set(extra_syms))
+
+    orig_sizes = compute_sizes(syms)
 
     # Step 2: Find ASM imports
     print("Finding ASM imports...")
@@ -532,15 +701,31 @@ def main():
         return 1
     print("  %d function symbols in ELF" % len(elf_sizes))
 
-    # Step 4: Build C function name mappings
+    # Step 4: Build C function name mappings (alias-based)
     print("Scanning C source for function name mappings...")
     alias_map, reverse_map = build_c_func_map()
     print("  %d renamed functions with aliases" % len(alias_map))
 
-    # Step 4b: Find sub-entry functions (alternate entries within parent functions)
-    print("Finding sub-entry functions...")
-    sub_entries = find_sub_entries(syms)
-    print("  %d sub-entry functions (will share parent's section)" % len(sub_entries))
+    # Step 4a: Scan for broader named → FUN_ context mappings
+    print("Scanning for named → FUN_ context mappings...")
+    context_map = scan_named_context_map()
+    # Merge context map into reverse_map (alias takes priority)
+    context_added = 0
+    for named, fun in context_map.items():
+        if fun not in reverse_map:
+            reverse_map[fun] = named
+            alias_map[named] = fun
+            context_added += 1
+    print("  %d context mappings found, %d new (merged into alias map)" % (
+        len(context_map), context_added))
+
+    # Step 4b: Sub-entry detection disabled -- the asm file patching introduces
+    # blank lines that break the .balign detection heuristic. Empty sections for
+    # true sub-entries are harmless (linker creates a zero-size section at the
+    # parent's address). Better to have a few empty sections than to miss placing
+    # functions correctly.
+    print("Sub-entry detection: DISABLED (empty sections are harmless)")
+    sub_entries = set()
 
     # Step 5: Find overflows
     print("Analyzing function size overflows...")

@@ -86,6 +86,7 @@ __asm__(
 );
 
 
+#if 0 /* gear_shift_handler -- redirected to ASM import via linker PROVIDE */
 int gear_shift_handler()
 {
 
@@ -168,6 +169,8 @@ int gear_shift_handler()
   return uVar4;
 
 }
+#endif /* gear_shift_handler */
+/* REMOVED: conflicting alias */ // void FUN_06008318(void) __attribute__((alias("gear_shift_handler")));
 
 /* race_finish_trigger_a -- Trigger race finish sequence (variant A).
  * Checks if target car has completed condition (DAT_060084a2 field == 0).
@@ -281,6 +284,7 @@ __asm__(
 );
 
 
+#if 0 /* steering_physics_update -- redirected to ASM import via linker PROVIDE */
 int steering_physics_update()
 {
   char *puVar1;
@@ -310,6 +314,8 @@ int steering_physics_update()
   FUN_060086c0(*(int *)(0x060453B4 + ((GAME_STATE_VAR & 1) << 3)));
   return 0;
 }
+#endif /* steering_physics_update */
+/* REMOVED: conflicting alias */ // void FUN_06008640(void) __attribute__((alias("steering_physics_update")));
 
 /* FUN_060086c0: L2 version in force_system.c */
 #if 0 /* FUN_060086C0 -- replaced by ASM import */

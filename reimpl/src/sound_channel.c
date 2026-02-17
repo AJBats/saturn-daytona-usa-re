@@ -31,6 +31,7 @@ unsigned char FUN_06020E3C(char param_1)
     return i;
 }
 
+#if 0 /* vdp1_texture_palette_init -- redirected to ASM import via linker PROVIDE */
 void vdp1_texture_palette_init(void)
 {
     int count;
@@ -42,6 +43,8 @@ void vdp1_texture_palette_init(void)
     } while (*(volatile int *)0x060635C4 == 1);
     *(int *)0x0605A010 = count;
 }
+#endif /* vdp1_texture_palette_init */
+/* REMOVED: conflicting alias */ // void FUN_06026CE0(void) __attribute__((alias("vdp1_texture_palette_init")));
 
 #if 0 /* FUN_06020946 -- replaced by ASM import */
 void FUN_06020946(void)

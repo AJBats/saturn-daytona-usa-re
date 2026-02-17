@@ -165,6 +165,7 @@ unsigned int track_calculation()
 
   return uVar3;
 }
+/* REMOVED: conflicting alias */ // void FUN_06018278(void) __attribute__((alias("track_calculation")));
 
 /* start_banner_state -- START banner scaling/display state machine.
  * Checks if player car is in start zone (position between DAT_060183ee..DAT_060183f0).

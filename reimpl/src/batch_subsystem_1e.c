@@ -103,6 +103,7 @@ void FUN_0601e0de(void)
 /* menu_vdp_palette_setup -- Load VDP2 palettes for menu/save screen.
  * Normal mode: single palette + sprite. Demo mode: multi-layer palette
  * with 4 sprites, dynamic animation, and course-specific variant. */
+#if 0 /* menu_vdp_palette_setup -- redirected to ASM import via linker PROVIDE */
 void menu_vdp_palette_setup()
 {
     short tile_off;
@@ -152,11 +153,13 @@ void menu_vdp_palette_setup()
     *(int *)0x06087068 = 0;
     *(int *)0x0605DFF0 = 0;
 }
+#endif /* menu_vdp_palette_setup */
 #if 0 /* FUN_0601E100 -- replaced by ASM import of original bytes */
-void FUN_0601e100() __attribute__((alias("menu_vdp_palette_setup")));
+/* REMOVED: conflicting alias */ // void FUN_0601e100() __attribute__((alias("menu_vdp_palette_setup")));
 #endif
 
 /* input_state_copy -- Read 8-byte input buffer from peripheral handler. */
+#if 0 /* input_state_copy -- redirected to ASM import via linker PROVIDE */
 void input_state_copy(void)
 {
   int *periph_ptr = (int *)0x06087064;
@@ -171,8 +174,9 @@ void input_state_copy(void)
     i++;
   } while (i < 8);
 }
+#endif /* input_state_copy */
 #if 0 /* FUN_0601E26C -- replaced by ASM import */
-void FUN_0601e26c() __attribute__((alias("input_state_copy")));
+/* REMOVED: conflicting alias */ // void FUN_0601e26c() __attribute__((alias("input_state_copy")));
 #endif
 
 void backup_mem_format()
@@ -226,6 +230,7 @@ __asm__(
 
 /* backup_device_enumerate -- Scan up to 3 backup devices, open each,
  * verify, check capacity, and store descriptors. */
+#if 0 /* backup_device_enumerate -- redirected to ASM import via linker PROVIDE */
 void backup_device_enumerate()
 {
     char *desc_base = (char *)0x06087094;       /* device descriptor array */
@@ -269,10 +274,12 @@ LAB_0601e46a:
         dev_idx = dev_idx + 1;
     } while( 1 );
 }
+#endif /* backup_device_enumerate */
 #if 0 /* FUN_0601E37C -- replaced by ASM import */
-void FUN_0601e37c() __attribute__((alias("backup_device_enumerate")));
+/* REMOVED: conflicting alias */ // void FUN_0601e37c() __attribute__((alias("backup_device_enumerate")));
 #endif
 
+#if 0 /* backup_device_open -- redirected to ASM import via linker PROVIDE */
 int backup_device_open(unsigned short slot)
 {
     char *desc = (char *)(0x06087094 + (unsigned int)(slot << 5));
@@ -286,6 +293,7 @@ int backup_device_open(unsigned short slot)
 
     return 0;
 }
+#endif /* backup_device_open */
 
 /* FUN_0601E37C -- original binary (268 bytes) */
 __asm__(
@@ -316,7 +324,7 @@ __asm__(
 );
 
 #if 0 /* FUN_0601E488 -- replaced by ASM import */
-int FUN_0601e488(unsigned short slot) __attribute__((alias("backup_device_open")));
+/* REMOVED: conflicting alias */ // int FUN_0601e488(unsigned short slot) __attribute__((alias("backup_device_open")));
 #endif
 
 /* backup_mem_write_all -- Write save data to all backup devices.
@@ -408,6 +416,7 @@ __asm__(
 unsigned int FUN_0601e4d4() __attribute__((alias("backup_mem_write_all")));
 
 /* bios_sound_poll -- Poll BIOS handler up to 10 times, return 0 on success. */
+#if 0 /* bios_sound_poll -- redirected to ASM import via linker PROVIDE */
 int bios_sound_poll(int param_1)
 {
   int *bios_vec = (int *)0x06000354;       /* BIOS vector table pointer */
@@ -422,10 +431,12 @@ int bios_sound_poll(int param_1)
 
   return result;
 }
+#endif /* bios_sound_poll */
 #if 0 /* FUN_0601E6A4 -- replaced by ASM import */
-int FUN_0601e6a4(int param_1) __attribute__((alias("bios_sound_poll")));
+/* REMOVED: conflicting alias */ // int FUN_0601e6a4(int param_1) __attribute__((alias("bios_sound_poll")));
 #endif
 
+#if 0 /* backup_mem_write -- redirected to ASM import via linker PROVIDE */
 int backup_mem_write(param_1, param_2, param_3)
     unsigned short param_1;
     int param_2;
@@ -459,6 +470,7 @@ int backup_mem_write(param_1, param_2, param_3)
 
     return result;
 }
+#endif /* backup_mem_write */
 
 /* FUN_0601E6A4 -- original binary (60 bytes) */
 __asm__(
@@ -476,9 +488,10 @@ __asm__(
 );
 
 #if 0 /* FUN_0601E764 -- replaced by ASM import */
-int FUN_0601e764() __attribute__((alias("backup_mem_write")));
+/* REMOVED: conflicting alias */ // int FUN_0601e764() __attribute__((alias("backup_mem_write")));
 #endif
 
+#if 0 /* backup_mem_read -- redirected to ASM import via linker PROVIDE */
 int backup_mem_read(param_1, param_2, param_3)
     unsigned short param_1;
     int param_2;
@@ -534,6 +547,7 @@ int backup_mem_read(param_1, param_2, param_3)
 
     return result;
 }
+#endif /* backup_mem_read */
 
 /* FUN_0601E764 -- original binary (12 bytes) */
 __asm__(
@@ -548,9 +562,10 @@ __asm__(
 );
 
 #if 0 /* FUN_0601E810 -- replaced by ASM import */
-int FUN_0601e810() __attribute__((alias("backup_mem_read")));
+/* REMOVED: conflicting alias */ // int FUN_0601e810() __attribute__((alias("backup_mem_read")));
 #endif
 
+#if 0 /* save_data_load_or_create -- redirected to ASM import via linker PROVIDE */
 int save_data_load_or_create()
 {
     char *state_ptr     = (char *)0x0605E05C;   /* save operation state */
@@ -618,6 +633,7 @@ int save_data_load_or_create()
     }
     return result;
 }
+#endif /* save_data_load_or_create */
 
 /* FUN_0601E810 -- original binary (328 bytes) */
 __asm__(
@@ -652,9 +668,10 @@ __asm__(
 );
 
 #if 0 /* FUN_0601E958 -- replaced by ASM import of original bytes */
-int FUN_0601e958() __attribute__((alias("save_data_load_or_create")));
+/* REMOVED: conflicting alias */ // int FUN_0601e958() __attribute__((alias("save_data_load_or_create")));
 #endif
 
+#if 0 /* cd_track_validate -- redirected to ASM import via linker PROVIDE */
 int cd_track_validate()
 {
     char *channel_ptr = (char *)0x060877D8;
@@ -676,10 +693,12 @@ int cd_track_validate()
     }
     return result;
 }
+#endif /* cd_track_validate */
 #if 0 /* FUN_0601EAA0 -- replaced by ASM import of original bytes */
-int FUN_0601eaa0() __attribute__((alias("cd_track_validate")));
+/* REMOVED: conflicting alias */ // int FUN_0601eaa0() __attribute__((alias("cd_track_validate")));
 #endif
 
+#if 0 /* cd_track_play_if_active -- redirected to ASM import via linker PROVIDE */
 void cd_track_play_if_active(void)
 {
     unsigned char ch = (unsigned char)*(int *)0x060877D8;
@@ -689,8 +708,9 @@ void cd_track_play_if_active(void)
                      *(int *)0x0605E098);
     }
 }
+#endif /* cd_track_play_if_active */
 #if 0 /* FUN_0601EB1C -- replaced by ASM import of original bytes */
-void FUN_0601eb1c(void) __attribute__((alias("cd_track_play_if_active")));
+/* REMOVED: conflicting alias */ // void FUN_0601eb1c(void) __attribute__((alias("cd_track_play_if_active")));
 #endif
 
 #if 0 /* FUN_0601EB70 -- replaced by ASM import */
@@ -1185,6 +1205,7 @@ char * FUN_0601efc4()
 }
 
 /* cdda_replay_check -- Check if CD audio needs replay, restart if enabled. */
+#if 0 /* cdda_replay_check -- redirected to ASM import via linker PROVIDE */
 int cdda_replay_check(void)
 {
   char *track_idx = (char *)0x060877D8;
@@ -1202,11 +1223,13 @@ int cdda_replay_check(void)
   }
   return 0;
 }
+#endif /* cdda_replay_check */
 #if 0 /* FUN_0601F40C -- replaced by ASM import of original bytes */
-int FUN_0601f40c(void) __attribute__((alias("cdda_replay_check")));
+/* REMOVED: conflicting alias */ // int FUN_0601f40c(void) __attribute__((alias("cdda_replay_check")));
 #endif
 
 /* bcd_timestamp_decode -- Decode BCD-encoded CD timestamp to binary. */
+#if 0 /* bcd_timestamp_decode -- redirected to ASM import via linker PROVIDE */
 void bcd_timestamp_decode(char *param_1)
 {
   int base = *(int *)0x060A4C98;
@@ -1230,10 +1253,12 @@ void bcd_timestamp_decode(char *param_1)
   param_1[3] = (min & 0xf) + (char)((int)(unsigned int)min >> 4) * '\n';
   param_1[4] = (sec & 0xf) + (char)((int)(unsigned int)sec >> 4) * '\n';
 }
+#endif /* bcd_timestamp_decode */
 #if 0 /* FUN_0601F4B4 -- replaced by ASM import */
-void FUN_0601f4b4(char *param_1) __attribute__((alias("bcd_timestamp_decode")));
+/* REMOVED: conflicting alias */ // void FUN_0601f4b4(char *param_1) __attribute__((alias("bcd_timestamp_decode")));
 #endif
 
+#if 0 /* save_score_check_update -- redirected to ASM import via linker PROVIDE */
 int save_score_check_update()
 {
   char *save_data;
@@ -1305,6 +1330,7 @@ int save_score_check_update()
   }
   return result;
 }
+#endif /* save_score_check_update */
 
 /* FUN_0601F4B4 -- original binary (284 bytes) */
 __asm__(
@@ -1336,7 +1362,7 @@ __asm__(
 );
 
 #if 0 /* FUN_0601F5E0 -- replaced by ASM import of original bytes */
-int FUN_0601f5e0() __attribute__((alias("save_score_check_update")));
+/* REMOVED: conflicting alias */ // int FUN_0601f5e0() __attribute__((alias("save_score_check_update")));
 #endif
 
 unsigned int save_data_write_validate()
@@ -1383,10 +1409,11 @@ unsigned int save_data_write_validate()
     return result;
 }
 #if 0 /* FUN_0601F784 -- replaced by ASM import of original bytes */
-unsigned int FUN_0601f784() __attribute__((alias("save_data_write_validate")));
+/* REMOVED: conflicting alias */ // unsigned int FUN_0601f784() __attribute__((alias("save_data_write_validate")));
 #endif
 
 /* cdda_buffer_select -- Select CD audio buffer bank (A or B). */
+/* NOT redirected: FUN_0601f87a only defined via alias below */
 void cdda_buffer_select(unsigned char param_1)
 {
   *(unsigned char *)0x060877D8 = param_1;
@@ -1420,6 +1447,7 @@ int FUN_0601f900(void) { return FUN_0601F900(); }
 #endif
 
 /* standings_screen_render -- Render race standings with layout per game mode. */
+#if 0 /* standings_screen_render -- redirected to ASM import via linker PROVIDE */
 void standings_screen_render()
 {
   short final_y;
@@ -1555,11 +1583,13 @@ LAB_0601fcd4:
 
   return;
 }
+#endif /* standings_screen_render */
 #if 0 /* FUN_0601F9CC -- replaced by ASM import of original bytes */
-void FUN_0601f9cc() __attribute__((alias("standings_screen_render")));
+/* REMOVED: conflicting alias */ // void FUN_0601f9cc() __attribute__((alias("standings_screen_render")));
 #endif
 
 /* mode_transition_vdp_reset -- Reset VDP state for mode transition. */
+#if 0 /* mode_transition_vdp_reset -- redirected to ASM import via linker PROVIDE */
 void mode_transition_vdp_reset(void)
 {
     INPUT_STATE |= 4;
@@ -1570,8 +1600,9 @@ void mode_transition_vdp_reset(void)
     VDP1_CMD_BASE_PTR = 0;
     VBLANK_OUT_COUNTER = 0;
 }
+#endif /* mode_transition_vdp_reset */
 #if 0 /* FUN_0601FD20 -- replaced by ASM import */
-void FUN_0601fd20() __attribute__((alias("mode_transition_vdp_reset")));
+/* REMOVED: conflicting alias */ // void FUN_0601fd20() __attribute__((alias("mode_transition_vdp_reset")));
 #endif
 
 /* FUN_0601fd74: L2 version in mode_dispatch.c */
@@ -1600,6 +1631,7 @@ __asm__(
  * [1]=frame_count, [2]=course_id, [3]=data_start. Iterates each car,
  * assigning car struct pointers (stride 0x268 at 0x06078900) into
  * 0x0607E940, then calls FUN_0601fec0 to load per-car replay data. */
+#if 0 /* replay_car_state_load -- redirected to ASM import via linker PROVIDE */
 void replay_car_state_load()
 {
     char *car_count_ptr = (char *)0x0607EA98;   /* replay car count */
@@ -1626,10 +1658,12 @@ void replay_car_state_load()
     (*(int(*)())0x0600D280)();                  /* post-load finalize */
     *(short *)0x06087804 = 2;                   /* set replay state = active */
 }
+#endif /* replay_car_state_load */
 #if 0 /* FUN_0601FE20 -- replaced by ASM import */
-void FUN_0601fe20() __attribute__((alias("replay_car_state_load")));
+/* REMOVED: conflicting alias */ // void FUN_0601fe20() __attribute__((alias("replay_car_state_load")));
 #endif
 
+#if 0 /* car_replay_state_init -- redirected to ASM import via linker PROVIDE */
 void car_replay_state_init(param_1)
     unsigned short *param_1;
 {
@@ -1683,6 +1717,7 @@ void car_replay_state_init(param_1)
     }
     *(int *)(car + DAT_0601ff8a + -8) = *(int *)(car + DAT_0601ff8a);
 }
+#endif /* car_replay_state_init */
 
 /* FUN_0601FE20 -- original binary (160 bytes) */
 __asm__(
@@ -1706,7 +1741,7 @@ __asm__(
 );
 
 #if 0 /* FUN_0601FEC0 -- replaced by ASM import */
-void FUN_0601fec0() __attribute__((alias("car_replay_state_init")));
+/* REMOVED: conflicting alias */ // void FUN_0601fec0() __attribute__((alias("car_replay_state_init")));
 #endif
 
 #if 0 /* FUN_0601E2B4 -- replaced by ASM import */

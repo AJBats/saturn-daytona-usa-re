@@ -129,6 +129,7 @@ void menu_system_init(void) { }
  */
 extern int FUN_0603AC1C(int mode, int src, int config);
 
+#if 0 /* game_subsystem_init -- redirected to ASM import via linker PROVIDE */
 void game_subsystem_init(void)
 {
     volatile unsigned char *cd_flag = (volatile unsigned char *)0x06084AEC;
@@ -155,6 +156,8 @@ void game_subsystem_init(void)
         }
     } while (result <= 2);
 }
+#endif /* game_subsystem_init */
+/* REMOVED: conflicting alias */ // void FUN_06012CF4(void) __attribute__((alias("game_subsystem_init")));
 
 /* 0x06004A98: Global engine initialization — real code in asm_restored_stubs.c as FUN_06004A98 */
 extern void FUN_06004A98(void);
@@ -219,6 +222,7 @@ extern void FUN_06012EBC(void);     /* load sound data to SCSP RAM */
 extern void FUN_0601D5F4(int channel, int param);  /* sound command dispatch */
 extern void FUN_06018EC8(void);     /* SCSP slot configuration */
 
+#if 0 /* cd_system_init -- redirected to ASM import via linker PROVIDE */
 void cd_system_init(void)
 {
     /* === Phase 1: SMPC — turn sound OFF === */
@@ -283,6 +287,7 @@ void cd_system_init(void)
     /* === Phase 6: Configure SCSP slots (tail call) === */
     FUN_06018EC8();
 }
+#endif /* cd_system_init */
 
 /* 0x06005174: Animation/sprite frame init
  * Clears 8 shorts (16 bytes) at 0x06063D98 — animation state buffer.

@@ -26,6 +26,7 @@
  *  17. vdp_system_init_b()  -- physics parameters init
  *  18. Set GAME_STATE = 2
  */
+#if 0 /* system_init -- redirected to ASM import via linker PROVIDE */
 void system_init(void)
 {
     int *ptr;
@@ -84,6 +85,8 @@ void system_init(void)
     /* Phase 18: Mark system ready */
     GAME_STATE = 2;
 }
+#endif /* system_init */
+/* REMOVED: conflicting alias */ // void FUN_060030FC(void) __attribute__((alias("system_init")));
 
 /* FUN_060030FC -- original binary (284 bytes) */
 __asm__(

@@ -208,6 +208,7 @@ extern short DAT_06012586;
 /* scu_interrupt_priorities_alt -- Configure alternate SCU interrupt priority map.
  * Used during attract/demo mode (different from race-mode priorities).
  * HBlank-IN highest (7), VBlank-IN lowest (1). */
+#if 0 /* scu_interrupt_priorities_alt -- redirected to ASM import via linker PROVIDE */
 void scu_interrupt_priorities_alt(void)
 {
     void (*scu_int_config)(int, int) = (void (*)(int, int))0x06038BD4;
@@ -218,10 +219,12 @@ void scu_interrupt_priorities_alt(void)
     scu_int_config(0x20,  3);   /* Timer 1:    priority 3 */
     scu_int_config(0x04,  1);   /* VBlank-IN:  priority 1 (lowest) */
 }
+#endif /* scu_interrupt_priorities_alt */
 #if 0 /* FUN_06012050 -- replaced by ASM import */
-void FUN_06012050(void) __attribute__((alias("scu_interrupt_priorities_alt")));
+/* REMOVED: conflicting alias */ // void FUN_06012050(void) __attribute__((alias("scu_interrupt_priorities_alt")));
 #endif
 
+#if 0 /* camera_view_init -- redirected to ASM import via linker PROVIDE */
 void camera_view_init(void)
 {
     *(int *)0x06078636 = 1;                   /* enable camera system */
@@ -255,6 +258,7 @@ void camera_view_init(void)
         camera_phase_dispatch();
     }
 }
+#endif /* camera_view_init */
 
 /* FUN_06012050 -- original binary (4 bytes) */
 __asm__(
@@ -267,9 +271,10 @@ __asm__(
 );
 
 #if 0 /* FUN_060120C8 -- replaced by ASM import */
-void FUN_060120c8(void) __attribute__((alias("camera_view_init")));
+/* REMOVED: conflicting alias */ // void FUN_060120c8(void) __attribute__((alias("camera_view_init")));
 #endif
 
+#if 0 /* camera_sequence_timer -- redirected to ASM import via linker PROVIDE */
 void camera_sequence_timer(void)
 {
     int *timer = (int *)0x060788AC;
@@ -302,8 +307,9 @@ void camera_sequence_timer(void)
         return;
     }
 }
+#endif /* camera_sequence_timer */
 #if 0 /* FUN_060121A8 -- replaced by ASM import of original bytes */
-void FUN_060121a8(void) __attribute__((alias("camera_sequence_timer")));
+/* REMOVED: conflicting alias */ // void FUN_060121a8(void) __attribute__((alias("camera_sequence_timer")));
 #endif
 
 /* camera_phase_dispatch -- Dispatch camera sub-routines based on countdown.
@@ -426,6 +432,7 @@ __asm__(
 /* background_render_pipeline -- Full background rendering pipeline.
  * Sets camera from view params, applies extra tilt if countdown > 99,
  * renders mesh/texture for last car slot, then finalizes. */
+#if 0 /* background_render_pipeline -- redirected to ASM import via linker PROVIDE */
 void background_render_pipeline(void)
 {
     int idx;
@@ -445,10 +452,12 @@ void background_render_pipeline(void)
                  (int)*(short *)0x06089EA0, *(int *)0x06063554);                /* texture_submit */
     (*(int(*)())0x06026DF8)();   /* matrix_pop */
 }
+#endif /* background_render_pipeline */
 #if 0 /* FUN_0601250C -- replaced by ASM import */
-void FUN_0601250c(void) __attribute__((alias("background_render_pipeline")));
+/* REMOVED: conflicting alias */ // void FUN_0601250c(void) __attribute__((alias("background_render_pipeline")));
 #endif
 
+#if 0 /* camera_sweep_render -- redirected to ASM import via linker PROVIDE */
 void camera_sweep_render()
 {
   int course_idx;
@@ -479,6 +488,7 @@ void camera_sweep_render()
   (*(int(*)())0x06026DF8)();                          /* matrix_pop */
   return;
 }
+#endif /* camera_sweep_render */
 
 /* FUN_0601250C -- original binary (196 bytes) */
 __asm__(
@@ -505,9 +515,10 @@ __asm__(
 );
 
 #if 0 /* FUN_060125D0 -- replaced by ASM import */
-void FUN_060125d0() __attribute__((alias("camera_sweep_render")));
+/* REMOVED: conflicting alias */ // void FUN_060125d0() __attribute__((alias("camera_sweep_render")));
 #endif
 
+#if 0 /* attract_sound_dispatch -- redirected to ASM import via linker PROVIDE */
 void attract_sound_dispatch()
 {
   int countdown = *(int *)0x0607EBCC;
@@ -535,6 +546,7 @@ LAB_0601277a:
   }
   return;
 }
+#endif /* attract_sound_dispatch */
 
 /* FUN_060125D0 -- original binary (320 bytes) */
 __asm__(
@@ -568,7 +580,7 @@ __asm__(
 );
 
 #if 0 /* FUN_06012710 -- replaced by ASM import */
-void FUN_06012710() __attribute__((alias("attract_sound_dispatch")));
+/* REMOVED: conflicting alias */ // void FUN_06012710() __attribute__((alias("attract_sound_dispatch")));
 #endif
 
 int race_result_sequence()
@@ -694,6 +706,7 @@ __asm__(
 
 /* save_validate_retry -- Validate save data with retry loop.
  * Retries BIOS read up to 5 times, then validates checksum. */
+#if 0 /* save_validate_retry -- redirected to ASM import via linker PROVIDE */
 void save_validate_retry()
 {
   int result = -1;
@@ -718,10 +731,12 @@ void save_validate_retry()
   }
   return;
 }
-void FUN_06012b58() __attribute__((alias("save_validate_retry")));
+#endif /* save_validate_retry */
+/* REMOVED: conflicting alias */ // void FUN_06012b58() __attribute__((alias("save_validate_retry")));
 
 /* save_screen_display -- Render "NOW SAVING" overlay, poll BIOS for
  *   completion, then validate saved data. */
+#if 0 /* save_screen_display -- redirected to ASM import via linker PROVIDE */
 void save_screen_display()
 {
   char *bios_poll = (char *)0x06018EAC;        /* BIOS status polling function */
@@ -741,9 +756,12 @@ void save_screen_display()
   save_validate_retry();                        /* validate saved data */
   return;
 }
+#endif /* save_screen_display */
+/* REMOVED: conflicting alias */ // void FUN_06012BDC(void) __attribute__((alias("save_screen_display")));
 
 /* bg_tilemap_load -- Load background tilemap for a course.
  * Selects tilemap descriptor by course index, loads to VDP2 VRAM 0x200000. */
+#if 0 /* bg_tilemap_load -- redirected to ASM import via linker PROVIDE */
 void bg_tilemap_load(int param_1)
 {
     if (param_1 == 1)
@@ -753,10 +771,12 @@ void bg_tilemap_load(int param_1)
     else
         FUN_06012c3c(0x06044900, 0x00200000);
 }
+#endif /* bg_tilemap_load */
 #if 0 /* FUN_06012D7C -- replaced by ASM import */
-void FUN_06012d7c(int param_1) __attribute__((alias("bg_tilemap_load")));
+/* REMOVED: conflicting alias */ // void FUN_06012d7c(int param_1) __attribute__((alias("bg_tilemap_load")));
 #endif
 
+#if 0 /* bg_tilemap_and_pattern_load -- redirected to ASM import via linker PROVIDE */
 void bg_tilemap_and_pattern_load(int param_1)
 {
   if (param_1 == 1) {
@@ -770,6 +790,7 @@ void bg_tilemap_and_pattern_load(int param_1)
     FUN_06012c3c(0x06044954, 0x00240000);
   }
 }
+#endif /* bg_tilemap_and_pattern_load */
 
 /* FUN_06012D7C -- original binary (56 bytes) */
 __asm__(
@@ -787,11 +808,12 @@ __asm__(
 );
 
 #if 0 /* FUN_06012DB4 -- replaced by ASM import of original bytes */
-void FUN_06012db4(int param_1) __attribute__((alias("bg_tilemap_and_pattern_load")));
+/* REMOVED: conflicting alias */ // void FUN_06012db4(int param_1) __attribute__((alias("bg_tilemap_and_pattern_load")));
 #endif
 
 /* bg_pattern_load -- Load background pattern data for a course.
  * Selects pattern descriptor by course index, loads to VDP2 VRAM 0x2A8000. */
+#if 0 /* bg_pattern_load -- redirected to ASM import via linker PROVIDE */
 void bg_pattern_load(int param_1)
 {
     if (param_1 == 1)
@@ -801,8 +823,9 @@ void bg_pattern_load(int param_1)
     else
         FUN_06012c3c(0x06044984, 0x002A8000);
 }
+#endif /* bg_pattern_load */
 #if 0 /* FUN_06012E08 -- replaced by ASM import */
-void FUN_06012e08(int param_1) __attribute__((alias("bg_pattern_load")));
+/* REMOVED: conflicting alias */ // void FUN_06012e08(int param_1) __attribute__((alias("bg_pattern_load")));
 #endif
 
 void scene_objects_init()
@@ -1255,14 +1278,16 @@ __asm__(
  * 1. Dispatch through background mode vtable (indexed by 0x06084AF2)
  * 2. Update background scroll/animation with fixed-point parameters
  * 3. Commit frame display (frame_end_display_commit) */
+#if 0 /* hud_render_frame -- redirected to ASM import via linker PROVIDE */
 void hud_render_frame(void)
 {
     (*(int(*)())(*(int *)(0x0605B6B8 + (unsigned int)(unsigned char)*(int *)(0x06084AF2 << 2))))();
     (*(int(*)())0x06011AF4)(0, 0x00960000, 0x00010000, 0x00010000, 0x00008000, 0x00010000, 0);
     (*(int(*)())0x060078DC)();  /* frame_end_display_commit */
 }
+#endif /* hud_render_frame */
 #if 0 /* FUN_0601389E -- replaced by ASM import of original bytes */
-void FUN_0601389e(void) __attribute__((alias("hud_render_frame")));
+/* REMOVED: conflicting alias */ // void FUN_0601389e(void) __attribute__((alias("hud_render_frame")));
 #endif
 
 int race_results_hud_display()

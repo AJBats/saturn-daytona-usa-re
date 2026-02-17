@@ -106,7 +106,7 @@ int cd_status_read(void)
 }
 #endif
 #if 0 /* FUN_06018EAC -- replaced by ASM import */
-void FUN_06018EAC(void) __attribute__((alias("cd_status_read")));
+/* REMOVED: conflicting alias */ // void FUN_06018EAC(void) __attribute__((alias("cd_status_read")));
 #endif
 
 /* FUN_06018EAC -- original binary (56 bytes) */

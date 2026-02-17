@@ -13,9 +13,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_060389A6, \"ax\"\n"
 
     ".global _FUN_060389A6\n"
+
+
+
+    ".section .text.FUN_060389a6, \"ax\"\n"
+
     ".global _FUN_060389a6\n"
     "_smpc_intback_trigger:\n"
     "_FUN_060389A6:\n"
@@ -177,9 +186,21 @@ void FUN_06020C3C(void) { FUN_06020c3c(); }
 /* FUN_06020C3C -- original binary (184 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06020C3C, \"ax\"\n"
 
     ".global _FUN_06020C3C\n"
+
+
+
+
+
+
     ".section .text.FUN_06020c3c, \"ax\"\n"
 
     ".global _FUN_06020c3c\n"
@@ -219,9 +240,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06012B58, \"ax\"\n"
 
     ".global _FUN_06012B58\n"
+
+
+
+    ".section .text.FUN_06012b58, \"ax\"\n"
+
     ".global _FUN_06012b58\n"
     "_cd_frame_sync_advance:\n"
     "_FUN_06012B58:\n"
@@ -312,9 +342,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_060072E6, \"ax\"\n"
 
     ".global _FUN_060072E6\n"
+
+
+
+    ".section .text.FUN_060072e6, \"ax\"\n"
+
     ".global _FUN_060072e6\n"
     ".type _FUN_060072E6, @function\n"
     "_FUN_060072E6:\n"
@@ -392,6 +431,12 @@ __asm__(
 
 
     ".balign 2\n"
+
+
+
+
+
+
 
 
 
@@ -561,9 +606,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600747C, \"ax\"\n"
 
     ".global _FUN_0600747C\n"
+
+
+
+    ".section .text.FUN_0600747c, \"ax\"\n"
+
     ".global _FUN_0600747c\n"
     ".type _FUN_0600747C, @function\n"
     "_FUN_0600747C:\n"
@@ -666,6 +720,9 @@ __asm__(
     ".word 0x3F5C\n"  /* add r5,r15 */
     ".word 0x0602\n"  /* stc sr,r6 */
     ".word 0x761E\n"  /* add #30,r6 */
+
+    ".section .text.FUN_06007540, \"ax\"\n"
+
     ".global _FUN_06007540\n"
     "_FUN_06007540:\n"
     ".word 0x7FFC\n"  /* add #-4,r15 */
@@ -708,6 +765,9 @@ __asm__(
     ".word 0x2532\n"  /* mov.l r3,@r5 */
     ".word 0x000B\n"  /* rts */
     ".word 0x7F04\n"  /* add #4,r15 */
+
+    ".section .text.FUN_06007590, \"ax\"\n"
+
     ".global _FUN_06007590\n"
     "_FUN_06007590:\n"
     ".word 0x7FF8\n"  /* add #-8,r15 */
@@ -828,9 +888,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06007CEC, \"ax\"\n"
 
     ".global _FUN_06007CEC\n"
+
+
+
+    ".section .text.FUN_06007cec, \"ax\"\n"
+
     ".global _FUN_06007cec\n"
     ".type _FUN_06007CEC, @function\n"
     "_FUN_06007CEC:\n"
@@ -934,9 +1003,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06007D8E, \"ax\"\n"
 
     ".global _FUN_06007D8E\n"
+
+
+
+    ".section .text.FUN_06007d8e, \"ax\"\n"
+
     ".global _FUN_06007d8e\n"
     ".type _FUN_06007D8E, @function\n"
     "_FUN_06007D8E:\n"
@@ -1020,9 +1098,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06007E08, \"ax\"\n"
 
     ".global _FUN_06007E08\n"
+
+
+
+    ".section .text.FUN_06007e08, \"ax\"\n"
+
     ".global _FUN_06007e08\n"
     ".type _FUN_06007E08, @function\n"
     "_FUN_06007E08:\n"
@@ -1555,9 +1642,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_060055BC, \"ax\"\n"
 
     ".global _FUN_060055BC\n"
+
+
+
+    ".section .text.FUN_060055bc, \"ax\"\n"
+
     ".global _FUN_060055bc\n"
     ".type _FUN_060055BC, @function\n"
     ".global _perspective_project\n"
@@ -1805,9 +1901,21 @@ void FUN_060078DC(void) { FUN_060078dc(); }
 /* FUN_060078DC -- original binary (372 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060078DC, \"ax\"\n"
 
     ".global _FUN_060078DC\n"
+
+
+
+
+
+
     ".section .text.FUN_060078dc, \"ax\"\n"
 
     ".global _FUN_060078dc\n"
@@ -1855,9 +1963,21 @@ void FUN_0600BB94(void) { FUN_0600bb94(); }
 /* FUN_0600BB94 -- original binary (1128 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0600BB94, \"ax\"\n"
 
     ".global _FUN_0600BB94\n"
+
+
+
+
+
+
     ".section .text.FUN_0600bb94, \"ax\"\n"
 
     ".global _FUN_0600bb94\n"
@@ -1961,9 +2081,22 @@ extern void FUN_060121a8(void);
 /* FUN_060121A8 -- original binary (228 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060121A8, \"ax\"\n"
 
     ".global _FUN_060121A8\n"
+
+
+
+
+
+    ".section .text.FUN_060121a8, \"ax\"\n"
+
     ".global _FUN_060121a8\n"
     ".type _FUN_060121A8, @function\n"
     "_FUN_060121A8:\n"
@@ -1994,9 +2127,21 @@ void FUN_06018A3C(void) { FUN_06018a3c(); }
 /* FUN_06018A3C -- original binary (928 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06018A3C, \"ax\"\n"
 
     ".global _FUN_06018A3C\n"
+
+
+
+
+
+
     ".section .text.FUN_06018a3c, \"ax\"\n"
 
     ".global _FUN_06018a3c\n"
@@ -2082,9 +2227,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0601D5F4, \"ax\"\n"
 
     ".global _FUN_0601D5F4\n"
+
+
+
+    ".section .text.FUN_0601d5f4, \"ax\"\n"
+
     ".global _FUN_0601d5f4\n"
     ".type _FUN_0601D5F4, @function\n"
     ".global _sound_cmd_dispatch\n"
@@ -2204,9 +2358,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0601D9B0, \"ax\"\n"
 
     ".global _FUN_0601D9B0\n"
+
+
+
+    ".section .text.FUN_0601d9b0, \"ax\"\n"
+
     ".global _FUN_0601d9b0\n"
     ".type _FUN_0601D9B0, @function\n"
     "_FUN_0601D9B0:\n"
@@ -2445,6 +2608,9 @@ __asm__(
     ".word 0x0009\n"  /* nop */
     ".word 0x000B\n"  /* rts */
     ".word 0x0009\n"  /* nop */
+
+    ".section .text.FUN_0601db84, \"ax\"\n"
+
     ".global _FUN_0601db84\n"
     "_FUN_0601db84:\n"
     ".word 0xD706\n"  /* mov.l @(0x18,PC),r7  {[0x0601DBA0] = 0x06086050} */
@@ -2491,9 +2657,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0601DBB8, \"ax\"\n"
 
     ".global _FUN_0601DBB8\n"
+
+
+
+    ".section .text.FUN_0601dbb8, \"ax\"\n"
+
     ".global _FUN_0601dbb8\n"
     ".type _FUN_0601DBB8, @function\n"
     ".global _replay_camera_controller\n"
@@ -2798,9 +2973,22 @@ extern void FUN_0601e100(void);
 /* FUN_0601E100 -- original binary (364 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601E100, \"ax\"\n"
 
     ".global _FUN_0601E100\n"
+
+
+
+
+
+    ".section .text.FUN_0601e100, \"ax\"\n"
+
     ".global _FUN_0601e100\n"
     ".type _FUN_0601E100, @function\n"
     "_FUN_0601E100:\n"
@@ -2835,9 +3023,22 @@ extern void FUN_0601f784(void);
 /* FUN_0601F784 -- original binary (316 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601F784, \"ax\"\n"
 
     ".global _FUN_0601F784\n"
+
+
+
+
+
+    ".section .text.FUN_0601f784, \"ax\"\n"
+
     ".global _FUN_0601f784\n"
     ".type _FUN_0601F784, @function\n"
     "_FUN_0601F784:\n"
@@ -2880,9 +3081,21 @@ void FUN_0602EFF0(void) { FUN_0602eff0(); }
 /* FUN_0602EFF0 -- original binary (548 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0602EFF0, \"ax\"\n"
 
     ".global _FUN_0602EFF0\n"
+
+
+
+
+
+
     ".section .text.FUN_0602eff0, \"ax\"\n"
 
     ".global _FUN_0602eff0\n"
@@ -2951,9 +3164,21 @@ void FUN_06033AAC(void) { FUN_06033aac(); }
 /* FUN_06033AAC -- original binary (284 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06033AAC, \"ax\"\n"
 
     ".global _FUN_06033AAC\n"
+
+
+
+
+
+
     ".section .text.FUN_06033aac, \"ax\"\n"
 
     ".global _FUN_06033aac\n"
@@ -2990,6 +3215,12 @@ __asm__(
 
 
     ".balign 2\n"
+
+
+
+
+
+
 
 
 
@@ -3057,9 +3288,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0602834A, \"ax\"\n"
 
     ".global _FUN_0602834A\n"
+
+
+
+    ".section .text.FUN_0602834a, \"ax\"\n"
+
     ".global _FUN_0602834a\n"
     ".type _FUN_0602834A, @function\n"
     "_FUN_0602834A:\n"
@@ -3090,9 +3330,21 @@ void FUN_06018DDC(int arg) { FUN_06018ddc(arg); }
 /* FUN_06018DDC -- original binary (70 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06018DDC, \"ax\"\n"
 
     ".global _FUN_06018DDC\n"
+
+
+
+
+
+
     ".section .text.FUN_06018ddc, \"ax\"\n"
 
     ".global _FUN_06018ddc\n"
@@ -3121,9 +3373,21 @@ void FUN_0601DF88(void) { FUN_0601df88(); }
 /* FUN_0601DF88 -- original binary (376 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601DF88, \"ax\"\n"
 
     ".global _FUN_0601DF88\n"
+
+
+
+
+
+
     ".section .text.FUN_0601df88, \"ax\"\n"
 
     ".global _FUN_0601df88\n"
@@ -3162,6 +3426,12 @@ __asm__(
 
 
     ".balign 2\n"
+
+
+
+
+
+
 
 
 
@@ -3215,9 +3485,21 @@ void FUN_06014A74(void) { FUN_06014a74(); }
 /* FUN_06014A74 -- original binary (696 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06014A74, \"ax\"\n"
 
     ".global _FUN_06014A74\n"
+
+
+
+
+
+
     ".section .text.FUN_06014a74, \"ax\"\n"
 
     ".global _FUN_06014a74\n"
@@ -3279,9 +3561,21 @@ void FUN_06014D2C(void) { FUN_06014d2c(); }
 /* FUN_06014D2C -- original binary (520 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06014D2C, \"ax\"\n"
 
     ".global _FUN_06014D2C\n"
+
+
+
+
+
+
     ".section .text.FUN_06014d2c, \"ax\"\n"
 
     ".global _FUN_06014d2c\n"
@@ -3334,9 +3628,22 @@ extern void FUN_0601389e(void);
 /* FUN_0601389E -- original binary (32 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601389E, \"ax\"\n"
 
     ".global _FUN_0601389E\n"
+
+
+
+
+
+    ".section .text.FUN_0601389e, \"ax\"\n"
+
     ".global _FUN_0601389e\n"
     ".type _FUN_0601389E, @function\n"
     "_FUN_0601389E:\n"
@@ -3365,9 +3672,21 @@ void FUN_0601C978(void) { FUN_0601c978(); }
 /* FUN_0601C978 -- original binary (374 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601C978, \"ax\"\n"
 
     ".global _FUN_0601C978\n"
+
+
+
+
+
+
     ".section .text.FUN_0601c978, \"ax\"\n"
 
     ".global _FUN_0601c978\n"
@@ -3417,9 +3736,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0601CAEE, \"ax\"\n"
 
     ".global _FUN_0601CAEE\n"
+
+
+
+    ".section .text.FUN_0601caee, \"ax\"\n"
+
     ".global _FUN_0601caee\n"
     ".type _FUN_0601CAEE, @function\n"
     "_FUN_0601CAEE:\n"
@@ -3796,9 +4124,21 @@ void FUN_0600330A(void) { FUN_0600330a(); }
 /* FUN_0600330A -- original binary (348 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0600330A, \"ax\"\n"
 
     ".global _FUN_0600330A\n"
+
+
+
+
+
+
     ".section .text.FUN_0600330a, \"ax\"\n"
 
     ".global _FUN_0600330a\n"
@@ -3838,9 +4178,21 @@ void FUN_0601AE80(void) { FUN_0601ae80(); }
 /* FUN_0601AE80 -- original binary (158 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601AE80, \"ax\"\n"
 
     ".global _FUN_0601AE80\n"
+
+
+
+
+
+
     ".section .text.FUN_0601ae80, \"ax\"\n"
 
     ".global _FUN_0601ae80\n"
@@ -3928,9 +4280,21 @@ void FUN_0600F424(void) { FUN_0600f424(); }
 /* FUN_0600F424 -- original binary (556 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0600F424, \"ax\"\n"
 
     ".global _FUN_0600F424\n"
+
+
+
+
+
+
     ".section .text.FUN_0600f424, \"ax\"\n"
 
     ".global _FUN_0600f424\n"
@@ -3994,9 +4358,21 @@ void FUN_06027EDE(int r4, int r5, int r6) { FUN_06027ede(r4, r5, r6); }
 /* FUN_06027EDE -- original binary (1132 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06027EDE, \"ax\"\n"
 
     ".global _FUN_06027EDE\n"
+
+
+
+
+
+
     ".section .text.FUN_06027ede, \"ax\"\n"
 
     ".global _FUN_06027ede\n"
@@ -4090,9 +4466,22 @@ void engine_sound_generator(void) __attribute__((alias("FUN_060302C6")));
 /* FUN_0601B160 -- original binary (16 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601B160, \"ax\"\n"
 
     ".global _FUN_0601B160\n"
+
+
+
+
+
+    ".section .text.FUN_0601b160, \"ax\"\n"
+
     ".global _FUN_0601b160\n"
     ".type _FUN_0601B160, @function\n"
     "_FUN_0601B160:\n"
@@ -4103,9 +4492,22 @@ __asm__(
 /* FUN_0602F7EA -- original binary (8 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0602F7EA, \"ax\"\n"
 
     ".global _FUN_0602F7EA\n"
+
+
+
+
+
+    ".section .text.FUN_0602f7ea, \"ax\"\n"
+
     ".global _FUN_0602f7ea\n"
     ".type _FUN_0602F7EA, @function\n"
     "_FUN_0602F7EA:\n"
@@ -4116,9 +4518,22 @@ __asm__(
 /* FUN_0600EC78 -- original binary (1964 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0600EC78, \"ax\"\n"
 
     ".global _FUN_0600EC78\n"
+
+
+
+
+
+    ".section .text.FUN_0600ec78, \"ax\"\n"
+
     ".global _FUN_0600ec78\n"
     ".type _FUN_0600EC78, @function\n"
     "_FUN_0600EC78:\n"
@@ -4251,9 +4666,22 @@ __asm__(
 /* FUN_0600BFFC -- original binary (20 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0600BFFC, \"ax\"\n"
 
     ".global _FUN_0600BFFC\n"
+
+
+
+
+
+    ".section .text.FUN_0600bffc, \"ax\"\n"
+
     ".global _FUN_0600bffc\n"
     ".type _FUN_0600BFFC, @function\n"
     "_FUN_0600BFFC:\n"
@@ -4265,9 +4693,22 @@ __asm__(
 /* FUN_060196A4 -- original binary (12 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060196A4, \"ax\"\n"
 
     ".global _FUN_060196A4\n"
+
+
+
+
+
+    ".section .text.FUN_060196a4, \"ax\"\n"
+
     ".global _FUN_060196a4\n"
     ".type _FUN_060196A4, @function\n"
     "_FUN_060196A4:\n"
@@ -4278,9 +4719,22 @@ __asm__(
 /* FUN_06033BC8 -- original binary (64 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06033BC8, \"ax\"\n"
 
     ".global _FUN_06033BC8\n"
+
+
+
+
+
+    ".section .text.FUN_06033bc8, \"ax\"\n"
+
     ".global _FUN_06033bc8\n"
     ".type _FUN_06033BC8, @function\n"
     "_FUN_06033BC8:\n"
@@ -4294,9 +4748,22 @@ __asm__(
 /* FUN_060193F4 -- original binary (10 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060193F4, \"ax\"\n"
 
     ".global _FUN_060193F4\n"
+
+
+
+
+
+    ".section .text.FUN_060193f4, \"ax\"\n"
+
     ".global _FUN_060193f4\n"
     ".type _FUN_060193F4, @function\n"
     "_FUN_060193F4:\n"
@@ -4307,9 +4774,22 @@ __asm__(
 /* FUN_060321C0 -- original binary (28 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060321C0, \"ax\"\n"
 
     ".global _FUN_060321C0\n"
+
+
+
+
+
+    ".section .text.FUN_060321c0, \"ax\"\n"
+
     ".global _FUN_060321c0\n"
     ".type _FUN_060321C0, @function\n"
     "_FUN_060321C0:\n"
@@ -4321,9 +4801,22 @@ __asm__(
 /* FUN_06018FA4 -- original binary (4 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06018FA4, \"ax\"\n"
 
     ".global _FUN_06018FA4\n"
+
+
+
+
+
+    ".section .text.FUN_06018fa4, \"ax\"\n"
+
     ".global _FUN_06018fa4\n"
     ".type _FUN_06018FA4, @function\n"
     "_FUN_06018FA4:\n"
@@ -4334,9 +4827,22 @@ __asm__(
 /* FUN_060190B8 -- original binary (4 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060190B8, \"ax\"\n"
 
     ".global _FUN_060190B8\n"
+
+
+
+
+
+    ".section .text.FUN_060190b8, \"ax\"\n"
+
     ".global _FUN_060190b8\n"
     ".type _FUN_060190B8, @function\n"
     "_FUN_060190B8:\n"
@@ -4347,9 +4853,22 @@ __asm__(
 /* FUN_0601D3C0 -- original binary (184 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601D3C0, \"ax\"\n"
 
     ".global _FUN_0601D3C0\n"
+
+
+
+
+
+    ".section .text.FUN_0601d3c0, \"ax\"\n"
+
     ".global _FUN_0601d3c0\n"
     ".type _FUN_0601D3C0, @function\n"
     "_FUN_0601D3C0:\n"
@@ -4371,9 +4890,22 @@ __asm__(
 /* FUN_06019A48 -- original binary (384 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06019A48, \"ax\"\n"
 
     ".global _FUN_06019A48\n"
+
+
+
+
+
+    ".section .text.FUN_06019a48, \"ax\"\n"
+
     ".global _FUN_06019a48\n"
     ".type _FUN_06019A48, @function\n"
     "_FUN_06019A48:\n"
@@ -4407,9 +4939,22 @@ __asm__(
 /* FUN_06033EA8 -- original binary (42 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06033EA8, \"ax\"\n"
 
     ".global _FUN_06033EA8\n"
+
+
+
+
+
+    ".section .text.FUN_06033ea8, \"ax\"\n"
+
     ".global _FUN_06033ea8\n"
     ".type _FUN_06033EA8, @function\n"
     "_FUN_06033EA8:\n"
@@ -4422,9 +4967,22 @@ __asm__(
 /* FUN_060268B0 -- original binary (1012 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060268B0, \"ax\"\n"
 
     ".global _FUN_060268B0\n"
+
+
+
+
+
+    ".section .text.FUN_060268b0, \"ax\"\n"
+
     ".global _FUN_060268b0\n"
     ".type _FUN_060268B0, @function\n"
     "_FUN_060268B0:\n"
@@ -4498,9 +5056,22 @@ __asm__(
 /* FUN_0600C218 -- original binary (110 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0600C218, \"ax\"\n"
 
     ".global _FUN_0600C218\n"
+
+
+
+
+
+    ".section .text.FUN_0600c218, \"ax\"\n"
+
     ".global _FUN_0600c218\n"
     ".type _FUN_0600C218, @function\n"
     "_FUN_0600C218:\n"
@@ -4517,9 +5088,22 @@ __asm__(
 /* FUN_06014A04 -- original binary (62 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_06014A04, \"ax\"\n"
 
     ".global _FUN_06014A04\n"
+
+
+
+
+
+    ".section .text.FUN_06014a04, \"ax\"\n"
+
     ".global _FUN_06014a04\n"
     ".type _FUN_06014A04, @function\n"
     "_FUN_06014A04:\n"
@@ -4533,9 +5117,22 @@ __asm__(
 /* FUN_0601DE50 -- original binary (312 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601DE50, \"ax\"\n"
 
     ".global _FUN_0601DE50\n"
+
+
+
+
+
+    ".section .text.FUN_0601de50, \"ax\"\n"
+
     ".global _FUN_0601de50\n"
     ".type _FUN_0601DE50, @function\n"
     "_FUN_0601DE50:\n"
@@ -4565,9 +5162,22 @@ __asm__(
 /* FUN_060053AC -- original binary (232 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060053AC, \"ax\"\n"
 
     ".global _FUN_060053AC\n"
+
+
+
+
+
+    ".section .text.FUN_060053ac, \"ax\"\n"
+
     ".global _FUN_060053ac\n"
     ".type _FUN_060053AC, @function\n"
     "_FUN_060053AC:\n"
@@ -4592,9 +5202,22 @@ __asm__(
 /* FUN_0601D2DC -- original binary (228 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601D2DC, \"ax\"\n"
 
     ".global _FUN_0601D2DC\n"
+
+
+
+
+
+    ".section .text.FUN_0601d2dc, \"ax\"\n"
+
     ".global _FUN_0601d2dc\n"
     ".type _FUN_0601D2DC, @function\n"
     "_FUN_0601D2DC:\n"
@@ -4619,9 +5242,22 @@ __asm__(
 /* FUN_0601950C -- original binary (408 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601950C, \"ax\"\n"
 
     ".global _FUN_0601950C\n"
+
+
+
+
+
+    ".section .text.FUN_0601950c, \"ax\"\n"
+
     ".global _FUN_0601950c\n"
     ".type _FUN_0601950C, @function\n"
     "_FUN_0601950C:\n"
@@ -4657,9 +5293,22 @@ __asm__(
 /* FUN_060120C8 -- original binary (4 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_060120C8, \"ax\"\n"
 
     ".global _FUN_060120C8\n"
+
+
+
+
+
+    ".section .text.FUN_060120c8, \"ax\"\n"
+
     ".global _FUN_060120c8\n"
     ".type _FUN_060120C8, @function\n"
     "_FUN_060120C8:\n"
@@ -4670,9 +5319,22 @@ __asm__(
 /* FUN_0601B418 -- original binary (116 bytes) */
 __asm__(
     ".balign 2\n"
+
+
+
+
+
+
     ".section .text.FUN_0601B418, \"ax\"\n"
 
     ".global _FUN_0601B418\n"
+
+
+
+
+
+    ".section .text.FUN_0601b418, \"ax\"\n"
+
     ".global _FUN_0601b418\n"
     ".type _FUN_0601B418, @function\n"
     "_FUN_0601B418:\n"

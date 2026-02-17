@@ -150,6 +150,7 @@ extern int FUN_0601F900(void);
 extern void FUN_060149E0(void);
 
 
+#if 0 /* state_14_handler -- redirected to ASM import via linker PROVIDE */
 void state_14_handler(void)
 {
     short buttons;
@@ -228,8 +229,10 @@ pipeline:
     RACE_PHASE_WORD = 3;
     RACE_MODE_BYTE = 0;
 }
+#endif /* state_14_handler */
 
 
+#if 0 /* state_15_handler -- redirected to ASM import via linker PROVIDE */
 void state_15_handler(void)
 {
     int next_state = 16;
@@ -305,8 +308,10 @@ void state_15_handler(void)
 
     FUN_060078DC();
 }
+#endif /* state_15_handler */
 
 
+#if 0 /* state_16_handler -- redirected to ASM import via linker PROVIDE */
 void state_16_handler(void)
 {
     GAME_STATE = 17;
@@ -319,8 +324,10 @@ void state_16_handler(void)
 
     RACE_PHASE_WORD = 4;
 }
+#endif /* state_16_handler */
 
 
+#if 0 /* state_17_handler -- redirected to ASM import via linker PROVIDE */
 void state_17_handler(void)
 {
     int car_obj;
@@ -429,8 +436,10 @@ section3:
 
     FUN_060078DC();
 }
+#endif /* state_17_handler */
 
 
+#if 0 /* state_18_handler -- redirected to ASM import via linker PROVIDE */
 void state_18_handler(void)
 {
     sound_channels_reset();
@@ -452,8 +461,10 @@ void state_18_handler(void)
 
     FUN_0601D5F4(0, (int)0xAE0004FF);
 }
+#endif /* state_18_handler */
 
 
+#if 0 /* state_19_handler -- redirected to ASM import via linker PROVIDE */
 void state_19_handler(void)
 {
     unsigned short new_btns;
@@ -550,8 +561,10 @@ common_end:
     FUN_06026CE0();
     RACE_VBL_OUT_FLAG = 0;
 }
+#endif /* state_19_handler */
 
 
+#if 0 /* state_20_handler -- redirected to ASM import via linker PROVIDE */
 void state_20_handler(void)
 {
     int car_obj;
@@ -646,8 +659,10 @@ void state_20_handler(void)
     RACE_DIFFICULTY = 4;
     RACE_PHASE_WORD = 4;
 }
+#endif /* state_20_handler */
 
 
+#if 0 /* state_21_handler -- redirected to ASM import via linker PROVIDE */
 void state_21_handler(void)
 {
     FUN_06014A42();
@@ -679,8 +694,10 @@ void state_21_handler(void)
 
     FUN_060078DC();
 }
+#endif /* state_21_handler */
 
 
+#if 0 /* state_22_handler -- redirected to ASM import via linker PROVIDE */
 void state_22_handler(void)
 {
     FUN_06019058();
@@ -710,8 +727,10 @@ void state_22_handler(void)
         FUN_06018DDC(event + 14);
     }
 }
+#endif /* state_22_handler */
 
 
+#if 0 /* state_23_handler -- redirected to ASM import via linker PROVIDE */
 void state_23_handler(void)
 {
     FUN_0600A294();
@@ -754,8 +773,10 @@ void state_23_handler(void)
     FUN_0600BFFC();
     FUN_060078DC();
 }
+#endif /* state_23_handler */
 
 
+#if 0 /* state_24_handler -- redirected to ASM import via linker PROVIDE */
 void state_24_handler(void)
 {
     RACE_PHASE_WORD = 3;
@@ -779,8 +800,10 @@ void state_24_handler(void)
     FUN_06026CE0();
     RACE_VBL_OUT_FLAG = 0;
 }
+#endif /* state_24_handler */
 
 
+#if 0 /* state_25_handler -- redirected to ASM import via linker PROVIDE */
 void state_25_handler(void)
 {
     FUN_06014D2C();
@@ -793,12 +816,16 @@ void state_25_handler(void)
 
     FUN_060078DC();
 }
+#endif /* state_25_handler */
+/* NOTE: state_25_handler's jump table address is 0x06009D4E (ASM import in asm_state_handlers.c).
+ * FUN_06014D2C is a CALLEE, not the handler itself — no alias here. */
 
 
 /* 0x06009DD0: Post-race transition setup (alternate path)
  * Mirrors state_22 but with different countdown value (600 frames)
  * and different dispatch (event 19). Both state 22 and 26 converge
  * into the countdown loop at state 27. */
+#if 0 /* state_26_handler -- redirected to ASM import via linker PROVIDE */
 void state_26_handler(void)
 {
     FUN_060190B8();
@@ -813,6 +840,7 @@ void state_26_handler(void)
 
     FUN_06018DDC(19);
 }
+#endif /* state_26_handler */
 
 
 /* 0x06009E02: Counter-based transition to state 30 (alternate path)
@@ -821,6 +849,7 @@ void state_26_handler(void)
  * Calls FUN_0601389E each frame. If state changed (to 30),
  * also calls FUN_06018E70 for general init.
  * Sets display byte at 0x0607864B = 1 every frame. */
+#if 0 /* state_27_handler -- redirected to ASM import via linker PROVIDE */
 void state_27_handler(void)
 {
     int countdown = RACE_COUNTDOWN - 1;
@@ -838,6 +867,7 @@ void state_27_handler(void)
 
     RACE_DISPLAY_BYTE = 1;
 }
+#endif /* state_27_handler */
 
 
 /* 0x06009508: Abort processing
@@ -846,6 +876,7 @@ void state_27_handler(void)
  * Otherwise increments frame counter if race not ended.
  * Always transitions to state 29.
  * Runs simplified update pipeline (no per-car physics loop). */
+#if 0 /* state_28_handler -- redirected to ASM import via linker PROVIDE */
 void state_28_handler(void)
 {
     int flags;
@@ -870,6 +901,7 @@ void state_28_handler(void)
 
     FUN_060078DC();
 }
+#endif /* state_28_handler */
 
 
 /* 0x0600955E: Post-race menu / results screen
@@ -878,6 +910,7 @@ void state_28_handler(void)
  *   - Abort flag: clear flag, go to race completion (state 20)
  *   - Mode flag == 0: loop back to state 17
  * Runs update pipeline, scoring, debug display, overlay rendering. */
+#if 0 /* state_29_handler -- redirected to ASM import via linker PROVIDE */
 void state_29_handler(void)
 {
     int flags;
@@ -952,6 +985,7 @@ main_loop:
         GAME_STATE = 17;
     }
 }
+#endif /* state_29_handler */
 
 
 /* 0x06008C14: Resource check router
@@ -961,6 +995,7 @@ main_loop:
  *   state 4:  resource ready, flag clear (retry/boundary path)
  *   state 7:  resource ready, flag set (course select path)
  * Always sets PHASE_FLAG = 3. */
+#if 0 /* state_30_handler -- redirected to ASM import via linker PROVIDE */
 void state_30_handler(void)
 {
     int result = FUN_0601F8C0();
@@ -978,6 +1013,7 @@ void state_30_handler(void)
 
     RACE_PHASE_WORD = 3;
 }
+#endif /* state_30_handler */
 
 
 /* 0x06008C76: Memory router
@@ -986,6 +1022,7 @@ void state_30_handler(void)
  *   state 4: memory flag clear (retry, also calls FUN_060149E0/FUN_06026CE0)
  *   state 6: memory flag set (re-select course)
  * If FUN_0601F900 returns 0, does nothing (stays in current state). */
+#if 0 /* state_31_handler -- redirected to ASM import via linker PROVIDE */
 void state_31_handler(void)
 {
     int result = FUN_0601F900();
@@ -1001,3 +1038,4 @@ void state_31_handler(void)
         RACE_RESOURCE_FLAG = 0;
     }
 }
+#endif /* state_31_handler */

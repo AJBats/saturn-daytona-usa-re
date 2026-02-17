@@ -771,7 +771,9 @@ __asm__(
 );
 
 
+#if 0 /* track_geometry_processor -- redirected to ASM import via linker PROVIDE */
 void track_geometry_processor()
+/* REMOVED: conflicting alias */ // void FUN_06017814(void) __attribute__((alias("track_geometry_processor")));
 {
 
   short sVar1;
@@ -1033,6 +1035,7 @@ LAB_06017b4e:
   return;
 
 }
+#endif /* track_geometry_processor */
 
 /* race_bonus_check -- Check if all 3 lap positions match for bonus award.
  * Only active in 2-player VS mode (0x0607EBC4 == 0x20000). If all 3

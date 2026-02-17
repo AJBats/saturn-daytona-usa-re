@@ -80,7 +80,9 @@ extern int PTR_DAT_0601e030;
  * Also renders steering indicator when car has lateral velocity
  * (offsets at DAT_0601c93c/93e), position from 0x06044670.
  * Sprite budget at 0x0608A52C decremented by 0x30 per effect. */
+#if 0 /* tire_skid_particle_render -- redirected to ASM import via linker PROVIDE */
 int tire_skid_particle_render()
+/* REMOVED: conflicting alias */ // void FUN_0601C3E4(void) __attribute__((alias("tire_skid_particle_render")));
 {
   char *steer_anim_ptr;
   char *depth_scale;
@@ -242,6 +244,7 @@ int tire_skid_particle_render()
   }
   return result;
 }
+#endif /* tire_skid_particle_render */
 
 /* results_screen_init -- Initialize results/record display screen.
  * Clears display counters (0x0608602C, 0x06086030), sets initial
@@ -320,7 +323,9 @@ void FUN_0601c978()
  *   - State 1/2/3: loads palette tables via DMA (0x0602766C) to
  *     VDP2 CRAM banks A (0x25F00200) and B (0x25F00400)
  * Ends by setting GAME_STATE=2 (return to menu), then VDP vsync. */
+#if 0 /* results_screen_update -- redirected to ASM import via linker PROVIDE */
 void results_screen_update()
+/* REMOVED: conflicting alias */ // void FUN_0601CAEE(void) __attribute__((alias("results_screen_update")));
 {
   char *fade_step_ptr;
   char *cram_bank_a;
@@ -510,6 +515,7 @@ LAB_0601cda4:
   VBLANK_OUT_COUNTER = 0;
   return;
 }
+#endif /* results_screen_update */
 
 /* palette_fade_out -- Fade VDP2 palette to black.
  * Reads 32 palette entries from VDP2 CRAM (0x25F00000),
@@ -1004,6 +1010,7 @@ int scsp_command_dispatch(param_1, param_2)
  *   final-lap fanfare and position approach sounds via SCSP command dispatcher.
  *   Sound codes: 0xAE1121FF=final lap, 0xAE1127FF=approach far, 0xAE1126FF=approach near, 0xAE1146FF=generic
  */
+#if 0 /* race_position_sound -- redirected to ASM import via linker PROVIDE */
 int race_position_sound()
 {
   char *delay_timer = (char *)0x06086058;       /* sound delay timer (short) */
@@ -1077,6 +1084,8 @@ int race_position_sound()
   }
   return result;
 }
+#endif /* race_position_sound */
+/* REMOVED: conflicting alias */ // void FUN_0601D7D0(void) __attribute__((alias("race_position_sound")));
 
 /* position_sound_sequencer -- sequences race position announcement sounds per checkpoint.
  *   Checks race-end flag at 0x06085FF4. Maps checkpoint counter (0x06086058)
@@ -1184,6 +1193,7 @@ LAB_0601db20:
   }
   return result;
 }
+/* REMOVED: conflicting alias */ // void FUN_0601D9B0(void) __attribute__((alias("position_sound_sequencer")));
 
 
 /* lap_time_record_display -- shows lap completion time and checks for new record.
@@ -1193,6 +1203,7 @@ LAB_0601db20:
  *   Renders time display sprites via VDP1 draw (0x06028400) with animation.
  *   Timer at 0x0608706A counts down display duration; 0x0605DFED controls animation phase.
  *   Falls through to hud_sprite_setup (FUN_0601ddf6) on completion or race end. */
+#if 0 /* lap_time_record_display -- redirected to ASM import via linker PROVIDE */
 int lap_time_record_display()
 {
   char anim_phase;
@@ -1276,6 +1287,8 @@ int lap_time_record_display()
   }
   return result;
 }
+#endif /* lap_time_record_display */
+/* REMOVED: conflicting alias */ // void FUN_0601DBB8(void) __attribute__((alias("lap_time_record_display")));
 
 /* hud_sprite_setup -- Configure 3 HUD sprite entries for lap/timer display.
  * Sets VDP sprite attributes for tiles 0x7C2, 0x8C2, 0x9C2 at dest 0x0605ACE3.

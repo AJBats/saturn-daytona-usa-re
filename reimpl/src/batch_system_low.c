@@ -493,6 +493,7 @@ void vdp2_mega_init()
  * Banks 0-9 go to CRAM 0x000-0x1FF (background palettes).
  * Banks 10-13 go to CRAM 0x600-0x7FF (sprite/overlay palettes).
  * Some source addresses are shared between banks (1/10, 8/12, 9/13). */
+#if 0 /* vdp2_cram_load -- redirected to ASM import via linker PROVIDE */
 void vdp2_cram_load(void)
 {
     DMA_WORD_COPY(0x25F00000, 0x0604814C, 0x60);  /* bank 0:  96 bytes — main BG */
@@ -510,8 +511,9 @@ void vdp2_cram_load(void)
     DMA_WORD_COPY(0x25F007A0, 0x060487EC, 0x20);  /* bank 12: 32 bytes — =bank 8 src */
     DMA_WORD_COPY(0x25F007C0, 0x060483EC, 0x40);  /* bank 13: 64 bytes — =bank 9 src */
 }
+#endif /* vdp2_cram_load */
 #if 0 /* FUN_060038D4 -- replaced by ASM import */
-void FUN_060038d4(void) __attribute__((alias("vdp2_cram_load")));
+/* REMOVED: conflicting alias */ // void FUN_060038d4(void) __attribute__((alias("vdp2_cram_load")));
 #endif
 
 void car_palette_load_primary(void)

@@ -10,11 +10,14 @@
  */
 
 /* vdp_system_init_b -- Clear physics pause flag, trigger update */
+#if 0 /* vdp_system_init_b -- redirected to ASM import via linker PROVIDE */
 void vdp_system_init_b(void)
 {
     *(volatile unsigned short *)0x060A3D88 &= 0x7FFF;
     *(volatile short *)0x060635AC = 1;
 }
+#endif /* vdp_system_init_b */
+/* REMOVED: conflicting alias */ // void FUN_060149CC(void) __attribute__((alias("vdp_system_init_b")));
 
 /* FUN_060149CC -- Set physics pause flag, trigger update */
 void FUN_060149CC(void)

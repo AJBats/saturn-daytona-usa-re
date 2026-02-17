@@ -633,6 +633,7 @@ void FUN_06010a5c(int slot_idx) __attribute__((alias("subsystem_slot_dma")));
  * Normal mode: look up bank ID from course sound table, indexed by course.
  * Demo mode: use fixed SCSP bank IDs (different bank for player 2).
  * The SCSP command function at 0x0601D5F4 sends the bank load command. */
+#if 0 /* sound_bank_load -- redirected to ASM import via linker PROVIDE */
 int sound_bank_load(void)
 {
     int scsp_cmd = 0x0601D5F4;
@@ -650,8 +651,9 @@ int sound_bank_load(void)
     }
     return result;
 }
+#endif /* sound_bank_load */
 #if 0 /* FUN_06010B54 -- replaced by ASM import */
-int FUN_06010b54(void) __attribute__((alias("sound_bank_load")));
+/* REMOVED: conflicting alias */ // int FUN_06010b54(void) __attribute__((alias("sound_bank_load")));
 #endif
 
 #if 0 /* FUN_06010BC4 -- replaced by ASM import */

@@ -68,6 +68,7 @@ extern void FUN_0600F424(void);
  * First-frame setup after power-on or full reset.
  * Calls init chain, sets GAME_STATE = 1.
  * ================================================================= */
+#if 0 /* state_0_handler -- redirected to ASM import via linker PROVIDE */
 void state_0_handler(void)
 {
     FUN_06018E70();
@@ -79,6 +80,7 @@ void state_0_handler(void)
     FUN_06026CE0();
     RACE_VBL_OUT_FLAG = 0;
 }
+#endif /* state_0_handler */
 
 
 /* =================================================================
@@ -99,6 +101,7 @@ void state_1_handler(void)
  * Sets up initial game state: car count, phase flags, countdown (920
  * frames, minus 60 if 2-player mode). Transitions to state 3.
  * ================================================================= */
+#if 0 /* state_2_handler -- redirected to ASM import via linker PROVIDE */
 void state_2_handler(void)
 {
     RACE_CAR_COUNT_BYTE = 1;
@@ -127,6 +130,7 @@ void state_2_handler(void)
     RACE_VBL_OUT_FLAG = 0;
     RACE_PHASE_WORD = 4;
 }
+#endif /* state_2_handler */
 
 
 /* =================================================================
@@ -137,6 +141,7 @@ void state_2_handler(void)
  * collision, rendering). On timer expiry or start press, transitions
  * to state 4.
  * ================================================================= */
+#if 0 /* state_3_handler -- redirected to ASM import via linker PROVIDE */
 void state_3_handler(void)
 {
     int countdown;
@@ -184,6 +189,7 @@ void state_3_handler(void)
     GAME_STATE = 4;
     RACE_TRANSITION_WORD = 3;
 }
+#endif /* state_3_handler */
 
 
 /* =================================================================
@@ -192,6 +198,7 @@ void state_3_handler(void)
  * Sets r14=0, chains to shared handler that initializes subsystems,
  * sets countdown to 600, transitions to state 5.
  * ================================================================= */
+#if 0 /* state_4_handler -- redirected to ASM import via linker PROVIDE */
 void state_4_handler(void)
 {
     RACE_BOUNDARY_FLAG = 0;
@@ -213,6 +220,7 @@ void state_4_handler(void)
         RACE_DISPLAY_BYTE = 0;
     }
 }
+#endif /* state_4_handler */
 
 
 /* =================================================================
@@ -223,6 +231,7 @@ void state_4_handler(void)
  * state 0 (full re-init). Always calls FUN_0601D3C0 and display
  * update.
  * ================================================================= */
+#if 0 /* state_5_handler -- redirected to ASM import via linker PROVIDE */
 void state_5_handler(void)
 {
     int countdown;
@@ -248,6 +257,7 @@ void state_5_handler(void)
     FUN_06026CE0();
     RACE_VBL_OUT_FLAG = 0;
 }
+#endif /* state_5_handler */
 
 
 /* =================================================================
@@ -255,6 +265,7 @@ void state_5_handler(void)
  *
  * One-frame setup: initializes course select, transitions to state 7.
  * ================================================================= */
+#if 0 /* state_6_handler -- redirected to ASM import via linker PROVIDE */
 void state_6_handler(void)
 {
     FUN_06018E70();
@@ -265,6 +276,7 @@ void state_6_handler(void)
     RACE_VBL_OUT_FLAG = 0;
     RACE_PHASE_WORD = 3;
 }
+#endif /* state_6_handler */
 
 
 /* =================================================================
@@ -272,6 +284,7 @@ void state_6_handler(void)
  *
  * Per-frame course selection: process input, update display.
  * ================================================================= */
+#if 0 /* state_7_handler -- redirected to ASM import via linker PROVIDE */
 void state_7_handler(void)
 {
     FUN_060196A4();
@@ -279,6 +292,7 @@ void state_7_handler(void)
     FUN_06026CE0();
     RACE_VBL_OUT_FLAG = 0;
 }
+#endif /* state_7_handler */
 
 
 /* =================================================================
@@ -286,6 +300,7 @@ void state_7_handler(void)
  *
  * One-frame setup: initializes car/transmission select, state 9.
  * ================================================================= */
+#if 0 /* state_8_handler -- redirected to ASM import via linker PROVIDE */
 void state_8_handler(void)
 {
     GAME_STATE = 9;
@@ -294,6 +309,7 @@ void state_8_handler(void)
     RACE_VBL_OUT_FLAG = 0;
     RACE_PHASE_WORD = 3;
 }
+#endif /* state_8_handler */
 
 
 /* =================================================================
@@ -301,6 +317,7 @@ void state_8_handler(void)
  *
  * Per-frame car selection: process input, update display.
  * ================================================================= */
+#if 0 /* state_9_handler -- redirected to ASM import via linker PROVIDE */
 void state_9_handler(void)
 {
     FUN_06019A48();
@@ -308,6 +325,7 @@ void state_9_handler(void)
     FUN_06026CE0();
     RACE_VBL_OUT_FLAG = 0;
 }
+#endif /* state_9_handler */
 
 
 /* =================================================================
@@ -315,6 +333,7 @@ void state_9_handler(void)
  *
  * One-frame setup: starts disc loading, transitions to state 11.
  * ================================================================= */
+#if 0 /* state_10_handler -- redirected to ASM import via linker PROVIDE */
 void state_10_handler(void)
 {
     GAME_STATE = 11;
@@ -323,6 +342,7 @@ void state_10_handler(void)
     RACE_VBL_OUT_FLAG = 0;
     RACE_PHASE_WORD = 3;
 }
+#endif /* state_10_handler */
 
 
 /* =================================================================
@@ -331,12 +351,14 @@ void state_10_handler(void)
  * Polls loading status. Non-zero return = failure/re-select (state 6).
  * Zero return = loading still in progress (stay in state 11).
  * ================================================================= */
+#if 0 /* state_11_handler -- redirected to ASM import via linker PROVIDE */
 void state_11_handler(void)
 {
     int result = FUN_0601B418();
     if (result != 0)
         GAME_STATE = 6;
 }
+#endif /* state_11_handler */
 
 
 /* =================================================================
@@ -346,6 +368,7 @@ void state_11_handler(void)
  * Sets "race ready" flag, dispatches to handler 5 with target 15
  * (main race loop).
  * ================================================================= */
+#if 0 /* state_12_handler -- redirected to ASM import via linker PROVIDE */
 void state_12_handler(void)
 {
     FUN_0600A0C0();
@@ -359,6 +382,7 @@ void state_12_handler(void)
     RACE_PHASE_WORD = 3;
     FUN_06018DDC(5);   /* original: r4=5, r5=5, r6=15 (tail call) */
 }
+#endif /* state_12_handler */
 
 
 /* =================================================================
@@ -368,6 +392,7 @@ void state_12_handler(void)
  * If still counting, calls FUN_0600F424 (loading/init continuation).
  * If state changed by a callee, tail-calls FUN_06018E70.
  * ================================================================= */
+#if 0 /* state_13_handler -- redirected to ASM import via linker PROVIDE */
 void state_13_handler(void)
 {
     int countdown = RACE_COUNTDOWN;
@@ -386,3 +411,4 @@ void state_13_handler(void)
     if (GAME_STATE != 13)
         FUN_06018E70();
 }
+#endif /* state_13_handler */

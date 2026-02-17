@@ -12,7 +12,11 @@
  * undefined references (though nothing actually calls this "function").
  */
 __asm__(
+    ".section .text.FUN_06046E48, \"ax\"\n"
+
     ".global _FUN_06046E48\n"
+    ".section .text.FUN_06046e48, \"ax\"\n"
+
     ".global _FUN_06046e48\n"
     ".type _FUN_06046E48, @function\n"
     "_FUN_06046E48:\n"

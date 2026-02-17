@@ -127,6 +127,7 @@ int FUN_0603c0a0(int param_1, int param_2)
  * handlers (0x0603D2CC..0x0603D5D0). Clears 8-slot interrupt dispatch
  * table at 0x060A4D60, resets DMA pending flag (0x060A4D80) and
  * interrupt acknowledge register (0x060A4DA6). */
+#if 0 /* scu_dma_subsystem_init -- redirected to ASM import via linker PROVIDE */
 void scu_dma_subsystem_init()
 {
   unsigned int i;
@@ -147,6 +148,8 @@ void scu_dma_subsystem_init()
   *(int *)0x060A4DA6 = 0;                               /* interrupt ack: clear */
   return;
 }
+#endif /* scu_dma_subsystem_init */
+/* REMOVED: conflicting alias */ // void FUN_0603C104(void) __attribute__((alias("scu_dma_subsystem_init")));
 
 /* dma_channel_level_set -- Set DMA transfer level for selected channels.
  * channel_mask: bitmask selecting which DMA channels to configure:
@@ -661,7 +664,9 @@ __asm__(
  * Each AND-mask operation clears specific bit fields while
  * preserving others. Sync function (0x06034F78) called between
  * each register write to ensure hardware handshake. */
+#if 0 /* dma_register_state_clear -- redirected to ASM import via linker PROVIDE */
 void dma_register_state_clear()
+/* REMOVED: conflicting alias */ // void FUN_0603CD5C(void) __attribute__((alias("dma_register_state_clear")));
 {
   unsigned short mask_ffef;
   unsigned short mask_fffe;
@@ -803,6 +808,7 @@ void dma_register_state_clear()
   (*(int(*)())0x06034F78)();
   return;
 }
+#endif /* dma_register_state_clear */
 
 /* vdp2_palette_bank_init -- Clear palette assignment bits for 4 scroll planes.
  * VDP2 palette control registers at 0x060A4D28 (shadow copy).

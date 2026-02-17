@@ -14,19 +14,25 @@
  * Original addresses: 0x06014868, 0x06014884, 0x060148A2, 0x0601492C
  */
 
+#if 0 /* vdp2_scroll_setup -- redirected to ASM import via linker PROVIDE */
 void vdp2_scroll_setup(int param_1, int param_2, int param_3)
 {
     (*(void (*)())0x0603850C)();
     (*(void (*)(int, int))0x06038794)(param_2, param_3);
     (*(void (*)())0x06038520)();
 }
+#endif /* vdp2_scroll_setup */
+/* REMOVED: conflicting alias */ // void FUN_06004A98(void) __attribute__((alias("vdp2_scroll_setup")));
 
+#if 0 /* vdp2_scroll_update -- redirected to ASM import via linker PROVIDE */
 void vdp2_scroll_update(int param_1, int param_2, int param_3)
 {
     (*(void (*)())0x0603850C)();
     (*(void (*)(int, int, int))0x0603853C)(param_2, param_3, 0);
     (*(void (*)())0x06038520)();
 }
+#endif /* vdp2_scroll_update */
+/* REMOVED: conflicting alias */ // void FUN_060055BC(void) __attribute__((alias("vdp2_scroll_update")));
 
 /* FUN_060148A2 -- original binary (90 bytes) */
 __asm__(
@@ -46,6 +52,7 @@ __asm__(
 );
 
 
+#if 0 /* vdp_system_init_a -- redirected to ASM import via linker PROVIDE */
 void vdp_system_init_a(void)
 {
     void (*set_attr)(int, int) = (void (*)(int, int))0x06038BD4;
@@ -57,6 +64,7 @@ void vdp_system_init_a(void)
     set_attr(0x20, 7);
     set_attr(1, 0);
 }
+#endif /* vdp_system_init_a */
 
 
 /* VDP command template helper: returns byte template pointer */

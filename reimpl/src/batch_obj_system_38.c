@@ -135,6 +135,7 @@ __asm__(
  * table (0x060A3DF8 — scale defaults 0x10000 = 1.0 in 16.16),
  * color calc regs (0x060A3E38), and window table (0x060A3E48).
  * Triggers VDP1_BATCH_FLAG for next frame commit. */
+#if 0 /* vdp2_subsystem_init -- redirected to ASM import via linker PROVIDE */
 void vdp2_subsystem_init(void)
 {
     char *scroll_regs;
@@ -219,6 +220,8 @@ void vdp2_subsystem_init(void)
         VDP1_BATCH_FLAG = 1;
     }
 }
+#endif /* vdp2_subsystem_init */
+/* REMOVED: conflicting alias */ // void FUN_06038300(void) __attribute__((alias("vdp2_subsystem_init")));
 
 /* vdp1_batch_complete -- Mark VDP1 batch as complete and set render target.
  * Clears batch flag if it was pending (1), stores new render target address. */
@@ -338,6 +341,7 @@ __asm__(
  * rotation table A/B scroll at +0x44/+0x48 and optionally trigger line
  * scroll via 0x0603DDFC; bitmap planes (4/8) update coordinate table
  * at 0x060A3DF8; tile planes (0x10/0x20) update NBG2/NBG3 as 16.16→int. */
+#if 0 /* vdp2_scroll_offset -- redirected to ASM import via linker PROVIDE */
 int vdp2_scroll_offset(int dx, int dy, int line_delta)
 {
     char *rot_tbl_b = (char *)0x060A3EE8;              /* rotation table B shadow */
@@ -395,6 +399,8 @@ int vdp2_scroll_offset(int dx, int dy, int line_delta)
     }
     return target;
 }
+#endif /* vdp2_scroll_offset */
+/* REMOVED: conflicting alias */ // void FUN_0603853C(void) __attribute__((alias("vdp2_scroll_offset")));
 
 /* vdp2_scale_set -- Set VDP2 zoom/scale for active render target.
  * For rotation targets (4/8), clamps scale to [DAT_0603881a..0x00FF0000],

@@ -34,6 +34,12 @@ __asm__(
 
 
 
+
+
+
+
+
+
     ".section .text.FUN_06009508, \"ax\"\n"
 
     ".global _FUN_06009508\n"
@@ -99,9 +105,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600955E, \"ax\"\n"
 
     ".global _FUN_0600955E\n"
+
+
+
+    ".section .text.FUN_0600955e, \"ax\"\n"
+
     ".global _FUN_0600955e\n"
     "_state_29_post_race_menu:\n"
     "_FUN_0600955E:\n"
@@ -316,9 +331,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_060096DC, \"ax\"\n"
 
     ".global _FUN_060096DC\n"
+
+
+
+    ".section .text.FUN_060096dc, \"ax\"\n"
+
     ".global _FUN_060096dc\n"
     "_state_18_time_extension_setup:\n"
     "_FUN_060096DC:\n"
@@ -418,6 +442,12 @@ __asm__(
     ".balign 2\n"
     ".global _state_19_time_extension\n"
     ".type _state_19_time_extension, @function\n"
+
+
+
+
+
+
 
 
 
@@ -816,9 +846,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06009A60, \"ax\"\n"
 
     ".global _FUN_06009A60\n"
+
+
+
+    ".section .text.FUN_06009a60, \"ax\"\n"
+
     ".global _FUN_06009a60\n"
     "_state_20_race_completion:\n"
     "_FUN_06009A60:\n"
@@ -1088,9 +1127,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06009CFC, \"ax\"\n"
 
     ".global _FUN_06009CFC\n"
+
+
+
+    ".section .text.FUN_06009cfc, \"ax\"\n"
+
     ".global _FUN_06009cfc\n"
     "_state_24_post_race_init:\n"
     "_FUN_06009CFC:\n"
@@ -1153,9 +1201,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_06009D4E, \"ax\"\n"
 
     ".global _FUN_06009D4E\n"
+
+
+
+    ".section .text.FUN_06009d4e, \"ax\"\n"
+
     ".global _FUN_06009d4e\n"
     "_state_25_post_race_display:\n"
     "_FUN_06009D4E:\n"

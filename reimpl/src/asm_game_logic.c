@@ -16,9 +16,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600A478, \"ax\"\n"
 
     ".global _FUN_0600A478\n"
+
+
+
+    ".section .text.FUN_0600a478, \"ax\"\n"
+
     ".global _FUN_0600a478\n"
     ".type _FUN_0600A478, @function\n"
     "_FUN_0600A478:\n"
@@ -66,9 +75,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600A614, \"ax\"\n"
 
     ".global _FUN_0600A614\n"
+
+
+
+    ".section .text.FUN_0600a614, \"ax\"\n"
+
     ".global _FUN_0600a614\n"
     ".type _FUN_0600A614, @function\n"
     "_FUN_0600A614:\n"
@@ -263,9 +281,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600ADD4, \"ax\"\n"
 
     ".global _FUN_0600ADD4\n"
+
+
+
+    ".section .text.FUN_0600add4, \"ax\"\n"
+
     ".global _FUN_0600add4\n"
     "_camera_car_transform_setup:\n"
     "_FUN_0600ADD4:\n"
@@ -528,9 +555,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600B1A0, \"ax\"\n"
 
     ".global _FUN_0600B1A0\n"
+
+
+
+    ".section .text.FUN_0600b1a0, \"ax\"\n"
+
     ".global _FUN_0600b1a0\n"
     "_course_specific_renderer:\n"
     "_FUN_0600B1A0:\n"
@@ -759,9 +795,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600B4D2, \"ax\"\n"
 
     ".global _FUN_0600B4D2\n"
+
+
+
+    ".section .text.FUN_0600b4d2, \"ax\"\n"
+
     ".global _FUN_0600b4d2\n"
     "_camera_position_lerping:\n"
     "_FUN_0600B4D2:\n"
@@ -1016,9 +1061,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600C010, \"ax\"\n"
 
     ".global _FUN_0600C010\n"
+
+
+
+    ".section .text.FUN_0600c010, \"ax\"\n"
+
     ".global _FUN_0600c010\n"
     "_race_state_machine:\n"
     "_FUN_0600C010:\n"
@@ -1218,9 +1272,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600C170, \"ax\"\n"
 
     ".global _FUN_0600C170\n"
+
+
+
+    ".section .text.FUN_0600c170, \"ax\"\n"
+
     ".global _FUN_0600c170\n"
     "_race_utility_calc:\n"
     "_FUN_0600C170:\n"
@@ -1331,9 +1394,18 @@ __asm__(
 
 
 
+
+
+
+
     ".section .text.FUN_0600D41C, \"ax\"\n"
 
     ".global _FUN_0600D41C\n"
+
+
+
+    ".section .text.FUN_0600d41c, \"ax\"\n"
+
     ".global _FUN_0600d41c\n"
     "_vehicle_state_physics:\n"
     "_FUN_0600D41C:\n"

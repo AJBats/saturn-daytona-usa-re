@@ -61,7 +61,9 @@ extern int PTR_DAT_06005c78;
 extern int PTR_DAT_06005d40;
 extern int PTR_DAT_06006118;
 
+#if 0 /* obj_template_init -- redirected to ASM import via linker PROVIDE */
 void obj_template_init()
+/* REMOVED: conflicting alias */ // void FUN_06004670(void) __attribute__((alias("obj_template_init")));
 {
 
   short uVar1;
@@ -281,6 +283,7 @@ void obj_template_init()
   return;
 
 }
+#endif /* obj_template_init */
 
 /* vdp_char_register -- Register sprite character data and upload pixels to VDP VRAM.
  * param_2 flags: bit2=copy header to display list, bits0-1=VRAM bank select,
@@ -389,6 +392,7 @@ void FUN_0600511e(int param_1, int param_2, int param_3, unsigned int param_4)
   }
 }
 
+#if 0 /* display_list_process -- redirected to ASM import via linker PROVIDE */
 void display_list_process()
 {
 
@@ -475,6 +479,8 @@ void display_list_process()
   return;
 
 }
+#endif /* display_list_process */
+/* REMOVED: conflicting alias */ // void FUN_06005198(void) __attribute__((alias("display_list_process")));
 
 void vec3_angle_calc(param_1, param_2, param_3)
     int *param_1;
@@ -749,7 +755,9 @@ void FUN_060055bc(param_1, param_2, param_3, param_4)
 }
 #endif
 
+#if 0 /* background_layer_init -- redirected to ASM import via linker PROVIDE */
 void background_layer_init()
+/* REMOVED: conflicting alias */ // void FUN_06005788(void) __attribute__((alias("background_layer_init")));
 {
 
   char *puVar1;
@@ -893,6 +901,7 @@ void background_layer_init()
   return;
 
 }
+#endif /* background_layer_init */
 
 /* intro_sequence_frame -- Single frame of intro/attract sequence.
  * Runs 4 subsystems: scene update, animation step, frame counter, render. */
@@ -921,6 +930,7 @@ __asm__(
 );
 
 
+#if 0 /* animation_frame_counter -- redirected to ASM import via linker PROVIDE */
 void animation_frame_counter()
 {
 
@@ -989,6 +999,8 @@ void animation_frame_counter()
   return;
 
 }
+#endif /* animation_frame_counter */
+/* REMOVED: conflicting alias */ // void FUN_06005928(void) __attribute__((alias("animation_frame_counter")));
 
 /* hud_blink_sprite_render -- Render blinking HUD sprite with countdown timer.
  * Decrements countdown at 0x0607EABC each frame. On odd frames: draws

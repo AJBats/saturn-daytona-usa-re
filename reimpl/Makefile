@@ -17,12 +17,12 @@ CFLAGS  := -m2 -mb -Os -Wall -nostdlib -ffreestanding -fno-builtin -ffunction-se
 # batch_cd_system_34.c ICEs with -Os on sh-elf-gcc 13.3.0 — fall back to -O2
 CFLAGS_O2 := -m2 -mb -O2 -Wall -nostdlib -ffreestanding -fno-builtin -ffunction-sections -Iinclude
 LIBGCC  := $(PROJDIR)/tools/sh-elf/lib/gcc/sh-elf/13.3.0/libgcc.a
+BUILDDIR := build
+
 LDSCRIPT := saturn_fixed.ld
 # --noinhibit-exec: 3 ASM functions have 2-byte section alignment padding that
 # overlaps harmlessly with the next function (assembler pads to 4-byte boundary)
 LDFLAGS := -T $(LDSCRIPT) -nostdlib --noinhibit-exec -Map=$(BUILDDIR)/daytona.map
-
-BUILDDIR := build
 
 # Auto-discover source files: drop a .c in src/ and it's included
 C_SRCS   := $(wildcard src/*.c)

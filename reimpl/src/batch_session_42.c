@@ -193,6 +193,7 @@ void cd_session_state_reset()
  * Spins on cd_get_status (0x06035C4E) until required bits
  * (PTR_DAT_060423f6) are set, then reads sector via cd_read (0x06035C54)
  * with mask 0xFBFF. Returns read result. */
+#if 0 /* cd_poll_status_ready -- redirected to ASM import via linker PROVIDE */
 int cd_poll_status_ready()
 {
     unsigned short status_mask = PTR_DAT_060423f6;
@@ -205,6 +206,8 @@ int cd_poll_status_ready()
 
     return (*(int(*)())0x06035C54)(0xFBFF);    /* cd_read_sector */
 }
+#endif /* cd_poll_status_ready */
+/* REMOVED: conflicting alias */ // void FUN_06040C98(void) __attribute__((alias("cd_poll_status_ready")));
 
 
 

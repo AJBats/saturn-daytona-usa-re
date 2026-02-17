@@ -118,6 +118,7 @@ __asm__(
  * Each template entry has: [char_count, row, font_bank]. First part uses
  * font pointer from 0x0605F478, subsequent parts use font table at 0x0604BD72.
  * Chain terminates when sentinel value DAT_060203be is encountered. */
+#if 0 /* object_creation -- redirected to ASM import via linker PROVIDE */
 int object_creation(unsigned int param_1)
 {
     unsigned short sentinel = DAT_060203be;
@@ -139,6 +140,8 @@ int object_creation(unsigned int param_1)
 
     return result;
 }
+#endif /* object_creation */
+/* REMOVED: conflicting alias */ // void FUN_06020366(void) __attribute__((alias("object_creation")));
 
 /* object_destruction -- Render a text string to VDP2 scroll plane.
  * param_1 = character count, param_2 = X column, param_3 = Y row,
@@ -146,6 +149,7 @@ int object_creation(unsigned int param_1)
  * For each character: space (0x20) maps to tile 0/0, others map to
  * (ascii - 0x40) * 2 tile pair. Writes via VDP2 command (0x06028400)
  * at cell position computed from (X + Y*64) * 2. */
+#if 0 /* object_destruction -- redirected to ASM import via linker PROVIDE */
 int object_destruction(char param_1, unsigned int param_2, unsigned int param_3, int param_4)
 {
     char *cmd_buf = (char *)0x0605F44E;
@@ -172,6 +176,8 @@ int object_destruction(char param_1, unsigned int param_2, unsigned int param_3,
     }
     return 0;
 }
+#endif /* object_destruction */
+/* REMOVED: conflicting alias */ // void FUN_06020414(void) __attribute__((alias("object_destruction")));
 
 
 /* vdp1_display_mode_dispatch -- Select VDP1 display mode based on 0x0608780C.

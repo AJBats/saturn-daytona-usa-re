@@ -145,6 +145,7 @@ char display_config_copy(param_1)
  *   0xE2 = word entry (6 bytes: 16-bit value + change mask)
  *   DAT_0603a6fe = variable-length (N+1 bytes, field_count fields) */
 char * cd_command_packet_decode()
+/* REMOVED: conflicting alias */ // void FUN_0603A0B0(void) __attribute__((alias("cd_command_packet_decode")));
 {
   char *field_count;
   char *entry_index;

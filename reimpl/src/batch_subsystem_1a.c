@@ -730,6 +730,7 @@ int FUN_0601b418(void)
  *   Cycles selection index at 0x0608600E through 0-2 range.
  *   Renders 3 sprites via VDP1 draw (0x06028400) with blink effect
  *   on selected item (priority 1 vs 2 based on frame counter bit 2). */
+#if 0 /* menu_item_highlight -- redirected to ASM import via linker PROVIDE */
 void menu_item_highlight()
 {
   char prev_sel;
@@ -773,12 +774,15 @@ void menu_item_highlight()
   } while (idx < 3);
   return;
 }
+#endif /* menu_item_highlight */
+/* REMOVED: conflicting alias */ // void FUN_0601B6DC(void) __attribute__((alias("menu_item_highlight")));
 
 /* dual_column_selector -- two-column menu with per-item value cycling and sprite rendering.
  *   Column 0 at 0x0605D4F4, column 1 at 0x0605D4F5. Active column at 0x0608600E.
  *   D-pad left/right (0x8000 / DAT_0601b87e) cycles value within column bounds.
  *   Renders 3 items per column via VDP1 draw (0x06028400) with blink on selected.
  *   Background scroll rendered via 0x06011AF4 per item. */
+#if 0 /* dual_column_selector -- redirected to ASM import via linker PROVIDE */
 void dual_column_selector()
 {
   char *sprite_table = (char *)0x06063750;
@@ -861,6 +865,8 @@ void dual_column_selector()
   } while (idx < 3);
   return;
 }
+#endif /* dual_column_selector */
+/* REMOVED: conflicting alias */ // void FUN_0601B7F4(void) __attribute__((alias("dual_column_selector")));
 
 /* select_confirm_display -- renders confirmation screen for car/transmission selection.
  *   param_1 = car index (selects sprite at offset 0x30+), param_2 = transmission index
