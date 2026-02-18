@@ -40,7 +40,8 @@ of systematic issues that affect dozens of functions each, and we fix the system
 | 5 | Memory overlay architecture | APROG overwritten by game data | Init code is single-use; most of binary is workspace |
 | 6 | Fall-through function adjacency | FUN_06040B8E→FUN_06040B90 chain broken | 371 functions (30%) in fall-through chains |
 | 7 | Emulator timing sensitivity | FUN_060423CC SCDQ poll hangs with +4 shift | CDB periodic counter race vs instruction timing |
-| 8 | *(next divergence)* | | |
+| 8 | Hardware timer dependency | FUN_0600C010 FTCSR ICF poll never returns | FRT init stubs don't configure timer; ICF never fires |
+| 9 | *(next divergence)* | | |
 
 ## Holy Commandments
 
@@ -947,19 +948,45 @@ or a momentary exception that the game's error handler recovers from. Extended
 frame monitoring (2500+ frames) shows both prod and reimpl run stably with PC
 staying in the game code and system areas — no sustained crash.
 
+### Attract Mode Milestone (2026-02-18)
+
+**Reimpl now reaches 3D attract mode** — full demo playback with highway, mountains,
+billboard, and cars. The demo timer counts down, the state machine transitions from
+state 3 (title_demo) through state progression, and VDP1/VDP2 render the 3D scene.
+
+**Root cause of title screen stall (Class 8: Hardware timer dependency)**:
+
+The vblank sync function FUN_0600BFFC/FUN_0600C010 polls FTCSR bit 7 (ICF = Input
+Capture Flag) at SH-2 register 0xFFFFFE11. ICF is set by the FRT input capture pin
+(FTCI) on edge detection — connected to VDP VBLANK in the Saturn. But FRT init
+functions are L1 stubs that don't configure the timer, so ICF never fires.
+
+**Diagnosis**: The demo timer at 0x0607EBCC decremented exactly once (920→919) then
+the state 3 handler called FUN_0600BFFC for frame sync and NEVER RETURNED. The
+polling loop at 0x0600C11E ran indefinitely.
+
+**Fix**: NOP'd the backward branch in FUN_0600C010.s polling loop — 2 bytes changed:
+`bf -7` (0x8B, 0xF9) → `nop` (0x00, 0x09). The loop body runs once and falls through.
+All other logic (fade counter, ICF clear, function calls) preserved.
+
+| Build | Title Screen | Attract Mode | Binary Size |
+|-------|-------------|-------------|-------------|
+| Production | Yes | Yes (3D cars racing) | 394,896 bytes |
+| Reimpl (SCDQ only) | Yes | No (hung at ICF poll) | 394,892 bytes |
+| Reimpl (SCDQ + ICF) | Yes | **Yes (3D attract demo)** | 394,888 bytes |
+
 ### Current Active Work
 
-**→ Next milestone: L2 elevation for attract mode**
+**→ Hardware bypasses are permanent**
 
-To reach the 3D attract mode, the game state machine needs functional implementations
-of the state transition and rendering functions. This is the natural handoff to the
-L2 pass (workstreams/reimplementation.md Pass 2).
+Both bypasses affect single poll loops and are the correct long-term solution:
+- SCDQ bypass (FUN_060423CC.c): 50M timeout on HIRQ bit 10 poll
+- ICF bypass (FUN_0600C010.s NOP): Skip vblank sync when FRT not configured
 
-**→ SCDQ bypass is permanent**
+**→ Next: investigate attract mode completeness**
 
-The C bypass for FUN_060423CC is the permanent solution. It only affects one function,
-the timeout is generous (50M iterations), and the behavior is identical when SCDQ fires
-normally. No need for emulator-level fixes.
+Does the reimpl cycle through full attract mode? Demo timer countdown → state
+transitions → return to title? Or does it eventually crash/hang on another stub?
 
 **Prior root cause (resolved)**: Unsymbolized absolute addresses in `.byte` pool
 entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sawyer_l2.md`.
@@ -1001,3 +1028,4 @@ handles data restoration.
 *Updated: 2026-02-17 — Memory write watchpoint (T6) + fall-through function adjacency (Class 7, 371 functions)*
 *Updated: 2026-02-17 — BREAKTHROUGH: Free-layout +4 build boots with SCDQ bypass (Class 7: emulator timing sensitivity)*
 *Updated: 2026-02-17 — Title screen milestone: both +0 and +4 render title, stall before attract mode (L1 limitation)*
+*Updated: 2026-02-18 — ATTRACT MODE: ICF NOP bypass (Class 8: hardware timer dependency). 3D demo playback with highway, mountains, cars*

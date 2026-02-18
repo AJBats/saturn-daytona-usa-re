@@ -1,0 +1,140 @@
+/* FUN_0600BFFC — Frame sync with FTCSR ICF timeout bypass
+ *
+ * This is the game's per-frame vblank synchronization function.
+ * Original polls FTCSR bit 7 (ICF = Input Capture Flag) in an unbounded loop.
+ * ICF is set by hardware when the FRT input capture pin (connected to VDP VBLANK)
+ * detects an edge. In the reimpl, FRT init stubs don't configure the timer,
+ * so ICF never fires and the game hangs.
+ *
+ * This C replacement adds a timeout to the ICF polling loop.
+ * All pre-poll and post-poll logic is preserved from the original ASM.
+ *
+ * Original flow (FUN_0600BFFC falls through into FUN_0600C010):
+ *   1. Save registers, set r14=0x80 (ICF mask), r11=1
+ *   2. Conditional calls based on hardware flags
+ *   3. Frame counter updates
+ *   4. Poll FTCSR until (FTCSR & 0x80) == 0x80
+ *   5. Clear FTCSR upper bits, update fade counter
+ *   6. Call FUN_0603C000, adjust counter, return
+ */
+
+extern void FUN_06034708(int);
+extern void sym_0600D336(void);
+extern void FUN_0600D31C(void);
+extern void sym_0602E610(void);
+extern void sym_06027630(int, int);
+extern void FUN_060058FA(void);
+extern void FUN_06006868(void);
+extern void FUN_0600B6A0(void);
+extern void FUN_0601BDEC(void);
+extern void sym_0603C000(void);
+
+extern int sym_0607EBC4;     /* flag word */
+extern int sym_0607EB8C;     /* FUN_06034708 arg pointer */
+extern int sym_0608A52C;     /* frame counter */
+extern char sym_0605A1DD;    /* fade value (byte) */
+extern char sym_06083255;    /* flag byte */
+extern char sym_06078635;    /* flag byte */
+extern int sym_0607EAE0;     /* flag word */
+extern int sym_06089EDC;     /* FUN_06027630 arg */
+extern int sym_06059F30;     /* palette flag */
+extern int sym_0607EA98;     /* palette value */
+extern short sym_06078664;   /* palette target (short) */
+extern int sym_06063574;     /* vblank callback pointer */
+
+/* FUN_0600C170 address — stored to vblank callback pointer */
+extern void FUN_0600C170(void);
+
+void FUN_0600BFFC(void)
+{
+    volatile char *ftcsr = (volatile char *)0xFFFFFE11;
+    int flag_word = sym_0607EBC4;
+    int r9 = 0;
+
+    /* Check 0x06083255 flag — conditional call to FUN_06034708 */
+    if (sym_06083255 != 0) {
+        FUN_06034708(sym_0607EB8C);
+    }
+
+    /* Check flag_word bit 25 (0x02000000) */
+    if (!(flag_word & 0x02000000)) {
+        if ((unsigned char)sym_06078635 != 0) {
+            sym_0600D336();
+        } else {
+            FUN_0600D31C();
+        }
+    }
+
+    /* Check flag_word == 0x00020000 */
+    if (flag_word == 0x00020000) {
+        if (sym_0607EAE0 == 0) {
+            sym_0602E610();
+        }
+    }
+
+    /* Frame counter update: add 48, call FUN_06027630 */
+    sym_0608A52C += 48;
+    sym_06027630(sym_0608A52C, sym_06089EDC);
+
+    /* Palette/fade logic */
+    if (sym_06059F30 == 0) {
+        int v = sym_0607EA98;
+        v = v >> 1;              /* shar = arithmetic shift right */
+        sym_06078664 = (short)v;
+    } else {
+        unsigned char fade = (unsigned char)sym_0605A1DD;
+        sym_06078664 = (short)fade;
+    }
+
+    /* Store vblank callback address */
+    sym_06063574 = (int)&FUN_0600C170;
+
+    /* Write 0xFFFF to 0x21000000 (cache-through write) */
+    *(volatile short *)0x21000000 = (short)0xFFFF;
+
+    /* Conditional call to FUN_060058FA */
+    if (!(flag_word & 0x02800008)) {
+        FUN_060058FA();
+    }
+
+    FUN_06006868();
+    FUN_0600B6A0();
+
+    /* Conditional call to FUN_0601BDEC */
+    if (flag_word != 0x02000000) {
+        FUN_0601BDEC();
+    }
+
+    /* Poll FTCSR ICF (bit 7) WITH TIMEOUT */
+    {
+        int i;
+        r9 = 1;
+        for (i = 0; i < 5000000; i++) {
+            unsigned char val = *ftcsr;
+            if ((val & 0x80) == 0x80)
+                break;
+        }
+        /* Clear upper bits of FTCSR */
+        *ftcsr = *ftcsr & 0x0F;
+    }
+
+    /* Post-poll fade counter management */
+    if (r9 != 0) {
+        /* r9=1 path: increment fade if below threshold */
+        unsigned char fade = (unsigned char)sym_0605A1DD;
+        if (fade < (unsigned char)sym_0607EA98) {
+            sym_0605A1DD = (char)(fade + 1);
+        }
+    } else {
+        /* r9=0 path: decrement fade if above 1 */
+        unsigned char fade = (unsigned char)sym_0605A1DD;
+        if (fade > 1) {
+            sym_0605A1DD = (char)(fade - 1);
+        }
+    }
+
+    sym_0603C000();
+
+    /* Undo frame counter advance */
+    sym_0608A52C -= 48;
+}

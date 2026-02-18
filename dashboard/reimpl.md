@@ -105,7 +105,7 @@
 | Disc injection | PASS | 2026-02-17 |
 | Mednafen boot (+0) | **Title screen** | 2026-02-17 |
 | Mednafen boot (+4 free layout) | **Title screen** | 2026-02-17 |
-| Attract mode | Not reached (L1 stubs don't advance state) | 2026-02-17 |
+| Attract mode (ICF bypass) | **3D demo playback** | 2026-02-18 |
 
 ## Source File Inventory
 
@@ -126,10 +126,10 @@
 
 ## Next Steps
 
-1. L2 elevation pass — advance state machine functions to reach attract mode
-2. Reduce 198 medium/small/tiny functions — improve Ghidra C lifts or replace with ASM
-3. Continue L2 naming/structure pass on highest-priority subsystems
-4. Investigate loop at 0x0600C11E to identify which stubs need real implementations
+1. Investigate attract mode behavior — does demo timer count down and cycle through states?
+2. Fix slave SH-2 "Illegal Instruction" (PC=00000002) — non-fatal but indicates init gap
+3. Reduce 198 medium/small/tiny functions — improve Ghidra C lifts or replace with ASM
+4. Continue L2 naming/structure pass on highest-priority subsystems
 
 ---
-*Last updated: 2026-02-17*
+*Last updated: 2026-02-18*

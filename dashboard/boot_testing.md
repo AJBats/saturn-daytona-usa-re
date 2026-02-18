@@ -99,6 +99,7 @@
 | 2026-02-16 | Sawyer L2 +0 (fixed layout) | Black screen → init | Functionally identical RAM at frame 60-200. Crash at ~frame 1200 |
 | 2026-02-17 | Sawyer L2 +0 (SCDQ bypass) | **Title screen** | Full title: logo, "PRESS START BUTTON", (C) SEGA. Stalls before attract mode |
 | 2026-02-17 | Sawyer L2 +4 (free layout) | **Title screen** | Identical to +0. Proves all pool symbolization correct. SCDQ bypass required |
+| 2026-02-18 | ICF NOP bypass | **Attract mode** | 3D demo playback: highway, mountains, cars, billboard. State machine advances! |
 
 ### 2026-02-12: Size Optimization & Disc Fix
 - Switched Makefile from -O2 → -Os (batch_cd_system_34.c uses -O2 fallback for ICE)
@@ -131,17 +132,26 @@
 - "Illegal Instruction! PC=00000002" is non-fatal (slave SH-2, game continues)
 - Stall point: loop at 0x0600C11E — L1 stubs can't advance game state machine
 
+### 2026-02-18: ICF NOP Bypass & Attract Mode
+- Root cause: FUN_0600C010 polls FTCSR bit 7 (ICF = Input Capture Flag) in unbounded loop
+- ICF is set by FRT FTCI pin edge (connected to VDP VBLANK); FRT init stubs don't configure timer
+- Demo timer at 0x0607EBCC decremented once (920→919) then state 3 handler hung in FUN_0600BFFC
+- **Fix**: NOP'd backward branch in FUN_0600C010.s polling loop (2 bytes: `bf -7` → `nop`)
+- Binary size: 394,888 bytes (8 bytes under original, within budget)
+- **Attract mode reached**: Full 3D demo playback — highway, mountains, billboard, cars
+- Scene matches production build closely (same geometry, textures, UI)
+- Timing differs (no vblank sync = free-running frame rate)
+
 ## Current Reimpl Boot Status
 
 | Metric | Value |
 |--------|-------|
 | Build | Sawyer L2, +4 free layout |
-| Binary size | 394,892 bytes (budget: 394,896) |
-| Boot result | **Title screen** |
-| Furthest point | Main loop → title screen state → stall at 0x0600C11E |
-| Blocker for attract mode | L1 stub functions don't advance state machine |
-| SCDQ bypass | Active (FUN_060423CC.c, 50M timeout) |
+| Binary size | 394,888 bytes (budget: 394,896) |
+| Boot result | **Attract mode** |
+| Furthest point | Main loop → title screen → 3D attract demo |
+| Hardware bypasses | SCDQ (FUN_060423CC.c), ICF poll (FUN_0600C010.s NOP) |
 | Non-fatal issues | "Illegal Instruction! PC=00000002" (slave SH-2) |
 
 ---
-*Last updated: 2026-02-17*
+*Last updated: 2026-02-18*
