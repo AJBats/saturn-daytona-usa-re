@@ -5,9 +5,10 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Road To Boot** | **ACTIVE** | workstreams/road_to_boot.md |
-| 2 | **Sawyer L2** | **Paused** | workstreams/sawyer_l2.md |
-| 3 | **Daytona USA Re-implementation** | **Fallthrough** | workstreams/reimplementation.md |
+| 1 | **Road To Boot** | **ACTIVE** | workstreams/road_to_boot.md — attract mode works (with bypasses) |
+| 2 | **ICF Investigation** | **Resolved** | workstreams/icf_investigation.md — dual-CPU sync, bypass available |
+| 3 | **Sawyer L2** | **Done** | workstreams/sawyer_l2.md — byte-identical, all pools symbolized |
+| 4 | **Reimplementation** | **Fallthrough** | workstreams/reimplementation.md |
 
 ---
 

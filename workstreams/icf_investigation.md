@@ -1,16 +1,17 @@
 # ICF Investigation: Dual-CPU Synchronization in Daytona USA
 
-> **Status**: RESOLVED
+> **Status**: RESOLVED (root cause identified)
 > **Date**: 2026-02-18
-> **Fix**: NOP bypass at 0x0600C124 (correct for current reimpl stage)
+> **Root cause**: Slave SH-2 callback crashes due to incorrect data state (init functions not yet investigated)
+> **Bypass**: NOP over `bf -7` at FUN_0600C010.s line 127 — **reverted to original bytes** for byte-identical default build. Re-apply manually when boot-testing the rebuilt disc.
 
 ## Executive Summary
 
 The ICF polling loop at FUN_0600C010 is part of a **dual-CPU ping-pong synchronization
 mechanism** between the master and slave SH-2 processors. In production, both CPUs
 synchronize via MINIT/SINIT writes. In the reimpl, the slave's callback crashes due
-to incorrect data state (stubbed init functions), breaking the sync. The NOP bypass
-lets the master continue without the slave's response.
+to incorrect data state — the specific init functions responsible have not yet been
+identified. The NOP bypass lets the master continue without the slave's response.
 
 ## The Synchronization Mechanism
 
@@ -110,21 +111,25 @@ FUN_0600C170 calls these functions (all present as raw ASM in reimpl):
 | FUN_06006A9C / FUN_06006CDC | Conditional call | Present (raw ASM) |
 
 All code is byte-identical to production. The difference is **data state** — the
-reimpl's stubbed initialization functions don't set up RAM correctly, causing
-the callback's conditional branches to take wrong paths, eventually reaching
-the panic trap in FUN_06027EDE at 0x06028296.
+reimpl's initialization sequence doesn't set up RAM correctly — the specific
+init functions responsible haven't been identified yet. The callback's conditional
+branches take wrong paths, eventually reaching the panic trap in FUN_06027EDE at
+0x06028296.
 
-## The NOP Fix
+## The NOP Bypass
 
-Changed 2 bytes in `reimpl/src/FUN_0600C010.s` line 127:
-- Before: `0x8B, 0xF9` — `bf -7` (poll loop: branch back if ICF not set)
-- After: `0x00, 0x09` — `nop` (fall through, skip waiting for slave)
+To boot-test the rebuilt disc, change 2 bytes in `reimpl/src/FUN_0600C010.s` line 127:
+- Original: `0x8B, 0xF9` — `bf -7` (poll loop: branch back if ICF not set)
+- Bypass: `0x00, 0x09` — `nop` (fall through, skip waiting for slave)
 
-This is the **correct fix** for the current reimpl stage because:
-1. The slave's callback is broken due to uninitialized data state
-2. Even if we restored the BF, the slave would never write SINIT
-3. The master would hang forever waiting for a response that won't come
-4. With the NOP, the master continues at max speed (no frame sync)
+**Default build has original bytes** (byte-identical policy). The bypass is needed
+for boot testing because:
+1. The slave's callback crashes due to incorrect data state (root cause not yet traced)
+2. The slave never writes SINIT, so the master's ICF is never set
+3. Without the bypass, the master hangs forever at the ICF poll
+
+**Note**: Unlike SCDQ (which has a Makefile flag `SCDQ_FIX=1`), the ICF bypass
+has no opt-in flag yet — it requires a manual 2-byte edit.
 
 ## Implications
 
@@ -137,7 +142,7 @@ The slave being stuck doesn't prevent basic boot.
 ### For Full Reimpl (future)
 
 To restore dual-CPU sync, we would need to:
-1. Fix the init functions that set up data used by FUN_0600C170's call chain
+1. Identify and fix the init functions that set up data used by FUN_0600C170's call chain
 2. Verify the slave's callback completes and writes SINIT
 3. Remove the NOP bypass and restore the original `BF -7`
 4. Validate the frame-sync timing

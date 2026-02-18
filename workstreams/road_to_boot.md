@@ -525,8 +525,8 @@ These categories of bugs will recur. Each instance teaches a pattern.
 6. **Logarithmic bisection**: When divergence occurs over a range of N frames/instructions,
    binary search to narrow to exact point. Don't brute-force scan.
 
-7. **test_boot.ps1 options**: `-Cue vanilla` (original disc), `-Cue rebuilt` (reimpl disc),
-   `-Cue patched` (old pipeline disc). There is NO `-Cue prod` option.
+7. **test_boot.ps1 options**: `-Cue vanilla` (production disc), `-Cue rebuilt` (rebuilt disc, default).
+   There is NO `-Cue prod` option. Pass a full path for custom CUE files.
 
 ### Class 4: Missing Function Definitions (75 functions)
 
@@ -906,9 +906,9 @@ void FUN_060423CC(void) {
 - FUN_06035E00: Has bounded polling loop (counter limit) — safe
 - FUN_060423CC: **Only unbounded SCDQ poll** — fixed by C bypass
 
-**Makefile changes**: Added C compilation support (`-fno-leading-underscore` required
-because sh-elf-gcc prepends `_` to C symbols but ASM `.global` labels have no prefix).
-`.c` files take priority over `.s` files via `filter-out` in the Makefile.
+**Makefile changes**: C patches live in `reimpl/patches/` (not `reimpl/src/`) to avoid
+Make pattern rule collisions. `-fno-leading-underscore` required because sh-elf-gcc
+prepends `_` to C symbols. Patches are opt-in via flags (e.g., `SCDQ_FIX=1`).
 
 **What this means**: The Sawyer L2 relocatable build is **correct**. All 5,062 pool
 entries are properly symbolized. All 1,807 sym_/loc_ labels shift correctly. All 371
@@ -961,8 +961,8 @@ Capture Flag) at SH-2 register 0xFFFFFE11. ICF is set by the **dual-CPU ping-pon
 synchronization mechanism**: the master writes MINIT (0x01000000) to trigger the
 slave's ICF, the slave calls a callback (FUN_0600C170) and writes SINIT (0x01800000)
 to trigger the master's ICF. In the reimpl, the slave's callback crashes into a
-panic trap at 0x06028296 (SETT; BT $) due to uninitialized data state from stubbed
-init functions — so SINIT is never written and the master's ICF is never set.
+panic trap at 0x06028296 (SETT; BT $) due to incorrect data state (specific init
+functions not yet identified) — so SINIT is never written and the master's ICF is never set.
 
 **Diagnosis**: Mednafen instrumentation confirmed 178 one-way MINIT triggers (master→slave)
 with zero SINIT responses (slave→master) in the reimpl, vs alternating MINIT/SINIT in
@@ -980,13 +980,16 @@ All other logic (fade counter, ICF clear, function calls) preserved.
 
 ### Current Active Work
 
-**→ Hardware bypasses are permanent**
+**→ Default build is byte-identical to production** (no bypasses active)
 
-Both bypasses affect single poll loops and are the correct long-term solution:
-- SCDQ bypass (FUN_060423CC.c): 50M timeout on HIRQ bit 10 poll
-- ICF bypass (FUN_0600C010.s NOP): Skip dual-CPU sync poll (slave callback broken)
+Two bypasses exist but are **opt-in only** (byte-identical policy):
+- **SCDQ bypass**: `make SCDQ_FIX=1` compiles `reimpl/patches/FUN_060423CC.c` (50M timeout on HIRQ bit 10 poll)
+- **ICF bypass**: Manual 2-byte edit in `reimpl/src/FUN_0600C010.s` line 127: `0x8B,0xF9` → `0x00,0x09` (NOP over bf -7). No Makefile flag yet.
 
-**→ Attract mode loops fully**
+Both bypasses are needed to boot the rebuilt disc to attract mode. Without them,
+the default (byte-identical) build hangs at the ICF poll.
+
+**→ Attract mode loops fully (with both bypasses applied)**
 
 Verified at 15s/35s/50s/90s: title screen → 3D demo (highway, mountains, cars) →
 high score table (17 entries, scrolling) → back to 3D demo. Stable for 90s+ with

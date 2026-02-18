@@ -1,11 +1,15 @@
 # test_boot.ps1 — Automated Mednafen boot test with screenshot
-# Usage: powershell -ExecutionPolicy Bypass -File tools\test_boot.ps1 [-Cue patched]
+# Usage: powershell -ExecutionPolicy Bypass -File tools\test_boot.ps1 [-Cue rebuilt]
+#
+# Options:  -Cue vanilla   (production disc)
+#           -Cue rebuilt    (rebuilt disc, default)
+#           -Cue <path>    (custom CUE file path)
 #
 # Launches Mednafen, skips BIOS animation (Enter), takes F9 screenshot at title
 # screen, kills Mednafen. Optimized for fast iteration (~12s per trial).
 
 param(
-    [string]$Cue = "patched"
+    [string]$Cue = "rebuilt"
 )
 
 Add-Type -AssemblyName System.Windows.Forms
@@ -39,8 +43,6 @@ if ($Cue -eq "vanilla") {
     $CuePath = Join-Path $ProjectDir "external_resources\Daytona USA (USA)\Daytona USA (USA).cue"
 } elseif ($Cue -eq "rebuilt") {
     $CuePath = Join-Path $ProjectDir "build\disc\rebuilt_disc\daytona_rebuilt.cue"
-} elseif ($Cue -eq "patched") {
-    $CuePath = Join-Path $ProjectDir "build\disc\patched_disc\daytona_patched.cue"
 } else {
     $CuePath = $Cue
 }
