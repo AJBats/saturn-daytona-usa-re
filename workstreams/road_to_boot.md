@@ -973,7 +973,7 @@ All other logic (fade counter, ICF clear, function calls) preserved.
 |-------|-------------|-------------|-------------|
 | Production | Yes | Yes (3D cars racing) | 394,896 bytes |
 | Reimpl (SCDQ only) | Yes | No (hung at ICF poll) | 394,892 bytes |
-| Reimpl (SCDQ + ICF) | Yes | **Yes (3D attract demo)** | 394,888 bytes |
+| Reimpl (SCDQ + ICF) | Yes | **Yes (full attract loop)** | 394,888 bytes |
 
 ### Current Active Work
 
@@ -983,10 +983,14 @@ Both bypasses affect single poll loops and are the correct long-term solution:
 - SCDQ bypass (FUN_060423CC.c): 50M timeout on HIRQ bit 10 poll
 - ICF bypass (FUN_0600C010.s NOP): Skip vblank sync when FRT not configured
 
-**→ Next: investigate attract mode completeness**
+**→ Attract mode loops fully**
 
-Does the reimpl cycle through full attract mode? Demo timer countdown → state
-transitions → return to title? Or does it eventually crash/hang on another stub?
+Verified at 15s/35s/50s/90s: title screen → 3D demo (highway, mountains, cars) →
+high score table (17 entries, scrolling) → back to 3D demo. Stable for 90s+ with
+no crashes. The complete attract mode cycle runs identically to production (different
+timing due to free-running vblank).
+
+**→ Next: investigate START button response (mode select)**
 
 **Prior root cause (resolved)**: Unsymbolized absolute addresses in `.byte` pool
 entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sawyer_l2.md`.

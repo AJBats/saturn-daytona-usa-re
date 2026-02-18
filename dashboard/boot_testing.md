@@ -99,7 +99,7 @@
 | 2026-02-16 | Sawyer L2 +0 (fixed layout) | Black screen → init | Functionally identical RAM at frame 60-200. Crash at ~frame 1200 |
 | 2026-02-17 | Sawyer L2 +0 (SCDQ bypass) | **Title screen** | Full title: logo, "PRESS START BUTTON", (C) SEGA. Stalls before attract mode |
 | 2026-02-17 | Sawyer L2 +4 (free layout) | **Title screen** | Identical to +0. Proves all pool symbolization correct. SCDQ bypass required |
-| 2026-02-18 | ICF NOP bypass | **Attract mode** | 3D demo playback: highway, mountains, cars, billboard. State machine advances! |
+| 2026-02-18 | ICF NOP bypass | **Full attract loop** | 3D demo → high scores → loops. Complete attract cycle runs stable for 90s+ |
 
 ### 2026-02-12: Size Optimization & Disc Fix
 - Switched Makefile from -O2 → -Os (batch_cd_system_34.c uses -O2 fallback for ICE)
@@ -148,8 +148,8 @@
 |--------|-------|
 | Build | Sawyer L2, +4 free layout |
 | Binary size | 394,888 bytes (budget: 394,896) |
-| Boot result | **Attract mode** |
-| Furthest point | Main loop → title screen → 3D attract demo |
+| Boot result | **Full attract loop** |
+| Furthest point | Complete attract cycle: title → 3D demo → high scores → loops |
 | Hardware bypasses | SCDQ (FUN_060423CC.c), ICF poll (FUN_0600C010.s NOP) |
 | Non-fatal issues | "Illegal Instruction! PC=00000002" (slave SH-2) |
 
