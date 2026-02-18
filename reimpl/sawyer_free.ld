@@ -18,7 +18,7 @@ SECTIONS
     . = 0x06003000;
     .text : {
         *(.text.startup)
-        /* 4 bytes of padding -- minimal shift test */
+        /* 4 bytes of padding -- shift test */
         . = . + 4;
         *(SORT_BY_NAME(.text.FUN_*))
     }

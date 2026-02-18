@@ -8,17 +8,24 @@ PROJDIR := /mnt/d/Projects/SaturnReverseTest
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
 
 AS      := $(TOOLDIR)/sh-elf-as
+CC      := $(TOOLDIR)/sh-elf-gcc
 LD      := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 OBJDUMP := $(TOOLDIR)/sh-elf-objdump
+
+CFLAGS  := -m2 -O2 -nostdlib -ffreestanding -ffunction-sections -fno-leading-underscore
 
 BUILDDIR := build
 LDSCRIPT := sawyer.ld
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 
-# Auto-discover .s source files
-ASM_SRCS := $(wildcard src/*.s)
+# Auto-discover .c and .s source files (.c takes priority over .s)
+C_SRCS   := $(wildcard src/*.c)
+ALL_ASM  := $(wildcard src/*.s)
+ASM_SRCS := $(filter-out $(patsubst %.c,%.s,$(C_SRCS)),$(ALL_ASM))
+C_OBJS   := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(C_SRCS))
 ASM_OBJS := $(patsubst src/%.s,$(BUILDDIR)/%.o,$(ASM_SRCS))
+ALL_OBJS := $(C_OBJS) $(ASM_OBJS)
 
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
@@ -35,8 +42,11 @@ $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 	@SIZE=$$(wc -c < $@); echo "Built: $@ ($$SIZE bytes)"
 
-$(ELF): $(ASM_OBJS) $(LDSCRIPT)
-	$(LD) $(LDFLAGS) -o $@ $(ASM_OBJS)
+$(ELF): $(ALL_OBJS) $(LDSCRIPT)
+	$(LD) $(LDFLAGS) -o $@ $(ALL_OBJS)
+
+$(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
