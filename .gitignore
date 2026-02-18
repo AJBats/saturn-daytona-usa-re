@@ -1,23 +1,31 @@
-external_resources/
+# Derived build artifacts
 build/
-ghidra_project/
-**/__pycache__/
+reimpl/build/
+reimpl/daytona_sizing.elf
+reimpl/saturn_fixed.ld
+reimpl/src/trampolines.s
 *.S
 !asm/*.s
 !reimpl/**/*.s
 !experiments/**/*.s
-.claude/
+
+# External / third-party (user provides their own)
+external_resources/
+sotn-reference/
+mednafen/
+ghidra_project/
+
+# Toolchains (built locally via setup scripts)
 tools/sh-elf/
 tools/gcc26-build/
 tools/old-gcc/
-tools/check_prologues.py
-.setup-tmp/
-sotn-reference/
-mednafen/
-.tmp/
-.vscode/
 
-# Generated build artifacts (reimpl two-pass pipeline)
-reimpl/daytona_sizing.elf
-reimpl/saturn_fixed.ld
-reimpl/src/trampolines.s
+# IDE / editor / temp
+.claude/
+.vscode/
+.tmp/
+.setup-tmp/
+**/__pycache__/
+
+# One-off scripts that snuck in untracked
+tools/check_prologues.py
