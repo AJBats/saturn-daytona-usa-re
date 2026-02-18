@@ -1,9 +1,0 @@
-sts.l
-mov.l
-mov.l
-bsr
-nop
-mov.l
-mov.l
-bra
-lds.l

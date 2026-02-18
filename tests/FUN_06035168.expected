@@ -1,8 +1,0 @@
-mov.l
-mov
-cmp/hs
-bf
-mov.l
-mov.l
-jmp
-nop

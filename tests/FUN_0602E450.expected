@@ -1,8 +1,0 @@
-mov
-mov.w
-mov.w
-mov
-cmp/eq
-bt
-bra
-nop

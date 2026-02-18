@@ -1,9 +1,0 @@
-sts
-clrmac
-mac.l
-add
-mac.l
-mov.l
-mac.l
-mov.l
-add

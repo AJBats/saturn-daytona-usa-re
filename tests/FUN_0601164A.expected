@@ -1,7 +1,0 @@
-mov.l
-mov.l
-mov.l
-mov.w
-add
-rts
-mov.w

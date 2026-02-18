@@ -1,9 +1,0 @@
-mov
-add
-mov.b
-cmp/gt
-mov.b
-bt.s
-add
-rts
-add

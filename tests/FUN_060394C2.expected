@@ -1,9 +1,0 @@
-mov.l
-mov
-mov.w
-extu.w
-and
-tst
-bt
-rts
-nop

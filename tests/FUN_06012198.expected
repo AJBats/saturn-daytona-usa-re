@@ -1,8 +1,0 @@
-mov.l
-mov.l
-tst
-bt
-bra
-nop
-bra
-nop

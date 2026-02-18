@@ -1,8 +1,0 @@
-mov.l
-mov.l
-mov.l
-shll2
-add
-mov.l
-jmp
-nop

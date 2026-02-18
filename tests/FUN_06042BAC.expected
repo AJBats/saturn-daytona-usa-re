@@ -1,9 +1,0 @@
-mov
-mov
-shll2
-shll2
-add
-mov.l
-or
-rts
-mov.l

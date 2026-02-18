@@ -1,7 +1,0 @@
-shll2
-mov
-shll2
-add
-mov.l
-rts
-and

@@ -1,8 +1,0 @@
-sts.l
-bsr
-nop
-shll8
-lds.l
-shll2
-rts
-shll

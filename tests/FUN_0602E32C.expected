@@ -1,6 +1,0 @@
-sts.l
-jsr
-nop
-lds.l
-nop
-mov.l

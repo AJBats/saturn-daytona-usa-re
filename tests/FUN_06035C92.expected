@@ -1,7 +1,0 @@
-extu.w
-mov.l
-mov.l
-mov.w
-or
-rts
-mov.w
