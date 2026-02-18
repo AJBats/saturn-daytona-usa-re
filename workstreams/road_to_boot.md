@@ -978,25 +978,58 @@ All other logic (fade counter, ICF clear, function calls) preserved.
 | Reimpl (SCDQ only) | Yes | No (hung at ICF poll) | 394,892 bytes |
 | Reimpl (SCDQ + ICF) | Yes | **Yes (full attract loop)** | 394,888 bytes |
 
+### Menu Navigation Milestone (2026-02-18)
+
+**Reimpl matches production through full menu navigation — 100% state match.**
+
+Automated test (`tools/test_game_navigation.py`) sends identical inputs to both
+production and reimpl, monitoring game state variable at every transition:
+
+| Action | Production | Reimpl | Match |
+|--------|-----------|--------|-------|
+| Boot (1500 frames) | state 3 | state 3 | YES |
+| Press START | state 5 | state 5 | YES |
+| Press A (×3) | state 5 | state 5 | YES |
+| Press A (confirm) | state 1 | state 1 | YES |
+| +300 frames | state 2 | state 2 | YES |
+
+**12/12 state transitions match** across the full menu sequence. Both builds
+follow the same path: 3 (attract) → 5 (menu) → 1 (init) → 2 → 3 (attract loop).
+
+**Key discovery: data variable address shift**
+
+In the free-layout build, data variables defined in `linker_stubs.c` are placed
+after the code section. Because the code section size differs slightly from
+production, all data variables shift by -0x10:
+
+| Symbol | Original (prod) | Reimpl (free) | Shift |
+|--------|-----------------|---------------|-------|
+| sym_0605AD10 (game state) | 0x0605AD10 | 0x0605AD00 | -0x10 |
+| sym_0605B6D8 (input state) | 0x0605B6D8 | 0x0605B6C8 | -0x10 |
+
+This is handled correctly by the code (all references use symbolic names, not
+hardcoded addresses). Only external diagnostic tools need adjustment.
+
+**SCDQ bypass fix**: The original SCDQ timeout returned without acknowledging
+SCDQ. The caller FUN_0603B21C has a BRA retry loop that checks SCDQ ack — without
+it, the caller retries the poll forever. Fixed by force-acknowledging on timeout:
+```c
+FUN_06035C54((int)~0x0400);  /* force ack even on timeout */
+```
+
 ### Current Active Work
 
 **→ Default build is byte-identical to production** (no bypasses active)
 
-Two bypasses exist but are **opt-in only** (byte-identical policy):
-- **SCDQ bypass**: `make SCDQ_FIX=1` compiles `reimpl/patches/FUN_060423CC.c` (50M timeout on HIRQ bit 10 poll)
-- **ICF bypass**: Manual 2-byte edit in `reimpl/src/FUN_0600C010.s` line 127: `0x8B,0xF9` → `0x00,0x09` (NOP over bf -7). No Makefile flag yet.
+Two bypasses activated via `make free`:
+- **SCDQ bypass**: `patches/FUN_060423CC.c` — 1000-iteration timeout + forced acknowledge
+- **ICF bypass**: `patches/FUN_0600C010.s` — NOP over backward branch in ICF poll
 
-Both bypasses are needed to boot the rebuilt disc to attract mode. Without them,
-the default (byte-identical) build hangs at the ICF poll.
+`make free` = `make LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1`
 
-**→ Attract mode loops fully (with both bypasses applied)**
+**→ Full menu navigation works** (attract → START → menus → race init → attract loop)
 
-Verified at 15s/35s/50s/90s: title screen → 3D demo (highway, mountains, cars) →
-high score table (17 entries, scrolling) → back to 3D demo. Stable for 90s+ with
-no crashes. The complete attract mode cycle runs identically to production (different
-timing due to free-running vblank).
-
-**→ Next: investigate START button response (mode select)**
+**→ Next: investigate remaining hangs/crashes deeper into gameplay**
 
 **Prior root cause (resolved)**: Unsymbolized absolute addresses in `.byte` pool
 entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sawyer_l2.md`.
@@ -1040,3 +1073,4 @@ handles data restoration.
 *Updated: 2026-02-17 — Title screen milestone: both +0 and +4 render title, stall before attract mode (L1 limitation)*
 *Updated: 2026-02-18 — ATTRACT MODE: ICF NOP bypass (Class 8: dual-CPU sync dependency). 3D demo playback with highway, mountains, cars*
 *Updated: 2026-02-18 — Class 8 corrected: root cause is slave SH-2 callback crash, not FRT init stubs. See icf_investigation.md*
+*Updated: 2026-02-18 — MENU NAVIGATION: 12/12 state transitions match production. SCDQ patch fixed (force acknowledge). Data variable shift -0x10 discovered.*
