@@ -37,7 +37,8 @@ of systematic issues that affect dozens of functions each, and we fix the system
 | 2 | Observability gaps | Cache vs backing RAM reads | Mednafen debug tools |
 | 3 | Overflow without trampoline | system_init unreachable at 0x060030FC | Every `/* overflow: goes to catchall */` in linker script |
 | 4 | Missing function definitions | FUN_06040C98 → zeros → exception | 75 functions with linker sections but no source code |
-| 5 | *(next divergence)* | | |
+| 5 | Memory overlay architecture | APROG overwritten by game data | Init code is single-use; most of binary is workspace |
+| 6 | *(next divergence)* | | |
 
 ## Holy Commandments
 
@@ -715,6 +716,65 @@ pre-shift address — pointing 4 bytes before the actual target.
 > "Unsymbolized literal .byte entries stay at old addresses and will cause crashes
 > at runtime."
 
+### T5: Function Call Trace Logging — IMPLEMENTED (2026-02-17)
+
+**Implementation** (in `sh7095.h`, `sh7095_ops.inc`, `ss.cpp`, `automation.cpp`):
+
+Added per-instruction call logging to all three SH-2 subroutine instructions:
+- **BSR** (PC-relative 12-bit displacement)
+- **BSRF** (PC-relative via register)
+- **JSR** (absolute via register)
+
+Each logs: `M|S <caller_PC-4> <target_addr>\n` where M=master, S=slave SH-2.
+Guard: `MDFN_UNLIKELY(CallTraceFile != nullptr)` — zero overhead when tracing is off.
+
+Commands:
+- `call_trace <wsl_path>` — open trace file, start logging all calls from both CPUs
+- `call_trace_stop` — close trace file
+
+**Key result**: Confirmed Daytona USA boot is **single-threaded** (zero slave SH-2
+calls across 300 frames / ~600K function calls). Dual CPU analysis is unnecessary.
+
+### Discovery: Daytona USA Memory Architecture (2026-02-17)
+
+Full analysis in `workstreams/overlay_system_study.md`.
+
+**Initial hypothesis (DISPROVED):** We theorized APROG was a disposable bootstrap
+overwritten by overlay data. Investigation of file loader destination addresses proved
+this wrong.
+
+**Corrected understanding:**
+- APROG.BIN is the **complete game engine** — all 1234 functions stay resident in High RAM
+- Overlay files (GAMED.BIN, SLCTD.BIN, etc.) load to **Low RAM** (0x002xxxxx) and
+  **Sound RAM** (0x25Axxxxx), NOT to APROG's address range
+- BSS clearing only zeros 0x06063690-0x060A5404 (266KB ABOVE APROG)
+- APROG code at 0x06003000-0x06063690 stays intact after init
+- 26 data files on disc, loaded via ISO9660 filename API at FUN_06012C3C
+
+**Unsolved anomaly:** Call traces from production and free-layout discs show identical
+raw hex addresses, and the instruction at 0x0601078A differs from the binary on disc.
+If overlays don't overwrite APROG, the cause of this discrepancy is unknown. Possible
+DMA self-modification, memory dump tooling bug, or other unknown mechanism.
+
+### Tooling: Call Trace Comparison Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `tools/call_trace_compare.py` | Launch prod + free, trace calls, map to symbols, diff |
+| `tools/call_trace_determinism.py` | Run prod twice, verify trace determinism |
+| `tools/verify_memory_shift.py` | Boot free disc, dump memory at key offsets |
+| `tools/verify_at_entry.py` | Set breakpoint at _start, dump memory on entry |
+| `tools/verify_load_timing.py` | Check when APROG first appears in memory (frame 46) |
+| `tools/verify_shift_deep.py` | Deep memory comparison across binary at multiple offsets |
+
+### Call Trace Determinism Results (2026-02-17)
+
+Two production runs of the same disc:
+- Run A: 621,759 calls, Run B: 613,758 calls
+- All 613,758 shared calls are **byte-identical** (sequence deterministic)
+- Count variance (~1.3%) is frame timing noise — the sequence is perfect
+- Validates that call trace comparison is a sound methodology
+
 ### Current Active Work
 
 **→ See `workstreams/sawyer_l2.md` — Phase 3 (Free Layout + Boot Test)**
@@ -722,6 +782,11 @@ pre-shift address — pointing 4 bytes before the actual target.
 Root cause is confirmed: unsymbolized absolute addresses in `.byte` pool entries.
 The fix is pool symbolization (Phase 2, already done) + free-layout boot validation
 (Phase 3, in progress).
+
+**Latest discovery**: The free-layout black screen is NOT caused by stale addresses
+(those are all fixed). APROG code stays intact in memory (overlays go to Low RAM/Sound
+RAM, not High RAM). The identical-trace anomaly and instruction discrepancy at 0x0601078A
+remain unsolved. See `workstreams/overlay_system_study.md` for full analysis.
 
 ### Other Pending Items
 
@@ -756,3 +821,4 @@ handles data restoration.
 ---
 *Created: 2026-02-16*
 *Updated: 2026-02-17 — Binary shift experiments (root cause: unsymbolized absolute addresses)*
+*Updated: 2026-02-17 — Call trace infrastructure + overlay study (APROG stays intact, overlays go to Low RAM/Sound RAM)*

@@ -221,50 +221,160 @@ pool entries.
 **Conclusion**: Address relocation within APROG.BIN is COMPLETE. The black screen
 has a different root cause. The PROVIDE fix was necessary but not sufficient.
 
-#### Investigation Round 2 — What Else Could Cause the Black Screen?
+#### Investigation Round 2 — Results
 
-The following assumptions are untested. Each has a specific ground truth test.
-Any one of these being wrong would explain the black screen.
+All internal relocation verified correct. Five tests to find the root cause of the
+persistent black screen after the PROVIDE fix.
 
-**RT1: Byte-Level Diff (linker structural integrity)**
-- Assumption: The free binary is EXACTLY prod content with +4 offset plus address fixups.
-- Test: Compare every single byte — `prod[i]` vs `free[i+4]` for all `i >= 0xFC`.
-  Any unexpected byte difference reveals the linker added alignment padding, reordered
-  sections, or otherwise changed the binary structure.
-- Ground truth source: raw binary bytes (no tools to trust)
+**RT1: Byte-Level Diff — PASS** (tools/byte_diff_test_v2.py)
+- Compared every byte: `prod[i]` vs `free[i+4]` for all `i >= 0xFC`
+- 100% of bytes accounted for. Zero unexpected differences.
+- 5,062 relocated pool entries all show consistent +4 shift.
+- Instruction bytes identical. No linker padding, no section reordering.
 
-**RT2: Round-Trip Injection (disc integrity)**
-- Assumption: `inject_binary.py` puts our exact bytes onto the disc.
-- Test: Extract APROG.BIN back OUT of the disc image and compare byte-for-byte to
-  `reimpl/build/APROG.BIN`. If they differ, the inject script corrupts the binary.
-- Ground truth source: disc image bytes vs build output bytes
+**RT2: Round-Trip Injection — PASS** (tools/rt2_injection_test.py)
+- Extracted APROG.BIN from rebuilt disc image, compared to build output.
+- Every byte matches. Injection is lossless.
+- ISO 9660 directory entry correctly shows 394,900 bytes.
 
-**RT3: Boot Header Size (IP.BIN load size)**
-- Assumption: The Saturn loads all 394,900 bytes of APROG.BIN.
-- Test: Read the IP.BIN boot header from the disc. Check if it hardcodes a load size
-  for APROG.BIN. If it says "load 394,896 bytes", our 394,900-byte binary gets truncated
-  and the last 4 bytes (shifted content) are missing.
-- Ground truth source: IP.BIN hex dump
+**RT3: IP.BIN Boot Header — PASS** (tools/analyze_boot_header.py)
+- IP.BIN does NOT hardcode APROG.BIN file size anywhere.
+- BIOS loads APROG using ISO 9660 directory entry (which inject_binary.py patches).
+- IP.BIN sets up hardware, then jumps to 0x06003000 (the entry point — same in both).
 
-**GT3 (revived): Mednafen Debugger Trace (CPU-level execution)**
-- Previously superseded, now critical. The PROVIDE fix didn't solve the black screen.
-- Test: Boot the free-layout disc in Mednafen. Set breakpoint at 0x06003000 (_start).
-  Step through execution. Watch where the CPU goes. Does it reach FUN_060030FC (at
-  its new address 0x06003100)? Does the init chain proceed? Where does execution
-  diverge from normal?
-- Ground truth source: CPU register and PC values (the ultimate truth)
-- This tells us: crash vs hang vs running-but-not-drawing.
+**RT5: External Data File Scan — PASS** (tools/rt5_scan_data_files.py, rt5_classify_hits.py)
+- Scanned all 25 data files on disc for 4-byte big-endian values in APROG range.
+- 16,315 raw hits across all files — but cross-referencing against FUN_ addresses:
+  - 37 match a FUN_ address, but 25 of 37 are at unaligned offsets in data files
+  - 12 at 4-byte-aligned offsets — ratio (1/3) matches random chance for data
+  - Values like 0x060401FC, 0x0600FDFE appear across unrelated file types (MUSICD, NAMD, OVERD)
+  - Conclusion: ALL are coincidental byte patterns in texture/model/audio data
+- No genuine external pointers into APROG.BIN code space.
 
-**RT5: External Data File Scan (hardcoded cross-references)**
-- Assumption: Only APROG.BIN contains addresses pointing into APROG.BIN's code space.
-- Test: Scan COURSE0.BIN, COURSE1.BIN, COURSE2.BIN, TABLE.BIN, PIT.BIN, POLYGON.BIN
-  for 4-byte big-endian values in the range 0x06003000-0x06063690. If any data file
-  contains such values, they're hardcoded pointers into APROG that become stale after
-  the +4 shift. The Sawyer L1 annotations (46 files in `asm/`) document the parsing
-  code for these files and can help us understand the data formats.
-- Ground truth source: raw hex scan of data files
+**Comprehensive Pool Verification** (tools/verify_all_pools.py)
+- Scanned both binaries at 2-byte stride (catches 2-mod-4 pool entries):
+  - 5,027 correctly shifted +4 (in-binary addresses)
+  - 3,226 correctly static (outside binary)
+  - 23 anomalies at 2-mod-4 offsets — all verified as:
+    - 18 data constants (0x06020002, 0x06040004, 0x06060006, etc.)
+    - 4 instruction byte coincidences (straddling two instructions)
+    - 1 overlapping pool boundary (two 4-byte entries read at 2-byte offset)
+  - **ZERO genuine relocation errors**
 
-**Execution order**: RT2 (quickest, highest suspicion) → RT1 → RT3 → RT5 → GT3
+**GT3: Function Call Trace Comparison — COMPLETE (2026-02-17)**
+
+Built automated call tracing into Mednafen and ran both discs for 300 frames.
+
+**Infrastructure built:**
+- Modified `sh7095_ops.inc`: added `fprintf` logging to BSR, BSRF, JSR handlers
+  (guarded by `MDFN_UNLIKELY(CallTraceFile != nullptr)` for zero overhead when off)
+- Modified `sh7095.h`: added `FILE* CallTraceFile` member to SH7095 class
+- Modified `ss.cpp`: added `Automation_EnableCallTrace(path)` and `Automation_DisableCallTrace()`
+- Modified `automation.cpp`: added `call_trace` and `call_trace_stop` commands
+- Log format: `M|S <caller_PC> <target_addr>` (M=master, S=slave SH-2)
+- Tools: `tools/call_trace_compare.py`, `tools/call_trace_determinism.py`
+
+**Determinism test** (two production runs side by side):
+- Run A: 621,759 calls, Run B: 613,758 calls (~1.3% timing variance)
+- **All 613,758 shared calls are IDENTICAL** — sequence is perfectly deterministic
+- Confirmed: Mednafen call tracing is reliable for comparison
+
+**Prod vs free-layout comparison** (300 frames each):
+- Production: 594,870 master calls, **0 slave calls**
+- Free-layout: 597,573 master calls, **0 slave calls**
+- **Single-threaded boot confirmed** — no slave SH-2 activity
+
+**CRITICAL FINDING: Both traces show IDENTICAL raw hex addresses.**
+- First APROG-range calls appear at line 95,309 (~frame 47)
+- Every call address in the free trace matches the production trace exactly
+- Example: both show `M 0601078A 06000794` — the free trace should show `0601078E` if shifted
+- The +4 shift IS on disc (verified: `sh-elf-nm` shows FUN_06010760 at 0x06010764)
+- The disc image IS correct (extracted APROG matches free-layout binary byte-for-byte)
+- But in-memory execution happens at **production addresses**
+
+**UNSOLVED: Both call traces show identical raw hex addresses**
+
+Both production and free-layout traces show the same addresses despite the +4 shift
+being confirmed on disc. Example: both show `M 0601078A 06000794` — the free trace
+should show `0601078E` if the shifted binary is executing.
+
+Verified: the disc IS correct (extracted APROG matches free-layout, 394,900 bytes).
+`sh-elf-nm` confirms +4 shift in ELF. But in-memory execution uses production addresses.
+
+**Anomaly at 0x0601078A**: APROG.BIN has `0xA01D` (BRA) at that offset, but the trace
+logged a BSR. The instruction in memory differs from the binary on disc. Cause unknown.
+
+**Initial hypothesis (DISPROVED)**: We theorized that game data overlays overwrite
+APROG code in memory. Investigation in `workstreams/overlay_system_study.md` proved
+this wrong — all overlay files load to **Low RAM** (0x002xxxxx) and **Sound RAM**
+(0x25Axxxxx), not to APROG's High RAM range. APROG code stays intact.
+
+**Remaining hypotheses:**
+1. **DMA self-modification** — the init code's DMA transfer setup (FUN_06003A3C,
+   1059 insns) might copy data within High RAM, overwriting some APROG regions
+2. **Memory dump tooling bug** — our `parse_mem_hex()` may have incorrectly parsed
+   the Mednafen dump responses, producing false "NEITHER" results
+3. **The free binary isn't actually executing** — some unknown mechanism causes the
+   production binary to be loaded instead (unlikely but not disproved)
+
+**Next approaches to diagnose:**
+1. **Instruction-level PC trace during init** — capture EVERY PC value during frames
+   46-48, diff between prod and free to find exact divergence instruction
+2. **Single-function enlargement** — instead of shifting everything, make ONE init
+   function bigger and test if boot still works. Isolates shift vs specific function.
+3. **Early memory dump** — dump memory at 0x06003000 immediately after BIOS load
+   (before _start runs) to verify which binary is actually in RAM
+
+**New finding: Section alignment (310 functions at 2-mod-4 addresses)**
+- 948 functions at 0-mod-4 addresses, 310 at 2-mod-4 addresses.
+- Verified: `sh-elf-as` produces sections with `2**0` (1-byte alignment).
+- Linker map confirms no padding between any sections.
+- Section alignment hypothesis ELIMINATED.
+
+**BSRF/BRAF analysis — ELIMINATED**
+- 1,593 BSRF + 79 BRAF = 1,672 PC-relative branch instructions in binary.
+- Zero cross from FUN_ space to _start range.
+- Both source and target shift by same +4, so relative displacement is unchanged.
+
+**IP.BIN code scan — CLEAN**
+- All 32KB of IP.BIN scanned for APROG addresses.
+- Only 2 hits: both are 0x06003000 (header field + jump target).
+- No references to APROG internals — IP.BIN is completely safe.
+
+**Homebrew SDK Comparison (Jo Engine + libyaul)**
+
+Examined two Saturn homebrew SDKs for linker/build differences:
+
+| Feature | Our Sawyer Build | Jo Engine | libyaul |
+|---------|-----------------|-----------|---------|
+| Output format | `elf32-sh` | `coff-sh` | `elf32-sh` |
+| Load address | `0x06003000` | `0x06004000` | `0x06004000` |
+| Linker driver | `sh-elf-ld` (direct) | `sh-elf-gcc -Xlinker` | `sh-elf-gcc` |
+| Section layout | 1,258 `.text.FUN_*` | Single `.text` | Single `.text` |
+| PROVIDE symbols | 4,348 | None | None |
+| Alignment | `2**0` (1-byte) | `ALIGN(0x20)` | Default |
+
+Key differences that could matter:
+1. **Per-function sections**: Neither SDK uses this. Both have a single `.text`.
+2. **PROVIDE symbols**: Neither SDK has any. This is unique to our approach.
+3. **Linker driver**: Both SDKs use `sh-elf-gcc` (passes `-relax` and implicit flags).
+   We call `sh-elf-ld` directly.
+4. **No MEMORY regions**: We don't define MEMORY{} blocks (libyaul does).
+
+None of these differences directly explain the black screen, but the per-function
+section approach and massive PROVIDE count are unusual and worth further investigation.
+
+**Daytona Memory Architecture (studied 2026-02-17)**
+
+See `workstreams/overlay_system_study.md` for full analysis.
+
+Key findings relevant to Sawyer L2:
+- **APROG code stays intact in High RAM** — overlays load to Low RAM and Sound RAM
+- BSS clearing only zeros 0x06063690-0x060A5404 (ABOVE APROG, not within it)
+- 26 data files on disc; 7 are state overlays (446KB each) swapped in Low RAM / Sound RAM
+- The game uses ISO9660 filename-based loading via `FUN_06012C3C`
+- **APROG is the complete game engine** — all 1234 functions stay resident
+- The identical-trace mystery remains unsolved (see above)
 
 **Gate**: game boots with +4 padding (attract mode or better).
 
@@ -359,4 +469,6 @@ computed offsets, or symbols we haven't catalogued.
 
 ---
 *Created: 2026-02-17*
-*Updated: 2026-02-17 — PROVIDE fix applied (commit 7f5310d), relocation complete but black screen persists. Investigation round 2 planned.*
+*Updated: 2026-02-17 — PROVIDE fix applied (commit 7f5310d), relocation complete but black screen persists.*
+*Updated: 2026-02-17 — Investigation Round 2: RT1/RT2/RT3/RT5 all PASS. Zero relocation errors. Section alignment ELIMINATED.*
+*Updated: 2026-02-17 — GT3 Call trace: identical traces unexplained. Overlay hypothesis DISPROVED (overlays go to Low RAM/Sound RAM, APROG stays intact). See overlay_system_study.md.*
