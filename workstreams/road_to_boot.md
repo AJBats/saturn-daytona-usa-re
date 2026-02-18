@@ -38,7 +38,8 @@ of systematic issues that affect dozens of functions each, and we fix the system
 | 3 | Overflow without trampoline | system_init unreachable at 0x060030FC | Every `/* overflow: goes to catchall */` in linker script |
 | 4 | Missing function definitions | FUN_06040C98 → zeros → exception | 75 functions with linker sections but no source code |
 | 5 | Memory overlay architecture | APROG overwritten by game data | Init code is single-use; most of binary is workspace |
-| 6 | *(next divergence)* | | |
+| 6 | Fall-through function adjacency | FUN_06040B8E→FUN_06040B90 chain broken | 371 functions (30%) in fall-through chains |
+| 7 | *(next divergence)* | | |
 
 ## Holy Commandments
 
@@ -219,6 +220,43 @@ The CPU hook is enabled/disabled dynamically via `update_cpu_hook()`:
 2. `frame_advance N` in lockstep, compare registers each step
 3. When divergence found: restart, `--breakpoint-at` the function entry
 4. Step through to find the exact instruction that diverges
+
+### T6: Memory Write Watchpoint — IMPLEMENTED
+
+**Problem**: Need to identify what code writes to a specific memory address and when.
+Frame-level memory dumps show THAT a value changed, but not WHO changed it or WHEN
+during the frame. Critical for tracing data flow through the Saturn's memory system.
+
+**Implementation** (in `ss.cpp`, `scu.inc`, `automation.cpp`, `automation.h`):
+
+Two detection paths — both required because the Saturn has two independent write paths
+to Work RAM High:
+
+1. **CPU writes** — detected inline in `BusRW_DB_CS3` (ss.cpp). Before the write,
+   reads the old value. After the write, reads the new value. If changed, calls
+   `Automation_WatchpointHit()` with PC, PR, address, old/new values, frame number.
+
+2. **SCU DMA writes** — detected inline in `DMA_Write` (scu.inc). The SCU's DMA
+   controller writes directly to WorkRAMH via `ne16_wbo_be<T>()`, completely bypassing
+   `BusRW_DB_CS3`. Same before/after detection pattern.
+
+**Key design decisions**:
+- **No CPU hook overhead**: Watchpoints do NOT use `DBG_SetCPUCallback`. Per-instruction
+  callbacks slow emulation ~100x under software OpenGL (Mesa llvmpipe). Instead,
+  detection is inline in the bus write handlers, guarded by `MDFN_UNLIKELY()`.
+- **Non-blocking logging**: Hits are logged to `watchpoint_hits.txt` in the IPC directory
+  and written to the ack file. No spin-wait pause — emulation continues at full speed.
+- **Watchpoint state** (`automation_wp_active`, `automation_wp_addr`) declared before
+  `#include "scu.inc"` so both CPU and DMA paths can access them.
+
+Commands:
+- `watchpoint <hex_addr>` — set 4-byte write watchpoint on Work RAM High address
+- `watchpoint_clear` — remove watchpoint
+
+**Key result**: Identified that 0x0606367C is written at PC=0x06040BDC (inside
+FUN_06040B90) at frame 691 in production — the write that enables the event queue
+system. This write never occurs in the free-layout build because the fall-through
+chain FUN_06040B8E→FUN_06040B90 is broken by separate linker sections.
 
 ## Phase Plan
 
@@ -647,6 +685,56 @@ for both builds. If the free build hangs polling SCDQ, either:
 exactly where execution diverges. Don't trust the prior session's diagnosis — verify
 with breakpoints.
 
+### Class 7: Fall-Through Function Adjacency (371 functions) (2026-02-17)
+
+**Discovery**: Memory write watchpoint on 0x0606367C (event system flag) revealed the
+write occurs at PC=0x06040BDC, inside FUN_06040B90, at frame 691 in production. This
+write never occurs in the free-layout build.
+
+**Root cause**: FUN_06040B8E is a 2-byte function (`mov.l r14,@-r15` — push r14) that
+**falls through** into FUN_06040B90. In the original binary, they are adjacent:
+```
+06040B8E: 2FE6  mov.l r14,@-r15    ; FUN_06040B8E
+06040B90: 62F3  mov r15,r2         ; FUN_06040B90 (no gap, falls through)
+```
+
+In the reimpl build, each function is in its own `.section .text.FUN_XXXXXXXX`. The
+linker has no obligation to place these sections adjacently. When they are separated,
+FUN_06040B8E's fall-through lands in unrelated code or zeros → crash or wrong behavior.
+
+**Scale**: 371 of 1234 functions (30%) have no `rts` instruction and fall through into
+the next function. These form chains of varying length — some are 2-function pairs,
+others chain up to 20 functions (concentrated in the 0x06032xxx-0x06034xxx range).
+
+**The smoking gun chain**:
+```
+FUN_06040B8E (2 bytes, push r14)
+  ↓ falls through to
+FUN_06040B90 (event callback dispatcher)
+  → calls FUN_06035C48 (returns CD Block base 0x25818000)
+  → stores result to 0x0606367C (event system flag)
+  → enables event queue system
+```
+
+When this chain breaks, 0x0606367C is never written → event queue system never
+initializes → game can't process any events → black screen.
+
+**Fix approach**: Merge each fall-through chain into a single `.section` so the linker
+keeps all functions in the chain adjacent. Either:
+1. Concatenate the `.byte` sequences of all functions in a chain into one section
+2. Use linker script `SORT` ordering to force the correct adjacency
+
+This is a systematic issue affecting 30% of all functions. The fix must handle all
+371 fall-through functions, not just the one that caused this specific failure.
+
+**How this was found**:
+1. Watchpoint on 0x0606367C caught the write: `pc=0x06040BE0 pr=0x06040BDC`
+2. Cross-referenced with `build/aprog.s` → write is `mov.l r0,@r13` at 0x06040BDC
+3. Traced backward: r13 loaded from pool entry pointing to 0x0606367C
+4. Noticed FUN_06040B8E is only 2 bytes in its own section → falls through to FUN_06040B90
+5. Separate sections break adjacency → fall-through broken → write never reached
+6. Scanned all 1234 functions: 371 have no `rts` → systematic fall-through pattern
+
 ### Binary Shift Experiments (2026-02-17)
 
 **Motivation**: The sawyer free-layout build (`sawyer_free.ld`) inserts 4 bytes of
@@ -777,18 +865,23 @@ Two production runs of the same disc:
 
 ### Current Active Work
 
-**→ See `workstreams/sawyer_l2.md` — Phase 3 (Free Layout + Boot Test)**
+**→ Fall-through function adjacency fix (Class 7)**
 
-Root cause is confirmed: unsymbolized absolute addresses in `.byte` pool entries.
-The fix is pool symbolization (Phase 2, already done) + free-layout boot validation
-(Phase 3, in progress).
+Root cause of free-layout black screen: 371 functions (30%) fall through into the
+next function without `rts`. When placed in separate `.section .text.FUN_*` sections,
+the linker doesn't guarantee adjacency, breaking fall-through chains.
 
-**Latest discovery (2026-02-17)**: All tooling validated — binary loads correctly,
-call trace shows proper +4 shift, Sawyer annotations cross-checked against trace.
-The earlier "identical trace" anomaly was a **BIOS timing bug**: Saturn BIOS takes
-~352 frames to load APROG from CD. Traces captured before that were BIOS code
-(same BIOS = same addresses). Post-entry traces show correct +4 shift on every
-APROG address. See `workstreams/sawyer_l2.md` for full results.
+**Verified via memory write watchpoint**: Production disc writes 0x25818000 to
+0x0606367C at frame 691 (PC=0x06040BDC, inside FUN_06040B90). Free-layout build
+never reaches this write because FUN_06040B8E→FUN_06040B90 fall-through is broken.
+
+**Next steps**:
+1. Merge each fall-through chain into a single section in the `.s` files
+2. Rebuild free-layout and boot test
+3. Expect more Class 7 issues — 371 functions affected
+
+**Prior root cause (resolved)**: Unsymbolized absolute addresses in `.byte` pool
+entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sawyer_l2.md`.
 
 ### Other Pending Items
 
@@ -824,3 +917,4 @@ handles data restoration.
 *Created: 2026-02-16*
 *Updated: 2026-02-17 — Binary shift experiments (root cause: unsymbolized absolute addresses)*
 *Updated: 2026-02-17 — Call trace infrastructure + overlay study (APROG stays intact, overlays go to Low RAM/Sound RAM)*
+*Updated: 2026-02-17 — Memory write watchpoint (T6) + fall-through function adjacency (Class 7, 371 functions)*
