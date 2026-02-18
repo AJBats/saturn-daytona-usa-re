@@ -5,10 +5,15 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Road To Boot** | **ACTIVE** | workstreams/road_to_boot.md — attract mode works (with bypasses) |
-| 2 | **ICF Investigation** | **Resolved** | workstreams/icf_investigation.md — dual-CPU sync, bypass available |
-| 3 | **Sawyer L2** | **Done** | workstreams/sawyer_l2.md — byte-identical, all pools symbolized |
-| 4 | **Reimplementation** | **Fallthrough** | workstreams/reimplementation.md |
+| 1 | **SCDQ Root Cause** | **ACTIVE** | workstreams/active_investigation.md |
+| 2 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
+| 3 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
+
+## Investigation Discipline
+
+**No bypass commits without root cause.** A bypass (timeout, NOP, skip) is a diagnostic tool,
+not a fix. You can USE a bypass to unblock testing, but never COMMIT one as the solution.
+If you find yourself writing a workaround, you've found the symptom — now find the cause.
 
 ---
 
