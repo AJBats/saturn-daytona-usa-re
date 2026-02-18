@@ -7,7 +7,7 @@ reimpl/src/trampolines.s
 *.S
 !asm/*.s
 !reimpl/**/*.s
-!experiments/**/*.s
+
 
 # External / third-party (user provides their own)
 external_resources/
@@ -22,6 +22,7 @@ tools/old-gcc/
 
 # IDE / editor / temp
 .claude/
+!.claude/rules/
 .vscode/
 .tmp/
 .setup-tmp/
