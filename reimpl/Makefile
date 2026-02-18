@@ -19,22 +19,29 @@ BUILDDIR := build
 LDSCRIPT := sawyer.ld
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 
-# Auto-discover .c and .s source files (.c takes priority over .s)
-C_SRCS   := $(wildcard src/*.c)
+# Patches (opt-in, default off for byte-identical builds)
+#   make SCDQ_FIX=1   — apply SCDQ bypass (patches/FUN_060423CC.c replaces .s)
+SCDQ_FIX ?= 0
+
+# Auto-discover .s source files
 ALL_ASM  := $(wildcard src/*.s)
-ASM_SRCS := $(filter-out $(patsubst %.c,%.s,$(C_SRCS)),$(ALL_ASM))
-C_OBJS   := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(C_SRCS))
-ASM_OBJS := $(patsubst src/%.s,$(BUILDDIR)/%.o,$(ASM_SRCS))
-ALL_OBJS := $(C_OBJS) $(ASM_OBJS)
+ASM_OBJS := $(patsubst src/%.s,$(BUILDDIR)/%.o,$(ALL_ASM))
+ALL_OBJS := $(ASM_OBJS)
+
+# When SCDQ_FIX=1, compile the C patch and replace the ASM object
+ifeq ($(SCDQ_FIX),1)
+    ALL_OBJS := $(filter-out $(BUILDDIR)/FUN_060423CC.o,$(ALL_OBJS))
+    ALL_OBJS += $(BUILDDIR)/FUN_060423CC_patch.o
+endif
 
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
 
 # Original binary for validation
-ORIGINAL := $(PROJDIR)/build/aprog.bin
+ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
-.PHONY: all clean disc dump info validate
+.PHONY: all clean disc dump info validate shifttest
 
 all: $(BIN)
 
@@ -45,11 +52,12 @@ $(BIN): $(ELF)
 $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(ALL_OBJS)
 
-$(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
+
+# Patch compilation (from patches/ dir, only used when opted in)
+$(BUILDDIR)/%_patch.o: patches/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
@@ -73,10 +81,14 @@ clean:
 	rm -rf $(BUILDDIR)
 
 info:
-	@echo "ASM sources: $(ASM_SRCS)"
-	@echo "Objects:     $(ASM_OBJS)"
+	@echo "ASM sources: $(ALL_ASM)"
+	@echo "Objects:     $(ALL_OBJS)"
 
 # Inject into disc image for Mednafen testing
 disc: $(BIN)
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
+
+# Build with shifted ORIGIN to prove free layout
+shifttest:
+	$(MAKE) LDSCRIPT=sawyer_shifttest.ld
