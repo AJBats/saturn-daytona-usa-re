@@ -18,10 +18,12 @@
 | Metric | Value |
 |--------|-------|
 | Compiler | sh-elf-gcc 13.3.0 |
-| Binary size | 338KB code (padded to 386KB) |
+| Build system | Sawyer L2 relocatable assembly |
+| Binary size | 394,892 bytes (budget: 394,896) |
 | Compilation errors | 0 |
 | Linker errors | 0 |
 | Overflows | 0 |
+| C functions (mixed build) | 1 (FUN_060423CC — SCDQ bypass) |
 | Linker stubs (external data) | ~1500 |
 
 ## L2 Progress
@@ -98,10 +100,12 @@
 
 | Test | Result | Date |
 |------|--------|------|
-| Compilation | PASS | 2026-02-10 |
-| Link | PASS | 2026-02-10 |
-| Disc injection | PASS | 2026-02-10 |
-| Mednafen boot | Black screen (expected for L1) | 2026-02-10 |
+| Compilation | PASS | 2026-02-17 |
+| Link | PASS | 2026-02-17 |
+| Disc injection | PASS | 2026-02-17 |
+| Mednafen boot (+0) | **Title screen** | 2026-02-17 |
+| Mednafen boot (+4 free layout) | **Title screen** | 2026-02-17 |
+| Attract mode | Not reached (L1 stubs don't advance state) | 2026-02-17 |
 
 ## Source File Inventory
 
@@ -122,10 +126,10 @@
 
 ## Next Steps
 
-1. Continue Road to Boot workstream (investigate boot freeze, advance to title screen)
+1. L2 elevation pass — advance state machine functions to reach attract mode
 2. Reduce 198 medium/small/tiny functions — improve Ghidra C lifts or replace with ASM
-3. Begin L2 pass on highest-priority subsystems (naming, structure)
-4. Boot test improvements (VDP init -> colored screen -> attract mode)
+3. Continue L2 naming/structure pass on highest-priority subsystems
+4. Investigate loop at 0x0600C11E to identify which stubs need real implementations
 
 ---
-*Last updated: 2026-02-16*
+*Last updated: 2026-02-17*

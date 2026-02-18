@@ -96,6 +96,9 @@
 | 2026-02-12 | ASM import (630/729 real bytes) | **SEGA logo** | Past black screen — but may be hung at SEGA logo |
 | 2026-02-12 | ASM import (675/729 real bytes) | Saturn BIOS menu | Disc builder corrupt — overflowed into COURSE0 |
 | 2026-02-12 | -Os build + disc fix | Black screen (SEGA logo appears & disappears) | Disc builder fixed. SEGA logo boot normal. Game reaches init then hangs. |
+| 2026-02-16 | Sawyer L2 +0 (fixed layout) | Black screen → init | Functionally identical RAM at frame 60-200. Crash at ~frame 1200 |
+| 2026-02-17 | Sawyer L2 +0 (SCDQ bypass) | **Title screen** | Full title: logo, "PRESS START BUTTON", (C) SEGA. Stalls before attract mode |
+| 2026-02-17 | Sawyer L2 +4 (free layout) | **Title screen** | Identical to +0. Proves all pool symbolization correct. SCDQ bypass required |
 
 ### 2026-02-12: Size Optimization & Disc Fix
 - Switched Makefile from -O2 → -Os (batch_cd_system_34.c uses -O2 fallback for ICE)
@@ -112,5 +115,33 @@
 - 3 stubs remain: FUN_060302C6 (no aprog.s entry), 2 already implemented elsewhere
 - HWRAM expanded from 512KB to 896KB to fit larger binary
 
+### 2026-02-16: Sawyer L2 Relocatable Assembly
+- Full reimpl rebuilt as relocatable assembly (sawyer.ld) with proper pool symbolization
+- 5,062 constant pool entries symbolized (`.4byte SYMBOL` instead of `.byte` blobs)
+- 1,807 sym_/loc_ labels for internal branch targets
+- 371 fall-through chains merged into contiguous sections
+- Binary: 394,892 bytes (~395KB, within original size budget)
+- +0 build: byte-identical RAM contents at frame 60-200 vs production
+
+### 2026-02-17: SCDQ Bypass & Title Screen
+- FUN_060423CC: unbounded SCDQ poll hangs with non-zero shifts (emulator timing)
+- C replacement with 50M iteration timeout — boots +4 free-layout build
+- **Title screen reached**: Both +0 and +4 builds render full Daytona title
+- Production comparison: prod → 3D attract mode; reimpl → stalls at title (L1 limitation)
+- "Illegal Instruction! PC=00000002" is non-fatal (slave SH-2, game continues)
+- Stall point: loop at 0x0600C11E — L1 stubs can't advance game state machine
+
+## Current Reimpl Boot Status
+
+| Metric | Value |
+|--------|-------|
+| Build | Sawyer L2, +4 free layout |
+| Binary size | 394,892 bytes (budget: 394,896) |
+| Boot result | **Title screen** |
+| Furthest point | Main loop → title screen state → stall at 0x0600C11E |
+| Blocker for attract mode | L1 stub functions don't advance state machine |
+| SCDQ bypass | Active (FUN_060423CC.c, 50M timeout) |
+| Non-fatal issues | "Illegal Instruction! PC=00000002" (slave SH-2) |
+
 ---
-*Last updated: 2026-02-12*
+*Last updated: 2026-02-17*

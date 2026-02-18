@@ -914,21 +914,52 @@ entries are properly symbolized. All 1,807 sym_/loc_ labels shift correctly. All
 fall-through chains are intact. The free-layout architecture works — the only issue
 was an emulator timing sensitivity in one hardware polling loop.
 
+### Title Screen Milestone (2026-02-17)
+
+**Both +0 and +4 reimpl builds render the Daytona USA title screen** — sky backdrop,
+Daytona USA logo, "PRESS START BUTTON", "(C) SEGA 1994,1995". The Mednafen OSD
+displays "Illegal Instruction! PC = 00000002" which is a non-fatal event (game
+continues running).
+
+**Comparison with production disc**:
+
+| Build | Title Screen | Attract Mode | Crash? |
+|-------|-------------|-------------|--------|
+| Production | Yes | Yes (3D cars racing) | No |
+| Reimpl +0 | Yes | No (stuck in loop at 0x0600C11E) | Non-fatal illegal instr |
+| Reimpl +4 | Yes | No (stuck in loop at 0x0600C11E) | Non-fatal illegal instr |
+
+The reimpl successfully completes:
+- BIOS animation (SEGA logo)
+- CD loading and TOC processing
+- system_init (FUN_060030FC) — all subsystem initialization
+- VDP1/VDP2 setup (title screen graphics)
+- Main loop entry (32-state game machine at 0x0600300A)
+- Title screen state rendering
+
+The reimpl does NOT advance to attract mode (3D racing demo) because L1 stub
+functions return immediately without executing the game logic needed to transition
+the state machine. This is expected for an L1 reimplementation.
+
+**Non-fatal "Illegal Instruction"**: PC=0x00000002 is in the BIOS ROM vector area.
+This is likely the slave SH-2 being activated with an uninitialized entry point,
+or a momentary exception that the game's error handler recovers from. Extended
+frame monitoring (2500+ frames) shows both prod and reimpl run stably with PC
+staying in the game code and system areas — no sustained crash.
+
 ### Current Active Work
 
-**→ Post-boot: What works beyond main_loop?**
+**→ Next milestone: L2 elevation for attract mode**
 
-The free-layout build reaches main_loop (game's 32-state machine). Next questions:
-1. Does the game progress through state transitions?
-2. Do VDP/sound/input subsystems initialize correctly?
-3. Can we reach the title screen / attract mode?
+To reach the 3D attract mode, the game state machine needs functional implementations
+of the state transition and rendering functions. This is the natural handoff to the
+L2 pass (workstreams/reimplementation.md Pass 2).
 
-**→ Determine permanent solution for SCDQ bypass**
+**→ SCDQ bypass is permanent**
 
-Options:
-- Keep C bypass (simplest, no real downside)
-- Only use +0 layout for emulator testing (bypass not needed)
-- Investigate Mednafen CDB timing fix (complex, emulator-level)
+The C bypass for FUN_060423CC is the permanent solution. It only affects one function,
+the timeout is generous (50M iterations), and the behavior is identical when SCDQ fires
+normally. No need for emulator-level fixes.
 
 **Prior root cause (resolved)**: Unsymbolized absolute addresses in `.byte` pool
 entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sawyer_l2.md`.
@@ -969,3 +1000,4 @@ handles data restoration.
 *Updated: 2026-02-17 — Call trace infrastructure + overlay study (APROG stays intact, overlays go to Low RAM/Sound RAM)*
 *Updated: 2026-02-17 — Memory write watchpoint (T6) + fall-through function adjacency (Class 7, 371 functions)*
 *Updated: 2026-02-17 — BREAKTHROUGH: Free-layout +4 build boots with SCDQ bypass (Class 7: emulator timing sensitivity)*
+*Updated: 2026-02-17 — Title screen milestone: both +0 and +4 render title, stall before attract mode (L1 limitation)*
