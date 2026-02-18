@@ -21,8 +21,9 @@ tools/gcc26-build/
 tools/old-gcc/
 
 # IDE / editor / temp
-.claude/
+.claude/*
 !.claude/rules/
+!.claude/skills/
 .vscode/
 .tmp/
 .setup-tmp/

@@ -21,7 +21,9 @@ LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 
 # Patches (opt-in, default off for byte-identical builds)
 #   make SCDQ_FIX=1   — apply SCDQ bypass (patches/FUN_060423CC.c replaces .s)
+#   make ICF_FIX=1     — apply ICF bypass (patches/FUN_0600C010.s NOPs the slave poll)
 SCDQ_FIX ?= 0
+ICF_FIX  ?= 0
 
 # Auto-discover .s source files
 ALL_ASM  := $(wildcard src/*.s)
@@ -34,6 +36,12 @@ ifeq ($(SCDQ_FIX),1)
     ALL_OBJS += $(BUILDDIR)/FUN_060423CC_patch.o
 endif
 
+# When ICF_FIX=1, assemble the patched .s and replace the original object
+ifeq ($(ICF_FIX),1)
+    ALL_OBJS := $(filter-out $(BUILDDIR)/FUN_0600C010.o,$(ALL_OBJS))
+    ALL_OBJS += $(BUILDDIR)/FUN_0600C010_patch.o
+endif
+
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
@@ -41,7 +49,7 @@ BIN  := $(BUILDDIR)/APROG.BIN
 # Original binary for validation
 ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
-.PHONY: all clean disc dump info validate shifttest
+.PHONY: all clean disc dump info validate shifttest free
 
 all: $(BIN)
 
@@ -58,6 +66,10 @@ $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 # Patch compilation (from patches/ dir, only used when opted in)
 $(BUILDDIR)/%_patch.o: patches/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Patch assembly (from patches/ dir, only used when opted in)
+$(BUILDDIR)/%_patch.o: patches/%.s | $(BUILDDIR)
+	$(AS) --isa=sh2 -big -o $@ $<
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
@@ -89,6 +101,15 @@ disc: $(BIN)
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
-# Build with shifted ORIGIN to prove free layout
+# Build free-layout with +4 shift (the real relocation test)
+#   make free          — build only
+#   make free disc     — build + inject into disc
+free:
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1
+
+# DEPRECATED: sawyer_shifttest.ld has an ORIGIN mismatch (0x06003100 vs BIOS load 0x06003000)
+# Use 'make free' instead for relocation testing
 shifttest:
-	$(MAKE) LDSCRIPT=sawyer_shifttest.ld
+	@echo "WARNING: shifttest is deprecated — ORIGIN mismatch makes it fundamentally broken."
+	@echo "Use 'make free' instead (sawyer_free.ld with +4 shift, SCDQ+ICF bypasses)."
+	@exit 1
