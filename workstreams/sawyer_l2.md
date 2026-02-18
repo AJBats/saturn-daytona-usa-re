@@ -1,6 +1,6 @@
 # Sawyer L2 — Relocatable Assembly Source
 
-> **Status**: Active — Phase 3 PROVIDE fix applied, relocation complete, black screen persists (investigation round 2)
+> **Status**: Active — All tooling validated (memory dump, call trace, annotations). Black screen = unsymbolized pool entries.
 > **Created**: 2026-02-17
 > **Predecessor**: DONE_function_audit.md, ICEBOX_gameplay_extraction.md (Sawyer annotations)
 > **Paused**: road_to_boot.md, reimplementation.md (resume after bootable ASM base)
@@ -292,38 +292,49 @@ Built automated call tracing into Mednafen and ran both discs for 300 frames.
 - The disc image IS correct (extracted APROG matches free-layout binary byte-for-byte)
 - But in-memory execution happens at **production addresses**
 
-**UNSOLVED: Both call traces show identical raw hex addresses**
+**SOLVED: Call traces show identical addresses — BIOS timing bug**
 
-Both production and free-layout traces show the same addresses despite the +4 shift
-being confirmed on disc. Example: both show `M 0601078A 06000794` — the free trace
-should show `0601078E` if the shifted binary is executing.
+Previous traces (100-300 frames from frame 0) showed identical addresses because they
+captured **BIOS code, not APROG**. The Saturn BIOS takes ~352 frames to load APROG from
+disc. During boot, the BIOS copies its CD loading routines into Work RAM High
+(0x06000000+), so BSR/JSR calls from 0x060xxxxx addresses in those traces were BIOS
+calls, not game code. Same BIOS = same addresses = identical traces.
 
-Verified: the disc IS correct (extracted APROG matches free-layout, 394,900 bytes).
-`sh-elf-nm` confirms +4 shift in ELF. But in-memory execution uses production addresses.
+**Fix**: Set breakpoint at 0x06003000 (APROG entry), wait for BIOS to load, THEN
+enable call trace. Post-entry traces show the +4 shift perfectly on every address.
 
-**Anomaly at 0x0601078A**: APROG.BIN has `0xA01D` (BRA) at that offset, but the trace
-logged a BSR. The instruction in memory differs from the binary on disc. Cause unknown.
+**Cross-validation results (2026-02-17):**
+- `tools/early_mem_dump.py --disc both` confirmed:
+  - Production disc → RAM matches production binary (394,896/394,896 = 100%)
+  - Reimpl disc → RAM matches reimpl binary (394,900/394,900 = 100%)
+  - The +4 shifted binary IS correctly loaded into RAM
+  - 324,916 byte differences between the two dumps (constant pool shifts)
+- Post-entry call trace (breakpoint at 0x06003000, then 50 frames):
+  - Production: 936,710 calls, reimpl: 911,274 calls
+  - Every APROG address shows the expected +4 shift:
+    - `_start+6 → FUN_060030FC` (prod) vs `_start+6 → 0x06003100` (reimpl)
+    - Caller and target addresses both shift consistently
+  - Sawyer annotations verified: `_start.s` line 54 has `.4byte FUN_060030FC`,
+    corresponding to `JSR @R1` at offset +6 (0x410B). Trace confirms exactly this.
+- All three earlier hypotheses ELIMINATED:
+  1. ~~DMA self-modification~~ — memory dump at entry+50 frames shows code intact
+  2. ~~Memory dump tooling bug~~ — early_mem_dump.py works correctly
+  3. ~~Free binary not executing~~ — 100% binary match in RAM + shifted traces
 
-**Initial hypothesis (DISPROVED)**: We theorized that game data overlays overwrite
-APROG code in memory. Investigation in `workstreams/overlay_system_study.md` proved
-this wrong — all overlay files load to **Low RAM** (0x002xxxxx) and **Sound RAM**
-(0x25Axxxxx), not to APROG's High RAM range. APROG code stays intact.
+**Remaining investigation: Why does the free-layout black screen?**
+The binary is loaded correctly, the call trace shows shifted addresses, but the game
+still doesn't boot. The remaining suspect: **unsymbolized constant pool entries** in
+the `.byte` instruction blobs. These contain hardcoded production addresses that
+did NOT get the +4 shift through the linker — they point to production-layout
+code that no longer exists at those addresses.
 
-**Remaining hypotheses:**
-1. **DMA self-modification** — the init code's DMA transfer setup (FUN_06003A3C,
-   1059 insns) might copy data within High RAM, overwriting some APROG regions
-2. **Memory dump tooling bug** — our `parse_mem_hex()` may have incorrectly parsed
-   the Mednafen dump responses, producing false "NEITHER" results
-3. **The free binary isn't actually executing** — some unknown mechanism causes the
-   production binary to be loaded instead (unlikely but not disproved)
-
-**Next approaches to diagnose:**
-1. **Instruction-level PC trace during init** — capture EVERY PC value during frames
-   46-48, diff between prod and free to find exact divergence instruction
+**Next approaches:**
+1. **Catalog unsymbolized pool references** — scan `.byte` blobs for 4-byte values
+   that look like APROG addresses (0x0600xxxx) but aren't in `.4byte` entries
 2. **Single-function enlargement** — instead of shifting everything, make ONE init
    function bigger and test if boot still works. Isolates shift vs specific function.
-3. **Early memory dump** — dump memory at 0x06003000 immediately after BIOS load
-   (before _start runs) to verify which binary is actually in RAM
+3. **Instruction-level divergence** — the traces show 936K vs 911K calls (25K fewer
+   in reimpl). Find where the reimpl trace diverges/stops — that's the crash point.
 
 **New finding: Section alignment (310 functions at 2-mod-4 addresses)**
 - 948 functions at 0-mod-4 addresses, 310 at 2-mod-4 addresses.

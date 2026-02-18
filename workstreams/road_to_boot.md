@@ -783,10 +783,12 @@ Root cause is confirmed: unsymbolized absolute addresses in `.byte` pool entries
 The fix is pool symbolization (Phase 2, already done) + free-layout boot validation
 (Phase 3, in progress).
 
-**Latest discovery**: The free-layout black screen is NOT caused by stale addresses
-(those are all fixed). APROG code stays intact in memory (overlays go to Low RAM/Sound
-RAM, not High RAM). The identical-trace anomaly and instruction discrepancy at 0x0601078A
-remain unsolved. See `workstreams/overlay_system_study.md` for full analysis.
+**Latest discovery (2026-02-17)**: All tooling validated — binary loads correctly,
+call trace shows proper +4 shift, Sawyer annotations cross-checked against trace.
+The earlier "identical trace" anomaly was a **BIOS timing bug**: Saturn BIOS takes
+~352 frames to load APROG from CD. Traces captured before that were BIOS code
+(same BIOS = same addresses). Post-entry traces show correct +4 shift on every
+APROG address. See `workstreams/sawyer_l2.md` for full results.
 
 ### Other Pending Items
 
