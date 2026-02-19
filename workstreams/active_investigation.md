@@ -1,43 +1,71 @@
-# ICF Root Cause Investigation
+# Free Build Emulator Compatibility
 
 > **Status**: ACTIVE
-> **Symptom**: Slave SH-2 crashes at 0x06028296 (panic trap) after first ICF trigger in free build
-> **Bypass**: `ICF_FIX=1` — NOPs the master's `bf -7` poll loop in patches/FUN_0600C010.s
-> **Prior work**: workstreams/icf_investigation.md (mechanism documented, root cause not found)
+> **Real hardware**: Free build (+4 shift) boots and runs on real Saturn — verified multiple times
+> **Mednafen**: Two bypasses required — SCDQ_FIX=1 and ICF_FIX=1
+> **Build command**: `make free-disc` (one command, correct flags guaranteed)
 
-## The Problem
+## The Situation
 
-In the free-layout build (+4 shift), the slave SH-2's callback (FUN_0600C170) crashes
-on its first invocation. The slave hits a panic trap (`SETT; BT $`) at 0x06028296
-inside FUN_06027EDE. Since the slave never completes, it never writes SINIT, so the
-master hangs forever at the ICF poll.
+The free-layout build (+4 byte shift) runs correctly on real Saturn hardware.
+On Mednafen, two issues prevent it from booting without bypasses:
 
-**This is real code breakage from the +4 shift**, not an emulator bug (unlike SCDQ).
+| Issue | Symptom | Bypass | Root Cause |
+|-------|---------|--------|------------|
+| **SCDQ** | Master hangs polling HIRQ bit 10 | `SCDQ_FIX=1` | Mednafen CDB timing — theory plausible, fix reverted (unvalidated) |
+| **ICF** | Slave SH-2 panic at 0x0602829A | `ICF_FIX=1` | Unknown — can't test independently (SCDQ blocks first) |
 
-## What We Know
+## SCDQ: What We Know
 
-- All code is byte-identical to production — the shift doesn't change instruction bytes
-- The crash is caused by **incorrect data state** in RAM when the callback runs
-- FUN_0600C170 calls: FUN_0603BF22, FUN_0600B340, FUN_0600AFB2, FUN_0600B914, FUN_06006A9C/FUN_06006CDC
-- The panic trap is at 0x06028296: `sett; bt $` (standard SH-2 halt pattern)
-- Production: alternating MINIT/SINIT every frame. Reimpl: 178x MINIT, 0x SINIT.
+The SCDQ poll loop (FUN_060423CC) reads HIRQ register (0x25890008) bit 10 in a tight loop.
 
-## Key Question
+**CDB fix theory**: `CDB_Read()` doesn't call `CDB_Update()` before returning registers,
+so reads can return stale HIRQ. A patch was attempted but reverted — no validated delta
+(the test that "confirmed" it was actually testing an unshifted binary due to `make disc` bug).
+See `workstreams/scdq_investigation.md` for the patch on standby.
 
-**Why does a +4 code shift cause wrong data state?**
+**Why it works on real hardware**: Real Saturn CD Block registers always return current values.
+No emulation layer can serve stale data. The timing sensitivity only matters in Mednafen.
 
-Most likely: some function earlier in the boot sequence has a PC-relative data reference
-or embedded absolute address that doesn't get relocated in the shifted build. This would
-cause init code to read/write wrong memory, leaving RAM in a bad state for the slave callback.
+**Previous false resolution**: A prior session concluded SCDQ was fully resolved, but the
+test was flawed — `make disc` silently rebuilt the production binary (no shift). The disc
+that booted was actually unshifted production code. Fixed by commit 3f554a1.
 
-## Investigation Plan
+### Open Questions
 
-1. Reproduce the crash without the bypass
-2. Compare RAM state at the moment of first ICF trigger (prod vs free)
-3. Trace FUN_0600C170's call chain to find which data read is wrong
-4. Walk backwards to find the init function that wrote the wrong data
-5. Identify the non-relocatable reference causing the corruption
+1. Can we design a proper A/B test for the CDB fix? (needs controlled before/after comparison)
+2. Is there accumulated timing drift that makes later polls miss their window?
+3. Would a more aggressive Mednafen fix (e.g., always-sync on every HIRQ read) resolve it?
+
+## ICF: What We Know
+
+With SCDQ_FIX=1 active, the master SH-2 reaches the ICF synchronization point
+(FUN_0600C010) and writes to MINIT (0x01000000), waking the slave. The slave's
+callback (FUN_0600C170) crashes, hitting a panic trap at 0x0602829A.
+
+**Bypass**: ICF_FIX=1 NOPs the master's `bf -7` poll loop that waits for SINIT.
+
+**Status**: Cannot determine if this is a real code bug or another emulator artifact.
+Since the free build boots on real Saturn (with no bypasses), ICF likely works on
+real hardware. But we haven't proven this — it could be that ICF works on hardware
+for a different reason than we think.
+
+### Open Questions
+
+1. Is the ICF crash Mednafen-only (like SCDQ)?
+2. What data is wrong in RAM when the slave callback runs?
+3. Does the SCDQ_FIX itself change timing enough to cause the ICF crash?
+
+## Strategic Options
+
+1. **Accept and move on** — both bypasses work, real hardware is fine, focus on reimplementation
+2. **Revisit CDB fix with proper A/B test** — re-apply patch, design controlled validation
+3. **Investigate ICF independently** — build a test that triggers ICF without going through SCDQ
+4. **Root-cause both** — full investigation, proper fixes, no bypasses needed
 
 ## Log
 
-*(investigation entries go here)*
+- 2026-02-18: SCDQ investigation reopened after discovering `make disc` rebuild flaw
+- 2026-02-18: Confirmed free build boots on real Saturn (multiple times)
+- 2026-02-18: Makefile hardened — `make disc` no longer rebuilds, `make free-disc` added
+- 2026-02-18: CDB fix reverted — no validated delta, patch on standby in scdq_investigation.md

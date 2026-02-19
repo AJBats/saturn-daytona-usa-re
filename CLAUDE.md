@@ -5,9 +5,13 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **ICF Root Cause** | **ACTIVE** | workstreams/active_investigation.md — Slave SH-2 crash at 0x0602829A |
+| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — SCDQ + ICF bypasses needed for Mednafen |
 | 2 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 3 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
+
+**Key fact**: Free build (+4 shift) boots on real Saturn. SCDQ and ICF are Mednafen emulator issues.
+Bypasses (`SCDQ_FIX=1`, `ICF_FIX=1`) are legitimate emulator workarounds, not hiding code bugs.
+Build: `make free-disc` (one command, correct flags).
 
 ## Investigation Discipline
 
