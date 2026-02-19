@@ -13,7 +13,7 @@ LD      := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 OBJDUMP := $(TOOLDIR)/sh-elf-objdump
 
-CFLAGS  := -m2 -O2 -nostdlib -ffreestanding -ffunction-sections -fno-leading-underscore
+CFLAGS  := -m2 -Os -nostdlib -ffreestanding -ffunction-sections -fno-leading-underscore
 
 BUILDDIR := build
 LDSCRIPT := sawyer.ld
@@ -23,7 +23,7 @@ LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 #   make SCDQ_FIX=1   — apply SCDQ bypass (patches/FUN_060423CC.c replaces .s)
 #   make ICF_FIX=1     — apply ICF bypass (patches/FUN_0600C010.s NOPs the slave poll)
 #   make CD_FIX=1      — fix CD state machine PAUSE handler (patches/FUN_0603B424.c)
-#                         Fixes TABLE.BIN deadlock. May eliminate need for SCDQ_FIX.
+#                         Fixes TABLE.BIN deadlock (PAUSE with pre-buffered sectors).
 SCDQ_FIX ?= 0
 ICF_FIX  ?= 0
 CD_FIX   ?= 0
@@ -147,12 +147,12 @@ disc:
 #   make free          — build only
 #   make free-disc     — build + inject into disc (preferred)
 free:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1
 
 # Build free-layout AND inject into disc (one command, can't get it wrong)
 free-disc:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 disc-internal
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1 disc-internal
 
 # Internal disc target that DOES rebuild (only called from combined targets)
 disc-internal: $(BIN)
