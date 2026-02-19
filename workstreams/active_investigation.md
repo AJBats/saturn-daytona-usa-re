@@ -1,14 +1,16 @@
 # Free Build Emulator Compatibility
 
 > **Status**: ACTIVE
-> **Real hardware**: Free build (+4 shift) boots and runs on real Saturn — verified multiple times
+> **Real hardware**: NOT TESTED — previous "real Saturn" test was production binary (make disc bug)
 > **Mednafen**: Two bypasses required — SCDQ_FIX=1 and ICF_FIX=1
 > **Build command**: `make free-disc` (one command, correct flags guaranteed)
 
 ## The Situation
 
-The free-layout build (+4 byte shift) runs correctly on real Saturn hardware.
-On Mednafen, two issues prevent it from booting without bypasses:
+The free-layout build (+4 byte shift) has NOT been tested on real hardware.
+A previous "real Saturn test" was actually testing the production binary due to
+the `make disc` rebuild bug (fixed in 3f554a1). On Mednafen, two issues prevent
+it from booting without bypasses:
 
 | Issue | Symptom | Bypass | Root Cause |
 |-------|---------|--------|------------|
@@ -24,8 +26,9 @@ so reads can return stale HIRQ. A patch was attempted but reverted — no valida
 (the test that "confirmed" it was actually testing an unshifted binary due to `make disc` bug).
 See `workstreams/scdq_investigation.md` for the patch on standby.
 
-**Why it works on real hardware**: Real Saturn CD Block registers always return current values.
-No emulation layer can serve stale data. The timing sensitivity only matters in Mednafen.
+**Real hardware theory**: Real Saturn CD Block registers always return current values —
+no emulation layer to serve stale data. SCDQ *should* work on real hardware, but this
+is unverified. The free build has never been properly tested on real Saturn.
 
 **Previous false resolution**: A prior session concluded SCDQ was fully resolved, but the
 test was flawed — `make disc` silently rebuilt the production binary (no shift). The disc
@@ -45,10 +48,9 @@ callback (FUN_0600C170) crashes, hitting a panic trap at 0x0602829A.
 
 **Bypass**: ICF_FIX=1 NOPs the master's `bf -7` poll loop that waits for SINIT.
 
-**Status**: Cannot determine if this is a real code bug or another emulator artifact.
-Since the free build boots on real Saturn (with no bypasses), ICF likely works on
-real hardware. But we haven't proven this — it could be that ICF works on hardware
-for a different reason than we think.
+**Status**: Cannot determine if this is a real code bug or emulator artifact.
+The free build has never been tested on real Saturn, so we don't know if ICF
+works on hardware.
 
 ### Open Questions
 
@@ -58,7 +60,7 @@ for a different reason than we think.
 
 ## Strategic Options
 
-1. **Accept and move on** — both bypasses work, real hardware is fine, focus on reimplementation
+1. **Test on real Saturn** — build with `make free-disc`, burn disc, verify on hardware
 2. **Revisit CDB fix with proper A/B test** — re-apply patch, design controlled validation
 3. **Investigate ICF independently** — build a test that triggers ICF without going through SCDQ
 4. **Root-cause both** — full investigation, proper fixes, no bypasses needed
@@ -66,6 +68,6 @@ for a different reason than we think.
 ## Log
 
 - 2026-02-18: SCDQ investigation reopened after discovering `make disc` rebuild flaw
-- 2026-02-18: Confirmed free build boots on real Saturn (multiple times)
+- 2026-02-18: "Real Saturn" test invalidated — same make disc bug, was testing production binary
 - 2026-02-18: Makefile hardened — `make disc` no longer rebuilds, `make free-disc` added
 - 2026-02-18: CDB fix reverted — no validated delta, patch on standby in scdq_investigation.md

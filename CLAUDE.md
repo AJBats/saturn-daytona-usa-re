@@ -9,8 +9,8 @@
 | 2 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 3 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
-**Key fact**: Free build (+4 shift) boots on real Saturn. SCDQ and ICF are Mednafen emulator issues.
-Bypasses (`SCDQ_FIX=1`, `ICF_FIX=1`) are legitimate emulator workarounds, not hiding code bugs.
+**Key fact**: Free build (+4 shift) has NOT been tested on real Saturn. SCDQ and ICF may be
+emulator artifacts or real code bugs — unknown until tested. Bypasses unblock Mednafen dev-testing.
 Build: `make free-disc` (one command, correct flags).
 
 ## Investigation Discipline

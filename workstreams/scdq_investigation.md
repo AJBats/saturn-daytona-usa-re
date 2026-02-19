@@ -4,7 +4,7 @@
 > **Theory**: Mednafen `CDB_Read()` returns stale HIRQ — plausible but fix had no validated delta
 > **CDB fix**: REVERTED (mednafen commit 97c572d). Patch preserved below if needed for future A/B test.
 > **Bypass**: `reimpl/patches/FUN_060423CC.c` — REQUIRED for Mednafen testing
-> **Real hardware**: Free build boots fine on real Saturn (verified multiple times)
+> **Real hardware**: NOT TESTED — previous test was production binary (make disc bug)
 > **Continued in**: workstreams/active_investigation.md
 
 ## Root Cause
@@ -47,7 +47,8 @@ uint16 CDB_Read(uint32 offset)
 3. **Call trace shows drift** — free build's SCDQ calls stay constant while prod's decrease
 4. **CDB_Read has no sync** — writes call `CDB_Update()`, reads don't
 5. ~~**Fix applied** — free build advances past frame 1200, boots to menu~~
-6. **Real hardware verification** — free build boots and runs on real Saturn hardware
+6. ~~**Real hardware verification** — free build boots and runs on real Saturn hardware~~
+   INVALIDATED: same `make disc` bug — disc contained production binary, not free +4
 
 ### Correction (2026-02-18)
 
@@ -64,11 +65,12 @@ The CDB fix theory is plausible (Mednafen's own TODO acknowledges the issue), bu
 a validated before/after delta, we can't confirm it helps. The fix has been reverted from
 Mednafen (commit 97c572d) and the bypass (`SCDQ_FIX=1`) remains required for dev-testing.
 
-## Why This Doesn't Affect Real Hardware
+## Real Hardware (UNTESTED)
 
-On a real Saturn, reading HIRQ at 0x25890008 returns the **current** hardware register
-value from the CD Block (SH1 processor). There's no emulation layer that could serve
-stale data. The SCDQ bypass was never needed for real hardware — only for Mednafen.
+In theory, a real Saturn reading HIRQ at 0x25890008 returns the **current** hardware
+register value from the CD Block (SH1 processor) — no emulation layer to serve stale
+data. So SCDQ *should* work on real hardware. But this is unverified — the free +4
+build has never been properly tested on real Saturn (previous test was production binary).
 
 ## Call Chain (for reference)
 
