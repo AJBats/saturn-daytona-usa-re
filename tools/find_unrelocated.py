@@ -13,8 +13,8 @@ import os
 
 PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PROD = os.path.join(PROJ, "build", "aprog.bin")
-FREE = os.path.join(PROJ, "reimpl", "build", "APROG.BIN")
+PROD = os.path.join(PROJ, "build", "disc", "files", "APROG.BIN")
+FREE = os.path.join(PROJ, ".tmp", "APROG_free.BIN")
 
 BASE = 0x06003000
 CODE_START = 0x06003100   # First FUN_ section (after _start + 4-byte pad)
