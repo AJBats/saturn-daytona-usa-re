@@ -5,14 +5,15 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Disc File RE** | **ACTIVE** | workstreams/disc_file_re.md — RE TABLE.BIN + SCROLL.BIN to find offset-based APROG.BIN refs |
-| 2 | Free Build Emulator Compat | Paused | workstreams/active_investigation.md — SCDQ + ICF + CD_FIX bypasses boot to menu |
+| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — SCDQ + ICF + CD_FIX bypasses boot to menu |
+| 2 | Disc File RE | Complete | workstreams/disc_file_re.md — DISPROVEN: no offset-based APROG.BIN refs in disc files |
 | 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
 **Free build**: `make free-disc` (SCDQ_FIX=1 + ICF_FIX=1 + CD_FIX=1). Boots to menu with corrupt graphics.
-**New direction**: Instead of chasing SCDQ root cause (circular), RE the disc files the game loads
-to understand if they contain offset-based references back into APROG.BIN that break under +4 shift.
+**Confirmed clean**: All 5,027 internal APROG.BIN pointers properly relocated. Disc files (TABLE.BIN, SCROLL.BIN)
+contain pure game data with no back-references into APROG.BIN. Corrupt graphics likely caused by bypass side effects.
+**Key test needed**: Force bypasses into production binary (no +4 shift) to isolate bypass vs shift as graphics corruption cause.
 
 ## Investigation Discipline
 
