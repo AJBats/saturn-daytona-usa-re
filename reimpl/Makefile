@@ -22,8 +22,11 @@ LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 # Patches (opt-in, default off for byte-identical builds)
 #   make SCDQ_FIX=1   — apply SCDQ bypass (patches/FUN_060423CC.c replaces .s)
 #   make ICF_FIX=1     — apply ICF bypass (patches/FUN_0600C010.s NOPs the slave poll)
+#   make CD_FIX=1      — fix CD state machine PAUSE handler (patches/FUN_0603B424.c)
+#                         Fixes TABLE.BIN deadlock. May eliminate need for SCDQ_FIX.
 SCDQ_FIX ?= 0
 ICF_FIX  ?= 0
+CD_FIX   ?= 0
 
 # Auto-discover .s source files
 ALL_ASM  := $(wildcard src/*.s)
@@ -42,12 +45,27 @@ ifeq ($(ICF_FIX),1)
     ALL_OBJS += $(BUILDDIR)/FUN_0600C010_patch.o
 endif
 
+# When CD_FIX=1, compile the C state machine patch and replace the ASM object
+ifeq ($(CD_FIX),1)
+    ALL_OBJS := $(filter-out $(BUILDDIR)/FUN_0603B424.o,$(ALL_OBJS))
+    ALL_OBJS += $(BUILDDIR)/FUN_0603B424_patch.o
+endif
+
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
 
 # Original binary for validation
 ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
+
+# Config change detection: if flags changed since last build, force a relink.
+# Runs during Makefile parsing (before any targets execute).
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX)
+PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
+ifneq ($(CONFIG_STR),$(PREV_CONFIG))
+    $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
+    $(shell rm -f $(ELF) $(BIN))
+endif
 
 .PHONY: all clean disc dump info validate shifttest free free-disc disc-internal
 
@@ -60,7 +78,7 @@ $(BIN): $(ELF)
 		echo ""; \
 		echo "========================================"; \
 		echo "  FREE BUILD: $$SIZE bytes (+4 shift)"; \
-		echo "  SCDQ_FIX=$(SCDQ_FIX)  ICF_FIX=$(ICF_FIX)"; \
+		echo "  SCDQ_FIX=$(SCDQ_FIX)  ICF_FIX=$(ICF_FIX)  CD_FIX=$(CD_FIX)"; \
 		echo "========================================"; \
 		echo ""; \
 	else \
@@ -69,7 +87,7 @@ $(BIN): $(ELF)
 
 $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(ALL_OBJS)
-	@echo "LDSCRIPT=$(LDSCRIPT) SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX)" > $(BUILDDIR)/.build_config
+	@echo "$(CONFIG_STR)" > $(BUILDDIR)/.build_config
 
 $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
