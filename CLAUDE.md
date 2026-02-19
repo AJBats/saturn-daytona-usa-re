@@ -5,10 +5,9 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **SCDQ Root Cause** | **RESOLVED** | workstreams/DONE_scdq_investigation.md — Mednafen CDB_Read bug |
-| 2 | **ICF Root Cause** | Next up | Slave SH-2 crash at 0x0602829A — bypass in patches/FUN_0600C010.s |
-| 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
-| 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
+| 1 | **ICF Root Cause** | **ACTIVE** | workstreams/active_investigation.md — Slave SH-2 crash at 0x0602829A |
+| 2 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
+| 3 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
 ## Investigation Discipline
 
