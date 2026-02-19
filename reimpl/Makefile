@@ -49,16 +49,27 @@ BIN  := $(BUILDDIR)/APROG.BIN
 # Original binary for validation
 ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
-.PHONY: all clean disc dump info validate shifttest free
+.PHONY: all clean disc dump info validate shifttest free free-disc disc-internal
 
 all: $(BIN)
 
 $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
-	@SIZE=$$(wc -c < $@); echo "Built: $@ ($$SIZE bytes)"
+	@SIZE=$$(wc -c < $@); \
+	if [ "$(LDSCRIPT)" = "sawyer_free.ld" ]; then \
+		echo ""; \
+		echo "========================================"; \
+		echo "  FREE BUILD: $$SIZE bytes (+4 shift)"; \
+		echo "  SCDQ_FIX=$(SCDQ_FIX)  ICF_FIX=$(ICF_FIX)"; \
+		echo "========================================"; \
+		echo ""; \
+	else \
+		echo ".BIN Built: $@ ($$SIZE bytes)"; \
+	fi
 
 $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(ALL_OBJS)
+	@echo "LDSCRIPT=$(LDSCRIPT) SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX)" > $(BUILDDIR)/.build_config
 
 $(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
@@ -97,15 +108,38 @@ info:
 	@echo "Objects:     $(ALL_OBJS)"
 
 # Inject into disc image for Mednafen testing
-disc: $(BIN)
-	@echo "Injecting APROG.BIN into disc image..."
+# SAFETY: does NOT rebuild — injects whatever's already built.
+# This prevents 'make disc' from silently overwriting a free build with production.
+disc:
+	@if [ ! -f $(BIN) ]; then \
+		echo "ERROR: $(BIN) not found. Run 'make' or 'make free' first."; \
+		exit 1; \
+	fi
+	@echo ""
+	@if [ -f $(BUILDDIR)/.build_config ]; then \
+		echo "Injecting: $$(cat $(BUILDDIR)/.build_config)"; \
+	else \
+		echo "WARNING: No .build_config found — unknown build configuration!"; \
+	fi
+	@echo "Binary: $(BIN) ($$(wc -c < $(BIN)) bytes)"
+	@echo ""
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
-# Build free-layout with +4 shift (the real relocation test)
+# Build free-layout with +4 shift (Mednafen dev-test configuration)
 #   make free          — build only
-#   make free disc     — build + inject into disc
+#   make free-disc     — build + inject into disc (preferred)
 free:
 	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1
+
+# Build free-layout AND inject into disc (one command, can't get it wrong)
+free-disc:
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 disc-internal
+
+# Internal disc target that DOES rebuild (only called from combined targets)
+disc-internal: $(BIN)
+	@echo "Injecting APROG.BIN into disc image..."
+	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
 # DEPRECATED: sawyer_shifttest.ld has an ORIGIN mismatch (0x06003100 vs BIOS load 0x06003000)
 # Use 'make free' instead for relocation testing
