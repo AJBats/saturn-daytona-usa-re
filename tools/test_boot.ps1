@@ -5,8 +5,9 @@
 #           -Cue rebuilt    (rebuilt disc, default)
 #           -Cue <path>    (custom CUE file path)
 #
-# Launches Mednafen, skips BIOS animation (Enter), takes F9 screenshot at title
-# screen, kills Mednafen. Optimized for fast iteration (~12s per trial).
+# Launches Mednafen, lets BIOS play through naturally, takes F9 screenshot
+# after game has loaded. No input sent — matches automation-mode conditions.
+# Takes ~25s per trial.
 
 param(
     [string]$Cue = "rebuilt"
@@ -85,24 +86,17 @@ if ($title -match "Error") {
     exit 1
 }
 
-# Wait for Mednafen to finish loading disc and reach BIOS screen
-Start-Sleep -Seconds 4
+# Wait for Mednafen to finish loading disc, BIOS animation plays through naturally.
+# No input sent — this matches automation-mode conditions exactly.
+# BIOS animation ~5s + disc load ~5s + game init ~10s = ~20s to title screen
+Start-Sleep -Seconds 22
 
-# Grab focus and spam Enter to skip BIOS animation
-# (Saturn Start = Enter in Mednafen; send multiple times to ensure it lands)
+# Grab focus for screenshot
 $hwnd = $medProc.MainWindowHandle
 [Win32]::ShowWindow($hwnd, 9) | Out-Null
 Start-Sleep -Milliseconds 200
 [Win32]::SetForegroundWindow($hwnd) | Out-Null
 Start-Sleep -Milliseconds 300
-
-for ($k = 0; $k -lt 5; $k++) {
-    Send-Key 0x0D 0x1C
-    Start-Sleep -Milliseconds 500
-}
-
-# Wait for game to load past license screen to title/attract
-Start-Sleep -Seconds 15
 
 # Re-check process is alive (crash = black screen = no process or frozen)
 $medProc = Get-Process -Name "mednafen" -ErrorAction SilentlyContinue
