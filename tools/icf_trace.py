@@ -1,126 +1,103 @@
 #!/usr/bin/env python3
-"""icf_trace.py — Run free-build disc headless, capture address error traces.
+"""icf_trace.py -- Capture Address Error trace from Mednafen stderr.
 
-Uses Mednafen automation mode (hidden window) to boot the free-layout disc
-and capture any CPU address error exceptions from stderr.
+Runs the free-layout disc (no ICF bypass), advances past the crash point,
+and captures stderr for Address Error trace messages from the instrumented
+Mednafen build.
+
+Our fprintf() calls in sh7095.inc and sh7095_ops.inc produce:
+  [SH2-ADDRERR] Slave: Misaligned N-byte READ/WRITE from/to 0xADDR, PC=0xPC
+  [SH2-ADDRERR] Slave: Odd PC after Branch/DelayBranch: PC=0xPC
+  [SH2-EXCEPT] Slave: CPU Address Error! PC=0xPC ...
 """
 
 import os
 import sys
 import time
 import subprocess
-import tempfile
 
 PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CUE = os.path.join(PROJ, "build", "disc", "rebuilt_disc", "daytona_rebuilt.cue")
-MEDNAFEN_WSL = "/mnt/d/Projects/SaturnReverseTest/mednafen/src/mednafen"
+sys.path.insert(0, os.path.join(PROJ, "tools"))
 
-def wsl_path(win_path):
-    """Convert Windows path to WSL path."""
-    drive = win_path[0].lower()
-    rest = win_path[2:].replace("\\", "/")
-    return f"/mnt/{drive}{rest}"
+from parallel_compare import MednafenInstance, win_to_wsl, TMPDIR
+
+CUE_FREE = os.path.join(PROJ, "build", "disc", "rebuilt_disc", "daytona_rebuilt.cue")
+
 
 def main():
-    duration = int(sys.argv[1]) if len(sys.argv) > 1 else 30
-    print(f"Running for {duration} seconds...")
+    os.makedirs(TMPDIR, exist_ok=True)
+    MednafenInstance.kill_stale()
 
-    # Create IPC directory for automation
-    ipc_dir = tempfile.mkdtemp(prefix="icf_trace_")
-    ipc_dir_wsl = wsl_path(ipc_dir)
-    cue_wsl = wsl_path(CUE)
+    ipc_dir = os.path.join(TMPDIR, "icf_trace")
+    inst = MednafenInstance("free", CUE_FREE, ipc_dir)
 
-    stderr_log = os.path.join(ipc_dir, "stderr.log")
-    stderr_log_wsl = wsl_path(stderr_log)
+    print("Starting Mednafen with free-layout disc (no ICF bypass)...")
+    inst.start()
+    print("Ready.")
 
-    action_file = os.path.join(ipc_dir, "mednafen_action.txt")
-    ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
-
-    # Launch Mednafen in automation mode (starts paused, hidden window)
-    home_wsl = "/tmp/icf_trace_home"
-    launch_cmd = (
-        f'export HOME="{home_wsl}" DISPLAY=:0; '
-        f'mkdir -p "{home_wsl}/.mednafen"; '
-        f'rm -f "{home_wsl}/.mednafen/mednafen.lck"; '
-        f'"{MEDNAFEN_WSL}" '
-        f'--sound 0 --automation "{ipc_dir_wsl}" "{cue_wsl}" '
-        f'2>"{stderr_log_wsl}"'
-    )
-
-    print(f"Launching Mednafen (automation mode, hidden window)...")
-    proc = subprocess.Popen(
-        ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
-        stdout=subprocess.PIPE
-    )
-
-    # Wait for ready
-    for i in range(30):
-        time.sleep(0.5)
-        if os.path.exists(ack_file):
-            try:
-                ack = open(ack_file).read().strip()
-                if "ready" in ack:
-                    print(f"Mednafen ready (attempt {i+1})")
-                    break
-            except:
-                pass
-    else:
-        print("ERROR: Mednafen didn't become ready in 15 seconds")
-        proc.terminate()
-        return
-
-    # Send "run" command to free-run
-    seq = 1
-    with open(action_file, "w", newline="\n") as f:
-        f.write(f"# {seq}\n")
-        f.write("run\n")
-
-    print(f"Sent 'run' command. Emulating for {duration}s...")
-    time.sleep(duration)
-
-    # Send quit
-    seq += 1
+    # Advance in chunks, letting stderr accumulate
+    print("\nAdvancing 1300 frames (past ICF crash point)...")
     try:
-        os.remove(action_file)
+        ack = inst.frame_advance(1300)
+        print(f"  Done: {ack}")
+    except TimeoutError:
+        print("  TIMEOUT (expected if game hangs)")
+
+    # Check slave state
+    try:
+        ack = inst.send("dump_slave_regs")
+        print(f"\n  Slave regs: {ack}")
+    except:
+        print("  (could not dump slave regs)")
+
+    # Shutdown
+    print("\nShutting down...")
+    try:
+        inst.send("quit")
     except:
         pass
-    with open(action_file, "w", newline="\n") as f:
-        f.write(f"# {seq}\n")
-        f.write("quit\n")
-
     time.sleep(2)
-    proc.terminate()
 
-    # Read and analyze stderr
-    print(f"\n=== Analyzing stderr log ===")
-    if os.path.exists(stderr_log):
-        with open(stderr_log, "r") as f:
-            lines = f.readlines()
+    # Read stderr from the process
+    stderr_data = b""
+    if inst.process:
+        try:
+            inst.process.wait(timeout=5)
+        except:
+            inst.process.kill()
+            inst.process.wait()
+        stderr_data = inst.process.stderr.read()
 
-        print(f"Total lines: {len(lines)}")
+    # Filter for our trace messages
+    trace_lines = []
+    all_lines = stderr_data.decode("utf-8", errors="replace").splitlines()
+    for line in all_lines:
+        if "SH2-ADDRERR" in line or "SH2-EXCEPT" in line or "SH2-EXCEPTION" in line:
+            trace_lines.append(line)
 
-        fti_lines = [l for l in lines if "FTI:" in l]
-        addr_err_lines = [l for l in lines if "ADDR_ERR" in l]
+    print(f"\n{'=' * 60}")
+    print(f"Address Error trace messages ({len(trace_lines)} found):")
+    print(f"{'=' * 60}")
+    for line in trace_lines[:100]:  # Show first 100
+        print(f"  {line}")
+    if len(trace_lines) > 100:
+        print(f"  ... ({len(trace_lines) - 100} more)")
 
-        print(f"FTI triggers: {len(fti_lines)}")
-        print(f"Address errors: {len(addr_err_lines)}")
+    # Also save all stderr to file
+    stderr_file = os.path.join(TMPDIR, "icf_trace_stderr.txt")
+    with open(stderr_file, "w") as f:
+        f.write(stderr_data.decode("utf-8", errors="replace"))
+    print(f"\n  Full stderr ({len(all_lines)} lines) saved to: {stderr_file}")
 
-        if fti_lines:
-            print("\n--- FTI triggers ---")
-            for l in fti_lines[:20]:
-                print(l.rstrip())
+    # Save trace lines separately
+    trace_file = os.path.join(TMPDIR, "icf_trace_lines.txt")
+    with open(trace_file, "w") as f:
+        for line in trace_lines:
+            f.write(line + "\n")
+    print(f"  Trace lines saved to: {trace_file}")
 
-        if addr_err_lines:
-            print("\n--- Address Errors ---")
-            for l in addr_err_lines[:20]:
-                print(l.rstrip())
+    print("\nDone.")
 
-        if not fti_lines and not addr_err_lines:
-            print("\nNo FTI or ADDR_ERR found. Last 10 lines:")
-            for l in lines[-10:]:
-                print(l.rstrip())
-    else:
-        print("ERROR: stderr log not found")
 
 if __name__ == "__main__":
     main()

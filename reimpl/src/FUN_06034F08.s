@@ -55,8 +55,7 @@ FUN_06034F08:
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
     .4byte sym_06063574
-    .byte 0x26, 0x06
-    .byte 0x35, 0x74
+    .4byte sym_06063574 + 0x20000000
     .global sym_06034F78
 sym_06034F78:
     .byte 0x2F, 0x16

@@ -5,15 +5,15 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — cache line mechanism proven at one site |
+| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — ICF_FIX eliminated, 2 bypasses remain |
 | 2 | Disc File RE | Complete | workstreams/disc_file_re.md — DISPROVEN: no offset-based APROG.BIN refs in disc files |
 | 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
-**Free build**: `make free-disc` (no fixes by default). Add fixes explicitly: `make free-disc SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1`.
-**Proven mechanism (2026-02-20)**: The +4 code shift causes `MOV.L @(disp,PC),Rn` EAs to shift by +4,
-and at FUN_060030FC D312, this crosses a 16-byte cache line boundary costing +7 cycles (verified in trace).
-Hypothesis: this mechanism repeats globally, causing cumulative timing drift. Not yet proven end-to-end.
+**Free build**: `make free-disc SCDQ_FIX=1 CD_FIX=1` — boots to clean title screen (no ICF_FIX needed).
+**ICF_FIX eliminated (2026-02-20)**: Root cause was a missed cache-through relocation in FUN_06034F08.
+Hardcoded `0x26063574` in constant pool wasn't relocated with +4 shift. Fixed with `.4byte sym + 0x20000000`.
+**Remaining bypasses**: SCDQ_FIX (CD PAUSE timing), CD_FIX (pre-buffered sectors). Both are CD timing issues.
 See `workstreams/active_investigation.md`.
 
 ## Investigation Discipline
