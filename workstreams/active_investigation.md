@@ -1,61 +1,85 @@
 # Free Build Emulator Compatibility
 
-> **Status**: ACTIVE — first instruction-level divergence found via deterministic tracing
+> **Status**: ACTIVE — cache line +7 cycle mechanism proven at one site; global impact TBD
 > **Real hardware**: TESTED (2026-02-19) — confirmed FAILS without SCDQ_FIX
 > **Mednafen**: Boots to menu with SCDQ_FIX=1 + ICF_FIX=1 + CD_FIX=1 (corrupt graphics)
 > **Current build**: `make free-disc` (SCDQ_FIX=1 + ICF_FIX=1 + CD_FIX=1)
 
 ---
 
-## Current Focus: BIOS Copy Loop Divergence (2026-02-20)
+## Root Cause: SH-2 Cache Line Boundary Alignment (2026-02-20)
 
-### What We Found
+### The Problem
 
-Deterministic per-instruction tracing shows the first 901,454 unified trace
-lines are **byte-identical** between retail and free builds. At line 901,455,
-a **23-cycle timing delta** appears — the first observable difference.
+The +4 byte code shift changes the alignment of **data reads relative to
+16-byte cache line boundaries**. This causes some literal pool loads that
+were cache hits in retail to become cache misses in the free build (and
+vice versa). Each extra cache miss costs exactly **7 cycles** on the shared
+`SH7095_mem_timestamp` bus. These timing deltas compound throughout execution.
 
-The source: a **BIOS word-copy loop at `0x00002F00`** executes one extra
-iteration in the free build.
+### Proof: FUN_060030FC Prologue
 
-```
-00002F00: ADD  #4, R14      ; dest pointer += 4
-00002F02: ADD  #1, R4       ; counter++
-00002F04: MOV.L @R5, R3     ; load word from source
-00002F06: MOV.L R3, @R14    ; store word to dest
-00002F08: CMP/GE R11, R4    ; counter >= limit?
-00002F0A: BF/S 00002F00     ; no -> loop
-```
+The first timing divergence after eliminating the BIOS copy loop difference
+occurs at unified trace line 903,540 in the `FUN_060030FC` (system_init)
+prologue. Four consecutive `MOV.L @(disp,PC),Rn` instructions load from
+the literal pool:
 
-- **Retail**: Loop exits at cycle 72820 (BF/S falls through)
-- **Free**: One more iteration, exits at cycle 72843 (+23 cycles)
+| Instruction | Retail ea | Free ea | Cache line | Result |
+|---|---|---|---|---|
+| DA10 (R10) | 0x06003150 | 0x06003154 | 0x50-0x5F | Miss (both) |
+| DB11 (R11) | 0x06003154 | 0x06003158 | 0x50-0x5F | Hit (both) |
+| DD11 (R13) | 0x06003158 | 0x0600315C | 0x50-0x5F | Hit (both) |
+| D312 (R3)  | 0x0600315C | **0x06003160** | 0x50-0x5F / **0x60-0x6F** | Hit/MISS |
 
-**This is a DATA divergence.** The BIOS code is identical in both builds —
-but some value in memory (the loop bound or source data) differs due to the
-+4 byte shift. This is not a cache/timing artifact.
+In retail, all 4 loads fit in cache line 0x50-0x5F. In free, D312 crosses
+into 0x60-0x6F — an extra cache miss costing +7 cycles.
 
-### Next Steps
+**Evidence:**
+- **CCR = 0x01** (cache enable bit) — BIOS enables cache before game code runs
+- **Trace**: memts unchanged after DB11/DD11 (cache hits). After D312:
+  retail memts +1 (hit), free memts +8 (miss).
+- **Arithmetic**: `(PC & ~3) + disp*4` shifts by +4 when code shifts by +4,
+  pushing D312's ea from 0x0600315C to 0x06003160 across the line boundary.
 
-1. **Identify the caller** — trace back from the loop to find who invoked this
-   BIOS routine and what parameters (R4, R5, R11, R14) were passed
-2. **Dump registers** — breakpoint at 0x00002F08 during this invocation,
-   compare R11 (loop limit) between retail and free
-3. **Find the source data** — R11 was loaded from some address; determine if
-   it's in APROG.BIN shifted space or derived from shifted data
-4. **Assess scope** — is this the root cause of corrupt graphics, or just the
-   first of many cascading divergences?
+### Implications
+
+This is NOT fixable by patching individual functions. The +4 shift changes
+cache alignment for ALL literal pool accesses throughout the entire binary.
+The cumulative timing drift is unpredictable and non-uniform:
+- Some functions gain cache misses (slower)
+- Some functions lose cache misses (faster)
+- The net effect: execution timing drifts, CD timing races change, and
+  time-sensitive code (like the SCDQ poll and TABLE.BIN loading) breaks.
+
+### Possible Solutions
+
+1. **Pad to 16-byte alignment**: Instead of +4, pad to the next 16-byte
+   boundary so literal pool alignment is preserved. (Would need to verify
+   this eliminates the cache effect — might shift alignment differently.)
+2. **Cache-aware linker**: Place each function at an address that preserves
+   its original cache line alignment for literal pool accesses.
+3. **Accept the timing difference**: Some timing drift is inevitable with
+   any code movement. The key question is whether the game can tolerate it.
+
+### Previous Divergence: BIOS Copy Loop (line 901,455)
+
+The very first divergence in the unified trace is a BIOS word-copy loop at
+`0x00002F00` that does +1 iteration in the free build (+23 cycles). This is
+caused by the +4 byte size difference in APROG.BIN being passed to the BIOS
+loader. This was eliminated by using a "padded retail" binary (retail + 4
+zero bytes at end) to match the free build size.
 
 ### Trace Files
 
-- `build/traces/retail_clean_run1_1000f.txt` — golden retail unified trace (146 MB)
-- `build/traces/unified_free_nofixes_1000f.txt` — golden free unified trace (158 MB)
-- `build/traces/insn_retail_wide.txt` — retail per-instruction trace, lines 901450-901460 (3.3 MB)
-- `build/traces/insn_free_wide.txt` — free per-instruction trace, same window (3.3 MB)
+- `build/traces/insn_padded_retail_903535_903545.txt` — padded retail with per-instruction detail (179 MB)
+- `build/traces/insn_free_903535_903545.txt` — free build with per-instruction detail (182 MB)
+- `build/traces/unified_padded_retail_1000f.txt` — padded retail call-level trace (144 MB)
+- `build/traces/unified_free_nofixes_1000f.txt` — free call-level trace (157 MB)
 
 ### Tools
 
-- `tools/unified_trace.py` — capture unified trace for any build
 - `tools/capture_insn_traces.py` — capture per-instruction traces around divergence
+- `tools/process_free_trace.py` — normalize free trace addresses for comparison
 
 ---
 

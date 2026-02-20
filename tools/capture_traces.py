@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""capture_insn_traces.py — Capture unified traces with per-instruction detail.
+"""capture_traces.py — Capture unified traces for two disc images.
 
-Boots each disc in deterministic mode, enables unified trace + insn_trace_unified
-around the divergence region, advances frames, and outputs the result.
-
-The per-instruction lines are interleaved into the unified trace between the
-start and stop lines, giving cycle-exact timing for every instruction.
+Boots each disc in deterministic mode, enables unified tracing from frame 0,
+advances exactly N frames, stops trace, and quits.
 
 Usage:
-    python tools/capture_insn_traces.py [--start 903535] [--stop 903545] [--frames 1000]
+    python tools/capture_traces.py --frames 1000
 """
 
 import os
@@ -20,11 +17,10 @@ import argparse
 PROJDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDNAFEN = os.path.join(PROJDIR, "mednafen", "src", "mednafen")
 CUE_REBUILT = os.path.join(PROJDIR, "build", "disc", "rebuilt_disc", "daytona_rebuilt.cue")
-PROD_BIN = os.path.join(PROJDIR, "build", "disc", "files", "APROG.BIN")
-INJECT_SCRIPT = os.path.join(PROJDIR, "tools", "inject_binary.py")
+CUE_RETAIL = os.path.join(PROJDIR, "external_resources", "Daytona USA (USA)",
+                          "Daytona USA (USA).cue")
 TMPDIR = os.path.join(PROJDIR, ".tmp")
 TRACEDIR = os.path.join(PROJDIR, "build", "traces")
-EXPERIMENT_DIR = os.path.join(PROJDIR, "build", "experiments")
 
 
 def win_to_wsl(path):
@@ -154,60 +150,29 @@ def kill_stale():
     time.sleep(0.5)
 
 
-def create_padded_retail():
-    """Create retail APROG.BIN + 4 zero bytes at the end."""
-    os.makedirs(EXPERIMENT_DIR, exist_ok=True)
-    with open(PROD_BIN, "rb") as f:
-        data = f.read()
-    padded = data + b'\x00' * 4
-    out_path = os.path.join(EXPERIMENT_DIR, "padded_retail.bin")
-    with open(out_path, "wb") as f:
-        f.write(padded)
-    print(f"    Padded retail: {len(data)} -> {len(padded)} bytes")
-    return out_path
-
-
-def inject_binary(bin_path):
-    """Inject a binary into the rebuilt disc."""
-    result = subprocess.run(
-        [sys.executable, INJECT_SCRIPT, bin_path],
-        capture_output=True, text=True
-    )
-    if result.returncode != 0:
-        print(f"    Injection FAILED:\n{result.stderr}")
-        sys.exit(1)
-    print(f"    Injection OK")
-
-
-def capture_insn_trace(name, cue_path, trace_path, num_frames, insn_start, insn_stop):
-    """Boot, enable unified trace + insn_trace_unified, advance N frames."""
+def capture_trace(name, cue_path, trace_path, num_frames):
+    """Boot a disc, enable unified trace, advance N frames, stop."""
     print(f"\n{'='*60}")
     print(f"  CAPTURING: {name}")
+    print(f"  CUE: {cue_path}")
     print(f"  Trace: {trace_path}")
-    print(f"  Insn detail: lines {insn_start} to {insn_stop}")
     print(f"  Frames: {num_frames}")
     print(f"{'='*60}")
 
-    ipc_dir = os.path.join(TMPDIR, f"insn_trace_{name}")
+    ipc_dir = os.path.join(TMPDIR, f"trace_{name}")
     emu = MednafenInstance(name, cue_path, ipc_dir)
 
     kill_stale()
     emu.start()
 
-    # Set deterministic mode FIRST
+    # Set deterministic mode FIRST (before any frames run)
     print("    Setting deterministic mode...")
     emu.send("deterministic")
 
-    # Enable unified trace (call + CD events -> file)
+    # Enable unified trace
     trace_wsl = win_to_wsl(trace_path)
     print(f"    Enabling unified trace -> {trace_wsl}")
     ack = emu.send(f"unified_trace {trace_wsl}")
-    print(f"    {ack}")
-
-    # Enable per-instruction tracing for the target region
-    # This will interleave per-instruction lines into the unified trace file
-    print(f"    Enabling insn_trace_unified {insn_start} {insn_stop}...")
-    ack = emu.send(f"insn_trace_unified {insn_start} {insn_stop}")
     print(f"    {ack}")
 
     # Advance frames in batches
@@ -217,7 +182,7 @@ def capture_insn_trace(name, cue_path, trace_path, num_frames, insn_start, insn_
     for start in range(0, num_frames, BATCH):
         n = min(BATCH, num_frames - start)
         try:
-            emu.frame_advance(n, timeout=600)
+            emu.frame_advance(n, timeout=120)
         except TimeoutError:
             print(f"    *** HANG at frame ~{start}")
             break
@@ -226,12 +191,9 @@ def capture_insn_trace(name, cue_path, trace_path, num_frames, insn_start, insn_
             elapsed = time.time() - t0
             print(f"    frame {done}/{num_frames} ({elapsed:.1f}s)")
 
-    # Stop traces
-    print("    Stopping traces...")
-    try:
-        emu.send("unified_trace_stop")
-    except Exception as e:
-        print(f"    unified_trace_stop: {e}")
+    # Stop trace
+    print("    Stopping unified trace...")
+    emu.send("unified_trace_stop")
 
     elapsed = time.time() - t0
     emu.quit()
@@ -239,6 +201,7 @@ def capture_insn_trace(name, cue_path, trace_path, num_frames, insn_start, insn_
     # Report
     if os.path.exists(trace_path):
         size = os.path.getsize(trace_path)
+        # Count lines quickly
         with open(trace_path, "rb") as f:
             lines = sum(1 for _ in f)
         print(f"    Done: {size:,} bytes, {lines:,} lines ({elapsed:.1f}s)")
@@ -247,83 +210,71 @@ def capture_insn_trace(name, cue_path, trace_path, num_frames, insn_start, insn_
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Capture instrumented unified traces")
+    parser = argparse.ArgumentParser()
     parser.add_argument("--frames", type=int, default=1000,
                         help="Number of frames to capture (default: 1000)")
-    parser.add_argument("--start", type=int, default=903535,
-                        help="Unified line to start insn tracing (default: 903535)")
-    parser.add_argument("--stop", type=int, default=903545,
-                        help="Unified line to stop insn tracing (default: 903545)")
     args = parser.parse_args()
 
     os.makedirs(TRACEDIR, exist_ok=True)
 
-    print("=" * 60)
-    print("  INSTRUMENTED TRACE CAPTURE")
-    print(f"  Per-instruction detail: lines {args.start} to {args.stop}")
-    print("=" * 60)
+    print("="*60)
+    print("  TRACE CAPTURE — Padded Retail vs Free")
+    print("="*60)
 
-    # Step 1: Create and inject padded retail
-    print("\n  Preparing padded retail binary...")
-    padded_bin = create_padded_retail()
-    inject_binary(padded_bin)
-
-    # Step 2: Capture padded retail trace
-    capture_insn_trace(
-        "padded_retail_insn",
+    # Trace 1: Padded retail (currently on rebuilt disc)
+    capture_trace(
+        "padded_retail",
         CUE_REBUILT,
-        os.path.join(TRACEDIR, f"insn_padded_retail_{args.start}_{args.stop}.txt"),
+        os.path.join(TRACEDIR, f"unified_padded_retail_{args.frames}f.txt"),
         args.frames,
-        args.start,
-        args.stop,
     )
 
-    # Step 3: Build and inject free binary
+    # Now inject the free binary and capture its trace
     print(f"\n{'='*60}")
-    print("  BUILDING AND INJECTING FREE BINARY")
+    print("  INJECTING FREE BINARY FOR TRACE 2")
     print(f"{'='*60}")
 
     free_bin = os.path.join(PROJDIR, "reimpl", "build", "APROG.BIN")
-    # Always rebuild free to make sure it's current
-    print("    Building free binary...")
-    result = subprocess.run(
-        ["wsl", "-d", "Ubuntu", "-e", "bash", "-c",
-         "cd /mnt/d/Projects/SaturnReverseTest/reimpl && make free 2>&1 | tail -5"],
-        capture_output=True, text=True
-    )
-    print(f"    {result.stdout.strip()}")
     if not os.path.exists(free_bin):
-        print(f"    ERROR: {free_bin} not found!")
+        print(f"  ERROR: {free_bin} not found. Run 'make -C reimpl free' first.")
         sys.exit(1)
 
+    # Verify it's the free build (should be 394900 bytes)
     free_size = os.path.getsize(free_bin)
-    print(f"    Free binary: {free_size} bytes")
-    inject_binary(free_bin)
+    print(f"  Free binary: {free_bin} ({free_size} bytes)")
+    if free_size != 394900:
+        print(f"  WARNING: Expected 394900 bytes, got {free_size}!")
 
-    # Step 4: Capture free trace
-    capture_insn_trace(
-        "free_insn",
+    result = subprocess.run(
+        ["python", os.path.join(PROJDIR, "tools", "inject_binary.py"), free_bin],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        print(f"  Injection failed:\n{result.stderr}")
+        sys.exit(1)
+    print("  Injection OK")
+
+    # Trace 2: Free build
+    capture_trace(
+        "free_nofixes",
         CUE_REBUILT,
-        os.path.join(TRACEDIR, f"insn_free_{args.start}_{args.stop}.txt"),
+        os.path.join(TRACEDIR, f"unified_free_nofixes_{args.frames}f.txt"),
         args.frames,
-        args.start,
-        args.stop,
     )
 
     # Summary
     print(f"\n{'='*60}")
     print("  CAPTURE COMPLETE")
     print(f"{'='*60}")
-    for name in [f"insn_padded_retail_{args.start}_{args.stop}.txt",
-                 f"insn_free_{args.start}_{args.stop}.txt"]:
+    for name in [f"unified_padded_retail_{args.frames}f.txt",
+                 f"unified_free_nofixes_{args.frames}f.txt"]:
         path = os.path.join(TRACEDIR, name)
         if os.path.exists(path):
             size = os.path.getsize(path)
             with open(path, "rb") as f:
                 lines = sum(1 for _ in f)
             print(f"  {name}: {size:,} bytes, {lines:,} lines")
-
-    print(f"\n  Next: diff the two traces to find instruction-level divergence")
+    print(f"\n  Next: compare with tools/compare_traces.py")
 
 
 if __name__ == "__main__":

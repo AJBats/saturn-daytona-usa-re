@@ -5,15 +5,16 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — first instruction divergence found |
+| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — cache line mechanism proven at one site |
 | 2 | Disc File RE | Complete | workstreams/disc_file_re.md — DISPROVEN: no offset-based APROG.BIN refs in disc files |
 | 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
 **Free build**: `make free-disc` (no fixes by default). Add fixes explicitly: `make free-disc SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1`.
-**Milestone (2026-02-20)**: Deterministic tracing found first divergence — BIOS copy loop at 0x00002F00 does
-one extra iteration in free build (+23 cycles). This is a DATA divergence from the +4 shift, not cache timing.
-Next: identify caller, dump registers, trace the mismatched loop bound to its source.
+**Proven mechanism (2026-02-20)**: The +4 code shift causes `MOV.L @(disp,PC),Rn` EAs to shift by +4,
+and at FUN_060030FC D312, this crosses a 16-byte cache line boundary costing +7 cycles (verified in trace).
+Hypothesis: this mechanism repeats globally, causing cumulative timing drift. Not yet proven end-to-end.
+See `workstreams/active_investigation.md`.
 
 ## Investigation Discipline
 
