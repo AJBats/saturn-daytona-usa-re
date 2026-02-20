@@ -143,16 +143,17 @@ disc:
 	@echo ""
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
-# Build free-layout with +4 shift (Mednafen dev-test configuration)
-#   make free          — build only
-#   make free-disc     — build + inject into disc (preferred)
+# Build free-layout with +4 shift (no fixes by default)
+#   make free                              — bare free build (will hang without fixes)
+#   make free SCDQ_FIX=1 ICF_FIX=1        — free build with specific fixes
+#   make free-disc SCDQ_FIX=1 ICF_FIX=1   — build + inject with fixes
 free:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX)
 
 # Build free-layout AND inject into disc (one command, can't get it wrong)
 free-disc:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=1 ICF_FIX=1 CD_FIX=1 disc-internal
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX)
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX) disc-internal
 
 # Internal disc target that DOES rebuild (only called from combined targets)
 disc-internal: $(BIN)
