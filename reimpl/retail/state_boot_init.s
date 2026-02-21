@@ -42,7 +42,7 @@ loc_0600890A:
     .4byte FUN_0601C978
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte FUN_06018DDC
     .4byte FUN_060210F6
     .4byte sym_0605AD10

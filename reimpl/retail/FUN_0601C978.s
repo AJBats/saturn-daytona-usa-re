@@ -112,7 +112,7 @@ DAT_0601ca3c:
     .4byte sym_0608602C
     .4byte sym_06086030
     .4byte sym_060149E0
-    .4byte FUN_060148FC
+    .4byte display_channels_clear
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte FUN_0600A026

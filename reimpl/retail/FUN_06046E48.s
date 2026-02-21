@@ -51330,7 +51330,7 @@ sym_0605F5A8:
     .4byte sym_060204CE
     .4byte FUN_06020330
     .4byte FUN_0602052C
-    .4byte FUN_060204B4
+    .4byte obj_list_iterate
     .4byte FUN_06020B58
     .4byte FUN_06020814
     .4byte FUN_0602070C

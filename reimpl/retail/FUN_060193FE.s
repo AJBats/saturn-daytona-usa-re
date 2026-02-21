@@ -114,7 +114,7 @@ FUN_060193FE:
     .byte 0x77, 0x00
     .byte 0x25, 0xE7
     .byte 0x61, 0xFC
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_0602853E
     .4byte sym_06028560
     .4byte sym_06063AF8

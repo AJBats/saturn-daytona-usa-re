@@ -1,7 +1,7 @@
     .section .text.FUN_06014884
-    .global FUN_06014884
-    .type FUN_06014884, @function
-FUN_06014884:
+    .global display_channel_b
+    .type display_channel_b, @function
+display_channel_b:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
     .byte 0x2F, 0x52

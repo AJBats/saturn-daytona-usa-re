@@ -44,7 +44,7 @@ FUN_0600A026:
     .byte 0x00, 0xFF
     .4byte sym_0602853E
     .4byte sym_06028560
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .byte 0xD5, 0x23
     .byte 0xE4, 0x01
     .byte 0x90, 0x40

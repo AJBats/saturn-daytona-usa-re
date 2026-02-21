@@ -38,7 +38,7 @@ FUN_0600F9C6:
     .4byte sym_0607885C
     .byte 0x00, 0x10
     .byte 0x00, 0x00
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_0607886E
     .4byte FUN_0601155E
     .4byte sym_0607887F

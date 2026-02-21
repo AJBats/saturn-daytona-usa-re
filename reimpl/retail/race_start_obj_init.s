@@ -1,7 +1,7 @@
     .section .text.FUN_060200A4
-    .global FUN_060200A4
-    .type FUN_060200A4, @function
-FUN_060200A4:
+    .global race_start_obj_init
+    .type race_start_obj_init, @function
+race_start_obj_init:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -117,7 +117,7 @@ DAT_0602014c:
     .byte 0x39, 0x8C
     .4byte sym_06063CA0
     .4byte sym_06028400
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_0608780A
     .4byte sym_06087808
     .4byte sym_06087814

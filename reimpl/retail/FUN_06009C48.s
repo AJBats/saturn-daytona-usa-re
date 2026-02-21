@@ -58,11 +58,11 @@ FUN_06009C48:
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
     .byte 0x00, 0xBC
-    .4byte FUN_06014A42
+    .4byte util_wrapper
     .4byte sym_0607EAE0
     .4byte FUN_0601DF88
     .4byte sym_0607EAD8
-    .4byte FUN_0601DBB8
+    .4byte replay_camera_ctrl
     .4byte update_mode_dispatch
     .4byte car_proximity_check
     .4byte camera_system

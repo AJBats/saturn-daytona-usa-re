@@ -319,7 +319,7 @@ DAT_0601b392:
     .byte 0x00, 0x00
     .byte 0xB0, 0x00
     .4byte sym_06028400
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte FUN_06038BD4
     .4byte sym_0602853E
     .4byte sym_06028560

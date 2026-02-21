@@ -212,7 +212,7 @@ DAT_06013dd4:
     .global DAT_06013dd6
 DAT_06013dd6:
     .byte 0x01, 0x02
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte FUN_06005DD4
     .4byte sym_060284AE
     .4byte sym_060786A4

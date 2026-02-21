@@ -461,7 +461,7 @@ DAT_0600bf3c:
     .4byte sym_06063F46
     .4byte sym_0605BDCC
     .4byte sym_06063E2C
-    .4byte FUN_06020E74
+    .4byte obj_state_manager
     .4byte sincos_pair
     .4byte cos_lookup
     .4byte sym_06078668

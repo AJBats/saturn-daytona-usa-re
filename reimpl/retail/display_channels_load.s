@@ -1,7 +1,7 @@
     .section .text.FUN_060148A2
-    .global FUN_060148A2
-    .type FUN_060148A2, @function
-FUN_060148A2:
+    .global display_channels_load
+    .type display_channels_load, @function
+display_channels_load:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22

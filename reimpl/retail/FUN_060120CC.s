@@ -72,7 +72,7 @@ DAT_0601214e:
     .byte 0x10, 0x00
     .4byte sym_06078636
     .4byte sym_060788F8
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_060788B4
     .byte 0x00, 0x08
     .byte 0x00, 0x00

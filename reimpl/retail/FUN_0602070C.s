@@ -120,5 +120,5 @@ FUN_0602070C:
     .byte 0x00, 0x00
     .4byte sym_06087814
     .4byte FUN_06038642
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_06038520

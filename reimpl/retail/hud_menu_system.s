@@ -1,7 +1,7 @@
     .section .text.FUN_0603C1A8
-    .global FUN_0603C1A8
-    .type FUN_0603C1A8, @function
-FUN_0603C1A8:
+    .global hud_menu_system
+    .type hud_menu_system, @function
+hud_menu_system:
     .byte 0x2F, 0xE6
     .byte 0xE7, 0x01
     .byte 0x2F, 0xD6

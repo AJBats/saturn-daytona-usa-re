@@ -1,7 +1,7 @@
     .section .text.FUN_06014A42
-    .global FUN_06014A42
-    .type FUN_06014A42, @function
-FUN_06014A42:
+    .global util_wrapper
+    .type util_wrapper, @function
+util_wrapper:
     .byte 0x4F, 0x22
     .byte 0xB2, 0x76
     .byte 0x00, 0x09

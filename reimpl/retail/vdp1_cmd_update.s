@@ -1,7 +1,7 @@
     .section .text.FUN_06014A04
-    .global FUN_06014A04
-    .type FUN_06014A04, @function
-FUN_06014A04:
+    .global vdp1_cmd_update
+    .type vdp1_cmd_update, @function
+vdp1_cmd_update:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0xD3, 0x11

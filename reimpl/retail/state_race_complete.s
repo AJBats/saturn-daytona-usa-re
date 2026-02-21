@@ -95,7 +95,7 @@ state_race_complete:
     .4byte sym_06078637
     .4byte sym_0607E944
     .4byte sym_0605AB17
-    .4byte FUN_06014A04
+    .4byte vdp1_cmd_update
     .4byte FUN_060210F6
     .4byte sym_06078648
     .4byte FUN_06018DDC

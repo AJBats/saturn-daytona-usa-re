@@ -51,7 +51,7 @@ DAT_0600a110:
 DAT_0600a112:
     .byte 0x01, 0x5F
     .4byte sym_0607E944
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_0607EBC8
     .4byte FUN_06038BD4
     .4byte sym_06026CE0

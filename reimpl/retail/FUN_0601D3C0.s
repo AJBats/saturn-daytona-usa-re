@@ -81,7 +81,7 @@ DAT_0601d446:
     .byte 0x00, 0x00
     .byte 0xAA, 0xA8
     .4byte sym_0605AB17
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_06094FA8
     .4byte sym_06028400
     .4byte sym_0607EBCC

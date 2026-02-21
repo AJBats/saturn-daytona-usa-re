@@ -513,7 +513,7 @@ FUN_06004A98:
     .4byte FUN_060370E4
     .4byte sym_06059F20
     .4byte sym_06038044
-    .4byte FUN_060148FC
+    .4byte display_channels_clear
     .4byte sym_060149E0
     .4byte sym_06026CE0
     .4byte sym_06012E62

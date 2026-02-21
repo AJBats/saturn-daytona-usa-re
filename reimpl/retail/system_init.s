@@ -124,6 +124,6 @@ system_init:
     .4byte FUN_06018EE4
     .4byte sym_06005174
     .4byte sym_0601F936
-    .4byte FUN_0601492C
+    .4byte channel_config_a
     .4byte sym_060149E0
     .4byte sym_0605AD10

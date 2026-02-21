@@ -82,8 +82,8 @@ button_input_read:
     .byte 0xA0, 0x3F
     .byte 0x2B, 0xC2
     .byte 0xFF, 0xFF
-    .4byte FUN_06014884
-    .4byte FUN_06014868
+    .4byte display_channel_b
+    .4byte display_channel_a
     .4byte FUN_060389A6
     .4byte sym_060635C4
     .4byte sym_060635C0
@@ -354,7 +354,7 @@ button_input_read:
     .4byte sym_060149CC
     .byte 0x00, 0x10
     .byte 0x00, 0x00
-    .4byte FUN_060148A2
+    .4byte display_channels_load
     .byte 0x04, 0x00
     .byte 0x00, 0x00
     .4byte FUN_06020C3C

@@ -42,7 +42,7 @@ FUN_0601D4A8:
     .byte 0x01, 0x50
     .byte 0x00, 0x00
     .4byte sym_0607885C
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_0607886E
     .4byte sym_0607887F
     .byte 0x00, 0x10
@@ -87,7 +87,7 @@ loc_0601D546:
     .byte 0x64, 0x42
     .4byte sym_0607885C
     .4byte sym_0607EBC8
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_0607887F
     .4byte sym_0607EBCC
     .4byte sym_0600338C

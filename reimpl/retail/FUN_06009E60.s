@@ -67,7 +67,7 @@ FUN_06009E60:
     .4byte FUN_06019058
     .4byte sym_0602853E
     .4byte sym_06028560
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte FUN_060032D4
     .4byte sym_0607EBCC
     .4byte sym_0605AD10

@@ -219,7 +219,7 @@ state_post_lap:
     .4byte sym_06012198
     .4byte sym_0607EAE0
     .4byte FUN_0601DE50
-    .4byte FUN_0601DBB8
+    .4byte replay_camera_ctrl
     .4byte sym_0605AB18
     .4byte FUN_060268B0
     .4byte sym_0605A1C4

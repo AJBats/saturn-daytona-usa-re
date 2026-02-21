@@ -1,7 +1,7 @@
     .section .text.FUN_0601DBB8
-    .global FUN_0601DBB8
-    .type FUN_0601DBB8, @function
-FUN_0601DBB8:
+    .global replay_camera_ctrl
+    .type replay_camera_ctrl, @function
+replay_camera_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

@@ -43,6 +43,6 @@ loc_06020510:
     .4byte sym_06087814
     .byte 0x00, 0x18
     .byte 0x00, 0x00
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .byte 0x00, 0x98
     .byte 0x00, 0x00

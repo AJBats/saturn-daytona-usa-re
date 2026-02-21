@@ -41,7 +41,7 @@ course_obj_transform:
     .4byte sym_0607EBC4
     .byte 0x20, 0x02
     .byte 0x00, 0x00
-    .4byte FUN_0601C3E4
+    .4byte master_ctrl_dispatch
     .4byte sym_0608A52C
     .4byte sym_0607EB8C
     .4byte sym_0607E944

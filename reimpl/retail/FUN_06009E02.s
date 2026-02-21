@@ -33,7 +33,7 @@ FUN_06009E02:
     .4byte sym_0605AD10
     .4byte sym_0607EBCC
     .4byte sym_06028560
-    .4byte FUN_06012F80
+    .4byte game_init_master
     .4byte sym_0605A016
     .4byte FUN_06018DDC
     .4byte FUN_0601389E

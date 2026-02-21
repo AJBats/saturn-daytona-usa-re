@@ -1,7 +1,7 @@
     .section .text.FUN_06014A74
-    .global FUN_06014A74
-    .type FUN_06014A74, @function
-FUN_06014A74:
+    .global display_mode_init
+    .type display_mode_init, @function
+display_mode_init:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x19
     .byte 0x2F, 0xD6
@@ -62,7 +62,7 @@ FUN_06014A74:
     .4byte FUN_06038BD4
     .4byte sym_06085F8A
     .4byte sym_0602853E
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte sym_06028560
     .4byte FUN_060032D4
     .byte 0xD3, 0x35
@@ -176,7 +176,7 @@ FUN_06014A74:
     .4byte FUN_06020CF4
     .4byte frame_end_commit
     .4byte sym_0602853E
-    .4byte FUN_06014884
+    .4byte display_channel_b
     .4byte memcpy_word_idx
     .4byte sym_06044A64
     .byte 0x25, 0xF0

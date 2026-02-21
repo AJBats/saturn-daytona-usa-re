@@ -26,7 +26,7 @@ state_post_race_display:
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
     .4byte sym_0605A016
-    .4byte FUN_06014A74
+    .4byte display_mode_init
     .4byte FUN_06019058
     .4byte sym_0605AD10
     .4byte sym_06078654

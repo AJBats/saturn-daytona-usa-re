@@ -1,7 +1,7 @@
     .section .text.FUN_06020366
-    .global FUN_06020366
-    .type FUN_06020366, @function
-FUN_06020366:
+    .global obj_create
+    .type obj_create, @function
+obj_create:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

@@ -342,7 +342,7 @@ DAT_06018b8e:
     .byte 0x02, 0x20
     .4byte memcpy_word_idx
     .4byte sym_060149E0
-    .4byte FUN_060148FC
+    .4byte display_channels_clear
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte FUN_0600A026
@@ -399,5 +399,5 @@ DAT_06018b8e:
     .4byte sym_0605D1CC
     .4byte FUN_060032D4
     .4byte sym_06003430
-    .4byte FUN_06014994
+    .4byte channel_config_b
     .4byte FUN_06021128

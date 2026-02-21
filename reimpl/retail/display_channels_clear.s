@@ -1,14 +1,14 @@
-    .section .text.FUN_06014964
-    .global FUN_06014964
-    .type FUN_06014964, @function
-FUN_06014964:
+    .section .text.FUN_060148FC
+    .global display_channels_clear
+    .type display_channels_clear, @function
+display_channels_clear:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x17
     .byte 0x94, 0x2B
     .byte 0x4E, 0x0B
     .byte 0xE5, 0x00
-    .byte 0xE5, 0x01
+    .byte 0xE5, 0x00
     .byte 0x4E, 0x0B
     .byte 0xE4, 0x04
     .byte 0xE5, 0x00

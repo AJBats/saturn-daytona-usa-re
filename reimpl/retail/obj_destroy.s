@@ -1,7 +1,7 @@
     .section .text.FUN_06020414
-    .global FUN_06020414
-    .type FUN_06020414, @function
-FUN_06020414:
+    .global obj_destroy
+    .type obj_destroy, @function
+obj_destroy:
     .byte 0x2F, 0xE6
     .byte 0x66, 0x6D
     .byte 0x2F, 0xD6
