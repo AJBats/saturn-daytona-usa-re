@@ -5897,7 +5897,7 @@ sym_0604996C:
     .global sym_06049AEC
 sym_06049AEC:
     ! NOT a pointer — bytes are VDP2 tile coordinates read individually by
-    ! FUN_0601950C / FUN_060196B0 / FUN_060197F4. Relocating as .4byte
+    ! FUN_0601950C / course_select_render / car_select_state. Relocating as .4byte
     ! changes the lower bytes and breaks SATURN MODE rendering in free build.
     ! Original value 0x0606060A coincidentally matches loc_0606060A address.
     .byte 0x06, 0x06, 0x06, 0x0A
@@ -43844,7 +43844,7 @@ sym_0605BB1C:
     .4byte results_ranking_table
     .4byte FUN_06016630
     .4byte FUN_06016A18
-    .4byte FUN_06016A60
+    .4byte text_string_render
     .4byte FUN_06016228
     .4byte results_elem_place
     .4byte results_bonus_calc
@@ -43854,7 +43854,7 @@ sym_0605BB1C:
     .global sym_0605BB48
 sym_0605BB48:
     .4byte FUN_06016A18
-    .4byte FUN_06016A60
+    .4byte text_string_render
     .4byte loc_06016B8E
     .4byte loc_06016B98
     .4byte loc_060168DA
@@ -43865,7 +43865,7 @@ sym_0605BB48:
     .global sym_0605BB6C
 sym_0605BB6C:
     .4byte loc_06016C40
-    .4byte FUN_06016C6A
+    .4byte text_color_set
     .global sym_0605BB74
 sym_0605BB74:
     .byte 0xFE, 0x70
@@ -43969,9 +43969,9 @@ sym_0605BC14:
     .4byte loc_06015474
     .4byte hud_anim_ctrl
     .4byte loc_06015678
-    .4byte FUN_060170FC
+    .4byte poly_table_read
     .4byte hud_elem_render
-    .4byte FUN_06017116
+    .4byte poly_table_validate
     .global sym_0605BC6C
 sym_0605BC6C:
     .byte 0x00, 0x08
@@ -46790,10 +46790,10 @@ sym_0605D19C:
     .byte 0x00, 0x00
     .global sym_0605D1BC
 sym_0605D1BC:
-    .4byte FUN_06018738
-    .4byte FUN_06018834
-    .4byte FUN_06018938
-    .4byte FUN_06018938
+    .4byte course0_bg_load
+    .4byte course1_bg_load
+    .4byte course2_bg_load
+    .4byte course2_bg_load
     .global sym_0605D1CC
 sym_0605D1CC:
     .4byte vdp2_course0_init
@@ -46893,18 +46893,18 @@ sym_0605D250:
     .4byte loc_060198CC
     .global sym_0605D260
 sym_0605D260:
-    .4byte FUN_06019D14
-    .4byte FUN_06019EF0
-    .4byte FUN_0601A0F0
-    .4byte FUN_0601A7AC
+    .4byte trans_select_at_mt
+    .4byte pre_race_camera
+    .4byte grid_position_camera
+    .4byte preview_camera_target
     .4byte FUN_0601A80C
     .4byte FUN_0601A940
     .4byte loc_0601A1A8
-    .4byte FUN_0601AAE8
+    .4byte preview_camera_path
     .global sym_0605D280
 sym_0605D280:
-    .4byte FUN_0601A1BA
-    .4byte FUN_0601A2BC
+    .4byte start_light_ctrl
+    .4byte start_light_render
     .4byte FUN_0601A344
     .4byte render_finalize_a
     .4byte FUN_0601A574
@@ -48339,26 +48339,26 @@ sym_0605DEB4:
     .global sym_0605DEC8
 sym_0605DEC8:
     .4byte disc_ready_stub
-    .4byte FUN_0601AF1E
+    .4byte replay_cam_auto_cut
     .4byte loc_0601AF04
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
     .4byte disc_ready_stub
     .4byte loc_0601AF04
-    .4byte FUN_0601AF1E
+    .4byte replay_cam_auto_cut
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
     .4byte disc_ready_stub
     .4byte loc_0601AF04
-    .4byte FUN_0601AF1E
+    .4byte replay_cam_auto_cut
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
     .4byte disc_ready_stub
     .4byte loc_0601AF04
-    .4byte FUN_0601AF1E
+    .4byte replay_cam_auto_cut
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
-    .4byte FUN_0601AFA4
+    .4byte replay_cam_interp
     .4byte loc_0601B096
     .global sym_0605DF20
 sym_0605DF20:
