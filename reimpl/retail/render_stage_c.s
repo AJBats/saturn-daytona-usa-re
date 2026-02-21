@@ -1,7 +1,7 @@
-    .section .text.FUN_06024D14
-    .global FUN_06024D14
-    .type FUN_06024D14, @function
-FUN_06024D14:
+    .section .text.FUN_06023574
+    .global render_stage_c
+    .type render_stage_c, @function
+render_stage_c:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -9,4 +9,4 @@ FUN_06024D14:
     .byte 0x2F, 0xA6
     .byte 0x2F, 0x96
     .byte 0x2F, 0x86
-    .byte 0xE9, 0x04
+    .byte 0xE9, 0x1D

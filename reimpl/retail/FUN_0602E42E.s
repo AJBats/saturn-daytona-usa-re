@@ -17,7 +17,7 @@ FUN_0602E42E:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte FUN_0603226C
+    .4byte display_dispatch_0
     .global sym_0602E450
 sym_0602E450:
     .byte 0x6E, 0x03

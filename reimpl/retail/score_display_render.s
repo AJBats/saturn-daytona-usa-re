@@ -1,7 +1,7 @@
     .section .text.FUN_06033E4A
-    .global FUN_06033E4A
-    .type FUN_06033E4A, @function
-FUN_06033E4A:
+    .global score_display_render
+    .type score_display_render, @function
+score_display_render:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x82
     .byte 0x00, 0x09

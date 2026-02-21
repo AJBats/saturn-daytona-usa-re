@@ -1,7 +1,7 @@
     .section .text.FUN_06024D24
-    .global FUN_06024D24
-    .type FUN_06024D24, @function
-FUN_06024D24:
+    .global render_finalize_b
+    .type render_finalize_b, @function
+render_finalize_b:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
     .byte 0xDA, 0x24

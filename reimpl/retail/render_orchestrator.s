@@ -90,7 +90,7 @@ render_orchestrator:
     .4byte vdp1_color_setup
     .4byte vdp1_coord_setup
     .4byte vdp1_sprite_cmd
-    .4byte FUN_0602D43C
+    .4byte vdp1_display_submit
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
     .byte 0xDD, 0x0A

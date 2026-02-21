@@ -1,7 +1,7 @@
     .section .text.FUN_06032586
-    .global FUN_06032586
-    .type FUN_06032586, @function
-FUN_06032586:
+    .global digit_separator
+    .type digit_separator, @function
+digit_separator:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09

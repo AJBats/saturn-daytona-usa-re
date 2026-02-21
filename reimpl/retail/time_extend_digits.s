@@ -1,7 +1,7 @@
     .section .text.FUN_06033C32
-    .global FUN_06033C32
-    .type FUN_06033C32, @function
-FUN_06033C32:
+    .global time_extend_digits
+    .type time_extend_digits, @function
+time_extend_digits:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09

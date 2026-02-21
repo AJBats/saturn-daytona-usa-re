@@ -1,7 +1,7 @@
     .section .text.FUN_060323B2
-    .global FUN_060323B2
-    .type FUN_060323B2, @function
-FUN_060323B2:
+    .global display_cmd_hscroll
+    .type display_cmd_hscroll, @function
+display_cmd_hscroll:
     .byte 0x4F, 0x22
     .byte 0xB5, 0x30
     .byte 0x00, 0x09

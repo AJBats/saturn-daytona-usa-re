@@ -1,7 +1,7 @@
     .section .text.FUN_060323E4
-    .global FUN_060323E4
-    .type FUN_060323E4, @function
-FUN_060323E4:
+    .global display_cmd_vscroll
+    .type display_cmd_vscroll, @function
+display_cmd_vscroll:
     .byte 0x4F, 0x22
     .byte 0xBE, 0xEB
     .byte 0x00, 0x09

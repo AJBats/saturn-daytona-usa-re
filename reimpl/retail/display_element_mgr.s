@@ -1,7 +1,7 @@
     .section .text.FUN_060337C6
-    .global FUN_060337C6
-    .type FUN_060337C6, @function
-FUN_060337C6:
+    .global display_element_mgr
+    .type display_element_mgr, @function
+display_element_mgr:
     .byte 0x4F, 0x22
     .byte 0xBE, 0x9C
     .byte 0x00, 0x09

@@ -1,7 +1,7 @@
     .section .text.FUN_060322B6
-    .global FUN_060322B6
-    .type FUN_060322B6, @function
-FUN_060322B6:
+    .global display_dispatch_pop
+    .type display_dispatch_pop, @function
+display_dispatch_pop:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x16
     .byte 0x00, 0x09
@@ -65,7 +65,7 @@ FUN_060322B6:
 sym_06032334:
     .4byte loc_0603239C
     .4byte loc_060323CC
-    .4byte FUN_060323E4
+    .4byte display_cmd_vscroll
     .4byte loc_0603237C
     .4byte loc_060323F0
     .4byte loc_06032404

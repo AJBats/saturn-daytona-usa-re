@@ -1,7 +1,7 @@
-    .section .text.FUN_06023574
-    .global FUN_06023574
-    .type FUN_06023574, @function
-FUN_06023574:
+    .section .text.FUN_0603226C
+    .global display_dispatch_0
+    .type display_dispatch_0, @function
+display_dispatch_0:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -9,4 +9,4 @@ FUN_06023574:
     .byte 0x2F, 0xA6
     .byte 0x2F, 0x96
     .byte 0x2F, 0x86
-    .byte 0xE9, 0x1D
+    .byte 0xD4, 0x15

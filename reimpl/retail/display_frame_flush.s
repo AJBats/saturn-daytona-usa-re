@@ -1,7 +1,7 @@
     .section .text.FUN_06033FF4
-    .global FUN_06033FF4
-    .type FUN_06033FF4, @function
-FUN_06033FF4:
+    .global display_frame_flush
+    .type display_frame_flush, @function
+display_frame_flush:
     .byte 0x4F, 0x22
     .byte 0xB3, 0x63
     .byte 0x00, 0x09

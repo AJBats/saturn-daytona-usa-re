@@ -46906,7 +46906,7 @@ sym_0605D280:
     .4byte FUN_0601A1BA
     .4byte FUN_0601A2BC
     .4byte FUN_0601A344
-    .4byte FUN_06024D14
+    .4byte render_finalize_a
     .4byte FUN_0601A574
     .global sym_0605D294
 sym_0605D294:

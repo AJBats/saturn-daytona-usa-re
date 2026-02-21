@@ -1,7 +1,7 @@
     .section .text.FUN_06032530
-    .global FUN_06032530
-    .type FUN_06032530, @function
-FUN_06032530:
+    .global digit_render_2
+    .type digit_render_2, @function
+digit_render_2:
     .byte 0x4F, 0x22
     .byte 0xB4, 0xB7
     .byte 0x00, 0x09

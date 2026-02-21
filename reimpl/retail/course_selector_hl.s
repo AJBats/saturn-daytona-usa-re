@@ -1,7 +1,7 @@
     .section .text.FUN_06033738
-    .global FUN_06033738
-    .type FUN_06033738, @function
-FUN_06033738:
+    .global course_selector_hl
+    .type course_selector_hl, @function
+course_selector_hl:
     .byte 0x4F, 0x22
     .byte 0x41, 0x0B
     .byte 0x00, 0x09

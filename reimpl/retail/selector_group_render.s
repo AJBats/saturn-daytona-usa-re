@@ -1,7 +1,7 @@
     .section .text.FUN_06033D2C
-    .global FUN_06033D2C
-    .type FUN_06033D2C, @function
-FUN_06033D2C:
+    .global selector_group_render
+    .type selector_group_render, @function
+selector_group_render:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x11
     .byte 0x00, 0x09

@@ -1,7 +1,7 @@
-    .section .text.FUN_0603226C
-    .global FUN_0603226C
-    .type FUN_0603226C, @function
-FUN_0603226C:
+    .section .text.FUN_06024D14
+    .global render_finalize_a
+    .type render_finalize_a, @function
+render_finalize_a:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -9,4 +9,4 @@ FUN_0603226C:
     .byte 0x2F, 0xA6
     .byte 0x2F, 0x96
     .byte 0x2F, 0x86
-    .byte 0xD4, 0x15
+    .byte 0xE9, 0x04

@@ -1,7 +1,7 @@
     .section .text.FUN_06033EF6
-    .global FUN_06033EF6
-    .type FUN_06033EF6, @function
-FUN_06033EF6:
+    .global bonus_points_display
+    .type bonus_points_display, @function
+bonus_points_display:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
