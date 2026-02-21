@@ -26,7 +26,7 @@ FUN_06012C3C:
     .global DAT_06012c66
 DAT_06012c66:
     .byte 0x0A, 0x1A
-    .4byte FUN_06018EAC
+    .4byte cdb_read_status
     .4byte sym_060448D4
     .byte 0x00, 0x00
     .byte 0xE0, 0x00

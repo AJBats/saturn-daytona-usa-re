@@ -96,4 +96,4 @@ DAT_06018f76:
     .byte 0xAE, 0x00
     .byte 0x07, 0xFF
     .4byte sym_06086038
-    .4byte sym_06018EC8
+    .4byte scsp_set_master_volume

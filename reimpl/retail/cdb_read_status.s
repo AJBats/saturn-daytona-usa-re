@@ -1,7 +1,7 @@
     .section .text.FUN_06018EAC
-    .global FUN_06018EAC
-    .type FUN_06018EAC, @function
-FUN_06018EAC:
+    .global cdb_read_status
+    .type cdb_read_status, @function
+cdb_read_status:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4
     .byte 0xD3, 0x09
@@ -16,8 +16,8 @@ FUN_06018EAC:
     .byte 0x24, 0x09
     .byte 0x00, 0x0B
     .byte 0x60, 0x43
-    .global sym_06018EC8
-sym_06018EC8:
+    .global scsp_set_master_volume
+scsp_set_master_volume:
     .byte 0x94, 0x05
     .byte 0xD2, 0x04
     .byte 0x63, 0x4C

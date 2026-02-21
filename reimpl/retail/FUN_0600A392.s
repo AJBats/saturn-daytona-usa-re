@@ -41,7 +41,7 @@ FUN_0600A392:
     .byte 0xFF, 0xFF
     .4byte sym_06078644
     .4byte sym_0605AD10
-    .4byte FUN_06018EAC
+    .4byte cdb_read_status
     .4byte sym_0600026C
     .4byte sym_0607864A
     .4byte FUN_060349C4
