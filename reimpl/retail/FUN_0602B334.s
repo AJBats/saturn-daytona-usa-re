@@ -866,7 +866,7 @@ loc_0602B930:
 sym_0602B9AC:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_060276CC
+    .4byte spring_damper
     .4byte FUN_060279B0
     .4byte FUN_06029740
     .global sym_0602B9BC

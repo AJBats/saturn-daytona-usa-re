@@ -1,7 +1,7 @@
     .section .text.FUN_060276CC
-    .global FUN_060276CC
-    .type FUN_060276CC, @function
-FUN_060276CC:
+    .global spring_damper
+    .type spring_damper, @function
+spring_damper:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0x96
     .byte 0x2F, 0x86
