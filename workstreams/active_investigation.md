@@ -1,9 +1,9 @@
 # Free Build Emulator Compatibility
 
-> **Status**: ACTIVE — ICF root cause FIXED (missed cache-through relocation)
+> **Status**: ACTIVE — ICF+CD_FIX retired, SCDQ_FIX is only remaining bypass
 > **Real hardware**: TESTED (2026-02-19) — confirmed FAILS without SCDQ_FIX
-> **Mednafen**: Boots to title screen with SCDQ_FIX=1 + CD_FIX=1 — **clean graphics, no ICF_FIX**
-> **Current build**: `make free-disc SCDQ_FIX=1 CD_FIX=1`
+> **Mednafen**: Boots to title screen, mode select works, can race laps with SCDQ_FIX=1 only
+> **Current build**: `make free-disc SCDQ_FIX=1`
 
 ---
 
@@ -130,14 +130,14 @@ Things we've examined in traces and set aside — real but not the boot failure 
 
 ## Bypass Status
 
-Two bypasses remain. ICF_FIX and SATURN MODE bug have been **eliminated** by root-cause fixes.
+One bypass remains. ICF_FIX, SATURN MODE bug, and CD_FIX have been **eliminated**.
 
 | Bypass | What It Does | Root Cause | Status |
 |--------|-------------|------------|--------|
-| ~~`ICF_FIX=1`~~ | ~~NOPs master's FTCSR poll BF~~ | Missed cache-through relocation in FUN_06034F08 | **FIXED** (2026-02-20) |
+| ~~`ICF_FIX=1`~~ | ~~NOPs master's FTCSR poll BF~~ | Missed cache-through relocation in FUN_06034F08 | **FIXED** (2026-02-20), patch deleted |
 | (no bypass) | SATURN MODE missing from mode select | False-positive pointer at sym_06049AEC | **FIXED** (2026-02-20) |
 | `SCDQ_FIX=1` | Shortens SCDQ poll (timeout 1000 iterations) | FUN_0603B424 PAUSE handler bug — SCDQ never fires in PAUSE | Active bypass |
-| `CD_FIX=1` | Widens PAUSE→Calculate in FUN_0603B424 | Pre-buffered sectors in PAUSE state | Active bypass |
+| ~~`CD_FIX=1`~~ | ~~Widens PAUSE→Calculate in FUN_0603B424~~ | Redundant with SCDQ_FIX (same timing issue) | **RETIRED** (2026-02-21), patch deleted |
 
 ### ICF_FIX Root Cause Fix
 
@@ -241,9 +241,9 @@ TABLE.BIN sectors get pre-buffered in PAUSE state. The PAUSE handler only
 proceeds when `GetBufSize == 1` (empty buffer), creating an infinite retry loop.
 
 `SCDQ_FIX=1` prevents this by shortening the SCDQ poll so the disc doesn't
-advance past TABLE.BIN's end FAD. `CD_FIX=1` widens the PAUSE→Calculate
-condition but has a secondary bug (fires during APROG.BIN load too — needs
-`ctx[0x12]` guard). Both are workarounds.
+advance past TABLE.BIN's end FAD. `CD_FIX=1` was an alternate attempt that
+widened the PAUSE→Calculate condition, but was redundant with SCDQ_FIX and
+had a secondary bug (fires during APROG.BIN load). **CD_FIX retired 2026-02-21.**
 
 Full analysis: `workstreams/research/03_bugs_found.md`,
 `workstreams/scdq_hypothesis_2.md`, `workstreams/research/06_cd_fix_implementation.md`.
@@ -275,3 +275,6 @@ Full analysis: `workstreams/research/03_bugs_found.md`,
 - 2026-02-20: **SATURN MODE FIX**: .4byte loc_0606060A at sym_06049AEC was byte data, not a pointer
 - 2026-02-20: Root cause: bytes `06 06 06 0A` = VDP2 tile coords, read by MOV.B; relocation changed 0A→FE
 - 2026-02-20: Fix: `.byte 0x06, 0x06, 0x06, 0x0A` prevents relocation; mode select now shows all 4 items
+- 2026-02-21: **CD_FIX RETIRED**: Redundant with SCDQ_FIX — tested SCDQ_FIX=1 alone, raced laps successfully
+- 2026-02-21: **ICF_FIX patch deleted**: Root cause was fixed in ASM (cache-through relocation), patch obsolete
+- 2026-02-21: Build simplified to `make free-disc SCDQ_FIX=1` — one bypass remains

@@ -21,12 +21,7 @@ LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 
 # Patches (opt-in, default off for byte-identical builds)
 #   make SCDQ_FIX=1   — apply SCDQ bypass (patches/FUN_060423CC.c replaces .s)
-#   make ICF_FIX=1     — apply ICF bypass (patches/FUN_0600C010.s NOPs the slave poll)
-#   make CD_FIX=1      — fix CD state machine PAUSE handler (patches/FUN_0603B424.c)
-#                         Fixes TABLE.BIN deadlock (PAUSE with pre-buffered sectors).
 SCDQ_FIX ?= 0
-ICF_FIX  ?= 0
-CD_FIX   ?= 0
 
 # Auto-discover .s source files
 ALL_ASM  := $(wildcard src/*.s)
@@ -39,18 +34,6 @@ ifeq ($(SCDQ_FIX),1)
     ALL_OBJS += $(BUILDDIR)/FUN_060423CC_patch.o
 endif
 
-# When ICF_FIX=1, assemble the patched .s and replace the original object
-ifeq ($(ICF_FIX),1)
-    ALL_OBJS := $(filter-out $(BUILDDIR)/FUN_0600C010.o,$(ALL_OBJS))
-    ALL_OBJS += $(BUILDDIR)/FUN_0600C010_patch.o
-endif
-
-# When CD_FIX=1, compile the C state machine patch and replace the ASM object
-ifeq ($(CD_FIX),1)
-    ALL_OBJS := $(filter-out $(BUILDDIR)/FUN_0603B424.o,$(ALL_OBJS))
-    ALL_OBJS += $(BUILDDIR)/FUN_0603B424_patch.o
-endif
-
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
 BIN  := $(BUILDDIR)/APROG.BIN
@@ -60,7 +43,7 @@ ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
 # Config change detection: if flags changed since last build, force a relink.
 # Runs during Makefile parsing (before any targets execute).
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX)
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SCDQ_FIX=$(SCDQ_FIX)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
@@ -78,7 +61,7 @@ $(BIN): $(ELF)
 		echo ""; \
 		echo "========================================"; \
 		echo "  FREE BUILD: $$SIZE bytes (+4 shift)"; \
-		echo "  SCDQ_FIX=$(SCDQ_FIX)  ICF_FIX=$(ICF_FIX)  CD_FIX=$(CD_FIX)"; \
+		echo "  SCDQ_FIX=$(SCDQ_FIX)"; \
 		echo "========================================"; \
 		echo ""; \
 	else \
@@ -144,16 +127,16 @@ disc:
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
 # Build free-layout with +4 shift (no fixes by default)
-#   make free                              — bare free build (will hang without fixes)
-#   make free SCDQ_FIX=1 ICF_FIX=1        — free build with specific fixes
-#   make free-disc SCDQ_FIX=1 ICF_FIX=1   — build + inject with fixes
+#   make free                        — bare free build (will hang without SCDQ fix)
+#   make free SCDQ_FIX=1            — free build with SCDQ fix
+#   make free-disc SCDQ_FIX=1       — build + inject with SCDQ fix
 free:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX)
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX)
 
 # Build free-layout AND inject into disc (one command, can't get it wrong)
 free-disc:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX)
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) ICF_FIX=$(ICF_FIX) CD_FIX=$(CD_FIX) disc-internal
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX)
+	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) disc-internal
 
 # Internal disc target that DOES rebuild (only called from combined targets)
 disc-internal: $(BIN)
@@ -164,5 +147,5 @@ disc-internal: $(BIN)
 # Use 'make free' instead for relocation testing
 shifttest:
 	@echo "WARNING: shifttest is deprecated — ORIGIN mismatch makes it fundamentally broken."
-	@echo "Use 'make free' instead (sawyer_free.ld with +4 shift, SCDQ+ICF bypasses)."
+	@echo "Use 'make free' instead (sawyer_free.ld with +4 shift)."
 	@exit 1

@@ -5,15 +5,15 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — ICF_FIX eliminated, 2 bypasses remain |
+| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — ICF_FIX+CD_FIX retired, SCDQ_FIX remains |
 | 2 | Disc File RE | Complete | workstreams/disc_file_re.md — DISPROVEN: no offset-based APROG.BIN refs in disc files |
 | 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
-**Free build**: `make free-disc SCDQ_FIX=1 CD_FIX=1` — boots to clean title screen (no ICF_FIX needed).
-**ICF_FIX eliminated (2026-02-20)**: Root cause was a missed cache-through relocation in FUN_06034F08.
-Hardcoded `0x26063574` in constant pool wasn't relocated with +4 shift. Fixed with `.4byte sym + 0x20000000`.
-**Remaining bypasses**: SCDQ_FIX (CD PAUSE timing), CD_FIX (pre-buffered sectors). Both are CD timing issues.
+**Free build**: `make free-disc SCDQ_FIX=1` — boots to title screen, mode select works, can race laps.
+**ICF_FIX retired (2026-02-20)**: Root cause was a missed cache-through relocation in FUN_06034F08. Fixed in ASM.
+**CD_FIX retired (2026-02-21)**: Was redundant with SCDQ_FIX (same CD PAUSE timing issue). Patch deleted.
+**Remaining bypass**: SCDQ_FIX only (CD PAUSE handler latent bug exposed by +4 timing shift).
 See `workstreams/active_investigation.md`.
 
 ## Investigation Discipline
