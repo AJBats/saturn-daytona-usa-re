@@ -11,13 +11,13 @@ This is the core workflow of the Sawyer pipeline.
 |-------|-----------|-------------|-------------|---------|
 | **L2** | Byte-perfect ASM | `.byte` blobs | `.4byte SYMBOL` | `retail/cdb_wait_scdq.s` |
 | **L3** | Real ASM source | SH-2 mnemonics | `.4byte SYMBOL` | (not yet done) |
-| **L5** | C reimplementation | C source | compiler-managed | `src/cdb_wait_scdq.c` |
+| **L4** | C reimplementation | C source | compiler-managed | `src/cdb_wait_scdq.c` |
 
-L2 is what we have for all 1,259 functions today. L3 and L5 are where we're going.
+L2 is what we have for all 1,259 functions today. L3 and L4 are where we're going.
 
 **L2 is relocatable but opaque.** You can move it, but you can't read it.
 **L3 is relocatable and readable.** You can understand the logic.
-**L5 is relocatable and modifiable.** You can change the behavior.
+**L4 is relocatable and modifiable.** You can change the behavior.
 
 ---
 
@@ -145,7 +145,7 @@ it to write correct mnemonics.
 5. **Boot test.** `make disc` and test in Mednafen. L3 is validated by
    behavior, not bytes.
 
-### L2/L3 → L5 (ASM → C Reimplementation)
+### L2/L3 → L4 (ASM → C Reimplementation)
 
 Replace the function entirely with C source code.
 
@@ -221,7 +221,7 @@ inputs/outputs/side effects.
 | What | Where |
 |------|-------|
 | Retail ASM (L2) | `reimpl/retail/*.s` |
-| Reimplemented (L3 ASM or L5 C) | `reimpl/src/*.{s,c}` |
+| Reimplemented (L3 ASM or L4 C) | `reimpl/src/*.{s,c}` |
 | Retail linker script | `reimpl/sega.ld` |
 | Free linker script | `reimpl/free.ld` |
 | Sawyer annotations (reference) | `asm/*.s` |
