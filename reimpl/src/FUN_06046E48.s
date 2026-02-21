@@ -5896,7 +5896,11 @@ sym_0604996C:
     .byte 0x7F, 0xFE
     .global sym_06049AEC
 sym_06049AEC:
-    .4byte loc_0606060A
+    ! NOT a pointer — bytes are VDP2 tile coordinates read individually by
+    ! FUN_0601950C / FUN_060196B0 / FUN_060197F4. Relocating as .4byte
+    ! changes the lower bytes and breaks SATURN MODE rendering in free build.
+    ! Original value 0x0606060A coincidentally matches loc_0606060A address.
+    .byte 0x06, 0x06, 0x06, 0x0A
     .byte 0x0C, 0x0F
     .byte 0x0C, 0x13
     .global sym_06049AF4
