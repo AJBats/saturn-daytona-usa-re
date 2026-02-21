@@ -1,7 +1,7 @@
     .section .text.FUN_06035A08
-    .global FUN_06035A08
-    .type FUN_06035A08, @function
-FUN_06035A08:
+    .global secondary_input_proc
+    .type secondary_input_proc, @function
+secondary_input_proc:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x12
     .byte 0x4F, 0x02

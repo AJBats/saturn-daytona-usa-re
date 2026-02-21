@@ -1,7 +1,7 @@
     .section .text.FUN_0602CDF6
-    .global FUN_0602CDF6
-    .type FUN_0602CDF6, @function
-FUN_0602CDF6:
+    .global vdp1_cmd_list_mgr
+    .type vdp1_cmd_list_mgr, @function
+vdp1_cmd_list_mgr:
     .byte 0x4F, 0x22
     .byte 0x97, 0x24
     .byte 0xE6, 0x00

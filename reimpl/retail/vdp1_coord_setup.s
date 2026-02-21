@@ -1,7 +1,7 @@
     .section .text.FUN_0602CA84
-    .global FUN_0602CA84
-    .type FUN_0602CA84, @function
-FUN_0602CA84:
+    .global vdp1_coord_setup
+    .type vdp1_coord_setup, @function
+vdp1_coord_setup:
     .byte 0x4F, 0x22
     .byte 0x91, 0x3D
     .byte 0x02, 0x1E

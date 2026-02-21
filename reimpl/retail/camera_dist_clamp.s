@@ -1,7 +1,7 @@
     .section .text.FUN_0600A478
-    .global FUN_0600A478
-    .type FUN_0600A478, @function
-FUN_0600A478:
+    .global camera_dist_clamp
+    .type camera_dist_clamp, @function
+camera_dist_clamp:
     .byte 0x4F, 0x22
     .byte 0x4E, 0x08
     .byte 0x7F, 0xFC

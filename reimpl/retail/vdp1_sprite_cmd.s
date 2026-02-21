@@ -1,7 +1,7 @@
     .section .text.FUN_0602D08A
-    .global FUN_0602D08A
-    .type FUN_0602D08A, @function
-FUN_0602D08A:
+    .global vdp1_sprite_cmd
+    .type vdp1_sprite_cmd, @function
+vdp1_sprite_cmd:
     .byte 0x4F, 0x22
     .byte 0x60, 0xE3
     .byte 0x91, 0x21

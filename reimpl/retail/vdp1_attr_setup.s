@@ -1,7 +1,7 @@
     .section .text.FUN_0602CCEC
-    .global FUN_0602CCEC
-    .type FUN_0602CCEC, @function
-FUN_0602CCEC:
+    .global vdp1_attr_setup
+    .type vdp1_attr_setup, @function
+vdp1_attr_setup:
     .byte 0x4F, 0x22
     .byte 0xE7, 0x00
     .byte 0x53, 0xE2

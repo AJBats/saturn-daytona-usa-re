@@ -1,7 +1,7 @@
     .section .text.FUN_06034CCC
-    .global FUN_06034CCC
-    .type FUN_06034CCC, @function
-FUN_06034CCC:
+    .global ai_brake_zone
+    .type ai_brake_zone, @function
+ai_brake_zone:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0
     .byte 0x64, 0xF3

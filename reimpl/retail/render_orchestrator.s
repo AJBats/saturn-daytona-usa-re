@@ -87,9 +87,9 @@ render_orchestrator:
     .4byte color_material_blend
     .4byte sym_0602EFCC
     .4byte FUN_0602C690
-    .4byte FUN_0602C8E2
-    .4byte FUN_0602CA84
-    .4byte FUN_0602D08A
+    .4byte vdp1_color_setup
+    .4byte vdp1_coord_setup
+    .4byte vdp1_sprite_cmd
     .4byte FUN_0602D43C
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
@@ -115,7 +115,7 @@ render_orchestrator:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
-    .4byte FUN_0602CDF6
+    .4byte vdp1_cmd_list_mgr
     .4byte sym_0602D814
     .4byte sym_0602D8BC
     .byte 0xFF, 0xFF

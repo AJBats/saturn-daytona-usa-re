@@ -1,7 +1,7 @@
     .section .text.FUN_06034BA8
-    .global FUN_06034BA8
-    .type FUN_06034BA8, @function
-FUN_06034BA8:
+    .global ai_drafting_calc
+    .type ai_drafting_calc, @function
+ai_drafting_calc:
     .byte 0x4F, 0x22
     .byte 0x6B, 0x53
     .byte 0x7F, 0xF4

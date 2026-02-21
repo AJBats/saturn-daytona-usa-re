@@ -85,7 +85,7 @@ DAT_06040d2c:
     .4byte sym_0604231E
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06034B9A
+    .4byte road_segment_query
     .byte 0x92, 0x3C
     .byte 0xD3, 0x20
     .byte 0x43, 0x0B
@@ -161,7 +161,7 @@ DAT_06040dc2:
     .byte 0xFB, 0xFF
     .4byte FUN_06035C54
     .4byte sym_060A4D14
-    .4byte FUN_06034AEE
+    .4byte track_intersect_test
     .byte 0x65, 0xF3
     .byte 0xD3, 0x25
     .byte 0x75, 0x04
@@ -240,7 +240,7 @@ DAT_06040dc2:
     .global DAT_06040e72
 DAT_06040e72:
     .byte 0x00, 0xFC
-    .4byte FUN_06034B54
+    .4byte mesh_boundary_check
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .4byte FUN_060364D4

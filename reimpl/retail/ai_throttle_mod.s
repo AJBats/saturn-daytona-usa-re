@@ -1,7 +1,7 @@
     .section .text.FUN_06034D20
-    .global FUN_06034D20
-    .type FUN_06034D20, @function
-FUN_06034D20:
+    .global ai_throttle_mod
+    .type ai_throttle_mod, @function
+ai_throttle_mod:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
     .byte 0xD3, 0x25

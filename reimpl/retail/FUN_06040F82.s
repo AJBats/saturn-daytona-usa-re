@@ -25,7 +25,7 @@ FUN_06040F82:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06034B54
+    .4byte mesh_boundary_check
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
     .global sym_06040FB8

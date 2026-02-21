@@ -1,7 +1,7 @@
     .section .text.FUN_06036248
-    .global FUN_06036248
-    .type FUN_06036248, @function
-FUN_06036248:
+    .global track_bank_angle
+    .type track_bank_angle, @function
+track_bank_angle:
     .byte 0x4F, 0x22
     .byte 0x6C, 0x43
     .byte 0x7F, 0xF0

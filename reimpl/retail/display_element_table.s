@@ -1,7 +1,7 @@
     .section .text.FUN_060321EE
-    .global FUN_060321EE
-    .type FUN_060321EE, @function
-FUN_060321EE:
+    .global display_element_table
+    .type display_element_table, @function
+display_element_table:
     .byte 0x4F, 0x22
     .byte 0xB6, 0x12
     .byte 0x00, 0x09

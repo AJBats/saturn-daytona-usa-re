@@ -1,7 +1,7 @@
     .section .text.FUN_0600A614
-    .global FUN_0600A614
-    .type FUN_0600A614, @function
-FUN_0600A614:
+    .global camera_collision_avoid
+    .type camera_collision_avoid, @function
+camera_collision_avoid:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

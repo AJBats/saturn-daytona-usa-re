@@ -1,7 +1,7 @@
     .section .text.FUN_06034526
-    .global FUN_06034526
-    .type FUN_06034526, @function
-FUN_06034526:
+    .global ai_waypoint_follower
+    .type ai_waypoint_follower, @function
+ai_waypoint_follower:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09

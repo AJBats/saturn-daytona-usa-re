@@ -1,7 +1,7 @@
     .section .text.FUN_0603139C
-    .global FUN_0603139C
-    .type FUN_0603139C, @function
-FUN_0603139C:
+    .global position_lap_display
+    .type position_lap_display, @function
+position_lap_display:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09

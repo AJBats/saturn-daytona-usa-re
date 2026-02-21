@@ -1,7 +1,7 @@
     .section .text.FUN_06036172
-    .global FUN_06036172
-    .type FUN_06036172, @function
-FUN_06036172:
+    .global seg_data_loader
+    .type seg_data_loader, @function
+seg_data_loader:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x6E, 0x43

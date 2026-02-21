@@ -1,7 +1,7 @@
     .section .text.FUN_06036208
-    .global FUN_06036208
-    .type FUN_06036208, @function
-FUN_06036208:
+    .global seg_curve_reader
+    .type seg_curve_reader, @function
+seg_curve_reader:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
     .byte 0xD3, 0x22

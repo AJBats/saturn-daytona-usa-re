@@ -1,7 +1,7 @@
     .section .text.FUN_0602C884
-    .global FUN_0602C884
-    .type FUN_0602C884, @function
-FUN_0602C884:
+    .global vdp1_texture_setup
+    .type vdp1_texture_setup, @function
+vdp1_texture_setup:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B
     .byte 0x60, 0x93
