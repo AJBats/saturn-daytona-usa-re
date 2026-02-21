@@ -1,11 +1,11 @@
-/* sawyer_free.ld -- Free-layout test linker script
+/* free.ld -- Free-layout reimplementation linker script (default)
  *
- * Phase 3 test: adds 16 bytes of padding between _start and functions.
- * All FUN_ addresses shift by 16 bytes. Symbolized pool entries (.4byte)
- * update automatically. Unsymbolized literal .byte entries stay at old
- * addresses and will cause crashes at runtime.
+ * Functions can change size without breaking the binary. A 4-byte pad
+ * after _start shifts all FUN_ addresses by +4, validating that every
+ * pointer in the binary is properly relocated via symbols.
  *
- * FUN_ PROVIDEs are REMOVED — functions define their own .global labels.
+ * No FUN_ PROVIDEs — functions define their own .global labels and are
+ * placed by SORT_BY_NAME, so recompiled functions slot in naturally.
  * DAT_/sym_ PROVIDEs: within-binary ones are FUN_-relative (shift correctly).
  * Runtime WRAM ones (>= 0x06063690) are absolute — they're not in the binary.
  */
@@ -19,7 +19,7 @@ SECTIONS
     . = 0x06003000;
     .text : {
         *(.text.startup)
-        /* 4 bytes of padding -- shift test */
+        /* 4 bytes of padding — all FUN_ addresses shift by +4 */
         . = . + 4;
         *(SORT_BY_NAME(.text.FUN_*))
     }
