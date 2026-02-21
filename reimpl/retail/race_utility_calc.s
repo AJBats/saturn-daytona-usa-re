@@ -60,7 +60,7 @@ race_utility_calc:
     .byte 0x00, 0x0B
     .byte 0x23, 0x21
     .byte 0xFF, 0xFF
-    .4byte FUN_0600AFB2
+    .4byte camera_track_setup
     .4byte sym_06063E1C
     .4byte sym_06063E20
     .4byte FUN_06006A9C

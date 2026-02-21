@@ -197,4 +197,4 @@ DAT_0601bbc0:
     .byte 0x0C, 0xA4
     .byte 0x0C, 0xB2
     .4byte sym_0605DE24
-    .4byte FUN_06005DD4
+    .4byte anim_frame_transform

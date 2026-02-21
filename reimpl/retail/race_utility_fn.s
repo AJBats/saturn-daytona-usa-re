@@ -36,7 +36,7 @@ race_utility_fn:
     .4byte FUN_0601BDEC
     .4byte sym_06059FF8
     .4byte sym_0603C000
-    .4byte FUN_0600AFB2
+    .4byte camera_track_setup
     .4byte sym_06082A26
     .4byte FUN_06006CDC
     .byte 0x60, 0x40

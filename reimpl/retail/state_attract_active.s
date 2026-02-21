@@ -99,7 +99,7 @@ state_attract_active:
     .4byte FUN_0601FD74
     .4byte race_countdown_update
     .4byte car_proximity_check
-    .4byte FUN_060055BC
+    .4byte perspective_project
     .4byte sym_0600338C
     .4byte scene_master
     .4byte sym_0601AEB6

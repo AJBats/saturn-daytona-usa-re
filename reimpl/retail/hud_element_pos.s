@@ -34,4 +34,4 @@ hud_element_pos:
     .byte 0xFF, 0xFF
     .4byte sym_0605DFF4
     .4byte sym_06087064
-    .4byte FUN_06005DD4
+    .4byte anim_frame_transform

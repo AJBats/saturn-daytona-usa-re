@@ -144,7 +144,7 @@ FUN_06010F04:
     .4byte sym_06078854
     .4byte sym_06078850
     .4byte sym_06078878
-    .4byte FUN_060271A2
+    .4byte mat_rot_xy_b
     .4byte sym_0606212C
     .4byte sym_060621D8
     .4byte sym_06032158

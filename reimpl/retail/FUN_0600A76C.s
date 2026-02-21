@@ -131,7 +131,7 @@ DAT_0600a856:
     .byte 0xFF, 0xFF
     .byte 0x0F, 0x5D
     .4byte sym_060270F2
-    .4byte FUN_06027124
+    .4byte mat_scale_b
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06032158

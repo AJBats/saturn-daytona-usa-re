@@ -79,7 +79,7 @@ attract_init_body:
     .4byte FUN_06033AAC
     .4byte vdp1_init
     .4byte sym_06063DA0
-    .4byte FUN_0600330A
+    .4byte vdp_init_advanced
     .4byte sym_06087804
     .4byte sym_0607EBCC
     .4byte sym_0607EAE0

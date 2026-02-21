@@ -128,8 +128,8 @@ render_obj_absolute:
     .4byte sym_06027080
     .4byte sym_06044640
     .4byte sym_060270F2
-    .4byte FUN_060271A2
-    .4byte FUN_06027158
+    .4byte mat_rot_xy_b
+    .4byte mat_rot_xz_b
     .4byte sym_0606212C
     .4byte sym_060621D8
     .4byte sym_06032158

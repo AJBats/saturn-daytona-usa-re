@@ -162,9 +162,9 @@ DAT_0600b47e:
     .byte 0xFF, 0xFF
     .4byte sym_06027080
     .4byte sym_060270F2
-    .4byte FUN_060271A2
-    .4byte FUN_060271EE
-    .4byte FUN_06027158
+    .4byte mat_rot_xy_b
+    .4byte mat_rot_yz_b
+    .4byte mat_rot_xz_b
     .4byte sym_06059F30
     .4byte sym_06063510
     .4byte sym_06032158

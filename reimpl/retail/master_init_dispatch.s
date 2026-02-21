@@ -99,7 +99,7 @@ DAT_06003ade:
     .byte 0x00, 0x2D
     .byte 0x08, 0x68
     .4byte sym_06059EC8
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2D
     .byte 0x01, 0x08
     .4byte sym_060430CE
@@ -236,7 +236,7 @@ DAT_06003ade:
 DAT_06003c1a:
     .byte 0x01, 0x3C
     .4byte sym_060EE7D4
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .4byte sym_060EECA8
     .4byte sym_060EF17C
     .byte 0x00, 0x2A
@@ -381,7 +381,7 @@ DAT_06003d3a:
     .byte 0x00, 0x2B
     .byte 0x12, 0x1C
     .4byte sym_06059EC8
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2B
     .byte 0x35, 0x50
     .byte 0x00, 0x2B
@@ -528,7 +528,7 @@ DAT_06003d3a:
     .byte 0x02, 0x20
     .byte 0x00, 0x2B
     .byte 0xE6, 0xE8
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2B
     .byte 0xE7, 0x1C
     .byte 0x00, 0x2B
@@ -671,7 +671,7 @@ DAT_06003d3a:
     .byte 0x00, 0x09
     .byte 0x0A, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2B
     .byte 0x4C, 0xC8
     .byte 0x00, 0x2B
@@ -816,7 +816,7 @@ DAT_060040a2:
     .byte 0x8D, 0xC8
     .byte 0x00, 0x2B
     .byte 0xE6, 0x72
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2B
     .byte 0x92, 0x44
     .byte 0x00, 0x2B
@@ -993,7 +993,7 @@ DAT_060041c4:
     .byte 0x76, 0x43
     .byte 0x00, 0x2A
     .byte 0xC2, 0x78
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2A
     .byte 0xC2, 0xEA
     .byte 0x00, 0x2A
@@ -1106,7 +1106,7 @@ DAT_060041c4:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x2B
     .byte 0xE9, 0x0E
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2B
     .byte 0xE9, 0x44
     .byte 0x00, 0x2B
@@ -1514,7 +1514,7 @@ DAT_06004612:
     .byte 0x00, 0x2B
     .byte 0xCF, 0x4C
     .4byte sym_060438CE
-    .4byte FUN_06004F14
+    .4byte obj_transform_cache
     .byte 0x00, 0x2B
     .byte 0xA3, 0x14
     .4byte sym_06044272

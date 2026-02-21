@@ -141,7 +141,7 @@ DAT_06017492:
     .byte 0x27, 0xBF
     .4byte sym_0607EBF4
     .4byte sym_0607EBD0
-    .4byte FUN_06005DD4
+    .4byte anim_frame_transform
     .byte 0x63, 0x4C
     .byte 0x62, 0xF3
     .byte 0x61, 0x50
@@ -272,7 +272,7 @@ DAT_060175b8:
     .global DAT_060175ba
 DAT_060175ba:
     .byte 0x50, 0x00
-    .4byte FUN_06005DD4
+    .4byte anim_frame_transform
     .4byte sym_06034FE0
     .4byte sym_06035C2C
     .4byte sym_0607EAE0

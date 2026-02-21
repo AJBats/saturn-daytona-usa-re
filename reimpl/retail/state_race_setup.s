@@ -190,7 +190,7 @@ state_race_setup:
     .4byte sym_0605E158
     .4byte sym_060054EA
     .4byte race_start_init
-    .4byte FUN_06005788
+    .4byte bg_layer_init
     .4byte FUN_0601E100
     .4byte sym_0605AB18
     .4byte FUN_060268B0

@@ -219,9 +219,9 @@ DAT_0600bab8:
     .4byte sym_060270F2
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_060271A2
-    .4byte FUN_060271EE
-    .4byte FUN_06027158
+    .4byte mat_rot_xy_b
+    .4byte mat_rot_yz_b
+    .4byte mat_rot_xz_b
     .4byte sym_06047FC4
     .4byte sym_06063E1C
     .4byte sym_06063E20

@@ -213,7 +213,7 @@ DAT_06013dd4:
 DAT_06013dd6:
     .byte 0x01, 0x02
     .4byte display_channel_b
-    .4byte FUN_06005DD4
+    .4byte anim_frame_transform
     .4byte sym_060284AE
     .4byte sym_060786A4
     .byte 0x00, 0x09

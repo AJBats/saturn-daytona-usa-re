@@ -1404,13 +1404,13 @@ sym_0602A1E0:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte spring_damper
-    .4byte FUN_060279B0
+    .4byte transform_pipeline
     .4byte FUN_06029740
     .global sym_0602A1F0
 sym_0602A1F0:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_06007E08
+    .4byte vblank_frame_handler
     .4byte FUN_06022820
     .4byte FUN_06022AE0
     .global sym_0602A200
@@ -2221,13 +2221,13 @@ sym_0602A800:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte spring_damper
-    .4byte FUN_060279B0
+    .4byte transform_pipeline
     .4byte FUN_06029740
     .global sym_0602A810
 sym_0602A810:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_06007E08
+    .4byte vblank_frame_handler
     .4byte FUN_06022820
     .4byte FUN_06022AE0
     .global sym_0602A820

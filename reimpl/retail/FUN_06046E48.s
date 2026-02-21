@@ -43310,10 +43310,10 @@ sym_0605B71C:
     .byte 0x00, 0x00
     .global sym_0605B724
 sym_0605B724:
-    .4byte FUN_06003466
-    .4byte FUN_060034D4
-    .4byte FUN_06003508
-    .4byte FUN_06003508
+    .4byte vdp2_course0_init
+    .4byte vdp2_course1_init
+    .4byte vdp2_course2_init
+    .4byte vdp2_course2_init
     .global sym_0605B734
 sym_0605B734:
     .byte 0x00, 0x00
@@ -46796,10 +46796,10 @@ sym_0605D1BC:
     .4byte FUN_06018938
     .global sym_0605D1CC
 sym_0605D1CC:
-    .4byte FUN_06003466
-    .4byte FUN_060034D4
-    .4byte FUN_06003508
-    .4byte FUN_06003508
+    .4byte vdp2_course0_init
+    .4byte vdp2_course1_init
+    .4byte vdp2_course2_init
+    .4byte vdp2_course2_init
     .global sym_0605D1DC
 sym_0605D1DC:
     .byte 0x00, 0x00

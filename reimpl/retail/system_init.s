@@ -119,7 +119,7 @@ system_init:
     .4byte sym_06034E58
     .4byte sym_06000344
     .4byte FUN_06012CF4
-    .4byte FUN_06004A98
+    .4byte engine_init_global
     .4byte FUN_06012E6A
     .4byte race_sound_handler
     .4byte sym_06005174

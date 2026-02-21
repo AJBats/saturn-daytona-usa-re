@@ -161,7 +161,7 @@ DAT_0601c510:
     .byte 0x00, 0x01
     .byte 0x48, 0x72
     .4byte sym_060270F2
-    .4byte FUN_06027124
+    .4byte mat_scale_b
     .byte 0xD6, 0x2D
     .byte 0xD4, 0x2E
     .byte 0xD3, 0x2E
@@ -263,7 +263,7 @@ DAT_0601c5fa:
     .byte 0x00, 0x01
     .byte 0x48, 0x72
     .4byte sym_060270F2
-    .4byte FUN_060271A2
+    .4byte mat_rot_xy_b
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06032158
@@ -280,7 +280,7 @@ DAT_0601c5fa:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFE
     .byte 0xB7, 0x8E
-    .4byte FUN_06027124
+    .4byte mat_scale_b
     .byte 0xD6, 0x1E
     .byte 0xD4, 0x1F
     .byte 0xD3, 0x1F
@@ -350,7 +350,7 @@ DAT_0601c6c0:
     .byte 0xFF, 0xFE
     .byte 0xB7, 0x8E
     .4byte sym_060270F2
-    .4byte FUN_060271A2
+    .4byte mat_rot_xy_b
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06032158
@@ -438,7 +438,7 @@ DAT_0601c77c:
     .byte 0x00, 0x01
     .byte 0x62, 0x0C
     .4byte sym_060270F2
-    .4byte FUN_060271A2
+    .4byte mat_rot_xy_b
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06032158
@@ -529,7 +529,7 @@ DAT_0601c844:
     .byte 0xFF, 0xFE
     .byte 0x9D, 0xF4
     .4byte sym_060270F2
-    .4byte FUN_060271A2
+    .4byte mat_rot_xy_b
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06032158
@@ -645,7 +645,7 @@ DAT_0601c93e:
     .byte 0xFF, 0xFF
     .byte 0x60, 0x00
     .4byte sym_060270F2
-    .4byte FUN_060271A2
+    .4byte mat_rot_xy_b
     .4byte sym_0605DF46
     .4byte sym_060621D8
     .4byte sym_0606212C
