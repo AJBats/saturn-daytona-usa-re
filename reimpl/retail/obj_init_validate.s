@@ -1,7 +1,7 @@
     .section .text.FUN_060400D6
-    .global FUN_060400D6
-    .type FUN_060400D6, @function
-FUN_060400D6:
+    .global obj_init_validate
+    .type obj_init_validate, @function
+obj_init_validate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x6D, 0x53

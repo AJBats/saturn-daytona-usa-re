@@ -42,8 +42,8 @@ FUN_0603BC86:
     .byte 0x00, 0xA8
     .byte 0xFF, 0xFF
     .4byte FUN_0603F0FC
-    .4byte FUN_060400D6
-    .4byte FUN_0604077C
+    .4byte obj_init_validate
+    .4byte obj_setup_decomp
     .byte 0x65, 0xD3
     .byte 0xD3, 0x21
     .byte 0x43, 0x0B

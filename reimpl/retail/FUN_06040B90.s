@@ -56,7 +56,7 @@ FUN_06040B90:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte FUN_060411A0
+    .4byte cmd_enqueue
     .4byte FUN_0604188C
     .4byte sym_06040220
     .4byte sym_0606367C

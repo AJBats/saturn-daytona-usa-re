@@ -1,7 +1,7 @@
     .section .text.FUN_06041180
-    .global FUN_06041180
-    .type FUN_06041180, @function
-FUN_06041180:
+    .global queue_helper
+    .type queue_helper, @function
+queue_helper:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x1E
     .byte 0x63, 0x32

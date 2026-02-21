@@ -253,9 +253,9 @@ FUN_060402BC:
     .byte 0x00, 0xB0
     .byte 0xFF, 0xFF
     .4byte sym_060409DE
-    .4byte FUN_06041128
+    .4byte queue_validator
     .4byte FUN_0604188C
-    .4byte FUN_06041180
+    .4byte queue_helper
     .byte 0x53, 0xE2
     .byte 0x62, 0xF2
     .byte 0x33, 0x27

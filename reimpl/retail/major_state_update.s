@@ -1,7 +1,7 @@
     .section .text.FUN_06041D74
-    .global FUN_06041D74
-    .type FUN_06041D74, @function
-FUN_06041D74:
+    .global major_state_update
+    .type major_state_update, @function
+major_state_update:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0
     .byte 0xDE, 0x1E

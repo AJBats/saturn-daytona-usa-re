@@ -1,7 +1,7 @@
     .section .text.FUN_06009F10
-    .global FUN_06009F10
-    .type FUN_06009F10, @function
-FUN_06009F10:
+    .global state_demo_setup
+    .type state_demo_setup, @function
+state_demo_setup:
     .byte 0x4F, 0x22
     .byte 0xB1, 0xBF
     .byte 0x00, 0x09

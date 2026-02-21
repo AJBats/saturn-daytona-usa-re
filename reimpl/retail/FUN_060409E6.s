@@ -119,7 +119,7 @@ FUN_060409E6:
     .byte 0xE0, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_060411A0
+    .4byte cmd_enqueue
     .4byte FUN_060412B2
     .byte 0x1E, 0xD2
     .byte 0x53, 0xE2

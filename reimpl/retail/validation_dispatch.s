@@ -1,7 +1,7 @@
     .section .text.FUN_06040010
-    .global FUN_06040010
-    .type FUN_06040010, @function
-FUN_06040010:
+    .global validation_dispatch
+    .type validation_dispatch, @function
+validation_dispatch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0xDE, 0x23

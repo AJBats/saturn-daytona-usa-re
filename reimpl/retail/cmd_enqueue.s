@@ -1,7 +1,7 @@
     .section .text.FUN_060411A0
-    .global FUN_060411A0
-    .type FUN_060411A0, @function
-FUN_060411A0:
+    .global cmd_enqueue
+    .type cmd_enqueue, @function
+cmd_enqueue:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0xD1, 0x15

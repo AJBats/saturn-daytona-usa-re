@@ -71,7 +71,7 @@ sym_06003000:
     .4byte FUN_06008BD8
     .4byte FUN_06008BFC
     .4byte FUN_06008E00
-    .4byte FUN_06008E48
+    .4byte state_pre_race
     .4byte state_race_setup
     .4byte state_race_main
     .4byte state_post_countdown
@@ -79,9 +79,9 @@ sym_06003000:
     .4byte state_time_extend_setup
     .4byte state_time_extend_active
     .4byte state_race_complete
-    .4byte FUN_06009C48
-    .4byte FUN_06009E60
-    .4byte FUN_06009F10
+    .4byte state_post_race_cleanup
+    .4byte state_attract_return
+    .4byte state_demo_setup
     .4byte state_post_race_init
     .4byte state_post_race_display
     .4byte FUN_06009DD0

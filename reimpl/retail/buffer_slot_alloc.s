@@ -1,7 +1,7 @@
     .section .text.FUN_06041034
-    .global FUN_06041034
-    .type FUN_06041034, @function
-FUN_06041034:
+    .global buffer_slot_alloc
+    .type buffer_slot_alloc, @function
+buffer_slot_alloc:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x54
     .byte 0x2F, 0xD6

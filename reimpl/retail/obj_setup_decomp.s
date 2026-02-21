@@ -1,7 +1,7 @@
     .section .text.FUN_0604077C
-    .global FUN_0604077C
-    .type FUN_0604077C, @function
-FUN_0604077C:
+    .global obj_setup_decomp
+    .type obj_setup_decomp, @function
+obj_setup_decomp:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22
@@ -102,7 +102,7 @@ FUN_0604077C:
     .4byte sym_06040EEC
     .4byte sym_06040E88
     .4byte FUN_06040F16
-    .4byte FUN_06041034
+    .4byte buffer_slot_alloc
     .byte 0x96, 0x24
     .byte 0x55, 0xF1
     .byte 0xD3, 0x12

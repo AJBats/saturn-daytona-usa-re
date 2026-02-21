@@ -28,7 +28,7 @@ FUN_06040980:
     .byte 0x6E, 0xF6
     .4byte FUN_06041648
     .4byte sym_06035228
-    .4byte FUN_06041034
+    .4byte buffer_slot_alloc
     .4byte FUN_0604188C
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B

@@ -1,7 +1,7 @@
     .section .text.FUN_06008E48
-    .global FUN_06008E48
-    .type FUN_06008E48, @function
-FUN_06008E48:
+    .global state_pre_race
+    .type state_pre_race, @function
+state_pre_race:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x19
     .byte 0x63, 0x32

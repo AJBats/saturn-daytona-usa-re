@@ -1,7 +1,7 @@
     .section .text.FUN_060423A0
-    .global FUN_060423A0
-    .type FUN_060423A0, @function
-FUN_060423A0:
+    .global bulk_struct_init
+    .type bulk_struct_init, @function
+bulk_struct_init:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4
     .byte 0xD3, 0x14

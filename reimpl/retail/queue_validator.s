@@ -1,7 +1,7 @@
     .section .text.FUN_06041128
-    .global FUN_06041128
-    .type FUN_06041128, @function
-FUN_06041128:
+    .global queue_validator
+    .type queue_validator, @function
+queue_validator:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0x93, 0x22
