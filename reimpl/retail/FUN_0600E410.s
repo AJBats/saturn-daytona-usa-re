@@ -44,8 +44,8 @@ DAT_0600e456:
     .byte 0xFF, 0xFF
     .4byte sym_0607E944
     .4byte sym_0607E940
-    .4byte FUN_060081F4
-    .4byte FUN_060085B8
+    .4byte gas_force_apply
+    .4byte brake_force_apply
     .4byte sym_06030A06
     .4byte sym_06030EE0
     .byte 0x06, 0x65

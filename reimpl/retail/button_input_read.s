@@ -1,7 +1,7 @@
     .section .text.FUN_06006F3C
-    .global FUN_06006F3C
-    .type FUN_06006F3C, @function
-FUN_06006F3C:
+    .global button_input_read
+    .type button_input_read, @function
+button_input_read:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x01
     .byte 0x2F, 0xD6

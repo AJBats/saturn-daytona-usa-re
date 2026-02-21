@@ -1,7 +1,7 @@
     .section .text.FUN_060081F4
-    .global FUN_060081F4
-    .type FUN_060081F4, @function
-FUN_060081F4:
+    .global gas_force_apply
+    .type gas_force_apply, @function
+gas_force_apply:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x2E

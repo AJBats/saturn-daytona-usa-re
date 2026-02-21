@@ -49,7 +49,7 @@ DAT_0602e28e:
     .4byte sym_0602F7BC
     .4byte sym_06030A06
     .4byte sym_06030EE0
-    .4byte FUN_060085B8
+    .4byte brake_force_apply
     .4byte accel_response
     .4byte sym_0607E940
     .4byte sym_0602D82A

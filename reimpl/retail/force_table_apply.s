@@ -1,7 +1,7 @@
     .section .text.FUN_060086C0
-    .global FUN_060086C0
-    .type FUN_060086C0, @function
-FUN_060086C0:
+    .global force_table_apply
+    .type force_table_apply, @function
+force_table_apply:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x01
     .byte 0xD7, 0x16

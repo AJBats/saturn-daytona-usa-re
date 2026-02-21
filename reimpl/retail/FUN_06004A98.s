@@ -159,7 +159,7 @@ FUN_06004A98:
     .byte 0x0F, 0xFE
     .4byte FUN_06036E90
     .4byte sym_06000300
-    .4byte FUN_06006F3C
+    .4byte button_input_read
     .4byte FUN_06007268
     .4byte sym_06063DA8
     .4byte FUN_0603950C

@@ -1,7 +1,7 @@
     .section .text.FUN_060085B8
-    .global FUN_060085B8
-    .type FUN_060085B8, @function
-FUN_060085B8:
+    .global brake_force_apply
+    .type brake_force_apply, @function
+brake_force_apply:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x1B

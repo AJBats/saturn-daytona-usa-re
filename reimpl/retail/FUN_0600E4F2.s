@@ -32,8 +32,8 @@ DAT_0600e522:
     .4byte sym_0607E944
     .4byte sym_0607E940
     .4byte sym_0600A8BC
-    .4byte FUN_060081F4
-    .4byte FUN_060085B8
+    .4byte gas_force_apply
+    .4byte brake_force_apply
     .4byte sym_06030A06
     .4byte sym_06030EE0
     .4byte sym_06006838
@@ -197,8 +197,8 @@ DAT_0600e522:
 DAT_0600e69c:
     .byte 0x01, 0xB0
     .byte 0x02, 0x28
-    .4byte FUN_060081F4
-    .4byte FUN_060085B8
+    .4byte gas_force_apply
+    .4byte brake_force_apply
     .4byte sym_06030A06
     .4byte sym_06030EE0
     .4byte sym_06078635
