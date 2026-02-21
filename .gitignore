@@ -1,5 +1,8 @@
 # Derived build artifacts
-build/
+build/*
+!build/screenshots/
+build/screenshots/*
+!build/screenshots/golden_*.png
 reimpl/build/
 reimpl/daytona_sizing.elf
 reimpl/saturn_fixed.ld
