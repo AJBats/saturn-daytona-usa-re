@@ -1,7 +1,7 @@
     .section .text.FUN_06011310
-    .global FUN_06011310
-    .type FUN_06011310, @function
-FUN_06011310:
+    .global position_ranking_display
+    .type position_ranking_display, @function
+position_ranking_display:
     .byte 0x2F, 0xE6
     .byte 0xE4, 0x03
     .byte 0x2F, 0xD6

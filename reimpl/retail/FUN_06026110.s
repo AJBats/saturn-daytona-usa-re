@@ -83,7 +83,7 @@ FUN_06026110:
     .4byte sym_06061198
     .4byte sym_06061199
     .4byte sym_06060D78
-    .4byte FUN_06025070
+    .4byte scene_finalize_a
     .byte 0x64, 0xED
     .byte 0x67, 0x5C
     .byte 0x66, 0x5D
@@ -208,4 +208,4 @@ FUN_06026110:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte FUN_06025148
+    .4byte scene_finalize_b

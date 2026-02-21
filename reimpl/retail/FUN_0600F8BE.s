@@ -16,7 +16,7 @@ FUN_0600F8BE:
     .byte 0x07, 0x08
     .byte 0xFF, 0xFF
     .4byte FUN_060114AC
-    .4byte FUN_06011094
+    .4byte hud_course_render
     .4byte sym_0607887C
     .4byte sym_0607887F
     .4byte sym_06028560

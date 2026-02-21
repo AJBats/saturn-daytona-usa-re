@@ -266,4 +266,4 @@ FUN_06006868:
     .4byte track_geometry_proc
     .4byte FUN_06017CEC
     .4byte FUN_06018166
-    .4byte FUN_06022140
+    .4byte scene_process_stage

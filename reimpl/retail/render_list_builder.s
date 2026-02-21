@@ -1,7 +1,7 @@
     .section .text.FUN_06022820
-    .global FUN_06022820
-    .type FUN_06022820, @function
-FUN_06022820:
+    .global render_list_builder
+    .type render_list_builder, @function
+render_list_builder:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

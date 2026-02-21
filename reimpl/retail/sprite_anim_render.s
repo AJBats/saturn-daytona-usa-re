@@ -1,7 +1,7 @@
     .section .text.FUN_060100A4
-    .global FUN_060100A4
-    .type FUN_060100A4, @function
-FUN_060100A4:
+    .global sprite_anim_render
+    .type sprite_anim_render, @function
+sprite_anim_render:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
     .byte 0x2F, 0xD6
@@ -244,7 +244,7 @@ DAT_060101b2:
     .4byte sym_06044844
     .byte 0x00, 0x20
     .byte 0x00, 0x00
-    .4byte FUN_06011AF4
+    .4byte rigid_body_transform
     .4byte sym_0607EADC
     .4byte sym_06063D9C
     .byte 0x00, 0x00

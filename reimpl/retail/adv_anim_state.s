@@ -1,7 +1,7 @@
     .section .text.FUN_06010760
-    .global FUN_06010760
-    .type FUN_06010760, @function
-FUN_06010760:
+    .global adv_anim_state
+    .type adv_anim_state, @function
+adv_anim_state:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

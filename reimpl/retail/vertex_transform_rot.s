@@ -1,7 +1,7 @@
     .section .text.FUN_06011978
-    .global FUN_06011978
-    .type FUN_06011978, @function
-FUN_06011978:
+    .global vertex_transform_rot
+    .type vertex_transform_rot, @function
+vertex_transform_rot:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

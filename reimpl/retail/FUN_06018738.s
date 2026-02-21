@@ -115,4 +115,4 @@ FUN_06018738:
     .byte 0x80, 0x00
     .4byte sym_0607EAD8
     .4byte FUN_06012E08
-    .4byte FUN_0602304C
+    .4byte render_batch_proc

@@ -49,6 +49,6 @@ FUN_0601B418:
     .byte 0x00, 0x00
     .byte 0x01, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_06011AF4
+    .4byte rigid_body_transform
     .4byte frame_end_commit
     .4byte sym_0605D4F8

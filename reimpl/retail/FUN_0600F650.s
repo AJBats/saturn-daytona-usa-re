@@ -92,7 +92,7 @@ FUN_0600F650:
     .byte 0x03, 0xFF
     .4byte sym_06011494
     .4byte FUN_060114AC
-    .4byte FUN_06011094
+    .4byte hud_course_render
     .4byte sym_06063D98
     .byte 0xEA, 0x29
     .byte 0xEC, 0x26

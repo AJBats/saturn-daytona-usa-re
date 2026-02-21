@@ -51,4 +51,4 @@ FUN_0600F914:
     .4byte sym_0607885C
     .4byte display_channel_b
     .4byte sym_06011450
-    .4byte FUN_0601155E
+    .4byte sprite_batch_renderer

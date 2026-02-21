@@ -1,7 +1,7 @@
     .section .text.FUN_060116A8
-    .global FUN_060116A8
-    .type FUN_060116A8, @function
-FUN_060116A8:
+    .global sprite_3d_render
+    .type sprite_3d_render, @function
+sprite_3d_render:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x63
     .byte 0x2F, 0xD6

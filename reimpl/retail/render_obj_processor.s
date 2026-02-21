@@ -1,7 +1,7 @@
     .section .text.FUN_06022AE0
-    .global FUN_06022AE0
-    .type FUN_06022AE0, @function
-FUN_06022AE0:
+    .global render_obj_processor
+    .type render_obj_processor, @function
+render_obj_processor:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

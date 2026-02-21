@@ -393,7 +393,7 @@ DAT_06018b8e:
     .4byte sym_0605AD08
     .4byte sym_06078900
     .4byte sym_0607E944
-    .4byte FUN_06010994
+    .4byte hud_coord_calc
     .4byte FUN_060038D4
     .4byte FUN_060039C8
     .4byte sym_0605D1CC

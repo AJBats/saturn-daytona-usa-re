@@ -101,7 +101,7 @@ FUN_0600FB78:
     .byte 0x07, 0x20
     .byte 0xFF, 0xFF
     .4byte sym_06063D98
-    .4byte FUN_06010BC4
+    .4byte graphics_mode_setup
     .4byte sym_06011EB4
     .4byte sym_06085FF4
     .4byte sym_060284AE

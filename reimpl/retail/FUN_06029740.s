@@ -1411,8 +1411,8 @@ sym_0602A1F0:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte vblank_frame_handler
-    .4byte FUN_06022820
-    .4byte FUN_06022AE0
+    .4byte render_list_builder
+    .4byte render_obj_processor
     .global sym_0602A200
 sym_0602A200:
     .4byte loc_0602A134
@@ -2228,8 +2228,8 @@ sym_0602A810:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte vblank_frame_handler
-    .4byte FUN_06022820
-    .4byte FUN_06022AE0
+    .4byte render_list_builder
+    .4byte render_obj_processor
     .global sym_0602A820
 sym_0602A820:
     .4byte loc_0602A754

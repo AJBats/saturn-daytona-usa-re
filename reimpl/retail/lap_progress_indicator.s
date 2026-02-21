@@ -1,7 +1,7 @@
     .section .text.FUN_060111E2
-    .global FUN_060111E2
-    .type FUN_060111E2, @function
-FUN_060111E2:
+    .global lap_progress_indicator
+    .type lap_progress_indicator, @function
+lap_progress_indicator:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

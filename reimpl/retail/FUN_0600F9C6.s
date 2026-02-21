@@ -40,7 +40,7 @@ FUN_0600F9C6:
     .byte 0x00, 0x00
     .4byte display_channel_b
     .4byte sym_0607886E
-    .4byte FUN_0601155E
+    .4byte sprite_batch_renderer
     .4byte sym_0607887F
     .byte 0xAE, 0x00
     .byte 0x03, 0xFF
@@ -186,5 +186,5 @@ FUN_0600F9C6:
     .4byte sym_060284AE
     .4byte sym_06011494
     .4byte FUN_060114AC
-    .4byte FUN_06010BC4
+    .4byte graphics_mode_setup
     .4byte sym_06011EB4

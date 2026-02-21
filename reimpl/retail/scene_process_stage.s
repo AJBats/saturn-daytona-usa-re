@@ -1,7 +1,7 @@
     .section .text.FUN_06022140
-    .global FUN_06022140
-    .type FUN_06022140, @function
-FUN_06022140:
+    .global scene_process_stage
+    .type scene_process_stage, @function
+scene_process_stage:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

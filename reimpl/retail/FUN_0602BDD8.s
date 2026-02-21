@@ -874,8 +874,8 @@ sym_0602C460:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte vblank_frame_handler
-    .4byte FUN_06022820
-    .4byte FUN_06022AE0
+    .4byte render_list_builder
+    .4byte render_obj_processor
     .global sym_0602C470
 sym_0602C470:
     .4byte loc_0602C380

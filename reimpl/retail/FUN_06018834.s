@@ -119,4 +119,4 @@ FUN_06018834:
     .byte 0x80, 0x00
     .4byte sym_0607EAD8
     .4byte FUN_06012E08
-    .4byte FUN_06023290
+    .4byte projection_mgr

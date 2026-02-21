@@ -1,7 +1,7 @@
     .section .text.FUN_060104E0
-    .global FUN_060104E0
-    .type FUN_060104E0, @function
-FUN_060104E0:
+    .global multi_state_anim
+    .type multi_state_anim, @function
+multi_state_anim:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

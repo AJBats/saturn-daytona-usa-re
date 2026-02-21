@@ -1,7 +1,7 @@
     .section .text.FUN_06010D94
-    .global FUN_06010D94
-    .type FUN_06010D94, @function
-FUN_06010D94:
+    .global vdp_mode_select
+    .type vdp_mode_select, @function
+vdp_mode_select:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x0A
     .byte 0x2F, 0xD6

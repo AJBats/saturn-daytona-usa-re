@@ -175,7 +175,7 @@ DAT_0601b87e:
     .byte 0x00, 0x00
     .byte 0xFF, 0xD4
     .byte 0x00, 0x00
-    .4byte FUN_06011AF4
+    .4byte rigid_body_transform
     .4byte sym_0605D4F8
     .4byte sym_0608600E
     .byte 0x69, 0xEC
