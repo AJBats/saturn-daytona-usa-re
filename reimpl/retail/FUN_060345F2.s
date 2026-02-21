@@ -19,10 +19,10 @@ FUN_060345F2:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x28
-    .4byte sym_06027344
+    .4byte cos_lookup
     .byte 0x00, 0x00
     .byte 0x00, 0x04
-    .4byte sym_06027348
+    .4byte sin_lookup
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
     .4byte sym_06083238

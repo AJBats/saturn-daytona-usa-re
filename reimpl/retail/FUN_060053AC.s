@@ -104,6 +104,6 @@ FUN_060053AC:
     .4byte FUN_06026F2A
     .4byte FUN_06026EDE
     .4byte sym_06026E2E
-    .4byte sym_06027358
+    .4byte sincos_pair
     .4byte sym_06063DF8
     .4byte FUN_06027552

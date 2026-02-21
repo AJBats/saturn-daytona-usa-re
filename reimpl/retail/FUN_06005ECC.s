@@ -349,7 +349,7 @@ DAT_06006116:
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte FUN_06027552
-    .4byte sym_0602744C
+    .4byte atan2
     .byte 0x00, 0x01
     .byte 0x19, 0x98
     .4byte sym_06089EDC

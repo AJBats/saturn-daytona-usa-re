@@ -32,7 +32,7 @@ FUN_0602E7D4:
     .global DAT_0602e80a
 DAT_0602e80a:
     .byte 0x80, 0x00
-    .4byte sym_0602744C
+    .4byte atan2
     .4byte sym_06078663
     .byte 0x61, 0x1D
     .byte 0x34, 0x17

@@ -138,7 +138,7 @@ FUN_06011B08:
     .byte 0xA0, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06027358
+    .4byte sincos_pair
     .4byte sym_060786CC
     .4byte sym_0605AAA0
     .4byte sym_0602754C

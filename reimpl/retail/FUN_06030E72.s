@@ -35,8 +35,8 @@ FUN_06030E72:
     .global DAT_06030eae
 DAT_06030eae:
     .byte 0x00, 0x7C
-    .4byte sym_06027344
-    .4byte sym_06027348
+    .4byte cos_lookup
+    .4byte sin_lookup
     .byte 0x00, 0x00
     .byte 0xDE, 0xB8
     .byte 0x00, 0x00

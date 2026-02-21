@@ -40,7 +40,7 @@ DAT_0602e522:
     .byte 0x00, 0x00
     .4byte sym_0607EAD8
     .4byte sym_0602E8AC
-    .4byte sym_0602744C
+    .4byte atan2
     .byte 0xFF, 0xFF
     .byte 0xFF, 0x00
     .byte 0xD1, 0x1C

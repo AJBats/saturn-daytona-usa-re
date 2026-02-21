@@ -169,7 +169,7 @@ DAT_0600c702:
     .4byte sym_0607E940
     .byte 0x00, 0xE0
     .byte 0x00, 0x00
-    .4byte sym_06027358
+    .4byte sincos_pair
     .byte 0xB1, 0x06
     .byte 0x64, 0xE3
     .byte 0x65, 0xD3

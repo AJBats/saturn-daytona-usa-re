@@ -146,7 +146,7 @@ FUN_060116BC:
     .byte 0x64, 0x93
     .byte 0xA0, 0x10
     .byte 0x00, 0x09
-    .4byte sym_06027358
+    .4byte sincos_pair
     .4byte sym_060786CC
     .4byte sym_0605AAA0
     .4byte sym_0602754C

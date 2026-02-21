@@ -11,8 +11,8 @@ FUN_06033614:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .4byte sym_0603363C
-    .4byte sym_06027348
-    .4byte sym_06027344
+    .4byte sin_lookup
+    .4byte cos_lookup
     .global sym_06033630
 sym_06033630:
     .byte 0x00, 0x00

@@ -82,7 +82,7 @@ DAT_0600c962:
 DAT_0600c964:
     .byte 0xFA, 0x00
     .byte 0x20, 0x00
-    .4byte sym_0602744C
+    .4byte atan2
     .byte 0x00, 0x00
     .byte 0xFA, 0x00
     .byte 0x90, 0x38

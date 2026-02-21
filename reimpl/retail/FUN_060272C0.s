@@ -63,12 +63,12 @@ FUN_060272C0:
     .4byte sym_0608A6F0
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .global sym_06027344
-sym_06027344:
+    .global cos_lookup
+cos_lookup:
     .byte 0x90, 0xDA
     .byte 0x34, 0x0C
-    .global sym_06027348
-sym_06027348:
+    .global sin_lookup
+sin_lookup:
     .byte 0x90, 0xD9
     .byte 0x44, 0x09
     .byte 0x74, 0x02
@@ -77,8 +77,8 @@ sym_06027348:
     .byte 0x00, 0x0B
     .byte 0x00, 0x4E
     .byte 0x00, 0x09
-    .global sym_06027358
-sym_06027358:
+    .global sincos_pair
+sincos_pair:
     .byte 0x93, 0xD0
     .byte 0x74, 0x08
     .byte 0x91, 0xCF
@@ -95,8 +95,8 @@ sym_06027358:
     .byte 0x00, 0x0B
     .byte 0x26, 0x12
     .byte 0x00, 0x09
-    .global sym_06027378
-sym_06027378:
+    .global atan_piecewise
+atan_piecewise:
     .byte 0x44, 0x11
     .byte 0x8D, 0x01
     .byte 0x06, 0x29
@@ -203,8 +203,8 @@ sym_06027378:
     .byte 0x8B, 0xFA
     .byte 0x00, 0x0B
     .byte 0x60, 0x0B
-    .global sym_0602744C
-sym_0602744C:
+    .global atan2
+atan2:
     .byte 0x25, 0x58
     .byte 0x8B, 0x05
     .byte 0x90, 0x54

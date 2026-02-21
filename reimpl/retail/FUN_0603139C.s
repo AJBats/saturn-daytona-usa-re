@@ -84,8 +84,8 @@ FUN_0603139C:
     .global DAT_0603143a
 DAT_0603143a:
     .byte 0x80, 0x00
-    .4byte sym_0602744C
-    .4byte sym_06027348
+    .4byte atan2
+    .4byte sin_lookup
     .byte 0xE8, 0x01
     .byte 0x27, 0x78
     .byte 0x89, 0x01
@@ -239,7 +239,7 @@ DAT_06031516:
     .byte 0x02, 0x08
     .byte 0x01, 0x94
     .byte 0x00, 0x00
-    .4byte sym_06027344
+    .4byte cos_lookup
     .4byte sym_0602FD9A
     .byte 0x2F, 0x06
     .byte 0x2F, 0x46
@@ -401,8 +401,8 @@ DAT_0603162e:
     .byte 0xAE, 0x36
     .byte 0x1D, 0x66
     .byte 0x00, 0x00
-    .4byte sym_06027344
-    .4byte sym_06027348
+    .4byte cos_lookup
+    .4byte sin_lookup
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .global sym_060316C4

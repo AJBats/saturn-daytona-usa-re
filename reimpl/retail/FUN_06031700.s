@@ -46,7 +46,7 @@ FUN_06031700:
 DAT_06031750:
     .byte 0x80, 0x00
     .byte 0x00, 0x00
-    .4byte sym_0602744C
+    .4byte atan2
     .4byte sym_0605BCC8
     .byte 0x51, 0xEA
     .byte 0x52, 0xDA
@@ -198,8 +198,8 @@ DAT_060317c6:
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
     .byte 0x00, 0x00
-    .4byte sym_06027344
-    .4byte sym_06027348
+    .4byte cos_lookup
+    .4byte sin_lookup
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x2F, 0x06

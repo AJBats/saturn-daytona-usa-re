@@ -49,7 +49,7 @@ DAT_0600c9e4:
 DAT_0600c9e6:
     .byte 0x01, 0x00
     .4byte sym_0605A1E0
-    .4byte sym_0602744C
+    .4byte atan2
     .4byte sym_0607EB88
     .4byte sym_0607E944
     .byte 0x68, 0xB2

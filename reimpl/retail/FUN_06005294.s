@@ -54,7 +54,7 @@ FUN_06005294:
     .global DAT_060052f6
 DAT_060052f6:
     .byte 0x61, 0xF7
-    .4byte sym_0602744C
+    .4byte atan2
     .byte 0x00, 0x00
     .byte 0xEC, 0x83
     .4byte FUN_06027552
@@ -123,7 +123,7 @@ DAT_0600537a:
     .byte 0x00, 0x00
     .byte 0xEC, 0x83
     .4byte FUN_06027552
-    .4byte sym_0602744C
+    .4byte atan2
     .4byte sym_06078663
     .byte 0x00, 0x01
     .byte 0x00, 0x00

@@ -53,7 +53,7 @@ DAT_0602ce48:
     .global DAT_0602ce4a
 DAT_0602ce4a:
     .byte 0x00, 0x5C
-    .4byte sym_06027348
+    .4byte sin_lookup
     .byte 0x00, 0x02
     .byte 0xC0, 0x00
     .byte 0xD0, 0x12
@@ -95,8 +95,8 @@ DAT_0602ce4a:
     .byte 0x65, 0xF6
     .byte 0x00, 0x00
     .4byte sym_0602755C
-    .4byte sym_06027344
-    .4byte sym_0602744C
+    .4byte cos_lookup
+    .4byte atan2
     .byte 0xD0, 0x08
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
@@ -261,7 +261,7 @@ DAT_0602cfe0:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
-    .4byte sym_06027348
+    .4byte sin_lookup
     .byte 0x00, 0x28
     .byte 0xD0, 0xFA
     .byte 0x03, 0x20

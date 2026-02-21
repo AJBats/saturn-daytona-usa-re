@@ -77,5 +77,5 @@ DAT_0600cdc0:
 DAT_0600cdc2:
     .byte 0x40, 0x00
     .4byte sym_0607E940
-    .4byte sym_0602744C
+    .4byte atan2
     .4byte sym_0607EA9C

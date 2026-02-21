@@ -114,7 +114,7 @@ DAT_0600d5d6:
     .byte 0x10, 0x06
     .byte 0x00, 0x00
     .4byte sym_06063EF0
-    .4byte sym_06027358
+    .4byte sincos_pair
     .byte 0x00, 0x07
     .byte 0x00, 0x00
     .4byte FUN_06027552
@@ -213,7 +213,7 @@ DAT_0600d5d6:
     .byte 0x02, 0x38
     .byte 0x08, 0x01
     .byte 0x09, 0x01
-    .4byte sym_06027358
+    .4byte sincos_pair
     .byte 0x00, 0x05
     .byte 0x00, 0x00
     .4byte FUN_06027552

@@ -130,5 +130,5 @@ DAT_0600c8c0:
     .global DAT_0600c8c2
 DAT_0600c8c2:
     .byte 0x01, 0x8C
-    .4byte sym_06027358
+    .4byte sincos_pair
     .4byte FUN_06027552

@@ -442,7 +442,7 @@ DAT_060224b6:
     .byte 0x00, 0x00
     .byte 0x00, 0x01
     .byte 0x80, 0x00
-    .4byte sym_06027358
+    .4byte sincos_pair
     .byte 0xAE, 0x11
     .byte 0x0B, 0xFF
     .4byte FUN_0601D5F4

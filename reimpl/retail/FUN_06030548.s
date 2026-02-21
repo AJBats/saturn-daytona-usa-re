@@ -1134,7 +1134,7 @@ DAT_06030da2:
     .byte 0x22, 0x0D
     .byte 0x00, 0x00
     .4byte sym_06030FBC
-    .4byte sym_06027348
+    .4byte sin_lookup
     .byte 0x00, 0x03
     .byte 0x80, 0x00
     .byte 0xD2, 0x03

@@ -13,4 +13,4 @@ DAT_0602efe6:
     .byte 0x01, 0x00
     .byte 0x01, 0x04
     .byte 0x00, 0x00
-    .4byte sym_06027358
+    .4byte sincos_pair

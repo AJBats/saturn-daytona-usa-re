@@ -135,7 +135,7 @@ FUN_06016DD8:
     .4byte FUN_06027552
     .4byte sym_0605AD10
     .4byte sym_06084FC8
-    .4byte sym_06027358
+    .4byte sincos_pair
     .byte 0x8B, 0xBB
     .byte 0x84, 0xFC
     .byte 0xD1, 0x42
@@ -278,7 +278,7 @@ DAT_06016ffa:
     .4byte sym_06078663
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_06027358
+    .4byte sincos_pair
     .4byte sym_0602755C
     .byte 0x65, 0x52
     .byte 0xD3, 0x35

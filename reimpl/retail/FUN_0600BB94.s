@@ -344,7 +344,7 @@ DAT_0600bdae:
     .4byte sym_06082A30
     .4byte sym_0603850C
     .4byte FUN_0603853C
-    .4byte sym_06027358
+    .4byte sincos_pair
     .4byte sym_06082A70
     .4byte sym_06082A78
     .4byte FUN_060064F2
@@ -462,8 +462,8 @@ DAT_0600bf3c:
     .4byte sym_0605BDCC
     .4byte sym_06063E2C
     .4byte FUN_06020E74
-    .4byte sym_06027358
-    .4byte sym_06027344
+    .4byte sincos_pair
+    .4byte cos_lookup
     .4byte sym_06078668
     .4byte FUN_06027552
     .byte 0x4F, 0x12

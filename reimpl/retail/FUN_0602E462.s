@@ -39,8 +39,8 @@ FUN_0602E462:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_06027344
-    .4byte sym_06027348
+    .4byte cos_lookup
+    .4byte sin_lookup
     .byte 0x00, 0x00
     .byte 0x01, 0x8C
     .byte 0x00, 0x00

@@ -201,7 +201,7 @@ DAT_0602f6f6:
     .byte 0x00, 0x00
     .byte 0x06, 0x40
     .byte 0x00, 0x00
-    .4byte sym_06027348
+    .4byte sin_lookup
     .4byte sym_060454CC
     .byte 0xE4, 0x00
     .byte 0x93, 0x32
