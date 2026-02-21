@@ -1,7 +1,7 @@
     .section .text.FUN_0600DBA0
-    .global FUN_0600DBA0
-    .type FUN_0600DBA0, @function
-FUN_0600DBA0:
+    .global finish_display
+    .type finish_display, @function
+finish_display:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22

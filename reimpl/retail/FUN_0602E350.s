@@ -36,7 +36,7 @@ DAT_0602e376:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte sym_0603053C
-    .4byte FUN_0600D780
+    .4byte checkpoint_detect
     .byte 0x00, 0x00
     .byte 0x00, 0x96
     .byte 0xD1, 0x0B

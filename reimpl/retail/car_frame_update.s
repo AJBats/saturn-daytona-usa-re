@@ -44,10 +44,10 @@ DAT_0600e522:
     .4byte sym_06063E9C
     .4byte sym_06063ED8
     .4byte sym_06063EC4
-    .4byte FUN_0600DA7C
+    .4byte finish_proximity
     .4byte FUN_0600CE66
     .4byte sym_0603053C
-    .4byte FUN_0600D780
+    .4byte checkpoint_detect
     .4byte sym_060786BC
     .4byte sym_06063D9E
     .4byte sym_06063F44
@@ -216,10 +216,10 @@ DAT_0600e69c:
     .4byte sym_06063ED8
     .4byte sym_06063EC4
     .4byte sym_0600DB64
-    .4byte FUN_0600DA7C
+    .4byte finish_proximity
     .4byte FUN_0600CE66
     .4byte sym_0603053C
-    .4byte FUN_0600D780
+    .4byte checkpoint_detect
     .4byte sym_0607EA9C
     .4byte FUN_0600C994
     .4byte sym_06083255

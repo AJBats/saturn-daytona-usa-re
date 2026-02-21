@@ -1,7 +1,7 @@
     .section .text.FUN_0600DA7C
-    .global FUN_0600DA7C
-    .type FUN_0600DA7C, @function
-FUN_0600DA7C:
+    .global finish_proximity
+    .type finish_proximity, @function
+finish_proximity:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

@@ -1,7 +1,7 @@
     .section .text.FUN_0600D92C
-    .global FUN_0600D92C
-    .type FUN_0600D92C, @function
-FUN_0600D92C:
+    .global lap_time_record
+    .type lap_time_record, @function
+lap_time_record:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x1B
