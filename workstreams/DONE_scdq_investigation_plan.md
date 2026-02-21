@@ -1,5 +1,6 @@
 # SCDQ Root Cause Investigation Plan
 
+> **Status**: COMPLETE — plan executed, root cause confirmed
 > **Created**: 2026-02-19
 > **Context**: Free+4 build fails on both Mednafen and real Saturn hardware.
 > SCDQ poll hangs. Three competing hypotheses need investigation.

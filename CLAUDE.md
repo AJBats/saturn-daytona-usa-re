@@ -5,16 +5,13 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — all bypasses eliminated or made permanent |
-| 2 | Disc File RE | Complete | workstreams/disc_file_re.md — DISPROVEN: no offset-based APROG.BIN refs in disc files |
-| 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
-| 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
+| 1 | Sawyer L2 — Relocatable ASM + C Reimpl | Active | workstreams/sawyer_l2.md |
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
 **Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).
 **Linker scripts**: `free.ld` (free-layout, normal and +4 shift modes — see Makefile), `sega.ld` (byte-identical retail).
 **FUN_060423CC**: First permanent C reimplementation — SCDQ poll timeout (was a latent bug in retail).
-See `workstreams/active_investigation.md`.
+See `workstreams/DONE_free_build_compat.md`.
 
 ## Investigation Discipline
 

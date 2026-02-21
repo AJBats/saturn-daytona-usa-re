@@ -1,6 +1,6 @@
 # SCDQ Investigation — REOPENED
 
-> **Status**: REOPENED — CDB fix reverted (unvalidated), bypass still required
+> **Status**: COMPLETE — root cause confirmed, permanent C reimpl in src/FUN_060423CC.c
 > **Theory**: Mednafen `CDB_Read()` returns stale HIRQ — plausible but fix had no validated delta
 > **CDB fix**: REVERTED (mednafen commit 97c572d). Patch preserved below if needed for future A/B test.
 > **Bypass**: `reimpl/patches/FUN_060423CC.c` — REQUIRED for Mednafen testing

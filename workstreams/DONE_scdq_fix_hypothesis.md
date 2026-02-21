@@ -1,6 +1,6 @@
 # SCDQ Fix Hypothesis: TABLE.BIN Timing Race
 
-> **Status**: HYPOTHESIS — awaiting validation
+> **Status**: COMPLETE — hypothesis confirmed (TABLE.BIN timing race)
 > **Date**: 2026-02-19
 > **Investigation tool**: Mednafen SS_DBG_CDB logging (dev build)
 > **Key disclaimer**: Everything observed here is in Mednafen. Real hardware behavior is inferred.

@@ -1,9 +1,8 @@
 # Sawyer L2 — Relocatable Assembly Source
 
-> **Status**: Active — All tooling validated (memory dump, call trace, annotations). Black screen = unsymbolized pool entries.
+> **Status**: Active — Phase 3 COMPLETE (free build boots, races laps). Phase 4/5 next.
 > **Created**: 2026-02-17
 > **Predecessor**: DONE_function_audit.md, ICEBOX_gameplay_extraction.md (Sawyer annotations)
-> **Paused**: road_to_boot.md, reimplementation.md (resume after bootable ASM base)
 
 ## The Problem
 
@@ -65,9 +64,9 @@ Three experiments validated the approach:
 
 **Goal**: Fresh build system in `reimpl/` that assembles `.s` files and links them.
 
-**Completed 2026-02-17:**
-- Archived old C source: `reimpl/src/` → `reimpl/src_c_archive/` (git mv)
-- New Makefile: discovers `src/*.s`, assembles with `sh-elf-as --isa=sh2 -big`, links with `sh-elf-ld`
+**Completed 2026-02-17 (restructured 2026-02-21):**
+- Original C source archived, then restructured: `reimpl/retail/` = Sega originals, `reimpl/src/` = reimplemented (auto-overrides by stem)
+- Makefile discovers `retail/*.s` + `src/*.{s,c}`, assembles/compiles, links with `sh-elf-ld`
 - `SORT_BY_NAME(.text.FUN_*)` linker ordering — section names sort lexicographically in address order
 - `make validate` target runs `cmp` against original binary
 - `make disc` target injects into disc image for Mednafen testing
@@ -81,11 +80,11 @@ Three experiments validated the approach:
 - **1,259 `.s` files** generated (1,258 functions + `_start.s`)
 - Symbol sources:
   - 1,258 FUN_ symbols from `build/aprog_syms.txt`
-  - 1,341 DAT_ symbols from `reimpl/src_c_archive/linker_stubs.c`
+  - 1,341 DAT_ symbols (originally from linker_stubs.c, now baked into `sega.ld`/`free.ld`)
   - 1,749 synthetic sym_ symbols extracted from `build/aprog.s` disassembly comments
   - **4,348 total symbols**
 - **7,236 pool entries symbolized** (from initial 1,146 — 6.3x improvement)
-- Auto-generated `reimpl/sawyer.ld` with PROVIDE declarations for all symbols
+- Auto-generated linker script (now `reimpl/sega.ld` / `reimpl/free.ld`) with PROVIDE declarations for all symbols
 - **Gate PASSED**: `cmp` — byte-identical to original (394,896 bytes)
 
 **Key design decisions:**
@@ -94,7 +93,7 @@ Three experiments validated the approach:
 - Synthetic symbols (sym_XXXXXXXX) created for addresses in 0x06000000-0x060FFFFF range
   that appear in disassembly comment annotations but aren't in FUN_/DAT_ tables
 
-### Phase 3: Free Layout + Boot Test — IN PROGRESS
+### Phase 3: Free Layout + Boot Test — DONE
 
 **Goal**: Prove the binary works without fixed addresses.
 
@@ -116,7 +115,7 @@ pool symbolization work is exactly the right fix.
 
 #### Free-Layout Boot Test Result (2026-02-17)
 
-Built with `sawyer_free.ld` (+4 padding), injected, boot tested: **BLACK SCREEN**.
+Built with `free.ld` (+4 padding), injected, boot tested: **BLACK SCREEN**.
 Binary is 394,900 bytes (394,896 + 4). The symbolized pools were expected to fix
 this — but they didn't. Initial tool-based analysis (find_stale_addresses.py,
 find_unsymbolized_pool.py) suggested pools were 99.4% symbolized and the remaining
@@ -387,7 +386,7 @@ Key findings relevant to Sawyer L2:
 - **APROG is the complete game engine** — all 1234 functions stay resident
 - The identical-trace mystery remains unsolved (see above)
 
-**Gate**: game boots with +4 padding (attract mode or better).
+**Gate**: ~~game boots with +4 padding (attract mode or better).~~ **PASSED (2026-02-20)**. Free build boots to title screen, mode select works, can race laps. Root cause fixes in `DONE_free_build_compat.md`.
 
 ### Phase 4: Sawyer L3 — Real ASM Source (Incremental)
 
@@ -412,23 +411,15 @@ Key findings relevant to Sawyer L2:
 
 **Goal**: Replace ASM functions with C, one at a time. No slot constraints.
 
-1. Start with the 93 hand-written L2+ C files (257 functions)
-   - These are already understood and documented
-   - Move from `reimpl/src_c_archive/` back into `reimpl/src/`
-   - Remove the corresponding `.s` file
+1. Add a `.c` file to `reimpl/src/` — Makefile auto-discovers it and overrides the retail `.s`
+   - First C reimpl done: `src/FUN_060423CC.c` (SCDQ poll timeout — latent bug fix)
+   - Archived Ghidra lifts in `reimpl/src_c_archive/` can serve as starting material
 
-2. Makefile builds `.s` and `.c` together:
-   - `.s` files → `sh-elf-as` → `.o`
-   - `.c` files → `sh-elf-gcc` → `.o`
-   - All `.o` → `sh-elf-ld` → `APROG.BIN`
-
-3. Per-function validation: rebuild, boot test
+2. Per-function validation: `make validate` (retail byte-identical), `make disc` (boot test)
    - If boot breaks → the C has a bug. Fix or revert.
    - If binary too large → optimize the C or accept the growth (see RAM audit)
 
-4. Eventually: tackle the 624 disabled Ghidra lifts as starting points for more C
-
-5. **No slot size constraints.** A C function that's 20% larger just shifts everything
+3. **No slot size constraints.** A C function that's 20% larger just shifts everything
    after it. The linker resolves all references. This is why we did all of this.
 
 ## Constant Pool Classification
@@ -452,15 +443,15 @@ computed offsets, or symbols we haven't catalogued.
 
 ## Resources
 
+- `reimpl/retail/` — 1,259 `.s` files (L2 relocatable ASM, symbolic pools)
+- `reimpl/src/` — reimplemented functions (C or ASM) — auto-override retail by stem name
+- `reimpl/free.ld` / `reimpl/sega.ld` — linker scripts with PROVIDE declarations
+- `reimpl/Makefile` — build system (see for all targets and flags)
 - `build/aprog.s` — full disassembly (206K lines, 1,234 function labels)
 - `build/aprog_syms.txt` — symbol table (function addresses)
-- `reimpl/src/linker_stubs.c` — ~1,482 data symbol addresses
 - `asm/*.s` — 46 Sawyer annotation files (rich comments, struct layouts)
-- `reimpl/src_c_archive/` — archived C source (93 hand-written + 624 Ghidra lifts)
-- `experiments/` — POC validation (2026-02-17), all use FUN_0600E71A (player physics orchestrator, 174 bytes):
-  - `poc_original.s` / `poc_link.ld` / `poc_test.sh` — baseline: function as raw `.byte` directives
-  - `poc_symbolic.s` / `poc_relocated.ld` / `poc_reloc_test.sh` — L2 test: `.4byte _SYMBOL` pool entries, proves relocation works
-  - `poc_real_asm.s` / `poc_real_link.ld` / `poc_real_test.sh` — L3 test: real SH-2 mnemonics, proves assembler produces correct output
+- `reimpl/src_c_archive/` — archived Ghidra lifts (93 hand-written + 624 auto, starting material for Phase 5)
+- `experiments/` — POC validation (2026-02-17), FUN_0600E71A proof-of-concept for L2/L3 approaches
 
 ## Open Questions
 
@@ -483,3 +474,4 @@ computed offsets, or symbols we haven't catalogued.
 *Updated: 2026-02-17 — PROVIDE fix applied (commit 7f5310d), relocation complete but black screen persists.*
 *Updated: 2026-02-17 — Investigation Round 2: RT1/RT2/RT3/RT5 all PASS. Zero relocation errors. Section alignment ELIMINATED.*
 *Updated: 2026-02-17 — GT3 Call trace: identical traces unexplained. Overlay hypothesis DISPROVED (overlays go to Low RAM/Sound RAM, APROG stays intact). See overlay_system_study.md.*
+*Updated: 2026-02-21 — Phase 3 gate PASSED. Build restructured: retail/ + src/ layout, linker scripts renamed, +4 shift made optional. Phase 5 mechanism live (first C reimpl: FUN_060423CC).*

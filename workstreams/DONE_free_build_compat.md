@@ -1,6 +1,6 @@
 # Free Build Emulator Compatibility
 
-> **Status**: ACTIVE — all bypasses eliminated or made permanent
+> **Status**: COMPLETE — all bypasses eliminated or made permanent
 > **Real hardware**: TESTED (2026-02-19) — confirmed FAILS without SCDQ timeout
 > **Mednafen**: Boots to title screen, mode select works, can race laps
 > **Current build**: `make disc` (free-layout default, FUN_060423CC reimplemented in C)

@@ -1,6 +1,6 @@
 # Overlay System Study
 
-> **Status: ACTIVE** — Investigating Daytona USA's memory overlay architecture.
+> **Status**: COMPLETE — APROG.BIN not overwritten by overlays; all data loads to Low RAM/Sound RAM.
 > Started: 2026-02-17
 
 ## Summary

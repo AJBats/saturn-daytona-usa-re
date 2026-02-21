@@ -1,6 +1,6 @@
 # SCDQ Root Cause: Latent State Machine Bug in FUN_0603B424
 
-> **Status**: STRONG HYPOTHESIS — behavioral root cause identified via ASM decode
+> **Status**: COMPLETE — hypothesis confirmed (latent state machine bug in FUN_0603B424)
 > **Date**: 2026-02-19
 > **Supersedes**: scdq_fix_hypothesis.md (timing race hypothesis — still possible,
 >   but this behavioral hypothesis is a better fit for all observed evidence)

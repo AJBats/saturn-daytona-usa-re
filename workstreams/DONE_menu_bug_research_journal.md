@@ -1,5 +1,7 @@
 # Menu Bug Research Journal
 
+> **Status**: COMPLETE — root cause found & fixed (false-positive pointer at sym_06049AEC)
+
 **Bug**: SATURN MODE text missing from mode select screen in free build.
 **Build**: `make disc`
 

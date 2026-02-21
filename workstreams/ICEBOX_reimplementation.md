@@ -1,6 +1,6 @@
 # Daytona USA Saturn — Faithful C Reimplementation
 
-> **Status**: Active — prerequisite work
+> **Status**: ICEBOX — superseded by sawyer_l2 approach; much of this doc is outdated
 > **Depends on**: Completed ASM annotation audit (46 files, 634 confidence scores, 138 fixes)
 > **Predecessor**: gameplay_extraction.md (The Sawyer Approach — mapping phase COMPLETE)
 

@@ -1,6 +1,6 @@
 # Road to Boot
 
-> **Status**: Active — primary workstream
+> **Status**: COMPLETE — superseded by free build compat workstream
 > **Depends on**: reimplementation.md (L1 pass complete, 1234 functions defined)
 > **Fallthrough**: L2 elevation work (reimplementation.md Pass 2) when boot goals are met
 

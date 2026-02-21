@@ -1,6 +1,6 @@
 # ICF Investigation: Dual-CPU Synchronization in Daytona USA
 
-> **Status**: RESOLVED (root cause identified)
+> **Status**: COMPLETE — root cause found & fixed (cache-through relocation in FUN_06034F08)
 > **Date**: 2026-02-18
 > **Root cause**: Slave SH-2 callback crashes due to incorrect data state (init functions not yet investigated)
 > **Bypass**: NOP over `bf -7` at FUN_0600C010.s line 127 — **reverted to original bytes** for byte-identical default build. Re-apply manually when boot-testing the rebuilt disc.
