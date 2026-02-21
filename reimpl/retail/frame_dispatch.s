@@ -1,7 +1,7 @@
     .section .text.FUN_060058FA
-    .global FUN_060058FA
-    .type FUN_060058FA, @function
-FUN_060058FA:
+    .global frame_dispatch
+    .type frame_dispatch, @function
+frame_dispatch:
     .byte 0x4F, 0x22
     .byte 0xB1, 0xCC
     .byte 0x00, 0x09

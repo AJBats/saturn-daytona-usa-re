@@ -31,7 +31,7 @@ FUN_0600C286:
     .byte 0xFF, 0xFF
     .byte 0x21, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_060058FA
+    .4byte frame_dispatch
     .4byte FUN_06006868
     .4byte FUN_0601BDEC
     .4byte sym_06059FF8
