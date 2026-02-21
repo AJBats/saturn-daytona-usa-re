@@ -1,7 +1,7 @@
     .section .text.FUN_0600C5D6
-    .global FUN_0600C5D6
-    .type FUN_0600C5D6, @function
-FUN_0600C5D6:
+    .global player_collision
+    .type player_collision, @function
+player_collision:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

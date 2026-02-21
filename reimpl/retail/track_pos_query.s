@@ -1,7 +1,7 @@
     .section .text.FUN_0600CD40
-    .global FUN_0600CD40
-    .type FUN_0600CD40, @function
-FUN_0600CD40:
+    .global track_pos_query
+    .type track_pos_query, @function
+track_pos_query:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22

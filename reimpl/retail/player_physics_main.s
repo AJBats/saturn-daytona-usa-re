@@ -1,7 +1,7 @@
     .section .text.FUN_0600E71A
-    .global FUN_0600E71A
-    .type FUN_0600E71A, @function
-FUN_0600E71A:
+    .global player_physics_main
+    .type player_physics_main, @function
+player_physics_main:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12
@@ -80,8 +80,8 @@ DAT_0600e79e:
     .4byte sym_0607E940
     .4byte FUN_06008318
     .4byte sym_06008640
-    .4byte sym_0600D266
+    .4byte friction_stub
     .4byte FUN_0600C4F8
-    .4byte FUN_0600C5D6
-    .4byte FUN_0600CEBA
+    .4byte player_collision
+    .4byte track_segment_advance
     .4byte sym_0607EA9C

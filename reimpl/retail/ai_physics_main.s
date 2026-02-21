@@ -1,7 +1,7 @@
     .section .text.FUN_0600E906
-    .global FUN_0600E906
-    .type FUN_0600E906, @function
-FUN_0600E906:
+    .global ai_physics_main
+    .type ai_physics_main, @function
+ai_physics_main:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12
@@ -23,7 +23,7 @@ DAT_0600e922:
     .byte 0x00, 0xE4
     .byte 0x00, 0xE0
     .byte 0xFF, 0xFF
-    .4byte FUN_0600CEBA
+    .4byte track_segment_advance
     .4byte sym_0607EA9C
     .4byte sym_0607EBC4
     .byte 0x00, 0x20

@@ -1,7 +1,7 @@
     .section .text.FUN_0600CF58
-    .global FUN_0600CF58
-    .type FUN_0600CF58, @function
-FUN_0600CF58:
+    .global collision_dispatch
+    .type collision_dispatch, @function
+collision_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

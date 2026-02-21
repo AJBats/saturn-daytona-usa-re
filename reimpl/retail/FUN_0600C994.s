@@ -131,8 +131,8 @@ DAT_0600c9e6:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .global sym_0600CA96
-sym_0600CA96:
+    .global heading_smooth_gentle
+heading_smooth_gentle:
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x12
     .byte 0xD5, 0x0A

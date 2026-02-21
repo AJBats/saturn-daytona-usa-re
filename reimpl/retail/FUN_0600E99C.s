@@ -50,12 +50,12 @@ DAT_0600e9ea:
     .byte 0x00, 0xE0
     .byte 0x01, 0xEC
     .byte 0xFF, 0xFF
-    .4byte sym_0600D266
+    .4byte friction_stub
     .4byte FUN_0600C74E
     .byte 0x00, 0x48
     .byte 0x00, 0x00
     .4byte fpmul
-    .4byte FUN_0600CEBA
+    .4byte track_segment_advance
     .4byte sym_0607EA9C
     .4byte sym_0607E944
     .4byte sym_0607EAD8
