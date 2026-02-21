@@ -51,7 +51,7 @@ DAT_0600e9ea:
     .byte 0x01, 0xEC
     .byte 0xFF, 0xFF
     .4byte friction_stub
-    .4byte FUN_0600C74E
+    .4byte ai_orchestrator
     .byte 0x00, 0x48
     .byte 0x00, 0x00
     .4byte fpmul
