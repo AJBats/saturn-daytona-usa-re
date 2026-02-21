@@ -93,7 +93,7 @@ FUN_06038AC8:
     .byte 0x03, 0x01
     .byte 0x04, 0x01
     .4byte sym_060A4D58
-    .4byte FUN_0603C728
+    .4byte hud_display_ext
     .4byte sym_060A4D18
     .4byte sym_0606360C
     .4byte sym_06034F78

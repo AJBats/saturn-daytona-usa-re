@@ -1,7 +1,7 @@
     .section .text.FUN_0601E2B4
-    .global FUN_0601E2B4
-    .type FUN_0601E2B4, @function
-FUN_0601E2B4:
+    .global hud_overlay_render
+    .type hud_overlay_render, @function
+hud_overlay_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

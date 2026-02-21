@@ -98,7 +98,7 @@ state_race_complete:
     .4byte vdp1_cmd_update
     .4byte FUN_060210F6
     .4byte sym_06078648
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch
     .4byte sym_06078638
     .4byte sym_060786A4
     .4byte sym_0607863C

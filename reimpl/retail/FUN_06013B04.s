@@ -88,7 +88,7 @@ FUN_06013B04:
     .4byte sym_06084FB4
     .4byte sym_06084AF6
     .4byte sym_06084FB8
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .byte 0xAE, 0x10
     .byte 0x00, 0xFF
     .4byte FUN_060190F4

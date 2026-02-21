@@ -35,7 +35,7 @@ FUN_0601B4D6:
     .4byte sym_0608600D
     .4byte sym_06063D9A
     .4byte sym_0608600C
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .byte 0xB1, 0x60
     .byte 0x00, 0x09
     .byte 0xB0, 0xD2
@@ -73,5 +73,5 @@ loc_0601B566:
     .4byte sym_06063D9A
     .4byte sym_0608600E
     .4byte sym_0608600C
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .4byte sym_0608600D

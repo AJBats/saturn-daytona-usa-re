@@ -1,7 +1,7 @@
     .section .text.FUN_0601E37C
-    .global FUN_0601E37C
-    .type FUN_0601E37C, @function
-FUN_0601E37C:
+    .global hud_large_element
+    .type hud_large_element, @function
+hud_large_element:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

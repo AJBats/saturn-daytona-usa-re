@@ -1,7 +1,7 @@
     .section .text.FUN_06018DDC
-    .global FUN_06018DDC
-    .type FUN_06018DDC, @function
-FUN_06018DDC:
+    .global handler_dispatch
+    .type handler_dispatch, @function
+handler_dispatch:
     .byte 0x4F, 0x22
     .byte 0xE7, 0x02
     .byte 0x64, 0x4C

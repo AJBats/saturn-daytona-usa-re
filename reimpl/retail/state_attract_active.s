@@ -92,7 +92,7 @@ state_attract_active:
     .4byte sym_0600A1F6
     .4byte sym_0607EAD8
     .4byte sym_06063D9A
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .4byte sym_0605AD10
     .4byte sym_06087804
     .4byte FUN_06033BC8

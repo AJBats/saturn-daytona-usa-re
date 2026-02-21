@@ -1,7 +1,7 @@
     .section .text.FUN_0603CD5C
-    .global FUN_0603CD5C
-    .type FUN_0603CD5C, @function
-FUN_0603CD5C:
+    .global hud_display_large
+    .type hud_display_large, @function
+hud_display_large:
     .byte 0x2F, 0xE6
     .byte 0xE6, 0x01
     .byte 0x2F, 0xD6

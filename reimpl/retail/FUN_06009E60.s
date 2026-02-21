@@ -76,4 +76,4 @@ FUN_06009E60:
     .4byte FUN_06033AAC
     .4byte sym_0605A016
     .4byte sym_06078648
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch

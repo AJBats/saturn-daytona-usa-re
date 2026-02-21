@@ -38,7 +38,7 @@ FUN_0601B418:
     .byte 0x01, 0x01
     .4byte sym_0608600C
     .4byte sym_0608600E
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch
     .4byte sym_0608600D
     .4byte sym_0605DEB4
     .byte 0x00, 0x01

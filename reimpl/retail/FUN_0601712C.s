@@ -56,7 +56,7 @@ FUN_0601712C:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch
     .4byte sym_06018E1E
     .4byte sym_06084FC8
     .4byte sym_0605BC14

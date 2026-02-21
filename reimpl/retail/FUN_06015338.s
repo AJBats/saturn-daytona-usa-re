@@ -117,7 +117,7 @@ FUN_06015338:
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
     .4byte FUN_06038BD4
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .4byte sym_06085F8A
     .4byte sym_0605AD10
     .4byte sym_0601ABC6

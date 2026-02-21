@@ -18,7 +18,7 @@ FUN_06008B34:
     .byte 0x00, 0x0B
     .byte 0x23, 0x22
     .byte 0xFF, 0xFF
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .4byte sym_0605AD10
     .4byte FUN_060193F4
     .4byte FUN_060210F6

@@ -151,7 +151,7 @@ DAT_0601a928:
     .global DAT_0601a92a
 DAT_0601a92a:
     .byte 0x08, 0x1C
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch
     .4byte sym_060283E0
     .4byte sym_06049CDC
     .4byte sym_0605D2B4

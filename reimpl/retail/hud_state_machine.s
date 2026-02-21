@@ -1,7 +1,7 @@
     .section .text.FUN_0601E4D4
-    .global FUN_0601E4D4
-    .type FUN_0601E4D4, @function
-FUN_0601E4D4:
+    .global hud_state_machine
+    .type hud_state_machine, @function
+hud_state_machine:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

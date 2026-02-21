@@ -1,7 +1,7 @@
     .section .text.FUN_06018E70
-    .global FUN_06018E70
-    .type FUN_06018E70, @function
-FUN_06018E70:
+    .global handler_init_reset
+    .type handler_init_reset, @function
+handler_init_reset:
     .byte 0x4F, 0x22
     .byte 0xE2, 0x03
     .byte 0x7F, 0xF8

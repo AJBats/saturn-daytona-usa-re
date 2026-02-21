@@ -115,7 +115,7 @@ FUN_0601F5E0:
 DAT_0601f6ba:
     .byte 0x27, 0x10
     .4byte sym_0607ED90
-    .4byte FUN_0601E2B4
+    .4byte hud_overlay_render
     .4byte FUN_0601EB70
     .4byte FUN_0601F40C
     .4byte sym_06078635
@@ -195,5 +195,5 @@ DAT_0601f6ba:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte FUN_0601E2B4
+    .4byte hud_overlay_render
     .4byte FUN_0601EB1C

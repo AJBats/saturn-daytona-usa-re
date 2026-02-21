@@ -78,7 +78,7 @@ state_post_lap:
     .4byte sym_0607E944
     .4byte sym_06078638
     .4byte sym_0607EBF4
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .byte 0xD0, 0x12
     .byte 0x60, 0x02
     .byte 0x20, 0x08

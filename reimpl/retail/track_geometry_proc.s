@@ -1,7 +1,7 @@
     .section .text.FUN_06017814
-    .global FUN_06017814
-    .type FUN_06017814, @function
-FUN_06017814:
+    .global track_geometry_proc
+    .type track_geometry_proc, @function
+track_geometry_proc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

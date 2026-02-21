@@ -121,7 +121,7 @@ system_init:
     .4byte FUN_06012CF4
     .4byte FUN_06004A98
     .4byte FUN_06012E6A
-    .4byte FUN_06018EE4
+    .4byte race_sound_handler
     .4byte sym_06005174
     .4byte sym_0601F936
     .4byte channel_config_a

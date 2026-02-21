@@ -177,7 +177,7 @@ DAT_06018b8e:
     .4byte sym_06012E7C
     .4byte sym_0607ED8C
     .4byte FUN_06018FF8
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch
     .4byte sym_0607EBC4
     .4byte sym_06078648
     .4byte sym_0605AB18

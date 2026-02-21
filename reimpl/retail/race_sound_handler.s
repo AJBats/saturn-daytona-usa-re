@@ -1,7 +1,7 @@
     .section .text.FUN_06018EE4
-    .global FUN_06018EE4
-    .type FUN_06018EE4, @function
-FUN_06018EE4:
+    .global race_sound_handler
+    .type race_sound_handler, @function
+race_sound_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

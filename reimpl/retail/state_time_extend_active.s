@@ -183,7 +183,7 @@ state_time_extend_active:
     .4byte sym_0605AD10
     .4byte sym_06078652
     .4byte sym_06078654
-    .4byte FUN_06018DDC
+    .4byte handler_dispatch
     .4byte sym_060446EC
     .byte 0xE4, 0x70
     .byte 0x85, 0xF2

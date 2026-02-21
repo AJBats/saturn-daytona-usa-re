@@ -69,7 +69,7 @@ FUN_0601AAE8:
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
     .4byte sound_cmd_dispatch
-    .4byte FUN_06018E70
+    .4byte handler_init_reset
     .global sym_0601AB8C
 sym_0601AB8C:
     .byte 0xD4, 0x21
