@@ -1,0 +1,62 @@
+    .section .text.FUN_060138BE
+    .global race_timer_format
+    .type race_timer_format, @function
+race_timer_format:
+    .byte 0x2F, 0xE6
+    .byte 0xD3, 0x17
+    .byte 0x2F, 0x36
+    .byte 0xD5, 0x17
+    .byte 0xD3, 0x18
+    .byte 0x43, 0x0B
+    .byte 0x64, 0x23
+    .byte 0x7F, 0x0C
+    .byte 0x4F, 0x26
+    .byte 0xD3, 0x16
+    .byte 0x43, 0x2B
+    .byte 0x6E, 0xF6
+    .global DAT_060138d6
+DAT_060138d6:
+    .byte 0x04, 0xB0
+    .global DAT_060138d8
+DAT_060138d8:
+    .byte 0x05, 0xDC
+    .global DAT_060138da
+DAT_060138da:
+    .byte 0x02, 0x0C
+    .4byte sym_06084B0C
+    .4byte sym_06084B18
+    .4byte sym_06084B20
+    .4byte sym_06084AF0
+    .4byte sym_0607EBCC
+    .4byte sym_06084AF2
+    .4byte sym_06084B14
+    .4byte sym_0605AD5C
+    .4byte sym_06084AF8
+    .4byte sym_06084AFC
+    .4byte sym_0605AAA0
+    .byte 0xAB, 0x11
+    .byte 0x00, 0xFF
+    .4byte sound_cmd_dispatch
+    .4byte sym_060149CC
+    .4byte sym_06026CE0
+    .4byte sym_0605B6B8
+    .byte 0x00, 0x01
+    .byte 0x00, 0x00
+    .byte 0x00, 0x00
+    .byte 0x80, 0x00
+    .byte 0x00, 0x96
+    .byte 0x00, 0x00
+    .4byte rigid_body_transform
+    .4byte frame_end_commit
+    .global loc_06013930
+loc_06013930:
+    .byte 0xE3, 0x01
+    .byte 0xD2, 0x03
+    .byte 0x22, 0x30
+    .byte 0xE3, 0x20
+    .byte 0xD2, 0x02
+    .byte 0x22, 0x31
+    .byte 0xA0, 0x04
+    .byte 0x00, 0x09
+    .4byte sym_06084AF2
+    .4byte sym_06084AF4

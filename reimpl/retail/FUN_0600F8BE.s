@@ -22,7 +22,7 @@ FUN_0600F8BE:
     .4byte sym_06028560
     .4byte sym_0607EBCC
     .4byte sym_0607886E
-    .4byte FUN_060115F0
+    .4byte hud_transparency
     .byte 0xD3, 0x19
     .byte 0x43, 0x0B
     .byte 0xE4, 0x04

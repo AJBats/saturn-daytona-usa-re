@@ -202,7 +202,7 @@ DAT_06010c4e:
     .byte 0x00, 0x06
     .byte 0x33, 0x33
     .4byte sym_06078858
-    .4byte FUN_06010F04
+    .4byte race_position_track
     .4byte sym_06063574
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF

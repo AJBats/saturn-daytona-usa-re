@@ -39,7 +39,7 @@ scene_zsort:
     .byte 0x24, 0x32
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte FUN_06012AC4
+    .4byte course_table_lookup
     .4byte sym_06082A54
     .4byte sym_06082A70
     .4byte sym_06082A58

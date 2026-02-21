@@ -44,7 +44,7 @@ vdp1_distorted_sprite:
     .byte 0x00, 0x01
     .4byte sym_06063E24
     .4byte sym_06082A68
-    .4byte FUN_06012AFA
+    .4byte car_param_lookup
     .byte 0x70, 0xFF
     .byte 0x22, 0x02
     .byte 0xD2, 0x09

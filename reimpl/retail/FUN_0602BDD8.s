@@ -868,7 +868,7 @@ sym_0602C450:
     .byte 0x00, 0x00
     .4byte spring_damper
     .4byte transform_pipeline
-    .4byte FUN_06029740
+    .4byte mega_render_func
     .global sym_0602C460
 sym_0602C460:
     .byte 0x00, 0x00

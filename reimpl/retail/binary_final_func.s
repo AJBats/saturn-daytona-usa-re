@@ -43227,13 +43227,13 @@ sym_0605B4A8:
     .global sym_0605B6B8
 sym_0605B6B8:
     .4byte loc_06013930
-    .4byte FUN_06013948
-    .4byte FUN_06013A74
-    .4byte FUN_06013A74
+    .4byte score_calculator
+    .4byte best_time_compare
+    .4byte best_time_compare
     .4byte loc_06013ADA
-    .4byte FUN_06013B04
+    .4byte ranking_pts_calc
     .4byte loc_06013C10
-    .4byte FUN_06013C20
+    .4byte bonus_multiplier
     .global sym_0605B6D8
 sym_0605B6D8:
     .byte 0x00, 0x00
@@ -51328,13 +51328,13 @@ sym_0605F598:
     .global sym_0605F5A8
 sym_0605F5A8:
     .4byte sym_060204CE
-    .4byte FUN_06020330
+    .4byte obj_type_set
     .4byte FUN_0602052C
     .4byte obj_list_iterate
-    .4byte FUN_06020B58
-    .4byte FUN_06020814
-    .4byte FUN_0602070C
-    .4byte FUN_060209AC
+    .4byte obj_collision_box
+    .4byte obj_culling_pass
+    .4byte obj_update_dispatch
+    .4byte obj_anim_driver
     .4byte loc_06020510
     .global sym_0605F5CC
 sym_0605F5CC:
