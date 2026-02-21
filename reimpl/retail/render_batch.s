@@ -1,7 +1,7 @@
     .section .text.FUN_0600D50C
-    .global FUN_0600D50C
-    .type FUN_0600D50C, @function
-FUN_0600D50C:
+    .global render_batch
+    .type render_batch, @function
+render_batch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

@@ -202,13 +202,13 @@ FUN_06009098:
     .4byte FUN_0602F7EA
     .4byte sym_06012198
     .4byte sym_06078654
-    .4byte FUN_0600BB94
+    .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
     .4byte FUN_060053AC
     .4byte FUN_060055BC
-    .4byte FUN_0600BFFC
+    .4byte scene_master
     .4byte sym_06086030
     .4byte sym_0605A1C8
     .byte 0x00, 0x00

@@ -1,7 +1,7 @@
     .section .text.FUN_0600DD88
-    .global FUN_0600DD88
-    .type FUN_0600DD88, @function
-FUN_0600DD88:
+    .global audio_dist_calc
+    .type audio_dist_calc, @function
+audio_dist_calc:
     .byte 0x4F, 0x22
     .byte 0x74, 0xFF
     .byte 0x7F, 0xF0

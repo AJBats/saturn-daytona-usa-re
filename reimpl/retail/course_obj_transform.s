@@ -1,7 +1,7 @@
     .section .text.FUN_0600B1A0
-    .global FUN_0600B1A0
-    .type FUN_0600B1A0, @function
-FUN_0600B1A0:
+    .global course_obj_transform
+    .type course_obj_transform, @function
+course_obj_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

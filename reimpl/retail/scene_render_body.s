@@ -1,7 +1,7 @@
     .section .text.FUN_0600C010
-    .global FUN_0600C010
-    .type FUN_0600C010, @function
-FUN_0600C010:
+    .global scene_render_body
+    .type scene_render_body, @function
+scene_render_body:
     .byte 0x4F, 0x22
     .byte 0xD8, 0x20
     .byte 0x9A, 0x3C

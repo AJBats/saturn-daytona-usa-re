@@ -101,6 +101,6 @@ FUN_06008A18:
     .4byte FUN_0600A914
     .4byte FUN_060055BC
     .4byte sym_0600338C
-    .4byte FUN_0600BFFC
+    .4byte scene_master
     .4byte sym_0601AEB6
     .4byte FUN_060078DC

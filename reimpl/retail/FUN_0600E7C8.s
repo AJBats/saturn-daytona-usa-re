@@ -100,7 +100,7 @@ DAT_0600e870:
     .4byte FUN_06008318
     .4byte sym_06008640
     .4byte friction_stub
-    .4byte FUN_0600C4F8
+    .4byte accel_response
     .4byte sym_0602D88E
     .4byte sym_06083261
     .byte 0x00, 0x00

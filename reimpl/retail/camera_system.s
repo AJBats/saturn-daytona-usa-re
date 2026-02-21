@@ -1,7 +1,7 @@
     .section .text.FUN_0600BB94
-    .global FUN_0600BB94
-    .type FUN_0600BB94, @function
-FUN_0600BB94:
+    .global camera_system
+    .type camera_system, @function
+camera_system:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

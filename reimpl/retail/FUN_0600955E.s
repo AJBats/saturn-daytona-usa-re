@@ -36,7 +36,7 @@ FUN_0600955E:
     .4byte sym_0607EAD0
     .4byte sym_0607EBD0
     .4byte FUN_0600DFD0
-    .4byte FUN_0600BB94
+    .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
@@ -140,7 +140,7 @@ FUN_0600955E:
     .4byte sym_0605AB18
     .4byte FUN_060268B0
     .4byte FUN_0600E060
-    .4byte FUN_0600BB94
+    .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8

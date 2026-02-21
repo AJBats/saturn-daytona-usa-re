@@ -40,10 +40,10 @@ FUN_06009D4E:
     .4byte sym_06059F44
     .4byte FUN_06014D2C
     .4byte sym_06085F8A
-    .4byte FUN_0600BB94
+    .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
     .4byte FUN_060053AC
-    .4byte FUN_0600BFFC
+    .4byte scene_master
     .4byte FUN_060078DC

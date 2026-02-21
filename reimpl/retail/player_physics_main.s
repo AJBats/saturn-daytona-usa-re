@@ -81,7 +81,7 @@ DAT_0600e79e:
     .4byte FUN_06008318
     .4byte sym_06008640
     .4byte friction_stub
-    .4byte FUN_0600C4F8
+    .4byte accel_response
     .4byte player_collision
     .4byte track_segment_advance
     .4byte sym_0607EA9C
