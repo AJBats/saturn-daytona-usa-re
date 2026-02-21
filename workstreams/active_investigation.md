@@ -130,11 +130,12 @@ Things we've examined in traces and set aside — real but not the boot failure 
 
 ## Bypass Status
 
-Two bypasses remain. ICF_FIX has been **eliminated** by root-cause fix.
+Two bypasses remain. ICF_FIX and SATURN MODE bug have been **eliminated** by root-cause fixes.
 
 | Bypass | What It Does | Root Cause | Status |
 |--------|-------------|------------|--------|
 | ~~`ICF_FIX=1`~~ | ~~NOPs master's FTCSR poll BF~~ | Missed cache-through relocation in FUN_06034F08 | **FIXED** (2026-02-20) |
+| (no bypass) | SATURN MODE missing from mode select | False-positive pointer at sym_06049AEC | **FIXED** (2026-02-20) |
 | `SCDQ_FIX=1` | Shortens SCDQ poll (timeout 1000 iterations) | FUN_0603B424 PAUSE handler bug — SCDQ never fires in PAUSE | Active bypass |
 | `CD_FIX=1` | Widens PAUSE→Calculate in FUN_0603B424 | Pre-buffered sectors in PAUSE state | Active bypass |
 
@@ -271,3 +272,6 @@ Full analysis: `workstreams/research/03_bugs_found.md`,
 - 2026-02-20: **ICF_FIX ELIMINATED**: Free build boots to clean title screen with SCDQ_FIX=1 + CD_FIX=1 only
 - 2026-02-20: ICF hang = slave never writes SINIT; ICF_FIX = skip wait → corrupt graphics
 - 2026-02-20: Mednafen FTI trigger: ss.cpp:322-341, SetFTI edge-detection in sh7095.inc:1046-1076
+- 2026-02-20: **SATURN MODE FIX**: .4byte loc_0606060A at sym_06049AEC was byte data, not a pointer
+- 2026-02-20: Root cause: bytes `06 06 06 0A` = VDP2 tile coords, read by MOV.B; relocation changed 0A→FE
+- 2026-02-20: Fix: `.byte 0x06, 0x06, 0x06, 0x0A` prevents relocation; mode select now shows all 4 items

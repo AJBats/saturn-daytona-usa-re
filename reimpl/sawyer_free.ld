@@ -6,7 +6,8 @@
  * addresses and will cause crashes at runtime.
  *
  * FUN_ PROVIDEs are REMOVED — functions define their own .global labels.
- * DAT_ and non-code sym_ PROVIDEs remain (data doesn't move).
+ * DAT_/sym_ PROVIDEs: within-binary ones are FUN_-relative (shift correctly).
+ * Runtime WRAM ones (>= 0x06063690) are absolute — they're not in the binary.
  */
 
 OUTPUT_FORMAT("elf32-sh")
