@@ -174,7 +174,7 @@ FUN_06014A74:
     .byte 0x02, 0x20
     .byte 0x02, 0x40
     .4byte FUN_06020CF4
-    .4byte FUN_060078DC
+    .4byte frame_end_commit
     .4byte sym_0602853E
     .4byte FUN_06014884
     .4byte memcpy_word_idx

@@ -1,7 +1,7 @@
     .section .text.FUN_060092D0
-    .global FUN_060092D0
-    .type FUN_060092D0, @function
-FUN_060092D0:
+    .global state_post_lap
+    .type state_post_lap, @function
+state_post_lap:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22
@@ -225,7 +225,7 @@ FUN_060092D0:
     .4byte sym_0605A1C4
     .4byte FUN_06033BC8
     .4byte car_iteration_loop
-    .4byte FUN_0600A914
+    .4byte car_proximity_check
     .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
@@ -241,4 +241,4 @@ FUN_060092D0:
     .byte 0xF0, 0x00
     .4byte sym_060283E0
     .4byte sym_0607E944
-    .4byte FUN_060078DC
+    .4byte frame_end_commit

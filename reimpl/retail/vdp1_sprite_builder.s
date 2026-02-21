@@ -1,7 +1,7 @@
     .section .text.FUN_06007BCC
-    .global FUN_06007BCC
-    .type FUN_06007BCC, @function
-FUN_06007BCC:
+    .global vdp1_sprite_builder
+    .type vdp1_sprite_builder, @function
+vdp1_sprite_builder:
     .byte 0x2F, 0xE6
     .byte 0xE4, 0x00
     .byte 0x2F, 0xD6

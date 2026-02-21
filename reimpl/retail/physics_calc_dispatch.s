@@ -1,7 +1,7 @@
     .section .text.FUN_0600D31C
-    .global FUN_0600D31C
-    .type FUN_0600D31C, @function
-FUN_0600D31C:
+    .global physics_calc_dispatch
+    .type physics_calc_dispatch, @function
+physics_calc_dispatch:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x14
     .byte 0xD2, 0x14

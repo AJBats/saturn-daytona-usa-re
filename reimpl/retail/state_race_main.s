@@ -1,7 +1,7 @@
     .section .text.FUN_06009098
-    .global FUN_06009098
-    .type FUN_06009098, @function
-FUN_06009098:
+    .global state_race_main
+    .type state_race_main, @function
+state_race_main:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -214,4 +214,4 @@ FUN_06009098:
     .byte 0x00, 0x00
     .byte 0xF0, 0x00
     .4byte sym_060283E0
-    .4byte FUN_060078DC
+    .4byte frame_end_commit

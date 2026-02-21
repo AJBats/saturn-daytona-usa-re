@@ -131,7 +131,7 @@ FUN_06015338:
     .4byte sym_06026CE0
     .4byte sym_0605A016
     .4byte FUN_06020CF4
-    .4byte FUN_060078DC
+    .4byte frame_end_commit
     .4byte sym_0602853E
     .4byte sym_06028560
     .4byte FUN_060032D4

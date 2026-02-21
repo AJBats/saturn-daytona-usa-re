@@ -158,7 +158,7 @@ DAT_0600ed7e:
 DAT_0600ed80:
     .byte 0x08, 0x0F
     .byte 0xFF, 0xFF
-    .4byte FUN_0600A140
+    .4byte vdp1_init
     .4byte sym_06078884
     .4byte sym_06063F5C
     .4byte sym_06059FFC

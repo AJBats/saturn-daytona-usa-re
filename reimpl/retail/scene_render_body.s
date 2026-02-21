@@ -78,7 +78,7 @@ scene_render_body:
     .byte 0x00, 0x00
     .4byte sym_06078635
     .4byte sym_0600D336
-    .4byte FUN_0600D31C
+    .4byte physics_calc_dispatch
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .4byte sym_0607EAE0

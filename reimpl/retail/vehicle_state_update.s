@@ -1,7 +1,7 @@
     .section .text.FUN_0600D41C
-    .global FUN_0600D41C
-    .type FUN_0600D41C, @function
-FUN_0600D41C:
+    .global vehicle_state_update
+    .type vehicle_state_update, @function
+vehicle_state_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

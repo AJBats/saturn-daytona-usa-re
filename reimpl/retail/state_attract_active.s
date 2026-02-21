@@ -1,7 +1,7 @@
     .section .text.FUN_06008A18
-    .global FUN_06008A18
-    .type FUN_06008A18, @function
-FUN_06008A18:
+    .global state_attract_active
+    .type state_attract_active, @function
+state_attract_active:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x29
@@ -98,9 +98,9 @@ FUN_06008A18:
     .4byte FUN_06033BC8
     .4byte FUN_0601FD74
     .4byte race_countdown_update
-    .4byte FUN_0600A914
+    .4byte car_proximity_check
     .4byte FUN_060055BC
     .4byte sym_0600338C
     .4byte scene_master
     .4byte sym_0601AEB6
-    .4byte FUN_060078DC
+    .4byte frame_end_commit

@@ -24,7 +24,7 @@ FUN_0600C286:
     .4byte sym_0608A52C
     .4byte sym_06089EDC
     .4byte memcpy_long_idx
-    .4byte FUN_0600D31C
+    .4byte physics_calc_dispatch
     .4byte FUN_0600C286
     .4byte sym_06063574
     .byte 0x00, 0x00

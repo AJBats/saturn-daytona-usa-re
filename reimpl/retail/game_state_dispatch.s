@@ -1,7 +1,7 @@
     .section .text.FUN_0600F424
-    .global FUN_0600F424
-    .type FUN_0600F424, @function
-FUN_0600F424:
+    .global game_state_dispatch
+    .type game_state_dispatch, @function
+game_state_dispatch:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x04
     .byte 0x2F, 0xD6
@@ -254,4 +254,4 @@ DAT_0600f61a:
     .4byte sym_06026DBC
     .4byte sym_0605AC2C
     .4byte sym_06089EDC
-    .4byte FUN_060078DC
+    .4byte frame_end_commit

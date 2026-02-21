@@ -1,7 +1,7 @@
     .section .text.FUN_06009290
-    .global FUN_06009290
-    .type FUN_06009290, @function
-FUN_06009290:
+    .global state_post_countdown
+    .type state_post_countdown, @function
+state_post_countdown:
     .byte 0x4F, 0x22
     .byte 0xE3, 0x11
     .byte 0xD2, 0x09

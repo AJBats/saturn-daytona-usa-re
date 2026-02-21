@@ -1,7 +1,7 @@
     .section .text.FUN_060316D0
-    .global FUN_060316D0
-    .type FUN_060316D0, @function
-FUN_060316D0:
+    .global collision_impulse
+    .type collision_impulse, @function
+collision_impulse:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x6E, 0x43

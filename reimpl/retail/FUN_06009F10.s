@@ -95,9 +95,9 @@ FUN_06009F10:
     .4byte FUN_0601FD74
     .4byte sym_06078900
     .4byte race_countdown_update
-    .4byte FUN_0600A914
+    .4byte car_proximity_check
     .4byte FUN_060055BC
     .4byte scene_master
-    .4byte FUN_060078DC
+    .4byte frame_end_commit
     .4byte sym_0605A00C
     .4byte sym_06026CE0

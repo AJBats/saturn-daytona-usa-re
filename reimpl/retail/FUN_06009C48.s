@@ -63,8 +63,8 @@ FUN_06009C48:
     .4byte FUN_0601DF88
     .4byte sym_0607EAD8
     .4byte FUN_0601DBB8
-    .4byte FUN_0600DF66
-    .4byte FUN_0600A914
+    .4byte update_mode_dispatch
+    .4byte car_proximity_check
     .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
@@ -74,4 +74,4 @@ FUN_06009C48:
     .4byte sym_0607ED8C
     .4byte sym_060033E6
     .4byte sym_0607E944
-    .4byte FUN_060078DC
+    .4byte frame_end_commit

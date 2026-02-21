@@ -1,7 +1,7 @@
     .section .text.FUN_0600A140
-    .global FUN_0600A140
-    .type FUN_0600A140, @function
-FUN_0600A140:
+    .global vdp1_init
+    .type vdp1_init, @function
+vdp1_init:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xEE, 0x00

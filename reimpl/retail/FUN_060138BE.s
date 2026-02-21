@@ -47,7 +47,7 @@ DAT_060138da:
     .byte 0x00, 0x96
     .byte 0x00, 0x00
     .4byte FUN_06011AF4
-    .4byte FUN_060078DC
+    .4byte frame_end_commit
     .global loc_06013930
 loc_06013930:
     .byte 0xE3, 0x01

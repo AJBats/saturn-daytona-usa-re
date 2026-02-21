@@ -45,5 +45,5 @@ FUN_06008E48:
     .4byte sym_0605A016
     .4byte FUN_06018DDC
     .4byte sym_0607EBCC
-    .4byte FUN_0600F424
+    .4byte game_state_dispatch
     .4byte FUN_06018E70

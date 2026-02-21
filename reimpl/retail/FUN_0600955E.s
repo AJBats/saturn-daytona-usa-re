@@ -41,8 +41,8 @@ FUN_0600955E:
     .4byte sym_06063EEC
     .4byte sym_06063EF8
     .4byte FUN_060053AC
-    .4byte FUN_0600C218
-    .4byte FUN_060078DC
+    .4byte scene_update
+    .4byte frame_end_commit
     .4byte sym_06063D9A
     .4byte sym_0607EACC
     .byte 0xD0, 0x2C
@@ -145,7 +145,7 @@ FUN_0600955E:
     .4byte sym_06063EEC
     .4byte sym_06063EF8
     .4byte FUN_060053AC
-    .4byte FUN_0600C218
+    .4byte scene_update
     .4byte sym_0607ED8C
     .4byte sym_060033E6
     .4byte sym_06086030
@@ -154,7 +154,7 @@ FUN_0600955E:
     .byte 0xF0, 0x00
     .4byte sym_060283E0
     .4byte sym_0607E944
-    .4byte FUN_060078DC
+    .4byte frame_end_commit
     .4byte sym_06063798
     .4byte sym_06028400
     .4byte sym_0605A1C4

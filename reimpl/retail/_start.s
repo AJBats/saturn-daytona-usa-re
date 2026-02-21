@@ -52,16 +52,16 @@ sym_06003000:
     .byte 0xAF, 0xD5
     .byte 0x00, 0x09
     .4byte FUN_060030FC
-    .4byte FUN_0600A392
+    .4byte per_frame_update
     .4byte sym_06003000
     .4byte sym_0607EBC0
     .4byte sym_0607EBC4
     .4byte sym_0605AD10
     .4byte sym_0607EBC8
-    .4byte FUN_060088CC
+    .4byte state_boot_init
     .4byte loc_0600890A
-    .4byte FUN_06008938
-    .4byte FUN_06008A18
+    .4byte state_attract_setup
+    .4byte state_attract_active
     .4byte FUN_06008CCC
     .4byte FUN_06008D74
     .4byte FUN_06008B04
@@ -72,10 +72,10 @@ sym_06003000:
     .4byte FUN_06008BFC
     .4byte FUN_06008E00
     .4byte FUN_06008E48
-    .4byte FUN_06008EBC
-    .4byte FUN_06009098
-    .4byte FUN_06009290
-    .4byte FUN_060092D0
+    .4byte state_race_setup
+    .4byte state_race_main
+    .4byte state_post_countdown
+    .4byte state_post_lap
     .4byte FUN_060096DC
     .4byte FUN_06009788
     .4byte FUN_06009A60

@@ -1,7 +1,7 @@
     .section .text.FUN_060078DC
-    .global FUN_060078DC
-    .type FUN_060078DC, @function
-FUN_060078DC:
+    .global frame_end_commit
+    .type frame_end_commit, @function
+frame_end_commit:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

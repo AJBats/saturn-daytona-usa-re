@@ -46,4 +46,4 @@ FUN_06009D4E:
     .4byte sym_06063EF8
     .4byte FUN_060053AC
     .4byte scene_master
-    .4byte FUN_060078DC
+    .4byte frame_end_commit

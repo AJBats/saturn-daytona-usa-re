@@ -1,7 +1,7 @@
     .section .text.FUN_0600A914
-    .global FUN_0600A914
-    .type FUN_0600A914, @function
-FUN_0600A914:
+    .global car_proximity_check
+    .type car_proximity_check, @function
+car_proximity_check:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
