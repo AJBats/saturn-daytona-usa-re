@@ -1,7 +1,7 @@
     .section .text.FUN_0600CB90
-    .global FUN_0600CB90
-    .type FUN_0600CB90, @function
-FUN_0600CB90:
+    .global race_pos_interp
+    .type race_pos_interp, @function
+race_pos_interp:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x5D
     .byte 0xDE, 0x25

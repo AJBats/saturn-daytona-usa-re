@@ -83,7 +83,7 @@ FUN_06024D24:
     .4byte sym_06089EC8
     .byte 0xAE, 0x00
     .byte 0x03, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .4byte sym_0605B6D8

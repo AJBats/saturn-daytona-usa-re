@@ -1,7 +1,7 @@
     .section .text.FUN_060096DC
-    .global FUN_060096DC
-    .type FUN_060096DC, @function
-FUN_060096DC:
+    .global state_time_extend_setup
+    .type state_time_extend_setup, @function
+state_time_extend_setup:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -75,4 +75,4 @@ FUN_060096DC:
     .4byte sym_06059F44
     .byte 0xAE, 0x00
     .byte 0x04, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch

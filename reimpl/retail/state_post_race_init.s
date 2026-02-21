@@ -1,7 +1,7 @@
     .section .text.FUN_06009CFC
-    .global FUN_06009CFC
-    .type FUN_06009CFC, @function
-FUN_06009CFC:
+    .global state_post_race_init
+    .type state_post_race_init, @function
+state_post_race_init:
     .byte 0x4F, 0x22
     .byte 0xE3, 0x03
     .byte 0xD2, 0x1E

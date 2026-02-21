@@ -512,7 +512,7 @@ DAT_06017c52:
     .4byte sym_0607EAAC
     .byte 0xAE, 0x11
     .byte 0x17, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0xD4, 0x16
     .byte 0xD2, 0x17
     .byte 0x63, 0x41

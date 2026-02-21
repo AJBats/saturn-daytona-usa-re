@@ -9,7 +9,7 @@ FUN_0603242A:
     .byte 0xAF, 0x6A
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .global loc_0603243C
 loc_0603243C:
     .byte 0xD2, 0x04

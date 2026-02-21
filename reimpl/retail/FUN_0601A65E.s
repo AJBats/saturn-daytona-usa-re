@@ -143,6 +143,6 @@ DAT_0601a75a:
     .4byte sym_0605D241
     .byte 0xAE, 0x00
     .byte 0x06, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0xAE, 0x00
     .byte 0x07, 0xFF

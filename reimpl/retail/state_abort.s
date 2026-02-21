@@ -1,7 +1,7 @@
     .section .text.FUN_06009508
-    .global FUN_06009508
-    .type FUN_06009508, @function
-FUN_06009508:
+    .global state_abort
+    .type state_abort, @function
+state_abort:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x23
     .byte 0x60, 0x42

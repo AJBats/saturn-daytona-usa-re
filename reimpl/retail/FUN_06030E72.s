@@ -84,7 +84,7 @@ sym_06030EE0:
     .byte 0x00, 0x0B
     .byte 0x6C, 0xF6
     .byte 0x00, 0x00
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0xAE, 0x11
     .byte 0x02, 0xFF
     .global sym_06030F1C

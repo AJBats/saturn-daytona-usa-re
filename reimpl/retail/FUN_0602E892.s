@@ -13,7 +13,7 @@ FUN_0602E892:
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x09, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .global sym_0602E8AC
 sym_0602E8AC:
     .4byte loc_06060BD4

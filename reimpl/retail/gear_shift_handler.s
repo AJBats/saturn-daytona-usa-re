@@ -44,7 +44,7 @@ DAT_0600835a:
     .byte 0xFF, 0xFF
     .byte 0xAE, 0x11
     .byte 0x1B, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_06034F78
     .4byte sym_0607E940
     .4byte sym_060453CC

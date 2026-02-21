@@ -41,7 +41,7 @@ FUN_0600FD8A:
     .byte 0xFF, 0xFF
     .byte 0xAB, 0x11
     .byte 0x01, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0607887A
     .4byte sym_0607887F
     .4byte sym_06011EB4

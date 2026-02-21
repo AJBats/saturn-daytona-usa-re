@@ -51,5 +51,5 @@ FUN_060158DE:
     .4byte sym_06085F94
     .4byte sym_06078900
     .4byte sym_06044BD8
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_060172E4

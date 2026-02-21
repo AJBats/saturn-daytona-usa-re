@@ -51,7 +51,7 @@ sym_06003000:
     .byte 0x22, 0x52
     .byte 0xAF, 0xD5
     .byte 0x00, 0x09
-    .4byte FUN_060030FC
+    .4byte system_init
     .4byte per_frame_update
     .4byte sym_06003000
     .4byte sym_0607EBC0
@@ -76,17 +76,17 @@ sym_06003000:
     .4byte state_race_main
     .4byte state_post_countdown
     .4byte state_post_lap
-    .4byte FUN_060096DC
-    .4byte FUN_06009788
-    .4byte FUN_06009A60
+    .4byte state_time_extend_setup
+    .4byte state_time_extend_active
+    .4byte state_race_complete
     .4byte FUN_06009C48
     .4byte FUN_06009E60
     .4byte FUN_06009F10
-    .4byte FUN_06009CFC
-    .4byte FUN_06009D4E
+    .4byte state_post_race_init
+    .4byte state_post_race_display
     .4byte FUN_06009DD0
     .4byte FUN_06009E02
-    .4byte FUN_06009508
-    .4byte FUN_0600955E
+    .4byte state_abort
+    .4byte state_results_screen
     .4byte FUN_06008C14
     .4byte FUN_06008C76

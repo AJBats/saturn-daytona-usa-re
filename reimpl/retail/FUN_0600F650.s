@@ -74,7 +74,7 @@ FUN_0600F650:
     .4byte FUN_0600A026
     .byte 0xAE, 0x00
     .byte 0x03, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte FUN_06012050
     .4byte sym_06078870
     .4byte sym_060484EC

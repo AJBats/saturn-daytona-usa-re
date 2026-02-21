@@ -34,7 +34,7 @@ FUN_060191E4:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_06086050
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF

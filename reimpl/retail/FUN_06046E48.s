@@ -41846,7 +41846,7 @@ sym_0605AC2C:
     .4byte FUN_0600F650
     .4byte FUN_0600F794
     .4byte FUN_0600F822
-    .4byte FUN_0600F870
+    .4byte race_countdown_timer
     .4byte FUN_0600F898
     .4byte FUN_0600F8BE
     .4byte FUN_0600F914

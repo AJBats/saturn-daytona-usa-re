@@ -85,7 +85,7 @@ DAT_0601038e:
     .byte 0x10, 0x00
     .4byte sym_0607EADC
     .4byte sym_0604481C
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0607887F
     .4byte sym_0607EAD8
     .4byte sym_06078648

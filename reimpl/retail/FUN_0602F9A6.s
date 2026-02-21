@@ -52,7 +52,7 @@ FUN_0602F9A6:
     .byte 0xA0, 0x1D
     .byte 0x00, 0x09
     .4byte sym_0607E944
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0602FD98
     .byte 0xAE, 0x11
     .byte 0x03, 0xFF

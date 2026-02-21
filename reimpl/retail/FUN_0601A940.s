@@ -199,7 +199,7 @@ DAT_0601aac2:
     .4byte FUN_06019248
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_06049CFC
     .4byte sym_060283E0
     .4byte sym_06049CDC

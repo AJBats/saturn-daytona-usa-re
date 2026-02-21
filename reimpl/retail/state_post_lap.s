@@ -123,7 +123,7 @@ state_post_lap:
     .4byte sym_0607EAAC
     .byte 0xAE, 0x11
     .byte 0x34, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_06078636
     .4byte FUN_060121A8
     .byte 0xD3, 0x2C

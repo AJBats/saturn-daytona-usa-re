@@ -28,7 +28,7 @@ FUN_06010B54:
     .4byte sym_06078868
     .4byte sym_0605ACE3
     .4byte sym_060284AE
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0607EAE0
     .4byte sym_06078644
     .byte 0xAB, 0x11

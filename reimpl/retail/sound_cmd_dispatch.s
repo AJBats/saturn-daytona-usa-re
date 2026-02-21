@@ -1,7 +1,7 @@
     .section .text.FUN_0601D5F4
-    .global FUN_0601D5F4
-    .type FUN_0601D5F4, @function
-FUN_0601D5F4:
+    .global sound_cmd_dispatch
+    .type sound_cmd_dispatch, @function
+sound_cmd_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xD0, 0x1D

@@ -111,7 +111,7 @@ DAT_0602dbc2:
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0x00, 0x00
     .byte 0x00, 0x03
     .4byte sym_06082A30

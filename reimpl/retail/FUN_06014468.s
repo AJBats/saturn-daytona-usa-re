@@ -71,6 +71,6 @@ FUN_06014468:
     .4byte sym_06084B18
     .byte 0xAB, 0x11
     .byte 0x1D, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0605AD2C
     .4byte sym_06084B20

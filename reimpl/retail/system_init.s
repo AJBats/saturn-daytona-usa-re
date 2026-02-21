@@ -1,7 +1,7 @@
     .section .text.FUN_060030FC
-    .global FUN_060030FC
-    .type FUN_060030FC, @function
-FUN_060030FC:
+    .global system_init
+    .type system_init, @function
+system_init:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x01
     .byte 0x2F, 0xD6

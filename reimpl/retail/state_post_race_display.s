@@ -1,7 +1,7 @@
     .section .text.FUN_06009D4E
-    .global FUN_06009D4E
-    .type FUN_06009D4E, @function
-FUN_06009D4E:
+    .global state_post_race_display
+    .type state_post_race_display, @function
+state_post_race_display:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x16
     .byte 0x43, 0x0B

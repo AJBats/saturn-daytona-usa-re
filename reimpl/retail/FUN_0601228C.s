@@ -37,7 +37,7 @@ FUN_0601228C:
     .4byte sym_06078636
     .byte 0xAE, 0x11
     .byte 0x0F, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0607EBCC
     .4byte sym_060788B2
     .byte 0xE5, 0x01

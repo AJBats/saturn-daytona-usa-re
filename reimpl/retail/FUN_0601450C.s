@@ -84,4 +84,4 @@ DAT_06014594:
     .4byte sym_06084B20
     .byte 0xAB, 0x11
     .byte 0x1D, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch

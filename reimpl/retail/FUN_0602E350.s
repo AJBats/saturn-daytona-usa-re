@@ -28,7 +28,7 @@ DAT_0602e376:
     .byte 0x00, 0x20
     .byte 0x00, 0x08
     .byte 0x00, 0x00
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0607E940
     .4byte sym_0602E450
     .4byte sym_0602E4BC

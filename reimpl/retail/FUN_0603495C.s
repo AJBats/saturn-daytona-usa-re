@@ -22,4 +22,4 @@ DAT_06034976:
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x28, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch

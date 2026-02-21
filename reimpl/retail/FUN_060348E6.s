@@ -13,4 +13,4 @@ FUN_060348E6:
     .byte 0x3D, 0xFF
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch

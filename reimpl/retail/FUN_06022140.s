@@ -445,7 +445,7 @@ DAT_060224b6:
     .4byte sincos_pair
     .byte 0xAE, 0x11
     .byte 0x0B, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0xD5, 0x2F
     .byte 0xD3, 0x30
     .byte 0x43, 0x0B
@@ -544,7 +544,7 @@ DAT_060224b6:
     .byte 0x00, 0x09
     .byte 0xAE, 0x11
     .byte 0x0D, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_06089B18
     .4byte sym_06006838
     .4byte FUN_06027EDE

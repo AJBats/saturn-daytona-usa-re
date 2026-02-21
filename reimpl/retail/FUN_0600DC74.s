@@ -35,7 +35,7 @@ DAT_0600dc9e:
     .4byte sym_06063808
     .4byte sym_06028400
     .4byte sym_06078698
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0xAE, 0x11
     .byte 0x38, 0xFF
     .4byte sym_06078644

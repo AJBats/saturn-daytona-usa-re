@@ -109,7 +109,7 @@ DAT_06012890:
     .byte 0xCC, 0xCC
     .4byte sym_0607E944
     .4byte sym_060283E0
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0605ACDD
     .4byte sym_06028400
     .4byte sym_06063750

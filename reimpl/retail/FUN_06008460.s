@@ -50,7 +50,7 @@ DAT_060084a6:
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x02, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_060453B4
     .4byte sym_060453BC
     .byte 0x4F, 0x26

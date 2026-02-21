@@ -1,7 +1,7 @@
     .section .text.FUN_06009A60
-    .global FUN_06009A60
-    .type FUN_06009A60, @function
-FUN_06009A60:
+    .global state_race_complete
+    .type state_race_complete, @function
+state_race_complete:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

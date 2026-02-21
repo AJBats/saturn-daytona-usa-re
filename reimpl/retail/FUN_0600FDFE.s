@@ -26,5 +26,5 @@ FUN_0600FDFE:
     .4byte sym_0607EBCC
     .byte 0xAB, 0x11
     .byte 0x0D, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0607887F

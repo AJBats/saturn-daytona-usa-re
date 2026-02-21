@@ -1,7 +1,7 @@
     .section .text.FUN_06009788
-    .global FUN_06009788
-    .type FUN_06009788, @function
-FUN_06009788:
+    .global state_time_extend_active
+    .type state_time_extend_active, @function
+state_time_extend_active:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -177,7 +177,7 @@ FUN_06009788:
     .4byte sym_0607864A
     .byte 0xAE, 0x00
     .byte 0x04, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0605AC9C
     .4byte sym_0607EACC
     .4byte sym_0605AD10

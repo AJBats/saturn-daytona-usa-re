@@ -77,7 +77,7 @@ FUN_06012710:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .4byte sym_0607EBCC
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .byte 0xAE, 0x11
     .byte 0x15, 0xFF
     .4byte sym_06078654

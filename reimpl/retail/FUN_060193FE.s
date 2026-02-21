@@ -99,7 +99,7 @@ FUN_060193FE:
     .4byte sym_06085FF5
     .byte 0xAE, 0x00
     .byte 0x03, 0xFF
-    .4byte FUN_0601D5F4
+    .4byte sound_cmd_dispatch
     .4byte sym_0605B6D8
     .byte 0x80, 0x00
     .byte 0x00, 0x00

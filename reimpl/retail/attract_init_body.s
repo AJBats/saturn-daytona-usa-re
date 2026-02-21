@@ -1,7 +1,7 @@
     .section .text.FUN_0600893C
-    .global FUN_0600893C
-    .type FUN_0600893C, @function
-FUN_0600893C:
+    .global attract_init_body
+    .type attract_init_body, @function
+attract_init_body:
     .byte 0x4F, 0x22
     .byte 0xEE, 0x00
     .byte 0xD2, 0x20
