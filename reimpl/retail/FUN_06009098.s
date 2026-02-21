@@ -191,7 +191,7 @@ FUN_06009098:
     .4byte sym_060302C6
     .4byte FUN_0602EFF0
     .4byte sym_0602F0E8
-    .4byte FUN_0600DE54
+    .4byte race_state_update
     .4byte sym_0607EAD8
     .4byte sym_0600C302
     .4byte sym_0607EBCC

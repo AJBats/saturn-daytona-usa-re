@@ -97,7 +97,7 @@ FUN_06008A18:
     .4byte sym_06087804
     .4byte FUN_06033BC8
     .4byte FUN_0601FD74
-    .4byte FUN_0600DE40
+    .4byte race_countdown_update
     .4byte FUN_0600A914
     .4byte FUN_060055BC
     .4byte sym_0600338C

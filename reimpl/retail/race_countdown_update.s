@@ -1,7 +1,7 @@
     .section .text.FUN_0600DE40
-    .global FUN_0600DE40
-    .type FUN_0600DE40, @function
-FUN_0600DE40:
+    .global race_countdown_update
+    .type race_countdown_update, @function
+race_countdown_update:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x1C
     .byte 0xD2, 0x1C

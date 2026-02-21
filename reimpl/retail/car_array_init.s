@@ -1,7 +1,7 @@
     .section .text.FUN_0600629C
-    .global FUN_0600629C
-    .type FUN_0600629C, @function
-FUN_0600629C:
+    .global car_array_init
+    .type car_array_init, @function
+car_array_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -107,7 +107,7 @@ DAT_06006360:
 DAT_06006362:
     .byte 0x00, 0xDC
     .4byte sym_06078900
-    .4byte FUN_0600E1D4
+    .4byte car_type_init
     .4byte sym_0607E944
     .4byte sym_0607E940
     .4byte sym_0605DF4E

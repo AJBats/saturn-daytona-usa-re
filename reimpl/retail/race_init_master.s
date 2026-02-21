@@ -1,7 +1,7 @@
     .section .text.FUN_0600EB14
-    .global FUN_0600EB14
-    .type FUN_0600EB14, @function
-FUN_0600EB14:
+    .global race_init_master
+    .type race_init_master, @function
+race_init_master:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xEE, 0x00
@@ -107,7 +107,7 @@ DAT_0600ebd8:
     .4byte sym_06078900
     .4byte sym_06026E02
     .4byte sym_060270C6
-    .4byte FUN_0600629C
+    .4byte car_array_init
     .4byte sym_06063F46
     .4byte sym_0607EAE4
     .4byte sym_0607EAE8

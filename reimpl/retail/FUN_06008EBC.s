@@ -180,7 +180,7 @@ FUN_06008EBC:
     .4byte sym_06078662
     .4byte sym_06078635
     .4byte sym_0607ED8C
-    .4byte FUN_0600EB14
+    .4byte race_init_master
     .4byte sym_0607ED91
     .4byte FUN_06010A5C
     .4byte FUN_06033AAC

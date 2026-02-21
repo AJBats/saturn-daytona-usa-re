@@ -75,7 +75,7 @@ FUN_0600893C:
     .4byte sym_0607ED8C
     .4byte sym_0607864B
     .4byte FUN_06018A3C
-    .4byte FUN_0600EB14
+    .4byte race_init_master
     .4byte FUN_06033AAC
     .4byte FUN_0600A140
     .4byte sym_06063DA0

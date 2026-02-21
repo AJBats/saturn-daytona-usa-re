@@ -224,7 +224,7 @@ FUN_060092D0:
     .4byte FUN_060268B0
     .4byte sym_0605A1C4
     .4byte FUN_06033BC8
-    .4byte FUN_0600DE70
+    .4byte car_iteration_loop
     .4byte FUN_0600A914
     .4byte camera_system
     .4byte sym_06063E24

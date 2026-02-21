@@ -94,7 +94,7 @@ FUN_06009F10:
     .4byte FUN_06033EA8
     .4byte FUN_0601FD74
     .4byte sym_06078900
-    .4byte FUN_0600DE40
+    .4byte race_countdown_update
     .4byte FUN_0600A914
     .4byte FUN_060055BC
     .4byte scene_master
