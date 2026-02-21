@@ -20,7 +20,7 @@ FUN_06008B34:
     .byte 0xFF, 0xFF
     .4byte handler_init_reset
     .4byte sym_0605AD10
-    .4byte FUN_060193F4
+    .4byte track_poly_start
     .4byte FUN_060210F6
     .4byte sym_06026CE0
     .4byte sym_06059F44

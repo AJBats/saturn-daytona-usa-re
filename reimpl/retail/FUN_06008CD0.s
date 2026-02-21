@@ -70,4 +70,4 @@ FUN_06008CD0:
     .byte 0x00, 0x00
     .4byte sym_0605A016
     .4byte sym_0607864B
-    .4byte FUN_06018FF8
+    .4byte race_state_pair_1

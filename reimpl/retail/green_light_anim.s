@@ -71,7 +71,7 @@ green_light_anim:
     .4byte sym_0605D01C
     .byte 0x25, 0xF0
     .byte 0x04, 0x00
-    .4byte FUN_06019324
+    .4byte race_data_handler
     .4byte sym_06063D9E
     .4byte sym_06063C90
     .4byte sym_06028400

@@ -41843,23 +41843,23 @@ sym_0605ABBC:
     .4byte loc_0605A9A8
     .global sym_0605AC2C
 sym_0605AC2C:
-    .4byte FUN_0600F650
-    .4byte FUN_0600F794
-    .4byte FUN_0600F822
+    .4byte post_race_transition
+    .4byte transition_handler_a
+    .4byte transition_small_a
     .4byte race_countdown_timer
-    .4byte FUN_0600F898
-    .4byte FUN_0600F8BE
-    .4byte FUN_0600F914
-    .4byte FUN_0600F98C
-    .4byte FUN_0600F9C6
-    .4byte FUN_0600FB78
-    .4byte FUN_0600FD54
-    .4byte FUN_0600FD8A
+    .4byte transition_minimal
+    .4byte transition_handler_b
+    .4byte transition_handler_c
+    .4byte transition_stub
+    .4byte transition_large_menu
+    .4byte transition_large_results
+    .4byte transition_small_c
+    .4byte transition_medium_a
     .4byte loc_0600F90A
     .4byte loc_0600F90A
-    .4byte FUN_0600FDFE
-    .4byte FUN_0600FE38
-    .4byte FUN_0600FED0
+    .4byte transition_small_d
+    .4byte transition_medium_b
+    .4byte transition_medium_c
     .global sym_0605AC70
 sym_0605AC70:
     .4byte loc_0605A22C

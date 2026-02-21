@@ -100,7 +100,7 @@ sym_0601A5F8:
     .4byte sym_06085FF2
     .4byte sym_06085FF3
     .4byte sym_0605D245
-    .4byte FUN_06019324
+    .4byte race_data_handler
     .4byte FUN_0601938C
     .4byte sym_06063D9E
     .byte 0x90, 0x40

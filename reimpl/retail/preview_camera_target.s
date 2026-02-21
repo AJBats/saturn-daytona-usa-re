@@ -34,7 +34,7 @@ preview_camera_target:
     .4byte sym_06012EC4
     .4byte sym_06012F00
     .4byte sym_06085FF7
-    .4byte FUN_060191E0
+    .4byte race_variant_e
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
     .4byte sound_cmd_dispatch

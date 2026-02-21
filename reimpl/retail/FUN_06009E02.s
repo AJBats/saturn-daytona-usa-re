@@ -29,7 +29,7 @@ FUN_06009E02:
     .byte 0x23, 0x20
     .byte 0x02, 0x58
     .byte 0xFF, 0xFF
-    .4byte FUN_060190B8
+    .4byte race_variant_a
     .4byte sym_0605AD10
     .4byte sym_0607EBCC
     .4byte sym_06028560

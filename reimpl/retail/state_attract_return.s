@@ -64,7 +64,7 @@ state_attract_return:
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
     .byte 0x03, 0xE8
-    .4byte FUN_06019058
+    .4byte race_state_pair_2
     .4byte sym_0602853E
     .4byte sym_06028560
     .4byte display_channel_b

@@ -91,9 +91,9 @@ ranking_pts_calc:
     .4byte handler_init_reset
     .byte 0xAE, 0x10
     .byte 0x00, 0xFF
-    .4byte FUN_060190F4
-    .4byte FUN_0601914C
-    .4byte FUN_06019188
+    .4byte race_variant_b
+    .4byte race_variant_c
+    .4byte race_variant_d
     .4byte sym_0605B294
     .byte 0x62, 0x43
     .byte 0xE3, 0x03

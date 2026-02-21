@@ -133,7 +133,7 @@ DAT_0601aa3a:
     .4byte sym_06012EC4
     .4byte sym_06012F00
     .4byte sym_06085FF7
-    .4byte FUN_060191E0
+    .4byte race_variant_e
     .byte 0x60, 0xB0
     .byte 0x88, 0x01
     .byte 0x89, 0x04
@@ -196,7 +196,7 @@ DAT_0601aac2:
     .byte 0x09, 0x9C
     .byte 0x09, 0x1C
     .byte 0xFF, 0xFF
-    .4byte FUN_06019248
+    .4byte race_variant_f
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
     .4byte sound_cmd_dispatch
