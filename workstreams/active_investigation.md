@@ -1,9 +1,9 @@
 # Free Build Emulator Compatibility
 
-> **Status**: ACTIVE — ICF+CD_FIX retired, SCDQ_FIX is only remaining bypass
-> **Real hardware**: TESTED (2026-02-19) — confirmed FAILS without SCDQ_FIX
-> **Mednafen**: Boots to title screen, mode select works, can race laps with SCDQ_FIX=1 only
-> **Current build**: `make free-disc SCDQ_FIX=1`
+> **Status**: ACTIVE — all bypasses eliminated or made permanent
+> **Real hardware**: TESTED (2026-02-19) — confirmed FAILS without SCDQ timeout
+> **Mednafen**: Boots to title screen, mode select works, can race laps
+> **Current build**: `make disc` (free-layout default, FUN_060423CC reimplemented in C)
 
 ---
 
@@ -130,14 +130,14 @@ Things we've examined in traces and set aside — real but not the boot failure 
 
 ## Bypass Status
 
-One bypass remains. ICF_FIX, SATURN MODE bug, and CD_FIX have been **eliminated**.
+All bypasses eliminated or made permanent. ICF_FIX, SATURN MODE bug, and CD_FIX have been **eliminated**. SCDQ timeout is now a permanent C reimplementation.
 
-| Bypass | What It Does | Root Cause | Status |
-|--------|-------------|------------|--------|
+| Issue | What Was Done | Root Cause | Status |
+|-------|-------------|------------|--------|
 | ~~`ICF_FIX=1`~~ | ~~NOPs master's FTCSR poll BF~~ | Missed cache-through relocation in FUN_06034F08 | **FIXED** (2026-02-20), patch deleted |
 | (no bypass) | SATURN MODE missing from mode select | False-positive pointer at sym_06049AEC | **FIXED** (2026-02-20) |
-| `SCDQ_FIX=1` | Shortens SCDQ poll (timeout 1000 iterations) | FUN_0603B424 PAUSE handler bug — SCDQ never fires in PAUSE | Active bypass |
-| ~~`CD_FIX=1`~~ | ~~Widens PAUSE→Calculate in FUN_0603B424~~ | Redundant with SCDQ_FIX (same timing issue) | **RETIRED** (2026-02-21), patch deleted |
+| FUN_060423CC | SCDQ poll timeout (1000 iterations) | FUN_0603B424 PAUSE handler bug — SCDQ never fires in PAUSE | **PERMANENT** C reimpl in `src/` |
+| ~~`CD_FIX=1`~~ | ~~Widens PAUSE→Calculate in FUN_0603B424~~ | Redundant with SCDQ timeout (same timing issue) | **RETIRED** (2026-02-21), patch deleted |
 
 ### ICF_FIX Root Cause Fix
 
@@ -278,3 +278,6 @@ Full analysis: `workstreams/research/03_bugs_found.md`,
 - 2026-02-21: **CD_FIX RETIRED**: Redundant with SCDQ_FIX — tested SCDQ_FIX=1 alone, raced laps successfully
 - 2026-02-21: **ICF_FIX patch deleted**: Root cause was fixed in ASM (cache-through relocation), patch obsolete
 - 2026-02-21: Build simplified to `make free-disc SCDQ_FIX=1` — one bypass remains
+- 2026-02-21: **BUILD SYSTEM RESTRUCTURED**: `retail/` for Sega originals, `src/` for reimpl. Default `make` = free build.
+- 2026-02-21: SCDQ_FIX flag eliminated — FUN_060423CC.c moved to `src/` as permanent C reimplementation
+- 2026-02-21: Linker scripts renamed: sawyer.ld → sega.ld, sawyer_free.ld → free.ld

@@ -5,15 +5,15 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — ICF_FIX+CD_FIX retired, SCDQ_FIX remains |
+| 1 | **Free Build Emulator Compat** | **ACTIVE** | workstreams/active_investigation.md — all bypasses eliminated or made permanent |
 | 2 | Disc File RE | Complete | workstreams/disc_file_re.md — DISPROVEN: no offset-based APROG.BIN refs in disc files |
 | 3 | Road To Boot | Paused | workstreams/PAUSED_road_to_boot.md |
 | 4 | Daytona USA Re-implementation | Paused | workstreams/reimplementation.md |
 
-**Free build**: `make free-disc SCDQ_FIX=1` — boots to title screen, mode select works, can race laps.
-**ICF_FIX retired (2026-02-20)**: Root cause was a missed cache-through relocation in FUN_06034F08. Fixed in ASM.
-**CD_FIX retired (2026-02-21)**: Was redundant with SCDQ_FIX (same CD PAUSE timing issue). Patch deleted.
-**Remaining bypass**: SCDQ_FIX only (CD PAUSE handler latent bug exposed by +4 timing shift).
+**Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
+**Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).
+**Linker scripts**: `free.ld` (default, +4 shift), `sega.ld` (byte-identical retail).
+**FUN_060423CC**: First permanent C reimplementation — SCDQ poll timeout (was a latent bug in retail).
 See `workstreams/active_investigation.md`.
 
 ## Investigation Discipline

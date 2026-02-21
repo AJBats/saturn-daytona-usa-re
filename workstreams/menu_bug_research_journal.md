@@ -1,7 +1,7 @@
 # Menu Bug Research Journal
 
 **Bug**: SATURN MODE text missing from mode select screen in free build.
-**Build**: `make free-disc SCDQ_FIX=1`
+**Build**: `make disc`
 
 ## Background
 

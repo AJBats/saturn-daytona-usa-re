@@ -1,8 +1,13 @@
-# Daytona USA Saturn — Sawyer L2 Relocatable Assembly
-# Build with: make (from WSL)
-# Validate:   make validate (cmp against original)
-# Inject:     make disc
-# Full cycle:  make disc && powershell test_boot_reimpl.ps1
+# Daytona USA Saturn — Reimplementation Build System
+#
+# Default build is the free-layout reimplementation (+4 shift).
+# Reimplemented functions in src/ automatically override retail/ originals.
+#
+#   make              — build free-layout binary
+#   make disc         — build + inject into disc image
+#   make retail       — build byte-identical retail binary
+#   make disc-retail  — build + inject retail binary
+#   make validate     — verify retail build matches original
 
 PROJDIR := /mnt/d/Projects/SaturnReverseTest
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
@@ -16,23 +21,22 @@ OBJDUMP := $(TOOLDIR)/sh-elf-objdump
 CFLAGS  := -m2 -Os -nostdlib -ffreestanding -ffunction-sections -fno-leading-underscore
 
 BUILDDIR := build
-LDSCRIPT := sawyer.ld
+LDSCRIPT := free.ld
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 
-# Patches (opt-in, default off for byte-identical builds)
-#   make SCDQ_FIX=1   — apply SCDQ bypass (patches/FUN_060423CC.c replaces .s)
-SCDQ_FIX ?= 0
+# Auto-discover retail .s files
+RETAIL_ASM  := $(wildcard retail/*.s)
+RETAIL_OBJS := $(patsubst retail/%.s,$(BUILDDIR)/%.o,$(RETAIL_ASM))
 
-# Auto-discover .s source files
-ALL_ASM  := $(wildcard src/*.s)
-ASM_OBJS := $(patsubst src/%.s,$(BUILDDIR)/%.o,$(ALL_ASM))
-ALL_OBJS := $(ASM_OBJS)
+# Auto-discover reimplemented files (src/ overrides retail/)
+REIMPL_C    := $(wildcard src/*.c)
+REIMPL_S    := $(wildcard src/*.s)
+REIMPL_STEMS := $(sort $(basename $(notdir $(REIMPL_C) $(REIMPL_S))))
 
-# When SCDQ_FIX=1, compile the C patch and replace the ASM object
-ifeq ($(SCDQ_FIX),1)
-    ALL_OBJS := $(filter-out $(BUILDDIR)/FUN_060423CC.o,$(ALL_OBJS))
-    ALL_OBJS += $(BUILDDIR)/FUN_060423CC_patch.o
-endif
+# Build object list: start with retail, filter out reimplemented stems, add reimpl objects
+ALL_OBJS := $(filter-out $(addprefix $(BUILDDIR)/,$(addsuffix .o,$(REIMPL_STEMS))),$(RETAIL_OBJS))
+ALL_OBJS += $(patsubst src/%.c,$(BUILDDIR)/%.o,$(REIMPL_C))
+ALL_OBJS += $(patsubst src/%.s,$(BUILDDIR)/%.o,$(REIMPL_S))
 
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
@@ -41,53 +45,70 @@ BIN  := $(BUILDDIR)/APROG.BIN
 # Original binary for validation
 ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
-# Config change detection: if flags changed since last build, force a relink.
-# Runs during Makefile parsing (before any targets execute).
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SCDQ_FIX=$(SCDQ_FIX)
+# Config change detection: if flags changed since last build, force a full rebuild.
+# Includes reimpl stems so switching between free/retail rebuilds overridden objects.
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) REIMPL=$(REIMPL_STEMS)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
-    $(shell rm -f $(ELF) $(BIN))
+    $(shell rm -f $(BUILDDIR)/*.o $(ELF) $(BIN))
 endif
 
-.PHONY: all clean disc dump info validate shifttest free free-disc disc-internal
+.PHONY: all clean disc disc-internal retail disc-retail dump info validate
 
 all: $(BIN)
 
 $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 	@SIZE=$$(wc -c < $@); \
-	if [ "$(LDSCRIPT)" = "sawyer_free.ld" ]; then \
+	if [ "$(LDSCRIPT)" = "free.ld" ]; then \
 		echo ""; \
 		echo "========================================"; \
-		echo "  FREE BUILD: $$SIZE bytes (+4 shift)"; \
-		echo "  SCDQ_FIX=$(SCDQ_FIX)"; \
+		echo "  FREE BUILD: $$SIZE bytes"; \
+		echo "  Reimplemented: $(REIMPL_STEMS)"; \
 		echo "========================================"; \
 		echo ""; \
 	else \
-		echo ".BIN Built: $@ ($$SIZE bytes)"; \
+		echo "RETAIL BUILD: $@ ($$SIZE bytes)"; \
 	fi
 
 $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(ALL_OBJS)
 	@echo "$(CONFIG_STR)" > $(BUILDDIR)/.build_config
 
-$(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
-	$(AS) --isa=sh2 -big -o $@ $<
-
-# Patch compilation (from patches/ dir, only used when opted in)
-$(BUILDDIR)/%_patch.o: patches/%.c | $(BUILDDIR)
+# Compile rules: src/ overrides retail/ for reimplemented functions.
+# Guarded so retail builds don't accidentally pick up src/ files via pattern matching.
+ifneq ($(strip $(REIMPL_STEMS)),)
+$(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-# Patch assembly (from patches/ dir, only used when opted in)
-$(BUILDDIR)/%_patch.o: patches/%.s | $(BUILDDIR)
+$(BUILDDIR)/%.o: src/%.s | $(BUILDDIR)
+	$(AS) --isa=sh2 -big -o $@ $<
+endif
+
+$(BUILDDIR)/%.o: retail/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
 
-# Byte-identical validation against original binary
-validate: $(BIN)
+# Build + inject into disc image (default = free build)
+disc: $(BIN)
+	@echo "Injecting APROG.BIN into disc image..."
+	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
+
+# Byte-identical retail build (all retail/, no src/ overrides)
+retail:
+	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S=
+
+# Build + inject retail binary
+disc-retail:
+	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S=
+	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S= disc
+
+# Byte-identical validation (always builds retail first)
+validate:
+	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S=
 	@if cmp -s $(BIN) $(ORIGINAL); then \
 		echo "PASS: byte-identical to original"; \
 	else \
@@ -105,47 +126,7 @@ clean:
 	rm -rf $(BUILDDIR)
 
 info:
-	@echo "ASM sources: $(ALL_ASM)"
-	@echo "Objects:     $(ALL_OBJS)"
-
-# Inject into disc image for Mednafen testing
-# SAFETY: does NOT rebuild — injects whatever's already built.
-# This prevents 'make disc' from silently overwriting a free build with production.
-disc:
-	@if [ ! -f $(BIN) ]; then \
-		echo "ERROR: $(BIN) not found. Run 'make' or 'make free' first."; \
-		exit 1; \
-	fi
-	@echo ""
-	@if [ -f $(BUILDDIR)/.build_config ]; then \
-		echo "Injecting: $$(cat $(BUILDDIR)/.build_config)"; \
-	else \
-		echo "WARNING: No .build_config found — unknown build configuration!"; \
-	fi
-	@echo "Binary: $(BIN) ($$(wc -c < $(BIN)) bytes)"
-	@echo ""
-	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
-
-# Build free-layout with +4 shift (no fixes by default)
-#   make free                        — bare free build (will hang without SCDQ fix)
-#   make free SCDQ_FIX=1            — free build with SCDQ fix
-#   make free-disc SCDQ_FIX=1       — build + inject with SCDQ fix
-free:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX)
-
-# Build free-layout AND inject into disc (one command, can't get it wrong)
-free-disc:
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX)
-	$(MAKE) LDSCRIPT=sawyer_free.ld SCDQ_FIX=$(SCDQ_FIX) disc-internal
-
-# Internal disc target that DOES rebuild (only called from combined targets)
-disc-internal: $(BIN)
-	@echo "Injecting APROG.BIN into disc image..."
-	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
-
-# DEPRECATED: sawyer_shifttest.ld has an ORIGIN mismatch (0x06003100 vs BIOS load 0x06003000)
-# Use 'make free' instead for relocation testing
-shifttest:
-	@echo "WARNING: shifttest is deprecated — ORIGIN mismatch makes it fundamentally broken."
-	@echo "Use 'make free' instead (sawyer_free.ld with +4 shift)."
-	@exit 1
+	@echo "Linker script: $(LDSCRIPT)"
+	@echo "Retail ASM:    $(words $(RETAIL_ASM)) files"
+	@echo "Reimplemented: $(REIMPL_STEMS)"
+	@echo "Total objects:  $(words $(ALL_OBJS))"
