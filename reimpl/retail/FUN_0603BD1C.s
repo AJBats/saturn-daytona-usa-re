@@ -43,7 +43,7 @@ FUN_0603BD1C:
     .4byte sym_060401E4
     .4byte FUN_06040C5C
     .4byte sym_06040C50
-    .4byte FUN_06040AF8
+    .4byte event_priority_set
     .4byte FUN_06040954
     .4byte FUN_060408B0
     .4byte sym_0603F8B8

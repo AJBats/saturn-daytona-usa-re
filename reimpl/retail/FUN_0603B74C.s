@@ -59,7 +59,7 @@ DAT_0603b7a8:
 DAT_0603b7aa:
     .byte 0x00, 0xF0
     .4byte sym_060A4D14
-    .4byte FUN_060402BC
-    .4byte FUN_0604053A
+    .4byte sys_boot_sequence
+    .4byte mem_test_verify
     .4byte sym_060406A6
     .4byte sym_0604069A

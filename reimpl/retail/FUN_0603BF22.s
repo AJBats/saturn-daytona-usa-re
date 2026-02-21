@@ -43,7 +43,7 @@ FUN_0603BF22:
     .global DAT_0603bf6e
 DAT_0603bf6e:
     .byte 0x00, 0xEC
-    .4byte FUN_0604087C
+    .4byte watchdog_timer_reset
     .byte 0xE4, 0x00
     .byte 0x00, 0x0B
     .byte 0x60, 0x43
