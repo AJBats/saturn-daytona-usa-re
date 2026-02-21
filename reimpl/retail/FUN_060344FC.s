@@ -19,5 +19,5 @@ FUN_060344FC:
     .byte 0x00, 0x00
     .byte 0x00, 0x18
     .4byte sym_06083238
-    .4byte sym_06027476
+    .4byte isqrt
     .byte 0xD0, 0x0A

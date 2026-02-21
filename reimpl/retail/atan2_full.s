@@ -1,7 +1,7 @@
     .section .text.FUN_0602745C
-    .global FUN_0602745C
-    .type FUN_0602745C, @function
-FUN_0602745C:
+    .global atan2_full
+    .type atan2_full, @function
+atan2_full:
     .byte 0x4F, 0x22
     .byte 0x45, 0x11
     .byte 0xB0, 0x7C
@@ -15,8 +15,8 @@ FUN_0602745C:
     .byte 0x30, 0x2C
     .byte 0x00, 0x0B
     .byte 0x60, 0x0F
-    .global sym_06027476
-sym_06027476:
+    .global isqrt
+isqrt:
     .byte 0x44, 0x15
     .byte 0x8F, 0x0C
     .byte 0xE0, 0x00
