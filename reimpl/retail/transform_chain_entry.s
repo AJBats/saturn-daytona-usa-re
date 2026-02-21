@@ -1,0 +1,11 @@
+    .section .text.FUN_0602DB14
+    .global transform_chain_entry
+    .type transform_chain_entry, @function
+transform_chain_entry:
+    .byte 0x4F, 0x22
+    .byte 0x4D, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD4, 0x2C
+    .byte 0xD5, 0x2A
+    .byte 0xDD, 0x2A
