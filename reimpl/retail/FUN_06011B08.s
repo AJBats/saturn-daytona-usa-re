@@ -141,7 +141,7 @@ FUN_06011B08:
     .4byte sincos_pair
     .4byte sym_060786CC
     .4byte sym_0605AAA0
-    .4byte sym_0602754C
+    .4byte swap_sign_ext
     .4byte FUN_06027552
     .byte 0x55, 0xF3
     .byte 0x4E, 0x0B

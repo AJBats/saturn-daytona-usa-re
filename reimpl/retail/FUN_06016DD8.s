@@ -392,4 +392,4 @@ DAT_06016ffa:
     .4byte sym_06034FE0
     .4byte sym_06084FC8
     .4byte sym_06085490
-    .4byte sym_0602754C
+    .4byte swap_sign_ext

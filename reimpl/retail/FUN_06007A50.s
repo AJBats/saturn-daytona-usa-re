@@ -169,7 +169,7 @@ DAT_06007a96:
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
     .4byte sincos_pair
-    .4byte sym_0602754C
+    .4byte swap_sign_ext
     .4byte sym_06078604
     .byte 0x00, 0x97
     .byte 0x00, 0x00

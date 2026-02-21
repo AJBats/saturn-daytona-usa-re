@@ -1,7 +1,7 @@
     .section .text.FUN_06027498
-    .global FUN_06027498
-    .type FUN_06027498, @function
-FUN_06027498:
+    .global vec3_normalize
+    .type vec3_normalize, @function
+vec3_normalize:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x6E, 0x43
@@ -92,8 +92,8 @@ FUN_06027498:
     .byte 0xB3, 0x33
     .byte 0x00, 0x15
     .byte 0xB6, 0xDB
-    .global sym_0602754C
-sym_0602754C:
+    .global swap_sign_ext
+swap_sign_ext:
     .byte 0x60, 0x49
     .byte 0x00, 0x0B
     .byte 0x60, 0x0F

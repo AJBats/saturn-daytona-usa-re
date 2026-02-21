@@ -176,6 +176,6 @@ FUN_0601198C:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0602754C
+    .4byte swap_sign_ext
     .4byte sym_060786CC
     .4byte sym_0605AAA0
