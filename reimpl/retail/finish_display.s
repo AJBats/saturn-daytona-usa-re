@@ -42,7 +42,7 @@ DAT_0600dbdc:
     .4byte sym_0607EABC
     .4byte sym_0607EAAC
     .4byte sym_0607EAA0
-    .4byte FUN_0601D7D0
+    .4byte sound_notify_handler
     .4byte sym_060786A8
     .4byte sym_06078698
     .4byte sym_06078644

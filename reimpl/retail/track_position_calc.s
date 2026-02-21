@@ -1,7 +1,7 @@
     .section .text.FUN_0600C994
-    .global FUN_0600C994
-    .type FUN_0600C994, @function
-FUN_0600C994:
+    .global track_position_calc
+    .type track_position_calc, @function
+track_position_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

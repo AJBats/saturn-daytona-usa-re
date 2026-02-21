@@ -1,7 +1,7 @@
     .section .text.FUN_06034F08
-    .global FUN_06034F08
-    .type FUN_06034F08, @function
-FUN_06034F08:
+    .global slave_main_loop
+    .type slave_main_loop, @function
+slave_main_loop:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
     .byte 0xE3, 0x01

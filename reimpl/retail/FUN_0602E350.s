@@ -32,7 +32,7 @@ DAT_0602e376:
     .4byte sym_0607E940
     .4byte sym_0602E450
     .4byte sym_0602E4BC
-    .4byte FUN_0600CE66
+    .4byte collision_detect_main
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte sym_0603053C

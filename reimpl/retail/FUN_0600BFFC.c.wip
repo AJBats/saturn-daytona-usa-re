@@ -24,7 +24,7 @@ extern void FUN_0600D31C(void);
 extern void sym_0602E610(void);
 extern void sym_06027630(int, int);
 extern void FUN_060058FA(void);
-extern void FUN_06006868(void);
+extern void scene_post_render(void);
 extern void FUN_0600B6A0(void);
 extern void FUN_0601BDEC(void);
 extern void sym_0603C000(void);
@@ -97,7 +97,7 @@ void FUN_0600BFFC(void)
         FUN_060058FA();
     }
 
-    FUN_06006868();
+    scene_post_render();
     FUN_0600B6A0();
 
     /* Conditional call to FUN_0601BDEC */

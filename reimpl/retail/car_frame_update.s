@@ -45,7 +45,7 @@ DAT_0600e522:
     .4byte sym_06063ED8
     .4byte sym_06063EC4
     .4byte finish_proximity
-    .4byte FUN_0600CE66
+    .4byte collision_detect_main
     .4byte sym_0603053C
     .4byte checkpoint_detect
     .4byte sym_060786BC
@@ -217,11 +217,11 @@ DAT_0600e69c:
     .4byte sym_06063EC4
     .4byte sym_0600DB64
     .4byte finish_proximity
-    .4byte FUN_0600CE66
+    .4byte collision_detect_main
     .4byte sym_0603053C
     .4byte checkpoint_detect
     .4byte sym_0607EA9C
-    .4byte FUN_0600C994
+    .4byte track_position_calc
     .4byte sym_06083255
     .4byte sym_0602D9F0
     .byte 0x4F, 0x16

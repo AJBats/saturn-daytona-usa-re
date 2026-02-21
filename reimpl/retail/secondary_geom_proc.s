@@ -1,7 +1,7 @@
     .section .text.FUN_0600A76C
-    .global FUN_0600A76C
-    .type FUN_0600A76C, @function
-FUN_0600A76C:
+    .global secondary_geom_proc
+    .type secondary_geom_proc, @function
+secondary_geom_proc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

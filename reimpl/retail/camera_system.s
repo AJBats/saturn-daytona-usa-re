@@ -347,7 +347,7 @@ DAT_0600bdae:
     .4byte sincos_pair
     .4byte sym_06082A70
     .4byte sym_06082A78
-    .4byte FUN_060064F2
+    .4byte scene_fallback_render
     .byte 0x94, 0x64
     .byte 0xD3, 0x33
     .byte 0x23, 0x42

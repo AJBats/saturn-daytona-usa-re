@@ -23,7 +23,7 @@ race_utility_calc:
     .byte 0x02, 0x80
     .byte 0x00, 0x08
     .4byte frame_dispatch
-    .4byte FUN_06006868
+    .4byte scene_post_render
     .byte 0x02, 0x00
     .byte 0x00, 0x00
     .4byte FUN_0601BDEC
@@ -63,8 +63,8 @@ race_utility_calc:
     .4byte camera_track_setup
     .4byte sym_06063E1C
     .4byte sym_06063E20
-    .4byte FUN_06006A9C
-    .4byte FUN_06006CDC
+    .4byte scene_path_a
+    .4byte scene_path_b
     .4byte sym_06059F40
     .4byte sym_06059F4C
     .byte 0x00, 0x00

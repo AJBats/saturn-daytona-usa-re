@@ -32,13 +32,13 @@ race_utility_fn:
     .byte 0x21, 0x00
     .byte 0x00, 0x00
     .4byte frame_dispatch
-    .4byte FUN_06006868
+    .4byte scene_post_render
     .4byte FUN_0601BDEC
     .4byte sym_06059FF8
     .4byte sym_0603C000
     .4byte camera_track_setup
     .4byte sym_06082A26
-    .4byte FUN_06006CDC
+    .4byte scene_path_b
     .byte 0x60, 0x40
     .byte 0x88, 0x01
     .byte 0x8B, 0x02
@@ -121,7 +121,7 @@ DAT_0600c372:
     .byte 0x00, 0x84
     .byte 0x00, 0x8C
     .byte 0xFF, 0xFF
-    .4byte FUN_06006A9C
+    .4byte scene_path_a
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
     .byte 0x21, 0x80

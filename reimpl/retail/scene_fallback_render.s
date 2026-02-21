@@ -1,7 +1,7 @@
     .section .text.FUN_060064F2
-    .global FUN_060064F2
-    .type FUN_060064F2, @function
-FUN_060064F2:
+    .global scene_fallback_render
+    .type scene_fallback_render, @function
+scene_fallback_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

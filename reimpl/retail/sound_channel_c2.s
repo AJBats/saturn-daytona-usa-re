@@ -1,7 +1,7 @@
     .section .text.FUN_0601D750
-    .global FUN_0601D750
-    .type FUN_0601D750, @function
-FUN_0601D750:
+    .global sound_channel_c2
+    .type sound_channel_c2, @function
+sound_channel_c2:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0xB2, 0x16

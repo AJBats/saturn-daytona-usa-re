@@ -1,7 +1,7 @@
     .section .text.FUN_0601D7D0
-    .global FUN_0601D7D0
-    .type FUN_0601D7D0, @function
-FUN_0601D7D0:
+    .global sound_notify_handler
+    .type sound_notify_handler, @function
+sound_notify_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

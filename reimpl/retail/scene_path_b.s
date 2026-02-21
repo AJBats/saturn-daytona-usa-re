@@ -1,7 +1,7 @@
     .section .text.FUN_06006CDC
-    .global FUN_06006CDC
-    .type FUN_06006CDC, @function
-FUN_06006CDC:
+    .global scene_path_b
+    .type scene_path_b, @function
+scene_path_b:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

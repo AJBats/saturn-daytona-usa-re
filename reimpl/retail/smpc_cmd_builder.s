@@ -1,7 +1,7 @@
     .section .text.FUN_06034E24
-    .global FUN_06034E24
-    .type FUN_06034E24, @function
-FUN_06034E24:
+    .global smpc_cmd_builder
+    .type smpc_cmd_builder, @function
+smpc_cmd_builder:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
     .byte 0xD3, 0x09
@@ -107,5 +107,5 @@ sym_06034E58:
     .4byte sym_06063584
     .4byte sym_06059CAD
     .4byte sym_06063580
-    .4byte FUN_06034F08
+    .4byte slave_main_loop
     .4byte sym_06059CAC

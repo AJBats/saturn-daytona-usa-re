@@ -1,7 +1,7 @@
     .section .text.FUN_0600CE66
-    .global FUN_0600CE66
-    .type FUN_0600CE66, @function
-FUN_0600CE66:
+    .global collision_detect_main
+    .type collision_detect_main, @function
+collision_detect_main:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x09
