@@ -116,6 +116,88 @@
 ! FUN_0600C170 — Race utility calculation (~30 insns, CALL)
 !   Helper for race state. Called from FUN_0600C010.
 !   Small calculation function.
+! BYTES: VERIFIED — objdump-checked against prod ELF (sawyer.ld), 168 bytes (0x0600C170–0x0600C217)
+
+FUN_0600C170:                           ! 0x0600C170
+    sts.l   pr,@-r15                    ! 0x0600C170: 4F 22 — save return address
+    mov.l   @(0x3C,PC),r3              ! 0x0600C172: D3 0F — r3 = [0x0600C1B0] = FUN_0603C000
+    jsr     @r3                         ! 0x0600C174: 43 0B — call FUN_0603C000
+    nop                                 ! 0x0600C176: 00 09
+    mov.l   @(0x38,PC),r0              ! 0x0600C178: D0 0E — r0 = [0x0600C1B4] = 0x06083255
+    mov.b   @r0,r0                      ! 0x0600C17A: 60 00 — r0 = byte at 0x06083255
+    tst     r0,r0                       ! 0x0600C17C: 20 08 — test if zero
+    bt      .C170_alt_camera            ! 0x0600C17E: 89 1B — if zero, skip to alternate camera
+    bsr     FUN_0600B340                ! 0x0600C180: B8 DE — call FUN_0600B340 (alt camera path)
+    nop                                 ! 0x0600C182: 00 09
+    bra     .C170_post_camera           ! 0x0600C184: A0 1B — skip past alternate
+    nop                                 ! 0x0600C186: 00 09
+
+! --- Constant pool (first block) ---  ! 0x0600C188–0x0600C1B7
+    .4byte  FUN_0600C170                ! 0x0600C188: 06 00 C1 70 — self-reference
+    .4byte  sym_06063574                ! 0x0600C18C: 06 06 35 74
+    .byte   0x00, 0x00                  ! 0x0600C190: 00 00
+    .byte   0xFF, 0xFF                  ! 0x0600C192: FF FF
+    .byte   0x21, 0x00                  ! 0x0600C194: 21 00
+    .byte   0x00, 0x00                  ! 0x0600C196: 00 00
+    .byte   0x02, 0x80                  ! 0x0600C198: 02 80
+    .byte   0x00, 0x08                  ! 0x0600C19A: 00 08
+    .4byte  FUN_060058FA                ! 0x0600C19C: 06 00 58 FA
+    .4byte  FUN_06006868                ! 0x0600C1A0: 06 00 68 68
+    .byte   0x02, 0x00                  ! 0x0600C1A4: 02 00
+    .byte   0x00, 0x00                  ! 0x0600C1A6: 00 00
+    .4byte  FUN_0601BDEC                ! 0x0600C1A8: 06 01 BD EC
+    .4byte  sym_0607EA98                ! 0x0600C1AC: 06 07 EA 98
+    .4byte  sym_0603C000                ! 0x0600C1B0: 06 03 C0 00 — pool for mov.l @(0x3C,PC),r3
+    .4byte  sym_06083255                ! 0x0600C1B4: 06 08 32 55 — pool for mov.l @(0x38,PC),r0
+
+! --- Code resumes ---
+.C170_alt_camera:                       ! 0x0600C1B8
+    mov.l   @(0x38,PC),r3              ! 0x0600C1B8: D3 0E — r3 = [0x0600C1F4] = FUN_0600AFB2
+    jsr     @r3                         ! 0x0600C1BA: 43 0B — call FUN_0600AFB2 (standard camera)
+    nop                                 ! 0x0600C1BC: 00 09
+.C170_post_camera:                      ! 0x0600C1BE
+    bsr     FUN_0600B914                ! 0x0600C1BE: BB A9 — call FUN_0600B914
+    nop                                 ! 0x0600C1C0: 00 09
+    mov.l   @(0x34,PC),r0              ! 0x0600C1C2: D0 0D — r0 = [0x0600C1F8] = sym_06063E1C
+    mov.l   @(0x34,PC),r3              ! 0x0600C1C4: D3 0D — r3 = [0x0600C1FC] = sym_06063E20
+    mov.l   @r0,r0                      ! 0x0600C1C6: 60 02 — r0 = *sym_06063E1C
+    mov.l   @r3,r3                      ! 0x0600C1C8: 63 32 — r3 = *sym_06063E20
+    add     r3,r0                       ! 0x0600C1CA: 30 3C — r0 = r0 + r3
+    cmp/eq  #8,r0                       ! 0x0600C1CC: 88 08 — compare sum to 8
+    bf      .C170_path_b                ! 0x0600C1CE: 8B 04 — if != 8, take path B
+    mov.l   @(0x2C,PC),r3              ! 0x0600C1D0: D3 0B — r3 = [0x0600C200] = FUN_06006A9C
+    jsr     @r3                         ! 0x0600C1D2: 43 0B — call FUN_06006A9C (path A)
+    nop                                 ! 0x0600C1D4: 00 09
+    bra     .C170_post_dispatch         ! 0x0600C1D6: A0 03 — skip path B
+    nop                                 ! 0x0600C1D8: 00 09
+.C170_path_b:                           ! 0x0600C1DA
+    mov.l   @(0x28,PC),r3              ! 0x0600C1DA: D3 0A — r3 = [0x0600C204] = FUN_06006CDC
+    jsr     @r3                         ! 0x0600C1DC: 43 0B — call FUN_06006CDC (path B)
+    nop                                 ! 0x0600C1DE: 00 09
+.C170_post_dispatch:                    ! 0x0600C1E0
+    mov.l   @(0x24,PC),r2              ! 0x0600C1E0: D2 09 — r2 = [0x0600C208] = sym_06059F40
+    mov.l   @(0x24,PC),r3              ! 0x0600C1E2: D3 0A — r3 = [0x0600C20C] = sym_06059F4C
+    mov.l   @r2,r2                      ! 0x0600C1E4: 62 22 — r2 = *sym_06059F40
+    mov.l   r2,@r3                      ! 0x0600C1E6: 23 22 — *sym_06059F4C = r2
+    mov.l   @(0x24,PC),r2              ! 0x0600C1E8: D2 09 — r2 = [0x0600C210] = 0x0000FFFF
+    mov.l   @(0x28,PC),r3              ! 0x0600C1EA: D3 0A — r3 = [0x0600C214] = 0x21800000
+    lds.l   @r15+,pr                    ! 0x0600C1EC: 4F 26 — restore return address
+    rts                                 ! 0x0600C1EE: 00 0B — return
+    mov.w   r2,@r3                      ! 0x0600C1F0: 23 21 — (delay slot) write 0xFFFF to 0x21800000
+
+! --- Constant pool (second block) ---  ! 0x0600C1F2–0x0600C217
+    .byte   0xFF, 0xFF                  ! 0x0600C1F2: FF FF
+    .4byte  FUN_0600AFB2                ! 0x0600C1F4: 06 00 AF B2 — pool for .C170_alt_camera
+    .4byte  sym_06063E1C                ! 0x0600C1F8: 06 06 3E 1C
+    .4byte  sym_06063E20                ! 0x0600C1FC: 06 06 3E 20
+    .4byte  FUN_06006A9C                ! 0x0600C200: 06 00 6A 9C — pool for path A
+    .4byte  FUN_06006CDC                ! 0x0600C204: 06 00 6C DC — pool for path B
+    .4byte  sym_06059F40                ! 0x0600C208: 06 05 9F 40
+    .4byte  sym_06059F4C                ! 0x0600C20C: 06 05 9F 4C
+    .byte   0x00, 0x00                  ! 0x0600C210: 00 00 — upper half of 0x0000FFFF
+    .byte   0xFF, 0xFF                  ! 0x0600C212: FF FF — lower half of 0x0000FFFF
+    .byte   0x21, 0x80                  ! 0x0600C214: 21 80 — upper half of 0x21800000
+    .byte   0x00, 0x00                  ! 0x0600C216: 00 00 — lower half of 0x21800000
 
 ! CONFIDENCE: MEDIUM — address verified as real label, but description is minimal
 ! FIXED: FUN_0600C286 confirmed as labeled function in aprog.s (line 19629).

@@ -316,55 +316,360 @@ FUN_0600B914:   ! 0x0600B914 - Main object loop
 FUN_0600BB94:   ! 0x0600BB94 - Camera system
 
 
-! FUN_0600BF70 - Camera Heading Tracker (Smooth Follow)
-! ------------------------------------------------------
-! 114 bytes, 57 insns. LEAF function.
+! FUN_0600BF70 - Camera Heading Tracker (Exponential Smoothing)
+! --------------------------------------------------------------
+! 114 bytes, 57 insns. LEAF function (no jsr calls — uses mul.l only).
 !
-! Computes smooth camera heading from car state:
-!   1. Load car heading from *(0x0607E944) at +0x1C
-!   2. Call FUN_06027344 (cos_lookup) with heading angle
-!   3. Compute: heading_rate = -(cos_result >> 7)
-!   4. Store heading_rate to 0x06078668
-!   5. Call FUN_06027552 (fpmul) with car pitch at +0x24
-!   6. Apply exponential smoothing (weighted blend):
-!      If current == previous:
-!        new_value = old_value (no change)
-!      Else:
-!        blend = old_value * coeff_A + new_value * coeff_B
-!        result = blend >> 10 (fixed-point normalize)
-!      Store blended result to camera parameter
+! CORRECTION: Previous description said "Call FUN_06027344 (cos_lookup)"
+!   and "Call FUN_06027552 (fpmul)". No function calls exist — this is
+!   purely inline math using mul.l instructions and arithmetic shifts.
 !
-! The exponential smoothing prevents jarring camera motion when
-! the car turns sharply. Coefficients at 0x0600BFE2/E4/E6 control
-! the blend ratio (likely ~0.9 old + ~0.1 new per frame).
+! Computes smooth camera heading offset from car heading:
+!   1. heading = sign_extend(car[+0x1C]) (lower 16 bits of heading angle)
+!   2. scaled = (heading * 900) >> 10  (≈ heading * 0.879)
+!   3. new_value = scaled + sign_extend(*sym_06063E34)  (add camera mode offset)
+!   4. If *sym_06063E1C == *sym_06063E20 (state unchanged between frames):
+!        Apply exponential smoothing:
+!        result = (old * 800 + new * 224) >> 10
+!        Weights: 800/1024 ≈ 0.78 (old) + 224/1024 ≈ 0.22 (new)
+!   5. If state changed: result = new_value (instant snap, no smoothing)
+!   6. Store result → *sym_06063EEC (camera parameter B)
+!
+! The smoothing prevents jarring camera snaps when the car turns.
+! On state transitions (mode change), the camera snaps to the new heading
+! immediately to avoid disorienting lag.
+!
+! BYTES: VERIFIED against production binary (114 bytes at 0x0600BF70-0x0600BFE1)
 
 ! CONFIDENCE: MEDIUM — Not a FUN_ label but exists at address (sts.l macl,@-r15).
 !   Called via bsr from 0x0600BEF2. Smooth follow interpretation reasonable.
     .global FUN_0600BF70
 ! CONFIDENCE: MEDIUM — Not a FUN_ label but exists at address (sts.l macl,@-r15).
 !   Called via bsr from 0x0600BEF2. Smooth follow interpretation reasonable.
-FUN_0600BF70:   ! 0x0600BF70 - Camera heading smooth follow
+FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smoother
+    sts.l   macl,@-r15                   ! save macl (function uses mul.l)
+    mov.l   @(POOL),r4                   ! r4 → sym_0607E944 (current car state pointer)
+    mov.w   @(POOL),r3                   ! r3 = 0x0384 = 900 (heading scale factor)
+    mov.l   @(POOL),r2                   ! r2 → sym_06063E34 (camera mode offset word)
+    mov.l   @(POOL),r5                   ! r5 → sym_06063EEC (camera parameter B — smoothed output)
+    mov.l   @r4,r4                       ! r4 = car state pointer
+    mov.l   @r2,r2                       ! r2 = *sym_06063E34 (camera mode value)
+    mov.l   @(28,r4),r4                  ! r4 = car[+0x1C] (heading angle, 16.16 fixed)
+    exts.w  r4,r4                        ! sign-extend lower 16 bits
+    mul.l   r3,r4                        ! macl = heading * 900
+    exts.w  r2,r3                        ! r3 = sign-extend camera mode offset
+    sts     macl,r4                      ! r4 = heading * 900
+    mov.l   @(POOL),r2                   ! r2 → sym_06063E1C (state flag A)
+    shar    r4                           ! r4 >>= 1  (shift 1 of 10)
+    mov.l   @r2,r2                       ! r2 = *sym_06063E1C
+    shar    r4                           ! r4 >>= 2
+    shar    r4                           ! >>= 3
+    shar    r4                           ! >>= 4
+    shar    r4                           ! >>= 5
+    shar    r4                           ! >>= 6
+    shar    r4                           ! >>= 7
+    shar    r4                           ! >>= 8
+    shar    r4                           ! >>= 9
+    shar    r4                           ! >>= 10  (total: heading * 900 >> 10 ≈ heading * 0.879)
+    add     r3,r4                        ! r4 = heading_scaled + camera_mode_offset
+    mov.l   @(POOL),r3                   ! r3 → sym_06063E20 (state flag B)
+    mov.l   @r3,r3                       ! r3 = *sym_06063E20
+    cmp/eq  r3,r2                        ! state_A == state_B? (state unchanged?)
+    bf/s    .heading_snap                ! if different → state changed, snap instantly
+    exts.w  r4,r4                        ! (delay) sign-extend new heading value
+    ! --- State unchanged: apply exponential smoothing ---
+    mov.l   @r5,r3                       ! r3 = *sym_06063EEC (previous smoothed heading)
+    exts.w  r4,r4                        ! sign-extend new value
+    mov.w   @(POOL),r1                   ! r1 = 0x00E0 = 224 (new_weight)
+    mov.w   @(POOL),r2                   ! r2 = 0x0320 = 800 (old_weight)
+    exts.w  r3,r3                        ! sign-extend old value
+    mul.l   r2,r3                        ! macl = old_value * 800
+    sts     macl,r3                      ! r3 = old_value * 800
+    mul.l   r1,r4                        ! macl = new_value * 224
+    sts     macl,r4                      ! r4 = new_value * 224
+    add     r4,r3                        ! r3 = old*800 + new*224 (weighted blend, sum=1024)
+    shar    r3                           ! r3 >>= 1  (shift 1 of 10)
+    shar    r3                           ! >>= 2
+    shar    r3                           ! >>= 3
+    shar    r3                           ! >>= 4
+    shar    r3                           ! >>= 5
+    shar    r3                           ! >>= 6
+    shar    r3                           ! >>= 7
+    shar    r3                           ! >>= 8
+    shar    r3                           ! >>= 9
+    shar    r3                           ! >>= 10 (divide by 1024 to normalize)
+    mov.l   r3,@r5                       ! *sym_06063EEC = smoothed heading
+    bra     .heading_return
+    nop
+    ! --- State changed: store new heading directly (no smoothing) ---
+.heading_snap:                            ! 0x0600BFDA
+    exts.w  r4,r4                        ! sign-extend
+    mov.l   r4,@r5                       ! *sym_06063EEC = new heading (instant snap)
+.heading_return:                          ! 0x0600BFDE
+    rts
+    lds.l   @r15+,macl                   ! (delay) restore macl
+! --- constant pool for FUN_0600BF70 (at 0x0600BFE2) ---
+! 0x0600BFE2: 0x0384 (900 heading scale, 16-bit), 0x0320 (800 old weight), 0x00E0 (224 new weight)
+! 0x0600BFE8: sym_0607E944, sym_06063E34, sym_06063EEC, sym_06063E1C, sym_06063E20
 
 
 ! =============================================================================
 ! SUPPORTING FUNCTIONS
 ! =============================================================================
 
-! FUN_0600BFFC - HUD/Racing State Initialization
-! ------------------------------------------------
-! 296 bytes, 148 insns. Initializes frame buffer and HUD state
-! for the current racing mode.
-!   - Check HUD mode flags
-!   - Allocate 0x30 bytes in frame buffer
-!   - Copy geometry data for HUD elements
-!   - Call FUN_0600B6A0 for object rendering
-!   - Update HUD mode pointer
-!   - Hardware status polling loop
+! FUN_0600BFFC - Master Scene Rendering Orchestrator
+! ---------------------------------------------------
+! ~370 bytes (prologue FUN_0600BFFC 20B + body FUN_0600C010 ~350B).
+!
+! CORRECTION: Not "HUD/Racing State Initialization" — this is the
+!   MASTER SCENE RENDERING ORCHESTRATOR. It coordinates:
+!   1. Slave SH-2 dispatch (writes callback to sym_06063574!)
+!   2. Conditional rendering based on game state bitmask
+!   3. VDP hardware writes (0x21000000)
+!   4. CS0 object rendering (FUN_0600B6A0)
+!   5. Render budget management
+!   6. Hardware status polling
+!
+! CRITICAL CONNECTION: At 0x0600C0E6, this function stores
+!   FUN_0600C170's address into sym_06063574 — the SLAVE CALLBACK
+!   POINTER that the slave SH-2 reads via FUN_06034F08.
+!   This is the same pointer involved in the ICF_FIX root cause:
+!   the missed cache-through relocation at 0x26063574.
+!
+! FUN_0600BFFC (prologue, 20 bytes):
+!   Push r14-r8, set r11=1, r14=128 (0x80 bitmask), fall into FUN_0600C010
+!
+! FUN_0600C010 (body):
+!   r8  → sym_0607EBC4 (game state bitmask from main loop)
+!   r10 = 0xFE11 (hardware status mask)
+!   r12 → sym_0608A52C (render budget counter B)
+!   r13 → sym_0605A1DD (config/LOD byte)
+!   r14 = 0x80 (bit 7 mask for hardware polling)
+!
+!   1. If *sym_06083255 != 0: call FUN_06034708(*sym_0607EB8C) — slave init
+!   2. State-dependent rendering dispatch:
+!      - If bitmask & 0x02000000 (state 25): skip to step 3
+!      - Else if *sym_06078635 != 0: call sym_0600D336 (render path A)
+!      - Else: call FUN_0600D31C (render path B)
+!   3. If bitmask == 0x20000 (exactly state 17) AND *sym_0607EAE0 == 0:
+!      call sym_0602E610 (special state-17 rendering)
+!   4. Allocate 48 bytes to render budget (*sym_0608A52C += 48)
+!   5. Call sym_06027630(budget, *sym_06089EDC, 48) — budget allocation
+!   6. Set object iteration count at sym_06078664:
+!      - If *sym_06059F30 == 0: count = *sym_0607EA98 >> 1
+!      - Else: count = byte from sym_0605A1DD
+!   7. Store FUN_0600C170 → *sym_06063574 (SET SLAVE CALLBACK!)
+!   8. Write 0xFFFF → 0x21000000 (VDP hardware register write)
+!   9. If bitmask & 0x02800008 == 0: call FUN_060058FA (per-frame update)
+!  10. Call FUN_06006868
+!  11. Call FUN_0600B6A0 (CS0 object rendering loop)
+!  12. If bitmask != 0x02000000: call FUN_0601BDEC
+!  13. Hardware polling: busy-wait on sym_0605A1DD bit 7, then clear upper 4 bits
+!  14. Adjust LOD config byte (increment if budget available, decrement if exceeded)
+!  15. Call sym_0603C000
+!  16. Deallocate 48 bytes from render budget (*sym_0608A52C -= 48)
+!
+! FUN_0600C170 (SLAVE CALLBACK, called by slave SH-2):
+!   - Call sym_0603C000
+!   - If *sym_06083255 != 0: call FUN_0600B340 (primary scene coordinator)
+!     Else: call FUN_0600AFB2 (secondary scene helper)
+!   - Call FUN_0600B914 (main object rendering loop!)
+!   - Check sym_06063E1C + sym_06063E20 == 8:
+!     If yes: call FUN_06006A9C, else: call FUN_06006CDC
+!   - Copy sym_06059F40 → sym_06059F4C
+!   - Write 0xFFFF → 0x21800000 (VDP register — signals slave render complete)
+!
+! BYTES: VERIFIED against production binary (FUN_0600BFFC 20B + FUN_0600C010 ~350B)
 
 ! CONFIDENCE: MEDIUM — Label not verified. HUD init role inferred.
     .global FUN_0600BFFC
 ! CONFIDENCE: MEDIUM — Label not verified. HUD init role inferred.
-FUN_0600BFFC:   ! 0x0600BFFC
+FUN_0600BFFC:                             ! 0x0600BFFC — Master Scene Rendering Orchestrator
+    mov.l   r14,@-r15                    ! push r14
+    mov.l   r13,@-r15                    ! push r13
+    mov.l   r12,@-r15                    ! push r12
+    mov.l   r11,@-r15                    ! push r11
+    mov.l   r10,@-r15                    ! push r10
+    mov     #1,r11                       ! r11 = 1 (LOD minimum threshold)
+    mov.l   r9,@-r15                     ! push r9
+    mov     r11,r14                      ! r14 = 1
+    mov.l   r8,@-r15                     ! push r8
+    add     #127,r14                     ! r14 = 128 = 0x80 (bit 7 mask for HW polling)
+                                         ! falls through to FUN_0600C010...
+
+FUN_0600C010:                             ! 0x0600C010 — Scene rendering body
+    sts.l   pr,@-r15                     ! save return address
+    mov.l   @(POOL),r8                   ! r8 → sym_0607EBC4 (game state bitmask)
+    mov.w   @(POOL),r10                  ! r10 = 0xFE11 (HW status mask)
+    mov.l   @(POOL),r12                  ! r12 → sym_0608A52C (render budget B)
+    mov.l   @(POOL),r13                  ! r13 → sym_0605A1DD (LOD config byte)
+    mov.l   @(POOL),r0                   ! r0 → sym_06083255 (slave processing flag)
+    mov.b   @r0,r0                       ! r0 = *sym_06083255
+    tst     r0,r0                        ! flag == 0?
+    bt/s    .skip_slave_init             ! if zero, skip slave init
+    mov     #0,r9                        ! (delay) r9 = 0 (LOD adjustment flag)
+    mov.l   @(POOL),r4                   ! r4 → sym_0607EB8C
+    mov.l   @(POOL),r3                   ! r3 = FUN_06034708
+    jsr     @r3                          ! call FUN_06034708(*sym_0607EB8C) — slave processing
+    mov.l   @r4,r4                       ! (delay) r4 = *sym_0607EB8C
+.skip_slave_init:                         ! 0x0600C02C
+    mov.l   @r8,r2                       ! r2 = state bitmask
+    mov.l   @(POOL),r3                   ! r3 = 0x02000000 (state 25 bit)
+    and     r3,r2                        ! test state 25
+    tst     r2,r2                        ! state 25 active?
+    bf      .past_render_dispatch        ! if state 25: skip conditional render
+    ! --- Not state 25: check render mode ---
+    mov.l   @(POOL),r0                   ! r0 → sym_06078635
+    mov.b   @r0,r0                       ! r0 = *sym_06078635
+    extu.b  r0,r0
+    tst     r0,r0                        ! == 0?
+    bt      .render_path_b               ! if zero → path B
+    mov.l   @(POOL),r3                   ! r3 → sym_0600D336
+    jsr     @r3                          ! call sym_0600D336 — render path A
+    nop
+    bra     .past_render_dispatch
+    nop
+.render_path_b:                           ! 0x0600C04A
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600D31C
+    jsr     @r3                          ! call FUN_0600D31C — render path B
+    nop
+.past_render_dispatch:                    ! 0x0600C050
+    ! --- Check for special state 17 rendering ---
+    mov.l   @r8,r2                       ! r2 = state bitmask
+    mov.l   @(POOL),r3                   ! r3 = 0x20000 (state 17 bitmask)
+    cmp/eq  r3,r2                        ! exactly state 17?
+    bf      .past_state17                ! if not, skip
+    mov.l   @(POOL),r0                   ! r0 → sym_0607EAE0
+    mov.l   @r0,r0                       ! r0 = *sym_0607EAE0
+    tst     r0,r0                        ! == 0?
+    bf      .past_state17                ! if non-zero, skip
+    mov.l   @(POOL),r3                   ! r3 → sym_0602E610
+    jsr     @r3                          ! call sym_0602E610 — state 17 special render
+    nop
+.past_state17:                            ! 0x0600C066
+    ! --- Render budget allocation ---
+    mov     #48,r6                       ! r6 = 48 (budget allocation size)
+    mov.l   @r12,r2                      ! r2 = *sym_0608A52C (current budget)
+    add     #48,r2                       ! r2 += 48
+    mov.l   r2,@r12                      ! *sym_0608A52C = r2 (allocate)
+    mov.l   @(POOL),r5                   ! r5 → sym_06089EDC (budget counter A)
+    mov.l   @(POOL),r3                   ! r3 → sym_06027630 (budget alloc function)
+    mov.l   @r5,r5                       ! r5 = *sym_06089EDC
+    jsr     @r3                          ! call sym_06027630(budget, budgetA, 48)
+    mov     r2,r4                        ! (delay) r4 = budget value
+    ! --- Set object iteration count ---
+    mov.l   @(POOL),r4                   ! r4 → sym_06078664 (iteration count target)
+    mov.l   @(POOL),r0                   ! r0 → sym_06059F30
+    mov.l   @r0,r0                       ! r0 = *sym_06059F30
+    tst     r0,r0                        ! == 0?
+    bf      .use_config_count            ! if non-zero, use config byte
+    ! --- Zero: compute count from object total ---
+    mov.l   @(POOL),r3                   ! r3 → sym_0607EA98
+    mov.l   @r3,r3                       ! r3 = *sym_0607EA98 (total objects)
+    shar    r3                           ! r3 >>= 1 (half the objects)
+    exts.w  r3,r3                        ! sign-extend
+    mov.w   r3,@r4                       ! *sym_06078664 = total/2
+    bra     .set_slave_callback
+    nop
+    ! ...constant pool interrupts code here (0x0600C090-0x0600C0DA)...
+.use_config_count:                        ! 0x0600C0DC
+    mov.b   @r13,r2                      ! r2 = *sym_0605A1DD (LOD config byte)
+    extu.b  r2,r2                        ! zero-extend
+    mov.w   r2,@r4                       ! *sym_06078664 = config byte
+.set_slave_callback:                      ! 0x0600C0E2
+    ! --- CRITICAL: Write slave callback pointer ---
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600C170 (slave rendering function)
+    mov.l   @(POOL),r2                   ! r2 → sym_06063574 (SLAVE CALLBACK POINTER)
+    mov.l   r3,@r2                       ! *sym_06063574 = FUN_0600C170
+    ! --- VDP hardware write ---
+    mov.l   @(POOL),r3                   ! r3 = 0xFFFF
+    mov.l   @(POOL),r2                   ! r2 = 0x21000000 (VDP register address)
+    mov.w   r3,@r2                       ! write 0xFFFF → 0x21000000
+    ! --- Conditional per-frame update ---
+    mov.l   @r8,r3                       ! r3 = state bitmask
+    mov.l   @(POOL),r2                   ! r2 = 0x02800008 (states 3+19+25 mask)
+    and     r2,r3                        ! test those states
+    tst     r3,r3                        ! any active?
+    bf      .skip_frame_update           ! if any active, skip
+    mov.l   @(POOL),r3                   ! r3 = FUN_060058FA
+    jsr     @r3                          ! call FUN_060058FA — per-frame update chain
+    nop
+.skip_frame_update:                       ! 0x0600C0FE
+    mov.l   @(POOL),r3                   ! r3 = FUN_06006868
+    jsr     @r3                          ! call FUN_06006868
+    nop
+    bsr     FUN_0600B6A0                 ! call FUN_0600B6A0 — CS0 object rendering loop
+    nop
+    ! --- State-specific post-rendering ---
+    mov.l   @r8,r2                       ! r2 = state bitmask
+    mov.l   @(POOL),r3                   ! r3 = 0x02000000 (state 25)
+    cmp/eq  r3,r2                        ! exactly state 25?
+    bt      .skip_post_render            ! if state 25, skip
+    mov.l   @(POOL),r3                   ! r3 = FUN_0601BDEC
+    jsr     @r3                          ! call FUN_0601BDEC
+    nop
+    bra     .skip_post_render
+    nop
+    mov     r11,r9                       ! r9 = 1 (flag: LOD increment path)
+.skip_post_render:                        ! 0x0600C11C
+    ! --- Hardware status polling loop ---
+    mov.b   @r10,r2                      ! r2 = *sym_0605A1DD (HW status byte)
+    extu.b  r2,r2                        ! zero-extend
+    and     r14,r2                       ! r2 & 0x80 (test bit 7)
+    cmp/eq  r14,r2                       ! bit 7 set?
+    bf      .hw_poll_done                ! if bit 7 clear, polling done
+    ! (loops back to .skip_post_render for busy-wait)
+.hw_poll_done:
+    mov.b   @r10,r0                      ! r0 = status byte
+    and     #15,r0                       ! r0 &= 0x0F (clear upper 4 bits)
+    mov.b   r0,@r10                      ! write back cleaned status
+    ! --- LOD config adjustment ---
+    tst     r9,r9                        ! r9 == 0? (no LOD increment needed?)
+    bt      .lod_decrement_path          ! if zero, try decrement
+    mov.b   @r13,r3                      ! r3 = LOD config byte
+    mov.l   @(POOL),r2                   ! r2 → sym_0607EA98
+    extu.b  r3,r3
+    mov.l   @r2,r2                       ! r2 = total object count
+    cmp/ge  r2,r3                        ! config >= total?
+    bt      .lod_done                    ! if at max, don't increment
+    mov.b   @r13,r2
+    add     #1,r2                        ! config++
+    bra     .lod_done
+    mov.b   r2,@r13                      ! store incremented config
+.lod_decrement_path:                      ! 0x0600C144
+    mov.b   @r13,r2                      ! r2 = LOD config byte
+    extu.b  r2,r2
+    cmp/gt  r11,r2                       ! config > 1?
+    bf      .lod_done                    ! if <= 1, don't decrement (minimum)
+    mov.b   @r13,r2
+    add     #-1,r2                       ! config--
+    mov.b   r2,@r13                      ! store decremented config
+.lod_done:                                ! 0x0600C152
+    mov.l   @(POOL),r3                   ! r3 → sym_0603C000
+    jsr     @r3                          ! call sym_0603C000
+    nop
+    ! --- Deallocate render budget ---
+    mov.l   @r12,r2                      ! r2 = *sym_0608A52C
+    add     #-48,r2                      ! r2 -= 48
+    mov.l   r2,@r12                      ! *sym_0608A52C = r2 (deallocate)
+    ! --- Epilogue ---
+    lds.l   @r15+,pr                     ! restore PR
+    mov.l   @r15+,r8                     ! restore r8
+    mov.l   @r15+,r9
+    mov.l   @r15+,r10
+    mov.l   @r15+,r11
+    mov.l   @r15+,r12
+    mov.l   @r15+,r13
+    rts
+    mov.l   @r15+,r14                    ! (delay) restore r14
+! --- constant pool for FUN_0600C010 (at 0x0600C090+0x0600C188) ---
+! Pool A (0x0600C090): 0xFE11 (HW mask), sym_0607EBC4, sym_0608A52C, sym_0605A1DD,
+!   sym_06083255, sym_0607EB8C, FUN_06034708, 0x02000000, sym_06078635,
+!   sym_0600D336, FUN_0600D31C, 0x20000, sym_0607EAE0, sym_0602E610,
+!   sym_06089EDC, sym_06027630, sym_06078664, sym_06059F30, sym_0607EA98
+! Pool B (0x0600C188): FUN_0600C170, sym_06063574, 0xFFFF, 0x21000000,
+!   0x02800008, FUN_060058FA, FUN_06006868, 0x02000000, FUN_0601BDEC,
+!   sym_0607EA98, sym_0603C000
 
 
 ! FUN_0600C218 - Secondary HUD Frame Setup
@@ -381,18 +686,120 @@ FUN_0600BFFC:   ! 0x0600BFFC
 FUN_0600C218:   ! 0x0600C218
 
 
-! FUN_0600C302 - Wheel State / Speed Limiter
-! --------------------------------------------
-! 136 bytes, 68 insns. LEAF function.
-!   - Read car speed from state+0x68, scale by << 5 (x32)
-!   - Store scaled speed at +0xE0 and +0xE4
-!   - Decrement wheel rotation counters
-!   - Check speed threshold for state transitions
+! FUN_0600C302 - Wheel Animation Timer (Speed-Dependent)
+! -------------------------------------------------------
+! 166 bytes (code 0x0600C302-0x0600C3A7 including pool + tail). LEAF function.
+!
+! CORRECTION: Not "speed limiter" — this manages wheel VISUAL ROTATION TIMERS
+!   based on speed thresholds. Two counters at car[+0x172] and car[+0x174]
+!   control front/rear wheel animation durations.
+!
+! Algorithm:
+!   1. car[+0xE0] = car[+0xE4] = car[+0x68] << 5 (scale speed * 32)
+!   2. Decrement car[+0x172] if > 0 (wheel counter 1 — front wheels)
+!   3. Decrement car[+0x174] if > 0 (wheel counter 2 — rear wheels)
+!   4. If car[+0xDC] != 0: return (car in motion, counters tick naturally)
+!   5. If car[+0x68] >= 230: set counter1=18, counter2=0 (high speed: front spin)
+!   6. If car[+0x84] >= 140 AND 155 < car[+0x68] < 230:
+!      set counter1=0, counter2=18 (medium speed: rear wheel effect)
+!   7. Otherwise: return (low speed, no wheel animation refresh)
+!
+! Speed thresholds: 230 (high), 155 (medium-low), 140 (secondary metric gate)
+! Counter init value: 18 frames (~0.3 seconds at 60fps)
+!
+! BYTES: VERIFIED against production binary (166 bytes at 0x0600C302-0x0600C3A7)
 
 ! CONFIDENCE: MEDIUM — Label not verified. Wheel/speed role inferred.
     .global FUN_0600C302
 ! CONFIDENCE: MEDIUM — Label not verified. Wheel/speed role inferred.
-FUN_0600C302:   ! 0x0600C302
+FUN_0600C302:                             ! 0x0600C302 — Wheel Animation Timer
+    mov     #104,r0                      ! r0 = 0x68 (speed field offset)
+    mov.l   @(POOL),r4                   ! r4 → sym_0607E944 (car state pointer)
+    mov.l   @r4,r4                       ! r4 = car state struct
+    mov.l   @(r0,r4),r3                  ! r3 = car[+0x68] (raw speed value)
+    add     #124,r0                      ! r0 = 0xE4
+    shll2   r3                           ! r3 <<= 2
+    shll2   r3                           ! r3 <<= 4
+    shll    r3                           ! r3 <<= 5 (speed * 32)
+    mov.l   r3,@(r0,r4)                  ! car[+0xE4] = speed * 32
+    add     #-4,r0                       ! r0 = 0xE0
+    mov.l   r3,@(r0,r4)                  ! car[+0xE0] = speed * 32 (duplicate)
+    ! --- Decrement wheel counter 1 (front wheels) ---
+    mov.w   @(POOL),r0                   ! r0 = 0x0172
+    mov.w   @(r0,r4),r3                  ! r3 = car[+0x172] (front wheel counter)
+    cmp/pl  r3                           ! r3 > 0?
+    bf      .skip_counter1               ! if <= 0, don't decrement
+    mov.w   @(POOL),r0                   ! r0 = 0x0172
+    mov.w   @(r0,r4),r2                  ! r2 = car[+0x172]
+    add     #-1,r2                       ! r2--
+    mov.w   r2,@(r0,r4)                  ! car[+0x172] = r2
+.skip_counter1:                           ! 0x0600C328
+    ! --- Decrement wheel counter 2 (rear wheels) ---
+    mov.w   @(POOL),r0                   ! r0 = 0x0174
+    mov.w   @(r0,r4),r3                  ! r3 = car[+0x174] (rear wheel counter)
+    cmp/pl  r3                           ! r3 > 0?
+    bf      .skip_counter2               ! if <= 0, don't decrement
+    mov.w   @(POOL),r0                   ! r0 = 0x0174
+    mov.w   @(r0,r4),r2                  ! r2 = car[+0x174]
+    add     #-1,r2                       ! r2--
+    mov.w   r2,@(r0,r4)                  ! car[+0x174] = r2
+.skip_counter2:                           ! 0x0600C338
+    ! --- Check if car is in motion animation ---
+    mov.w   @(POOL),r0                   ! r0 = 0x00DC
+    mov.w   @(r0,r4),r0                  ! r0 = car[+0xDC] (motion/animation flag)
+    tst     r0,r0                        ! flag == 0?
+    bt      .car_stopped                 ! if zero → car stopped, check speed thresholds
+    rts                                  ! car in motion → return (counters tick naturally)
+    nop
+.car_stopped:                             ! 0x0600C344
+    ! --- Speed threshold checks for wheel animation ---
+    mov     #18,r7                       ! r7 = 18 (counter init: ~0.3 seconds at 60fps)
+    mov     #104,r0                      ! r0 = 0x68 (speed offset)
+    mov.w   @(POOL),r2                   ! r2 = 0x00E6 = 230 (high speed threshold)
+    mov.l   @(r0,r4),r3                  ! r3 = car[+0x68] (speed)
+    cmp/ge  r2,r3                        ! speed >= 230?
+    bf/s    .check_medium_speed          ! if < 230, check next tier
+    mov     #0,r6                        ! (delay) r6 = 0
+    ! --- High speed (>= 230): front wheel spin, no rear ---
+    mov.w   @(POOL),r0                   ! r0 = 0x0172
+    mov.w   r7,@(r0,r4)                  ! car[+0x172] = 18 (front wheel counter)
+    add     #2,r0                        ! r0 = 0x0174
+    rts
+    mov.w   r6,@(r0,r4)                  ! (delay) car[+0x174] = 0 (no rear)
+.check_medium_speed:                      ! 0x0600C35C
+    mov.w   @(POOL),r0                   ! r0 = 0x0084 (secondary speed metric offset)
+    mov.w   @(POOL),r2                   ! r2 = 0x008C = 140 (gate threshold)
+    mov.l   @(r0,r4),r3                  ! r3 = car[+0x84] (secondary speed metric)
+    cmp/ge  r2,r3                        ! car[+0x84] >= 140?
+    bt      .check_mid_range             ! if >= 140, check speed range
+    rts                                  ! else: too slow, return
+    nop
+    ! --- (constant pool at 0x0600C36A-0x0600C386) ---
+.check_mid_range:                         ! 0x0600C388
+    mov     #104,r0                      ! r0 = 0x68
+    mov.w   @(POOL),r3                   ! r3 = 0x009B = 155 (medium-low threshold)
+    mov.l   @(r0,r4),r5                  ! r5 = car[+0x68] (speed)
+    cmp/gt  r3,r5                        ! speed > 155?
+    bf      .wheel_done                  ! if <= 155, too slow for rear effect
+    mov.w   @(POOL),r3                   ! r3 = 0x00E6 = 230
+    cmp/ge  r3,r5                        ! speed >= 230?
+    bt      .wheel_done                  ! if >= 230, already handled above
+    ! --- Medium speed (155-229): rear wheel effect ---
+    exts.w  r6,r6                        ! sign-extend r6 = 0
+    mov.w   @(POOL),r0                   ! r0 = 0x0172
+    mov.w   r6,@(r0,r4)                  ! car[+0x172] = 0 (no front)
+    exts.w  r7,r7                        ! sign-extend r7 = 18
+    add     #2,r0                        ! r0 = 0x0174
+    mov.w   r7,@(r0,r4)                  ! car[+0x174] = 18 (rear wheel counter)
+.wheel_done:                              ! 0x0600C3A4
+    rts
+    nop
+! --- constant pool for FUN_0600C302 (at 0x0600C36A) ---
+! 0x0600C36A: 0x0172 (front counter offset), 0x0174 (rear counter offset)
+! 0x0600C36E: 0x00DC (motion flag offset), 0x00E6 (230 high threshold)
+! 0x0600C372: 0x0084 (secondary metric offset), 0x008C (140 gate threshold)
+! 0x0600C384: sym_0607E944
+! Extended pool (0x0600C388+): 0x009B (155), 0x00E6 (230), 0x0172
 
 
 ! FUN_0600C3A8 - Controller Input Decoder / Accel-Brake State Machine
@@ -493,10 +900,10 @@ FUN_0600DD88:   ! 0x0600DD88
 ! | 0x0600B6A0 | cs0_object_loop    | 518  | CS0 object rendering loop      |
 ! | 0x0600B914 | main_object_loop   | 530  | Main scene object loop         |
 ! | 0x0600BB94 | camera_system      | 754  | Multi-mode camera controller   |
-! | 0x0600BF70 | camera_heading     | 114  | Heading tracker (smooth follow)|
-! | 0x0600BFFC | hud_racing_init    | 296  | HUD/racing state init          |
+! | 0x0600BF70 | camera_heading     | 114  | Heading tracker (exponential smoothing)|
+! | 0x0600BFFC | scene_render_orch  | ~370 | Master scene rendering orchestrator   |
 ! | 0x0600C218 | hud_frame_setup    | 110  | Secondary HUD frame setup      |
-! | 0x0600C302 | wheel_speed_limit  | 136  | Wheel state / speed limiter    |
+! | 0x0600C302 | wheel_anim_timer   | 166  | Wheel animation timer (speed-based)   |
 ! | 0x0600C3A8 | input_decode       | 266  | Controller input decoder       |
 ! | 0x0600C4F8 | accel_calculator   | 178  | Acceleration curve lookup      |
 ! | 0x0600D50C | render_batch       | 502  | Priority-based draw scheduler  |

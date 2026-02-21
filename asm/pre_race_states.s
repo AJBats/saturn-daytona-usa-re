@@ -40,11 +40,15 @@
 ! Common called functions in pre-race:
 !   FUN_06018E70  general init/reset
 !   FUN_060210F6  render update (HUD/overlays)
-!   FUN_06026CE0  external display update
+!   sym_06026CE0  external display update
 !   FUN_06018DDC  handler dispatcher (r4=handler, r5=sub, r6=param)
-!   FUN_060149E0  secondary init
+!   FUN_060149E0  display disable (clears bit 15 of 0x060A3D88 — see hud_ui.s)
 !   FUN_0601CAEE  jump target for long init chains
-!   FUN_06014884  memory setup
+!   FUN_06014884  display channel update B (r4=channel, r5=value_hi, r6=value_lo)
+!                   CORRECTION: Not "memory setup" — this is the scene data channel
+!                   write path (see hud_ui.s Section 12, DEFINITE). Channel 4 =
+!                   transform primary position. E.g. FUN_06014884(4, 0xFFFF0000, 0)
+!                   initializes transform primary to offscreen.
 !   FUN_0601C978  configuration setup
 
 ! =============================================================================
@@ -60,20 +64,61 @@
 ! Transitions to: dispatches via FUN_06018DDC (multi-handler)
 !
 ! Algorithm:
-!   call FUN_06018E70()         -- general init
-!   call FUN_0601C978()         -- configuration
-!   call FUN_06014884(4)        -- memory setup (region 4)
-!   call FUN_06018DDC(2, 2, 0)  -- handler dispatcher
-!   call FUN_060210F6()         -- render
-!   call FUN_06026CE0()         -- display update
-!   *0x0605AD10 = next_state
-!   *0x06059F44 = 0
-!   jmp FUN_0601CAEE            -- long init chain (no return)
+!   call FUN_06018E70()                    -- general init
+!   call FUN_0601C978()                    -- configuration
+!   call FUN_06014884(4, 0xFFFF0000, 0)    -- display channel 4 (transform primary) = offscreen
+!   call FUN_06018DDC(2, 2, 0)             -- handler dispatcher
+!   call FUN_060210F6()                    -- render
+!   *0x0605AD10 = 1                        -- transition to state 1
+!   call sym_06026CE0()                    -- display update
+!   *0x06059F44 = 0                        -- clear state tracker
+!   return
+!
+! CORRECTION: Previous description said FUN_06014884(4) = "memory setup (region 4)".
+!   Actual binary shows FUN_06014884(4, 0xFFFF0000, 0) — this is display channel update B
+!   writing channel 4 (transform primary position) to (-65536, 0) = offscreen.
+!   Also: transitions to state 1, not via FUN_0601CAEE jump. State 1 is a separate
+!   jump table entry that does the FUN_0601CAEE tail call.
 !
 ! This is the boot state. It sets up the game from scratch.
+! BYTES: VERIFIED against production binary (62 bytes at 0x060088CC-0x06008909)
 
-! State 0 handler at 0x060088CC
-! (see build/aprog.s for exact opcodes)
+FUN_060088CC:                             ! 0x060088CC — State 0: Boot Initialization
+    sts.l   pr,@-r15                     ! save return address
+    mov.l   @(POOL),r3                   ! r3 = FUN_06018E70
+    jsr     @r3                          ! call FUN_06018E70 — general init/reset
+    nop
+    mov.l   @(POOL),r3                   ! r3 = FUN_0601C978
+    jsr     @r3                          ! call FUN_0601C978 — configuration setup
+    nop
+    mov     #0,r6                        ! r6 = 0 (value_lo: X position = 0)
+    mov.l   @(POOL),r5                   ! r5 = 0xFFFF0000 (value_hi: Y position = -65536 = offscreen)
+    mov.l   @(POOL),r3                   ! r3 = FUN_06014884
+    jsr     @r3                          ! call FUN_06014884(4, 0xFFFF0000, 0)
+    mov     #4,r4                        ! (delay) r4 = 4 (channel = transform primary)
+    mov     #0,r6                        ! r6 = 0 (param = 0)
+    mov     #2,r5                        ! r5 = 2 (sub-handler)
+    mov.l   @(POOL),r3                   ! r3 = FUN_06018DDC
+    jsr     @r3                          ! call FUN_06018DDC(2, 2, 0)
+    mov     r5,r4                        ! (delay) r4 = r5 = 2 (handler)
+    mov.l   @(POOL),r3                   ! r3 = FUN_060210F6
+    jsr     @r3                          ! call FUN_060210F6 — render update
+    nop
+    mov     #1,r2                        ! r2 = 1 (next state)
+    mov.l   @(POOL),r3                   ! r3 → sym_0605AD10 (game state variable)
+    mov.l   r2,@r3                       ! *sym_0605AD10 = 1 — transition to state 1
+    mov.l   @(POOL),r3                   ! r3 → sym_06026CE0
+    jsr     @r3                          ! call sym_06026CE0 — display update
+    nop
+    mov     #0,r2                        ! r2 = 0
+    mov.l   @(POOL),r3                   ! r3 → sym_06059F44 (state tracker)
+    lds.l   @r15+,pr                     ! restore return address
+    rts                                  ! return
+    mov.l   r2,@r3                       ! (delay) *sym_06059F44 = 0
+! --- constant pool for FUN_060088CC ---
+! 0x06008910: FUN_06018E70, FUN_0601C978, 0xFFFF0000, FUN_06014884
+! 0x06008920: FUN_06018DDC, FUN_060210F6, sym_0605AD10, sym_06026CE0
+! 0x06008930: sym_06059F44, FUN_0601CAEE
 
 
 ! =============================================================================
@@ -82,15 +127,128 @@
 !   code space (after the rts at 06008906). It is 2 instructions: load
 !   FUN_0601CAEE address, jmp. State 2 at 0x06008938 is a labeled function.
 ! AUDIT NOTE: FIXED: Added note that State 1 (0x0600890A) is a mid-function jump target within FUN_060088CC code space (after rts at 0x06008906), not a labeled function. State 2 at 0x06008938 IS a labeled function.
-! STATES 1-2 — Stub/Transition States
+! STATE 1 — Long Init Chain Trampoline
 ! =============================================================================
-! Address: State 1 = 0x0600890A, State 2 = 0x06008938
-! Purpose: Minimal handlers, likely intermediate transitions
-! These appear to be very short (2-4 instructions), possibly just
-! setting the next state and returning.
+! Address: 0x0600890A (mid-function jump target within FUN_060088CC code space)
+! Purpose: Tail-call into FUN_0601CAEE (long init chain, no return)
+! BYTES: VERIFIED against production binary (6 bytes at 0x0600890A-0x0600890F)
 
-! State 1 handler at 0x0600890A (mid-function jump target, not a labeled function)
-! State 2 handler at 0x06008938 (labeled function)
+loc_0600890A:                             ! 0x0600890A — State 1: Init chain entry
+    mov.l   @(POOL),r3                   ! r3 = FUN_0601CAEE (long init chain)
+    jmp     @r3                          ! jump to FUN_0601CAEE — does not return
+    nop
+! --- constant pool entry at 0x06008934: FUN_0601CAEE ---
+
+
+! =============================================================================
+! CONFIDENCE: HIGH %s State 2 address 0x06008938 confirmed in jump table.
+!   FUN_06008938 is a 4-byte prologue (push r14, set r3=1) that falls into
+!   FUN_0600893C, the shared attract mode initialization body.
+! STATE 2 — Attract Mode Setup
+! =============================================================================
+! Address: 0x06008938 (FUN_06008938, 4-byte prologue → FUN_0600893C shared body)
+! Purpose: Full initialization for attract mode demo
+!
+! FUN_06008938 prologue sets r3=1 (mode byte), then falls into FUN_0600893C.
+! FUN_0600893C (shared body, 136 bytes) does:
+!   1. Clear display flags: sym_06078634=mode, sym_06078635=0, sym_0607ED8C=0, sym_0607864B=0
+!   2. Call subsystem inits: FUN_06018A3C, FUN_0600EB14, FUN_06033AAC, FUN_0600A140
+!   3. Button check: if *sym_06063DA0 == 0, call FUN_0600330A (clear when no input)
+!   4. Set sym_06087804 = 0 (handler mode)
+!   5. Init attract timer: *sym_0607EBCC = 920 (~15.3 seconds at 60fps)
+!   6. Clear sym_0607EAE0 = 0
+!   7. If *sym_0607EAD8 == 2: timer -= 60 (seen attract twice → shorten by 1 second)
+!   8. Call FUN_0601AE80
+!   9. *sym_0605B6D8 |= 0x40000000 (set "race ready" flag, bit 30)
+!  10. *sym_0605AD10 = 3 (transition to state 3 — attract demo active)
+!  11. Call sym_06026CE0 — display update
+!  12. *sym_06059F44 = 0, *sym_0605A016 = 4
+!
+! BYTES: VERIFIED against production binary (140 bytes at 0x06008938-0x060089C1)
+
+FUN_06008938:                             ! 0x06008938 — State 2 entry: Attract Mode Setup
+    mov.l   r14,@-r15                    ! push r14 (callee-saved)
+    mov     #1,r3                        ! r3 = 1 (mode: attract mode)
+                                         ! falls through to FUN_0600893C...
+
+FUN_0600893C:                             ! 0x0600893C — Shared attract/demo init body
+    sts.l   pr,@-r15                     ! save return address
+    mov     #0,r14                       ! r14 = 0 (cleared for use as zero throughout)
+    mov.l   @(POOL),r2                   ! r2 → sym_06078634 (attract mode byte)
+    extu.b  r14,r0                       ! r0 = 0
+    mov.b   r3,@r2                       ! *sym_06078634 = r3 (1 = attract mode from FUN_06008938)
+    mov.l   @(POOL),r2                   ! r2 → sym_06078635
+    mov.b   r14,@r2                      ! *sym_06078635 = 0
+    mov.l   @(POOL),r2                   ! r2 → sym_0607ED8C
+    mov.w   r14,@r2                      ! *sym_0607ED8C = 0
+    mov.l   @(POOL),r2                   ! r2 → sym_0607864B (display flag)
+    mov.l   @(POOL),r3                   ! r3 = FUN_06018A3C
+    jsr     @r3                          ! call FUN_06018A3C — subsystem init
+    mov.b   r0,@r2                       ! (delay) *sym_0607864B = 0
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600EB14
+    jsr     @r3                          ! call FUN_0600EB14 — subsystem init
+    nop
+    mov.l   @(POOL),r3                   ! r3 = FUN_06033AAC
+    jsr     @r3                          ! call FUN_06033AAC — subsystem init
+    nop
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600A140
+    jsr     @r3                          ! call FUN_0600A140 — subsystem init
+    nop
+    mov.l   @(POOL),r2                   ! r2 → sym_06063DA0 (button state word)
+    mov.w   @r2,r0                       ! r0 = *sym_06063DA0
+    extu.w  r0,r0                        ! zero-extend to 32-bit
+    tst     r0,r0                        ! buttons == 0? (no input)
+    bf      .state2_skip_clear           ! if buttons pressed, skip clear
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600330A
+    jsr     @r3                          ! call FUN_0600330A — clear/reset when no input
+    nop
+.state2_skip_clear:                       ! 0x06008978
+    extu.w  r14,r2                       ! r2 = 0
+    mov.l   @(POOL),r3                   ! r3 → sym_06087804 (handler mode)
+    mov.w   r2,@r3                       ! *sym_06087804 = 0
+    mov.l   @(POOL),r4                   ! r4 → sym_0607EBCC (countdown timer)
+    mov.w   @(POOL),r1                   ! r1 = 0x0398 = 920 (~15.3 seconds at 60fps)
+    mov.l   r1,@r4                       ! *sym_0607EBCC = 920 (attract mode timer)
+    mov.l   @(POOL),r3                   ! r3 → sym_0607EAE0
+    mov.l   r14,@r3                      ! *sym_0607EAE0 = 0
+    mov.l   @(POOL),r0                   ! r0 → sym_0607EAD8
+    mov.l   @r0,r0                       ! r0 = *sym_0607EAD8
+    cmp/eq  #2,r0                        ! seen attract twice?
+    bf      .state2_skip_shorten         ! if not, keep full timer
+    mov.l   @r4,r3                       ! r3 = timer (920)
+    add     #-60,r3                      ! r3 = 860 (~14.3s — shorten by 1 second)
+    mov.l   r3,@r4                       ! *sym_0607EBCC = 860
+.state2_skip_shorten:                     ! 0x06008996
+    mov.l   @(POOL),r3                   ! r3 = FUN_0601AE80
+    jsr     @r3                          ! call FUN_0601AE80
+    nop
+    mov.l   @(POOL),r4                   ! r4 → sym_0605B6D8 (feature flags)
+    mov.l   @(POOL),r2                   ! r2 = 0x40000000
+    mov.l   @r4,r3                       ! r3 = *sym_0605B6D8
+    or      r2,r3                        ! r3 |= 0x40000000 (set "race ready" bit 30)
+    mov.l   r3,@r4                       ! *sym_0605B6D8 = r3
+    mov     #3,r2                        ! r2 = 3 (next state)
+    mov.l   @(POOL),r3                   ! r3 → sym_0605AD10
+    mov.l   r2,@r3                       ! *sym_0605AD10 = 3 — transition to state 3 (attract active)
+    mov.l   @(POOL),r3                   ! r3 → sym_06026CE0
+    jsr     @r3                          ! call sym_06026CE0 — display update
+    nop
+    mov     #4,r2                        ! r2 = 4
+    mov.l   @(POOL),r3                   ! r3 → sym_06059F44
+    mov.l   r14,@r3                      ! *sym_06059F44 = 0 (clear state tracker)
+    mov.l   @(POOL),r3                   ! r3 → sym_0605A016
+    mov.w   r2,@r3                       ! *sym_0605A016 = 4
+    lds.l   @r15+,pr                     ! restore return address
+    rts                                  ! return
+    mov.l   @r15+,r14                    ! (delay) restore r14
+! --- constant pool for FUN_0600893C (at 0x060089C2) ---
+! 0x060089C2: 0x0398 (920 = attract timer, 16-bit)
+! 0x060089C4: sym_06078634, sym_06078635, sym_0607ED8C, sym_0607864B
+! 0x060089D4: FUN_06018A3C, FUN_0600EB14, FUN_06033AAC, FUN_0600A140
+! 0x060089E4: sym_06063DA0, FUN_0600330A, sym_06087804
+! 0x060089F0: sym_0607EBCC, sym_0607EAE0, sym_0607EAD8, FUN_0601AE80
+! 0x06008A00: sym_0605B6D8, 0x40000000, sym_0605AD10, sym_06026CE0
+! 0x06008A10: sym_06059F44, sym_0605A016
 
 
 ! =============================================================================
@@ -99,28 +257,162 @@
 !   FUN_0600A1F6 confirmed (pool at 06008AC8). Button check at 0x06063D9A
 !   confirmed (pool at 06008AD0). Transition to state 4 confirmed (mov #4).
 ! AUDIT NOTE: FIXED: Rewrote algorithm to match binary flow. Counter is decremented first, then cmp/pz checks >= 0. Button check happens when counter IS still >= 0 (not < 0). Timer expiry path and button-press path both lead to state 4 transition.
-! STATE 3 — Countdown/Timer Manager
+! STATE 3 — Attract Demo / Title Screen Active Loop
 ! =============================================================================
 ! Address: 0x06008A18
-! Purpose: Manages a timed transition with button-press override
+! Purpose: Runs the attract mode demo with full gameplay simulation.
+!   Decrements the attract timer (initialized to 920 in State 2) each frame.
+!   If Start is pressed or timer expires → transition to state 4 (mode select).
+!   While waiting: runs full gameplay loop — camera, collision, rendering,
+!   frame commit. This is why the attract mode shows actual car movement.
 !
-! Algorithm:
-!   counter = *0x0607EBCC
-!   counter--
-!   *0x0607EBCC = counter
-!   call FUN_0600A1F6()         -- game update tick
-!   if (counter >= 0):          -- timer still active
-!     buttons = *0x06063D9A
-!     if (buttons & mask):       -- any button pressed?
-!       goto state_transition   -- skip to early transition
-!     else: return              -- wait for timer or button
-!   -- counter < 0: timer expired
-!   if (counter >= 0): call FUN_06018E70()  -- init (second check)
-!   *0x0605AD10 = 4           -- transition to state 4
-!   *0x06087804 = handler_value
-!   return
+! CORRECTION: Previous description said "press any button countdown screen" and
+!   showed an early return on no-button. Actually, the no-button path runs a
+!   FULL GAMEPLAY LOOP (camera, physics, collision, render, frame commit) that
+!   drives the attract mode demo. The button mask 0x0800 = Start button only.
 !
-! This is a "press any button" countdown screen (e.g., attract mode timeout).
+! Algorithm (actual binary flow):
+!   timer = *sym_0607EBCC
+!   timer--
+!   *sym_0607EBCC = timer
+!   call sym_0600A1F6()                    -- per-frame game update tick
+!   if (timer >= 0):                       -- timer still active
+!     if (*sym_06063D9A & 0x0800):         -- Start button pressed?
+!       goto .transition_to_state4         -- yes: skip to mode select
+!     else:
+!       goto .attract_gameplay_loop        -- no: run full attract demo frame
+!   else:                                  -- timer expired
+!     *sym_0607EAD8 = min(*sym_0607EAD8 + 1, 2)  -- count attract cycles (mod 3)
+!     goto .transition_to_state4
+!
+!   .attract_gameplay_loop:
+!     if (*sym_0607EAD8 == 2): call FUN_06033BC8  -- special camera for 3rd attract
+!     call FUN_0601FD74()                  -- display update
+!     call FUN_0600DE40()                  -- per-car update dispatcher
+!     call FUN_0600A914()                  -- collision detection (still active!)
+!     call FUN_060055BC()                  -- object rendering
+!     call sym_0600338C(timer, 21)         -- frame param dispatch
+!     call FUN_0600BFFC()                  -- additional display
+!     if (timer > 580): call sym_0601AEB6  -- early attract (first ~5.7s only)
+!     jmp FUN_060078DC                     -- frame commit (tail call)
+!
+!   .transition_to_state4:
+!     if (timer >= 0): call FUN_06018E70   -- init (Start pressed, timer still active)
+!     *sym_0605AD10 = 4                    -- transition to state 4 (mode select)
+!     *sym_06087804 = 3
+!     return
+!
+! BYTES: VERIFIED against production binary (166 bytes at 0x06008A18-0x06008ABF)
+
+FUN_06008A18:                             ! 0x06008A18 — State 3: Attract Demo Active
+    mov.l   r14,@-r15                    ! push r14
+    sts.l   pr,@-r15                     ! save return address
+    mov.l   @(POOL),r14                  ! r14 → sym_0607EBCC (attract timer, kept in r14)
+    mov.l   @r14,r3                      ! r3 = timer
+    add     #-1,r3                       ! r3-- (decrement timer)
+    mov.l   r3,@r14                      ! *sym_0607EBCC = timer - 1
+    mov.l   @(POOL),r3                   ! r3 → sym_0600A1F6
+    jsr     @r3                          ! call sym_0600A1F6 — per-frame game update
+    nop
+    mov.l   @(POOL),r4                   ! r4 → sym_0607EAD8 (attract cycle counter)
+    mov.l   @r14,r2                      ! r2 = timer (after decrement)
+    cmp/pz  r2                           ! timer >= 0?
+    bf      .state3_timer_expired        ! if < 0 → timer expired
+    ! --- Timer still active: check Start button ---
+    mov.l   @(POOL),r2                   ! r2 → sym_06063D9A (button state)
+    mov.w   @r2,r3                       ! r3 = button state word
+    mov.w   @(POOL),r2                   ! r2 = 0x0800 (Start button mask)
+    extu.w  r3,r3                        ! zero-extend
+    and     r2,r3                        ! r3 = buttons & Start
+    tst     r3,r3                        ! Start pressed?
+    bt      .state3_attract_loop         ! if NOT pressed → run attract gameplay
+    ! --- Start pressed (timer still active) → transition ---
+.state3_timer_expired:                    ! 0x06008A40
+    mov.l   @r14,r3                      ! r3 = timer
+    cmp/pz  r3                           ! timer >= 0? (Start was pressed, not expired)
+    bf      .state3_expired_counter      ! if < 0 → timer actually expired
+    mov.l   @(POOL),r3                   ! r3 = FUN_06018E70
+    jsr     @r3                          ! call FUN_06018E70 — init for mode select
+    nop
+    bra     .state3_set_state4           ! goto state 4 transition
+    nop
+    ! --- Timer < 0: increment attract cycle counter ---
+.state3_expired_counter:                  ! 0x06008A50
+    mov.l   @r4,r2                       ! r2 = *sym_0607EAD8 (attract cycle count)
+    mov     #3,r3                        ! r3 = 3
+    add     #1,r2                        ! r2++ (one more attract cycle completed)
+    mov.l   r2,@r4                       ! *sym_0607EAD8 = r2
+    cmp/hs  r3,r2                        ! r2 >= 3?
+    bf      .state3_set_state4           ! if < 3, keep count
+    mov     #0,r3                        ! r3 = 0
+    mov.l   r3,@r4                       ! *sym_0607EAD8 = 0 (wrap around after 3 cycles)
+    ! --- Transition to state 4 ---
+.state3_set_state4:                       ! 0x06008A60
+    mov     #4,r2                        ! r2 = 4
+    mov.l   @(POOL),r3                   ! r3 → sym_0605AD10
+    mov.l   r2,@r3                       ! *sym_0605AD10 = 4 — transition to state 4 (mode select)
+    mov     #3,r2                        ! r2 = 3
+    mov.l   @(POOL),r3                   ! r3 → sym_06087804
+    mov.w   r2,@r3                       ! *sym_06087804 = 3
+    lds.l   @r15+,pr                     ! restore return address
+    rts                                  ! return
+    mov.l   @r15+,r14                    ! (delay) restore r14
+
+    ! =================================================================
+    ! ATTRACT DEMO GAMEPLAY LOOP — runs when timer active, no Start
+    ! This is the core of why attract mode looks "alive": full gameplay
+    ! simulation with camera, collision, rendering every frame.
+    ! =================================================================
+.state3_attract_loop:                     ! 0x06008A72
+    mov.l   @r4,r0                       ! r0 = *sym_0607EAD8 (attract cycle)
+    cmp/eq  #2,r0                        ! 3rd attract cycle?
+    bf      .state3_skip_special_cam     ! if not, skip special camera
+    mov.l   @(POOL),r3                   ! r3 = FUN_06033BC8
+    jsr     @r3                          ! call FUN_06033BC8 — special camera angle
+    nop
+.state3_skip_special_cam:                 ! 0x06008A7E
+    mov.l   @(POOL),r3                   ! r3 = FUN_0601FD74
+    jsr     @r3                          ! call FUN_0601FD74 — display update
+    nop
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600DE40
+    jsr     @r3                          ! call FUN_0600DE40 — per-car update dispatcher
+    nop
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600A914
+    jsr     @r3                          ! call FUN_0600A914 — collision detection (active in attract!)
+    nop
+    mov.l   @(POOL),r3                   ! r3 = FUN_060055BC
+    jsr     @r3                          ! call FUN_060055BC — object rendering
+    nop
+    mov     #21,r5                       ! r5 = 21 (parameter)
+    mov.l   @(POOL),r3                   ! r3 → sym_0600338C
+    jsr     @r3                          ! call sym_0600338C(timer, 21) — frame param dispatch
+    mov.l   @r14,r4                      ! (delay) r4 = *sym_0607EBCC (timer value)
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600BFFC
+    jsr     @r3                          ! call FUN_0600BFFC — additional display
+    nop
+    mov.l   @r14,r2                      ! r2 = timer
+    mov.w   @(POOL),r3                   ! r3 = 0x0244 = 580 (~9.7 seconds remaining)
+    cmp/gt  r3,r2                        ! timer > 580?
+    bt      .state3_frame_commit         ! if timer <= 580, skip early-attract call
+    mov.l   @(POOL),r3                   ! r3 → sym_0601AEB6
+    jsr     @r3                          ! call sym_0601AEB6 — early attract only (first ~5.7s)
+    nop
+.state3_frame_commit:                     ! 0x06008AB2
+    lds.l   @r15+,pr                     ! restore return address
+    mov.l   @(POOL),r3                   ! r3 = FUN_060078DC
+    jmp     @r3                          ! tail call FUN_060078DC — frame commit
+    mov.l   @r15+,r14                    ! (delay) restore r14
+    ! --- unreachable alternate epilogue at 0x06008ABA (dead code) ---
+    lds.l   @r15+,pr
+    rts
+    mov.l   @r15+,r14
+! --- constant pool for FUN_06008A18 (at 0x06008AC0) ---
+! 0x06008AC0: 0x0800 (Start button mask, 16-bit), 0x0244 (580 timer threshold, 16-bit)
+! 0x06008AC4: sym_0607EBCC, sym_0600A1F6, sym_0607EAD8, sym_06063D9A
+! 0x06008AD4: FUN_06018E70, sym_0605AD10, sym_06087804
+! 0x06008AE0: FUN_06033BC8, FUN_0601FD74, FUN_0600DE40, FUN_0600A914
+! 0x06008AF0: FUN_060055BC, sym_0600338C, FUN_0600BFFC, sym_0601AEB6
+! 0x06008B00: FUN_060078DC
 
 
 ! =============================================================================

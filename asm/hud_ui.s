@@ -433,6 +433,37 @@ FUN_06012F80:   ! 0x06012F80 - Game init master
 !   constants suggests waypoint iteration. AI/NPC labels well-supported by function sizes,
 !   call chains, and iteration patterns typical of racing game opponent logic.
 
+! CORRECTION (2026-02-20, L3 crossword uplift):
+!   Section title "AI OPPONENT LOGIC" is WRONG. Binary analysis shows these are
+!   DISPLAY CHANNEL MANAGEMENT functions. All operate on a 6-channel system
+!   (IDs: 1, 4, 8, 16, 32, 0x100) coordinated through shared state:
+!     0x060635A8 = command slot (channel ID written here)
+!     0x060635AC = command-ready flag (0=idle, 1=pending)
+!     0x060A3D88 = display enable state (bit 15 = master enable)
+!   FUN_06014868/84 are command dispatchers called from VBlank-IN handler.
+!   FUN_060148A2/FC/492C/4964/4994 configure all 6 channels via FUN_06038BD4.
+!   FUN_06014A04 writes to VDP1 VRAM (0x25C00000+).
+!   FUN_06014A74 writes VDP2 Color RAM (0x25F006xx) and VDP2 VRAM (0x25E7xxxx).
+!   Original labels ("NPC Steering", "NPC Collision", "AI Decision Tree") were
+!   based on function sizes and call patterns without hardware register analysis.
+!
+! Corrected function list:
+!   FUN_06014868 - display channel update A (28 bytes, CALL)
+!   FUN_06014884 - display channel update B (30 bytes, CALL)
+!   FUN_060148A2 - load all channels from config array (64 bytes, CALL)
+!   FUN_060148FC - clear all channels to 0 (48 bytes, CALL)
+!   FUN_0601492C - set channel config A (48 bytes, CALL)
+!   FUN_06014964 - set channel config partial (48 bytes, CALL) [MISSING FROM ORIGINAL]
+!   FUN_06014994 - set channel config B (48 bytes, CALL)
+!   sym_060149CC - enable display: set bit 15 (20 bytes, LEAF)
+!   sym_060149E0 - disable display: clear bit 15 (20 bytes, LEAF)
+!   FUN_06014A04 - VDP1 command table update (62 bytes, CALL)
+!   FUN_06014A42 - utility wrapper (12 bytes) [MISSING FROM ORIGINAL]
+!   FUN_06014A74 - display mode init (486 bytes, CALL)
+!   FUN_06014D2C - pending full decode (454 bytes, CALL)
+!   FUN_06014F34 - pending full decode (222 bytes, CALL)
+!
+! Original labels (preserved for reference):
 ! FUN_06014868 - NPC State Update Trigger (28 bytes)
 ! FUN_06014884 - NPC Steering Calculation (30 bytes)
 ! FUN_060148A2 - NPC Acceleration/Braking (64 bytes)
@@ -442,40 +473,390 @@ FUN_06012F80:   ! 0x06012F80 - Game init master
 ! FUN_060149CC - NPC Lap Counter (20 bytes, LEAF)
 ! FUN_060149E0 - NPC Race Completion Check (20 bytes, LEAF)
 
-! FUN_06014A04 - NPC Difficulty Modifier
-! ----------------------------------------
-! 62 bytes. Applies speed handicap based on difficulty setting.
-! AI difficulty scaling (easy/normal/hard).
 
+! ---- FUN_06014868 — Display Channel Update A (28 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x06014868-0x06014883)
+! Called from VBlank-IN handler (r9 dispatch) when display flag bits are set.
+! Three-step pattern: command_write(channel) -> action_A(data1, data2) -> commit.
+!
+FUN_06014868:                        ! 0x06014868
+    sts.l   pr,@-r15               ! save return address
+    add     #-8,r15                ! allocate stack frame: [data_ptr_1, data_ptr_2]
+    mov.l   r5,@r15                ! save data_ptr_1 (becomes r4 for action call)
+    mov.l   @(POOL),r3             ! r3 = sym_0603850C — command_slot_write
+    jsr     @r3                    ! write channel_id (r4) to command slot 0x060635A8
+    mov.l   r6,@(4,r15)           ! (delay) save data_ptr_2
+    mov.l   @(4,r15),r5           ! r5 = data_ptr_2
+    mov.l   @(POOL),r3             ! r3 = FUN_06038794 — display action A
+    jsr     @r3                    ! action_A(r4=data_ptr_1, r5=data_ptr_2)
+    mov.l   @r15,r4               ! (delay) r4 = saved data_ptr_1
+    add     #8,r15                 ! free stack frame
+    mov.l   @(POOL),r3             ! r3 = sym_06038520 — command_commit
+    jmp     @r3                    ! tail-call: set ready flag at 0x060635AC
+    lds.l   @r15+,pr              ! (delay) restore return address
+
+
+! ---- FUN_06014884 — Display Channel Update B (30 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x06014884-0x060148A1)
+! Called from VBlank-IN handler (r8 dispatch). Nearly identical to FUN_06014868:
+!   - Calls FUN_0603853C (action B / scene setup) instead of FUN_06038794
+!   - Passes r6=0 as third parameter to action B
+!
+FUN_06014884:                        ! 0x06014884
+    sts.l   pr,@-r15               ! save return address
+    add     #-8,r15                ! allocate stack frame
+    mov.l   r5,@r15                ! save data_ptr_1
+    mov.l   @(POOL),r3             ! r3 = sym_0603850C — command_slot_write
+    jsr     @r3                    ! write channel_id (r4) to command slot 0x060635A8
+    mov.l   r6,@(4,r15)           ! (delay) save data_ptr_2
+    mov     #0,r6                  ! r6 = 0 — third param for action B
+    mov.l   @(4,r15),r5           ! r5 = data_ptr_2
+    mov.l   @(POOL),r3             ! r3 = FUN_0603853C — display action B (scene setup)
+    jsr     @r3                    ! action_B(r4=data_ptr_1, r5=data_ptr_2, r6=0)
+    mov.l   @r15,r4               ! (delay) r4 = saved data_ptr_1
+    add     #8,r15                 ! free stack frame
+    mov.l   @(POOL),r3             ! r3 = sym_06038520 — command_commit
+    jmp     @r3                    ! tail-call: set ready flag at 0x060635AC
+    lds.l   @r15+,pr              ! (delay) restore return address
+
+
+! ---- FUN_060148A2 — Load All Display Channels From Config (64 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x060148A2-0x060148E1)
+! Reads 6 bytes from config array at 0x0605B71C and writes each as a channel
+! value via FUN_06038BD4(channel_id, value).
+! Channel mapping: byte[0]->ch 0x100, [1]->ch 4, [2]->ch 8,
+!                  byte[3]->ch 16, [4]->ch 32, [5]->ch 1
+!
+FUN_060148A2:                        ! 0x060148A2
+    mov.l   r14,@-r15              ! save r14
+    mov.l   r13,@-r15              ! save r13
+    sts.l   pr,@-r15               ! save return address
+    mov.l   @(POOL),r13            ! r13 = 0x0605B71C — channel config array (6 bytes)
+    mov.l   @(POOL),r14            ! r14 = FUN_06038BD4 — per-channel setter
+    mov.w   @(POOL),r4             ! r4 = 0x100 — channel ID: master
+    jsr     @r14                   ! set_channel(0x100, config[0])
+    mov.b   @r13,r5                ! (delay) r5 = config[0]
+    mov.b   @(1,r13),r0            ! r0 = config[1]
+    mov     r0,r5                  ! r5 = config[1]
+    jsr     @r14                   ! set_channel(4, config[1])
+    mov     #4,r4                  ! (delay) r4 = channel 4
+    mov.b   @(2,r13),r0            ! r0 = config[2]
+    mov     r0,r5
+    jsr     @r14                   ! set_channel(8, config[2])
+    mov     #8,r4
+    mov.b   @(3,r13),r0            ! r0 = config[3]
+    mov     r0,r5
+    jsr     @r14                   ! set_channel(16, config[3])
+    mov     #16,r4
+    mov.b   @(4,r13),r0            ! r0 = config[4]
+    mov     r0,r5
+    jsr     @r14                   ! set_channel(32, config[4])
+    mov     #32,r4
+    mov.b   @(5,r13),r0            ! r0 = config[5]
+    mov     r0,r5
+    jsr     @r14                   ! set_channel(1, config[5])
+    mov     #1,r4
+    lds.l   @r15+,pr              ! restore pr
+    mov.l   @r15+,r13
+    rts
+    mov.l   @r15+,r14              ! (delay)
+
+! --- Shared pool A (0x060148E2-0x060148FA) ---
+!   0x060148E2: .word  0x0100         ! channel ID 256 (master)
+!   0x060148E4: .4byte sym_0603850C   ! command_slot_write
+!   0x060148E8: .4byte FUN_06038794   ! display action A
+!   0x060148EC: .4byte sym_06038520   ! command_commit
+!   0x060148F0: .4byte FUN_0603853C   ! display action B (scene setup)
+!   0x060148F4: .4byte sym_0605B71C   ! channel config array (6 bytes)
+!   0x060148F8: .4byte FUN_06038BD4   ! per-channel setter
+
+
+! ---- FUN_060148FC — Clear All Display Channels (48 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x060148FC-0x0601492B)
+! Sets all 6 channels to value 0 via FUN_06038BD4. Resets display state.
+!
+FUN_060148FC:                        ! 0x060148FC
+    mov.l   r14,@-r15
+    sts.l   pr,@-r15
+    mov.l   @(POOL),r14            ! r14 = FUN_06038BD4
+    mov.w   @(POOL),r4             ! r4 = 0x100
+    jsr     @r14                   ! set_channel(0x100, 0)
+    mov     #0,r5
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(4, 0)
+    mov     #4,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(8, 0)
+    mov     #8,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(16, 0)
+    mov     #16,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(32, 0)
+    mov     #32,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(1, 0)
+    mov     #1,r4
+    lds.l   @r15+,pr
+    rts
+    mov.l   @r15+,r14
+
+
+! ---- FUN_0601492C — Set Channel Config A (48 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x0601492C-0x0601495B)
+! Preset: {0x100->4, 4->1, 8->5, 16->6, 32->7, 1->0}
+!
+FUN_0601492C:                        ! 0x0601492C
+    mov.l   r14,@-r15
+    sts.l   pr,@-r15
+    mov.l   @(POOL),r14            ! r14 = FUN_06038BD4
+    mov.w   @(POOL),r4             ! r4 = 0x100
+    jsr     @r14                   ! set_channel(0x100, 4)
+    mov     #4,r5
+    mov     #1,r5
+    jsr     @r14                   ! set_channel(4, 1)
+    mov     #4,r4
+    mov     #5,r5
+    jsr     @r14                   ! set_channel(8, 5)
+    mov     #8,r4
+    mov     #6,r5
+    jsr     @r14                   ! set_channel(16, 6)
+    mov     #16,r4
+    mov     #7,r5
+    jsr     @r14                   ! set_channel(32, 7)
+    mov     #32,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(1, 0)
+    mov     #1,r4
+    lds.l   @r15+,pr
+    rts
+    mov.l   @r15+,r14
+
+! --- Shared pool B (0x0601495C-0x06014962) ---
+!   0x0601495C: .word  0x0100         ! channel ID 256
+!   0x06014960: .4byte FUN_06038BD4   ! per-channel setter
+
+
+! ---- FUN_06014964 — Set Channel Config Partial (48 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x06014964-0x06014993)
+! NOTE: MISSING from original Section 12 function list.
+! Preset: {0x100->0, 4->1, 8->0, 16->0, 32->0, 1->0} — only channel 4 active.
+!
+FUN_06014964:                        ! 0x06014964
+    mov.l   r14,@-r15
+    sts.l   pr,@-r15
+    mov.l   @(POOL),r14            ! r14 = FUN_06038BD4
+    mov.w   @(POOL),r4             ! r4 = 0x100
+    jsr     @r14                   ! set_channel(0x100, 0)
+    mov     #0,r5
+    mov     #1,r5
+    jsr     @r14                   ! set_channel(4, 1)
+    mov     #4,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(8, 0)
+    mov     #8,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(16, 0)
+    mov     #16,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(32, 0)
+    mov     #32,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(1, 0)
+    mov     #1,r4
+    lds.l   @r15+,pr
+    rts
+    mov.l   @r15+,r14
+
+
+! ---- FUN_06014994 — Set Channel Config B (48 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x06014994-0x060149C3)
+! Preset: {0x100->4, 4->1, 8->0, 16->6, 32->7, 1->0}
+! Like config A but channel 8 = 0 instead of 5.
+!
+FUN_06014994:                        ! 0x06014994
+    mov.l   r14,@-r15
+    sts.l   pr,@-r15
+    mov.l   @(POOL),r14            ! r14 = FUN_06038BD4
+    mov.w   @(POOL),r4             ! r4 = 0x100
+    jsr     @r14                   ! set_channel(0x100, 4)
+    mov     #4,r5
+    mov     #1,r5
+    jsr     @r14                   ! set_channel(4, 1)
+    mov     #4,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(8, 0)
+    mov     #8,r4
+    mov     #6,r5
+    jsr     @r14                   ! set_channel(16, 6)
+    mov     #16,r4
+    mov     #7,r5
+    jsr     @r14                   ! set_channel(32, 7)
+    mov     #32,r4
+    mov     #0,r5
+    jsr     @r14                   ! set_channel(1, 0)
+    mov     #1,r4
+    lds.l   @r15+,pr
+    rts
+    mov.l   @r15+,r14
+
+! --- Shared pool C (0x060149C4-0x060149CA) ---
+!   0x060149C4: .word  0x0100         ! channel ID 256
+!   0x060149C8: .4byte FUN_06038BD4   ! per-channel setter
+
+
+! ---- sym_060149CC — Enable Display (Set Bit 15) (20 bytes, LEAF) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x060149CC-0x060149DF)
+! ORs 0x8000 into word at 0x060A3D88, then sets command-ready flag.
+! Bit 15 of 0x060A3D88 = master display enable.
+!
+sym_060149CC:                        ! 0x060149CC
+    mov.l   @(POOL),r3             ! r3 = 0x00008000 (bit 15 mask)
+    mov.l   @(POOL),r2             ! r2 = 0x060A3D88 — display state word
+    mov.w   @r2,r2                 ! r2 = current display state
+    or      r3,r2                  ! set bit 15 (enable)
+    mov.l   @(POOL),r3             ! r3 = 0x060A3D88 (reload for write)
+    mov.w   r2,@r3                 ! write back with bit 15 set
+    mov     #1,r2                  ! r2 = 1
+    mov.l   @(POOL),r3             ! r3 = 0x060635AC — command-ready flag
+    rts
+    mov.w   r2,@r3                 ! (delay) set ready flag = 1
+
+
+! ---- sym_060149E0 — Disable Display (Clear Bit 15) (20 bytes, LEAF) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x060149E0-0x060149F3)
+! ANDs 0x7FFF into word at 0x060A3D88, then sets command-ready flag.
+!
+sym_060149E0:                        ! 0x060149E0
+    mov.w   @(POOL),r3             ! r3 = 0x7FFF (bit 15 clear mask)
+    mov.l   @(POOL),r2             ! r2 = 0x060A3D88
+    mov.w   @r2,r2                 ! r2 = current display state
+    and     r3,r2                  ! clear bit 15 (disable)
+    mov.l   @(POOL),r3             ! r3 = 0x060A3D88 (reload for write)
+    mov.w   r2,@r3                 ! write back with bit 15 clear
+    mov     #1,r2                  ! r2 = 1
+    mov.l   @(POOL),r3             ! r3 = 0x060635AC
+    rts
+    mov.w   r2,@r3                 ! (delay) set ready flag = 1
+
+! --- Pool D (0x060149F4-0x06014A02) ---
+!   0x060149F4: .word  0x7FFF         ! bit 15 clear mask
+!   0x060149F8: .long  0x00008000     ! bit 15 set mask
+!   0x060149FC: .4byte sym_060A3D88   ! display state word
+!   0x06014A00: .4byte sym_060635AC   ! command-ready flag
+
+! ---- FUN_06014A04 — VDP1 Command Table Update (62 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x06014A04-0x06014A41)
+! CORRECTION: Was "NPC Difficulty Modifier" — actually writes VDP1 command data.
+!   dest = 0x25C00000 + (*(0x06059FFC) * 8) + 0x260  (VDP1 VRAM)
+!   src  = 0x06044B64 (ROM data table, 32 bytes)
+! Then calls FUN_060172BC, sets bit 0 of 0x0607EBF4, updates status words.
+! 0x25C00000 = VDP1 VRAM base. Offset 0x260 = command entry ~76.
+!
+! Original description (preserved):
+! FUN_06014A04 - NPC Difficulty Modifier
+! 62 bytes. Applies speed handicap based on difficulty setting.
+!
+    .global FUN_06014A04
+FUN_06014A04:                        ! 0x06014A04
+    sts.l   pr,@-r15               ! save return address
+    add     #-4,r15                ! stack frame (1 long)
+    mov.l   @(POOL),r3             ! r3 = 0x25C00000 — VDP1 VRAM base
+    mov.l   r3,@r15                ! save VDP1 base on stack
+    mov.l   @(POOL),r5             ! r5 = 0x06044B64 — source data table
+    mov.l   @(POOL),r4             ! r4 -> 0x06059FFC — game state index ptr
+    mov.w   @(POOL),r2             ! r2 = 0x0260 — VDP1 cmd table offset
+    mov.l   @r4,r4                 ! r4 = state index value
+    shll2   r4                     ! r4 *= 4
+    shll    r4                     ! r4 *= 2 (total: state * 8)
+    add     r3,r4                  ! r4 = VDP1_BASE + state*8
+    add     r2,r4                  ! r4 += 0x260 → final VDP1 VRAM dest
+    mov.l   @(POOL),r2             ! r2 = sym_0602761E — memory copy
+    jsr     @r2                    ! copy(dest=r4, src=r5, size=r6)
+    mov     #32,r6                 ! (delay) r6 = 32 bytes
+    mov.l   @(POOL),r3             ! r3 = FUN_060172BC
+    jsr     @r3                    ! post-VDP1-update handler
+    nop
+    mov.l   @(POOL),r5             ! r5 = 0x0607EBF4 — display flags
+    mov     #1,r4                  ! r4 = 1
+    mov     #0,r3                  ! r3 = 0
+    mov.l   @r5,r2                 ! r2 = current flags
+    or      r4,r2                  ! set bit 0
+    mov.l   r2,@r5                 ! write back
+    mov.l   @(POOL),r2             ! r2 = 0x06085F90
+    mov.w   r3,@r2                 ! *(word)0x06085F90 = 0
+    mov.l   @(POOL),r3             ! r3 = 0x06085F94
+    add     #4,r15                 ! free stack frame
+    lds.l   @r15+,pr              ! restore return address
+    rts
+    mov.w   r4,@r3                 ! (delay) *(word)0x06085F94 = 1
+
+! --- Pool E (0x06014A4E-0x06014A72) ---
+!   0x06014A4E: .word  0x0260         ! VDP1 cmd table offset
+!   0x06014A50: .long  0x25C00000     ! VDP1 VRAM base
+!   0x06014A54: .4byte sym_06044B64   ! source data table
+!   0x06014A58: .4byte sym_06059FFC   ! game state index
+!   0x06014A5C: .4byte sym_0602761E   ! memory copy function
+!   0x06014A60: .4byte FUN_060172BC   ! post-VDP1 handler
+!   0x06014A64: .4byte sym_0607EBF4   ! display flags
+!   0x06014A68: .4byte sym_06085F90   ! status word A
+!   0x06014A6C: .4byte sym_06085F94   ! status word B
+!   0x06014A70: .4byte FUN_0601712C   ! (used by FUN_06014A42)
+
+
+! ---- FUN_06014A42 — Utility Wrapper (12 bytes, CALL) ----
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x06014A42-0x06014A4D)
+! NOTE: MISSING from original Section 12 list.
+! Simple: calls FUN_06014F34 then tail-calls FUN_0601712C.
+!
+FUN_06014A42:                        ! 0x06014A42
+    sts.l   pr,@-r15               ! save return address
+    bsr     FUN_06014F34           ! call FUN_06014F34
+    nop
+    mov.l   @(POOL),r3             ! r3 = FUN_0601712C
+    jmp     @r3                    ! tail-call FUN_0601712C
+    lds.l   @r15+,pr              ! (delay) restore return address
+
+
+! ---- FUN_06014A74 — Display Mode Init (486 bytes, CALL) ----
+! BYTES: VERIFIED — objdump confirms size (0x06014A74-0x06014C59)
+! CORRECTION: Was "AI Decision Tree." Binary shows this function:
+!   1. Configures all 6 display channels via FUN_06038BD4
+!   2. Calls FUN_06014884 (display channel update B) for multiple channels
+!   3. Copies 32-byte blocks to VDP2 Color RAM (0x25F00660/680/6A0/6C0)
+!   4. Copies VDP1 command data at state-dependent offsets (0x220/240/260/280)
+!   5. Writes cell data to VDP2 VRAM (0x25E73B98/25E74158/25E74AFC/25E75730)
+!   6. Iterates 44-entry display table at sym_06085640 (stride 54 bytes)
+!   7. Calls sym_060149CC (enable display), FUN_060172BC, FUN_060173AC
+!   This is display/rendering mode initialization, not AI logic.
+!   Full line-by-line decode pending.
+!
+! Original description (preserved):
 ! FUN_06014A74 - AI Decision Tree *** PRIMARY AI LOGIC ***
-! ----------------------------------------------------------
-! 486 bytes. Large function with multiple condition branches:
-!   - Waypoint detection
-!   - Collision avoidance
-!   - Acceleration decisions
-!   - Overtaking behavior
-! Main AI logic controller for all opponent behavior.
+! 486 bytes. Large function with multiple condition branches.
 
     .global FUN_06014A74
-FUN_06014A74:   ! 0x06014A74 - AI decision tree
+FUN_06014A74:   ! 0x06014A74 — display mode init (was: AI decision tree)
 
 
+! ---- FUN_06014D2C — Pending Full Decode (454 bytes, CALL) ----
+! Original description (preserved):
 ! FUN_06014D2C - AI Waypoint Pathfinding
-! ----------------------------------------
 ! 454 bytes. Determines next waypoint on track, calculates
 ! steering angle to reach waypoint. Navigation AI for track following.
 
     .global FUN_06014D2C
-FUN_06014D2C:   ! 0x06014D2C - AI pathfinding
+FUN_06014D2C:   ! 0x06014D2C — pending decode (was: AI pathfinding)
 
 
+! ---- FUN_06014F34 — Pending Full Decode (222 bytes, CALL) ----
+! Original description (preserved):
 ! FUN_06014F34 - AI Position/Ranking Update
-! -------------------------------------------
 ! 222 bytes. Computes current lap position from distance traveled.
 ! Updates race standings for AI opponents.
 
     .global FUN_06014F34
-FUN_06014F34:   ! 0x06014F34 - AI position update
+FUN_06014F34:   ! 0x06014F34 — pending decode (was: AI position update)
 
 
 ! =============================================================================
@@ -535,18 +916,20 @@ FUN_06014F34:   ! 0x06014F34 - AI position update
 ! | 0x060145BC | Collision response        | 198  | CALL |
 ! | 0x060146D2 | Track wall collision      | 114  | CALL |
 ! | 0x0601476C | 3D perspective projection | 216  | LEAF |
-! | 0x06014868 | NPC state trigger         | 28   | CALL |
-! | 0x06014884 | NPC steering              | 30   | CALL |
-! | 0x060148A2 | NPC accel/brake           | 64   | CALL |
-! | 0x060148FC | NPC collision avoidance   | 48   | CALL |
-! | 0x0601492C | NPC-player collision      | 48   | CALL |
-! | 0x06014994 | NPC position update       | 48   | CALL |
-! | 0x060149CC | NPC lap counter           | 20   | LEAF |
-! | 0x060149E0 | NPC race completion       | 20   | LEAF |
-! | 0x06014A04 | NPC difficulty modifier   | 62   | CALL |
-! | 0x06014A74 | AI decision tree          | 486  | CALL |
-! | 0x06014D2C | AI pathfinding            | 454  | CALL |
-! | 0x06014F34 | AI position ranking       | 222  | CALL |
+! | 0x06014868 | Display channel update A  | 28   | CALL | DECODED
+! | 0x06014884 | Display channel update B  | 30   | CALL | DECODED
+! | 0x060148A2 | Load channels from config | 64   | CALL | DECODED
+! | 0x060148FC | Clear all channels        | 48   | CALL | DECODED
+! | 0x0601492C | Set channel config A      | 48   | CALL | DECODED
+! | 0x06014964 | Set channel config partial| 48   | CALL | DECODED [NEW]
+! | 0x06014994 | Set channel config B      | 48   | CALL | DECODED
+! | 0x060149CC | Enable display (bit 15)   | 20   | LEAF | DECODED
+! | 0x060149E0 | Disable display (bit 15)  | 20   | LEAF | DECODED
+! | 0x06014A04 | VDP1 cmd table update     | 62   | CALL | DECODED
+! | 0x06014A42 | Utility wrapper           | 12   | CALL | DECODED [NEW]
+! | 0x06014A74 | Display mode init         | 486  | CALL | STRUCTURAL
+! | 0x06014D2C | Pending decode            | 454  | CALL |
+! | 0x06014F34 | Pending decode            | 222  | CALL |
 !
 ! Total: 62 functions documented
 ! Combined size: ~10,400 bytes of executable code

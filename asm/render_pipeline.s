@@ -21,17 +21,369 @@
 ! These are the LARGEST functions in the entire binary.
 
 ! =============================================================================
-! MASTER GAME STATE MACHINE
+! SCENE COLOR MATRIX SETUP & RENDER TRIGGER (0x0603DDFC)
 ! =============================================================================
+!
+! CORRECTION (2026-02-20, L3 crossword uplift):
+!   Original label "Master game state machine" / "LARGEST FUNCTION IN THE
+!   BINARY" is WRONG on both counts:
+!   1. It's 596B, not the largest (FUN_0602382C is 5352B)
+!   2. It's not a game state machine — it's a scene color matrix initializer
+!      that conditionally triggers downstream render processing.
+!
+!   Called from: menu_display.s scene data channel system
+!     FUN_0603853C/FUN_06038642/FUN_06038794 tail-call FUN_0603DDFC(0,0,0)
+!     when render dirty flags are set after scene data writes.
+!
+!   What it does:
+!   1. Dispatches on channel ID from command slot (only handles 1/2)
+!   2. Initializes a 36-byte scene buffer at sym_060A53B8[index*36] as a
+!      3x3 identity color matrix: diag = 0x10000 (1.0), off-diag = 0
+!   3. Checks render enable flags, accumulates config at sym_060A4C60[index]
+!   4. Copies view colors from sym_060A3E68[index*8] offsets 76/80 into
+!      the matrix diagonal
+!   5. Tail-calls FUN_0603E050 or FUN_0603E5BC for downstream processing
+!
+!   Data structures:
+!     sym_060A53B8 = scene color matrix buffer (36 bytes per scene × 2)
+!       [0]=R scale, [4-12]=0, [16]=G scale, [20-28]=0, [32]=B scale
+!     sym_060A4C60 = per-scene config accumulator (indexed by scene 0/1)
+!     sym_060A4C68 = per-scene update accumulator (indexed)
+!     sym_060A4C44 = per-scene primary enable (indexed)
+!     sym_060A4C4C = per-scene secondary enable (indexed)
+!     sym_060A4C70 = per-scene override disable (indexed)
+!     sym_060A4C78 = per-scene render dirty flag (indexed)
+!     sym_060A4C54 = per-scene dispatch selector (word, indexed)
+!     sym_060A3E38+4 = scene enable flags (low byte=scene 0, high byte=scene 1)
 
 ! CONFIDENCE: HIGH — Label confirmed. AUDIT NOTE: Actual 596B/298 insns.
-! FUN_0603DDFC — Master game state machine (596B, 298 insns) [CORRECTED]
-!   *** LARGEST FUNCTION IN THE BINARY ***
-!   Controls the frame-by-frame game loop.
-!   Orchestrates ALL subsystems: physics, rendering, AI, state transitions.
-!   Complex multi-state branching for all 3 courses.
-!   This is the "main loop body" called from the state handler dispatch
-!   table documented in asm/game_loop.s.
+! FUN_0603DDFC — Scene color matrix setup (596B, CALL)
+! BYTES: VERIFIED — objdump-checked against prod ELF (0x0603DDFC-0x0603E04F)
+!
+! Args: r4 = config delta, r5 = update delta, r6 = optional callback param
+! Typically called with (0,0,0) from scene data channel invalidation.
+!
+FUN_0603DDFC:                            ! 0x0603DDFC
+    mov.l   r14,@-r15                   ! save callee-saved registers
+    mov.l   r13,@-r15
+    mov.l   r12,@-r15
+    mov.l   r11,@-r15
+    mov.l   r10,@-r15
+    sts.l   pr,@-r15
+    add     #-4,r15                     ! allocate 4-byte stack frame
+    mov.l   @(POOL),r10                 ! r10 = &sym_060A53B8 (color matrix buffer base)
+    mov.l   @(POOL),r11                 ! r11 = &sym_060A4C68 (update accumulator array)
+    mov.l   @(POOL),r12                 ! r12 = &sym_060A4C60 (config accumulator array)
+    mov     #0,r13                      ! r13 = 0 constant (used for clearing)
+    mov.l   r6,@r15                     ! save r6 (callback param) on stack
+    mov.l   @(POOL),r0                  ! r0 = &sym_060635A8 (command slot)
+    bra     .cm_dispatch                ! jump to channel dispatch
+    mov.l   @r0,r0                      ! (delay) r0 = channel_id
+! ---- Channel 1 handler: scene index 0 ----
+.cm_ch1:
+    bra     .cm_init_matrix             ! go to matrix init
+    extu.w  r13,r14                     ! (delay) r14 = 0 (scene index 0)
+! ---- Channel 2 handler: scene index 1 ----
+.cm_ch2:
+    bra     .cm_init_matrix
+    mov     #1,r14                      ! (delay) r14 = 1 (scene index 1)
+! ---- No matching channel: early return ----
+.cm_no_match:
+    bra     .cm_epilogue                ! go to return
+    nop
+! ---- Channel dispatch ----
+.cm_dispatch:
+    cmp/eq  #1,r0                       ! channel 1?
+    bt      .cm_ch1                     ! → scene A (index 0)
+    cmp/eq  #2,r0                       ! channel 2?
+    bt      .cm_ch2                     ! → scene B (index 1)
+    bra     .cm_no_match                ! unhandled channel
+    nop
+! ---- Initialize 3x3 identity color matrix ----
+! Buffer at sym_060A53B8[index * 36], 9 longwords:
+!   [0]=1.0  [4]=0    [8]=0      ← R row
+!   [12]=0   [16]=1.0 [20]=0     ← G row
+!   [24]=0   [28]=0   [32]=1.0   ← B row
+.cm_init_matrix:
+    exts.b  r14,r6                      ! r6 = sign-extended index
+    extu.w  r14,r2                      ! r2 = index
+    mov.l   @(POOL),r7                  ! r7 = 0x10000 (1.0 in fp16.16)
+    mov     r6,r3
+    shll2   r2                          ! r2 = index * 4
+    shll2   r6                          ! r6 = index * 4
+    shll2   r3                          !
+    shll2   r3                          ! r3 = index * 16
+    shll    r3                          ! r3 = index * 32
+    add     r3,r6                       ! r6 = index * 36 (struct stride)
+    exts.b  r6,r6                       ! sign-extend offset
+    add     r10,r6                      ! r6 = &color_matrix[index]
+    ! -- Fill identity matrix --
+    mov.l   r7,@r6                      ! [0] = 1.0 (R scale)
+    mov.l   r13,@(4,r6)                ! [4] = 0
+    mov.l   r13,@(8,r6)                ! [8] = 0
+    mov.l   r13,@(12,r6)               ! [12] = 0
+    mov.l   r7,@(16,r6)                ! [16] = 1.0 (G scale)
+    mov.l   r13,@(20,r6)               ! [20] = 0
+    mov.l   r13,@(24,r6)               ! [24] = 0
+    mov.l   r13,@(28,r6)               ! [28] = 0
+    mov.l   r7,@(32,r6)                ! [32] = 1.0 (B scale)
+    ! -- Update config accumulator if scene enabled --
+    mov.l   @(POOL),r3                  ! r3 = &sym_060A4C44 (primary enable base)
+    add     r3,r2                       ! r2 = &enable[index]
+    mov.l   @r2,r0                      ! r0 = primary enable for this scene
+    tst     r0,r0
+    bt      .cm_config_clear            ! not enabled → clear config
+    extu.w  r14,r0
+    shll2   r0
+    mov.l   @(r0,r12),r3               ! r3 = current config[index]
+    add     r4,r3                       ! r3 += r4 (config delta from args)
+    mov.l   r3,@(r0,r12)               ! store updated config
+    bra     .cm_update_accum
+    nop
+.cm_config_clear:
+    extu.w  r14,r0
+    shll2   r0
+    mov.l   r13,@(r0,r12)              ! config[index] = 0 (disabled)
+    ! -- Update accumulator and check further processing --
+.cm_update_accum:
+    extu.w  r14,r6
+    shll2   r6
+    mov     r6,r3
+    add     r11,r3                      ! r3 = &update_accum[index]
+    add     r12,r6                      ! r6 = &config[index]
+    mov.l   @r3,r2
+    add     r5,r2                       ! r2 += r5 (update delta from args)
+    mov.l   r2,@r3                      ! store updated accumulator
+    mov.l   @r6,r0                      ! r0 = config[index]
+    tst     r0,r0                       ! config zero?
+    bf      .cm_enable_flags            ! nonzero → process enable flags
+    tst     r4,r4                       ! r4 (config delta) also zero?
+    bt      .cm_enable_flags            ! both zero → skip enable flag update
+    ! -- Modify scene enable flags based on channel --
+    mov.l   @(POOL),r4                  ! r4 = &sym_060A3E38 (enable flags)
+    mov.l   @(POOL),r0                  ! r0 = &sym_060635A8
+    bra     .cm_flag_dispatch
+    mov.l   @r0,r0                      ! (delay) r0 = channel_id
+.cm_flag_ch1:                            ! Channel 1: clear low byte, keep high
+    mov.l   @(POOL),r2                  ! r2 = 0xFF00
+    mov.w   @(4,r4),r0                  ! r0 = enable_flags[4]
+    mov     r0,r3
+    and     r2,r3                       ! mask low byte (clear scene A bits)
+    mov     r3,r0
+    bra     .cm_flag_store
+    nop
+.cm_flag_ch2:                            ! Channel 2: clear high byte, keep low
+    mov.w   @(4,r4),r0                  ! r0 = enable_flags[4]
+    and     #255,r0                     ! mask high byte (clear scene B bits)
+.cm_flag_store:
+    bra     .cm_enable_flags
+    mov.w   r0,@(4,r4)                 ! (delay) store modified enable flags
+! Pool 1: sym_060A53B8, sym_060A4C68, sym_060A4C60, sym_060635A8,
+!          0x10000, sym_060A4C44, sym_060A3E38, 0xFF00
+.cm_flag_dispatch:
+    cmp/eq  #1,r0
+    bt      .cm_flag_ch1
+    cmp/eq  #2,r0
+    bt      .cm_flag_ch2
+    ! -- Check callback parameter --
+.cm_enable_flags:
+    mov.l   @r15,r0                     ! r0 = saved r6 (callback param)
+    tst     r0,r0
+    bt      .cm_skip_callback
+    bsr     FUN_0603EC40                ! call FUN_0603EC40(r4=callback_param)
+    mov.l   @r15,r4                     ! (delay) r4 = callback param
+    ! -- Check secondary enable / override --
+.cm_skip_callback:
+    extu.w  r14,r4
+    mov.l   @(POOL),r3                  ! r3 = &sym_060A4C4C (secondary enable)
+    shll2   r4
+    add     r4,r3
+    mov.l   @r3,r0
+    tst     r0,r0                       ! secondary enable?
+    bt      .cm_check_view              ! no → go check view
+    mov.l   @(POOL),r3                  ! r3 = &sym_060A4C70 (override disable)
+    add     r4,r3
+    mov.l   @r3,r0
+    tst     r0,r0
+    bt      .cm_check_view              ! no override → check view
+    extu.w  r14,r0
+    shll2   r0
+    mov.l   r13,@(r0,r12)              ! config[index] = 0 (override clears it)
+    ! -- Check view struct for color data to copy --
+.cm_check_view:
+    mov.l   @(POOL),r5                  ! r5 = &sym_060A3E68 (scene view base)
+    extu.w  r14,r4
+    shll2   r4
+    mov     r4,r3
+    add     r12,r3                      ! r3 = &config[index]
+    mov.l   @r3,r0                      ! config nonzero?
+    tst     r0,r0
+    bf      .cm_copy_colors             ! yes → copy colors to matrix
+    mov.l   @(POOL),r3                  ! r3 = &sym_060A4C78 (dirty flags)
+    add     r4,r3
+    mov.l   @r3,r0                      ! dirty?
+    tst     r0,r0
+    bt      .cm_check_enable            ! not dirty → check enable flags
+    ! -- Copy view colors into color matrix --
+.cm_copy_colors:
+    ! Compute: r6 = &color_matrix[index], r4 = &view_struct[index*8]
+    exts.b  r14,r6
+    extu.w  r14,r4
+    mov     r6,r3
+    shll2   r4
+    shll2   r6
+    shll2   r3
+    shll2   r4                          ! r4 = index * 16
+    shll2   r3                          ! r3 = index * 16
+    shll2   r4                          ! r4 = index * 64
+    shll    r3                          ! r3 = index * 32
+    add     r3,r6                       ! r6 = index * 36
+    exts.b  r6,r6
+    add     r10,r6                      ! r6 = &color_matrix[index]
+    shll    r4                          ! r4 = index * 128
+    add     r5,r4                       ! r4 = &view_struct[index * 128]
+    mov     #76,r0
+    mov.l   @(r0,r4),r3                ! r3 = view[76] (color channel 1)
+    mov.l   r3,@r6                      ! matrix[0] = color_1 (R diagonal)
+    mov     #80,r0
+    mov.l   @(r0,r4),r3                ! r3 = view[80] (color channel 2)
+    mov.l   r3,@(16,r6)                ! matrix[16] = color_2 (G diagonal)
+    bra     .cm_check_update_accum
+    nop
+! Pool 2: sym_060A4C4C, sym_060A4C70, sym_060A3E68, sym_060A4C78
+    ! -- Not dirty: check enable flags for forced update --
+.cm_check_enable:
+    extu.w  r14,r4
+    tst     r4,r4                       ! index == 0?
+    bf      .cm_check_enable_ch2
+    mov.l   @(POOL),r0                  ! r0 = &sym_060A3E3C (enable flags word)
+    mov.w   @r0,r0
+    extu.w  r0,r0
+    tst     #255,r0                     ! low byte: scene 0 enable?
+    bf      .cm_copy_colors_ext         ! has bits → go copy (extended path)
+.cm_check_enable_ch2:
+    mov     r4,r0
+    cmp/eq  #1,r0                       ! index == 1?
+    bf      .cm_check_update_accum      ! neither → skip
+    mov.l   @(POOL),r2                  ! r2 = &sym_060A3E3C
+    mov.l   @(POOL),r3                  ! r3 = 0xFF00
+    mov.w   @r2,r2
+    extu.w  r2,r2
+    and     r3,r2                       ! high byte: scene 1 enable?
+    tst     r2,r2
+    bt      .cm_check_update_accum      ! no bits → skip
+    ! -- Extended color copy: also writes to view struct backup offsets --
+.cm_copy_colors_ext:
+    ! Same matrix computation as .cm_copy_colors, plus:
+    ! view[28] = view[76], view[44] = view[80] (backup copy)
+    exts.b  r14,r6
+    extu.w  r14,r4
+    mov     r6,r3
+    shll2   r4
+    shll2   r6
+    shll2   r3
+    shll2   r4
+    shll2   r3
+    shll2   r4
+    shll    r3
+    add     r3,r6
+    exts.b  r6,r6
+    add     r10,r6
+    shll    r4
+    add     r5,r4
+    mov     #76,r0
+    mov.l   @(r0,r4),r3                ! view[76] → matrix[0]
+    mov.l   r3,@r6
+    mov     #80,r0
+    mov.l   @(r0,r4),r3                ! view[80] → matrix[16]
+    mov.l   r3,@(16,r6)
+    mov     #76,r0
+    mov.l   @(r0,r4),r3                ! view[76] → view[28] (color backup)
+    mov.l   r3,@(28,r4)
+    mov     #80,r0
+    mov.l   @(r0,r4),r3                ! view[80] → view[44] (color backup)
+    mov.l   r3,@(44,r4)
+    ! -- Check update accumulator --
+.cm_check_update_accum:
+    extu.w  r14,r0
+    shll2   r0
+    mov.l   @(r0,r11),r3               ! r3 = update_accum[index]
+    tst     r3,r3
+    bt      .cm_final_check             ! zero → skip
+    extu.w  r14,r0
+    shll2   r0
+    bsr     FUN_0603EACC                ! call FUN_0603EACC(r4=accum_value)
+    mov.l   @(r0,r11),r4               ! (delay) r4 = update_accum[index]
+    ! -- Final dispatch: choose render path --
+.cm_final_check:
+    extu.w  r14,r4
+    shll2   r4
+    mov     r4,r3
+    add     r12,r3                      ! r3 = &config[index]
+    mov.l   @r3,r0                      ! config nonzero?
+    tst     r0,r0
+    bf      .cm_dispatch_render         ! yes → dispatch to render
+    mov.l   @(POOL),r3                  ! r3 = &sym_060A4C78
+    add     r4,r3
+    mov.l   @r3,r0                      ! dirty?
+    tst     r0,r0
+    bt      .cm_epilogue                ! not dirty → return (nothing to render)
+    ! -- Choose between two render paths --
+.cm_dispatch_render:
+    extu.w  r14,r3
+    mov.l   @(POOL),r2                  ! r2 = &sym_060A4C54 (dispatch selector)
+    shll    r3
+    add     r2,r3
+    mov.w   @r3,r3                      ! selector word for this scene
+    extu.w  r3,r3
+    tst     r3,r3
+    bt      .cm_render_path_B           ! selector == 0 → path B
+    extu.w  r14,r3
+    mov.l   @(POOL),r2                  ! r2 = &sym_060A4C4C (secondary enable)
+    shll2   r3
+    add     r2,r3
+    mov.l   @r3,r0                      ! secondary enable?
+    tst     r0,r0
+    bt      .cm_render_path_A           ! no secondary → path A
+    ! -- Render path A: tail-call FUN_0603E050 (color processing) --
+.cm_render_path_A:
+    extu.w  r14,r0
+    shll2   r0
+    mov.l   @(r0,r12),r4               ! r4 = config[index]
+    add     #4,r15                      ! free stack frame
+    lds.l   @r15+,pr
+    mov.l   @r15+,r10
+    mov.l   @r15+,r11
+    mov.l   @r15+,r12
+    mov.l   @r15+,r13
+    bra     FUN_0603E050                ! tail-call color processing (next function)
+    mov.l   @r15+,r14                   ! (delay) restore r14
+    ! -- Render path B: tail-call FUN_0603E5BC --
+.cm_render_path_B:
+    extu.w  r14,r0
+    shll2   r0
+    mov.l   @(r0,r12),r4               ! r4 = config[index]
+    add     #4,r15
+    lds.l   @r15+,pr
+    mov.l   @r15+,r10
+    mov.l   @r15+,r11
+    mov.l   @r15+,r12
+    mov.l   @r15+,r13
+    bra     FUN_0603E5BC                ! tail-call alternate render path
+    mov.l   @r15+,r14
+    ! -- Normal return --
+.cm_epilogue:
+    add     #4,r15                      ! free stack frame
+    lds.l   @r15+,pr
+    mov.l   @r15+,r10
+    mov.l   @r15+,r11
+    mov.l   @r15+,r12
+    mov.l   @r15+,r13
+    rts
+    mov.l   @r15+,r14
+! Pool: sym_060A53B8, sym_060A4C68, sym_060A4C60, sym_060635A8, 0x10000,
+!       sym_060A4C44, sym_060A3E38, 0xFF00, sym_060A4C4C, sym_060A4C70,
+!       sym_060A3E68, sym_060A4C78, sym_060A3E3C, sym_060A4C54
 
 
 ! =============================================================================
@@ -310,7 +662,7 @@
 !
 ! Per-Frame Rendering Flow:
 !
-!   FUN_0603DDFC (master state machine)
+!   FUN_0603DDFC (scene color matrix setup — NOT "master state machine")
 !     |
 !     +-> FUN_0603268C (render orchestrator, per-course)
 !     |     |
@@ -341,7 +693,7 @@
 !
 ! | Rank | Function     | Size  | Insns | Description            |
 ! |------|-------------|-------|-------|------------------------|
-! |  1   | FUN_0603DDFC |  596B |  298 | Master state machine   |
+! |  1   | FUN_0603DDFC |  596B |  298 | Scene color matrix     |
 ! |  2   | FUN_0602382C | 5352B | 2676 | Scene setup            |
 ! |  3   | FUN_06021450 | 3312B | 1656 | Track object placement |
 ! |  4   | FUN_06037660 | 2572B | 1286 | VDP1 command builder   |
