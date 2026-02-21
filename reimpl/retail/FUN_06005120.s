@@ -39,7 +39,7 @@ FUN_06005120:
     .byte 0x25, 0xE2
     .byte 0x00, 0x00
     .4byte FUN_06028654
-    .4byte sym_06027630
+    .4byte memcpy_long_idx
     .global sym_06005174
 sym_06005174:
     .byte 0xD5, 0x2A

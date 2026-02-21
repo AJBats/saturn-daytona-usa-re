@@ -83,7 +83,7 @@ DAT_0601f806:
     .4byte sym_0605E0A0
     .byte 0x00, 0x2F
     .byte 0x80, 0x00
-    .4byte sym_06027630
+    .4byte memcpy_long_idx
     .byte 0x60, 0xA2
     .byte 0x88, 0x02
     .byte 0x8B, 0x03

@@ -54,7 +54,7 @@ DAT_0600e9ea:
     .4byte FUN_0600C74E
     .byte 0x00, 0x48
     .byte 0x00, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte FUN_0600CEBA
     .4byte sym_0607EA9C
     .4byte sym_0607E944

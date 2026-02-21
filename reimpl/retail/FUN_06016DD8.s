@@ -132,7 +132,7 @@ FUN_06016DD8:
     .byte 0xA0, 0x09
     .byte 0x00, 0x09
     .byte 0xFF, 0x74
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_0605AD10
     .4byte sym_06084FC8
     .4byte sincos_pair
@@ -279,7 +279,7 @@ DAT_06016ffa:
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte sincos_pair
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0x65, 0x52
     .byte 0xD3, 0x35
     .byte 0x43, 0x0B
@@ -388,7 +388,7 @@ DAT_06016ffa:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x8C
     .byte 0xFF, 0xFF
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte sym_06034FE0
     .4byte sym_06084FC8
     .4byte sym_06085490

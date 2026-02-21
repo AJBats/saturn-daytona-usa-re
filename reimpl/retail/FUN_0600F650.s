@@ -80,7 +80,7 @@ FUN_0600F650:
     .4byte sym_060484EC
     .byte 0x25, 0xF0
     .byte 0x04, 0x60
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_06094FA8
     .byte 0x25, 0xE7
     .byte 0x5D, 0xDC

@@ -22,7 +22,7 @@ FUN_060331DA:
     .4byte sym_0606318C
     .4byte sym_06063190
     .4byte sincos_pair
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0x2F, 0x66
     .byte 0x2F, 0x76
     .byte 0xD3, 0x15

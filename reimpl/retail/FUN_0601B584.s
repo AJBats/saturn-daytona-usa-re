@@ -60,7 +60,7 @@ FUN_0601B584:
     .byte 0x6E, 0xF6
     .byte 0x01, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0604866C
     .byte 0x25, 0xF0
     .byte 0x06, 0xC0
@@ -73,7 +73,7 @@ FUN_0601B584:
     .4byte sym_0604996C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0602853E
     .4byte sym_06028560
     .4byte sym_060638C8

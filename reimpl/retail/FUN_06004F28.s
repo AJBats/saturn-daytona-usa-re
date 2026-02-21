@@ -97,7 +97,7 @@ FUN_06004F28:
     .4byte sym_06059F18
     .4byte sym_06059F10
     .4byte sym_06063D90
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_06063D94
     .byte 0x25, 0xE0
     .byte 0x00, 0x00

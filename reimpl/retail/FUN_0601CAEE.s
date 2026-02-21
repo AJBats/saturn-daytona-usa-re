@@ -65,7 +65,7 @@ DAT_0601cb48:
     .byte 0x02, 0x00
     .byte 0x25, 0xF0
     .byte 0x04, 0x00
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_06086024
     .4byte sym_0608601C
     .4byte sym_06063D98

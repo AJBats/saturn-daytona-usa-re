@@ -106,4 +106,4 @@ FUN_060053AC:
     .4byte sym_06026E2E
     .4byte sincos_pair
     .4byte sym_06063DF8
-    .4byte FUN_06027552
+    .4byte fpmul

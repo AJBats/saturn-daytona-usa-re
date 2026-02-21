@@ -112,8 +112,8 @@ DAT_06003630:
     .byte 0xFF, 0xFF
     .byte 0x25, 0xE2
     .byte 0x00, 0x00
-    .4byte sym_0602761E
-    .4byte sym_06027630
+    .4byte memcpy_word_idx
+    .4byte memcpy_long_idx
     .4byte sym_060481AC
     .byte 0x25, 0xF0
     .byte 0x08, 0x00

@@ -196,7 +196,7 @@ DAT_060212d8:
     .byte 0x00, 0x00
     .4byte sym_06063F5C
     .4byte sym_06059FFC
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_060039F2
     .4byte sym_0604D608
     .4byte sym_0604EFC8

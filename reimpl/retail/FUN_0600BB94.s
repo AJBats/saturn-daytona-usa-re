@@ -465,7 +465,7 @@ DAT_0600bf3c:
     .4byte sincos_pair
     .4byte cos_lookup
     .4byte sym_06078668
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0x4F, 0x12
     .byte 0xD4, 0x1D
     .byte 0x93, 0x35

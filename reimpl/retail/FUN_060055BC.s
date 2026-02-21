@@ -115,9 +115,9 @@ FUN_060055BC:
     .4byte sym_06063EEC
     .4byte sym_06063E08
     .4byte sym_06063E04
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte FUN_06026FFC
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0xBF, 0x44
     .byte 0x00, 0x09
     .byte 0x65, 0xF3

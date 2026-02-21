@@ -79,7 +79,7 @@ DAT_0601043e:
     .byte 0x80, 0x00
     .4byte sym_0607EAB8
     .4byte sym_06078868
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0605D084
     .4byte sym_06078884
     .4byte sym_0605D060

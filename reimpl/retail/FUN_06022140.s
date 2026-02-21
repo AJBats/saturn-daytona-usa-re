@@ -84,7 +84,7 @@ FUN_06022140:
     .byte 0x00, 0x09
     .byte 0x03, 0xE8
     .byte 0x00, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_060896B8
     .4byte sym_060897D0
     .4byte sym_060895A0

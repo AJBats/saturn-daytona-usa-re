@@ -71,7 +71,7 @@ DAT_0601fa26:
     .4byte sym_0604894C
     .byte 0x25, 0xF0
     .byte 0x06, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0605E05C
     .byte 0x97, 0x2A
     .byte 0x37, 0xBC
@@ -130,7 +130,7 @@ DAT_0601fac8:
     .4byte sym_0605CD9C
     .byte 0x25, 0xF0
     .byte 0x06, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_060284AE
     .4byte sym_0605E05C
     .byte 0xDA, 0x39

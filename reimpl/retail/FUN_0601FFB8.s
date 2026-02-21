@@ -99,7 +99,7 @@ FUN_0601FFB8:
     .4byte sym_060877F4
     .4byte sym_06087804
     .4byte sym_06078900
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_0605AD10
     .global loc_06020090
 loc_06020090:

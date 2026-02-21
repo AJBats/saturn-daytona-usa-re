@@ -94,7 +94,7 @@ DAT_0602ce4a:
     .byte 0xA0, 0x33
     .byte 0x65, 0xF6
     .byte 0x00, 0x00
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte cos_lookup
     .4byte atan2
     .byte 0xD0, 0x08
@@ -115,7 +115,7 @@ DAT_0602ce4a:
     .byte 0xA0, 0x1B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0xD0, 0x09
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
@@ -136,7 +136,7 @@ DAT_0602ce4a:
     .byte 0x65, 0x5B
     .byte 0xA0, 0x06
     .byte 0x00, 0x09
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0x28, 0xBE
     .byte 0x60, 0xDB
     .byte 0xE5, 0x00

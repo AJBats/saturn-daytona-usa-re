@@ -84,7 +84,7 @@ FUN_0600C010:
     .4byte sym_0607EAE0
     .4byte sym_0602E610
     .4byte sym_06089EDC
-    .4byte sym_06027630
+    .4byte memcpy_long_idx
     .4byte sym_06078664
     .4byte sym_06059F30
     .4byte sym_0607EA98

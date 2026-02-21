@@ -96,7 +96,7 @@ DAT_0600c59a:
     .byte 0x01, 0x98
     .byte 0x01, 0x94
     .byte 0xFF, 0xFF
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_0607E940
     .4byte sym_0607EBC4
     .byte 0x00, 0x00

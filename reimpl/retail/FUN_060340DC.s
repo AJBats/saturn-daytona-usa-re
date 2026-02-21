@@ -18,7 +18,7 @@ FUN_060340DC:
     .byte 0x0E, 0x26
     .4byte sin_lookup
     .4byte cos_lookup
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0x00, 0x00
     .byte 0x00, 0x18
     .byte 0x00, 0x00

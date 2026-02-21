@@ -62,7 +62,7 @@ FUN_0601A348:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x10, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0605CF9C
     .byte 0x25, 0xF0
     .byte 0x00, 0x20

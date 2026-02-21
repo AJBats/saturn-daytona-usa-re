@@ -33,7 +33,7 @@ DAT_06012c66:
     .4byte sym_060283E0
     .4byte sym_060612C4
     .4byte sym_060612B4
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte FUN_06034C48
     .4byte sym_0605ACCA
     .4byte FUN_0603B1B6

@@ -228,7 +228,7 @@ FUN_06023584:
     .byte 0x80, 0x00
     .4byte sym_06059FFC
     .4byte sym_06063F5C
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_06089E30
     .4byte sym_06089E2C
     .byte 0x62, 0xDD

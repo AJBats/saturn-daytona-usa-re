@@ -177,7 +177,7 @@ FUN_06014A74:
     .4byte FUN_060078DC
     .4byte sym_0602853E
     .4byte FUN_06014884
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_06044A64
     .byte 0x25, 0xF0
     .byte 0x06, 0x60

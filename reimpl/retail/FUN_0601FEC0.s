@@ -116,6 +116,6 @@ DAT_0601ff90:
     .byte 0x01, 0xB0
     .4byte sym_0607E940
     .4byte sym_06078680
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte FUN_0600CB90
     .4byte sym_0607EA9C

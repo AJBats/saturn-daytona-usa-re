@@ -118,7 +118,7 @@ DAT_06013f4c:
     .byte 0x4C, 0xCC
     .byte 0xFF, 0xFF
     .4byte FUN_06026F2A
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_06084AF6
     .byte 0x00, 0x01
     .byte 0x00, 0x00

@@ -112,7 +112,7 @@ DAT_06014306:
     .4byte sym_06084AFC
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_0607EBC8
     .4byte FUN_06026EDE
     .byte 0x00, 0x01

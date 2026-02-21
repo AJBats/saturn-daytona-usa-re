@@ -1232,7 +1232,7 @@ DAT_060137c2:
     .byte 0x7D, 0x47
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0604878C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00

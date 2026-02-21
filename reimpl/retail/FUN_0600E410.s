@@ -50,4 +50,4 @@ DAT_0600e456:
     .4byte sym_06030EE0
     .byte 0x06, 0x65
     .byte 0x05, 0xB3
-    .4byte FUN_06027552
+    .4byte fpmul

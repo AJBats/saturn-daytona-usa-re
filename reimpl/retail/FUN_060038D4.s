@@ -72,7 +72,7 @@ FUN_060038D4:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0604814C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00

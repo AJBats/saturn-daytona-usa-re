@@ -89,7 +89,7 @@ DAT_060123e0:
 DAT_060123e2:
     .byte 0x26, 0x66
     .4byte sym_060788AC
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_060788C0
     .4byte sym_060788CC
     .4byte sym_060788D8

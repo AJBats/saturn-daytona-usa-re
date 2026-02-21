@@ -30,7 +30,7 @@ FUN_060104E0:
     .byte 0xFF, 0xFF
     .4byte sym_0607EAB8
     .4byte sym_06078868
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0605D084
     .4byte sym_06078884
     .4byte sym_0605D060
@@ -288,10 +288,10 @@ DAT_0601064a:
     .4byte sym_0605D05C
     .4byte sym_06078880
     .4byte sym_06078884
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .byte 0x00, 0x00
     .byte 0xC0, 0x00
     .4byte sym_0605CA9C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx

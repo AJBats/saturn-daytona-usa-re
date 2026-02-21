@@ -87,7 +87,7 @@ FUN_06024D24:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .4byte sym_0605B6D8
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0605CF9C
     .byte 0x25, 0xF0
     .byte 0x00, 0xC0

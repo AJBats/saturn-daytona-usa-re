@@ -70,7 +70,7 @@ DAT_0601e166:
     .4byte sym_0604892C
     .byte 0x25, 0xF0
     .byte 0x01, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0605DFCC
     .4byte sym_06078644
     .byte 0x97, 0x52

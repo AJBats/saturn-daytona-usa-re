@@ -55,4 +55,4 @@ sym_060039F2:
     .4byte sym_0605C97C
     .byte 0x25, 0xF0
     .byte 0x04, 0x00
-    .4byte sym_0602766C
+    .4byte dma_transfer

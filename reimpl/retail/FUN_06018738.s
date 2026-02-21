@@ -95,7 +95,7 @@ FUN_06018738:
     .4byte sym_0605D1DC
     .4byte sym_06085FD0
     .4byte sym_060D6900
-    .4byte sym_06027630
+    .4byte memcpy_long_idx
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .4byte sym_060D5840

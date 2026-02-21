@@ -50,14 +50,14 @@ sym_0601AEB6:
     .4byte sym_0604866C
     .byte 0x25, 0xF0
     .byte 0x06, 0xC0
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_060485CC
     .byte 0x25, 0xF0
     .byte 0x01, 0x80
     .4byte sym_0604996C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0605DEC8
     .global loc_0601AF04
 loc_0601AF04:

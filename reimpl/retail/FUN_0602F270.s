@@ -73,7 +73,7 @@ FUN_0602F270:
     .byte 0x00, 0xE0
     .byte 0x00, 0xD8
     .4byte sym_060477BC
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0x22, 0x28
     .byte 0x89, 0x21
     .byte 0x01, 0x65
@@ -151,7 +151,7 @@ FUN_0602F270:
     .byte 0x00, 0xDC
     .byte 0x00, 0x00
     .4byte sym_060477BC
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte sym_0602F3CC
     .byte 0x39, 0x43
     .byte 0x89, 0x00

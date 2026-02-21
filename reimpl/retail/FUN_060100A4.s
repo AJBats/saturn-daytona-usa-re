@@ -146,7 +146,7 @@ DAT_060101b2:
     .byte 0x02, 0x0C
     .4byte sym_0605D0BC
     .4byte sym_06078888
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0607887F
     .4byte sym_06078870
     .4byte sym_0607EAD8

@@ -150,7 +150,7 @@ DAT_0602cb7a:
     .byte 0x01, 0x1C
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0x43, 0x21
     .byte 0x43, 0x21
     .byte 0xA0, 0x0A
@@ -339,7 +339,7 @@ DAT_0602ccb8:
     .global DAT_0602ccba
 DAT_0602ccba:
     .byte 0x00, 0xFC
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0x00, 0x00
     .byte 0xCC, 0xCC
     .byte 0xFF, 0xFF

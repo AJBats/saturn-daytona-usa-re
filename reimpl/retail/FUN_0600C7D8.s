@@ -131,4 +131,4 @@ DAT_0600c8c0:
 DAT_0600c8c2:
     .byte 0x01, 0x8C
     .4byte sincos_pair
-    .4byte FUN_06027552
+    .4byte fpmul

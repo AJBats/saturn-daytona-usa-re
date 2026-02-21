@@ -57,7 +57,7 @@ DAT_060052f6:
     .4byte atan2
     .byte 0x00, 0x00
     .byte 0xEC, 0x83
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0xD4, 0x1D
     .byte 0xD3, 0x1E
     .byte 0x43, 0x0B
@@ -122,7 +122,7 @@ DAT_0600537a:
     .byte 0x61, 0xF7
     .byte 0x00, 0x00
     .byte 0xEC, 0x83
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte atan2
     .4byte sym_06078663
     .byte 0x00, 0x01

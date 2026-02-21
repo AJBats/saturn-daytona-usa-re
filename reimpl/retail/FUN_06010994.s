@@ -84,7 +84,7 @@ DAT_06010a2a:
     .byte 0x00, 0xC0
     .4byte sym_06059FFC
     .4byte sym_06063F5C
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_06083255
     .4byte sym_0607EAB8
     .4byte sym_0605D0AC

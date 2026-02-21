@@ -287,7 +287,7 @@ DAT_06006116:
     .4byte sym_0607EAD8
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0x00, 0x02
     .byte 0xCC, 0xCC
     .byte 0x5B, 0xF5
@@ -348,7 +348,7 @@ DAT_06006116:
     .byte 0x66, 0x66
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte atan2
     .byte 0x00, 0x01
     .byte 0x19, 0x98

@@ -32,7 +32,7 @@ FUN_0601938C:
     .byte 0x6E, 0xF6
     .byte 0x00, 0xE0
     .byte 0x00, 0x80
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0605CE9C
     .byte 0x25, 0xF0
     .byte 0x05, 0x40

@@ -82,7 +82,7 @@ FUN_0600FED0:
     .byte 0x04, 0xA0
     .4byte sym_06028400
     .4byte FUN_06028654
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .byte 0x25, 0xE3
     .byte 0x40, 0x00
     .4byte sym_0607EAD8

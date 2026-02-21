@@ -118,7 +118,7 @@ DAT_06014086:
     .4byte sym_06089E4A
     .4byte sym_06026DBC
     .4byte sym_06084AF6
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte FUN_06026E60
     .4byte sym_06062338
     .4byte sym_06031D8C

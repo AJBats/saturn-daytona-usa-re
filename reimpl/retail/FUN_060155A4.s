@@ -104,7 +104,7 @@ FUN_060155A4:
     .byte 0xDD, 0xB2
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_06084FC8
     .global loc_06015678
 loc_06015678:

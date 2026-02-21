@@ -23,7 +23,7 @@ FUN_0600C286:
     .byte 0xFF, 0xFF
     .4byte sym_0608A52C
     .4byte sym_06089EDC
-    .4byte sym_06027630
+    .4byte memcpy_long_idx
     .4byte FUN_0600D31C
     .4byte FUN_0600C286
     .4byte sym_06063574

@@ -13,7 +13,7 @@ FUN_06014A42:
     .byte 0x00, 0x00
     .4byte sym_06044B64
     .4byte sym_06059FFC
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte FUN_060172BC
     .4byte sym_0607EBF4
     .4byte sym_06085F90

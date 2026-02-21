@@ -27,7 +27,7 @@ FUN_06010AA4:
     .4byte sym_0605D05C
     .4byte sym_06059FFC
     .4byte sym_06063F5C
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0607EAE0
     .4byte sym_0607EBCC
     .4byte sym_0607887F

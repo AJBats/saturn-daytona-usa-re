@@ -114,8 +114,8 @@ FUN_0602070C:
     .byte 0x00, 0x00
     .byte 0x00, 0xB0
     .byte 0x00, 0x00
-    .4byte FUN_06027552
-    .4byte sym_0602755C
+    .4byte fpmul
+    .4byte fpdiv_setup
     .byte 0x00, 0x70
     .byte 0x00, 0x00
     .4byte sym_06087814

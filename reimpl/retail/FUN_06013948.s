@@ -128,7 +128,7 @@ FUN_06013948:
     .4byte sym_06089E4A
     .4byte sym_06026DBC
     .4byte FUN_06026F2A
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte FUN_06026EDE
     .4byte FUN_06026E60
     .4byte sym_06062338

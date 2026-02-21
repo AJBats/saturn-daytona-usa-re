@@ -1,14 +1,14 @@
     .section .text.FUN_06027552
-    .global FUN_06027552
-    .type FUN_06027552, @function
-FUN_06027552:
+    .global fpmul
+    .type fpmul, @function
+fpmul:
     .byte 0x35, 0x4D
     .byte 0x04, 0x0A
     .byte 0x00, 0x1A
     .byte 0x00, 0x0B
     .byte 0x20, 0x4D
-    .global sym_0602755C
-sym_0602755C:
+    .global fpdiv_setup
+fpdiv_setup:
     .byte 0x92, 0x08
     .byte 0x63, 0x43
     .byte 0x12, 0x50
@@ -97,8 +97,8 @@ sym_0602755C:
     .byte 0x74, 0x04
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .global sym_0602760C
-sym_0602760C:
+    .global memcpy_byte_idx
+memcpy_byte_idx:
     .byte 0xE0, 0x00
     .byte 0x76, 0xFF
     .byte 0x01, 0x5C
@@ -108,8 +108,8 @@ sym_0602760C:
     .byte 0x70, 0x01
     .byte 0x00, 0x0B
     .byte 0x76, 0x01
-    .global sym_0602761E
-sym_0602761E:
+    .global memcpy_word_idx
+memcpy_word_idx:
     .byte 0xE0, 0x00
     .byte 0x76, 0xFE
     .byte 0x01, 0x5D
@@ -119,8 +119,8 @@ sym_0602761E:
     .byte 0x70, 0x02
     .byte 0x00, 0x0B
     .byte 0x76, 0x02
-    .global sym_06027630
-sym_06027630:
+    .global memcpy_long_idx
+memcpy_long_idx:
     .byte 0xE0, 0x00
     .byte 0x76, 0xFC
     .byte 0x01, 0x5E
@@ -151,8 +151,8 @@ sym_06027630:
     .byte 0x74, 0x20
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .global sym_0602766C
-sym_0602766C:
+    .global dma_transfer
+dma_transfer:
     .byte 0xD0, 0x07
     .byte 0x60, 0x02
     .byte 0xD1, 0x07

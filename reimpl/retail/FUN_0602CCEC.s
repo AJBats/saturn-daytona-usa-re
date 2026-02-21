@@ -114,7 +114,7 @@ FUN_0602CCEC:
     .byte 0x01, 0x6C
     .byte 0x01, 0x10
     .byte 0x2B, 0x85
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte sym_0602E938
     .byte 0x23, 0x28
     .byte 0x00, 0x00

@@ -193,7 +193,7 @@ DAT_0602f6f6:
     .4byte sym_060477BC
     .byte 0x00, 0x01
     .byte 0x99, 0x99
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte sym_06045AEC
     .byte 0x0B, 0x40
     .byte 0x00, 0x00

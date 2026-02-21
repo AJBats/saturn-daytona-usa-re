@@ -86,7 +86,7 @@ DAT_0601d36c:
     .byte 0x25, 0xE6
     .byte 0xF9, 0xC4
     .4byte sym_0600511E
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0604842C
     .byte 0x25, 0xF0
     .byte 0x06, 0x00

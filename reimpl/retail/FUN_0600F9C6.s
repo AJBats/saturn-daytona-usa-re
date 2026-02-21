@@ -49,7 +49,7 @@ FUN_0600F9C6:
     .4byte sym_0605CA9C
     .byte 0x25, 0xF0
     .byte 0x04, 0x60
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0601209E
     .4byte sym_06063D98
     .byte 0xEE, 0x28

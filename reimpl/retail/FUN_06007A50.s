@@ -48,7 +48,7 @@ DAT_06007a96:
     .4byte sym_06059F44
     .4byte sym_0606BDF8
     .4byte sym_0607E944
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0x00, 0x00
     .byte 0xD1, 0xB7
     .4byte sym_06085FF4

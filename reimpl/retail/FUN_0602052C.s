@@ -112,7 +112,7 @@ FUN_0602052C:
     .4byte sym_06028560
     .4byte FUN_060032D4
     .4byte sym_0602853E
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0604898C
     .byte 0x25, 0xF0
     .byte 0x06, 0xE0
@@ -206,8 +206,8 @@ FUN_0602052C:
     .byte 0x00, 0x00
     .byte 0x00, 0xB0
     .byte 0x00, 0x00
-    .4byte FUN_06027552
-    .4byte sym_0602755C
+    .4byte fpmul
+    .4byte fpdiv_setup
     .4byte sym_06087810
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00

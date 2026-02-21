@@ -169,7 +169,7 @@ DAT_0600ed80:
     .4byte sym_06000344
     .4byte sym_06012E00
     .4byte sym_0605A018
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0605A008
     .byte 0x00, 0x00
     .byte 0x80, 0x00
@@ -1008,7 +1008,7 @@ DAT_0600f34a:
     .4byte sym_060149E0
     .4byte FUN_0600A026
     .4byte FUN_0601D2DC
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_060484EC
     .byte 0x25, 0xF0
     .byte 0x00, 0x60

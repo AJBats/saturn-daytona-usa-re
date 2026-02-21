@@ -41,7 +41,7 @@ DAT_0600c616:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x48
     .byte 0x00, 0x00
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte sym_0607EBDC
     .4byte sym_0607E940
     .4byte sym_06078680

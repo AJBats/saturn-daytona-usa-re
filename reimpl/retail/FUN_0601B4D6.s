@@ -22,7 +22,7 @@ FUN_0601B4D6:
     .4byte sym_060485EC
     .byte 0x25, 0xF0
     .byte 0x00, 0x20
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_060485CC
     .byte 0x25, 0xF0
     .byte 0x01, 0x80

@@ -93,7 +93,7 @@ FUN_0600747C:
     .4byte sym_06063F64
     .4byte sym_0606A4EC
     .4byte sym_06063F5C
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .global sym_06007540
 sym_06007540:
     .byte 0x7F, 0xFC

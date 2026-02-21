@@ -39,7 +39,7 @@ DAT_0602f24e:
     .byte 0x00, 0xC0
     .byte 0x00, 0x00
     .4byte sym_060477CC
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .4byte sym_0602F3CC
     .byte 0x32, 0x53
     .byte 0x89, 0x00

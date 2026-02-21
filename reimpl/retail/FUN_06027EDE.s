@@ -495,7 +495,7 @@ sym_06028248:
     .byte 0x00, 0x00
     .4byte sym_060612B8
     .4byte sym_060612C4
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .byte 0x00, 0xF0
     .byte 0x00, 0x09
     .4byte sym_06059C5C

@@ -44,7 +44,7 @@ FUN_06010760:
     .byte 0xAF, 0xEE
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_060788A8
     .4byte sym_06078868
     .4byte sym_0607EADC

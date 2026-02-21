@@ -150,7 +150,7 @@ FUN_060116BC:
     .4byte sym_060786CC
     .4byte sym_0605AAA0
     .4byte swap_sign_ext
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0xFF, 0xC8
     .byte 0x00, 0x00
     .byte 0x00, 0x1E

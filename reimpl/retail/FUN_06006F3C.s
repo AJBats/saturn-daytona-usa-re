@@ -217,7 +217,7 @@ FUN_06006F3C:
     .byte 0x20, 0x00
     .byte 0x00, 0x00
     .4byte sym_06063F60
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0606129C
     .4byte sym_060612B4
     .4byte sym_0605B700

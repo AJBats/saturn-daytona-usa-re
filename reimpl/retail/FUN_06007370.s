@@ -109,11 +109,11 @@ DAT_06007416:
     .byte 0x00, 0x2A
     .byte 0x00, 0x00
     .4byte sym_06059FFC
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0607EAB8
     .4byte sym_06059F78
     .4byte sym_0605A018
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0605A008
     .byte 0x00, 0x00
     .byte 0x80, 0x00

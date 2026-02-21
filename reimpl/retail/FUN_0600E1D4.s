@@ -154,7 +154,7 @@ DAT_0600e2ca:
     .4byte sym_06086030
     .4byte sym_06047DDF
     .4byte sym_06047D8C
-    .4byte FUN_06027552
+    .4byte fpmul
     .byte 0xE3, 0xFF
     .byte 0x90, 0x6D
     .byte 0x0E, 0x36

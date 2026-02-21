@@ -126,7 +126,7 @@ DAT_0601ca3c:
     .4byte sym_0604880C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .byte 0x00, 0x01
     .byte 0x40, 0x00
     .byte 0x25, 0xE7

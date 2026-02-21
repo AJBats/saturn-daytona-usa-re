@@ -135,6 +135,6 @@ FUN_0601CEFC:
     .4byte sym_06034FE0
     .byte 0x25, 0xF0
     .byte 0x02, 0x00
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .byte 0x25, 0xF0
     .byte 0x04, 0x00

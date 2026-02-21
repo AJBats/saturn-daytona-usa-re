@@ -95,7 +95,7 @@ DAT_0602014c:
     .4byte sym_0604896C
     .byte 0x25, 0xF0
     .byte 0x06, 0xC0
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_0604BC14
     .byte 0x25, 0xF0
     .byte 0x00, 0x60

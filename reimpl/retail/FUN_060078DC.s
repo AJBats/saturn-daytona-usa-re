@@ -134,13 +134,13 @@ DAT_060079ce:
     .4byte sym_060620D0
     .4byte sym_0608E460
     .4byte sym_0608AC20
-    .4byte sym_06027630
-    .4byte sym_0602761E
+    .4byte memcpy_long_idx
+    .4byte memcpy_word_idx
     .4byte sym_0602C494
     .4byte sym_06063F5C
     .4byte sym_0605A016
     .4byte sym_0605A018
-    .4byte sym_0602766C
+    .4byte dma_transfer
     .4byte sym_0606BDFC
     .4byte sym_060785FC
     .4byte sym_0605A00C

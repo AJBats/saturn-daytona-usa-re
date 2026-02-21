@@ -36,7 +36,7 @@ FUN_06003508:
     .byte 0x08, 0x60
     .byte 0x25, 0xF0
     .byte 0x02, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte FUN_06028654
     .byte 0x25, 0xE3
     .byte 0x40, 0x00

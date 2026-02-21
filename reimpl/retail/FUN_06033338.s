@@ -12,7 +12,7 @@ FUN_06033338:
     .byte 0x00, 0x00
     .4byte sym_060430CE
     .4byte sym_060629AC
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .global sym_06033354
 sym_06033354:
     .byte 0xD5, 0x17

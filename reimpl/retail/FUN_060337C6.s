@@ -12,7 +12,7 @@ FUN_060337C6:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .4byte sym_06033894
-    .4byte sym_0602755C
+    .4byte fpdiv_setup
     .byte 0xFF, 0xFF
     .byte 0xC8, 0x00
     .byte 0x00, 0x00

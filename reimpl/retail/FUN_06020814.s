@@ -125,7 +125,7 @@ FUN_06020814:
     .4byte sym_060489CC
     .byte 0x25, 0xF0
     .byte 0x02, 0x00
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_06063750
     .4byte sym_06028400
     .4byte sym_0605B6D8

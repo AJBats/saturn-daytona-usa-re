@@ -18,7 +18,7 @@ FUN_0602E73A:
     .byte 0x00, 0x10
     .byte 0x00, 0x00
     .byte 0x00, 0x18
-    .4byte FUN_06027552
+    .4byte fpmul
     .4byte isqrt
     .byte 0x64, 0x73
     .byte 0xDD, 0x07

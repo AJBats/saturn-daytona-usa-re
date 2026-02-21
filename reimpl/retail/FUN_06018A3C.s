@@ -340,7 +340,7 @@ DAT_06018b8e:
     .4byte sym_06059FFC
     .byte 0x25, 0xC0
     .byte 0x02, 0x20
-    .4byte sym_0602761E
+    .4byte memcpy_word_idx
     .4byte sym_060149E0
     .4byte FUN_060148FC
     .4byte sym_06026CE0
