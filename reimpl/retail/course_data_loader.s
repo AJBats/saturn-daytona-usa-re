@@ -1,7 +1,7 @@
     .section .text.FUN_0601B584
-    .global FUN_0601B584
-    .type FUN_0601B584, @function
-FUN_0601B584:
+    .global course_data_loader
+    .type course_data_loader, @function
+course_data_loader:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

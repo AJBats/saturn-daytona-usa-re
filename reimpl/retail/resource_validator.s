@@ -1,7 +1,7 @@
     .section .text.FUN_0601F938
-    .global FUN_0601F938
-    .type FUN_0601F938, @function
-FUN_0601F938:
+    .global resource_validator
+    .type resource_validator, @function
+resource_validator:
     .byte 0x2F, 0xE6
     .byte 0x64, 0x33
     .byte 0x2F, 0xD6

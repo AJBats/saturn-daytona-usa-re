@@ -1,7 +1,7 @@
     .section .text.FUN_0601BE64
-    .global FUN_0601BE64
-    .type FUN_0601BE64, @function
-FUN_0601BE64:
+    .global replay_playback
+    .type replay_playback, @function
+replay_playback:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

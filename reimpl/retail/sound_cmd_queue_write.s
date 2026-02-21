@@ -1,7 +1,7 @@
     .section .text.FUN_0601D478
-    .global FUN_0601D478
-    .type FUN_0601D478, @function
-FUN_0601D478:
+    .global sound_cmd_queue_write
+    .type sound_cmd_queue_write, @function
+sound_cmd_queue_write:
     .byte 0x4F, 0x22
     .byte 0xE2, 0x02
     .byte 0xE6, 0x00

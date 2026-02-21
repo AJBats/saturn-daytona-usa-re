@@ -1,7 +1,7 @@
     .section .text.FUN_0601B48C
-    .global FUN_0601B48C
-    .type FUN_0601B48C, @function
-FUN_0601B48C:
+    .global disc_read_check
+    .type disc_read_check, @function
+disc_read_check:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0x96, 0x2F

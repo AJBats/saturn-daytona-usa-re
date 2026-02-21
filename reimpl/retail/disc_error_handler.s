@@ -1,7 +1,7 @@
     .section .text.FUN_0601B4D6
-    .global FUN_0601B4D6
-    .type FUN_0601B4D6, @function
-FUN_0601B4D6:
+    .global disc_error_handler
+    .type disc_error_handler, @function
+disc_error_handler:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x12
     .byte 0x62, 0x31

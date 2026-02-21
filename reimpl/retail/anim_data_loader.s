@@ -1,7 +1,7 @@
     .section .text.FUN_0601B6F0
-    .global FUN_0601B6F0
-    .type FUN_0601B6F0, @function
-FUN_0601B6F0:
+    .global anim_data_loader
+    .type anim_data_loader, @function
+anim_data_loader:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4
     .byte 0xDC, 0x1E

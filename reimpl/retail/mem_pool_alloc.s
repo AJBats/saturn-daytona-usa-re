@@ -1,7 +1,7 @@
     .section .text.FUN_0601F464
-    .global FUN_0601F464
-    .type FUN_0601F464, @function
-FUN_0601F464:
+    .global mem_pool_alloc
+    .type mem_pool_alloc, @function
+mem_pool_alloc:
     .byte 0x4F, 0x22
     .byte 0xD5, 0x0B
     .byte 0xD2, 0x0D

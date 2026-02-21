@@ -58,7 +58,7 @@ camera_track_setup:
     .4byte sym_0607EBC4
     .byte 0x20, 0x02
     .byte 0x00, 0x00
-    .4byte FUN_0601BE64
+    .4byte replay_playback
     .4byte sym_06089EDC
     .4byte sym_06063F46
     .4byte mat_rot_xz_b

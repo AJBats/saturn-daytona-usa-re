@@ -1,7 +1,7 @@
     .section .text.FUN_0601F5D0
-    .global FUN_0601F5D0
-    .type FUN_0601F5D0, @function
-FUN_0601F5D0:
+    .global mem_pool_reset
+    .type mem_pool_reset, @function
+mem_pool_reset:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x52
     .byte 0xE4, 0x00

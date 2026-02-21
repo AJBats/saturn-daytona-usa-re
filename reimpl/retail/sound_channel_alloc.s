@@ -1,7 +1,7 @@
     .section .text.FUN_0601D4A8
-    .global FUN_0601D4A8
-    .type FUN_0601D4A8, @function
-FUN_0601D4A8:
+    .global sound_channel_alloc
+    .type sound_channel_alloc, @function
+sound_channel_alloc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22

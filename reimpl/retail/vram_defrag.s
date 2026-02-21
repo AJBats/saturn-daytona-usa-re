@@ -1,7 +1,7 @@
     .section .text.FUN_0601FFB8
-    .global FUN_0601FFB8
-    .type FUN_0601FFB8, @function
-FUN_0601FFB8:
+    .global vram_defrag
+    .type vram_defrag, @function
+vram_defrag:
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12
     .byte 0x98, 0x52

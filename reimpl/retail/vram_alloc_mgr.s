@@ -1,7 +1,7 @@
     .section .text.FUN_0601FD9C
-    .global FUN_0601FD9C
-    .type FUN_0601FD9C, @function
-FUN_0601FD9C:
+    .global vram_alloc_mgr
+    .type vram_alloc_mgr, @function
+vram_alloc_mgr:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x18
     .byte 0xD3, 0x18

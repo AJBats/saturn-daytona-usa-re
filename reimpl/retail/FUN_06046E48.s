@@ -48331,29 +48331,29 @@ sym_0605DE64:
     .4byte loc_0604A508
     .global sym_0605DEB4
 sym_0605DEB4:
-    .4byte FUN_0601B48C
-    .4byte FUN_0601B4D6
+    .4byte disc_read_check
+    .4byte disc_error_handler
     .4byte loc_0601B566
-    .4byte FUN_0601B584
-    .4byte FUN_0601B644
+    .4byte course_data_loader
+    .4byte texture_file_loader
     .global sym_0605DEC8
 sym_0605DEC8:
-    .4byte FUN_0601B020
+    .4byte disc_ready_stub
     .4byte FUN_0601AF1E
     .4byte loc_0601AF04
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
-    .4byte FUN_0601B020
+    .4byte disc_ready_stub
     .4byte loc_0601AF04
     .4byte FUN_0601AF1E
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
-    .4byte FUN_0601B020
+    .4byte disc_ready_stub
     .4byte loc_0601AF04
     .4byte FUN_0601AF1E
     .4byte FUN_0601AFD8
     .4byte loc_0601AF04
-    .4byte FUN_0601B020
+    .4byte disc_ready_stub
     .4byte loc_0601AF04
     .4byte FUN_0601AF1E
     .4byte FUN_0601AFD8
@@ -48447,8 +48447,8 @@ sym_0605DF58:
     .byte 0x00, 0x00
     .global sym_0605DF80
 sym_0605DF80:
-    .4byte FUN_0601D478
-    .4byte FUN_0601D4A8
+    .4byte sound_cmd_queue_write
+    .4byte sound_channel_alloc
     .4byte loc_0601D50C
     .4byte loc_0601D546
     .4byte loc_0601D568
@@ -51181,9 +51181,9 @@ sym_0605F478:
     .4byte loc_0604BD5E
     .global sym_0605F498
 sym_0605F498:
-    .4byte FUN_0601FD9C
+    .4byte vram_alloc_mgr
     .4byte FUN_0601FE20
-    .4byte FUN_0601FFA8
+    .4byte vram_ptr_get
     .4byte loc_06020090
     .global sym_0605F4A8
 sym_0605F4A8:

@@ -1,7 +1,7 @@
     .section .text.FUN_0601B644
-    .global FUN_0601B644
-    .type FUN_0601B644, @function
-FUN_0601B644:
+    .global texture_file_loader
+    .type texture_file_loader, @function
+texture_file_loader:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0xDD, 0x20
