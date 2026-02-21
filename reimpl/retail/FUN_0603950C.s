@@ -97,7 +97,7 @@ FUN_0603950C:
     .byte 0x20, 0x10
     .byte 0x00, 0x79
     .4byte sym_06000300
-    .4byte FUN_0603990E
+    .4byte master_menu_render
     .4byte sym_06000344
     .4byte sym_060A4CAA
     .4byte sym_060A4CA8

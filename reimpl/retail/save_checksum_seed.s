@@ -1,0 +1,12 @@
+    .section .text.FUN_0603B92C
+    .global save_checksum_seed
+    .type save_checksum_seed, @function
+save_checksum_seed:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xFC
+    .byte 0xBF, 0xC0
+    .byte 0x2F, 0x42
+    .byte 0x64, 0xF2
+    .byte 0x7F, 0x04
+    .byte 0xAF, 0xDC
+    .byte 0x4F, 0x26
