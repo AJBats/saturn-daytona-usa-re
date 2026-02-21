@@ -228,17 +228,54 @@ inputs/outputs/side effects.
 | Archived Ghidra lifts (starting material) | `reimpl/src_c_archive/` |
 | Build output | `reimpl/build/` |
 
-## Validation Commands
+## Commit Criteria
+
+**Nothing gets committed without passing all three validation classes.**
+
+Run the full suite after every elevation:
+```bash
+python tools/validate_build.py
+```
+
+This runs:
+1. **Retail binary match** — `make -C reimpl validate` (byte-identical to original)
+2. **Free build boot** — `make -C reimpl disc`, boot WSL Mednafen to menu
+3. **Free+4shift boot** — `make -C reimpl disc-4shift`, boot to menu
+
+Each boot test takes 3 frame-precise screenshots (attract, title, menu) and
+compares against golden baselines using 4 image comparison methods:
+- **phash** — perceptual hash (Hamming distance <= 10)
+- **histogram** — color distribution correlation (>= 0.85)
+- **pixels** — 5 spot-check locations (>= 3 of 5 within tolerance)
+- **rmse** — root mean square pixel error (<= 25)
+
+All 4 methods must pass on all 3 screenshots for each boot class.
+Menu has dual golden baselines (ARCADE MODE blink on/off) — passes if
+either variant matches on all 4 methods.
+
+## Automation Tools
+
+| Tool | Purpose | Usage |
+|------|---------|-------|
+| `tools/validate_build.py` | Full 3-class validation | `python tools/validate_build.py` |
+| `tools/test_boot_auto.py` | Single-disc 3-stage boot test | `python tools/test_boot_auto.py rebuilt` |
+| `tools/capture_input_trace.py` | Record driven session for new golden traces | `python tools/capture_input_trace.py rebuilt` |
+| `tools/compare_screenshot.py` | Screenshot comparison (4 methods) | `python tools/compare_screenshot.py test.png golden.png` |
+| `tools/module_scanner.py` | Find function module boundaries | `python tools/module_scanner.py` |
+
+### Golden Baselines
+
+Stored in `build/screenshots/golden_*.png` (poked through `.gitignore`).
+Captured from a driven vanilla session with frame-precise input tracing.
+To re-record: use `capture_input_trace.py`, play through to menu taking
+screenshots with P key, note frame numbers from trace output.
+
+## Other Commands
 
 ```bash
 make -C reimpl validate          # retail byte-identical check
 make -C reimpl disc              # free build + inject into disc
+make -C reimpl disc-4shift       # free +4 shift build + inject
 make -C reimpl clean             # wipe build/ (do before switching configs)
 make -C reimpl info              # show current config + reimplemented stems
-```
-
-## Boot Test
-
-```powershell
-powershell -ExecutionPolicy Bypass -File tools\test_boot.ps1 -Cue rebuilt
 ```
