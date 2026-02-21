@@ -101,8 +101,8 @@ FUN_060053AC:
     .byte 0x00, 0x00
     .4byte FUN_06026E60
     .4byte transform_matrix
-    .4byte FUN_06026F2A
-    .4byte FUN_06026EDE
+    .4byte mat_rot_z
+    .4byte mat_rot_y
     .4byte sym_06026E2E
     .4byte sincos_pair
     .4byte sym_06063DF8

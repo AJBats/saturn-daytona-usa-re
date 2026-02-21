@@ -160,7 +160,7 @@ FUN_06004A98:
     .4byte FUN_06036E90
     .4byte sym_06000300
     .4byte button_input_read
-    .4byte FUN_06007268
+    .4byte vblank_out_handler
     .4byte sym_06063DA8
     .4byte FUN_0603950C
     .4byte FUN_06038E54
@@ -263,7 +263,7 @@ FUN_06004A98:
     .4byte sym_0603850C
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte FUN_06038794
+    .4byte scene_color_intensity
     .4byte sym_06038520
     .byte 0x25, 0xE5
     .byte 0xC0, 0x00
@@ -399,7 +399,7 @@ FUN_06004A98:
     .4byte FUN_06038120
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte FUN_06038794
+    .4byte scene_color_intensity
     .4byte sym_06038520
     .4byte sym_060612C4
     .4byte sym_0606129C

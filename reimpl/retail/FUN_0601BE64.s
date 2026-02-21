@@ -252,7 +252,7 @@ FUN_0601BE64:
     .byte 0x00, 0x01
     .byte 0x48, 0x72
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06031D8C
@@ -335,7 +335,7 @@ FUN_0601BE64:
     .byte 0xFF, 0xFE
     .byte 0xB7, 0x8E
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06031D8C
@@ -421,7 +421,7 @@ FUN_0601BE64:
     .byte 0x00, 0x01
     .byte 0x48, 0x72
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06031D8C
@@ -513,7 +513,7 @@ FUN_0601BE64:
     .byte 0xFF, 0xFE
     .byte 0xB7, 0x8E
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06031D8C
@@ -618,7 +618,7 @@ FUN_0601BE64:
     .byte 0xFF, 0xFF
     .byte 0x60, 0x00
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_0605DF46
     .4byte sym_060621D8
     .4byte sym_0606212C

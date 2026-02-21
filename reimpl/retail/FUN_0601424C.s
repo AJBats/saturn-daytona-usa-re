@@ -108,13 +108,13 @@ DAT_06014306:
     .4byte sym_06084B08
     .4byte sym_0605AD5C
     .4byte sym_06084AF8
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .4byte sym_06084AFC
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte fpmul
     .4byte sym_0607EBC8
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .4byte FUN_06026E60

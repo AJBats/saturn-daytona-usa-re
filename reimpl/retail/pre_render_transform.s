@@ -1,7 +1,7 @@
     .section .text.FUN_060061C8
-    .global FUN_060061C8
-    .type FUN_060061C8, @function
-FUN_060061C8:
+    .global pre_render_transform
+    .type pre_render_transform, @function
+pre_render_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -83,8 +83,8 @@ FUN_060061C8:
     .4byte sym_0607E940
     .4byte sym_06026DBC
     .4byte sym_06026E0C
-    .4byte FUN_06026EDE
-    .4byte FUN_06026FFC
+    .4byte mat_rot_y
+    .4byte mat_vec_transform
     .4byte sym_06063E9C
     .4byte sym_0604464C
     .4byte sym_06063EB0

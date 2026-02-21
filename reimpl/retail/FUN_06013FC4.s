@@ -108,7 +108,7 @@ DAT_06014084:
     .global DAT_06014086
 DAT_06014086:
     .byte 0xB3, 0x34
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .4byte sym_06089EDC
     .4byte sym_06026E2E
     .byte 0x00, 0x01

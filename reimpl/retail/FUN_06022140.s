@@ -208,7 +208,7 @@ FUN_06022140:
     .byte 0x01, 0x00
     .4byte sym_06050788
     .4byte sym_06006838
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt
     .4byte sym_060A6000
     .byte 0x4E, 0x20
     .byte 0x00, 0x00
@@ -547,7 +547,7 @@ DAT_060224b6:
     .4byte sound_cmd_dispatch
     .4byte sym_06089B18
     .4byte sym_06006838
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt
     .4byte sym_060A6000
     .byte 0x4E, 0x20
     .byte 0x00, 0x00
@@ -733,7 +733,7 @@ DAT_060224b6:
     .byte 0x00, 0x09
     .byte 0x01, 0x00
     .4byte sym_06006838
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt
     .4byte sym_060A6000
     .byte 0x4E, 0x20
     .byte 0x00, 0x00
@@ -834,7 +834,7 @@ DAT_060224b6:
     .byte 0xFF, 0xFF
     .4byte sym_06026DBC
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte transform_matrix
     .4byte sym_06089DB4
     .4byte sym_06089D98

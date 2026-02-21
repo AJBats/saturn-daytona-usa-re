@@ -94,7 +94,7 @@ DAT_060178ac:
     .4byte sym_0604812C
     .4byte sym_06048128
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .byte 0x00, 0x03
@@ -203,7 +203,7 @@ DAT_060178ac:
     .4byte sym_06048138
     .4byte sym_06048134
     .4byte sym_06026E2E
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .byte 0x00, 0x03

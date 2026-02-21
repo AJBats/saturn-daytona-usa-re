@@ -343,7 +343,7 @@ DAT_0600bdae:
     .byte 0x00, 0x00
     .4byte sym_06082A30
     .4byte sym_0603850C
-    .4byte FUN_0603853C
+    .4byte scene_data_write_abs
     .4byte sincos_pair
     .4byte sym_06082A70
     .4byte sym_06082A78
@@ -457,7 +457,7 @@ DAT_0600bf3c:
     .4byte sym_06063F04
     .4byte sym_06063F08
     .4byte sym_0603850C
-    .4byte FUN_0603853C
+    .4byte scene_data_write_abs
     .4byte sym_06063F46
     .4byte sym_0605BDCC
     .4byte sym_06063E2C

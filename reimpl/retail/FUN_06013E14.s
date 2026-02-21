@@ -19,4 +19,4 @@ FUN_06013E14:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .4byte sym_0607EBC8
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y

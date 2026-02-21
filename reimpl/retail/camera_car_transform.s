@@ -62,8 +62,8 @@ camera_car_transform:
     .4byte sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06026EDE
-    .4byte FUN_06026F2A
+    .4byte mat_rot_y
+    .4byte mat_rot_z
     .4byte sym_0607EBC4
     .byte 0x00, 0x80
     .byte 0x00, 0x08
@@ -150,7 +150,7 @@ camera_car_transform:
     .byte 0xFF, 0xFF
     .4byte sym_06078668
     .4byte sym_0605BDCC
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_06059F30
     .4byte sym_060621E8
     .4byte sym_0606213C
@@ -160,7 +160,7 @@ camera_car_transform:
     .4byte sym_060620E8
     .4byte sym_06031A28
     .4byte sym_06026E2E
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .4byte sym_06082A25
     .4byte sym_06044740
     .4byte sym_06083258

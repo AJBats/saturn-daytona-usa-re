@@ -42,5 +42,5 @@ FUN_06020BCE:
     .4byte sym_0603850C
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte FUN_06038794
+    .4byte scene_color_intensity
     .4byte sym_06038520

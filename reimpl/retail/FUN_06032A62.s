@@ -21,10 +21,10 @@ FUN_06032A62:
     .4byte transform_matrix
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .byte 0x00, 0x00
     .byte 0x00, 0x2A
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0xB4
     .byte 0x00, 0x00

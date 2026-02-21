@@ -23,7 +23,7 @@ FUN_06034240:
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
     .4byte FUN_0600A4CA

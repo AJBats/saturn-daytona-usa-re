@@ -116,7 +116,7 @@ FUN_060055BC:
     .4byte sym_06063E08
     .4byte sym_06063E04
     .4byte fpdiv_setup
-    .4byte FUN_06026FFC
+    .4byte mat_vec_transform
     .4byte fpmul
     .byte 0xBF, 0x44
     .byte 0x00, 0x09
@@ -218,5 +218,5 @@ FUN_060055BC:
     .4byte sym_0603850C
     .byte 0x00, 0x3A
     .byte 0x00, 0x00
-    .4byte FUN_0603853C
+    .4byte scene_data_write_abs
     .4byte sym_06038520

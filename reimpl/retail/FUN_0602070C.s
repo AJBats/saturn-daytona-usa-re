@@ -105,7 +105,7 @@ FUN_0602070C:
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte sym_0608781C
-    .4byte FUN_06038794
+    .4byte scene_color_intensity
     .4byte sym_06087820
     .4byte sym_06087810
     .byte 0x00, 0x01
@@ -119,6 +119,6 @@ FUN_0602070C:
     .byte 0x00, 0x70
     .byte 0x00, 0x00
     .4byte sym_06087814
-    .4byte FUN_06038642
+    .4byte scene_data_write_add
     .4byte display_channel_b
     .4byte sym_06038520

@@ -1,7 +1,7 @@
     .section .text.FUN_0603853C
-    .global FUN_0603853C
-    .type FUN_0603853C, @function
-FUN_0603853C:
+    .global scene_data_write_abs
+    .type scene_data_write_abs, @function
+scene_data_write_abs:
     .byte 0x2F, 0xE6
     .byte 0xDE, 0x28
     .byte 0xD7, 0x28

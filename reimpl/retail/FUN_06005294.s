@@ -131,7 +131,7 @@ DAT_0600537a:
     .byte 0x00, 0x00
     .4byte FUN_06026E60
     .4byte transform_matrix
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_06026E2E
     .4byte sym_06063DF8
     .4byte sym_06035168

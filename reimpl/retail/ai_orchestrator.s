@@ -66,6 +66,6 @@ DAT_0600c7c0:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06006838
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt
     .4byte sym_0607E940
     .4byte sym_06078680

@@ -1,7 +1,7 @@
     .section .text.FUN_06038794
-    .global FUN_06038794
-    .type FUN_06038794, @function
-FUN_06038794:
+    .global scene_color_intensity
+    .type scene_color_intensity, @function
+scene_color_intensity:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

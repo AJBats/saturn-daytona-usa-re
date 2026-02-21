@@ -1,7 +1,7 @@
     .section .text.FUN_0601D6B2
-    .global FUN_0601D6B2
-    .type FUN_0601D6B2, @function
-FUN_0601D6B2:
+    .global sound_write_direct
+    .type sound_write_direct, @function
+sound_write_direct:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
     .byte 0xB2, 0x65

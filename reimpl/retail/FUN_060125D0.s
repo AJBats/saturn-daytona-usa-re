@@ -120,7 +120,7 @@ DAT_060126a4:
     .4byte sym_060788B4
     .4byte sym_06026E2E
     .4byte sym_060788B2
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .4byte sym_0607EBCC
     .4byte sym_06034FE0
     .4byte sym_06063750
@@ -128,7 +128,7 @@ DAT_060126a4:
     .byte 0xB0, 0x00
     .4byte sym_06028400
     .4byte sym_0605AC94
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte transform_matrix
     .4byte sym_06063558
     .4byte sym_0607EAD8

@@ -128,7 +128,7 @@ render_obj_additive:
     .4byte sym_06026DBC
     .4byte sym_06044640
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte transform_matrix
     .4byte sym_0606212C
     .4byte sym_060621D8

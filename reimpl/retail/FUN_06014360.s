@@ -94,7 +94,7 @@ DAT_0601440e:
     .byte 0x80, 0x00
     .byte 0x4C, 0xCC
     .byte 0xFF, 0xFF
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .4byte sym_06026E2E
     .4byte sym_06089EDC
     .4byte sym_06026E0C

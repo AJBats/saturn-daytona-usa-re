@@ -1,7 +1,7 @@
     .section .text.FUN_06014D2C
-    .global FUN_06014D2C
-    .type FUN_06014D2C, @function
-FUN_06014D2C:
+    .global ai_waypoint_pathfind
+    .type ai_waypoint_pathfind, @function
+ai_waypoint_pathfind:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

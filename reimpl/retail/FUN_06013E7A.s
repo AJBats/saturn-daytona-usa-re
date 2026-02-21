@@ -117,7 +117,7 @@ DAT_06013f4a:
 DAT_06013f4c:
     .byte 0x4C, 0xCC
     .byte 0xFF, 0xFF
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .4byte fpmul
     .4byte sym_06084AF6
     .byte 0x00, 0x01
@@ -128,7 +128,7 @@ DAT_06013f4c:
     .4byte sym_06026DBC
     .4byte sym_06026E2E
     .4byte transform_matrix
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte FUN_06026E60
     .4byte sym_06062338
     .4byte sym_06031D8C

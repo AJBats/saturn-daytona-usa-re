@@ -82,7 +82,7 @@ DAT_06018660:
     .4byte sym_06026DBC
     .4byte sym_06048140
     .4byte sym_06026E2E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .byte 0x00, 0x0B

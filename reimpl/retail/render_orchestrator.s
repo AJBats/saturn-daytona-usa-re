@@ -1,7 +1,7 @@
     .section .text.FUN_0602EEB8
-    .global FUN_0602EEB8
-    .type FUN_0602EEB8, @function
-FUN_0602EEB8:
+    .global render_orchestrator
+    .type render_orchestrator, @function
+render_orchestrator:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDD, 0x10
@@ -44,7 +44,7 @@ FUN_0602EEB8:
     .4byte sym_0602F3EC
     .4byte sym_0602F7BC
     .4byte sym_0602F0E8
-    .4byte FUN_0602F270
+    .4byte collision_response_b
     .byte 0xDD, 0x11
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
@@ -84,7 +84,7 @@ FUN_0602EEB8:
     .4byte sym_0602F17C
     .4byte sym_0602F474
     .4byte sym_0602F4B4
-    .4byte FUN_0602F5B6
+    .4byte color_material_blend
     .4byte sym_0602EFCC
     .4byte FUN_0602C690
     .4byte FUN_0602C8E2

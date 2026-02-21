@@ -29,7 +29,7 @@ FUN_060345F2:
     .4byte sym_06083240
     .4byte sym_06006838
     .4byte sym_06083244
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt
     .4byte sym_0608323C
     .byte 0x00, 0x00
     .byte 0x00, 0x08

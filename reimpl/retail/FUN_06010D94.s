@@ -139,7 +139,7 @@ FUN_06010D94:
     .4byte sym_06026E0C
     .4byte sym_06026E2E
     .4byte sym_06078878
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_0606212C
     .4byte sym_060621D8
     .4byte sym_06031D8C

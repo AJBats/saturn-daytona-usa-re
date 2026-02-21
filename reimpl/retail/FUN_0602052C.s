@@ -215,6 +215,6 @@ FUN_0602052C:
     .byte 0x00, 0x00
     .4byte sym_06087814
     .4byte sym_0603850C
-    .4byte FUN_06038794
-    .4byte FUN_06038642
+    .4byte scene_color_intensity
+    .4byte scene_data_write_add
     .4byte sym_06038520

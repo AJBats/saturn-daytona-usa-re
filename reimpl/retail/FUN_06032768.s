@@ -49,13 +49,13 @@ FUN_06032768:
     .4byte sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x1E
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x1C
     .4byte transform_matrix
     .byte 0x00, 0x00
     .byte 0x00, 0x20
-    .4byte FUN_06026F2A
+    .4byte mat_rot_z
     .byte 0x00, 0x00
     .byte 0x00, 0x54
     .byte 0x00, 0x00

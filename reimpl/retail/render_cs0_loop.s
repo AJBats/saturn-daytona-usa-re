@@ -216,8 +216,8 @@ DAT_0600b840:
     .4byte sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_06026EDE
-    .4byte FUN_06026F2A
+    .4byte mat_rot_y
+    .4byte mat_rot_z
     .4byte transform_matrix
     .4byte sym_06047FC4
     .4byte sym_06063E1C

@@ -38,7 +38,7 @@ state_post_race_display:
     .byte 0x00, 0x00
     .4byte sym_06026CE0
     .4byte sym_06059F44
-    .4byte FUN_06014D2C
+    .4byte ai_waypoint_pathfind
     .4byte sym_06085F8A
     .4byte camera_system
     .4byte sym_06063E24

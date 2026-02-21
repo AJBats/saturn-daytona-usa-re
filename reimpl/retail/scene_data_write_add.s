@@ -1,7 +1,7 @@
     .section .text.FUN_06038642
-    .global FUN_06038642
-    .type FUN_06038642, @function
-FUN_06038642:
+    .global scene_data_write_add
+    .type scene_data_write_add, @function
+scene_data_write_add:
     .byte 0x2F, 0xE6
     .byte 0xDE, 0x19
     .byte 0xD7, 0x1A

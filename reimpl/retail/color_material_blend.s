@@ -1,7 +1,7 @@
     .section .text.FUN_0602F5B6
-    .global FUN_0602F5B6
-    .type FUN_0602F5B6, @function
-FUN_0602F5B6:
+    .global color_material_blend
+    .type color_material_blend, @function
+color_material_blend:
     .byte 0x4F, 0x22
     .byte 0x6E, 0x03
     .byte 0x91, 0x15

@@ -36,8 +36,8 @@ display_channels_load:
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
     .4byte sym_0603850C
-    .4byte FUN_06038794
+    .4byte scene_color_intensity
     .4byte sym_06038520
-    .4byte FUN_0603853C
+    .4byte scene_data_write_abs
     .4byte sym_0605B71C
     .4byte FUN_06038BD4

@@ -297,4 +297,4 @@ DAT_0600e3f6:
     .byte 0x20, 0x00
     .4byte heading_smooth_gentle
     .4byte sym_06006838
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt

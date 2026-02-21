@@ -71,8 +71,8 @@ DAT_06012586:
     .4byte sym_060788B4
     .4byte sym_06026E2E
     .4byte sym_060788B2
-    .4byte FUN_06026F2A
-    .4byte FUN_06026EDE
+    .4byte mat_rot_z
+    .4byte mat_rot_y
     .4byte transform_matrix
     .4byte sym_0607EBCC
     .4byte sym_06063558

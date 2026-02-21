@@ -1,7 +1,7 @@
     .section .text.FUN_06027EDE
-    .global FUN_06027EDE
-    .type FUN_06027EDE, @function
-FUN_06027EDE:
+    .global scene_render_alt
+    .type scene_render_alt, @function
+scene_render_alt:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

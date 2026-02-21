@@ -1,7 +1,7 @@
     .section .text.FUN_06005ECC
-    .global FUN_06005ECC
-    .type FUN_06005ECC, @function
-FUN_06005ECC:
+    .global segment_position_track
+    .type segment_position_track, @function
+segment_position_track:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -132,9 +132,9 @@ FUN_06005ECC:
     .4byte sym_06026DBC
     .4byte sym_06026E0C
     .4byte sym_06063F10
-    .4byte FUN_06026EDE
+    .4byte mat_rot_y
     .4byte sym_0604464C
-    .4byte FUN_06026FFC
+    .4byte mat_vec_transform
     .4byte sym_06044640
     .4byte sym_06044658
     .4byte sym_06044664
@@ -281,9 +281,9 @@ DAT_06006116:
     .4byte sym_06063ED8
     .4byte sym_06063EC4
     .4byte sym_06006838
-    .4byte FUN_06027EDE
+    .4byte scene_render_alt
     .4byte sym_060446AC
-    .4byte FUN_06026FFC
+    .4byte mat_vec_transform
     .4byte sym_0607EAD8
     .byte 0x00, 0x00
     .byte 0x80, 0x00
