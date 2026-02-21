@@ -43473,8 +43473,8 @@ sym_0605B838:
     .byte 0x67, 0x00
     .global sym_0605B858
 sym_0605B858:
-    .4byte FUN_0601550C
-    .4byte FUN_060155A4
+    .4byte hud_priority_sort
+    .4byte minimap_render
     .global sym_0605B860
 sym_0605B860:
     .byte 0x00, 0xA0
@@ -43520,8 +43520,8 @@ sym_0605B8A4:
     .4byte loc_060158A4
     .global sym_0605B8B0
 sym_0605B8B0:
-    .4byte FUN_06015AA4
-    .4byte FUN_06015B48
+    .4byte best_lap_display
+    .4byte time_compare_display
     .global sym_0605B8B8
 sym_0605B8B8:
     .byte 0xFF, 0x9C
@@ -43841,16 +43841,16 @@ sym_0605BB0C:
     .global sym_0605BB1C
 sym_0605BB1C:
     .4byte FUN_06016468
-    .4byte FUN_060164CE
+    .4byte results_ranking_table
     .4byte FUN_06016630
     .4byte FUN_06016A18
     .4byte FUN_06016A60
     .4byte FUN_06016228
-    .4byte FUN_06016298
-    .4byte FUN_06016410
-    .4byte FUN_06015E78
+    .4byte results_elem_place
+    .4byte results_bonus_calc
+    .4byte speed_value_format
     .4byte FUN_06015EB8
-    .4byte FUN_06015FB0
+    .4byte results_init_stub
     .global sym_0605BB48
 sym_0605BB48:
     .4byte FUN_06016A18
@@ -43860,8 +43860,8 @@ sym_0605BB48:
     .4byte loc_060168DA
     .4byte FUN_06016940
     .4byte loc_06016724
-    .4byte FUN_06016750
-    .4byte FUN_060167C8
+    .4byte results_awards
+    .4byte results_cleanup
     .global sym_0605BB6C
 sym_0605BB6C:
     .4byte loc_06016C40
@@ -43953,24 +43953,24 @@ sym_0605BC14:
     .4byte loc_06016CA4
     .4byte loc_06016C06
     .4byte loc_060166E4
-    .4byte FUN_0601667A
-    .4byte FUN_0601503A
+    .4byte results_best_laps
+    .4byte hud_layout_mgr
     .4byte loc_06015C30
-    .4byte FUN_06015954
-    .4byte FUN_060158DE
+    .4byte position_change_anim
+    .4byte lap_counter_update
     .4byte loc_06016BD8
     .4byte loc_06015DE8
-    .4byte FUN_06015E26
-    .4byte FUN_06015D30
-    .4byte FUN_06015D94
-    .4byte FUN_06015C5E
-    .4byte FUN_06015CAC
+    .4byte speed_unit_display
+    .4byte position_suffix_ordinal
+    .4byte lap_progress_bar
+    .4byte time_delta_format
+    .4byte time_digit_update
     .4byte loc_060158B0
     .4byte loc_06015474
-    .4byte FUN_06015482
+    .4byte hud_anim_ctrl
     .4byte loc_06015678
     .4byte FUN_060170FC
-    .4byte FUN_06015150
+    .4byte hud_elem_render
     .4byte FUN_06017116
     .global sym_0605BC6C
 sym_0605BC6C:
