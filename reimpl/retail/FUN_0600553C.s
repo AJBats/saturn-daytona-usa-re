@@ -58,5 +58,5 @@ FUN_0600553C:
     .4byte sym_06078900
     .4byte sym_06026E2E
     .4byte FUN_06026EDE
-    .4byte FUN_06026E94
+    .4byte transform_matrix
     .4byte FUN_06026F2A

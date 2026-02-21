@@ -52,7 +52,7 @@ FUN_06032768:
     .4byte FUN_06026EDE
     .byte 0x00, 0x00
     .byte 0x00, 0x1C
-    .4byte FUN_06026E94
+    .4byte transform_matrix
     .byte 0x00, 0x00
     .byte 0x00, 0x20
     .4byte FUN_06026F2A

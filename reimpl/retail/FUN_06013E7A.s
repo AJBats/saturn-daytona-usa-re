@@ -127,7 +127,7 @@ DAT_06013f4c:
     .4byte sym_06089E4A
     .4byte sym_06026DBC
     .4byte sym_06026E2E
-    .4byte FUN_06026E94
+    .4byte transform_matrix
     .4byte FUN_06026EDE
     .4byte FUN_06026E60
     .4byte sym_06062338

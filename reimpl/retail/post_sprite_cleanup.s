@@ -1,7 +1,7 @@
     .section .text.FUN_06011DC0
-    .global FUN_06011DC0
-    .type FUN_06011DC0, @function
-FUN_06011DC0:
+    .global post_sprite_cleanup
+    .type post_sprite_cleanup, @function
+post_sprite_cleanup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

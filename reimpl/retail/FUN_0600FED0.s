@@ -77,7 +77,7 @@ FUN_0600FED0:
     .4byte sym_0607EBCC
     .byte 0x25, 0xF0
     .byte 0x05, 0x40
-    .4byte FUN_06011F92
+    .4byte throttle_input_proc
     .byte 0x25, 0xF0
     .byte 0x04, 0xA0
     .4byte sym_06028400

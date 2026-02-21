@@ -53,7 +53,7 @@ FUN_06038642:
     .byte 0xA0, 0x63
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte FUN_0603DDFC
+    .4byte scene_color_matrix
     .4byte sym_060A4C78
     .4byte sym_060A3DF8
     .4byte sym_060635A8
@@ -153,7 +153,7 @@ FUN_06038642:
     .4byte sym_060A4C44
     .4byte sym_060A4C4C
     .4byte sym_060A4C70
-    .4byte FUN_0603DDFC
+    .4byte scene_color_matrix
     .4byte sym_060A3EE8
     .4byte sym_060A4C48
     .4byte sym_060A4C50

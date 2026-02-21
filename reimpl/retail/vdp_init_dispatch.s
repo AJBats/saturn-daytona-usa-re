@@ -1,7 +1,7 @@
     .section .text.FUN_06003274
-    .global FUN_06003274
-    .type FUN_06003274, @function
-FUN_06003274:
+    .global vdp_init_dispatch
+    .type vdp_init_dispatch, @function
+vdp_init_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x11

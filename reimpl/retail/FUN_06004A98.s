@@ -518,7 +518,7 @@ FUN_06004A98:
     .4byte sym_06026CE0
     .4byte sym_06012E62
     .4byte FUN_06003578
-    .4byte FUN_06003A3C
+    .4byte master_init_dispatch
     .4byte FUN_06004670
     .4byte FUN_0600A026
     .4byte sym_060A3DA8

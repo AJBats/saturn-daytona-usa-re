@@ -18,7 +18,7 @@ FUN_06032A62:
     .4byte sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x28
-    .4byte FUN_06026E94
+    .4byte transform_matrix
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
     .4byte FUN_06026F2A

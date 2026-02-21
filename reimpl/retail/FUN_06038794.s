@@ -145,6 +145,6 @@ DAT_0603881a:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte FUN_0603DDFC
+    .4byte scene_color_matrix
     .byte 0x00, 0x00
     .byte 0xFF, 0x00

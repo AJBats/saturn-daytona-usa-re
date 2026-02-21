@@ -1,7 +1,7 @@
     .section .text.FUN_0603DDFC
-    .global FUN_0603DDFC
-    .type FUN_0603DDFC, @function
-FUN_0603DDFC:
+    .global scene_color_matrix
+    .type scene_color_matrix, @function
+scene_color_matrix:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

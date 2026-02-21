@@ -91,7 +91,7 @@ FUN_0603853C:
     .4byte sym_060A4C44
     .4byte sym_060A4C4C
     .4byte sym_060A4C70
-    .4byte FUN_0603DDFC
+    .4byte scene_color_matrix
     .4byte sym_060A3EE8
     .4byte sym_060A4C48
     .4byte sym_060A4C50

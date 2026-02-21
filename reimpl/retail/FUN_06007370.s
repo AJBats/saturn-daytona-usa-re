@@ -117,7 +117,7 @@ DAT_06007416:
     .4byte sym_0605A008
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_0602382C
+    .4byte scene_setup_master
     .4byte sym_0606B178
     .byte 0x00, 0x2A
     .byte 0x34, 0x57

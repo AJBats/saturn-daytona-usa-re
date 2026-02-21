@@ -39,7 +39,7 @@ DAT_0600e522:
     .4byte sym_06006838
     .4byte sym_060786B8
     .4byte FUN_06005ECC
-    .4byte FUN_06027CA4
+    .4byte scene_3d_processor
     .4byte sym_06063EB0
     .4byte sym_06063E9C
     .4byte sym_06063ED8
@@ -210,7 +210,7 @@ DAT_0600e69c:
     .4byte sym_060786B8
     .4byte FUN_06005ECC
     .4byte sym_0602ECF2
-    .4byte FUN_06027CA4
+    .4byte scene_3d_processor
     .4byte sym_06063EB0
     .4byte sym_06063E9C
     .4byte sym_06063ED8

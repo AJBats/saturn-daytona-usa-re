@@ -1,7 +1,7 @@
     .section .text.FUN_06003A3C
-    .global FUN_06003A3C
-    .type FUN_06003A3C, @function
-FUN_06003A3C:
+    .global master_init_dispatch
+    .type master_init_dispatch, @function
+master_init_dispatch:
     .byte 0x4F, 0x22
     .byte 0xE3, 0x00
     .byte 0xD2, 0x29

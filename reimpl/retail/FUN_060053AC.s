@@ -100,7 +100,7 @@ FUN_060053AC:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .4byte FUN_06026E60
-    .4byte FUN_06026E94
+    .4byte transform_matrix
     .4byte FUN_06026F2A
     .4byte FUN_06026EDE
     .4byte sym_06026E2E

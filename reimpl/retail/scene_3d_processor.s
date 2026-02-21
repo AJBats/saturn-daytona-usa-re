@@ -1,7 +1,7 @@
     .section .text.FUN_06027CA4
-    .global FUN_06027CA4
-    .type FUN_06027CA4, @function
-FUN_06027CA4:
+    .global scene_3d_processor
+    .type scene_3d_processor, @function
+scene_3d_processor:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

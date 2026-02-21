@@ -147,5 +147,5 @@ DAT_0600ebd8:
     .byte 0xD3, 0x02
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
-    .4byte FUN_06021450
+    .4byte track_obj_placement
     .4byte sym_06018634

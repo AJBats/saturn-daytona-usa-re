@@ -55,7 +55,7 @@ camera_car_transform:
     .4byte sym_06062180
     .4byte sym_06031DF4
     .4byte sym_06063F46
-    .4byte FUN_06026E94
+    .4byte transform_matrix
     .4byte sym_0607E944
     .4byte sym_0607E940
     .4byte sym_06026DBC

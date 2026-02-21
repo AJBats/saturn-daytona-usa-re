@@ -18,7 +18,7 @@
  *   6. Call FUN_0603C000, adjust counter, return
  */
 
-extern void FUN_06034708(int);
+extern void vblank_handler(int);
 extern void sym_0600D336(void);
 extern void FUN_0600D31C(void);
 extern void sym_0602E610(void);
@@ -30,7 +30,7 @@ extern void FUN_0601BDEC(void);
 extern void sym_0603C000(void);
 
 extern int sym_0607EBC4;     /* flag word */
-extern int sym_0607EB8C;     /* FUN_06034708 arg pointer */
+extern int sym_0607EB8C;     /* vblank_handler arg pointer */
 extern int sym_0608A52C;     /* frame counter */
 extern char sym_0605A1DD;    /* fade value (byte) */
 extern char sym_06083255;    /* flag byte */
@@ -42,8 +42,8 @@ extern int sym_0607EA98;     /* palette value */
 extern short sym_06078664;   /* palette target (short) */
 extern int sym_06063574;     /* vblank callback pointer */
 
-/* FUN_0600C170 address — stored to vblank callback pointer */
-extern void FUN_0600C170(void);
+/* race_utility_calc address — stored to vblank callback pointer */
+extern void race_utility_calc(void);
 
 void FUN_0600BFFC(void)
 {
@@ -51,9 +51,9 @@ void FUN_0600BFFC(void)
     int flag_word = sym_0607EBC4;
     int r9 = 0;
 
-    /* Check 0x06083255 flag — conditional call to FUN_06034708 */
+    /* Check 0x06083255 flag — conditional call to vblank_handler */
     if (sym_06083255 != 0) {
-        FUN_06034708(sym_0607EB8C);
+        vblank_handler(sym_0607EB8C);
     }
 
     /* Check flag_word bit 25 (0x02000000) */
@@ -87,7 +87,7 @@ void FUN_0600BFFC(void)
     }
 
     /* Store vblank callback address */
-    sym_06063574 = (int)&FUN_0600C170;
+    sym_06063574 = (int)&race_utility_calc;
 
     /* Write 0xFFFF to 0x21000000 (cache-through write) */
     *(volatile short *)0x21000000 = (short)0xFFFF;

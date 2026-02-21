@@ -189,7 +189,7 @@ state_race_main:
     .byte 0x00, 0x82
     .4byte sym_06078900
     .4byte sym_060302C6
-    .4byte FUN_0602EFF0
+    .4byte render_camera_compute
     .4byte sym_0602F0E8
     .4byte race_state_update
     .4byte sym_0607EAD8

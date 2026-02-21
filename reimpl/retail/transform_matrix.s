@@ -1,7 +1,7 @@
     .section .text.FUN_06026E94
-    .global FUN_06026E94
-    .type FUN_06026E94, @function
-FUN_06026E94:
+    .global transform_matrix
+    .type transform_matrix, @function
+transform_matrix:
     .byte 0x4F, 0x22
     .byte 0xD6, 0x76
     .byte 0xE5, 0x08

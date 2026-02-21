@@ -1,7 +1,7 @@
     .section .text.FUN_06007A50
-    .global FUN_06007A50
-    .type FUN_06007A50, @function
-FUN_06007A50:
+    .global render_pass_extra
+    .type render_pass_extra, @function
+render_pass_extra:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

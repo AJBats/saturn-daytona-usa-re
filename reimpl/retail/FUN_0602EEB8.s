@@ -39,7 +39,7 @@ FUN_0602EEB8:
     .byte 0x00, 0x9C
     .byte 0x00, 0x00
     .4byte sym_0602FDA4
-    .4byte FUN_0602EFF0
+    .4byte render_camera_compute
     .4byte sym_0607EAC8
     .4byte sym_0602F3EC
     .4byte sym_0602F7BC

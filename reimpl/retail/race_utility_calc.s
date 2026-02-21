@@ -1,7 +1,7 @@
     .section .text.FUN_0600C170
-    .global FUN_0600C170
-    .type FUN_0600C170, @function
-FUN_0600C170:
+    .global race_utility_calc
+    .type race_utility_calc, @function
+race_utility_calc:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0F
     .byte 0x43, 0x0B
@@ -14,7 +14,7 @@ FUN_0600C170:
     .byte 0x00, 0x09
     .byte 0xA0, 0x1B
     .byte 0x00, 0x09
-    .4byte FUN_0600C170
+    .4byte race_utility_calc
     .4byte sym_06063574
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF

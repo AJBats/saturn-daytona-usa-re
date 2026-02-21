@@ -73,7 +73,7 @@ scene_render_body:
     .4byte sym_0605A1DD
     .4byte sym_06083255
     .4byte sym_0607EB8C
-    .4byte FUN_06034708
+    .4byte vblank_handler
     .byte 0x02, 0x00
     .byte 0x00, 0x00
     .4byte sym_06078635

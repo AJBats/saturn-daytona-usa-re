@@ -1,7 +1,7 @@
     .section .text.FUN_06034708
-    .global FUN_06034708
-    .type FUN_06034708, @function
-FUN_06034708:
+    .global vblank_handler
+    .type vblank_handler, @function
+vblank_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

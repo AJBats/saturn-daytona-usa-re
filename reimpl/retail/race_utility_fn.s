@@ -1,7 +1,7 @@
     .section .text.FUN_0600C286
-    .global FUN_0600C286
-    .type FUN_0600C286, @function
-FUN_0600C286:
+    .global race_utility_fn
+    .type race_utility_fn, @function
+race_utility_fn:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x14
     .byte 0x43, 0x0B
@@ -25,7 +25,7 @@ FUN_0600C286:
     .4byte sym_06089EDC
     .4byte memcpy_long_idx
     .4byte physics_calc_dispatch
-    .4byte FUN_0600C286
+    .4byte race_utility_fn
     .4byte sym_06063574
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF

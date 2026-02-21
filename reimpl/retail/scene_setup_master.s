@@ -1,7 +1,7 @@
     .section .text.FUN_0602382C
-    .global FUN_0602382C
-    .type FUN_0602382C, @function
-FUN_0602382C:
+    .global scene_setup_master
+    .type scene_setup_master, @function
+scene_setup_master:
     .byte 0x4F, 0x22
     .byte 0xE2, 0x00
     .byte 0x7F, 0xF8
