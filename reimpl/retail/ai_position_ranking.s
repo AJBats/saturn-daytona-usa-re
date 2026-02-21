@@ -116,7 +116,7 @@ ai_position_ranking:
     .4byte sym_0605B7A6
     .4byte sym_0605B821
     .4byte sym_0606BDF8
-    .4byte FUN_06017372
+    .4byte vdp2_data_lookup
     .4byte sym_06084FC8
     .byte 0x4F, 0x26
     .byte 0x6C, 0xF6

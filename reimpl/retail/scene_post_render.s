@@ -264,6 +264,6 @@ scene_post_render:
     .byte 0x30, 0x00
     .byte 0x00, 0x00
     .4byte track_geometry_proc
-    .4byte FUN_06017CEC
-    .4byte FUN_06018166
+    .4byte track_state_machine
+    .4byte geom_math_calc
     .4byte scene_process_stage

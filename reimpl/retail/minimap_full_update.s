@@ -175,7 +175,7 @@ loc_060158A4:
     .byte 0x00, 0x09
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte FUN_06016DD8
+    .4byte track_vtx_builder
     .global loc_060158B0
 loc_060158B0:
     .byte 0x7F, 0xFC

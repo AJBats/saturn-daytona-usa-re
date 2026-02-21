@@ -30,7 +30,7 @@ update_mode_dispatch:
     .4byte sym_06078634
     .4byte sym_0600A8BC
     .4byte sym_06083255
-    .4byte FUN_06034900
+    .4byte terrain_data_lookup
     .4byte FUN_0602F7EA
     .4byte FUN_0602F99C
     .4byte sym_0607EA98

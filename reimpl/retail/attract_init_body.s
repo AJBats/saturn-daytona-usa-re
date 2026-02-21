@@ -74,7 +74,7 @@ attract_init_body:
     .4byte sym_06078635
     .4byte sym_0607ED8C
     .4byte sym_0607864B
-    .4byte FUN_06018A3C
+    .4byte vdp2_config_extended
     .4byte race_init_master
     .4byte FUN_06033AAC
     .4byte vdp1_init
@@ -84,7 +84,7 @@ attract_init_body:
     .4byte sym_0607EBCC
     .4byte sym_0607EAE0
     .4byte sym_0607EAD8
-    .4byte FUN_0601AE80
+    .4byte course_data_handler
     .4byte sym_0605B6D8
     .byte 0x40, 0x00
     .byte 0x00, 0x00

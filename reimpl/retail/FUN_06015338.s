@@ -124,8 +124,8 @@ FUN_06015338:
     .4byte sym_06085FF8
     .4byte sym_06085FF9
     .4byte sym_06085F92
-    .4byte FUN_0601AC7C
-    .4byte FUN_060172BC
+    .4byte course_config_render
+    .4byte vdp2_loop_ctrl
     .4byte sym_060149E0
     .4byte sym_0605A00C
     .4byte sym_06026CE0

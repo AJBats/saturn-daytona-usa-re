@@ -75,7 +75,7 @@ DAT_06025c6e:
     .4byte sym_06061199
     .4byte sym_06089EC6
     .4byte sym_06035C2C
-    .4byte FUN_0601A3F4
+    .4byte car_physics_final
     .byte 0xE2, 0x09
     .byte 0x62, 0x2D
     .byte 0x66, 0xBD
@@ -519,7 +519,7 @@ DAT_06026016:
     .byte 0x00, 0xB4
     .4byte sym_06089EC6
     .4byte sym_06035C2C
-    .4byte FUN_0601A3F4
+    .4byte car_physics_final
     .4byte sym_060610BC
     .byte 0xE2, 0x09
     .byte 0x62, 0x2D

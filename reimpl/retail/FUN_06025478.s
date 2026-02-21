@@ -202,7 +202,7 @@ DAT_060255de:
     .4byte sym_060284AE
     .4byte sym_06058F94
     .4byte sym_06061184
-    .4byte FUN_0601A3F4
+    .4byte car_physics_final
     .4byte sym_06061198
     .byte 0xE2, 0x09
     .byte 0x62, 0x2D

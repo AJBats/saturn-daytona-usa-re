@@ -39,7 +39,7 @@ FUN_0600F794:
     .4byte sym_0607EBCC
     .4byte sym_0607887F
     .4byte sym_06063D98
-    .4byte FUN_060114AC
+    .4byte anim_ui_transition
     .4byte hud_course_render
     .byte 0xB5, 0x5A
     .byte 0x64, 0xE3

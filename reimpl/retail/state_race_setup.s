@@ -175,7 +175,7 @@ state_race_setup:
     .byte 0x00, 0x96
     .byte 0xFF, 0xFF
     .4byte sym_0607865C
-    .4byte FUN_06018A3C
+    .4byte vdp2_config_extended
     .4byte FUN_0601F784
     .4byte sym_06078662
     .4byte sym_06078635

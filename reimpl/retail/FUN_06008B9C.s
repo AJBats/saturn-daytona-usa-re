@@ -24,4 +24,4 @@ FUN_06008B9C:
     .4byte sym_06059F44
     .4byte sym_0605A016
     .4byte FUN_06019A48
-    .4byte FUN_06019928
+    .4byte track_seg_phys_init

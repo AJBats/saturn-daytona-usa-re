@@ -304,8 +304,8 @@ DAT_06014cf2:
     .byte 0x02, 0x24
     .byte 0x02, 0x40
     .byte 0xFF, 0xFF
-    .4byte FUN_060172BC
-    .4byte FUN_060173AC
+    .4byte vdp2_loop_ctrl
+    .4byte geom_pipeline_coord
     .4byte sym_06085F89
     .4byte sym_06085F90
     .4byte sym_06085F94

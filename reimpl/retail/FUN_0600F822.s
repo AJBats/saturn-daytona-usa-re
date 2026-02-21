@@ -29,7 +29,7 @@ FUN_0600F822:
     .byte 0xAB, 0x11
     .byte 0x01, 0xFF
     .4byte sound_cmd_dispatch
-    .4byte FUN_060114AC
+    .4byte anim_ui_transition
     .4byte hud_course_render
     .4byte sym_0607887C
     .4byte sym_0607887F

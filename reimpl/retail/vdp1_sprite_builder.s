@@ -131,4 +131,4 @@ vdp1_sprite_builder:
     .byte 0x80, 0x00
     .4byte sym_060333D8
     .4byte post_sprite_cleanup
-    .4byte FUN_060171AC
+    .4byte vdp2_frame_update

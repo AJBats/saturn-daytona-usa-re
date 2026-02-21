@@ -31,4 +31,4 @@ FUN_060198E0:
     .4byte sym_06085FF1
     .4byte sym_06085FF6
     .4byte sym_06085FF7
-    .4byte FUN_0601A940
+    .4byte course_init_pipeline

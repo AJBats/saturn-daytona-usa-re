@@ -216,5 +216,5 @@ FUN_0600FB78:
     .4byte sym_0605AA9C
     .4byte sym_0605ACE1
     .4byte sym_0605ACE3
-    .4byte FUN_060114AC
+    .4byte anim_ui_transition
     .4byte sym_0607EAE0

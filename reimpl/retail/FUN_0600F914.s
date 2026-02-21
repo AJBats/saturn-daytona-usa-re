@@ -42,8 +42,8 @@ FUN_0600F914:
     .byte 0xFF, 0xFF
     .4byte sym_0602853E
     .4byte sym_0607887F
-    .4byte FUN_06011678
-    .4byte FUN_06012080
+    .4byte sprite_buffer_init
+    .4byte sound_init_bonus
     .4byte sym_0607886E
     .4byte sym_0605AAA2
     .byte 0xFE, 0xA0

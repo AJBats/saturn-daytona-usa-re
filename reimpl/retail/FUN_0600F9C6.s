@@ -185,6 +185,6 @@ FUN_0600F9C6:
     .4byte sym_0605ACE4
     .4byte sym_060284AE
     .4byte sym_06011494
-    .4byte FUN_060114AC
+    .4byte anim_ui_transition
     .4byte graphics_mode_setup
     .4byte sym_06011EB4

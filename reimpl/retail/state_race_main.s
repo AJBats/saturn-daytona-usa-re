@@ -198,7 +198,7 @@ state_race_main:
     .4byte sym_0607EAD0
     .4byte sym_06078634
     .4byte sym_06083255
-    .4byte FUN_06034900
+    .4byte terrain_data_lookup
     .4byte FUN_0602F7EA
     .4byte sym_06012198
     .4byte sym_06078654

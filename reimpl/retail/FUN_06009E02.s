@@ -36,6 +36,6 @@ FUN_06009E02:
     .4byte game_init_master
     .4byte sym_0605A016
     .4byte handler_dispatch
-    .4byte FUN_0601389E
+    .4byte gfx_frame_dispatch
     .4byte handler_init_reset
     .4byte sym_0607864B

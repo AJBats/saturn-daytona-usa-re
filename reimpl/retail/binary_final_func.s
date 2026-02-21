@@ -43849,7 +43849,7 @@ sym_0605BB1C:
     .4byte results_elem_place
     .4byte results_bonus_calc
     .4byte speed_value_format
-    .4byte FUN_06015EB8
+    .4byte vdp2_layer_init
     .4byte results_init_stub
     .global sym_0605BB48
 sym_0605BB48:
@@ -46897,8 +46897,8 @@ sym_0605D260:
     .4byte pre_race_camera
     .4byte grid_position_camera
     .4byte preview_camera_target
-    .4byte FUN_0601A80C
-    .4byte FUN_0601A940
+    .4byte course_data_rom_load
+    .4byte course_init_pipeline
     .4byte loc_0601A1A8
     .4byte preview_camera_path
     .global sym_0605D280

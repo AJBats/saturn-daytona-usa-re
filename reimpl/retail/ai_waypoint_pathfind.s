@@ -244,7 +244,7 @@ DAT_06014de4:
     .4byte sym_060172E4
     .4byte sym_06085F8A
     .4byte FUN_06020CF4
-    .4byte FUN_0601712C
+    .4byte vdp2_util_loop
     .4byte sym_06085F98
     .4byte sym_06084FC8
     .byte 0x00, 0x00

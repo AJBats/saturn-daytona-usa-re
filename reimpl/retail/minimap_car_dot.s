@@ -73,5 +73,5 @@ minimap_car_dot:
     .4byte sym_0605B8A0
     .4byte sym_06035228
     .4byte sym_0605B860
-    .4byte FUN_06016DD8
+    .4byte track_vtx_builder
     .4byte sym_06085490

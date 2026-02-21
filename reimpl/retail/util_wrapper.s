@@ -14,8 +14,8 @@ util_wrapper:
     .4byte sym_06044B64
     .4byte sym_06059FFC
     .4byte memcpy_word_idx
-    .4byte FUN_060172BC
+    .4byte vdp2_loop_ctrl
     .4byte sym_0607EBF4
     .4byte sym_06085F90
     .4byte sym_06085F94
-    .4byte FUN_0601712C
+    .4byte vdp2_util_loop

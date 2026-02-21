@@ -61,7 +61,7 @@ FUN_06008CD0:
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte FUN_0601D2DC
-    .4byte FUN_0601B074
+    .4byte course_setup_handler
     .4byte sym_0607EBCC
     .4byte sym_06086024
     .4byte sym_0605AD10

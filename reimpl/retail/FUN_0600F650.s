@@ -75,7 +75,7 @@ FUN_0600F650:
     .byte 0xAE, 0x00
     .byte 0x03, 0xFF
     .4byte sound_cmd_dispatch
-    .4byte FUN_06012050
+    .4byte sound_init_race
     .4byte sym_06078870
     .4byte sym_060484EC
     .byte 0x25, 0xF0
@@ -91,7 +91,7 @@ FUN_0600F650:
     .byte 0xAB, 0x11
     .byte 0x03, 0xFF
     .4byte sym_06011494
-    .4byte FUN_060114AC
+    .4byte anim_ui_transition
     .4byte hud_course_render
     .4byte sym_06063D98
     .byte 0xEA, 0x29

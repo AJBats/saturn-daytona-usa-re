@@ -165,5 +165,5 @@ position_change_anim:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte FUN_06016DD8
+    .4byte track_vtx_builder
     .4byte sym_060172E4
