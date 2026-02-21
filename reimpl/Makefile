@@ -1,10 +1,11 @@
 # Daytona USA Saturn — Reimplementation Build System
 #
-# Default build is the free-layout reimplementation (+4 shift).
+# Default build is the free-layout reimplementation (no shift).
 # Reimplemented functions in src/ automatically override retail/ originals.
 #
 #   make              — build free-layout binary
 #   make disc         — build + inject into disc image
+#   make disc-4shift  — build + inject with +4 shift (relocation validation)
 #   make retail       — build byte-identical retail binary
 #   make disc-retail  — build + inject retail binary
 #   make validate     — verify retail build matches original
@@ -22,7 +23,11 @@ CFLAGS  := -m2 -Os -nostdlib -ffreestanding -ffunction-sections -fno-leading-und
 
 BUILDDIR := build
 LDSCRIPT := free.ld
+SHIFT    ?= 0
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
+ifneq ($(SHIFT),0)
+    LDFLAGS += --defsym __pad_size=$(SHIFT)
+endif
 
 # Auto-discover retail .s files
 RETAIL_ASM  := $(wildcard retail/*.s)
@@ -47,14 +52,14 @@ ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
 # Config change detection: if flags changed since last build, force a full rebuild.
 # Includes reimpl stems so switching between free/retail rebuilds overridden objects.
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) REIMPL=$(REIMPL_STEMS)
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) REIMPL=$(REIMPL_STEMS)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
     $(shell rm -f $(BUILDDIR)/*.o $(ELF) $(BIN))
 endif
 
-.PHONY: all clean disc disc-internal retail disc-retail dump info validate
+.PHONY: all clean disc disc-4shift retail disc-retail dump info validate
 
 all: $(BIN)
 
@@ -64,7 +69,7 @@ $(BIN): $(ELF)
 	if [ "$(LDSCRIPT)" = "free.ld" ]; then \
 		echo ""; \
 		echo "========================================"; \
-		echo "  FREE BUILD: $$SIZE bytes"; \
+		echo "  FREE BUILD: $$SIZE bytes (shift=$(SHIFT))"; \
 		echo "  Reimplemented: $(REIMPL_STEMS)"; \
 		echo "========================================"; \
 		echo ""; \
@@ -96,6 +101,10 @@ $(BUILDDIR):
 disc: $(BIN)
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
+
+# Build + inject with +4 shift (relocation validation)
+disc-4shift:
+	$(MAKE) SHIFT=4 disc
 
 # Byte-identical retail build (all retail/, no src/ overrides)
 retail:

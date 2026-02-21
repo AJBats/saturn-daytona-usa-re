@@ -281,3 +281,4 @@ Full analysis: `workstreams/research/03_bugs_found.md`,
 - 2026-02-21: **BUILD SYSTEM RESTRUCTURED**: `retail/` for Sega originals, `src/` for reimpl. Default `make` = free build.
 - 2026-02-21: SCDQ_FIX flag eliminated — FUN_060423CC.c moved to `src/` as permanent C reimplementation
 - 2026-02-21: Linker scripts renamed: sawyer.ld → sega.ld, sawyer_free.ld → free.ld
+- 2026-02-21: +4 shift made optional: `make disc` = no shift (default), `make disc-4shift` = +4 validation

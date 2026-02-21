@@ -12,7 +12,7 @@
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
 **Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).
-**Linker scripts**: `free.ld` (default, +4 shift), `sega.ld` (byte-identical retail).
+**Linker scripts**: `free.ld` (free-layout, normal and +4 shift modes — see Makefile), `sega.ld` (byte-identical retail).
 **FUN_060423CC**: First permanent C reimplementation — SCDQ poll timeout (was a latent bug in retail).
 See `workstreams/active_investigation.md`.
 

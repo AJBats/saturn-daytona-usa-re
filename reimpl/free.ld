@@ -1,8 +1,9 @@
 /* free.ld -- Free-layout reimplementation linker script (default)
  *
- * Functions can change size without breaking the binary. A 4-byte pad
- * after _start shifts all FUN_ addresses by +4, validating that every
- * pointer in the binary is properly relocated via symbols.
+ * Functions can change size without breaking the binary.
+ * Optional padding (--defsym __pad_size=N) shifts all FUN_ addresses,
+ * validating that every pointer is properly relocated via symbols.
+ * Default: no padding. Use `make disc-4shift` to test with +4 shift.
  *
  * No FUN_ PROVIDEs — functions define their own .global labels and are
  * placed by SORT_BY_NAME, so recompiled functions slot in naturally.
@@ -14,13 +15,15 @@ OUTPUT_FORMAT("elf32-sh")
 OUTPUT_ARCH(sh)
 ENTRY(_start)
 
+/* Default: no padding. Override with --defsym __pad_size=N */
+PROVIDE(__pad_size = 0);
+
 SECTIONS
 {
     . = 0x06003000;
     .text : {
         *(.text.startup)
-        /* 4 bytes of padding — all FUN_ addresses shift by +4 */
-        . = . + 4;
+        . = . + __pad_size;
         *(SORT_BY_NAME(.text.FUN_*))
     }
 
