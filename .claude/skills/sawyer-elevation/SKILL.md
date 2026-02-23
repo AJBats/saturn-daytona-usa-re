@@ -115,37 +115,63 @@ Sawyer annotations in `asm/*.s`, trace callers).
 
 ### L2 → L3 (Byte Blobs → Real Mnemonics)
 
-Convert `.byte` instruction pairs to SH-2 assembly mnemonics. The function
-stays in `retail/`, the pool entries stay symbolic.
+Convert a translation unit from `.byte` blobs to SH-2 assembly mnemonics.
+L3 operates at the **TU level**, not individual functions. The retail file
+keeps `.byte` blobs (consolidated into one multi-section file), and a new
+src file is generated with decoded mnemonics in a single section.
 
-**Prerequisites**: Name the function first (see above). You need to understand
-it to write correct mnemonics.
+**Result**: Two files per TU:
+- `retail/<tu_name>.s` — consolidated multi-section, `.byte` blobs (retail build)
+- `src/<tu_name>.s` — single-section, SH-2 mnemonics with symbolic pools (free build)
+
+**Prerequisites**: The functions in the TU should already be named (see above).
+You need TU boundaries — identified by cross-section `mov.l` pool sharing and
+BSR/BRA branches between functions.
 
 **Steps**:
 
-1. **Disassemble the bytes.** Use the Sawyer annotations (`asm/*.s`) as
-   reference, or disassemble manually using the SH-2 instruction set
-   (see `platform-saturn-sh2` skill).
+1. **Identify TU boundaries.** Look for cross-section pool references —
+   functions that share constant pool entries or have BSR/BRA branches
+   between them belong to the same TU. The function before the start and
+   after the end must be fully self-contained (no pool refs or branches
+   crossing the boundary). Use `asm/*.s` annotations to trace references.
 
-2. **Replace `.byte` pairs with mnemonics.** One instruction at a time:
-   ```asm
-   /* Before (L2) */
-   .byte 0x2F, 0xE6         /* opaque */
-
-   /* After (L3) */
-   mov.l  r14, @-r15        /* push r14 */
+2. **Consolidate retail files.** Merge individual `.s` files into one:
+   ```bash
+   python tools/consolidate_tu.py <tu_name> <start_addr> <end_addr> --description "..."
    ```
+   Use `--dry-run` first to review the file list. This produces
+   `retail/<tu_name>.s` — a multi-section file where each function
+   retains its own `.section .text.FUN_XXXXXXXX` directive.
 
-3. **Keep the constant pool as-is.** The `.4byte SYMBOL` entries and literal
-   `.byte` constants don't change.
+3. **Delete the old individual retail files.** The consolidated file
+   replaces them. Verify the count matches what `consolidate_tu.py`
+   reported. (Elevation file deletions don't require the safe word.)
 
-4. **Validate.** `make validate` — but note: L3 conversion may NOT be
-   byte-identical if the assembler chooses different encodings for
-   ambiguous mnemonics. If validate fails, compare with `objdump -d`
-   to find the differences and fix them.
+4. **Generate the L3 src file.** Decode instructions automatically:
+   ```bash
+   python tools/generate_l3_tu.py <tu_name>
+   ```
+   This reads the consolidated retail file, decodes all `.byte` pairs
+   to SH-2 mnemonics, and writes `src/<tu_name>.s` as a single section.
+   Pool entries stay symbolic (`.4byte SYMBOL`), BSR/BRA stay as `.byte`
+   pairs (assembler can't generate 12-bit PC-relative relocations for
+   external symbols).
 
-5. **Boot test.** `make disc` and test in Mednafen. L3 is validated by
-   behavior, not bytes.
+5. **Validate.** Run full 3-class validation:
+   ```bash
+   python tools/validate_build.py
+   ```
+   - Retail must be **byte-identical** (the retail file is still `.byte`
+     blobs, so this should always pass)
+   - Free build must boot to menu
+   - Free+4shift must boot to menu (validates relocation)
+
+   L3 uplifts are **size-neutral** — the free binary size doesn't change.
+
+6. **If the generator has a bug**, fix `tools/generate_l3_tu.py` (or
+   `tools/sh2_decode.py`) and regenerate. Never hand-edit L3 output —
+   the generator is the source of truth. See `.claude/rules/l3-uplift.md`.
 
 ### L2/L3 → L4 (ASM → C Reimplementation)
 
