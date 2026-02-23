@@ -13,7 +13,7 @@ This is the core workflow of the Sawyer pipeline.
 | **L3** | Real ASM source | SH-2 mnemonics + symbolic `mov.l` | labeled pool entries | `src/game_update_loop.s` |
 | **L4** | C reimplementation | C source | compiler-managed | `src/cdb_wait_scdq.c` |
 
-L2 is what we have for all 1,259 functions today. L3 and L4 are where we're going.
+L2 is the starting point for all functions. L3 and L4 are where we're going.
 
 **L2 is relocatable but opaque.** You can move it, but you can't read it.
 **L3 is relocatable and readable.** Full SH-2 mnemonics with symbolic pool labels.
@@ -136,17 +136,20 @@ BSR/BRA branches between functions.
    after the end must be fully self-contained (no pool refs or branches
    crossing the boundary). Use `asm/*.s` annotations to trace references.
 
-2. **Consolidate retail files.** Merge individual `.s` files into one:
+2. **Consolidate retail files.** Merge individual `.s` files into one.
+   For batch processing (many TUs at once):
+   ```bash
+   python tools/batch_l3_modules.py --consolidate-only   # phase 1 only
+   python tools/batch_l3_modules.py                       # consolidate + L3
+   ```
+   For a single TU:
    ```bash
    python tools/consolidate_tu.py <tu_name> <start_addr> <end_addr> --description "..."
    ```
-   Use `--dry-run` first to review the file list. This produces
-   `retail/<tu_name>.s` — a multi-section file where each function
-   retains its own `.section .text.FUN_XXXXXXXX` directive.
-
-3. **Delete the old individual retail files.** The consolidated file
-   replaces them. Verify the count matches what `consolidate_tu.py`
-   reported. (Elevation file deletions don't require the safe word.)
+   Use `--dry-run` first to review. This produces `retail/<tu_name>.s` —
+   a multi-section file where each function retains its own
+   `.section .text.FUN_XXXXXXXX` directive. Individual files are deleted
+   automatically. (Elevation file deletions don't require the safe word.)
 
 4. **Generate the L3 src file.** Decode instructions automatically:
    ```bash
@@ -290,6 +293,10 @@ either variant matches on all 4 methods.
 | `tools/capture_input_trace.py` | Record driven session for new golden traces | `python tools/capture_input_trace.py rebuilt` |
 | `tools/compare_screenshot.py` | Screenshot comparison (4 methods) | `python tools/compare_screenshot.py test.png golden.png` |
 | `tools/module_scanner.py` | Find function module boundaries | `python tools/module_scanner.py` |
+| `tools/generate_l3_tu.py` | Decode retail `.byte` blobs → L3 mnemonics | `python tools/generate_l3_tu.py <tu_name>` |
+| `tools/batch_l3_modules.py` | Batch consolidate + L3 for all multi-function TUs | `python tools/batch_l3_modules.py` |
+| `tools/test_asm_modules.sh` | WSL assembly test for all L3 src files | `wsl -- bash tools/test_asm_modules.sh` |
+| `tools/consolidate_tu.py` | Consolidate individual retail files into one TU | `python tools/consolidate_tu.py <name> <start> <end>` |
 
 ### Golden Baselines
 
