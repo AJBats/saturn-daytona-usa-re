@@ -31,14 +31,23 @@ We need to reconstruct that pre-link source from the post-link binary.
 | **L1** (current reimpl) | `.byte` blobs in C | hardcoded bytes | No | N/A |
 | **L2** (byte-perfect) | `.byte` blobs in `.s` | `.4byte _SYMBOL` | **Yes** | `cmp` vs original |
 | **L3** (real source) | SH-2 mnemonics | `.4byte _SYMBOL` | Yes | boot test |
+| **L3.5** (free placement) | SH-2 mnemonics | symbolic `mov.l` | Yes | boot test |
 | **L4** (C reimpl) | C source | N/A (compiler pools) | Yes | boot test |
 
 **L2 is the minimum work that breaks the cage.** Instructions stay as opaque bytes,
 only the constant pool entries are symbolized. Because instruction bytes are identical,
 we can verify the conversion with `cmp`. This is automatable.
 
-**L3 is understanding.** Converting `.byte` pairs to real mnemonics. Done incrementally
-using the 46 Sawyer annotation files as reference. Validated by boot test.
+**L3 is understanding.** Converting `.byte` pairs to real mnemonics. Pool loads
+(`mov.l @(disp,PC)`) stay as `.byte` pairs when they reference pools in neighboring
+sections. Validated by boot test.
+
+**L3.5 is free placement.** All `mov.l @(disp,PC)` use symbolic pool labels (e.g.,
+`mov.l .L_pool_xxx, r0`). Requires the entire translation unit to be consolidated
+into one section so the assembler can compute displacements. The assembler auto-bumps
+section alignment to 4 and uses a `(val + 2) / 4` integer division trick that handles
+instructions at both 0 mod 4 and 2 mod 4 positions correctly. Pool entries need
+`.balign 4` before them. See "Translation Unit Reconstruction" below.
 
 **L4 is the endgame.** Replacing ASM functions with C. No slot constraints because
 the linker handles placement. The 93 hand-written C files and 624 Ghidra lifts are
@@ -392,20 +401,77 @@ Key findings relevant to Sawyer L2:
 
 **Goal**: Convert opaque `.byte` instructions to readable SH-2 mnemonics.
 
-1. Priority order:
-   - Functions with Sawyer annotations (46 files covering gameplay subsystems)
-   - Boot-critical init chain (FUN_060030FC and callees)
-   - Large functions (more value per conversion)
+#### Translation Unit Reconstruction (2026-02-23)
 
-2. Per-function workflow:
-   - Read Sawyer annotation for understanding
-   - Replace `.byte` pairs with mnemonics
-   - Boot test (not byte-compare — mnemonics may produce different pool layouts)
-   - Commit
+**Key discovery**: Sega's compiler shared constant pools across neighboring functions
+within the same `.c` file. A small function's `mov.l @(disp,PC)` instruction can
+reach into a neighboring function's pool — a cross-section reference that proves both
+functions were compiled together. By tracing these references, we can reconstruct
+the boundaries of Sega's original translation units.
 
-3. This is ongoing work. No gate — L3 conversion happens continuously alongside
-   other work. A function at L2 (`.byte` + symbolic pools) is already relocatable
-   and correct. L3 adds readability, not correctness.
+**The assembler constraint**: `mov.l @(disp,PC)` and `bf/bt/bra/bsr` are resolved at
+assembly time using section-relative offsets. They CANNOT cross section boundaries.
+When we split a TU into separate sections, these instructions must stay as `.byte` pairs
+(L3) or the sections must be merged (L3.5). The assembler enforces this — it errors on
+cross-section `mov.l` ("negative offset") and `bf/bt` ("overflow 8-bit field").
+
+**First TU mapped: the game update loop** (0x06033BC8 – 0x06034E20, ~4,700 bytes, ~100 functions).
+Contains display thunks, score rendering, physics integration, AI steering, axis damping,
+rotation helpers, waypoint following, braking, throttle, and recovery. Sega crammed the
+entire per-frame car update into one C file — classic 90s game dev.
+
+Boundaries confirmed by absence of cross-section references:
+- **Start**: `camera_attract_init` (0x06033BC8). Prior function `hud_subsystem_init`
+  (0x06033AAC) is fully self-contained.
+- **End**: `ai_recovery_handler` (0x06034DEA). Next function `smpc_cmd_init`
+  (0x06034E20) is a different subsystem with zero cross-references.
+
+Internal structure — the compiler placed pool holders at intervals, with clusters
+of small functions borrowing from them:
+
+| Pool holder | Cluster functions | Address range |
+|------------|-------------------|---------------|
+| `time_extend_digits` | camera_attract_init, disp_timeext_digit_{0,1,2} | 0x06033BC8–0x06033C6E |
+| `selector_group_render` | 19× disp_sel_thunk | 0x06033C6E–0x06033D76 |
+| `bonus_points_display` | 19× disp_selext_thunk, score_display_render, disp_score_* | 0x06033D76–0x06033F80 |
+| `display_frame_flush` | 9× disp_end_stub, display_frame_mgr | 0x06033F80–0x06034036 |
+| `phys_velocity_integrate` | phys_position_load | 0x06034036–0x060340C0 |
+| `phys_final_integrate` | phys_result_store, phys_perspective | 0x060340C0–0x0603411E |
+| `ai_steering_response` | phys_lighting_setup | 0x0603411E–0x06034172 |
+| `xaxis_integrate_damp` | ai_vel_x_{entry,step_a,step_b,step_c} | 0x06034172–0x060341FA |
+| `yaxis_integrate` | ai_vel_x_cleanup_{entry,a,b,c} | 0x060341FA–0x06034286 |
+| `zaxis_integrate` | ai_vel_y_{entry,step_a,step_b,step_c} | 0x06034286–0x0603430E |
+| `ai_decision_dispatch` | ai_vel_z_{entry,step_a,step_b,step_c}, ai_rot_* (11 fn) | 0x0603430E–0x060344FC |
+| `ai_car_full_init` | ai_speed_limit through ai_spawn_helper_d | 0x060344FC–0x06034708 |
+| More clusters... | vblank_handler through ai_recovery_handler | 0x06034708–0x06034E20 |
+
+#### Consolidation approach
+
+1. **Retail**: Merge all ~100 files into one `retail/game_update_loop.s` with individual
+   `.section .text.FUN_XXXXXXXX` directives per function. Mechanical, zero risk. The linker
+   sees identical sections. Validate with `make validate` (byte-identical).
+
+2. **Src L3**: Build one `src/game_update_loop.s` with a SINGLE section. Add clusters
+   incrementally — each cluster up to its pool holder. When a cluster is added, all its
+   `mov.l @(disp,PC)` become symbolic. Cross-cluster `bf/bt/bra/bsr` at the seam become
+   symbolic as the next cluster is merged. Validate with `python tools/validate_build.py`.
+
+3. **Stub files**: When a function's code lives inside `src/game_update_loop.s`, create an
+   empty `src/<original_name>.s` stub so the Makefile doesn't link the retail `.o`. The
+   global symbol is defined in `game_update_loop.s`.
+
+4. **Self-correcting**: If we miss a function, the assembler errors on cross-section
+   references. If we include an extra function, no harm — it just works in the bigger section.
+
+#### L3 conversion details
+
+- Non-pool instructions: convert `.byte` pairs to SH-2 mnemonics (`sts.l`, `jsr`, `mov.l @Rm, Rn`, etc.)
+- `mov.l @(disp,PC)`: use symbolic pool labels (`mov.l .L_pool_xxx, rN`) — requires same section
+- `bf/bt`: use symbolic labels for intra-section targets; `.byte` for cross-section
+- `bra/bsr`: use symbolic labels for intra-section; `.byte` for cross-section (12-bit relocation unsupported)
+- Pool entries: `.balign 4` before first entry, then `.4byte` with labels
+- The assembler's `(val + 2) / 4` trick handles `mov.l` displacement correctly regardless of
+  instruction alignment within the section
 
 ### Phase 5: C Introduction (The Payoff)
 
