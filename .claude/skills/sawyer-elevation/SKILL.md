@@ -10,13 +10,18 @@ This is the core workflow of the Sawyer pipeline.
 | Level | What it is | Instructions | Pool entries | Example |
 |-------|-----------|-------------|-------------|---------|
 | **L2** | Byte-perfect ASM | `.byte` blobs | `.4byte SYMBOL` | `retail/cdb_wait_scdq.s` |
-| **L3** | Real ASM source | SH-2 mnemonics | `.4byte SYMBOL` | (not yet done) |
+| **L3** | Real ASM source | SH-2 mnemonics | `.4byte SYMBOL` | `src/ai_rotation_helpers.s` |
+| **L3.5** | Free placement | SH-2 mnemonics + symbolic `mov.l` | `.balign 4` + labeled pool | (future) |
 | **L4** | C reimplementation | C source | compiler-managed | `src/cdb_wait_scdq.c` |
 
-L2 is what we have for all 1,259 functions today. L3 and L4 are where we're going.
+L2 is what we have for all 1,259 functions today. L3, L3.5, and L4 are where we're going.
 
 **L2 is relocatable but opaque.** You can move it, but you can't read it.
-**L3 is relocatable and readable.** You can understand the logic.
+**L3 is relocatable and readable.** You can understand the logic. Pool loads (`mov.l @(disp,PC)`)
+stay as `.byte` pairs when they reference pools across section boundaries.
+**L3.5 is fully symbolic.** All `mov.l @(disp,PC)` use symbolic pool labels. Requires the
+full translation unit consolidated into one section. The assembler handles alignment
+automatically. See `workstreams/sawyer_l2.md` "Translation Unit Reconstruction".
 **L4 is relocatable and modifiable.** You can change the behavior.
 
 ---
