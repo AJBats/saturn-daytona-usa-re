@@ -144,9 +144,9 @@ def decode_sh2(opcode, pc):
         if lo == 0xE and rm == 0x0: return f"ldc r{rn}, sr", None
         if lo == 0xE and rm == 0x1: return f"ldc r{rn}, gbr", None
         if lo == 0xE and rm == 0x2: return f"ldc r{rn}, vbr", None
-        # shad/shld
-        if lo == 0xC: return f"shad r{rm}, r{rn}", None
-        if lo == 0xD: return f"shld r{rm}, r{rn}", None
+        # NOTE: shad (lo=0xC) and shld (lo=0xD) are SH-3/SH-4 only.
+        # On SH-2 these encodings are undefined. Do not decode them —
+        # they must stay as raw bytes so the assembler doesn't reject them.
         # mac.w @Rm+, @Rn+
         if lo == 0xF: return f"mac.w @r{rm}+, @r{rn}+", None
 

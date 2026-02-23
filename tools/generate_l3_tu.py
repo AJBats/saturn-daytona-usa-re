@@ -83,29 +83,11 @@ def decode_sh2(opcode, pc):
     # 0100nnnn00100011 = stc.l vbr, @-Rn
     if hi == 4 and lo == 3 and rm == 2:
         return f"stc.l vbr, @-r{rn}", None
-    # 0000nnnn10000011 = pref @Rn
-    if hi == 0 and rm == 8 and lo == 3:
-        return f"pref @r{rn}", None
-    # 0100nnnn00101000 = clrmac (actually standalone 0x0028)
-    if opcode == 0x0028:
-        return "clrmac", None
-    # 0000nnnn10010011 = ocbi @Rn
-    if hi == 0 and rm == 9 and lo == 3:
-        return f"ocbi @r{rn}", None
-    # 0000nnnn10100011 = ocbp @Rn
-    if hi == 0 and rm == 0xA and lo == 3:
-        return f"ocbp @r{rn}", None
-    # 0000nnnn10110011 = ocbwb @Rn
-    if hi == 0 and rm == 0xB and lo == 3:
-        return f"ocbwb @r{rn}", None
-    # 1111 group (FPU - SH4 only, not SH2, but just in case)
-    # 0100nnnn00101011 = jmp @Rn  -- already covered
-    # 0000nnnn01010010 = sts fpul, Rn
-    if hi == 0 and rm == 5 and lo == 0xA:
-        return f"sts fpul, r{rn}", None
-    # 0100nnnn01011010 = lds Rn, fpul
-    if hi == 4 and rm == 5 and lo == 0xA:
-        return f"lds r{rn}, fpul", None
+    # NOTE: pref, ocbi, ocbp, ocbwb are SH-3/SH-4 cache instructions.
+    # sts fpul and lds fpul are SH-3/SH-4 FPU instructions.
+    # None of these exist on SH-2 — do not decode them.
+    # Their encodings must stay as raw bytes (.word UNKNOWN) so the
+    # assembler targeting --isa=sh2 doesn't reject them.
 
     return mnemonic, pool
 
@@ -346,6 +328,11 @@ def flow_analysis(image, globals_map, fourbyte_map):
         if pc < TU_START or pc >= TU_END:
             continue
 
+        # SH-2 instructions are always 2-byte aligned.
+        # Odd addresses cannot be instruction starts — they are data labels.
+        if pc % 2 == 1:
+            continue
+
         # Skip if this address is a pool target (data, not code)
         if pc in pool_targets:
             continue
@@ -582,6 +569,16 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
 
         # -- Emit content --
         if is_code:
+            # Before emitting a 2-byte instruction, check if there's a global
+            # at (pc + 1).  This happens when data regions contain odd-length
+            # items (e.g., ASCII strings with null terminators) and the flow
+            # analysis incorrectly classified the region as code.  Emit the
+            # first byte alone so the global label appears at the right offset.
+            if (pc + 1) in globals_map:
+                lines.append(f"    .byte   0x{image[off]:02X}")
+                pc += 1
+                continue
+
             # Decode and emit instruction
             opcode = (image[off] << 8) | image[off + 1]
             mnemonic, pool_target = decode_sh2(opcode, pc)
@@ -736,8 +733,12 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 pc += 4
                 continue
 
-            # Fallback: emit as 2 bytes
-            if off + 2 <= TU_SIZE:
+            # Fallback: emit as 2 bytes (or 1 byte if at an odd address)
+            if pc % 2 == 1:
+                # Odd address — emit single byte to restore even alignment
+                lines.append(f"    .byte   0x{image[off]:02X}")
+                pc += 1
+            elif off + 2 <= TU_SIZE:
                 val = (image[off] << 8) | image[off + 1]
                 lines.append(f"    .2byte  0x{val:04X}")
                 stats['pool_2byte'] += 1
