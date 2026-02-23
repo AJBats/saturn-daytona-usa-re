@@ -1,7 +1,7 @@
     .section .text.FUN_0603F500
-    .global audio_sync_slave
-    .type audio_sync_slave, @function
-audio_sync_slave:
+    .global audio_sync_secondary
+    .type audio_sync_secondary, @function
+audio_sync_secondary:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x04
     .byte 0x7F, 0xF4
