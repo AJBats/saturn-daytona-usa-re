@@ -18,7 +18,7 @@ FUN_0603EF64 attract_init_setup
 
 # === Scene / Attract / Audio (0x0603F) ===
 FUN_0603F0FC scene_frame_render
-FUN_0603F148 slave_sh2_setup
+FUN_0603F148 secondary_sh2_setup
 FUN_0603F202 sprite_batch_emit
 FUN_0603F22C hud_toggle_ctrl
 FUN_0603F238 credits_scroll_entry
@@ -28,7 +28,7 @@ FUN_0603F3F6 menu_element_render
 FUN_0603F4B0 audio_frame_process
 FUN_0603F4CC audio_state_update
 FUN_0603F4E0 audio_sync_master
-FUN_0603F500 audio_sync_slave
+FUN_0603F500 audio_sync_secondary
 FUN_0603F520 audio_event_trigger
 FUN_0603F534 attract_timer_init
 FUN_0603F582 vblank_dma_chain

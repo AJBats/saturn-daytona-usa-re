@@ -129,7 +129,7 @@
 - C replacement with 50M iteration timeout — boots +4 free-layout build
 - **Title screen reached**: Both +0 and +4 builds render full Daytona title
 - Production comparison: prod → 3D attract mode; reimpl → stalls at title (L1 limitation)
-- "Illegal Instruction! PC=00000002" is non-fatal (slave SH-2, game continues)
+- "Illegal Instruction! PC=00000002" is non-fatal (secondary SH-2, game continues)
 - Stall point: loop at 0x0600C11E — L1 stubs can't advance game state machine
 
 ### 2026-02-18: ICF NOP Bypass & Attract Mode
@@ -151,7 +151,7 @@
 | Boot result | **Full attract loop** |
 | Furthest point | Complete attract cycle: title → 3D demo → high scores → loops |
 | Hardware bypasses | SCDQ (FUN_060423CC.c), ICF poll (FUN_0600C010.s NOP) |
-| Non-fatal issues | "Illegal Instruction! PC=00000002" (slave SH-2) |
+| Non-fatal issues | "Illegal Instruction! PC=00000002" (secondary SH-2) |
 
 ---
 *Last updated: 2026-02-18*

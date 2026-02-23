@@ -107,9 +107,9 @@ built. Always verify before injecting.
 
 ## ICF_FIX=1
 
-Patches `FUN_0600C010.s` to NOP out the `bf -7` slave-CPU wait loop.
-The slave SH-2 crashes (hits panic trap 0x06028296) due to wrong init data
-state. Without ICF_FIX, the master hangs forever waiting for SINIT.
+Patches `FUN_0600C010.s` to NOP out the `bf -7` secondary-CPU wait loop.
+The secondary SH-2 crashes (hits panic trap 0x06028296) due to wrong init data
+state. Without ICF_FIX, the primary hangs forever waiting for SINIT.
 This is a separate bug from SCDQ/CD. **Always required for free build testing.**
 
 ## SCDQ_FIX=1

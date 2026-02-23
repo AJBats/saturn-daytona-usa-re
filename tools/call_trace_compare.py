@@ -205,31 +205,31 @@ def main():
     print(f"  prod mapped: {len(mapped_prod):,}")
     print(f"  free mapped: {len(mapped_free):,}")
 
-    # Check for slave CPU calls
-    prod_master = [(c, t) for cpu, c, t in mapped_prod if cpu == 'M']
-    prod_slave = [(c, t) for cpu, c, t in mapped_prod if cpu == 'S']
-    free_master = [(c, t) for cpu, c, t in mapped_free if cpu == 'M']
-    free_slave = [(c, t) for cpu, c, t in mapped_free if cpu == 'S']
-    print(f"\n  prod: {len(prod_master):,} master calls, {len(prod_slave):,} slave calls")
-    print(f"  free: {len(free_master):,} master calls, {len(free_slave):,} slave calls")
+    # Check for secondary CPU calls
+    prod_primary = [(c, t) for cpu, c, t in mapped_prod if cpu == 'M']
+    prod_secondary = [(c, t) for cpu, c, t in mapped_prod if cpu == 'S']
+    free_primary = [(c, t) for cpu, c, t in mapped_free if cpu == 'M']
+    free_secondary = [(c, t) for cpu, c, t in mapped_free if cpu == 'S']
+    print(f"\n  prod: {len(prod_primary):,} primary calls, {len(prod_secondary):,} secondary calls")
+    print(f"  free: {len(free_primary):,} primary calls, {len(free_secondary):,} secondary calls")
 
-    if prod_slave:
-        print("\n  WARNING: Slave SH-2 is active! Daytona uses dual CPUs.")
+    if prod_secondary:
+        print("\n  WARNING: Secondary SH-2 is active! Daytona uses dual CPUs.")
 
-    # Diff master call sequences
+    # Diff primary call sequences
     print(f"\n{'='*60}")
-    print("MASTER CPU CALL SEQUENCE DIFF")
+    print("PRIMARY CPU CALL SEQUENCE DIFF")
     print(f"{'='*60}")
 
-    min_len = min(len(prod_master), len(free_master))
+    min_len = min(len(prod_primary), len(free_primary))
     first_diff = None
     for i in range(min_len):
-        if prod_master[i] != free_master[i]:
+        if prod_primary[i] != free_primary[i]:
             first_diff = i
             break
 
-    if first_diff is None and len(prod_master) == len(free_master):
-        print("\nPERFECT MATCH! All master CPU calls are identical.")
+    if first_diff is None and len(prod_primary) == len(free_primary):
+        print("\nPERFECT MATCH! All primary CPU calls are identical.")
         print("The function call sequence is the same in both builds.")
         print("The black screen is NOT caused by a wrong function call target.")
         return 0
@@ -237,8 +237,8 @@ def main():
     if first_diff is None:
         first_diff = min_len
         print(f"\nTraces match for {min_len:,} calls, then one trace is longer:")
-        print(f"  prod: {len(prod_master):,} calls")
-        print(f"  free: {len(free_master):,} calls")
+        print(f"  prod: {len(prod_primary):,} calls")
+        print(f"  free: {len(free_primary):,} calls")
         print(f"  Free-layout may have STOPPED CALLING functions (hung/crashed)")
     else:
         print(f"\nFIRST DIVERGENCE at call #{first_diff:,}:")
@@ -246,17 +246,17 @@ def main():
     # Show context
     ctx = args.context
     start = max(0, first_diff - ctx)
-    end = min(max(len(prod_master), len(free_master)), first_diff + ctx)
+    end = min(max(len(prod_primary), len(free_primary)), first_diff + ctx)
 
     print(f"\nContext (calls {start}-{end}):")
     print(f"{'#':>8}  {'PROD caller':>20} -> {'target':<20}  {'FREE caller':>20} -> {'target':<20}  {'Match'}")
     print("-" * 120)
 
     for i in range(start, end):
-        p_caller = prod_master[i][0] if i < len(prod_master) else "---"
-        p_target = prod_master[i][1] if i < len(prod_master) else "---"
-        f_caller = free_master[i][0] if i < len(free_master) else "---"
-        f_target = free_master[i][1] if i < len(free_master) else "---"
+        p_caller = prod_primary[i][0] if i < len(prod_primary) else "---"
+        p_target = prod_primary[i][1] if i < len(prod_primary) else "---"
+        f_caller = free_primary[i][0] if i < len(free_primary) else "---"
+        f_target = free_primary[i][1] if i < len(free_primary) else "---"
 
         match = "OK" if (p_caller == f_caller and p_target == f_target) else "**DIFF**"
         marker = ">>>" if i == first_diff else "   "

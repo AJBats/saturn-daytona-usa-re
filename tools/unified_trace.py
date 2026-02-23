@@ -2,7 +2,7 @@
 """unified_trace.py — Capture unified SH2+CDB trace of Daytona USA builds.
 
 Runs any Daytona USA disc image in our deterministic debug Mednafen,
-capturing both SH-2 call trace (Master + Slave) and CD Block events into
+capturing both SH-2 call trace (Primary + Secondary) and CD Block events into
 one chronologically interleaved log file.
 
 Usage:

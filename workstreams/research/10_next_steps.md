@@ -117,15 +117,15 @@ name the sections or use address-based splitting.
 
 ## ICF Bug: Still Open
 
-The slave SH-2 crash in FUN_0600C170 (hits panic trap 0x06028296) is due to
+The secondary SH-2 crash in FUN_0600C170 (hits panic trap 0x06028296) is due to
 wrong data state when the callback runs. The specific init functions that fail
 to set up the required data have not been identified.
 
 **To investigate**:
-1. Without ICF_FIX, capture the slave PC at panic trap
-2. Dump slave registers at 0x06028296
+1. Without ICF_FIX, capture the secondary PC at panic trap
+2. Dump secondary registers at 0x06028296
 3. Stack trace: which function called which
-4. The call chain: FUN_06034F08 → slave ICF detected → FUN_0600C170 → crash
+4. The call chain: FUN_06034F08 → secondary ICF detected → FUN_0600C170 → crash
 5. FUN_0600C170 calls: FUN_0603C000, FUN_0600B340, FUN_0600AFB2, FUN_0600B914
 6. Which one crashes and why?
 
@@ -160,7 +160,7 @@ type "reimpl\build\.build_config"  # Windows
 |------|---------|
 | `reimpl/patches/FUN_060423CC.c` | SCDQ_FIX: force-ack after 1000 polls |
 | `reimpl/patches/FUN_0603B424.c` | CD_FIX: PAUSE handler (has secondary bug) |
-| `reimpl/patches/FUN_0600C010.s` | ICF_FIX: NOP the bf -7 slave poll |
+| `reimpl/patches/FUN_0600C010.s` | ICF_FIX: NOP the bf -7 secondary poll |
 | `reimpl/sawyer_free.ld` | Free build linker script (+4 shift) |
 | `tools/diag_cdb_commands.py` | CDB command sequence comparison |
 | `tools/diag_scdq_state.py` | SCDQ trace analysis |

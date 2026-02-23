@@ -59,7 +59,7 @@ real hardware too. SCDQ not firing in PAUSE state on real hardware → hang.
 
 ```
 LDSCRIPT=sawyer_free.ld
-ICF_FIX=1     (bypasses slave SH-2 crash)
+ICF_FIX=1     (bypasses secondary SH-2 crash)
 SCDQ_FIX=1    (bypasses SCDQ timing/PAUSE issue)
 CD_FIX=0      (not used — CD_FIX has secondary bug)
 ```
@@ -84,7 +84,7 @@ The game boot sequence (state machine, frame-counted):
 2. Initial disc read (authentication area)
 3. SCROLL.BIN load (background graphics)
 4. TABLE.BIN load (asset manifest)
-5. ICF slave sync (bypassed by ICF_FIX)
+5. ICF secondary sync (bypassed by ICF_FIX)
 6. Texture/model loading
 7. Menu display → attract mode
 

@@ -1,24 +1,24 @@
 # Bugs Found: ICF, SCDQ, CD State Machine
 
-## Bug 1: ICF — Slave SH-2 Crash (INDEPENDENT, SEPARATE)
+## Bug 1: ICF — Secondary SH-2 Crash (INDEPENDENT, SEPARATE)
 
 **Status**: Known, bypass active (ICF_FIX=1), root cause not fully fixed.
 
-**Symptom**: Master SH-2 hangs forever at `FUN_0600C010`'s `bf -7` poll loop
-waiting for the slave SH-2 to write SINIT (0x21800000 = master FRT input
-capture). The slave never writes it.
+**Symptom**: Primary SH-2 hangs forever at `FUN_0600C010`'s `bf -7` poll loop
+waiting for the secondary SH-2 to write SINIT (0x21800000 = primary FRT input
+capture). The secondary never writes it.
 
-**Why**: Slave SH-2 is activated via SSHON command. It enters `FUN_06034F08`
-polling its own FTCSR for ICF. Master writes MINIT (0x01000000) to wake slave.
-Slave detects ICF, calls callback `FUN_0600C170`. This callback's call chain
+**Why**: Secondary SH-2 is activated via SSHON command. It enters `FUN_06034F08`
+polling its own FTCSR for ICF. Primary writes MINIT (0x01000000) to wake secondary.
+Secondary detects ICF, calls callback `FUN_0600C170`. This callback's call chain
 hits incorrect data state and crashes into the `SETT; BT $` panic trap at
-`0x06028296`. Slave never writes SINIT back.
+`0x06028296`. Secondary never writes SINIT back.
 
 **Evidence from Mednafen FTI logging**:
 ```
-FTI: addr=01000000 target_cpu=1 master_PC=0600C0F0 slave_PC=06034F3E  ← master writes MINIT ✓
-FTI: addr=01000000 target_cpu=1 master_PC=0600C0F0 slave_PC=0602829A  ← slave stuck at panic (×178)
-# No addr=01800000 (slave SINIT write) ever appears
+FTI: addr=01000000 target_cpu=1 master_PC=0600C0F0 slave_PC=06034F3E  ← primary writes MINIT ✓
+FTI: addr=01000000 target_cpu=1 master_PC=0600C0F0 slave_PC=0602829A  ← secondary stuck at panic (×178)
+# No addr=01800000 (secondary SINIT write) ever appears
 ```
 
 **Bypass**: `ICF_FIX=1` NOPs the `bf -7` at `FUN_0600C010.s` line ~127.
@@ -170,7 +170,7 @@ case vs the APROG.BIN case. Add `if (ctx[0x12] == SPECIFIC_STATE)` guard.
 
 | Bug | Status | Fix | Notes |
 |-----|--------|-----|-------|
-| ICF slave crash | Active bypass | ICF_FIX=1 | Root cause unknown, separate from CD bugs |
+| ICF secondary crash | Active bypass | ICF_FIX=1 | Root cause unknown, separate from CD bugs |
 | SCDQ timing (Mednafen) | Active bypass | SCDQ_FIX=1 | Workaround; root cause is Bug 3 |
 | SCDQ hang (real hw) | Active bypass | SCDQ_FIX=1 | Bypass closes timing window; Bug 3 is real |
 | CD PAUSE handler | Identified | CD_FIX=1 attempted | Guard condition too broad; needs ctx[0x12] check |

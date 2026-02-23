@@ -255,7 +255,7 @@ Size regression must be flagged immediately.
 - Need to analyze the IP.BIN from the original disc
 - Does it do anything beyond loading APROG.BIN and jumping to 0x06003000?
 - Does it set up any hardware state that APROG.BIN depends on?
-- Does it configure the slave SH-2 (SH-1)?
+- Does it configure the secondary SH-2 (SH-1)?
 
 ### Q6: How to handle the SPECULATIVE ai_opponents.s?
 - The annotations are largely fabricated (mid-function SMPC offsets, not AI)

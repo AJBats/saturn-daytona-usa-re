@@ -127,7 +127,7 @@
 ## Next Steps
 
 1. Investigate attract mode behavior — does demo timer count down and cycle through states?
-2. Fix slave SH-2 "Illegal Instruction" (PC=00000002) — non-fatal but indicates init gap
+2. Fix secondary SH-2 "Illegal Instruction" (PC=00000002) — non-fatal but indicates init gap
 3. Reduce 198 medium/small/tiny functions — improve Ghidra C lifts or replace with ASM
 4. Continue L2 naming/structure pass on highest-priority subsystems
 

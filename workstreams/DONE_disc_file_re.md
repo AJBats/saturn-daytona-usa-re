@@ -30,7 +30,7 @@ The free build boots to menu with corrupt graphics. Since relocation is confirme
 the remaining hypotheses for corrupt graphics are:
 
 1. **Bypass side effects** — SCDQ_FIX skips CD data waits → data may not be fully loaded when used
-2. **ICF bypass race conditions** — slave SH-2 runs unsynchronized → VDP writes may conflict
+2. **ICF bypass race conditions** — secondary SH-2 runs unsynchronized → VDP writes may conflict
 3. **Timing-dependent initialization** — bypasses change the frame timing of when data becomes available
 4. **VDP register setup timing** — scroll plane init at FUN_06012F80 may run before SCROLL.BIN is loaded
 

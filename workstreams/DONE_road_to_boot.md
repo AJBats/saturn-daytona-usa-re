@@ -40,7 +40,7 @@ of systematic issues that affect dozens of functions each, and we fix the system
 | 5 | Memory overlay architecture | APROG overwritten by game data | Init code is single-use; most of binary is workspace |
 | 6 | Fall-through function adjacency | FUN_06040B8E→FUN_06040B90 chain broken | 371 functions (30%) in fall-through chains |
 | 7 | Emulator timing sensitivity | FUN_060423CC SCDQ poll hangs with +4 shift | CDB periodic counter race vs instruction timing |
-| 8 | Dual-CPU sync dependency | FUN_0600C010 FTCSR ICF poll never returns | Slave SH-2 callback crashes (data state); master ICF never set. See icf_investigation.md |
+| 8 | Dual-CPU sync dependency | FUN_0600C010 FTCSR ICF poll never returns | Secondary SH-2 callback crashes (data state); primary ICF never set. See icf_investigation.md |
 | 9 | *(next divergence)* | | |
 
 ## Holy Commandments
@@ -178,9 +178,9 @@ Commands are processed immediately. Ack written after each command.
 
 **Implementation** (in `automation.cpp` + `ss.cpp` hooks):
 
-- `dump_regs` / `dump_regs_bin` — SH-2 master CPU registers (R0-R15, PC, SR, PR, GBR, VBR, MACH)
+- `dump_regs` / `dump_regs_bin` — SH-2 primary CPU registers (R0-R15, PC, SR, PR, GBR, VBR, MACH)
 - `dump_mem` / `dump_mem_bin` — arbitrary memory reads up to 1MB
-- `pc_trace_frame` — records every master CPU PC for one frame to binary file
+- `pc_trace_frame` — records every primary CPU PC for one frame to binary file
 - All debug data available in both text (ack file) and binary (file path) formats
 
 ### T4: Instruction Stepping & Breakpoints — IMPLEMENTED
@@ -452,7 +452,7 @@ instructions of main:
 happened inside FUN_060030FC (or one of its callees). PC ends up at 0x06000956
 which is the BIOS exception/reset handler.
 
-**Next target**: FUN_060030FC is the game's master initialization function. It
+**Next target**: FUN_060030FC is the game's primary initialization function. It
 calls subsystem init routines (VDP, sound, input, etc.). One of our L1 C
 reimplementations of these callees is causing a CPU exception — likely an illegal
 memory access, divide by zero, or invalid instruction.
@@ -471,7 +471,7 @@ only ever fetched through the cache. Mednafen's own `DBG_MemPeek` (in debug.inc)
 is stubbed out — it returns 0xAA for everything. So even the built-in debugger
 can't read memory truthfully.
 
-**Fix**: `Automation_ReadMem8` now checks the master SH-2 cache first:
+**Fix**: `Automation_ReadMem8` now checks the primary SH-2 cache first:
 1. If address is in cacheable region (bits [28:26] == 0) and cache is enabled (CCR_CE)
 2. Compute cache set index and tag, scan all 4 ways for a tag match
 3. On cache hit: return the byte from cached data
@@ -815,14 +815,14 @@ Added per-instruction call logging to all three SH-2 subroutine instructions:
 - **BSRF** (PC-relative via register)
 - **JSR** (absolute via register)
 
-Each logs: `M|S <caller_PC-4> <target_addr>\n` where M=master, S=slave SH-2.
+Each logs: `M|S <caller_PC-4> <target_addr>\n` where M=primary, S=secondary SH-2.
 Guard: `MDFN_UNLIKELY(CallTraceFile != nullptr)` — zero overhead when tracing is off.
 
 Commands:
 - `call_trace <wsl_path>` — open trace file, start logging all calls from both CPUs
 - `call_trace_stop` — close trace file
 
-**Key result**: Confirmed Daytona USA boot is **single-threaded** (zero slave SH-2
+**Key result**: Confirmed Daytona USA boot is **single-threaded** (zero secondary SH-2
 calls across 300 frames / ~600K function calls). Dual CPU analysis is unnecessary.
 
 ### Discovery: Daytona USA Memory Architecture (2026-02-17)
@@ -943,7 +943,7 @@ functions return immediately without executing the game logic needed to transiti
 the state machine. This is expected for an L1 reimplementation.
 
 **Non-fatal "Illegal Instruction"**: PC=0x00000002 is in the BIOS ROM vector area.
-This is likely the slave SH-2 being activated with an uninitialized entry point,
+This is likely the secondary SH-2 being activated with an uninitialized entry point,
 or a momentary exception that the game's error handler recovers from. Extended
 frame monitoring (2500+ frames) shows both prod and reimpl run stably with PC
 staying in the game code and system areas — no sustained crash.
@@ -958,14 +958,14 @@ state 3 (title_demo) through state progression, and VDP1/VDP2 render the 3D scen
 
 The vblank sync function FUN_0600BFFC/FUN_0600C010 polls FTCSR bit 7 (ICF = Input
 Capture Flag) at SH-2 register 0xFFFFFE11. ICF is set by the **dual-CPU ping-pong
-synchronization mechanism**: the master writes MINIT (0x01000000) to trigger the
-slave's ICF, the slave calls a callback (FUN_0600C170) and writes SINIT (0x01800000)
-to trigger the master's ICF. In the reimpl, the slave's callback crashes into a
+synchronization mechanism**: the primary writes MINIT (0x01000000) to trigger the
+secondary's ICF, the secondary calls a callback (FUN_0600C170) and writes SINIT (0x01800000)
+to trigger the primary's ICF. In the reimpl, the secondary's callback crashes into a
 panic trap at 0x06028296 (SETT; BT $) due to incorrect data state (specific init
-functions not yet identified) — so SINIT is never written and the master's ICF is never set.
+functions not yet identified) — so SINIT is never written and the primary's ICF is never set.
 
-**Diagnosis**: Mednafen instrumentation confirmed 178 one-way MINIT triggers (master→slave)
-with zero SINIT responses (slave→master) in the reimpl, vs alternating MINIT/SINIT in
+**Diagnosis**: Mednafen instrumentation confirmed 178 one-way MINIT triggers (primary→secondary)
+with zero SINIT responses (secondary→primary) in the reimpl, vs alternating MINIT/SINIT in
 production. Full investigation in `workstreams/icf_investigation.md`.
 
 **Fix**: NOP'd the backward branch in FUN_0600C010.s polling loop — 2 bytes changed:
@@ -1072,5 +1072,5 @@ handles data restoration.
 *Updated: 2026-02-17 — BREAKTHROUGH: Free-layout +4 build boots with SCDQ bypass (Class 7: emulator timing sensitivity)*
 *Updated: 2026-02-17 — Title screen milestone: both +0 and +4 render title, stall before attract mode (L1 limitation)*
 *Updated: 2026-02-18 — ATTRACT MODE: ICF NOP bypass (Class 8: dual-CPU sync dependency). 3D demo playback with highway, mountains, cars*
-*Updated: 2026-02-18 — Class 8 corrected: root cause is slave SH-2 callback crash, not FRT init stubs. See icf_investigation.md*
+*Updated: 2026-02-18 — Class 8 corrected: root cause is secondary SH-2 callback crash, not FRT init stubs. See icf_investigation.md*
 *Updated: 2026-02-18 — MENU NAVIGATION: 12/12 state transitions match production. SCDQ patch fixed (force acknowledge). Data variable shift -0x10 discovered.*

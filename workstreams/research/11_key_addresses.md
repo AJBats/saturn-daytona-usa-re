@@ -9,10 +9,10 @@ Example: `FUN_060423CC` (production) → `0x060423D0` (free build).
 
 | Name | Prod Address | Free +4 | Role |
 |------|-------------|---------|------|
-| FUN_060030FC | 0x060030FC | 0x06003100 | Master init (called from startup) |
-| FUN_0600C010 | 0x0600C010 | 0x0600C014 | ICF synchronization (master wait for slave) |
-| FUN_0600C170 | 0x0600C170 | 0x0600C174 | Slave SH-2 per-frame callback (CRASHES) |
-| FUN_06034F08 | 0x06034F08 | 0x06034F0C | Slave SH-2 ICF poll loop |
+| FUN_060030FC | 0x060030FC | 0x06003100 | Primary init (called from startup) |
+| FUN_0600C010 | 0x0600C010 | 0x0600C014 | ICF synchronization (primary wait for secondary) |
+| FUN_0600C170 | 0x0600C170 | 0x0600C174 | Secondary SH-2 per-frame callback (CRASHES) |
+| FUN_06034F08 | 0x06034F08 | 0x06034F0C | Secondary SH-2 ICF poll loop |
 | FUN_0603B21C | 0x0603B21C | 0x0603B220 | CD retry wrapper loop |
 | FUN_0603B424 | 0x0603B424 | 0x0603B428 | CD command state machine ← KEY |
 | FUN_060423CC | 0x060423CC | 0x060423D0 | SCDQ poll loop ← KEY |
@@ -42,8 +42,8 @@ Example: `FUN_060423CC` (production) → `0x060423D0` (free build).
 | Address | Content | Notes |
 |---------|---------|-------|
 | 0x060A5400 | Pointer to game state struct | FIXED (PROVIDE in linker script) |
-| 0x06063574 | Slave SH-2 callback pointer | Set by master init → FUN_0600C170 |
-| 0x06083255 | Master sound enable byte | |
+| 0x06063574 | Secondary SH-2 callback pointer | Set by primary init → FUN_0600C170 |
+| 0x06083255 | Primary sound enable byte | |
 | 0x06078635 | Controls FUN_0600C010 branch | |
 | 0x0607EBC4 | Button/input state word | |
 | 0x0607E944 | Car struct pointer | |
@@ -88,13 +88,13 @@ the disc is at the start of SCROLL.BIN. This is the root of the timing race.
 ## ICF Sync Addresses (SH-2 FRT input capture)
 
 ```
-0x01000000  Write → sets slave SH-2 ICF flag (MINIT)
-0x01800000  Write → sets master SH-2 ICF flag (SINIT)
+0x01000000  Write → sets secondary SH-2 ICF flag (MINIT)
+0x01800000  Write → sets primary SH-2 ICF flag (SINIT)
 ```
 
 In Mednafen `ss.cpp`:
 ```c
-const unsigned c = ((A >> 23) & 1) ^ 1;  // 01000000→slave, 01800000→master
+const unsigned c = ((A >> 23) & 1) ^ 1;  // 01000000→secondary, 01800000→primary
 CPU[c].SetFTI(true);
 CPU[c].SetFTI(false);
 ```
@@ -104,12 +104,12 @@ CPU[c].SetFTI(false);
 ### ICF sync (FUN_0600C010):
 
 ```
-Master writes MINIT (0x01000000) at: PC=0x0600C0F0 (prod) / 0x0600C0F4 (free)
-Master polls FTCSR bit7 at: 0x0600C11C-0x0600C124 (prod) / +0x0C128 (free)
+Primary writes MINIT (0x01000000) at: PC=0x0600C0F0 (prod) / 0x0600C0F4 (free)
+Primary polls FTCSR bit7 at: 0x0600C11C-0x0600C124 (prod) / +0x0C128 (free)
 ICF_FIX NOPs: the bf -7 at line 127 of FUN_0600C010.s
-Slave polls FTCSR at: 0x06034F3A (prod) / 0x06034F3E (free)
-Slave callback: 0x06063574 points to FUN_0600C170 (prod) / FUN_0600C174 (free)
-Slave panic trap: 0x06028296 / 0x0602829A (free) = SETT; BT $ halt pattern
+Secondary polls FTCSR at: 0x06034F3A (prod) / 0x06034F3E (free)
+Secondary callback: 0x06063574 points to FUN_0600C170 (prod) / FUN_0600C174 (free)
+Secondary panic trap: 0x06028296 / 0x0602829A (free) = SETT; BT $ halt pattern
 ```
 
 ### SCDQ poll positions (in free build):

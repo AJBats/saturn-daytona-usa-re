@@ -417,13 +417,13 @@ FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smooth
 ! SUPPORTING FUNCTIONS
 ! =============================================================================
 
-! FUN_0600BFFC - Master Scene Rendering Orchestrator
+! FUN_0600BFFC - Primary Scene Rendering Orchestrator
 ! ---------------------------------------------------
 ! ~370 bytes (prologue FUN_0600BFFC 20B + body FUN_0600C010 ~350B).
 !
 ! CORRECTION: Not "HUD/Racing State Initialization" — this is the
-!   MASTER SCENE RENDERING ORCHESTRATOR. It coordinates:
-!   1. Slave SH-2 dispatch (writes callback to sym_06063574!)
+!   PRIMARY SCENE RENDERING ORCHESTRATOR. It coordinates:
+!   1. Secondary SH-2 dispatch (writes callback to sym_06063574!)
 !   2. Conditional rendering based on game state bitmask
 !   3. VDP hardware writes (0x21000000)
 !   4. CS0 object rendering (FUN_0600B6A0)
@@ -431,8 +431,8 @@ FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smooth
 !   6. Hardware status polling
 !
 ! CRITICAL CONNECTION: At 0x0600C0E6, this function stores
-!   FUN_0600C170's address into sym_06063574 — the SLAVE CALLBACK
-!   POINTER that the slave SH-2 reads via FUN_06034F08.
+!   FUN_0600C170's address into sym_06063574 — the SECONDARY CALLBACK
+!   POINTER that the secondary SH-2 reads via FUN_06034F08.
 !   This is the same pointer involved in the ICF_FIX root cause:
 !   the missed cache-through relocation at 0x26063574.
 !
@@ -446,7 +446,7 @@ FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smooth
 !   r13 → sym_0605A1DD (config/LOD byte)
 !   r14 = 0x80 (bit 7 mask for hardware polling)
 !
-!   1. If *sym_06083255 != 0: call FUN_06034708(*sym_0607EB8C) — slave init
+!   1. If *sym_06083255 != 0: call FUN_06034708(*sym_0607EB8C) — secondary init
 !   2. State-dependent rendering dispatch:
 !      - If bitmask & 0x02000000 (state 25): skip to step 3
 !      - Else if *sym_06078635 != 0: call sym_0600D336 (render path A)
@@ -458,7 +458,7 @@ FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smooth
 !   6. Set object iteration count at sym_06078664:
 !      - If *sym_06059F30 == 0: count = *sym_0607EA98 >> 1
 !      - Else: count = byte from sym_0605A1DD
-!   7. Store FUN_0600C170 → *sym_06063574 (SET SLAVE CALLBACK!)
+!   7. Store FUN_0600C170 → *sym_06063574 (SET SECONDARY CALLBACK!)
 !   8. Write 0xFFFF → 0x21000000 (VDP hardware register write)
 !   9. If bitmask & 0x02800008 == 0: call FUN_060058FA (per-frame update)
 !  10. Call FUN_06006868
@@ -469,7 +469,7 @@ FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smooth
 !  15. Call sym_0603C000
 !  16. Deallocate 48 bytes from render budget (*sym_0608A52C -= 48)
 !
-! FUN_0600C170 (SLAVE CALLBACK, called by slave SH-2):
+! FUN_0600C170 (SECONDARY CALLBACK, called by secondary SH-2):
 !   - Call sym_0603C000
 !   - If *sym_06083255 != 0: call FUN_0600B340 (primary scene coordinator)
 !     Else: call FUN_0600AFB2 (secondary scene helper)
@@ -477,14 +477,14 @@ FUN_0600BF70:                             ! 0x0600BF70 — Camera Heading Smooth
 !   - Check sym_06063E1C + sym_06063E20 == 8:
 !     If yes: call FUN_06006A9C, else: call FUN_06006CDC
 !   - Copy sym_06059F40 → sym_06059F4C
-!   - Write 0xFFFF → 0x21800000 (VDP register — signals slave render complete)
+!   - Write 0xFFFF → 0x21800000 (VDP register — signals secondary render complete)
 !
 ! BYTES: VERIFIED against production binary (FUN_0600BFFC 20B + FUN_0600C010 ~350B)
 
 ! CONFIDENCE: MEDIUM — Label not verified. HUD init role inferred.
     .global FUN_0600BFFC
 ! CONFIDENCE: MEDIUM — Label not verified. HUD init role inferred.
-FUN_0600BFFC:                             ! 0x0600BFFC — Master Scene Rendering Orchestrator
+FUN_0600BFFC:                             ! 0x0600BFFC — Primary Scene Rendering Orchestrator
     mov.l   r14,@-r15                    ! push r14
     mov.l   r13,@-r15                    ! push r13
     mov.l   r12,@-r15                    ! push r12
@@ -503,16 +503,16 @@ FUN_0600C010:                             ! 0x0600C010 — Scene rendering body
     mov.w   @(POOL),r10                  ! r10 = 0xFE11 (HW status mask)
     mov.l   @(POOL),r12                  ! r12 → sym_0608A52C (render budget B)
     mov.l   @(POOL),r13                  ! r13 → sym_0605A1DD (LOD config byte)
-    mov.l   @(POOL),r0                   ! r0 → sym_06083255 (slave processing flag)
+    mov.l   @(POOL),r0                   ! r0 → sym_06083255 (secondary processing flag)
     mov.b   @r0,r0                       ! r0 = *sym_06083255
     tst     r0,r0                        ! flag == 0?
-    bt/s    .skip_slave_init             ! if zero, skip slave init
+    bt/s    .skip_secondary_init         ! if zero, skip secondary init
     mov     #0,r9                        ! (delay) r9 = 0 (LOD adjustment flag)
     mov.l   @(POOL),r4                   ! r4 → sym_0607EB8C
     mov.l   @(POOL),r3                   ! r3 = FUN_06034708
-    jsr     @r3                          ! call FUN_06034708(*sym_0607EB8C) — slave processing
+    jsr     @r3                          ! call FUN_06034708(*sym_0607EB8C) — secondary processing
     mov.l   @r4,r4                       ! (delay) r4 = *sym_0607EB8C
-.skip_slave_init:                         ! 0x0600C02C
+.skip_secondary_init:                     ! 0x0600C02C
     mov.l   @r8,r2                       ! r2 = state bitmask
     mov.l   @(POOL),r3                   ! r3 = 0x02000000 (state 25 bit)
     and     r3,r2                        ! test state 25
@@ -569,17 +569,17 @@ FUN_0600C010:                             ! 0x0600C010 — Scene rendering body
     shar    r3                           ! r3 >>= 1 (half the objects)
     exts.w  r3,r3                        ! sign-extend
     mov.w   r3,@r4                       ! *sym_06078664 = total/2
-    bra     .set_slave_callback
+    bra     .set_secondary_callback
     nop
     ! ...constant pool interrupts code here (0x0600C090-0x0600C0DA)...
 .use_config_count:                        ! 0x0600C0DC
     mov.b   @r13,r2                      ! r2 = *sym_0605A1DD (LOD config byte)
     extu.b  r2,r2                        ! zero-extend
     mov.w   r2,@r4                       ! *sym_06078664 = config byte
-.set_slave_callback:                      ! 0x0600C0E2
-    ! --- CRITICAL: Write slave callback pointer ---
-    mov.l   @(POOL),r3                   ! r3 = FUN_0600C170 (slave rendering function)
-    mov.l   @(POOL),r2                   ! r2 → sym_06063574 (SLAVE CALLBACK POINTER)
+.set_secondary_callback:                  ! 0x0600C0E2
+    ! --- CRITICAL: Write secondary callback pointer ---
+    mov.l   @(POOL),r3                   ! r3 = FUN_0600C170 (secondary rendering function)
+    mov.l   @(POOL),r2                   ! r2 → sym_06063574 (SECONDARY CALLBACK POINTER)
     mov.l   r3,@r2                       ! *sym_06063574 = FUN_0600C170
     ! --- VDP hardware write ---
     mov.l   @(POOL),r3                   ! r3 = 0xFFFF
@@ -901,7 +901,7 @@ FUN_0600DD88:   ! 0x0600DD88
 ! | 0x0600B914 | main_object_loop   | 530  | Main scene object loop         |
 ! | 0x0600BB94 | camera_system      | 754  | Multi-mode camera controller   |
 ! | 0x0600BF70 | camera_heading     | 114  | Heading tracker (exponential smoothing)|
-! | 0x0600BFFC | scene_render_orch  | ~370 | Master scene rendering orchestrator   |
+! | 0x0600BFFC | scene_render_orch  | ~370 | Primary scene rendering orchestrator  |
 ! | 0x0600C218 | hud_frame_setup    | 110  | Secondary HUD frame setup      |
 ! | 0x0600C302 | wheel_anim_timer   | 166  | Wheel animation timer (speed-based)   |
 ! | 0x0600C3A8 | input_decode       | 266  | Controller input decoder       |

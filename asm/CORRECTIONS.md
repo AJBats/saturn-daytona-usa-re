@@ -40,8 +40,8 @@ Each correction was found by decoding the binary and comparing to existing descr
 - **FUN_0600BF70 "Call FUN_06027344 (cos_lookup)" and "Call FUN_06027552 (fpmul)"** → NO FUNCTION CALLS
   - This is a LEAF function using only mul.l and arithmetic shifts
   - Actual math: (heading * 900) >> 10, exponential smoothing with weights 800/224 (not 0.9/0.1)
-- **FUN_0600BFFC "HUD/Racing State Initialization"** → MASTER SCENE RENDERING ORCHESTRATOR
-  - Writes FUN_0600C170 to sym_06063574 (the SLAVE CALLBACK POINTER from ICF_FIX)
+- **FUN_0600BFFC "HUD/Racing State Initialization"** → PRIMARY SCENE RENDERING ORCHESTRATOR
+  - Writes FUN_0600C170 to sym_06063574 (the SECONDARY CALLBACK POINTER from ICF_FIX)
   - Writes 0xFFFF to 0x21000000 (VDP hardware register)
   - Calls FUN_0600B6A0 (CS0 object rendering)
   - Manages LOD config byte and render budget

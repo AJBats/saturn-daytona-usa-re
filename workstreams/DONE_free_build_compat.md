@@ -85,7 +85,7 @@ zero bytes at end) to match the free build size.
 
 ## Call-Level Trace Analysis (2026-02-20)
 
-Compared 5.34M retail vs 5.83M free master SH-2 call events across 1000 frames.
+Compared 5.34M retail vs 5.83M free primary SH-2 call events across 1000 frames.
 
 ### Phase 1: Identical (calls 0 – 918,440)
 
@@ -134,28 +134,28 @@ All bypasses eliminated or made permanent. ICF_FIX, SATURN MODE bug, and CD_FIX 
 
 | Issue | What Was Done | Root Cause | Status |
 |-------|-------------|------------|--------|
-| ~~`ICF_FIX=1`~~ | ~~NOPs master's FTCSR poll BF~~ | Missed cache-through relocation in FUN_06034F08 | **FIXED** (2026-02-20), patch deleted |
+| ~~`ICF_FIX=1`~~ | ~~NOPs primary's FTCSR poll BF~~ | Missed cache-through relocation in FUN_06034F08 | **FIXED** (2026-02-20), patch deleted |
 | (no bypass) | SATURN MODE missing from mode select | False-positive pointer at sym_06049AEC | **FIXED** (2026-02-20) |
 | FUN_060423CC | SCDQ poll timeout (1000 iterations) | FUN_0603B424 PAUSE handler bug — SCDQ never fires in PAUSE | **PERMANENT** C reimpl in `src/` |
 | ~~`CD_FIX=1`~~ | ~~Widens PAUSE→Calculate in FUN_0603B424~~ | Redundant with SCDQ timeout (same timing issue) | **RETIRED** (2026-02-21), patch deleted |
 
 ### ICF_FIX Root Cause Fix
 
-The slave's main loop (FUN_06034F08) reads the callback pointer from sym_06063574
+The secondary's main loop (FUN_06034F08) reads the callback pointer from sym_06063574
 using a **hardcoded cache-through address** `0x26063574` in its constant pool. This was
 encoded as raw `.byte` directives and was NOT processed by the relocation scanner (which
 only detected `0x06xxxxxx`-range pointers).
 
 In the free build (+4 shift), sym_06063574 relocates to `0x06063578`, but the hardcoded
-`0x26063574` stays stale. The slave reads from the wrong address, gets garbage, jumps to
+`0x26063574` stays stale. The secondary reads from the wrong address, gets garbage, jumps to
 data at `0x06000250`, hits SLOT_ILLEGAL in the BIOS table area, and enters the exception
-handler's panic loop — never writing SINIT. The master waits forever.
+handler's panic loop — never writing SINIT. The primary waits forever.
 
 **Fix**: Replace `.byte 0x26, 0x06 / .byte 0x35, 0x74` with `.4byte sym_06063574 + 0x20000000`.
 This is byte-identical in retail (`0x06063574 + 0x20000000 = 0x26063574`) and correctly
 relocates in free build (`0x06063578 + 0x20000000 = 0x26063578`).
 
-**Result**: Clean title screen with no ICF_FIX. Slave completes per-frame geometry work
+**Result**: Clean title screen with no ICF_FIX. Secondary completes per-frame geometry work
 and writes SINIT correctly.
 
 ---
@@ -168,19 +168,19 @@ ICF (FTCSR bit 7) in Daytona USA is **not driven by VDP VBLANK**. It is a
 **cross-CPU synchronization flag** using the MINIT/SINIT hardware:
 
 ```
-Master (FUN_0600BFFC):                 Slave (FUN_06034F08):
+Primary (FUN_0600BFFC):                Secondary (FUN_06034F08):
   Store FUN_0600C170 → sym_06063574      Polling own FTCSR ICF...
-  Write 0xFFFF to 0x21000000 (MINIT) ──→ Slave ICF fires!
+  Write 0xFFFF to 0x21000000 (MINIT) ──→ Secondary ICF fires!
   Poll own FTCSR ICF...                  Call FUN_0600C170 (callback)
-                                         ... per-frame slave work ...
+                                         ... per-frame secondary work ...
                                          Write 0xFFFF to 0x21800000 (SINIT)
-  Master ICF fires! ←──────────────────
+  Primary ICF fires! ←──────────────────
   Continue to next frame
 ```
 
 **Mednafen implementation** (ss.cpp:322-341): Writes to 0x01000000-0x01FFFFFF
 trigger `CPU[c].SetFTI(true)` then `SetFTI(false)`. The CPU index is determined
-by address bit 23: MINIT (bit 23=0) → slave, SINIT (bit 23=1) → master.
+by address bit 23: MINIT (bit 23=0) → secondary, SINIT (bit 23=1) → primary.
 SetFTI edge-triggers ICF based on TCR bit 7 (edge direction).
 
 ### Evidence
@@ -188,35 +188,35 @@ SetFTI edge-triggers ICF based on TCR bit 7 (edge direction).
 1. **FUN_0600BFFC** (WIP decompile, line 93): `*(volatile short *)0x21000000 = 0xFFFF`
    This is the MINIT write. Cache-through 0x21000000 = physical 0x01000000.
 
-2. **FUN_06034F08** (slave main loop): Polls FTCSR ICF (offset 0x2C-0x38),
+2. **FUN_06034F08** (secondary main loop): Polls FTCSR ICF (offset 0x2C-0x38),
    reads callback pointer from sym_06063574 via cache-through (0x26063574),
    calls callback, clears pointer, loops.
 
-3. **FUN_0600C170** (slave callback): Returns with `MOV.W R2, @R3` in delay slot
-   where R2=0xFFFF, R3=0x21800000 (SINIT). This is the write that sets master ICF.
+3. **FUN_0600C170** (secondary callback): Returns with `MOV.W R2, @R3` in delay slot
+   where R2=0xFFFF, R3=0x21800000 (SINIT). This is the write that sets primary ICF.
 
 ### Why ICF Hangs in Free Build
 
-The master's ICF poll hangs because the **slave SH-2 never writes SINIT**.
-FUN_0600C170 (the slave callback) calls several functions during its execution.
-If any of them hangs on the slave (due to timing differences from the +4 shift),
-SINIT is never written and the master waits forever.
+The primary's ICF poll hangs because the **secondary SH-2 never writes SINIT**.
+FUN_0600C170 (the secondary callback) calls several functions during its execution.
+If any of them hangs on the secondary (due to timing differences from the +4 shift),
+SINIT is never written and the primary waits forever.
 
-The slave executes the SAME shifted binary from HWRAM but with its own
-independent cache. Different cache warm-up on the slave could cause different
-timing behaviors than the master.
+The secondary executes the SAME shifted binary from HWRAM but with its own
+independent cache. Different cache warm-up on the secondary could cause different
+timing behaviors than the primary.
 
 ### Why ICF_FIX Causes Corrupt Graphics
 
-ICF_FIX NOPs the `BF` in the master's ICF poll (FUN_0600C010:127), making it
-fall through immediately instead of waiting. This means the master proceeds
-to the next frame **before the slave finishes its per-frame work**. Since the
-slave handles geometry calculations and other frame prep, the master rendering
+ICF_FIX NOPs the `BF` in the primary's ICF poll (FUN_0600C010:127), making it
+fall through immediately instead of waiting. This means the primary proceeds
+to the next frame **before the secondary finishes its per-frame work**. Since the
+secondary handles geometry calculations and other frame prep, the primary rendering
 with incomplete data produces visual corruption.
 
 ### Resolution (2026-02-20)
 
-Root cause was NOT a timing race or slave hang — it was a **missed relocation**.
+Root cause was NOT a timing race or secondary hang — it was a **missed relocation**.
 The constant pool in FUN_06034F08 contained a hardcoded cache-through address
 `0x26063574` (raw `.byte` directives) that was not caught by the relocation scanner.
 Fixed by replacing with `.4byte sym_06063574 + 0x20000000`.
@@ -265,12 +265,12 @@ Full analysis: `workstreams/research/03_bugs_found.md`,
 - 2026-02-20: SCDQ hang fully traced: FUN_060423CC polls HIRQREQ bit 10 (0x25890008), CD block in PAUSE state
 - 2026-02-20: SCDQ_FIX argument width mismatch (0xFFFFFBFF vs 0x0000FBFF) — verified HARMLESS (MOV.W truncates)
 - 2026-02-20: **ICF BREAKTHROUGH**: ICF is NOT VDP VBLANK — it's cross-CPU sync via MINIT/SINIT
-- 2026-02-20: Decoded slave main loop (FUN_06034F08) and callback (FUN_0600C170)
-- 2026-02-20: ICF hang = slave never writes SINIT; ICF_FIX = skip wait → corrupt graphics
+- 2026-02-20: Decoded secondary main loop (FUN_06034F08) and callback (FUN_0600C170)
+- 2026-02-20: ICF hang = secondary never writes SINIT; ICF_FIX = skip wait → corrupt graphics
 - 2026-02-20: **ICF ROOT CAUSE FOUND**: Missed cache-through relocation at FUN_06034F08 pool[0x6C]
 - 2026-02-20: **ICF FIX**: `.4byte sym_06063574 + 0x20000000` — byte-identical retail, correct free
 - 2026-02-20: **ICF_FIX ELIMINATED**: Free build boots to clean title screen with SCDQ_FIX=1 + CD_FIX=1 only
-- 2026-02-20: ICF hang = slave never writes SINIT; ICF_FIX = skip wait → corrupt graphics
+- 2026-02-20: ICF hang = secondary never writes SINIT; ICF_FIX = skip wait → corrupt graphics
 - 2026-02-20: Mednafen FTI trigger: ss.cpp:322-341, SetFTI edge-detection in sh7095.inc:1046-1076
 - 2026-02-20: **SATURN MODE FIX**: .4byte loc_0606060A at sym_06049AEC was byte data, not a pointer
 - 2026-02-20: Root cause: bytes `06 06 06 0A` = VDP2 tile coords, read by MOV.B; relocation changed 0A→FE

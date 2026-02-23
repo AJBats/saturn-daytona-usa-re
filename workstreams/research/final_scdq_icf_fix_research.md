@@ -173,7 +173,7 @@ per-value traces capturing the HIRQREQ/subcode register reads at each jitter poi
 
 ---
 
-## 5. ICF_FIX: Slave Init and Corrupt Graphics
+## 5. ICF_FIX: Secondary Init and Corrupt Graphics
 
 **Concern**: ICF_FIX NOPs out a loop in FUN_0600C010. What does this loop actually do?
 Could skipping it explain the corrupt graphics in the free build?
@@ -214,8 +214,8 @@ Two hypotheses:
    registers) before ICF can fire. If earlier init code (which ran correctly in retail) fails
    due to +4 timing drift, the FRT may not be capturing edges at all.
 
-2. **Init ordering**: If the slave SH-2 (via FUN_0600C170) is supposed to participate in FRT
-   setup, and slave init is delayed by timing drift, the master reaches the ICF poll before
+2. **Init ordering**: If the secondary SH-2 (via FUN_0600C170) is supposed to participate in FRT
+   setup, and secondary init is delayed by timing drift, the primary reaches the ICF poll before
    the FRT is ready.
 
 The `.c.wip` decompilation notes: "In the reimpl, FRT init stubs don't configure the timer,
@@ -390,8 +390,8 @@ bug that should be fixed. ✓
 
 ### Key findings:
 
-1. **ICF_FIX is the smoking gun for corrupt graphics.** It skips the master's SINIT wait,
-   allowing the master to proceed before the slave finishes per-frame work. The master then
+1. **ICF_FIX is the smoking gun for corrupt graphics.** It skips the primary's SINIT wait,
+   allowing the primary to proceed before the secondary finishes per-frame work. The primary then
    renders with incomplete data → visual corruption.
 
 2. **SCDQ_FIX argument width bug is HARMLESS.** Further analysis confirmed FUN_06035C54 only
@@ -401,7 +401,7 @@ bug that should be fixed. ✓
    literal pools are safe, the loader is simple, Q data doesn't change, and the cumulative
    timing drift is consistent with the observed hang point.
 
-4. **Next priority: find and fix the slave SH-2 hang** in FUN_0600C170. This would eliminate
+4. **Next priority: find and fix the secondary SH-2 hang** in FUN_0600C170. This would eliminate
    ICF_FIX and likely fix corrupt graphics entirely.
 
 ---
@@ -414,42 +414,42 @@ using the Saturn's MINIT/SINIT hardware.
 ### How it actually works
 
 ```
-Master (FUN_0600BFFC):                 Slave (FUN_06034F08):
+Primary (FUN_0600BFFC):                 Secondary (FUN_06034F08):
   Store FUN_0600C170 → sym_06063574      Polling own FTCSR ICF...
-  Write 0xFFFF to 0x21000000 (MINIT) ──→ Slave ICF fires!
+  Write 0xFFFF to 0x21000000 (MINIT) ──→ Secondary ICF fires!
   Poll own FTCSR ICF...                  Call FUN_0600C170 (callback)
-                                         ... per-frame slave work ...
+                                         ... per-frame secondary work ...
                                          Write 0xFFFF to 0x21800000 (SINIT)
-  Master ICF fires! ←──────────────────
+  Primary ICF fires! ←──────────────────
   Continue to next frame
 ```
 
 ### Mednafen implementation (ss.cpp:322-341)
 
 Writes to 0x01000000-0x01FFFFFF trigger `CPU[c].SetFTI(true/false)` pulse.
-CPU index determined by address bit 23: MINIT (bit 23=0) → slave, SINIT (bit 23=1) → master.
+CPU index determined by address bit 23: MINIT (bit 23=0) → secondary, SINIT (bit 23=1) → primary.
 SetFTI is edge-triggered based on TCR bit 7 (edge direction select).
 
 ### Why ICF hangs in the free build
 
-The master's ICF poll hangs because the **slave SH-2 never writes SINIT**.
-FUN_0600C170 (the slave callback) calls several functions. If any hang
-on the slave due to timing differences from the +4 shift, SINIT is never
-written and the master waits forever.
+The primary's ICF poll hangs because the **secondary SH-2 never writes SINIT**.
+FUN_0600C170 (the secondary callback) calls several functions. If any hang
+on the secondary due to timing differences from the +4 shift, SINIT is never
+written and the primary waits forever.
 
 ### Why ICF_FIX causes corrupt graphics
 
-ICF_FIX NOPs the BF in the master's ICF poll, making it proceed immediately
-without waiting for the slave to finish its per-frame work (geometry, rendering
-prep). The master then renders with incomplete/stale data from the slave,
+ICF_FIX NOPs the BF in the primary's ICF poll, making it proceed immediately
+without waiting for the secondary to finish its per-frame work (geometry, rendering
+prep). The primary then renders with incomplete/stale data from the secondary,
 producing visual corruption.
 
 ### Corrected earlier analysis
 
 The "FRT initialization" theory from item 5 was **wrong about the mechanism**
 but **right about the symptom**. ICF truly doesn't fire in the free build,
-but the reason is the slave callback hang, not broken FRT configuration.
-FRT initialization is fine — the slave's FTCSR poll correctly detects MINIT.
+but the reason is the secondary callback hang, not broken FRT configuration.
+FRT initialization is fine — the secondary's FTCSR poll correctly detects MINIT.
 The hang is downstream in the callback function chain.
 
 ### SCDQ_FIX argument "bug" is harmless
