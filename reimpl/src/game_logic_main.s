@@ -16,12 +16,12 @@ game_logic_main:
     sts.l macl, @-r15
     mov #0x10, r11
     add #-0x8, r15
-    mov.l   .L_pool_0603A1A8, r13
-    mov.l   .L_pool_0603A1AC, r7
-    mov.l   .L_pool_0603A1B0, r6
-    mov.l   .L_pool_0603A1B4, r5
-    mov.l   .L_pool_0603A1B8, r4
-    mov.l   .L_pool_0603A1BC, r0
+    mov.l   .L_sym_060A4CAE, r13
+    mov.l   .L_sym_060A4CB4, r7
+    mov.l   .L_sym_060A4CC0, r6
+    mov.l   .L_sym_060A4CCC, r5
+    mov.l   .L_sym_060A4CD0, r4
+    mov.l   .L_sym_060A4CFC, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x20, r0
@@ -142,17 +142,17 @@ DAT_0603a1a2:
 .L_wpool_0603A1A4:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_pool_0603A1A8:
+.L_sym_060A4CAE:
     .4byte  sym_060A4CAE
-.L_pool_0603A1AC:
+.L_sym_060A4CB4:
     .4byte  sym_060A4CB4
-.L_pool_0603A1B0:
+.L_sym_060A4CC0:
     .4byte  sym_060A4CC0
-.L_pool_0603A1B4:
+.L_sym_060A4CCC:
     .4byte  sym_060A4CCC
-.L_pool_0603A1B8:
+.L_sym_060A4CD0:
     .4byte  sym_060A4CD0
-.L_pool_0603A1BC:
+.L_sym_060A4CFC:
     .4byte  sym_060A4CFC
 .L_0603A1C0:
     mov.l @r4, r3
@@ -259,12 +259,12 @@ DAT_0603a1a2:
     and r2, r1
     mov.b r1, @r3
 .L_0603A282:
-    mov.l   .L_pool_0603A2CC, r3
+    mov.l   .L_sym_060A4D02, r3
     mov.b @r3, r3
     mov.b r3, @r13
 .L_0603A288:
-    mov.l   .L_pool_0603A2D0, r14
-    mov.l   .L_pool_0603A2D4, r0
+    mov.l   .L_sym_060A4CBC, r14
+    mov.l   .L_sym_060A4CAF, r0
     mov.b @r0, r0
     bra     .L_0603A67C
     extu.b r0, r0
@@ -303,11 +303,11 @@ DAT_0603a1a2:
     .global DAT_0603a2ca
 DAT_0603a2ca:
     .2byte  0xFF7F
-.L_pool_0603A2CC:
+.L_sym_060A4D02:
     .4byte  sym_060A4D02
-.L_pool_0603A2D0:
+.L_sym_060A4CBC:
     .4byte  sym_060A4CBC
-.L_pool_0603A2D4:
+.L_sym_060A4CAF:
     .4byte  sym_060A4CAF
 .L_0603A2D8:
     mov.l @r7, r2
@@ -874,7 +874,7 @@ sym_0603A72C:
 .L_0603A73E:
     extu.b r4, r4
     mov.b r4, @r5
-    mov.l   .L_pool_0603A7A0, r4
+    mov.l   .L_sym_06063602, r4
     mov.b @r4, r3
     mov.l   .L_pool_0603A7A4, r2
     mov.b r3, @r2
@@ -900,9 +900,9 @@ display_channel_iter:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603A7A8, r12
+    mov.l   .L_sym_060A4CAC, r12
     mov.w   .L_wpool_0603A79A, r13
-    mov.l   .L_pool_0603A7AC, r14
+    mov.l   .L_sym_060A4CB4_2, r14
     bra     .L_0603A786
     nop
 .L_0603A778:
@@ -928,11 +928,11 @@ display_channel_iter:
     .2byte  0x00FF
 .L_pool_0603A79C:
     .4byte  0x20100063
-.L_pool_0603A7A0:
+.L_sym_06063602:
     .4byte  sym_06063602
 .L_pool_0603A7A4:
     .4byte  0x20100001
-.L_pool_0603A7A8:
+.L_sym_060A4CAC:
     .4byte  sym_060A4CAC
-.L_pool_0603A7AC:
+.L_sym_060A4CB4_2:
     .4byte  sym_060A4CB4

@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_060156A6
+    .space 2    /* align to match original address 0x060156A6 (mod 4 = 2) */
 
 
     .global hud_nop_stub_a

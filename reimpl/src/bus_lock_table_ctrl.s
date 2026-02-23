@@ -12,10 +12,10 @@ bus_lock_table_ctrl:
     sts.l pr, @-r15
     mov #0x1, r5
     mov.l   .L_pool_0603D428, r7
-    mov.l   .L_pool_0603D42C, r6
-    mov.l   .L_pool_0603D430, r4
+    mov.l   .L_sym_060A4D58, r6
+    mov.l   .L_sym_060A4D30, r4
     mov.w   .L_wpool_0603D424, r1
-    mov.l   .L_pool_0603D434, r3
+    mov.l   .L_sym_06034F78, r3
     mov r5, r0
     jsr @r3
     mov r6, r2
@@ -26,7 +26,7 @@ bus_lock_table_ctrl:
     mov.w r0, @r4
     mov r5, r0
     mov.w   .L_wpool_0603D424, r1
-    mov.l   .L_pool_0603D434, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     mov.w @r4, r0
@@ -37,7 +37,7 @@ bus_lock_table_ctrl:
     mov.w r0, @r4
     mov r5, r0
     mov.w   .L_wpool_0603D424, r1
-    mov.l   .L_pool_0603D434, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     mov.w @(2, r4), r0
@@ -49,7 +49,7 @@ bus_lock_table_ctrl:
     mov.w r0, @(2, r4)
     mov r5, r0
     mov.w   .L_wpool_0603D424, r1
-    mov.l   .L_pool_0603D434, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     mov.w @(2, r4), r0
@@ -58,14 +58,14 @@ bus_lock_table_ctrl:
     mov.w r0, @(2, r4)
     mov r5, r0
     mov.w   .L_wpool_0603D424, r1
-    mov.l   .L_pool_0603D434, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     mov #0x4, r0
     mov.w r0, @(4, r4)
     mov r5, r0
     mov.w   .L_wpool_0603D424, r1
-    mov.l   .L_pool_0603D434, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     lds.l @r15+, pr
@@ -79,9 +79,9 @@ DAT_0603d426:
     .2byte  0x0200
 .L_pool_0603D428:
     .4byte  0x0000FF00
-.L_pool_0603D42C:
+.L_sym_060A4D58:
     .4byte  sym_060A4D58
-.L_pool_0603D430:
+.L_sym_060A4D30:
     .4byte  sym_060A4D30
-.L_pool_0603D434:
+.L_sym_06034F78:
     .4byte  sym_06034F78

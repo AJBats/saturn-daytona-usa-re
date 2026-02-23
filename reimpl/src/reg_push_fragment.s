@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06040B8E
+    .space 2    /* align to match original address 0x06040B8E (mod 4 = 2) */
 
 
     .global reg_push_fragment

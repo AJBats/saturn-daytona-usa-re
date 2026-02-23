@@ -65,13 +65,13 @@ obj_setup_decomp:
     mov r15, r2
     mov.b r0, @(5, r3)
     add #0x8, r2
-    mov.l   .L_pool_0604083C, r3
+    mov.l   .L_sym_06035228, r3
     jsr @r3
     mov #0x6, r0
     mov #-0x1, r2
     mov r15, r4
     mov.l r2, @(40, r14)
-    mov.l   .L_pool_06040840, r3
+    mov.l   .L_sym_06040EEC, r3
     jsr @r3
     add #0x4, r4
     tst r0, r0
@@ -81,12 +81,12 @@ obj_setup_decomp:
 .L_06040806:
     mov.l @(4, r15), r3
     mov.l r3, @(4, r14)
-    mov.l   .L_pool_06040844, r3
+    mov.l   .L_sym_06040E88, r3
     jsr @r3
     mov r15, r4
     tst r0, r0
     bt      .L_0604081E
-    mov.l   .L_pool_06040848, r3
+    mov.l   .L_evt_reg_save, r3
     jsr @r3
     mov.l @(4, r15), r4
     bra     .L_06040872
@@ -98,7 +98,7 @@ obj_setup_decomp:
     mov.l r13, @-r15
     mov r15, r6
     mov.l @(32, r14), r5
-    mov.l   .L_pool_0604084C, r3
+    mov.l   .L_buffer_slot_alloc, r3
     add #0xC, r6
     jsr @r3
     mov.l @(4, r15), r4
@@ -107,20 +107,20 @@ obj_setup_decomp:
     add #0x4, r15
     bra     .L_06040872
     mov #0x0, r0
-.L_pool_0604083C:
+.L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_06040840:
+.L_sym_06040EEC:
     .4byte  sym_06040EEC
-.L_pool_06040844:
+.L_sym_06040E88:
     .4byte  sym_06040E88
-.L_pool_06040848:
+.L_evt_reg_save:
     .4byte  evt_reg_save
-.L_pool_0604084C:
+.L_buffer_slot_alloc:
     .4byte  buffer_slot_alloc
 .L_06040850:
     mov.w   DAT_0604089c, r6
     mov.l @(4, r15), r5
-    mov.l   .L_pool_060408A0, r3
+    mov.l   .L_track_segment_interp, r3
     jsr @r3
     mov.l @r15, r4
     tst r0, r0
@@ -128,7 +128,7 @@ obj_setup_decomp:
     bra     .L_06040872
     mov #0x0, r0
 .L_06040862:
-    mov.l   .L_pool_060408A4, r3
+    mov.l   .L_state_field_read, r3
     jsr @r3
     nop
     tst r0, r0
@@ -150,13 +150,13 @@ watchdog_timer_reset:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    mov.l   .L_pool_060408A8, r3
+    mov.l   .L_evt_reg_save_2, r3
     jsr @r3
     mov.l @(4, r4), r4
     mov.l @r15, r4
     mov.l @(20, r4), r4
     add #0x4, r15
-    mov.l   .L_pool_060408AC, r3
+    mov.l   .L_sym_06040EBA, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -171,11 +171,11 @@ sym_06040894:
 DAT_0604089c:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_pool_060408A0:
+.L_track_segment_interp:
     .4byte  track_segment_interp
-.L_pool_060408A4:
+.L_state_field_read:
     .4byte  state_field_read
-.L_pool_060408A8:
+.L_evt_reg_save_2:
     .4byte  evt_reg_save
-.L_pool_060408AC:
+.L_sym_06040EBA:
     .4byte  sym_06040EBA

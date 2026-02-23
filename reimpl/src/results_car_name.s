@@ -11,7 +11,7 @@
 results_car_name:
     sts.l pr, @-r15
     extu.b r13, r14
-    mov.l   .L_pool_06016500, r2
+    mov.l   .L_sym_06084FC8, r2
     mov r14, r3
     shll2 r14
     shll2 r3
@@ -35,7 +35,7 @@ results_car_name:
     add #0x1, r3
     mov r3, r0
     mov.b r0, @(2, r14)
-    mov.l   .L_pool_06016510, r0
+    mov.l   .L_sym_06085F89, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060164C6
@@ -47,7 +47,7 @@ results_car_name:
     shll2 r3
     add r3, r13
     exts.w r13, r13
-    mov.l   .L_pool_06016500, r2
+    mov.l   .L_sym_06084FC8, r2
     add r2, r13
     mov #0x3, r3
     mov r3, r0
@@ -65,8 +65,8 @@ results_ranking_table:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x0, r12
-    mov.l   .L_pool_06016500, r13
-    mov.l   .L_pool_06016510, r0
+    mov.l   .L_sym_06084FC8, r13
+    mov.l   .L_sym_06085F89, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_06016514
@@ -86,7 +86,7 @@ results_ranking_table:
     bra     .L_0601661A
     mov.b r0, @(2, r4)
     .2byte  0xFFFF
-.L_pool_06016500:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
 .L_pool_06016504:
     .4byte  0x000B0000
@@ -94,7 +94,7 @@ results_ranking_table:
     .4byte  0x00040000
 .L_pool_0601650C:
     .4byte  0x0000C000
-.L_pool_06016510:
+.L_sym_06085F89:
     .4byte  sym_06085F89
 .L_06016514:
     mov.l   .L_pool_06016628, r5

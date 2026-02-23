@@ -24,11 +24,11 @@ dma_param_chain_init:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x40, r15
-    mov.l   .L_pool_0603FDBC, r9
+    mov.l   .L_palette_render_main, r9
     mov.l r5, @r15
     mov.l r7, @(4, r15)
     mov.l @(r0, r15), r10
-    mov.l   .L_pool_0603FDC0, r3
+    mov.l   .L_sym_06042BBE, r3
     mov #0x68, r0
     mov.l @(r0, r15), r8
     jsr @r3
@@ -38,7 +38,7 @@ dma_param_chain_init:
     mov r15, r4
     mov.l r12, @(56, r15)
     mov.l r3, @(60, r15)
-    mov.l   .L_pool_0603FDC4, r3
+    mov.l   .L_sym_06042A8C, r3
     jsr @r3
     add #0x34, r4
     mov.l @(4, r15), r2
@@ -75,11 +75,11 @@ dma_param_chain_init:
     bra     .L_0603FDCA
     nop
     .2byte  0xFFFF
-.L_pool_0603FDBC:
+.L_palette_render_main:
     .4byte  palette_render_main
-.L_pool_0603FDC0:
+.L_sym_06042BBE:
     .4byte  sym_06042BBE
-.L_pool_0603FDC4:
+.L_sym_06042A8C:
     .4byte  sym_06042A8C
 .L_0603FDC8:
     mov.l r13, @(28, r15)
@@ -93,10 +93,10 @@ dma_param_chain_init:
     mov.l r13, @(40, r15)
     mov.w   .L_wpool_0603FE30, r3
     mov.l r3, @(48, r15)
-    mov.l   .L_pool_0603FE34, r3
+    mov.l   .L_palette_engine_core, r3
     jsr @r3
     add #0xC, r4
-    mov.l   .L_pool_0603FE38, r3
+    mov.l   .L_sym_06042BAC, r3
     jsr @r3
     mov r14, r4
 .L_0603FDE8:
@@ -119,7 +119,7 @@ dma_param_chain_init:
     .byte   0xB0, 0xED    /* bsr 0x0603FFE6 (external) */
     and r8, r4
     mov r8, r5
-    mov.l   .L_pool_0603FE3C, r3
+    mov.l   .L_sym_0603C05C, r3
     jsr @r3
     mov.l @r15, r4
     add #0x40, r15
@@ -140,11 +140,11 @@ dma_param_chain_init:
 .L_wpool_0603FE30:
     .2byte  0x017F
     .2byte  0xFFFF
-.L_pool_0603FE34:
+.L_palette_engine_core:
     .4byte  palette_engine_core
-.L_pool_0603FE38:
+.L_sym_06042BAC:
     .4byte  sym_06042BAC
-.L_pool_0603FE3C:
+.L_sym_0603C05C:
     .4byte  sym_0603C05C
 
     .global loc_0603FE40

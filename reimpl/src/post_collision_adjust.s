@@ -11,7 +11,7 @@
 post_collision_adjust:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_060368D4, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -30,7 +30,7 @@ post_collision_adjust:
     mov r13, r0
     mov.w r0, @(6, r3)
     mov.w   .L_wpool_060368D0, r4
-    mov.l   .L_pool_060368D8, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -50,7 +50,7 @@ obj_visibility_check:
     sts.l pr, @-r15
     mov r4, r12
     add #-0x8, r15
-    mov.l   .L_pool_060368D4, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -69,7 +69,7 @@ obj_visibility_check:
     mov r13, r0
     mov.w r0, @(6, r3)
     mov.w   .L_wpool_060368D0, r4
-    mov.l   .L_pool_060368D8, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -82,7 +82,7 @@ obj_visibility_check:
 .L_wpool_060368D0:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_pool_060368D4:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_060368D8:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons

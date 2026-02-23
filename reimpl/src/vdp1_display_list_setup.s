@@ -56,7 +56,7 @@ vdp1_display_list_setup:
     mov.l   .L_pool_0602C734, r5
     sts mach, r1
     sts macl, r7
-    mov.l   .L_pool_0602C738, r0
+    mov.l   .L_sin_lookup, r0
     xtrct r1, r7
     cmp/pz r4
     bt      .L_0602C6F8
@@ -122,7 +122,7 @@ DAT_0602c72a:
     .4byte  0x02D00000
 .L_pool_0602C734:
     .4byte  0x00000645
-.L_pool_0602C738:
+.L_sin_lookup:
     .4byte  sin_lookup
 .L_pool_0602C73C:
     .4byte  0x251B1285
@@ -294,7 +294,7 @@ DAT_0602c7fa:
     tst r9, r9
     bt/s    .L_0602C894
     mov #0x0, r4
-    mov.l   .L_pool_0602C8B0, r2
+    mov.l   .L_sym_06045AEC, r2
     mov #0x1, r4
     cmp/eq r4, r9
     bt      .L_0602C8B8
@@ -306,7 +306,7 @@ DAT_0602c7fa:
     bt      .L_0602C8CE
     mov.l r0, @-r15
     mov r8, r1
-    mov.l   .L_pool_0602C8B4, r12
+    mov.l   .L_sym_0602ECCC, r12
 
     .global vdp1_texture_setup
     .type vdp1_texture_setup, @function
@@ -349,9 +349,9 @@ DAT_0602c8a0:
 .L_wpool_0602C8AC:
     .2byte  0x0096
     .2byte  0x0000
-.L_pool_0602C8B0:
+.L_sym_06045AEC:
     .4byte  sym_06045AEC
-.L_pool_0602C8B4:
+.L_sym_0602ECCC:
     .4byte  sym_0602ECCC
 .L_0602C8B8:
     shll2 r8

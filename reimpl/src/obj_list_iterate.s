@@ -11,10 +11,10 @@
 obj_list_iterate:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06020514, r3
+    mov.l   .L_sym_06028560, r3
     jsr @r3
     mov.b r4, @r15
-    mov.l   .L_pool_06020518, r3
+    mov.l   .L_gameover_channel_setup, r3
     jsr @r3
     nop
     mov.b @r15, r4
@@ -34,13 +34,13 @@ obj_list_proc:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_0602051C, r14
+    mov.l   .L_sym_06087814, r14
     mov.l   .L_pool_06020520, r2
     mov.l @r14, r3
     add r2, r3
     mov.l r3, @r14
     mov r3, r6
-    mov.l   .L_pool_06020524, r3
+    mov.l   .L_display_channel_b, r3
     jsr @r3
     mov #0x20, r4
     mov.l @r14, r2
@@ -55,7 +55,7 @@ obj_list_proc:
     mov #0x20, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_pool_06020524, r3
+    mov.l   .L_display_channel_b, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06020508:
@@ -68,15 +68,15 @@ obj_list_proc:
 loc_06020510:
     rts
     nop
-.L_pool_06020514:
+.L_sym_06028560:
     .4byte  sym_06028560
-.L_pool_06020518:
+.L_gameover_channel_setup:
     .4byte  gameover_channel_setup
-.L_pool_0602051C:
+.L_sym_06087814:
     .4byte  sym_06087814
 .L_pool_06020520:
     .4byte  0x00180000
-.L_pool_06020524:
+.L_display_channel_b:
     .4byte  display_channel_b
 .L_pool_06020528:
     .4byte  0x00980000

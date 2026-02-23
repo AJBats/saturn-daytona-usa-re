@@ -22,7 +22,7 @@ menu_timer_clock:
     .byte   0xBD, 0x07    /* bsr 0x0603B058 (external) */
     mov r14, r4
     mov r0, r5
-    mov.l   .L_pool_0603B69C, r3
+    mov.l   .L_timer_stub, r3
     jsr @r3
     mov.l @r14, r4
     tst r0, r0
@@ -32,7 +32,7 @@ menu_timer_clock:
     .byte   0xA1, 0x6F    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_0603B65E:
-    mov.l   .L_pool_0603B6A0, r2
+    mov.l   .L_sym_060A4D14, r2
     mov.l @r2, r2
     mov.w   .L_wpool_0603B698, r0
     mov.l r14, @(r0, r2)
@@ -52,11 +52,11 @@ menu_timer_clock:
 menu_credits_elem:
     sts.l pr, @-r15
     mov r4, r1
-    mov.l   .L_pool_0603B6A0, r2
+    mov.l   .L_sym_060A4D14, r2
     mov.w   .L_wpool_0603B69A, r3
     mov.l @r2, r2
     add r3, r2
-    mov.l   .L_pool_0603B6A4, r3
+    mov.l   .L_sym_06035168, r3
     jsr @r3
     mov #0xC, r0
     lds.l @r15+, pr
@@ -66,9 +66,9 @@ menu_credits_elem:
     .2byte  0x00A8
 .L_wpool_0603B69A:
     .2byte  0x00B8
-.L_pool_0603B69C:
+.L_timer_stub:
     .4byte  timer_stub
-.L_pool_0603B6A0:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_0603B6A4:
+.L_sym_06035168:
     .4byte  sym_06035168

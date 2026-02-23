@@ -10,7 +10,7 @@
     .type file_seek, @function
 file_seek:
     sts.l pr, @-r15
-    mov.l   .L_pool_0601207C, r14
+    mov.l   .L_channel_nibble_config, r14
     jsr @r14
     mov #0x10, r4
     mov #0x6, r5
@@ -30,5 +30,5 @@ file_seek:
     mov.l @r15+, r14
 .L_wpool_0601207A:
     .2byte  0x0100
-.L_pool_0601207C:
+.L_channel_nibble_config:
     .4byte  channel_nibble_config

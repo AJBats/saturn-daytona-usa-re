@@ -29,7 +29,7 @@ attract_demo_select:
     bt      .L_0603F578
     mov.w   .L_wpool_0603F5B8, r7
     mov #0x1, r5
-    mov.l   .L_pool_0603F5BC, r3
+    mov.l   .L_cmd_multi_validate, r3
     mov.l @(4, r14), r6
     jsr @r3
     mov.l @r14, r4
@@ -82,7 +82,7 @@ vblank_dma_chain:
 .L_wpool_0603F5B8:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_pool_0603F5BC:
+.L_cmd_multi_validate:
     .4byte  cmd_multi_validate
 .L_0603F5C0:
     mov r14, r4
@@ -339,8 +339,8 @@ DAT_0603f682:
     tst r2, r2
     bf      .L_0603F792
     mov r13, r0
-    mov.l   .L_pool_0603F808, r3
-    mov.l   .L_pool_0603F804, r1
+    mov.l   .L_sym_06035FEC, r3
+    mov.l   .L_sym_06059CB8, r1
     jsr @r3
     add #0x10, r0
     bra     .L_0603F7A8
@@ -352,9 +352,9 @@ DAT_0603f682:
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf      .L_0603F7A8
-    mov.l   .L_pool_0603F80C, r1
+    mov.l   .L_sym_06059CBC, r1
     mov r13, r0
-    mov.l   .L_pool_0603F808, r2
+    mov.l   .L_sym_06035FEC, r2
     jsr @r2
     add #0x10, r0
 .L_0603F7A8:
@@ -406,11 +406,11 @@ DAT_0603f682:
     bf      .L_0603F7EC
     bra     .L_0603F82E
     nop
-.L_pool_0603F804:
+.L_sym_06059CB8:
     .4byte  sym_06059CB8
-.L_pool_0603F808:
+.L_sym_06035FEC:
     .4byte  sym_06035FEC
-.L_pool_0603F80C:
+.L_sym_06059CBC:
     .4byte  sym_06059CBC
 .L_0603F810:
     mov #0x2C, r0
@@ -585,7 +585,7 @@ attract_transition:
     cmp/gt r2, r14
     bt      .L_0603F9A4
     exts.b r14, r6
-    mov.l   .L_pool_0603F9B4, r2
+    mov.l   .L_sym_0606364C, r2
     mov r6, r3
     shll2 r6
     shll2 r3
@@ -603,5 +603,5 @@ attract_transition:
     mov.l @r15+, r14
     .2byte  0x000B
     .4byte  0x145CFFFF
-.L_pool_0603F9B4:
+.L_sym_0606364C:
     .4byte  sym_0606364C

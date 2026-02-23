@@ -17,14 +17,14 @@ hud_damage_warning:
     add #0x4, r6
     mov.l @(60, r15), r10
     mov r15, r5
-    mov.l   .L_pool_06011C18, r3
+    mov.l   .L_sincos_pair, r3
     jsr @r3
     mov.w @(r0, r15), r4
     neg r8, r4
-    mov.l   .L_pool_06011C1C, r11
-    mov.l   .L_pool_06011C20, r12
-    mov.l   .L_pool_06011C24, r13
-    mov.l   .L_pool_06011C28, r14
+    mov.l   .L_sym_060786CC, r11
+    mov.l   .L_sym_0605AAA0, r12
+    mov.l   .L_swap_sign_ext, r13
+    mov.l   .L_fpmul, r14
     mov.w @r12, r2
     mov r2, r3
     shll2 r2
@@ -145,15 +145,15 @@ hud_damage_warning:
     bra     .L_06011C2C
     nop
     .2byte  0xFFFF
-.L_pool_06011C18:
+.L_sincos_pair:
     .4byte  sincos_pair
-.L_pool_06011C1C:
+.L_sym_060786CC:
     .4byte  sym_060786CC
-.L_pool_06011C20:
+.L_sym_0605AAA0:
     .4byte  sym_0605AAA0
-.L_pool_06011C24:
+.L_swap_sign_ext:
     .4byte  swap_sign_ext
-.L_pool_06011C28:
+.L_fpmul:
     .4byte  fpmul
 .L_06011C2C:
     mov.l @(12, r15), r5

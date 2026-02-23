@@ -16,19 +16,19 @@ obj_culling_pass:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06020900, r3
+    mov.l   .L_sym_06028560, r3
     jsr @r3
     mov.b r0, @(4, r15)
-    mov.l   .L_pool_06020904, r3
+    mov.l   .L_gameover_channel_setup, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06020908, r5
+    mov.l   .L_sym_060489CC, r5
     mov.l   .L_pool_0602090C, r4
-    mov.l   .L_pool_06020910, r3
+    mov.l   .L_memcpy_word_idx, r3
     jsr @r3
     mov #0x20, r6
-    mov.l   .L_pool_06020914, r13
-    mov.l   .L_pool_06020918, r14
+    mov.l   .L_sym_06063750, r13
+    mov.l   .L_sym_06028400, r14
     mov.w   .L_wpool_060208E6, r7
     add r13, r7
     mov.l r7, @r15
@@ -39,17 +39,17 @@ obj_culling_pass:
     jsr @r14
     mov #0x0, r4
     mov #0x0, r11
-    mov.l   .L_pool_0602091C, r12
+    mov.l   .L_sym_0605B6D8, r12
     mov.l   .L_pool_06020920, r3
     mov.l @r12, r2
     or r3, r2
     mov.l r2, @r12
     mov #0x1, r3
-    mov.l   .L_pool_06020924, r2
+    mov.l   .L_sym_0608780C, r2
     mov.w r3, @r2
-    mov.l   .L_pool_06020928, r3
+    mov.l   .L_sym_0605A00C, r3
     mov.l r11, @r3
-    mov.l   .L_pool_0602092C, r3
+    mov.l   .L_sym_06026CE0, r3
     jsr @r3
     nop
     mov.l   .L_pool_06020920, r2
@@ -57,11 +57,11 @@ obj_culling_pass:
     or r2, r3
     mov.l r3, @r12
     mov #0x3, r2
-    mov.l   .L_pool_06020924, r3
+    mov.l   .L_sym_0608780C, r3
     mov.w r2, @r3
-    mov.l   .L_pool_06020928, r3
+    mov.l   .L_sym_0605A00C, r3
     mov.l r11, @r3
-    mov.l   .L_pool_0602092C, r3
+    mov.l   .L_sym_06026CE0, r3
     jsr @r3
     nop
     mov.w   .L_wpool_060208EA, r7
@@ -77,7 +77,7 @@ obj_culling_pass:
     mov #0x4, r4
     mov.w   .L_wpool_060208F0, r7
     mov.w   .L_wpool_060208F2, r6
-    mov.l   .L_pool_06020930, r5
+    mov.l   .L_sym_0604BBCC, r5
     jsr @r14
     mov #0x4, r4
     mov.w   .L_wpool_060208F4, r7
@@ -102,10 +102,10 @@ obj_culling_pass:
     mov.l @r5, r5
     jsr @r14
     mov #0x4, r4
-    mov.l   .L_pool_06020934, r3
+    mov.l   .L_sym_0602853E, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_pool_06020938, r3
+    mov.l   .L_sym_06087828, r3
     mov.w r11, @r3
     mov.b @(4, r15), r0
     mov r0, r4
@@ -140,35 +140,35 @@ obj_culling_pass:
     .2byte  0x4000
 .L_wpool_060208FE:
     .2byte  0x08B0
-.L_pool_06020900:
+.L_sym_06028560:
     .4byte  sym_06028560
-.L_pool_06020904:
+.L_gameover_channel_setup:
     .4byte  gameover_channel_setup
-.L_pool_06020908:
+.L_sym_060489CC:
     .4byte  sym_060489CC
 .L_pool_0602090C:
     .4byte  0x25F00200
-.L_pool_06020910:
+.L_memcpy_word_idx:
     .4byte  memcpy_word_idx
-.L_pool_06020914:
+.L_sym_06063750:
     .4byte  sym_06063750
-.L_pool_06020918:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_0602091C:
+.L_sym_0605B6D8:
     .4byte  sym_0605B6D8
 .L_pool_06020920:
     .4byte  0x04000000
-.L_pool_06020924:
+.L_sym_0608780C:
     .4byte  sym_0608780C
-.L_pool_06020928:
+.L_sym_0605A00C:
     .4byte  sym_0605A00C
-.L_pool_0602092C:
+.L_sym_06026CE0:
     .4byte  sym_06026CE0
-.L_pool_06020930:
+.L_sym_0604BBCC:
     .4byte  sym_0604BBCC
-.L_pool_06020934:
+.L_sym_0602853E:
     .4byte  sym_0602853E
-.L_pool_06020938:
+.L_sym_06087828:
     .4byte  sym_06087828
 .L_0602093C:
     mov.l @r15+, r11

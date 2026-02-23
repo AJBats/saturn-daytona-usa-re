@@ -17,7 +17,7 @@ position_suffix_ordinal:
     mov #0x5, r11
     mov #0x8, r12
     mov #0x0, r13
-    mov.l   .L_pool_06015DE0, r14
+    mov.l   .L_sym_06084FC8, r14
     mov.b r4, @r15
     extu.b r13, r4
 .L_06015D46:
@@ -58,7 +58,7 @@ position_suffix_ordinal:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015DE4, r3
+    mov.l   .L_sym_060172E4, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -70,7 +70,7 @@ lap_progress_bar:
     mov.l r12, @-r15
     mov.l r11, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06015DE0, r11
+    mov.l   .L_sym_06084FC8, r11
     mov #0x8, r12
     mov #0x3, r13
     mov #0x9, r14
@@ -100,20 +100,20 @@ lap_progress_bar:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015DE4, r3
+    mov.l   .L_sym_060172E4, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06015DE0:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06015DE4:
+.L_sym_060172E4:
     .4byte  sym_060172E4
 
     .global loc_06015DE8
 loc_06015DE8:
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_06015E70, r4
+    mov.l   .L_sym_06084FC8_2, r4
     mov.b @r15, r3
     extu.b r3, r3
     mov r3, r2
@@ -139,7 +139,7 @@ loc_06015DE8:
     mov.b r0, @(2, r3)
     mov.b @r15, r4
     extu.b r4, r4
-    mov.l   .L_pool_06015E74, r3
+    mov.l   .L_sym_060172E4_2, r3
     jmp @r3
     add #0x4, r15
 
@@ -150,7 +150,7 @@ speed_unit_display:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06015E70, r12
+    mov.l   .L_sym_06084FC8_2, r12
     mov #0x8, r13
     mov #0x0, r14
     mov.b r4, @r15
@@ -180,11 +180,11 @@ speed_unit_display:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015E74, r3
+    mov.l   .L_sym_060172E4_2, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06015E70:
+.L_sym_06084FC8_2:
     .4byte  sym_06084FC8
-.L_pool_06015E74:
+.L_sym_060172E4_2:
     .4byte  sym_060172E4

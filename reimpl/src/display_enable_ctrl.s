@@ -59,7 +59,7 @@ display_enable_ctrl:
     mov.l r5, @r2
     add r7, r3
     add #-0x10, r15
-    mov.l   .L_pool_06038110, r2
+    mov.l   .L_sym_06035BC8, r2
     jsr @r2
     mov.l r15, @-r15
     mov #0x0, r1
@@ -67,11 +67,11 @@ display_enable_ctrl:
     mov.l   .L_pool_06038114, r1
     mov.l r1, @-r15
     mov r15, r2
-    mov.l   .L_pool_06038118, r1
+    mov.l   .L_sym_060359E4, r1
     add #0x10, r2
     jsr @r1
     mov.l r2, @-r15
-    mov.l   .L_pool_0603811C, r2
+    mov.l   .L_sym_060357B8, r2
     jsr @r2
     nop
     add #0x1, r6
@@ -97,11 +97,11 @@ DAT_06038108:
     .2byte  0xFFFF
 .L_pool_0603810C:
     .4byte  0x00010000
-.L_pool_06038110:
+.L_sym_06035BC8:
     .4byte  sym_06035BC8
 .L_pool_06038114:
     .4byte  0x40F00000
-.L_pool_06038118:
+.L_sym_060359E4:
     .4byte  sym_060359E4
-.L_pool_0603811C:
+.L_sym_060357B8:
     .4byte  sym_060357B8

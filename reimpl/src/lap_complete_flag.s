@@ -11,35 +11,35 @@
 lap_complete_flag:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600DA58, r14
-    mov.l   .L_pool_0600DA5C, r5
+    mov.l   .L_sym_06063F1C, r14
+    mov.l   .L_sym_0607E940, r5
     tst r4, r4
     bf/s    .L_0600DA04
     mov.l @r5, r5
-    mov.l   .L_pool_0600DA60, r3
-    mov.l   .L_pool_0600DA58, r2
+    mov.l   .L_sym_06063F18, r3
+    mov.l   .L_sym_06063F1C, r2
     mov.l @r3, r3
     mov.l @r2, r2
     cmp/eq r2, r3
     bf      .L_0600DA04
     mov.w   .L_wpool_0600DA50, r0
-    mov.l   .L_pool_0600DA64, r3
+    mov.l   .L_sym_06063F20, r3
     mov.l @(r0, r5), r2
     mov.l @r3, r3
     cmp/eq r3, r2
     bt      .L_0600DA04
     mov.w   .L_wpool_0600DA50, r0
-    mov.l   .L_pool_0600DA64, r2
+    mov.l   .L_sym_06063F20, r2
     mov.l @(r0, r5), r3
     add #-0xC, r0
     mov.l r3, @r2
-    mov.l   .L_pool_0600DA68, r6
+    mov.l   .L_sym_06063F24, r6
     mov.l @r6, r3
     add #0x1, r3
     mov.l r3, @r6
     mov.l r3, @(r0, r5)
     mov.l @r6, r3
-    mov.l   .L_pool_0600DA6C, r2
+    mov.l   .L_sym_06063F28, r2
     mov.l @r2, r2
     cmp/hs r2, r3
     bt      .L_0600DA04
@@ -47,7 +47,7 @@ lap_complete_flag:
     mov.l r2, @r14
 .L_0600DA04:
     mov #0x1, r7
-    mov.l   .L_pool_0600DA70, r3
+    mov.l   .L_sym_06035280, r3
     mov r7, r0
     jsr @r3
     mov r4, r1
@@ -61,14 +61,14 @@ lap_complete_flag:
     or r6, r3
     mov.l r3, @r14
     mov.w   .L_wpool_0600DA52, r1
-    mov.l   .L_pool_0600DA74, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w   .L_wpool_0600DA54, r0
     mov.l @(r0, r5), r2
     add #0x1, r2
     mov.l r2, @(r0, r5)
-    mov.l   .L_pool_0600DA78, r0
+    mov.l   .L_sym_0607EAD8, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_0600DA4A
@@ -92,21 +92,21 @@ lap_complete_flag:
 .L_wpool_0600DA54:
     .2byte  0x0230
     .2byte  0xFFFF
-.L_pool_0600DA58:
+.L_sym_06063F1C:
     .4byte  sym_06063F1C
-.L_pool_0600DA5C:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600DA60:
+.L_sym_06063F18:
     .4byte  sym_06063F18
-.L_pool_0600DA64:
+.L_sym_06063F20:
     .4byte  sym_06063F20
-.L_pool_0600DA68:
+.L_sym_06063F24:
     .4byte  sym_06063F24
-.L_pool_0600DA6C:
+.L_sym_06063F28:
     .4byte  sym_06063F28
-.L_pool_0600DA70:
+.L_sym_06035280:
     .4byte  sym_06035280
-.L_pool_0600DA74:
+.L_sym_06034F78:
     .4byte  sym_06034F78
-.L_pool_0600DA78:
+.L_sym_0607EAD8:
     .4byte  sym_0607EAD8

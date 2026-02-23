@@ -15,7 +15,7 @@ cd_course_loader:
     cmp/eq #0x1, r0
     bf      .L_06012D8E
     mov r14, r5
-    mov.l   .L_pool_06012DA8, r4
+    mov.l   .L_sym_060448E8, r4
     .byte   0xAF, 0x57    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_06012D8E:
@@ -23,19 +23,19 @@ cd_course_loader:
     cmp/eq #0x2, r0
     bf      .L_06012D9C
     mov r14, r5
-    mov.l   .L_pool_06012DAC, r4
+    mov.l   .L_sym_060448F4, r4
     .byte   0xAF, 0x50    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_06012D9C:
     mov r14, r5
-    mov.l   .L_pool_06012DB0, r4
+    mov.l   .L_sym_06044900, r4
     .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_pool_06012DA4:
     .4byte  0x00200000
-.L_pool_06012DA8:
+.L_sym_060448E8:
     .4byte  sym_060448E8
-.L_pool_06012DAC:
+.L_sym_060448F4:
     .4byte  sym_060448F4
-.L_pool_06012DB0:
+.L_sym_06044900:
     .4byte  sym_06044900

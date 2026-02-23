@@ -27,6 +27,7 @@ def decode_sh2(opcode, pc):
     if opcode == 0x002B: return "rte", None
     if opcode == 0x000A: return "sts mach, r0", None
     if opcode == 0x001A: return "sts macl, r0", None
+    if opcode == 0x0028: return "clrmac", None
 
     # 0000nnnn00001010 = sts mach, Rn
     if hi == 0 and lo == 0xA and rm == 0:
@@ -34,6 +35,27 @@ def decode_sh2(opcode, pc):
     # 0000nnnn00011010 = sts macl, Rn
     if hi == 0 and lo == 0xA and rm == 1:
         return f"sts macl, r{rn}", None
+    # 0000nnnn00101010 = sts pr, Rn
+    if hi == 0 and lo == 0xA and rm == 2:
+        return f"sts pr, r{rn}", None
+    # 0000nnnn00101001 = movt Rn
+    if hi == 0 and lo == 9 and rm == 2:
+        return f"movt r{rn}", None
+    # 0000nnnn00000010 = stc sr, Rn
+    if hi == 0 and lo == 2 and rm == 0:
+        return f"stc sr, r{rn}", None
+    # 0000nnnn00010010 = stc gbr, Rn
+    if hi == 0 and lo == 2 and rm == 1:
+        return f"stc gbr, r{rn}", None
+    # 0000nnnn00100010 = stc vbr, Rn
+    if hi == 0 and lo == 2 and rm == 2:
+        return f"stc vbr, r{rn}", None
+    # 0000mmmm00000011 = bsrf Rm (delayed branch)
+    if hi == 0 and lo == 3 and rm == 0:
+        return f"bsrf r{rn}", None
+    # 0000mmmm00100011 = braf Rm (delayed branch)
+    if hi == 0 and lo == 3 and rm == 2:
+        return f"braf r{rn}", None
 
     # mov.l Rm, @(disp,Rn): 0001nnnnmmmmdddd
     if hi == 1:
@@ -57,7 +79,6 @@ def decode_sh2(opcode, pc):
         if lo == 0xD: return f"xtrct r{rm}, r{rn}", None
         if lo == 0xE: return f"mulu.w r{rm}, r{rn}", None
         if lo == 0xF: return f"muls.w r{rm}, r{rn}", None
-        if lo == 3: return f"cas.l r{rm}, r{rn}, @r0", None
 
     # 0011 group
     if hi == 3:
@@ -70,6 +91,7 @@ def decode_sh2(opcode, pc):
         if lo == 7: return f"cmp/gt r{rm}, r{rn}", None
         if lo == 8: return f"sub r{rm}, r{rn}", None
         if lo == 0xA: return f"subc r{rm}, r{rn}", None
+        if lo == 0xB: return f"subv r{rm}, r{rn}", None
         if lo == 0xC: return f"add r{rm}, r{rn}", None
         if lo == 0xD: return f"dmuls.l r{rm}, r{rn}", None
         if lo == 0xE: return f"addc r{rm}, r{rn}", None
@@ -95,24 +117,38 @@ def decode_sh2(opcode, pc):
         if sub == 0x21: return f"shar r{rn}", None
         if sub == 0x24: return f"rotcl r{rn}", None
         if sub == 0x25: return f"rotcr r{rn}", None
+        if sub == 0x1B: return f"tas.b @r{rn}", None
         if sub == 0x28: return f"shll16 r{rn}", None
         if sub == 0x29: return f"shlr16 r{rn}", None
-        if lo == 0x2 and rm == 0x2: return f"sts.l pr, @-r{rn}", None
-        if lo == 0x6 and rm == 0x2: return f"lds.l @r{rn}+, pr", None
-        if lo == 0x2 and rm == 0x1: return f"sts.l macl, @-r{rn}", None
-        if lo == 0x6 and rm == 0x1: return f"lds.l @r{rn}+, macl", None
+        # sts.l system_reg, @-Rn (push)
         if lo == 0x2 and rm == 0x0: return f"sts.l mach, @-r{rn}", None
+        if lo == 0x2 and rm == 0x1: return f"sts.l macl, @-r{rn}", None
+        if lo == 0x2 and rm == 0x2: return f"sts.l pr, @-r{rn}", None
+        # lds.l @Rm+, system_reg (pop)
         if lo == 0x6 and rm == 0x0: return f"lds.l @r{rn}+, mach", None
-        if lo == 0xA and rm == 0xF: return f"lds r{rn}, pr", None
-        if lo == 0xA and rm == 0x1: return f"lds r{rn}, macl", None
-        if lo == 0xA and rm == 0x0: return f"lds r{rn}, mach", None
+        if lo == 0x6 and rm == 0x1: return f"lds.l @r{rn}+, macl", None
         if lo == 0x6 and rm == 0x2: return f"lds.l @r{rn}+, pr", None
-        # mov.l @(disp,Rm),Rn using 0100 encoding doesn't exist,
-        # but some other 04xx encodings:
+        # lds Rm, system_reg (register)
+        if lo == 0xA and rm == 0x0: return f"lds r{rn}, mach", None
+        if lo == 0xA and rm == 0x1: return f"lds r{rn}, macl", None
+        if lo == 0xA and rm == 0x2: return f"lds r{rn}, pr", None
+        # stc.l control_reg, @-Rn (push)
+        if lo == 0x3 and rm == 0x0: return f"stc.l sr, @-r{rn}", None
+        if lo == 0x3 and rm == 0x1: return f"stc.l gbr, @-r{rn}", None
+        if lo == 0x3 and rm == 0x2: return f"stc.l vbr, @-r{rn}", None
+        # ldc.l @Rm+, control_reg (pop)
+        if lo == 0x7 and rm == 0x0: return f"ldc.l @r{rn}+, sr", None
+        if lo == 0x7 and rm == 0x1: return f"ldc.l @r{rn}+, gbr", None
+        if lo == 0x7 and rm == 0x2: return f"ldc.l @r{rn}+, vbr", None
+        # ldc Rm, control_reg (register)
+        if lo == 0xE and rm == 0x0: return f"ldc r{rn}, sr", None
+        if lo == 0xE and rm == 0x1: return f"ldc r{rn}, gbr", None
+        if lo == 0xE and rm == 0x2: return f"ldc r{rn}, vbr", None
+        # shad/shld
         if lo == 0xC: return f"shad r{rm}, r{rn}", None
         if lo == 0xD: return f"shld r{rm}, r{rn}", None
-        if lo == 0xE and rm == 0xF: return f"ldc r{rn}, sr", None
-        if lo == 0x7 and rm == 0xF: return f"ldc.l @r{rn}+, sr", None
+        # mac.w @Rm+, @Rn+
+        if lo == 0xF: return f"mac.w @r{rm}+, @r{rn}+", None
 
     # 0101 group: mov.l @(disp,Rm),Rn
     if hi == 5:
@@ -213,10 +249,19 @@ def decode_sh2(opcode, pc):
         if sub == 4: return f"mov.b @({opcode & 0xFF}, gbr), r0", None
         if sub == 5: return f"mov.w @({(opcode & 0xFF) * 2}, gbr), r0", None
         if sub == 6: return f"mov.l @({(opcode & 0xFF) * 4}, gbr), r0", None
+        if sub == 3: return f"trapa #0x{opcode & 0xFF:X}", None
+        if sub == 7: # mova @(disp,PC), R0
+            disp = opcode & 0xFF
+            target = (pc & 0xFFFFFFFC) + 4 + disp * 4
+            return f"mova @(0x{target:08X}), r0", target
         if sub == 8: return f"tst #0x{opcode & 0xFF:X}, r0", None
         if sub == 9: return f"and #0x{opcode & 0xFF:X}, r0", None
         if sub == 0xA: return f"xor #0x{opcode & 0xFF:X}, r0", None
         if sub == 0xB: return f"or #0x{opcode & 0xFF:X}, r0", None
+        if sub == 0xC: return f"tst.b #0x{opcode & 0xFF:X}, @(r0, gbr)", None
+        if sub == 0xD: return f"and.b #0x{opcode & 0xFF:X}, @(r0, gbr)", None
+        if sub == 0xE: return f"xor.b #0x{opcode & 0xFF:X}, @(r0, gbr)", None
+        if sub == 0xF: return f"or.b #0x{opcode & 0xFF:X}, @(r0, gbr)", None
 
     # 1101: mov.l @(disp,PC),Rn
     if hi == 0xD:

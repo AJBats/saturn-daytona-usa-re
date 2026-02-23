@@ -21,7 +21,7 @@ hud_subsystem_init:
     mov.l   .L_pool_06033B30, r1
     mulu.w r7, r1
     sts macl, r0
-    mov.l   .L_pool_06033B34, r14
+    mov.l   .L_DAT_06082A7C, r14
     add r0, r14
     mov.l   .L_pool_06033B38, r0
     mov.b r7, @(r0, r14)
@@ -37,7 +37,7 @@ hud_subsystem_init:
     mov.l   .L_pool_06033B4C, r1
     mulu.w r7, r1
     sts macl, r0
-    mov.l   .L_pool_06033B50, r1
+    mov.l   .L_sym_060631BC, r1
     add r0, r1
     mov.w @r1+, r2
     shll16 r2
@@ -78,7 +78,7 @@ hud_subsystem_init:
     nop
 .L_pool_06033B30:
     .4byte  0x0000002C
-.L_pool_06033B34:
+.L_DAT_06082A7C:
     .4byte  DAT_06082A7C
 .L_pool_06033B38:
     .4byte  0x00000000
@@ -92,7 +92,7 @@ hud_subsystem_init:
     .4byte  0x00000028
 .L_pool_06033B4C:
     .4byte  0x0000000E
-.L_pool_06033B50:
+.L_sym_060631BC:
     .4byte  sym_060631BC
 .L_pool_06033B54:
     .4byte  0x00000014
@@ -114,13 +114,13 @@ hud_subsystem_init:
     .4byte  0x0000002D
 .L_06033B78:
     xor r2, r2
-    mov.l   .L_pool_06033BB0, r0
+    mov.l   .L_sym_06083254, r0
     mov.b r2, @r0
-    mov.l   .L_pool_06033BB4, r0
+    mov.l   .L_sym_06083250, r0
     mov.l r2, @r0
     xor r7, r7
-    mov.l   .L_pool_06033BB8, r6
-    mov.l   .L_pool_06033BBC, r5
+    mov.l   .L_sym_0607EB94, r6
+    mov.l   .L_sym_060631AC, r5
     mov.l   .L_pool_06033BC0, r4
     mov #0x2, r3
 .L_06033B8C:
@@ -142,13 +142,13 @@ hud_subsystem_init:
     rts
     nop
     .2byte  0x0000
-.L_pool_06033BB0:
+.L_sym_06083254:
     .4byte  sym_06083254
-.L_pool_06033BB4:
+.L_sym_06083250:
     .4byte  sym_06083250
-.L_pool_06033BB8:
+.L_sym_0607EB94:
     .4byte  sym_0607EB94
-.L_pool_06033BBC:
+.L_sym_060631AC:
     .4byte  sym_060631AC
 .L_pool_06033BC0:
     .4byte  0x00000014

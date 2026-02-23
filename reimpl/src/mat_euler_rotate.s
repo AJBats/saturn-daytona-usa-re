@@ -33,13 +33,13 @@ mat_euler_rotate:
     and r14, r2
     tst r2, r2
     bf      .L_0601E702
-    mov.l   .L_pool_0601E75C, r3
+    mov.l   .L_sym_06000354, r3
     mov.l @r15, r4
     mov.l @r3, r3
     shll2 r4
     mov.l @(24, r3), r2
     shll2 r4
-    mov.l   .L_pool_0601E760, r3
+    mov.l   .L_sym_06087094, r3
     shll r4
     add r3, r4
     mov.w @(28, r4), r0
@@ -75,7 +75,7 @@ mat_euler_rotate:
     .4byte  0x20100063
 .L_pool_0601E758:
     .4byte  0x2010001F
-.L_pool_0601E75C:
+.L_sym_06000354:
     .4byte  sym_06000354
-.L_pool_0601E760:
+.L_sym_06087094:
     .4byte  sym_06087094

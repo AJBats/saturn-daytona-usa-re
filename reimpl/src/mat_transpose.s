@@ -14,7 +14,7 @@ mat_transpose:
     mov.l   .L_pool_0601E7FC, r13
     mov.w r0, @(4, r15)
     mov.l r6, @r15
-    mov.l   .L_pool_0601E800, r3
+    mov.l   .L_sym_06035C1C, r3
     jsr @r3
     mov r12, r4
     mov #0xB, r2
@@ -40,7 +40,7 @@ mat_transpose:
     and r14, r2
     tst r2, r2
     bf      .L_0601E7A0
-    mov.l   .L_pool_0601E808, r3
+    mov.l   .L_sym_06000354, r3
     mov r12, r5
     mov.w @(4, r15), r0
     mov.l @r15, r6
@@ -48,7 +48,7 @@ mat_transpose:
     mov r0, r4
     mov.l @(20, r3), r2
     extu.w r4, r4
-    mov.l   .L_pool_0601E80C, r3
+    mov.l   .L_sym_06087094, r3
     shll2 r4
     shll2 r4
     shll r4
@@ -85,11 +85,11 @@ mat_transpose:
     .2byte  0xFFFF
 .L_pool_0601E7FC:
     .4byte  0x20100063
-.L_pool_0601E800:
+.L_sym_06035C1C:
     .4byte  sym_06035C1C
 .L_pool_0601E804:
     .4byte  0x2010001F
-.L_pool_0601E808:
+.L_sym_06000354:
     .4byte  sym_06000354
-.L_pool_0601E80C:
+.L_sym_06087094:
     .4byte  sym_06087094

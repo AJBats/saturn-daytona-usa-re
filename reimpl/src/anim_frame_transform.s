@@ -13,7 +13,7 @@ anim_frame_transform:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06005EB8, r5
+    mov.l   .L_sym_06063E14, r5
     mov.l r4, @r15
     mov #0xA, r12
     mov.w   .L_wpool_06005EAE, r14
@@ -127,7 +127,7 @@ anim_frame_transform:
 .L_wpool_06005EB4:
     .2byte  0xFF1C
     .2byte  0xFFFF
-.L_pool_06005EB8:
+.L_sym_06063E14:
     .4byte  sym_06063E14
 .L_06005EBC:
     mov #0xB, r4

@@ -16,19 +16,19 @@ perspective_proj_3d:
     mov.l r9, @-r15
     mov.l r8, @-r15
     mov #0x1, r8
-    mov.l   .L_pool_0601481C, r9
+    mov.l   .L_sym_06084B14, r9
     mov #0x2B, r10
     mov.w   DAT_06014818, r11
     mov #0x0, r7
     extu.b r8, r13
-    mov.l   .L_pool_06014820, r5
+    mov.l   .L_sym_0605B3C4, r5
     mov r7, r6
     extu.w r7, r3
-    mov.l   .L_pool_06014824, r2
+    mov.l   .L_sym_06084FB8, r2
     mov.w r3, @r2
     mov r11, r1
     add #-0x4B, r1
-    mov.l   .L_pool_06014828, r2
+    mov.l   .L_sym_0607EBCC, r2
     mov.l r1, @r2
 .L_06014796:
     mov r9, r0
@@ -61,8 +61,8 @@ perspective_proj_3d:
     cmp/eq #0x3, r0
     bf      .L_06014840
     mov r6, r3
-    mov.l   .L_pool_0601482C, r2
-    mov.l   .L_pool_06014828, r0
+    mov.l   .L_sym_0605B164, r2
+    mov.l   .L_sym_0607EBCC, r0
     shll2 r3
     add r2, r3
     mov.l @r3, r1
@@ -79,7 +79,7 @@ perspective_proj_3d:
     mov r10, r6
 .L_060147EA:
     mov r6, r5
-    mov.l   .L_pool_06014830, r0
+    mov.l   .L_sym_0607EBC8, r0
     shll2 r5
     mov.l @r0, r0
     and #0x3, r0
@@ -89,7 +89,7 @@ perspective_proj_3d:
     shll r5
     add r3, r5
     exts.w r5, r5
-    mov.l   .L_pool_06014834, r2
+    mov.l   .L_sym_0605B4A8, r2
     add r2, r5
     mov.b @r5+, r0
     mov.b r0, @r14
@@ -106,24 +106,24 @@ perspective_proj_3d:
 DAT_06014818:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_pool_0601481C:
+.L_sym_06084B14:
     .4byte  sym_06084B14
-.L_pool_06014820:
+.L_sym_0605B3C4:
     .4byte  sym_0605B3C4
-.L_pool_06014824:
+.L_sym_06084FB8:
     .4byte  sym_06084FB8
-.L_pool_06014828:
+.L_sym_0607EBCC:
     .4byte  sym_0607EBCC
-.L_pool_0601482C:
+.L_sym_0605B164:
     .4byte  sym_0605B164
-.L_pool_06014830:
+.L_sym_0607EBC8:
     .4byte  sym_0607EBC8
-.L_pool_06014834:
+.L_sym_0605B4A8:
     .4byte  sym_0605B4A8
 .L_06014838:
     extu.b r7, r13
     extu.w r8, r2
-    mov.l   .L_pool_06014864, r3
+    mov.l   .L_sym_06084FB8_2, r3
     mov.w r2, @r3
 .L_06014840:
     mov.b @r5, r2
@@ -145,5 +145,5 @@ DAT_06014818:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06014864:
+.L_sym_06084FB8_2:
     .4byte  sym_06084FB8

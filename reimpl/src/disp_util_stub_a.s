@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06033086
+    .space 2    /* align to match original address 0x06033086 (mod 4 = 2) */
 
 
     .global disp_util_stub_a

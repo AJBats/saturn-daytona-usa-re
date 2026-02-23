@@ -11,35 +11,35 @@
 state_post_countdown:
     sts.l pr, @-r15
     mov #0x11, r3
-    mov.l   .L_pool_060092BC, r2
+    mov.l   .L_sym_0605AD10, r2
     mov.l r3, @r2
-    mov.l   .L_pool_060092C0, r0
+    mov.l   .L_sym_0607EAD8, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_060092AA
-    mov.l   .L_pool_060092C4, r3
+    mov.l   .L_race_cleanup_handler, r3
     jsr @r3
     nop
     bra     .L_060092B0
     nop
 .L_060092AA:
-    mov.l   .L_pool_060092C8, r3
+    mov.l   .L_sym_06012198, r3
     jsr @r3
     nop
 .L_060092B0:
     mov #0x4, r2
-    mov.l   .L_pool_060092CC, r3
+    mov.l   .L_sym_0605A016, r3
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
     .2byte  0xFFFF
-.L_pool_060092BC:
+.L_sym_0605AD10:
     .4byte  sym_0605AD10
-.L_pool_060092C0:
+.L_sym_0607EAD8:
     .4byte  sym_0607EAD8
-.L_pool_060092C4:
+.L_race_cleanup_handler:
     .4byte  race_cleanup_handler
-.L_pool_060092C8:
+.L_sym_06012198:
     .4byte  sym_06012198
-.L_pool_060092CC:
+.L_sym_0605A016:
     .4byte  sym_0605A016

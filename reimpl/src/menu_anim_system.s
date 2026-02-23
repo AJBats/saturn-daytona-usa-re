@@ -11,11 +11,11 @@
     .type menu_anim_system, @function
 menu_anim_system:
     mov.l r14, @-r15
-    mov.l   .L_pool_0603AB14, r14
+    mov.l   .L_sym_060A4CAE, r14
     mov.w   .L_wpool_0603AB12, r5
-    mov.l   .L_pool_0603AB18, r4
+    mov.l   .L_sym_060A4CC8, r4
     mov #0x0, r6
-    mov.l   .L_pool_0603AB1C, r0
+    mov.l   .L_sym_060A4CAF, r0
     mov.b @r0, r0
     bra     .L_0603AB20
     extu.b r0, r0
@@ -95,11 +95,11 @@ menu_anim_system:
     mov.b r5, @r2
 .L_wpool_0603AB12:
     .2byte  0x00FF
-.L_pool_0603AB14:
+.L_sym_060A4CAE:
     .4byte  sym_060A4CAE
-.L_pool_0603AB18:
+.L_sym_060A4CC8:
     .4byte  sym_060A4CC8
-.L_pool_0603AB1C:
+.L_sym_060A4CAF:
     .4byte  sym_060A4CAF
 .L_0603AB20:
     cmp/eq #0x0, r0
@@ -126,14 +126,14 @@ menu_anim_system:
     .global sym_0603AB46
 sym_0603AB46:
     sts.l macl, @-r15
-    mov.l   .L_pool_0603ABCC, r6
-    mov.l   .L_pool_0603ABD0, r5
-    mov.l   .L_pool_0603ABD4, r0
+    mov.l   .L_sym_060A4CB4, r6
+    mov.l   .L_sym_060A4CC0, r5
+    mov.l   .L_sym_060A4CAF_2, r0
     mov.b @r0, r0
     bra     .L_0603ABF0
     extu.b r0, r0
 .L_0603AB54:
-    mov.l   .L_pool_0603ABD8, r0
+    mov.l   .L_sym_060A4CAE_2, r0
     mov.b @r0, r0
     extu.b r0, r0
     add #0x1, r0
@@ -202,13 +202,13 @@ sym_0603AB46:
     .2byte  0x00E2
 .L_wpool_0603ABCA:
     .2byte  0x00FF
-.L_pool_0603ABCC:
+.L_sym_060A4CB4:
     .4byte  sym_060A4CB4
-.L_pool_0603ABD0:
+.L_sym_060A4CC0:
     .4byte  sym_060A4CC0
-.L_pool_0603ABD4:
+.L_sym_060A4CAF_2:
     .4byte  sym_060A4CAF
-.L_pool_0603ABD8:
+.L_sym_060A4CAE_2:
     .4byte  sym_060A4CAE
 .L_0603ABDC:
     mov.l @r6, r2

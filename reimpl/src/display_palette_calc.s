@@ -14,15 +14,15 @@ display_palette_calc:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603CD50, r11
+    mov.l   .L_sym_060A4D58, r11
     mov.w   DAT_0603cd4c, r13
-    mov.l   .L_pool_0603CD54, r14
+    mov.l   .L_sym_060A4D46, r14
     tst r4, r4
     bf/s    .L_0603CCF0
     mov #0x1, r12
     mov r12, r0
     mov.w   .L_wpool_0603CD4E, r1
-    mov.l   .L_pool_0603CD58, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
     mov.w @(4, r14), r0
@@ -35,7 +35,7 @@ display_palette_calc:
     mov.w r0, @(4, r14)
     mov r12, r0
     mov.w   .L_wpool_0603CD4E, r1
-    mov.l   .L_pool_0603CD58, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
     exts.w r6, r6
@@ -48,7 +48,7 @@ display_palette_calc:
     mov.w r0, @(6, r14)
     mov r12, r0
     mov.w   .L_wpool_0603CD4E, r1
-    mov.l   .L_pool_0603CD58, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
     mov.w @(8, r14), r0
@@ -64,7 +64,7 @@ display_palette_calc:
 .L_0603CCF0:
     mov r12, r0
     mov.w   .L_wpool_0603CD4E, r1
-    mov.l   .L_pool_0603CD58, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
     exts.w r5, r5
@@ -77,7 +77,7 @@ display_palette_calc:
     mov.w r0, @(10, r14)
     mov r12, r0
     mov.w   .L_wpool_0603CD4E, r1
-    mov.l   .L_pool_0603CD58, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
     mov.w @(12, r14), r0
@@ -90,7 +90,7 @@ display_palette_calc:
     mov.w r0, @(12, r14)
     mov r12, r0
     mov.w   .L_wpool_0603CD4E, r1
-    mov.l   .L_pool_0603CD58, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
     mov.w @(14, r14), r0
@@ -115,9 +115,9 @@ DAT_0603cd4c:
     .2byte  0x01FF
 .L_wpool_0603CD4E:
     .2byte  0x0501
-.L_pool_0603CD50:
+.L_sym_060A4D58:
     .4byte  sym_060A4D58
-.L_pool_0603CD54:
+.L_sym_060A4D46:
     .4byte  sym_060A4D46
-.L_pool_0603CD58:
+.L_sym_06034F78:
     .4byte  sym_06034F78

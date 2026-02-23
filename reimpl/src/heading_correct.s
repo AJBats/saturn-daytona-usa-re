@@ -13,7 +13,7 @@ heading_correct:
     mov.l r11, @-r15
     sts.l macl, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0600CCFC, r6
+    mov.l   .L_sym_0607E940, r6
     mov.w   DAT_0600ccf6, r0
     mov.l @r6, r6
     mov.l @(r0, r6), r7
@@ -56,7 +56,7 @@ heading_correct:
     mov.w r3, @r15
     mov.w @r15, r7
     mov.w @r15, r0
-    mov.l   .L_pool_0600CD00, r11
+    mov.l   .L_sym_0607EB88, r11
     extu.w r7, r7
     and #0xFF, r0
     extu.w r0, r14
@@ -119,9 +119,9 @@ DAT_0600ccf8:
     .global DAT_0600ccfa
 DAT_0600ccfa:
     .2byte  0x01EC
-.L_pool_0600CCFC:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600CD00:
+.L_sym_0607EB88:
     .4byte  sym_0607EB88
 .L_0600CD04:
     mov.w   DAT_0600cdbc, r0
@@ -162,7 +162,7 @@ track_pos_query:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600CDC4, r14
+    mov.l   .L_sym_0607E940_2, r14
     mov.w   DAT_0600cdbe, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r13
@@ -185,7 +185,7 @@ track_pos_query:
     mov.l @(16, r14), r4
     mov.l @r13, r2
     sub r3, r5
-    mov.l   .L_pool_0600CDC8, r3
+    mov.l   .L_atan2, r3
     jsr @r3
     sub r2, r4
     exts.w r0, r4
@@ -211,7 +211,7 @@ track_pos_query:
     add #0x1, r3
     mov.l r3, @(r0, r14)
     mov.l @(r0, r14), r3
-    mov.l   .L_pool_0600CDCC, r2
+    mov.l   .L_sym_0607EA9C, r2
     mov.l @r2, r2
     cmp/gt r2, r3
     bf      .L_0600CDB2
@@ -240,9 +240,9 @@ DAT_0600cdc0:
     .global DAT_0600cdc2
 DAT_0600cdc2:
     .2byte  0x4000
-.L_pool_0600CDC4:
+.L_sym_0607E940_2:
     .4byte  sym_0607E940
-.L_pool_0600CDC8:
+.L_atan2:
     .4byte  atan2
-.L_pool_0600CDCC:
+.L_sym_0607EA9C:
     .4byte  sym_0607EA9C

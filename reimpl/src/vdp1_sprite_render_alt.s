@@ -15,9 +15,9 @@ vdp1_sprite_render_alt:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06007820, r12
-    mov.l   .L_pool_06007824, r13
-    mov.l   .L_pool_06007828, r14
+    mov.l   .L_sym_06063F64, r12
+    mov.l   .L_sym_0606A4EC, r13
+    mov.l   .L_sym_0606A4F4, r14
     mov.w @r4, r0
     extu.w r0, r0
     cmp/eq #0xA, r0
@@ -25,10 +25,10 @@ vdp1_sprite_render_alt:
     mov.l @r13, r2
     shll2 r2
     shll r2
-    mov.l   .L_pool_0600782C, r3
+    mov.l   .L_sym_06063F5C, r3
     mov.l @r3, r3
     add r3, r2
-    mov.l   .L_pool_06007830, r1
+    mov.l   .L_sym_06063F60, r1
     mov.l r2, @r1
 .L_060077BA:
     mov.w @(2, r4), r0
@@ -51,7 +51,7 @@ vdp1_sprite_render_alt:
     extu.w r0, r0
     mov.w r0, @(8, r15)
     mov.w @r4, r3
-    mov.l   .L_pool_06007834, r2
+    mov.l   .L_sym_060684EC, r2
     mov.l @r14, r1
     extu.w r3, r3
     shll r3
@@ -82,17 +82,17 @@ vdp1_sprite_render_alt:
     bra     .L_06007870
     mov.w r0, @(4, r2)
     .2byte  0xFFFF
-.L_pool_06007820:
+.L_sym_06063F64:
     .4byte  sym_06063F64
-.L_pool_06007824:
+.L_sym_0606A4EC:
     .4byte  sym_0606A4EC
-.L_pool_06007828:
+.L_sym_0606A4F4:
     .4byte  sym_0606A4F4
-.L_pool_0600782C:
+.L_sym_06063F5C:
     .4byte  sym_06063F5C
-.L_pool_06007830:
+.L_sym_06063F60:
     .4byte  sym_06063F60
-.L_pool_06007834:
+.L_sym_060684EC:
     .4byte  sym_060684EC
 .L_06007838:
     extu.w r7, r7
@@ -102,7 +102,7 @@ vdp1_sprite_render_alt:
     extu.w r7, r7
     mov.w r7, @r15
     mov.l @(4, r15), r0
-    mov.l   .L_pool_060078CC, r3
+    mov.l   .L_sym_06034FE0, r3
     and #0xFF, r0
     extu.w r0, r1
     mov #0x3, r0
@@ -121,7 +121,7 @@ vdp1_sprite_render_alt:
     mov r7, r0
     mov.w r0, @(4, r3)
     mov.l @r13, r3
-    mov.l   .L_pool_060078D0, r2
+    mov.l   .L_sym_0606A4F0, r2
     mov.l r3, @r2
 .L_06007870:
     mov.l @r14, r3
@@ -138,8 +138,8 @@ vdp1_sprite_render_alt:
     mov.w r0, @(6, r3)
     mov.l @(8, r4), r4
     mov.l @r13, r5
-    mov.l   .L_pool_060078D4, r3
-    mov.l   .L_pool_060078D8, r2
+    mov.l   .L_sym_06063F5C_2, r3
+    mov.l   .L_dma_memory_transfer, r2
     add r6, r4
     shll2 r5
     mov.l @r3, r3
@@ -173,11 +173,11 @@ vdp1_sprite_render_alt:
     .global DAT_060078ca
 DAT_060078ca:
     .2byte  0x3F00
-.L_pool_060078CC:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0
-.L_pool_060078D0:
+.L_sym_0606A4F0:
     .4byte  sym_0606A4F0
-.L_pool_060078D4:
+.L_sym_06063F5C_2:
     .4byte  sym_06063F5C
-.L_pool_060078D8:
+.L_dma_memory_transfer:
     .4byte  dma_memory_transfer

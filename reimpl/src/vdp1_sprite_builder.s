@@ -18,15 +18,15 @@ vdp1_sprite_builder:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06007CAC, r8
-    mov.l   .L_pool_06007CB0, r9
+    mov.l   .L_sym_060280F8, r8
+    mov.l   .L_sym_060620D0, r9
     mov.l   .L_pool_06007CB4, r10
-    mov.l   .L_pool_06007CB8, r13
-    mov.l   .L_pool_06007CBC, r14
-    mov.l   .L_pool_06007CC0, r3
+    mov.l   .L_sym_0608AC20, r13
+    mov.l   .L_sym_060785FC, r14
+    mov.l   .L_sym_06078620, r3
     mov.l r4, @r3
-    mov.l   .L_pool_06007CC4, r5
-    mov.l   .L_pool_06007CC8, r0
+    mov.l   .L_sym_0607861C, r5
+    mov.l   .L_sym_06063DA0, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0x8, r0
@@ -38,12 +38,12 @@ vdp1_sprite_builder:
 .L_06007C00:
     mov.l r4, @r5
 .L_06007C02:
-    mov.l   .L_pool_06007CC0, r11
+    mov.l   .L_sym_06078620, r11
     bra     .L_06007C6A
     mov.l @r11, r11
 .L_06007C08:
     mov r11, r12
-    mov.l   .L_pool_06007CCC, r3
+    mov.l   .L_sym_0606A4F8, r3
     shll r12
     add r3, r12
     mov.w @r12, r12
@@ -71,7 +71,7 @@ vdp1_sprite_builder:
     shll2 r3
     add r3, r4
     extu.w r4, r4
-    mov.l   .L_pool_06007CD0, r3
+    mov.l   .L_sym_060281B8, r3
     jsr @r3
     add r13, r4
     bra     .L_06007C62
@@ -97,24 +97,24 @@ vdp1_sprite_builder:
     mov.l @r9, r3
     cmp/hs r3, r11
     bf      .L_06007C08
-    mov.l   .L_pool_06007CD4, r4
+    mov.l   .L_sym_0605A008, r4
     mov.l @r9, r3
     mov.l @r4, r2
     add r3, r2
     mov.l r2, @r4
-    mov.l   .L_pool_06007CD8, r3
+    mov.l   .L_sym_0607EBC4, r3
     mov.l   .L_pool_06007CDC, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
     bt      .L_06007C90
-    mov.l   .L_pool_06007CE0, r3
+    mov.l   .L_sym_060333D8, r3
     jsr @r3
     nop
     .byte   0xBE, 0xE0    /* bsr 0x06007A50 (external) */
     nop
 .L_06007C90:
-    mov.l   .L_pool_06007CE4, r3
+    mov.l   .L_post_sprite_cleanup, r3
     jsr @r3
     nop
     lds.l @r15+, pr
@@ -124,39 +124,39 @@ vdp1_sprite_builder:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06007CE8, r3
+    mov.l   .L_vdp2_frame_update, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06007CAC:
+.L_sym_060280F8:
     .4byte  sym_060280F8
-.L_pool_06007CB0:
+.L_sym_060620D0:
     .4byte  sym_060620D0
 .L_pool_06007CB4:
     .4byte  0x00008000
-.L_pool_06007CB8:
+.L_sym_0608AC20:
     .4byte  sym_0608AC20
-.L_pool_06007CBC:
+.L_sym_060785FC:
     .4byte  sym_060785FC
-.L_pool_06007CC0:
+.L_sym_06078620:
     .4byte  sym_06078620
-.L_pool_06007CC4:
+.L_sym_0607861C:
     .4byte  sym_0607861C
-.L_pool_06007CC8:
+.L_sym_06063DA0:
     .4byte  sym_06063DA0
-.L_pool_06007CCC:
+.L_sym_0606A4F8:
     .4byte  sym_0606A4F8
-.L_pool_06007CD0:
+.L_sym_060281B8:
     .4byte  sym_060281B8
-.L_pool_06007CD4:
+.L_sym_0605A008:
     .4byte  sym_0605A008
-.L_pool_06007CD8:
+.L_sym_0607EBC4:
     .4byte  sym_0607EBC4
 .L_pool_06007CDC:
     .4byte  0x20228000
-.L_pool_06007CE0:
+.L_sym_060333D8:
     .4byte  sym_060333D8
-.L_pool_06007CE4:
+.L_post_sprite_cleanup:
     .4byte  post_sprite_cleanup
-.L_pool_06007CE8:
+.L_vdp2_frame_update:
     .4byte  vdp2_frame_update

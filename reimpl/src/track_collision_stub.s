@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0603674A
+    .space 2    /* align to match original address 0x0603674A (mod 4 = 2) */
 
 
     .global track_collision_stub

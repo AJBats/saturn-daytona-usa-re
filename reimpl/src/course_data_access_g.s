@@ -11,7 +11,7 @@
 course_data_access_g:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036644, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -30,7 +30,7 @@ course_data_access_g:
     mov r15, r3
     mov r13, r0
     mov.w r0, @(6, r3)
-    mov.l   .L_pool_06036648, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov #0x40, r4
     mov r0, r4
@@ -49,7 +49,7 @@ track_distance_calc:
     mov r4, r14
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_06036644, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -71,9 +71,9 @@ track_distance_calc:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_pool_06036644:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036648:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons
 .L_pool_0603664C:
     .4byte  0x00FFFFFF

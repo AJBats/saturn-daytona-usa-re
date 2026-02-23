@@ -11,33 +11,33 @@
 render_orchestrator:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0602EF00, r13
+    mov.l   .L_sym_0602FDA4, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF04, r13
+    mov.l   .L_render_camera_compute, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF08, r1
+    mov.l   .L_sym_0607EAC8, r1
     mov #0x0, r2
     mov.l r2, @r1
     mov.w   .L_wpool_0602EEFA, r1
     mov.w @(r0, r1), r2
     add #0x2, r1
     mov.w r2, @(r0, r1)
-    mov.l   .L_pool_0602EF0C, r13
+    mov.l   .L_sym_0602F3EC, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF10, r13
+    mov.l   .L_sym_0602F7BC, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF14, r13
+    mov.l   .L_sym_0602F0E8, r13
     jsr @r13
     nop
     mov.w   .L_wpool_0602EEFC, r1
     mov.w @(r0, r1), r2
     tst r2, r2
     bt      .L_0602EF1C
-    mov.l   .L_pool_0602EF18, r13
+    mov.l   .L_collision_response_b, r13
     jsr @r13
     nop
     bra     .L_0602EF22
@@ -47,50 +47,50 @@ render_orchestrator:
 .L_wpool_0602EEFC:
     .2byte  0x009C
     .2byte  0x0000
-.L_pool_0602EF00:
+.L_sym_0602FDA4:
     .4byte  sym_0602FDA4
-.L_pool_0602EF04:
+.L_render_camera_compute:
     .4byte  render_camera_compute
-.L_pool_0602EF08:
+.L_sym_0607EAC8:
     .4byte  sym_0607EAC8
-.L_pool_0602EF0C:
+.L_sym_0602F3EC:
     .4byte  sym_0602F3EC
-.L_pool_0602EF10:
+.L_sym_0602F7BC:
     .4byte  sym_0602F7BC
-.L_pool_0602EF14:
+.L_sym_0602F0E8:
     .4byte  sym_0602F0E8
-.L_pool_0602EF18:
+.L_collision_response_b:
     .4byte  collision_response_b
 .L_0602EF1C:
-    mov.l   .L_pool_0602EF64, r13
+    mov.l   .L_sym_0602F17C, r13
     jsr @r13
     nop
 .L_0602EF22:
-    mov.l   .L_pool_0602EF68, r13
+    mov.l   .L_sym_0602F474, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF6C, r13
+    mov.l   .L_sym_0602F4B4, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF70, r13
+    mov.l   .L_color_material_blend, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF74, r13
+    mov.l   .L_sym_0602EFCC, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF78, r13
+    mov.l   .L_vdp1_display_list_setup, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF7C, r13
+    mov.l   .L_vdp1_color_setup, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EF80, r13
+    mov.l   .L_vdp1_coord_setup, r13
     jsr @r13
     nop
     mov.w   .L_wpool_0602EF60, r1
-    mov.l   .L_pool_0602EF84, r12
+    mov.l   .L_vdp1_sprite_cmd, r12
     mov.w @(r0, r1), r2
-    mov.l   .L_pool_0602EF88, r13
+    mov.l   .L_vdp1_display_submit, r13
     tst r2, r2
     bt      .L_0602EF8C
     jsr @r12
@@ -100,37 +100,37 @@ render_orchestrator:
 .L_wpool_0602EF60:
     .2byte  0x009E
     .2byte  0x0000
-.L_pool_0602EF64:
+.L_sym_0602F17C:
     .4byte  sym_0602F17C
-.L_pool_0602EF68:
+.L_sym_0602F474:
     .4byte  sym_0602F474
-.L_pool_0602EF6C:
+.L_sym_0602F4B4:
     .4byte  sym_0602F4B4
-.L_pool_0602EF70:
+.L_color_material_blend:
     .4byte  color_material_blend
-.L_pool_0602EF74:
+.L_sym_0602EFCC:
     .4byte  sym_0602EFCC
-.L_pool_0602EF78:
+.L_vdp1_display_list_setup:
     .4byte  vdp1_display_list_setup
-.L_pool_0602EF7C:
+.L_vdp1_color_setup:
     .4byte  vdp1_color_setup
-.L_pool_0602EF80:
+.L_vdp1_coord_setup:
     .4byte  vdp1_coord_setup
-.L_pool_0602EF84:
+.L_vdp1_sprite_cmd:
     .4byte  vdp1_sprite_cmd
-.L_pool_0602EF88:
+.L_vdp1_display_submit:
     .4byte  vdp1_display_submit
 .L_0602EF8C:
     jsr @r13
     nop
 .L_0602EF90:
-    mov.l   .L_pool_0602EFBC, r13
+    mov.l   .L_vdp1_cmd_list_mgr, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EFC0, r13
+    mov.l   .L_sym_0602D814, r13
     jsr @r13
     nop
-    mov.l   .L_pool_0602EFC4, r13
+    mov.l   .L_sym_0602D8BC, r13
     jsr @r13
     nop
     mov.l @(0, r0), r2
@@ -146,11 +146,11 @@ render_orchestrator:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_pool_0602EFBC:
+.L_vdp1_cmd_list_mgr:
     .4byte  vdp1_cmd_list_mgr
-.L_pool_0602EFC0:
+.L_sym_0602D814:
     .4byte  sym_0602D814
-.L_pool_0602EFC4:
+.L_sym_0602D8BC:
     .4byte  sym_0602D8BC
 .L_pool_0602EFC8:
     .4byte  0xFFFFFC3F
@@ -163,7 +163,7 @@ sym_0602EFCC:
     add r0, r5
     add r0, r6
     mov r0, r14
-    mov.l   .L_pool_0602EFEC, r12
+    mov.l   .L_sincos_pair, r12
 
     .global track_seg_visibility
     .type track_seg_visibility, @function
@@ -181,7 +181,7 @@ DAT_0602efe6:
 .L_wpool_0602EFE8:
     .2byte  0x0104
     .2byte  0x0000
-.L_pool_0602EFEC:
+.L_sincos_pair:
     .4byte  sincos_pair
 
     .global render_camera_compute
@@ -189,7 +189,7 @@ DAT_0602efe6:
 render_camera_compute:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0602F024, r0
+    mov.l   .L_sym_0607E944, r0
     mov.l @r0, r0
     mov #0x0, r1
     mov #0x0, r2
@@ -219,7 +219,7 @@ DAT_0602f01e:
     .2byte  0x0005
 .L_wpool_0602F022:
     .2byte  0x0050
-.L_pool_0602F024:
+.L_sym_0607E944:
     .4byte  sym_0607E944
 .L_0602F028:
     sub r2, r3
@@ -341,7 +341,7 @@ DAT_0602f066:
 
     .global sym_0602F0E8
 sym_0602F0E8:
-    mov.l   .L_pool_0602F12C, r2
+    mov.l   .L_sym_0607E944_2, r2
     mov.l @r2, r0
     mov.w   DAT_0602f11e, r1
     mov.l @(r0, r1), r2
@@ -396,7 +396,7 @@ DAT_0602f128:
     .global DAT_0602f12a
 DAT_0602f12a:
     .2byte  0x0068
-.L_pool_0602F12C:
+.L_sym_0607E944_2:
     .4byte  sym_0607E944
 .L_pool_0602F130:
     .4byte  0x00000084
@@ -477,13 +477,13 @@ sym_0602F17C:
     mov.l @(8, r0), r7
     tst r7, r7
     bt      .L_0602F1AC
-    mov.l   .L_pool_0602F1C0, r6
+    mov.l   .L_sym_060477AC, r6
     add r2, r6
     mov.l @r6, r6
     cmp/gt r6, r4
     bt      .L_0602F1C8
 .L_0602F1AC:
-    mov.l   .L_pool_0602F1C4, r6
+    mov.l   .L_sym_0604779C, r6
     add r2, r6
     mov.l @r6, r6
     cmp/ge r4, r6
@@ -500,9 +500,9 @@ DAT_0602f1bc:
     .global DAT_0602f1be
 DAT_0602f1be:
     .2byte  0x00E0
-.L_pool_0602F1C0:
+.L_sym_060477AC:
     .4byte  sym_060477AC
-.L_pool_0602F1C4:
+.L_sym_0604779C:
     .4byte  sym_0604779C
 .L_0602F1C8:
     mov #0x5, r1
@@ -513,7 +513,7 @@ DAT_0602f1be:
     mov.w r1, @(r0, r9)
     mov.w   DAT_0602f1f2, r8
     mov.l @(r0, r8), r5
-    mov.l   .L_pool_0602F1F4, r2
+    mov.l   .L_sym_060477CC, r2
     shll16 r5
     shll2 r3
     add r2, r3
@@ -530,7 +530,7 @@ DAT_0602f1be:
     .global DAT_0602f1f2
 DAT_0602f1f2:
     .2byte  0x00E0
-.L_pool_0602F1F4:
+.L_sym_060477CC:
     .4byte  sym_060477CC
 .L_0602F1F8:
     mov #-0x5, r1
@@ -542,11 +542,11 @@ DAT_0602f1f2:
     mov.w   DAT_0602f24c, r8
     mov.l @(r0, r8), r4
     shll16 r4
-    mov.l   .L_pool_0602F254, r2
+    mov.l   .L_sym_060477CC_2, r2
     shll2 r3
     add r2, r3
     mov.l @r3, r5
-    mov.l   .L_pool_0602F258, r12
+    mov.l   .L_fpdiv_setup, r12
 
     .global track_seg_render_setup
     .type track_seg_render_setup, @function
@@ -571,7 +571,7 @@ track_seg_render_setup:
     mov.w @(r0, r9), r3
     shll r3
     shll2 r3
-    mov.l   .L_pool_0602F25C, r7
+    mov.l   .L_sym_0602F3CC, r7
     add r3, r7
     mov.l @r7, r1
     mov.l @(4, r7), r2
@@ -591,11 +591,11 @@ DAT_0602f24e:
 .L_wpool_0602F250:
     .2byte  0x00C0
     .2byte  0x0000
-.L_pool_0602F254:
+.L_sym_060477CC_2:
     .4byte  sym_060477CC
-.L_pool_0602F258:
+.L_fpdiv_setup:
     .4byte  fpdiv_setup
-.L_pool_0602F25C:
+.L_sym_0602F3CC:
     .4byte  sym_0602F3CC
 .L_0602F260:
     cmp/ge r5, r2
@@ -664,7 +664,7 @@ collision_response_b:
     mov.l @(r0, r3), r4
     shll16 r4
     mov r2, r5
-    mov.l   .L_pool_0602F2FC, r8
+    mov.l   .L_sym_060477BC, r8
     mov r8, r9
     shll2 r5
     add r5, r8
@@ -677,7 +677,7 @@ collision_response_b:
     sts macl, r4
     mov.l @r9, r5
     xtrct r7, r4
-    mov.l   .L_pool_0602F300, r0
+    mov.l   .L_fpdiv_setup_2, r0
     jsr @r0
     nop
     mov.w   .L_wpool_0602F2F8, r3
@@ -693,9 +693,9 @@ collision_response_b:
     .2byte  0x00E0
 .L_wpool_0602F2FA:
     .2byte  0x00D8
-.L_pool_0602F2FC:
+.L_sym_060477BC:
     .4byte  sym_060477BC
-.L_pool_0602F300:
+.L_fpdiv_setup_2:
     .4byte  fpdiv_setup
 .L_0602F304:
     tst r2, r2
@@ -705,7 +705,7 @@ collision_response_b:
     mov.l @(r0, r3), r4
     shll16 r4
     mov r2, r5
-    mov.l   .L_pool_0602F39C, r8
+    mov.l   .L_sym_060477BC_2, r8
     mov r8, r9
     shll2 r5
     add r5, r8
@@ -718,7 +718,7 @@ collision_response_b:
     sts macl, r4
     mov.l @r9, r5
     xtrct r7, r4
-    mov.l   .L_pool_0602F3A0, r0
+    mov.l   .L_fpdiv_setup_3, r0
     jsr @r0
     nop
     mov.w   .L_wpool_0602F388, r3
@@ -754,7 +754,7 @@ collision_response_b:
     add r5, r4
     sub r3, r4
     mov.w   .L_wpool_0602F398, r1
-    mov.l   .L_pool_0602F3A4, r7
+    mov.l   .L_sym_0602F3CC_2, r7
     mov.w @(r0, r1), r2
     shll2 r2
     shll r2
@@ -785,11 +785,11 @@ collision_response_b:
 .L_wpool_0602F398:
     .2byte  0x00DC
     .2byte  0x0000
-.L_pool_0602F39C:
+.L_sym_060477BC_2:
     .4byte  sym_060477BC
-.L_pool_0602F3A0:
+.L_fpdiv_setup_3:
     .4byte  fpdiv_setup
-.L_pool_0602F3A4:
+.L_sym_0602F3CC_2:
     .4byte  sym_0602F3CC
 .L_0602F3A8:
     cmp/ge r4, r9
@@ -944,7 +944,7 @@ sym_0602F474:
 .L_0602F49A:
     add #0x1, r5
 .L_0602F49C:
-    mov.l   .L_pool_0602F4B0, r6
+    mov.l   .L_sym_060477D8, r6
     shll2 r5
     add r5, r6
     mov.l @r6, r3
@@ -958,12 +958,12 @@ DAT_0602f4aa:
 .L_wpool_0602F4AC:
     .2byte  0x0114
     .2byte  0x0000
-.L_pool_0602F4B0:
+.L_sym_060477D8:
     .4byte  sym_060477D8
 
     .global sym_0602F4B4
 sym_0602F4B4:
-    mov.l   .L_pool_0602F4C4, r1
+    mov.l   .L_sym_0607EAE0, r1
     mov.l @r1, r3
     mov #0x1, r6
     tst r3, r3
@@ -971,7 +971,7 @@ sym_0602F4B4:
     rts
     nop
     .2byte  0x0000
-.L_pool_0602F4C4:
+.L_sym_0607EAE0:
     .4byte  sym_0607EAE0
 .L_0602F4C8:
     mov.w   DAT_0602f51a, r1
@@ -981,9 +981,9 @@ sym_0602F4B4:
     sub r6, r3
     mov.w r3, @(r0, r1)
 .L_0602F4D4:
-    mov.l   .L_pool_0602F520, r5
+    mov.l   .L_sym_0607EA98, r5
     mov.l @r5, r5
-    mov.l   .L_pool_0602F524, r3
+    mov.l   .L_sym_0607E948, r3
     mov.l @r3, r6
     mov.w   DAT_0602f51c, r2
     mov.w   DAT_0602f51e, r4
@@ -1031,9 +1031,9 @@ DAT_0602f51c:
     .global DAT_0602f51e
 DAT_0602f51e:
     .2byte  0x0018
-.L_pool_0602F520:
+.L_sym_0607EA98:
     .4byte  sym_0607EA98
-.L_pool_0602F524:
+.L_sym_0607E948:
     .4byte  sym_0607E948
 .L_0602F528:
     shar r4
@@ -1056,7 +1056,7 @@ DAT_0602f51e:
     sub r7, r4
     mov r10, r5
     sub r8, r5
-    mov.l   .L_pool_0602F57C, r0
+    mov.l   .L_atan2, r0
 
     .global track_poly_build
     .type track_poly_build, @function
@@ -1083,7 +1083,7 @@ track_poly_build:
     .2byte  0x0000
 .L_pool_0602F578:
     .4byte  0x001E0000
-.L_pool_0602F57C:
+.L_atan2:
     .4byte  atan2
 .L_pool_0602F580:
     .4byte  0x00008000

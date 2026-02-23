@@ -20,11 +20,11 @@ road_segment_check:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x14, r15
-    mov.l   .L_pool_06040D30, r11
+    mov.l   .L_ai_checkpoint_section, r11
     mov.w   DAT_06040d2c, r12
-    mov.l   .L_pool_06040D34, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l r5, @r15
-    mov.l   .L_pool_06040D38, r3
+    mov.l   .L_sym_0604231E, r3
     jsr @r3
     mov.l r4, @r14
     mov.l @r15, r0
@@ -78,7 +78,7 @@ road_segment_check:
     mov r12, r7
     mov r12, r6
     mov.l   .L_pool_06040D3C, r5
-    mov.l   .L_pool_06040D40, r3
+    mov.l   .L_road_segment_query, r3
     jsr @r3
     mov r12, r4
     mov r0, r4
@@ -95,19 +95,19 @@ road_segment_check:
 DAT_06040d2c:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_pool_06040D30:
+.L_ai_checkpoint_section:
     .4byte  ai_checkpoint_section
-.L_pool_06040D34:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_06040D38:
+.L_sym_0604231E:
     .4byte  sym_0604231E
 .L_pool_06040D3C:
     .4byte  0x0000FFFF
-.L_pool_06040D40:
+.L_road_segment_query:
     .4byte  road_segment_query
 .L_06040D44:
     mov.w   DAT_06040dc0, r2
-    mov.l   .L_pool_06040DC8, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -127,7 +127,7 @@ DAT_06040d2c:
     nop
 .L_06040D66:
     mov.l   .L_pool_06040DCC, r4
-    mov.l   .L_pool_06040DD0, r3
+    mov.l   .L_smpc_cmd_helper_b, r3
     jsr @r3
     nop
     add #0x1, r8
@@ -164,11 +164,11 @@ DAT_06040d2c:
 .L_06040DA4:
     tst r9, r9
     bt      .L_06040D44
-    mov.l   .L_pool_06040DD4, r9
+    mov.l   .L_sym_060A4D14, r9
     mov.w   .L_wpool_06040DC4, r3
     mov.l @r9, r9
     add r3, r9
-    mov.l   .L_pool_06040DD8, r3
+    mov.l   .L_track_intersect_test, r3
     jsr @r3
     mov r9, r4
     mov r0, r4
@@ -187,25 +187,25 @@ DAT_06040dc2:
 .L_wpool_06040DC4:
     .2byte  0x043C
     .2byte  0xFFFF
-.L_pool_06040DC8:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E
 .L_pool_06040DCC:
     .4byte  0x0000FBFF
-.L_pool_06040DD0:
+.L_smpc_cmd_helper_b:
     .4byte  smpc_cmd_helper_b
-.L_pool_06040DD4:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_06040DD8:
+.L_track_intersect_test:
     .4byte  track_intersect_test
 .L_06040DDC:
     mov r15, r5
-    mov.l   .L_pool_06040E74, r3
+    mov.l   .L_mesh_boundary_check, r3
     add #0x4, r5
     jsr @r3
     mov #0x0, r4
     mov r15, r5
     mov r15, r4
-    mov.l   .L_pool_06040E74, r3
+    mov.l   .L_mesh_boundary_check, r3
     add #0x4, r5
     add #0x4, r4
     mov.b @r4, r4
@@ -226,7 +226,7 @@ DAT_06040dc2:
     mov #-0xF, r0
 .L_06040E10:
     mov.w   DAT_06040e72, r4
-    mov.l   .L_pool_06040E7C, r3
+    mov.l   .L_track_surface_type_a, r3
     jsr @r3
     mov r12, r5
     mov.l @r14, r2
@@ -246,7 +246,7 @@ DAT_06040dc2:
 .L_06040E32:
     mov #0x40, r3
     mov.l r3, @r15
-    mov.l   .L_pool_06040E84, r3
+    mov.l   .L_sym_06035C4E_2, r3
     jsr @r3
     nop
     mov r0, r5
@@ -283,22 +283,22 @@ DAT_06040dc2:
     .global DAT_06040e72
 DAT_06040e72:
     .2byte  0x00FC
-.L_pool_06040E74:
+.L_mesh_boundary_check:
     .4byte  mesh_boundary_check
 .L_pool_06040E78:
     .4byte  0x40000000
-.L_pool_06040E7C:
+.L_track_surface_type_a:
     .4byte  track_surface_type_a
 .L_pool_06040E80:
     .4byte  0x00008000
-.L_pool_06040E84:
+.L_sym_06035C4E_2:
     .4byte  sym_06035C4E
 
     .global sym_06040E88
 sym_06040E88:
     mov #0x1, r1
     mov #0x18, r7
-    mov.l   .L_pool_06040EE8, r6
+    mov.l   .L_sym_060A5400_2, r6
     mov #0x0, r5
 .L_06040E90:
     mov.l @r6, r3
@@ -335,7 +335,7 @@ sym_06040EBA:
     rts
     mov #-0x6, r0
 .L_06040EC8:
-    mov.l   .L_pool_06040EE8, r5
+    mov.l   .L_sym_060A5400_2, r5
     mov.l @r5, r0
     add #0x18, r0
     mov.b @(r0, r4), r0
@@ -352,14 +352,14 @@ sym_06040EBA:
     mov r2, r0
     rts
     nop
-.L_pool_06040EE8:
+.L_sym_060A5400_2:
     .4byte  sym_060A5400
 
     .global sym_06040EEC
 sym_06040EEC:
     mov #0x1, r1
     mov #0x18, r7
-    mov.l   .L_pool_06040F3C, r6
+    mov.l   .L_sym_060A5400_3, r6
     mov #0x0, r5
 .L_06040EF4:
     mov.l @r6, r0
@@ -387,7 +387,7 @@ sym_06040EEC:
     .type event_queue_overflow, @function
 event_queue_overflow:
     sts.l pr, @-r15
-    mov.l   .L_pool_06040F3C, r13
+    mov.l   .L_sym_060A5400_3, r13
     cmp/pz r14
     bf      .L_06040F2A
     mov #0x18, r2
@@ -404,7 +404,7 @@ event_queue_overflow:
     bra     .L_06040F7A
     mov #-0x7, r0
     .2byte  0xFFFF
-.L_pool_06040F3C:
+.L_sym_060A5400_3:
     .4byte  sym_060A5400
 .L_06040F40:
     mov.l   .L_pool_06040FA8, r6
@@ -452,12 +452,12 @@ evt_boundary_check:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r5
-    mov.l   .L_pool_06040FB0, r3
+    mov.l   .L_mesh_boundary_check_2, r3
     jsr @r3
     mov #0x0, r4
     mov r15, r5
     mov r15, r4
-    mov.l   .L_pool_06040FB0, r3
+    mov.l   .L_mesh_boundary_check_2, r3
     mov.b @r4, r4
     jsr @r3
     extu.b r4, r4
@@ -472,14 +472,14 @@ evt_boundary_check:
     .4byte  0x0000FFFF
 .L_pool_06040FAC:
     .4byte  0x00008000
-.L_pool_06040FB0:
+.L_mesh_boundary_check_2:
     .4byte  mesh_boundary_check
 .L_pool_06040FB4:
     .4byte  0x00FFFFFF
 
     .global sym_06040FB8
 sym_06040FB8:
-    mov.l   .L_pool_06041010, r4
+    mov.l   .L_sym_060A5400_4, r4
     mov.l @r4, r0
     mov.l @(48, r0), r0
     cmp/eq #0x1, r0
@@ -509,7 +509,7 @@ sym_06040FB8:
 
     .global sym_06040FEA
 sym_06040FEA:
-    mov.l   .L_pool_06041010, r5
+    mov.l   .L_sym_060A5400_4, r5
     mov.l @r5, r3
     mov.l @(48, r3), r0
     tst r0, r0
@@ -530,12 +530,12 @@ sym_06040FEA:
     mov r4, r0
     rts
     nop
-.L_pool_06041010:
+.L_sym_060A5400_4:
     .4byte  sym_060A5400
 
     .global sym_06041014
 sym_06041014:
-    mov.l   .L_pool_0604105C, r5
+    mov.l   .L_sym_060A5400_5, r5
     mov.l @r5, r3
     mov.l @(48, r3), r0
     tst r0, r0
@@ -563,7 +563,7 @@ buffer_slot_alloc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0604105C, r14
+    mov.l   .L_sym_060A5400_5, r14
     mov.l @r14, r1
     mov.l @(r0, r1), r1
     mov.l @r14, r0
@@ -579,7 +579,7 @@ buffer_slot_alloc:
     bf      .L_06041060
     bra     .L_060410C0
     mov #-0x8, r0
-.L_pool_0604105C:
+.L_sym_060A5400_5:
     .4byte  sym_060A5400
 .L_06041060:
     mov.l @r14, r2
@@ -607,7 +607,7 @@ buffer_slot_alloc:
     add r13, r2
     mov.b r0, @(1, r2)
     mov r6, r2
-    mov.l   .L_pool_060410FC, r3
+    mov.l   .L_sym_06035228, r3
     mov.l @r14, r1
     add #0x5C, r1
     add r13, r1
@@ -645,7 +645,7 @@ vblank_int_ext:
     add #-0x14, r15
     mov.l r4, @r15
     mov.l r6, @(4, r15)
-    mov.l   .L_pool_06041100, r3
+    mov.l   .L_track_road_edge_b, r3
     jsr @r3
     mov.l @r15, r4
     mov r0, r4
@@ -657,7 +657,7 @@ vblank_int_ext:
     mov #-0xA, r0
 .L_060410E6:
     mov.l @(4, r15), r5
-    mov.l   .L_pool_06041104, r3
+    mov.l   .L_track_road_width_stub, r3
     jsr @r3
     mov.l @r15, r4
     mov r0, r4
@@ -667,18 +667,18 @@ vblank_int_ext:
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
-.L_pool_060410FC:
+.L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_06041100:
+.L_track_road_edge_b:
     .4byte  track_road_edge_b
-.L_pool_06041104:
+.L_track_road_width_stub:
     .4byte  track_road_width_stub
 .L_06041108:
     mov r15, r4
-    mov.l   .L_pool_06041178, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     add #0x8, r4
-    mov.l   .L_pool_0604117C, r2
+    mov.l   .L_sym_060A5400_6, r2
     mov.l @r2, r2
     mov r15, r3
     add #0x8, r3
@@ -699,7 +699,7 @@ queue_validator:
     mov.w   DAT_06041174, r3
     cmp/eq r3, r4
     bt      .L_06041146
-    mov.l   .L_pool_0604117C, r0
+    mov.l   .L_sym_060A5400_6, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r4), r0
@@ -710,7 +710,7 @@ queue_validator:
     rts
     mov #-0x7, r0
 .L_06041146:
-    mov.l   .L_pool_0604117C, r6
+    mov.l   .L_sym_060A5400_6, r6
     mov.l @r6, r2
     mov.l @(56, r2), r3
     cmp/eq r5, r3
@@ -740,7 +740,7 @@ DAT_06041174:
     .2byte  0x00FF
 .L_wpool_06041176:
     .2byte  0x0304
-.L_pool_06041178:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_0604117C:
+.L_sym_060A5400_6:
     .4byte  sym_060A5400

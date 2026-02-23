@@ -12,8 +12,8 @@ mem_pool_reset:
     sts.l pr, @-r15
     .byte   0xB1, 0x52    /* bsr 0x0601F87A (external) */
     mov #0x0, r4
-    mov.l   .L_pool_0601F5DC, r3
+    mov.l   .L_geom_vertex_process, r3
     jmp @r3
     lds.l @r15+, pr
-.L_pool_0601F5DC:
+.L_geom_vertex_process:
     .4byte  geom_vertex_process

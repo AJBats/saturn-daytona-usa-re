@@ -13,7 +13,7 @@ input_event_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06005AC4, r4
+    mov.l   .L_sym_0607EABC, r4
     mov.l @r4, r3
     cmp/pl r3
     bf      .L_06005AE0
@@ -23,7 +23,7 @@ input_event_handler:
     tst #0x1, r0
     bt/s    .L_06005A9C
     mov.l r3, @r4
-    mov.l   .L_pool_06005AC8, r0
+    mov.l   .L_sym_06085FF4, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06005A4A
@@ -33,14 +33,14 @@ input_event_handler:
 .L_06005A4A:
     mov #0x21, r14
 .L_06005A4C:
-    mov.l   .L_pool_06005ACC, r0
+    mov.l   .L_sym_0607EAC0, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_06005A78
     mov r14, r7
     shll2 r7
     shll r7
-    mov.l   .L_pool_06005AD0, r3
+    mov.l   .L_sym_06063750, r3
     add r3, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -52,14 +52,14 @@ input_event_handler:
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_pool_06005AD4, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06005A78:
     mov r14, r7
     shll2 r7
     shll r7
-    mov.l   .L_pool_06005AD0, r3
+    mov.l   .L_sym_06063750, r3
     add r3, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -71,23 +71,23 @@ input_event_handler:
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_pool_06005AD4, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06005A9C:
-    mov.l   .L_pool_06005AD8, r7
+    mov.l   .L_sym_0605ACDD, r7
     mov.w   .L_wpool_06005AC2, r6
     mov.w   DAT_06005abe, r5
-    mov.l   .L_pool_06005ADC, r3
+    mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_06005AD8, r7
+    mov.l   .L_sym_0605ACDD, r7
     mov.w   .L_wpool_06005AC2, r6
     mov.w   DAT_06005ac0, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_pool_06005ADC, r3
+    mov.l   .L_sym_060284AE, r3
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06005ABA:
@@ -106,19 +106,19 @@ DAT_06005ac0:
     .2byte  0x059C
 .L_wpool_06005AC2:
     .2byte  0x0090
-.L_pool_06005AC4:
+.L_sym_0607EABC:
     .4byte  sym_0607EABC
-.L_pool_06005AC8:
+.L_sym_06085FF4:
     .4byte  sym_06085FF4
-.L_pool_06005ACC:
+.L_sym_0607EAC0:
     .4byte  sym_0607EAC0
-.L_pool_06005AD0:
+.L_sym_06063750:
     .4byte  sym_06063750
-.L_pool_06005AD4:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_06005AD8:
+.L_sym_0605ACDD:
     .4byte  sym_0605ACDD
-.L_pool_06005ADC:
+.L_sym_060284AE:
     .4byte  sym_060284AE
 .L_06005AE0:
     add #0x4, r15

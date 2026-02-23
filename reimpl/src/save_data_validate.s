@@ -16,7 +16,7 @@ save_data_validate:
     cmp/eq #-0x1, r0
     bf/s    .L_0603B9CE
     mov r0, r4
-    mov.l   .L_pool_0603B9E4, r4
+    mov.l   .L_sym_060A4D14, r4
     mov.l @r4, r4
     add #0x34, r4
     mov #0x60, r0
@@ -46,7 +46,7 @@ save_field_read:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_pool_0603B9E4:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
 .L_0603B9E8:
     .byte   0xBF, 0xBF    /* bsr 0x0603B96A (external) */
@@ -57,7 +57,7 @@ save_field_read:
     mov #0x60, r0
     mov r4, r6
     mov r4, r5
-    mov.l   .L_pool_0603BA68, r7
+    mov.l   .L_sym_060A4D14_2, r7
     add #0x1, r6
     mov.l @r7, r7
     shll2 r6
@@ -100,7 +100,7 @@ save_field_write:
     add #-0x8, r15
     mov.l r5, @r15
     mov.l r6, @(4, r15)
-    mov.l   .L_pool_0603BA6C, r3
+    mov.l   .L_attract_state_change, r3
     jsr @r3
     add #0x40, r4
     mov r0, r12
@@ -120,36 +120,36 @@ save_field_write:
     bf      .L_0603BA70
     bra     .L_0603BAB6
     mov #0x0, r0
-.L_pool_0603BA68:
+.L_sym_060A4D14_2:
     .4byte  sym_060A4D14
-.L_pool_0603BA6C:
+.L_attract_state_change:
     .4byte  attract_state_change
 .L_0603BA70:
     mov #-0x1, r6
     mov #0x0, r5
     mov.w   DAT_0603bae6, r4
-    mov.l   .L_pool_0603BAE8, r3
+    mov.l   .L_sym_0603EF34, r3
     jsr @r3
     add r13, r4
     mov r0, r11
     mov r13, r4
-    mov.l   .L_pool_0603BAEC, r2
+    mov.l   .L_sym_0603F070, r2
     mov r11, r5
     add #0x78, r4
     mov.l r2, @-r15
-    mov.l   .L_pool_0603BAF0, r3
+    mov.l   .L_sym_0603F036, r3
     mov.l r3, @-r15
-    mov.l   .L_pool_0603BAF4, r2
+    mov.l   .L_sym_0603EFE6, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0603BAF8, r7
-    mov.l   .L_pool_0603BAFC, r6
-    mov.l   .L_pool_0603BB00, r3
+    mov.l   .L_sym_0603EFD4, r7
+    mov.l   .L_attract_init_setup, r6
+    mov.l   .L_sym_0603F8B8, r3
     jsr @r3
     add #0x18, r4
     mov r0, r6
     mov r10, r5
     add #0xC, r15
-    mov.l   .L_pool_0603BB04, r3
+    mov.l   .L_attract_replay_loader, r3
     jsr @r3
     mov r12, r4
     mov.l r11, @(4, r14)
@@ -182,7 +182,7 @@ save_block_copy:
     sts.l pr, @-r15
     add #-0x10, r15
     mov.l r4, @r15
-    mov.l   .L_pool_0603BB08, r3
+    mov.l   .L_evt_condition_test, r3
     jsr @r3
     mov r14, r12
     tst r0, r0
@@ -193,29 +193,29 @@ save_block_copy:
     .global DAT_0603bae6
 DAT_0603bae6:
     .2byte  0x00D4
-.L_pool_0603BAE8:
+.L_sym_0603EF34:
     .4byte  sym_0603EF34
-.L_pool_0603BAEC:
+.L_sym_0603F070:
     .4byte  sym_0603F070
-.L_pool_0603BAF0:
+.L_sym_0603F036:
     .4byte  sym_0603F036
-.L_pool_0603BAF4:
+.L_sym_0603EFE6:
     .4byte  sym_0603EFE6
-.L_pool_0603BAF8:
+.L_sym_0603EFD4:
     .4byte  sym_0603EFD4
-.L_pool_0603BAFC:
+.L_attract_init_setup:
     .4byte  attract_init_setup
-.L_pool_0603BB00:
+.L_sym_0603F8B8:
     .4byte  sym_0603F8B8
-.L_pool_0603BB04:
+.L_attract_replay_loader:
     .4byte  attract_replay_loader
-.L_pool_0603BB08:
+.L_evt_condition_test:
     .4byte  evt_condition_test
 .L_0603BB0C:
     mov r15, r3
     add #0x4, r3
     mov r3, r8
-    mov.l   .L_pool_0603BBB8, r3
+    mov.l   .L_evt_boundary_check, r3
     jsr @r3
     nop
     mov.w   DAT_0603bbb0, r2
@@ -282,7 +282,7 @@ save_header_parse:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603BBBC, r13
+    mov.l   .L_sym_060A4D14_3, r13
     mov.w   DAT_0603bbb4, r1
     mov.l @r13, r0
     mov.l @(r0, r1), r0
@@ -315,9 +315,9 @@ DAT_0603bbb4:
     .global DAT_0603bbb6
 DAT_0603bbb6:
     .2byte  0x043C
-.L_pool_0603BBB8:
+.L_evt_boundary_check:
     .4byte  evt_boundary_check
-.L_pool_0603BBBC:
+.L_sym_060A4D14_3:
     .4byte  sym_060A4D14
 .L_0603BBC0:
     mov.l @r13, r3
@@ -326,7 +326,7 @@ DAT_0603bbb6:
     mov.w   DAT_0603bc50, r13
     add r3, r13
     add r2, r13
-    mov.l   .L_pool_0603BC58, r3
+    mov.l   .L_sym_060360FC, r3
     mov r13, r5
     add #0x6, r5
     jsr @r3
@@ -339,7 +339,7 @@ DAT_0603bbb6:
     add #0xE, r5
     add r2, r3
     mov.l r3, @r14
-    mov.l   .L_pool_0603BC58, r3
+    mov.l   .L_sym_060360FC, r3
     jsr @r3
     add #0x4, r4
     mov.l @(4, r14), r0
@@ -390,7 +390,7 @@ save_size_calc:
     mov r0, r4
     mov r0, r14
 .L_0603BC3C:
-    mov.l   .L_pool_0603BC5C, r0
+    mov.l   .L_sym_060A4D14_4, r0
     mov.w   DAT_0603bc56, r1
     mov.l @r0, r0
     mov.l @(r0, r1), r0
@@ -416,14 +416,14 @@ DAT_0603bc54:
     .global DAT_0603bc56
 DAT_0603bc56:
     .2byte  0x00C4
-.L_pool_0603BC58:
+.L_sym_060360FC:
     .4byte  sym_060360FC
-.L_pool_0603BC5C:
+.L_sym_060A4D14_4:
     .4byte  sym_060A4D14
 .L_0603BC60:
     mov r15, r6
     mov.l @r15, r5
-    mov.l   .L_pool_0603BCD4, r3
+    mov.l   .L_scene_frame_render, r3
     add #0x4, r6
     mov.l @(4, r6), r6
     jsr @r3
@@ -456,7 +456,7 @@ save_serialize:
     mov.l r5, @r15
     mov r7, r5
     mov.l r7, @(4, r15)
-    mov.l   .L_pool_0603BCD8, r3
+    mov.l   .L_obj_init_validate, r3
     jsr @r3
     add #0x14, r4
     mov r0, r14
@@ -475,7 +475,7 @@ save_serialize:
     mov.l r3, @-r15
     mov.l @(12, r14), r6
     mov.w   .L_wpool_0603BCD0, r4
-    mov.l   .L_pool_0603BCDC, r3
+    mov.l   .L_obj_setup_decomp, r3
     jsr @r3
     add r12, r4
     mov r0, r13
@@ -487,28 +487,28 @@ save_serialize:
 .L_wpool_0603BCD0:
     .2byte  0x00A8
     .2byte  0xFFFF
-.L_pool_0603BCD4:
+.L_scene_frame_render:
     .4byte  scene_frame_render
-.L_pool_0603BCD8:
+.L_obj_init_validate:
     .4byte  obj_init_validate
-.L_pool_0603BCDC:
+.L_obj_setup_decomp:
     .4byte  obj_setup_decomp
 .L_0603BCE0:
     mov r13, r5
-    mov.l   .L_pool_0603BD68, r3
+    mov.l   .L_sym_060401E4, r3
     jsr @r3
     mov r14, r4
-    mov.l   .L_pool_0603BD6C, r2
+    mov.l   .L_nop_stub_evt, r2
     mov r13, r5
     mov r12, r4
     mov.l r2, @-r15
-    mov.l   .L_pool_0603BD70, r3
+    mov.l   .L_sym_06040C50, r3
     mov.l r3, @-r15
-    mov.l   .L_pool_0603BD74, r2
+    mov.l   .L_event_priority_set, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0603BD78, r7
-    mov.l   .L_pool_0603BD7C, r6
-    mov.l   .L_pool_0603BD80, r3
+    mov.l   .L_evt_status_flag_set, r7
+    mov.l   .L_evt_cmd_enqueue, r6
+    mov.l   .L_sym_0603F8B8_2, r3
     jsr @r3
     add #0x78, r4
     add #0xC, r15
@@ -534,7 +534,7 @@ save_deserialize:
     sts.l pr, @-r15
     mov r4, r13
     add #-0x4, r15
-    mov.l   .L_pool_0603BD84, r14
+    mov.l   .L_sym_060A4D14_5, r14
     mov.w   .L_wpool_0603BD64, r0
     mov.l @r14, r4
     mov.l @(r0, r4), r4
@@ -569,21 +569,21 @@ save_deserialize:
 .L_wpool_0603BD64:
     .2byte  0x00A8
     .2byte  0xFFFF
-.L_pool_0603BD68:
+.L_sym_060401E4:
     .4byte  sym_060401E4
-.L_pool_0603BD6C:
+.L_nop_stub_evt:
     .4byte  nop_stub_evt
-.L_pool_0603BD70:
+.L_sym_06040C50:
     .4byte  sym_06040C50
-.L_pool_0603BD74:
+.L_event_priority_set:
     .4byte  event_priority_set
-.L_pool_0603BD78:
+.L_evt_status_flag_set:
     .4byte  evt_status_flag_set
-.L_pool_0603BD7C:
+.L_evt_cmd_enqueue:
     .4byte  evt_cmd_enqueue
-.L_pool_0603BD80:
+.L_sym_0603F8B8_2:
     .4byte  sym_0603F8B8
-.L_pool_0603BD84:
+.L_sym_060A4D14_5:
     .4byte  sym_060A4D14
 .L_0603BD88:
     mov r4, r0
@@ -617,21 +617,21 @@ save_integrity_check:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r5
-    mov.l   .L_pool_0603BE14, r3
+    mov.l   .L_scene_buffer_update, r3
     jsr @r3
     mov.l @(8, r14), r4
-    mov.l   .L_pool_0603BE18, r12
+    mov.l   .L_sym_060A4D14_6, r12
     cmp/eq #0x5, r0
     bt/s    .L_0603BDD2
     mov r0, r13
-    mov.l   .L_pool_0603BE1C, r3
+    mov.l   .L_sym_0603EFD4_2, r3
     jsr @r3
     mov.l @(4, r14), r4
     tst r0, r0
     bf      .L_0603BDF0
 .L_0603BDD2:
     mov #-0x1, r5
-    mov.l   .L_pool_0603BE20, r3
+    mov.l   .L_race_timer_sync, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov.l @r12, r2
@@ -668,13 +668,13 @@ save_integrity_check:
 .L_wpool_0603BE10:
     .2byte  0x00B4
     .2byte  0xFFFF
-.L_pool_0603BE14:
+.L_scene_buffer_update:
     .4byte  scene_buffer_update
-.L_pool_0603BE18:
+.L_sym_060A4D14_6:
     .4byte  sym_060A4D14
-.L_pool_0603BE1C:
+.L_sym_0603EFD4_2:
     .4byte  sym_0603EFD4
-.L_pool_0603BE20:
+.L_race_timer_sync:
     .4byte  race_timer_sync
     .4byte  0x2F864F22
     .4byte  0x4F127FF0

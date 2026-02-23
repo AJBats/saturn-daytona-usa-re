@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_060322AE
+    .space 2    /* align to match original address 0x060322AE (mod 4 = 2) */
 
 
     .global disp_elem_proc_6

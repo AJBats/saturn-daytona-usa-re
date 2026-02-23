@@ -12,13 +12,13 @@ vdp1_sprite_draw_main:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l macl, @-r15
-    mov.l   .L_pool_0603A8C0, r13
+    mov.l   .L_sym_060A4CAE, r13
     mov.w   DAT_0603a8bc, r14
-    mov.l   .L_pool_0603A8C4, r5
-    mov.l   .L_pool_0603A8C8, r4
+    mov.l   .L_sym_060A4CB4, r5
+    mov.l   .L_sym_060A4CC0, r4
     mov #0x0, r7
     mov.l   .L_pool_0603A8CC, r6
-    mov.l   .L_pool_0603A8D0, r0
+    mov.l   .L_sym_060A4CAF, r0
     mov.b @r0, r0
     bra     .L_0603AA42
     extu.b r0, r0
@@ -153,15 +153,15 @@ vdp1_sprite_draw_main:
 DAT_0603a8bc:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_pool_0603A8C0:
+.L_sym_060A4CAE:
     .4byte  sym_060A4CAE
-.L_pool_0603A8C4:
+.L_sym_060A4CB4:
     .4byte  sym_060A4CB4
-.L_pool_0603A8C8:
+.L_sym_060A4CC0:
     .4byte  sym_060A4CC0
 .L_pool_0603A8CC:
     .4byte  0x0000FFFF
-.L_pool_0603A8D0:
+.L_sym_060A4CAF:
     .4byte  sym_060A4CAF
 .L_0603A8D4:
     mov.l @r5, r2

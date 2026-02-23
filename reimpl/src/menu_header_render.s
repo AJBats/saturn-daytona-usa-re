@@ -18,7 +18,7 @@ menu_header_render:
     mov.l r3, @r5
     mov.l   .L_pool_0603B41C, r5
     mov.l @r15, r4
-    mov.l   .L_pool_0603B420, r3
+    mov.l   .L_attract_init_setup, r3
     jsr @r3
     mov.l @(4, r4), r4
     mov #0x0, r4
@@ -27,5 +27,5 @@ menu_header_render:
     lds.l @r15+, pr
 .L_pool_0603B41C:
     .4byte  0x7FFFFFFF
-.L_pool_0603B420:
+.L_attract_init_setup:
     .4byte  attract_init_setup

@@ -16,24 +16,24 @@ engine_sound_body:
     mov r0, r6
     mov #0x1, r5
     mov #0x0, r7
-    mov.l   .L_pool_060302F0, r0
+    mov.l   .L_sym_0607E944, r0
     mov.l @r0, r0
-    mov.l   .L_pool_060302F4, r1
+    mov.l   .L_sym_0607ED8C, r1
     mov.w @r1, r2
     tst r2, r2
     bt      .L_060302F8
     bra     .L_06030474
     nop
     .2byte  0x0000
-.L_pool_060302F0:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_060302F4:
+.L_sym_0607ED8C:
     .4byte  sym_0607ED8C
 .L_060302F8:
-    mov.l   .L_pool_0603031C, r2
+    mov.l   .L_sym_06063D9A, r2
     mov.w @r2, r1
     extu.w r1, r1
-    mov.l   .L_pool_06030320, r2
+    mov.l   .L_sym_0608188A, r2
     mov.w @r2, r2
     mov.w   .L_wpool_06030318, r3
     cmp/pl r2
@@ -50,12 +50,12 @@ engine_sound_body:
 .L_wpool_06030318:
     .2byte  0x00DE
     .2byte  0x0000
-.L_pool_0603031C:
+.L_sym_06063D9A:
     .4byte  sym_06063D9A
-.L_pool_06030320:
+.L_sym_0608188A:
     .4byte  sym_0608188A
 .L_06030324:
-    mov.l   .L_pool_0603033C, r2
+    mov.l   .L_sym_06081888, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_06030388
@@ -68,10 +68,10 @@ engine_sound_body:
     bra     .L_06030388
     mov.w r4, @(r0, r3)
     .2byte  0x0000
-.L_pool_0603033C:
+.L_sym_06081888:
     .4byte  sym_06081888
 .L_06030340:
-    mov.l   .L_pool_06030350, r2
+    mov.l   .L_sym_06081896, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_06030354
@@ -79,10 +79,10 @@ engine_sound_body:
     bra     .L_06030388
     mov.w r4, @(r0, r3)
     .2byte  0x0000
-.L_pool_06030350:
+.L_sym_06081896:
     .4byte  sym_06081896
 .L_06030354:
-    mov.l   .L_pool_06030364, r2
+    mov.l   .L_sym_06081894, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_06030368
@@ -90,10 +90,10 @@ engine_sound_body:
     bra     .L_06030388
     mov.w r4, @(r0, r3)
     .2byte  0x0000
-.L_pool_06030364:
+.L_sym_06081894:
     .4byte  sym_06081894
 .L_06030368:
-    mov.l   .L_pool_06030378, r2
+    mov.l   .L_sym_06081892, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_0603037C
@@ -101,10 +101,10 @@ engine_sound_body:
     bra     .L_06030388
     mov.w r4, @(r0, r3)
     .2byte  0x0000
-.L_pool_06030378:
+.L_sym_06081892:
     .4byte  sym_06081892
 .L_0603037C:
-    mov.l   .L_pool_060303BC, r2
+    mov.l   .L_sym_06081890, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_06030388
@@ -113,11 +113,11 @@ engine_sound_body:
 .L_06030388:
     mov.w @(r0, r3), r4
     mov r4, r9
-    mov.l   .L_pool_060303C0, r3
+    mov.l   .L_sym_06063D98, r3
     mov.w @r3, r1
     extu.w r1, r1
     mov #0x1, r5
-    mov.l   .L_pool_060303C4, r2
+    mov.l   .L_sym_0608188C, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_060303C8
@@ -142,11 +142,11 @@ DAT_060303b6:
 .L_wpool_060303B8:
     .2byte  0x00B8
     .2byte  0x0000
-.L_pool_060303BC:
+.L_sym_06081890:
     .4byte  sym_06081890
-.L_pool_060303C0:
+.L_sym_06063D98:
     .4byte  sym_06063D98
-.L_pool_060303C4:
+.L_sym_0608188C:
     .4byte  sym_0608188C
 .L_060303C8:
     mov.w   DAT_06030402, r3
@@ -162,7 +162,7 @@ DAT_060303b6:
     mov #0x0, r7
     mov.l r7, @(r0, r2)
 .L_060303DE:
-    mov.l   .L_pool_0603040C, r2
+    mov.l   .L_sym_0608188E, r2
     mov.w @r2, r2
     tst r1, r2
     bt      .L_0603041C
@@ -190,7 +190,7 @@ DAT_06030402:
     .2byte  0x0000
 .L_pool_06030408:
     .4byte  0x0000006C
-.L_pool_0603040C:
+.L_sym_0608188E:
     .4byte  sym_0608188E
 .L_pool_06030410:
     .4byte  0x00000088
@@ -214,8 +214,8 @@ DAT_06030402:
     mov.l   .L_pool_06030468, r3
     mov.l r7, @(r0, r3)
 .L_06030436:
-    mov.l   .L_pool_0603046C, r2
-    mov.l   .L_pool_06030470, r4
+    mov.l   .L_sym_0607ED90, r2
+    mov.l   .L_sym_0607ED88, r4
     mov.l @r4, r6
     add r6, r2
     add #0x2, r6
@@ -245,13 +245,13 @@ DAT_0603045e:
     .4byte  0x0000008C
 .L_pool_06030468:
     .4byte  0x00000088
-.L_pool_0603046C:
+.L_sym_0607ED90:
     .4byte  sym_0607ED90
-.L_pool_06030470:
+.L_sym_0607ED88:
     .4byte  sym_0607ED88
 .L_06030474:
-    mov.l   .L_pool_060304B4, r2
-    mov.l   .L_pool_060304B8, r4
+    mov.l   .L_sym_0607ED90_2, r2
+    mov.l   .L_sym_0607ED88_2, r4
     mov.l @r4, r6
     add r6, r2
     add #0x2, r6
@@ -290,9 +290,9 @@ DAT_060304ae:
 .L_wpool_060304B0:
     .2byte  0x00B8
     .2byte  0x0000
-.L_pool_060304B4:
+.L_sym_0607ED90_2:
     .4byte  sym_0607ED90
-.L_pool_060304B8:
+.L_sym_0607ED88_2:
     .4byte  sym_0607ED88
 .L_060304BC:
     mov.w   DAT_060304f0, r3

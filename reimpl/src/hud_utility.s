@@ -15,7 +15,7 @@ hud_utility:
     sts.l pr, @-r15
     add #-0x4, r15
     mov #0xA, r12
-    mov.l   .L_pool_0601E6DC, r13
+    mov.l   .L_sym_06000354, r13
     mov.l r4, @r15
     mov #0x0, r14
 .L_0601E6B6:
@@ -40,5 +40,5 @@ hud_utility:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0601E6DC:
+.L_sym_06000354:
     .4byte  sym_06000354

@@ -17,10 +17,10 @@ hud_elem_render:
     mov #0x1, r10
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06015208, r9
-    mov.l   .L_pool_0601520C, r12
-    mov.l   .L_pool_06015210, r14
-    mov.l   .L_pool_06015214, r11
+    mov.l   .L_sym_06085F8E, r9
+    mov.l   .L_sym_06063D98, r12
+    mov.l   .L_sym_06085F8B, r14
+    mov.l   .L_sym_06085F8D, r11
     mov.l   .L_pool_06015218, r2
     mov.w @(2, r12), r0
     mov r0, r3
@@ -29,7 +29,7 @@ hud_elem_render:
     tst r3, r3
     bt/s    .L_060151A4
     mov #0x0, r13
-    mov.l   .L_pool_0601521C, r7
+    mov.l   .L_sym_06044C8C, r7
     mov.w   .L_wpool_06015202, r6
     mov.b @r9, r5
     mov.b @r11, r3
@@ -40,14 +40,14 @@ hud_elem_render:
     shll2 r5
     add r3, r5
     shll r5
-    mov.l   .L_pool_06015220, r3
+    mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0xC, r4
     mov.b r10, @r14
     mov #0x18, r3
     mov.b r3, @r11
     extu.b r13, r2
-    mov.l   .L_pool_06015224, r3
+    mov.l   .L_sym_06085F8C, r3
     mov.b r2, @r3
     bra     .L_060151DC
     nop
@@ -59,7 +59,7 @@ hud_elem_render:
     and r3, r2
     tst r2, r2
     bt      .L_060151DC
-    mov.l   .L_pool_0601521C, r7
+    mov.l   .L_sym_06044C8C, r7
     mov.w   .L_wpool_06015202, r6
     mov.b @r9, r5
     mov.b @r11, r3
@@ -70,7 +70,7 @@ hud_elem_render:
     shll2 r5
     add r3, r5
     shll r5
-    mov.l   .L_pool_06015220, r3
+    mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0xC, r4
     mov #0xE, r2
@@ -78,7 +78,7 @@ hud_elem_render:
     exts.b r13, r3
     mov.b r3, @r14
     extu.b r13, r2
-    mov.l   .L_pool_06015224, r3
+    mov.l   .L_sym_06085F8C, r3
     mov.b r2, @r3
 .L_060151DC:
     mov.w @(2, r12), r0
@@ -107,39 +107,39 @@ hud_elem_render:
     .2byte  0x4000
 .L_wpool_06015206:
     .2byte  0x0200
-.L_pool_06015208:
+.L_sym_06085F8E:
     .4byte  sym_06085F8E
-.L_pool_0601520C:
+.L_sym_06063D98:
     .4byte  sym_06063D98
-.L_pool_06015210:
+.L_sym_06085F8B:
     .4byte  sym_06085F8B
-.L_pool_06015214:
+.L_sym_06085F8D:
     .4byte  sym_06085F8D
 .L_pool_06015218:
     .4byte  0x00008000
-.L_pool_0601521C:
+.L_sym_06044C8C:
     .4byte  sym_06044C8C
-.L_pool_06015220:
+.L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_06015224:
+.L_sym_06085F8C:
     .4byte  sym_06085F8C
 .L_06015228:
     mov.b @r14, r2
     tst r2, r2
     bf      .L_0601524E
-    mov.l   .L_pool_060152D4, r2
+    mov.l   .L_sym_0607ED8C, r2
     mov #0x8, r0
     mov.w r10, @r2
-    mov.l   .L_pool_060152D8, r2
+    mov.l   .L_sym_0605AD08, r2
     mov.l r10, @r2
-    mov.l   .L_pool_060152DC, r2
+    mov.l   .L_sym_06085F92, r2
     mov.w r10, @r2
-    mov.l   .L_pool_060152E0, r2
+    mov.l   .L_sym_0607ED88, r2
     mov.l r0, @r2
     .byte   0xB0, 0x7A    /* bsr 0x06015338 (external) */
     nop
     mov #0xE, r3
-    mov.l   .L_pool_060152E4, r2
+    mov.l   .L_sym_0605AD10, r2
     mov.l r3, @r2
     bra     .L_0601526A
     nop
@@ -147,7 +147,7 @@ hud_elem_render:
     mov.b @r14, r0
     cmp/eq #0x2, r0
     bf      .L_0601525E
-    mov.l   .L_pool_060152E8, r3
+    mov.l   .L_geom_render_util, r3
     jsr @r3
     nop
     bra     .L_0601526A
@@ -156,7 +156,7 @@ hud_elem_render:
     mov.b @r14, r0
     cmp/eq #0x3, r0
     bf      .L_0601526A
-    mov.l   .L_pool_060152EC, r3
+    mov.l   .L_geom_output_finalize, r3
     jsr @r3
     nop
 .L_0601526A:
@@ -171,12 +171,12 @@ hud_elem_render:
     tst r2, r2
     bt      .L_0601528E
 .L_0601527C:
-    mov.l   .L_pool_060152D4, r2
+    mov.l   .L_sym_0607ED8C, r2
     mov #0x8, r1
     mov.w r13, @r2
-    mov.l   .L_pool_060152DC, r2
+    mov.l   .L_sym_06085F92, r2
     mov.w r13, @r2
-    mov.l   .L_pool_060152E0, r2
+    mov.l   .L_sym_0607ED88, r2
     mov.l r1, @r2
     .byte   0xB0, 0x55    /* bsr 0x06015338 (external) */
     nop
@@ -190,7 +190,7 @@ hud_elem_render:
     bra     .L_0601529E
     mov.l @r15+, r14
 .L_0601529E:
-    mov.l   .L_pool_060152F0, r4
+    mov.l   .L_sym_06085F8C_2, r4
     mov.b @r4, r3
     add #0x40, r3
     mov.b r3, @r4
@@ -198,10 +198,10 @@ hud_elem_render:
     extu.b r2, r2
     tst r2, r2
     bf      .L_06015304
-    mov.l   .L_pool_060152F4, r7
+    mov.l   .L_sym_06044C8C_2, r7
     mov.w   .L_wpool_060152D0, r6
-    mov.l   .L_pool_060152F8, r5
-    mov.l   .L_pool_060152FC, r3
+    mov.l   .L_sym_06085F8E_2, r5
+    mov.l   .L_sym_06085F8D_2, r3
     mov.b @r5, r5
     mov.b @r3, r3
     extu.b r5, r5
@@ -211,7 +211,7 @@ hud_elem_render:
     shll2 r5
     add r3, r5
     shll r5
-    mov.l   .L_pool_06015300, r3
+    mov.l   .L_sym_060284AE_2, r3
     jmp @r3
     mov #0xC, r4
 .L_wpool_060152CE:
@@ -219,35 +219,35 @@ hud_elem_render:
 .L_wpool_060152D0:
     .2byte  0x0090
     .2byte  0xFFFF
-.L_pool_060152D4:
+.L_sym_0607ED8C:
     .4byte  sym_0607ED8C
-.L_pool_060152D8:
+.L_sym_0605AD08:
     .4byte  sym_0605AD08
-.L_pool_060152DC:
+.L_sym_06085F92:
     .4byte  sym_06085F92
-.L_pool_060152E0:
+.L_sym_0607ED88:
     .4byte  sym_0607ED88
-.L_pool_060152E4:
+.L_sym_0605AD10:
     .4byte  sym_0605AD10
-.L_pool_060152E8:
+.L_geom_render_util:
     .4byte  geom_render_util
-.L_pool_060152EC:
+.L_geom_output_finalize:
     .4byte  geom_output_finalize
-.L_pool_060152F0:
+.L_sym_06085F8C_2:
     .4byte  sym_06085F8C
-.L_pool_060152F4:
+.L_sym_06044C8C_2:
     .4byte  sym_06044C8C
-.L_pool_060152F8:
+.L_sym_06085F8E_2:
     .4byte  sym_06085F8E
-.L_pool_060152FC:
+.L_sym_06085F8D_2:
     .4byte  sym_06085F8D
-.L_pool_06015300:
+.L_sym_060284AE_2:
     .4byte  sym_060284AE
 .L_06015304:
-    mov.l   .L_pool_06015328, r7
+    mov.l   .L_sym_06044C88, r7
     mov.w   .L_wpool_06015324, r6
-    mov.l   .L_pool_0601532C, r5
-    mov.l   .L_pool_06015330, r3
+    mov.l   .L_sym_06085F8E_3, r5
+    mov.l   .L_sym_06085F8D_3, r3
     mov.b @r5, r5
     mov.b @r3, r3
     extu.b r5, r5
@@ -257,17 +257,17 @@ hud_elem_render:
     shll2 r5
     add r3, r5
     shll r5
-    mov.l   .L_pool_06015334, r3
+    mov.l   .L_sym_060284AE_3, r3
     jmp @r3
     mov #0xC, r4
 .L_wpool_06015324:
     .2byte  0x0090
     .2byte  0xFFFF
-.L_pool_06015328:
+.L_sym_06044C88:
     .4byte  sym_06044C88
-.L_pool_0601532C:
+.L_sym_06085F8E_3:
     .4byte  sym_06085F8E
-.L_pool_06015330:
+.L_sym_06085F8D_3:
     .4byte  sym_06085F8D
-.L_pool_06015334:
+.L_sym_060284AE_3:
     .4byte  sym_060284AE

@@ -23,14 +23,14 @@ track_vtx_builder:
     mov r15, r8
     mov r15, r9
     mov r15, r10
-    mov.l   .L_pool_06016EDC, r14
+    mov.l   .L_fpmul, r14
     mov r4, r0
     add #0x1C, r8
     add #0x4C, r9
     add #0x3C, r10
     mov #0x10, r4
     mov.b r0, @(12, r15)
-    mov.l   .L_pool_06016EE0, r0
+    mov.l   .L_sym_0605AD10, r0
     mov.l @r0, r0
     cmp/eq #0x15, r0
     bf/s    .L_06016E10
@@ -71,12 +71,12 @@ track_vtx_builder:
     mov r4, r3
     shll2 r4
     shll2 r3
-    mov.l   .L_pool_06016EE4, r2
+    mov.l   .L_sym_06084FC8, r2
     shll2 r3
     shll2 r3
     add r3, r4
     exts.w r4, r4
-    mov.l   .L_pool_06016EE8, r3
+    mov.l   .L_sincos_pair, r3
     add r2, r4
     jsr @r3
     mov.l @(48, r4), r4
@@ -142,18 +142,18 @@ track_vtx_builder:
     nop
 .L_wpool_06016EDA:
     .2byte  0xFF74
-.L_pool_06016EDC:
+.L_fpmul:
     .4byte  fpmul
-.L_pool_06016EE0:
+.L_sym_0605AD10:
     .4byte  sym_0605AD10
-.L_pool_06016EE4:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06016EE8:
+.L_sincos_pair:
     .4byte  sincos_pair
 .L_06016EEC:
     bf      .L_06016E66
     mov.b @(12, r15), r0
-    mov.l   .L_pool_06016FFC, r1
+    mov.l   .L_sym_06084FC8_2, r1
     mov r0, r3
     extu.b r3, r3
     mov r3, r2
@@ -166,7 +166,7 @@ track_vtx_builder:
     add r1, r3
     mov.l @(44, r3), r2
     mov.l r2, @(24, r15)
-    mov.l   .L_pool_06017000, r0
+    mov.l   .L_sym_06078663, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06016F32
@@ -180,7 +180,7 @@ track_vtx_builder:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_06016FFC, r1
+    mov.l   .L_sym_06084FC8_2, r1
     add r1, r3
     mov.l   .L_pool_06017004, r2
     mov.l @(44, r3), r1
@@ -190,7 +190,7 @@ track_vtx_builder:
     mov r15, r6
     mov r15, r5
     mov.b @(12, r15), r0
-    mov.l   .L_pool_06016FFC, r2
+    mov.l   .L_sym_06084FC8_2, r2
     add #0x4, r6
     mov r0, r4
     extu.b r4, r4
@@ -201,7 +201,7 @@ track_vtx_builder:
     shll2 r3
     add r3, r4
     exts.w r4, r4
-    mov.l   .L_pool_06017008, r3
+    mov.l   .L_sincos_pair_2, r3
     add r2, r4
     jsr @r3
     mov.l @(44, r4), r4
@@ -273,7 +273,7 @@ track_vtx_builder:
     add r12, r5
     mov.l r5, @(20, r15)
     mov.l @(12, r15), r4
-    mov.l   .L_pool_0601700C, r2
+    mov.l   .L_fpdiv_setup, r2
     jsr @r2
     mov.l @r5, r5
     mov.l @(12, r15), r3
@@ -292,23 +292,23 @@ track_vtx_builder:
     .global DAT_06016ffa
 DAT_06016ffa:
     .2byte  0x0080
-.L_pool_06016FFC:
+.L_sym_06084FC8_2:
     .4byte  sym_06084FC8
-.L_pool_06017000:
+.L_sym_06078663:
     .4byte  sym_06078663
 .L_pool_06017004:
     .4byte  0x00008000
-.L_pool_06017008:
+.L_sincos_pair_2:
     .4byte  sincos_pair
-.L_pool_0601700C:
+.L_fpdiv_setup:
     .4byte  fpdiv_setup
 .L_06017010:
     mov.l @r5, r5
-    mov.l   .L_pool_060170E8, r3
+    mov.l   .L_fpdiv_setup_2, r3
     jsr @r3
     mov r2, r4
     mov r0, r1
-    mov.l   .L_pool_060170EC, r2
+    mov.l   .L_sym_06034FE0, r2
     jsr @r2
     mov #0x6, r0
     mov.l @(8, r15), r3
@@ -320,7 +320,7 @@ DAT_06016ffa:
     cmp/ge r13, r3
     bf      .L_06016F58
     mov.b @(12, r15), r0
-    mov.l   .L_pool_060170F0, r1
+    mov.l   .L_sym_06084FC8_3, r1
     mov r0, r3
     extu.b r3, r3
     mov r3, r2
@@ -343,7 +343,7 @@ DAT_06016ffa:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_060170F4, r1
+    mov.l   .L_sym_06085490, r1
     add r1, r3
     add #0x8, r3
     mov.l r3, @(16, r15)
@@ -358,7 +358,7 @@ DAT_06016ffa:
     shll2 r2
     add r2, r12
     exts.w r12, r12
-    mov.l   .L_pool_060170F0, r1
+    mov.l   .L_sym_06084FC8_3, r1
     add r1, r12
 .L_06017080:
     extu.b r11, r3
@@ -375,7 +375,7 @@ DAT_06016ffa:
     jsr @r14
     mov.l @(r0, r9), r4
     mov.l @(4, r12), r4
-    mov.l   .L_pool_060170F8, r3
+    mov.l   .L_swap_sign_ext, r3
     jsr @r3
     add r0, r4
     exts.w r0, r0
@@ -390,7 +390,7 @@ DAT_06016ffa:
     jsr @r14
     mov.l @r4, r4
     mov.l @(8, r12), r4
-    mov.l   .L_pool_060170F8, r3
+    mov.l   .L_swap_sign_ext, r3
     jsr @r3
     add r0, r4
     exts.w r0, r0
@@ -414,13 +414,13 @@ DAT_06016ffa:
 .L_wpool_060170E4:
     .2byte  0x008C
     .2byte  0xFFFF
-.L_pool_060170E8:
+.L_fpdiv_setup_2:
     .4byte  fpdiv_setup
-.L_pool_060170EC:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0
-.L_pool_060170F0:
+.L_sym_06084FC8_3:
     .4byte  sym_06084FC8
-.L_pool_060170F4:
+.L_sym_06085490:
     .4byte  sym_06085490
-.L_pool_060170F8:
+.L_swap_sign_ext:
     .4byte  swap_sign_ext

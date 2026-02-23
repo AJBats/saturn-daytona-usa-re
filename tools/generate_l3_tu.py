@@ -413,6 +413,33 @@ def flow_analysis(image, globals_map, fourbyte_map):
 # Pool and label identification
 # ---------------------------------------------------------------------------
 
+def _make_pool_label(addr, fourbyte_map, used_pool_names):
+    """Create a pool label for a .4byte entry, preferring symbol-based names.
+
+    If the pool entry at `addr` references a known symbol (via fourbyte_map),
+    name the label .L_<symbol> instead of .L_pool_<hex_addr>.  Handles
+    duplicates by appending _2, _3, etc.
+    """
+    if addr in fourbyte_map:
+        sym = fourbyte_map[addr]
+        # Strip offset suffixes like " + 0x20000000" for the label name
+        base_sym = sym.split()[0] if ' ' in sym else sym
+        candidate = f".L_{base_sym}"
+        if candidate not in used_pool_names:
+            used_pool_names.add(candidate)
+            return candidate
+        # Name collision — append counter
+        for i in range(2, 100):
+            candidate = f".L_{base_sym}_{i}"
+            if candidate not in used_pool_names:
+                used_pool_names.add(candidate)
+                return candidate
+    # Fallback: address-based
+    label = f".L_pool_{addr:08X}"
+    used_pool_names.add(label)
+    return label
+
+
 def identify_pools_and_labels(image, code_addrs, globals_map, fourbyte_map):
     """Identify pool entries and all labels needed in the output.
 
@@ -421,9 +448,10 @@ def identify_pools_and_labels(image, code_addrs, globals_map, fourbyte_map):
         wpool_labels:  {addr: label_string}    for .2byte word-pool entries
         branch_labels: {addr: label_string}    for branch targets
     """
-    pool_labels   = {}  # addr -> ".L_pool_XXXXXXXX"
+    pool_labels   = {}  # addr -> ".L_pool_XXXXXXXX" or ".L_<symbol>"
     wpool_labels  = {}  # addr -> ".L_wpool_XXXXXXXX"
     branch_labels = {}  # addr -> ".L_XXXXXXXX" or global name
+    used_pool_names = set()  # track used names to avoid collisions
 
     # -- Collect all branch/pool targets from code instructions --
     for pc in sorted(code_addrs):
@@ -432,16 +460,21 @@ def identify_pools_and_labels(image, code_addrs, globals_map, fourbyte_map):
         mnemonic, pool_target = decode_sh2(opcode, pc)
         base = _mnemonic_base(mnemonic)
 
-        # Pool loads: mov.l @(disp,PC) and mov.w @(disp,PC)
+        # Pool loads: mov.l @(disp,PC), mov.w @(disp,PC), mova @(disp,PC)
         if pool_target is not None:
             if TU_START <= pool_target < TU_END:
                 hi = (opcode >> 12) & 0xF
                 if hi == 0xD:  # mov.l
                     if pool_target not in pool_labels:
-                        pool_labels[pool_target] = f".L_pool_{pool_target:08X}"
+                        pool_labels[pool_target] = _make_pool_label(
+                            pool_target, fourbyte_map, used_pool_names)
                 elif hi == 0x9:  # mov.w
                     if pool_target not in wpool_labels:
                         wpool_labels[pool_target] = f".L_wpool_{pool_target:08X}"
+                elif hi == 0xC:  # mova (same alignment as mov.l)
+                    if pool_target not in pool_labels:
+                        pool_labels[pool_target] = _make_pool_label(
+                            pool_target, fourbyte_map, used_pool_names)
 
         # Branch targets
         target = _extract_branch_target(mnemonic)
@@ -479,6 +512,8 @@ def label_for_addr(addr, globals_map, branch_labels, pool_labels, wpool_labels):
 def generate_output(image, code_addrs, globals_map, fourbyte_map,
                     pool_labels, wpool_labels, branch_labels):
     """Generate the L3 assembly output as a list of lines."""
+    # Build used-names set from existing pool labels for dedup
+    used_pool_names = set(pool_labels.values())
     lines = []
 
     # Header
@@ -562,7 +597,8 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 elif pool_target in pool_labels:
                     plabel = pool_labels[pool_target]
                 else:
-                    plabel = f".L_pool_{pool_target:08X}"
+                    plabel = _make_pool_label(
+                        pool_target, fourbyte_map, used_pool_names)
                     pool_labels[pool_target] = plabel
                 lines.append(f"    mov.l   {plabel}, r{rn}")
                 stats['instructions'] += 1
@@ -583,6 +619,33 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 stats['instructions'] += 1
                 pc += 2
                 continue
+
+            if hi == 0xC and pool_target is not None:
+                # mova @(disp,PC), r0 -> mova LABEL, r0
+                sub = (opcode >> 8) & 0xF
+                if sub == 7:
+                    if TU_START <= pool_target < TU_END:
+                        if pool_target in globals_map:
+                            plabel = globals_map[pool_target][0]
+                        elif pool_target in pool_labels:
+                            plabel = pool_labels[pool_target]
+                        else:
+                            plabel = _make_pool_label(
+                                pool_target, fourbyte_map, used_pool_names)
+                            pool_labels[pool_target] = plabel
+                        lines.append(f"    mova    {plabel}, r0")
+                        stats['instructions'] += 1
+                        pc += 2
+                        continue
+                    else:
+                        # External mova - keep as raw bytes
+                        b0 = image[off]
+                        b1 = image[off + 1]
+                        lines.append(f"    .byte   0x{b0:02X}, 0x{b1:02X}"
+                                     f"    /* {mnemonic} (external) */")
+                        stats['external_bytes'] += 1
+                        pc += 2
+                        continue
 
             # Rewrite branch instructions to use symbolic labels
             if base in ('bra', 'bsr', 'bf', 'bt', 'bf/s', 'bt/s'):
@@ -693,6 +756,7 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
 def ensure_pool_labels(image, code_addrs, pool_labels, wpool_labels, fourbyte_map):
     """Make sure every mov.l/mov.w @(disp,PC) target has a pool label, and
     that pool labels at .4byte addresses work correctly."""
+    used_pool_names = set(pool_labels.values())
     for pc in sorted(code_addrs):
         off = pc - TU_START
         opcode = (image[off] << 8) | image[off + 1]
@@ -702,7 +766,8 @@ def ensure_pool_labels(image, code_addrs, pool_labels, wpool_labels, fourbyte_ma
         if pool_target is not None and TU_START <= pool_target < TU_END:
             if hi == 0xD:
                 if pool_target not in pool_labels:
-                    pool_labels[pool_target] = f".L_pool_{pool_target:08X}"
+                    pool_labels[pool_target] = _make_pool_label(
+                        pool_target, fourbyte_map, used_pool_names)
             elif hi == 0x9:
                 if pool_target not in wpool_labels:
                     wpool_labels[pool_target] = f".L_wpool_{pool_target:08X}"

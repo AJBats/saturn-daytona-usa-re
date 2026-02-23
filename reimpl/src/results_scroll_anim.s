@@ -16,7 +16,7 @@ results_scroll_anim:
     add #-0x4, r15
     shll2 r13
     shll2 r3
-    mov.l   .L_pool_0601628C, r2
+    mov.l   .L_sym_06084FC8, r2
     shll2 r3
     add r3, r14
     exts.w r14, r14
@@ -24,7 +24,7 @@ results_scroll_anim:
     add r2, r14
     mov.l r3, @(44, r14)
     shll r13
-    mov.l   .L_pool_06016290, r3
+    mov.l   .L_sym_0605BAB8, r3
     add r3, r13
     mov.w @r13, r2
     shll16 r2
@@ -36,7 +36,7 @@ results_scroll_anim:
     shll16 r2
     mov.l r2, @(16, r14)
     mov.l @r15, r4
-    mov.l   .L_pool_06016294, r3
+    mov.l   .L_sym_06035438, r3
     jsr @r3
     mov.w @r4, r4
     shll16 r0
@@ -55,9 +55,9 @@ results_scroll_anim:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0601628C:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06016290:
+.L_sym_0605BAB8:
     .4byte  sym_0605BAB8
-.L_pool_06016294:
+.L_sym_06035438:
     .4byte  sym_06035438

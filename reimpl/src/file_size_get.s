@@ -10,7 +10,7 @@
     .type file_size_get, @function
 file_size_get:
     sts.l pr, @-r15
-    mov.l   .L_pool_060120C4, r14
+    mov.l   .L_channel_nibble_config, r14
     jsr @r14
     mov #0x8, r4
     mov.w   .L_wpool_060120C2, r4
@@ -32,7 +32,7 @@ sym_0601209E:
 file_close:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_060120C4, r14
+    mov.l   .L_channel_nibble_config, r14
     jsr @r14
     mov #0x20, r4
     mov #0x6, r5
@@ -49,5 +49,5 @@ file_close:
     mov.l @r15+, r14
 .L_wpool_060120C2:
     .2byte  0x0100
-.L_pool_060120C4:
+.L_channel_nibble_config:
     .4byte  channel_nibble_config

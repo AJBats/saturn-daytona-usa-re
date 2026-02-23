@@ -11,7 +11,7 @@
 obj_render_queue:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036974, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -26,7 +26,7 @@ obj_render_queue:
     mov r13, r0
     mov.w r0, @(6, r3)
     mov.w   .L_wpool_06036970, r4
-    mov.l   .L_pool_06036978, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -45,7 +45,7 @@ obj_render_queue:
 obj_lod_select:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036974, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -68,7 +68,7 @@ obj_lod_select:
     mov r12, r0
     mov.w r0, @(6, r3)
     mov.w   .L_wpool_06036972, r4
-    mov.l   .L_pool_06036978, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -83,7 +83,7 @@ obj_lod_select:
     .2byte  0x0080
 .L_wpool_06036972:
     .2byte  0x0100
-.L_pool_06036974:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036978:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons

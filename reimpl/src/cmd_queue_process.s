@@ -13,7 +13,7 @@ cmd_queue_process:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603AF78, r14
+    mov.l   .L_sym_060A4D14, r14
     mov.w   .L_wpool_0603AF70, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
@@ -58,7 +58,7 @@ cmd_queue_process:
     bf      .L_0603AF4E
     mov.l @r14, r5
     mov.w   .L_wpool_0603AF70, r0
-    mov.l   .L_pool_0603AF7C, r3
+    mov.l   .L_sym_0603F1E0, r3
     mov.l @(r0, r5), r5
     jsr @r3
     mov r13, r4
@@ -67,7 +67,7 @@ cmd_queue_process:
 .L_0603AF4E:
     mov.l @r14, r5
     mov.w   .L_wpool_0603AF70, r0
-    mov.l   .L_pool_0603AF80, r3
+    mov.l   .L_sym_0603F1F0, r3
     mov.l @(r0, r5), r5
     jsr @r3
     mov r13, r4
@@ -93,11 +93,11 @@ DAT_0603af72:
 .L_wpool_0603AF74:
     .2byte  0x0098
     .2byte  0xFFFF
-.L_pool_0603AF78:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_0603AF7C:
+.L_sym_0603F1E0:
     .4byte  sym_0603F1E0
-.L_pool_0603AF80:
+.L_sym_0603F1F0:
     .4byte  sym_0603F1F0
 .L_0603AF84:
     .byte   0xB4, 0xDA    /* bsr 0x0603B93C (external) */

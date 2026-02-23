@@ -21,26 +21,26 @@ geom_pipeline_coord:
     add #-0x6C, r15
     mov.w   DAT_0601748a, r8
     mov r15, r12
-    mov.l   .L_pool_06017494, r14
+    mov.l   .L_sym_06063750, r14
     mov r15, r1
-    mov.l   .L_pool_06017498, r2
-    mov.l   .L_pool_0601749C, r3
+    mov.l   .L_sym_0605BC6C, r2
+    mov.l   .L_sym_06035228, r3
     add #0x10, r12
     add #0x48, r1
     jsr @r3
     mov #0x24, r0
     mov r15, r1
-    mov.l   .L_pool_060174A0, r2
-    mov.l   .L_pool_0601749C, r3
+    mov.l   .L_sym_0605BC90, r2
+    mov.l   .L_sym_06035228, r3
     add #0x10, r1
     jsr @r3
     mov #0x38, r0
-    mov.l   .L_pool_060174A4, r13
-    mov.l   .L_pool_060174A8, r0
+    mov.l   .L_sym_06044B84, r13
+    mov.l   .L_sym_0607EAE0, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_060173EC
-    mov.l   .L_pool_060174AC, r13
+    mov.l   .L_sym_06044BB4, r13
 .L_060173EC:
     mov.w @(2, r13), r0
     mov.w @r13, r6
@@ -81,30 +81,30 @@ geom_pipeline_coord:
     extu.w r6, r6
     .byte   0xB1, 0xA5    /* bsr 0x06017784 (external) */
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_060174B0, r2
+    mov.l   .L_sym_06078900, r2
     mov.l r2, @r15
     mov r2, r3
     mov.w   DAT_06017492, r0
     mov.l @(r0, r3), r2
     mov.l r2, @(4, r15)
-    mov.l   .L_pool_060174B4, r4
+    mov.l   .L_sym_060786A4, r4
     mov.l   .L_pool_060174B8, r5
     mov.l @r4, r4
     cmp/ge r5, r4
     bf      .L_06017452
     mov r5, r4
 .L_06017452:
-    mov.l   .L_pool_060174BC, r0
+    mov.l   .L_sym_0607EBF4, r0
     mov.l @r0, r0
     tst #0x1, r0
     bf      .L_06017464
-    mov.l   .L_pool_060174C0, r4
+    mov.l   .L_sym_0607EBD0, r4
     mov.l @r4, r4
     mov r4, r3
     shll2 r4
     add r3, r4
 .L_06017464:
-    mov.l   .L_pool_060174C4, r3
+    mov.l   .L_anim_frame_transform, r3
     jsr @r3
     nop
     mov r0, r6
@@ -144,31 +144,31 @@ DAT_06017490:
     .global DAT_06017492
 DAT_06017492:
     .2byte  0x0240
-.L_pool_06017494:
+.L_sym_06063750:
     .4byte  sym_06063750
-.L_pool_06017498:
+.L_sym_0605BC6C:
     .4byte  sym_0605BC6C
-.L_pool_0601749C:
+.L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_060174A0:
+.L_sym_0605BC90:
     .4byte  sym_0605BC90
-.L_pool_060174A4:
+.L_sym_06044B84:
     .4byte  sym_06044B84
-.L_pool_060174A8:
+.L_sym_0607EAE0:
     .4byte  sym_0607EAE0
-.L_pool_060174AC:
+.L_sym_06044BB4:
     .4byte  sym_06044BB4
-.L_pool_060174B0:
+.L_sym_06078900:
     .4byte  sym_06078900
-.L_pool_060174B4:
+.L_sym_060786A4:
     .4byte  sym_060786A4
 .L_pool_060174B8:
     .4byte  0x000927BF
-.L_pool_060174BC:
+.L_sym_0607EBF4:
     .4byte  sym_0607EBF4
-.L_pool_060174C0:
+.L_sym_0607EBD0:
     .4byte  sym_0607EBD0
-.L_pool_060174C4:
+.L_anim_frame_transform:
     .4byte  anim_frame_transform
 .L_060174C8:
     extu.b r4, r3
@@ -202,7 +202,7 @@ DAT_06017492:
     add r8, r5
     .byte   0xB1, 0x3F    /* bsr 0x06017784 (external) */
     add #0x48, r4
-    mov.l   .L_pool_060175BC, r3
+    mov.l   .L_anim_frame_transform_2, r3
     jsr @r3
     mov.l @(4, r15), r4
     mov r0, r6
@@ -254,7 +254,7 @@ DAT_06017492:
     mov #0xA, r5
     mov.l @r15, r4
     mov.w   DAT_060175b6, r0
-    mov.l   .L_pool_060175C0, r3
+    mov.l   .L_sym_06034FE0, r3
     mov.l @(r0, r4), r4
     add #0x1, r4
     mov r4, r1
@@ -262,11 +262,11 @@ DAT_06017492:
     mov r5, r0
     mov r4, r1
     mov.l r0, @(4, r15)
-    mov.l   .L_pool_060175C4, r3
+    mov.l   .L_sym_06035C2C, r3
     jsr @r3
     mov r5, r0
     mov.l r0, @(8, r15)
-    mov.l   .L_pool_060175C8, r1
+    mov.l   .L_sym_0607EAE0_2, r1
     mov.l @r1, r1
     tst r1, r1
     bt      .L_060175CC
@@ -306,13 +306,13 @@ DAT_060175b8:
     .global DAT_060175ba
 DAT_060175ba:
     .2byte  0x5000
-.L_pool_060175BC:
+.L_anim_frame_transform_2:
     .4byte  anim_frame_transform
-.L_pool_060175C0:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0
-.L_pool_060175C4:
+.L_sym_06035C2C:
     .4byte  sym_06035C2C
-.L_pool_060175C8:
+.L_sym_0607EAE0_2:
     .4byte  sym_0607EAE0
 .L_060175CC:
     mov.w   DAT_06017692, r9
@@ -323,11 +323,11 @@ DAT_060175ba:
     mov.l @(r0, r4), r4
     add #0x1, r4
     cmp/ge r3, r4
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     mov #0xD, r3
     cmp/gt r3, r4
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     or r1, r0
     tst r0, r0
     bt      .L_0601769E

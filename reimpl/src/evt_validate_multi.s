@@ -14,7 +14,7 @@ evt_validate_multi:
     mov.l r4, @r15
     mov r15, r4
     mov.l r5, @(4, r15)
-    mov.l   .L_pool_06040630, r3
+    mov.l   .L_evt_validator_pair, r3
     jsr @r3
     add #0x8, r4
     mov r0, r4
@@ -58,7 +58,7 @@ evt_validate_multi:
     lds.l @r15+, pr
     rts
     mov #0x5, r0
-.L_pool_06040630:
+.L_evt_validator_pair:
     .4byte  evt_validator_pair
 .L_06040634:
     mov #0xB, r1
@@ -66,11 +66,12 @@ evt_validate_multi:
     bt      .L_06040628
     shll r0
     mov r0, r1
-    .word 0xC702 /* UNKNOWN */
+    mova    .L_pool_06040648, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
     .word 0xFFFF /* UNKNOWN */
+.L_pool_06040648:
     .word 0xFFAA /* UNKNOWN */
     .word 0xFFB2 /* UNKNOWN */
     .word 0xFFB2 /* UNKNOWN */

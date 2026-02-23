@@ -11,7 +11,7 @@
 validation_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_060400A4, r14
+    mov.l   .L_sym_060A4D14, r14
     mov.l r4, @r15
     mov.l @r14, r3
     mov.w   DAT_0604009e, r0
@@ -21,7 +21,7 @@ validation_dispatch:
     mov.l @r14, r4
     mov.w   .L_wpool_060400A0, r3
     add r3, r4
-    mov.l   .L_pool_060400A8, r3
+    mov.l   .L_road_segment_check, r3
     jsr @r3
     mov.l @r15, r5
     mov r0, r4
@@ -97,9 +97,9 @@ DAT_0604009e:
     .2byte  0x00D0
 .L_wpool_060400A2:
     .2byte  0x00C8
-.L_pool_060400A4:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_060400A8:
+.L_road_segment_check:
     .4byte  road_segment_check
     .4byte  0x7F044F26
     .4byte  0x000B6EF6
@@ -144,7 +144,7 @@ obj_init_validate:
     mov.l   .L_pool_06040108, r3
     or r11, r3
     mov.l r3, @r14
-    mov.l   .L_pool_0604010C, r3
+    mov.l   .L_track_shadow_test, r3
     jsr @r3
     mov r11, r4
     tst r0, r0
@@ -157,7 +157,7 @@ obj_init_validate:
     .2byte  0x0800
 .L_pool_06040108:
     .4byte  0x40000000
-.L_pool_0604010C:
+.L_track_shadow_test:
     .4byte  track_shadow_test
 .L_06040110:
     mov r15, r3
@@ -171,20 +171,20 @@ obj_init_validate:
     mov.l r0, @(12, r14)
     mov r15, r1
     mov r0, r3
-    mov.l   .L_pool_060401EC, r2
+    mov.l   .L_input_proc_complete, r2
     mov.l @(4, r1), r1
     add r3, r1
     jsr @r2
     add #-0x1, r1
     mov.l r0, @(16, r14)
     mov r15, r4
-    mov.l   .L_pool_060401F0, r3
+    mov.l   .L_sym_06036BE4, r3
     mov.l @(4, r4), r4
     mov r4, r1
     jsr @r3
     mov r12, r0
     mov r12, r1
-    mov.l   .L_pool_060401F0, r3
+    mov.l   .L_sym_06036BE4, r3
     sub r0, r1
     jsr @r3
     mov r12, r0
@@ -227,11 +227,11 @@ obj_init_validate:
     shlr2 r2
     shlr r2
     mov.l r2, @(16, r14)
-    mov.l   .L_pool_060401F0, r3
+    mov.l   .L_sym_06036BE4, r3
     jsr @r3
     mov r12, r0
     mov r12, r1
-    mov.l   .L_pool_060401F0, r3
+    mov.l   .L_sym_06036BE4, r3
     sub r0, r1
     jsr @r3
     mov r12, r0
@@ -279,9 +279,9 @@ sym_060401E4:
 DAT_060401e8:
     .2byte  0x07FF
     .2byte  0xFFFF
-.L_pool_060401EC:
+.L_input_proc_complete:
     .4byte  input_proc_complete
-.L_pool_060401F0:
+.L_sym_06036BE4:
     .4byte  sym_06036BE4
 .L_pool_060401F4:
     .4byte  0x7FFFFFFF

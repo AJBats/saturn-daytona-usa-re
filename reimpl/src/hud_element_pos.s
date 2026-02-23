@@ -13,9 +13,9 @@ hud_element_pos:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601E2A8, r12
-    mov.l   .L_pool_0601E2AC, r13
-    mov.l   .L_pool_0601E2B0, r3
+    mov.l   .L_sym_0605DFF4, r12
+    mov.l   .L_sym_06087064, r13
+    mov.l   .L_anim_frame_transform, r3
     jsr @r3
     mov #0x8, r14
     mov.l r0, @r13
@@ -40,11 +40,11 @@ hud_element_pos:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0601E2A8:
+.L_sym_0605DFF4:
     .4byte  sym_0605DFF4
-.L_pool_0601E2AC:
+.L_sym_06087064:
     .4byte  sym_06087064
-.L_pool_0601E2B0:
+.L_anim_frame_transform:
     .4byte  anim_frame_transform
     .4byte  0x00000000
     .4byte  0x00000000
@@ -297,8 +297,8 @@ mat_multiply_helper:
     and r14, r2
     tst r2, r2
     bf      .L_0601E654
-    mov.l   .L_pool_0601E69C, r3
-    mov.l   .L_pool_0601E6A0, r7
+    mov.l   .L_sym_06000354, r3
+    mov.l   .L_sym_060870F4, r7
     mov.l @r3, r3
     mov.l @(28, r3), r2
     jsr @r2
@@ -330,7 +330,7 @@ mat_multiply_helper:
     .4byte  0x20100063
 .L_pool_0601E698:
     .4byte  0x2010001F
-.L_pool_0601E69C:
+.L_sym_06000354:
     .4byte  sym_06000354
-.L_pool_0601E6A0:
+.L_sym_060870F4:
     .4byte  sym_060870F4

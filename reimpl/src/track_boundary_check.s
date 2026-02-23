@@ -12,7 +12,7 @@ track_boundary_check:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06041B10, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     mov.l @r14, r0
     mov.w   DAT_06041b0a, r1
@@ -21,7 +21,7 @@ track_boundary_check:
     bf      .L_06041AE8
     mov.l @r14, r4
     mov.w   .L_wpool_06041B0C, r0
-    mov.l   .L_pool_06041B14, r3
+    mov.l   .L_track_seg_boundary, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r0, r4
@@ -37,7 +37,7 @@ track_boundary_check:
     mov.l r2, @(r0, r3)
 .L_06041AD4:
     mov r15, r4
-    mov.l   .L_pool_06041B18, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -53,7 +53,7 @@ track_boundary_check:
     cmp/eq #0x2, r0
     bf      .L_06041B2E
     mov #0x40, r2
-    mov.l   .L_pool_06041B1C, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r5
@@ -71,13 +71,13 @@ DAT_06041b0a:
 .L_wpool_06041B0C:
     .2byte  0x0308
     .2byte  0xFFFF
-.L_pool_06041B10:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_06041B14:
+.L_track_seg_boundary:
     .4byte  track_seg_boundary
-.L_pool_06041B18:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_06041B1C:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E
 .L_06041B20:
     mov #0x0, r4
@@ -107,8 +107,8 @@ track_surface_validate:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x14, r15
-    mov.l   .L_pool_06041BD4, r11
-    mov.l   .L_pool_06041BD8, r14
+    mov.l   .L_ai_checkpoint_validate_2, r11
+    mov.l   .L_sym_060A5400_2, r14
     mov.w   DAT_06041bc8, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0
@@ -118,7 +118,7 @@ track_surface_validate:
     mov r15, r5
     mov.l @r14, r4
     mov.w   .L_wpool_06041BCA, r0
-    mov.l   .L_pool_06041BDC, r3
+    mov.l   .L_track_surface_type_c, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r15, r4
@@ -194,11 +194,11 @@ DAT_06041bcc:
     .global DAT_06041bd2
 DAT_06041bd2:
     .2byte  0x0324
-.L_pool_06041BD4:
+.L_ai_checkpoint_validate_2:
     .4byte  ai_checkpoint_validate
-.L_pool_06041BD8:
+.L_sym_060A5400_2:
     .4byte  sym_060A5400
-.L_pool_06041BDC:
+.L_track_surface_type_c:
     .4byte  track_surface_type_c
 .L_06041BE0:
     mov.l @r14, r3
@@ -236,7 +236,7 @@ DAT_06041bd2:
     mov.w   .L_wpool_06041CAC, r0
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   .L_pool_06041CB0, r3
+    mov.l   .L_track_surface_type_d, r3
     mov.l @(r0, r6), r6
     add #-0xC, r0
     mov.l @r6, r6
@@ -273,7 +273,7 @@ DAT_06041bd2:
     cmp/eq #0x3, r0
     bf      .L_06041CB8
     mov r15, r4
-    mov.l   .L_pool_06041CB4, r3
+    mov.l   .L_track_distance_calc, r3
     jsr @r3
     add #0x4, r4
     mov r0, r4
@@ -318,9 +318,9 @@ DAT_06041caa:
 .L_wpool_06041CAC:
     .2byte  0x0320
     .2byte  0xFFFF
-.L_pool_06041CB0:
+.L_track_surface_type_d:
     .4byte  track_surface_type_d
-.L_pool_06041CB4:
+.L_track_distance_calc:
     .4byte  track_distance_calc
 .L_06041CB8:
     mov #0x1, r0

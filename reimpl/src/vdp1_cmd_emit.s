@@ -11,7 +11,7 @@
     .type vdp1_cmd_emit, @function
 vdp1_cmd_emit:
     mul.l r9, r4
-    mov.l   .L_pool_0602BCF8, r4
+    mov.l   .L_sym_0602BDA8, r4
     sts macl, r0
     add r14, r0
     mov.w @r0+, r1
@@ -75,7 +75,7 @@ vdp1_cmd_emit:
 .L_wpool_0602BCF4:
     .2byte  0x00A0
     .2byte  0x0000
-.L_pool_0602BCF8:
+.L_sym_0602BDA8:
     .4byte  sym_0602BDA8
     .4byte  0x991A5797
     .4byte  0x371D622B

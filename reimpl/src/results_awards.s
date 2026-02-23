@@ -13,11 +13,11 @@ results_awards:
     add #-0x10, r15
     mov r15, r6
     mov r15, r1
-    mov.l   .L_pool_060167BC, r2
-    mov.l   .L_pool_060167C0, r3
+    mov.l   .L_sym_0605BB0C, r2
+    mov.l   .L_sym_06035168, r3
     jsr @r3
     mov #0x10, r0
-    mov.l   .L_pool_060167C4, r7
+    mov.l   .L_sym_06084FC8, r7
     extu.b r4, r5
     mov #0x40, r0
     mov r5, r3
@@ -64,9 +64,9 @@ results_awards:
     lds.l @r15+, pr
     rts
     nop
-.L_pool_060167BC:
+.L_sym_0605BB0C:
     .4byte  sym_0605BB0C
-.L_pool_060167C0:
+.L_sym_06035168:
     .4byte  sym_06035168
-.L_pool_060167C4:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8

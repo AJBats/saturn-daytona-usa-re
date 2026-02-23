@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06020D46
+    .space 2    /* align to match original address 0x06020D46 (mod 4 = 2) */
 
 
     .global obj_pool_return

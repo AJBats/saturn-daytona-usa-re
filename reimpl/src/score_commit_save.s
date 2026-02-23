@@ -10,7 +10,7 @@
     .type score_commit_save, @function
 score_commit_save:
     mov.l r14, @-r15
-    mov.l   .L_pool_06013E34, r0
+    mov.l   .L_sym_0607EBC8, r0
     mov.l @r0, r0
     and #0x1F, r0
     exts.w r0, r14
@@ -20,13 +20,13 @@ score_commit_save:
     shll2 r14
     shll2 r14
     exts.w r14, r4
-    mov.l   .L_pool_06013E38, r3
+    mov.l   .L_mat_rot_y, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06013E30:
     rts
     mov.l @r15+, r14
-.L_pool_06013E34:
+.L_sym_0607EBC8:
     .4byte  sym_0607EBC8
-.L_pool_06013E38:
+.L_mat_rot_y:
     .4byte  mat_rot_y

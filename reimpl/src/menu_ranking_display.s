@@ -13,7 +13,7 @@ menu_ranking_display:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r5, @r15
-    mov.l   .L_pool_0603B724, r14
+    mov.l   .L_sym_060A4D14, r14
     mov.w   .L_wpool_0603B71C, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
@@ -40,12 +40,12 @@ menu_ranking_display:
     bf      .L_0603B6F6
     mov.l @r14, r5
     mov.w   .L_wpool_0603B71C, r0
-    mov.l   .L_pool_0603B728, r3
+    mov.l   .L_sym_0603F1F0, r3
     jsr @r3
     mov.l @(r0, r5), r5
     mov r0, r5
     mov #0xC, r6
-    mov.l   .L_pool_0603B72C, r3
+    mov.l   .L_sym_060360FC, r3
     jsr @r3
     mov.l @r15, r4
     bra     .L_0603B70A
@@ -53,12 +53,12 @@ menu_ranking_display:
 .L_0603B6F6:
     mov.l @r14, r5
     mov.w   .L_wpool_0603B71C, r0
-    mov.l   .L_pool_0603B730, r3
+    mov.l   .L_sym_0603F1E0, r3
     jsr @r3
     mov.l @(r0, r5), r5
     mov r0, r5
     mov #0xC, r6
-    mov.l   .L_pool_0603B72C, r3
+    mov.l   .L_sym_060360FC, r3
     jsr @r3
     mov.l @r15, r4
 .L_0603B70A:
@@ -76,25 +76,25 @@ menu_ranking_display:
 .L_wpool_0603B720:
     .2byte  0x0098
     .2byte  0xFFFF
-.L_pool_0603B724:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_0603B728:
+.L_sym_0603F1F0:
     .4byte  sym_0603F1F0
-.L_pool_0603B72C:
+.L_sym_060360FC:
     .4byte  sym_060360FC
-.L_pool_0603B730:
+.L_sym_0603F1E0:
     .4byte  sym_0603F1E0
 .L_0603B734:
-    mov.l   .L_pool_0603B7AC, r4
-    mov.l   .L_pool_0603B7B0, r3
+    mov.l   .L_sym_060A4D14_2, r4
+    mov.l   .L_sys_boot_sequence, r3
     mov.l @r4, r4
     add #0x4, r4
     mov.l r3, @r4
-    mov.l   .L_pool_0603B7B4, r2
+    mov.l   .L_mem_test_verify, r2
     mov.l r2, @(4, r4)
-    mov.l   .L_pool_0603B7B8, r3
+    mov.l   .L_sym_060406A6, r3
     mov.l r3, @(8, r4)
-    mov.l   .L_pool_0603B7BC, r2
+    mov.l   .L_sym_0604069A, r2
     rts
     mov.l r2, @(12, r4)
 
@@ -104,7 +104,7 @@ sys_boot_table_init:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603B7AC, r14
+    mov.l   .L_sym_060A4D14_2, r14
     mov.l @r14, r3
     mov.l r4, @r3
     bsr     .L_0603B734
@@ -163,13 +163,13 @@ DAT_0603b7a8:
     .global DAT_0603b7aa
 DAT_0603b7aa:
     .2byte  0x00F0
-.L_pool_0603B7AC:
+.L_sym_060A4D14_2:
     .4byte  sym_060A4D14
-.L_pool_0603B7B0:
+.L_sys_boot_sequence:
     .4byte  sys_boot_sequence
-.L_pool_0603B7B4:
+.L_mem_test_verify:
     .4byte  mem_test_verify
-.L_pool_0603B7B8:
+.L_sym_060406A6:
     .4byte  sym_060406A6
-.L_pool_0603B7BC:
+.L_sym_0604069A:
     .4byte  sym_0604069A

@@ -17,11 +17,11 @@ cd_texture_loader:
     mov.l   .L_pool_06012E20, r14
     cmp/eq #0x1, r0
     bf      .L_06012DD6
-    mov.l   .L_pool_06012E24, r4
+    mov.l   .L_sym_0604490C, r4
     .byte   0xBF, 0x39    /* bsr 0x06012C3C (external) */
     mov r13, r5
     mov r14, r5
-    mov.l   .L_pool_06012E28, r4
+    mov.l   .L_sym_0604491C, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
     .byte   0xAF, 0x33    /* bra 0x06012C3C (external) */
@@ -30,21 +30,21 @@ cd_texture_loader:
     mov r4, r0
     cmp/eq #0x2, r0
     bf      .L_06012DEE
-    mov.l   .L_pool_06012E2C, r4
+    mov.l   .L_sym_06044928, r4
     .byte   0xBF, 0x2D    /* bsr 0x06012C3C (external) */
     mov r13, r5
     mov r14, r5
-    mov.l   .L_pool_06012E30, r4
+    mov.l   .L_sym_06044938, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
     .byte   0xAF, 0x27    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_06012DEE:
-    mov.l   .L_pool_06012E34, r4
+    mov.l   .L_sym_06044944, r4
     .byte   0xBF, 0x24    /* bsr 0x06012C3C (external) */
     mov r13, r5
     mov r14, r5
-    mov.l   .L_pool_06012E38, r4
+    mov.l   .L_sym_06044954, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
     .byte   0xAF, 0x1E    /* bra 0x06012C3C (external) */
@@ -53,7 +53,7 @@ cd_texture_loader:
     .global sym_06012E00
 sym_06012E00:
     mov.l   .L_pool_06012E3C, r5
-    mov.l   .L_pool_06012E40, r4
+    mov.l   .L_sym_06044960, r4
     .byte   0xAF, 0x1A    /* bra 0x06012C3C (external) */
     nop
 
@@ -66,7 +66,7 @@ sound_init_sequence:
     cmp/eq #0x1, r0
     bf      .L_06012E4C
     mov r14, r5
-    mov.l   .L_pool_06012E48, r4
+    mov.l   .L_sym_0604496C, r4
     .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
@@ -74,44 +74,44 @@ sound_init_sequence:
     .4byte  0x00200000
 .L_pool_06012E20:
     .4byte  0x00240000
-.L_pool_06012E24:
+.L_sym_0604490C:
     .4byte  sym_0604490C
-.L_pool_06012E28:
+.L_sym_0604491C:
     .4byte  sym_0604491C
-.L_pool_06012E2C:
+.L_sym_06044928:
     .4byte  sym_06044928
-.L_pool_06012E30:
+.L_sym_06044938:
     .4byte  sym_06044938
-.L_pool_06012E34:
+.L_sym_06044944:
     .4byte  sym_06044944
-.L_pool_06012E38:
+.L_sym_06044954:
     .4byte  sym_06044954
 .L_pool_06012E3C:
     .4byte  0x002A0000
-.L_pool_06012E40:
+.L_sym_06044960:
     .4byte  sym_06044960
 .L_pool_06012E44:
     .4byte  0x002A8000
-.L_pool_06012E48:
+.L_sym_0604496C:
     .4byte  sym_0604496C
 .L_06012E4C:
     mov r4, r0
     cmp/eq #0x2, r0
     bf      .L_06012E5A
     mov r14, r5
-    mov.l   .L_pool_06012E8C, r4
+    mov.l   .L_sym_06044978, r4
     .byte   0xAE, 0xF1    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_06012E5A:
     mov r14, r5
-    mov.l   .L_pool_06012E90, r4
+    mov.l   .L_sym_06044984, r4
     .byte   0xAE, 0xED    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 
     .global sym_06012E62
 sym_06012E62:
     mov.l   .L_pool_06012E94, r5
-    mov.l   .L_pool_06012E98, r4
+    mov.l   .L_sym_06044990, r4
     .byte   0xAE, 0xE9    /* bra 0x06012C3C (external) */
     nop
 
@@ -120,63 +120,63 @@ sym_06012E62:
 sound_scsp_boot:
     sts.l pr, @-r15
     mov.l   .L_pool_06012E9C, r5
-    mov.l   .L_pool_06012EA0, r4
+    mov.l   .L_sym_0604499C, r4
     .byte   0xBE, 0xE4    /* bsr 0x06012C3C (external) */
     nop
-    mov.l   .L_pool_06012EA4, r5
-    mov.l   .L_pool_06012EA8, r4
+    mov.l   .L_sym_060F8000, r5
+    mov.l   .L_sym_060449A8, r4
     .byte   0xAE, 0xE0    /* bra 0x06012C3C (external) */
     lds.l @r15+, pr
 
     .global sym_06012E7C
 sym_06012E7C:
     mov.l   .L_pool_06012EAC, r5
-    mov.l   .L_pool_06012EB0, r4
+    mov.l   .L_sym_060449B4, r4
     .byte   0xAE, 0xDC    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012E84
 sym_06012E84:
     mov.l   .L_pool_06012EB4, r5
-    mov.l   .L_pool_06012EB8, r4
+    mov.l   .L_sym_060449BC, r4
     .byte   0xAE, 0xD8    /* bra 0x06012C3C (external) */
     nop
-.L_pool_06012E8C:
+.L_sym_06044978:
     .4byte  sym_06044978
-.L_pool_06012E90:
+.L_sym_06044984:
     .4byte  sym_06044984
 .L_pool_06012E94:
     .4byte  0x002A0000
-.L_pool_06012E98:
+.L_sym_06044990:
     .4byte  sym_06044990
 .L_pool_06012E9C:
     .4byte  0x002F0000
-.L_pool_06012EA0:
+.L_sym_0604499C:
     .4byte  sym_0604499C
-.L_pool_06012EA4:
+.L_sym_060F8000:
     .4byte  sym_060F8000
-.L_pool_06012EA8:
+.L_sym_060449A8:
     .4byte  sym_060449A8
 .L_pool_06012EAC:
     .4byte  0x002F8000
-.L_pool_06012EB0:
+.L_sym_060449B4:
     .4byte  sym_060449B4
 .L_pool_06012EB4:
     .4byte  0x25A00000
-.L_pool_06012EB8:
+.L_sym_060449BC:
     .4byte  sym_060449BC
 
     .global sym_06012EBC
 sym_06012EBC:
     mov.l   .L_pool_06012EE4, r5
-    mov.l   .L_pool_06012EE8, r4
+    mov.l   .L_sym_060449C8, r4
     .byte   0xAE, 0xBC    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012EC4
 sym_06012EC4:
     mov.l   .L_pool_06012EEC, r5
-    mov.l   .L_pool_06012EE8, r4
+    mov.l   .L_sym_060449C8, r4
     .byte   0xAE, 0xB8    /* bra 0x06012C3C (external) */
     nop
     .4byte  0xD508D409
@@ -187,25 +187,25 @@ sym_06012EC4:
     .global sym_06012EDC
 sym_06012EDC:
     mov.l   .L_pool_06012EE4, r5
-    mov.l   .L_pool_06012EFC, r4
+    mov.l   .L_sym_060449EC, r4
     .byte   0xAE, 0xAC    /* bra 0x06012C3C (external) */
     nop
 .L_pool_06012EE4:
     .4byte  0x25A03000
-.L_pool_06012EE8:
+.L_sym_060449C8:
     .4byte  sym_060449C8
 .L_pool_06012EEC:
     .4byte  0x00200000
     .4byte  0x25A10000
     .4byte  sym_060449D4
     .4byte  sym_060449E0
-.L_pool_06012EFC:
+.L_sym_060449EC:
     .4byte  sym_060449EC
 
     .global sym_06012F00
 sym_06012F00:
     mov.l   .L_pool_06012F28, r5
-    mov.l   .L_pool_06012F2C, r4
+    mov.l   .L_sym_060449EC_2, r4
     .byte   0xAE, 0x9A    /* bra 0x06012C3C (external) */
     nop
     .4byte  0xD509D40A
@@ -214,7 +214,7 @@ sym_06012F00:
     .global sym_06012F10
 sym_06012F10:
     mov.l   .L_pool_06012F38, r5
-    mov.l   .L_pool_06012F3C, r4
+    mov.l   .L_sym_06044A04, r4
     .byte   0xAE, 0x92    /* bra 0x06012C3C (external) */
     nop
     .4byte  0xD505D409
@@ -223,21 +223,21 @@ sym_06012F10:
     .global sym_06012F20
 sym_06012F20:
     mov.l   .L_pool_06012F38, r5
-    mov.l   .L_pool_06012F44, r4
+    mov.l   .L_sym_06044A1C, r4
     .byte   0xAE, 0x8A    /* bra 0x06012C3C (external) */
     nop
 .L_pool_06012F28:
     .4byte  0x0026D000
-.L_pool_06012F2C:
+.L_sym_060449EC_2:
     .4byte  sym_060449EC
     .4byte  0x25A10000
     .4byte  sym_060449F8
 .L_pool_06012F38:
     .4byte  0x25A03000
-.L_pool_06012F3C:
+.L_sym_06044A04:
     .4byte  sym_06044A04
     .4byte  sym_06044A10
-.L_pool_06012F44:
+.L_sym_06044A1C:
     .4byte  sym_06044A1C
     .4byte  0xD507D408
     .4byte  0xAE760009
@@ -245,30 +245,30 @@ sym_06012F20:
     .global sym_06012F50
 sym_06012F50:
     mov.l   .L_pool_06012F70, r5
-    mov.l   .L_pool_06012F74, r4
+    mov.l   .L_sym_06044A34, r4
     .byte   0xAE, 0x72    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012F58
 sym_06012F58:
     mov.l   .L_pool_06012F70, r5
-    mov.l   .L_pool_06012F78, r4
+    mov.l   .L_sym_06044A40, r4
     .byte   0xAE, 0x6E    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012F60
 sym_06012F60:
     mov.l   .L_pool_06012F70, r5
-    mov.l   .L_pool_06012F7C, r4
+    mov.l   .L_sym_06044A4C, r4
     .byte   0xAE, 0x6A    /* bra 0x06012C3C (external) */
     nop
     .4byte  0x25A10000
     .4byte  sym_06044A28
 .L_pool_06012F70:
     .4byte  0x25A03000
-.L_pool_06012F74:
+.L_sym_06044A34:
     .4byte  sym_06044A34
-.L_pool_06012F78:
+.L_sym_06044A40:
     .4byte  sym_06044A40
-.L_pool_06012F7C:
+.L_sym_06044A4C:
     .4byte  sym_06044A4C

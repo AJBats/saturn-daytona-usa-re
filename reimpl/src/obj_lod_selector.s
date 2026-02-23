@@ -11,11 +11,11 @@
 obj_lod_selector:
     sts.l pr, @-r15
     add #-0x5C, r15
-    mov.l   .L_pool_060209A0, r12
+    mov.l   .L_sym_06028400, r12
     mov r15, r13
     mov r15, r1
-    mov.l   .L_pool_060209A4, r2
-    mov.l   .L_pool_060209A8, r3
+    mov.l   .L_sym_0605F52A, r2
+    mov.l   .L_sym_06035228, r3
     jsr @r3
     mov #0x5C, r0
     mov #0x0, r14
@@ -50,9 +50,9 @@ obj_lod_selector:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_060209A0:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_060209A4:
+.L_sym_0605F52A:
     .4byte  sym_0605F52A
-.L_pool_060209A8:
+.L_sym_06035228:
     .4byte  sym_06035228

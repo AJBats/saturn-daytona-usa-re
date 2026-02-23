@@ -11,7 +11,7 @@
 track_road_edge_a:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036408, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -26,7 +26,7 @@ track_road_edge_a:
     mov.b r0, @(1, r2)
     mov r13, r0
     mov.b r0, @(4, r3)
-    mov.l   .L_pool_0603640C, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov #0x40, r4
     mov r0, r4
@@ -44,7 +44,7 @@ course_data_access_a:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_06036408, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -59,7 +59,7 @@ course_data_access_a:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_pool_06036410, r3
+    mov.l   .L_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -75,9 +75,9 @@ course_data_access_a:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06036408:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_0603640C:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_06036410:
+.L_input_proc_digital:
     .4byte  input_proc_digital

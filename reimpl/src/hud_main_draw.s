@@ -17,13 +17,13 @@ hud_main_draw:
     mov.w r0, @(8, r15)
     add #0x4, r6
     mov.w @(8, r15), r0
-    mov.l   .L_pool_060117DC, r3
+    mov.l   .L_sincos_pair, r3
     jsr @r3
     mov r0, r4
-    mov.l   .L_pool_060117E0, r11
-    mov.l   .L_pool_060117E4, r12
-    mov.l   .L_pool_060117E8, r13
-    mov.l   .L_pool_060117EC, r14
+    mov.l   .L_sym_060786CC, r11
+    mov.l   .L_sym_0605AAA0, r12
+    mov.l   .L_swap_sign_ext, r13
+    mov.l   .L_fpmul, r14
     mov.w @r12, r2
     mov r2, r3
     shll2 r2
@@ -153,15 +153,15 @@ hud_main_draw:
     mov r9, r4
     bra     .L_060117FC
     nop
-.L_pool_060117DC:
+.L_sincos_pair:
     .4byte  sincos_pair
-.L_pool_060117E0:
+.L_sym_060786CC:
     .4byte  sym_060786CC
-.L_pool_060117E4:
+.L_sym_0605AAA0:
     .4byte  sym_0605AAA0
-.L_pool_060117E8:
+.L_swap_sign_ext:
     .4byte  swap_sign_ext
-.L_pool_060117EC:
+.L_fpmul:
     .4byte  fpmul
 .L_pool_060117F0:
     .4byte  0xFFC80000

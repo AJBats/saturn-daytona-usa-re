@@ -12,13 +12,13 @@
 screen_fade_ctrl:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_060284A4, r0
+    mov.l   .L_sym_06028614, r0
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r5
     .byte   0xBF, 0x5E    /* bsr 0x06028306 (external) */
     mov r7, r4
-    mov.l   .L_pool_060284A8, r1
+    mov.l   .L_sym_06063690, r1
     add r1, r6
     mov.l @r6+, r1
     mov.w @r6+, r2
@@ -66,9 +66,9 @@ screen_fade_ctrl:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_pool_060284A4:
+.L_sym_06028614:
     .4byte  sym_06028614
-.L_pool_060284A8:
+.L_sym_06063690:
     .4byte  sym_06063690
     .2byte  0x0009
 

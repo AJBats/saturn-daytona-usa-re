@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0601772E
+    .space 2    /* align to match original address 0x0601772E (mod 4 = 2) */
 
 
     .global track_seg_util

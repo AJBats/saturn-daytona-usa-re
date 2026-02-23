@@ -13,7 +13,7 @@ save_checksum_calc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov r4, r13
-    mov.l   .L_pool_0603B988, r14
+    mov.l   .L_sym_060A4D14, r14
     mov.w   .L_wpool_0603B986, r3
     mov.l @r14, r14
     add r3, r14
@@ -43,7 +43,7 @@ save_checksum_calc:
     .2byte  0x0009
 .L_wpool_0603B986:
     .2byte  0x00B8
-.L_pool_0603B988:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
     .4byte  0x7501E060
     .4byte  0x026E3523

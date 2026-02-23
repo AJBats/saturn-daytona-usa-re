@@ -11,7 +11,7 @@
 major_state_update:
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06041DF4, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     mov #0x1, r4
     mov.l @r14, r3
@@ -33,7 +33,7 @@ major_state_update:
     bf      .L_06041DDE
     mov.l @r14, r5
     mov.w   DAT_06041df2, r0
-    mov.l   .L_pool_06041DFC, r3
+    mov.l   .L_track_surface_type_a, r3
     mov.l @(r0, r5), r5
     jsr @r3
     mov #0x0, r4
@@ -44,7 +44,7 @@ major_state_update:
     mov #0x1, r0
 .L_06041DB6:
     mov r15, r4
-    mov.l   .L_pool_06041E00, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -83,13 +83,13 @@ DAT_06041df0:
     .global DAT_06041df2
 DAT_06041df2:
     .2byte  0x033C
-.L_pool_06041DF4:
+.L_sym_060A5400:
     .4byte  sym_060A5400
 .L_pool_06041DF8:
     .4byte  0x0000FFFF
-.L_pool_06041DFC:
+.L_track_surface_type_a:
     .4byte  track_surface_type_a
-.L_pool_06041E00:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
 .L_06041E04:
     mov.l @r14, r2
@@ -106,7 +106,7 @@ DAT_06041df2:
     mov.w   DAT_06041eb6, r0
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   .L_pool_06041EBC, r3
+    mov.l   .L_track_impact_response, r3
     mov.l @(r0, r6), r6
     add #-0x4, r0
     mov.l @(r0, r5), r5
@@ -125,7 +125,7 @@ DAT_06041df2:
     mov.w   .L_wpool_06041EB4, r0
     mov r15, r4
     mov.l r2, @(r0, r3)
-    mov.l   .L_pool_06041EC0, r3
+    mov.l   .L_ai_checkpoint_validate_2, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -141,7 +141,7 @@ DAT_06041df2:
     cmp/eq #0x3, r0
     bf      .L_06041E80
     mov.w   .L_wpool_06041EB8, r2
-    mov.l   .L_pool_06041EC4, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r5
@@ -165,7 +165,7 @@ DAT_06041df2:
     cmp/eq #0x4, r0
     bf      .L_06041EAA
     mov #0x40, r2
-    mov.l   .L_pool_06041EC4, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -197,15 +197,15 @@ DAT_06041eb6:
 .L_wpool_06041EB8:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_pool_06041EBC:
+.L_track_impact_response:
     .4byte  track_impact_response
-.L_pool_06041EC0:
+.L_ai_checkpoint_validate_2:
     .4byte  ai_checkpoint_validate
-.L_pool_06041EC4:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E
 .L_06041EC8:
     mov.l   .L_pool_06041F98, r4
-    mov.l   .L_pool_06041F9C, r3
+    mov.l   .L_smpc_cmd_helper_b, r3
     jsr @r3
     nop
     mov.l @r14, r2
@@ -230,8 +230,8 @@ track_edge_validate:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06041FA0, r12
-    mov.l   .L_pool_06041FA4, r14
+    mov.l   .L_ai_checkpoint_validate_3, r12
+    mov.l   .L_sym_060A5400_2, r14
     mov.w   .L_wpool_06041F92, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0
@@ -243,7 +243,7 @@ track_edge_validate:
     mov.l @r14, r4
     mov.w   DAT_06041f96, r0
     add r3, r5
-    mov.l   .L_pool_06041FA8, r3
+    mov.l   .L_track_road_edge_b, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r15, r4
@@ -261,7 +261,7 @@ track_edge_validate:
     mov.b r1, @(r0, r3)
     mov.l @r14, r4
     mov.w   DAT_06041f96, r0
-    mov.l   .L_pool_06041FAC, r3
+    mov.l   .L_track_road_width_main, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r0, r4
@@ -297,7 +297,7 @@ track_edge_validate:
     mov.l @r14, r6
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   .L_pool_06041FB0, r3
+    mov.l   .L_track_post_collision, r3
     mov.l @(r0, r7), r7
     add #0xC, r0
     mov.l @(r0, r6), r6
@@ -327,17 +327,17 @@ DAT_06041f96:
     .2byte  0x034C
 .L_pool_06041F98:
     .4byte  0x0000FFF7
-.L_pool_06041F9C:
+.L_smpc_cmd_helper_b:
     .4byte  smpc_cmd_helper_b
-.L_pool_06041FA0:
+.L_ai_checkpoint_validate_3:
     .4byte  ai_checkpoint_validate
-.L_pool_06041FA4:
+.L_sym_060A5400_2:
     .4byte  sym_060A5400
-.L_pool_06041FA8:
+.L_track_road_edge_b:
     .4byte  track_road_edge_b
-.L_pool_06041FAC:
+.L_track_road_width_main:
     .4byte  track_road_width_main
-.L_pool_06041FB0:
+.L_track_post_collision:
     .4byte  track_post_collision
 .L_06041FB4:
     mov r15, r4
@@ -363,7 +363,7 @@ DAT_06041f96:
     cmp/eq #0x3, r0
     bf      .L_06042004
     mov.w   DAT_0604207c, r2
-    mov.l   .L_pool_06042080, r3
+    mov.l   .L_sym_06035C4E_2, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -392,7 +392,7 @@ DAT_06041f96:
     mov.l @r14, r5
     mov.w   DAT_0604207e, r0
     mov.l @r14, r4
-    mov.l   .L_pool_06042084, r3
+    mov.l   .L_track_road_width_main_2, r3
     mov.l @(r0, r5), r5
     add #-0x10, r0
     jsr @r3
@@ -417,7 +417,7 @@ DAT_06041f96:
     cmp/eq #0x5, r0
     bf      .L_06042068
     mov #0x40, r2
-    mov.l   .L_pool_06042080, r3
+    mov.l   .L_sym_06035C4E_2, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -459,7 +459,7 @@ DAT_0604207c:
     .global DAT_0604207e
 DAT_0604207e:
     .2byte  0x035C
-.L_pool_06042080:
+.L_sym_06035C4E_2:
     .4byte  sym_06035C4E
-.L_pool_06042084:
+.L_track_road_width_main_2:
     .4byte  track_road_width_main

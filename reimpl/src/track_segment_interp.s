@@ -12,7 +12,7 @@ track_segment_interp:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06041560, r14
+    mov.l   .L_sym_060A5400, r14
     mov.w   DAT_0604155c, r0
     mov.w   DAT_0604155e, r7
     mov.l @r14, r1
@@ -55,7 +55,7 @@ track_segment_interp:
     mov r4, r0
     cmp/eq #-0x2, r0
     bt      .L_06041532
-    mov.l   .L_pool_06041560, r0
+    mov.l   .L_sym_060A5400, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r4), r0
@@ -67,14 +67,14 @@ track_segment_interp:
     mov r6, r0
     cmp/eq #-0x2, r0
     bt      .L_06041548
-    mov.l   .L_pool_06041560, r0
+    mov.l   .L_sym_060A5400, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r6), r0
     cmp/eq #0x1, r0
     bf      .L_06041552
 .L_06041548:
-    mov.l   .L_pool_06041560, r0
+    mov.l   .L_sym_060A5400, r0
     mov.l @r0, r0
     mov.b @(r0, r5), r0
     cmp/eq #0x1, r0
@@ -93,7 +93,7 @@ DAT_0604155c:
     .global DAT_0604155e
 DAT_0604155e:
     .2byte  0x00FF
-.L_pool_06041560:
+.L_sym_060A5400:
     .4byte  sym_060A5400
 .L_06041564:
     mov #0x18, r2
@@ -159,7 +159,7 @@ track_shadow_test:
     mov.l r5, @(16, r15)
     add #0xC, r6
     mov r15, r5
-    mov.l   .L_pool_060415F4, r3
+    mov.l   .L_track_shadow_ground, r3
     add #0x4, r5
     jsr @r3
     mov r15, r4
@@ -179,7 +179,7 @@ DAT_060415ee:
 .L_wpool_060415F0:
     .2byte  0x01DC
     .2byte  0xFFFF
-.L_pool_060415F4:
+.L_track_shadow_ground:
     .4byte  track_shadow_ground
 .L_060415F8:
     mov.l @r15, r0
@@ -198,7 +198,7 @@ DAT_060415ee:
     mov #-0xB, r0
 .L_06041612:
     mov.l @(16, r15), r5
-    mov.l   .L_pool_06041668, r3
+    mov.l   .L_track_shadow_shape, r3
     jsr @r3
     mov.l @(8, r15), r4
     mov r0, r4
@@ -210,10 +210,10 @@ DAT_060415ee:
     mov #-0xB, r0
 .L_06041628:
     mov r15, r4
-    mov.l   .L_pool_0604166C, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     add #0x14, r4
-    mov.l   .L_pool_06041670, r2
+    mov.l   .L_sym_060A5400_2, r2
     mov.l @r2, r2
     mov r15, r3
     add #0x14, r3
@@ -234,7 +234,7 @@ track_surface_check:
     mov r15, r6
     mov r15, r5
     mov r15, r4
-    mov.l   .L_pool_06041674, r3
+    mov.l   .L_track_surface_type_b, r3
     add #0x8, r5
     jsr @r3
     add #0x4, r4
@@ -245,20 +245,20 @@ track_surface_check:
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
-.L_pool_06041668:
+.L_track_shadow_shape:
     .4byte  track_shadow_shape
-.L_pool_0604166C:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_06041670:
+.L_sym_060A5400_2:
     .4byte  sym_060A5400
-.L_pool_06041674:
+.L_track_surface_type_b:
     .4byte  track_surface_type_b
 .L_06041678:
     mov r15, r4
-    mov.l   .L_pool_0604172C, r3
+    mov.l   .L_ai_checkpoint_validate_2, r3
     jsr @r3
     add #0xC, r4
-    mov.l   .L_pool_06041730, r2
+    mov.l   .L_sym_060A5400_3, r2
     mov.l @r2, r2
     mov r15, r3
     add #0xC, r3
@@ -286,7 +286,7 @@ dma_int_handler:
     sts.l pr, @-r15
     mov #0x0, r9
     add #-0x14, r15
-    mov.l   .L_pool_06041730, r13
+    mov.l   .L_sym_060A5400_3, r13
     mov.l r9, @r15
     mov.l @r13, r3
     mov.l @(60, r3), r0
@@ -305,7 +305,7 @@ dma_int_handler:
     mov #0x3, r0
 .L_060416D0:
     mov.w   .L_wpool_0604172A, r2
-    mov.l   .L_pool_06041734, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @(4, r15)
     mov r0, r4
@@ -323,15 +323,15 @@ dma_int_handler:
     cmp/eq #0x1, r0
     bf      .L_06041748
     mov.l   .L_pool_06041738, r4
-    mov.l   .L_pool_0604173C, r3
+    mov.l   .L_smpc_cmd_helper_b, r3
     jsr @r3
     nop
     mov r15, r4
-    mov.l   .L_pool_06041740, r3
+    mov.l   .L_ai_checkpoint_section, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
-    mov.l   .L_pool_06041744, r3
+    mov.l   .L_sym_06035168, r3
     mov.l @r13, r1
     add #0x8, r2
     add #0x40, r1
@@ -353,23 +353,23 @@ dma_int_handler:
     nop
 .L_wpool_0604172A:
     .2byte  0x0400
-.L_pool_0604172C:
+.L_ai_checkpoint_validate_2:
     .4byte  ai_checkpoint_validate
-.L_pool_06041730:
+.L_sym_060A5400_3:
     .4byte  sym_060A5400
-.L_pool_06041734:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E
 .L_pool_06041738:
     .4byte  0x0000FBFF
-.L_pool_0604173C:
+.L_smpc_cmd_helper_b:
     .4byte  smpc_cmd_helper_b
-.L_pool_06041740:
+.L_ai_checkpoint_section:
     .4byte  ai_checkpoint_section
-.L_pool_06041744:
+.L_sym_06035168:
     .4byte  sym_06035168
 .L_06041748:
     mov r15, r4
-    mov.l   .L_pool_060417E4, r3
+    mov.l   .L_ai_section_transition, r3
     jsr @r3
     add #0x8, r4
     mov r0, r4
@@ -377,7 +377,7 @@ dma_int_handler:
     bf      .L_06041764
     mov.l @r13, r1
     mov r15, r2
-    mov.l   .L_pool_060417E8, r3
+    mov.l   .L_sym_06035168_2, r3
     add #0x40, r1
     add #0x8, r2
     jsr @r3
@@ -424,7 +424,7 @@ dma_int_handler:
     rts
     mov.l @r15+, r14
 .L_060417A8:
-    mov.l   .L_pool_060417EC, r5
+    mov.l   .L_sym_060A5400_4, r5
     bra     .L_060417F8
     mov r4, r0
 .L_060417AE:
@@ -471,11 +471,11 @@ DAT_060417da:
     .2byte  0x0348
 .L_wpool_060417E2:
     .2byte  0x01E0
-.L_pool_060417E4:
+.L_ai_section_transition:
     .4byte  ai_section_transition
-.L_pool_060417E8:
+.L_sym_06035168_2:
     .4byte  sym_06035168
-.L_pool_060417EC:
+.L_sym_060A5400_4:
     .4byte  sym_060A5400
 .L_060417F0:
     mov.l @r5, r4
@@ -574,7 +574,7 @@ evt_callback_handler:
 
     .global sym_06041884
 sym_06041884:
-    mov.l   .L_pool_060418A8, r3
+    mov.l   .L_sym_060A5400_5, r3
     mov.l @r3, r3
     rts
     mov.l r4, @(60, r3)
@@ -584,7 +584,7 @@ sym_06041884:
 state_field_read:
     sts.l pr, @-r15
     mov.l   .L_pool_060418AC, r4
-    mov.l   .L_pool_060418A8, r3
+    mov.l   .L_sym_060A5400_5, r3
     mov.l @r3, r3
     mov.l r4, @(60, r3)
 .L_06041896:
@@ -598,13 +598,13 @@ state_field_read:
 .L_060418A4:
     bra     .L_06041896
     nop
-.L_pool_060418A8:
+.L_sym_060A5400_5:
     .4byte  sym_060A5400
 .L_pool_060418AC:
     .4byte  0x00008000
 .L_060418B0:
     mov #0x0, r5
-    mov.l   .L_pool_0604195C, r2
+    mov.l   .L_sym_060A5400_6, r2
     mov.l @r2, r2
     mov.l r5, @(60, r2)
     lds.l @r15+, pr
@@ -626,8 +626,8 @@ track_road_validate:
     mov #0x3, r8
     mov #0x0, r9
     mov #0x1, r11
-    mov.l   .L_pool_06041960, r12
-    mov.l   .L_pool_0604195C, r14
+    mov.l   .L_ai_checkpoint_validate_3, r12
+    mov.l   .L_sym_060A5400_6, r14
     mov r4, r10
     bra     .L_060419F6
     mov r9, r13
@@ -646,7 +646,7 @@ track_road_validate:
     mov.l r5, @r15
     mov.b @(1, r5), r0
     mov.l @r15, r4
-    mov.l   .L_pool_06041964, r3
+    mov.l   .L_track_road_width_main, r3
     mov r0, r5
     jsr @r3
     mov.b @r4, r4
@@ -687,7 +687,7 @@ track_road_validate:
     mov.l r5, @r15
     add #0x2, r5
     mov.l @r15, r4
-    mov.l   .L_pool_06041968, r3
+    mov.l   .L_track_bank_calc, r3
     jsr @r3
     mov.b @r4, r4
     mov r0, r4
@@ -696,13 +696,13 @@ track_road_validate:
     bra     .L_06041A04
     nop
     .2byte  0xFFFF
-.L_pool_0604195C:
+.L_sym_060A5400_6:
     .4byte  sym_060A5400
-.L_pool_06041960:
+.L_ai_checkpoint_validate_3:
     .4byte  ai_checkpoint_validate
-.L_pool_06041964:
+.L_track_road_width_main:
     .4byte  track_road_width_main
-.L_pool_06041968:
+.L_track_bank_calc:
     .4byte  track_bank_calc
 .L_0604196C:
     mov r15, r4
@@ -751,7 +751,7 @@ track_road_validate:
     mov.l @(12, r6), r6
     mov.l @r15, r5
     mov.l @r15, r4
-    mov.l   .L_pool_06041A64, r3
+    mov.l   .L_track_seg_interpolate, r3
     mov.l @(8, r5), r5
     jsr @r3
     mov.b @r4, r4
@@ -803,7 +803,7 @@ track_road_validate:
     mov r4, r1
     mov r13, r2
     mov.l @r14, r5
-    mov.l   .L_pool_06041A68, r3
+    mov.l   .L_sym_06035168_3, r3
     shll2 r1
     shll2 r2
     add #0x5C, r5
@@ -827,7 +827,7 @@ track_road_validate:
 .L_06041A48:
     mov #0x40, r3
     mov.l r3, @r15
-    mov.l   .L_pool_06041A6C, r3
+    mov.l   .L_sym_06035C4E_2, r3
     jsr @r3
     nop
     mov r0, r5
@@ -839,11 +839,11 @@ track_road_validate:
     bra     .L_06041A72
     mov #0x1, r4
     .2byte  0xFFFF
-.L_pool_06041A64:
+.L_track_seg_interpolate:
     .4byte  track_seg_interpolate
-.L_pool_06041A68:
+.L_sym_06035168_3:
     .4byte  sym_06035168
-.L_pool_06041A6C:
+.L_sym_06035C4E_2:
     .4byte  sym_06035C4E
 .L_06041A70:
     mov #0x0, r4

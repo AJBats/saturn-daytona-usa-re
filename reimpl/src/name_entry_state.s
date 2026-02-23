@@ -12,10 +12,10 @@ name_entry_state:
     sts.l pr, @-r15
     mov r6, r0
     mov.l   .L_pool_0603D504, r7
-    mov.l   .L_pool_0603D508, r5
-    mov.l   .L_pool_0603D50C, r4
+    mov.l   .L_sym_060A4D58, r5
+    mov.l   .L_sym_060A4D36, r4
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
@@ -25,7 +25,7 @@ name_entry_state:
     mov.w r2, @r4
     mov.w   DAT_0603d500, r14
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
@@ -34,7 +34,7 @@ name_entry_state:
     and r14, r2
     mov.w r2, @r4
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
@@ -45,7 +45,7 @@ name_entry_state:
     mov.w r0, @(2, r4)
     mov r6, r0
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
@@ -56,7 +56,7 @@ name_entry_state:
     mov.w r0, @(2, r4)
     mov r6, r0
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w @(4, r4), r0
@@ -67,7 +67,7 @@ name_entry_state:
     mov.w r0, @(4, r4)
     mov r6, r0
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w @(4, r4), r0
@@ -78,7 +78,7 @@ name_entry_state:
     mov.w r0, @(4, r4)
     mov r6, r0
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w @(6, r4), r0
@@ -89,7 +89,7 @@ name_entry_state:
     mov.w r0, @(6, r4)
     mov r6, r0
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov.w @(4, r4), r0
@@ -100,7 +100,7 @@ name_entry_state:
     mov.w r0, @(4, r4)
     mov r6, r0
     mov.w   .L_wpool_0603D4FE, r1
-    mov.l   .L_pool_0603D510, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     lds.l @r15+, pr
@@ -115,9 +115,9 @@ DAT_0603d500:
     .2byte  0xFFFF
 .L_pool_0603D504:
     .4byte  0x0000FF00
-.L_pool_0603D508:
+.L_sym_060A4D58:
     .4byte  sym_060A4D58
-.L_pool_0603D50C:
+.L_sym_060A4D36:
     .4byte  sym_060A4D36
-.L_pool_0603D510:
+.L_sym_06034F78:
     .4byte  sym_06034F78

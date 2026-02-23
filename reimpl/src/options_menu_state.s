@@ -17,9 +17,9 @@ options_menu_state:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.l   .L_pool_0603D8C8, r12
-    mov.l   .L_pool_0603D8CC, r7
-    mov.l   .L_pool_0603D8D0, r5
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_060A4D58, r7
+    mov.l   .L_sym_060A4D18, r5
+    mov.l   .L_sym_06034F78, r3
     mov r12, r13
     mov r7, r2
     add #-0x1, r13
@@ -34,7 +34,7 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -45,7 +45,7 @@ options_menu_state:
     mov r7, r2
     mov.w r0, @(2, r5)
     mov r6, r0
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -56,7 +56,7 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -68,7 +68,7 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -80,7 +80,7 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -92,7 +92,7 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -110,7 +110,7 @@ options_menu_state:
 .L_0603D874:
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -129,7 +129,7 @@ options_menu_state:
     bt      .L_0603D8B4
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D8D4, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -154,11 +154,11 @@ options_menu_state:
     .2byte  0xFFFF
 .L_pool_0603D8C8:
     .4byte  0x0000FFFE
-.L_pool_0603D8CC:
+.L_sym_060A4D58:
     .4byte  sym_060A4D58
-.L_pool_0603D8D0:
+.L_sym_060A4D18:
     .4byte  sym_060A4D18
-.L_pool_0603D8D4:
+.L_sym_06034F78:
     .4byte  sym_06034F78
 .L_pool_0603D8D8:
     .4byte  0x0000FEFF
@@ -171,7 +171,7 @@ options_menu_state:
 .L_pool_0603D8E8:
     .4byte  0x0000FFDF
 .L_0603D8EC:
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     nop
     mov.w @(2, r5), r0
@@ -189,7 +189,7 @@ options_menu_state:
     bt      .L_0603D924
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -207,7 +207,7 @@ options_menu_state:
     bt      .L_0603D946
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -225,7 +225,7 @@ options_menu_state:
     bt      .L_0603D966
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -242,7 +242,7 @@ options_menu_state:
     bt      .L_0603D986
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -259,7 +259,7 @@ options_menu_state:
     bt      .L_0603D9A6
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -276,7 +276,7 @@ options_menu_state:
     bt      .L_0603D9C6
     mov r6, r0
     mov r7, r2
-    mov.l   .L_pool_0603D9D4, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -295,7 +295,7 @@ options_menu_state:
 .L_wpool_0603D9D0:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_pool_0603D9D4:
+.L_sym_06034F78_2:
     .4byte  sym_06034F78
 .L_pool_0603D9D8:
     .4byte  0x0000FFFB

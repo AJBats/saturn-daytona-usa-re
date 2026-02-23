@@ -13,31 +13,31 @@ data_table_copy:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0603A090, r13
-    mov.l   .L_pool_0603A094, r14
+    mov.l   .L_sym_060A4CEC, r13
+    mov.l   .L_sym_060A4CD4, r14
     .byte   0xB5, 0x2B    /* bsr 0x0603AA82 (external) */
     mov.l r4, @r15
-    mov.l   .L_pool_0603A098, r5
-    mov.l   .L_pool_0603A09C, r4
+    mov.l   .L_sym_060A4CC8, r5
+    mov.l   .L_sym_060A4CD0, r4
     mov.l @r5, r2
     mov.l r2, @r4
     mov.l @r5, r3
     mov #0x1, r2
     mov.l r3, @r14
-    mov.l   .L_pool_0603A0A0, r3
+    mov.l   .L_sym_060A4CCC, r3
     mov.b r2, @r3
-    mov.l   .L_pool_0603A0A4, r0
+    mov.l   .L_sym_060A4CFC, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x20, r0
     bf      .L_0603A07E
     mov #0x5, r3
-    mov.l   .L_pool_0603A0A8, r2
+    mov.l   .L_sym_060A4D02, r2
     mov.b @r2, r2
     extu.b r2, r2
     cmp/ge r3, r2
     bt      .L_0603A060
-    mov.l   .L_pool_0603A0AC, r5
+    mov.l   .L_sym_060A4CFD, r5
     mov r5, r3
     mov.l r5, @r4
     add #0x2, r5
@@ -71,19 +71,19 @@ data_table_copy:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0603A090:
+.L_sym_060A4CEC:
     .4byte  sym_060A4CEC
-.L_pool_0603A094:
+.L_sym_060A4CD4:
     .4byte  sym_060A4CD4
-.L_pool_0603A098:
+.L_sym_060A4CC8:
     .4byte  sym_060A4CC8
-.L_pool_0603A09C:
+.L_sym_060A4CD0:
     .4byte  sym_060A4CD0
-.L_pool_0603A0A0:
+.L_sym_060A4CCC:
     .4byte  sym_060A4CCC
-.L_pool_0603A0A4:
+.L_sym_060A4CFC:
     .4byte  sym_060A4CFC
-.L_pool_0603A0A8:
+.L_sym_060A4D02:
     .4byte  sym_060A4D02
-.L_pool_0603A0AC:
+.L_sym_060A4CFD:
     .4byte  sym_060A4CFD

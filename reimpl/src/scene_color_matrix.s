@@ -16,12 +16,12 @@ scene_color_matrix:
     mov.l r10, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0603DEB4, r10
-    mov.l   .L_pool_0603DEB8, r11
-    mov.l   .L_pool_0603DEBC, r12
+    mov.l   .L_sym_060A53B8, r10
+    mov.l   .L_sym_060A4C68, r11
+    mov.l   .L_sym_060A4C60, r12
     mov #0x0, r13
     mov.l r6, @r15
-    mov.l   .L_pool_0603DEC0, r0
+    mov.l   .L_sym_060635A8, r0
     bra     .L_0603DE26
     mov.l @r0, r0
 .L_0603DE1A:
@@ -62,7 +62,7 @@ scene_color_matrix:
     mov.l r13, @(24, r6)
     mov.l r13, @(28, r6)
     mov.l r7, @(32, r6)
-    mov.l   .L_pool_0603DEC8, r3
+    mov.l   .L_sym_060A4C44, r3
     add r3, r2
     mov.l @r2, r0
     tst r0, r0
@@ -92,8 +92,8 @@ scene_color_matrix:
     bf      .L_0603DEDC
     tst r4, r4
     bt      .L_0603DEDC
-    mov.l   .L_pool_0603DECC, r4
-    mov.l   .L_pool_0603DEC0, r0
+    mov.l   .L_sym_060A3E38, r4
+    mov.l   .L_sym_060635A8, r0
     bra     .L_0603DED4
     mov.l @r0, r0
 .L_0603DE9C:
@@ -111,19 +111,19 @@ scene_color_matrix:
     bra     .L_0603DEDC
     mov.w r0, @(4, r4)
     .2byte  0xFFFF
-.L_pool_0603DEB4:
+.L_sym_060A53B8:
     .4byte  sym_060A53B8
-.L_pool_0603DEB8:
+.L_sym_060A4C68:
     .4byte  sym_060A4C68
-.L_pool_0603DEBC:
+.L_sym_060A4C60:
     .4byte  sym_060A4C60
-.L_pool_0603DEC0:
+.L_sym_060635A8:
     .4byte  sym_060635A8
 .L_pool_0603DEC4:
     .4byte  0x00010000
-.L_pool_0603DEC8:
+.L_sym_060A4C44:
     .4byte  sym_060A4C44
-.L_pool_0603DECC:
+.L_sym_060A3E38:
     .4byte  sym_060A3E38
 .L_pool_0603DED0:
     .4byte  0x0000FF00
@@ -140,13 +140,13 @@ scene_color_matrix:
     mov.l @r15, r4
 .L_0603DEE6:
     extu.w r14, r4
-    mov.l   .L_pool_0603DF4C, r3
+    mov.l   .L_sym_060A4C4C, r3
     shll2 r4
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_0603DF04
-    mov.l   .L_pool_0603DF50, r3
+    mov.l   .L_sym_060A4C70, r3
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
@@ -155,7 +155,7 @@ scene_color_matrix:
     shll2 r0
     mov.l r13, @(r0, r12)
 .L_0603DF04:
-    mov.l   .L_pool_0603DF54, r5
+    mov.l   .L_sym_060A3E68, r5
     extu.w r14, r4
     shll2 r4
     mov r4, r3
@@ -163,7 +163,7 @@ scene_color_matrix:
     mov.l @r3, r0
     tst r0, r0
     bf      .L_0603DF1E
-    mov.l   .L_pool_0603DF58, r3
+    mov.l   .L_sym_060A4C78, r3
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
@@ -192,19 +192,19 @@ scene_color_matrix:
     mov.l r3, @(16, r6)
     bra     .L_0603DFB6
     nop
-.L_pool_0603DF4C:
+.L_sym_060A4C4C:
     .4byte  sym_060A4C4C
-.L_pool_0603DF50:
+.L_sym_060A4C70:
     .4byte  sym_060A4C70
-.L_pool_0603DF54:
+.L_sym_060A3E68:
     .4byte  sym_060A3E68
-.L_pool_0603DF58:
+.L_sym_060A4C78:
     .4byte  sym_060A4C78
 .L_0603DF5C:
     extu.w r14, r4
     tst r4, r4
     bf      .L_0603DF6C
-    mov.l   .L_pool_0603E03C, r0
+    mov.l   .L_sym_060A3E3C, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0xFF, r0
@@ -213,7 +213,7 @@ scene_color_matrix:
     mov r4, r0
     cmp/eq #0x1, r0
     bf      .L_0603DFB6
-    mov.l   .L_pool_0603E03C, r2
+    mov.l   .L_sym_060A3E3C, r2
     mov.l   .L_pool_0603E040, r3
     mov.w @r2, r2
     extu.w r2, r2
@@ -266,14 +266,14 @@ scene_color_matrix:
     mov.l @r3, r0
     tst r0, r0
     bf      .L_0603DFE0
-    mov.l   .L_pool_0603E044, r3
+    mov.l   .L_sym_060A4C78_2, r3
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_0603E02A
 .L_0603DFE0:
     extu.w r14, r3
-    mov.l   .L_pool_0603E048, r2
+    mov.l   .L_sym_060A4C54, r2
     shll r3
     add r2, r3
     mov.w @r3, r3
@@ -281,7 +281,7 @@ scene_color_matrix:
     tst r3, r3
     bt      .L_0603DFFE
     extu.w r14, r3
-    mov.l   .L_pool_0603E04C, r2
+    mov.l   .L_sym_060A4C4C_2, r2
     shll2 r3
     add r2, r3
     mov.l @r3, r0
@@ -321,13 +321,13 @@ scene_color_matrix:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0603E03C:
+.L_sym_060A3E3C:
     .4byte  sym_060A3E3C
 .L_pool_0603E040:
     .4byte  0x0000FF00
-.L_pool_0603E044:
+.L_sym_060A4C78_2:
     .4byte  sym_060A4C78
-.L_pool_0603E048:
+.L_sym_060A4C54:
     .4byte  sym_060A4C54
-.L_pool_0603E04C:
+.L_sym_060A4C4C_2:
     .4byte  sym_060A4C4C

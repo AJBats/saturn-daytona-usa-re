@@ -19,7 +19,7 @@ ai_speed_target:
     mov.l @r4, r4
     mov.l @(16, r14), r3
     sub r3, r4
-    mov.l   .L_pool_0600C968, r3
+    mov.l   .L_atan2, r3
     jsr @r3
     nop
     neg r0, r5
@@ -80,7 +80,7 @@ DAT_0600c962:
 DAT_0600c964:
     .2byte  0xFA00
     .2byte  0x2000
-.L_pool_0600C968:
+.L_atan2:
     .4byte  atan2
 .L_pool_0600C96C:
     .4byte  0x0000FA00
@@ -107,9 +107,9 @@ track_position_calc:
     sts.l pr, @-r15
     add #-0x1C, r15
     mov.w   DAT_0600c9e6, r9
-    mov.l   .L_pool_0600C9EC, r10
-    mov.l   .L_pool_0600C9F0, r11
-    mov.l   .L_pool_0600C9F4, r12
+    mov.l   .L_atan2_2, r10
+    mov.l   .L_sym_0607EB88, r11
+    mov.l   .L_sym_0607E944, r12
     mov.w   DAT_0600c9e4, r0
     mov.l @r12, r12
     mov.l @(r0, r12), r4
@@ -146,11 +146,11 @@ DAT_0600c9e4:
 DAT_0600c9e6:
     .2byte  0x0100
     .4byte  sym_0605A1E0
-.L_pool_0600C9EC:
+.L_atan2_2:
     .4byte  atan2
-.L_pool_0600C9F0:
+.L_sym_0607EB88:
     .4byte  sym_0607EB88
-.L_pool_0600C9F4:
+.L_sym_0607E944:
     .4byte  sym_0607E944
 .L_0600C9F8:
     mov.l @r11, r8
@@ -244,7 +244,7 @@ DAT_0600c9e6:
 heading_smooth_gentle:
     mov.l r13, @-r15
     sts.l macl, @-r15
-    mov.l   .L_pool_0600CAC4, r5
+    mov.l   .L_sym_0607E940, r5
     mov.w   DAT_0600cac2, r0
     mov.l @r5, r5
     mov.l @(r0, r5), r6
@@ -271,7 +271,7 @@ DAT_0600cac0:
     .global DAT_0600cac2
 DAT_0600cac2:
     .2byte  0x01F8
-.L_pool_0600CAC4:
+.L_sym_0607E940:
     .4byte  sym_0607E940
 .L_0600CAC8:
     cmp/pl r6
@@ -290,7 +290,7 @@ DAT_0600cac2:
 .L_0600CAE0:
     mov.w   DAT_0600cb84, r0
     mov.w   DAT_0600cb86, r3
-    mov.l   .L_pool_0600CB8C, r13
+    mov.l   .L_sym_0607EB88_2, r13
     mov.l @(r0, r5), r7
     extu.w r7, r6
     and r3, r7
@@ -383,5 +383,5 @@ DAT_0600cb86:
 .L_wpool_0600CB88:
     .2byte  0x01EC
     .2byte  0xFFFF
-.L_pool_0600CB8C:
+.L_sym_0607EB88_2:
     .4byte  sym_0607EB88

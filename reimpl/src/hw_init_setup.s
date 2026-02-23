@@ -16,7 +16,7 @@ hw_init_setup:
 loc_06040200:
     mov.l r5, @(32, r14)
     mov.l   .L_pool_0604023C, r5
-    mov.l   .L_pool_06040240, r3
+    mov.l   .L_evt_cmd_enqueue, r3
     jsr @r3
     mov.l @(24, r14), r4
     mov r0, r4
@@ -50,7 +50,7 @@ sym_06040220:
     nop
 .L_pool_0604023C:
     .4byte  0x7FFFFFFF
-.L_pool_06040240:
+.L_evt_cmd_enqueue:
     .4byte  evt_cmd_enqueue
 .L_pool_06040244:
     .4byte  0x40000000

@@ -12,9 +12,9 @@ split_screen_layout:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.w r7, @r15
-    mov.l   .L_pool_06011AE8, r12
-    mov.l   .L_pool_06011AEC, r13
-    mov.l   .L_pool_06011AF0, r14
+    mov.l   .L_swap_sign_ext, r12
+    mov.l   .L_sym_060786CC, r13
+    mov.l   .L_sym_0605AAA0, r14
     mov.l @r11, r4
     mov.w @r14, r3
     mov r3, r2
@@ -183,9 +183,9 @@ split_screen_layout:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06011AE8:
+.L_swap_sign_ext:
     .4byte  swap_sign_ext
-.L_pool_06011AEC:
+.L_sym_060786CC:
     .4byte  sym_060786CC
-.L_pool_06011AF0:
+.L_sym_0605AAA0:
     .4byte  sym_0605AAA0

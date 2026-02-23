@@ -23,7 +23,7 @@ position_change_anim:
     mov.w   .L_wpool_06015A2C, r10
     mov.l   .L_pool_06015A34, r11
     mov #0x0, r12
-    mov.l   .L_pool_06015A38, r13
+    mov.l   .L_sym_06084FC8, r13
     mov r4, r0
     mov.b r0, @(4, r15)
     extu.b r12, r3
@@ -45,10 +45,10 @@ position_change_anim:
     mov.b r0, @(2, r4)
     mov.l @(44, r4), r5
     cmp/ge r9, r5
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     cmp/gt r12, r5
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     and r1, r0
     tst r0, r0
     bt      .L_060159DE
@@ -126,7 +126,7 @@ position_change_anim:
     .4byte  0x00008000
 .L_pool_06015A34:
     .4byte  0x00010000
-.L_pool_06015A38:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
 .L_06015A3C:
     extu.b r14, r2
@@ -143,7 +143,7 @@ position_change_anim:
     add #0x1, r2
     mov.b r2, @r15
 .L_06015A56:
-    mov.l   .L_pool_06015A9C, r3
+    mov.l   .L_track_vtx_builder, r3
     jsr @r3
     extu.b r14, r4
     add #0x1, r14
@@ -165,7 +165,7 @@ position_change_anim:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015AA0, r3
+    mov.l   .L_sym_060172E4, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06015A88:
@@ -179,7 +179,7 @@ position_change_anim:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06015A9C:
+.L_track_vtx_builder:
     .4byte  track_vtx_builder
-.L_pool_06015AA0:
+.L_sym_060172E4:
     .4byte  sym_060172E4

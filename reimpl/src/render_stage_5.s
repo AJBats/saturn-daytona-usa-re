@@ -11,50 +11,50 @@
 render_stage_5:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0601D058, r5
+    mov.l   .L_sym_0604884C, r5
     mov.l   .L_pool_0601D05C, r4
-    mov.l   .L_pool_0601D060, r3
+    mov.l   .L_dma_transfer, r3
     jsr @r3
     mov #0x40, r6
-    mov.l   .L_pool_0601D064, r2
+    mov.l   .L_sym_06063968, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
     mov.w   .L_wpool_0601D056, r6
-    mov.l   .L_pool_0601D068, r3
+    mov.l   .L_sym_06028400, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     jsr @r3
     mov #0x4, r4
-    mov.l   .L_pool_0601D06C, r2
+    mov.l   .L_sym_06063970, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
     mov.w   .L_wpool_0601D056, r6
-    mov.l   .L_pool_0601D068, r3
+    mov.l   .L_sym_06028400, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     jsr @r3
     mov #0x0, r4
     mov #0x0, r2
-    mov.l   .L_pool_0601D070, r3
+    mov.l   .L_sym_06086020, r3
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
 .L_wpool_0601D056:
     .2byte  0x0518
-.L_pool_0601D058:
+.L_sym_0604884C:
     .4byte  sym_0604884C
 .L_pool_0601D05C:
     .4byte  0x25F00000
-.L_pool_0601D060:
+.L_dma_transfer:
     .4byte  dma_transfer
-.L_pool_0601D064:
+.L_sym_06063968:
     .4byte  sym_06063968
-.L_pool_0601D068:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_0601D06C:
+.L_sym_06063970:
     .4byte  sym_06063970
-.L_pool_0601D070:
+.L_sym_06086020:
     .4byte  sym_06086020

@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0603FACE
+    .space 2    /* align to match original address 0x0603FACE (mod 4 = 2) */
 
 
     .global scene_buffer_update

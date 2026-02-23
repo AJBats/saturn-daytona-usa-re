@@ -19,7 +19,7 @@ effect_cleanup_stub:
     cmp/pz r6
     mov.l r12, @-r15
     bt/s    particle_sys_mgr
-    .word 0x0C29 /* UNKNOWN */
+    movt r12
     neg r6, r6
 
     .global particle_sys_mgr
@@ -41,7 +41,7 @@ particle_sys_mgr:
     mov r13, r5
     .byte   0xBE, 0xD8    /* bsr 0x06028368 (external) */
     mov #0x8, r4
-    mov.l   .L_pool_060285DC, r5
+    mov.l   .L_sym_06028614, r5
     mov #0x2E, r0
     mov.l @(8, r5), r2
     or r6, r0
@@ -61,7 +61,7 @@ particle_sys_mgr:
     mov.l @r15+, r14
 .L_wpool_060285DA:
     .2byte  0x2710
-.L_pool_060285DC:
+.L_sym_06028614:
     .4byte  sym_06028614
     .4byte  0x45186763
     .4byte  0x96144509

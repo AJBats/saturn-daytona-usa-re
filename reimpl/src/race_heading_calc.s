@@ -14,7 +14,7 @@ race_heading_calc:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600CE90, r14
+    mov.l   .L_sym_0607E940, r14
     mov.w   DAT_0600ce86, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r13
@@ -40,7 +40,7 @@ race_heading_calc:
     bra     .L_0600CE10
     add #-0x1, r12
 .L_0600CE0C:
-    mov.l   .L_pool_0600CE94, r12
+    mov.l   .L_sym_0607EA9C, r12
     mov.l @r12, r12
 .L_0600CE10:
     mov r12, r11
@@ -58,7 +58,7 @@ race_heading_calc:
     mov.l @r11, r4
     mov.l @(16, r14), r2
     sub r3, r5
-    mov.l   .L_pool_0600CE98, r3
+    mov.l   .L_atan2, r3
     jsr @r3
     sub r2, r4
     exts.w r0, r6
@@ -95,7 +95,7 @@ race_heading_calc:
 collision_detect_main:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600CE90, r14
+    mov.l   .L_sym_0607E940, r14
     mov.w   DAT_0600ce8e, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r3
@@ -129,18 +129,18 @@ DAT_0600ce8c:
     .global DAT_0600ce8e
 DAT_0600ce8e:
     .2byte  0x01EC
-.L_pool_0600CE90:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600CE94:
+.L_sym_0607EA9C:
     .4byte  sym_0607EA9C
-.L_pool_0600CE98:
+.L_atan2:
     .4byte  atan2
 .L_0600CE9C:
     bsr     race_heading_calc
     nop
 .L_0600CEA0:
     mov.w   DAT_0600cf3a, r0
-    mov.l   .L_pool_0600CF44, r3
+    mov.l   .L_sym_0607EB84, r3
     mov.l @(r0, r14), r2
     mov.l @r3, r3
     shll2 r2
@@ -157,9 +157,9 @@ DAT_0600ce8e:
     .type track_segment_advance, @function
 track_segment_advance:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600CF48, r4
+    mov.l   .L_sym_0607E940_2, r4
     mov.w   DAT_0600cf3a, r0
-    mov.l   .L_pool_0600CF44, r3
+    mov.l   .L_sym_0607EB84, r3
     mov.l @r4, r4
     mov.l @r3, r3
     mov.l @(r0, r4), r5
@@ -175,13 +175,13 @@ track_segment_advance:
     mov.l r3, @(r0, r4)
     mov.w   .L_wpool_0600CF3C, r1
     mov.w   .L_wpool_0600CF3E, r2
-    mov.l   .L_pool_0600CF4C, r3
+    mov.l   .L_sym_06035228, r3
     add r4, r1
     add r4, r2
     jsr @r3
     mov #0x2, r0
     mov r5, r2
-    mov.l   .L_pool_0600CF4C, r3
+    mov.l   .L_sym_06035228, r3
     mov.w   .L_wpool_0600CF3E, r1
     add #0x2, r2
     add r4, r1
@@ -196,7 +196,7 @@ track_segment_advance:
     exts.w r6, r5
     cmp/pl r5
     bf      .L_0600CF34
-    mov.l   .L_pool_0600CF50, r2
+    mov.l   .L_sym_0607EA9C_2, r2
     mov.l @r2, r2
     add #-0x10, r2
     cmp/gt r2, r5
@@ -207,7 +207,7 @@ track_segment_advance:
     mov.l r2, @(r0, r4)
     add #-0xC, r0
     mov.l r2, @(r0, r4)
-    mov.l   .L_pool_0600CF54, r5
+    mov.l   .L_sym_0607EBD0, r5
     mov.l @r5, r3
     add #0x10, r0
     mov.l @(r0, r4), r2
@@ -235,13 +235,13 @@ DAT_0600cf40:
     .2byte  0x01F0
 .L_wpool_0600CF42:
     .2byte  0x0228
-.L_pool_0600CF44:
+.L_sym_0607EB84:
     .4byte  sym_0607EB84
-.L_pool_0600CF48:
+.L_sym_0607E940_2:
     .4byte  sym_0607E940
-.L_pool_0600CF4C:
+.L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_0600CF50:
+.L_sym_0607EA9C_2:
     .4byte  sym_0607EA9C
-.L_pool_0600CF54:
+.L_sym_0607EBD0:
     .4byte  sym_0607EBD0

@@ -18,7 +18,7 @@ scu_dma_transfer:
     mov.l r5, @r15
     mov.l r6, @(8, r15)
     mov.l r7, @(4, r15)
-    mov.l   .L_pool_0603FEE8, r3
+    mov.l   .L_sym_06000348, r3
     mov.l @r3, r3
     mov.l r3, @(12, r15)
     mov.l @r15, r0
@@ -30,7 +30,7 @@ scu_dma_transfer:
     mov.l   .L_pool_0603FEEC, r3
     mov.l   .L_pool_0603FEF0, r2
     mov.l r3, @r2
-    mov.l   .L_pool_0603FEF4, r3
+    mov.l   .L_sym_06000340, r3
     mov.l @r3, r3
     jsr @r3
     mov #-0x1, r4
@@ -67,13 +67,13 @@ scu_dma_transfer:
     .2byte  0xFFFF
 .L_pool_0603FEE4:
     .4byte  0x25FE00A4
-.L_pool_0603FEE8:
+.L_sym_06000348:
     .4byte  sym_06000348
 .L_pool_0603FEEC:
     .4byte  0x10041004
 .L_pool_0603FEF0:
     .4byte  0x25FE00B4
-.L_pool_0603FEF4:
+.L_sym_06000340:
     .4byte  sym_06000340
 .L_pool_0603FEF8:
     .4byte  0x25FE0000
@@ -94,7 +94,7 @@ scu_dma_transfer:
     and r13, r2
     tst r2, r2
     bt      .L_0603FF10
-    mov.l   .L_pool_0603FF50, r3
+    mov.l   .L_sym_06000340_2, r3
     mov.l @r3, r3
     mov.l @(12, r15), r4
     add #0x10, r15
@@ -134,7 +134,7 @@ attract_cleanup:
     .2byte  0x0101
 .L_pool_0603FF4C:
     .4byte  0x25FE000C
-.L_pool_0603FF50:
+.L_sym_06000340_2:
     .4byte  sym_06000340
 .L_0603FF54:
     mov #0x0, r4

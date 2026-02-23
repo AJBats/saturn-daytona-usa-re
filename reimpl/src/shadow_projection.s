@@ -11,7 +11,7 @@
 shadow_projection:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036A90, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -24,7 +24,7 @@ shadow_projection:
     mov.l r14, @(4, r2)
     mov.b r0, @(4, r3)
     mov.w   .L_wpool_06036A8C, r4
-    mov.l   .L_pool_06036A94, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -41,7 +41,7 @@ shadow_projection:
 ground_shadow_render:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036A90, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -54,7 +54,7 @@ ground_shadow_render:
     mov.l r14, @(4, r2)
     mov.b r0, @(4, r3)
     mov.w   .L_wpool_06036A8C, r4
-    mov.l   .L_pool_06036A94, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -66,7 +66,7 @@ ground_shadow_render:
 .L_wpool_06036A8C:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_pool_06036A90:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036A94:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons

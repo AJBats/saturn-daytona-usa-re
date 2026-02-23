@@ -11,9 +11,9 @@
 credits_scroll:
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_0603F2C4, r11
-    mov.l   .L_pool_0603F2C8, r12
-    mov.l   .L_pool_0603F2CC, r13
+    mov.l   .L_large_prologue_save, r11
+    mov.l   .L_checkpoint_state_check, r12
+    mov.l   .L_sym_060A4D14, r13
     mov.w   .L_wpool_0603F2C2, r0
     mov.l @r13, r5
     jsr @r12
@@ -25,7 +25,7 @@ credits_scroll:
     mov #-0x1, r0
 .L_0603F260:
     mov.l   .L_pool_0603F2D0, r4
-    mov.l   .L_pool_0603F2D4, r3
+    mov.l   .L_sym_06041884, r3
     jsr @r3
     nop
     bra     .L_0603F284
@@ -47,7 +47,7 @@ credits_scroll:
 .L_0603F284:
     tst r14, r14
     bf      .L_0603F26C
-    mov.l   .L_pool_0603F2D8, r3
+    mov.l   .L_state_field_read, r3
     jsr @r3
     nop
     tst r0, r0
@@ -58,7 +58,7 @@ credits_scroll:
     mov r15, r6
     mov r15, r5
     mov r15, r4
-    mov.l   .L_pool_0603F2DC, r3
+    mov.l   .L_track_shadow_ground, r3
     add #0x8, r6
     jsr @r3
     add #0x4, r4
@@ -81,17 +81,17 @@ credits_scroll:
     mov.l @r15+, r14
 .L_wpool_0603F2C2:
     .2byte  0x00C8
-.L_pool_0603F2C4:
+.L_large_prologue_save:
     .4byte  large_prologue_save
-.L_pool_0603F2C8:
+.L_checkpoint_state_check:
     .4byte  checkpoint_state_check
-.L_pool_0603F2CC:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
 .L_pool_0603F2D0:
     .4byte  0x00008000
-.L_pool_0603F2D4:
+.L_sym_06041884:
     .4byte  sym_06041884
-.L_pool_0603F2D8:
+.L_state_field_read:
     .4byte  state_field_read
-.L_pool_0603F2DC:
+.L_track_shadow_ground:
     .4byte  track_shadow_ground

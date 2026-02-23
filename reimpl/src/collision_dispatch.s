@@ -17,8 +17,8 @@ collision_dispatch:
     add #-0x4, r15
     mov r15, r11
     mov.w   .L_wpool_0600CFE2, r12
-    mov.l   .L_pool_0600CFEC, r13
-    mov.l   .L_pool_0600CFF0, r4
+    mov.l   .L_sym_0607E944, r13
+    mov.l   .L_sym_0607E940, r4
     mov.l @r4, r14
     mov.l @(4, r14), r0
     tst r0, r0
@@ -45,7 +45,7 @@ collision_dispatch:
 .L_0600CF96:
     mov r11, r1
     mov r14, r2
-    mov.l   .L_pool_0600CFF8, r3
+    mov.l   .L_sym_06035168, r3
     jsr @r3
     mov #0x4, r0
     mov.w   DAT_0600cfe6, r0
@@ -97,13 +97,13 @@ DAT_0600cfe6:
 .L_wpool_0600CFE8:
     .2byte  0x01FC
     .2byte  0xFFFF
-.L_pool_0600CFEC:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_0600CFF0:
+.L_sym_0607E940:
     .4byte  sym_0607E940
 .L_pool_0600CFF4:
     .4byte  0x00C00000
-.L_pool_0600CFF8:
+.L_sym_06035168:
     .4byte  sym_06035168
 .L_0600CFFC:
     mov r11, r0
@@ -216,8 +216,8 @@ DAT_0600cfe6:
     .2byte  0x0400
 .L_0600D0B8:
     mov.w   .L_wpool_0600D112, r7
-    mov.l   .L_pool_0600D120, r5
-    mov.l   .L_pool_0600D124, r4
+    mov.l   .L_sym_0607E944_2, r5
+    mov.l   .L_sym_0607E940_2, r4
     mov.l @r4, r6
     mov r6, r3
     mov.l @r3, r2
@@ -283,9 +283,9 @@ DAT_0600d11a:
 .L_wpool_0600D11C:
     .2byte  0x0204
     .2byte  0xFFFF
-.L_pool_0600D120:
+.L_sym_0607E944_2:
     .4byte  sym_0607E944
-.L_pool_0600D124:
+.L_sym_0607E940_2:
     .4byte  sym_0607E940
 .L_pool_0600D128:
     .4byte  0x00C00000

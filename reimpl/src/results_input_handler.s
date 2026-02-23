@@ -11,7 +11,7 @@
 results_input_handler:
     sts.l pr, @-r15
     shll2 r3
-    mov.l   .L_pool_06016870, r13
+    mov.l   .L_sym_06084FC8, r13
     mov.w   .L_wpool_0601686C, r2
     shll2 r3
     add r3, r4
@@ -86,7 +86,7 @@ results_input_handler:
     .2byte  0x0F00
 .L_wpool_0601686E:
     .2byte  0x1800
-.L_pool_06016870:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
 .L_06016874:
     extu.b r14, r5
@@ -147,7 +147,7 @@ results_input_handler:
 loc_060168DA:
     extu.b r4, r3
     mov #0x7, r2
-    mov.l   .L_pool_0601693C, r5
+    mov.l   .L_sym_06084FC8_2, r5
     cmp/ge r2, r3
     bt      .L_06016904
     extu.b r4, r2
@@ -198,5 +198,5 @@ loc_060168DA:
     .2byte  0xC000
 .L_wpool_0601693A:
     .2byte  0x4000
-.L_pool_0601693C:
+.L_sym_06084FC8_2:
     .4byte  sym_06084FC8

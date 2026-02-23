@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06036572
+    .space 2    /* align to match original address 0x06036572 (mod 4 = 2) */
 
 
     .global track_surface_type_c

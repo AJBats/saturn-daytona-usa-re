@@ -10,17 +10,17 @@
     .type scene_render_body, @function
 scene_render_body:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600C094, r8
+    mov.l   .L_sym_0607EBC4, r8
     mov.w   .L_wpool_0600C090, r10
-    mov.l   .L_pool_0600C098, r12
-    mov.l   .L_pool_0600C09C, r13
-    mov.l   .L_pool_0600C0A0, r0
+    mov.l   .L_sym_0608A52C, r12
+    mov.l   .L_sym_0605A1DD, r13
+    mov.l   .L_sym_06083255, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_0600C02C
     mov #0x0, r9
-    mov.l   .L_pool_0600C0A4, r4
-    mov.l   .L_pool_0600C0A8, r3
+    mov.l   .L_sym_0607EB8C, r4
+    mov.l   .L_vblank_handler, r3
     jsr @r3
     mov.l @r4, r4
 .L_0600C02C:
@@ -29,18 +29,18 @@ scene_render_body:
     and r3, r2
     tst r2, r2
     bf      .L_0600C050
-    mov.l   .L_pool_0600C0B0, r0
+    mov.l   .L_sym_06078635, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
     bt      .L_0600C04A
-    mov.l   .L_pool_0600C0B4, r3
+    mov.l   .L_sym_0600D336, r3
     jsr @r3
     nop
     bra     .L_0600C050
     nop
 .L_0600C04A:
-    mov.l   .L_pool_0600C0B8, r3
+    mov.l   .L_physics_calc_dispatch, r3
     jsr @r3
     nop
 .L_0600C050:
@@ -48,11 +48,11 @@ scene_render_body:
     mov.l   .L_pool_0600C0BC, r3
     cmp/eq r3, r2
     bf      .L_0600C066
-    mov.l   .L_pool_0600C0C0, r0
+    mov.l   .L_sym_0607EAE0, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_0600C066
-    mov.l   .L_pool_0600C0C4, r3
+    mov.l   .L_sym_0602E610, r3
     jsr @r3
     nop
 .L_0600C066:
@@ -60,17 +60,17 @@ scene_render_body:
     mov.l @r12, r2
     add #0x30, r2
     mov.l r2, @r12
-    mov.l   .L_pool_0600C0C8, r5
-    mov.l   .L_pool_0600C0CC, r3
+    mov.l   .L_sym_06089EDC, r5
+    mov.l   .L_memcpy_long_idx, r3
     mov.l @r5, r5
     jsr @r3
     mov r2, r4
-    mov.l   .L_pool_0600C0D0, r4
-    mov.l   .L_pool_0600C0D4, r0
+    mov.l   .L_sym_06078664, r4
+    mov.l   .L_sym_06059F30, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_0600C0DC
-    mov.l   .L_pool_0600C0D8, r3
+    mov.l   .L_sym_0607EA98, r3
     mov.l @r3, r3
     shar r3
     exts.w r3, r3
@@ -80,49 +80,49 @@ scene_render_body:
 .L_wpool_0600C090:
     .2byte  0xFE11
     .2byte  0xFFFF
-.L_pool_0600C094:
+.L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_0600C098:
+.L_sym_0608A52C:
     .4byte  sym_0608A52C
-.L_pool_0600C09C:
+.L_sym_0605A1DD:
     .4byte  sym_0605A1DD
-.L_pool_0600C0A0:
+.L_sym_06083255:
     .4byte  sym_06083255
-.L_pool_0600C0A4:
+.L_sym_0607EB8C:
     .4byte  sym_0607EB8C
-.L_pool_0600C0A8:
+.L_vblank_handler:
     .4byte  vblank_handler
 .L_pool_0600C0AC:
     .4byte  0x02000000
-.L_pool_0600C0B0:
+.L_sym_06078635:
     .4byte  sym_06078635
-.L_pool_0600C0B4:
+.L_sym_0600D336:
     .4byte  sym_0600D336
-.L_pool_0600C0B8:
+.L_physics_calc_dispatch:
     .4byte  physics_calc_dispatch
 .L_pool_0600C0BC:
     .4byte  0x00020000
-.L_pool_0600C0C0:
+.L_sym_0607EAE0:
     .4byte  sym_0607EAE0
-.L_pool_0600C0C4:
+.L_sym_0602E610:
     .4byte  sym_0602E610
-.L_pool_0600C0C8:
+.L_sym_06089EDC:
     .4byte  sym_06089EDC
-.L_pool_0600C0CC:
+.L_memcpy_long_idx:
     .4byte  memcpy_long_idx
-.L_pool_0600C0D0:
+.L_sym_06078664:
     .4byte  sym_06078664
-.L_pool_0600C0D4:
+.L_sym_06059F30:
     .4byte  sym_06059F30
-.L_pool_0600C0D8:
+.L_sym_0607EA98:
     .4byte  sym_0607EA98
 .L_0600C0DC:
     mov.b @r13, r2
     extu.b r2, r2
     mov.w r2, @r4
 .L_0600C0E2:
-    mov.l   .L_pool_0600C188, r3
-    mov.l   .L_pool_0600C18C, r2
+    mov.l   .L_race_utility_calc, r3
+    mov.l   .L_sym_06063574, r2
     mov.l r3, @r2
     mov.l   .L_pool_0600C190, r3
     mov.l   .L_pool_0600C194, r2
@@ -132,11 +132,11 @@ scene_render_body:
     and r2, r3
     tst r3, r3
     bf      .L_0600C0FE
-    mov.l   .L_pool_0600C19C, r3
+    mov.l   .L_frame_dispatch, r3
     jsr @r3
     nop
 .L_0600C0FE:
-    mov.l   .L_pool_0600C1A0, r3
+    mov.l   .L_scene_post_render, r3
     jsr @r3
     nop
     .byte   0xBA, 0xCC    /* bsr 0x0600B6A0 (external) */
@@ -145,7 +145,7 @@ scene_render_body:
     mov.l   .L_pool_0600C1A4, r3
     cmp/eq r3, r2
     bt      .L_0600C11C
-    mov.l   .L_pool_0600C1A8, r3
+    mov.l   .L_replay_playback_engine, r3
     jsr @r3
     nop
     bra     .L_0600C11C
@@ -164,7 +164,7 @@ scene_render_body:
     tst r9, r9
     bt      .L_0600C144
     mov.b @r13, r3
-    mov.l   .L_pool_0600C1AC, r2
+    mov.l   .L_sym_0607EA98_2, r2
     extu.b r3, r3
     mov.l @r2, r2
     cmp/ge r2, r3
@@ -182,7 +182,7 @@ scene_render_body:
     add #-0x1, r2
     mov.b r2, @r13
 .L_0600C152:
-    mov.l   .L_pool_0600C1B0, r3
+    mov.l   .L_sym_0603C000, r3
     jsr @r3
     nop
     mov.l @r12, r2
@@ -202,10 +202,10 @@ scene_render_body:
     .type race_utility_calc, @function
 race_utility_calc:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600C1B0, r3
+    mov.l   .L_sym_0603C000, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C1B4, r0
+    mov.l   .L_sym_06083255_2, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_0600C1B8
@@ -213,9 +213,9 @@ race_utility_calc:
     nop
     bra     .L_0600C1BE
     nop
-.L_pool_0600C188:
+.L_race_utility_calc:
     .4byte  race_utility_calc
-.L_pool_0600C18C:
+.L_sym_06063574:
     .4byte  sym_06063574
 .L_pool_0600C190:
     .4byte  0x0000FFFF
@@ -223,46 +223,46 @@ race_utility_calc:
     .4byte  0x21000000
 .L_pool_0600C198:
     .4byte  0x02800008
-.L_pool_0600C19C:
+.L_frame_dispatch:
     .4byte  frame_dispatch
-.L_pool_0600C1A0:
+.L_scene_post_render:
     .4byte  scene_post_render
 .L_pool_0600C1A4:
     .4byte  0x02000000
-.L_pool_0600C1A8:
+.L_replay_playback_engine:
     .4byte  replay_playback_engine
-.L_pool_0600C1AC:
+.L_sym_0607EA98_2:
     .4byte  sym_0607EA98
-.L_pool_0600C1B0:
+.L_sym_0603C000:
     .4byte  sym_0603C000
-.L_pool_0600C1B4:
+.L_sym_06083255_2:
     .4byte  sym_06083255
 .L_0600C1B8:
-    mov.l   .L_pool_0600C1F4, r3
+    mov.l   .L_camera_track_setup, r3
     jsr @r3
     nop
 .L_0600C1BE:
     .byte   0xBB, 0xA9    /* bsr 0x0600B914 (external) */
     nop
-    mov.l   .L_pool_0600C1F8, r0
-    mov.l   .L_pool_0600C1FC, r3
+    mov.l   .L_sym_06063E1C, r0
+    mov.l   .L_sym_06063E20, r3
     mov.l @r0, r0
     mov.l @r3, r3
     add r3, r0
     cmp/eq #0x8, r0
     bf      .L_0600C1DA
-    mov.l   .L_pool_0600C200, r3
+    mov.l   .L_scene_path_a, r3
     jsr @r3
     nop
     bra     .L_0600C1E0
     nop
 .L_0600C1DA:
-    mov.l   .L_pool_0600C204, r3
+    mov.l   .L_scene_path_b, r3
     jsr @r3
     nop
 .L_0600C1E0:
-    mov.l   .L_pool_0600C208, r2
-    mov.l   .L_pool_0600C20C, r3
+    mov.l   .L_sym_06059F40, r2
+    mov.l   .L_sym_06059F4C, r3
     mov.l @r2, r2
     mov.l r2, @r3
     mov.l   .L_pool_0600C210, r2
@@ -271,19 +271,19 @@ race_utility_calc:
     rts
     mov.w r2, @r3
     .2byte  0xFFFF
-.L_pool_0600C1F4:
+.L_camera_track_setup:
     .4byte  camera_track_setup
-.L_pool_0600C1F8:
+.L_sym_06063E1C:
     .4byte  sym_06063E1C
-.L_pool_0600C1FC:
+.L_sym_06063E20:
     .4byte  sym_06063E20
-.L_pool_0600C200:
+.L_scene_path_a:
     .4byte  scene_path_a
-.L_pool_0600C204:
+.L_scene_path_b:
     .4byte  scene_path_b
-.L_pool_0600C208:
+.L_sym_06059F40:
     .4byte  sym_06059F40
-.L_pool_0600C20C:
+.L_sym_06059F4C:
     .4byte  sym_06059F4C
 .L_pool_0600C210:
     .4byte  0x0000FFFF
@@ -299,35 +299,35 @@ scene_update:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.w   .L_wpool_0600C2A6, r12
-    mov.l   .L_pool_0600C2AC, r13
+    mov.l   .L_sym_0608A52C_2, r13
     mov.w   .L_wpool_0600C2A8, r14
     mov.l @r13, r3
     add #0x30, r3
     mov.l r3, @r13
     mov r3, r4
-    mov.l   .L_pool_0600C2B0, r5
-    mov.l   .L_pool_0600C2B4, r3
+    mov.l   .L_sym_06089EDC_2, r5
+    mov.l   .L_memcpy_long_idx_2, r3
     jsr @r3
     mov.l @r5, r5
-    mov.l   .L_pool_0600C2B8, r3
+    mov.l   .L_physics_calc_dispatch_2, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C2BC, r2
-    mov.l   .L_pool_0600C2C0, r3
+    mov.l   .L_race_utility_fn, r2
+    mov.l   .L_sym_06063574_2, r3
     mov.l r2, @r3
     mov.l   .L_pool_0600C2C4, r2
     mov.l   .L_pool_0600C2C8, r3
     mov.w r2, @r3
-    mov.l   .L_pool_0600C2CC, r3
+    mov.l   .L_frame_dispatch_2, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C2D0, r3
+    mov.l   .L_scene_post_render_2, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C2D4, r3
+    mov.l   .L_replay_playback_engine_2, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C2D8, r0
+    mov.l   .L_sym_06059FF8, r0
     mov.l @r0, r0
     tst r0, r0
 .L_0600C262:
@@ -337,7 +337,7 @@ scene_update:
     cmp/eq r14, r2
     bf      .L_0600C262
     mov.b @r12, r0
-    mov.l   .L_pool_0600C2DC, r3
+    mov.l   .L_sym_0603C000_2, r3
     and #0xF, r0
     jsr @r3
     mov.b r0, @r12
@@ -354,17 +354,17 @@ scene_update:
     .type race_utility_fn, @function
 race_utility_fn:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600C2DC, r3
+    mov.l   .L_sym_0603C000_2, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C2E0, r3
+    mov.l   .L_camera_track_setup_2, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600C2E4, r4
+    mov.l   .L_sym_06082A26, r4
     mov.b @r4, r2
     tst r2, r2
     bf      .L_0600C2EC
-    mov.l   .L_pool_0600C2E8, r3
+    mov.l   .L_scene_path_b_2, r3
     jsr @r3
     nop
     bra     .L_0600C2F8
@@ -374,43 +374,43 @@ race_utility_fn:
 .L_wpool_0600C2A8:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_pool_0600C2AC:
+.L_sym_0608A52C_2:
     .4byte  sym_0608A52C
-.L_pool_0600C2B0:
+.L_sym_06089EDC_2:
     .4byte  sym_06089EDC
-.L_pool_0600C2B4:
+.L_memcpy_long_idx_2:
     .4byte  memcpy_long_idx
-.L_pool_0600C2B8:
+.L_physics_calc_dispatch_2:
     .4byte  physics_calc_dispatch
-.L_pool_0600C2BC:
+.L_race_utility_fn:
     .4byte  race_utility_fn
-.L_pool_0600C2C0:
+.L_sym_06063574_2:
     .4byte  sym_06063574
 .L_pool_0600C2C4:
     .4byte  0x0000FFFF
 .L_pool_0600C2C8:
     .4byte  0x21000000
-.L_pool_0600C2CC:
+.L_frame_dispatch_2:
     .4byte  frame_dispatch
-.L_pool_0600C2D0:
+.L_scene_post_render_2:
     .4byte  scene_post_render
-.L_pool_0600C2D4:
+.L_replay_playback_engine_2:
     .4byte  replay_playback_engine
-.L_pool_0600C2D8:
+.L_sym_06059FF8:
     .4byte  sym_06059FF8
-.L_pool_0600C2DC:
+.L_sym_0603C000_2:
     .4byte  sym_0603C000
-.L_pool_0600C2E0:
+.L_camera_track_setup_2:
     .4byte  camera_track_setup
-.L_pool_0600C2E4:
+.L_sym_06082A26:
     .4byte  sym_06082A26
-.L_pool_0600C2E8:
+.L_scene_path_b_2:
     .4byte  scene_path_b
 .L_0600C2EC:
     mov.b @r4, r0
     cmp/eq #0x1, r0
     bf      .L_0600C2F8
-    mov.l   .L_pool_0600C378, r3
+    mov.l   .L_scene_path_a_2, r3
     jsr @r3
     nop
 .L_0600C2F8:
@@ -423,7 +423,7 @@ race_utility_fn:
     .global sym_0600C302
 sym_0600C302:
     mov #0x68, r0
-    mov.l   .L_pool_0600C384, r4
+    mov.l   .L_sym_0607E944, r4
     mov.l @r4, r4
     mov.l @(r0, r4), r3
     add #0x7C, r0
@@ -501,13 +501,13 @@ DAT_0600c372:
 .L_wpool_0600C374:
     .2byte  0x008C
     .2byte  0xFFFF
-.L_pool_0600C378:
+.L_scene_path_a_2:
     .4byte  scene_path_a
 .L_pool_0600C37C:
     .4byte  0x0000FFFF
 .L_pool_0600C380:
     .4byte  0x21800000
-.L_pool_0600C384:
+.L_sym_0607E944:
     .4byte  sym_0607E944
 .L_0600C388:
     mov #0x68, r0

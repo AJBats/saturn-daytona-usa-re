@@ -23,7 +23,7 @@ menu_bg_scroll:
 .L_0603B5AE:
     mov.l @r4, r2
     mov.l @r15, r5
-    mov.l   .L_pool_0603B5CC, r3
+    mov.l   .L_sym_06040894, r3
     mov.l @(24, r2), r4
     jsr @r3
     extu.b r5, r5
@@ -37,5 +37,5 @@ menu_bg_scroll:
     rts
     nop
     .2byte  0xFFFF
-.L_pool_0603B5CC:
+.L_sym_06040894:
     .4byte  sym_06040894

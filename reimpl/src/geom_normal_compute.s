@@ -14,12 +14,12 @@ geom_normal_compute:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    mov.l   .L_pool_0601EBF4, r11
-    mov.l   .L_pool_0601EBF8, r12
-    mov.l   .L_pool_0601EBFC, r13
-    mov.l   .L_pool_0601EC00, r7
-    mov.l   .L_pool_0601EC04, r6
-    mov.l   .L_pool_0601EC08, r0
+    mov.l   .L_sym_0604A5C0, r11
+    mov.l   .L_sym_060877D8, r12
+    mov.l   .L_sym_0605E098, r13
+    mov.l   .L_sym_0604A5AC, r7
+    mov.l   .L_sym_0605E09C, r6
+    mov.l   .L_sym_06087080, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -75,7 +75,7 @@ geom_vertex_compute:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.w   .L_wpool_0601EBF0, r5
-    mov.l   .L_pool_0601EC08, r0
+    mov.l   .L_sym_06087080, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -85,23 +85,23 @@ geom_vertex_compute:
 .L_wpool_0601EBF0:
     .2byte  0x00F0
     .2byte  0xFFFF
-.L_pool_0601EBF4:
+.L_sym_0604A5C0:
     .4byte  sym_0604A5C0
-.L_pool_0601EBF8:
+.L_sym_060877D8:
     .4byte  sym_060877D8
-.L_pool_0601EBFC:
+.L_sym_0605E098:
     .4byte  sym_0605E098
-.L_pool_0601EC00:
+.L_sym_0604A5AC:
     .4byte  sym_0604A5AC
-.L_pool_0601EC04:
+.L_sym_0605E09C:
     .4byte  sym_0605E09C
-.L_pool_0601EC08:
+.L_sym_06087080:
     .4byte  sym_06087080
 .L_0601EC0C:
-    mov.l   .L_pool_0601EEE4, r4
+    mov.l   .L_sym_0605E098_2, r4
     mov.l @r4, r4
     add #0x10, r4
-    mov.l   .L_pool_0601EEE8, r6
+    mov.l   .L_sym_0605DD6C, r6
     mov r6, r7
     mov r6, r11
     add #0x48, r11
@@ -156,7 +156,7 @@ geom_vertex_compute:
     add #0x8, r7
     cmp/hs r11, r7
     bf      .L_0601EC1A
-    mov.l   .L_pool_0601EEEC, r6
+    mov.l   .L_sym_0605DE24, r6
     mov r6, r7
     add #0x18, r7
 .L_0601EC82:
@@ -189,7 +189,7 @@ geom_vertex_compute:
     cmp/hs r7, r6
     bf/s    .L_0601EC82
     mov.b r2, @r14
-    mov.l   .L_pool_0601EEF0, r6
+    mov.l   .L_sym_0605DDB4, r6
     mov r6, r7
     add #0x20, r7
 .L_0601ECC2:
@@ -221,7 +221,7 @@ geom_vertex_compute:
     cmp/hs r7, r6
     bf/s    .L_0601ECC2
     mov.b r2, @r14
-    mov.l   .L_pool_0601EEF4, r6
+    mov.l   .L_sym_0605DDD4, r6
     mov r6, r7
     add #0x20, r7
 .L_0601ED00:
@@ -253,7 +253,7 @@ geom_vertex_compute:
     cmp/hs r7, r6
     bf/s    .L_0601ED00
     mov.b r2, @r14
-    mov.l   .L_pool_0601EEF8, r6
+    mov.l   .L_sym_0605DE40, r6
     mov r6, r7
     mov r6, r14
     add #0x24, r14
@@ -297,7 +297,7 @@ geom_vertex_compute:
     cmp/hs r14, r7
     bf/s    .L_0601ED40
     mov.b r2, @r6
-    mov.l   .L_pool_0601EEFC, r6
+    mov.l   .L_sym_0605AD00, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -309,7 +309,7 @@ geom_vertex_compute:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF00, r6
+    mov.l   .L_sym_0605AD04, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -321,7 +321,7 @@ geom_vertex_compute:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF04, r6
+    mov.l   .L_sym_0605AD0C, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -334,78 +334,66 @@ geom_vertex_compute:
     mov.b @r4+, r2
     mov.b r2, @r6
     mov.b @r4+, r2
-    mov.l   .L_pool_0601EF08, r3
+    mov.l   .L_sym_0605AB16, r3
     mov.b r2, @r3
     mov.b @r4+, r3
-    mov.l   .L_pool_0601EF0C, r2
+    mov.l   .L_sym_0605AB17, r2
     mov.b r3, @r2
     mov.b @r4+, r2
-    mov.l   .L_pool_0601EF10, r3
+    mov.l   .L_sym_0605D240, r3
     mov.b r2, @r3
     mov.b @r4+, r3
-    mov.l   .L_pool_0601EF14, r2
+    mov.l   .L_sym_0605D241, r2
     mov.b r3, @r2
-    mov.l   .L_pool_0601EF18, r6
+    mov.l   .L_sym_06060D44, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF1C, r6
+    mov.l   .L_sym_06060D46, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF20, r6
+    mov.l   .L_sym_06060D40, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF24, r6
+    mov.l   .L_sym_06060D42, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF28, r6
+    mov.l   .L_sym_06060D48, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF2C, r6
+    mov.l   .L_sym_06060D4A, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF30, r6
+    mov.l   .L_sym_06060D4C, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF34, r6
+    mov.l   .L_sym_06060D4E, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF38, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r2
-    mov.b r2, @r6
-    mov.l   .L_pool_0601EF3C, r6
+    mov.l   .L_sym_06060D54, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -417,7 +405,7 @@ geom_vertex_compute:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF40, r6
+    mov.l   .L_sym_06060D58, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -429,38 +417,50 @@ geom_vertex_compute:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF44, r6
+    mov.l   .L_sym_06060D50, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF48, r6
+    mov.l   .L_sym_06060D60, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF4C, r6
+    mov.l   .L_sym_06060D62, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r2
+    mov.b r2, @r6
+    mov.l   .L_sym_06060D5C, r6
     mov r6, r3
     add #0x1, r6
     mov.b @r4+, r1
     mov.b r1, @r3
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF50, r6
+    mov.l   .L_sym_06060D5E, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF54, r6
+    mov.l   .L_sym_06060D64, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EF58, r6
+    mov.l   .L_sym_06060D66, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -468,92 +468,80 @@ geom_vertex_compute:
     mov.b r2, @r6
     bra     .L_0601EF5C
     nop
-.L_pool_0601EEE4:
+.L_sym_0605E098_2:
     .4byte  sym_0605E098
-.L_pool_0601EEE8:
+.L_sym_0605DD6C:
     .4byte  sym_0605DD6C
-.L_pool_0601EEEC:
+.L_sym_0605DE24:
     .4byte  sym_0605DE24
-.L_pool_0601EEF0:
+.L_sym_0605DDB4:
     .4byte  sym_0605DDB4
-.L_pool_0601EEF4:
+.L_sym_0605DDD4:
     .4byte  sym_0605DDD4
-.L_pool_0601EEF8:
+.L_sym_0605DE40:
     .4byte  sym_0605DE40
-.L_pool_0601EEFC:
+.L_sym_0605AD00:
     .4byte  sym_0605AD00
-.L_pool_0601EF00:
+.L_sym_0605AD04:
     .4byte  sym_0605AD04
-.L_pool_0601EF04:
+.L_sym_0605AD0C:
     .4byte  sym_0605AD0C
-.L_pool_0601EF08:
+.L_sym_0605AB16:
     .4byte  sym_0605AB16
-.L_pool_0601EF0C:
+.L_sym_0605AB17:
     .4byte  sym_0605AB17
-.L_pool_0601EF10:
+.L_sym_0605D240:
     .4byte  sym_0605D240
-.L_pool_0601EF14:
+.L_sym_0605D241:
     .4byte  sym_0605D241
-.L_pool_0601EF18:
+.L_sym_06060D44:
     .4byte  sym_06060D44
-.L_pool_0601EF1C:
+.L_sym_06060D46:
     .4byte  sym_06060D46
-.L_pool_0601EF20:
+.L_sym_06060D40:
     .4byte  sym_06060D40
-.L_pool_0601EF24:
+.L_sym_06060D42:
     .4byte  sym_06060D42
-.L_pool_0601EF28:
+.L_sym_06060D48:
     .4byte  sym_06060D48
-.L_pool_0601EF2C:
+.L_sym_06060D4A:
     .4byte  sym_06060D4A
-.L_pool_0601EF30:
+.L_sym_06060D4C:
     .4byte  sym_06060D4C
-.L_pool_0601EF34:
+.L_sym_06060D4E:
     .4byte  sym_06060D4E
-.L_pool_0601EF38:
+.L_sym_06060D54:
     .4byte  sym_06060D54
-.L_pool_0601EF3C:
+.L_sym_06060D58:
     .4byte  sym_06060D58
-.L_pool_0601EF40:
+.L_sym_06060D50:
     .4byte  sym_06060D50
-.L_pool_0601EF44:
+.L_sym_06060D60:
     .4byte  sym_06060D60
-.L_pool_0601EF48:
+.L_sym_06060D62:
     .4byte  sym_06060D62
-.L_pool_0601EF4C:
+.L_sym_06060D5C:
     .4byte  sym_06060D5C
-.L_pool_0601EF50:
+.L_sym_06060D5E:
     .4byte  sym_06060D5E
-.L_pool_0601EF54:
+.L_sym_06060D64:
     .4byte  sym_06060D64
-.L_pool_0601EF58:
+.L_sym_06060D66:
     .4byte  sym_06060D66
 .L_0601EF5C:
-    mov.l   .L_pool_0601EFDC, r6
+    mov.l   .L_sym_06060D68, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EFE0, r6
+    mov.l   .L_sym_06060D6A, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EFE4, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r2
-    mov.b r2, @r6
-    mov.l   .L_pool_0601EFE8, r6
+    mov.l   .L_sym_06060D70, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -565,7 +553,19 @@ geom_vertex_compute:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    mov.l   .L_pool_0601EFEC, r6
+    mov.l   .L_sym_06060D74, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r2
+    mov.b r2, @r6
+    mov.l   .L_sym_06060D6C, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -590,7 +590,7 @@ geom_batch_transform:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.w   .L_wpool_0601EFDA, r5
-    mov.l   .L_pool_0601EFF0, r0
+    mov.l   .L_sym_06087080_2, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -599,23 +599,23 @@ geom_batch_transform:
     nop
 .L_wpool_0601EFDA:
     .2byte  0x00F0
-.L_pool_0601EFDC:
+.L_sym_06060D68:
     .4byte  sym_06060D68
-.L_pool_0601EFE0:
+.L_sym_06060D6A:
     .4byte  sym_06060D6A
-.L_pool_0601EFE4:
+.L_sym_06060D70:
     .4byte  sym_06060D70
-.L_pool_0601EFE8:
+.L_sym_06060D74:
     .4byte  sym_06060D74
-.L_pool_0601EFEC:
+.L_sym_06060D6C:
     .4byte  sym_06060D6C
-.L_pool_0601EFF0:
+.L_sym_06087080_2:
     .4byte  sym_06087080
 .L_0601EFF4:
-    mov.l   .L_pool_0601F2E4, r4
+    mov.l   .L_sym_0605E098_3, r4
     mov.l @r4, r4
     add #0x10, r4
-    mov.l   .L_pool_0601F2E8, r6
+    mov.l   .L_sym_0605DD6C_2, r6
     mov r6, r7
     mov r6, r11
     add #0x48, r11
@@ -673,7 +673,7 @@ geom_batch_transform:
     add #0x8, r7
     cmp/hs r11, r7
     bf      .L_0601F002
-    mov.l   .L_pool_0601F2EC, r6
+    mov.l   .L_sym_0605DE24_2, r6
     mov r6, r7
     add #0x18, r7
 .L_0601F070:
@@ -708,7 +708,7 @@ geom_batch_transform:
     cmp/hs r7, r6
     bf/s    .L_0601F070
     add #0x1, r4
-    mov.l   .L_pool_0601F2F0, r6
+    mov.l   .L_sym_0605DDB4_2, r6
     mov r6, r7
     add #0x20, r7
 .L_0601F0B4:
@@ -742,7 +742,7 @@ geom_batch_transform:
     cmp/hs r7, r6
     bf/s    .L_0601F0B4
     add #0x1, r4
-    mov.l   .L_pool_0601F2F4, r6
+    mov.l   .L_sym_0605DDD4_2, r6
     mov r6, r7
     add #0x20, r7
 .L_0601F0F6:
@@ -776,7 +776,7 @@ geom_batch_transform:
     cmp/hs r7, r6
     bf/s    .L_0601F0F6
     add #0x1, r4
-    mov.l   .L_pool_0601F2F8, r6
+    mov.l   .L_sym_0605DE40_2, r6
     mov r6, r7
     mov r6, r14
     add #0x24, r14
@@ -821,7 +821,7 @@ geom_batch_transform:
     cmp/hs r14, r7
     bf/s    .L_0601F13A
     add #0x1, r4
-    mov.l   .L_pool_0601F2FC, r6
+    mov.l   .L_sym_0605AD00_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -834,7 +834,7 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F300, r6
+    mov.l   .L_sym_0605AD04_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -847,7 +847,7 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F304, r6
+    mov.l   .L_sym_0605AD0C_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -860,92 +860,79 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F308, r2
+    mov.l   .L_sym_0605AB16_2, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F30C, r2
+    mov.l   .L_sym_0605AB17_2, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F310, r2
+    mov.l   .L_sym_0605D240_2, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F314, r2
+    mov.l   .L_sym_0605D241_2, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F318, r6
+    mov.l   .L_sym_06060D44_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F31C, r6
+    mov.l   .L_sym_06060D46_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F320, r6
+    mov.l   .L_sym_06060D40_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F324, r6
+    mov.l   .L_sym_06060D42_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F328, r6
+    mov.l   .L_sym_06060D48_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F32C, r6
+    mov.l   .L_sym_06060D4A_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F330, r6
+    mov.l   .L_sym_06060D4C_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F334, r6
+    mov.l   .L_sym_06060D4E_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F338, r6
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6, r2
-    mov.b r2, @r4
-    add #0x1, r4
-    mov.l   .L_pool_0601F33C, r6
+    mov.l   .L_sym_06060D54_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -958,7 +945,20 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F340, r6
+    mov.l   .L_sym_06060D58_2, r6
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6, r2
+    mov.b r2, @r4
+    add #0x1, r4
+    mov.l   .L_sym_06060D50_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -972,21 +972,21 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F344, r6
+    mov.l   .L_sym_06060D60_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F348, r6
+    mov.l   .L_sym_06060D62_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F34C, r6
+    mov.l   .L_sym_06060D5C_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -994,111 +994,98 @@ geom_batch_transform:
     mov.b r2, @r4
     bra     .L_0601F350
     nop
-.L_pool_0601F2E4:
+.L_sym_0605E098_3:
     .4byte  sym_0605E098
-.L_pool_0601F2E8:
+.L_sym_0605DD6C_2:
     .4byte  sym_0605DD6C
-.L_pool_0601F2EC:
+.L_sym_0605DE24_2:
     .4byte  sym_0605DE24
-.L_pool_0601F2F0:
+.L_sym_0605DDB4_2:
     .4byte  sym_0605DDB4
-.L_pool_0601F2F4:
+.L_sym_0605DDD4_2:
     .4byte  sym_0605DDD4
-.L_pool_0601F2F8:
+.L_sym_0605DE40_2:
     .4byte  sym_0605DE40
-.L_pool_0601F2FC:
+.L_sym_0605AD00_2:
     .4byte  sym_0605AD00
-.L_pool_0601F300:
+.L_sym_0605AD04_2:
     .4byte  sym_0605AD04
-.L_pool_0601F304:
+.L_sym_0605AD0C_2:
     .4byte  sym_0605AD0C
-.L_pool_0601F308:
+.L_sym_0605AB16_2:
     .4byte  sym_0605AB16
-.L_pool_0601F30C:
+.L_sym_0605AB17_2:
     .4byte  sym_0605AB17
-.L_pool_0601F310:
+.L_sym_0605D240_2:
     .4byte  sym_0605D240
-.L_pool_0601F314:
+.L_sym_0605D241_2:
     .4byte  sym_0605D241
-.L_pool_0601F318:
+.L_sym_06060D44_2:
     .4byte  sym_06060D44
-.L_pool_0601F31C:
+.L_sym_06060D46_2:
     .4byte  sym_06060D46
-.L_pool_0601F320:
+.L_sym_06060D40_2:
     .4byte  sym_06060D40
-.L_pool_0601F324:
+.L_sym_06060D42_2:
     .4byte  sym_06060D42
-.L_pool_0601F328:
+.L_sym_06060D48_2:
     .4byte  sym_06060D48
-.L_pool_0601F32C:
+.L_sym_06060D4A_2:
     .4byte  sym_06060D4A
-.L_pool_0601F330:
+.L_sym_06060D4C_2:
     .4byte  sym_06060D4C
-.L_pool_0601F334:
+.L_sym_06060D4E_2:
     .4byte  sym_06060D4E
-.L_pool_0601F338:
+.L_sym_06060D54_2:
     .4byte  sym_06060D54
-.L_pool_0601F33C:
+.L_sym_06060D58_2:
     .4byte  sym_06060D58
-.L_pool_0601F340:
+.L_sym_06060D50_2:
     .4byte  sym_06060D50
-.L_pool_0601F344:
+.L_sym_06060D60_2:
     .4byte  sym_06060D60
-.L_pool_0601F348:
+.L_sym_06060D62_2:
     .4byte  sym_06060D62
-.L_pool_0601F34C:
+.L_sym_06060D5C_2:
     .4byte  sym_06060D5C
 .L_0601F350:
     add #0x1, r4
-    mov.l   .L_pool_0601F3EC, r6
+    mov.l   .L_sym_06060D5E_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F3F0, r6
+    mov.l   .L_sym_06060D64_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F3F4, r6
+    mov.l   .L_sym_06060D66_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F3F8, r6
+    mov.l   .L_sym_06060D68_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F3FC, r6
+    mov.l   .L_sym_06060D6A_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F400, r6
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6, r2
-    mov.b r2, @r4
-    add #0x1, r4
-    mov.l   .L_pool_0601F404, r6
+    mov.l   .L_sym_06060D70_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -1111,7 +1098,20 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_pool_0601F408, r6
+    mov.l   .L_sym_06060D74_2, r6
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6, r2
+    mov.b r2, @r4
+    add #0x1, r4
+    mov.l   .L_sym_06060D6C_2, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -1128,21 +1128,21 @@ geom_batch_transform:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r14
-.L_pool_0601F3EC:
+.L_sym_06060D5E_2:
     .4byte  sym_06060D5E
-.L_pool_0601F3F0:
+.L_sym_06060D64_2:
     .4byte  sym_06060D64
-.L_pool_0601F3F4:
+.L_sym_06060D66_2:
     .4byte  sym_06060D66
-.L_pool_0601F3F8:
+.L_sym_06060D68_2:
     .4byte  sym_06060D68
-.L_pool_0601F3FC:
+.L_sym_06060D6A_2:
     .4byte  sym_06060D6A
-.L_pool_0601F400:
+.L_sym_06060D70_2:
     .4byte  sym_06060D70
-.L_pool_0601F404:
+.L_sym_06060D74_2:
     .4byte  sym_06060D74
-.L_pool_0601F408:
+.L_sym_06060D6C_2:
     .4byte  sym_06060D6C
 
     .global geom_output_handler
@@ -1150,8 +1150,8 @@ geom_batch_transform:
 geom_output_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601F494, r14
-    mov.l   .L_pool_0601F498, r2
+    mov.l   .L_sym_060877D8_2, r14
+    mov.l   .L_sym_060877DD, r2
     mov.b @r14, r3
     extu.b r3, r3
     add r2, r3
@@ -1161,9 +1161,9 @@ geom_output_handler:
     bt      .L_0601F45E
     bsr     geom_batch_transform
     nop
-    mov.l   .L_pool_0601F49C, r6
+    mov.l   .L_sym_0605E098_4, r6
     mov.b @r14, r5
-    mov.l   .L_pool_0601F4A0, r2
+    mov.l   .L_sym_0604A57C, r2
     mov.b @r14, r4
     mov.l @r6, r6
     extu.b r5, r5
@@ -1174,7 +1174,7 @@ geom_output_handler:
     shll r3
     add r3, r5
     add r2, r5
-    mov.l   .L_pool_0601F4A4, r3
+    mov.l   .L_sym_060877D9, r3
     add r3, r4
     mov.b @r4, r4
     .byte   0xB9, 0xE3    /* bsr 0x0601E810 (external) */
@@ -1183,10 +1183,10 @@ geom_output_handler:
     tst r4, r4
     bt      .L_0601F45E
     mov #0xC, r3
-    mov.l   .L_pool_0601F4A8, r2
+    mov.l   .L_sym_0605E05C, r2
     mov.b r3, @r2
     lds.l @r15+, pr
-    mov.l   .L_pool_0601F4AC, r3
+    mov.l   .L_sym_0601F8BC, r3
     jmp @r3
     mov.l @r15+, r14
 .L_0601F45E:
@@ -1198,9 +1198,9 @@ geom_output_handler:
     .type mem_pool_alloc, @function
 mem_pool_alloc:
     sts.l pr, @-r15
-    mov.l   .L_pool_0601F494, r5
-    mov.l   .L_pool_0601F4A0, r2
-    mov.l   .L_pool_0601F494, r4
+    mov.l   .L_sym_060877D8_2, r5
+    mov.l   .L_sym_0604A57C, r2
+    mov.l   .L_sym_060877D8_2, r4
     mov.b @r5, r5
     mov.b @r4, r4
     extu.b r5, r5
@@ -1211,7 +1211,7 @@ mem_pool_alloc:
     shll r3
     add r3, r5
     add r2, r5
-    mov.l   .L_pool_0601F4A4, r3
+    mov.l   .L_sym_060877D9, r3
     add r3, r4
     mov.b @r4, r4
     .byte   0xB9, 0x2B    /* bsr 0x0601E6E0 (external) */
@@ -1221,19 +1221,19 @@ mem_pool_alloc:
     bra     geom_output_handler
     lds.l @r15+, pr
     .2byte  0xFFFF
-.L_pool_0601F494:
+.L_sym_060877D8_2:
     .4byte  sym_060877D8
-.L_pool_0601F498:
+.L_sym_060877DD:
     .4byte  sym_060877DD
-.L_pool_0601F49C:
+.L_sym_0605E098_4:
     .4byte  sym_0605E098
-.L_pool_0601F4A0:
+.L_sym_0604A57C:
     .4byte  sym_0604A57C
-.L_pool_0601F4A4:
+.L_sym_060877D9:
     .4byte  sym_060877D9
-.L_pool_0601F4A8:
+.L_sym_0605E05C:
     .4byte  sym_0605E05C
-.L_pool_0601F4AC:
+.L_sym_0601F8BC:
     .4byte  sym_0601F8BC
     .4byte  0x000B0009
 
@@ -1247,8 +1247,8 @@ geom_display_proc:
     mov.l r10, @-r15
     sts.l macl, @-r15
     add #-0x1C, r15
-    mov.l   .L_pool_0601F5C8, r5
-    mov.l   .L_pool_0601F5CC, r3
+    mov.l   .L_sym_060877E4, r5
+    mov.l   .L_sym_060A4C98, r3
     mov.l @r3, r3
     mov.l r3, @r5
     mov r3, r12
@@ -1382,9 +1382,9 @@ geom_display_proc:
     .global DAT_0601f5c6
 DAT_0601f5c6:
     .2byte  0xF844
-.L_pool_0601F5C8:
+.L_sym_060877E4:
     .4byte  sym_060877E4
-.L_pool_0601F5CC:
+.L_sym_060A4C98:
     .4byte  sym_060A4C98
     .4byte  0x00000000
     .4byte  0x00000000
@@ -1403,20 +1403,20 @@ geom_render_util:
     sts.l macl, @-r15
     mov r11, r12
     mov.w   DAT_0601f6ba, r13
-    mov.l   .L_pool_0601F6BC, r14
+    mov.l   .L_sym_0607ED90, r14
     add #0x40, r12
     .byte   0xB1, 0x40    /* bsr 0x0601F87A (external) */
     mov #0x0, r4
-    mov.l   .L_pool_0601F6C0, r3
+    mov.l   .L_hud_overlay_render, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0601F6C4, r3
+    mov.l   .L_geom_normal_compute, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0601F6C8, r3
+    mov.l   .L_geom_output_handler, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0601F6CC, r0
+    mov.l   .L_sym_06078635, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -1424,7 +1424,7 @@ geom_render_util:
     bra     .L_0601F76C
     nop
 .L_0601F61A:
-    mov.l   .L_pool_0601F6D0, r4
+    mov.l   .L_sym_060877F0, r4
     mov.b @(4, r14), r0
     mov r0, r2
     mov.b r2, @r4
@@ -1440,8 +1440,8 @@ geom_render_util:
     mov.b @(7, r14), r0
     mov r0, r3
     mov.b r3, @r4
-    mov.l   .L_pool_0601F6D0, r4
-    mov.l   .L_pool_0601F6D4, r3
+    mov.l   .L_sym_060877F0, r4
+    mov.l   .L_sym_060786A4, r3
     mov.l @r4, r2
     mov.l @r3, r3
     cmp/hs r2, r3
@@ -1453,13 +1453,13 @@ geom_render_util:
     nop
 .L_0601F650:
     mov #0x1, r3
-    mov.l   .L_pool_0601F6D8, r2
+    mov.l   .L_sym_0605E0A1, r2
     mov.b r3, @r2
-    mov.l   .L_pool_0601F6DC, r3
-    mov.l   .L_pool_0601F6E0, r2
+    mov.l   .L_sym_0607EAD8, r3
+    mov.l   .L_sym_0605E0A0, r2
     mov.l @r3, r3
     mov.b r3, @r2
-    mov.l   .L_pool_0601F6D4, r4
+    mov.l   .L_sym_060786A4, r4
     mov.b @r4+, r0
     mov.b r0, @(4, r14)
     mov.b @r4+, r0
@@ -1469,7 +1469,7 @@ geom_render_util:
     mov.b r0, @(6, r14)
     mov.b @r4, r0
     mov.b r0, @(7, r14)
-    mov.l   .L_pool_0601F6E4, r4
+    mov.l   .L_sym_0607ED88, r4
     mov.l @r4, r4
     cmp/hs r13, r4
     bt      .L_0601F68C
@@ -1484,26 +1484,26 @@ geom_render_util:
     bf/s    .L_0601F67A
     mov.b r3, @(r0, r14)
 .L_0601F68C:
-    mov.l   .L_pool_0601F6DC, r4
+    mov.l   .L_sym_0607EAD8, r4
     mov.l @r4, r4
     add #0x1, r4
     .byte   0xB0, 0xF2    /* bsr 0x0601F87A (external) */
     extu.b r4, r4
-    mov.l   .L_pool_0601F6E8, r5
+    mov.l   .L_sym_06085FFC, r5
     mov.l @r5, r0
     tst r0, r0
     bt/s    .L_0601F6A2
     mov #0x0, r4
     mov.l @r5, r4
 .L_0601F6A2:
-    mov.l   .L_pool_0601F6EC, r5
+    mov.l   .L_sym_06086000, r5
     mov.l @r5, r0
     tst r0, r0
     bt      .L_0601F6AC
     mov.l @r5, r4
 .L_0601F6AC:
-    mov.l   .L_pool_0601F6F0, r6
-    mov.l   .L_pool_0601F6F4, r5
+    mov.l   .L_sym_0605E06C, r6
+    mov.l   .L_sym_060877D8_3, r5
     tst r4, r4
     bt      .L_0601F726
     mov.b @r5, r3
@@ -1513,35 +1513,35 @@ geom_render_util:
     .global DAT_0601f6ba
 DAT_0601f6ba:
     .2byte  0x2710
-.L_pool_0601F6BC:
+.L_sym_0607ED90:
     .4byte  sym_0607ED90
-.L_pool_0601F6C0:
+.L_hud_overlay_render:
     .4byte  hud_overlay_render
-.L_pool_0601F6C4:
+.L_geom_normal_compute:
     .4byte  geom_normal_compute
-.L_pool_0601F6C8:
+.L_geom_output_handler:
     .4byte  geom_output_handler
-.L_pool_0601F6CC:
+.L_sym_06078635:
     .4byte  sym_06078635
-.L_pool_0601F6D0:
+.L_sym_060877F0:
     .4byte  sym_060877F0
-.L_pool_0601F6D4:
+.L_sym_060786A4:
     .4byte  sym_060786A4
-.L_pool_0601F6D8:
+.L_sym_0605E0A1:
     .4byte  sym_0605E0A1
-.L_pool_0601F6DC:
+.L_sym_0607EAD8:
     .4byte  sym_0607EAD8
-.L_pool_0601F6E0:
+.L_sym_0605E0A0:
     .4byte  sym_0605E0A0
-.L_pool_0601F6E4:
+.L_sym_0607ED88:
     .4byte  sym_0607ED88
-.L_pool_0601F6E8:
+.L_sym_06085FFC:
     .4byte  sym_06085FFC
-.L_pool_0601F6EC:
+.L_sym_06086000:
     .4byte  sym_06086000
-.L_pool_0601F6F0:
+.L_sym_0605E06C:
     .4byte  sym_0605E06C
-.L_pool_0601F6F4:
+.L_sym_060877D8_3:
     .4byte  sym_060877D8
 .L_0601F6F8:
     mov #0xB, r2
@@ -1593,7 +1593,7 @@ DAT_0601f6ba:
     mov r1, r0
     mov.b r0, @(9, r3)
 .L_0601F756:
-    mov.l   .L_pool_0601F77C, r3
+    mov.l   .L_hud_overlay_render_2, r3
     jsr @r3
     nop
     lds.l @r15+, macl
@@ -1601,7 +1601,7 @@ DAT_0601f6ba:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_0601F780, r3
+    mov.l   .L_geom_rotation_apply, r3
     jmp @r3
     mov.l @r15+, r14
 .L_0601F76C:
@@ -1613,7 +1613,7 @@ DAT_0601f6ba:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0601F77C:
+.L_hud_overlay_render_2:
     .4byte  hud_overlay_render
-.L_pool_0601F780:
+.L_geom_rotation_apply:
     .4byte  geom_rotation_apply

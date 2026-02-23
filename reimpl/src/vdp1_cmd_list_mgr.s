@@ -34,7 +34,7 @@ vdp1_cmd_list_mgr:
     sub r5, r4
     mov.l r7, @-r15
     mov.l r9, @-r15
-    mov.l   .L_pool_0602CE4C, r13
+    mov.l   .L_sin_lookup, r13
     mov.l r8, @-r15
     jsr @r13
     mov.l r6, @-r15
@@ -66,12 +66,12 @@ DAT_0602ce48:
     .global DAT_0602ce4a
 DAT_0602ce4a:
     .2byte  0x005C
-.L_pool_0602CE4C:
+.L_sin_lookup:
     .4byte  sin_lookup
 .L_pool_0602CE50:
     .4byte  0x0002C000
 .L_0602CE54:
-    mov.l   .L_pool_0602CEA0, r0
+    mov.l   .L_fpdiv_setup, r0
     jsr @r0
     nop
     cmp/pz r0
@@ -87,7 +87,7 @@ DAT_0602ce4a:
     sts macl, r3
     xtrct r0, r3
     mov r3, r11
-    mov.l   .L_pool_0602CEA4, r0
+    mov.l   .L_cos_lookup, r0
     jsr @r0
     nop
     dmuls.l r10, r0
@@ -96,7 +96,7 @@ DAT_0602ce4a:
     sts macl, r5
     xtrct r0, r5
     add r7, r5
-    mov.l   .L_pool_0602CEA8, r0
+    mov.l   .L_atan2, r0
     jsr @r0
     mov r3, r4
     mov r0, r4
@@ -110,14 +110,14 @@ DAT_0602ce4a:
     bra     .L_0602CF04
     mov.l @r15+, r5
     .2byte  0x0000
-.L_pool_0602CEA0:
+.L_fpdiv_setup:
     .4byte  fpdiv_setup
-.L_pool_0602CEA4:
+.L_cos_lookup:
     .4byte  cos_lookup
-.L_pool_0602CEA8:
+.L_atan2:
     .4byte  atan2
 .L_0602CEAC:
-    mov.l   .L_pool_0602CED0, r0
+    mov.l   .L_fpdiv_setup_2, r0
     jsr @r0
     nop
     cmp/pz r0
@@ -137,10 +137,10 @@ DAT_0602ce4a:
     bra     .L_0602CF04
     nop
     .2byte  0x0000
-.L_pool_0602CED0:
+.L_fpdiv_setup_2:
     .4byte  fpdiv_setup
 .L_0602CED4:
-    mov.l   .L_pool_0602CEFC, r0
+    mov.l   .L_fpdiv_setup_3, r0
     jsr @r0
     nop
     mov.l   .L_pool_0602CF00, r5
@@ -162,7 +162,7 @@ DAT_0602ce4a:
 .L_0602CEF8:
     bra     .L_0602CF08
     nop
-.L_pool_0602CEFC:
+.L_fpdiv_setup_3:
     .4byte  fpdiv_setup
 .L_pool_0602CF00:
     .4byte  0x28BE60DB
@@ -212,7 +212,7 @@ DAT_0602ce4a:
     sub r4, r2
     mov r2, r4
     mov.l @(12, r0), r2
-    mov.l   .L_pool_0602CFE8, r0
+    mov.l   .L_sin_lookup_2, r0
     jsr @r0
     nop
     dmuls.l r2, r0
@@ -253,7 +253,7 @@ DAT_0602ce4a:
     shar r3
     add r4, r3
     mov.w   DAT_0602cfde, r1
-    mov.l   .L_pool_0602CFF4, r2
+    mov.l   .L_sym_06063EEC, r2
     add #0x4, r2
     mov.l @(r0, r1), r4
     shar r4
@@ -299,13 +299,13 @@ DAT_0602cfe0:
     .2byte  0x0000
 .L_pool_0602CFE4:
     .4byte  0x0000002C
-.L_pool_0602CFE8:
+.L_sin_lookup_2:
     .4byte  sin_lookup
 .L_pool_0602CFEC:
     .4byte  0x0028D0FA
 .L_pool_0602CFF0:
     .4byte  0x03200000
-.L_pool_0602CFF4:
+.L_sym_06063EEC:
     .4byte  sym_06063EEC
 .L_0602CFF8:
     mov.l   .L_pool_0602D028, r4
@@ -521,7 +521,7 @@ DAT_0602d0de:
 .L_0602D134:
     mov.w   DAT_0602d18c, r1
     mov.l @(r0, r1), r4
-    mov.l   .L_pool_0602D198, r13
+    mov.l   .L_cos_lookup_2, r13
     jsr @r13
     shll16 r10
     dmuls.l r0, r10
@@ -584,7 +584,7 @@ DAT_0602d18e:
     .2byte  0x0000
 .L_pool_0602D194:
     .4byte  0x000F0000
-.L_pool_0602D198:
+.L_cos_lookup_2:
     .4byte  cos_lookup
 .L_pool_0602D19C:
     .4byte  0x00000100
@@ -605,7 +605,7 @@ DAT_0602d18e:
     mov.l r1, @(16, r2)
     shll16 r4
     mov.l r4, @(20, r2)
-    mov.l   .L_pool_0602D240, r13
+    mov.l   .L_atan_piecewise, r13
     mov.l @(28, r2), r4
     jsr @r13
     nop
@@ -640,7 +640,7 @@ DAT_0602d18e:
     muls.w r2, r5
     shll16 r6
     sts macl, r4
-    mov.l   .L_pool_0602D244, r0
+    mov.l   .L_cos_lookup_3, r0
     jsr @r0
     nop
     dmuls.l r0, r6
@@ -681,9 +681,9 @@ DAT_0602d238:
 .L_wpool_0602D23C:
     .2byte  0x005C
     .2byte  0x0000
-.L_pool_0602D240:
+.L_atan_piecewise:
     .4byte  atan_piecewise
-.L_pool_0602D244:
+.L_cos_lookup_3:
     .4byte  cos_lookup
 .L_0602D248:
     neg r6, r6
@@ -776,7 +776,7 @@ DAT_0602d2ca:
     mov.l r1, @(16, r2)
     shll16 r4
     mov.l r4, @(20, r2)
-    mov.l   .L_pool_0602D30C, r0
+    mov.l   .L_atan_piecewise_2, r0
     mov.l @(28, r2), r4
     jsr @r0
     nop
@@ -805,7 +805,7 @@ DAT_0602d2ca:
     .global DAT_0602d30a
 DAT_0602d30a:
     .2byte  0x00FA
-.L_pool_0602D30C:
+.L_atan_piecewise_2:
     .4byte  atan_piecewise
 .L_0602D310:
     cmp/gt r7, r4
@@ -814,7 +814,7 @@ DAT_0602d30a:
 .L_0602D316:
     sub r3, r4
     sub r3, r7
-    mov.l   .L_pool_0602D38C, r12
+    mov.l   .L_sym_0602ECCC, r12
     shll8 r7
     mov r4, r0
     jsr @r12
@@ -856,7 +856,7 @@ DAT_0602d30a:
     sub r4, r3
     neg r3, r3
     dmuls.l r3, r6
-    mov.l   .L_pool_0602D38C, r12
+    mov.l   .L_sym_0602ECCC, r12
     mov r4, r0
     mov.l r1, @-r15
     jsr @r12
@@ -877,7 +877,7 @@ DAT_0602d30a:
     .global DAT_0602d38a
 DAT_0602d38a:
     .2byte  0x005C
-.L_pool_0602D38C:
+.L_sym_0602ECCC:
     .4byte  sym_0602ECCC
 .L_pool_0602D390:
     .4byte  0x00000FE0
@@ -891,7 +891,7 @@ DAT_0602d38a:
     mov r5, r6
 .L_0602D3A0:
     shll8 r6
-    mov.l   .L_pool_0602D3EC, r12
+    mov.l   .L_sym_0602ECCC_2, r12
     mov.l @r15+, r0
     jsr @r12
     mov r6, r1
@@ -930,7 +930,7 @@ DAT_0602d3e8:
     .global DAT_0602d3ea
 DAT_0602d3ea:
     .2byte  0x005C
-.L_pool_0602D3EC:
+.L_sym_0602ECCC_2:
     .4byte  sym_0602ECCC
 .L_pool_0602D3F0:
     .4byte  0xFFFFCD80

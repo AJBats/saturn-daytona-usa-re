@@ -11,73 +11,73 @@
 race_update_abort:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600E024, r14
-    mov.l   .L_pool_0600E028, r3
-    mov.l   .L_pool_0600E02C, r2
+    mov.l   .L_sym_0607E944, r14
+    mov.l   .L_sym_0607EA98, r3
+    mov.l   .L_sym_060786CA, r2
     mov.l @r14, r14
     mov.l @r3, r3
     shar r3
     mov.w r3, @r2
-    mov.l   .L_pool_0600E030, r2
+    mov.l   .L_sym_0607E940, r2
     mov.l r14, @r2
-    mov.l   .L_pool_0600E034, r1
-    mov.l   .L_pool_0600E038, r2
+    mov.l   .L_sym_06078B68, r1
+    mov.l   .L_sym_0607E948, r2
     mov.l r1, @r2
-    mov.l   .L_pool_0600E03C, r2
+    mov.l   .L_sym_0602DB00, r2
     jsr @r2
     nop
     mov.l @(24, r14), r5
-    mov.l   .L_pool_0600E040, r3
+    mov.l   .L_sym_06006838, r3
     jsr @r3
     mov.l @(16, r14), r4
-    mov.l   .L_pool_0600E044, r3
+    mov.l   .L_sym_060786B8, r3
     mov.l r0, @r3
-    mov.l   .L_pool_0600E048, r3
+    mov.l   .L_segment_position_track, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600E04C, r14
-    mov.l   .L_pool_0600E050, r4
+    mov.l   .L_scene_3d_processor, r14
+    mov.l   .L_sym_06063EB0, r4
     jsr @r14
     mov #0x0, r5
-    mov.l   .L_pool_0600E054, r4
+    mov.l   .L_sym_06063E9C, r4
     jsr @r14
     mov #0x1, r5
-    mov.l   .L_pool_0600E058, r4
+    mov.l   .L_sym_06063ED8, r4
     jsr @r14
     mov #0x2, r5
-    mov.l   .L_pool_0600E05C, r4
+    mov.l   .L_sym_06063EC4, r4
     jsr @r14
     mov #0x3, r5
     lds.l @r15+, pr
     .byte   0xA0, 0x4E    /* bra 0x0600E0C0 (external) */
     mov.l @r15+, r14
-.L_pool_0600E024:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_0600E028:
+.L_sym_0607EA98:
     .4byte  sym_0607EA98
-.L_pool_0600E02C:
+.L_sym_060786CA:
     .4byte  sym_060786CA
-.L_pool_0600E030:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600E034:
+.L_sym_06078B68:
     .4byte  sym_06078B68
-.L_pool_0600E038:
+.L_sym_0607E948:
     .4byte  sym_0607E948
-.L_pool_0600E03C:
+.L_sym_0602DB00:
     .4byte  sym_0602DB00
-.L_pool_0600E040:
+.L_sym_06006838:
     .4byte  sym_06006838
-.L_pool_0600E044:
+.L_sym_060786B8:
     .4byte  sym_060786B8
-.L_pool_0600E048:
+.L_segment_position_track:
     .4byte  segment_position_track
-.L_pool_0600E04C:
+.L_scene_3d_processor:
     .4byte  scene_3d_processor
-.L_pool_0600E050:
+.L_sym_06063EB0:
     .4byte  sym_06063EB0
-.L_pool_0600E054:
+.L_sym_06063E9C:
     .4byte  sym_06063E9C
-.L_pool_0600E058:
+.L_sym_06063ED8:
     .4byte  sym_06063ED8
-.L_pool_0600E05C:
+.L_sym_06063EC4:
     .4byte  sym_06063EC4

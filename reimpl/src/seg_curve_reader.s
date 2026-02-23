@@ -11,7 +11,7 @@
 seg_curve_reader:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036298, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -26,7 +26,7 @@ seg_curve_reader:
     mov r15, r2
     mov.l r12, @(4, r3)
     mov.b r0, @(4, r2)
-    mov.l   .L_pool_0603629C, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov #0x40, r4
     mov r0, r4
@@ -47,7 +47,7 @@ track_bank_angle:
     mov r4, r12
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_06036298, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -62,7 +62,7 @@ track_bank_angle:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_pool_060362A0, r3
+    mov.l   .L_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -83,11 +83,11 @@ track_bank_angle:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06036298:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_0603629C:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_060362A0:
+.L_input_proc_digital:
     .4byte  input_proc_digital
 .L_pool_060362A4:
     .4byte  0x00FFFFFF

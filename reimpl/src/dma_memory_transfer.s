@@ -24,7 +24,7 @@ dma_memory_transfer:
     mov.l r2, @-r15
     mov.l r1, @-r15
     mov.l r0, @-r15
-    mov.l   .L_pool_060286B0, r0
+    mov.l   .L_sym_0602872C, r0
     mov #0x0, r6
     mov #0x0, r7
     mov #0x0, r10
@@ -58,7 +58,7 @@ dma_memory_transfer:
 .L_wpool_060286AC:
     .2byte  0x0100
     .2byte  0x0000
-.L_pool_060286B0:
+.L_sym_0602872C:
     .4byte  sym_0602872C
 .L_pool_060286B4:
     .4byte  0x0000FF00

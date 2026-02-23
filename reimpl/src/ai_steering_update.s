@@ -99,13 +99,13 @@ ai_steering_update:
     mov.w   DAT_0600c8c0, r6
     mov.w   DAT_0600c8c2, r5
     mov.l @(40, r14), r4
-    mov.l   .L_pool_0600C8C4, r3
+    mov.l   .L_sincos_pair, r3
     add r14, r6
     add r14, r5
     jsr @r3
     neg r4, r4
     mov.w   DAT_0600c8c2, r0
-    mov.l   .L_pool_0600C8C8, r3
+    mov.l   .L_fpmul, r3
     mov.l @(r0, r14), r5
     jsr @r3
     mov.l @(12, r14), r4
@@ -113,7 +113,7 @@ ai_steering_update:
     add r0, r2
     mov.l r2, @(16, r14)
     mov.w   DAT_0600c8c0, r0
-    mov.l   .L_pool_0600C8C8, r3
+    mov.l   .L_fpmul, r3
     mov.l @(r0, r14), r5
     jsr @r3
     mov.l @(12, r14), r4
@@ -147,7 +147,7 @@ DAT_0600c8c0:
     .global DAT_0600c8c2
 DAT_0600c8c2:
     .2byte  0x018C
-.L_pool_0600C8C4:
+.L_sincos_pair:
     .4byte  sincos_pair
-.L_pool_0600C8C8:
+.L_fpmul:
     .4byte  fpmul

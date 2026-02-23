@@ -11,26 +11,26 @@
 car_update_simple:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600E45C, r14
-    mov.l   .L_pool_0600E460, r3
+    mov.l   .L_sym_0607E944, r14
+    mov.l   .L_sym_0607E940, r3
     mov.l @r14, r14
     mov.l r14, @r3
-    mov.l   .L_pool_0600E464, r3
+    mov.l   .L_gas_force_apply, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600E468, r3
+    mov.l   .L_brake_force_apply, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600E46C, r3
+    mov.l   .L_sym_06030A06, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600E470, r3
+    mov.l   .L_sym_06030EE0, r3
     jsr @r3
     nop
     .byte   0xB1, 0x71    /* bsr 0x0600E71A (external) */
     nop
     mov.l   .L_pool_0600E474, r5
-    mov.l   .L_pool_0600E478, r3
+    mov.l   .L_fpmul, r3
     jsr @r3
     mov.l @(12, r14), r4
     shlr16 r0
@@ -51,19 +51,19 @@ DAT_0600e456:
 .L_wpool_0600E458:
     .2byte  0x00E0
     .2byte  0xFFFF
-.L_pool_0600E45C:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_0600E460:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600E464:
+.L_gas_force_apply:
     .4byte  gas_force_apply
-.L_pool_0600E468:
+.L_brake_force_apply:
     .4byte  brake_force_apply
-.L_pool_0600E46C:
+.L_sym_06030A06:
     .4byte  sym_06030A06
-.L_pool_0600E470:
+.L_sym_06030EE0:
     .4byte  sym_06030EE0
 .L_pool_0600E474:
     .4byte  0x066505B3
-.L_pool_0600E478:
+.L_fpmul:
     .4byte  fpmul

@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0603FE62
+    .space 2    /* align to match original address 0x0603FE62 (mod 4 = 2) */
 
 
     .global attract_elem_b

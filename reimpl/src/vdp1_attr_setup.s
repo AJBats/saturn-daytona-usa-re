@@ -22,7 +22,7 @@ vdp1_attr_setup:
     mov r5, r4
     sub r3, r4
     mov.w   .L_wpool_0602CDBA, r2
-    mov.l   .L_pool_0602CDCC, r13
+    mov.l   .L_fpdiv_setup, r13
     jsr @r13
     mov.l @(r0, r2), r6
     dmuls.l r0, r6
@@ -44,7 +44,7 @@ vdp1_attr_setup:
     jsr @r13
     mov.w @r1, r7
     mov.w   .L_wpool_0602CDC2, r4
-    mov.l   .L_pool_0602CDD0, r1
+    mov.l   .L_sym_0602E938, r1
     add r14, r4
     mov.w @r4, r4
     mov #0xA, r5
@@ -135,9 +135,9 @@ vdp1_attr_setup:
     .2byte  0x0110
 .L_wpool_0602CDCA:
     .2byte  0x2B85
-.L_pool_0602CDCC:
+.L_fpdiv_setup:
     .4byte  fpdiv_setup
-.L_pool_0602CDD0:
+.L_sym_0602E938:
     .4byte  sym_0602E938
 .L_pool_0602CDD4:
     .4byte  0x23280000

@@ -10,12 +10,12 @@
     .type bcd_sprite_map, @function
 bcd_sprite_map:
     sts.l pr, @-r15
-    mov.l   .L_pool_06016A10, r13
+    mov.l   .L_sym_06084FC8, r13
     cmp/ge r2, r3
     bt/s    .L_0601699C
     mov #0x4, r5
     extu.b r14, r4
-    mov.l   .L_pool_06016A14, r2
+    mov.l   .L_sym_06034FE0, r2
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -49,7 +49,7 @@ bcd_sprite_map:
     mov #0x1, r11
 .L_0601699C:
     extu.b r14, r12
-    mov.l   .L_pool_06016A14, r2
+    mov.l   .L_sym_06034FE0, r2
     mov r12, r3
     shll2 r12
     shll2 r3
@@ -108,7 +108,7 @@ bcd_sprite_map:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06016A10:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06016A14:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0

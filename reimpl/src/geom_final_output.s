@@ -15,8 +15,8 @@ geom_final_output:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov r4, r12
-    mov.l   .L_pool_0601FF94, r14
-    mov.l   .L_pool_0601FF98, r13
+    mov.l   .L_sym_0607E940, r14
+    mov.l   .L_sym_06078680, r13
     mov.w   DAT_0601ff8a, r0
     mov.w @r12, r4
     mov.l @r14, r14
@@ -37,7 +37,7 @@ geom_final_output:
     mov r3, r5
     mov.l r3, @(8, r14)
     mov.w   .L_wpool_0601FF8C, r4
-    mov.l   .L_pool_0601FF9C, r3
+    mov.l   .L_fpmul, r3
     jsr @r3
     shll16 r5
     mov r0, r4
@@ -52,7 +52,7 @@ geom_final_output:
     add #-0x4, r0
     mov.l r4, @(r0, r14)
     mov.w @r12, r5
-    mov.l   .L_pool_0601FFA0, r3
+    mov.l   .L_race_pos_interp, r3
     extu.w r5, r5
     jsr @r3
     mov r13, r4
@@ -91,7 +91,7 @@ geom_final_output:
     mov.l @(r0, r14), r3
     add #0x1, r3
     mov.l r3, @(r0, r14)
-    mov.l   .L_pool_0601FFA4, r4
+    mov.l   .L_sym_0607EA9C, r4
     mov.l @(r0, r14), r3
     mov.l @r4, r2
     cmp/gt r2, r3
@@ -127,13 +127,13 @@ DAT_0601ff90:
     .2byte  0x01FC
 .L_wpool_0601FF92:
     .2byte  0x01B0
-.L_pool_0601FF94:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0601FF98:
+.L_sym_06078680:
     .4byte  sym_06078680
-.L_pool_0601FF9C:
+.L_fpmul:
     .4byte  fpmul
-.L_pool_0601FFA0:
+.L_race_pos_interp:
     .4byte  race_pos_interp
-.L_pool_0601FFA4:
+.L_sym_0607EA9C:
     .4byte  sym_0607EA9C

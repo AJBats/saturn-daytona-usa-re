@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06040F16
+    .space 2    /* align to match original address 0x06040F16 (mod 4 = 2) */
 
 
     .global evt_reg_save

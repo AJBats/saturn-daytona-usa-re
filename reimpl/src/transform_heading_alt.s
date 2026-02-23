@@ -13,10 +13,10 @@ transform_heading_alt:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r10, @-r15
-    mov.l   .L_pool_06026440, r10
+    mov.l   .L_sym_0606107C, r10
     mov #0x8, r12
-    mov.l   .L_pool_06026444, r13
-    mov.l   .L_pool_06026448, r14
+    mov.l   .L_sym_06089ED6, r13
+    mov.l   .L_sym_06089ED4, r14
     mov #0x1, r7
     mov #0x2, r6
     mov #0x0, r0
@@ -50,11 +50,11 @@ transform_heading_alt:
     bra     .L_0602647C
     nop
     .2byte  0xFFFF
-.L_pool_06026440:
+.L_sym_0606107C:
     .4byte  sym_0606107C
-.L_pool_06026444:
+.L_sym_06089ED6:
     .4byte  sym_06089ED6
-.L_pool_06026448:
+.L_sym_06089ED4:
     .4byte  sym_06089ED4
 .L_0602644C:
     mov.w   .L_wpool_06026462, r1
@@ -64,12 +64,13 @@ transform_heading_alt:
     bt      .L_0602643A
     shll r0
     mov r0, r1
-    .word 0xC702 /* UNKNOWN */
+    mova    .L_pool_06026464, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
 .L_wpool_06026462:
     .2byte  0x008A
+.L_pool_06026464:
     .4byte  0xFFC4FFC4
     .4byte  0xFFCEFFCE
     .4byte  0xFFC8FFC8
@@ -166,22 +167,22 @@ mat_multiply_basic:
     add #-0x4, r15
     tst #0x4, r0
     bt      .L_0602653E
-    mov.l   .L_pool_0602657C, r7
+    mov.l   .L_sym_06059128, r7
     mov.w   .L_wpool_06026572, r6
     mov.w   .L_wpool_06026574, r5
-    mov.l   .L_pool_06026580, r3
+    mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_0602657C, r7
+    mov.l   .L_sym_06059128, r7
     mov.w   .L_wpool_06026572, r6
     mov.w   DAT_06026576, r5
     mov #0x8, r4
     add #0x4, r15
-    mov.l   .L_pool_06026580, r3
+    mov.l   .L_sym_060284AE, r3
     jmp @r3
     lds.l @r15+, pr
 .L_0602653E:
-    mov.l   .L_pool_06026584, r2
+    mov.l   .L_sym_06063B80, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
@@ -190,10 +191,10 @@ mat_multiply_basic:
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_pool_06026588, r3
+    mov.l   .L_sym_06028400, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_0602658C, r2
+    mov.l   .L_sym_06063B88, r2
     mov.l r2, @r15
     mov r2, r7
     mov.l @(4, r7), r7
@@ -204,7 +205,7 @@ mat_multiply_basic:
     mov.l @r5, r5
     mov #0x8, r4
     add #0x4, r15
-    mov.l   .L_pool_06026588, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_06026572:
@@ -220,15 +221,15 @@ DAT_06026576:
 DAT_06026578:
     .2byte  0x7000
     .2byte  0xFFFF
-.L_pool_0602657C:
+.L_sym_06059128:
     .4byte  sym_06059128
-.L_pool_06026580:
+.L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_06026584:
+.L_sym_06063B80:
     .4byte  sym_06063B80
-.L_pool_06026588:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_0602658C:
+.L_sym_06063B88:
     .4byte  sym_06063B88
 
     .global sprite_pair_render
@@ -247,7 +248,7 @@ sprite_pair_render:
     mov.l r8, @-r15
     sts.l pr, @-r15
     mov.w   .L_wpool_06026668, r8
-    mov.l   .L_pool_0602666C, r13
+    mov.l   .L_sym_060610BC, r13
     mov r8, r3
     add #0x1, r3
     cmp/eq r3, r5
@@ -282,7 +283,7 @@ sprite_pair_render:
     mov r14, r4
     exts.b r12, r10
     shll2 r10
-    mov.l   .L_pool_06026670, r3
+    mov.l   .L_sym_06061170, r3
     bra     .L_06026616
     add r3, r10
 .L_060265F2:
@@ -341,7 +342,7 @@ sprite_pair_render:
     mov r14, r4
     exts.b r12, r10
     shll2 r10
-    mov.l   .L_pool_06026674, r3
+    mov.l   .L_sym_06061184, r3
     bra     .L_0602668E
     add r3, r10
 .L_0602665A:
@@ -355,11 +356,11 @@ sprite_pair_render:
 .L_wpool_06026668:
     .2byte  0x00A8
     .2byte  0xFFFF
-.L_pool_0602666C:
+.L_sym_060610BC:
     .4byte  sym_060610BC
-.L_pool_06026670:
+.L_sym_06061170:
     .4byte  sym_06061170
-.L_pool_06026674:
+.L_sym_06061184:
     .4byte  sym_06061184
 .L_06026678:
     mov.l @r10, r6

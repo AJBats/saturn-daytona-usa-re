@@ -13,8 +13,8 @@ audio_dist_calc:
     add #-0x1, r4
     add #-0x10, r15
     shll2 r4
-    mov.l   .L_pool_0600DE20, r5
-    mov.l   .L_pool_0600DE24, r0
+    mov.l   .L_sym_0607E940, r5
+    mov.l   .L_sym_06063F3C, r0
     mov.l @r5, r5
     mov.l @r0, r0
     mov.l @(16, r5), r6
@@ -61,16 +61,16 @@ audio_dist_calc:
     mov.l @r15, r1
 .L_0600DDE6:
     mov r3, r4
-    mov.l   .L_pool_0600DE28, r6
+    mov.l   .L_sym_0607869C, r6
     add r1, r4
-    mov.l   .L_pool_0600DE2C, r3
+    mov.l   .L_sym_06034FE0, r3
     mov r4, r1
     jsr @r3
     mov.l @(12, r5), r0
     mov.l r0, @r6
     mov r0, r1
-    mov.l   .L_pool_0600DE30, r4
-    mov.l   .L_pool_0600DE34, r2
+    mov.l   .L_sym_060786B0, r4
+    mov.l   .L_sym_0607EBD0, r2
     mov.l @r2, r2
     mov r2, r3
     shll2 r2
@@ -78,10 +78,10 @@ audio_dist_calc:
     sub r1, r2
     mov r2, r3
     mov.l r2, @r4
-    mov.l   .L_pool_0600DE38, r5
+    mov.l   .L_sym_0605A21C, r5
     mov.l @r5, r2
     sub r2, r3
-    mov.l   .L_pool_0600DE3C, r2
+    mov.l   .L_sym_060786A0, r2
     mov.l r3, @r2
     mov.l @r4, r3
     add #0x10, r15
@@ -92,19 +92,19 @@ audio_dist_calc:
     .global DAT_0600de1e
 DAT_0600de1e:
     .2byte  0x01E0
-.L_pool_0600DE20:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600DE24:
+.L_sym_06063F3C:
     .4byte  sym_06063F3C
-.L_pool_0600DE28:
+.L_sym_0607869C:
     .4byte  sym_0607869C
-.L_pool_0600DE2C:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0
-.L_pool_0600DE30:
+.L_sym_060786B0:
     .4byte  sym_060786B0
-.L_pool_0600DE34:
+.L_sym_0607EBD0:
     .4byte  sym_0607EBD0
-.L_pool_0600DE38:
+.L_sym_0605A21C:
     .4byte  sym_0605A21C
-.L_pool_0600DE3C:
+.L_sym_060786A0:
     .4byte  sym_060786A0

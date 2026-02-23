@@ -13,11 +13,11 @@ dma_complete_check:
     add #-0x4, r15
     mov.l r4, @r15
     mov.l   .L_pool_06040A24, r6
-    mov.l   .L_pool_06040A28, r3
+    mov.l   .L_evt_checkpoint_validate, r3
     jsr @r3
     mov.l @(4, r4), r4
     add #0x4, r15
-    mov.l   .L_pool_06040A2C, r3
+    mov.l   .L_state_field_read, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -39,7 +39,7 @@ evt_checkpoint_handler:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06040A2C, r11
+    mov.l   .L_state_field_read, r11
     cmp/pz r13
     bt/s    .L_06040A00
     mov r4, r14
@@ -66,16 +66,16 @@ evt_checkpoint_handler:
     .2byte  0xFFFF
 .L_pool_06040A24:
     .4byte  0x0000FFFF
-.L_pool_06040A28:
+.L_evt_checkpoint_validate:
     .4byte  evt_checkpoint_validate
-.L_pool_06040A2C:
+.L_state_field_read:
     .4byte  state_field_read
 .L_06040A30:
     mov.l r12, @-r15
     mov #0x0, r5
     mov r15, r7
     mov.l   .L_pool_06040AD0, r6
-    mov.l   .L_pool_06040AD4, r3
+    mov.l   .L_cmd_enqueue, r3
     add #0x4, r7
     jsr @r3
     mov.l @(4, r14), r4
@@ -118,7 +118,7 @@ evt_checkpoint_handler:
     bf      .L_06040A98
     mov.l @r15, r6
     mov #0x0, r5
-    mov.l   .L_pool_06040AD8, r3
+    mov.l   .L_evt_checkpoint_validate_2, r3
     jsr @r3
     mov.l @(4, r14), r4
     jsr @r11
@@ -148,7 +148,7 @@ evt_checkpoint_handler:
     mov #0x0, r5
     mov r14, r4
     mov.l   .L_pool_06040AD0, r6
-    mov.l   .L_pool_06040AD8, r3
+    mov.l   .L_evt_checkpoint_validate_2, r3
     jsr @r3
     mov.l @(4, r4), r4
     jsr @r11
@@ -160,9 +160,9 @@ evt_checkpoint_handler:
     mov #-0x1, r0
 .L_pool_06040AD0:
     .4byte  0x0000FFFF
-.L_pool_06040AD4:
+.L_cmd_enqueue:
     .4byte  cmd_enqueue
-.L_pool_06040AD8:
+.L_evt_checkpoint_validate_2:
     .4byte  evt_checkpoint_validate
 .L_06040ADC:
     mov.l r13, @(8, r14)

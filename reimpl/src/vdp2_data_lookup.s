@@ -10,7 +10,7 @@
     .global vdp2_data_lookup
     .type vdp2_data_lookup, @function
 vdp2_data_lookup:
-    mov.l   .L_pool_060173A8, r7
+    mov.l   .L_sym_06084FC8, r7
     mov #0x12, r6
     mov #0x0, r5
 .L_06017378:
@@ -39,5 +39,5 @@ vdp2_data_lookup:
     rts
     extu.b r5, r0
     .4byte  sym_06085490
-.L_pool_060173A8:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8

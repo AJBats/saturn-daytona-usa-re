@@ -10,7 +10,7 @@
     .type queue_helper, @function
 queue_helper:
     sts.l pr, @-r15
-    mov.l   .L_pool_060411FC, r3
+    mov.l   .L_sym_060A5400, r3
     mov.l @r3, r3
     mov.l @(56, r3), r2
     cmp/eq r5, r2
@@ -19,7 +19,7 @@ queue_helper:
     rts
     mov #-0x9, r0
 .L_06041192:
-    mov.l   .L_pool_06041200, r3
+    mov.l   .L_ai_throttle_modulate, r3
     jsr @r3
     nop
     mov #0x0, r0
@@ -32,7 +32,7 @@ queue_helper:
 cmd_enqueue:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_060411FC, r1
+    mov.l   .L_sym_060A5400, r1
     mov.w   DAT_060411f6, r0
     mov.l @r1, r3
     mov.l @(r0, r3), r0
@@ -81,7 +81,7 @@ DAT_060411f6:
 .L_wpool_060411F8:
     .2byte  0x0324
     .2byte  0xFFFF
-.L_pool_060411FC:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_06041200:
+.L_ai_throttle_modulate:
     .4byte  ai_throttle_modulate

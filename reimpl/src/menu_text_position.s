@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0603F342
+    .space 2    /* align to match original address 0x0603F342 (mod 4 = 2) */
 
 
     .global menu_text_position

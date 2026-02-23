@@ -13,19 +13,19 @@ race_progress_check:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_060127A4, r13
-    mov.l   .L_pool_060127A8, r14
+    mov.l   .L_sym_0607EBCC, r13
+    mov.l   .L_sound_cmd_dispatch, r14
     mov.l   .L_pool_060127AC, r12
     bra     .L_0601276A
     mov.l @r13, r0
 .L_06012722:
     mov #0x1, r2
-    mov.l   .L_pool_060127B0, r3
+    mov.l   .L_sym_06078654, r3
     mov.b r2, @r3
-    mov.l   .L_pool_060127B4, r2
+    mov.l   .L_sym_0607E944, r2
     mov.l @r2, r2
     mov.l @(48, r2), r3
-    mov.l   .L_pool_060127B8, r1
+    mov.l   .L_sym_06063EF0, r1
     mov.l r3, @r1
     mov.l   .L_pool_060127BC, r5
     bra     .L_06012740
@@ -52,10 +52,10 @@ race_progress_check:
     jsr @r14
     mov #0x0, r4
     mov #0x3C, r2
-    mov.l   .L_pool_060127D0, r3
+    mov.l   .L_sym_06086056, r3
     mov.w r2, @r3
     mov #0x1, r2
-    mov.l   .L_pool_060127D4, r3
+    mov.l   .L_sym_0608605A, r3
     mov.b r2, @r3
     bra     .L_0601277A
     nop
@@ -70,15 +70,15 @@ race_progress_check:
     bt      .L_06012722
 .L_0601277A:
     mov.l @r13, r1
-    mov.l   .L_pool_060127D8, r2
+    mov.l   .L_sym_06035C2C, r2
     jsr @r2
     mov #0x4, r0
     tst r0, r0
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     mov.l @r13, r3
     mov #0x6E, r2
     cmp/gt r2, r3
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     and r1, r0
     tst r0, r0
     bt      .L_0601279A
@@ -91,17 +91,17 @@ race_progress_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_060127A4:
+.L_sym_0607EBCC:
     .4byte  sym_0607EBCC
-.L_pool_060127A8:
+.L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
 .L_pool_060127AC:
     .4byte  0xAE1115FF
-.L_pool_060127B0:
+.L_sym_06078654:
     .4byte  sym_06078654
-.L_pool_060127B4:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_060127B8:
+.L_sym_06063EF0:
     .4byte  sym_06063EF0
 .L_pool_060127BC:
     .4byte  0xAE1122FF
@@ -113,11 +113,11 @@ race_progress_check:
     .4byte  0xAE1125FF
 .L_pool_060127CC:
     .4byte  0xAE1116FF
-.L_pool_060127D0:
+.L_sym_06086056:
     .4byte  sym_06086056
-.L_pool_060127D4:
+.L_sym_0608605A:
     .4byte  sym_0608605A
-.L_pool_060127D8:
+.L_sym_06035C2C:
     .4byte  sym_06035C2C
 .L_pool_060127DC:
     .4byte  0xAE110CFF
@@ -353,22 +353,22 @@ cd_status_reader:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06012BC0, r10
+    mov.l   .L_cmd_validate_exec, r10
     mov #0x1, r12
     mov #0x5, r14
     mov #-0x1, r4
-    mov.l   .L_pool_06012BC4, r3
+    mov.l   .L_sym_06084360, r3
     mov.l r12, @r3
     mov r3, r2
-    mov.l   .L_pool_06012BC8, r3
+    mov.l   .L_sym_0608436C, r3
     mov.l r3, @(8, r2)
     mov #0x50, r3
     mov.l r3, @(4, r2)
-    mov.l   .L_pool_06012BCC, r11
+    mov.l   .L_sym_06083274, r11
     bra     .L_06012B8A
     mov #0x0, r13
 .L_06012B80:
-    mov.l   .L_pool_06012BC4, r6
+    mov.l   .L_sym_06084360, r6
     mov r11, r5
     jsr @r10
     mov #0x5, r4
@@ -378,14 +378,14 @@ cd_status_reader:
     cmp/ge r14, r13
     bf      .L_06012B80
     mov #0x2, r3
-    mov.l   .L_pool_06012BD0, r13
+    mov.l   .L_sym_06084AEC, r13
     cmp/gt r3, r4
     bt      .L_06012B9C
     bra     .L_06012BB0
     mov.b r12, @r13
 .L_06012B9C:
-    mov.l   .L_pool_06012BD4, r4
-    mov.l   .L_pool_06012BD8, r3
+    mov.l   .L_sym_060448C8, r4
+    mov.l   .L_cmd_status_check, r3
     jsr @r3
     nop
     cmp/pz r0
@@ -404,17 +404,17 @@ cd_status_reader:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06012BC0:
+.L_cmd_validate_exec:
     .4byte  cmd_validate_exec
-.L_pool_06012BC4:
+.L_sym_06084360:
     .4byte  sym_06084360
-.L_pool_06012BC8:
+.L_sym_0608436C:
     .4byte  sym_0608436C
-.L_pool_06012BCC:
+.L_sym_06083274:
     .4byte  sym_06083274
-.L_pool_06012BD0:
+.L_sym_06084AEC:
     .4byte  sym_06084AEC
-.L_pool_06012BD4:
+.L_sym_060448C8:
     .4byte  sym_060448C8
-.L_pool_06012BD8:
+.L_cmd_status_check:
     .4byte  cmd_status_check

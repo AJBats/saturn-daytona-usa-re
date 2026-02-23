@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06036886
+    .space 2    /* align to match original address 0x06036886 (mod 4 = 2) */
 
 
     .global track_impact_adjust_stub

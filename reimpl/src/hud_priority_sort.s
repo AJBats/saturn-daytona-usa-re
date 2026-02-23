@@ -13,11 +13,11 @@ hud_priority_sort:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.l r10, @-r15
-    mov.l   .L_pool_0601559C, r10
+    mov.l   .L_sym_0605B838, r10
     mov #0x4, r11
     mov #0x50, r12
     mov #0x60, r14
-    mov.l   .L_pool_060155A0, r6
+    mov.l   .L_sym_06084FC8, r6
     mov #0x0, r5
 .L_06015520:
     extu.b r5, r7
@@ -41,11 +41,11 @@ hud_priority_sort:
     extu.b r5, r7
     mov r7, r0
     cmp/eq #0x1, r0
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     mov r0, r3
     mov r7, r0
     cmp/eq #0x2, r0
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     or r1, r3
     tst r3, r3
     bt      .L_0601556E
@@ -83,7 +83,7 @@ hud_priority_sort:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r14
-.L_pool_0601559C:
+.L_sym_0605B838:
     .4byte  sym_0605B838
-.L_pool_060155A0:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8

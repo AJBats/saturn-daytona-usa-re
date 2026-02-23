@@ -14,7 +14,7 @@ poly_table_read:
     mov #0x12, r5
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_06017198, r3
+    mov.l   .L_handler_dispatch, r3
     jsr @r3
     mov r5, r4
     mov.b @r15, r4
@@ -29,7 +29,7 @@ poly_table_validate:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_0601719C, r3
+    mov.l   .L_sym_06018E1E, r3
     jsr @r3
     mov #0x12, r4
     mov.b @r15, r4
@@ -49,10 +49,10 @@ vdp2_util_loop:
     mov #0x12, r11
     add #-0x58, r15
     mov r15, r12
-    mov.l   .L_pool_060171A0, r13
+    mov.l   .L_sym_06084FC8, r13
     mov r15, r1
-    mov.l   .L_pool_060171A4, r2
-    mov.l   .L_pool_060171A8, r3
+    mov.l   .L_sym_0605BC14, r2
+    mov.l   .L_sym_06035168, r3
     jsr @r3
     mov #0x58, r0
     mov #0x0, r14
@@ -97,13 +97,13 @@ vdp2_util_loop:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06017198:
+.L_handler_dispatch:
     .4byte  handler_dispatch
-.L_pool_0601719C:
+.L_sym_06018E1E:
     .4byte  sym_06018E1E
-.L_pool_060171A0:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_060171A4:
+.L_sym_0605BC14:
     .4byte  sym_0605BC14
-.L_pool_060171A8:
+.L_sym_06035168:
     .4byte  sym_06035168

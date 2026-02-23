@@ -12,16 +12,16 @@ vdp_mode_setup:
     sts.l pr, @-r15
     mov r14, r6
     add #-0x4, r15
-    mov.l   .L_pool_06005858, r8
-    mov.l   .L_pool_0600585C, r9
+    mov.l   .L_sym_06085FF4, r8
+    mov.l   .L_sym_06063750, r9
     mov.w   .L_wpool_0600584E, r10
-    mov.l   .L_pool_06005860, r13
+    mov.l   .L_sym_0606129C, r13
     mov r9, r7
     add #0x20, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.l @r15, r5
-    mov.l   .L_pool_06005864, r3
+    mov.l   .L_sym_06028400, r3
     mov.l @r5, r5
     jsr @r3
     mov #0x8, r4
@@ -58,8 +58,8 @@ vdp_mode_setup:
     add r14, r12
     mov #0x60, r6
     mov.w   .L_wpool_06005852, r5
-    mov.l   .L_pool_06005868, r7
-    mov.l   .L_pool_0600586C, r3
+    mov.l   .L_sym_0605ACDF, r7
+    mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0x8, r4
 .L_06005802:
@@ -71,7 +71,7 @@ vdp_mode_setup:
 .L_0600580C:
     mov #0x7, r12
 .L_0600580E:
-    mov.l   .L_pool_06005870, r0
+    mov.l   .L_sym_0607EAB8, r0
     mov.l @r0, r0
     tst #0x1, r0
     bf      .L_06005834
@@ -83,7 +83,7 @@ vdp_mode_setup:
     shll2 r6
     mov.l @(4, r7), r7
     mov.l @r15, r5
-    mov.l   .L_pool_06005864, r3
+    mov.l   .L_sym_06028400, r3
     shll2 r6
     mov.l @r5, r5
     add #0x19, r6
@@ -91,7 +91,7 @@ vdp_mode_setup:
     jsr @r3
     mov #0x8, r4
 .L_06005834:
-    mov.l   .L_pool_06005874, r12
+    mov.l   .L_sym_06063F28, r12
     mov #0xA, r3
     mov.l @r12, r2
     cmp/hs r3, r2
@@ -99,7 +99,7 @@ vdp_mode_setup:
     mov.l @r12, r7
     mov #0x0, r6
     mov.w   .L_wpool_06005854, r5
-    mov.l   .L_pool_06005878, r3
+    mov.l   .L_sym_06028430, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_06005888
@@ -113,45 +113,45 @@ vdp_mode_setup:
 .L_wpool_06005854:
     .2byte  0x0110
     .2byte  0xFFFF
-.L_pool_06005858:
+.L_sym_06085FF4:
     .4byte  sym_06085FF4
-.L_pool_0600585C:
+.L_sym_06063750:
     .4byte  sym_06063750
-.L_pool_06005860:
+.L_sym_0606129C:
     .4byte  sym_0606129C
-.L_pool_06005864:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_06005868:
+.L_sym_0605ACDF:
     .4byte  sym_0605ACDF
-.L_pool_0600586C:
+.L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_06005870:
+.L_sym_0607EAB8:
     .4byte  sym_0607EAB8
-.L_pool_06005874:
+.L_sym_06063F28:
     .4byte  sym_06063F28
-.L_pool_06005878:
+.L_sym_06028430:
     .4byte  sym_06028430
 .L_0600587C:
     mov.l @r12, r7
     mov #0xC, r6
     mov.w   .L_wpool_0600590C, r5
-    mov.l   .L_pool_06005914, r3
+    mov.l   .L_sym_06028430_2, r3
     jsr @r3
     mov #0x8, r4
 .L_06005888:
-    mov.l   .L_pool_06005918, r0
+    mov.l   .L_sym_0607EAE0, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_0600589E
     mov #0x30, r6
     mov.w   DAT_0600590e, r5
-    mov.l   .L_pool_0600591C, r7
-    mov.l   .L_pool_06005914, r3
+    mov.l   .L_sym_0607EA98, r7
+    mov.l   .L_sym_06028430_2, r3
     mov.l @r7, r7
     jsr @r3
     mov #0x8, r4
 .L_0600589E:
-    mov.l   .L_pool_06005920, r0
+    mov.l   .L_sym_06078644, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_060058E6
@@ -186,7 +186,7 @@ vdp_mode_setup:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06005924, r3
+    mov.l   .L_sym_06028400_2, r3
     jmp @r3
     mov.l @r15+, r14
 .L_060058E6:
@@ -224,13 +224,13 @@ DAT_0600590e:
 DAT_06005910:
     .2byte  0x1000
     .2byte  0xFFFF
-.L_pool_06005914:
+.L_sym_06028430_2:
     .4byte  sym_06028430
-.L_pool_06005918:
+.L_sym_0607EAE0:
     .4byte  sym_0607EAE0
-.L_pool_0600591C:
+.L_sym_0607EA98:
     .4byte  sym_0607EA98
-.L_pool_06005920:
+.L_sym_06078644:
     .4byte  sym_06078644
-.L_pool_06005924:
+.L_sym_06028400_2:
     .4byte  sym_06028400

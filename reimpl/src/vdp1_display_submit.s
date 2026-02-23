@@ -120,7 +120,7 @@ DAT_0602d496:
 .L_0602D4EE:
     mov.w   DAT_0602d548, r1
     mov.l @(r0, r1), r4
-    mov.l   .L_pool_0602D554, r0
+    mov.l   .L_cos_lookup, r0
     jsr @r0
     nop
     shll16 r10
@@ -184,7 +184,7 @@ DAT_0602d54a:
     .2byte  0x0000
 .L_pool_0602D550:
     .4byte  0x000A0000
-.L_pool_0602D554:
+.L_cos_lookup:
     .4byte  cos_lookup
 .L_pool_0602D558:
     .4byte  0x00000100
@@ -205,7 +205,7 @@ DAT_0602d54a:
     mov.l r1, @(16, r2)
     shll16 r4
     mov.l r4, @(20, r2)
-    mov.l   .L_pool_0602D5FC, r0
+    mov.l   .L_atan_piecewise, r0
     mov.l @(28, r2), r4
     jsr @r0
     nop
@@ -240,7 +240,7 @@ DAT_0602d54a:
     muls.w r2, r5
     shll16 r6
     sts macl, r4
-    mov.l   .L_pool_0602D600, r0
+    mov.l   .L_cos_lookup_2, r0
     jsr @r0
     nop
     dmuls.l r0, r6
@@ -281,9 +281,9 @@ DAT_0602d5f4:
 .L_wpool_0602D5F8:
     .2byte  0x005C
     .2byte  0x0000
-.L_pool_0602D5FC:
+.L_atan_piecewise:
     .4byte  atan_piecewise
-.L_pool_0602D600:
+.L_cos_lookup_2:
     .4byte  cos_lookup
 .L_0602D604:
     neg r6, r6
@@ -376,7 +376,7 @@ DAT_0602d682:
     shll16 r4
     mov.l r4, @(20, r2)
     mov.l @(28, r2), r4
-    mov.l   .L_pool_0602D6C4, r0
+    mov.l   .L_atan_piecewise_2, r0
     jsr @r0
     nop
     cmp/eq #0x0, r0
@@ -404,7 +404,7 @@ DAT_0602d682:
     .global DAT_0602d6c2
 DAT_0602d6c2:
     .2byte  0x00FA
-.L_pool_0602D6C4:
+.L_atan_piecewise_2:
     .4byte  atan_piecewise
 .L_0602D6C8:
     cmp/gt r7, r4
@@ -413,7 +413,7 @@ DAT_0602d6c2:
 .L_0602D6CE:
     sub r3, r4
     sub r3, r7
-    mov.l   .L_pool_0602D734, r12
+    mov.l   .L_sym_0602ECCC, r12
     shll8 r7
     mov r4, r0
     jsr @r12
@@ -449,7 +449,7 @@ DAT_0602d6c2:
     sub r4, r3
     neg r3, r3
     dmuls.l r3, r6
-    mov.l   .L_pool_0602D734, r12
+    mov.l   .L_sym_0602ECCC, r12
     mov r4, r0
     jsr @r12
     sts macl, r1
@@ -468,7 +468,7 @@ DAT_0602d6c2:
     .global DAT_0602d732
 DAT_0602d732:
     .2byte  0x005C
-.L_pool_0602D734:
+.L_sym_0602ECCC:
     .4byte  sym_0602ECCC
 .L_pool_0602D738:
     .4byte  0x00000FE0
@@ -482,7 +482,7 @@ DAT_0602d732:
     mov r5, r6
 .L_0602D748:
     shll8 r6
-    mov.l   .L_pool_0602D798, r12
+    mov.l   .L_sym_0602ECCC_2, r12
     mov.l @r15+, r0
     jsr @r12
     mov r6, r1
@@ -526,7 +526,7 @@ DAT_0602d790:
 .L_wpool_0602D794:
     .2byte  0x005C
     .2byte  0x0000
-.L_pool_0602D798:
+.L_sym_0602ECCC_2:
     .4byte  sym_0602ECCC
 .L_pool_0602D79C:
     .4byte  0xFFFFCD80
@@ -618,7 +618,7 @@ sym_0602D82A:
     mov.w   DAT_0602d864, r2
     mov.l @(12, r0), r3
     mov.w @(r0, r2), r4
-    mov.l   .L_pool_0602D868, r5
+    mov.l   .L_sym_060477BC, r5
     shll2 r4
     add r5, r4
     mov.l @r4, r4
@@ -655,7 +655,7 @@ DAT_0602d864:
     .global DAT_0602d866
 DAT_0602d866:
     .2byte  0x00E0
-.L_pool_0602D868:
+.L_sym_060477BC:
     .4byte  sym_060477BC
 .L_pool_0602D86C:
     .4byte  0x0221AC91

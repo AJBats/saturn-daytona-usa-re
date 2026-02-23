@@ -13,10 +13,10 @@ transform_heading_apply:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r10, @-r15
-    mov.l   .L_pool_06026314, r10
+    mov.l   .L_sym_06060F2C, r10
     mov #0xA, r12
-    mov.l   .L_pool_06026318, r13
-    mov.l   .L_pool_0602631C, r14
+    mov.l   .L_sym_06089ED6, r13
+    mov.l   .L_sym_06089ED4, r14
     mov #0x1, r7
     mov #0x2, r6
     mov #0x0, r0
@@ -50,11 +50,11 @@ transform_heading_apply:
     bra     .L_06026350
     nop
     .2byte  0xFFFF
-.L_pool_06026314:
+.L_sym_06060F2C:
     .4byte  sym_06060F2C
-.L_pool_06026318:
+.L_sym_06089ED6:
     .4byte  sym_06089ED6
-.L_pool_0602631C:
+.L_sym_06089ED4:
     .4byte  sym_06089ED4
 .L_06026320:
     mov.w   .L_wpool_06026336, r1
@@ -64,12 +64,13 @@ transform_heading_apply:
     bt      .L_0602630E
     shll r0
     mov r0, r1
-    .word 0xC702 /* UNKNOWN */
+    mova    .L_pool_06026338, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
 .L_wpool_06026336:
     .2byte  0x008A
+.L_pool_06026338:
     .4byte  0xFFC4FFC4
     .4byte  0xFFCEFFCE
     .4byte  0xFFC8FFC8
@@ -170,10 +171,10 @@ transform_rotation_alt:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_060264C8, r12
+    mov.l   .L_sym_0606107C, r12
     mov #0x8, r13
-    mov.l   .L_pool_060264CC, r14
-    mov.l   .L_pool_060264D0, r7
+    mov.l   .L_sym_06060D2A, r14
+    mov.l   .L_sym_06060D34, r7
     mov.l   .L_pool_060264D4, r5
     mov #0x0, r4
     extu.w r4, r6
@@ -193,11 +194,11 @@ transform_rotation_alt:
 .L_060264C4:
     bra     .L_06026508
     nop
-.L_pool_060264C8:
+.L_sym_0606107C:
     .4byte  sym_0606107C
-.L_pool_060264CC:
+.L_sym_06060D2A:
     .4byte  sym_06060D2A
-.L_pool_060264D0:
+.L_sym_06060D34:
     .4byte  sym_06060D34
 .L_pool_060264D4:
     .4byte  0x00008000
@@ -209,12 +210,13 @@ transform_rotation_alt:
     bt      .L_060264C4
     shll r0
     mov r0, r1
-    .word 0xC702 /* UNKNOWN */
+    mova    .L_pool_060264F0, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
 .L_wpool_060264EE:
     .2byte  0x008A
+.L_pool_060264F0:
     .4byte  0xFFC2FFC2
     .4byte  0xFFCCFFCC
     .4byte  0xFFC6FFC6

@@ -18,8 +18,8 @@ color_transform_calc:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_06039194, r11
-    mov.l   .L_pool_06039198, r14
+    mov.l   .L_vblank_color_apply, r11
+    mov.l   .L_sym_060A3E48, r14
     mov.l r5, @(4, r15)
     mov r6, r13
     mov.l r7, @r15
@@ -69,7 +69,7 @@ color_transform_calc:
     nop
 .L_0603916C:
     mov r14, r12
-    mov.l   .L_pool_0603919C, r2
+    mov.l   .L_sym_060635AE, r2
     mov.w   .L_wpool_06039190, r3
     mov.w @r2, r2
     extu.w r2, r2
@@ -95,11 +95,11 @@ DAT_0603918e:
 .L_wpool_06039190:
     .2byte  0x0160
     .2byte  0xFFFF
-.L_pool_06039194:
+.L_vblank_color_apply:
     .4byte  vblank_color_apply
-.L_pool_06039198:
+.L_sym_060A3E48:
     .4byte  sym_060A3E48
-.L_pool_0603919C:
+.L_sym_060635AE:
     .4byte  sym_060635AE
 .L_060391A0:
     mov #0x2E, r0
@@ -153,7 +153,7 @@ DAT_0603918e:
     mov r0, r7
     jsr @r11
     mov r13, r4
-    mov.l   .L_pool_06039240, r4
+    mov.l   .L_sym_060A3E38, r4
     mov.l   .L_pool_06039244, r3
     and r3, r13
     tst r13, r13
@@ -164,11 +164,11 @@ DAT_0603918e:
     bra     .L_0603921A
     nop
 .L_06039214:
-    mov.l   .L_pool_06039248, r2
+    mov.l   .L_sym_060A4C80, r2
     mov.w @r2, r2
     mov.w r2, @r4
 .L_0603921A:
-    mov.l   .L_pool_0603924C, r4
+    mov.l   .L_sym_060635AC, r4
     mov.w @r4, r3
     extu.w r3, r3
     tst r3, r3
@@ -189,11 +189,11 @@ DAT_0603918e:
 .L_wpool_0603923C:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_pool_06039240:
+.L_sym_060A3E38:
     .4byte  sym_060A3E38
 .L_pool_06039244:
     .4byte  0x00010000
-.L_pool_06039248:
+.L_sym_060A4C80:
     .4byte  sym_060A4C80
-.L_pool_0603924C:
+.L_sym_060635AC:
     .4byte  sym_060635AC

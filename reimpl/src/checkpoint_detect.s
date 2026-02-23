@@ -13,7 +13,7 @@ checkpoint_detect:
     mov r4, r14
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600D830, r4
+    mov.l   .L_sym_0607E940, r4
     mov.w   DAT_0600d82a, r0
     mov.l @r4, r4
     mov.l @(r0, r4), r5
@@ -22,9 +22,9 @@ checkpoint_detect:
     sub r3, r5
     tst r5, r5
     bt      .L_0600D844
-    mov.l   .L_pool_0600D834, r7
+    mov.l   .L_sym_06063F1C, r7
     mov #-0x1, r3
-    mov.l   .L_pool_0600D838, r6
+    mov.l   .L_sym_0607EA9C, r6
     cmp/ge r3, r5
     bt/s    .L_0600D7D8
     mov #0x0, r13
@@ -41,7 +41,7 @@ checkpoint_detect:
     bf      .L_0600D844
     mov.w   DAT_0600d82e, r0
     mov.l r13, @(r0, r4)
-    mov.l   .L_pool_0600D83C, r3
+    mov.l   .L_sym_06063F18, r3
     mov.l @r3, r3
     mov.l r3, @r7
     .byte   0xB0, 0xF9    /* bsr 0x0600D9BC (external) */
@@ -49,7 +49,7 @@ checkpoint_detect:
     bsr     lap_time_record
     nop
     extu.b r13, r13
-    mov.l   .L_pool_0600D840, r3
+    mov.l   .L_sym_0605DE3C, r3
     mov.b r13, @r3
     bra     .L_0600D844
     nop
@@ -74,7 +74,7 @@ checkpoint_detect:
     bf      .L_0600D844
     mov.w   DAT_0600d82e, r0
     mov.l r13, @(r0, r4)
-    mov.l   .L_pool_0600D83C, r3
+    mov.l   .L_sym_06063F18, r3
     mov.l @r3, r3
     mov.l r3, @r7
     .byte   0xB0, 0xD9    /* bsr 0x0600D9BC (external) */
@@ -82,7 +82,7 @@ checkpoint_detect:
     bsr     lap_time_record
     nop
     mov #0x1, r2
-    mov.l   .L_pool_0600D840, r3
+    mov.l   .L_sym_0605DE3C, r3
     mov.b r2, @r3
     bra     .L_0600D844
     nop
@@ -106,15 +106,15 @@ DAT_0600d82a:
     .global DAT_0600d82e
 DAT_0600d82e:
     .2byte  0x01E8
-.L_pool_0600D830:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600D834:
+.L_sym_06063F1C:
     .4byte  sym_06063F1C
-.L_pool_0600D838:
+.L_sym_0607EA9C:
     .4byte  sym_0607EA9C
-.L_pool_0600D83C:
+.L_sym_06063F18:
     .4byte  sym_06063F18
-.L_pool_0600D840:
+.L_sym_0605DE3C:
     .4byte  sym_0605DE3C
 .L_0600D844:
     lds.l @r15+, pr
@@ -122,7 +122,7 @@ DAT_0600d82e:
     rts
     mov.l @r15+, r14
 .L_0600D84C:
-    mov.l   .L_pool_0600D898, r4
+    mov.l   .L_sym_0607E940_2, r4
     mov.w   DAT_0600d894, r0
     mov.l @r4, r4
     mov.l @(r0, r4), r5
@@ -139,7 +139,7 @@ DAT_0600d82e:
     bra     .L_0600D890
     mov.l r5, @(r0, r4)
 .L_0600D86C:
-    mov.l   .L_pool_0600D89C, r6
+    mov.l   .L_sym_0607EA9C_2, r6
     mov #0x0, r2
     mov.l @r6, r6
     cmp/gt r6, r2
@@ -156,7 +156,7 @@ DAT_0600d82e:
     mov.l r5, @(r0, r4)
     add #0x40, r0
     mov.l @(r0, r4), r3
-    mov.l   .L_pool_0600D8A0, r2
+    mov.l   .L_sym_06063F20, r2
     mov.l r3, @r2
 .L_0600D890:
     rts
@@ -167,11 +167,11 @@ DAT_0600d894:
     .2byte  0x01EC
 .L_wpool_0600D896:
     .2byte  0x01E8
-.L_pool_0600D898:
+.L_sym_0607E940_2:
     .4byte  sym_0607E940
-.L_pool_0600D89C:
+.L_sym_0607EA9C_2:
     .4byte  sym_0607EA9C
-.L_pool_0600D8A0:
+.L_sym_06063F20:
     .4byte  sym_06063F20
 .L_0600D8A4:
     .word 0x0000 /* UNKNOWN */
@@ -248,8 +248,8 @@ DAT_0600d894:
 lap_time_record:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600D9A0, r14
-    mov.l   .L_pool_0600D9A4, r3
+    mov.l   .L_sym_0607E940_3, r14
+    mov.l   .L_sym_06063F28, r3
     mov.w   DAT_0600d996, r0
     mov.l @r14, r14
     mov.l @r3, r3
@@ -258,7 +258,7 @@ lap_time_record:
     cmp/hi r3, r2
     bf      .L_0600D950
     mov #0x3, r2
-    mov.l   .L_pool_0600D9A8, r3
+    mov.l   .L_sym_0607EBF4, r3
     mov.l r2, @r3
     mov.w   DAT_0600d998, r0
     mov.l @(r0, r14), r2
@@ -266,11 +266,11 @@ lap_time_record:
     mov.l r2, @(r0, r14)
 .L_0600D950:
     mov #0x28, r3
-    mov.l   .L_pool_0600D9AC, r2
+    mov.l   .L_sym_0607EAC0, r2
     mov.l r3, @r2
     .byte   0xB1, 0xB7    /* bsr 0x0600DCC8 (external) */
     nop
-    mov.l   .L_pool_0600D9B0, r5
+    mov.l   .L_sym_060786B0, r5
     mov.w   DAT_0600d99a, r0
     mov.l @r5, r4
     mov.l @r5, r3
@@ -278,12 +278,12 @@ lap_time_record:
     mov.l r3, @(r0, r14)
     sub r2, r4
     mov.l @(r0, r14), r3
-    mov.l   .L_pool_0600D9B4, r2
+    mov.l   .L_sym_060786A4, r2
     add #-0xC, r0
     mov.l r3, @r2
     mov.l r4, @(r0, r14)
     add #-0x4, r0
-    mov.l   .L_pool_0600D9B8, r2
+    mov.l   .L_sym_0607EBF8, r2
     mov.l @(r0, r14), r3
     add #0x24, r0
     add #-0x1, r3
@@ -317,17 +317,17 @@ DAT_0600d99a:
 .L_wpool_0600D99C:
     .2byte  0x0240
     .2byte  0xFFFF
-.L_pool_0600D9A0:
+.L_sym_0607E940_3:
     .4byte  sym_0607E940
-.L_pool_0600D9A4:
+.L_sym_06063F28:
     .4byte  sym_06063F28
-.L_pool_0600D9A8:
+.L_sym_0607EBF4:
     .4byte  sym_0607EBF4
-.L_pool_0600D9AC:
+.L_sym_0607EAC0:
     .4byte  sym_0607EAC0
-.L_pool_0600D9B0:
+.L_sym_060786B0:
     .4byte  sym_060786B0
-.L_pool_0600D9B4:
+.L_sym_060786A4:
     .4byte  sym_060786A4
-.L_pool_0600D9B8:
+.L_sym_0607EBF8:
     .4byte  sym_0607EBF8

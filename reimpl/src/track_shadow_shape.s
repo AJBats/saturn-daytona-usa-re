@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06036AF2
+    .space 2    /* align to match original address 0x06036AF2 (mod 4 = 2) */
 
 
     .global track_shadow_shape

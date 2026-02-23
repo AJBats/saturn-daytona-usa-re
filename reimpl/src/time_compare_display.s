@@ -22,7 +22,7 @@ time_compare_display:
     mov #0x7, r9
     mov.w   .L_wpool_06015C22, r11
     mov #0x0, r12
-    mov.l   .L_pool_06015C24, r13
+    mov.l   .L_sym_06084FC8, r13
     mov.b r4, @r15
     extu.b r12, r10
     extu.b r12, r14
@@ -88,7 +88,7 @@ time_compare_display:
     mov.l r12, @(48, r3)
     add #0x1, r10
 .L_06015BE0:
-    mov.l   .L_pool_06015C28, r3
+    mov.l   .L_track_vtx_builder, r3
     jsr @r3
     extu.b r14, r4
     add #0x1, r14
@@ -108,7 +108,7 @@ time_compare_display:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015C2C, r3
+    mov.l   .L_sym_060172E4, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06015C0E:
@@ -124,11 +124,11 @@ time_compare_display:
     mov.l @r15+, r14
 .L_wpool_06015C22:
     .2byte  0x0C00
-.L_pool_06015C24:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06015C28:
+.L_track_vtx_builder:
     .4byte  track_vtx_builder
-.L_pool_06015C2C:
+.L_sym_060172E4:
     .4byte  sym_060172E4
 
     .global loc_06015C30
@@ -144,13 +144,13 @@ loc_06015C30:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_06015CA0, r1
+    mov.l   .L_sym_06084FC8_2, r1
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_06015CA4, r2
+    mov.l   .L_sym_0605B8B0, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
@@ -164,7 +164,7 @@ time_delta_format:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06015CA0, r12
+    mov.l   .L_sym_06084FC8_2, r12
     mov.w   .L_wpool_06015C9C, r13
     mov #0x8, r14
     mov.b r4, @r15
@@ -189,15 +189,15 @@ time_delta_format:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015CA8, r3
+    mov.l   .L_sym_060172E4_2, r3
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06015C9C:
     .2byte  0xE000
     .2byte  0xFFFF
-.L_pool_06015CA0:
+.L_sym_06084FC8_2:
     .4byte  sym_06084FC8
-.L_pool_06015CA4:
+.L_sym_0605B8B0:
     .4byte  sym_0605B8B0
-.L_pool_06015CA8:
+.L_sym_060172E4_2:
     .4byte  sym_060172E4

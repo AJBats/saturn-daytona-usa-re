@@ -10,13 +10,13 @@
     .type race_countdown_timer, @function
 race_countdown_timer:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600F8D8, r3
+    mov.l   .L_anim_ui_transition, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_pool_0600F8DC, r3
+    mov.l   .L_hud_course_render, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600F8E0, r4
+    mov.l   .L_sym_0607887C, r4
     mov.w @r4, r2
     add #-0x1, r2
     mov.w r2, @r4
@@ -24,7 +24,7 @@ race_countdown_timer:
     cmp/pl r2
     bt      .L_0600F892
     mov #0x4, r2
-    mov.l   .L_pool_0600F8E4, r3
+    mov.l   .L_sym_0607887F, r3
     mov.b r2, @r3
 .L_0600F892:
     lds.l @r15+, pr
@@ -35,19 +35,19 @@ race_countdown_timer:
     .type transition_minimal, @function
 transition_minimal:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600F8E8, r3
+    mov.l   .L_sym_06028560, r3
     jsr @r3
     nop
     mov.w   .L_wpool_0600F8D4, r2
-    mov.l   .L_pool_0600F8EC, r3
+    mov.l   .L_sym_0607EBCC, r3
     mov.l r2, @r3
     mov #0x14, r2
-    mov.l   .L_pool_0600F8E0, r3
+    mov.l   .L_sym_0607887C, r3
     mov.w r2, @r3
     mov #0x0, r2
-    mov.l   .L_pool_0600F8F0, r3
+    mov.l   .L_sym_0607886E, r3
     mov.w r2, @r3
-    mov.l   .L_pool_0600F8E4, r4
+    mov.l   .L_sym_0607887F, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -58,40 +58,40 @@ transition_minimal:
     .type transition_handler_b, @function
 transition_handler_b:
     sts.l pr, @-r15
-    mov.l   .L_pool_0600F8E0, r4
+    mov.l   .L_sym_0607887C, r4
     mov.w @r4, r3
     add #-0x1, r3
     mov.w r3, @r4
     exts.w r3, r3
     cmp/pl r3
     bf      .L_0600F8F8
-    mov.l   .L_pool_0600F8F4, r3
+    mov.l   .L_hud_transparency, r3
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_0600F8D4:
     .2byte  0x0708
     .2byte  0xFFFF
-.L_pool_0600F8D8:
+.L_anim_ui_transition:
     .4byte  anim_ui_transition
-.L_pool_0600F8DC:
+.L_hud_course_render:
     .4byte  hud_course_render
-.L_pool_0600F8E0:
+.L_sym_0607887C:
     .4byte  sym_0607887C
-.L_pool_0600F8E4:
+.L_sym_0607887F:
     .4byte  sym_0607887F
-.L_pool_0600F8E8:
+.L_sym_06028560:
     .4byte  sym_06028560
-.L_pool_0600F8EC:
+.L_sym_0607EBCC:
     .4byte  sym_0607EBCC
-.L_pool_0600F8F0:
+.L_sym_0607886E:
     .4byte  sym_0607886E
-.L_pool_0600F8F4:
+.L_hud_transparency:
     .4byte  hud_transparency
 .L_0600F8F8:
-    mov.l   .L_pool_0600F960, r3
+    mov.l   .L_sym_0602853E, r3
     jsr @r3
     mov #0x4, r4
-    mov.l   .L_pool_0600F964, r4
+    mov.l   .L_sym_0607887F_2, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -100,7 +100,7 @@ transition_handler_b:
 
     .global loc_0600F90A
 loc_0600F90A:
-    mov.l   .L_pool_0600F964, r4
+    mov.l   .L_sym_0607887F_2, r4
     mov.b @r4, r3
     add #0x1, r3
     rts
@@ -111,61 +111,61 @@ loc_0600F90A:
 transition_handler_c:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0600F968, r3
+    mov.l   .L_sprite_buffer_init, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600F96C, r3
+    mov.l   .L_sound_init_bonus, r3
     jsr @r3
     nop
     mov #0x0, r14
-    mov.l   .L_pool_0600F970, r3
+    mov.l   .L_sym_0607886E_2, r3
     extu.w r14, r2
     mov r14, r6
     mov.w r2, @r3
     mov #0x2, r3
-    mov.l   .L_pool_0600F974, r1
+    mov.l   .L_sym_0605AAA2, r1
     mov.w r3, @r1
     mov.l   .L_pool_0600F978, r2
-    mov.l   .L_pool_0600F97C, r3
+    mov.l   .L_sym_0607885C, r3
     mov.l r2, @r3
     mov r3, r5
     mov.l @r5, r5
-    mov.l   .L_pool_0600F980, r3
+    mov.l   .L_display_channel_b, r3
     jsr @r3
     mov #0x10, r4
-    mov.l   .L_pool_0600F984, r3
+    mov.l   .L_sym_06011450, r3
     jsr @r3
     nop
     mov #0x7, r2
-    mov.l   .L_pool_0600F964, r3
+    mov.l   .L_sym_0607887F_2, r3
     mov.b r2, @r3
-    mov.l   .L_pool_0600F970, r3
+    mov.l   .L_sym_0607886E_2, r3
     mov.w r14, @r3
     extu.w r14, r4
     lds.l @r15+, pr
-    mov.l   .L_pool_0600F988, r3
+    mov.l   .L_sprite_batch_renderer, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0600F960:
+.L_sym_0602853E:
     .4byte  sym_0602853E
-.L_pool_0600F964:
+.L_sym_0607887F_2:
     .4byte  sym_0607887F
-.L_pool_0600F968:
+.L_sprite_buffer_init:
     .4byte  sprite_buffer_init
-.L_pool_0600F96C:
+.L_sound_init_bonus:
     .4byte  sound_init_bonus
-.L_pool_0600F970:
+.L_sym_0607886E_2:
     .4byte  sym_0607886E
-.L_pool_0600F974:
+.L_sym_0605AAA2:
     .4byte  sym_0605AAA2
 .L_pool_0600F978:
     .4byte  0xFEA00000
-.L_pool_0600F97C:
+.L_sym_0607885C:
     .4byte  sym_0607885C
-.L_pool_0600F980:
+.L_display_channel_b:
     .4byte  display_channel_b
-.L_pool_0600F984:
+.L_sym_06011450:
     .4byte  sym_06011450
-.L_pool_0600F988:
+.L_sprite_batch_renderer:
     .4byte  sprite_batch_renderer

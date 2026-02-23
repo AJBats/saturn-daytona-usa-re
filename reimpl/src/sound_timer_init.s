@@ -10,8 +10,8 @@
     .type sound_timer_init, @function
 sound_timer_init:
     sts.l pr, @-r15
-    mov.l   .L_pool_060032C0, r3
-    mov.l   .L_pool_060032C4, r5
+    mov.l   .L_sym_06000310, r3
+    mov.l   .L_sym_060072E4, r5
     mov.l @r3, r3
     jsr @r3
     mov #0x65, r4
@@ -61,31 +61,31 @@ sound_timer_init:
 vdp_init_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_060032C0, r14
-    mov.l   .L_pool_060032C8, r5
+    mov.l   .L_sym_06000310, r14
+    mov.l   .L_sym_06028218, r5
     mov.l @r14, r3
     jsr @r3
     mov #0x4, r4
     mov.l @r14, r2
-    mov.l   .L_pool_060032CC, r5
+    mov.l   .L_sym_06028230, r5
     jsr @r2
     mov #0x6, r4
     mov.l @r14, r3
-    mov.l   .L_pool_060032D0, r5
+    mov.l   .L_sym_06028248, r5
     jsr @r3
     mov #0x9, r4
     mov.l @r14, r2
-    mov.l   .L_pool_060032C8, r5
+    mov.l   .L_sym_06028218, r5
     mov.w   .L_wpool_060032BA, r4
     jsr @r2
     nop
     mov.l @r14, r3
-    mov.l   .L_pool_060032CC, r5
+    mov.l   .L_sym_06028230, r5
     mov.w   .L_wpool_060032BC, r4
     jsr @r3
     nop
     mov.l @r14, r2
-    mov.l   .L_pool_060032D0, r5
+    mov.l   .L_sym_06028248, r5
     mov.w   .L_wpool_060032BE, r4
     lds.l @r15+, pr
     jmp @r2
@@ -104,13 +104,13 @@ vdp_init_dispatch:
     .2byte  0x0106
 .L_wpool_060032BE:
     .2byte  0x0109
-.L_pool_060032C0:
+.L_sym_06000310:
     .4byte  sym_06000310
-.L_pool_060032C4:
+.L_sym_060072E4:
     .4byte  sym_060072E4
-.L_pool_060032C8:
+.L_sym_06028218:
     .4byte  sym_06028218
-.L_pool_060032CC:
+.L_sym_06028230:
     .4byte  sym_06028230
-.L_pool_060032D0:
+.L_sym_06028248:
     .4byte  sym_06028248

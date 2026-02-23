@@ -20,17 +20,17 @@ scene_buffer_init:
     mov.l r8, @-r15
     add #-0x4, r15
     mov.w   .L_wpool_0603815A, r10
-    mov.l   .L_pool_0603815C, r11
-    mov.l   .L_pool_06038160, r12
-    mov.l   .L_pool_06038164, r6
-    mov.l   .L_pool_06038168, r8
+    mov.l   .L_sym_060A3DF8, r11
+    mov.l   .L_sym_060A3C70, r12
+    mov.l   .L_sym_060A2470, r6
+    mov.l   .L_sym_060635A8, r8
     mov.l @r8, r0
     cmp/eq #0x8, r0
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     add #-0x1, r1
     neg r1, r1
     cmp/eq #0x4, r0
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     and r1, r0
     tst r0, r0
@@ -40,13 +40,13 @@ scene_buffer_init:
     nop
 .L_wpool_0603815A:
     .2byte  0x0200
-.L_pool_0603815C:
+.L_sym_060A3DF8:
     .4byte  sym_060A3DF8
-.L_pool_06038160:
+.L_sym_060A3C70:
     .4byte  sym_060A3C70
-.L_pool_06038164:
+.L_sym_060A2470:
     .4byte  sym_060A2470
-.L_pool_06038168:
+.L_sym_060635A8:
     .4byte  sym_060635A8
 .L_0603816C:
     mov.b @(3, r4), r0
@@ -95,11 +95,11 @@ scene_buffer_init:
     mov r6, r2
     mov.w r5, @(r0, r11)
     mov r12, r2
-    mov.l   .L_pool_060382A4, r5
+    mov.l   .L_sym_060A3D70, r5
     mov.l @(8, r4), r3
     mov.l r3, @r5
     mov.l r6, @(4, r5)
-    mov.l   .L_pool_060382A8, r5
+    mov.l   .L_sym_060A3D78, r5
     mov.l @(12, r4), r3
     mov.l r3, @r5
     mov.l r12, @(4, r5)
@@ -206,7 +206,7 @@ scene_buffer_init:
     extu.w r5, r3
     cmp/ge r10, r3
     bf      .L_06038218
-    mov.l   .L_pool_060382B0, r3
+    mov.l   .L_sym_060635A0, r3
     mov.w r7, @r3
     extu.w r13, r7
     extu.w r13, r5
@@ -215,13 +215,13 @@ scene_buffer_init:
     nop
 .L_pool_060382A0:
     .4byte  0x0000FF00
-.L_pool_060382A4:
+.L_sym_060A3D70:
     .4byte  sym_060A3D70
-.L_pool_060382A8:
+.L_sym_060A3D78:
     .4byte  sym_060A3D78
 .L_pool_060382AC:
     .4byte  0x0007FFFF
-.L_pool_060382B0:
+.L_sym_060635A0:
     .4byte  sym_060635A0
 .L_060382B4:
     mov.b @(3, r4), r0
@@ -243,10 +243,10 @@ scene_buffer_init:
     extu.w r5, r2
     cmp/ge r9, r2
     bf      .L_0603829C
-    mov.l   .L_pool_060382F8, r3
+    mov.l   .L_sym_060635A2, r3
     mov.w r7, @r3
     mov #0x2, r2
-    mov.l   .L_pool_060382FC, r3
+    mov.l   .L_sym_060635AC, r3
     mov.w r2, @r3
 .L_060382E2:
     add #0x4, r15
@@ -261,7 +261,7 @@ scene_buffer_init:
 .L_wpool_060382F4:
     .2byte  0x1810
     .2byte  0xFFFF
-.L_pool_060382F8:
+.L_sym_060635A2:
     .4byte  sym_060635A2
-.L_pool_060382FC:
+.L_sym_060635AC:
     .4byte  sym_060635AC

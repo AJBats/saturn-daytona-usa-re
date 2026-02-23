@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06020946
+    .space 2    /* align to match original address 0x06020946 (mod 4 = 2) */
 
 
     .global obj_lod_level

@@ -11,11 +11,11 @@
 geom_output_ctrl:
     sts.l pr, @-r15
     mov #0x0, r3
-    mov.l   .L_pool_0601F8F4, r2
+    mov.l   .L_sym_0605E05C, r2
     mov.b r3, @r2
     .byte   0xBE, 0x8A    /* bsr 0x0601F5E0 (external) */
     nop
-    mov.l   .L_pool_0601F8F4, r2
+    mov.l   .L_sym_0605E05C, r2
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
@@ -24,21 +24,21 @@ geom_output_ctrl:
     rts
     mov #0x1, r0
 .L_0601F8DC:
-    mov.l   .L_pool_0601F8F8, r3
+    mov.l   .L_sym_060149E0, r3
     jsr @r3
     nop
     .byte   0xB0, 0x73    /* bsr 0x0601F9CC (external) */
     nop
-    mov.l   .L_pool_0601F8FC, r3
+    mov.l   .L_sym_060149CC, r3
     jsr @r3
     nop
     mov #0x0, r0
     lds.l @r15+, pr
     rts
     nop
-.L_pool_0601F8F4:
+.L_sym_0605E05C:
     .4byte  sym_0605E05C
-.L_pool_0601F8F8:
+.L_sym_060149E0:
     .4byte  sym_060149E0
-.L_pool_0601F8FC:
+.L_sym_060149CC:
     .4byte  sym_060149CC

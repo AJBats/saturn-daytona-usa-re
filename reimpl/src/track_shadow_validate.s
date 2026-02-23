@@ -12,7 +12,7 @@ track_shadow_validate:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06042124, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     mov.l @r14, r0
     mov.w   .L_wpool_0604211E, r1
@@ -22,7 +22,7 @@ track_shadow_validate:
     mov.l @r14, r5
     mov.w   DAT_06042120, r0
     mov.l @r14, r4
-    mov.l   .L_pool_06042128, r3
+    mov.l   .L_track_shadow_project, r3
     mov.l @(r0, r5), r5
     add #0x4, r0
     jsr @r3
@@ -37,7 +37,7 @@ track_shadow_validate:
     mov.l @r15+, r14
 .L_060420BC:
     mov r15, r4
-    mov.l   .L_pool_0604212C, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -61,7 +61,7 @@ track_shadow_validate:
     cmp/eq #0x2, r0
     bf      .L_06042110
     mov.w   DAT_06042122, r2
-    mov.l   .L_pool_06042130, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -99,11 +99,11 @@ DAT_06042120:
     .global DAT_06042122
 DAT_06042122:
     .2byte  0x0200
-.L_pool_06042124:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_06042128:
+.L_track_shadow_project:
     .4byte  track_shadow_project
-.L_pool_0604212C:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_06042130:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E

@@ -14,7 +14,7 @@ mem_test_verify:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_060405A8, r14
+    mov.l   .L_sym_060A4D14, r14
     tst r5, r5
     bt/s    .L_0604056C
     mov.l @(24, r4), r13
@@ -32,16 +32,16 @@ mem_test_verify:
     add #0x4, r3
     mov.l r2, @r3
     mov.l @(40, r13), r5
-    mov.l   .L_pool_060405AC, r3
+    mov.l   .L_ai_section_check, r3
     jsr @r3
     add #0x4, r4
 .L_0604056C:
-    mov.l   .L_pool_060405B0, r3
+    mov.l   .L_sym_06041014, r3
     jsr @r3
     mov.l @(40, r13), r4
     tst r0, r0
     bt      .L_0604059A
-    mov.l   .L_pool_060405B4, r3
+    mov.l   .L_sym_06040FEA, r3
     jsr @r3
     mov.l @(40, r13), r4
     mov #0x0, r5
@@ -68,11 +68,11 @@ mem_test_verify:
 .L_wpool_060405A4:
     .2byte  0x00B0
     .2byte  0xFFFF
-.L_pool_060405A8:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_060405AC:
+.L_ai_section_check:
     .4byte  ai_section_check
-.L_pool_060405B0:
+.L_sym_06041014:
     .4byte  sym_06041014
-.L_pool_060405B4:
+.L_sym_06040FEA:
     .4byte  sym_06040FEA

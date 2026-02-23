@@ -17,11 +17,11 @@ post_sprite_cleanup:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06011E64, r8
-    mov.l   .L_pool_06011E68, r10
+    mov.l   .L_sym_0605AAA0, r8
+    mov.l   .L_sym_0605A008, r10
     mov #0x0, r11
-    mov.l   .L_pool_06011E6C, r12
-    mov.l   .L_pool_06011E70, r14
+    mov.l   .L_sym_060786CC, r12
+    mov.l   .L_sym_060785FC, r14
     bra     .L_06011E44
     extu.w r11, r13
 .L_06011DDE:
@@ -48,7 +48,7 @@ post_sprite_cleanup:
     shll2 r3
     add r3, r4
     exts.w r4, r4
-    mov.l   .L_pool_06011E74, r3
+    mov.l   .L_sym_060280F8, r3
     jsr @r3
     add r12, r4
     bra     .L_06011E36
@@ -63,7 +63,7 @@ post_sprite_cleanup:
     shll2 r3
     add r3, r9
     exts.w r9, r9
-    mov.l   .L_pool_06011E78, r3
+    mov.l   .L_sym_060280C4, r3
     add r12, r9
     jsr @r3
     mov r9, r4
@@ -95,15 +95,15 @@ post_sprite_cleanup:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06011E64:
+.L_sym_0605AAA0:
     .4byte  sym_0605AAA0
-.L_pool_06011E68:
+.L_sym_0605A008:
     .4byte  sym_0605A008
-.L_pool_06011E6C:
+.L_sym_060786CC:
     .4byte  sym_060786CC
-.L_pool_06011E70:
+.L_sym_060785FC:
     .4byte  sym_060785FC
-.L_pool_06011E74:
+.L_sym_060280F8:
     .4byte  sym_060280F8
-.L_pool_06011E78:
+.L_sym_060280C4:
     .4byte  sym_060280C4

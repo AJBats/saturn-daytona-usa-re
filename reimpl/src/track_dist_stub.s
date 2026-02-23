@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0603667E
+    .space 2    /* align to match original address 0x0603667E (mod 4 = 2) */
 
 
     .global track_dist_stub

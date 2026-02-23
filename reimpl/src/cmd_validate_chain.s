@@ -120,7 +120,7 @@ DAT_0603b270:
 .L_pool_0603B274:
     .4byte  0x7FFFFFFF
 .L_0603B278:
-    mov.l   .L_pool_0603B30C, r3
+    mov.l   .L_cdb_wait_scdq, r3
     jsr @r3
     nop
     bra     .L_0603B244
@@ -185,16 +185,16 @@ menu_list_scroll:
     .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */
     mov.l @r14, r4
     mov r13, r5
-    mov.l   .L_pool_0603B310, r3
+    mov.l   .L_sym_0603F9DA, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x1, r7
     mov.l @(8, r15), r6
     mov.l @(4, r15), r5
-    mov.l   .L_pool_0603B314, r3
+    mov.l   .L_sym_0603EF54, r3
     jsr @r3
     mov.l @(4, r14), r4
-    mov.l   .L_pool_0603B318, r3
+    mov.l   .L_sym_0603FA00, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x0, r4
@@ -204,11 +204,11 @@ menu_list_scroll:
     mov.l @r15+, r13
     .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_pool_0603B30C:
+.L_cdb_wait_scdq:
     .4byte  cdb_wait_scdq
-.L_pool_0603B310:
+.L_sym_0603F9DA:
     .4byte  sym_0603F9DA
-.L_pool_0603B314:
+.L_sym_0603EF54:
     .4byte  sym_0603EF54
-.L_pool_0603B318:
+.L_sym_0603FA00:
     .4byte  sym_0603FA00

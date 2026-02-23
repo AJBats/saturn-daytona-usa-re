@@ -31,7 +31,7 @@ cmd_result_store:
     .byte   0xB4, 0x9C    /* bsr 0x0603B8F4 (external) */
     mov r12, r4
     mov r12, r5
-    mov.l   .L_pool_0603B034, r3
+    mov.l   .L_save_commit_write, r3
     jsr @r3
     mov r13, r4
     mov #0x0, r4
@@ -49,7 +49,7 @@ cmd_result_store:
 menu_text_layout:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0603B038, r12
+    mov.l   .L_sym_060A4D14, r12
     mov.b @(r0, r13), r3
     mov.l @r12, r12
     extu.b r3, r3
@@ -94,9 +94,9 @@ menu_text_layout:
     .byte   0xA4, 0x85    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0603B034:
+.L_save_commit_write:
     .4byte  save_commit_write
-.L_pool_0603B038:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
 .L_0603B03C:
     mov.l @(8, r12), r2

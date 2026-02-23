@@ -29,7 +29,7 @@ sym_0604069A:
     add #-0x4, r15
     mov.l r4, @r15
     mov.l @(24, r4), r4
-    mov.l   .L_pool_060406DC, r3
+    mov.l   .L_sym_060409DE, r3
     jmp @r3
     add #0x4, r15
 
@@ -39,7 +39,7 @@ sym_060406A6:
     mov.l r4, @r15
     mov #0x0, r6
     mov.l @(24, r4), r4
-    mov.l   .L_pool_060406E0, r3
+    mov.l   .L_evt_checkpoint_handler, r3
     jmp @r3
     add #0x4, r15
     .4byte  0x00000000
@@ -57,7 +57,7 @@ sys_timer_tick:
     bra     .L_06040716
     mov #0x0, r0
 .L_060406CC:
-    mov.l   .L_pool_060406E4, r3
+    mov.l   .L_sym_06040FB8, r3
     jsr @r3
     nop
     mov r0, r14
@@ -65,11 +65,11 @@ sys_timer_tick:
     bt      .L_060406E8
     bra     .L_06040716
     mov #0x0, r0
-.L_pool_060406DC:
+.L_sym_060409DE:
     .4byte  sym_060409DE
-.L_pool_060406E0:
+.L_evt_checkpoint_handler:
     .4byte  evt_checkpoint_handler
-.L_pool_060406E4:
+.L_sym_06040FB8:
     .4byte  sym_06040FB8
 .L_060406E8:
     mov r15, r3
@@ -88,10 +88,10 @@ sys_timer_tick:
     mov.l @(4, r13), r2
     add r2, r0
     mov.l r0, @r8
-    mov.l   .L_pool_0604076C, r3
+    mov.l   .L_ai_section_check, r3
     jsr @r3
     add #0x4, r4
-    mov.l   .L_pool_06040770, r3
+    mov.l   .L_sym_06040FEA, r3
     jsr @r3
     mov r14, r4
     mov #0x1, r0
@@ -122,7 +122,7 @@ timer_overflow_handler:
 .L_0604073A:
     mov #0x1E, r0
     mov r5, r1
-    mov.l   .L_pool_06040774, r3
+    mov.l   .L_sym_06034FFC, r3
     mov.b @(r0, r4), r6
     extu.b r6, r6
     jsr @r3
@@ -135,7 +135,7 @@ timer_overflow_handler:
     extu.b r2, r2
     add r2, r3
     mul.l r3, r0
-    mov.l   .L_pool_06040778, r2
+    mov.l   .L_sym_06036BE4, r2
     sts macl, r0
     mov r0, r3
     jsr @r2
@@ -145,11 +145,11 @@ timer_overflow_handler:
     lds.l @r15+, pr
     rts
     nop
-.L_pool_0604076C:
+.L_ai_section_check:
     .4byte  ai_section_check
-.L_pool_06040770:
+.L_sym_06040FEA:
     .4byte  sym_06040FEA
-.L_pool_06040774:
+.L_sym_06034FFC:
     .4byte  sym_06034FFC
-.L_pool_06040778:
+.L_sym_06036BE4:
     .4byte  sym_06036BE4

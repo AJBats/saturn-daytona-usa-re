@@ -12,22 +12,22 @@ sound_cmd_queue_write:
     sts.l pr, @-r15
     mov #0x2, r2
     mov #0x0, r6
-    mov.l   .L_pool_0601D4F0, r3
+    mov.l   .L_sym_0605AAA2, r3
     mov.w r2, @r3
     mov.l   .L_pool_0601D4F4, r3
-    mov.l   .L_pool_0601D4F8, r2
+    mov.l   .L_sym_0607885C, r2
     mov.l r3, @r2
     mov r2, r5
-    mov.l   .L_pool_0601D4FC, r3
+    mov.l   .L_display_channel_b, r3
     mov.l @r5, r5
     jsr @r3
     mov #0x20, r4
     mov #0x2A, r2
-    mov.l   .L_pool_0601D500, r3
+    mov.l   .L_sym_0607886E, r3
     mov.w r2, @r3
     bsr     camera_view_update
     mov r2, r4
-    mov.l   .L_pool_0601D504, r4
+    mov.l   .L_sym_0607887F, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -41,8 +41,8 @@ sound_channel_alloc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov.l   .L_pool_0601D508, r4
-    mov.l   .L_pool_0601D500, r13
-    mov.l   .L_pool_0601D4F8, r14
+    mov.l   .L_sym_0607886E, r13
+    mov.l   .L_sym_0607885C, r14
     mov.w @r13, r0
     extu.w r0, r0
     tst r0, r0
@@ -52,7 +52,7 @@ sound_channel_alloc:
     sub r4, r3
     mov.l r3, @r14
     mov r3, r5
-    mov.l   .L_pool_0601D4FC, r3
+    mov.l   .L_display_channel_b, r3
     jsr @r3
     mov #0x20, r4
     mov.w @r13, r4
@@ -63,7 +63,7 @@ sound_channel_alloc:
     bra     camera_view_update
     mov.l @r15+, r14
 .L_0601D4DA:
-    mov.l   .L_pool_0601D504, r5
+    mov.l   .L_sym_0607887F, r5
     mov.b @r5, r2
     add #0x1, r2
     mov.b r2, @r5
@@ -74,51 +74,51 @@ sound_channel_alloc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0601D4F0:
+.L_sym_0605AAA2:
     .4byte  sym_0605AAA2
 .L_pool_0601D4F4:
     .4byte  0x01500000
-.L_pool_0601D4F8:
+.L_sym_0607885C:
     .4byte  sym_0607885C
-.L_pool_0601D4FC:
+.L_display_channel_b:
     .4byte  display_channel_b
-.L_pool_0601D500:
+.L_sym_0607886E:
     .4byte  sym_0607886E
-.L_pool_0601D504:
+.L_sym_0607887F:
     .4byte  sym_0607887F
 .L_pool_0601D508:
     .4byte  0x00100000
 
     .global loc_0601D50C
 loc_0601D50C:
-    mov.l   .L_pool_0601D550, r0
+    mov.l   .L_sym_0607885C_2, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_0601D53C
-    mov.l   .L_pool_0601D554, r0
+    mov.l   .L_sym_0607EBC8, r0
     mov.l @r0, r0
     tst #0x1, r0
     bt/s    .L_0601D530
     mov #0x0, r6
-    mov.l   .L_pool_0601D550, r5
+    mov.l   .L_sym_0607885C_2, r5
     mov #0x0, r3
     mov.l @r5, r5
     cmp/gt r5, r3
     addc r3, r5
     shar r5
-    mov.l   .L_pool_0601D550, r3
+    mov.l   .L_sym_0607885C_2, r3
     bra     .L_0601D536
     mov.l r5, @r3
 .L_0601D530:
-    mov.l   .L_pool_0601D550, r5
+    mov.l   .L_sym_0607885C_2, r5
     mov.l @r5, r5
     neg r5, r5
 .L_0601D536:
-    mov.l   .L_pool_0601D558, r3
+    mov.l   .L_display_channel_b_2, r3
     jmp @r3
     mov #0x20, r4
 .L_0601D53C:
-    mov.l   .L_pool_0601D55C, r4
+    mov.l   .L_sym_0607887F_2, r4
     mov.b @r4, r2
     add #0x1, r2
     rts
@@ -127,32 +127,32 @@ loc_0601D50C:
     .global loc_0601D546
 loc_0601D546:
     mov #0x17, r5
-    mov.l   .L_pool_0601D560, r4
-    mov.l   .L_pool_0601D564, r3
+    mov.l   .L_sym_0607EBCC, r4
+    mov.l   .L_sym_0600338C, r3
     jmp @r3
     mov.l @r4, r4
-.L_pool_0601D550:
+.L_sym_0607885C_2:
     .4byte  sym_0607885C
-.L_pool_0601D554:
+.L_sym_0607EBC8:
     .4byte  sym_0607EBC8
-.L_pool_0601D558:
+.L_display_channel_b_2:
     .4byte  display_channel_b
-.L_pool_0601D55C:
+.L_sym_0607887F_2:
     .4byte  sym_0607887F
-.L_pool_0601D560:
+.L_sym_0607EBCC:
     .4byte  sym_0607EBCC
-.L_pool_0601D564:
+.L_sym_0600338C:
     .4byte  sym_0600338C
 
     .global loc_0601D568
 loc_0601D568:
-    mov.l   .L_pool_0601D5DC, r3
+    mov.l   .L_sym_0607EBCC_2, r3
     mov #0x1, r2
     mov.l @r3, r3
     cmp/ge r2, r3
     bt      .L_0601D578
     mov #0x6, r2
-    mov.l   .L_pool_0601D5E0, r3
+    mov.l   .L_sym_0605AD10, r3
     mov.l r2, @r3
 .L_0601D578:
     rts
@@ -169,10 +169,10 @@ camera_view_update:
     sts.l macl, @-r15
     add #-0x4, r15
     mov.w r4, @r15
-    mov.l   .L_pool_0601D5E4, r12
+    mov.l   .L_sym_06094FAC, r12
     mov #0x0, r4
     mov.w @r15, r1
-    mov.l   .L_pool_0601D5E8, r7
+    mov.l   .L_sym_0605AAA6, r7
     extu.w r1, r1
     shll r1
 .L_0601D598:
@@ -200,25 +200,25 @@ camera_view_update:
     and #0x3F, r0
     mov r0, r6
     shll r6
-    mov.l   .L_pool_0601D5EC, r5
+    mov.l   .L_sym_0605AAA2_2, r5
     mov #0xC, r4
     add #0x4, r15
     lds.l @r15+, macl
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_0601D5F0, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0601D5DC:
+.L_sym_0607EBCC_2:
     .4byte  sym_0607EBCC
-.L_pool_0601D5E0:
+.L_sym_0605AD10:
     .4byte  sym_0605AD10
-.L_pool_0601D5E4:
+.L_sym_06094FAC:
     .4byte  sym_06094FAC
-.L_pool_0601D5E8:
+.L_sym_0605AAA6:
     .4byte  sym_0605AAA6
-.L_pool_0601D5EC:
+.L_sym_0605AAA2_2:
     .4byte  sym_0605AAA2
-.L_pool_0601D5F0:
+.L_sym_06028400:
     .4byte  sym_06028400

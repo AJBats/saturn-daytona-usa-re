@@ -13,11 +13,11 @@ obj_pool_dealloc:
     add #-0x8, r15
     mov r15, r7
     mov r15, r1
-    mov.l   .L_pool_06020320, r2
-    mov.l   .L_pool_06020314, r6
-    mov.l   .L_pool_06020318, r5
-    mov.l   .L_pool_0602031C, r4
-    mov.l   .L_pool_06020324, r3
+    mov.l   .L_sym_0605F526, r2
+    mov.l   .L_sym_06063D98, r6
+    mov.l   .L_sym_06087826, r5
+    mov.l   .L_sym_06087825, r4
+    mov.l   .L_sym_06035228, r3
     add #0x4, r7
     add #0x4, r1
     jsr @r3
@@ -76,7 +76,7 @@ obj_pool_dealloc:
     cmp/eq #0x4, r0
     bf      .L_06020308
     mov #0x1, r2
-    mov.l   .L_pool_0602032C, r3
+    mov.l   .L_sym_06087824, r3
     mov.b r2, @r3
 .L_06020308:
     add #0x8, r15
@@ -87,17 +87,17 @@ obj_pool_dealloc:
     .2byte  0x4000
 .L_wpool_06020312:
     .2byte  0x0200
-.L_pool_06020314:
+.L_sym_06063D98:
     .4byte  sym_06063D98
-.L_pool_06020318:
+.L_sym_06087826:
     .4byte  sym_06087826
-.L_pool_0602031C:
+.L_sym_06087825:
     .4byte  sym_06087825
-.L_pool_06020320:
+.L_sym_0605F526:
     .4byte  sym_0605F526
-.L_pool_06020324:
+.L_sym_06035228:
     .4byte  sym_06035228
 .L_pool_06020328:
     .4byte  0x00008000
-.L_pool_0602032C:
+.L_sym_06087824:
     .4byte  sym_06087824

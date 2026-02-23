@@ -12,7 +12,7 @@ state_transition_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06041D5C, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     mov.l @r14, r0
     mov.w   .L_wpool_06041D58, r1
@@ -23,7 +23,7 @@ state_transition_handler:
     mov.w   DAT_06041d5a, r0
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   .L_pool_06041D60, r3
+    mov.l   .L_track_impact_force, r3
     mov.l @(r0, r6), r6
     add #-0x4, r0
     mov.l @(r0, r5), r5
@@ -40,7 +40,7 @@ state_transition_handler:
     mov.l @r15+, r14
 .L_06041D02:
     mov r15, r4
-    mov.l   .L_pool_06041D64, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -63,7 +63,7 @@ state_transition_handler:
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
     bf      .L_06041D4E
-    mov.l   .L_pool_06041D68, r3
+    mov.l   .L_ai_brake_zone_adjust, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -90,11 +90,11 @@ state_transition_handler:
     .global DAT_06041d5a
 DAT_06041d5a:
     .2byte  0x0334
-.L_pool_06041D5C:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_06041D60:
+.L_track_impact_force:
     .4byte  track_impact_force
-.L_pool_06041D64:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_06041D68:
+.L_ai_brake_zone_adjust:
     .4byte  ai_brake_zone_adjust

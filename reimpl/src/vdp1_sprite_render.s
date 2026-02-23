@@ -16,19 +16,19 @@ vdp1_sprite_render:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_060076E4, r12
-    mov.l   .L_pool_060076E8, r13
-    mov.l   .L_pool_060076EC, r14
+    mov.l   .L_sym_06063F64, r12
+    mov.l   .L_sym_0606A4EC, r13
+    mov.l   .L_sym_0606A4F4, r14
     mov.l r7, @(4, r15)
     cmp/eq #0xA, r0
     bf      .L_06007682
     mov.l @r13, r2
     shll2 r2
     shll r2
-    mov.l   .L_pool_060076F0, r3
+    mov.l   .L_sym_06063F5C, r3
     mov.l @r3, r3
     add r3, r2
-    mov.l   .L_pool_060076F4, r1
+    mov.l   .L_sym_06063F60, r1
     mov.l r2, @r1
 .L_06007682:
     extu.w r5, r0
@@ -52,7 +52,7 @@ vdp1_sprite_render:
     extu.w r3, r3
     mov r3, r0
     mov.w r0, @(12, r15)
-    mov.l   .L_pool_060076F8, r1
+    mov.l   .L_sym_060684EC, r1
     mov.l @r14, r0
     add r1, r2
     mov.w r0, @r2
@@ -83,17 +83,17 @@ vdp1_sprite_render:
     .global DAT_060076e2
 DAT_060076e2:
     .2byte  0x00FF
-.L_pool_060076E4:
+.L_sym_06063F64:
     .4byte  sym_06063F64
-.L_pool_060076E8:
+.L_sym_0606A4EC:
     .4byte  sym_0606A4EC
-.L_pool_060076EC:
+.L_sym_0606A4F4:
     .4byte  sym_0606A4F4
-.L_pool_060076F0:
+.L_sym_06063F5C:
     .4byte  sym_06063F5C
-.L_pool_060076F4:
+.L_sym_06063F60:
     .4byte  sym_06063F60
-.L_pool_060076F8:
+.L_sym_060684EC:
     .4byte  sym_060684EC
 .L_060076FC:
     extu.w r5, r4
@@ -105,7 +105,7 @@ DAT_060076e2:
     extu.w r2, r2
     extu.w r5, r1
     mov.w r2, @r15
-    mov.l   .L_pool_06007780, r3
+    mov.l   .L_sym_06034FE0, r3
     jsr @r3
     extu.w r1, r1
     mov r0, r5
@@ -121,7 +121,7 @@ DAT_060076e2:
     mov r5, r0
     mov.w r0, @(4, r3)
     mov.l @r13, r3
-    mov.l   .L_pool_06007784, r2
+    mov.l   .L_sym_0606A4F0, r2
     mov.l r3, @r2
 .L_06007732:
     mov r6, r0
@@ -131,8 +131,8 @@ DAT_060076e2:
     add r12, r3
     mov.w r0, @(6, r3)
     mov.l @r13, r5
-    mov.l   .L_pool_06007788, r3
-    mov.l   .L_pool_0600778C, r2
+    mov.l   .L_sym_06063F5C_2, r3
+    mov.l   .L_dma_memory_transfer, r2
     shll2 r5
     mov.l @r3, r3
     shll r5
@@ -166,11 +166,11 @@ DAT_060076e2:
     .global DAT_0600777e
 DAT_0600777e:
     .2byte  0x3F00
-.L_pool_06007780:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0
-.L_pool_06007784:
+.L_sym_0606A4F0:
     .4byte  sym_0606A4F0
-.L_pool_06007788:
+.L_sym_06063F5C_2:
     .4byte  sym_06063F5C
-.L_pool_0600778C:
+.L_dma_memory_transfer:
     .4byte  dma_memory_transfer

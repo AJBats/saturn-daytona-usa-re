@@ -16,7 +16,7 @@ spring_damper:
     mov.l   .L_pool_0602773C, r1
     mov.l   .L_pool_06027740, r2
     mov.w @r5+, r0
-    mov.l   .L_pool_06027744, r14
+    mov.l   .L_sym_06063F04, r14
     mov.l @r14, r14
     cmp/eq #0x1, r0
     bf      .L_0602779A
@@ -70,7 +70,7 @@ spring_damper:
     .4byte  0x0000E666
 .L_pool_06027740:
     .4byte  0x00001999
-.L_pool_06027744:
+.L_sym_06063F04:
     .4byte  sym_06063F04
 .L_06027748:
     mov.l @r4, r7

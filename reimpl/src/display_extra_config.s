@@ -10,7 +10,7 @@
     .type display_extra_config, @function
 display_extra_config:
     mov.w   DAT_06038a9a, r6
-    mov.l   .L_pool_06038AA0, r5
+    mov.l   .L_sym_060A3D88, r5
     bra     .L_06038AA4
     mov r4, r0
 .L_06038A6C:
@@ -50,7 +50,7 @@ DAT_06038a9a:
     .global DAT_06038a9e
 DAT_06038a9e:
     .2byte  0x2000
-.L_pool_06038AA0:
+.L_sym_060A3D88:
     .4byte  sym_060A3D88
 .L_06038AA4:
     cmp/eq #0x0, r0
@@ -60,7 +60,7 @@ DAT_06038a9e:
     cmp/eq #0x2, r0
     bt      .L_06038A86
 .L_06038AB0:
-    mov.l   .L_pool_06038AC4, r4
+    mov.l   .L_sym_060635AC, r4
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
@@ -71,5 +71,5 @@ DAT_06038a9e:
     rts
     nop
     .2byte  0xFFFF
-.L_pool_06038AC4:
+.L_sym_060635AC:
     .4byte  sym_060635AC

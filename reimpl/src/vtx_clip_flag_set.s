@@ -12,7 +12,7 @@
 vtx_clip_flag_set:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0602D8B8, r0
+    mov.l   .L_sym_0607E944, r0
     mov.l @r0, r0
     bsr     sym_0602D8BC
     nop
@@ -25,7 +25,7 @@ vtx_clip_flag_set:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_pool_0602D8B8:
+.L_sym_0607E944:
     .4byte  sym_0607E944
 
     .global sym_0602D8BC
@@ -51,12 +51,12 @@ clip_region_test:
     mov.l @(24, r0), r6
     mov.l r5, @(56, r0)
     mov.l r6, @(60, r0)
-    mov.l   .L_pool_0602D91C, r0
+    mov.l   .L_cos_lookup, r0
     jsr @r0
     nop
     mov r0, r8
     mov r7, r4
-    mov.l   .L_pool_0602D920, r0
+    mov.l   .L_sin_lookup, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -89,7 +89,7 @@ DAT_0602d918:
     .global DAT_0602d91a
 DAT_0602d91a:
     .2byte  0x0190
-.L_pool_0602D91C:
+.L_cos_lookup:
     .4byte  cos_lookup
-.L_pool_0602D920:
+.L_sin_lookup:
     .4byte  sin_lookup

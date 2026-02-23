@@ -6,6 +6,7 @@
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
 | 1 | Sawyer L2 — Relocatable ASM + C Reimpl | Active | workstreams/sawyer_l2.md |
+| 2 | Data Annotation — Classification & Semantics | Active | workstreams/data_annotation.md |
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
 **Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).

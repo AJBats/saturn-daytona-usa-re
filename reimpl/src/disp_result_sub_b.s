@@ -10,9 +10,9 @@
     .type disp_result_sub_b, @function
 disp_result_sub_b:
     mov.l r14, @-r15
-    mov.l   .L_pool_06033454, r0
+    mov.l   .L_sym_06033870, r0
     mov.l @r0, r0
-    mov.l   .L_pool_06033458, r1
+    mov.l   .L_sym_060629AA, r1
     mov #0x8, r2
     mov.w r2, @r1
     mov #0x2, r2
@@ -25,7 +25,7 @@ disp_result_sub_c:
     bsr     .L_06033550
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_0603345C, r1
+    mov.l   .L_sym_0606299A, r1
     mov #0x8, r2
     mov.w r2, @r1
     .word 0x0000 /* UNKNOWN */
@@ -40,18 +40,18 @@ attract_mode_init:
     bsr     .L_06033470
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033460, r0
+    mov.l   .L_sym_06033880, r0
     mov.l @r0, r0
     mov.b @r0, r0
     cmp/pl r0
     bt      .L_06033426
-    mov.l   .L_pool_06033464, r0
+    mov.l   .L_sym_06033864, r0
     mov.l @r0, r0
     mov.l @r0, r0
     cmp/pl r0
     bt      .L_06033430
 .L_06033426:
-    mov.l   .L_pool_06033468, r6
+    mov.l   .L_sym_0606298C, r6
 
     .global disp_attract_elem
     .type disp_attract_elem, @function
@@ -61,7 +61,7 @@ disp_attract_elem:
     nop
     lds.l @r15+, pr
 .L_06033430:
-    mov.l   .L_pool_0603346C, r6
+    mov.l   .L_sym_0606299C, r6
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -83,24 +83,24 @@ split_hud_render:
     mov.l @r15+, r8
     rts
     nop
-.L_pool_06033454:
+.L_sym_06033870:
     .4byte  sym_06033870
-.L_pool_06033458:
+.L_sym_060629AA:
     .4byte  sym_060629AA
-.L_pool_0603345C:
+.L_sym_0606299A:
     .4byte  sym_0606299A
-.L_pool_06033460:
+.L_sym_06033880:
     .4byte  sym_06033880
-.L_pool_06033464:
+.L_sym_06033864:
     .4byte  sym_06033864
-.L_pool_06033468:
+.L_sym_0606298C:
     .4byte  sym_0606298C
-.L_pool_0603346C:
+.L_sym_0606299C:
     .4byte  sym_0606299C
 .L_06033470:
-    mov.l   .L_pool_060334E8, r3
+    mov.l   .L_sym_060338C4, r3
     mov #0x0, r1
-    mov.l   .L_pool_060334EC, r0
+    mov.l   .L_sym_06033874, r0
     mov.l @r0, r0
     mov.l @r0, r1
     shll2 r1
@@ -108,12 +108,12 @@ split_hud_render:
     add r1, r3
     mov.w @r3+, r1
     mov.w @r3+, r2
-    mov.l   .L_pool_060334F0, r4
+    mov.l   .L_sym_06062970, r4
     mov #0x0, r0
     mov.l r0, @(0, r4)
     add #0x1, r0
     mov.b r0, @(4, r4)
-    mov.l   .L_pool_060334F4, r0
+    mov.l   .L_sym_0603387C, r0
     mov.l @r0, r0
     mov.l @r0, r0
     shlr2 r0
@@ -125,7 +125,7 @@ split_hud_render:
     mov r1, r0
     mov.w @r3+, r5
     add r1, r5
-    mov.l   .L_pool_060334F8, r6
+    mov.l   .L_sym_06033884, r6
     mov.l @r6, r6
     mov.b @r6, r6
     cmp/pl r6
@@ -145,9 +145,9 @@ split_hud_render:
     add r2, r0
     mov.w r0, @(18, r4)
     mov.w r0, @(22, r4)
-    mov.l   .L_pool_060334FC, r5
+    mov.l   .L_sym_060785FC, r5
     mov.l @r5, r5
-    mov.l   .L_pool_06033500, r0
+    mov.l   .L_sym_060280F8, r0
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -163,38 +163,38 @@ split_position_disp:
     rts
     nop
     .2byte  0x0000
-.L_pool_060334E8:
+.L_sym_060338C4:
     .4byte  sym_060338C4
-.L_pool_060334EC:
+.L_sym_06033874:
     .4byte  sym_06033874
-.L_pool_060334F0:
+.L_sym_06062970:
     .4byte  sym_06062970
-.L_pool_060334F4:
+.L_sym_0603387C:
     .4byte  sym_0603387C
-.L_pool_060334F8:
+.L_sym_06033884:
     .4byte  sym_06033884
-.L_pool_060334FC:
+.L_sym_060785FC:
     .4byte  sym_060785FC
-.L_pool_06033500:
+.L_sym_060280F8:
     .4byte  sym_060280F8
 .L_06033504:
-    mov.l   .L_pool_06033518, r0
+    mov.l   .L_sym_0605A008, r0
     mov.l @r0, r1
     add #0x1, r1
     mov.l r1, @r0
-    mov.l   .L_pool_0603351C, r2
+    mov.l   .L_sym_060785FC_2, r2
     mov.l @r2, r1
     add #0x20, r1
     mov.l r1, @r2
     rts
     nop
-.L_pool_06033518:
+.L_sym_0605A008:
     .4byte  sym_0605A008
-.L_pool_0603351C:
+.L_sym_060785FC_2:
     .4byte  sym_060785FC
 .L_06033520:
     mov.l r0, @-r15
-    mov.l   .L_pool_06033548, r4
+    mov.l   .L_sym_06062970_2, r4
     mov r2, r0
     mov.w r0, @(6, r4)
     mov.l   .L_pool_0603354C, r0
@@ -213,7 +213,7 @@ split_position_disp:
     bra     .L_060337FC
     nop
     .2byte  0x0000
-.L_pool_06033548:
+.L_sym_06062970_2:
     .4byte  sym_06062970
 .L_pool_0603354C:
     .4byte  0x00000000
@@ -222,7 +222,7 @@ split_position_disp:
     mov.l   sym_06033874, r0
     mov.l @r0, r0
     shll2 r0
-    mov.l   .L_pool_060335D8, r5
+    mov.l   .L_sym_06033630, r5
     add r0, r5
     mov.l @r5, r5
     mov.l @r15+, r0
@@ -252,7 +252,7 @@ disp_course_thunk_0:
     mov.l @(r0, r2), r2
     mov r3, r4
     mov r8, r5
-    mov.l   .L_pool_060335F0, r0
+    mov.l   .L_fpmul, r0
 
     .global disp_course_thunk_1
     .type disp_course_thunk_1, @function
@@ -264,7 +264,7 @@ disp_course_thunk_1:
     mov r0, r14
     mov r3, r4
     mov r7, r5
-    mov.l   .L_pool_060335F0, r0
+    mov.l   .L_fpmul, r0
 
     .global disp_course_thunk_2
     .type disp_course_thunk_2, @function
@@ -276,7 +276,7 @@ disp_course_thunk_2:
     mov r0, r13
     mov r2, r4
     mov r8, r5
-    mov.l   .L_pool_060335F0, r0
+    mov.l   .L_fpmul, r0
 
     .global disp_course_thunk_3
     .type disp_course_thunk_3, @function
@@ -288,7 +288,7 @@ disp_course_thunk_3:
     mov r0, r12
     mov r2, r4
     mov r7, r5
-    mov.l   .L_pool_060335F0, r0
+    mov.l   .L_fpmul, r0
 
     .global course_name_render
     .type course_name_render, @function
@@ -306,7 +306,7 @@ course_name_render:
     mov.l @r15+, r0
     rts
     nop
-.L_pool_060335D8:
+.L_sym_06033630:
     .4byte  sym_06033630
 .L_pool_060335DC:
     .4byte  0x00000020
@@ -318,18 +318,18 @@ course_name_render:
     .4byte  0x00000010
 .L_pool_060335EC:
     .4byte  0x00000018
-.L_pool_060335F0:
+.L_fpmul:
     .4byte  fpmul
 .L_060335F4:
     mov.l r0, @-r15
     mov.l   sym_06033874, r0
     mov.l @r0, r0
     shll2 r0
-    mov.l   .L_pool_06033624, r4
+    mov.l   .L_sym_0603363C, r4
     add r0, r4
     mov.l @r4, r4
     mov.l r4, @-r15
-    mov.l   .L_pool_06033628, r0
+    mov.l   .L_sin_lookup, r0
 
     .global disp_course_separator
     .type disp_course_separator, @function
@@ -340,7 +340,7 @@ disp_course_separator:
     lds.l @r15+, pr
     mov r0, r7
     mov.l @r15+, r4
-    mov.l   .L_pool_0603362C, r0
+    mov.l   .L_cos_lookup, r0
 
     .global course_desc_display
     .type course_desc_display, @function
@@ -353,11 +353,11 @@ course_desc_display:
     mov.l @r15+, r0
     rts
     nop
-.L_pool_06033624:
+.L_sym_0603363C:
     .4byte  sym_0603363C
-.L_pool_06033628:
+.L_sin_lookup:
     .4byte  sin_lookup
-.L_pool_0603362C:
+.L_cos_lookup:
     .4byte  cos_lookup
 
     .global sym_06033630
@@ -392,7 +392,7 @@ sym_0603363C:
     cmp/pl r0
     bt      .L_060336B4
     mov.l @r15+, r0
-    mov.l   .L_pool_060336BC, r6
+    mov.l   .L_sym_0603386C, r6
     mov.l @r6, r6
     mov.l @r6, r6
     add #-0x1, r6
@@ -449,7 +449,7 @@ course_stats_display:
     rts
     nop
     .2byte  0x0000
-.L_pool_060336BC:
+.L_sym_0603386C:
     .4byte  sym_0603386C
 .L_pool_060336C0:
     .4byte  0x00000224
@@ -457,15 +457,15 @@ course_stats_display:
     .4byte  0x00000268
 .L_060336C8:
     mov.l r0, @-r15
-    mov.l   .L_pool_06033890, r0
+    mov.l   .L_sym_06085FF4, r0
     mov.b @r0, r0
     cmp/pl r0
     bf      .L_060336EC
-    mov.l   .L_pool_06033888, r0
+    mov.l   .L_sym_06063D98, r0
     mov.w @r0, r0
     tst #0x10, r0
     bt      .L_060336EC
-    mov.l   .L_pool_0603388C, r0
+    mov.l   .L_sym_0605D240, r0
     mov.b @r0, r0
     cmp/pl r0
     bt      .L_060336EC
@@ -498,14 +498,14 @@ course_stats_display:
     mov.l @r1, r1
     shll2 r1
     shll2 r1
-    mov.l   .L_pool_060337D8, r0
+    mov.l   .L_sym_06033894, r0
     add r1, r0
     add #0x8, r0
     mov.l @r0+, r8
     mov.l @r0, r5
     mov.l r1, @-r15
     mov r13, r4
-    mov.l   .L_pool_060337DC, r1
+    mov.l   .L_fpdiv_setup, r1
 
     .global course_transition
     .type course_transition, @function
@@ -518,7 +518,7 @@ course_transition:
     exts.w r1, r13
     mov r14, r4
     mov r8, r5
-    mov.l   .L_pool_060337DC, r1
+    mov.l   .L_fpdiv_setup, r1
 
     .global course_selector_hl
     .type course_selector_hl, @function
@@ -539,7 +539,7 @@ course_selector_hl:
     neg r14, r14
     mov.l   .L_pool_060337E4, r4
 .L_06033756:
-    mov.l   .L_pool_060337D8, r0
+    mov.l   .L_sym_06033894, r0
     add r1, r0
     mov.w @r0+, r1
     mov.w @r0+, r2
@@ -561,7 +561,7 @@ course_selector_hl:
     shlr2 r12
     shlr2 r12
     shll r12
-    mov.l   .L_pool_060337EC, r1
+    mov.l   .L_sym_06033A8C, r1
     add r12, r1
     mov.b @r1+, r2
     add r11, r2
@@ -592,10 +592,10 @@ disp_course_icon:
     bsr     .L_06033520
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060337F0, r4
-    mov.l   .L_pool_060337F4, r5
+    mov.l   .L_sym_06062970_3, r4
+    mov.l   .L_sym_060785FC_3, r5
     mov.l @r5, r5
-    mov.l   .L_pool_060337F8, r0
+    mov.l   .L_sym_060280F8_2, r0
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -613,9 +613,9 @@ display_element_mgr:
     rts
     nop
     .2byte  0x0000
-.L_pool_060337D8:
+.L_sym_06033894:
     .4byte  sym_06033894
-.L_pool_060337DC:
+.L_fpdiv_setup:
     .4byte  fpdiv_setup
 .L_pool_060337E0:
     .4byte  0xFFFFC800
@@ -623,22 +623,22 @@ display_element_mgr:
     .4byte  0x00004800
 .L_pool_060337E8:
     .4byte  0x0000FFFF
-.L_pool_060337EC:
+.L_sym_06033A8C:
     .4byte  sym_06033A8C
-.L_pool_060337F0:
+.L_sym_06062970_3:
     .4byte  sym_06062970
-.L_pool_060337F4:
+.L_sym_060785FC_3:
     .4byte  sym_060785FC
-.L_pool_060337F8:
+.L_sym_060280F8_2:
     .4byte  sym_060280F8
 .L_060337FC:
     shll2 r0
-    mov.l   .L_pool_06033808, r1
+    mov.l   .L_sym_0603380C, r1
     add r1, r0
     mov.l @r0, r0
     jmp @r0
     nop
-.L_pool_06033808:
+.L_sym_0603380C:
     .4byte  sym_0603380C
 
     .global sym_0603380C
@@ -728,11 +728,11 @@ sym_06033880:
     .global sym_06033884
 sym_06033884:
     .4byte  sym_06078663
-.L_pool_06033888:
+.L_sym_06063D98:
     .4byte  sym_06063D98
-.L_pool_0603388C:
+.L_sym_0605D240:
     .4byte  sym_0605D240
-.L_pool_06033890:
+.L_sym_06085FF4:
     .4byte  sym_06085FF4
 
     .global sym_06033894

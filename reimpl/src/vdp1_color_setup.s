@@ -114,7 +114,7 @@ vdp1_color_setup:
     dmuls.l r5, r5
     sts mach, r0
     dmuls.l r4, r4
-    mov.l   .L_pool_0602C9EC, r13
+    mov.l   .L_sym_0602ECCC, r13
     sts mach, r1
     jsr @r13
     add r6, r0
@@ -190,7 +190,7 @@ DAT_0602c9e6:
 .L_wpool_0602C9E8:
     .2byte  0x011C
     .2byte  0x0000
-.L_pool_0602C9EC:
+.L_sym_0602ECCC:
     .4byte  sym_0602ECCC
 .L_0602C9F0:
     cmp/ge r5, r3

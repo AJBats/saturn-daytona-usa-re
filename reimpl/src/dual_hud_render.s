@@ -11,7 +11,7 @@
 dual_hud_render:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06011F08, r3
+    mov.l   .L_sym_060638B0, r3
     mov.l r3, @r15
     mov r3, r7
     mov.w   DAT_06011f00, r6
@@ -20,10 +20,10 @@ dual_hud_render:
     mov.w   DAT_06011efe, r3
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_pool_06011F0C, r3
+    mov.l   .L_sym_06028400, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_pool_06011F10, r2
+    mov.l   .L_sym_060638A0, r2
     mov.l r2, @r15
     mov r2, r7
     mov.l @(4, r7), r7
@@ -34,25 +34,25 @@ dual_hud_render:
     mov.l @r5, r5
     mov #0xC, r4
     add #0x4, r15
-    mov.l   .L_pool_06011F0C, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     lds.l @r15+, pr
 
     .global sym_06011EB4
 sym_06011EB4:
     add #-0x4, r15
-    mov.l   .L_pool_06011F14, r0
+    mov.l   .L_sym_06085FF4, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06011EC2
     bra     dual_hud_render
     add #0x4, r15
 .L_06011EC2:
-    mov.l   .L_pool_06011F18, r0
+    mov.l   .L_sym_0607EADC, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_06011EE4
-    mov.l   .L_pool_06011F08, r3
+    mov.l   .L_sym_060638B0, r3
     mov.l r3, @r15
     mov r3, r7
     mov.l @(4, r7), r7
@@ -62,11 +62,11 @@ sym_06011EB4:
     mov.l @r15, r5
     mov.l @r5, r5
     mov #0xC, r4
-    mov.l   .L_pool_06011F0C, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     add #0x4, r15
 .L_06011EE4:
-    mov.l   .L_pool_06011F10, r2
+    mov.l   .L_sym_060638A0, r2
     mov.l r2, @r15
     mov r2, r7
     mov.l @(4, r7), r7
@@ -76,7 +76,7 @@ sym_06011EB4:
     mov r2, r5
     mov.l @r5, r5
     mov #0xC, r4
-    mov.l   .L_pool_06011F0C, r3
+    mov.l   .L_sym_06028400, r3
     jmp @r3
     add #0x4, r15
 
@@ -94,15 +94,15 @@ DAT_06011f02:
 .L_wpool_06011F04:
     .2byte  0x0420
     .2byte  0xFFFF
-.L_pool_06011F08:
+.L_sym_060638B0:
     .4byte  sym_060638B0
-.L_pool_06011F0C:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_06011F10:
+.L_sym_060638A0:
     .4byte  sym_060638A0
-.L_pool_06011F14:
+.L_sym_06085FF4:
     .4byte  sym_06085FF4
-.L_pool_06011F18:
+.L_sym_0607EADC:
     .4byte  sym_0607EADC
 
     .global sym_06011F1C
@@ -204,7 +204,7 @@ throttle_input_proc:
     mov.l r3, @r15
     mov.l r2, @(4, r15)
     cmp/ge r2, r3
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     and r14, r0
     tst r0, r0
@@ -237,7 +237,7 @@ DAT_06011fd6:
     mov.l r2, @r15
     mov.l r3, @(4, r15)
     cmp/ge r3, r2
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     and r7, r0
     tst r0, r0
@@ -258,7 +258,7 @@ DAT_06011fd6:
     mov.l r2, @r15
     mov.l r3, @(4, r15)
     cmp/ge r3, r2
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     and r6, r0
     tst r0, r0

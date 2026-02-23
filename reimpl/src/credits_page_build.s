@@ -11,7 +11,7 @@
 credits_page_build:
     sts.l pr, @-r15
     add #-0x38, r15
-    mov.l   .L_pool_0603F380, r10
+    mov.l   .L_display_buffer_init, r10
     mov.l r4, @r15
     mov r15, r4
     bsr     .L_0603F3DA
@@ -32,7 +32,7 @@ credits_page_build:
     bf      .L_0603F384
     bra     .L_0603F3C0
     nop
-.L_pool_0603F380:
+.L_display_buffer_init:
     .4byte  display_buffer_init
 .L_0603F384:
     cmp/gt r12, r13
@@ -40,7 +40,7 @@ credits_page_build:
     mov #0xC, r6
     mov r15, r5
     mov r14, r4
-    mov.l   .L_pool_0603F430, r3
+    mov.l   .L_sym_06036D94, r3
     add #0x4, r5
     add #0x10, r5
     jsr @r3
@@ -84,7 +84,7 @@ credits_page_build:
     mov.l @r15+, r14
 .L_0603F3DA:
     mov.l r5, @r4
-    mov.l   .L_pool_0603F434, r3
+    mov.l   .L_sym_060A4D14, r3
     mov.w   .L_wpool_0603F42A, r2
     mov.l @r3, r3
     add r3, r2
@@ -124,7 +124,7 @@ menu_element_render:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_0603F438, r3
+    mov.l   .L_sym_06036D78, r3
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_0603F42A:
@@ -132,11 +132,11 @@ menu_element_render:
 .L_wpool_0603F42C:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_pool_0603F430:
+.L_sym_06036D94:
     .4byte  sym_06036D94
-.L_pool_0603F434:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_0603F438:
+.L_sym_06036D78:
     .4byte  sym_06036D78
 .L_0603F43C:
     mov.l @(8, r14), r4
@@ -150,7 +150,7 @@ menu_element_render:
     mov r11, r7
     mov.l @(4, r14), r6
     mov #0x1, r5
-    mov.l   .L_pool_0603F4C4, r3
+    mov.l   .L_cmd_multi_validate, r3
     jsr @r3
     mov.l @r14, r4
     mov #0x0, r2
@@ -169,7 +169,7 @@ menu_element_render:
 .L_0603F46C:
     mov r12, r6
     mov.l @(4, r14), r5
-    mov.l   .L_pool_0603F4C8, r3
+    mov.l   .L_sym_060360FC, r3
     add r9, r5
     jsr @r3
     mov r10, r4
@@ -181,13 +181,13 @@ menu_element_render:
     sub r12, r13
     mov r11, r7
     mov #0x1, r5
-    mov.l   .L_pool_0603F4C4, r3
+    mov.l   .L_cmd_multi_validate, r3
     mov.l @(4, r14), r6
     jsr @r3
     mov.l @r14, r4
     mov r13, r6
     mov r12, r4
-    mov.l   .L_pool_0603F4C8, r3
+    mov.l   .L_sym_060360FC, r3
     mov.l @(4, r14), r5
     jsr @r3
     add r10, r4
@@ -217,7 +217,7 @@ audio_frame_process:
     nop
 .L_wpool_0603F4C2:
     .2byte  0x0800
-.L_pool_0603F4C4:
+.L_cmd_multi_validate:
     .4byte  cmd_multi_validate
-.L_pool_0603F4C8:
+.L_sym_060360FC:
     .4byte  sym_060360FC

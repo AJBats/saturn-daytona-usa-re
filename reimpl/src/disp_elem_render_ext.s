@@ -16,7 +16,7 @@ disp_elem_render_ext:
     mov.l @(r0, r3), r1
     mov.l   .L_pool_0602D950, r0
     mov.l r12, @-r15
-    mov.l   .L_pool_0602D954, r12
+    mov.l   .L_sym_0602ECCC, r12
 
     .global vtx_transform_full
     .type vtx_transform_full, @function
@@ -38,7 +38,7 @@ vtx_transform_full:
     .2byte  0x024C
 .L_pool_0602D950:
     .4byte  0x0000000F
-.L_pool_0602D954:
+.L_sym_0602ECCC:
     .4byte  sym_0602ECCC
 .L_pool_0602D958:
     .4byte  0x00000300
@@ -53,7 +53,7 @@ vtx_transform_full:
     neg r4, r4
     mov.w   .L_wpool_0602D9D2, r1
     mov.w @(r0, r1), r2
-    mov.l   .L_pool_0602D9D4, r3
+    mov.l   .L_sym_0602E8B8, r3
     shll2 r2
     add r2, r3
     mov.l @r3, r5
@@ -75,12 +75,12 @@ vtx_transform_full:
     mov.l r7, @(60, r0)
     mov r4, r9
     mov r5, r1
-    mov.l   .L_pool_0602D9DC, r0
+    mov.l   .L_cos_lookup, r0
     jsr @r0
     nop
     mov r0, r8
     mov r9, r4
-    mov.l   .L_pool_0602D9E0, r0
+    mov.l   .L_sin_lookup, r0
     jsr @r0
     nop
     dmuls.l r0, r5
@@ -107,13 +107,13 @@ vtx_transform_full:
     .2byte  0x0248
 .L_wpool_0602D9D2:
     .2byte  0x0250
-.L_pool_0602D9D4:
+.L_sym_0602E8B8:
     .4byte  sym_0602E8B8
 .L_pool_0602D9D8:
     .4byte  0x00006AAA
-.L_pool_0602D9DC:
+.L_cos_lookup:
     .4byte  cos_lookup
-.L_pool_0602D9E0:
+.L_sin_lookup:
     .4byte  sin_lookup
 .L_pool_0602D9E4:
     .4byte  0x0000018C
@@ -123,16 +123,16 @@ vtx_transform_full:
 
     .global sym_0602D9F0
 sym_0602D9F0:
-    mov.l   .L_pool_0602DAB0, r0
+    mov.l   .L_sym_0607E944, r0
     mov.l @r0, r0
-    mov.l   .L_pool_0602DAB4, r3
+    mov.l   .L_sym_06063F28, r3
     mov.l @r3, r3
     add #-0x1, r3
     mov.l   .L_pool_0602DAB8, r4
     mov.l @(r0, r4), r4
     cmp/ge r3, r4
     bt      .L_0602DA8E
-    mov.l   .L_pool_0602DABC, r3
+    mov.l   .L_sym_0607EAD8, r3
     mov.l @r3, r3
     mov.l   .L_pool_0602DAC0, r4
     cmp/eq r4, r3
@@ -170,7 +170,7 @@ sym_0602D9F0:
     and r3, r5
     cmp/eq r5, r6
     bf      .L_0602DA8E
-    mov.l   .L_pool_0602DAD4, r0
+    mov.l   .L_sym_0607E940, r0
     mov.l @r0, r0
     mov.w   .L_wpool_0602DAA2, r1
     mov.l @(r0, r1), r4
@@ -189,7 +189,7 @@ sym_0602D9F0:
     mov.l   .L_pool_0602DAD8, r3
     tst r3, r2
     bf      .L_0602DAEC
-    mov.l   .L_pool_0602DADC, r1
+    mov.l   .L_sym_06083260, r1
     mov.b @r1, r1
     tst r1, r1
     bf      .L_0602DAEC
@@ -197,14 +197,14 @@ sym_0602D9F0:
     mov.l   .L_pool_0602DAE0, r3
     or r3, r2
     mov.l r2, @(0, r0)
-    mov.l   .L_pool_0602DAE4, r1
+    mov.l   .L_sym_0607EAC8, r1
     mov.w   .L_wpool_0602DAAA, r2
     mov.l r2, @r1
-    mov.l   .L_pool_0602DAE8, r1
+    mov.l   .L_sym_0605A1C4, r1
     mov.w   .L_wpool_0602DAAC, r2
     mov.l r2, @r1
 .L_0602DA8E:
-    mov.l   .L_pool_0602DADC, r1
+    mov.l   .L_sym_06083260, r1
     mov.l   .L_pool_0602DAD0, r2
     mov.b r2, @r1
     rts
@@ -232,13 +232,13 @@ sym_0602D9F0:
 .L_wpool_0602DAAC:
     .2byte  0x0001
     .2byte  0x0000
-.L_pool_0602DAB0:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_0602DAB4:
+.L_sym_06063F28:
     .4byte  sym_06063F28
 .L_pool_0602DAB8:
     .4byte  0x00000228
-.L_pool_0602DABC:
+.L_sym_0607EAD8:
     .4byte  sym_0607EAD8
 .L_pool_0602DAC0:
     .4byte  0x00000001
@@ -250,26 +250,26 @@ sym_0602D9F0:
     .4byte  0x000001BC
 .L_pool_0602DAD0:
     .4byte  0x00000000
-.L_pool_0602DAD4:
+.L_sym_0607E940:
     .4byte  sym_0607E940
 .L_pool_0602DAD8:
     .4byte  0x00000008
-.L_pool_0602DADC:
+.L_sym_06083260:
     .4byte  sym_06083260
 .L_pool_0602DAE0:
     .4byte  0x00020000
-.L_pool_0602DAE4:
+.L_sym_0607EAC8:
     .4byte  sym_0607EAC8
-.L_pool_0602DAE8:
+.L_sym_0605A1C4:
     .4byte  sym_0605A1C4
 .L_0602DAEC:
-    mov.l   .L_pool_0602DAF8, r1
+    mov.l   .L_sym_06083260_2, r1
     mov.l   .L_pool_0602DAFC, r2
     mov.b r2, @r1
     rts
     nop
     .2byte  0x0000
-.L_pool_0602DAF8:
+.L_sym_06083260_2:
     .4byte  sym_06083260
 .L_pool_0602DAFC:
     .4byte  0xFFFFFFFF

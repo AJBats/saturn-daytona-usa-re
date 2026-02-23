@@ -12,8 +12,8 @@ poly_table_lookup:
     sts.l pr, @-r15
     extu.b r12, r3
     sts.l macl, @-r15
-    mov.l   .L_pool_060177A8, r10
-    mov.l   .L_pool_060177AC, r11
+    mov.l   .L_sym_06028400, r10
+    mov.l   .L_sym_06085640, r11
     cmp/pl r3
     bf/s    .L_06017774
     mov #0x0, r14
@@ -57,7 +57,7 @@ geom_computation:
     mov.l r8, @-r15
     sts.l macl, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_060177AC, r8
+    mov.l   .L_sym_06085640, r8
     mov #0x0, r11
     mov.w @r4, r13
     mov.w @(2, r4), r0
@@ -67,9 +67,9 @@ geom_computation:
     bra     .L_060177F8
     extu.w r11, r12
     .2byte  0xFFFF
-.L_pool_060177A8:
+.L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_060177AC:
+.L_sym_06085640:
     .4byte  sym_06085640
 .L_060177B0:
     extu.b r7, r10

@@ -13,16 +13,16 @@ results_transition:
     add #-0x10, r15
     mov r15, r5
     mov r15, r1
-    mov.l   .L_pool_060166D4, r2
-    mov.l   .L_pool_060166D8, r3
+    mov.l   .L_sym_0605BAFA, r2
+    mov.l   .L_sym_06035228, r3
     jsr @r3
     mov #0x10, r0
-    mov.l   .L_pool_060166DC, r0
+    mov.l   .L_sym_06085F89, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06016672
     extu.b r14, r4
-    mov.l   .L_pool_060166E0, r2
+    mov.l   .L_sym_06084FC8, r2
     extu.b r14, r0
     mov r4, r3
     shll r0
@@ -54,7 +54,7 @@ results_best_laps:
     mov.l r12, @-r15
     add #-0x4, r15
     mov #0x6, r12
-    mov.l   .L_pool_060166E0, r13
+    mov.l   .L_sym_06084FC8, r13
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
@@ -95,20 +95,20 @@ results_best_laps:
     .byte   0xA6, 0x09    /* bra 0x060172E4 (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_060166D4:
+.L_sym_0605BAFA:
     .4byte  sym_0605BAFA
-.L_pool_060166D8:
+.L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_060166DC:
+.L_sym_06085F89:
     .4byte  sym_06085F89
-.L_pool_060166E0:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
 
     .global loc_060166E4
 loc_060166E4:
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_0601674C, r5
+    mov.l   .L_sym_06084FC8_2, r5
     mov.b @r15, r4
     extu.b r4, r4
     mov r4, r3
@@ -143,7 +143,7 @@ loc_060166E4:
 loc_06016724:
     mov #0x0, r6
     extu.b r4, r5
-    mov.l   .L_pool_0601674C, r2
+    mov.l   .L_sym_06084FC8_2, r2
     mov #0x40, r0
     mov r5, r3
     shll2 r5
@@ -161,5 +161,5 @@ loc_06016724:
     mov r3, r0
     rts
     mov.b r0, @(2, r5)
-.L_pool_0601674C:
+.L_sym_06084FC8_2:
     .4byte  sym_06084FC8

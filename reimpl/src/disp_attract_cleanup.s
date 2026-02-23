@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06033432
+    .space 2    /* align to match original address 0x06033432 (mod 4 = 2) */
 
 
     .global disp_attract_cleanup

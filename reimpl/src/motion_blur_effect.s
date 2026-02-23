@@ -12,12 +12,12 @@
 motion_blur_effect:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06028534, r0
+    mov.l   .L_sym_06028614, r0
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r5
     mov r7, r0
-    mov.l   .L_pool_06028538, r1
+    mov.l   .L_sym_06063690, r1
     add r1, r6
     mov.l @r6+, r1
     mov.w @r6+, r2
@@ -75,17 +75,17 @@ motion_blur_effect:
     rts
     mov.l @r15+, r8
     .2byte  0x0000
-.L_pool_06028534:
+.L_sym_06028614:
     .4byte  sym_06028614
-.L_pool_06028538:
+.L_sym_06063690:
     .4byte  sym_06063690
     .2byte  0x0009
 
     .global sym_0602853E
 sym_0602853E:
-    mov.l   .L_pool_06028558, r0
+    mov.l   .L_sym_06028644, r0
     mov.l @(r0, r4), r2
-    mov.l   .L_pool_0602855C, r0
+    mov.l   .L_sym_0602862C, r0
     mov.l @(r0, r4), r0
     mov.l @r0, r0
     mov.w   .L_wpool_06028556, r1
@@ -98,14 +98,14 @@ sym_0602853E:
     nop
 .L_wpool_06028556:
     .2byte  0x0800
-.L_pool_06028558:
+.L_sym_06028644:
     .4byte  sym_06028644
-.L_pool_0602855C:
+.L_sym_0602862C:
     .4byte  sym_0602862C
 
     .global sym_06028560
 sym_06028560:
-    mov.l   .L_pool_06028574, r0
+    mov.l   .L_sym_060612C4, r0
     mov.w   .L_wpool_06028572, r1
     mov.l   .L_pool_06028578, r2
 .L_06028566:
@@ -117,7 +117,7 @@ sym_06028560:
     nop
 .L_wpool_06028572:
     .2byte  0x0380
-.L_pool_06028574:
+.L_sym_060612C4:
     .4byte  sym_060612C4
 .L_pool_06028578:
     .4byte  0x00200020

@@ -17,57 +17,57 @@ camera_orient_calc:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06005460, r3
+    mov.l   .L_sym_06026E0C, r3
     jsr @r3
     mov r6, r12
-    mov.l   .L_pool_06005464, r4
+    mov.l   .L_sym_06089EDC, r4
     mov.l @r4, r4
     mov.l r12, @(44, r4)
-    mov.l   .L_pool_06005468, r0
+    mov.l   .L_sym_06078663, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060053DA
     mov.l   .L_pool_0600546C, r6
     mov.l   .L_pool_06005470, r4
-    mov.l   .L_pool_06005474, r3
+    mov.l   .L_mat_scale_columns, r3
     jsr @r3
     mov r6, r5
 .L_060053DA:
     mov.l @r13, r4
-    mov.l   .L_pool_06005478, r3
+    mov.l   .L_transform_matrix, r3
     jsr @r3
     neg r4, r4
     mov.l @(8, r13), r4
-    mov.l   .L_pool_0600547C, r3
+    mov.l   .L_mat_rot_z, r3
     jsr @r3
     neg r4, r4
     mov.l @(4, r13), r4
-    mov.l   .L_pool_06005480, r3
+    mov.l   .L_mat_rot_y, r3
     jsr @r3
     neg r4, r4
     mov.l @(8, r14), r6
     mov.l @(4, r14), r5
     mov.l @r14, r4
-    mov.l   .L_pool_06005484, r3
+    mov.l   .L_sym_06026E2E, r3
     neg r6, r6
     neg r5, r5
     jsr @r3
     neg r4, r4
     mov r15, r6
     mov r15, r5
-    mov.l   .L_pool_06005488, r3
+    mov.l   .L_sincos_pair, r3
     add #0xC, r5
     jsr @r3
     mov.l @r13, r4
     mov r15, r6
     mov r15, r5
-    mov.l   .L_pool_06005488, r3
+    mov.l   .L_sincos_pair, r3
     add #0x8, r6
     add #0x4, r5
     jsr @r3
     mov.l @(4, r13), r4
-    mov.l   .L_pool_0600548C, r11
-    mov.l   .L_pool_06005490, r13
+    mov.l   .L_sym_06063DF8, r11
+    mov.l   .L_fpmul, r13
     mov.l @(4, r15), r5
     jsr @r13
     mov.l @r15, r4
@@ -100,31 +100,31 @@ camera_orient_calc:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06005460:
+.L_sym_06026E0C:
     .4byte  sym_06026E0C
-.L_pool_06005464:
+.L_sym_06089EDC:
     .4byte  sym_06089EDC
-.L_pool_06005468:
+.L_sym_06078663:
     .4byte  sym_06078663
 .L_pool_0600546C:
     .4byte  0x00010000
 .L_pool_06005470:
     .4byte  0xFFFF0000
-.L_pool_06005474:
+.L_mat_scale_columns:
     .4byte  mat_scale_columns
-.L_pool_06005478:
+.L_transform_matrix:
     .4byte  transform_matrix
-.L_pool_0600547C:
+.L_mat_rot_z:
     .4byte  mat_rot_z
-.L_pool_06005480:
+.L_mat_rot_y:
     .4byte  mat_rot_y
-.L_pool_06005484:
+.L_sym_06026E2E:
     .4byte  sym_06026E2E
-.L_pool_06005488:
+.L_sincos_pair:
     .4byte  sincos_pair
-.L_pool_0600548C:
+.L_sym_06063DF8:
     .4byte  sym_06063DF8
-.L_pool_06005490:
+.L_fpmul:
     .4byte  fpmul
     .4byte  0x00000000
     .4byte  0x00000000
@@ -246,9 +246,9 @@ perspective_project:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x34, r15
-    mov.l   .L_pool_06005698, r9
-    mov.l   .L_pool_0600569C, r10
-    mov.l   .L_pool_060056A0, r13
+    mov.l   .L_sym_06063EEC, r9
+    mov.l   .L_sym_06063E08, r10
+    mov.l   .L_sym_06063E04, r13
     mov.w @r10, r3
     mov.l @r13, r13
     extu.w r3, r3
@@ -263,7 +263,7 @@ perspective_project:
     mov.l @(4, r14), r14
 .L_060055EC:
     mov r14, r13
-    mov.l   .L_pool_060056A0, r3
+    mov.l   .L_sym_06063E04, r3
     mov.l r13, @r3
     mov.w @r13, r2
     tst r2, r2
@@ -277,7 +277,7 @@ perspective_project:
     mov.l r3, @r15
     sub r3, r5
     mov.w @r10, r4
-    mov.l   .L_pool_060056A4, r2
+    mov.l   .L_fpdiv_setup, r2
     shll16 r5
     extu.w r4, r4
     sub r3, r4
@@ -290,7 +290,7 @@ perspective_project:
     add #0x2, r4
     mov r15, r5
     mov r13, r4
-    mov.l   .L_pool_060056A8, r8
+    mov.l   .L_mat_vec_transform, r8
     add #0x28, r5
     jsr @r8
     add #0x8, r4
@@ -305,7 +305,7 @@ perspective_project:
     jsr @r8
     add #0x8, r4
     mov r12, r5
-    mov.l   .L_pool_060056AC, r11
+    mov.l   .L_fpmul_2, r11
     mov.l @(40, r15), r2
     mov.l r2, @r15
     mov r2, r3
@@ -349,17 +349,17 @@ perspective_project:
     bra     .L_060056B0
     add #0x3, r4
     .2byte  0xFFFF
-.L_pool_06005698:
+.L_sym_06063EEC:
     .4byte  sym_06063EEC
-.L_pool_0600569C:
+.L_sym_06063E08:
     .4byte  sym_06063E08
-.L_pool_060056A0:
+.L_sym_06063E04:
     .4byte  sym_06063E04
-.L_pool_060056A4:
+.L_fpdiv_setup:
     .4byte  fpdiv_setup
-.L_pool_060056A8:
+.L_mat_vec_transform:
     .4byte  mat_vec_transform
-.L_pool_060056AC:
+.L_fpmul_2:
     .4byte  fpmul
 .L_060056B0:
     bsr     .L_0600553C
@@ -400,16 +400,16 @@ perspective_project:
     mov.w @r10, r3
     add #0x1, r3
     mov.w r3, @r10
-    mov.l   .L_pool_06005764, r3
+    mov.l   .L_sym_06026E0C_2, r3
     jsr @r3
     nop
     mov r15, r5
     mov r15, r4
-    mov.l   .L_pool_06005768, r6
+    mov.l   .L_sym_06063EEC_2, r6
     add #0x4, r5
     .byte   0xBD, 0xC3    /* bsr 0x06005294 (external) */
     add #0x10, r4
-    mov.l   .L_pool_0600576C, r0
+    mov.l   .L_sym_06078663_2, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06005724
@@ -428,7 +428,7 @@ perspective_project:
     mov.l   .L_pool_06005774, r3
     add r3, r14
 .L_06005730:
-    mov.l   .L_pool_06005778, r3
+    mov.l   .L_sym_0603850C, r3
     jsr @r3
     mov #0x4, r4
     mov #0x0, r6
@@ -438,10 +438,10 @@ perspective_project:
     shll r5
     neg r5, r5
     add r3, r5
-    mov.l   .L_pool_06005780, r3
+    mov.l   .L_scene_data_write_abs, r3
     jsr @r3
     mov r14, r4
-    mov.l   .L_pool_06005784, r3
+    mov.l   .L_sym_06038520, r3
     jsr @r3
     nop
     add #0x34, r15
@@ -454,21 +454,21 @@ perspective_project:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06005764:
+.L_sym_06026E0C_2:
     .4byte  sym_06026E0C
-.L_pool_06005768:
+.L_sym_06063EEC_2:
     .4byte  sym_06063EEC
-.L_pool_0600576C:
+.L_sym_06078663_2:
     .4byte  sym_06078663
 .L_pool_06005770:
     .4byte  0x01A00000
 .L_pool_06005774:
     .4byte  0xFFA00000
-.L_pool_06005778:
+.L_sym_0603850C:
     .4byte  sym_0603850C
 .L_pool_0600577C:
     .4byte  0x003A0000
-.L_pool_06005780:
+.L_scene_data_write_abs:
     .4byte  scene_data_write_abs
-.L_pool_06005784:
+.L_sym_06038520:
     .4byte  sym_06038520

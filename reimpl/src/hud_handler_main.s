@@ -23,12 +23,12 @@ hud_handler_main:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_0601E904, r8
-    mov.l   .L_pool_0601E908, r10
+    mov.l   .L_sym_0605E06C, r8
+    mov.l   .L_sym_060877D8, r10
     mov.l   .L_pool_0601E90C, r13
     mov.w r0, @(4, r15)
     mov.l r6, @r15
-    mov.l   .L_pool_0601E910, r3
+    mov.l   .L_sym_06035C1C, r3
     jsr @r3
     mov r9, r4
     cmp/gt r11, r0
@@ -38,7 +38,7 @@ hud_handler_main:
     mov.b r0, @(11, r9)
 .L_0601E846:
     mov.b @r10, r4
-    mov.l   .L_pool_0601E910, r3
+    mov.l   .L_sym_06035C1C, r3
     extu.b r4, r4
     mul.l r11, r4
     sts macl, r4
@@ -56,16 +56,16 @@ hud_handler_main:
     mov r3, r0
     mov.b r0, @(10, r2)
 .L_0601E86A:
-    mov.l   .L_pool_0601E914, r4
+    mov.l   .L_sym_060877E8, r4
     .byte   0xB6, 0x22    /* bsr 0x0601F4B4 (external) */
     nop
-    mov.l   .L_pool_0601E918, r12
+    mov.l   .L_sym_060877B4, r12
     mov r9, r5
-    mov.l   .L_pool_0601E91C, r3
+    mov.l   .L_smpc_cmd_helper_a, r3
     jsr @r3
     mov r12, r4
     mov r12, r4
-    mov.l   .L_pool_0601E91C, r3
+    mov.l   .L_smpc_cmd_helper_a, r3
     mov.b @r10, r5
     extu.b r5, r5
     mul.l r11, r5
@@ -76,8 +76,8 @@ hud_handler_main:
     mov #0x0, r2
     mov #0x17, r0
     mov.b r2, @(r0, r12)
-    mov.l   .L_pool_0601E920, r3
-    mov.l   .L_pool_0601E914, r4
+    mov.l   .L_sym_06000354, r3
+    mov.l   .L_sym_060877E8, r4
     mov.l @r3, r3
     mov.l @(40, r3), r2
     jsr @r2
@@ -86,7 +86,7 @@ hud_handler_main:
     mov.b @r10, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_0601E924, r2
+    mov.l   .L_sym_0604A5C0, r2
     add r2, r3
     mov.l @r3, r1
     mov.l r1, @(28, r12)
@@ -109,14 +109,14 @@ hud_handler_main:
     bf      .L_0601E8C2
     mov #0x0, r7
     mov.l @r15, r6
-    mov.l   .L_pool_0601E920, r3
-    mov.l   .L_pool_0601E918, r5
+    mov.l   .L_sym_06000354, r3
+    mov.l   .L_sym_060877B4, r5
     mov.w @(4, r15), r0
     mov.l @r3, r3
     mov r0, r4
     mov.l @(16, r3), r2
     extu.w r4, r4
-    mov.l   .L_pool_0601E92C, r3
+    mov.l   .L_sym_06087094, r3
     shll2 r4
     shll2 r4
     shll r4
@@ -136,27 +136,27 @@ hud_handler_main:
     mov.b r2, @r13
     bra     .L_0601E930
     nop
-.L_pool_0601E904:
+.L_sym_0605E06C:
     .4byte  sym_0605E06C
-.L_pool_0601E908:
+.L_sym_060877D8:
     .4byte  sym_060877D8
 .L_pool_0601E90C:
     .4byte  0x20100063
-.L_pool_0601E910:
+.L_sym_06035C1C:
     .4byte  sym_06035C1C
-.L_pool_0601E914:
+.L_sym_060877E8:
     .4byte  sym_060877E8
-.L_pool_0601E918:
+.L_sym_060877B4:
     .4byte  sym_060877B4
-.L_pool_0601E91C:
+.L_smpc_cmd_helper_a:
     .4byte  smpc_cmd_helper_a
-.L_pool_0601E920:
+.L_sym_06000354:
     .4byte  sym_06000354
-.L_pool_0601E924:
+.L_sym_0604A5C0:
     .4byte  sym_0604A5C0
 .L_pool_0601E928:
     .4byte  0x2010001F
-.L_pool_0601E92C:
+.L_sym_06087094:
     .4byte  sym_06087094
 .L_0601E930:
     mov #0x19, r3
@@ -194,10 +194,10 @@ geom_vertex_process:
     mov #0x10, r10
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601E9F4, r9
-    mov.l   .L_pool_0601E9F8, r12
-    mov.l   .L_pool_0601E9FC, r13
-    mov.l   .L_pool_0601EA00, r0
+    mov.l   .L_sym_0605E098, r9
+    mov.l   .L_sym_0601F8BC, r12
+    mov.l   .L_sym_0605E05C, r13
+    mov.l   .L_sym_0605E05D, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_0601E980
@@ -207,8 +207,8 @@ geom_vertex_process:
 .L_0601E980:
     .byte   0xBC, 0x98    /* bsr 0x0601E2B4 (external) */
     nop
-    mov.l   .L_pool_0601EA04, r14
-    mov.l   .L_pool_0601EA08, r2
+    mov.l   .L_sym_060877D8_2, r14
+    mov.l   .L_sym_0604A57C, r2
     mov.b @r14, r4
     extu.b r4, r4
     mov r4, r3
@@ -225,7 +225,7 @@ geom_vertex_process:
     .byte   0xB0, 0xE5    /* bsr 0x0601EB70 (external) */
     nop
     mov.b @r14, r2
-    mov.l   .L_pool_0601EA0C, r3
+    mov.l   .L_sym_060877DD, r3
     extu.b r2, r2
     add r3, r2
     mov.b r8, @r2
@@ -237,7 +237,7 @@ geom_vertex_process:
 .L_0601E9BA:
     mov #0x1, r1
     mov.b @r14, r2
-    mov.l   .L_pool_0601EA0C, r3
+    mov.l   .L_sym_060877DD, r3
     extu.b r2, r2
     add r3, r2
     mov.b r1, @r2
@@ -246,7 +246,7 @@ geom_vertex_process:
     bf      .L_0601EA14
     add #-0x3, r4
     mov.b @r14, r3
-    mov.l   .L_pool_0601EA10, r2
+    mov.l   .L_sym_060877D9, r2
     extu.b r4, r4
     extu.b r3, r3
     add r2, r3
@@ -264,31 +264,31 @@ geom_vertex_process:
     mov.l @r15+, r14
 .L_pool_0601E9F0:
     .4byte  0x2010001F
-.L_pool_0601E9F4:
+.L_sym_0605E098:
     .4byte  sym_0605E098
-.L_pool_0601E9F8:
+.L_sym_0601F8BC:
     .4byte  sym_0601F8BC
-.L_pool_0601E9FC:
+.L_sym_0605E05C:
     .4byte  sym_0605E05C
-.L_pool_0601EA00:
+.L_sym_0605E05D:
     .4byte  sym_0605E05D
-.L_pool_0601EA04:
+.L_sym_060877D8_2:
     .4byte  sym_060877D8
-.L_pool_0601EA08:
+.L_sym_0604A57C:
     .4byte  sym_0604A57C
-.L_pool_0601EA0C:
+.L_sym_060877DD:
     .4byte  sym_060877DD
-.L_pool_0601EA10:
+.L_sym_060877D9:
     .4byte  sym_060877D9
 .L_0601EA14:
     mov.b @r14, r2
-    mov.l   .L_pool_0601EAD4, r3
+    mov.l   .L_sym_060877D9_2, r3
     extu.b r2, r2
     add r3, r2
     mov.b r4, @r2
     mov.l @r9, r6
     mov.b @r14, r5
-    mov.l   .L_pool_0601EAD8, r2
+    mov.l   .L_sym_0604A57C_2, r2
     mov.b @r14, r4
     extu.b r5, r5
     extu.b r4, r4
@@ -298,7 +298,7 @@ geom_vertex_process:
     shll r3
     add r3, r5
     add r2, r5
-    mov.l   .L_pool_0601EAD4, r3
+    mov.l   .L_sym_060877D9_2, r3
     add r3, r4
     mov.b @r4, r4
     .byte   0xBE, 0x92    /* bsr 0x0601E764 (external) */
@@ -311,7 +311,7 @@ geom_vertex_process:
     bra     .L_0601EA8E
     nop
 .L_0601EA4E:
-    mov.l   .L_pool_0601EADC, r2
+    mov.l   .L_sym_06087080, r2
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
@@ -321,7 +321,7 @@ geom_vertex_process:
     mov.l @r9, r3
     add r4, r3
     mov.b @r3, r2
-    mov.l   .L_pool_0601EAE0, r3
+    mov.l   .L_sym_0604A5AC, r3
     extu.b r2, r2
     add r4, r3
     mov.b @r3, r1
@@ -363,8 +363,8 @@ geom_coord_calc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov #0x0, r13
-    mov.l   .L_pool_0601EAE4, r14
-    mov.l   .L_pool_0601EAD8, r2
+    mov.l   .L_sym_060877D8_3, r14
+    mov.l   .L_sym_0604A57C_2, r2
     mov.b @r14, r4
     extu.b r4, r4
     mov r4, r3
@@ -375,7 +375,7 @@ geom_coord_calc:
     .byte   0xBD, 0x0B    /* bsr 0x0601E4D4 (external) */
     add r2, r4
     extu.b r0, r4
-    mov.l   .L_pool_0601EAE8, r6
+    mov.l   .L_sym_060877DD_2, r6
     mov #0x7, r2
     cmp/ge r2, r4
     bf      .L_0601EAEC
@@ -385,17 +385,17 @@ geom_coord_calc:
     mov.b r3, @(r0, r6)
     bra     .L_0601EB12
     nop
-.L_pool_0601EAD4:
+.L_sym_060877D9_2:
     .4byte  sym_060877D9
-.L_pool_0601EAD8:
+.L_sym_0604A57C_2:
     .4byte  sym_0604A57C
-.L_pool_0601EADC:
+.L_sym_06087080:
     .4byte  sym_06087080
-.L_pool_0601EAE0:
+.L_sym_0604A5AC:
     .4byte  sym_0604A5AC
-.L_pool_0601EAE4:
+.L_sym_060877D8_3:
     .4byte  sym_060877D8
-.L_pool_0601EAE8:
+.L_sym_060877DD_2:
     .4byte  sym_060877DD
 .L_0601EAEC:
     mov #0x1, r5
@@ -403,7 +403,7 @@ geom_coord_calc:
     mov.b @r14, r0
     extu.b r0, r0
     mov.b r5, @(r0, r6)
-    mov.l   .L_pool_0601EB5C, r6
+    mov.l   .L_sym_060877D9_3, r6
     cmp/ge r2, r4
     bf      .L_0601EB08
     mov.b @r14, r0
@@ -430,8 +430,8 @@ geom_coord_calc:
 geom_rotation_apply:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601EB60, r14
-    mov.l   .L_pool_0601EB64, r2
+    mov.l   .L_sym_060877D8_4, r14
+    mov.l   .L_sym_060877DD_3, r2
     mov.b @r14, r3
     extu.b r3, r3
     add r2, r3
@@ -439,9 +439,9 @@ geom_rotation_apply:
     extu.b r0, r0
     tst r0, r0
     bt      .L_0601EB56
-    mov.l   .L_pool_0601EB68, r6
+    mov.l   .L_sym_0605E098_2, r6
     mov.b @r14, r5
-    mov.l   .L_pool_0601EB6C, r2
+    mov.l   .L_sym_0604A57C_3, r2
     mov.b @r14, r4
     mov.l @r6, r6
     extu.b r5, r5
@@ -452,7 +452,7 @@ geom_rotation_apply:
     shll r3
     add r3, r5
     add r2, r5
-    mov.l   .L_pool_0601EB5C, r3
+    mov.l   .L_sym_060877D9_3, r3
     add r3, r4
     mov.b @r4, r4
     bsr     hud_handler_main
@@ -461,13 +461,13 @@ geom_rotation_apply:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_pool_0601EB5C:
+.L_sym_060877D9_3:
     .4byte  sym_060877D9
-.L_pool_0601EB60:
+.L_sym_060877D8_4:
     .4byte  sym_060877D8
-.L_pool_0601EB64:
+.L_sym_060877DD_3:
     .4byte  sym_060877DD
-.L_pool_0601EB68:
+.L_sym_0605E098_2:
     .4byte  sym_0605E098
-.L_pool_0601EB6C:
+.L_sym_0604A57C_3:
     .4byte  sym_0604A57C

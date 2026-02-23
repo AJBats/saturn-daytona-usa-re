@@ -15,7 +15,7 @@ menu_bg_color:
     mov.l r4, @r15
     mov.l r5, @(12, r3)
     mov.l @r15, r4
-    mov.l   .L_pool_0603B628, r3
+    mov.l   .L_attract_timer_tick, r3
     jsr @r3
     mov.l @(8, r4), r4
     mov.l r0, @r15
@@ -40,7 +40,7 @@ menu_border_render:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    mov.l   .L_pool_0603B62C, r3
+    mov.l   .L_sym_0603F9FA, r3
     jsr @r3
     mov.l @(8, r4), r4
     mov.l r0, @r15
@@ -51,7 +51,7 @@ menu_border_render:
     lds.l @r15+, pr
     rts
     nop
-.L_pool_0603B628:
+.L_attract_timer_tick:
     .4byte  attract_timer_tick
-.L_pool_0603B62C:
+.L_sym_0603F9FA:
     .4byte  sym_0603F9FA

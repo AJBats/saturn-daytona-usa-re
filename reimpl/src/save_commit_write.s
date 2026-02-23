@@ -32,7 +32,7 @@ save_commit_write:
     mov.l @(24, r4), r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_pool_0603BF70, r3
+    mov.l   .L_watchdog_timer_reset, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0x7F04
@@ -47,7 +47,7 @@ save_commit_write:
     .global DAT_0603bf6e
 DAT_0603bf6e:
     .2byte  0x00EC
-.L_pool_0603BF70:
+.L_watchdog_timer_reset:
     .4byte  watchdog_timer_reset
     .4byte  0xE400000B
     .4byte  0x60430000

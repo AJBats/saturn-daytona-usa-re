@@ -13,8 +13,8 @@ course_table_lookup:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06012B40, r12
-    mov.l   .L_pool_06012B44, r13
+    mov.l   .L_sym_0605ACDD, r12
+    mov.l   .L_sym_060283E0, r13
     mov.l   .L_pool_06012B48, r14
     mov.w   .L_wpool_06012B36, r5
     mov r12, r7
@@ -43,11 +43,11 @@ car_param_lookup:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06012B4C, r14
+    mov.l   .L_sym_060788FC, r14
     mov.l @r14, r0
     tst #0x4, r0
     bt      .L_06012B24
-    mov.l   .L_pool_06012B50, r3
+    mov.l   .L_sym_06063800, r3
     mov.l r3, @r15
     mov r3, r7
     mov.w   .L_wpool_06012B36, r6
@@ -56,7 +56,7 @@ car_param_lookup:
     mov.w   .L_wpool_06012B3C, r3
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_pool_06012B54, r3
+    mov.l   .L_sym_06028400, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_06012B28
@@ -81,15 +81,15 @@ car_param_lookup:
 .L_wpool_06012B3C:
     .2byte  0x4000
     .2byte  0xFFFF
-.L_pool_06012B40:
+.L_sym_0605ACDD:
     .4byte  sym_0605ACDD
-.L_pool_06012B44:
+.L_sym_060283E0:
     .4byte  sym_060283E0
 .L_pool_06012B48:
     .4byte  0x0000F000
-.L_pool_06012B4C:
+.L_sym_060788FC:
     .4byte  sym_060788FC
-.L_pool_06012B50:
+.L_sym_06063800:
     .4byte  sym_06063800
-.L_pool_06012B54:
+.L_sym_06028400:
     .4byte  sym_06028400

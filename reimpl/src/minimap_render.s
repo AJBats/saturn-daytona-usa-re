@@ -20,16 +20,16 @@ minimap_render:
     mov.l   .L_pool_06015668, r8
     mov #0x4, r9
     mov.l   .L_pool_0601566C, r10
-    mov.l   .L_pool_06015670, r11
-    mov.l   .L_pool_06015674, r13
+    mov.l   .L_fpmul, r11
+    mov.l   .L_sym_06084FC8, r13
     mov #0x0, r14
 .L_060155C0:
     extu.b r14, r4
     mov r4, r0
     cmp/eq #0x3, r0
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     tst r4, r4
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     or r1, r0
     tst r0, r0
     bt      .L_06015614
@@ -114,9 +114,9 @@ minimap_render:
     .4byte  0x0000DDB2
 .L_pool_0601566C:
     .4byte  0x00008000
-.L_pool_06015670:
+.L_fpmul:
     .4byte  fpmul
-.L_pool_06015674:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
 
     .global loc_06015678
@@ -132,13 +132,13 @@ loc_06015678:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_06015730, r1
+    mov.l   .L_sym_06084FC8_2, r1
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_06015734, r2
+    mov.l   .L_sym_0605B858, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
@@ -153,12 +153,12 @@ minimap_car_dot:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r1
-    mov.l   .L_pool_06015738, r2
-    mov.l   .L_pool_0601573C, r3
+    mov.l   .L_sym_0605B8A0, r2
+    mov.l   .L_sym_06035228, r3
     jsr @r3
     mov #0x4, r0
     extu.b r13, r14
-    mov.l   .L_pool_06015730, r2
+    mov.l   .L_sym_06084FC8_2, r2
     extu.b r13, r4
     mov r14, r3
     shll2 r4
@@ -169,7 +169,7 @@ minimap_car_dot:
     shll2 r3
     add r3, r14
     exts.w r14, r14
-    mov.l   .L_pool_06015740, r3
+    mov.l   .L_sym_0605B860, r3
     add r2, r14
     add r3, r4
     mov.l @r4, r2
@@ -180,11 +180,11 @@ minimap_car_dot:
     mov.l r2, @(12, r14)
     mov.l @(12, r4), r3
     mov.l r3, @(52, r14)
-    mov.l   .L_pool_06015744, r3
+    mov.l   .L_track_vtx_builder, r3
     jsr @r3
     extu.b r13, r4
     extu.b r13, r4
-    mov.l   .L_pool_06015748, r2
+    mov.l   .L_sym_06085490, r2
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -216,19 +216,19 @@ minimap_car_dot:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06015730:
+.L_sym_06084FC8_2:
     .4byte  sym_06084FC8
-.L_pool_06015734:
+.L_sym_0605B858:
     .4byte  sym_0605B858
-.L_pool_06015738:
+.L_sym_0605B8A0:
     .4byte  sym_0605B8A0
-.L_pool_0601573C:
+.L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_06015740:
+.L_sym_0605B860:
     .4byte  sym_0605B860
-.L_pool_06015744:
+.L_track_vtx_builder:
     .4byte  track_vtx_builder
-.L_pool_06015748:
+.L_sym_06085490:
     .4byte  sym_06085490
     .4byte  0x00000000
     .4byte  0x00000000
@@ -238,7 +238,7 @@ minimap_car_dot:
 minimap_full_update:
     sts.l pr, @-r15
     mov r4, r3
-    mov.l   .L_pool_060157C8, r13
+    mov.l   .L_sym_06084FC8_3, r13
     shll2 r4
     shll2 r3
     shll2 r3
@@ -261,11 +261,11 @@ minimap_full_update:
     extu.b r14, r4
     mov r4, r0
     cmp/eq #0x1, r0
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     mov r0, r3
     mov r4, r0
     cmp/eq #0x3, r0
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     or r1, r3
     tst r3, r3
     bt      .L_060157CC
@@ -294,7 +294,7 @@ minimap_full_update:
     mov.l @(52, r4), r2
     bra     .L_060157FC
     mov.l r2, @(4, r4)
-.L_pool_060157C8:
+.L_sym_06084FC8_3:
     .4byte  sym_06084FC8
 .L_060157CC:
     extu.b r14, r4
@@ -370,7 +370,7 @@ minimap_full_update:
     add r13, r3
     mov.l r4, @(12, r3)
 .L_06015858:
-    mov.l   .L_pool_060158AC, r3
+    mov.l   .L_track_vtx_builder_2, r3
     jsr @r3
     extu.b r14, r4
     extu.b r14, r4
@@ -416,7 +416,7 @@ loc_060158A4:
     nop
 .L_pool_060158A8:
     .4byte  0x00010000
-.L_pool_060158AC:
+.L_track_vtx_builder_2:
     .4byte  track_vtx_builder
 
     .global loc_060158B0
@@ -432,13 +432,13 @@ loc_060158B0:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_06015934, r1
+    mov.l   .L_sym_06084FC8_4, r1
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_06015938, r2
+    mov.l   .L_sym_0605B8A4, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
@@ -451,20 +451,20 @@ lap_counter_update:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_0601593C, r0
+    mov.l   .L_sym_0607EAE0, r0
     mov.l @r0, r0
     tst r0, r0
     bt/s    .L_060158F8
     mov #0x1, r4
     exts.w r4, r4
-    mov.l   .L_pool_06015940, r3
+    mov.l   .L_sym_06085F94, r3
     mov.w r4, @r3
     bra     .L_06015926
     nop
 .L_060158F8:
     mov.b @r15, r2
     extu.b r4, r0
-    mov.l   .L_pool_06015934, r1
+    mov.l   .L_sym_06084FC8_4, r1
     extu.b r2, r2
     mov r2, r3
     shll2 r2
@@ -475,10 +475,10 @@ lap_counter_update:
     exts.w r2, r2
     add r1, r2
     mov.b r0, @(1, r2)
-    mov.l   .L_pool_06015944, r5
+    mov.l   .L_sym_06078900, r5
     mov.w   .L_wpool_06015932, r0
-    mov.l   .L_pool_06015948, r3
-    mov.l   .L_pool_0601594C, r2
+    mov.l   .L_sym_06044BD8, r3
+    mov.l   .L_sound_cmd_dispatch, r2
     mov.l @(r0, r5), r5
     shll2 r5
     add r3, r5
@@ -489,26 +489,26 @@ lap_counter_update:
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
-    mov.l   .L_pool_06015950, r3
+    mov.l   .L_sym_060172E4, r3
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_06015932:
     .2byte  0x0224
-.L_pool_06015934:
+.L_sym_06084FC8_4:
     .4byte  sym_06084FC8
-.L_pool_06015938:
+.L_sym_0605B8A4:
     .4byte  sym_0605B8A4
-.L_pool_0601593C:
+.L_sym_0607EAE0:
     .4byte  sym_0607EAE0
-.L_pool_06015940:
+.L_sym_06085F94:
     .4byte  sym_06085F94
-.L_pool_06015944:
+.L_sym_06078900:
     .4byte  sym_06078900
-.L_pool_06015948:
+.L_sym_06044BD8:
     .4byte  sym_06044BD8
-.L_pool_0601594C:
+.L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
-.L_pool_06015950:
+.L_sym_060172E4:
     .4byte  sym_060172E4
     .4byte  0x00000000
     .4byte  0x00000000
@@ -735,7 +735,7 @@ time_digit_update:
     add #-0x4, r15
     mov.w   .L_wpool_06015D24, r11
     mov #0x8, r12
-    mov.l   .L_pool_06015D28, r13
+    mov.l   .L_sym_06084FC8_5, r13
     mov #0x0, r14
     mov.b r4, @r15
     extu.b r14, r6
@@ -781,7 +781,7 @@ time_digit_update:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_06015D2C, r3
+    mov.l   .L_sym_060172E4_2, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06015D18:
@@ -794,7 +794,7 @@ time_digit_update:
 .L_wpool_06015D24:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_pool_06015D28:
+.L_sym_06084FC8_5:
     .4byte  sym_06084FC8
-.L_pool_06015D2C:
+.L_sym_060172E4_2:
     .4byte  sym_060172E4

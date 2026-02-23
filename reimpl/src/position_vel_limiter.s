@@ -9,7 +9,7 @@
     .global position_vel_limiter
     .type position_vel_limiter, @function
 position_vel_limiter:
-    mov.l   .L_pool_06012334, r4
+    mov.l   .L_sym_060788B4, r4
     mov.w   .L_wpool_06012326, r3
     mov.l @(4, r4), r2
     sub r3, r2
@@ -30,7 +30,7 @@ position_vel_limiter:
     bt      .L_0601231A
     mov.l r5, @(8, r4)
 .L_0601231A:
-    mov.l   .L_pool_06012340, r5
+    mov.l   .L_sym_060788B2, r5
     mov.w   .L_wpool_0601232A, r3
     mov.w @r5, r2
     add r3, r2
@@ -44,11 +44,11 @@ position_vel_limiter:
     .2byte  0x1800
     .4byte  sym_0605AD10
     .4byte  sym_06078636
-.L_pool_06012334:
+.L_sym_060788B4:
     .4byte  sym_060788B4
 .L_pool_06012338:
     .4byte  0x00020000
 .L_pool_0601233C:
     .4byte  0x0004CCCC
-.L_pool_06012340:
+.L_sym_060788B2:
     .4byte  sym_060788B2

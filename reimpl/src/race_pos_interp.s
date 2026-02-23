@@ -11,13 +11,13 @@
 race_pos_interp:
     mov.l r14, @-r15
     extu.w r5, r0
-    mov.l   .L_pool_0600CC2C, r14
-    mov.l   .L_pool_0600CC30, r7
+    mov.l   .L_sym_0607EB88, r14
+    mov.l   .L_sym_0607E940, r7
     tst #0x1, r0
     bt/s    .L_0600CBEE
     mov.l @r7, r7
     extu.w r5, r6
-    mov.l   .L_pool_0600CC34, r3
+    mov.l   .L_sym_0607EA9C, r3
     shlr r6
     mov.l @r3, r3
     add #0x1, r6
@@ -91,9 +91,9 @@ race_pos_interp:
     mov.l @r15+, r14
 .L_wpool_0600CC2A:
     .2byte  0x01F8
-.L_pool_0600CC2C:
+.L_sym_0607EB88:
     .4byte  sym_0607EB88
-.L_pool_0600CC30:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600CC34:
+.L_sym_0607EA9C:
     .4byte  sym_0607EA9C

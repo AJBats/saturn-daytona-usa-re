@@ -12,7 +12,7 @@ save_data_serialize:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_0603BF18, r3
+    mov.l   .L_sym_06040220, r3
     jsr @r3
     mov.l r11, @-r15
     bra     .L_0603BF0C
@@ -41,7 +41,7 @@ save_data_serialize:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0603BF18:
+.L_sym_06040220:
     .4byte  sym_06040220
     .4byte  0x504A000B
     .2byte  0x145A

@@ -29,7 +29,7 @@ fixpt_div_helper:
     sub r4, r2
     mov r2, r4
 .L_0604243A:
-    mov.l   .L_pool_06042454, r3
+    mov.l   .L_sym_060424A2, r3
     jsr @r3
     nop
     tst r14, r14
@@ -43,5 +43,5 @@ fixpt_div_helper:
     .4byte  0x00B40000
 .L_pool_06042450:
     .4byte  0x005A0000
-.L_pool_06042454:
+.L_sym_060424A2:
     .4byte  sym_060424A2

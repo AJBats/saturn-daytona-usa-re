@@ -15,7 +15,7 @@ event_timer_sched:
     sts.l pr, @-r15
     add #-0x18, r15
     mov.l r5, @(20, r15)
-    mov.l   .L_pool_06040B50, r3
+    mov.l   .L_sym_0606367C, r3
     mov.b @(r0, r3), r2
     extu.b r2, r2
     tst r2, r2
@@ -23,7 +23,7 @@ event_timer_sched:
     mov r4, r13
     bra     .L_06040BF2
     mov #0x0, r0
-.L_pool_06040B50:
+.L_sym_0606367C:
     .4byte  sym_0606367C
 .L_06040B54:
     mov r15, r3
@@ -32,7 +32,7 @@ event_timer_sched:
     mov r15, r7
     mov.l @(24, r15), r6
     mov.l @(16, r13), r5
-    mov.l   .L_pool_06040BFC, r3
+    mov.l   .L_cmd_enqueue, r3
     add #0x4, r7
     jsr @r3
     mov.l @(4, r13), r4
@@ -42,7 +42,7 @@ event_timer_sched:
     bra     .L_06040BF2
     mov #0x0, r0
 .L_06040B72:
-    mov.l   .L_pool_06040C00, r3
+    mov.l   .L_state_field_read, r3
     jsr @r3
     nop
     tst r0, r0
@@ -71,7 +71,7 @@ event_callback_dispatch:
     add #0x1C, r3
     mov.l r3, @-r15
     mov r15, r7
-    mov.l   .L_pool_06040C04, r3
+    mov.l   .L_sym_06040220, r3
     add #0x1C, r7
     jsr @r3
     mov.l @r13, r4
@@ -98,8 +98,8 @@ event_callback_dispatch:
     sub r2, r1
     mov.l r1, @(4, r15)
 .L_06040BD4:
-    mov.l   .L_pool_06040C08, r13
-    mov.l   .L_pool_06040C0C, r3
+    mov.l   .L_sym_0606367C_2, r13
+    mov.l   .L_sym_06035C48, r3
     jsr @r3
     nop
     mov.l r0, @r13
@@ -119,13 +119,13 @@ event_callback_dispatch:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06040BFC:
+.L_cmd_enqueue:
     .4byte  cmd_enqueue
-.L_pool_06040C00:
+.L_state_field_read:
     .4byte  state_field_read
-.L_pool_06040C04:
+.L_sym_06040220:
     .4byte  sym_06040220
-.L_pool_06040C08:
+.L_sym_0606367C_2:
     .4byte  sym_0606367C
-.L_pool_06040C0C:
+.L_sym_06035C48:
     .4byte  sym_06035C48

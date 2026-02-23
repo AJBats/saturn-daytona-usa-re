@@ -12,7 +12,7 @@
 replay_cam_cleanup:
     sts.l pr, @-r15
     mov r6, r5
-    mov.l   .L_pool_0601B064, r14
+    mov.l   .L_sym_06086014, r14
     mov.w   .L_wpool_0601B05E, r3
     mov.l r3, @-r15
     mov.w   .L_wpool_0601B060, r2
@@ -22,7 +22,7 @@ replay_cam_cleanup:
     extu.w r3, r3
     mov.l r3, @-r15
     mov.l r2, @-r15
-    mov.l   .L_pool_0601B068, r3
+    mov.l   .L_color_transform_calc, r3
     jsr @r3
     mov r7, r4
     mov.l @r14, r2
@@ -33,12 +33,12 @@ replay_cam_cleanup:
     cmp/hs r2, r3
     bf/s    .L_0601B01A
     add #0x10, r15
-    mov.l   .L_pool_0601B06C, r4
+    mov.l   .L_sym_06086011, r4
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
     mov #0x28, r3
-    mov.l   .L_pool_0601B070, r2
+    mov.l   .L_sym_0608600F, r2
     mov.b r3, @r2
 .L_0601B01A:
     lds.l @r15+, pr
@@ -51,7 +51,7 @@ replay_cam_cleanup:
 disc_sector_read:
     sts.l pr, @-r15
     mov #0x30, r14
-    mov.l   .L_pool_0601B064, r3
+    mov.l   .L_sym_06086014, r3
     mov r14, r6
     mov r14, r5
     mov.l r14, @r3
@@ -63,15 +63,15 @@ disc_sector_read:
     mov #0x1, r3
     mov.l r2, @-r15
     mov.l r3, @-r15
-    mov.l   .L_pool_0601B068, r3
+    mov.l   .L_color_transform_calc, r3
     jsr @r3
     mov r7, r4
     .byte   0xB0, 0x47    /* bsr 0x0601B0D8 (external) */
     add #0x10, r15
     mov #0x14, r2
-    mov.l   .L_pool_0601B070, r3
+    mov.l   .L_sym_0608600F, r3
     mov.b r2, @r3
-    mov.l   .L_pool_0601B06C, r4
+    mov.l   .L_sym_06086011, r4
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
@@ -83,11 +83,11 @@ disc_sector_read:
 .L_wpool_0601B060:
     .2byte  0x0160
     .2byte  0xFFFF
-.L_pool_0601B064:
+.L_sym_06086014:
     .4byte  sym_06086014
-.L_pool_0601B068:
+.L_color_transform_calc:
     .4byte  color_transform_calc
-.L_pool_0601B06C:
+.L_sym_06086011:
     .4byte  sym_06086011
-.L_pool_0601B070:
+.L_sym_0608600F:
     .4byte  sym_0608600F

@@ -17,10 +17,10 @@ system_init:
     mov #0x0, r12
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06003150, r10
-    mov.l   .L_pool_06003154, r11
+    mov.l   .L_sym_06059C58, r10
+    mov.l   .L_sym_06059C50, r11
     mov.l   .L_pool_06003158, r13
-    mov.l   .L_pool_0600315C, r3
+    mov.l   .L_sym_06000320, r3
     mov.l @r3, r3
     jsr @r3
     mov r14, r4
@@ -41,7 +41,7 @@ system_init:
     and r14, r2
     tst r2, r2
     bf      .L_0600312E
-    mov.l   .L_pool_06003164, r4
+    mov.l   .L_sym_06059C4C, r4
     bra     .L_06003142
     mov.l @r4, r4
 .L_0600313E:
@@ -51,23 +51,23 @@ system_init:
     mov.l @r11, r2
     cmp/hs r2, r4
     bf      .L_0600313E
-    mov.l   .L_pool_06003168, r4
+    mov.l   .L_sym_06059C54, r4
     bra     .L_06003170
     mov.l @r4, r4
     .2byte  0xFFFF
-.L_pool_06003150:
+.L_sym_06059C58:
     .4byte  sym_06059C58
-.L_pool_06003154:
+.L_sym_06059C50:
     .4byte  sym_06059C50
 .L_pool_06003158:
     .4byte  0x20100063
-.L_pool_0600315C:
+.L_sym_06000320:
     .4byte  sym_06000320
 .L_pool_06003160:
     .4byte  0x2010001F
-.L_pool_06003164:
+.L_sym_06059C4C:
     .4byte  sym_06059C4C
-.L_pool_06003168:
+.L_sym_06059C54:
     .4byte  sym_06059C54
 .L_0600316C:
     mov.l r12, @r4
@@ -76,52 +76,52 @@ system_init:
     mov.l @r10, r2
     cmp/hs r2, r4
     bf      .L_0600316C
-    mov.l   .L_pool_060031E8, r3
+    mov.l   .L_sym_0603BF7C, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_pool_060031EC, r3
+    mov.l   .L_sym_06034E58, r3
     jsr @r3
     nop
-    mov.l   .L_pool_060031F0, r2
+    mov.l   .L_sym_06000344, r2
     mov.w   .L_wpool_060031E2, r5
     mov.l @r2, r2
     jsr @r2
     mov #-0x1, r4
-    mov.l   .L_pool_060031F4, r3
+    mov.l   .L_cd_progress_notify, r3
     jsr @r3
     nop
     .byte   0xB0, 0x6F    /* bsr 0x06003274 (external) */
     nop
-    mov.l   .L_pool_060031F8, r3
+    mov.l   .L_engine_init_global, r3
     jsr @r3
     nop
-    mov.l   .L_pool_060031FC, r3
+    mov.l   .L_sound_scsp_boot, r3
     jsr @r3
     nop
     .byte   0xB0, 0x39    /* bsr 0x06003218 (external) */
     nop
-    mov.l   .L_pool_06003200, r3
+    mov.l   .L_race_sound_handler, r3
     jsr @r3
     nop
-    mov.l   .L_pool_060031F0, r2
+    mov.l   .L_sym_06000344, r2
     mov.w   .L_wpool_060031E4, r4
     mov.l @r2, r2
     jsr @r2
     mov #0x0, r5
-    mov.l   .L_pool_06003204, r3
+    mov.l   .L_sym_06005174, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06003208, r3
+    mov.l   .L_sym_0601F936, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600320C, r3
+    mov.l   .L_channel_config_a, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06003210, r3
+    mov.l   .L_sym_060149E0, r3
     jsr @r3
     nop
     mov #0x2, r2
-    mov.l   .L_pool_06003214, r3
+    mov.l   .L_sym_0605AD10, r3
     mov.l r2, @r3
     lds.l @r15+, pr
     mov.l @r15+, r10
@@ -135,27 +135,27 @@ system_init:
 .L_wpool_060031E4:
     .2byte  0xFF7C
     .2byte  0xFFFF
-.L_pool_060031E8:
+.L_sym_0603BF7C:
     .4byte  sym_0603BF7C
-.L_pool_060031EC:
+.L_sym_06034E58:
     .4byte  sym_06034E58
-.L_pool_060031F0:
+.L_sym_06000344:
     .4byte  sym_06000344
-.L_pool_060031F4:
+.L_cd_progress_notify:
     .4byte  cd_progress_notify
-.L_pool_060031F8:
+.L_engine_init_global:
     .4byte  engine_init_global
-.L_pool_060031FC:
+.L_sound_scsp_boot:
     .4byte  sound_scsp_boot
-.L_pool_06003200:
+.L_race_sound_handler:
     .4byte  race_sound_handler
-.L_pool_06003204:
+.L_sym_06005174:
     .4byte  sym_06005174
-.L_pool_06003208:
+.L_sym_0601F936:
     .4byte  sym_0601F936
-.L_pool_0600320C:
+.L_channel_config_a:
     .4byte  channel_config_a
-.L_pool_06003210:
+.L_sym_060149E0:
     .4byte  sym_060149E0
-.L_pool_06003214:
+.L_sym_0605AD10:
     .4byte  sym_0605AD10

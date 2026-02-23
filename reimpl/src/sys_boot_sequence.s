@@ -19,9 +19,9 @@ sys_boot_sequence:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x1C, r15
-    mov.l   .L_pool_060402EC, r10
+    mov.l   .L_sym_06040FEA, r10
     mov r15, r5
-    mov.l   .L_pool_060402F0, r13
+    mov.l   .L_sym_060A4D14, r13
     mov.l @(24, r14), r12
     mov.l @(32, r14), r11
     mov.l @(36, r14), r3
@@ -34,12 +34,12 @@ sys_boot_sequence:
 .L_060402E8:
     bra     .L_0604032A
     nop
-.L_pool_060402EC:
+.L_sym_06040FEA:
     .4byte  sym_06040FEA
-.L_pool_060402F0:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
 .L_060402F4:
-    mov.l   .L_pool_06040344, r3
+    mov.l   .L_track_surface_check, r3
     jsr @r3
     nop
     tst r0, r0
@@ -85,12 +85,12 @@ sys_boot_sequence:
     bt      .L_06040348
     bra     .L_0604034A
     nop
-.L_pool_06040344:
+.L_track_surface_check:
     .4byte  track_surface_check
 .L_06040348:
     mov r4, r11
 .L_0604034A:
-    mov.l   .L_pool_060403D8, r3
+    mov.l   .L_sym_06041014, r3
     jsr @r3
     mov.l @(40, r12), r4
     tst r0, r0
@@ -100,7 +100,7 @@ sys_boot_sequence:
 .L_06040358:
     mov #0x0, r6
     mov.l   .L_pool_060403DC, r5
-    mov.l   .L_pool_060403E0, r3
+    mov.l   .L_evt_cmd_enqueue, r3
     jsr @r3
     mov.l @(24, r14), r4
     mov r0, r9
@@ -108,7 +108,7 @@ sys_boot_sequence:
     bt      .L_0604036A
     mov #0x0, r9
 .L_0604036A:
-    mov.l   .L_pool_060403E4, r3
+    mov.l   .L_sym_060409DE, r3
     jsr @r3
     mov r12, r4
     mov r0, r5
@@ -118,7 +118,7 @@ sys_boot_sequence:
     cmp/pl r9
     bf/s    .L_06040394
     add r0, r8
-    mov.l   .L_pool_060403E8, r3
+    mov.l   .L_sym_060A4D14_2, r3
     mov.w   .L_wpool_060403D6, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
@@ -159,7 +159,7 @@ sys_boot_sequence:
     bra     .L_06040522
     mov #0x0, r0
 .L_060403C6:
-    mov.l   .L_pool_060403EC, r3
+    mov.l   .L_sym_06040FB8, r3
     jsr @r3
     nop
     mov r0, r9
@@ -169,21 +169,21 @@ sys_boot_sequence:
     mov #0x6, r0
 .L_wpool_060403D6:
     .2byte  0x00AC
-.L_pool_060403D8:
+.L_sym_06041014:
     .4byte  sym_06041014
 .L_pool_060403DC:
     .4byte  0x7FFFFFFF
-.L_pool_060403E0:
+.L_evt_cmd_enqueue:
     .4byte  evt_cmd_enqueue
-.L_pool_060403E4:
+.L_sym_060409DE:
     .4byte  sym_060409DE
-.L_pool_060403E8:
+.L_sym_060A4D14_2:
     .4byte  sym_060A4D14
-.L_pool_060403EC:
+.L_sym_06040FB8:
     .4byte  sym_06040FB8
 .L_060403F0:
     mov.l r9, @(40, r12)
-    mov.l   .L_pool_060404C0, r3
+    mov.l   .L_sym_060409DE_2, r3
     jsr @r3
     mov r12, r4
     mov r11, r5
@@ -254,10 +254,10 @@ sys_boot_sequence:
     mov #0x0, r0
 .L_0604047C:
     mov r9, r5
-    mov.l   .L_pool_060404C4, r3
+    mov.l   .L_queue_validator, r3
     jsr @r3
     mov.l @(20, r12), r4
-    mov.l   .L_pool_060404C8, r3
+    mov.l   .L_state_field_read, r3
     jsr @r3
     nop
     tst r0, r0
@@ -267,7 +267,7 @@ sys_boot_sequence:
 .L_06040492:
     mov r9, r5
     mov r15, r4
-    mov.l   .L_pool_060404CC, r3
+    mov.l   .L_queue_helper, r3
     jsr @r3
     add #0x8, r4
     mov.l @(36, r14), r2
@@ -290,13 +290,13 @@ sys_boot_sequence:
 .L_wpool_060404BC:
     .2byte  0x00B0
     .2byte  0xFFFF
-.L_pool_060404C0:
+.L_sym_060409DE_2:
     .4byte  sym_060409DE
-.L_pool_060404C4:
+.L_queue_validator:
     .4byte  queue_validator
-.L_pool_060404C8:
+.L_state_field_read:
     .4byte  state_field_read
-.L_pool_060404CC:
+.L_queue_helper:
     .4byte  queue_helper
 .L_060404D0:
     mov.l @(8, r14), r3

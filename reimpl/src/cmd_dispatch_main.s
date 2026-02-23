@@ -140,11 +140,11 @@ DAT_0603b4ce:
     mov r4, r0
     cmp/eq #0x5, r0
     bf      .L_0603B526
-    mov.l   .L_pool_0603B55C, r3
+    mov.l   .L_sym_0603F9F2, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov r0, r8
-    mov.l   .L_pool_0603B560, r3
+    mov.l   .L_sym_0603F9F6, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov r8, r5
@@ -185,7 +185,7 @@ menu_page_transition:
     mov r4, r12
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603B564, r13
+    mov.l   .L_sym_060A4D14, r13
     mov.l @r13, r13
     add #0x34, r13
     mov.l @(r0, r13), r0
@@ -195,11 +195,11 @@ menu_page_transition:
     mov.l r11, @r12
     bra     .L_0603B586
     mov r11, r14
-.L_pool_0603B55C:
+.L_sym_0603F9F2:
     .4byte  sym_0603F9F2
-.L_pool_0603B560:
+.L_sym_0603F9F6:
     .4byte  sym_0603F9F6
-.L_pool_0603B564:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
 .L_0603B568:
     mov.l @r13, r2

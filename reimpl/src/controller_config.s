@@ -19,7 +19,7 @@ controller_config:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_0603DBA0, r10
+    mov.l   .L_sym_060A4C80, r10
     mov.l r4, @r15
     mov.w r0, @(4, r15)
     mov r6, r0
@@ -50,11 +50,11 @@ controller_config:
     mov #0x2, r0
 .L_0603DB72:
     extu.b r6, r3
-    mov.l   .L_pool_0603DBA4, r2
+    mov.l   .L_sym_060A4C58, r2
     extu.b r7, r1
     mov r6, r0
     mov.b r3, @r2
-    mov.l   .L_pool_0603DBA8, r2
+    mov.l   .L_sym_060A4C59, r2
     cmp/eq #0x1, r0
     bf/s    .L_0603DB90
     mov.b r1, @r2
@@ -74,11 +74,11 @@ controller_config:
     mov #0x1, r2
 .L_wpool_0603DB9E:
     .2byte  0x0100
-.L_pool_0603DBA0:
+.L_sym_060A4C80:
     .4byte  sym_060A4C80
-.L_pool_0603DBA4:
+.L_sym_060A4C58:
     .4byte  sym_060A4C58
-.L_pool_0603DBA8:
+.L_sym_060A4C59:
     .4byte  sym_060A4C59
 .L_0603DBAC:
     extu.w r13, r2
@@ -86,24 +86,24 @@ controller_config:
     mov.w r2, @r10
 .L_0603DBB0:
     mov.w @r10, r3
-    mov.l   .L_pool_0603DCBC, r2
+    mov.l   .L_sym_060A3E38, r2
     mov.w r3, @r2
-    mov.l   .L_pool_0603DCC0, r4
+    mov.l   .L_sym_060A4C70, r4
     mov.l r13, @r4
     mov.l r13, @(4, r4)
-    mov.l   .L_pool_0603DCC4, r5
+    mov.l   .L_sym_060A4C60, r5
     mov.l r13, @r5
-    mov.l   .L_pool_0603DCC8, r4
+    mov.l   .L_sym_060A4C68, r4
     mov.l r13, @r4
     mov.l r13, @(4, r5)
     mov.l r13, @(4, r4)
-    mov.l   .L_pool_0603DCCC, r4
-    mov.l   .L_pool_0603DCD0, r0
+    mov.l   .L_sym_060A53A8, r4
+    mov.l   .L_sym_060635AE, r0
     mov r4, r11
     mov.w @r0, r0
     add #-0x10, r15
     extu.w r0, r0
-    mov.l   .L_pool_0603DCD4, r3
+    mov.l   .L_sym_060358EC, r3
     shlr r0
     jsr @r3
     mov.l r15, @-r15
@@ -112,22 +112,22 @@ controller_config:
     mov.l   .L_pool_0603DCD8, r2
     mov.l r2, @-r15
     mov r15, r3
-    mov.l   .L_pool_0603DCDC, r2
+    mov.l   .L_sym_060359E4, r2
     add #0x10, r3
     jsr @r2
     mov.l r3, @-r15
-    mov.l   .L_pool_0603DCE0, r3
+    mov.l   .L_sym_060357B8, r3
     jsr @r3
     nop
     mov.l r0, @r11
-    mov.l   .L_pool_0603DCE4, r5
-    mov.l   .L_pool_0603DCE8, r9
+    mov.l   .L_sym_060A53B0, r5
+    mov.l   .L_sym_060635B0, r9
     mov r5, r12
     mov.w @r9, r0
     extu.w r0, r0
     add #-0x10, r15
     shlr r0
-    mov.l   .L_pool_0603DCD4, r3
+    mov.l   .L_sym_060358EC, r3
     jsr @r3
     mov.l r15, @-r15
     mov #0x0, r2
@@ -135,11 +135,11 @@ controller_config:
     mov.l   .L_pool_0603DCD8, r2
     mov.l r2, @-r15
     mov r15, r3
-    mov.l   .L_pool_0603DCDC, r2
+    mov.l   .L_sym_060359E4, r2
     add #0x10, r3
     jsr @r2
     mov.l r3, @-r15
-    mov.l   .L_pool_0603DCE0, r3
+    mov.l   .L_sym_060357B8, r3
     jsr @r3
     nop
     mov.l r0, @r12
@@ -148,14 +148,14 @@ controller_config:
     mov.l @r12, r3
     mov.l r3, @(4, r5)
     mov.l @r15, r2
-    mov.l   .L_pool_0603DCEC, r3
+    mov.l   .L_sym_060A4C5C, r3
     mov.l r2, @r3
     mov.w @(4, r15), r0
-    mov.l   .L_pool_0603DCF0, r3
+    mov.l   .L_sym_060635B2, r3
     mov r0, r2
     mov.w r2, @r3
-    mov.l   .L_pool_0603DCF4, r8
-    mov.l   .L_pool_0603DCF8, r14
+    mov.l   .L_display_scene_update, r8
+    mov.l   .L_sym_060A3E68, r14
     mov.l @r11, r2
     mov.l r2, @(8, r15)
     .byte   0xBF, 0x21    /* bsr 0x0603DA88 (external) */
@@ -211,7 +211,7 @@ controller_config:
     mov.l r13, @(40, r14)
     mov.l r4, @(44, r14)
     mov.l r13, @(48, r14)
-    mov.l   .L_pool_0603DCD0, r2
+    mov.l   .L_sym_060635AE, r2
     mov.w @r2, r2
     extu.w r2, r2
     shlr r2
@@ -219,37 +219,37 @@ controller_config:
     bra     .L_0603DD00
     nop
     .2byte  0xFFFF
-.L_pool_0603DCBC:
+.L_sym_060A3E38:
     .4byte  sym_060A3E38
-.L_pool_0603DCC0:
+.L_sym_060A4C70:
     .4byte  sym_060A4C70
-.L_pool_0603DCC4:
+.L_sym_060A4C60:
     .4byte  sym_060A4C60
-.L_pool_0603DCC8:
+.L_sym_060A4C68:
     .4byte  sym_060A4C68
-.L_pool_0603DCCC:
+.L_sym_060A53A8:
     .4byte  sym_060A53A8
-.L_pool_0603DCD0:
+.L_sym_060635AE:
     .4byte  sym_060635AE
-.L_pool_0603DCD4:
+.L_sym_060358EC:
     .4byte  sym_060358EC
 .L_pool_0603DCD8:
     .4byte  0x40F00000
-.L_pool_0603DCDC:
+.L_sym_060359E4:
     .4byte  sym_060359E4
-.L_pool_0603DCE0:
+.L_sym_060357B8:
     .4byte  sym_060357B8
-.L_pool_0603DCE4:
+.L_sym_060A53B0:
     .4byte  sym_060A53B0
-.L_pool_0603DCE8:
+.L_sym_060635B0:
     .4byte  sym_060635B0
-.L_pool_0603DCEC:
+.L_sym_060A4C5C:
     .4byte  sym_060A4C5C
-.L_pool_0603DCF0:
+.L_sym_060635B2:
     .4byte  sym_060635B2
-.L_pool_0603DCF4:
+.L_display_scene_update:
     .4byte  display_scene_update
-.L_pool_0603DCF8:
+.L_sym_060A3E68:
     .4byte  sym_060A3E68
 .L_pool_0603DCFC:
     .4byte  0x00010000
@@ -266,7 +266,7 @@ controller_config:
     mov #0x38, r0
     mov.w r3, @(r0, r14)
     mov #0x3C, r0
-    mov.l   .L_pool_0603DDEC, r3
+    mov.l   .L_sym_060635AE_2, r3
     mov.w @r3, r3
     extu.w r3, r3
     shlr r3
@@ -291,7 +291,7 @@ controller_config:
     extu.w r0, r0
     cmp/eq #0x2, r0
     bf      .L_0603DDC0
-    mov.l   .L_pool_0603DDF0, r4
+    mov.l   .L_sym_060A3EE8, r4
     mov r4, r5
     add #-0x80, r5
     mov.l @r5, r2
@@ -359,7 +359,7 @@ controller_config:
     and #0x3E, r0
     shlr2 r0
     add r0, r4
-    mov.l   .L_pool_0603DDF8, r3
+    mov.l   .L_sym_060A3E44, r3
     mov.l r4, @r3
     mov #0x0, r0
 .L_0603DDD6:
@@ -375,11 +375,11 @@ controller_config:
     mov.l @r15+, r14
 .L_wpool_0603DDEA:
     .2byte  0x0190
-.L_pool_0603DDEC:
+.L_sym_060635AE_2:
     .4byte  sym_060635AE
-.L_pool_0603DDF0:
+.L_sym_060A3EE8:
     .4byte  sym_060A3EE8
 .L_pool_0603DDF4:
     .4byte  0x0007FF80
-.L_pool_0603DDF8:
+.L_sym_060A3E44:
     .4byte  sym_060A3E44

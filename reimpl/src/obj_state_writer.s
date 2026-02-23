@@ -13,40 +13,40 @@ obj_state_writer:
     mov r4, r14
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06005504, r0
+    mov.l   .L_sym_06078663, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_060054B0
     mov r5, r13
     mov.l   .L_pool_06005508, r6
     mov.l   .L_pool_0600550C, r4
-    mov.l   .L_pool_06005510, r3
+    mov.l   .L_mat_scale_columns, r3
     jsr @r3
     mov r6, r5
 .L_060054B0:
     mov.l @(8, r13), r4
-    mov.l   .L_pool_06005514, r3
+    mov.l   .L_mat_rot_z, r3
     jsr @r3
     neg r4, r4
     mov.l @r13, r4
-    mov.l   .L_pool_06005518, r3
+    mov.l   .L_transform_matrix, r3
     jsr @r3
     neg r4, r4
     mov.l @(4, r13), r4
-    mov.l   .L_pool_0600551C, r3
+    mov.l   .L_mat_rot_y, r3
     jsr @r3
     neg r4, r4
     mov.l @(8, r14), r6
     mov.l @(4, r14), r5
     mov.l @r14, r4
-    mov.l   .L_pool_06005520, r3
+    mov.l   .L_sym_06026E2E, r3
     neg r6, r6
     neg r5, r5
     jsr @r3
     neg r4, r4
-    mov.l   .L_pool_06005524, r1
+    mov.l   .L_sym_06063DF8, r1
     mov r14, r2
-    mov.l   .L_pool_06005528, r3
+    mov.l   .L_sym_06035168, r3
     jsr @r3
     mov #0xC, r0
     lds.l @r15+, pr
@@ -56,44 +56,44 @@ obj_state_writer:
 
     .global sym_060054EA
 sym_060054EA:
-    mov.l   .L_pool_0600552C, r3
+    mov.l   .L_sym_06063E04, r3
     mov.l r4, @r3
     mov #0x0, r4
-    mov.l   .L_pool_06005530, r3
+    mov.l   .L_sym_06063E08, r3
     mov.w r4, @r3
-    mov.l   .L_pool_06005534, r3
+    mov.l   .L_sym_06063F08, r3
     mov.l r4, @r3
     mov r3, r1
     mov.l @r1, r1
-    mov.l   .L_pool_06005538, r3
+    mov.l   .L_sym_06063F04, r3
     rts
     mov.l r1, @r3
     .2byte  0xFFFF
-.L_pool_06005504:
+.L_sym_06078663:
     .4byte  sym_06078663
 .L_pool_06005508:
     .4byte  0x00010000
 .L_pool_0600550C:
     .4byte  0xFFFF0000
-.L_pool_06005510:
+.L_mat_scale_columns:
     .4byte  mat_scale_columns
-.L_pool_06005514:
+.L_mat_rot_z:
     .4byte  mat_rot_z
-.L_pool_06005518:
+.L_transform_matrix:
     .4byte  transform_matrix
-.L_pool_0600551C:
+.L_mat_rot_y:
     .4byte  mat_rot_y
-.L_pool_06005520:
+.L_sym_06026E2E:
     .4byte  sym_06026E2E
-.L_pool_06005524:
+.L_sym_06063DF8:
     .4byte  sym_06063DF8
-.L_pool_06005528:
+.L_sym_06035168:
     .4byte  sym_06035168
-.L_pool_0600552C:
+.L_sym_06063E04:
     .4byte  sym_06063E04
-.L_pool_06005530:
+.L_sym_06063E08:
     .4byte  sym_06063E08
-.L_pool_06005534:
+.L_sym_06063F08:
     .4byte  sym_06063F08
-.L_pool_06005538:
+.L_sym_06063F04:
     .4byte  sym_06063F04

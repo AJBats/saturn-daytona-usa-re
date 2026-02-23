@@ -36,13 +36,13 @@ scene_3d_processor:
     shll2 r3
     shll2 r3
     add r3, r1
-    mov.l   .L_pool_06027D00, r2
+    mov.l   .L_sym_0607EAD8, r2
     mov.l @r2, r0
     cmp/eq #0x2, r0
     bf      .L_06027D40
     mov.l r1, @-r15
     mov r1, r10
-    mov.l   .L_pool_06027D04, r1
+    mov.l   .L_sym_06061270, r1
     xor r12, r12
 .L_06027CEA:
     mov.w @r1+, r0
@@ -56,12 +56,12 @@ scene_3d_processor:
     .4byte  0x04000000
 .L_pool_06027CFC:
     .4byte  0x03FFFFFF
-.L_pool_06027D00:
+.L_sym_0607EAD8:
     .4byte  sym_0607EAD8
-.L_pool_06027D04:
+.L_sym_06061270:
     .4byte  sym_06061270
 .L_06027D08:
-    mov.l   .L_pool_06027D28, r1
+    mov.l   .L_sym_0607E940, r1
     mov.l @r1, r1
     mov.w   DAT_06027d26, r0
     mov.l @(r0, r1), r1
@@ -69,9 +69,9 @@ scene_3d_processor:
     cmp/gt r0, r1
     bt      .L_06027D34
     shll r12
-    mov.l   .L_pool_06027D2C, r0
+    mov.l   .L_sym_06061240, r0
     add r12, r0
-    mov.l   .L_pool_06027D30, r1
+    mov.l   .L_sym_06063F50, r1
     mov.w @r0+, r2
     mov.w @r0, r12
     bra     .L_06027D36
@@ -80,11 +80,11 @@ scene_3d_processor:
     .global DAT_06027d26
 DAT_06027d26:
     .2byte  0x01EC
-.L_pool_06027D28:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_06027D2C:
+.L_sym_06061240:
     .4byte  sym_06061240
-.L_pool_06027D30:
+.L_sym_06063F50:
     .4byte  sym_06063F50
 .L_06027D34:
     xor r12, r12
@@ -97,7 +97,7 @@ DAT_06027d26:
 .L_06027D40:
     mov r1, r2
     shll2 r2
-    mov.l   .L_pool_06027D5C, r0
+    mov.l   .L_sym_060C2000, r0
     add r0, r2
     mov.w @r2, r13
     extu.w r13, r13
@@ -110,13 +110,13 @@ DAT_06027d26:
     mov r0, r3
     bra     .L_06027E6A
     mov #0x0, r6
-.L_pool_06027D5C:
+.L_sym_060C2000:
     .4byte  sym_060C2000
 .L_06027D60:
-    mov.l   .L_pool_06027DA4, r0
+    mov.l   .L_sym_060BF000, r0
     mov.w @(r0, r13), r5
     mov #0x34, r6
-    mov.l   .L_pool_06027DA8, r0
+    mov.l   .L_sym_060A6000, r0
     muls.w r6, r5
     sts macl, r5
     add r5, r0
@@ -149,9 +149,9 @@ DAT_06027d26:
 .L_wpool_06027DA0:
     .2byte  0x0100
     .2byte  0x0000
-.L_pool_06027DA4:
+.L_sym_060BF000:
     .4byte  sym_060BF000
-.L_pool_06027DA8:
+.L_sym_060A6000:
     .4byte  sym_060A6000
 .L_06027DAC:
     cmp/pz r3
@@ -255,7 +255,7 @@ DAT_06027d26:
     bra     .L_06027D50
     add #-0x1, r12
 .L_06027E5E:
-    mov.l   .L_pool_06027E9C, r1
+    mov.l   .L_sym_060A6000_2, r1
     add r5, r1
     mov.l @r1, r3
     mov.w   DAT_06027e98, r6
@@ -272,12 +272,12 @@ DAT_06027d26:
     mov r0, r8
     mov r5, r1
     mov #0x34, r0
-    mov.l   .L_pool_06027EA0, r12
+    mov.l   .L_sym_0602ECCC, r12
     jsr @r12
     mov.l r3, @-r15
     mov.l @r15+, r3
     mov.w r0, @(14, r4)
-    mov.l   .L_pool_06027EA4, r6
+    mov.l   .L_sym_0607E940_2, r6
     mov.l @r6, r0
     mov.l @r15+, r5
     cmp/pl r5
@@ -293,19 +293,19 @@ DAT_06027e98:
     .global DAT_06027e9a
 DAT_06027e9a:
     .2byte  0x025C
-.L_pool_06027E9C:
+.L_sym_060A6000_2:
     .4byte  sym_060A6000
-.L_pool_06027EA0:
+.L_sym_0602ECCC:
     .4byte  sym_0602ECCC
-.L_pool_06027EA4:
+.L_sym_0607E940_2:
     .4byte  sym_0607E940
 .L_06027EA8:
-    mov.l   .L_pool_06027ECC, r6
+    mov.l   .L_sym_0607E940_3, r6
     mov.l @r6, r0
     mov.l @r15+, r5
 .L_06027EAE:
     shll r5
-    mov.l   .L_pool_06027ED0, r2
+    mov.l   .L_sym_0606128A, r2
     add r5, r2
     mov.w @r2, r2
     extu.w r2, r2
@@ -319,9 +319,9 @@ DAT_06027e9a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06027ECC:
+.L_sym_0607E940_3:
     .4byte  sym_0607E940
-.L_pool_06027ED0:
+.L_sym_0606128A:
     .4byte  sym_0606128A
     .4byte  0x00093600
     .4byte  0x89FCAFD5

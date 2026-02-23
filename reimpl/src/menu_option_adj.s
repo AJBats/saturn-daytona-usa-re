@@ -48,17 +48,17 @@ menu_option_adj:
     .byte   0xB5, 0x89    /* bsr 0x0603BE7C (external) */
     mov.l @r14, r4
     mov #0x0, r5
-    mov.l   .L_pool_0603B3B0, r3
+    mov.l   .L_sym_0603F9DA, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x1, r7
     mov #0x0, r6
-    mov.l   .L_pool_0603B3B4, r3
+    mov.l   .L_sym_0603EF54, r3
     mov r6, r5
     jsr @r3
     mov.l @(4, r14), r4
     mov #-0x1, r5
-    mov.l   .L_pool_0603B3B8, r3
+    mov.l   .L_race_timer_sync, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x0, r4
@@ -86,11 +86,11 @@ menu_toggle_switch:
     lds.l @r15+, pr
     rts
     mov #0x1, r0
-.L_pool_0603B3B0:
+.L_sym_0603F9DA:
     .4byte  sym_0603F9DA
-.L_pool_0603B3B4:
+.L_sym_0603EF54:
     .4byte  sym_0603EF54
-.L_pool_0603B3B8:
+.L_race_timer_sync:
     .4byte  race_timer_sync
 .L_0603B3BC:
     mov #0x0, r0

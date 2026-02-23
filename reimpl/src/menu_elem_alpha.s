@@ -46,7 +46,7 @@ menu_elem_alpha:
     mov.l @(12, r4), r3
     add r3, r1
     mov r3, r0
-    mov.l   .L_pool_0603B114, r3
+    mov.l   .L_input_proc_complete, r3
     jsr @r3
     add #-0x1, r1
     add #0x8, r15
@@ -54,5 +54,5 @@ menu_elem_alpha:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0603B114:
+.L_input_proc_complete:
     .4byte  input_proc_complete

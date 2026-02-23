@@ -18,9 +18,9 @@ hud_display_large:
     mov.l r10, @-r15
     sts.l pr, @-r15
     mov.w   DAT_0603ce8e, r11
-    mov.l   .L_pool_0603CE94, r5
-    mov.l   .L_pool_0603CE98, r4
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_060A4D58, r5
+    mov.l   .L_sym_060A4D18, r4
+    mov.l   .L_sym_06034F78, r3
     mov r5, r2
     jsr @r3
     mov r6, r1
@@ -32,7 +32,7 @@ hud_display_large:
     or r3, r2
     mov.w r2, @r4
     mov r5, r2
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -45,7 +45,7 @@ hud_display_large:
     mov r5, r2
     mov.l   .L_pool_0603CEA4, r7
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov r5, r2
@@ -55,7 +55,7 @@ hud_display_large:
     or #0x20, r0
     mov.w r0, @r4
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     mov.l   .L_pool_0603CEA8, r14
     jsr @r3
     mov r6, r1
@@ -65,7 +65,7 @@ hud_display_large:
     and r14, r2
     mov.w r2, @r4
     mov r5, r2
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     mov.l   .L_pool_0603CEAC, r13
     jsr @r3
     mov r6, r1
@@ -76,7 +76,7 @@ hud_display_large:
     or #0x7, r0
     mov.w r0, @r4
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -87,7 +87,7 @@ hud_display_large:
     mov r5, r2
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     mov.l   .L_pool_0603CEB0, r12
     jsr @r3
     mov r6, r1
@@ -99,7 +99,7 @@ hud_display_large:
     mov r5, r2
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -111,7 +111,7 @@ hud_display_large:
     mov r5, r2
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -122,7 +122,7 @@ hud_display_large:
     mov.w r0, @(4, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(6, r4), r0
@@ -133,7 +133,7 @@ hud_display_large:
     mov r5, r2
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(6, r4), r0
@@ -144,7 +144,7 @@ hud_display_large:
     mov.w r0, @(6, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -155,7 +155,7 @@ hud_display_large:
     mov r5, r2
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.l   .L_pool_0603CE9C, r3
+    mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -171,11 +171,11 @@ DAT_0603ce8e:
 DAT_0603ce90:
     .2byte  0x3000
     .2byte  0xFFFF
-.L_pool_0603CE94:
+.L_sym_060A4D58:
     .4byte  sym_060A4D58
-.L_pool_0603CE98:
+.L_sym_060A4D18:
     .4byte  sym_060A4D18
-.L_pool_0603CE9C:
+.L_sym_06034F78:
     .4byte  sym_06034F78
 .L_pool_0603CEA0:
     .4byte  0x0000FFBF
@@ -196,7 +196,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -208,7 +208,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(4, r4), r0
@@ -219,7 +219,7 @@ DAT_0603ce90:
     mov.w r0, @(4, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(6, r4), r0
@@ -230,7 +230,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(6, r4), r0
@@ -242,7 +242,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.l   .L_pool_0603D040, r11
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(8, r4), r0
@@ -254,7 +254,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.l   .L_pool_0603D044, r12
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(8, r4), r0
@@ -266,7 +266,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.l   .L_pool_0603D048, r10
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     add #0x7, r13
@@ -278,7 +278,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.w r0, @(8, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(8, r4), r0
@@ -289,7 +289,7 @@ DAT_0603ce90:
     mov.w r0, @(8, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(8, r4), r0
@@ -300,7 +300,7 @@ DAT_0603ce90:
     mov r5, r2
     mov.w r0, @(8, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(8, r4), r0
@@ -311,7 +311,7 @@ DAT_0603ce90:
     mov.w r0, @(8, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(10, r4), r0
@@ -323,7 +323,7 @@ DAT_0603ce90:
     mov.w r0, @(10, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(10, r4), r0
@@ -335,7 +335,7 @@ DAT_0603ce90:
     mov.w r0, @(10, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(10, r4), r0
@@ -347,7 +347,7 @@ DAT_0603ce90:
     mov.w r0, @(10, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(10, r4), r0
@@ -359,7 +359,7 @@ DAT_0603ce90:
     mov.w r0, @(10, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(10, r4), r0
@@ -371,7 +371,7 @@ DAT_0603ce90:
     mov.w r0, @(10, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D038, r3
+    mov.l   .L_sym_06034F78_2, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -385,7 +385,7 @@ DAT_0603ce90:
 DAT_0603d034:
     .2byte  0x7FFF
     .2byte  0xFFFF
-.L_pool_0603D038:
+.L_sym_06034F78_2:
     .4byte  sym_06034F78
 .L_pool_0603D03C:
     .4byte  0x0000F0FF
@@ -411,7 +411,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -423,7 +423,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -435,7 +435,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -447,7 +447,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -461,7 +461,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -473,7 +473,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -484,7 +484,7 @@ DAT_0603d034:
     mov r5, r2
     mov.w r0, @(12, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -495,7 +495,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -506,7 +506,7 @@ DAT_0603d034:
     mov r5, r2
     mov.w r0, @(12, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -517,7 +517,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -528,7 +528,7 @@ DAT_0603d034:
     mov r5, r2
     mov.w r0, @(12, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(12, r4), r0
@@ -539,7 +539,7 @@ DAT_0603d034:
     mov.w r0, @(12, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(14, r4), r0
@@ -551,7 +551,7 @@ DAT_0603d034:
     mov.w r0, @(14, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(14, r4), r0
@@ -563,7 +563,7 @@ DAT_0603d034:
     mov.w r0, @(14, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(14, r4), r0
@@ -575,7 +575,7 @@ DAT_0603d034:
     mov.w r0, @(14, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D1C4, r3
+    mov.l   .L_sym_06034F78_3, r3
     jsr @r3
     mov r6, r1
     mov.w @(14, r4), r0
@@ -587,7 +587,7 @@ DAT_0603d034:
     .global DAT_0603d1c2
 DAT_0603d1c2:
     .2byte  0x0100
-.L_pool_0603D1C4:
+.L_sym_06034F78_3:
     .4byte  sym_06034F78
 .L_pool_0603D1C8:
     .4byte  0x00008FFF
@@ -612,7 +612,7 @@ DAT_0603d1c2:
     mov r5, r2
     mov.w r0, @(14, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(14, r4), r0
@@ -624,7 +624,7 @@ DAT_0603d1c2:
     mov r5, r2
     mov.w r0, @(14, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -635,7 +635,7 @@ DAT_0603d1c2:
     mov.w r0, @(2, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -646,7 +646,7 @@ DAT_0603d1c2:
     mov r5, r2
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -657,7 +657,7 @@ DAT_0603d1c2:
     mov.w r0, @(2, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -668,7 +668,7 @@ DAT_0603d1c2:
     mov r5, r2
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -679,7 +679,7 @@ DAT_0603d1c2:
     mov.w r0, @(2, r4)
     mov r5, r2
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -690,7 +690,7 @@ DAT_0603d1c2:
     mov r5, r2
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r4), r0
@@ -702,7 +702,7 @@ DAT_0603d1c2:
     mov r5, r2
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.l   .L_pool_0603D2C0, r3
+    mov.l   .L_sym_06034F78_4, r3
     jsr @r3
     mov r6, r1
     lds.l @r15+, pr
@@ -714,7 +714,7 @@ DAT_0603d1c2:
     mov.l @r15+, r14
 .L_pool_0603D2BC:
     .4byte  0x0000FF3F
-.L_pool_0603D2C0:
+.L_sym_06034F78_4:
     .4byte  sym_06034F78
 .L_pool_0603D2C4:
     .4byte  0x0000FCFF

@@ -12,7 +12,7 @@ dynamic_shadow_shape:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_06036B38, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -22,7 +22,7 @@ dynamic_shadow_shape:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    mov.l   .L_pool_06036B3C, r3
+    mov.l   .L_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -58,7 +58,7 @@ shadow_color_alpha:
     mov r5, r13
     add #-0x14, r15
     mov r15, r4
-    mov.l   .L_pool_06036B38, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0xC, r4
     mov r15, r2
@@ -77,7 +77,7 @@ shadow_color_alpha:
     mov #0x0, r2
     mov r2, r0
     mov.b r0, @(4, r3)
-    mov.l   .L_pool_06036B3C, r3
+    mov.l   .L_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -86,9 +86,9 @@ shadow_color_alpha:
     bra     .L_06036B5A
     mov r4, r0
     .2byte  0xFFFF
-.L_pool_06036B38:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036B3C:
+.L_input_proc_digital:
     .4byte  input_proc_digital
 .L_pool_06036B40:
     .4byte  0x00FFFFFF
@@ -100,7 +100,7 @@ shadow_color_alpha:
     mov.l   .L_pool_06036BD0, r3
     and r3, r2
     mov.l r2, @r15
-    mov.l   .L_pool_06036BD4, r3
+    mov.l   .L_smpc_secondary_proc, r3
     jsr @r3
     mov r2, r4
     mov r0, r4
@@ -119,7 +119,7 @@ shadow_color_alpha:
 particle_spawner:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036BD8, r3
+    mov.l   .L_input_proc_analog_2, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -134,7 +134,7 @@ particle_spawner:
     mov.l r12, @(4, r3)
     mov.b r0, @(4, r2)
     mov.w   .L_wpool_06036BCE, r4
-    mov.l   .L_pool_06036BDC, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -150,18 +150,18 @@ particle_spawner:
 ai_master_update:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036BD8, r3
+    mov.l   .L_input_proc_analog_2, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
     mov #0x75, r3
     mov.b r3, @r2
     mov.w   .L_wpool_06036BCE, r4
-    mov.l   .L_pool_06036BE0, r3
+    mov.l   .L_sym_06035C92, r3
     jsr @r3
     nop
     mov.w   .L_wpool_06036BCE, r4
-    mov.l   .L_pool_06036BDC, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     add #0x8, r15
@@ -172,13 +172,13 @@ ai_master_update:
     .2byte  0x0200
 .L_pool_06036BD0:
     .4byte  0x00FFFFFF
-.L_pool_06036BD4:
+.L_smpc_secondary_proc:
     .4byte  smpc_secondary_proc
-.L_pool_06036BD8:
+.L_input_proc_analog_2:
     .4byte  input_proc_analog
-.L_pool_06036BDC:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_06036BE0:
+.L_sym_06035C92:
     .4byte  sym_06035C92
 
     .global sym_06036BE4
@@ -190,7 +190,7 @@ sym_06036BE4:
     mov #0x0, r2
     mov.l r4, @-r15
     div0s r2, r1
-    .word 0x0429 /* UNKNOWN */
+    movt r4
     subc r3, r3
     subc r2, r1
     div0s r0, r3
@@ -259,7 +259,7 @@ sym_06036BE4:
     rotcl r1
     div1 r0, r3
     div0s r2, r3
-    .word 0x0229 /* UNKNOWN */
+    movt r2
     xor r4, r2
     rotcr r2
     bf      .L_06036C8A
@@ -274,14 +274,14 @@ sym_06036BE4:
     rts
     mov.l @r15+, r2
 .L_06036C96:
-    mov.l   .L_pool_06036CA4, r1
+    mov.l   .L_sym_060A246C, r1
     mov.l   .L_pool_06036CA8, r2
     mov #0x0, r0
     mov.l r2, @r1
     rts
     mov.l @r15+, r2
     .2byte  0x0009
-.L_pool_06036CA4:
+.L_sym_060A246C:
     .4byte  sym_060A246C
 .L_pool_06036CA8:
     .4byte  0x0000044E
@@ -395,11 +395,11 @@ sym_06036D14:
     rts
     mov.l @r15+, r3
 .L_06036D6C:
-    mov.l   .L_pool_06036D74, r3
+    mov.l   .L_palette_regs_config, r3
     jmp @r3
     nop
     .2byte  0x0009
-.L_pool_06036D74:
+.L_palette_regs_config:
     .4byte  palette_regs_config
 
     .global sym_06036D78

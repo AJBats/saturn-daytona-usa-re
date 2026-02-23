@@ -14,31 +14,31 @@ vdp2_frame_update:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_060172A4, r11
-    mov.l   .L_pool_060172A8, r12
-    mov.l   .L_pool_060172AC, r13
-    mov.l   .L_pool_060172B0, r14
-    mov.l   .L_pool_060172B4, r4
+    mov.l   .L_sym_06085490, r11
+    mov.l   .L_sym_060280F8, r12
+    mov.l   .L_sym_0605A008, r13
+    mov.l   .L_sym_060785FC, r14
+    mov.l   .L_sym_0605AD10, r4
     mov.l @r4, r0
     cmp/eq #0x15, r0
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     cmp/eq #0x19, r0
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     or r1, r0
     tst r0, r0
     bt      .L_06017292
-    mov.l   .L_pool_060172B8, r5
+    mov.l   .L_sym_06084FC8, r5
     mov.b @r5, r3
     extu.b r3, r3
     tst r3, r3
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     mov #0x1, r3
     add r5, r3
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     and r1, r0
     tst r0, r0
     bt      .L_06017292
@@ -139,15 +139,15 @@ DAT_0601729e:
 .L_wpool_060172A0:
     .2byte  0x0090
     .2byte  0xFFFF
-.L_pool_060172A4:
+.L_sym_06085490:
     .4byte  sym_06085490
-.L_pool_060172A8:
+.L_sym_060280F8:
     .4byte  sym_060280F8
-.L_pool_060172AC:
+.L_sym_0605A008:
     .4byte  sym_0605A008
-.L_pool_060172B0:
+.L_sym_060785FC:
     .4byte  sym_060785FC
-.L_pool_060172B4:
+.L_sym_0605AD10:
     .4byte  sym_0605AD10
-.L_pool_060172B8:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8

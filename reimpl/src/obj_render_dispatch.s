@@ -11,7 +11,7 @@
 obj_render_dispatch:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036A10, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -34,7 +34,7 @@ obj_render_dispatch:
     mov r12, r0
     mov.w r0, @(6, r3)
     mov.w   .L_wpool_06036A0E, r4
-    mov.l   .L_pool_06036A14, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -53,7 +53,7 @@ obj_view_frustum:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_06036A10, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -63,7 +63,7 @@ obj_view_frustum:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    mov.l   .L_pool_06036A18, r3
+    mov.l   .L_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -79,9 +79,9 @@ obj_view_frustum:
     mov.l @r15+, r14
 .L_wpool_06036A0E:
     .2byte  0x0100
-.L_pool_06036A10:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036A14:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_06036A18:
+.L_input_proc_digital:
     .4byte  input_proc_digital

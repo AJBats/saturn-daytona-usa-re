@@ -17,7 +17,7 @@ text_scroll_marquee:
     mov r1, r0
     shll2 r3
     shll2 r2
-    mov.l   .L_pool_06016DC0, r13
+    mov.l   .L_sym_06084FC8, r13
     shll2 r2
     mov.b r5, @r15
     shll2 r2
@@ -25,11 +25,11 @@ text_scroll_marquee:
     exts.w r3, r3
     add r13, r3
     mov.b r0, @(1, r3)
-    mov.l   .L_pool_06016DC4, r0
+    mov.l   .L_sym_06085F89, r0
     mov.b @r0, r0
     tst r0, r0
-    .word 0x0029 /* UNKNOWN */
-    mov.l   .L_pool_06016DC8, r3
+    movt r0
+    mov.l   .L_sym_0607EBF4, r3
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
@@ -48,7 +48,7 @@ text_scroll_marquee:
     mov.l   .L_pool_06016DCC, r1
     mov.l r1, @(44, r3)
 .L_06016D30:
-    mov.l   .L_pool_06016DD0, r5
+    mov.l   .L_sym_0605BB74, r5
     extu.b r14, r6
     mov.b @r15, r4
     extu.b r7, r2
@@ -97,7 +97,7 @@ text_scroll_marquee:
     .byte   0xB0, 0x24    /* bsr 0x06016DD8 (external) */
     extu.b r14, r4
     extu.b r14, r4
-    mov.l   .L_pool_06016DD4, r2
+    mov.l   .L_sym_06085490, r2
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -120,15 +120,15 @@ text_scroll_marquee:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06016DC0:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06016DC4:
+.L_sym_06085F89:
     .4byte  sym_06085F89
-.L_pool_06016DC8:
+.L_sym_0607EBF4:
     .4byte  sym_0607EBF4
 .L_pool_06016DCC:
     .4byte  0x00008000
-.L_pool_06016DD0:
+.L_sym_0605BB74:
     .4byte  sym_0605BB74
-.L_pool_06016DD4:
+.L_sym_06085490:
     .4byte  sym_06085490

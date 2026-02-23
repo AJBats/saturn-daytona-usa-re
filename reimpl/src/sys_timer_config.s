@@ -15,8 +15,8 @@ sys_timer_config:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603B840, r10
-    mov.l   .L_pool_0603B844, r11
+    mov.l   .L_sym_0603F216, r10
+    mov.l   .L_sprite_batch_emit, r11
     mov.w   DAT_0603b838, r12
     mov r4, r13
     bra     .L_0603B7FC
@@ -80,9 +80,9 @@ DAT_0603b838:
 DAT_0603b83a:
     .2byte  0x0C3C
     .4byte  0x00ECFFFF
-.L_pool_0603B840:
+.L_sym_0603F216:
     .4byte  sym_0603F216
-.L_pool_0603B844:
+.L_sprite_batch_emit:
     .4byte  sprite_batch_emit
     .4byte  sym_060A4D14
     .4byte  0x921E342C
@@ -125,7 +125,7 @@ sys_dma_channel_init:
     mov.l r14, @-r15
     mov r4, r14
     add #-0x4, r15
-    mov.l   .L_pool_0603B920, r4
+    mov.l   .L_sym_060A4D14, r4
     mov.w   .L_wpool_0603B91C, r0
     mov.l @r4, r3
     mov.l @(r0, r3), r2
@@ -171,7 +171,7 @@ sys_dma_channel_init:
     .global DAT_0603b91e
 DAT_0603b91e:
     .2byte  0x00B4
-.L_pool_0603B920:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
     .4byte  race_timer_sync
     .4byte  0x000B7F04

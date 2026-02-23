@@ -11,7 +11,7 @@
 road_width_calc:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036374, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -44,7 +44,7 @@ road_width_calc:
     mov.b @(5, r14), r0
     mov r0, r2
     mov.b r0, @(7, r3)
-    mov.l   .L_pool_06036378, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov #0x40, r4
     mov r0, r4
@@ -62,7 +62,7 @@ course_data_read:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_06036374, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -77,7 +77,7 @@ course_data_read:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_pool_0603637C, r3
+    mov.l   .L_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -109,9 +109,9 @@ course_data_read:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06036374:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036378:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_0603637C:
+.L_input_proc_digital:
     .4byte  input_proc_digital

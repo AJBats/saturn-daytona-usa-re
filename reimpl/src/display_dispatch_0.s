@@ -96,23 +96,23 @@ display_dispatch_pop:
 .L_pool_060322E4:
     .4byte  0x00000005
 .L_060322E8:
-    mov.l   .L_pool_060322FC, r0
+    mov.l   .L_sym_06082A24, r0
     mov.b @r0, r1
     tst r1, r1
     bt      .L_060322F8
-    mov.l   .L_pool_06032300, r0
+    mov.l   .L_sym_06082A20, r0
     mov.l @r0, r1
     add #0x1, r1
     mov.l r1, @r0
 .L_060322F8:
     rts
     nop
-.L_pool_060322FC:
+.L_sym_06082A24:
     .4byte  sym_06082A24
-.L_pool_06032300:
+.L_sym_06082A20:
     .4byte  sym_06082A20
 .L_06032304:
-    mov.l   .L_pool_06032324, r0
+    mov.l   .L_sym_060623B0, r0
     shll2 r4
     mov.l @(r0, r4), r14
 .L_0603230A:
@@ -121,7 +121,7 @@ display_dispatch_pop:
     mov.l @r1+, r5
     mov.l @r1+, r6
     mov.l @r1+, r7
-    mov.l   .L_pool_0603232C, r0
+    mov.l   .L_sym_06082A20_2, r0
     mov.l @r0, r2
     cmp/eq r2, r5
     bf      .L_06032330
@@ -129,11 +129,11 @@ display_dispatch_pop:
     bra     .L_06032368
     mov.l r1, @(r0, r14)
     .2byte  0x0000
-.L_pool_06032324:
+.L_sym_060623B0:
     .4byte  sym_060623B0
 .L_pool_06032328:
     .4byte  0x000002D8
-.L_pool_0603232C:
+.L_sym_06082A20_2:
     .4byte  sym_06082A20
 .L_06032330:
     .byte   0xA0, 0xD0    /* bra 0x060324D4 (external) */
@@ -156,12 +156,12 @@ sym_06032334:
     .4byte  loc_060324A0
 .L_06032368:
     mov r6, r1
-    mov.l   .L_pool_06032374, r0
+    mov.l   .L_sym_06032334, r0
     shll2 r1
     mov.l @(r0, r1), r0
     jmp @r0
     nop
-.L_pool_06032374:
+.L_sym_06032334:
     .4byte  sym_06032334
     .4byte  0xAFC70009
 

@@ -23,11 +23,11 @@ scene_invalidate_a:
     neg r14, r14
 .L_0603DA04:
     mov.l   .L_pool_0603DA64, r0
-    mov.l   .L_pool_0603DA68, r3
+    mov.l   .L_sym_06036BE4, r3
     jsr @r3
     mov r14, r1
     mov r0, r14
-    mov.l   .L_pool_0603DA6C, r13
+    mov.l   .L_sym_060424A2, r13
     mov.l   .L_pool_0603DA70, r2
     cmp/ge r2, r14
     bf      .L_0603DA20
@@ -79,9 +79,9 @@ scene_invalidate_a:
     .4byte  0x80000000
 .L_pool_0603DA64:
     .4byte  0x01680000
-.L_pool_0603DA68:
+.L_sym_06036BE4:
     .4byte  sym_06036BE4
-.L_pool_0603DA6C:
+.L_sym_060424A2:
     .4byte  sym_060424A2
 .L_pool_0603DA70:
     .4byte  0x010E0000

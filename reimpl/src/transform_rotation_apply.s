@@ -13,10 +13,10 @@ transform_rotation_apply:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_0602639C, r12
+    mov.l   .L_sym_06060F2C, r12
     mov #0xA, r13
-    mov.l   .L_pool_060263A0, r14
-    mov.l   .L_pool_060263A4, r7
+    mov.l   .L_sym_06060D2A, r14
+    mov.l   .L_sym_06060D34, r7
     mov.l   .L_pool_060263A8, r5
     mov #0x0, r4
     extu.w r4, r6
@@ -36,11 +36,11 @@ transform_rotation_apply:
 .L_06026398:
     bra     .L_060263DC
     nop
-.L_pool_0602639C:
+.L_sym_06060F2C:
     .4byte  sym_06060F2C
-.L_pool_060263A0:
+.L_sym_06060D2A:
     .4byte  sym_06060D2A
-.L_pool_060263A4:
+.L_sym_06060D34:
     .4byte  sym_06060D34
 .L_pool_060263A8:
     .4byte  0x00008000
@@ -52,12 +52,13 @@ transform_rotation_apply:
     bt      .L_06026398
     shll r0
     mov r0, r1
-    .word 0xC702 /* UNKNOWN */
+    mova    .L_pool_060263C4, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
 .L_wpool_060263C2:
     .2byte  0x008A
+.L_pool_060263C4:
     .4byte  0xFFC2FFC2
     .4byte  0xFFCCFFCC
     .4byte  0xFFC6FFC6

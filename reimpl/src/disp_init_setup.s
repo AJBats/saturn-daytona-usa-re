@@ -19,7 +19,7 @@ disp_init_setup:
     xor r7, r7
 .L_060321D0:
     mov r7, r1
-    mov.l   .L_pool_0603223C, r0
+    mov.l   .L_sym_060623B0, r0
     shll2 r1
     mov.l @(r0, r1), r14
     mov.l   .L_pool_06032240, r0
@@ -46,7 +46,7 @@ display_element_table:
     nop
     lds.l @r15+, pr
     mov.l @r15+, r7
-    mov.l   .L_pool_06032250, r0
+    mov.l   .L_sym_06062464, r0
     mov r7, r1
     shll2 r1
     mov.l @(r0, r1), r2
@@ -66,11 +66,11 @@ display_element_table:
     cmp/gt r0, r7
     bf      .L_060321D0
     xor r1, r1
-    mov.l   .L_pool_06032260, r0
+    mov.l   .L_sym_06082A20, r0
     mov.l r1, @r0
-    mov.l   .L_pool_06032264, r0
+    mov.l   .L_sym_06082A24, r0
     mov.b r1, @r0
-    mov.l   .L_pool_06032268, r0
+    mov.l   .L_sym_06082A25, r0
     mov.b r1, @r0
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -81,7 +81,7 @@ display_element_table:
     mov.l @r15+, r14
     rts
     nop
-.L_pool_0603223C:
+.L_sym_060623B0:
     .4byte  sym_060623B0
 .L_pool_06032240:
     .4byte  0x000002DC
@@ -91,7 +91,7 @@ display_element_table:
     .4byte  0x0000000E
 .L_pool_0603224C:
     .4byte  0x00000000
-.L_pool_06032250:
+.L_sym_06062464:
     .4byte  sym_06062464
 .L_pool_06032254:
     .4byte  0x000002DE
@@ -99,9 +99,9 @@ display_element_table:
     .4byte  0x0000000D
 .L_pool_0603225C:
     .4byte  0x00000005
-.L_pool_06032260:
+.L_sym_06082A20:
     .4byte  sym_06082A20
-.L_pool_06032264:
+.L_sym_06082A24:
     .4byte  sym_06082A24
-.L_pool_06032268:
+.L_sym_06082A25:
     .4byte  sym_06082A25

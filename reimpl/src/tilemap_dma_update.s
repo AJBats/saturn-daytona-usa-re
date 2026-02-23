@@ -19,21 +19,21 @@ tilemap_dma_update:
     mov r5, r0
     cmp/eq #0x1, r0
     bt      .L_06036EAE
-    mov.l   .L_pool_06036EF0, r2
+    mov.l   .L_sym_060635B0, r2
     mov.w @r2, r2
     extu.w r2, r2
     cmp/eq r2, r5
     bf      .L_06036EE6
 .L_06036EAE:
     extu.w r13, r6
-    mov.l   .L_pool_06036EF4, r14
+    mov.l   .L_sym_060A3DF8, r14
     mov.l   .L_pool_06036EF8, r2
     shll r6
     and r2, r4
     mov.l r4, @(60, r14)
     mov.l   .L_pool_06036EFC, r3
     or r3, r4
-    mov.l   .L_pool_06036F00, r3
+    mov.l   .L_sym_06038A48, r3
     jsr @r3
     mov.l @r15, r5
     mov.l @(60, r14), r2
@@ -47,7 +47,7 @@ tilemap_dma_update:
     or r2, r3
     mov.l r3, @(60, r14)
 .L_06036ED8:
-    mov.l   .L_pool_06036F08, r4
+    mov.l   .L_sym_060635AC, r4
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
@@ -60,17 +60,17 @@ tilemap_dma_update:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06036EF0:
+.L_sym_060635B0:
     .4byte  sym_060635B0
-.L_pool_06036EF4:
+.L_sym_060A3DF8:
     .4byte  sym_060A3DF8
 .L_pool_06036EF8:
     .4byte  0x0007FFFF
 .L_pool_06036EFC:
     .4byte  0x25E00000
-.L_pool_06036F00:
+.L_sym_06038A48:
     .4byte  sym_06038A48
 .L_pool_06036F04:
     .4byte  0x80000000
-.L_pool_06036F08:
+.L_sym_060635AC:
     .4byte  sym_060635AC

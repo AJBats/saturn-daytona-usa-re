@@ -15,22 +15,22 @@ hud_layout_mgr:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_06015074, r3
+    mov.l   .L_sym_06085FF4, r3
     mov.b @r3, r3
     tst r3, r3
-    .word 0x0029 /* UNKNOWN */
-    mov.l   .L_pool_06015078, r1
+    movt r0
+    mov.l   .L_sym_0607EBF4, r1
     mov.l @r1, r1
     tst r1, r1
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     or r1, r0
-    mov.l   .L_pool_0601507C, r3
-    mov.l   .L_pool_06015080, r1
+    mov.l   .L_sym_06078635, r3
+    mov.l   .L_sym_0607EAE0, r1
     mov.b @r3, r3
     mov.l @r1, r1
     or r3, r0
     tst r1, r1
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     or r1, r0
     tst r0, r0
     bt      .L_06015084
@@ -39,71 +39,71 @@ hud_layout_mgr:
     mov.l @r15+, r13
     .byte   0xA1, 0x62    /* bra 0x06015338 (external) */
     mov.l @r15+, r14
-.L_pool_06015074:
+.L_sym_06085FF4:
     .4byte  sym_06085FF4
-.L_pool_06015078:
+.L_sym_0607EBF4:
     .4byte  sym_0607EBF4
-.L_pool_0601507C:
+.L_sym_06078635:
     .4byte  sym_06078635
-.L_pool_06015080:
+.L_sym_0607EAE0:
     .4byte  sym_0607EAE0
 .L_06015084:
-    mov.l   .L_pool_06015114, r2
+    mov.l   .L_sym_0607ED88, r2
     mov.w   .L_wpool_06015108, r3
     mov.l @r2, r2
     cmp/hs r3, r2
     bt/s    .L_060150F0
     mov #0x0, r13
-    mov.l   .L_pool_06015118, r3
+    mov.l   .L_sym_0602853E, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_pool_0601511C, r3
+    mov.l   .L_sym_06028560, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06015120, r3
+    mov.l   .L_gameover_channel_setup, r3
     jsr @r3
     nop
     mov #0x60, r6
     mov.w   .L_wpool_0601510A, r5
-    mov.l   .L_pool_06015124, r14
-    mov.l   .L_pool_06015128, r7
+    mov.l   .L_sym_060284AE, r14
+    mov.l   .L_sym_06044C78, r7
     jsr @r14
     mov #0xC, r4
     mov #0x60, r6
     mov.w   .L_wpool_0601510C, r5
-    mov.l   .L_pool_0601512C, r7
+    mov.l   .L_sym_06044C80, r7
     jsr @r14
     mov #0xC, r4
-    mov.l   .L_pool_06015130, r7
+    mov.l   .L_sym_06044C84, r7
     mov #0x60, r6
     mov.w   .L_wpool_0601510E, r5
     jsr @r14
     mov #0xC, r4
-    mov.l   .L_pool_06015134, r7
+    mov.l   .L_sym_06044C88, r7
     mov.w   .L_wpool_06015110, r6
     mov.w   .L_wpool_06015112, r5
     jsr @r14
     mov #0xC, r4
     mov.b @r15, r4
-    mov.l   .L_pool_06015138, r3
+    mov.l   .L_sym_060172E4, r3
     jsr @r3
     extu.b r4, r4
     extu.b r13, r2
-    mov.l   .L_pool_0601513C, r3
+    mov.l   .L_sym_06085F8C, r3
     mov.b r2, @r3
     mov #0xE, r1
-    mov.l   .L_pool_06015140, r3
+    mov.l   .L_sym_06085F8D, r3
     mov.b r1, @r3
     mov #0xA, r1
-    mov.l   .L_pool_06015144, r3
+    mov.l   .L_sym_06085F8E, r3
     mov.b r1, @r3
     exts.b r13, r13
-    mov.l   .L_pool_06015148, r3
+    mov.l   .L_sym_06085F8B, r3
     mov.b r13, @r3
     bra     .L_060150FE
     nop
 .L_060150F0:
-    mov.l   .L_pool_0601514C, r3
+    mov.l   .L_sym_0607ED8C, r3
     mov.w r13, @r3
     add #0x4, r15
     lds.l @r15+, pr
@@ -128,33 +128,33 @@ hud_layout_mgr:
     .2byte  0x0090
 .L_wpool_06015112:
     .2byte  0x051C
-.L_pool_06015114:
+.L_sym_0607ED88:
     .4byte  sym_0607ED88
-.L_pool_06015118:
+.L_sym_0602853E:
     .4byte  sym_0602853E
-.L_pool_0601511C:
+.L_sym_06028560:
     .4byte  sym_06028560
-.L_pool_06015120:
+.L_gameover_channel_setup:
     .4byte  gameover_channel_setup
-.L_pool_06015124:
+.L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_06015128:
+.L_sym_06044C78:
     .4byte  sym_06044C78
-.L_pool_0601512C:
+.L_sym_06044C80:
     .4byte  sym_06044C80
-.L_pool_06015130:
+.L_sym_06044C84:
     .4byte  sym_06044C84
-.L_pool_06015134:
+.L_sym_06044C88:
     .4byte  sym_06044C88
-.L_pool_06015138:
+.L_sym_060172E4:
     .4byte  sym_060172E4
-.L_pool_0601513C:
+.L_sym_06085F8C:
     .4byte  sym_06085F8C
-.L_pool_06015140:
+.L_sym_06085F8D:
     .4byte  sym_06085F8D
-.L_pool_06015144:
+.L_sym_06085F8E:
     .4byte  sym_06085F8E
-.L_pool_06015148:
+.L_sym_06085F8B:
     .4byte  sym_06085F8B
-.L_pool_0601514C:
+.L_sym_0607ED8C:
     .4byte  sym_0607ED8C

@@ -11,7 +11,7 @@
 impact_force_calc:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036834, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -26,7 +26,7 @@ impact_force_calc:
     mov.b r0, @(1, r2)
     mov r13, r0
     mov.b r0, @(2, r3)
-    mov.l   .L_pool_06036838, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov #0x40, r4
     mov r0, r4
@@ -44,7 +44,7 @@ impact_force_calc:
 collision_response_vel:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_06036834, r3
+    mov.l   .L_input_proc_analog, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -63,7 +63,7 @@ collision_response_vel:
     mov r13, r0
     mov.w r0, @(6, r3)
     mov.w   .L_wpool_06036832, r4
-    mov.l   .L_pool_06036838, r3
+    mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -75,7 +75,7 @@ collision_response_vel:
     mov.l @r15+, r14
 .L_wpool_06036832:
     .2byte  0x0080
-.L_pool_06036834:
+.L_input_proc_analog:
     .4byte  input_proc_analog
-.L_pool_06036838:
+.L_input_proc_buttons:
     .4byte  input_proc_buttons

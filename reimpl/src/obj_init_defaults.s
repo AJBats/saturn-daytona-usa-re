@@ -12,7 +12,7 @@ obj_init_defaults:
     sts.l pr, @-r15
     add #-0xC, r15
     mov.w   .L_wpool_060204A8, r10
-    mov.l   .L_pool_060204AC, r12
+    mov.l   .L_sym_0605F44E, r12
     mov.b r4, @r15
     mov r12, r11
     mov r12, r9
@@ -50,7 +50,7 @@ obj_init_defaults:
     mov r10, r7
     extu.w r8, r6
     mov r12, r5
-    mov.l   .L_pool_060204B0, r2
+    mov.l   .L_sym_06028400, r2
     mov.l @(8, r15), r3
     add r3, r6
     shll r6
@@ -76,7 +76,7 @@ obj_init_defaults:
 .L_wpool_060204A8:
     .2byte  0x3C79
     .2byte  0xFFFF
-.L_pool_060204AC:
+.L_sym_0605F44E:
     .4byte  sym_0605F44E
-.L_pool_060204B0:
+.L_sym_06028400:
     .4byte  sym_06028400

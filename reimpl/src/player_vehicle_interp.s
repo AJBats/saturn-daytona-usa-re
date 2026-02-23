@@ -18,12 +18,12 @@ player_vehicle_interp:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_06042234, r8
+    mov.l   .L_ai_checkpoint_validate, r8
     mov #0x2, r9
     mov #0x1, r10
     mov.w   DAT_0604222c, r11
     mov #0x0, r12
-    mov.l   .L_pool_06042238, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     bra     .L_06042210
     mov r12, r13
@@ -102,7 +102,7 @@ player_vehicle_interp:
     mov.w   DAT_0604222e, r3
     add r3, r4
     add r2, r4
-    mov.l   .L_pool_0604223C, r3
+    mov.l   .L_track_road_edge_c, r3
     jsr @r3
     mov.l @r4, r4
     mov r0, r4
@@ -152,11 +152,11 @@ DAT_0604222e:
 .L_wpool_06042230:
     .2byte  0x01DC
     .2byte  0xFFFF
-.L_pool_06042234:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_06042238:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_0604223C:
+.L_track_road_edge_c:
     .4byte  track_road_edge_c
 .L_06042240:
     bra     .L_06042296
@@ -215,7 +215,7 @@ DAT_0604222e:
 .L_060422A6:
     mov #0x40, r3
     mov.l r3, @r15
-    mov.l   .L_pool_06042310, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     nop
     mov r0, r5
@@ -259,7 +259,7 @@ DAT_0604222e:
 validator_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06042310, r3
+    mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r4, @r15
     mov r0, r4
@@ -280,7 +280,7 @@ DAT_0604230c:
     .2byte  0x01DC
 .L_wpool_0604230E:
     .2byte  0x01E0
-.L_pool_06042310:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E
 .L_06042314:
     mov #0x0, r0
@@ -293,7 +293,7 @@ DAT_0604230c:
     .global sym_0604231E
 sym_0604231E:
     mov #0x17, r7
-    mov.l   .L_pool_0604239C, r5
+    mov.l   .L_sym_060A5400_2, r5
     mov #0x0, r4
     mov r4, r6
 .L_06042326:
@@ -362,5 +362,5 @@ DAT_06042398:
     .global DAT_0604239a
 DAT_0604239a:
     .2byte  0x01DC
-.L_pool_0604239C:
+.L_sym_060A5400_2:
     .4byte  sym_060A5400

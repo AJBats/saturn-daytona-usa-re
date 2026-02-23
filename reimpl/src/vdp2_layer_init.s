@@ -15,8 +15,8 @@ vdp2_layer_init:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06015F9C, r10
-    mov.l   .L_pool_06015FA0, r13
+    mov.l   .L_sym_0605B8B8, r10
+    mov.l   .L_sym_06084FC8, r13
     mov r4, r14
     extu.b r14, r12
     mov r12, r3
@@ -45,7 +45,7 @@ vdp2_layer_init:
     mov.l @(4, r4), r2
     mov.l r2, @(16, r12)
     mov.l r3, @(28, r12)
-    mov.l   .L_pool_06015FA4, r3
+    mov.l   .L_sym_06035438, r3
     jsr @r3
     mov.l @(16, r12), r4
     mov.l   .L_pool_06015FA8, r2
@@ -79,7 +79,7 @@ vdp2_layer_init:
     mov.l r3, @(56, r5)
     mov.l @(12, r4), r2
     mov.l r2, @(24, r5)
-    mov.l   .L_pool_06015FAC, r0
+    mov.l   .L_sym_06085F89, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06015F70
@@ -125,13 +125,13 @@ vdp2_layer_init:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06015F9C:
+.L_sym_0605B8B8:
     .4byte  sym_0605B8B8
-.L_pool_06015FA0:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06015FA4:
+.L_sym_06035438:
     .4byte  sym_06035438
 .L_pool_06015FA8:
     .4byte  0x00100000
-.L_pool_06015FAC:
+.L_sym_06085F89:
     .4byte  sym_06085F89

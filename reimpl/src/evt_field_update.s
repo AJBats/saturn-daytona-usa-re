@@ -11,7 +11,7 @@
 evt_field_update:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06041290, r7
+    mov.l   .L_sym_060A5400, r7
     mov.w   .L_wpool_0604128E, r0
     mov.l @r7, r3
     mov.l @(r0, r3), r0
@@ -60,7 +60,7 @@ ai_brake_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_06041290, r14
+    mov.l   .L_sym_060A5400, r14
     mov.l @r14, r3
     mov.l @(52, r3), r0
     tst r0, r0
@@ -71,7 +71,7 @@ ai_brake_handler:
     rts
     mov.l @r15+, r14
 .L_06041272:
-    mov.l   .L_pool_06041294, r3
+    mov.l   .L_ai_brake_zone_main, r3
     jsr @r3
     nop
     mov r0, r4
@@ -87,12 +87,12 @@ ai_brake_handler:
     mov.l @r15+, r14
 .L_wpool_0604128E:
     .2byte  0x0328
-.L_pool_06041290:
+.L_sym_060A5400:
     .4byte  sym_060A5400
-.L_pool_06041294:
+.L_ai_brake_zone_main:
     .4byte  ai_brake_zone_main
 .L_06041298:
-    mov.l   .L_pool_06041308, r3
+    mov.l   .L_ai_checkpoint_validate, r3
     jsr @r3
     mov r15, r4
     mov.l @r14, r2
@@ -111,7 +111,7 @@ ai_brake_handler:
 evt_checkpoint_validate:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0604130C, r7
+    mov.l   .L_sym_060A5400_2, r7
     mov.w   .L_wpool_06041306, r0
     mov.l @r7, r3
     mov.l @(r0, r3), r0
@@ -155,9 +155,9 @@ evt_checkpoint_validate:
     nop
 .L_wpool_06041306:
     .2byte  0x0338
-.L_pool_06041308:
+.L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate
-.L_pool_0604130C:
+.L_sym_060A5400_2:
     .4byte  sym_060A5400
     .4byte  0xD5149025
     .4byte  0x6352003E
@@ -173,18 +173,18 @@ evt_checkpoint_validate:
 evt_validator_pair:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06041368, r3
+    mov.l   .L_ai_section_transition, r3
     jsr @r3
     mov.l r4, @r15
     mov r0, r4
     tst r4, r4
     bt      .L_06041346
-    mov.l   .L_pool_0604136C, r3
+    mov.l   .L_ai_checkpoint_section, r3
     jsr @r3
     mov.l @r15, r4
 .L_06041346:
     add #0x4, r15
-    mov.l   .L_pool_06041370, r3
+    mov.l   .L_sym_06035C4E, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -192,7 +192,7 @@ evt_validator_pair:
     .type ai_section_check, @function
 ai_section_check:
     sts.l pr, @-r15
-    mov.l   .L_pool_06041364, r3
+    mov.l   .L_sym_060A5400_3, r3
     mov.l @r3, r3
     mov.l @(56, r3), r2
     cmp/eq r5, r2
@@ -201,16 +201,16 @@ ai_section_check:
     rts
     mov #-0x9, r0
     .4byte  0x0338033C
-.L_pool_06041364:
+.L_sym_060A5400_3:
     .4byte  sym_060A5400
-.L_pool_06041368:
+.L_ai_section_transition:
     .4byte  ai_section_transition
-.L_pool_0604136C:
+.L_ai_checkpoint_section:
     .4byte  ai_checkpoint_section
-.L_pool_06041370:
+.L_sym_06035C4E:
     .4byte  sym_06035C4E
 .L_06041374:
-    mov.l   .L_pool_060413F0, r3
+    mov.l   .L_ai_recovery_handler, r3
     jsr @r3
     nop
     mov #0x0, r0
@@ -224,7 +224,7 @@ error_trap_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_060413F4, r14
+    mov.l   .L_sym_060A5400_4, r14
     mov.l @r14, r3
     add #0x18, r3
     mov.l r3, @(4, r15)
@@ -280,9 +280,9 @@ error_trap_handler:
     mov.l @r15+, r14
 .L_wpool_060413EE:
     .2byte  0x0348
-.L_pool_060413F0:
+.L_ai_recovery_handler:
     .4byte  ai_recovery_handler
-.L_pool_060413F4:
+.L_sym_060A5400_4:
     .4byte  sym_060A5400
     .4byte  0xD3149026
     .4byte  0x6332003E
@@ -307,7 +307,7 @@ nmi_handler:
     rts
     mov #-0x6, r0
 .L_06041424:
-    mov.l   .L_pool_0604144C, r0
+    mov.l   .L_sym_060A5400_5, r0
     mov.l @r0, r0
     mov.b @(r0, r4), r3
     tst r3, r3
@@ -317,7 +317,7 @@ nmi_handler:
     rts
     mov #-0x7, r0
 .L_06041436:
-    mov.l   .L_pool_06041450, r3
+    mov.l   .L_track_dist_stub, r3
     jsr @r3
     nop
     mov r0, r4
@@ -328,15 +328,15 @@ nmi_handler:
     rts
     mov #-0xA, r0
     .2byte  0x0348
-.L_pool_0604144C:
+.L_sym_060A5400_5:
     .4byte  sym_060A5400
-.L_pool_06041450:
+.L_track_dist_stub:
     .4byte  track_dist_stub
 .L_06041454:
-    mov.l   .L_pool_060414C8, r3
+    mov.l   .L_ai_checkpoint_validate_2, r3
     jsr @r3
     mov r15, r4
-    mov.l   .L_pool_060414CC, r2
+    mov.l   .L_sym_060A5400_6, r2
     mov.l @r2, r2
     mov r15, r3
     mov.b @r3, r1
@@ -353,7 +353,7 @@ nmi_handler:
 checkpoint_state_check:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_060414CC, r6
+    mov.l   .L_sym_060A5400_6, r6
     mov.l @r6, r0
     add #0x18, r0
     mov.b @(r0, r5), r0
@@ -399,7 +399,7 @@ checkpoint_state_check:
 .L_wpool_060414C4:
     .2byte  0x0360
     .2byte  0xFFFF
-.L_pool_060414C8:
+.L_ai_checkpoint_validate_2:
     .4byte  ai_checkpoint_validate
-.L_pool_060414CC:
+.L_sym_060A5400_6:
     .4byte  sym_060A5400

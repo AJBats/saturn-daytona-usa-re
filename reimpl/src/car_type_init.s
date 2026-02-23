@@ -17,14 +17,14 @@ car_type_init:
     mov.l r10, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0600E2CC, r11
-    mov.l   .L_pool_0600E2D0, r14
-    mov.l   .L_pool_0600E2D4, r13
+    mov.l   .L_sym_0607EAD8, r11
+    mov.l   .L_sym_0607E940, r14
+    mov.l   .L_sym_06078680, r13
     mov.w   DAT_0600e2ba, r0
     mov.l @r14, r14
     mov.l r3, @(r0, r14)
     mov.l @(4, r14), r12
-    mov.l   .L_pool_0600E2D8, r2
+    mov.l   .L_sym_06047DE4, r2
     mov r12, r3
     shll2 r12
     shll2 r3
@@ -40,9 +40,9 @@ car_type_init:
     mov.l r4, @(r0, r14)
     mov.l @r11, r1
     shll r1
-    mov.l   .L_pool_0600E2DC, r3
-    mov.l   .L_pool_0600E2E0, r0
-    mov.l   .L_pool_0600E2E4, r2
+    mov.l   .L_sym_0605A220, r3
+    mov.l   .L_sym_0607EA9C, r0
+    mov.l   .L_sym_06035C2C, r2
     add r3, r1
     mov.w @r1, r1
     extu.w r1, r1
@@ -56,7 +56,7 @@ car_type_init:
     mov r0, r3
     extu.w r3, r3
     shll2 r3
-    mov.l   .L_pool_0600E2E8, r2
+    mov.l   .L_sym_06085FD0, r2
     add r2, r3
     mov.l @r3, r1
     mov.w   DAT_0600e2c0, r0
@@ -72,30 +72,30 @@ car_type_init:
     shll2 r0
     add r3, r0
     exts.b r0, r0
-    mov.l   .L_pool_0600E2EC, r2
+    mov.l   .L_sym_06047DD0, r2
     add r2, r0
-    mov.l   .L_pool_0600E2F0, r3
+    mov.l   .L_sym_0605AD04, r3
     mov.l @r3, r3
     mov.b @(r0, r3), r10
     extu.b r10, r10
-    mov.l   .L_pool_0600E2F4, r3
+    mov.l   .L_sym_0605AD00, r3
     mov.l @r3, r3
-    mov.l   .L_pool_0600E2F8, r0
+    mov.l   .L_sym_06086030, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
     bt/s    .L_0600E278
     add r3, r10
     mov.l @r11, r10
-    mov.l   .L_pool_0600E2FC, r3
+    mov.l   .L_sym_06047DDF, r3
     add r3, r10
     mov.b @r10, r10
     extu.b r10, r10
 .L_0600E278:
     mov.l @r12, r5
     mov r10, r4
-    mov.l   .L_pool_0600E300, r3
-    mov.l   .L_pool_0600E304, r2
+    mov.l   .L_sym_06047D8C, r3
+    mov.l   .L_fpmul, r2
     shll2 r4
     add r3, r4
     jsr @r2
@@ -105,14 +105,14 @@ car_type_init:
     mov.l r0, @r1
     mov.w   .L_wpool_0600E2C6, r5
     mov.w   DAT_0600e2c4, r0
-    mov.l   .L_pool_0600E304, r3
+    mov.l   .L_fpmul, r3
     jsr @r3
     mov.l @(r0, r14), r4
     mov.w   DAT_0600e2c8, r1
     mov #0x0, r2
     add r14, r1
     mov.l r0, @r1
-    mov.l   .L_pool_0600E2E0, r3
+    mov.l   .L_sym_0607EA9C, r3
     mov.w   DAT_0600e2be, r0
     mov.l @r3, r3
     mov.l @(r0, r14), r1
@@ -157,35 +157,35 @@ DAT_0600e2c8:
     .global DAT_0600e2ca
 DAT_0600e2ca:
     .2byte  0x0228
-.L_pool_0600E2CC:
+.L_sym_0607EAD8:
     .4byte  sym_0607EAD8
-.L_pool_0600E2D0:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600E2D4:
+.L_sym_06078680:
     .4byte  sym_06078680
-.L_pool_0600E2D8:
+.L_sym_06047DE4:
     .4byte  sym_06047DE4
-.L_pool_0600E2DC:
+.L_sym_0605A220:
     .4byte  sym_0605A220
-.L_pool_0600E2E0:
+.L_sym_0607EA9C:
     .4byte  sym_0607EA9C
-.L_pool_0600E2E4:
+.L_sym_06035C2C:
     .4byte  sym_06035C2C
-.L_pool_0600E2E8:
+.L_sym_06085FD0:
     .4byte  sym_06085FD0
-.L_pool_0600E2EC:
+.L_sym_06047DD0:
     .4byte  sym_06047DD0
-.L_pool_0600E2F0:
+.L_sym_0605AD04:
     .4byte  sym_0605AD04
-.L_pool_0600E2F4:
+.L_sym_0605AD00:
     .4byte  sym_0605AD00
-.L_pool_0600E2F8:
+.L_sym_06086030:
     .4byte  sym_06086030
-.L_pool_0600E2FC:
+.L_sym_06047DDF:
     .4byte  sym_06047DDF
-.L_pool_0600E300:
+.L_sym_06047D8C:
     .4byte  sym_06047D8C
-.L_pool_0600E304:
+.L_fpmul:
     .4byte  fpmul
 .L_0600E308:
     mov #-0x1, r3
@@ -250,7 +250,7 @@ DAT_0600e2ca:
     mov.l @(r0, r14), r3
     add #-0x4, r0
     mov.l r3, @(r0, r14)
-    mov.l   .L_pool_0600E404, r3
+    mov.l   .L_heading_smooth_gentle, r3
     jsr @r3
     mov r13, r4
     mov.l @r13, r2
@@ -273,12 +273,12 @@ DAT_0600e2ca:
     add #0x10, r5
     mov.l r5, @-r15
     mov.l @(24, r14), r5
-    mov.l   .L_pool_0600E408, r3
+    mov.l   .L_sym_06006838, r3
     jsr @r3
     mov.l @(16, r14), r4
     mov r0, r4
     mov.l @r15+, r5
-    mov.l   .L_pool_0600E40C, r3
+    mov.l   .L_scene_render_alt, r3
     jsr @r3
     mov.l @r15+, r6
     mov.w @(12, r13), r0
@@ -344,9 +344,9 @@ DAT_0600e3f6:
     .4byte  0x00042E38
 .L_pool_0600E400:
     .4byte  0x00042000
-.L_pool_0600E404:
+.L_heading_smooth_gentle:
     .4byte  heading_smooth_gentle
-.L_pool_0600E408:
+.L_sym_06006838:
     .4byte  sym_06006838
-.L_pool_0600E40C:
+.L_scene_render_alt:
     .4byte  scene_render_alt

@@ -18,12 +18,12 @@ sound_write_direct:
     mov.l   .L_pool_0601D6CC, r3
     mov.l r2, @r3
     mov.l @r15, r2
-    mov.l   .L_pool_0601D6D0, r3
+    mov.l   .L_sym_0608604C, r3
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
 .L_pool_0601D6CC:
     .4byte  0x25A02C20
-.L_pool_0601D6D0:
+.L_sym_0608604C:
     .4byte  sym_0608604C

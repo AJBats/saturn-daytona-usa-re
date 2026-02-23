@@ -21,7 +21,7 @@ evt_cmd_enqueue:
     mov r15, r7
     mov.l @(20, r15), r6
     mov.l @(16, r14), r5
-    mov.l   .L_pool_06040948, r3
+    mov.l   .L_cmd_enqueue, r3
     add #0x4, r7
     jsr @r3
     mov.l @(4, r14), r4
@@ -32,7 +32,7 @@ evt_cmd_enqueue:
     bra     .L_0604093C
     mov #0x0, r0
 .L_060408DC:
-    mov.l   .L_pool_0604094C, r3
+    mov.l   .L_state_field_read, r3
     jsr @r3
     nop
     tst r0, r0
@@ -54,7 +54,7 @@ evt_cmd_enqueue:
     add #0x18, r2
     mov.l r2, @-r15
     mov r15, r7
-    mov.l   .L_pool_06040950, r3
+    mov.l   .L_sym_06040220, r3
     add #0x18, r7
     jsr @r3
     mov.l @r14, r4
@@ -89,9 +89,9 @@ evt_cmd_enqueue:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_06040948:
+.L_cmd_enqueue:
     .4byte  cmd_enqueue
-.L_pool_0604094C:
+.L_state_field_read:
     .4byte  state_field_read
-.L_pool_06040950:
+.L_sym_06040220:
     .4byte  sym_06040220

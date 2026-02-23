@@ -81,7 +81,7 @@ race_timer_sync:
     sts.l pr, @-r15
     add #-0x10, r15
     mov #0x0, r10
-    mov.l   .L_pool_0603FA64, r11
+    mov.l   .L_sym_060A4D14, r11
     mov.w   .L_wpool_0603FA5E, r12
     mov.l   .L_pool_0603FA68, r13
     mov r4, r14
@@ -113,7 +113,7 @@ race_timer_sync:
 .L_wpool_0603FA60:
     .2byte  0x00CC
     .2byte  0xFFFF
-.L_pool_0603FA64:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
 .L_pool_0603FA68:
     .4byte  0x01000000
@@ -133,7 +133,7 @@ race_timer_sync:
     bt      .L_0603FA9A
     mov.l @(4, r15), r6
     mov.l @(4, r14), r5
-    mov.l   .L_pool_0603FB28, r3
+    mov.l   .L_sym_0603F91C, r3
     jsr @r3
     mov.l @(8, r15), r4
     mov.l @(4, r14), r2
@@ -148,7 +148,7 @@ race_timer_sync:
     bt      .L_0603FAAC
     mov.l @(4, r15), r6
     mov.l @(12, r14), r5
-    mov.l   .L_pool_0603FB28, r3
+    mov.l   .L_sym_0603F91C, r3
     jsr @r3
     mov.l @(12, r15), r4
     mov.l r10, @(12, r14)
@@ -228,7 +228,7 @@ DAT_0603fb22:
 DAT_0603fb24:
     .2byte  0xFF7F
     .2byte  0xFFFF
-.L_pool_0603FB28:
+.L_sym_0603F91C:
     .4byte  sym_0603F91C
 .L_0603FB2C:
     mov r9, r6
@@ -325,7 +325,7 @@ DAT_0603fb24:
     bf      .L_0603FBEA
     mov #-0x1, r6
     mov.l @(4, r14), r5
-    mov.l   .L_pool_0603FC24, r3
+    mov.l   .L_sym_0603F91C_2, r3
     jsr @r3
     mov r10, r4
     mov.l @(4, r14), r2
@@ -337,7 +337,7 @@ DAT_0603fb24:
 .L_0603FBEA:
     mov #-0x1, r6
     mov.l @(12, r14), r5
-    mov.l   .L_pool_0603FC24, r3
+    mov.l   .L_sym_0603F91C_2, r3
     jsr @r3
     mov r9, r4
     mov.l r11, @(12, r14)
@@ -366,7 +366,7 @@ DAT_0603fb24:
     bra     .L_0603FC40
     nop
     .2byte  0xFFFF
-.L_pool_0603FC24:
+.L_sym_0603F91C_2:
     .4byte  sym_0603F91C
 .L_0603FC28:
     cmp/eq #0x0, r0
@@ -431,18 +431,18 @@ vblank_palette_apply:
     bt      .L_0603FC9E
     mov.l @(4, r14), r1
     mov.l @(28, r14), r3
-    mov.l   .L_pool_0603FCB8, r2
+    mov.l   .L_sym_06034FFC, r2
     mov.l @(8, r1), r1
     sub r3, r1
     jsr @r2
     mov.l @(48, r14), r0
     mov r0, r13
 .L_0603FC9E:
-    mov.l   .L_pool_0603FCBC, r3
+    mov.l   .L_sym_0603F8EE, r3
     jsr @r3
     mov.l @(4, r15), r4
     mov r0, r1
-    mov.l   .L_pool_0603FCB8, r2
+    mov.l   .L_sym_06034FFC, r2
     jsr @r2
     mov.l @(48, r14), r0
     mov r0, r4
@@ -454,9 +454,9 @@ vblank_palette_apply:
     .global DAT_0603fcb6
 DAT_0603fcb6:
     .2byte  0xFF7F
-.L_pool_0603FCB8:
+.L_sym_06034FFC:
     .4byte  sym_06034FFC
-.L_pool_0603FCBC:
+.L_sym_0603F8EE:
     .4byte  sym_0603F8EE
 .L_0603FCC0:
     mov r4, r13
@@ -465,7 +465,7 @@ DAT_0603fcb6:
     tst r0, r0
     bf      .L_0603FCDA
     mov r13, r5
-    mov.l   .L_pool_0603FD34, r3
+    mov.l   .L_sym_0603F900, r3
     jsr @r3
     mov.l @r15, r4
     mov.l r0, @(4, r14)
@@ -501,7 +501,7 @@ hud_palette_select:
     mov.l @(28, r14), r3
     mov.l @(8, r13), r13
     sub r3, r13
-    mov.l   .L_pool_0603FD38, r3
+    mov.l   .L_sym_0603F8EE_2, r3
     jsr @r3
     mov r12, r4
     cmp/ge r0, r13
@@ -509,12 +509,12 @@ hud_palette_select:
     bra     .L_0603FD1C
     mov r13, r5
 .L_0603FD14:
-    mov.l   .L_pool_0603FD38, r3
+    mov.l   .L_sym_0603F8EE_2, r3
     jsr @r3
     mov r12, r4
     mov r0, r5
 .L_0603FD1C:
-    mov.l   .L_pool_0603FD3C, r3
+    mov.l   .L_sym_0603F90E, r3
     jsr @r3
     mov r12, r4
     mov.l r0, @(12, r14)
@@ -525,9 +525,9 @@ hud_palette_select:
     mov.l @r15+, r14
     .2byte  0x000B
     .4byte  0xE001FFFF
-.L_pool_0603FD34:
+.L_sym_0603F900:
     .4byte  sym_0603F900
-.L_pool_0603FD38:
+.L_sym_0603F8EE_2:
     .4byte  sym_0603F8EE
-.L_pool_0603FD3C:
+.L_sym_0603F90E:
     .4byte  sym_0603F90E

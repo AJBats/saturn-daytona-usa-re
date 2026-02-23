@@ -15,8 +15,8 @@ file_data_parse:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_060123E4, r12
-    mov.l   .L_pool_060123E8, r11
+    mov.l   .L_sym_060788AC, r12
+    mov.l   .L_fpmul, r11
     mov.w   DAT_060123de, r5
     mov.l @r12, r12
     cmp/gt r12, r3
@@ -35,7 +35,7 @@ file_data_parse:
     mov r12, r4
     mov r0, r4
     mov r13, r5
-    mov.l   .L_pool_060123EC, r6
+    mov.l   .L_sym_060788C0, r6
     mov r4, r1
     shll r5
     mov.l @r6, r2
@@ -47,7 +47,7 @@ file_data_parse:
     mov.l @(8, r6), r2
     add r4, r2
     mov.l r2, @(8, r6)
-    mov.l   .L_pool_060123F0, r6
+    mov.l   .L_sym_060788CC, r6
     mov.l @r6, r3
     sub r14, r3
     mov.l r3, @r6
@@ -57,11 +57,11 @@ file_data_parse:
     mov.l @(8, r6), r3
     sub r13, r3
     mov.l r3, @(8, r6)
-    mov.l   .L_pool_060123F4, r6
+    mov.l   .L_sym_060788D8, r6
     mov.l @r6, r2
     add r5, r2
     mov.l r2, @r6
-    mov.l   .L_pool_060123F8, r3
+    mov.l   .L_sym_06034FE0, r3
     jsr @r3
     mov #0x4, r0
     mov.l @(4, r6), r2
@@ -70,7 +70,7 @@ file_data_parse:
     mov.l @(8, r6), r3
     sub r4, r3
     mov.l r3, @(8, r6)
-    mov.l   .L_pool_060123FC, r5
+    mov.l   .L_sym_060788E4, r5
     mov.l @r5, r2
     add r14, r2
     mov.l r2, @r5
@@ -98,17 +98,17 @@ DAT_060123e0:
     .global DAT_060123e2
 DAT_060123e2:
     .2byte  0x2666
-.L_pool_060123E4:
+.L_sym_060788AC:
     .4byte  sym_060788AC
-.L_pool_060123E8:
+.L_fpmul:
     .4byte  fpmul
-.L_pool_060123EC:
+.L_sym_060788C0:
     .4byte  sym_060788C0
-.L_pool_060123F0:
+.L_sym_060788CC:
     .4byte  sym_060788CC
-.L_pool_060123F4:
+.L_sym_060788D8:
     .4byte  sym_060788D8
-.L_pool_060123F8:
+.L_sym_06034FE0:
     .4byte  sym_06034FE0
-.L_pool_060123FC:
+.L_sym_060788E4:
     .4byte  sym_060788E4

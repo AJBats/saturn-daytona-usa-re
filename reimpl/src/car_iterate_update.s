@@ -21,14 +21,14 @@ car_iterate_update:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0600D91C, r8
-    mov.l   .L_pool_0600D920, r9
-    mov.l   .L_pool_0600D924, r10
-    mov.l   .L_pool_0600D928, r11
+    mov.l   .L_sym_0607E944, r8
+    mov.l   .L_sym_0607E940, r9
+    mov.l   .L_sym_060786AC, r10
+    mov.l   .L_sym_06063F3C, r11
     mov.l @r11, r12
     mov.l @r12, r12
     tst r4, r4
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     cmp/hs r12, r5
     bt/s    .L_0600D906
     mov.l r0, @r15
@@ -73,11 +73,11 @@ car_iterate_update:
     mov.l @r15+, r14
 .L_wpool_0600D91A:
     .2byte  0x01EC
-.L_pool_0600D91C:
+.L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_0600D920:
+.L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600D924:
+.L_sym_060786AC:
     .4byte  sym_060786AC
-.L_pool_0600D928:
+.L_sym_06063F3C:
     .4byte  sym_06063F3C

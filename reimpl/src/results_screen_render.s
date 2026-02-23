@@ -12,7 +12,7 @@
 results_screen_render:
     sts.l pr, @-r15
     shll2 r3
-    mov.l   .L_pool_060160BC, r13
+    mov.l   .L_sym_06084FC8, r13
     shll2 r3
     add r3, r4
     exts.w r4, r4
@@ -37,11 +37,11 @@ results_screen_render:
     mov.l r3, @(48, r4)
     mov.l @(24, r4), r2
     cmp/pz r2
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     mov.l @(56, r4), r2
     cmp/gt r2, r3
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     add #-0x1, r1
     neg r1, r1
     and r1, r0
@@ -70,11 +70,11 @@ results_screen_render:
     add r13, r4
     mov.l @(24, r4), r2
     cmp/pz r2
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     mov.l @(48, r4), r3
     mov.l @(56, r4), r2
     cmp/ge r2, r3
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     and r1, r0
     tst r0, r0
     bt      .L_0601605E
@@ -105,7 +105,7 @@ results_screen_render:
     mov r3, r4
     mov.l r3, @(4, r11)
     mov.l @(52, r11), r2
-    mov.l   .L_pool_060160C0, r3
+    mov.l   .L_sym_06035438, r3
     jsr @r3
     sub r2, r4
     mov.l   .L_pool_060160C4, r2
@@ -138,9 +138,9 @@ results_screen_render:
     mov.l r1, @(16, r2)
 .L_wpool_060160BA:
     .2byte  0xF800
-.L_pool_060160BC:
+.L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_060160C0:
+.L_sym_06035438:
     .4byte  sym_06035438
 .L_pool_060160C4:
     .4byte  0x000F0000
@@ -210,12 +210,12 @@ results_screen_render:
     add r13, r5
     mov.l @(16, r5), r2
     cmp/pz r2
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     xor #0x1, r0
     mov.l @(4, r5), r3
     mov.l @(52, r5), r2
     cmp/gt r2, r3
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     add #-0x1, r1
     neg r1, r1
     and r1, r0
@@ -247,11 +247,11 @@ results_screen_render:
     add r13, r5
     mov.l @(16, r5), r2
     cmp/pz r2
-    .word 0x0029 /* UNKNOWN */
+    movt r0
     mov.l @(4, r5), r3
     mov.l @(52, r5), r2
     cmp/ge r2, r3
-    .word 0x0129 /* UNKNOWN */
+    movt r1
     and r1, r0
     tst r0, r0
     bt      .L_060161B4

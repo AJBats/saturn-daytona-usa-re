@@ -12,7 +12,7 @@ menu_sound_trigger:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0603AEE0, r14
+    mov.l   .L_sym_060A4D14, r14
     mov.w   .L_wpool_0603AED8, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
@@ -34,7 +34,7 @@ menu_sound_trigger:
 .L_0603AE9E:
     cmp/pz r4
     bf      .L_0603AEAE
-    mov.l   .L_pool_0603AEE0, r3
+    mov.l   .L_sym_060A4D14, r3
     mov.w   .L_wpool_0603AEDC, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
@@ -51,7 +51,7 @@ menu_sound_trigger:
 .L_0603AEBC:
     mov.l @r14, r5
     mov.w   .L_wpool_0603AED8, r0
-    mov.l   .L_pool_0603AEE4, r3
+    mov.l   .L_sym_0603F1F0, r3
     jsr @r3
     mov.l @(r0, r5), r5
     mov.l r0, @r15
@@ -70,7 +70,7 @@ menu_sound_trigger:
 .L_wpool_0603AEDC:
     .2byte  0x00A4
     .2byte  0xFFFF
-.L_pool_0603AEE0:
+.L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_0603AEE4:
+.L_sym_0603F1F0:
     .4byte  sym_0603F1F0

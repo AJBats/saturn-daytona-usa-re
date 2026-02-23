@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_06033402
+    .space 2    /* align to match original address 0x06033402 (mod 4 = 2) */
 
 
     .global attract_mode_stub

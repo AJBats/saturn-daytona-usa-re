@@ -18,7 +18,7 @@ transform_pipeline:
     add #-0x8, r15
     mov.l   .L_pool_06027A2C, r1
     mov.l   .L_pool_06027A30, r2
-    mov.l   .L_pool_06027A34, r14
+    mov.l   .L_sym_06063F08, r14
     mov.l @r14, r14
     mov r5, r12
     mov.w @r12, r0
@@ -76,7 +76,7 @@ transform_pipeline:
     .4byte  0x0000E666
 .L_pool_06027A30:
     .4byte  0x00001999
-.L_pool_06027A34:
+.L_sym_06063F08:
     .4byte  sym_06063F08
 .L_06027A38:
     mov.l @r4, r7

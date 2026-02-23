@@ -4,6 +4,7 @@
  */
 
     .section .text.FUN_0603B3CA
+    .space 2    /* align to match original address 0x0603B3CA (mod 4 = 2) */
 
 
     .global menu_stub_nop
