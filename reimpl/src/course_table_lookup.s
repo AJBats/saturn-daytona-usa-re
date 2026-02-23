@@ -53,7 +53,7 @@ car_param_lookup:
     mov.w   .L_wpool_06012B36, r6
     mov.l @r15, r5
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_06012B3C, r3
+    mov.w   .L_quarter_turn_w, r3
     mov.l @r5, r5
     add r3, r7
     mov.l   .L_sym_06028400, r3
@@ -78,7 +78,7 @@ car_param_lookup:
     .2byte  0x069C
 .L_wpool_06012B3A:
     .2byte  0x071C
-.L_wpool_06012B3C:
+.L_quarter_turn_w:
     .2byte  0x4000
     .2byte  0xFFFF
 .L_sym_0605ACDD:

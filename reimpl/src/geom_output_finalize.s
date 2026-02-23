@@ -54,7 +54,7 @@ geom_output_finalize:
     cmp/eq r2, r3
     bt      .L_0601F83E
 .L_0601F7DC:
-    mov.l   .L_pool_0601F828, r8
+    mov.l   .L_wram_low_f8000, r8
     mov.l   .L_memcpy_long_idx, r9
     mov.l @r10, r0
     tst r0, r0
@@ -100,7 +100,7 @@ DAT_0601f806:
     .4byte  sym_0605E0A1
 .L_sym_0605E0A0:
     .4byte  sym_0605E0A0
-.L_pool_0601F828:
+.L_wram_low_f8000:
     .4byte  0x002F8000
 .L_memcpy_long_idx:
     .4byte  memcpy_long_idx

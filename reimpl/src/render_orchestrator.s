@@ -134,7 +134,7 @@ render_orchestrator:
     jsr @r13
     nop
     mov.l @(0, r0), r2
-    mov.l   .L_pool_0602EFC8, r3
+    mov.l   .L_fp_neg_0_03c1, r3
     and r3, r2
     mov.l r2, @(0, r0)
     lds.l @r15+, pr
@@ -152,7 +152,7 @@ render_orchestrator:
     .4byte  sym_0602D814
 .L_sym_0602D8BC:
     .4byte  sym_0602D8BC
-.L_pool_0602EFC8:
+.L_fp_neg_0_03c1:
     .4byte  0xFFFFFC3F
 
     .global sym_0602EFCC
@@ -232,7 +232,7 @@ DAT_0602f01e:
     neg r1, r1
 .L_0602F036:
     mov r0, r14
-    mov.w   .L_wpool_0602F060, r2
+    mov.w   .L_mask_byte_w, r2
     muls.w r1, r2
     mov.w   .L_wpool_0602F062, r0
     sts macl, r1
@@ -252,7 +252,7 @@ DAT_0602f01e:
     bt      .L_0602F070
     bra     .L_0602F078
     mov r2, r1
-.L_wpool_0602F060:
+.L_mask_byte_w:
     .2byte  0x00FF
 .L_wpool_0602F062:
     .2byte  0x0096
@@ -277,7 +277,7 @@ DAT_0602f066:
 .L_0602F078:
     mov.l   .L_pool_0602F0A4, r2
     sub r2, r1
-    mov.w   .L_wpool_0602F0A0, r3
+    mov.w   .L_mask_byte_w_2, r3
     mulu.w r3, r1
     mov.l r0, @-r15
     mov.l   .L_pool_0602F0A8, r3
@@ -295,7 +295,7 @@ DAT_0602f066:
     bt      .L_0602F0B4
     bra     .L_0602F0BC
     mov r2, r1
-.L_wpool_0602F0A0:
+.L_mask_byte_w_2:
     .2byte  0x00FF
 .L_wpool_0602F0A2:
     .2byte  0x0090
@@ -315,7 +315,7 @@ DAT_0602f066:
 .L_0602F0BC:
     mov.l   .L_pool_0602F0E4, r2
     sub r2, r1
-    mov.w   .L_wpool_0602F0DC, r3
+    mov.w   .L_mask_byte_w_3, r3
     mulu.w r3, r1
     mov.l r0, @-r15
     sts macl, r1
@@ -329,7 +329,7 @@ DAT_0602f066:
     mov.l @r15+, r14
     rts
     nop
-.L_wpool_0602F0DC:
+.L_mask_byte_w_3:
     .2byte  0x00FF
 .L_wpool_0602F0DE:
     .2byte  0x0060
@@ -837,7 +837,7 @@ sym_0602F3CC:
     .global sym_0602F3EC
 sym_0602F3EC:
     mov.l @(12, r0), r2
-    mov.l   .L_pool_0602F40C, r3
+    mov.l   .L_fp_72, r3
     dmuls.l r2, r3
     mov.l   .L_pool_0602F410, r4
     sts mach, r3
@@ -852,7 +852,7 @@ sym_0602F3EC:
     bra     .L_0602F41A
     nop
     .2byte  0x0000
-.L_pool_0602F40C:
+.L_fp_72:
     .4byte  0x00480000
 .L_pool_0602F410:
     .4byte  0x00000158
@@ -864,13 +864,13 @@ sym_0602F3EC:
     mov.l r2, @(8, r0)
     shll8 r2
     shlr2 r2
-    mov.l   .L_pool_0602F42C, r4
+    mov.l   .L_zero, r4
     cmp/ge r4, r2
     bt      .L_0602F430
     bra     .L_0602F448
     mov r4, r2
     .2byte  0x0000
-.L_pool_0602F42C:
+.L_zero:
     .4byte  0x00000000
 .L_0602F430:
     mov.l   .L_pool_0602F43C, r4
@@ -1044,7 +1044,7 @@ DAT_0602f51e:
     mov.l @r15+, r4
     mov.l @r15+, r1
     mov.l @r15+, r0
-    mov.l   .L_pool_0602F578, r12
+    mov.l   .L_fp_30, r12
     cmp/ge r12, r2
     bt      .L_0602F5A8
     mov.l r1, @-r15
@@ -1074,23 +1074,23 @@ track_poly_build:
     mov.l @r15+, r1
     mov.l @(40, r0), r12
     sub r12, r11
-    mov.l   .L_pool_0602F580, r10
+    mov.l   .L_fp_half, r10
     tst r10, r11
     bt      .L_0602F588
-    mov.l   .L_pool_0602F584, r10
+    mov.l   .L_mask_upper_word, r10
     bra     .L_0602F58C
     or r10, r11
     .2byte  0x0000
-.L_pool_0602F578:
+.L_fp_30:
     .4byte  0x001E0000
 .L_atan2:
     .4byte  atan2
-.L_pool_0602F580:
+.L_fp_half:
     .4byte  0x00008000
-.L_pool_0602F584:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
 .L_0602F588:
-    mov.l   .L_pool_0602F5A0, r10
+    mov.l   .L_mask_16bit, r10
     and r10, r11
 .L_0602F58C:
     cmp/pz r11
@@ -1104,7 +1104,7 @@ track_poly_build:
     bra     .L_0602F5B0
     mov.w r12, @(r0, r1)
     .2byte  0x0000
-.L_pool_0602F5A0:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_pool_0602F5A4:
     .4byte  0x0000071C

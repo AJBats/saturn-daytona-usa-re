@@ -14,17 +14,17 @@ position_vel_limiter:
     mov.l @(4, r4), r2
     sub r3, r2
     mov.l r2, @(4, r4)
-    mov.w   .L_wpool_06012328, r3
+    mov.w   .L_quarter_turn_w, r3
     mov.l @(8, r4), r2
     sub r3, r2
     mov.l r2, @(8, r4)
-    mov.l   .L_pool_06012338, r5
+    mov.l   .L_fp_two, r5
     mov.l @(4, r4), r3
     cmp/ge r5, r3
     bt      .L_06012310
     mov.l r5, @(4, r4)
 .L_06012310:
-    mov.l   .L_pool_0601233C, r5
+    mov.l   .L_fp_4_cccc, r5
     mov.l @(8, r4), r3
     cmp/ge r5, r3
     bt      .L_0601231A
@@ -38,7 +38,7 @@ position_vel_limiter:
     mov.w r2, @r5
 .L_wpool_06012326:
     .2byte  0x2999
-.L_wpool_06012328:
+.L_quarter_turn_w:
     .2byte  0x4000
 .L_wpool_0601232A:
     .2byte  0x1800
@@ -46,9 +46,9 @@ position_vel_limiter:
     .4byte  sym_06078636
 .L_sym_060788B4:
     .4byte  sym_060788B4
-.L_pool_06012338:
+.L_fp_two:
     .4byte  0x00020000
-.L_pool_0601233C:
+.L_fp_4_cccc:
     .4byte  0x0004CCCC
 .L_sym_060788B2:
     .4byte  sym_060788B2

@@ -74,7 +74,7 @@ collision_normal_calc:
     mov r4, r0
     mov.l r2, @r12
     mov.l @(4, r3), r2
-    mov.l   .L_pool_060367A8, r3
+    mov.l   .L_mask_24bit, r3
     and r3, r2
     mov.l r2, @r14
     add #0x10, r15
@@ -87,5 +87,5 @@ collision_normal_calc:
     .4byte  input_proc_analog
 .L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_060367A8:
+.L_mask_24bit:
     .4byte  0x00FFFFFF

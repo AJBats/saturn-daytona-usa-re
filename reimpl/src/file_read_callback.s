@@ -22,16 +22,16 @@ file_read_callback:
     mov #0x20, r4
     mov.l   .L_sym_060788B4, r4
     mov.l r14, @r4
-    mov.l   .L_pool_06012160, r2
+    mov.l   .L_fp_eight, r2
     mov.l r2, @(4, r4)
     shlr2 r2
-    mov.l   .L_pool_06012164, r3
+    mov.l   .L_fp_15_3333, r3
     mov.l r3, @(8, r4)
     mov.l   .L_sym_060788C0, r4
     mov.l r14, @r4
     mov.l r2, @(4, r4)
     mov r4, r2
-    mov.l   .L_pool_0601216C, r3
+    mov.l   .L_fp_5_3333, r3
     mov.l r3, @(8, r4)
     mov.l   .L_sym_060788CC, r1
     mov.l   .L_sym_06035168, r3
@@ -88,13 +88,13 @@ DAT_0601214e:
     .4byte  display_channel_b
 .L_sym_060788B4:
     .4byte  sym_060788B4
-.L_pool_06012160:
+.L_fp_eight:
     .4byte  0x00080000
-.L_pool_06012164:
+.L_fp_15_3333:
     .4byte  0x000F3333
 .L_sym_060788C0:
     .4byte  sym_060788C0
-.L_pool_0601216C:
+.L_fp_5_3333:
     .4byte  0x00053333
 .L_sym_060788CC:
     .4byte  sym_060788CC
@@ -308,9 +308,9 @@ lap_timer_ctrl:
     mov #0x10, r2
     mov.l r5, @r4
     exts.b r5, r5
-    mov.l   .L_pool_0601232C, r3
+    mov.l   .L_zero, r3
     mov.l r2, @r3
-    mov.l   .L_pool_06012330, r3
+    mov.l   .L_zero_2, r3
     lds.l @r15+, pr
     rts
     mov.b r5, @r3
@@ -343,9 +343,9 @@ lap_timer_ctrl:
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-.L_pool_0601232C:
+.L_zero:
     .4byte  0x00000000
-.L_pool_06012330:
+.L_zero_2:
     .4byte  0x00000000
     .4byte  0x00000000
     .4byte  0x00000000
@@ -992,7 +992,7 @@ hud_menu_logic:
     mov.l @r5, r0
     or #0x80, r0
     mov.l r0, @r5
-    mov.l   .L_pool_060128A0, r3
+    mov.l   .L_fp_4_cccc, r3
     mov.l @r4, r2
     add r3, r2
     mov.l r2, @r4
@@ -1091,7 +1091,7 @@ DAT_06012890:
     .4byte  sym_0605B714
 .L_sym_0605B6D8:
     .4byte  sym_0605B6D8
-.L_pool_060128A0:
+.L_fp_4_cccc:
     .4byte  0x0004CCCC
 .L_sym_0607E944:
     .4byte  sym_0607E944

@@ -20,7 +20,7 @@ snd_channel_a_body:
     mov.l r14, @r3
     mov.l   .L_sym_0608604C, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0601D724, r3
+    mov.l   .L_sound_ram_02c20, r3
     mov.l r14, @r3
 .L_0601D6F2:
     lds.l @r15+, pr
@@ -42,7 +42,7 @@ snd_channel_b_body:
     mov.l r14, @r3
     mov.l   .L_sym_0608604C, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0601D724, r3
+    mov.l   .L_sound_ram_02c20, r3
     mov.l r14, @r3
 .L_0601D716:
     lds.l @r15+, pr
@@ -52,7 +52,7 @@ snd_channel_b_body:
     .4byte  sym_0605DF94
 .L_sym_0608604C:
     .4byte  sym_0608604C
-.L_pool_0601D724:
+.L_sound_ram_02c20:
     .4byte  0x25A02C20
 .L_sym_0605DF98:
     .4byte  sym_0605DF98
@@ -72,7 +72,7 @@ snd_channel_c_handler:
     mov.l r14, @r3
     mov.l   .L_sym_0608604C_2, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0601D774, r3
+    mov.l   .L_sound_ram_02c20_2, r3
     mov.l r14, @r3
 .L_0601D74A:
     lds.l @r15+, pr
@@ -87,7 +87,7 @@ sound_channel_c2:
     bsr     .L_0601DB84
     mov.l r4, @r15
     mov.l @r15, r2
-    mov.l   .L_pool_0601D774, r3
+    mov.l   .L_sound_ram_02c20_2, r3
     mov.l r2, @r3
     mov.l @r15, r2
     mov.l   .L_sym_0608604C_2, r3
@@ -100,7 +100,7 @@ sound_channel_c2:
     .4byte  sym_0605DF9C
 .L_sym_0608604C_2:
     .4byte  sym_0608604C
-.L_pool_0601D774:
+.L_sound_ram_02c20_2:
     .4byte  0x25A02C20
     .4byte  0x00000000
 
@@ -118,7 +118,7 @@ snd_direct_pass:
     mov.l r14, @r3
     mov.l   .L_sym_0608604C_3, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0601D7C8, r3
+    mov.l   .L_sound_ram_02c20_3, r3
     mov.l r14, @r3
 .L_0601D796:
     lds.l @r15+, pr
@@ -140,7 +140,7 @@ snd_channel_d_handler:
     mov.l r14, @r3
     mov.l   .L_sym_0608604C_3, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0601D7C8, r3
+    mov.l   .L_sound_ram_02c20_3, r3
     mov.l r14, @r3
 .L_0601D7BA:
     lds.l @r15+, pr
@@ -150,7 +150,7 @@ snd_channel_d_handler:
     .4byte  sym_0605DFA4
 .L_sym_0608604C_3:
     .4byte  sym_0608604C
-.L_pool_0601D7C8:
+.L_sound_ram_02c20_3:
     .4byte  0x25A02C20
 .L_sym_0605DFA8:
     .4byte  sym_0605DFA8
@@ -680,9 +680,9 @@ snd_race_update:
     .4byte  0x000B0009
 .L_0601DB84:
     mov.l   .L_sym_06086050, r7
-    mov.l   .L_pool_0601DBA4, r6
+    mov.l   .L_sound_ram_02c20_4, r6
     mov #0x1, r5
-    mov.l   .L_pool_0601DBA8, r4
+    mov.l   .L_fp_1_86a0, r4
 .L_0601DB8C:
     dt r4
     bf      .L_0601DB94
@@ -698,9 +698,9 @@ snd_race_update:
     .2byte  0xFFFF
 .L_sym_06086050:
     .4byte  sym_06086050
-.L_pool_0601DBA4:
+.L_sound_ram_02c20_4:
     .4byte  0x25A02C20
-.L_pool_0601DBA8:
+.L_fp_1_86a0:
     .4byte  0x000186A0
     .4byte  0xE300D201
     .4byte  0x000B2230

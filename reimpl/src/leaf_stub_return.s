@@ -49,12 +49,12 @@ DAT_0603056a:
     and r3, r4
     and r5, r6
     and r4, r6
-    mov.w   .L_wpool_06030588, r2
+    mov.w   .L_one_w, r2
     tst r2, r6
     bt      .L_0603058A
     bra     .L_06030724
     nop
-.L_wpool_06030588:
+.L_one_w:
     .2byte  0x0001
 .L_0603058A:
     mov.w   .L_wpool_06030598, r2
@@ -749,13 +749,13 @@ sym_06030A06:
     tst r4, r4
     bf/s    .L_06030A3A
     mov.w r4, @(r0, r3)
-    mov.l   .L_pool_06030A4C, r5
+    mov.l   .L_mask_upper_word, r5
     mov.w   DAT_06030a40, r6
     mov.w   .L_wpool_06030A42, r0
     add r3, r6
     mov.l r5, @r6
     mov.l @(r0, r3), r4
-    mov.l   .L_pool_06030A50, r5
+    mov.l   .L_wram_low_00000, r5
     tst r5, r4
     bt      .L_06030A3A
     mov.w   DAT_06030a44, r0
@@ -786,9 +786,9 @@ DAT_06030a46:
     .2byte  0x01EC
 .L_sym_0607E940_2:
     .4byte  sym_0607E940
-.L_pool_06030A4C:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
-.L_pool_06030A50:
+.L_wram_low_00000:
     .4byte  0x00200000
     .4byte  0x53E34321
     .4byte  0x1E3352E5
@@ -868,7 +868,7 @@ DAT_06030a46:
     mov.l @(20, r1), r10
     mov.l r6, @-r15
     mov.l @r1, r13
-    mov.l   .L_pool_06030B44, r6
+    mov.l   .L_sys_minit_nc, r6
     mov #0x0, r9
     tst r6, r13
     bf      .L_06030B18
@@ -909,7 +909,7 @@ DAT_06030b2a:
     .4byte  sym_06030FBE
 .L_force_steer_impact_2:
     .4byte  force_steer_impact
-.L_pool_06030B44:
+.L_sys_minit_nc:
     .4byte  0x01000000
 .L_06030B48:
     mov.l   .L_pool_06030B60, r0
@@ -1321,7 +1321,7 @@ DAT_06030da2:
     bt      .L_06030E34
     mov.l @(48, r14), r4
     mov.l   .L_sin_lookup, r0
-    mov.l   .L_pool_06030E30, r10
+    mov.l   .L_fp_3_8000, r10
     jsr @r0
     sub r2, r4
     cmp/pz r0
@@ -1338,10 +1338,10 @@ DAT_06030da2:
     .4byte  sym_06030FBC
 .L_sin_lookup:
     .4byte  sin_lookup
-.L_pool_06030E30:
+.L_fp_3_8000:
     .4byte  0x00038000
 .L_06030E34:
-    mov.l   .L_pool_06030E44, r2
+    mov.l   .L_fp_1_3333, r2
 .L_06030E36:
     cmp/pl r3
     bt/s    .L_06030E48
@@ -1350,7 +1350,7 @@ DAT_06030da2:
     bra     .L_06030E52
     nop
     .2byte  0x0000
-.L_pool_06030E44:
+.L_fp_1_3333:
     .4byte  0x00013333
 .L_06030E48:
     sub r5, r2
@@ -1426,7 +1426,7 @@ DAT_06030eae:
 .L_pool_06030EBC:
     .4byte  0x0000FAE1
 .L_06030EC0:
-    mov.l   .L_pool_06030EDC, r4
+    mov.l   .L_three_quarter, r4
 .L_06030EC2:
     dmuls.l r3, r4
     sts mach, r3
@@ -1442,7 +1442,7 @@ DAT_06030eae:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r12
-.L_pool_06030EDC:
+.L_three_quarter:
     .4byte  0x0000C000
 
     .global sym_06030EE0
@@ -1740,7 +1740,7 @@ DAT_060310b8:
     mov #0x1, r11
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_06031134, r2
+    mov.l   .L_fp_4_2aaa, r2
     add r3, r1
     cmp/ge r1, r2
     bt      .L_060311F6
@@ -1771,7 +1771,7 @@ DAT_06031130:
     .global DAT_06031132
 DAT_06031132:
     .2byte  0x00CC
-.L_pool_06031134:
+.L_fp_4_2aaa:
     .4byte  0x00042AAA
 .L_pool_06031138:
     .4byte  0x08000000
@@ -1780,7 +1780,7 @@ DAT_06031132:
 .L_06031140:
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_0603118C, r2
+    mov.l   .L_fp_4_2aaa_2, r2
     sub r3, r1
     cmp/ge r1, r2
     bt      .L_06031168
@@ -1824,7 +1824,7 @@ DAT_06031188:
     .global DAT_0603118a
 DAT_0603118a:
     .2byte  0x00CC
-.L_pool_0603118C:
+.L_fp_4_2aaa_2:
     .4byte  0x00042AAA
 .L_pool_06031190:
     .4byte  0x08000000
@@ -1919,7 +1919,7 @@ DAT_0603120a:
 .L_06031258:
     mov.l @r15+, r4
     mov.l @r15+, r0
-    mov.w   .L_wpool_0603129E, r3
+    mov.w   .L_quarter_turn_w, r3
     tst r8, r8
     mov.l @(48, r14), r10
     bf/s    .L_0603126C
@@ -1955,7 +1955,7 @@ DAT_0603120a:
     mov.l r4, @-r15
 .L_wpool_0603129C:
     .2byte  0x0100
-.L_wpool_0603129E:
+.L_quarter_turn_w:
     .2byte  0x4000
 .L_wpool_060312A0:
     .2byte  0x007C
@@ -1998,7 +1998,7 @@ DAT_0603120a:
     add r9, r6
     mov.l r6, @(24, r13)
     mov.l @r15+, r3
-    mov.l   .L_pool_0603133C, r5
+    mov.l   .L_fp_half, r5
     add r5, r10
     neg r10, r4
     mov r3, r9
@@ -2040,7 +2040,7 @@ DAT_0603120a:
     .4byte  cos_lookup
 .L_sin_lookup_4:
     .4byte  sin_lookup
-.L_pool_0603133C:
+.L_fp_half:
     .4byte  0x00008000
 .L_06031340:
     mov.l r4, @-r15
@@ -2235,7 +2235,7 @@ DAT_0603143a:
     mov #0x1, r11
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_06031498, r2
+    mov.l   .L_fp_4_2aaa_3, r2
     add r3, r1
     mov.l r11, @-r15
     cmp/ge r1, r2
@@ -2246,7 +2246,7 @@ DAT_0603143a:
     .global DAT_06031496
 DAT_06031496:
     .2byte  0x4000
-.L_pool_06031498:
+.L_fp_4_2aaa_3:
     .4byte  0x00042AAA
 .L_0603149C:
     mov.l @(0, r13), r1
@@ -2261,7 +2261,7 @@ DAT_06031496:
     mov.l r11, @-r15
     mov.l @(12, r13), r1
     mov.l @(12, r14), r3
-    mov.l   .L_pool_060314C8, r2
+    mov.l   .L_fp_4_2aaa_4, r2
     sub r3, r1
     cmp/ge r1, r2
     bt      .L_060314D0
@@ -2272,7 +2272,7 @@ DAT_06031496:
     bra     .L_06031556
     nop
     .2byte  0x0000
-.L_pool_060314C8:
+.L_fp_4_2aaa_4:
     .4byte  0x00042AAA
 .L_pool_060314CC:
     .4byte  0x08000000
@@ -2280,7 +2280,7 @@ DAT_06031496:
     tst r7, r7
     bf      .L_060314FC
     mov.l @(12, r14), r1
-    mov.l   .L_pool_060314F4, r2
+    mov.l   .L_fp_4_2aaa_5, r2
     mov.l @(12, r13), r3
     shlr r2
     sub r1, r3
@@ -2296,7 +2296,7 @@ DAT_06031496:
     bra     .L_06031556
     mov.l r2, @(0, r13)
     .2byte  0x0000
-.L_pool_060314F4:
+.L_fp_4_2aaa_5:
     .4byte  0x00042AAA
 .L_pool_060314F8:
     .4byte  0x20000000
@@ -2437,7 +2437,7 @@ DAT_06031516:
 .L_060315E6:
     mov.l @r15+, r4
     mov.l @r15+, r0
-    mov.w   .L_wpool_0603162C, r3
+    mov.w   .L_quarter_turn_w_2, r3
     tst r8, r8
     mov.l @(48, r13), r10
     bf/s    .L_060315FA
@@ -2473,7 +2473,7 @@ DAT_06031516:
     mov.l r4, @-r15
 .L_wpool_0603162A:
     .2byte  0x0100
-.L_wpool_0603162C:
+.L_quarter_turn_w_2:
     .2byte  0x4000
 
     .global DAT_0603162e
@@ -2517,7 +2517,7 @@ DAT_0603162e:
     add r9, r6
     mov.l r6, @(24, r14)
     mov.l @r15+, r3
-    mov.l   .L_pool_060316C0, r5
+    mov.l   .L_fp_half_2, r5
     mov r3, r4
     shlr r3
     add r4, r3
@@ -2554,7 +2554,7 @@ DAT_0603162e:
     .4byte  cos_lookup
 .L_sin_lookup_6:
     .4byte  sin_lookup
-.L_pool_060316C0:
+.L_fp_half_2:
     .4byte  0x00008000
 
     .global sym_060316C4
@@ -2664,7 +2664,7 @@ DAT_06031750:
     bt      .L_06031798
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_06031790, r2
+    mov.l   .L_fp_1_638e, r2
     add r3, r1
     cmp/ge r1, r2
     bt      .L_060317F8
@@ -2679,14 +2679,14 @@ DAT_06031750:
 DAT_0603178c:
     .2byte  0x4000
     .2byte  0x0000
-.L_pool_06031790:
+.L_fp_1_638e:
     .4byte  0x0001638E
 .L_pool_06031794:
     .4byte  0x08000000
 .L_06031798:
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_060317C8, r2
+    mov.l   .L_fp_1_638e_2, r2
     sub r3, r1
     cmp/ge r1, r2
     bt      .L_060317AC
@@ -2712,7 +2712,7 @@ DAT_0603178c:
     .global DAT_060317c6
 DAT_060317c6:
     .2byte  0x4000
-.L_pool_060317C8:
+.L_fp_1_638e_2:
     .4byte  0x0001638E
 .L_pool_060317CC:
     .4byte  0x08000000
@@ -2768,7 +2768,7 @@ DAT_060317c6:
     add r9, r6
     mov.l r6, @(24, r13)
     mov.l @r15+, r3
-    mov.l   .L_pool_06031888, r5
+    mov.l   .L_fp_half_3, r5
     add r5, r10
     neg r10, r4
     mov r3, r9
@@ -2811,7 +2811,7 @@ DAT_060317c6:
     .4byte  cos_lookup
 .L_sin_lookup_7:
     .4byte  sin_lookup
-.L_pool_06031888:
+.L_fp_half_3:
     .4byte  0x00008000
 .L_0603188C:
     mov.l r0, @-r15

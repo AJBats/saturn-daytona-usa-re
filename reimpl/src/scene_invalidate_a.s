@@ -14,7 +14,7 @@ scene_invalidate_a:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603DA60, r3
+    mov.l   .L_min_s32, r3
     and r14, r3
     tst r3, r3
     bt/s    .L_0603DA04
@@ -22,22 +22,22 @@ scene_invalidate_a:
     mov #0x1, r12
     neg r14, r14
 .L_0603DA04:
-    mov.l   .L_pool_0603DA64, r0
+    mov.l   .L_fp_360, r0
     mov.l   .L_sym_06036BE4, r3
     jsr @r3
     mov r14, r1
     mov r0, r14
     mov.l   .L_sym_060424A2, r13
-    mov.l   .L_pool_0603DA70, r2
+    mov.l   .L_fp_270, r2
     cmp/ge r2, r14
     bf      .L_0603DA20
-    mov.l   .L_pool_0603DA64, r4
+    mov.l   .L_fp_360, r4
     jsr @r13
     sub r14, r4
     bra     .L_0603DA44
     neg r0, r4
 .L_0603DA20:
-    mov.l   .L_pool_0603DA74, r2
+    mov.l   .L_fp_180, r2
     cmp/ge r2, r14
     bf      .L_0603DA30
     mov.l   .L_pool_0603DA78, r4
@@ -46,10 +46,10 @@ scene_invalidate_a:
     bra     .L_0603DA44
     neg r0, r4
 .L_0603DA30:
-    mov.l   .L_pool_0603DA7C, r2
+    mov.l   .L_fp_90, r2
     cmp/ge r2, r14
     bf      .L_0603DA3C
-    mov.l   .L_pool_0603DA74, r4
+    mov.l   .L_fp_180, r4
     bra     .L_0603DA3E
     sub r14, r4
 .L_0603DA3C:
@@ -59,10 +59,10 @@ scene_invalidate_a:
     nop
     mov r0, r4
 .L_0603DA44:
-    mov.l   .L_pool_0603DA80, r2
+    mov.l   .L_mask_16bit, r2
     cmp/eq r2, r4
     bf      .L_0603DA4C
-    mov.l   .L_pool_0603DA84, r4
+    mov.l   .L_fp_one, r4
 .L_0603DA4C:
     extu.w r12, r12
     tst r12, r12
@@ -75,23 +75,23 @@ scene_invalidate_a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0603DA60:
+.L_min_s32:
     .4byte  0x80000000
-.L_pool_0603DA64:
+.L_fp_360:
     .4byte  0x01680000
 .L_sym_06036BE4:
     .4byte  sym_06036BE4
 .L_sym_060424A2:
     .4byte  sym_060424A2
-.L_pool_0603DA70:
+.L_fp_270:
     .4byte  0x010E0000
-.L_pool_0603DA74:
+.L_fp_180:
     .4byte  0x00B40000
 .L_pool_0603DA78:
     .4byte  0xFF4C0000
-.L_pool_0603DA7C:
+.L_fp_90:
     .4byte  0x005A0000
-.L_pool_0603DA80:
+.L_mask_16bit:
     .4byte  0x0000FFFF
-.L_pool_0603DA84:
+.L_fp_one:
     .4byte  0x00010000

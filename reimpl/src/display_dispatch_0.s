@@ -16,7 +16,7 @@ display_dispatch_0:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_pool_060322D0, r4
+    mov.l   .L_zero, r4
 
     .global disp_elem_proc_1
     .type disp_elem_proc_1, @function
@@ -83,7 +83,7 @@ display_dispatch_pop:
     mov.l @r15+, r14
     rts
     nop
-.L_pool_060322D0:
+.L_zero:
     .4byte  0x00000000
 .L_pool_060322D4:
     .4byte  0x00000001

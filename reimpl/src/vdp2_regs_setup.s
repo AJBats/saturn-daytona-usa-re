@@ -12,16 +12,16 @@ vdp2_regs_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_0603848C, r12
+    mov.l   .L_mask_16bit, r12
     mov #0x10, r13
     mov #0x8, r14
     mov.l   .L_sym_060A3D88, r7
     mov.l   .L_sym_060A3DB0, r5
     mov #0x0, r4
-    mov.l   .L_pool_06038498, r3
+    mov.l   .L_vdp2_tvmd, r3
     mov.l   .L_sym_060A3D84, r2
     mov.l r3, @r2
-    mov.l   .L_pool_060384A0, r3
+    mov.l   .L_fp_half, r3
     mov.w r3, @r7
     extu.w r4, r2
     mov r2, r0
@@ -108,7 +108,7 @@ vdp2_regs_setup:
     mov.l   .L_sym_060A3DF8, r6
     mov.l r4, @r6
     mov.l r4, @(4, r6)
-    mov.l   .L_pool_060384A8, r0
+    mov.l   .L_fp_one, r0
     mov.l r0, @(8, r6)
     mov.l r0, @(12, r6)
     mov.l r4, @(16, r6)
@@ -156,21 +156,21 @@ vdp2_regs_setup:
     mov.w r4, @r3
     bra     .L_060384B4
     nop
-.L_pool_0603848C:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_sym_060A3D88:
     .4byte  sym_060A3D88
 .L_sym_060A3DB0:
     .4byte  sym_060A3DB0
-.L_pool_06038498:
+.L_vdp2_tvmd:
     .4byte  0x25F80000
 .L_sym_060A3D84:
     .4byte  sym_060A3D84
-.L_pool_060384A0:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_060A3DF8:
     .4byte  sym_060A3DF8
-.L_pool_060384A8:
+.L_fp_one:
     .4byte  0x00010000
 .L_sym_060A3E38:
     .4byte  sym_060A3E38

@@ -204,7 +204,7 @@ controller_config:
     .byte   0xBE, 0xA8    /* bsr 0x0603D9EC (external) */
     mov r13, r4
     mov.l r0, @(24, r14)
-    mov.l   .L_pool_0603DCFC, r4
+    mov.l   .L_fp_one, r4
     mov.l r4, @(28, r14)
     mov.l r13, @(32, r14)
     mov.l r13, @(36, r14)
@@ -251,7 +251,7 @@ controller_config:
     .4byte  display_scene_update
 .L_sym_060A3E68:
     .4byte  sym_060A3E68
-.L_pool_0603DCFC:
+.L_fp_one:
     .4byte  0x00010000
 .L_0603DD00:
     mov #0x34, r0
@@ -352,7 +352,7 @@ controller_config:
     mov.l r3, @(r0, r4)
 .L_0603DDC0:
     mov.l @r15, r4
-    mov.l   .L_pool_0603DDF4, r3
+    mov.l   .L_fp_7_ff80, r3
     and r3, r4
     shlr r4
     mov.l @r15, r0
@@ -379,7 +379,7 @@ controller_config:
     .4byte  sym_060635AE
 .L_sym_060A3EE8:
     .4byte  sym_060A3EE8
-.L_pool_0603DDF4:
+.L_fp_7_ff80:
     .4byte  0x0007FF80
 .L_sym_060A3E44:
     .4byte  sym_060A3E44

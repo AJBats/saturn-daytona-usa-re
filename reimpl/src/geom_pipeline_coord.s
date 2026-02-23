@@ -88,7 +88,7 @@ geom_pipeline_coord:
     mov.l @(r0, r3), r2
     mov.l r2, @(4, r15)
     mov.l   .L_sym_060786A4, r4
-    mov.l   .L_pool_060174B8, r5
+    mov.l   .L_fp_9_27bf, r5
     mov.l @r4, r4
     cmp/ge r5, r4
     bf      .L_06017452
@@ -162,7 +162,7 @@ DAT_06017492:
     .4byte  sym_06078900
 .L_sym_060786A4:
     .4byte  sym_060786A4
-.L_pool_060174B8:
+.L_fp_9_27bf:
     .4byte  0x000927BF
 .L_sym_0607EBF4:
     .4byte  sym_0607EBF4

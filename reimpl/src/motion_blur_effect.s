@@ -107,7 +107,7 @@ sym_0602853E:
 sym_06028560:
     mov.l   .L_sym_060612C4, r0
     mov.w   .L_wpool_06028572, r1
-    mov.l   .L_pool_06028578, r2
+    mov.l   .L_wram_low_00020, r2
 .L_06028566:
     mov.l r2, @r0
     dt r1
@@ -119,6 +119,6 @@ sym_06028560:
     .2byte  0x0380
 .L_sym_060612C4:
     .4byte  sym_060612C4
-.L_pool_06028578:
+.L_wram_low_00020:
     .4byte  0x00200020
     .4byte  0x00002800

@@ -343,34 +343,34 @@ race_start_obj_init:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_sym_0604896C, r5
-    mov.l   .L_pool_06020154, r4
+    mov.l   .L_vdp2_cram_006c0, r4
     mov.l   .L_memcpy_word_idx, r3
     jsr @r3
     mov #0x20, r6
     mov.l   .L_sym_0604BC14, r5
-    mov.l   .L_pool_06020160, r4
+    mov.l   .L_vdp2_cram_00060, r4
     mov.l   .L_memcpy_word_idx, r3
     jsr @r3
     mov #0x20, r6
     mov #0x8, r7
-    mov.l   .L_pool_06020168, r5
+    mov.l   .L_fp_1_7700, r5
     mov.l   .L_sym_0600511E, r14
-    mov.l   .L_pool_0602016C, r4
+    mov.l   .L_vdp2_vram_33ad8, r4
     jsr @r14
     mov #0x0, r6
     mov #0x8, r7
-    mov.l   .L_pool_06020170, r5
-    mov.l   .L_pool_06020174, r4
+    mov.l   .L_fp_1_8b40, r5
+    mov.l   .L_vdp2_vram_33764, r4
     jsr @r14
     mov #0x0, r6
     mov #0x8, r7
-    mov.l   .L_pool_06020178, r5
+    mov.l   .L_fp_1_d2a0, r5
     mov.l   .L_sym_0605E164, r4
     jsr @r14
     mov #0x0, r6
     mov #0x8, r7
-    mov.l   .L_pool_06020180, r5
-    mov.l   .L_pool_06020184, r4
+    mov.l   .L_fp_1_8f20, r5
+    mov.l   .L_vdp2_vram_3398c, r4
     jsr @r14
     mov #0x0, r6
     mov.l   .L_sym_06063CA0, r2
@@ -433,31 +433,31 @@ DAT_0602014c:
     .2byte  0xFFFF
 .L_sym_0604896C:
     .4byte  sym_0604896C
-.L_pool_06020154:
+.L_vdp2_cram_006c0:
     .4byte  0x25F006C0
 .L_memcpy_word_idx:
     .4byte  memcpy_word_idx
 .L_sym_0604BC14:
     .4byte  sym_0604BC14
-.L_pool_06020160:
+.L_vdp2_cram_00060:
     .4byte  0x25F00060
 .L_sym_0600511E:
     .4byte  sym_0600511E
-.L_pool_06020168:
+.L_fp_1_7700:
     .4byte  0x00017700
-.L_pool_0602016C:
+.L_vdp2_vram_33ad8:
     .4byte  0x25E33AD8
-.L_pool_06020170:
+.L_fp_1_8b40:
     .4byte  0x00018B40
-.L_pool_06020174:
+.L_vdp2_vram_33764:
     .4byte  0x25E33764
-.L_pool_06020178:
+.L_fp_1_d2a0:
     .4byte  0x0001D2A0
 .L_sym_0605E164:
     .4byte  sym_0605E164
-.L_pool_06020180:
+.L_fp_1_8f20:
     .4byte  0x00018F20
-.L_pool_06020184:
+.L_vdp2_vram_3398c:
     .4byte  0x25E3398C
 .L_sym_06063CA0:
     .4byte  sym_06063CA0
@@ -857,21 +857,21 @@ obj_visibility_test:
     mov #0x4, r4
     mov.l   .L_memcpy_word_idx_2, r14
     mov.l   .L_sym_0604898C, r5
-    mov.l   .L_pool_06020618, r4
+    mov.l   .L_vdp2_cram_006e0, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_sym_060489AC, r5
-    mov.l   .L_pool_06020620, r4
+    mov.l   .L_vdp2_cram_00300, r4
     jsr @r14
     mov #0x20, r6
     mov #0x20, r6
     mov.l   .L_sym_060489CC, r2
     mov.l r2, @r15
-    mov.l   .L_pool_06020628, r4
+    mov.l   .L_vdp2_cram_00400, r4
     jsr @r14
     mov r2, r5
     mov #0x20, r6
-    mov.l   .L_pool_0602062C, r4
+    mov.l   .L_vdp2_cram_00060_2, r4
     jsr @r14
     mov.l @r15, r5
     mov.l   .L_sym_06063750, r13
@@ -881,7 +881,7 @@ obj_visibility_test:
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06020638, r3
+    mov.l   .L_fp_half, r3
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -959,23 +959,23 @@ obj_visibility_test:
     .4byte  memcpy_word_idx
 .L_sym_0604898C:
     .4byte  sym_0604898C
-.L_pool_06020618:
+.L_vdp2_cram_006e0:
     .4byte  0x25F006E0
 .L_sym_060489AC:
     .4byte  sym_060489AC
-.L_pool_06020620:
+.L_vdp2_cram_00300:
     .4byte  0x25F00300
 .L_sym_060489CC:
     .4byte  sym_060489CC
-.L_pool_06020628:
+.L_vdp2_cram_00400:
     .4byte  0x25F00400
-.L_pool_0602062C:
+.L_vdp2_cram_00060_2:
     .4byte  0x25F00060
 .L_sym_06063750:
     .4byte  sym_06063750
 .L_sym_06028400_2:
     .4byte  sym_06028400
-.L_pool_06020638:
+.L_fp_half:
     .4byte  0x00008000
 .L_display_channel_b_2:
     .4byte  display_channel_b
@@ -995,7 +995,7 @@ obj_visibility_test:
     .byte   0xB3, 0xC9    /* bsr 0x06020DEE (external) */
     extu.b r4, r4
     mov.l   .L_sym_06087820, r14
-    mov.l   .L_pool_060206D0, r2
+    mov.l   .L_fp_four, r2
     mov.l r2, @r14
     mov r2, r3
     mov.l   .L_sym_06087818, r2
@@ -1003,8 +1003,8 @@ obj_visibility_test:
     mov.l @r14, r3
     mov.l   .L_sym_0608781C, r2
     mov.l r3, @r2
-    mov.l   .L_pool_060206DC, r5
-    mov.l   .L_pool_060206E0, r4
+    mov.l   .L_fp_three, r5
+    mov.l   .L_fp_176, r4
     mov.l   .L_fpmul, r3
     jsr @r3
     nop
@@ -1015,8 +1015,8 @@ obj_visibility_test:
     mov.l   .L_sym_06087810, r3
     mov.l r0, @r3
     mov.l @r14, r5
-    mov.l   .L_pool_060206F0, r2
-    mov.l   .L_pool_060206F4, r4
+    mov.l   .L_mask_upper_word, r2
+    mov.l   .L_fp_112, r4
     mov.l   .L_fpmul, r3
     jsr @r3
     add r2, r5
@@ -1052,15 +1052,15 @@ obj_visibility_test:
     .4byte  sym_06059F6F
 .L_sym_06087820:
     .4byte  sym_06087820
-.L_pool_060206D0:
+.L_fp_four:
     .4byte  0x00040000
 .L_sym_06087818:
     .4byte  sym_06087818
 .L_sym_0608781C:
     .4byte  sym_0608781C
-.L_pool_060206DC:
+.L_fp_three:
     .4byte  0x00030000
-.L_pool_060206E0:
+.L_fp_176:
     .4byte  0x00B00000
 .L_fpmul:
     .4byte  fpmul
@@ -1068,9 +1068,9 @@ obj_visibility_test:
     .4byte  fpdiv_setup
 .L_sym_06087810:
     .4byte  sym_06087810
-.L_pool_060206F0:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
-.L_pool_060206F4:
+.L_fp_112:
     .4byte  0x00700000
 .L_sym_06087814_2:
     .4byte  sym_06087814
@@ -1097,7 +1097,7 @@ obj_update_dispatch:
     mov.l   .L_sym_0603850C_2, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_060207D8, r12
+    mov.l   .L_fp_half_2, r12
     mov.l @r13, r2
     sub r12, r2
     mov.l r2, @r13
@@ -1115,12 +1115,12 @@ obj_update_dispatch:
     mov.l r2, @r14
     mov r2, r3
     mov.l   .L_sym_06087810_2, r11
-    mov.l   .L_pool_060207EC, r2
+    mov.l   .L_fp_one, r2
     cmp/gt r2, r3
     bf      .L_06020794
     mov.l @r14, r5
-    mov.l   .L_pool_060207F0, r2
-    mov.l   .L_pool_060207F4, r4
+    mov.l   .L_mask_upper_word_2, r2
+    mov.l   .L_fp_176_2, r4
     mov.l   .L_fpmul_2, r3
     jsr @r3
     add r2, r5
@@ -1130,8 +1130,8 @@ obj_update_dispatch:
     mov.l @r14, r5
     mov r0, r12
     mov.l @r14, r5
-    mov.l   .L_pool_060207F0, r2
-    mov.l   .L_pool_06020800, r4
+    mov.l   .L_mask_upper_word_2, r2
+    mov.l   .L_fp_112_2, r4
     mov.l   .L_fpmul_2, r3
     jsr @r3
     add r2, r5
@@ -1167,7 +1167,7 @@ obj_update_dispatch:
     jsr @r3
     nop
     mov.l @r13, r2
-    mov.l   .L_pool_060207EC, r3
+    mov.l   .L_fp_one, r3
     cmp/gt r3, r2
     bt      .L_060207C2
     mov.b @r15, r4
@@ -1191,7 +1191,7 @@ obj_update_dispatch:
     .4byte  sym_06087818
 .L_sym_0603850C_2:
     .4byte  sym_0603850C
-.L_pool_060207D8:
+.L_fp_half_2:
     .4byte  0x00008000
 .L_sym_0608781C_2:
     .4byte  sym_0608781C
@@ -1201,17 +1201,17 @@ obj_update_dispatch:
     .4byte  sym_06087820
 .L_sym_06087810_2:
     .4byte  sym_06087810
-.L_pool_060207EC:
+.L_fp_one:
     .4byte  0x00010000
-.L_pool_060207F0:
+.L_mask_upper_word_2:
     .4byte  0xFFFF0000
-.L_pool_060207F4:
+.L_fp_176_2:
     .4byte  0x00B00000
 .L_fpmul_2:
     .4byte  fpmul
 .L_fpdiv_setup_2:
     .4byte  fpdiv_setup
-.L_pool_06020800:
+.L_fp_112_2:
     .4byte  0x00700000
 .L_sym_06087814_3:
     .4byte  sym_06087814

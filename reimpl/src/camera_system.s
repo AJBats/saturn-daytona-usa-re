@@ -143,14 +143,14 @@ DAT_0600bc2e:
     mov.l   .L_channel_nibble_config, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_0600BCFC, r2
+    mov.l   .L_fp_5_8000, r2
     mov.l r2, @r13
     mov.l   .L_pool_0600BD00, r3
     mov.l   .L_sym_06063E34, r2
     mov.l r3, @r2
-    mov.l   .L_pool_0600BD08, r3
+    mov.l   .L_fp_110, r3
     mov.l r3, @r9
-    mov.l   .L_pool_0600BD0C, r2
+    mov.l   .L_fp_sixteen, r2
     mov.l   .L_sym_06063E2C, r3
     mov.l r2, @r3
     mov #0x0, r2
@@ -214,15 +214,15 @@ DAT_0600bcee:
     .4byte  sym_06059F30
 .L_channel_nibble_config:
     .4byte  channel_nibble_config
-.L_pool_0600BCFC:
+.L_fp_5_8000:
     .4byte  0x00058000
 .L_pool_0600BD00:
     .4byte  0x0000F300
 .L_sym_06063E34:
     .4byte  sym_06063E34
-.L_pool_0600BD08:
+.L_fp_110:
     .4byte  0x006E0000
-.L_pool_0600BD0C:
+.L_fp_sixteen:
     .4byte  0x00100000
 .L_sym_06063E2C:
     .4byte  sym_06063E2C
@@ -246,14 +246,14 @@ DAT_0600bcee:
     mov.l   .L_channel_nibble_config_2, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_0600BDBC, r2
+    mov.l   .L_fp_5_8000_2, r2
     mov.l r2, @r13
     mov.l   .L_pool_0600BDC0, r3
     mov.l   .L_sym_06063E34_2, r2
     mov.l r3, @r2
-    mov.l   .L_pool_0600BDC8, r3
+    mov.l   .L_fp_110_2, r3
     mov.l r3, @r9
-    mov.l   .L_pool_0600BDCC, r2
+    mov.l   .L_fp_sixteen_2, r2
     mov.l   .L_sym_06063E2C_2, r3
     mov.l r2, @r3
     mov #0x0, r2
@@ -265,7 +265,7 @@ DAT_0600bcee:
     sub r2, r3
     mov.l r3, @(4, r12)
     mov.l @(r0, r14), r3
-    mov.l   .L_pool_0600BDD4, r2
+    mov.l   .L_fp_half, r2
     neg r3, r3
     add r2, r3
     shar r3
@@ -306,7 +306,7 @@ DAT_0600bcee:
     mov.l @(4, r12), r13
     shll8 r13
     shll2 r13
-    mov.l   .L_pool_0600BDDC, r3
+    mov.l   .L_fp_416, r3
     add r3, r13
     bra     .L_0600BDEC
     nop
@@ -324,23 +324,23 @@ DAT_0600bdae:
     .4byte  sym_06059F30
 .L_channel_nibble_config_2:
     .4byte  channel_nibble_config
-.L_pool_0600BDBC:
+.L_fp_5_8000_2:
     .4byte  0x00058000
 .L_pool_0600BDC0:
     .4byte  0x0000F300
 .L_sym_06063E34_2:
     .4byte  sym_06063E34
-.L_pool_0600BDC8:
+.L_fp_110_2:
     .4byte  0x006E0000
-.L_pool_0600BDCC:
+.L_fp_sixteen_2:
     .4byte  0x00100000
 .L_sym_06063E2C_2:
     .4byte  sym_06063E2C
-.L_pool_0600BDD4:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_06078663:
     .4byte  sym_06078663
-.L_pool_0600BDDC:
+.L_fp_416:
     .4byte  0x01A00000
 .L_0600BDE0:
     mov.l @(4, r12), r13

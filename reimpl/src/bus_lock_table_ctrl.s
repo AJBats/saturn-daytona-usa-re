@@ -11,7 +11,7 @@
 bus_lock_table_ctrl:
     sts.l pr, @-r15
     mov #0x1, r5
-    mov.l   .L_pool_0603D428, r7
+    mov.l   .L_mask_high_byte, r7
     mov.l   .L_sym_060A4D58, r6
     mov.l   .L_sym_060A4D30, r4
     mov.w   .L_wpool_0603D424, r1
@@ -77,7 +77,7 @@ bus_lock_table_ctrl:
     .global DAT_0603d426
 DAT_0603d426:
     .2byte  0x0200
-.L_pool_0603D428:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_sym_060A4D58:
     .4byte  sym_060A4D58

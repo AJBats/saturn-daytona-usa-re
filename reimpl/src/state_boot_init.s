@@ -17,7 +17,7 @@ state_boot_init:
     jsr @r3
     nop
     mov #0x0, r6
-    mov.l   .L_pool_06008918, r5
+    mov.l   .L_mask_upper_word, r5
     mov.l   .L_display_channel_b, r3
     jsr @r3
     mov #0x4, r4
@@ -50,7 +50,7 @@ loc_0600890A:
     .4byte  handler_init_reset
 .L_render_stage_1:
     .4byte  render_stage_1
-.L_pool_06008918:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
 .L_display_channel_b:
     .4byte  display_channel_b
@@ -122,7 +122,7 @@ attract_init_body:
     jsr @r3
     nop
     mov.l   .L_sym_0605B6D8, r4
-    mov.l   .L_pool_06008A04, r2
+    mov.l   .L_bit_30, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -174,7 +174,7 @@ attract_init_body:
     .4byte  course_data_handler
 .L_sym_0605B6D8:
     .4byte  sym_0605B6D8
-.L_pool_06008A04:
+.L_bit_30:
     .4byte  0x40000000
 .L_sym_0605AD10_2:
     .4byte  sym_0605AD10
@@ -612,7 +612,7 @@ state_mode_select_setup:
     mov.l   .L_sym_0605AD10_8, r3
     mov.l r2, @r3
     mov.l   .L_sym_0605B6D8_2, r4
-    mov.l   .L_pool_06008D64, r2
+    mov.l   .L_bit_30_2, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -662,7 +662,7 @@ state_mode_select_setup:
     .4byte  sym_0605AD10
 .L_sym_0605B6D8_2:
     .4byte  sym_0605B6D8
-.L_pool_06008D64:
+.L_bit_30_2:
     .4byte  0x40000000
 .L_sym_0605A016_6:
     .4byte  sym_0605A016
@@ -769,7 +769,7 @@ state_race_prepare:
     jsr @r3
     nop
     mov.l   .L_sym_0605B6D8_4, r4
-    mov.l   .L_pool_06008E9C, r2
+    mov.l   .L_bit_30_3, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -837,7 +837,7 @@ state_pre_race:
     .4byte  obj_render_update
 .L_sym_0605B6D8_4:
     .4byte  sym_0605B6D8
-.L_pool_06008E9C:
+.L_bit_30_3:
     .4byte  0x40000000
 .L_sym_06026CE0_9:
     .4byte  sym_06026CE0
@@ -875,7 +875,7 @@ state_race_setup:
     mov.l   .L_sym_0607ED88, r3
     mov.l r0, @r3
     mov.l   .L_sym_0607865E, r0
-    mov.l   .L_pool_06008F50, r3
+    mov.l   .L_fp_half, r3
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq r3, r0
@@ -933,7 +933,7 @@ state_race_setup:
     .4byte  sym_0607ED88
 .L_sym_0607865E:
     .4byte  sym_0607865E
-.L_pool_06008F50:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0605AD08:
     .4byte  sym_0605AD08
@@ -1028,7 +1028,7 @@ state_race_setup:
     mov.l   .L_sym_0605AD10_11, r3
     mov.l r2, @r3
     mov.l   .L_sym_0605B6D8_5, r4
-    mov.l   .L_pool_06009084, r2
+    mov.l   .L_bit_30_4, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -1092,7 +1092,7 @@ state_race_setup:
     .4byte  sym_0605AD10
 .L_sym_0605B6D8_5:
     .4byte  sym_0605B6D8
-.L_pool_06009084:
+.L_bit_30_4:
     .4byte  0x40000000
 .L_sym_06026CE0_10:
     .4byte  sym_06026CE0
@@ -2086,7 +2086,7 @@ state_time_extend_active:
     tst r0, r0
     bt      .L_0600983E
     mov.w @r15, r3
-    mov.l   .L_pool_06009804, r2
+    mov.l   .L_fp_half_2, r2
     extu.w r3, r3
     and r2, r3
     tst r3, r3
@@ -2116,11 +2116,11 @@ state_time_extend_active:
     .4byte  menu_overlay_render
 .L_sym_0607864A_2:
     .4byte  sym_0607864A
-.L_pool_06009804:
+.L_fp_half_2:
     .4byte  0x00008000
 .L_06009808:
     mov.w @r15, r2
-    mov.w   .L_wpool_060098D4, r3
+    mov.w   .L_quarter_turn_w, r3
     extu.w r2, r2
     and r3, r2
     tst r2, r2
@@ -2224,7 +2224,7 @@ state_time_extend_active:
     mov #0x8, r4
     bra     .L_060099F4
     nop
-.L_wpool_060098D4:
+.L_quarter_turn_w:
     .2byte  0x4000
 .L_wpool_060098D6:
     .2byte  0x0CCC
@@ -2280,7 +2280,7 @@ state_time_extend_active:
     bf      .L_06009972
     bsr     .L_0600A1B8
     nop
-    mov.l   .L_pool_060099B8, r2
+    mov.l   .L_min_s32, r2
     mov.l @r10, r3
     or r2, r3
     mov.l r3, @r10
@@ -2351,7 +2351,7 @@ state_time_extend_active:
 .L_wpool_060099B4:
     .2byte  0x0794
     .2byte  0xFFFF
-.L_pool_060099B8:
+.L_min_s32:
     .4byte  0x80000000
 .L_sym_0607EBF4_3:
     .4byte  sym_0607EBF4
@@ -2845,7 +2845,7 @@ state_post_race_init:
     mov.l @r2, r2
     mov.l r3, @(8, r2)
     mov.l   .L_sym_0605B6D8_8, r4
-    mov.l   .L_pool_06009DA0, r2
+    mov.l   .L_bit_30_5, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -2903,7 +2903,7 @@ state_post_race_display:
     .4byte  sym_0607E944
 .L_sym_0605B6D8_8:
     .4byte  sym_0605B6D8
-.L_pool_06009DA0:
+.L_bit_30_5:
     .4byte  0x40000000
 .L_sym_06026CE0_14:
     .4byte  sym_06026CE0
@@ -3369,7 +3369,7 @@ race_resource_init:
     mov.l   .L_sym_0605A008, r3
     mov.l r14, @r3
     mov.l   .L_sym_06063F5C, r2
-    mov.l   .L_pool_0600A13C, r3
+    mov.l   .L_fp_half_3, r3
     mov.l @r2, r2
     mov.w r3, @r2
     mov.l   .L_sym_06026CE0_16, r3
@@ -3414,7 +3414,7 @@ DAT_0600a112:
     .4byte  sym_060393FC
 .L_sym_0605A008:
     .4byte  sym_0605A008
-.L_pool_0600A13C:
+.L_fp_half_3:
     .4byte  0x00008000
 
     .global vdp1_init
@@ -3423,11 +3423,11 @@ vdp1_init:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov #0x0, r14
-    mov.l   .L_pool_0600A19C, r3
-    mov.l   .L_pool_0600A1A0, r2
+    mov.l   .L_min_s32_2, r3
+    mov.l   .L_vdp1_vram_00000, r2
     mov.l r3, @r2
-    mov.l   .L_pool_0600A1A4, r5
-    mov.l   .L_pool_0600A1A8, r4
+    mov.l   .L_vdp1_fb_00000, r5
+    mov.l   .L_fp_one, r4
 .L_0600A150:
     mov r5, r3
     add #-0x2, r4
@@ -3445,8 +3445,8 @@ vdp1_init:
     nop
     mov.l   .L_sym_06059F44_15, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0600A1A4, r5
-    mov.l   .L_pool_0600A1A8, r4
+    mov.l   .L_vdp1_fb_00000, r5
+    mov.l   .L_fp_one, r4
 .L_0600A174:
     mov r5, r2
     add #-0x2, r4
@@ -3468,13 +3468,13 @@ vdp1_init:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0600A19C:
+.L_min_s32_2:
     .4byte  0x80000000
-.L_pool_0600A1A0:
+.L_vdp1_vram_00000:
     .4byte  0x25C00000
-.L_pool_0600A1A4:
+.L_vdp1_fb_00000:
     .4byte  0x25C80000
-.L_pool_0600A1A8:
+.L_fp_one:
     .4byte  0x00010000
 .L_sym_0605A00C_2:
     .4byte  sym_0605A00C

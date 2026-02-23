@@ -122,7 +122,7 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    mov.l   .L_pool_06027FD0, r0
+    mov.l   .L_sys_minit_nc, r0
     tst r4, r0
     bf      .L_06027FB0
     add r12, r3
@@ -145,7 +145,7 @@ DAT_06027f56:
     .4byte  0x00000034
 .L_sym_060A6000:
     .4byte  sym_060A6000
-.L_pool_06027FD0:
+.L_sys_minit_nc:
     .4byte  0x01000000
 .L_06027FD4:
     mov r5, r0
@@ -156,7 +156,7 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    mov.l   .L_pool_06028000, r0
+    mov.l   .L_cart_cs0_00000, r0
     tst r0, r4
     bf      .L_06027FEC
     add r12, r3
@@ -173,7 +173,7 @@ DAT_06027f56:
 .L_wpool_06027FFC:
     .2byte  0x0200
     .2byte  0x0000
-.L_pool_06028000:
+.L_cart_cs0_00000:
     .4byte  0x02000000
 .L_06028004:
     mov r5, r0
@@ -184,7 +184,7 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    mov.l   .L_pool_06028030, r0
+    mov.l   .L_cart_cs1_00000, r0
     tst r0, r4
     bf      .L_0602801C
     add r12, r3
@@ -201,7 +201,7 @@ DAT_06027f56:
 .L_wpool_0602802C:
     .2byte  0x0400
     .2byte  0x0000
-.L_pool_06028030:
+.L_cart_cs1_00000:
     .4byte  0x04000000
 .L_06028034:
     mov r5, r0
@@ -593,7 +593,7 @@ sym_06028248:
     mov #0x2D, r7
 .L_060282D8:
     add #0x2, r2
-    mov.w   .L_wpool_06028304, r1
+    mov.w   .L_mask_high_byte_w, r1
     mov #0xA, r0
     mov.l r0, @(0, r1)
 .L_060282E0:
@@ -616,7 +616,7 @@ sym_06028248:
     .4byte  sym_060620C4
 .L_pool_06028300:
     .4byte  0x20202020
-.L_wpool_06028304:
+.L_mask_high_byte_w:
     .2byte  0xFF00
     .2byte  0xD20E
     .4byte  0xD00E1200

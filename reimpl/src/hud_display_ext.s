@@ -496,12 +496,12 @@ DAT_0603c8d4:
     mov.b @r10, r5
 .L_0603CAA6:
     mov.l   .L_sym_060A4D84_2, r2
-    mov.l   .L_pool_0603CAE8, r3
+    mov.l   .L_fp_half, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_0603CAB8
-    mov.l   .L_pool_0603CAE8, r4
+    mov.l   .L_fp_half, r4
     .byte   0xBB, 0x78    /* bsr 0x0603C1A8 (external) */
     mov.b @r10, r5
 .L_0603CAB8:
@@ -543,7 +543,7 @@ DAT_0603cae2:
     .2byte  0x4000
 .L_sym_060A4D84_2:
     .4byte  sym_060A4D84
-.L_pool_0603CAE8:
+.L_fp_half:
     .4byte  0x00008000
 .L_0603CAEC:
     mov.l   .L_sym_060A4D84_3, r0

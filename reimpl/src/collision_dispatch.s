@@ -36,7 +36,7 @@ collision_dispatch:
 .L_0600CF86:
     mov.l @r4, r2
     mov.l @r2, r3
-    mov.l   .L_pool_0600CFF4, r2
+    mov.l   .L_fp_192, r2
     and r2, r3
     tst r3, r3
     bf      .L_0600CF96
@@ -101,7 +101,7 @@ DAT_0600cfe6:
     .4byte  sym_0607E944
 .L_sym_0607E940:
     .4byte  sym_0607E940
-.L_pool_0600CFF4:
+.L_fp_192:
     .4byte  0x00C00000
 .L_sym_06035168:
     .4byte  sym_06035168
@@ -221,7 +221,7 @@ DAT_0600cfe6:
     mov.l @r4, r6
     mov r6, r3
     mov.l @r3, r2
-    mov.l   .L_pool_0600D128, r3
+    mov.l   .L_fp_192_2, r3
     and r3, r2
     tst r2, r2
     bt/s    .L_0600D10E
@@ -287,5 +287,5 @@ DAT_0600d11a:
     .4byte  sym_0607E944
 .L_sym_0607E940_2:
     .4byte  sym_0607E940
-.L_pool_0600D128:
+.L_fp_192_2:
     .4byte  0x00C00000

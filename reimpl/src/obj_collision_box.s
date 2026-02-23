@@ -24,7 +24,7 @@ obj_collision_box:
     mov #0xC, r4
     mov #0x0, r14
     mov.l   .L_sym_0605B6D8, r11
-    mov.l   .L_pool_06020C0C, r2
+    mov.l   .L_cart_cs1_00000, r2
     mov.l @r11, r3
     or r2, r3
     mov.l r3, @r11
@@ -35,7 +35,7 @@ obj_collision_box:
     mov.l   .L_sym_06026CE0, r12
     jsr @r12
     mov.l r14, @r13
-    mov.l   .L_pool_06020C0C, r2
+    mov.l   .L_cart_cs1_00000, r2
     mov.l @r11, r3
     or r2, r3
     mov #0x4, r2
@@ -76,7 +76,7 @@ obj_state_pack:
     mov.l   .L_sym_0603850C, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_06020C30, r5
+    mov.l   .L_fp_one, r5
     mov.l   .L_scene_color_intensity, r3
     jsr @r3
     mov r5, r4
@@ -84,7 +84,7 @@ obj_state_pack:
     jsr @r3
     nop
     mov.l   .L_sym_0605B6D8, r4
-    mov.l   .L_pool_06020C0C, r2
+    mov.l   .L_cart_cs1_00000, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -103,7 +103,7 @@ obj_state_pack:
     .4byte  sym_0602853E
 .L_sym_0605B6D8:
     .4byte  sym_0605B6D8
-.L_pool_06020C0C:
+.L_cart_cs1_00000:
     .4byte  0x04000000
 .L_sym_0608780C:
     .4byte  sym_0608780C
@@ -121,7 +121,7 @@ obj_state_pack:
     .4byte  sym_06063F5C
 .L_sym_0603850C:
     .4byte  sym_0603850C
-.L_pool_06020C30:
+.L_fp_one:
     .4byte  0x00010000
 .L_scene_color_intensity:
     .4byte  scene_color_intensity

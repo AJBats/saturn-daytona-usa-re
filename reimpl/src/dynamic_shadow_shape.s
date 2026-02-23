@@ -39,7 +39,7 @@ dynamic_shadow_shape:
     mov r4, r0
     mov.l r2, @r12
     mov.l @(4, r3), r2
-    mov.l   .L_pool_06036B40, r3
+    mov.l   .L_mask_24bit, r3
     and r3, r2
     mov.l r2, @r14
     add #0x10, r15
@@ -90,14 +90,14 @@ shadow_color_alpha:
     .4byte  input_proc_analog
 .L_input_proc_digital:
     .4byte  input_proc_digital
-.L_pool_06036B40:
+.L_mask_24bit:
     .4byte  0x00FFFFFF
 .L_06036B44:
     mov r15, r3
     mov r13, r5
     add #0x4, r3
     mov.l @r3, r2
-    mov.l   .L_pool_06036BD0, r3
+    mov.l   .L_mask_24bit_2, r3
     and r3, r2
     mov.l r2, @r15
     mov.l   .L_smpc_secondary_proc, r3
@@ -170,7 +170,7 @@ ai_master_update:
     mov r0, r4
 .L_wpool_06036BCE:
     .2byte  0x0200
-.L_pool_06036BD0:
+.L_mask_24bit_2:
     .4byte  0x00FFFFFF
 .L_smpc_secondary_proc:
     .4byte  smpc_secondary_proc

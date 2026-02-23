@@ -23,7 +23,7 @@ obj_pool_dealloc:
     jsr @r3
     mov #0x4, r0
     mov.w @(2, r6), r0
-    mov.l   .L_pool_06020328, r3
+    mov.l   .L_fp_half, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -40,7 +40,7 @@ obj_pool_dealloc:
     mov.b r3, @r4
 .L_060202BE:
     mov.w @(2, r6), r0
-    mov.w   .L_wpool_06020310, r3
+    mov.w   .L_quarter_turn_w, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -83,7 +83,7 @@ obj_pool_dealloc:
     lds.l @r15+, pr
     rts
     nop
-.L_wpool_06020310:
+.L_quarter_turn_w:
     .2byte  0x4000
 .L_wpool_06020312:
     .2byte  0x0200
@@ -97,7 +97,7 @@ obj_pool_dealloc:
     .4byte  sym_0605F526
 .L_sym_06035228:
     .4byte  sym_06035228
-.L_pool_06020328:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_06087824:
     .4byte  sym_06087824

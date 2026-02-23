@@ -11,7 +11,7 @@
 name_entry_state:
     sts.l pr, @-r15
     mov r6, r0
-    mov.l   .L_pool_0603D504, r7
+    mov.l   .L_mask_high_byte, r7
     mov.l   .L_sym_060A4D58, r5
     mov.l   .L_sym_060A4D36, r4
     mov.w   .L_wpool_0603D4FE, r1
@@ -113,7 +113,7 @@ name_entry_state:
 DAT_0603d500:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_pool_0603D504:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_sym_060A4D58:
     .4byte  sym_060A4D58

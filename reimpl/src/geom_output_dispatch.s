@@ -21,7 +21,7 @@ geom_output_dispatch:
     mov.w   DAT_0601f964, r3
     mov r15, r6
     mov.w r3, @r15
-    mov.l   .L_pool_0601F96C, r4
+    mov.l   .L_vdp2_vram_7fffe, r4
     mov.l   .L_tilemap_dma_update, r3
     jsr @r3
     mov #0x1, r5
@@ -77,7 +77,7 @@ DAT_0601f964:
     .2byte  0xFFFF
 .L_sym_06063D9A:
     .4byte  sym_06063D9A
-.L_pool_0601F96C:
+.L_vdp2_vram_7fffe:
     .4byte  0x25E7FFFE
 .L_tilemap_dma_update:
     .4byte  tilemap_dma_update
@@ -88,7 +88,7 @@ DAT_0601f964:
 .L_geom_vertex_process:
     .4byte  geom_vertex_process
 .L_0601F980:
-    mov.l   .L_pool_0601FA2C, r3
+    mov.l   .L_min_s32, r3
     mov.l @r14, r2
     or r3, r2
     mov.l   .L_sym_06026CE0, r3
@@ -99,7 +99,7 @@ DAT_0601f964:
     nop
     bsr     geom_output_main
     nop
-    mov.l   .L_pool_0601FA34, r2
+    mov.l   .L_bit_30, r2
     mov.l @r14, r3
     or r2, r3
     mov.l r3, @r14
@@ -120,7 +120,7 @@ DAT_0601f964:
 .L_0601F9B6:
     bsr     geom_display_ctrl_a
     nop
-    mov.l   .L_pool_0601FA2C, r2
+    mov.l   .L_min_s32, r2
     mov.l @r14, r3
     or r2, r3
     mov.l r3, @r14
@@ -159,13 +159,13 @@ geom_output_main:
     cmp/eq #0x1, r0
     bf      .L_0601FAA8
     mov #0x8, r7
-    mov.l   .L_pool_0601FA50, r5
-    mov.l   .L_pool_0601FA54, r4
+    mov.l   .L_fp_1_7700, r5
+    mov.l   .L_vdp2_vram_72194, r4
     mov.l   .L_sym_0600511E, r3
     jsr @r3
     mov #0x0, r6
     mov.l   .L_sym_0604894C, r5
-    mov.l   .L_pool_0601FA60, r4
+    mov.l   .L_vdp2_cram_00600, r4
     mov.l   .L_memcpy_word_idx, r3
     jsr @r3
     mov #0x20, r6
@@ -187,11 +187,11 @@ DAT_0601fa26:
 .L_wpool_0601FA28:
     .2byte  0x02C0
     .2byte  0xFFFF
-.L_pool_0601FA2C:
+.L_min_s32:
     .4byte  0x80000000
 .L_sym_06026CE0:
     .4byte  sym_06026CE0
-.L_pool_0601FA34:
+.L_bit_30:
     .4byte  0x40000000
 .L_sym_06063D9A_2:
     .4byte  sym_06063D9A
@@ -205,15 +205,15 @@ DAT_0601fa26:
     .4byte  sym_06028400
 .L_sym_06078644:
     .4byte  sym_06078644
-.L_pool_0601FA50:
+.L_fp_1_7700:
     .4byte  0x00017700
-.L_pool_0601FA54:
+.L_vdp2_vram_72194:
     .4byte  0x25E72194
 .L_sym_0600511E:
     .4byte  sym_0600511E
 .L_sym_0604894C:
     .4byte  sym_0604894C
-.L_pool_0601FA60:
+.L_vdp2_cram_00600:
     .4byte  0x25F00600
 .L_memcpy_word_idx:
     .4byte  memcpy_word_idx
@@ -255,7 +255,7 @@ DAT_0601fa26:
     nop
 .L_0601FAA8:
     mov.l   .L_sym_0605CD9C, r5
-    mov.l   .L_pool_0601FAD4, r4
+    mov.l   .L_vdp2_cram_00600_2, r4
     mov.l   .L_memcpy_word_idx_2, r3
     jsr @r3
     mov #0x20, r6
@@ -286,7 +286,7 @@ DAT_0601fac8:
     .2byte  0x0090
 .L_sym_0605CD9C:
     .4byte  sym_0605CD9C
-.L_pool_0601FAD4:
+.L_vdp2_cram_00600_2:
     .4byte  0x25F00600
 .L_memcpy_word_idx_2:
     .4byte  memcpy_word_idx
@@ -613,7 +613,7 @@ DAT_0601fc9c:
     jsr @r14
     mov #0x1, r4
     mov r15, r6
-    mov.l   .L_pool_0601FD50, r4
+    mov.l   .L_vdp2_vram_7fffe_2, r4
     mov.l   .L_tilemap_dma_update_2, r3
     add #0x4, r6
     jsr @r3
@@ -660,7 +660,7 @@ geom_display_ctrl_a:
     .2byte  0xFFFF
 .L_channel_nibble_config:
     .4byte  channel_nibble_config
-.L_pool_0601FD50:
+.L_vdp2_vram_7fffe_2:
     .4byte  0x25E7FFFE
 .L_tilemap_dma_update_2:
     .4byte  tilemap_dma_update
@@ -709,7 +709,7 @@ vram_alloc_mgr:
     sts.l pr, @-r15
     mov.l   .L_sym_060877F8, r4
     mov.l   .L_sym_0607EBC4, r3
-    mov.l   .L_pool_0601FE08, r2
+    mov.l   .L_fp_128, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -763,7 +763,7 @@ vram_alloc_mgr:
     .4byte  sym_060877F8
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_0601FE08:
+.L_fp_128:
     .4byte  0x00800000
 .L_sym_0607EAD8:
     .4byte  sym_0607EAD8

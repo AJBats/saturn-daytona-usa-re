@@ -16,10 +16,10 @@ display_param_set:
     mov.l r11, @-r15
     mov.l   .L_sym_060635BC, r11
     mov.l   .L_sym_060A4C92, r14
-    mov.l   .L_pool_06038F08, r7
+    mov.l   .L_vdp1_fbcr, r7
     mov.l   .L_sym_060635B4, r5
     mov.l   .L_sym_060635B8, r1
-    mov.l   .L_pool_06038F14, r2
+    mov.l   .L_mask_16bit, r2
     cmp/eq r2, r3
     bf/s    .L_06038E86
     mov #0x0, r6
@@ -115,13 +115,13 @@ DAT_06038efc:
     .4byte  sym_060635BC
 .L_sym_060A4C92:
     .4byte  sym_060A4C92
-.L_pool_06038F08:
+.L_vdp1_fbcr:
     .4byte  0x25D00002
 .L_sym_060635B4:
     .4byte  sym_060635B4
 .L_sym_060635B8:
     .4byte  sym_060635B8
-.L_pool_06038F14:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_pool_06038F18:
     .4byte  0x0000FFFE

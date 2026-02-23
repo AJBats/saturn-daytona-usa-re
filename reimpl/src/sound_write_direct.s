@@ -15,7 +15,7 @@ sound_write_direct:
     .byte   0xB2, 0x65    /* bsr 0x0601DB84 (external) */
     mov.l r4, @r15
     mov.l @r15, r2
-    mov.l   .L_pool_0601D6CC, r3
+    mov.l   .L_sound_ram_02c20, r3
     mov.l r2, @r3
     mov.l @r15, r2
     mov.l   .L_sym_0608604C, r3
@@ -23,7 +23,7 @@ sound_write_direct:
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
-.L_pool_0601D6CC:
+.L_sound_ram_02c20:
     .4byte  0x25A02C20
 .L_sym_0608604C:
     .4byte  sym_0608604C

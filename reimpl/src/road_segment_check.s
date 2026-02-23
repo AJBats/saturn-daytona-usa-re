@@ -77,7 +77,7 @@ road_segment_check:
     bt      .L_06040CFC
     mov r12, r7
     mov r12, r6
-    mov.l   .L_pool_06040D3C, r5
+    mov.l   .L_mask_16bit, r5
     mov.l   .L_road_segment_query, r3
     jsr @r3
     mov r12, r4
@@ -101,7 +101,7 @@ DAT_06040d2c:
     .4byte  sym_060A5400
 .L_sym_0604231E:
     .4byte  sym_0604231E
-.L_pool_06040D3C:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_road_segment_query:
     .4byte  road_segment_query
@@ -212,7 +212,7 @@ DAT_06040dc2:
     jsr @r3
     extu.b r4, r4
     mov r15, r0
-    mov.l   .L_pool_06040E78, r2
+    mov.l   .L_bit_30, r2
     add #0x4, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -230,7 +230,7 @@ DAT_06040dc2:
     jsr @r3
     mov r12, r5
     mov.l @r14, r2
-    mov.l   .L_pool_06040E80, r3
+    mov.l   .L_fp_half, r3
     mov.l r3, @(60, r2)
     bra     .L_06040E32
     nop
@@ -285,11 +285,11 @@ DAT_06040e72:
     .2byte  0x00FC
 .L_mesh_boundary_check:
     .4byte  mesh_boundary_check
-.L_pool_06040E78:
+.L_bit_30:
     .4byte  0x40000000
 .L_track_surface_type_a:
     .4byte  track_surface_type_a
-.L_pool_06040E80:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_06035C4E_2:
     .4byte  sym_06035C4E
@@ -407,11 +407,11 @@ event_queue_overflow:
 .L_sym_060A5400_3:
     .4byte  sym_060A5400
 .L_06040F40:
-    mov.l   .L_pool_06040FA8, r6
+    mov.l   .L_mask_16bit_2, r6
     mov #0x0, r5
     .byte   0xB1, 0xB5    /* bsr 0x060412B2 (external) */
     mov r14, r4
-    mov.l   .L_pool_06040FAC, r4
+    mov.l   .L_fp_half_2, r4
     mov.l @r13, r2
     mov.l r4, @(60, r2)
 .L_06040F4E:
@@ -462,19 +462,19 @@ evt_boundary_check:
     jsr @r3
     extu.b r4, r4
     mov r15, r0
-    mov.l   .L_pool_06040FB4, r3
+    mov.l   .L_mask_24bit, r3
     mov.l @r0, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
     and r3, r0
-.L_pool_06040FA8:
+.L_mask_16bit_2:
     .4byte  0x0000FFFF
-.L_pool_06040FAC:
+.L_fp_half_2:
     .4byte  0x00008000
 .L_mesh_boundary_check_2:
     .4byte  mesh_boundary_check
-.L_pool_06040FB4:
+.L_mask_24bit:
     .4byte  0x00FFFFFF
 
     .global sym_06040FB8

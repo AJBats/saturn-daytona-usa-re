@@ -20,7 +20,7 @@ texture_bank_setup:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603715C, r9
+    mov.l   .L_mask_high_byte, r9
     mov.l   .L_sym_060A4C44, r10
     mov.l   .L_sym_060A3D88, r12
     mov.l   .L_sym_060A3E38, r13
@@ -78,7 +78,7 @@ DAT_06037156:
 .L_wpool_06037158:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_pool_0603715C:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_sym_060A4C44:
     .4byte  sym_060A4C44
@@ -142,7 +142,7 @@ DAT_06037156:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_pool_06037298, r2
+    mov.l   .L_vdp2_vram_00000, r2
     add r2, r3
     mov.l r3, @r10
     bra     .L_060371F4
@@ -156,7 +156,7 @@ DAT_06037156:
     and #0xFF, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_pool_06037298, r2
+    mov.l   .L_vdp2_vram_00000, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_060371F4:
@@ -209,7 +209,7 @@ DAT_06037156:
     or #0x1, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_pool_060372A0, r2
+    mov.l   .L_vdp2_vram_20000, r2
     add r2, r3
     mov.l r3, @r10
     bra     .L_0603728A
@@ -235,7 +235,7 @@ DAT_06037156:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_pool_060372A0, r2
+    mov.l   .L_vdp2_vram_20000, r2
     add r2, r3
     mov.l r3, @(4, r10)
     add #0x1, r4
@@ -250,11 +250,11 @@ DAT_0603728e:
     .4byte  0x0000FDFF
 .L_pool_06037294:
     .4byte  0x0000FFFC
-.L_pool_06037298:
+.L_vdp2_vram_00000:
     .4byte  0x25E00000
 .L_pool_0603729C:
     .4byte  0x0000FFF3
-.L_pool_060372A0:
+.L_vdp2_vram_20000:
     .4byte  0x25E20000
 .L_060372A4:
     mov.b @(11, r11), r0
@@ -271,7 +271,7 @@ DAT_0603728e:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_pool_06037368, r2
+    mov.l   .L_vdp2_vram_20000_2, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_060372C6:
@@ -325,7 +325,7 @@ DAT_0603728e:
     or #0x2, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_pool_06037370, r2
+    mov.l   .L_vdp2_vram_40000, r2
     add r2, r3
     mov.l r3, @r10
     bra     .L_0603735E
@@ -352,7 +352,7 @@ DAT_0603728e:
     mov.w r0, @(6, r13)
     add #0x1, r4
     mov.l @(4, r14), r3
-    mov.l   .L_pool_06037370, r2
+    mov.l   .L_vdp2_vram_40000, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_0603735E:
@@ -365,11 +365,11 @@ DAT_06037362:
 .L_wpool_06037364:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_pool_06037368:
+.L_vdp2_vram_20000_2:
     .4byte  0x25E20000
 .L_pool_0603736C:
     .4byte  0x0000FFCF
-.L_pool_06037370:
+.L_vdp2_vram_40000:
     .4byte  0x25E40000
 .L_06037374:
     mov.b @(12, r11), r0
@@ -390,7 +390,7 @@ DAT_06037362:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_pool_06037444, r2
+    mov.l   .L_vdp2_vram_40000_2, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_0603739E:
@@ -445,7 +445,7 @@ DAT_06037362:
     or #0x3, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_pool_0603744C, r2
+    mov.l   .L_vdp2_vram_60000, r2
     add r2, r3
     mov.l r3, @r10
     bra     .L_06037436
@@ -471,7 +471,7 @@ DAT_06037362:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_pool_0603744C, r2
+    mov.l   .L_vdp2_vram_60000, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_06037436:
@@ -486,11 +486,11 @@ DAT_0603743a:
     .2byte  0xFFFF
 .L_sym_060A4C50:
     .4byte  sym_060A4C50
-.L_pool_06037444:
+.L_vdp2_vram_40000_2:
     .4byte  0x25E40000
 .L_pool_06037448:
     .4byte  0x0000FF3F
-.L_pool_0603744C:
+.L_vdp2_vram_60000:
     .4byte  0x25E60000
 .L_06037450:
     mov.b @(13, r11), r0
@@ -511,7 +511,7 @@ DAT_0603743a:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_pool_0603753C, r2
+    mov.l   .L_vdp2_vram_60000_2, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_0603747A:
@@ -534,13 +534,13 @@ DAT_0603743a:
     nop
     cmp/eq #0x1, r0
     bf      .L_060374B2
-    mov.l   .L_pool_06037548, r3
+    mov.l   .L_fp_half, r3
     mov.w @(14, r12), r0
     mov r0, r2
     or r3, r2
     mov r2, r0
     mov.w r0, @(14, r12)
-    mov.l   .L_pool_0603754C, r3
+    mov.l   .L_vdp2_cram_00800, r3
     mov.l r3, @r10
     bra     .L_060375F2
     nop
@@ -628,15 +628,15 @@ DAT_06037536:
     .2byte  0x00FF
 .L_sym_060A4C50_2:
     .4byte  sym_060A4C50
-.L_pool_0603753C:
+.L_vdp2_vram_60000_2:
     .4byte  0x25E60000
 .L_sym_060A4C44_2:
     .4byte  sym_060A4C44
 .L_sym_0603C156:
     .4byte  sym_0603C156
-.L_pool_06037548:
+.L_fp_half:
     .4byte  0x00008000
-.L_pool_0603754C:
+.L_vdp2_cram_00800:
     .4byte  0x25F00800
 .L_sym_060A4C59:
     .4byte  sym_060A4C59
@@ -677,7 +677,7 @@ DAT_06037536:
     and r9, r3
     mov r3, r0
     mov.w r0, @(6, r13)
-    mov.l   .L_pool_06037608, r0
+    mov.l   .L_fp_two, r0
     mov.l   .L_sym_06034FFC, r3
     jsr @r3
     mov.l @r4, r1
@@ -689,7 +689,7 @@ DAT_06037536:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @r4, r3
-    mov.l   .L_pool_06037610, r2
+    mov.l   .L_vdp2_vram_00000_2, r2
     add r2, r3
     mov.l r3, @r10
 .L_060375B8:
@@ -706,7 +706,7 @@ DAT_06037536:
     and #0xFF, r0
     add #0x4, r4
     mov.w r0, @(6, r13)
-    mov.l   .L_pool_06037608, r0
+    mov.l   .L_fp_two, r0
     mov.l   .L_sym_06034FFC, r3
     jsr @r3
     mov.l @r4, r1
@@ -719,7 +719,7 @@ DAT_06037536:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @r4, r3
-    mov.l   .L_pool_06037610, r2
+    mov.l   .L_vdp2_vram_00000_2, r2
     add r2, r3
     mov.l r3, @(4, r10)
 .L_060375F2:
@@ -734,11 +734,11 @@ DAT_06037536:
     mov.l @r15+, r14
 .L_sym_060A4C58:
     .4byte  sym_060A4C58
-.L_pool_06037608:
+.L_fp_two:
     .4byte  0x00020000
 .L_sym_06034FFC:
     .4byte  sym_06034FFC
-.L_pool_06037610:
+.L_vdp2_vram_00000_2:
     .4byte  0x25E00000
 .L_sym_060A4C59_2:
     .4byte  sym_060A4C59

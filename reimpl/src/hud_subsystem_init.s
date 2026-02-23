@@ -23,7 +23,7 @@ hud_subsystem_init:
     sts macl, r0
     mov.l   .L_DAT_06082A7C, r14
     add r0, r14
-    mov.l   .L_pool_06033B38, r0
+    mov.l   .L_zero, r0
     mov.b r7, @(r0, r14)
     xor r2, r2
     mov.l   .L_pool_06033B3C, r0
@@ -80,7 +80,7 @@ hud_subsystem_init:
     .4byte  0x0000002C
 .L_DAT_06082A7C:
     .4byte  DAT_06082A7C
-.L_pool_06033B38:
+.L_zero:
     .4byte  0x00000000
 .L_pool_06033B3C:
     .4byte  0x00000010

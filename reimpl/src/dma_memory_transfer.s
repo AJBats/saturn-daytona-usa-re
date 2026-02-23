@@ -28,7 +28,7 @@ dma_memory_transfer:
     mov #0x0, r6
     mov #0x0, r7
     mov #0x0, r10
-    mov.l   .L_pool_060286B4, r12
+    mov.l   .L_mask_high_byte, r12
     mov.l   .L_pool_060286B8, r14
 .L_0602867E:
     shlr r7
@@ -60,7 +60,7 @@ dma_memory_transfer:
     .2byte  0x0000
 .L_sym_0602872C:
     .4byte  sym_0602872C
-.L_pool_060286B4:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_pool_060286B8:
     .4byte  0x00000FFF

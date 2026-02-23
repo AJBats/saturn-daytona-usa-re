@@ -73,7 +73,7 @@ cmd_multi_validate:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_0603B274, r3
+    mov.l   .L_max_s32, r3
     mov.l r3, @(8, r15)
     mov.l @r14, r4
     mov.l @(40, r4), r13
@@ -117,7 +117,7 @@ cmd_multi_validate:
 DAT_0603b270:
     .2byte  0x0914
     .2byte  0xFFFF
-.L_pool_0603B274:
+.L_max_s32:
     .4byte  0x7FFFFFFF
 .L_0603B278:
     mov.l   .L_cdb_wait_scdq, r3

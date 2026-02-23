@@ -36,7 +36,7 @@ vblank_display_write:
     nop
 .L_06038FA0:
     mov.l   .L_sym_060A4C92, r6
-    mov.l   .L_pool_06038FF8, r5
+    mov.l   .L_vdp1_fbcr, r5
     mov.w @r4, r0
     extu.w r0, r0
     cmp/eq #0x3, r0
@@ -45,7 +45,7 @@ vblank_display_write:
     tst r0, r0
     bt      .L_06039042
     mov.l   .L_sym_060A4C90, r0
-    mov.l   .L_pool_06039000, r3
+    mov.l   .L_vdp1_tvmr, r3
     mov.w @r0, r0
     extu.w r0, r0
     or #0x8, r0
@@ -80,11 +80,11 @@ vblank_display_write:
     .4byte  sym_060635B4
 .L_sym_060A4C92:
     .4byte  sym_060A4C92
-.L_pool_06038FF8:
+.L_vdp1_fbcr:
     .4byte  0x25D00002          /* VDP1 FBCR — framebuffer change register */
 .L_sym_060A4C90:
     .4byte  sym_060A4C90
-.L_pool_06039000:
+.L_vdp1_tvmr:
     .4byte  0x25D00000          /* VDP1 TVMR — TV mode register */
 .L_06039004:
     mov.l @r14, r2
@@ -136,7 +136,7 @@ vblank_cmd_dispatch:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06039090, r12
+    mov.l   .L_vdp1_fbcr_2, r12
     mov.l   .L_sym_060A4C92_2, r13
     mov.l   .L_sym_060A4C84_2, r14
     mov.l   .L_sym_060A4C94, r0
@@ -144,7 +144,7 @@ vblank_cmd_dispatch:
     extu.w r0, r0
     tst r0, r0
     bt      .L_060390A4
-    mov.l   .L_pool_060390A0, r4
+    mov.l   .L_vdp2_tvstat, r4
     mov.w @r4, r4
     extu.w r4, r0
     tst #0x2, r0
@@ -166,7 +166,7 @@ vblank_cmd_dispatch:
     .4byte  sym_060635B8
 .L_sym_060635BC:
     .4byte  sym_060635BC
-.L_pool_06039090:
+.L_vdp1_fbcr_2:
     .4byte  0x25D00002          /* VDP1 FBCR — framebuffer change register */
 .L_sym_060A4C92_2:
     .4byte  sym_060A4C92
@@ -174,7 +174,7 @@ vblank_cmd_dispatch:
     .4byte  sym_060A4C84
 .L_sym_060A4C94:
     .4byte  sym_060A4C94
-.L_pool_060390A0:
+.L_vdp2_tvstat:
     .4byte  0x25F80004          /* VDP2 TVSTAT — TV status (VBLANK, HBLANK, ODD) */
 .L_060390A4:
     mov.l @r14, r0
@@ -196,7 +196,7 @@ vblank_cmd_dispatch:
     bf      .L_060390D0
     mov.l   .L_sym_060A4C90_2, r3
     mov.w @r3, r3
-    mov.l   .L_pool_060390F8, r2
+    mov.l   .L_vdp1_tvmr_2, r2
     mov.w r3, @r2
     bra     .L_060390DA
     nop
@@ -223,7 +223,7 @@ vblank_cmd_dispatch:
     .4byte  sym_060394C2
 .L_sym_060A4C90_2:
     .4byte  sym_060A4C90
-.L_pool_060390F8:
+.L_vdp1_tvmr_2:
     .4byte  0x25D00000          /* VDP1 TVMR — TV mode register */
 .L_sym_060635C4_2:
     .4byte  sym_060635C4
@@ -337,20 +337,20 @@ vdp2_scroll_update:
     mov #0x0, r4
     mov.l   .L_sym_060A4C92_3, r2
     mov #0x0, r6
-    mov.l   .L_pool_060392F0, r3
+    mov.l   .L_vdp1_fbcr_3, r3
     mov.w @r2, r2
     mov.w r2, @r3
     mov #0x2, r2
-    mov.l   .L_pool_060392F4, r3
+    mov.l   .L_vdp1_ptmr, r3
     mov.w r2, @r3
-    mov.l   .L_pool_060392F8, r2
-    mov.l   .L_pool_060392FC, r3
+    mov.l   .L_fp_half, r2
+    mov.l   .L_vdp1_ewdr, r3
     mov.w r2, @r3
     mov #0x0, r2
-    mov.l   .L_pool_06039300, r3
+    mov.l   .L_vdp1_ewlr, r3
     mov.w r2, @r3
-    mov.l   .L_pool_06039304, r2
-    mov.l   .L_pool_06039308, r3
+    mov.l   .L_mask_16bit, r2
+    mov.l   .L_vdp1_ewrr, r3
     mov.w r2, @r3
     mov.l   .L_sym_060A4C8C, r2
     mov.l @r2, r2
@@ -358,14 +358,14 @@ vdp2_scroll_update:
     extu.w r2, r2
     mov.l r2, @-r15
     mov.l   .L_sym_060A4C88, r7
-    mov.l   .L_pool_060392F8, r4
+    mov.l   .L_fp_half, r4
     mov.l @r7, r7
     add #-0x1, r7
     extu.w r7, r7
     .byte   0xB0, 0xA5    /* bsr 0x060393FC (external) */
     mov #0x0, r5
     add #0x4, r15
-    mov.l   .L_pool_06039314, r2
+    mov.l   .L_vdp1_vram_00000, r2
     mov.l r2, @r14
     mov r2, r3
     mov.w   .L_wpool_060392E8, r2
@@ -399,25 +399,25 @@ DAT_060392e6:
     .2byte  0xFFFF
 .L_sym_060A4C92_3:
     .4byte  sym_060A4C92
-.L_pool_060392F0:
+.L_vdp1_fbcr_3:
     .4byte  0x25D00002          /* VDP1 FBCR — framebuffer change */
-.L_pool_060392F4:
+.L_vdp1_ptmr:
     .4byte  0x25D00004          /* VDP1 PTMR — plot trigger */
-.L_pool_060392F8:
+.L_fp_half:
     .4byte  0x00008000          /* bit15 mask (MSB test) */
-.L_pool_060392FC:
+.L_vdp1_ewdr:
     .4byte  0x25D00006          /* VDP1 EWDR — erase fill color */
-.L_pool_06039300:
+.L_vdp1_ewlr:
     .4byte  0x25D00008          /* VDP1 EWLR — erase upper-left coords */
-.L_pool_06039304:
+.L_mask_16bit:
     .4byte  0x0000FFFF          /* 16-bit mask */
-.L_pool_06039308:
+.L_vdp1_ewrr:
     .4byte  0x25D0000A          /* VDP1 EWRR — erase lower-right coords */
 .L_sym_060A4C8C:
     .4byte  sym_060A4C8C
 .L_sym_060A4C88:
     .4byte  sym_060A4C88
-.L_pool_06039314:
+.L_vdp1_vram_00000:
     .4byte  0x25C00000          /* VDP1 VRAM base (cache-through) */
 .L_sym_060635CC_2:
     .4byte  sym_060635CC

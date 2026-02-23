@@ -26,7 +26,7 @@ accel_response:
     mov.w r2, @(r0, r14)
 .L_0600C516:
     mov.l   .L_sym_0607EBC4, r3
-    mov.l   .L_pool_0600C5AC, r2
+    mov.l   .L_fp_half, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -122,7 +122,7 @@ DAT_0600c59a:
     .4byte  sym_0607E940
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_0600C5AC:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_060477EC:
     .4byte  sym_060477EC
@@ -134,7 +134,7 @@ DAT_0600c59a:
     mov #0x0, r2
     mov.l r2, @(12, r14)
 .L_0600C5C0:
-    mov.l   .L_pool_0600C61C, r5
+    mov.l   .L_fp_72, r5
     jsr @r13
     mov.l @(12, r14), r4
     shlr16 r0
@@ -190,7 +190,7 @@ DAT_0600c616:
 .L_wpool_0600C618:
     .2byte  0x00B8
     .2byte  0xFFFF
-.L_pool_0600C61C:
+.L_fp_72:
     .4byte  0x00480000
 .L_fpmul_2:
     .4byte  fpmul
@@ -273,7 +273,7 @@ DAT_0600c616:
     mov.l   .L_sym_0607E940_3, r2
     mov.l @r2, r2
     mov.l @r2, r3
-    mov.l   .L_pool_0600C710, r2
+    mov.l   .L_fp_224, r2
     and r2, r3
     tst r3, r3
     bf      .L_0600C718
@@ -339,7 +339,7 @@ DAT_0600c702:
     .4byte  sym_06087804
 .L_sym_0607E940_3:
     .4byte  sym_0607E940
-.L_pool_0600C710:
+.L_fp_224:
     .4byte  0x00E00000
 .L_sincos_pair:
     .4byte  sincos_pair

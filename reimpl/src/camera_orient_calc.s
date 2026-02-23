@@ -27,8 +27,8 @@ camera_orient_calc:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060053DA
-    mov.l   .L_pool_0600546C, r6
-    mov.l   .L_pool_06005470, r4
+    mov.l   .L_fp_one, r6
+    mov.l   .L_mask_upper_word, r4
     mov.l   .L_mat_scale_columns, r3
     jsr @r3
     mov r6, r5
@@ -106,9 +106,9 @@ camera_orient_calc:
     .4byte  sym_06089EDC
 .L_sym_06078663:
     .4byte  sym_06078663
-.L_pool_0600546C:
+.L_fp_one:
     .4byte  0x00010000
-.L_pool_06005470:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
 .L_mat_scale_columns:
     .4byte  mat_scale_columns
@@ -416,7 +416,7 @@ perspective_project:
     mov.l @(4, r9), r14
     shll8 r14
     shll2 r14
-    mov.l   .L_pool_06005770, r3
+    mov.l   .L_fp_416, r3
     add r3, r14
     bra     .L_06005730
     nop
@@ -433,7 +433,7 @@ perspective_project:
     mov #0x4, r4
     mov #0x0, r6
     mov.l @r9, r5
-    mov.l   .L_pool_0600577C, r3
+    mov.l   .L_fp_58, r3
     shll8 r5
     shll r5
     neg r5, r5
@@ -460,13 +460,13 @@ perspective_project:
     .4byte  sym_06063EEC
 .L_sym_06078663_2:
     .4byte  sym_06078663
-.L_pool_06005770:
+.L_fp_416:
     .4byte  0x01A00000
 .L_pool_06005774:
     .4byte  0xFFA00000
 .L_sym_0603850C:
     .4byte  sym_0603850C
-.L_pool_0600577C:
+.L_fp_58:
     .4byte  0x003A0000
 .L_scene_data_write_abs:
     .4byte  scene_data_write_abs

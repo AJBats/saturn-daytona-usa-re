@@ -12,7 +12,7 @@
 menu_anim_system:
     mov.l r14, @-r15
     mov.l   .L_sym_060A4CAE, r14
-    mov.w   .L_wpool_0603AB12, r5
+    mov.w   .L_mask_byte_w, r5
     mov.l   .L_sym_060A4CC8, r4
     mov #0x0, r6
     mov.l   .L_sym_060A4CAF, r0
@@ -93,7 +93,7 @@ menu_anim_system:
 .L_0603AB0E:
     bra     .L_0603AB42
     mov.b r5, @r2
-.L_wpool_0603AB12:
+.L_mask_byte_w:
     .2byte  0x00FF
 .L_sym_060A4CAE:
     .4byte  sym_060A4CAE
@@ -116,7 +116,7 @@ menu_anim_system:
     mov.w   .L_wpool_0603ABC8, r1
     cmp/eq r1, r0
     bt      .L_0603AB06
-    mov.w   .L_wpool_0603ABCA, r1
+    mov.w   .L_mask_byte_w_2, r1
     cmp/eq r1, r0
     bt      .L_0603AA94
 .L_0603AB42:
@@ -200,7 +200,7 @@ sym_0603AB46:
     .2byte  0x00E1
 .L_wpool_0603ABC8:
     .2byte  0x00E2
-.L_wpool_0603ABCA:
+.L_mask_byte_w_2:
     .2byte  0x00FF
 .L_sym_060A4CB4:
     .4byte  sym_060A4CB4

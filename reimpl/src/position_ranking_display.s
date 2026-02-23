@@ -314,7 +314,7 @@ hud_layer_composite:
     shll2 r11
     mov.w @r12, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_060115CC, r7
+    mov.l   .L_fp_one, r7
     mov.w   DAT_060115c6, r6
     mov.l   .L_sym_060447A8_2, r2
     add r2, r11
@@ -408,7 +408,7 @@ DAT_060115c6:
     .2byte  0x8000
 .L_sym_060447A4:
     .4byte  sym_060447A4
-.L_pool_060115CC:
+.L_fp_one:
     .4byte  0x00010000
 .L_sym_060447A8_2:
     .4byte  sym_060447A8

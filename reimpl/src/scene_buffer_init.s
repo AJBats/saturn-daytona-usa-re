@@ -85,7 +85,7 @@ scene_buffer_init:
     add #0x30, r7
     extu.w r5, r3
     shll8 r3
-    mov.l   .L_pool_060382A0, r2
+    mov.l   .L_mask_high_byte, r2
     and r2, r3
     extu.w r3, r5
     mov r11, r7
@@ -103,7 +103,7 @@ scene_buffer_init:
     mov.l @(12, r4), r3
     mov.l r3, @r5
     mov.l r12, @(4, r5)
-    mov.l   .L_pool_060382AC, r5
+    mov.l   .L_mask_19bit, r5
     mov.l @(8, r4), r3
     shlr r3
     and r5, r3
@@ -213,13 +213,13 @@ scene_buffer_init:
 .L_0603829C:
     bra     .L_060382B4
     nop
-.L_pool_060382A0:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_sym_060A3D70:
     .4byte  sym_060A3D70
 .L_sym_060A3D78:
     .4byte  sym_060A3D78
-.L_pool_060382AC:
+.L_mask_19bit:
     .4byte  0x0007FFFF
 .L_sym_060635A0:
     .4byte  sym_060635A0

@@ -49,7 +49,7 @@ palette_engine_core:
     cmp/eq #0x4, r0
     bf/s    .L_06042B24
     mov.l @r7, r6
-    mov.l   .L_pool_06042BA8, r2
+    mov.l   .L_fp_neg_0_c001, r2
     and r2, r6
     mov.l @(12, r4), r3
     shll8 r3
@@ -138,7 +138,7 @@ palette_engine_core:
     .global DAT_06042ba6
 DAT_06042ba6:
     .2byte  0xFE71
-.L_pool_06042BA8:
+.L_fp_neg_0_c001:
     .4byte  0xFFFF3FFF
 
     .global sym_06042BAC

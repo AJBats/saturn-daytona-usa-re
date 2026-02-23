@@ -45,7 +45,7 @@ text_scroll_marquee:
     add r2, r3
     exts.w r3, r3
     add r13, r3
-    mov.l   .L_pool_06016DCC, r1
+    mov.l   .L_fp_half, r1
     mov.l r1, @(44, r3)
 .L_06016D30:
     mov.l   .L_sym_0605BB74, r5
@@ -126,7 +126,7 @@ text_scroll_marquee:
     .4byte  sym_06085F89
 .L_sym_0607EBF4:
     .4byte  sym_0607EBF4
-.L_pool_06016DCC:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0605BB74:
     .4byte  sym_0605BB74

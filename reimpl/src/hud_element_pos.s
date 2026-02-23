@@ -278,7 +278,7 @@ mat_multiply_helper:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601E694, r13
+    mov.l   .L_smpc_sf, r13
     mov #0x1, r14
 .L_0601E640:
     mov.b @r13, r2
@@ -289,7 +289,7 @@ mat_multiply_helper:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_pool_0601E698, r2
+    mov.l   .L_smpc_comreg, r2
     mov.b r3, @r2
 .L_0601E654:
     mov.b @r13, r2
@@ -313,7 +313,7 @@ mat_multiply_helper:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_pool_0601E698, r2
+    mov.l   .L_smpc_comreg, r2
     mov.b r3, @r2
 .L_0601E680:
     mov.b @r13, r2
@@ -326,9 +326,9 @@ mat_multiply_helper:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0601E694:
+.L_smpc_sf:
     .4byte  0x20100063
-.L_pool_0601E698:
+.L_smpc_comreg:
     .4byte  0x2010001F
 .L_sym_06000354:
     .4byte  sym_06000354

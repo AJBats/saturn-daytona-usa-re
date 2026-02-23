@@ -43,7 +43,7 @@ vdp1_cmd_emit:
     add r9, r3
     cmp/gt r10, r3
     .byte   0x8B, 0xC2    /* bf 0x0602BC42 (external) */
-    mov.w   .L_wpool_0602BCF2, r9
+    mov.w   .L_mask_high_byte_w, r9
     mov.w   .L_wpool_0602BCF4, r0
     mov.l r0, @(16, r9)
     mov.l r3, @(0, r9)
@@ -70,7 +70,7 @@ vdp1_cmd_emit:
     add r9, r2
     rts
     add #-0x18, r6
-.L_wpool_0602BCF2:
+.L_mask_high_byte_w:
     .2byte  0xFF00
 .L_wpool_0602BCF4:
     .2byte  0x00A0

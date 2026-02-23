@@ -19,9 +19,9 @@ position_change_anim:
     sts.l pr, @-r15
     add #-0x8, r15
     mov #0x8, r8
-    mov.l   .L_pool_06015A30, r9
+    mov.l   .L_fp_half, r9
     mov.w   .L_wpool_06015A2C, r10
-    mov.l   .L_pool_06015A34, r11
+    mov.l   .L_fp_one, r11
     mov #0x0, r12
     mov.l   .L_sym_06084FC8, r13
     mov r4, r0
@@ -122,9 +122,9 @@ position_change_anim:
 .L_wpool_06015A2C:
     .2byte  0x2000
     .2byte  0xFFFF
-.L_pool_06015A30:
+.L_fp_half:
     .4byte  0x00008000
-.L_pool_06015A34:
+.L_fp_one:
     .4byte  0x00010000
 .L_sym_06084FC8:
     .4byte  sym_06084FC8

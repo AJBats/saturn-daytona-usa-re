@@ -33,7 +33,7 @@ scene_state_process:
     mov.b r6, @r15
     mov r7, r0
     mov.b r0, @(4, r15)
-    mov.l   .L_pool_060395D0, r2
+    mov.l   .L_smpc_ddr1, r2
     mov.b r12, @r2
     add #0x2, r2
     mov.b r12, @r2
@@ -111,7 +111,7 @@ scene_state_process:
     .4byte  sym_060A4CAC
 .L_sym_060A4CB0:
     .4byte  sym_060A4CB0
-.L_pool_060395D0:
+.L_smpc_ddr1:
     .4byte  0x20100079
 .L_sym_06000300:
     .4byte  sym_06000300

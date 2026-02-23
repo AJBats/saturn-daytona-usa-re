@@ -35,7 +35,7 @@ anim_frame_counter:
     tst #0x2, r0
     bt      .L_060059BA
     mov.w   DAT_060059de, r0
-    mov.l   .L_pool_060059F8, r5
+    mov.l   .L_fp_9_27bf, r5
     mov.l @(r0, r4), r14
     cmp/gt r5, r14
     bf      .L_06005966
@@ -139,7 +139,7 @@ DAT_060059e6:
     .4byte  sym_0607EAC0
 .L_sym_0607EBF4:
     .4byte  sym_0607EBF4
-.L_pool_060059F8:
+.L_fp_9_27bf:
     .4byte  0x000927BF
 .L_sym_06063810:
     .4byte  sym_06063810

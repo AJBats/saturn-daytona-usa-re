@@ -862,7 +862,7 @@ DAT_0603a6fe:
 
     .global sym_0603A72C
 sym_0603A72C:
-    mov.l   .L_pool_0603A79C, r5
+    mov.l   .L_smpc_sf, r5
     mov #0x1, r4
     mov.b @r5, r3
     extu.b r3, r3
@@ -876,7 +876,7 @@ sym_0603A72C:
     mov.b r4, @r5
     mov.l   .L_sym_06063602, r4
     mov.b @r4, r3
-    mov.l   .L_pool_0603A7A4, r2
+    mov.l   .L_smpc_ireg0, r2
     mov.b r3, @r2
     mov.b @(1, r4), r0
     mov r0, r3
@@ -901,7 +901,7 @@ display_channel_iter:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.l   .L_sym_060A4CAC, r12
-    mov.w   .L_wpool_0603A79A, r13
+    mov.w   .L_mask_byte_w, r13
     mov.l   .L_sym_060A4CB4_2, r14
     bra     .L_0603A786
     nop
@@ -924,13 +924,13 @@ display_channel_iter:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0603A79A:
+.L_mask_byte_w:
     .2byte  0x00FF
-.L_pool_0603A79C:
+.L_smpc_sf:
     .4byte  0x20100063
 .L_sym_06063602:
     .4byte  sym_06063602
-.L_pool_0603A7A4:
+.L_smpc_ireg0:
     .4byte  0x20100001
 .L_sym_060A4CAC:
     .4byte  sym_060A4CAC

@@ -70,7 +70,7 @@ finish_proximity:
     bf/s    .L_0600DB0A
     extu.w r7, r7
     mov.l @r15, r3
-    mov.l   .L_pool_0600DB58, r2
+    mov.l   .L_three_quarter, r2
     cmp/gt r2, r3
     bt      .L_0600DB0A
     extu.w r7, r2
@@ -78,7 +78,7 @@ finish_proximity:
     cmp/ge r3, r2
     bf      .L_0600DB0A
     extu.w r7, r3
-    mov.l   .L_pool_0600DB58, r2
+    mov.l   .L_three_quarter, r2
     cmp/gt r2, r3
     bf      .L_0600DB24
 .L_0600DB0A:
@@ -132,7 +132,7 @@ DAT_0600db46:
     .4byte  sym_06078698
 .L_sym_06034F78:
     .4byte  sym_06034F78
-.L_pool_0600DB58:
+.L_three_quarter:
     .4byte  0x0000C000
 .L_0600DB5C:
     add #0x8, r15
@@ -785,7 +785,7 @@ car_update_racing:
     mov.l   .L_sym_0607EBC4, r8
     mov.l   .L_sym_06078900_2, r9
     mov.w   .L_wpool_0600E0EA, r10
-    mov.l   .L_pool_0600E134, r11
+    mov.l   .L_fp_half, r11
     mov.l   .L_sym_0607E940_4, r12
     mov.l   .L_scene_3d_processor, r14
     mov.l   .L_sym_0607EAE0, r0
@@ -832,7 +832,7 @@ car_update_racing:
     .4byte  sym_0607EBC4
 .L_sym_06078900_2:
     .4byte  sym_06078900
-.L_pool_0600E134:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0607EAE0:
     .4byte  sym_0607EAE0

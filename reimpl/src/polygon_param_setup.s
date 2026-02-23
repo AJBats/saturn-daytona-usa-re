@@ -16,7 +16,7 @@ polygon_param_setup:
     mov.l   .L_sym_060A4C90, r2
     and r1, r3
     mov.w r3, @r2
-    mov.l   .L_pool_060393A0, r2
+    mov.l   .L_vdp1_tvmr, r2
     mov.w r3, @r2
     extu.w r5, r3
     mov #0x7, r2
@@ -82,7 +82,7 @@ polygon_param_setup:
     .4byte  sym_060A4C8C
 .L_sym_060A4C90:
     .4byte  sym_060A4C90
-.L_pool_060393A0:
+.L_vdp1_tvmr:
     .4byte  0x25D00000
 .L_sym_060635E0:
     .4byte  sym_060635E0
@@ -126,7 +126,7 @@ sym_060393FC:
     mov.w r7, @r3
     mov.l   .L_sym_060635DC, r3
     mov.w r1, @r3
-    mov.l   .L_pool_0603944C, r3
+    mov.l   .L_vdp1_ewdr, r3
     mov.w r4, @r3
     mov.l   .L_sym_060635DE_2, r0
     mov.w @r0, r0
@@ -151,7 +151,7 @@ sym_060393FC:
     .4byte  sym_060635DA
 .L_sym_060635DC:
     .4byte  sym_060635DC
-.L_pool_0603944C:
+.L_vdp1_ewdr:
     .4byte  0x25D00006
 .L_sym_060635DE_2:
     .4byte  sym_060635DE
@@ -177,7 +177,7 @@ sym_060393FC:
     extu.w r5, r5
     mov.w r5, @r3
     mov.l   .L_sym_060635D0, r2
-    mov.l   .L_pool_060394DC, r3
+    mov.l   .L_vdp1_ewlr, r3
     mov.w @r2, r2
     mov.w r2, @r3
     mov.l   .L_sym_060635DE_3, r0
@@ -212,14 +212,14 @@ sym_060393FC:
     extu.w r7, r7
     mov.w r7, @r3
     mov.l   .L_sym_060635D2, r2
-    mov.l   .L_pool_060394E8, r3
+    mov.l   .L_vdp1_ewrr, r3
     mov.w @r2, r2
     rts
     mov.w r2, @r3
 
     .global sym_060394C2
 sym_060394C2:
-    mov.l   .L_pool_060394EC, r5
+    mov.l   .L_vdp1_edsr, r5
     mov #0x2, r4
 .L_060394C6:
     mov.w @r5, r2
@@ -233,15 +233,15 @@ sym_060394C2:
     .4byte  sym_060A4C94
 .L_sym_060635D0:
     .4byte  sym_060635D0
-.L_pool_060394DC:
+.L_vdp1_ewlr:
     .4byte  0x25D00008
 .L_sym_060635DE_3:
     .4byte  sym_060635DE
 .L_sym_060635D2:
     .4byte  sym_060635D2
-.L_pool_060394E8:
+.L_vdp1_ewrr:
     .4byte  0x25D0000A
-.L_pool_060394EC:
+.L_vdp1_edsr:
     .4byte  0x25D00010
     .4byte  0x24488904
     .4byte  0xE310D204

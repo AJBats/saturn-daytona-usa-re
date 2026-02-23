@@ -13,8 +13,8 @@ cd_texture_loader:
     mov r4, r0
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06012E1C, r13
-    mov.l   .L_pool_06012E20, r14
+    mov.l   .L_wram_low_00000, r13
+    mov.l   .L_wram_low_40000, r14
     cmp/eq #0x1, r0
     bf      .L_06012DD6
     mov.l   .L_sym_0604490C, r4
@@ -52,7 +52,7 @@ cd_texture_loader:
 
     .global sym_06012E00
 sym_06012E00:
-    mov.l   .L_pool_06012E3C, r5
+    mov.l   .L_wram_low_a0000, r5
     mov.l   .L_sym_06044960, r4
     .byte   0xAF, 0x1A    /* bra 0x06012C3C (external) */
     nop
@@ -62,7 +62,7 @@ sym_06012E00:
 sound_init_sequence:
     mov.l r14, @-r15
     mov r4, r0
-    mov.l   .L_pool_06012E44, r14
+    mov.l   .L_wram_low_a8000, r14
     cmp/eq #0x1, r0
     bf      .L_06012E4C
     mov r14, r5
@@ -70,9 +70,9 @@ sound_init_sequence:
     .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06012E1C:
+.L_wram_low_00000:
     .4byte  0x00200000
-.L_pool_06012E20:
+.L_wram_low_40000:
     .4byte  0x00240000
 .L_sym_0604490C:
     .4byte  sym_0604490C
@@ -86,11 +86,11 @@ sound_init_sequence:
     .4byte  sym_06044944
 .L_sym_06044954:
     .4byte  sym_06044954
-.L_pool_06012E3C:
+.L_wram_low_a0000:
     .4byte  0x002A0000
 .L_sym_06044960:
     .4byte  sym_06044960
-.L_pool_06012E44:
+.L_wram_low_a8000:
     .4byte  0x002A8000
 .L_sym_0604496C:
     .4byte  sym_0604496C
@@ -110,7 +110,7 @@ sound_init_sequence:
 
     .global sym_06012E62
 sym_06012E62:
-    mov.l   .L_pool_06012E94, r5
+    mov.l   .L_wram_low_a0000_2, r5
     mov.l   .L_sym_06044990, r4
     .byte   0xAE, 0xE9    /* bra 0x06012C3C (external) */
     nop
@@ -119,7 +119,7 @@ sym_06012E62:
     .type sound_scsp_boot, @function
 sound_scsp_boot:
     sts.l pr, @-r15
-    mov.l   .L_pool_06012E9C, r5
+    mov.l   .L_wram_low_f0000, r5
     mov.l   .L_sym_0604499C, r4
     .byte   0xBE, 0xE4    /* bsr 0x06012C3C (external) */
     nop
@@ -130,14 +130,14 @@ sound_scsp_boot:
 
     .global sym_06012E7C
 sym_06012E7C:
-    mov.l   .L_pool_06012EAC, r5
+    mov.l   .L_wram_low_f8000, r5
     mov.l   .L_sym_060449B4, r4
     .byte   0xAE, 0xDC    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012E84
 sym_06012E84:
-    mov.l   .L_pool_06012EB4, r5
+    mov.l   .L_sound_ram_00000, r5
     mov.l   .L_sym_060449BC, r4
     .byte   0xAE, 0xD8    /* bra 0x06012C3C (external) */
     nop
@@ -145,11 +145,11 @@ sym_06012E84:
     .4byte  sym_06044978
 .L_sym_06044984:
     .4byte  sym_06044984
-.L_pool_06012E94:
+.L_wram_low_a0000_2:
     .4byte  0x002A0000
 .L_sym_06044990:
     .4byte  sym_06044990
-.L_pool_06012E9C:
+.L_wram_low_f0000:
     .4byte  0x002F0000
 .L_sym_0604499C:
     .4byte  sym_0604499C
@@ -157,25 +157,25 @@ sym_06012E84:
     .4byte  sym_060F8000
 .L_sym_060449A8:
     .4byte  sym_060449A8
-.L_pool_06012EAC:
+.L_wram_low_f8000:
     .4byte  0x002F8000
 .L_sym_060449B4:
     .4byte  sym_060449B4
-.L_pool_06012EB4:
+.L_sound_ram_00000:
     .4byte  0x25A00000
 .L_sym_060449BC:
     .4byte  sym_060449BC
 
     .global sym_06012EBC
 sym_06012EBC:
-    mov.l   .L_pool_06012EE4, r5
+    mov.l   .L_sound_ram_03000, r5
     mov.l   .L_sym_060449C8, r4
     .byte   0xAE, 0xBC    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012EC4
 sym_06012EC4:
-    mov.l   .L_pool_06012EEC, r5
+    mov.l   .L_wram_low_00000_2, r5
     mov.l   .L_sym_060449C8, r4
     .byte   0xAE, 0xB8    /* bra 0x06012C3C (external) */
     nop
@@ -186,15 +186,15 @@ sym_06012EC4:
 
     .global sym_06012EDC
 sym_06012EDC:
-    mov.l   .L_pool_06012EE4, r5
+    mov.l   .L_sound_ram_03000, r5
     mov.l   .L_sym_060449EC, r4
     .byte   0xAE, 0xAC    /* bra 0x06012C3C (external) */
     nop
-.L_pool_06012EE4:
+.L_sound_ram_03000:
     .4byte  0x25A03000
 .L_sym_060449C8:
     .4byte  sym_060449C8
-.L_pool_06012EEC:
+.L_wram_low_00000_2:
     .4byte  0x00200000
     .4byte  0x25A10000
     .4byte  sym_060449D4
@@ -204,7 +204,7 @@ sym_06012EDC:
 
     .global sym_06012F00
 sym_06012F00:
-    mov.l   .L_pool_06012F28, r5
+    mov.l   .L_wram_low_6d000, r5
     mov.l   .L_sym_060449EC_2, r4
     .byte   0xAE, 0x9A    /* bra 0x06012C3C (external) */
     nop
@@ -213,7 +213,7 @@ sym_06012F00:
 
     .global sym_06012F10
 sym_06012F10:
-    mov.l   .L_pool_06012F38, r5
+    mov.l   .L_sound_ram_03000_2, r5
     mov.l   .L_sym_06044A04, r4
     .byte   0xAE, 0x92    /* bra 0x06012C3C (external) */
     nop
@@ -222,17 +222,17 @@ sym_06012F10:
 
     .global sym_06012F20
 sym_06012F20:
-    mov.l   .L_pool_06012F38, r5
+    mov.l   .L_sound_ram_03000_2, r5
     mov.l   .L_sym_06044A1C, r4
     .byte   0xAE, 0x8A    /* bra 0x06012C3C (external) */
     nop
-.L_pool_06012F28:
+.L_wram_low_6d000:
     .4byte  0x0026D000
 .L_sym_060449EC_2:
     .4byte  sym_060449EC
     .4byte  0x25A10000
     .4byte  sym_060449F8
-.L_pool_06012F38:
+.L_sound_ram_03000_2:
     .4byte  0x25A03000
 .L_sym_06044A04:
     .4byte  sym_06044A04
@@ -244,27 +244,27 @@ sym_06012F20:
 
     .global sym_06012F50
 sym_06012F50:
-    mov.l   .L_pool_06012F70, r5
+    mov.l   .L_sound_ram_03000_3, r5
     mov.l   .L_sym_06044A34, r4
     .byte   0xAE, 0x72    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012F58
 sym_06012F58:
-    mov.l   .L_pool_06012F70, r5
+    mov.l   .L_sound_ram_03000_3, r5
     mov.l   .L_sym_06044A40, r4
     .byte   0xAE, 0x6E    /* bra 0x06012C3C (external) */
     nop
 
     .global sym_06012F60
 sym_06012F60:
-    mov.l   .L_pool_06012F70, r5
+    mov.l   .L_sound_ram_03000_3, r5
     mov.l   .L_sym_06044A4C, r4
     .byte   0xAE, 0x6A    /* bra 0x06012C3C (external) */
     nop
     .4byte  0x25A10000
     .4byte  sym_06044A28
-.L_pool_06012F70:
+.L_sound_ram_03000_3:
     .4byte  0x25A03000
 .L_sym_06044A34:
     .4byte  sym_06044A34

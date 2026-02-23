@@ -48,7 +48,7 @@ vdp2_layer_init:
     mov.l   .L_sym_06035438, r3
     jsr @r3
     mov.l @(16, r12), r4
-    mov.l   .L_pool_06015FA8, r2
+    mov.l   .L_fp_sixteen, r2
     cmp/eq r2, r0
     bf      .L_06015F22
     extu.b r14, r2
@@ -131,7 +131,7 @@ vdp2_layer_init:
     .4byte  sym_06084FC8
 .L_sym_06035438:
     .4byte  sym_06035438
-.L_pool_06015FA8:
+.L_fp_sixteen:
     .4byte  0x00100000
 .L_sym_06085F89:
     .4byte  sym_06085F89

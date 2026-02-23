@@ -381,7 +381,7 @@ loc_06031CBE:
 
     .global loc_06031CC4
 loc_06031CC4:
-    mov.l   .L_pool_06031CFC, r0
+    mov.l   .L_fp_64, r0
 .L_06031CC6:
     cmp/gt r3, r4
     bf      .L_06031CCC
@@ -415,7 +415,7 @@ loc_06031CC4:
     bra     .L_06031A4A
     nop
     .2byte  0x0000
-.L_pool_06031CFC:
+.L_fp_64:
     .4byte  0x00400000
 .L_sym_060620D0_2:
     .4byte  sym_060620D0
@@ -946,7 +946,7 @@ loc_0603208A:
 
     .global loc_06032090
 loc_06032090:
-    mov.l   .L_pool_060320C8, r0
+    mov.l   .L_fp_64_2, r0
 .L_06032092:
     cmp/gt r3, r4
     bf      .L_06032098
@@ -980,7 +980,7 @@ loc_06032090:
     bra     .L_06031E16
     nop
     .2byte  0x0000
-.L_pool_060320C8:
+.L_fp_64_2:
     .4byte  0x00400000
 .L_sym_060620D4_2:
     .4byte  sym_060620D4

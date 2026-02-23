@@ -41,7 +41,7 @@ vdp1_cmd_list_mgr:
     mov r0, r5
     jsr @r13
     mov r9, r4
-    mov.l   .L_pool_0602CE50, r7
+    mov.l   .L_fp_2_c000, r7
     dmuls.l r7, r0
     tst r5, r5
     sts mach, r0
@@ -68,7 +68,7 @@ DAT_0602ce4a:
     .2byte  0x005C
 .L_sin_lookup:
     .4byte  sin_lookup
-.L_pool_0602CE50:
+.L_fp_2_c000:
     .4byte  0x0002C000
 .L_0602CE54:
     mov.l   .L_fpdiv_setup, r0
@@ -216,12 +216,12 @@ DAT_0602ce4a:
     jsr @r0
     nop
     dmuls.l r2, r0
-    mov.l   .L_pool_0602CFEC, r3
+    mov.l   .L_wram_low_8d0fa, r3
     sts mach, r0
     sts macl, r5
     xtrct r0, r5
     dmuls.l r3, r5
-    mov.l   .L_pool_0602CFF0, r3
+    mov.l   .L_cart_cs0_1200000, r3
     sts mach, r2
     sts macl, r5
     xtrct r2, r5
@@ -301,14 +301,14 @@ DAT_0602cfe0:
     .4byte  0x0000002C
 .L_sin_lookup_2:
     .4byte  sin_lookup
-.L_pool_0602CFEC:
+.L_wram_low_8d0fa:
     .4byte  0x0028D0FA
-.L_pool_0602CFF0:
+.L_cart_cs0_1200000:
     .4byte  0x03200000
 .L_sym_06063EEC:
     .4byte  sym_06063EEC
 .L_0602CFF8:
-    mov.l   .L_pool_0602D028, r4
+    mov.l   .L_mask_upper_word, r4
     or r4, r6
 .L_0602CFFC:
     add r6, r3
@@ -338,7 +338,7 @@ DAT_0602d020:
 .L_wpool_0602D024:
     .2byte  0x0444
     .2byte  0x0000
-.L_pool_0602D028:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
 .L_0602D02C:
     mov.w   DAT_0602d04e, r7
@@ -491,7 +491,7 @@ DAT_0602d0de:
 .L_0602D0FC:
     add #-0x1, r3
     mov.w r3, @(r0, r11)
-    mov.l   .L_pool_0602D194, r4
+    mov.l   .L_mask_nibble_16, r4
     mov r4, r2
     mov #0x0, r5
     shll16 r3
@@ -505,7 +505,7 @@ DAT_0602d0de:
     sts mach, r3
     sts macl, r5
     xtrct r3, r5
-    mov.w   .L_wpool_0602D18A, r2
+    mov.w   .L_mask_high_byte_w, r2
     mov r5, r3
     mov.l r4, @(0, r2)
     shlr16 r3
@@ -550,11 +550,11 @@ DAT_0602d0de:
     shlr8 r4
     or r3, r4
     mov.l @(12, r0), r2
-    mov.l   .L_pool_0602D19C, r3
+    mov.l   .L_dma_addr_inc_4_0, r3
     cmp/ge r3, r2
     bt      .L_0602D1A4
     mov #0x0, r3
-    mov.l   .L_pool_0602D1A0, r6
+    mov.l   .L_quarter_turn, r6
     cmp/ge r3, r4
     bt      .L_0602D182
     neg r6, r6
@@ -569,7 +569,7 @@ DAT_0602d186:
     .global DAT_0602d188
 DAT_0602d188:
     .2byte  0x010C
-.L_wpool_0602D18A:
+.L_mask_high_byte_w:
     .2byte  0xFF00
 
     .global DAT_0602d18c
@@ -582,13 +582,13 @@ DAT_0602d18e:
 .L_wpool_0602D190:
     .2byte  0x00CE
     .2byte  0x0000
-.L_pool_0602D194:
+.L_mask_nibble_16:
     .4byte  0x000F0000
 .L_cos_lookup_2:
     .4byte  cos_lookup
-.L_pool_0602D19C:
+.L_dma_addr_inc_4_0:
     .4byte  0x00000100
-.L_pool_0602D1A0:
+.L_quarter_turn:
     .4byte  0x00004000
 .L_0602D1A4:
     mov r2, r3
@@ -597,7 +597,7 @@ DAT_0602d18e:
     sts macl, r3
     xtrct r2, r3
     mov.l r3, @-r15
-    mov.w   .L_wpool_0602D234, r2
+    mov.w   .L_mask_high_byte_w_2, r2
     mov r4, r1
     mov.l r3, @(0, r2)
     shlr16 r1
@@ -666,7 +666,7 @@ DAT_0602d18e:
     bt      .L_0602D252
     bra     .L_0602D254
     nop
-.L_wpool_0602D234:
+.L_mask_high_byte_w_2:
     .2byte  0xFF00
 
     .global DAT_0602d236
@@ -750,7 +750,7 @@ DAT_0602d238:
     mov.l @r15+, r3
     tst r3, r3
     bf      .L_0602D2D0
-    mov.l   .L_pool_0602D2CC, r6
+    mov.l   .L_quarter_turn_2, r6
     bra     .L_0602D2F4
     nop
 
@@ -765,10 +765,10 @@ DAT_0602d2c4:
     .global DAT_0602d2ca
 DAT_0602d2ca:
     .2byte  0x00CC
-.L_pool_0602D2CC:
+.L_quarter_turn_2:
     .4byte  0x00004000
 .L_0602D2D0:
-    mov.w   .L_wpool_0602D306, r2
+    mov.w   .L_mask_high_byte_w_3, r2
     mov r4, r1
     mov.l r3, @(0, r2)
     shlr16 r1
@@ -797,7 +797,7 @@ DAT_0602d2ca:
     mov r3, r7
     bra     .L_0602D316
     nop
-.L_wpool_0602D306:
+.L_mask_high_byte_w_3:
     .2byte  0xFF00
 .L_wpool_0602D308:
     .2byte  0x007E
@@ -913,7 +913,7 @@ DAT_0602d38a:
     bt      .L_0602D414
     mov.w   DAT_0602d3ea, r7
     mov.l @(r0, r7), r6
-    mov.l   .L_pool_0602D3F0, r5
+    mov.l   .L_fp_neg_0_3280, r5
     cmp/ge r6, r5
     bt      .L_0602D3FC
     neg r5, r5
@@ -932,7 +932,7 @@ DAT_0602d3ea:
     .2byte  0x005C
 .L_sym_0602ECCC_2:
     .4byte  sym_0602ECCC
-.L_pool_0602D3F0:
+.L_fp_neg_0_3280:
     .4byte  0xFFFFCD80
     .4byte  0x20000000
     .4byte  0x40000000
@@ -940,19 +940,19 @@ DAT_0602d3ea:
     mov.l @(0, r0), r2
     mov.l   .L_pool_0602D40C, r3
     or r3, r2
-    mov.l   .L_pool_0602D410, r3
+    mov.l   .L_bit_30, r3
     or r3, r2
     bra     .L_0602D414
     mov.l r2, @(0, r0)
     .2byte  0x0000
 .L_pool_0602D40C:
     .4byte  0x10000000
-.L_pool_0602D410:
+.L_bit_30:
     .4byte  0x40000000
 .L_0602D414:
     mov.w   DAT_0602d432, r7
     mov.l @(r0, r7), r6
-    mov.l   .L_pool_0602D438, r3
+    mov.l   .L_fp_neg_0_3400, r3
     cmp/ge r6, r3
     bt      .L_0602D424
     neg r3, r3
@@ -974,5 +974,5 @@ DAT_0602d432:
 .L_wpool_0602D434:
     .2byte  0x00D4
     .2byte  0x0000
-.L_pool_0602D438:
+.L_fp_neg_0_3400:
     .4byte  0xFFFFCC00

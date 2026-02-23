@@ -19,7 +19,7 @@ minimap_render:
     sts.l pr, @-r15
     mov.l   .L_pool_06015668, r8
     mov #0x4, r9
-    mov.l   .L_pool_0601566C, r10
+    mov.l   .L_fp_half, r10
     mov.l   .L_fpmul, r11
     mov.l   .L_sym_06084FC8, r13
     mov #0x0, r14
@@ -112,7 +112,7 @@ minimap_render:
     .2byte  0xFFFF
 .L_pool_06015668:
     .4byte  0x0000DDB2
-.L_pool_0601566C:
+.L_fp_half:
     .4byte  0x00008000
 .L_fpmul:
     .4byte  fpmul
@@ -347,7 +347,7 @@ minimap_full_update:
     mov.l r1, @(8, r3)
 .L_0601582A:
     extu.b r14, r3
-    mov.l   .L_pool_060158A8, r4
+    mov.l   .L_fp_one, r4
     mov r3, r2
     shll2 r3
     shll2 r2
@@ -414,7 +414,7 @@ minimap_full_update:
 loc_060158A4:
     rts
     nop
-.L_pool_060158A8:
+.L_fp_one:
     .4byte  0x00010000
 .L_track_vtx_builder_2:
     .4byte  track_vtx_builder

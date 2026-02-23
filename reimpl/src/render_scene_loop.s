@@ -109,7 +109,7 @@ render_scene_loop:
 .L_0600B9D4:
     mov.w   .L_wpool_0600BAB0, r14
     mov.l   .L_sym_06078900, r3
-    mov.l   .L_pool_0600BAC4, r1
+    mov.l   .L_fp_224, r1
     mul.l r14, r10
     sts macl, r14
     add r3, r14
@@ -132,7 +132,7 @@ render_scene_loop:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_pool_0600BAD0, r2
+    mov.l   .L_fp_half, r2
     mov.l   .L_mat_rot_xy_b, r3
     jsr @r3
     add r2, r4
@@ -244,13 +244,13 @@ DAT_0600bab8:
     .2byte  0xFFFF
 .L_sym_06078900:
     .4byte  sym_06078900
-.L_pool_0600BAC4:
+.L_fp_224:
     .4byte  0x00E00000
 .L_sym_06027080:
     .4byte  sym_06027080
 .L_sym_060270F2:
     .4byte  sym_060270F2
-.L_pool_0600BAD0:
+.L_fp_half:
     .4byte  0x00008000
 .L_mat_rot_xy_b:
     .4byte  mat_rot_xy_b

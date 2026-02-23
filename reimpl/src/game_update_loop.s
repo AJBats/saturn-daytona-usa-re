@@ -679,7 +679,7 @@ disp_score_renderer:
     mov.b @r0, r0
     cmp/eq #0x1, r0
     bf      .L_06033EFE
-    mov.l   .L_pool_06033F38, r4
+    mov.l   .L_zero, r4
     mov.l   .L_sym_06033F54_2, r0
 
     .global disp_score_digit_0
@@ -751,7 +751,7 @@ bonus_points_display:
     .4byte  sym_06063E08
 .L_sym_06083254:
     .4byte  sym_06083254
-.L_pool_06033F38:
+.L_zero:
     .4byte  0x00000000
 .L_sym_06033F54_2:
     .4byte  sym_06033F54
@@ -1249,7 +1249,7 @@ ai_vel_x_cleanup_a:
     lds.l @r15+, pr
     mov.l   .L_pool_06034268, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_pool_0603426C, r0
+    mov.l   .L_fp_half, r0
     add r0, r4
     exts.w r4, r4
     mov.l   .L_mat_rot_y_2, r0
@@ -1299,7 +1299,7 @@ yaxis_integrate:
     .4byte  sym_06026E2E
 .L_pool_06034268:
     .4byte  0x00000002
-.L_pool_0603426C:
+.L_fp_half:
     .4byte  0x00008000
 .L_mat_rot_y_2:
     .4byte  mat_rot_y
@@ -1479,13 +1479,13 @@ ai_rot_a_step:
     mov.l @r13, r13
     mov.l   .L_pool_06034428, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_06034454, r0
+    mov.l   .L_wram_low_80000, r0
     sub r0, r4
     mov.l   .L_pool_0603442C, r0
     mov.l @(r0, r14), r5
     mov.l   .L_pool_06034430, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_pool_06034458, r0
+    mov.l   .L_fp_62, r0
     sub r0, r6
     mov.l   .L_sym_06026E2E_4, r0
 
@@ -1547,13 +1547,13 @@ ai_rot_b_step:
     mov.l @r13, r13
     mov.l   .L_pool_06034428, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_06034460, r0
+    mov.l   .L_fp_25, r0
     sub r0, r4
     mov.l   .L_pool_0603442C, r0
     mov.l @(r0, r14), r5
     mov.l   .L_pool_06034430, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_pool_06034464, r0
+    mov.l   .L_fp_28, r0
     sub r0, r6
     mov.l   .L_sym_06026E2E_4, r0
 
@@ -1631,15 +1631,15 @@ ai_decision_dispatch:
     .4byte  sym_06083250
 .L_pool_06034450:
     .4byte  0x000004EC          /* struct offset (0x4EC) — deep in car data */
-.L_pool_06034454:
+.L_wram_low_80000:
     .4byte  0x00280000          /* 16.16 FP: 40.0 (camera distance?) */
-.L_pool_06034458:
+.L_fp_62:
     .4byte  0x003E0000          /* 16.16 FP: 62.0 */
 .L_pool_0603445C:
     .4byte  0x00000627          /* struct offset (0x627) — AI config data */
-.L_pool_06034460:
+.L_fp_25:
     .4byte  0x00190000          /* 16.16 FP: 25.0 */
-.L_pool_06034464:
+.L_fp_28:
     .4byte  0x001C0000          /* 16.16 FP: 28.0 */
 .L_06034468:
     rts
@@ -1768,7 +1768,7 @@ ai_waypoint_follower:
     mov.l @r15+, r13
     mov r0, r2
     mov r2, r8
-    mov.l   .L_pool_06034554, r0
+    mov.l   .L_fp_eight, r0
     cmp/ge r0, r2
     bt      .L_0603454A
     mov.l   .L_pool_06034558, r1
@@ -1780,7 +1780,7 @@ ai_waypoint_follower:
     .2byte  0x0000
 .L_isqrt_2:
     .4byte  isqrt
-.L_pool_06034554:
+.L_fp_eight:
     .4byte  0x00080000
 .L_pool_06034558:
     .4byte  0x00000001
@@ -1812,7 +1812,7 @@ ai_waypoint_follower:
 .L_0603458C:
     mov.l   .L_pool_06034608, r0
     mov.w @(r0, r14), r9
-    mov.l   .L_pool_0603460C, r1
+    mov.l   .L_quarter_turn, r1
     add r1, r9
     mov.l   .L_pool_06034610, r0
     mov.l @(r0, r14), r8
@@ -1890,7 +1890,7 @@ ai_car_pos_init:
     .2byte  0x0000
 .L_pool_06034608:
     .4byte  0x00000002
-.L_pool_0603460C:
+.L_quarter_turn:
     .4byte  0x00004000
 .L_pool_06034610:
     .4byte  0x00000028
@@ -2022,7 +2022,7 @@ ai_car_full_init:
     add #0x1, r1
     cmp/ge r3, r1
     bf      .L_060346EA
-    mov.l   .L_pool_06034704, r1
+    mov.l   .L_zero_2, r1
 .L_060346EA:
     mov.b r1, @(r0, r14)
 .L_060346EC:
@@ -2038,7 +2038,7 @@ ai_car_full_init:
     .4byte  0x00000010
 .L_pool_06034700:
     .4byte  0x00000011
-.L_pool_06034704:
+.L_zero_2:
     .4byte  0x00000000
 
     .global vblank_handler
@@ -2103,7 +2103,7 @@ position_calc_current:
     mov.l   .L_sym_0607E944_5, r0
     mov.l @r0, r1
     mov.l   .L_pool_06034790, r0
-    mov.l   .L_pool_06034794, r5
+    mov.l   .L_fp_300, r5
     mov.l @(r0, r1), r4
     shll16 r4
     mov.l   .L_fpdiv_setup_2, r0
@@ -2123,7 +2123,7 @@ ranking_system_full:
     mov.l   .L_pool_06034790, r0
     mov.l @(r0, r14), r1
     add r2, r1
-    mov.l   .L_pool_0603479C, r3
+    mov.l   .L_fp_6, r3
     cmp/ge r3, r1
     bf      .L_0603477A
     xor r1, r1
@@ -2131,7 +2131,7 @@ ranking_system_full:
     mov.l r1, @(r0, r14)
     mov r1, r2
     shlr16 r2
-    mov.l   .L_pool_060347A0, r0
+    mov.l   .L_dma_direct_imm, r0
     and r0, r2
     mov.l   .L_pool_060347A4, r0
     mov.l r2, @(r0, r14)
@@ -2141,13 +2141,13 @@ ranking_system_full:
     .4byte  sym_0607E944
 .L_pool_06034790:
     .4byte  0x00000008
-.L_pool_06034794:
+.L_fp_300:
     .4byte  0x012C0000
 .L_fpdiv_setup_2:
     .4byte  fpdiv_setup
-.L_pool_0603479C:
+.L_fp_6:
     .4byte  0x00060000
-.L_pool_060347A0:
+.L_dma_direct_imm:
     .4byte  0x00000007
 .L_pool_060347A4:
     .4byte  0x0000000C
@@ -2163,7 +2163,7 @@ ranking_system_full:
     tst r0, r0
     bt      .L_060347C8
     mov.l   .L_pool_0603482C, r0
-    mov.l   .L_pool_06034830, r1
+    mov.l   .L_neg_one, r1
     mov.b r1, @(r0, r14)
     mov.l   .L_pool_06034834, r0
     xor r1, r1
@@ -2180,7 +2180,7 @@ ranking_system_full:
     tst r0, r0
     bt      .L_060347E8
     mov.l   .L_pool_06034838, r0
-    mov.l   .L_pool_06034830, r1
+    mov.l   .L_neg_one, r1
     mov.b r1, @(r0, r14)
     mov.l   .L_pool_0603483C, r0
     xor r1, r1
@@ -2192,7 +2192,7 @@ ranking_system_full:
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     and r2, r1
-    mov.l   .L_pool_06034840, r0
+    mov.l   .L_zero_3, r0
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     cmp/eq r2, r1
@@ -2224,7 +2224,7 @@ ranking_system_full:
     .4byte  0x00000010
 .L_pool_0603482C:
     .4byte  0x00000001
-.L_pool_06034830:
+.L_neg_one:
     .4byte  0xFFFFFFFF
 .L_pool_06034834:
     .4byte  0x00000002
@@ -2232,7 +2232,7 @@ ranking_system_full:
     .4byte  0x00000004
 .L_pool_0603483C:
     .4byte  0x00000005
-.L_pool_06034840:
+.L_zero_3:
     .4byte  0x00000000
 .L_pool_06034844:
     .4byte  0x00000003
@@ -2243,7 +2243,7 @@ ranking_system_full:
     bt      .L_060348EE
     mov.l   .L_sym_0607EBC4, r0
     mov.l @r0, r0
-    mov.l   .L_pool_06034868, r1
+    mov.l   .L_fp_2_8000, r1
     tst r1, r0
     bf      .L_0603486C
     bra     .L_060348EE
@@ -2253,7 +2253,7 @@ ranking_system_full:
     .4byte  sym_06083255
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_06034868:
+.L_fp_2_8000:
     .4byte  0x00028000
 .L_0603486C:
     mov.l   .L_pool_060348A0, r0
@@ -2323,7 +2323,7 @@ DAT_0603489e:
 .L_060348E0:
     mov.l   .L_pool_060348F4, r5
 .L_060348E2:
-    mov.l   .L_pool_060348F8, r4
+    mov.l   .L_zero_4, r4
     mov.l   .L_sound_cmd_dispatch, r0
 
     .global lap_complete_check
@@ -2339,7 +2339,7 @@ lap_complete_check:
     .2byte  0x0000
 .L_pool_060348F4:
     .4byte  0xAE113DFF
-.L_pool_060348F8:
+.L_zero_4:
     .4byte  0x00000000
 .L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
@@ -2374,7 +2374,7 @@ terrain_data_lookup:
 .L_pool_06034930:
     .4byte  0x000001BC
 .L_06034934:
-    mov.l   .L_pool_06034978, r4
+    mov.l   .L_zero_5, r4
     mov.l   .L_pool_0603497C, r5
     mov.l   .L_sound_cmd_dispatch_2, r0
 
@@ -2422,7 +2422,7 @@ section_transition:
     .global DAT_06034976
 DAT_06034976:
     .2byte  0x005C
-.L_pool_06034978:
+.L_zero_5:
     .4byte  0x00000000
 .L_pool_0603497C:
     .4byte  0xAE1128FF
@@ -2680,7 +2680,7 @@ track_intersect_test:
     mov r14, r5
     add #0x4, r3
     mov.l @r3, r2
-    mov.l   .L_pool_06034B4C, r3
+    mov.l   .L_mask_24bit, r3
     and r3, r2
     mov.l r2, @r15
     mov.l   .L_smpc_secondary_proc, r3
@@ -2696,7 +2696,7 @@ track_intersect_test:
     .4byte  input_proc_analog
 .L_input_proc_digital:
     .4byte  input_proc_digital
-.L_pool_06034B4C:
+.L_mask_24bit:
     .4byte  0x00FFFFFF
 .L_smpc_secondary_proc:
     .4byte  smpc_secondary_proc
@@ -2954,7 +2954,7 @@ ai_brake_zone:
     mov r15, r2
     mov r4, r0
     mov.l @r2, r3
-    mov.l   .L_pool_06034D18, r2
+    mov.l   .L_mask_24bit_2, r2
     and r2, r3
     mov.l r3, @r14
     add #0x10, r15
@@ -2973,7 +2973,7 @@ ai_brake_zone:
     .4byte  input_proc_analog
 .L_input_proc_digital_3:
     .4byte  input_proc_digital
-.L_pool_06034D18:
+.L_mask_24bit_2:
     .4byte  0x00FFFFFF
 
     .global ai_throttle_modulate

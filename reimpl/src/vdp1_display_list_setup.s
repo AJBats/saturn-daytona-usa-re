@@ -43,10 +43,10 @@ vdp1_display_list_setup:
 .L_0602C6CE:
     mov.l r6, @-r15
     mov.l r5, @-r15
-    mov.l   .L_pool_0602C72C, r5
+    mov.l   .L_cart_cs0_1700000, r5
     mov r4, r7
     dmuls.l r4, r5
-    mov.l   .L_pool_0602C730, r1
+    mov.l   .L_cart_cs0_d00000, r1
     sts mach, r4
     sts macl, r8
     mov #0x0, r13
@@ -116,9 +116,9 @@ DAT_0602c728:
     .global DAT_0602c72a
 DAT_0602c72a:
     .2byte  0x00FC
-.L_pool_0602C72C:
+.L_cart_cs0_1700000:
     .4byte  0x03700000
-.L_pool_0602C730:
+.L_cart_cs0_d00000:
     .4byte  0x02D00000
 .L_pool_0602C734:
     .4byte  0x00000645
@@ -149,7 +149,7 @@ DAT_0602c72a:
     add r8, r5
     sub r0, r5
     dmuls.l r10, r5
-    mov.l   .L_pool_0602C7A8, r3
+    mov.l   .L_fp_2_8000, r3
     sts mach, r5
     sts macl, r4
     xtrct r5, r4
@@ -165,7 +165,7 @@ DAT_0602c72a:
     add r7, r4
     add r13, r4
     dmuls.l r4, r11
-    mov.l   .L_pool_0602C7A8, r3
+    mov.l   .L_fp_2_8000, r3
     sts mach, r5
     sts macl, r4
     xtrct r5, r4
@@ -173,16 +173,16 @@ DAT_0602c72a:
     sts mach, r4
     sts macl, r11
     xtrct r4, r11
-    mov.l   .L_pool_0602C7AC, r1
+    mov.l   .L_fp_352, r1
     mov.l   .L_pool_0602C7B0, r2
     cmp/gt r1, r10
     bt      .L_0602C7B4
     mov r1, r10
     bra     .L_0602C7BA
     nop
-.L_pool_0602C7A8:
+.L_fp_2_8000:
     .4byte  0x00028000
-.L_pool_0602C7AC:
+.L_fp_352:
     .4byte  0x01600000
 .L_pool_0602C7B0:
     .4byte  0x0C080000
@@ -191,14 +191,14 @@ DAT_0602c72a:
     bt      .L_0602C7BA
     mov r2, r10
 .L_0602C7BA:
-    mov.l   .L_pool_0602C7C8, r1
+    mov.l   .L_fp_288, r1
     mov.l   .L_pool_0602C7CC, r2
     cmp/gt r1, r11
     bt      .L_0602C7D0
     mov r1, r11
     bra     .L_0602C7D6
     nop
-.L_pool_0602C7C8:
+.L_fp_288:
     .4byte  0x01200000
 .L_pool_0602C7CC:
     .4byte  0x09D80000
@@ -240,7 +240,7 @@ DAT_0602c7fa:
     bt/s    .L_0602C8DA
     mov #0x0, r9
     mov #0x0, r8
-    mov.w   .L_wpool_0602C898, r6
+    mov.w   .L_one_w, r6
     tst r6, r4
     not r6, r7
     bt/s    .L_0602C818
@@ -322,7 +322,7 @@ vdp1_texture_setup:
 .L_0602C894:
     rts
     mov.l @r15+, r10
-.L_wpool_0602C898:
+.L_one_w:
     .2byte  0x0001
 .L_wpool_0602C89A:
     .2byte  0x00EE

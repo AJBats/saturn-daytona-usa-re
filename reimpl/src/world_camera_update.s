@@ -20,7 +20,7 @@ world_camera_update:
     add #-0x8, r15
     mov.l   .L_sym_06028430, r8
     mov.l   .L_sym_060284AE, r10
-    mov.l   .L_pool_06005D4C, r14
+    mov.l   .L_fp_9_27bf, r14
     mov.l   .L_sym_0607E944, r4
     mov.l   .L_sym_06063F28, r6
     mov.w   DAT_06005d3e, r0
@@ -111,7 +111,7 @@ DAT_06005d3e:
     .4byte  sym_06028430
 .L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_06005D4C:
+.L_fp_9_27bf:
     .4byte  0x000927BF
 .L_sym_0607E944:
     .4byte  sym_0607E944

@@ -28,11 +28,11 @@ small_number_render:
     extu.b r5, r5
     .byte   0xB1, 0x4D    /* bsr 0x06016CDC (external) */
     extu.b r4, r4
-    mov.l   .L_pool_06016ADC, r2
+    mov.l   .L_fp_11, r2
     mov.l r2, @(12, r14)
-    mov.l   .L_pool_06016AE0, r3
+    mov.l   .L_fp_four, r3
     mov.l r3, @(24, r14)
-    mov.l   .L_pool_06016AE4, r2
+    mov.l   .L_three_quarter, r2
     mov.l r2, @(36, r14)
     mov.b @(2, r14), r0
     mov r0, r3
@@ -52,7 +52,7 @@ text_string_render:
     mov.l r13, @-r15
     extu.b r14, r3
     mov.l   .L_sym_06084FC8, r13
-    mov.l   .L_pool_06016AE8, r5
+    mov.l   .L_fp_one, r5
     mov r3, r2
     shll2 r3
     shll2 r2
@@ -109,13 +109,13 @@ text_string_render:
     .2byte  0xFFFF
 .L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06016ADC:
+.L_fp_11:
     .4byte  0x000B0000
-.L_pool_06016AE0:
+.L_fp_four:
     .4byte  0x00040000
-.L_pool_06016AE4:
+.L_three_quarter:
     .4byte  0x0000C000
-.L_pool_06016AE8:
+.L_fp_one:
     .4byte  0x00010000
 .L_06016AEC:
     extu.b r14, r4
@@ -161,7 +161,7 @@ text_string_render:
     sub r2, r3
     mov.l r3, @(24, r4)
     mov r3, r2
-    mov.l   .L_pool_06016B94, r3
+    mov.l   .L_fp_two, r3
     cmp/gt r3, r2
     bt      .L_06016B86
     extu.b r14, r4
@@ -209,7 +209,7 @@ loc_06016B8E:
     nop
 .L_wpool_06016B92:
     .2byte  0x0600
-.L_pool_06016B94:
+.L_fp_two:
     .4byte  0x00020000
 
     .global loc_06016B98

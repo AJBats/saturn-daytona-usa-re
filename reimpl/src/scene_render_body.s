@@ -25,7 +25,7 @@ scene_render_body:
     mov.l @r4, r4
 .L_0600C02C:
     mov.l @r8, r2
-    mov.l   .L_pool_0600C0AC, r3
+    mov.l   .L_cart_cs0_00000, r3
     and r3, r2
     tst r2, r2
     bf      .L_0600C050
@@ -45,7 +45,7 @@ scene_render_body:
     nop
 .L_0600C050:
     mov.l @r8, r2
-    mov.l   .L_pool_0600C0BC, r3
+    mov.l   .L_fp_two, r3
     cmp/eq r3, r2
     bf      .L_0600C066
     mov.l   .L_sym_0607EAE0, r0
@@ -92,7 +92,7 @@ scene_render_body:
     .4byte  sym_0607EB8C
 .L_vblank_handler:
     .4byte  vblank_handler
-.L_pool_0600C0AC:
+.L_cart_cs0_00000:
     .4byte  0x02000000
 .L_sym_06078635:
     .4byte  sym_06078635
@@ -100,7 +100,7 @@ scene_render_body:
     .4byte  sym_0600D336
 .L_physics_calc_dispatch:
     .4byte  physics_calc_dispatch
-.L_pool_0600C0BC:
+.L_fp_two:
     .4byte  0x00020000
 .L_sym_0607EAE0:
     .4byte  sym_0607EAE0
@@ -124,11 +124,11 @@ scene_render_body:
     mov.l   .L_race_utility_calc, r3
     mov.l   .L_sym_06063574, r2
     mov.l r3, @r2
-    mov.l   .L_pool_0600C190, r3
-    mov.l   .L_pool_0600C194, r2
+    mov.l   .L_mask_16bit, r3
+    mov.l   .L_sys_minit, r2
     mov.w r3, @r2
     mov.l @r8, r3
-    mov.l   .L_pool_0600C198, r2
+    mov.l   .L_cart_cs0_800008, r2
     and r2, r3
     tst r3, r3
     bf      .L_0600C0FE
@@ -142,7 +142,7 @@ scene_render_body:
     .byte   0xBA, 0xCC    /* bsr 0x0600B6A0 (external) */
     nop
     mov.l @r8, r2
-    mov.l   .L_pool_0600C1A4, r3
+    mov.l   .L_cart_cs0_00000_2, r3
     cmp/eq r3, r2
     bt      .L_0600C11C
     mov.l   .L_replay_playback_engine, r3
@@ -217,17 +217,17 @@ race_utility_calc:
     .4byte  race_utility_calc
 .L_sym_06063574:
     .4byte  sym_06063574
-.L_pool_0600C190:
+.L_mask_16bit:
     .4byte  0x0000FFFF
-.L_pool_0600C194:
+.L_sys_minit:
     .4byte  0x21000000
-.L_pool_0600C198:
+.L_cart_cs0_800008:
     .4byte  0x02800008
 .L_frame_dispatch:
     .4byte  frame_dispatch
 .L_scene_post_render:
     .4byte  scene_post_render
-.L_pool_0600C1A4:
+.L_cart_cs0_00000_2:
     .4byte  0x02000000
 .L_replay_playback_engine:
     .4byte  replay_playback_engine
@@ -265,8 +265,8 @@ race_utility_calc:
     mov.l   .L_sym_06059F4C, r3
     mov.l @r2, r2
     mov.l r2, @r3
-    mov.l   .L_pool_0600C210, r2
-    mov.l   .L_pool_0600C214, r3
+    mov.l   .L_mask_16bit_2, r2
+    mov.l   .L_sys_sinit, r3
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
@@ -285,9 +285,9 @@ race_utility_calc:
     .4byte  sym_06059F40
 .L_sym_06059F4C:
     .4byte  sym_06059F4C
-.L_pool_0600C210:
+.L_mask_16bit_2:
     .4byte  0x0000FFFF
-.L_pool_0600C214:
+.L_sys_sinit:
     .4byte  0x21800000
 
     .global scene_update
@@ -315,8 +315,8 @@ scene_update:
     mov.l   .L_race_utility_fn, r2
     mov.l   .L_sym_06063574_2, r3
     mov.l r2, @r3
-    mov.l   .L_pool_0600C2C4, r2
-    mov.l   .L_pool_0600C2C8, r3
+    mov.l   .L_mask_16bit_3, r2
+    mov.l   .L_sys_minit_2, r3
     mov.w r2, @r3
     mov.l   .L_frame_dispatch_2, r3
     jsr @r3
@@ -386,9 +386,9 @@ race_utility_fn:
     .4byte  race_utility_fn
 .L_sym_06063574_2:
     .4byte  sym_06063574
-.L_pool_0600C2C4:
+.L_mask_16bit_3:
     .4byte  0x0000FFFF
-.L_pool_0600C2C8:
+.L_sys_minit_2:
     .4byte  0x21000000
 .L_frame_dispatch_2:
     .4byte  frame_dispatch
@@ -414,8 +414,8 @@ race_utility_fn:
     jsr @r3
     nop
 .L_0600C2F8:
-    mov.l   .L_pool_0600C37C, r2
-    mov.l   .L_pool_0600C380, r3
+    mov.l   .L_mask_16bit_4, r2
+    mov.l   .L_sys_sinit_2, r3
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
@@ -503,9 +503,9 @@ DAT_0600c372:
     .2byte  0xFFFF
 .L_scene_path_a_2:
     .4byte  scene_path_a
-.L_pool_0600C37C:
+.L_mask_16bit_4:
     .4byte  0x0000FFFF
-.L_pool_0600C380:
+.L_sys_sinit_2:
     .4byte  0x21800000
 .L_sym_0607E944:
     .4byte  sym_0607E944

@@ -36,7 +36,7 @@ display_init_helper:
     mov.l   .L_pool_06032248, r0
     mov.w r1, @(r0, r14)
     mov.l r7, @-r15
-    mov.l   .L_pool_0603224C, r4
+    mov.l   .L_zero, r4
 
     .global display_element_table
     .type display_element_table, @function
@@ -89,7 +89,7 @@ display_element_table:
     .4byte  0x00000004
 .L_pool_06032248:
     .4byte  0x0000000E
-.L_pool_0603224C:
+.L_zero:
     .4byte  0x00000000
 .L_sym_06062464:
     .4byte  sym_06062464

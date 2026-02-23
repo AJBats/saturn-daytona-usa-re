@@ -14,7 +14,7 @@ sound_cmd_queue_write:
     mov #0x0, r6
     mov.l   .L_sym_0605AAA2, r3
     mov.w r2, @r3
-    mov.l   .L_pool_0601D4F4, r3
+    mov.l   .L_fp_336, r3
     mov.l   .L_sym_0607885C, r2
     mov.l r3, @r2
     mov r2, r5
@@ -40,7 +40,7 @@ sound_channel_alloc:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601D508, r4
+    mov.l   .L_fp_sixteen, r4
     mov.l   .L_sym_0607886E, r13
     mov.l   .L_sym_0607885C, r14
     mov.w @r13, r0
@@ -76,7 +76,7 @@ sound_channel_alloc:
     mov.l @r15+, r14
 .L_sym_0605AAA2:
     .4byte  sym_0605AAA2
-.L_pool_0601D4F4:
+.L_fp_336:
     .4byte  0x01500000
 .L_sym_0607885C:
     .4byte  sym_0607885C
@@ -86,7 +86,7 @@ sound_channel_alloc:
     .4byte  sym_0607886E
 .L_sym_0607887F:
     .4byte  sym_0607887F
-.L_pool_0601D508:
+.L_fp_sixteen:
     .4byte  0x00100000
 
     .global loc_0601D50C

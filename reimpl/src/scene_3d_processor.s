@@ -19,14 +19,14 @@ scene_3d_processor:
     sts.l pr, @-r15
     mov.l r5, @-r15
     mov.l @r4, r1
-    mov.l   .L_pool_06027CF8, r2
+    mov.l   .L_cart_cs1_00000, r2
     add r2, r1
     shlr16 r1
     shlr2 r1
     shlr2 r1
     shlr r1
     mov.l @(8, r4), r2
-    mov.l   .L_pool_06027CFC, r3
+    mov.l   .L_cart_cs0_1ffffff, r3
     sub r2, r3
     shlr16 r3
     shlr2 r3
@@ -52,9 +52,9 @@ scene_3d_processor:
     bt      .L_06027D08
     bra     .L_06027CEA
     add #0x2, r12
-.L_pool_06027CF8:
+.L_cart_cs1_00000:
     .4byte  0x04000000
-.L_pool_06027CFC:
+.L_cart_cs0_1ffffff:
     .4byte  0x03FFFFFF
 .L_sym_0607EAD8:
     .4byte  sym_0607EAD8

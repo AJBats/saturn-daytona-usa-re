@@ -162,7 +162,7 @@ loc_060168DA:
     add r3, r2
     exts.w r2, r2
     shll r1
-    mov.w   .L_wpool_06016938, r3
+    mov.w   .L_three_quarter_w, r3
     add r3, r1
     bra     .L_06016918
     add r5, r2
@@ -176,7 +176,7 @@ loc_060168DA:
     add r3, r2
     exts.w r2, r2
     add r5, r2
-    mov.w   .L_wpool_0601693A, r1
+    mov.w   .L_quarter_turn_w, r1
 .L_06016918:
     mov.l r1, @(56, r2)
     extu.b r4, r4
@@ -194,9 +194,9 @@ loc_060168DA:
     mov r2, r0
     rts
     mov.b r0, @(2, r4)
-.L_wpool_06016938:
+.L_three_quarter_w:
     .2byte  0xC000
-.L_wpool_0601693A:
+.L_quarter_turn_w:
     .2byte  0x4000
 .L_sym_06084FC8_2:
     .4byte  sym_06084FC8

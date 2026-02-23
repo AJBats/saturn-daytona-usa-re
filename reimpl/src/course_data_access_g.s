@@ -64,7 +64,7 @@ track_distance_calc:
     mov r15, r2
     mov r4, r0
     mov.l @r2, r3
-    mov.l   .L_pool_0603664C, r2
+    mov.l   .L_mask_24bit, r2
     and r2, r3
     mov.l r3, @r14
     add #0x10, r15
@@ -75,5 +75,5 @@ track_distance_calc:
     .4byte  input_proc_analog
 .L_input_proc_buttons:
     .4byte  input_proc_buttons
-.L_pool_0603664C:
+.L_mask_24bit:
     .4byte  0x00FFFFFF

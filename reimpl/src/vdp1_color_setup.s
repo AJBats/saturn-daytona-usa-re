@@ -216,7 +216,7 @@ DAT_0602c9e6:
     add #-0x1, r5
     mov.w r5, @(r0, r8)
     mov.w   DAT_0602ca74, r2
-    mov.l   .L_pool_0602CA7C, r4
+    mov.l   .L_fp_1_1999, r4
     mov.l @(r0, r2), r3
     dmuls.l r3, r4
     sts mach, r3
@@ -280,7 +280,7 @@ DAT_0602ca76:
 .L_wpool_0602CA78:
     .2byte  0x011C
     .2byte  0x0000
-.L_pool_0602CA7C:
+.L_fp_1_1999:
     .4byte  0x00011999
 .L_pool_0602CA80:
     .4byte  0x09D80000

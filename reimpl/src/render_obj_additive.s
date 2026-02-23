@@ -453,7 +453,7 @@ camera_car_transform:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_pool_0600AE64, r2
+    mov.l   .L_fp_half, r2
     mov.l   .L_mat_rot_y_2, r3
     jsr @r3
     add r2, r4
@@ -462,7 +462,7 @@ camera_car_transform:
     jsr @r3
     neg r4, r4
     mov.l   .L_sym_0607EBC4, r2
-    mov.l   .L_pool_0600AE74, r3
+    mov.l   .L_fp_128_0008, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
@@ -505,7 +505,7 @@ camera_car_transform:
     .4byte  sym_06026DBC
 .L_sym_06026E2E_3:
     .4byte  sym_06026E2E
-.L_pool_0600AE64:
+.L_fp_half:
     .4byte  0x00008000
 .L_mat_rot_y_2:
     .4byte  mat_rot_y
@@ -513,7 +513,7 @@ camera_car_transform:
     .4byte  mat_rot_z
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_0600AE74:
+.L_fp_128_0008:
     .4byte  0x00800008
 .L_sym_0605BDCC:
     .4byte  sym_0605BDCC
@@ -707,7 +707,7 @@ camera_track_setup:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_pool_0600B054, r2
+    mov.l   .L_fp_half_2, r2
     mov.l   .L_mat_rot_xy_b_2, r3
     jsr @r3
     add r2, r4
@@ -716,7 +716,7 @@ camera_track_setup:
     jsr @r3
     neg r4, r4
     mov.l   .L_sym_0607EBC4_2, r2
-    mov.l   .L_pool_0600B060, r3
+    mov.l   .L_fp_128_0008_2, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
@@ -768,13 +768,13 @@ camera_track_setup:
     .4byte  sym_06027080
 .L_sym_060270F2_3:
     .4byte  sym_060270F2
-.L_pool_0600B054:
+.L_fp_half_2:
     .4byte  0x00008000
 .L_mat_rot_xy_b_2:
     .4byte  mat_rot_xy_b
 .L_mat_rot_yz_b:
     .4byte  mat_rot_yz_b
-.L_pool_0600B060:
+.L_fp_128_0008_2:
     .4byte  0x00800008
 .L_sym_0605BDCC_3:
     .4byte  sym_0605BDCC
@@ -1461,7 +1461,7 @@ camera_lerp:
     cmp/eq #0x2, r0
     bt      .L_0600B504
 .L_0600B540:
-    mov.l   .L_pool_0600B63C, r9
+    mov.l   .L_fp_half_3, r9
     mov #0x0, r1
     mov.l   .L_sym_06078670, r13
     mov.l @(16, r14), r2
@@ -1600,7 +1600,7 @@ DAT_0600b636:
 .L_wpool_0600B638:
     .2byte  0x01C8
     .2byte  0xFFFF
-.L_pool_0600B63C:
+.L_fp_half_3:
     .4byte  0x00008000
 .L_sym_06078670:
     .4byte  sym_06078670
@@ -1756,7 +1756,7 @@ render_cs0_loop:
 .L_0600B760:
     mov.w   .L_wpool_0600B838, r14
     mov.l   .L_sym_06078900, r3
-    mov.l   .L_pool_0600B84C, r1
+    mov.l   .L_fp_224, r1
     mul.l r14, r10
     sts macl, r14
     add r3, r14
@@ -1779,7 +1779,7 @@ render_cs0_loop:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_pool_0600B858, r2
+    mov.l   .L_fp_half_4, r2
     mov.l   .L_mat_rot_y_5, r3
     jsr @r3
     add r2, r4
@@ -1889,13 +1889,13 @@ DAT_0600b840:
     .2byte  0xFFFF
 .L_sym_06078900:
     .4byte  sym_06078900
-.L_pool_0600B84C:
+.L_fp_224:
     .4byte  0x00E00000
 .L_sym_06026DBC_5:
     .4byte  sym_06026DBC
 .L_sym_06026E2E_6:
     .4byte  sym_06026E2E
-.L_pool_0600B858:
+.L_fp_half_4:
     .4byte  0x00008000
 .L_mat_rot_y_5:
     .4byte  mat_rot_y

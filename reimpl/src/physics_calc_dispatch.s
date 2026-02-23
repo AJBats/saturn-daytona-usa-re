@@ -11,7 +11,7 @@
 physics_calc_dispatch:
     sts.l pr, @-r15
     mov.l   .L_sym_0607EBC4, r3
-    mov.l   .L_pool_0600D374, r2
+    mov.l   .L_wram_low_00000, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -32,7 +32,7 @@ sym_0600D336:
     mov r5, r4
     mov.l @r2, r2
     add r3, r5
-    mov.l   .L_pool_0600D374, r3
+    mov.l   .L_wram_low_00000, r3
     and r3, r2
     tst r2, r2
     bf      .L_0600D366
@@ -62,7 +62,7 @@ sym_0600D336:
     .2byte  0x0224
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_0600D374:
+.L_wram_low_00000:
     .4byte  0x00200000
 .L_sym_06078900:
     .4byte  sym_06078900

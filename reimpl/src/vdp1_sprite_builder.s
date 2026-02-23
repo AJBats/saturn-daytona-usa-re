@@ -20,7 +20,7 @@ vdp1_sprite_builder:
     sts.l pr, @-r15
     mov.l   .L_sym_060280F8, r8
     mov.l   .L_sym_060620D0, r9
-    mov.l   .L_pool_06007CB4, r10
+    mov.l   .L_fp_half, r10
     mov.l   .L_sym_0608AC20, r13
     mov.l   .L_sym_060785FC, r14
     mov.l   .L_sym_06078620, r3
@@ -132,7 +132,7 @@ vdp1_sprite_builder:
     .4byte  sym_060280F8
 .L_sym_060620D0:
     .4byte  sym_060620D0
-.L_pool_06007CB4:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0608AC20:
     .4byte  sym_0608AC20

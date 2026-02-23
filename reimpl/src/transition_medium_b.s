@@ -46,11 +46,11 @@ transition_medium_b:
     mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_pool_0600FEC4, r4
+    mov.l   .L_vdp2_cram_001e0, r4
     mov.l   .L_sym_06011F1C, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0600FECC, r4
+    mov.l   .L_vdp2_cram_00520, r4
     add #0x4, r15
     mov.l   .L_sym_06011F1C, r3
     jmp @r3
@@ -83,9 +83,9 @@ transition_medium_b:
     .4byte  sym_0605ACE4
 .L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_0600FEC4:
+.L_vdp2_cram_001e0:
     .4byte  0x25F001E0
 .L_sym_06011F1C:
     .4byte  sym_06011F1C
-.L_pool_0600FECC:
+.L_vdp2_cram_00520:
     .4byte  0x25F00520

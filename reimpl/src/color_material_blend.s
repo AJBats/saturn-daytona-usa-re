@@ -16,7 +16,7 @@ color_material_blend:
     mov.l @(r0, r1), r2
     mov.l   .L_sym_06045AEC, r3
     shll2 r2
-    mov.l   .L_pool_0602F5F0, r4
+    mov.l   .L_fp_1_6666, r4
     add r2, r3
     mov.l @r3, r5
     dmuls.l r4, r5
@@ -28,7 +28,7 @@ color_material_blend:
     mov r5, r1
     mov.w   DAT_0602f5ea, r11
     mov.l @(r0, r11), r5
-    mov.l   .L_pool_0602F5F8, r3
+    mov.l   .L_zero, r3
     mov.l   .L_pool_0602F5FC, r4
     cmp/gt r3, r5
     bt      .L_0602F600
@@ -45,11 +45,11 @@ DAT_0602f5ea:
     .2byte  0x00E0
 .L_sym_06045AEC:
     .4byte  sym_06045AEC
-.L_pool_0602F5F0:
+.L_fp_1_6666:
     .4byte  0x00016666
 .L_pool_0602F5F4:
     .4byte  0x00006666
-.L_pool_0602F5F8:
+.L_zero:
     .4byte  0x00000000
 .L_pool_0602F5FC:
     .4byte  0x00002134
@@ -83,7 +83,7 @@ DAT_0602f5ea:
     xtrct r4, r2
     mov r14, r0
     mov.w   DAT_0602f6e4, r1
-    mov.l   .L_pool_0602F6FC, r5
+    mov.l   .L_fp_1_9999, r5
     mov.l @(r0, r1), r4
     shll16 r4
     mov.l   .L_fpdiv_setup, r0
@@ -219,7 +219,7 @@ DAT_0602f6f6:
     .2byte  0x00F8
 .L_sym_060477BC:
     .4byte  sym_060477BC
-.L_pool_0602F6FC:
+.L_fp_1_9999:
     .4byte  0x00019999
 .L_fpdiv_setup:
     .4byte  fpdiv_setup
@@ -817,17 +817,17 @@ track_render_pipeline:
     mov #0x0, r0
     mov #0x0, r6
 .L_0602FAE6:
-    mov.l   .L_pool_0602FB20, r3
+    mov.l   .L_sys_sinit_nc, r3
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
     bt      .L_0602FB2C
-    mov.l   .L_pool_0602FB24, r3
+    mov.l   .L_fp_320, r3
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
     bt      .L_0602FB2C
-    mov.l   .L_pool_0602FB28, r3
+    mov.l   .L_cart_cs0_c00000, r3
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
@@ -848,11 +848,11 @@ track_render_pipeline:
     .4byte  sym_0607EA98
 .L_sym_0607E948:
     .4byte  sym_0607E948
-.L_pool_0602FB20:
+.L_sys_sinit_nc:
     .4byte  0x01800000
-.L_pool_0602FB24:
+.L_fp_320:
     .4byte  0x01400000
-.L_pool_0602FB28:
+.L_cart_cs0_c00000:
     .4byte  0x02C00000
 .L_0602FB2C:
     add #0x1, r0
@@ -1104,7 +1104,7 @@ DAT_0602fc9e:
     mov.l @(r0, r14), r0
     cmp/eq #0x1, r0
     bf      .L_0602FCE8
-    mov.l   .L_pool_0602FCE0, r2
+    mov.l   .L_fp_2_8000, r2
     mov.l @(12, r14), r1
     cmp/ge r1, r2
     bt      .L_0602FCE8
@@ -1117,7 +1117,7 @@ DAT_0602fc9e:
 .L_wpool_0602FCDC:
     .2byte  0x00B8
     .2byte  0x0000
-.L_pool_0602FCE0:
+.L_fp_2_8000:
     .4byte  0x00028000
 .L_pool_0602FCE4:
     .4byte  0xAE1131FF

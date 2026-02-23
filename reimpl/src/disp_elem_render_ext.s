@@ -14,7 +14,7 @@ disp_elem_render_ext:
     mov.w   .L_wpool_0602D94E, r3
     mov.l @(48, r0), r5
     mov.l @(r0, r3), r1
-    mov.l   .L_pool_0602D950, r0
+    mov.l   .L_mask_nibble, r0
     mov.l r12, @-r15
     mov.l   .L_sym_0602ECCC, r12
 
@@ -36,7 +36,7 @@ vtx_transform_full:
     nop
 .L_wpool_0602D94E:
     .2byte  0x024C
-.L_pool_0602D950:
+.L_mask_nibble:
     .4byte  0x0000000F
 .L_sym_0602ECCC:
     .4byte  sym_0602ECCC
@@ -128,7 +128,7 @@ sym_0602D9F0:
     mov.l   .L_sym_06063F28, r3
     mov.l @r3, r3
     add #-0x1, r3
-    mov.l   .L_pool_0602DAB8, r4
+    mov.l   .L_struct_stride_228, r4
     mov.l @(r0, r4), r4
     cmp/ge r3, r4
     bt      .L_0602DA8E
@@ -139,13 +139,13 @@ sym_0602D9F0:
     bf      .L_0602DA16
     mov.l   .L_pool_0602DAC4, r1
     mov.l @(r0, r1), r3
-    mov.l   .L_pool_0602DAC8, r4
+    mov.l   .L_mask_top_byte, r4
     cmp/ge r4, r3
     bt      .L_0602DA8E
 .L_0602DA16:
     mov.l   .L_pool_0602DACC, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_pool_0602DAD0, r3
+    mov.l   .L_zero, r3
     cmp/eq r3, r1
     bf      .L_0602DA8E
     mov.w   .L_wpool_0602DA98, r1
@@ -194,18 +194,18 @@ sym_0602D9F0:
     tst r1, r1
     bf      .L_0602DAEC
     mov.l @(0, r0), r2
-    mov.l   .L_pool_0602DAE0, r3
+    mov.l   .L_fp_two, r3
     or r3, r2
     mov.l r2, @(0, r0)
     mov.l   .L_sym_0607EAC8, r1
     mov.w   .L_wpool_0602DAAA, r2
     mov.l r2, @r1
     mov.l   .L_sym_0605A1C4, r1
-    mov.w   .L_wpool_0602DAAC, r2
+    mov.w   .L_one_w, r2
     mov.l r2, @r1
 .L_0602DA8E:
     mov.l   .L_sym_06083260, r1
-    mov.l   .L_pool_0602DAD0, r2
+    mov.l   .L_zero, r2
     mov.b r2, @r1
     rts
     nop
@@ -229,14 +229,14 @@ sym_0602D9F0:
     .2byte  0x47FF
 .L_wpool_0602DAAA:
     .2byte  0x003C
-.L_wpool_0602DAAC:
+.L_one_w:
     .2byte  0x0001
     .2byte  0x0000
 .L_sym_0607E944:
     .4byte  sym_0607E944
 .L_sym_06063F28:
     .4byte  sym_06063F28
-.L_pool_0602DAB8:
+.L_struct_stride_228:
     .4byte  0x00000228
 .L_sym_0607EAD8:
     .4byte  sym_0607EAD8
@@ -244,11 +244,11 @@ sym_0602D9F0:
     .4byte  0x00000001
 .L_pool_0602DAC4:
     .4byte  0x00000018
-.L_pool_0602DAC8:
+.L_mask_top_byte:
     .4byte  0xFF000000
 .L_pool_0602DACC:
     .4byte  0x000001BC
-.L_pool_0602DAD0:
+.L_zero:
     .4byte  0x00000000
 .L_sym_0607E940:
     .4byte  sym_0607E940
@@ -256,7 +256,7 @@ sym_0602D9F0:
     .4byte  0x00000008
 .L_sym_06083260:
     .4byte  sym_06083260
-.L_pool_0602DAE0:
+.L_fp_two:
     .4byte  0x00020000
 .L_sym_0607EAC8:
     .4byte  sym_0607EAC8
@@ -264,14 +264,14 @@ sym_0602D9F0:
     .4byte  sym_0605A1C4
 .L_0602DAEC:
     mov.l   .L_sym_06083260_2, r1
-    mov.l   .L_pool_0602DAFC, r2
+    mov.l   .L_neg_one, r2
     mov.b r2, @r1
     rts
     nop
     .2byte  0x0000
 .L_sym_06083260_2:
     .4byte  sym_06083260
-.L_pool_0602DAFC:
+.L_neg_one:
     .4byte  0xFFFFFFFF
 
     .global sym_0602DB00

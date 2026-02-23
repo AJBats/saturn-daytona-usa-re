@@ -14,34 +14,34 @@ scene_invalidate_b:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603DB00, r3
+    mov.l   .L_min_s32, r3
     and r14, r3
     tst r3, r3
     bt      .L_0603DA9C
     neg r14, r14
 .L_0603DA9C:
-    mov.l   .L_pool_0603DB04, r0
+    mov.l   .L_fp_360, r0
     mov.l   .L_sym_06036BE4, r3
     jsr @r3
     mov r14, r1
     mov r0, r14
     tst r14, r14
     bf      .L_0603DAB0
-    mov.l   .L_pool_0603DB0C, r0
+    mov.l   .L_fp_one, r0
     bra     .L_0603DAF4
     nop
 .L_0603DAB0:
     mov.l   .L_sym_0604249C, r13
-    mov.l   .L_pool_0603DB14, r3
+    mov.l   .L_fp_270, r3
     cmp/ge r3, r14
     bf      .L_0603DAC2
-    mov.l   .L_pool_0603DB04, r4
+    mov.l   .L_fp_360, r4
     jsr @r13
     sub r14, r4
     bra     .L_0603DAF2
     mov r0, r4
 .L_0603DAC2:
-    mov.l   .L_pool_0603DB18, r12
+    mov.l   .L_fp_180, r12
     cmp/gt r12, r14
     bf      .L_0603DAD2
     mov.l   .L_pool_0603DB1C, r4
@@ -52,11 +52,11 @@ scene_invalidate_b:
 .L_0603DAD2:
     cmp/eq r12, r14
     bf      .L_0603DADC
-    mov.l   .L_pool_0603DB20, r4
+    mov.l   .L_mask_upper_word, r4
     bra     .L_0603DAF2
     nop
 .L_0603DADC:
-    mov.l   .L_pool_0603DB24, r2
+    mov.l   .L_fp_90, r2
     cmp/ge r2, r14
     bf      .L_0603DAEC
     mov r12, r4
@@ -77,23 +77,23 @@ scene_invalidate_b:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0603DB00:
+.L_min_s32:
     .4byte  0x80000000
-.L_pool_0603DB04:
+.L_fp_360:
     .4byte  0x01680000
 .L_sym_06036BE4:
     .4byte  sym_06036BE4
-.L_pool_0603DB0C:
+.L_fp_one:
     .4byte  0x00010000
 .L_sym_0604249C:
     .4byte  sym_0604249C
-.L_pool_0603DB14:
+.L_fp_270:
     .4byte  0x010E0000
-.L_pool_0603DB18:
+.L_fp_180:
     .4byte  0x00B40000
 .L_pool_0603DB1C:
     .4byte  0xFF4C0000
-.L_pool_0603DB20:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
-.L_pool_0603DB24:
+.L_fp_90:
     .4byte  0x005A0000

@@ -81,7 +81,7 @@ gas_force_apply:
     tst r0, r0
     bf      .L_060082FC
     mov.l   .L_sym_0607EBC4, r6
-    mov.l   .L_pool_060082C8, r5
+    mov.l   .L_fp_two, r5
     mov.l @r14, r2
     mov r2, r0
     mov.b @r0, r0
@@ -129,7 +129,7 @@ DAT_060082b2:
     .4byte  sym_0604546C
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_060082C8:
+.L_fp_two:
     .4byte  0x00020000
 .L_pool_060082CC:
     .4byte  0xAE111BFF
@@ -341,7 +341,7 @@ force_steer_calc:
     tst r0, r0
     bf      .L_0600845A
     mov.l   .L_sym_0607EBC4_2, r3
-    mov.l   .L_pool_060084B0, r2
+    mov.l   .L_fp_two_2, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -383,7 +383,7 @@ force_steer_impact:
     tst r0, r0
     bf      .L_060084C4
     mov.l   .L_sym_0607EBC4_2, r3
-    mov.l   .L_pool_060084B0, r2
+    mov.l   .L_fp_two_2, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -424,7 +424,7 @@ DAT_060084a6:
     .4byte  sym_0607E944
 .L_sym_0607EBC4_2:
     .4byte  sym_0607EBC4
-.L_pool_060084B0:
+.L_fp_two_2:
     .4byte  0x00020000
 .L_pool_060084B4:
     .4byte  0xAE1102FF
@@ -461,7 +461,7 @@ race_config_physics:
     cmp/eq r3, r2
     bf      .L_06008558
     mov.l   .L_sym_0607EBC4_3, r3
-    mov.l   .L_pool_06008570, r2
+    mov.l   .L_fp_two_3, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -493,16 +493,16 @@ race_config_physics:
     mov.l   .L_channel_nibble_config, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_06008590, r2
+    mov.l   .L_fp_5_8000, r2
     mov.l   .L_sym_06063E24, r3
     mov.l r2, @r3
     mov.l   .L_pool_06008598, r2
     mov.l   .L_sym_06063E34, r3
     mov.l r2, @r3
-    mov.l   .L_pool_060085A0, r2
+    mov.l   .L_fp_110, r2
     mov.l   .L_sym_06063E28, r3
     mov.l r2, @r3
-    mov.l   .L_pool_060085A8, r2
+    mov.l   .L_fp_sixteen, r2
     mov.l   .L_sym_06063E2C, r3
     mov.l r2, @r3
     mov #0x0, r2
@@ -531,7 +531,7 @@ DAT_0600855e:
     .4byte  sym_06078900
 .L_sym_0607EBC4_3:
     .4byte  sym_0607EBC4
-.L_pool_06008570:
+.L_fp_two_3:
     .4byte  0x00020000
 .L_sym_06078635:
     .4byte  sym_06078635
@@ -547,7 +547,7 @@ DAT_0600855e:
     .4byte  sym_06059F30
 .L_channel_nibble_config:
     .4byte  channel_nibble_config
-.L_pool_06008590:
+.L_fp_5_8000:
     .4byte  0x00058000
 .L_sym_06063E24:
     .4byte  sym_06063E24
@@ -555,11 +555,11 @@ DAT_0600855e:
     .4byte  0x0000F300
 .L_sym_06063E34:
     .4byte  sym_06063E34
-.L_pool_060085A0:
+.L_fp_110:
     .4byte  0x006E0000
 .L_sym_06063E28:
     .4byte  sym_06063E28
-.L_pool_060085A8:
+.L_fp_sixteen:
     .4byte  0x00100000
 .L_sym_06063E2C:
     .4byte  sym_06063E2C
@@ -613,7 +613,7 @@ brake_force_apply:
     bt      .L_0600861E
     mov.l   .L_sym_06078654_2, r5
     mov.l   .L_sym_0607EBC4_4, r2
-    mov.l   .L_pool_0600863C, r3
+    mov.l   .L_wram_low_00000, r3
     mov.l @r2, r2
     cmp/eq r3, r2
     bf      .L_0600861A
@@ -650,7 +650,7 @@ DAT_0600862a:
     .4byte  sym_06078654
 .L_sym_0607EBC4_4:
     .4byte  sym_0607EBC4
-.L_pool_0600863C:
+.L_wram_low_00000:
     .4byte  0x00200000
 
     .global sym_06008640
@@ -687,7 +687,7 @@ sym_06008640:
     mov.l @r4, r2
     mov.w r3, @(r0, r2)
     mov.l   .L_sym_0607EBC4_5, r3
-    mov.l   .L_pool_060086B0, r2
+    mov.l   .L_fp_128, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -717,7 +717,7 @@ sym_06008640:
     .4byte  sym_0607E940
 .L_sym_0607EBC4_5:
     .4byte  sym_0607EBC4
-.L_pool_060086B0:
+.L_fp_128:
     .4byte  0x00800000
 .L_sym_060453C4:
     .4byte  sym_060453C4

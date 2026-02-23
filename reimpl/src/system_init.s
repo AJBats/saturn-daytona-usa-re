@@ -19,7 +19,7 @@ system_init:
     sts.l pr, @-r15
     mov.l   .L_sym_06059C58, r10
     mov.l   .L_sym_06059C50, r11
-    mov.l   .L_pool_06003158, r13
+    mov.l   .L_smpc_sf, r13
     mov.l   .L_sym_06000320, r3
     mov.l @r3, r3
     jsr @r3
@@ -33,7 +33,7 @@ system_init:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_pool_06003160, r2
+    mov.l   .L_smpc_comreg, r2
     mov.b r3, @r2
 .L_0600312E:
     mov.b @r13, r2
@@ -59,11 +59,11 @@ system_init:
     .4byte  sym_06059C58
 .L_sym_06059C50:
     .4byte  sym_06059C50
-.L_pool_06003158:
+.L_smpc_sf:
     .4byte  0x20100063
 .L_sym_06000320:
     .4byte  sym_06000320
-.L_pool_06003160:
+.L_smpc_comreg:
     .4byte  0x2010001F
 .L_sym_06059C4C:
     .4byte  sym_06059C4C

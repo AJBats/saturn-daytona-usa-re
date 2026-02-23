@@ -43,7 +43,7 @@ scene_color_matrix:
 .L_0603DE32:
     exts.b r14, r6
     extu.w r14, r2
-    mov.l   .L_pool_0603DEC4, r7
+    mov.l   .L_fp_one, r7
     mov r6, r3
     shll2 r2
     shll2 r6
@@ -97,7 +97,7 @@ scene_color_matrix:
     bra     .L_0603DED4
     mov.l @r0, r0
 .L_0603DE9C:
-    mov.l   .L_pool_0603DED0, r2
+    mov.l   .L_mask_high_byte, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
@@ -119,13 +119,13 @@ scene_color_matrix:
     .4byte  sym_060A4C60
 .L_sym_060635A8:
     .4byte  sym_060635A8
-.L_pool_0603DEC4:
+.L_fp_one:
     .4byte  0x00010000
 .L_sym_060A4C44:
     .4byte  sym_060A4C44
 .L_sym_060A3E38:
     .4byte  sym_060A3E38
-.L_pool_0603DED0:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_0603DED4:
     cmp/eq #0x1, r0
@@ -214,7 +214,7 @@ scene_color_matrix:
     cmp/eq #0x1, r0
     bf      .L_0603DFB6
     mov.l   .L_sym_060A3E3C, r2
-    mov.l   .L_pool_0603E040, r3
+    mov.l   .L_mask_high_byte_2, r3
     mov.w @r2, r2
     extu.w r2, r2
     and r3, r2
@@ -323,7 +323,7 @@ scene_color_matrix:
     .2byte  0xFFFF
 .L_sym_060A3E3C:
     .4byte  sym_060A3E3C
-.L_pool_0603E040:
+.L_mask_high_byte_2:
     .4byte  0x0000FF00
 .L_sym_060A4C78_2:
     .4byte  sym_060A4C78

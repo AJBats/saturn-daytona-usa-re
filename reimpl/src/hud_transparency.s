@@ -17,13 +17,13 @@ hud_transparency:
     sts.l macl, @-r15
     mov.w   .L_wpool_06011658, r13
     mov.l   .L_sym_0607886E, r14
-    mov.l   .L_pool_06011660, r12
+    mov.l   .L_fp_eight, r12
     bsr     .L_0601164A
     nop
     mov.w @r14, r2
     add #0x1, r2
     mov.w r2, @r14
-    mov.l   .L_pool_06011664, r5
+    mov.l   .L_vdp2_vram_5f800, r5
     mov #0x0, r4
 .L_06011610:
     extu.w r4, r0
@@ -39,7 +39,7 @@ hud_transparency:
     bra     .L_0601162A
     mov r12, r3
 .L_06011628:
-    mov.l   .L_pool_0601166C, r3
+    mov.l   .L_fp_neg_8_0000, r3
 .L_0601162A:
     add #0x1, r4
     mov.w @r14, r1
@@ -59,7 +59,7 @@ hud_transparency:
     mov.l @r15+, r14
 .L_0601164A:
     mov.l   .L_pool_06011670, r3
-    mov.l   .L_pool_06011674, r2
+    mov.l   .L_vdp2_lsta1u, r2
     mov.l r3, @r2
     mov.w   .L_wpool_0601165A, r3
     add #-0xA, r2
@@ -71,15 +71,15 @@ hud_transparency:
     .2byte  0x0200
 .L_sym_0607886E:
     .4byte  sym_0607886E
-.L_pool_06011660:
+.L_fp_eight:
     .4byte  0x00080000
-.L_pool_06011664:
+.L_vdp2_vram_5f800:
     .4byte  0x25E5F800
 .L_sym_06035C2C:
     .4byte  sym_06035C2C
-.L_pool_0601166C:
+.L_fp_neg_8_0000:
     .4byte  0xFFF80000
 .L_pool_06011670:
     .4byte  0x12F2FC00
-.L_pool_06011674:
+.L_vdp2_lsta1u:
     .4byte  0x25F800A4

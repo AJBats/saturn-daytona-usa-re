@@ -21,7 +21,7 @@ hud_elem_render:
     mov.l   .L_sym_06063D98, r12
     mov.l   .L_sym_06085F8B, r14
     mov.l   .L_sym_06085F8D, r11
-    mov.l   .L_pool_06015218, r2
+    mov.l   .L_fp_half, r2
     mov.w @(2, r12), r0
     mov r0, r3
     extu.w r3, r3
@@ -53,7 +53,7 @@ hud_elem_render:
     nop
 .L_060151A4:
     mov.w @(2, r12), r0
-    mov.w   .L_wpool_06015204, r3
+    mov.w   .L_quarter_turn_w, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -103,7 +103,7 @@ hud_elem_render:
     nop
 .L_wpool_06015202:
     .2byte  0x0090
-.L_wpool_06015204:
+.L_quarter_turn_w:
     .2byte  0x4000
 .L_wpool_06015206:
     .2byte  0x0200
@@ -115,7 +115,7 @@ hud_elem_render:
     .4byte  sym_06085F8B
 .L_sym_06085F8D:
     .4byte  sym_06085F8D
-.L_pool_06015218:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_06044C8C:
     .4byte  sym_06044C8C

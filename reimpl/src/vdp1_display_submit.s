@@ -90,7 +90,7 @@ DAT_0602d496:
 .L_0602D4B6:
     add #-0x1, r3
     mov.w r3, @(r0, r11)
-    mov.l   .L_pool_0602D550, r4
+    mov.l   .L_fp_10, r4
     mov r4, r2
     mov #0x0, r5
     shll16 r3
@@ -104,7 +104,7 @@ DAT_0602d496:
     sts mach, r3
     sts macl, r5
     xtrct r3, r5
-    mov.w   .L_wpool_0602D546, r2
+    mov.w   .L_mask_high_byte_w, r2
     mov r5, r3
     mov.l r4, @(0, r2)
     shlr16 r3
@@ -150,11 +150,11 @@ DAT_0602d496:
     shlr8 r4
     or r3, r4
     mov.l @(12, r0), r2
-    mov.l   .L_pool_0602D558, r3
+    mov.l   .L_dma_addr_inc_4_0, r3
     cmp/ge r3, r2
     bt      .L_0602D560
     mov #0x0, r3
-    mov.l   .L_pool_0602D55C, r6
+    mov.l   .L_quarter_turn, r6
     cmp/ge r3, r4
     bt      .L_0602D53E
     neg r6, r6
@@ -169,7 +169,7 @@ DAT_0602d542:
     .global DAT_0602d544
 DAT_0602d544:
     .2byte  0x010C
-.L_wpool_0602D546:
+.L_mask_high_byte_w:
     .2byte  0xFF00
 
     .global DAT_0602d548
@@ -182,13 +182,13 @@ DAT_0602d54a:
 .L_wpool_0602D54C:
     .2byte  0x00CE
     .2byte  0x0000
-.L_pool_0602D550:
+.L_fp_10:
     .4byte  0x000A0000
 .L_cos_lookup:
     .4byte  cos_lookup
-.L_pool_0602D558:
+.L_dma_addr_inc_4_0:
     .4byte  0x00000100
-.L_pool_0602D55C:
+.L_quarter_turn:
     .4byte  0x00004000
 .L_0602D560:
     mov r2, r3
@@ -197,7 +197,7 @@ DAT_0602d54a:
     sts macl, r3
     xtrct r2, r3
     mov.l r3, @-r15
-    mov.w   .L_wpool_0602D5F0, r2
+    mov.w   .L_mask_high_byte_w_2, r2
     mov r4, r1
     mov.l r3, @(0, r2)
     shlr16 r1
@@ -266,7 +266,7 @@ DAT_0602d54a:
     bt      .L_0602D60E
     bra     .L_0602D610
     nop
-.L_wpool_0602D5F0:
+.L_mask_high_byte_w_2:
     .2byte  0xFF00
 
     .global DAT_0602d5f2
@@ -349,7 +349,7 @@ DAT_0602d5f4:
     mov.l @r15+, r3
     tst r3, r3
     bf      .L_0602D688
-    mov.l   .L_pool_0602D684, r6
+    mov.l   .L_quarter_turn_2, r6
     bra     .L_0602D6AC
     nop
 
@@ -364,10 +364,10 @@ DAT_0602d67c:
     .global DAT_0602d682
 DAT_0602d682:
     .2byte  0x00CC
-.L_pool_0602D684:
+.L_quarter_turn_2:
     .4byte  0x00004000
 .L_0602D688:
-    mov.w   .L_wpool_0602D6BE, r2
+    mov.w   .L_mask_high_byte_w_3, r2
     mov r4, r1
     mov.l r3, @(0, r2)
     shlr16 r1
@@ -396,7 +396,7 @@ DAT_0602d682:
     mov r3, r7
     bra     .L_0602D6CE
     nop
-.L_wpool_0602D6BE:
+.L_mask_high_byte_w_3:
     .2byte  0xFF00
 .L_wpool_0602D6C0:
     .2byte  0x007E
@@ -504,7 +504,7 @@ DAT_0602d732:
     mov.w   .L_wpool_0602D794, r7
     bt      .L_0602D7C0
     mov.l @(r0, r7), r6
-    mov.l   .L_pool_0602D79C, r5
+    mov.l   .L_fp_neg_0_3280, r5
     cmp/ge r6, r5
     bt      .L_0602D7A8
     neg r5, r5
@@ -513,7 +513,7 @@ DAT_0602d732:
     mov.l @(0, r0), r2
     mov.l   .L_pool_0602D7A0, r3
     or r3, r2
-    mov.l   .L_pool_0602D7A4, r3
+    mov.l   .L_bit_30, r3
     or r3, r2
     bra     .L_0602D7C0
     mov.l r2, @(0, r0)
@@ -528,28 +528,28 @@ DAT_0602d790:
     .2byte  0x0000
 .L_sym_0602ECCC_2:
     .4byte  sym_0602ECCC
-.L_pool_0602D79C:
+.L_fp_neg_0_3280:
     .4byte  0xFFFFCD80
 .L_pool_0602D7A0:
     .4byte  0x20000000
-.L_pool_0602D7A4:
+.L_bit_30:
     .4byte  0x40000000
 .L_0602D7A8:
     mov.l @(0, r0), r2
     mov.l   .L_pool_0602D7B8, r3
     or r3, r2
-    mov.l   .L_pool_0602D7BC, r3
+    mov.l   .L_bit_30_2, r3
     or r3, r2
     bra     .L_0602D7C0
     mov.l r2, @(0, r0)
     .2byte  0x0000
 .L_pool_0602D7B8:
     .4byte  0x10000000
-.L_pool_0602D7BC:
+.L_bit_30_2:
     .4byte  0x40000000
 .L_0602D7C0:
     mov.l @(r0, r7), r6
-    mov.l   .L_pool_0602D7E0, r3
+    mov.l   .L_fp_neg_0_3400, r3
     cmp/ge r6, r3
     bt      .L_0602D7CE
     neg r3, r3
@@ -567,7 +567,7 @@ DAT_0602d790:
 .L_wpool_0602D7DC:
     .2byte  0x00D4
     .2byte  0x0000
-.L_pool_0602D7E0:
+.L_fp_neg_0_3400:
     .4byte  0xFFFFCC00
 .L_0602D7E4:
     mov.l r3, @-r15
@@ -622,7 +622,7 @@ sym_0602D82A:
     shll2 r4
     add r5, r4
     mov.l @r4, r4
-    mov.l   .L_pool_0602D86C, r5
+    mov.l   .L_cart_cs0_21ac91, r5
     dmuls.l r3, r4
     nop
     nop
@@ -657,7 +657,7 @@ DAT_0602d866:
     .2byte  0x00E0
 .L_sym_060477BC:
     .4byte  sym_060477BC
-.L_pool_0602D86C:
+.L_cart_cs0_21ac91:
     .4byte  0x0221AC91
 .L_pool_0602D870:
     .4byte  0x00002134

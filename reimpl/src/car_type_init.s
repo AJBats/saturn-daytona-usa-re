@@ -228,7 +228,7 @@ DAT_0600e2ca:
     mov.w   .L_wpool_0600E3EE, r3
     mov.w   DAT_0600e3f0, r0
     mov.l r3, @(r0, r14)
-    mov.l   .L_pool_0600E3FC, r3
+    mov.l   .L_fp_4_2e38, r3
     mov.l r3, @(12, r14)
     bra     .L_0600E370
     nop
@@ -237,7 +237,7 @@ DAT_0600e2ca:
     mov r2, r0
     add #0x7C, r0
     mov.l r2, @(r0, r14)
-    mov.l   .L_pool_0600E400, r3
+    mov.l   .L_fp_4_2000, r3
     mov.l r3, @(12, r14)
     mov.w   DAT_0600e3f4, r2
     mov.w   DAT_0600e3f2, r0
@@ -340,9 +340,9 @@ DAT_0600e3f6:
 .L_wpool_0600E3F8:
     .2byte  0x01B0
     .2byte  0xFFFF
-.L_pool_0600E3FC:
+.L_fp_4_2e38:
     .4byte  0x00042E38
-.L_pool_0600E400:
+.L_fp_4_2000:
     .4byte  0x00042000
 .L_heading_smooth_gentle:
     .4byte  heading_smooth_gentle

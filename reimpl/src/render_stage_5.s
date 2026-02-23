@@ -12,7 +12,7 @@ render_stage_5:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_sym_0604884C, r5
-    mov.l   .L_pool_0601D05C, r4
+    mov.l   .L_vdp2_cram_00000, r4
     mov.l   .L_dma_transfer, r3
     jsr @r3
     mov #0x40, r6
@@ -46,7 +46,7 @@ render_stage_5:
     .2byte  0x0518
 .L_sym_0604884C:
     .4byte  sym_0604884C
-.L_pool_0601D05C:
+.L_vdp2_cram_00000:
     .4byte  0x25F00000
 .L_dma_transfer:
     .4byte  dma_transfer

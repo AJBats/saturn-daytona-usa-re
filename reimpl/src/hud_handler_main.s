@@ -25,7 +25,7 @@ hud_handler_main:
     add #-0x8, r15
     mov.l   .L_sym_0605E06C, r8
     mov.l   .L_sym_060877D8, r10
-    mov.l   .L_pool_0601E90C, r13
+    mov.l   .L_smpc_sf, r13
     mov.w r0, @(4, r15)
     mov.l r6, @r15
     mov.l   .L_sym_06035C1C, r3
@@ -99,7 +99,7 @@ hud_handler_main:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_pool_0601E928, r2
+    mov.l   .L_smpc_comreg, r2
     mov.b r3, @r2
 .L_0601E8C2:
     mov.b @r13, r2
@@ -140,7 +140,7 @@ hud_handler_main:
     .4byte  sym_0605E06C
 .L_sym_060877D8:
     .4byte  sym_060877D8
-.L_pool_0601E90C:
+.L_smpc_sf:
     .4byte  0x20100063
 .L_sym_06035C1C:
     .4byte  sym_06035C1C
@@ -154,13 +154,13 @@ hud_handler_main:
     .4byte  sym_06000354
 .L_sym_0604A5C0:
     .4byte  sym_0604A5C0
-.L_pool_0601E928:
+.L_smpc_comreg:
     .4byte  0x2010001F
 .L_sym_06087094:
     .4byte  sym_06087094
 .L_0601E930:
     mov #0x19, r3
-    mov.l   .L_pool_0601E9F0, r2
+    mov.l   .L_smpc_comreg_2, r2
     mov.b r3, @r2
 .L_0601E936:
     mov.b @r13, r2
@@ -262,7 +262,7 @@ geom_vertex_process:
     mov.l @r15+, r13
     .byte   0xA5, 0x0E    /* bra 0x0601F40C (external) */
     mov.l @r15+, r14
-.L_pool_0601E9F0:
+.L_smpc_comreg_2:
     .4byte  0x2010001F
 .L_sym_0605E098:
     .4byte  sym_0605E098

@@ -24,7 +24,7 @@ obj_anim_driver:
     mov.w   .L_wpool_06020A0E, r13
     mov.l   .L_sym_06087828, r14
     mov.b r0, @(4, r15)
-    mov.l   .L_pool_06020A1C, r12
+    mov.l   .L_wram_low_00000, r12
     mov.b @r9, r3
     extu.b r3, r3
     tst r3, r3
@@ -37,7 +37,7 @@ obj_anim_driver:
     mov.b r2, @r9
 .L_060209E0:
     mov.l   .L_pool_06020A28, r3
-    mov.l   .L_pool_06020A2C, r2
+    mov.l   .L_vdp2_lsta1u, r2
     mov.l r3, @r2
     mov.w   .L_wpool_06020A10, r3
     add #-0xA, r2
@@ -45,7 +45,7 @@ obj_anim_driver:
     mov.w @r14, r3
     add #0x1, r3
     mov.w r3, @r14
-    mov.l   .L_pool_06020A30, r5
+    mov.l   .L_vdp2_vram_5f800, r5
     mov #0x0, r4
 .L_060209F6:
     extu.w r4, r0
@@ -69,7 +69,7 @@ obj_anim_driver:
     .4byte  sym_0605F586
 .L_sym_06087828:
     .4byte  sym_06087828
-.L_pool_06020A1C:
+.L_wram_low_00000:
     .4byte  0x00200000
 .L_pool_06020A20:
     .4byte  0xAB1129FF
@@ -77,9 +77,9 @@ obj_anim_driver:
     .4byte  sound_cmd_dispatch
 .L_pool_06020A28:
     .4byte  0x12F2FC00
-.L_pool_06020A2C:
+.L_vdp2_lsta1u:
     .4byte  0x25F800A4
-.L_pool_06020A30:
+.L_vdp2_vram_5f800:
     .4byte  0x25E5F800
 .L_sym_06035C2C:
     .4byte  sym_06035C2C

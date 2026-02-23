@@ -182,7 +182,7 @@ track_vtx_builder:
     exts.w r3, r3
     mov.l   .L_sym_06084FC8_2, r1
     add r1, r3
-    mov.l   .L_pool_06017004, r2
+    mov.l   .L_fp_half, r2
     mov.l @(44, r3), r1
     add r2, r1
     mov.l r1, @(44, r3)
@@ -296,7 +296,7 @@ DAT_06016ffa:
     .4byte  sym_06084FC8
 .L_sym_06078663:
     .4byte  sym_06078663
-.L_pool_06017004:
+.L_fp_half:
     .4byte  0x00008000
 .L_sincos_pair_2:
     .4byte  sincos_pair

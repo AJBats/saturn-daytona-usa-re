@@ -99,7 +99,7 @@ sys_boot_sequence:
     nop
 .L_06040358:
     mov #0x0, r6
-    mov.l   .L_pool_060403DC, r5
+    mov.l   .L_max_s32, r5
     mov.l   .L_evt_cmd_enqueue, r3
     jsr @r3
     mov.l @(24, r14), r4
@@ -171,7 +171,7 @@ sys_boot_sequence:
     .2byte  0x00AC
 .L_sym_06041014:
     .4byte  sym_06041014
-.L_pool_060403DC:
+.L_max_s32:
     .4byte  0x7FFFFFFF
 .L_evt_cmd_enqueue:
     .4byte  evt_cmd_enqueue

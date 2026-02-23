@@ -106,7 +106,7 @@ hud_menu_system:
     mov #0x40, r9
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603C244, r8
+    mov.l   .L_mask_high_byte, r8
     mov.l   .L_sym_060A4D3E, r10
     mov.l   .L_pool_0603C24C, r12
     mov.l   .L_sym_060A4D36, r13
@@ -173,7 +173,7 @@ hud_menu_system:
 .L_wpool_0603C23E:
     .2byte  0x0301
     .4byte  sym_060A4DA6
-.L_pool_0603C244:
+.L_mask_high_byte:
     .4byte  0x0000FF00
 .L_sym_060A4D3E:
     .4byte  sym_060A4D3E
@@ -517,7 +517,7 @@ DAT_0603c49c:
     mov r2, r0
     mov.w r0, @(12, r6)
 .L_0603C4BC:
-    mov.l   .L_pool_0603C568, r3
+    mov.l   .L_fp_half, r3
     and r4, r3
     tst r3, r3
     bt      .L_0603C516
@@ -608,7 +608,7 @@ DAT_0603c49c:
     .2byte  0x0401
 .L_sym_06034F78_4:
     .4byte  sym_06034F78
-.L_pool_0603C568:
+.L_fp_half:
     .4byte  0x00008000
 .L_pool_0603C56C:
     .4byte  0x0000FFFE

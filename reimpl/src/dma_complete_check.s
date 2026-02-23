@@ -12,7 +12,7 @@ dma_complete_check:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    mov.l   .L_pool_06040A24, r6
+    mov.l   .L_mask_16bit, r6
     mov.l   .L_evt_checkpoint_validate, r3
     jsr @r3
     mov.l @(4, r4), r4
@@ -64,7 +64,7 @@ evt_checkpoint_handler:
     bra     .L_06040AEA
     mov r13, r0
     .2byte  0xFFFF
-.L_pool_06040A24:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_evt_checkpoint_validate:
     .4byte  evt_checkpoint_validate
@@ -74,7 +74,7 @@ evt_checkpoint_handler:
     mov.l r12, @-r15
     mov #0x0, r5
     mov r15, r7
-    mov.l   .L_pool_06040AD0, r6
+    mov.l   .L_mask_16bit_2, r6
     mov.l   .L_cmd_enqueue, r3
     add #0x4, r7
     jsr @r3
@@ -147,7 +147,7 @@ evt_checkpoint_handler:
     mov.l r14, @(4, r15)
     mov #0x0, r5
     mov r14, r4
-    mov.l   .L_pool_06040AD0, r6
+    mov.l   .L_mask_16bit_2, r6
     mov.l   .L_evt_checkpoint_validate_2, r3
     jsr @r3
     mov.l @(4, r4), r4
@@ -158,7 +158,7 @@ evt_checkpoint_handler:
     bf      .L_06040ADC
     bra     .L_06040AEA
     mov #-0x1, r0
-.L_pool_06040AD0:
+.L_mask_16bit_2:
     .4byte  0x0000FFFF
 .L_cmd_enqueue:
     .4byte  cmd_enqueue

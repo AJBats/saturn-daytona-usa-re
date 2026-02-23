@@ -105,7 +105,7 @@ frame_end_commit:
     add #0x20, r4
     mov.l @r12, r0
     mov.l @r11, r3
-    mov.l   .L_pool_06007A18, r2
+    mov.l   .L_fp_half, r2
     shll2 r0
     shll2 r0
     shll r0
@@ -173,7 +173,7 @@ DAT_060079ce:
     .4byte  sym_0605A00C
 .L_sym_060394C2:
     .4byte  sym_060394C2
-.L_pool_06007A18:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0605B6D8:
     .4byte  sym_0605B6D8
@@ -277,7 +277,7 @@ DAT_06007a96:
     mov r15, r5
     mov.l   .L_swap_sign_ext, r12
     mov.l   .L_sym_06078604, r13
-    mov.l   .L_pool_06007BA8, r4
+    mov.l   .L_fp_151, r4
     jsr @r14
     mov.l @r15, r5
     jsr @r12
@@ -285,7 +285,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(8, r13)
-    mov.l   .L_pool_06007BA8, r4
+    mov.l   .L_fp_151, r4
     jsr @r14
     mov.l @(4, r15), r5
     jsr @r12
@@ -293,8 +293,8 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(10, r13)
-    mov.l   .L_pool_06007BAC, r10
-    mov.l   .L_pool_06007BB0, r4
+    mov.l   .L_fp_144, r10
+    mov.l   .L_fp_two, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov r0, r8
@@ -307,7 +307,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(12, r13)
-    mov.l   .L_pool_06007BB0, r4
+    mov.l   .L_fp_two, r4
     jsr @r14
     mov.l @r15, r5
     mov r0, r8
@@ -320,7 +320,7 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(14, r13)
-    mov.l   .L_pool_06007BB4, r4
+    mov.l   .L_fp_137, r4
     jsr @r14
     mov.l @r15, r5
     jsr @r12
@@ -328,7 +328,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(16, r13)
-    mov.l   .L_pool_06007BB4, r4
+    mov.l   .L_fp_137, r4
     jsr @r14
     mov.l @(4, r15), r5
     jsr @r12
@@ -336,7 +336,7 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(18, r13)
-    mov.l   .L_pool_06007BB8, r4
+    mov.l   .L_fp_neg_two, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov r0, r8
@@ -349,7 +349,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(20, r13)
-    mov.l   .L_pool_06007BB8, r4
+    mov.l   .L_fp_neg_two, r4
     jsr @r14
     mov.l @r15, r5
     mov r0, r8
@@ -391,15 +391,15 @@ DAT_06007a96:
     .4byte  swap_sign_ext
 .L_sym_06078604:
     .4byte  sym_06078604
-.L_pool_06007BA8:
+.L_fp_151:
     .4byte  0x00970000
-.L_pool_06007BAC:
+.L_fp_144:
     .4byte  0x00900000
-.L_pool_06007BB0:
+.L_fp_two:
     .4byte  0x00020000
-.L_pool_06007BB4:
+.L_fp_137:
     .4byte  0x00890000
-.L_pool_06007BB8:
+.L_fp_neg_two:
     .4byte  0xFFFE0000
 .L_pool_06007BBC:
     .4byte  0x0000A3FF
@@ -568,7 +568,7 @@ dma_queue_mgr:
     sts.l pr, @-r15
     mov.l   .L_sym_060281B8, r8
     mov.l   .L_sym_0606A4F8_2, r9
-    mov.l   .L_pool_06007DAC, r10
+    mov.l   .L_fp_half_2, r10
     mov.l   .L_sym_0608AC20_2, r13
     mov.l   .L_sym_06078624, r14
     mov.l   .L_sym_0603C000, r3
@@ -631,8 +631,8 @@ dma_queue_mgr:
     mov.l @r3, r3
     cmp/hs r3, r11
     bf      .L_06007D10
-    mov.l   .L_pool_06007DC4, r3
-    mov.l   .L_pool_06007DC8, r2
+    mov.l   .L_mask_16bit, r3
+    mov.l   .L_sys_sinit, r2
     mov.w r3, @r2
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -664,7 +664,7 @@ dma_queue_commit:
     .4byte  sym_060281B8
 .L_sym_0606A4F8_2:
     .4byte  sym_0606A4F8
-.L_pool_06007DAC:
+.L_fp_half_2:
     .4byte  0x00008000
 .L_sym_0608AC20_2:
     .4byte  sym_0608AC20
@@ -676,9 +676,9 @@ dma_queue_commit:
     .4byte  sym_060280F8
 .L_sym_06078620:
     .4byte  sym_06078620
-.L_pool_06007DC4:
+.L_mask_16bit:
     .4byte  0x0000FFFF
-.L_pool_06007DC8:
+.L_sys_sinit:
     .4byte  0x21800000
 .L_06007DCC:
     mov r12, r4

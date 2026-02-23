@@ -17,13 +17,13 @@ fixpt_div_helper:
     mov #0x1, r14
     neg r4, r4
 .L_06042426:
-    mov.l   .L_pool_0604244C, r2
+    mov.l   .L_fp_180, r2
     cmp/ge r2, r4
     bf      .L_06042430
     bra     .L_0604243A
     mov #0x0, r4
 .L_06042430:
-    mov.l   .L_pool_06042450, r3
+    mov.l   .L_fp_90, r3
     cmp/gt r3, r4
     bf      .L_0604243A
     sub r4, r2
@@ -39,9 +39,9 @@ fixpt_div_helper:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_pool_0604244C:
+.L_fp_180:
     .4byte  0x00B40000
-.L_pool_06042450:
+.L_fp_90:
     .4byte  0x005A0000
 .L_sym_060424A2:
     .4byte  sym_060424A2

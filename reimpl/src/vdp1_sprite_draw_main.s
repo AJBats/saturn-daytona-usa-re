@@ -17,7 +17,7 @@ vdp1_sprite_draw_main:
     mov.l   .L_sym_060A4CB4, r5
     mov.l   .L_sym_060A4CC0, r4
     mov #0x0, r7
-    mov.l   .L_pool_0603A8CC, r6
+    mov.l   .L_mask_16bit, r6
     mov.l   .L_sym_060A4CAF, r0
     mov.b @r0, r0
     bra     .L_0603AA42
@@ -159,7 +159,7 @@ DAT_0603a8bc:
     .4byte  sym_060A4CB4
 .L_sym_060A4CC0:
     .4byte  sym_060A4CC0
-.L_pool_0603A8CC:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_sym_060A4CAF:
     .4byte  sym_060A4CAF
@@ -375,7 +375,7 @@ DAT_0603a8bc:
     mov.w   .L_wpool_0603AA7E, r1
     cmp/eq r1, r0
     bt      .L_0603AA1A
-    mov.w   .L_wpool_0603AA80, r1
+    mov.w   .L_mask_byte_w, r1
     cmp/eq r1, r0
     bf      .L_0603AA74
     bra     .L_0603A7CA
@@ -389,5 +389,5 @@ DAT_0603a8bc:
     .2byte  0x00E1
 .L_wpool_0603AA7E:
     .2byte  0x00E2
-.L_wpool_0603AA80:
+.L_mask_byte_w:
     .2byte  0x00FF

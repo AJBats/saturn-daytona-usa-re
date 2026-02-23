@@ -83,7 +83,7 @@ race_timer_sync:
     mov #0x0, r10
     mov.l   .L_sym_060A4D14, r11
     mov.w   .L_wpool_0603FA5E, r12
-    mov.l   .L_pool_0603FA68, r13
+    mov.l   .L_sys_minit_nc, r13
     mov r4, r14
     mov.l r5, @(4, r15)
     mov.l @r14, r3
@@ -115,7 +115,7 @@ race_timer_sync:
     .2byte  0xFFFF
 .L_sym_060A4D14:
     .4byte  sym_060A4D14
-.L_pool_0603FA68:
+.L_sys_minit_nc:
     .4byte  0x01000000
 .L_0603FA6C:
     mov #0x34, r0

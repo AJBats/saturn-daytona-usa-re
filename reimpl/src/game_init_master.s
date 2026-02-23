@@ -48,7 +48,7 @@ game_init_master:
     mov.l   .L_sym_0605A008, r3
     mov.l r2, @r3
     mov.l   .L_sym_06063F5C, r2
-    mov.l   .L_pool_0601309C, r3
+    mov.l   .L_fp_half, r3
     mov.l @r2, r2
     mov.w r3, @r2
     mov.l   .L_sym_0602853E, r14
@@ -87,7 +87,7 @@ game_init_master:
     mov.w r3, @r10
     mov.w   .L_wpool_0601305A, r12
     mov.l   .L_vdp1_sprite_render, r13
-    mov.l   .L_pool_060130BC, r14
+    mov.l   .L_wram_low_a0000, r14
     mov.w   DAT_0601305c, r7
     mov r12, r5
     add r14, r7
@@ -182,7 +182,7 @@ DAT_06013068:
     .4byte  sym_060393FC
 .L_sym_0605A008:
     .4byte  sym_0605A008
-.L_pool_0601309C:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0602853E:
     .4byte  sym_0602853E
@@ -198,7 +198,7 @@ DAT_06013068:
     .4byte  sym_06089E44
 .L_vdp1_sprite_render:
     .4byte  vdp1_sprite_render
-.L_pool_060130BC:
+.L_wram_low_a0000:
     .4byte  0x002A0000
 .L_060130C0:
     mov.w   DAT_060131b4, r7
@@ -1300,33 +1300,33 @@ DAT_060136c2:
     add #0x37, r4
     mov.l   .L_memcpy_word_idx, r14
     mov.l   .L_sym_0604878C, r5
-    mov.l   .L_pool_060137D0, r4
+    mov.l   .L_vdp2_cram_00000, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_sym_0604814C, r5
-    mov.l   .L_pool_060137D8, r4
+    mov.l   .L_vdp2_cram_00600, r4
     jsr @r14
     mov #0x60, r6
     mov.l   .L_sym_0604848C, r5
-    mov.l   .L_pool_060137E0, r4
+    mov.l   .L_vdp2_cram_00660, r4
     jsr @r14
     mov #0x40, r6
     mov.l   .L_sym_060484CC, r5
-    mov.l   .L_pool_060137E8, r4
+    mov.l   .L_vdp2_cram_006a0, r4
     jsr @r14
     mov #0x40, r6
     mov #0x40, r6
     mov.l   .L_sym_060485AC, r3
     mov.l r3, @(4, r15)
-    mov.l   .L_pool_060137F0, r4
+    mov.l   .L_vdp2_cram_006e0, r4
     jsr @r14
     mov r3, r5
     mov #0x40, r6
-    mov.l   .L_pool_060137F4, r4
+    mov.l   .L_vdp2_cram_004e0, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l   .L_sym_0605CD9C, r5
-    mov.l   .L_pool_060137FC, r4
+    mov.l   .L_vdp2_cram_00720, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_channel_nibble_config, r14
@@ -1402,29 +1402,29 @@ DAT_060137c2:
     .4byte  memcpy_word_idx
 .L_sym_0604878C:
     .4byte  sym_0604878C
-.L_pool_060137D0:
+.L_vdp2_cram_00000:
     .4byte  0x25F00000          /* VDP2 Color RAM base (palette 0) */
 .L_sym_0604814C:
     .4byte  sym_0604814C
-.L_pool_060137D8:
+.L_vdp2_cram_00600:
     .4byte  0x25F00600          /* VDP2 CRAM offset 0x600 (palette bank 3) */
 .L_sym_0604848C:
     .4byte  sym_0604848C
-.L_pool_060137E0:
+.L_vdp2_cram_00660:
     .4byte  0x25F00660          /* VDP2 CRAM offset 0x660 */
 .L_sym_060484CC:
     .4byte  sym_060484CC
-.L_pool_060137E8:
+.L_vdp2_cram_006a0:
     .4byte  0x25F006A0          /* VDP2 CRAM offset 0x6A0 */
 .L_sym_060485AC:
     .4byte  sym_060485AC
-.L_pool_060137F0:
+.L_vdp2_cram_006e0:
     .4byte  0x25F006E0          /* VDP2 CRAM offset 0x6E0 */
-.L_pool_060137F4:
+.L_vdp2_cram_004e0:
     .4byte  0x25F004E0          /* VDP2 CRAM offset 0x4E0 (palette bank 2) */
 .L_sym_0605CD9C:
     .4byte  sym_0605CD9C
-.L_pool_060137FC:
+.L_vdp2_cram_00720:
     .4byte  0x25F00720          /* VDP2 CRAM offset 0x720 */
 .L_channel_nibble_config:
     .4byte  channel_nibble_config
@@ -1521,7 +1521,7 @@ gfx_frame_dispatch:
     mov.l @r3, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0601391C, r14
+    mov.l   .L_fp_one, r14
     mov #0x0, r2
     mov r14, r7
     mov r14, r6
@@ -1531,9 +1531,9 @@ gfx_frame_dispatch:
     .type race_timer_format, @function
 race_timer_format:
     mov.l r14, @-r15
-    mov.l   .L_pool_06013920, r3
+    mov.l   .L_fp_half_2, r3
     mov.l r3, @-r15
-    mov.l   .L_pool_06013924, r5
+    mov.l   .L_fp_150, r5
     mov.l   .L_rigid_body_transform, r3
     jsr @r3
     mov r2, r4
@@ -1586,11 +1586,11 @@ DAT_060138da:
     .4byte  sym_06026CE0
 .L_sym_0605B6B8:
     .4byte  sym_0605B6B8
-.L_pool_0601391C:
+.L_fp_one:
     .4byte  0x00010000
-.L_pool_06013920:
+.L_fp_half_2:
     .4byte  0x00008000
-.L_pool_06013924:
+.L_fp_150:
     .4byte  0x00960000
 .L_rigid_body_transform:
     .4byte  rigid_body_transform
@@ -1627,7 +1627,7 @@ score_calculator:
     add #-0x8, r15
     mov.l   .L_sym_06026E2E, r8
     mov.l   .L_sym_06084AF4_2, r11
-    mov.l   .L_pool_06013A38, r12
+    mov.l   .L_fp_one_2, r12
     mov.w   .L_wpool_06013A28, r14
     mov.w @r11, r3
     add #-0x1, r3
@@ -1657,7 +1657,7 @@ score_calculator:
     jsr @r3
     mov r13, r10
     mov r12, r6
-    mov.w   .L_wpool_06013A2C, r5
+    mov.w   .L_half_turn_w, r5
     jsr @r8
     mov #0x0, r4
     mov.w @(24, r10), r0
@@ -1733,7 +1733,7 @@ score_calculator:
     .2byte  0x4CCC
 .L_wpool_06013A2A:
     .2byte  0x03A0
-.L_wpool_06013A2C:
+.L_half_turn_w:
     .2byte  0x8000
 .L_wpool_06013A2E:
     .2byte  0x07AE
@@ -1741,7 +1741,7 @@ score_calculator:
     .4byte  sym_06026E2E
 .L_sym_06084AF4_2:
     .4byte  sym_06084AF4
-.L_pool_06013A38:
+.L_fp_one_2:
     .4byte  0x00010000
 .L_sym_06084AF2_3:
     .4byte  sym_06084AF2
@@ -2179,11 +2179,11 @@ DAT_06013cd0:
     jsr @r3
     mov #0xC, r4
     mov.l   .L_sym_060786A4, r2
-    mov.l   .L_pool_06013DE8, r3
+    mov.l   .L_fp_9_27bf, r3
     mov.l @r2, r2
     cmp/hi r3, r2
     bf      .L_06013D44
-    mov.l   .L_pool_06013DE8, r4
+    mov.l   .L_fp_9_27bf, r4
     bra     .L_06013D48
     nop
 .L_06013D44:
@@ -2300,7 +2300,7 @@ DAT_06013dd6:
     .4byte  sym_060284AE
 .L_sym_060786A4:
     .4byte  sym_060786A4
-.L_pool_06013DE8:
+.L_fp_9_27bf:
     .4byte  0x000927BF
 .L_sym_06085FF8:
     .4byte  sym_06085FF8
@@ -2361,7 +2361,7 @@ obj_render_loop_3d:
     mov.l   .L_mat_rot_z_2, r9
     mov.l   .L_fpmul_2, r11
     mov.l   .L_sym_06084AF6_4, r13
-    mov.l   .L_pool_06013F5C, r14
+    mov.l   .L_fp_one_3, r14
     mov.l   .L_sym_06026E0C_2, r3
     jsr @r3
     nop
@@ -2509,7 +2509,7 @@ DAT_06013f4c:
     .4byte  fpmul
 .L_sym_06084AF6_4:
     .4byte  sym_06084AF6
-.L_pool_06013F5C:
+.L_fp_one_3:
     .4byte  0x00010000
 .L_sym_06026E0C_2:
     .4byte  sym_06026E0C
@@ -2580,7 +2580,7 @@ bg_obj_render_loop:
     mov.l   .L_mat_rot_z_3, r8
     mov.l   .L_sym_06089EDC_4, r9
     mov.l   .L_sym_06026E2E_3, r10
-    mov.l   .L_pool_06014094, r13
+    mov.l   .L_fp_one_4, r13
     mov.l   .L_sym_06026E0C_3, r3
     jsr @r3
     nop
@@ -2684,7 +2684,7 @@ DAT_06014086:
     .4byte  sym_06089EDC
 .L_sym_06026E2E_3:
     .4byte  sym_06026E2E
-.L_pool_06014094:
+.L_fp_one_4:
     .4byte  0x00010000
 .L_sym_06026E0C_3:
     .4byte  sym_06026E0C
@@ -2729,7 +2729,7 @@ render_iter_loop:
     mov.l   .L_sym_06026DBC_4, r2
     jsr @r2
     mov.l r1, @r15
-    mov.l   .L_pool_06014144, r14
+    mov.l   .L_fp_one_5, r14
     mov.w   .L_wpool_06014136, r5
     mov.l   .L_sym_06026E2E_4, r3
     mov r14, r6
@@ -2779,7 +2779,7 @@ render_iter_loop:
     .4byte  sym_0605AD4C
 .L_sym_06026DBC_4:
     .4byte  sym_06026DBC
-.L_pool_06014144:
+.L_fp_one_5:
     .4byte  0x00010000
 .L_sym_06026E2E_4:
     .4byte  sym_06026E2E
@@ -2814,7 +2814,7 @@ race_variant_setup_a:
     add #-0x4, r15
     mov.w   .L_wpool_06014212, r8
     mov.l   .L_sym_06089EDC_6, r12
-    mov.l   .L_pool_06014218, r14
+    mov.l   .L_fp_one_6, r14
     mov.l   .L_sym_06026E0C_4, r3
     jsr @r3
     mov #0x3, r9
@@ -2894,7 +2894,7 @@ race_variant_setup_a:
     .2byte  0xCCCD
 .L_sym_06089EDC_6:
     .4byte  sym_06089EDC
-.L_pool_06014218:
+.L_fp_one_6:
     .4byte  0x00010000
 .L_sym_06026E0C_4:
     .4byte  sym_06026E0C
@@ -2934,7 +2934,7 @@ camera_angle_interp:
     mov.l   .L_sym_06026DBC_6, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06014314, r6
+    mov.l   .L_fp_1_08f5, r6
     mov.w   DAT_06014306, r5
     mov.l   .L_sym_06026E2E_6, r3
     jsr @r3
@@ -2961,7 +2961,7 @@ camera_angle_interp:
     jsr @r3
     mov.w @r14, r4
     mov.l   .L_sym_06084AFC_2, r13
-    mov.l   .L_pool_06014330, r5
+    mov.l   .L_fp_half_3, r5
     mov.l @r12, r4
     mov.w   .L_wpool_06014308, r2
     mov.l @r13, r3
@@ -2990,7 +2990,7 @@ camera_angle_interp:
     shll2 r4
     jsr @r3
     shll r4
-    mov.l   .L_pool_06014340, r14
+    mov.l   .L_fp_one_7, r14
     mov.l   .L_mat_scale_columns_6, r3
     mov r14, r6
     mov r14, r5
@@ -3028,7 +3028,7 @@ DAT_06014306:
     .4byte  sym_06026E0C
 .L_sym_06026DBC_6:
     .4byte  sym_06026DBC
-.L_pool_06014314:
+.L_fp_1_08f5:
     .4byte  0x000108F5
 .L_sym_06026E2E_6:
     .4byte  sym_06026E2E
@@ -3042,7 +3042,7 @@ DAT_06014306:
     .4byte  mat_rot_z
 .L_sym_06084AFC_2:
     .4byte  sym_06084AFC
-.L_pool_06014330:
+.L_fp_half_3:
     .4byte  0x00008000
 .L_fpmul_4:
     .4byte  fpmul
@@ -3050,7 +3050,7 @@ DAT_06014306:
     .4byte  sym_0607EBC8
 .L_mat_rot_y_3:
     .4byte  mat_rot_y
-.L_pool_06014340:
+.L_fp_one_7:
     .4byte  0x00010000
 .L_mat_scale_columns_6:
     .4byte  mat_scale_columns
@@ -3099,7 +3099,7 @@ multi_obj_physics:
     shll r12
     jsr @r2
     add r3, r12
-    mov.l   .L_pool_06014430, r6
+    mov.l   .L_fp_one_8, r6
     mov r8, r5
     jsr @r10
     mov #0x0, r4
@@ -3180,7 +3180,7 @@ DAT_0601440e:
     .4byte  sym_0605AD5C
 .L_sym_06026DBC_7:
     .4byte  sym_06026DBC
-.L_pool_06014430:
+.L_fp_one_8:
     .4byte  0x00010000
 .L_sym_06084B08_4:
     .4byte  sym_06084B08
@@ -3221,7 +3221,7 @@ track_normal_calc:
     sts.l pr, @-r15
     mov.l   .L_sym_06084B08_5, r14
     mov.l   .L_sym_06063D98, r4
-    mov.l   .L_pool_060144F0, r3
+    mov.l   .L_mask_16bit, r3
     mov.w @(4, r4), r0
     extu.w r0, r0
     xor r3, r0
@@ -3290,7 +3290,7 @@ track_normal_calc:
     .4byte  sym_06084B08
 .L_sym_06063D98:
     .4byte  sym_06063D98
-.L_pool_060144F0:
+.L_mask_16bit:
     .4byte  0x0000FFFF
 .L_sym_06084B0C_2:
     .4byte  sym_06084B0C
@@ -3332,7 +3332,7 @@ camera_track_update:
     mov.l r2, @r14
 .L_06014538:
     extu.w r4, r4
-    mov.l   .L_pool_060145A4, r2
+    mov.l   .L_fp_half_4, r2
     and r2, r4
     tst r4, r4
     bt      .L_06014550
@@ -3392,7 +3392,7 @@ DAT_06014594:
     .4byte  sym_06063D98
 .L_sym_0607EBC8_2:
     .4byte  sym_0607EBC8
-.L_pool_060145A4:
+.L_fp_half_4:
     .4byte  0x00008000
 .L_sym_06084B18_6:
     .4byte  sym_06084B18
@@ -3937,7 +3937,7 @@ channel_config_b:
 
     .global sym_060149CC
 sym_060149CC:
-    mov.l   .L_pool_060149F8, r3
+    mov.l   .L_fp_half_5, r3
     mov.l   .L_sym_060A3D88, r2
     mov.w @r2, r2
     or r3, r2
@@ -3963,7 +3963,7 @@ sym_060149E0:
 .L_wpool_060149F4:
     .2byte  0x7FFF
     .2byte  0xFFFF
-.L_pool_060149F8:
+.L_fp_half_5:
     .4byte  0x00008000
 .L_sym_060A3D88:
     .4byte  sym_060A3D88
@@ -3975,7 +3975,7 @@ sym_060149E0:
 vdp1_cmd_update:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_06014A50, r3
+    mov.l   .L_vdp1_vram_00000, r3
     mov.l r3, @r15
     mov.l   .L_sym_06044B64, r5
     mov.l   .L_sym_06059FFC, r4
@@ -4016,7 +4016,7 @@ util_wrapper:
     lds.l @r15+, pr
 .L_wpool_06014A4E:
     .2byte  0x0260
-.L_pool_06014A50:
+.L_vdp1_vram_00000:
     .4byte  0x25C00000          /* VDP1 VRAM base (cache-through) */
 .L_sym_06044B64:
     .4byte  sym_06044B64
@@ -4135,24 +4135,24 @@ display_mode_init:
     mov #0x20, r4
     mov.l   .L_memcpy_word_idx_3, r13
     mov.l   .L_sym_06044A64, r5
-    mov.l   .L_pool_06014BF0, r4
+    mov.l   .L_vdp2_cram_00660_2, r4
     jsr @r13
     mov #0x20, r6
     mov.l   .L_sym_06044A84, r5
-    mov.l   .L_pool_06014BF8, r4
+    mov.l   .L_vdp2_cram_00680, r4
     jsr @r13
     mov #0x20, r6
     mov.l   .L_sym_06044AA4, r5
-    mov.l   .L_pool_06014C00, r4
+    mov.l   .L_vdp2_cram_006a0_2, r4
     jsr @r13
     mov #0x20, r6
     mov.l   .L_sym_06044AC4, r5
-    mov.l   .L_pool_06014C08, r4
+    mov.l   .L_vdp2_cram_006c0, r4
     jsr @r13
     mov #0x20, r6
     mov #0x20, r6
     mov.l   .L_sym_06044AE4, r5
-    mov.l   .L_pool_06014C0C, r8
+    mov.l   .L_vdp1_vram_00000_2, r8
     mov.l   .L_sym_06059FFC_2, r4
     mov.w   .L_wpool_06014BD0, r3
     mov.l @r4, r4
@@ -4193,23 +4193,23 @@ display_mode_init:
     add r3, r4
     mov.l   .L_sym_0600511E, r13
     mov #0x8, r7
-    mov.l   .L_pool_06014C28, r5
-    mov.l   .L_pool_06014C2C, r4
+    mov.l   .L_fp_1_7700, r5
+    mov.l   .L_vdp2_vram_73b98, r4
     jsr @r13
     mov #0x0, r6
     mov #0x8, r7
-    mov.l   .L_pool_06014C30, r5
-    mov.l   .L_pool_06014C34, r4
+    mov.l   .L_fp_1_89e0, r5
+    mov.l   .L_vdp2_vram_74158, r4
     jsr @r13
     mov #0x0, r6
     mov #0x8, r7
-    mov.l   .L_pool_06014C38, r5
-    mov.l   .L_pool_06014C3C, r4
+    mov.l   .L_fp_1_afa0, r5
+    mov.l   .L_vdp2_vram_74afc, r4
     jsr @r13
     mov #0x0, r6
     mov #0x8, r7
-    mov.l   .L_pool_06014C40, r5
-    mov.l   .L_pool_06014C44, r4
+    mov.l   .L_fp_1_c980, r5
+    mov.l   .L_vdp2_vram_75730, r4
     jsr @r13
     mov #0x0, r6
     bra     .L_06014C7C
@@ -4236,21 +4236,21 @@ display_mode_init:
     .4byte  memcpy_word_idx
 .L_sym_06044A64:
     .4byte  sym_06044A64
-.L_pool_06014BF0:
+.L_vdp2_cram_00660_2:
     .4byte  0x25F00660          /* VDP2 CRAM offset 0x660 */
 .L_sym_06044A84:
     .4byte  sym_06044A84
-.L_pool_06014BF8:
+.L_vdp2_cram_00680:
     .4byte  0x25F00680          /* VDP2 CRAM offset 0x680 */
 .L_sym_06044AA4:
     .4byte  sym_06044AA4
-.L_pool_06014C00:
+.L_vdp2_cram_006a0_2:
     .4byte  0x25F006A0          /* VDP2 CRAM offset 0x6A0 */
 .L_sym_06044AC4:
     .4byte  sym_06044AC4
-.L_pool_06014C08:
+.L_vdp2_cram_006c0:
     .4byte  0x25F006C0          /* VDP2 CRAM offset 0x6C0 */
-.L_pool_06014C0C:
+.L_vdp1_vram_00000_2:
     .4byte  0x25C00000          /* VDP1 VRAM base (cache-through) */
 .L_sym_06044AE4:
     .4byte  sym_06044AE4
@@ -4264,21 +4264,21 @@ display_mode_init:
     .4byte  sym_06044B44
 .L_sym_0600511E:
     .4byte  sym_0600511E
-.L_pool_06014C28:
+.L_fp_1_7700:
     .4byte  0x00017700
-.L_pool_06014C2C:
+.L_vdp2_vram_73b98:
     .4byte  0x25E73B98          /* VDP2 VRAM bank B (cache-through) + 0x33B98 */
-.L_pool_06014C30:
+.L_fp_1_89e0:
     .4byte  0x000189E0          /* DMA byte count (0x189E0 = 100832 bytes) */
-.L_pool_06014C34:
+.L_vdp2_vram_74158:
     .4byte  0x25E74158          /* VDP2 VRAM + 0x34158 */
-.L_pool_06014C38:
+.L_fp_1_afa0:
     .4byte  0x0001AFA0          /* DMA byte count (0x1AFA0 = 110496 bytes) */
-.L_pool_06014C3C:
+.L_vdp2_vram_74afc:
     .4byte  0x25E74AFC          /* VDP2 VRAM + 0x34AFC */
-.L_pool_06014C40:
+.L_fp_1_c980:
     .4byte  0x0001C980          /* DMA byte count (0x1C980 = 117120 bytes) */
-.L_pool_06014C44:
+.L_vdp2_vram_75730:
     .4byte  0x25E75730          /* VDP2 VRAM + 0x35730 */
 .L_06014C48:
     extu.b r5, r4
@@ -4618,11 +4618,11 @@ DAT_06014de4:
     tst r6, r6
     movt r0
     xor #0x1, r0
-    mov.l   .L_pool_06014F2C, r3
+    mov.l   .L_fp_half_6, r3
     cmp/eq r3, r6
     movt r1
     add #-0x1, r1
-    mov.l   .L_pool_06014F30, r3
+    mov.l   .L_fp_one_9, r3
     neg r1, r1
     and r1, r0
     cmp/eq r3, r6
@@ -4680,7 +4680,7 @@ DAT_06014de4:
     .4byte  sym_06085F98
 .L_sym_06084FC8:
     .4byte  sym_06084FC8
-.L_pool_06014F2C:
+.L_fp_half_6:
     .4byte  0x00008000
-.L_pool_06014F30:
+.L_fp_one_9:
     .4byte  0x00010000

@@ -14,7 +14,7 @@ vdp1_coord_setup:
     mov.l @(r0, r1), r2
     neg r2, r2
     mov.w   DAT_0602cb06, r1
-    mov.l   .L_pool_0602CB14, r4
+    mov.l   .L_cart_cs0_1700000, r4
     mov.l @(r0, r1), r5
     neg r5, r5
     dmuls.l r4, r5
@@ -22,7 +22,7 @@ vdp1_coord_setup:
     sts mach, r4
     sts macl, r6
     xtrct r4, r6
-    mov.l   .L_pool_0602CB18, r4
+    mov.l   .L_cart_cs0_d00000, r4
     dmuls.l r4, r5
     sts mach, r4
     sts macl, r7
@@ -104,16 +104,16 @@ DAT_0602cb0e:
 .L_wpool_0602CB10:
     .2byte  0x00F8
     .2byte  0x0000
-.L_pool_0602CB14:
+.L_cart_cs0_1700000:
     .4byte  0x03700000
-.L_pool_0602CB18:
+.L_cart_cs0_d00000:
     .4byte  0x02D00000
 .L_0602CB1C:
     shar r6
     shar r6
     add r3, r6
 .L_0602CB22:
-    mov.l   .L_pool_0602CB7C, r10
+    mov.l   .L_fp_one, r10
     mov.w   DAT_0602cb72, r1
     mov.l @(r0, r1), r4
     cmp/gt r6, r4
@@ -175,7 +175,7 @@ DAT_0602cb78:
     .global DAT_0602cb7a
 DAT_0602cb7a:
     .2byte  0x011C
-.L_pool_0602CB7C:
+.L_fp_one:
     .4byte  0x00010000
 .L_fpdiv_setup:
     .4byte  fpdiv_setup
@@ -277,7 +277,7 @@ DAT_0602cb7a:
     mov.w   DAT_0602ccae, r2
     mov.l r11, @(r0, r1)
     mov.l r11, @(r0, r2)
-    mov.l   .L_pool_0602CCC4, r2
+    mov.l   .L_mask_upper_word, r2
     mov.w   DAT_0602ccb2, r1
     mov.l r2, @(r0, r1)
 .L_0602CC40:
@@ -300,7 +300,7 @@ DAT_0602cb7a:
     mov #0x5, r6
     cmp/eq r6, r10
     bt      .L_0602CC68
-    mov.l   .L_pool_0602CCCC, r1
+    mov.l   .L_dma_addr_inc_4_0, r1
 .L_0602CC68:
     dmuls.l r4, r5
     sts mach, r4
@@ -396,11 +396,11 @@ DAT_0602ccba:
     .4byte  fpdiv_setup
 .L_pool_0602CCC0:
     .4byte  0x0000CCCC
-.L_pool_0602CCC4:
+.L_mask_upper_word:
     .4byte  0xFFFF0000
 .L_pool_0602CCC8:
     .4byte  0x00000140
-.L_pool_0602CCCC:
+.L_dma_addr_inc_4_0:
     .4byte  0x00000100
 
     .global sym_0602CCD0

@@ -1910,13 +1910,13 @@ atan_piecewise:
     mov.w   .L_wpool_0602751E, r0
     cmp/hi r5, r0
     bt      .L_060273FC
-    mov.l   .L_pool_06027538, r1
+    mov.l   .L_fp_1_8000, r1
     mov.w   .L_wpool_0602750C, r2
     mov #0x46, r3
     bra     .L_0602742E
     swap.w r3, r3
 .L_060273FC:
-    mov.l   .L_pool_0602753C, r1
+    mov.l   .L_fp_2_f333, r1
     mov.w   .L_wpool_0602750E, r2
     mov #0x32, r3
     bra     .L_0602742E
@@ -1928,19 +1928,19 @@ atan_piecewise:
     mov.w   .L_wpool_0602751A, r0
     cmp/hi r5, r0
     bt      .L_0602741C
-    mov.l   .L_pool_06027540, r1
+    mov.l   .L_fp_5_3333, r1
     mov.w   .L_wpool_06027510, r2
     mov #0x28, r3
     bra     .L_0602742E
     swap.w r3, r3
 .L_0602741C:
-    mov.l   .L_pool_06027544, r1
+    mov.l   .L_fp_8_b333, r1
     mov.w   .L_wpool_06027512, r2
     mov #0x1E, r3
     bra     .L_0602742E
     swap.w r3, r3
 .L_06027426:
-    mov.l   .L_pool_06027548, r1
+    mov.l   .L_fp_21_b6db, r1
     mov.w   .L_wpool_06027514, r2
     mov #0x10, r3
     swap.w r3, r3
@@ -2146,15 +2146,15 @@ vec3_normalize:
     .4byte  0x000047AE         /* slope for >150 */
 .L_pool_06027534:
     .4byte  0x0000B333         /* slope for >100 */
-.L_pool_06027538:
+.L_fp_1_8000:
     .4byte  0x00018000         /* slope for >70 */
-.L_pool_0602753C:
+.L_fp_2_f333:
     .4byte  0x0002F333         /* slope for >50 */
-.L_pool_06027540:
+.L_fp_5_3333:
     .4byte  0x00053333         /* slope for >40 */
-.L_pool_06027544:
+.L_fp_8_b333:
     .4byte  0x0008B333         /* slope for >30 */
-.L_pool_06027548:
+.L_fp_21_b6db:
     .4byte  0x0015B6DB         /* slope for >16 (steepest: near origin) */
 
 /* swap_sign_ext(r4) -> r0 = sign_extend(swap_words(r4)) */

@@ -69,12 +69,12 @@ track_bank_angle:
     mov r15, r2
     mov r4, r0
     mov.l @r2, r3
-    mov.l   .L_pool_060362A4, r2
+    mov.l   .L_mask_24bit, r2
     and r2, r3
     mov.l r3, @r13
     mov r15, r2
     mov.l @(4, r2), r3
-    mov.l   .L_pool_060362A4, r2
+    mov.l   .L_mask_24bit, r2
     and r2, r3
     mov.l r3, @r14
     add #0x10, r15
@@ -89,5 +89,5 @@ track_bank_angle:
     .4byte  input_proc_buttons
 .L_input_proc_digital:
     .4byte  input_proc_digital
-.L_pool_060362A4:
+.L_mask_24bit:
     .4byte  0x00FFFFFF

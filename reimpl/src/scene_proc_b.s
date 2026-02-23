@@ -319,7 +319,7 @@ loc_0602ADC4:
 
     .global loc_0602ADCA
 loc_0602ADCA:
-    mov.l   .L_pool_0602AE04, r0
+    mov.l   .L_fp_11_8000, r0
 .L_0602ADCC:
     cmp/gt r3, r4
     bf      .L_0602ADD2
@@ -354,7 +354,7 @@ loc_0602ADCA:
     bra     .L_0602ABE8
     nop
     .2byte  0x0000
-.L_pool_0602AE04:
+.L_fp_11_8000:
     .4byte  0x000B8000
 .L_sym_060620D4_2:
     .4byte  sym_060620D4
@@ -390,7 +390,7 @@ loc_0602ADCA:
     add r2, r3
     cmp/gt r10, r3
     bf      .L_0602ADF8
-    mov.w   .L_wpool_0602AE7E, r2
+    mov.w   .L_mask_high_byte_w, r2
     mov.w   .L_wpool_0602AE80, r0
     mov.l r0, @(16, r2)
     mov.l r3, @(0, r2)
@@ -417,7 +417,7 @@ loc_0602ADCA:
     xtrct r0, r2
     rts
     add r7, r2
-.L_wpool_0602AE7E:
+.L_mask_high_byte_w:
     .2byte  0xFF00
 .L_wpool_0602AE80:
     .2byte  0x00A0

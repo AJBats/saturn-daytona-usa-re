@@ -11,7 +11,7 @@
 cd_course_loader:
     mov.l r14, @-r15
     mov r4, r0
-    mov.l   .L_pool_06012DA4, r14
+    mov.l   .L_wram_low_00000, r14
     cmp/eq #0x1, r0
     bf      .L_06012D8E
     mov r14, r5
@@ -31,7 +31,7 @@ cd_course_loader:
     mov.l   .L_sym_06044900, r4
     .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
-.L_pool_06012DA4:
+.L_wram_low_00000:
     .4byte  0x00200000
 .L_sym_060448E8:
     .4byte  sym_060448E8

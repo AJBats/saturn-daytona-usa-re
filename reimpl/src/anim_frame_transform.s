@@ -19,7 +19,7 @@ anim_frame_transform:
     mov.w   .L_wpool_06005EAE, r14
     mov r14, r7
     add #0x4, r7
-    mov.w   .L_wpool_06005EB0, r6
+    mov.w   .L_mask_high_byte_w, r6
     mov #0x0, r4
     mov.l r12, @r6
     mov.l r4, @r7
@@ -120,7 +120,7 @@ anim_frame_transform:
     nop
 .L_wpool_06005EAE:
     .2byte  0xFF04
-.L_wpool_06005EB0:
+.L_mask_high_byte_w:
     .2byte  0xFF00
 .L_wpool_06005EB2:
     .2byte  0xFF18

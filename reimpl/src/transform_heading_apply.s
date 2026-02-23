@@ -175,7 +175,7 @@ transform_rotation_alt:
     mov #0x8, r13
     mov.l   .L_sym_06060D2A, r14
     mov.l   .L_sym_06060D34, r7
-    mov.l   .L_pool_060264D4, r5
+    mov.l   .L_fp_half, r5
     mov #0x0, r4
     extu.w r4, r6
 .L_060264A2:
@@ -200,7 +200,7 @@ transform_rotation_alt:
     .4byte  sym_06060D2A
 .L_sym_06060D34:
     .4byte  sym_06060D34
-.L_pool_060264D4:
+.L_fp_half:
     .4byte  0x00008000
 .L_060264D8:
     mov.w   .L_wpool_060264EE, r1

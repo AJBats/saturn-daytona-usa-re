@@ -260,10 +260,10 @@ DAT_0601dd34:
     jsr @r11
     mov #0x8, r4
     mov.l @r14, r3
-    mov.l   .L_pool_0601DE34, r2
+    mov.l   .L_fp_9_27bf, r2
     cmp/hs r2, r3
     bf      .L_0601DD9C
-    mov.l   .L_pool_0601DE34, r4
+    mov.l   .L_fp_9_27bf, r4
     bsr     .L_0601E26C
     nop
     bra     .L_0601DDA0
@@ -363,7 +363,7 @@ DAT_0601de26:
     .2byte  0x09C2
 .L_sym_0605DFF4:
     .4byte  sym_0605DFF4
-.L_pool_0601DE34:
+.L_fp_9_27bf:
     .4byte  0x000927BF
 .L_sym_060639F8_2:
     .4byte  sym_060639F8
@@ -387,14 +387,14 @@ camera_event_handler:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_sym_0607EBD0, r4
-    mov.l   .L_pool_0601DF28, r2
+    mov.l   .L_fp_9_27bf_2, r2
     mov.l @r4, r4
     mov r4, r3
     shll2 r4
     add r3, r4
     cmp/hs r2, r4
     bf      .L_0601DE74
-    mov.l   .L_pool_0601DF28, r4
+    mov.l   .L_fp_9_27bf_2, r4
     bsr     .L_0601E26C
     nop
     bra     .L_0601DE78
@@ -508,7 +508,7 @@ DAT_0601df1c:
     .2byte  0xFFFF
 .L_sym_0607EBD0:
     .4byte  sym_0607EBD0
-.L_pool_0601DF28:
+.L_fp_9_27bf_2:
     .4byte  0x000927BF
 .L_sym_06063750:
     .4byte  sym_06063750
@@ -572,7 +572,7 @@ camera_special_mode:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_pool_0601E034, r9
-    mov.l   .L_pool_0601E038, r10
+    mov.l   .L_fp_9_27bf_3, r10
     mov.w   .L_wpool_0601E022, r11
     mov.l   .L_sym_06063750_2, r12
     mov.l   .L_sym_0607863C, r13
@@ -670,7 +670,7 @@ DAT_0601e02e:
     .2byte  0xFFFF
 .L_pool_0601E034:
     .4byte  0x0000A000
-.L_pool_0601E038:
+.L_fp_9_27bf_3:
     .4byte  0x000927BF
 .L_sym_06063750_2:
     .4byte  sym_06063750
@@ -798,13 +798,13 @@ geom_matrix_setup:
     add #-0x4, r15
     mov.l   .L_sym_06063750_3, r13
     mov.l   .L_sym_06028400_4, r14
-    mov.l   .L_pool_0601E174, r12
+    mov.l   .L_fp_half, r12
     mov.l   .L_sym_0607EAE0_2, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_0601E14A
     mov.l   .L_sym_0604892C, r5
-    mov.l   .L_pool_0601E180, r4
+    mov.l   .L_vdp2_cram_00100, r4
     mov.l   .L_memcpy_word_idx, r3
     jsr @r3
     mov #0x20, r6
@@ -829,7 +829,7 @@ geom_matrix_setup:
     mov.l @r5, r5
 .L_0601E14A:
     mov.l   .L_sym_0605DFCC, r5
-    mov.l   .L_pool_0601E180, r4
+    mov.l   .L_vdp2_cram_00100, r4
     mov.l   .L_memcpy_word_idx, r3
     jsr @r3
     mov #0x20, r6
@@ -859,13 +859,13 @@ DAT_0601e166:
     .4byte  sym_06063750
 .L_sym_06028400_4:
     .4byte  sym_06028400
-.L_pool_0601E174:
+.L_fp_half:
     .4byte  0x00008000
 .L_sym_0607EAE0_2:
     .4byte  sym_0607EAE0
 .L_sym_0604892C:
     .4byte  sym_0604892C
-.L_pool_0601E180:
+.L_vdp2_cram_00100:
     .4byte  0x25F00100
 .L_memcpy_word_idx:
     .4byte  memcpy_word_idx
@@ -1068,7 +1068,7 @@ hud_overlay_render:
     mov.l   .L_sym_060877D8, r9
     mov.l   .L_sym_0604A5C0, r10
     mov.l   .L_sym_0605E068, r11
-    mov.l   .L_pool_0601E360, r13
+    mov.l   .L_smpc_sf, r13
     mov.l   .L_sym_06087080, r3
     mov.b @r3, r3
     extu.b r3, r3
@@ -1099,7 +1099,7 @@ hud_overlay_render:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_pool_0601E368, r2
+    mov.l   .L_smpc_comreg, r2
     mov.b r3, @r2
 .L_0601E306:
     mov.b @r13, r2
@@ -1126,7 +1126,7 @@ hud_overlay_render:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_pool_0601E368, r2
+    mov.l   .L_smpc_comreg, r2
     mov.b r3, @r2
 .L_0601E338:
     mov.b @r13, r2
@@ -1149,11 +1149,11 @@ hud_overlay_render:
     .4byte  sym_0604A5C0
 .L_sym_0605E068:
     .4byte  sym_0605E068
-.L_pool_0601E360:
+.L_smpc_sf:
     .4byte  0x20100063
 .L_sym_06087080:
     .4byte  sym_06087080
-.L_pool_0601E368:
+.L_smpc_comreg:
     .4byte  0x2010001F
 .L_sym_06000358:
     .4byte  sym_06000358
@@ -1373,7 +1373,7 @@ hud_state_machine:
     mov #0x0, r8
     mov r15, r9
     add #0x8, r9
-    mov.l   .L_pool_0601E52C, r10
+    mov.l   .L_smpc_comreg_2, r10
     mov r10, r13
     add #0x44, r13
     mov #0x1, r14
@@ -1405,7 +1405,7 @@ hud_state_machine:
     .4byte  sym_060877D8
 .L_sym_0604A5C0_3:
     .4byte  sym_0604A5C0
-.L_pool_0601E52C:
+.L_smpc_comreg_2:
     .4byte  0x2010001F
 .L_0601E530:
     mov r12, r11
