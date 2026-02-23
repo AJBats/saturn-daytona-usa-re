@@ -52,4 +52,4 @@ cmd_status_check:
     .byte 0xFF, 0xFF
     .4byte sym_06035168
     .4byte sym_060A4D14
-    .4byte slave_sh2_setup
+    .4byte secondary_sh2_setup
