@@ -525,6 +525,8 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
 
         # Emit pool labels (only if not already a global)
         if pc in pool_labels and pc not in globals_map:
+            if pc % 4 != 0:
+                lines.append("    .balign 4")
             lines.append(f"{pool_labels[pc]}:")
         if pc in wpool_labels and pc not in globals_map:
             lines.append(f"{wpool_labels[pc]}:")
