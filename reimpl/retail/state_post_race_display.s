@@ -30,7 +30,7 @@ state_post_race_display:
     .4byte race_state_pair_2
     .4byte sym_0605AD10
     .4byte sym_06078654
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte FUN_060210F6
     .4byte sym_0607E944
     .4byte sym_0605B6D8
@@ -44,6 +44,6 @@ state_post_race_display:
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
-    .4byte FUN_060053AC
+    .4byte camera_orient_calc
     .4byte scene_master
     .4byte frame_end_commit

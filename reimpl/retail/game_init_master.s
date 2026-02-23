@@ -158,7 +158,7 @@ DAT_06013068:
     .4byte sym_0606A4F4
     .4byte sym_0606A4EC
     .4byte sym_06089E44
-    .4byte FUN_06007658
+    .4byte vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x00, 0x00
     .byte 0x97, 0x78

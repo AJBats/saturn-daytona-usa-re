@@ -134,7 +134,7 @@ FUN_06015338:
     .4byte frame_end_commit
     .4byte sym_0602853E
     .4byte sym_06028560
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_0605B6D8
     .4byte sym_0607EAD8
     .4byte sym_0605B724

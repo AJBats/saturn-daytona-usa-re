@@ -115,7 +115,7 @@ DAT_0601ca3c:
     .4byte display_channels_clear
     .4byte sym_06026CE0
     .4byte sym_06059F44
-    .4byte FUN_0600A026
+    .4byte audio_display_init
     .4byte sym_0608601C
     .4byte sym_06086020
     .4byte sym_06086024

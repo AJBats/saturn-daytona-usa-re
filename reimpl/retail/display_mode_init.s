@@ -64,7 +64,7 @@ display_mode_init:
     .4byte sym_0602853E
     .4byte display_channel_b
     .4byte sym_06028560
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .byte 0xD3, 0x35
     .byte 0x43, 0x0B
     .byte 0x00, 0x09

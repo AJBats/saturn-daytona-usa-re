@@ -68,7 +68,7 @@ state_attract_return:
     .4byte sym_0602853E
     .4byte sym_06028560
     .4byte display_channel_b
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_0607EBCC
     .4byte sym_0605AD10
     .4byte sym_06087804

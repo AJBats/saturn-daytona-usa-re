@@ -353,6 +353,6 @@ projection_mgr:
     .4byte sym_06089E40
     .byte 0x00, 0x2A
     .byte 0x80, 0x00
-    .4byte FUN_06007790
+    .4byte vdp1_sprite_render_alt
     .4byte sym_06007590
     .4byte sym_0607886C

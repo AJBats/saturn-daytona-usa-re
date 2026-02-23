@@ -71,7 +71,7 @@ post_race_transition:
     .byte 0x00, 0xC0
     .byte 0xFF, 0xFF
     .4byte sym_06028400
-    .4byte FUN_0600A026
+    .4byte audio_display_init
     .byte 0xAE, 0x00
     .byte 0x03, 0xFF
     .4byte sound_cmd_dispatch

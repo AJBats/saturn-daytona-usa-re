@@ -174,7 +174,7 @@ DAT_0600ed80:
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte sym_06089E44
-    .4byte FUN_06007658
+    .4byte vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x00, 0x00
     .byte 0x97, 0x77
@@ -1006,7 +1006,7 @@ DAT_0600f34a:
     .byte 0x0F, 0xFE
     .4byte FUN_06036E90
     .4byte sym_060149E0
-    .4byte FUN_0600A026
+    .4byte audio_display_init
     .4byte FUN_0601D2DC
     .4byte memcpy_word_idx
     .4byte sym_060484EC

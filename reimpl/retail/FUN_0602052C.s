@@ -110,7 +110,7 @@ FUN_0602052C:
     .byte 0x01, 0x00
     .4byte sym_06087804
     .4byte sym_06028560
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_0602853E
     .4byte memcpy_word_idx
     .4byte sym_0604898C

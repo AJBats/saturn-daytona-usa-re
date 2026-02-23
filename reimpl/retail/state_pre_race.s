@@ -32,7 +32,7 @@ state_pre_race:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte FUN_0600A0C0
+    .4byte race_resource_init
     .4byte FUN_06018FA4
     .4byte sym_0605AD10
     .4byte FUN_0600EC78

@@ -157,7 +157,7 @@ DAT_0601b262:
     .byte 0x00, 0x00
     .4byte sym_06059FFC
     .4byte memcpy_word_idx
-    .4byte FUN_06007658
+    .4byte vdp1_sprite_render
     .4byte sym_06007540
     .byte 0x96, 0x75
     .byte 0x65, 0x93

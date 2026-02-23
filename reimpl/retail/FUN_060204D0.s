@@ -39,7 +39,7 @@ loc_06020510:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .4byte sym_06028560
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_06087814
     .byte 0x00, 0x18
     .byte 0x00, 0x00

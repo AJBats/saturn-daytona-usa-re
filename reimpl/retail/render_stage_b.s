@@ -324,7 +324,7 @@ render_stage_b:
     .byte 0x00, 0xD0
     .byte 0x01, 0x94
     .4byte sym_06089E28
-    .4byte FUN_06007790
+    .4byte vdp1_sprite_render_alt
     .4byte sym_06060A40
     .4byte sym_06007590
     .4byte sym_0607886C

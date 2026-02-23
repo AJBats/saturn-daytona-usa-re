@@ -62,15 +62,15 @@ sym_06003000:
     .4byte loc_0600890A
     .4byte state_attract_setup
     .4byte state_attract_active
-    .4byte FUN_06008CCC
-    .4byte FUN_06008D74
-    .4byte FUN_06008B04
-    .4byte FUN_06008B34
-    .4byte FUN_06008B78
-    .4byte FUN_06008B9C
-    .4byte FUN_06008BD8
-    .4byte FUN_06008BFC
-    .4byte FUN_06008E00
+    .4byte state_mode_select_entry
+    .4byte state_mode_select_active
+    .4byte state_course_select_init
+    .4byte state_course_select_active
+    .4byte state_car_select_init
+    .4byte state_car_select_active
+    .4byte state_loading_init
+    .4byte state_loading_check
+    .4byte state_race_prepare
     .4byte state_pre_race
     .4byte state_race_setup
     .4byte state_race_main
@@ -84,9 +84,9 @@ sym_06003000:
     .4byte state_demo_setup
     .4byte state_post_race_init
     .4byte state_post_race_display
-    .4byte FUN_06009DD0
-    .4byte FUN_06009E02
+    .4byte state_postrace_wait_init
+    .4byte state_postrace_countdown
     .4byte state_abort
     .4byte state_results_screen
-    .4byte FUN_06008C14
-    .4byte FUN_06008C76
+    .4byte state_resource_load
+    .4byte state_memory_route

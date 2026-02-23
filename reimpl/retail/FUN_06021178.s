@@ -337,7 +337,7 @@ DAT_06021416:
     .4byte sym_0607EAD8
     .4byte sym_060448B5
     .4byte sym_0607886C
-    .4byte FUN_060039C8
+    .4byte dma_config_dispatch
     .4byte sym_0604D408
     .4byte sym_0604D808
     .4byte sym_06083255

@@ -121,7 +121,7 @@ obj_culling_pass:
     .byte 0x40, 0x00
     .byte 0x08, 0xB0
     .4byte sym_06028560
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_060489CC
     .byte 0x25, 0xF0
     .byte 0x02, 0x00

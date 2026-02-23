@@ -431,7 +431,7 @@ loc_060307E8:
     .4byte sym_06030F74
     .4byte sym_06030F98
     .4byte sym_06030FBE
-    .4byte FUN_06008460
+    .4byte force_steer_impact
     .byte 0x35, 0x03
     .byte 0x89, 0x11
     .byte 0xD0, 0x04
@@ -445,7 +445,7 @@ loc_060307E8:
     .byte 0x67, 0xF6
     .byte 0x00, 0x00
     .4byte sym_06030FBE
-    .4byte FUN_06008418
+    .4byte force_steer_calc
     .byte 0x50, 0xE0
     .byte 0xD4, 0x19
     .byte 0x20, 0x4B
@@ -769,7 +769,7 @@ DAT_06030b2a:
     .4byte sym_06089595
     .4byte sym_060A6000
     .4byte sym_06030FBE
-    .4byte FUN_06008460
+    .4byte force_steer_impact
     .byte 0x01, 0x00
     .byte 0x00, 0x00
     .byte 0xD0, 0x05

@@ -230,7 +230,7 @@ state_post_lap:
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
-    .4byte FUN_060053AC
+    .4byte camera_orient_calc
     .4byte FUN_0601D9B0
     .4byte scene_master
     .4byte sym_0607ED8C

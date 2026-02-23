@@ -66,7 +66,7 @@ state_race_setup:
     .byte 0x25, 0x30
     .byte 0xA0, 0x23
     .byte 0x00, 0x09
-    .4byte FUN_0600A0C0
+    .4byte race_resource_init
     .4byte sym_06078635
     .4byte sym_06078634
     .4byte sym_0607ED88

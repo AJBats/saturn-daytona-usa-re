@@ -35,12 +35,12 @@ state_results_screen:
     .4byte sym_0605AD10
     .4byte sym_0607EAD0
     .4byte sym_0607EBD0
-    .4byte FUN_0600DFD0
+    .4byte race_update_abort
     .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
-    .4byte FUN_060053AC
+    .4byte camera_orient_calc
     .4byte scene_update
     .4byte frame_end_commit
     .4byte sym_06063D9A
@@ -139,12 +139,12 @@ state_results_screen:
     .4byte sym_0607EBD0
     .4byte sym_0605AB18
     .4byte FUN_060268B0
-    .4byte FUN_0600E060
+    .4byte race_update_ending
     .4byte camera_system
     .4byte sym_06063E24
     .4byte sym_06063EEC
     .4byte sym_06063EF8
-    .4byte FUN_060053AC
+    .4byte camera_orient_calc
     .4byte scene_update
     .4byte sym_0607ED8C
     .4byte sym_060033E6

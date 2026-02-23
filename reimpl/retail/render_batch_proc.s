@@ -279,7 +279,7 @@ render_batch_proc:
     .4byte sym_06063F5C
     .4byte memcpy_word_idx
     .4byte sym_06054380
-    .4byte FUN_06007790
+    .4byte vdp1_sprite_render_alt
     .4byte sym_06007590
     .4byte sym_06054560
     .4byte sym_0607886C

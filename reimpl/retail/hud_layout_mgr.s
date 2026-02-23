@@ -110,7 +110,7 @@ hud_layout_mgr:
     .4byte sym_0607ED88
     .4byte sym_0602853E
     .4byte sym_06028560
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_060284AE
     .4byte sym_06044C78
     .4byte sym_06044C80

@@ -169,7 +169,7 @@ vdp2_config_extended:
     .global DAT_06018b8e
 DAT_06018b8e:
     .byte 0x40, 0x00
-    .4byte FUN_0600736C
+    .4byte render_obj_stub
     .4byte FUN_06012DB4
     .4byte sym_0605D1BC
     .4byte FUN_06012D7C
@@ -345,7 +345,7 @@ DAT_06018b8e:
     .4byte display_channels_clear
     .4byte sym_06026CE0
     .4byte sym_06059F44
-    .4byte FUN_0600A026
+    .4byte audio_display_init
     .byte 0xD3, 0x15
     .byte 0x23, 0xE2
     .byte 0xD2, 0x15
@@ -394,10 +394,10 @@ DAT_06018b8e:
     .4byte sym_06078900
     .4byte sym_0607E944
     .4byte hud_coord_calc
-    .4byte FUN_060038D4
-    .4byte FUN_060039C8
+    .4byte dma_vram_init
+    .4byte dma_config_dispatch
     .4byte sym_0605D1CC
-    .4byte FUN_060032D4
+    .4byte gameover_channel_setup
     .4byte sym_06003430
     .4byte channel_config_b
     .4byte FUN_06021128

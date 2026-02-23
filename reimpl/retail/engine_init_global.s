@@ -517,9 +517,9 @@ engine_init_global:
     .4byte sym_060149E0
     .4byte sym_06026CE0
     .4byte sym_06012E62
-    .4byte FUN_06003578
+    .4byte vdp2_register_init
     .4byte master_init_dispatch
     .4byte obj_template_init
-    .4byte FUN_0600A026
+    .4byte audio_display_init
     .4byte sym_060A3DA8
     .4byte sym_060635AC
