@@ -79,6 +79,6 @@ state_transition_handler:
 DAT_06041d5a:
     .byte 0x03, 0x34
     .4byte sym_060A5400
-    .4byte FUN_060367E8
-    .4byte FUN_060349B6
-    .4byte FUN_06034C68
+    .4byte track_impact_force
+    .4byte ai_checkpoint_validate
+    .4byte ai_brake_zone_adjust

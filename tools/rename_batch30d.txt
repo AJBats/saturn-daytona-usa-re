@@ -1,0 +1,41 @@
+# Batch 30d: AI Physics Pipeline
+# Source: asm/ai_physics_pipeline.s
+
+# === Position Integration Phases ===
+FUN_06034172 ai_vel_x_entry
+FUN_0603418C ai_vel_x_step_a
+FUN_0603419A ai_vel_x_step_b
+FUN_060341A8 ai_vel_x_step_c
+FUN_060341FA ai_vel_x_cleanup_entry
+FUN_06034214 ai_vel_x_cleanup_a
+FUN_06034228 ai_vel_x_cleanup_b
+FUN_06034236 ai_vel_x_cleanup_c
+FUN_06034286 ai_vel_y_entry
+FUN_060342A0 ai_vel_y_step_a
+FUN_060342AE ai_vel_y_step_b
+FUN_060342BC ai_vel_y_step_c
+FUN_0603430E ai_vel_z_entry
+FUN_06034328 ai_vel_z_step_a
+FUN_06034336 ai_vel_z_step_b
+FUN_06034344 ai_vel_z_step_c
+
+# === Rotation Integration ===
+FUN_0603434E ai_rot_a_entry
+FUN_06034366 ai_rot_a_step
+FUN_06034388 ai_rot_a_fix_a
+FUN_06034396 ai_rot_a_fix_b
+FUN_060343A4 ai_rot_a_fix_c
+FUN_060343AE ai_rot_b_entry
+FUN_060343C6 ai_rot_b_step
+FUN_060343E8 ai_rot_b_fix_a
+FUN_060343F8 ai_rot_b_fix_b
+FUN_06034406 ai_rot_b_fix_c
+
+# === AI Decision / Race Logic ===
+FUN_060345E2 ai_reset_stub
+FUN_06034642 ai_spawn_helper_a
+FUN_0603465C ai_spawn_helper_b
+FUN_0603466A ai_spawn_helper_c
+FUN_06034678 ai_spawn_helper_d
+FUN_06034720 ai_rank_stub_a
+FUN_06034728 ai_rank_stub_b

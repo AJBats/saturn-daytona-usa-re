@@ -315,7 +315,7 @@ DAT_0601b392:
     .4byte sym_06094FA8
     .byte 0x25, 0xE7
     .byte 0x5D, 0xDC
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .byte 0x00, 0x00
     .byte 0xB0, 0x00
     .4byte sym_06028400

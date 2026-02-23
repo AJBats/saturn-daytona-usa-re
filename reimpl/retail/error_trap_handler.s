@@ -57,7 +57,7 @@ error_trap_handler:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x03, 0x48
-    .4byte FUN_06034DEA
+    .4byte ai_recovery_handler
     .4byte sym_060A5400
     .byte 0xD3, 0x14
     .byte 0x90, 0x26

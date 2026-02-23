@@ -25,9 +25,9 @@ ai_master_update:
     .byte 0x02, 0x00
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte FUN_06035CBC
-    .4byte FUN_06035E90
-    .4byte FUN_06035EC8
+    .4byte smpc_secondary_proc
+    .4byte input_proc_analog
+    .4byte input_proc_buttons
     .4byte sym_06035C92
     .global sym_06036BE4
 sym_06036BE4:

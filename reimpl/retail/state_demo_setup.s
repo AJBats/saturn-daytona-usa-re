@@ -91,8 +91,8 @@ state_demo_setup:
     .4byte sym_0605AD10
     .4byte sym_06087804
     .4byte sym_0607EAD8
-    .4byte FUN_06033EA8
-    .4byte FUN_0601FD74
+    .4byte disp_score_renderer
+    .4byte geom_display_ctrl_b
     .4byte sym_06078900
     .4byte race_countdown_update
     .4byte car_proximity_check

@@ -73,8 +73,8 @@ DAT_06041df2:
     .4byte sym_060A5400
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_060364D4
-    .4byte FUN_060349B6
+    .4byte track_surface_type_a
+    .4byte ai_checkpoint_validate
     .byte 0x62, 0xE2
     .byte 0xE3, 0x02
     .byte 0x90, 0x54
@@ -169,8 +169,8 @@ DAT_06041eb6:
     .byte 0x03, 0x44
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte FUN_0603683C
-    .4byte FUN_060349B6
+    .4byte track_impact_response
+    .4byte ai_checkpoint_validate
     .4byte sym_06035C4E
     .byte 0xD4, 0x33
     .byte 0xD3, 0x34

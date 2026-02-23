@@ -42,7 +42,7 @@ obj_coord_setter:
     .byte 0x00, 0x09
     .byte 0x25, 0xE2
     .byte 0x00, 0x00
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .4byte memcpy_word_idx
     .4byte sym_06063D90
     .4byte sym_06063D94

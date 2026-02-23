@@ -1,0 +1,56 @@
+# Batch 31: Sound system + VDP2 registers + scene processing
+# Source: asm/sound_driver.s, asm/sound.s, asm/vdp_scene_rendering.s, asm/render_pipeline.s
+
+# === Sound Channel Handlers ===
+FUN_0601D6D8 snd_channel_a_body
+FUN_0601D6FC snd_channel_b_body
+FUN_0601D730 snd_channel_c_handler
+FUN_0601D77C snd_direct_pass
+FUN_0601D7A0 snd_channel_d_handler
+FUN_0601D9B0 snd_race_update
+
+# === VDP2 Register Writers ===
+FUN_0602E214 vdp2_reg_write_a
+FUN_0602E220 vdp2_reg_write_b
+FUN_0602E22C vdp2_scroll_pos_a
+FUN_0602E236 vdp2_scroll_pos_b
+FUN_0602E240 vdp2_priority_a
+FUN_0602E24A vdp2_priority_b
+FUN_0602E25A vdp2_color_offset
+FUN_0602E30C vdp2_coeff_stub
+FUN_0602E320 vdp2_coeff_helper_a
+FUN_0602E32C vdp2_coeff_helper_b
+FUN_0602E338 vdp2_coeff_helper_c
+FUN_0602E344 vdp2_coeff_helper_d
+FUN_0602E678 vdp2_palette_commit
+FUN_0602E68A vdp2_color_bank_sel
+FUN_0602E69E vdp2_color_offset_anim
+FUN_0602E714 vdp2_light_dir_stub
+FUN_0602E726 vdp2_light_intensity
+
+# === Scene Processing Pipeline ===
+FUN_0602ABC4 scene_proc_b
+FUN_0602AF48 scene_proc_c
+FUN_0602B334 scene_proc_d
+FUN_0602B9EC scene_graph_walk
+FUN_0602BDD8 scene_proc_e
+
+# === Object System ===
+FUN_060204D0 obj_list_proc
+FUN_0602052C obj_visibility_test
+FUN_060210F6 obj_render_update
+
+# === Sprite System ===
+FUN_0602F7EA sprite_transform
+FUN_0602F99C sprite_batch_render
+
+# === VDP/Display ===
+FUN_0602C690 vdp1_display_list_setup
+FUN_0602DB0C vdp_transform_stub
+FUN_06028580 effect_cleanup_stub
+FUN_06026CA4 vdp2_reg_block_setup
+FUN_0602834A hud_number_display
+
+# === Misc 0x0602xxxx ===
+FUN_06028654 dma_memory_transfer
+FUN_060268B0 menu_overlay_render

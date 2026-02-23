@@ -73,4 +73,4 @@ credits_scroll:
     .byte 0x80, 0x00
     .4byte sym_06041884
     .4byte FUN_0604188C
-    .4byte FUN_06036A98
+    .4byte track_shadow_ground

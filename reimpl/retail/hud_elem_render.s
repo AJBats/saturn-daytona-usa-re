@@ -194,8 +194,8 @@ hud_elem_render:
     .4byte sym_06085F92
     .4byte sym_0607ED88
     .4byte sym_0605AD10
-    .4byte FUN_0601F5E0
-    .4byte FUN_0601F784
+    .4byte geom_render_util
+    .4byte geom_output_finalize
     .4byte sym_06085F8C
     .4byte sym_06044C8C
     .4byte sym_06085F8E

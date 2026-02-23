@@ -131,7 +131,7 @@ hud_handler_main:
     .4byte sym_06035C1C
     .4byte sym_060877E8
     .4byte sym_060877B4
-    .4byte FUN_06035C08
+    .4byte smpc_cmd_helper_a
     .4byte sym_06000354
     .4byte sym_0604A5C0
     .byte 0x20, 0x10

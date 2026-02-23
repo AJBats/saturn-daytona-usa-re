@@ -81,7 +81,7 @@ transition_medium_c:
     .byte 0x25, 0xF0
     .byte 0x04, 0xA0
     .4byte sym_06028400
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .4byte memcpy_word_idx
     .byte 0x25, 0xE3
     .byte 0x40, 0x00

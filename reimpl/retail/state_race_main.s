@@ -77,7 +77,7 @@ state_race_main:
     .4byte sym_0607EACC
     .4byte sym_0607EBCC
     .4byte sym_0605AB18
-    .4byte FUN_060268B0
+    .4byte menu_overlay_render
     .4byte sym_060033E6
     .4byte sym_06078B68
     .4byte sym_06078635
@@ -199,7 +199,7 @@ state_race_main:
     .4byte sym_06078634
     .4byte sym_06083255
     .4byte terrain_data_lookup
-    .4byte FUN_0602F7EA
+    .4byte sprite_transform
     .4byte sym_06012198
     .4byte sym_06078654
     .4byte camera_system

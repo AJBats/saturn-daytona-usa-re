@@ -68,13 +68,13 @@ dma_int_handler:
     .byte 0xA0, 0x1D
     .byte 0x00, 0x09
     .byte 0x04, 0x00
-    .4byte FUN_060349B6
+    .4byte ai_checkpoint_validate
     .4byte sym_060A5400
     .4byte sym_06035C4E
     .byte 0x00, 0x00
     .byte 0xFB, 0xFF
-    .4byte FUN_06035C54
-    .4byte FUN_06034984
+    .4byte smpc_cmd_helper_b
+    .4byte ai_checkpoint_section
     .4byte sym_06035168
     .byte 0x64, 0xF3
     .byte 0xD3, 0x26
@@ -158,7 +158,7 @@ DAT_060417da:
     .byte 0x03, 0x38
     .byte 0x03, 0x48
     .byte 0x01, 0xE0
-    .4byte FUN_060349C4
+    .4byte ai_section_transition
     .4byte sym_06035168
     .4byte sym_060A5400
     .byte 0x64, 0x52

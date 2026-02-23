@@ -1,6 +1,6 @@
 /* cdb_read_status — Read CD block status byte (5-bit masked)
  *
- * Calls FUN_060349C4 to fill a 12-byte buffer, reads first byte,
+ * Calls ai_section_transition to fill a 12-byte buffer, reads first byte,
  * returns it masked to 5 bits (& 0x1F).
  * Caller (FUN_0600A392) uses bottom 4 bits as CD tray status.
  *
@@ -24,8 +24,8 @@
 cdb_read_status:
     sts.l   pr, @-r15           /* save return address */
     add     #-12, r15           /* allocate 12-byte buffer on stack */
-    mov.l   .L_FUN_060349C4, r3 /* r3 = FUN_060349C4 */
-    jsr     @r3                 /* call FUN_060349C4(buffer) */
+    mov.l   .L_ai_section_transition, r3 /* r3 = ai_section_transition */
+    jsr     @r3                 /* call ai_section_transition(buffer) */
     mov     r15, r4             /* delay: r4 = stack buffer */
     mov     r15, r0             /* r0 = stack buffer */
     mov     #31, r4             /* r4 = 0x1F mask */
@@ -55,8 +55,8 @@ scsp_set_master_volume:
     .word   0x00E0
 
     .align 2
-.L_FUN_060349C4:
-    .4byte  FUN_060349C4
+.L_ai_section_transition:
+    .4byte  ai_section_transition
 .L_slot16:
     .4byte  0x25B00217
 .L_slot17:

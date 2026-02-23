@@ -1,0 +1,11 @@
+    .section .text.FUN_06032B0C
+    .global hud_rpm_digit_2
+    .type hud_rpm_digit_2, @function
+hud_rpm_digit_2:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x88
+    .byte 0x04, 0xED
+    .byte 0xD0, 0x88

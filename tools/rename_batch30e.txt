@@ -1,0 +1,66 @@
+# Batch 30e: AI race logic + track geometry + collision
+# Source: asm/ai_physics_pipeline.s, asm/ai_opponents.s
+
+# === AI Race Logic (continued) ===
+FUN_06034984 ai_checkpoint_section
+FUN_060349B6 ai_checkpoint_validate
+FUN_060349C4 ai_section_transition
+FUN_06034A10 ai_section_update
+FUN_06034A9C ai_nop_stub
+FUN_06034C48 ai_brake_zone_calc
+FUN_06034C68 ai_brake_zone_adjust
+FUN_06034CC8 ai_brake_zone_main
+FUN_06034D1C ai_throttle_modulate
+FUN_06034D5E ai_throttle_adjust
+FUN_06034DEA ai_recovery_handler
+
+# === SMPC / Input ===
+FUN_06035C08 smpc_cmd_helper_a
+FUN_06035C54 smpc_cmd_helper_b
+FUN_06035C80 smpc_cmd_helper_c
+FUN_06035CBC smpc_secondary_proc
+FUN_06035D22 smpc_response_handler
+FUN_06035D5A smpc_peripheral_query
+
+# === Input Processing ===
+FUN_06035E00 input_proc_init
+FUN_06035E90 input_proc_analog
+FUN_06035EA2 input_proc_digital
+FUN_06035EC8 input_proc_buttons
+FUN_06035F04 input_proc_extended
+FUN_06035F44 input_proc_complete
+
+# === Track Geometry ===
+FUN_06036144 track_seg_boundary
+FUN_060361B8 track_seg_nop_stub
+FUN_060361FC track_seg_interpolate
+FUN_0603623E track_seg_stub
+FUN_060362A8 track_bank_calc
+FUN_06036308 track_road_width_stub
+FUN_06036380 track_road_width_main
+FUN_06036388 track_road_edge_a
+FUN_060363BC track_road_edge_b
+FUN_06036414 track_road_edge_c
+FUN_0603646C track_road_stub
+FUN_060364D4 track_surface_type_a
+FUN_06036518 track_surface_type_b
+FUN_06036572 track_surface_type_c
+FUN_060365C4 track_surface_type_d
+FUN_0603660E track_distance_calc
+FUN_06036650 track_dist_3d
+FUN_0603667E track_dist_stub
+FUN_06036704 track_dist_threshold
+FUN_0603674A track_collision_stub
+FUN_060367AC track_impact_stub
+FUN_060367E8 track_impact_force
+FUN_0603683C track_impact_response
+FUN_06036886 track_impact_adjust_stub
+FUN_060368DC track_impact_vel_stub
+FUN_06036918 track_impact_vel_update
+FUN_0603697C track_post_collision
+FUN_060369D4 track_post_nop_stub
+FUN_06036A1C track_shadow_project
+FUN_06036A54 track_shadow_stub
+FUN_06036A98 track_shadow_ground
+FUN_06036AF2 track_shadow_shape
+FUN_06036B64 track_effect_stub

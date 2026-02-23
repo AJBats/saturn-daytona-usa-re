@@ -35,7 +35,7 @@ state_memory_route:
     .byte 0xFF, 0xFF
     .4byte sym_0605E0A2
     .4byte sym_0605A016
-    .4byte FUN_0601F900
+    .4byte geom_output_dispatch
     .4byte sym_0605AD10
     .4byte sym_060149E0
     .4byte sym_06026CE0

@@ -144,7 +144,7 @@ sym_060401E4:
 DAT_060401e8:
     .byte 0x07, 0xFF
     .byte 0xFF, 0xFF
-    .4byte FUN_06035F44
+    .4byte input_proc_complete
     .4byte sym_06036BE4
     .byte 0x7F, 0xFF
     .byte 0xFF, 0xFF

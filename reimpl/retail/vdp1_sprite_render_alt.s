@@ -159,4 +159,4 @@ DAT_060078ca:
     .4byte sym_06034FE0
     .4byte sym_0606A4F0
     .4byte sym_06063F5C
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer

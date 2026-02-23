@@ -1,0 +1,12 @@
+    .section .text.FUN_06033DE0
+    .global disp_selext_thunk_09
+    .type disp_selext_thunk_09, @function
+disp_selext_thunk_09:
+    .byte 0x4F, 0x22
+    .byte 0xB0, 0xB7
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x26
+    .byte 0x3D, 0x03
+    .byte 0x8B, 0x31
+    .byte 0xE4, 0x23

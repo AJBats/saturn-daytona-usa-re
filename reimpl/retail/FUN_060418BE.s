@@ -82,9 +82,9 @@ FUN_060418BE:
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
     .4byte sym_060A5400
-    .4byte FUN_060349B6
-    .4byte FUN_06036380
-    .4byte FUN_060362A8
+    .4byte ai_checkpoint_validate
+    .4byte track_road_width_main
+    .4byte track_bank_calc
     .byte 0x64, 0xF3
     .byte 0x4C, 0x0B
     .byte 0x74, 0x04
@@ -209,7 +209,7 @@ FUN_060418BE:
     .byte 0xA0, 0x08
     .byte 0xE4, 0x01
     .byte 0xFF, 0xFF
-    .4byte FUN_060361FC
+    .4byte track_seg_interpolate
     .4byte sym_06035168
     .4byte sym_06035C4E
     .byte 0xE4, 0x00

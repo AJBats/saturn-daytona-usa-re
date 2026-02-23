@@ -1,0 +1,79 @@
+# Batch 30c: Display - split, course, selector, score, stubs
+# Source: asm/display_elements.s
+
+# === Split-screen ===
+FUN_060334D2 disp_split_stub
+
+# === Course Display ===
+FUN_06033578 disp_course_thunk_0
+FUN_0603358E disp_course_thunk_1
+FUN_0603359E disp_course_thunk_2
+FUN_060335AE disp_course_thunk_3
+FUN_06033606 disp_course_separator
+FUN_060337AE disp_course_icon
+FUN_060337BE disp_course_stub
+
+# === Time Extension Digits ===
+FUN_06033C08 disp_timeext_digit_0
+FUN_06033C14 disp_timeext_digit_1
+FUN_06033C20 disp_timeext_digit_2
+
+# === Selector Thunks (19 consecutive) ===
+FUN_06033C6E disp_sel_thunk_00
+FUN_06033C78 disp_sel_thunk_01
+FUN_06033C82 disp_sel_thunk_02
+FUN_06033C8C disp_sel_thunk_03
+FUN_06033C96 disp_sel_thunk_04
+FUN_06033CA0 disp_sel_thunk_05
+FUN_06033CAA disp_sel_thunk_06
+FUN_06033CB4 disp_sel_thunk_07
+FUN_06033CBE disp_sel_thunk_08
+FUN_06033CC8 disp_sel_thunk_09
+FUN_06033CD2 disp_sel_thunk_10
+FUN_06033CDC disp_sel_thunk_11
+FUN_06033CE6 disp_sel_thunk_12
+FUN_06033CF0 disp_sel_thunk_13
+FUN_06033CFA disp_sel_thunk_14
+FUN_06033D04 disp_sel_thunk_15
+FUN_06033D0E disp_sel_thunk_16
+FUN_06033D18 disp_sel_thunk_17
+FUN_06033D22 disp_sel_thunk_18
+
+# === Extended Selector Thunks ===
+FUN_06033D76 disp_selext_thunk_00
+FUN_06033D8A disp_selext_thunk_01
+FUN_06033D94 disp_selext_thunk_02
+FUN_06033D9E disp_selext_thunk_03
+FUN_06033DA8 disp_selext_thunk_04
+FUN_06033DB8 disp_selext_thunk_05
+FUN_06033DC2 disp_selext_thunk_06
+FUN_06033DCC disp_selext_thunk_07
+FUN_06033DD6 disp_selext_thunk_08
+FUN_06033DE0 disp_selext_thunk_09
+FUN_06033DF0 disp_selext_thunk_10
+FUN_06033DFA disp_selext_thunk_11
+FUN_06033E04 disp_selext_thunk_12
+FUN_06033E0E disp_selext_thunk_13
+FUN_06033E18 disp_selext_thunk_14
+FUN_06033E22 disp_selext_thunk_15
+FUN_06033E2C disp_selext_thunk_16
+FUN_06033E36 disp_selext_thunk_17
+FUN_06033E40 disp_selext_thunk_18
+
+# === Score Display ===
+FUN_06033EA8 disp_score_renderer
+FUN_06033ED2 disp_score_digit_0
+FUN_06033EDE disp_score_digit_1
+FUN_06033EEA disp_score_digit_2
+
+# === Final Stub Group ===
+FUN_06033F80 disp_end_stub_0
+FUN_06033F88 disp_end_stub_1
+FUN_06033FB0 disp_end_stub_2
+FUN_06033FB8 disp_end_stub_3
+FUN_06033FC0 disp_end_stub_4
+FUN_06033FC8 disp_end_stub_5
+FUN_06033FD4 disp_end_stub_6
+FUN_06033FDC disp_end_stub_7
+FUN_06033FE4 disp_end_stub_8
+FUN_06033FEC disp_end_stub_9

@@ -176,7 +176,7 @@ state_race_setup:
     .byte 0xFF, 0xFF
     .4byte sym_0607865C
     .4byte vdp2_config_extended
-    .4byte FUN_0601F784
+    .4byte geom_output_finalize
     .4byte sym_06078662
     .4byte sym_06078635
     .4byte sym_0607ED8C
@@ -184,7 +184,7 @@ state_race_setup:
     .4byte sym_0607ED91
     .4byte FUN_06010A5C
     .4byte FUN_06033AAC
-    .4byte FUN_060321C0
+    .4byte disp_init_setup
     .4byte sym_0607EBCC
     .4byte sym_0607EAD8
     .4byte sym_0605E158
@@ -193,7 +193,7 @@ state_race_setup:
     .4byte bg_layer_init
     .4byte FUN_0601E100
     .4byte sym_0605AB18
-    .4byte FUN_060268B0
+    .4byte menu_overlay_render
     .4byte sym_0605AD10
     .4byte sym_0605B6D8
     .byte 0x40, 0x00

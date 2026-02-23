@@ -1,0 +1,56 @@
+# Batch 30b: More Display Elements (RPM, gear, map, results, misc)
+# Source: asm/display_elements.s
+
+# === RPM Display ===
+FUN_06032AF0 hud_rpm_digit_0
+FUN_06032AFE hud_rpm_digit_1
+FUN_06032B0C hud_rpm_digit_2
+FUN_06032B5A hud_rpm_bar_idx_0
+FUN_06032B72 hud_rpm_bar_idx_1
+FUN_06032B80 hud_rpm_bar_idx_2
+FUN_06032B8E hud_rpm_bar_idx_3
+FUN_06032BE6 hud_rpm_redline
+
+# === Gear Display ===
+FUN_06032C34 hud_gear_idx_0
+FUN_06032C4C hud_gear_idx_1
+FUN_06032C5A hud_gear_idx_2
+FUN_06032C68 hud_gear_idx_3
+FUN_06032CC0 hud_gear_neutral
+
+# === Minimap Elements ===
+FUN_06032ED8 hud_map_elem_00
+FUN_06032EE6 hud_map_elem_01
+FUN_06032EFC hud_map_elem_02
+FUN_06032F12 hud_map_elem_03
+FUN_06032F20 hud_map_elem_04
+FUN_06032F2A hud_map_elem_05
+FUN_06032F34 hud_map_elem_06
+FUN_06032F4C hud_map_elem_07
+FUN_06032F62 hud_map_elem_08
+FUN_06032F70 hud_map_elem_09
+FUN_06032F7A hud_map_elem_10
+FUN_06032F84 hud_map_elem_11
+
+# === Small Display Helpers ===
+FUN_06032F9A disp_helper_a
+FUN_06032FB0 disp_helper_b
+FUN_06032FBC disp_helper_c
+FUN_06032FC6 disp_helper_d
+FUN_06033020 disp_mode_switch
+FUN_06033086 disp_util_stub_a
+FUN_0603308E disp_util_stub_b
+FUN_060330A4 disp_util_main
+
+# === Results Display ===
+FUN_0603319C disp_result_digit_0
+FUN_060331AA disp_result_digit_1
+FUN_060331BA disp_result_digit_2
+FUN_060331CA disp_result_digit_3
+FUN_0603338E disp_result_sub_a
+FUN_060333E4 disp_result_sub_b
+FUN_060333F4 disp_result_sub_c
+
+# === Attract Mode ===
+FUN_06033428 disp_attract_elem
+FUN_06033432 disp_attract_cleanup

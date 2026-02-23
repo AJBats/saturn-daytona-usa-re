@@ -57,7 +57,7 @@ distance_3d_calc:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .4byte sym_06035C4E
-    .4byte FUN_06035EA2
-    .4byte FUN_06035E90
+    .4byte input_proc_digital
+    .4byte input_proc_analog
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF

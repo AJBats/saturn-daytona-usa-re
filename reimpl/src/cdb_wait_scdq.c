@@ -15,7 +15,7 @@
  */
 
 extern int sym_06035C4E(void);
-extern void FUN_06035C54(int);
+extern void smpc_cmd_helper_b(int);
 
 void cdb_wait_scdq(void)
 {
@@ -24,10 +24,10 @@ void cdb_wait_scdq(void)
         int hirq = sym_06035C4E();
         hirq = (short)hirq;
         if (hirq & 0x0400) {
-            FUN_06035C54((int)~0x0400);
+            smpc_cmd_helper_b((int)~0x0400);
             return;
         }
     }
     /* Timeout — force acknowledge so caller doesn't retry forever */
-    FUN_06035C54((int)~0x0400);
+    smpc_cmd_helper_b((int)~0x0400);
 }

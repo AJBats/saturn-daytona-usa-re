@@ -80,7 +80,7 @@ FUN_06040C98:
 DAT_06040d2c:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte FUN_06034984
+    .4byte ai_checkpoint_section
     .4byte sym_060A5400
     .4byte sym_0604231E
     .byte 0x00, 0x00
@@ -159,7 +159,7 @@ DAT_06040dc2:
     .4byte sym_06035C4E
     .byte 0x00, 0x00
     .byte 0xFB, 0xFF
-    .4byte FUN_06035C54
+    .4byte smpc_cmd_helper_b
     .4byte sym_060A4D14
     .4byte track_intersect_test
     .byte 0x65, 0xF3
@@ -243,7 +243,7 @@ DAT_06040e72:
     .4byte mesh_boundary_check
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_060364D4
+    .4byte track_surface_type_a
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte sym_06035C4E

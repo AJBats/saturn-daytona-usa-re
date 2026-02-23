@@ -1,0 +1,57 @@
+# Batch 30: Display Elements (HUD thunks + AI physics pipeline)
+# Source: asm/display_elements.s, asm/ai_physics_pipeline.s
+
+# === Display Element Processor Chain ===
+FUN_060321C0 disp_init_setup
+FUN_0603227C disp_elem_proc_1
+FUN_06032286 disp_elem_proc_2
+FUN_06032290 disp_elem_proc_3
+FUN_0603229A disp_elem_proc_4
+FUN_060322A4 disp_elem_proc_5
+FUN_060322AE disp_elem_proc_6
+
+# === Tile Index Setters ===
+FUN_060324EC disp_tile_idx_0
+FUN_060324F4 disp_tile_idx_1
+FUN_060324FC disp_tile_idx_2
+FUN_06032504 disp_tile_idx_3
+FUN_06032510 disp_tile_idx_4
+FUN_06032518 disp_tile_idx_5
+FUN_06032520 disp_tile_idx_6
+FUN_06032528 disp_tile_idx_7
+
+# === Digit Pair Rendering ===
+FUN_060325A0 disp_digit_thunk_a
+FUN_060325AE disp_digit_pair_render
+
+# === Position/Rank Display ===
+FUN_06032618 disp_rank_elem_a
+FUN_0603262E disp_rank_elem_b
+FUN_06032642 disp_rank_elem_c
+
+# === Lap Time Display ===
+FUN_06032694 hud_laptime_idx_0
+FUN_060326A2 hud_laptime_idx_1
+FUN_060326BC hud_laptime_idx_2
+FUN_060326CA hud_laptime_idx_3
+FUN_060326D8 hud_laptime_idx_4
+FUN_060326E6 hud_laptime_group_render
+FUN_06032726 hud_laptime_idx_5
+FUN_0603273E hud_laptime_idx_6
+FUN_0603274C hud_laptime_idx_7
+FUN_0603275A hud_laptime_idx_8
+
+# === Best Time Display ===
+FUN_060327FE hud_besttime_idx_0
+FUN_06032816 hud_besttime_idx_1
+FUN_06032824 hud_besttime_idx_2
+FUN_06032832 hud_besttime_idx_3
+
+# === Speed Display ===
+FUN_0603288A hud_speed_tens
+FUN_060328E2 hud_speed_decimal
+FUN_06032930 hud_speed_idx_0
+FUN_06032948 hud_speed_idx_1
+FUN_06032956 hud_speed_idx_2
+FUN_06032964 hud_speed_idx_3
+FUN_060329BC hud_speed_suffix

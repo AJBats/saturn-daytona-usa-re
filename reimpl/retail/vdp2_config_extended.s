@@ -184,7 +184,7 @@ DAT_06018b8e:
     .4byte sym_0605D23C
     .4byte sym_0605AD00
     .4byte sym_06018E1E
-    .4byte FUN_06034D1C
+    .4byte ai_throttle_modulate
     .byte 0xE6, 0x00
     .byte 0xE5, 0x03
     .byte 0x4A, 0x0B

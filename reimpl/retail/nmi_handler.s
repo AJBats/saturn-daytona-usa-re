@@ -34,7 +34,7 @@ nmi_handler:
     .byte 0xE0, 0xF6
     .byte 0x03, 0x48
     .4byte sym_060A5400
-    .4byte FUN_0603667E
+    .4byte track_dist_stub
     .byte 0xD3, 0x1C
     .byte 0x43, 0x0B
     .byte 0x64, 0xF3

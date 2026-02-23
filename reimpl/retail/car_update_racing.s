@@ -39,7 +39,7 @@ car_update_racing:
     .4byte sym_06063E9C
     .4byte sym_06063ED8
     .4byte sym_06063EC4
-    .4byte FUN_06033020
+    .4byte disp_mode_switch
     .4byte sym_0607EBC4
     .4byte sym_06078900
     .byte 0x00, 0x00

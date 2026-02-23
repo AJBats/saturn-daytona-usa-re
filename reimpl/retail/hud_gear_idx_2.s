@@ -1,0 +1,11 @@
+    .section .text.FUN_06032C5A
+    .global hud_gear_idx_2
+    .type hud_gear_idx_2, @function
+hud_gear_idx_2:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x45
+    .byte 0x04, 0xED
+    .byte 0xD0, 0x33

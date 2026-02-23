@@ -1,0 +1,12 @@
+    .section .text.FUN_060331CA
+    .global disp_result_digit_3
+    .type disp_result_digit_3, @function
+disp_result_digit_3:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0x68, 0x03
+    .byte 0x64, 0x13
+    .byte 0x65, 0xC3
+    .byte 0xD0, 0x0B

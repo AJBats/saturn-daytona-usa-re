@@ -1,0 +1,12 @@
+    .section .text.FUN_0601BBCC
+    .global replay_record_main
+    .type replay_record_main, @function
+replay_record_main:
+    .byte 0x2F, 0xE6
+    .byte 0x2F, 0xD6
+    .byte 0x2F, 0xC6
+    .byte 0x2F, 0xB6
+    .byte 0x2F, 0xA6
+    .byte 0x2F, 0x96
+    .byte 0x2F, 0x86
+    .byte 0x69, 0x43

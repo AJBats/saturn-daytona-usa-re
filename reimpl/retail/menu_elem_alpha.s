@@ -44,4 +44,4 @@ menu_elem_alpha:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte FUN_06035F44
+    .4byte input_proc_complete

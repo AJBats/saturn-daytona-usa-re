@@ -218,10 +218,10 @@ state_post_lap:
     .byte 0x00, 0xBC
     .4byte sym_06012198
     .4byte sym_0607EAE0
-    .4byte FUN_0601DE50
+    .4byte camera_event_handler
     .4byte replay_camera_ctrl
     .4byte sym_0605AB18
-    .4byte FUN_060268B0
+    .4byte menu_overlay_render
     .4byte sym_0605A1C4
     .4byte FUN_06033BC8
     .4byte car_iteration_loop
@@ -231,7 +231,7 @@ state_post_lap:
     .4byte sym_06063EEC
     .4byte sym_06063EF8
     .4byte camera_orient_calc
-    .4byte FUN_0601D9B0
+    .4byte snd_race_update
     .4byte scene_master
     .4byte sym_0607ED8C
     .4byte sym_060033E6

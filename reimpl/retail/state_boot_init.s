@@ -39,13 +39,13 @@ loc_0600890A:
     .byte 0x43, 0x2B
     .byte 0x00, 0x09
     .4byte handler_init_reset
-    .4byte FUN_0601C978
+    .4byte render_stage_1
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .4byte display_channel_b
     .4byte handler_dispatch
-    .4byte FUN_060210F6
+    .4byte obj_render_update
     .4byte sym_0605AD10
     .4byte sym_06026CE0
     .4byte sym_06059F44
-    .4byte FUN_0601CAEE
+    .4byte render_stage_2

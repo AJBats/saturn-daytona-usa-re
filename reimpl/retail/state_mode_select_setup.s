@@ -60,7 +60,7 @@ state_mode_select_setup:
     .4byte sym_060149E0
     .4byte sym_06026CE0
     .4byte sym_06059F44
-    .4byte FUN_0601D2DC
+    .4byte render_coord_transform
     .4byte course_setup_handler
     .4byte sym_0607EBCC
     .4byte sym_06086024

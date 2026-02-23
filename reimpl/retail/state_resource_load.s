@@ -21,12 +21,12 @@ state_resource_load:
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
     .4byte sym_0605AD10
-    .4byte FUN_0601B160
+    .4byte disc_course_data_load
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_0605A016
-    .4byte FUN_0601B418
-    .4byte FUN_0601F8C0
+    .4byte disc_load_complete_check
+    .4byte geom_output_ctrl
     .4byte sym_0605E0A2
     .byte 0xE2, 0x07
     .byte 0x2E, 0x22

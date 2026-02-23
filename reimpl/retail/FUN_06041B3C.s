@@ -86,9 +86,9 @@ DAT_06041bcc:
     .global DAT_06041bd2
 DAT_06041bd2:
     .byte 0x03, 0x24
-    .4byte FUN_060349B6
+    .4byte ai_checkpoint_validate
     .4byte sym_060A5400
-    .4byte FUN_06036572
+    .4byte track_surface_type_c
     .byte 0x63, 0xE2
     .byte 0x90, 0x61
     .byte 0x00, 0x3E
@@ -197,8 +197,8 @@ DAT_06041caa:
     .byte 0x03, 0x0C
     .byte 0x03, 0x20
     .byte 0xFF, 0xFF
-    .4byte FUN_060365C4
-    .4byte FUN_0603660E
+    .4byte track_surface_type_d
+    .4byte track_distance_calc
     .byte 0xE0, 0x01
     .byte 0x7F, 0x14
     .byte 0x4F, 0x26

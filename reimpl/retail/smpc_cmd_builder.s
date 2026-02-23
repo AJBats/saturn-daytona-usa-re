@@ -24,8 +24,8 @@ smpc_cmd_builder:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte FUN_06035E90
-    .4byte FUN_06035EC8
+    .4byte input_proc_analog
+    .4byte input_proc_buttons
     .global sym_06034E58
 sym_06034E58:
     .byte 0x7F, 0xFC

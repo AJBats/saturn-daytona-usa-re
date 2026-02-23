@@ -121,5 +121,5 @@ DAT_06007416:
     .4byte sym_0606B178
     .byte 0x00, 0x2A
     .byte 0x34, 0x57
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .4byte sym_06026CE0

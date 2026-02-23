@@ -30,11 +30,11 @@ ai_brake_zone:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x00, 0x82
-    .4byte FUN_06035E00
+    .4byte input_proc_init
     .byte 0x00, 0x00
     .byte 0xFF, 0xFD
     .4byte sym_06035C6E
-    .4byte FUN_06035E90
-    .4byte FUN_06035EA2
+    .4byte input_proc_analog
+    .4byte input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF

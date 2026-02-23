@@ -26,7 +26,7 @@ race_utility_calc:
     .4byte scene_post_render
     .byte 0x02, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_0601BDEC
+    .4byte replay_playback_engine
     .4byte sym_0607EA98
     .4byte sym_0603C000
     .4byte sym_06083255

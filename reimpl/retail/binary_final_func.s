@@ -43515,8 +43515,8 @@ sym_0605B8A0:
     .byte 0x18, 0x1F
     .global sym_0605B8A4
 sym_0605B8A4:
-    .4byte FUN_060156A6
-    .4byte FUN_0601574C
+    .4byte hud_nop_stub_a
+    .4byte hud_minimap_stub
     .4byte loc_060158A4
     .global sym_0605B8B0
 sym_0605B8B0:
@@ -43840,12 +43840,12 @@ sym_0605BB0C:
     .byte 0x00, 0x00
     .global sym_0605BB1C
 sym_0605BB1C:
-    .4byte FUN_06016468
+    .4byte hud_results_stub_b
     .4byte results_ranking_table
-    .4byte FUN_06016630
-    .4byte FUN_06016A18
+    .4byte hud_nop_stub_b
+    .4byte hud_nop_stub_c
     .4byte text_string_render
-    .4byte FUN_06016228
+    .4byte hud_results_stub_a
     .4byte results_elem_place
     .4byte results_bonus_calc
     .4byte speed_value_format
@@ -43853,12 +43853,12 @@ sym_0605BB1C:
     .4byte results_init_stub
     .global sym_0605BB48
 sym_0605BB48:
-    .4byte FUN_06016A18
+    .4byte hud_nop_stub_c
     .4byte text_string_render
     .4byte loc_06016B8E
     .4byte loc_06016B98
     .4byte loc_060168DA
-    .4byte FUN_06016940
+    .4byte hud_text_stub
     .4byte loc_06016724
     .4byte results_awards
     .4byte results_cleanup
@@ -46905,9 +46905,9 @@ sym_0605D260:
 sym_0605D280:
     .4byte start_light_ctrl
     .4byte start_light_render
-    .4byte FUN_0601A344
+    .4byte hud_nop_stub_d
     .4byte render_finalize_a
-    .4byte FUN_0601A574
+    .4byte hud_nop_stub_e
     .global sym_0605D294
 sym_0605D294:
     .4byte loc_06049E60
@@ -48341,22 +48341,22 @@ sym_0605DEC8:
     .4byte disc_ready_stub
     .4byte replay_cam_auto_cut
     .4byte loc_0601AF04
-    .4byte FUN_0601AFD8
+    .4byte replay_end_stub
     .4byte loc_0601AF04
     .4byte disc_ready_stub
     .4byte loc_0601AF04
     .4byte replay_cam_auto_cut
-    .4byte FUN_0601AFD8
+    .4byte replay_end_stub
     .4byte loc_0601AF04
     .4byte disc_ready_stub
     .4byte loc_0601AF04
     .4byte replay_cam_auto_cut
-    .4byte FUN_0601AFD8
+    .4byte replay_end_stub
     .4byte loc_0601AF04
     .4byte disc_ready_stub
     .4byte loc_0601AF04
     .4byte replay_cam_auto_cut
-    .4byte FUN_0601AFD8
+    .4byte replay_end_stub
     .4byte loc_0601AF04
     .4byte replay_cam_interp
     .4byte loc_0601B096
@@ -51182,7 +51182,7 @@ sym_0605F478:
     .global sym_0605F498
 sym_0605F498:
     .4byte vram_alloc_mgr
-    .4byte FUN_0601FE20
+    .4byte geom_display_handler
     .4byte vram_ptr_get
     .4byte loc_06020090
     .global sym_0605F4A8
@@ -51329,7 +51329,7 @@ sym_0605F598:
 sym_0605F5A8:
     .4byte sym_060204CE
     .4byte obj_type_set
-    .4byte FUN_0602052C
+    .4byte obj_visibility_test
     .4byte obj_list_iterate
     .4byte obj_collision_box
     .4byte obj_culling_pass

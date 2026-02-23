@@ -33,7 +33,7 @@ race_utility_fn:
     .byte 0x00, 0x00
     .4byte frame_dispatch
     .4byte scene_post_render
-    .4byte FUN_0601BDEC
+    .4byte replay_playback_engine
     .4byte sym_06059FF8
     .4byte sym_0603C000
     .4byte camera_track_setup

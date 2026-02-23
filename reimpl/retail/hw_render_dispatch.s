@@ -38,7 +38,7 @@ hw_render_dispatch:
     .byte 0x00, 0x00
     .byte 0x25, 0xE2
     .byte 0x00, 0x00
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .4byte memcpy_long_idx
     .global sym_06005174
 sym_06005174:

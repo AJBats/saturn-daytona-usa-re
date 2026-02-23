@@ -86,7 +86,7 @@ render_orchestrator:
     .4byte sym_0602F4B4
     .4byte color_material_blend
     .4byte sym_0602EFCC
-    .4byte FUN_0602C690
+    .4byte vdp1_display_list_setup
     .4byte vdp1_color_setup
     .4byte vdp1_coord_setup
     .4byte vdp1_sprite_cmd

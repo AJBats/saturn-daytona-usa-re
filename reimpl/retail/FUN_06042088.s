@@ -85,6 +85,6 @@ DAT_06042120:
 DAT_06042122:
     .byte 0x02, 0x00
     .4byte sym_060A5400
-    .4byte FUN_06036A1C
-    .4byte FUN_060349B6
+    .4byte track_shadow_project
+    .4byte ai_checkpoint_validate
     .4byte sym_06035C4E

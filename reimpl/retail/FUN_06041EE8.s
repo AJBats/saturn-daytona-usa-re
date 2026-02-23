@@ -98,12 +98,12 @@ DAT_06041f96:
     .byte 0x03, 0x4C
     .byte 0x00, 0x00
     .byte 0xFF, 0xF7
-    .4byte FUN_06035C54
-    .4byte FUN_060349B6
+    .4byte smpc_cmd_helper_b
+    .4byte ai_checkpoint_validate
     .4byte sym_060A5400
-    .4byte FUN_060363BC
-    .4byte FUN_06036380
-    .4byte FUN_0603697C
+    .4byte track_road_edge_b
+    .4byte track_road_width_main
+    .4byte track_post_collision
     .byte 0x64, 0xF3
     .byte 0x4C, 0x0B
     .byte 0x74, 0x04
@@ -211,4 +211,4 @@ DAT_0604207c:
 DAT_0604207e:
     .byte 0x03, 0x5C
     .4byte sym_06035C4E
-    .4byte FUN_06036380
+    .4byte track_road_width_main

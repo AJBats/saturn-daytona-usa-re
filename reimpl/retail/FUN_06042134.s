@@ -134,9 +134,9 @@ DAT_0604222e:
     .byte 0x01, 0xE4
     .byte 0x01, 0xDC
     .byte 0xFF, 0xFF
-    .4byte FUN_060349B6
+    .4byte ai_checkpoint_validate
     .4byte sym_060A5400
-    .4byte FUN_06036414
+    .4byte track_road_edge_c
     .byte 0xA0, 0x29
     .byte 0x65, 0xC3
     .byte 0x67, 0xE2

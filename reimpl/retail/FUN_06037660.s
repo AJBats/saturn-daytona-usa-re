@@ -1247,7 +1247,7 @@ DAT_06037c96:
     .byte 0x00, 0x09
     .byte 0x10, 0x00
     .byte 0x01, 0xC0
-    .4byte FUN_06035F44
+    .4byte input_proc_complete
     .4byte sym_06035280
     .byte 0x20, 0xE9
     .byte 0x74, 0x01

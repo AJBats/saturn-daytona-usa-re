@@ -44,5 +44,5 @@ queue_validator:
 DAT_06041174:
     .byte 0x00, 0xFF
     .byte 0x03, 0x04
-    .4byte FUN_060349B6
+    .4byte ai_checkpoint_validate
     .4byte sym_060A5400

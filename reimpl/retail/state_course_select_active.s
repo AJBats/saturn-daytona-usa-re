@@ -21,7 +21,7 @@ state_course_select_active:
     .4byte handler_init_reset
     .4byte sym_0605AD10
     .4byte track_poly_start
-    .4byte FUN_060210F6
+    .4byte obj_render_update
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_0605A016

@@ -45,7 +45,7 @@ FUN_060412B2:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x03, 0x38
-    .4byte FUN_060349B6
+    .4byte ai_checkpoint_validate
     .4byte sym_060A5400
     .byte 0xD5, 0x14
     .byte 0x90, 0x25

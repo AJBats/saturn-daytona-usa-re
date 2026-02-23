@@ -31,7 +31,7 @@ vdp1_scaled_sprite:
     .4byte sym_06082A2C
     .byte 0x00, 0x00
     .byte 0x00, 0x28
-    .4byte FUN_060321C0
+    .4byte disp_init_setup
     .4byte sym_06082A26
     .byte 0x00, 0x00
     .byte 0x00, 0x01

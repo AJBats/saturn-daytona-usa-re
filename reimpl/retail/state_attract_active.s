@@ -96,7 +96,7 @@ state_attract_active:
     .4byte sym_0605AD10
     .4byte sym_06087804
     .4byte FUN_06033BC8
-    .4byte FUN_0601FD74
+    .4byte geom_display_ctrl_b
     .4byte race_countdown_update
     .4byte car_proximity_check
     .4byte perspective_project

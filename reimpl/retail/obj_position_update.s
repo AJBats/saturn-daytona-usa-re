@@ -101,7 +101,7 @@ obj_position_update:
     .4byte sym_06063D94
     .byte 0x25, 0xE0
     .byte 0x00, 0x00
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .byte 0x62, 0xE2
     .byte 0x29, 0x49
     .byte 0x63, 0xB2

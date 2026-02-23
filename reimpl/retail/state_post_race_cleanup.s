@@ -60,7 +60,7 @@ state_post_race_cleanup:
     .byte 0x00, 0xBC
     .4byte util_wrapper
     .4byte sym_0607EAE0
-    .4byte FUN_0601DF88
+    .4byte camera_special_mode
     .4byte sym_0607EAD8
     .4byte replay_camera_ctrl
     .4byte update_mode_dispatch

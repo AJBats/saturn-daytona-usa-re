@@ -45,8 +45,8 @@ track_intersect_test:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte FUN_06035E90
-    .4byte FUN_06035EA2
+    .4byte input_proc_analog
+    .4byte input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte FUN_06035CBC
+    .4byte smpc_secondary_proc

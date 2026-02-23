@@ -55,7 +55,7 @@ state_time_extend_active:
     .4byte sym_06078649
     .4byte sym_06063D98
     .4byte sym_0605AB18
-    .4byte FUN_060268B0
+    .4byte menu_overlay_render
     .4byte sym_0607864A
     .byte 0x00, 0x00
     .byte 0x80, 0x00
@@ -169,7 +169,7 @@ state_time_extend_active:
     .byte 0x08, 0x00
     .byte 0x05, 0x26
     .byte 0x07, 0x9C
-    .4byte FUN_0602834A
+    .4byte hud_number_display
     .4byte sym_060446E0
     .4byte sym_060283E0
     .4byte sym_060284AE

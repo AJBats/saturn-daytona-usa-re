@@ -40,7 +40,7 @@ vdp2_course0_init:
     .byte 0x25, 0xF0
     .byte 0x02, 0x00
     .4byte memcpy_word_idx
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .byte 0x25, 0xE3
     .byte 0x40, 0x00
     .byte 0x25, 0xE4

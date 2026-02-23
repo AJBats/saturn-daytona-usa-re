@@ -51,4 +51,4 @@ DAT_060411f6:
     .byte 0x03, 0x24
     .byte 0xFF, 0xFF
     .4byte sym_060A5400
-    .4byte FUN_06034D1C
+    .4byte ai_throttle_modulate

@@ -42,8 +42,8 @@ ai_drafting_calc:
     .byte 0x00, 0x09
     .byte 0x00, 0x81
     .byte 0x0D, 0xAC
-    .4byte FUN_06035E90
-    .4byte FUN_06035EA2
+    .4byte input_proc_analog
+    .4byte input_proc_digital
     .byte 0x62, 0xF2
     .byte 0x72, 0xFF
     .byte 0x2F, 0x22

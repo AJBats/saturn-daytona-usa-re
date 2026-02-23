@@ -53,7 +53,7 @@ transition_medium_b:
     .4byte sym_0607EBCC
     .4byte sym_06094FA8
     .4byte sym_060EFB24
-    .4byte FUN_06028654
+    .4byte dma_memory_transfer
     .4byte sym_06063838
     .byte 0x00, 0x00
     .byte 0x90, 0x00

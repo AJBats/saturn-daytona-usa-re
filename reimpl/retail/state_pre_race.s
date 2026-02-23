@@ -35,8 +35,8 @@ state_pre_race:
     .4byte race_resource_init
     .4byte FUN_06018FA4
     .4byte sym_0605AD10
-    .4byte FUN_0600EC78
-    .4byte FUN_060210F6
+    .4byte car_physics_init
+    .4byte obj_render_update
     .4byte sym_0605B6D8
     .byte 0x40, 0x00
     .byte 0x00, 0x00

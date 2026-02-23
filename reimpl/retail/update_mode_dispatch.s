@@ -31,8 +31,8 @@ update_mode_dispatch:
     .4byte sym_0600A8BC
     .4byte sym_06083255
     .4byte terrain_data_lookup
-    .4byte FUN_0602F7EA
-    .4byte FUN_0602F99C
+    .4byte sprite_transform
+    .4byte sprite_batch_render
     .4byte sym_0607EA98
     .4byte sym_060786CA
     .4byte sym_06083261

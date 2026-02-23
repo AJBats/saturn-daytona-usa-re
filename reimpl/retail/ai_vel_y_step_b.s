@@ -1,0 +1,11 @@
+    .section .text.FUN_060342AE
+    .global ai_vel_y_step_b
+    .type ai_vel_y_step_b, @function
+ai_vel_y_step_b:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x10
+    .byte 0x04, 0xEC
+    .byte 0xD0, 0x10

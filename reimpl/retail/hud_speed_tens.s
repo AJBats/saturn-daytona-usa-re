@@ -1,0 +1,11 @@
+    .section .text.FUN_0603288A
+    .global hud_speed_tens
+    .type hud_speed_tens, @function
+hud_speed_tens:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x84
+    .byte 0x04, 0xED
+    .byte 0xD0, 0x7E

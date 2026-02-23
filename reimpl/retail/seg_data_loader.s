@@ -31,6 +31,6 @@ seg_data_loader:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte FUN_06035E90
-    .4byte FUN_06035EC8
-    .4byte FUN_06035EA2
+    .4byte input_proc_analog
+    .4byte input_proc_buttons
+    .4byte input_proc_digital

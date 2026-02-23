@@ -19,5 +19,5 @@ mode_flag_set_a:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte FUN_06034D1C
-    .4byte FUN_06034DEA
+    .4byte ai_throttle_modulate
+    .4byte ai_recovery_handler

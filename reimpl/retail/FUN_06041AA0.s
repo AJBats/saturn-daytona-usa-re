@@ -61,8 +61,8 @@ DAT_06041b0a:
     .byte 0x03, 0x08
     .byte 0xFF, 0xFF
     .4byte sym_060A5400
-    .4byte FUN_06036144
-    .4byte FUN_060349B6
+    .4byte track_seg_boundary
+    .4byte ai_checkpoint_validate
     .4byte sym_06035C4E
     .byte 0xE4, 0x00
     .byte 0x24, 0x48

@@ -1,0 +1,11 @@
+    .section .text.FUN_0603465C
+    .global ai_spawn_helper_b
+    .type ai_spawn_helper_b, @function
+ai_spawn_helper_b:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x11
+    .byte 0x04, 0xED
+    .byte 0xD0, 0x11

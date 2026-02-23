@@ -28,5 +28,5 @@ ground_shadow_render:
     .byte 0x6E, 0xF6
     .byte 0x02, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06035E90
-    .4byte FUN_06035EC8
+    .4byte input_proc_analog
+    .4byte input_proc_buttons
