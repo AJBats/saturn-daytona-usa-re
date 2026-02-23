@@ -8,6 +8,11 @@
 
     .global vblank_display_write
     .type vblank_display_write, @function
+/* vblank_display_write() — VBlank display commit handler.
+ * Called during VBlank to program VDP1 registers (TVMR, FBCR, PTMR, EWDR,
+ * EWLR, EWRR) and swap framebuffers. Checks VDP2 TVSTAT for sync.
+ * Uses scene_data_dispatch for display list submission.
+ */
 vblank_display_write:
     sts.l pr, @-r15
     mov.l   .L_scene_data_dispatch, r11
@@ -76,11 +81,11 @@ vblank_display_write:
 .L_sym_060A4C92:
     .4byte  sym_060A4C92
 .L_pool_06038FF8:
-    .4byte  0x25D00002
+    .4byte  0x25D00002          /* VDP1 FBCR — framebuffer change register */
 .L_sym_060A4C90:
     .4byte  sym_060A4C90
 .L_pool_06039000:
-    .4byte  0x25D00000
+    .4byte  0x25D00000          /* VDP1 TVMR — TV mode register */
 .L_06039004:
     mov.l @r14, r2
     add #0x1, r2
@@ -162,7 +167,7 @@ vblank_cmd_dispatch:
 .L_sym_060635BC:
     .4byte  sym_060635BC
 .L_pool_06039090:
-    .4byte  0x25D00002
+    .4byte  0x25D00002          /* VDP1 FBCR — framebuffer change register */
 .L_sym_060A4C92_2:
     .4byte  sym_060A4C92
 .L_sym_060A4C84_2:
@@ -170,7 +175,7 @@ vblank_cmd_dispatch:
 .L_sym_060A4C94:
     .4byte  sym_060A4C94
 .L_pool_060390A0:
-    .4byte  0x25F80004
+    .4byte  0x25F80004          /* VDP2 TVSTAT — TV status (VBLANK, HBLANK, ODD) */
 .L_060390A4:
     mov.l @r14, r0
     tst r0, r0
@@ -219,7 +224,7 @@ vblank_cmd_dispatch:
 .L_sym_060A4C90_2:
     .4byte  sym_060A4C90
 .L_pool_060390F8:
-    .4byte  0x25D00000
+    .4byte  0x25D00000          /* VDP1 TVMR — TV mode register */
 .L_sym_060635C4_2:
     .4byte  sym_060635C4
     .4byte  0x00000000
@@ -395,24 +400,24 @@ DAT_060392e6:
 .L_sym_060A4C92_3:
     .4byte  sym_060A4C92
 .L_pool_060392F0:
-    .4byte  0x25D00002
+    .4byte  0x25D00002          /* VDP1 FBCR — framebuffer change */
 .L_pool_060392F4:
-    .4byte  0x25D00004
+    .4byte  0x25D00004          /* VDP1 PTMR — plot trigger */
 .L_pool_060392F8:
-    .4byte  0x00008000
+    .4byte  0x00008000          /* bit15 mask (MSB test) */
 .L_pool_060392FC:
-    .4byte  0x25D00006
+    .4byte  0x25D00006          /* VDP1 EWDR — erase fill color */
 .L_pool_06039300:
-    .4byte  0x25D00008
+    .4byte  0x25D00008          /* VDP1 EWLR — erase upper-left coords */
 .L_pool_06039304:
-    .4byte  0x0000FFFF
+    .4byte  0x0000FFFF          /* 16-bit mask */
 .L_pool_06039308:
-    .4byte  0x25D0000A
+    .4byte  0x25D0000A          /* VDP1 EWRR — erase lower-right coords */
 .L_sym_060A4C8C:
     .4byte  sym_060A4C8C
 .L_sym_060A4C88:
     .4byte  sym_060A4C88
 .L_pool_06039314:
-    .4byte  0x25C00000
+    .4byte  0x25C00000          /* VDP1 VRAM base (cache-through) */
 .L_sym_060635CC_2:
     .4byte  sym_060635CC

@@ -1403,29 +1403,29 @@ DAT_060137c2:
 .L_sym_0604878C:
     .4byte  sym_0604878C
 .L_pool_060137D0:
-    .4byte  0x25F00000
+    .4byte  0x25F00000          /* VDP2 Color RAM base (palette 0) */
 .L_sym_0604814C:
     .4byte  sym_0604814C
 .L_pool_060137D8:
-    .4byte  0x25F00600
+    .4byte  0x25F00600          /* VDP2 CRAM offset 0x600 (palette bank 3) */
 .L_sym_0604848C:
     .4byte  sym_0604848C
 .L_pool_060137E0:
-    .4byte  0x25F00660
+    .4byte  0x25F00660          /* VDP2 CRAM offset 0x660 */
 .L_sym_060484CC:
     .4byte  sym_060484CC
 .L_pool_060137E8:
-    .4byte  0x25F006A0
+    .4byte  0x25F006A0          /* VDP2 CRAM offset 0x6A0 */
 .L_sym_060485AC:
     .4byte  sym_060485AC
 .L_pool_060137F0:
-    .4byte  0x25F006E0
+    .4byte  0x25F006E0          /* VDP2 CRAM offset 0x6E0 */
 .L_pool_060137F4:
-    .4byte  0x25F004E0
+    .4byte  0x25F004E0          /* VDP2 CRAM offset 0x4E0 (palette bank 2) */
 .L_sym_0605CD9C:
     .4byte  sym_0605CD9C
 .L_pool_060137FC:
-    .4byte  0x25F00720
+    .4byte  0x25F00720          /* VDP2 CRAM offset 0x720 */
 .L_channel_nibble_config:
     .4byte  channel_nibble_config
 .L_sym_0607EAD8:
@@ -4017,7 +4017,7 @@ util_wrapper:
 .L_wpool_06014A4E:
     .2byte  0x0260
 .L_pool_06014A50:
-    .4byte  0x25C00000
+    .4byte  0x25C00000          /* VDP1 VRAM base (cache-through) */
 .L_sym_06044B64:
     .4byte  sym_06044B64
 .L_sym_06059FFC:
@@ -4237,21 +4237,21 @@ display_mode_init:
 .L_sym_06044A64:
     .4byte  sym_06044A64
 .L_pool_06014BF0:
-    .4byte  0x25F00660
+    .4byte  0x25F00660          /* VDP2 CRAM offset 0x660 */
 .L_sym_06044A84:
     .4byte  sym_06044A84
 .L_pool_06014BF8:
-    .4byte  0x25F00680
+    .4byte  0x25F00680          /* VDP2 CRAM offset 0x680 */
 .L_sym_06044AA4:
     .4byte  sym_06044AA4
 .L_pool_06014C00:
-    .4byte  0x25F006A0
+    .4byte  0x25F006A0          /* VDP2 CRAM offset 0x6A0 */
 .L_sym_06044AC4:
     .4byte  sym_06044AC4
 .L_pool_06014C08:
-    .4byte  0x25F006C0
+    .4byte  0x25F006C0          /* VDP2 CRAM offset 0x6C0 */
 .L_pool_06014C0C:
-    .4byte  0x25C00000
+    .4byte  0x25C00000          /* VDP1 VRAM base (cache-through) */
 .L_sym_06044AE4:
     .4byte  sym_06044AE4
 .L_sym_06059FFC_2:
@@ -4267,19 +4267,19 @@ display_mode_init:
 .L_pool_06014C28:
     .4byte  0x00017700
 .L_pool_06014C2C:
-    .4byte  0x25E73B98
+    .4byte  0x25E73B98          /* VDP2 VRAM bank B (cache-through) + 0x33B98 */
 .L_pool_06014C30:
-    .4byte  0x000189E0
+    .4byte  0x000189E0          /* DMA byte count (0x189E0 = 100832 bytes) */
 .L_pool_06014C34:
-    .4byte  0x25E74158
+    .4byte  0x25E74158          /* VDP2 VRAM + 0x34158 */
 .L_pool_06014C38:
-    .4byte  0x0001AFA0
+    .4byte  0x0001AFA0          /* DMA byte count (0x1AFA0 = 110496 bytes) */
 .L_pool_06014C3C:
-    .4byte  0x25E74AFC
+    .4byte  0x25E74AFC          /* VDP2 VRAM + 0x34AFC */
 .L_pool_06014C40:
-    .4byte  0x0001C980
+    .4byte  0x0001C980          /* DMA byte count (0x1C980 = 117120 bytes) */
 .L_pool_06014C44:
-    .4byte  0x25E75730
+    .4byte  0x25E75730          /* VDP2 VRAM + 0x35730 */
 .L_06014C48:
     extu.b r5, r4
     mov #0x36, r3
