@@ -1,3 +1,12 @@
+/* display_channels_clear
+ *
+ * Translation unit: 0x060148FC - 0x06014964 (~104 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_060148FC
     .global display_channels_clear
     .type display_channels_clear, @function
@@ -26,3 +35,36 @@ display_channels_clear:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+
+    .section .text.FUN_0601492C
+    .global channel_config_a
+    .type channel_config_a, @function
+channel_config_a:
+    .byte 0x2F, 0xE6
+    .byte 0x4F, 0x22
+    .byte 0xDE, 0x0B
+    .byte 0x94, 0x13
+    .byte 0x4E, 0x0B
+    .byte 0xE5, 0x04
+    .byte 0xE5, 0x01
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x04
+    .byte 0xE5, 0x05
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x08
+    .byte 0xE5, 0x06
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x10
+    .byte 0xE5, 0x07
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x20
+    .byte 0xE5, 0x00
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x01
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x6E, 0xF6
+    .byte 0x01, 0x00
+    .byte 0xFF, 0xFF
+    .4byte channel_nibble_config
+

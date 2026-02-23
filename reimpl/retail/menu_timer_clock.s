@@ -1,3 +1,12 @@
+/* menu_timer_clock
+ *
+ * Translation unit: 0x0603B634 - 0x0603B6A8 (~116 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_0603B634
     .global menu_timer_clock
     .type menu_timer_clock, @function
@@ -40,3 +49,26 @@ menu_timer_clock:
     .byte 0x03, 0x56
     .byte 0xA1, 0x5E
     .byte 0xE4, 0x00
+
+    .section .text.FUN_0603B680
+    .global menu_credits_elem
+    .type menu_credits_elem, @function
+menu_credits_elem:
+    .byte 0x4F, 0x22
+    .byte 0x61, 0x43
+    .byte 0xD2, 0x06
+    .byte 0x93, 0x08
+    .byte 0x62, 0x22
+    .byte 0x32, 0x3C
+    .byte 0xD3, 0x05
+    .byte 0x43, 0x0B
+    .byte 0xE0, 0x0C
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x00, 0xA8
+    .byte 0x00, 0xB8
+    .4byte timer_stub
+    .4byte sym_060A4D14
+    .4byte sym_06035168
+

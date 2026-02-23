@@ -1,3 +1,12 @@
+/* obj_setup_decomp
+ *
+ * Translation unit: 0x0604077C - 0x060408B0 (~308 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_0604077C
     .global obj_setup_decomp
     .type obj_setup_decomp, @function
@@ -125,3 +134,35 @@ obj_setup_decomp:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+
+    .section .text.FUN_0604087C
+    .global watchdog_timer_reset
+    .type watchdog_timer_reset, @function
+watchdog_timer_reset:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xFC
+    .byte 0x2F, 0x42
+    .byte 0xD3, 0x09
+    .byte 0x43, 0x0B
+    .byte 0x54, 0x41
+    .byte 0x64, 0xF2
+    .byte 0x54, 0x45
+    .byte 0x7F, 0x04
+    .byte 0xD3, 0x07
+    .byte 0x43, 0x2B
+    .byte 0x4F, 0x26
+    .global sym_06040894
+sym_06040894:
+    .byte 0x50, 0x49
+    .byte 0x65, 0x5C
+    .byte 0x00, 0x0B
+    .byte 0x14, 0x59
+    .global DAT_0604089c
+DAT_0604089c:
+    .byte 0x00, 0xFF
+    .byte 0xFF, 0xFF
+    .4byte track_segment_interp
+    .4byte state_field_read
+    .4byte evt_reg_save
+    .4byte sym_06040EBA
+

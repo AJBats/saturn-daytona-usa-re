@@ -1,3 +1,12 @@
+/* menu_option_adj
+ *
+ * Translation unit: 0x0603B324 - 0x0603B3CA (~166 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_0603B324
     .global menu_option_adj
     .type menu_option_adj, @function
@@ -57,3 +66,34 @@ menu_option_adj:
     .byte 0x68, 0xF6
     .byte 0xA2, 0xD5
     .byte 0x6E, 0xF6
+
+    .section .text.FUN_0603B392
+    .global menu_toggle_switch
+    .type menu_toggle_switch, @function
+menu_toggle_switch:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xFC
+    .byte 0x2F, 0x42
+    .byte 0xB2, 0xD0
+    .byte 0xE4, 0x00
+    .byte 0x62, 0xF2
+    .byte 0xE0, 0x12
+    .byte 0x03, 0x2C
+    .byte 0x63, 0x3C
+    .byte 0x23, 0x38
+    .byte 0x8B, 0x09
+    .byte 0x7F, 0x04
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0xE0, 0x01
+    .4byte sym_0603F9DA
+    .4byte sym_0603EF54
+    .4byte race_timer_sync
+    .byte 0xE0, 0x00
+    .byte 0x7F, 0x04
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09
+    .byte 0xE3, 0x00
+    .byte 0xE0, 0x12
+

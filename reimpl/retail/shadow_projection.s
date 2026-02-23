@@ -1,3 +1,12 @@
+/* shadow_projection
+ *
+ * Translation unit: 0x06036A24 - 0x06036A98 (~116 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_06036A24
     .global shadow_projection
     .type shadow_projection, @function
@@ -26,3 +35,37 @@ shadow_projection:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+
+    .section .text.FUN_06036A5C
+    .global ground_shadow_render
+    .type ground_shadow_render, @function
+ground_shadow_render:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xF8
+    .byte 0xD3, 0x0B
+    .byte 0x43, 0x0B
+    .byte 0x64, 0xF3
+    .byte 0x62, 0xF3
+    .byte 0xE3, 0x71
+    .byte 0x6D, 0xDC
+    .byte 0x22, 0x30
+    .byte 0x60, 0xD3
+    .byte 0x62, 0xF3
+    .byte 0x63, 0xF3
+    .byte 0x12, 0xE1
+    .byte 0x80, 0x34
+    .byte 0x94, 0x08
+    .byte 0xD3, 0x06
+    .byte 0x43, 0x0B
+    .byte 0x65, 0xF3
+    .byte 0x64, 0x03
+    .byte 0x7F, 0x08
+    .byte 0x4F, 0x26
+    .byte 0x6D, 0xF6
+    .byte 0x00, 0x0B
+    .byte 0x6E, 0xF6
+    .byte 0x02, 0x00
+    .byte 0xFF, 0xFF
+    .4byte input_proc_analog
+    .4byte input_proc_buttons
+

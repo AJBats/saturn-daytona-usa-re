@@ -201,6 +201,12 @@ def parse_retail_file(filepath):
                 cur['bytes'].append(int(m.group(2), 16))
                 continue
 
+            # .byte 0xHH (single byte — occurs at odd-offset data labels)
+            m = re.match(r'\.byte\s+0x([0-9A-Fa-f]+)\s*$', line)
+            if m:
+                cur['bytes'].append(int(m.group(1), 16))
+                continue
+
             # .4byte symbol
             m = re.match(r'\.4byte\s+(\S+)', line)
             if m:
@@ -485,6 +491,14 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
     # Get the first section name from the first global
     first_sec = f"FUN_{TU_START:08X}"
     lines.append(f"    .section .text.{first_sec}")
+    # If the TU start address is not 4-byte aligned, pad the section so that
+    # all absolute addresses within the TU have the same alignment relative to
+    # the section base as in the original binary.  This is needed because
+    # mov.l @(disp,PC) computes targets relative to (PC & ~3), and the
+    # assembler assumes the section base is 4-byte aligned.
+    pad = TU_START % 4
+    if pad:
+        lines.append(f"    .space {pad}    /* align to match original address 0x{TU_START:08X} (mod 4 = {pad}) */")
     lines.append("")
 
     # Statistics
@@ -628,18 +642,27 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 pc += 2
                 continue
 
+            # Check if next byte has a global (odd-offset data label).
+            # If so, emit single byte to avoid skipping the label.
+            if (pc + 1) in globals_map:
+                lines.append(f"    .byte   0x{image[off]:02X}")
+                pc += 1
+                continue
+
             # Determine if this data slot should be emitted as a 4-byte entry.
-            # Requirements: 4-byte aligned, room for 4 bytes, and the second
-            # half-word is not a separate label/code/symbol boundary.
+            # Requirements: 4-byte aligned, room for 4 bytes, and no label/code
+            # boundary at pc+1, pc+2, or pc+3.
             can_emit_4 = (
                 pc % 4 == 0 and
                 off + 4 <= TU_SIZE and
+                (pc + 1) not in globals_map and
                 (pc + 2) not in fourbyte_map and
                 (pc + 2) not in code_addrs and
                 (pc + 2) not in globals_map and
                 (pc + 2) not in branch_labels and
                 (pc + 2) not in pool_labels and
-                (pc + 2) not in wpool_labels
+                (pc + 2) not in wpool_labels and
+                (pc + 3) not in globals_map
             )
 
             if can_emit_4:

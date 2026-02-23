@@ -1,3 +1,12 @@
+/* evt_condition_return
+ *
+ * Translation unit: 0x06040964 - 0x060409C8 (~100 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_06040964
     .global evt_condition_return
     .type evt_condition_return, @function
@@ -14,3 +23,41 @@ evt_condition_return:
     .byte 0x00, 0x0B
     .byte 0x60, 0x43
     .byte 0x62, 0x63
+
+    .section .text.FUN_06040980
+    .global dma_channel_setup
+    .type dma_channel_setup, @function
+dma_channel_setup:
+    .byte 0x4F, 0x22
+    .byte 0x61, 0xE3
+    .byte 0x1E, 0x58
+    .byte 0x71, 0x18
+    .byte 0xD3, 0x0A
+    .byte 0x43, 0x0B
+    .byte 0xE0, 0x06
+    .byte 0xE2, 0x00
+    .byte 0x2F, 0x26
+    .byte 0x67, 0x23
+    .byte 0xD3, 0x08
+    .byte 0x43, 0x0B
+    .byte 0x54, 0xE5
+    .byte 0x64, 0x03
+    .byte 0x24, 0x48
+    .byte 0x8D, 0x03
+    .byte 0x7F, 0x04
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x6E, 0xF6
+    .byte 0x4F, 0x26
+    .byte 0xD3, 0x04
+    .byte 0x43, 0x2B
+    .byte 0x6E, 0xF6
+    .4byte track_surface_check
+    .4byte sym_06035228
+    .4byte buffer_slot_alloc
+    .4byte state_field_read
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x6E, 0xF6
+    .byte 0xE5, 0x00
+

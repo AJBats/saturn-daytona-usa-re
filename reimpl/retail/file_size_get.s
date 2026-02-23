@@ -1,3 +1,12 @@
+/* file_size_get
+ *
+ * Translation unit: 0x06012084 - 0x060120C8 (~68 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_06012084
     .global file_size_get
     .type file_size_get, @function
@@ -18,3 +27,28 @@ file_size_get:
     .global sym_0601209E
 sym_0601209E:
     .byte 0xE5, 0x07
+
+    .section .text.FUN_060120A0
+    .global file_close
+    .type file_close, @function
+file_close:
+    .byte 0x2F, 0xE6
+    .byte 0x4F, 0x22
+    .byte 0xDE, 0x07
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x20
+    .byte 0xE5, 0x06
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x08
+    .byte 0x94, 0x07
+    .byte 0x4E, 0x0B
+    .byte 0xE5, 0x05
+    .byte 0xE5, 0x04
+    .byte 0x4E, 0x0B
+    .byte 0xE4, 0x10
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x6E, 0xF6
+    .byte 0x01, 0x00
+    .4byte channel_nibble_config
+

@@ -1,3 +1,12 @@
+/* menu_bg_color
+ *
+ * Translation unit: 0x0603B5D0 - 0x0603B630 (~96 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_0603B5D0
     .global menu_bg_color
     .type menu_bg_color, @function
@@ -19,3 +28,25 @@ menu_bg_color:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+
+    .section .text.FUN_0603B60C
+    .global menu_border_render
+    .type menu_border_render, @function
+menu_border_render:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xFC
+    .byte 0x2F, 0x42
+    .byte 0xD3, 0x06
+    .byte 0x43, 0x0B
+    .byte 0x54, 0x42
+    .byte 0x2F, 0x02
+    .byte 0xB1, 0x8F
+    .byte 0xE4, 0x00
+    .byte 0x60, 0xF2
+    .byte 0x7F, 0x04
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09
+    .4byte attract_timer_tick
+    .4byte sym_0603F9FA
+

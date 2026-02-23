@@ -1,3 +1,12 @@
+/* obj_render_dispatch
+ *
+ * Translation unit: 0x0603698C - 0x06036A1C (~144 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_0603698C
     .global obj_render_dispatch
     .type obj_render_dispatch, @function
@@ -38,3 +47,40 @@ obj_render_dispatch:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+
+    .section .text.FUN_060369D8
+    .global obj_view_frustum
+    .type obj_view_frustum, @function
+obj_view_frustum:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xF0
+    .byte 0x64, 0xF3
+    .byte 0xD3, 0x0C
+    .byte 0x43, 0x0B
+    .byte 0x74, 0x08
+    .byte 0x62, 0xF3
+    .byte 0xE3, 0x67
+    .byte 0x66, 0xF3
+    .byte 0x65, 0xF3
+    .byte 0x72, 0x08
+    .byte 0x75, 0x08
+    .byte 0x22, 0x30
+    .byte 0xD3, 0x09
+    .byte 0x43, 0x0B
+    .byte 0xE4, 0x00
+    .byte 0x64, 0x03
+    .byte 0x62, 0xF3
+    .byte 0x84, 0x21
+    .byte 0x63, 0x03
+    .byte 0x63, 0x3C
+    .byte 0x60, 0x43
+    .byte 0x2E, 0x32
+    .byte 0x7F, 0x10
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x6E, 0xF6
+    .byte 0x01, 0x00
+    .4byte input_proc_analog
+    .4byte input_proc_buttons
+    .4byte input_proc_digital
+

@@ -1,3 +1,12 @@
+/* menu_element_dispatch
+ *
+ * Translation unit: 0x0603B058 - 0x0603B0C0 (~104 bytes, 2 functions)
+ * Reconstructed from cross-section pool sharing analysis.
+ *
+ * Each function retains its own .section directive for retail byte-identical
+ * builds. The free-build src/ file uses a single section for all functions.
+ */
+
     .section .text.FUN_0603B058
     .global menu_element_dispatch
     .type menu_element_dispatch, @function
@@ -29,3 +38,33 @@ menu_element_dispatch:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+
+    .section .text.FUN_0603B08E
+    .global menu_elem_visible
+    .type menu_elem_visible, @function
+menu_elem_visible:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xF8
+    .byte 0xBF, 0xE1
+    .byte 0x2F, 0x42
+    .byte 0x1F, 0x01
+    .byte 0xB4, 0x50
+    .byte 0xE4, 0x00
+    .byte 0x62, 0xF2
+    .byte 0x63, 0x22
+    .byte 0x52, 0xF1
+    .byte 0x53, 0x34
+    .byte 0x32, 0x33
+    .byte 0x8B, 0x05
+    .byte 0x7F, 0x08
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0xE0, 0x01
+    .4byte sym_060A4D14
+    .byte 0xE0, 0x00
+    .byte 0x7F, 0x08
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09
+    .byte 0xE0, 0x1D
+
