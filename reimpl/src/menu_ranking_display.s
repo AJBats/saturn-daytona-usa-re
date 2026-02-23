@@ -14,7 +14,7 @@ menu_ranking_display:
     add #-0x4, r15
     mov.l r5, @r15
     mov.l   .L_sym_060A4D14, r14
-    mov.w   .L_wpool_0603B71C, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
@@ -22,7 +22,7 @@ menu_ranking_display:
     cmp/pz r4
     bf      .L_0603B6CA
     mov.l @r14, r2
-    mov.w   .L_wpool_0603B71E, r0
+    mov.w   .L_const_0x0a4_w, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r4
     bf      .L_0603B6D4
@@ -34,12 +34,12 @@ menu_ranking_display:
     mov.l @r15+, r14
 .L_0603B6D4:
     mov.l @r14, r0
-    mov.w   .L_wpool_0603B720, r1
+    mov.w   .L_const_0x098_w, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
     bf      .L_0603B6F6
     mov.l @r14, r5
-    mov.w   .L_wpool_0603B71C, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l   .L_sym_0603F1F0, r3
     jsr @r3
     mov.l @(r0, r5), r5
@@ -52,7 +52,7 @@ menu_ranking_display:
     nop
 .L_0603B6F6:
     mov.l @r14, r5
-    mov.w   .L_wpool_0603B71C, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l   .L_sym_0603F1E0, r3
     jsr @r3
     mov.l @(r0, r5), r5
@@ -69,11 +69,11 @@ menu_ranking_display:
     mov.l @r15+, r14
     .4byte  0x7F044F26
     .4byte  0x000B6EF6
-.L_wpool_0603B71C:
+.L_const_0x0a0_w:
     .2byte  0x00A0
-.L_wpool_0603B71E:
+.L_const_0x0a4_w:
     .2byte  0x00A4
-.L_wpool_0603B720:
+.L_const_0x098_w:
     .2byte  0x0098
     .2byte  0xFFFF
 .L_sym_060A4D14:

@@ -110,10 +110,10 @@ menu_anim_system:
     bt      .L_0603AAD2
     cmp/eq #0x30, r0
     bt      .L_0603AAE6
-    mov.w   .L_wpool_0603ABC6, r1
+    mov.w   .L_const_0x0e1_w, r1
     cmp/eq r1, r0
     bt      .L_0603AB02
-    mov.w   .L_wpool_0603ABC8, r1
+    mov.w   .L_const_0x0e2_w, r1
     cmp/eq r1, r0
     bt      .L_0603AB06
     mov.w   .L_mask_byte_w_2, r1
@@ -196,9 +196,9 @@ sym_0603AB46:
     mov r4, r0
     bra     .L_0603AC12
     mov.b r0, @(2, r2)
-.L_wpool_0603ABC6:
+.L_const_0x0e1_w:
     .2byte  0x00E1
-.L_wpool_0603ABC8:
+.L_const_0x0e2_w:
     .2byte  0x00E2
 .L_mask_byte_w_2:
     .2byte  0x00FF

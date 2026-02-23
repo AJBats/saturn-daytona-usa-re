@@ -12,7 +12,7 @@ display_channels_clear:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_channel_nibble_config, r14
-    mov.w   .L_wpool_0601495C, r4
+    mov.w   .L_bit_8_w, r4
     jsr @r14
     mov #0x0, r5
     mov #0x0, r5
@@ -40,7 +40,7 @@ channel_config_a:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_channel_nibble_config, r14
-    mov.w   .L_wpool_0601495C, r4
+    mov.w   .L_bit_8_w, r4
     jsr @r14
     mov #0x4, r5
     mov #0x1, r5
@@ -61,7 +61,7 @@ channel_config_a:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0601495C:
+.L_bit_8_w:
     .2byte  0x0100
     .2byte  0xFFFF
 .L_channel_nibble_config:

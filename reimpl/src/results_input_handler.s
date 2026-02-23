@@ -12,7 +12,7 @@ results_input_handler:
     sts.l pr, @-r15
     shll2 r3
     mov.l   .L_sym_06084FC8, r13
-    mov.w   .L_wpool_0601686C, r2
+    mov.w   .L_mask_0x0f00_w, r2
     shll2 r3
     add r3, r4
     exts.w r4, r4
@@ -52,7 +52,7 @@ results_input_handler:
     bt      .L_060168A6
     extu.b r14, r3
     mov #0x7, r2
-    mov.w   .L_wpool_0601686E, r4
+    mov.w   .L_mask_0x1800_w, r4
     cmp/ge r2, r3
     bt      .L_06016874
     extu.b r14, r5
@@ -82,9 +82,9 @@ results_input_handler:
     mov.l r12, @(48, r3)
     bra     .L_060168A6
     nop
-.L_wpool_0601686C:
+.L_mask_0x0f00_w:
     .2byte  0x0F00
-.L_wpool_0601686E:
+.L_mask_0x1800_w:
     .2byte  0x1800
 .L_sym_06084FC8:
     .4byte  sym_06084FC8

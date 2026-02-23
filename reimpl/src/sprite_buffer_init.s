@@ -13,7 +13,7 @@ sprite_buffer_init:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_060116A2, r13
+    mov.w   .L_bit_8_w, r13
     mov.l   .L_vdp2_vram_5f800, r12
     .byte   0xBF, 0xE1    /* bsr 0x0601164A (external) */
     mov #0x0, r14
@@ -31,7 +31,7 @@ sprite_buffer_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060116A2:
+.L_bit_8_w:
     .2byte  0x0100
 .L_vdp2_vram_5f800:
     .4byte  0x25E5F800

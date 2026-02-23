@@ -17,7 +17,7 @@ obj_pool_alloc:
     mov.l   .L_sym_06087806, r14
     mov.l   .L_sym_06063D9A, r3
     mov.w @r3, r2
-    mov.w   .L_wpool_0602026A, r3
+    mov.w   .L_bit_11_w, r3
     extu.w r2, r2
     and r3, r2
     tst r2, r2
@@ -101,7 +101,7 @@ obj_pool_alloc:
     mov.l @r15+, r13
     .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */
     mov.l @r15+, r14
-.L_wpool_0602026A:
+.L_bit_11_w:
     .2byte  0x0800
 .L_sym_06087808:
     .4byte  sym_06087808

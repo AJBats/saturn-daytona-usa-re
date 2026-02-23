@@ -369,10 +369,10 @@ DAT_0603a8bc:
 .L_0603AA5A:
     cmp/eq #0x30, r0
     bt      .L_0603A97A
-    mov.w   .L_wpool_0603AA7C, r1
+    mov.w   .L_const_0x0e1_w, r1
     cmp/eq r1, r0
     bt      .L_0603A9FA
-    mov.w   .L_wpool_0603AA7E, r1
+    mov.w   .L_const_0x0e2_w, r1
     cmp/eq r1, r0
     bt      .L_0603AA1A
     mov.w   .L_mask_byte_w, r1
@@ -385,9 +385,9 @@ DAT_0603a8bc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0603AA7C:
+.L_const_0x0e1_w:
     .2byte  0x00E1
-.L_wpool_0603AA7E:
+.L_const_0x0e2_w:
     .2byte  0x00E2
 .L_mask_byte_w:
     .2byte  0x00FF

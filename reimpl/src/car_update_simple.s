@@ -29,7 +29,7 @@ car_update_simple:
     nop
     .byte   0xB1, 0x71    /* bsr 0x0600E71A (external) */
     nop
-    mov.l   .L_pool_0600E474, r5
+    mov.l   .L_fp_1637_05b3, r5
     mov.l   .L_fpmul, r3
     jsr @r3
     mov.l @(12, r14), r4
@@ -38,7 +38,7 @@ car_update_simple:
     exts.w r0, r0
     add r14, r1
     mov.l r0, @r1
-    mov.w   .L_wpool_0600E458, r1
+    mov.w   .L_const_0x0e0_w, r1
     add r14, r1
     mov.l r0, @r1
     lds.l @r15+, pr
@@ -48,7 +48,7 @@ car_update_simple:
     .global DAT_0600e456
 DAT_0600e456:
     .2byte  0x00E4
-.L_wpool_0600E458:
+.L_const_0x0e0_w:
     .2byte  0x00E0
     .2byte  0xFFFF
 .L_sym_0607E944:
@@ -63,7 +63,7 @@ DAT_0600e456:
     .4byte  sym_06030A06
 .L_sym_06030EE0:
     .4byte  sym_06030EE0
-.L_pool_0600E474:
+.L_fp_1637_05b3:
     .4byte  0x066505B3
 .L_fpmul:
     .4byte  fpmul

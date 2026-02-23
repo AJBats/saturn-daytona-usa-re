@@ -61,10 +61,10 @@ sym_0603BF7C:
     mov.l r9, @-r15
     mov #0x3F, r9
     mov #0x40, r10
-    mov.l   .L_pool_0603BFFC, r11
-    mov.w   .L_wpool_0603BFF8, r12
+    mov.l   .L_fp_24576, r11
+    mov.w   .L_bit_8_w, r12
     mov #0x0, r7
-    mov.w   .L_wpool_0603BFFA, r5
+    mov.w   .L_neg_366_w, r5
     mov.b @r5, r0
     extu.b r0, r0
     and #0xFE, r0
@@ -118,11 +118,11 @@ sym_0603BF7C:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r13
-.L_wpool_0603BFF8:
+.L_bit_8_w:
     .2byte  0x0100
-.L_wpool_0603BFFA:
+.L_neg_366_w:
     .2byte  0xFE92
-.L_pool_0603BFFC:
+.L_fp_24576:
     .4byte  0x60000000
 
     .global sym_0603C000
@@ -134,9 +134,9 @@ sym_0603C000:
     mov #0x40, r10
     mov #0x3F, r11
     mov.w   DAT_0603c07a, r12
-    mov.l   .L_pool_0603C080, r13
+    mov.l   .L_fp_24576_2, r13
     mov #0x0, r7
-    mov.w   .L_wpool_0603C07C, r5
+    mov.w   .L_neg_366_w_2, r5
     mov.b @r5, r0
     extu.b r0, r0
     and #0xFE, r0
@@ -178,7 +178,7 @@ sym_0603C000:
 
     .global sym_0603C05C
 sym_0603C05C:
-    mov.l   .L_pool_0603C084, r3
+    mov.l   .L_fp_8191_fff0, r3
     mov.l   .L_bit_30, r2
     and r3, r4
     or r2, r4
@@ -199,12 +199,12 @@ sym_0603C05C:
     .global DAT_0603c07a
 DAT_0603c07a:
     .2byte  0x0100
-.L_wpool_0603C07C:
+.L_neg_366_w_2:
     .2byte  0xFE92
     .2byte  0xFFFF
-.L_pool_0603C080:
+.L_fp_24576_2:
     .4byte  0x60000000
-.L_pool_0603C084:
+.L_fp_8191_fff0:
     .4byte  0x1FFFFFF0
 .L_bit_30:
     .4byte  0x40000000

@@ -13,7 +13,7 @@ file_size_get:
     mov.l   .L_channel_nibble_config, r14
     jsr @r14
     mov #0x8, r4
-    mov.w   .L_wpool_060120C2, r4
+    mov.w   .L_bit_8_w, r4
     jsr @r14
     mov #0x5, r5
     mov #0x4, r5
@@ -38,7 +38,7 @@ file_close:
     mov #0x6, r5
     jsr @r14
     mov #0x8, r4
-    mov.w   .L_wpool_060120C2, r4
+    mov.w   .L_bit_8_w, r4
     jsr @r14
     mov #0x5, r5
     mov #0x4, r5
@@ -47,7 +47,7 @@ file_close:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_060120C2:
+.L_bit_8_w:
     .2byte  0x0100
 .L_channel_nibble_config:
     .4byte  channel_nibble_config

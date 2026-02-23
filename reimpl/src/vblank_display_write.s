@@ -368,7 +368,7 @@ vdp2_scroll_update:
     mov.l   .L_vdp1_vram_00000, r2
     mov.l r2, @r14
     mov r2, r3
-    mov.w   .L_wpool_060392E8, r2
+    mov.w   .L_bit_7_w, r2
     mov.b r2, @r3
     mov.l @r14, r3
     add #0x1, r3
@@ -394,7 +394,7 @@ vdp2_scroll_update:
     .global DAT_060392e6
 DAT_060392e6:
     .2byte  0xFF0F
-.L_wpool_060392E8:
+.L_bit_7_w:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_sym_060A4C92_3:

@@ -29,11 +29,11 @@ dma_memory_transfer:
     mov #0x0, r7
     mov #0x0, r10
     mov.l   .L_mask_high_byte, r12
-    mov.l   .L_pool_060286B8, r14
+    mov.l   .L_const_0xfff, r14
 .L_0602867E:
     shlr r7
     mov r7, r8
-    mov.w   .L_wpool_060286AC, r9
+    mov.w   .L_bit_8_w, r9
     and r9, r8
     cmp/eq r8, r10
     bf      .L_06028692
@@ -55,14 +55,14 @@ dma_memory_transfer:
     add #0x1, r6
     bra     .L_0602867E
     and r14, r6
-.L_wpool_060286AC:
+.L_bit_8_w:
     .2byte  0x0100
     .2byte  0x0000
 .L_sym_0602872C:
     .4byte  sym_0602872C
 .L_mask_high_byte:
     .4byte  0x0000FF00
-.L_pool_060286B8:
+.L_const_0xfff:
     .4byte  0x00000FFF
 .L_060286BC:
     mov.b @r4+, r1

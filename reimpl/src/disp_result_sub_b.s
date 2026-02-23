@@ -227,12 +227,12 @@ split_position_disp:
     mov.l @r5, r5
     mov.l @r15+, r0
     mov.l r0, @-r15
-    mov.l   .L_pool_060335DC, r2
+    mov.l   .L_offset_0x020, r2
     mov.l @(r0, r2), r3
-    mov.l   .L_pool_060335E0, r2
+    mov.l   .L_offset_0x1d8, r2
     mov.l @(r0, r2), r4
     add r4, r3
-    mov.l   .L_pool_060335E4, r2
+    mov.l   .L_offset_0x1cc, r2
     mov.l @(r0, r2), r4
     add r4, r3
     neg r3, r2
@@ -246,9 +246,9 @@ disp_course_thunk_0:
     bsr     .L_060335F4
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060335E8, r2
+    mov.l   .L_offset_0x010, r2
     mov.l @(r0, r2), r3
-    mov.l   .L_pool_060335EC, r2
+    mov.l   .L_offset_0x018, r2
     mov.l @(r0, r2), r2
     mov r3, r4
     mov r8, r5
@@ -308,15 +308,15 @@ course_name_render:
     nop
 .L_sym_06033630:
     .4byte  sym_06033630
-.L_pool_060335DC:
+.L_offset_0x020:
     .4byte  0x00000020
-.L_pool_060335E0:
+.L_offset_0x1d8:
     .4byte  0x000001D8
-.L_pool_060335E4:
+.L_offset_0x1cc:
     .4byte  0x000001CC
-.L_pool_060335E8:
+.L_offset_0x010:
     .4byte  0x00000010
-.L_pool_060335EC:
+.L_offset_0x018:
     .4byte  0x00000018
 .L_fpmul:
     .4byte  fpmul
@@ -398,7 +398,7 @@ sym_0603363C:
     add #-0x1, r6
 .L_0603366C:
     mov.l r0, @-r15
-    mov.l   .L_pool_060336C0, r2
+    mov.l   .L_offset_0x224, r2
     mov.l @(r0, r2), r3
     mov #0x0, r4
     cmp/eq r4, r3
@@ -451,7 +451,7 @@ course_stats_display:
     .2byte  0x0000
 .L_sym_0603386C:
     .4byte  sym_0603386C
-.L_pool_060336C0:
+.L_offset_0x224:
     .4byte  0x00000224
 .L_struct_stride_268:
     .4byte  0x00000268
@@ -537,7 +537,7 @@ course_selector_hl:
     bf      .L_06033756
     neg r12, r12
     neg r14, r14
-    mov.l   .L_pool_060337E4, r4
+    mov.l   .L_const_0x4800, r4
 .L_06033756:
     mov.l   .L_sym_06033894, r0
     add r1, r0
@@ -619,7 +619,7 @@ display_element_mgr:
     .4byte  fpdiv_setup
 .L_fp_neg_0_3800:
     .4byte  0xFFFFC800
-.L_pool_060337E4:
+.L_const_0x4800:
     .4byte  0x00004800
 .L_mask_16bit:
     .4byte  0x0000FFFF

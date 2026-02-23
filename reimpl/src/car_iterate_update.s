@@ -38,7 +38,7 @@ car_iterate_update:
     mov.l @r11, r0
     shll2 r3
     mov.l @(4, r0), r2
-    mov.w   .L_wpool_0600D91A, r0
+    mov.w   .L_const_0x1ec_w, r0
     add r2, r3
     mov.l @r3, r3
     mov.l @(r0, r1), r2
@@ -71,7 +71,7 @@ car_iterate_update:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0600D91A:
+.L_const_0x1ec_w:
     .2byte  0x01EC
 .L_sym_0607E944:
     .4byte  sym_0607E944

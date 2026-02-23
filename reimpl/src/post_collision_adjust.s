@@ -29,7 +29,7 @@ post_collision_adjust:
     mov r15, r3
     mov r13, r0
     mov.w r0, @(6, r3)
-    mov.w   .L_wpool_060368D0, r4
+    mov.w   .L_bit_7_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -68,7 +68,7 @@ obj_visibility_check:
     mov r15, r3
     mov r13, r0
     mov.w r0, @(6, r3)
-    mov.w   .L_wpool_060368D0, r4
+    mov.w   .L_bit_7_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -79,7 +79,7 @@ obj_visibility_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060368D0:
+.L_bit_7_w:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_input_proc_analog:

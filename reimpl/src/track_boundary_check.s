@@ -20,7 +20,7 @@ track_boundary_check:
     cmp/eq #0x1, r0
     bf      .L_06041AE8
     mov.l @r14, r4
-    mov.w   .L_wpool_06041B0C, r0
+    mov.w   .L_const_0x308_w, r0
     mov.l   .L_track_seg_boundary, r3
     jsr @r3
     mov.l @(r0, r4), r4
@@ -68,7 +68,7 @@ track_boundary_check:
     .global DAT_06041b0a
 DAT_06041b0a:
     .2byte  0x0304
-.L_wpool_06041B0C:
+.L_const_0x308_w:
     .2byte  0x0308
     .2byte  0xFFFF
 .L_sym_060A5400:
@@ -117,7 +117,7 @@ track_surface_validate:
     mov r4, r12
     mov r15, r5
     mov.l @r14, r4
-    mov.w   .L_wpool_06041BCA, r0
+    mov.w   .L_const_0x310_w, r0
     mov.l   .L_track_surface_type_c, r3
     jsr @r3
     mov.l @(r0, r4), r4
@@ -140,7 +140,7 @@ track_surface_validate:
     sub r3, r2
     mov.l r2, @r15
     mov.l @r14, r4
-    mov.w   .L_wpool_06041BCE, r0
+    mov.w   .L_const_0x318_w, r0
     mov.l @(r0, r4), r4
     cmp/ge r4, r2
     bt      .L_06041B98
@@ -150,7 +150,7 @@ track_surface_validate:
     mov.l r4, @r15
 .L_06041B9A:
     mov.l @r14, r2
-    mov.w   .L_wpool_06041BD0, r0
+    mov.w   .L_const_0x320_w, r0
     mov.l @(r0, r2), r3
     mov.l @r15, r2
     mov.l r2, @r3
@@ -180,15 +180,15 @@ DAT_06041bc6:
     .global DAT_06041bc8
 DAT_06041bc8:
     .2byte  0x030C
-.L_wpool_06041BCA:
+.L_const_0x310_w:
     .2byte  0x0310
 
     .global DAT_06041bcc
 DAT_06041bcc:
     .2byte  0x0314
-.L_wpool_06041BCE:
+.L_const_0x318_w:
     .2byte  0x0318
-.L_wpool_06041BD0:
+.L_const_0x320_w:
     .2byte  0x0320
 
     .global DAT_06041bd2
@@ -233,7 +233,7 @@ DAT_06041bd2:
     mov.l @r14, r2
     mov.l r3, @(52, r2)
     mov.l @r14, r6
-    mov.w   .L_wpool_06041CAC, r0
+    mov.w   .L_const_0x320_w_2, r0
     mov.l @r14, r5
     mov.l @r14, r4
     mov.l   .L_track_surface_type_d, r3
@@ -315,7 +315,7 @@ DAT_06041ca8:
     .global DAT_06041caa
 DAT_06041caa:
     .2byte  0x030C
-.L_wpool_06041CAC:
+.L_const_0x320_w_2:
     .2byte  0x0320
     .2byte  0xFFFF
 .L_track_surface_type_d:

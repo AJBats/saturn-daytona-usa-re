@@ -173,8 +173,8 @@ track_segment_advance:
     add #-0x4, r0
     extu.w r3, r3
     mov.l r3, @(r0, r4)
-    mov.w   .L_wpool_0600CF3C, r1
-    mov.w   .L_wpool_0600CF3E, r2
+    mov.w   .L_const_0x162_w, r1
+    mov.w   .L_const_0x160_w, r2
     mov.l   .L_sym_06035228, r3
     add r4, r1
     add r4, r2
@@ -182,7 +182,7 @@ track_segment_advance:
     mov #0x2, r0
     mov r5, r2
     mov.l   .L_sym_06035228, r3
-    mov.w   .L_wpool_0600CF3E, r1
+    mov.w   .L_const_0x160_w, r1
     add #0x2, r2
     add r4, r1
     jsr @r3
@@ -201,7 +201,7 @@ track_segment_advance:
     add #-0x10, r2
     cmp/gt r2, r5
     bf      .L_0600CF34
-    mov.w   .L_wpool_0600CF42, r0
+    mov.w   .L_const_0x228_w, r0
     mov.l @(r0, r4), r2
     add #0x1, r2
     mov.l r2, @(r0, r4)
@@ -225,15 +225,15 @@ track_segment_advance:
     .global DAT_0600cf3a
 DAT_0600cf3a:
     .2byte  0x0184
-.L_wpool_0600CF3C:
+.L_const_0x162_w:
     .2byte  0x0162
-.L_wpool_0600CF3E:
+.L_const_0x160_w:
     .2byte  0x0160
 
     .global DAT_0600cf40
 DAT_0600cf40:
     .2byte  0x01F0
-.L_wpool_0600CF42:
+.L_const_0x228_w:
     .2byte  0x0228
 .L_sym_0607EB84:
     .4byte  sym_0607EB84

@@ -33,7 +33,7 @@ obj_render_dispatch:
     mov r15, r3
     mov r12, r0
     mov.w r0, @(6, r3)
-    mov.w   .L_wpool_06036A0E, r4
+    mov.w   .L_bit_8_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -77,7 +77,7 @@ obj_view_frustum:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_06036A0E:
+.L_bit_8_w:
     .2byte  0x0100
 .L_input_proc_analog:
     .4byte  input_proc_analog

@@ -14,7 +14,7 @@ cmd_queue_process:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.l   .L_sym_060A4D14, r14
-    mov.w   .L_wpool_0603AF70, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
@@ -44,7 +44,7 @@ cmd_queue_process:
     mov #0x0, r0
 .L_0603AF26:
     mov.l @r14, r2
-    mov.w   .L_wpool_0603AF70, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_0603AF34
@@ -52,12 +52,12 @@ cmd_queue_process:
     mov #0x0, r5
 .L_0603AF34:
     mov.l @r14, r2
-    mov.w   .L_wpool_0603AF74, r0
+    mov.w   .L_const_0x098_w, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_0603AF4E
     mov.l @r14, r5
-    mov.w   .L_wpool_0603AF70, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l   .L_sym_0603F1E0, r3
     mov.l @(r0, r5), r5
     jsr @r3
@@ -66,7 +66,7 @@ cmd_queue_process:
     nop
 .L_0603AF4E:
     mov.l @r14, r5
-    mov.w   .L_wpool_0603AF70, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l   .L_sym_0603F1F0, r3
     mov.l @(r0, r5), r5
     jsr @r3
@@ -84,13 +84,13 @@ cmd_queue_process:
     mov #-0xA, r4
     bra     .L_0603AF88
     nop
-.L_wpool_0603AF70:
+.L_const_0x0a0_w:
     .2byte  0x00A0
 
     .global DAT_0603af72
 DAT_0603af72:
     .2byte  0x00A4
-.L_wpool_0603AF74:
+.L_const_0x098_w:
     .2byte  0x0098
     .2byte  0xFFFF
 .L_sym_060A4D14:

@@ -107,7 +107,7 @@ render_scene_loop:
 .L_sym_060620D8:
     .4byte  sym_060620D8
 .L_0600B9D4:
-    mov.w   .L_wpool_0600BAB0, r14
+    mov.w   .L_vehicle_stride_w, r14
     mov.l   .L_sym_06078900, r3
     mov.l   .L_fp_224, r1
     mul.l r14, r10
@@ -146,7 +146,7 @@ render_scene_loop:
     neg r4, r4
     mov.w   DAT_0600bab4, r0
     mov.l @(r0, r14), r2
-    mov.w   .L_wpool_0600BAB6, r0
+    mov.w   .L_const_0x0b8_w, r0
     mov.l @(r0, r14), r3
     add r3, r2
     tst r2, r2
@@ -160,12 +160,12 @@ render_scene_loop:
     mov.l   .L_mat_rot_xy_b, r3
     jsr @r3
     nop
-    mov.w   .L_wpool_0600BABA, r0
+    mov.w   .L_const_0x1d0_w, r0
     mov.l   .L_mat_rot_yz_b, r3
     mov.l @(r0, r14), r4
     jsr @r3
     neg r4, r4
-    mov.w   .L_wpool_0600BABC, r0
+    mov.w   .L_const_0x1c8_w, r0
     mov.l   .L_mat_rot_xz_b, r3
     mov.l @(r0, r14), r4
     jsr @r3
@@ -221,7 +221,7 @@ render_scene_loop:
     mov.l @r4, r4
     bra     .L_0600BB62
     nop
-.L_wpool_0600BAB0:
+.L_vehicle_stride_w:
     .2byte  0x0268
 
     .global DAT_0600bab2
@@ -231,15 +231,15 @@ DAT_0600bab2:
     .global DAT_0600bab4
 DAT_0600bab4:
     .2byte  0x01BC
-.L_wpool_0600BAB6:
+.L_const_0x0b8_w:
     .2byte  0x00B8
 
     .global DAT_0600bab8
 DAT_0600bab8:
     .2byte  0x01D8
-.L_wpool_0600BABA:
+.L_const_0x1d0_w:
     .2byte  0x01D0
-.L_wpool_0600BABC:
+.L_const_0x1c8_w:
     .2byte  0x01C8
     .2byte  0xFFFF
 .L_sym_06078900:
@@ -291,7 +291,7 @@ DAT_0600bab8:
     mov.b @(1, r0), r0
     tst #0x80, r0
     bt      .L_0600BB62
-    mov.w   .L_wpool_0600BB8C, r0
+    mov.w   .L_const_0x1bc_w, r0
     mov.l @(r0, r14), r3
     cmp/pl r3
     bt      .L_0600BB40
@@ -351,7 +351,7 @@ DAT_0600bab8:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0600BB8C:
+.L_const_0x1bc_w:
     .2byte  0x01BC
     .2byte  0xFFFF
 .L_sym_0607EA98:

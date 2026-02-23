@@ -18,7 +18,7 @@ render_obj_processor:
     mov.l r8, @-r15
     add #-0x2C, r15
     mov #0x0, r7
-    mov.w   .L_wpool_06022BBA, r6
+    mov.w   .L_neg_405_w, r6
     mov r15, r14
     add #0x24, r14
     mov r14, r3
@@ -100,7 +100,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022BB0
     mov.l @r15, r2
-    mov.w   .L_wpool_06022BBC, r3
+    mov.w   .L_const_0x195_w, r3
     cmp/gt r3, r2
     bt      .L_06022BB0
     mov.l @r9, r2
@@ -109,7 +109,7 @@ render_obj_processor:
     bf/s    .L_06022BB0
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022BBE, r3
+    mov.w   .L_const_0x131_w, r3
     cmp/gt r3, r2
     bt      .L_06022BB0
     mov.l @(12, r15), r2
@@ -121,11 +121,11 @@ render_obj_processor:
     tst r0, r0
     bra     .L_06022BC0
     nop
-.L_wpool_06022BBA:
+.L_neg_405_w:
     .2byte  0xFE6B
-.L_wpool_06022BBC:
+.L_const_0x195_w:
     .2byte  0x0195
-.L_wpool_06022BBE:
+.L_const_0x131_w:
     .2byte  0x0131
 .L_06022BC0:
     bt      .L_06022C16
@@ -156,7 +156,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022C16
     mov.l @r15, r2
-    mov.w   .L_wpool_06022C7A, r3
+    mov.w   .L_const_0x195_w_2, r3
     cmp/gt r3, r2
     bt      .L_06022C16
     mov.l @r10, r2
@@ -165,7 +165,7 @@ render_obj_processor:
     bf/s    .L_06022C16
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022C7C, r3
+    mov.w   .L_const_0x131_w_2, r3
     cmp/gt r3, r2
     bt      .L_06022C16
     mov.l @(8, r15), r2
@@ -206,7 +206,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022C76
     mov.l @r15, r2
-    mov.w   .L_wpool_06022C7A, r3
+    mov.w   .L_const_0x195_w_2, r3
     cmp/gt r3, r2
     bt      .L_06022C76
     mov.l @r13, r2
@@ -215,7 +215,7 @@ render_obj_processor:
     bf/s    .L_06022C76
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022C7C, r3
+    mov.w   .L_const_0x131_w_2, r3
     cmp/gt r3, r2
     bt      .L_06022C76
     mov.l @(16, r15), r2
@@ -224,9 +224,9 @@ render_obj_processor:
 .L_06022C76:
     bra     .L_06023014
     nop
-.L_wpool_06022C7A:
+.L_const_0x195_w_2:
     .2byte  0x0195
-.L_wpool_06022C7C:
+.L_const_0x131_w_2:
     .2byte  0x0131
 .L_06022C7E:
     mov.l @(28, r15), r2
@@ -268,7 +268,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022CE8
     mov.l @r15, r2
-    mov.w   .L_wpool_06022D4E, r3
+    mov.w   .L_const_0x195_w_3, r3
     cmp/gt r3, r2
     bt      .L_06022CE8
     mov.l @r11, r2
@@ -277,7 +277,7 @@ render_obj_processor:
     bf/s    .L_06022CE8
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022D50, r3
+    mov.w   .L_const_0x131_w_3, r3
     cmp/gt r3, r2
     bt      .L_06022CE8
     mov.l @(20, r15), r2
@@ -315,7 +315,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022D44
     mov.l @r15, r2
-    mov.w   .L_wpool_06022D4E, r3
+    mov.w   .L_const_0x195_w_3, r3
     cmp/gt r3, r2
     bt      .L_06022D44
     mov.l @r10, r2
@@ -324,7 +324,7 @@ render_obj_processor:
     bf/s    .L_06022D44
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022D50, r3
+    mov.w   .L_const_0x131_w_3, r3
     cmp/gt r3, r2
     bt      .L_06022D44
     mov.l @(8, r15), r2
@@ -336,9 +336,9 @@ render_obj_processor:
     tst r0, r0
     bra     .L_06022D52
     nop
-.L_wpool_06022D4E:
+.L_const_0x195_w_3:
     .2byte  0x0195
-.L_wpool_06022D50:
+.L_const_0x131_w_3:
     .2byte  0x0131
 .L_06022D52:
     bf      .L_06022D58
@@ -372,7 +372,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022DAC
     mov.l @r15, r2
-    mov.w   .L_wpool_06022DB0, r3
+    mov.w   .L_const_0x195_w_4, r3
     cmp/gt r3, r2
     bt      .L_06022DAC
     mov.l @r13, r2
@@ -381,7 +381,7 @@ render_obj_processor:
     bf/s    .L_06022DAC
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022DB2, r3
+    mov.w   .L_const_0x131_w_4, r3
     cmp/gt r3, r2
     bt      .L_06022DAC
     mov.l @(16, r15), r2
@@ -390,9 +390,9 @@ render_obj_processor:
 .L_06022DAC:
     bra     .L_06023014
     nop
-.L_wpool_06022DB0:
+.L_const_0x195_w_4:
     .2byte  0x0195
-.L_wpool_06022DB2:
+.L_const_0x131_w_4:
     .2byte  0x0131
 .L_06022DB4:
     mov.l @(24, r15), r2
@@ -434,7 +434,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022E1E
     mov.l @r15, r2
-    mov.w   .L_wpool_06022E84, r3
+    mov.w   .L_const_0x195_w_5, r3
     cmp/gt r3, r2
     bt      .L_06022E1E
     mov.l @r11, r2
@@ -443,7 +443,7 @@ render_obj_processor:
     bf/s    .L_06022E1E
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022E86, r3
+    mov.w   .L_const_0x131_w_5, r3
     cmp/gt r3, r2
     bt      .L_06022E1E
     mov.l @(20, r15), r2
@@ -481,7 +481,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022E7A
     mov.l @r15, r2
-    mov.w   .L_wpool_06022E84, r3
+    mov.w   .L_const_0x195_w_5, r3
     cmp/gt r3, r2
     bt      .L_06022E7A
     mov.l @r9, r2
@@ -490,7 +490,7 @@ render_obj_processor:
     bf/s    .L_06022E7A
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022E86, r3
+    mov.w   .L_const_0x131_w_5, r3
     cmp/gt r3, r2
     bt      .L_06022E7A
     mov.l @(12, r15), r2
@@ -502,9 +502,9 @@ render_obj_processor:
     tst r0, r0
     bra     .L_06022E88
     nop
-.L_wpool_06022E84:
+.L_const_0x195_w_5:
     .2byte  0x0195
-.L_wpool_06022E86:
+.L_const_0x131_w_5:
     .2byte  0x0131
 .L_06022E88:
     bf      .L_06022E8E
@@ -538,7 +538,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022EE2
     mov.l @r15, r2
-    mov.w   .L_wpool_06022EE6, r3
+    mov.w   .L_const_0x195_w_6, r3
     cmp/gt r3, r2
     bt      .L_06022EE2
     mov.l @r13, r2
@@ -547,7 +547,7 @@ render_obj_processor:
     bf/s    .L_06022EE2
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022EE8, r3
+    mov.w   .L_const_0x131_w_6, r3
     cmp/gt r3, r2
     bt      .L_06022EE2
     mov.l @(16, r15), r2
@@ -556,9 +556,9 @@ render_obj_processor:
 .L_06022EE2:
     bra     .L_06023014
     nop
-.L_wpool_06022EE6:
+.L_const_0x195_w_6:
     .2byte  0x0195
-.L_wpool_06022EE8:
+.L_const_0x131_w_6:
     .2byte  0x0131
 .L_06022EEA:
     mov.l @(32, r15), r2
@@ -600,7 +600,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022F54
     mov.l @r15, r2
-    mov.w   .L_wpool_06022FBA, r3
+    mov.w   .L_const_0x195_w_7, r3
     cmp/gt r3, r2
     bt      .L_06022F54
     mov.l @r11, r2
@@ -609,7 +609,7 @@ render_obj_processor:
     bf/s    .L_06022F54
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022FBC, r3
+    mov.w   .L_const_0x131_w_7, r3
     cmp/gt r3, r2
     bt      .L_06022F54
     mov.l @(20, r15), r2
@@ -647,7 +647,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022FB0
     mov.l @r15, r2
-    mov.w   .L_wpool_06022FBA, r3
+    mov.w   .L_const_0x195_w_7, r3
     cmp/gt r3, r2
     bt      .L_06022FB0
     mov.l @r9, r2
@@ -656,7 +656,7 @@ render_obj_processor:
     bf/s    .L_06022FB0
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06022FBC, r3
+    mov.w   .L_const_0x131_w_7, r3
     cmp/gt r3, r2
     bt      .L_06022FB0
     mov.l @(12, r15), r2
@@ -668,9 +668,9 @@ render_obj_processor:
     tst r0, r0
     bra     .L_06022FBE
     nop
-.L_wpool_06022FBA:
+.L_const_0x195_w_7:
     .2byte  0x0195
-.L_wpool_06022FBC:
+.L_const_0x131_w_7:
     .2byte  0x0131
 .L_06022FBE:
     bt      .L_06023014
@@ -701,7 +701,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06023014
     mov.l @r15, r2
-    mov.w   .L_wpool_06023048, r3
+    mov.w   .L_const_0x195_w_8, r3
     cmp/gt r3, r2
     bt      .L_06023014
     mov.l @r10, r2
@@ -710,7 +710,7 @@ render_obj_processor:
     bf/s    .L_06023014
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_0602304A, r3
+    mov.w   .L_const_0x131_w_8, r3
     cmp/gt r3, r2
     bt      .L_06023014
     mov.l @(8, r15), r2
@@ -745,7 +745,7 @@ render_obj_processor:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06023048:
+.L_const_0x195_w_8:
     .2byte  0x0195
-.L_wpool_0602304A:
+.L_const_0x131_w_8:
     .2byte  0x0131

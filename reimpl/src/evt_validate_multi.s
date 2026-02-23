@@ -66,12 +66,12 @@ evt_validate_multi:
     bt      .L_06040628
     shll r0
     mov r0, r1
-    mova    .L_pool_06040648, r0
+    mova    .L_const_0xffaa, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
     .word 0xFFFF /* UNKNOWN */
-.L_pool_06040648:
+.L_const_0xffaa:
     .word 0xFFAA /* UNKNOWN */
     .word 0xFFB2 /* UNKNOWN */
     .word 0xFFB2 /* UNKNOWN */

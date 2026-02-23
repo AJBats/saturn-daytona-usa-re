@@ -14,7 +14,7 @@ display_enable_ctrl:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov #0x40, r12
-    mov.w   .L_wpool_06038106, r13
+    mov.w   .L_bit_9_w, r13
     mov.l   .L_fp_one, r14
     mov #0x0, r5
     extu.b r5, r0
@@ -64,7 +64,7 @@ display_enable_ctrl:
     mov.l r15, @-r15
     mov #0x0, r1
     mov.l r1, @-r15
-    mov.l   .L_pool_06038114, r1
+    mov.l   .L_fp_16624, r1
     mov.l r1, @-r15
     mov r15, r2
     mov.l   .L_sym_060359E4, r1
@@ -88,7 +88,7 @@ display_enable_ctrl:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06038106:
+.L_bit_9_w:
     .2byte  0x0200
 
     .global DAT_06038108
@@ -99,7 +99,7 @@ DAT_06038108:
     .4byte  0x00010000
 .L_sym_06035BC8:
     .4byte  sym_06035BC8
-.L_pool_06038114:
+.L_fp_16624:
     .4byte  0x40F00000
 .L_sym_060359E4:
     .4byte  sym_060359E4

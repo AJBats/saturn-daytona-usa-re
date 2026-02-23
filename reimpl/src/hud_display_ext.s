@@ -21,8 +21,8 @@ hud_display_ext:
     mov #0x0, r8
     mov.l   .L_sym_060A4DA6, r9
     mov.l   .L_sym_060A4DA4, r10
-    mov.w   .L_wpool_0603C7E6, r11
-    mov.w   .L_wpool_0603C7E8, r12
+    mov.w   .L_mask_0x0500_w, r11
+    mov.w   .L_mask_0x0300_w, r12
     mov #0x1, r13
     mov.w   DAT_0603c7ea, r14
     mov r15, r3
@@ -91,7 +91,7 @@ hud_display_ext:
     mov.b r2, @r9
 .L_0603C7C0:
     mov.l @r15, r5
-    mov.w   .L_wpool_0603C7EC, r0
+    mov.w   .L_bit_8_w, r0
     add r4, r5
     mov r5, r2
     mov.b @(r0, r5), r3
@@ -109,15 +109,15 @@ hud_display_ext:
     extu.b r13, r2
     bra     .L_0603C828
     mov.b r2, @r9
-.L_wpool_0603C7E6:
+.L_mask_0x0500_w:
     .2byte  0x0500
-.L_wpool_0603C7E8:
+.L_mask_0x0300_w:
     .2byte  0x0300
 
     .global DAT_0603c7ea
 DAT_0603c7ea:
     .2byte  0x0400
-.L_wpool_0603C7EC:
+.L_bit_8_w:
     .2byte  0x0100
     .2byte  0xFFFF
 .L_sym_060A4DA6:
@@ -132,7 +132,7 @@ DAT_0603c7ea:
     .4byte  sym_060A4DA8
 .L_0603C804:
     mov.l @r15, r5
-    mov.w   .L_wpool_0603C8D0, r0
+    mov.w   .L_bit_8_w_2, r0
     add r4, r5
     mov r5, r2
     mov.b @(r0, r5), r3
@@ -151,7 +151,7 @@ DAT_0603c7ea:
     mov.b r2, @r9
 .L_0603C828:
     mov.l @r15, r5
-    mov.w   .L_wpool_0603C8D2, r0
+    mov.w   .L_bit_9_w, r0
     add r4, r5
     mov r5, r2
     mov.b @(r0, r5), r3
@@ -171,7 +171,7 @@ DAT_0603c7ea:
     mov.b r2, @r9
 .L_0603C84E:
     mov.l @r15, r5
-    mov.w   .L_wpool_0603C8D2, r0
+    mov.w   .L_bit_9_w, r0
     add r4, r5
     mov.b @(r0, r5), r3
     mov r5, r2
@@ -238,9 +238,9 @@ DAT_0603c7ea:
     add r8, r3
     bra     .L_0603C928
     mov.l r3, @(12, r15)
-.L_wpool_0603C8D0:
+.L_bit_8_w_2:
     .2byte  0x0100
-.L_wpool_0603C8D2:
+.L_bit_9_w:
     .2byte  0x0200
 
     .global DAT_0603c8d4
@@ -427,22 +427,22 @@ DAT_0603c8d4:
     mov.b r3, @r9
 .L_0603CA2A:
     mov.l   .L_sym_060A4D84_2, r2
-    mov.w   .L_wpool_0603CAD8, r3
+    mov.w   .L_bit_8_w_3, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_0603CA3C
-    mov.w   .L_wpool_0603CAD8, r4
+    mov.w   .L_bit_8_w_3, r4
     .byte   0xBB, 0xB6    /* bsr 0x0603C1A8 (external) */
     mov.b @r10, r5
 .L_0603CA3C:
     mov.l   .L_sym_060A4D84_2, r2
-    mov.w   .L_wpool_0603CADA, r3
+    mov.w   .L_bit_9_w_2, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_0603CA4E
-    mov.w   .L_wpool_0603CADA, r4
+    mov.w   .L_bit_9_w_2, r4
     .byte   0xBB, 0xAD    /* bsr 0x0603C1A8 (external) */
     mov.b @r10, r5
 .L_0603CA4E:
@@ -456,12 +456,12 @@ DAT_0603c8d4:
     mov r14, r4
 .L_0603CA5E:
     mov.l   .L_sym_060A4D84_2, r2
-    mov.w   .L_wpool_0603CADC, r3
+    mov.w   .L_bit_11_w, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_0603CA70
-    mov.w   .L_wpool_0603CADC, r4
+    mov.w   .L_bit_11_w, r4
     .byte   0xBB, 0x9C    /* bsr 0x0603C1A8 (external) */
     mov.b @r10, r5
 .L_0603CA70:
@@ -523,11 +523,11 @@ DAT_0603c8d4:
 .L_0603CAD4:
     bra     .L_0603CAEC
     nop
-.L_wpool_0603CAD8:
+.L_bit_8_w_3:
     .2byte  0x0100
-.L_wpool_0603CADA:
+.L_bit_9_w_2:
     .2byte  0x0200
-.L_wpool_0603CADC:
+.L_bit_11_w:
     .2byte  0x0800
 
     .global DAT_0603cade
@@ -583,7 +583,7 @@ DAT_0603cae2:
     mov.l @r0, r0
     tst #0x80, r0
     bt      .L_0603CB34
-    mov.w   .L_wpool_0603CBA2, r4
+    mov.w   .L_bit_7_w, r4
     .byte   0xBB, 0x3A    /* bsr 0x0603C1A8 (external) */
     mov.b @r10, r5
 .L_0603CB34:
@@ -644,7 +644,7 @@ DAT_0603cae2:
     mov.w r3, @r2
     bra     .L_0603CBD0
     nop
-.L_wpool_0603CBA2:
+.L_bit_7_w:
     .2byte  0x0080
 .L_sym_060A4D84_3:
     .4byte  sym_060A4D84

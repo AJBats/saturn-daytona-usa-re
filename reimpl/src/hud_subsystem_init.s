@@ -18,7 +18,7 @@ hud_subsystem_init:
     mov.l r8, @-r15
     xor r7, r7
 .L_06033ABC:
-    mov.l   .L_pool_06033B30, r1
+    mov.l   .L_offset_0x02c, r1
     mulu.w r7, r1
     sts macl, r0
     mov.l   .L_DAT_06082A7C, r14
@@ -26,91 +26,91 @@ hud_subsystem_init:
     mov.l   .L_zero, r0
     mov.b r7, @(r0, r14)
     xor r2, r2
-    mov.l   .L_pool_06033B3C, r0
+    mov.l   .L_offset_0x010, r0
     mov.b r2, @(r0, r14)
-    mov.l   .L_pool_06033B40, r0
+    mov.l   .L_const_0x011, r0
     mov.b r2, @(r0, r14)
-    mov.l   .L_pool_06033B44, r0
+    mov.l   .L_const_0x026, r0
     mov.b r2, @(r0, r14)
-    mov.l   .L_pool_06033B48, r0
+    mov.l   .L_offset_0x028, r0
     mov.b r2, @(r0, r14)
-    mov.l   .L_pool_06033B4C, r1
+    mov.l   .L_const_0x00e, r1
     mulu.w r7, r1
     sts macl, r0
     mov.l   .L_sym_060631BC, r1
     add r0, r1
     mov.w @r1+, r2
     shll16 r2
-    mov.l   .L_pool_06033B54, r0
+    mov.l   .L_offset_0x014, r0
     mov.l r2, @(r0, r14)
     mov.w @r1+, r2
     shll16 r2
-    mov.l   .L_pool_06033B58, r0
+    mov.l   .L_offset_0x018, r0
     mov.l r2, @(r0, r14)
     mov.w @r1+, r2
     shll16 r2
-    mov.l   .L_pool_06033B5C, r0
+    mov.l   .L_offset_0x01c, r0
     mov.l r2, @(r0, r14)
     mov.w @r1+, r2
     shll16 r2
-    mov.l   .L_pool_06033B60, r0
+    mov.l   .L_offset_0x020, r0
     mov.l r2, @(r0, r14)
     mov.w @r1+, r2
-    mov.l   .L_pool_06033B64, r0
+    mov.l   .L_const_0x002, r0
     mov.w r2, @(r0, r14)
     mov.w @r1+, r2
-    mov.l   .L_pool_06033B68, r0
+    mov.l   .L_const_0x012, r0
     mov.w r2, @(r0, r14)
     mov.b @r1+, r2
     shll8 r2
     exts.w r2, r2
-    mov.l   .L_pool_06033B6C, r0
+    mov.l   .L_offset_0x024, r0
     mov.w r2, @(r0, r14)
     mov.b @r1+, r2
-    mov.l   .L_pool_06033B70, r0
+    mov.l   .L_const_0x001, r0
     mov.b r2, @(r0, r14)
     mov #0x1, r0
     add r0, r7
-    mov.l   .L_pool_06033B74, r0
+    mov.l   .L_const_0x02d, r0
     cmp/ge r0, r7
     bt      .L_06033B78
     bra     .L_06033ABC
     nop
-.L_pool_06033B30:
+.L_offset_0x02c:
     .4byte  0x0000002C
 .L_DAT_06082A7C:
     .4byte  DAT_06082A7C
 .L_zero:
     .4byte  0x00000000
-.L_pool_06033B3C:
+.L_offset_0x010:
     .4byte  0x00000010
-.L_pool_06033B40:
+.L_const_0x011:
     .4byte  0x00000011
-.L_pool_06033B44:
+.L_const_0x026:
     .4byte  0x00000026
-.L_pool_06033B48:
+.L_offset_0x028:
     .4byte  0x00000028
-.L_pool_06033B4C:
+.L_const_0x00e:
     .4byte  0x0000000E
 .L_sym_060631BC:
     .4byte  sym_060631BC
-.L_pool_06033B54:
+.L_offset_0x014:
     .4byte  0x00000014
-.L_pool_06033B58:
+.L_offset_0x018:
     .4byte  0x00000018
-.L_pool_06033B5C:
+.L_offset_0x01c:
     .4byte  0x0000001C
-.L_pool_06033B60:
+.L_offset_0x020:
     .4byte  0x00000020
-.L_pool_06033B64:
+.L_const_0x002:
     .4byte  0x00000002
-.L_pool_06033B68:
+.L_const_0x012:
     .4byte  0x00000012
-.L_pool_06033B6C:
+.L_offset_0x024:
     .4byte  0x00000024
-.L_pool_06033B70:
+.L_const_0x001:
     .4byte  0x00000001
-.L_pool_06033B74:
+.L_const_0x02d:
     .4byte  0x0000002D
 .L_06033B78:
     xor r2, r2
@@ -121,12 +121,12 @@ hud_subsystem_init:
     xor r7, r7
     mov.l   .L_sym_0607EB94, r6
     mov.l   .L_sym_060631AC, r5
-    mov.l   .L_pool_06033BC0, r4
+    mov.l   .L_offset_0x014_2, r4
     mov #0x2, r3
 .L_06033B8C:
     mov.l @r5+, r2
     mov.l r6, @r2
-    mov.l   .L_pool_06033BC4, r0
+    mov.l   .L_const_0x006, r0
     mov.b r7, @(r0, r6)
     add r4, r6
     add #0x1, r7
@@ -150,7 +150,7 @@ hud_subsystem_init:
     .4byte  sym_0607EB94
 .L_sym_060631AC:
     .4byte  sym_060631AC
-.L_pool_06033BC0:
+.L_offset_0x014_2:
     .4byte  0x00000014
-.L_pool_06033BC4:
+.L_const_0x006:
     .4byte  0x00000006

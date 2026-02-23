@@ -15,7 +15,7 @@ sound_timer_init:
     mov.l @r3, r3
     jsr @r3
     mov #0x65, r4
-    mov.w   .L_wpool_060032B2, r5
+    mov.w   .L_neg_496_w, r5
     mov.b @r5, r4
     mov #0xF, r2
     and r2, r4
@@ -23,14 +23,14 @@ sound_timer_init:
     or #0x8, r0
     extu.b r0, r0
     mov.b r0, @r5
-    mov.w   .L_wpool_060032B4, r6
+    mov.w   .L_neg_495_w, r6
     mov.b @r6, r4
     mov #0x1, r5
     extu.b r4, r4
     or r5, r4
     extu.b r4, r4
     mov.b r4, @r6
-    mov.w   .L_wpool_060032B6, r4
+    mov.w   .L_neg_490_w, r4
     mov.b @r4, r3
     extu.b r3, r3
     mov #-0x4, r2
@@ -43,7 +43,7 @@ sound_timer_init:
     and r2, r3
     extu.b r3, r3
     mov.b r3, @r4
-    mov.w   .L_wpool_060032B8, r3
+    mov.w   .L_neg_492_w, r3
     mov.b r5, @r3
     mov #0x66, r2
     add #0x1, r3
@@ -76,33 +76,33 @@ vdp_init_dispatch:
     mov #0x9, r4
     mov.l @r14, r2
     mov.l   .L_sym_06028218, r5
-    mov.w   .L_wpool_060032BA, r4
+    mov.w   .L_const_0x104_w, r4
     jsr @r2
     nop
     mov.l @r14, r3
     mov.l   .L_sym_06028230, r5
-    mov.w   .L_wpool_060032BC, r4
+    mov.w   .L_const_0x106_w, r4
     jsr @r3
     nop
     mov.l @r14, r2
     mov.l   .L_sym_06028248, r5
-    mov.w   .L_wpool_060032BE, r4
+    mov.w   .L_const_0x109_w, r4
     lds.l @r15+, pr
     jmp @r2
     mov.l @r15+, r14
-.L_wpool_060032B2:
+.L_neg_496_w:
     .2byte  0xFE10
-.L_wpool_060032B4:
+.L_neg_495_w:
     .2byte  0xFE11
-.L_wpool_060032B6:
+.L_neg_490_w:
     .2byte  0xFE16
-.L_wpool_060032B8:
+.L_neg_492_w:
     .2byte  0xFE14
-.L_wpool_060032BA:
+.L_const_0x104_w:
     .2byte  0x0104
-.L_wpool_060032BC:
+.L_const_0x106_w:
     .2byte  0x0106
-.L_wpool_060032BE:
+.L_const_0x109_w:
     .2byte  0x0109
 .L_sym_06000310:
     .4byte  sym_06000310

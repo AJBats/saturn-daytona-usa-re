@@ -21,7 +21,7 @@ obj_anim_driver:
     sts.l macl, @-r15
     add #-0x8, r15
     mov.l   .L_sym_0605F586, r9
-    mov.w   .L_wpool_06020A0E, r13
+    mov.w   .L_bit_8_w, r13
     mov.l   .L_sym_06087828, r14
     mov.b r0, @(4, r15)
     mov.l   .L_wram_low_00000, r12
@@ -29,17 +29,17 @@ obj_anim_driver:
     extu.b r3, r3
     tst r3, r3
     bf      .L_060209E0
-    mov.l   .L_pool_06020A20, r5
+    mov.l   .L_fp_neg_21742_d601, r5
     mov.l   .L_sound_cmd_dispatch, r3
     jsr @r3
     mov #0x0, r4
     mov #0x1, r2
     mov.b r2, @r9
 .L_060209E0:
-    mov.l   .L_pool_06020A28, r3
+    mov.l   .L_fp_4850_fc00, r3
     mov.l   .L_vdp2_lsta1u, r2
     mov.l r3, @r2
-    mov.w   .L_wpool_06020A10, r3
+    mov.w   .L_bit_9_w, r3
     add #-0xA, r2
     mov.w r3, @r2
     mov.w @r14, r3
@@ -60,9 +60,9 @@ obj_anim_driver:
     bt      .L_06020A38
     bra     .L_06020A3A
     mov r12, r3
-.L_wpool_06020A0E:
+.L_bit_8_w:
     .2byte  0x0100
-.L_wpool_06020A10:
+.L_bit_9_w:
     .2byte  0x0200
     .2byte  0xFFFF
 .L_sym_0605F586:
@@ -71,11 +71,11 @@ obj_anim_driver:
     .4byte  sym_06087828
 .L_wram_low_00000:
     .4byte  0x00200000
-.L_pool_06020A20:
+.L_fp_neg_21742_d601:
     .4byte  0xAB1129FF
 .L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
-.L_pool_06020A28:
+.L_fp_4850_fc00:
     .4byte  0x12F2FC00
 .L_vdp2_lsta1u:
     .4byte  0x25F800A4
@@ -84,7 +84,7 @@ obj_anim_driver:
 .L_sym_06035C2C:
     .4byte  sym_06035C2C
 .L_06020A38:
-    mov.l   .L_pool_06020B04, r3
+    mov.l   .L_fp_neg_32, r3
 .L_06020A3A:
     add #0x1, r4
     mov.w @r14, r1
@@ -117,34 +117,34 @@ obj_anim_driver:
     and r2, r0
     tst r0, r0
     bt      .L_06020ABA
-    mov.w   .L_wpool_06020AF4, r10
+    mov.w   .L_mask_0x3000_w, r10
     mov.l   .L_sym_06063750, r11
     mov.l   .L_sym_06028400, r12
-    mov.w   .L_wpool_06020AF6, r7
+    mov.w   .L_const_0x0568_w, r7
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_06020AF8, r6
+    mov.w   .L_const_0x0498_w, r6
     mov.l @r15, r5
     add r10, r7
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.w   .L_wpool_06020AFA, r7
+    mov.w   .L_const_0x0570_w, r7
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_06020AFC, r6
+    mov.w   .L_const_0x069c_w, r6
     mov.l @r15, r5
     add r10, r7
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.w   .L_wpool_06020AFE, r7
+    mov.w   .L_const_0x0578_w, r7
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_06020B00, r6
+    mov.w   .L_const_0x0b1e_w, r6
     mov.l @r15, r5
     add r10, r7
     mov.l @r5, r5
@@ -181,22 +181,22 @@ obj_anim_driver:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06020AF4:
+.L_mask_0x3000_w:
     .2byte  0x3000
-.L_wpool_06020AF6:
+.L_const_0x0568_w:
     .2byte  0x0568
-.L_wpool_06020AF8:
+.L_const_0x0498_w:
     .2byte  0x0498
-.L_wpool_06020AFA:
+.L_const_0x0570_w:
     .2byte  0x0570
-.L_wpool_06020AFC:
+.L_const_0x069c_w:
     .2byte  0x069C
-.L_wpool_06020AFE:
+.L_const_0x0578_w:
     .2byte  0x0578
-.L_wpool_06020B00:
+.L_const_0x0b1e_w:
     .2byte  0x0B1E
     .2byte  0xFFFF
-.L_pool_06020B04:
+.L_fp_neg_32:
     .4byte  0xFFE00000
 .L_sym_0605AD04:
     .4byte  sym_0605AD04

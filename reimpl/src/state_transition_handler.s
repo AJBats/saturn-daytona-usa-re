@@ -15,7 +15,7 @@ state_transition_handler:
     mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     mov.l @r14, r0
-    mov.w   .L_wpool_06041D58, r1
+    mov.w   .L_const_0x328_w, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
     bf      .L_06041D26
@@ -55,11 +55,11 @@ state_transition_handler:
     mov.l r2, @r3
     mov.l @r14, r3
     mov #0x2, r2
-    mov.w   .L_wpool_06041D58, r0
+    mov.w   .L_const_0x328_w, r0
     mov.l r2, @(r0, r3)
 .L_06041D26:
     mov.l @r14, r0
-    mov.w   .L_wpool_06041D58, r1
+    mov.w   .L_const_0x328_w, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
     bf      .L_06041D4E
@@ -71,7 +71,7 @@ state_transition_handler:
     bf      .L_06041D4E
     mov #0x0, r4
     mov.l @r14, r3
-    mov.w   .L_wpool_06041D58, r0
+    mov.w   .L_const_0x328_w, r0
     mov.l r4, @(r0, r3)
     mov r4, r0
     add #0x10, r15
@@ -84,7 +84,7 @@ state_transition_handler:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_06041D58:
+.L_const_0x328_w:
     .2byte  0x0328
 
     .global DAT_06041d5a

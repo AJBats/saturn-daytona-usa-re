@@ -119,13 +119,13 @@ sys_boot_sequence:
     bf/s    .L_06040394
     add r0, r8
     mov.l   .L_sym_060A4D14_2, r3
-    mov.w   .L_wpool_060403D6, r0
+    mov.w   .L_const_0x0ac_w, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
     cmp/ge r2, r8
     bt      .L_06040394
     mov.l @r13, r2
-    mov.w   .L_wpool_060403D6, r0
+    mov.w   .L_const_0x0ac_w, r0
     mov.l @(r0, r2), r3
     sub r8, r3
     sub r3, r9
@@ -167,7 +167,7 @@ sys_boot_sequence:
     bt      .L_060403F0
     bra     .L_06040522
     mov #0x6, r0
-.L_wpool_060403D6:
+.L_const_0x0ac_w:
     .2byte  0x00AC
 .L_sym_06041014:
     .4byte  sym_06041014
@@ -221,7 +221,7 @@ sys_boot_sequence:
     mov r15, r4
     mov r15, r3
     mov.l @r13, r4
-    mov.w   .L_wpool_060404BA, r0
+    mov.w   .L_const_0x0ac_w_2, r0
     add #0x8, r3
     mov.l @(r0, r4), r4
     mov.l @(4, r3), r2
@@ -229,7 +229,7 @@ sys_boot_sequence:
     bt      .L_0604047C
     mov r15, r2
     mov.l @r13, r3
-    mov.w   .L_wpool_060404BC, r0
+    mov.w   .L_const_0x0b0_w, r0
     add #0x8, r2
     mov.l @(r0, r3), r3
     mov.l @(4, r2), r2
@@ -240,7 +240,7 @@ sys_boot_sequence:
     bt      .L_0604047C
     mov.l @r13, r2
     mov.l @(8, r14), r3
-    mov.w   .L_wpool_060404BC, r0
+    mov.w   .L_const_0x0b0_w, r0
     mov.l @(r0, r2), r2
     cmp/gt r2, r3
     bt      .L_0604047C
@@ -248,7 +248,7 @@ sys_boot_sequence:
     mov r15, r3
     add #0x8, r3
     mov.l @(4, r3), r1
-    mov.w   .L_wpool_060404BA, r0
+    mov.w   .L_const_0x0ac_w_2, r0
     mov.l r1, @(r0, r2)
     bra     .L_06040522
     mov #0x0, r0
@@ -277,7 +277,7 @@ sys_boot_sequence:
     mov r15, r2
     add #0x8, r2
     mov.l @(4, r2), r1
-    mov.w   .L_wpool_060404BA, r0
+    mov.w   .L_const_0x0ac_w_2, r0
     mov.l r1, @(r0, r3)
     mov.l @r13, r3
     mov.l @(8, r14), r2
@@ -285,9 +285,9 @@ sys_boot_sequence:
     mov.l r2, @(r0, r3)
     bra     .L_06040522
     mov #0x0, r0
-.L_wpool_060404BA:
+.L_const_0x0ac_w_2:
     .2byte  0x00AC
-.L_wpool_060404BC:
+.L_const_0x0b0_w:
     .2byte  0x00B0
     .2byte  0xFFFF
 .L_sym_060409DE_2:
@@ -306,14 +306,14 @@ sys_boot_sequence:
     jsr @r10
     mov.l @(40, r12), r4
     mov.l @r13, r2
-    mov.w   .L_wpool_06040536, r0
+    mov.w   .L_const_0x0b0_w_2, r0
     mov.l @(r0, r2), r3
     mov.l @r15, r2
     cmp/gt r2, r3
     bt      .L_060404F8
     mov.l @r13, r2
     mov r2, r3
-    mov.w   .L_wpool_06040536, r0
+    mov.w   .L_const_0x0b0_w_2, r0
     mov.l @(r0, r3), r1
     add #-0x4, r0
     mov.l r1, @(r0, r2)
@@ -325,7 +325,7 @@ sys_boot_sequence:
 .L_060404FC:
     mov.l @r13, r3
     mov.l @r15, r2
-    mov.w   .L_wpool_06040538, r0
+    mov.w   .L_const_0x0ac_w_3, r0
     mov.l @(r0, r3), r3
     sub r3, r2
     mov.l @(32, r14), r3
@@ -355,7 +355,7 @@ sys_boot_sequence:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06040536:
+.L_const_0x0b0_w_2:
     .2byte  0x00B0
-.L_wpool_06040538:
+.L_const_0x0ac_w_3:
     .2byte  0x00AC

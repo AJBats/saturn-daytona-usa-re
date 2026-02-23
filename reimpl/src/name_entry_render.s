@@ -14,7 +14,7 @@ name_entry_render:
     mov.l   .L_mask_high_byte, r7
     mov.l   .L_sym_060A4D58, r5
     mov.l   .L_sym_060A4D3E, r4
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -24,7 +24,7 @@ name_entry_render:
     and r7, r2
     mov.w r2, @r4
     mov.w   DAT_0603d5be, r14
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -33,7 +33,7 @@ name_entry_render:
     extu.w r2, r2
     and r14, r2
     mov.w r2, @r4
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -44,7 +44,7 @@ name_entry_render:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -55,14 +55,14 @@ name_entry_render:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     mov #0x0, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -73,7 +73,7 @@ name_entry_render:
     extu.w r2, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -84,14 +84,14 @@ name_entry_render:
     extu.w r2, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D5BC, r1
+    mov.w   .L_const_0x0401_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0603D5BC:
+.L_const_0x0401_w:
     .2byte  0x0401
 
     .global DAT_0603d5be

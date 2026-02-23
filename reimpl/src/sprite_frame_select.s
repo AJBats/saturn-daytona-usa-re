@@ -35,7 +35,7 @@ sprite_frame_select:
     cmp/eq #-0x1, r0
     bt      .L_06005598
     exts.b r14, r14
-    mov.w   .L_wpool_060055A0, r2
+    mov.w   .L_vehicle_stride_w, r2
     mov.l   .L_sym_06078900, r3
     mul.l r2, r14
     sts macl, r14
@@ -62,7 +62,7 @@ sprite_frame_select:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_060055A0:
+.L_vehicle_stride_w:
     .2byte  0x0268
     .2byte  0xFFFF
 .L_sym_06026E0C:

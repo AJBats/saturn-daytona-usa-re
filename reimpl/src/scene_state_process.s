@@ -48,7 +48,7 @@ scene_state_process:
     jsr @r3
     mov #0x47, r4
     mov.l   .L_sym_06000344, r2
-    mov.w   .L_wpool_060395B6, r4
+    mov.w   .L_neg_129_w, r4
     mov.l @r2, r2
     jsr @r2
     mov r12, r5
@@ -97,7 +97,7 @@ scene_state_process:
     mov.b r3, @r2
     bra     .L_060395FC
     nop
-.L_wpool_060395B6:
+.L_neg_129_w:
     .2byte  0xFF7F
 .L_sym_060A4CAE:
     .4byte  sym_060A4CAE

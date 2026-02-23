@@ -57,7 +57,7 @@ vdp1_coord_setup:
     mov.w   DAT_0602cb0c, r1
     mov.l r7, @(r0, r1)
     mov.w   DAT_0602cb0e, r1
-    mov.w   .L_wpool_0602CB10, r2
+    mov.w   .L_const_0x0f8_w, r2
     mov.l @(r0, r1), r3
     mov r3, r8
     mov.l @(r0, r2), r4
@@ -101,7 +101,7 @@ DAT_0602cb0c:
     .global DAT_0602cb0e
 DAT_0602cb0e:
     .2byte  0x00EC
-.L_wpool_0602CB10:
+.L_const_0x0f8_w:
     .2byte  0x00F8
     .2byte  0x0000
 .L_cart_cs0_1700000:
@@ -213,7 +213,7 @@ DAT_0602cb7a:
     mov.l r11, @(r0, r1)
     tst r10, r10
     bt      .L_0602CBD2
-    mov.l   .L_pool_0602CCC0, r2
+    mov.l   .L_const_0xcccc, r2
     cmp/gt r2, r11
     bt      .L_0602CBD2
     mov.w   DAT_0602cca0, r1
@@ -291,7 +291,7 @@ DAT_0602cb7a:
     mov.l @(r0, r1), r2
     mov.w   DAT_0602ccb6, r1
     mov.l @(r0, r1), r3
-    mov.l   .L_pool_0602CCC8, r1
+    mov.l   .L_offset_0x140, r1
     mov.w   DAT_0602ccb8, r10
     mov.w @(r0, r10), r10
     mov #0x4, r6
@@ -394,18 +394,18 @@ DAT_0602ccba:
     .2byte  0x00FC
 .L_fpdiv_setup_2:
     .4byte  fpdiv_setup
-.L_pool_0602CCC0:
+.L_const_0xcccc:
     .4byte  0x0000CCCC
 .L_mask_upper_word:
     .4byte  0xFFFF0000
-.L_pool_0602CCC8:
+.L_offset_0x140:
     .4byte  0x00000140
 .L_dma_addr_inc_4_0:
     .4byte  0x00000100
 
     .global sym_0602CCD0
 sym_0602CCD0:
-    mov.w   .L_wpool_0602CCEA, r7
+    mov.w   .L_const_0x152_w, r7
     mov.w @(r0, r7), r3
     mov #0x4, r4
     cmp/gt r4, r3
@@ -419,5 +419,5 @@ sym_0602CCD0:
 .L_0602CCE6:
     rts
     nop
-.L_wpool_0602CCEA:
+.L_const_0x152_w:
     .2byte  0x0152

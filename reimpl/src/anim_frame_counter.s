@@ -93,7 +93,7 @@ anim_frame_counter:
     jsr @r3
     mov #0x8, r4
     mov.l   .L_sym_0605ACDD, r7
-    mov.w   .L_wpool_060059E8, r6
+    mov.w   .L_const_0x090_w, r6
     mov.w   DAT_060059e4, r5
     mov #0x8, r4
     add #0x4, r15
@@ -130,7 +130,7 @@ DAT_060059e4:
     .global DAT_060059e6
 DAT_060059e6:
     .2byte  0x5000
-.L_wpool_060059E8:
+.L_const_0x090_w:
     .2byte  0x0090
     .2byte  0xFFFF
 .L_sym_0607E944:

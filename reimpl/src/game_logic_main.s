@@ -44,7 +44,7 @@ game_logic_main:
     extu.b r0, r0
     shll r0
     mov.b @(r0, r3), r0
-    mov.w   .L_wpool_0603A1A4, r3
+    mov.w   .L_bit_7_w, r3
     extu.b r0, r0
     and #0x80, r0
     cmp/eq r3, r0
@@ -139,7 +139,7 @@ game_logic_main:
     .global DAT_0603a1a2
 DAT_0603a1a2:
     .2byte  0x00FF
-.L_wpool_0603A1A4:
+.L_bit_7_w:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_sym_060A4CAE:
@@ -806,10 +806,10 @@ DAT_0603a2ca:
     bra     .L_0603A54C
     nop
 .L_0603A69C:
-    mov.w   .L_wpool_0603A6FA, r1
+    mov.w   .L_const_0x0e1_w, r1
     cmp/eq r1, r0
     bt      .L_0603A5EA
-    mov.w   .L_wpool_0603A6FC, r1
+    mov.w   .L_const_0x0e2_w, r1
     cmp/eq r1, r0
     bt      .L_0603A62A
     mov.w   DAT_0603a6fe, r1
@@ -840,9 +840,9 @@ DAT_0603a2ca:
     .4byte  0xD30C2342
     .4byte  0xD30C000B
     .2byte  0x2340
-.L_wpool_0603A6FA:
+.L_const_0x0e1_w:
     .2byte  0x00E1
-.L_wpool_0603A6FC:
+.L_const_0x0e2_w:
     .2byte  0x00E2
 
     .global DAT_0603a6fe

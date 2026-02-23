@@ -74,7 +74,7 @@ geom_vertex_compute:
     mov.l r14, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    mov.w   .L_wpool_0601EBF0, r5
+    mov.w   .L_const_0x0f0_w, r5
     mov.l   .L_sym_06087080, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -82,7 +82,7 @@ geom_vertex_compute:
     bt      .L_0601EC0C
     bra     .L_0601EFBC
     nop
-.L_wpool_0601EBF0:
+.L_const_0x0f0_w:
     .2byte  0x00F0
     .2byte  0xFFFF
 .L_sym_0604A5C0:
@@ -589,7 +589,7 @@ geom_batch_transform:
     mov.l r14, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    mov.w   .L_wpool_0601EFDA, r5
+    mov.w   .L_const_0x0f0_w_2, r5
     mov.l   .L_sym_06087080_2, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -597,7 +597,7 @@ geom_batch_transform:
     bt      .L_0601EFF4
     bra     .L_0601F3E4
     nop
-.L_wpool_0601EFDA:
+.L_const_0x0f0_w_2:
     .2byte  0x00F0
 .L_sym_06060D68:
     .4byte  sym_06060D68
@@ -1294,7 +1294,7 @@ geom_display_proc:
     add r3, r1
     shar r14
     and r5, r14
-    mov.w   .L_wpool_0601F5C4, r3
+    mov.w   .L_const_0x3e8_w, r3
     mul.l r3, r14
     sts macl, r14
     mov r0, r6
@@ -1376,7 +1376,7 @@ geom_display_proc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0601F5C4:
+.L_const_0x3e8_w:
     .2byte  0x03E8
 
     .global DAT_0601f5c6

@@ -15,7 +15,7 @@ race_progress_check:
     sts.l pr, @-r15
     mov.l   .L_sym_0607EBCC, r13
     mov.l   .L_sound_cmd_dispatch, r14
-    mov.l   .L_pool_060127AC, r12
+    mov.l   .L_fp_neg_20974_ea01, r12
     bra     .L_0601276A
     mov.l @r13, r0
 .L_06012722:
@@ -27,15 +27,15 @@ race_progress_check:
     mov.l @(48, r2), r3
     mov.l   .L_sym_06063EF0, r1
     mov.l r3, @r1
-    mov.l   .L_pool_060127BC, r5
+    mov.l   .L_fp_neg_20974_dd01, r5
     bra     .L_06012740
     nop
 .L_06012738:
-    mov.l   .L_pool_060127C0, r5
+    mov.l   .L_fp_neg_20974_dc01, r5
     bra     .L_06012740
     nop
 .L_0601273E:
-    mov.l   .L_pool_060127C4, r5
+    mov.l   .L_fp_neg_20974_db01, r5
 .L_06012740:
     jsr @r14
     mov #0x0, r4
@@ -45,10 +45,10 @@ race_progress_check:
     bra     .L_0601277A
     nop
 .L_0601274E:
-    mov.l   .L_pool_060127C8, r5
+    mov.l   .L_fp_neg_20974_da01, r5
     jsr @r14
     mov #0x0, r4
-    mov.l   .L_pool_060127CC, r5
+    mov.l   .L_fp_neg_20974_e901, r5
     jsr @r14
     mov #0x0, r4
     mov #0x3C, r2
@@ -82,7 +82,7 @@ race_progress_check:
     and r1, r0
     tst r0, r0
     bt      .L_0601279A
-    mov.l   .L_pool_060127DC, r5
+    mov.l   .L_fp_neg_20974_f301, r5
     jsr @r14
     mov #0x0, r4
 .L_0601279A:
@@ -95,7 +95,7 @@ race_progress_check:
     .4byte  sym_0607EBCC
 .L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
-.L_pool_060127AC:
+.L_fp_neg_20974_ea01:
     .4byte  0xAE1115FF
 .L_sym_06078654:
     .4byte  sym_06078654
@@ -103,15 +103,15 @@ race_progress_check:
     .4byte  sym_0607E944
 .L_sym_06063EF0:
     .4byte  sym_06063EF0
-.L_pool_060127BC:
+.L_fp_neg_20974_dd01:
     .4byte  0xAE1122FF
-.L_pool_060127C0:
+.L_fp_neg_20974_dc01:
     .4byte  0xAE1123FF
-.L_pool_060127C4:
+.L_fp_neg_20974_db01:
     .4byte  0xAE1124FF
-.L_pool_060127C8:
+.L_fp_neg_20974_da01:
     .4byte  0xAE1125FF
-.L_pool_060127CC:
+.L_fp_neg_20974_e901:
     .4byte  0xAE1116FF
 .L_sym_06086056:
     .4byte  sym_06086056
@@ -119,7 +119,7 @@ race_progress_check:
     .4byte  sym_0608605A
 .L_sym_06035C2C:
     .4byte  sym_06035C2C
-.L_pool_060127DC:
+.L_fp_neg_20974_f301:
     .4byte  0xAE110CFF
     .4byte  0x00000000
     .4byte  0x00000000

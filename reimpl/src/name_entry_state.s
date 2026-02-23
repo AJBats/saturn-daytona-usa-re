@@ -14,7 +14,7 @@ name_entry_state:
     mov.l   .L_mask_high_byte, r7
     mov.l   .L_sym_060A4D58, r5
     mov.l   .L_sym_060A4D36, r4
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -24,7 +24,7 @@ name_entry_state:
     and r7, r2
     mov.w r2, @r4
     mov.w   DAT_0603d500, r14
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -33,7 +33,7 @@ name_entry_state:
     extu.w r2, r2
     and r14, r2
     mov.w r2, @r4
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -44,7 +44,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -55,7 +55,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -66,7 +66,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -77,7 +77,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -88,7 +88,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -99,14 +99,14 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D4FE, r1
+    mov.w   .L_const_0x301_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0603D4FE:
+.L_const_0x301_w:
     .2byte  0x0301
 
     .global DAT_0603d500

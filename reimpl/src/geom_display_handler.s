@@ -20,7 +20,7 @@ geom_display_handler:
     mov.l   .L_sym_0607E940, r9
     mov.l   .L_sym_06078900, r10
     mov.l   .L_sym_0607EA98, r11
-    mov.w   .L_wpool_0601FE96, r12
+    mov.w   .L_vehicle_stride_w, r12
     mov.l   .L_sym_060877F4, r14
     mov.l   .L_sym_060877FC, r2
     mov.l @r14, r14
@@ -70,7 +70,7 @@ geom_display_handler:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0601FE96:
+.L_vehicle_stride_w:
     .2byte  0x0268
 .L_sym_0607E940:
     .4byte  sym_0607E940
@@ -406,7 +406,7 @@ race_start_obj_init:
     mov.l r2, @r3
     mov.l   .L_sym_06087806, r3
     mov.w r2, @r3
-    mov.l   .L_pool_060201A4, r5
+    mov.l   .L_fp_neg_21742_d701, r5
     mov.l   .L_sound_cmd_dispatch, r3
     jsr @r3
     mov r2, r4
@@ -473,7 +473,7 @@ DAT_0602014c:
     .4byte  sym_06087814
 .L_sym_06087806:
     .4byte  sym_06087806
-.L_pool_060201A4:
+.L_fp_neg_21742_d701:
     .4byte  0xAB1128FF
 .L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
@@ -877,7 +877,7 @@ obj_visibility_test:
     mov.l   .L_sym_06063750, r13
     mov #0x0, r6
     mov.l   .L_sym_06028400_2, r14
-    mov.w   .L_wpool_060205F2, r7
+    mov.w   .L_const_0x0558_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -887,21 +887,21 @@ obj_visibility_test:
     mov.l @r5, r5
     jsr @r14
     mov r6, r4
-    mov.w   .L_wpool_060205F4, r7
+    mov.w   .L_const_0x0560_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_060205F6, r6
+    mov.w   .L_const_0x294_w, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r14
     mov #0x4, r4
-    mov.w   .L_wpool_060205F8, r7
+    mov.w   .L_const_0x0550_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_060205FA, r3
-    mov.w   .L_wpool_060205FC, r6
+    mov.w   .L_mask_0x6000_w, r3
+    mov.w   .L_const_0x082_w, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -921,7 +921,7 @@ obj_visibility_test:
     jsr @r14
     mov #0x4, r4
     mov.l   .L_channel_nibble_config, r14
-    mov.w   .L_wpool_060205FE, r4
+    mov.w   .L_bit_8_w, r4
     jsr @r14
     mov #0x0, r5
     mov #0x4, r5
@@ -933,19 +933,19 @@ obj_visibility_test:
     mov #0x6, r5
     bra     .L_06020644
     mov #0x10, r4
-.L_wpool_060205F2:
+.L_const_0x0558_w:
     .2byte  0x0558
-.L_wpool_060205F4:
+.L_const_0x0560_w:
     .2byte  0x0560
-.L_wpool_060205F6:
+.L_const_0x294_w:
     .2byte  0x0294
-.L_wpool_060205F8:
+.L_const_0x0550_w:
     .2byte  0x0550
-.L_wpool_060205FA:
+.L_mask_0x6000_w:
     .2byte  0x6000
-.L_wpool_060205FC:
+.L_const_0x082_w:
     .2byte  0x0082
-.L_wpool_060205FE:
+.L_bit_8_w:
     .2byte  0x0100
 .L_sym_06087804_2:
     .4byte  sym_06087804

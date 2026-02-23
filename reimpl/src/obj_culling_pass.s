@@ -29,11 +29,11 @@ obj_culling_pass:
     mov #0x20, r6
     mov.l   .L_sym_06063750, r13
     mov.l   .L_sym_06028400, r14
-    mov.w   .L_wpool_060208E6, r7
+    mov.w   .L_const_0x0560_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_060208E8, r6
+    mov.w   .L_const_0x294_w, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r14
@@ -64,39 +64,39 @@ obj_culling_pass:
     mov.l   .L_sym_06026CE0, r3
     jsr @r3
     nop
-    mov.w   .L_wpool_060208EA, r7
+    mov.w   .L_const_0x0550_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_060208EC, r3
-    mov.w   .L_wpool_060208EE, r6
+    mov.w   .L_mask_0x6000_w, r3
+    mov.w   .L_const_0x082_w, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r14
     mov #0x4, r4
-    mov.w   .L_wpool_060208F0, r7
-    mov.w   .L_wpool_060208F2, r6
+    mov.w   .L_const_0x7c5a_w, r7
+    mov.w   .L_const_0x061a_w, r6
     mov.l   .L_sym_0604BBCC, r5
     jsr @r14
     mov #0x4, r4
-    mov.w   .L_wpool_060208F4, r7
+    mov.w   .L_const_0x368_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_060208F6, r3
-    mov.w   .L_wpool_060208F8, r6
+    mov.w   .L_mask_0x3000_w, r3
+    mov.w   .L_const_0x0898_w, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r14
     mov #0x4, r4
-    mov.w   .L_wpool_060208FA, r7
+    mov.w   .L_const_0x378_w, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   .L_quarter_turn_w, r3
-    mov.w   .L_wpool_060208FE, r6
+    mov.w   .L_const_0x08b0_w, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -114,31 +114,31 @@ obj_culling_pass:
     lds.l @r15+, pr
     bra     .L_0602093C
     nop
-.L_wpool_060208E6:
+.L_const_0x0560_w:
     .2byte  0x0560
-.L_wpool_060208E8:
+.L_const_0x294_w:
     .2byte  0x0294
-.L_wpool_060208EA:
+.L_const_0x0550_w:
     .2byte  0x0550
-.L_wpool_060208EC:
+.L_mask_0x6000_w:
     .2byte  0x6000
-.L_wpool_060208EE:
+.L_const_0x082_w:
     .2byte  0x0082
-.L_wpool_060208F0:
+.L_const_0x7c5a_w:
     .2byte  0x7C5A
-.L_wpool_060208F2:
+.L_const_0x061a_w:
     .2byte  0x061A
-.L_wpool_060208F4:
+.L_const_0x368_w:
     .2byte  0x0368
-.L_wpool_060208F6:
+.L_mask_0x3000_w:
     .2byte  0x3000
-.L_wpool_060208F8:
+.L_const_0x0898_w:
     .2byte  0x0898
-.L_wpool_060208FA:
+.L_const_0x378_w:
     .2byte  0x0378
 .L_quarter_turn_w:
     .2byte  0x4000
-.L_wpool_060208FE:
+.L_const_0x08b0_w:
     .2byte  0x08B0
 .L_sym_06028560:
     .4byte  sym_06028560

@@ -13,9 +13,9 @@ replay_cam_cleanup:
     sts.l pr, @-r15
     mov r6, r5
     mov.l   .L_sym_06086014, r14
-    mov.w   .L_wpool_0601B05E, r3
+    mov.w   .L_const_0x0a7_w, r3
     mov.l r3, @-r15
-    mov.w   .L_wpool_0601B060, r2
+    mov.w   .L_const_0x160_w, r2
     mov.l r2, @-r15
     mov.l @r14, r3
     mov #0x1, r2
@@ -29,7 +29,7 @@ replay_cam_cleanup:
     add #0x2, r2
     mov.l r2, @r14
     mov r2, r3
-    mov.w   .L_wpool_0601B05E, r2
+    mov.w   .L_const_0x0a7_w, r2
     cmp/hs r2, r3
     bf/s    .L_0601B01A
     add #0x10, r15
@@ -55,9 +55,9 @@ disc_sector_read:
     mov r14, r6
     mov r14, r5
     mov.l r14, @r3
-    mov.w   .L_wpool_0601B05E, r2
+    mov.w   .L_const_0x0a7_w, r2
     mov.l r2, @-r15
-    mov.w   .L_wpool_0601B060, r3
+    mov.w   .L_const_0x160_w, r3
     extu.w r14, r2
     mov.l r3, @-r15
     mov #0x1, r3
@@ -78,9 +78,9 @@ disc_sector_read:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0601B05E:
+.L_const_0x0a7_w:
     .2byte  0x00A7
-.L_wpool_0601B060:
+.L_const_0x160_w:
     .2byte  0x0160
     .2byte  0xFFFF
 .L_sym_06086014:

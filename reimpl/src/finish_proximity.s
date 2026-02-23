@@ -26,7 +26,7 @@ finish_proximity:
     tst r0, r0
     bt      .L_0600DB5C
     mov r6, r0
-    mov.w   .L_wpool_0600DB42, r1
+    mov.w   .L_const_0x1c01_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r4, r2
@@ -83,7 +83,7 @@ finish_proximity:
     bf      .L_0600DB24
 .L_0600DB0A:
     mov #0x0, r6
-    mov.w   .L_wpool_0600DB42, r1
+    mov.w   .L_const_0x1c01_w, r1
     mov.l   .L_sym_06034F78, r3
     mov r6, r0
     jsr @r3
@@ -97,7 +97,7 @@ finish_proximity:
     mov.l @r15+, r14
 .L_0600DB24:
     mov r6, r0
-    mov.w   .L_wpool_0600DB42, r1
+    mov.w   .L_const_0x1c01_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r4, r2
@@ -114,7 +114,7 @@ finish_proximity:
     .global DAT_0600db40
 DAT_0600db40:
     .2byte  0x00B8
-.L_wpool_0600DB42:
+.L_const_0x1c01_w:
     .2byte  0x1C01
 
     .global DAT_0600db44
@@ -198,7 +198,7 @@ finish_display:
     mov r2, r7
     mov r2, r5
     mov.w   DAT_0600dbdc, r3
-    mov.w   .L_wpool_0600DBDE, r6
+    mov.w   .L_const_0x0ac0_w, r6
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
@@ -215,7 +215,7 @@ DAT_0600dbda:
     .global DAT_0600dbdc
 DAT_0600dbdc:
     .2byte  0x4000
-.L_wpool_0600DBDE:
+.L_const_0x0ac0_w:
     .2byte  0x0AC0
 .L_sym_0607E940_2:
     .4byte  sym_0607E940
@@ -269,7 +269,7 @@ DAT_0600dbdc:
     mov #0x7, r3
     cmp/hs r3, r2
     bt      .L_0600DC4C
-    mov.l   .L_pool_0600DCB0, r5
+    mov.l   .L_fp_neg_20974_c701, r5
     jsr @r13
     mov #0x0, r4
     bra     .L_0600DC6A
@@ -279,11 +279,11 @@ DAT_0600dbdc:
     mov.l @r0, r0
     cmp/eq #0x1, r0
     bf      .L_0600DC5A
-    mov.l   .L_pool_0600DCB8, r5
+    mov.l   .L_fp_neg_20974_c601, r5
     bra     .L_0600DC5C
     nop
 .L_0600DC5A:
-    mov.l   .L_pool_0600DCB0, r5
+    mov.l   .L_fp_neg_20974_c701, r5
 .L_0600DC5C:
     jsr @r13
     mov #0x0, r4
@@ -344,11 +344,11 @@ DAT_0600dc9e:
     .4byte  sym_06078698
 .L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
-.L_pool_0600DCB0:
+.L_fp_neg_20974_c701:
     .4byte  0xAE1138FF
 .L_sym_06078644_2:
     .4byte  sym_06078644
-.L_pool_0600DCB8:
+.L_fp_neg_20974_c601:
     .4byte  0xAE1139FF
 .L_sym_06086054:
     .4byte  sym_06086054
@@ -784,7 +784,7 @@ car_update_racing:
     sts.l macl, @-r15
     mov.l   .L_sym_0607EBC4, r8
     mov.l   .L_sym_06078900_2, r9
-    mov.w   .L_wpool_0600E0EA, r10
+    mov.w   .L_vehicle_stride_w, r10
     mov.l   .L_fp_half, r11
     mov.l   .L_sym_0607E940_4, r12
     mov.l   .L_scene_3d_processor, r14
@@ -794,7 +794,7 @@ car_update_racing:
     bf      .L_0600E19A
     bra     .L_0600E192
     mov #0x1, r13
-.L_wpool_0600E0EA:
+.L_vehicle_stride_w:
     .2byte  0x0268
 .L_sym_0607E944_2:
     .4byte  sym_0607E944

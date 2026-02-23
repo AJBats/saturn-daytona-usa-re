@@ -88,7 +88,7 @@ sym_0602853E:
     mov.l   .L_sym_0602862C, r0
     mov.l @(r0, r4), r0
     mov.l @r0, r0
-    mov.w   .L_wpool_06028556, r1
+    mov.w   .L_bit_11_w, r1
 .L_0602854A:
     mov.l r2, @r0
     dt r1
@@ -96,7 +96,7 @@ sym_0602853E:
     add #0x4, r0
     rts
     nop
-.L_wpool_06028556:
+.L_bit_11_w:
     .2byte  0x0800
 .L_sym_06028644:
     .4byte  sym_06028644
@@ -106,7 +106,7 @@ sym_0602853E:
     .global sym_06028560
 sym_06028560:
     mov.l   .L_sym_060612C4, r0
-    mov.w   .L_wpool_06028572, r1
+    mov.w   .L_const_0x380_w, r1
     mov.l   .L_wram_low_00020, r2
 .L_06028566:
     mov.l r2, @r0
@@ -115,7 +115,7 @@ sym_06028560:
     add #0x4, r0
     rts
     nop
-.L_wpool_06028572:
+.L_const_0x380_w:
     .2byte  0x0380
 .L_sym_060612C4:
     .4byte  sym_060612C4

@@ -40,7 +40,7 @@ world_camera_update:
     mov.l @r0, r0
     cmp/eq #0x28, r0
     bf      .L_06005D60
-    mov.w   .L_wpool_06005D40, r0
+    mov.w   .L_const_0x240_w, r0
     mov.l @(r0, r4), r3
     mov r11, r4
     add #-0x7, r4
@@ -104,7 +104,7 @@ world_camera_update:
     .global DAT_06005d3e
 DAT_06005d3e:
     .2byte  0x021C
-.L_wpool_06005D40:
+.L_const_0x240_w:
     .2byte  0x0240
     .2byte  0xFFFF
 .L_sym_06028430:

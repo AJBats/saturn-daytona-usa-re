@@ -18,7 +18,7 @@ track_vtx_builder:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_06016EDA, r0
+    mov.w   .L_neg_140_w, r0
     add r0, r15
     mov r15, r8
     mov r15, r9
@@ -140,7 +140,7 @@ track_vtx_builder:
     cmp/ge r13, r3
     bra     .L_06016EEC
     nop
-.L_wpool_06016EDA:
+.L_neg_140_w:
     .2byte  0xFF74
 .L_fpmul:
     .4byte  fpmul
@@ -400,7 +400,7 @@ DAT_06016ffa:
     mov.w r0, @r2
     cmp/ge r13, r3
     bf      .L_06017080
-    mov.w   .L_wpool_060170E4, r1
+    mov.w   .L_const_0x08c_w, r1
     add r1, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -411,7 +411,7 @@ DAT_06016ffa:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060170E4:
+.L_const_0x08c_w:
     .2byte  0x008C
     .2byte  0xFFFF
 .L_fpdiv_setup_2:

@@ -31,7 +31,7 @@ accel_response:
     and r2, r3
     tst r3, r3
     bf      .L_0600C5CC
-    mov.w   .L_wpool_0600C592, r12
+    mov.w   .L_neg_4014_w, r12
     mov.w   DAT_0600c594, r0
     mov.l @(r0, r14), r3
     cmp/pl r3
@@ -53,7 +53,7 @@ accel_response:
     add r4, r3
     mov.l @r2, r2
     mov.l @r3, r3
-    mov.l   .L_pool_0600C5B8, r4
+    mov.l   .L_fp_neg_320, r4
     sub r3, r2
     add r2, r4
     jsr @r13
@@ -65,7 +65,7 @@ accel_response:
     mov r0, r5
     mov.l @(12, r14), r3
     shar r5
-    mov.w   .L_wpool_0600C59C, r0
+    mov.w   .L_const_0x194_w, r0
     mov.l @(r0, r14), r4
     sub r3, r4
     cmp/ge r12, r4
@@ -95,7 +95,7 @@ accel_response:
     .global DAT_0600c590
 DAT_0600c590:
     .2byte  0x00D4
-.L_wpool_0600C592:
+.L_neg_4014_w:
     .2byte  0xF052
 
     .global DAT_0600c594
@@ -113,7 +113,7 @@ DAT_0600c598:
     .global DAT_0600c59a
 DAT_0600c59a:
     .2byte  0x0198
-.L_wpool_0600C59C:
+.L_const_0x194_w:
     .2byte  0x0194
     .2byte  0xFFFF
 .L_fpmul:
@@ -128,7 +128,7 @@ DAT_0600c59a:
     .4byte  sym_060477EC
 .L_sym_060454CC:
     .4byte  sym_060454CC
-.L_pool_0600C5B8:
+.L_fp_neg_320:
     .4byte  0xFEC00000
 .L_0600C5BC:
     mov #0x0, r2
@@ -174,7 +174,7 @@ player_collision:
     mov.l @(r0, r14), r2
     cmp/pl r2
     bt      .L_0600C60E
-    mov.w   .L_wpool_0600C618, r0
+    mov.w   .L_const_0x0b8_w, r0
     mov.l @(r0, r14), r2
     cmp/pl r2
     bf      .L_0600C634
@@ -187,7 +187,7 @@ player_collision:
     .global DAT_0600c616
 DAT_0600c616:
     .2byte  0x01BC
-.L_wpool_0600C618:
+.L_const_0x0b8_w:
     .2byte  0x00B8
     .2byte  0xFFFF
 .L_fp_72:

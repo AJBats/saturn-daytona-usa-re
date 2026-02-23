@@ -425,7 +425,7 @@ perspective_project:
     shll8 r14
     shll2 r14
     neg r14, r14
-    mov.l   .L_pool_06005774, r3
+    mov.l   .L_fp_neg_96, r3
     add r3, r14
 .L_06005730:
     mov.l   .L_sym_0603850C, r3
@@ -462,7 +462,7 @@ perspective_project:
     .4byte  sym_06078663
 .L_fp_416:
     .4byte  0x01A00000
-.L_pool_06005774:
+.L_fp_neg_96:
     .4byte  0xFFA00000
 .L_sym_0603850C:
     .4byte  sym_0603850C

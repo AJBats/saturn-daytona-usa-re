@@ -83,7 +83,7 @@ system_init:
     jsr @r3
     nop
     mov.l   .L_sym_06000344, r2
-    mov.w   .L_wpool_060031E2, r5
+    mov.w   .L_const_0x083_w, r5
     mov.l @r2, r2
     jsr @r2
     mov #-0x1, r4
@@ -104,7 +104,7 @@ system_init:
     jsr @r3
     nop
     mov.l   .L_sym_06000344, r2
-    mov.w   .L_wpool_060031E4, r4
+    mov.w   .L_neg_132_w, r4
     mov.l @r2, r2
     jsr @r2
     mov #0x0, r5
@@ -130,9 +130,9 @@ system_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060031E2:
+.L_const_0x083_w:
     .2byte  0x0083
-.L_wpool_060031E4:
+.L_neg_132_w:
     .2byte  0xFF7C
     .2byte  0xFFFF
 .L_sym_0603BF7C:

@@ -208,7 +208,7 @@ results_ranking_table:
     add r3, r4
     exts.w r4, r4
     add r13, r4
-    mov.w   .L_wpool_06016624, r2
+    mov.w   .L_mask_0x0600_w, r2
     mov.l r2, @(24, r4)
     bra     .L_0601661A
     mov.l r12, @(16, r4)
@@ -237,7 +237,7 @@ results_ranking_table:
     mov.l @r15+, r13
     .byte   0xA3, 0xDA    /* bra 0x06016DD8 (external) */
     mov.l @r15+, r14
-.L_wpool_06016624:
+.L_mask_0x0600_w:
     .2byte  0x0600
     .2byte  0xFFFF
 .L_fp_one:

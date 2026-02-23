@@ -22,7 +22,7 @@ disp_init_setup:
     mov.l   .L_sym_060623B0, r0
     shll2 r1
     mov.l @(r0, r1), r14
-    mov.l   .L_pool_06032240, r0
+    mov.l   .L_offset_0x2dc, r0
     mov.b r7, @(r0, r14)
 
     .global display_init_helper
@@ -32,8 +32,8 @@ display_init_helper:
     .byte   0xB5, 0xD7    /* bsr 0x06032D90 (external) */
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032244, r1
-    mov.l   .L_pool_06032248, r0
+    mov.l   .L_offset_0x004, r1
+    mov.l   .L_const_0x00e, r0
     mov.w r1, @(r0, r14)
     mov.l r7, @-r15
     mov.l   .L_zero, r4
@@ -50,10 +50,10 @@ display_element_table:
     mov r7, r1
     shll2 r1
     mov.l @(r0, r1), r2
-    mov.l   .L_pool_06032254, r1
+    mov.l   .L_const_0x2de, r1
     add r14, r1
     mov.l r7, @-r15
-    mov.l   .L_pool_06032258, r6
+    mov.l   .L_const_0x00d, r6
 .L_06032208:
     mov.b @r2+, r7
     mov.b r7, @r1
@@ -62,7 +62,7 @@ display_element_table:
     bf      .L_06032208
     mov.l @r15+, r7
     add #0x1, r7
-    mov.l   .L_pool_0603225C, r0
+    mov.l   .L_const_0x005, r0
     cmp/gt r0, r7
     bf      .L_060321D0
     xor r1, r1
@@ -83,21 +83,21 @@ display_element_table:
     nop
 .L_sym_060623B0:
     .4byte  sym_060623B0
-.L_pool_06032240:
+.L_offset_0x2dc:
     .4byte  0x000002DC
-.L_pool_06032244:
+.L_offset_0x004:
     .4byte  0x00000004
-.L_pool_06032248:
+.L_const_0x00e:
     .4byte  0x0000000E
 .L_zero:
     .4byte  0x00000000
 .L_sym_06062464:
     .4byte  sym_06062464
-.L_pool_06032254:
+.L_const_0x2de:
     .4byte  0x000002DE
-.L_pool_06032258:
+.L_const_0x00d:
     .4byte  0x0000000D
-.L_pool_0603225C:
+.L_const_0x005:
     .4byte  0x00000005
 .L_sym_06082A20:
     .4byte  sym_06082A20

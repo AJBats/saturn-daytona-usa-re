@@ -19,7 +19,7 @@ validation_dispatch:
     and r2, r1
     mov.l r1, @(r0, r3)
     mov.l @r14, r4
-    mov.w   .L_wpool_060400A0, r3
+    mov.w   .L_const_0x0d0_w, r3
     add r3, r4
     mov.l   .L_road_segment_check, r3
     jsr @r3
@@ -44,7 +44,7 @@ validation_dispatch:
 .L_0604004E:
     mov #-0x1, r2
 .L_06040050:
-    mov.w   .L_wpool_060400A2, r0
+    mov.w   .L_const_0x0c8_w, r0
     mov.l r2, @(r0, r3)
     bra     .L_0604008A
     mov r4, r0
@@ -93,9 +93,9 @@ validation_dispatch:
     .global DAT_0604009e
 DAT_0604009e:
     .2byte  0x00C4
-.L_wpool_060400A0:
+.L_const_0x0d0_w:
     .2byte  0x00D0
-.L_wpool_060400A2:
+.L_const_0x0c8_w:
     .2byte  0x00C8
 .L_sym_060A4D14:
     .4byte  sym_060A4D14
@@ -108,12 +108,12 @@ DAT_0604009e:
     and r4, r3
     tst r3, r3
     bt      .L_060400C2
-    mov.w   .L_wpool_06040104, r4
+    mov.w   .L_const_0x0914_w, r4
     bra     .L_060400D2
     nop
 .L_060400C2:
     mov #0x8, r2
-    mov.w   .L_wpool_06040106, r5
+    mov.w   .L_bit_11_w, r5
     and r2, r4
     tst r4, r4
     bt      .L_060400D0
@@ -136,7 +136,7 @@ obj_init_validate:
     sts.l pr, @-r15
     mov r6, r11
     add #-0xC, r15
-    mov.w   .L_wpool_06040106, r12
+    mov.w   .L_bit_11_w, r12
     tst r13, r13
     bf/s    .L_06040174
     mov r4, r14
@@ -151,9 +151,9 @@ obj_init_validate:
     bt      .L_06040110
     bra     .L_060401D6
     mov #0x0, r0
-.L_wpool_06040104:
+.L_const_0x0914_w:
     .2byte  0x0914
-.L_wpool_06040106:
+.L_bit_11_w:
     .2byte  0x0800
 .L_bit_30:
     .4byte  0x40000000

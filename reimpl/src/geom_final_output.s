@@ -36,7 +36,7 @@ geom_final_output:
     extu.w r3, r3
     mov r3, r5
     mov.l r3, @(8, r14)
-    mov.w   .L_wpool_0601FF8C, r4
+    mov.w   .L_const_0x35a_w, r4
     mov.l   .L_fpmul, r3
     jsr @r3
     shll16 r5
@@ -76,7 +76,7 @@ geom_final_output:
     mov.l @(32, r14), r2
     mov.l r2, @(40, r14)
     mov.l @(32, r14), r3
-    mov.w   .L_wpool_0601FF92, r0
+    mov.w   .L_const_0x1b0_w, r0
     mov.l r3, @(r0, r14)
     mov.l @(28, r14), r3
     add #-0xC, r0
@@ -115,7 +115,7 @@ geom_final_output:
     .global DAT_0601ff8a
 DAT_0601ff8a:
     .2byte  0x01EC
-.L_wpool_0601FF8C:
+.L_const_0x35a_w:
     .2byte  0x035A
 
     .global DAT_0601ff8e
@@ -125,7 +125,7 @@ DAT_0601ff8e:
     .global DAT_0601ff90
 DAT_0601ff90:
     .2byte  0x01FC
-.L_wpool_0601FF92:
+.L_const_0x1b0_w:
     .2byte  0x01B0
 .L_sym_0607E940:
     .4byte  sym_0607E940

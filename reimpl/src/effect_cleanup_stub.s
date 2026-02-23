@@ -15,7 +15,7 @@ effect_cleanup_stub:
     add r4, r5
     mov.l r13, @-r15
     shll r5
-    mov.w   .L_wpool_060285DA, r4
+    mov.w   .L_const_0x2710_w, r4
     cmp/pz r6
     mov.l r12, @-r15
     bt/s    particle_sys_mgr
@@ -29,7 +29,7 @@ particle_sys_mgr:
     mov r6, r14
     mulu.w r6, r4
     mov r5, r13
-    mov.w   .L_wpool_06028610, r6
+    mov.w   .L_neg_4096_w, r6
     add #0xA, r5
     sts macl, r7
     shlr16 r7
@@ -59,7 +59,7 @@ particle_sys_mgr:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060285DA:
+.L_const_0x2710_w:
     .2byte  0x2710
 .L_sym_06028614:
     .4byte  sym_06028614
@@ -75,7 +75,7 @@ particle_sys_mgr:
     .4byte  0x96044509
     .4byte  0x354C4500
     .4byte  0xAEE8E408
-.L_wpool_06028610:
+.L_neg_4096_w:
     .2byte  0xF000
     .2byte  0x0009
 

@@ -403,7 +403,7 @@ scene_proc_d:
     mov.l   .L_sym_06094A20, r12
     mov #0x0, r0
     mov.w r0, @r12
-    mov.w   .L_wpool_0602B650, r3
+    mov.w   .L_const_0x190_w, r3
     cmp/gt r3, r1
     bf      .L_0602B670
     mov #0x1, r0
@@ -417,7 +417,7 @@ DAT_0602b64c:
     .global DAT_0602b64e
 DAT_0602b64e:
     .2byte  0x00A0
-.L_wpool_0602B650:
+.L_const_0x190_w:
     .2byte  0x0190
     .2byte  0x0000
 .L_sym_0602B9AC:
@@ -689,9 +689,9 @@ DAT_0602b7c8:
     mov.w r0, @(6, r12)
 .L_0602B7D4:
     mov.l   .L_fp_neg_0_00b0, r4
-    mov.l   .L_pool_0602B800, r5
+    mov.l   .L_offset_0x0b0, r5
     mov.l   .L_fp_neg_0_007f, r6
-    mov.l   .L_pool_0602B808, r7
+    mov.l   .L_const_0x051, r7
     mov.l @r11, r0
     cmp/gt r0, r4
     bf      .L_0602B80C
@@ -713,11 +713,11 @@ DAT_0602b7f8:
     .2byte  0x0000
 .L_fp_neg_0_00b0:
     .4byte  0xFFFFFF50
-.L_pool_0602B800:
+.L_offset_0x0b0:
     .4byte  0x000000B0
 .L_fp_neg_0_007f:
     .4byte  0xFFFFFF81
-.L_pool_0602B808:
+.L_const_0x051:
     .4byte  0x00000051
 .L_0602B80C:
     mov.l @r11, r0

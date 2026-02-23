@@ -16,7 +16,7 @@ anim_frame_transform:
     mov.l   .L_sym_06063E14, r5
     mov.l r4, @r15
     mov #0xA, r12
-    mov.w   .L_wpool_06005EAE, r14
+    mov.w   .L_neg_252_w, r14
     mov r14, r7
     add #0x4, r7
     mov.w   .L_mask_high_byte_w, r6
@@ -27,11 +27,11 @@ anim_frame_transform:
     mov.l r3, @r14
     extu.b r4, r0
     mov.b r0, @(8, r5)
-    mov.w   .L_wpool_06005EB2, r13
+    mov.w   .L_neg_232_w, r13
     mov.l @r13, r3
     extu.b r3, r3
     mov.b r3, @r15
-    mov.w   .L_wpool_06005EB4, r1
+    mov.w   .L_neg_228_w, r1
     mov.l @r1, r2
     mov.l r2, @(4, r15)
     mov.l r12, @r6
@@ -118,13 +118,13 @@ anim_frame_transform:
     extu.b r3, r4
     bra     .L_06005EBE
     nop
-.L_wpool_06005EAE:
+.L_neg_252_w:
     .2byte  0xFF04
 .L_mask_high_byte_w:
     .2byte  0xFF00
-.L_wpool_06005EB2:
+.L_neg_232_w:
     .2byte  0xFF18
-.L_wpool_06005EB4:
+.L_neg_228_w:
     .2byte  0xFF1C
     .2byte  0xFFFF
 .L_sym_06063E14:

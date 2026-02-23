@@ -58,7 +58,7 @@ sym_06011EB4:
     mov.l @(4, r7), r7
     mov.w   DAT_06011efe, r3
     add r3, r7
-    mov.w   .L_wpool_06011F04, r6
+    mov.w   .L_const_0x0420_w, r6
     mov.l @r15, r5
     mov.l @r5, r5
     mov #0xC, r4
@@ -72,7 +72,7 @@ sym_06011EB4:
     mov.l @(4, r7), r7
     mov.w   DAT_06011efe, r3
     add r3, r7
-    mov.w   .L_wpool_06011F04, r6
+    mov.w   .L_const_0x0420_w, r6
     mov r2, r5
     mov.l @r5, r5
     mov #0xC, r4
@@ -91,7 +91,7 @@ DAT_06011f00:
     .global DAT_06011f02
 DAT_06011f02:
     .2byte  0x0486
-.L_wpool_06011F04:
+.L_const_0x0420_w:
     .2byte  0x0420
     .2byte  0xFFFF
 .L_sym_060638B0:
@@ -116,7 +116,7 @@ sym_06011F1C:
     mov #0x1F, r10
     mov #0x10, r11
     mov.w   DAT_06011fd6, r12
-    mov.w   .L_wpool_06011FD8, r13
+    mov.w   .L_neg_2048_w, r13
     mov #0x0, r6
     exts.w r6, r5
 .L_06011F34:
@@ -186,7 +186,7 @@ throttle_input_proc:
     mov.l r8, @-r15
     add #-0x8, r15
     mov #0x10, r8
-    mov.w   .L_wpool_06011FDA, r9
+    mov.w   .L_bit_10_w, r9
     mov #0x0, r10
     mov #0x1F, r14
     mov r9, r7
@@ -219,9 +219,9 @@ DAT_06011fd4:
     .global DAT_06011fd6
 DAT_06011fd6:
     .2byte  0x7C00
-.L_wpool_06011FD8:
+.L_neg_2048_w:
     .2byte  0xF800
-.L_wpool_06011FDA:
+.L_bit_10_w:
     .2byte  0x0400
 .L_06011FDC:
     mov.l @(4, r15), r2

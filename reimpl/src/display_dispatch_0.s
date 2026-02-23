@@ -25,7 +25,7 @@ disp_elem_proc_1:
     bsr     .L_06032304
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060322D4, r4
+    mov.l   .L_const_0x001, r4
 
     .global disp_elem_proc_2
     .type disp_elem_proc_2, @function
@@ -34,7 +34,7 @@ disp_elem_proc_2:
     bsr     .L_06032304
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060322D8, r4
+    mov.l   .L_const_0x002, r4
 
     .global disp_elem_proc_3
     .type disp_elem_proc_3, @function
@@ -43,7 +43,7 @@ disp_elem_proc_3:
     bsr     .L_06032304
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060322DC, r4
+    mov.l   .L_const_0x003, r4
 
     .global disp_elem_proc_4
     .type disp_elem_proc_4, @function
@@ -52,7 +52,7 @@ disp_elem_proc_4:
     bsr     .L_06032304
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060322E0, r4
+    mov.l   .L_offset_0x004, r4
 
     .global disp_elem_proc_5
     .type disp_elem_proc_5, @function
@@ -61,7 +61,7 @@ disp_elem_proc_5:
     bsr     .L_06032304
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060322E4, r4
+    mov.l   .L_const_0x005, r4
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -85,15 +85,15 @@ display_dispatch_pop:
     nop
 .L_zero:
     .4byte  0x00000000
-.L_pool_060322D4:
+.L_const_0x001:
     .4byte  0x00000001
-.L_pool_060322D8:
+.L_const_0x002:
     .4byte  0x00000002
-.L_pool_060322DC:
+.L_const_0x003:
     .4byte  0x00000003
-.L_pool_060322E0:
+.L_offset_0x004:
     .4byte  0x00000004
-.L_pool_060322E4:
+.L_const_0x005:
     .4byte  0x00000005
 .L_060322E8:
     mov.l   .L_sym_06082A24, r0
@@ -116,7 +116,7 @@ display_dispatch_pop:
     shll2 r4
     mov.l @(r0, r4), r14
 .L_0603230A:
-    mov.l   .L_pool_06032328, r0
+    mov.l   .L_offset_0x2d8, r0
     mov.l @(r0, r14), r1
     mov.l @r1+, r5
     mov.l @r1+, r6
@@ -125,13 +125,13 @@ display_dispatch_pop:
     mov.l @r0, r2
     cmp/eq r2, r5
     bf      .L_06032330
-    mov.l   .L_pool_06032328, r0
+    mov.l   .L_offset_0x2d8, r0
     bra     .L_06032368
     mov.l r1, @(r0, r14)
     .2byte  0x0000
 .L_sym_060623B0:
     .4byte  sym_060623B0
-.L_pool_06032328:
+.L_offset_0x2d8:
     .4byte  0x000002D8
 .L_sym_06082A20_2:
     .4byte  sym_06082A20
@@ -167,33 +167,33 @@ sym_06032334:
 
     .global loc_0603237C
 loc_0603237C:
-    mov.l   .L_pool_06032390, r0
+    mov.l   .L_const_0x00e, r0
     mov.w @(r0, r14), r1
-    mov.l   .L_pool_06032394, r2
+    mov.l   .L_const_0x002_2, r2
     or r2, r1
-    mov.l   .L_pool_06032398, r2
+    mov.l   .L_const_0x001_2, r2
     not r2, r2
     and r2, r1
     mov.w r1, @(r0, r14)
     bra     .L_060323A8
     nop
-.L_pool_06032390:
+.L_const_0x00e:
     .4byte  0x0000000E
-.L_pool_06032394:
+.L_const_0x002_2:
     .4byte  0x00000002
-.L_pool_06032398:
+.L_const_0x001_2:
     .4byte  0x00000001
 
     .global loc_0603239C
 loc_0603239C:
-    mov.l   .L_pool_060323C0, r0
+    mov.l   .L_const_0x00e_2, r0
     mov.w @(r0, r14), r1
-    mov.l   .L_pool_060323C4, r2
+    mov.l   .L_const_0x003_2, r2
     not r2, r2
     and r2, r1
     mov.w r1, @(r0, r14)
 .L_060323A8:
-    mov.l   .L_pool_060323C8, r0
+    mov.l   .L_offset_0x2d0, r0
     mov.l @(r0, r14), r2
     cmp/eq r7, r2
     bt      .L_060323BA
@@ -210,24 +210,24 @@ display_cmd_hscroll:
     bra     .L_0603230A
     nop
     .2byte  0x0000
-.L_pool_060323C0:
+.L_const_0x00e_2:
     .4byte  0x0000000E
-.L_pool_060323C4:
+.L_const_0x003_2:
     .4byte  0x00000003
-.L_pool_060323C8:
+.L_offset_0x2d0:
     .4byte  0x000002D0
 
     .global loc_060323CC
 loc_060323CC:
-    mov.l   .L_pool_060323DC, r0
+    mov.l   .L_const_0x00e_3, r0
     mov.w @(r0, r14), r1
-    mov.l   .L_pool_060323E0, r2
+    mov.l   .L_const_0x001_3, r2
     or r2, r1
     mov.w r1, @(r0, r14)
     bra     .L_0603230A
     nop
     .2byte  0x0000
-.L_pool_060323DC:
+.L_const_0x00e_3:
     .4byte  0x0000000E
-.L_pool_060323E0:
+.L_const_0x001_3:
     .4byte  0x00000001

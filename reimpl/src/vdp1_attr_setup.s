@@ -14,20 +14,20 @@ vdp1_attr_setup:
     mov.l @(8, r14), r3
     cmp/pl r3
     bf      .L_0602CD9A
-    mov.w   .L_wpool_0602CDB6, r5
-    mov.w   .L_wpool_0602CDB8, r1
+    mov.w   .L_const_0x2134_w, r5
+    mov.w   .L_const_0x0e0_w, r1
     shll16 r5
     mov.l @(r0, r1), r3
     shll16 r3
     mov r5, r4
     sub r3, r4
-    mov.w   .L_wpool_0602CDBA, r2
+    mov.w   .L_const_0x11c_w, r2
     mov.l   .L_fpdiv_setup, r13
     jsr @r13
     mov.l @(r0, r2), r6
     dmuls.l r0, r6
-    mov.w   .L_wpool_0602CDBC, r1
-    mov.w   .L_wpool_0602CDBE, r2
+    mov.w   .L_const_0x10c_w, r1
+    mov.w   .L_const_0x144_w, r2
     sts mach, r0
     sts macl, r4
     xtrct r0, r4
@@ -39,11 +39,11 @@ vdp1_attr_setup:
     sts mach, r6
     sts macl, r5
     xtrct r6, r5
-    mov.w   .L_wpool_0602CDC0, r1
+    mov.w   .L_const_0x0dc_w, r1
     add r14, r1
     jsr @r13
     mov.w @r1, r7
-    mov.w   .L_wpool_0602CDC2, r4
+    mov.w   .L_const_0x07c_w, r4
     mov.l   .L_sym_0602E938, r1
     add r14, r4
     mov.w @r4, r4
@@ -73,7 +73,7 @@ vdp1_attr_setup:
     mov.l r4, @-r15
     jsr @r13
     mov.l r5, @-r15
-    mov.w   .L_wpool_0602CDC4, r1
+    mov.w   .L_const_0x264_w, r1
     add r14, r1
     mov.l r0, @r1
     mov.l @r15+, r5
@@ -82,64 +82,64 @@ vdp1_attr_setup:
     bt      .L_0602CD9A
     .byte   0xB5, 0x35    /* bsr 0x0602D7E4 (external) */
     mov r14, r0
-    mov.w   .L_wpool_0602CDC6, r1
+    mov.w   .L_const_0x16c_w, r1
     add r14, r1
     mov.w @r1, r2
     cmp/pl r2
     bt      .L_0602CD9A
-    mov.w   .L_wpool_0602CDB8, r1
+    mov.w   .L_const_0x0e0_w, r1
     add r14, r1
     mov.l @r1, r7
     mov r7, r4
-    mov.l   .L_pool_0602CDD4, r5
+    mov.l   .L_fp_9000, r5
     shll r7
     shll16 r4
-    mov.w   .L_wpool_0602CDC8, r6
+    mov.w   .L_const_0x110_w, r6
     jsr @r13
     add r14, r6
     mov.l r0, @r6
 .L_0602CD9A:
     mov r14, r0
-    mov.w   .L_wpool_0602CDBC, r1
-    mov.w   .L_wpool_0602CDC8, r2
+    mov.w   .L_const_0x10c_w, r1
+    mov.w   .L_const_0x110_w, r2
     mov.l @(r0, r1), r3
     mov.l @(r0, r2), r4
     sub r4, r3
     mov #0x1, r5
-    mov.w   .L_wpool_0602CDCA, r6
+    mov.w   .L_const_0x2b85_w, r6
     shll16 r5
     cmp/gt r6, r3
     bt      .L_0602CDD8
     mov r6, r3
     bra     .L_0602CDDE
     nop
-.L_wpool_0602CDB6:
+.L_const_0x2134_w:
     .2byte  0x2134
-.L_wpool_0602CDB8:
+.L_const_0x0e0_w:
     .2byte  0x00E0
-.L_wpool_0602CDBA:
+.L_const_0x11c_w:
     .2byte  0x011C
-.L_wpool_0602CDBC:
+.L_const_0x10c_w:
     .2byte  0x010C
-.L_wpool_0602CDBE:
+.L_const_0x144_w:
     .2byte  0x0144
-.L_wpool_0602CDC0:
+.L_const_0x0dc_w:
     .2byte  0x00DC
-.L_wpool_0602CDC2:
+.L_const_0x07c_w:
     .2byte  0x007C
-.L_wpool_0602CDC4:
+.L_const_0x264_w:
     .2byte  0x0264
-.L_wpool_0602CDC6:
+.L_const_0x16c_w:
     .2byte  0x016C
-.L_wpool_0602CDC8:
+.L_const_0x110_w:
     .2byte  0x0110
-.L_wpool_0602CDCA:
+.L_const_0x2b85_w:
     .2byte  0x2B85
 .L_fpdiv_setup:
     .4byte  fpdiv_setup
 .L_sym_0602E938:
     .4byte  sym_0602E938
-.L_pool_0602CDD4:
+.L_fp_9000:
     .4byte  0x23280000
 .L_0602CDD8:
     cmp/ge r3, r5
@@ -148,16 +148,16 @@ vdp1_attr_setup:
 .L_0602CDDE:
     cmp/pz r4
     bf      .L_0602CDE8
-    mov.w   .L_wpool_0602CDF2, r5
+    mov.w   .L_const_0x05c2_w, r5
     sub r5, r4
     mov.l r4, @(r0, r2)
 .L_0602CDE8:
     mov.l r3, @(r0, r1)
-    mov.w   .L_wpool_0602CDF4, r2
+    mov.w   .L_const_0x0c0_w, r2
     lds.l @r15+, pr
     rts
     mov.l r7, @(r0, r2)
-.L_wpool_0602CDF2:
+.L_const_0x05c2_w:
     .2byte  0x05C2
-.L_wpool_0602CDF4:
+.L_const_0x0c0_w:
     .2byte  0x00C0

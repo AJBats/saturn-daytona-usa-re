@@ -138,7 +138,7 @@ DAT_06027d26:
     bf      .L_06027D90
     add r10, r3
 .L_06027D90:
-    mov.w   .L_wpool_06027DA0, r11
+    mov.w   .L_bit_8_w, r11
     tst r11, r6
     bt      .L_06027DAC
     cmp/pl r3
@@ -146,7 +146,7 @@ DAT_06027d26:
     add #0x2, r13
     bra     .L_06027D50
     add #-0x1, r12
-.L_wpool_06027DA0:
+.L_bit_8_w:
     .2byte  0x0100
     .2byte  0x0000
 .L_sym_060BF000:
@@ -175,7 +175,7 @@ DAT_06027d26:
     bf      .L_06027DD2
     add r10, r3
 .L_06027DD2:
-    mov.w   .L_wpool_06027DE2, r11
+    mov.w   .L_bit_9_w, r11
     tst r11, r6
     bt      .L_06027DE4
     cmp/pl r3
@@ -183,7 +183,7 @@ DAT_06027d26:
     add #0x2, r13
     bra     .L_06027D50
     add #-0x1, r12
-.L_wpool_06027DE2:
+.L_bit_9_w:
     .2byte  0x0200
 .L_06027DE4:
     cmp/pz r3
@@ -206,7 +206,7 @@ DAT_06027d26:
     bf      .L_06027E08
     add r10, r3
 .L_06027E08:
-    mov.w   .L_wpool_06027E18, r10
+    mov.w   .L_bit_10_w, r10
     tst r10, r6
     bt      .L_06027E1A
     cmp/pl r3
@@ -214,7 +214,7 @@ DAT_06027d26:
     add #0x2, r13
     bra     .L_06027D50
     add #-0x1, r12
-.L_wpool_06027E18:
+.L_bit_10_w:
     .2byte  0x0400
 .L_06027E1A:
     cmp/pz r3
@@ -237,7 +237,7 @@ DAT_06027d26:
     bf      .L_06027E3E
     add r10, r3
 .L_06027E3E:
-    mov.l   .L_pool_06027E50, r10
+    mov.l   .L_offset_0x800, r10
     tst r10, r6
     bt      .L_06027E54
     cmp/pl r3
@@ -246,7 +246,7 @@ DAT_06027d26:
     bra     .L_06027D50
     add #-0x1, r12
     .2byte  0x0000
-.L_pool_06027E50:
+.L_offset_0x800:
     .4byte  0x00000800
 .L_06027E54:
     cmp/pz r3

@@ -62,7 +62,7 @@ palette_engine_core:
     and #0x8, r0
     cmp/eq #0x8, r0
     bf      .L_06042B3A
-    mov.w   .L_wpool_06042B9C, r3
+    mov.w   .L_const_0xcfff_w, r3
     and r3, r6
     mov.l @(16, r4), r2
     shll8 r2
@@ -74,7 +74,7 @@ palette_engine_core:
     and #0x10, r0
     cmp/eq #0x10, r0
     bf      .L_06042B4A
-    mov.w   .L_wpool_06042B9E, r2
+    mov.w   .L_neg_3073_w, r2
     and r2, r6
     mov.l @(20, r4), r3
     or r3, r6
@@ -83,7 +83,7 @@ palette_engine_core:
     and #0x20, r0
     cmp/eq #0x20, r0
     bf      .L_06042B5A
-    mov.w   .L_wpool_06042BA0, r3
+    mov.w   .L_neg_513_w, r3
     and r3, r6
     mov.l @(24, r4), r2
     or r2, r6
@@ -102,7 +102,7 @@ palette_engine_core:
     or r3, r6
 .L_06042B72:
     mov.l @(36, r4), r2
-    mov.w   .L_wpool_06042BA2, r3
+    mov.w   .L_bit_8_w, r3
     and r3, r2
     mov r3, r1
     cmp/eq r1, r2
@@ -111,7 +111,7 @@ palette_engine_core:
     and r2, r6
 .L_06042B82:
     mov.l r6, @r7
-    mov.w   .L_wpool_06042BA4, r6
+    mov.w   .L_bit_7_w, r6
     mov.l @(36, r4), r3
     and r6, r3
     cmp/eq r6, r3
@@ -124,15 +124,15 @@ palette_engine_core:
 .L_06042B98:
     rts
     nop
-.L_wpool_06042B9C:
+.L_const_0xcfff_w:
     .2byte  0xCFFF
-.L_wpool_06042B9E:
+.L_neg_3073_w:
     .2byte  0xF3FF
-.L_wpool_06042BA0:
+.L_neg_513_w:
     .2byte  0xFDFF
-.L_wpool_06042BA2:
+.L_bit_8_w:
     .2byte  0x0100
-.L_wpool_06042BA4:
+.L_bit_7_w:
     .2byte  0x0080
 
     .global DAT_06042ba6

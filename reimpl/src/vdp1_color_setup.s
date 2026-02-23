@@ -50,7 +50,7 @@ vdp1_color_setup:
     mov.w r3, @(r0, r2)
 .L_0602C92A:
     mov #0x64, r2
-    mov.w   .L_wpool_0602C9DA, r3
+    mov.w   .L_mask_0x0e00_w, r3
     cmp/gt r1, r2
     bt      .L_0602C938
     cmp/gt r6, r3
@@ -66,7 +66,7 @@ vdp1_color_setup:
     mov.w r2, @(r0, r3)
 .L_0602C946:
     mov.l @(28, r0), r3
-    mov.w   .L_wpool_0602C9E0, r2
+    mov.w   .L_mask_0x0500_w, r2
     cmp/ge r3, r2
     bt      .L_0602C978
     mov.w   DAT_0602c9e2, r2
@@ -93,7 +93,7 @@ vdp1_color_setup:
     mov #0x14, r2
     mov.w r2, @(r0, r3)
 .L_0602C978:
-    mov.w   .L_wpool_0602C9E4, r8
+    mov.w   .L_const_0x16a_w, r8
     mov.w @(r0, r8), r2
     tst r12, r12
     bt      .L_0602C982
@@ -106,7 +106,7 @@ vdp1_color_setup:
     mov.w   DAT_0602c9e6, r3
     mov.w   DAT_0602c9d2, r2
     mov.l @(r0, r3), r6
-    mov.w   .L_wpool_0602C9E8, r1
+    mov.w   .L_const_0x11c_w, r1
     dmuls.l r6, r6
     mov.l @(r0, r2), r5
     mov.l @(r0, r1), r4
@@ -120,7 +120,7 @@ vdp1_color_setup:
     add r6, r0
     shll16 r0
     mov r0, r3
-    mov.w   .L_wpool_0602C9E8, r1
+    mov.w   .L_const_0x11c_w, r1
     mov r14, r0
     mov.l @(r0, r1), r5
     dmuls.l r3, r5
@@ -165,7 +165,7 @@ DAT_0602c9d6:
     .global DAT_0602c9d8
 DAT_0602c9d8:
     .2byte  0x016C
-.L_wpool_0602C9DA:
+.L_mask_0x0e00_w:
     .2byte  0x0E00
 
     .global DAT_0602c9dc
@@ -175,19 +175,19 @@ DAT_0602c9dc:
     .global DAT_0602c9de
 DAT_0602c9de:
     .2byte  0x0170
-.L_wpool_0602C9E0:
+.L_mask_0x0500_w:
     .2byte  0x0500
 
     .global DAT_0602c9e2
 DAT_0602c9e2:
     .2byte  0x0128
-.L_wpool_0602C9E4:
+.L_const_0x16a_w:
     .2byte  0x016A
 
     .global DAT_0602c9e6
 DAT_0602c9e6:
     .2byte  0x0144
-.L_wpool_0602C9E8:
+.L_const_0x11c_w:
     .2byte  0x011C
     .2byte  0x0000
 .L_sym_0602ECCC:
@@ -231,7 +231,7 @@ DAT_0602c9e6:
     add #-0x1, r5
     mov.w r5, @(r0, r8)
     mov.w   DAT_0602ca74, r2
-    mov.l   .L_pool_0602CA80, r3
+    mov.l   .L_fp_2520, r3
     mov.l r3, @(r0, r2)
 .L_0602CA38:
     add #0x2, r8
@@ -254,7 +254,7 @@ DAT_0602c9e6:
     bf      .L_0602CA6C
     add #-0x1, r5
     mov.w r5, @(r0, r8)
-    mov.w   .L_wpool_0602CA78, r1
+    mov.w   .L_const_0x11c_w_2, r1
     mov.l @(r0, r1), r3
     cmp/pz r3
     bf      .L_0602CA6C
@@ -277,10 +277,10 @@ DAT_0602ca74:
     .global DAT_0602ca76
 DAT_0602ca76:
     .2byte  0x00F4
-.L_wpool_0602CA78:
+.L_const_0x11c_w_2:
     .2byte  0x011C
     .2byte  0x0000
 .L_fp_1_1999:
     .4byte  0x00011999
-.L_pool_0602CA80:
+.L_fp_2520:
     .4byte  0x09D80000

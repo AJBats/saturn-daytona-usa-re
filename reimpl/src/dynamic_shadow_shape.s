@@ -133,7 +133,7 @@ particle_spawner:
     mov r15, r2
     mov.l r12, @(4, r3)
     mov.b r0, @(4, r2)
-    mov.w   .L_wpool_06036BCE, r4
+    mov.w   .L_bit_9_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -156,11 +156,11 @@ ai_master_update:
     mov r15, r2
     mov #0x75, r3
     mov.b r3, @r2
-    mov.w   .L_wpool_06036BCE, r4
+    mov.w   .L_bit_9_w, r4
     mov.l   .L_sym_06035C92, r3
     jsr @r3
     nop
-    mov.w   .L_wpool_06036BCE, r4
+    mov.w   .L_bit_9_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -168,7 +168,7 @@ ai_master_update:
     lds.l @r15+, pr
     rts
     mov r0, r4
-.L_wpool_06036BCE:
+.L_bit_9_w:
     .2byte  0x0200
 .L_mask_24bit_2:
     .4byte  0x00FFFFFF
@@ -275,7 +275,7 @@ sym_06036BE4:
     mov.l @r15+, r2
 .L_06036C96:
     mov.l   .L_sym_060A246C, r1
-    mov.l   .L_pool_06036CA8, r2
+    mov.l   .L_const_0x44e, r2
     mov #0x0, r0
     mov.l r2, @r1
     rts
@@ -283,7 +283,7 @@ sym_06036BE4:
     .2byte  0x0009
 .L_sym_060A246C:
     .4byte  sym_060A246C
-.L_pool_06036CA8:
+.L_const_0x44e:
     .4byte  0x0000044E
     .4byte  0x2F362F46
 

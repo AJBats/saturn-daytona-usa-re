@@ -20,7 +20,7 @@ time_compare_display:
     add #-0x4, r15
     mov #0x8, r8
     mov #0x7, r9
-    mov.w   .L_wpool_06015C22, r11
+    mov.w   .L_mask_0x0c00_w, r11
     mov #0x0, r12
     mov.l   .L_sym_06084FC8, r13
     mov.b r4, @r15
@@ -122,7 +122,7 @@ time_compare_display:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06015C22:
+.L_mask_0x0c00_w:
     .2byte  0x0C00
 .L_sym_06084FC8:
     .4byte  sym_06084FC8
@@ -165,7 +165,7 @@ time_delta_format:
     mov.l r12, @-r15
     add #-0x4, r15
     mov.l   .L_sym_06084FC8_2, r12
-    mov.w   .L_wpool_06015C9C, r13
+    mov.w   .L_mask_0xe000_w, r13
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
@@ -192,7 +192,7 @@ time_delta_format:
     mov.l   .L_sym_060172E4_2, r3
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_06015C9C:
+.L_mask_0xe000_w:
     .2byte  0xE000
     .2byte  0xFFFF
 .L_sym_06084FC8_2:

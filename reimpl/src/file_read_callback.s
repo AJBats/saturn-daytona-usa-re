@@ -147,10 +147,10 @@ race_cleanup_handler:
     mov.l   .L_sym_06063AF0, r3
     mov.l r3, @r15
     mov r3, r7
-    mov.w   .L_wpool_06012218, r6
+    mov.w   .L_const_0x390_w, r6
     mov.l @r15, r5
     mov.l @(4, r7), r7
-    mov.l   .L_pool_0601222C, r3
+    mov.l   .L_const_0xb000, r3
     mov.l @r5, r5
     add r3, r7
     mov.l   .L_sym_06028400, r3
@@ -162,26 +162,26 @@ race_cleanup_handler:
     mov.l @r14, r0
     cmp/eq #0x14, r0
     bf      .L_0601224C
-    mov.l   .L_pool_06012234, r5
+    mov.l   .L_fp_neg_20974_f101, r5
     mov.l   .L_sound_cmd_dispatch, r3
     jsr @r3
     mov #0x0, r4
     mov.l   .L_sym_0605ACF0, r13
-    mov.w   .L_wpool_0601221A, r6
-    mov.w   .L_wpool_06012218, r5
+    mov.w   .L_const_0x090_w, r6
+    mov.w   .L_const_0x390_w, r5
     mov.l   .L_sym_060284AE, r3
     mov r13, r7
     jsr @r3
     mov #0x8, r4
     mov r13, r7
-    mov.w   .L_wpool_0601221A, r6
-    mov.w   .L_wpool_0601221C, r5
+    mov.w   .L_const_0x090_w, r6
+    mov.w   .L_const_0x0490_w, r5
     mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0x8, r4
     mov r13, r7
-    mov.l   .L_pool_06012244, r6
-    mov.w   .L_wpool_0601221E, r5
+    mov.l   .L_const_0xe000, r6
+    mov.w   .L_const_0x0590_w, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
@@ -189,13 +189,13 @@ race_cleanup_handler:
     mov.l   .L_sym_060283E0, r3
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_06012218:
+.L_const_0x390_w:
     .2byte  0x0390
-.L_wpool_0601221A:
+.L_const_0x090_w:
     .2byte  0x0090
-.L_wpool_0601221C:
+.L_const_0x0490_w:
     .2byte  0x0490
-.L_wpool_0601221E:
+.L_const_0x0590_w:
     .2byte  0x0590
 .L_sym_0607EAD8_2:
     .4byte  sym_0607EAD8
@@ -203,11 +203,11 @@ race_cleanup_handler:
     .4byte  sym_060788AC
 .L_sym_06063AF0:
     .4byte  sym_06063AF0
-.L_pool_0601222C:
+.L_const_0xb000:
     .4byte  0x0000B000
 .L_sym_06028400:
     .4byte  sym_06028400
-.L_pool_06012234:
+.L_fp_neg_20974_f101:
     .4byte  0xAE110EFF
 .L_sound_cmd_dispatch:
     .4byte  sound_cmd_dispatch
@@ -215,7 +215,7 @@ race_cleanup_handler:
     .4byte  sym_0605ACF0
 .L_sym_060284AE:
     .4byte  sym_060284AE
-.L_pool_06012244:
+.L_const_0xe000:
     .4byte  0x0000E000
 .L_sym_060283E0:
     .4byte  sym_060283E0
@@ -227,7 +227,7 @@ race_cleanup_handler:
     mov #0x0, r3
     mov.l   .L_sym_06078636_2, r2
     mov.b r3, @r2
-    mov.l   .L_pool_060122D0, r5
+    mov.l   .L_fp_neg_20974_f001, r5
     mov r3, r4
     add #0x4, r15
     lds.l @r15+, pr
@@ -295,7 +295,7 @@ lap_timer_ctrl:
     .2byte  0xFFFF
 .L_sym_06078636_2:
     .4byte  sym_06078636
-.L_pool_060122D0:
+.L_fp_neg_20974_f001:
     .4byte  0xAE110FFF
 .L_sound_cmd_dispatch_2:
     .4byte  sound_cmd_dispatch
@@ -456,7 +456,7 @@ file_block_read:
     extu.b r3, r3
     tst r3, r3
     bf      .L_0601241A
-    mov.l   .L_pool_06012438, r5
+    mov.l   .L_fp_neg_20974_f001_2, r5
     mov.l   .L_sound_cmd_dispatch_3, r3
     jsr @r3
     mov #0x0, r4
@@ -479,7 +479,7 @@ file_block_read:
     lds.l @r15+, pr
 .L_sym_060788F0_2:
     .4byte  sym_060788F0
-.L_pool_06012438:
+.L_fp_neg_20974_f001_2:
     .4byte  0xAE110FFF
 .L_sound_cmd_dispatch_3:
     .4byte  sound_cmd_dispatch
@@ -518,7 +518,7 @@ file_format_parse:
     mov #0x2, r0
     mov r0, r4
     mov r0, r3
-    mov.w   .L_wpool_060124D2, r2
+    mov.w   .L_bit_12_w, r2
     shll8 r4
     shll8 r3
     shll2 r4
@@ -561,7 +561,7 @@ file_format_parse:
     mov.l   .L_sym_06026DF8, r3
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_060124D2:
+.L_bit_12_w:
     .2byte  0x1000
 .L_sym_06026DBC:
     .4byte  sym_06026DBC
@@ -749,8 +749,8 @@ lap_display_anim:
     add r2, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_pool_060126D8, r3
-    mov.w   .L_wpool_060126A2, r6
+    mov.l   .L_const_0xb000_2, r3
+    mov.w   .L_const_0x390_w_2, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -807,7 +807,7 @@ lap_display_anim:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060126A2:
+.L_const_0x390_w_2:
     .2byte  0x0390
 
     .global DAT_060126a4
@@ -838,7 +838,7 @@ DAT_060126a4:
     .4byte  sym_06034FE0
 .L_sym_06063750:
     .4byte  sym_06063750
-.L_pool_060126D8:
+.L_const_0xb000_2:
     .4byte  0x0000B000
 .L_sym_06028400_2:
     .4byte  sym_06028400
@@ -1002,7 +1002,7 @@ hud_menu_logic:
     mov.l @(r0, r4), r4
     mov.l   .L_sym_060283E0_2, r8
     mov.l   .L_sound_cmd_dispatch_4, r9
-    mov.w   .L_wpool_06012886, r10
+    mov.w   .L_const_0x090_w_2, r10
     mov.l   .L_sym_0605ACDD, r11
     mov.l   .L_sym_06028400_3, r12
     mov.l   .L_sym_06063750_2, r13
@@ -1014,7 +1014,7 @@ hud_menu_logic:
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_0601288A, r6
+    mov.w   .L_const_0x0880_w, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r12
@@ -1064,13 +1064,13 @@ hud_menu_logic:
     .global DAT_06012884
 DAT_06012884:
     .2byte  0x01EC
-.L_wpool_06012886:
+.L_const_0x090_w_2:
     .2byte  0x0090
 
     .global DAT_06012888
 DAT_06012888:
     .2byte  0x0098
-.L_wpool_0601288A:
+.L_const_0x0880_w:
     .2byte  0x0880
 
     .global DAT_0601288c
@@ -1133,17 +1133,17 @@ DAT_06012890:
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14
-    mov.l   .L_pool_060129A8, r6
+    mov.l   .L_const_0xf000, r6
     mov.w   DAT_0601299e, r5
     jsr @r8
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_pool_060129A8, r6
+    mov.l   .L_const_0xf000, r6
     mov.w   DAT_060129a0, r5
     jsr @r8
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_pool_060129A8, r6
+    mov.l   .L_const_0xf000, r6
     mov.w   DAT_060129a2, r5
     jsr @r8
     mov #0x8, r4
@@ -1158,7 +1158,7 @@ DAT_06012890:
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   .L_pool_060129AC, r5
+    mov.l   .L_fp_neg_20974_dd01, r5
     jsr @r9
     mov #0x0, r4
     bra     .L_06012A7E
@@ -1192,7 +1192,7 @@ DAT_06012890:
     mov.l @r3, r3
     mov.l @(48, r3), r2
     mov.l r2, @r1
-    mov.l   .L_pool_060129BC, r5
+    mov.l   .L_fp_neg_20974_dc01, r5
     jsr @r9
     mov #0x0, r4
     bra     .L_06012A7E
@@ -1218,7 +1218,7 @@ DAT_06012890:
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   .L_pool_060129C0, r5
+    mov.l   .L_fp_neg_20974_db01, r5
     jsr @r9
     mov #0x0, r4
     bra     .L_06012A7E
@@ -1251,9 +1251,9 @@ DAT_060129a4:
     .global DAT_060129a6
 DAT_060129a6:
     .2byte  0x0626
-.L_pool_060129A8:
+.L_const_0xf000:
     .4byte  0x0000F000
-.L_pool_060129AC:
+.L_fp_neg_20974_dd01:
     .4byte  0xAE1122FF
 .L_sym_06078654:
     .4byte  sym_06078654
@@ -1261,9 +1261,9 @@ DAT_060129a6:
     .4byte  sym_0607E944
 .L_sym_06063EF0:
     .4byte  sym_06063EF0
-.L_pool_060129BC:
+.L_fp_neg_20974_dc01:
     .4byte  0xAE1123FF
-.L_pool_060129C0:
+.L_fp_neg_20974_db01:
     .4byte  0xAE1124FF
 .L_060129C4:
     mov r4, r0
@@ -1277,13 +1277,13 @@ DAT_060129a6:
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   DAT_06012a94, r3
-    mov.w   .L_wpool_06012A96, r6
+    mov.w   .L_const_0x0520_w, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   .L_pool_06012AA4, r5
+    mov.l   .L_fp_neg_20974_da01, r5
     jsr @r9
     mov #0x0, r4
     mov #0x14, r3
@@ -1298,32 +1298,32 @@ DAT_060129a6:
     mov.l   .L_sym_060284AE_2, r14
     mov r11, r7
     mov r10, r6
-    mov.w   .L_wpool_06012A96, r5
+    mov.w   .L_const_0x0520_w, r5
     jsr @r14
     mov #0x8, r4
     mov r11, r7
     mov r10, r6
-    mov.w   .L_wpool_06012A98, r5
+    mov.w   .L_const_0x0620_w, r5
     jsr @r14
     mov #0x8, r4
     mov r11, r7
     mov r10, r6
-    mov.w   .L_wpool_06012A9A, r5
+    mov.w   .L_const_0x0720_w, r5
     jsr @r14
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_pool_06012AB4, r6
-    mov.w   .L_wpool_06012A9C, r5
+    mov.l   .L_const_0xf000_2, r6
+    mov.w   .L_const_0x0820_w, r5
     jsr @r8
     mov #0x8, r4
     mov r10, r6
-    mov.w   .L_wpool_06012A9E, r5
+    mov.w   .L_const_0x0880_w_2, r5
     mov.l   .L_sym_0605AC9C, r7
     jsr @r14
     mov #0xC, r4
     mov.l   .L_sym_0605AC9C, r7
     mov r10, r6
-    mov.w   .L_wpool_06012AA0, r5
+    mov.w   .L_const_0x0980_w, r5
     jsr @r14
     mov #0xC, r4
     mov #0x0, r4
@@ -1385,20 +1385,20 @@ DAT_06012a92:
     .global DAT_06012a94
 DAT_06012a94:
     .2byte  0x3000
-.L_wpool_06012A96:
+.L_const_0x0520_w:
     .2byte  0x0520
-.L_wpool_06012A98:
+.L_const_0x0620_w:
     .2byte  0x0620
-.L_wpool_06012A9A:
+.L_const_0x0720_w:
     .2byte  0x0720
-.L_wpool_06012A9C:
+.L_const_0x0820_w:
     .2byte  0x0820
-.L_wpool_06012A9E:
+.L_const_0x0880_w_2:
     .2byte  0x0880
-.L_wpool_06012AA0:
+.L_const_0x0980_w:
     .2byte  0x0980
     .2byte  0xFFFF
-.L_pool_06012AA4:
+.L_fp_neg_20974_da01:
     .4byte  0xAE1125FF
 .L_sym_06086056:
     .4byte  sym_06086056
@@ -1406,7 +1406,7 @@ DAT_06012a94:
     .4byte  sym_0608605A
 .L_sym_060284AE_2:
     .4byte  sym_060284AE
-.L_pool_06012AB4:
+.L_const_0xf000_2:
     .4byte  0x0000F000
 .L_sym_0605AC9C:
     .4byte  sym_0605AC9C
@@ -1531,7 +1531,7 @@ track_seg_lookup:
     mov.l   .L_cdb_read_status, r12
     mov.w   DAT_06012c66, r14
     mov.l   .L_sym_060448D4, r7
-    mov.l   .L_pool_06012C70, r6
+    mov.l   .L_const_0xe000_2, r6
     mov.l   .L_sym_060283E0_3, r3
     mov r14, r5
     jsr @r3
@@ -1556,7 +1556,7 @@ track_seg_lookup:
     mov.l   .L_sym_0605ACCA, r7
     mov r14, r5
     mov.l   .L_sym_060283E0_3, r3
-    mov.l   .L_pool_06012C70, r6
+    mov.l   .L_const_0xe000_2, r6
     jsr @r3
     mov #0x8, r4
     mov #0x24, r6
@@ -1605,7 +1605,7 @@ DAT_06012c66:
     .4byte  cdb_read_status
 .L_sym_060448D4:
     .4byte  sym_060448D4
-.L_pool_06012C70:
+.L_const_0xe000_2:
     .4byte  0x0000E000
 .L_sym_060283E0_3:
     .4byte  sym_060283E0

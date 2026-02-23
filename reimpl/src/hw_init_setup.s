@@ -43,7 +43,7 @@ sym_06040220:
     tst r3, r3
     bt      .L_0604024C
     mov.l @r4, r3
-    mov.l   .L_pool_06040248, r2
+    mov.l   .L_fp_16383_ffff, r2
     and r2, r3
     mov.l r3, @r5
     bra     .L_06040250
@@ -54,7 +54,7 @@ sym_06040220:
     .4byte  evt_cmd_enqueue
 .L_bit_30:
     .4byte  0x40000000
-.L_pool_06040248:
+.L_fp_16383_ffff:
     .4byte  0x3FFFFFFF
 .L_0604024C:
     mov.l @r4, r2

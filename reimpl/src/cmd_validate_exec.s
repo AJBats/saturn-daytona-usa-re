@@ -136,7 +136,7 @@ menu_input_proc:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_0603AD2C, r0
+    mov.w   .L_neg_244_w, r0
     add r0, r15
     mov r5, r0
     mov.l r5, @r15
@@ -145,7 +145,7 @@ menu_input_proc:
     bf/s    .L_0603AD40
     mov r4, r12
     mov.l @r13, r3
-    mov.w   .L_wpool_0603AD2E, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_0603AD14
@@ -167,9 +167,9 @@ menu_input_proc:
 .L_0603AD28:
     bra     .L_0603AD9E
     mov r4, r0
-.L_wpool_0603AD2C:
+.L_neg_244_w:
     .2byte  0xFF0C
-.L_wpool_0603AD2E:
+.L_const_0x0a0_w:
     .2byte  0x00A0
 .L_hud_toggle_ctrl:
     .4byte  hud_toggle_ctrl
@@ -181,12 +181,12 @@ menu_input_proc:
     .4byte  credits_scroll_entry
 .L_0603AD40:
     mov.l @r13, r2
-    mov.w   .L_wpool_0603ADDA, r0
+    mov.w   .L_const_0x098_w, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_0603AD5A
     mov.l @r13, r5
-    mov.w   .L_wpool_0603ADDC, r0
+    mov.w   .L_const_0x0a0_w_2, r0
     mov.l   .L_sym_0603F1E0, r3
     mov.l @(r0, r5), r5
     jsr @r3
@@ -195,7 +195,7 @@ menu_input_proc:
     nop
 .L_0603AD5A:
     mov.l @r13, r5
-    mov.w   .L_wpool_0603ADDC, r0
+    mov.w   .L_const_0x0a0_w_2, r0
     mov.l   .L_sym_0603F1F0, r3
     mov.l @(r0, r5), r5
     jsr @r3
@@ -232,7 +232,7 @@ menu_input_proc:
     mov #0x0, r4
     mov.l @r15, r0
 .L_0603AD9E:
-    mov.w   .L_wpool_0603ADDE, r1
+    mov.w   .L_const_0x0f4_w, r1
     add r1, r15
     lds.l @r15+, pr
     mov.l @r15+, r12
@@ -246,13 +246,13 @@ cmd_dispatch_helper:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_sym_060A4D14_3, r5
-    mov.w   .L_wpool_0603ADDA, r3
+    mov.w   .L_const_0x098_w, r3
     mov.l @r5, r14
     tst r4, r4
     bf/s    .L_0603ADF0
     add r3, r14
     mov.l @r5, r3
-    mov.w   .L_wpool_0603ADDC, r0
+    mov.w   .L_const_0x0a0_w_2, r0
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_0603ADCE
@@ -267,11 +267,11 @@ cmd_dispatch_helper:
     mov r4, r2
     bra     .L_0603AE00
     mov.l r4, @(4, r14)
-.L_wpool_0603ADDA:
+.L_const_0x098_w:
     .2byte  0x0098
-.L_wpool_0603ADDC:
+.L_const_0x0a0_w_2:
     .2byte  0x00A0
-.L_wpool_0603ADDE:
+.L_const_0x0f4_w:
     .2byte  0x00F4
 .L_sym_0603F1E0:
     .4byte  sym_0603F1E0
@@ -304,13 +304,13 @@ cmd_status_check:
     add #-0x4, r15
     mov.l r4, @r15
     mov.l   .L_sym_060A4D14_4, r14
-    mov.w   .L_wpool_0603AE60, r0
+    mov.w   .L_const_0x0a0_w_3, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_0603AE26
     mov.l @r14, r0
-    mov.w   .L_wpool_0603AE62, r1
+    mov.w   .L_const_0x098_w_2, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
     bt      .L_0603AE30
@@ -322,12 +322,12 @@ cmd_status_check:
     mov.l @r15+, r14
 .L_0603AE30:
     mov.l @r14, r6
-    mov.w   .L_wpool_0603AE64, r0
+    mov.w   .L_const_0x09c_w, r0
     mov.l @r15, r5
     mov.l @r14, r4
     mov.l   .L_secondary_sh2_setup, r3
     mov.l @(r0, r6), r6
-    mov.w   .L_wpool_0603AE60, r0
+    mov.w   .L_const_0x0a0_w_3, r0
     jsr @r3
     mov.l @(r0, r4), r4
     mov r0, r14
@@ -346,11 +346,11 @@ cmd_status_check:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0603AE60:
+.L_const_0x0a0_w_3:
     .2byte  0x00A0
-.L_wpool_0603AE62:
+.L_const_0x098_w_2:
     .2byte  0x0098
-.L_wpool_0603AE64:
+.L_const_0x09c_w:
     .2byte  0x009C
     .2byte  0xFFFF
 .L_sym_06035168:

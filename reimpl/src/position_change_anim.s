@@ -20,7 +20,7 @@ position_change_anim:
     add #-0x8, r15
     mov #0x8, r8
     mov.l   .L_fp_half, r9
-    mov.w   .L_wpool_06015A2C, r10
+    mov.w   .L_bit_13_w, r10
     mov.l   .L_fp_one, r11
     mov #0x0, r12
     mov.l   .L_sym_06084FC8, r13
@@ -119,7 +119,7 @@ position_change_anim:
     mov.l r11, @(44, r3)
     bra     .L_06015A56
     nop
-.L_wpool_06015A2C:
+.L_bit_13_w:
     .2byte  0x2000
     .2byte  0xFFFF
 .L_fp_half:

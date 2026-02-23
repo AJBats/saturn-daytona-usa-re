@@ -44,7 +44,7 @@ scene_invalidate_b:
     mov.l   .L_fp_180, r12
     cmp/gt r12, r14
     bf      .L_0603DAD2
-    mov.l   .L_pool_0603DB1C, r4
+    mov.l   .L_fp_neg_180, r4
     jsr @r13
     add r14, r4
     bra     .L_0603DAF2
@@ -91,7 +91,7 @@ scene_invalidate_b:
     .4byte  0x010E0000
 .L_fp_180:
     .4byte  0x00B40000
-.L_pool_0603DB1C:
+.L_fp_neg_180:
     .4byte  0xFF4C0000
 .L_mask_upper_word:
     .4byte  0xFFFF0000

@@ -13,13 +13,13 @@ menu_sound_trigger:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_sym_060A4D14, r14
-    mov.w   .L_wpool_0603AED8, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_0603AE90
     mov.l @r14, r0
-    mov.w   .L_wpool_0603AEDA, r1
+    mov.w   .L_const_0x098_w, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
     bt      .L_0603AE9E
@@ -35,7 +35,7 @@ menu_sound_trigger:
     cmp/pz r4
     bf      .L_0603AEAE
     mov.l   .L_sym_060A4D14, r3
-    mov.w   .L_wpool_0603AEDC, r0
+    mov.w   .L_const_0x0a4_w, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
     cmp/gt r4, r2
@@ -50,7 +50,7 @@ menu_sound_trigger:
     mov.l @r15+, r14
 .L_0603AEBC:
     mov.l @r14, r5
-    mov.w   .L_wpool_0603AED8, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l   .L_sym_0603F1F0, r3
     jsr @r3
     mov.l @(r0, r5), r5
@@ -63,11 +63,11 @@ menu_sound_trigger:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0603AED8:
+.L_const_0x0a0_w:
     .2byte  0x00A0
-.L_wpool_0603AEDA:
+.L_const_0x098_w:
     .2byte  0x0098
-.L_wpool_0603AEDC:
+.L_const_0x0a4_w:
     .2byte  0x00A4
     .2byte  0xFFFF
 .L_sym_060A4D14:

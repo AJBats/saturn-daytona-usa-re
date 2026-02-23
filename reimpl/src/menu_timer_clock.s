@@ -34,7 +34,7 @@ menu_timer_clock:
 .L_0603B65E:
     mov.l   .L_sym_060A4D14, r2
     mov.l @r2, r2
-    mov.w   .L_wpool_0603B698, r0
+    mov.w   .L_const_0x0a8_w, r0
     mov.l r14, @(r0, r2)
 .L_0603B666:
     mov #0x0, r4
@@ -53,7 +53,7 @@ menu_credits_elem:
     sts.l pr, @-r15
     mov r4, r1
     mov.l   .L_sym_060A4D14, r2
-    mov.w   .L_wpool_0603B69A, r3
+    mov.w   .L_const_0x0b8_w, r3
     mov.l @r2, r2
     add r3, r2
     mov.l   .L_sym_06035168, r3
@@ -62,9 +62,9 @@ menu_credits_elem:
     lds.l @r15+, pr
     rts
     nop
-.L_wpool_0603B698:
+.L_const_0x0a8_w:
     .2byte  0x00A8
-.L_wpool_0603B69A:
+.L_const_0x0b8_w:
     .2byte  0x00B8
 .L_timer_stub:
     .4byte  timer_stub

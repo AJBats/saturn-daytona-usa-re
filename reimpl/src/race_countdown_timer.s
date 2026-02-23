@@ -38,7 +38,7 @@ transition_minimal:
     mov.l   .L_sym_06028560, r3
     jsr @r3
     nop
-    mov.w   .L_wpool_0600F8D4, r2
+    mov.w   .L_const_0x0708_w, r2
     mov.l   .L_sym_0607EBCC, r3
     mov.l r2, @r3
     mov #0x14, r2
@@ -68,7 +68,7 @@ transition_handler_b:
     mov.l   .L_hud_transparency, r3
     jmp @r3
     lds.l @r15+, pr
-.L_wpool_0600F8D4:
+.L_const_0x0708_w:
     .2byte  0x0708
     .2byte  0xFFFF
 .L_anim_ui_transition:
@@ -125,7 +125,7 @@ transition_handler_c:
     mov #0x2, r3
     mov.l   .L_sym_0605AAA2, r1
     mov.w r3, @r1
-    mov.l   .L_pool_0600F978, r2
+    mov.l   .L_fp_neg_352, r2
     mov.l   .L_sym_0607885C, r3
     mov.l r2, @r3
     mov r3, r5
@@ -159,7 +159,7 @@ transition_handler_c:
     .4byte  sym_0607886E
 .L_sym_0605AAA2:
     .4byte  sym_0605AAA2
-.L_pool_0600F978:
+.L_fp_neg_352:
     .4byte  0xFEA00000
 .L_sym_0607885C:
     .4byte  sym_0607885C

@@ -153,13 +153,13 @@ DAT_060424ca:
     mov.l @(r0, r10), r3
     bf/s    .L_060425A4
     mov.b r10, @(r0, r3)
-    mov.w   .L_wpool_06042704, r2
+    mov.w   .L_const_0x7fff_w, r2
     mul.l r9, r3
-    mov.w   .L_wpool_06042650, r6
+    mov.w   .L_const_0x65ab_w, r6
     .word 0x038B /* UNKNOWN */
-    mov.w   .L_wpool_06042582, r10
+    mov.w   .L_const_0xb826_w, r10
     .word 0x0380 /* UNKNOWN */
-    mov.w   .L_wpool_0604269C, r13
+    mov.w   .L_const_0x009_w, r13
     .word 0x0372 /* UNKNOWN */
     bra     .L_060427A0
     mov.l r6, @(r0, r3)
@@ -170,7 +170,7 @@ DAT_060424ca:
     .4byte  0x032FB1D5
     .4byte  0x0322B504
     .2byte  0x0313
-.L_wpool_06042582:
+.L_const_0xb826_w:
     .2byte  0xB826
     .4byte  0x0305BB39
     .4byte  0x02F6BE3E
@@ -182,15 +182,15 @@ DAT_060424ca:
     .4byte  0x0298CF1B
 .L_060425A4:
     .word 0x0288 /* UNKNOWN */
-    mov.l   .L_pool_06042874, r1
+    mov.l   .L_const_0xf737, r1
     .word 0x0278 /* UNKNOWN */
-    mov.l   .L_pool_06042698, r4
+    mov.l   .L_fp_neg_30461_5ffd, r4
     mov.l r6, @(r0, r2)
     mov.l   .L_fp_one_2, r6
     mov.l r5, @(r0, r2)
     mov.l   .L_fp_110_fe98, r9
     mov.b r4, @(r0, r2)
-    mov.l   .L_pool_06042774, r11
+    mov.l   .L_const_0x366a, r11
     mov.b r3, @(r0, r2)
     mov.l   .L_fp_27_2545, r13
     .word 0x0221 /* UNKNOWN */
@@ -268,7 +268,7 @@ math_trig_lib:
     cmp/pz r10
     bt/s    .L_06042652
     mov r4, r12
-.L_wpool_06042650:
+.L_const_0x65ab_w:
     .2byte  0x65AB
 .L_06042652:
     cmp/pz r12
@@ -278,7 +278,7 @@ math_trig_lib:
     mov #0x41, r2
     cmp/ge r2, r5
     bt      .L_06042664
-    mov.l   .L_pool_06042704, r13
+    mov.l   .L_max_s16_w, r13
     bra     .L_06042674
     nop
 .L_06042664:
@@ -310,9 +310,9 @@ math_trig_lib:
     shll r0
     mov.l @(r0, r11), r3
     cmp/ge r3, r13
-.L_pool_06042698:
+.L_fp_neg_30461_5ffd:
     .4byte  0x8902A003
-.L_wpool_0604269C:
+.L_const_0x009_w:
     .2byte  0x0009
 .L_0604269E:
     mov r14, r5
@@ -350,7 +350,7 @@ math_trig_lib:
     bra     .L_060426E0
     nop
 .L_060426DE:
-    mov.l   .L_pool_06042710, r2
+    mov.l   .L_fp_neg_180, r2
 .L_060426E0:
     sub r4, r2
     mov r2, r4
@@ -371,15 +371,15 @@ math_trig_lib:
     .4byte  0xFFFFFF00
 .L_sym_06042714:
     .4byte  sym_06042714
-.L_pool_06042704:
-.L_wpool_06042704:
+.L_max_s16_w:
+.L_const_0x7fff_w:
     .2byte  0x7FFF
     .2byte  0x0000
 .L_fp_one:
     .4byte  0x00010000
 .L_fp_180_2:
     .4byte  0x00B40000
-.L_pool_06042710:
+.L_fp_neg_180:
     .4byte  0xFF4C0000
 
     .global sym_06042714
@@ -432,7 +432,7 @@ sym_06042714:
     cmp/hs r12, r1
     mul.l r3, r0
     mac.l @r4+, @r4+
-.L_pool_06042774:
+.L_const_0x366a:
     .4byte  0x0000366A
     .4byte  0x00369C2F
     .4byte  0x00003B1A
@@ -462,7 +462,7 @@ sym_06042714:
     .word 0x0000 /* UNKNOWN */
     mov.b @r4+, r2
     .word 0x0031 /* UNKNOWN */
-    mov.w   .L_wpool_060427D6, r9
+    mov.w   .L_const_0x71fa_w, r9
     .word 0x0000 /* UNKNOWN */
     exts.b r6, r7
     .word 0x0030 /* UNKNOWN */
@@ -472,7 +472,7 @@ sym_06042714:
     .word 0x0030 /* UNKNOWN */
     cmp/str r0, r15
     .word 0x0000 /* UNKNOWN */
-.L_wpool_060427D6:
+.L_const_0x71fa_w:
     .2byte  0x71FA
     .4byte  0x002F70CD
     .4byte  0x0000775F
@@ -489,7 +489,7 @@ sym_06042714:
     .4byte  0x002A88D2
 .L_0604280C:
     .word 0x0000 /* UNKNOWN */
-    mov.w   .L_wpool_060429B6, r9
+    mov.w   .L_const_0x83ad_w, r9
     movt r0
     .byte   0xA6, 0xC9    /* bra 0x060435A8 (external) */
     .word 0x0000 /* UNKNOWN */
@@ -517,7 +517,7 @@ sym_06042714:
     .4byte  0x001F2455
     .4byte  0x0000EEB9
     .4byte  0x001E24F5
-.L_pool_06042874:
+.L_const_0xf737:
     .4byte  0x0000F737
     .4byte  0x001D251D
 .L_fp_one_2:
@@ -602,7 +602,7 @@ sym_06042714:
     .4byte  0x000824F3
     .4byte  0x0000BADB
     .2byte  0x0009
-.L_wpool_060429B6:
+.L_const_0x83ad_w:
     .2byte  0x83AD
     .4byte  0x000085A2
     .4byte  0x000B6E17

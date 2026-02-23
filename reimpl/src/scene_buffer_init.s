@@ -19,7 +19,7 @@ scene_buffer_init:
     mov #0x40, r9
     mov.l r8, @-r15
     add #-0x4, r15
-    mov.w   .L_wpool_0603815A, r10
+    mov.w   .L_bit_9_w, r10
     mov.l   .L_sym_060A3DF8, r11
     mov.l   .L_sym_060A3C70, r12
     mov.l   .L_sym_060A2470, r6
@@ -38,7 +38,7 @@ scene_buffer_init:
     extu.w r13, r14
     bra     .L_060382E2
     nop
-.L_wpool_0603815A:
+.L_bit_9_w:
     .2byte  0x0200
 .L_sym_060A3DF8:
     .4byte  sym_060A3DF8
@@ -233,7 +233,7 @@ scene_buffer_init:
     add #0x1, r7
     extu.w r5, r3
     shll2 r3
-    mov.w   .L_wpool_060382F4, r2
+    mov.w   .L_const_0x1810_w, r2
     add r4, r2
     add r2, r3
     mov.l @r3, r3
@@ -258,7 +258,7 @@ scene_buffer_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060382F4:
+.L_const_0x1810_w:
     .2byte  0x1810
     .2byte  0xFFFF
 .L_sym_060635A2:

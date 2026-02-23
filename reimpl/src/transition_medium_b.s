@@ -15,7 +15,7 @@ transition_medium_b:
     mov.l @r4, r3
     add #-0x1, r3
     mov.l r3, @r4
-    mov.w   .L_wpool_0600FE92, r2
+    mov.w   .L_const_0x0ab_w, r2
     cmp/eq r2, r3
     bf      .L_0600FE74
     mov.l   .L_sym_06094FA8, r2
@@ -27,7 +27,7 @@ transition_medium_b:
     mov.l   .L_sym_06063838, r7
     mov #0x0, r6
     mov.l @r15, r5
-    mov.l   .L_pool_0600FEAC, r3
+    mov.l   .L_const_0x9000, r3
     mov.l @(4, r7), r7
     add r3, r7
     mov.l   .L_sym_06028400, r3
@@ -41,8 +41,8 @@ transition_medium_b:
     mov.b r2, @r3
 .L_0600FE74:
     mov.l   .L_sym_0605ACE4, r7
-    mov.w   .L_wpool_0600FE94, r6
-    mov.w   .L_wpool_0600FE96, r5
+    mov.w   .L_const_0x090_w, r6
+    mov.w   .L_const_0x07a2_w, r5
     mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0xC, r4
@@ -55,11 +55,11 @@ transition_medium_b:
     mov.l   .L_sym_06011F1C, r3
     jmp @r3
     lds.l @r15+, pr
-.L_wpool_0600FE92:
+.L_const_0x0ab_w:
     .2byte  0x00AB
-.L_wpool_0600FE94:
+.L_const_0x090_w:
     .2byte  0x0090
-.L_wpool_0600FE96:
+.L_const_0x07a2_w:
     .2byte  0x07A2
 .L_sym_0607EBCC:
     .4byte  sym_0607EBCC
@@ -71,7 +71,7 @@ transition_medium_b:
     .4byte  dma_memory_transfer
 .L_sym_06063838:
     .4byte  sym_06063838
-.L_pool_0600FEAC:
+.L_const_0x9000:
     .4byte  0x00009000
 .L_sym_06028400:
     .4byte  sym_06028400

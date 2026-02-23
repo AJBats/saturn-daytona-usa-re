@@ -16,7 +16,7 @@ collision_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r11
-    mov.w   .L_wpool_0600CFE2, r12
+    mov.w   .L_bit_7_w, r12
     mov.l   .L_sym_0607E944, r13
     mov.l   .L_sym_0607E940, r4
     mov.l @r4, r14
@@ -70,7 +70,7 @@ collision_dispatch:
     bra     .L_0600CFD6
     nop
 .L_0600CFC8:
-    mov.w   .L_wpool_0600CFE8, r0
+    mov.w   .L_const_0x1fc_w, r0
     mov.l @(r0, r14), r2
     add #-0x4, r0
     mov.l r2, @(r0, r14)
@@ -84,7 +84,7 @@ collision_dispatch:
     bt      .L_0600CFFC
     bra     .L_0600D09C
     nop
-.L_wpool_0600CFE2:
+.L_bit_7_w:
     .2byte  0x0080
 
     .global DAT_0600cfe4
@@ -94,7 +94,7 @@ DAT_0600cfe4:
     .global DAT_0600cfe6
 DAT_0600cfe6:
     .2byte  0x0210
-.L_wpool_0600CFE8:
+.L_const_0x1fc_w:
     .2byte  0x01FC
     .2byte  0xFFFF
 .L_sym_0607E944:
@@ -110,16 +110,16 @@ DAT_0600cfe6:
     mov.b @r0, r0
     tst #0x1, r0
     bt      .L_0600D08E
-    mov.w   .L_wpool_0600D0AA, r0
+    mov.w   .L_const_0x210_w, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x2, r0
     bf      .L_0600D02E
     mov.l @(8, r13), r2
-    mov.w   .L_wpool_0600D0AC, r3
+    mov.w   .L_const_0x0af0_w, r3
     cmp/gt r3, r2
     bf      .L_0600D026
     mov #0xA, r2
-    mov.w   .L_wpool_0600D0AE, r0
+    mov.w   .L_const_0x224_w, r0
     mov.l @(r0, r14), r3
     cmp/ge r2, r3
     bt      .L_0600D026
@@ -133,11 +133,11 @@ DAT_0600cfe6:
     bra     .L_0600D08A
     nop
 .L_0600D02E:
-    mov.w   .L_wpool_0600D0AA, r0
+    mov.w   .L_const_0x210_w, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x1, r0
     bf      .L_0600D08A
-    mov.w   .L_wpool_0600D0B0, r0
+    mov.w   .L_const_0x1fc_w_2, r0
     mov #0x2, r3
     mov.l @(r0, r13), r4
     mov.l @(r0, r14), r5
@@ -162,8 +162,8 @@ DAT_0600cfe6:
     mov #0x3, r3
     cmp/hs r3, r5
     bt      .L_0600D074
-    mov.w   .L_wpool_0600D0B2, r3
-    mov.w   .L_wpool_0600D0B4, r0
+    mov.w   .L_mask_0x0300_w, r3
+    mov.w   .L_const_0x1f8_w, r0
     mov.l r3, @(r0, r14)
     add #0xC, r0
     bra     .L_0600D08A
@@ -175,8 +175,8 @@ DAT_0600cfe6:
     mov #0x4, r2
     cmp/hi r2, r5
     bf      .L_0600D08A
-    mov.w   .L_wpool_0600D0B6, r2
-    mov.w   .L_wpool_0600D0B4, r0
+    mov.w   .L_bit_10_w, r2
+    mov.w   .L_const_0x1f8_w, r0
     mov.l r2, @(r0, r14)
     add #0xC, r0
     mov.l r12, @(r0, r14)
@@ -200,22 +200,22 @@ DAT_0600cfe6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0600D0AA:
+.L_const_0x210_w:
     .2byte  0x0210
-.L_wpool_0600D0AC:
+.L_const_0x0af0_w:
     .2byte  0x0AF0
-.L_wpool_0600D0AE:
+.L_const_0x224_w:
     .2byte  0x0224
-.L_wpool_0600D0B0:
+.L_const_0x1fc_w_2:
     .2byte  0x01FC
-.L_wpool_0600D0B2:
+.L_mask_0x0300_w:
     .2byte  0x0300
-.L_wpool_0600D0B4:
+.L_const_0x1f8_w:
     .2byte  0x01F8
-.L_wpool_0600D0B6:
+.L_bit_10_w:
     .2byte  0x0400
 .L_0600D0B8:
-    mov.w   .L_wpool_0600D112, r7
+    mov.w   .L_bit_9_w, r7
     mov.l   .L_sym_0607E944_2, r5
     mov.l   .L_sym_0607E940_2, r4
     mov.l @r4, r6
@@ -238,13 +238,13 @@ DAT_0600cfe6:
 .L_0600D0E0:
     mov.w   DAT_0600d114, r0
     mov.l @(r0, r5), r4
-    mov.w   .L_wpool_0600D116, r2
+    mov.w   .L_neg_512_w, r2
     add r2, r4
 .L_0600D0E8:
     cmp/pz r4
     bt      .L_0600D0F6
     mov #0x0, r2
-    mov.w   .L_wpool_0600D118, r0
+    mov.w   .L_const_0x1f8_w_2, r0
     mov.l r2, @(r0, r6)
     bra     .L_0600D10A
     nop
@@ -253,34 +253,34 @@ DAT_0600cfe6:
     cmp/gt r3, r4
     bf      .L_0600D106
     mov.w   DAT_0600d11a, r3
-    mov.w   .L_wpool_0600D118, r0
+    mov.w   .L_const_0x1f8_w_2, r0
     mov.l r3, @(r0, r6)
     bra     .L_0600D10A
     nop
 .L_0600D106:
-    mov.w   .L_wpool_0600D118, r0
+    mov.w   .L_const_0x1f8_w_2, r0
     mov.l r4, @(r0, r6)
 .L_0600D10A:
-    mov.w   .L_wpool_0600D11C, r0
+    mov.w   .L_const_0x204_w, r0
     mov.l r7, @(r0, r6)
 .L_0600D10E:
     rts
     nop
-.L_wpool_0600D112:
+.L_bit_9_w:
     .2byte  0x0200
 
     .global DAT_0600d114
 DAT_0600d114:
     .2byte  0x01FC
-.L_wpool_0600D116:
+.L_neg_512_w:
     .2byte  0xFE00
-.L_wpool_0600D118:
+.L_const_0x1f8_w_2:
     .2byte  0x01F8
 
     .global DAT_0600d11a
 DAT_0600d11a:
     .2byte  0x0800
-.L_wpool_0600D11C:
+.L_const_0x204_w:
     .2byte  0x0204
     .2byte  0xFFFF
 .L_sym_0607E944_2:

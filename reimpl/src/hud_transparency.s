@@ -15,7 +15,7 @@ hud_transparency:
     mov.l r8, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    mov.w   .L_wpool_06011658, r13
+    mov.w   .L_bit_8_w, r13
     mov.l   .L_sym_0607886E, r14
     mov.l   .L_fp_eight, r12
     bsr     .L_0601164A
@@ -58,16 +58,16 @@ hud_transparency:
     rts
     mov.l @r15+, r14
 .L_0601164A:
-    mov.l   .L_pool_06011670, r3
+    mov.l   .L_fp_4850_fc00, r3
     mov.l   .L_vdp2_lsta1u, r2
     mov.l r3, @r2
-    mov.w   .L_wpool_0601165A, r3
+    mov.w   .L_bit_9_w, r3
     add #-0xA, r2
     rts
     mov.w r3, @r2
-.L_wpool_06011658:
+.L_bit_8_w:
     .2byte  0x0100
-.L_wpool_0601165A:
+.L_bit_9_w:
     .2byte  0x0200
 .L_sym_0607886E:
     .4byte  sym_0607886E
@@ -79,7 +79,7 @@ hud_transparency:
     .4byte  sym_06035C2C
 .L_fp_neg_8_0000:
     .4byte  0xFFF80000
-.L_pool_06011670:
+.L_fp_4850_fc00:
     .4byte  0x12F2FC00
 .L_vdp2_lsta1u:
     .4byte  0x25F800A4

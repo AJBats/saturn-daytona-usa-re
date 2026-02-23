@@ -15,7 +15,7 @@ collision_passive:
     mov.l   .L_mask_nibble_16, r6
     mov.l @r5, r5
     mov.l @(r0, r5), r4
-    mov.w   .L_wpool_0600D194, r0
+    mov.w   .L_const_0x234_w, r0
     mov.l @(r0, r5), r14
     tst r14, r14
     bt      .L_0600D176
@@ -68,7 +68,7 @@ collision_passive:
     .global DAT_0600d192
 DAT_0600d192:
     .2byte  0x0118
-.L_wpool_0600D194:
+.L_const_0x234_w:
     .2byte  0x0234
     .2byte  0xFFFF
 .L_sym_0607E940:
@@ -119,8 +119,8 @@ DAT_0600d192:
     mov.w   DAT_0600d202, r0
     mov.l r5, @(r0, r6)
 .L_0600D1EC:
-    mov.w   .L_wpool_0600D206, r3
-    mov.w   .L_wpool_0600D208, r0
+    mov.w   .L_bit_8_w, r3
+    mov.w   .L_const_0x204_w, r0
     mov.l r3, @(r0, r6)
     add #0x30, r0
     mov.l r4, @(r0, r6)
@@ -151,9 +151,9 @@ DAT_0600d202:
     .global DAT_0600d204
 DAT_0600d204:
     .2byte  0x0800
-.L_wpool_0600D206:
+.L_bit_8_w:
     .2byte  0x0100
-.L_wpool_0600D208:
+.L_const_0x204_w:
     .2byte  0x0204
     .2byte  0xFFFF
 .L_sym_0607E940_2:
@@ -214,7 +214,7 @@ sym_0600D280:
     mov.l r12, @-r15
     sts.l macl, @-r15
     mov.l   .L_sym_06078900, r12
-    mov.w   .L_wpool_0600D304, r1
+    mov.w   .L_vehicle_stride_w, r1
     mov #0x28, r7
     mov.l   .L_sym_0607EA98, r5
     mov #0x0, r4
@@ -285,7 +285,7 @@ sym_0600D280:
     lds.l @r15+, macl
     rts
     mov.l @r15+, r12
-.L_wpool_0600D304:
+.L_vehicle_stride_w:
     .2byte  0x0268
     .2byte  0xFFFF
 .L_sym_06078900:

@@ -13,7 +13,7 @@ scu_dma_transfer:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.w   .L_wpool_0603FEDC, r13
+    mov.w   .L_bit_11_w, r13
     mov.l   .L_scu_ist, r14
     mov.l r5, @r15
     mov.l r6, @(8, r15)
@@ -27,14 +27,14 @@ scu_dma_transfer:
     bra     .L_0603FF28
     nop
 .L_0603FEA2:
-    mov.l   .L_pool_0603FEEC, r3
+    mov.l   .L_fp_4100_1004, r3
     mov.l   .L_scu_asr1, r2
     mov.l r3, @r2
     mov.l   .L_sym_06000340, r3
     mov.l @r3, r3
     jsr @r3
     mov #-0x1, r4
-    mov.w   .L_wpool_0603FEDE, r2
+    mov.w   .L_neg_2049_w, r2
     mov.l r2, @r14
     mov.l @(4, r15), r3
     mov.l   .L_scu_d0r, r2
@@ -51,25 +51,25 @@ scu_dma_transfer:
     bra     .L_0603FED2
     mov #0x0, r4
 .L_0603FED0:
-    mov.w   .L_wpool_0603FEE0, r4
+    mov.w   .L_bit_8_w, r4
 .L_0603FED2:
     mov.l @(8, r15), r0
     tst r0, r0
     bf      .L_0603FEFC
     bra     .L_0603FEFE
     mov #0x0, r5
-.L_wpool_0603FEDC:
+.L_bit_11_w:
     .2byte  0x0800
-.L_wpool_0603FEDE:
+.L_neg_2049_w:
     .2byte  0xF7FF
-.L_wpool_0603FEE0:
+.L_bit_8_w:
     .2byte  0x0100
     .2byte  0xFFFF
 .L_scu_ist:
     .4byte  0x25FE00A4
 .L_sym_06000348:
     .4byte  sym_06000348
-.L_pool_0603FEEC:
+.L_fp_4100_1004:
     .4byte  0x10041004
 .L_scu_asr1:
     .4byte  0x25FE00B4
@@ -86,7 +86,7 @@ scu_dma_transfer:
     mov #0x7, r2
     add #0x8, r3
     mov.l r2, @r3
-    mov.w   .L_wpool_0603FF4A, r2
+    mov.w   .L_const_0x101_w, r2
     add #-0x4, r3
     mov.l r2, @r3
 .L_0603FF10:
@@ -130,7 +130,7 @@ attract_cleanup:
     mov r5, r14
     bra     .L_0603FF84
     nop
-.L_wpool_0603FF4A:
+.L_const_0x101_w:
     .2byte  0x0101
 .L_scu_d0ad:
     .4byte  0x25FE000C

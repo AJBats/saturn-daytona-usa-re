@@ -161,11 +161,11 @@ render_batch_proc:
     mov.w r3, @r4
     extu.w r5, r14
     mov.l   .L_wram_low_a8000, r11
-    mov.w   .L_wpool_06023184, r6
+    mov.w   .L_const_0x3ac0_w, r6
     mov.l   .L_sym_06059FFC, r4
     bra     .L_06023194
     mov r11, r5
-.L_wpool_06023184:
+.L_const_0x3ac0_w:
     .2byte  0x3AC0
     .2byte  0xFFFF
 .L_sym_06089E44:
@@ -177,7 +177,7 @@ render_batch_proc:
 .L_06023194:
     mov.l @r4, r4
     mov.l   .L_sym_06063F5C, r3
-    mov.w   .L_wpool_06023272, r2
+    mov.w   .L_const_0x3c0_w, r2
     shll2 r4
     mov.l @r3, r3
     shll r4
@@ -296,7 +296,7 @@ render_batch_proc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06023272:
+.L_const_0x3c0_w:
     .2byte  0x03C0
 .L_sym_06063F5C:
     .4byte  sym_06063F5C
@@ -468,10 +468,10 @@ projection_mgr:
     mov #0x37, r3
     mov.w r3, @r4
     extu.w r5, r11
-    mov.w   .L_wpool_060233C6, r6
+    mov.w   .L_const_0x4240_w, r6
     bra     .L_060233D4
     nop
-.L_wpool_060233C6:
+.L_const_0x4240_w:
     .2byte  0x4240
 .L_sym_06056940:
     .4byte  sym_06056940
@@ -483,7 +483,7 @@ projection_mgr:
     mov.l   .L_wram_low_a8000_2, r5
     mov.l   .L_sym_06059FFC_2, r4
     mov.l   .L_sym_06063F5C_2, r3
-    mov.w   .L_wpool_06023484, r2
+    mov.w   .L_const_0x3c0_w_2, r2
     mov.l @r4, r4
     mov.l @r3, r3
     shll2 r4
@@ -558,7 +558,7 @@ projection_mgr:
     nop
 .L_06023460:
     extu.w r14, r2
-    mov.w   .L_wpool_06023486, r3
+    mov.w   .L_const_0x082_w, r3
     cmp/eq r3, r2
     bf      .L_06023472
     mov.l @r13, r3
@@ -568,7 +568,7 @@ projection_mgr:
     nop
 .L_06023472:
     extu.w r14, r2
-    mov.w   .L_wpool_06023488, r3
+    mov.w   .L_const_0x088_w, r3
     cmp/eq r3, r2
     bf      .L_060234B4
     mov.l @r13, r3
@@ -576,11 +576,11 @@ projection_mgr:
     mov.l r3, @r2
     bra     .L_060234C2
     nop
-.L_wpool_06023484:
+.L_const_0x3c0_w_2:
     .2byte  0x03C0
-.L_wpool_06023486:
+.L_const_0x082_w:
     .2byte  0x0082
-.L_wpool_06023488:
+.L_const_0x088_w:
     .2byte  0x0088
     .2byte  0xFFFF
 .L_wram_low_a8000_2:
@@ -605,7 +605,7 @@ projection_mgr:
     .4byte  sym_06089E3C
 .L_060234B4:
     extu.w r14, r2
-    mov.w   .L_wpool_0602355E, r3
+    mov.w   .L_const_0x0a9_w, r3
     cmp/eq r3, r2
     bf      .L_060234C2
     mov.l @r13, r3
@@ -699,7 +699,7 @@ projection_mgr:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0602355E:
+.L_const_0x0a9_w:
     .2byte  0x00A9
 .L_sym_06089E40:
     .4byte  sym_06089E40
@@ -721,12 +721,12 @@ projection_mgr:
 render_stage_b:
     sts.l pr, @-r15
     mov #0x0, r8
-    mov.w   .L_wpool_060236AC, r0
+    mov.w   .L_neg_404_w, r0
     add r0, r15
     mov.l   .L_sym_0606A4EC_2, r10
     mov r15, r1
     mov.l   .L_sym_06060A48, r2
-    mov.w   .L_wpool_060236AE, r0
+    mov.w   .L_const_0x18c_w, r0
     mov.l   .L_sym_06035168, r3
     jsr @r3
     add #0x8, r1
@@ -867,9 +867,9 @@ render_stage_b:
     add #0x54, r3
     bra     .L_060236C0
     nop
-.L_wpool_060236AC:
+.L_neg_404_w:
     .2byte  0xFE6C
-.L_wpool_060236AE:
+.L_const_0x18c_w:
     .2byte  0x018C
 .L_sym_0606A4EC_2:
     .4byte  sym_0606A4EC
@@ -889,10 +889,10 @@ render_stage_b:
     mov.l   .L_wram_low_a8000_4, r2
     mov.l r2, @(4, r15)
     mov r2, r5
-    mov.w   .L_wpool_06023744, r6
+    mov.w   .L_const_0x5780_w, r6
     mov.l   .L_sym_06059FFC_3, r4
     mov.l   .L_sym_06063F5C_3, r3
-    mov.w   .L_wpool_06023746, r2
+    mov.w   .L_const_0x3c0_w_3, r2
     mov.l @r4, r4
     mov.l @r3, r3
     shll2 r4
@@ -950,9 +950,9 @@ render_stage_b:
     mov.l r2, @r3
     bra     .L_0602376E
     nop
-.L_wpool_06023744:
+.L_const_0x5780_w:
     .2byte  0x5780
-.L_wpool_06023746:
+.L_const_0x3c0_w_3:
     .2byte  0x03C0
 .L_wram_low_a8000_4:
     .4byte  0x002A8000
@@ -968,7 +968,7 @@ render_stage_b:
     .4byte  sym_06089E2C
 .L_06023760:
     extu.w r13, r2
-    mov.w   .L_wpool_06023814, r3
+    mov.w   .L_const_0x0d0_w, r3
     cmp/eq r3, r2
     bf      .L_0602376E
     mov.l @r10, r3
@@ -1056,7 +1056,7 @@ render_stage_b:
     bra     .L_060236F0
     nop
 .L_060237FE:
-    mov.w   .L_wpool_06023816, r1
+    mov.w   .L_const_0x194_w, r1
     add r1, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -1067,9 +1067,9 @@ render_stage_b:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06023814:
+.L_const_0x0d0_w:
     .2byte  0x00D0
-.L_wpool_06023816:
+.L_const_0x194_w:
     .2byte  0x0194
 .L_sym_06089E28_2:
     .4byte  sym_06089E28
@@ -1097,7 +1097,7 @@ scene_setup_master:
     mov r3, r0
     mov.w r0, @(4, r15)
     mov.l   .L_wram_low_a299b, r7
-    mov.w   .L_wpool_060238FA, r5
+    mov.w   .L_const_0x108_w, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
     mov r0, r4
@@ -1105,7 +1105,7 @@ scene_setup_master:
     jsr @r3
     add #0x1, r4
     mov #0x0, r6
-    mov.w   .L_wpool_060238FC, r5
+    mov.w   .L_const_0x0810_w, r5
     mov.l   .L_wram_low_a29a3, r7
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
@@ -1133,7 +1133,7 @@ scene_setup_master:
     add #0x4, r4
     mov.l   .L_wram_low_a2e73, r7
     mov #0x0, r6
-    mov.w   .L_wpool_06023902, r5
+    mov.w   .L_const_0x0519_w, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
     mov r0, r4
@@ -1151,7 +1151,7 @@ scene_setup_master:
     add #0x6, r4
     mov.l   .L_wram_low_a3027, r7
     mov #0x4, r6
-    mov.w   .L_wpool_06023906, r5
+    mov.w   .L_const_0x0738_w, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
     mov r0, r4
@@ -1159,7 +1159,7 @@ scene_setup_master:
     jsr @r3
     add #0x7, r4
     mov #0x4, r6
-    mov.w   .L_wpool_06023906, r5
+    mov.w   .L_const_0x0738_w, r5
     mov.l   .L_wram_low_a325b, r7
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
@@ -1169,7 +1169,7 @@ scene_setup_master:
     add #0x8, r4
     mov.l   .L_wram_low_a3433, r7
     mov #0x0, r6
-    mov.w   .L_wpool_06023908, r5
+    mov.w   .L_const_0x208_w, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
     mov r0, r4
@@ -1177,7 +1177,7 @@ scene_setup_master:
     jsr @r3
     add #0x9, r4
     mov #0x3C, r6
-    mov.w   .L_wpool_0602390A, r5
+    mov.w   .L_const_0x0a28_w, r5
     mov.l   .L_wram_low_a3457, r7
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render, r3
@@ -1188,9 +1188,9 @@ scene_setup_master:
     mov.l   .L_wram_low_a0640, r7
     bra     .L_06023940
     nop
-.L_wpool_060238FA:
+.L_const_0x108_w:
     .2byte  0x0108
-.L_wpool_060238FC:
+.L_const_0x0810_w:
     .2byte  0x0810
 
     .global DAT_060238fe
@@ -1200,17 +1200,17 @@ DAT_060238fe:
     .global DAT_06023900
 DAT_06023900:
     .2byte  0x083C
-.L_wpool_06023902:
+.L_const_0x0519_w:
     .2byte  0x0519
 
     .global DAT_06023904
 DAT_06023904:
     .2byte  0x080F
-.L_wpool_06023906:
+.L_const_0x0738_w:
     .2byte  0x0738
-.L_wpool_06023908:
+.L_const_0x208_w:
     .2byte  0x0208
-.L_wpool_0602390A:
+.L_const_0x0a28_w:
     .2byte  0x0A28
 .L_sym_06089E44_4:
     .4byte  sym_06089E44
@@ -1240,7 +1240,7 @@ DAT_06023904:
     .4byte  0x002A0640
 .L_06023940:
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A54, r5
+    mov.w   .L_const_0x228_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1253,7 +1253,7 @@ DAT_06023904:
     add #0x10, r4
     mov.l   .L_wram_low_a06ac, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A56, r5
+    mov.w   .L_const_0x0428_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1266,7 +1266,7 @@ DAT_06023904:
     add #0x11, r4
     mov.l   .L_wram_low_a074c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A58, r5
+    mov.w   .L_const_0x0418_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1279,7 +1279,7 @@ DAT_06023904:
     add #0x12, r4
     mov.l   .L_wram_low_a07e4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A5A, r5
+    mov.w   .L_const_0x0820_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1292,7 +1292,7 @@ DAT_06023904:
     add #0x13, r4
     mov.l   .L_wram_low_a09b4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A5C, r5
+    mov.w   .L_const_0x0518_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1305,7 +1305,7 @@ DAT_06023904:
     add #0x14, r4
     mov.l   .L_wram_low_a0a34, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A5C, r5
+    mov.w   .L_const_0x0518_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1318,7 +1318,7 @@ DAT_06023904:
     add #0x15, r4
     mov.l   .L_wram_low_a0aa4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A5E, r5
+    mov.w   .L_const_0x0508_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1331,7 +1331,7 @@ DAT_06023904:
     add #0x16, r4
     mov.l   .L_wram_low_a0ad8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A60, r5
+    mov.w   .L_const_0x0d10_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1357,7 +1357,7 @@ DAT_06023904:
     add #0x18, r4
     mov.l   .L_wram_low_a0d7c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023A64, r5
+    mov.w   .L_const_0x348_w, r5
     mov.l   .L_vdp1_sprite_render_2, r3
     mov r0, r6
     extu.w r6, r6
@@ -1374,28 +1374,28 @@ DAT_06023904:
     extu.w r6, r6
     add #0x4, r6
     shll2 r6
-    mov.w   .L_wpool_06023A64, r5
+    mov.w   .L_const_0x348_w, r5
     bra     .L_06023A94
     nop
-.L_wpool_06023A54:
+.L_const_0x228_w:
     .2byte  0x0228
-.L_wpool_06023A56:
+.L_const_0x0428_w:
     .2byte  0x0428
-.L_wpool_06023A58:
+.L_const_0x0418_w:
     .2byte  0x0418
-.L_wpool_06023A5A:
+.L_const_0x0820_w:
     .2byte  0x0820
-.L_wpool_06023A5C:
+.L_const_0x0518_w:
     .2byte  0x0518
-.L_wpool_06023A5E:
+.L_const_0x0508_w:
     .2byte  0x0508
-.L_wpool_06023A60:
+.L_const_0x0d10_w:
     .2byte  0x0D10
 
     .global DAT_06023a62
 DAT_06023a62:
     .2byte  0x041C
-.L_wpool_06023A64:
+.L_const_0x348_w:
     .2byte  0x0348
     .2byte  0xFFFF
 .L_vdp1_sprite_render_2:
@@ -1429,7 +1429,7 @@ DAT_06023a62:
     add #0x1A, r4
     mov.l   .L_wram_low_a1140, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BA8, r5
+    mov.w   .L_const_0x348_w_2, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1442,7 +1442,7 @@ DAT_06023a62:
     add #0x1B, r4
     mov.l   .L_wram_low_a12f8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BAA, r5
+    mov.w   .L_const_0x0630_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1455,7 +1455,7 @@ DAT_06023a62:
     add #0x1C, r4
     mov.l   .L_wram_low_a1484, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BAC, r5
+    mov.w   .L_const_0x0a28_w_2, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1468,7 +1468,7 @@ DAT_06023a62:
     add #0x1D, r4
     mov.l   .L_wram_low_a1890, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BAE, r5
+    mov.w   .L_const_0x0c08_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1481,7 +1481,7 @@ DAT_06023a62:
     add #0x1E, r4
     mov.l   .L_wram_low_a1908, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BB0, r5
+    mov.w   .L_const_0x0c10_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1494,7 +1494,7 @@ DAT_06023a62:
     add #0x1F, r4
     mov.l   .L_wram_low_a1ac4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BB2, r5
+    mov.w   .L_const_0x308_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1507,7 +1507,7 @@ DAT_06023a62:
     add #0x20, r4
     mov.l   .L_wram_low_a1b04, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BB4, r5
+    mov.w   .L_const_0x0410_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1520,7 +1520,7 @@ DAT_06023a62:
     add #0x21, r4
     mov.l   .L_wram_low_a1b9c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BB2, r5
+    mov.w   .L_const_0x308_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1533,7 +1533,7 @@ DAT_06023a62:
     add #0x22, r4
     mov.l   .L_wram_low_a1bc8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BB2, r5
+    mov.w   .L_const_0x308_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1546,7 +1546,7 @@ DAT_06023a62:
     add #0x23, r4
     mov.l   .L_wram_low_a1c04, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023BB4, r5
+    mov.w   .L_const_0x0410_w, r5
     mov.l   .L_vdp1_sprite_render_3, r3
     mov r0, r6
     extu.w r6, r6
@@ -1559,19 +1559,19 @@ DAT_06023a62:
     add #0x24, r4
     bra     .L_06023BE4
     nop
-.L_wpool_06023BA8:
+.L_const_0x348_w_2:
     .2byte  0x0348
-.L_wpool_06023BAA:
+.L_const_0x0630_w:
     .2byte  0x0630
-.L_wpool_06023BAC:
+.L_const_0x0a28_w_2:
     .2byte  0x0A28
-.L_wpool_06023BAE:
+.L_const_0x0c08_w:
     .2byte  0x0C08
-.L_wpool_06023BB0:
+.L_const_0x0c10_w:
     .2byte  0x0C10
-.L_wpool_06023BB2:
+.L_const_0x308_w:
     .2byte  0x0308
-.L_wpool_06023BB4:
+.L_const_0x0410_w:
     .2byte  0x0410
     .2byte  0xFFFF
 .L_vdp1_sprite_render_3:
@@ -1625,7 +1625,7 @@ DAT_06023a62:
     add #0x26, r4
     mov.l   .L_wram_low_a1d84, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023CFA, r5
+    mov.w   .L_const_0x0610_w, r5
     mov.l   .L_vdp1_sprite_render_4, r3
     mov r0, r6
     extu.w r6, r6
@@ -1638,7 +1638,7 @@ DAT_06023a62:
     add #0x27, r4
     mov.l   .L_wram_low_a1e20, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023CFC, r5
+    mov.w   .L_const_0x0510_w, r5
     mov.l   .L_vdp1_sprite_render_4, r3
     mov r0, r6
     extu.w r6, r6
@@ -1651,7 +1651,7 @@ DAT_06023a62:
     add #0x28, r4
     mov.l   .L_wram_low_a1e8c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023CFE, r5
+    mov.w   .L_const_0x310_w, r5
     mov.l   .L_vdp1_sprite_render_4, r3
     mov r0, r6
     extu.w r6, r6
@@ -1690,7 +1690,7 @@ DAT_06023a62:
     add #0x2B, r4
     mov.l   .L_wram_low_a2060, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023D04, r5
+    mov.w   .L_const_0x110_w, r5
     mov.l   .L_vdp1_sprite_render_4, r3
     mov r0, r6
     extu.w r6, r6
@@ -1703,7 +1703,7 @@ DAT_06023a62:
     add #0x2C, r4
     mov.l   .L_wram_low_a2080, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023D04, r5
+    mov.w   .L_const_0x110_w, r5
     mov.l   .L_vdp1_sprite_render_4, r3
     mov r0, r6
     extu.w r6, r6
@@ -1716,7 +1716,7 @@ DAT_06023a62:
     add #0x2D, r4
     mov.l   .L_wram_low_a20a0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023CFC, r5
+    mov.w   .L_const_0x0510_w, r5
     mov.l   .L_vdp1_sprite_render_4, r3
     mov r0, r6
     extu.w r6, r6
@@ -1739,11 +1739,11 @@ DAT_06023a62:
     .global DAT_06023cf8
 DAT_06023cf8:
     .2byte  0x060C
-.L_wpool_06023CFA:
+.L_const_0x0610_w:
     .2byte  0x0610
-.L_wpool_06023CFC:
+.L_const_0x0510_w:
     .2byte  0x0510
-.L_wpool_06023CFE:
+.L_const_0x310_w:
     .2byte  0x0310
 
     .global DAT_06023d00
@@ -1753,7 +1753,7 @@ DAT_06023d00:
     .global DAT_06023d02
 DAT_06023d02:
     .2byte  0x080C
-.L_wpool_06023D04:
+.L_const_0x110_w:
     .2byte  0x0110
     .2byte  0xFFFF
 .L_wram_low_a1cc8:
@@ -1781,7 +1781,7 @@ DAT_06023d02:
 .L_wram_low_a211c:
     .4byte  0x002A211C
 .L_06023D38:
-    mov.w   .L_wpool_06023E4E, r5
+    mov.w   .L_const_0x310_w_2, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r4
@@ -1816,7 +1816,7 @@ DAT_06023d02:
     add #0x31, r4
     mov.l   .L_wram_low_a22f4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1829,7 +1829,7 @@ DAT_06023d02:
     add #0x32, r4
     mov.l   .L_wram_low_a22fc, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1842,7 +1842,7 @@ DAT_06023d02:
     add #0x33, r4
     mov.l   .L_wram_low_a2304, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1855,7 +1855,7 @@ DAT_06023d02:
     add #0x34, r4
     mov.l   .L_wram_low_a230c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1868,7 +1868,7 @@ DAT_06023d02:
     add #0x35, r4
     mov.l   .L_wram_low_a2314, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1881,7 +1881,7 @@ DAT_06023d02:
     add #0x36, r4
     mov.l   .L_wram_low_a231c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1894,7 +1894,7 @@ DAT_06023d02:
     add #0x37, r4
     mov.l   .L_wram_low_a2324, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1907,7 +1907,7 @@ DAT_06023d02:
     add #0x38, r4
     mov.l   .L_wram_low_a232c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06023E54, r5
+    mov.w   .L_const_0x108_w_2, r5
     mov.l   .L_vdp1_sprite_render_5, r3
     mov r0, r6
     extu.w r6, r6
@@ -1920,7 +1920,7 @@ DAT_06023d02:
     add #0x39, r4
     bra     .L_06023E84
     nop
-.L_wpool_06023E4E:
+.L_const_0x310_w_2:
     .2byte  0x0310
 
     .global DAT_06023e50
@@ -1930,7 +1930,7 @@ DAT_06023e50:
     .global DAT_06023e52
 DAT_06023e52:
     .2byte  0x080C
-.L_wpool_06023E54:
+.L_const_0x108_w_2:
     .2byte  0x0108
     .2byte  0xFFFF
 .L_vdp1_sprite_render_5:
@@ -2409,7 +2409,7 @@ DAT_06023e52:
     mov r3, r0
     mov.w r0, @(4, r15)
     mov.l   .L_wram_low_a3987, r7
-    mov.w   .L_wpool_060242E2, r5
+    mov.w   .L_const_0x0630_w_2, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r4
@@ -2418,7 +2418,7 @@ DAT_06023e52:
     add #0x10, r4
     mov.l   .L_wram_low_a3c2f, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E2, r5
+    mov.w   .L_const_0x0630_w_2, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2431,7 +2431,7 @@ DAT_06023e52:
     add #0x11, r4
     mov.l   .L_wram_low_a3d23, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E2, r5
+    mov.w   .L_const_0x0630_w_2, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2444,7 +2444,7 @@ DAT_06023e52:
     add #0x12, r4
     mov.l   .L_wram_low_a3e23, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E2, r5
+    mov.w   .L_const_0x0630_w_2, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2470,7 +2470,7 @@ DAT_06023e52:
     bt      .L_0602431C
     mov.l   .L_wram_low_a43a6, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E6, r5
+    mov.w   .L_const_0x210_w, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2481,7 +2481,7 @@ DAT_06023e52:
     extu.w r4, r4
     mov.l   .L_wram_low_a43d8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E6, r5
+    mov.w   .L_const_0x210_w, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2493,7 +2493,7 @@ DAT_06023e52:
     add #0x1, r4
     mov.l   .L_wram_low_a4450, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E6, r5
+    mov.w   .L_const_0x210_w, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2505,7 +2505,7 @@ DAT_06023e52:
     add #0x2, r4
     mov.l   .L_wram_low_a44bf, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060242E6, r5
+    mov.w   .L_const_0x210_w, r5
     mov.l   .L_vdp1_sprite_render_6, r3
     mov r0, r6
     extu.w r6, r6
@@ -2521,13 +2521,13 @@ DAT_06023e52:
     .global DAT_060242e0
 DAT_060242e0:
     .2byte  0x0E00
-.L_wpool_060242E2:
+.L_const_0x0630_w_2:
     .2byte  0x0630
 
     .global DAT_060242e4
 DAT_060242e4:
     .2byte  0x0E82
-.L_wpool_060242E6:
+.L_const_0x210_w:
     .2byte  0x0210
 .L_sym_06007540_4:
     .4byte  sym_06007540
@@ -2558,7 +2558,7 @@ DAT_060242e4:
 .L_0602431C:
     mov.l   .L_wram_low_a452a, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2569,7 +2569,7 @@ DAT_060242e4:
     extu.w r4, r4
     mov.l   .L_wram_low_a455c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2581,7 +2581,7 @@ DAT_060242e4:
     add #0x1, r4
     mov.l   .L_wram_low_a45cd, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2593,7 +2593,7 @@ DAT_060242e4:
     add #0x2, r4
     mov.l   .L_wram_low_a463c, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2611,7 +2611,7 @@ DAT_060242e4:
     bt      .L_06024414
     mov.l   .L_wram_low_a46ac, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2623,7 +2623,7 @@ DAT_060242e4:
     add #0x4, r4
     mov.l   .L_wram_low_a46de, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2635,7 +2635,7 @@ DAT_060242e4:
     add #0x5, r4
     mov.l   .L_wram_low_a4753, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2647,7 +2647,7 @@ DAT_060242e4:
     add #0x6, r4
     mov.l   .L_wram_low_a47c4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060243E8, r5
+    mov.w   .L_const_0x210_w_2, r5
     mov.l   .L_vdp1_sprite_render_7, r3
     mov r0, r6
     extu.w r6, r6
@@ -2659,7 +2659,7 @@ DAT_060242e4:
     add #0x7, r4
     bra     .L_060244D4
     nop
-.L_wpool_060243E8:
+.L_const_0x210_w_2:
     .2byte  0x0210
     .2byte  0xFFFF
 .L_wram_low_a452a:
@@ -2685,7 +2685,7 @@ DAT_060242e4:
 .L_06024414:
     mov.l   .L_wram_low_a4836, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2697,7 +2697,7 @@ DAT_060242e4:
     add #0x4, r4
     mov.l   .L_wram_low_a4862, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2709,7 +2709,7 @@ DAT_060242e4:
     add #0x5, r4
     mov.l   .L_wram_low_a48cf, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2721,7 +2721,7 @@ DAT_060242e4:
     add #0x6, r4
     mov.l   .L_wram_low_a4946, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2733,7 +2733,7 @@ DAT_060242e4:
     add #0x7, r4
     mov.l   .L_wram_low_a49b3, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2745,7 +2745,7 @@ DAT_060242e4:
     add #0x8, r4
     mov.l   .L_wram_low_a49f0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2757,7 +2757,7 @@ DAT_060242e4:
     add #0x9, r4
     mov.l   .L_wram_low_a4a61, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2769,7 +2769,7 @@ DAT_060242e4:
     add #0xA, r4
     mov.l   .L_wram_low_a4ad7, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024506, r5
+    mov.w   .L_const_0x210_w_3, r5
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r6
     extu.w r6, r6
@@ -2785,7 +2785,7 @@ DAT_060242e4:
     mov.l @r0, r0
 .L_060244DA:
     mov #0x38, r6
-    mov.w   .L_wpool_06024508, r5
+    mov.w   .L_const_0x0940_w, r5
     mov.l   .L_wram_low_a3f1f, r7
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render_8, r3
@@ -2798,7 +2798,7 @@ DAT_060242e4:
 .L_060244F0:
     mov.l   .L_wram_low_a405a, r7
     mov #0x38, r6
-    mov.w   .L_wpool_06024508, r5
+    mov.w   .L_const_0x0940_w, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render_8, r3
     mov r0, r4
@@ -2807,9 +2807,9 @@ DAT_060242e4:
     add #0xC, r4
     bra     .L_06024568
     nop
-.L_wpool_06024506:
+.L_const_0x210_w_3:
     .2byte  0x0210
-.L_wpool_06024508:
+.L_const_0x0940_w:
     .2byte  0x0940
     .2byte  0xFFFF
 .L_wram_low_a4836:
@@ -2839,7 +2839,7 @@ DAT_060242e4:
 .L_0602453C:
     mov.l   .L_wram_low_a41c5, r7
     mov #0x38, r6
-    mov.w   .L_wpool_06024552, r5
+    mov.w   .L_const_0x0c40_w, r5
     mov.w @(6, r15), r0
     mov.l   .L_vdp1_sprite_render_9, r3
     mov r0, r4
@@ -2848,7 +2848,7 @@ DAT_060242e4:
     add #0xC, r4
     bra     .L_06024568
     nop
-.L_wpool_06024552:
+.L_const_0x0c40_w:
     .2byte  0x0C40
 .L_wram_low_a41c5:
     .4byte  0x002A41C5
@@ -2863,7 +2863,7 @@ DAT_060242e4:
     bt      .L_0602453C
 .L_06024568:
     mov.l   .L_wram_low_a7a5e, r7
-    mov.w   .L_wpool_0602461C, r5
+    mov.w   .L_const_0x0418_w_2, r5
     mov.w   DAT_0602461e, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
@@ -2877,31 +2877,31 @@ DAT_060242e4:
     add #-0x1, r2
     mov.l r2, @r3
     mov.l   .L_wram_low_a7ac5, r7
-    mov.w   .L_wpool_0602461C, r5
-    mov.w   .L_wpool_06024620, r4
+    mov.w   .L_const_0x0418_w_2, r5
+    mov.w   .L_const_0x0e98_w, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x4C, r6
     mov.l   .L_wram_low_a7b1f, r7
-    mov.w   .L_wpool_0602461C, r5
-    mov.w   .L_wpool_06024622, r4
+    mov.w   .L_const_0x0418_w_2, r5
+    mov.w   .L_const_0x0e99_w, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x4C, r6
     mov.l   .L_wram_low_a7ba0, r7
-    mov.w   .L_wpool_0602461C, r5
+    mov.w   .L_const_0x0418_w_2, r5
     mov.w   DAT_06024624, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x4C, r6
     mov.l   .L_wram_low_a7be9, r7
-    mov.w   .L_wpool_0602461C, r5
-    mov.w   .L_wpool_06024626, r4
+    mov.w   .L_const_0x0418_w_2, r5
+    mov.w   .L_const_0x0e9b_w, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x4C, r6
     mov.l   .L_wram_low_a7c3b, r7
-    mov.w   .L_wpool_0602461C, r5
+    mov.w   .L_const_0x0418_w_2, r5
     mov.w   DAT_06024628, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
@@ -2913,31 +2913,31 @@ DAT_060242e4:
     jsr @r3
     add #0x3, r4
     mov.l   .L_wram_low_a7ca5, r7
-    mov.w   .L_wpool_0602461C, r5
+    mov.w   .L_const_0x0418_w_2, r5
     mov.w   DAT_0602462a, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x4C, r6
     mov.l   .L_wram_low_a7cfa, r7
-    mov.w   .L_wpool_0602461C, r5
+    mov.w   .L_const_0x0418_w_2, r5
     mov.w   DAT_0602462c, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x4C, r6
     mov.l   .L_wram_low_a8b47, r7
-    mov.w   .L_wpool_0602462E, r5
-    mov.w   .L_wpool_06024630, r4
+    mov.w   .L_const_0x110_w_2, r5
+    mov.w   .L_const_0x0e90_w, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x44, r6
     mov.l   .L_wram_low_a8b7e, r7
-    mov.w   .L_wpool_06024632, r5
-    mov.w   .L_wpool_06024634, r4
+    mov.w   .L_const_0x210_w_4, r5
+    mov.w   .L_const_0x0e91_w, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
     mov #0x44, r6
     mov.l   .L_wram_low_a8bbb, r7
-    mov.w   .L_wpool_06024636, r5
+    mov.w   .L_const_0x0420_w, r5
     mov.w   DAT_06024638, r4
     mov.l   .L_vdp1_sprite_render_10, r3
     jsr @r3
@@ -2952,21 +2952,21 @@ DAT_060242e4:
     mov.w   DAT_06024638, r5
     bra     .L_06024678
     nop
-.L_wpool_0602461C:
+.L_const_0x0418_w_2:
     .2byte  0x0418
 
     .global DAT_0602461e
 DAT_0602461e:
     .2byte  0x0E97
-.L_wpool_06024620:
+.L_const_0x0e98_w:
     .2byte  0x0E98
-.L_wpool_06024622:
+.L_const_0x0e99_w:
     .2byte  0x0E99
 
     .global DAT_06024624
 DAT_06024624:
     .2byte  0x0E9A
-.L_wpool_06024626:
+.L_const_0x0e9b_w:
     .2byte  0x0E9B
 
     .global DAT_06024628
@@ -2980,15 +2980,15 @@ DAT_0602462a:
     .global DAT_0602462c
 DAT_0602462c:
     .2byte  0x0E9F
-.L_wpool_0602462E:
+.L_const_0x110_w_2:
     .2byte  0x0110
-.L_wpool_06024630:
+.L_const_0x0e90_w:
     .2byte  0x0E90
-.L_wpool_06024632:
+.L_const_0x210_w_4:
     .2byte  0x0210
-.L_wpool_06024634:
+.L_const_0x0e91_w:
     .2byte  0x0E91
-.L_wpool_06024636:
+.L_const_0x0420_w:
     .2byte  0x0420
 
     .global DAT_06024638
@@ -3133,7 +3133,7 @@ DAT_06024638:
     add #0xA, r4
     mov.l   .L_wram_low_a7d76, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_0602478A, r5
+    mov.w   .L_const_0x108_w_3, r5
     mov.l   .L_vdp1_sprite_render_11, r3
     mov r0, r6
     extu.w r6, r6
@@ -3146,7 +3146,7 @@ DAT_06024638:
     add #0x10, r4
     mov.l   .L_wram_low_a7d8e, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_0602478A, r5
+    mov.w   .L_const_0x108_w_3, r5
     mov.l   .L_vdp1_sprite_render_11, r3
     mov r0, r6
     extu.w r6, r6
@@ -3175,7 +3175,7 @@ DAT_06024786:
     .global DAT_06024788
 DAT_06024788:
     .2byte  0x0E40
-.L_wpool_0602478A:
+.L_const_0x108_w_3:
     .2byte  0x0108
 .L_sym_06007540_6:
     .4byte  sym_06007540
@@ -3192,7 +3192,7 @@ DAT_06024788:
 .L_060247A4:
     mov.l   .L_wram_low_a7da6, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3205,7 +3205,7 @@ DAT_06024788:
     add #0x12, r4
     mov.l   .L_wram_low_a7dc6, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3218,7 +3218,7 @@ DAT_06024788:
     add #0x13, r4
     mov.l   .L_wram_low_a7de6, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3244,7 +3244,7 @@ DAT_06024788:
     add #0x15, r4
     mov.l   .L_wram_low_a7e0a, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3270,7 +3270,7 @@ DAT_06024788:
     add #0x17, r4
     mov.l   .L_wram_low_a7e9e, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3283,7 +3283,7 @@ DAT_06024788:
     add #0x18, r4
     mov.l   .L_wram_low_a7eb6, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3296,7 +3296,7 @@ DAT_06024788:
     add #0x19, r4
     mov.l   .L_wram_low_a7eca, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248C0, r5
+    mov.w   .L_const_0x208_w_2, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3309,7 +3309,7 @@ DAT_06024788:
     add #0x1A, r4
     mov.l   .L_wram_low_a7efe, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     mov.l   .L_vdp1_sprite_render_12, r3
     mov r0, r6
     extu.w r6, r6
@@ -3326,10 +3326,10 @@ DAT_06024788:
     extu.w r6, r6
     add #0x3, r6
     shll2 r6
-    mov.w   .L_wpool_060248BA, r5
+    mov.w   .L_const_0x108_w_4, r5
     bra     .L_060248F4
     nop
-.L_wpool_060248BA:
+.L_const_0x108_w_4:
     .2byte  0x0108
 
     .global DAT_060248bc
@@ -3339,7 +3339,7 @@ DAT_060248bc:
     .global DAT_060248be
 DAT_060248be:
     .2byte  0x040C
-.L_wpool_060248C0:
+.L_const_0x208_w_2:
     .2byte  0x0208
     .2byte  0xFFFF
 .L_wram_low_a7da6:
@@ -3375,7 +3375,7 @@ DAT_060248be:
     add #0x1C, r4
     mov.l   .L_wram_low_a7f12, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024A06, r5
+    mov.w   .L_const_0x108_w_5, r5
     mov.l   .L_vdp1_sprite_render_13, r3
     mov r0, r6
     extu.w r6, r6
@@ -3388,7 +3388,7 @@ DAT_060248be:
     add #0x1D, r4
     mov.l   .L_wram_low_a7f1a, r7
     mov.w @(4, r15), r0
-    mov.w   .L_wpool_06024A06, r5
+    mov.w   .L_const_0x108_w_5, r5
     mov.l   .L_vdp1_sprite_render_13, r3
     mov r0, r6
     extu.w r6, r6
@@ -3450,7 +3450,7 @@ DAT_060248be:
     .4byte  0x430B7426
     .4byte  0xD70EA01D
     .2byte  0x0009
-.L_wpool_06024A06:
+.L_const_0x108_w_5:
     .2byte  0x0108
 
     .global DAT_06024a08

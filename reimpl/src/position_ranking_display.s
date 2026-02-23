@@ -56,7 +56,7 @@ position_ranking_display:
     mov.l   .L_sym_06028400, r13
     mov.l   .L_sym_06063828, r14
     mov.l @r15, r9
-    mov.w   .L_wpool_060113B2, r6
+    mov.w   .L_const_0x288_w, r6
     mov.l   .L_sym_0605A7FC, r5
     mov.l @(4, r14), r7
     shll8 r9
@@ -81,7 +81,7 @@ position_ranking_display:
     jsr @r13
     mov #0x4, r4
     mov.l @(4, r14), r7
-    mov.w   .L_wpool_060113B6, r6
+    mov.w   .L_const_0x0518_w, r6
     mov.l @r10, r0
     tst r0, r0
     bt/s    .L_060113A0
@@ -100,13 +100,13 @@ position_ranking_display:
     bt      .L_060113E4
     bra     .L_060113E6
     mov.l r12, @r15
-.L_wpool_060113B2:
+.L_const_0x288_w:
     .2byte  0x0288
 
     .global DAT_060113b4
 DAT_060113b4:
     .2byte  0x051C
-.L_wpool_060113B6:
+.L_const_0x0518_w:
     .2byte  0x0518
 .L_sym_0607EBC8:
     .4byte  sym_0607EBC8
@@ -145,7 +145,7 @@ DAT_060113b4:
     jsr @r13
     mov #0x4, r4
     mov.l @(4, r14), r7
-    mov.w   .L_wpool_06011464, r6
+    mov.w   .L_const_0x054a_w, r6
     mov.l @r10, r0
     tst r0, r0
     bt/s    .L_0601140E
@@ -186,7 +186,7 @@ DAT_060113b4:
 sym_0601143E:
     mov.l   .L_sym_06063828_2, r7
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06011480, r3
+    mov.l   .L_const_0xd000, r3
     add r3, r7
     mov #0xE, r6
     mov.l   .L_sym_0605A634, r5
@@ -198,7 +198,7 @@ sym_0601143E:
 sym_06011450:
     mov.l   .L_sym_06063828_2, r7
     mov.l @(4, r7), r7
-    mov.l   .L_pool_0601148C, r3
+    mov.l   .L_const_0xe000, r3
     add r3, r7
     mov #0x10, r6
     mov.l   .L_sym_0605A718, r5
@@ -209,7 +209,7 @@ sym_06011450:
     .global DAT_06011462
 DAT_06011462:
     .2byte  0x02B6
-.L_wpool_06011464:
+.L_const_0x054a_w:
     .2byte  0x054A
 
     .global DAT_06011466
@@ -227,13 +227,13 @@ DAT_06011466:
     .4byte  sym_0605A980
 .L_sym_06063828_2:
     .4byte  sym_06063828
-.L_pool_06011480:
+.L_const_0xd000:
     .4byte  0x0000D000
 .L_sym_0605A634:
     .4byte  sym_0605A634
 .L_sym_06028400_2:
     .4byte  sym_06028400
-.L_pool_0601148C:
+.L_const_0xe000:
     .4byte  0x0000E000
 .L_sym_0605A718:
     .4byte  sym_0605A718
@@ -385,7 +385,7 @@ sprite_batch_renderer:
     bf/s    .L_0601157E
     mov.w r0, @(2, r5)
     mov.l   .L_sym_06063788, r7
-    mov.l   .L_pool_060115E4, r3
+    mov.l   .L_const_0xf000, r3
     mov.w @r15, r0
     mov.l @(4, r7), r7
     extu.w r0, r0
@@ -420,7 +420,7 @@ DAT_060115c6:
     .4byte  sym_06063788
 .L_sym_0605AAA6:
     .4byte  sym_0605AAA6
-.L_pool_060115E4:
+.L_const_0xf000:
     .4byte  0x0000F000
 .L_sym_0605AAA2:
     .4byte  sym_0605AAA2

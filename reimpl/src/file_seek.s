@@ -16,7 +16,7 @@ file_seek:
     mov #0x6, r5
     jsr @r14
     mov #0x8, r4
-    mov.w   .L_wpool_0601207A, r4
+    mov.w   .L_bit_8_w, r4
     jsr @r14
     mov #0x5, r5
     mov #0x3, r5
@@ -28,7 +28,7 @@ file_seek:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0601207A:
+.L_bit_8_w:
     .2byte  0x0100
 .L_channel_nibble_config:
     .4byte  channel_nibble_config

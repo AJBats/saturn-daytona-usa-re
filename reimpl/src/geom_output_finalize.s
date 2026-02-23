@@ -70,7 +70,7 @@ geom_output_finalize:
     cmp/eq #0x1, r0
     bf      .L_0601F830
     mov r8, r5
-    mov.w   .L_wpool_0601F808, r6
+    mov.w   .L_const_0x2328_w, r6
     jsr @r9
     mov r14, r4
     bra     .L_0601F83E
@@ -83,7 +83,7 @@ DAT_0601f804:
     .global DAT_0601f806
 DAT_0601f806:
     .2byte  0x1900
-.L_wpool_0601F808:
+.L_const_0x2328_w:
     .2byte  0x2328
     .2byte  0xFFFF
 .L_sym_0607ED90:

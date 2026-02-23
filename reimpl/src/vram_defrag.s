@@ -11,7 +11,7 @@
 vram_defrag:
     sts.l pr, @-r15
     sts.l macl, @-r15
-    mov.w   .L_wpool_06020064, r8
+    mov.w   .L_vehicle_stride_w, r8
     mov.l   .L_sym_06087802, r11
     mov.l   .L_sym_06087800, r12
     mov r8, r10
@@ -47,7 +47,7 @@ vram_defrag:
 .L_0601FFFC:
     mov.w @(2, r14), r0
     mov.l   .L_sym_06078900, r3
-    mov.w   .L_wpool_06020066, r4
+    mov.w   .L_const_0x35a_w, r4
     mov r0, r13
     mul.l r8, r13
     mov.w @(4, r14), r0
@@ -58,13 +58,13 @@ vram_defrag:
     mov.l   .L_fpmul, r3
     jsr @r3
     shll16 r5
-    mov.w   .L_wpool_06020068, r1
+    mov.w   .L_const_0x194_w, r1
     add r13, r1
     mov.l r0, @r1
     mov.w @(6, r14), r0
     mov r0, r3
     extu.w r3, r3
-    mov.w   .L_wpool_0602006A, r0
+    mov.w   .L_const_0x1f8_w, r0
     mov.l r3, @(r0, r13)
     add #0xC, r0
     mov.l r10, @(r0, r13)
@@ -100,13 +100,13 @@ vram_defrag:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06020064:
+.L_vehicle_stride_w:
     .2byte  0x0268
-.L_wpool_06020066:
+.L_const_0x35a_w:
     .2byte  0x035A
-.L_wpool_06020068:
+.L_const_0x194_w:
     .2byte  0x0194
-.L_wpool_0602006A:
+.L_const_0x1f8_w:
     .2byte  0x01F8
 .L_sym_06087802:
     .4byte  sym_06087802

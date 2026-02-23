@@ -15,7 +15,7 @@ track_shadow_validate:
     mov.l   .L_sym_060A5400, r14
     mov.l r4, @r15
     mov.l @r14, r0
-    mov.w   .L_wpool_0604211E, r1
+    mov.w   .L_const_0x360_w, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
     bf      .L_060420E0
@@ -52,11 +52,11 @@ track_shadow_validate:
     mov.l r2, @r3
     mov.l @r14, r3
     mov #0x2, r2
-    mov.w   .L_wpool_0604211E, r0
+    mov.w   .L_const_0x360_w, r0
     mov.l r2, @(r0, r3)
 .L_060420E0:
     mov.l @r14, r0
-    mov.w   .L_wpool_0604211E, r1
+    mov.w   .L_const_0x360_w, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
     bf      .L_06042110
@@ -79,17 +79,17 @@ track_shadow_validate:
     bt      .L_06042110
     mov.l @r14, r3
     mov #0x0, r2
-    mov.w   .L_wpool_0604211E, r0
+    mov.w   .L_const_0x360_w, r0
     mov.l r2, @(r0, r3)
 .L_06042110:
     mov.l @r14, r0
-    mov.w   .L_wpool_0604211E, r1
+    mov.w   .L_const_0x360_w, r1
     mov.l @(r0, r1), r0
     add #0x10, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0604211E:
+.L_const_0x360_w:
     .2byte  0x0360
 
     .global DAT_06042120

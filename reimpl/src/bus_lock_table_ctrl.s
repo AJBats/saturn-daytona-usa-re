@@ -14,7 +14,7 @@ bus_lock_table_ctrl:
     mov.l   .L_mask_high_byte, r7
     mov.l   .L_sym_060A4D58, r6
     mov.l   .L_sym_060A4D30, r4
-    mov.w   .L_wpool_0603D424, r1
+    mov.w   .L_const_0x201_w, r1
     mov.l   .L_sym_06034F78, r3
     mov r5, r0
     jsr @r3
@@ -25,7 +25,7 @@ bus_lock_table_ctrl:
     or #0x3, r0
     mov.w r0, @r4
     mov r5, r0
-    mov.w   .L_wpool_0603D424, r1
+    mov.w   .L_const_0x201_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
@@ -36,7 +36,7 @@ bus_lock_table_ctrl:
     or r3, r0
     mov.w r0, @r4
     mov r5, r0
-    mov.w   .L_wpool_0603D424, r1
+    mov.w   .L_const_0x201_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
@@ -48,7 +48,7 @@ bus_lock_table_ctrl:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r5, r0
-    mov.w   .L_wpool_0603D424, r1
+    mov.w   .L_const_0x201_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
@@ -57,21 +57,21 @@ bus_lock_table_ctrl:
     and #0xFF, r0
     mov.w r0, @(2, r4)
     mov r5, r0
-    mov.w   .L_wpool_0603D424, r1
+    mov.w   .L_const_0x201_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     mov #0x4, r0
     mov.w r0, @(4, r4)
     mov r5, r0
-    mov.w   .L_wpool_0603D424, r1
+    mov.w   .L_const_0x201_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r6, r2
     lds.l @r15+, pr
     rts
     nop
-.L_wpool_0603D424:
+.L_const_0x201_w:
     .2byte  0x0201
 
     .global DAT_0603d426

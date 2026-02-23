@@ -30,7 +30,7 @@ hud_elem_render:
     bt/s    .L_060151A4
     mov #0x0, r13
     mov.l   .L_sym_06044C8C, r7
-    mov.w   .L_wpool_06015202, r6
+    mov.w   .L_const_0x090_w, r6
     mov.b @r9, r5
     mov.b @r11, r3
     extu.b r5, r5
@@ -60,7 +60,7 @@ hud_elem_render:
     tst r2, r2
     bt      .L_060151DC
     mov.l   .L_sym_06044C8C, r7
-    mov.w   .L_wpool_06015202, r6
+    mov.w   .L_const_0x090_w, r6
     mov.b @r9, r5
     mov.b @r11, r3
     extu.b r5, r5
@@ -82,7 +82,7 @@ hud_elem_render:
     mov.b r2, @r3
 .L_060151DC:
     mov.w @(2, r12), r0
-    mov.w   .L_wpool_06015206, r3
+    mov.w   .L_bit_9_w, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -101,11 +101,11 @@ hud_elem_render:
     bf      .L_06015228
     bra     .L_0601527C
     nop
-.L_wpool_06015202:
+.L_const_0x090_w:
     .2byte  0x0090
 .L_quarter_turn_w:
     .2byte  0x4000
-.L_wpool_06015206:
+.L_bit_9_w:
     .2byte  0x0200
 .L_sym_06085F8E:
     .4byte  sym_06085F8E
@@ -164,7 +164,7 @@ hud_elem_render:
     nop
 .L_0601526E:
     mov.w @(2, r12), r0
-    mov.w   .L_wpool_060152CE, r3
+    mov.w   .L_bit_8_w, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -199,7 +199,7 @@ hud_elem_render:
     tst r2, r2
     bf      .L_06015304
     mov.l   .L_sym_06044C8C_2, r7
-    mov.w   .L_wpool_060152D0, r6
+    mov.w   .L_const_0x090_w_2, r6
     mov.l   .L_sym_06085F8E_2, r5
     mov.l   .L_sym_06085F8D_2, r3
     mov.b @r5, r5
@@ -214,9 +214,9 @@ hud_elem_render:
     mov.l   .L_sym_060284AE_2, r3
     jmp @r3
     mov #0xC, r4
-.L_wpool_060152CE:
+.L_bit_8_w:
     .2byte  0x0100
-.L_wpool_060152D0:
+.L_const_0x090_w_2:
     .2byte  0x0090
     .2byte  0xFFFF
 .L_sym_0607ED8C:
@@ -245,7 +245,7 @@ hud_elem_render:
     .4byte  sym_060284AE
 .L_06015304:
     mov.l   .L_sym_06044C88, r7
-    mov.w   .L_wpool_06015324, r6
+    mov.w   .L_const_0x090_w_3, r6
     mov.l   .L_sym_06085F8E_3, r5
     mov.l   .L_sym_06085F8D_3, r3
     mov.b @r5, r5
@@ -260,7 +260,7 @@ hud_elem_render:
     mov.l   .L_sym_060284AE_3, r3
     jmp @r3
     mov #0xC, r4
-.L_wpool_06015324:
+.L_const_0x090_w_3:
     .2byte  0x0090
     .2byte  0xFFFF
 .L_sym_06044C88:

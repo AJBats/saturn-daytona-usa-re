@@ -17,7 +17,7 @@ minimap_render:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06015668, r8
+    mov.l   .L_const_0xddb2, r8
     mov #0x4, r9
     mov.l   .L_fp_half, r10
     mov.l   .L_fpmul, r11
@@ -110,7 +110,7 @@ minimap_render:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_06015668:
+.L_const_0xddb2:
     .4byte  0x0000DDB2
 .L_fp_half:
     .4byte  0x00008000
@@ -476,7 +476,7 @@ lap_counter_update:
     add r1, r2
     mov.b r0, @(1, r2)
     mov.l   .L_sym_06078900, r5
-    mov.w   .L_wpool_06015932, r0
+    mov.w   .L_const_0x224_w, r0
     mov.l   .L_sym_06044BD8, r3
     mov.l   .L_sound_cmd_dispatch, r2
     mov.l @(r0, r5), r5
@@ -492,7 +492,7 @@ lap_counter_update:
     mov.l   .L_sym_060172E4, r3
     jmp @r3
     lds.l @r15+, pr
-.L_wpool_06015932:
+.L_const_0x224_w:
     .2byte  0x0224
 .L_sym_06084FC8_4:
     .4byte  sym_06084FC8
@@ -733,7 +733,7 @@ time_digit_update:
     mov.l r12, @-r15
     mov.l r11, @-r15
     add #-0x4, r15
-    mov.w   .L_wpool_06015D24, r11
+    mov.w   .L_bit_11_w, r11
     mov #0x8, r12
     mov.l   .L_sym_06084FC8_5, r13
     mov #0x0, r14
@@ -791,7 +791,7 @@ time_digit_update:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06015D24:
+.L_bit_11_w:
     .2byte  0x0800
     .2byte  0xFFFF
 .L_sym_06084FC8_5:

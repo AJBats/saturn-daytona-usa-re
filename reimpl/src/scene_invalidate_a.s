@@ -40,7 +40,7 @@ scene_invalidate_a:
     mov.l   .L_fp_180, r2
     cmp/ge r2, r14
     bf      .L_0603DA30
-    mov.l   .L_pool_0603DA78, r4
+    mov.l   .L_fp_neg_180, r4
     jsr @r13
     add r14, r4
     bra     .L_0603DA44
@@ -87,7 +87,7 @@ scene_invalidate_a:
     .4byte  0x010E0000
 .L_fp_180:
     .4byte  0x00B40000
-.L_pool_0603DA78:
+.L_fp_neg_180:
     .4byte  0xFF4C0000
 .L_fp_90:
     .4byte  0x005A0000

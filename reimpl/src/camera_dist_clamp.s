@@ -256,7 +256,7 @@ camera_collision_avoid:
     nop
     mov.l   .L_sym_06044640, r11
     mov.l   .L_fp_neg_0_f0a3, r2
-    mov.w   .L_wpool_0600A6FA, r3
+    mov.w   .L_const_0xcccd_w, r3
     mov.l @(8, r11), r6
     mov.l @(4, r11), r5
     mov.l @r11, r4
@@ -312,7 +312,7 @@ camera_collision_avoid:
     nop
     mov.l   .L_sym_06044670, r11
     mov.l   .L_fp_neg_2_4ccc, r3
-    mov.w   .L_wpool_0600A6FA, r2
+    mov.w   .L_const_0xcccd_w, r2
     mov.l @(8, r11), r6
     mov.l @(4, r11), r5
     neg r6, r6
@@ -353,7 +353,7 @@ camera_collision_avoid:
     mov.l @r15, r4
     bra     .L_0600A744
     nop
-.L_wpool_0600A6FA:
+.L_const_0xcccd_w:
     .2byte  0xCCCD
 .L_half_turn_w:
     .2byte  0x8000
@@ -437,7 +437,7 @@ secondary_geom_proc:
     nop
     mov.l   .L_sym_06044640_2, r11
     mov.l   .L_fp_neg_0_f0a3_2, r2
-    mov.w   .L_wpool_0600A854, r3
+    mov.w   .L_const_0xcccd_w_2, r3
     mov.l @(8, r11), r6
     mov.l @(4, r11), r5
     mov.l @r11, r4
@@ -494,7 +494,7 @@ secondary_geom_proc:
     nop
     mov.l   .L_sym_06044670_2, r11
     mov.l   .L_fp_neg_2_4ccc_2, r3
-    mov.w   .L_wpool_0600A854, r2
+    mov.w   .L_const_0xcccd_w_2, r2
     mov.l @(8, r11), r6
     mov.l @(4, r11), r5
     neg r6, r6
@@ -535,7 +535,7 @@ secondary_geom_proc:
     extu.w r5, r5
     bra     .L_0600A89C
     nop
-.L_wpool_0600A854:
+.L_const_0xcccd_w_2:
     .2byte  0xCCCD
 
     .global DAT_0600a856
@@ -612,7 +612,7 @@ sym_0600A8BC:
     mov.w r2, @r4
 .L_0600A8D8:
     mov.l @(8, r5), r2
-    mov.w   .L_wpool_0600A900, r3
+    mov.w   .L_const_0x0c8_w, r3
     cmp/ge r3, r2
     bt      .L_0600A8EA
     mov.w @r4, r3
@@ -635,7 +635,7 @@ sym_0600A8BC:
 .L_0600A8FC:
     rts
     nop
-.L_wpool_0600A900:
+.L_const_0x0c8_w:
     .2byte  0x00C8
     .2byte  0xFFFF
 .L_sym_060620D8_4:
@@ -662,7 +662,7 @@ car_proximity_check:
     mov.l   .L_fp_4_b333, r8
     mov.l   .L_sym_0607EA98, r10
     mov.l   .L_sym_06078900, r12
-    mov.w   .L_wpool_0600A99A, r13
+    mov.w   .L_vehicle_stride_w, r13
     mov.l   .L_sym_0607EAE0, r0
     mov.l @r0, r0
     tst r0, r0
@@ -690,7 +690,7 @@ car_proximity_check:
     mov r9, r11
 .L_0600A95A:
     mul.l r13, r11
-    mov.w   .L_wpool_0600A99C, r0
+    mov.w   .L_const_0x1ec_w, r0
     sts macl, r5
     mov.l @(r0, r14), r4
     add r12, r5
@@ -724,9 +724,9 @@ car_proximity_check:
     shar r4
     bra     .L_0600A9C0
     shar r4
-.L_wpool_0600A99A:
+.L_vehicle_stride_w:
     .2byte  0x0268
-.L_wpool_0600A99C:
+.L_const_0x1ec_w:
     .2byte  0x01EC
     .2byte  0xFFFF
 .L_fp_4_b333:
@@ -788,7 +788,7 @@ car_proximity_check:
     bra     .L_0600AA62
     nop
 .L_0600AA08:
-    mov.w   .L_wpool_0600AA80, r0
+    mov.w   .L_const_0x1ec_w_2, r0
     mov #0x14, r3
     mov.l @(r0, r11), r4
     mov.l @(r0, r14), r2
@@ -859,7 +859,7 @@ car_proximity_check:
     .global DAT_0600aa7e
 DAT_0600aa7e:
     .2byte  0x01B4
-.L_wpool_0600AA80:
+.L_const_0x1ec_w_2:
     .2byte  0x01EC
     .2byte  0xFFFF
 .L_fp_one:

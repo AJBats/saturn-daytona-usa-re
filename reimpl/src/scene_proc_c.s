@@ -431,7 +431,7 @@ loc_0602B15C:
     cmp/gt r10, r3
     bf      .L_0602B19E
     mov.w   .L_mask_high_byte_w, r9
-    mov.w   .L_wpool_0602B250, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l r0, @(16, r9)
     mov.l r3, @(0, r9)
     mov #0x0, r0
@@ -459,7 +459,7 @@ loc_0602B15C:
     add #-0x18, r6
 .L_mask_high_byte_w:
     .2byte  0xFF00
-.L_wpool_0602B250:
+.L_const_0x0a0_w:
     .2byte  0x00A0
     .2byte  0x0000
 .L_sym_0602B304:

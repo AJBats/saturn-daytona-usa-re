@@ -28,7 +28,7 @@ checkpoint_detect:
     cmp/ge r3, r5
     bt/s    .L_0600D7D8
     mov #0x0, r13
-    mov.w   .L_wpool_0600D82C, r0
+    mov.w   .L_const_0x228_w, r0
     mov.l @(r0, r4), r3
     add #0x1, r3
     mov.l r3, @(r0, r4)
@@ -57,7 +57,7 @@ checkpoint_detect:
     mov #0x1, r2
     cmp/gt r2, r5
     bf      .L_0600D818
-    mov.w   .L_wpool_0600D82C, r0
+    mov.w   .L_const_0x228_w, r0
     mov.l @(r0, r4), r2
     add #-0x1, r2
     mov.l r2, @(r0, r4)
@@ -100,7 +100,7 @@ checkpoint_detect:
     .global DAT_0600d82a
 DAT_0600d82a:
     .2byte  0x01EC
-.L_wpool_0600D82C:
+.L_const_0x228_w:
     .2byte  0x0228
 
     .global DAT_0600d82e
@@ -135,7 +135,7 @@ DAT_0600d82e:
     mov #0x10, r2
     cmp/ge r2, r6
     bt      .L_0600D86C
-    mov.w   .L_wpool_0600D896, r0
+    mov.w   .L_const_0x1e8_w, r0
     bra     .L_0600D890
     mov.l r5, @(r0, r4)
 .L_0600D86C:
@@ -152,7 +152,7 @@ DAT_0600d82e:
     cmp/eq r2, r5
     bf      .L_0600D890
 .L_0600D884:
-    mov.w   .L_wpool_0600D896, r0
+    mov.w   .L_const_0x1e8_w, r0
     mov.l r5, @(r0, r4)
     add #0x40, r0
     mov.l @(r0, r4), r3
@@ -165,7 +165,7 @@ DAT_0600d82e:
     .global DAT_0600d894
 DAT_0600d894:
     .2byte  0x01EC
-.L_wpool_0600D896:
+.L_const_0x1e8_w:
     .2byte  0x01E8
 .L_sym_0607E940_2:
     .4byte  sym_0607E940
@@ -296,7 +296,7 @@ lap_time_record:
     tst r5, r5
     bf      .L_0600D990
 .L_0600D98C:
-    mov.w   .L_wpool_0600D99C, r0
+    mov.w   .L_const_0x240_w, r0
     mov.l r4, @(r0, r14)
 .L_0600D990:
     lds.l @r15+, pr
@@ -314,7 +314,7 @@ DAT_0600d998:
     .global DAT_0600d99a
 DAT_0600d99a:
     .2byte  0x022C
-.L_wpool_0600D99C:
+.L_const_0x240_w:
     .2byte  0x0240
     .2byte  0xFFFF
 .L_sym_0607E940_3:

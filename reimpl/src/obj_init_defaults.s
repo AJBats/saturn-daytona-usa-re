@@ -11,7 +11,7 @@
 obj_init_defaults:
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.w   .L_wpool_060204A8, r10
+    mov.w   .L_const_0x3c79_w, r10
     mov.l   .L_sym_0605F44E, r12
     mov.b r4, @r15
     mov r12, r11
@@ -73,7 +73,7 @@ obj_init_defaults:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060204A8:
+.L_const_0x3c79_w:
     .2byte  0x3C79
     .2byte  0xFFFF
 .L_sym_0605F44E:

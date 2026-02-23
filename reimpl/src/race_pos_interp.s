@@ -27,7 +27,7 @@ race_pos_interp:
 .L_0600CBAE:
     extu.w r5, r5
     shll2 r6
-    mov.w   .L_wpool_0600CC2A, r0
+    mov.w   .L_const_0x1f8_w, r0
     mov.l @r14, r3
     shlr r5
     shll r6
@@ -59,7 +59,7 @@ race_pos_interp:
     mov.l r2, @(8, r4)
 .L_0600CBEE:
     extu.w r5, r5
-    mov.w   .L_wpool_0600CC2A, r0
+    mov.w   .L_const_0x1f8_w, r0
     shlr r5
     mov.l @(r0, r7), r6
     shll2 r5
@@ -89,7 +89,7 @@ race_pos_interp:
     mov.w r0, @(18, r4)
     rts
     mov.l @r15+, r14
-.L_wpool_0600CC2A:
+.L_const_0x1f8_w:
     .2byte  0x01F8
 .L_sym_0607EB88:
     .4byte  sym_0607EB88

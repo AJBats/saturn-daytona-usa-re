@@ -14,7 +14,7 @@ vdp_mode_setup:
     add #-0x4, r15
     mov.l   .L_sym_06085FF4, r8
     mov.l   .L_sym_06063750, r9
-    mov.w   .L_wpool_0600584E, r10
+    mov.w   .L_const_0x0480_w, r10
     mov.l   .L_sym_0606129C, r13
     mov r9, r7
     add #0x20, r7
@@ -29,7 +29,7 @@ vdp_mode_setup:
     tst r0, r0
     bt      .L_06005802
     mov r14, r12
-    mov.w   .L_wpool_06005850, r7
+    mov.w   .L_const_0x180_w, r7
 .L_060057C6:
     mov.l @r13, r5
     add r7, r5
@@ -57,7 +57,7 @@ vdp_mode_setup:
     bf/s    .L_060057C6
     add r14, r12
     mov #0x60, r6
-    mov.w   .L_wpool_06005852, r5
+    mov.w   .L_const_0x318_w, r5
     mov.l   .L_sym_0605ACDF, r7
     mov.l   .L_sym_060284AE, r3
     jsr @r3
@@ -98,19 +98,19 @@ vdp_mode_setup:
     bt      .L_0600587C
     mov.l @r12, r7
     mov #0x0, r6
-    mov.w   .L_wpool_06005854, r5
+    mov.w   .L_const_0x110_w, r5
     mov.l   .L_sym_06028430, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_06005888
     nop
-.L_wpool_0600584E:
+.L_const_0x0480_w:
     .2byte  0x0480
-.L_wpool_06005850:
+.L_const_0x180_w:
     .2byte  0x0180
-.L_wpool_06005852:
+.L_const_0x318_w:
     .2byte  0x0318
-.L_wpool_06005854:
+.L_const_0x110_w:
     .2byte  0x0110
     .2byte  0xFFFF
 .L_sym_06085FF4:
@@ -134,7 +134,7 @@ vdp_mode_setup:
 .L_0600587C:
     mov.l @r12, r7
     mov #0xC, r6
-    mov.w   .L_wpool_0600590C, r5
+    mov.w   .L_const_0x110_w_2, r5
     mov.l   .L_sym_06028430_2, r3
     jsr @r3
     mov #0x8, r4
@@ -213,7 +213,7 @@ frame_dispatch:
     nop
     .byte   0xA0, 0xEE    /* bra 0x06005AE8 (external) */
     lds.l @r15+, pr
-.L_wpool_0600590C:
+.L_const_0x110_w_2:
     .2byte  0x0110
 
     .global DAT_0600590e

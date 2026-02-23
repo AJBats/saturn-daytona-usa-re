@@ -133,10 +133,10 @@ results_screen_render:
     exts.w r2, r2
     add r13, r2
     mov.l   .L_fp_neg_4_0000, r1
-    mov.w   .L_wpool_060160BA, r4
+    mov.w   .L_neg_2048_w, r4
     bra     .L_060160E4
     mov.l r1, @(16, r2)
-.L_wpool_060160BA:
+.L_neg_2048_w:
     .2byte  0xF800
 .L_sym_06084FC8:
     .4byte  sym_06084FC8
@@ -158,7 +158,7 @@ results_screen_render:
     add r13, r2
     mov.l   .L_fp_four, r1
     mov.l r1, @(16, r2)
-    mov.w   .L_wpool_060161F8, r4
+    mov.w   .L_bit_11_w, r4
 .L_060160E4:
     extu.b r14, r3
     mov r3, r2
@@ -302,7 +302,7 @@ results_screen_render:
     add r13, r14
     bra     .L_0601621A
     mov #0x2, r0
-.L_wpool_060161F8:
+.L_bit_11_w:
     .2byte  0x0800
     .2byte  0xFFFF
 .L_fp_four:

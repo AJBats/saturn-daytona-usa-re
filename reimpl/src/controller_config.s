@@ -28,7 +28,7 @@ controller_config:
     mov #0x0, r13
     tst r6, r6
     bt      .L_0603DB5E
-    mov.w   .L_wpool_0603DB9E, r3
+    mov.w   .L_bit_8_w, r3
     cmp/eq r3, r6
     bf      .L_0603DB5A
     mov r7, r0
@@ -72,7 +72,7 @@ controller_config:
     bf      .L_0603DBAC
     bra     .L_0603DBAE
     mov #0x1, r2
-.L_wpool_0603DB9E:
+.L_bit_8_w:
     .2byte  0x0100
 .L_sym_060A4C80:
     .4byte  sym_060A4C80
@@ -109,7 +109,7 @@ controller_config:
     mov.l r15, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0603DCD8, r2
+    mov.l   .L_fp_16624, r2
     mov.l r2, @-r15
     mov r15, r3
     mov.l   .L_sym_060359E4, r2
@@ -132,7 +132,7 @@ controller_config:
     mov.l r15, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0603DCD8, r2
+    mov.l   .L_fp_16624, r2
     mov.l r2, @-r15
     mov r15, r3
     mov.l   .L_sym_060359E4, r2
@@ -233,7 +233,7 @@ controller_config:
     .4byte  sym_060635AE
 .L_sym_060358EC:
     .4byte  sym_060358EC
-.L_pool_0603DCD8:
+.L_fp_16624:
     .4byte  0x40F00000
 .L_sym_060359E4:
     .4byte  sym_060359E4
@@ -262,7 +262,7 @@ controller_config:
     shlr r3
     exts.w r3, r3
     mov.w r3, @(r0, r14)
-    mov.w   .L_wpool_0603DDEA, r3
+    mov.w   .L_const_0x190_w, r3
     mov #0x38, r0
     mov.w r3, @(r0, r14)
     mov #0x3C, r0
@@ -373,7 +373,7 @@ controller_config:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0603DDEA:
+.L_const_0x190_w:
     .2byte  0x0190
 .L_sym_060635AE_2:
     .4byte  sym_060635AE

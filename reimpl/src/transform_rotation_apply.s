@@ -45,20 +45,20 @@ transform_rotation_apply:
 .L_fp_half:
     .4byte  0x00008000
 .L_060263AC:
-    mov.w   .L_wpool_060263C2, r1
+    mov.w   .L_const_0x08a_w, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
     bt      .L_06026398
     shll r0
     mov r0, r1
-    mova    .L_pool_060263C4, r0
+    mova    .L_fp_neg_61_003e, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
-.L_wpool_060263C2:
+.L_const_0x08a_w:
     .2byte  0x008A
-.L_pool_060263C4:
+.L_fp_neg_61_003e:
     .4byte  0xFFC2FFC2
     .4byte  0xFFCCFFCC
     .4byte  0xFFC6FFC6

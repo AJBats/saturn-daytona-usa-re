@@ -367,16 +367,30 @@ def classify_value(val, is_word=False):
         if val in KNOWN_CONSTANTS_16:
             name, desc = KNOWN_CONSTANTS_16[val]
             return (name, desc, "HIGH")
-        # Common 16-bit angle values
         if val > 0 and val <= 0xFFFF:
-            # Powers of 2
+            # Powers of 2 -- medium confidence
             if val & (val - 1) == 0:
                 bit = val.bit_length() - 1
-                return (f"bit_{bit}_w", f"1 << {bit} (16-bit)", "LOW")
-            # Small byte-aligned values -- likely offsets, counts, or flags
+                return (f"bit_{bit}_w", f"1 << {bit} (16-bit)", "MEDIUM")
+            # Known struct strides as 16-bit
+            if val == 0x0268:
+                return ("vehicle_stride_w", "vehicle struct stride 0x268", "MEDIUM")
+            # Negative 16-bit (sign-extended: 0xF000+)
+            if val >= 0xF000:
+                neg = 0x10000 - val
+                return (f"neg_{neg}_w", f"-{neg} (16-bit)", "MEDIUM")
+            # Inverted bit masks (16-bit): e.g., 0xFEFF = ~0x0100
+            if val >= 0xFE00:
+                inv = (~val) & 0xFFFF
+                if inv > 0 and inv & (inv - 1) == 0:
+                    bit = inv.bit_length() - 1
+                    return (f"not_bit_{bit}_w", f"~(1 << {bit}) (16-bit)", "MEDIUM")
+            # Aligned masks (e.g., 0x0F00, 0xFF00, 0xF000)
+            if val >= 0x0100 and val & 0x00FF == 0:
+                return (f"mask_0x{val:04x}_w", f"mask 0x{val:X} (16-bit)", "MEDIUM")
+            # All remaining: descriptive LOW names
             if val <= 0x400:
                 return (f"const_0x{val:03x}_w", f"constant 0x{val:X} ({val})", "LOW")
-            # Larger 16-bit values
             return (f"const_0x{val:04x}_w", f"constant 0x{val:X} ({val})", "LOW")
         return None
 
@@ -404,6 +418,10 @@ def classify_value(val, is_word=False):
     if val == 0x00000007:
         return ("dma_direct_imm", "DMA: direct mode, immediate start", "MEDIUM")
 
+    # Cache-through mirror offset
+    if val == 0x20000000:
+        return ("cache_through_offset", "cache-through mirror offset", "HIGH")
+
     # Common game constants and masks
     if val == 0x00FFFFFF:
         return ("mask_24bit", "24-bit mask", "HIGH")
@@ -414,34 +432,37 @@ def classify_value(val, is_word=False):
     if val == 0x40000000:
         return ("bit_30", "1 << 30", "MEDIUM")
     if val == 0x00000268:
-        return ("struct_stride_268", "struct stride 0x268 (616 bytes)", "MEDIUM")
+        return ("vehicle_stride", "vehicle struct stride 0x268 (616 bytes)", "MEDIUM")
     if val == 0x00000228:
         return ("struct_stride_228", "struct stride 0x228 (552 bytes)", "MEDIUM")
+    if val == 0x00000348:
+        return ("struct_stride_348", "struct stride 0x348 (840 bytes)", "MEDIUM")
 
-    # Negative fixed-point (top byte(s) are FF)
-    if val >= 0xFFFE0000:
-        neg = 0x100000000 - val
-        if neg <= 0x200000:  # up to -32.0
-            whole = neg >> 16
-            frac = neg & 0xFFFF
-            frac_f = frac / 65536.0
-            if frac == 0:
-                return (f"fp_neg_{whole}", f"-{whole}.0 in 16.16 FP", "MEDIUM")
-            else:
-                return (f"fp_neg_{whole}_{frac:04x}", f"-{whole}.{frac_f:.4f} in 16.16 FP", "MEDIUM")
+    # Inverted bitmasks (0xFFFFxxxx where low bits are ~mask)
+    if 0xFFFF0000 <= val < 0xFFFFFF00 and val not in KNOWN_CONSTANTS:
+        inv = (~val) & 0xFFFF
+        if inv > 0 and inv & (inv - 1) == 0:
+            bit = inv.bit_length() - 1
+            return (f"not_bit_{bit}", f"~(1 << {bit}) bitmask", "MEDIUM")
+        if inv > 0 and inv <= 0x1FFF:
+            return (f"not_0x{inv:04x}", f"~0x{inv:X} bitmask", "MEDIUM")
+
     # Small negative integers (0xFFFFFF00 - 0xFFFFFFFE)
     if 0xFFFFFF00 <= val <= 0xFFFFFFFE:
         neg = 0x100000000 - val
         return (f"neg_{neg}", f"-{neg}", "MEDIUM")
-    # Larger negative (0xFFF00000 - 0xFFFDFFFF) -- larger negative FP
-    if 0xFFF00000 <= val <= 0xFFFDFFFF:
+    # Negative fixed-point: covers -1.0 to -32768.0 (0x80000000 - 0xFFFEFFFF)
+    if 0x80000000 <= val <= 0xFFFEFFFF:
         neg = 0x100000000 - val
         whole = neg >> 16
         frac = neg & 0xFFFF
-        return (f"fp_neg_{whole}_{frac:04x}", f"-{whole}.{frac/65536.0:.4f} in 16.16 FP", "MEDIUM")
+        if frac == 0:
+            return (f"fp_neg_{whole}", f"-{whole}.0 in 16.16 FP", "MEDIUM")
+        else:
+            return (f"fp_neg_{whole}_{frac:04x}", f"-{whole}.{frac/65536.0:.4f} in 16.16 FP", "MEDIUM")
 
-    # Positive fixed-point (0x0001xxxx to 0x01FFxxxx -- values 1.0 to 511.x)
-    if 0x00010000 <= val <= 0x01FFFFFF and val not in KNOWN_CONSTANTS:
+    # Positive fixed-point (0x0001xxxx to 0x7FFFxxxx -- values 1.0 to 32767.x)
+    if 0x00010000 <= val <= 0x7FFFFFFF and val not in KNOWN_CONSTANTS:
         whole = val >> 16
         frac = val & 0xFFFF
         if frac == 0:
@@ -464,12 +485,22 @@ def classify_value(val, is_word=False):
     # Powers of 2 (larger)
     if val > 0 and val & (val - 1) == 0 and val <= 0x40000000:
         bit = val.bit_length() - 1
-        return (f"bit_{bit}", f"1 << {bit}", "LOW")
+        return (f"bit_{bit}", f"1 << {bit}", "MEDIUM")
 
-    # VDP1 command word patterns (top byte >= 0x80, looks like display command)
-    if val >= 0x80000000 and (val & 0x0F000000) == 0x0E000000:
-        return (f"vdp1_cmd_{val:08x}", f"VDP1 command word", "LOW")
+    # Multi-bit aligned masks (e.g., 0xF000, 0xE000, 0x9000)
+    if 0x1000 <= val <= 0xFFFF and val & 0x0FFF == 0:
+        return (f"mask_0x{val:04x}", f"mask 0x{val:X}", "MEDIUM")
 
+    # VDP1 command word patterns (top byte 0xAE/0xAB = display list params)
+    if val >= 0x80000000 and (val >> 24) in (0xAE, 0xAB, 0xAC, 0xAD):
+        return (f"vdp1_cmd_{val:08x}", f"VDP1 display command word", "MEDIUM")
+
+    # CD block (CS2) addresses
+    if 0x25800000 <= val <= 0x258FFFFF:
+        offset = val - 0x25800000
+        return (f"cd_block_{offset:05x}", f"CD Block + 0x{offset:X}", "MEDIUM")
+
+    # Remaining small constants — give descriptive names at LOW
     return None
 
 
@@ -518,7 +549,8 @@ def scan_file(filepath):
 
 
 def apply_renames(filepath, results, lines):
-    """Apply renames to a file. Handles duplicate names with _2, _3, etc."""
+    """Apply renames to a file. Handles duplicate names with _2, _3, etc.
+    Results should already be filtered by caller to desired confidence level."""
     # Build rename map: old_label -> new_label
     name_counts = Counter()
     renames = {}
@@ -527,8 +559,6 @@ def apply_renames(filepath, results, lines):
         if classification is None:
             continue
         name, desc, confidence = classification
-        if confidence == "LOW":
-            continue  # Only rename HIGH/EXACT/MEDIUM
 
         # Handle duplicates within this file
         base_name = f".L_{name}"

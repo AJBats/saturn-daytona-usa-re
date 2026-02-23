@@ -127,18 +127,18 @@ player_vehicle_interp:
     add #0x1, r13
 .L_06042210:
     mov.l @r14, r3
-    mov.w   .L_wpool_06042230, r0
+    mov.w   .L_const_0x1dc_w, r0
     mov.l @(r0, r3), r2
     cmp/ge r2, r13
     bf      .L_06042158
 .L_0604221A:
     mov.l @r14, r2
-    mov.w   .L_wpool_06042230, r0
+    mov.w   .L_const_0x1dc_w, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r13
     bf      .L_06042240
     mov.l @r14, r2
-    mov.w   .L_wpool_06042230, r0
+    mov.w   .L_const_0x1dc_w, r0
     bra     .L_060422A6
     mov.l r12, @(r0, r2)
 
@@ -149,7 +149,7 @@ DAT_0604222c:
     .global DAT_0604222e
 DAT_0604222e:
     .2byte  0x01E4
-.L_wpool_06042230:
+.L_const_0x1dc_w:
     .2byte  0x01DC
     .2byte  0xFFFF
 .L_ai_checkpoint_validate:
@@ -237,7 +237,7 @@ DAT_0604222e:
     tst r0, r0
     bf      .L_060422D6
     mov.l @r14, r3
-    mov.w   .L_wpool_0604230E, r0
+    mov.w   .L_const_0x1e0_w, r0
     mov.l r12, @(r0, r3)
 .L_060422D6:
     mov.l @r14, r0
@@ -278,7 +278,7 @@ DAT_0604230a:
     .global DAT_0604230c
 DAT_0604230c:
     .2byte  0x01DC
-.L_wpool_0604230E:
+.L_const_0x1e0_w:
     .2byte  0x01E0
 .L_sym_06035C4E:
     .4byte  sym_06035C4E

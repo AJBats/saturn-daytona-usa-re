@@ -27,7 +27,7 @@ physics_calc_dispatch:
     .global sym_0600D336
 sym_0600D336:
     mov.l   .L_sym_06078900, r5
-    mov.w   .L_wpool_0600D36A, r3
+    mov.w   .L_vehicle_stride_w, r3
     mov.l   .L_sym_0607EBC4, r2
     mov r5, r4
     mov.l @r2, r2
@@ -37,28 +37,28 @@ sym_0600D336:
     tst r2, r2
     bf      .L_0600D366
     mov #0x1, r7
-    mov.w   .L_wpool_0600D36C, r0
+    mov.w   .L_const_0x1f4_w, r0
     mov.l @(r0, r4), r3
     mov.l @(r0, r5), r2
     cmp/ge r2, r3
     bf/s    .L_0600D360
     mov #0x0, r6
-    mov.w   .L_wpool_0600D36E, r0
+    mov.w   .L_const_0x224_w, r0
     mov.l r6, @(r0, r4)
     bra     .L_0600D366
     mov.l r7, @(r0, r5)
 .L_0600D360:
-    mov.w   .L_wpool_0600D36E, r0
+    mov.w   .L_const_0x224_w, r0
     mov.l r7, @(r0, r4)
     mov.l r6, @(r0, r5)
 .L_0600D366:
     rts
     nop
-.L_wpool_0600D36A:
+.L_vehicle_stride_w:
     .2byte  0x0268
-.L_wpool_0600D36C:
+.L_const_0x1f4_w:
     .2byte  0x01F4
-.L_wpool_0600D36E:
+.L_const_0x224_w:
     .2byte  0x0224
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
@@ -110,7 +110,7 @@ sym_0600D336:
 .L_0600D3C4:
     mov.l r13, @-r15
     mov.l   .L_sym_0607E9EC, r4
-    mov.w   .L_wpool_0600D408, r0
+    mov.w   .L_const_0x1ec_w, r0
     mov.l   .L_sym_060786B4, r3
     mov.l @r4, r5
     mov.l @r3, r3
@@ -127,7 +127,7 @@ sym_0600D336:
     bf      .L_0600D400
 .L_0600D3E4:
     mov.l @(4, r4), r7
-    mov.w   .L_wpool_0600D408, r0
+    mov.w   .L_const_0x1ec_w, r0
     mov.l @(r0, r7), r1
     cmp/hi r5, r1
     bf      .L_0600D3F6
@@ -153,7 +153,7 @@ DAT_0600d404:
     .global DAT_0600d406
 DAT_0600d406:
     .2byte  0x0224
-.L_wpool_0600D408:
+.L_const_0x1ec_w:
     .2byte  0x01EC
     .2byte  0xFFFF
 .L_sym_0607E94C:

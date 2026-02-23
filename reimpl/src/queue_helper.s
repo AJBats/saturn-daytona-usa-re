@@ -65,7 +65,7 @@ cmd_enqueue:
     mov.l r7, @(r0, r3)
     mov.l @r1, r3
     mov.l @(8, r15), r2
-    mov.w   .L_wpool_060411F8, r0
+    mov.w   .L_const_0x324_w, r0
     mov.l r2, @(r0, r3)
     .byte   0xB4, 0xA8    /* bsr 0x06041B3C (external) */
     mov r15, r4
@@ -78,7 +78,7 @@ cmd_enqueue:
     .global DAT_060411f6
 DAT_060411f6:
     .2byte  0x030C
-.L_wpool_060411F8:
+.L_const_0x324_w:
     .2byte  0x0324
     .2byte  0xFFFF
 .L_sym_060A5400:

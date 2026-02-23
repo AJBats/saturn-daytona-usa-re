@@ -21,7 +21,7 @@ vdp_init_master:
     mov.l   .L_sym_060A3D88, r14
     mov.l   .L_sym_06000324, r7
     mov.l @r7, r7
-    mov.l   .L_pool_06036FD8, r3
+    mov.l   .L_const_0xffcf, r3
     mov.w @r14, r2
     and r3, r2
     mov.w r2, @r14
@@ -53,7 +53,7 @@ vdp_init_master:
     cmp/eq #0x2, r0
     bt      .L_06036F40
 .L_06036F58:
-    mov.l   .L_pool_06036FDC, r2
+    mov.l   .L_const_0xff3f, r2
     mov.w @r14, r3
     and r2, r3
     mov.w r3, @r14
@@ -81,7 +81,7 @@ vdp_init_master:
     cmp/eq #0x3, r0
     bt      .L_06036F6A
 .L_06036F86:
-    mov.l   .L_pool_06036FE0, r2
+    mov.l   .L_const_0xfff0, r2
     mov.w @r14, r3
     and r2, r3
     mov.w r3, @r14
@@ -106,7 +106,7 @@ vdp_init_master:
     jsr @r3
     mov #0x1, r4
 .L_06036FB0:
-    mov.w   .L_wpool_06036FC4, r2
+    mov.w   .L_const_0x160_w, r2
     mov.w r2, @r12
     mov.w @r14, r0
     bra     .L_06037074
@@ -131,7 +131,7 @@ DAT_06036fc0:
     .global DAT_06036fc2
 DAT_06036fc2:
     .2byte  0x0140
-.L_wpool_06036FC4:
+.L_const_0x160_w:
     .2byte  0x0160
     .2byte  0xFFFF
 .L_sym_060635AE:
@@ -142,11 +142,11 @@ DAT_06036fc2:
     .4byte  sym_060A3D88
 .L_sym_06000324:
     .4byte  sym_06000324
-.L_pool_06036FD8:
+.L_const_0xffcf:
     .4byte  0x0000FFCF
-.L_pool_06036FDC:
+.L_const_0xff3f:
     .4byte  0x0000FF3F
-.L_pool_06036FE0:
+.L_const_0xfff0:
     .4byte  0x0000FFF0
 .L_sym_06000320:
     .4byte  sym_06000320

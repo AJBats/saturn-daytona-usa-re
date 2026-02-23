@@ -56,7 +56,7 @@ vdp2_frame_update:
     add #0x20, r3
     mov.l r3, @r14
     mov r3, r5
-    mov.w   .L_wpool_060172A0, r4
+    mov.w   .L_const_0x090_w, r4
     jsr @r12
     add r11, r4
     mov r11, r4
@@ -136,7 +136,7 @@ vdp2_frame_update:
     .global DAT_0601729e
 DAT_0601729e:
     .2byte  0x00A8
-.L_wpool_060172A0:
+.L_const_0x090_w:
     .2byte  0x0090
     .2byte  0xFFFF
 .L_sym_06085490:

@@ -126,7 +126,7 @@ DAT_06040d2c:
     bra     .L_06040DA4
     nop
 .L_06040D66:
-    mov.l   .L_pool_06040DCC, r4
+    mov.l   .L_const_0xfbff, r4
     mov.l   .L_smpc_cmd_helper_b, r3
     jsr @r3
     nop
@@ -165,7 +165,7 @@ DAT_06040d2c:
     tst r9, r9
     bt      .L_06040D44
     mov.l   .L_sym_060A4D14, r9
-    mov.w   .L_wpool_06040DC4, r3
+    mov.w   .L_const_0x043c_w, r3
     mov.l @r9, r9
     add r3, r9
     mov.l   .L_track_intersect_test, r3
@@ -184,12 +184,12 @@ DAT_06040dc0:
     .global DAT_06040dc2
 DAT_06040dc2:
     .2byte  0x0258
-.L_wpool_06040DC4:
+.L_const_0x043c_w:
     .2byte  0x043C
     .2byte  0xFFFF
 .L_sym_06035C4E:
     .4byte  sym_06035C4E
-.L_pool_06040DCC:
+.L_const_0xfbff:
     .4byte  0x0000FBFF
 .L_smpc_cmd_helper_b:
     .4byte  smpc_cmd_helper_b
@@ -722,7 +722,7 @@ queue_validator:
 .L_06041158:
     mov.l @r6, r3
     mov #0x1, r2
-    mov.w   .L_wpool_06041176, r0
+    mov.w   .L_const_0x304_w, r0
     mov.l r2, @(r0, r3)
     mov.l @r6, r3
     add #0x4, r0
@@ -738,7 +738,7 @@ queue_validator:
     .global DAT_06041174
 DAT_06041174:
     .2byte  0x00FF
-.L_wpool_06041176:
+.L_const_0x304_w:
     .2byte  0x0304
 .L_ai_checkpoint_validate:
     .4byte  ai_checkpoint_validate

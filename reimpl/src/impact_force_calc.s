@@ -62,7 +62,7 @@ collision_response_vel:
     mov r15, r3
     mov r13, r0
     mov.w r0, @(6, r3)
-    mov.w   .L_wpool_06036832, r4
+    mov.w   .L_bit_7_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -73,7 +73,7 @@ collision_response_vel:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06036832:
+.L_bit_7_w:
     .2byte  0x0080
 .L_input_proc_analog:
     .4byte  input_proc_analog

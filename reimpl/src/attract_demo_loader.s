@@ -82,7 +82,7 @@ race_timer_sync:
     add #-0x10, r15
     mov #0x0, r10
     mov.l   .L_sym_060A4D14, r11
-    mov.w   .L_wpool_0603FA5E, r12
+    mov.w   .L_neg_129_w, r12
     mov.l   .L_sys_minit_nc, r13
     mov r4, r14
     mov.l r5, @(4, r15)
@@ -91,7 +91,7 @@ race_timer_sync:
     mov.l @(8, r14), r3
     mov.l r3, @(12, r15)
     mov.l @r11, r3
-    mov.w   .L_wpool_0603FA60, r0
+    mov.w   .L_const_0x0cc_w, r0
     mov.l r10, @(r0, r3)
     bra     .L_0603FA6C
     nop
@@ -100,7 +100,7 @@ race_timer_sync:
     bsr     .L_0603FACE
     mov r14, r4
     mov.l @r11, r2
-    mov.w   .L_wpool_0603FA60, r0
+    mov.w   .L_const_0x0cc_w, r0
     mov.l @(r0, r2), r3
     add #0x1, r3
     mov.l r3, @(r0, r2)
@@ -108,9 +108,9 @@ race_timer_sync:
     bf      .L_0603FA6C
     bra     .L_0603FA7E
     nop
-.L_wpool_0603FA5E:
+.L_neg_129_w:
     .2byte  0xFF7F
-.L_wpool_0603FA60:
+.L_const_0x0cc_w:
     .2byte  0x00CC
     .2byte  0xFFFF
 .L_sym_060A4D14:

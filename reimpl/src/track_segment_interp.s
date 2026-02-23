@@ -106,13 +106,13 @@ DAT_0604155e:
     mov.l @r15+, r14
 .L_06041574:
     mov.l @r14, r2
-    mov.w   .L_wpool_060415EC, r0
+    mov.w   .L_const_0x1e0_w, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_06041586
     mov.l @r14, r3
     mov #0x1, r2
-    mov.w   .L_wpool_060415EC, r0
+    mov.w   .L_const_0x1e0_w, r0
     mov.l r2, @(r0, r3)
 .L_06041586:
     exts.w r1, r7
@@ -137,7 +137,7 @@ DAT_0604155e:
     add r2, r7
     mov.l r6, @(8, r7)
     mov.l @r14, r3
-    mov.w   .L_wpool_060415F0, r0
+    mov.w   .L_const_0x1dc_w, r0
     mov.l @(r0, r3), r2
     add #0x1, r2
     mov.l r2, @(r0, r3)
@@ -170,13 +170,13 @@ track_shadow_test:
     lds.l @r15+, pr
     rts
     mov #-0xB, r0
-.L_wpool_060415EC:
+.L_const_0x1e0_w:
     .2byte  0x01E0
 
     .global DAT_060415ee
 DAT_060415ee:
     .2byte  0x01E4
-.L_wpool_060415F0:
+.L_const_0x1dc_w:
     .2byte  0x01DC
     .2byte  0xFFFF
 .L_track_shadow_ground:
@@ -304,7 +304,7 @@ dma_int_handler:
     bra     .L_06041796
     mov #0x3, r0
 .L_060416D0:
-    mov.w   .L_wpool_0604172A, r2
+    mov.w   .L_bit_10_w, r2
     mov.l   .L_sym_06035C4E, r3
     jsr @r3
     mov.l r2, @(4, r15)
@@ -322,7 +322,7 @@ dma_int_handler:
     mov r5, r0
     cmp/eq #0x1, r0
     bf      .L_06041748
-    mov.l   .L_pool_06041738, r4
+    mov.l   .L_const_0xfbff, r4
     mov.l   .L_smpc_cmd_helper_b, r3
     jsr @r3
     nop
@@ -351,7 +351,7 @@ dma_int_handler:
     mov.l @(r0, r4), r4
     bra     .L_06041764
     nop
-.L_wpool_0604172A:
+.L_bit_10_w:
     .2byte  0x0400
 .L_ai_checkpoint_validate_2:
     .4byte  ai_checkpoint_validate
@@ -359,7 +359,7 @@ dma_int_handler:
     .4byte  sym_060A5400
 .L_sym_06035C4E:
     .4byte  sym_06035C4E
-.L_pool_06041738:
+.L_const_0xfbff:
     .4byte  0x0000FBFF
 .L_smpc_cmd_helper_b:
     .4byte  smpc_cmd_helper_b
@@ -440,19 +440,19 @@ dma_int_handler:
     bra     .L_060417F4
     mov.l @r5, r4
 .L_060417C0:
-    mov.w   .L_wpool_060417DC, r0
+    mov.w   .L_const_0x328_w, r0
     bra     .L_060417F4
     mov.l @r5, r4
 .L_060417C6:
-    mov.w   .L_wpool_060417DE, r0
+    mov.w   .L_const_0x338_w, r0
     bra     .L_060417F4
     mov.l @r5, r4
 .L_060417CC:
-    mov.w   .L_wpool_060417E0, r0
+    mov.w   .L_const_0x348_w, r0
     bra     .L_060417F4
     mov.l @r5, r4
 .L_060417D2:
-    mov.w   .L_wpool_060417E2, r0
+    mov.w   .L_const_0x1e0_w_2, r0
     bra     .L_060417F4
     mov.l @r5, r4
 
@@ -463,13 +463,13 @@ DAT_060417d8:
     .global DAT_060417da
 DAT_060417da:
     .2byte  0x030C
-.L_wpool_060417DC:
+.L_const_0x328_w:
     .2byte  0x0328
-.L_wpool_060417DE:
+.L_const_0x338_w:
     .2byte  0x0338
-.L_wpool_060417E0:
+.L_const_0x348_w:
     .2byte  0x0348
-.L_wpool_060417E2:
+.L_const_0x1e0_w_2:
     .2byte  0x01E0
 .L_ai_section_transition:
     .4byte  ai_section_transition
@@ -479,7 +479,7 @@ DAT_060417da:
     .4byte  sym_060A5400
 .L_060417F0:
     mov.l @r5, r4
-    mov.w   .L_wpool_0604185E, r0
+    mov.w   .L_const_0x360_w, r0
 .L_060417F4:
     bra     .L_06041818
     mov.l @(r0, r4), r4
@@ -550,7 +550,7 @@ evt_callback_handler:
     mov r14, r4
     .byte   0xA4, 0x15    /* bra 0x06042088 (external) */
     mov.l @r15+, r14
-.L_wpool_0604185E:
+.L_const_0x360_w:
     .2byte  0x0360
 .L_06041860:
     cmp/eq #0x0, r0

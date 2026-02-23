@@ -160,7 +160,7 @@ master_menu_render:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.w   .L_wpool_0603994A, r8
+    mov.w   .L_const_0x0f0_w, r8
     mov #0x0, r9
     mov.l   .L_smpc_sr_2, r10
     mov.l   .L_sym_060A4CF4, r11
@@ -173,7 +173,7 @@ master_menu_render:
     and #0xF, r0
     mov.l r0, @r15
     stc sr, r0
-    mov.w   .L_wpool_0603994C, r3
+    mov.w   .L_neg_241_w, r3
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
@@ -181,9 +181,9 @@ master_menu_render:
     mov.b @r0, r0
     bra     .L_06039F26
     extu.b r0, r0
-.L_wpool_0603994A:
+.L_const_0x0f0_w:
     .2byte  0x00F0
-.L_wpool_0603994C:
+.L_neg_241_w:
     .2byte  0xFF0F
     .2byte  0xFFFF
 .L_sym_060A4CE8:
@@ -255,7 +255,7 @@ master_menu_render:
     shll2 r0
     shll2 r0
     stc sr, r1
-    mov.w   .L_wpool_06039A58, r2
+    mov.w   .L_neg_241_w_2, r2
     and r2, r1
     or r1, r0
     ldc r0, sr
@@ -324,7 +324,7 @@ master_menu_render:
     nop
     bra     .L_06039A9E
     nop
-.L_wpool_06039A58:
+.L_neg_241_w_2:
     .2byte  0xFF0F
 .L_mask_byte_w:
     .2byte  0x00FF
@@ -488,14 +488,14 @@ master_menu_render:
 .L_06039B7C:
     mov.l @r14, r2
     mov.b @r2, r3
-    mov.w   .L_wpool_06039C32, r2
+    mov.w   .L_const_0x0e0_w, r2
     extu.b r3, r3
     and r8, r3
     cmp/eq r2, r3
     bf      .L_06039BAE
     mov.l @r14, r2
     mov.b @r2, r3
-    mov.w   .L_wpool_06039C34, r2
+    mov.w   .L_const_0x0e3_w, r2
     extu.b r3, r3
     cmp/eq r2, r3
     bf      .L_06039BA4
@@ -585,9 +585,9 @@ master_menu_render:
     bf      .L_06039C4C
     bra     .L_06039EFE
     nop
-.L_wpool_06039C32:
+.L_const_0x0e0_w:
     .2byte  0x00E0
-.L_wpool_06039C34:
+.L_const_0x0e3_w:
     .2byte  0x00E3
     .2byte  0xFFFF
 .L_sym_060A4CFC_2:
@@ -1054,7 +1054,7 @@ master_menu_render:
     shll2 r0
     shll2 r0
     stc sr, r2
-    mov.w   .L_wpool_06039FAE, r3
+    mov.w   .L_neg_241_w_3, r3
     and r3, r2
     or r2, r0
     ldc r0, sr
@@ -1069,7 +1069,7 @@ master_menu_render:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06039FAE:
+.L_neg_241_w_3:
     .2byte  0xFF0F
 .L_sym_060A4D11_2:
     .4byte  sym_060A4D11

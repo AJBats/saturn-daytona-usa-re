@@ -10,7 +10,7 @@
     .type position_vel_limiter, @function
 position_vel_limiter:
     mov.l   .L_sym_060788B4, r4
-    mov.w   .L_wpool_06012326, r3
+    mov.w   .L_const_0x2999_w, r3
     mov.l @(4, r4), r2
     sub r3, r2
     mov.l r2, @(4, r4)
@@ -31,16 +31,16 @@ position_vel_limiter:
     mov.l r5, @(8, r4)
 .L_0601231A:
     mov.l   .L_sym_060788B2, r5
-    mov.w   .L_wpool_0601232A, r3
+    mov.w   .L_mask_0x1800_w, r3
     mov.w @r5, r2
     add r3, r2
     rts
     mov.w r2, @r5
-.L_wpool_06012326:
+.L_const_0x2999_w:
     .2byte  0x2999
 .L_quarter_turn_w:
     .2byte  0x4000
-.L_wpool_0601232A:
+.L_mask_0x1800_w:
     .2byte  0x1800
     .4byte  sym_0605AD10
     .4byte  sym_06078636

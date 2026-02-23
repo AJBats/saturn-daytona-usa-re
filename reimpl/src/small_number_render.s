@@ -173,7 +173,7 @@ text_string_render:
     add r3, r4
     exts.w r4, r4
     add r13, r4
-    mov.w   .L_wpool_06016B92, r2
+    mov.w   .L_mask_0x0600_w, r2
     mov.l r2, @(24, r4)
     mov #0x0, r3
     mov.l r3, @(16, r4)
@@ -207,7 +207,7 @@ text_string_render:
 loc_06016B8E:
     rts
     nop
-.L_wpool_06016B92:
+.L_mask_0x0600_w:
     .2byte  0x0600
 .L_fp_two:
     .4byte  0x00020000

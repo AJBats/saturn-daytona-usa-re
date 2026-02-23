@@ -20,7 +20,7 @@ render_stage_5:
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    mov.w   .L_wpool_0601D056, r6
+    mov.w   .L_const_0x0518_w, r6
     mov.l   .L_sym_06028400, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
@@ -30,7 +30,7 @@ render_stage_5:
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    mov.w   .L_wpool_0601D056, r6
+    mov.w   .L_const_0x0518_w, r6
     mov.l   .L_sym_06028400, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
@@ -42,7 +42,7 @@ render_stage_5:
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
-.L_wpool_0601D056:
+.L_const_0x0518_w:
     .2byte  0x0518
 .L_sym_0604884C:
     .4byte  sym_0604884C

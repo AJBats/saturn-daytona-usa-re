@@ -11,10 +11,10 @@
 high_score_render:
     sts.l pr, @-r15
     mov r6, r0
-    mov.l   .L_pool_0603D394, r7
+    mov.l   .L_const_0xfff0, r7
     mov.l   .L_sym_060A4D58, r5
     mov.l   .L_sym_060A4D28, r4
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -23,8 +23,8 @@ high_score_render:
     extu.w r2, r2
     and r7, r2
     mov.w r2, @r4
-    mov.l   .L_pool_0603D3A4, r14
-    mov.w   .L_wpool_0603D392, r1
+    mov.l   .L_const_0xf0ff, r14
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -33,7 +33,7 @@ high_score_render:
     extu.w r2, r2
     and r14, r2
     mov.w r2, @r4
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -44,7 +44,7 @@ high_score_render:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -55,7 +55,7 @@ high_score_render:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -66,7 +66,7 @@ high_score_render:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -77,7 +77,7 @@ high_score_render:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -88,7 +88,7 @@ high_score_render:
     extu.w r2, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
@@ -99,16 +99,16 @@ high_score_render:
     extu.w r2, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_wpool_0603D392, r1
+    mov.w   .L_const_0x101_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0603D392:
+.L_const_0x101_w:
     .2byte  0x0101
-.L_pool_0603D394:
+.L_const_0xfff0:
     .4byte  0x0000FFF0
 .L_sym_060A4D58:
     .4byte  sym_060A4D58
@@ -116,5 +116,5 @@ high_score_render:
     .4byte  sym_060A4D28
 .L_sym_06034F78:
     .4byte  sym_06034F78
-.L_pool_0603D3A4:
+.L_const_0xf0ff:
     .4byte  0x0000F0FF

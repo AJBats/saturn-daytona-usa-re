@@ -140,7 +140,7 @@ results_time_column:
     tst r0, r0
     bt      .L_060163E0
     extu.b r14, r4
-    mov.w   .L_wpool_0601645A, r2
+    mov.w   .L_bit_11_w, r2
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -204,7 +204,7 @@ results_bonus_calc:
     mov r4, r14
     mov.l   .L_sym_06084FC8_2, r5
     extu.b r14, r4
-    mov.w   .L_wpool_0601645A, r2
+    mov.w   .L_bit_11_w, r2
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -234,7 +234,7 @@ results_bonus_calc:
     extu.b r14, r4
     .byte   0xA4, 0xBF    /* bra 0x06016DD8 (external) */
     mov.l @r15+, r14
-.L_wpool_0601645A:
+.L_bit_11_w:
     .2byte  0x0800
 .L_sym_06085F89:
     .4byte  sym_06085F89

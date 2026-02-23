@@ -242,7 +242,28 @@ Annotating L3 files by hand, depth-first on high-value TUs.
 - Hardware register pool entries (verifiable from Saturn memory map)
 - Top data-heavy TUs: gameover_channel_setup (1431 literals), obj_render_setup (675)
 
-### Phase 3: L2 Holdout Conversion — PENDING
+### Phase 2b: Automated Pool Classification — DONE
+
+Built `tools/classify_pool.py` with Saturn hardware register maps (VDP1, VDP2, SCU,
+SMPC, SCSP, SH-2 peripherals), fixed-point patterns, and memory range heuristics.
+Applied 1,017 MEDIUM+ confidence renames across 153 files. Covers 97% of all pool
+labels (3,225/3,327 classified). 3-class validation passed. Committed as `feeabd2`.
+
+### Phase 3: L2 Holdout Conversion — MOSTLY DONE
+
+5 cross-TU pool holdouts converted to L3 with mnemonics (cross-TU `mov.l @(disp,PC)`
+kept as raw `.byte` pairs): mat_scale_b, mat_scale_columns, bulk_struct_init,
+hud_post_update, vdp2_loop_ctrl. Committed as `57dabe1`.
+
+**Remaining retail-only files** (5):
+- `_start.s` — entry point, nothing to reverse engineer
+- `cdb_wait_scdq.s` — already overridden by `src/cdb_wait_scdq.c` (C reimpl)
+- `FUN_0600BFFC.c.wip` — WIP C reimpl, not a standard holdout
+- `binary_final_func.s` (1.3MB) — monolithic data+code blob, long-term extraction
+- `palette_render_main.s` (192KB) — palette data tables + code, medium-term
+
+**Effective holdout count**: 2 real files need L3 conversion (binary_final_func,
+palette_render_main). These are Phase 3B/3C work per the original plan.
 
 ### Phase 4: Semantic Enrichment — PENDING
 
@@ -285,4 +306,4 @@ files with `! AUDIT:` headers — those have confidence ratings.
 
 ---
 *Created: 2026-02-23*
-*Last updated: 2026-02-23 — Phase 2 in progress: 4 TUs annotated (fpmul, cdb_read_status, sprite_anim_update, game_update_loop)*
+*Last updated: 2026-02-23 — Phase 2/2b done (1,017 auto-renames + 6 TUs depth-annotated). Phase 3 mostly done (5/7 holdouts converted). Remaining: 2 large data holdouts + manual annotation.*

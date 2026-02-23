@@ -317,7 +317,7 @@ DAT_060175ba:
 .L_060175CC:
     mov.w   DAT_06017692, r9
     mov #0xB, r3
-    mov.w   .L_wpool_06017694, r10
+    mov.w   .L_const_0x348_w, r10
     mov.l @r15, r4
     mov.w   DAT_06017696, r0
     mov.l @(r0, r4), r4
@@ -423,7 +423,7 @@ DAT_060175ba:
     .global DAT_06017692
 DAT_06017692:
     .2byte  0x6000
-.L_wpool_06017694:
+.L_const_0x348_w:
     .2byte  0x0348
 
     .global DAT_06017696

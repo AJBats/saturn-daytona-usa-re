@@ -21,34 +21,34 @@ loc_060323F0:
     extu.b r7, r1
     swap.w r7, r2
     extu.b r2, r2
-    mov.l   .L_pool_06032400, r0
+    mov.l   .L_const_0x2de, r0
     add r14, r0
     .byte   0xAF, 0x86    /* bra 0x0603230A (external) */
     mov.b r1, @(r0, r2)
     .2byte  0x0000
-.L_pool_06032400:
+.L_const_0x2de:
     .4byte  0x000002DE
 
     .global loc_06032404
 loc_06032404:
-    mov.l   .L_pool_06032410, r0
+    mov.l   .L_const_0x00e, r0
     mov.w @(r0, r14), r1
     or r7, r1
     .byte   0xAF, 0x7E    /* bra 0x0603230A (external) */
     mov.w r1, @(r0, r14)
     .2byte  0x0000
-.L_pool_06032410:
+.L_const_0x00e:
     .4byte  0x0000000E
 
     .global loc_06032414
 loc_06032414:
-    mov.l   .L_pool_06032420, r0
+    mov.l   .L_const_0x00e_2, r0
     mov.w @(r0, r14), r1
     not r7, r2
     and r2, r1
     .byte   0xAF, 0x75    /* bra 0x0603230A (external) */
     mov.w r1, @(r0, r14)
-.L_pool_06032420:
+.L_const_0x00e_2:
     .4byte  0x0000000E
 
     .global loc_06032424
@@ -72,7 +72,7 @@ display_cmd_position:
 
     .global loc_0603243C
 loc_0603243C:
-    mov.l   .L_pool_06032450, r2
+    mov.l   .L_const_0x001, r2
     mov.l   .L_sym_06082A25, r0
     mov.b @r0, r1
     or r2, r1
@@ -82,7 +82,7 @@ loc_0603243C:
     .byte   0xAF, 0x5E    /* bra 0x0603230A (external) */
     mov.l r1, @r0
     .2byte  0x0000
-.L_pool_06032450:
+.L_const_0x001:
     .4byte  0x00000001
 .L_sym_06082A25:
     .4byte  sym_06082A25
@@ -91,7 +91,7 @@ loc_0603243C:
 
     .global loc_0603245C
 loc_0603245C:
-    mov.l   .L_pool_0603246C, r2
+    mov.l   .L_const_0x001_2, r2
     mov.l   .L_sym_06082A25_2, r0
     not r2, r2
     mov.b @r0, r1
@@ -99,14 +99,14 @@ loc_0603245C:
     .byte   0xAF, 0x50    /* bra 0x0603230A (external) */
     mov.b r1, @r0
     .2byte  0x0000
-.L_pool_0603246C:
+.L_const_0x001_2:
     .4byte  0x00000001
 .L_sym_06082A25_2:
     .4byte  sym_06082A25
 
     .global loc_06032474
 loc_06032474:
-    mov.l   .L_pool_06032484, r2
+    mov.l   .L_const_0x002, r2
     mov.l   .L_sym_06082A25_3, r0
     not r2, r2
     mov.b @r0, r1
@@ -114,20 +114,20 @@ loc_06032474:
     .byte   0xAF, 0x44    /* bra 0x0603230A (external) */
     mov.b r1, @r0
     .2byte  0x0000
-.L_pool_06032484:
+.L_const_0x002:
     .4byte  0x00000002
 .L_sym_06082A25_3:
     .4byte  sym_06082A25
 
     .global loc_0603248C
 loc_0603248C:
-    mov.l   .L_pool_06032498, r2
+    mov.l   .L_const_0x002_2, r2
     mov.l   .L_sym_06082A25_4, r0
     mov.b @r0, r1
     or r2, r1
     .byte   0xAF, 0x39    /* bra 0x0603230A (external) */
     mov.b r1, @r0
-.L_pool_06032498:
+.L_const_0x002_2:
     .4byte  0x00000002
 .L_sym_06082A25_4:
     .4byte  sym_06082A25
@@ -145,7 +145,7 @@ loc_060324A0:
     mov.b r1, @r0
     mov.l   .L_sym_06082A25_5, r0
     mov.b @r0, r1
-    mov.l   .L_pool_060324D0, r2
+    mov.l   .L_offset_0x004, r2
     or r2, r1
     .byte   0xAF, 0x26    /* bra 0x0603230A (external) */
     mov.b r1, @r0
@@ -158,7 +158,7 @@ loc_060324A0:
     .4byte  sym_06082A24
 .L_sym_06082A25_5:
     .4byte  sym_06082A25
-.L_pool_060324D0:
+.L_offset_0x004:
     .4byte  0x00000004
     .4byte  0xD00401EC
     .4byte  0x21188919
@@ -224,9 +224,9 @@ digit_separator:
     mov.l @r13, r13
     mov.l   .L_zero, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_060325D4, r0
+    mov.l   .L_offset_0x004_2, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_060325D8, r0
+    mov.l   .L_offset_0x008, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E, r0
 
@@ -237,7 +237,7 @@ disp_digit_thunk_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060325E0, r0
+    mov.l   .L_offset_0x00c, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y, r0
 
@@ -248,8 +248,8 @@ disp_digit_pair_render:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060325E8, r1
-    mov.l   .L_pool_060325EC, r0
+    mov.l   .L_offset_0x054, r1
+    mov.l   .L_offset_0x2dc, r0
     mov.b @(r0, r14), r0
     mov.l   .L_fp_neg_0_0004, r2
     tst r2, r0
@@ -262,19 +262,19 @@ disp_digit_pair_render:
     .4byte  sym_06089EDC
 .L_zero:
     .4byte  0x00000000
-.L_pool_060325D4:
+.L_offset_0x004_2:
     .4byte  0x00000004
-.L_pool_060325D8:
+.L_offset_0x008:
     .4byte  0x00000008
 .L_sym_06026E2E:
     .4byte  sym_06026E2E
-.L_pool_060325E0:
+.L_offset_0x00c:
     .4byte  0x0000000C
 .L_mat_rot_y:
     .4byte  mat_rot_y
-.L_pool_060325E8:
+.L_offset_0x054:
     .4byte  0x00000054
-.L_pool_060325EC:
+.L_offset_0x2dc:
     .4byte  0x000002DC
 .L_fp_neg_0_0004:
     .4byte  0xFFFFFFFC
@@ -283,9 +283,9 @@ disp_digit_pair_render:
 .L_060325F8:
     add r14, r1
 .L_060325FA:
-    mov.l   .L_pool_06032668, r0
+    mov.l   .L_offset_0x2d4, r0
     mov.l r1, @(r0, r14)
-    mov.l   .L_pool_0603266C, r7
+    mov.l   .L_const_0x00d, r7
 .L_06032600:
     mov.l r7, @-r15
     mov.l   .L_sym_06026DBC, r0
@@ -300,7 +300,7 @@ position_thunk_0:
     mov.l   .L_sym_06089EDC_2, r13
     mov.l @r13, r13
     mov.l r7, @-r15
-    mov.l   .L_pool_06032668, r0
+    mov.l   .L_offset_0x2d4, r0
     mov.l @(r0, r14), r4
     mov.l   .L_sym_06026F72, r0
 
@@ -312,9 +312,9 @@ disp_rank_elem_a:
     nop
     lds.l @r15+, pr
     mov.l @r15+, r7
-    mov.l   .L_pool_0603266C, r0
+    mov.l   .L_const_0x00d, r0
     sub r7, r0
-    mov.l   .L_pool_0603267C, r1
+    mov.l   .L_const_0x2de_2, r1
     add r14, r1
     mov.b @(r0, r1), r4
     mov.l   .L_camera_push_save, r0
@@ -326,9 +326,9 @@ disp_rank_elem_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032668, r0
+    mov.l   .L_offset_0x2d4, r0
     mov.l @(r0, r14), r1
-    mov.l   .L_pool_06032684, r2
+    mov.l   .L_offset_0x030, r2
     add r2, r1
     mov.l r1, @(r0, r14)
     mov.l   .L_sym_06026DF8, r0
@@ -359,9 +359,9 @@ position_suffix_render:
     rts
     nop
     .2byte  0x0000
-.L_pool_06032668:
+.L_offset_0x2d4:
     .4byte  0x000002D4
-.L_pool_0603266C:
+.L_const_0x00d:
     .4byte  0x0000000D
 .L_sym_06026DBC:
     .4byte  sym_06026DBC
@@ -369,11 +369,11 @@ position_suffix_render:
     .4byte  sym_06089EDC
 .L_sym_06026F72:
     .4byte  sym_06026F72
-.L_pool_0603267C:
+.L_const_0x2de_2:
     .4byte  0x000002DE
 .L_camera_push_save:
     .4byte  camera_push_save
-.L_pool_06032684:
+.L_offset_0x030:
     .4byte  0x00000030
 .L_sym_06026DF8:
     .4byte  sym_06026DF8
@@ -400,11 +400,11 @@ hud_laptime_idx_1:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_3, r13
     mov.l @r13, r13
-    mov.l   .L_pool_060327BC, r0
+    mov.l   .L_offset_0x010, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_060327C0, r0
+    mov.l   .L_offset_0x014, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_060327C4, r0
+    mov.l   .L_offset_0x018, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E_2, r0
 
@@ -415,7 +415,7 @@ hud_laptime_idx_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060327CC, r0
+    mov.l   .L_const_0x01e, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_2, r0
 
@@ -426,7 +426,7 @@ hud_laptime_idx_3:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060327D4, r0
+    mov.l   .L_offset_0x01c, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix, r0
 
@@ -437,7 +437,7 @@ hud_laptime_idx_4:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060327DC, r0
+    mov.l   .L_offset_0x020, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z, r0
 
@@ -449,7 +449,7 @@ hud_laptime_group_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_060327E4, r0
+    mov.l   .L_offset_0x054_2, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -486,7 +486,7 @@ hud_laptime_idx_5:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_3, r13
     mov.l @r13, r13
-    mov.l   .L_pool_060327E8, r0
+    mov.l   .L_offset_0x00c_2, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -500,7 +500,7 @@ hud_laptime_idx_6:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060327EC, r0
+    mov.l   .L_const_0x022, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix, r0
 
@@ -511,7 +511,7 @@ hud_laptime_idx_7:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060327F0, r0
+    mov.l   .L_const_0x026, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z, r0
 
@@ -522,7 +522,7 @@ hud_laptime_idx_8:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060327F4, r0
+    mov.l   .L_offset_0x024, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_2, r0
 
@@ -534,7 +534,7 @@ best_lap_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_060327F8, r0
+    mov.l   .L_offset_0x084, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -570,37 +570,37 @@ best_lap_render:
     .4byte  sym_06026DBC
 .L_sym_06026E0C:
     .4byte  sym_06026E0C
-.L_pool_060327BC:
+.L_offset_0x010:
     .4byte  0x00000010
-.L_pool_060327C0:
+.L_offset_0x014:
     .4byte  0x00000014
-.L_pool_060327C4:
+.L_offset_0x018:
     .4byte  0x00000018
 .L_sym_06026E2E_2:
     .4byte  sym_06026E2E
-.L_pool_060327CC:
+.L_const_0x01e:
     .4byte  0x0000001E
 .L_mat_rot_y_2:
     .4byte  mat_rot_y
-.L_pool_060327D4:
+.L_offset_0x01c:
     .4byte  0x0000001C
 .L_transform_matrix:
     .4byte  transform_matrix
-.L_pool_060327DC:
+.L_offset_0x020:
     .4byte  0x00000020
 .L_mat_rot_z:
     .4byte  mat_rot_z
-.L_pool_060327E4:
+.L_offset_0x054_2:
     .4byte  0x00000054
-.L_pool_060327E8:
+.L_offset_0x00c_2:
     .4byte  0x0000000C
-.L_pool_060327EC:
+.L_const_0x022:
     .4byte  0x00000022
-.L_pool_060327F0:
+.L_const_0x026:
     .4byte  0x00000026
-.L_pool_060327F4:
+.L_offset_0x024:
     .4byte  0x00000024
-.L_pool_060327F8:
+.L_offset_0x084:
     .4byte  0x00000084
 .L_060327FC:
     mov.l   .L_sym_06026DBC_3, r0
@@ -614,7 +614,7 @@ hud_besttime_idx_0:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_4, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06032A7C, r0
+    mov.l   .L_offset_0x018_2, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -628,7 +628,7 @@ hud_besttime_idx_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032A84, r0
+    mov.l   .L_offset_0x028, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix_2, r0
 
@@ -639,7 +639,7 @@ hud_besttime_idx_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032A8C, r0
+    mov.l   .L_offset_0x02c, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_2, r0
 
@@ -650,7 +650,7 @@ hud_besttime_idx_3:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032A94, r0
+    mov.l   .L_const_0x02a, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_3, r0
 
@@ -662,7 +662,7 @@ speed_hundreds_digit:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032A9C, r0
+    mov.l   .L_offset_0x0b4, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -688,7 +688,7 @@ speed_hundreds_digit:
     mov.l r2, @(40, r0)
     mov.l @r1, r2
     mov.l r2, @(44, r0)
-    mov.l   .L_pool_06032AA0, r0
+    mov.l   .L_offset_0x024_2, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -702,7 +702,7 @@ hud_speed_tens:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032AA4, r0
+    mov.l   .L_const_0x02e, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_2, r0
 
@@ -714,7 +714,7 @@ speed_ones_digit:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032AA8, r0
+    mov.l   .L_offset_0x0e4, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -740,7 +740,7 @@ speed_ones_digit:
     mov.l r2, @(40, r0)
     mov.l @r1, r2
     mov.l r2, @(44, r0)
-    mov.l   .L_pool_06032AAC, r0
+    mov.l   .L_offset_0x030_2, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -754,7 +754,7 @@ hud_speed_decimal:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032AAC, r0
+    mov.l   .L_offset_0x030_2, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_2, r0
 
@@ -766,7 +766,7 @@ speed_group_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032AB0, r0
+    mov.l   .L_offset_0x114, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -803,7 +803,7 @@ hud_speed_idx_0:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_4, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06032AB8, r0
+    mov.l   .L_offset_0x03c, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -817,7 +817,7 @@ hud_speed_idx_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032ABC, r0
+    mov.l   .L_const_0x032, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix_2, r0
 
@@ -828,7 +828,7 @@ hud_speed_idx_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032AC0, r0
+    mov.l   .L_const_0x036, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_2, r0
 
@@ -839,7 +839,7 @@ hud_speed_idx_3:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032AC4, r0
+    mov.l   .L_offset_0x034, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_3, r0
 
@@ -851,7 +851,7 @@ speed_alt_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032AC8, r0
+    mov.l   .L_offset_0x144, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -877,7 +877,7 @@ speed_alt_render:
     mov.l r2, @(40, r0)
     mov.l @r1, r2
     mov.l r2, @(44, r0)
-    mov.l   .L_pool_06032ACC, r0
+    mov.l   .L_offset_0x048, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -891,7 +891,7 @@ hud_speed_suffix:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032AD0, r0
+    mov.l   .L_offset_0x038, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_2, r0
 
@@ -903,7 +903,7 @@ speed_kmh_label:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032AD4, r0
+    mov.l   .L_offset_0x174, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -929,7 +929,7 @@ speed_kmh_label:
     mov.l r2, @(40, r0)
     mov.l @r1, r2
     mov.l r2, @(44, r0)
-    mov.l   .L_pool_06032AD8, r0
+    mov.l   .L_offset_0x054_3, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -943,7 +943,7 @@ speed_unit_select:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032ADC, r0
+    mov.l   .L_const_0x03a, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_2, r0
 
@@ -955,7 +955,7 @@ speed_display_commit:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032AE0, r0
+    mov.l   .L_offset_0x1a4, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -999,60 +999,60 @@ rpm_gauge_render:
     .4byte  sym_06026DBC
 .L_sym_06089EDC_4:
     .4byte  sym_06089EDC
-.L_pool_06032A7C:
+.L_offset_0x018_2:
     .4byte  0x00000018
 .L_sym_06026E2E_3:
     .4byte  sym_06026E2E
-.L_pool_06032A84:
+.L_offset_0x028:
     .4byte  0x00000028
 .L_transform_matrix_2:
     .4byte  transform_matrix
-.L_pool_06032A8C:
+.L_offset_0x02c:
     .4byte  0x0000002C
 .L_mat_rot_z_2:
     .4byte  mat_rot_z
-.L_pool_06032A94:
+.L_const_0x02a:
     .4byte  0x0000002A
 .L_mat_rot_y_3:
     .4byte  mat_rot_y
-.L_pool_06032A9C:
+.L_offset_0x0b4:
     .4byte  0x000000B4
-.L_pool_06032AA0:
+.L_offset_0x024_2:
     .4byte  0x00000024
-.L_pool_06032AA4:
+.L_const_0x02e:
     .4byte  0x0000002E
-.L_pool_06032AA8:
+.L_offset_0x0e4:
     .4byte  0x000000E4
-.L_pool_06032AAC:
+.L_offset_0x030_2:
     .4byte  0x00000030
-.L_pool_06032AB0:
+.L_offset_0x114:
     .4byte  0x00000114
 .L_sym_06026DF8_2:
     .4byte  sym_06026DF8
-.L_pool_06032AB8:
+.L_offset_0x03c:
     .4byte  0x0000003C
-.L_pool_06032ABC:
+.L_const_0x032:
     .4byte  0x00000032
-.L_pool_06032AC0:
+.L_const_0x036:
     .4byte  0x00000036
-.L_pool_06032AC4:
+.L_offset_0x034:
     .4byte  0x00000034
-.L_pool_06032AC8:
+.L_offset_0x144:
     .4byte  0x00000144
-.L_pool_06032ACC:
+.L_offset_0x048:
     .4byte  0x00000048
-.L_pool_06032AD0:
+.L_offset_0x038:
     .4byte  0x00000038
-.L_pool_06032AD4:
+.L_offset_0x174:
     .4byte  0x00000174
-.L_pool_06032AD8:
+.L_offset_0x054_3:
     .4byte  0x00000054
-.L_pool_06032ADC:
+.L_const_0x03a:
     .4byte  0x0000003A
-.L_pool_06032AE0:
+.L_offset_0x1a4:
     .4byte  0x000001A4
 .L_06032AE4:
-    mov.l   .L_pool_06032D20, r0
+    mov.l   .L_offset_0x060, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -1066,7 +1066,7 @@ hud_rpm_digit_0:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D28, r0
+    mov.l   .L_offset_0x03c_2, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix_3, r0
 
@@ -1077,7 +1077,7 @@ hud_rpm_digit_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D30, r0
+    mov.l   .L_offset_0x040, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_3, r0
 
@@ -1088,7 +1088,7 @@ hud_rpm_digit_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D38, r0
+    mov.l   .L_const_0x03e, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_4, r0
 
@@ -1100,7 +1100,7 @@ rpm_display_commit:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032D40, r0
+    mov.l   .L_offset_0x1d4, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -1137,7 +1137,7 @@ hud_rpm_bar_idx_0:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_5, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06032D4C, r0
+    mov.l   .L_offset_0x06c, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -1151,7 +1151,7 @@ hud_rpm_bar_idx_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D50, r0
+    mov.l   .L_const_0x042, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix_3, r0
 
@@ -1162,7 +1162,7 @@ hud_rpm_bar_idx_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D54, r0
+    mov.l   .L_const_0x046, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_3, r0
 
@@ -1173,7 +1173,7 @@ hud_rpm_bar_idx_3:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D58, r0
+    mov.l   .L_offset_0x044, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_4, r0
 
@@ -1185,7 +1185,7 @@ rpm_bar_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032D5C, r0
+    mov.l   .L_offset_0x204, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -1211,7 +1211,7 @@ rpm_bar_render:
     mov.l r2, @(40, r0)
     mov.l @r1, r2
     mov.l r2, @(44, r0)
-    mov.l   .L_pool_06032D60, r0
+    mov.l   .L_offset_0x078, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -1225,7 +1225,7 @@ hud_rpm_redline:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D64, r0
+    mov.l   .L_offset_0x048_2, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_3, r0
 
@@ -1237,7 +1237,7 @@ rpm_display_group:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032D68, r0
+    mov.l   .L_offset_0x234, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -1274,7 +1274,7 @@ hud_gear_idx_0:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_5, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06032D70, r0
+    mov.l   .L_offset_0x084_2, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -1288,7 +1288,7 @@ hud_gear_idx_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D74, r0
+    mov.l   .L_const_0x04a, r0
     mov.w @(r0, r14), r4
     mov.l   .L_transform_matrix_3, r0
 
@@ -1299,7 +1299,7 @@ hud_gear_idx_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D78, r0
+    mov.l   .L_const_0x04e, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_3, r0
 
@@ -1310,7 +1310,7 @@ hud_gear_idx_3:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D7C, r0
+    mov.l   .L_offset_0x04c, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_4, r0
 
@@ -1322,7 +1322,7 @@ gear_indicator_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032D80, r0
+    mov.l   .L_offset_0x264, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -1348,7 +1348,7 @@ gear_indicator_render:
     mov.l r2, @(40, r0)
     mov.l @r1, r2
     mov.l r2, @(44, r0)
-    mov.l   .L_pool_06032D84, r0
+    mov.l   .L_offset_0x090, r0
     add r12, r0
     mov.l @r0+, r4
     mov.l @r0+, r5
@@ -1362,7 +1362,7 @@ hud_gear_neutral:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032D88, r0
+    mov.l   .L_offset_0x050, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_z_3, r0
 
@@ -1374,7 +1374,7 @@ gear_display_commit:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_06032D8C, r0
+    mov.l   .L_offset_0x294, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -1414,61 +1414,61 @@ hud_master_compositor:
     rts
     nop
     .2byte  0x0000
-.L_pool_06032D20:
+.L_offset_0x060:
     .4byte  0x00000060
 .L_sym_06026E2E_4:
     .4byte  sym_06026E2E
-.L_pool_06032D28:
+.L_offset_0x03c_2:
     .4byte  0x0000003C
 .L_transform_matrix_3:
     .4byte  transform_matrix
-.L_pool_06032D30:
+.L_offset_0x040:
     .4byte  0x00000040
 .L_mat_rot_z_3:
     .4byte  mat_rot_z
-.L_pool_06032D38:
+.L_const_0x03e:
     .4byte  0x0000003E
 .L_mat_rot_y_4:
     .4byte  mat_rot_y
-.L_pool_06032D40:
+.L_offset_0x1d4:
     .4byte  0x000001D4
 .L_sym_06026DBC_4:
     .4byte  sym_06026DBC
 .L_sym_06089EDC_5:
     .4byte  sym_06089EDC
-.L_pool_06032D4C:
+.L_offset_0x06c:
     .4byte  0x0000006C
-.L_pool_06032D50:
+.L_const_0x042:
     .4byte  0x00000042
-.L_pool_06032D54:
+.L_const_0x046:
     .4byte  0x00000046
-.L_pool_06032D58:
+.L_offset_0x044:
     .4byte  0x00000044
-.L_pool_06032D5C:
+.L_offset_0x204:
     .4byte  0x00000204
-.L_pool_06032D60:
+.L_offset_0x078:
     .4byte  0x00000078
-.L_pool_06032D64:
+.L_offset_0x048_2:
     .4byte  0x00000048
-.L_pool_06032D68:
+.L_offset_0x234:
     .4byte  0x00000234
 .L_sym_06026DF8_3:
     .4byte  sym_06026DF8
-.L_pool_06032D70:
+.L_offset_0x084_2:
     .4byte  0x00000084
-.L_pool_06032D74:
+.L_const_0x04a:
     .4byte  0x0000004A
-.L_pool_06032D78:
+.L_const_0x04e:
     .4byte  0x0000004E
-.L_pool_06032D7C:
+.L_offset_0x04c:
     .4byte  0x0000004C
-.L_pool_06032D80:
+.L_offset_0x264:
     .4byte  0x00000264
-.L_pool_06032D84:
+.L_offset_0x090:
     .4byte  0x00000090
-.L_pool_06032D88:
+.L_offset_0x050:
     .4byte  0x00000050
-.L_pool_06032D8C:
+.L_offset_0x294:
     .4byte  0x00000294
     .4byte  0xD0166002
     .4byte  0xD116210E
@@ -1540,17 +1540,17 @@ hud_master_compositor:
     .4byte  0x00000010
     .4byte  0x00000011
 .L_06032EA4:
-    mov.l   .L_pool_06032EB4, r0
+    mov.l   .L_const_0x00e_3, r0
     mov.w @(r0, r14), r1
-    mov.l   .L_pool_06032EB8, r0
+    mov.l   .L_offset_0x01c_2, r0
     tst r0, r1
     bf      .L_06032EBC
     rts
     nop
     .2byte  0x0000
-.L_pool_06032EB4:
+.L_const_0x00e_3:
     .4byte  0x0000000E
-.L_pool_06032EB8:
+.L_offset_0x01c_2:
     .4byte  0x0000001C
 .L_06032EBC:
     mov.l   .L_sym_06026DBC_5, r0
@@ -1566,9 +1566,9 @@ minimap_offset_set:
     mov.l @r13, r13
     mov.l   .L_zero_2, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_06032FF0, r0
+    mov.l   .L_offset_0x004_3, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_06032FF4, r0
+    mov.l   .L_offset_0x008_2, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E_5, r0
 
@@ -1579,7 +1579,7 @@ hud_map_elem_00:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06032FFC, r0
+    mov.l   .L_offset_0x00c_3, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_5, r0
 
@@ -1590,9 +1590,9 @@ hud_map_elem_01:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033004, r0
+    mov.l   .L_const_0x00e_4, r0
     mov.w @(r0, r14), r1
-    mov.l   .L_pool_06032FF0, r0
+    mov.l   .L_offset_0x004_3, r0
     tst r0, r1
     bt      .L_06032F42
     mov.l r1, @-r15
@@ -1653,7 +1653,7 @@ hud_map_elem_06:
     mov.l @r13, r13
     mov.l @r15+, r1
 .L_06032F42:
-    mov.l   .L_pool_06032FF4, r0
+    mov.l   .L_offset_0x008_2, r0
     tst r0, r1
     bt      .L_06032F92
     mov.l r1, @-r15
@@ -1714,7 +1714,7 @@ hud_map_elem_11:
     mov.l @r13, r13
     mov.l @r15+, r1
 .L_06032F92:
-    mov.l   .L_pool_06033018, r0
+    mov.l   .L_offset_0x010_2, r0
     tst r0, r1
     bt      .L_06032FD2
     mov.l   .L_sym_06026DBC_5, r0
@@ -1782,17 +1782,17 @@ display_mode_switch:
     .4byte  sym_06089EDC
 .L_zero_2:
     .4byte  0x00000000
-.L_pool_06032FF0:
+.L_offset_0x004_3:
     .4byte  0x00000004
-.L_pool_06032FF4:
+.L_offset_0x008_2:
     .4byte  0x00000008
 .L_sym_06026E2E_5:
     .4byte  sym_06026E2E
-.L_pool_06032FFC:
+.L_offset_0x00c_3:
     .4byte  0x0000000C
 .L_mat_rot_y_5:
     .4byte  mat_rot_y
-.L_pool_06033004:
+.L_const_0x00e_4:
     .4byte  0x0000000E
 .L_sym_060624C8:
     .4byte  sym_060624C8
@@ -1802,7 +1802,7 @@ display_mode_switch:
     .4byte  camera_pos_calc
 .L_sym_06026DF8_4:
     .4byte  sym_06026DF8
-.L_pool_06033018:
+.L_offset_0x010_2:
     .4byte  0x00000010
 .L_camera_push_save_2:
     .4byte  camera_push_save
@@ -1819,18 +1819,18 @@ disp_mode_switch:
     mov.l r8, @-r15
     mov.l   .L_sym_06082A25_6, r0
     mov.b @r0, r1
-    mov.l   .L_pool_06033044, r0
+    mov.l   .L_const_0x001_3, r0
     tst r0, r1
     bt      .L_0603304C
-    mov.l   .L_pool_06033048, r5
+    mov.l   .L_const_0x3333, r5
     bra     .L_0603304E
     nop
     .2byte  0x0000
 .L_sym_06082A25_6:
     .4byte  sym_06082A25
-.L_pool_06033044:
+.L_const_0x001_3:
     .4byte  0x00000001
-.L_pool_06033048:
+.L_const_0x3333:
     .4byte  0x00003333
 .L_0603304C:
     xor r5, r5
@@ -1885,8 +1885,8 @@ disp_util_main:
     bsr     .L_0603316C
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033148, r8
-    mov.l   .L_pool_0603314C, r9
+    mov.l   .L_offset_0x010_3, r8
+    mov.l   .L_offset_0x018_3, r9
     mov.l @(r0, r8), r13
     mov.l @(r0, r9), r14
     mov.l   .L_struct_stride_268, r10
@@ -1943,7 +1943,7 @@ display_palette_load:
     mov.l @r3, r3
     mov.b @r3, r3
     extu.b r3, r3
-    mov.l   .L_pool_06033164, r4
+    mov.l   .L_offset_0x700, r4
     cmp/pl r3
     bt      .L_0603311A
     neg r0, r0
@@ -1976,9 +1976,9 @@ color_anim_ctrl:
     .2byte  0x0000
 .L_sym_06033870:
     .4byte  sym_06033870
-.L_pool_06033148:
+.L_offset_0x010_3:
     .4byte  0x00000010
-.L_pool_0603314C:
+.L_offset_0x018_3:
     .4byte  0x00000018
 .L_struct_stride_268:
     .4byte  0x00000268
@@ -1990,14 +1990,14 @@ color_anim_ctrl:
     .4byte  0x001A0000
 .L_sym_06033884:
     .4byte  sym_06033884
-.L_pool_06033164:
+.L_offset_0x700:
     .4byte  0x00000700
 .L_mask_16bit:
     .4byte  0x0000FFFF
 .L_0603316C:
-    mov.l   .L_pool_06033180, r2
+    mov.l   .L_offset_0x020_2, r2
     mov.l @(r0, r2), r4
-    mov.l   .L_pool_06033184, r2
+    mov.l   .L_offset_0x1d8, r2
     mov.l @(r0, r2), r3
     add r3, r4
     add r3, r4
@@ -2005,9 +2005,9 @@ color_anim_ctrl:
     rts
     nop
     .2byte  0x0000
-.L_pool_06033180:
+.L_offset_0x020_2:
     .4byte  0x00000020
-.L_pool_06033184:
+.L_offset_0x1d8:
     .4byte  0x000001D8
 .L_06033188:
     mov.l r0, @-r15
@@ -2322,7 +2322,7 @@ disp_result_sub_a:
     bt      .L_06033382
     mov.l   .L_sym_060629AC_2, r5
     mov.l   .L_vdp2_vram_03700, r4
-    mov.w   .L_wpool_060333B0, r6
+    mov.w   .L_const_0x07e0_w, r6
     mov.l   .L_memcpy_word_idx, r0
 
     .global results_sub_elem
@@ -2334,7 +2334,7 @@ results_sub_elem:
     lds.l @r15+, pr
     rts
     nop
-.L_wpool_060333B0:
+.L_const_0x07e0_w:
     .2byte  0x07E0
     .2byte  0x0000
 .L_sym_060338DC:

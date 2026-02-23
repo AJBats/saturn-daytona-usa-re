@@ -31,7 +31,7 @@ vtx_clip_flag_set:
     .global sym_0602D8BC
 sym_0602D8BC:
     mov #0x0, r4
-    mov.w   .L_wpool_0602D916, r1
+    mov.w   .L_const_0x250_w, r1
     mov.w @(r0, r1), r2
     cmp/eq r4, r2
     .byte   0x8B, 0x2E    /* bf 0x0602D924 (external) */
@@ -79,7 +79,7 @@ clip_region_test:
     lds.l @r15+, pr
     rts
     nop
-.L_wpool_0602D916:
+.L_const_0x250_w:
     .2byte  0x0250
 
     .global DAT_0602d918

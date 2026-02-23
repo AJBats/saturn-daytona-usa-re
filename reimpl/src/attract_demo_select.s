@@ -27,7 +27,7 @@ attract_demo_select:
     mov.l @(16, r14), r3
     cmp/eq r3, r2
     bt      .L_0603F578
-    mov.w   .L_wpool_0603F5B8, r7
+    mov.w   .L_bit_11_w, r7
     mov #0x1, r5
     mov.l   .L_cmd_multi_validate, r3
     mov.l @(4, r14), r6
@@ -79,7 +79,7 @@ vblank_dma_chain:
     bf      .L_0603F5C0
     bra     .L_0603F838
     nop
-.L_wpool_0603F5B8:
+.L_bit_11_w:
     .2byte  0x0800
     .2byte  0xFFFF
 .L_cmd_multi_validate:

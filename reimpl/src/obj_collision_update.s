@@ -33,7 +33,7 @@ obj_collision_update:
 .L_06020C66:
     mov #0xF, r3
     extu.w r4, r4
-    mov.l   .L_pool_06020CE4, r0
+    mov.l   .L_const_0xc060, r0
     mov.w r0, @(10, r5)
     mov #0x20, r0
     mov.w r3, @(r0, r6)
@@ -45,7 +45,7 @@ obj_collision_update:
     bra     .L_06020CBA
     nop
 .L_06020C80:
-    mov.l   .L_pool_06020CEC, r0
+    mov.l   .L_const_0xc044, r0
     mov #0xF, r3
     extu.w r4, r4
     mov.w r0, @(10, r5)
@@ -99,11 +99,11 @@ obj_collision_update:
     .4byte  sym_060A3DB0
 .L_sym_0608780C:
     .4byte  sym_0608780C
-.L_pool_06020CE4:
+.L_const_0xc060:
     .4byte  0x0000C060
 .L_sym_06038044:
     .4byte  sym_06038044
-.L_pool_06020CEC:
+.L_const_0xc044:
     .4byte  0x0000C044
 .L_sym_0602853E:
     .4byte  sym_0602853E

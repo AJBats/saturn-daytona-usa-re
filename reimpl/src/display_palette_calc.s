@@ -21,7 +21,7 @@ display_palette_calc:
     bf/s    .L_0603CCF0
     mov #0x1, r12
     mov r12, r0
-    mov.w   .L_wpool_0603CD4E, r1
+    mov.w   .L_const_0x0501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
@@ -34,7 +34,7 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(4, r14)
     mov r12, r0
-    mov.w   .L_wpool_0603CD4E, r1
+    mov.w   .L_const_0x0501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
@@ -47,7 +47,7 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(6, r14)
     mov r12, r0
-    mov.w   .L_wpool_0603CD4E, r1
+    mov.w   .L_const_0x0501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
@@ -63,7 +63,7 @@ display_palette_calc:
     mov.w r0, @(8, r14)
 .L_0603CCF0:
     mov r12, r0
-    mov.w   .L_wpool_0603CD4E, r1
+    mov.w   .L_const_0x0501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
@@ -76,7 +76,7 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(10, r14)
     mov r12, r0
-    mov.w   .L_wpool_0603CD4E, r1
+    mov.w   .L_const_0x0501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
@@ -89,7 +89,7 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(12, r14)
     mov r12, r0
-    mov.w   .L_wpool_0603CD4E, r1
+    mov.w   .L_const_0x0501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r11, r2
@@ -113,7 +113,7 @@ display_palette_calc:
     .global DAT_0603cd4c
 DAT_0603cd4c:
     .2byte  0x01FF
-.L_wpool_0603CD4E:
+.L_const_0x0501_w:
     .2byte  0x0501
 .L_sym_060A4D58:
     .4byte  sym_060A4D58

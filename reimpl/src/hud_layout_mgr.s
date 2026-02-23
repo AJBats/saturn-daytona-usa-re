@@ -49,7 +49,7 @@ hud_layout_mgr:
     .4byte  sym_0607EAE0
 .L_06015084:
     mov.l   .L_sym_0607ED88, r2
-    mov.w   .L_wpool_06015108, r3
+    mov.w   .L_const_0x2a94_w, r3
     mov.l @r2, r2
     cmp/hs r3, r2
     bt/s    .L_060150F0
@@ -64,24 +64,24 @@ hud_layout_mgr:
     jsr @r3
     nop
     mov #0x60, r6
-    mov.w   .L_wpool_0601510A, r5
+    mov.w   .L_const_0x320_w, r5
     mov.l   .L_sym_060284AE, r14
     mov.l   .L_sym_06044C78, r7
     jsr @r14
     mov #0xC, r4
     mov #0x60, r6
-    mov.w   .L_wpool_0601510C, r5
+    mov.w   .L_const_0x051e_w, r5
     mov.l   .L_sym_06044C80, r7
     jsr @r14
     mov #0xC, r4
     mov.l   .L_sym_06044C84, r7
     mov #0x60, r6
-    mov.w   .L_wpool_0601510E, r5
+    mov.w   .L_const_0x0532_w, r5
     jsr @r14
     mov #0xC, r4
     mov.l   .L_sym_06044C88, r7
-    mov.w   .L_wpool_06015110, r6
-    mov.w   .L_wpool_06015112, r5
+    mov.w   .L_const_0x090_w, r6
+    mov.w   .L_const_0x051c_w, r5
     jsr @r14
     mov #0xC, r4
     mov.b @r15, r4
@@ -116,17 +116,17 @@ hud_layout_mgr:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06015108:
+.L_const_0x2a94_w:
     .2byte  0x2A94
-.L_wpool_0601510A:
+.L_const_0x320_w:
     .2byte  0x0320
-.L_wpool_0601510C:
+.L_const_0x051e_w:
     .2byte  0x051E
-.L_wpool_0601510E:
+.L_const_0x0532_w:
     .2byte  0x0532
-.L_wpool_06015110:
+.L_const_0x090_w:
     .2byte  0x0090
-.L_wpool_06015112:
+.L_const_0x051c_w:
     .2byte  0x051C
 .L_sym_0607ED88:
     .4byte  sym_0607ED88

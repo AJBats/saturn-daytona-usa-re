@@ -56,7 +56,7 @@ obj_pool_dealloc:
     mov.b r2, @r4
 .L_060202DC:
     mov.w @(2, r6), r0
-    mov.w   .L_wpool_06020312, r2
+    mov.w   .L_bit_9_w, r2
     mov r0, r3
     extu.w r3, r3
     and r2, r3
@@ -85,7 +85,7 @@ obj_pool_dealloc:
     nop
 .L_quarter_turn_w:
     .2byte  0x4000
-.L_wpool_06020312:
+.L_bit_9_w:
     .2byte  0x0200
 .L_sym_06063D98:
     .4byte  sym_06063D98

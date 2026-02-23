@@ -13,7 +13,7 @@ race_data_dispatch:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_0601541A, r12
+    mov.w   .L_bit_8_w, r12
     mov.l   .L_channel_nibble_config, r14
     mov.l   .L_handler_init_reset, r3
     jsr @r3
@@ -124,7 +124,7 @@ race_data_dispatch:
     mov.l @r15+, r13
     jmp @r2
     mov.l @r15+, r14
-.L_wpool_0601541A:
+.L_bit_8_w:
     .2byte  0x0100
 .L_channel_nibble_config:
     .4byte  channel_nibble_config
@@ -203,7 +203,7 @@ hud_anim_ctrl:
     tst r0, r0
     bf      .L_060154B4
     mov.l   .L_sym_0607E944, r3
-    mov.w   .L_wpool_060154E4, r0
+    mov.w   .L_const_0x224_w, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
     mov #0x3, r3
@@ -212,7 +212,7 @@ hud_anim_ctrl:
 .L_060154B4:
     mov.l   .L_sym_06063DA0, r2
     mov.w @r2, r3
-    mov.w   .L_wpool_060154E6, r2
+    mov.w   .L_bit_10_w, r2
     extu.w r3, r3
     and r2, r3
     tst r3, r3
@@ -237,9 +237,9 @@ hud_anim_ctrl:
     mov.l   .L_sym_060172E4, r3
     jmp @r3
     lds.l @r15+, pr
-.L_wpool_060154E4:
+.L_const_0x224_w:
     .2byte  0x0224
-.L_wpool_060154E6:
+.L_bit_10_w:
     .2byte  0x0400
 .L_sym_060172E4:
     .4byte  sym_060172E4

@@ -86,12 +86,12 @@ dma_param_chain_init:
 .L_0603FDCA:
     mov r14, r5
     mov r15, r4
-    mov.w   .L_wpool_0603FE2E, r3
+    mov.w   .L_bit_11_w, r3
     mov.l r3, @(32, r15)
     shlr2 r3
     mov.l r3, @(36, r15)
     mov.l r13, @(40, r15)
-    mov.w   .L_wpool_0603FE30, r3
+    mov.w   .L_const_0x17f_w, r3
     mov.l r3, @(48, r15)
     mov.l   .L_palette_engine_core, r3
     jsr @r3
@@ -135,9 +135,9 @@ dma_param_chain_init:
     mov.l @r15+, r14
     .2byte  0x000B
     .2byte  0xE000
-.L_wpool_0603FE2E:
+.L_bit_11_w:
     .2byte  0x0800
-.L_wpool_0603FE30:
+.L_const_0x17f_w:
     .2byte  0x017F
     .2byte  0xFFFF
 .L_palette_engine_core:

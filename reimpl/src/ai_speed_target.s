@@ -44,7 +44,7 @@ ai_speed_target:
     bt      .L_0600C91E
     mov.l @(40, r14), r2
     extu.w r2, r2
-    mov.l   .L_pool_0600C96C, r3
+    mov.l   .L_const_0xfa00, r3
     add r3, r2
     exts.w r2, r2
     bra     .L_0600C920
@@ -82,7 +82,7 @@ DAT_0600c964:
     .2byte  0x2000
 .L_atan2:
     .4byte  atan2
-.L_pool_0600C96C:
+.L_const_0xfa00:
     .4byte  0x0000FA00
     .4byte  0x9038E345
     .4byte  0x054E3533
@@ -305,7 +305,7 @@ DAT_0600cac2:
     cmp/ge r3, r6
     bt      .L_0600CB4C
     mov #0x4, r1
-    mov.w   .L_wpool_0600CB88, r0
+    mov.w   .L_const_0x1ec_w, r0
     sub r7, r1
     mov.l @(r0, r5), r3
     shll2 r3
@@ -343,7 +343,7 @@ DAT_0600cac2:
     bra     .L_0600CB68
     mov.l r1, @(8, r4)
 .L_0600CB4C:
-    mov.w   .L_wpool_0600CB88, r0
+    mov.w   .L_const_0x1ec_w, r0
     mov.l @(r0, r5), r2
     shll2 r2
     shll r2
@@ -380,7 +380,7 @@ DAT_0600cb84:
     .global DAT_0600cb86
 DAT_0600cb86:
     .2byte  0x00FF
-.L_wpool_0600CB88:
+.L_const_0x1ec_w:
     .2byte  0x01EC
     .2byte  0xFFFF
 .L_sym_0607EB88_2:

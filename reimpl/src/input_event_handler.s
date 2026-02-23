@@ -27,7 +27,7 @@ input_event_handler:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06005A4A
-    mov.w   .L_wpool_06005ABA, r14
+    mov.w   .L_const_0x0b0_w, r14
     bra     .L_06005A4C
     nop
 .L_06005A4A:
@@ -76,13 +76,13 @@ input_event_handler:
     mov.l @r15+, r14
 .L_06005A9C:
     mov.l   .L_sym_0605ACDD, r7
-    mov.w   .L_wpool_06005AC2, r6
+    mov.w   .L_const_0x090_w, r6
     mov.w   DAT_06005abe, r5
     mov.l   .L_sym_060284AE, r3
     jsr @r3
     mov #0x8, r4
     mov.l   .L_sym_0605ACDD, r7
-    mov.w   .L_wpool_06005AC2, r6
+    mov.w   .L_const_0x090_w, r6
     mov.w   DAT_06005ac0, r5
     mov #0x8, r4
     add #0x4, r15
@@ -90,7 +90,7 @@ input_event_handler:
     mov.l   .L_sym_060284AE, r3
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_06005ABA:
+.L_const_0x0b0_w:
     .2byte  0x00B0
 
     .global DAT_06005abc
@@ -104,7 +104,7 @@ DAT_06005abe:
     .global DAT_06005ac0
 DAT_06005ac0:
     .2byte  0x059C
-.L_wpool_06005AC2:
+.L_const_0x090_w:
     .2byte  0x0090
 .L_sym_0607EABC:
     .4byte  sym_0607EABC

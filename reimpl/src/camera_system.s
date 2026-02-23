@@ -57,7 +57,7 @@ camera_system:
     bra     .L_0600BD96
     nop
 .L_0600BBEC:
-    mov.w   .L_wpool_0600BC30, r0
+    mov.w   .L_const_0x1bc_w, r0
     mov #0x30, r3
     mov.l @(r0, r14), r2
     cmp/gt r3, r2
@@ -66,7 +66,7 @@ camera_system:
     nop
 .L_0600BBFA:
     mov #0x28, r3
-    mov.w   .L_wpool_0600BC30, r0
+    mov.w   .L_const_0x1bc_w, r0
     mov.l @(r0, r14), r2
     cmp/gt r3, r2
     bf      .L_0600BC0C
@@ -75,7 +75,7 @@ camera_system:
     bra     .L_0600BC98
     mov.l r2, @r13
 .L_0600BC0C:
-    mov.w   .L_wpool_0600BC30, r0
+    mov.w   .L_const_0x1bc_w, r0
     mov #0x10, r3
     mov.l @(r0, r14), r2
     cmp/gt r3, r2
@@ -84,7 +84,7 @@ camera_system:
     nop
 .L_0600BC1A:
     mov #0x8, r3
-    mov.w   .L_wpool_0600BC30, r0
+    mov.w   .L_const_0x1bc_w, r0
     mov.l @(r0, r14), r2
     cmp/gt r3, r2
     bf      .L_0600BC60
@@ -100,7 +100,7 @@ DAT_0600bc2c:
     .global DAT_0600bc2e
 DAT_0600bc2e:
     .2byte  0x01D8
-.L_wpool_0600BC30:
+.L_const_0x1bc_w:
     .2byte  0x01BC
     .2byte  0xFFFF
 .L_sym_06038520:
@@ -145,7 +145,7 @@ DAT_0600bc2e:
     mov #0x8, r4
     mov.l   .L_fp_5_8000, r2
     mov.l r2, @r13
-    mov.l   .L_pool_0600BD00, r3
+    mov.l   .L_const_0xf300, r3
     mov.l   .L_sym_06063E34, r2
     mov.l r3, @r2
     mov.l   .L_fp_110, r3
@@ -216,7 +216,7 @@ DAT_0600bcee:
     .4byte  channel_nibble_config
 .L_fp_5_8000:
     .4byte  0x00058000
-.L_pool_0600BD00:
+.L_const_0xf300:
     .4byte  0x0000F300
 .L_sym_06063E34:
     .4byte  sym_06063E34
@@ -248,7 +248,7 @@ DAT_0600bcee:
     mov #0x8, r4
     mov.l   .L_fp_5_8000_2, r2
     mov.l r2, @r13
-    mov.l   .L_pool_0600BDC0, r3
+    mov.l   .L_const_0xf300_2, r3
     mov.l   .L_sym_06063E34_2, r2
     mov.l r3, @r2
     mov.l   .L_fp_110_2, r3
@@ -326,7 +326,7 @@ DAT_0600bdae:
     .4byte  channel_nibble_config
 .L_fp_5_8000_2:
     .4byte  0x00058000
-.L_pool_0600BDC0:
+.L_const_0xf300_2:
     .4byte  0x0000F300
 .L_sym_06063E34_2:
     .4byte  sym_06063E34
@@ -347,7 +347,7 @@ DAT_0600bdae:
     shll8 r13
     shll2 r13
     neg r13, r13
-    mov.l   .L_pool_0600BE50, r3
+    mov.l   .L_fp_neg_96, r3
     add r3, r13
 .L_0600BDEC:
     mov.l   .L_sym_06082A30, r0
@@ -390,7 +390,7 @@ DAT_0600bdae:
     bra     .L_0600BF28
     mov.l r3, @(8, r11)
 .L_0600BE3A:
-    mov.w   .L_wpool_0600BE4C, r0
+    mov.w   .L_const_0x1bc_w_2, r0
     mov.l @(r0, r14), r0
     tst r0, r0
     bf      .L_0600BE70
@@ -399,10 +399,10 @@ DAT_0600bdae:
     nop
     bra     .L_0600BE7A
     nop
-.L_wpool_0600BE4C:
+.L_const_0x1bc_w_2:
     .2byte  0x01BC
     .2byte  0xFFFF
-.L_pool_0600BE50:
+.L_fp_neg_96:
     .4byte  0xFFA00000
 .L_sym_06082A30:
     .4byte  sym_06082A30
@@ -586,8 +586,8 @@ DAT_0600bf3c:
     exts.w r4, r4
     mov.l @r5, r3
     exts.w r4, r4
-    mov.w   .L_wpool_0600BFE6, r1
-    mov.w   .L_wpool_0600BFE4, r2
+    mov.w   .L_const_0x0e0_w, r1
+    mov.w   .L_const_0x320_w, r2
     exts.w r3, r3
     mul.l r2, r3
     sts macl, r3
@@ -617,9 +617,9 @@ DAT_0600bf3c:
     .global DAT_0600bfe2
 DAT_0600bfe2:
     .2byte  0x0384
-.L_wpool_0600BFE4:
+.L_const_0x320_w:
     .2byte  0x0320
-.L_wpool_0600BFE6:
+.L_const_0x0e0_w:
     .2byte  0x00E0
 .L_sym_0607E944_2:
     .4byte  sym_0607E944

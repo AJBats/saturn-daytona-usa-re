@@ -108,7 +108,7 @@ DAT_06027f56:
     mov r8, r0
     shll r0
     mov.w @(r0, r10), r1
-    mov.l   .L_pool_06027FC8, r0
+    mov.l   .L_offset_0x034, r0
     mulu.w r0, r1
     sts macl, r5
     mov.l   .L_sym_060A6000, r0
@@ -127,7 +127,7 @@ DAT_06027f56:
     bf      .L_06027FB0
     add r12, r3
 .L_06027FB0:
-    mov.w   .L_wpool_06027FC0, r0
+    mov.w   .L_bit_8_w, r0
     tst r0, r4
     bt      .L_06027FB8
     neg r3, r3
@@ -136,12 +136,12 @@ DAT_06027f56:
     bt      .L_06027FD4
     bra     .L_06028064
     nop
-.L_wpool_06027FC0:
+.L_bit_8_w:
     .2byte  0x0100
     .2byte  0x0000
 .L_sym_06063F50_2:
     .4byte  sym_06063F50
-.L_pool_06027FC8:
+.L_offset_0x034:
     .4byte  0x00000034
 .L_sym_060A6000:
     .4byte  sym_060A6000
@@ -161,7 +161,7 @@ DAT_06027f56:
     bf      .L_06027FEC
     add r12, r3
 .L_06027FEC:
-    mov.w   .L_wpool_06027FFC, r0
+    mov.w   .L_bit_9_w, r0
     tst r0, r4
     bt      .L_06027FF4
     neg r3, r3
@@ -170,7 +170,7 @@ DAT_06027f56:
     bt      .L_06028004
     bra     .L_06028064
     nop
-.L_wpool_06027FFC:
+.L_bit_9_w:
     .2byte  0x0200
     .2byte  0x0000
 .L_cart_cs0_00000:
@@ -189,7 +189,7 @@ DAT_06027f56:
     bf      .L_0602801C
     add r12, r3
 .L_0602801C:
-    mov.w   .L_wpool_0602802C, r0
+    mov.w   .L_bit_10_w, r0
     tst r0, r4
     bt      .L_06028024
     neg r3, r3
@@ -198,7 +198,7 @@ DAT_06027f56:
     bt      .L_06028034
     bra     .L_06028064
     nop
-.L_wpool_0602802C:
+.L_bit_10_w:
     .2byte  0x0400
     .2byte  0x0000
 .L_cart_cs1_00000:
@@ -212,7 +212,7 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    mov.l   .L_pool_06028060, r0
+    mov.l   .L_fp_2048, r0
     tst r0, r4
     bf      .L_0602804C
     add r12, r3
@@ -231,7 +231,7 @@ DAT_06027f56:
 DAT_0602805c:
     .2byte  0x0800
     .2byte  0x0000
-.L_pool_06028060:
+.L_fp_2048:
     .4byte  0x08000000
 .L_06028064:
     add #0x1, r7
@@ -246,19 +246,19 @@ DAT_0602805c:
     bt      .L_060280A6
     cmp/eq r7, r9
     bt      .L_060280A6
-    mov.l   .L_pool_060280B8, r0
+    mov.l   .L_offset_0x004, r0
     mov.l @(r0, r5), r1
     dmuls.l r14, r1
     sts mach, r0
     sts macl, r1
     xtrct r0, r1
-    mov.l   .L_pool_060280BC, r0
+    mov.l   .L_offset_0x008, r0
     mov.l @(r0, r5), r2
     dmuls.l r12, r2
     sts mach, r0
     sts macl, r2
     xtrct r0, r2
-    mov.l   .L_pool_060280C0, r0
+    mov.l   .L_offset_0x00c, r0
     mov.l @(r0, r5), r3
     add r2, r1
     add r3, r1
@@ -278,11 +278,11 @@ DAT_0602805c:
     mov.l @r15+, r14
     rts
     nop
-.L_pool_060280B8:
+.L_offset_0x004:
     .4byte  0x00000004
-.L_pool_060280BC:
+.L_offset_0x008:
     .4byte  0x00000008
-.L_pool_060280C0:
+.L_offset_0x00c:
     .4byte  0x0000000C
 
     .global sym_060280C4
@@ -526,7 +526,7 @@ sym_06028248:
     mov.l   .L_sym_06059C8C, r6
     mov #0x9, r4
 .L_0602825E:
-    mov.w   .L_wpool_060282AC, r0
+    mov.w   .L_const_0x0f0_w, r0
     mov #0x1, r5
     .byte   0xB1, 0xCD    /* bsr 0x06028600 (external) */
     ldc r0, sr
@@ -540,7 +540,7 @@ sym_06028248:
     mov.l @(36, r15), r6
     mov.l   .L_sym_060612B8, r4
     mov.l   .L_sym_060612C4, r5
-    mov.w   .L_wpool_0602829C, r6
+    mov.w   .L_const_0x180_w, r6
     mov.l   .L_memcpy_word_idx, r7
     jsr @r7
     mov.l @r4, r4
@@ -558,7 +558,7 @@ sym_06028248:
     bt      .L_06028296
     rte
     nop
-.L_wpool_0602829C:
+.L_const_0x180_w:
     .2byte  0x0180
     .2byte  0x0000
 .L_sym_060612B8:
@@ -567,7 +567,7 @@ sym_06028248:
     .4byte  sym_060612C4
 .L_memcpy_word_idx:
     .4byte  memcpy_word_idx
-.L_wpool_060282AC:
+.L_const_0x0f0_w:
     .2byte  0x00F0
     .2byte  0x0009
 .L_sym_06059C5C:
@@ -580,7 +580,7 @@ sym_06028248:
     .4byte  sym_06059C8C
 .L_060282C0:
     mov.l   .L_sym_060620C4, r2
-    mov.l   .L_pool_06028300, r0
+    mov.l   .L_fp_8224_2020, r0
     mov.l r0, @(0, r2)
     mov.l r0, @(4, r2)
     mov.l r0, @(8, r2)
@@ -614,7 +614,7 @@ sym_06028248:
     .2byte  0x0009
 .L_sym_060620C4:
     .4byte  sym_060620C4
-.L_pool_06028300:
+.L_fp_8224_2020:
     .4byte  0x20202020
 .L_mask_high_byte_w:
     .2byte  0xFF00

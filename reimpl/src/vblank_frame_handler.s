@@ -17,7 +17,7 @@ vblank_frame_handler:
     mov.l r9, @-r15
     mov.l r8, @-r15
     add #-0x24, r15
-    mov.w   .L_wpool_06007EDC, r7
+    mov.w   .L_neg_405_w, r7
     mov r15, r6
     add #0x1C, r6
     mov #0x0, r14
@@ -31,12 +31,12 @@ vblank_frame_handler:
     shll r0
     mov.w r2, @(r0, r6)
     mov r14, r0
-    mov.w   .L_wpool_06007EDE, r3
+    mov.w   .L_neg_168_w, r3
     shll2 r0
     mov.l @(r0, r4), r13
     cmp/gt r3, r13
     bf      .L_06007E66
-    mov.w   .L_wpool_06007EE0, r3
+    mov.w   .L_const_0x0a8_w, r3
     cmp/ge r3, r13
     bt      .L_06007E66
     mov r14, r0
@@ -122,11 +122,11 @@ vblank_frame_handler:
 .L_06007ED8:
     bra     .L_06007F42
     nop
-.L_wpool_06007EDC:
+.L_neg_405_w:
     .2byte  0xFE6B
-.L_wpool_06007EDE:
+.L_neg_168_w:
     .2byte  0xFF58
-.L_wpool_06007EE0:
+.L_const_0x0a8_w:
     .2byte  0x00A8
 .L_06007EE2:
     mov.w @(4, r5), r0
@@ -277,7 +277,7 @@ vblank_frame_handler:
     nop
 .L_06007FF4:
     mov.l @r15, r2
-    mov.w   .L_wpool_06008056, r3
+    mov.w   .L_const_0x195_w, r3
     cmp/gt r3, r2
     bf      .L_06008000
     bra     .L_060081DC
@@ -289,7 +289,7 @@ vblank_frame_handler:
     bf/s    .L_06008016
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_06008058, r3
+    mov.w   .L_const_0x131_w, r3
     cmp/gt r3, r2
     bt      .L_06008016
     bra     .L_060081E0
@@ -328,9 +328,9 @@ vblank_frame_handler:
     mov.l r3, @r10
     bra     .L_06008088
     nop
-.L_wpool_06008056:
+.L_const_0x195_w:
     .2byte  0x0195
-.L_wpool_06008058:
+.L_const_0x131_w:
     .2byte  0x0131
 .L_0600805A:
     mov.l @(4, r15), r2
@@ -365,7 +365,7 @@ vblank_frame_handler:
     nop
 .L_06008094:
     mov.l @r15, r2
-    mov.w   .L_wpool_060080F6, r3
+    mov.w   .L_const_0x195_w_2, r3
     cmp/gt r3, r2
     bf      .L_060080A0
     bra     .L_060081DC
@@ -377,7 +377,7 @@ vblank_frame_handler:
     bf/s    .L_060080B6
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_060080F8, r3
+    mov.w   .L_const_0x131_w_2, r3
     cmp/gt r3, r2
     bt      .L_060080B6
     bra     .L_060081E0
@@ -416,9 +416,9 @@ vblank_frame_handler:
     mov.l r3, @r9
     bra     .L_06008128
     nop
-.L_wpool_060080F6:
+.L_const_0x195_w_2:
     .2byte  0x0195
-.L_wpool_060080F8:
+.L_const_0x131_w_2:
     .2byte  0x0131
 .L_060080FA:
     mov.l @(8, r15), r2
@@ -450,7 +450,7 @@ vblank_frame_handler:
     cmp/ge r7, r3
     bf      .L_060081DC
     mov.l @r15, r2
-    mov.w   .L_wpool_060081D8, r3
+    mov.w   .L_const_0x195_w_3, r3
     cmp/gt r3, r2
     bt      .L_060081DC
     mov.l @r9, r2
@@ -459,7 +459,7 @@ vblank_frame_handler:
     bf/s    .L_0600814E
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_060081DA, r3
+    mov.w   .L_const_0x131_w_3, r3
     cmp/gt r3, r2
     bt      .L_0600814E
     bra     .L_060081E0
@@ -523,7 +523,7 @@ vblank_frame_handler:
     cmp/ge r7, r3
     bf      .L_060081DC
     mov.l @r15, r2
-    mov.w   .L_wpool_060081D8, r3
+    mov.w   .L_const_0x195_w_3, r3
     cmp/gt r3, r2
     bt      .L_060081DC
     mov.l @r13, r2
@@ -532,14 +532,14 @@ vblank_frame_handler:
     bf/s    .L_060081DC
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   .L_wpool_060081DA, r3
+    mov.w   .L_const_0x131_w_3, r3
     cmp/gt r3, r2
     bt      .L_060081DC
     bra     .L_060081E0
     nop
-.L_wpool_060081D8:
+.L_const_0x195_w_3:
     .2byte  0x0195
-.L_wpool_060081DA:
+.L_const_0x131_w_3:
     .2byte  0x0131
 .L_060081DC:
     bra     .L_06007F80

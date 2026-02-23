@@ -13,8 +13,8 @@ spring_damper:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0602773C, r1
-    mov.l   .L_pool_06027740, r2
+    mov.l   .L_const_0xe666, r1
+    mov.l   .L_const_0x1999, r2
     mov.w @r5+, r0
     mov.l   .L_sym_06063F04, r14
     mov.l @r14, r14
@@ -66,9 +66,9 @@ spring_damper:
     bf      .L_060276EA
     bra     .L_060279A6
     nop
-.L_pool_0602773C:
+.L_const_0xe666:
     .4byte  0x0000E666
-.L_pool_06027740:
+.L_const_0x1999:
     .4byte  0x00001999
 .L_sym_06063F04:
     .4byte  sym_06063F04

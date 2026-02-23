@@ -11,7 +11,7 @@
 scene_render_body:
     sts.l pr, @-r15
     mov.l   .L_sym_0607EBC4, r8
-    mov.w   .L_wpool_0600C090, r10
+    mov.w   .L_neg_495_w, r10
     mov.l   .L_sym_0608A52C, r12
     mov.l   .L_sym_0605A1DD, r13
     mov.l   .L_sym_06083255, r0
@@ -77,7 +77,7 @@ scene_render_body:
     mov.w r3, @r4
     bra     .L_0600C0E2
     nop
-.L_wpool_0600C090:
+.L_neg_495_w:
     .2byte  0xFE11
     .2byte  0xFFFF
 .L_sym_0607EBC4:
@@ -298,9 +298,9 @@ scene_update:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_0600C2A6, r12
+    mov.w   .L_neg_495_w_2, r12
     mov.l   .L_sym_0608A52C_2, r13
-    mov.w   .L_wpool_0600C2A8, r14
+    mov.w   .L_bit_7_w, r14
     mov.l @r13, r3
     add #0x30, r3
     mov.l r3, @r13
@@ -369,9 +369,9 @@ race_utility_fn:
     nop
     bra     .L_0600C2F8
     nop
-.L_wpool_0600C2A6:
+.L_neg_495_w_2:
     .2byte  0xFE11
-.L_wpool_0600C2A8:
+.L_bit_7_w:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_sym_0608A52C_2:
@@ -472,7 +472,7 @@ sym_0600C302:
     mov.w r6, @(r0, r4)
 .L_0600C35C:
     mov.w   DAT_0600c372, r0
-    mov.w   .L_wpool_0600C374, r2
+    mov.w   .L_const_0x08c_w, r2
     mov.l @(r0, r4), r3
     cmp/ge r2, r3
     bt      .L_0600C388
@@ -498,7 +498,7 @@ DAT_0600c370:
     .global DAT_0600c372
 DAT_0600c372:
     .2byte  0x0084
-.L_wpool_0600C374:
+.L_const_0x08c_w:
     .2byte  0x008C
     .2byte  0xFFFF
 .L_scene_path_a_2:
@@ -511,7 +511,7 @@ DAT_0600c372:
     .4byte  sym_0607E944
 .L_0600C388:
     mov #0x68, r0
-    mov.w   .L_wpool_0600C416, r3
+    mov.w   .L_const_0x09b_w, r3
     mov.l @(r0, r4), r5
     cmp/gt r3, r5
     bf      .L_0600C3A4
@@ -519,7 +519,7 @@ DAT_0600c372:
     cmp/ge r3, r5
     bt      .L_0600C3A4
     exts.w r6, r6
-    mov.w   .L_wpool_0600C41A, r0
+    mov.w   .L_const_0x172_w, r0
     mov.w r6, @(r0, r4)
     exts.w r7, r7
     add #0x2, r0
@@ -555,13 +555,13 @@ DAT_0600c372:
     .4byte  0x24488900
     .4byte  0x2572A049
     .2byte  0x0009
-.L_wpool_0600C416:
+.L_const_0x09b_w:
     .2byte  0x009B
 
     .global DAT_0600c418
 DAT_0600c418:
     .2byte  0x00E6
-.L_wpool_0600C41A:
+.L_const_0x172_w:
     .2byte  0x0172
     .4byte  sym_06063E20
     .4byte  sym_06083255

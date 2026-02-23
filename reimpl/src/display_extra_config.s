@@ -24,7 +24,7 @@ display_extra_config:
     mov r0, r2
     extu.w r2, r2
     and r6, r2
-    mov.w   .L_wpool_06038A9C, r3
+    mov.w   .L_bit_12_w, r3
     or r3, r2
     bra     .L_06038A92
     nop
@@ -44,7 +44,7 @@ display_extra_config:
     .global DAT_06038a9a
 DAT_06038a9a:
     .2byte  0x0FFF
-.L_wpool_06038A9C:
+.L_bit_12_w:
     .2byte  0x1000
 
     .global DAT_06038a9e

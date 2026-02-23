@@ -23,7 +23,7 @@ scene_path_b:
     mov.l   .L_sym_0607EAD8, r13
     mov.w   DAT_06006da6, r14
     mov.l   .L_sym_06063EF0, r4
-    mov.w   .L_wpool_06006DA8, r3
+    mov.w   .L_bit_11_w, r3
     mov.l   .L_mask_16bit, r2
     mov.l   .L_sym_06062248, r5
     mov.l @r13, r0
@@ -43,12 +43,12 @@ scene_path_b:
     shll2 r0
     mov.l @(r0, r5), r2
     mov.l r2, @(16, r15)
-    mov.w   .L_wpool_06006DAA, r1
+    mov.w   .L_const_0x0f2_w, r1
     mul.l r1, r4
     sts macl, r4
     mov.l   .L_wram_low_f0000, r0
     add r0, r4
-    mov.w   .L_wpool_06006DAC, r1
+    mov.w   .L_bit_13_w, r1
     add r1, r4
     mov.l r4, @(36, r15)
     mov.l   .L_sym_06062260, r4
@@ -114,11 +114,11 @@ scene_path_b:
     .global DAT_06006da6
 DAT_06006da6:
     .2byte  0x0640
-.L_wpool_06006DA8:
+.L_bit_11_w:
     .2byte  0x0800
-.L_wpool_06006DAA:
+.L_const_0x0f2_w:
     .2byte  0x00F2
-.L_wpool_06006DAC:
+.L_bit_13_w:
     .2byte  0x2000
     .2byte  0xFFFF
 .L_sym_060620D4:
@@ -507,11 +507,11 @@ button_input_read:
     mov.l   .L_sym_06059F34, r2
     mov.l r3, @r2
     mov.l @r14, r1
-    mov.l   .L_pool_0600710C, r2
+    mov.l   .L_cache_through_offset, r2
     and r2, r1
     tst r1, r1
     bt      .L_06007094
-    mov.w   .L_wpool_060070EA, r6
+    mov.w   .L_const_0x0640_w, r6
     mov.l   .L_sym_06059F34, r5
     mov.l   .L_sym_06063F60, r4
     mov.l   .L_dma_transfer, r3
@@ -522,7 +522,7 @@ button_input_read:
     mov.l @r14, r0
     tst #0x4, r0
     bt      .L_060070A8
-    mov.w   .L_wpool_060070EC, r6
+    mov.w   .L_mask_0x0e00_w, r6
     mov.l   .L_sym_0606129C, r5
     mov.l   .L_sym_060612B4, r4
     mov.l   .L_dma_transfer, r3
@@ -566,9 +566,9 @@ button_input_read:
     mov.l   .L_sym_0605B718, r6
     bra     .L_0600713C
     nop
-.L_wpool_060070EA:
+.L_const_0x0640_w:
     .2byte  0x0640
-.L_wpool_060070EC:
+.L_mask_0x0e00_w:
     .2byte  0x0E00
     .2byte  0xFFFF
 .L_sym_060635B8:
@@ -585,7 +585,7 @@ button_input_read:
     .4byte  sym_0606B178
 .L_sym_06059F34:
     .4byte  sym_06059F34
-.L_pool_0600710C:
+.L_cache_through_offset:
     .4byte  0x20000000
 .L_sym_06063F60:
     .4byte  sym_06063F60
@@ -701,7 +701,7 @@ button_input_read:
     nop
 .L_060071DE:
     mov.l @r14, r2
-    mov.l   .L_pool_0600725C, r3
+    mov.l   .L_fp_2048, r3
     and r3, r2
     tst r2, r2
     bt      .L_060071EE
@@ -765,7 +765,7 @@ button_input_read:
     .4byte  0x04000000
 .L_obj_collision_update:
     .4byte  obj_collision_update
-.L_pool_0600725C:
+.L_fp_2048:
     .4byte  0x08000000
 .L_sym_06033354:
     .4byte  sym_06033354
@@ -866,7 +866,7 @@ framebuf_swap_ctrl:
     sts.l mach, @-r15
     sts.l macl, @-r15
     mov.l   .L_sym_06000344, r3
-    mov.w   .L_wpool_0600735C, r5
+    mov.w   .L_const_0x083_w, r5
     mov.l @r3, r3
     jsr @r3
     mov #-0x1, r4
@@ -875,13 +875,13 @@ framebuf_swap_ctrl:
     mov.l @r2, r2
     add #0x1, r2
     mov.l r2, @r3
-    mov.w   .L_wpool_0600735E, r5
+    mov.w   .L_neg_495_w, r5
     mov.b @r5, r4
     extu.b r4, r0
     and #0x87, r0
     mov.b r0, @r5
     mov.l   .L_sym_06000344, r3
-    mov.w   .L_wpool_06007360, r4
+    mov.w   .L_neg_132_w, r4
     mov.l @r3, r3
     jsr @r3
     mov #0x0, r5
@@ -906,11 +906,11 @@ framebuf_swap_ctrl:
     mov.l @r15+, r15
     rte
     nop
-.L_wpool_0600735C:
+.L_const_0x083_w:
     .2byte  0x0083
-.L_wpool_0600735E:
+.L_neg_495_w:
     .2byte  0xFE11
-.L_wpool_06007360:
+.L_neg_132_w:
     .2byte  0xFF7C
     .2byte  0xFFFF
 .L_sym_06000344:
@@ -952,7 +952,7 @@ main_loop_timing:
     mov.l   .L_sym_06012E00, r3
     jsr @r3
     nop
-    mov.w   .L_wpool_06007418, r6
+    mov.w   .L_const_0x3c0_w, r6
     mov.l   .L_wram_low_a0000, r5
     mov.l   .L_sym_06059FFC, r4
     mov.l @r14, r3
@@ -967,11 +967,11 @@ main_loop_timing:
     mov.l @r0, r0
     tst #0x1, r0
     bt      .L_060073E2
-    mov.w   .L_wpool_0600741A, r6
+    mov.w   .L_bit_7_w, r6
     mov.l   .L_sym_06059F78, r5
     mov.l   .L_sym_06059FFC, r4
     mov.l @r14, r3
-    mov.w   .L_wpool_0600741C, r2
+    mov.w   .L_mask_0x0300_w, r2
     mov.l @r4, r4
     shll2 r4
     shll r4
@@ -1016,11 +1016,11 @@ DAT_06007414:
     .global DAT_06007416
 DAT_06007416:
     .2byte  0x015F
-.L_wpool_06007418:
+.L_const_0x3c0_w:
     .2byte  0x03C0
-.L_wpool_0600741A:
+.L_bit_7_w:
     .2byte  0x0080
-.L_wpool_0600741C:
+.L_mask_0x0300_w:
     .2byte  0x0300
     .2byte  0xFFFF
 .L_sym_06063F5C:

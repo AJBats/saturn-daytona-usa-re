@@ -22,13 +22,13 @@ lap_complete_flag:
     mov.l @r2, r2
     cmp/eq r2, r3
     bf      .L_0600DA04
-    mov.w   .L_wpool_0600DA50, r0
+    mov.w   .L_const_0x228_w, r0
     mov.l   .L_sym_06063F20, r3
     mov.l @(r0, r5), r2
     mov.l @r3, r3
     cmp/eq r3, r2
     bt      .L_0600DA04
-    mov.w   .L_wpool_0600DA50, r0
+    mov.w   .L_const_0x228_w, r0
     mov.l   .L_sym_06063F20, r2
     mov.l @(r0, r5), r3
     add #-0xC, r0
@@ -60,11 +60,11 @@ lap_complete_flag:
     mov.l @r14, r3
     or r6, r3
     mov.l r3, @r14
-    mov.w   .L_wpool_0600DA52, r1
+    mov.w   .L_const_0x1501_w, r1
     mov.l   .L_sym_06034F78, r3
     jsr @r3
     mov r5, r2
-    mov.w   .L_wpool_0600DA54, r0
+    mov.w   .L_const_0x230_w, r0
     mov.l @(r0, r5), r2
     add #0x1, r2
     mov.l r2, @(r0, r5)
@@ -85,11 +85,11 @@ lap_complete_flag:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_0600DA50:
+.L_const_0x228_w:
     .2byte  0x0228
-.L_wpool_0600DA52:
+.L_const_0x1501_w:
     .2byte  0x1501
-.L_wpool_0600DA54:
+.L_const_0x230_w:
     .2byte  0x0230
     .2byte  0xFFFF
 .L_sym_06063F1C:

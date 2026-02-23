@@ -48,7 +48,7 @@ vblank_color_apply:
     and r5, r3
     tst r3, r3
     bf      .L_0603EE10
-    mov.w   .L_wpool_0603EE76, r3
+    mov.w   .L_bit_7_w, r3
     and r5, r3
     tst r3, r3
     bt      .L_0603EE32
@@ -57,7 +57,7 @@ vblank_color_apply:
     and r4, r3
     tst r3, r3
     bf      .L_0603EE20
-    mov.w   .L_wpool_0603EE76, r3
+    mov.w   .L_bit_7_w, r3
     and r4, r3
     tst r3, r3
     bt      .L_0603EE2A
@@ -110,7 +110,7 @@ vblank_color_apply:
     or r3, r2
     bra     .L_0603EE82
     mov r2, r0
-.L_wpool_0603EE76:
+.L_bit_7_w:
     .2byte  0x0080
 .L_0603EE78:
     extu.b r1, r2
@@ -144,11 +144,11 @@ vblank_color_apply:
 .L_0603EEAA:
     mov.b r0, @(5, r6)
 .L_0603EEAC:
-    mov.w   .L_wpool_0603EF2A, r3
+    mov.w   .L_bit_8_w, r3
     and r5, r3
     tst r3, r3
     bt      .L_0603EED4
-    mov.w   .L_wpool_0603EF2A, r3
+    mov.w   .L_bit_8_w, r3
     and r4, r3
     tst r3, r3
     bt      .L_0603EEC8
@@ -216,7 +216,7 @@ vblank_color_apply:
 .L_0603EF26:
     rts
     nop
-.L_wpool_0603EF2A:
+.L_bit_8_w:
     .2byte  0x0100
 .L_fp_one:
     .4byte  0x00010000

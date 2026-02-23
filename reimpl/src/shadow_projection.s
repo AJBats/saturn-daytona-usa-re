@@ -23,7 +23,7 @@ shadow_projection:
     mov r15, r3
     mov.l r14, @(4, r2)
     mov.b r0, @(4, r3)
-    mov.w   .L_wpool_06036A8C, r4
+    mov.w   .L_bit_9_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -53,7 +53,7 @@ ground_shadow_render:
     mov r15, r3
     mov.l r14, @(4, r2)
     mov.b r0, @(4, r3)
-    mov.w   .L_wpool_06036A8C, r4
+    mov.w   .L_bit_9_w, r4
     mov.l   .L_input_proc_buttons, r3
     jsr @r3
     mov r15, r5
@@ -63,7 +63,7 @@ ground_shadow_render:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_06036A8C:
+.L_bit_9_w:
     .2byte  0x0200
     .2byte  0xFFFF
 .L_input_proc_analog:

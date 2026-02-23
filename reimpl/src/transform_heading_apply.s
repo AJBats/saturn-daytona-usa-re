@@ -57,20 +57,20 @@ transform_heading_apply:
 .L_sym_06089ED4:
     .4byte  sym_06089ED4
 .L_06026320:
-    mov.w   .L_wpool_06026336, r1
+    mov.w   .L_const_0x08a_w, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
     bt      .L_0602630E
     shll r0
     mov r0, r1
-    mova    .L_pool_06026338, r0
+    mova    .L_fp_neg_59_003c, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
-.L_wpool_06026336:
+.L_const_0x08a_w:
     .2byte  0x008A
-.L_pool_06026338:
+.L_fp_neg_59_003c:
     .4byte  0xFFC4FFC4
     .4byte  0xFFCEFFCE
     .4byte  0xFFC8FFC8
@@ -203,20 +203,20 @@ transform_rotation_alt:
 .L_fp_half:
     .4byte  0x00008000
 .L_060264D8:
-    mov.w   .L_wpool_060264EE, r1
+    mov.w   .L_const_0x08a_w_2, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
     bt      .L_060264C4
     shll r0
     mov r0, r1
-    mova    .L_pool_060264F0, r0
+    mova    .L_fp_neg_61_003e, r0
     mov.w @(r0, r1), r0
     braf r0
     nop
-.L_wpool_060264EE:
+.L_const_0x08a_w_2:
     .2byte  0x008A
-.L_pool_060264F0:
+.L_fp_neg_61_003e:
     .4byte  0xFFC2FFC2
     .4byte  0xFFCCFFCC
     .4byte  0xFFC6FFC6

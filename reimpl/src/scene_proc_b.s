@@ -36,12 +36,12 @@ scene_proc_b:
     cmp/eq #0x0, r0
     bt      .L_0602AC10
     mov.w @(14, r8), r0
-    mov.w   .L_wpool_0602AC00, r1
+    mov.w   .L_const_0x097_w, r1
     cmp/eq r0, r1
     bf      .L_0602AC10
     bra     .L_0602ADF8
     nop
-.L_wpool_0602AC00:
+.L_const_0x097_w:
     .2byte  0x0097
     .2byte  0x0000
 .L_sym_06094220:
@@ -391,7 +391,7 @@ loc_0602ADCA:
     cmp/gt r10, r3
     bf      .L_0602ADF8
     mov.w   .L_mask_high_byte_w, r2
-    mov.w   .L_wpool_0602AE80, r0
+    mov.w   .L_const_0x0a0_w, r0
     mov.l r0, @(16, r2)
     mov.l r3, @(0, r2)
     mov #0x0, r0
@@ -419,7 +419,7 @@ loc_0602ADCA:
     add r7, r2
 .L_mask_high_byte_w:
     .2byte  0xFF00
-.L_wpool_0602AE80:
+.L_const_0x0a0_w:
     .2byte  0x00A0
     .2byte  0x0009
 .L_0602AE84:

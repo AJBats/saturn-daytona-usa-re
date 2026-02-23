@@ -49,7 +49,7 @@ frame_end_commit:
     jsr @r3
     add r2, r4
     mov.l @r13, r6
-    mov.w   .L_wpool_060079D0, r5
+    mov.w   .L_const_0x04b0_w, r5
     mov.l @r14, r4
     mov.l   .L_memcpy_word_idx, r3
     shll r6
@@ -112,7 +112,7 @@ frame_end_commit:
     add r3, r0
     mov.w r2, @r0
     mov.l   .L_sym_0605B6D8, r4
-    mov.l   .L_pool_06007A20, r3
+    mov.l   .L_cache_through_offset, r3
     mov.l @r4, r2
     or r3, r2
     mov r2, r0
@@ -122,7 +122,7 @@ frame_end_commit:
     mov.l @r0, r0
     tst r0, r0
     bf      .L_060079C4
-    mov.l   .L_pool_06007A28, r3
+    mov.l   .L_fp_2048, r3
     mov.l @r4, r2
     or r3, r2
     mov.l r2, @r4
@@ -136,7 +136,7 @@ frame_end_commit:
     .global DAT_060079ce
 DAT_060079ce:
     .2byte  0x0258
-.L_wpool_060079D0:
+.L_const_0x04b0_w:
     .2byte  0x04B0
     .2byte  0xFFFF
 .L_sym_0606A4F8:
@@ -177,11 +177,11 @@ DAT_060079ce:
     .4byte  0x00008000
 .L_sym_0605B6D8:
     .4byte  sym_0605B6D8
-.L_pool_06007A20:
+.L_cache_through_offset:
     .4byte  0x20000000
 .L_sym_0607EAE0:
     .4byte  sym_0607EAE0
-.L_pool_06007A28:
+.L_fp_2048:
     .4byte  0x08000000
 .L_06007A2C:
     mov.l   .L_sym_06026CE0, r3
@@ -229,7 +229,7 @@ render_pass_extra:
     mov.l @(r0, r13), r13
 .L_06007A78:
     mov.l   .L_fpmul, r14
-    mov.l   .L_pool_06007AAC, r5
+    mov.l   .L_const_0xd1b7, r5
     jsr @r14
     mov r13, r4
     mov.w   DAT_06007a96, r4
@@ -263,7 +263,7 @@ DAT_06007a96:
     .4byte  sym_0607E944
 .L_fpmul:
     .4byte  fpmul
-.L_pool_06007AAC:
+.L_const_0xd1b7:
     .4byte  0x0000D1B7
 .L_sym_06085FF4:
     .4byte  sym_06085FF4
@@ -361,7 +361,7 @@ DAT_06007a96:
     add r0, r4
     add r11, r0
     mov.w r0, @(22, r13)
-    mov.l   .L_pool_06007BBC, r0
+    mov.l   .L_const_0xa3ff, r0
     mov.w r0, @(6, r13)
     mov.l   .L_sym_060785FC_2, r14
     mov.l   .L_sym_060280C4, r3
@@ -401,7 +401,7 @@ DAT_06007a96:
     .4byte  0x00890000
 .L_fp_neg_two:
     .4byte  0xFFFE0000
-.L_pool_06007BBC:
+.L_const_0xa3ff:
     .4byte  0x0000A3FF
 .L_sym_060785FC_2:
     .4byte  sym_060785FC
@@ -651,13 +651,13 @@ dma_queue_commit:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x1, r12
-    mov.w   .L_wpool_06007D9E, r13
-    mov.w   .L_wpool_06007DA0, r14
+    mov.w   .L_neg_495_w, r13
+    mov.w   .L_bit_7_w, r14
     bra     .L_06007DCE
     mov #0x0, r4
-.L_wpool_06007D9E:
+.L_neg_495_w:
     .2byte  0xFE11
-.L_wpool_06007DA0:
+.L_bit_7_w:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_sym_060281B8:

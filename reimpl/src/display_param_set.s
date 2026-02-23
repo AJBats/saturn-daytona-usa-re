@@ -36,7 +36,7 @@ display_param_set:
     mov.l r4, @r11
 .L_06038E86:
     extu.w r4, r2
-    mov.l   .L_pool_06038F18, r3
+    mov.l   .L_const_0xfffe, r3
     cmp/eq r3, r2
     bf      .L_06038EA4
     extu.w r13, r3
@@ -123,7 +123,7 @@ DAT_06038efc:
     .4byte  sym_060635B8
 .L_mask_16bit:
     .4byte  0x0000FFFF
-.L_pool_06038F18:
+.L_const_0xfffe:
     .4byte  0x0000FFFE
     .4byte  0xD40DD00E
     .4byte  0x60022008

@@ -224,7 +224,7 @@ DAT_0603bae6:
     add #0x4, r3
     mov.l r0, @r8
     mov r15, r2
-    mov.w   .L_wpool_0603BBB2, r11
+    mov.w   .L_bit_11_w, r11
     add #0x4, r2
     mov.l r11, @(4, r3)
     extu.b r14, r3
@@ -305,7 +305,7 @@ save_header_parse:
     .global DAT_0603bbb0
 DAT_0603bbb0:
     .2byte  0x00A6
-.L_wpool_0603BBB2:
+.L_bit_11_w:
     .2byte  0x0800
 
     .global DAT_0603bbb4
@@ -474,7 +474,7 @@ save_serialize:
     extu.b r7, r7
     mov.l r3, @-r15
     mov.l @(12, r14), r6
-    mov.w   .L_wpool_0603BCD0, r4
+    mov.w   .L_const_0x0a8_w, r4
     mov.l   .L_obj_setup_decomp, r3
     jsr @r3
     add r12, r4
@@ -484,7 +484,7 @@ save_serialize:
     add #0x4, r15
     bra     .L_0603BD10
     mov #0x0, r0
-.L_wpool_0603BCD0:
+.L_const_0x0a8_w:
     .2byte  0x00A8
     .2byte  0xFFFF
 .L_scene_frame_render:
@@ -535,7 +535,7 @@ save_deserialize:
     mov r4, r13
     add #-0x4, r15
     mov.l   .L_sym_060A4D14_5, r14
-    mov.w   .L_wpool_0603BD64, r0
+    mov.w   .L_const_0x0a8_w_2, r0
     mov.l @r14, r4
     mov.l @(r0, r4), r4
     tst r4, r4
@@ -562,11 +562,11 @@ save_deserialize:
     tst r4, r4
     bf      .L_0603BD88
     mov.l @r14, r3
-    mov.w   .L_wpool_0603BD64, r0
+    mov.w   .L_const_0x0a8_w_2, r0
     mov.l r13, @(r0, r3)
     bra     .L_0603BDA0
     nop
-.L_wpool_0603BD64:
+.L_const_0x0a8_w_2:
     .2byte  0x00A8
     .2byte  0xFFFF
 .L_sym_060401E4:
@@ -590,13 +590,13 @@ save_deserialize:
     cmp/eq #0x2, r0
     bf      .L_0603BDA0
     mov.l @r14, r3
-    mov.w   .L_wpool_0603BE0E, r0
+    mov.w   .L_const_0x0a8_w_3, r0
     mov.l @(r0, r3), r2
     cmp/eq r13, r2
     bf      .L_0603BDA0
     mov.l @r14, r2
     mov #0x0, r3
-    mov.w   .L_wpool_0603BE0E, r0
+    mov.w   .L_const_0x0a8_w_3, r0
     mov.l r3, @(r0, r2)
 .L_0603BDA0:
     mov r4, r0
@@ -635,13 +635,13 @@ save_integrity_check:
     jsr @r3
     mov.l @(8, r14), r4
     mov.l @r12, r2
-    mov.w   .L_wpool_0603BE10, r0
+    mov.w   .L_const_0x0b4_w, r0
     mov.l @(r0, r2), r3
     cmp/eq r14, r3
     bf      .L_0603BDEC
     mov.l @r12, r2
     mov #0x0, r3
-    mov.w   .L_wpool_0603BE10, r0
+    mov.w   .L_const_0x0b4_w, r0
     mov.l r3, @(r0, r2)
 .L_0603BDEC:
     bra     .L_0603BE00
@@ -650,7 +650,7 @@ save_integrity_check:
     tst r13, r13
     bt      .L_0603BE00
     mov.l @r12, r3
-    mov.w   .L_wpool_0603BE10, r0
+    mov.w   .L_const_0x0b4_w, r0
     mov.l r14, @(r0, r3)
     mov #0x1, r3
     mov #0x12, r0
@@ -663,9 +663,9 @@ save_integrity_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0603BE0E:
+.L_const_0x0a8_w_3:
     .2byte  0x00A8
-.L_wpool_0603BE10:
+.L_const_0x0b4_w:
     .2byte  0x00B4
     .2byte  0xFFFF
 .L_scene_buffer_update:

@@ -85,7 +85,7 @@ credits_page_build:
 .L_0603F3DA:
     mov.l r5, @r4
     mov.l   .L_sym_060A4D14, r3
-    mov.w   .L_wpool_0603F42A, r2
+    mov.w   .L_const_0x043c_w, r2
     mov.l @r3, r3
     add r3, r2
     mov.l r2, @(4, r4)
@@ -110,7 +110,7 @@ menu_element_render:
     mov r5, r10
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_0603F42C, r11
+    mov.w   .L_bit_11_w, r11
     mov.l @r14, r0
     tst r0, r0
     bf/s    .L_0603F43C
@@ -127,9 +127,9 @@ menu_element_render:
     mov.l   .L_sym_06036D78, r3
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_0603F42A:
+.L_const_0x043c_w:
     .2byte  0x043C
-.L_wpool_0603F42C:
+.L_bit_11_w:
     .2byte  0x0800
     .2byte  0xFFFF
 .L_sym_06036D94:
@@ -143,7 +143,7 @@ menu_element_render:
     mov r4, r0
     cmp/eq #-0x1, r0
     bt      .L_0603F44A
-    mov.w   .L_wpool_0603F4C2, r3
+    mov.w   .L_bit_11_w_2, r3
     cmp/ge r3, r4
     bf      .L_0603F45A
 .L_0603F44A:
@@ -215,7 +215,7 @@ audio_frame_process:
     lds.l @r15+, pr
     rts
     nop
-.L_wpool_0603F4C2:
+.L_bit_11_w_2:
     .2byte  0x0800
 .L_cmd_multi_validate:
     .4byte  cmd_multi_validate

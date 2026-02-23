@@ -14,7 +14,7 @@ credits_scroll:
     mov.l   .L_large_prologue_save, r11
     mov.l   .L_checkpoint_state_check, r12
     mov.l   .L_sym_060A4D14, r13
-    mov.w   .L_wpool_0603F2C2, r0
+    mov.w   .L_const_0x0c8_w, r0
     mov.l @r13, r5
     jsr @r12
     mov.l @(r0, r5), r5
@@ -39,7 +39,7 @@ credits_scroll:
     mov #-0x1, r0
 .L_0603F278:
     mov.l @r13, r5
-    mov.w   .L_wpool_0603F2C2, r0
+    mov.w   .L_const_0x0c8_w, r0
     mov.l @(r0, r5), r5
     jsr @r12
     mov r10, r4
@@ -79,7 +79,7 @@ credits_scroll:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0603F2C2:
+.L_const_0x0c8_w:
     .2byte  0x00C8
 .L_large_prologue_save:
     .4byte  large_prologue_save

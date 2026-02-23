@@ -19,7 +19,7 @@ mem_test_verify:
     bt/s    .L_0604056C
     mov.l @(24, r4), r13
     mov #0x0, r1
-    mov.w   .L_wpool_060405A4, r0
+    mov.w   .L_const_0x0b0_w, r0
     mov r15, r4
     mov.l @r14, r3
     mov r3, r2
@@ -48,14 +48,14 @@ mem_test_verify:
     .byte   0xB0, 0x1B    /* bsr 0x060405B8 (external) */
     mov r15, r4
     mov.l @r14, r2
-    mov.w   .L_wpool_060405A4, r0
+    mov.w   .L_const_0x0b0_w, r0
     mov.l @(r0, r2), r3
     mov.l @r15, r2
     cmp/gt r2, r3
     bt      .L_0604059A
     mov.l @r14, r2
     mov r2, r3
-    mov.w   .L_wpool_060405A4, r0
+    mov.w   .L_const_0x0b0_w, r0
     mov.l @(r0, r3), r1
     add #-0x4, r0
     mov.l r1, @(r0, r2)
@@ -65,7 +65,7 @@ mem_test_verify:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_060405A4:
+.L_const_0x0b0_w:
     .2byte  0x00B0
     .2byte  0xFFFF
 .L_sym_060A4D14:

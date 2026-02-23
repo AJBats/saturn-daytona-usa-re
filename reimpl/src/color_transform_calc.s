@@ -70,7 +70,7 @@ color_transform_calc:
 .L_0603916C:
     mov r14, r12
     mov.l   .L_sym_060635AE, r2
-    mov.w   .L_wpool_06039190, r3
+    mov.w   .L_const_0x160_w, r3
     mov.w @r2, r2
     extu.w r2, r2
     cmp/gt r3, r2
@@ -92,7 +92,7 @@ DAT_0603918c:
     .global DAT_0603918e
 DAT_0603918e:
     .2byte  0x00F7
-.L_wpool_06039190:
+.L_const_0x160_w:
     .2byte  0x0160
     .2byte  0xFFFF
 .L_vblank_color_apply:
@@ -129,7 +129,7 @@ DAT_0603918e:
     mov r12, r6
     mov r13, r5
     mov.l r3, @-r15
-    mov.w   .L_wpool_0603923C, r7
+    mov.w   .L_bit_7_w, r7
     jsr @r11
     mov.l @(8, r15), r4
     add #0x4, r15
@@ -186,7 +186,7 @@ DAT_0603918e:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_0603923C:
+.L_bit_7_w:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_sym_060A3E38:

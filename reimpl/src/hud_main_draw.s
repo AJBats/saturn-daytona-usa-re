@@ -36,7 +36,7 @@ hud_main_draw:
     add r11, r2
     add r2, r3
     mov.l r3, @-r15
-    mov.l   .L_pool_060117F0, r4
+    mov.l   .L_fp_neg_56, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
@@ -69,7 +69,7 @@ hud_main_draw:
     add r11, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_060117F0, r4
+    mov.l   .L_fp_neg_56, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
@@ -163,7 +163,7 @@ hud_main_draw:
     .4byte  swap_sign_ext
 .L_fpmul:
     .4byte  fpmul
-.L_pool_060117F0:
+.L_fp_neg_56:
     .4byte  0xFFC80000
 .L_fp_30:
     .4byte  0x001E0000
@@ -191,7 +191,7 @@ hud_main_draw:
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_pool_06011970, r4
+    mov.l   .L_fp_neg_30, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l @r15+, r4
@@ -224,7 +224,7 @@ hud_main_draw:
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_pool_06011970, r4
+    mov.l   .L_fp_neg_30, r4
     jsr @r14
     mov.l @(12, r15), r5
     mov.l @r15+, r4
@@ -253,11 +253,11 @@ hud_main_draw:
     add r11, r2
     add r2, r3
     mov.l r3, @-r15
-    mov.l   .L_pool_06011974, r4
+    mov.l   .L_fp_neg_56_2, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_pool_06011970, r4
+    mov.l   .L_fp_neg_30, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l @r15+, r4
@@ -286,11 +286,11 @@ hud_main_draw:
     add r11, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_06011974, r4
+    mov.l   .L_fp_neg_56_2, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_pool_06011970, r4
+    mov.l   .L_fp_neg_30, r4
     jsr @r14
     mov.l @(12, r15), r5
     mov.l @r15+, r4
@@ -356,7 +356,7 @@ hud_main_draw:
     mov.l @r15+, r14
 .L_fp_56_2:
     .4byte  0x00380000
-.L_pool_06011970:
+.L_fp_neg_30:
     .4byte  0xFFE20000
-.L_pool_06011974:
+.L_fp_neg_56_2:
     .4byte  0xFFC80000

@@ -105,12 +105,12 @@ camera_attract_init:
     mov.l r8, @-r15
     mov.l   .L_sym_0607E944, r0
     mov.l @r0, r0
-    mov.l   .L_pool_06033BF4, r1
+    mov.l   .L_offset_0x1ec, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_pool_06033BF8, r0
+    mov.l   .L_offset_0x0dc, r0
     cmp/ge r0, r1
     bf      .L_06033C00
-    mov.l   .L_pool_06033BFC, r0
+    mov.l   .L_offset_0x0ec, r0
     cmp/gt r0, r1
     bt      .L_06033C00
     bra     .L_06033C02
@@ -118,11 +118,11 @@ camera_attract_init:
     .2byte  0x0000
 .L_sym_0607E944:
     .4byte  sym_0607E944
-.L_pool_06033BF4:
+.L_offset_0x1ec:
     .4byte  0x000001EC
-.L_pool_06033BF8:
+.L_offset_0x0dc:
     .4byte  0x000000DC
-.L_pool_06033BFC:
+.L_offset_0x0ec:
     .4byte  0x000000EC
 .L_06033C00:
     clrt
@@ -175,12 +175,12 @@ time_extend_digits:
 .L_06033C3A:
     mov.l   .L_sym_0607E944_2, r0
     mov.l @r0, r0
-    mov.l   .L_pool_06033C5C, r1
+    mov.l   .L_offset_0x1ec_2, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_pool_06033C60, r0
+    mov.l   .L_const_0x0ed, r0
     cmp/ge r0, r1
     bf      .L_06033C68
-    mov.l   .L_pool_06033C64, r0
+    mov.l   .L_offset_0x104, r0
     cmp/gt r0, r1
     bt      .L_06033C68
     bra     .L_06033C6A
@@ -190,11 +190,11 @@ time_extend_digits:
     .4byte  sym_0603446C
 .L_sym_0607E944_2:
     .4byte  sym_0607E944
-.L_pool_06033C5C:
+.L_offset_0x1ec_2:
     .4byte  0x000001EC
-.L_pool_06033C60:
+.L_const_0x0ed:
     .4byte  0x000000ED
-.L_pool_06033C64:
+.L_offset_0x104:
     .4byte  0x00000104
 .L_06033C68:
     clrt
@@ -383,23 +383,23 @@ selector_group_render:
 .L_06033D34:
     mov.l   .L_sym_0607E944_3, r0
     mov.l @r0, r0
-    mov.l   .L_pool_06033D50, r1
+    mov.l   .L_offset_0x1ec_3, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_pool_06033D54, r0
+    mov.l   .L_offset_0x1b8, r0
     cmp/ge r0, r1
     bf      .L_06033D5C
-    mov.l   .L_pool_06033D58, r0
+    mov.l   .L_offset_0x1e0, r0
     cmp/gt r0, r1
     bt      .L_06033D5C
     bra     .L_06033D5E
     sett
 .L_sym_0607E944_3:
     .4byte  sym_0607E944
-.L_pool_06033D50:
+.L_offset_0x1ec_3:
     .4byte  0x000001EC
-.L_pool_06033D54:
+.L_offset_0x1b8:
     .4byte  0x000001B8
-.L_pool_06033D58:
+.L_offset_0x1e0:
     .4byte  0x000001E0
 .L_06033D5C:
     clrt
@@ -417,7 +417,7 @@ selector_group_render:
 .L_sym_0607EAE0:
     .4byte  sym_0607EAE0
 .L_06033D74:
-    mov.l   .L_pool_06033E64, r4
+    mov.l   .L_const_0x019, r4
 
     .global disp_selext_thunk_00
     .type disp_selext_thunk_00, @function
@@ -428,10 +428,10 @@ disp_selext_thunk_00:
     lds.l @r15+, pr
     mov.l   .L_sym_06083250, r0
     mov.l @r0, r13
-    mov.l   .L_pool_06033E6C, r0
+    mov.l   .L_const_0x13b, r0
     cmp/ge r0, r13
     bf      .L_06033E52
-    mov.l   .L_pool_06033E70, r4
+    mov.l   .L_const_0x01a, r4
 
     .global disp_selext_thunk_01
     .type disp_selext_thunk_01, @function
@@ -440,7 +440,7 @@ disp_selext_thunk_01:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033E74, r4
+    mov.l   .L_const_0x01b, r4
 
     .global disp_selext_thunk_02
     .type disp_selext_thunk_02, @function
@@ -449,7 +449,7 @@ disp_selext_thunk_02:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033E78, r4
+    mov.l   .L_offset_0x01c, r4
 
     .global disp_selext_thunk_03
     .type disp_selext_thunk_03, @function
@@ -458,7 +458,7 @@ disp_selext_thunk_03:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033E7C, r4
+    mov.l   .L_const_0x01d, r4
 
     .global disp_selext_thunk_04
     .type disp_selext_thunk_04, @function
@@ -467,7 +467,7 @@ disp_selext_thunk_04:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033E80, r0
+    mov.l   .L_const_0x276, r0
     cmp/ge r0, r13
     bf      .L_06033E52
     mov #0x1E, r4
@@ -515,7 +515,7 @@ disp_selext_thunk_09:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033E84, r0
+    mov.l   .L_const_0x3b1, r0
     cmp/ge r0, r13
     bf      .L_06033E52
     mov #0x23, r4
@@ -612,32 +612,32 @@ score_display_render:
     mov.l   .L_sym_06083250, r1
     mov.l @r1, r0
     add #0x1, r0
-    mov.l   .L_pool_06033E88, r2
+    mov.l   .L_offset_0xec4, r2
     cmp/ge r2, r0
     bf      .L_06033E60
-    mov.l   .L_pool_06033E88, r0
+    mov.l   .L_offset_0xec4, r0
 .L_06033E60:
     bra     .L_06033E92
     mov.l r0, @r1
-.L_pool_06033E64:
+.L_const_0x019:
     .4byte  0x00000019
 .L_sym_06083250:
     .4byte  sym_06083250
-.L_pool_06033E6C:
+.L_const_0x13b:
     .4byte  0x0000013B
-.L_pool_06033E70:
+.L_const_0x01a:
     .4byte  0x0000001A
-.L_pool_06033E74:
+.L_const_0x01b:
     .4byte  0x0000001B
-.L_pool_06033E78:
+.L_offset_0x01c:
     .4byte  0x0000001C
-.L_pool_06033E7C:
+.L_const_0x01d:
     .4byte  0x0000001D
-.L_pool_06033E80:
+.L_const_0x276:
     .4byte  0x00000276
-.L_pool_06033E84:
+.L_const_0x3b1:
     .4byte  0x000003B1
-.L_pool_06033E88:
+.L_offset_0xec4:
     .4byte  0x00000EC4
 .L_06033E8C:
     xor r0, r0
@@ -689,7 +689,7 @@ disp_score_digit_0:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033F40, r4
+    mov.l   .L_const_0x001, r4
     mov.l   .L_sym_06033F54_2, r0
 
     .global disp_score_digit_1
@@ -699,7 +699,7 @@ disp_score_digit_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033F44, r4
+    mov.l   .L_const_0x002, r4
     mov.l   .L_sym_06033F54_2, r0
 
     .global disp_score_digit_2
@@ -709,7 +709,7 @@ disp_score_digit_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033F48, r4
+    mov.l   .L_offset_0x004, r4
     mov.l   .L_sym_06033F54_2, r0
 
     .global bonus_points_display
@@ -724,7 +724,7 @@ bonus_points_display:
     mov.b @r0, r0
     cmp/eq #0x2, r0
     bf      .L_06033F1C
-    mov.l   .L_pool_06033F4C, r4
+    mov.l   .L_const_0x006, r4
 .L_06033F08:
     mov.l r4, @-r15
     sts.l pr, @-r15
@@ -733,7 +733,7 @@ bonus_points_display:
     lds.l @r15+, pr
     mov.l @r15+, r4
     add #0x1, r4
-    mov.l   .L_pool_06033F50, r0
+    mov.l   .L_const_0x019_2, r0
     cmp/ge r0, r4
     bf      .L_06033F08
 .L_06033F1C:
@@ -755,34 +755,34 @@ bonus_points_display:
     .4byte  0x00000000
 .L_sym_06033F54_2:
     .4byte  sym_06033F54
-.L_pool_06033F40:
+.L_const_0x001:
     .4byte  0x00000001
-.L_pool_06033F44:
+.L_const_0x002:
     .4byte  0x00000002
-.L_pool_06033F48:
+.L_offset_0x004:
     .4byte  0x00000004
-.L_pool_06033F4C:
+.L_const_0x006:
     .4byte  0x00000006
-.L_pool_06033F50:
+.L_const_0x019_2:
     .4byte  0x00000019
 
     .global sym_06033F54
 sym_06033F54:
     mov.l r13, @-r15
-    mov.l   .L_pool_06033F9C, r1
+    mov.l   .L_offset_0x02c, r1
     mulu.w r4, r1
     sts macl, r0
     mov.l   .L_DAT_06082A7C, r14
     add r0, r14
     mov.l   .L_sym_0607E944_4, r0
     mov.l @r0, r10
-    mov.l   .L_pool_06033FA8, r0
+    mov.l   .L_const_0x001_2, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bt      disp_end_stub_0
     cmp/eq #0x4, r0
     bt      disp_end_stub_0
-    mov.l   .L_pool_06033FAC, r0
+    mov.l   .L_const_0x026, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x0, r0
     bt      disp_end_stub_2
@@ -816,15 +816,15 @@ display_frame_mgr:
     lds.l @r15+, pr
     bra     .L_06033FFC
     nop
-.L_pool_06033F9C:
+.L_offset_0x02c:
     .4byte  0x0000002C
 .L_DAT_06082A7C:
     .4byte  DAT_06082A7C
 .L_sym_0607E944_4:
     .4byte  sym_0607E944
-.L_pool_06033FA8:
+.L_const_0x001_2:
     .4byte  0x00000001
-.L_pool_06033FAC:
+.L_const_0x026:
     .4byte  0x00000026
 
     .global disp_end_stub_2
@@ -904,28 +904,28 @@ display_frame_flush:
     rts
     mov.l @r15+, r13
 .L_06034000:
-    mov.l   .L_pool_06034018, r0
+    mov.l   .L_const_0x001_3, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x3, r0
     bf      .L_06034024
-    mov.l   .L_pool_0603401C, r0
+    mov.l   .L_const_0x012, r0
     mov.w @(r0, r14), r1
     exts.w r1, r1
-    mov.l   .L_pool_06034020, r0
+    mov.l   .L_offset_0x01c_2, r0
     mov.l @(r0, r14), r2
     add r1, r2
     rts
     mov.l r2, @(r0, r14)
-.L_pool_06034018:
+.L_const_0x001_3:
     .4byte  0x00000001
-.L_pool_0603401C:
+.L_const_0x012:
     .4byte  0x00000012
-.L_pool_06034020:
+.L_offset_0x01c_2:
     .4byte  0x0000001C
 .L_06034024:
-    mov.l   .L_pool_06034088, r0
+    mov.l   .L_const_0x012_2, r0
     mov.w @(r0, r14), r2
-    mov.l   .L_pool_0603408C, r0
+    mov.l   .L_const_0x002_2, r0
     mov.w @(r0, r14), r1
     add r2, r1
     mov.w r1, @(r0, r14)
@@ -946,16 +946,16 @@ phys_position_load:
     nop
     lds.l @r15+, pr
     mov r0, r12
-    mov.l   .L_pool_06034094, r0
+    mov.l   .L_offset_0x020, r0
     mov.l @(r0, r14), r11
     dmuls.l r12, r11
     sts mach, r0
     sts macl, r1
     xtrct r0, r1
-    mov.l   .L_pool_06034098, r0
+    mov.l   .L_offset_0x014, r0
     mov.l @(r0, r14), r0
     add r0, r1
-    mov.l   .L_pool_0603409C, r0
+    mov.l   .L_offset_0x004_2, r0
     mov.l r1, @(r0, r14)
     mov r13, r4
     mov.l   .L_sin_lookup, r0
@@ -976,42 +976,42 @@ phys_velocity_integrate:
     sts mach, r0
     sts macl, r1
     xtrct r0, r1
-    mov.l   .L_pool_060340A4, r0
+    mov.l   .L_offset_0x01c_3, r0
     mov.l @(r0, r14), r0
     add r0, r1
-    mov.l   .L_pool_060340A8, r0
+    mov.l   .L_offset_0x00c, r0
     mov.l r1, @(r0, r14)
-    mov.l   .L_pool_060340AC, r0
+    mov.l   .L_const_0x001_4, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x2, r0
     bt      .L_0603410C
-    mov.l   .L_pool_060340B0, r0
+    mov.l   .L_offset_0x024, r0
     mov.w @(r0, r14), r1
     tst r1, r1
     bf      .L_060340B4
     bra     .L_060340EC
     xor r2, r2
-.L_pool_06034088:
+.L_const_0x012_2:
     .4byte  0x00000012
-.L_pool_0603408C:
+.L_const_0x002_2:
     .4byte  0x00000002
 .L_cos_lookup:
     .4byte  cos_lookup
-.L_pool_06034094:
+.L_offset_0x020:
     .4byte  0x00000020          /* offset: heading/angle */
-.L_pool_06034098:
+.L_offset_0x014:
     .4byte  0x00000014          /* offset: velocity A */
-.L_pool_0603409C:
+.L_offset_0x004_2:
     .4byte  0x00000004          /* offset: position X */
 .L_sin_lookup:
     .4byte  sin_lookup
-.L_pool_060340A4:
+.L_offset_0x01c_3:
     .4byte  0x0000001C          /* offset: velocity C */
-.L_pool_060340A8:
+.L_offset_0x00c:
     .4byte  0x0000000C          /* offset: position Y */
-.L_pool_060340AC:
+.L_const_0x001_4:
     .4byte  0x00000001          /* offset: type/mode byte */
-.L_pool_060340B0:
+.L_offset_0x024:
     .4byte  0x00000024          /* offset: steering word */
 .L_060340B4:
     dmuls.l r12, r1
@@ -1055,10 +1055,10 @@ phys_final_integrate:
     sts macl, r2
     xtrct r0, r2
 .L_060340EC:
-    mov.l   .L_pool_06034104, r0
+    mov.l   .L_offset_0x018, r0
     mov.l @(r0, r14), r1
     add r1, r2
-    mov.l   .L_pool_06034108, r0
+    mov.l   .L_offset_0x008, r0
     bra     .L_0603413E
     mov.l r2, @(r0, r14)
 .L_sin_lookup_2:
@@ -1067,16 +1067,16 @@ phys_final_integrate:
     .4byte  cos_lookup
 .L_fpdiv_setup:
     .4byte  fpdiv_setup
-.L_pool_06034104:
+.L_offset_0x018:
     .4byte  0x00000018
-.L_pool_06034108:
+.L_offset_0x008:
     .4byte  0x00000008
 .L_0603410C:
-    mov.l   .L_pool_06034144, r0
+    mov.l   .L_offset_0x004_3, r0
     mov.l @(r0, r14), r4
     mov.l   .L_sym_06083238, r0
     mov.l r4, @r0
-    mov.l   .L_pool_0603414C, r0
+    mov.l   .L_offset_0x00c_2, r0
     mov.l @(r0, r14), r5
     mov.l   .L_sym_06083240, r0
     mov.l r5, @r0
@@ -1103,17 +1103,17 @@ ai_steering_response:
     lds.l @r15+, pr
     mov.l   .L_sym_0608323C, r0
     mov.l @r0, r1
-    mov.l   .L_pool_06034164, r0
+    mov.l   .L_offset_0x008_2, r0
     mov.l r1, @(r0, r14)
 .L_0603413E:
     rts
     nop
     .2byte  0x0000
-.L_pool_06034144:
+.L_offset_0x004_3:
     .4byte  0x00000004
 .L_sym_06083238:
     .4byte  sym_06083238
-.L_pool_0603414C:
+.L_offset_0x00c_2:
     .4byte  0x0000000C
 .L_sym_06083240:
     .4byte  sym_06083240
@@ -1125,10 +1125,10 @@ ai_steering_response:
     .4byte  scene_render_alt
 .L_sym_0608323C:
     .4byte  sym_0608323C
-.L_pool_06034164:
+.L_offset_0x008_2:
     .4byte  0x00000008
 .L_06034168:
-    mov.l   .L_pool_060341C4, r0
+    mov.l   .L_const_0x001_5, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bf      .L_060341F4
@@ -1143,11 +1143,11 @@ ai_vel_x_entry:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC, r13
     mov.l @r13, r13
-    mov.l   .L_pool_060341D0, r0
+    mov.l   .L_offset_0x004_4, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_060341D4, r0
+    mov.l   .L_offset_0x008_3, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_060341D8, r0
+    mov.l   .L_offset_0x00c_3, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E, r0
 
@@ -1158,7 +1158,7 @@ ai_vel_x_step_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060341E0, r0
+    mov.l   .L_const_0x002_3, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y, r0
 
@@ -1169,7 +1169,7 @@ ai_vel_x_step_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060341E8, r0
+    mov.l   .L_const_0x011, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_param_load, r0
 
@@ -1194,25 +1194,25 @@ xaxis_integrate_damp:
     bra     .L_06034468
     nop
     .2byte  0x0000
-.L_pool_060341C4:
+.L_const_0x001_5:
     .4byte  0x00000001
 .L_sym_06026DBC:
     .4byte  sym_06026DBC
 .L_sym_06089EDC:
     .4byte  sym_06089EDC
-.L_pool_060341D0:
+.L_offset_0x004_4:
     .4byte  0x00000004
-.L_pool_060341D4:
+.L_offset_0x008_3:
     .4byte  0x00000008
-.L_pool_060341D8:
+.L_offset_0x00c_3:
     .4byte  0x0000000C
 .L_sym_06026E2E:
     .4byte  sym_06026E2E
-.L_pool_060341E0:
+.L_const_0x002_3:
     .4byte  0x00000002
 .L_mat_rot_y:
     .4byte  mat_rot_y
-.L_pool_060341E8:
+.L_const_0x011:
     .4byte  0x00000011
 .L_camera_param_load:
     .4byte  camera_param_load
@@ -1232,11 +1232,11 @@ ai_vel_x_cleanup_entry:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_2, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06034258, r0
+    mov.l   .L_offset_0x004_5, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_0603425C, r0
+    mov.l   .L_offset_0x008_4, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_06034260, r0
+    mov.l   .L_offset_0x00c_4, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E_2, r0
 
@@ -1247,7 +1247,7 @@ ai_vel_x_cleanup_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034268, r0
+    mov.l   .L_const_0x002_4, r0
     mov.w @(r0, r14), r4
     mov.l   .L_fp_half, r0
     add r0, r4
@@ -1261,7 +1261,7 @@ ai_vel_x_cleanup_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034274, r0
+    mov.l   .L_const_0x011_2, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_scene_setup, r0
 
@@ -1289,21 +1289,21 @@ yaxis_integrate:
     .4byte  sym_06026DBC
 .L_sym_06089EDC_2:
     .4byte  sym_06089EDC
-.L_pool_06034258:
+.L_offset_0x004_5:
     .4byte  0x00000004
-.L_pool_0603425C:
+.L_offset_0x008_4:
     .4byte  0x00000008
-.L_pool_06034260:
+.L_offset_0x00c_4:
     .4byte  0x0000000C
 .L_sym_06026E2E_2:
     .4byte  sym_06026E2E
-.L_pool_06034268:
+.L_const_0x002_4:
     .4byte  0x00000002
 .L_fp_half:
     .4byte  0x00008000
 .L_mat_rot_y_2:
     .4byte  mat_rot_y
-.L_pool_06034274:
+.L_const_0x011_2:
     .4byte  0x00000011
 .L_camera_scene_setup:
     .4byte  camera_scene_setup
@@ -1323,11 +1323,11 @@ ai_vel_y_entry:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_3, r13
     mov.l @r13, r13
-    mov.l   .L_pool_060342E0, r0
+    mov.l   .L_offset_0x014_2, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_060342E4, r0
+    mov.l   .L_offset_0x018_2, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_060342E8, r0
+    mov.l   .L_offset_0x01c_4, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E_3, r0
 
@@ -1338,7 +1338,7 @@ ai_vel_y_step_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060342F0, r0
+    mov.l   .L_const_0x002_5, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_3, r0
 
@@ -1349,7 +1349,7 @@ ai_vel_y_step_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060342F8, r0
+    mov.l   .L_const_0x011_3, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_scene_setup_2, r0
 
@@ -1378,19 +1378,19 @@ zaxis_integrate:
     .4byte  sym_06026DBC
 .L_sym_06089EDC_3:
     .4byte  sym_06089EDC
-.L_pool_060342E0:
+.L_offset_0x014_2:
     .4byte  0x00000014
-.L_pool_060342E4:
+.L_offset_0x018_2:
     .4byte  0x00000018
-.L_pool_060342E8:
+.L_offset_0x01c_4:
     .4byte  0x0000001C
 .L_sym_06026E2E_3:
     .4byte  sym_06026E2E
-.L_pool_060342F0:
+.L_const_0x002_5:
     .4byte  0x00000002
 .L_mat_rot_y_3:
     .4byte  mat_rot_y
-.L_pool_060342F8:
+.L_const_0x011_3:
     .4byte  0x00000011
 .L_camera_scene_setup_2:
     .4byte  camera_scene_setup
@@ -1413,11 +1413,11 @@ ai_vel_z_entry:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_4, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06034428, r0
+    mov.l   .L_offset_0x004_6, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_0603442C, r0
+    mov.l   .L_offset_0x008_5, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_06034430, r0
+    mov.l   .L_offset_0x00c_5, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E_4, r0
 
@@ -1428,7 +1428,7 @@ ai_vel_z_step_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034438, r0
+    mov.l   .L_const_0x002_6, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_4, r0
 
@@ -1439,7 +1439,7 @@ ai_vel_z_step_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034440, r0
+    mov.l   .L_const_0x011_4, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_param_load_2, r0
 
@@ -1463,7 +1463,7 @@ ai_rot_a_entry:
     mov.l @r13, r13
     mov.l   .L_sym_06083250_3, r0
     mov.l @r0, r1
-    mov.l   .L_pool_06034450, r0
+    mov.l   .L_offset_0x4ec, r0
     cmp/ge r0, r1
     bf      .L_0603441C
     mov.l   .L_sym_06026DBC_4, r0
@@ -1477,13 +1477,13 @@ ai_rot_a_step:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_4, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06034428, r0
+    mov.l   .L_offset_0x004_6, r0
     mov.l @(r0, r14), r4
     mov.l   .L_wram_low_80000, r0
     sub r0, r4
-    mov.l   .L_pool_0603442C, r0
+    mov.l   .L_offset_0x008_5, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_06034430, r0
+    mov.l   .L_offset_0x00c_5, r0
     mov.l @(r0, r14), r6
     mov.l   .L_fp_62, r0
     sub r0, r6
@@ -1496,7 +1496,7 @@ ai_rot_a_fix_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034438, r0
+    mov.l   .L_const_0x002_6, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_4, r0
 
@@ -1507,7 +1507,7 @@ ai_rot_a_fix_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034440, r0
+    mov.l   .L_const_0x011_4, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_param_load_2, r0
 
@@ -1531,7 +1531,7 @@ ai_rot_b_entry:
     mov.l @r13, r13
     mov.l   .L_sym_06083250_3, r0
     mov.l @r0, r1
-    mov.l   .L_pool_0603445C, r0
+    mov.l   .L_const_0x627, r0
     cmp/ge r0, r1
     bf      .L_0603441C
     mov.l   .L_sym_06026DBC_4, r0
@@ -1545,13 +1545,13 @@ ai_rot_b_step:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_4, r13
     mov.l @r13, r13
-    mov.l   .L_pool_06034428, r0
+    mov.l   .L_offset_0x004_6, r0
     mov.l @(r0, r14), r4
     mov.l   .L_fp_25, r0
     sub r0, r4
-    mov.l   .L_pool_0603442C, r0
+    mov.l   .L_offset_0x008_5, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_06034430, r0
+    mov.l   .L_offset_0x00c_5, r0
     mov.l @(r0, r14), r6
     mov.l   .L_fp_28, r0
     sub r0, r6
@@ -1564,7 +1564,7 @@ ai_rot_b_fix_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034438, r0
+    mov.l   .L_const_0x002_6, r0
     mov.w @(r0, r14), r4
     add r0, r4
     mov.l   .L_mat_rot_y_4, r0
@@ -1576,7 +1576,7 @@ ai_rot_b_fix_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06034440, r0
+    mov.l   .L_const_0x011_4, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_param_load_2, r0
 
@@ -1609,19 +1609,19 @@ ai_decision_dispatch:
     .4byte  sym_06026DBC
 .L_sym_06089EDC_4:
     .4byte  sym_06089EDC
-.L_pool_06034428:
+.L_offset_0x004_6:
     .4byte  0x00000004
-.L_pool_0603442C:
+.L_offset_0x008_5:
     .4byte  0x00000008
-.L_pool_06034430:
+.L_offset_0x00c_5:
     .4byte  0x0000000C
 .L_sym_06026E2E_4:
     .4byte  sym_06026E2E
-.L_pool_06034438:
+.L_const_0x002_6:
     .4byte  0x00000002
 .L_mat_rot_y_4:
     .4byte  mat_rot_y
-.L_pool_06034440:
+.L_const_0x011_4:
     .4byte  0x00000011
 .L_camera_param_load_2:
     .4byte  camera_param_load
@@ -1629,13 +1629,13 @@ ai_decision_dispatch:
     .4byte  sym_06026DF8
 .L_sym_06083250_3:
     .4byte  sym_06083250
-.L_pool_06034450:
+.L_offset_0x4ec:
     .4byte  0x000004EC          /* struct offset (0x4EC) — deep in car data */
 .L_wram_low_80000:
     .4byte  0x00280000          /* 16.16 FP: 40.0 (camera distance?) */
 .L_fp_62:
     .4byte  0x003E0000          /* 16.16 FP: 62.0 */
-.L_pool_0603445C:
+.L_const_0x627:
     .4byte  0x00000627          /* struct offset (0x627) — AI config data */
 .L_fp_25:
     .4byte  0x00190000          /* 16.16 FP: 25.0 */
@@ -1653,41 +1653,41 @@ ai_decision_dispatch:
 sym_0603446C:
     xor r7, r7                 /* r7 = car index (0..4) */
 .L_0603446E:
-    mov.l   .L_pool_0603448C, r1 /* r1 = 0x2C (struct stride) */
+    mov.l   .L_offset_0x02c_2, r1 /* r1 = 0x2C (struct stride) */
     mulu.w r7, r1              /* MACL = index * stride */
     sts macl, r0
     mov.l   .L_DAT_06082A7C_2, r14 /* r14 = car array base */
     add r0, r14                /* r14 = &car[index] */
     xor r1, r1                 /* r1 = 0 */
-    mov.l   .L_pool_06034494, r0 /* r0 = 0x26 (status byte offset) */
+    mov.l   .L_const_0x026_2, r0 /* r0 = 0x26 (status byte offset) */
     mov.b r1, @(r0, r14)      /* car[i].status = 0 */
     add #0x1, r7               /* next car */
-    mov.l   .L_pool_06034498, r0 /* r0 = 5 (car count) */
+    mov.l   .L_const_0x005, r0 /* r0 = 5 (car count) */
     cmp/ge r0, r7
     bf      .L_0603446E        /* loop until all 5 cleared */
     rts
     nop
     .2byte  0x0000
-.L_pool_0603448C:
+.L_offset_0x02c_2:
     .4byte  0x0000002C          /* car struct stride (44 bytes) */
 .L_DAT_06082A7C_2:
     .4byte  DAT_06082A7C        /* AI car array base */
-.L_pool_06034494:
+.L_const_0x026_2:
     .4byte  0x00000026          /* offset: AI status byte */
-.L_pool_06034498:
+.L_const_0x005:
     .4byte  0x00000005          /* car count (5 cars) */
 .L_0603449C:
-    mov.l   .L_pool_06034508, r0
+    mov.l   .L_const_0x001_6, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x2, r0
     bf      .L_0603454A
-    mov.l   .L_pool_0603450C, r0
+    mov.l   .L_offset_0x004_7, r0
     mov.l @(r0, r14), r3
-    mov.l   .L_pool_06034510, r0
+    mov.l   .L_offset_0x00c_6, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_06034514, r0
+    mov.l   .L_offset_0x010, r0
     mov.l @(r0, r10), r5
-    mov.l   .L_pool_06034518, r0
+    mov.l   .L_offset_0x018_3, r0
     mov.l @(r0, r10), r6
     mov.l r13, @-r15
     mov.l r1, @-r15
@@ -1735,15 +1735,15 @@ ai_speed_limit:
     lds.l @r15+, pr
     bra     .L_0603452E
     shll r0
-.L_pool_06034508:
+.L_const_0x001_6:
     .4byte  0x00000001
-.L_pool_0603450C:
+.L_offset_0x004_7:
     .4byte  0x00000004
-.L_pool_06034510:
+.L_offset_0x00c_6:
     .4byte  0x0000000C
-.L_pool_06034514:
+.L_offset_0x010:
     .4byte  0x00000010
-.L_pool_06034518:
+.L_offset_0x018_3:
     .4byte  0x00000018
 .L_sym_06083238_2:
     .4byte  sym_06083238
@@ -1771,8 +1771,8 @@ ai_waypoint_follower:
     mov.l   .L_fp_eight, r0
     cmp/ge r0, r2
     bt      .L_0603454A
-    mov.l   .L_pool_06034558, r1
-    mov.l   .L_pool_0603455C, r0
+    mov.l   .L_const_0x001_7, r1
+    mov.l   .L_const_0x026_3, r0
     mov.b r1, @(r0, r14)
 .L_0603454A:
     rts
@@ -1782,39 +1782,39 @@ ai_waypoint_follower:
     .4byte  isqrt
 .L_fp_eight:
     .4byte  0x00080000
-.L_pool_06034558:
+.L_const_0x001_7:
     .4byte  0x00000001
-.L_pool_0603455C:
+.L_const_0x026_3:
     .4byte  0x00000026
 .L_06034560:
-    mov.l   .L_pool_0603457C, r0
+    mov.l   .L_offset_0x028, r0
     mov.l @(r0, r10), r1
-    mov.l   .L_pool_06034580, r0
+    mov.l   .L_const_0x002_7, r0
     mov.w r1, @(r0, r14)
-    mov.l   .L_pool_06034584, r0
+    mov.l   .L_offset_0x00c_7, r0
     mov.l @(r0, r10), r4
     shal r4
-    mov.l   .L_pool_0603457C, r0
+    mov.l   .L_offset_0x028, r0
     mov.l r4, @(r0, r14)
-    mov.l   .L_pool_06034588, r0
+    mov.l   .L_const_0x026_4, r0
     mov #0x2, r1
     mov.b r1, @(r0, r14)
     rts
     nop
-.L_pool_0603457C:
+.L_offset_0x028:
     .4byte  0x00000028
-.L_pool_06034580:
+.L_const_0x002_7:
     .4byte  0x00000002
-.L_pool_06034584:
+.L_offset_0x00c_7:
     .4byte  0x0000000C
-.L_pool_06034588:
+.L_const_0x026_4:
     .4byte  0x00000026
 .L_0603458C:
-    mov.l   .L_pool_06034608, r0
+    mov.l   .L_const_0x002_8, r0
     mov.w @(r0, r14), r9
     mov.l   .L_quarter_turn, r1
     add r1, r9
-    mov.l   .L_pool_06034610, r0
+    mov.l   .L_offset_0x028_2, r0
     mov.l @(r0, r14), r8
     mov r9, r4
     mov.l   .L_cos_lookup_3, r0
@@ -1830,7 +1830,7 @@ ai_collision_trigger:
     sts mach, r0
     sts macl, r3
     xtrct r0, r3
-    mov.l   .L_pool_06034618, r0
+    mov.l   .L_offset_0x004_8, r0
     mov.l @(r0, r14), r1
     add r3, r1
     mov.l r1, @(r0, r14)
@@ -1848,15 +1848,15 @@ ai_collision_response:
     sts mach, r0
     sts macl, r3
     xtrct r0, r3
-    mov.l   .L_pool_06034620, r0
+    mov.l   .L_offset_0x00c_8, r0
     mov.l @(r0, r14), r1
     add r3, r1
     mov.l r1, @(r0, r14)
-    mov.l   .L_pool_06034618, r0
+    mov.l   .L_offset_0x004_8, r0
     mov.l @(r0, r14), r4
     mov.l   .L_sym_06083238_3, r0
     mov.l r4, @r0
-    mov.l   .L_pool_06034620, r0
+    mov.l   .L_offset_0x00c_8, r0
     mov.l @(r0, r14), r5
     mov.l   .L_sym_06083240_2, r0
     mov.l r5, @r0
@@ -1883,24 +1883,24 @@ ai_car_pos_init:
     lds.l @r15+, pr
     mov.l   .L_sym_0608323C_2, r0
     mov.l @r0, r1
-    mov.l   .L_pool_0603463C, r0
+    mov.l   .L_offset_0x008_6, r0
     mov.l r1, @(r0, r14)
     rts
     nop
     .2byte  0x0000
-.L_pool_06034608:
+.L_const_0x002_8:
     .4byte  0x00000002
 .L_quarter_turn:
     .4byte  0x00004000
-.L_pool_06034610:
+.L_offset_0x028_2:
     .4byte  0x00000028
 .L_cos_lookup_3:
     .4byte  cos_lookup
-.L_pool_06034618:
+.L_offset_0x004_8:
     .4byte  0x00000004
 .L_sin_lookup_3:
     .4byte  sin_lookup
-.L_pool_06034620:
+.L_offset_0x00c_8:
     .4byte  0x0000000C
 .L_sym_06083238_3:
     .4byte  sym_06083238
@@ -1914,7 +1914,7 @@ ai_car_pos_init:
     .4byte  scene_render_alt
 .L_sym_0608323C_2:
     .4byte  sym_0608323C
-.L_pool_0603463C:
+.L_offset_0x008_6:
     .4byte  0x00000008
 .L_06034640:
     mov.l   .L_sym_06026DBC_5, r0
@@ -1928,11 +1928,11 @@ ai_spawn_helper_a:
     lds.l @r15+, pr
     mov.l   .L_sym_06089EDC_5, r13
     mov.l @r13, r13
-    mov.l   .L_pool_0603469C, r0
+    mov.l   .L_offset_0x004_9, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_pool_060346A0, r0
+    mov.l   .L_offset_0x008_7, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_pool_060346A4, r0
+    mov.l   .L_offset_0x00c_9, r0
     mov.l @(r0, r14), r6
     mov.l   .L_sym_06026E2E_5, r0
 
@@ -1943,7 +1943,7 @@ ai_spawn_helper_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060346AC, r0
+    mov.l   .L_const_0x002_9, r0
     mov.w @(r0, r14), r4
     mov.l   .L_mat_rot_y_5, r0
 
@@ -1954,7 +1954,7 @@ ai_spawn_helper_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_060346B4, r0
+    mov.l   .L_const_0x011_5, r0
     mov.b @(r0, r14), r4
     mov.l   .L_camera_scene_setup_3, r0
 
@@ -1983,33 +1983,33 @@ ai_car_full_init:
     .4byte  sym_06026DBC
 .L_sym_06089EDC_5:
     .4byte  sym_06089EDC
-.L_pool_0603469C:
+.L_offset_0x004_9:
     .4byte  0x00000004
-.L_pool_060346A0:
+.L_offset_0x008_7:
     .4byte  0x00000008
-.L_pool_060346A4:
+.L_offset_0x00c_9:
     .4byte  0x0000000C
 .L_sym_06026E2E_5:
     .4byte  sym_06026E2E
-.L_pool_060346AC:
+.L_const_0x002_9:
     .4byte  0x00000002
 .L_mat_rot_y_5:
     .4byte  mat_rot_y
-.L_pool_060346B4:
+.L_const_0x011_5:
     .4byte  0x00000011
 .L_camera_scene_setup_3:
     .4byte  camera_scene_setup
 .L_sym_06026DF8_5:
     .4byte  sym_06026DF8
 .L_060346C0:
-    mov.l   .L_pool_060346F0, r0
+    mov.l   .L_const_0x001_8, r0
     mov.b @(r0, r14), r0
     add #-0x1, r0
     mov.l   .L_sym_060631B4, r1
     mov.b @(r0, r1), r2
     mov.l   .L_sym_060631B8, r1
     mov.b @(r0, r1), r3
-    mov.l   .L_pool_060346FC, r0
+    mov.l   .L_offset_0x010_2, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     mov.b r1, @(r0, r14)
@@ -2017,7 +2017,7 @@ ai_car_full_init:
     bf      .L_060346EC
     xor r2, r2
     mov.b r2, @(r0, r14)
-    mov.l   .L_pool_06034700, r0
+    mov.l   .L_const_0x011_6, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     cmp/ge r3, r1
@@ -2028,15 +2028,15 @@ ai_car_full_init:
 .L_060346EC:
     rts
     nop
-.L_pool_060346F0:
+.L_const_0x001_8:
     .4byte  0x00000001
 .L_sym_060631B4:
     .4byte  sym_060631B4
 .L_sym_060631B8:
     .4byte  sym_060631B8
-.L_pool_060346FC:
+.L_offset_0x010_2:
     .4byte  0x00000010
-.L_pool_06034700:
+.L_const_0x011_6:
     .4byte  0x00000011
 .L_zero_2:
     .4byte  0x00000000
@@ -2057,9 +2057,9 @@ vblank_handler:
     mov.l r9, @-r15
     mov.l r8, @-r15
     mov r4, r14
-    mov.l   .L_pool_0603474C, r0
+    mov.l   .L_offset_0x00c_10, r0
     mov.l @(r0, r14), r2
-    mov.l   .L_pool_06034750, r0
+    mov.l   .L_offset_0x010_3, r0
     mov.l r2, @(r0, r14)
 
     .global ai_rank_stub_a
@@ -2095,14 +2095,14 @@ position_calc_current:
     rts
     nop
     .2byte  0x0000
-.L_pool_0603474C:
+.L_offset_0x00c_10:
     .4byte  0x0000000C
-.L_pool_06034750:
+.L_offset_0x010_3:
     .4byte  0x00000010
 .L_06034754:
     mov.l   .L_sym_0607E944_5, r0
     mov.l @r0, r1
-    mov.l   .L_pool_06034790, r0
+    mov.l   .L_offset_0x008_8, r0
     mov.l   .L_fp_300, r5
     mov.l @(r0, r1), r4
     shll16 r4
@@ -2120,7 +2120,7 @@ ranking_system_full:
     nop
     lds.l @r15+, pr
     mov r0, r2
-    mov.l   .L_pool_06034790, r0
+    mov.l   .L_offset_0x008_8, r0
     mov.l @(r0, r14), r1
     add r2, r1
     mov.l   .L_fp_6, r3
@@ -2133,13 +2133,13 @@ ranking_system_full:
     shlr16 r2
     mov.l   .L_dma_direct_imm, r0
     and r0, r2
-    mov.l   .L_pool_060347A4, r0
+    mov.l   .L_offset_0x00c_11, r0
     mov.l r2, @(r0, r14)
     rts
     nop
 .L_sym_0607E944_5:
     .4byte  sym_0607E944
-.L_pool_06034790:
+.L_offset_0x008_8:
     .4byte  0x00000008
 .L_fp_300:
     .4byte  0x012C0000
@@ -2149,44 +2149,44 @@ ranking_system_full:
     .4byte  0x00060000
 .L_dma_direct_imm:
     .4byte  0x00000007
-.L_pool_060347A4:
+.L_offset_0x00c_11:
     .4byte  0x0000000C
 .L_060347A8:
-    mov.l   .L_pool_06034824, r0
+    mov.l   .L_offset_0x00c_12, r0
     mov.l @(r0, r14), r1
     mov #0x1, r3
     cmp/eq r3, r1
     bf      .L_060347C8
-    mov.l   .L_pool_06034828, r0
+    mov.l   .L_offset_0x010_4, r0
     mov.l @(r0, r14), r0
     xor r1, r0
     tst r0, r0
     bt      .L_060347C8
-    mov.l   .L_pool_0603482C, r0
+    mov.l   .L_const_0x001_9, r0
     mov.l   .L_neg_one, r1
     mov.b r1, @(r0, r14)
-    mov.l   .L_pool_06034834, r0
+    mov.l   .L_const_0x002_10, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
 .L_060347C8:
-    mov.l   .L_pool_06034824, r0
+    mov.l   .L_offset_0x00c_12, r0
     mov.l @(r0, r14), r1
     mov #0x5, r3
     cmp/eq r3, r1
     bf      .L_060347E8
-    mov.l   .L_pool_06034828, r0
+    mov.l   .L_offset_0x010_4, r0
     mov.l @(r0, r14), r0
     xor r1, r0
     tst r0, r0
     bt      .L_060347E8
-    mov.l   .L_pool_06034838, r0
+    mov.l   .L_offset_0x004_10, r0
     mov.l   .L_neg_one, r1
     mov.b r1, @(r0, r14)
-    mov.l   .L_pool_0603483C, r0
+    mov.l   .L_const_0x005_2, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
 .L_060347E8:
-    mov.l   .L_pool_06034834, r0
+    mov.l   .L_const_0x002_10, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     mov.b r1, @(r0, r14)
@@ -2197,44 +2197,44 @@ ranking_system_full:
     mov #0x3, r2
     cmp/eq r2, r1
     bf      .L_06034804
-    mov.l   .L_pool_0603482C, r0
+    mov.l   .L_const_0x001_9, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
 .L_06034804:
-    mov.l   .L_pool_0603483C, r0
+    mov.l   .L_const_0x005_2, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     and r2, r1
-    mov.l   .L_pool_06034844, r0
+    mov.l   .L_const_0x003, r0
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     cmp/eq r2, r1
     bf      .L_06034820
-    mov.l   .L_pool_06034838, r0
+    mov.l   .L_offset_0x004_10, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
 .L_06034820:
     rts
     nop
-.L_pool_06034824:
+.L_offset_0x00c_12:
     .4byte  0x0000000C
-.L_pool_06034828:
+.L_offset_0x010_4:
     .4byte  0x00000010
-.L_pool_0603482C:
+.L_const_0x001_9:
     .4byte  0x00000001
 .L_neg_one:
     .4byte  0xFFFFFFFF
-.L_pool_06034834:
+.L_const_0x002_10:
     .4byte  0x00000002
-.L_pool_06034838:
+.L_offset_0x004_10:
     .4byte  0x00000004
-.L_pool_0603483C:
+.L_const_0x005_2:
     .4byte  0x00000005
 .L_zero_3:
     .4byte  0x00000000
-.L_pool_06034844:
+.L_const_0x003:
     .4byte  0x00000003
 .L_06034848:
     mov.l   .L_sym_06083255, r0
@@ -2256,20 +2256,20 @@ ranking_system_full:
 .L_fp_2_8000:
     .4byte  0x00028000
 .L_0603486C:
-    mov.l   .L_pool_060348A0, r0
+    mov.l   .L_offset_0x010_5, r0
     mov.l @(r0, r14), r1
-    mov.l   .L_pool_060348A4, r0
+    mov.l   .L_offset_0x00c_13, r0
     mov.l @(r0, r14), r0
     cmp/eq r1, r0
     bt      .L_060348EE
     mov.l   .L_sym_0607E944_6, r0
     mov.l @r0, r1
-    mov.l   .L_pool_060348AC, r0
+    mov.l   .L_offset_0x008_9, r0
     mov.l @(r0, r1), r1
     mov.w   DAT_0603489e, r0
     cmp/ge r0, r1
     bt      .L_060348B0
-    mov.l   .L_pool_060348A4, r0
+    mov.l   .L_offset_0x00c_13, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x0, r0
     bt      .L_060348E0
@@ -2285,16 +2285,16 @@ ranking_system_full:
     .global DAT_0603489e
 DAT_0603489e:
     .2byte  0x0104
-.L_pool_060348A0:
+.L_offset_0x010_5:
     .4byte  0x00000010
-.L_pool_060348A4:
+.L_offset_0x00c_13:
     .4byte  0x0000000C
 .L_sym_0607E944_6:
     .4byte  sym_0607E944
-.L_pool_060348AC:
+.L_offset_0x008_9:
     .4byte  0x00000008
 .L_060348B0:
-    mov.l   .L_pool_060348C4, r0
+    mov.l   .L_offset_0x00c_14, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x0, r0
     bt      .L_060348E0
@@ -2304,24 +2304,24 @@ DAT_0603489e:
     bt      .L_060348D4
     bra     .L_060348EE
     nop
-.L_pool_060348C4:
+.L_offset_0x00c_14:
     .4byte  0x0000000C
 .L_060348C8:
-    mov.l   .L_pool_060348D0, r5
+    mov.l   .L_fp_neg_20974_c401, r5
     bra     .L_060348E2
     nop
     .2byte  0x0000
-.L_pool_060348D0:
+.L_fp_neg_20974_c401:
     .4byte  0xAE113BFF
 .L_060348D4:
-    mov.l   .L_pool_060348DC, r5
+    mov.l   .L_fp_neg_20974_c301, r5
     bra     .L_060348E2
     nop
     .2byte  0x0000
-.L_pool_060348DC:
+.L_fp_neg_20974_c301:
     .4byte  0xAE113CFF
 .L_060348E0:
-    mov.l   .L_pool_060348F4, r5
+    mov.l   .L_fp_neg_20974_c201, r5
 .L_060348E2:
     mov.l   .L_zero_4, r4
     mov.l   .L_sound_cmd_dispatch, r0
@@ -2337,7 +2337,7 @@ lap_complete_check:
     rts
     nop
     .2byte  0x0000
-.L_pool_060348F4:
+.L_fp_neg_20974_c201:
     .4byte  0xAE113DFF
 .L_zero_4:
     .4byte  0x00000000
@@ -2356,11 +2356,11 @@ terrain_data_lookup:
     mov.l r8, @-r15
     mov.l   .L_sym_0607E944_7, r1
     mov.l @r1, r14
-    mov.l   .L_pool_0603492C, r0
+    mov.l   .L_offset_0x0b8, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x2C, r0
     bt      .L_06034934
-    mov.l   .L_pool_06034930, r0
+    mov.l   .L_offset_0x1bc, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x28, r0
     bt      .L_06034934
@@ -2369,13 +2369,13 @@ terrain_data_lookup:
     .2byte  0x0000
 .L_sym_0607E944_7:
     .4byte  sym_0607E944
-.L_pool_0603492C:
+.L_offset_0x0b8:
     .4byte  0x000000B8
-.L_pool_06034930:
+.L_offset_0x1bc:
     .4byte  0x000001BC
 .L_06034934:
     mov.l   .L_zero_5, r4
-    mov.l   .L_pool_0603497C, r5
+    mov.l   .L_fp_neg_20974_d701, r5
     mov.l   .L_sound_cmd_dispatch_2, r0
 
     .global checkpoint_validate
@@ -2424,7 +2424,7 @@ DAT_06034976:
     .2byte  0x005C
 .L_zero_5:
     .4byte  0x00000000
-.L_pool_0603497C:
+.L_fp_neg_20974_d701:
     .4byte  0xAE1128FF
 .L_sound_cmd_dispatch_2:
     .4byte  sound_cmd_dispatch
@@ -2538,7 +2538,7 @@ ai_section_update:
     and #0xF, r0
     mov r0, r9
     stc sr, r0
-    mov.w   .L_wpool_06034A90, r3
+    mov.w   .L_neg_241_w, r3
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
@@ -2551,7 +2551,7 @@ ai_section_update:
     shll2 r0
     shll2 r0
     stc sr, r2
-    mov.w   .L_wpool_06034A90, r3
+    mov.w   .L_neg_241_w, r3
     and r3, r2
     or r2, r0
     ldc r0, sr
@@ -2588,7 +2588,7 @@ ai_section_update:
     .global DAT_06034a8e
 DAT_06034a8e:
     .2byte  0x00FF
-.L_wpool_06034A90:
+.L_neg_241_w:
     .2byte  0xFF0F
     .2byte  0xFFFF
 .L_sym_06035F16:
@@ -2793,16 +2793,16 @@ ai_drafting_calc:
     mov r12, r0
     add #0x4, r3
     mov.b r0, @(7, r3)
-    mov.w   .L_wpool_06034BF4, r0
+    mov.w   .L_const_0x081_w, r0
     and r14, r0
     cmp/eq #0x1, r0
     bf      .L_06034C2C
-    mov.w   .L_wpool_06034BF6, r2
+    mov.w   .L_const_0x0dac_w, r2
     bra     .L_06034C04
     nop
-.L_wpool_06034BF4:
+.L_const_0x081_w:
     .2byte  0x0081
-.L_wpool_06034BF6:
+.L_const_0x0dac_w:
     .2byte  0x0DAC
 .L_input_proc_analog_3:
     .4byte  input_proc_analog
@@ -2891,7 +2891,7 @@ ai_brake_zone_adjust:
 .L_input_proc_analog_4:
     .4byte  input_proc_analog
 .L_06034C8C:
-    mov.w   .L_wpool_06034D02, r4
+    mov.w   .L_const_0x082_w, r4
 .L_06034C8E:
     mov.l   .L_input_proc_init, r3
     jsr @r3
@@ -2914,7 +2914,7 @@ ai_brake_zone_adjust:
     bsr     ai_brake_zone_main
     add #0x4, r4
 .L_06034CB4:
-    mov.l   .L_pool_06034D08, r4
+    mov.l   .L_const_0xfffd, r4
     mov.l   .L_sym_06035C6E, r3
     jsr @r3
     nop
@@ -2961,11 +2961,11 @@ ai_brake_zone:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_06034D02:
+.L_const_0x082_w:
     .2byte  0x0082
 .L_input_proc_init:
     .4byte  input_proc_init
-.L_pool_06034D08:
+.L_const_0xfffd:
     .4byte  0x0000FFFD
 .L_sym_06035C6E:
     .4byte  sym_06035C6E

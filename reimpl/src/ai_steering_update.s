@@ -20,7 +20,7 @@ ai_steering_update:
     neg r3, r3
     extu.w r3, r3
     add r3, r4
-    mov.w   .L_wpool_0600C8B8, r3
+    mov.w   .L_const_0x118_w, r3
     cmp/gt r3, r2
     bf/s    .L_0600C7FE
     exts.w r4, r4
@@ -30,7 +30,7 @@ ai_steering_update:
     shar r4
 .L_0600C7FE:
     mov.l @(8, r14), r2
-    mov.w   .L_wpool_0600C8BA, r3
+    mov.w   .L_const_0x0fa_w, r3
     cmp/gt r3, r2
     bf      .L_0600C80C
     shar r4
@@ -127,9 +127,9 @@ ai_steering_update:
     .global DAT_0600c8b6
 DAT_0600c8b6:
     .2byte  0x01B0
-.L_wpool_0600C8B8:
+.L_const_0x118_w:
     .2byte  0x0118
-.L_wpool_0600C8BA:
+.L_const_0x0fa_w:
     .2byte  0x00FA
 
     .global DAT_0600c8bc

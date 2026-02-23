@@ -103,7 +103,7 @@ vdp1_sprite_builder:
     add r3, r2
     mov.l r2, @r4
     mov.l   .L_sym_0607EBC4, r3
-    mov.l   .L_pool_06007CDC, r2
+    mov.l   .L_fp_8226_8000, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -152,7 +152,7 @@ vdp1_sprite_builder:
     .4byte  sym_0605A008
 .L_sym_0607EBC4:
     .4byte  sym_0607EBC4
-.L_pool_06007CDC:
+.L_fp_8226_8000:
     .4byte  0x20228000
 .L_sym_060333D8:
     .4byte  sym_060333D8
