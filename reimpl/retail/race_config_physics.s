@@ -92,7 +92,7 @@ DAT_0600855e:
     .4byte sym_06078654
     .4byte sym_06063E1C
     .4byte sym_06059F30
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .byte 0x00, 0x05
     .byte 0x80, 0x00
     .4byte sym_06063E24

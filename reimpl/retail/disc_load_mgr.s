@@ -147,7 +147,7 @@ DAT_0601b262:
     .4byte sym_0606A4F4
     .4byte sym_0606A4EC
     .4byte sym_06063F5C
-    .4byte FUN_06039250
+    .4byte vdp2_scroll_update
     .4byte sym_060393FC
     .4byte sym_0605A008
     .byte 0x00, 0x00
@@ -320,7 +320,7 @@ DAT_0601b392:
     .byte 0xB0, 0x00
     .4byte sym_06028400
     .4byte display_channel_b
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .4byte sym_0602853E
     .4byte sym_06028560
     .byte 0x40, 0x00

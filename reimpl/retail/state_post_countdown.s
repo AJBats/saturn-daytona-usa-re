@@ -26,6 +26,6 @@ state_post_countdown:
     .byte 0xFF, 0xFF
     .4byte sym_0605AD10
     .4byte sym_0607EAD8
-    .4byte FUN_060121A8
+    .4byte race_cleanup_handler
     .4byte sym_06012198
     .4byte sym_0605A016

@@ -156,7 +156,7 @@ replay_playback:
     .byte 0x00, 0x01
     .byte 0x48, 0x72
     .4byte sym_06026E2E
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .byte 0x96, 0x57
     .byte 0xD4, 0x2D
     .byte 0xD3, 0x2D
@@ -269,7 +269,7 @@ replay_playback:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFE
     .byte 0xB7, 0x8E
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .byte 0x96, 0x39
     .byte 0xD4, 0x1E
     .byte 0xD3, 0x1E
@@ -417,7 +417,7 @@ replay_playback:
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_0605DF52
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .byte 0x00, 0x01
     .byte 0x48, 0x72
     .4byte sym_06026E2E
@@ -509,7 +509,7 @@ replay_playback:
     .byte 0x70, 0x00
     .4byte sym_0605DF54
     .4byte sym_06026DBC
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .byte 0xFF, 0xFE
     .byte 0xB7, 0x8E
     .4byte sym_06026E2E

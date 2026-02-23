@@ -182,8 +182,8 @@ state_race_setup:
     .4byte sym_0607ED8C
     .4byte race_init_master
     .4byte sym_0607ED91
-    .4byte FUN_06010A5C
-    .4byte FUN_06033AAC
+    .4byte hud_post_update
+    .4byte hud_subsystem_init
     .4byte disp_init_setup
     .4byte sym_0607EBCC
     .4byte sym_0607EAD8
@@ -191,7 +191,7 @@ state_race_setup:
     .4byte sym_060054EA
     .4byte race_start_init
     .4byte bg_layer_init
-    .4byte FUN_0601E100
+    .4byte geom_matrix_setup
     .4byte sym_0605AB18
     .4byte menu_overlay_render
     .4byte sym_0605AD10

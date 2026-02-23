@@ -24,10 +24,10 @@ geom_display_ctrl_a:
     .byte 0x23, 0x42
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .byte 0x25, 0xE7
     .byte 0xFF, 0xFE
-    .4byte FUN_06036E90
+    .4byte tilemap_dma_update
     .4byte sym_0605B6D8
     .4byte sym_06026CE0
     .4byte sym_060620D0

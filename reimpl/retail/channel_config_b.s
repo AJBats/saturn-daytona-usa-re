@@ -28,7 +28,7 @@ channel_config_b:
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .global sym_060149CC
 sym_060149CC:
     .byte 0xD3, 0x0A

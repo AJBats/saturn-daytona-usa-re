@@ -26,5 +26,5 @@ event_queue_flush:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte FUN_06041258
+    .4byte ai_brake_handler
     .4byte sym_0606367C

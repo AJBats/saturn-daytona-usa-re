@@ -22,4 +22,4 @@ file_seek:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config

@@ -61,11 +61,11 @@ sym_0603C156:
     .byte 0x40, 0x21
     .byte 0x30, 0x00
     .4byte sym_060A4D60
-    .4byte FUN_0603D2CC
-    .4byte FUN_0603D3A8
-    .4byte FUN_0603D438
-    .4byte FUN_0603D514
-    .4byte FUN_0603D5D0
+    .4byte render_credits_stub
+    .4byte bus_lock_table_ctrl
+    .4byte display_nop_stub_a
+    .4byte display_nop_stub_b
+    .4byte display_element_draw
     .4byte sym_060A4D80
     .4byte sym_060A4DA6
     .4byte sym_060A3D96

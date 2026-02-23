@@ -170,9 +170,9 @@ vdp2_config_extended:
 DAT_06018b8e:
     .byte 0x40, 0x00
     .4byte render_obj_stub
-    .4byte FUN_06012DB4
+    .4byte cd_texture_loader
     .4byte sym_0605D1BC
-    .4byte FUN_06012D7C
+    .4byte cd_course_loader
     .4byte sym_06078635
     .4byte sym_06012E7C
     .4byte sym_0607ED8C
@@ -400,4 +400,4 @@ DAT_06018b8e:
     .4byte gameover_channel_setup
     .4byte sym_06003430
     .4byte channel_config_b
-    .4byte FUN_06021128
+    .4byte obj_render_cleanup

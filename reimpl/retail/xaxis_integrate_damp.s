@@ -27,7 +27,7 @@ xaxis_integrate_damp:
     .4byte mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte FUN_0600A5B2
+    .4byte camera_param_load
     .4byte sym_06026DF8
     .byte 0x88, 0x02
     .byte 0x8B, 0x43

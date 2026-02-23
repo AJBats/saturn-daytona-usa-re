@@ -26,8 +26,8 @@ display_mode_switch:
     .byte 0x00, 0x0E
     .4byte sym_060624C8
     .4byte mat_rot_z
-    .4byte FUN_0600A4AA
+    .4byte camera_pos_calc
     .4byte sym_06026DF8
     .byte 0x00, 0x00
     .byte 0x00, 0x10
-    .4byte FUN_0600A474
+    .4byte camera_push_save

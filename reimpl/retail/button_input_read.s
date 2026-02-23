@@ -84,7 +84,7 @@ button_input_read:
     .byte 0xFF, 0xFF
     .4byte display_channel_b
     .4byte display_channel_a
-    .4byte FUN_060389A6
+    .4byte scene_data_dispatch
     .4byte sym_060635C4
     .4byte sym_060635C0
     .4byte sym_0605B6D8
@@ -357,7 +357,7 @@ button_input_read:
     .4byte display_channels_load
     .byte 0x04, 0x00
     .byte 0x00, 0x00
-    .4byte FUN_06020C3C
+    .4byte obj_collision_update
     .byte 0x08, 0x00
     .byte 0x00, 0x00
     .4byte sym_06033354

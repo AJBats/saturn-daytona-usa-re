@@ -102,7 +102,7 @@ per_frame_update:
 DAT_0600a460:
     .byte 0x08, 0x00
     .byte 0x07, 0x00
-    .4byte FUN_06012B58
+    .4byte cd_status_reader
     .4byte sym_06063D98
-    .4byte FUN_06020BCE
+    .4byte obj_state_pack
     .4byte sym_0600026C

@@ -1004,7 +1004,7 @@ DAT_0600f34a:
     .4byte sym_06086028
     .byte 0x25, 0xF0
     .byte 0x0F, 0xFE
-    .4byte FUN_06036E90
+    .4byte tilemap_dma_update
     .4byte sym_060149E0
     .4byte audio_display_init
     .4byte render_coord_transform

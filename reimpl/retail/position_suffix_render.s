@@ -20,7 +20,7 @@ position_suffix_render:
     .4byte sym_06026F72
     .byte 0x00, 0x00
     .byte 0x02, 0xDE
-    .4byte FUN_0600A474
+    .4byte camera_push_save
     .byte 0x00, 0x00
     .byte 0x00, 0x30
     .4byte sym_06026DF8

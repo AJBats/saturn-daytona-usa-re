@@ -102,7 +102,7 @@ DAT_06018216:
 DAT_0601821a:
     .byte 0x05, 0x6C
     .4byte sym_06026DF8
-    .4byte FUN_06021178
+    .4byte obj_overlay_render
     .4byte sym_0605BE2C
     .4byte sym_06063F64
     .4byte sym_060684EC

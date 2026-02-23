@@ -37,10 +37,10 @@ menu_input_proc:
     .byte 0x60, 0x43
     .byte 0xFF, 0x0C
     .byte 0x00, 0xA0
-    .4byte FUN_0603F22C
-    .4byte FUN_0603BC12
+    .4byte hud_toggle_ctrl
+    .4byte save_size_calc
     .4byte sym_060A4D14
-    .4byte FUN_0603F238
+    .4byte credits_scroll_entry
     .byte 0x62, 0xD2
     .byte 0x90, 0x4A
     .byte 0x00, 0x2E

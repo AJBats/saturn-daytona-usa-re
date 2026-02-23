@@ -16,6 +16,6 @@ menu_credits_elem:
     .byte 0x00, 0x09
     .byte 0x00, 0xA8
     .byte 0x00, 0xB8
-    .4byte FUN_060406B4
+    .4byte timer_stub
     .4byte sym_060A4D14
     .4byte sym_06035168

@@ -99,12 +99,12 @@ DAT_06007416:
     .4byte sym_06063F5C
     .4byte sym_0606A4F4
     .4byte sym_0606A4EC
-    .4byte FUN_06039250
-    .4byte FUN_0603931C
+    .4byte vdp2_scroll_update
+    .4byte polygon_param_setup
     .4byte sym_060393FC
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06038E54
+    .4byte display_param_set
     .4byte sym_06012E00
     .byte 0x00, 0x2A
     .byte 0x00, 0x00

@@ -57,7 +57,7 @@ event_callback_dispatch:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .4byte cmd_enqueue
-    .4byte FUN_0604188C
+    .4byte state_field_read
     .4byte sym_06040220
     .4byte sym_0606367C
     .4byte sym_06035C48

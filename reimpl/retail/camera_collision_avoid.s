@@ -129,7 +129,7 @@ camera_collision_avoid:
     .byte 0xFF, 0xFF
     .byte 0x0F, 0x5D
     .4byte sym_06026E2E
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .4byte sym_060621D8
     .4byte sym_0606212C
     .4byte sym_06031D8C

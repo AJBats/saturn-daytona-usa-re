@@ -323,7 +323,7 @@ DAT_0603c8d4:
     .byte 0x00, 0x09
     .4byte sym_060A4D90
     .4byte sym_060A4D84
-    .4byte FUN_060429EC
+    .4byte color_palette_effect
     .4byte sym_060A4D94
     .4byte sym_060A4DA8
     .byte 0x62, 0x42

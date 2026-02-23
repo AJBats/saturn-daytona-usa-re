@@ -99,7 +99,7 @@ camera_orient_calc:
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .4byte transform_matrix
     .4byte mat_rot_z
     .4byte mat_rot_y

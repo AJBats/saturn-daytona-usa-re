@@ -139,7 +139,7 @@ DAT_0601ca3c:
     .4byte sym_06063958
     .4byte sym_06028400
     .4byte sym_06063960
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
     .byte 0xE5, 0x01

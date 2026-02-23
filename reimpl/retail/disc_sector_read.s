@@ -35,6 +35,6 @@ disc_sector_read:
     .byte 0x01, 0x60
     .byte 0xFF, 0xFF
     .4byte sym_06086014
-    .4byte FUN_06039100
+    .4byte color_transform_calc
     .4byte sym_06086011
     .4byte sym_0608600F

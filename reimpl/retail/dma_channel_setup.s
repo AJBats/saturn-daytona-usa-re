@@ -26,10 +26,10 @@ dma_channel_setup:
     .byte 0xD3, 0x04
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
-    .4byte FUN_06041648
+    .4byte track_surface_check
     .4byte sym_06035228
     .4byte buffer_slot_alloc
-    .4byte FUN_0604188C
+    .4byte state_field_read
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6

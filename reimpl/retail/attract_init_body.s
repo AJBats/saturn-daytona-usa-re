@@ -76,7 +76,7 @@ attract_init_body:
     .4byte sym_0607864B
     .4byte vdp2_config_extended
     .4byte race_init_master
-    .4byte FUN_06033AAC
+    .4byte hud_subsystem_init
     .4byte vdp1_init
     .4byte sym_06063DA0
     .4byte vdp_init_advanced

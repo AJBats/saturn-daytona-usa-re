@@ -101,7 +101,7 @@ obj_setup_decomp:
     .4byte sym_06035228
     .4byte sym_06040EEC
     .4byte sym_06040E88
-    .4byte FUN_06040F16
+    .4byte evt_reg_save
     .4byte buffer_slot_alloc
     .byte 0x96, 0x24
     .byte 0x55, 0xF1

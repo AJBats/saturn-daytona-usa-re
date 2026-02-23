@@ -79,7 +79,7 @@ DAT_0601d36c:
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_060149E0
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .4byte audio_display_init
     .byte 0x00, 0x01
     .byte 0x77, 0x00

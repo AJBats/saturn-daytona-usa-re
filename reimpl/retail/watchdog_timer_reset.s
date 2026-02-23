@@ -24,7 +24,7 @@ sym_06040894:
 DAT_0604089c:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte FUN_060414D0
-    .4byte FUN_0604188C
-    .4byte FUN_06040F16
+    .4byte track_segment_interp
+    .4byte state_field_read
+    .4byte evt_reg_save
     .4byte sym_06040EBA

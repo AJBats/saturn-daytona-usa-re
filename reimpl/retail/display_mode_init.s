@@ -59,7 +59,7 @@ display_mode_init:
     .byte 0x00, 0x09
     .byte 0x01, 0x00
     .4byte sym_06085640
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .4byte sym_06085F8A
     .4byte sym_0602853E
     .4byte display_channel_b
@@ -173,7 +173,7 @@ display_mode_init:
     .byte 0x02, 0x80
     .byte 0x02, 0x20
     .byte 0x02, 0x40
-    .4byte FUN_06020CF4
+    .4byte obj_data_compact
     .4byte frame_end_commit
     .4byte sym_0602853E
     .4byte display_channel_b

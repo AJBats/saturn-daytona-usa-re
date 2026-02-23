@@ -8,4 +8,4 @@ mem_pool_reset:
     .byte 0xD3, 0x01
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
-    .4byte FUN_0601E958
+    .4byte geom_vertex_process

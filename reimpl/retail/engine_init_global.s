@@ -29,7 +29,7 @@ engine_init_global:
     .byte 0x00, 0x83
     .byte 0xFF, 0xFF
     .4byte sym_06000344
-    .4byte FUN_06037660
+    .4byte vdp1_polygon_build
     .byte 0x25, 0xFE
     .byte 0x00, 0xA4
     .4byte sym_06087C84
@@ -149,21 +149,21 @@ engine_init_global:
     .byte 0xE4, 0x04
     .byte 0x20, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06038300
-    .4byte FUN_06036F0C
-    .4byte FUN_06038A64
+    .4byte display_hw_init
+    .4byte vdp_init_master
+    .4byte display_extra_config
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte sym_06086028
     .byte 0x25, 0xF0
     .byte 0x0F, 0xFE
-    .4byte FUN_06036E90
+    .4byte tilemap_dma_update
     .4byte sym_06000300
     .4byte button_input_read
     .4byte vblank_out_handler
     .4byte sym_06063DA8
-    .4byte FUN_0603950C
-    .4byte FUN_06038E54
+    .4byte scene_state_process
+    .4byte display_param_set
     .byte 0x25, 0xE5
     .byte 0x80, 0x00
     .4byte sym_06061294
@@ -274,7 +274,7 @@ engine_init_global:
     .byte 0x00, 0x00
     .byte 0xC0, 0x44
     .4byte sym_06087C84
-    .4byte FUN_0603806C
+    .4byte display_enable_ctrl
     .byte 0x25, 0xE5
     .byte 0xFE, 0x80
     .byte 0x25, 0xE5
@@ -396,7 +396,7 @@ engine_init_global:
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06087C84
-    .4byte FUN_06038120
+    .4byte scene_buffer_init
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .4byte scene_color_intensity
@@ -510,7 +510,7 @@ engine_init_global:
     .byte 0x00, 0x00
     .byte 0xC0, 0x60
     .4byte sym_060370C0
-    .4byte FUN_060370E4
+    .4byte texture_bank_setup
     .4byte sym_06059F20
     .4byte sym_06038044
     .4byte display_channels_clear

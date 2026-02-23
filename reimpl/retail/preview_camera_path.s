@@ -65,7 +65,7 @@ preview_camera_path:
     .4byte sym_0602853E
     .4byte sym_0605B6D8
     .4byte sym_06028560
-    .4byte FUN_0601950C
+    .4byte course_select_draw
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
     .4byte sound_cmd_dispatch

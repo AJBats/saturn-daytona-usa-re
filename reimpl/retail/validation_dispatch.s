@@ -79,7 +79,7 @@ DAT_0604009e:
     .byte 0x00, 0xD0
     .byte 0x00, 0xC8
     .4byte sym_060A4D14
-    .4byte FUN_06040C98
+    .4byte road_segment_check
     .byte 0x7F, 0x04
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B

@@ -71,7 +71,7 @@ viewport_coord_calc:
     .byte 0xA0, 0x20
     .byte 0x81, 0x43
     .4byte sym_06063D98
-    .4byte FUN_06039808
+    .4byte display_list_manage
     .4byte sym_06059F44
     .byte 0x64, 0xE3
     .byte 0x61, 0x1D

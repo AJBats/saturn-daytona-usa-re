@@ -277,5 +277,5 @@ DAT_0602109e:
     .4byte sym_0607E944
     .4byte sym_0603850C
     .4byte sym_06087C84
-    .4byte FUN_06038120
+    .4byte scene_buffer_init
     .4byte sym_06038520

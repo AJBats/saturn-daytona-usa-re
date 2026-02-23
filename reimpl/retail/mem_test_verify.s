@@ -58,6 +58,6 @@ mem_test_verify:
     .byte 0x00, 0xB0
     .byte 0xFF, 0xFF
     .4byte sym_060A4D14
-    .4byte FUN_0604134E
+    .4byte ai_section_check
     .4byte sym_06041014
     .4byte sym_06040FEA

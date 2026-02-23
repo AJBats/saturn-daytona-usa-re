@@ -118,9 +118,9 @@ system_init:
     .4byte sym_0603BF7C
     .4byte sym_06034E58
     .4byte sym_06000344
-    .4byte FUN_06012CF4
+    .4byte cd_progress_notify
     .4byte engine_init_global
-    .4byte FUN_06012E6A
+    .4byte sound_scsp_boot
     .4byte race_sound_handler
     .4byte sym_06005174
     .4byte sym_0601F936

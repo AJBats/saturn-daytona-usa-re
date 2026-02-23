@@ -174,7 +174,7 @@ DAT_0603e0b2:
     .byte 0xA0, 0x04
     .byte 0x54, 0xF6
     .4byte sym_060A53B8
-    .4byte FUN_0603C08C
+    .4byte display_scene_update
     .byte 0x4B, 0x0B
     .byte 0x00, 0x09
     .byte 0x63, 0xF6

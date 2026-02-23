@@ -129,7 +129,7 @@ DAT_06013f4c:
     .4byte sym_06026E2E
     .4byte transform_matrix
     .4byte mat_rot_y
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .4byte sym_06062338
     .4byte sym_06031D8C
     .4byte sym_060622C0

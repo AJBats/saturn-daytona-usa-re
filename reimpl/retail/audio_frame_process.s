@@ -1,0 +1,16 @@
+    .section .text.FUN_0603F4B0
+    .global audio_frame_process
+    .type audio_frame_process, @function
+audio_frame_process:
+    .byte 0x4F, 0x22
+    .byte 0x7F, 0xFC
+    .byte 0xBF, 0x9F
+    .byte 0x65, 0xF3
+    .byte 0x60, 0xF0
+    .byte 0x7F, 0x04
+    .byte 0x4F, 0x26
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x08, 0x00
+    .4byte cmd_multi_validate
+    .4byte sym_060360FC

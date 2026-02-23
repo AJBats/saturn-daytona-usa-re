@@ -119,7 +119,7 @@ DAT_06014086:
     .4byte sym_06026DBC
     .4byte sym_06084AF6
     .4byte fpmul
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .4byte sym_06062338
     .4byte sym_06031D8C
     .4byte sym_060622C0

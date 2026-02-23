@@ -1,0 +1,12 @@
+    .section .text.FUN_06041698
+    .global large_prologue_save
+    .type large_prologue_save, @function
+large_prologue_save:
+    .byte 0x2F, 0xE6
+    .byte 0x2F, 0xD6
+    .byte 0x2F, 0xC6
+    .byte 0x2F, 0xB6
+    .byte 0x2F, 0xA6
+    .byte 0xEB, 0x08
+    .byte 0x2F, 0x96
+    .byte 0xEA, 0x1E

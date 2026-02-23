@@ -173,7 +173,7 @@ DAT_0600bcee:
     .byte 0x01, 0xBC
     .4byte sym_06063E1C
     .4byte sym_06059F30
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .byte 0x00, 0x05
     .byte 0x80, 0x00
     .byte 0x00, 0x00
@@ -267,7 +267,7 @@ DAT_0600bdae:
     .byte 0x02, 0x44
     .4byte sym_06063E1C
     .4byte sym_06059F30
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .byte 0x00, 0x05
     .byte 0x80, 0x00
     .byte 0x00, 0x00

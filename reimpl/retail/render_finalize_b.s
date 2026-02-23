@@ -185,7 +185,7 @@ render_finalize_b:
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06089EC6
-    .4byte FUN_06026518
+    .4byte mat_multiply_basic
     .4byte sym_06063D9A
     .4byte sym_06089ECC
     .4byte sym_06089ED6
@@ -281,7 +281,7 @@ render_finalize_b:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte FUN_060266CC
+    .4byte sprite_anim_update
     .4byte sym_06089ED8
     .byte 0x65, 0xA1
     .byte 0x64, 0xE2
@@ -381,7 +381,7 @@ render_finalize_b:
     .byte 0xD2, 0x0B
     .byte 0x42, 0x2B
     .byte 0x6E, 0xF6
-    .4byte FUN_06026590
+    .4byte sprite_pair_render
     .4byte sym_060610BC
     .4byte sym_06060D7C
     .4byte sym_06061199

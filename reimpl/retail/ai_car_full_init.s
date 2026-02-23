@@ -25,7 +25,7 @@ ai_car_full_init:
     .4byte mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte FUN_0600A4CA
+    .4byte camera_scene_setup
     .4byte sym_06026DF8
     .byte 0xD0, 0x0B
     .byte 0x00, 0xEC

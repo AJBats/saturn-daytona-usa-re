@@ -125,7 +125,7 @@ state_post_lap:
     .byte 0x34, 0xFF
     .4byte sound_cmd_dispatch
     .4byte sym_06078636
-    .4byte FUN_060121A8
+    .4byte race_cleanup_handler
     .byte 0xD3, 0x2C
     .byte 0x43, 0x0B
     .byte 0x00, 0x09
@@ -223,7 +223,7 @@ state_post_lap:
     .4byte sym_0605AB18
     .4byte menu_overlay_render
     .4byte sym_0605A1C4
-    .4byte FUN_06033BC8
+    .4byte camera_attract_init
     .4byte car_iteration_loop
     .4byte car_proximity_check
     .4byte camera_system

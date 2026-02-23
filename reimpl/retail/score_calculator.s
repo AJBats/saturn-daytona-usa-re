@@ -130,7 +130,7 @@ score_calculator:
     .4byte mat_rot_z
     .4byte fpmul
     .4byte mat_rot_y
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .4byte sym_06062338
     .4byte sym_06031D8C
     .4byte sym_060622C0

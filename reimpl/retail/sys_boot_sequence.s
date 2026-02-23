@@ -68,7 +68,7 @@ sys_boot_sequence:
     .byte 0x89, 0x03
     .byte 0xA0, 0x03
     .byte 0x00, 0x09
-    .4byte FUN_06041648
+    .4byte track_surface_check
     .byte 0x6B, 0x43
     .byte 0xD3, 0x23
     .byte 0x43, 0x0B
@@ -144,7 +144,7 @@ sys_boot_sequence:
     .4byte sym_06041014
     .byte 0x7F, 0xFF
     .byte 0xFF, 0xFF
-    .4byte FUN_060408B0
+    .4byte evt_cmd_enqueue
     .4byte sym_060409DE
     .4byte sym_060A4D14
     .4byte sym_06040FB8
@@ -254,7 +254,7 @@ sys_boot_sequence:
     .byte 0xFF, 0xFF
     .4byte sym_060409DE
     .4byte queue_validator
-    .4byte FUN_0604188C
+    .4byte state_field_read
     .4byte queue_helper
     .byte 0x53, 0xE2
     .byte 0x62, 0xF2

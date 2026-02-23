@@ -28,4 +28,4 @@ channel_config_a:
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config

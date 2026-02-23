@@ -278,7 +278,7 @@ DAT_06006c1e:
     .global DAT_06006cca
 DAT_06006cca:
     .byte 0x06, 0x40
-    .4byte FUN_0602BDCC
+    .4byte vdp1_list_finalize
     .4byte sym_06062230
     .4byte sym_0602ABB8
     .4byte sym_0602B9E0

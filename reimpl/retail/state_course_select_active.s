@@ -25,5 +25,5 @@ state_course_select_active:
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_0605A016
-    .4byte FUN_060196A4
-    .4byte FUN_0601950C
+    .4byte course_select_input
+    .4byte course_select_draw

@@ -33,10 +33,10 @@ DAT_0601f964:
     .4byte sym_06063D9A
     .byte 0x25, 0xE7
     .byte 0xFF, 0xFE
-    .4byte FUN_06036E90
+    .4byte tilemap_dma_update
     .4byte sym_0605B6D8
     .4byte sym_0605E05C
-    .4byte FUN_0601E958
+    .4byte geom_vertex_process
     .byte 0xD3, 0x2A
     .byte 0x62, 0xE2
     .byte 0x22, 0x3B

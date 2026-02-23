@@ -234,7 +234,7 @@ sym_06036D14:
     .byte 0x43, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
-    .4byte FUN_06036E1C
+    .4byte palette_regs_config
     .global sym_06036D78
 sym_06036D78:
     .byte 0xE7, 0x00

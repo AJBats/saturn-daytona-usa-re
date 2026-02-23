@@ -1,0 +1,72 @@
+# Batch 33: Camera, HUD, File I/O, Menu/State, Geometry, Objects, Scene/Transform
+# 0x0600A through 0x06026 range
+
+# === Camera Helpers (0x0600Axxx) ===
+FUN_0600A474 camera_push_save
+FUN_0600A4AA camera_pos_calc
+FUN_0600A4CA camera_scene_setup
+FUN_0600A5B2 camera_param_load
+
+# === HUD (0x06010xxx) ===
+FUN_06010A5C hud_post_update
+FUN_06010B54 hud_element_draw
+
+# === File I/O (0x06012xxx) ===
+FUN_060121A8 race_cleanup_handler
+FUN_0601228A lap_time_formatter
+FUN_06012344 file_data_parse
+FUN_06012400 file_block_read
+FUN_06012450 file_format_detect
+FUN_06012B58 cd_status_reader
+FUN_06012BDC cd_error_recover
+FUN_06012C3C cd_dma_setup
+FUN_06012CF4 cd_progress_notify
+FUN_06012D7C cd_course_loader
+FUN_06012DB4 cd_texture_loader
+FUN_06012E08 sound_init_sequence
+FUN_06012E6A sound_scsp_boot
+
+# === Menu / State (0x06014-0x0601A) ===
+FUN_0601416C race_variant_setup_a
+FUN_0601444C race_variant_setup_b
+FUN_06014466 race_variant_setup_c
+FUN_06015338 race_data_dispatch
+FUN_06018FA4 race_prep_init
+FUN_0601938C palette_frame_effects
+FUN_0601950C course_select_draw
+FUN_060196A4 course_select_input
+FUN_060198E0 car_select_setup
+FUN_06019A48 car_select_input
+
+# === Geometry (0x0601Exxx) ===
+FUN_0601E100 geom_matrix_setup
+FUN_0601E958 geom_vertex_process
+FUN_0601EAA0 geom_coord_calc
+FUN_0601EB1C geom_rotation_apply
+FUN_0601EB70 geom_normal_compute
+
+# === Object System (0x06020-0x06021) ===
+FUN_06020946 obj_lod_level
+FUN_06020BCE obj_state_pack
+FUN_06020C3C obj_collision_update
+FUN_06020CF4 obj_data_compact
+FUN_06020D46 obj_pool_return
+FUN_06020DD0 obj_anim_advance
+FUN_06020E3C obj_render_prepare
+FUN_06021128 obj_render_cleanup
+FUN_06021178 obj_overlay_render
+
+# === Scene / Transform (0x06025-0x06026) ===
+FUN_06025224 scene_process_a
+FUN_06025478 scene_process_b
+FUN_060256CC scene_physics_integrate
+FUN_06025BF4 scene_physics_variant
+FUN_06026110 scene_dual_finalize
+FUN_060262C0 transform_heading_apply
+FUN_06026362 transform_rotation_apply
+FUN_060263EC transform_heading_alt
+FUN_0602648E transform_rotation_alt
+FUN_06026518 mat_multiply_basic
+FUN_06026590 sprite_pair_render
+FUN_060266CC sprite_anim_update
+FUN_06026E60 mat_scale_columns

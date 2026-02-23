@@ -46,7 +46,7 @@ menu_text_layout:
     .byte 0xA4, 0x85
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte FUN_0603BF22
+    .4byte save_commit_write
     .4byte sym_060A4D14
     .byte 0x52, 0xC2
     .byte 0x65, 0xE3

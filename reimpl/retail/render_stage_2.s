@@ -54,7 +54,7 @@ DAT_0601cb48:
     .4byte sym_06086028
     .byte 0x25, 0xF0
     .byte 0x0F, 0xFE
-    .4byte FUN_06036E90
+    .4byte tilemap_dma_update
     .4byte sym_0605B6D8
     .byte 0x40, 0x00
     .byte 0x00, 0x00

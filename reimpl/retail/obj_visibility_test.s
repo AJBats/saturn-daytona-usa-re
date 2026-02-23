@@ -129,7 +129,7 @@ obj_visibility_test:
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .4byte display_channel_b
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .byte 0x4E, 0x0B
     .byte 0x00, 0x09
     .byte 0xE5, 0x07

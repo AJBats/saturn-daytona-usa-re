@@ -216,7 +216,7 @@ controller_config:
     .4byte sym_060635B0
     .4byte sym_060A4C5C
     .4byte sym_060635B2
-    .4byte FUN_0603C08C
+    .4byte display_scene_update
     .4byte sym_060A3E68
     .byte 0x00, 0x01
     .byte 0x00, 0x00

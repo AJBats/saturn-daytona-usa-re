@@ -48,6 +48,6 @@ loc_0601B096:
     .byte 0x01, 0x00
     .byte 0x01, 0x60
     .byte 0xFF, 0xFF
-    .4byte FUN_06039100
+    .4byte color_transform_calc
     .4byte sym_0605D4F7
     .4byte sym_0605DD6C

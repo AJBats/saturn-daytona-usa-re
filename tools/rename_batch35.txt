@@ -1,0 +1,87 @@
+# Batch 35: Render/Display, Attract, Audio, DMA, Event Queue, System
+# 0x0603D through 0x06042 range
+
+# === Render / Display (0x0603D) ===
+FUN_0603D2CC render_credits_stub
+FUN_0603D3A8 bus_lock_table_ctrl
+FUN_0603D438 display_nop_stub_a
+FUN_0603D514 display_nop_stub_b
+FUN_0603D5D0 display_element_draw
+FUN_0603D9EC scene_invalidate_a
+FUN_0603DA88 scene_invalidate_b
+
+# === Display / HUD (0x0603E) ===
+FUN_0603EACC display_channel_handler
+FUN_0603EC40 hud_update_main
+FUN_0603EDC4 vblank_color_apply
+FUN_0603EF64 attract_init_setup
+
+# === Scene / Attract / Audio (0x0603F) ===
+FUN_0603F0FC scene_frame_render
+FUN_0603F148 slave_sh2_setup
+FUN_0603F202 sprite_batch_emit
+FUN_0603F22C hud_toggle_ctrl
+FUN_0603F238 credits_scroll_entry
+FUN_0603F2E0 attract_demo_chooser
+FUN_0603F342 menu_text_position
+FUN_0603F3F6 menu_element_render
+FUN_0603F4B0 audio_frame_process
+FUN_0603F4CC audio_state_update
+FUN_0603F4E0 audio_sync_master
+FUN_0603F500 audio_sync_slave
+FUN_0603F520 audio_event_trigger
+FUN_0603F534 attract_timer_init
+FUN_0603F582 vblank_dma_chain
+FUN_0603F93C attract_state_change
+FUN_0603F970 attract_timer_tick
+FUN_0603F9B8 attract_replay_loader
+FUN_0603FA1A race_timer_sync
+FUN_0603FACE scene_buffer_update
+FUN_0603FC60 vblank_palette_apply
+FUN_0603FCE4 hud_palette_select
+FUN_0603FD40 dma_param_chain_init
+FUN_0603FE80 scu_dma_transfer
+FUN_0603FF9C attract_display_main
+
+# === Event Queue / System (0x06040) ===
+FUN_060401F8 evt_error_code_return
+FUN_060405B8 evt_validate_multi
+FUN_06040680 evt_condition_test
+FUN_060406B4 timer_stub
+FUN_060408B0 evt_cmd_enqueue
+FUN_06040954 evt_status_flag_set
+FUN_06040964 evt_condition_return
+FUN_0604097C nop_stub_sys
+FUN_060409E6 evt_checkpoint_handler
+FUN_06040B8E reg_push_fragment
+FUN_06040C10 evt_state_dispatch
+FUN_06040C5C nop_stub_evt
+FUN_06040C98 road_segment_check
+FUN_06040F16 evt_reg_save
+FUN_06040F82 evt_boundary_check
+
+# === Track / AI Validation (0x06041) ===
+FUN_06041204 evt_field_update
+FUN_06041258 ai_brake_handler
+FUN_060412B2 evt_checkpoint_validate
+FUN_06041330 evt_validator_pair
+FUN_0604134E ai_section_check
+FUN_06041470 checkpoint_state_check
+FUN_060414D0 track_segment_interp
+FUN_060415C8 track_shadow_test
+FUN_06041648 track_surface_check
+FUN_06041698 large_prologue_save
+FUN_06041826 evt_callback_handler
+FUN_0604188C state_field_read
+FUN_060418BE track_road_validate
+FUN_06041AA0 track_boundary_check
+FUN_06041B3C track_surface_validate
+FUN_06041D6C large_func_prologue
+FUN_06041EE8 track_edge_validate
+
+# === Final Functions (0x06042) ===
+FUN_06042088 track_shadow_validate
+FUN_06042134 player_vehicle_interp
+FUN_060429EC color_palette_effect
+FUN_06042ACA palette_engine_core
+FUN_06042BEE palette_render_main

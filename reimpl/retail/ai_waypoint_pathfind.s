@@ -243,7 +243,7 @@ DAT_06014de4:
     .byte 0xFF, 0xFF
     .4byte sym_060172E4
     .4byte sym_06085F8A
-    .4byte FUN_06020CF4
+    .4byte obj_data_compact
     .4byte vdp2_util_loop
     .4byte sym_06085F98
     .4byte sym_06084FC8

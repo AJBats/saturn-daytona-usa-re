@@ -40,4 +40,4 @@ display_channels_load:
     .4byte sym_06038520
     .4byte scene_data_write_abs
     .4byte sym_0605B71C
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config

@@ -1,0 +1,12 @@
+    .section .text.FUN_06040954
+    .global evt_status_flag_set
+    .type evt_status_flag_set, @function
+evt_status_flag_set:
+    .byte 0x4F, 0x22
+    .byte 0xB0, 0x05
+    .byte 0x00, 0x09
+    .byte 0x40, 0x18
+    .byte 0x4F, 0x26
+    .byte 0x40, 0x08
+    .byte 0x00, 0x0B
+    .byte 0x40, 0x00

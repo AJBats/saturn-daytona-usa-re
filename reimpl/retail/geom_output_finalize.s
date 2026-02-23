@@ -78,7 +78,7 @@ DAT_0601f806:
     .4byte sym_06078635
     .4byte sym_0607EAD8
     .4byte hud_overlay_render
-    .4byte FUN_0601EAA0
+    .4byte geom_coord_calc
     .4byte sym_0605E0A1
     .4byte sym_0605E0A0
     .byte 0x00, 0x2F

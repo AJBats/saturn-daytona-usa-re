@@ -114,5 +114,5 @@ course0_bg_load:
     .byte 0x00, 0x2F
     .byte 0x80, 0x00
     .4byte sym_0607EAD8
-    .4byte FUN_06012E08
+    .4byte sound_init_sequence
     .4byte render_batch_proc

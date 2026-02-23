@@ -19,9 +19,9 @@ state_car_select_active:
     .byte 0x23, 0x22
     .byte 0xFF, 0xFF
     .4byte sym_0605AD10
-    .4byte FUN_060198E0
+    .4byte car_select_setup
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_0605A016
-    .4byte FUN_06019A48
+    .4byte car_select_input
     .4byte track_seg_phys_init

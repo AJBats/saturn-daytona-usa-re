@@ -53,11 +53,11 @@ DAT_0600a112:
     .4byte sym_0607E944
     .4byte display_channel_b
     .4byte sym_0607EBC8
-    .4byte FUN_06038BD4
+    .4byte channel_nibble_config
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_06063F5C
-    .4byte FUN_06039250
+    .4byte vdp2_scroll_update
     .4byte sym_060393FC
     .4byte sym_0605A008
     .byte 0x00, 0x00

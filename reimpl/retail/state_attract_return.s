@@ -73,7 +73,7 @@ state_attract_return:
     .4byte sym_0605AD10
     .4byte sym_06087804
     .4byte race_init_master
-    .4byte FUN_06033AAC
+    .4byte hud_subsystem_init
     .4byte sym_0605A016
     .4byte sym_06078648
     .4byte handler_dispatch

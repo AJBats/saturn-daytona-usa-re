@@ -104,7 +104,7 @@ DAT_0601440e:
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .4byte sym_06084B08
-    .4byte FUN_06026E60
+    .4byte mat_scale_columns
     .4byte sym_06062338
     .4byte sym_06031D8C
     .4byte sym_060622C0

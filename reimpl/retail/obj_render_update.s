@@ -19,6 +19,6 @@ obj_render_update:
     .byte 0x18, 0x10
     .4byte sym_06087C84
     .4byte sym_0603850C
-    .4byte FUN_06038120
+    .4byte scene_buffer_init
     .4byte sym_06038520
     .4byte sym_06087C87
