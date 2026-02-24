@@ -1,5 +1,7 @@
 # Derived build artifacts
 build/*
+!build/golden_free_APROG.BIN
+!build/golden_free4_APROG.BIN
 !build/screenshots/
 build/screenshots/*
 !build/screenshots/golden_*.png

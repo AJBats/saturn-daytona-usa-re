@@ -1,14 +1,37 @@
 # Daytona USA Saturn — Reimplementation Build System
 #
-# Default build is the free-layout reimplementation (no shift).
-# Reimplemented functions in src/ automatically override retail/ originals.
+# Default build uses the free-layout linker script (free.ld). Files in src/
+# override their retail/ counterparts by stem name — this is where L3 uplifts
+# and reimplementations live. The build must be byte-identical to the original
+# Sega APROG.BIN. free.ld recreates original link order via SORT_BY_NAME on
+# .text.FUN_* sections, so retail byte-match proves both the assembly AND the
+# relocation infrastructure are correct.
 #
-#   make              — build free-layout binary
+#   make              — build free-layout binary (byte-identical to retail)
 #   make disc         — build + inject into disc image
-#   make disc-4shift  — build + inject with +4 shift (relocation validation)
-#   make retail       — build byte-identical retail binary
-#   make disc-retail  — build + inject retail binary
-#   make validate     — verify retail build matches original
+#   make retail       — build with sega.ld (original linker script)
+#   make validate     — verify all builds match original
+#
+# ─── MODS Flag ──────────────────────────────────────────────────────────
+#
+# If you want to start moving code around — changing function sizes, writing
+# C reimplementations, fixing bugs — enable MODS. This activates a curated
+# list of patches (in src/mods/) that fix latent Sega bugs exposed by code
+# relocation. Without these patches, shifted builds hang or crash.
+#
+# Currently MODS=1 enables:
+#   - cdb_wait_scdq.c   SCDQ poll timeout fix (latent Sega bug — retail code
+#                        polls CD status forever; shifting addresses changes
+#                        cache-line timing and triggers the infinite loop)
+#
+# If you need more patches to make relocated code work, add them to src/mods/.
+# The free.ld linker script handles arbitrary function sizing. The +4 shift
+# build validates that all pointers relocate correctly — if it boots, your
+# relocation is clean.
+#
+#   make MODS=1               — build with relocation patches
+#   make MODS=1 disc          — build + inject modified binary
+#   make MODS=1 SHIFT=4 disc  — relocation validation (+4 byte shift)
 
 PROJDIR := /mnt/d/Projects/SaturnReverseTest
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
@@ -24,6 +47,7 @@ CFLAGS  := -m2 -Os -nostdlib -ffreestanding -ffunction-sections -fno-leading-und
 BUILDDIR := build
 LDSCRIPT := free.ld
 SHIFT    ?= 0
+MODS     ?= 0
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 ifneq ($(SHIFT),0)
     LDFLAGS += --defsym __pad_size=$(SHIFT)
@@ -33,15 +57,26 @@ endif
 RETAIL_ASM  := $(wildcard retail/*.s)
 RETAIL_OBJS := $(patsubst retail/%.s,$(BUILDDIR)/%.o,$(RETAIL_ASM))
 
-# Auto-discover reimplemented files (src/ overrides retail/)
-REIMPL_C    := $(wildcard src/*.c)
+# Auto-discover reimplemented files (src/ overrides retail/ by stem name)
+# src/*.s and src/*.c are always active — these must byte-match retail.
+# src/mods/ contains relocation patches that intentionally change the binary.
 REIMPL_S    := $(wildcard src/*.s)
+REIMPL_C    := $(wildcard src/*.c)
+ifeq ($(MODS),1)
+REIMPL_S    += $(wildcard src/mods/*.s)
+REIMPL_C    += $(wildcard src/mods/*.c)
+endif
 REIMPL_STEMS := $(sort $(basename $(notdir $(REIMPL_C) $(REIMPL_S))))
 
-# Build object list: start with retail, filter out reimplemented stems, add reimpl objects
-ALL_OBJS := $(filter-out $(addprefix $(BUILDDIR)/,$(addsuffix .o,$(REIMPL_STEMS))),$(RETAIL_OBJS))
-ALL_OBJS += $(patsubst src/%.c,$(BUILDDIR)/%.o,$(REIMPL_C))
-ALL_OBJS += $(patsubst src/%.s,$(BUILDDIR)/%.o,$(REIMPL_S))
+# Build object list: retail objects in original order. Make's pattern rule
+# precedence handles src/ overrides — src/ rules are defined first, so when
+# both src/foo.s and retail/foo.s exist, src/ wins. This preserves linker
+# input order, which matters for section placement.
+# Only append reimpl objects that have NO retail counterpart (e.g., mod-only files).
+ALL_OBJS := $(RETAIL_OBJS)
+ifneq ($(strip $(REIMPL_STEMS)),)
+    ALL_OBJS += $(filter-out $(RETAIL_OBJS),$(addprefix $(BUILDDIR)/,$(addsuffix .o,$(REIMPL_STEMS))))
+endif
 
 # Output
 ELF  := $(BUILDDIR)/daytona.elf
@@ -52,7 +87,7 @@ ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
 # Config change detection: if flags changed since last build, force a full rebuild.
 # Includes reimpl stems so switching between free/retail rebuilds overridden objects.
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) REIMPL=$(REIMPL_STEMS)
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) REIMPL=$(REIMPL_STEMS)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
@@ -69,7 +104,7 @@ $(BIN): $(ELF)
 	if [ "$(LDSCRIPT)" = "free.ld" ]; then \
 		echo ""; \
 		echo "========================================"; \
-		echo "  FREE BUILD: $$SIZE bytes (shift=$(SHIFT))"; \
+		echo "  FREE BUILD: $$SIZE bytes (shift=$(SHIFT), mods=$(MODS))"; \
 		echo "  Reimplemented: $(REIMPL_STEMS)"; \
 		echo "========================================"; \
 		echo ""; \
@@ -83,6 +118,15 @@ $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 
 # Compile rules: src/ overrides retail/ for reimplemented functions.
 # Guarded so retail builds don't accidentally pick up src/ files via pattern matching.
+# src/mods/ rules are additionally gated by MODS=1 so they don't leak into default builds.
+ifeq ($(MODS),1)
+$(BUILDDIR)/%.o: src/mods/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BUILDDIR)/%.o: src/mods/%.s | $(BUILDDIR)
+	$(AS) --isa=sh2 -big -o $@ $<
+endif
+
 ifneq ($(strip $(REIMPL_STEMS)),)
 $(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -106,7 +150,7 @@ disc: $(BIN)
 disc-4shift:
 	$(MAKE) SHIFT=4 disc
 
-# Byte-identical retail build (all retail/, no src/ overrides)
+# Byte-identical retail build (sega.ld — original linker script)
 retail:
 	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S=
 
