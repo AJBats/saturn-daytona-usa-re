@@ -2,6 +2,7 @@
 
 > **Status**: Active — Direct annotation in progress (depth-first, DEFINITE TUs first).
 > **Created**: 2026-02-23
+> **Updated**: 2026-02-24
 > **Predecessor**: Sawyer L2 (L3 uplift at 98% — 448/457 files)
 
 ## The Goal
@@ -212,9 +213,10 @@ value at this stage.
 
 Annotating L3 files by hand, depth-first on high-value TUs.
 
-**Completed**:
+**Completed** (12 files depth-annotated):
 - `reimpl/src/fpmul.s` — fpmul, fpdiv_setup, memcpy_byte_idx, memcpy_word_idx,
   memcpy_long_idx, dma_transfer. All pool labels renamed, function docs added.
+  (Sawyer: `asm/math_helpers.s`)
 - `reimpl/src/cdb_read_status.s` — cdb_read_status, scsp_set_master_volume.
   All pool labels renamed, function docs added.
 - `reimpl/src/sprite_anim_update.s` — **MAJOR** (1900+ lines, 30+ functions).
@@ -230,6 +232,26 @@ Annotating L3 files by hand, depth-first on high-value TUs.
   full function catalog + car data struct layout. Key physics/AI functions
   documented with algorithm descriptions.
   (Sawyer: `asm/game_loop.s`, `asm/race_states.s`, `asm/display_elements.s`)
+- `reimpl/src/button_input_read.s` — 444 lines, 107 pool labels. Input dispatch
+  including button mapping, channel events, system events. Full 32-bit input
+  state word layout documented. Corrected 8 misclassified fp_ labels → evt_bit
+  masks. (Sawyer: `asm/input_smpc.s`)
+- `reimpl/src/smpc_response_handler.s` — Interrupt-disable wrapper for atomic
+  SMPC reads. SR interrupt level save/restore pattern documented. 40 lines.
+- `reimpl/src/smpc_peripheral_query.s` — CD HIRQ peripheral query with error
+  code table (-1 through -6). All pool labels renamed.
+- `reimpl/src/system_init.s` — 3-function boot TU: system_init (14-step Saturn
+  boot sequence), sound_timer_init (SH-2 FRT configuration), vdp_init_dispatch
+  (SCU interrupt vector installation for both CPUs). All pool labels renamed.
+- `reimpl/src/palette_frame_effects.s` — Per-frame palette commit to VDP2 CRAM
+  (5 palette groups with shadow buffer → CRAM mapping documented).
+- `reimpl/src/framebuf_swap_ctrl.s` — FRT compare-match A interrupt handler.
+  FTCSR flag clearing, frame tick counter, SCU interrupt control documented.
+- `reimpl/src/vdp1_init.s` — VDP1 VRAM clear + framebuffer double-plane init.
+  Fixed misclassified labels (fp_min→vdp1_end_cmd, fp_one→fb_clear_count).
+  (Sawyer: `asm/vdp_hardware.s`)
+- `reimpl/src/vdp2_course0_init.s` — Course 0 VDP2 VRAM/CRAM setup. Palette
+  bank swap + 3 DMA transfers for tilemaps and character patterns.
 
 **Priority roadmap** (user-directed):
 1. **Finish pool labels** — rename all `.L_pool_`/`.L_wpool_` across remaining src/ files
@@ -237,9 +259,11 @@ Annotating L3 files by hand, depth-first on high-value TUs.
 3. **Unmask remaining retail files** — convert the 9 holdouts to L3 in src/
 4. **Audit L3 completeness** — zero files in retail/ that aren't in src/
 
-**Next annotation targets** (DEFINITE confidence from sawyer):
-- Input / SMPC TUs (Sawyer: `asm/input_smpc.s` — DEFINITE)
-- Hardware register pool entries (verifiable from Saturn memory map)
+**Next annotation targets**:
+- Sound/DMA TUs: sound_scsp_boot.s (SCSP init), dma_vram_init.s, sound_init_sequence.s
+- More SMPC/input: smpc_cmd_builder.s, input_proc_*.s, input_event_handler.s
+- Remaining VDP: vdp2_config_extended.s, display_mode_init.s, vdp1_cmd_list_reset.s
+- Large high-value: master_menu_render.s (3,209 lines, 142 pools)
 - Top data-heavy TUs: gameover_channel_setup (1431 literals), obj_render_setup (675)
 
 ### Phase 2b: Automated Pool Classification — DONE
@@ -249,21 +273,29 @@ SMPC, SCSP, SH-2 peripherals), fixed-point patterns, and memory range heuristics
 Applied 1,017 MEDIUM+ confidence renames across 153 files. Covers 97% of all pool
 labels (3,225/3,327 classified). 3-class validation passed. Committed as `feeabd2`.
 
+**Second pass** (2026-02-24): Re-ran with complete pool sweep. Applied 650 additional
+renames across 247 files: 324 HW registers, 236 fixed-point, 77 bit masks, 13 memory
+regions. Total automated: **1,667 renames**. Committed as `965981c`.
+
+**Known limitation**: Context-free classification can misidentify fixed-point constants
+as bit masks (and vice versa). Example: 0x00010000 classified as `fp_one` (16.16 1.0)
+but in button_input_read.s it's actually `evt_bit16` (event flag mask). These require
+hand-correction during depth annotation.
+
 ### Phase 3: L2 Holdout Conversion — MOSTLY DONE
 
 5 cross-TU pool holdouts converted to L3 with mnemonics (cross-TU `mov.l @(disp,PC)`
 kept as raw `.byte` pairs): mat_scale_b, mat_scale_columns, bulk_struct_init,
 hud_post_update, vdp2_loop_ctrl. Committed as `57dabe1`.
 
-**Remaining retail-only files** (5):
-- `_start.s` — entry point, nothing to reverse engineer
-- `cdb_wait_scdq.s` — already overridden by `src/cdb_wait_scdq.c` (C reimpl)
-- `FUN_0600BFFC.c.wip` — WIP C reimpl, not a standard holdout
+**Remaining retail-only files** (3):
+- `_start.s` — converted to L3 in src/ (fully annotated main game loop), committed `ffe16ae`
+- `cdb_wait_scdq.s` — overridden by `src/cdb_wait_scdq.c` (C reimpl)
 - `binary_final_func.s` (1.3MB) — monolithic data+code blob, long-term extraction
-- `palette_render_main.s` (192KB) — palette data tables + code, medium-term
+- `palette_render_main.s` (192KB) — palette data tables + code, converted to L3 (16KB mixed TU)
 
-**Effective holdout count**: 2 real files need L3 conversion (binary_final_func,
-palette_render_main). These are Phase 3B/3C work per the original plan.
+**Effective holdout count**: 1 real file needs L3 extraction (binary_final_func).
+palette_render_main was converted to L3 as commit `0c76ba2`.
 
 ### Phase 4: Semantic Enrichment — PENDING
 
@@ -279,11 +311,15 @@ Match by address range, not by filename.
 | Sawyer File | Confidence | Address Range | L3 TU(s) |
 |------------|------------|---------------|-----------|
 | `asm/math_helpers.s` | HIGH/DEFINITE | 0x06027344-0x0602769C | `fpmul.s`, `sprite_anim_update.s` |
-| `asm/input_smpc.s` | DEFINITE | (multiple) | input-related TUs |
+| `asm/input_smpc.s` | DEFINITE | (multiple) | `button_input_read.s`, `smpc_*.s`, `input_proc_*.s` |
 | `asm/game_loop.s` | DEFINITE | 0x0600307C+ | game loop TUs |
 | `asm/math_transform.s` | HIGH | 0x06026DBC-0x06027340 | `sprite_anim_update.s` |
 | `asm/race_states.s` | (unchecked) | 0x06033xxx+ | `game_update_loop.s` |
 | `asm/display_elements.s` | (unchecked) | 0x06033xxx+ | `game_update_loop.s` |
+| `asm/vdp_hardware.s` | HIGH | 0x0600A140+ | `vdp1_init.s`, VDP register TUs |
+| `asm/vdp_scene_rendering.s` | MEDIUM | 0x0602D89A+ | 72 VDP1 command builder TUs |
+| `asm/vblank_system.s` | DEFINITE | 0x06006F3C+ | `framebuf_swap_ctrl.s`, vblank TUs |
+| `asm/render_pipeline.s` | MEDIUM-HIGH | 0x0602382C+ | render/scene TUs |
 
 More sawyer files exist but haven't been audited yet. Check `asm/` directory for
 files with `! AUDIT:` headers — those have confidence ratings.
@@ -306,4 +342,4 @@ files with `! AUDIT:` headers — those have confidence ratings.
 
 ---
 *Created: 2026-02-23*
-*Last updated: 2026-02-23 — Phase 2/2b done (1,017 auto-renames + 6 TUs depth-annotated). Phase 3 mostly done (5/7 holdouts converted). Remaining: 2 large data holdouts + manual annotation.*
+*Last updated: 2026-02-24 — Phase 2b expanded (1,667 total auto-renames). 12 files depth-annotated (fpmul, cdb, sprite_anim, game_update_loop, 3 input/SMPC, system_init, 4 VDP/display). Phase 3 mostly done (5/7 holdouts converted). Remaining: 2 large data holdouts + continued manual annotation.*
