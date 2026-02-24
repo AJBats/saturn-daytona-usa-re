@@ -31,7 +31,7 @@ course_select_state:
     jsr @r2
     mov #0xF, r4
     .byte   0xDE, 0x29    /* mov.l .L_pool_060194D0, r14 */
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_060194D4, r3 */
+    .byte   0xD3, 0x2A    /* mov.l .L_fp_min, r3 */
     mov.l @r14, r2
     or r3, r2
     .byte   0xD3, 0x29    /* mov.l .L_pool_060194D8, r3 */
@@ -47,13 +47,13 @@ course_select_state:
     nop
     mov #0x9, r7
     .byte   0xD5, 0x25    /* mov.l .L_pool_060194E0, r5 */
-    .byte   0xD4, 0x26    /* mov.l .L_pool_060194E4, r4 */
+    .byte   0xD4, 0x26    /* mov.l .L_vdp2_vram_0x76174, r4 */
     .byte   0xD3, 0x26    /* mov.l .L_pool_060194E8, r3 */
     jsr @r3
     mov #0x0, r6
     mov #0x8, r7
     .byte   0xD5, 0x25    /* mov.l .L_pool_060194EC, r5 */
-    .byte   0xD4, 0x26    /* mov.l .L_pool_060194F0, r4 */
+    .byte   0xD4, 0x26    /* mov.l .L_vdp2_vram_0x761FC, r4 */
     .byte   0xD3, 0x23    /* mov.l .L_pool_060194E8, r3 */
     jsr @r3
     mov #0x0, r6
@@ -116,22 +116,22 @@ course_select_state:
     .4byte  sound_cmd_dispatch
 .L_pool_060194D0:
     .4byte  sym_0605B6D8
-.L_pool_060194D4:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_060194D8:
     .4byte  sym_06026CE0
 .L_pool_060194DC:
     .4byte  sym_0601A73E
 .L_pool_060194E0:
     .4byte  0x00014000
-.L_pool_060194E4:
-    .4byte  0x25E76174
+.L_vdp2_vram_0x76174:
+    .4byte  0x25E76174                  /* VDP2 VRAM +0x76174 */
 .L_pool_060194E8:
     .4byte  sym_0600511E
 .L_pool_060194EC:
     .4byte  0x00017700
-.L_pool_060194F0:
-    .4byte  0x25E761FC
+.L_vdp2_vram_0x761FC:
+    .4byte  0x25E761FC                  /* VDP2 VRAM +0x761FC */
 .L_pool_060194F4:
     .4byte  display_channel_b
 .L_pool_060194F8:

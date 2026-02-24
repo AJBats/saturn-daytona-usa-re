@@ -29,7 +29,7 @@ save_state_snapshot:
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_06018FF4, r3
+    mov.l   .L_sound_ram_0x02DBE, r3
     mov.w r2, @r3
 .L_06018FD4:
     mov.l   .L_pool_06018FE8, r5
@@ -48,5 +48,5 @@ save_state_snapshot:
     .4byte  0xAE0005FF
 .L_pool_06018FF0:
     .4byte  sym_06012EDC
-.L_pool_06018FF4:
-    .4byte  0x25A02DBE
+.L_sound_ram_0x02DBE:
+    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */

@@ -106,7 +106,7 @@ state_results_screen:
     tst r0, r0
     bt      .L_06009632
     .byte   0xD7, 0x25    /* mov.l .L_pool_060096BC, r7 */
-    .byte   0xD6, 0x25    /* mov.l .L_pool_060096C0, r6 */
+    .byte   0xD6, 0x25    /* mov.l .L_mask_nibble3, r6 */
     mov.w   .L_wpool_0600967C, r5
     .byte   0xD3, 0x25    /* mov.l .L_pool_060096C4, r3 */
     jsr @r3
@@ -190,8 +190,8 @@ state_results_screen:
     .4byte  sym_06086030
 .L_pool_060096BC:
     .4byte  sym_0605A1C8
-.L_pool_060096C0:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_060096C4:
     .4byte  sym_060283E0
 .L_pool_060096C8:

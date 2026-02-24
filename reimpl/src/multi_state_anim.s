@@ -91,11 +91,11 @@ multi_state_anim:
 .L_06010584:
     mov.l   .L_pool_06010650, r5
     extu.w r11, r2
-    mov.l   .L_pool_06010654, r3
+    mov.l   .L_fp_half, r3
     and r3, r2
     tst r2, r2
     bt      .L_06010612
-    mov.l   .L_pool_06010658, r3
+    mov.l   .L_fp_neg_one, r3
     mov.l r3, @r5
     mov.l @r14, r2
     add #0x1, r2
@@ -168,7 +168,7 @@ multi_state_anim:
     and r3, r2
     tst r2, r2
     bt      .L_06010690
-    mov.l   .L_pool_0601067C, r3
+    mov.l   .L_fp_one, r3
     mov.l r3, @r5
     mov.l @r14, r2
     add #-0x1, r2
@@ -200,10 +200,10 @@ DAT_0601064a:
     .4byte  sym_0605AB17
 .L_pool_06010650:
     .4byte  sym_0607889C
-.L_pool_06010654:
-    .4byte  0x00008000
-.L_pool_06010658:
-    .4byte  0xFFFF0000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_0601065C:
     .4byte  0x40280000
 .L_pool_06010660:
@@ -220,8 +220,8 @@ DAT_0601064a:
     .4byte  sym_06078898
 .L_pool_06010678:
     .4byte  sym_060788A4
-.L_pool_0601067C:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06010680:
     .4byte  0xFFF40000
 .L_06010684:
@@ -267,7 +267,7 @@ DAT_0601064a:
     mov.l @r4, r4
 .L_060106CE:
     extu.w r11, r11
-    mov.l   .L_pool_06010750, r3
+    mov.l   .L_mask_0xC000, r3
     and r3, r11
     tst r11, r11
     bt      .L_06010724
@@ -299,7 +299,7 @@ DAT_0601064a:
     shll2 r4
     shll2 r4
     shll r4
-    mov.l   .L_pool_06010758, r2
+    mov.l   .L_vdp2_cram_0x000, r2
     add r2, r4
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -335,11 +335,11 @@ DAT_0601064a:
     .4byte  sym_06078884
 .L_pool_0601074C:
     .4byte  dma_transfer
-.L_pool_06010750:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 .L_pool_06010754:
     .4byte  sym_0605CA9C
-.L_pool_06010758:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601075C:
     .4byte  memcpy_word_idx

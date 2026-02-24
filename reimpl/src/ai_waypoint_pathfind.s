@@ -221,11 +221,11 @@ DAT_06014de4:
     tst r6, r6
     .word 0x0029 /* UNKNOWN */
     xor #0x1, r0
-    mov.l   .L_pool_06014F2C, r3
+    mov.l   .L_fp_half, r3
     cmp/eq r3, r6
     .word 0x0129 /* UNKNOWN */
     add #-0x1, r1
-    mov.l   .L_pool_06014F30, r3
+    mov.l   .L_fp_one, r3
     neg r1, r1
     and r1, r0
     cmp/eq r3, r6
@@ -283,7 +283,7 @@ DAT_06014de4:
     .4byte  sym_06085F98
 .L_pool_06014F28:
     .4byte  sym_06084FC8
-.L_pool_06014F2C:
-    .4byte  0x00008000
-.L_pool_06014F30:
-    .4byte  0x00010000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */

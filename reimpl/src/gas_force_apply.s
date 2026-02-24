@@ -81,7 +81,7 @@ gas_force_apply:
     tst r0, r0
     bf      .L_060082FC
     mov.l   .L_pool_060082C4, r6
-    mov.l   .L_pool_060082C8, r5
+    mov.l   .L_fp_two, r5
     mov.l @r14, r2
     mov r2, r0
     mov.b @r0, r0
@@ -129,8 +129,8 @@ DAT_060082b2:
     .4byte  sym_0604546C
 .L_pool_060082C4:
     .4byte  sym_0607EBC4
-.L_pool_060082C8:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_060082CC:
     .4byte  0xAE111BFF
 .L_pool_060082D0:

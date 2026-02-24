@@ -19,7 +19,7 @@ minimap_render:
     sts.l pr, @-r15
     mov.l   .L_pool_06015668, r8
     mov #0x4, r9
-    mov.l   .L_pool_0601566C, r10
+    mov.l   .L_fp_half, r10
     mov.l   .L_pool_06015670, r11
     mov.l   .L_pool_06015674, r13
     mov #0x0, r14
@@ -112,8 +112,8 @@ minimap_render:
     .2byte  0xFFFF
 .L_pool_06015668:
     .4byte  0x0000DDB2
-.L_pool_0601566C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06015670:
     .4byte  fpmul
 .L_pool_06015674:

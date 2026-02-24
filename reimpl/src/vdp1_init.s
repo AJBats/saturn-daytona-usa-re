@@ -12,11 +12,11 @@ vdp1_init:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov #0x0, r14
-    mov.l   .L_pool_0600A19C, r3
-    mov.l   .L_pool_0600A1A0, r2
+    mov.l   .L_fp_min, r3
+    mov.l   .L_vdp1_vram_0x00000, r2
     mov.l r3, @r2
-    mov.l   .L_pool_0600A1A4, r5
-    mov.l   .L_pool_0600A1A8, r4
+    mov.l   .L_vdp1_fb_0x00000, r5
+    mov.l   .L_fp_one, r4
 .L_0600A150:
     mov r5, r3
     add #-0x2, r4
@@ -34,8 +34,8 @@ vdp1_init:
     nop
     mov.l   .L_pool_0600A1B4, r3
     mov.l r14, @r3
-    mov.l   .L_pool_0600A1A4, r5
-    mov.l   .L_pool_0600A1A8, r4
+    mov.l   .L_vdp1_fb_0x00000, r5
+    mov.l   .L_fp_one, r4
 .L_0600A174:
     mov r5, r2
     add #-0x2, r4
@@ -57,14 +57,14 @@ vdp1_init:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0600A19C:
-    .4byte  0x80000000
-.L_pool_0600A1A0:
-    .4byte  0x25C00000
-.L_pool_0600A1A4:
-    .4byte  0x25C80000
-.L_pool_0600A1A8:
-    .4byte  0x00010000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
+.L_vdp1_vram_0x00000:
+    .4byte  0x25C00000                  /* VDP1 VRAM +0x00000 */
+.L_vdp1_fb_0x00000:
+    .4byte  0x25C80000                  /* VDP1 framebuffer +0x00000 */
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0600A1AC:
     .4byte  sym_0605A00C
 .L_pool_0600A1B0:

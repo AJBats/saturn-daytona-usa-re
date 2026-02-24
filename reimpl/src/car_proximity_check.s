@@ -110,7 +110,7 @@ car_proximity_check:
     cmp/ge r8, r6
     bt      .L_0600A9D6
     mov.w   DAT_0600aa7e, r0
-    mov.l   .L_pool_0600AA84, r3
+    mov.l   .L_fp_one, r3
     mov.l @(r0, r5), r2
     cmp/ge r3, r2
     bt      .L_0600A9D6
@@ -189,7 +189,7 @@ car_proximity_check:
     cmp/ge r8, r6
     bt      .L_0600AA62
     mov.w   DAT_0600aa7e, r0
-    mov.l   .L_pool_0600AA84, r3
+    mov.l   .L_fp_one, r3
     mov.l @(r0, r14), r2
     cmp/ge r3, r2
     bt      .L_0600AA62
@@ -221,8 +221,8 @@ DAT_0600aa7e:
 .L_wpool_0600AA80:
     .2byte  0x01EC
     .2byte  0xFFFF
-.L_pool_0600AA84:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0600AA88:
     .4byte  sym_060316C4
 .L_pool_0600AA8C:

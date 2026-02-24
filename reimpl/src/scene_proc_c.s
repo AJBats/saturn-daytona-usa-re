@@ -347,7 +347,7 @@ loc_0602B15C:
     mov.l @r1, r1
     mov.l   .L_pool_0602B1B0, r0
     mov.l @r0, r0
-    mov.l   .L_pool_0602B1B4, r2
+    mov.l   .L_fp_two, r2
     add r2, r1
     cmp/gt r1, r0
     bf      .L_0602B186
@@ -378,8 +378,8 @@ loc_0602B15C:
     .4byte  sym_0602B310
 .L_pool_0602B1B0:
     .4byte  sym_06063F54
-.L_pool_0602B1B4:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_0602B1B8:
     .4byte  0x000A0000
 .L_pool_0602B1BC:

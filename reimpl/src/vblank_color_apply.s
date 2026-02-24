@@ -167,11 +167,11 @@ vblank_color_apply:
 .L_0603EED2:
     mov.b r0, @(4, r6)
 .L_0603EED4:
-    mov.l   .L_pool_0603EF2C, r3
+    mov.l   .L_fp_one, r3
     and r5, r3
     tst r3, r3
     bt      .L_0603EEFC
-    mov.l   .L_pool_0603EF2C, r3
+    mov.l   .L_fp_one, r3
     and r4, r3
     tst r3, r3
     bt      .L_0603EEF0
@@ -190,11 +190,11 @@ vblank_color_apply:
 .L_0603EEFA:
     mov.b r0, @(7, r6)
 .L_0603EEFC:
-    mov.l   .L_pool_0603EF30, r3
+    mov.l   .L_fp_two, r3
     and r3, r5
     tst r5, r5
     bt      .L_0603EF26
-    mov.l   .L_pool_0603EF30, r3
+    mov.l   .L_fp_two, r3
     and r3, r4
     tst r4, r4
     bt      .L_0603EF1A
@@ -218,10 +218,10 @@ vblank_color_apply:
     nop
 .L_wpool_0603EF2A:
     .2byte  0x0100
-.L_pool_0603EF2C:
-    .4byte  0x00010000
-.L_pool_0603EF30:
-    .4byte  0x00020000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 
     .global sym_0603EF34
 sym_0603EF34:

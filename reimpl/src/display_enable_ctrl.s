@@ -15,7 +15,7 @@ display_enable_ctrl:
     sts.l pr, @-r15
     mov #0x40, r12
     mov.w   .L_wpool_06038106, r13
-    mov.l   .L_pool_0603810C, r14
+    mov.l   .L_fp_one, r14
     mov #0x0, r5
     extu.b r5, r0
     mov.b r0, @(2, r4)
@@ -95,8 +95,8 @@ display_enable_ctrl:
 DAT_06038108:
     .2byte  0x1810
     .2byte  0xFFFF
-.L_pool_0603810C:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06038110:
     .4byte  sym_06035BC8
 .L_pool_06038114:

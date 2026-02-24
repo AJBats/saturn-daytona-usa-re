@@ -20,7 +20,7 @@ vdp2_scroll_config:
     add #-0x4, r15
     mov.l   .L_pool_060183F4, r9
     mov.l   .L_pool_060183F8, r10
-    mov.l   .L_pool_060183FC, r11
+    mov.l   .L_fp_half, r11
     mov.l   .L_pool_06018400, r13
     mov.l   .L_pool_06018404, r14
     mov.l   .L_pool_06018408, r6
@@ -94,7 +94,7 @@ vdp2_scroll_config:
     extu.b r7, r7
     mov.b r7, @r9
 .L_060183C2:
-    mov.l   .L_pool_06018420, r4
+    mov.l   .L_fp_one, r4
     mov.l   .L_pool_06018424, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -137,8 +137,8 @@ DAT_060183f2:
     .4byte  sym_0605BE35
 .L_pool_060183F8:
     .4byte  sym_0607E940
-.L_pool_060183FC:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06018400:
     .4byte  sym_0605BE32
 .L_pool_06018404:
@@ -155,8 +155,8 @@ DAT_060183f2:
     .4byte  sym_0605DE3C
 .L_pool_0601841C:
     .4byte  sym_0605A010
-.L_pool_06018420:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06018424:
     .4byte  sym_06085FF4
 .L_06018428:
@@ -255,7 +255,7 @@ DAT_060183f2:
     add r6, r2
     mov.l r2, @(4, r14)
     mov r2, r3
-    mov.l   .L_pool_0601850C, r4
+    mov.l   .L_fp_two, r4
     cmp/ge r4, r3
     bf      .L_06018528
     mov.l r4, @(4, r14)
@@ -287,8 +287,8 @@ DAT_060183f2:
     .2byte  0x0100
 .L_pool_06018508:
     .4byte  0x00018000
-.L_pool_0601850C:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_06018510:
     cmp/eq #0x0, r0
     bt      .L_06018480
@@ -328,7 +328,7 @@ DAT_060183f2:
     jsr @r3
     mov.l @r14, r4
     mov.w   .L_wpool_060185A2, r5
-    mov.l   .L_pool_060185BC, r2
+    mov.l   .L_wram_low, r2
     mov.l   .L_pool_060185C0, r3
     mov r2, r4
     add r3, r4
@@ -384,8 +384,8 @@ DAT_060185a0:
     .4byte  mat_rot_y
 .L_pool_060185B8:
     .4byte  transform_matrix
-.L_pool_060185BC:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_060185C0:
     .4byte  0x000BABE0
 .L_pool_060185C4:

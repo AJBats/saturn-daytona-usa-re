@@ -22,7 +22,7 @@ bg_obj_render_loop:
     mov.l   .L_pool_06014088, r8
     mov.l   .L_pool_0601408C, r9
     mov.l   .L_pool_06014090, r10
-    mov.l   .L_pool_06014094, r13
+    mov.l   .L_fp_one, r13
     mov.l   .L_pool_06014098, r3
     jsr @r3
     nop
@@ -126,8 +126,8 @@ DAT_06014086:
     .4byte  sym_06089EDC
 .L_pool_06014090:
     .4byte  sym_06026E2E
-.L_pool_06014094:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06014098:
     .4byte  sym_06026E0C
 .L_pool_0601409C:

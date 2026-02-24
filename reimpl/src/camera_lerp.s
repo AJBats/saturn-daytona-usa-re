@@ -69,7 +69,7 @@ camera_lerp:
     cmp/eq #0x2, r0
     bt      .L_0600B504
 .L_0600B540:
-    .byte   0xD9, 0x3E    /* mov.l .L_pool_0600B63C, r9 */
+    .byte   0xD9, 0x3E    /* mov.l .L_fp_half, r9 */
     mov #0x0, r1
     .byte   0xDD, 0x3E    /* mov.l .L_pool_0600B640, r13 */
     mov.l @(16, r14), r2
@@ -208,8 +208,8 @@ DAT_0600b636:
 .L_wpool_0600B638:
     .2byte  0x01C8
     .2byte  0xFFFF
-.L_pool_0600B63C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600B640:
     .4byte  sym_06078670
 .L_pool_0600B644:

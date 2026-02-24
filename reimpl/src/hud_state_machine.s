@@ -21,7 +21,7 @@ hud_state_machine:
     mov #0x0, r8
     mov r15, r9
     add #0x8, r9
-    mov.l   .L_pool_0601E52C, r10
+    mov.l   .L_smpc_comreg_ct, r10
     mov r10, r13
     add #0x44, r13
     mov #0x1, r14
@@ -48,8 +48,8 @@ hud_state_machine:
     .4byte  sym_06087094
     .4byte  sym_060877D8
     .4byte  sym_0604A5C0
-.L_pool_0601E52C:
-    .4byte  0x2010001F
+.L_smpc_comreg_ct:
+    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_0601E530:
     mov r12, r11
     shll2 r11

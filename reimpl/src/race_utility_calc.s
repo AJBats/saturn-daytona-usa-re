@@ -63,7 +63,7 @@ race_utility_calc:
     mov.l   .L_pool_0600C20C, r3
     mov.l @r2, r2
     mov.l r2, @r3
-    mov.l   .L_pool_0600C210, r2
+    mov.l   .L_mask_low16, r2
     mov.l   .L_pool_0600C214, r3
     lds.l @r15+, pr
     rts
@@ -83,7 +83,7 @@ race_utility_calc:
     .4byte  sym_06059F40
 .L_pool_0600C20C:
     .4byte  sym_06059F4C
-.L_pool_0600C210:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_0600C214:
     .4byte  0x21800000

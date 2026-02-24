@@ -48,7 +48,7 @@ game_init_master:
     mov.l   .L_pool_06013098, r3
     mov.l r2, @r3
     mov.l   .L_pool_0601308C, r2
-    mov.l   .L_pool_0601309C, r3
+    mov.l   .L_fp_half, r3
     mov.l @r2, r2
     mov.w r3, @r2
     mov.l   .L_pool_060130A0, r14
@@ -182,8 +182,8 @@ DAT_06013068:
     .4byte  sym_060393FC
 .L_pool_06013098:
     .4byte  sym_0605A008
-.L_pool_0601309C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060130A0:
     .4byte  sym_0602853E
 .L_pool_060130A4:
@@ -1300,33 +1300,33 @@ DAT_060136c2:
     add #0x37, r4
     mov.l   .L_pool_060137C8, r14
     mov.l   .L_pool_060137CC, r5
-    mov.l   .L_pool_060137D0, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_pool_060137D4, r5
-    mov.l   .L_pool_060137D8, r4
+    mov.l   .L_vdp2_cram_0x600, r4
     jsr @r14
     mov #0x60, r6
     mov.l   .L_pool_060137DC, r5
-    mov.l   .L_pool_060137E0, r4
+    mov.l   .L_vdp2_cram_0x660, r4
     jsr @r14
     mov #0x40, r6
     mov.l   .L_pool_060137E4, r5
-    mov.l   .L_pool_060137E8, r4
+    mov.l   .L_vdp2_cram_0x6A0, r4
     jsr @r14
     mov #0x40, r6
     mov #0x40, r6
     mov.l   .L_pool_060137EC, r3
     mov.l r3, @(4, r15)
-    mov.l   .L_pool_060137F0, r4
+    mov.l   .L_vdp2_cram_0x6E0, r4
     jsr @r14
     mov r3, r5
     mov #0x40, r6
-    mov.l   .L_pool_060137F4, r4
+    mov.l   .L_vdp2_cram_0x4E0, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l   .L_pool_060137F8, r5
-    mov.l   .L_pool_060137FC, r4
+    mov.l   .L_vdp2_cram_0x720, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_pool_06013800, r14
@@ -1402,30 +1402,30 @@ DAT_060137c2:
     .4byte  memcpy_word_idx
 .L_pool_060137CC:
     .4byte  sym_0604878C
-.L_pool_060137D0:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_060137D4:
     .4byte  sym_0604814C
-.L_pool_060137D8:
-    .4byte  0x25F00600
+.L_vdp2_cram_0x600:
+    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
 .L_pool_060137DC:
     .4byte  sym_0604848C
-.L_pool_060137E0:
-    .4byte  0x25F00660
+.L_vdp2_cram_0x660:
+    .4byte  0x25F00660                  /* VDP2 color RAM +0x660 */
 .L_pool_060137E4:
     .4byte  sym_060484CC
-.L_pool_060137E8:
-    .4byte  0x25F006A0
+.L_vdp2_cram_0x6A0:
+    .4byte  0x25F006A0                  /* VDP2 color RAM +0x6A0 */
 .L_pool_060137EC:
     .4byte  sym_060485AC
-.L_pool_060137F0:
-    .4byte  0x25F006E0
-.L_pool_060137F4:
-    .4byte  0x25F004E0
+.L_vdp2_cram_0x6E0:
+    .4byte  0x25F006E0                  /* VDP2 color RAM +0x6E0 */
+.L_vdp2_cram_0x4E0:
+    .4byte  0x25F004E0                  /* VDP2 color RAM +0x4E0 */
 .L_pool_060137F8:
     .4byte  sym_0605CD9C
-.L_pool_060137FC:
-    .4byte  0x25F00720
+.L_vdp2_cram_0x720:
+    .4byte  0x25F00720                  /* VDP2 color RAM +0x720 */
 .L_pool_06013800:
     .4byte  channel_nibble_config
 .L_pool_06013804:

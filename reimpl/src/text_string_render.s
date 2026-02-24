@@ -14,7 +14,7 @@ text_string_render:
     mov.l r13, @-r15
     extu.b r14, r3
     mov.l   .L_pool_06016AD8, r13
-    mov.l   .L_pool_06016AE8, r5
+    mov.l   .L_fp_one, r5
     mov r3, r2
     shll2 r3
     shll2 r2
@@ -74,8 +74,8 @@ text_string_render:
     .4byte  0x000B0000
     .4byte  0x00040000
     .4byte  0x0000C000
-.L_pool_06016AE8:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_06016AEC:
     extu.b r14, r4
     mov r4, r3
@@ -120,7 +120,7 @@ text_string_render:
     sub r2, r3
     mov.l r3, @(24, r4)
     mov r3, r2
-    mov.l   .L_pool_06016B94, r3
+    mov.l   .L_fp_two, r3
     cmp/gt r3, r2
     bt      .L_06016B86
     extu.b r14, r4
@@ -168,8 +168,8 @@ loc_06016B8E:
     nop
 .L_wpool_06016B92:
     .2byte  0x0600
-.L_pool_06016B94:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 
     .global loc_06016B98
 loc_06016B98:

@@ -72,7 +72,7 @@ obj_position_update:
     bt/s    .L_06004FB6
     mov.l r2, @(4, r3)
     mov.l @r12, r5
-    mov.l   .L_pool_06004FF8, r3
+    mov.l   .L_vdp2_vram_0x00000, r3
     shll2 r5
     shll2 r5
     shll r5
@@ -85,7 +85,7 @@ obj_position_update:
 .L_06004FB6:
     mov.l @r15, r6
     mov.l @r12, r4
-    mov.l   .L_pool_06004FF8, r3
+    mov.l   .L_vdp2_vram_0x00000, r3
     shll2 r6
     shll2 r4
     shll2 r6
@@ -117,8 +117,8 @@ obj_position_update:
     .4byte  memcpy_word_idx
 .L_pool_06004FF4:
     .4byte  sym_06063D94
-.L_pool_06004FF8:
-    .4byte  0x25E00000
+.L_vdp2_vram_0x00000:
+    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
 .L_pool_06004FFC:
     .4byte  dma_memory_transfer
 .L_06005000:

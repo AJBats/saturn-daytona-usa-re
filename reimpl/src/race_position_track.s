@@ -138,7 +138,7 @@ race_position_track:
     add #-0x30, r2
     mov.l r2, @r14
 .L_06011002:
-    mov.l   .L_pool_0601108C, r3
+    mov.l   .L_mask_low16, r3
     mov.l   .L_pool_06011090, r2
     mov.w r3, @r2
     add #0x4, r15
@@ -207,7 +207,7 @@ race_position_track:
     .4byte  sym_0606218C
 .L_pool_06011088:
     .4byte  sym_060620E4
-.L_pool_0601108C:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06011090:
     .4byte  0x21800000

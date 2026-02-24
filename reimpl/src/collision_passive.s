@@ -12,7 +12,7 @@ collision_passive:
     mov.l r14, @-r15
     mov.l   .L_pool_0600D198, r5
     mov.w   DAT_0600d192, r0
-    mov.l   .L_pool_0600D19C, r6
+    mov.l   .L_mask_nibble4, r6
     mov.l @r5, r5
     mov.l @(r0, r5), r4
     mov.w   .L_wpool_0600D194, r0
@@ -25,7 +25,7 @@ collision_passive:
     sub r3, r7
     add r2, r7
     mov.l @(24, r5), r3
-    mov.l   .L_pool_0600D1A0, r2
+    mov.l   .L_fp_eight, r2
     sub r3, r7
     cmp/ge r2, r7
     bt      .L_0600D15A
@@ -73,10 +73,10 @@ DAT_0600d192:
     .2byte  0xFFFF
 .L_pool_0600D198:
     .4byte  sym_0607E940
-.L_pool_0600D19C:
-    .4byte  0x000F0000
-.L_pool_0600D1A0:
-    .4byte  0x00080000
+.L_mask_nibble4:
+    .4byte  0x000F0000                  /* nibble 4 mask */
+.L_fp_eight:
+    .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_0600D1A4:
     mov.l   .L_pool_0600D20C, r6
     mov.w   DAT_0600d1fa, r0

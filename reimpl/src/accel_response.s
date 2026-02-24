@@ -26,7 +26,7 @@ accel_response:
     mov.w r2, @(r0, r14)
 .L_0600C516:
     mov.l   .L_pool_0600C5A8, r3
-    mov.l   .L_pool_0600C5AC, r2
+    mov.l   .L_fp_half, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -122,8 +122,8 @@ DAT_0600c59a:
     .4byte  sym_0607E940
 .L_pool_0600C5A8:
     .4byte  sym_0607EBC4
-.L_pool_0600C5AC:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600C5B0:
     .4byte  sym_060477EC
 .L_pool_0600C5B4:

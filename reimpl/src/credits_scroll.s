@@ -24,7 +24,7 @@ credits_scroll:
     bra     .L_0603F2B2
     mov #-0x1, r0
 .L_0603F260:
-    mov.l   .L_pool_0603F2D0, r4
+    mov.l   .L_fp_half, r4
     mov.l   .L_pool_0603F2D4, r3
     jsr @r3
     nop
@@ -87,8 +87,8 @@ credits_scroll:
     .4byte  checkpoint_state_check
 .L_pool_0603F2CC:
     .4byte  sym_060A4D14
-.L_pool_0603F2D0:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0603F2D4:
     .4byte  sym_06041884
 .L_pool_0603F2D8:

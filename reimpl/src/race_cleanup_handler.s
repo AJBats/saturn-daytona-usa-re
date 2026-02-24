@@ -57,7 +57,7 @@ race_cleanup_handler:
     jsr @r3
     mov #0x8, r4
     mov r13, r7
-    mov.l   .L_pool_06012244, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w   .L_wpool_0601221E, r5
     mov #0x8, r4
     add #0x4, r15
@@ -91,8 +91,8 @@ race_cleanup_handler:
     .4byte  sym_0605ACF0
 .L_pool_06012240:
     .4byte  sym_060284AE
-.L_pool_06012244:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_06012248:
     .4byte  sym_060283E0
 .L_0601224C:

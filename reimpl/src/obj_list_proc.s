@@ -14,7 +14,7 @@ obj_list_proc:
     add #-0x4, r15
     mov.b r4, @r15
     mov.l   .L_pool_0602051C, r14
-    mov.l   .L_pool_06020520, r2
+    mov.l   .L_backup_ram, r2
     mov.l @r14, r3
     add r2, r3
     mov.l r3, @r14
@@ -51,8 +51,8 @@ loc_06020510:
     .4byte  gameover_channel_setup
 .L_pool_0602051C:
     .4byte  sym_06087814
-.L_pool_06020520:
-    .4byte  0x00180000
+.L_backup_ram:
+    .4byte  0x00180000                  /* Backup RAM base */
 .L_pool_06020524:
     .4byte  display_channel_b
 .L_pool_06020528:

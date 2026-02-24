@@ -16,7 +16,7 @@ camera_collision_avoid:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_pool_0600A700, r12
-    mov.l   .L_pool_0600A704, r13
+    mov.l   .L_fp_half, r13
     mov.l   .L_pool_0600A708, r14
     mov.l @r14, r14
     mov.b @(1, r14), r0
@@ -132,8 +132,8 @@ camera_collision_avoid:
     .2byte  0xFFFF
 .L_pool_0600A700:
     .4byte  sym_06089EDC
-.L_pool_0600A704:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600A708:
     .4byte  sym_0607EB8C
 .L_pool_0600A70C:

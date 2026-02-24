@@ -24,7 +24,7 @@ pre_race_camera:
 .L_06019F08:
     mov #0x19, r5
 .L_06019F0A:
-    mov.l   .L_pool_06019F54, r7
+    mov.l   .L_fp_half, r7
     mov.l   .L_pool_06019F58, r4
     mov.w @(2, r13), r0
     mov r0, r2
@@ -61,8 +61,8 @@ pre_race_camera:
     .4byte  sym_06063D98
 .L_pool_06019F50:
     .4byte  sym_0605AD0C
-.L_pool_06019F54:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06019F58:
     .4byte  sym_0605D243
 .L_06019F5C:

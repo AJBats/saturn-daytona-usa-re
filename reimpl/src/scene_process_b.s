@@ -262,7 +262,7 @@ DAT_060255de:
     add r12, r7
     mov.l r7, @(8, r15)
     mov.l @(4, r7), r7
-    mov.l   .L_pool_060256C0, r3
+    mov.l   .L_fp_half, r3
     mov.l r6, @(4, r15)
     add r3, r7
     mov.l   .L_pool_060256C4, r3
@@ -347,8 +347,8 @@ DAT_060255de:
     .2byte  0xFFFF
 .L_pool_060256BC:
     .4byte  sym_0605900C
-.L_pool_060256C0:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060256C4:
     .4byte  sym_06059074
 .L_pool_060256C8:

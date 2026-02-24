@@ -104,7 +104,7 @@ DAT_0601b87e:
     .4byte  sym_0605D4F4
 .L_0601B8A8:
     mov.w @(2, r6), r0
-    mov.l   .L_pool_0601B948, r3
+    mov.l   .L_fp_half, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -153,9 +153,9 @@ DAT_0601b87e:
     mov.w   .L_wpool_0601B946, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0601B950, r2
+    mov.l   .L_fp_one, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0601B948, r3
+    mov.l   .L_fp_half, r3
     mov.l r3, @-r15
     mov.l   .L_pool_0601B954, r7
     mov r15, r3
@@ -190,12 +190,12 @@ DAT_0601b87e:
     extu.b r14, r9
 .L_wpool_0601B946:
     .2byte  0x0100
-.L_pool_0601B948:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601B94C:
     .4byte  sym_0605D4F4
-.L_pool_0601B950:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0601B954:
     .4byte  0x001C0000
 .L_pool_0601B958:

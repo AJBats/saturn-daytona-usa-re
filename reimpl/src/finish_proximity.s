@@ -70,7 +70,7 @@ finish_proximity:
     bf/s    .L_0600DB0A
     extu.w r7, r7
     mov.l @r15, r3
-    mov.l   .L_pool_0600DB58, r2
+    mov.l   .L_mask_0xC000, r2
     cmp/gt r2, r3
     bt      .L_0600DB0A
     extu.w r7, r2
@@ -78,7 +78,7 @@ finish_proximity:
     cmp/ge r3, r2
     bf      .L_0600DB0A
     extu.w r7, r3
-    mov.l   .L_pool_0600DB58, r2
+    mov.l   .L_mask_0xC000, r2
     cmp/gt r2, r3
     bf      .L_0600DB24
 .L_0600DB0A:
@@ -132,8 +132,8 @@ DAT_0600db46:
     .4byte  sym_06078698
 .L_pool_0600DB54:
     .4byte  sym_06034F78
-.L_pool_0600DB58:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 .L_0600DB5C:
     add #0x8, r15
     lds.l @r15+, pr

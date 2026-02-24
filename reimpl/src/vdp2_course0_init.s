@@ -11,23 +11,23 @@
 vdp2_course0_init:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD5, 0x11    /* mov.l .L_pool_060034B0, r5 */
-    .byte   0xD4, 0x11    /* mov.l .L_pool_060034B4, r4 */
+    .byte   0xD5, 0x11    /* mov.l .L_vdp2_cram_0x800, r5 */
+    .byte   0xD4, 0x11    /* mov.l .L_vdp2_cram_0x200, r4 */
     .byte   0xD3, 0x12    /* mov.l .L_pool_060034B8, r3 */
     jsr @r3
     mov #0x60, r6
     .byte   0xDE, 0x11    /* mov.l .L_pool_060034BC, r14 */
-    .byte   0xD5, 0x12    /* mov.l .L_pool_060034C0, r5 */
-    .byte   0xD4, 0x12    /* mov.l .L_pool_060034C4, r4 */
+    .byte   0xD5, 0x12    /* mov.l .L_vdp2_vram_0x34000, r5 */
+    .byte   0xD4, 0x12    /* mov.l .L_vdp2_vram_0x4363C, r4 */
     jsr @r14
     nop
     .byte   0xD5, 0x12    /* mov.l .L_pool_060034C8, r5 */
-    .byte   0xD4, 0x12    /* mov.l .L_pool_060034CC, r4 */
+    .byte   0xD4, 0x12    /* mov.l .L_vdp2_vram_0x40000, r4 */
     jsr @r14
     mov.l @r5, r5
     .byte   0xD5, 0x10    /* mov.l .L_pool_060034C8, r5 */
     mov.w   .L_wpool_0600349C, r2
-    .byte   0xD4, 0x11    /* mov.l .L_pool_060034D0, r4 */
+    .byte   0xD4, 0x11    /* mov.l .L_vdp2_vram_0x407F0, r4 */
     mov.l @r5, r5
     jsr @r14
     add r2, r5
@@ -42,21 +42,21 @@ vdp2_course0_init:
     .4byte  sym_06063798
     .4byte  sym_06028400
     .4byte  sym_06063790
-.L_pool_060034B0:
-    .4byte  0x25F00800
-.L_pool_060034B4:
-    .4byte  0x25F00200
+.L_vdp2_cram_0x800:
+    .4byte  0x25F00800                  /* VDP2 color RAM +0x800 */
+.L_vdp2_cram_0x200:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
 .L_pool_060034B8:
     .4byte  memcpy_word_idx
 .L_pool_060034BC:
     .4byte  dma_memory_transfer
-.L_pool_060034C0:
-    .4byte  0x25E34000
-.L_pool_060034C4:
-    .4byte  0x25E4363C
+.L_vdp2_vram_0x34000:
+    .4byte  0x25E34000                  /* VDP2 VRAM +0x34000 */
+.L_vdp2_vram_0x4363C:
+    .4byte  0x25E4363C                  /* VDP2 VRAM +0x4363C */
 .L_pool_060034C8:
     .4byte  sym_060612AC
-.L_pool_060034CC:
-    .4byte  0x25E40000
-.L_pool_060034D0:
-    .4byte  0x25E407F0
+.L_vdp2_vram_0x40000:
+    .4byte  0x25E40000                  /* VDP2 VRAM +0x40000 */
+.L_vdp2_vram_0x407F0:
+    .4byte  0x25E407F0                  /* VDP2 VRAM +0x407F0 */

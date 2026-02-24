@@ -11,7 +11,7 @@
 mat_transpose:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_0601E7FC, r13
+    mov.l   .L_smpc_sf, r13
     mov.w r0, @(4, r15)
     mov.l r6, @r15
     mov.l   .L_pool_0601E800, r3
@@ -32,7 +32,7 @@ mat_transpose:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_pool_0601E804, r2
+    mov.l   .L_smpc_comreg_ct, r2
     mov.b r3, @r2
 .L_0601E7A0:
     mov.b @r13, r2
@@ -67,7 +67,7 @@ mat_transpose:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_pool_0601E804, r2
+    mov.l   .L_smpc_comreg_ct, r2
     mov.b r3, @r2
 .L_0601E7E2:
     mov.b @r13, r2
@@ -83,12 +83,12 @@ mat_transpose:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0601E7FC:
-    .4byte  0x20100063
+.L_smpc_sf:
+    .4byte  0x20100063                  /* SMPC SF — status flag */
 .L_pool_0601E800:
     .4byte  sym_06035C1C
-.L_pool_0601E804:
-    .4byte  0x2010001F
+.L_smpc_comreg_ct:
+    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_pool_0601E808:
     .4byte  sym_06000354
 .L_pool_0601E80C:

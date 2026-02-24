@@ -10,7 +10,7 @@
     .type state_field_read, @function
 state_field_read:
     sts.l pr, @-r15
-    mov.l   .L_pool_060418AC, r4
+    mov.l   .L_fp_half, r4
     mov.l   .L_pool_060418A8, r3
     mov.l @r3, r3
     mov.l r4, @(60, r3)
@@ -27,8 +27,8 @@ state_field_read:
     nop
 .L_pool_060418A8:
     .4byte  sym_060A5400
-.L_pool_060418AC:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_060418B0:
     mov #0x0, r5
     .byte   0xD2, 0x2A    /* mov.l .L_pool_0604195C, r2 */

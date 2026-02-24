@@ -499,7 +499,7 @@ DAT_06017fe6:
     mov.l @(4, r5), r5
     jsr @r3
     mov.l @r4, r4
-    mov.l   .L_pool_06018118, r4
+    mov.l   .L_mask_0xC000, r4
     mov.l   .L_pool_0601811C, r3
     jsr @r3
     nop
@@ -516,7 +516,7 @@ DAT_06017fe6:
     jsr @r3
     add r2, r4
     mov #0xC, r5
-    mov.l   .L_pool_06018124, r2
+    mov.l   .L_wram_low, r2
     mov.l r2, @r15
     mov r2, r4
     mov.l   .L_pool_06018128, r3
@@ -554,7 +554,7 @@ DAT_06017fe6:
     mov.l @(4, r5), r5
     jsr @r3
     mov.l @r4, r4
-    mov.l   .L_pool_06018118, r4
+    mov.l   .L_mask_0xC000, r4
     mov.l   .L_pool_0601811C, r3
     jsr @r3
     nop
@@ -612,14 +612,14 @@ DAT_06018104:
     .4byte  sym_06048078
 .L_pool_06018114:
     .4byte  sym_06026E2E
-.L_pool_06018118:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 .L_pool_0601811C:
     .4byte  mat_rot_y
 .L_pool_06018120:
     .4byte  mat_rot_z
-.L_pool_06018124:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_06018128:
     .4byte  sym_06031D8C
 .L_pool_0601812C:

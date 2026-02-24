@@ -25,7 +25,7 @@ preview_camera_target:
     nop
 .L_0601A7C8:
     mov.w @(2, r4), r0
-    mov.l   .L_pool_0601A808, r3
+    mov.l   .L_fp_half, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -51,5 +51,5 @@ preview_camera_target:
     .4byte  sym_0605D241
 .L_pool_0601A804:
     .4byte  sym_06063D98
-.L_pool_0601A808:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */

@@ -13,7 +13,7 @@ vblank_cmd_dispatch:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06039090, r12
+    mov.l   .L_vdp1_fbcr, r12
     mov.l   .L_pool_06039094, r13
     mov.l   .L_pool_06039098, r14
     mov.l   .L_pool_0603909C, r0
@@ -21,7 +21,7 @@ vblank_cmd_dispatch:
     extu.w r0, r0
     tst r0, r0
     bt      .L_060390A4
-    mov.l   .L_pool_060390A0, r4
+    mov.l   .L_vdp2_tvstat, r4
     mov.w @r4, r4
     extu.w r4, r0
     tst #0x2, r0
@@ -41,16 +41,16 @@ vblank_cmd_dispatch:
     .2byte  0xFFFF
     .4byte  sym_060635B8
     .4byte  sym_060635BC
-.L_pool_06039090:
-    .4byte  0x25D00002
+.L_vdp1_fbcr:
+    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
 .L_pool_06039094:
     .4byte  sym_060A4C92
 .L_pool_06039098:
     .4byte  sym_060A4C84
 .L_pool_0603909C:
     .4byte  sym_060A4C94
-.L_pool_060390A0:
-    .4byte  0x25F80004
+.L_vdp2_tvstat:
+    .4byte  0x25F80004                  /* VDP2 TVSTAT — TV status */
 .L_060390A4:
     mov.l @r14, r0
     tst r0, r0
@@ -71,7 +71,7 @@ vblank_cmd_dispatch:
     bf      .L_060390D0
     mov.l   .L_pool_060390F4, r3
     mov.w @r3, r3
-    mov.l   .L_pool_060390F8, r2
+    mov.l   .L_vdp1_tvmr, r2
     mov.w r3, @r2
     bra     .L_060390DA
     nop
@@ -98,7 +98,7 @@ vblank_cmd_dispatch:
     .4byte  sym_060394C2
 .L_pool_060390F4:
     .4byte  sym_060A4C90
-.L_pool_060390F8:
-    .4byte  0x25D00000
+.L_vdp1_tvmr:
+    .4byte  0x25D00000                  /* VDP1 TVMR — TV mode */
 .L_pool_060390FC:
     .4byte  sym_060635C4

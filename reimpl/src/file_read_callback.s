@@ -22,7 +22,7 @@ file_read_callback:
     mov #0x20, r4
     mov.l   .L_pool_0601215C, r4
     mov.l r14, @r4
-    mov.l   .L_pool_06012160, r2
+    mov.l   .L_fp_eight, r2
     mov.l r2, @(4, r4)
     shlr2 r2
     mov.l   .L_pool_06012164, r3
@@ -88,8 +88,8 @@ DAT_0601214e:
     .4byte  display_channel_b
 .L_pool_0601215C:
     .4byte  sym_060788B4
-.L_pool_06012160:
-    .4byte  0x00080000
+.L_fp_eight:
+    .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_pool_06012164:
     .4byte  0x000F3333
 .L_pool_06012168:

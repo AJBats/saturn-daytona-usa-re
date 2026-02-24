@@ -16,10 +16,10 @@ display_param_set:
     mov.l r11, @-r15
     mov.l   .L_pool_06038F00, r11
     mov.l   .L_pool_06038F04, r14
-    mov.l   .L_pool_06038F08, r7
+    mov.l   .L_vdp1_fbcr, r7
     mov.l   .L_pool_06038F0C, r5
     mov.l   .L_pool_06038F10, r1
-    mov.l   .L_pool_06038F14, r2
+    mov.l   .L_mask_low16, r2
     cmp/eq r2, r3
     bf/s    .L_06038E86
     mov #0x0, r6
@@ -115,14 +115,14 @@ DAT_06038efc:
     .4byte  sym_060635BC
 .L_pool_06038F04:
     .4byte  sym_060A4C92
-.L_pool_06038F08:
-    .4byte  0x25D00002
+.L_vdp1_fbcr:
+    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
 .L_pool_06038F0C:
     .4byte  sym_060635B4
 .L_pool_06038F10:
     .4byte  sym_060635B8
-.L_pool_06038F14:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06038F18:
     .4byte  0x0000FFFE
     .4byte  0xD40DD00E

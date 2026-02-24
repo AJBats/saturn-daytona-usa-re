@@ -21,12 +21,12 @@ disc_load_complete_check:
     nop
     mov.w   .L_wpool_0601B45A, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0601B470, r3
+    mov.l   .L_fp_one, r3
     mov.l r3, @-r15
-    mov.l   .L_pool_0601B474, r2
+    mov.l   .L_fp_half, r2
     mov.l r2, @-r15
-    mov.l   .L_pool_0601B478, r7
-    mov.l   .L_pool_0601B47C, r5
+    mov.l   .L_wram_low, r7
+    mov.l   .L_minit, r5
     mov.l   .L_pool_0601B480, r3
     mov r7, r6
     jsr @r3
@@ -52,14 +52,14 @@ disc_load_complete_check:
     .4byte  sym_0608600D
 .L_pool_0601B46C:
     .4byte  sym_0605DEB4
-.L_pool_0601B470:
-    .4byte  0x00010000
-.L_pool_0601B474:
-    .4byte  0x00008000
-.L_pool_0601B478:
-    .4byte  0x00200000
-.L_pool_0601B47C:
-    .4byte  0x01000000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
+.L_minit:
+    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
 .L_pool_0601B480:
     .4byte  rigid_body_transform
 .L_pool_0601B484:

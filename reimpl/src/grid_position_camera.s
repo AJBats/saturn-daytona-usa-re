@@ -24,7 +24,7 @@ grid_position_camera:
 .L_0601A108:
     mov #0x19, r5
 .L_0601A10A:
-    mov.l   .L_pool_0601A1A0, r7
+    mov.l   .L_fp_half, r7
     mov.l   .L_pool_0601A1A4, r4
     mov.w @(2, r13), r0
     mov r0, r2
@@ -106,8 +106,8 @@ grid_position_camera:
     .4byte  sym_06063D98
 .L_pool_0601A19C:
     .4byte  sym_0605AD04
-.L_pool_0601A1A0:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601A1A4:
     .4byte  sym_0605D243
 

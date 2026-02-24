@@ -33,7 +33,7 @@ sym_06035F16:
     mov.b @(4, r4), r0
     mov.b r0, @(7, r5)
     mov.l @(4, r4), r3
-    mov.l   .L_pool_06035F40, r2
+    mov.l   .L_mask_low24, r2
     and r2, r3
     rts
     mov.l r3, @(8, r5)
@@ -42,5 +42,5 @@ sym_06035F16:
     .4byte  sym_06063594
 .L_pool_06035F3C:
     .4byte  sym_06035168
-.L_pool_06035F40:
-    .4byte  0x00FFFFFF
+.L_mask_low24:
+    .4byte  0x00FFFFFF                  /* low 24-bit mask */

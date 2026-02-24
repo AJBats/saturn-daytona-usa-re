@@ -14,20 +14,20 @@ course_data_loader:
     add #-0x4, r15
     mov.l   .L_pool_0601B5F8, r14
     mov.l   .L_pool_0601B5FC, r5
-    mov.l   .L_pool_0601B600, r4
+    mov.l   .L_vdp2_cram_0x6C0, r4
     jsr @r14
     mov #0x60, r6
     mov.l   .L_pool_0601B604, r5
-    mov.l   .L_pool_0601B608, r4
+    mov.l   .L_vdp2_cram_0x720, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_pool_0601B60C, r5
-    mov.l   .L_pool_0601B610, r4
+    mov.l   .L_vdp2_cram_0x740, r4
     jsr @r14
     mov #0x20, r6
     mov.w   .L_wpool_0601B5F4, r6
     mov.l   .L_pool_0601B614, r5
-    mov.l   .L_pool_0601B618, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     mov.l   .L_pool_0601B61C, r3
     jsr @r3
     nop
@@ -42,7 +42,7 @@ course_data_loader:
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    mov.l   .L_pool_0601B62C, r3
+    mov.l   .L_mask_0xC000, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
@@ -72,20 +72,20 @@ course_data_loader:
     .4byte  memcpy_word_idx
 .L_pool_0601B5FC:
     .4byte  sym_0604866C
-.L_pool_0601B600:
-    .4byte  0x25F006C0
+.L_vdp2_cram_0x6C0:
+    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 */
 .L_pool_0601B604:
     .4byte  sym_0604862C
-.L_pool_0601B608:
-    .4byte  0x25F00720
+.L_vdp2_cram_0x720:
+    .4byte  0x25F00720                  /* VDP2 color RAM +0x720 */
 .L_pool_0601B60C:
     .4byte  sym_060485EC
-.L_pool_0601B610:
-    .4byte  0x25F00740
+.L_vdp2_cram_0x740:
+    .4byte  0x25F00740                  /* VDP2 color RAM +0x740 */
 .L_pool_0601B614:
     .4byte  sym_0604996C
-.L_pool_0601B618:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601B61C:
     .4byte  dma_transfer
 .L_pool_0601B620:
@@ -94,8 +94,8 @@ course_data_loader:
     .4byte  sym_06028560
 .L_pool_0601B628:
     .4byte  sym_060638C8
-.L_pool_0601B62C:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 .L_pool_0601B630:
     .4byte  sym_06028400
 .L_pool_0601B634:

@@ -16,7 +16,7 @@ transform_rotation_alt:
     mov #0x8, r13
     .byte   0xDE, 0x0C    /* mov.l .L_pool_060264CC, r14 */
     .byte   0xD7, 0x0D    /* mov.l .L_pool_060264D0, r7 */
-    .byte   0xD5, 0x0D    /* mov.l .L_pool_060264D4, r5 */
+    .byte   0xD5, 0x0D    /* mov.l .L_fp_half, r5 */
     mov #0x0, r4
     extu.w r4, r6
 .L_060264A2:
@@ -41,8 +41,8 @@ transform_rotation_alt:
     .4byte  sym_06060D2A
 .L_pool_060264D0:
     .4byte  sym_06060D34
-.L_pool_060264D4:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_060264D8:
     mov.w   .L_wpool_060264EE, r1
     sub r1, r0

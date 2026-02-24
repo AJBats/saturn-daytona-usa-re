@@ -14,7 +14,7 @@ race_start_transition:
     mov.l   .L_pool_0601A60C, r3
     mov.l r14, @r3
     mov.l   .L_pool_0601A610, r4
-    mov.l   .L_pool_0601A614, r2
+    mov.l   .L_fp_min, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -26,13 +26,13 @@ race_start_transition:
     nop
     mov #0x9, r7
     mov.l   .L_pool_0601A61C, r5
-    mov.l   .L_pool_0601A620, r4
+    mov.l   .L_vdp2_vram_0x76174, r4
     mov.l   .L_pool_0601A624, r3
     jsr @r3
     mov r14, r6
     mov #0x8, r7
     mov.l   .L_pool_0601A628, r5
-    mov.l   .L_pool_0601A62C, r4
+    mov.l   .L_vdp2_vram_0x761FC, r4
     mov.l   .L_pool_0601A624, r3
     jsr @r3
     mov r14, r6
@@ -91,20 +91,20 @@ sym_0601A5F8:
     .4byte  sym_06059F44
 .L_pool_0601A610:
     .4byte  sym_0605B6D8
-.L_pool_0601A614:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_0601A618:
     .4byte  sym_06026CE0
 .L_pool_0601A61C:
     .4byte  0x00014000
-.L_pool_0601A620:
-    .4byte  0x25E76174
+.L_vdp2_vram_0x76174:
+    .4byte  0x25E76174                  /* VDP2 VRAM +0x76174 */
 .L_pool_0601A624:
     .4byte  sym_0600511E
 .L_pool_0601A628:
     .4byte  0x00017700
-.L_pool_0601A62C:
-    .4byte  0x25E761FC
+.L_vdp2_vram_0x761FC:
+    .4byte  0x25E761FC                  /* VDP2 VRAM +0x761FC */
 .L_pool_0601A630:
     .4byte  sym_06063AF8
 .L_pool_0601A634:

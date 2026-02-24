@@ -106,24 +106,24 @@ display_mode_init:
     mov #0x20, r4
     mov.l   .L_pool_06014BE8, r13
     mov.l   .L_pool_06014BEC, r5
-    mov.l   .L_pool_06014BF0, r4
+    mov.l   .L_vdp2_cram_0x660, r4
     jsr @r13
     mov #0x20, r6
     mov.l   .L_pool_06014BF4, r5
-    mov.l   .L_pool_06014BF8, r4
+    mov.l   .L_vdp2_cram_0x680, r4
     jsr @r13
     mov #0x20, r6
     mov.l   .L_pool_06014BFC, r5
-    mov.l   .L_pool_06014C00, r4
+    mov.l   .L_vdp2_cram_0x6A0, r4
     jsr @r13
     mov #0x20, r6
     mov.l   .L_pool_06014C04, r5
-    mov.l   .L_pool_06014C08, r4
+    mov.l   .L_vdp2_cram_0x6C0, r4
     jsr @r13
     mov #0x20, r6
     mov #0x20, r6
     mov.l   .L_pool_06014C10, r5
-    mov.l   .L_pool_06014C0C, r8
+    mov.l   .L_vdp1_vram_0x00000, r8
     mov.l   .L_pool_06014C14, r4
     mov.w   .L_wpool_06014BD0, r3
     mov.l @r4, r4
@@ -165,22 +165,22 @@ display_mode_init:
     mov.l   .L_pool_06014C24, r13
     mov #0x8, r7
     mov.l   .L_pool_06014C28, r5
-    mov.l   .L_pool_06014C2C, r4
+    mov.l   .L_vdp2_vram_0x73B98, r4
     jsr @r13
     mov #0x0, r6
     mov #0x8, r7
     mov.l   .L_pool_06014C30, r5
-    mov.l   .L_pool_06014C34, r4
+    mov.l   .L_vdp2_vram_0x74158, r4
     jsr @r13
     mov #0x0, r6
     mov #0x8, r7
     mov.l   .L_pool_06014C38, r5
-    mov.l   .L_pool_06014C3C, r4
+    mov.l   .L_vdp2_vram_0x74AFC, r4
     jsr @r13
     mov #0x0, r6
     mov #0x8, r7
     mov.l   .L_pool_06014C40, r5
-    mov.l   .L_pool_06014C44, r4
+    mov.l   .L_vdp2_vram_0x75730, r4
     jsr @r13
     mov #0x0, r6
     bra     .L_06014C7C
@@ -207,22 +207,22 @@ display_mode_init:
     .4byte  memcpy_word_idx
 .L_pool_06014BEC:
     .4byte  sym_06044A64
-.L_pool_06014BF0:
-    .4byte  0x25F00660
+.L_vdp2_cram_0x660:
+    .4byte  0x25F00660                  /* VDP2 color RAM +0x660 */
 .L_pool_06014BF4:
     .4byte  sym_06044A84
-.L_pool_06014BF8:
-    .4byte  0x25F00680
+.L_vdp2_cram_0x680:
+    .4byte  0x25F00680                  /* VDP2 color RAM +0x680 */
 .L_pool_06014BFC:
     .4byte  sym_06044AA4
-.L_pool_06014C00:
-    .4byte  0x25F006A0
+.L_vdp2_cram_0x6A0:
+    .4byte  0x25F006A0                  /* VDP2 color RAM +0x6A0 */
 .L_pool_06014C04:
     .4byte  sym_06044AC4
-.L_pool_06014C08:
-    .4byte  0x25F006C0
-.L_pool_06014C0C:
-    .4byte  0x25C00000
+.L_vdp2_cram_0x6C0:
+    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 */
+.L_vdp1_vram_0x00000:
+    .4byte  0x25C00000                  /* VDP1 VRAM +0x00000 */
 .L_pool_06014C10:
     .4byte  sym_06044AE4
 .L_pool_06014C14:
@@ -237,20 +237,20 @@ display_mode_init:
     .4byte  sym_0600511E
 .L_pool_06014C28:
     .4byte  0x00017700
-.L_pool_06014C2C:
-    .4byte  0x25E73B98
+.L_vdp2_vram_0x73B98:
+    .4byte  0x25E73B98                  /* VDP2 VRAM +0x73B98 */
 .L_pool_06014C30:
     .4byte  0x000189E0
-.L_pool_06014C34:
-    .4byte  0x25E74158
+.L_vdp2_vram_0x74158:
+    .4byte  0x25E74158                  /* VDP2 VRAM +0x74158 */
 .L_pool_06014C38:
     .4byte  0x0001AFA0
-.L_pool_06014C3C:
-    .4byte  0x25E74AFC
+.L_vdp2_vram_0x74AFC:
+    .4byte  0x25E74AFC                  /* VDP2 VRAM +0x74AFC */
 .L_pool_06014C40:
     .4byte  0x0001C980
-.L_pool_06014C44:
-    .4byte  0x25E75730
+.L_vdp2_vram_0x75730:
+    .4byte  0x25E75730                  /* VDP2 VRAM +0x75730 */
 .L_06014C48:
     extu.b r5, r4
     mov #0x36, r3

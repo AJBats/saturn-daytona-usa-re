@@ -47,7 +47,7 @@ track_geometry_proc:
     jsr @r3
     mov.l @r4, r4
     mov #0x8, r5
-    mov.l   .L_pool_060178E4, r2
+    mov.l   .L_wram_low, r2
     mov.l   .L_pool_060178E8, r3
     mov r2, r4
     add r3, r4
@@ -117,8 +117,8 @@ DAT_060178ac:
     .4byte  sym_06026E2E
 .L_pool_060178E0:
     .4byte  mat_rot_y
-.L_pool_060178E4:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_060178E8:
     .4byte  0x00037D88
 .L_pool_060178EC:
@@ -155,7 +155,7 @@ DAT_060178ac:
     jsr @r3
     mov.l @r4, r4
     mov #0x4, r5
-    mov.l   .L_pool_060179D4, r2
+    mov.l   .L_wram_low_060179D4, r2
     mov.l   .L_pool_060179D8, r3
     mov r2, r4
     add r3, r4
@@ -242,8 +242,8 @@ DAT_060178ac:
     .4byte  sym_06026E2E
 .L_pool_060179D0:
     .4byte  mat_rot_z
-.L_pool_060179D4:
-    .4byte  0x00200000
+.L_wram_low_060179D4:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_060179D8:
     .4byte  0x00037E78
 .L_pool_060179DC:
@@ -540,7 +540,7 @@ DAT_06017bd8:
     .4byte  sym_06063F64
 .L_06017BF4:
     mov.l   .L_pool_06017C54, r3
-    mov.l   .L_pool_06017C58, r2
+    mov.l   .L_fp_two, r2
     mov.l @r3, r3
     cmp/eq r2, r3
     bt      .L_06017C02
@@ -595,8 +595,8 @@ DAT_06017c52:
     .2byte  0x008C
 .L_pool_06017C54:
     .4byte  sym_0607EBC4
-.L_pool_06017C58:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_06017C5C:
     .4byte  sym_0605BE24
 .L_pool_06017C60:

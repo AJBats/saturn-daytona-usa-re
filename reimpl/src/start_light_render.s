@@ -12,7 +12,7 @@ start_light_render:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_pool_0601A31C, r4
-    mov.l   .L_pool_0601A320, r3
+    mov.l   .L_fp_min, r3
     mov.l @r4, r2
     or r3, r2
     mov.l   .L_pool_0601A324, r3
@@ -33,13 +33,13 @@ start_light_render:
     nop
     mov #0x8, r7
     mov.l   .L_pool_0601A330, r5
-    mov.l   .L_pool_0601A334, r4
+    mov.l   .L_vdp2_vram_0x76EFC, r4
     mov.l   .L_pool_0601A338, r3
     jsr @r3
     mov #0x0, r6
     mov #0x9, r7
     mov.l   .L_pool_0601A330, r5
-    mov.l   .L_pool_0601A33C, r4
+    mov.l   .L_vdp2_vram_0x77B18, r4
     mov.l   .L_pool_0601A338, r3
     jsr @r3
     mov #0x0, r6
@@ -56,8 +56,8 @@ start_light_render:
     .4byte  sym_060284AE
 .L_pool_0601A31C:
     .4byte  sym_0605B6D8
-.L_pool_0601A320:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_0601A324:
     .4byte  sym_06026CE0
 .L_pool_0601A328:
@@ -66,11 +66,11 @@ start_light_render:
     .4byte  sym_06028560
 .L_pool_0601A330:
     .4byte  0x00017700
-.L_pool_0601A334:
-    .4byte  0x25E76EFC
+.L_vdp2_vram_0x76EFC:
+    .4byte  0x25E76EFC                  /* VDP2 VRAM +0x76EFC */
 .L_pool_0601A338:
     .4byte  sym_0600511E
-.L_pool_0601A33C:
-    .4byte  0x25E77B18
+.L_vdp2_vram_0x77B18:
+    .4byte  0x25E77B18                  /* VDP2 VRAM +0x77B18 */
 .L_pool_0601A340:
     .4byte  sym_06085FF2

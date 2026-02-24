@@ -121,7 +121,7 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    .byte   0xD0, 0x09    /* mov.l .L_pool_06027FD0, r0 */
+    .byte   0xD0, 0x09    /* mov.l .L_minit, r0 */
     tst r4, r0
     bf      .L_06027FB0
     add r12, r3
@@ -144,8 +144,8 @@ DAT_06027f56:
     .4byte  0x00000034
 .L_pool_06027FCC:
     .4byte  sym_060A6000
-.L_pool_06027FD0:
-    .4byte  0x01000000
+.L_minit:
+    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
 .L_06027FD4:
     mov r5, r0
     mov.l @(24, r0), r6

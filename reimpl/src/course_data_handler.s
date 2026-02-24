@@ -21,18 +21,18 @@ course_data_handler:
     mov.l   .L_pool_0601AEDC, r2
     mov.b r4, @r2
     mov.l   .L_pool_0601AEE0, r5
-    mov.l   .L_pool_0601AEE4, r4
+    mov.l   .L_vdp2_cram_0x6C0, r4
     mov.l   .L_pool_0601AEE8, r2
     jsr @r2
     mov #0x60, r6
     mov.l   .L_pool_0601AEEC, r5
-    mov.l   .L_pool_0601AEF0, r4
+    mov.l   .L_vdp2_cram_0x180, r4
     mov.l   .L_pool_0601AEE8, r3
     jsr @r3
     mov #0x20, r6
     mov.w   .L_wpool_0601AEC8, r6
     mov.l   .L_pool_0601AEF4, r5
-    mov.l   .L_pool_0601AEF8, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     mov.l   .L_pool_0601AEFC, r3
     jmp @r3
     lds.l @r15+, pr
@@ -61,18 +61,18 @@ sym_0601AEB6:
     .4byte  sym_06086011
 .L_pool_0601AEE0:
     .4byte  sym_0604866C
-.L_pool_0601AEE4:
-    .4byte  0x25F006C0
+.L_vdp2_cram_0x6C0:
+    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 */
 .L_pool_0601AEE8:
     .4byte  memcpy_word_idx
 .L_pool_0601AEEC:
     .4byte  sym_060485CC
-.L_pool_0601AEF0:
-    .4byte  0x25F00180
+.L_vdp2_cram_0x180:
+    .4byte  0x25F00180                  /* VDP2 color RAM +0x180 */
 .L_pool_0601AEF4:
     .4byte  sym_0604996C
-.L_pool_0601AEF8:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601AEFC:
     .4byte  dma_transfer
 .L_pool_0601AF00:

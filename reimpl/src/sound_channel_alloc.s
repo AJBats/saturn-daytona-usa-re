@@ -40,7 +40,7 @@ sound_channel_alloc:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0601D508, r4
+    mov.l   .L_fp_sixteen, r4
     mov.l   .L_pool_0601D500, r13
     mov.l   .L_pool_0601D4F8, r14
     mov.w @r13, r0
@@ -86,8 +86,8 @@ sound_channel_alloc:
     .4byte  sym_0607886E
 .L_pool_0601D504:
     .4byte  sym_0607887F
-.L_pool_0601D508:
-    .4byte  0x00100000
+.L_fp_sixteen:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 
     .global loc_0601D50C
 loc_0601D50C:

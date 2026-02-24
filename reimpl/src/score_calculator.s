@@ -21,7 +21,7 @@ score_calculator:
     add #-0x8, r15
     mov.l   .L_pool_06013A30, r8
     mov.l   .L_pool_06013A34, r11
-    mov.l   .L_pool_06013A38, r12
+    mov.l   .L_fp_one, r12
     mov.w   .L_wpool_06013A28, r14
     mov.w @r11, r3
     add #-0x1, r3
@@ -135,8 +135,8 @@ score_calculator:
     .4byte  sym_06026E2E
 .L_pool_06013A34:
     .4byte  sym_06084AF4
-.L_pool_06013A38:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06013A3C:
     .4byte  sym_06084AF2
 .L_pool_06013A40:

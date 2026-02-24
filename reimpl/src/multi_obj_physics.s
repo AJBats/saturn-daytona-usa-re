@@ -38,7 +38,7 @@ multi_obj_physics:
     shll r12
     jsr @r2
     add r3, r12
-    mov.l   .L_pool_06014430, r6
+    mov.l   .L_fp_one, r6
     mov r8, r5
     jsr @r10
     mov #0x0, r4
@@ -119,8 +119,8 @@ DAT_0601440e:
     .4byte  sym_0605AD5C
 .L_pool_0601442C:
     .4byte  sym_06026DBC
-.L_pool_06014430:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06014434:
     .4byte  sym_06084B08
 .L_pool_06014438:

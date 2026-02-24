@@ -124,7 +124,7 @@ sym_0602D9F0:
     bf      .L_0602DA16
     mov.l   .L_pool_0602DAC4, r1
     mov.l @(r0, r1), r3
-    mov.l   .L_pool_0602DAC8, r4
+    mov.l   .L_mask_byte3, r4
     cmp/ge r4, r3
     bt      .L_0602DA8E
 .L_0602DA16:
@@ -179,14 +179,14 @@ sym_0602D9F0:
     tst r1, r1
     bf      .L_0602DAEC
     mov.l @(0, r0), r2
-    mov.l   .L_pool_0602DAE0, r3
+    mov.l   .L_fp_two, r3
     or r3, r2
     mov.l r2, @(0, r0)
     mov.l   .L_pool_0602DAE4, r1
     mov.w   .L_wpool_0602DAAA, r2
     mov.l r2, @r1
     mov.l   .L_pool_0602DAE8, r1
-    mov.w   .L_wpool_0602DAAC, r2
+    mov.w   .L_one, r2
     mov.l r2, @r1
 .L_0602DA8E:
     mov.l   .L_pool_0602DADC, r1
@@ -214,8 +214,8 @@ sym_0602D9F0:
     .2byte  0x47FF
 .L_wpool_0602DAAA:
     .2byte  0x003C
-.L_wpool_0602DAAC:
-    .2byte  0x0001
+.L_one:
+    .2byte  0x0001                      /* 1 */
     .2byte  0x0000
 .L_pool_0602DAB0:
     .4byte  sym_0607E944
@@ -229,8 +229,8 @@ sym_0602D9F0:
     .4byte  0x00000001
 .L_pool_0602DAC4:
     .4byte  0x00000018
-.L_pool_0602DAC8:
-    .4byte  0xFF000000
+.L_mask_byte3:
+    .4byte  0xFF000000                  /* byte 3 mask */
 .L_pool_0602DACC:
     .4byte  0x000001BC
 .L_pool_0602DAD0:
@@ -241,23 +241,23 @@ sym_0602D9F0:
     .4byte  0x00000008
 .L_pool_0602DADC:
     .4byte  sym_06083260
-.L_pool_0602DAE0:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_0602DAE4:
     .4byte  sym_0607EAC8
 .L_pool_0602DAE8:
     .4byte  sym_0605A1C4
 .L_0602DAEC:
     mov.l   .L_pool_0602DAF8, r1
-    mov.l   .L_pool_0602DAFC, r2
+    mov.l   .L_sh2_periph_0x1FF, r2
     mov.b r2, @r1
     rts
     nop
     .2byte  0x0000
 .L_pool_0602DAF8:
     .4byte  sym_06083260
-.L_pool_0602DAFC:
-    .4byte  0xFFFFFFFF
+.L_sh2_periph_0x1FF:
+    .4byte  0xFFFFFFFF                  /* SH-2 peripheral +0x1FF */
 
     .global sym_0602DB00
 sym_0602DB00:

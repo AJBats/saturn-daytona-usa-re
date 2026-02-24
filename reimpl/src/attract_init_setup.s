@@ -13,11 +13,11 @@ attract_init_setup:
     add #-0x4, r15
     mov.l @(16, r4), r7
     mov.l @(20, r4), r3
-    mov.l   .L_pool_0603EF8C, r2
+    mov.l   .L_mask_low16, r2
     sub r3, r7
     cmp/eq r2, r5
     bf      .L_0603EF76
-    mov.l   .L_pool_0603EF90, r5
+    mov.l   .L_fp_max, r5
 .L_0603EF76:
     mov.w   DAT_0603ef8a, r2
     add r7, r2
@@ -33,10 +33,10 @@ attract_init_setup:
     .global DAT_0603ef8a
 DAT_0603ef8a:
     .2byte  0x07FF
-.L_pool_0603EF8C:
-    .4byte  0x0000FFFF
-.L_pool_0603EF90:
-    .4byte  0x7FFFFFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
+.L_fp_max:
+    .4byte  0x7FFFFFFF                  /* max positive 16.16 */
 .L_0603EF94:
     mov.l @r15, r5
 .L_0603EF96:

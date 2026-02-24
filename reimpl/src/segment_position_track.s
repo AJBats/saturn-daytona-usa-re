@@ -297,7 +297,7 @@ segment_position_track:
 .L_06006104:
     mov.l @(4, r9), r5
     mov.l @(4, r12), r2
-    mov.l   .L_pool_06006138, r4
+    mov.l   .L_fp_half, r4
     mov.l   .L_pool_0600613C, r3
     jsr @r3
     add r2, r5
@@ -325,8 +325,8 @@ DAT_06006116:
     .4byte  mat_vec_transform
 .L_pool_06006134:
     .4byte  sym_0607EAD8
-.L_pool_06006138:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600613C:
     .4byte  fpmul
 .L_pool_06006140:
@@ -337,7 +337,7 @@ DAT_06006116:
 .L_06006148:
     mov.l @(4, r10), r5
     mov.l @(4, r8), r3
-    mov.l   .L_pool_060061B4, r4
+    mov.l   .L_fp_half_060061B4, r4
     add r3, r5
     mov.l   .L_pool_060061B8, r3
     jsr @r3
@@ -345,7 +345,7 @@ DAT_06006116:
     mov.l r0, @(8, r15)
     mov.l @(4, r10), r5
     mov.l @(4, r9), r3
-    mov.l   .L_pool_060061B4, r4
+    mov.l   .L_fp_half_060061B4, r4
     add r3, r5
     mov.l   .L_pool_060061B8, r3
     jsr @r3
@@ -353,7 +353,7 @@ DAT_06006116:
     mov.l r0, @r15
     mov.l @(4, r8), r5
     mov.l @(4, r12), r3
-    mov.l   .L_pool_060061B4, r4
+    mov.l   .L_fp_half_060061B4, r4
     add r3, r5
     mov.l   .L_pool_060061B8, r3
     jsr @r3
@@ -389,8 +389,8 @@ DAT_06006116:
     mov.l @r15+, r14
 .L_pool_060061B0:
     .4byte  0x000D6666
-.L_pool_060061B4:
-    .4byte  0x00008000
+.L_fp_half_060061B4:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060061B8:
     .4byte  fpmul
 .L_pool_060061BC:

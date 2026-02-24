@@ -50,7 +50,7 @@ DAT_06030eae:
 .L_pool_06030EBC:
     .4byte  0x0000FAE1
 .L_06030EC0:
-    .byte   0xD4, 0x06    /* mov.l .L_pool_06030EDC, r4 */
+    .byte   0xD4, 0x06    /* mov.l .L_mask_0xC000, r4 */
 .L_06030EC2:
     dmuls.l r3, r4
     sts mach, r3
@@ -65,8 +65,8 @@ DAT_06030eae:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r12
-.L_pool_06030EDC:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 
     .global sym_06030EE0
 sym_06030EE0:

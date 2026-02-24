@@ -270,7 +270,7 @@ options_menu_state:
     extu.w r0, r0
     mov.w r0, @(2, r5)
 .L_0603D9A6:
-    mov.l   .L_pool_0603D9E4, r2
+    mov.l   .L_fp_eight, r2
     and r2, r4
     tst r4, r4
     bt      .L_0603D9C6
@@ -303,7 +303,7 @@ options_menu_state:
     .4byte  0x0000FFF7
 .L_pool_0603D9E0:
     .4byte  0x0000FFEF
-.L_pool_0603D9E4:
-    .4byte  0x00080000
+.L_fp_eight:
+    .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_pool_0603D9E8:
     .4byte  0x0000FFDF

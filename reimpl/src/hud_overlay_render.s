@@ -20,7 +20,7 @@ hud_overlay_render:
     mov.l   .L_pool_0601E354, r9
     mov.l   .L_pool_0601E358, r10
     mov.l   .L_pool_0601E35C, r11
-    mov.l   .L_pool_0601E360, r13
+    mov.l   .L_smpc_sf, r13
     mov.l   .L_pool_0601E364, r3
     mov.b @r3, r3
     extu.b r3, r3
@@ -51,7 +51,7 @@ hud_overlay_render:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_pool_0601E368, r2
+    mov.l   .L_smpc_comreg_ct, r2
     mov.b r3, @r2
 .L_0601E306:
     mov.b @r13, r2
@@ -78,7 +78,7 @@ hud_overlay_render:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_pool_0601E368, r2
+    mov.l   .L_smpc_comreg_ct, r2
     mov.b r3, @r2
 .L_0601E338:
     mov.b @r13, r2
@@ -101,12 +101,12 @@ hud_overlay_render:
     .4byte  sym_0604A5C0
 .L_pool_0601E35C:
     .4byte  sym_0605E068
-.L_pool_0601E360:
-    .4byte  0x20100063
+.L_smpc_sf:
+    .4byte  0x20100063                  /* SMPC SF — status flag */
 .L_pool_0601E364:
     .4byte  sym_06087080
-.L_pool_0601E368:
-    .4byte  0x2010001F
+.L_smpc_comreg_ct:
+    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_pool_0601E36C:
     .4byte  sym_06000358
 .L_pool_0601E370:

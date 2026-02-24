@@ -14,15 +14,15 @@ green_light_anim:
     mov.l   .L_pool_0601A3C0, r14
     mov.l   .L_pool_0601A3C4, r3
     mov.l r3, @r15
-    mov.l   .L_pool_0601A3C8, r4
+    mov.l   .L_vdp2_cram_0x020, r4
     jsr @r14
     mov r3, r5
     mov #0x60, r6
-    mov.l   .L_pool_0601A3CC, r4
+    mov.l   .L_vdp2_cram_0x620, r4
     jsr @r14
     mov.l @r15, r5
     mov.l   .L_pool_0601A3D0, r5
-    mov.l   .L_pool_0601A3D4, r4
+    mov.l   .L_vdp2_cram_0x400, r4
     jsr @r14
     mov #0x40, r6
     mov.l   .L_pool_0601A3D8, r3
@@ -76,14 +76,14 @@ green_light_anim:
     .4byte  memcpy_word_idx
 .L_pool_0601A3C4:
     .4byte  sym_0605CF9C
-.L_pool_0601A3C8:
-    .4byte  0x25F00020
-.L_pool_0601A3CC:
-    .4byte  0x25F00620
+.L_vdp2_cram_0x020:
+    .4byte  0x25F00020                  /* VDP2 color RAM +0x020 */
+.L_vdp2_cram_0x620:
+    .4byte  0x25F00620                  /* VDP2 color RAM +0x620 */
 .L_pool_0601A3D0:
     .4byte  sym_0605D01C
-.L_pool_0601A3D4:
-    .4byte  0x25F00400
+.L_vdp2_cram_0x400:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
 .L_pool_0601A3D8:
     .4byte  race_data_handler
 .L_pool_0601A3DC:

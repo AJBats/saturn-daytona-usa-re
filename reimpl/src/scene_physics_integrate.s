@@ -114,7 +114,7 @@ DAT_06025746:
     add r8, r7
     mov.l r7, @(4, r15)
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06025840, r3
+    mov.l   .L_fp_half, r3
     add r3, r7
     shll r6
     mov.l r6, @(24, r15)
@@ -190,7 +190,7 @@ DAT_06025746:
     extu.w r5, r4
     tst r4, r4
     bt      .L_0602582E
-    mov.l   .L_pool_06025854, r3
+    mov.l   .L_mask_0xC000, r3
     and r4, r3
     tst r3, r3
     bf      .L_0602582E
@@ -207,8 +207,8 @@ DAT_06025746:
     nop
 .L_pool_0602583C:
     .4byte  sym_06058FBC
-.L_pool_06025840:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06025844:
     .4byte  sym_0605904C
 .L_pool_06025848:
@@ -217,8 +217,8 @@ DAT_06025746:
     .4byte  sym_06059060
 .L_pool_06025850:
     .4byte  sym_06063D9A
-.L_pool_06025854:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 .L_pool_06025858:
     .4byte  sym_06061199
 .L_0602585C:
@@ -231,7 +231,7 @@ DAT_06025746:
     nop
 .L_0602586A:
     extu.w r4, r3
-    mov.l   .L_pool_06025970, r2
+    mov.l   .L_mask_0xC000_06025970, r2
     and r2, r3
     tst r3, r3
     bf      .L_06025878
@@ -239,7 +239,7 @@ DAT_06025746:
     nop
 .L_06025878:
     extu.w r4, r3
-    mov.l   .L_pool_06025974, r2
+    mov.l   .L_fp_half_06025974, r2
     and r2, r3
     tst r3, r3
     bt      .L_060258F4
@@ -377,10 +377,10 @@ DAT_0602596a:
     .2byte  0x4000
 .L_pool_0602596C:
     .4byte  sym_06063D9A
-.L_pool_06025970:
-    .4byte  0x0000C000
-.L_pool_06025974:
-    .4byte  0x00008000
+.L_mask_0xC000_06025970:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
+.L_fp_half_06025974:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06025978:
     .4byte  sym_06089ED6
 .L_pool_0602597C:
@@ -599,7 +599,7 @@ DAT_06025a80:
     add r8, r7
     mov.l r7, @(8, r15)
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06025BD0, r3
+    mov.l   .L_fp_half_06025BD0, r3
     mov.l @r13, r6
     add r3, r7
     shll r6
@@ -699,8 +699,8 @@ DAT_06025a80:
     .4byte  sym_060610BC
 .L_pool_06025BCC:
     .4byte  sym_06058FBC
-.L_pool_06025BD0:
-    .4byte  0x00008000
+.L_fp_half_06025BD0:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06025BD4:
     .4byte  sym_0605904C
 .L_pool_06025BD8:

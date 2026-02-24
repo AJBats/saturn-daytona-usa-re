@@ -29,7 +29,7 @@ transition_anim_drive:
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_06019144, r3
+    mov.l   .L_sound_ram_0x02DBE, r3
     mov.w r2, @r3
 .L_06019124:
     mov.l   .L_pool_06019138, r5
@@ -47,7 +47,7 @@ transition_anim_drive:
 .L_pool_0601913C:
     .4byte  0xAE0005FF
     .4byte  sym_06012F20
-.L_pool_06019144:
-    .4byte  0x25A02DBE
+.L_sound_ram_0x02DBE:
+    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
 .L_pool_06019148:
     .4byte  sym_06012F50

@@ -77,7 +77,7 @@ road_segment_check:
     bt      .L_06040CFC
     mov r12, r7
     mov r12, r6
-    mov.l   .L_pool_06040D3C, r5
+    mov.l   .L_mask_low16, r5
     mov.l   .L_pool_06040D40, r3
     jsr @r3
     mov r12, r4
@@ -101,8 +101,8 @@ DAT_06040d2c:
     .4byte  sym_060A5400
 .L_pool_06040D38:
     .4byte  sym_0604231E
-.L_pool_06040D3C:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06040D40:
     .4byte  road_segment_query
 .L_06040D44:
@@ -212,7 +212,7 @@ DAT_06040dc2:
     jsr @r3
     extu.b r4, r4
     mov r15, r0
-    mov.l   .L_pool_06040E78, r2
+    mov.l   .L_fp_0x4000_0000, r2
     add #0x4, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -230,7 +230,7 @@ DAT_06040dc2:
     jsr @r3
     mov r12, r5
     mov.l @r14, r2
-    mov.l   .L_pool_06040E80, r3
+    mov.l   .L_fp_half, r3
     mov.l r3, @(60, r2)
     bra     .L_06040E32
     nop
@@ -285,12 +285,12 @@ DAT_06040e72:
     .2byte  0x00FC
 .L_pool_06040E74:
     .4byte  mesh_boundary_check
-.L_pool_06040E78:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06040E7C:
     .4byte  track_surface_type_a
-.L_pool_06040E80:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06040E84:
     .4byte  sym_06035C4E
 

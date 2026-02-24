@@ -150,7 +150,7 @@ DAT_0600bc2e:
     mov.l r3, @r2
     mov.l   .L_pool_0600BD08, r3
     mov.l r3, @r9
-    mov.l   .L_pool_0600BD0C, r2
+    mov.l   .L_fp_sixteen, r2
     mov.l   .L_pool_0600BD10, r3
     mov.l r2, @r3
     mov #0x0, r2
@@ -222,8 +222,8 @@ DAT_0600bcee:
     .4byte  sym_06063E34
 .L_pool_0600BD08:
     .4byte  0x006E0000
-.L_pool_0600BD0C:
-    .4byte  0x00100000
+.L_fp_sixteen:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 .L_pool_0600BD10:
     .4byte  sym_06063E2C
 .L_pool_0600BD14:
@@ -253,7 +253,7 @@ DAT_0600bcee:
     mov.l r3, @r2
     mov.l   .L_pool_0600BDC8, r3
     mov.l r3, @r9
-    mov.l   .L_pool_0600BDCC, r2
+    mov.l   .L_fp_sixteen_0600BDCC, r2
     mov.l   .L_pool_0600BDD0, r3
     mov.l r2, @r3
     mov #0x0, r2
@@ -265,7 +265,7 @@ DAT_0600bcee:
     sub r2, r3
     mov.l r3, @(4, r12)
     mov.l @(r0, r14), r3
-    mov.l   .L_pool_0600BDD4, r2
+    mov.l   .L_fp_half, r2
     neg r3, r3
     add r2, r3
     shar r3
@@ -332,12 +332,12 @@ DAT_0600bdae:
     .4byte  sym_06063E34
 .L_pool_0600BDC8:
     .4byte  0x006E0000
-.L_pool_0600BDCC:
-    .4byte  0x00100000
+.L_fp_sixteen_0600BDCC:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 .L_pool_0600BDD0:
     .4byte  sym_06063E2C
-.L_pool_0600BDD4:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600BDD8:
     .4byte  sym_06078663
 .L_pool_0600BDDC:

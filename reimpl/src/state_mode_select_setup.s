@@ -35,7 +35,7 @@ state_mode_select_setup:
     mov.l   .L_pool_06008D5C, r3
     mov.l r2, @r3
     mov.l   .L_pool_06008D60, r4
-    mov.l   .L_pool_06008D64, r2
+    mov.l   .L_fp_0x4000_0000, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -85,8 +85,8 @@ state_mode_select_setup:
     .4byte  sym_0605AD10
 .L_pool_06008D60:
     .4byte  sym_0605B6D8
-.L_pool_06008D64:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06008D68:
     .4byte  sym_0605A016
 .L_pool_06008D6C:

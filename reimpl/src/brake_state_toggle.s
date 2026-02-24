@@ -15,7 +15,7 @@ brake_state_toggle:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.l   .L_pool_06010444, r14
-    mov.l   .L_pool_06010448, r2
+    mov.l   .L_fp_half, r2
     and r2, r3
     tst r3, r3
     bt      .L_060103DC
@@ -89,8 +89,8 @@ DAT_0601043e:
     .2byte  0xFFFF
 .L_pool_06010444:
     .4byte  sym_0607EADC
-.L_pool_06010448:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601044C:
     .4byte  sym_0607EAB8
 .L_pool_06010450:

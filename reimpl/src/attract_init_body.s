@@ -60,7 +60,7 @@ attract_init_body:
     jsr @r3
     nop
     mov.l   .L_pool_06008A00, r4
-    mov.l   .L_pool_06008A04, r2
+    mov.l   .L_fp_0x4000_0000, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -112,8 +112,8 @@ attract_init_body:
     .4byte  course_data_handler
 .L_pool_06008A00:
     .4byte  sym_0605B6D8
-.L_pool_06008A04:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06008A08:
     .4byte  sym_0605AD10
 .L_pool_06008A0C:

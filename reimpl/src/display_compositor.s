@@ -156,7 +156,7 @@ DAT_06005b8a:
     tst r0, r0
     bf      .L_06005C60
     mov.l   .L_pool_06005C7C, r3
-    mov.l   .L_pool_06005C80, r2
+    mov.l   .L_fp_two, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -244,8 +244,8 @@ DAT_06005c76:
     .2byte  0xFFFF
 .L_pool_06005C7C:
     .4byte  sym_0607EBC4
-.L_pool_06005C80:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
     .4byte  0xAE1114FF
     .4byte  sound_cmd_dispatch
 .L_pool_06005C8C:

@@ -16,7 +16,7 @@ disp_digit_pair_render:
     .byte   0xD1, 0x0C    /* mov.l .L_pool_060325E8, r1 */
     .byte   0xD0, 0x0C    /* mov.l .L_pool_060325EC, r0 */
     mov.b @(r0, r14), r0
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_060325F0, r2 */
+    .byte   0xD2, 0x0C    /* mov.l .L_sh2_periph_0x1FC, r2 */
     tst r2, r0
     bf      .L_060325F8
     .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F4, r0 */
@@ -34,8 +34,8 @@ disp_digit_pair_render:
     .4byte  0x00000054
 .L_pool_060325EC:
     .4byte  0x000002DC
-.L_pool_060325F0:
-    .4byte  0xFFFFFFFC
+.L_sh2_periph_0x1FC:
+    .4byte  0xFFFFFFFC                  /* SH-2 peripheral +0x1FC */
 .L_pool_060325F4:
     .4byte  sym_06081898
 .L_060325F8:

@@ -327,7 +327,7 @@ DAT_06018b8e:
     mov.w   .L_wpool_06018CC6, r6
     mov.l   .L_pool_06018D34, r5
     mov.l   .L_pool_06018D38, r4
-    mov.l   .L_pool_06018D3C, r3
+    mov.l   .L_vdp1_vram_0x00220, r3
     mov.l @r4, r4
     shll2 r4
     shll r4
@@ -411,8 +411,8 @@ DAT_06018b8e:
     .4byte  sym_0605CDDC
 .L_pool_06018D38:
     .4byte  sym_06059FFC
-.L_pool_06018D3C:
-    .4byte  0x25C00220
+.L_vdp1_vram_0x00220:
+    .4byte  0x25C00220                  /* VDP1 VRAM +0x00220 */
 .L_pool_06018D40:
     .4byte  memcpy_word_idx
 .L_pool_06018D44:

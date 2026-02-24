@@ -15,7 +15,7 @@ hw_init_setup:
     .global loc_06040200
 loc_06040200:
     mov.l r5, @(32, r14)
-    mov.l   .L_pool_0604023C, r5
+    mov.l   .L_fp_max, r5
     mov.l   .L_pool_06040240, r3
     jsr @r3
     mov.l @(24, r14), r4
@@ -38,7 +38,7 @@ sym_06040220:
     tst r5, r5
     bt      .L_06040250
     mov.l @r4, r3
-    mov.l   .L_pool_06040244, r2
+    mov.l   .L_fp_0x4000_0000, r2
     and r2, r3
     tst r3, r3
     bt      .L_0604024C
@@ -48,12 +48,12 @@ sym_06040220:
     mov.l r3, @r5
     bra     .L_06040250
     nop
-.L_pool_0604023C:
-    .4byte  0x7FFFFFFF
+.L_fp_max:
+    .4byte  0x7FFFFFFF                  /* max positive 16.16 */
 .L_pool_06040240:
     .4byte  evt_cmd_enqueue
-.L_pool_06040244:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06040248:
     .4byte  0x3FFFFFFF
 .L_0604024C:

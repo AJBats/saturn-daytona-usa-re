@@ -13,14 +13,14 @@ results_full_render:
     bsr     .L_06033278
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_06033270, r4
+    mov.l   .L_fp_one, r4
     add r4, r1
     add #-0x1, r7
     cmp/pl r7
     .byte   0x89, 0xEA    /* bt 0x06033228 (external) */
     mov.l   .L_pool_06033274, r0
     add r0, r1
-    mov.l   .L_pool_06033270, r0
+    mov.l   .L_fp_one, r0
     add r0, r2
     add #-0x1, r6
     cmp/pl r6
@@ -31,8 +31,8 @@ results_full_render:
     nop
     .4byte  0x00030000
     .4byte  sym_0603390C
-.L_pool_06033270:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06033274:
     .4byte  0xFFF80000
 .L_06033278:
@@ -47,7 +47,7 @@ results_full_render:
     mov.l   .L_pool_06033314, r3
     add r0, r1
     add r3, r2
-    mov.l   .L_pool_06033318, r0
+    mov.l   .L_fp_four, r0
     cmp/gt r1, r0
     bt      .L_06033302
     cmp/gt r2, r0
@@ -58,8 +58,8 @@ results_full_render:
     mov.l   .L_pool_06033320, r0
     cmp/gt r0, r2
     bt      .L_06033302
-    mov.l   .L_pool_06033324, r0
-    mov.l   .L_pool_06033328, r3
+    mov.l   .L_fp_half, r0
+    mov.l   .L_fp_one_06033328, r3
     tst r0, r2
     bt      .L_060332AE
     add r3, r2
@@ -120,16 +120,16 @@ results_full_render:
     .4byte  0x00240000
 .L_pool_06033314:
     .4byte  0x001C0000
-.L_pool_06033318:
-    .4byte  0x00040000
+.L_fp_four:
+    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
 .L_pool_0603331C:
     .4byte  0x00460000
 .L_pool_06033320:
     .4byte  0x00360000
-.L_pool_06033324:
-    .4byte  0x00008000
-.L_pool_06033328:
-    .4byte  0x00010000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+.L_fp_one_06033328:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0603332C:
     .4byte  sym_060629AC
     .4byte  0xD505D406

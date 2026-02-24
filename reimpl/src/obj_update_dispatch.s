@@ -20,7 +20,7 @@ obj_update_dispatch:
     mov.l   .L_pool_060207D4, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_060207D8, r12
+    mov.l   .L_fp_half, r12
     mov.l @r13, r2
     sub r12, r2
     mov.l r2, @r13
@@ -38,11 +38,11 @@ obj_update_dispatch:
     mov.l r2, @r14
     mov r2, r3
     mov.l   .L_pool_060207E8, r11
-    mov.l   .L_pool_060207EC, r2
+    mov.l   .L_fp_one, r2
     cmp/gt r2, r3
     bf      .L_06020794
     mov.l @r14, r5
-    mov.l   .L_pool_060207F0, r2
+    mov.l   .L_fp_neg_one, r2
     mov.l   .L_pool_060207F4, r4
     mov.l   .L_pool_060207F8, r3
     jsr @r3
@@ -53,7 +53,7 @@ obj_update_dispatch:
     mov.l @r14, r5
     mov r0, r12
     mov.l @r14, r5
-    mov.l   .L_pool_060207F0, r2
+    mov.l   .L_fp_neg_one, r2
     mov.l   .L_pool_06020800, r4
     mov.l   .L_pool_060207F8, r3
     jsr @r3
@@ -90,7 +90,7 @@ obj_update_dispatch:
     jsr @r3
     nop
     mov.l @r13, r2
-    mov.l   .L_pool_060207EC, r3
+    mov.l   .L_fp_one, r3
     cmp/gt r3, r2
     bt      .L_060207C2
     mov.b @r15, r4
@@ -114,8 +114,8 @@ obj_update_dispatch:
     .4byte  sym_06087818
 .L_pool_060207D4:
     .4byte  sym_0603850C
-.L_pool_060207D8:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060207DC:
     .4byte  sym_0608781C
 .L_pool_060207E0:
@@ -124,10 +124,10 @@ obj_update_dispatch:
     .4byte  sym_06087820
 .L_pool_060207E8:
     .4byte  sym_06087810
-.L_pool_060207EC:
-    .4byte  0x00010000
-.L_pool_060207F0:
-    .4byte  0xFFFF0000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_060207F4:
     .4byte  0x00B00000
 .L_pool_060207F8:

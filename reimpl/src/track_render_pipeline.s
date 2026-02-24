@@ -183,7 +183,7 @@ track_render_pipeline:
     mov #0x0, r0
     mov #0x0, r6
 .L_0602FAE6:
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_0602FB20, r3 */
+    .byte   0xD3, 0x0E    /* mov.l .L_sinit, r3 */
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
@@ -214,8 +214,8 @@ track_render_pipeline:
     .4byte  sym_0607EA98
 .L_pool_0602FB1C:
     .4byte  sym_0607E948
-.L_pool_0602FB20:
-    .4byte  0x01800000
+.L_sinit:
+    .4byte  0x01800000                  /* SINIT — secondary SH-2 init comm */
 .L_pool_0602FB24:
     .4byte  0x01400000
 .L_pool_0602FB28:

@@ -29,7 +29,7 @@ transition_sound_trigger:
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_060191D8, r3
+    mov.l   .L_sound_ram_0x02DBE, r3
     mov.w r2, @r3
 .L_060191B8:
     mov.l   .L_pool_060191CC, r5
@@ -47,7 +47,7 @@ transition_sound_trigger:
 .L_pool_060191D0:
     .4byte  0xAE0005FF
     .4byte  sym_06012F58
-.L_pool_060191D8:
-    .4byte  0x25A02DBE
+.L_sound_ram_0x02DBE:
+    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
 .L_pool_060191DC:
     .4byte  sym_06012F60

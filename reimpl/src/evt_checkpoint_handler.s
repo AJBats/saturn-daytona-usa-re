@@ -50,7 +50,7 @@ evt_checkpoint_handler:
     mov.l r12, @-r15
     mov #0x0, r5
     mov r15, r7
-    .byte   0xD6, 0x26    /* mov.l .L_pool_06040AD0, r6 */
+    .byte   0xD6, 0x26    /* mov.l .L_mask_low16, r6 */
     .byte   0xD3, 0x26    /* mov.l .L_pool_06040AD4, r3 */
     add #0x4, r7
     jsr @r3
@@ -123,7 +123,7 @@ evt_checkpoint_handler:
     mov.l r14, @(4, r15)
     mov #0x0, r5
     mov r14, r4
-    .byte   0xD6, 0x05    /* mov.l .L_pool_06040AD0, r6 */
+    .byte   0xD6, 0x05    /* mov.l .L_mask_low16, r6 */
     .byte   0xD3, 0x06    /* mov.l .L_pool_06040AD8, r3 */
     jsr @r3
     mov.l @(4, r4), r4
@@ -134,8 +134,8 @@ evt_checkpoint_handler:
     bf      .L_06040ADC
     bra     .L_06040AEA
     mov #-0x1, r0
-.L_pool_06040AD0:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06040AD4:
     .4byte  cmd_enqueue
 .L_pool_06040AD8:

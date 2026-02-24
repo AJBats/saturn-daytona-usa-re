@@ -31,7 +31,7 @@ vblank_display_write:
     nop
 .L_06038FA0:
     mov.l   .L_pool_06038FF4, r6
-    mov.l   .L_pool_06038FF8, r5
+    mov.l   .L_vdp1_fbcr, r5
     mov.w @r4, r0
     extu.w r0, r0
     cmp/eq #0x3, r0
@@ -40,7 +40,7 @@ vblank_display_write:
     tst r0, r0
     bt      .L_06039042
     mov.l   .L_pool_06038FFC, r0
-    mov.l   .L_pool_06039000, r3
+    mov.l   .L_vdp1_tvmr, r3
     mov.w @r0, r0
     extu.w r0, r0
     or #0x8, r0
@@ -75,12 +75,12 @@ vblank_display_write:
     .4byte  sym_060635B4
 .L_pool_06038FF4:
     .4byte  sym_060A4C92
-.L_pool_06038FF8:
-    .4byte  0x25D00002
+.L_vdp1_fbcr:
+    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
 .L_pool_06038FFC:
     .4byte  sym_060A4C90
-.L_pool_06039000:
-    .4byte  0x25D00000
+.L_vdp1_tvmr:
+    .4byte  0x25D00000                  /* VDP1 TVMR — TV mode */
 .L_06039004:
     mov.l @r14, r2
     add #0x1, r2

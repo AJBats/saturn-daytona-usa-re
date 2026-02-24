@@ -26,13 +26,13 @@ transition_multi_step:
     tst r0, r0
     bf      .L_06019216
     mov.l   .L_pool_06019234, r6
-    mov.l   .L_pool_06019238, r5
-    mov.l   .L_pool_0601923C, r4
+    mov.l   .L_wram_low, r5
+    mov.l   .L_sound_ram_0x03000, r4
     mov.l   .L_pool_06019240, r3
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_06019244, r3
+    mov.l   .L_sound_ram_0x02DBE, r3
     mov.w r2, @r3
 .L_06019216:
     mov.l   .L_pool_0601922C, r5
@@ -52,11 +52,11 @@ transition_multi_step:
     .4byte  0xAE0005FF
 .L_pool_06019234:
     .4byte  0x0006D000
-.L_pool_06019238:
-    .4byte  0x00200000
-.L_pool_0601923C:
-    .4byte  0x25A03000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
+.L_sound_ram_0x03000:
+    .4byte  0x25A03000                  /* Sound RAM +0x03000 */
 .L_pool_06019240:
     .4byte  memcpy_byte_idx
-.L_pool_06019244:
-    .4byte  0x25A02DBE
+.L_sound_ram_0x02DBE:
+    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */

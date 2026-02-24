@@ -34,7 +34,7 @@ track_obj_placement:
     tst r0, r0
     bf/s    .L_0602156A
     mov #0x0, r4
-    mov.l   .L_pool_06021548, r3
+    mov.l   .L_wram_low, r3
     mov.l r3, @r15
     mov.l   .L_pool_0602154C, r2
     add r2, r3
@@ -51,7 +51,7 @@ track_obj_placement:
     mov.l r2, @r3
     mov r5, r3
     add #0x70, r3
-    mov.l   .L_pool_06021554, r2
+    mov.l   .L_fp_one, r2
     mov.l r2, @r3
     mov #0xA, r3
     mov.w   DAT_06021526, r0
@@ -145,14 +145,14 @@ DAT_06021526:
     .4byte  sym_06089D98
 .L_pool_06021544:
     .4byte  sym_0607EAD8
-.L_pool_06021548:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_0602154C:
     .4byte  0x00037F08
 .L_pool_06021550:
     .4byte  0x00037F98
-.L_pool_06021554:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06021558:
     .4byte  sym_060507A4
 .L_pool_0602155C:
@@ -171,7 +171,7 @@ DAT_06021526:
     bra     .L_060217D4
     nop
 .L_06021576:
-    mov.l   .L_pool_06021674, r3
+    mov.l   .L_wram_low_06021674, r3
     mov.l r3, @r15
     mov.l   .L_pool_06021678, r2
     add r2, r3
@@ -188,7 +188,7 @@ DAT_06021526:
     mov.l r2, @r3
     mov r5, r3
     add #0x74, r3
-    mov.l   .L_pool_06021680, r2
+    mov.l   .L_fp_one_06021680, r2
     mov.l r2, @r3
     mov.l @r15, r3
     mov.l   .L_pool_06021684, r2
@@ -299,14 +299,14 @@ DAT_06021526:
     mov.l r4, @(8, r15)
 .L_pool_06021670:
     .4byte  sym_0607EAD8
-.L_pool_06021674:
-    .4byte  0x00200000
+.L_wram_low_06021674:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_06021678:
     .4byte  0x00089364
 .L_pool_0602167C:
     .4byte  0x0008943C
-.L_pool_06021680:
-    .4byte  0x00010000
+.L_fp_one_06021680:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06021684:
     .4byte  0x00089124
 .L_pool_06021688:
@@ -420,7 +420,7 @@ DAT_06021526:
     .4byte  0x8FBA1F32
     .4byte  0xA1DC0009
 .L_060217D4:
-    mov.l   .L_pool_060218E4, r2
+    mov.l   .L_wram_low_060218E4, r2
     mov.l r2, @r15
     mov r2, r3
     mov.l   .L_pool_060218E8, r2
@@ -438,7 +438,7 @@ DAT_06021526:
     mov.l r2, @r3
     mov r5, r3
     add #0x70, r3
-    mov.l   .L_pool_060218F0, r2
+    mov.l   .L_fp_one_060218F0, r2
     mov.l r2, @r3
     mov.l @r15, r3
     mov.l   .L_pool_060218F4, r2
@@ -507,14 +507,14 @@ DAT_060218de:
     .global DAT_060218e0
 DAT_060218e0:
     .4byte  0x00840088
-.L_pool_060218E4:
-    .4byte  0x00200000
+.L_wram_low_060218E4:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_060218E8:
     .4byte  0x000BE1F8
 .L_pool_060218EC:
     .4byte  0x000BE288
-.L_pool_060218F0:
-    .4byte  0x00010000
+.L_fp_one_060218F0:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_060218F4:
     .4byte  0x000BE360
     .4byte  0x000BE4B0

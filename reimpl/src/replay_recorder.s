@@ -252,7 +252,7 @@ DAT_0601bcba:
     mov.l @(12, r15), r7
     extu.w r14, r6
     mov.l @(12, r15), r5
-    mov.l   .L_pool_0601BDE8, r3
+    mov.l   .L_fp_half, r3
     mov.l @(4, r7), r7
     shll2 r6
     mov.l @r5, r5
@@ -284,5 +284,5 @@ DAT_0601bcba:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0601BDE8:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */

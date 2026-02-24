@@ -21,7 +21,7 @@ coord_grid_pack:
     mov.l   .L_pool_06006828, r7
     mov.l   .L_pool_0600682C, r6
     mov.w   DAT_06006804, r5
-    mov.l   .L_pool_06006830, r4
+    mov.l   .L_fp_half, r4
     mov.l   .L_pool_06006834, r0
     mov.b @r0, r0
     tst r0, r0
@@ -64,8 +64,8 @@ DAT_06006804:
     .4byte  sym_06063F4A
 .L_pool_0600682C:
     .4byte  sym_06063F48
-.L_pool_06006830:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06006834:
     .4byte  sym_06078663
 

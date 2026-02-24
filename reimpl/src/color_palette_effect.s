@@ -26,7 +26,7 @@ color_palette_effect:
     jsr @r3
     mov.l @r15, r4
     shll8 r0
-    mov.l   .L_pool_06042A84, r2
+    mov.l   .L_vdp2_cram_0x000, r2
     mov.l @(4, r15), r3
     shll2 r0
     shll2 r3
@@ -55,7 +55,7 @@ color_palette_effect:
     jsr @r3
     mov.l @r15, r4
     shll8 r0
-    mov.l   .L_pool_06042A84, r2
+    mov.l   .L_vdp2_cram_0x000, r2
     mov.l @(4, r15), r3
     shll r0
     shll r3
@@ -89,8 +89,8 @@ color_palette_effect:
     .4byte  sym_0603C156
 .L_pool_06042A80:
     .4byte  sym_06042BFC
-.L_pool_06042A84:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_06042A88:
     .4byte  sym_06038A48
 

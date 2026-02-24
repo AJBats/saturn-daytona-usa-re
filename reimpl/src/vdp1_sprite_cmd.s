@@ -87,7 +87,7 @@ DAT_0602d0de:
 .L_0602D0FC:
     add #-0x1, r3
     mov.w r3, @(r0, r11)
-    .byte   0xD4, 0x24    /* mov.l .L_pool_0602D194, r4 */
+    .byte   0xD4, 0x24    /* mov.l .L_mask_nibble4, r4 */
     mov r4, r2
     mov #0x0, r5
     shll16 r3
@@ -150,7 +150,7 @@ DAT_0602d0de:
     cmp/ge r3, r2
     bt      .L_0602D1A4
     mov #0x0, r3
-    .byte   0xD6, 0x09    /* mov.l .L_pool_0602D1A0, r6 */
+    .byte   0xD6, 0x09    /* mov.l .L_fp_quarter, r6 */
     cmp/ge r3, r4
     bt      .L_0602D182
     neg r6, r6
@@ -178,14 +178,14 @@ DAT_0602d18e:
 .L_wpool_0602D190:
     .2byte  0x00CE
     .2byte  0x0000
-.L_pool_0602D194:
-    .4byte  0x000F0000
+.L_mask_nibble4:
+    .4byte  0x000F0000                  /* nibble 4 mask */
 .L_pool_0602D198:
     .4byte  cos_lookup
 .L_pool_0602D19C:
     .4byte  0x00000100
-.L_pool_0602D1A0:
-    .4byte  0x00004000
+.L_fp_quarter:
+    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
 .L_0602D1A4:
     mov r2, r3
     dmuls.l r2, r3
@@ -346,7 +346,7 @@ DAT_0602d238:
     mov.l @r15+, r3
     tst r3, r3
     bf      .L_0602D2D0
-    .byte   0xD6, 0x03    /* mov.l .L_pool_0602D2CC, r6 */
+    .byte   0xD6, 0x03    /* mov.l .L_fp_quarter_0602D2CC, r6 */
     bra     .L_0602D2F4
     nop
 
@@ -361,8 +361,8 @@ DAT_0602d2c4:
     .global DAT_0602d2ca
 DAT_0602d2ca:
     .2byte  0x00CC
-.L_pool_0602D2CC:
-    .4byte  0x00004000
+.L_fp_quarter_0602D2CC:
+    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
 .L_0602D2D0:
     mov.w   .L_wpool_0602D306, r2
     mov r4, r1
@@ -518,7 +518,7 @@ DAT_0602d38a:
     mov.l @(0, r0), r2
     .byte   0xD3, 0x05    /* mov.l .L_pool_0602D3F4, r3 */
     or r3, r2
-    .byte   0xD3, 0x05    /* mov.l .L_pool_0602D3F8, r3 */
+    .byte   0xD3, 0x05    /* mov.l .L_fp_0x4000_0000, r3 */
     or r3, r2
     bra     .L_0602D414
     mov.l r2, @(0, r0)
@@ -536,21 +536,21 @@ DAT_0602d3ea:
     .4byte  0xFFFFCD80
 .L_pool_0602D3F4:
     .4byte  0x20000000
-.L_pool_0602D3F8:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_0602D3FC:
     mov.l @(0, r0), r2
     .byte   0xD3, 0x03    /* mov.l .L_pool_0602D40C, r3 */
     or r3, r2
-    .byte   0xD3, 0x03    /* mov.l .L_pool_0602D410, r3 */
+    .byte   0xD3, 0x03    /* mov.l .L_fp_0x4000_0000_0602D410, r3 */
     or r3, r2
     bra     .L_0602D414
     mov.l r2, @(0, r0)
     .2byte  0x0000
 .L_pool_0602D40C:
     .4byte  0x10000000
-.L_pool_0602D410:
-    .4byte  0x40000000
+.L_fp_0x4000_0000_0602D410:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_0602D414:
     mov.w   DAT_0602d432, r7
     mov.l @(r0, r7), r6

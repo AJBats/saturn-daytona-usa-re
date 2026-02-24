@@ -24,7 +24,7 @@ scene_path_b:
     mov.w   DAT_06006da6, r14
     mov.l   .L_pool_06006DB8, r4
     mov.w   .L_wpool_06006DA8, r3
-    mov.l   .L_pool_06006DBC, r2
+    mov.l   .L_mask_low16, r2
     mov.l   .L_pool_06006DC0, r5
     mov.l @r13, r0
     mov.l @r4, r4
@@ -127,8 +127,8 @@ DAT_06006da6:
     .4byte  sym_0607EAD8
 .L_pool_06006DB8:
     .4byte  sym_06063EF0
-.L_pool_06006DBC:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06006DC0:
     .4byte  sym_06062248
 .L_pool_06006DC4:

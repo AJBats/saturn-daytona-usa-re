@@ -50,7 +50,7 @@ per_frame_race_update:
 .L_0600E812:
     mov.l @(40, r14), r4
     mov.w   DAT_0600e86c, r0
-    mov.l   .L_pool_0600E894, r3
+    mov.l   .L_fp_half, r3
     mov.l @(r0, r14), r2
     add #-0x54, r0
     sub r4, r2
@@ -125,8 +125,8 @@ DAT_0600e870:
     .4byte  sym_0602D88E
 .L_pool_0600E890:
     .4byte  sym_06083261
-.L_pool_0600E894:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_0600E898:
     cmp/eq #0x1, r0
     bt      .L_0600E7F4

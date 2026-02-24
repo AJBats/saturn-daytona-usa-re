@@ -23,14 +23,14 @@ engine_init_global:
     add #-0x5C, r15
     mov.l   .L_pool_06004ACC, r8
     mov.l   .L_pool_06004AD0, r9
-    mov.l   .L_pool_06004AD4, r10
+    mov.l   .L_scu_ist, r10
     mov.l   .L_pool_06004AD8, r12
     mov.w   .L_wpool_06004AC8, r5
     mov.l @r8, r3
     jsr @r3
     mov #-0x1, r4
-    mov.l   .L_pool_06004ADC, r5
-    mov.l   .L_pool_06004AE0, r4
+    mov.l   .L_vdp2_vram_0x00000, r5
+    mov.l   .L_fp_two, r4
     bra     .L_06004AF2
     nop
 .L_wpool_06004AC8:
@@ -40,14 +40,14 @@ engine_init_global:
     .4byte  sym_06000344
 .L_pool_06004AD0:
     .4byte  vdp1_polygon_build
-.L_pool_06004AD4:
-    .4byte  0x25FE00A4
+.L_scu_ist:
+    .4byte  0x25FE00A4                  /* SCU IST — interrupt status */
 .L_pool_06004AD8:
     .4byte  sym_06087C84
-.L_pool_06004ADC:
-    .4byte  0x25E00000
-.L_pool_06004AE0:
-    .4byte  0x00020000
+.L_vdp2_vram_0x00000:
+    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_06004AE4:
     mov r5, r2
     add #0x4, r5
@@ -70,11 +70,11 @@ engine_init_global:
     mov.l   .L_pool_06004BCC, r3
     jsr @r3
     mov #0x1, r4
-    mov.l   .L_pool_06004BD0, r2
+    mov.l   .L_fp_half, r2
     mov.l   .L_pool_06004BD4, r3
     mov.w r2, @r3
     mov r3, r6
-    mov.l   .L_pool_06004BD8, r4
+    mov.l   .L_vdp2_cram_0xFFE, r4
     mov.l   .L_pool_06004BDC, r3
     jsr @r3
     mov #0x1, r5
@@ -111,7 +111,7 @@ engine_init_global:
     mov.l   .L_pool_06004BF4, r3
     jsr @r3
     mov #0x1, r4
-    mov.l   .L_pool_06004BF8, r4
+    mov.l   .L_vdp2_vram_0x58000, r4
     mov.l   .L_pool_06004BFC, r3
     mov.l r4, @r3
     mov.l   .L_pool_06004C00, r3
@@ -171,12 +171,12 @@ engine_init_global:
     .4byte  vdp_init_master
 .L_pool_06004BCC:
     .4byte  display_extra_config
-.L_pool_06004BD0:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06004BD4:
     .4byte  sym_06086028
-.L_pool_06004BD8:
-    .4byte  0x25F00FFE
+.L_vdp2_cram_0xFFE:
+    .4byte  0x25F00FFE                  /* VDP2 color RAM +0xFFE */
 .L_pool_06004BDC:
     .4byte  tilemap_dma_update
 .L_pool_06004BE0:
@@ -191,8 +191,8 @@ engine_init_global:
     .4byte  scene_state_process
 .L_pool_06004BF4:
     .4byte  display_param_set
-.L_pool_06004BF8:
-    .4byte  0x25E58000
+.L_vdp2_vram_0x58000:
+    .4byte  0x25E58000                  /* VDP2 VRAM +0x58000 */
 .L_pool_06004BFC:
     .4byte  sym_06061294
 .L_pool_06004C00:
@@ -207,14 +207,14 @@ engine_init_global:
     mov.l   .L_pool_06004CC0, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06004CC4, r5
+    mov.l   .L_fp_one, r5
     mov.l   .L_pool_06004CC8, r3
     jsr @r3
     mov r5, r4
     mov.l   .L_pool_06004CCC, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06004CD0, r4
+    mov.l   .L_vdp2_vram_0x5C000, r4
     mov.l   .L_pool_06004CD4, r3
     mov.l r4, @r3
     mov.l   .L_pool_06004CD8, r3
@@ -283,9 +283,9 @@ engine_init_global:
     mov.b r0, @(3, r12)
     extu.b r14, r0
     mov.b r0, @(4, r12)
-    mov.l   .L_pool_06004CF0, r3
+    mov.l   .L_vdp2_vram_0x5FE80, r3
     mov.l r3, @(8, r12)
-    mov.l   .L_pool_06004CF4, r2
+    mov.l   .L_vdp2_vram_0x5FF00, r2
     mov.l r2, @(12, r12)
     bra     .L_06004D0C
     mov #0x0, r4
@@ -295,14 +295,14 @@ engine_init_global:
     .2byte  0xFFFF
 .L_pool_06004CC0:
     .4byte  sym_0603850C
-.L_pool_06004CC4:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06004CC8:
     .4byte  scene_color_intensity
 .L_pool_06004CCC:
     .4byte  sym_06038520
-.L_pool_06004CD0:
-    .4byte  0x25E5C000
+.L_vdp2_vram_0x5C000:
+    .4byte  0x25E5C000                  /* VDP2 VRAM +0x5C000 */
 .L_pool_06004CD4:
     .4byte  sym_06061298
 .L_pool_06004CD8:
@@ -317,10 +317,10 @@ engine_init_global:
     .4byte  sym_06087C84
 .L_pool_06004CEC:
     .4byte  display_enable_ctrl
-.L_pool_06004CF0:
-    .4byte  0x25E5FE80
-.L_pool_06004CF4:
-    .4byte  0x25E5FF00
+.L_vdp2_vram_0x5FE80:
+    .4byte  0x25E5FE80                  /* VDP2 VRAM +0x5FE80 */
+.L_vdp2_vram_0x5FF00:
+    .4byte  0x25E5FF00                  /* VDP2 VRAM +0x5FF00 */
 .L_06004CF8:
     mov.w   .L_wpool_06004DDA, r2
     add r12, r2
@@ -340,7 +340,7 @@ engine_init_global:
     mov.l   .L_pool_06004DE4, r3
     jsr @r3
     nop
-    mov.l   .L_pool_06004DE8, r5
+    mov.l   .L_fp_one_06004DE8, r5
     mov.l   .L_pool_06004DEC, r3
     jsr @r3
     mov r5, r4
@@ -350,7 +350,7 @@ engine_init_global:
     mov.l   .L_pool_06004DF4, r2
     mov.l   .L_pool_06004DF8, r3
     mov.l r2, @r3
-    mov.l   .L_pool_06004DFC, r2
+    mov.l   .L_vdp2_vram_0x5E000, r2
     mov.l   .L_pool_06004E00, r3
     mov.l r2, @r3
     mov.l   .L_pool_06004E04, r3
@@ -392,9 +392,9 @@ engine_init_global:
     jsr @r9
     mov #0x10, r4
     mov.l   .L_pool_06004E08, r3
-    mov.l   .L_pool_06004E0C, r2
+    mov.l   .L_mask_0xC000, r2
     mov.w r2, @r3
-    mov.l   .L_pool_06004E10, r4
+    mov.l   .L_vdp2_vram_0x7E000, r4
     mov.l   .L_pool_06004E14, r3
     mov.l r4, @r3
     mov.l   .L_pool_06004E18, r3
@@ -445,8 +445,8 @@ engine_init_global:
     .4byte  sym_06087C84
 .L_pool_06004DE4:
     .4byte  scene_buffer_init
-.L_pool_06004DE8:
-    .4byte  0x00010000
+.L_fp_one_06004DE8:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06004DEC:
     .4byte  scene_color_intensity
 .L_pool_06004DF0:
@@ -455,18 +455,18 @@ engine_init_global:
     .4byte  sym_060612C4
 .L_pool_06004DF8:
     .4byte  sym_0606129C
-.L_pool_06004DFC:
-    .4byte  0x25E5E000
+.L_vdp2_vram_0x5E000:
+    .4byte  0x25E5E000                  /* VDP2 VRAM +0x5E000 */
 .L_pool_06004E00:
     .4byte  sym_060612B4
 .L_pool_06004E04:
     .4byte  sym_06037618
 .L_pool_06004E08:
     .4byte  sym_060A3DBC
-.L_pool_06004E0C:
-    .4byte  0x0000C000
-.L_pool_06004E10:
-    .4byte  0x25E7E000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
+.L_vdp2_vram_0x7E000:
+    .4byte  0x25E7E000                  /* VDP2 VRAM +0x7E000 */
 .L_pool_06004E14:
     .4byte  sym_060612A0
 .L_pool_06004E18:

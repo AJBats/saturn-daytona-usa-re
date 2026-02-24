@@ -17,7 +17,7 @@ channel_nibble_config:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06038CD8, r9
+    mov.l   .L_mask_byte1, r9
     mov.w   DAT_06038cc8, r10
     mov.l   .L_pool_06038CDC, r11
     mov.l   .L_pool_06038CE0, r12
@@ -158,8 +158,8 @@ DAT_06038cd4:
     .global DAT_06038cd6
 DAT_06038cd6:
     .2byte  0x2000
-.L_pool_06038CD8:
-    .4byte  0x0000FF00
+.L_mask_byte1:
+    .4byte  0x0000FF00                  /* byte 1 mask */
 .L_pool_06038CDC:
     .4byte  0x0000F0FF
 .L_pool_06038CE0:
@@ -196,7 +196,7 @@ DAT_06038cd6:
     mov r2, r0
     mov.w r0, @(6, r6)
 .L_06038D1E:
-    mov.l   .L_pool_06038E28, r3
+    mov.l   .L_fp_half, r3
     and r4, r3
     tst r3, r3
     bt      .L_06038D44
@@ -342,8 +342,8 @@ DAT_06038e1a:
     .2byte  0xFFFF
 .L_pool_06038E24:
     .4byte  sym_06034F78
-.L_pool_06038E28:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_06038E2C:
     bt      .L_06038E3C
     mov r7, r0

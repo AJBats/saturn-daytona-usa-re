@@ -16,7 +16,7 @@ transform_rotation_apply:
     mov #0xA, r13
     .byte   0xDE, 0x0C    /* mov.l .L_pool_060263A0, r14 */
     .byte   0xD7, 0x0D    /* mov.l .L_pool_060263A4, r7 */
-    .byte   0xD5, 0x0D    /* mov.l .L_pool_060263A8, r5 */
+    .byte   0xD5, 0x0D    /* mov.l .L_fp_half, r5 */
     mov #0x0, r4
     extu.w r4, r6
 .L_06026376:
@@ -41,8 +41,8 @@ transform_rotation_apply:
     .4byte  sym_06060D2A
 .L_pool_060263A4:
     .4byte  sym_06060D34
-.L_pool_060263A8:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_060263AC:
     mov.w   .L_wpool_060263C2, r1
     sub r1, r0

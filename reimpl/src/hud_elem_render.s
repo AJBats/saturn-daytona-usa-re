@@ -173,7 +173,7 @@ hud_elem_render:
     .byte   0xDC, 0x2A    /* mov.l .L_pool_0601520C, r12 */
     .byte   0xDE, 0x2A    /* mov.l .L_pool_06015210, r14 */
     .byte   0xDB, 0x2B    /* mov.l .L_pool_06015214, r11 */
-    .byte   0xD2, 0x2B    /* mov.l .L_pool_06015218, r2 */
+    .byte   0xD2, 0x2B    /* mov.l .L_fp_half, r2 */
     mov.w @(2, r12), r0
     mov r0, r3
     extu.w r3, r3
@@ -267,8 +267,8 @@ hud_elem_render:
     .4byte  sym_06085F8B
 .L_pool_06015214:
     .4byte  sym_06085F8D
-.L_pool_06015218:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601521C:
     .4byte  sym_06044C8C
 .L_pool_06015220:

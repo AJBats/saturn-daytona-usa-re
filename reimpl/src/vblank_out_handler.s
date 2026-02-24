@@ -43,7 +43,7 @@ vblank_out_handler:
     extu.w r0, r0
     or #0x3, r0
     extu.w r0, r0
-    mov.l   .L_pool_060072DC, r3
+    mov.l   .L_vdp1_fbcr, r3
     mov.w r0, @r3
     mov #0x0, r4
     mov.l   .L_pool_060072E0, r3
@@ -69,8 +69,8 @@ vblank_out_handler:
     .4byte  sym_06063F58
 .L_pool_060072D8:
     .4byte  sym_060A4C92
-.L_pool_060072DC:
-    .4byte  0x25D00002
+.L_vdp1_fbcr:
+    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
 .L_pool_060072E0:
     .4byte  sym_060635C4
 

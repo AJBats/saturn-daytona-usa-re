@@ -198,7 +198,7 @@ sym_0601143E:
 sym_06011450:
     mov.l   .L_pool_0601147C, r7
     mov.l @(4, r7), r7
-    mov.l   .L_pool_0601148C, r3
+    mov.l   .L_mask_0xE000, r3
     add r3, r7
     mov #0x10, r6
     mov.l   .L_pool_06011490, r5
@@ -233,8 +233,8 @@ DAT_06011466:
     .4byte  sym_0605A634
 .L_pool_06011488:
     .4byte  sym_06028400
-.L_pool_0601148C:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_06011490:
     .4byte  sym_0605A718
 

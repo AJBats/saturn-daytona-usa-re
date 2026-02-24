@@ -28,7 +28,7 @@ dma_config_dispatch:
     mov.l   .L_pool_06003A30, r3
     add r3, r5
 .L_060039EA:
-    mov.l   .L_pool_06003A34, r4
+    mov.l   .L_vdp2_cram_0x400, r4
     mov.l   .L_pool_06003A38, r2
     jmp @r2
     mov.l @r5, r5
@@ -56,7 +56,7 @@ sym_060039F2:
     mov.l   .L_pool_06003A30, r3
     add r3, r5
 .L_06003A18:
-    mov.l   .L_pool_06003A34, r4
+    mov.l   .L_vdp2_cram_0x400, r4
     mov.l   .L_pool_06003A38, r2
     jmp @r2
     mov.l @r5, r5
@@ -70,7 +70,7 @@ sym_060039F2:
     .4byte  sym_06078868
 .L_pool_06003A30:
     .4byte  sym_0605C97C
-.L_pool_06003A34:
-    .4byte  0x25F00400
+.L_vdp2_cram_0x400:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
 .L_pool_06003A38:
     .4byte  dma_transfer

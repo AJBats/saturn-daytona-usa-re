@@ -20,7 +20,7 @@ master_ctrl_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_pool_0601C44C, r8
-    mov.l   .L_pool_0601C450, r9
+    mov.l   .L_fp_half, r9
     mov.l   .L_pool_0601C454, r10
     mov.l   .L_pool_0601C458, r11
     mov.l   .L_pool_0601C45C, r12
@@ -68,8 +68,8 @@ master_ctrl_dispatch:
     .2byte  0xFFFF
 .L_pool_0601C44C:
     .4byte  sym_0605DF44
-.L_pool_0601C450:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601C454:
     .4byte  sym_0608A52C
 .L_pool_0601C458:
@@ -203,7 +203,7 @@ DAT_0601c510:
 .L_pool_0601C540:
     .4byte  mat_scale_b
 .L_0601C544:
-    mov.l   .L_pool_0601C5FC, r6
+    mov.l   .L_fp_neg_one, r6
     mov.l   .L_pool_0601C600, r4
     mov.l   .L_pool_0601C604, r3
     jsr @r3
@@ -305,8 +305,8 @@ DAT_0601c5f8:
     .global DAT_0601c5fa
 DAT_0601c5fa:
     .2byte  0x6666
-.L_pool_0601C5FC:
-    .4byte  0xFFFF0000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_0601C600:
     .4byte  0x00014872
 .L_pool_0601C604:
@@ -344,7 +344,7 @@ DAT_0601c5fa:
 .L_pool_0601C644:
     .4byte  mat_scale_b
 .L_0601C648:
-    mov.l   .L_pool_0601C6C4, r6
+    mov.l   .L_fp_neg_one_0601C6C4, r6
     mov.l   .L_pool_0601C6C8, r4
     mov.l   .L_pool_0601C6CC, r3
     jsr @r3
@@ -411,8 +411,8 @@ DAT_0601c5fa:
 DAT_0601c6c0:
     .2byte  0x7000
     .2byte  0xFFFF
-.L_pool_0601C6C4:
-    .4byte  0xFFFF0000
+.L_fp_neg_one_0601C6C4:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_0601C6C8:
     .4byte  0xFFFEB78E
 .L_pool_0601C6CC:

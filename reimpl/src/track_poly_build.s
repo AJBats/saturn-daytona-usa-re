@@ -22,21 +22,21 @@ track_poly_build:
     mov.l @r15+, r1
     mov.l @(40, r0), r12
     sub r12, r11
-    mov.l   .L_pool_0602F580, r10
+    mov.l   .L_fp_half, r10
     tst r10, r11
     bt      .L_0602F588
-    mov.l   .L_pool_0602F584, r10
+    mov.l   .L_fp_neg_one, r10
     bra     .L_0602F58C
     or r10, r11
     .2byte  0x0000
     .4byte  0x001E0000
     .4byte  atan2
-.L_pool_0602F580:
-    .4byte  0x00008000
-.L_pool_0602F584:
-    .4byte  0xFFFF0000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_0602F588:
-    mov.l   .L_pool_0602F5A0, r10
+    mov.l   .L_mask_low16, r10
     and r10, r11
 .L_0602F58C:
     cmp/pz r11
@@ -50,8 +50,8 @@ track_poly_build:
     bra     .L_0602F5B0
     mov.w r12, @(r0, r1)
     .2byte  0x0000
-.L_pool_0602F5A0:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_0602F5A4:
     .4byte  0x0000071C
 .L_0602F5A8:

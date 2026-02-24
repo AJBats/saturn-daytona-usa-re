@@ -55,7 +55,7 @@ race_utility_fn:
     jsr @r3
     nop
 .L_0600C2F8:
-    .byte   0xD2, 0x20    /* mov.l .L_pool_0600C37C, r2 */
+    .byte   0xD2, 0x20    /* mov.l .L_mask_low16, r2 */
     .byte   0xD3, 0x21    /* mov.l .L_pool_0600C380, r3 */
     lds.l @r15+, pr
     rts
@@ -144,8 +144,8 @@ DAT_0600c372:
     .2byte  0xFFFF
 .L_pool_0600C378:
     .4byte  scene_path_a
-.L_pool_0600C37C:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_0600C380:
     .4byte  0x21800000
 .L_pool_0600C384:

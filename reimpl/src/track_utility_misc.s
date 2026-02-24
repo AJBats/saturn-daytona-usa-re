@@ -31,7 +31,7 @@ track_utility_misc:
     jsr @r3
     nop
     mov.w   .L_wpool_06018662, r5
-    mov.l   .L_pool_0601867C, r2
+    mov.l   .L_wram_low, r2
     mov.l   .L_pool_06018680, r3
     mov r2, r4
     add r3, r4
@@ -104,8 +104,8 @@ DAT_06018660:
     .4byte  sym_06026E2E
 .L_pool_06018678:
     .4byte  mat_rot_y
-.L_pool_0601867C:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_06018680:
     .4byte  0x000BABE0
 .L_pool_06018684:

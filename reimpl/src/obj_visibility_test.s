@@ -32,21 +32,21 @@ obj_visibility_test:
     mov #0x4, r4
     mov.l   .L_pool_06020610, r14
     mov.l   .L_pool_06020614, r5
-    mov.l   .L_pool_06020618, r4
+    mov.l   .L_vdp2_cram_0x6E0, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_pool_0602061C, r5
-    mov.l   .L_pool_06020620, r4
+    mov.l   .L_vdp2_cram_0x300, r4
     jsr @r14
     mov #0x20, r6
     mov #0x20, r6
     mov.l   .L_pool_06020624, r2
     mov.l r2, @r15
-    mov.l   .L_pool_06020628, r4
+    mov.l   .L_vdp2_cram_0x400, r4
     jsr @r14
     mov r2, r5
     mov #0x20, r6
-    mov.l   .L_pool_0602062C, r4
+    mov.l   .L_vdp2_cram_0x060, r4
     jsr @r14
     mov.l @r15, r5
     mov.l   .L_pool_06020630, r13
@@ -56,7 +56,7 @@ obj_visibility_test:
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06020638, r3
+    mov.l   .L_fp_half, r3
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -134,24 +134,24 @@ obj_visibility_test:
     .4byte  memcpy_word_idx
 .L_pool_06020614:
     .4byte  sym_0604898C
-.L_pool_06020618:
-    .4byte  0x25F006E0
+.L_vdp2_cram_0x6E0:
+    .4byte  0x25F006E0                  /* VDP2 color RAM +0x6E0 */
 .L_pool_0602061C:
     .4byte  sym_060489AC
-.L_pool_06020620:
-    .4byte  0x25F00300
+.L_vdp2_cram_0x300:
+    .4byte  0x25F00300                  /* VDP2 color RAM +0x300 */
 .L_pool_06020624:
     .4byte  sym_060489CC
-.L_pool_06020628:
-    .4byte  0x25F00400
-.L_pool_0602062C:
-    .4byte  0x25F00060
+.L_vdp2_cram_0x400:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
+.L_vdp2_cram_0x060:
+    .4byte  0x25F00060                  /* VDP2 color RAM +0x060 */
 .L_pool_06020630:
     .4byte  sym_06063750
 .L_pool_06020634:
     .4byte  sym_06028400
-.L_pool_06020638:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0602063C:
     .4byte  display_channel_b
 .L_pool_06020640:
@@ -170,7 +170,7 @@ obj_visibility_test:
     .byte   0xB3, 0xC9    /* bsr 0x06020DEE (external) */
     extu.b r4, r4
     mov.l   .L_pool_060206CC, r14
-    mov.l   .L_pool_060206D0, r2
+    mov.l   .L_fp_four, r2
     mov.l r2, @r14
     mov r2, r3
     mov.l   .L_pool_060206D4, r2
@@ -190,7 +190,7 @@ obj_visibility_test:
     mov.l   .L_pool_060206EC, r3
     mov.l r0, @r3
     mov.l @r14, r5
-    mov.l   .L_pool_060206F0, r2
+    mov.l   .L_fp_neg_one, r2
     mov.l   .L_pool_060206F4, r4
     mov.l   .L_pool_060206E4, r3
     jsr @r3
@@ -227,8 +227,8 @@ obj_visibility_test:
     .4byte  sym_06059F6F
 .L_pool_060206CC:
     .4byte  sym_06087820
-.L_pool_060206D0:
-    .4byte  0x00040000
+.L_fp_four:
+    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
 .L_pool_060206D4:
     .4byte  sym_06087818
 .L_pool_060206D8:
@@ -243,8 +243,8 @@ obj_visibility_test:
     .4byte  fpdiv_setup
 .L_pool_060206EC:
     .4byte  sym_06087810
-.L_pool_060206F0:
-    .4byte  0xFFFF0000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_060206F4:
     .4byte  0x00700000
 .L_pool_060206F8:

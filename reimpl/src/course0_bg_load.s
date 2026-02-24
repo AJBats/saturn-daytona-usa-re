@@ -22,7 +22,7 @@ course0_bg_load:
     mov.l   .L_pool_060187F4, r14
     mov.l   .L_pool_060187F8, r13
     mov.w   .L_wpool_060187DE, r6
-    mov.l   .L_pool_060187FC, r9
+    mov.l   .L_wram_low, r9
     mov.l   .L_pool_06018800, r4
     jsr @r13
     mov r9, r5
@@ -115,8 +115,8 @@ course0_bg_load:
     .4byte  sym_060D6900
 .L_pool_060187F8:
     .4byte  memcpy_long_idx
-.L_pool_060187FC:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_06018800:
     .4byte  sym_060D5840
 .L_pool_06018804:

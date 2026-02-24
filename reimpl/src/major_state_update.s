@@ -28,7 +28,7 @@ major_state_update:
     mov.l @r14, r3
     mov.w   DAT_06041df0, r0
     mov.l @(r0, r3), r2
-    mov.l   .L_pool_06041DF8, r3
+    mov.l   .L_mask_low16, r3
     cmp/eq r3, r2
     bf      .L_06041DDE
     mov.l @r14, r5
@@ -85,8 +85,8 @@ DAT_06041df2:
     .2byte  0x033C
 .L_pool_06041DF4:
     .4byte  sym_060A5400
-.L_pool_06041DF8:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06041DFC:
     .4byte  track_surface_type_a
 .L_pool_06041E00:

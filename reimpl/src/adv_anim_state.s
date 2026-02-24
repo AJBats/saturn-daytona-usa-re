@@ -80,7 +80,7 @@ adv_anim_state:
     mov #0xD, r4
 .L_060107DC:
     mov.l   .L_pool_06010878, r0
-    mov.l   .L_pool_0601087C, r3
+    mov.l   .L_mask_low16, r3
     mov.w @r0, r0
     extu.w r0, r0
     xor r3, r0
@@ -89,7 +89,7 @@ adv_anim_state:
     extu.w r0, r11
     cmp/gt r3, r11
     bf      .L_06010832
-    mov.l   .L_pool_06010880, r3
+    mov.l   .L_fp_neg_one, r3
     mov.l   .L_pool_06010884, r2
     mov.l r3, @r2
     mov #0x1E, r3
@@ -129,7 +129,7 @@ adv_anim_state:
     mov #0x70, r3
     cmp/ge r3, r2
     bt      .L_060108B4
-    mov.l   .L_pool_060108A0, r3
+    mov.l   .L_fp_one, r3
     mov.l   .L_pool_06010884, r2
     mov.l r3, @r2
     mov #0x1E, r3
@@ -164,10 +164,10 @@ adv_anim_state:
     .4byte  sym_0605AB17
 .L_pool_06010878:
     .4byte  sym_06063D9C
-.L_pool_0601087C:
-    .4byte  0x0000FFFF
-.L_pool_06010880:
-    .4byte  0xFFFF0000
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_06010884:
     .4byte  sym_0607889C
 .L_pool_06010888:
@@ -182,8 +182,8 @@ adv_anim_state:
     .4byte  sym_06078898
 .L_pool_0601089C:
     .4byte  sym_060788A4
-.L_pool_060108A0:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_060108A4:
     .4byte  0xFFF40000
 .L_060108A8:
@@ -275,7 +275,7 @@ adv_anim_state:
     add r3, r5
 .L_06010948:
     mov.l   .L_pool_0601097C, r4
-    mov.l   .L_pool_06010990, r2
+    mov.l   .L_vdp2_cram_0x000, r2
     mov.l @r4, r4
     shll r4
     add #0x23, r4
@@ -315,5 +315,5 @@ DAT_0601096e:
     .4byte  sym_06063F5C
 .L_pool_0601098C:
     .4byte  sym_0605CA9C
-.L_pool_06010990:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */

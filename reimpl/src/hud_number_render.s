@@ -422,7 +422,7 @@ DAT_0603120a:
     add r9, r6
     mov.l r6, @(24, r13)
     mov.l @r15+, r3
-    .byte   0xD5, 0x14    /* mov.l .L_pool_0603133C, r5 */
+    .byte   0xD5, 0x14    /* mov.l .L_fp_half, r5 */
     add r5, r10
     neg r10, r4
     mov r3, r9
@@ -464,8 +464,8 @@ DAT_0603120a:
     .4byte  cos_lookup
 .L_pool_06031338:
     .4byte  sin_lookup
-.L_pool_0603133C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_06031340:
     mov.l r4, @-r15
     mov.l r5, @-r15

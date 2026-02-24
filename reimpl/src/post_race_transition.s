@@ -35,17 +35,17 @@ post_race_transition:
     mov.w r0, @r4
     mov.w   .L_wpool_0600F6D4, r6
     mov.l   .L_pool_0600F6F0, r5
-    mov.l   .L_pool_0600F6F4, r4
+    mov.l   .L_vdp2_cram_0x460, r4
     mov.l   .L_pool_0600F6F8, r3
     jsr @r3
     nop
     mov.l   .L_pool_0600F6FC, r2
     mov.l r2, @r15
-    mov.l   .L_pool_0600F700, r4
+    mov.l   .L_vdp2_vram_0x75DDC, r4
     mov.l   .L_pool_0600F704, r3
     jsr @r3
     mov r2, r5
-    mov.l   .L_pool_0600F708, r7
+    mov.l   .L_mask_0xE000, r7
     mov r14, r6
     mov.l @r15, r5
     jsr @r13
@@ -92,18 +92,18 @@ post_race_transition:
     .4byte  sym_06078870
 .L_pool_0600F6F0:
     .4byte  sym_060484EC
-.L_pool_0600F6F4:
-    .4byte  0x25F00460
+.L_vdp2_cram_0x460:
+    .4byte  0x25F00460                  /* VDP2 color RAM +0x460 */
 .L_pool_0600F6F8:
     .4byte  memcpy_word_idx
 .L_pool_0600F6FC:
     .4byte  sym_06094FA8
-.L_pool_0600F700:
-    .4byte  0x25E75DDC
+.L_vdp2_vram_0x75DDC:
+    .4byte  0x25E75DDC                  /* VDP2 VRAM +0x75DDC */
 .L_pool_0600F704:
     .4byte  dma_memory_transfer
-.L_pool_0600F708:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_0600F70C:
     .4byte  sym_0601143E
 .L_pool_0600F710:

@@ -26,7 +26,7 @@ render_finalize_b:
     mov.l   .L_pool_06024DCC, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_pool_06024DD0, r2
+    mov.l   .L_fp_0x4000_0000, r2
     mov.l   .L_pool_06024DD4, r3
     mov.l @r3, r3
     or r2, r3
@@ -40,26 +40,26 @@ render_finalize_b:
     mov.w   .L_wpool_06024DBA, r6
     mov.l   .L_pool_06024DDC, r3
     mov.l r3, @r15
-    mov.l   .L_pool_06024DE0, r4
+    mov.l   .L_vdp2_cram_0x0C0, r4
     jsr @r8
     mov r3, r5
     mov #0x20, r6
     mov.l   .L_pool_06024DE4, r3
     mov.l r3, @(4, r15)
-    mov.l   .L_pool_06024DE8, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     jsr @r8
     mov r3, r5
     mov.w   .L_wpool_06024DBA, r6
-    mov.l   .L_pool_06024DEC, r4
+    mov.l   .L_vdp2_cram_0x6C0, r4
     jsr @r8
     mov.l @r15, r5
     mov #0x20, r6
-    mov.l   .L_pool_06024DF0, r4
+    mov.l   .L_vdp2_cram_0x600, r4
     jsr @r8
     mov.l @(4, r15), r5
     mov #0x8, r7
     mov.l   .L_pool_06024DF4, r5
-    mov.l   .L_pool_06024DF8, r4
+    mov.l   .L_vdp2_vram_0x76EFC, r4
     mov.l   .L_pool_06024DFC, r3
     jsr @r3
     mov #0x0, r6
@@ -97,28 +97,28 @@ render_finalize_b:
     .4byte  0xAE0003FF
 .L_pool_06024DCC:
     .4byte  sound_cmd_dispatch
-.L_pool_06024DD0:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06024DD4:
     .4byte  sym_0605B6D8
 .L_pool_06024DD8:
     .4byte  memcpy_word_idx
 .L_pool_06024DDC:
     .4byte  sym_0605CF9C
-.L_pool_06024DE0:
-    .4byte  0x25F000C0
+.L_vdp2_cram_0x0C0:
+    .4byte  0x25F000C0                  /* VDP2 color RAM +0x0C0 */
 .L_pool_06024DE4:
     .4byte  sym_0605CD9C
-.L_pool_06024DE8:
-    .4byte  0x25F00000
-.L_pool_06024DEC:
-    .4byte  0x25F006C0
-.L_pool_06024DF0:
-    .4byte  0x25F00600
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
+.L_vdp2_cram_0x6C0:
+    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 */
+.L_vdp2_cram_0x600:
+    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
 .L_pool_06024DF4:
     .4byte  0x00017700
-.L_pool_06024DF8:
-    .4byte  0x25E76EFC
+.L_vdp2_vram_0x76EFC:
+    .4byte  0x25E76EFC                  /* VDP2 VRAM +0x76EFC */
 .L_pool_06024DFC:
     .4byte  sym_0600511E
 .L_pool_06024E00:
@@ -232,7 +232,7 @@ render_finalize_b:
     .4byte  sym_0605D240
 .L_06024EC4:
     extu.w r8, r2
-    mov.l   .L_pool_06024F74, r3
+    mov.l   .L_fp_half, r3
     and r3, r2
     tst r2, r2
     bt      .L_06024EDE
@@ -330,8 +330,8 @@ render_finalize_b:
     nop
 .L_wpool_06024F72:
     .2byte  0x4000
-.L_pool_06024F74:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06024F78:
     .4byte  sprite_anim_update
 .L_pool_06024F7C:

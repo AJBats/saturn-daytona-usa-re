@@ -204,7 +204,7 @@ state_race_main:
     tst r0, r0
     bt      .L_0600920C
     mov.l   .L_pool_06009280, r7
-    mov.l   .L_pool_06009284, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   .L_wpool_06009222, r5
     mov.l   .L_pool_06009288, r3
     jsr @r3
@@ -271,8 +271,8 @@ state_race_main:
     .4byte  sym_06086030
 .L_pool_06009280:
     .4byte  sym_0605A1C8
-.L_pool_06009284:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_06009288:
     .4byte  sym_060283E0
 .L_pool_0600928C:

@@ -13,24 +13,24 @@ race_start_obj_init:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_pool_06020150, r5
-    mov.l   .L_pool_06020154, r4
+    mov.l   .L_vdp2_cram_0x6C0, r4
     mov.l   .L_pool_06020158, r3
     jsr @r3
     mov #0x20, r6
     mov.l   .L_pool_0602015C, r5
-    mov.l   .L_pool_06020160, r4
+    mov.l   .L_vdp2_cram_0x060, r4
     mov.l   .L_pool_06020158, r3
     jsr @r3
     mov #0x20, r6
     mov #0x8, r7
     mov.l   .L_pool_06020168, r5
     mov.l   .L_pool_06020164, r14
-    mov.l   .L_pool_0602016C, r4
+    mov.l   .L_vdp2_vram_0x33AD8, r4
     jsr @r14
     mov #0x0, r6
     mov #0x8, r7
     mov.l   .L_pool_06020170, r5
-    mov.l   .L_pool_06020174, r4
+    mov.l   .L_vdp2_vram_0x33764, r4
     jsr @r14
     mov #0x0, r6
     mov #0x8, r7
@@ -40,7 +40,7 @@ race_start_obj_init:
     mov #0x0, r6
     mov #0x8, r7
     mov.l   .L_pool_06020180, r5
-    mov.l   .L_pool_06020184, r4
+    mov.l   .L_vdp2_vram_0x3398C, r4
     jsr @r14
     mov #0x0, r6
     mov.l   .L_pool_06020188, r2
@@ -103,32 +103,32 @@ DAT_0602014c:
     .2byte  0xFFFF
 .L_pool_06020150:
     .4byte  sym_0604896C
-.L_pool_06020154:
-    .4byte  0x25F006C0
+.L_vdp2_cram_0x6C0:
+    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 */
 .L_pool_06020158:
     .4byte  memcpy_word_idx
 .L_pool_0602015C:
     .4byte  sym_0604BC14
-.L_pool_06020160:
-    .4byte  0x25F00060
+.L_vdp2_cram_0x060:
+    .4byte  0x25F00060                  /* VDP2 color RAM +0x060 */
 .L_pool_06020164:
     .4byte  sym_0600511E
 .L_pool_06020168:
     .4byte  0x00017700
-.L_pool_0602016C:
-    .4byte  0x25E33AD8
+.L_vdp2_vram_0x33AD8:
+    .4byte  0x25E33AD8                  /* VDP2 VRAM +0x33AD8 */
 .L_pool_06020170:
     .4byte  0x00018B40
-.L_pool_06020174:
-    .4byte  0x25E33764
+.L_vdp2_vram_0x33764:
+    .4byte  0x25E33764                  /* VDP2 VRAM +0x33764 */
 .L_pool_06020178:
     .4byte  0x0001D2A0
 .L_pool_0602017C:
     .4byte  sym_0605E164
 .L_pool_06020180:
     .4byte  0x00018F20
-.L_pool_06020184:
-    .4byte  0x25E3398C
+.L_vdp2_vram_0x3398C:
+    .4byte  0x25E3398C                  /* VDP2 VRAM +0x3398C */
 .L_pool_06020188:
     .4byte  sym_06063CA0
 .L_pool_0602018C:

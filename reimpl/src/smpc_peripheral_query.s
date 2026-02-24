@@ -18,7 +18,7 @@ smpc_peripheral_query:
     sts.l pr, @-r15
     add #-0x4, r15
     .byte   0xDE, 0x09    /* mov.l .L_pool_06035D90, r14 */
-    .byte   0xD3, 0x09    /* mov.l .L_pool_06035D94, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_cd_hirq, r3 */
     mov.w @r14, r2
     mov.w @r3, r3
     extu.w r3, r3
@@ -36,8 +36,8 @@ smpc_peripheral_query:
     .4byte  ai_brake_zone_main
 .L_pool_06035D90:
     .4byte  sym_06063590
-.L_pool_06035D94:
-    .4byte  0x25890008
+.L_cd_hirq:
+    .4byte  0x25890008                  /* CD HIRQ — interrupt request */
 .L_06035D98:
     mov.w @r14, r0
     extu.w r0, r0

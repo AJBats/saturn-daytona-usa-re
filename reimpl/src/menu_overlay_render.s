@@ -62,7 +62,7 @@ menu_overlay_render:
     mov.w r2, @r14
     mov.w r12, @r13
     mov.l   .L_pool_06026944, r7
-    mov.l   .L_pool_06026948, r6
+    mov.l   .L_mask_nibble3, r6
     jsr @r9
     mov #0xC, r4
     mov #0x1, r2
@@ -90,8 +90,8 @@ DAT_06026922:
     .4byte  sym_060597B8
 .L_pool_06026944:
     .4byte  sym_06059826
-.L_pool_06026948:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_0602694C:
     mov.w @r14, r0
     cmp/eq #0x36, r0
@@ -110,7 +110,7 @@ DAT_06026922:
     bf      .L_06026982
     mov r8, r5
     mov.l   .L_pool_06026B24, r7
-    mov.l   .L_pool_06026B28, r6
+    mov.l   .L_mask_nibble3_06026B28, r6
     jsr @r9
     mov #0xC, r4
     exts.w r12, r3
@@ -128,7 +128,7 @@ DAT_06026922:
     mov.w @r14, r7
     mov.l   .L_pool_06026B30, r3
     mov.l   .L_pool_06026B34, r2
-    mov.l   .L_pool_06026B28, r6
+    mov.l   .L_mask_nibble3_06026B28, r6
     add #-0x1, r7
     add r3, r7
     mov.b @r7, r7
@@ -222,7 +222,7 @@ DAT_06026922:
     mov.w r2, @r14
     mov.w r12, @r13
     mov.l   .L_pool_06026B24, r7
-    mov.l   .L_pool_06026B28, r6
+    mov.l   .L_mask_nibble3_06026B28, r6
     jsr @r9
     mov #0xC, r4
     mov #0x1, r2
@@ -246,7 +246,7 @@ DAT_06026922:
     bf      .L_06026A80
     mov.l   .L_pool_06026B24, r7
     mov r8, r5
-    mov.l   .L_pool_06026B28, r6
+    mov.l   .L_mask_nibble3_06026B28, r6
     jsr @r9
     mov #0xC, r4
     exts.w r12, r3
@@ -264,7 +264,7 @@ DAT_06026922:
     mov r8, r5
     mov.l   .L_pool_06026B40, r3
     mov.l   .L_pool_06026B44, r2
-    mov.l   .L_pool_06026B28, r6
+    mov.l   .L_mask_nibble3_06026B28, r6
     add #-0x1, r7
     add r3, r7
     mov.b @r7, r7
@@ -347,8 +347,8 @@ DAT_06026922:
     .4byte  sym_0607864C
 .L_pool_06026B24:
     .4byte  sym_06059826
-.L_pool_06026B28:
-    .4byte  0x0000F000
+.L_mask_nibble3_06026B28:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_06026B2C:
     .4byte  sym_0606123E
 .L_pool_06026B30:
@@ -387,7 +387,7 @@ DAT_06026922:
     mov.w r2, @r14
     mov.w r12, @r13
     mov.l   .L_pool_06026C88, r7
-    mov.l   .L_pool_06026C8C, r6
+    mov.l   .L_mask_nibble3_06026C8C, r6
     jsr @r9
     mov #0xC, r4
     mov #0x1, r2
@@ -411,7 +411,7 @@ DAT_06026922:
     bf      .L_06026BB8
     mov.l   .L_pool_06026C88, r7
     mov r8, r5
-    mov.l   .L_pool_06026C8C, r6
+    mov.l   .L_mask_nibble3_06026C8C, r6
     jsr @r9
     mov #0xC, r4
     exts.w r12, r3
@@ -429,7 +429,7 @@ DAT_06026922:
     mov r8, r5
     mov.l   .L_pool_06026C98, r3
     mov.l   .L_pool_06026C9C, r2
-    mov.l   .L_pool_06026C8C, r6
+    mov.l   .L_mask_nibble3_06026C8C, r6
     add #-0x1, r7
     add r3, r7
     mov.b @r7, r7
@@ -538,8 +538,8 @@ DAT_06026922:
     .4byte  sym_0605956E
 .L_pool_06026C88:
     .4byte  sym_06059826
-.L_pool_06026C8C:
-    .4byte  0x0000F000
+.L_mask_nibble3_06026C8C:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_06026C90:
     .4byte  sym_0607864C
 .L_pool_06026C94:
@@ -566,7 +566,7 @@ vdp2_reg_block_setup:
     mov #0x0, r0
     mov.b r3, @r14
     mov.b r0, @(1, r14)
-    mov.l   .L_pool_06026CD8, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w @r15, r5
     mov.w   .L_wpool_06026CD4, r3
     add r3, r5
@@ -581,8 +581,8 @@ vdp2_reg_block_setup:
 .L_wpool_06026CD4:
     .2byte  0x0602
     .2byte  0xFFFF
-.L_pool_06026CD8:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_06026CDC:
     .4byte  sym_060283E0
 

@@ -27,12 +27,12 @@ transition_full_exec:
     bf      .L_0601927E
     mov.l   .L_pool_060192A0, r6
     mov.l   .L_pool_060192A4, r5
-    mov.l   .L_pool_060192A8, r4
+    mov.l   .L_sound_ram_0x03000, r4
     mov.l   .L_pool_060192AC, r3
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_060192B0, r3
+    mov.l   .L_sound_ram_0x02DBE, r3
     mov.w r2, @r3
 .L_0601927E:
     mov.l   .L_pool_06019298, r5
@@ -55,12 +55,12 @@ transition_full_exec:
     .4byte  0x0006D000
 .L_pool_060192A4:
     .4byte  0x0026D000
-.L_pool_060192A8:
-    .4byte  0x25A03000
+.L_sound_ram_0x03000:
+    .4byte  0x25A03000                  /* Sound RAM +0x03000 */
 .L_pool_060192AC:
     .4byte  memcpy_byte_idx
-.L_pool_060192B0:
-    .4byte  0x25A02DBE
+.L_sound_ram_0x02DBE:
+    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
     .4byte  0xE500D611
     .4byte  0xD4116363
     .4byte  0x625E7601

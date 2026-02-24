@@ -424,7 +424,7 @@ DAT_0603162e:
     add r9, r6
     mov.l r6, @(24, r14)
     mov.l @r15+, r3
-    mov.l   .L_pool_060316C0, r5
+    mov.l   .L_fp_half, r5
     mov r3, r4
     shlr r3
     add r4, r3
@@ -461,8 +461,8 @@ DAT_0603162e:
     .4byte  cos_lookup
 .L_pool_060316BC:
     .4byte  sin_lookup
-.L_pool_060316C0:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 
     .global sym_060316C4
 sym_060316C4:

@@ -42,7 +42,7 @@ results_ranking_table:
 .L_pool_06016510:
     .4byte  sym_06085F89
 .L_06016514:
-    .byte   0xD5, 0x44    /* mov.l .L_pool_06016628, r5 */
+    .byte   0xD5, 0x44    /* mov.l .L_fp_one, r5 */
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -141,7 +141,7 @@ results_ranking_table:
     sub r2, r3
     mov r3, r2
     mov.l r3, @(24, r4)
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0601662C, r3 */
+    .byte   0xD3, 0x15    /* mov.l .L_fp_two, r3 */
     cmp/gt r3, r2
     bt      .L_0601661A
     extu.b r14, r4
@@ -185,7 +185,7 @@ results_ranking_table:
 .L_wpool_06016624:
     .2byte  0x0600
     .2byte  0xFFFF
-.L_pool_06016628:
-    .4byte  0x00010000
-.L_pool_0601662C:
-    .4byte  0x00020000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */

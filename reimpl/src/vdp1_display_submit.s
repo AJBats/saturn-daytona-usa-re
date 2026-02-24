@@ -154,7 +154,7 @@ DAT_0602d496:
     cmp/ge r3, r2
     bt      .L_0602D560
     mov #0x0, r3
-    mov.l   .L_pool_0602D55C, r6
+    mov.l   .L_fp_quarter, r6
     cmp/ge r3, r4
     bt      .L_0602D53E
     neg r6, r6
@@ -188,8 +188,8 @@ DAT_0602d54a:
     .4byte  cos_lookup
 .L_pool_0602D558:
     .4byte  0x00000100
-.L_pool_0602D55C:
-    .4byte  0x00004000
+.L_fp_quarter:
+    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
 .L_0602D560:
     mov r2, r3
     dmuls.l r2, r3
@@ -349,7 +349,7 @@ DAT_0602d5f4:
     mov.l @r15+, r3
     tst r3, r3
     bf      .L_0602D688
-    mov.l   .L_pool_0602D684, r6
+    mov.l   .L_fp_quarter_0602D684, r6
     bra     .L_0602D6AC
     nop
 
@@ -364,8 +364,8 @@ DAT_0602d67c:
     .global DAT_0602d682
 DAT_0602d682:
     .2byte  0x00CC
-.L_pool_0602D684:
-    .4byte  0x00004000
+.L_fp_quarter_0602D684:
+    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
 .L_0602D688:
     mov.w   .L_wpool_0602D6BE, r2
     mov r4, r1
@@ -513,7 +513,7 @@ DAT_0602d732:
     mov.l @(0, r0), r2
     mov.l   .L_pool_0602D7A0, r3
     or r3, r2
-    mov.l   .L_pool_0602D7A4, r3
+    mov.l   .L_fp_0x4000_0000, r3
     or r3, r2
     bra     .L_0602D7C0
     mov.l r2, @(0, r0)
@@ -532,21 +532,21 @@ DAT_0602d790:
     .4byte  0xFFFFCD80
 .L_pool_0602D7A0:
     .4byte  0x20000000
-.L_pool_0602D7A4:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_0602D7A8:
     mov.l @(0, r0), r2
     mov.l   .L_pool_0602D7B8, r3
     or r3, r2
-    mov.l   .L_pool_0602D7BC, r3
+    mov.l   .L_fp_0x4000_0000_0602D7BC, r3
     or r3, r2
     bra     .L_0602D7C0
     mov.l r2, @(0, r0)
     .2byte  0x0000
 .L_pool_0602D7B8:
     .4byte  0x10000000
-.L_pool_0602D7BC:
-    .4byte  0x40000000
+.L_fp_0x4000_0000_0602D7BC:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_0602D7C0:
     mov.l @(r0, r7), r6
     mov.l   .L_pool_0602D7E0, r3

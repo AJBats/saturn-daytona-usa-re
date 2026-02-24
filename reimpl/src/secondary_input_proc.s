@@ -44,7 +44,7 @@ secondary_input_proc:
     mov #-0x35, r3
     cmp/gt r8, r3
     .byte   0x89, 0xBC    /* bt 0x060359C8 (external) */
-    mov.l   .L_pool_06035B28, r0
+    mov.l   .L_fp_sixteen, r0
     or r0, r4
     or r0, r6
     dmulu.l r5, r7
@@ -76,7 +76,7 @@ secondary_input_proc:
     shlr r1
     rotcr r0
     rotcr r3
-    mov.l   .L_pool_06035B2C, r5
+    mov.l   .L_minit, r5
     tst r1, r5
     bt      .L_06035AA4
     shlr r1
@@ -159,10 +159,10 @@ secondary_input_proc:
     .4byte  0x000007FF
 .L_pool_06035B24:
     .4byte  0x000FFFFF
-.L_pool_06035B28:
-    .4byte  0x00100000
-.L_pool_06035B2C:
-    .4byte  0x01000000
+.L_fp_sixteen:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
+.L_minit:
+    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
 .L_pool_06035B30:
     .4byte  0x000003FF
 

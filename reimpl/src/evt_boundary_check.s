@@ -22,7 +22,7 @@ evt_boundary_check:
     jsr @r3
     extu.b r4, r4
     mov r15, r0
-    .byte   0xD3, 0x05    /* mov.l .L_pool_06040FB4, r3 */
+    .byte   0xD3, 0x05    /* mov.l .L_mask_low24, r3 */
     mov.l @r0, r0
     add #0x4, r15
     lds.l @r15+, pr
@@ -32,8 +32,8 @@ evt_boundary_check:
     .4byte  0x00008000
 .L_pool_06040FB0:
     .4byte  mesh_boundary_check
-.L_pool_06040FB4:
-    .4byte  0x00FFFFFF
+.L_mask_low24:
+    .4byte  0x00FFFFFF                  /* low 24-bit mask */
 
     .global sym_06040FB8
 sym_06040FB8:

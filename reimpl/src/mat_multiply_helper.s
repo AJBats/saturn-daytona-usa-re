@@ -12,7 +12,7 @@ mat_multiply_helper:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xDD, 0x15    /* mov.l .L_pool_0601E694, r13 */
+    .byte   0xDD, 0x15    /* mov.l .L_smpc_sf, r13 */
     mov #0x1, r14
 .L_0601E640:
     mov.b @r13, r2
@@ -23,7 +23,7 @@ mat_multiply_helper:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    .byte   0xD2, 0x11    /* mov.l .L_pool_0601E698, r2 */
+    .byte   0xD2, 0x11    /* mov.l .L_smpc_comreg_ct, r2 */
     mov.b r3, @r2
 .L_0601E654:
     mov.b @r13, r2
@@ -47,7 +47,7 @@ mat_multiply_helper:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    .byte   0xD2, 0x06    /* mov.l .L_pool_0601E698, r2 */
+    .byte   0xD2, 0x06    /* mov.l .L_smpc_comreg_ct, r2 */
     mov.b r3, @r2
 .L_0601E680:
     mov.b @r13, r2
@@ -60,10 +60,10 @@ mat_multiply_helper:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0601E694:
-    .4byte  0x20100063
-.L_pool_0601E698:
-    .4byte  0x2010001F
+.L_smpc_sf:
+    .4byte  0x20100063                  /* SMPC SF — status flag */
+.L_smpc_comreg_ct:
+    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_pool_0601E69C:
     .4byte  sym_06000354
 .L_pool_0601E6A0:

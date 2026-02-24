@@ -27,7 +27,7 @@ state_race_setup:
     mov.l   .L_pool_06008F48, r3
     mov.l r0, @r3
     mov.l   .L_pool_06008F4C, r0
-    mov.l   .L_pool_06008F50, r3
+    mov.l   .L_fp_half, r3
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq r3, r0
@@ -85,8 +85,8 @@ state_race_setup:
     .4byte  sym_0607ED88
 .L_pool_06008F4C:
     .4byte  sym_0607865E
-.L_pool_06008F50:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06008F54:
     .4byte  sym_0605AD08
 .L_pool_06008F58:
@@ -180,7 +180,7 @@ state_race_setup:
     mov.l   .L_pool_0600907C, r3
     mov.l r2, @r3
     mov.l   .L_pool_06009080, r4
-    mov.l   .L_pool_06009084, r2
+    mov.l   .L_fp_0x4000_0000, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -244,8 +244,8 @@ state_race_setup:
     .4byte  sym_0605AD10
 .L_pool_06009080:
     .4byte  sym_0605B6D8
-.L_pool_06009084:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06009088:
     .4byte  sym_06026CE0
 .L_pool_0600908C:

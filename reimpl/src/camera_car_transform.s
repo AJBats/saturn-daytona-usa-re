@@ -29,7 +29,7 @@ camera_car_transform:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_pool_0600AE64, r2
+    mov.l   .L_fp_half, r2
     mov.l   .L_pool_0600AE68, r3
     jsr @r3
     add r2, r4
@@ -73,8 +73,8 @@ camera_car_transform:
     .4byte  sym_06026DBC
 .L_pool_0600AE60:
     .4byte  sym_06026E2E
-.L_pool_0600AE64:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600AE68:
     .4byte  mat_rot_y
 .L_pool_0600AE6C:

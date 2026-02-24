@@ -190,12 +190,12 @@ memcpy_block32:
 
     .global dma_transfer
 dma_transfer:
-    .byte   0xD0, 0x07    /* mov.l .L_pool_0602768C, r0 */
+    .byte   0xD0, 0x07    /* mov.l .L_scu_dsta, r0 */
     mov.l @r0, r0
     .byte   0xD1, 0x07    /* mov.l .L_pool_06027690, r1 */
     tst r1, r0
     bf      dma_transfer
-    .byte   0xD1, 0x07    /* mov.l .L_pool_06027694, r1 */
+    .byte   0xD1, 0x07    /* mov.l .L_scu_d0r, r1 */
     mov.w   .L_wpool_0602768A, r2
     mov.l r4, @(4, r1)
     mov.l r5, @(0, r1)
@@ -207,12 +207,12 @@ dma_transfer:
     mov.l r2, @(16, r1)
 .L_wpool_0602768A:
     .2byte  0x0101
-.L_pool_0602768C:
-    .4byte  0x25FE007C
+.L_scu_dsta:
+    .4byte  0x25FE007C                  /* SCU DSTA — DMA status */
 .L_pool_06027690:
     .4byte  0x0000272E
-.L_pool_06027694:
-    .4byte  0x25FE0000
+.L_scu_d0r:
+    .4byte  0x25FE0000                  /* SCU D0R — DMA level 0 read addr */
     .4byte  0x00090000
 
     .global viewport_project

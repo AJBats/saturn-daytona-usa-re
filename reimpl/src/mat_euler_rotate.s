@@ -13,7 +13,7 @@ mat_euler_rotate:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0601E754, r13
+    mov.l   .L_smpc_sf, r13
     mov #0x1, r14
     mov.l r4, @r15
 .L_0601E6EE:
@@ -25,7 +25,7 @@ mat_euler_rotate:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_pool_0601E758, r2
+    mov.l   .L_smpc_comreg_ct, r2
     mov.b r3, @r2
 .L_0601E702:
     mov.b @r13, r2
@@ -56,7 +56,7 @@ mat_euler_rotate:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_pool_0601E758, r2
+    mov.l   .L_smpc_comreg_ct, r2
     mov.b r3, @r2
 .L_0601E73C:
     mov.b @r13, r2
@@ -71,10 +71,10 @@ mat_euler_rotate:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0601E754:
-    .4byte  0x20100063
-.L_pool_0601E758:
-    .4byte  0x2010001F
+.L_smpc_sf:
+    .4byte  0x20100063                  /* SMPC SF — status flag */
+.L_smpc_comreg_ct:
+    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_pool_0601E75C:
     .4byte  sym_06000354
 .L_pool_0601E760:

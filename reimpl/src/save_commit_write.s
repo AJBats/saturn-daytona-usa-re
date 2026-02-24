@@ -178,7 +178,7 @@ sym_0603C000:
     .global sym_0603C05C
 sym_0603C05C:
     .byte   0xD3, 0x09    /* mov.l .L_pool_0603C084, r3 */
-    .byte   0xD2, 0x0A    /* mov.l .L_pool_0603C088, r2 */
+    .byte   0xD2, 0x0A    /* mov.l .L_fp_0x4000_0000, r2 */
     and r3, r4
     or r2, r4
     mov r4, r7
@@ -205,5 +205,5 @@ DAT_0603c07a:
     .4byte  0x60000000
 .L_pool_0603C084:
     .4byte  0x1FFFFFF0
-.L_pool_0603C088:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */

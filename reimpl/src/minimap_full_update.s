@@ -120,7 +120,7 @@ minimap_full_update:
     mov.l r1, @(8, r3)
 .L_0601582A:
     extu.b r14, r3
-    mov.l   .L_pool_060158A8, r4
+    mov.l   .L_fp_one, r4
     mov r3, r2
     shll2 r3
     shll2 r2
@@ -187,8 +187,8 @@ minimap_full_update:
 loc_060158A4:
     rts
     nop
-.L_pool_060158A8:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_060158AC:
     .4byte  track_vtx_builder
 

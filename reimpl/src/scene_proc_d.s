@@ -688,9 +688,9 @@ DAT_0602b7c8:
     mov #0x1, r0
     mov.w r0, @(6, r12)
 .L_0602B7D4:
-    mov.l   .L_pool_0602B7FC, r4
+    mov.l   .L_sh2_periph_0x150, r4
     mov.l   .L_pool_0602B800, r5
-    mov.l   .L_pool_0602B804, r6
+    mov.l   .L_sh2_periph_0x181, r6
     mov.l   .L_pool_0602B808, r7
     mov.l @r11, r0
     cmp/gt r0, r4
@@ -711,12 +711,12 @@ DAT_0602b7c8:
 DAT_0602b7f8:
     .2byte  0xFE70
     .2byte  0x0000
-.L_pool_0602B7FC:
-    .4byte  0xFFFFFF50
+.L_sh2_periph_0x150:
+    .4byte  0xFFFFFF50                  /* SH-2 peripheral +0x150 */
 .L_pool_0602B800:
     .4byte  0x000000B0
-.L_pool_0602B804:
-    .4byte  0xFFFFFF81
+.L_sh2_periph_0x181:
+    .4byte  0xFFFFFF81                  /* SH-2 peripheral +0x181 */
 .L_pool_0602B808:
     .4byte  0x00000051
 .L_0602B80C:
@@ -895,7 +895,7 @@ loc_0602B914:
 
     .global loc_0602B930
 loc_0602B930:
-    mov.l   .L_pool_0602B97C, r0
+    mov.l   .L_fp_one, r0
     cmp/gt r3, r4
     bf      .L_0602B938
     mov r4, r3
@@ -914,7 +914,7 @@ loc_0602B930:
     mov.l @r1, r1
     mov.l   .L_pool_0602B984, r0
     mov.l @r0, r0
-    mov.l   .L_pool_0602B988, r2
+    mov.l   .L_fp_two, r2
     add r2, r1
     cmp/gt r1, r0
     bf      .L_0602B95A
@@ -939,14 +939,14 @@ loc_0602B930:
     bt      .L_0602B998
     bra     .L_0602B34C
     nop
-.L_pool_0602B97C:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0602B980:
     .4byte  sym_06094AE0
 .L_pool_0602B984:
     .4byte  sym_06063F54
-.L_pool_0602B988:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_0602B98C:
     .4byte  0x000A0000
 .L_pool_0602B990:

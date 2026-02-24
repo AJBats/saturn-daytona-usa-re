@@ -141,7 +141,7 @@ obj_init_validate:
     bf/s    .L_06040174
     mov r4, r14
     mov r15, r5
-    mov.l   .L_pool_06040108, r3
+    mov.l   .L_fp_0x4000_0000, r3
     or r11, r3
     mov.l r3, @r14
     mov.l   .L_pool_0604010C, r3
@@ -155,8 +155,8 @@ obj_init_validate:
     .2byte  0x0914
 .L_wpool_06040106:
     .2byte  0x0800
-.L_pool_06040108:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_0604010C:
     .4byte  track_shadow_test
 .L_06040110:
@@ -258,7 +258,7 @@ obj_init_validate:
     mov.l r4, @(36, r14)
     mov r4, r3
     mov.l r4, @(32, r14)
-    mov.l   .L_pool_060401F4, r2
+    mov.l   .L_fp_max, r2
     mov.l r2, @(40, r14)
     mov r14, r0
 .L_060401D6:
@@ -283,5 +283,5 @@ DAT_060401e8:
     .4byte  input_proc_complete
 .L_pool_060401F0:
     .4byte  sym_06036BE4
-.L_pool_060401F4:
-    .4byte  0x7FFFFFFF
+.L_fp_max:
+    .4byte  0x7FFFFFFF                  /* max positive 16.16 */

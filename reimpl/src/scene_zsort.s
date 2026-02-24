@@ -83,10 +83,10 @@ scene_zsort:
     .global loc_0602E108
 loc_0602E108:
     .byte   0xD1, 0x0F    /* mov.l .L_pool_0602E148, r1 */
-    mov.w   .L_wpool_0602E13E, r3
+    mov.w   .L_zero, r3
     mov.l r3, @r1
     .byte   0xD1, 0x0F    /* mov.l .L_pool_0602E14C, r1 */
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_0602E150, r3 */
+    .byte   0xD3, 0x0F    /* mov.l .L_fp_one, r3 */
     mov.l r3, @r1
     .byte   0xD1, 0x0F    /* mov.l .L_pool_0602E154, r1 */
     mov.l @r1, r2
@@ -95,12 +95,12 @@ loc_0602E108:
     .byte   0xD1, 0x0F    /* mov.l .L_pool_0602E15C, r1 */
     .byte   0xD2, 0x10    /* mov.l .L_pool_0602E160, r2 */
     mov.l r2, @r1
-    mov.w   .L_wpool_0602E140, r3
+    mov.w   .L_one, r3
     .byte   0xD1, 0x0F    /* mov.l .L_pool_0602E164, r1 */
     mov.l r3, @r1
     .byte   0xD0, 0x0F    /* mov.l .L_pool_0602E168, r0 */
     mov.l @r0, r0
-    mov.w   .L_wpool_0602E13E, r3
+    mov.w   .L_zero, r3
     mov.w   .L_wpool_0602E142, r1
     mov.l r3, @(r0, r1)
     mov.w   .L_wpool_0602E144, r1
@@ -109,10 +109,10 @@ loc_0602E108:
     mov.w r3, @(r0, r1)
     rts
     nop
-.L_wpool_0602E13E:
-    .2byte  0x0000
-.L_wpool_0602E140:
-    .2byte  0x0001
+.L_zero:
+    .2byte  0x0000                      /* 0 */
+.L_one:
+    .2byte  0x0001                      /* 1 */
 .L_wpool_0602E142:
     .2byte  0x01B4
 .L_wpool_0602E144:
@@ -123,8 +123,8 @@ loc_0602E108:
     .4byte  sym_0605A1C4
 .L_pool_0602E14C:
     .4byte  sym_0605A1D0
-.L_pool_0602E150:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0602E154:
     .4byte  sym_06082A34
 .L_pool_0602E158:

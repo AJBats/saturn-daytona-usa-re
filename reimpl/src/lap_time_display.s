@@ -204,7 +204,7 @@ DAT_06013cd0:
     nop
 .L_06013DAE:
     mov.l   .L_pool_06013DF8, r7
-    mov.l   .L_pool_06013DFC, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   DAT_06013dd6, r5
     mov #0xC, r4
     add #0x8, r15
@@ -267,8 +267,8 @@ DAT_06013dd6:
     .4byte  sym_06028430
 .L_pool_06013DF8:
     .4byte  sym_06044A58
-.L_pool_06013DFC:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_06013E00:
     .4byte  sym_060283E0
 .L_06013E04:

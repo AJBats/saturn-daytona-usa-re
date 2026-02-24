@@ -380,7 +380,7 @@ scene_process_stage:
     mov.l r0, @(8, r15)
     add r13, r5
     mov.l   .L_pool_060224C0, r3
-    mov.l   .L_pool_060224C4, r2
+    mov.l   .L_fp_two, r2
     add r4, r3
     mov.l r2, @r3
     mov r4, r3
@@ -494,8 +494,8 @@ DAT_060224b6:
     .4byte  0x00013333
 .L_pool_060224C0:
     .4byte  sym_06089744
-.L_pool_060224C4:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_060224C8:
     .4byte  0x00018000
 .L_pool_060224CC:

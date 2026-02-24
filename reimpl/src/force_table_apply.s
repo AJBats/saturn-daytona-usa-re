@@ -18,7 +18,7 @@ force_steer_calc:
     tst r0, r0
     bf      .L_0600845A
     mov.l   .L_pool_060084AC, r3
-    mov.l   .L_pool_060084B0, r2
+    mov.l   .L_fp_two, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -60,7 +60,7 @@ force_steer_impact:
     tst r0, r0
     bf      .L_060084C4
     mov.l   .L_pool_060084AC, r3
-    mov.l   .L_pool_060084B0, r2
+    mov.l   .L_fp_two, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -101,8 +101,8 @@ DAT_060084a6:
     .4byte  sym_0607E944
 .L_pool_060084AC:
     .4byte  sym_0607EBC4
-.L_pool_060084B0:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_060084B4:
     .4byte  0xAE1102FF
 .L_pool_060084B8:
@@ -138,7 +138,7 @@ race_config_physics:
     cmp/eq r3, r2
     bf      .L_06008558
     mov.l   .L_pool_0600856C, r3
-    mov.l   .L_pool_06008570, r2
+    mov.l   .L_fp_two_06008570, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -179,7 +179,7 @@ race_config_physics:
     mov.l   .L_pool_060085A0, r2
     mov.l   .L_pool_060085A4, r3
     mov.l r2, @r3
-    mov.l   .L_pool_060085A8, r2
+    mov.l   .L_fp_sixteen, r2
     mov.l   .L_pool_060085AC, r3
     mov.l r2, @r3
     mov #0x0, r2
@@ -208,8 +208,8 @@ DAT_0600855e:
     .4byte  sym_06078900
 .L_pool_0600856C:
     .4byte  sym_0607EBC4
-.L_pool_06008570:
-    .4byte  0x00020000
+.L_fp_two_06008570:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_06008574:
     .4byte  sym_06078635
 .L_pool_06008578:
@@ -236,8 +236,8 @@ DAT_0600855e:
     .4byte  0x006E0000
 .L_pool_060085A4:
     .4byte  sym_06063E28
-.L_pool_060085A8:
-    .4byte  0x00100000
+.L_fp_sixteen:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 .L_pool_060085AC:
     .4byte  sym_06063E2C
 .L_pool_060085B0:
@@ -290,7 +290,7 @@ brake_force_apply:
     bt      .L_0600861E
     mov.l   .L_pool_06008634, r5
     mov.l   .L_pool_06008638, r2
-    mov.l   .L_pool_0600863C, r3
+    mov.l   .L_wram_low, r3
     mov.l @r2, r2
     cmp/eq r3, r2
     bf      .L_0600861A
@@ -327,8 +327,8 @@ DAT_0600862a:
     .4byte  sym_06078654
 .L_pool_06008638:
     .4byte  sym_0607EBC4
-.L_pool_0600863C:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 
     .global sym_06008640
 sym_06008640:

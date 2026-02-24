@@ -83,7 +83,7 @@ race_timer_sync:
     mov #0x0, r10
     mov.l   .L_pool_0603FA64, r11
     mov.w   .L_wpool_0603FA5E, r12
-    mov.l   .L_pool_0603FA68, r13
+    mov.l   .L_minit, r13
     mov r4, r14
     mov.l r5, @(4, r15)
     mov.l @r14, r3
@@ -115,8 +115,8 @@ race_timer_sync:
     .2byte  0xFFFF
 .L_pool_0603FA64:
     .4byte  sym_060A4D14
-.L_pool_0603FA68:
-    .4byte  0x01000000
+.L_minit:
+    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
 .L_0603FA6C:
     mov #0x34, r0
     mov.b @(r0, r14), r4

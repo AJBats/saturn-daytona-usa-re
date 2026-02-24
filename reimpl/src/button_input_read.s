@@ -57,7 +57,7 @@ button_input_read:
     bra     .L_06007058
     nop
 .L_06006F98:
-    mov.l   .L_pool_06007008, r6
+    mov.l   .L_vdp1_fbcr, r6
     mov.l   .L_pool_0600700C, r5
     mov.w @r4, r0
     extu.w r0, r0
@@ -67,7 +67,7 @@ button_input_read:
     tst r0, r0
     bt      .L_06007058
     mov.l   .L_pool_06007010, r0
-    mov.l   .L_pool_06007014, r3
+    mov.l   .L_vdp1_tvmr, r3
     mov.w @r0, r0
     extu.w r0, r0
     or #0x8, r0
@@ -114,14 +114,14 @@ button_input_read:
     .4byte  sym_06063F58
 .L_pool_06007004:
     .4byte  sym_060635B4
-.L_pool_06007008:
-    .4byte  0x25D00002
+.L_vdp1_fbcr:
+    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
 .L_pool_0600700C:
     .4byte  sym_060A4C92
 .L_pool_06007010:
     .4byte  sym_060A4C90
-.L_pool_06007014:
-    .4byte  0x25D00000
+.L_vdp1_tvmr:
+    .4byte  0x25D00000                  /* VDP1 TVMR — TV mode */
 .L_06007018:
     mov.l @r13, r2
     add #0x1, r2
@@ -287,7 +287,7 @@ button_input_read:
     mov #0x20, r4
 .L_06007146:
     mov.l @r14, r3
-    mov.l   .L_pool_0600720C, r2
+    mov.l   .L_fp_one, r2
     and r2, r3
     tst r3, r3
     bt      .L_0600715C
@@ -299,7 +299,7 @@ button_input_read:
     mov #0x4, r4
 .L_0600715C:
     mov.l @r14, r3
-    mov.l   .L_pool_06007218, r2
+    mov.l   .L_fp_two, r2
     and r2, r3
     tst r3, r3
     bt      .L_06007172
@@ -311,7 +311,7 @@ button_input_read:
     mov #0x8, r4
 .L_06007172:
     mov.l @r14, r3
-    mov.l   .L_pool_06007224, r2
+    mov.l   .L_fp_four, r2
     and r2, r3
     tst r3, r3
     bt      .L_06007188
@@ -323,7 +323,7 @@ button_input_read:
     mov #0x10, r4
 .L_06007188:
     mov.l @r14, r3
-    mov.l   .L_pool_06007230, r2
+    mov.l   .L_fp_eight, r2
     and r2, r3
     tst r3, r3
     bt      .L_0600719E
@@ -335,7 +335,7 @@ button_input_read:
     mov #0x20, r4
 .L_0600719E:
     mov.l @r14, r3
-    mov.l   .L_pool_0600723C, r2
+    mov.l   .L_fp_min, r2
     and r2, r3
     tst r3, r3
     bt      .L_060071AE
@@ -344,7 +344,7 @@ button_input_read:
     nop
 .L_060071AE:
     mov.l @r14, r2
-    mov.l   .L_pool_06007244, r3
+    mov.l   .L_fp_0x4000_0000, r3
     and r3, r2
     tst r2, r2
     bt      .L_060071BE
@@ -353,7 +353,7 @@ button_input_read:
     nop
 .L_060071BE:
     mov.l @r14, r2
-    mov.l   .L_pool_0600724C, r3
+    mov.l   .L_fp_sixteen, r3
     and r3, r2
     tst r2, r2
     bt      .L_060071CE
@@ -395,40 +395,40 @@ button_input_read:
     mov.l @r15+, r14
 .L_pool_06007208:
     .4byte  sym_0605B714
-.L_pool_0600720C:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06007210:
     .4byte  sym_0605B6E0
 .L_pool_06007214:
     .4byte  sym_0605B6DC
-.L_pool_06007218:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_0600721C:
     .4byte  sym_0605B6E8
 .L_pool_06007220:
     .4byte  sym_0605B6E4
-.L_pool_06007224:
-    .4byte  0x00040000
+.L_fp_four:
+    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
 .L_pool_06007228:
     .4byte  sym_0605B6F0
 .L_pool_0600722C:
     .4byte  sym_0605B6EC
-.L_pool_06007230:
-    .4byte  0x00080000
+.L_fp_eight:
+    .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_pool_06007234:
     .4byte  sym_0605B6F8
 .L_pool_06007238:
     .4byte  sym_0605B6F4
-.L_pool_0600723C:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_06007240:
     .4byte  sym_060149E0
-.L_pool_06007244:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_06007248:
     .4byte  sym_060149CC
-.L_pool_0600724C:
-    .4byte  0x00100000
+.L_fp_sixteen:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 .L_pool_06007250:
     .4byte  display_channels_load
 .L_pool_06007254:

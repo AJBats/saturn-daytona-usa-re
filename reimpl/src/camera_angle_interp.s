@@ -46,7 +46,7 @@ camera_angle_interp:
     jsr @r3
     mov.w @r14, r4
     mov.l   .L_pool_0601432C, r13
-    mov.l   .L_pool_06014330, r5
+    mov.l   .L_fp_half, r5
     mov.l @r12, r4
     mov.w   .L_wpool_06014308, r2
     mov.l @r13, r3
@@ -75,7 +75,7 @@ camera_angle_interp:
     shll2 r4
     jsr @r3
     shll r4
-    mov.l   .L_pool_06014340, r14
+    mov.l   .L_fp_one, r14
     mov.l   .L_pool_06014344, r3
     mov r14, r6
     mov r14, r5
@@ -127,16 +127,16 @@ DAT_06014306:
     .4byte  mat_rot_z
 .L_pool_0601432C:
     .4byte  sym_06084AFC
-.L_pool_06014330:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06014334:
     .4byte  fpmul
 .L_pool_06014338:
     .4byte  sym_0607EBC8
 .L_pool_0601433C:
     .4byte  mat_rot_y
-.L_pool_06014340:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06014344:
     .4byte  mat_scale_columns
 .L_pool_06014348:

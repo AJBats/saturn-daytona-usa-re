@@ -143,7 +143,7 @@ DAT_06010c4e:
     mov.l   .L_pool_06010D6C, r2
     mov.l   .L_pool_06010D70, r3
     mov.l r2, @r3
-    mov.l   .L_pool_06010D74, r2
+    mov.l   .L_mask_low16, r2
     mov.l   .L_pool_06010D78, r3
     mov.w r2, @r3
     mov.l   .L_pool_06010D64, r7
@@ -181,7 +181,7 @@ DAT_06010c4e:
     mov.l   .L_pool_06010D84, r2
     mov.l   .L_pool_06010D58, r3
     mov.l r2, @r3
-    mov.l   .L_pool_06010D88, r2
+    mov.l   .L_fp_neg_one, r2
     mov.l   .L_pool_06010D60, r3
     mov.l r2, @r3
     mov.l   .L_pool_06010D8C, r2
@@ -190,11 +190,11 @@ DAT_06010c4e:
     mov.l   .L_pool_06010D6C, r2
     mov.l   .L_pool_06010D70, r3
     mov.l r2, @r3
-    mov.l   .L_pool_06010D74, r2
+    mov.l   .L_mask_low16, r2
     mov.l   .L_pool_06010D78, r3
     mov.w r2, @r3
     mov.l   .L_pool_06010D8C, r7
-    mov.l   .L_pool_06010D88, r6
+    mov.l   .L_fp_neg_one, r6
     mov.l   .L_pool_06010D90, r5
     .byte   0xB0, 0x38    /* bsr 0x06010D94 (external) */
     mov #0x0, r4
@@ -240,8 +240,8 @@ DAT_06010c4e:
     .4byte  race_position_track
 .L_pool_06010D70:
     .4byte  sym_06063574
-.L_pool_06010D74:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_06010D78:
     .4byte  0x21000000
 .L_pool_06010D7C:
@@ -250,8 +250,8 @@ DAT_06010c4e:
     .4byte  sym_060788A0
 .L_pool_06010D84:
     .4byte  0x00038000
-.L_pool_06010D88:
-    .4byte  0xFFFF0000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_06010D8C:
     .4byte  0x0006B333
 .L_pool_06010D90:

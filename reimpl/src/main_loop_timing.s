@@ -32,7 +32,7 @@ main_loop_timing:
     mov.l   .L_pool_06007434, r3
     jsr @r3
     mov r6, r4
-    mov.l   .L_pool_06007438, r4
+    mov.l   .L_mask_low16, r4
     mov.l   .L_pool_0600743C, r3
     jsr @r3
     add #0x4, r15
@@ -76,7 +76,7 @@ main_loop_timing:
     mov.l   .L_pool_06007460, r3
     mov.l r2, @r3
     mov.l @r14, r2
-    mov.l   .L_pool_06007464, r3
+    mov.l   .L_fp_half, r3
     add #0x60, r2
     mov.w r3, @r2
     mov.l   .L_pool_06007468, r3
@@ -122,8 +122,8 @@ DAT_06007416:
     .4byte  polygon_param_setup
 .L_pool_06007434:
     .4byte  sym_060393FC
-.L_pool_06007438:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_0600743C:
     .4byte  display_param_set
 .L_pool_06007440:
@@ -144,8 +144,8 @@ DAT_06007416:
     .4byte  dma_transfer
 .L_pool_06007460:
     .4byte  sym_0605A008
-.L_pool_06007464:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06007468:
     .4byte  scene_setup_master
 .L_pool_0600746C:

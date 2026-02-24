@@ -36,7 +36,7 @@ render_coord_transform:
     nop
     mov #0x8, r7
     mov.l   .L_pool_0601D37C, r5
-    mov.l   .L_pool_0601D380, r4
+    mov.l   .L_vdp2_vram_0x6F9C4, r4
     mov.l   .L_pool_0601D384, r3
     jsr @r3
     mov #0x0, r6
@@ -44,25 +44,25 @@ render_coord_transform:
     mov.l   .L_pool_0601D38C, r2
     mov.l   .L_pool_0601D388, r14
     mov.l r2, @r15
-    mov.l   .L_pool_0601D390, r4
+    mov.l   .L_vdp2_cram_0x600, r4
     jsr @r14
     mov r2, r5
     mov.l   .L_pool_0601D394, r5
-    mov.l   .L_pool_0601D398, r4
+    mov.l   .L_vdp2_cram_0x660, r4
     jsr @r14
     mov #0x60, r6
     mov #0x60, r6
-    mov.l   .L_pool_0601D39C, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     jsr @r14
     mov.l @r15, r5
     mov.l   .L_pool_0601D3A0, r5
-    mov.l   .L_pool_0601D3A4, r4
+    mov.l   .L_vdp2_vram_0x759EC, r4
     mov.l   .L_pool_0601D3A8, r3
     jsr @r3
     nop
     mov.l   .L_pool_0601D3AC, r2
     mov.l r2, @r15
-    mov.l   .L_pool_0601D3B0, r4
+    mov.l   .L_vdp2_vram_0x75DDC, r4
     mov.l   .L_pool_0601D3A8, r3
     jsr @r3
     mov r2, r5
@@ -95,32 +95,32 @@ DAT_0601d36c:
     .4byte  audio_display_init
 .L_pool_0601D37C:
     .4byte  0x00017700
-.L_pool_0601D380:
-    .4byte  0x25E6F9C4
+.L_vdp2_vram_0x6F9C4:
+    .4byte  0x25E6F9C4                  /* VDP2 VRAM +0x6F9C4 */
 .L_pool_0601D384:
     .4byte  sym_0600511E
 .L_pool_0601D388:
     .4byte  dma_transfer
 .L_pool_0601D38C:
     .4byte  sym_0604842C
-.L_pool_0601D390:
-    .4byte  0x25F00600
+.L_vdp2_cram_0x600:
+    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
 .L_pool_0601D394:
     .4byte  sym_0604888C
-.L_pool_0601D398:
-    .4byte  0x25F00660
-.L_pool_0601D39C:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x660:
+    .4byte  0x25F00660                  /* VDP2 color RAM +0x660 */
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601D3A0:
     .4byte  sym_06094FA8
-.L_pool_0601D3A4:
-    .4byte  0x25E759EC
+.L_vdp2_vram_0x759EC:
+    .4byte  0x25E759EC                  /* VDP2 VRAM +0x759EC */
 .L_pool_0601D3A8:
     .4byte  dma_memory_transfer
 .L_pool_0601D3AC:
     .4byte  sym_06095F48
-.L_pool_0601D3B0:
-    .4byte  0x25E75DDC
+.L_vdp2_vram_0x75DDC:
+    .4byte  0x25E75DDC                  /* VDP2 VRAM +0x75DDC */
 .L_pool_0601D3B4:
     .4byte  sym_06028400
 .L_pool_0601D3B8:

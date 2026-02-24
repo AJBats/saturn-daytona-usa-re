@@ -29,7 +29,7 @@ restore_state_snapshot:
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_06019050, r3
+    mov.l   .L_sound_ram_0x02DBE, r3
     mov.w r2, @r3
 .L_06019028:
     mov.l   .L_pool_06019054, r5
@@ -52,7 +52,7 @@ restore_state_snapshot:
     .4byte  0xAE0005FF
 .L_pool_0601904C:
     .4byte  sym_06012EBC
-.L_pool_06019050:
-    .4byte  0x25A02DBE
+.L_sound_ram_0x02DBE:
+    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
 .L_pool_06019054:
     .4byte  0xAE0600FF

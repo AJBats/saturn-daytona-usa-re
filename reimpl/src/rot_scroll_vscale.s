@@ -23,7 +23,7 @@ rot_scroll_vscale:
     mov r5, r6
     sub r4, r6
     exts.w r6, r6
-    mov.l   .L_pool_0602E534, r1
+    mov.l   .L_sh2_dvsr, r1
     cmp/gt r1, r6
     bt      .L_0602E538
     bra     .L_0602E53E
@@ -54,8 +54,8 @@ DAT_0602e522:
     .4byte  sym_0607EAD8
     .4byte  sym_0602E8AC
     .4byte  atan2
-.L_pool_0602E534:
-    .4byte  0xFFFFFF00
+.L_sh2_dvsr:
+    .4byte  0xFFFFFF00                  /* SH2 DVSR — divisor */
 .L_0602E538:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */
     cmp/gt r1, r6

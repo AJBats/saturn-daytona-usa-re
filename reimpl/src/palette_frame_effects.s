@@ -13,25 +13,25 @@ palette_frame_effects:
     sts.l pr, @-r15
     mov.l   .L_pool_060193C8, r14
     mov.l   .L_pool_060193CC, r5
-    mov.l   .L_pool_060193D0, r4
+    mov.l   .L_vdp2_cram_0x540, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_pool_060193D4, r5
-    mov.l   .L_pool_060193D8, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     jsr @r14
     mov #0x20, r6
     mov.l   .L_pool_060193DC, r5
-    mov.l   .L_pool_060193E0, r4
+    mov.l   .L_vdp2_cram_0x600, r4
     jsr @r14
     mov #0x20, r6
     mov.w   .L_wpool_060193C4, r6
     mov.l   .L_pool_060193E4, r5
-    mov.l   .L_pool_060193E8, r4
+    mov.l   .L_vdp2_cram_0x620, r4
     jsr @r14
     nop
     mov.w   .L_wpool_060193C6, r6
     mov.l   .L_pool_060193EC, r5
-    mov.l   .L_pool_060193F0, r4
+    mov.l   .L_vdp2_cram_0x780, r4
     jsr @r14
     nop
     lds.l @r15+, pr
@@ -45,21 +45,21 @@ palette_frame_effects:
     .4byte  memcpy_word_idx
 .L_pool_060193CC:
     .4byte  sym_0605CE9C
-.L_pool_060193D0:
-    .4byte  0x25F00540
+.L_vdp2_cram_0x540:
+    .4byte  0x25F00540                  /* VDP2 color RAM +0x540 */
 .L_pool_060193D4:
     .4byte  sym_0605CD9C
-.L_pool_060193D8:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_060193DC:
     .4byte  sym_0605CF9C
-.L_pool_060193E0:
-    .4byte  0x25F00600
+.L_vdp2_cram_0x600:
+    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
 .L_pool_060193E4:
     .4byte  sym_0605CEBC
-.L_pool_060193E8:
-    .4byte  0x25F00620
+.L_vdp2_cram_0x620:
+    .4byte  0x25F00620                  /* VDP2 color RAM +0x620 */
 .L_pool_060193EC:
     .4byte  sym_06049DC4
-.L_pool_060193F0:
-    .4byte  0x25F00780
+.L_vdp2_cram_0x780:
+    .4byte  0x25F00780                  /* VDP2 color RAM +0x780 */

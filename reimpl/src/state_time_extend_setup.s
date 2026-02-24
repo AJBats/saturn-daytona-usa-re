@@ -35,14 +35,14 @@ state_time_extend_setup:
     mov.l   .L_pool_06009768, r3
     mov.l r3, @r15
     mov r3, r7
-    mov.l   .L_pool_0600976C, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   .L_wpool_0600974C, r5
     add #0x2E, r7
     mov.l   .L_pool_06009770, r3
     jsr @r3
     mov #0x8, r4
     mov.l @r15, r7
-    mov.l   .L_pool_0600976C, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   .L_wpool_0600974E, r5
     mov.l   .L_pool_06009770, r3
     add #0x2F, r7
@@ -85,8 +85,8 @@ state_time_extend_setup:
     .4byte  sym_060284AE
 .L_pool_06009768:
     .4byte  sym_0605AC9C
-.L_pool_0600976C:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_06009770:
     .4byte  sym_060283E0
 .L_pool_06009774:

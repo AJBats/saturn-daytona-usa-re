@@ -154,7 +154,7 @@ DAT_0603918e:
     jsr @r11
     mov r13, r4
     mov.l   .L_pool_06039240, r4
-    mov.l   .L_pool_06039244, r3
+    mov.l   .L_fp_one, r3
     and r3, r13
     tst r13, r13
     bt/s    .L_06039214
@@ -191,8 +191,8 @@ DAT_0603918e:
     .2byte  0xFFFF
 .L_pool_06039240:
     .4byte  sym_060A3E38
-.L_pool_06039244:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06039248:
     .4byte  sym_060A4C80
 .L_pool_0603924C:

@@ -34,7 +34,7 @@ start_light_ctrl:
     .byte   0xD2, 0x1B    /* mov.l .L_pool_0601A254, r2 */
     mov.l r14, @r2
     .byte   0xD4, 0x1B    /* mov.l .L_pool_0601A258, r4 */
-    .byte   0xD1, 0x1B    /* mov.l .L_pool_0601A25C, r1 */
+    .byte   0xD1, 0x1B    /* mov.l .L_fp_min, r1 */
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0601A260, r3 */
     mov.l @r4, r2
     or r1, r2
@@ -92,8 +92,8 @@ start_light_ctrl:
     .4byte  sym_06059F44
 .L_pool_0601A258:
     .4byte  sym_0605B6D8
-.L_pool_0601A25C:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_0601A260:
     .4byte  sym_06026CE0
 .L_pool_0601A264:

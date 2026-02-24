@@ -15,7 +15,7 @@ scene_fallback_render:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    .byte   0xDB, 0x23    /* mov.l .L_pool_0600658C, r11 */
+    .byte   0xDB, 0x23    /* mov.l .L_fp_half, r11 */
     .byte   0xDC, 0x23    /* mov.l .L_pool_06006590, r12 */
     .byte   0xDD, 0x14    /* mov.l .L_pool_06006554, r13 */
     .byte   0xDE, 0x17    /* mov.l .L_pool_06006564, r14 */
@@ -76,8 +76,8 @@ scene_fallback_render:
     .4byte  sym_06063EEC
 .L_pool_06006588:
     .4byte  sym_06063E20
-.L_pool_0600658C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06006590:
     .4byte  sym_06063F4C
 .L_pool_06006594:
@@ -86,7 +86,7 @@ scene_fallback_render:
     .4byte  sym_06078654
 .L_0600659C:
     .byte   0xD0, 0x33    /* mov.l .L_pool_0600666C, r0 */
-    .byte   0xD1, 0x34    /* mov.l .L_pool_06006670, r1 */
+    .byte   0xD1, 0x34    /* mov.l .L_fp_one, r1 */
     .byte   0xD7, 0x34    /* mov.l .L_pool_06006674, r7 */
     .byte   0xD6, 0x35    /* mov.l .L_pool_06006678, r6 */
     .byte   0xD5, 0x35    /* mov.l .L_pool_0600667C, r5 */
@@ -205,8 +205,8 @@ DAT_06006668:
     .2byte  0xFEA0
 .L_pool_0600666C:
     .4byte  0x00058000
-.L_pool_06006670:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06006674:
     .4byte  sym_06063E30
 .L_pool_06006678:

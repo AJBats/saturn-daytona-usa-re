@@ -107,7 +107,7 @@ results_screen_render:
     .byte   0xD3, 0x10    /* mov.l .L_pool_060160C0, r3 */
     jsr @r3
     sub r2, r4
-    .byte   0xD2, 0x10    /* mov.l .L_pool_060160C4, r2 */
+    .byte   0xD2, 0x10    /* mov.l .L_mask_nibble4, r2 */
     cmp/gt r2, r0
     bt      .L_0601612E
     extu.b r14, r2
@@ -141,8 +141,8 @@ results_screen_render:
     .4byte  sym_06084FC8
 .L_pool_060160C0:
     .4byte  sym_06035438
-.L_pool_060160C4:
-    .4byte  0x000F0000
+.L_mask_nibble4:
+    .4byte  0x000F0000                  /* nibble 4 mask */
 .L_pool_060160C8:
     .4byte  0xFFFC0000
 .L_060160CC:
@@ -155,7 +155,7 @@ results_screen_render:
     add r3, r2
     exts.w r2, r2
     add r13, r2
-    .byte   0xD1, 0x47    /* mov.l .L_pool_060161FC, r1 */
+    .byte   0xD1, 0x47    /* mov.l .L_fp_four, r1 */
     mov.l r1, @(16, r2)
     mov.w   .L_wpool_060161F8, r4
 .L_060160E4:
@@ -304,8 +304,8 @@ results_screen_render:
 .L_wpool_060161F8:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_pool_060161FC:
-    .4byte  0x00040000
+.L_fp_four:
+    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
 .L_06016200:
     extu.b r14, r14
     mov r14, r2

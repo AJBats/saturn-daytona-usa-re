@@ -16,10 +16,10 @@ scene_color_intensity:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603881C, r9
+    mov.l   .L_mask_byte2, r9
     mov.l   .L_pool_06038820, r10
     mov.w   DAT_0603881a, r11
-    mov.l   .L_pool_06038824, r12
+    mov.l   .L_fp_one, r12
     mov r4, r14
     mov r5, r13
     mov.l   .L_pool_06038828, r0
@@ -91,12 +91,12 @@ scene_color_intensity:
     .global DAT_0603881a
 DAT_0603881a:
     .2byte  0x4000
-.L_pool_0603881C:
-    .4byte  0x00FF0000
+.L_mask_byte2:
+    .4byte  0x00FF0000                  /* byte 2 mask */
 .L_pool_06038820:
     .4byte  sym_0603C0A0
-.L_pool_06038824:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06038828:
     .4byte  sym_060635A8
 .L_pool_0603882C:
@@ -135,7 +135,7 @@ DAT_0603881a:
     mov #0x50, r0
     mov.l r13, @(r0, r4)
     mov.w @(4, r6), r0
-    mov.l   .L_pool_060388BC, r2
+    mov.l   .L_mask_byte1, r2
     mov r0, r3
     extu.w r3, r3
     and r2, r3
@@ -176,5 +176,5 @@ DAT_0603881a:
     .2byte  0xFFFF
 .L_pool_060388B8:
     .4byte  scene_color_matrix
-.L_pool_060388BC:
-    .4byte  0x0000FF00
+.L_mask_byte1:
+    .4byte  0x0000FF00                  /* byte 1 mask */

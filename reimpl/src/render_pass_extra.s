@@ -105,7 +105,7 @@ frame_end_commit:
     add #0x20, r4
     mov.l @r12, r0
     mov.l @r11, r3
-    mov.l   .L_pool_06007A18, r2
+    mov.l   .L_fp_half, r2
     shll2 r0
     shll2 r0
     shll r0
@@ -173,8 +173,8 @@ DAT_060079ce:
     .4byte  sym_0605A00C
 .L_pool_06007A14:
     .4byte  sym_060394C2
-.L_pool_06007A18:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06007A1C:
     .4byte  sym_0605B6D8
 .L_pool_06007A20:
@@ -294,7 +294,7 @@ DAT_06007a96:
     exts.w r0, r0
     mov.w r0, @(10, r13)
     mov.l   .L_pool_06007BAC, r10
-    mov.l   .L_pool_06007BB0, r4
+    mov.l   .L_fp_two, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov r0, r8
@@ -307,7 +307,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(12, r13)
-    mov.l   .L_pool_06007BB0, r4
+    mov.l   .L_fp_two, r4
     jsr @r14
     mov.l @r15, r5
     mov r0, r8
@@ -336,7 +336,7 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(18, r13)
-    mov.l   .L_pool_06007BB8, r4
+    mov.l   .L_fp_neg_two, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov r0, r8
@@ -349,7 +349,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(20, r13)
-    mov.l   .L_pool_06007BB8, r4
+    mov.l   .L_fp_neg_two, r4
     jsr @r14
     mov.l @r15, r5
     mov r0, r8
@@ -395,12 +395,12 @@ DAT_06007a96:
     .4byte  0x00970000
 .L_pool_06007BAC:
     .4byte  0x00900000
-.L_pool_06007BB0:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_06007BB4:
     .4byte  0x00890000
-.L_pool_06007BB8:
-    .4byte  0xFFFE0000
+.L_fp_neg_two:
+    .4byte  0xFFFE0000                  /* -2.0 (16.16 fixed-point) */
 .L_pool_06007BBC:
     .4byte  0x0000A3FF
 .L_pool_06007BC0:
@@ -424,7 +424,7 @@ vdp1_sprite_builder:
     sts.l pr, @-r15
     mov.l   .L_pool_06007CAC, r8
     mov.l   .L_pool_06007CB0, r9
-    mov.l   .L_pool_06007CB4, r10
+    mov.l   .L_fp_half_06007CB4, r10
     mov.l   .L_pool_06007CB8, r13
     mov.l   .L_pool_06007CBC, r14
     mov.l   .L_pool_06007CC0, r3
@@ -536,8 +536,8 @@ vdp1_sprite_builder:
     .4byte  sym_060280F8
 .L_pool_06007CB0:
     .4byte  sym_060620D0
-.L_pool_06007CB4:
-    .4byte  0x00008000
+.L_fp_half_06007CB4:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06007CB8:
     .4byte  sym_0608AC20
 .L_pool_06007CBC:

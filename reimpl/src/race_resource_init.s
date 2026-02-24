@@ -36,7 +36,7 @@ race_resource_init:
     mov.l   .L_pool_0600A138, r3
     mov.l r14, @r3
     mov.l   .L_pool_0600A12C, r2
-    mov.l   .L_pool_0600A13C, r3
+    mov.l   .L_fp_half, r3
     mov.l @r2, r2
     mov.w r3, @r2
     mov.l   .L_pool_0600A124, r3
@@ -78,5 +78,5 @@ DAT_0600a112:
     .4byte  sym_060393FC
 .L_pool_0600A138:
     .4byte  sym_0605A008
-.L_pool_0600A13C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */

@@ -18,7 +18,7 @@ position_vel_limiter:
     mov.l @(8, r4), r2
     sub r3, r2
     mov.l r2, @(8, r4)
-    mov.l   .L_pool_06012338, r5
+    mov.l   .L_fp_two, r5
     mov.l @(4, r4), r3
     cmp/ge r5, r3
     bt      .L_06012310
@@ -46,8 +46,8 @@ position_vel_limiter:
     .4byte  sym_06078636
 .L_pool_06012334:
     .4byte  sym_060788B4
-.L_pool_06012338:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_0601233C:
     .4byte  0x0004CCCC
 .L_pool_06012340:

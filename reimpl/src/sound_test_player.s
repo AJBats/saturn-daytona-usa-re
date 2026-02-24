@@ -14,7 +14,7 @@ scene_invalidate_a:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603DA60, r3
+    mov.l   .L_fp_min, r3
     and r14, r3
     tst r3, r3
     bt/s    .L_0603DA04
@@ -59,10 +59,10 @@ scene_invalidate_a:
     nop
     mov r0, r4
 .L_0603DA44:
-    mov.l   .L_pool_0603DA80, r2
+    mov.l   .L_mask_low16, r2
     cmp/eq r2, r4
     bf      .L_0603DA4C
-    mov.l   .L_pool_0603DA84, r4
+    mov.l   .L_fp_one, r4
 .L_0603DA4C:
     extu.w r12, r12
     tst r12, r12
@@ -75,8 +75,8 @@ scene_invalidate_a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_0603DA60:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_0603DA64:
     .4byte  0x01680000
 .L_pool_0603DA68:
@@ -91,10 +91,10 @@ scene_invalidate_a:
     .4byte  0xFF4C0000
 .L_pool_0603DA7C:
     .4byte  0x005A0000
-.L_pool_0603DA80:
-    .4byte  0x0000FFFF
-.L_pool_0603DA84:
-    .4byte  0x00010000
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 
     .global scene_invalidate_b
     .type scene_invalidate_b, @function
@@ -104,7 +104,7 @@ scene_invalidate_b:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_0603DB00, r3
+    mov.l   .L_fp_min_0603DB00, r3
     and r14, r3
     tst r3, r3
     bt      .L_0603DA9C
@@ -117,7 +117,7 @@ scene_invalidate_b:
     mov r0, r14
     tst r14, r14
     bf      .L_0603DAB0
-    mov.l   .L_pool_0603DB0C, r0
+    mov.l   .L_fp_one_0603DB0C, r0
     bra     .L_0603DAF4
     nop
 .L_0603DAB0:
@@ -142,7 +142,7 @@ scene_invalidate_b:
 .L_0603DAD2:
     cmp/eq r12, r14
     bf      .L_0603DADC
-    mov.l   .L_pool_0603DB20, r4
+    mov.l   .L_fp_neg_one, r4
     bra     .L_0603DAF2
     nop
 .L_0603DADC:
@@ -167,14 +167,14 @@ scene_invalidate_b:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_0603DB00:
-    .4byte  0x80000000
+.L_fp_min_0603DB00:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_0603DB04:
     .4byte  0x01680000
 .L_pool_0603DB08:
     .4byte  sym_06036BE4
-.L_pool_0603DB0C:
-    .4byte  0x00010000
+.L_fp_one_0603DB0C:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0603DB10:
     .4byte  sym_0604249C
 .L_pool_0603DB14:
@@ -183,8 +183,8 @@ scene_invalidate_b:
     .4byte  0x00B40000
 .L_pool_0603DB1C:
     .4byte  0xFF4C0000
-.L_pool_0603DB20:
-    .4byte  0xFFFF0000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_0603DB24:
     .4byte  0x005A0000
 
@@ -386,7 +386,7 @@ controller_config:
     bsr     scene_invalidate_a
     mov r13, r4
     mov.l r0, @(24, r14)
-    mov.l   .L_pool_0603DCFC, r4
+    mov.l   .L_fp_one_0603DCFC, r4
     mov.l r4, @(28, r14)
     mov.l r13, @(32, r14)
     mov.l r13, @(36, r14)
@@ -433,8 +433,8 @@ controller_config:
     .4byte  display_scene_update
 .L_pool_0603DCF8:
     .4byte  sym_060A3E68
-.L_pool_0603DCFC:
-    .4byte  0x00010000
+.L_fp_one_0603DCFC:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_0603DD00:
     mov #0x34, r0
     mov.w r2, @(r0, r14)
@@ -603,7 +603,7 @@ scene_color_matrix:
 .L_0603DE32:
     exts.b r14, r6
     extu.w r14, r2
-    mov.l   .L_pool_0603DEC4, r7
+    mov.l   .L_fp_one_0603DEC4, r7
     mov r6, r3
     shll2 r2
     shll2 r6
@@ -657,7 +657,7 @@ scene_color_matrix:
     bra     .L_0603DED4
     mov.l @r0, r0
 .L_0603DE9C:
-    mov.l   .L_pool_0603DED0, r2
+    mov.l   .L_mask_byte1, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
@@ -679,14 +679,14 @@ scene_color_matrix:
     .4byte  sym_060A4C60
 .L_pool_0603DEC0:
     .4byte  sym_060635A8
-.L_pool_0603DEC4:
-    .4byte  0x00010000
+.L_fp_one_0603DEC4:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0603DEC8:
     .4byte  sym_060A4C44
 .L_pool_0603DECC:
     .4byte  sym_060A3E38
-.L_pool_0603DED0:
-    .4byte  0x0000FF00
+.L_mask_byte1:
+    .4byte  0x0000FF00                  /* byte 1 mask */
 .L_0603DED4:
     cmp/eq #0x1, r0
     bt      .L_0603DE9C
@@ -774,7 +774,7 @@ scene_color_matrix:
     cmp/eq #0x1, r0
     bf      .L_0603DFB6
     mov.l   .L_pool_0603E03C, r2
-    mov.l   .L_pool_0603E040, r3
+    mov.l   .L_mask_byte1_0603E040, r3
     mov.w @r2, r2
     extu.w r2, r2
     and r3, r2
@@ -883,8 +883,8 @@ scene_color_matrix:
     .2byte  0xFFFF
 .L_pool_0603E03C:
     .4byte  sym_060A3E3C
-.L_pool_0603E040:
-    .4byte  0x0000FF00
+.L_mask_byte1_0603E040:
+    .4byte  0x0000FF00                  /* byte 1 mask */
 .L_pool_0603E044:
     .4byte  sym_060A4C78
 .L_pool_0603E048:
@@ -906,8 +906,8 @@ sound_test_player:
     sts.l macl, @-r15
     add #-0x38, r15
     mov.w   .L_wpool_0603E0B0, r8
-    mov.l   .L_pool_0603E0B4, r9
-    mov.l   .L_pool_0603E0B8, r12
+    mov.l   .L_fp_four, r9
+    mov.l   .L_fp_half, r12
     mov.l   .L_pool_0603E0BC, r13
     mov.l r4, @(8, r15)
     mov.l   .L_pool_0603E0C0, r4
@@ -916,7 +916,7 @@ sound_test_player:
     mov.l @r0, r0
 .L_0603E076:
     mov #0x0, r14
-    mov.l   .L_pool_0603E0C8, r2
+    mov.l   .L_mask_byte1_0603E0C8, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
@@ -954,18 +954,18 @@ sound_test_player:
     .global DAT_0603e0b2
 DAT_0603e0b2:
     .2byte  0x0300
-.L_pool_0603E0B4:
-    .4byte  0x00040000
-.L_pool_0603E0B8:
-    .4byte  0x00008000
+.L_fp_four:
+    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0603E0BC:
     .4byte  sym_0603C0A0
 .L_pool_0603E0C0:
     .4byte  sym_060A3E38
 .L_pool_0603E0C4:
     .4byte  sym_060635A8
-.L_pool_0603E0C8:
-    .4byte  0x0000FF00
+.L_mask_byte1_0603E0C8:
+    .4byte  0x0000FF00                  /* byte 1 mask */
 .L_0603E0CC:
     bsr     scene_invalidate_a
     mov.l @(8, r15), r4
@@ -1648,7 +1648,7 @@ options_render:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x34, r15
-    mov.l   .L_pool_0603E628, r8
+    mov.l   .L_fp_four_0603E628, r8
     mov.w   DAT_0603e61e, r9
     mov r9, r12
     add #0x1, r12
@@ -1660,7 +1660,7 @@ options_render:
     mov.l @r0, r0
 .L_0603E5E4:
     mov #0x0, r13
-    mov.l   .L_pool_0603E638, r2
+    mov.l   .L_mask_byte1_0603E638, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
@@ -1701,16 +1701,16 @@ DAT_0603e61e:
     .2byte  0xFFFF
 .L_pool_0603E624:
     .4byte  sym_060A4C40
-.L_pool_0603E628:
-    .4byte  0x00040000
+.L_fp_four_0603E628:
+    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
 .L_pool_0603E62C:
     .4byte  sym_0603C0A0
 .L_pool_0603E630:
     .4byte  sym_060A3E38
 .L_pool_0603E634:
     .4byte  sym_060635A8
-.L_pool_0603E638:
-    .4byte  0x0000FF00
+.L_mask_byte1_0603E638:
+    .4byte  0x0000FF00                  /* byte 1 mask */
 .L_0603E63C:
     bsr     scene_invalidate_a
     mov.l @(8, r15), r4

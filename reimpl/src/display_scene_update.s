@@ -22,7 +22,7 @@ display_scene_update:
 
     .global sym_0603C0A0
 sym_0603C0A0:
-    mov.l   .L_pool_0603C100, r0
+    mov.l   .L_sh2_dvsr, r0
     swap.w r4, r2
     mov.l r5, @r0
     exts.w r2, r2
@@ -51,5 +51,5 @@ sym_0603C0A0:
     .4byte  0x50350009
     .4byte  0x4F0763F6
     .4byte  0x000B6103
-.L_pool_0603C100:
-    .4byte  0xFFFFFF00
+.L_sh2_dvsr:
+    .4byte  0xFFFFFF00                  /* SH2 DVSR — divisor */

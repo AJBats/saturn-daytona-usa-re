@@ -18,7 +18,7 @@ replay_cam_auto_cut:
     mov.w   .L_wpool_0601AF6A, r6
     mov.l @r15, r5
     mov.l @(4, r7), r7
-    .byte   0xD3, 0x11    /* mov.l .L_pool_0601AF78, r3 */
+    .byte   0xD3, 0x11    /* mov.l .L_mask_0xC000, r3 */
     mov.l @r5, r5
     add r3, r7
     .byte   0xD3, 0x11    /* mov.l .L_pool_0601AF7C, r3 */
@@ -55,8 +55,8 @@ replay_cam_auto_cut:
     .4byte  sym_06086011
 .L_pool_0601AF74:
     .4byte  sym_060638C8
-.L_pool_0601AF78:
-    .4byte  0x0000C000
+.L_mask_0xC000:
+    .4byte  0x0000C000                  /* bits 15:14 mask */
 .L_pool_0601AF7C:
     .4byte  sym_06028400
 .L_pool_0601AF80:

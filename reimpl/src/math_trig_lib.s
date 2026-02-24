@@ -27,7 +27,7 @@ math_trig_lib:
     bra     .L_06042674
     nop
 .L_06042664:
-    .byte   0xD0, 0x25    /* mov.l .L_pool_060426FC, r0 */
+    .byte   0xD0, 0x25    /* mov.l .L_sh2_dvsr, r0 */
     swap.w r4, r2
     mov.l r5, @r0
     exts.w r2, r2
@@ -76,10 +76,10 @@ math_trig_lib:
     sts mach, r3
     sts macl, r4
     xtrct r3, r4
-    .byte   0xD2, 0x12    /* mov.l .L_pool_06042708, r2 */
+    .byte   0xD2, 0x12    /* mov.l .L_fp_one, r2 */
     cmp/gt r2, r4
     bf      .L_060426C4
-    .byte   0xD4, 0x11    /* mov.l .L_pool_06042708, r4 */
+    .byte   0xD4, 0x11    /* mov.l .L_fp_one, r4 */
 .L_060426C4:
     mov r14, r0
     shll16 r0
@@ -113,14 +113,14 @@ math_trig_lib:
     rts
     mov.l @r15+, r14
     .2byte  0x0009
-.L_pool_060426FC:
-    .4byte  0xFFFFFF00
+.L_sh2_dvsr:
+    .4byte  0xFFFFFF00                  /* SH2 DVSR — divisor */
 .L_pool_06042700:
     .4byte  sym_06042714
 .L_pool_06042704:
     .4byte  0x7FFF0000
-.L_pool_06042708:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0604270C:
     .4byte  0x00B40000
 .L_pool_06042710:
@@ -179,7 +179,7 @@ sym_06042714:
     .word 0x0000 /* UNKNOWN */
     subc r6, r6
     mov.l r3, @(r0, r0)
-    mov.w   .L_wpool_060427DC, r12
+    mov.w   .L_zero, r12
     .word 0x0000 /* UNKNOWN */
     subc r1, r11
     mov.l r3, @(r0, r0)
@@ -213,8 +213,8 @@ sym_06042714:
     .4byte  0x00302F0C
     .4byte  0x000071FA
     .4byte  0x002F70CD
-.L_wpool_060427DC:
-    .2byte  0x0000
+.L_zero:
+    .2byte  0x0000                      /* 0 */
     .2byte  0x775F
     .4byte  0x002EACB2
     .4byte  0x00007CDC

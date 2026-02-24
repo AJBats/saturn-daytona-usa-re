@@ -18,8 +18,8 @@ obj_state_writer:
     tst r0, r0
     bt/s    .L_060054B0
     mov r5, r13
-    mov.l   .L_pool_06005508, r6
-    mov.l   .L_pool_0600550C, r4
+    mov.l   .L_fp_one, r6
+    mov.l   .L_fp_neg_one, r4
     mov.l   .L_pool_06005510, r3
     jsr @r3
     mov r6, r5
@@ -71,10 +71,10 @@ sym_060054EA:
     .2byte  0xFFFF
 .L_pool_06005504:
     .4byte  sym_06078663
-.L_pool_06005508:
-    .4byte  0x00010000
-.L_pool_0600550C:
-    .4byte  0xFFFF0000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_06005510:
     .4byte  mat_scale_columns
 .L_pool_06005514:

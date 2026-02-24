@@ -1152,7 +1152,7 @@ ai_vel_x_cleanup_a:
     lds.l @r15+, pr
     mov.l   .L_pool_06034268, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_pool_0603426C, r0
+    mov.l   .L_fp_half, r0
     add r0, r4
     exts.w r4, r4
     mov.l   .L_pool_06034270, r0
@@ -1202,8 +1202,8 @@ yaxis_integrate:
     .4byte  sym_06026E2E
 .L_pool_06034268:
     .4byte  0x00000002
-.L_pool_0603426C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06034270:
     .4byte  mat_rot_y
 .L_pool_06034274:
@@ -1663,7 +1663,7 @@ ai_waypoint_follower:
     mov.l @r15+, r13
     mov r0, r2
     mov r2, r8
-    mov.l   .L_pool_06034554, r0
+    mov.l   .L_fp_eight, r0
     cmp/ge r0, r2
     bt      .L_0603454A
     mov.l   .L_pool_06034558, r1
@@ -1675,8 +1675,8 @@ ai_waypoint_follower:
     .2byte  0x0000
 .L_pool_06034550:
     .4byte  isqrt
-.L_pool_06034554:
-    .4byte  0x00080000
+.L_fp_eight:
+    .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_pool_06034558:
     .4byte  0x00000001
 .L_pool_0603455C:
@@ -1707,7 +1707,7 @@ ai_waypoint_follower:
 .L_0603458C:
     mov.l   .L_pool_06034608, r0
     mov.w @(r0, r14), r9
-    mov.l   .L_pool_0603460C, r1
+    mov.l   .L_fp_quarter, r1
     add r1, r9
     mov.l   .L_pool_06034610, r0
     mov.l @(r0, r14), r8
@@ -1785,8 +1785,8 @@ ai_car_pos_init:
     .2byte  0x0000
 .L_pool_06034608:
     .4byte  0x00000002
-.L_pool_0603460C:
-    .4byte  0x00004000
+.L_fp_quarter:
+    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
 .L_pool_06034610:
     .4byte  0x00000028
 .L_pool_06034614:
@@ -2049,7 +2049,7 @@ ranking_system_full:
     tst r0, r0
     bt      .L_060347C8
     mov.l   .L_pool_0603482C, r0
-    mov.l   .L_pool_06034830, r1
+    mov.l   .L_sh2_periph_0x1FF, r1
     mov.b r1, @(r0, r14)
     mov.l   .L_pool_06034834, r0
     xor r1, r1
@@ -2066,7 +2066,7 @@ ranking_system_full:
     tst r0, r0
     bt      .L_060347E8
     mov.l   .L_pool_06034838, r0
-    mov.l   .L_pool_06034830, r1
+    mov.l   .L_sh2_periph_0x1FF, r1
     mov.b r1, @(r0, r14)
     mov.l   .L_pool_0603483C, r0
     xor r1, r1
@@ -2110,8 +2110,8 @@ ranking_system_full:
     .4byte  0x00000010
 .L_pool_0603482C:
     .4byte  0x00000001
-.L_pool_06034830:
-    .4byte  0xFFFFFFFF
+.L_sh2_periph_0x1FF:
+    .4byte  0xFFFFFFFF                  /* SH-2 peripheral +0x1FF */
 .L_pool_06034834:
     .4byte  0x00000002
 .L_pool_06034838:
@@ -2566,7 +2566,7 @@ track_intersect_test:
     mov r14, r5
     add #0x4, r3
     mov.l @r3, r2
-    mov.l   .L_pool_06034B4C, r3
+    mov.l   .L_mask_low24, r3
     and r3, r2
     mov.l r2, @r15
     mov.l   .L_pool_06034B50, r3
@@ -2582,8 +2582,8 @@ track_intersect_test:
     .4byte  input_proc_analog
 .L_pool_06034B48:
     .4byte  input_proc_digital
-.L_pool_06034B4C:
-    .4byte  0x00FFFFFF
+.L_mask_low24:
+    .4byte  0x00FFFFFF                  /* low 24-bit mask */
 .L_pool_06034B50:
     .4byte  smpc_secondary_proc
 
@@ -2836,7 +2836,7 @@ ai_brake_zone:
     mov r15, r2
     mov r4, r0
     mov.l @r2, r3
-    mov.l   .L_pool_06034D18, r2
+    mov.l   .L_mask_low24_06034D18, r2
     and r2, r3
     mov.l r3, @r14
     add #0x10, r15
@@ -2855,8 +2855,8 @@ ai_brake_zone:
     .4byte  input_proc_analog
 .L_pool_06034D14:
     .4byte  input_proc_digital
-.L_pool_06034D18:
-    .4byte  0x00FFFFFF
+.L_mask_low24_06034D18:
+    .4byte  0x00FFFFFF                  /* low 24-bit mask */
 
     .global ai_throttle_modulate
     .type ai_throttle_modulate, @function

@@ -82,7 +82,7 @@ game_state_dispatch:
     cmp/ge r3, r2
     bf      .L_0600F562
     mov.l   .L_pool_0600F530, r3
-    mov.l   .L_pool_0600F534, r2
+    mov.l   .L_fp_half, r2
     mov.w @r3, r3
     extu.w r3, r3
     cmp/eq r2, r3
@@ -140,8 +140,8 @@ game_state_dispatch:
     .4byte  sym_06028430
 .L_pool_0600F530:
     .4byte  sym_0607865E
-.L_pool_0600F534:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600F538:
     .4byte  sym_0605AB18
 .L_pool_0600F53C:

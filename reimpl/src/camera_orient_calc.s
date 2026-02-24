@@ -27,8 +27,8 @@ camera_orient_calc:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060053DA
-    mov.l   .L_pool_0600546C, r6
-    mov.l   .L_pool_06005470, r4
+    mov.l   .L_fp_one, r6
+    mov.l   .L_fp_neg_one, r4
     mov.l   .L_pool_06005474, r3
     jsr @r3
     mov r6, r5
@@ -106,10 +106,10 @@ camera_orient_calc:
     .4byte  sym_06089EDC
 .L_pool_06005468:
     .4byte  sym_06078663
-.L_pool_0600546C:
-    .4byte  0x00010000
-.L_pool_06005470:
-    .4byte  0xFFFF0000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_06005474:
     .4byte  mat_scale_columns
 .L_pool_06005478:

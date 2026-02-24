@@ -14,7 +14,7 @@ cmd_multi_validate:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_0603B274, r3
+    mov.l   .L_fp_max, r3
     mov.l r3, @(8, r15)
     mov.l @r14, r4
     mov.l @(40, r4), r13
@@ -58,8 +58,8 @@ cmd_multi_validate:
 DAT_0603b270:
     mov.b r1, @(r0, r9)
     .word 0xFFFF /* UNKNOWN */
-.L_pool_0603B274:
-    .4byte  0x7FFFFFFF
+.L_fp_max:
+    .4byte  0x7FFFFFFF                  /* max positive 16.16 */
 .L_0603B278:
     .byte   0xD3, 0x24    /* mov.l .L_pool_0603B30C, r3 */
     jsr @r3

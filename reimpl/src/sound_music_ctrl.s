@@ -39,13 +39,13 @@ DAT_0603056a:
     and r3, r4
     and r5, r6
     and r4, r6
-    mov.w   .L_wpool_06030588, r2
+    mov.w   .L_one, r2
     tst r2, r6
     bt      .L_0603058A
     bra     .L_06030724
     nop
-.L_wpool_06030588:
-    .2byte  0x0001
+.L_one:
+    .2byte  0x0001                      /* 1 */
 .L_0603058A:
     mov.w   .L_wpool_06030598, r2
     tst r2, r6
@@ -739,13 +739,13 @@ sym_06030A06:
     tst r4, r4
     bf/s    .L_06030A3A
     mov.w r4, @(r0, r3)
-    mov.l   .L_pool_06030A4C, r5
+    mov.l   .L_fp_neg_one, r5
     mov.w   DAT_06030a40, r6
     mov.w   .L_wpool_06030A42, r0
     add r3, r6
     mov.l r5, @r6
     mov.l @(r0, r3), r4
-    mov.l   .L_pool_06030A50, r5
+    mov.l   .L_wram_low, r5
     tst r5, r4
     bt      .L_06030A3A
     mov.w   DAT_06030a44, r0
@@ -776,10 +776,10 @@ DAT_06030a46:
     .2byte  0x01EC
 .L_pool_06030A48:
     .4byte  sym_0607E940
-.L_pool_06030A4C:
-    .4byte  0xFFFF0000
-.L_pool_06030A50:
-    .4byte  0x00200000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
     .4byte  0x53E34321
     .4byte  0x1E3352E5
     .4byte  0xD109D30A
@@ -858,7 +858,7 @@ DAT_06030a46:
     mov.l @(20, r1), r10
     mov.l r6, @-r15
     mov.l @r1, r13
-    mov.l   .L_pool_06030B44, r6
+    mov.l   .L_minit, r6
     mov #0x0, r9
     tst r6, r13
     bf      .L_06030B18
@@ -899,8 +899,8 @@ DAT_06030b2a:
     .4byte  sym_06030FBE
 .L_pool_06030B40:
     .4byte  force_steer_impact
-.L_pool_06030B44:
-    .4byte  0x01000000
+.L_minit:
+    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
 .L_06030B48:
     mov.l   .L_pool_06030B60, r0
     mov.l @(0, r14), r2
@@ -926,7 +926,7 @@ DAT_06030b2a:
     sub r0, r6
     exts.w r6, r6
     mov.l   .L_pool_06030B84, r2
-    mov.l   .L_pool_06030B88, r3
+    mov.l   .L_fp_sixteenth, r3
     cmp/ge r6, r3
     bt      .L_06030B8C
     cmp/ge r2, r6
@@ -936,8 +936,8 @@ DAT_06030b2a:
     .2byte  0x0000
 .L_pool_06030B84:
     .4byte  0x00006FFF
-.L_pool_06030B88:
-    .4byte  0x00001000
+.L_fp_sixteenth:
+    .4byte  0x00001000                  /* 0.0625 (16.16 fixed-point) */
 .L_06030B8C:
     neg r2, r2
     neg r3, r3

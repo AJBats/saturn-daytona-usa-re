@@ -20,7 +20,7 @@ race_variant_setup_a:
     add #-0x4, r15
     mov.w   .L_wpool_06014212, r8
     mov.l   .L_pool_06014214, r12
-    mov.l   .L_pool_06014218, r14
+    mov.l   .L_fp_one, r14
     mov.l   .L_pool_0601421C, r3
     jsr @r3
     mov #0x3, r9
@@ -100,8 +100,8 @@ race_variant_setup_a:
     .2byte  0xCCCD
 .L_pool_06014214:
     .4byte  sym_06089EDC
-.L_pool_06014218:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0601421C:
     .4byte  sym_06026E0C
 .L_pool_06014220:

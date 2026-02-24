@@ -730,7 +730,7 @@ sym_06035460:
     mov.l @(28, r15), r7
     mov.l @(32, r15), r4
     mov.l @(36, r15), r5
-    mov.l   .L_pool_0603572C, r0
+    mov.l   .L_fp_min, r0
     bra     .L_06035522
     xor r0, r6
 .L_06035478:
@@ -791,7 +791,7 @@ sym_06035460:
     bra     .L_060356CA
     rotcl r4
 .L_060354DA:
-    mov.l   .L_pool_06035728, r3
+    mov.l   .L_fp_sixteen, r3
     shll r5
     rotcl r4
     cmp/ge r3, r4
@@ -803,7 +803,7 @@ sym_06035460:
     bf/s    .L_060354E4
     add #-0x1, r8
 .L_060354EE:
-    mov.l   .L_pool_06035728, r3
+    mov.l   .L_fp_sixteen, r3
     shll r7
     rotcl r6
     cmp/ge r3, r6
@@ -936,7 +936,7 @@ sym_06035460:
     bt      .L_0603560C
     addc r7, r5
     addc r6, r4
-    mov.l   .L_pool_06035724, r3
+    mov.l   .L_minit, r3
     cmp/gt r4, r3
     bt      .L_0603569C
     shlr r4
@@ -970,7 +970,7 @@ sym_06035460:
     mov #0x0, r5
     add #-0x20, r8
 .L_0603562C:
-    mov.l   .L_pool_06035730, r3
+    mov.l   .L_fp_neg_one, r3
     tst r4, r3
     bf      .L_0603563C
     mov r5, r3
@@ -979,7 +979,7 @@ sym_06035460:
     shll16 r5
     add #-0x10, r8
 .L_0603563C:
-    mov.l   .L_pool_06035724, r3
+    mov.l   .L_minit, r3
     cmp/hi r4, r3
     bt      .L_0603566E
 .L_06035642:
@@ -1077,14 +1077,14 @@ sym_06035460:
 .L_pool_0603571C:
     .4byte  0x00800000
     .4byte  0x0000FFFF
-.L_pool_06035724:
-    .4byte  0x01000000
-.L_pool_06035728:
-    .4byte  0x00100000
-.L_pool_0603572C:
-    .4byte  0x80000000
-.L_pool_06035730:
-    .4byte  0xFFFF0000
+.L_minit:
+    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
+.L_fp_sixteen:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 
     .global DAT_06035734
 DAT_06035734:
@@ -1180,7 +1180,7 @@ sym_060357B8:
     mov #0x53, r4
     cmp/gt r4, r2
     bt      .L_06035830
-    mov.l   .L_pool_0603583C, r4
+    mov.l   .L_fp_sixteen_0603583C, r4
     or r4, r0
     add #-0x14, r2
     cmp/pz r2
@@ -1231,8 +1231,8 @@ sym_060357B8:
     .4byte  0x000007FF
 .L_pool_06035838:
     .4byte  0x000FFFFF
-.L_pool_0603583C:
-    .4byte  0x00100000
+.L_fp_sixteen_0603583C:
+    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 .L_pool_06035840:
     .4byte  0x000003FF
 

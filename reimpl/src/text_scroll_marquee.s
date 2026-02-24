@@ -44,7 +44,7 @@ text_scroll_marquee:
     add r2, r3
     exts.w r3, r3
     add r13, r3
-    .byte   0xD1, 0x27    /* mov.l .L_pool_06016DCC, r1 */
+    .byte   0xD1, 0x27    /* mov.l .L_fp_half, r1 */
     mov.l r1, @(44, r3)
 .L_06016D30:
     .byte   0xD5, 0x27    /* mov.l .L_pool_06016DD0, r5 */
@@ -125,8 +125,8 @@ text_scroll_marquee:
     .4byte  sym_06085F89
 .L_pool_06016DC8:
     .4byte  sym_0607EBF4
-.L_pool_06016DCC:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06016DD0:
     .4byte  sym_0605BB74
 .L_pool_06016DD4:

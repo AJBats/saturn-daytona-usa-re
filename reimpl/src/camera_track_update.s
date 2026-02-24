@@ -33,7 +33,7 @@ camera_track_update:
     mov.l r2, @r14
 .L_06014538:
     extu.w r4, r4
-    mov.l   .L_pool_060145A4, r2
+    mov.l   .L_fp_half, r2
     and r2, r4
     tst r4, r4
     bt      .L_06014550
@@ -93,8 +93,8 @@ DAT_06014594:
     .4byte  sym_06063D98
 .L_pool_060145A0:
     .4byte  sym_0607EBC8
-.L_pool_060145A4:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060145A8:
     .4byte  sym_06084B18
 .L_pool_060145AC:

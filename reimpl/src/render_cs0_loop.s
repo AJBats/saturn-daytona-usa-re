@@ -130,7 +130,7 @@ render_cs0_loop:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_pool_0600B858, r2
+    mov.l   .L_fp_half, r2
     mov.l   .L_pool_0600B85C, r3
     jsr @r3
     add r2, r4
@@ -246,8 +246,8 @@ DAT_0600b840:
     .4byte  sym_06026DBC
 .L_pool_0600B854:
     .4byte  sym_06026E2E
-.L_pool_0600B858:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600B85C:
     .4byte  mat_rot_y
 .L_pool_0600B860:

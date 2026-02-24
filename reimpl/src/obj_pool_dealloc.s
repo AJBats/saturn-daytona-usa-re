@@ -23,7 +23,7 @@ obj_pool_dealloc:
     jsr @r3
     mov #0x4, r0
     mov.w @(2, r6), r0
-    mov.l   .L_pool_06020328, r3
+    mov.l   .L_fp_half, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -97,7 +97,7 @@ obj_pool_dealloc:
     .4byte  sym_0605F526
 .L_pool_06020324:
     .4byte  sym_06035228
-.L_pool_06020328:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0602032C:
     .4byte  sym_06087824

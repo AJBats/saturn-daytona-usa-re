@@ -338,7 +338,7 @@ camera_cleanup_reset:
     jsr @r3
     mov #0x8, r4
     mov r14, r7
-    mov.l   .L_pool_0601DE48, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w   .L_wpool_0601DE2E, r5
     mov #0x8, r4
     lds.l @r15+, pr
@@ -373,8 +373,8 @@ DAT_0601de26:
     .4byte  sym_0605ACE3
 .L_pool_0601DE44:
     .4byte  sym_060284AE
-.L_pool_0601DE48:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_0601DE4C:
     .4byte  sym_060283E0
 
@@ -534,7 +534,7 @@ DAT_0601df1c:
     .4byte  sym_0605DFEC
 .L_0601DF58:
     mov.l   .L_pool_0601DF7C, r7
-    mov.l   .L_pool_0601DF80, r6
+    mov.l   .L_mask_0xE000_0601DF80, r6
     mov.w   .L_wpool_0601DF7A, r5
     mov #0x8, r4
     add #0x4, r15
@@ -555,8 +555,8 @@ DAT_0601df1c:
     .2byte  0x0442
 .L_pool_0601DF7C:
     .4byte  sym_0605ACE3
-.L_pool_0601DF80:
-    .4byte  0x0000E000
+.L_mask_0xE000_0601DF80:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_0601DF84:
     .4byte  sym_060283E0
 
@@ -736,7 +736,7 @@ DAT_0601e02e:
     nop
 .L_0601E0B0:
     mov.l   .L_pool_0601E0F4, r7
-    mov.l   .L_pool_0601E0F8, r6
+    mov.l   .L_mask_0xE000_0601E0F8, r6
     mov.w   .L_wpool_0601E0E6, r5
     mov #0x8, r4
     add #0x4, r15
@@ -782,8 +782,8 @@ DAT_0601e0e4:
     .4byte  sym_0605DFEC
 .L_pool_0601E0F4:
     .4byte  sym_0605ACE3
-.L_pool_0601E0F8:
-    .4byte  0x0000E000
+.L_mask_0xE000_0601E0F8:
+    .4byte  0x0000E000                  /* bits 15:13 mask */
 .L_pool_0601E0FC:
     .4byte  sym_060283E0
 
@@ -798,13 +798,13 @@ geom_matrix_setup:
     add #-0x4, r15
     mov.l   .L_pool_0601E16C, r13
     mov.l   .L_pool_0601E170, r14
-    mov.l   .L_pool_0601E174, r12
+    mov.l   .L_fp_half, r12
     mov.l   .L_pool_0601E178, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_0601E14A
     mov.l   .L_pool_0601E17C, r5
-    mov.l   .L_pool_0601E180, r4
+    mov.l   .L_vdp2_cram_0x100, r4
     mov.l   .L_pool_0601E184, r3
     jsr @r3
     mov #0x20, r6
@@ -829,7 +829,7 @@ geom_matrix_setup:
     mov.l @r5, r5
 .L_0601E14A:
     mov.l   .L_pool_0601E188, r5
-    mov.l   .L_pool_0601E180, r4
+    mov.l   .L_vdp2_cram_0x100, r4
     mov.l   .L_pool_0601E184, r3
     jsr @r3
     mov #0x20, r6
@@ -859,14 +859,14 @@ DAT_0601e166:
     .4byte  sym_06063750
 .L_pool_0601E170:
     .4byte  sym_06028400
-.L_pool_0601E174:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601E178:
     .4byte  sym_0607EAE0
 .L_pool_0601E17C:
     .4byte  sym_0604892C
-.L_pool_0601E180:
-    .4byte  0x25F00100
+.L_vdp2_cram_0x100:
+    .4byte  0x25F00100                  /* VDP2 color RAM +0x100 */
 .L_pool_0601E184:
     .4byte  memcpy_word_idx
 .L_pool_0601E188:

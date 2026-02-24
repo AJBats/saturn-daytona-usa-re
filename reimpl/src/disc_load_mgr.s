@@ -31,7 +31,7 @@ disc_load_mgr:
     mov.l   .L_pool_0601B27C, r3
     mov.l r8, @r3
     mov.l   .L_pool_0601B270, r2
-    mov.l   .L_pool_0601B280, r3
+    mov.l   .L_fp_half, r3
     mov.l @r2, r2
     mov.w r3, @r2
     mov.l   .L_pool_0601B284, r3
@@ -179,8 +179,8 @@ DAT_0601b262:
     .4byte  sym_060393FC
 .L_pool_0601B27C:
     .4byte  sym_0605A008
-.L_pool_0601B280:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601B284:
     .4byte  sym_06012E00
 .L_pool_0601B288:
@@ -232,7 +232,7 @@ DAT_0601b262:
     mov.l   .L_pool_0601B398, r2
     mov.w r3, @r2
     mov.l   .L_pool_0601B39C, r13
-    mov.l   .L_pool_0601B3A0, r3
+    mov.l   .L_fp_min, r3
     mov.l @r13, r2
     or r3, r2
     mov.l   .L_pool_0601B3A4, r3
@@ -242,23 +242,23 @@ DAT_0601b262:
     jsr @r3
     nop
     mov.l   .L_pool_0601B3A8, r5
-    mov.l   .L_pool_0601B3AC, r4
+    mov.l   .L_vdp2_cram_0x540, r4
     mov.l   .L_pool_0601B3B0, r3
     jsr @r3
     mov #0x40, r6
     mov.l   .L_pool_0601B3B4, r5
-    mov.l   .L_pool_0601B3B8, r4
+    mov.l   .L_vdp2_cram_0x1A0, r4
     mov.l   .L_pool_0601B3B0, r3
     jsr @r3
     mov #0x20, r6
     mov #0x9, r7
     mov.l   .L_pool_0601B3BC, r5
-    mov.l   .L_pool_0601B3C0, r4
+    mov.l   .L_vdp2_vram_0x6F9C4, r4
     mov.l   .L_pool_0601B3C4, r3
     jsr @r3
     mov r8, r6
     mov.l   .L_pool_0601B3C8, r5
-    mov.l   .L_pool_0601B3CC, r4
+    mov.l   .L_vdp2_vram_0x75DDC, r4
     mov.l   .L_pool_0601B3D0, r3
     add r8, r5
     jsr @r3
@@ -304,7 +304,7 @@ DAT_0601b262:
     mov.l   .L_pool_0601B3E8, r3
     jsr @r3
     nop
-    mov.l   .L_pool_0601B3EC, r2
+    mov.l   .L_fp_0x4000_0000, r2
     mov.l @r13, r3
     or r2, r3
     mov.l r3, @r13
@@ -340,30 +340,30 @@ DAT_0601b392:
     .4byte  sym_0605AAA0
 .L_pool_0601B39C:
     .4byte  sym_0605B6D8
-.L_pool_0601B3A0:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_0601B3A4:
     .4byte  sym_06026CE0
 .L_pool_0601B3A8:
     .4byte  sym_0604842C
-.L_pool_0601B3AC:
-    .4byte  0x25F00540
+.L_vdp2_cram_0x540:
+    .4byte  0x25F00540                  /* VDP2 color RAM +0x540 */
 .L_pool_0601B3B0:
     .4byte  dma_transfer
 .L_pool_0601B3B4:
     .4byte  sym_060487EC
-.L_pool_0601B3B8:
-    .4byte  0x25F001A0
+.L_vdp2_cram_0x1A0:
+    .4byte  0x25F001A0                  /* VDP2 color RAM +0x1A0 */
 .L_pool_0601B3BC:
     .4byte  0x00017700
-.L_pool_0601B3C0:
-    .4byte  0x25E6F9C4
+.L_vdp2_vram_0x6F9C4:
+    .4byte  0x25E6F9C4                  /* VDP2 VRAM +0x6F9C4 */
 .L_pool_0601B3C4:
     .4byte  sym_0600511E
 .L_pool_0601B3C8:
     .4byte  sym_06094FA8
-.L_pool_0601B3CC:
-    .4byte  0x25E75DDC
+.L_vdp2_vram_0x75DDC:
+    .4byte  0x25E75DDC                  /* VDP2 VRAM +0x75DDC */
 .L_pool_0601B3D0:
     .4byte  dma_memory_transfer
 .L_pool_0601B3D4:
@@ -378,8 +378,8 @@ DAT_0601b392:
     .4byte  sym_0602853E
 .L_pool_0601B3E8:
     .4byte  sym_06028560
-.L_pool_0601B3EC:
-    .4byte  0x40000000
+.L_fp_0x4000_0000:
+    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
 .L_pool_0601B3F0:
     .4byte  sym_0608600D
 .L_0601B3F4:

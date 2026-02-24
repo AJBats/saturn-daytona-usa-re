@@ -31,20 +31,20 @@ vdp2_scroll_update:
     mov #0x0, r4
     mov.l   .L_pool_060392EC, r2
     mov #0x0, r6
-    mov.l   .L_pool_060392F0, r3
+    mov.l   .L_vdp1_fbcr, r3
     mov.w @r2, r2
     mov.w r2, @r3
     mov #0x2, r2
-    mov.l   .L_pool_060392F4, r3
+    mov.l   .L_vdp1_ptmr, r3
     mov.w r2, @r3
-    mov.l   .L_pool_060392F8, r2
-    mov.l   .L_pool_060392FC, r3
+    mov.l   .L_fp_half, r2
+    mov.l   .L_vdp1_ewdr, r3
     mov.w r2, @r3
     mov #0x0, r2
-    mov.l   .L_pool_06039300, r3
+    mov.l   .L_vdp1_ewlr, r3
     mov.w r2, @r3
-    mov.l   .L_pool_06039304, r2
-    mov.l   .L_pool_06039308, r3
+    mov.l   .L_mask_low16, r2
+    mov.l   .L_vdp1_ewrr, r3
     mov.w r2, @r3
     mov.l   .L_pool_0603930C, r2
     mov.l @r2, r2
@@ -52,14 +52,14 @@ vdp2_scroll_update:
     extu.w r2, r2
     mov.l r2, @-r15
     mov.l   .L_pool_06039310, r7
-    mov.l   .L_pool_060392F8, r4
+    mov.l   .L_fp_half, r4
     mov.l @r7, r7
     add #-0x1, r7
     extu.w r7, r7
     bsr     sym_060393FC
     mov #0x0, r5
     add #0x4, r15
-    mov.l   .L_pool_06039314, r2
+    mov.l   .L_vdp1_vram_0x00000, r2
     mov.l r2, @r14
     mov r2, r3
     mov.w   .L_wpool_060392E8, r2
@@ -93,26 +93,26 @@ DAT_060392e6:
     .2byte  0xFFFF
 .L_pool_060392EC:
     .4byte  sym_060A4C92
-.L_pool_060392F0:
-    .4byte  0x25D00002
-.L_pool_060392F4:
-    .4byte  0x25D00004
-.L_pool_060392F8:
-    .4byte  0x00008000
-.L_pool_060392FC:
-    .4byte  0x25D00006
-.L_pool_06039300:
-    .4byte  0x25D00008
-.L_pool_06039304:
-    .4byte  0x0000FFFF
-.L_pool_06039308:
-    .4byte  0x25D0000A
+.L_vdp1_fbcr:
+    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
+.L_vdp1_ptmr:
+    .4byte  0x25D00004                  /* VDP1 PTMR — plot trigger */
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+.L_vdp1_ewdr:
+    .4byte  0x25D00006                  /* VDP1 EWDR — erase fill color */
+.L_vdp1_ewlr:
+    .4byte  0x25D00008                  /* VDP1 EWLR — erase upper-left */
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
+.L_vdp1_ewrr:
+    .4byte  0x25D0000A                  /* VDP1 EWRR — erase lower-right */
 .L_pool_0603930C:
     .4byte  sym_060A4C8C
 .L_pool_06039310:
     .4byte  sym_060A4C88
-.L_pool_06039314:
-    .4byte  0x25C00000
+.L_vdp1_vram_0x00000:
+    .4byte  0x25C00000                  /* VDP1 VRAM +0x00000 */
 .L_pool_06039318:
     .4byte  sym_060635CC
 
@@ -126,7 +126,7 @@ polygon_param_setup:
     mov.l   .L_pool_0603939C, r2
     and r1, r3
     mov.w r3, @r2
-    mov.l   .L_pool_060393A0, r2
+    mov.l   .L_vdp1_tvmr, r2
     mov.w r3, @r2
     extu.w r5, r3
     mov #0x7, r2
@@ -192,8 +192,8 @@ polygon_param_setup:
     .4byte  sym_060A4C8C
 .L_pool_0603939C:
     .4byte  sym_060A4C90
-.L_pool_060393A0:
-    .4byte  0x25D00000
+.L_vdp1_tvmr:
+    .4byte  0x25D00000                  /* VDP1 TVMR — TV mode */
 .L_pool_060393A4:
     .4byte  sym_060635E0
 .L_pool_060393A8:
@@ -236,7 +236,7 @@ sym_060393FC:
     mov.w r7, @r3
     mov.l   .L_pool_06039448, r3
     mov.w r1, @r3
-    mov.l   .L_pool_0603944C, r3
+    mov.l   .L_vdp1_ewdr_0603944C, r3
     mov.w r4, @r3
     mov.l   .L_pool_06039450, r0
     mov.w @r0, r0
@@ -261,8 +261,8 @@ sym_060393FC:
     .4byte  sym_060635DA
 .L_pool_06039448:
     .4byte  sym_060635DC
-.L_pool_0603944C:
-    .4byte  0x25D00006
+.L_vdp1_ewdr_0603944C:
+    .4byte  0x25D00006                  /* VDP1 EWDR — erase fill color */
 .L_pool_06039450:
     .4byte  sym_060635DE
 .L_06039454:
@@ -287,7 +287,7 @@ sym_060393FC:
     extu.w r5, r5
     mov.w r5, @r3
     mov.l   .L_pool_060394D8, r2
-    mov.l   .L_pool_060394DC, r3
+    mov.l   .L_vdp1_ewlr_060394DC, r3
     mov.w @r2, r2
     mov.w r2, @r3
     mov.l   .L_pool_060394E0, r0
@@ -322,14 +322,14 @@ sym_060393FC:
     extu.w r7, r7
     mov.w r7, @r3
     mov.l   .L_pool_060394E4, r2
-    mov.l   .L_pool_060394E8, r3
+    mov.l   .L_vdp1_ewrr_060394E8, r3
     mov.w @r2, r2
     rts
     mov.w r2, @r3
 
     .global sym_060394C2
 sym_060394C2:
-    mov.l   .L_pool_060394EC, r5
+    mov.l   .L_vdp1_edsr, r5
     mov #0x2, r4
 .L_060394C6:
     mov.w @r5, r2
@@ -343,16 +343,16 @@ sym_060394C2:
     .4byte  sym_060A4C94
 .L_pool_060394D8:
     .4byte  sym_060635D0
-.L_pool_060394DC:
-    .4byte  0x25D00008
+.L_vdp1_ewlr_060394DC:
+    .4byte  0x25D00008                  /* VDP1 EWLR — erase upper-left */
 .L_pool_060394E0:
     .4byte  sym_060635DE
 .L_pool_060394E4:
     .4byte  sym_060635D2
-.L_pool_060394E8:
-    .4byte  0x25D0000A
-.L_pool_060394EC:
-    .4byte  0x25D00010
+.L_vdp1_ewrr_060394E8:
+    .4byte  0x25D0000A                  /* VDP1 EWRR — erase lower-right */
+.L_vdp1_edsr:
+    .4byte  0x25D00010                  /* VDP1 EDSR — draw end status */
 .L_060394F0:
     tst r4, r4
     bt      .L_060394FE

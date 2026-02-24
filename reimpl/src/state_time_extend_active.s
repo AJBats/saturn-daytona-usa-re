@@ -18,7 +18,7 @@ state_time_extend_active:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_060097E4, r8
+    mov.l   .L_mask_nibble3, r8
     mov.l   .L_pool_060097E8, r10
     mov.l   .L_pool_060097EC, r11
     mov.l   .L_pool_060097F0, r12
@@ -42,7 +42,7 @@ state_time_extend_active:
     tst r0, r0
     bt      .L_0600983E
     mov.w @r15, r3
-    mov.l   .L_pool_06009804, r2
+    mov.l   .L_fp_half, r2
     extu.w r3, r3
     and r2, r3
     tst r3, r3
@@ -56,8 +56,8 @@ state_time_extend_active:
     add #0x1, r2
     bra     .L_06009824
     mov.b r2, @r12
-.L_pool_060097E4:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_060097E8:
     .4byte  sym_0605B6D8
 .L_pool_060097EC:
@@ -72,8 +72,8 @@ state_time_extend_active:
     .4byte  menu_overlay_render
 .L_pool_06009800:
     .4byte  sym_0607864A
-.L_pool_06009804:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_06009808:
     mov.w @r15, r2
     mov.w   .L_wpool_060098D4, r3
@@ -236,7 +236,7 @@ state_time_extend_active:
     bf      .L_06009972
     .byte   0xB4, 0x43    /* bsr 0x0600A1B8 (external) */
     nop
-    mov.l   .L_pool_060099B8, r2
+    mov.l   .L_fp_min, r2
     mov.l @r10, r3
     or r2, r3
     mov.l r3, @r10
@@ -307,8 +307,8 @@ state_time_extend_active:
 .L_wpool_060099B4:
     .2byte  0x0794
     .2byte  0xFFFF
-.L_pool_060099B8:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_060099BC:
     .4byte  sym_0607EBF4
 .L_pool_060099C0:

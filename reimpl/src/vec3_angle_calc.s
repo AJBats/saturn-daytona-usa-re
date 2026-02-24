@@ -93,8 +93,8 @@ DAT_060052f6:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06005334
-    mov.l   .L_pool_0600538C, r6
-    mov.l   .L_pool_06005390, r4
+    mov.l   .L_fp_one, r6
+    mov.l   .L_fp_neg_one, r4
     mov.l   .L_pool_06005394, r3
     jsr @r3
     mov r6, r5
@@ -146,10 +146,10 @@ DAT_0600537a:
     .4byte  atan2
 .L_pool_06005388:
     .4byte  sym_06078663
-.L_pool_0600538C:
-    .4byte  0x00010000
-.L_pool_06005390:
-    .4byte  0xFFFF0000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_06005394:
     .4byte  mat_scale_columns
 .L_pool_06005398:

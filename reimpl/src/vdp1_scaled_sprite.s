@@ -63,7 +63,7 @@ vdp1_scaled_sprite:
     cmp/eq r1, r4
     bf      .L_0602DCE6
     mov.l   .L_pool_0602DCF8, r4
-    mov.l   .L_pool_0602DCFC, r1
+    mov.l   .L_sh2_periph_0x1FF, r1
     mov.b r1, @r4
     mov.l   .L_pool_0602DD00, r4
     mov.l   .L_pool_0602DD04, r1
@@ -83,8 +83,8 @@ vdp1_scaled_sprite:
     .4byte  0x00000000
 .L_pool_0602DCF8:
     .4byte  sym_06082A24
-.L_pool_0602DCFC:
-    .4byte  0xFFFFFFFF
+.L_sh2_periph_0x1FF:
+    .4byte  0xFFFFFFFF                  /* SH-2 peripheral +0x1FF */
 .L_pool_0602DD00:
     .4byte  sym_06082A26
 .L_pool_0602DD04:
@@ -108,7 +108,7 @@ loc_0602DD10:
     shll r0
     add r0, r1
     mov.l @r1+, r3
-    mov.l   .L_pool_0602DD4C, r0
+    mov.l   .L_sh2_periph_0x1FF_0602DD4C, r0
     cmp/eq r0, r3
     bf      .L_0602DD5C
     mov.l   .L_pool_0602DD48, r1
@@ -126,8 +126,8 @@ loc_0602DD10:
     .4byte  sym_0602ECBC
 .L_pool_0602DD48:
     .4byte  sym_06082A38
-.L_pool_0602DD4C:
-    .4byte  0xFFFFFFFF
+.L_sh2_periph_0x1FF_0602DD4C:
+    .4byte  0xFFFFFFFF                  /* SH-2 peripheral +0x1FF */
 .L_pool_0602DD50:
     .4byte  0x00000000
 .L_pool_0602DD54:

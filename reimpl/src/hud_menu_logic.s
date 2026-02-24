@@ -167,17 +167,17 @@ DAT_06012890:
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14
-    mov.l   .L_pool_060129A8, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   DAT_0601299e, r5
     jsr @r8
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_pool_060129A8, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   DAT_060129a0, r5
     jsr @r8
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_pool_060129A8, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   DAT_060129a2, r5
     jsr @r8
     mov #0x8, r4
@@ -285,8 +285,8 @@ DAT_060129a4:
     .global DAT_060129a6
 DAT_060129a6:
     .2byte  0x0626
-.L_pool_060129A8:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_060129AC:
     .4byte  0xAE1122FF
 .L_pool_060129B0:
@@ -346,7 +346,7 @@ DAT_060129a6:
     jsr @r14
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_pool_06012AB4, r6
+    mov.l   .L_mask_nibble3_06012AB4, r6
     mov.w   .L_wpool_06012A9C, r5
     jsr @r8
     mov #0x8, r4
@@ -440,8 +440,8 @@ DAT_06012a94:
     .4byte  sym_0608605A
 .L_pool_06012AB0:
     .4byte  sym_060284AE
-.L_pool_06012AB4:
-    .4byte  0x0000F000
+.L_mask_nibble3_06012AB4:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_06012AB8:
     .4byte  sym_0605AC9C
 .L_pool_06012ABC:

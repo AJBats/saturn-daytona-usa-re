@@ -29,7 +29,7 @@ camera_track_setup:
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_0600B054, r2 */
+    .byte   0xD2, 0x1E    /* mov.l .L_fp_half, r2 */
     .byte   0xD3, 0x1E    /* mov.l .L_pool_0600B058, r3 */
     jsr @r3
     add r2, r4
@@ -79,8 +79,8 @@ camera_track_setup:
     .4byte  sym_06027080
 .L_pool_0600B050:
     .4byte  sym_060270F2
-.L_pool_0600B054:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600B058:
     .4byte  mat_rot_xy_b
 .L_pool_0600B05C:

@@ -45,7 +45,7 @@ sprite_batch_renderer:
     bf/s    .L_0601157E
     mov.w r0, @(2, r5)
     .byte   0xD7, 0x0E    /* mov.l .L_pool_060115DC, r7 */
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_060115E4, r3 */
+    .byte   0xD3, 0x0F    /* mov.l .L_mask_nibble3, r3 */
     mov.w @r15, r0
     mov.l @(4, r7), r7
     extu.w r0, r0
@@ -75,8 +75,8 @@ DAT_060115c6:
     .4byte  sym_06063788
 .L_pool_060115E0:
     .4byte  sym_0605AAA6
-.L_pool_060115E4:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_060115E8:
     .4byte  sym_0605AAA2
 .L_pool_060115EC:

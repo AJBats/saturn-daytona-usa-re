@@ -373,7 +373,7 @@ DAT_0603f682:
     extu.b r0, r0
     tst #0x2, r0
     bt      .L_0603F820
-    .byte   0xD2, 0x26    /* mov.l .L_pool_0603F8B4, r2 */
+    .byte   0xD2, 0x26    /* mov.l .L_fp_half, r2 */
     bra     .L_0603F822
     nop
 .L_0603F820:
@@ -432,8 +432,8 @@ DAT_0603f682:
 DAT_0603f8ae:
     .2byte  0x1000
     .4byte  0x2000FFFF
-.L_pool_0603F8B4:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 
     .global sym_0603F8B8
 sym_0603F8B8:

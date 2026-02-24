@@ -18,8 +18,8 @@ render_stage_2:
     mov.l r8, @-r15
     sts.l pr, @-r15
     .byte   0xD8, 0x1A    /* mov.l .L_pool_0601CB68, r8 */
-    .byte   0xD9, 0x1A    /* mov.l .L_pool_0601CB6C, r9 */
-    .byte   0xDA, 0x1B    /* mov.l .L_pool_0601CB70, r10 */
+    .byte   0xD9, 0x1A    /* mov.l .L_vdp2_cram_0x200, r9 */
+    .byte   0xDA, 0x1B    /* mov.l .L_vdp2_cram_0x400, r10 */
     .byte   0xDC, 0x1B    /* mov.l .L_pool_0601CB74, r12 */
     .byte   0xDD, 0x1C    /* mov.l .L_pool_0601CB78, r13 */
     .byte   0xDE, 0x1C    /* mov.l .L_pool_0601CB7C, r14 */
@@ -68,10 +68,10 @@ DAT_0601cb48:
     .4byte  sym_06059F44
 .L_pool_0601CB68:
     .4byte  sym_06086020
-.L_pool_0601CB6C:
-    .4byte  0x25F00200
-.L_pool_0601CB70:
-    .4byte  0x25F00400
+.L_vdp2_cram_0x200:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
+.L_vdp2_cram_0x400:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
 .L_pool_0601CB74:
     .4byte  dma_transfer
 .L_pool_0601CB78:
@@ -414,7 +414,7 @@ render_stage_3:
     mov.w @r11, r11
     mov r13, r14
     sub r11, r14
-    .byte   0xD2, 0x0D    /* mov.l .L_pool_0601CE28, r2 */
+    .byte   0xD2, 0x0D    /* mov.l .L_vdp2_cram_0x000, r2 */
     mov.l r2, @(12, r15)
     mov r10, r2
     mov.l r2, @(16, r15)
@@ -442,8 +442,8 @@ render_stage_3:
     .4byte  sym_06086020
 .L_pool_0601CE24:
     .4byte  sym_0605DF58
-.L_pool_0601CE28:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_0601CE2C:
     mov r15, r7
     mov r15, r6
@@ -518,13 +518,13 @@ render_stage_3:
     cmp/ge r3, r9
     bf      .L_0601CE2C
     mov #0x20, r6
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_0601CEF0, r4 */
+    .byte   0xD4, 0x0C    /* mov.l .L_vdp2_cram_0x200_0601CEF0, r4 */
     .byte   0xD3, 0x0D    /* mov.l .L_pool_0601CEF4, r3 */
     jsr @r3
     mov r10, r5
     mov #0x20, r6
     mov r10, r5
-    .byte   0xD4, 0x0B    /* mov.l .L_pool_0601CEF8, r4 */
+    .byte   0xD4, 0x0B    /* mov.l .L_vdp2_cram_0x400_0601CEF8, r4 */
     .byte   0xD3, 0x0A    /* mov.l .L_pool_0601CEF4, r3 */
     jsr @r3
     add #0x20, r5
@@ -545,12 +545,12 @@ render_stage_3:
     .2byte  0xFFFF
 .L_pool_0601CEEC:
     .4byte  sym_06034FE0
-.L_pool_0601CEF0:
-    .4byte  0x25F00200
+.L_vdp2_cram_0x200_0601CEF0:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
 .L_pool_0601CEF4:
     .4byte  dma_transfer
-.L_pool_0601CEF8:
-    .4byte  0x25F00400
+.L_vdp2_cram_0x400_0601CEF8:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
 
     .global render_stage_4
     .type render_stage_4, @function
@@ -579,7 +579,7 @@ render_stage_4:
     mov r12, r2
     sub r14, r2
     mov.l r2, @(16, r15)
-    .byte   0xD1, 0x04    /* mov.l .L_pool_0601CF40, r1 */
+    .byte   0xD1, 0x04    /* mov.l .L_vdp2_cram_0x000_0601CF40, r1 */
     mov.l r1, @(12, r15)
     mov r10, r1
     mov.l r1, @(20, r15)
@@ -589,8 +589,8 @@ render_stage_4:
     .4byte  sym_06086020
 .L_pool_0601CF3C:
     .4byte  sym_0605DF58
-.L_pool_0601CF40:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000_0601CF40:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_0601CF44:
     mov r15, r7
     mov r15, r6
@@ -666,13 +666,13 @@ render_stage_4:
     cmp/ge r3, r11
     bf      .L_0601CF44
     mov #0x20, r6
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_0601D008, r4 */
+    .byte   0xD4, 0x0C    /* mov.l .L_vdp2_cram_0x200_0601D008, r4 */
     .byte   0xD3, 0x0C    /* mov.l .L_pool_0601D00C, r3 */
     jsr @r3
     mov r10, r5
     mov #0x20, r6
     mov r10, r5
-    .byte   0xD4, 0x0B    /* mov.l .L_pool_0601D010, r4 */
+    .byte   0xD4, 0x0B    /* mov.l .L_vdp2_cram_0x400_0601D010, r4 */
     .byte   0xD3, 0x09    /* mov.l .L_pool_0601D00C, r3 */
     jsr @r3
     add #0x20, r5
@@ -692,12 +692,12 @@ render_stage_4:
     .2byte  0xFFFF
 .L_pool_0601D004:
     .4byte  sym_06034FE0
-.L_pool_0601D008:
-    .4byte  0x25F00200
+.L_vdp2_cram_0x200_0601D008:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
 .L_pool_0601D00C:
     .4byte  dma_transfer
-.L_pool_0601D010:
-    .4byte  0x25F00400
+.L_vdp2_cram_0x400_0601D010:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
 
     .global render_stage_5
     .type render_stage_5, @function
@@ -705,7 +705,7 @@ render_stage_5:
     sts.l pr, @-r15
     add #-0x4, r15
     .byte   0xD5, 0x0F    /* mov.l .L_pool_0601D058, r5 */
-    .byte   0xD4, 0x10    /* mov.l .L_pool_0601D05C, r4 */
+    .byte   0xD4, 0x10    /* mov.l .L_vdp2_cram_0x000_0601D05C, r4 */
     .byte   0xD3, 0x10    /* mov.l .L_pool_0601D060, r3 */
     jsr @r3
     mov #0x40, r6
@@ -739,8 +739,8 @@ render_stage_5:
     .2byte  0x0518
 .L_pool_0601D058:
     .4byte  sym_0604884C
-.L_pool_0601D05C:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000_0601D05C:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601D060:
     .4byte  dma_transfer
 .L_pool_0601D064:
@@ -761,7 +761,7 @@ render_stage_6:
     jsr @r3
     mov #0x4, r4
     .byte   0xD5, 0x1E    /* mov.l .L_pool_0601D0F8, r5 */
-    .byte   0xD4, 0x1E    /* mov.l .L_pool_0601D0FC, r4 */
+    .byte   0xD4, 0x1E    /* mov.l .L_vdp2_cram_0x000_0601D0FC, r4 */
     .byte   0xD3, 0x1F    /* mov.l .L_pool_0601D100, r3 */
     jsr @r3
     mov #0x40, r6
@@ -825,8 +825,8 @@ render_stage_6:
     .4byte  sym_0602853E
 .L_pool_0601D0F8:
     .4byte  sym_0605D17C
-.L_pool_0601D0FC:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000_0601D0FC:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601D100:
     .4byte  dma_transfer
 .L_pool_0601D104:
@@ -947,7 +947,7 @@ DAT_0601d18e:
     bf      .L_0601D1F2
     .byte   0xD3, 0x1E    /* mov.l .L_pool_0601D254, r3 */
     mov.w @r3, r2
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_0601D258, r3 */
+    .byte   0xD3, 0x1E    /* mov.l .L_fp_half, r3 */
     extu.w r2, r2
     and r3, r2
     tst r2, r2
@@ -979,7 +979,7 @@ DAT_0601d18e:
     bf      .L_0601D22E
     .byte   0xD3, 0x0F    /* mov.l .L_pool_0601D254, r3 */
     mov.w @r3, r2
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_0601D258, r3 */
+    .byte   0xD3, 0x0F    /* mov.l .L_fp_half, r3 */
     extu.w r2, r2
     and r3, r2
     tst r2, r2
@@ -1018,8 +1018,8 @@ DAT_0601d24e:
     .2byte  0xFFFF
 .L_pool_0601D254:
     .4byte  sym_06063D9A
-.L_pool_0601D258:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_0601D25C:
     mov.l @r14, r0
     cmp/eq #0x9, r0

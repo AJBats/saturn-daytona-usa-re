@@ -11,7 +11,7 @@
 name_entry_render:
     sts.l pr, @-r15
     mov r6, r0
-    mov.l   .L_pool_0603D5C0, r7
+    mov.l   .L_mask_byte1, r7
     mov.l   .L_pool_0603D5C4, r5
     mov.l   .L_pool_0603D5C8, r4
     mov.w   .L_wpool_0603D5BC, r1
@@ -97,8 +97,8 @@ name_entry_render:
     .global DAT_0603d5be
 DAT_0603d5be:
     .2byte  0x00FF
-.L_pool_0603D5C0:
-    .4byte  0x0000FF00
+.L_mask_byte1:
+    .4byte  0x0000FF00                  /* byte 1 mask */
 .L_pool_0603D5C4:
     .4byte  sym_060A4D58
 .L_pool_0603D5C8:

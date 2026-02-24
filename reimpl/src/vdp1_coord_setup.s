@@ -113,7 +113,7 @@ DAT_0602cb0e:
     shar r6
     add r3, r6
 .L_0602CB22:
-    mov.l   .L_pool_0602CB7C, r10
+    mov.l   .L_fp_one, r10
     mov.w   DAT_0602cb72, r1
     mov.l @(r0, r1), r4
     cmp/gt r6, r4
@@ -175,8 +175,8 @@ DAT_0602cb78:
     .global DAT_0602cb7a
 DAT_0602cb7a:
     .2byte  0x011C
-.L_pool_0602CB7C:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0602CB80:
     .4byte  fpdiv_setup
 .L_0602CB84:
@@ -277,7 +277,7 @@ DAT_0602cb7a:
     mov.w   DAT_0602ccae, r2
     mov.l r11, @(r0, r1)
     mov.l r11, @(r0, r2)
-    mov.l   .L_pool_0602CCC4, r2
+    mov.l   .L_fp_neg_one, r2
     mov.w   DAT_0602ccb2, r1
     mov.l r2, @(r0, r1)
 .L_0602CC40:
@@ -396,8 +396,8 @@ DAT_0602ccba:
     .4byte  fpdiv_setup
 .L_pool_0602CCC0:
     .4byte  0x0000CCCC
-.L_pool_0602CCC4:
-    .4byte  0xFFFF0000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_0602CCC8:
     .4byte  0x00000140
 .L_pool_0602CCCC:

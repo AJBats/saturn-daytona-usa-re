@@ -31,7 +31,7 @@ sprite_anim_render:
     mov.w r0, @(4, r15)
     mov.l   .L_pool_06010100, r2
     mov.w   DAT_060100f8, r12
-    mov.l   .L_pool_06010104, r13
+    mov.l   .L_fp_one, r13
     mov.l   .L_pool_06010108, r0
     add r2, r4
     mov.l @r0, r0
@@ -68,8 +68,8 @@ DAT_060100f8:
     .4byte  sym_0605AB19
 .L_pool_06010100:
     .4byte  sym_060447C8
-.L_pool_06010104:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06010108:
     .4byte  sym_0607EAD8
 .L_pool_0601010C:
@@ -217,7 +217,7 @@ DAT_060101b2:
     mov.l r2, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_0601028C, r7
+    mov.l   .L_wram_low, r7
     mov.l @(12, r15), r6
     mov.l   .L_pool_06010290, r2
     shlr r6
@@ -262,8 +262,8 @@ DAT_060101b2:
     .4byte  sym_0605AA98
 .L_pool_06010288:
     .4byte  sym_06044844
-.L_pool_0601028C:
-    .4byte  0x00200000
+.L_wram_low:
+    .4byte  0x00200000                  /* Work RAM Low base */
 .L_pool_06010290:
     .4byte  rigid_body_transform
     .4byte  sym_0607EADC

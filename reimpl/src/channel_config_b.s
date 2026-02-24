@@ -41,7 +41,7 @@ channel_config_b:
 
     .global sym_060149CC
 sym_060149CC:
-    mov.l   .L_pool_060149F8, r3
+    mov.l   .L_fp_half, r3
     mov.l   .L_pool_060149FC, r2
     mov.w @r2, r2
     or r3, r2
@@ -67,8 +67,8 @@ sym_060149E0:
 .L_wpool_060149F4:
     .2byte  0x7FFF
     .2byte  0xFFFF
-.L_pool_060149F8:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060149FC:
     .4byte  sym_060A3D88
 .L_pool_06014A00:

@@ -12,23 +12,23 @@ vdp2_course2_init:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.w   .L_wpool_06003540, r6
-    mov.l   .L_pool_06003568, r5
-    mov.l   .L_pool_06003548, r4
+    mov.l   .L_vdp2_cram_0x940, r5
+    mov.l   .L_vdp2_cram_0x200, r4
     mov.l   .L_pool_0600354C, r3
     jsr @r3
     nop
     mov.l   .L_pool_06003550, r14
-    mov.l   .L_pool_06003554, r5
-    mov.l   .L_pool_0600356C, r4
+    mov.l   .L_vdp2_vram_0x34000, r5
+    mov.l   .L_vdp2_vram_0x4EFEC, r4
     jsr @r14
     nop
     mov.l   .L_pool_0600355C, r5
-    mov.l   .L_pool_06003570, r4
+    mov.l   .L_vdp2_vram_0x42300, r4
     jsr @r14
     mov.l @r5, r5
     mov.l   .L_pool_0600355C, r5
     mov.w   .L_wpool_0600353E, r2
-    mov.l   .L_pool_06003574, r4
+    mov.l   .L_vdp2_vram_0x42C78, r4
     mov.l @r5, r5
     jsr @r14
     add r2, r5
@@ -42,24 +42,24 @@ vdp2_course2_init:
     .2byte  0x0100
     .2byte  0xFFFF
     .4byte  0x25F00860
-.L_pool_06003548:
-    .4byte  0x25F00200
+.L_vdp2_cram_0x200:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
 .L_pool_0600354C:
     .4byte  memcpy_word_idx
 .L_pool_06003550:
     .4byte  dma_memory_transfer
-.L_pool_06003554:
-    .4byte  0x25E34000
+.L_vdp2_vram_0x34000:
+    .4byte  0x25E34000                  /* VDP2 VRAM +0x34000 */
     .4byte  0x25E497E4
 .L_pool_0600355C:
     .4byte  sym_060612AC
     .4byte  0x25E4108C
     .4byte  0x25E41A24
-.L_pool_06003568:
-    .4byte  0x25F00940
-.L_pool_0600356C:
-    .4byte  0x25E4EFEC
-.L_pool_06003570:
-    .4byte  0x25E42300
-.L_pool_06003574:
-    .4byte  0x25E42C78
+.L_vdp2_cram_0x940:
+    .4byte  0x25F00940                  /* VDP2 color RAM +0x940 */
+.L_vdp2_vram_0x4EFEC:
+    .4byte  0x25E4EFEC                  /* VDP2 VRAM +0x4EFEC */
+.L_vdp2_vram_0x42300:
+    .4byte  0x25E42300                  /* VDP2 VRAM +0x42300 */
+.L_vdp2_vram_0x42C78:
+    .4byte  0x25E42C78                  /* VDP2 VRAM +0x42C78 */

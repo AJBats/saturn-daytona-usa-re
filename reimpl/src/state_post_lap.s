@@ -238,7 +238,7 @@ state_post_lap:
     tst r0, r0
     bt      .L_06009486
     mov.l   .L_pool_060094F4, r7
-    mov.l   .L_pool_060094F8, r6
+    mov.l   .L_mask_nibble3, r6
     mov.w   .L_wpool_060094A0, r5
     mov.l   .L_pool_060094FC, r3
     jsr @r3
@@ -304,8 +304,8 @@ state_post_lap:
     .4byte  sym_06086030
 .L_pool_060094F4:
     .4byte  sym_0605A1C8
-.L_pool_060094F8:
-    .4byte  0x0000F000
+.L_mask_nibble3:
+    .4byte  0x0000F000                  /* nibble 3 mask */
 .L_pool_060094FC:
     .4byte  sym_060283E0
 .L_pool_06009500:

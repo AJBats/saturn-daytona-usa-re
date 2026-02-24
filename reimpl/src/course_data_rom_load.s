@@ -17,7 +17,7 @@ course_data_rom_load:
     add #-0x4, r15
     mov.l   .L_pool_0601A874, r13
     mov.l   .L_pool_0601A878, r14
-    mov.l   .L_pool_0601A87C, r6
+    mov.l   .L_fp_half, r6
     mov.l   .L_pool_0601A880, r4
     mov.w @(2, r13), r0
     mov r0, r3
@@ -70,8 +70,8 @@ DAT_0601a872:
     .4byte  sym_06063D98
 .L_pool_0601A878:
     .4byte  sym_0605D248
-.L_pool_0601A87C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601A880:
     .4byte  sym_0605D243
 .L_0601A884:
@@ -135,7 +135,7 @@ DAT_0601a872:
     mov #0xC, r4
     mov.l @r14, r7
     mov.l   .L_pool_0601A938, r3
-    mov.l   .L_pool_0601A93C, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w   DAT_0601a928, r5
     shll r7
     shll2 r7
@@ -145,7 +145,7 @@ DAT_0601a872:
     mov #0xC, r4
     mov.l @r14, r7
     mov.l   .L_pool_0601A938, r3
-    mov.l   .L_pool_0601A93C, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w   DAT_0601a92a, r5
     shll r7
     add #0x1, r7
@@ -181,5 +181,5 @@ DAT_0601a92a:
     .4byte  sym_06049CDC
 .L_pool_0601A938:
     .4byte  sym_0605D2B4
-.L_pool_0601A93C:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */

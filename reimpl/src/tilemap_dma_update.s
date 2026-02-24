@@ -31,7 +31,7 @@ tilemap_dma_update:
     shll r6
     and r2, r4
     mov.l r4, @(60, r14)
-    mov.l   .L_pool_06036EFC, r3
+    mov.l   .L_vdp2_vram_0x00000, r3
     or r3, r4
     mov.l   .L_pool_06036F00, r3
     jsr @r3
@@ -42,7 +42,7 @@ tilemap_dma_update:
     cmp/eq #0x1, r0
     bt/s    .L_06036ED8
     mov.l r2, @(60, r14)
-    mov.l   .L_pool_06036F04, r2
+    mov.l   .L_fp_min, r2
     mov.l @(60, r14), r3
     or r2, r3
     mov.l r3, @(60, r14)
@@ -66,11 +66,11 @@ tilemap_dma_update:
     .4byte  sym_060A3DF8
 .L_pool_06036EF8:
     .4byte  0x0007FFFF
-.L_pool_06036EFC:
-    .4byte  0x25E00000
+.L_vdp2_vram_0x00000:
+    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
 .L_pool_06036F00:
     .4byte  sym_06038A48
-.L_pool_06036F04:
-    .4byte  0x80000000
+.L_fp_min:
+    .4byte  0x80000000                  /* min negative / sign bit */
 .L_pool_06036F08:
     .4byte  sym_060635AC

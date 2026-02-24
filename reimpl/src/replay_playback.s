@@ -19,7 +19,7 @@ replay_playback:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_0601BEC8, r8
+    mov.l   .L_fp_half, r8
     mov.l   .L_pool_0601BECC, r9
     mov.l   .L_pool_0601BED0, r11
     mov.l   .L_pool_0601BED4, r12
@@ -64,8 +64,8 @@ replay_playback:
     .2byte  0x1701
 .L_wpool_0601BEC6:
     .2byte  0x1601
-.L_pool_0601BEC8:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601BECC:
     .4byte  sym_06089EDC
 .L_pool_0601BED0:

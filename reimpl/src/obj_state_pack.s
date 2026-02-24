@@ -13,7 +13,7 @@ obj_state_pack:
     .byte   0xD3, 0x16    /* mov.l .L_pool_06020C2C, r3 */
     jsr @r3
     mov #0x8, r4
-    .byte   0xD5, 0x16    /* mov.l .L_pool_06020C30, r5 */
+    .byte   0xD5, 0x16    /* mov.l .L_fp_one, r5 */
     .byte   0xD3, 0x16    /* mov.l .L_pool_06020C34, r3 */
     jsr @r3
     mov r5, r4
@@ -52,8 +52,8 @@ obj_state_pack:
     .4byte  sym_06063F5C
 .L_pool_06020C2C:
     .4byte  sym_0603850C
-.L_pool_06020C30:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06020C34:
     .4byte  scene_color_intensity
 .L_pool_06020C38:

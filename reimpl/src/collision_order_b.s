@@ -208,7 +208,7 @@ DAT_060317c6:
     add r9, r6
     mov.l r6, @(24, r13)
     mov.l @r15+, r3
-    mov.l   .L_pool_06031888, r5
+    mov.l   .L_fp_half, r5
     add r5, r10
     neg r10, r4
     mov r3, r9
@@ -251,8 +251,8 @@ DAT_060317c6:
     .4byte  cos_lookup
 .L_pool_06031884:
     .4byte  sin_lookup
-.L_pool_06031888:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_0603188C:
     mov.l r0, @-r15
     mov r8, r4
@@ -444,7 +444,7 @@ DAT_0603196c:
     add r9, r6
     mov.l r6, @(24, r14)
     mov.l @r15+, r3
-    mov.l   .L_pool_06031A20, r5
+    mov.l   .L_fp_half_06031A20, r5
     add r5, r10
     neg r10, r4
     mov r3, r9
@@ -477,8 +477,8 @@ DAT_0603196c:
     .4byte  cos_lookup
 .L_pool_06031A1C:
     .4byte  sin_lookup
-.L_pool_06031A20:
-    .4byte  0x00008000
+.L_fp_half_06031A20:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 
     .global sym_06031A24
 sym_06031A24:

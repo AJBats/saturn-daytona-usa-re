@@ -18,7 +18,7 @@ vdp1_polygon_build:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x18, r15
-    mov.l   .L_pool_060376AC, r8
+    mov.l   .L_fp_half, r8
     mov.l   .L_pool_060376B0, r9
     mov.w   DAT_060376a4, r10
     mov.w   DAT_060376a6, r12
@@ -56,8 +56,8 @@ DAT_060376a6:
 DAT_060376a8:
     .2byte  0x4000
     .2byte  0xFFFF
-.L_pool_060376AC:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_060376B0:
     .4byte  0x0000BFFF
 .L_pool_060376B4:

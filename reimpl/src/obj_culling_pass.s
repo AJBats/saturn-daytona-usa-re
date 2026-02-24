@@ -23,7 +23,7 @@ obj_culling_pass:
     jsr @r3
     nop
     mov.l   .L_pool_06020908, r5
-    mov.l   .L_pool_0602090C, r4
+    mov.l   .L_vdp2_cram_0x200, r4
     mov.l   .L_pool_06020910, r3
     jsr @r3
     mov #0x20, r6
@@ -146,8 +146,8 @@ obj_culling_pass:
     .4byte  gameover_channel_setup
 .L_pool_06020908:
     .4byte  sym_060489CC
-.L_pool_0602090C:
-    .4byte  0x25F00200
+.L_vdp2_cram_0x200:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
 .L_pool_06020910:
     .4byte  memcpy_word_idx
 .L_pool_06020914:

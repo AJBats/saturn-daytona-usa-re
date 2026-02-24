@@ -18,15 +18,15 @@ per_vtx_lighting:
     bt      .L_0602E778
     neg r7, r7
 .L_0602E778:
-    mov.l   .L_pool_0602E788, r11
+    mov.l   .L_mask_nibble4, r11
     cmp/ge r11, r7
     bt      .L_0602E78C
     bra     .L_0602E7C0
     nop
     .2byte  0x0000
     .4byte  isqrt
-.L_pool_0602E788:
-    .4byte  0x000F0000
+.L_mask_nibble4:
+    .4byte  0x000F0000                  /* nibble 4 mask */
 .L_0602E78C:
     mov.l   .L_pool_0602E7B0, r0
     mov.l @(r0, r9), r3

@@ -16,7 +16,7 @@ course_init_pipeline:
     sts.l pr, @-r15
     mov.l   .L_pool_0601A9A8, r12
     mov.l   .L_pool_0601A9AC, r14
-    mov.l   .L_pool_0601A9B0, r5
+    mov.l   .L_fp_half, r5
     mov.l   .L_pool_0601A9B4, r4
     mov.w @(2, r12), r0
     mov r0, r3
@@ -70,8 +70,8 @@ DAT_0601a9a4:
     .4byte  sym_06063D98
 .L_pool_0601A9AC:
     .4byte  sym_0605D24C
-.L_pool_0601A9B0:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601A9B4:
     .4byte  sym_0605D243
 .L_0601A9B8:
@@ -195,7 +195,7 @@ DAT_0601aa3a:
     mov #0xC, r4
     mov.b @r14, r7
     mov.l   .L_pool_0601AAE0, r3
-    mov.l   .L_pool_0601AAE4, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w   .L_wpool_0601AAC4, r5
     shll r7
     shll2 r7
@@ -205,7 +205,7 @@ DAT_0601aa3a:
     mov #0xC, r4
     mov.b @r14, r7
     mov.l   .L_pool_0601AAE0, r3
-    mov.l   .L_pool_0601AAE4, r6
+    mov.l   .L_mask_0xE000, r6
     mov.w   DAT_0601aac2, r5
     shll r7
     shll2 r7
@@ -240,5 +240,5 @@ DAT_0601aac2:
     .4byte  sym_06049CDC
 .L_pool_0601AAE0:
     .4byte  sym_0605D35C
-.L_pool_0601AAE4:
-    .4byte  0x0000E000
+.L_mask_0xE000:
+    .4byte  0x0000E000                  /* bits 15:13 mask */

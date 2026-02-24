@@ -45,7 +45,7 @@ scene_render_body:
     nop
 .L_0600C050:
     mov.l @r8, r2
-    mov.l   .L_pool_0600C0BC, r3
+    mov.l   .L_fp_two, r3
     cmp/eq r3, r2
     bf      .L_0600C066
     mov.l   .L_pool_0600C0C0, r0
@@ -100,8 +100,8 @@ scene_render_body:
     .4byte  sym_0600D336
 .L_pool_0600C0B8:
     .4byte  physics_calc_dispatch
-.L_pool_0600C0BC:
-    .4byte  0x00020000
+.L_fp_two:
+    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 .L_pool_0600C0C0:
     .4byte  sym_0607EAE0
 .L_pool_0600C0C4:

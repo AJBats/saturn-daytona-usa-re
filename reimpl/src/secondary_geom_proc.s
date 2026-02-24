@@ -16,7 +16,7 @@ secondary_geom_proc:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_pool_0600A858, r12
-    mov.l   .L_pool_0600A85C, r13
+    mov.l   .L_fp_half, r13
     mov.l   .L_pool_0600A860, r14
     mov.l @r14, r14
     mov.b @(1, r14), r0
@@ -134,8 +134,8 @@ DAT_0600a856:
     .2byte  0x8000
 .L_pool_0600A858:
     .4byte  sym_0608A52C
-.L_pool_0600A85C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600A860:
     .4byte  sym_0607EB8C
 .L_pool_0600A864:

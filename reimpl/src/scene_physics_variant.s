@@ -115,7 +115,7 @@ DAT_06025c6e:
     add r1, r7
     mov.l r7, @(4, r15)
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06025D6C, r3
+    mov.l   .L_fp_half, r3
     add r3, r7
     shll r6
     mov.l r6, @(24, r15)
@@ -209,8 +209,8 @@ DAT_06025c6e:
     .4byte  sym_0605900C
 .L_pool_06025D68:
     .4byte  sym_06063750
-.L_pool_06025D6C:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06025D70:
     .4byte  sym_06059074
 .L_pool_06025D74:
@@ -614,7 +614,7 @@ DAT_06026016:
     add r1, r7
     mov.l r7, @(8, r15)
     mov.l @(4, r7), r7
-    mov.l   .L_pool_06026100, r3
+    mov.l   .L_fp_half_06026100, r3
     mov.l @r13, r6
     add r3, r7
     shll r6
@@ -706,8 +706,8 @@ DAT_06026016:
     .4byte  sym_0605900C
 .L_pool_060260FC:
     .4byte  sym_06063750
-.L_pool_06026100:
-    .4byte  0x00008000
+.L_fp_half_06026100:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06026104:
     .4byte  sym_06059074
 .L_pool_06026108:

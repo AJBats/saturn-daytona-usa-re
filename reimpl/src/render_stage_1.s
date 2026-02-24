@@ -41,7 +41,7 @@ render_stage_1:
     mov.l r13, @r3
     mov.l   .L_pool_0601CA6C, r3
     mov.l r13, @r3
-    mov.l   .L_pool_0601CA70, r5
+    mov.l   .L_vdp2_cram_0x200, r5
     mov #0x20, r4
 .L_0601C9BC:
     mov.w @r14, r3
@@ -54,7 +54,7 @@ render_stage_1:
     tst r4, r4
     bf/s    .L_0601C9BC
     mov.w r3, @r2
-    mov.l   .L_pool_0601CA74, r5
+    mov.l   .L_vdp2_cram_0x400, r5
     mov #0x20, r4
 .L_0601C9D4:
     mov.w @r14, r2
@@ -68,19 +68,19 @@ render_stage_1:
     bf/s    .L_0601C9D4
     mov.w r2, @r3
     mov.l   .L_pool_0601CA78, r5
-    mov.l   .L_pool_0601CA7C, r4
+    mov.l   .L_vdp2_cram_0x000, r4
     mov.l   .L_pool_0601CA80, r3
     jsr @r3
     mov #0x40, r6
     mov #0x9, r7
     mov.l   .L_pool_0601CA84, r5
-    mov.l   .L_pool_0601CA88, r4
+    mov.l   .L_vdp2_vram_0x70E40, r4
     mov.l   .L_pool_0601CA8C, r3
     jsr @r3
     mov #0x0, r6
     mov #0x9, r7
     mov.l   .L_pool_0601CA90, r5
-    mov.l   .L_pool_0601CA94, r4
+    mov.l   .L_vdp2_vram_0x7B168, r4
     mov.l   .L_pool_0601CA8C, r3
     jsr @r3
     mov #0x0, r6
@@ -143,26 +143,26 @@ DAT_0601ca3c:
     .4byte  sym_06086020
 .L_pool_0601CA6C:
     .4byte  sym_06086024
-.L_pool_0601CA70:
-    .4byte  0x25F00200
-.L_pool_0601CA74:
-    .4byte  0x25F00400
+.L_vdp2_cram_0x200:
+    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
+.L_vdp2_cram_0x400:
+    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
 .L_pool_0601CA78:
     .4byte  sym_0604880C
-.L_pool_0601CA7C:
-    .4byte  0x25F00000
+.L_vdp2_cram_0x000:
+    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
 .L_pool_0601CA80:
     .4byte  dma_transfer
 .L_pool_0601CA84:
     .4byte  0x00014000
-.L_pool_0601CA88:
-    .4byte  0x25E70E40
+.L_vdp2_vram_0x70E40:
+    .4byte  0x25E70E40                  /* VDP2 VRAM +0x70E40 */
 .L_pool_0601CA8C:
     .4byte  sym_0600511E
 .L_pool_0601CA90:
     .4byte  0x00016BC0
-.L_pool_0601CA94:
-    .4byte  0x25E7B168
+.L_vdp2_vram_0x7B168:
+    .4byte  0x25E7B168                  /* VDP2 VRAM +0x7B168 */
 .L_pool_0601CA98:
     .4byte  sym_06063958
 .L_pool_0601CA9C:

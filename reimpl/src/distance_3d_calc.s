@@ -39,7 +39,7 @@ distance_3d_calc:
     mov r0, r4
     mov r15, r2
     mov.l @r2, r3
-    mov.l   .L_pool_06036700, r2
+    mov.l   .L_mask_low24, r2
     and r2, r3
     mov.l r3, @r14
     mov r15, r2
@@ -68,5 +68,5 @@ distance_3d_calc:
     .4byte  input_proc_digital
 .L_pool_060366FC:
     .4byte  input_proc_analog
-.L_pool_06036700:
-    .4byte  0x00FFFFFF
+.L_mask_low24:
+    .4byte  0x00FFFFFF                  /* low 24-bit mask */

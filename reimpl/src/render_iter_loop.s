@@ -23,7 +23,7 @@ render_iter_loop:
     mov.l   .L_pool_06014140, r2
     jsr @r2
     mov.l r1, @r15
-    mov.l   .L_pool_06014144, r14
+    mov.l   .L_fp_one, r14
     mov.w   .L_wpool_06014136, r5
     mov.l   .L_pool_06014148, r3
     mov r14, r6
@@ -73,8 +73,8 @@ render_iter_loop:
     .4byte  sym_0605AD4C
 .L_pool_06014140:
     .4byte  sym_06026DBC
-.L_pool_06014144:
-    .4byte  0x00010000
+.L_fp_one:
+    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06014148:
     .4byte  sym_06026E2E
 .L_pool_0601414C:

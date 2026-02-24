@@ -24,7 +24,7 @@ transition_large_menu:
     mov #0xC, r4
     mov.w   .L_wpool_0600FA04, r6
     .byte   0xD5, 0x12    /* mov.l .L_pool_0600FA2C, r5 */
-    .byte   0xD4, 0x12    /* mov.l .L_pool_0600FA30, r4 */
+    .byte   0xD4, 0x12    /* mov.l .L_vdp2_cram_0x460, r4 */
     .byte   0xD3, 0x13    /* mov.l .L_pool_0600FA34, r3 */
     jsr @r3
     nop
@@ -57,8 +57,8 @@ transition_large_menu:
     .4byte  sym_0602853E
 .L_pool_0600FA2C:
     .4byte  sym_0605CA9C
-.L_pool_0600FA30:
-    .4byte  0x25F00460
+.L_vdp2_cram_0x460:
+    .4byte  0x25F00460                  /* VDP2 color RAM +0x460 */
 .L_pool_0600FA34:
     .4byte  memcpy_word_idx
 .L_pool_0600FA38:

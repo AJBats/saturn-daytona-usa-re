@@ -14,7 +14,7 @@ scu_dma_transfer:
     sts.l pr, @-r15
     add #-0x10, r15
     mov.w   .L_wpool_0603FEDC, r13
-    mov.l   .L_pool_0603FEE4, r14
+    mov.l   .L_scu_ist, r14
     mov.l r5, @r15
     mov.l r6, @(8, r15)
     mov.l r7, @(4, r15)
@@ -28,7 +28,7 @@ scu_dma_transfer:
     nop
 .L_0603FEA2:
     mov.l   .L_pool_0603FEEC, r3
-    mov.l   .L_pool_0603FEF0, r2
+    mov.l   .L_scu_asr1, r2
     mov.l r3, @r2
     mov.l   .L_pool_0603FEF4, r3
     mov.l @r3, r3
@@ -37,7 +37,7 @@ scu_dma_transfer:
     mov.w   .L_wpool_0603FEDE, r2
     mov.l r2, @r14
     mov.l @(4, r15), r3
-    mov.l   .L_pool_0603FEF8, r2
+    mov.l   .L_scu_d0r, r2
     mov.l r3, @r2
     add #0x4, r2
     mov.l @r15, r3
@@ -65,18 +65,18 @@ scu_dma_transfer:
 .L_wpool_0603FEE0:
     .2byte  0x0100
     .2byte  0xFFFF
-.L_pool_0603FEE4:
-    .4byte  0x25FE00A4
+.L_scu_ist:
+    .4byte  0x25FE00A4                  /* SCU IST — interrupt status */
 .L_pool_0603FEE8:
     .4byte  sym_06000348
 .L_pool_0603FEEC:
     .4byte  0x10041004
-.L_pool_0603FEF0:
-    .4byte  0x25FE00B4
+.L_scu_asr1:
+    .4byte  0x25FE00B4                  /* SCU ASR1 — A-bus timing CS1 */
 .L_pool_0603FEF4:
     .4byte  sym_06000340
-.L_pool_0603FEF8:
-    .4byte  0x25FE0000
+.L_scu_d0r:
+    .4byte  0x25FE0000                  /* SCU D0R — DMA level 0 read addr */
 .L_0603FEFC:
     mov #0x2, r5
 .L_0603FEFE:

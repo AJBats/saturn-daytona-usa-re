@@ -21,7 +21,7 @@ car_update_racing:
     mov.l   .L_pool_0600E12C, r8
     mov.l   .L_pool_0600E130, r9
     mov.w   .L_wpool_0600E0EA, r10
-    mov.l   .L_pool_0600E134, r11
+    mov.l   .L_fp_half, r11
     mov.l   .L_pool_0600E0F8, r12
     mov.l   .L_pool_0600E114, r14
     mov.l   .L_pool_0600E138, r0
@@ -54,8 +54,8 @@ car_update_racing:
     .4byte  sym_0607EBC4
 .L_pool_0600E130:
     .4byte  sym_06078900
-.L_pool_0600E134:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0600E138:
     .4byte  sym_0607EAE0
 .L_0600E13C:

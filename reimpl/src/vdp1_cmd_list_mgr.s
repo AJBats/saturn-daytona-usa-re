@@ -307,7 +307,7 @@ DAT_0602cfe0:
 .L_pool_0602CFF4:
     .4byte  sym_06063EEC
 .L_0602CFF8:
-    .byte   0xD4, 0x0B    /* mov.l .L_pool_0602D028, r4 */
+    .byte   0xD4, 0x0B    /* mov.l .L_fp_neg_one, r4 */
     or r4, r6
 .L_0602CFFC:
     add r6, r3
@@ -337,8 +337,8 @@ DAT_0602d020:
 .L_wpool_0602D024:
     .2byte  0x0444
     .2byte  0x0000
-.L_pool_0602D028:
-    .4byte  0xFFFF0000
+.L_fp_neg_one:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_0602D02C:
     mov.w   DAT_0602d04e, r7
     cmp/pz r5

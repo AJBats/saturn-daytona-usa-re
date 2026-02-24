@@ -12,7 +12,7 @@ trans_select_at_mt:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l   .L_pool_06019DA8, r14
-    mov.l   .L_pool_06019DAC, r6
+    mov.l   .L_fp_half, r6
     mov.l   .L_pool_06019DB0, r5
     mov.l   .L_pool_06019DB4, r4
     mov.w @(2, r5), r0
@@ -92,8 +92,8 @@ trans_select_at_mt:
     .2byte  0x4000
 .L_pool_06019DA8:
     .4byte  sym_0605AD00
-.L_pool_06019DAC:
-    .4byte  0x00008000
+.L_fp_half:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06019DB0:
     .4byte  sym_06063D98
 .L_pool_06019DB4:

@@ -13,7 +13,7 @@ track_normal_calc:
     sts.l pr, @-r15
     mov.l   .L_pool_060144E8, r14
     mov.l   .L_pool_060144EC, r4
-    mov.l   .L_pool_060144F0, r3
+    mov.l   .L_mask_low16, r3
     mov.w @(4, r4), r0
     extu.w r0, r0
     xor r3, r0
@@ -77,8 +77,8 @@ track_normal_calc:
     .4byte  sym_06084B08
 .L_pool_060144EC:
     .4byte  sym_06063D98
-.L_pool_060144F0:
-    .4byte  0x0000FFFF
+.L_mask_low16:
+    .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_060144F4:
     .4byte  sym_06084B0C
 .L_pool_060144F8:

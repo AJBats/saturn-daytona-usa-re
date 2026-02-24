@@ -10,7 +10,7 @@
     .type smpc_cmd_helper_b, @function
 smpc_cmd_helper_b:
     sts.l pr, @-r15
-    mov.l   .L_pool_06035C78, r3
+    mov.l   .L_cd_hirq, r3
     mov.w @r3, r3
     extu.w r3, r3
     mov.l   .L_pool_06035C7C, r2
@@ -25,11 +25,11 @@ smpc_cmd_helper_b:
 
     .global sym_06035C6E
 sym_06035C6E:
-    mov.l   .L_pool_06035C78, r3
+    mov.l   .L_cd_hirq, r3
     rts
     mov.w r4, @r3
     .4byte  0x25818000
-.L_pool_06035C78:
-    .4byte  0x25890008
+.L_cd_hirq:
+    .4byte  0x25890008                  /* CD HIRQ — interrupt request */
 .L_pool_06035C7C:
     .4byte  sym_06063590

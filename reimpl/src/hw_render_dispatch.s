@@ -16,11 +16,11 @@ hw_render_dispatch:
     mov.l r6, @(4, r15)
     tst r3, r3
     bf      .L_06005134
-    mov.l   .L_pool_06005164, r14
+    mov.l   .L_vdp2_vram_0x00000, r14
     bra     .L_06005136
     nop
 .L_06005134:
-    mov.l   .L_pool_06005168, r14
+    mov.l   .L_vdp2_vram_0x20000, r14
 .L_06005136:
     mov #0x8, r2
     and r2, r7
@@ -44,10 +44,10 @@ hw_render_dispatch:
     .2byte  0xFFFF
     .4byte  sym_06063750
     .4byte  sym_06059F10
-.L_pool_06005164:
-    .4byte  0x25E00000
-.L_pool_06005168:
-    .4byte  0x25E20000
+.L_vdp2_vram_0x00000:
+    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
+.L_vdp2_vram_0x20000:
+    .4byte  0x25E20000                  /* VDP2 VRAM +0x20000 */
 .L_pool_0600516C:
     .4byte  dma_memory_transfer
 .L_pool_06005170:
