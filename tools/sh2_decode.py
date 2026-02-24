@@ -57,7 +57,7 @@ def decode_sh2(opcode, pc):
         if lo == 0xD: return f"xtrct r{rm}, r{rn}", None
         if lo == 0xE: return f"mulu.w r{rm}, r{rn}", None
         if lo == 0xF: return f"muls.w r{rm}, r{rn}", None
-        if lo == 3: return f"cas.l r{rm}, r{rn}, @r0", None
+        # lo == 3: cas.l (SH4A only, not valid on SH-2)
 
     # 0011 group
     if hi == 3:

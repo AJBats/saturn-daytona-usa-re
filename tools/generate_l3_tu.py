@@ -147,7 +147,7 @@ def parse_retail_file(filepath):
             if not line or line.startswith('/*') or line.startswith('*') or line.startswith(' *'):
                 continue
 
-            # .section .text.FUN_XXXXXXXX
+            # .section .text.FUN_XXXXXXXX  or  .section .text.startup
             m = re.match(r'\.section\s+\.text\.(FUN_([0-9A-Fa-f]+))', line)
             if m:
                 sec = {
@@ -160,6 +160,22 @@ def parse_retail_file(filepath):
                 sections.append(sec)
                 cur = sec
                 continue
+            # .section .text.startup — base address from first .global sym_XXXXXXXX
+            m = re.match(r'\.section\s+\.text\.(\w+)', line)
+            if m and m.group(1) != 'startup':
+                pass  # unknown section type, skip
+            elif m:
+                sec = {
+                    'name':      m.group(1),
+                    'base':      None,  # resolved from first global
+                    'bytes':     bytearray(),
+                    'globals':   [],
+                    'fourbytes': {},
+                    '_needs_base': True,
+                }
+                sections.append(sec)
+                cur = sec
+                continue
 
             if cur is None:
                 continue
@@ -167,7 +183,14 @@ def parse_retail_file(filepath):
             # .global label
             m = re.match(r'\.global\s+(\S+)', line)
             if m:
-                cur['globals'].append((len(cur['bytes']), m.group(1), False))
+                gname = m.group(1)
+                cur['globals'].append((len(cur['bytes']), gname, False))
+                # Resolve base address for .text.startup from first sym_XXXXXXXX
+                if cur.get('_needs_base') and cur['base'] is None:
+                    sm = re.match(r'(?:sym|FUN|DAT)_([0-9A-Fa-f]{8})', gname)
+                    if sm:
+                        cur['base'] = int(sm.group(1), 16)
+                        del cur['_needs_base']
                 continue
 
             # .type label, @function  (mark the preceding global as having a type)
@@ -186,17 +209,23 @@ def parse_retail_file(filepath):
             if re.match(r'^[A-Za-z_]\w*\s*:', line):
                 continue
 
-            # .byte 0xHH, 0xHH
+            # .byte 0xHH, 0xHH  (pair)
             m = re.match(r'\.byte\s+0x([0-9A-Fa-f]+)\s*,\s*0x([0-9A-Fa-f]+)', line)
             if m:
                 cur['bytes'].append(int(m.group(1), 16))
                 cur['bytes'].append(int(m.group(2), 16))
                 continue
 
-            # .4byte symbol
-            m = re.match(r'\.4byte\s+(\S+)', line)
+            # .byte 0xHH  (single byte — used between odd-aligned labels)
+            m = re.match(r'\.byte\s+0x([0-9A-Fa-f]+)\s*$', line)
             if m:
-                sym = m.group(1)
+                cur['bytes'].append(int(m.group(1), 16))
+                continue
+
+            # .4byte symbol  or  .4byte symbol + expr
+            m = re.match(r'\.4byte\s+(.+)', line)
+            if m:
+                sym = m.group(1).strip()
                 off = len(cur['bytes'])
                 cur['fourbytes'][off] = sym
                 # Write placeholder bytes (will be overwritten from retail binary)
@@ -545,8 +574,8 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 else:
                     plabel = f".L_pool_{pool_target:08X}"
                     pool_labels[pool_target] = plabel
-                if TU_START % 4 != 0:
-                    # Can't use symbolic — assembler alignment mismatch
+                if TU_START % 4 != 0 or not (TU_START <= pool_target < TU_END):
+                    # Raw bytes when: alignment mismatch OR cross-TU pool ref
                     b0 = image[off]
                     b1 = image[off + 1]
                     lines.append(f"    .byte   0x{b0:02X}, 0x{b1:02X}"
@@ -569,6 +598,15 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 else:
                     wlabel = f".L_wpool_{pool_target:08X}"
                     wpool_labels[pool_target] = wlabel
+                if not (TU_START <= pool_target < TU_END):
+                    # Cross-TU pool ref — emit raw bytes
+                    b0 = image[off]
+                    b1 = image[off + 1]
+                    lines.append(f"    .byte   0x{b0:02X}, 0x{b1:02X}"
+                                 f"    /* mov.w {wlabel}, r{rn} */")
+                    stats['instructions'] += 1
+                    pc += 2
+                    continue
                 lines.append(f"    mov.w   {wlabel}, r{rn}")
                 stats['instructions'] += 1
                 pc += 2
@@ -632,18 +670,23 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 pc += 2
                 continue
 
+            # Helper: check if any byte in range has a label that would be skipped
+            def _has_label_in_range(start, count):
+                for i in range(1, count):
+                    a = start + i
+                    if a in globals_map or a in branch_labels or a in pool_labels or a in wpool_labels:
+                        return True
+                return False
+
             # Determine if this data slot should be emitted as a 4-byte entry.
-            # Requirements: 4-byte aligned, room for 4 bytes, and the second
-            # half-word is not a separate label/code/symbol boundary.
+            # Requirements: 4-byte aligned, room for 4 bytes, and no labels or
+            # boundaries at any intermediate position.
             can_emit_4 = (
                 pc % 4 == 0 and
                 off + 4 <= TU_SIZE and
                 (pc + 2) not in fourbyte_map and
                 (pc + 2) not in code_addrs and
-                (pc + 2) not in globals_map and
-                (pc + 2) not in branch_labels and
-                (pc + 2) not in pool_labels and
-                (pc + 2) not in wpool_labels
+                not _has_label_in_range(pc, 4)
             )
 
             if can_emit_4:
@@ -654,8 +697,8 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 pc += 4
                 continue
 
-            # Fallback: emit as 2 bytes
-            if off + 2 <= TU_SIZE:
+            # Emit as 2 bytes if no label at pc+1
+            if off + 2 <= TU_SIZE and not _has_label_in_range(pc, 2):
                 val = (image[off] << 8) | image[off + 1]
                 lines.append(f"    .2byte  0x{val:04X}")
                 stats['pool_2byte'] += 1
