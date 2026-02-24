@@ -242,8 +242,10 @@ def build_flat_image(sections):
         image:        bytearray of TU_SIZE bytes (indexed by addr - TU_START)
         globals_map:  {absolute_addr: (name, has_type)}
         fourbyte_map: {absolute_addr: symbol_string}
+        coverage:     bytearray of TU_SIZE (1 = real data, 0 = gap/padding)
     """
     image = bytearray(TU_SIZE)
+    coverage = bytearray(TU_SIZE)  # track which bytes are from actual sections
     globals_map  = {}   # addr -> (name, has_type)
     fourbyte_map = {}   # addr -> symbol string
 
@@ -262,9 +264,11 @@ def build_flat_image(sections):
             dst_off = clip_start - TU_START
             length  = clip_end - clip_start
             image[dst_off:dst_off + length] = data[src_off:src_off + length]
+            coverage[dst_off:dst_off + length] = b'\x01' * length
         else:
             off = base - TU_START
             image[off:off + len(data)] = data
+            coverage[off:off + len(data)] = b'\x01' * len(data)
 
         # Map globals
         for goff, gname, gtype in sec['globals']:
@@ -278,7 +282,45 @@ def build_flat_image(sections):
             if TU_START <= addr < TU_END:
                 fourbyte_map[addr] = fsym
 
-    return image, globals_map, fourbyte_map
+    return image, globals_map, fourbyte_map, coverage
+
+
+def compute_ranges(coverage):
+    """Find contiguous ranges of covered bytes from the coverage mask.
+
+    Returns a list of (start_off, end_off) tuples for each contiguous covered
+    region.  Offsets are relative to TU_START.
+    """
+    ranges = []
+    in_range = False
+    start = 0
+    for i in range(len(coverage)):
+        if coverage[i] and not in_range:
+            start = i
+            in_range = True
+        elif not coverage[i] and in_range:
+            ranges.append((start, i))
+            in_range = False
+    if in_range:
+        ranges.append((start, len(coverage)))
+    return ranges
+
+
+def build_range_lookup(ranges):
+    """Build a function that returns the range index for a given absolute addr.
+
+    Returns -1 if the address is in a gap (no range).
+    """
+    # Convert to absolute addresses for lookup
+    abs_ranges = [(TU_START + s, TU_START + e) for s, e in ranges]
+
+    def lookup(addr):
+        for i, (s, e) in enumerate(abs_ranges):
+            if s <= addr < e:
+                return i
+        return -1
+
+    return lookup
 
 
 # ---------------------------------------------------------------------------
@@ -298,7 +340,7 @@ def _mnemonic_base(mnemonic):
     return mnemonic.split()[0].rstrip(',') if mnemonic else ''
 
 
-def _find_pool_targets(image):
+def _find_pool_targets(image, coverage=None):
     """Pre-scan every 2-byte slot, decode it as if it were an instruction, and
     collect all pool targets (mov.l / mov.w @(disp,PC) targets).
 
@@ -307,6 +349,8 @@ def _find_pool_targets(image):
     """
     pool_targets = set()
     for off in range(0, TU_SIZE - 1, 2):
+        if coverage is not None and coverage[off] == 0:
+            continue
         pc = TU_START + off
         opcode = (image[off] << 8) | image[off + 1]
         hi = (opcode >> 12) & 0xF
@@ -323,7 +367,7 @@ def _find_pool_targets(image):
     return pool_targets
 
 
-def flow_analysis(image, globals_map, fourbyte_map):
+def flow_analysis(image, globals_map, fourbyte_map, coverage=None):
     """Determine which 2-byte-aligned addresses are code vs data.
 
     Returns:
@@ -333,7 +377,7 @@ def flow_analysis(image, globals_map, fourbyte_map):
     work = []  # addresses to explore
 
     # Pre-scan to find all pool targets — these are data, not code
-    pool_targets = _find_pool_targets(image)
+    pool_targets = _find_pool_targets(image, coverage)
 
     # Also build the set of .4byte regions (each covers 4 bytes = 2 slots)
     fourbyte_addrs = set()
@@ -374,6 +418,10 @@ def flow_analysis(image, globals_map, fourbyte_map):
 
         off = pc - TU_START
         if off + 2 > TU_SIZE:
+            continue
+
+        # Skip gap bytes (non-contiguous sections)
+        if coverage is not None and coverage[off] == 0:
             continue
 
         code_addrs.add(pc)
@@ -492,8 +540,18 @@ def label_for_addr(addr, globals_map, branch_labels, pool_labels, wpool_labels):
 # ---------------------------------------------------------------------------
 
 def generate_output(image, code_addrs, globals_map, fourbyte_map,
-                    pool_labels, wpool_labels, branch_labels):
-    """Generate the L3 assembly output as a list of lines."""
+                    pool_labels, wpool_labels, branch_labels,
+                    coverage=None, range_lookup=None, ranges=None):
+    """Generate the L3 assembly output as a list of lines.
+
+    For non-contiguous TUs (multiple ranges), emits separate .section
+    directives per contiguous range.  The linker's SORT_BY_NAME interleaves
+    them with gap files, producing byte-identical output.
+
+    Within a contiguous range, symbolic labels are used for branches and pool
+    refs.  Cross-range targets use raw bytes (the PC-relative displacement is
+    correct when sections maintain their original order).
+    """
     lines = []
 
     # Header
@@ -503,10 +561,12 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
     lines.append(" */")
     lines.append("")
 
-    # Get the first section name from the first global
-    first_sec = f"FUN_{TU_START:08X}"
-    lines.append(f"    .section .text.{first_sec}")
-    lines.append("")
+    # Compute contiguous ranges for multi-section output
+    if ranges is None or len(ranges) <= 1:
+        # Single contiguous TU — one section
+        range_sections = [(0, TU_SIZE)]
+    else:
+        range_sections = ranges  # list of (start_off, end_off)
 
     # Statistics
     stats = {
@@ -520,11 +580,60 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
         'external_bytes': 0,
     }
 
+    def _in_same_range(addr_a, addr_b):
+        """Check if two absolute addresses are in the same contiguous range."""
+        if range_lookup is None:
+            # Single range — both must be within TU bounds
+            return TU_START <= addr_a < TU_END and TU_START <= addr_b < TU_END
+        ra = range_lookup(addr_a)
+        rb = range_lookup(addr_b)
+        return ra >= 0 and ra == rb
+
+    def _is_in_range(addr):
+        """Check if an address is in any covered range (not a gap)."""
+        if range_lookup is None:
+            return TU_START <= addr < TU_END
+        return range_lookup(addr) >= 0
+
+    current_range_idx = -1
+
     pc = TU_START
     prev_was_code = True  # track transitions for blank-line formatting
 
     while pc < TU_END:
         off = pc - TU_START
+
+        # Skip gap bytes — emit new .section at each range boundary
+        if coverage is not None and coverage[off] == 0:
+            # Jump to end of gap
+            gap_end = off
+            while gap_end < TU_SIZE and coverage[gap_end] == 0:
+                gap_end += 1
+            pc = TU_START + gap_end
+            continue
+
+        # Check if we've entered a new range — emit .section directive
+        if range_lookup is not None:
+            ri = range_lookup(pc)
+            if ri != current_range_idx:
+                current_range_idx = ri
+                # Find the first global label in this range for the section name
+                range_start = TU_START + range_sections[ri][0]
+                sec_name = f"FUN_{range_start:08X}"
+                # Try to find a more specific FUN_ global at the range start
+                if range_start in globals_map:
+                    gn = globals_map[range_start][0]
+                    if gn.startswith('FUN_'):
+                        sec_name = gn
+                lines.append(f"    .section .text.{sec_name}")
+                lines.append("")
+        elif current_range_idx < 0:
+            # First section for single-range TU
+            current_range_idx = 0
+            first_sec = f"FUN_{TU_START:08X}"
+            lines.append(f"    .section .text.{first_sec}")
+            lines.append("")
+
         is_code = pc in code_addrs
 
         # -- Emit labels at this address --
@@ -562,9 +671,8 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
             if hi == 0xD and pool_target is not None:
                 # mov.l @(disp,PC), Rn -> mov.l LABEL, Rn
                 # NOTE: mov.l requires 4-byte aligned pool target. The assembler
-                # checks section-relative alignment, so if TU_START % 4 != 0,
-                # the check fails (section offset ≠ absolute alignment). In that
-                # case, emit raw bytes — mov.l is PC-relative so the original
+                # checks section-relative alignment, so if the range base % 4 != 0,
+                # emit raw bytes — mov.l is PC-relative so the original
                 # displacement works correctly in free builds.
                 rn = (opcode >> 8) & 0xF
                 if pool_target in globals_map:
@@ -574,8 +682,15 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 else:
                     plabel = f".L_pool_{pool_target:08X}"
                     pool_labels[pool_target] = plabel
-                if TU_START % 4 != 0 or not (TU_START <= pool_target < TU_END):
-                    # Raw bytes when: alignment mismatch OR cross-TU pool ref
+                # Determine range base for alignment check
+                range_base = TU_START
+                if range_lookup is not None:
+                    ri = range_lookup(pc)
+                    if ri >= 0:
+                        range_base = TU_START + range_sections[ri][0]
+                same_range = _in_same_range(pc, pool_target)
+                if range_base % 4 != 0 or not same_range:
+                    # Raw bytes: alignment mismatch or cross-range/cross-TU
                     b0 = image[off]
                     b1 = image[off + 1]
                     lines.append(f"    .byte   0x{b0:02X}, 0x{b1:02X}"
@@ -598,8 +713,9 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 else:
                     wlabel = f".L_wpool_{pool_target:08X}"
                     wpool_labels[pool_target] = wlabel
-                if not (TU_START <= pool_target < TU_END):
-                    # Cross-TU pool ref — emit raw bytes
+                same_range = _in_same_range(pc, pool_target)
+                if not same_range:
+                    # Cross-range pool ref — emit raw bytes
                     b0 = image[off]
                     b1 = image[off + 1]
                     lines.append(f"    .byte   0x{b0:02X}, 0x{b1:02X}"
@@ -616,8 +732,9 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
             if base in ('bra', 'bsr', 'bf', 'bt', 'bf/s', 'bt/s'):
                 target = _extract_branch_target(mnemonic)
                 if target is not None:
-                    if TU_START <= target < TU_END:
-                        # Internal branch - use symbolic label
+                    same_range = _in_same_range(pc, target)
+                    if same_range:
+                        # Same-range branch — use symbolic label
                         if target in globals_map:
                             tlabel = globals_map[target][0]
                         elif target in branch_labels:
@@ -686,7 +803,8 @@ def generate_output(image, code_addrs, globals_map, fourbyte_map,
                 off + 4 <= TU_SIZE and
                 (pc + 2) not in fourbyte_map and
                 (pc + 2) not in code_addrs and
-                not _has_label_in_range(pc, 4)
+                not _has_label_in_range(pc, 4) and
+                (coverage is None or all(coverage[off + i] for i in range(4)))
             )
 
             if can_emit_4:
@@ -796,12 +914,17 @@ def main():
         prev_end = end
 
     print("\nBuilding flat image ...")
-    image, globals_map, fourbyte_map = build_flat_image(sections)
+    image, globals_map, fourbyte_map, coverage = build_flat_image(sections)
     print(f"  {len(globals_map)} global labels")
     print(f"  {len(fourbyte_map)} .4byte symbol entries")
 
+    # Count gap bytes
+    gap_bytes = sum(1 for b in coverage if b == 0)
+    if gap_bytes > 0:
+        print(f"  {gap_bytes} gap bytes (non-contiguous sections)")
+
     print("\nRunning flow analysis ...")
-    code_addrs = flow_analysis(image, globals_map, fourbyte_map)
+    code_addrs = flow_analysis(image, globals_map, fourbyte_map, coverage)
     data_count = 0
     for addr in range(TU_START, TU_END, 2):
         if addr not in code_addrs:
@@ -820,7 +943,7 @@ def main():
     print("\nGenerating output ...")
     output_lines, stats = generate_output(
         image, code_addrs, globals_map, fourbyte_map,
-        pool_labels, wpool_labels, branch_labels)
+        pool_labels, wpool_labels, branch_labels, coverage)
 
     print(f"\n{'='*60}")
     print(f"STATISTICS")
