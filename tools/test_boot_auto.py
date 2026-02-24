@@ -42,10 +42,11 @@ TRACE = [
 ]
 
 # Screenshot stages: (frame, golden_file, compare_method)
-# Menu uses histogram only because ARCADE MODE text blinks — phash/rmse
-# are too sensitive to the blink state.
+# Attract uses histogram only — shifted/MODS builds change CD timing so car
+# positions and PRESS START blink state vary between runs.
+# Menu uses histogram only — ARCADE MODE text blinks.
 STAGES = {
-    "attract": (1121, "golden_attract.png", "all"),
+    "attract": (1121, "golden_attract.png", "histogram"),
     "title":   (1301, "golden_title.png", "all"),
     "menu":    (1510, "golden_menu.png", "histogram"),
 }

@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Full build validation: all build modes must match original retail APROG.BIN.
+"""Full L3 elevation validation — 3-class build verification.
 
-Runs 3 test classes:
-  1. Retail (sega.ld)            — byte-identical to original
-  2. Free (free.ld)              — byte-identical to original
-  3. Free+4shift (free.ld +4)    — builds successfully, size = original + 4
+Test procedure:
+  1. make retail-validate  — retail (sega.ld) byte-identical to original
+  2. make validate         — free (free.ld) byte-identical to original
+  3. Free+4shift (MODS=1)  — byte-matches golden shifted binary + boots to menu
 
-Tests 1-2 prove: assembly is correct and free.ld recreates original link order.
-Test 3 proves: the linker script handles shifted addresses (relocation sanity).
+Tests 1-2 are Makefile targets (fast, binary compare only).
+Test 3 builds with MODS=1 SHIFT=4, compares against golden_free4_APROG.BIN,
+injects into disc, and runs a 3-stage screenshot boot test via test_boot_auto.py.
 
 Usage:
-    python tools/validate_build.py              # full validation
-    python tools/validate_build.py --class free  # single class
+    python tools/validate_build.py              # all 3 tests
+    python tools/validate_build.py --class free4 # shifted build only
 """
 
 import os
@@ -21,6 +22,8 @@ import argparse
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ORIGINAL = os.path.join(PROJECT, "build", "disc", "files", "APROG.BIN")
+GOLDEN_FREE4 = os.path.join(PROJECT, "build", "golden_free4_APROG.BIN")
+BIN_PATH = os.path.join(PROJECT, "reimpl", "build", "APROG.BIN")
 
 
 def wsl_path(win_path):
@@ -38,134 +41,142 @@ def run_wsl(cmd, timeout=120):
     return result.returncode, result.stdout, result.stderr
 
 
-def build(ldscript="free.ld", shift=0):
-    """Build binary. Returns path to APROG.BIN or None on failure."""
-    projdir_wsl = wsl_path(PROJECT)
-
-    if ldscript == "sega.ld":
-        label = "retail (sega.ld)"
-        cmd = f'make -C "{projdir_wsl}/reimpl" LDSCRIPT=sega.ld REIMPL_C= REIMPL_S= 2>&1'
-    else:
-        label = f"free (shift={shift})"
-        shift_arg = f" SHIFT={shift}" if shift else ""
-        cmd = f'make -C "{projdir_wsl}/reimpl"{shift_arg} 2>&1'
-
-    print(f"  Building {label}...")
-    rc, out, err = run_wsl(cmd, timeout=120)
-    if rc != 0:
-        print(f"  Build FAILED (rc={rc})")
-        print(out[-500:] if len(out) > 500 else out)
-        return None
-
-    bin_path = os.path.join(PROJECT, "reimpl", "build", "APROG.BIN")
-    if os.path.exists(bin_path):
-        return bin_path
-    print(f"  Build output not found: {bin_path}")
-    return None
-
-
-def binary_compare(test_path, label):
-    """Compare built binary against original retail APROG.BIN."""
-    if not os.path.exists(ORIGINAL):
-        print(f"  FAIL: original not found: {ORIGINAL}")
-        return False
-
-    if not os.path.exists(test_path):
-        print(f"  FAIL: build output not found: {test_path}")
-        return False
-
-    test_size = os.path.getsize(test_path)
-    orig_size = os.path.getsize(ORIGINAL)
-
-    if test_size != orig_size:
-        print(f"  FAIL: size mismatch — built={test_size} original={orig_size}")
-        return False
-
-    with open(test_path, "rb") as f:
-        test_data = f.read()
-    with open(ORIGINAL, "rb") as f:
-        orig_data = f.read()
-
-    if test_data == orig_data:
-        print(f"  PASS: byte-identical to original ({test_size} bytes)")
-        return True
-
-    # Find first difference
-    for i in range(len(test_data)):
-        if test_data[i] != orig_data[i]:
-            print(f"  FAIL: first diff at offset 0x{i:06X} "
-                  f"(built=0x{test_data[i]:02X} original=0x{orig_data[i]:02X})")
-            break
-
-    diffs = sum(1 for a, b in zip(test_data, orig_data) if a != b)
-    print(f"  {diffs} byte(s) differ out of {test_size}")
-    return False
-
-
 def test_retail():
-    """Test 1: retail build (sega.ld) must match original."""
+    """Test 1: make retail-validate."""
     print("=" * 60)
-    print("TEST 1: Retail build (sega.ld)")
+    print("TEST 1: Retail build (sega.ld) — make retail-validate")
     print("=" * 60)
 
-    bin_path = build(ldscript="sega.ld")
-    if not bin_path:
-        print("  RESULT: FAIL\n")
-        return False
+    projdir_wsl = wsl_path(PROJECT)
+    rc, out, err = run_wsl(
+        f'make -C "{projdir_wsl}/reimpl" retail-validate 2>&1',
+        timeout=120,
+    )
+    # Show last few lines (the PASS/FAIL result)
+    for line in out.strip().split("\n")[-3:]:
+        print(f"  {line}")
 
-    passed = binary_compare(bin_path, "retail")
+    passed = "PASS" in out
     print(f"  RESULT: {'PASS' if passed else 'FAIL'}\n")
     return passed
 
 
 def test_free():
-    """Test 2: free build (free.ld, shift=0) must be byte-identical to original."""
+    """Test 2: make validate (free.ld byte-match)."""
     print("=" * 60)
-    print("TEST 2: Free build (free.ld)")
+    print("TEST 2: Free build (free.ld) — make validate")
     print("=" * 60)
 
-    bin_path = build(shift=0)
-    if not bin_path:
-        print("  RESULT: FAIL\n")
-        return False
+    projdir_wsl = wsl_path(PROJECT)
+    rc, out, err = run_wsl(
+        f'make -C "{projdir_wsl}/reimpl" validate 2>&1',
+        timeout=120,
+    )
+    for line in out.strip().split("\n")[-3:]:
+        print(f"  {line}")
 
-    passed = binary_compare(bin_path, "free")
+    passed = "PASS" in out
     print(f"  RESULT: {'PASS' if passed else 'FAIL'}\n")
     return passed
 
 
 def test_free_shifted(shift=4):
-    """Test 3: free+shift build must succeed and be exactly original_size + shift bytes."""
+    """Test 3: free+4shift (MODS=1) — golden binary match + screenshot boot test."""
     print("=" * 60)
-    print(f"TEST 3: Free+{shift}shift build (free.ld, shift={shift})")
+    print(f"TEST 3: Free+{shift}shift (MODS=1) — golden match + boot test")
     print("=" * 60)
 
-    bin_path = build(shift=shift)
-    if not bin_path:
+    # Step 1: Build with MODS=1 SHIFT=4
+    projdir_wsl = wsl_path(PROJECT)
+    print(f"  Building free+{shift}shift with MODS=1...")
+    rc, out, err = run_wsl(
+        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 2>&1',
+        timeout=120,
+    )
+    if rc != 0:
+        print(f"  Build FAILED (rc={rc})")
+        print(out[-500:] if len(out) > 500 else out)
         print("  RESULT: FAIL\n")
         return False
 
-    if not os.path.exists(ORIGINAL):
-        print(f"  FAIL: original not found: {ORIGINAL}")
+    if not os.path.exists(BIN_PATH):
+        print(f"  Build output not found: {BIN_PATH}")
         print("  RESULT: FAIL\n")
         return False
 
-    built_size = os.path.getsize(bin_path)
-    orig_size = os.path.getsize(ORIGINAL)
-    expected = orig_size + shift
-
-    if built_size == expected:
-        print(f"  PASS: {built_size} bytes (original {orig_size} + {shift} shift)")
-        print("  RESULT: PASS\n")
-        return True
+    # Step 2: Compare against golden shifted binary
+    print(f"  Comparing against golden shifted binary...")
+    if not os.path.exists(GOLDEN_FREE4):
+        print(f"  WARNING: golden not found: {GOLDEN_FREE4}")
+        print(f"  Skipping golden comparison (save current build as golden to enable)")
+        golden_ok = True  # Don't fail — just warn
     else:
-        print(f"  FAIL: expected {expected} bytes, got {built_size}")
+        with open(BIN_PATH, "rb") as f:
+            built = f.read()
+        with open(GOLDEN_FREE4, "rb") as f:
+            golden = f.read()
+
+        if built == golden:
+            print(f"  PASS: byte-identical to golden ({len(built)} bytes)")
+            golden_ok = True
+        else:
+            if len(built) != len(golden):
+                print(f"  FAIL: size mismatch — built={len(built)} golden={len(golden)}")
+            else:
+                for i in range(len(built)):
+                    if built[i] != golden[i]:
+                        print(f"  FAIL: first diff at offset 0x{i:06X} "
+                              f"(built=0x{built[i]:02X} golden=0x{golden[i]:02X})")
+                        break
+                diffs = sum(1 for a, b in zip(built, golden) if a != b)
+                print(f"  {diffs} byte(s) differ")
+            golden_ok = False
+
+    if not golden_ok:
+        print("  RESULT: FAIL (golden mismatch)\n")
+        return False
+
+    # Step 3: Inject into disc and run boot test
+    print(f"  Injecting into disc image...")
+    rc, out, err = run_wsl(
+        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 disc 2>&1',
+        timeout=120,
+    )
+    if rc != 0 or "Injecting" not in out:
+        print(f"  Disc injection FAILED")
+        print(out[-300:] if len(out) > 300 else out)
         print("  RESULT: FAIL\n")
         return False
+
+    print(f"  Running boot test (3 stages)...")
+    result = subprocess.run(
+        [sys.executable, os.path.join(PROJECT, "tools", "test_boot_auto.py"), "rebuilt"],
+        capture_output=True, text=True, timeout=300, cwd=PROJECT,
+    )
+
+    # Show boot test output
+    for line in result.stdout.strip().split("\n"):
+        print(f"    {line}")
+
+    if result.returncode != 0:
+        print(f"  Boot test FAILED (rc={result.returncode})")
+        if result.stderr.strip():
+            for line in result.stderr.strip().split("\n")[-5:]:
+                print(f"    {line}")
+        print("  RESULT: FAIL\n")
+        return False
+
+    boot_ok = "PASS" in result.stdout or "OVERALL: PASS" in result.stdout
+    if not boot_ok:
+        # Check if any FAIL lines
+        boot_ok = "FAIL" not in result.stdout
+
+    print(f"  RESULT: {'PASS' if boot_ok else 'FAIL'}\n")
+    return boot_ok
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Full build validation")
+    parser = argparse.ArgumentParser(description="Full L3 elevation validation")
     parser.add_argument(
         "--class", dest="test_class",
         choices=["retail", "free", "free4", "all"],

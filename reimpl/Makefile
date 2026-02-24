@@ -31,7 +31,12 @@
 #
 #   make MODS=1               — build with relocation patches
 #   make MODS=1 disc          — build + inject modified binary
-#   make MODS=1 SHIFT=4 disc  — relocation validation (+4 byte shift)
+#   make disc-4shift           — +4 byte shift build (MODS=1 auto-enabled)
+#
+# Full L3 validation procedure:
+#   make retail-validate                 — test 1: retail matches original
+#   make validate                        — test 2: free matches original
+#   python tools/validate_build.py       — all 3 tests (includes shifted boot test)
 
 PROJDIR := /mnt/d/Projects/SaturnReverseTest
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
@@ -94,7 +99,7 @@ ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(shell rm -f $(BUILDDIR)/*.o $(ELF) $(BIN))
 endif
 
-.PHONY: all clean disc disc-4shift retail disc-retail dump info validate
+.PHONY: all clean disc disc-4shift retail retail-validate disc-retail dump info validate
 
 all: $(BIN)
 
@@ -146,9 +151,9 @@ disc: $(BIN)
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
-# Build + inject with +4 shift (relocation validation)
+# Build + inject with +4 shift (relocation validation, MODS=1 required)
 disc-4shift:
-	$(MAKE) SHIFT=4 disc
+	$(MAKE) SHIFT=4 MODS=1 disc
 
 # Byte-identical retail build (sega.ld — original linker script)
 retail:
@@ -159,13 +164,25 @@ disc-retail:
 	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S=
 	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S= disc
 
-# Byte-identical validation (always builds retail first)
-validate:
+# Validate retail build (sega.ld) matches original
+retail-validate:
 	$(MAKE) LDSCRIPT=sega.ld REIMPL_C= REIMPL_S=
 	@if cmp -s $(BIN) $(ORIGINAL); then \
-		echo "PASS: byte-identical to original"; \
+		echo "PASS: retail byte-identical to original"; \
 	else \
-		echo "FAIL: differs from original"; \
+		echo "FAIL: retail differs from original"; \
+		cmp -l $(BIN) $(ORIGINAL) 2>/dev/null | head -20; \
+		echo "..."; \
+		echo "Original: $$(wc -c < $(ORIGINAL)) bytes"; \
+		echo "Built:    $$(wc -c < $(BIN)) bytes"; \
+	fi
+
+# Validate free build (free.ld) matches original retail APROG.BIN
+validate: $(BIN)
+	@if cmp -s $(BIN) $(ORIGINAL); then \
+		echo "PASS: free build byte-identical to original"; \
+	else \
+		echo "FAIL: free build differs from original"; \
 		cmp -l $(BIN) $(ORIGINAL) 2>/dev/null | head -20; \
 		echo "..."; \
 		echo "Original: $$(wc -c < $(ORIGINAL)) bytes"; \
