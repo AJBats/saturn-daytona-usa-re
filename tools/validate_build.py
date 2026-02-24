@@ -159,6 +159,12 @@ def boot_test_class(label, output_subdir):
     screenshot_dir = os.path.join(SCREENSHOT_DIR, output_subdir)
     os.makedirs(screenshot_dir, exist_ok=True)
 
+    # Delete stale screenshots first — no exceptions
+    for stage in STAGES:
+        stale = os.path.join(screenshot_dir, f"test_{stage}.png")
+        if os.path.exists(stale):
+            os.remove(stale)
+
     # Run test_boot_auto.py with "rebuilt" — disc was just injected by build step
     result = subprocess.run(
         [
@@ -172,9 +178,19 @@ def boot_test_class(label, output_subdir):
         cwd=PROJECT,
     )
 
-    if result.returncode != 0 and "OVERALL: PASS" not in result.stdout:
-        # Check if screenshots were actually captured
-        pass
+    # If boot test failed, report immediately — never fall through to stale screenshots
+    if result.returncode != 0:
+        print(f"  Boot test FAILED (rc={result.returncode})")
+        for line in result.stdout.strip().split("\n")[-10:]:
+            print(f"    {line}")
+        stage_results = {}
+        for stage in STAGES:
+            stage_results[stage] = {
+                "passed": False,
+                "reason": "boot test failed",
+                "methods": {},
+            }
+        return stage_results
 
     # Now compare each stage with all 4 methods
     stage_results = {}
@@ -185,7 +201,6 @@ def boot_test_class(label, output_subdir):
         auto_test_path = os.path.join(SCREENSHOT_DIR, "boot_test", f"test_{stage}.png")
 
         if os.path.exists(auto_test_path):
-            # Copy to our output subdir
             import shutil
             shutil.copy2(auto_test_path, test_path)
         elif not os.path.exists(test_path):

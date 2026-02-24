@@ -24,6 +24,7 @@ import time
 import subprocess
 import argparse
 import shutil
+import tempfile
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -57,6 +58,14 @@ def wsl_path(win_path):
     return f"/mnt/{drive}{rest}"
 
 
+# Fatal error patterns in Mednafen stderr that must fail the test.
+# SH2-ADDRERR = misaligned memory access (our custom Mednafen patch).
+# Note: SH2-EXCEPTION is too broad — it fires for normal BIOS interrupts.
+FATAL_PATTERNS = [
+    "SH2-ADDRERR",
+]
+
+
 class MednafenBot:
     """Drives WSL Mednafen via automation IPC."""
 
@@ -67,6 +76,7 @@ class MednafenBot:
         self.seq = 0
         self.last_ack = ""
         self.proc = None
+        self.stderr_file = None
         self.cue_wsl = cue_wsl
         self.verbose = verbose
 
@@ -87,10 +97,13 @@ class MednafenBot:
             f'--sound 0 --automation "{ipc_wsl}" "{self.cue_wsl}"'
         )
 
+        self.stderr_file = tempfile.NamedTemporaryFile(
+            mode="w", suffix="_mednafen_stderr.txt", delete=False,
+        )
         self.proc = subprocess.Popen(
             ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stderr=self.stderr_file,
         )
 
         # Wait for ready
@@ -154,6 +167,24 @@ class MednafenBot:
         self.send(cmd)
         return self.wait_ack_change(keyword, timeout)
 
+    def check_stderr(self):
+        """Check captured stderr for fatal CPU errors. Returns list of errors found."""
+        if not self.stderr_file:
+            return []
+        self.stderr_file.flush()
+        stderr_path = self.stderr_file.name
+        errors = []
+        try:
+            with open(stderr_path, "r") as f:
+                for line in f:
+                    for pattern in FATAL_PATTERNS:
+                        if pattern in line:
+                            errors.append(line.strip())
+                            break
+        except (IOError, PermissionError):
+            pass
+        return errors
+
     def quit(self):
         """Shutdown Mednafen."""
         if self.proc and self.proc.poll() is None:
@@ -162,6 +193,12 @@ class MednafenBot:
                 self.proc.wait(timeout=5)
             except subprocess.TimeoutExpired:
                 self.proc.kill()
+        if self.stderr_file:
+            self.stderr_file.close()
+            try:
+                os.unlink(self.stderr_file.name)
+            except OSError:
+                pass
 
 
 def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=False):
@@ -169,6 +206,12 @@ def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=
     ipc_dir = os.path.join(PROJECT, "build", "boot_test_ipc")
     os.makedirs(ipc_dir, exist_ok=True)
     os.makedirs(screenshot_dir, exist_ok=True)
+
+    # Delete stale screenshots so we never compare leftovers from a previous run
+    for stage_name in STAGES:
+        stale = os.path.join(screenshot_dir, f"test_{stage_name}.png")
+        if os.path.exists(stale):
+            os.remove(stale)
 
     bot = MednafenBot(ipc_dir, cue_wsl, verbose=verbose)
 
@@ -289,6 +332,17 @@ def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=
             else:
                 results[stage_name] = (True, "screenshot captured (no compare)")
                 print(f"  {stage_name}: screenshot saved")
+
+    # Check for fatal CPU errors in Mednafen stderr
+    cpu_errors = bot.check_stderr()
+    if cpu_errors:
+        print(f"\nFATAL: {len(cpu_errors)} CPU error(s) detected in Mednafen stderr:")
+        for err in cpu_errors[:10]:
+            print(f"  {err}")
+        if len(cpu_errors) > 10:
+            print(f"  ... and {len(cpu_errors) - 10} more")
+        bot.quit()
+        return {"_error": f"cpu_errors ({len(cpu_errors)})"}
 
     bot.quit()
     return results
