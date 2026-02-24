@@ -6,11 +6,13 @@
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
 | 1 | Sawyer L2 — Relocatable ASM + C Reimpl | Active | workstreams/sawyer_l2.md |
+| 2 | Data Annotation — Classification & Semantics | Active | workstreams/data_annotation.md |
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
 **Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).
 **Linker scripts**: `free.ld` (free-layout, normal and +4 shift modes — see Makefile), `sega.ld` (byte-identical retail).
-**FUN_060423CC**: First permanent C reimplementation — SCDQ poll timeout (was a latent bug in retail).
+**MODS flag**: `MODS=1` enables relocation patches in `src/mods/` (currently: SCDQ poll timeout fix).
+**Validation**: `make retail-validate` (retail match), `make validate` (free match), `python tools/validate_build.py` (all 3 + shifted boot test).
 See `workstreams/DONE_free_build_compat.md`.
 
 ## Investigation Discipline

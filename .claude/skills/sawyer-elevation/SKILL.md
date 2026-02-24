@@ -10,18 +10,15 @@ This is the core workflow of the Sawyer pipeline.
 | Level | What it is | Instructions | Pool entries | Example |
 |-------|-----------|-------------|-------------|---------|
 | **L2** | Byte-perfect ASM | `.byte` blobs | `.4byte SYMBOL` | `retail/cdb_wait_scdq.s` |
-| **L3** | Real ASM source | SH-2 mnemonics | `.4byte SYMBOL` | `src/ai_rotation_helpers.s` |
-| **L3.5** | Free placement | SH-2 mnemonics + symbolic `mov.l` | `.balign 4` + labeled pool | (future) |
+| **L3** | Real ASM source | SH-2 mnemonics + symbolic `mov.l` | labeled pool entries | `src/game_update_loop.s` |
 | **L4** | C reimplementation | C source | compiler-managed | `src/cdb_wait_scdq.c` |
 
-L2 is what we have for all 1,259 functions today. L3, L3.5, and L4 are where we're going.
+L2 is the starting point for all functions. L3 and L4 are where we're going.
 
 **L2 is relocatable but opaque.** You can move it, but you can't read it.
-**L3 is relocatable and readable.** You can understand the logic. Pool loads (`mov.l @(disp,PC)`)
-stay as `.byte` pairs when they reference pools across section boundaries.
-**L3.5 is fully symbolic.** All `mov.l @(disp,PC)` use symbolic pool labels. Requires the
-full translation unit consolidated into one section. The assembler handles alignment
-automatically. See `workstreams/sawyer_l2.md` "Translation Unit Reconstruction".
+**L3 is relocatable and readable.** Full SH-2 mnemonics with symbolic pool labels.
+The entire translation unit is consolidated into a single section so the assembler
+can resolve all `mov.l @(disp,PC)` and branch instructions internally.
 **L4 is relocatable and modifiable.** You can change the behavior.
 
 ---
@@ -105,11 +102,11 @@ Sawyer annotations in `asm/*.s`, trace callers).
 
 8. **Validate.**
    ```bash
-   make -C reimpl clean && make -C reimpl validate   # MUST say PASS
-   make -C reimpl clean && make -C reimpl disc       # free build, test in emulator
+   make -C reimpl clean && make -C reimpl retail-validate   # retail MUST say PASS
+   make -C reimpl clean && make -C reimpl validate          # free MUST say PASS
    ```
-   If validate fails: you missed a reference or changed the section name.
-   If free build fails: unrelated issue (the rename is cosmetic).
+   If either fails: you missed a reference or changed the section name.
+   If free build fails at boot: unrelated issue (the rename is cosmetic).
 
 9. **Commit.**
    ```
@@ -118,37 +115,66 @@ Sawyer annotations in `asm/*.s`, trace callers).
 
 ### L2 → L3 (Byte Blobs → Real Mnemonics)
 
-Convert `.byte` instruction pairs to SH-2 assembly mnemonics. The function
-stays in `retail/`, the pool entries stay symbolic.
+Convert a translation unit from `.byte` blobs to SH-2 assembly mnemonics.
+L3 operates at the **TU level**, not individual functions. The retail file
+keeps `.byte` blobs (consolidated into one multi-section file), and a new
+src file is generated with decoded mnemonics in a single section.
 
-**Prerequisites**: Name the function first (see above). You need to understand
-it to write correct mnemonics.
+**Result**: Two files per TU:
+- `retail/<tu_name>.s` — consolidated multi-section, `.byte` blobs (retail build)
+- `src/<tu_name>.s` — single-section, SH-2 mnemonics with symbolic pools (free build)
+
+**Prerequisites**: The functions in the TU should already be named (see above).
+You need TU boundaries — identified by cross-section `mov.l` pool sharing and
+BSR/BRA branches between functions.
 
 **Steps**:
 
-1. **Disassemble the bytes.** Use the Sawyer annotations (`asm/*.s`) as
-   reference, or disassemble manually using the SH-2 instruction set
-   (see `platform-saturn-sh2` skill).
+1. **Identify TU boundaries.** Look for cross-section pool references —
+   functions that share constant pool entries or have BSR/BRA branches
+   between them belong to the same TU. The function before the start and
+   after the end must be fully self-contained (no pool refs or branches
+   crossing the boundary). Use `asm/*.s` annotations to trace references.
 
-2. **Replace `.byte` pairs with mnemonics.** One instruction at a time:
-   ```asm
-   /* Before (L2) */
-   .byte 0x2F, 0xE6         /* opaque */
-
-   /* After (L3) */
-   mov.l  r14, @-r15        /* push r14 */
+2. **Consolidate retail files.** Merge individual `.s` files into one.
+   For batch processing (many TUs at once):
+   ```bash
+   python tools/batch_l3_modules.py --consolidate-only   # phase 1 only
+   python tools/batch_l3_modules.py                       # consolidate + L3
    ```
+   For a single TU:
+   ```bash
+   python tools/consolidate_tu.py <tu_name> <start_addr> <end_addr> --description "..."
+   ```
+   Use `--dry-run` first to review. This produces `retail/<tu_name>.s` —
+   a multi-section file where each function retains its own
+   `.section .text.FUN_XXXXXXXX` directive. Individual files are deleted
+   automatically. (Elevation file deletions don't require the safe word.)
 
-3. **Keep the constant pool as-is.** The `.4byte SYMBOL` entries and literal
-   `.byte` constants don't change.
+4. **Generate the L3 src file.** Decode instructions automatically:
+   ```bash
+   python tools/generate_l3_tu.py <tu_name>
+   ```
+   This reads the consolidated retail file, decodes all `.byte` pairs
+   to SH-2 mnemonics, and writes `src/<tu_name>.s` as a single section.
+   Pool entries stay symbolic (`.4byte SYMBOL`), BSR/BRA stay as `.byte`
+   pairs (assembler can't generate 12-bit PC-relative relocations for
+   external symbols).
 
-4. **Validate.** `make validate` — but note: L3 conversion may NOT be
-   byte-identical if the assembler chooses different encodings for
-   ambiguous mnemonics. If validate fails, compare with `objdump -d`
-   to find the differences and fix them.
+5. **Validate.** Run full 3-class validation:
+   ```bash
+   python tools/validate_build.py
+   ```
+   - Retail must be **byte-identical** (the retail file is still `.byte`
+     blobs, so this should always pass)
+   - Free build must boot to menu
+   - Free+4shift must boot to menu (validates relocation)
 
-5. **Boot test.** `make disc` and test in Mednafen. L3 is validated by
-   behavior, not bytes.
+   L3 uplifts are **size-neutral** — the free binary size doesn't change.
+
+6. **If the generator has a bug**, fix `tools/generate_l3_tu.py` (or
+   `tools/sh2_decode.py`) and regenerate. Never hand-edit L3 output —
+   the generator is the source of truth. See `.claude/rules/l3-uplift.md`.
 
 ### L2/L3 → L4 (ASM → C Reimplementation)
 
@@ -180,8 +206,8 @@ inputs/outputs/side effects.
    function compiles into `.text.new_name` section. In the free build,
    this overrides the retail .s automatically.
 
-5. **Validate retail.** `make validate` — must still PASS. The retail build
-   ignores `src/` entirely (`REIMPL_C=` is emptied), so your .c file
+5. **Validate retail.** `make retail-validate` — must still PASS. The retail
+   build ignores `src/` entirely (`REIMPL_C=` is emptied), so your .c file
    can't break it. But verify anyway.
 
 6. **Test free build.** `make disc` — boot in Mednafen. If the game
@@ -243,20 +269,16 @@ python tools/validate_build.py
 ```
 
 This runs:
-1. **Retail binary match** — `make -C reimpl validate` (byte-identical to original)
-2. **Free build boot** — `make -C reimpl disc`, boot WSL Mednafen to menu
-3. **Free+4shift boot** — `make -C reimpl disc-4shift`, boot to menu
+1. **Retail binary match** — `make -C reimpl retail-validate` (byte-identical to original)
+2. **Free build match** — `make -C reimpl validate` (byte-identical to original)
+3. **Free+4shift boot** — `make -C reimpl disc-4shift` (MODS=1 auto-enabled),
+   byte-matches golden shifted binary, then boots to menu via screenshot test
 
-Each boot test takes 3 frame-precise screenshots (attract, title, menu) and
-compares against golden baselines using 4 image comparison methods:
-- **phash** — perceptual hash (Hamming distance <= 10)
-- **histogram** — color distribution correlation (>= 0.85)
-- **pixels** — 5 spot-check locations (>= 3 of 5 within tolerance)
-- **rmse** — root mean square pixel error (<= 25)
-
-All 4 methods must pass on all 3 screenshots for each boot class.
-Menu has dual golden baselines (ARCADE MODE blink on/off) — passes if
-either variant matches on all 4 methods.
+The boot test takes 3 frame-precise screenshots (attract, title, menu) and
+compares against golden baselines. Title uses all 4 comparison methods (phash,
+histogram, pixels, rmse). Attract and menu use histogram-only (attract varies
+due to MODS=1 CD timing changes; menu has ARCADE MODE text blink).
+Menu has dual golden baselines (blink on/off).
 
 ## Automation Tools
 
@@ -267,6 +289,10 @@ either variant matches on all 4 methods.
 | `tools/capture_input_trace.py` | Record driven session for new golden traces | `python tools/capture_input_trace.py rebuilt` |
 | `tools/compare_screenshot.py` | Screenshot comparison (4 methods) | `python tools/compare_screenshot.py test.png golden.png` |
 | `tools/module_scanner.py` | Find function module boundaries | `python tools/module_scanner.py` |
+| `tools/generate_l3_tu.py` | Decode retail `.byte` blobs → L3 mnemonics | `python tools/generate_l3_tu.py <tu_name>` |
+| `tools/batch_l3_modules.py` | Batch consolidate + L3 for all multi-function TUs | `python tools/batch_l3_modules.py` |
+| `tools/test_asm_modules.sh` | WSL assembly test for all L3 src files | `wsl -- bash tools/test_asm_modules.sh` |
+| `tools/consolidate_tu.py` | Consolidate individual retail files into one TU | `python tools/consolidate_tu.py <name> <start> <end>` |
 
 ### Golden Baselines
 
@@ -278,9 +304,11 @@ screenshots with P key, note frame numbers from trace output.
 ## Other Commands
 
 ```bash
-make -C reimpl validate          # retail byte-identical check
+make -C reimpl retail-validate   # retail (sega.ld) byte-identical check
+make -C reimpl validate          # free (free.ld) byte-identical check
 make -C reimpl disc              # free build + inject into disc
-make -C reimpl disc-4shift       # free +4 shift build + inject
+make -C reimpl disc-4shift       # free +4 shift build + inject (MODS=1 auto-enabled)
+make -C reimpl MODS=1 disc       # free build with relocation patches + inject
 make -C reimpl clean             # wipe build/ (do before switching configs)
 make -C reimpl info              # show current config + reimplemented stems
 ```

@@ -279,7 +279,7 @@ Built automated call tracing into Mednafen and ran both discs for 300 frames.
 - Modified `sh7095.h`: added `FILE* CallTraceFile` member to SH7095 class
 - Modified `ss.cpp`: added `Automation_EnableCallTrace(path)` and `Automation_DisableCallTrace()`
 - Modified `automation.cpp`: added `call_trace` and `call_trace_stop` commands
-- Log format: `M|S <caller_PC> <target_addr>` (M=master, S=slave SH-2)
+- Log format: `M|S <caller_PC> <target_addr>` (M=primary SH-2, S=secondary SH-2)
 - Tools: `tools/call_trace_compare.py`, `tools/call_trace_determinism.py`
 
 **Determinism test** (two production runs side by side):
@@ -288,9 +288,9 @@ Built automated call tracing into Mednafen and ran both discs for 300 frames.
 - Confirmed: Mednafen call tracing is reliable for comparison
 
 **Prod vs free-layout comparison** (300 frames each):
-- Production: 594,870 master calls, **0 slave calls**
-- Free-layout: 597,573 master calls, **0 slave calls**
-- **Single-threaded boot confirmed** — no slave SH-2 activity
+- Production: 594,870 primary calls, **0 secondary calls**
+- Free-layout: 597,573 primary calls, **0 secondary calls**
+- **Single-threaded boot confirmed** — no secondary SH-2 activity
 
 **CRITICAL FINDING: Both traces show IDENTICAL raw hex addresses.**
 - First APROG-range calls appear at line 95,309 (~frame 47)
