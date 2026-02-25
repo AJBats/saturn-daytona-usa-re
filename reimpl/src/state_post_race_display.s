@@ -9,57 +9,68 @@
     .global state_post_race_display
     .type state_post_race_display, @function
 state_post_race_display:
-    sts.l pr, @-r15
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06009DAC, r3 */
-    jsr @r3
-    nop
-    .byte   0xD2, 0x16    /* mov.l .L_pool_06009DB0, r2 */
-    mov.b @r2, r2
-    tst r2, r2
-    bf      .L_06009D76
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06009DB4, r3 */
-    jsr @r3
-    nop
-    .byte   0xD6, 0x14    /* mov.l .L_pool_06009DB8, r6 */
-    .byte   0xD5, 0x15    /* mov.l .L_pool_06009DBC, r5 */
-    .byte   0xD4, 0x15    /* mov.l .L_pool_06009DC0, r4 */
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06009DC4, r3 */
-    jsr @r3
-    mov.l @r6, r6
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06009DC8, r3 */
-    jsr @r3
-    nop
-.L_06009D76:
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06009DCC, r3 */
-    jmp @r3
-    lds.l @r15+, pr
-    .4byte  sym_0605A016
-    .4byte  display_mode_init
-    .4byte  race_state_pair_2
-    .4byte  sym_0605AD10
-    .4byte  sym_06078654
-    .4byte  gameover_channel_setup
-    .4byte  obj_render_update
-    .4byte  sym_0607E944
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F44
-.L_pool_06009DAC:
-    .4byte  ai_waypoint_pathfind
-.L_pool_06009DB0:
-    .4byte  sym_06085F8A
-.L_pool_06009DB4:
-    .4byte  camera_system
-.L_pool_06009DB8:
-    .4byte  sym_06063E24
-.L_pool_06009DBC:
-    .4byte  sym_06063EEC
-.L_pool_06009DC0:
-    .4byte  sym_06063EF8
-.L_pool_06009DC4:
-    .4byte  camera_orient_calc
-.L_pool_06009DC8:
-    .4byte  scene_master
-.L_pool_06009DCC:
-    .4byte  frame_end_commit
+    ! State 25: Post-Race Display Loop
+    ! Runs every frame after state 24 initialization, displaying the results
+    ! screen. Conditionally executes the full display pipeline based on a
+    ! flag byte at sym_06085F8A. If zero, runs full display; if non-zero,
+    ! skips directly to frame sync. Always tail-calls frame_end_commit.
+    sts.l pr, @-r15                       ! save return address (pr) to stack
+    .byte   0xD3, 0x16    /* mov.l .L_pool_results_display, r3 */  ! r3 = &ai_waypoint_pathfind (results display logic)
+    jsr @r3                               ! call ai_waypoint_pathfind — process results screen
+    nop                                   ! delay slot
+    .byte   0xD2, 0x16    /* mov.l .L_pool_display_enable, r2 */  ! r2 = &sym_06085F8A (display enable flag address)
+    mov.b @r2, r2                         ! r2 = *sym_06085F8A (load display enable flag byte)
+    tst r2, r2                            ! test: is display enable flag zero?
+    bf      .L_skip_display_pipeline      ! if non-zero: skip full display, jump to frame sync
+
+    ! === Full display pipeline (flag == 0) ===
+    .byte   0xD3, 0x15    /* mov.l .L_pool_camera_system, r3 */  ! r3 = &camera_system (multi-mode camera controller)
+    jsr @r3                               ! call camera_system — update camera state
+    nop                                   ! delay slot
+    .byte   0xD6, 0x14    /* mov.l .L_pool_camera_struct, r6 */  ! r6 = sym_06063E24 (camera struct base address)
+    .byte   0xD5, 0x15    /* mov.l .L_pool_camera_heading, r5 */  ! r5 = sym_06063EEC (camera parameter B — smoothed heading)
+    .byte   0xD4, 0x15    /* mov.l .L_pool_camera_param_a, r4 */  ! r4 = sym_06063EF8 (camera parameter A)
+    .byte   0xD3, 0x16    /* mov.l .L_pool_camera_orient, r3 */  ! r3 = &camera_orient_calc (display commit function)
+    jsr @r3                               ! call camera_orient_calc — commit display with camera params
+    mov.l @r6, r6                         ! delay slot: dereference r6 = *sym_06063E24 (camera struct ptr)
+    .byte   0xD3, 0x15    /* mov.l .L_pool_scene_master, r3 */  ! r3 = &scene_master (master scene rendering orchestrator)
+    jsr @r3                               ! call scene_master — run master scene rendering pass
+    nop                                   ! delay slot
+
+.L_skip_display_pipeline:
+    ! Tail call frame sync — both paths (display and skip) converge here
+    .byte   0xD3, 0x15    /* mov.l .L_pool_frame_end, r3 */  ! r3 = &frame_end_commit (frame timing / sync)
+    jmp @r3                               ! tail call frame_end_commit — frame end and display commit
+    lds.l @r15+, pr                       ! delay slot: restore return address (pr) from stack
+
+    ! Unlabeled pool entries shared with adjacent functions in the same pool block
+    .4byte  sym_0605A016                  ! phase flag (word, indexes 32-byte display blocks)
+    .4byte  display_mode_init             ! display mode initializer function
+    .4byte  race_state_pair_2             ! race state pair 2 handler
+    .4byte  sym_0605AD10                  ! game state variable (0-31, controls game flow)
+    .4byte  sym_06078654                  ! race state flag/variable
+    .4byte  gameover_channel_setup        ! gameover channel setup function
+    .4byte  obj_render_update             ! object render update function
+    .4byte  sym_0607E944                  ! car state pointer (current car object)
+    .4byte  sym_0605B6D8                  ! input/feature flags register
+    .4byte  0x40000000                    ! constant: bit 30 mask ("race ready" flag)
+    .4byte  sym_06026CE0                  ! display update function
+    .4byte  sym_06059F44                  ! state tracker / results flag
+.L_pool_results_display:
+    .4byte  ai_waypoint_pathfind          ! results display logic (FUN_06014D2C)
+.L_pool_display_enable:
+    .4byte  sym_06085F8A                  ! display enable flag address
+.L_pool_camera_system:
+    .4byte  camera_system                 ! multi-mode camera controller (FUN_0600BB94)
+.L_pool_camera_struct:
+    .4byte  sym_06063E24                  ! camera struct base address (r6 arg to display commit)
+.L_pool_camera_heading:
+    .4byte  sym_06063EEC                  ! camera parameter B — smoothed heading output (r5 arg)
+.L_pool_camera_param_a:
+    .4byte  sym_06063EF8                  ! camera parameter A (r4 arg to display commit)
+.L_pool_camera_orient:
+    .4byte  camera_orient_calc            ! display commit function (FUN_060053AC)
+.L_pool_scene_master:
+    .4byte  scene_master                  ! master scene rendering orchestrator (FUN_0600BFFC)
+.L_pool_frame_end:
+    .4byte  frame_end_commit              ! frame timing / display sync (FUN_060078DC)

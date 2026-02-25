@@ -9,109 +9,109 @@
     .global obj_pool_alloc
     .type obj_pool_alloc, @function
 obj_pool_alloc:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_pool_0602026C, r13
-    mov.l   .L_pool_06020270, r14
-    mov.l   .L_pool_06020274, r3
-    mov.w @r3, r2
-    mov.w   .L_wpool_0602026A, r3
-    extu.w r2, r2
-    and r3, r2
-    tst r2, r2
-    bt      .L_060201D8
-    mov #0x1, r3
-    mov.l   .L_pool_06020278, r2
-    mov.w r3, @r2
-.L_060201D8:
-    mov.l   .L_pool_0602027C, r12
-    mov #0x14, r2
-    mov.w @r14, r3
-    extu.w r3, r3
-    cmp/gt r2, r3
-    bt      .L_06020258
-    mov.w @r13, r2
-    extu.w r2, r2
-    tst r2, r2
-    bf      .L_06020258
-.L_060201EC:
-    .byte   0xB6, 0x26    /* bsr 0x06020E3C (external) */
-    mov #0x0, r4
-    extu.w r0, r4
-    extu.w r4, r0
-    cmp/eq #0xF, r0
-    bt      .L_06020258
-    mov r4, r5
-    mov r4, r3
-    mov.l   .L_pool_06020280, r2
-    mov.w @r14, r0
-    shll2 r5
-    shll2 r3
-    extu.w r0, r0
-    shll2 r3
-    shll2 r3
-    add r3, r5
-    exts.w r5, r5
-    mov r0, r3
-    add r2, r5
-    shll r0
-    add r3, r0
-    shll r0
-    mov.w @(r0, r12), r2
-    mov.b r2, @r5
-    mov.w @r14, r3
-    extu.w r3, r3
-    mov r3, r2
-    shll r3
-    add r2, r3
-    shll r3
-    add r12, r3
-    mov.w @(4, r3), r0
-    mov r0, r3
-    mov #0x40, r0
-    mov.b r3, @(r0, r5)
-    mov.w @r14, r3
-    extu.w r3, r3
-    mov r3, r2
-    shll r3
-    add r2, r3
-    shll r3
-    add r12, r3
-    mov.w @(2, r3), r0
-    mov r0, r1
-    mov.w r1, @r13
-    mov.w @r14, r3
-    add #0x1, r3
-    mov.w r3, @r14
-    mov.w @r13, r2
-    extu.w r2, r2
-    tst r2, r2
-    bf      .L_06020258
-    bra     .L_060201EC
-    nop
-.L_06020258:
-    mov.w @r13, r2
-    add #-0x1, r2
-    .byte   0xB5, 0x73    /* bsr 0x06020D46 (external) */
-    mov.w r2, @r13
-    lds.l @r15+, pr
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */
-    mov.l @r15+, r14
+    mov.l r14, @-r15                        ! save r14 (callee-saved)
+    mov.l r13, @-r15                        ! save r13 (callee-saved)
+    mov.l r12, @-r15                        ! save r12 (callee-saved)
+    sts.l pr, @-r15                         ! save return address (we call BSR)
+    mov.l   .L_pool_obj_pos_counter, r13    ! r13 = &sym_06087808 (position counter word)
+    mov.l   .L_pool_obj_active_count, r14   ! r14 = &sym_06087806 (active object count word)
+    mov.l   .L_pool_btn_state, r3           ! r3  = &sym_06063D9A (button state register)
+    mov.w @r3, r2                           ! r2  = *sym_06063D9A (raw button state)
+    mov.w   .L_wpool_0602026A, r3           ! r3  = 0x0800 (start-button bitmask)
+    extu.w r2, r2                           ! r2  = zero-extend button state to 32-bit
+    and r3, r2                              ! r2  = button_state & 0x0800 (isolate start bit)
+    tst r2, r2                              ! test if start button is pressed
+    bt      .L_start_not_pressed            ! if zero (not pressed), skip lap counter reset
+    mov #0x1, r3                            ! r3  = 1
+    mov.l   .L_pool_lap_counter, r2         ! r2  = &sym_0608780A (lap counter word)
+    mov.w r3, @r2                           ! *sym_0608780A = 1 — reset/init lap counter
+.L_start_not_pressed:
+    mov.l   .L_pool_obj_type_table, r12     ! r12 = &sym_0605F4A8 (object type/param table)
+    mov #0x14, r2                           ! r2  = 20 (max active objects threshold)
+    mov.w @r14, r3                          ! r3  = *sym_06087806 (active object count)
+    extu.w r3, r3                           ! r3  = zero-extend count to 32-bit
+    cmp/gt r2, r3                           ! test: active_count > 20?
+    bt      .L_exit_alloc                   ! if so, pool is full — bail out
+    mov.w @r13, r2                          ! r2  = *sym_06087808 (position counter)
+    extu.w r2, r2                           ! r2  = zero-extend position counter to 32-bit
+    tst r2, r2                              ! test if position counter is zero
+    bf      .L_exit_alloc                   ! if non-zero, nothing to allocate — bail out
+.L_alloc_loop:
+    .byte   0xB6, 0x26    /* bsr 0x06020E3C (external) */ ! call obj_state_manager — returns slot index in r0
+    mov #0x0, r4                            ! (delay slot) r4 = 0 (argument: request new slot)
+    extu.w r0, r4                           ! r4  = zero-extend returned slot index to 32-bit
+    extu.w r4, r0                           ! r0  = zero-extend slot index again (canonical copy)
+    cmp/eq #0xF, r0                         ! test: slot == 0xF (no free slot / error sentinel)?
+    bt      .L_exit_alloc                   ! if pool exhausted, bail out
+    mov r4, r5                              ! r5  = slot index (copy for offset arithmetic)
+    mov r4, r3                              ! r3  = slot index (copy for type-table row index)
+    mov.l   .L_pool_slot_array_base, r2     ! r2  = &sym_0608782C (object slot array base)
+    mov.w @r14, r0                          ! r0  = *sym_06087806 (current active object count)
+    shll2 r5                                ! r5  = slot * 4
+    shll2 r3                                ! r3  = slot * 4
+    extu.w r0, r0                           ! r0  = zero-extend active count to 32-bit
+    shll2 r3                                ! r3  = slot * 16
+    shll2 r3                                ! r3  = slot * 64 (0x40 bytes per type-table row)
+    add r3, r5                              ! r5  = slot*4 + slot*64 = slot*68 (byte offset into slot array)
+    exts.w r5, r5                           ! r5  = sign-extend slot array offset
+    mov r0, r3                              ! r3  = active_count (saved for stride calc below)
+    add r2, r5                              ! r5  = slot_array_base + slot*68 (pointer to this slot)
+    shll r0                                 ! r0  = active_count * 2
+    add r3, r0                              ! r0  = active_count * 2 + active_count = active_count * 3
+    shll r0                                 ! r0  = active_count * 6 (row stride in type table)
+    mov.w @(r0, r12), r2                    ! r2  = type_table[active_count*6 + 0] (object type byte)
+    mov.b r2, @r5                           ! slot[0] = type byte — write type into slot header
+    mov.w @r14, r3                          ! r3  = *sym_06087806 (active object count, reload)
+    extu.w r3, r3                           ! r3  = zero-extend count to 32-bit
+    mov r3, r2                              ! r2  = active_count (saved for stride)
+    shll r3                                 ! r3  = active_count * 2
+    add r2, r3                              ! r3  = active_count * 3
+    shll r3                                 ! r3  = active_count * 6 (row stride)
+    add r12, r3                             ! r3  = type_table + active_count*6 (row pointer)
+    mov.w @(4, r3), r0                      ! r0  = type_table[active_count*6 + 4] (param offset byte)
+    mov r0, r3                              ! r3  = param offset value
+    mov #0x40, r0                           ! r0  = 0x40 (byte offset within slot for param field)
+    mov.b r3, @(r0, r5)                     ! slot[0x40] = param offset — write param into slot
+    mov.w @r14, r3                          ! r3  = *sym_06087806 (active count, reload)
+    extu.w r3, r3                           ! r3  = zero-extend count to 32-bit
+    mov r3, r2                              ! r2  = active_count (saved for stride)
+    shll r3                                 ! r3  = active_count * 2
+    add r2, r3                              ! r3  = active_count * 3
+    shll r3                                 ! r3  = active_count * 6 (row stride)
+    add r12, r3                             ! r3  = type_table + active_count*6 (row pointer)
+    mov.w @(2, r3), r0                      ! r0  = type_table[active_count*6 + 2] (position delta)
+    mov r0, r1                              ! r1  = position delta value
+    mov.w r1, @r13                          ! *sym_06087808 = position delta — update position counter
+    mov.w @r14, r3                          ! r3  = *sym_06087806 (active count)
+    add #0x1, r3                            ! r3  = active_count + 1
+    mov.w r3, @r14                          ! *sym_06087806 = active_count + 1 — increment count
+    mov.w @r13, r2                          ! r2  = *sym_06087808 (updated position counter)
+    extu.w r2, r2                           ! r2  = zero-extend position counter to 32-bit
+    tst r2, r2                              ! test if position counter reached zero
+    bf      .L_exit_alloc                   ! if non-zero, still more to do — exit loop this pass
+    bra     .L_alloc_loop                   ! position counter hit zero, loop to allocate next object
+    nop                                     ! (delay slot, no-op)
+.L_exit_alloc:
+    mov.w @r13, r2                          ! r2  = *sym_06087808 (position counter)
+    add #-0x1, r2                           ! r2  = position_counter - 1
+    .byte   0xB5, 0x73    /* bsr 0x06020D46 (external) */ ! call obj_state_serializer — record state
+    mov.w r2, @r13                          ! (delay slot) *sym_06087808 = position_counter - 1
+    lds.l @r15+, pr                         ! restore return address
+    mov.l @r15+, r12                        ! restore r12
+    mov.l @r15+, r13                        ! restore r13
+    .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */ ! tail-call obj_pool_deallocator
+    mov.l @r15+, r14                        ! (delay slot) restore r14
 .L_wpool_0602026A:
-    .2byte  0x0800
-.L_pool_0602026C:
-    .4byte  sym_06087808
-.L_pool_06020270:
-    .4byte  sym_06087806
-.L_pool_06020274:
-    .4byte  sym_06063D9A
-.L_pool_06020278:
-    .4byte  sym_0608780A
-.L_pool_0602027C:
-    .4byte  sym_0605F4A8
-.L_pool_06020280:
-    .4byte  sym_0608782C
+    .2byte  0x0800                          ! constant: start-button bitmask (bit 11)
+.L_pool_obj_pos_counter:
+    .4byte  sym_06087808                    ! &sym_06087808 — position counter (word)
+.L_pool_obj_active_count:
+    .4byte  sym_06087806                    ! &sym_06087806 — active object count (word)
+.L_pool_btn_state:
+    .4byte  sym_06063D9A                    ! &sym_06063D9A — button state register
+.L_pool_lap_counter:
+    .4byte  sym_0608780A                    ! &sym_0608780A — lap counter (word)
+.L_pool_obj_type_table:
+    .4byte  sym_0605F4A8                    ! &sym_0605F4A8 — object type/param table (6 bytes/row)
+.L_pool_slot_array_base:
+    .4byte  sym_0608782C                    ! &sym_0608782C — object slot array base

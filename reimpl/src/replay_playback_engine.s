@@ -9,68 +9,68 @@
     .global replay_playback_engine
     .type replay_playback_engine, @function
 replay_playback_engine:
-    sts.l pr, @-r15
-    mov.l   .L_pool_0601BE50, r7
-    mov.l   .L_pool_0601BE54, r6
-    mov.l   .L_pool_0601BE58, r4
-    mov.l   .L_pool_0601BE5C, r5
-    mov.l   .L_pool_0601BE60, r3
-    mov.l @r5, r5
-    mov.l @(8, r5), r1
-    jsr @r3
-    mov #0x20, r0
-    add #0x1, r0
-    mov.l @r6, r2
-    add r0, r2
-    mov.l r2, @r6
-    mov.l @r7, r3
-    mov.l @(32, r5), r2
-    sub r2, r3
-    cmp/pl r3
-    bf      .L_0601BE1A
-    mov.l @r4, r2
-    add #0x2, r2
-    bra     .L_0601BE2A
-    mov.l r2, @r4
-.L_0601BE1A:
-    mov.l @r7, r2
-    mov.l @(32, r5), r3
-    sub r3, r2
-    cmp/pz r2
-    bt      .L_0601BE2A
-    mov.l @r4, r3
-    add #-0x2, r3
-    mov.l r3, @r4
-.L_0601BE2A:
-    mov #0x50, r3
-    mov.l @r6, r2
-    cmp/hi r3, r2
-    bf      .L_0601BE38
-    mov.l @r6, r3
-    add #-0x50, r3
-    mov.l r3, @r6
-.L_0601BE38:
-    mov.l @r4, r2
-    mov.w   .L_wpool_0601BE4C, r3
-    cmp/hi r3, r2
-    bf      .L_0601BE44
-    mov #0x0, r3
-    mov.l r3, @r4
-.L_0601BE44:
-    mov.l @(32, r5), r2
-    lds.l @r15+, pr
-    rts
-    mov.l r2, @r7
+    sts.l pr, @-r15                         ! save return address on stack
+    mov.l   .L_pool_replay_scroll_accum, r7 ! r7 = &sym_06086018 (replay scroll accumulator)
+    mov.l   .L_pool_car_array_idx, r6       ! r6 = &sym_06059F3C (car array index)
+    mov.l   .L_pool_car_select, r4          ! r4 = &sym_06059F38 (car selection sub-index)
+    mov.l   .L_pool_car_state_ptr, r5       ! r5 = &sym_0607E944 (pointer to car state ptr)
+    mov.l   .L_pool_geometry_transform, r3  ! r3 = sym_06034FE0 (geometry transform function)
+    mov.l @r5, r5                           ! r5 = *r5 = current car struct pointer
+    mov.l @(8, r5), r1                      ! r1 = car->speed (car struct offset +0x08)
+    jsr @r3                                 ! call geometry_transform (sym_06034FE0)
+    mov #0x20, r0                           ! (delay slot) r0 = 0x20 (function sub-selector, low part)
+    add #0x1, r0                            ! r0 = 0x21 (complete sub-selector for geometry_transform)
+    mov.l @r6, r2                           ! r2 = car_array_idx (current frame counter value)
+    add r0, r2                              ! r2 += 0x21 (advance frame counter by 33)
+    mov.l r2, @r6                           ! car_array_idx = r2 (store updated frame counter)
+    mov.l @r7, r3                           ! r3 = replay_scroll_accum (current accumulator)
+    mov.l @(32, r5), r2                     ! r2 = car->heading (car struct offset +0x20)
+    sub r2, r3                              ! r3 = replay_scroll_accum - car->heading
+    cmp/pl r3                               ! test if (replay_scroll_accum - heading) > 0
+    bf      .L_scroll_behind                ! branch if not positive (scroll is behind or equal)
+    mov.l @r4, r2                           ! r2 = car_select (current playback sub-index)
+    add #0x2, r2                            ! r2 += 2 (advance sub-index: replay is ahead of heading)
+    bra     .L_clamp_frame_counter          ! skip the retreat path
+    mov.l r2, @r4                           ! (delay slot) car_select = r2 (store incremented value)
+.L_scroll_behind:
+    mov.l @r7, r2                           ! r2 = replay_scroll_accum
+    mov.l @(32, r5), r3                     ! r3 = car->heading (car struct offset +0x20)
+    sub r3, r2                              ! r2 = replay_scroll_accum - car->heading
+    cmp/pz r2                               ! test if (replay_scroll_accum - heading) >= 0
+    bt      .L_clamp_frame_counter          ! branch if >= 0 (scroll is at or ahead; no retreat)
+    mov.l @r4, r3                           ! r3 = car_select (current playback sub-index)
+    add #-0x2, r3                           ! r3 -= 2 (retreat sub-index: replay is behind heading)
+    mov.l r3, @r4                           ! car_select = r3 (store decremented value)
+.L_clamp_frame_counter:
+    mov #0x50, r3                           ! r3 = 0x50 (80; frame counter wrap threshold)
+    mov.l @r6, r2                           ! r2 = car_array_idx (current frame counter)
+    cmp/hi r3, r2                           ! test if frame_counter > 0x50 (unsigned)
+    bf      .L_check_subindex_limit         ! branch if <= 0x50 (no wrap needed)
+    mov.l @r6, r3                           ! r3 = car_array_idx (reload for subtraction)
+    add #-0x50, r3                          ! r3 -= 0x50 (wrap frame counter: subtract 80)
+    mov.l r3, @r6                           ! car_array_idx = r3 (store wrapped value)
+.L_check_subindex_limit:
+    mov.l @r4, r2                           ! r2 = car_select (playback sub-index)
+    mov.w   .L_wpool_0601BE4C, r3           ! r3 = 0x00A0 (160; maximum sub-index limit)
+    cmp/hi r3, r2                           ! test if car_select > 0x00A0 (unsigned)
+    bf      .L_store_and_return             ! branch if within limit (no clamp needed)
+    mov #0x0, r3                            ! r3 = 0 (reset value)
+    mov.l r3, @r4                           ! car_select = 0 (clamp: wrap sub-index back to zero)
+.L_store_and_return:
+    mov.l @(32, r5), r2                     ! r2 = car->heading (car struct offset +0x20)
+    lds.l @r15+, pr                         ! restore return address from stack
+    rts                                     ! return to caller
+    mov.l r2, @r7                           ! (delay slot) replay_scroll_accum = car->heading
 .L_wpool_0601BE4C:
-    .2byte  0x00A0
-    .2byte  0xFFFF
-.L_pool_0601BE50:
-    .4byte  sym_06086018
-.L_pool_0601BE54:
-    .4byte  sym_06059F3C
-.L_pool_0601BE58:
-    .4byte  sym_06059F38
-.L_pool_0601BE5C:
-    .4byte  sym_0607E944
-.L_pool_0601BE60:
-    .4byte  sym_06034FE0
+    .2byte  0x00A0                          ! sub-index upper limit (160 decimal)
+    .2byte  0xFFFF                          ! padding word
+.L_pool_replay_scroll_accum:
+    .4byte  sym_06086018                    ! replay scroll accumulator (dword)
+.L_pool_car_array_idx:
+    .4byte  sym_06059F3C                    ! car array index / replay frame counter
+.L_pool_car_select:
+    .4byte  sym_06059F38                    ! car selection sub-index / playback offset
+.L_pool_car_state_ptr:
+    .4byte  sym_0607E944                    ! pointer to current car state struct
+.L_pool_geometry_transform:
+    .4byte  sym_06034FE0                    ! geometry_transform function pointer

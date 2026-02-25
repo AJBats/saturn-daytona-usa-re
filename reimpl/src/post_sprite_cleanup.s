@@ -9,101 +9,101 @@
     .global post_sprite_cleanup
     .type post_sprite_cleanup, @function
 post_sprite_cleanup:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_pool_06011E64, r8
-    mov.l   .L_pool_06011E68, r10
-    mov #0x0, r11
-    mov.l   .L_pool_06011E6C, r12
-    mov.l   .L_pool_06011E70, r14
-    bra     .L_06011E44
-    extu.w r11, r13
-.L_06011DDE:
-    mov r13, r2
-    mov r13, r3
-    shll2 r2
-    shll2 r3
-    shll r2
-    shll2 r3
-    add r3, r2
-    exts.w r2, r2
-    add r12, r2
-    mov.b @(5, r2), r0
-    mov r0, r2
-    extu.b r2, r2
-    tst r2, r2
-    bf      .L_06011E16
-    mov.l @r14, r5
-    mov r13, r4
-    mov r13, r3
-    shll2 r4
-    shll2 r3
-    shll r4
-    shll2 r3
-    add r3, r4
-    exts.w r4, r4
-    mov.l   .L_pool_06011E74, r3
-    jsr @r3
-    add r12, r4
-    bra     .L_06011E36
+    mov.l r14, @-r15                ! push r14 (callee-saved)
+    mov.l r13, @-r15                ! push r13 (callee-saved)
+    mov.l r12, @-r15                ! push r12 (callee-saved)
+    mov.l r11, @-r15                ! push r11 (callee-saved)
+    mov.l r10, @-r15                ! push r10 (callee-saved)
+    mov.l r9, @-r15                 ! push r9 (callee-saved)
+    mov.l r8, @-r15                 ! push r8 (callee-saved)
+    sts.l pr, @-r15                 ! push return address
+    mov.l   .L_pool_sprite_count, r8    ! r8 = &sprite_count (0x0605AAA0, word-sized count of active sprites)
+    mov.l   .L_pool_frame_counter, r10  ! r10 = &frame_counter (0x0605A008, incremented each sprite iteration)
+    mov #0x0, r11                   ! r11 = 0 (loop index; also used to reset sprite_count at end)
+    mov.l   .L_pool_sprite_table, r12   ! r12 = sprite_table_base (0x060786CC, 24-byte sprite entries)
+    mov.l   .L_pool_vdp1_write_ptr, r14 ! r14 = &vdp1_write_ptr (0x060785FC, pointer into VDP1 cmd buffer)
+    bra     .L_loop_check           ! jump to loop condition first
+    extu.w r11, r13                 ! (delay slot) r13 = (u16)r11 = 0 — zero-extend loop index
+.L_loop_body:
+    mov r13, r2                     ! r2 = sprite_index
+    mov r13, r3                     ! r3 = sprite_index
+    shll2 r2                        ! r2 = sprite_index * 4
+    shll2 r3                        ! r3 = sprite_index * 4
+    shll r2                         ! r2 = sprite_index * 8
+    shll2 r3                        ! r3 = sprite_index * 16
+    add r3, r2                      ! r2 = sprite_index * 24 (entry stride = 24 bytes)
+    exts.w r2, r2                   ! sign-extend word offset (keeps value in 16-bit range)
+    add r12, r2                     ! r2 = sprite_table_base + sprite_index*24 (= &entry[sprite_index])
+    mov.b @(5, r2), r0              ! r0 = entry[5] (animation cycle flag byte)
+    mov r0, r2                      ! r2 = animation flag (8-bit raw)
+    extu.b r2, r2                   ! r2 = (u8) animation flag (zero-extend to 32-bit)
+    tst r2, r2                      ! test: is animation flag zero?
+    bf      .L_flag_nonzero         ! if flag != 0: branch to normal-sprite path
+    mov.l @r14, r5                  ! r5 = *vdp1_write_ptr (current VDP1 command write destination)
+    mov r13, r4                     ! r4 = sprite_index (for entry address calc)
+    mov r13, r3                     ! r3 = sprite_index (for entry address calc)
+    shll2 r4                        ! r4 = sprite_index * 4
+    shll2 r3                        ! r3 = sprite_index * 4
+    shll r4                         ! r4 = sprite_index * 8
+    shll2 r3                        ! r3 = sprite_index * 16
+    add r3, r4                      ! r4 = sprite_index * 24
+    exts.w r4, r4                   ! sign-extend word offset
+    mov.l   .L_pool_vdp1_normal_builder, r3 ! r3 = FUN_060280F8 (normal VDP1 sprite command builder)
+    jsr @r3                         ! call normal_sprite_builder(entry_ptr=r4, write_dest=r5)
+    add r12, r4                     ! (delay slot) r4 = sprite_table_base + sprite_index*24 (entry ptr)
+    bra     .L_post_builder         ! skip distorted-sprite path
     nop
-.L_06011E16:
-    mov r13, r9
-    mov r13, r3
-    mov.l @r14, r5
-    shll2 r9
-    shll2 r3
-    shll r9
-    shll2 r3
-    add r3, r9
-    exts.w r9, r9
-    mov.l   .L_pool_06011E78, r3
-    add r12, r9
-    jsr @r3
-    mov r9, r4
-    extu.b r11, r2
-    mov r2, r0
-    mov.b r0, @(5, r9)
-.L_06011E36:
-    mov.l @r10, r3
-    add #0x1, r3
-    mov.l r3, @r10
-    mov.l @r14, r2
-    add #0x20, r2
-    mov.l r2, @r14
-    add #0x1, r13
-.L_06011E44:
-    extu.w r13, r3
-    mov.w @r8, r2
-    extu.w r2, r2
-    cmp/ge r2, r3
-    bf      .L_06011DDE
-    mov.w r11, @r8
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-    .2byte  0xFFFF
-.L_pool_06011E64:
-    .4byte  sym_0605AAA0
-.L_pool_06011E68:
-    .4byte  sym_0605A008
-.L_pool_06011E6C:
-    .4byte  sym_060786CC
-.L_pool_06011E70:
-    .4byte  sym_060785FC
-.L_pool_06011E74:
-    .4byte  sym_060280F8
-.L_pool_06011E78:
-    .4byte  sym_060280C4
+.L_flag_nonzero:
+    mov r13, r9                     ! r9 = sprite_index (will become entry ptr for flag write-back)
+    mov r13, r3                     ! r3 = sprite_index (for entry address calc)
+    mov.l @r14, r5                  ! r5 = *vdp1_write_ptr (current VDP1 command write destination)
+    shll2 r9                        ! r9 = sprite_index * 4
+    shll2 r3                        ! r3 = sprite_index * 4
+    shll r9                         ! r9 = sprite_index * 8
+    shll2 r3                        ! r3 = sprite_index * 16
+    add r3, r9                      ! r9 = sprite_index * 24
+    exts.w r9, r9                   ! sign-extend word offset
+    mov.l   .L_pool_vdp1_distorted_builder, r3 ! r3 = FUN_060280C4 (distorted VDP1 sprite command builder)
+    add r12, r9                     ! r9 = sprite_table_base + sprite_index*24 (entry ptr)
+    jsr @r3                         ! call distorted_sprite_builder(entry_ptr=r9, write_dest=r5)
+    mov r9, r4                      ! (delay slot) r4 = entry ptr (passed as first arg)
+    extu.b r11, r2                  ! r2 = (u8)r11 = 0 (r11 is loop index = 0 at start, used as zero)
+    mov r2, r0                      ! r0 = 0
+    mov.b r0, @(5, r9)              ! entry[5] = 0 — clear animation flag after processing
+.L_post_builder:
+    mov.l @r10, r3                  ! r3 = *frame_counter
+    add #0x1, r3                    ! r3 = frame_counter + 1
+    mov.l r3, @r10                  ! *frame_counter += 1 (count this sprite's contribution)
+    mov.l @r14, r2                  ! r2 = *vdp1_write_ptr
+    add #0x20, r2                   ! r2 += 32 (advance past the 32-byte VDP1 command just written)
+    mov.l r2, @r14                  ! *vdp1_write_ptr += 32
+    add #0x1, r13                   ! r13 = sprite_index + 1 (advance loop counter)
+.L_loop_check:
+    extu.w r13, r3                  ! r3 = (u16)sprite_index (unsigned loop counter)
+    mov.w @r8, r2                   ! r2 = sprite_count (word read from 0x0605AAA0)
+    extu.w r2, r2                   ! r2 = (u16)sprite_count (zero-extend to 32-bit)
+    cmp/ge r2, r3                   ! r3 >= r2? (sprite_index >= sprite_count?)
+    bf      .L_loop_body            ! if sprite_index < sprite_count: continue loop
+    mov.w r11, @r8                  ! sprite_count = 0 (reset; r11 = 0 from init)
+    lds.l @r15+, pr                 ! pop return address
+    mov.l @r15+, r8                 ! restore r8
+    mov.l @r15+, r9                 ! restore r9
+    mov.l @r15+, r10                ! restore r10
+    mov.l @r15+, r11                ! restore r11
+    mov.l @r15+, r12                ! restore r12
+    mov.l @r15+, r13                ! restore r13
+    rts                             ! return
+    mov.l @r15+, r14                ! (delay slot) restore r14
+    .2byte  0xFFFF                  ! padding / alignment filler
+.L_pool_sprite_count:
+    .4byte  sym_0605AAA0            ! 0x0605AAA0 — sprite count (active sprites for this frame, word)
+.L_pool_frame_counter:
+    .4byte  sym_0605A008            ! 0x0605A008 — frame counter (cumulative per-frame sprite tally)
+.L_pool_sprite_table:
+    .4byte  sym_060786CC            ! 0x060786CC — sprite table base (array of 24-byte sprite entries)
+.L_pool_vdp1_write_ptr:
+    .4byte  sym_060785FC            ! 0x060785FC — VDP1 command write pointer (advances 32 bytes/sprite)
+.L_pool_vdp1_normal_builder:
+    .4byte  sym_060280F8            ! 0x060280F8 — FUN_060280F8: normal VDP1 sprite command builder
+.L_pool_vdp1_distorted_builder:
+    .4byte  sym_060280C4            ! 0x060280C4 — FUN_060280C4: distorted VDP1 sprite command builder

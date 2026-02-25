@@ -9,71 +9,71 @@
     .global sprite_frame_select
     .type sprite_frame_select, @function
 sprite_frame_select:
-    mov.l r14, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    mov.b @r4, r14
-    tst r5, r5
-    bf/s    .L_0600554E
-    mov #0x1, r4
-    bra     .L_06005558
+    mov.l r14, @-r15            ! push r14 (callee-saved)
+    sts.l pr, @-r15             ! push return address (PR)
+    sts.l macl, @-r15           ! push MACL (callee-saved)
+    mov.b @r4, r14              ! r14 = *r4 = object ID byte (param_1 object ID, 0-255)
+    tst r5, r5                  ! test param_2 (comparison object ID; NULL = unconditional select)
+    bf/s    .L_check_frame_match ! branch if param_2 != NULL: compare IDs
+    mov #0x1, r4                ! (delay slot) r4 = 1 (assume frame changed, unconditional path)
+    bra     .L_do_frame_update  ! param_2 == NULL: skip comparison, always update
     nop
-.L_0600554E:
-    exts.b r14, r2
-    mov.b @r5, r3
-    cmp/eq r3, r2
-    bf      .L_06005558
-    mov #0x0, r4
-.L_06005558:
-    exts.b r4, r4
-    tst r4, r4
-    bt      .L_06005598
-    mov.l   .L_pool_060055A4, r3
-    jsr @r3
+.L_check_frame_match:
+    exts.b r14, r2              ! r2 = sign-extend current object ID
+    mov.b @r5, r3               ! r3 = *r5 = comparison object ID byte
+    cmp/eq r3, r2               ! test if current ID == comparison ID
+    bf      .L_do_frame_update  ! IDs differ: frame changed, proceed to update
+    mov #0x0, r4                ! IDs match: no change needed (r4 = 0)
+.L_do_frame_update:
+    exts.b r4, r4               ! sign-extend change flag to 32-bit
+    tst r4, r4                  ! test change flag
+    bt      .L_early_return     ! if r4 == 0 (no change): skip all setup, return
+    mov.l   .L_pool_mat_identity, r3  ! r3 = &mat_identity_A (0x06026E0C)
+    jsr @r3                     ! call mat_identity_A — reset current matrix to identity
     nop
-    exts.b r14, r0
-    cmp/eq #-0x1, r0
-    bt      .L_06005598
-    exts.b r14, r14
-    mov.w   .L_wpool_060055A0, r2
-    mov.l   .L_pool_060055A8, r3
-    mul.l r2, r14
-    sts macl, r14
-    add r3, r14
-    mov.l @(24, r14), r6
-    mov.l @(20, r14), r5
-    mov.l   .L_pool_060055AC, r3
-    jsr @r3
-    mov.l @(16, r14), r4
-    mov.l   .L_pool_060055B0, r3
-    jsr @r3
-    mov.l @(32, r14), r4
-    mov.l   .L_pool_060055B4, r3
-    jsr @r3
-    mov.l @(28, r14), r4
-    mov.l @(36, r14), r4
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l   .L_pool_060055B8, r3
-    jmp @r3
-    mov.l @r15+, r14
-.L_06005598:
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    exts.b r14, r0              ! r0 = sign-extend object ID (check for -1 sentinel)
+    cmp/eq #-0x1, r0            ! test if object ID == 0xFF (-1 signed = invalid/no-entry)
+    bt      .L_early_return     ! if object ID is -1: table lookup invalid, return
+    exts.b r14, r14             ! r14 = sign-extended object ID (ensure clean 32-bit index)
+    mov.w   .L_wpool_060055A0, r2     ! r2 = 0x0268 (animation table entry stride, bytes per entry)
+    mov.l   .L_pool_anim_table_base, r3 ! r3 = 0x06078900 (car/object animation table base address)
+    mul.l r2, r14               ! MACL = r14 * 0x268 (byte offset for this object's table entry)
+    sts macl, r14               ! r14 = byte offset into animation table
+    add r3, r14                 ! r14 = &anim_table[object_id] (pointer to this entry's data)
+    mov.l @(24, r14), r6        ! r6 = entry[+0x18] = Z coordinate / depth param for transform
+    mov.l @(20, r14), r5        ! r5 = entry[+0x14] = Y coordinate param for transform
+    mov.l   .L_pool_mat_xform_trans, r3 ! r3 = &mat_xform_trans_A (0x06026E2E)
+    jsr @r3                     ! call mat_xform_trans_A(r4=X, r5=Y, r6=Z) — transform vector by matrix+translation
+    mov.l @(16, r14), r4        ! (delay slot) r4 = entry[+0x10] = X coordinate param for transform
+    mov.l   .L_pool_mat_rot_y, r3     ! r3 = &mat_rot_y
+    jsr @r3                     ! call mat_rot_y(r4) — apply Y-axis rotation from entry[+0x20]
+    mov.l @(32, r14), r4        ! (delay slot) r4 = entry[+0x20] = Y-axis rotation angle
+    mov.l   .L_pool_transform_matrix, r3 ! r3 = &transform_matrix
+    jsr @r3                     ! call transform_matrix(r4) — apply secondary transform from entry[+0x1C]
+    mov.l @(28, r14), r4        ! (delay slot) r4 = entry[+0x1C] = secondary transform parameter
+    mov.l @(36, r14), r4        ! r4 = entry[+0x24] = Z-axis rotation angle (loaded for tail-call below)
+    lds.l @r15+, macl           ! restore MACL
+    lds.l @r15+, pr             ! restore return address (PR)
+    mov.l   .L_pool_mat_rot_z, r3     ! r3 = &mat_rot_z
+    jmp @r3                     ! tail-call mat_rot_z(r4) — apply Z-axis rotation from entry[+0x24]
+    mov.l @r15+, r14            ! (delay slot) restore r14
+.L_early_return:
+    lds.l @r15+, macl           ! restore MACL
+    lds.l @r15+, pr             ! restore return address (PR)
+    rts                         ! return to caller
+    mov.l @r15+, r14            ! (delay slot) restore r14
 .L_wpool_060055A0:
-    .2byte  0x0268
+    .2byte  0x0268              ! animation table entry stride: 0x268 bytes per entry (mov.w target — name preserved)
     .2byte  0xFFFF
-.L_pool_060055A4:
-    .4byte  sym_06026E0C
-.L_pool_060055A8:
-    .4byte  sym_06078900
-.L_pool_060055AC:
-    .4byte  sym_06026E2E
-.L_pool_060055B0:
-    .4byte  mat_rot_y
-.L_pool_060055B4:
-    .4byte  transform_matrix
-.L_pool_060055B8:
-    .4byte  mat_rot_z
+.L_pool_mat_identity:
+    .4byte  sym_06026E0C        ! -> mat_identity_A: reset current matrix stack entry to identity
+.L_pool_anim_table_base:
+    .4byte  sym_06078900        ! -> 0x06078900: car/object animation table base (40 slots x 0x268 bytes)
+.L_pool_mat_xform_trans:
+    .4byte  sym_06026E2E        ! -> mat_xform_trans_A: multiply vector (r4,r5,r6) by matrix + translation
+.L_pool_mat_rot_y:
+    .4byte  mat_rot_y           ! -> mat_rot_y: apply Y-axis rotation to current matrix
+.L_pool_transform_matrix:
+    .4byte  transform_matrix    ! -> transform_matrix: apply secondary matrix transform
+.L_pool_mat_rot_z:
+    .4byte  mat_rot_z           ! -> mat_rot_z: apply Z-axis rotation to current matrix (tail-call)
