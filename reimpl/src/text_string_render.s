@@ -14,7 +14,7 @@ text_string_render:
     mov r4, r14                         ! r14 = char_idx argument
     mov.l r13, @-r15                    ! save r13
     extu.b r14, r3                      ! r3 = char_idx (zero-extend byte)
-    mov.l   .L_pool_06016AD8, r13       ! r13 = &text_obj_array (sym_06084FC8, 68-byte entries)
+    mov.l   .L_pool_text_obj_array, r13       ! r13 = &text_obj_array (sym_06084FC8, 68-byte entries)
     mov.l   .L_fp_one, r5               ! r5 = 1.0 (16.16 fixed-point, 0x00010000)
     mov r3, r2                          ! r2 = char_idx copy (for stride multiply)
     shll2 r3                            ! r3 = idx*4
@@ -71,7 +71,7 @@ text_string_render:
     bra     .L_apply_accum_clamp        ! jump to clamp write
     mov.l r2, @(4, r4)                  ! (delay slot) obj.accum = accum_limit (clamp to limit)
     .2byte  0xFFFF
-.L_pool_06016AD8:
+.L_pool_text_obj_array:
     .4byte  sym_06084FC8                /* base address of text object array (68 bytes/entry) */
     .4byte  0x000B0000                  /* 11.0 (16.16 fixed-point) */
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
@@ -183,7 +183,7 @@ loc_06016B8E:
 loc_06016B98:
     /* Decrement per-slot active counter; mark slot done when counter reaches zero */
     /* r4 = char_idx */
-    mov.l   .L_pool_06016C34, r6        ! r6 = &text_obj_array (sym_06084FC8)
+    mov.l   .L_pool_text_obj_base, r6        ! r6 = &text_obj_array (sym_06084FC8)
     extu.b r4, r5                       ! r5 = char_idx (zero-extend byte)
     mov #0x41, r0                       ! r0 = 0x41 = 65 (byte offset of active-count field)
     mov r5, r3                          ! r3 = char_idx copy
@@ -233,13 +233,13 @@ loc_06016BD8:
     shll2 r2                            ! r2 = idx*64
     add r2, r3                          ! r3 = idx*68
     exts.w r3, r3                       ! sign-extend
-    mov.l   .L_pool_06016C34, r1        ! r1 = &text_obj_array (sym_06084FC8)
+    mov.l   .L_pool_text_obj_base, r1        ! r1 = &text_obj_array (sym_06084FC8)
     add r1, r3                          ! r3 = &text_obj_array[char_idx]
     mov.b @(2, r3), r0                  ! r0 = obj.state (byte dispatch key)
     mov r0, r3                          ! r3 = state
     extu.b r3, r3                       ! zero-extend state byte
     shll2 r3                            ! r3 = state*4 (longword-indexed into function table)
-    mov.l   .L_pool_06016C38, r2        ! r2 = &dispatch_table_a (sym_0605BB1C)
+    mov.l   .L_pool_dispatch_table_a, r2        ! r2 = &dispatch_table_a (sym_0605BB1C)
     add r2, r3                          ! r3 = &dispatch_table_a[state]
     mov.l @r3, r3                       ! r3 = function pointer for this state
     mov.b @r15, r4                      ! restore char_idx into r4 (argument for dispatched fn)
@@ -261,23 +261,23 @@ loc_06016C06:
     shll2 r2                            ! r2 = idx*64
     add r2, r3                          ! r3 = idx*68
     exts.w r3, r3                       ! sign-extend
-    mov.l   .L_pool_06016C34, r1        ! r1 = &text_obj_array (sym_06084FC8)
+    mov.l   .L_pool_text_obj_base, r1        ! r1 = &text_obj_array (sym_06084FC8)
     add r1, r3                          ! r3 = &text_obj_array[char_idx]
     mov.b @(2, r3), r0                  ! r0 = obj.state (byte dispatch key)
     mov r0, r3                          ! r3 = state
     extu.b r3, r3                       ! zero-extend
     shll2 r3                            ! r3 = state*4 (longword-indexed)
-    mov.l   .L_pool_06016C3C, r2        ! r2 = &dispatch_table_b (sym_0605BB48)
+    mov.l   .L_pool_dispatch_table_b, r2        ! r2 = &dispatch_table_b (sym_0605BB48)
     add r2, r3                          ! r3 = &dispatch_table_b[state]
     mov.l @r3, r3                       ! r3 = function pointer for this state
     mov.b @r15, r4                      ! restore char_idx into r4
     jmp @r3                             ! dispatch to state handler
     add #0x4, r15                       ! (delay slot) release stack temp
-.L_pool_06016C34:
+.L_pool_text_obj_base:
     .4byte  sym_06084FC8                /* text object array base (68 bytes/entry) */
-.L_pool_06016C38:
+.L_pool_dispatch_table_a:
     .4byte  sym_0605BB1C                /* dispatch table A: state->handler fn ptrs */
-.L_pool_06016C3C:
+.L_pool_dispatch_table_b:
     .4byte  sym_0605BB48                /* dispatch table B: state->handler fn ptrs */
 
     .global loc_06016C40
