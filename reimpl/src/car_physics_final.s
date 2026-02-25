@@ -39,103 +39,103 @@
     .global car_physics_final
     .type car_physics_final, @function
 car_physics_final:
-    mov.l r14, @-r15
-    mov #0x3, r6
-    extu.w r5, r5
-    mov r4, r14
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    add #-0xC, r15
+    mov.l r14, @-r15                        ! save r14 (car slot)
+    mov #0x3, r6                            ! r6 = 3 (class 3 constant)
+    extu.w r5, r5                           ! zero-extend mode param to 32-bit
+    mov r4, r14                             ! r14 = car slot index (persistent)
+    mov.l r13, @-r15                        ! save r13
+    mov.l r12, @-r15                        ! save r12
+    mov.l r11, @-r15                        ! save r11
+    mov.l r10, @-r15                        ! save r10
+    mov.l r9, @-r15                         ! save r9
+    mov.l r8, @-r15                         ! save r8
+    sts.l pr, @-r15                         ! save return address
+    add #-0xC, r15                          ! allocate 12 bytes of locals
     mov.l   .L_render_table_b, r8       /* r8 = mode B lookup table base */
     mov.l   .L_fn_render_dispatch, r11  /* r11 = render dispatch function */
     mov.l   .L_render_params, r12       /* r12 = render parameter table */
     mov.w   .L_mode_a_id, r3            /* 0x00A8 = mode A identifier */
-    cmp/eq r3, r5
-    bf/s    .L_0601A496                  /* not mode A → mode B path */
-    mov #0x2, r4
+    cmp/eq r3, r5                           ! compare mode param with 0x00A8
+    bf/s    .L_mode_b_path              /* not mode A → mode B path */
+    mov #0x2, r4                            ! r4 = 2 (class 2 constant, delay slot)
     extu.w r14, r3                       /* === Mode A path === */
-    mov.l   .L_start_table_a, r2
-    add r2, r3
+    mov.l   .L_start_table_a, r2            ! r2 = start_table_a base address
+    add r2, r3                              ! r3 = &start_table_a[slot]
     mov.b @r3, r1                        /* start_offset = start_table_a[slot] */
-    mov r1, r0
+    mov r1, r0                              ! r0 = start_offset for classify
     mov.b r0, @(8, r15)                 /* save start_offset on stack */
-    bra     .L_0601A442                  /* → classify start offset */
-    extu.w r14, r0
-.L_0601A42A:                              /* --- class 2: start == 1 or 4 --- */
-    bra     .L_0601A430
+    bra     .L_mode_a_classify          /* → classify start offset */
+    extu.w r14, r0                          ! r0 = slot index (delay slot)
+.L_mode_a_class2:                           /* --- class 2: start == 1 or 4 --- */
+    bra     .L_mode_a_loop_setup
     extu.b r4, r10                       /* r10 = 2 (render class) */
-.L_0601A42E:                              /* --- class 3: other start values --- */
+.L_mode_a_class3:                           /* --- class 3: other start values --- */
     extu.b r6, r10                       /* r10 = 3 (render class) */
-.L_0601A430:                              /* --- setup mode A loop --- */
+.L_mode_a_loop_setup:                       /* --- setup mode A loop --- */
     mov #0x0, r13                        /* loop counter = 0 */
-    extu.w r14, r2
-    mov.l   .L_count_table_a, r3
-    add r3, r2
+    extu.w r14, r2                          ! r2 = slot index
+    mov.l   .L_count_table_a, r3            ! r3 = count_table_a base
+    add r3, r2                              ! r2 = &count_table_a[slot]
     mov.l r2, @(4, r15)                 /* save &count_table_a[slot] */
     extu.b r10, r1
     shll2 r1                             /* class * 4 */
-    bra     .L_0601A47C                  /* → loop condition check */
+    bra     .L_mode_a_loop_cond         /* → loop condition check */
     mov.l r1, @r15                       /* save class*4 on stack */
-.L_0601A442:                              /* --- classify start offset for mode A --- */
-    cmp/eq #0x1, r0
-    bt      .L_0601A42A                  /* start == 1 → class 2 */
-    cmp/eq #0x4, r0
-    bt      .L_0601A42A                  /* start == 4 → class 2 */
-    bra     .L_0601A42E                  /* other → class 3 */
-    nop
-.L_0601A44E:                              /* === Mode A render loop body === */
+.L_mode_a_classify:                         /* --- classify start offset for mode A --- */
+    cmp/eq #0x1, r0                         ! test: start_offset == 1?
+    bt      .L_mode_a_class2            /* start == 1 → class 2 */
+    cmp/eq #0x4, r0                         ! test: start_offset == 4?
+    bt      .L_mode_a_class2            /* start == 4 → class 2 */
+    bra     .L_mode_a_class3            /* other → class 3 */
+    nop                                     ! delay slot (unused)
+.L_mode_a_loop_body:                        /* === Mode A render loop body === */
     mov r12, r7                          /* r7 = render params */
     mov #0x0, r6                         /* r6 = 0 (no flags) */
-    extu.b r13, r3
-    mov.l   .L_lookup_table_a, r2
+    extu.b r13, r3                          ! r3 = counter (zero-extended)
+    mov.l   .L_lookup_table_a, r2          ! r2 = lookup_table_a base
     mov.b @(8, r15), r0                  /* start_offset */
-    mov r0, r9
-    extu.b r9, r9
+    mov r0, r9                              ! r9 = start_offset
+    extu.b r9, r9                           ! zero-extend to byte
     add r3, r9                           /* table_idx = start + counter */
     shll r9                              /* table_idx *= 2 (byte pair) */
     add r2, r9                           /* &lookup_table_a[table_idx] */
     mov.b @(1, r9), r0                   /* high_byte */
     mov.b @r9, r3                        /* low_byte */
-    mov r0, r5
-    extu.b r3, r3
-    extu.b r5, r5
+    mov r0, r5                              ! r5 = high_byte
+    extu.b r3, r3                           ! zero-extend low_byte
+    extu.b r5, r5                           ! zero-extend high_byte
     shll2 r5                             /* high << 2 */
     shll2 r5                             /* high << 4 */
     shll2 r5                             /* high << 6 */
     add r3, r5                           /* index = (high << 6) | low */
     shll r5                              /* index *= 2 (word table) */
     jsr @r11                             /* render_dispatch(class*4, index, 0, params) */
-    mov.l @r15, r4                       /* r4 = class*4 */
+    mov.l @r15, r4                       /* r4 = class*4 (delay slot) */
     add #0x1, r13                        /* counter++ */
-.L_0601A47C:                              /* --- mode A loop condition --- */
-    extu.b r13, r3
-    mov.l @(4, r15), r2
+.L_mode_a_loop_cond:                        /* --- mode A loop condition --- */
+    extu.b r13, r3                          ! r3 = counter (zero-extended)
+    mov.l @(4, r15), r2                     ! r2 = &count_table_a[slot]
     mov.b @r2, r2                        /* iteration_count = count_table_a[slot] */
-    extu.b r2, r2
-    cmp/ge r2, r3
-    bf      .L_0601A44E                  /* counter < count → loop */
+    extu.b r2, r2                           ! zero-extend iteration count
+    cmp/ge r2, r3                           ! counter >= count?
+    bf      .L_mode_a_loop_body         /* counter < count → loop */
     extu.w r14, r5                       /* === Mode A final dispatch === */
     mov.l   .L_final_params_a, r7       /* r7 = final param table */
     shll r5                              /* slot * 2 */
     mov.l   .L_final_offset_a, r3
     add r3, r5                           /* &final_offset_a[slot*2] */
-    bra     .L_0601A532                  /* → shared final dispatch */
+    bra     .L_final_dispatch_shared    /* → shared final dispatch */
     mov #0x60, r6                        /* r6 = 0x60 (final render flags) */
-.L_0601A496:                              /* === Mode B path === */
-    extu.w r14, r2
-    mov.l   .L_start_table_b, r3
-    add r3, r2
+.L_mode_b_path:                             /* === Mode B path === */
+    extu.w r14, r2                          ! r2 = slot index
+    mov.l   .L_start_table_b, r3            ! r3 = start_table_b base
+    add r3, r2                              ! r2 = &start_table_b[slot]
     mov.b @r2, r1                        /* start_offset = start_table_b[slot] */
     mov.b r1, @r15                       /* save start_offset on stack */
-    bra     .L_0601A4E4                  /* → classify start offset */
-    extu.w r14, r0
-.L_0601A4A4:                              /* --- class 2: start == 5 or 8 --- */
-    bra     .L_0601A4D2
+    bra     .L_mode_b_classify          /* → classify start offset */
+    extu.w r14, r0                          ! r0 = slot index (delay slot)
+.L_mode_b_class2:                           /* --- class 2: start == 5 or 8 --- */
+    bra     .L_mode_b_loop_setup
     extu.b r4, r10                       /* r10 = 2 (render class) */
 .L_mode_a_id:
     .2byte  0x00A8                        /* mode A identifier value */
@@ -158,86 +158,86 @@ car_physics_final:
     .4byte  sym_06059084               /* mode A final byte-pair offset base */
 .L_start_table_b:
     .4byte  sym_06049C1E               /* mode B start offset table (per slot) */
-.L_0601A4D0:                              /* --- class 3: other start values --- */
+.L_mode_b_class3:                           /* --- class 3: other start values --- */
     extu.b r6, r10                       /* r10 = 3 (render class) */
-.L_0601A4D2:                              /* --- setup mode B loop --- */
+.L_mode_b_loop_setup:                       /* --- setup mode B loop --- */
     mov #0x0, r13                        /* loop counter = 0 */
-    extu.w r14, r2
-    mov.l   .L_count_table_b, r3
-    add r3, r2
+    extu.w r14, r2                          ! r2 = slot index
+    mov.l   .L_count_table_b, r3            ! r3 = count_table_b base
+    add r3, r2                              ! r2 = &count_table_b[slot]
     mov.l r2, @(4, r15)                 /* save &count_table_b[slot] */
     extu.b r10, r1
     shll2 r1                             /* class * 4 */
-    bra     .L_0601A51A                  /* → loop condition check */
+    bra     .L_mode_b_loop_cond         /* → loop condition check */
     mov.l r1, @(8, r15)                 /* save class*4 on stack */
-.L_0601A4E4:                              /* --- classify start offset for mode B --- */
-    cmp/eq #0x5, r0
-    bt      .L_0601A4A4                  /* start == 5 → class 2 */
-    cmp/eq #0x8, r0
-    bt      .L_0601A4A4                  /* start == 8 → class 2 */
-    bra     .L_0601A4D0                  /* other → class 3 */
-    nop
-.L_0601A4F0:                              /* === Mode B render loop body === */
+.L_mode_b_classify:                         /* --- classify start offset for mode B --- */
+    cmp/eq #0x5, r0                         ! test: start_offset == 5?
+    bt      .L_mode_b_class2            /* start == 5 → class 2 */
+    cmp/eq #0x8, r0                         ! test: start_offset == 8?
+    bt      .L_mode_b_class2            /* start == 8 → class 2 */
+    bra     .L_mode_b_class3            /* other → class 3 */
+    nop                                     ! delay slot (unused)
+.L_mode_b_loop_body:                        /* === Mode B render loop body === */
     mov r12, r7                          /* r7 = render params */
     mov #0x0, r6                         /* r6 = 0 (no flags) */
     mov.b @r15, r9                       /* start_offset */
-    extu.b r13, r3
-    extu.b r9, r9
+    extu.b r13, r3                          ! r3 = counter (zero-extended)
+    extu.b r9, r9                           ! zero-extend start_offset
     add r3, r9                           /* table_idx = start + counter */
     shll r9                              /* table_idx *= 2 (byte pair) */
     add r8, r9                           /* &render_table_b[table_idx] */
     mov.b @(1, r9), r0                   /* high_byte */
     mov.b @r9, r3                        /* low_byte */
-    mov r0, r5
-    extu.b r3, r3
-    extu.b r5, r5
+    mov r0, r5                              ! r5 = high_byte
+    extu.b r3, r3                           ! zero-extend low_byte
+    extu.b r5, r5                           ! zero-extend high_byte
     shll2 r5                             /* high << 2 */
     shll2 r5                             /* high << 4 */
     shll2 r5                             /* high << 6 */
     add r3, r5                           /* index = (high << 6) | low */
     shll r5                              /* index *= 2 (word table) */
     jsr @r11                             /* render_dispatch(class*4, index, 0, params) */
-    mov.l @(8, r15), r4                  /* r4 = class*4 */
+    mov.l @(8, r15), r4                  /* r4 = class*4 (delay slot) */
     add #0x1, r13                        /* counter++ */
-.L_0601A51A:                              /* --- mode B loop condition --- */
-    extu.b r13, r3
-    mov.l @(4, r15), r2
+.L_mode_b_loop_cond:                        /* --- mode B loop condition --- */
+    extu.b r13, r3                          ! r3 = counter (zero-extended)
+    mov.l @(4, r15), r2                     ! r2 = &count_table_b[slot]
     mov.b @r2, r2                        /* iteration_count = count_table_b[slot] */
-    extu.b r2, r2
-    cmp/ge r2, r3
-    bf      .L_0601A4F0                  /* counter < count → loop */
+    extu.b r2, r2                           ! zero-extend iteration count
+    cmp/ge r2, r3                           ! counter >= count?
+    bf      .L_mode_b_loop_body         /* counter < count → loop */
     mov.l   .L_final_params_b, r7       /* === Mode B final dispatch === */
     mov #0x60, r6                        /* r6 = 0x60 (final render flags) */
-    extu.w r14, r5
+    extu.w r14, r5                          ! r5 = slot index
     shll r5                              /* slot * 2 */
-    mov.l   .L_final_offset_b, r3
+    mov.l   .L_final_offset_b, r3          ! r3 = final_offset_b base
     add r3, r5                           /* &final_offset_b[slot*2] */
-.L_0601A532:                              /* === Shared final dispatch === */
+.L_final_dispatch_shared:                   /* === Shared final dispatch === */
     mov.l r5, @r15                       /* save pair pointer */
     mov.b @(1, r5), r0                   /* high_byte */
-    mov.l @r15, r2
-    mov r0, r5
+    mov.l @r15, r2                          ! reload pair pointer
+    mov r0, r5                              ! r5 = high_byte
     mov.b @r2, r2                        /* low_byte */
-    extu.b r5, r5
-    extu.b r2, r2
+    extu.b r5, r5                           ! zero-extend high_byte
+    extu.b r2, r2                           ! zero-extend low_byte
     shll2 r5                             /* high << 2 */
     shll2 r5                             /* high << 4 */
     shll2 r5                             /* high << 6 */
     add r2, r5                           /* index = (high << 6) | low */
     shll r5                              /* index *= 2 */
-    extu.b r10, r4
+    extu.b r10, r4                          ! r4 = render class
     shll2 r4                             /* r4 = class * 4 */
-    add #0xC, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    mov.l   .L_fn_final_dispatch, r2
+    add #0xC, r15                           ! free 12 bytes of locals
+    lds.l @r15+, pr                         ! restore return address
+    mov.l @r15+, r8                         ! restore r8
+    mov.l @r15+, r9                         ! restore r9
+    mov.l @r15+, r10                        ! restore r10
+    mov.l @r15+, r11                        ! restore r11
+    mov.l @r15+, r12                        ! restore r12
+    mov.l @r15+, r13                        ! restore r13
+    mov.l   .L_fn_final_dispatch, r2        ! r2 = final dispatch address
     jmp @r2                              /* → final_dispatch(class*4, index, flags, params) */
-    mov.l @r15+, r14
+    mov.l @r15+, r14                        ! restore r14 (delay slot)
 .L_count_table_b:
     .4byte  sym_06049C14               /* mode B iteration count table (per slot) */
 .L_final_params_b:
