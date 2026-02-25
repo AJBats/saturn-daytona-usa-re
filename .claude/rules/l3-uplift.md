@@ -48,9 +48,9 @@ the instruction and its pool target, both of which move together in the same sec
 
 ## Agent Parallelism
 
-**Maximum 5 annotation/uplift agents at a time.** Running more burns through API
+**Maximum 7 annotation/uplift agents at a time.** Running more burns through API
 capacity too fast and causes agents to hit rate limits mid-work, leaving files
-partially annotated. Launch a batch of 5, wait for completion, then launch the next.
+partially annotated. Launch a batch of 7, wait for completion, then launch the next.
 
 ## Validation
 
