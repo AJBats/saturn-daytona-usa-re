@@ -46,6 +46,12 @@ references are emitted as raw `.byte` pairs with a comment showing the decoded f
 This is safe because `mov.l @(disp,PC)` is PC-relative — the displacement is between
 the instruction and its pool target, both of which move together in the same section.
 
+## Agent Parallelism
+
+**Maximum 5 annotation/uplift agents at a time.** Running more burns through API
+capacity too fast and causes agents to hit rate limits mid-work, leaving files
+partially annotated. Launch a batch of 5, wait for completion, then launch the next.
+
 ## Validation
 
 3-class validation required before commit — same as all elevations:
