@@ -43,53 +43,53 @@
     .global state_time_extend_active
     .type state_time_extend_active, @function
 state_time_extend_active:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    add #-0x8, r15
-    mov.l   .L_mask_nibble3, r8          /* 0xF000 mask for geom dispatch */
-    mov.l   .L_render_flags, r10
-    mov.l   .L_special_render_flag, r11
-    mov.l   .L_time_value_byte, r12
-    mov.l   .L_input_data, r4           /* --- Read input buttons --- */
-    mov.w @(2, r4), r0                  /* buttons_held (16-bit) */
-    mov r0, r3
-    mov.w r3, @r15                       /* [sp+0] = buttons_held */
-    mov.w @r4, r3                        /* buttons_pressed (16-bit) */
-    mov r3, r0
-    mov.w r0, @(4, r15)                 /* [sp+4] = buttons_pressed */
-    mov.l   .L_overlay_active, r0       /* --- Optional overlay --- */
-    mov.b @r0, r0
-    tst r0, r0
-    bt      .L_060097BE
-    mov.l   .L_fn_menu_overlay, r3
-    jsr @r3                              /* menu_overlay_render(0) */
-    mov #0x0, r4
-.L_060097BE:                              /* === Extend mode input === */
-    mov.l   .L_extend_mode_flag, r0
-    mov.b @r0, r0
-    tst r0, r0
-    bt      .L_0600983E                  /* not in extend mode → skip input */
-    mov.w @r15, r3                       /* buttons_held */
-    mov.l   .L_btn_up_mask, r2          /* 0x8000 = Up button */
-    extu.w r3, r3
-    and r2, r3
-    tst r3, r3
-    bt      .L_06009808                  /* Up not held → check Down */
-    mov #0x63, r2                        /* --- Up pressed: increment --- */
-    mov.b @r12, r3                       /* time_value */
-    extu.b r3, r3
-    cmp/ge r2, r3                        /* >= 99? */
-    bt      .L_06009824                  /* at max → skip */
-    mov.b @r12, r2
-    add #0x1, r2                         /* time_value++ */
-    bra     .L_06009824
-    mov.b r2, @r12
+    mov.l r14, @-r15                    ! save r14
+    mov.l r13, @-r15                    ! save r13
+    mov.l r12, @-r15                    ! save r12
+    mov.l r11, @-r15                    ! save r11
+    mov.l r10, @-r15                    ! save r10
+    mov.l r9, @-r15                     ! save r9
+    mov.l r8, @-r15                     ! save r8
+    sts.l pr, @-r15                     ! save return address
+    add #-0x8, r15                      ! allocate 8 bytes of stack locals
+    mov.l   .L_mask_nibble3, r8          ! r8 = 0xF000 mask for geom dispatch
+    mov.l   .L_render_flags, r10         ! r10 = &render_flags
+    mov.l   .L_special_render_flag, r11  ! r11 = &special_render_flag
+    mov.l   .L_time_value_byte, r12      ! r12 = &time_value
+    mov.l   .L_input_data, r4           ! r4 = &input_data --- Read input buttons ---
+    mov.w @(2, r4), r0                  ! r0 = buttons_held (16-bit)
+    mov r0, r3                          ! r3 = buttons_held
+    mov.w r3, @r15                       ! [sp+0] = buttons_held
+    mov.w @r4, r3                        ! r3 = buttons_pressed (16-bit)
+    mov r3, r0                          ! r0 = buttons_pressed
+    mov.w r0, @(4, r15)                 ! [sp+4] = buttons_pressed
+    mov.l   .L_overlay_active, r0       ! r0 = &overlay_active --- Optional overlay ---
+    mov.b @r0, r0                       ! r0 = overlay_active flag
+    tst r0, r0                          ! overlay active?
+    bt      .L_skip_overlay              ! no → skip overlay render
+    mov.l   .L_fn_menu_overlay, r3      ! r3 = &menu_overlay_render
+    jsr @r3                              ! menu_overlay_render(0)
+    mov #0x0, r4                        ! r4 = 0 (delay slot: arg0)
+.L_skip_overlay:                         /* === Extend mode input === */
+    mov.l   .L_extend_mode_flag, r0     ! r0 = &extend_mode_flag
+    mov.b @r0, r0                       ! r0 = extend_mode_flag
+    tst r0, r0                          ! in extend mode?
+    bt      .L_setup_persistent          ! not in extend mode -> skip input handling
+    mov.w @r15, r3                       ! r3 = buttons_held
+    mov.l   .L_btn_up_mask, r2          ! r2 = 0x8000 (Up button mask)
+    extu.w r3, r3                       ! zero-extend to 32-bit
+    and r2, r3                          ! isolate Up bit
+    tst r3, r3                          ! Up held?
+    bt      .L_check_down                ! Up not held -> check Down
+    mov #0x63, r2                        ! r2 = 99 (max time value) --- Up pressed ---
+    mov.b @r12, r3                       ! r3 = current time_value
+    extu.b r3, r3                       ! zero-extend to 32-bit
+    cmp/ge r2, r3                        ! time_value >= 99?
+    bt      .L_display_time_value        ! already at max -> skip increment
+    mov.b @r12, r2                      ! r2 = time_value
+    add #0x1, r2                         ! time_value++
+    bra     .L_display_time_value        ! -> display updated value
+    mov.b r2, @r12                      ! (delay slot) store incremented value
 .L_mask_nibble3:
     .4byte  0x0000F000                  /* nibble 3 mask */
 .L_render_flags:
@@ -108,112 +108,112 @@ state_time_extend_active:
     .4byte  sym_0607864A               /* time extend mode flag (byte) */
 .L_btn_up_mask:
     .4byte  0x00008000                  /* Up button mask */
-.L_06009808:                              /* --- Check Down button --- */
-    mov.w @r15, r2
-    mov.w   .L_btn_down_mask, r3        /* 0x4000 = Down button */
-    extu.w r2, r2
-    and r3, r2
-    tst r2, r2
-    bt      .L_06009824                  /* Down not held → skip */
-    mov #0x1, r2                         /* --- Down pressed: decrement --- */
-    mov.b @r12, r3                       /* time_value */
-    extu.b r3, r3
-    cmp/gt r2, r3                        /* > 1? */
-    bf      .L_06009824                  /* at min → skip */
-    mov.b @r12, r2
-    add #-0x1, r2                        /* time_value-- */
-    mov.b r2, @r12
-.L_06009824:                              /* === Display time value === */
-    mov.b @r12, r7
-    mov r8, r6                           /* 0xF000 mask */
-    mov.w   .L_hud_sprite_a, r5         /* 0x0CCC = sprite params */
-    mov.l   .L_fn_hud_number, r3
-    extu.b r7, r7
-    jsr @r3                              /* hud_number_display(8, 0x0CCC, 0xF000, value) */
-    mov #0x8, r4
-    mov r8, r6                           /* --- Extend graphics --- */
-    mov.w   .L_hud_sprite_b, r5         /* 0x0CB8 */
-    mov.l   .L_extend_gfx_data_a, r7
-    mov.l   .L_fn_geom_dispatch, r3
-    jsr @r3                              /* geom_dispatch(8, 0x0CB8, 0xF000, gfx_data_a) */
-    mov #0x8, r4
-.L_0600983E:                              /* === Start button check === */
-    mov.w   .L_hud_coord_a, r9          /* 0x0694 persistent */
-    mov.w   .L_hud_coord_b, r13         /* 0x0090 persistent */
-    mov.l   .L_fn_geom_render, r14      /* persistent render fn */
-    mov.w @r15, r2                       /* buttons_held */
-    mov.w   .L_btn_start_mask, r3       /* 0x0800 = Start button */
-    extu.w r2, r2
-    and r3, r2
-    tst r2, r2
-    bt      .L_06009920                  /* Start not pressed → skip */
-    mov #0x14, r2                        /* --- Start pressed --- */
-    mov.l   .L_extend_timer, r3
-    mov.w @r3, r3                        /* extend_timer */
-    extu.w r3, r3
-    cmp/ge r2, r3                        /* timer >= 20? */
-    bf      .L_06009920                  /* too early → ignore */
-    mov.l   .L_extend_trigger, r0
-    mov.b @r0, r0
-    cmp/eq #0x1, r0                      /* already triggered? */
-    bt      .L_06009920
-    mov.l   .L_snd_cmd_extend, r5       /* --- Play extend sound --- */
-    mov.l   .L_fn_sound_dispatch, r3
-    jsr @r3                              /* sound_cmd_dispatch(0, 0xAE0004FF) */
-    mov #0x0, r4
-    mov r13, r6                          /* --- Render extend text --- */
-    mov.l   .L_extend_text_data, r2
-    mov.l r2, @r15
-    mov r2, r7
-    mov.w   .L_text_sprite_a, r5        /* 0x0526 */
-    add #0x3B, r7                        /* text_data + 0x3B */
-    jsr @r14                             /* geom_render(8, 0x0526, 0x0090, text+0x3B) */
-    mov #0x8, r4
-    mov r13, r6
-    mov r9, r5                           /* 0x0694 */
-    mov.l @r15, r7
-    add #0x28, r7                        /* text_data + 0x28 */
-    jsr @r14                             /* geom_render(8, 0x0694, 0x0090, text+0x28) */
-    mov #0x8, r4
-    mov r13, r6
-    mov.w   .L_text_sprite_b, r5        /* 0x079C */
-    mov.l @r15, r7
-    add #0x2E, r7                        /* text_data + 0x2E */
-    jsr @r14                             /* geom_render(8, 0x079C, 0x0090, text+0x2E) */
-    mov #0x8, r4
-    mov.l   .L_countdown_timer, r3      /* --- State transition --- */
-    mov.l   .L_game_state, r2
-    mov.l @r3, r3
-    mov.l r3, @r2                        /* game_state = countdown_timer value */
-    mov.l   .L_extend_lap_byte, r3
-    mov.l   .L_lap_count, r2
-    mov.b @r3, r3
-    mov.b r3, @r2                        /* lap_count = extend_lap_byte */
-    mov.l   .L_extend_trigger, r0
-    mov.b @r0, r0
-    tst r0, r0
-    bf      .L_060098B0                  /* triggered → clear and finalize */
-    bra     .L_060099F4                  /* → end frame */
-    nop
-.L_060098B0:                              /* --- Clear trigger + re-display --- */
-    mov #0x0, r3
-    mov #0xF, r6
-    mov.l   .L_extend_trigger, r2
-    mov.b r3, @r2                        /* extend_trigger = 0 */
-    mov.b @r12, r5                       /* time_value */
-    extu.b r5, r5
-    mov.l r5, @r15                       /* save to stack */
-    mov.l   .L_fn_handler_dispatch, r3
-    jsr @r3                              /* handler_dispatch(value, 0xF) */
-    mov r5, r4
-    mov.l   .L_extend_gfx_data_b, r7    /* --- Update gfx display --- */
-    mov r8, r6
-    mov.w   .L_hud_sprite_b, r5         /* 0x0CB8 */
-    mov.l   .L_fn_geom_dispatch, r3
-    jsr @r3                              /* geom_dispatch(8, 0x0CB8, 0xF000, gfx_data_b) */
-    mov #0x8, r4
-    bra     .L_060099F4
-    nop
+.L_check_down:                           /* --- Check Down button --- */
+    mov.w @r15, r2                      ! r2 = buttons_held
+    mov.w   .L_btn_down_mask, r3        ! r3 = 0x4000 (Down button mask)
+    extu.w r2, r2                       ! zero-extend to 32-bit
+    and r3, r2                          ! isolate Down bit
+    tst r2, r2                          ! Down held?
+    bt      .L_display_time_value        ! Down not held -> skip
+    mov #0x1, r2                         ! r2 = 1 (min time value) --- Down pressed ---
+    mov.b @r12, r3                       ! r3 = current time_value
+    extu.b r3, r3                       ! zero-extend to 32-bit
+    cmp/gt r2, r3                        ! time_value > 1?
+    bf      .L_display_time_value        ! already at min -> skip decrement
+    mov.b @r12, r2                      ! r2 = time_value
+    add #-0x1, r2                        ! time_value--
+    mov.b r2, @r12                      ! store decremented value
+.L_display_time_value:                   /* === Display time value on HUD === */
+    mov.b @r12, r7                      ! r7 = time_value
+    mov r8, r6                           ! r6 = 0xF000 mask
+    mov.w   .L_hud_sprite_a, r5         ! r5 = 0x0CCC (sprite params)
+    mov.l   .L_fn_hud_number, r3        ! r3 = &hud_number_display
+    extu.b r7, r7                       ! zero-extend time_value
+    jsr @r3                              ! hud_number_display(8, 0x0CCC, 0xF000, value)
+    mov #0x8, r4                        ! (delay slot) r4 = 8 (display mode)
+    mov r8, r6                           ! r6 = 0xF000 --- Extend graphics ---
+    mov.w   .L_hud_sprite_b, r5         ! r5 = 0x0CB8
+    mov.l   .L_extend_gfx_data_a, r7   ! r7 = &extend_gfx_data_a
+    mov.l   .L_fn_geom_dispatch, r3     ! r3 = &geom_dispatch
+    jsr @r3                              ! geom_dispatch(8, 0x0CB8, 0xF000, gfx_data_a)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+.L_setup_persistent:                     /* === Load persistent regs + Start button check === */
+    mov.w   .L_hud_coord_a, r9          ! r9 = 0x0694 (sprite coord A, persistent)
+    mov.w   .L_hud_coord_b, r13         ! r13 = 0x0090 (sprite coord B, persistent)
+    mov.l   .L_fn_geom_render, r14      ! r14 = &geom_render (persistent)
+    mov.w @r15, r2                       ! r2 = buttons_held
+    mov.w   .L_btn_start_mask, r3       ! r3 = 0x0800 (Start button mask)
+    extu.w r2, r2                       ! zero-extend to 32-bit
+    and r3, r2                          ! isolate Start bit
+    tst r2, r2                          ! Start held?
+    bt      .L_check_end_extend          ! Start not pressed -> skip
+    mov #0x14, r2                        ! r2 = 20 (minimum timer threshold) --- Start pressed ---
+    mov.l   .L_extend_timer, r3         ! r3 = &extend_timer
+    mov.w @r3, r3                        ! r3 = extend_timer value
+    extu.w r3, r3                       ! zero-extend to 32-bit
+    cmp/ge r2, r3                        ! timer >= 20?
+    bf      .L_check_end_extend          ! too early -> ignore Start press
+    mov.l   .L_extend_trigger, r0       ! r0 = &extend_trigger
+    mov.b @r0, r0                       ! r0 = extend_trigger flag
+    cmp/eq #0x1, r0                      ! already triggered?
+    bt      .L_check_end_extend          ! yes -> skip (prevent double-trigger)
+    mov.l   .L_snd_cmd_extend, r5       ! r5 = 0xAE0004FF --- Play extend sound ---
+    mov.l   .L_fn_sound_dispatch, r3    ! r3 = &sound_cmd_dispatch
+    jsr @r3                              ! sound_cmd_dispatch(0, 0xAE0004FF)
+    mov #0x0, r4                        ! (delay slot) r4 = 0
+    mov r13, r6                          ! r6 = 0x0090 (coord B) --- Render extend text ---
+    mov.l   .L_extend_text_data, r2     ! r2 = &extend_text_data
+    mov.l r2, @r15                      ! [sp+0] = text_data base ptr (saved for reuse)
+    mov r2, r7                          ! r7 = text_data base
+    mov.w   .L_text_sprite_a, r5        ! r5 = 0x0526 (sprite params)
+    add #0x3B, r7                        ! r7 = text_data + 0x3B (line 1 offset)
+    jsr @r14                             ! geom_render(8, 0x0526, 0x0090, text+0x3B)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    mov r13, r6                         ! r6 = 0x0090 (coord B)
+    mov r9, r5                           ! r5 = 0x0694 (coord A)
+    mov.l @r15, r7                      ! r7 = text_data base (reload from stack)
+    add #0x28, r7                        ! r7 = text_data + 0x28 (line 2 offset)
+    jsr @r14                             ! geom_render(8, 0x0694, 0x0090, text+0x28)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    mov r13, r6                         ! r6 = 0x0090 (coord B)
+    mov.w   .L_text_sprite_b, r5        ! r5 = 0x079C (sprite params)
+    mov.l @r15, r7                      ! r7 = text_data base (reload from stack)
+    add #0x2E, r7                        ! r7 = text_data + 0x2E (line 3 offset)
+    jsr @r14                             ! geom_render(8, 0x079C, 0x0090, text+0x2E)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    mov.l   .L_countdown_timer, r3      ! r3 = &countdown_timer --- State transition ---
+    mov.l   .L_game_state, r2           ! r2 = &game_state
+    mov.l @r3, r3                       ! r3 = countdown_timer value
+    mov.l r3, @r2                        ! game_state = countdown_timer value
+    mov.l   .L_extend_lap_byte, r3      ! r3 = &extend_lap_byte
+    mov.l   .L_lap_count, r2            ! r2 = &lap_count
+    mov.b @r3, r3                       ! r3 = extend_lap value
+    mov.b r3, @r2                        ! lap_count = extend_lap_byte
+    mov.l   .L_extend_trigger, r0       ! r0 = &extend_trigger
+    mov.b @r0, r0                       ! r0 = extend_trigger flag
+    tst r0, r0                          ! trigger set?
+    bf      .L_clear_trigger             ! yes -> clear trigger and re-display
+    bra     .L_end_of_frame              ! no -> jump to end-of-frame cleanup
+    nop                                 ! (delay slot)
+.L_clear_trigger:                        /* --- Clear trigger + re-display extend gfx --- */
+    mov #0x0, r3                        ! r3 = 0
+    mov #0xF, r6                        ! r6 = 0xF (handler mode)
+    mov.l   .L_extend_trigger, r2       ! r2 = &extend_trigger
+    mov.b r3, @r2                        ! extend_trigger = 0
+    mov.b @r12, r5                       ! r5 = time_value
+    extu.b r5, r5                       ! zero-extend to 32-bit
+    mov.l r5, @r15                       ! [sp+0] = time_value (save for later)
+    mov.l   .L_fn_handler_dispatch, r3  ! r3 = &handler_dispatch
+    jsr @r3                              ! handler_dispatch(value, 0xF)
+    mov r5, r4                          ! (delay slot) r4 = time_value
+    mov.l   .L_extend_gfx_data_b, r7    ! r7 = &extend_gfx_data_b --- Update gfx display ---
+    mov r8, r6                          ! r6 = 0xF000
+    mov.w   .L_hud_sprite_b, r5         ! r5 = 0x0CB8
+    mov.l   .L_fn_geom_dispatch, r3     ! r3 = &geom_dispatch
+    jsr @r3                              ! geom_dispatch(8, 0x0CB8, 0xF000, gfx_data_b)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    bra     .L_end_of_frame             ! -> end-of-frame cleanup
+    nop                                 ! (delay slot)
 .L_btn_down_mask:
     .2byte  0x4000                        /* Down button mask */
 .L_hud_sprite_a:
@@ -260,84 +260,84 @@ state_time_extend_active:
     .4byte  handler_dispatch           /* handler dispatch function */
 .L_extend_gfx_data_b:
     .4byte  sym_060446EC               /* time extend graphics data B */
-.L_06009920:                              /* === Check end-extend buttons === */
-    mov #0x70, r4                        /* buttons 0x0070 mask */
-    mov.w @(4, r15), r0                 /* buttons_pressed */
-    mov r0, r2
-    extu.w r2, r2
-    and r4, r2
-    cmp/eq r4, r2                        /* all 3 bits set? */
-    bf      .L_06009972                  /* no → normal frame render */
-    .byte   0xB4, 0x43    /* bsr 0x0600A1B8 (external helper) */
-    nop
-    mov.l   .L_fp_min, r2               /* --- End extend: state transition --- */
-    mov.l @r10, r3                       /* render_flags */
-    or r2, r3
-    mov.l r3, @r10                       /* render_flags |= 0x80000000 */
-    mov.w @r11, r0                       /* special_render_flag */
-    extu.w r0, r0
-    tst r0, r0
-    bt      .L_06009962                  /* no special render → simple exit */
-    mov #0x1, r3                         /* --- With special render --- */
-    mov.l   .L_race_event_flags, r2
-    mov.l r3, @r2                        /* race_event_flags = 1 */
-    mov #0x2, r3
-    mov #0x18, r2
-    mov.w r3, @r11                       /* special_render = 2 */
-    mov.l   .L_game_state_b, r3
-    mov.l r2, @r3                        /* game_state = 0x18 */
-    mov.l   .L_fn_camera_finalize, r3
-    jsr @r3                              /* camera_finalize() */
-    nop
-    mov #0x0, r2
-    mov.l   .L_anim_state, r3
-    mov.l r2, @r3                        /* anim_state = 0 */
-    bra     .L_060099F4
-    nop
-.L_06009962:                              /* --- Without special render --- */
-    mov #0x1, r2
-    mov.l   .L_game_sub_state, r3
-    mov.l r2, @r3                        /* game_sub_state = 1 */
-    mov #0xE, r2
-    mov.l   .L_game_state_b, r3
-    mov.l r2, @r3                        /* game_state = 0x0E */
-    bra     .L_060099F4
-    nop
-.L_06009972:                              /* === Normal frame render === */
-    mov.l   .L_extend_timer_b, r4
-    mov.w @r4, r0
-    add #0x1, r0
-    mov.w r0, @r4                        /* extend_timer++ */
-    extu.w r0, r0
-    tst #0x10, r0                        /* bit 4 toggle (flash every 16 frames) */
-    bt      .L_0600999C                  /* off-phase → skip text render */
-    mov r13, r6                          /* --- Flash on: render text --- */
-    mov r9, r5
-    mov.l   .L_extend_text_data_b, r3
-    mov.l r3, @r15
-    mov r3, r7
-    jsr @r14                             /* geom_render(8, coord_a, coord_b, text_data) */
-    mov #0x8, r4
-    mov.l @r15, r7                       /* --- Render second text line --- */
-    mov r13, r6
-    mov.w   .L_text_sprite_c, r5        /* 0x0794 */
-    jsr @r14                             /* geom_render(8, 0x0794, 0x0090, text_data) */
-    mov #0x8, r4
-    bra     .L_060099F4
-    nop
-.L_0600999C:                              /* --- Check special render for alt gfx --- */
-    mov.w @r11, r0                       /* special_render_flag */
-    extu.w r0, r0
-    tst r0, r0
-    bt      .L_060099E0                  /* no special → simple gfx */
-    mov r13, r6                          /* --- Special render path --- */
-    mov r9, r5
-    mov.l   .L_extend_gfx_special, r7
-    jsr @r14                             /* geom_render with special gfx */
-    mov #0x8, r4
-    mov.l   .L_extend_gfx_alt_a, r7
-    bra     .L_060099EC
-    nop
+.L_check_end_extend:                     /* === Check end-extend buttons (0x0070) === */
+    mov #0x70, r4                        ! r4 = 0x70 (buttons A+B+C mask)
+    mov.w @(4, r15), r0                 ! r0 = buttons_pressed
+    mov r0, r2                          ! r2 = buttons_pressed
+    extu.w r2, r2                       ! zero-extend to 32-bit
+    and r4, r2                          ! isolate A+B+C bits
+    cmp/eq r4, r2                        ! all 3 buttons pressed?
+    bf      .L_normal_frame_render       ! no -> normal per-frame render
+    .byte   0xB4, 0x43    /* bsr 0x0600A1B8 (external: end extend helper) */
+    nop                                 ! (delay slot)
+    mov.l   .L_fp_min, r2               ! r2 = 0x80000000 --- End extend: state transition ---
+    mov.l @r10, r3                       ! r3 = render_flags
+    or r2, r3                           ! set sign bit (disable rendering)
+    mov.l r3, @r10                       ! render_flags |= 0x80000000
+    mov.w @r11, r0                       ! r0 = special_render_flag
+    extu.w r0, r0                       ! zero-extend to 32-bit
+    tst r0, r0                          ! special render active?
+    bt      .L_exit_no_special           ! no -> simple exit path
+    mov #0x1, r3                         ! r3 = 1 --- With special render active ---
+    mov.l   .L_race_event_flags, r2     ! r2 = &race_event_flags
+    mov.l r3, @r2                        ! race_event_flags = 1
+    mov #0x2, r3                        ! r3 = 2
+    mov #0x18, r2                       ! r2 = 0x18 (post-extend race state)
+    mov.w r3, @r11                       ! special_render_flag = 2
+    mov.l   .L_game_state_b, r3         ! r3 = &game_state
+    mov.l r2, @r3                        ! game_state = 0x18
+    mov.l   .L_fn_camera_finalize, r3   ! r3 = &camera_finalize
+    jsr @r3                              ! camera_finalize()
+    nop                                 ! (delay slot)
+    mov #0x0, r2                        ! r2 = 0
+    mov.l   .L_anim_state, r3           ! r3 = &anim_state
+    mov.l r2, @r3                        ! anim_state = 0 (clear animation)
+    bra     .L_end_of_frame             ! -> end-of-frame cleanup
+    nop                                 ! (delay slot)
+.L_exit_no_special:                      /* --- Exit without special render --- */
+    mov #0x1, r2                        ! r2 = 1
+    mov.l   .L_game_sub_state, r3       ! r3 = &game_sub_state
+    mov.l r2, @r3                        ! game_sub_state = 1
+    mov #0xE, r2                        ! r2 = 0x0E (normal post-extend state)
+    mov.l   .L_game_state_b, r3         ! r3 = &game_state
+    mov.l r2, @r3                        ! game_state = 0x0E
+    bra     .L_end_of_frame             ! -> end-of-frame cleanup
+    nop                                 ! (delay slot)
+.L_normal_frame_render:                  /* === Normal per-frame render path === */
+    mov.l   .L_extend_timer_b, r4       ! r4 = &extend_timer
+    mov.w @r4, r0                       ! r0 = extend_timer value
+    add #0x1, r0                        ! extend_timer++
+    mov.w r0, @r4                        ! store incremented timer
+    extu.w r0, r0                       ! zero-extend to 32-bit
+    tst #0x10, r0                        ! test bit 4 (flash every 16 frames)
+    bt      .L_flash_off_phase           ! bit 4 clear -> off-phase, skip text
+    mov r13, r6                          ! r6 = 0x0090 (coord B) --- Flash on: render text ---
+    mov r9, r5                          ! r5 = 0x0694 (coord A)
+    mov.l   .L_extend_text_data_b, r3   ! r3 = &extend_text_data
+    mov.l r3, @r15                      ! [sp+0] = text_data ptr (saved for reuse)
+    mov r3, r7                          ! r7 = text_data
+    jsr @r14                             ! geom_render(8, 0x0694, 0x0090, text_data)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    mov.l @r15, r7                       ! r7 = text_data (reload) --- Render second text line ---
+    mov r13, r6                         ! r6 = 0x0090 (coord B)
+    mov.w   .L_text_sprite_c, r5        ! r5 = 0x0794 (sprite params)
+    jsr @r14                             ! geom_render(8, 0x0794, 0x0090, text_data)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    bra     .L_end_of_frame             ! -> end-of-frame cleanup
+    nop                                 ! (delay slot)
+.L_flash_off_phase:                      /* --- Flash off: check special render for alt gfx --- */
+    mov.w @r11, r0                       ! r0 = special_render_flag
+    extu.w r0, r0                       ! zero-extend to 32-bit
+    tst r0, r0                          ! special render active?
+    bt      .L_normal_gfx_path           ! no -> normal graphics path
+    mov r13, r6                          ! r6 = 0x0090 (coord B) --- Special render path ---
+    mov r9, r5                          ! r5 = 0x0694 (coord A)
+    mov.l   .L_extend_gfx_special, r7  ! r7 = &extend_gfx_special
+    jsr @r14                             ! geom_render(8, 0x0694, 0x0090, special_gfx)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    mov.l   .L_extend_gfx_alt_a, r7    ! r7 = &extend_gfx_alt_a
+    bra     .L_render_second_gfx        ! -> render second gfx element
+    nop                                 ! (delay slot)
 .L_text_sprite_c:
     .2byte  0x0794                        /* text sprite parameter C */
     .2byte  0xFFFF
@@ -361,57 +361,57 @@ state_time_extend_active:
     .4byte  sym_060446FC               /* extend special graphics */
 .L_extend_gfx_alt_a:
     .4byte  sym_06044718               /* extend alt graphics A */
-.L_060099E0:                              /* --- No special render path --- */
-    mov.l   .L_extend_gfx_normal, r7
-    mov r13, r6
-    mov r9, r5
-    jsr @r14                             /* geom_render with normal gfx */
-    mov #0x8, r4
-    mov.l   .L_extend_gfx_alt_b, r7
-.L_060099EC:                              /* --- Common: render second gfx --- */
-    mov r13, r6
-    mov.w   .L_sprite_param_d, r5       /* 0x079C */
-    jsr @r14                             /* geom_render */
-    mov #0x8, r4
-.L_060099F4:                              /* === End-of-frame === */
-    mov.w @r11, r0                       /* special_render_flag */
-    extu.w r0, r0
-    tst r0, r0
-    bt      .L_06009A02
-    mov.l   .L_fn_special_render, r3
-    jsr @r3                              /* special_render() */
-    nop
-.L_06009A02:                              /* --- Geometry dispatch --- */
-    mov.l   .L_geom_render_flag, r0
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0
-    bt      .L_06009A18                  /* no geometry → skip */
-    mov r8, r6                           /* 0xF000 */
-    mov.w   .L_geom_tile_size, r5       /* 0x0082 */
-    mov.l   .L_geom_data_ptr, r7
-    mov.l   .L_fn_geom_dispatch_b, r3
-    jsr @r3                              /* geom_dispatch(8, 0x82, 0xF000, geom_data) */
-    mov #0x8, r4
-.L_06009A18:                              /* --- Camera finalize + cleanup --- */
-    mov.l @r10, r0                       /* render_flags */
-    mov.l   .L_fn_camera_finalize_b, r3
-    or #0x4, r0                          /* set bit 2 */
-    jsr @r3                              /* camera_finalize() */
-    mov.l r0, @r10                       /* render_flags |= 4 */
-    mov #0x0, r2
-    mov.l   .L_anim_state_b, r3
-    mov.l r2, @r3                        /* anim_state = 0 */
-    add #0x8, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_normal_gfx_path:                      /* --- Normal (no special render) gfx path --- */
+    mov.l   .L_extend_gfx_normal, r7   ! r7 = &extend_gfx_normal
+    mov r13, r6                         ! r6 = 0x0090 (coord B)
+    mov r9, r5                          ! r5 = 0x0694 (coord A)
+    jsr @r14                             ! geom_render(8, 0x0694, 0x0090, normal_gfx)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+    mov.l   .L_extend_gfx_alt_b, r7    ! r7 = &extend_gfx_alt_b
+.L_render_second_gfx:                    /* --- Common: render second gfx element --- */
+    mov r13, r6                         ! r6 = 0x0090 (coord B)
+    mov.w   .L_sprite_param_d, r5       ! r5 = 0x079C (sprite params)
+    jsr @r14                             ! geom_render(8, 0x079C, 0x0090, alt_gfx)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+.L_end_of_frame:                         /* === End-of-frame: optional special render + cleanup === */
+    mov.w @r11, r0                       ! r0 = special_render_flag
+    extu.w r0, r0                       ! zero-extend to 32-bit
+    tst r0, r0                          ! special render active?
+    bt      .L_check_geom_render         ! no -> skip special render call
+    mov.l   .L_fn_special_render, r3    ! r3 = &special_render
+    jsr @r3                              ! special_render()
+    nop                                 ! (delay slot)
+.L_check_geom_render:                    /* --- Geometry dispatch (if enabled) --- */
+    mov.l   .L_geom_render_flag, r0     ! r0 = &geom_render_flag
+    mov.b @r0, r0                       ! r0 = geom_render_flag
+    extu.b r0, r0                       ! zero-extend to 32-bit
+    tst r0, r0                          ! geometry rendering enabled?
+    bt      .L_camera_finalize           ! no -> skip geometry dispatch
+    mov r8, r6                           ! r6 = 0xF000
+    mov.w   .L_geom_tile_size, r5       ! r5 = 0x0082 (tile size)
+    mov.l   .L_geom_data_ptr, r7       ! r7 = &geom_data
+    mov.l   .L_fn_geom_dispatch_b, r3  ! r3 = &geom_dispatch
+    jsr @r3                              ! geom_dispatch(8, 0x82, 0xF000, geom_data)
+    mov #0x8, r4                        ! (delay slot) r4 = 8
+.L_camera_finalize:                      /* --- Camera finalize + cleanup --- */
+    mov.l @r10, r0                       ! r0 = render_flags
+    mov.l   .L_fn_camera_finalize_b, r3 ! r3 = &camera_finalize
+    or #0x4, r0                          ! set bit 2 (frame-complete flag)
+    jsr @r3                              ! camera_finalize()
+    mov.l r0, @r10                       ! (delay slot) render_flags |= 4
+    mov #0x0, r2                        ! r2 = 0
+    mov.l   .L_anim_state_b, r3         ! r3 = &anim_state
+    mov.l r2, @r3                        ! anim_state = 0 (clear animation)
+    add #0x8, r15                       ! free 8 bytes of stack locals
+    lds.l @r15+, pr                     ! restore return address
+    mov.l @r15+, r8                     ! restore r8
+    mov.l @r15+, r9                     ! restore r9
+    mov.l @r15+, r10                    ! restore r10
+    mov.l @r15+, r11                    ! restore r11
+    mov.l @r15+, r12                    ! restore r12
+    mov.l @r15+, r13                    ! restore r13
+    rts                                 ! return to caller
+    mov.l @r15+, r14                    ! (delay slot) restore r14
 .L_sprite_param_d:
     .2byte  0x079C                        /* sprite parameter D */
 .L_geom_tile_size:
