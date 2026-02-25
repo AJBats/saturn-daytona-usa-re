@@ -5,95 +5,132 @@
 
     .section .text.FUN_06018EE4
 
+/* race_sound_handler — Reinitialise the sound system during a race state change.
+ *
+ * Full sequence:
+ *   1. Send SMPC SNDOFF (cmd 7): halt the 68K sound CPU via SF handshake.
+ *   2. Call FUN_060192B4 to zero all 512 KB of Sound RAM (0x25A00000).
+ *   3. Write 0x0200 to SCSP master control register (0x25B00400) — reset SCSP.
+ *   4. Load SOUNDS.BIN into Sound RAM base (via sym_06012E84 / load_sounds_bin).
+ *   5. Load GAMED.BIN into Sound RAM +0x3000 (via sym_06012EBC / load_gamed_sndram).
+ *   6. Send SMPC SNDON (cmd 6): restart the 68K sound CPU via SF handshake.
+ *   7. Poll [0x25A02DBC] until the 68K writes "OK" (0x4F4B) — boot handshake.
+ *   8. Call sound_cmd_dispatch(15, 0xAE0600FF) — trigger BGM start.
+ *   9. Call sound_cmd_dispatch(15, 0xAE0007FF) — trigger system init sound.
+ *  10. Clear sym_06086038 (pending sound-init flag) to 0.
+ *  11. Tail-call scsp_set_master_volume — set SCSP output levels.
+ *
+ * Registers on entry: none required (callee-saved restored on exit).
+ * The 68K "OK" handshake word at 0x25A02DBC confirms the sound driver booted.
+ */
 
     .global race_sound_handler
     .type race_sound_handler, @function
 race_sound_handler:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_sound_ram_0x02DBC, r11
-    mov.w   DAT_06018f74, r12
-    mov.l   .L_smpc_sf, r13
-    mov #0x1, r14
-.L_06018EF6:
-    mov.b @r13, r2
-    extu.b r2, r2
-    and r14, r2
-    cmp/eq r14, r2
-    bt      .L_06018EF6
-    extu.b r14, r2
-    mov.b r2, @r13
-    mov #0x7, r3
-    mov.l   .L_smpc_comreg_ct, r2
-    mov.b r3, @r2
-.L_06018F0A:
-    mov.b @r13, r2
-    extu.b r2, r2
-    and r14, r2
-    tst r2, r2
-    bf      .L_06018F0A
-    .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */
-    nop
-    mov.w   DAT_06018f76, r2
-    mov.l   .L_scsp_reg_0x000, r3
-    mov.w r2, @r3
-    mov.l   .L_pool_06018F88, r3
-    jsr @r3
-    nop
-    mov.l   .L_pool_06018F8C, r3
-    jsr @r3
-    nop
-.L_06018F2A:
-    mov.b @r13, r2
-    extu.b r2, r2
-    and r14, r2
-    cmp/eq r14, r2
-    bt      .L_06018F2A
-    extu.b r14, r2
-    mov.b r2, @r13
-    mov #0x6, r3
-    mov.l   .L_smpc_comreg_ct, r2
-    mov.b r3, @r2
-.L_06018F3E:
-    mov.b @r13, r2
-    extu.b r2, r2
-    and r14, r2
-    tst r2, r2
-    bf      .L_06018F3E
-.L_06018F48:
-    mov.w @r11, r3
-    extu.w r3, r3
-    cmp/eq r12, r3
-    bf      .L_06018F48
-    mov.l   .L_pool_06018F90, r5
-    mov.l   .L_pool_06018F94, r3
-    jsr @r3
-    mov #0xF, r4
-    mov.l   .L_pool_06018F98, r5
-    mov.l   .L_pool_06018F94, r3
-    jsr @r3
-    mov #0xF, r4
-    mov #0x0, r2
-    mov.l   .L_pool_06018F9C, r3
-    mov.l r2, @r3
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    mov.l   .L_pool_06018FA0, r3
-    jmp @r3
-    mov.l @r15+, r14
+    mov.l r14, @-r15                    ! save r14 (callee-saved)
+    mov.l r13, @-r15                    ! save r13 (callee-saved)
+    mov.l r12, @-r15                    ! save r12 (callee-saved)
+    mov.l r11, @-r15                    ! save r11 (callee-saved)
+    sts.l pr, @-r15                     ! save return address
+    mov.l   .L_sound_ram_0x02DBC, r11   ! r11 = 0x25A02DBC (68K boot handshake address)
+    mov.w   DAT_06018f74, r12           ! r12 = 0x4F4B ("OK" — expected handshake word)
+    mov.l   .L_smpc_sf, r13            ! r13 = 0x20100063 (SMPC SF status flag register)
+    mov #0x1, r14                       ! r14 = 1 (SF busy bit mask)
 
+    /* --- SNDOFF handshake: wait for SMPC idle, set SF, issue cmd 7 --- */
+_poll_sf_idle_sndoff:
+    mov.b @r13, r2                      ! r2 = SF register byte (0=idle, 1=busy)
+    extu.b r2, r2                       ! zero-extend to 32-bit
+    and r14, r2                         ! isolate busy bit
+    cmp/eq r14, r2                      ! is SF busy (bit0=1)?
+    bt      _poll_sf_idle_sndoff        ! loop while busy — wait for SMPC idle
+    extu.b r14, r2                      ! r2 = 0x00000001 (SF set value)
+    mov.b r2, @r13                      ! set SF = 1 (claim SMPC bus)
+    mov #0x7, r3                        ! r3 = 7 (SNDOFF command — halt 68K CPU)
+    mov.l   .L_smpc_comreg_ct, r2      ! r2 = 0x2010001F (SMPC COMREG, cache-through)
+    mov.b r3, @r2                       ! write COMREG = 7 (issue SNDOFF)
+
+_poll_sf_done_sndoff:
+    mov.b @r13, r2                      ! r2 = SF register byte
+    extu.b r2, r2                       ! zero-extend to 32-bit
+    and r14, r2                         ! isolate busy bit
+    tst r2, r2                          ! is SF clear (command completed)?
+    bf      _poll_sf_done_sndoff        ! loop while SF still set — wait for SNDOFF done
+
+    /* --- Zero all Sound RAM, then reset SCSP master control --- */
+    .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */  ! BSR FUN_060192B4 — zero 512KB sound RAM
+    nop                                 ! (delay slot)
+    mov.w   DAT_06018f76, r2            ! r2 = 0x0200 (SCSP master control reset value)
+    mov.l   .L_scsp_reg_0x000, r3      ! r3 = 0x25B00400 (SCSP common control register)
+    mov.w r2, @r3                       ! write 0x0200 to SCSP master control — reset SCSP
+
+    /* --- Load sound assets from CD into Sound RAM --- */
+    mov.l   .L_pool_load_sounds_bin, r3 ! r3 = sym_06012E84 (load_sounds_bin thunk)
+    jsr @r3                             ! call load_sounds_bin — load SOUNDS.BIN to Sound RAM base
+    nop                                 ! (delay slot)
+    mov.l   .L_pool_load_gamed_sndram, r3 ! r3 = sym_06012EBC (load_gamed_sndram thunk)
+    jsr @r3                             ! call load_gamed_sndram — load GAMED.BIN to Sound RAM +0x3000
+    nop                                 ! (delay slot)
+
+    /* --- SNDON handshake: wait for SMPC idle, set SF, issue cmd 6 --- */
+_poll_sf_idle_sndon:
+    mov.b @r13, r2                      ! r2 = SF register byte
+    extu.b r2, r2                       ! zero-extend to 32-bit
+    and r14, r2                         ! isolate busy bit
+    cmp/eq r14, r2                      ! is SF busy?
+    bt      _poll_sf_idle_sndon         ! loop while busy — wait for SMPC idle
+    extu.b r14, r2                      ! r2 = 0x00000001 (SF set value)
+    mov.b r2, @r13                      ! set SF = 1 (claim SMPC bus)
+    mov #0x6, r3                        ! r3 = 6 (SNDON command — restart 68K CPU)
+    mov.l   .L_smpc_comreg_ct, r2      ! r2 = 0x2010001F (SMPC COMREG, cache-through)
+    mov.b r3, @r2                       ! write COMREG = 6 (issue SNDON)
+
+_poll_sf_done_sndon:
+    mov.b @r13, r2                      ! r2 = SF register byte
+    extu.b r2, r2                       ! zero-extend to 32-bit
+    and r14, r2                         ! isolate busy bit
+    tst r2, r2                          ! is SF clear (SNDON completed)?
+    bf      _poll_sf_done_sndon         ! loop while SF still set — wait for SNDON done
+
+    /* --- Poll Sound RAM for 68K boot handshake ("OK" = 0x4F4B) --- */
+_poll_68k_boot_ok:
+    mov.w @r11, r3                      ! r3 = [0x25A02DBC] (68K writes 0x4F4B when ready)
+    extu.w r3, r3                       ! zero-extend to 32-bit
+    cmp/eq r12, r3                      ! is handshake word == 0x4F4B ("OK")?
+    bf      _poll_68k_boot_ok           ! loop until 68K confirms boot complete
+
+    /* --- Trigger initial sound commands --- */
+    mov.l   .L_pool_bgm_start_cmd, r5  ! r5 = 0xAE0600FF (BGM start command)
+    mov.l   .L_pool_sound_cmd_dispatch, r3 ! r3 = sound_cmd_dispatch
+    jsr @r3                             ! call sound_cmd_dispatch(r4=15, r5=0xAE0600FF) — start BGM
+    mov #0xF, r4                        ! (delay slot) r4 = 15 (direct-command channel)
+    mov.l   .L_pool_sys_init_cmd, r5   ! r5 = 0xAE0007FF (system init sound command)
+    mov.l   .L_pool_sound_cmd_dispatch, r3 ! r3 = sound_cmd_dispatch
+    jsr @r3                             ! call sound_cmd_dispatch(r4=15, r5=0xAE0007FF) — sys init sound
+    mov #0xF, r4                        ! (delay slot) r4 = 15 (direct-command channel)
+
+    /* --- Clear pending sound-init flag, then tail-call master volume setup --- */
+    mov #0x0, r2                        ! r2 = 0 (clear value)
+    mov.l   .L_pool_snd_init_flag, r3  ! r3 = sym_06086038 (pending sound-init flag)
+    mov.l r2, @r3                       ! clear [sym_06086038] = 0 (mark init done)
+    lds.l @r15+, pr                     ! restore return address
+    mov.l @r15+, r11                    ! restore r11
+    mov.l @r15+, r12                    ! restore r12
+    mov.l @r15+, r13                    ! restore r13
+    mov.l   .L_pool_set_master_vol, r3 ! r3 = scsp_set_master_volume
+    jmp @r3                             ! tail-call scsp_set_master_volume — set SCSP output levels
+    mov.l @r15+, r14                    ! (delay slot) restore r14
+
+    /* --- Data items exported to other TUs (keep names, they are cross-TU exports) --- */
     .global DAT_06018f74
 DAT_06018f74:
-    .2byte  0x4F4B
+    .2byte  0x4F4B                      /* "OK" — 68K boot handshake word (ASCII 'O','K') */
 
     .global DAT_06018f76
 DAT_06018f76:
-    .2byte  0x0200
+    .2byte  0x0200                      /* SCSP master control reset value */
+
+    /* --- Constant pool --- */
 .L_sound_ram_0x02DBC:
     .4byte  0x25A02DBC                  /* Sound RAM +0x02DBC */
 .L_smpc_sf:
@@ -102,17 +139,17 @@ DAT_06018f76:
     .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_scsp_reg_0x000:
     .4byte  0x25B00400                  /* SCSP common register +0x000 */
-.L_pool_06018F88:
-    .4byte  sym_06012E84
-.L_pool_06018F8C:
-    .4byte  sym_06012EBC
-.L_pool_06018F90:
-    .4byte  0xAE0600FF
-.L_pool_06018F94:
-    .4byte  sound_cmd_dispatch
-.L_pool_06018F98:
-    .4byte  0xAE0007FF
-.L_pool_06018F9C:
-    .4byte  sym_06086038
-.L_pool_06018FA0:
-    .4byte  scsp_set_master_volume
+.L_pool_load_sounds_bin:
+    .4byte  sym_06012E84                /* -> load_sounds_bin (load SOUNDS.BIN to Sound RAM) */
+.L_pool_load_gamed_sndram:
+    .4byte  sym_06012EBC                /* -> load_gamed_sndram (load GAMED.BIN to Sound RAM +0x3000) */
+.L_pool_bgm_start_cmd:
+    .4byte  0xAE0600FF                  /* sound cmd: group 06, ID 00 — start BGM */
+.L_pool_sound_cmd_dispatch:
+    .4byte  sound_cmd_dispatch          /* -> sound_cmd_dispatch (sound command API) */
+.L_pool_sys_init_cmd:
+    .4byte  0xAE0007FF                  /* sound cmd: group 00, ID 07 — system init sound */
+.L_pool_snd_init_flag:
+    .4byte  sym_06086038                /* -> sound-init pending flag (cleared when done) */
+.L_pool_set_master_vol:
+    .4byte  scsp_set_master_volume      /* -> scsp_set_master_volume (set SCSP output levels) */
