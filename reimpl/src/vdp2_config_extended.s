@@ -27,513 +27,513 @@
     .global vdp2_config_extended
     .type vdp2_config_extended, @function
 vdp2_config_extended:
-    mov.l r14, @-r15
-    mov #0xA, r2                            ! threshold = 10
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov #0x1, r12                           ! const 1
-    mov.l r10, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    add #-0x1C, r15
-    mov.l   .L_course_id_ptr, r13           ! r13 → course_id word
-    mov.l   .L_loading_progress, r5         ! r5 → loading progress counter
-    mov.l   .L_progress_ready_flag, r4      ! r4 → "progress complete" byte
-    mov.l @r5, r3                           ! r3 = progress counter value
-    cmp/ge r2, r3                           ! progress >= 10?
-    bf/s    .L_06018A78                     !   no → both flags = 0
-    mov #0x0, r14                           ! r14 = const 0
-    mov #0xC, r3                            ! threshold = 12
-    mov.l @r5, r2
-    cmp/ge r3, r2                           ! progress >= 12?
-    bf      .L_06018A6A                     !   no → ready=0, render=1
-    bra     .L_06018A6E                     ! progress >= 12: ready=1, render=1
-    mov.b r12, @r4                          !   progress_ready = 1
-.L_06018A6A:
-    extu.b r14, r2
-    mov.b r2, @r4                           ! progress_ready = 0
-.L_06018A6E:
-    exts.b r12, r3                          ! r3 = 1
-    mov.l   .L_secondary_render_en, r2
-    mov.b r3, @r2                           ! secondary_render_enable = 1
-    bra     .L_06018A82
-    nop
-.L_06018A78:
-    extu.b r14, r3
-    mov.b r3, @r4                           ! progress_ready = 0
-    exts.b r14, r2
-    mov.l   .L_secondary_render_en, r3
-    mov.b r2, @r3                           ! secondary_render_enable = 0
-.L_06018A82:
-    mov.l   .L_init_done_flag, r0
-    mov.l @r0, r0                           ! check if already initialized
-    tst r0, r0
-    bt      .L_06018AA4                     ! zero → first time, do full init
-    bra     .L_06018AE4                     ! nonzero → skip to common setup
-    nop
+    mov.l r14, @-r15                            ! save r14 on stack
+    mov #0xA, r2                                ! threshold = 10
+    mov.l r13, @-r15                            ! save r13 on stack
+    mov.l r12, @-r15                            ! save r12 on stack
+    mov.l r11, @-r15                            ! save r11 on stack
+    mov #0x1, r12                               ! const 1
+    mov.l r10, @-r15                            ! save r10 on stack
+    sts.l pr, @-r15                             ! save return address on stack
+    sts.l macl, @-r15                           ! save multiply accumulator on stack
+    add #-0x1C, r15                             ! allocate 28 bytes of local frame
+    mov.l   .L_course_id_ptr, r13               ! r13 → course_id word
+    mov.l   .L_loading_progress, r5             ! r5 → loading progress counter
+    mov.l   .L_progress_ready_flag, r4          ! r4 → "progress complete" byte
+    mov.l @r5, r3                               ! r3 = progress counter value
+    cmp/ge r2, r3                               ! progress >= 10?
+    bf/s    .L_progress_below_10                !   no → both flags = 0
+    mov #0x0, r14                               ! r14 = const 0
+    mov #0xC, r3                                ! threshold = 12
+    mov.l @r5, r2                               ! r2 = current progress value
+    cmp/ge r3, r2                               ! progress >= 12?
+    bf      .L_progress_not_ready               !   no → ready=0, render=1
+    bra     .L_set_render_enable                ! progress >= 12: ready=1, render=1
+    mov.b r12, @r4                              !   progress_ready = 1
+.L_progress_not_ready:
+    extu.b r14, r2                              ! r2 = 0 (zero-extend)
+    mov.b r2, @r4                               ! progress_ready = 0
+.L_set_render_enable:
+    exts.b r12, r3                              ! r3 = 1 (sign-extend)
+    mov.l   .L_secondary_render_en, r2          ! r2 → secondary render enable flag
+    mov.b r3, @r2                               ! secondary_render_enable = 1
+    bra     .L_check_init_done                  ! skip the "below 10" path
+    nop                                         ! delay slot
+.L_progress_below_10:
+    extu.b r14, r3                              ! r3 = 0
+    mov.b r3, @r4                               ! progress_ready = 0
+    exts.b r14, r2                              ! r2 = 0 (sign-extend)
+    mov.l   .L_secondary_render_en, r3          ! r3 → secondary render enable flag
+    mov.b r2, @r3                               ! secondary_render_enable = 0
+.L_check_init_done:
+    mov.l   .L_init_done_flag, r0               ! r0 → init_done flag address
+    mov.l @r0, r0                               ! check if already initialized
+    tst r0, r0                                  ! init_done == 0?
+    bt      .L_first_time_init                  ! zero → first time, do full init
+    bra     .L_replay_check                     ! nonzero → skip to common setup
+    nop                                         ! delay slot
     .2byte  0xFFFF
 .L_course_id_ptr:
-    .4byte  sym_0607EAD8                    /* → course ID word */
+    .4byte  sym_0607EAD8                        /* → course ID word */
 .L_loading_progress:
-    .4byte  sym_06078868                    /* loading progress counter */
+    .4byte  sym_06078868                        /* loading progress counter */
 .L_progress_ready_flag:
-    .4byte  sym_0607867C                    /* 1 when progress >= 12 */
+    .4byte  sym_0607867C                        /* 1 when progress >= 12 */
 .L_secondary_render_en:
-    .4byte  sym_06083255                    /* 1 enables secondary CPU rendering */
+    .4byte  sym_06083255                        /* 1 enables secondary CPU rendering */
 .L_init_done_flag:
-    .4byte  sym_0605AD08                    /* nonzero = init already done */
+    .4byte  sym_0605AD08                        /* nonzero = init already done */
 
     /* ---- First-time initialization: load course resources ---- */
-.L_06018AA4:
-    mov.l   .L_fn_render_obj_stub, r3
-    jsr @r3                                 ! render_obj_stub() — clear render objects
-    nop
-    mov.l   .L_fn_cd_texture_load, r3
-    jsr @r3                                 ! cd_texture_loader(course_id)
-    mov.l @r13, r4                          !   r4 = course_id
-    mov.l @r13, r2                          ! r2 = course_id
-    mov.l   .L_course_init_jtable, r3       ! course-specific init jump table
-    shll2 r2                                ! r2 = course_id × 4
-    add r3, r2
-    mov.l @r2, r2                           ! r2 = init_table[course_id]
-    jsr @r2                                 ! call course-specific init
-    nop
-    mov.l   .L_fn_cd_course_load, r3
-    jsr @r3                                 ! cd_course_loader(course_id)
-    mov.l @r13, r4                          !   r4 = course_id
-    mov.l   .L_demo_mode_flag, r0
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0                              ! demo mode?
-    bf      .L_06018AD4                     !   yes → skip normal init
-    mov.l   .L_fn_demo_setup, r3
-    jsr @r3                                 ! non-demo initialization
-    nop
-.L_06018AD4:
-    mov.l   .L_replay_mode_word, r0
-    mov.w @r0, r0
-    extu.w r0, r0
-    tst r0, r0                              ! replay mode active?
-    bf      .L_06018AE4                     !   yes → skip to common
-    mov.l   .L_fn_race_state_pair, r3
-    jsr @r3                                 ! race_state_pair_1() — live race setup
-    nop
+.L_first_time_init:
+    mov.l   .L_fn_render_obj_stub, r3           ! load render_obj_stub address
+    jsr @r3                                     ! render_obj_stub() — clear render objects
+    nop                                         ! delay slot
+    mov.l   .L_fn_cd_texture_load, r3           ! load cd_texture_loader address
+    jsr @r3                                     ! cd_texture_loader(course_id)
+    mov.l @r13, r4                              !   r4 = course_id (delay slot)
+    mov.l @r13, r2                              ! r2 = course_id
+    mov.l   .L_course_init_jtable, r3           ! course-specific init jump table
+    shll2 r2                                    ! r2 = course_id × 4
+    add r3, r2                                  ! r2 → init_table[course_id]
+    mov.l @r2, r2                               ! r2 = init_table[course_id] fn ptr
+    jsr @r2                                     ! call course-specific init
+    nop                                         ! delay slot
+    mov.l   .L_fn_cd_course_load, r3            ! load cd_course_loader address
+    jsr @r3                                     ! cd_course_loader(course_id)
+    mov.l @r13, r4                              !   r4 = course_id (delay slot)
+    mov.l   .L_demo_mode_flag, r0               ! r0 → demo mode flag
+    mov.b @r0, r0                               ! r0 = demo mode byte
+    extu.b r0, r0                               ! zero-extend to 32 bits
+    tst r0, r0                                  ! demo mode?
+    bf      .L_check_replay_first               !   yes → skip normal init
+    mov.l   .L_fn_demo_setup, r3                ! load non-demo init address
+    jsr @r3                                     ! non-demo initialization
+    nop                                         ! delay slot
+.L_check_replay_first:
+    mov.l   .L_replay_mode_word, r0             ! r0 → replay mode word
+    mov.w @r0, r0                               ! r0 = replay mode value
+    extu.w r0, r0                               ! zero-extend to 32 bits
+    tst r0, r0                                  ! replay mode active?
+    bf      .L_replay_check                     !   yes → skip to common
+    mov.l   .L_fn_race_state_pair, r3           ! load race_state_pair_1 address
+    jsr @r3                                     ! race_state_pair_1() — live race setup
+    nop                                         ! delay slot
 
     /* ---- Replay mode check (again) ---- */
-.L_06018AE4:
-    mov.l   .L_replay_mode_word, r0
-    mov.w @r0, r0
-    extu.w r0, r0
-    tst r0, r0
-    bt      .L_06018AF4                     ! no replay → handler dispatch
-    mov.l   .L_fn_race_state_pair, r3
-    jsr @r3                                 ! race_state_pair_1() — replay setup
-    nop
+.L_replay_check:
+    mov.l   .L_replay_mode_word, r0             ! r0 → replay mode word
+    mov.w @r0, r0                               ! r0 = replay mode value
+    extu.w r0, r0                               ! zero-extend to 32 bits
+    tst r0, r0                                  ! replay mode == 0?
+    bt      .L_handler_dispatch_entry           ! no replay → handler dispatch
+    mov.l   .L_fn_race_state_pair, r3           ! load race_state_pair_1 address
+    jsr @r3                                     ! race_state_pair_1() — replay setup
+    nop                                         ! delay slot
 
     /* ---- Handler dispatch: choose course handler mode ---- */
-.L_06018AF4:
-    mov.l   .L_fn_handler_dispatch, r10     ! r10 = handler_dispatch
-    mov.l   .L_game_state_bits, r2
-    mov.w   DAT_06018b8e, r3                ! r3 = 0x4000 (bit 14 mask)
-    mov.l @r2, r2
-    and r3, r2                              ! test bit 14 of game state
-    tst r2, r2
-    bt      .L_06018BD0                     ! bit 14 clear → default mode (r5=3, r6=0)
-    mov.l   .L_course_sel_byte, r11         ! r11 → course selection byte
-    mov.l   .L_menu_overlay_flag, r0
-    mov.b @r0, r0
-    tst r0, r0                              ! menu overlay active?
-    bt      .L_06018B20                     !   no → check variant
+.L_handler_dispatch_entry:
+    mov.l   .L_fn_handler_dispatch, r10         ! r10 = handler_dispatch fn ptr
+    mov.l   .L_game_state_bits, r2              ! r2 → game state bitmask
+    mov.w   DAT_06018b8e, r3                    ! r3 = 0x4000 (bit 14 mask)
+    mov.l @r2, r2                               ! r2 = game state bits value
+    and r3, r2                                  ! test bit 14 of game state
+    tst r2, r2                                  ! bit 14 set?
+    bt      .L_default_handler_mode             ! bit 14 clear → default mode (r5=3, r6=0)
+    mov.l   .L_course_sel_byte, r11             ! r11 → course selection byte
+    mov.l   .L_menu_overlay_flag, r0            ! r0 → menu overlay flag
+    mov.b @r0, r0                               ! r0 = menu overlay byte
+    tst r0, r0                                  ! menu overlay active?
+    bt      .L_check_course_variant             !   no → check variant
     /* Menu overlay path: look up handler offset from table */
-    mov.b @r11, r3
-    extu.b r3, r3                           ! r3 = course_sel index
-    mov.l   .L_handler_offset_tbl, r2
-    add r2, r3                              ! r3 → offset_table[index]
-    mov.b @r3, r1                           ! r1 = handler offset byte
-    mov.b r1, @r15                          ! store on stack
-    mov #0xF, r6                            ! r6 = 0xF (flags)
-    mov.b @r15, r5
-    bra     .L_06018BD4                     ! → handler_dispatch(offset, 0xF)
-    mov.l r5, @(4, r15)
-.L_06018B20:
+    mov.b @r11, r3                              ! r3 = course_sel byte
+    extu.b r3, r3                               ! r3 = course_sel index (zero-extend)
+    mov.l   .L_handler_offset_tbl, r2           ! r2 = handler offset table base
+    add r2, r3                                  ! r3 → offset_table[index]
+    mov.b @r3, r1                               ! r1 = handler offset byte
+    mov.b r1, @r15                              ! store on stack (byte)
+    mov #0xF, r6                                ! r6 = 0xF (flags)
+    mov.b @r15, r5                              ! r5 = handler offset (sign-extend from stack)
+    bra     .L_call_handler_dispatch            ! → handler_dispatch(offset, 0xF)
+    mov.l r5, @(4, r15)                         ! save offset to stack[4] (delay slot)
+.L_check_course_variant:
     /* No overlay: check course variant */
-    mov.l   .L_course_variant_id, r0
-    mov.l @r0, r0
-    cmp/eq #0x2, r0                         ! variant == 2?
-    bf      .L_06018B7C                     !   no → simple handler
+    mov.l   .L_course_variant_id, r0            ! r0 → course variant word
+    mov.l @r0, r0                               ! r0 = course variant value
+    cmp/eq #0x2, r0                             ! variant == 2?
+    bf      .L_standard_handler                 !   no → simple handler
     /* Variant 2: build AI throttle config struct on stack */
-    mov.b @r11, r4
-    mov.l   .L_fn_local_helper, r3
-    extu.b r4, r4
-    jsr @r3                                 ! local_helper(course_sel + 6)
-    add #0x6, r4
-    mov #0x2, r4
-    mov r15, r2
-    add #0x8, r2
-    mov.l r4, @r2                           ! config[0] = 2 (mode)
-    mov r15, r3
-    add #0x8, r3
-    mov #0x6, r0
-    mov.b r0, @(4, r3)                      ! config[4] = 6
-    mov r15, r3
-    add #0x8, r3
-    extu.b r12, r2                          ! r2 = 1
-    mov r2, r0
-    mov.b r0, @(5, r3)                      ! config[5] = 1
-    mov r15, r3
-    add #0x8, r3
-    mov.l r4, @(8, r3)                      ! config[8] = 2
-    mov r15, r2
-    add #0x8, r2
-    mov #0x9, r3
-    mov r3, r0
-    mov.b r0, @(12, r2)                     ! config[12] = 9
-    mov r15, r3
-    add #0x8, r3
-    mov #0x63, r2                           ! r2 = 0x63 (99)
-    mov r2, r0
-    mov.b r0, @(13, r3)                     ! config[13] = 99
-    mov r15, r3
-    add #0x8, r3
-    add #0x2C, r2                           ! r2 = 0x8F (143)
-    mov #0x10, r0
-    mov.b r2, @(r0, r3)                     ! config[16] = 143
-    mov r15, r4
-    mov.l   .L_fn_ai_throttle_mod, r3
-    jsr @r3                                 ! ai_throttle_modulate(&config)
-    add #0x8, r4
-    bra     .L_06018B8A
-    nop
-.L_06018B7C:
+    mov.b @r11, r4                              ! r4 = course_sel byte
+    mov.l   .L_fn_local_helper, r3              ! r3 = local_helper fn ptr
+    extu.b r4, r4                               ! zero-extend course_sel
+    jsr @r3                                     ! local_helper(course_sel + 6)
+    add #0x6, r4                                !   r4 = course_sel + 6 (delay slot)
+    mov #0x2, r4                                ! r4 = 2 (mode value)
+    mov r15, r2                                 ! r2 = stack pointer
+    add #0x8, r2                                ! r2 → config struct base (sp+8)
+    mov.l r4, @r2                               ! config[0] = 2 (mode)
+    mov r15, r3                                 ! r3 = stack pointer
+    add #0x8, r3                                ! r3 → config struct base
+    mov #0x6, r0                                ! r0 = 6
+    mov.b r0, @(4, r3)                          ! config[4] = 6
+    mov r15, r3                                 ! r3 = stack pointer
+    add #0x8, r3                                ! r3 → config struct base
+    extu.b r12, r2                              ! r2 = 1 (zero-extend const)
+    mov r2, r0                                  ! r0 = 1
+    mov.b r0, @(5, r3)                          ! config[5] = 1
+    mov r15, r3                                 ! r3 = stack pointer
+    add #0x8, r3                                ! r3 → config struct base
+    mov.l r4, @(8, r3)                          ! config[8] = 2
+    mov r15, r2                                 ! r2 = stack pointer
+    add #0x8, r2                                ! r2 → config struct base
+    mov #0x9, r3                                ! r3 = 9
+    mov r3, r0                                  ! r0 = 9
+    mov.b r0, @(12, r2)                         ! config[12] = 9
+    mov r15, r3                                 ! r3 = stack pointer
+    add #0x8, r3                                ! r3 → config struct base
+    mov #0x63, r2                               ! r2 = 0x63 (99)
+    mov r2, r0                                  ! r0 = 99
+    mov.b r0, @(13, r3)                         ! config[13] = 99
+    mov r15, r3                                 ! r3 = stack pointer
+    add #0x8, r3                                ! r3 → config struct base
+    add #0x2C, r2                               ! r2 = 0x8F (143)
+    mov #0x10, r0                               ! r0 = 16 (byte offset)
+    mov.b r2, @(r0, r3)                         ! config[16] = 143
+    mov r15, r4                                 ! r4 = stack pointer
+    mov.l   .L_fn_ai_throttle_mod, r3           ! r3 = ai_throttle_modulate fn ptr
+    jsr @r3                                     ! ai_throttle_modulate(&config)
+    add #0x8, r4                                !   r4 → config struct (delay slot)
+    bra     .L_handler_dispatch_done            ! skip standard handler path
+    nop                                         ! delay slot
+.L_standard_handler:
     /* Standard handler: dispatch with course_sel + 6 */
-    mov #0xF, r6                            ! flags = 0xF
-    mov.b @r11, r5
-    extu.b r5, r5
-    add #0x6, r5                            ! r5 = course_sel + 6
-    mov.l r5, @r15
-    jsr @r10                                ! handler_dispatch(course_sel+6, 0xF)
-    mov r5, r4
-.L_06018B8A:
-    bra     .L_06018BD8
-    nop
+    mov #0xF, r6                                ! flags = 0xF
+    mov.b @r11, r5                              ! r5 = course_sel byte
+    extu.b r5, r5                               ! zero-extend course_sel
+    add #0x6, r5                                ! r5 = course_sel + 6
+    mov.l r5, @r15                              ! save to stack
+    jsr @r10                                    ! handler_dispatch(course_sel+6, 0xF)
+    mov r5, r4                                  !   r4 = course_sel+6 (delay slot)
+.L_handler_dispatch_done:
+    bra     .L_common_setup                     ! proceed to common setup
+    nop                                         ! delay slot
 
     .global DAT_06018b8e
 DAT_06018b8e:
-    .2byte  0x4000                          /* game state bit 14 mask */
+    .2byte  0x4000                              /* game state bit 14 mask */
 .L_fn_render_obj_stub:
-    .4byte  render_obj_stub                 /* clear render object list */
+    .4byte  render_obj_stub                     /* clear render object list */
 .L_fn_cd_texture_load:
-    .4byte  cd_texture_loader               /* load course textures from CD */
+    .4byte  cd_texture_loader                   /* load course textures from CD */
 .L_course_init_jtable:
-    .4byte  sym_0605D1BC                    /* course-specific init jump table */
+    .4byte  sym_0605D1BC                        /* course-specific init jump table */
 .L_fn_cd_course_load:
-    .4byte  cd_course_loader                /* load course data from CD */
+    .4byte  cd_course_loader                    /* load course data from CD */
 .L_demo_mode_flag:
-    .4byte  sym_06078635                    /* nonzero = demo/attract mode */
+    .4byte  sym_06078635                        /* nonzero = demo/attract mode */
 .L_fn_demo_setup:
-    .4byte  sym_06012E7C                    /* normal (non-demo) race init */
+    .4byte  sym_06012E7C                        /* normal (non-demo) race init */
 .L_replay_mode_word:
-    .4byte  sym_0607ED8C                    /* nonzero = replay playback mode */
+    .4byte  sym_0607ED8C                        /* nonzero = replay playback mode */
 .L_fn_race_state_pair:
-    .4byte  race_state_pair_1               /* race state setup */
+    .4byte  race_state_pair_1                   /* race state setup */
 .L_fn_handler_dispatch:
-    .4byte  handler_dispatch                /* handler mode dispatcher */
+    .4byte  handler_dispatch                    /* handler mode dispatcher */
 .L_game_state_bits:
-    .4byte  sym_0607EBC4                    /* game state bitmask */
+    .4byte  sym_0607EBC4                        /* game state bitmask */
 .L_course_sel_byte:
-    .4byte  sym_06078648                    /* course selection index (byte) */
+    .4byte  sym_06078648                        /* course selection index (byte) */
 .L_menu_overlay_flag:
-    .4byte  sym_0605AB18                    /* nonzero = menu overlay active */
+    .4byte  sym_0605AB18                        /* nonzero = menu overlay active */
 .L_handler_offset_tbl:
-    .4byte  sym_0605D23C                    /* handler offset lookup table */
+    .4byte  sym_0605D23C                        /* handler offset lookup table */
 .L_course_variant_id:
-    .4byte  sym_0605AD00                    /* course variant (0/1/2) */
+    .4byte  sym_0605AD00                        /* course variant (0/1/2) */
 .L_fn_local_helper:
-    .4byte  sym_06018E1E                    /* TU-local variant helper */
+    .4byte  sym_06018E1E                        /* TU-local variant helper */
 .L_fn_ai_throttle_mod:
-    .4byte  ai_throttle_modulate            /* AI throttle config dispatch */
+    .4byte  ai_throttle_modulate                /* AI throttle config dispatch */
 
     /* ---- Default handler mode (bit 14 clear) ---- */
-.L_06018BD0:
-    mov #0x0, r6                            ! flags = 0
-    mov #0x3, r5                            ! mode = 3 (standard)
-.L_06018BD4:
-    jsr @r10                                ! handler_dispatch(mode, flags)
-    mov r5, r4
+.L_default_handler_mode:
+    mov #0x0, r6                                ! flags = 0
+    mov #0x3, r5                                ! mode = 3 (standard)
+.L_call_handler_dispatch:
+    jsr @r10                                    ! handler_dispatch(mode, flags)
+    mov r5, r4                                  !   r4 = mode (delay slot)
 
     /* ==== Common setup (always runs) ==== */
-.L_06018BD8:
-    mov.l   .L_render_active_flag, r3
-    mov.l r14, @r3                          ! render_active = 0 (disable during setup)
-    mov.l @r13, r4                          ! r4 = course_id
-    mov.l   .L_vdp1_sprite_counts, r2      ! word table: sprites per course
-    shll r4                                 ! r4 = course_id × 2
-    add r4, r2
-    mov.w @r2, r3
-    extu.w r3, r3
-    mov.l   .L_sprite_count_store, r2
-    mov.l r3, @r2                           ! store VDP1 sprite count
-    mov.l   .L_texture_bank_a_addr, r1
-    mov.l   .L_texture_bank_a_ptr, r2
-    mov.l r1, @r2                           ! texture_bank_a_ptr = 0x060D5840
-    mov.l   .L_texture_bank_b_addr, r1
-    mov.l   .L_texture_bank_b_ptr, r2
-    mov.l r1, @r2                           ! texture_bank_b_ptr = 0x060C6000
-    mov.l   .L_course_data_ptr, r5          ! r5 → course data pointer slot
-    mov.l @r13, r1                          ! r1 = course_id
-    mov.l   .L_course_entry_table, r2       ! 8-byte stride course entries
-    shll2 r1                                ! r1 = course_id × 4
-    shll r1                                 !      × 8
-    add r2, r1                              ! r1 → course_entry[course_id]
-    mov.l r1, @r5                           ! store course data pointer
-    mov.l @r1, r1                           ! r1 = entry[0] = segment data base
-    mov.l   .L_fn_segment_setup, r3
-    add #0x1, r1                            ! segment data + 1
-    jsr @r3                                 ! segment_setup(...)
-    mov r12, r0                             !   r0 = 1 (delay slot)
-    add #-0x1, r0                           ! r0 = result - 1
-    mov #0x1, r2
-    mov.l   .L_segment_count_store, r3
-    mov.l r0, @r3                           ! segment_count = result - 1
-    mov.l   .L_physics_init_flag, r3
-    mov.l r14, @r3                          ! physics_init = 0
-    mov.l   .L_segment_ready_flag, r3
-    mov.l r2, @r3                           ! segment_ready = 1
-    mov.l   .L_segment_index_a, r3
-    mov.l r14, @r3                          ! segment_index_a = 0
-    mov.l   .L_segment_index_b, r3
-    mov.l r14, @r3                          ! segment_index_b = 0
-    mov.l   .L_checkpoint_counter, r3
-    mov.l r14, @r3                          ! checkpoint_counter = 0
+.L_common_setup:
+    mov.l   .L_render_active_flag, r3           ! r3 → render active flag
+    mov.l r14, @r3                              ! render_active = 0 (disable during setup)
+    mov.l @r13, r4                              ! r4 = course_id
+    mov.l   .L_vdp1_sprite_counts, r2          ! word table: sprites per course
+    shll r4                                     ! r4 = course_id × 2 (word index)
+    add r4, r2                                  ! r2 → sprite_count_table[course_id]
+    mov.w @r2, r3                               ! r3 = sprite count for this course
+    extu.w r3, r3                               ! zero-extend to 32 bits
+    mov.l   .L_sprite_count_store, r2           ! r2 → sprite count storage
+    mov.l r3, @r2                               ! store VDP1 sprite count
+    mov.l   .L_texture_bank_a_addr, r1          ! r1 = texture bank A base (0x060D5840)
+    mov.l   .L_texture_bank_a_ptr, r2           ! r2 → texture bank A pointer slot
+    mov.l r1, @r2                               ! texture_bank_a_ptr = 0x060D5840
+    mov.l   .L_texture_bank_b_addr, r1          ! r1 = texture bank B base (0x060C6000)
+    mov.l   .L_texture_bank_b_ptr, r2           ! r2 → texture bank B pointer slot
+    mov.l r1, @r2                               ! texture_bank_b_ptr = 0x060C6000
+    mov.l   .L_course_data_ptr, r5              ! r5 → course data pointer slot
+    mov.l @r13, r1                              ! r1 = course_id
+    mov.l   .L_course_entry_table, r2           ! 8-byte stride course entries
+    shll2 r1                                    ! r1 = course_id × 4
+    shll r1                                     ! r1 = course_id × 8
+    add r2, r1                                  ! r1 → course_entry[course_id]
+    mov.l r1, @r5                               ! store course data pointer
+    mov.l @r1, r1                               ! r1 = entry[0] = segment data base
+    mov.l   .L_fn_segment_setup, r3             ! r3 = segment_setup fn ptr
+    add #0x1, r1                                ! segment data + 1 (skip header byte)
+    jsr @r3                                     ! segment_setup(...)
+    mov r12, r0                                 !   r0 = 1 (delay slot — arg)
+    add #-0x1, r0                               ! r0 = result - 1
+    mov #0x1, r2                                ! r2 = 1 (segment_ready value)
+    mov.l   .L_segment_count_store, r3          ! r3 → segment count storage
+    mov.l r0, @r3                               ! segment_count = result - 1
+    mov.l   .L_physics_init_flag, r3            ! r3 → physics init flag
+    mov.l r14, @r3                              ! physics_init = 0
+    mov.l   .L_segment_ready_flag, r3           ! r3 → segment ready flag
+    mov.l r2, @r3                               ! segment_ready = 1
+    mov.l   .L_segment_index_a, r3              ! r3 → segment index A
+    mov.l r14, @r3                              ! segment_index_a = 0
+    mov.l   .L_segment_index_b, r3              ! r3 → segment index B
+    mov.l r14, @r3                              ! segment_index_b = 0
+    mov.l   .L_checkpoint_counter, r3           ! r3 → checkpoint counter
+    mov.l r14, @r3                              ! checkpoint_counter = 0
 
     /* ---- Track dimensions: width/elevation/length from variant tables ---- */
-    mov.l   .L_track_width_store, r7        ! r7 → track width result
-    mov.l   .L_course_variant_a, r6
-    mov.l @r6, r6
-    exts.b r6, r6                           ! variant_a (signed byte)
-    mov r6, r3
-    shll r6                                 ! variant_a × 2
-    shll2 r3                                ! variant_a × 4
-    add r3, r6                              ! variant_a × 6
-    exts.b r6, r6
-    mov.l   .L_width_table_a, r0
-    add r6, r0                              ! table_base + variant_a × 6
-    mov.w @(r0, r4), r3                     ! width_a = table[variant][course] (word)
-    extu.w r3, r3
-    mov.l r3, @r7                           ! store track_width
+    mov.l   .L_track_width_store, r7            ! r7 → track width result
+    mov.l   .L_course_variant_a, r6             ! r6 → course variant A address
+    mov.l @r6, r6                               ! r6 = variant_a raw value
+    exts.b r6, r6                               ! variant_a (signed byte)
+    mov r6, r3                                  ! r3 = variant_a (copy for ×4)
+    shll r6                                     ! variant_a × 2
+    shll2 r3                                    ! variant_a × 4
+    add r3, r6                                  ! variant_a × 6 (row stride)
+    exts.b r6, r6                               ! sign-extend row offset
+    mov.l   .L_width_table_a, r0                ! r0 = width table A base
+    add r6, r0                                  ! table_base + variant_a × 6
+    mov.w @(r0, r4), r3                         ! width_a = table[variant][course] (word)
+    extu.w r3, r3                               ! zero-extend to 32 bits
+    mov.l r3, @r7                               ! store track_width
 
-    mov.l   .L_elev_table, r2
-    add r4, r2
-    mov.w @r2, r3
-    extu.w r3, r3
-    mov.l   .L_track_elev_store, r2
-    mov.l r3, @r2                           ! track_elevation = elev_table[course]
+    mov.l   .L_elev_table, r2                   ! r2 = elevation table base
+    add r4, r2                                  ! r2 → elev_table[course]
+    mov.w @r2, r3                               ! r3 = elevation value (word)
+    extu.w r3, r3                               ! zero-extend to 32 bits
+    mov.l   .L_track_elev_store, r2             ! r2 → track elevation storage
+    mov.l r3, @r2                               ! track_elevation = elev_table[course]
 
-    mov.l   .L_segment_table, r1
-    add r4, r1
-    mov.w @r1, r2
-    extu.w r2, r2
-    mov.l   .L_seg_count_store, r1
-    mov.l r2, @r1                           ! segment_count_b = seg_table[course]
+    mov.l   .L_segment_table, r1                ! r1 = segment count table base
+    add r4, r1                                  ! r1 → seg_table[course]
+    mov.w @r1, r2                               ! r2 = segment count (word)
+    extu.w r2, r2                               ! zero-extend to 32 bits
+    mov.l   .L_seg_count_store, r1              ! r1 → segment count B storage
+    mov.l r2, @r1                               ! segment_count_b = seg_table[course]
 
-    mov.l   .L_track_length_store, r5
-    mov.l   .L_length_table, r0
-    add r6, r0                              ! + variant_a × 6
-    mov.w @(r0, r4), r1                     ! length_a = table[variant][course]
-    extu.w r1, r1
-    mov.l r1, @r5                           ! store track_length
+    mov.l   .L_track_length_store, r5           ! r5 → track length storage
+    mov.l   .L_length_table, r0                 ! r0 = length table base
+    add r6, r0                                  ! + variant_a × 6 (row offset)
+    mov.w @(r0, r4), r1                         ! length_a = table[variant][course]
+    extu.w r1, r1                               ! zero-extend to 32 bits
+    mov.l r1, @r5                               ! store track_length
 
     /* Compute composite track length: width * variant_b_factor + length */
-    mov.l   .L_course_variant_b, r0
-    mov.l @r0, r0
-    exts.b r0, r0                           ! variant_b (signed byte)
-    mov r0, r3
-    shll r0                                 ! variant_b × 2
-    shll2 r3                                ! variant_b × 4
-    add r3, r0                              ! variant_b × 6
-    exts.b r0, r0
-    mov.l   .L_width_table_b, r2
-    add r2, r0                              ! table_base + variant_b × 6
-    mov.w @(r0, r4), r3                     ! width_b = table[variant_b][course]
-    extu.w r3, r3
-    mov.l @r7, r1                           ! r1 = track_width
-    mul.l r1, r3                            ! width × width_b
-    sts macl, r3
-    mov.l @r5, r0                           ! r0 = track_length
-    add r3, r0                              ! composite = length + width * width_b
-    mov.l r0, @r5                           ! track_length = composite
+    mov.l   .L_course_variant_b, r0             ! r0 → course variant B address
+    mov.l @r0, r0                               ! r0 = variant_b raw value
+    exts.b r0, r0                               ! variant_b (signed byte)
+    mov r0, r3                                  ! r3 = variant_b (copy for ×4)
+    shll r0                                     ! variant_b × 2
+    shll2 r3                                    ! variant_b × 4
+    add r3, r0                                  ! variant_b × 6 (row stride)
+    exts.b r0, r0                               ! sign-extend row offset
+    mov.l   .L_width_table_b, r2                ! r2 = width table B base
+    add r2, r0                                  ! table_base + variant_b × 6
+    mov.w @(r0, r4), r3                         ! width_b = table[variant_b][course]
+    extu.w r3, r3                               ! zero-extend to 32 bits
+    mov.l @r7, r1                               ! r1 = track_width
+    mul.l r1, r3                                ! width × width_b → MACL
+    sts macl, r3                                ! r3 = width * width_b
+    mov.l @r5, r0                               ! r0 = track_length
+    add r3, r0                                  ! composite = length + width * width_b
+    mov.l r0, @r5                               ! track_length = composite
 
     /* ---- Copy VDP1 sprites to VRAM ---- */
-    mov.w   .L_sprite_copy_count, r6        ! r6 = 160 bytes (0xA0)
-    mov.l   .L_vdp1_sprite_src, r5          ! r5 = sprite source data
-    mov.l   .L_vdp1_sprite_bank_idx, r4
-    mov.l   .L_vdp1_vram_0x00220, r3        ! VDP1 VRAM + 0x220
-    mov.l @r4, r4                           ! r4 = sprite bank index
-    shll2 r4                                ! × 4
-    shll r4                                 !   × 8 (8 bytes per sprite entry)
-    add r3, r4                              ! r4 = VRAM dest = 0x25C00220 + bank*8
-    mov.l   .L_fn_memcpy_word, r3
-    jsr @r3                                 ! memcpy_word_idx(dest, src, count)
-    nop
+    mov.w   .L_sprite_copy_count, r6            ! r6 = 160 bytes (0xA0)
+    mov.l   .L_vdp1_sprite_src, r5              ! r5 = sprite source data
+    mov.l   .L_vdp1_sprite_bank_idx, r4         ! r4 → sprite bank index
+    mov.l   .L_vdp1_vram_0x00220, r3            ! VDP1 VRAM + 0x220
+    mov.l @r4, r4                               ! r4 = sprite bank index value
+    shll2 r4                                    ! × 4
+    shll r4                                     ! × 8 (8 bytes per sprite entry)
+    add r3, r4                                  ! r4 = VRAM dest = 0x25C00220 + bank*8
+    mov.l   .L_fn_memcpy_word, r3               ! r3 = memcpy_word_idx fn ptr
+    jsr @r3                                     ! memcpy_word_idx(dest, src, count)
+    nop                                         ! delay slot
 
     /* ---- Display and audio initialization ---- */
-    mov.l   .L_fn_display_hw_init, r3
-    jsr @r3                                 ! display hardware init
-    nop
-    mov.l   .L_fn_channels_clear, r3
-    jsr @r3                                 ! display_channels_clear()
-    nop
-    mov.l   .L_fn_render_update, r3
-    jsr @r3                                 ! render/display update
-    nop
-    mov.l   .L_fn_audio_enable_clr, r3
-    mov.l r14, @r3                          ! audio_enable = 0 (clear before init)
-    mov.l   .L_fn_audio_init, r3
-    jsr @r3                                 ! audio_display_init()
-    nop
-    bra     .L_06018D58
-    nop
+    mov.l   .L_fn_display_hw_init, r3           ! r3 = display hw init fn ptr
+    jsr @r3                                     ! display hardware init
+    nop                                         ! delay slot
+    mov.l   .L_fn_channels_clear, r3            ! r3 = display_channels_clear fn ptr
+    jsr @r3                                     ! display_channels_clear()
+    nop                                         ! delay slot
+    mov.l   .L_fn_render_update, r3             ! r3 = render update fn ptr
+    jsr @r3                                     ! render/display update
+    nop                                         ! delay slot
+    mov.l   .L_fn_audio_enable_clr, r3          ! r3 → audio enable flag
+    mov.l r14, @r3                              ! audio_enable = 0 (clear before init)
+    mov.l   .L_fn_audio_init, r3                ! r3 = audio_display_init fn ptr
+    jsr @r3                                     ! audio_display_init()
+    nop                                         ! delay slot
+    bra     .L_post_init                        ! jump to post-init cleanup
+    nop                                         ! delay slot
 .L_sprite_copy_count:
-    .2byte  0x00A0                          /* 160 bytes to copy */
+    .2byte  0x00A0                              /* 160 bytes to copy */
 .L_render_active_flag:
-    .4byte  sym_0607EBE4                    /* 0 = rendering disabled */
+    .4byte  sym_0607EBE4                        /* 0 = rendering disabled */
 .L_vdp1_sprite_counts:
-    .4byte  sym_0604806C                    /* word table: sprites per course */
+    .4byte  sym_0604806C                        /* word table: sprites per course */
 .L_sprite_count_store:
-    .4byte  sym_0607EA9C                    /* stored VDP1 sprite count */
+    .4byte  sym_0607EA9C                        /* stored VDP1 sprite count */
 .L_texture_bank_a_addr:
-    .4byte  sym_060D5840                    /* texture bank A base address */
+    .4byte  sym_060D5840                        /* texture bank A base address */
 .L_texture_bank_a_ptr:
-    .4byte  sym_0607EB84                    /* → texture bank A pointer */
+    .4byte  sym_0607EB84                        /* → texture bank A pointer */
 .L_texture_bank_b_addr:
-    .4byte  sym_060C6000                    /* texture bank B base address */
+    .4byte  sym_060C6000                        /* texture bank B base address */
 .L_texture_bank_b_ptr:
-    .4byte  sym_0607EB88                    /* → texture bank B pointer */
+    .4byte  sym_0607EB88                        /* → texture bank B pointer */
 .L_course_data_ptr:
-    .4byte  sym_06063F3C                    /* → current course data entry */
+    .4byte  sym_06063F3C                        /* → current course data entry */
 .L_course_entry_table:
-    .4byte  sym_0604800C                    /* course table, 8-byte stride */
+    .4byte  sym_0604800C                        /* course table, 8-byte stride */
 .L_fn_segment_setup:
-    .4byte  sym_06035280                    /* track segment initialization */
+    .4byte  sym_06035280                        /* track segment initialization */
 .L_segment_count_store:
-    .4byte  sym_06063F18                    /* segment count (result - 1) */
+    .4byte  sym_06063F18                        /* segment count (result - 1) */
 .L_physics_init_flag:
-    .4byte  sym_060786AC                    /* physics init state */
+    .4byte  sym_060786AC                        /* physics init state */
 .L_segment_ready_flag:
-    .4byte  sym_06063F1C                    /* 1 = segments ready */
+    .4byte  sym_06063F1C                        /* 1 = segments ready */
 .L_segment_index_a:
-    .4byte  sym_06063F20                    /* current segment index A */
+    .4byte  sym_06063F20                        /* current segment index A */
 .L_segment_index_b:
-    .4byte  sym_06063F24                    /* current segment index B */
+    .4byte  sym_06063F24                        /* current segment index B */
 .L_checkpoint_counter:
-    .4byte  sym_06086034                    /* checkpoint counter */
+    .4byte  sym_06086034                        /* checkpoint counter */
 .L_track_width_store:
-    .4byte  sym_06063F28                    /* track width result */
+    .4byte  sym_06063F28                        /* track width result */
 .L_course_variant_a:
-    .4byte  sym_0605AD00                    /* course variant A (byte) */
+    .4byte  sym_0605AD00                        /* course variant A (byte) */
 .L_width_table_a:
-    .4byte  sym_0604805A                    /* width table A [variant×6+course×2] */
+    .4byte  sym_0604805A                        /* width table A [variant×6+course×2] */
 .L_elev_table:
-    .4byte  sym_06048072                    /* elevation table [course×2] */
+    .4byte  sym_06048072                        /* elevation table [course×2] */
 .L_track_elev_store:
-    .4byte  sym_0607EA98                    /* track elevation result */
+    .4byte  sym_0607EA98                        /* track elevation result */
 .L_segment_table:
-    .4byte  sym_06048024                    /* segment count table [course×2] */
+    .4byte  sym_06048024                        /* segment count table [course×2] */
 .L_seg_count_store:
-    .4byte  sym_0607EAA0                    /* segment count B result */
+    .4byte  sym_0607EAA0                        /* segment count B result */
 .L_track_length_store:
-    .4byte  sym_0607EAAC                    /* track length result */
+    .4byte  sym_0607EAAC                        /* track length result */
 .L_length_table:
-    .4byte  sym_0604802A                    /* length table [variant×6+course×2] */
+    .4byte  sym_0604802A                        /* length table [variant×6+course×2] */
 .L_course_variant_b:
-    .4byte  sym_0605AD0C                    /* course variant B (byte) */
+    .4byte  sym_0605AD0C                        /* course variant B (byte) */
 .L_width_table_b:
-    .4byte  sym_0604803C                    /* width table B [variant×6+course×2] */
+    .4byte  sym_0604803C                        /* width table B [variant×6+course×2] */
 .L_vdp1_sprite_src:
-    .4byte  sym_0605CDDC                    /* VDP1 sprite source data */
+    .4byte  sym_0605CDDC                        /* VDP1 sprite source data */
 .L_vdp1_sprite_bank_idx:
-    .4byte  sym_06059FFC                    /* sprite bank index */
+    .4byte  sym_06059FFC                        /* sprite bank index */
 .L_vdp1_vram_0x00220:
-    .4byte  0x25C00220                      /* VDP1 VRAM +0x00220 */
+    .4byte  0x25C00220                          /* VDP1 VRAM +0x00220 */
 .L_fn_memcpy_word:
-    .4byte  memcpy_word_idx                 /* word-indexed memcpy */
+    .4byte  memcpy_word_idx                     /* word-indexed memcpy */
 .L_fn_display_hw_init:
-    .4byte  sym_060149E0                    /* display hardware init */
+    .4byte  sym_060149E0                        /* display hardware init */
 .L_fn_channels_clear:
-    .4byte  display_channels_clear          /* clear all display channels */
+    .4byte  display_channels_clear              /* clear all display channels */
 .L_fn_render_update:
-    .4byte  sym_06026CE0                    /* render/display update */
+    .4byte  sym_06026CE0                        /* render/display update */
 .L_fn_audio_enable_clr:
-    .4byte  sym_06059F44                    /* audio enable flag (cleared) */
+    .4byte  sym_06059F44                        /* audio enable flag (cleared) */
 .L_fn_audio_init:
-    .4byte  audio_display_init              /* audio subsystem init */
+    .4byte  audio_display_init                  /* audio subsystem init */
 
     /* ==== Post-init: set player pointer, HUD, DMA, cleanup ==== */
-.L_06018D58:
-    mov.l   .L_init_done_clear, r3
-    mov.l r14, @r3                          ! init_done = 0 (reset for next transition)
-    mov.l   .L_car_array_base, r2           ! r2 = 0x06078900 (car array base)
-    mov.l   .L_player_car_ptr, r3
-    add r14, r2                             ! + 0 (car[0])
-    mov.l r2, @r3                           ! player_car_ptr = &car[0]
-    mov.l   .L_fn_hud_coord_calc, r3
-    jsr @r3                                 ! hud_coord_calc()
-    nop
-    mov.l   .L_fn_dma_vram_init, r3
-    jsr @r3                                 ! dma_vram_init()
-    nop
-    mov.l   .L_fn_dma_config, r3
-    jsr @r3                                 ! dma_config_dispatch()
-    nop
-    mov.l @r13, r2                          ! r2 = course_id
-    mov.l   .L_course_post_jtable, r3       ! post-init jump table
-    shll2 r2                                ! course_id × 4
-    add r3, r2
-    mov.l @r2, r2                           ! post_table[course_id]
-    jsr @r2                                 ! call course-specific post-init
-    nop
-    mov.l   .L_fn_gameover_chan, r3
-    jsr @r3                                 ! gameover_channel_setup()
-    nop
-    mov.l   .L_fn_system_cleanup, r3
-    jsr @r3                                 ! system cleanup
-    nop
-    mov.l   .L_fn_channel_config, r3
-    jsr @r3                                 ! channel_config_b()
-    nop
-    mov.l   .L_fn_obj_cleanup, r3
-    jsr @r3                                 ! obj_render_cleanup()
-    nop
-    add #0x1C, r15
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_post_init:
+    mov.l   .L_init_done_clear, r3              ! r3 → init_done flag
+    mov.l r14, @r3                              ! init_done = 0 (reset for next transition)
+    mov.l   .L_car_array_base, r2               ! r2 = 0x06078900 (car array base)
+    mov.l   .L_player_car_ptr, r3               ! r3 → player car pointer slot
+    add r14, r2                                 ! + 0 (car[0] — r14 is const 0)
+    mov.l r2, @r3                               ! player_car_ptr = &car[0]
+    mov.l   .L_fn_hud_coord_calc, r3            ! r3 = hud_coord_calc fn ptr
+    jsr @r3                                     ! hud_coord_calc()
+    nop                                         ! delay slot
+    mov.l   .L_fn_dma_vram_init, r3             ! r3 = dma_vram_init fn ptr
+    jsr @r3                                     ! dma_vram_init()
+    nop                                         ! delay slot
+    mov.l   .L_fn_dma_config, r3                ! r3 = dma_config_dispatch fn ptr
+    jsr @r3                                     ! dma_config_dispatch()
+    nop                                         ! delay slot
+    mov.l @r13, r2                              ! r2 = course_id
+    mov.l   .L_course_post_jtable, r3           ! post-init jump table
+    shll2 r2                                    ! course_id × 4
+    add r3, r2                                  ! r2 → post_table[course_id]
+    mov.l @r2, r2                               ! r2 = post_table[course_id] fn ptr
+    jsr @r2                                     ! call course-specific post-init
+    nop                                         ! delay slot
+    mov.l   .L_fn_gameover_chan, r3              ! r3 = gameover_channel_setup fn ptr
+    jsr @r3                                     ! gameover_channel_setup()
+    nop                                         ! delay slot
+    mov.l   .L_fn_system_cleanup, r3            ! r3 = system cleanup fn ptr
+    jsr @r3                                     ! system cleanup
+    nop                                         ! delay slot
+    mov.l   .L_fn_channel_config, r3            ! r3 = channel_config_b fn ptr
+    jsr @r3                                     ! channel_config_b()
+    nop                                         ! delay slot
+    mov.l   .L_fn_obj_cleanup, r3               ! r3 = obj_render_cleanup fn ptr
+    jsr @r3                                     ! obj_render_cleanup()
+    nop                                         ! delay slot
+    add #0x1C, r15                              ! deallocate 28 bytes of local frame
+    lds.l @r15+, macl                           ! restore multiply accumulator
+    lds.l @r15+, pr                             ! restore return address
+    mov.l @r15+, r10                            ! restore r10
+    mov.l @r15+, r11                            ! restore r11
+    mov.l @r15+, r12                            ! restore r12
+    mov.l @r15+, r13                            ! restore r13
+    rts                                         ! return to caller
+    mov.l @r15+, r14                            ! restore r14 (delay slot)
     .2byte  0xFFFF
 .L_init_done_clear:
-    .4byte  sym_0605AD08                    /* init_done flag (cleared on exit) */
+    .4byte  sym_0605AD08                        /* init_done flag (cleared on exit) */
 .L_car_array_base:
-    .4byte  sym_06078900                    /* car struct array base */
+    .4byte  sym_06078900                        /* car struct array base */
 .L_player_car_ptr:
-    .4byte  sym_0607E944                    /* → active player car pointer */
+    .4byte  sym_0607E944                        /* → active player car pointer */
 .L_fn_hud_coord_calc:
-    .4byte  hud_coord_calc                  /* HUD coordinate calculation */
+    .4byte  hud_coord_calc                      /* HUD coordinate calculation */
 .L_fn_dma_vram_init:
-    .4byte  dma_vram_init                   /* DMA VRAM initialization */
+    .4byte  dma_vram_init                       /* DMA VRAM initialization */
 .L_fn_dma_config:
-    .4byte  dma_config_dispatch             /* DMA configuration dispatch */
+    .4byte  dma_config_dispatch                 /* DMA configuration dispatch */
 .L_course_post_jtable:
-    .4byte  sym_0605D1CC                    /* course post-init jump table */
+    .4byte  sym_0605D1CC                        /* course post-init jump table */
 .L_fn_gameover_chan:
-    .4byte  gameover_channel_setup          /* game-over display channel */
+    .4byte  gameover_channel_setup              /* game-over display channel */
 .L_fn_system_cleanup:
-    .4byte  sym_06003430                    /* system cleanup / finalize */
+    .4byte  sym_06003430                        /* system cleanup / finalize */
 .L_fn_channel_config:
-    .4byte  channel_config_b                /* display channel config */
+    .4byte  channel_config_b                    /* display channel config */
 .L_fn_obj_cleanup:
-    .4byte  obj_render_cleanup              /* object render cleanup */
+    .4byte  obj_render_cleanup                  /* object render cleanup */

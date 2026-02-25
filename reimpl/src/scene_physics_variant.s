@@ -60,11 +60,11 @@ scene_physics_variant:
     mov.b @r3, r3                       /* read variant_active_flag */
     extu.b r3, r3
     tst r3, r3
-    bt/s    .L_06025C20                 /* flag clear → run physics loop */
+    bt/s    .L_physics_loop              /* flag clear → run physics loop */
     mov #0x8, r12                       /* r12 = 8 (max slot count) */
     bra     .L_input_handler            /* flag set → handle input instead */
     nop
-.L_06025C20:                             /* === Physics render loop === */
+.L_physics_loop:                         /* === Physics render loop === */
     mov.l   .L_slot_count_word, r1
     mov.l   .L_fn_slot_check, r3
     mov.w @r1, r1                       /* r1 = active slot count */
@@ -260,18 +260,18 @@ DAT_06025c6e:
     mov.w @r4, r4                       /* r4 = current input buttons */
     extu.w r4, r3
     tst r3, r3
-    bf      .L_06025D92                 /* input present → check button type */
+    bf      .L_has_input                 /* input present → check button type */
     bra     .L_post_race_render         /* no input → post-race render */
     nop
-.L_06025D92:
+.L_has_input:
     extu.w r4, r3
     mov.l   .L_btn_action_mask_2, r2   /* 0xC088 */
     and r2, r3
     tst r3, r3
-    bf      .L_06025DA0                 /* action buttons pressed → check which */
+    bf      .L_check_advance             /* action buttons pressed → check which */
     bra     .L_start_button_check       /* only nav buttons → check start */
     nop
-.L_06025DA0:                             /* === Check advance buttons (0x8080) === */
+.L_check_advance:                        /* === Check advance buttons (0x8080) === */
     extu.w r4, r3
     mov.l   .L_btn_advance_mask, r2    /* 0x8080 */
     and r2, r3
@@ -283,60 +283,60 @@ DAT_06025c6e:
     mov r3, r2
     mov #0xE, r3
     cmp/gt r3, r2                       /* index > 14? */
-    bf      .L_06025DBC
+    bf      .L_adv_check_course_a2
     mov #0x0, r3                        /* wrap to 0 */
     mov.l r3, @r14
-.L_06025DBC:                             /* --- Course A limit: skip invalid ranges on advance --- */
+.L_adv_check_course_a2:                  /* --- Course A limit: skip invalid ranges on advance --- */
     mov.l   .L_course_id_a, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x1, r0                     /* course_a == 1? */
-    bf      .L_06025DD0
+    bf      .L_adv_check_course_b1
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0x4, r0                     /* anim_index == 4? */
-    bf      .L_06025DD0
+    bf      .L_adv_check_course_b1
     mov.l r12, @r14                     /* skip to index 8 */
-.L_06025DD0:
+.L_adv_check_course_b1:
     mov.l   .L_course_id_a, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x2, r0                     /* course_a == 2? */
-    bf      .L_06025DE6
+    bf      .L_adv_check_course_b2
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0x2, r0                     /* anim_index == 2? */
-    bf      .L_06025DE6
+    bf      .L_adv_check_course_b2
     mov #0x4, r3                        /* skip to index 4 */
     mov.l r3, @r14
-.L_06025DE6:                             /* --- Course B limit on advance --- */
+.L_adv_check_course_b2:                             /* --- Course B limit on advance --- */
     mov.l   .L_course_id_b, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x1, r0                     /* course_b == 1? */
-    bf      .L_06025DFC
+    bf      .L_adv_test_course_b2
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0xA, r0                     /* anim_index == 10? */
-    bf      .L_06025DFC
+    bf      .L_adv_test_course_b2
     mov #0xE, r3                        /* skip to index 14 */
     mov.l r3, @r14
-.L_06025DFC:
+.L_adv_test_course_b2:
     mov.l   .L_course_id_b, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x2, r0                     /* course_b == 2? */
-    bt      .L_06025E0A
+    bt      .L_adv_b2_anim_check
     bra     .L_commit_direction         /* no match → commit */
     nop
-.L_06025E0A:
+.L_adv_b2_anim_check:
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0x8, r0                     /* anim_index == 8? */
-    bt      .L_06025E16
+    bt      .L_adv_b2_skip_to_10
     bra     .L_commit_direction
     nop
-.L_06025E16:
+.L_adv_b2_skip_to_10:
     mov #0xA, r3                        /* skip to index 10 */
     mov.l r3, @r14
     bra     .L_commit_direction
@@ -352,46 +352,46 @@ DAT_06025c6e:
     mov r3, r2
     mov.l r3, @r14
     cmp/pz r2                           /* index >= 0? */
-    bt      .L_06025E38
+    bt      .L_ret_check_course_b1
     mov #0xE, r2                        /* wrap to 14 */
     mov.l r2, @r14
-.L_06025E38:                             /* --- Course B limit: skip invalid ranges on retreat --- */
+.L_ret_check_course_b1:                             /* --- Course B limit: skip invalid ranges on retreat --- */
     mov.l   .L_course_id_b, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x1, r0                     /* course_b == 1? */
-    bf      .L_06025E4E
+    bf      .L_ret_check_course_a1
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0xD, r0                     /* anim_index == 13? */
-    bf      .L_06025E4E
+    bf      .L_ret_check_course_a1
     mov #0x9, r3                        /* skip back to index 9 */
     mov.l r3, @r14
-.L_06025E4E:
+.L_ret_check_course_a1:
     mov.l   .L_course_id_b, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x2, r0                     /* course_b == 2? */
-    bf      .L_06025E64
+    bf      .L_ret_check_course_a2
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0x9, r0                     /* anim_index == 9? */
-    bf      .L_06025E64
+    bf      .L_ret_check_course_a2
     mov #0x7, r3                        /* skip back to index 7 */
     mov.l r3, @r14
-.L_06025E64:                             /* --- Course A limit on retreat --- */
+.L_ret_check_course_a2:                             /* --- Course A limit on retreat --- */
     mov.l   .L_course_id_a, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x1, r0                     /* course_a == 1? */
-    bf      .L_06025E7A
+    bf      .L_ret_a2_done
     mov.l   .L_anim_frame_check, r0
     mov.l @r0, r0
     cmp/eq #0x7, r0                     /* anim_index == 7? */
-    bf      .L_06025E7A
+    bf      .L_ret_a2_done
     mov #0x3, r3                        /* skip back to index 3 */
     mov.l r3, @r14
-.L_06025E7A:
+.L_ret_a2_done:
     mov.l   .L_course_id_a, r0
     mov.w @r0, r0
     extu.w r0, r0
@@ -462,10 +462,10 @@ DAT_06025e94:
     extu.w r2, r2
     and r1, r2                          /* test: input & mask */
     tst r2, r2
-    bt      .L_06025EFC                 /* no match → next */
+    bt      .L_next_button               /* no match → next */
     bra     .L_button_found             /* match → found the button */
     nop
-.L_06025EFC:
+.L_next_button:
     add #0x1, r5                        /* next button index */
     extu.w r5, r2
     cmp/ge r12, r2                      /* idx >= 8? */
@@ -497,10 +497,10 @@ DAT_06025e94:
     mov r0, r1
     extu.w r1, r1
     cmp/eq r1, r3                       /* render_record[idx].type == slot render_type? */
-    bf      .L_06025F3C                 /* no match → next */
+    bf      .L_next_anim                 /* no match → next */
     bra     .L_anim_found               /* match → found */
     nop
-.L_06025F3C:
+.L_next_anim:
     add #0x1, r4                        /* next anim frame */
     mov #0xE, r3
     extu.w r4, r2
