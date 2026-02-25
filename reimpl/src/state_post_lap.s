@@ -32,306 +32,306 @@
     .global state_post_lap
     .type state_post_lap, @function
 state_post_lap:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_course_state_ptr, r13    /* r13 → course state (persistent) */
-    mov.l   .L_next_game_state, r14     /* r14 → next game state (persistent) */
-    mov.l   .L_input_buttons, r3
-    mov.w @r3, r2                       /* r2 = current buttons */
-    extu.w r2, r2
-    mov.w   .L_btn_start_mask, r3      /* 0x0800 = Start */
-    and r3, r2
-    tst r2, r2
-    bt      .L_060092F2                 /* Start not pressed → skip */
-    mov #0x11, r3                       /* === Start pressed: exit to results === */
-    mov.l   .L_transition_state, r2
-    mov.l r3, @r2                       /* transition_state = 0x11 */
-    mov #0x12, r3
-    mov.l r3, @r14                      /* next_game_state = 0x12 */
-.L_060092F2:                             /* === Per-frame race processing === */
-    mov.l   .L_fn_race_frame_proc, r3
-    jsr @r3                             /* race_frame_process() */
-    nop
-    mov.l   .L_timing_flag, r0
-    mov.b @r0, r0                       /* check timing flag */
-    tst r0, r0
-    bf      .L_0600932C                 /* timing active → skip countdown */
-    mov.l   .L_race_active_flag, r0
-    mov.l @r0, r0                       /* check race active */
-    tst r0, r0
-    bf      .L_0600932C                 /* race active → skip countdown */
-    mov.l   .L_countdown_timer, r3      /* === Countdown timer decrement === */
-    mov.l   .L_countdown_timer, r2
-    mov.l @r3, r3
-    add #-0x1, r3                       /* timer-- */
-    cmp/pl r3                           /* timer > 0? */
-    bt/s    .L_0600932C                 /* yes → continue racing */
-    mov.l r3, @r2                       /* store decremented value */
-    mov.l   .L_fn_transition_prepare, r3
-    jsr @r3                             /* === Timer expired: transition === */
-    nop
-    mov.l   .L_player_car_ptr, r2
-    mov.l @r2, r2                       /* r2 → player car struct */
-    mov.w   .L_off_car_score, r0       /* offset 0x240 in car struct */
-    mov.l @(r0, r2), r3                /* r3 = car.score_data */
-    mov.l   .L_score_store, r1
-    mov.l r3, @r1                       /* store final score */
-    mov #0x18, r3
-    mov.l r3, @r14                      /* next_game_state = 0x18 */
-.L_0600932C:                             /* === Check event flag bit 0 === */
-    mov.l   .L_race_event_flags, r4
-    mov.l @r4, r0
-    tst #0x1, r0                        /* bit 0 set? */
-    bt      .L_event_bit0_clear         /* no → skip */
-    mov #-0x2, r3                       /* === Bit 0 set: handler_init_reset === */
-    mov.l @r4, r2
-    and r3, r2                          /* clear bit 0 */
-    mov.l   .L_fn_transition_prepare, r3
-    jsr @r3
-    mov.l r2, @r4                       /* store cleared flags */
-    mov #0x14, r2
-    mov.l   .L_fn_handler_init_reset, r3
-    jsr @r3                             /* handler_init_reset() */
-    mov.l r2, @r14                      /* next_game_state = 0x14 */
-    bra     .L_06009394
-    nop
+    mov.l r14, @-r15                       ! save r14 on stack
+    mov.l r13, @-r15                       ! save r13 on stack
+    sts.l pr, @-r15                        ! save return address on stack
+    mov.l   .L_course_state_ptr, r13       ! r13 → course state (persistent)
+    mov.l   .L_next_game_state, r14        ! r14 → next game state (persistent)
+    mov.l   .L_input_buttons, r3           ! r3 → input button register
+    mov.w @r3, r2                          ! r2 = current buttons
+    extu.w r2, r2                          ! zero-extend to 32-bit
+    mov.w   .L_btn_start_mask, r3          ! 0x0800 = Start button mask
+    and r3, r2                             ! isolate Start bit
+    tst r2, r2                             ! Start pressed?
+    bt      .L_start_not_pressed           ! Start not pressed → skip
+    mov #0x11, r3                          ! transition_state = 0x11 (begin exit)
+    mov.l   .L_transition_state, r2        ! r2 → transition state register
+    mov.l r3, @r2                          ! write transition_state = 0x11
+    mov #0x12, r3                          ! 0x12 = results screen state
+    mov.l r3, @r14                         ! next_game_state = 0x12
+.L_start_not_pressed:                      ! === Per-frame race processing ===
+    mov.l   .L_fn_race_frame_proc, r3      ! load race_frame_process address
+    jsr @r3                                ! race_frame_process()
+    nop                                    ! (delay slot)
+    mov.l   .L_timing_flag, r0             ! r0 → timing flag address
+    mov.b @r0, r0                          ! load timing flag (byte)
+    tst r0, r0                             ! timing active?
+    bf      .L_check_event_flags           ! timing active → skip countdown
+    mov.l   .L_race_active_flag, r0        ! r0 → race active flag address
+    mov.l @r0, r0                          ! load race active flag
+    tst r0, r0                             ! race active?
+    bf      .L_check_event_flags           ! race active → skip countdown
+    mov.l   .L_countdown_timer, r3         ! === Countdown timer decrement ===
+    mov.l   .L_countdown_timer, r2         ! r2 = timer address (for writeback)
+    mov.l @r3, r3                          ! r3 = current timer value
+    add #-0x1, r3                          ! timer--
+    cmp/pl r3                              ! timer > 0?
+    bt/s    .L_check_event_flags           ! yes → continue racing
+    mov.l r3, @r2                          ! (delay) store decremented value
+    mov.l   .L_fn_transition_prepare, r3   ! load transition_prepare address
+    jsr @r3                                ! === Timer expired: begin transition ===
+    nop                                    ! (delay slot)
+    mov.l   .L_player_car_ptr, r2          ! r2 → player car struct pointer
+    mov.l @r2, r2                          ! r2 = player car struct base
+    mov.w   .L_off_car_score, r0           ! offset 0x240 in car struct
+    mov.l @(r0, r2), r3                    ! r3 = car.score_data
+    mov.l   .L_score_store, r1             ! r1 → final score storage
+    mov.l r3, @r1                          ! store final score
+    mov #0x18, r3                          ! 0x18 = post-race score state
+    mov.l r3, @r14                         ! next_game_state = 0x18
+.L_check_event_flags:                      ! === Check event flag bit 0 ===
+    mov.l   .L_race_event_flags, r4        ! r4 → race event flags
+    mov.l @r4, r0                          ! r0 = current event flags
+    tst #0x1, r0                           ! bit 0 set?
+    bt      .L_check_idle_counter          ! no → skip to idle counter check
+    mov #-0x2, r3                          ! r3 = ~1 (bit 0 clear mask)
+    mov.l @r4, r2                          ! r2 = current event flags
+    and r3, r2                             ! clear bit 0
+    mov.l   .L_fn_transition_prepare, r3   ! load transition_prepare address
+    jsr @r3                                ! transition_prepare()
+    mov.l r2, @r4                          ! (delay) store cleared flags
+    mov #0x14, r2                          ! 0x14 = handler init state
+    mov.l   .L_fn_handler_init_reset, r3   ! load handler_init_reset address
+    jsr @r3                                ! handler_init_reset()
+    mov.l r2, @r14                         ! (delay) next_game_state = 0x14
+    bra     .L_check_sound_trigger         ! skip idle counter — already handled
+    nop                                    ! (delay slot)
 .L_btn_start_mask:
-    .2byte  0x0800                       /* Start button mask */
+    .2byte  0x0800                         ! Start button mask
 .L_off_car_score:
-    .2byte  0x0240                       /* car struct score offset */
+    .2byte  0x0240                         ! car struct score offset
 .L_course_state_ptr:
-    .4byte  sym_0607EAD8                /* course/race state (dword) */
+    .4byte  sym_0607EAD8                   ! course/race state (dword)
 .L_next_game_state:
-    .4byte  sym_0605AD10                /* next game state (dword) */
+    .4byte  sym_0605AD10                   ! next game state (dword)
 .L_input_buttons:
-    .4byte  sym_06063D9A                /* current input buttons (word) */
+    .4byte  sym_06063D9A                   ! current input buttons (word)
 .L_transition_state:
-    .4byte  sym_0607EACC                /* transition state register */
+    .4byte  sym_0607EACC                   ! transition state register
 .L_fn_race_frame_proc:
-    .4byte  sym_0600A33C                /* per-frame race processing */
+    .4byte  sym_0600A33C                   ! per-frame race processing
 .L_timing_flag:
-    .4byte  sym_06085FF4                /* timing active flag (byte) */
+    .4byte  sym_06085FF4                   ! timing active flag (byte)
 .L_race_active_flag:
-    .4byte  sym_0607EAD0                /* race active flag (dword) */
+    .4byte  sym_0607EAD0                   ! race active flag (dword)
 .L_countdown_timer:
-    .4byte  sym_0607EAAC                /* post-lap countdown timer */
+    .4byte  sym_0607EAAC                   ! post-lap countdown timer
 .L_fn_transition_prepare:
-    .4byte  sym_060192CA                /* prepare state transition */
+    .4byte  sym_060192CA                   ! prepare state transition
 .L_player_car_ptr:
-    .4byte  sym_0607E944                /* → player car struct */
+    .4byte  sym_0607E944                   ! → player car struct
 .L_score_store:
-    .4byte  sym_06078638                /* final score storage */
+    .4byte  sym_06078638                   ! final score storage
 .L_race_event_flags:
-    .4byte  sym_0607EBF4                /* race event flags (dword) */
+    .4byte  sym_0607EBF4                   ! race event flags (dword)
 .L_fn_handler_init_reset:
-    .4byte  handler_init_reset          /* handler init/reset */
-.L_event_bit0_clear:                     /* === Check race_active for idle counter === */
-    mov.l   .L_race_active_flag_2, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_06009394                 /* race active → skip */
-    mov.l   .L_idle_frame_counter, r4
-    mov.l @r4, r3
-    add #0x1, r3                        /* idle_frames++ */
-    mov.l r3, @r4
-.L_06009394:                             /* === Sound trigger at countdown==200 === */
-    mov.l   .L_sound_timer, r2
-    mov.w @r2, r2                       /* r2 = sound timer */
-    extu.w r2, r2
-    tst r2, r2
-    bf      .L_060093B6                 /* timer non-zero → skip */
-    mov.l   .L_countdown_timer_2, r3
-    mov.w   .L_sound_trigger_val, r2   /* 200 (0xC8) */
-    mov.l @r3, r3
-    cmp/eq r2, r3                       /* countdown == 200? */
-    bf      .L_060093B6                 /* no → skip */
-    mov.l   .L_snd_cmd_lap_complete, r5
-    mov.l   .L_fn_sound_dispatch, r3
-    jsr @r3                             /* sound_cmd_dispatch(0, 0xAE1134FF) */
-    mov #0x0, r4
-    mov #0x28, r2
-    mov.l   .L_sound_timer, r3
-    mov.w r2, @r3                       /* sound_timer = 40 */
-.L_060093B6:                             /* === Replay/cleanup handling === */
-    mov.l   .L_replay_mode_flag, r0
-    mov.b @r0, r0
-    tst r0, r0
-    bt      .L_060093F6                 /* replay mode off → skip */
-    mov.l @r13, r0                      /* course_state */
-    tst r0, r0
-    bt      .L_060093F0                 /* course_state == 0 → race_init_helper */
-    mov.l   .L_fn_race_cleanup, r3
-    jsr @r3                             /* race_cleanup_handler() */
-    nop
-    bra     .L_060093F6
-    nop
+    .4byte  handler_init_reset             ! handler init/reset
+.L_check_idle_counter:                     ! === Check race_active for idle counter ===
+    mov.l   .L_race_active_flag_2, r0      ! r0 → race active flag (2nd ref)
+    mov.l @r0, r0                          ! load race active flag
+    tst r0, r0                             ! race still active?
+    bf      .L_check_sound_trigger         ! race active → skip idle increment
+    mov.l   .L_idle_frame_counter, r4      ! r4 → idle frame counter
+    mov.l @r4, r3                          ! r3 = current idle count
+    add #0x1, r3                           ! idle_frames++
+    mov.l r3, @r4                          ! store incremented idle count
+.L_check_sound_trigger:                    ! === Sound trigger at countdown==200 ===
+    mov.l   .L_sound_timer, r2             ! r2 → sound cooldown timer
+    mov.w @r2, r2                          ! load sound timer (word)
+    extu.w r2, r2                          ! zero-extend to 32-bit
+    tst r2, r2                             ! sound timer == 0?
+    bf      .L_check_replay_mode           ! timer non-zero → skip sound trigger
+    mov.l   .L_countdown_timer_2, r3       ! r3 → countdown timer (2nd ref)
+    mov.w   .L_sound_trigger_val, r2       ! r2 = 200 (0xC8) trigger threshold
+    mov.l @r3, r3                          ! r3 = current countdown value
+    cmp/eq r2, r3                          ! countdown == 200?
+    bf      .L_check_replay_mode           ! no → skip sound trigger
+    mov.l   .L_snd_cmd_lap_complete, r5    ! r5 = sound command 0xAE1134FF
+    mov.l   .L_fn_sound_dispatch, r3       ! load sound_cmd_dispatch address
+    jsr @r3                                ! sound_cmd_dispatch(0, 0xAE1134FF)
+    mov #0x0, r4                           ! (delay) r4 = channel 0
+    mov #0x28, r2                          ! r2 = 40 (cooldown frames)
+    mov.l   .L_sound_timer, r3             ! r3 → sound cooldown timer
+    mov.w r2, @r3                          ! sound_timer = 40
+.L_check_replay_mode:                      ! === Replay/cleanup handling ===
+    mov.l   .L_replay_mode_flag, r0        ! r0 → replay mode flag
+    mov.b @r0, r0                          ! load replay mode flag (byte)
+    tst r0, r0                             ! replay mode active?
+    bt      .L_check_camera                ! replay mode off → skip to camera
+    mov.l @r13, r0                         ! r0 = course_state
+    tst r0, r0                             ! course_state == 0?
+    bt      .L_call_race_init              ! yes → call race init helper
+    mov.l   .L_fn_race_cleanup, r3         ! load race_cleanup_handler address
+    jsr @r3                                ! race_cleanup_handler()
+    nop                                    ! (delay slot)
+    bra     .L_check_camera                ! skip race init, go to camera
+    nop                                    ! (delay slot)
 .L_sound_trigger_val:
-    .2byte  0x00C8                       /* countdown trigger value (200) */
+    .2byte  0x00C8                         ! countdown trigger value (200)
 .L_race_active_flag_2:
-    .4byte  sym_0607EAD0                /* race active flag */
+    .4byte  sym_0607EAD0                   ! race active flag
 .L_idle_frame_counter:
-    .4byte  sym_0607EBD0                /* idle frame counter */
+    .4byte  sym_0607EBD0                   ! idle frame counter
 .L_sound_timer:
-    .4byte  sym_06086054                /* sound cooldown timer (word) */
+    .4byte  sym_06086054                   ! sound cooldown timer (word)
 .L_countdown_timer_2:
-    .4byte  sym_0607EAAC                /* countdown timer (same) */
+    .4byte  sym_0607EAAC                   ! countdown timer (same)
 .L_snd_cmd_lap_complete:
-    .4byte  0xAE1134FF                  /* sound: lap complete fanfare */
+    .4byte  0xAE1134FF                     ! sound: lap complete fanfare
 .L_fn_sound_dispatch:
-    .4byte  sound_cmd_dispatch          /* sound command dispatch */
+    .4byte  sound_cmd_dispatch             ! sound command dispatch
 .L_replay_mode_flag:
-    .4byte  sym_06078636                /* replay mode flag (byte) */
+    .4byte  sym_06078636                   ! replay mode flag (byte)
 .L_fn_race_cleanup:
-    .4byte  race_cleanup_handler        /* race cleanup handler */
-.L_060093F0:                             /* course_state == 0 → call race init helper */
-    mov.l   .L_fn_race_init_helper, r3
-    jsr @r3                             /* race_init_helper() */
-    nop
-.L_060093F6:                             /* === Camera handling === */
-    mov.l   .L_camera_active_flag, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bt      .L_06009410                 /* camera inactive → skip */
-    mov.l   .L_fn_camera_event, r3
-    jsr @r3                             /* camera_event_handler() */
-    nop
-    mov.l @r13, r0
-    tst r0, r0
-    bt      .L_06009410                 /* course_state == 0 → skip replay */
-    mov.l   .L_fn_replay_camera, r3
-    jsr @r3                             /* replay_camera_ctrl() */
-    nop
-.L_06009410:                             /* === Menu overlay === */
-    mov.l   .L_menu_active_flag, r0
-    mov.b @r0, r0
-    tst r0, r0
-    bt      .L_0600941E                 /* menu inactive → skip */
-    mov.l   .L_fn_menu_overlay, r3
-    jsr @r3                             /* menu_overlay_render(0) */
-    mov #0x0, r4
-.L_0600941E:                             /* === Lap complete check === */
-    mov.l   .L_lap_complete_status, r0
-    mov.l @r0, r0
-    cmp/eq #0x1, r0                     /* lap_complete == 1? */
-    bf      .L_0600942A
-    mov #0x1C, r3
-    mov.l r3, @r14                      /* next_game_state = 0x1C */
-.L_0600942A:                             /* === Attract mode camera === */
-    mov.l @r13, r0
-    cmp/eq #0x2, r0                     /* course_state == 2? (attract) */
-    bf      .L_06009436
-    mov.l   .L_fn_camera_attract, r3
-    jsr @r3                             /* camera_attract_init() */
-    nop
-.L_06009436:                             /* === Per-frame car + scene updates === */
-    mov.l   .L_fn_car_iteration, r3
-    jsr @r3                             /* car_iteration_loop() */
-    nop
-    mov.l   .L_fn_car_proximity, r3
-    jsr @r3                             /* car_proximity_check() */
-    nop
-    mov.l   .L_fn_camera_system, r3
-    jsr @r3                             /* camera_system() */
-    nop
-    mov.l   .L_camera_eye_pos, r6
-    mov.l   .L_camera_target_pos, r5
-    mov.l   .L_camera_up_vec, r4
-    mov.l   .L_fn_camera_orient, r3
-    jsr @r3                             /* camera_orient_calc(up, target, *eye) */
-    mov.l @r6, r6
-    mov.l   .L_fn_snd_race_update, r3
-    jsr @r3                             /* snd_race_update() */
-    nop
-    mov.l   .L_fn_scene_master, r3
-    jsr @r3                             /* scene_master() */
-    nop
-    mov.l   .L_extended_display_flag, r0
-    mov.w @r0, r0
-    extu.w r0, r0
-    tst r0, r0
-    bt      .L_06009470                 /* extended display off → skip */
-    mov.l   .L_fn_extended_display, r3
-    jsr @r3                             /* extended_display() */
-    nop
-.L_06009470:                             /* === Minimap render === */
-    mov.l   .L_minimap_enable_flag, r0
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0
-    bt      .L_06009486                 /* minimap disabled → skip */
-    mov.l   .L_minimap_data_ptr, r7
-    mov.l   .L_mask_nibble3, r6        /* 0xF000 */
-    mov.w   .L_minimap_param, r5      /* 0x0082 */
-    mov.l   .L_fn_minimap_render, r3
-    jsr @r3                             /* minimap_render(8, 0x82, 0xF000, data_ptr) */
-    mov #0x8, r4
-.L_06009486:                             /* === Replay data check === */
-    mov.l   .L_player_car_ptr_2, r2
-    mov.w   .L_off_car_replay, r0     /* offset 0xBC in car struct */
-    mov.l @r2, r2                       /* r2 → player car struct */
-    mov.l @(r0, r2), r3                /* r3 = car.replay_data */
-    cmp/pl r3                           /* replay_data > 0? */
-    bf      .L_06009496
+    .4byte  race_cleanup_handler           ! race cleanup handler
+.L_call_race_init:                         ! course_state == 0 → call race init helper
+    mov.l   .L_fn_race_init_helper, r3     ! load race init helper address
+    jsr @r3                                ! race_init_helper()
+    nop                                    ! (delay slot)
+.L_check_camera:                           ! === Camera handling ===
+    mov.l   .L_camera_active_flag, r0      ! r0 → camera active flag
+    mov.l @r0, r0                          ! load camera active flag
+    tst r0, r0                             ! camera active?
+    bt      .L_check_menu_overlay          ! camera inactive → skip
+    mov.l   .L_fn_camera_event, r3         ! load camera_event_handler address
+    jsr @r3                                ! camera_event_handler()
+    nop                                    ! (delay slot)
+    mov.l @r13, r0                         ! r0 = course_state
+    tst r0, r0                             ! course_state == 0?
+    bt      .L_check_menu_overlay          ! yes → skip replay camera
+    mov.l   .L_fn_replay_camera, r3        ! load replay_camera_ctrl address
+    jsr @r3                                ! replay_camera_ctrl()
+    nop                                    ! (delay slot)
+.L_check_menu_overlay:                     ! === Menu overlay ===
+    mov.l   .L_menu_active_flag, r0        ! r0 → menu active flag
+    mov.b @r0, r0                          ! load menu active flag (byte)
+    tst r0, r0                             ! menu overlay active?
+    bt      .L_check_lap_complete          ! menu inactive → skip
+    mov.l   .L_fn_menu_overlay, r3         ! load menu_overlay_render address
+    jsr @r3                                ! menu_overlay_render(0)
+    mov #0x0, r4                           ! (delay) r4 = 0 (parameter)
+.L_check_lap_complete:                     ! === Lap complete check ===
+    mov.l   .L_lap_complete_status, r0     ! r0 → lap completion status
+    mov.l @r0, r0                          ! load lap complete value
+    cmp/eq #0x1, r0                        ! lap_complete == 1?
+    bf      .L_check_attract_camera        ! no → skip state change
+    mov #0x1C, r3                          ! 0x1C = lap complete state
+    mov.l r3, @r14                         ! next_game_state = 0x1C
+.L_check_attract_camera:                   ! === Attract mode camera ===
+    mov.l @r13, r0                         ! r0 = course_state
+    cmp/eq #0x2, r0                        ! course_state == 2? (attract mode)
+    bf      .L_per_frame_updates           ! no → skip attract camera
+    mov.l   .L_fn_camera_attract, r3       ! load camera_attract_init address
+    jsr @r3                                ! camera_attract_init()
+    nop                                    ! (delay slot)
+.L_per_frame_updates:                      ! === Per-frame car + scene updates ===
+    mov.l   .L_fn_car_iteration, r3        ! load car_iteration_loop address
+    jsr @r3                                ! car_iteration_loop()
+    nop                                    ! (delay slot)
+    mov.l   .L_fn_car_proximity, r3        ! load car_proximity_check address
+    jsr @r3                                ! car_proximity_check()
+    nop                                    ! (delay slot)
+    mov.l   .L_fn_camera_system, r3        ! load camera_system address
+    jsr @r3                                ! camera_system()
+    nop                                    ! (delay slot)
+    mov.l   .L_camera_eye_pos, r6          ! r6 → camera eye position ptr
+    mov.l   .L_camera_target_pos, r5       ! r5 → camera look-at target
+    mov.l   .L_camera_up_vec, r4           ! r4 → camera up vector
+    mov.l   .L_fn_camera_orient, r3        ! load camera_orient_calc address
+    jsr @r3                                ! camera_orient_calc(up, target, *eye)
+    mov.l @r6, r6                          ! (delay) r6 = dereference eye ptr
+    mov.l   .L_fn_snd_race_update, r3      ! load snd_race_update address
+    jsr @r3                                ! snd_race_update()
+    nop                                    ! (delay slot)
+    mov.l   .L_fn_scene_master, r3         ! load scene_master address
+    jsr @r3                                ! scene_master()
+    nop                                    ! (delay slot)
+    mov.l   .L_extended_display_flag, r0   ! r0 → extended display flag
+    mov.w @r0, r0                          ! load extended display flag (word)
+    extu.w r0, r0                          ! zero-extend to 32-bit
+    tst r0, r0                             ! extended display enabled?
+    bt      .L_check_minimap               ! no → skip extended display
+    mov.l   .L_fn_extended_display, r3     ! load extended_display address
+    jsr @r3                                ! extended_display()
+    nop                                    ! (delay slot)
+.L_check_minimap:                          ! === Minimap render ===
+    mov.l   .L_minimap_enable_flag, r0     ! r0 → minimap enable flag
+    mov.b @r0, r0                          ! load minimap enable flag (byte)
+    extu.b r0, r0                          ! zero-extend to 32-bit
+    tst r0, r0                             ! minimap enabled?
+    bt      .L_check_replay_data           ! minimap disabled → skip
+    mov.l   .L_minimap_data_ptr, r7        ! r7 → minimap rendering data
+    mov.l   .L_mask_nibble3, r6            ! r6 = 0xF000 (color mask)
+    mov.w   .L_minimap_param, r5           ! r5 = 0x0082 (minimap param)
+    mov.l   .L_fn_minimap_render, r3       ! load minimap render address
+    jsr @r3                                ! minimap_render(8, 0x82, 0xF000, data_ptr)
+    mov #0x8, r4                           ! (delay) r4 = 8 (minimap layer)
+.L_check_replay_data:                      ! === Replay data check ===
+    mov.l   .L_player_car_ptr_2, r2        ! r2 → player car struct pointer
+    mov.w   .L_off_car_replay, r0          ! r0 = offset 0xBC in car struct
+    mov.l @r2, r2                          ! r2 = player car struct base
+    mov.l @(r0, r2), r3                    ! r3 = car.replay_data
+    cmp/pl r3                              ! replay_data > 0?
+    bf      .L_epilogue                    ! no → skip replay recording
     .byte   0xB5, 0xF7    /* bsr 0x0600A084 (replay_record — external) */
-    nop
-.L_06009496:                             /* === Return via frame_end_commit === */
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    mov.l   .L_fn_frame_end_commit, r3
-    jmp @r3                             /* tail-call frame_end_commit() */
-    mov.l @r15+, r14
+    nop                                    ! (delay slot)
+.L_epilogue:                               ! === Return via frame_end_commit ===
+    lds.l @r15+, pr                        ! restore return address
+    mov.l @r15+, r13                       ! restore r13
+    mov.l   .L_fn_frame_end_commit, r3     ! load frame_end_commit address
+    jmp @r3                                ! tail-call frame_end_commit()
+    mov.l @r15+, r14                       ! (delay) restore r14
 .L_minimap_param:
-    .2byte  0x0082                       /* minimap rendering parameter */
+    .2byte  0x0082                         ! minimap rendering parameter
 .L_off_car_replay:
-    .2byte  0x00BC                       /* car struct replay data offset */
+    .2byte  0x00BC                         ! car struct replay data offset
 .L_fn_race_init_helper:
-    .4byte  sym_06012198                /* race initialization helper */
+    .4byte  sym_06012198                   ! race initialization helper
 .L_camera_active_flag:
-    .4byte  sym_0607EAE0                /* camera active flag (dword) */
+    .4byte  sym_0607EAE0                   ! camera active flag (dword)
 .L_fn_camera_event:
-    .4byte  camera_event_handler        /* camera event handler */
+    .4byte  camera_event_handler           ! camera event handler
 .L_fn_replay_camera:
-    .4byte  replay_camera_ctrl          /* replay camera control */
+    .4byte  replay_camera_ctrl             ! replay camera control
 .L_menu_active_flag:
-    .4byte  sym_0605AB18                /* menu overlay active (byte) */
+    .4byte  sym_0605AB18                   ! menu overlay active (byte)
 .L_fn_menu_overlay:
-    .4byte  menu_overlay_render         /* menu overlay renderer */
+    .4byte  menu_overlay_render            ! menu overlay renderer
 .L_lap_complete_status:
-    .4byte  sym_0605A1C4                /* lap completion status */
+    .4byte  sym_0605A1C4                   ! lap completion status
 .L_fn_camera_attract:
-    .4byte  camera_attract_init         /* attract mode camera init */
+    .4byte  camera_attract_init            ! attract mode camera init
 .L_fn_car_iteration:
-    .4byte  car_iteration_loop          /* per-frame car update loop */
+    .4byte  car_iteration_loop             ! per-frame car update loop
 .L_fn_car_proximity:
-    .4byte  car_proximity_check         /* car proximity/collision check */
+    .4byte  car_proximity_check            ! car proximity/collision check
 .L_fn_camera_system:
-    .4byte  camera_system               /* camera system update */
+    .4byte  camera_system                  ! camera system update
 .L_camera_eye_pos:
-    .4byte  sym_06063E24                /* camera eye position (ptr to vec3) */
+    .4byte  sym_06063E24                   ! camera eye position (ptr to vec3)
 .L_camera_target_pos:
-    .4byte  sym_06063EEC                /* camera look-at target */
+    .4byte  sym_06063EEC                   ! camera look-at target
 .L_camera_up_vec:
-    .4byte  sym_06063EF8                /* camera up vector */
+    .4byte  sym_06063EF8                   ! camera up vector
 .L_fn_camera_orient:
-    .4byte  camera_orient_calc          /* camera orientation matrix */
+    .4byte  camera_orient_calc             ! camera orientation matrix
 .L_fn_snd_race_update:
-    .4byte  snd_race_update             /* per-frame race sound update */
+    .4byte  snd_race_update                ! per-frame race sound update
 .L_fn_scene_master:
-    .4byte  scene_master                /* master scene render pipeline */
+    .4byte  scene_master                   ! master scene render pipeline
 .L_extended_display_flag:
-    .4byte  sym_0607ED8C                /* extended display enable (word) */
+    .4byte  sym_0607ED8C                   ! extended display enable (word)
 .L_fn_extended_display:
-    .4byte  sym_060033E6                /* extended display handler */
+    .4byte  sym_060033E6                   ! extended display handler
 .L_minimap_enable_flag:
-    .4byte  sym_06086030                /* minimap enable flag (byte) */
+    .4byte  sym_06086030                   ! minimap enable flag (byte)
 .L_minimap_data_ptr:
-    .4byte  sym_0605A1C8                /* minimap rendering data */
+    .4byte  sym_0605A1C8                   ! minimap rendering data
 .L_mask_nibble3:
-    .4byte  0x0000F000                  /* nibble 3 mask */
+    .4byte  0x0000F000                     ! nibble 3 mask
 .L_fn_minimap_render:
-    .4byte  sym_060283E0                /* minimap render function */
+    .4byte  sym_060283E0                   ! minimap render function
 .L_player_car_ptr_2:
-    .4byte  sym_0607E944                /* → player car struct */
+    .4byte  sym_0607E944                   ! → player car struct
 .L_fn_frame_end_commit:
-    .4byte  frame_end_commit            /* frame end commit (tail-call) */
+    .4byte  frame_end_commit               ! frame end commit (tail-call)
