@@ -9,33 +9,33 @@
     .global course_data_access_d
     .type course_data_access_d, @function
 course_data_access_d:
-    sts.l pr, @-r15
-    add #-0x8, r15
-    mov.l   .L_pool_06036510, r3
-    jsr @r3
-    mov r15, r4
-    mov r15, r2
-    mov #0x48, r3
-    extu.b r14, r14
-    extu.b r13, r13
-    mov r15, r5
-    mov.b r3, @r2
-    mov r14, r0
-    mov r15, r2
-    mov r15, r3
-    mov.b r0, @(1, r2)
-    mov r13, r0
-    mov.b r0, @(4, r3)
-    mov.l   .L_pool_06036514, r3
-    jsr @r3
-    mov #0x40, r4
-    mov r0, r4
-    add #0x8, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-.L_pool_06036510:
-    .4byte  input_proc_analog
-.L_pool_06036514:
-    .4byte  input_proc_buttons
+    sts.l pr, @-r15                ! save return address
+    add #-0x8, r15                  ! allocate 8 bytes on stack for command buffer
+    mov.l   .L_pool_cmd_init, r3    ! load cmd_init (input_proc_analog) address
+    jsr @r3                         ! call cmd_init — initialize command buffer on stack
+    mov r15, r4                     ! r4 = stack buffer pointer (delay slot)
+    mov r15, r2                     ! r2 = buffer base pointer
+    mov #0x48, r3                   ! r3 = command byte 0x48 (course data read)
+    extu.b r14, r14                 ! zero-extend r14 to unsigned byte (param A)
+    extu.b r13, r13                 ! zero-extend r13 to unsigned byte (param B)
+    mov r15, r5                     ! r5 = buffer pointer (for cmd_send arg)
+    mov.b r3, @r2                   ! buf[0] = 0x48 (command ID)
+    mov r14, r0                     ! r0 = param A
+    mov r15, r2                     ! r2 = buffer base pointer (reload)
+    mov r15, r3                     ! r3 = buffer base pointer (reload)
+    mov.b r0, @(1, r2)             ! buf[1] = param A (course index)
+    mov r13, r0                     ! r0 = param B
+    mov.b r0, @(4, r3)             ! buf[4] = param B (data offset)
+    mov.l   .L_pool_cmd_send, r3    ! load cmd_send (input_proc_buttons) address
+    jsr @r3                         ! call cmd_send — execute command and get response
+    mov #0x40, r4                   ! r4 = response command 0x40 (delay slot)
+    mov r0, r4                      ! r4 = response value (return value)
+    add #0x8, r15                   ! deallocate command buffer
+    lds.l @r15+, pr                 ! restore return address
+    mov.l @r15+, r13               ! restore r13
+    rts                             ! return to caller
+    mov.l @r15+, r14               ! restore r14 (delay slot)
+.L_pool_cmd_init:
+    .4byte  input_proc_analog       ! command buffer initializer
+.L_pool_cmd_send:
+    .4byte  input_proc_buttons      ! command sender / response reader

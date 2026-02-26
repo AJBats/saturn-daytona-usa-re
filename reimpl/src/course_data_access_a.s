@@ -9,42 +9,42 @@
     .global course_data_access_a
     .type course_data_access_a, @function
 course_data_access_a:
-    sts.l pr, @-r15
-    add #-0x10, r15
-    mov r15, r4
-    mov.l   .L_pool_06036408, r3
-    jsr @r3
-    add #0x8, r4
-    mov r15, r2
-    mov #0x45, r3
-    extu.b r14, r14
-    mov r15, r6
-    mov r15, r5
-    add #0x8, r2
-    mov r14, r0
-    add #0x8, r5
-    mov.b r3, @r2
-    mov r15, r2
-    add #0x8, r2
-    mov.b r0, @(4, r2)
-    mov.l   .L_pool_06036410, r3
-    jsr @r3
-    mov #0x0, r4
-    mov r0, r4
-    mov r15, r2
-    mov.b @(1, r2), r0
-    mov r0, r3
-    extu.b r3, r3
-    mov r4, r0
-    mov.l r3, @r13
-    add #0x10, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-    .2byte  0xFFFF
-.L_pool_06036408:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
-.L_pool_06036410:
-    .4byte  input_proc_digital
+    sts.l pr, @-r15                 ! save return address
+    add #-0x10, r15                 ! allocate 16-byte local frame
+    mov r15, r4                     ! r4 = frame base
+    mov.l   .L_pool_buf_init, r3    ! r3 = input_proc_analog
+    jsr @r3                         ! init SMPC command buffer
+    add #0x8, r4                    ! (delay) r4 = &frame[8] — cmd region
+    mov r15, r2                     ! r2 = frame base
+    mov #0x45, r3                   ! r3 = SMPC command 0x45
+    extu.b r14, r14                 ! zero-extend course param byte
+    mov r15, r6                     ! r6 = frame base (response buf ptr)
+    mov r15, r5                     ! r5 = frame base
+    add #0x8, r2                    ! r2 = &frame[8] — cmd region
+    mov r14, r0                     ! r0 = course param
+    add #0x8, r5                    ! r5 = &frame[8] — cmd region
+    mov.b r3, @r2                   ! frame[8] = 0x45 (command byte)
+    mov r15, r2                     ! r2 = frame base
+    add #0x8, r2                    ! r2 = &frame[8]
+    mov.b r0, @(4, r2)             ! frame[12] = course param byte
+    mov.l   .L_pool_cmd_exec, r3    ! r3 = input_proc_digital
+    jsr @r3                         ! execute SMPC command
+    mov #0x0, r4                    ! (delay) r4 = 0 (no flags)
+    mov r0, r4                      ! r4 = return status
+    mov r15, r2                     ! r2 = frame base
+    mov.b @(1, r2), r0              ! r0 = response byte at frame[1]
+    mov r0, r3                      ! r3 = response (sign-extended)
+    extu.b r3, r3                   ! zero-extend to unsigned byte
+    mov r4, r0                      ! r0 = return status (preserved)
+    mov.l r3, @r13                  ! *r13 = result byte (course data)
+    add #0x10, r15                  ! deallocate local frame
+    lds.l @r15+, pr                 ! restore return address
+    mov.l @r15+, r13                ! restore r13
+    rts                             ! return
+    mov.l @r15+, r14                ! (delay) restore r14
+    .2byte  0xFFFF                  ! alignment padding
+.L_pool_buf_init:
+    .4byte  input_proc_analog       ! SMPC buffer init
+    .4byte  input_proc_buttons      ! (unreferenced in this TU)
+.L_pool_cmd_exec:
+    .4byte  input_proc_digital      ! SMPC command execute

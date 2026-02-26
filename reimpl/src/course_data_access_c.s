@@ -9,48 +9,48 @@
     .global course_data_access_c
     .type course_data_access_c, @function
 course_data_access_c:
-    sts.l pr, @-r15
-    add #-0x10, r15
-    mov r15, r4
-    mov.l   .L_pool_060364C8, r3
-    jsr @r3
-    add #0x8, r4
-    mov r15, r2
-    mov #0x47, r3
-    extu.b r14, r14
-    mov r15, r6
-    mov r15, r5
-    add #0x8, r2
-    mov r14, r0
-    add #0x8, r5
-    mov.b r3, @r2
-    mov r15, r2
-    add #0x8, r2
-    mov.b r0, @(4, r2)
-    mov.l   .L_pool_060364D0, r3
-    jsr @r3
-    mov #0x0, r4
-    mov r0, r4
-    mov r15, r2
-    mov.b @(2, r2), r0
-    mov r0, r3
-    extu.b r3, r3
-    mov.l r3, @r12
-    mov r15, r3
-    mov.b @(3, r3), r0
-    mov r0, r2
-    extu.b r2, r2
-    mov r4, r0
-    mov.l r2, @r13
-    add #0x10, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-    .2byte  0xFFFF
-.L_pool_060364C8:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
-.L_pool_060364D0:
-    .4byte  input_proc_digital
+    sts.l pr, @-r15              ! save return address
+    add #-0x10, r15              ! allocate 16 bytes of stack frame (response buffer)
+    mov r15, r4                  ! r4 = stack frame base
+    mov.l   .L_pool_build_cmd, r3 ! r3 = input_proc_analog (build SMPC command buffer)
+    jsr @r3                      ! call input_proc_analog(cmd_buf)
+    add #0x8, r4                 ! r4 = &stack[8] — command buffer start (delay slot)
+    mov r15, r2                  ! r2 = stack frame base
+    mov #0x47, r3                ! r3 = 0x47 — SMPC command code for this accessor
+    extu.b r14, r14              ! zero-extend r14 parameter byte
+    mov r15, r6                  ! r6 = stack frame base (response buffer ptr)
+    mov r15, r5                  ! r5 = stack frame base
+    add #0x8, r2                 ! r2 = &stack[8] — command buffer
+    mov r14, r0                  ! r0 = parameter byte from r14
+    add #0x8, r5                 ! r5 = &stack[8] — command buffer ptr for send
+    mov.b r3, @r2                ! cmd_buf[0] = 0x47 (command code)
+    mov r15, r2                  ! r2 = stack frame base
+    add #0x8, r2                 ! r2 = &stack[8] — command buffer
+    mov.b r0, @(4, r2)           ! cmd_buf[4] = parameter byte (from r14)
+    mov.l   .L_pool_exec_cmd, r3 ! r3 = input_proc_digital (execute SMPC command)
+    jsr @r3                      ! call input_proc_digital(mode=0, cmd_buf, response_buf)
+    mov #0x0, r4                 ! r4 = 0 — mode parameter (delay slot)
+    mov r0, r4                   ! r4 = return status from command execution
+    mov r15, r2                  ! r2 = stack frame base (response buffer)
+    mov.b @(2, r2), r0           ! r0 = response[2] — first result byte
+    mov r0, r3                   ! r3 = result byte (sign-extended)
+    extu.b r3, r3                ! zero-extend to unsigned byte
+    mov.l r3, @r12               ! *r12 = first result byte (output param A)
+    mov r15, r3                  ! r3 = stack frame base (response buffer)
+    mov.b @(3, r3), r0           ! r0 = response[3] — second result byte
+    mov r0, r2                   ! r2 = result byte (sign-extended)
+    extu.b r2, r2                ! zero-extend to unsigned byte
+    mov r4, r0                   ! r0 = command status (return value)
+    mov.l r2, @r13               ! *r13 = second result byte (output param B)
+    add #0x10, r15               ! deallocate stack frame
+    lds.l @r15+, pr              ! restore return address
+    mov.l @r15+, r12             ! restore callee-saved r12
+    mov.l @r15+, r13             ! restore callee-saved r13
+    rts                          ! return (r0 = command status)
+    mov.l @r15+, r14             ! restore callee-saved r14 (delay slot)
+    .2byte  0xFFFF               ! padding to align constant pool
+.L_pool_build_cmd:
+    .4byte  input_proc_analog    ! SMPC command buffer builder
+    .4byte  input_proc_buttons   ! (adjacent pool entry, referenced by other code)
+.L_pool_exec_cmd:
+    .4byte  input_proc_digital   ! SMPC command executor
