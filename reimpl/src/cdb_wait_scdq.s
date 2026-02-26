@@ -6,46 +6,63 @@
     .section .text.FUN_060423CC
 
 
+/*
+ * cdb_wait_scdq -- Wait for CD block Subcode Q data ready (SCDQ)
+ *
+ * Polls HIRQ register bit 10 (SCDQ = 0x0400) in a spin loop.
+ * When SCDQ is set, acknowledges it by calling smpc_cmd_helper_b
+ * with a mask of 0x0000FBFF (~0x0400, zero-extended to 16 bits)
+ * to clear the SCDQ bit.
+ *
+ * This is the original retail version which polls indefinitely
+ * with no timeout -- a latent hang bug when CD timing is tight.
+ * The C reimplementation in mods/cdb_wait_scdq.c adds a 1000-
+ * iteration timeout to prevent infinite hangs.
+ *
+ * Inputs:  none
+ * Outputs: none (returns after SCDQ acknowledged)
+ * Clobbers: r0, r4, r11-r14
+ */
     .global cdb_wait_scdq
     .type cdb_wait_scdq, @function
 cdb_wait_scdq:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_pool_06042400, r11
-    mov.l   .L_pool_06042404, r12
-    mov.l   .L_pool_06042408, r13
-    mov.w   .L_wpool_060423F6, r14
-.L_060423DE:
-    jsr @r12
-    nop
-    extu.w r0, r0
-    and r14, r0
-    tst r0, r0
-    bt      .L_060423F2
-    jsr @r11
-    extu.w r13, r4
-    bra     .L_0604240C
-    nop
-.L_060423F2:
-    bra     .L_060423DE
-    nop
+    mov.l r14, @-r15                        ! save r14 on stack
+    mov.l r13, @-r15                        ! save r13 on stack
+    mov.l r12, @-r15                        ! save r12 on stack
+    mov.l r11, @-r15                        ! save r11 on stack
+    sts.l pr, @-r15                         ! save return address on stack
+    mov.l   .L_pool_scdq_ack, r11           ! r11 = &smpc_cmd_helper_b (SCDQ acknowledge fn)
+    mov.l   .L_pool_read_hirq, r12          ! r12 = &sym_06035C4E (read HIRQ register fn)
+    mov.l   .L_pool_scdq_clear_mask, r13    ! r13 = 0x0000FBFF (~0x0400 zero-extended, SCDQ clear mask)
+    mov.w   .L_wpool_060423F6, r14          ! r14 = 0x0400 (SCDQ bit mask)
+.L_poll_hirq:
+    jsr @r12                                ! call sym_06035C4E — read HIRQ register
+    nop                                     ! delay slot (nop)
+    extu.w r0, r0                           ! zero-extend r0 to 16 bits (clear sign extension)
+    and r14, r0                             ! isolate SCDQ bit (r0 & 0x0400)
+    tst r0, r0                              ! test if SCDQ bit is clear
+    bt      .L_scdq_not_ready               ! if SCDQ clear, branch to retry loop
+    jsr @r11                                ! SCDQ is set — call smpc_cmd_helper_b to acknowledge
+    extu.w r13, r4                          ! delay slot: r4 = 0x0000FBFF (clear mask, 16-bit zero-extended)
+    bra     .L_epilogue                     ! jump to function epilogue
+    nop                                     ! delay slot (nop)
+.L_scdq_not_ready:
+    bra     .L_poll_hirq                    ! SCDQ not ready — loop back and poll again
+    nop                                     ! delay slot (nop)
 .L_wpool_060423F6:
     .2byte  0x0400
     .4byte  ai_checkpoint_validate
     .4byte  sym_060A5400
-.L_pool_06042400:
+.L_pool_scdq_ack:
     .4byte  smpc_cmd_helper_b
-.L_pool_06042404:
+.L_pool_read_hirq:
     .4byte  sym_06035C4E
-.L_pool_06042408:
+.L_pool_scdq_clear_mask:
     .4byte  0x0000FBFF
-.L_0604240C:
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_epilogue:
+    lds.l @r15+, pr                         ! restore return address from stack
+    mov.l @r15+, r11                        ! restore r11 from stack
+    mov.l @r15+, r12                        ! restore r12 from stack
+    mov.l @r15+, r13                        ! restore r13 from stack
+    rts                                     ! return to caller
+    mov.l @r15+, r14                        ! delay slot: restore r14 from stack

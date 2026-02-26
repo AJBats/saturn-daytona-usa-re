@@ -25,111 +25,134 @@
  *   r13 = 0 (constant zero for channel_commit arg)
  */
 
-    .section .text.FUN_06038AC8
+   .section .text.FUN_06038AC8
 
 
-    .global display_mode_config
-    .type display_mode_config, @function
+/*-----------------------------------------------------------------------
+ * display_mode_config
+ *
+ * Reads a bitmask config byte and dispatches up to 6 VDP2 display
+ * channels. For each bit set in the config byte (bits 7..2), copies
+ * channel source data to the destination buffer, then commits the
+ * channel with its ID via channel_commit. Called once per frame to
+ * push updated display registers to hardware.
+ *-----------------------------------------------------------------------*/
+   .global display_mode_config
+   .type display_mode_config, @function
 display_mode_config:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_config_byte, r14          /* r14 → config byte */
-    mov.l   .L_fn_hud_display, r3
-    jsr @r3                              /* hud_display_ext() — pre-display setup */
-    mov #0x0, r13                        /* r13 = 0 (persistent zero) */
-    mov r14, r0                          /* === Channel 0: bit 7 (0x80) === */
-    mov.b @r0, r0
-    tst #0x80, r0
-    bt      .L_06038AF2                  /* bit 7 clear → skip channel 0 */
-    mov #0x10, r6                        /* size = 16 bytes */
-    mov.l   .L_ch0_src, r5
-    mov.l   .L_ch0_dst_ptr, r4
+    mov.l r14, @-r15                         ! save r14 (callee-saved) to stack
+    mov.l r13, @-r15                         ! save r13 (callee-saved) to stack
+    sts.l pr, @-r15                          ! save return address to stack
+    mov.l   .L_config_byte, r14              ! r14 = pointer to config bitmask byte
+    mov.l   .L_fn_hud_display, r3            ! r3 = address of hud_display_ext
+    jsr @r3                                  ! call hud_display_ext() — pre-display setup
+    mov #0x0, r13                            ! r13 = 0 (persistent zero for channel_commit arg, delay slot)
+
+    /* === Channel 0: bit 7 (0x80) === */
+    mov r14, r0                              ! r0 = config byte address (T-bit ops require r0)
+    mov.b @r0, r0                            ! r0 = config byte value
+    tst #0x80, r0                            ! test bit 7 — channel 0 enabled?
+    bt      .L_check_ch1                     ! bit 7 clear → skip channel 0
+    mov #0x10, r6                            ! r6 = 16 bytes (channel 0 data size)
+    mov.l   .L_ch0_src, r5                   ! r5 = channel 0 source data address
+    mov.l   .L_ch0_dst_ptr, r4               ! r4 = pointer to channel 0 dest address
     .byte   0xBF, 0xB0    /* bsr 0x06038A48 (data_loader) */
-    mov.l @r4, r4                        /* dst = *ch0_dst_ptr */
-    mov r13, r0                          /* r0 = 0 */
-    mov r14, r2                          /* r2 = config_ptr */
-    mov.l   .L_fn_channel_commit, r3
-    jsr @r3                              /* channel_commit(config, 0, 0x0001) */
-    mov #0x1, r1                         /* channel ID = 0x0001 */
-.L_06038AF2:                              /* === Channel 1: bit 6 (0x40) === */
-    mov r14, r0
-    mov.b @r0, r0
-    tst #0x40, r0
-    bt      .L_06038B0E                  /* bit 6 clear → skip channel 1 */
-    mov #0x8, r6                         /* size = 8 bytes */
-    mov.l   .L_ch1_src, r5
-    mov.l   .L_ch1_dst_ptr, r4
+    mov.l @r4, r4                            ! r4 = *ch0_dst_ptr (actual dest, delay slot)
+    mov r13, r0                              ! r0 = 0 (second arg for channel_commit)
+    mov r14, r2                              ! r2 = config byte pointer (first arg)
+    mov.l   .L_fn_channel_commit, r3         ! r3 = address of channel_commit
+    jsr @r3                                  ! call channel_commit(config_ptr, 0, 0x0001)
+    mov #0x1, r1                             ! r1 = 0x0001 channel ID (delay slot)
+
+    /* === Channel 1: bit 6 (0x40) === */
+.L_check_ch1:
+    mov r14, r0                              ! r0 = config byte address
+    mov.b @r0, r0                            ! r0 = config byte value
+    tst #0x40, r0                            ! test bit 6 — channel 1 enabled?
+    bt      .L_check_ch2                     ! bit 6 clear → skip channel 1
+    mov #0x8, r6                             ! r6 = 8 bytes (channel 1 data size)
+    mov.l   .L_ch1_src, r5                   ! r5 = channel 1 source data address
+    mov.l   .L_ch1_dst_ptr, r4               ! r4 = pointer to channel 1 dest address
     .byte   0xBF, 0xA2    /* bsr 0x06038A48 (data_loader) */
-    mov.l @r4, r4                        /* dst = *ch1_dst_ptr */
-    mov r13, r0
-    mov.w   .L_ch1_id, r1               /* channel ID = 0x0101 */
-    mov.l   .L_fn_channel_commit, r3
-    jsr @r3                              /* channel_commit(config, 0, 0x0101) */
-    mov r14, r2
-.L_06038B0E:                              /* === Channel 2: bit 5 (0x20) === */
-    mov r14, r0
-    mov.b @r0, r0
-    tst #0x20, r0
-    bt      .L_06038B2A                  /* bit 5 clear → skip channel 2 */
-    mov #0x6, r6                         /* size = 6 bytes */
-    mov.l   .L_ch2_src, r5
-    mov.l   .L_ch2_dst_ptr, r4
+    mov.l @r4, r4                            ! r4 = *ch1_dst_ptr (actual dest, delay slot)
+    mov r13, r0                              ! r0 = 0 (second arg for channel_commit)
+    mov.w   .L_ch1_id, r1                   ! r1 = 0x0101 channel ID
+    mov.l   .L_fn_channel_commit, r3         ! r3 = address of channel_commit
+    jsr @r3                                  ! call channel_commit(config_ptr, 0, 0x0101)
+    mov r14, r2                              ! r2 = config byte pointer (delay slot)
+
+    /* === Channel 2: bit 5 (0x20) === */
+.L_check_ch2:
+    mov r14, r0                              ! r0 = config byte address
+    mov.b @r0, r0                            ! r0 = config byte value
+    tst #0x20, r0                            ! test bit 5 — channel 2 enabled?
+    bt      .L_check_ch3                     ! bit 5 clear → skip channel 2
+    mov #0x6, r6                             ! r6 = 6 bytes (channel 2 data size)
+    mov.l   .L_ch2_src, r5                   ! r5 = channel 2 source data address
+    mov.l   .L_ch2_dst_ptr, r4               ! r4 = pointer to channel 2 dest address
     .byte   0xBF, 0x94    /* bsr 0x06038A48 (data_loader) */
-    mov.l @r4, r4                        /* dst = *ch2_dst_ptr */
-    mov r13, r0
-    mov.w   .L_ch2_id, r1               /* channel ID = 0x0201 */
-    mov.l   .L_fn_channel_commit, r3
-    jsr @r3                              /* channel_commit(config, 0, 0x0201) */
-    mov r14, r2
-.L_06038B2A:                              /* === Channel 3: bit 4 (0x10) === */
-    mov r14, r0
-    mov.b @r0, r0
-    tst #0x10, r0
-    bt      .L_06038B46                  /* bit 4 clear → skip channel 3 */
-    mov #0x8, r6                         /* size = 8 bytes */
-    mov.l   .L_ch3_src, r5
-    mov.l   .L_ch3_dst_ptr, r4
+    mov.l @r4, r4                            ! r4 = *ch2_dst_ptr (actual dest, delay slot)
+    mov r13, r0                              ! r0 = 0 (second arg for channel_commit)
+    mov.w   .L_ch2_id, r1                   ! r1 = 0x0201 channel ID
+    mov.l   .L_fn_channel_commit, r3         ! r3 = address of channel_commit
+    jsr @r3                                  ! call channel_commit(config_ptr, 0, 0x0201)
+    mov r14, r2                              ! r2 = config byte pointer (delay slot)
+
+    /* === Channel 3: bit 4 (0x10) === */
+.L_check_ch3:
+    mov r14, r0                              ! r0 = config byte address
+    mov.b @r0, r0                            ! r0 = config byte value
+    tst #0x10, r0                            ! test bit 4 — channel 3 enabled?
+    bt      .L_check_ch4                     ! bit 4 clear → skip channel 3
+    mov #0x8, r6                             ! r6 = 8 bytes (channel 3 data size)
+    mov.l   .L_ch3_src, r5                   ! r5 = channel 3 source data address
+    mov.l   .L_ch3_dst_ptr, r4               ! r4 = pointer to channel 3 dest address
     .byte   0xBF, 0x86    /* bsr 0x06038A48 (data_loader) */
-    mov.l @r4, r4                        /* dst = *ch3_dst_ptr */
-    mov r13, r0
-    mov.w   .L_ch3_id, r1               /* channel ID = 0x0301 */
-    mov.l   .L_fn_channel_commit, r3
-    jsr @r3                              /* channel_commit(config, 0, 0x0301) */
-    mov r14, r2
-.L_06038B46:                              /* === Channel 4: bit 3 (0x08) === */
-    mov r14, r0
-    mov.b @r0, r0
-    tst #0x8, r0
-    bt      .L_06038B62                  /* bit 3 clear → skip channel 4 */
-    mov #0x8, r6                         /* size = 8 bytes */
-    mov.l   .L_ch4_src, r5
-    mov.l   .L_ch4_dst_ptr, r4
+    mov.l @r4, r4                            ! r4 = *ch3_dst_ptr (actual dest, delay slot)
+    mov r13, r0                              ! r0 = 0 (second arg for channel_commit)
+    mov.w   .L_ch3_id, r1                   ! r1 = 0x0301 channel ID
+    mov.l   .L_fn_channel_commit, r3         ! r3 = address of channel_commit
+    jsr @r3                                  ! call channel_commit(config_ptr, 0, 0x0301)
+    mov r14, r2                              ! r2 = config byte pointer (delay slot)
+
+    /* === Channel 4: bit 3 (0x08) === */
+.L_check_ch4:
+    mov r14, r0                              ! r0 = config byte address
+    mov.b @r0, r0                            ! r0 = config byte value
+    tst #0x8, r0                             ! test bit 3 — channel 4 enabled?
+    bt      .L_check_ch5                     ! bit 3 clear → skip channel 4
+    mov #0x8, r6                             ! r6 = 8 bytes (channel 4 data size)
+    mov.l   .L_ch4_src, r5                   ! r5 = channel 4 source data address
+    mov.l   .L_ch4_dst_ptr, r4               ! r4 = pointer to channel 4 dest address
     .byte   0xBF, 0x78    /* bsr 0x06038A48 (data_loader) */
-    mov.l @r4, r4                        /* dst = *ch4_dst_ptr */
-    mov r13, r0
-    mov.w   .L_ch4_id, r1               /* channel ID = 0x0401 */
-    mov.l   .L_fn_channel_commit, r3
-    jsr @r3                              /* channel_commit(config, 0, 0x0401) */
-    mov r14, r2
-.L_06038B62:                              /* === Channel 5: bit 2 (0x04) === */
-    mov r14, r0
-    mov.b @r0, r0
-    tst #0x4, r0
-    bt      .L_06038BC6                  /* bit 2 clear → skip channel 5 */
-    mov #0x10, r6                        /* size = 16 bytes */
-    mov.l   .L_ch5_src, r5
-    mov.l   .L_ch5_dst_ptr, r4
-    bra     .L_06038BB8
-    mov.l @r4, r4                        /* dst = *ch5_dst_ptr (delay slot) */
+    mov.l @r4, r4                            ! r4 = *ch4_dst_ptr (actual dest, delay slot)
+    mov r13, r0                              ! r0 = 0 (second arg for channel_commit)
+    mov.w   .L_ch4_id, r1                   ! r1 = 0x0401 channel ID
+    mov.l   .L_fn_channel_commit, r3         ! r3 = address of channel_commit
+    jsr @r3                                  ! call channel_commit(config_ptr, 0, 0x0401)
+    mov r14, r2                              ! r2 = config byte pointer (delay slot)
+
+    /* === Channel 5: bit 2 (0x04) === */
+.L_check_ch5:
+    mov r14, r0                              ! r0 = config byte address
+    mov.b @r0, r0                            ! r0 = config byte value
+    tst #0x4, r0                             ! test bit 2 — channel 5 enabled?
+    bt      .L_epilogue                      ! bit 2 clear → skip channel 5, return
+    mov #0x10, r6                            ! r6 = 16 bytes (channel 5 data size)
+    mov.l   .L_ch5_src, r5                   ! r5 = channel 5 source data address
+    mov.l   .L_ch5_dst_ptr, r4               ! r4 = pointer to channel 5 dest address
+    bra     .L_ch5_load                      ! jump past constant pool to data_loader call
+    mov.l @r4, r4                            ! r4 = *ch5_dst_ptr (actual dest, delay slot)
+
+/* --- Inline constant pool (word and long) --- */
 .L_ch1_id:
-    .2byte  0x0101                        /* channel 1 ID */
+    .2byte  0x0101                            /* channel 1 ID */
 .L_ch2_id:
-    .2byte  0x0201                        /* channel 2 ID */
+    .2byte  0x0201                            /* channel 2 ID */
 .L_ch3_id:
-    .2byte  0x0301                        /* channel 3 ID */
+    .2byte  0x0301                            /* channel 3 ID */
 .L_ch4_id:
-    .2byte  0x0401                        /* channel 4 ID */
+    .2byte  0x0401                            /* channel 4 ID */
 .L_config_byte:
     .4byte  sym_060A4D58               /* display config byte (bitmask) */
 .L_fn_hud_display:
@@ -160,19 +183,23 @@ display_mode_config:
     .4byte  sym_060A4D46               /* channel 5 source data */
 .L_ch5_dst_ptr:
     .4byte  sym_06063620               /* channel 5 dest pointer */
-.L_06038BB8:
+
+    /* === Channel 5 continued (after pool gap) === */
+.L_ch5_load:
     .byte   0xBF, 0x46    /* bsr 0x06038A48 (data_loader) */
-    nop
-    mov r13, r0
-    mov.w   .L_ch5_id, r1               /* channel ID = 0x0501 */
-    mov.l   .L_fn_channel_commit_b, r3
-    jsr @r3                              /* channel_commit(config, 0, 0x0501) */
-    mov r14, r2
-.L_06038BC6:                              /* === Return === */
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    nop                                      ! delay slot (no-op, dst already loaded above)
+    mov r13, r0                              ! r0 = 0 (second arg for channel_commit)
+    mov.w   .L_ch5_id, r1                   ! r1 = 0x0501 channel ID
+    mov.l   .L_fn_channel_commit_b, r3       ! r3 = address of channel_commit
+    jsr @r3                                  ! call channel_commit(config_ptr, 0, 0x0501)
+    mov r14, r2                              ! r2 = config byte pointer (delay slot)
+
+    /* === Epilogue: restore callee-saved registers and return === */
+.L_epilogue:
+    lds.l @r15+, pr                          ! restore return address from stack
+    mov.l @r15+, r13                         ! restore r13 from stack
+    rts                                      ! return to caller
+    mov.l @r15+, r14                         ! restore r14 from stack (delay slot)
 .L_ch5_id:
     .2byte  0x0501                        /* channel 5 ID */
 .L_fn_channel_commit_b:
