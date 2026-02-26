@@ -6,42 +6,58 @@
     .section .text.FUN_06042418
 
 
+/*
+ * fixpt_div_helper
+ *
+ * Fixed-point sine wrapper with full-range angle handling.
+ * Takes an angle in 16.16 fixed-point degrees (r4), clamps it
+ * to the [0, 90] range using sin symmetry properties, then calls
+ * the core sine table lookup (sym_060424A2).
+ *
+ * Sign handling: sin(-x) = -sin(x)  -->  negate input, negate output
+ * Range folding: sin(x) for x >= 180 --> 0
+ *                sin(x) for x > 90   --> sin(180 - x)
+ *
+ * Input:   r4 = angle in 16.16 fixed-point degrees (signed)
+ * Output:  r0 = sin(angle) in 16.16 fixed-point
+ * Clobbers: r2, r3, r14
+ */
     .global fixpt_div_helper
     .type fixpt_div_helper, @function
 fixpt_div_helper:
-    mov.l r14, @-r15
-    sts.l pr, @-r15
-    cmp/pz r4
-    bt/s    .L_06042426
-    mov #0x0, r14
-    mov #0x1, r14
-    neg r4, r4
-.L_06042426:
-    mov.l   .L_pool_0604244C, r2
-    cmp/ge r2, r4
-    bf      .L_06042430
-    bra     .L_0604243A
-    mov #0x0, r4
-.L_06042430:
-    mov.l   .L_pool_06042450, r3
-    cmp/gt r3, r4
-    bf      .L_0604243A
-    sub r4, r2
-    mov r2, r4
-.L_0604243A:
-    mov.l   .L_pool_06042454, r3
-    jsr @r3
-    nop
-    tst r14, r14
-    bt      .L_06042446
-    neg r0, r0
-.L_06042446:
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-.L_pool_0604244C:
-    .4byte  0x00B40000
-.L_pool_06042450:
-    .4byte  0x005A0000
-.L_pool_06042454:
-    .4byte  sym_060424A2
+    mov.l r14, @-r15            ! save r14 (used as negate flag)
+    sts.l pr, @-r15             ! save return address
+    cmp/pz r4                   ! test if angle >= 0
+    bt/s    .L_sign_done        ! if positive, skip negation (delay slot sets flag=0)
+    mov #0x0, r14               ! r14 = 0 (negate flag: 0 = positive)
+    mov #0x1, r14               ! r14 = 1 (negate flag: angle was negative)
+    neg r4, r4                  ! r4 = |angle| (make positive for lookup)
+.L_sign_done:
+    mov.l   .L_fp_180, r2       ! r2 = 180.0 (0x00B40000 in 16.16 fixed-point)
+    cmp/ge r2, r4               ! test if |angle| >= 180.0
+    bf      .L_range_ok         ! if < 180.0, proceed to quadrant check
+    bra     .L_call_sine        ! angle >= 180.0: sin(180+) treated as 0
+    mov #0x0, r4                ! r4 = 0 (delay slot: sin(>=180) = 0)
+.L_range_ok:
+    mov.l   .L_fp_90, r3        ! r3 = 90.0 (0x005A0000 in 16.16 fixed-point)
+    cmp/gt r3, r4               ! test if |angle| > 90.0
+    bf      .L_call_sine        ! if <= 90.0, angle is already in lookup range
+    sub r4, r2                  ! r2 = 180.0 - |angle| (mirror across 90 degrees)
+    mov r2, r4                  ! r4 = mirrored angle (sin(x) = sin(180-x))
+.L_call_sine:
+    mov.l   .L_fn_sine_core, r3 ! r3 = address of core sine table lookup
+    jsr @r3                     ! call sine lookup: r0 = sin(r4)
+    nop                         ! delay slot (no-op)
+    tst r14, r14                ! test negate flag (was original angle negative?)
+    bt      .L_return           ! if flag == 0 (positive), skip negation
+    neg r0, r0                  ! negate result: sin(-x) = -sin(x)
+.L_return:
+    lds.l @r15+, pr             ! restore return address
+    rts                         ! return to caller
+    mov.l @r15+, r14            ! restore r14 (delay slot)
+.L_fp_180:
+    .4byte  0x00B40000          /* 180.0 in 16.16 fixed-point (180 << 16) */
+.L_fp_90:
+    .4byte  0x005A0000          /* 90.0 in 16.16 fixed-point (90 << 16) */
+.L_fn_sine_core:
+    .4byte  sym_060424A2        /* core sine table lookup function */
