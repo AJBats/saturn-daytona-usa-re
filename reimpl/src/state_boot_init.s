@@ -5,64 +5,78 @@
 
     .section .text.FUN_060088CC
 
+    /* state_boot_init — State 0: boot initialization sequence
+     *
+     * Performs the initial boot setup when game starts (state 0):
+     *   1. handler_init_reset — reset init pipeline state
+     *   2. render_stage_1 — initialize primary render stage
+     *   3. display_channel_b(4, -1.0, 0) — configure display channel B
+     *   4. handler_dispatch(2, 2, 0) — register handler slot 2
+     *   5. obj_render_update — initialize object render subsystem
+     *   6. game_state = 1 — advance to next state
+     *   7. sym_06026CE0 — display subsystem update
+     *   8. vblank_out_counter = 0 — clear VBlank-OUT counter
+     *
+     * loc_0600890A: trampoline — tail-jumps to render_stage_2
+     */
 
     .global state_boot_init
     .type state_boot_init, @function
 state_boot_init:
-    sts.l pr, @-r15
-    mov.l   .L_pool_06008910, r3
-    jsr @r3
-    nop
-    mov.l   .L_pool_06008914, r3
-    jsr @r3
-    nop
-    mov #0x0, r6
-    mov.l   .L_fp_neg_one, r5
-    mov.l   .L_pool_0600891C, r3
-    jsr @r3
-    mov #0x4, r4
-    mov #0x0, r6
-    mov #0x2, r5
-    mov.l   .L_pool_06008920, r3
-    jsr @r3
-    mov r5, r4
-    mov.l   .L_pool_06008924, r3
-    jsr @r3
-    nop
-    mov #0x1, r2
-    mov.l   .L_pool_06008928, r3
-    mov.l r2, @r3
-    mov.l   .L_pool_0600892C, r3
-    jsr @r3
-    nop
-    mov #0x0, r2
-    mov.l   .L_pool_06008930, r3
-    lds.l @r15+, pr
-    rts
-    mov.l r2, @r3
+    sts.l pr, @-r15             ! push PR (non-leaf function)
+    mov.l   .L_pool_fn_init_reset, r3 ! r3 = &handler_init_reset
+    jsr @r3                     ! call handler_init_reset()
+    nop                         ! delay slot
+    mov.l   .L_pool_fn_render_stage1, r3 ! r3 = &render_stage_1
+    jsr @r3                     ! call render_stage_1()
+    nop                         ! delay slot
+    mov #0x0, r6                ! r6 = 0 (arg3: flags)
+    mov.l   .L_fp_neg_one, r5  ! r5 = 0xFFFF0000 = -1.0 (16.16 fixed-point, arg2)
+    mov.l   .L_pool_fn_disp_chan_b, r3 ! r3 = &display_channel_b
+    jsr @r3                     ! call display_channel_b(4, -1.0, 0)
+    mov #0x4, r4                ! delay slot: r4 = 4 (arg1: channel index)
+    mov #0x0, r6                ! r6 = 0 (arg3: flags)
+    mov #0x2, r5                ! r5 = 2 (arg2: handler type)
+    mov.l   .L_pool_fn_handler_disp, r3 ! r3 = &handler_dispatch
+    jsr @r3                     ! call handler_dispatch(2, 2, 0)
+    mov r5, r4                  ! delay slot: r4 = 2 (arg1: slot index)
+    mov.l   .L_pool_fn_obj_render, r3 ! r3 = &obj_render_update
+    jsr @r3                     ! call obj_render_update()
+    nop                         ! delay slot
+    mov #0x1, r2                ! r2 = 1 (next game state)
+    mov.l   .L_pool_game_state, r3 ! r3 = &game_state (sym_0605AD10)
+    mov.l r2, @r3               ! game_state = 1 (advance to state 1)
+    mov.l   .L_pool_fn_disp_update, r3 ! r3 = &sym_06026CE0 (display subsystem update)
+    jsr @r3                     ! call display subsystem update
+    nop                         ! delay slot
+    mov #0x0, r2                ! r2 = 0
+    mov.l   .L_pool_vblank_out_ctr, r3 ! r3 = &vblank_out_counter (sym_06059F44)
+    lds.l @r15+, pr             ! pop PR (restore return address)
+    rts                         ! return to caller
+    mov.l r2, @r3               ! delay slot: vblank_out_counter = 0
 
     .global loc_0600890A
 loc_0600890A:
-    mov.l   .L_pool_06008934, r3
-    jmp @r3
-    nop
-.L_pool_06008910:
-    .4byte  handler_init_reset
-.L_pool_06008914:
-    .4byte  render_stage_1
+    mov.l   .L_pool_fn_render_stage2, r3 ! r3 = &render_stage_2
+    jmp @r3                     ! tail-jump to render_stage_2
+    nop                         ! delay slot
+.L_pool_fn_init_reset:
+    .4byte  handler_init_reset  /* init pipeline reset function */
+.L_pool_fn_render_stage1:
+    .4byte  render_stage_1      /* primary render stage init */
 .L_fp_neg_one:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
-.L_pool_0600891C:
-    .4byte  display_channel_b
-.L_pool_06008920:
-    .4byte  handler_dispatch
-.L_pool_06008924:
-    .4byte  obj_render_update
-.L_pool_06008928:
-    .4byte  sym_0605AD10
-.L_pool_0600892C:
-    .4byte  sym_06026CE0
-.L_pool_06008930:
-    .4byte  sym_06059F44
-.L_pool_06008934:
-    .4byte  render_stage_2
+.L_pool_fn_disp_chan_b:
+    .4byte  display_channel_b   /* display channel B config function */
+.L_pool_fn_handler_disp:
+    .4byte  handler_dispatch    /* handler slot dispatcher */
+.L_pool_fn_obj_render:
+    .4byte  obj_render_update   /* object render subsystem init */
+.L_pool_game_state:
+    .4byte  sym_0605AD10        /* game_state — current game phase (32-bit) */
+.L_pool_fn_disp_update:
+    .4byte  sym_06026CE0        /* display subsystem update function */
+.L_pool_vblank_out_ctr:
+    .4byte  sym_06059F44        /* vblank_out_counter — cleared on boot */
+.L_pool_fn_render_stage2:
+    .4byte  render_stage_2      /* secondary render stage (trampoline target) */

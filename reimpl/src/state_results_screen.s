@@ -35,35 +35,35 @@
     .global state_results_screen
     .type state_results_screen, @function
 state_results_screen:
-    mov.l r14, @-r15
-    sts.l pr, @-r15
-    add #-0x4, r15
+    mov.l r14, @-r15                        ! save r14 on stack
+    sts.l pr, @-r15                         ! save return address on stack
+    add #-0x4, r15                          ! allocate 4 bytes of local stack space
     .byte   0xDE, 0x0D    /* mov.l .L_game_state_ptr, r14 — game state dispatch */
     .byte   0xD3, 0x18    /* mov.l .L_status_word, r3 — input status word */
-    mov.w @r3, r2
-    extu.w r2, r2
+    mov.w @r3, r2                           ! r2 = read 16-bit input status
+    extu.w r2, r2                           ! zero-extend to 32-bit
     mov.w   .L_start_button_mask, r3    /* 0x0800 = start button bit */
-    and r3, r2
-    tst r2, r2
-    bt      .L_0600957E                  /* start not pressed → skip */
-    mov #0x1D, r3                        /* --- start button pressed --- */
+    and r3, r2                              ! isolate start button bit
+    tst r2, r2                              ! test if start was pressed
+    bt      .L_check_abort               /* start not pressed → skip */
+    mov #0x1D, r3                           ! r3 = 0x1D (29 frames countdown)
     .byte   0xD2, 0x15    /* mov.l .L_timer_target, r2 — countdown timer */
-    mov.l r3, @r2                        /* timer = 0x1D (29 frames) */
-    mov #0x12, r3
-    mov.l r3, @r14                       /* game_state = 0x12 (skip transition) */
-.L_0600957E:                              /* --- check race event abort --- */
+    mov.l r3, @r2                           ! timer = 0x1D (29 frames)
+    mov #0x12, r3                           ! r3 = state 0x12 (skip transition)
+    mov.l r3, @r14                          ! game_state = 0x12
+.L_check_abort:                             /* --- check race event abort --- */
     .byte   0xD4, 0x06    /* mov.l .L_race_event_flags, r4 — event bitfield */
-    mov.l @r4, r0
-    tst #0x1, r0                         /* bit 0 = abort request? */
-    bt      .L_060095D0                  /* not set → check timer */
-    mov #-0x2, r3
-    mov.l @r4, r2
-    and r3, r2
-    mov.l r2, @r4                        /* clear bit 0 */
-    mov #0x14, r3
-    mov.l r3, @r14                       /* game_state = 0x14 (abort) */
-    bra     .L_060095E0                  /* → continue to render pipeline */
-    nop
+    mov.l @r4, r0                           ! r0 = race event flags
+    tst #0x1, r0                            ! test bit 0 (abort request)
+    bt      .L_check_timer               /* not set → check timer */
+    mov #-0x2, r3                           ! r3 = 0xFFFFFFFE (mask to clear bit 0)
+    mov.l @r4, r2                           ! r2 = re-read event flags
+    and r3, r2                              ! clear bit 0
+    mov.l r2, @r4                           ! write back cleared flags
+    mov #0x14, r3                           ! r3 = state 0x14 (abort)
+    mov.l r3, @r14                          ! game_state = 0x14
+    bra     .L_render_pipeline           /* → continue to render pipeline */
+    nop                                     ! (branch delay slot)
 .L_start_button_mask:
     .2byte  0x0800                        /* start button bit mask */
 .L_race_event_flags:
@@ -84,100 +84,100 @@ state_results_screen:
     .4byte  sym_06063D9A               /* input status word (16-bit) */
 .L_timer_target:
     .4byte  sym_0607EACC               /* countdown timer target (32-bit) */
-.L_060095D0:                              /* --- check timer / frame counter --- */
+.L_check_timer:                             /* --- check timer / frame counter --- */
     .byte   0xD0, 0x2C    /* mov.l .L_race_timer, r0 — race timer */
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_060095E0                  /* timer active → skip increment */
+    mov.l @r0, r0                           ! r0 = race timer value
+    tst r0, r0                              ! test if timer is zero
+    bf      .L_render_pipeline           /* timer active → skip increment */
     .byte   0xD4, 0x2B    /* mov.l .L_frame_counter, r4 — frame counter */
-    mov.l @r4, r3
-    add #0x1, r3
-    mov.l r3, @r4                        /* frame_counter++ */
-.L_060095E0:                              /* === Render pipeline === */
+    mov.l @r4, r3                           ! r3 = current frame count
+    add #0x1, r3                            ! increment frame count
+    mov.l r3, @r4                           ! write back incremented counter
+.L_render_pipeline:                         /* === Render pipeline === */
     .byte   0xD0, 0x2A    /* mov.l .L_overlay_active, r0 — overlay flag */
-    mov.b @r0, r0
-    tst r0, r0
-    bt      .L_060095EE                  /* no overlay → skip */
+    mov.b @r0, r0                           ! r0 = overlay active flag (byte)
+    tst r0, r0                              ! test if overlay is active
+    bt      .L_call_race_ending          /* no overlay → skip */
     .byte   0xD3, 0x29    /* mov.l .L_fn_menu_overlay, r3 */
-    jsr @r3                              /* menu_overlay_render(0) */
-    mov #0x0, r4
-.L_060095EE:
+    jsr @r3                                 ! call menu_overlay_render(0)
+    mov #0x0, r4                            ! arg0 = 0 (delay slot)
+.L_call_race_ending:
     .byte   0xD3, 0x29    /* mov.l .L_fn_race_ending, r3 */
-    jsr @r3                              /* race_update_ending() */
-    nop
+    jsr @r3                                 ! call race_update_ending()
+    nop                                     ! (delay slot)
     .byte   0xD3, 0x28    /* mov.l .L_fn_camera_system, r3 */
-    jsr @r3                              /* camera_system() */
-    nop
+    jsr @r3                                 ! call camera_system()
+    nop                                     ! (delay slot)
     .byte   0xD6, 0x28    /* mov.l .L_camera_yaw_ptr, r6 */
     .byte   0xD5, 0x28    /* mov.l .L_camera_pitch_ptr, r5 */
     .byte   0xD4, 0x29    /* mov.l .L_camera_params_ptr, r4 */
     .byte   0xD3, 0x29    /* mov.l .L_fn_camera_orient, r3 */
-    jsr @r3                              /* camera_orient_calc(yaw, pitch, params[value]) */
-    mov.l @r6, r6
+    jsr @r3                                 ! call camera_orient_calc(yaw, pitch, params)
+    mov.l @r6, r6                           ! r6 = dereference yaw pointer (delay slot)
     .byte   0xD3, 0x29    /* mov.l .L_fn_scene_update, r3 */
-    jsr @r3                              /* scene_update() */
-    nop
+    jsr @r3                                 ! call scene_update()
+    nop                                     ! (delay slot)
     .byte   0xD0, 0x28    /* mov.l .L_special_render_flag, r0 — check special render */
-    mov.w @r0, r0
-    extu.w r0, r0
-    tst r0, r0
-    bt      .L_0600961C
+    mov.w @r0, r0                           ! r0 = special render flag (16-bit)
+    extu.w r0, r0                           ! zero-extend to 32-bit
+    tst r0, r0                              ! test if special render needed
+    bt      .L_check_geom_render            ! not needed → skip
     .byte   0xD3, 0x27    /* mov.l .L_fn_special_render, r3 */
-    jsr @r3                              /* special_render() */
-    nop
-.L_0600961C:                              /* --- conditional geometry render --- */
+    jsr @r3                                 ! call special_render()
+    nop                                     ! (delay slot)
+.L_check_geom_render:                       /* --- conditional geometry render --- */
     .byte   0xD0, 0x26    /* mov.l .L_geom_render_flag, r0 — check geom flag */
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0
-    bt      .L_06009632
+    mov.b @r0, r0                           ! r0 = geometry render flag (byte)
+    extu.b r0, r0                           ! zero-extend to 32-bit
+    tst r0, r0                              ! test if geometry render needed
+    bt      .L_check_car_timer              ! not needed → skip
     .byte   0xD7, 0x25    /* mov.l .L_geom_data_ptr, r7 — geometry data */
     .byte   0xD6, 0x25    /* mov.l .L_mask_nibble3, r6 — 0xF000 */
-    mov.w   .L_tile_size, r5            /* 0x0082 = tile size */
+    mov.w   .L_tile_size, r5              ! r5 = 0x0082 (tile size parameter)
     .byte   0xD3, 0x25    /* mov.l .L_fn_geom_dispatch, r3 */
-    jsr @r3                              /* geom_dispatch(8, 0x82, 0xF000, geom_data) */
-    mov #0x8, r4
-.L_06009632:                              /* --- check car timer for sub-call --- */
+    jsr @r3                                 ! call geom_dispatch(8, 0x82, 0xF000, geom_data)
+    mov #0x8, r4                            ! arg0 = 8 (delay slot)
+.L_check_car_timer:                         /* --- check car timer for sub-call --- */
     .byte   0xD2, 0x25    /* mov.l .L_car_state_ptr, r2 — car state base */
-    mov.w   .L_car_timer_offset, r0     /* 0x00BC = timer offset in car struct */
-    mov.l @r2, r2
-    mov.l @(r0, r2), r3                 /* car[+0xBC] = timer value */
-    cmp/pl r3
-    bf      .L_06009642                  /* timer <= 0 → skip */
+    mov.w   .L_car_timer_offset, r0       ! r0 = 0x00BC (timer offset in car struct)
+    mov.l @r2, r2                           ! r2 = dereference car state pointer
+    mov.l @(r0, r2), r3                     ! r3 = car[+0xBC] (timer value)
+    cmp/pl r3                               ! test if timer > 0
+    bf      .L_frame_commit              /* timer <= 0 → skip */
     .byte   0xB5, 0x21    /* bsr 0x0600A084 (external sub-function) */
-    nop
-.L_06009642:                              /* --- frame commit --- */
+    nop                                     ! (delay slot)
+.L_frame_commit:                            /* --- frame commit --- */
     .byte   0xD3, 0x22    /* mov.l .L_fn_frame_commit, r3 */
-    jsr @r3                              /* frame_end_commit() */
-    nop
+    jsr @r3                                 ! call frame_end_commit()
+    nop                                     ! (delay slot)
     .byte   0xD0, 0x1F    /* mov.l .L_car_state_ptr, r0 */
-    mov.w   .L_car_flags_offset, r1     /* 0x0214 = flags offset */
-    mov.l @r0, r0
-    mov.l @(r0, r1), r0                 /* car[+0x214] = flags word */
-    tst #0xCC, r0                        /* check bits 7,6,3,2 */
-    bf      .L_06009668                  /* any set → skip layer setup */
+    mov.w   .L_car_flags_offset, r1       ! r1 = 0x0214 (flags offset in car struct)
+    mov.l @r0, r0                           ! r0 = dereference car state pointer
+    mov.l @(r0, r1), r0                     ! r0 = car[+0x214] (flags word)
+    tst #0xCC, r0                           ! test bits 7,6,3,2 (race status flags)
+    bf      .L_check_race_complete       /* any set → skip layer setup */
     .byte   0xD3, 0x1E    /* mov.l .L_display_layer_data, r3 — layer params */
-    mov.l r3, @r15
-    mov r3, r7
-    mov r3, r5
-    mov.w   .L_layer_priority, r6       /* 0x0900 = display priority */
-    mov.l @(4, r7), r7                  /* layer_data[+4] = tile data */
-    mov.l @r5, r5                        /* layer_data[+0] = source */
+    mov.l r3, @r15                          ! store layer_data ptr in local stack var
+    mov r3, r7                              ! r7 = layer_data (for +4 offset deref)
+    mov r3, r5                              ! r5 = layer_data (for +0 offset deref)
+    mov.w   .L_layer_priority, r6           ! r6 = 0x0900 (display priority)
+    mov.l @(4, r7), r7                      ! r7 = layer_data[+4] (tile data)
+    mov.l @r5, r5                           ! r5 = layer_data[+0] (source data)
     .byte   0xD3, 0x1C    /* mov.l .L_fn_layer_setup, r3 */
-    jsr @r3                              /* layer_setup(4, src, tile_data, 0x0900) */
-    mov #0x4, r4
-.L_06009668:                              /* --- check race complete → advance state --- */
+    jsr @r3                                 ! call layer_setup(4, src, tile, 0x0900)
+    mov #0x4, r4                            ! arg0 = 4 (delay slot)
+.L_check_race_complete:                     /* --- check race complete → advance state --- */
     .byte   0xD0, 0x1B    /* mov.l .L_race_complete_flag, r0 */
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_06009674                  /* still racing → return */
-    mov #0x11, r3
-    mov.l r3, @r14                       /* game_state = 0x11 (results done) */
-.L_06009674:
-    add #0x4, r15
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    mov.l @r0, r0                           ! r0 = race complete flag
+    tst r0, r0                              ! test if race is complete
+    bf      .L_epilogue                  /* not complete → return */
+    mov #0x11, r3                           ! r3 = state 0x11 (results done)
+    mov.l r3, @r14                          ! game_state = 0x11
+.L_epilogue:
+    add #0x4, r15                           ! deallocate local stack space
+    lds.l @r15+, pr                         ! restore return address
+    rts                                     ! return to caller
+    mov.l @r15+, r14                        ! restore r14 (delay slot)
 .L_tile_size:
     .2byte  0x0082                        /* geometry tile size parameter */
 .L_car_timer_offset:
