@@ -54,39 +54,39 @@
     .global player_collision
     .type player_collision, @function
 player_collision:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    sts.l pr, @-r15
-    add #-0x4, r15
-    .byte   0xDA, 0x0E    /* mov.l .L_fn_fpmul, r10 */
-    .byte   0xDB, 0x0F    /* mov.l .L_collision_counter, r11 */
-    .byte   0xDE, 0x0F    /* mov.l .L_car_struct_ptr, r14 */
-    .byte   0xDD, 0x10    /* mov.l .L_collision_params, r13 */
-    .byte   0xB3, 0xA8    /* bsr 0x0600CD40 (external) — collision detect */
-    mov.l @r14, r14                    /* r14 = car struct */
-    mov r0, r12                        /* r12 = collision result base */
-    .byte   0xD0, 0x0F    /* mov.l .L_gear_mode, r0 */
-    mov.w @r0, r0                     /* read gear mode (16-bit) */
-    extu.w r0, r0
-    cmp/eq #0x2, r0
-    bt/s    .L_0600C60E               /* gear_mode==2 → simple collision */
-    add #0x18, r12                    /* r12 += 0x18 (collision result offset) */
-    mov.w   DAT_0600c616, r0         /* +0x1BC = surface response timer */
-    mov.l @(r0, r14), r2
-    cmp/pl r2
-    bt      .L_0600C60E              /* surface timer > 0 → simple collision */
-    mov.w   .L_off_shift_timer, r0   /* +0xB8 = shift timer */
-    mov.l @(r0, r14), r2
-    cmp/pl r2
-    bf      .L_0600C634              /* shift timer <= 0 → detailed collision */
-.L_0600C60E:                              /* --- simple collision path --- */
+    mov.l r14, @-r15                     /* save r14 (car struct) */
+    mov.l r13, @-r15                     /* save r13 (collision params) */
+    mov.l r12, @-r15                     /* save r12 (collision result) */
+    mov.l r11, @-r15                     /* save r11 (collision counter ptr) */
+    mov.l r10, @-r15                     /* save r10 (fpmul fn ptr) */
+    sts.l pr, @-r15                      /* save return address */
+    add #-0x4, r15                       /* allocate 4 bytes on stack */
+    .byte   0xDA, 0x0E    /* mov.l .L_fn_fpmul, r10 — load fpmul function pointer */
+    .byte   0xDB, 0x0F    /* mov.l .L_collision_counter, r11 — load collision counter addr */
+    .byte   0xDE, 0x0F    /* mov.l .L_car_struct_ptr, r14 — load car struct pointer addr */
+    .byte   0xDD, 0x10    /* mov.l .L_collision_params, r13 — load collision params addr */
+    .byte   0xB3, 0xA8    /* bsr 0x0600CD40 (external) — run collision detection */
+    mov.l @r14, r14                      /* r14 = dereference car struct pointer */
+    mov r0, r12                          /* r12 = collision result base from detection */
+    .byte   0xD0, 0x0F    /* mov.l .L_gear_mode, r0 — load gear mode address */
+    mov.w @r0, r0                        /* r0 = read gear mode (16-bit) */
+    extu.w r0, r0                        /* zero-extend to 32 bits */
+    cmp/eq #0x2, r0                      /* gear_mode == 2 (reverse)? */
+    bt/s    .L_simple_collision          /* yes → take simple collision path */
+    add #0x18, r12                       /* r12 += 0x18 (advance to collision result) */
+    mov.w   DAT_0600c616, r0            /* r0 = 0x01BC (surface response timer offset) */
+    mov.l @(r0, r14), r2                 /* r2 = car[+0x1BC] surface response timer */
+    cmp/pl r2                            /* surface timer > 0? */
+    bt      .L_simple_collision          /* yes → take simple collision path */
+    mov.w   .L_off_shift_timer, r0       /* r0 = 0x00B8 (shift timer offset) */
+    mov.l @(r0, r14), r2                 /* r2 = car[+0xB8] shift timer */
+    cmp/pl r2                            /* shift timer > 0? */
+    bf      .L_detailed_collision        /* no → take detailed collision path */
+.L_simple_collision:                         /* --- simple collision path --- */
     .byte   0xB2, 0x42    /* bsr 0x0600CA96 (external) — simple collision response */
-    mov r13, r4
-    bra     .L_0600C692
-    nop
+    mov r13, r4                          /* arg: collision params struct */
+    bra     .L_post_collision            /* jump to post-collision processing */
+    nop                                  /* delay slot */
 
     .global DAT_0600c616
 DAT_0600c616:
@@ -105,109 +105,109 @@ DAT_0600c616:
     .4byte  sym_06078680               /* collision parameters struct */
 .L_gear_mode:
     .4byte  sym_06087804               /* gear/transmission mode (16-bit) */
-.L_0600C634:                              /* --- detailed collision path --- */
-    .byte   0xD2, 0x33    /* mov.l .L_car_array_base, r2 */
-    mov.l @r2, r2                     /* r2 = car array base */
-    mov r2, r0
-    mov.b @(3, r0), r0               /* car_base[+3] = controller flags */
-    tst #0x8, r0                      /* bit 3 = controller input? */
-    bf      .L_0600C68C              /* → wall response path */
-    mov.w   DAT_0600c6f6, r0         /* +0x208 = surface timer */
-    mov.l @(r0, r14), r3
-    cmp/pl r3
-    bt      .L_0600C68C              /* surface timer > 0 → wall path */
-    mov.w   DAT_0600c6f8, r0         /* +0x161 = collision flags byte */
-    mov.b @(r0, r14), r0
-    tst #0x20, r0                     /* bit 5 = wall contact */
-    bf      .L_0600C68C              /* wall contact → wall path */
-    mov #0xA, r2
-    mov.l @r11, r3                    /* collision counter */
-    cmp/gt r2, r3
-    bt      .L_0600C666              /* counter > 10 → skip dispatch */
-    mov.w   DAT_0600c6fa, r0         /* +0x204 = collision cooldown */
-    mov #0x66, r3
-    mov.l @(r0, r14), r2
-    cmp/ge r3, r2
-    bt      .L_0600C666              /* cooldown >= 0x66 → skip dispatch */
-    .byte   0xB4, 0x79    /* bsr 0x0600CF58 (external) — collision dispatch */
-    mov r12, r4
-.L_0600C666:                              /* --- cooldown decrement --- */
-    mov.w   DAT_0600c6fa, r0         /* +0x204 */
-    mov.l @(r0, r14), r2
-    cmp/pl r2
-    bf      .L_0600C682              /* cooldown <= 0 → depleted path */
-    mov.w   DAT_0600c6fa, r0
-    mov.l @(r0, r14), r2
-    add #-0x2, r2                     /* decrement cooldown by 2 */
-    mov.l r2, @(r0, r14)
-    .byte   0xB2, 0x0E    /* bsr 0x0600CA96 (external) — simple collision */
-    mov r13, r4
-    mov.l @r11, r2
-    add #0x1, r2                      /* increment collision counter */
-    bra     .L_0600C692
-    mov.l r2, @r11
-.L_0600C682:                              /* --- cooldown depleted path --- */
-    mov r13, r5
+.L_detailed_collision:                       /* --- detailed collision path --- */
+    .byte   0xD2, 0x33    /* mov.l .L_car_array_base, r2 — load car array base ptr */
+    mov.l @r2, r2                        /* r2 = dereference car array base */
+    mov r2, r0                           /* r0 = car array base (for byte access) */
+    mov.b @(3, r0), r0                   /* r0 = car_base[+3] controller flags byte */
+    tst #0x8, r0                         /* test bit 3 (controller input active?) */
+    bf      .L_wall_collision            /* bit set → forced wall collision path */
+    mov.w   DAT_0600c6f6, r0            /* r0 = 0x0208 (surface timer offset) */
+    mov.l @(r0, r14), r3                 /* r3 = car[+0x208] surface timer */
+    cmp/pl r3                            /* surface timer > 0? */
+    bt      .L_wall_collision            /* yes → wall collision path */
+    mov.w   DAT_0600c6f8, r0            /* r0 = 0x0161 (collision flags offset) */
+    mov.b @(r0, r14), r0                 /* r0 = car[+0x161] collision flags byte */
+    tst #0x20, r0                        /* test bit 5 (wall contact flag) */
+    bf      .L_wall_collision            /* wall contact set → wall collision path */
+    mov #0xA, r2                         /* r2 = 10 (collision counter threshold) */
+    mov.l @r11, r3                       /* r3 = current collision counter */
+    cmp/gt r2, r3                        /* counter > 10? */
+    bt      .L_cooldown_decrement        /* yes → skip dispatch, just decrement */
+    mov.w   DAT_0600c6fa, r0            /* r0 = 0x0204 (collision cooldown offset) */
+    mov #0x66, r3                        /* r3 = 0x66 (cooldown threshold) */
+    mov.l @(r0, r14), r2                 /* r2 = car[+0x204] collision cooldown */
+    cmp/ge r3, r2                        /* cooldown >= 0x66? */
+    bt      .L_cooldown_decrement        /* yes → skip dispatch */
+    .byte   0xB4, 0x79    /* bsr 0x0600CF58 (external) — collision dispatch handler */
+    mov r12, r4                          /* arg: collision result struct */
+.L_cooldown_decrement:                       /* --- cooldown decrement loop --- */
+    mov.w   DAT_0600c6fa, r0            /* r0 = 0x0204 (collision cooldown offset) */
+    mov.l @(r0, r14), r2                 /* r2 = car[+0x204] collision cooldown */
+    cmp/pl r2                            /* cooldown > 0? */
+    bf      .L_cooldown_depleted         /* no → cooldown fully depleted */
+    mov.w   DAT_0600c6fa, r0            /* r0 = 0x0204 (reload offset for store) */
+    mov.l @(r0, r14), r2                 /* r2 = car[+0x204] (re-read for modify) */
+    add #-0x2, r2                        /* decrement cooldown by 2 */
+    mov.l r2, @(r0, r14)                /* write back decremented cooldown */
+    .byte   0xB2, 0x0E    /* bsr 0x0600CA96 (external) — simple collision response */
+    mov r13, r4                          /* arg: collision params struct */
+    mov.l @r11, r2                       /* r2 = collision counter */
+    add #0x1, r2                         /* increment collision counter */
+    bra     .L_post_collision            /* jump to post-collision processing */
+    mov.l r2, @r11                       /* delay slot: store incremented counter */
+.L_cooldown_depleted:                        /* --- cooldown depleted → full response --- */
+    mov r13, r5                          /* arg2: collision params struct */
     .byte   0xB2, 0xD8    /* bsr 0x0600CC38 (external) — full collision response */
-    mov r12, r4
-    bra     .L_0600C692
-    nop
-.L_0600C68C:                              /* --- wall/forced collision path --- */
-    mov r13, r5
+    mov r12, r4                          /* arg1: collision result struct */
+    bra     .L_post_collision            /* jump to post-collision processing */
+    nop                                  /* delay slot */
+.L_wall_collision:                           /* --- wall/forced collision path --- */
+    mov r13, r5                          /* arg2: collision params struct */
     .byte   0xB2, 0xD3    /* bsr 0x0600CC38 (external) — full collision response */
-    mov r12, r4
-.L_0600C692:                              /* --- post-collision processing --- */
-    .byte   0xD0, 0x1D    /* mov.l .L_gear_mode_2, r0 */
-    mov.w @r0, r0                     /* read gear mode */
-    extu.w r0, r0
-    cmp/eq #0x3, r0
-    bf      .L_0600C6AA              /* gear != 3 → skip speed calc */
-    mov.w   DAT_0600c6fc, r0         /* +0x198 = collision speed input */
-    mov.l @(r0, r14), r5
-    jsr @r10                           /* fpmul(car[+0x198], car[+8]) */
-    mov.l @(8, r12), r4              /* collision result[+8] */
-    mov.w   DAT_0600c6fe, r1         /* +0x194 = collision speed result */
-    add r14, r1
-    mov.l r0, @r1                     /* car[+0x194] = fpmul result */
-.L_0600C6AA:                              /* --- steering correction --- */
-    mov r13, r5
+    mov r12, r4                          /* arg1: collision result struct */
+.L_post_collision:                           /* --- post-collision processing --- */
+    .byte   0xD0, 0x1D    /* mov.l .L_gear_mode_2, r0 — load gear mode address (dup) */
+    mov.w @r0, r0                        /* r0 = read gear mode (16-bit) */
+    extu.w r0, r0                        /* zero-extend to 32 bits */
+    cmp/eq #0x3, r0                      /* gear_mode == 3 (drive)? */
+    bf      .L_steering_correction       /* no → skip speed calculation */
+    mov.w   DAT_0600c6fc, r0            /* r0 = 0x0198 (collision speed input offset) */
+    mov.l @(r0, r14), r5                 /* r5 = car[+0x198] collision speed input */
+    jsr @r10                             /* call fpmul(car[+0x198], collision_result[+8]) */
+    mov.l @(8, r12), r4                  /* delay slot: r4 = collision result[+8] scale */
+    mov.w   DAT_0600c6fe, r1            /* r1 = 0x0194 (collision speed result offset) */
+    add r14, r1                          /* r1 = &car[+0x194] */
+    mov.l r0, @r1                        /* car[+0x194] = fpmul result (scaled speed) */
+.L_steering_correction:                      /* --- apply steering correction --- */
+    mov r13, r5                          /* arg2: collision params struct */
     .byte   0xB1, 0x0E    /* bsr 0x0600C8CC (external) — steering correction */
-    mov r14, r4
-    .byte   0xD2, 0x16    /* mov.l .L_game_flags_ptr, r2 */
-    mov.l @r2, r2                     /* r2 = game flags struct */
-    mov.l @r2, r3                     /* r3 = flags word */
-    .byte   0xD2, 0x16    /* mov.l .L_flag_mask_e00000, r2 */
-    and r2, r3                        /* check bits 23:21 */
-    tst r3, r3
-    bf      .L_0600C718              /* bits set → wall response vectors */
-    mov.w @(14, r13), r0             /* collision params[+14] = Y angle */
-    mov r0, r3
-    mov.l r0, @(32, r14)             /* car[+0x20] = Y angle */
-    mov.w   DAT_0600c700, r6         /* +0x190 = sin output */
-    mov.w   DAT_0600c702, r5         /* +0x18C = cos output */
-    mov.l @(40, r14), r4             /* r4 = steering angle */
-    .byte   0xD3, 0x12    /* mov.l .L_fn_sincos, r3 */
-    add r14, r6
-    add r14, r5
-    jsr @r3                            /* sincos_pair(-steering, &cos, &sin) */
-    neg r4, r4
-    mov.w   DAT_0600c702, r0         /* car[+0x18C] = cos component */
-    mov.l @(r0, r14), r5
-    jsr @r10                           /* fpmul(cos, speed) */
-    mov.l @(12, r14), r4             /* r4 = car speed */
-    mov.l @(16, r14), r3             /* X position */
-    add r0, r3
-    mov.l r3, @(16, r14)             /* X += cos * speed */
-    mov.w   DAT_0600c700, r0         /* car[+0x190] = sin component */
-    mov.l @(r0, r14), r5
-    jsr @r10                           /* fpmul(sin, speed) */
-    mov.l @(12, r14), r4
-    mov.l @(24, r14), r3             /* Z position */
-    add r0, r3
-    mov.l r3, @(24, r14)             /* Z += sin * speed */
-    mov #0x0, r2
-    bra     .L_0600C73E
-    mov.l r2, @(20, r14)             /* Y position = 0 */
+    mov r14, r4                          /* arg1: car struct */
+    .byte   0xD2, 0x16    /* mov.l .L_game_flags_ptr, r2 — load game flags pointer */
+    mov.l @r2, r2                        /* r2 = dereference game flags struct pointer */
+    mov.l @r2, r3                        /* r3 = first word of game flags */
+    .byte   0xD2, 0x16    /* mov.l .L_flag_mask_e00000, r2 — load flag mask 0x00E00000 */
+    and r2, r3                           /* r3 = isolate bits 23:21 (wall response mode) */
+    tst r3, r3                           /* all three bits clear? */
+    bf      .L_wall_response_vectors     /* no → use wall response vector path */
+    mov.w @(14, r13), r0                 /* r0 = collision params[+14] Y angle */
+    mov r0, r3                           /* r3 = copy of Y angle */
+    mov.l r0, @(32, r14)                 /* car[+0x20] = Y angle from collision */
+    mov.w   DAT_0600c700, r6            /* r6 = 0x0190 (sin output buffer offset) */
+    mov.w   DAT_0600c702, r5            /* r5 = 0x018C (cos output buffer offset) */
+    mov.l @(40, r14), r4                 /* r4 = car[+0x28] steering angle */
+    .byte   0xD3, 0x12    /* mov.l .L_fn_sincos, r3 — load sincos_pair function */
+    add r14, r6                          /* r6 = &car[+0x190] (sin output addr) */
+    add r14, r5                          /* r5 = &car[+0x18C] (cos output addr) */
+    jsr @r3                              /* call sincos_pair(-steering, &cos, &sin) */
+    neg r4, r4                           /* delay slot: negate steering angle */
+    mov.w   DAT_0600c702, r0            /* r0 = 0x018C (cos output buffer offset) */
+    mov.l @(r0, r14), r5                 /* r5 = car[+0x18C] cos component */
+    jsr @r10                             /* call fpmul(cos, speed) */
+    mov.l @(12, r14), r4                 /* delay slot: r4 = car[+0x0C] current speed */
+    mov.l @(16, r14), r3                 /* r3 = car[+0x10] X position */
+    add r0, r3                           /* r3 = X + cos*speed */
+    mov.l r3, @(16, r14)                 /* car[+0x10] = updated X position */
+    mov.w   DAT_0600c700, r0            /* r0 = 0x0190 (sin output buffer offset) */
+    mov.l @(r0, r14), r5                 /* r5 = car[+0x190] sin component */
+    jsr @r10                             /* call fpmul(sin, speed) */
+    mov.l @(12, r14), r4                 /* delay slot: r4 = car[+0x0C] current speed */
+    mov.l @(24, r14), r3                 /* r3 = car[+0x18] Z position */
+    add r0, r3                           /* r3 = Z + sin*speed */
+    mov.l r3, @(24, r14)                 /* car[+0x18] = updated Z position */
+    mov #0x0, r2                         /* r2 = 0 (clear Y velocity) */
+    bra     .L_epilogue                  /* jump to function epilogue */
+    mov.l r2, @(20, r14)                 /* delay slot: car[+0x14] = 0 (Y position) */
 
     .global DAT_0600c6f6
 DAT_0600c6f6:
@@ -246,32 +246,32 @@ DAT_0600c702:
     .4byte  0x00E00000                  /* flag mask: bits 23:21 (wall response mode) */
 .L_fn_sincos:
     .4byte  sincos_pair                /* sin/cos computation for steering */
-.L_0600C718:                              /* --- wall response vector path --- */
+.L_wall_response_vectors:                    /* --- wall response vector path --- */
     .byte   0xB1, 0x06    /* bsr 0x0600C928 (external) — wall normal computation */
-    mov r14, r4
-    mov r13, r5
+    mov r14, r4                          /* arg: car struct */
+    mov r13, r5                          /* arg: collision params struct */
     .byte   0xB0, 0x59    /* bsr 0x0600C7D4 (external) — wall response vectors */
-    mov r14, r4
-    mov r15, r6                       /* r6 = stack frame */
-    mov r14, r5
-    mov.l r6, @-r15
-    add #0x10, r5                     /* r5 = &car[+0x10] (position XYZ) */
-    mov.l r5, @-r15
-    mov.l @(24, r14), r5             /* r5 = Z position */
-    .byte   0xD3, 0x25    /* mov.l .L_fn_atan2, r3 — cross-TU: atan2 */
-    jsr @r3                            /* atan2(X, Z) */
-    mov.l @(16, r14), r4             /* r4 = X position */
-    mov r0, r4                        /* r4 = angle result */
-    mov.l @r15+, r5
-    .byte   0xD3, 0x23    /* mov.l .L_fn_apply_response, r3 — cross-TU: response */
-    jsr @r3                            /* apply wall response vectors */
-    mov.l @r15+, r6
-.L_0600C73E:
-    add #0x4, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    mov r14, r4                          /* arg: car struct */
+    mov r15, r6                          /* r6 = stack frame pointer */
+    mov r14, r5                          /* r5 = car struct base */
+    mov.l r6, @-r15                      /* push stack frame pointer */
+    add #0x10, r5                        /* r5 = &car[+0x10] (XYZ position base) */
+    mov.l r5, @-r15                      /* push position base pointer */
+    mov.l @(24, r14), r5                 /* r5 = car[+0x18] Z position */
+    .byte   0xD3, 0x25    /* mov.l .L_fn_atan2, r3 — load atan2 function (cross-TU) */
+    jsr @r3                              /* call atan2(X, Z) → angle in r0 */
+    mov.l @(16, r14), r4                 /* delay slot: r4 = car[+0x10] X position */
+    mov r0, r4                           /* r4 = computed angle */
+    mov.l @r15+, r5                      /* pop position base pointer */
+    .byte   0xD3, 0x23    /* mov.l .L_fn_apply_response, r3 — load response fn (cross-TU) */
+    jsr @r3                              /* call apply_response(angle, pos_base, stack) */
+    mov.l @r15+, r6                      /* delay slot: pop stack frame pointer */
+.L_epilogue:                                 /* --- function epilogue --- */
+    add #0x4, r15                        /* free 4-byte stack allocation */
+    lds.l @r15+, pr                      /* restore return address */
+    mov.l @r15+, r10                     /* restore r10 */
+    mov.l @r15+, r11                     /* restore r11 */
+    mov.l @r15+, r12                     /* restore r12 */
+    mov.l @r15+, r13                     /* restore r13 */
+    rts                                  /* return to caller */
+    mov.l @r15+, r14                     /* delay slot: restore r14 */
