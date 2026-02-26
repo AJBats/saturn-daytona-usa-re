@@ -5,97 +5,117 @@
 
     .section .text.FUN_06020366
 
+/* =========================================================================
+ * obj_create — Create game objects from a template descriptor chain
+ *
+ * Looks up a template descriptor chain by input type index, then iterates
+ * through linked 3-byte records. For each record, resolves the object
+ * data (template ID word + extra params) and calls obj_destroy to
+ * initialize/register the object in the object system.
+ *
+ * First record uses two-level indirection:
+ *   type -> sym_0605F458[type] -> descriptor -> sym_0605F478[sub_type] -> data
+ * Subsequent records use flat table lookup:
+ *   sub_type * 42 -> sym_0604BD72 + offset -> data
+ *
+ * Chain terminates when byte[0] of the next record equals 0xFF.
+ *
+ * Arguments:
+ *   r4 — object type index (byte, 0-based)
+ *
+ * Returns: nothing (void)
+ * ========================================================================= */
 
     .global obj_create
     .type obj_create, @function
 obj_create:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    add #-0xC, r15
-    .byte   0xDA, 0x14    /* mov.l .L_pool_060203C8, r10 */
-    mov #0x15, r11
-    mov.w   DAT_060203be, r12
-    extu.b r4, r14
-    shll2 r14
-    .byte   0xD3, 0x12    /* mov.l .L_pool_060203CC, r3 */
-    add r3, r14
-    mov.l @r14, r14
-    mov.b @(2, r14), r0
-    mov r0, r7
-    extu.b r7, r7
-    shll2 r7
-    .byte   0xD2, 0x10    /* mov.l .L_pool_060203D0, r2 */
-    add r2, r7
-    mov.l @r7, r7
-    mov.w @r7, r1
-    mov r1, r0
-    mov.w r0, @(8, r15)
-    add #0x4, r7
-    mov.b @r14, r1
-    mov r1, r0
-    mov.b r0, @(4, r15)
-    mov.b @(1, r14), r0
-    mov r0, r1
-    mov.b r1, @r15
-    mov.b @r15, r6
-    mov.b @(4, r15), r0
-    extu.b r6, r6
-    mov r0, r5
-    extu.b r5, r5
-    mov.w @(8, r15), r0
-    mov r0, r4
-    .byte   0xB0, 0x2D    /* bsr 0x06020414 (external) */
-    extu.w r4, r4
-    bra     .L_060203F8
-    nop
+    mov.l r14, @-r15                            ! save r14 (descriptor pointer)
+    mov.l r13, @-r15                            ! save r13 (table entry pointer)
+    mov.l r12, @-r15                            ! save r12 (sentinel value)
+    mov.l r11, @-r15                            ! save r11 (stride multiplier)
+    mov.l r10, @-r15                            ! save r10 (flat table base)
+    sts.l pr, @-r15                             ! save return address
+    sts.l macl, @-r15                           ! save macl (used by mul.l)
+    add #-0xC, r15                              ! allocate 12 bytes stack frame for locals
+    .byte   0xDA, 0x14    /* mov.l .L_pool_obj_data_flat_table, r10 */ ! r10 = sym_0604BD72 (flat object data table, 42-byte records)
+    mov #0x15, r11                              ! r11 = 21 (record count per entry, stride factor)
+    mov.w   DAT_060203be, r12                   ! r12 = 0x00FF (end-of-chain sentinel)
+    extu.b r4, r14                              ! r14 = type index (zero-extended from byte)
+    shll2 r14                                   ! r14 = type * 4 (pointer table offset)
+    .byte   0xD3, 0x12    /* mov.l .L_pool_type_to_desc_table, r3 */ ! r3 = sym_0605F458 (type -> descriptor pointer table)
+    add r3, r14                                 ! r14 = &type_table[type]
+    mov.l @r14, r14                             ! r14 = type_table[type] -> descriptor record pointer
+    mov.b @(2, r14), r0                         ! r0 = descriptor[2] (sub-type index)
+    mov r0, r7                                  ! r7 = sub-type index (signed)
+    extu.b r7, r7                               ! r7 = sub-type (zero-extended)
+    shll2 r7                                    ! r7 = sub_type * 4 (pointer table offset)
+    .byte   0xD2, 0x10    /* mov.l .L_pool_subtype_to_data_table, r2 */ ! r2 = sym_0605F478 (sub-type -> object data pointer table)
+    add r2, r7                                  ! r7 = &subtype_table[sub_type]
+    mov.l @r7, r7                               ! r7 = subtype_table[sub_type] -> object data block
+    mov.w @r7, r1                               ! r1 = obj_data[0] (template ID word)
+    mov r1, r0                                  ! r0 = template ID word
+    mov.w r0, @(8, r15)                         ! stack[8] = template ID word (saved for call)
+    add #0x4, r7                                ! r7 = &obj_data[4] (extra template params pointer)
+    mov.b @r14, r1                              ! r1 = descriptor[0] (param_a)
+    mov r1, r0                                  ! r0 = param_a
+    mov.b r0, @(4, r15)                         ! stack[4] = param_a (saved for call)
+    mov.b @(1, r14), r0                         ! r0 = descriptor[1] (param_b)
+    mov r0, r1                                  ! r1 = param_b
+    mov.b r1, @r15                              ! stack[0] = param_b (saved for call)
+    mov.b @r15, r6                              ! r6 = param_b (reload from stack)
+    mov.b @(4, r15), r0                         ! r0 = param_a (reload from stack)
+    extu.b r6, r6                               ! r6 = param_b (zero-extended, arg3)
+    mov r0, r5                                  ! r5 = param_a
+    extu.b r5, r5                               ! r5 = param_a (zero-extended, arg2)
+    mov.w @(8, r15), r0                         ! r0 = template ID word (reload from stack)
+    mov r0, r4                                  ! r4 = template ID word
+    .byte   0xB0, 0x2D    /* bsr 0x06020414 (external) */ ! call obj_destroy(template_id, param_a, param_b, extra_data_ptr)
+    extu.w r4, r4                               ! (delay slot) r4 = template ID (zero-extended to 32-bit)
+    bra     .L_check_next_record                ! jump to chain continuation check
+    nop                                         ! (delay slot)
 
     .global DAT_060203be
 DAT_060203be:
     .2byte  0x00FF
     .4byte  sym_0608780A
     .4byte  sym_0608782C
-.L_pool_060203C8:
+.L_pool_obj_data_flat_table:
     .4byte  sym_0604BD72
-.L_pool_060203CC:
+.L_pool_type_to_desc_table:
     .4byte  sym_0605F458
-.L_pool_060203D0:
+.L_pool_subtype_to_data_table:
     .4byte  sym_0605F478
-.L_060203D4:
-    mov.b @(2, r14), r0
-    mov.b @r14, r5
-    mov r0, r4
-    extu.b r5, r5
-    extu.b r4, r4
-    mov.b @(1, r14), r0
-    mul.l r11, r4
-    mov r0, r6
-    sts macl, r4
-    extu.b r6, r6
-    extu.w r4, r13
-    shll r13
-    add r10, r13
-    mov r13, r7
-    mov.w @r13, r4
-    add #0x4, r7
-    .byte   0xB0, 0x0E    /* bsr 0x06020414 (external) */
-    extu.w r4, r4
-.L_060203F8:
-    add #0x3, r14
-    mov.b @r14, r2
-    extu.b r2, r2
-    cmp/eq r12, r2
-    bf      .L_060203D4
-    add #0xC, r15
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_process_record:
+    mov.b @(2, r14), r0                         ! r0 = descriptor[2] (sub-type index)
+    mov.b @r14, r5                              ! r5 = descriptor[0] (param_a)
+    mov r0, r4                                  ! r4 = sub-type index
+    extu.b r5, r5                               ! r5 = param_a (zero-extended, arg2)
+    extu.b r4, r4                               ! r4 = sub-type (zero-extended)
+    mov.b @(1, r14), r0                         ! r0 = descriptor[1] (param_b)
+    mul.l r11, r4                               ! macl = sub_type * 21 (flat table stride factor)
+    mov r0, r6                                  ! r6 = param_b
+    sts macl, r4                                ! r4 = sub_type * 21
+    extu.b r6, r6                               ! r6 = param_b (zero-extended, arg3)
+    extu.w r4, r13                              ! r13 = (sub_type * 21) & 0xFFFF
+    shll r13                                    ! r13 = sub_type * 42 (byte offset into flat table)
+    add r10, r13                                ! r13 = flat_table_base + sub_type * 42
+    mov r13, r7                                 ! r7 = flat table entry pointer (extra data ptr, arg4)
+    mov.w @r13, r4                              ! r4 = flat_table_entry[0] (template ID word)
+    add #0x4, r7                                ! r7 = &flat_table_entry[4] (extra params pointer)
+    .byte   0xB0, 0x0E    /* bsr 0x06020414 (external) */ ! call obj_destroy(template_id, param_a, param_b, extra_data_ptr)
+    extu.w r4, r4                               ! (delay slot) r4 = template ID (zero-extended to 32-bit)
+.L_check_next_record:
+    add #0x3, r14                               ! r14 += 3 (advance to next descriptor record)
+    mov.b @r14, r2                              ! r2 = next_record[0] (chain continuation byte)
+    extu.b r2, r2                               ! r2 = continuation byte (zero-extended)
+    cmp/eq r12, r2                              ! test: continuation == 0xFF (end sentinel)?
+    bf      .L_process_record                   ! if not sentinel, process next record
+    add #0xC, r15                               ! deallocate stack frame
+    lds.l @r15+, macl                           ! restore macl
+    lds.l @r15+, pr                             ! restore return address
+    mov.l @r15+, r10                            ! restore r10
+    mov.l @r15+, r11                            ! restore r11
+    mov.l @r15+, r12                            ! restore r12
+    mov.l @r15+, r13                            ! restore r13
+    rts                                         ! return to caller
+    mov.l @r15+, r14                            ! (delay slot) restore r14
