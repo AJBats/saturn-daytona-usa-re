@@ -6,53 +6,71 @@
     .section .text.FUN_0601905C
 
 
+/* ==========================================================================
+ * state_snapshot_compare
+ * --------------------------------------------------------------------------
+ * Sound state transition for the "compare" phase of a state snapshot cycle.
+ *
+ * Sequence:
+ *   1. Send sound-stop command (0xAE0001FF) via sound_cmd_dispatch
+ *   2. Send system-variant command (0xAE0005FF) via sound_cmd_dispatch
+ *   3. Wait for sound driver ready (poll Sound RAM 0x25A02DBE for 0xFFFF)
+ *   4. If no timeout: load OVERD.BIN sound data to Sound RAM, then clear
+ *      the driver-ready flag so next wait will block until driver reboots
+ *   5. Re-send sound-stop (0xAE0001FF) to silence channels
+ *   6. Start background music (0xAE0600FF)
+ *
+ * Sibling functions: save_state_snapshot (loads SLCTD.BIN, no BGM restart),
+ *                    restore_state_snapshot (loads GAMED.BIN, sends BGM)
+ * ======================================================================== */
+
     .global state_snapshot_compare
     .type state_snapshot_compare, @function
 state_snapshot_compare:
-    sts.l pr, @-r15
-    mov.l   .L_pool_0601909C, r14
-    mov.l   .L_pool_060190A0, r2
-    mov.l r3, @r2
-    mov.l   .L_pool_060190A4, r5
-    jsr @r14
-    mov #0xF, r4
-    mov.l   .L_pool_060190A8, r5
-    jsr @r14
-    mov #0xF, r4
-    .byte   0xB1, 0x3A    /* bsr 0x060192E8 (external) */
-    nop
-    mov.l   .L_pool_060190A0, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_06019088
-    mov.l   .L_pool_060190AC, r3
-    jsr @r3
-    nop
-    mov #0x0, r2
-    mov.l   .L_sound_ram_0x02DBE, r3
-    mov.w r2, @r3
-.L_06019088:
-    mov.l   .L_pool_060190A4, r5
-    jsr @r14
-    mov #0xF, r4
-    mov.l   .L_pool_060190B4, r5
-    jsr @r14
-    mov #0xF, r4
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-    .2byte  0xFFFF
-.L_pool_0601909C:
+    sts.l pr, @-r15                             ! save return address to stack
+    mov.l   .L_pool_snd_cmd_dispatch, r14       ! r14 = sound_cmd_dispatch (reused for all jsr calls)
+    mov.l   .L_pool_snd_timeout_flag, r2        ! r2 = &timeout_flag (sym_06086050)
+    mov.l r3, @r2                               ! clear timeout flag (r3 is caller-provided; stores prior value)
+    mov.l   .L_pool_cmd_stop, r5                ! r5 = 0xAE0001FF (sound stop command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0001FF) — send stop
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel)
+    mov.l   .L_pool_cmd_sys_variant, r5         ! r5 = 0xAE0005FF (system variant command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0005FF) — send sys variant
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel)
+    .byte   0xB1, 0x3A    /* bsr 0x060192E8 (external) */  ! call wait_sound_driver_ready (polls Sound RAM)
+    nop                                         ! delay slot
+    mov.l   .L_pool_snd_timeout_flag, r0        ! r0 = &timeout_flag
+    mov.l @r0, r0                               ! r0 = timeout_flag value
+    tst r0, r0                                  ! test if timeout occurred (0 = success)
+    bf      .L_skip_sound_load                  ! if timeout nonzero, skip sound data load
+    mov.l   .L_pool_load_overd_sndram, r3       ! r3 = load_overd_sndram (sym_06012F10)
+    jsr @r3                                     ! load OVERD.BIN to Sound RAM +0x3000
+    nop                                         ! delay slot
+    mov #0x0, r2                                ! r2 = 0 (clear value)
+    mov.l   .L_pool_snd_driver_ready, r3        ! r3 = 0x25A02DBE (Sound RAM driver-ready flag)
+    mov.w r2, @r3                               ! clear driver-ready flag (driver will re-set on boot)
+.L_skip_sound_load:
+    mov.l   .L_pool_cmd_stop, r5                ! r5 = 0xAE0001FF (sound stop command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0001FF) — silence channels
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel)
+    mov.l   .L_pool_cmd_start_bgm, r5           ! r5 = 0xAE0600FF (start background music)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0600FF) — start BGM
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel)
+    lds.l @r15+, pr                             ! restore return address from stack
+    rts                                         ! return to caller
+    mov.l @r15+, r14                            ! restore r14 from stack (delay slot)
+    .2byte  0xFFFF                              ! alignment padding
+.L_pool_snd_cmd_dispatch:
     .4byte  sound_cmd_dispatch
-.L_pool_060190A0:
+.L_pool_snd_timeout_flag:
     .4byte  sym_06086050
-.L_pool_060190A4:
+.L_pool_cmd_stop:
     .4byte  0xAE0001FF
-.L_pool_060190A8:
+.L_pool_cmd_sys_variant:
     .4byte  0xAE0005FF
-.L_pool_060190AC:
+.L_pool_load_overd_sndram:
     .4byte  sym_06012F10
-.L_sound_ram_0x02DBE:
+.L_pool_snd_driver_ready:
     .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
-.L_pool_060190B4:
+.L_pool_cmd_start_bgm:
     .4byte  0xAE0600FF

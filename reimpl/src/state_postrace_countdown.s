@@ -6,49 +6,66 @@
     .section .text.FUN_06009E02
 
 
+/* =============================================================================
+ * state_postrace_countdown
+ * -----------------------------------------------------------------------------
+ * Game state handler for states 23/27 — counter-based transition to state 30.
+ *
+ * A countdown timer at sym_0607EBCC (set by the preceding state 22/26 handler)
+ * is decremented each frame. When it reaches zero, the game phase state is set
+ * to 30 (0x1E), which routes back to the menu system.
+ *
+ * Each frame calls gfx_frame_dispatch for rendering. If the current game phase
+ * is NOT 27 (0x1B), handler_init_reset is also called (extra init for state 23
+ * path). Finally, a display flag byte is set to 1 before returning.
+ *
+ * States 23 and 27 share this handler — they are different entry points
+ * (e.g. "normal end" vs "time over") that converge on the same countdown.
+ * ========================================================================== */
+
     .global state_postrace_countdown
     .type state_postrace_countdown, @function
 state_postrace_countdown:
-    sts.l pr, @-r15
-    .byte   0xD4, 0x0E    /* mov.l .L_pool_06009E40, r4 */
-    mov.l @r4, r3
-    add #-0x1, r3
-    tst r3, r3
-    bf/s    .L_06009E16
-    mov.l r3, @r4
-    mov #0x1E, r3
-    .byte   0xD2, 0x0A    /* mov.l .L_pool_06009E3C, r2 */
-    mov.l r3, @r2
-.L_06009E16:
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_06009E54, r3 */
-    jsr @r3
-    nop
-    .byte   0xD0, 0x07    /* mov.l .L_pool_06009E3C, r0 */
-    mov.l @r0, r0
-    cmp/eq #0x1B, r0
-    bt      .L_06009E2A
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_06009E58, r3 */
-    jsr @r3
-    nop
-.L_06009E2A:
-    mov #0x1, r2
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_06009E5C, r3 */
-    lds.l @r15+, pr
-    rts
-    mov.b r2, @r3
+    sts.l pr, @-r15                     ! save return address on stack
+    .byte   0xD4, 0x0E    /* mov.l .L_pool_countdown_timer, r4 */
+    mov.l @r4, r3                       ! r3 = current countdown value
+    add #-0x1, r3                       ! decrement countdown by 1
+    tst r3, r3                          ! test if countdown reached zero
+    bf/s    .L_countdown_not_expired    ! branch if countdown != 0 (not expired yet)
+    mov.l r3, @r4                       ! store decremented countdown (delay slot)
+    mov #0x1E, r3                       ! r3 = 30 — target state (state 30: menu router)
+    .byte   0xD2, 0x0A    /* mov.l .L_pool_game_phase_state, r2 */
+    mov.l r3, @r2                       ! set game phase state to 30 (transition out)
+.L_countdown_not_expired:
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_fn_gfx_frame_dispatch, r3 */
+    jsr @r3                             ! call gfx_frame_dispatch — render this frame
+    nop                                 ! delay slot
+    .byte   0xD0, 0x07    /* mov.l .L_pool_game_phase_state, r0 */
+    mov.l @r0, r0                       ! r0 = current game phase state
+    cmp/eq #0x1B, r0                    ! is state == 27?
+    bt      .L_skip_handler_init        ! if state == 27, skip the extra init call
+    .byte   0xD3, 0x0C    /* mov.l .L_pool_fn_handler_init_reset, r3 */
+    jsr @r3                             ! call handler_init_reset — extra init for state 23 path
+    nop                                 ! delay slot
+.L_skip_handler_init:
+    mov #0x1, r2                        ! r2 = 1 — enable display flag
+    .byte   0xD3, 0x0B    /* mov.l .L_pool_display_flag, r3 */
+    lds.l @r15+, pr                     ! restore return address from stack
+    rts                                 ! return to caller
+    mov.b r2, @r3                       ! set display flag byte to 1 (delay slot)
     .4byte  0x0258FFFF
     .4byte  race_variant_a
-.L_pool_06009E3C:
+.L_pool_game_phase_state:
     .4byte  sym_0605AD10
-.L_pool_06009E40:
+.L_pool_countdown_timer:
     .4byte  sym_0607EBCC
     .4byte  sym_06028560
     .4byte  game_init_master
     .4byte  sym_0605A016
     .4byte  handler_dispatch
-.L_pool_06009E54:
+.L_pool_fn_gfx_frame_dispatch:
     .4byte  gfx_frame_dispatch
-.L_pool_06009E58:
+.L_pool_fn_handler_init_reset:
     .4byte  handler_init_reset
-.L_pool_06009E5C:
+.L_pool_display_flag:
     .4byte  sym_0607864B

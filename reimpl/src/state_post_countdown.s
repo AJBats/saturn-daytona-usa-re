@@ -6,40 +6,49 @@
     .section .text.FUN_06009290
 
 
+/* state_post_countdown
+ * ---------------------
+ * Game state 0x10: called after the race countdown reaches zero.
+ * Sets next state to 0x11 (state_post_lap), then branches based on
+ * race_end_state: if the race has ended (nonzero), calls
+ * race_cleanup_handler for teardown; otherwise calls
+ * race_state_dispatch (sym_06012198) for normal race flow.
+ * Finally sets display_mode to 4 before returning.
+ */
     .global state_post_countdown
     .type state_post_countdown, @function
 state_post_countdown:
-    sts.l pr, @-r15
-    mov #0x11, r3
-    mov.l   .L_pool_060092BC, r2
-    mov.l r3, @r2
-    mov.l   .L_pool_060092C0, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bt      .L_060092AA
-    mov.l   .L_pool_060092C4, r3
-    jsr @r3
-    nop
-    bra     .L_060092B0
-    nop
-.L_060092AA:
-    mov.l   .L_pool_060092C8, r3
-    jsr @r3
-    nop
-.L_060092B0:
-    mov #0x4, r2
-    mov.l   .L_pool_060092CC, r3
-    lds.l @r15+, pr
-    rts
-    mov.w r2, @r3
+    sts.l pr, @-r15                            ! save return address to stack
+    mov #0x11, r3                              ! r3 = 0x11 (state_post_lap index)
+    mov.l   .L_game_state_var, r2              ! r2 = &game_state_dispatch
+    mov.l r3, @r2                              ! game_state_dispatch = 0x11 (transition to state_post_lap)
+    mov.l   .L_race_end_state, r0              ! r0 = &race_end_state
+    mov.l @r0, r0                              ! r0 = race_end_state value
+    tst r0, r0                                 ! test if race is still active (zero = active)
+    bt      .L_race_active                     ! if race still active, branch to normal dispatch
+    mov.l   .L_fn_race_cleanup, r3             ! r3 = &race_cleanup_handler (race ended path)
+    jsr @r3                                    ! call race_cleanup_handler — tear down race resources
+    nop                                        ! delay slot
+    bra     .L_set_display_mode                ! skip the active-race path
+    nop                                        ! delay slot
+.L_race_active:
+    mov.l   .L_fn_race_dispatch, r3            ! r3 = &race_state_dispatch (normal race path)
+    jsr @r3                                    ! call race_state_dispatch — continue race flow
+    nop                                        ! delay slot
+.L_set_display_mode:
+    mov #0x4, r2                               ! r2 = 4 (display mode value)
+    mov.l   .L_display_mode_word, r3           ! r3 = &display_mode (16-bit variable)
+    lds.l @r15+, pr                            ! restore return address from stack
+    rts                                        ! return to caller
+    mov.w r2, @r3                              ! (delay slot) display_mode = 4
     .2byte  0xFFFF
-.L_pool_060092BC:
+.L_game_state_var:
     .4byte  sym_0605AD10
-.L_pool_060092C0:
+.L_race_end_state:
     .4byte  sym_0607EAD8
-.L_pool_060092C4:
+.L_fn_race_cleanup:
     .4byte  race_cleanup_handler
-.L_pool_060092C8:
+.L_fn_race_dispatch:
     .4byte  sym_06012198
-.L_pool_060092CC:
+.L_display_mode_word:
     .4byte  sym_0605A016
