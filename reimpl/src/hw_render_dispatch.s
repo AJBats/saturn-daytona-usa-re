@@ -6,70 +6,103 @@
     .section .text.FUN_06005120
 
 
+/* =========================================================================
+ * hw_render_dispatch
+ * -------------------------------------------------------------------------
+ * Routes a VRAM data transfer to either DMA or CPU memcpy based on flags.
+ *
+ * Selects the VDP2 VRAM bank (0x25E00000 or 0x25E20000) from a flag mask,
+ * adds a caller-supplied offset, then tail-calls either dma_memory_transfer
+ * (hardware DMA path) or memcpy_long_idx (CPU copy path) depending on
+ * whether bit 3 of the flags word is set.
+ *
+ * Arguments:
+ *   r3 = feature flags (masked with r7 to select VRAM bank)
+ *   r4 = source address (passed through to transfer function)
+ *   r5 = VRAM offset within selected bank
+ *   r6 = transfer count / length (passed through to transfer function)
+ *   r7 = flag mask (bit 0-2: bank select, bit 3: DMA vs CPU copy)
+ *
+ * Returns:
+ *   Tail-calls dma_memory_transfer or memcpy_long_idx (does not return here)
+ * ======================================================================= */
     .global hw_render_dispatch
     .type hw_render_dispatch, @function
 hw_render_dispatch:
-    mov.l r14, @-r15
-    and r7, r3
-    add #-0x8, r15
-    mov.l r4, @r15
-    mov.l r6, @(4, r15)
-    tst r3, r3
-    bf      .L_06005134
-    mov.l   .L_vdp2_vram_0x00000, r14
-    bra     .L_06005136
-    nop
-.L_06005134:
-    mov.l   .L_vdp2_vram_0x20000, r14
-.L_06005136:
-    mov #0x8, r2
-    and r2, r7
-    tst r7, r7
-    bt/s    .L_0600514C
-    add r5, r14
-    mov r14, r5
-    mov.l @r15, r4
-    add #0x8, r15
-    mov.l   .L_pool_0600516C, r3
-    jmp @r3
-    mov.l @r15+, r14
-.L_0600514C:
-    mov.l @(4, r15), r6
-    mov.l @r15, r5
-    mov r14, r4
-    add #0x8, r15
-    mov.l   .L_pool_06005170, r3
-    jmp @r3
-    mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  sym_06063750
-    .4byte  sym_06059F10
+    mov.l r14, @-r15                        ! save r14 on stack
+    and r7, r3                              ! r3 = flags & mask (isolate relevant bits)
+    add #-0x8, r15                          ! allocate 8 bytes of local stack space
+    mov.l r4, @r15                          ! save r4 (source addr) at [sp+0]
+    mov.l r6, @(4, r15)                     ! save r6 (count) at [sp+4]
+    tst r3, r3                              ! test masked flags
+    bf      .L_bank1_selected               ! if nonzero, select VRAM bank 1 (+0x20000)
+    mov.l   .L_vdp2_vram_0x00000, r14       ! r14 = 0x25E00000 (VDP2 VRAM bank 0)
+    bra     .L_bank_selected                ! skip bank 1 load
+    nop                                     ! (delay slot)
+.L_bank1_selected:
+    mov.l   .L_vdp2_vram_0x20000, r14       ! r14 = 0x25E20000 (VDP2 VRAM bank 1)
+.L_bank_selected:
+    mov #0x8, r2                            ! r2 = 0x08 (bit 3 mask)
+    and r2, r7                              ! r7 = flags & 0x08 (isolate DMA flag)
+    tst r7, r7                              ! test DMA flag
+    bt/s    .L_cpu_copy_path                ! if bit 3 clear, use CPU memcpy path
+    add r5, r14                             ! r14 = VRAM base + offset (delay slot, always runs)
+    mov r14, r5                             ! r5 = dest VRAM address (DMA path: dst in r5)
+    mov.l @r15, r4                          ! r4 = restore source address from stack
+    add #0x8, r15                           ! deallocate local stack space
+    mov.l   .L_fn_dma_transfer, r3          ! r3 = &dma_memory_transfer
+    jmp @r3                                 ! tail-call dma_memory_transfer(r4=src, r5=dst, r6=count)
+    mov.l @r15+, r14                        ! restore r14 (delay slot)
+.L_cpu_copy_path:
+    mov.l @(4, r15), r6                     ! r6 = restore count from stack
+    mov.l @r15, r5                          ! r5 = restore source address from stack
+    mov r14, r4                             ! r4 = dest VRAM address (memcpy path: dst in r4)
+    add #0x8, r15                           ! deallocate local stack space
+    mov.l   .L_fn_memcpy_long, r3           ! r3 = &memcpy_long_idx
+    jmp @r3                                 ! tail-call memcpy_long_idx(r4=dst, r5=src, r6=count)
+    mov.l @r15+, r14                        ! restore r14 (delay slot)
+    .2byte  0xFFFF                          /* padding to align constant pool */
+    .4byte  sym_06063750                    /* car object table base (cross-TU pool ref) */
+    .4byte  sym_06059F10                    /* display state table (cross-TU pool ref) */
 .L_vdp2_vram_0x00000:
-    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
+    .4byte  0x25E00000                      /* VDP2 VRAM bank 0 base address */
 .L_vdp2_vram_0x20000:
-    .4byte  0x25E20000                  /* VDP2 VRAM +0x20000 */
-.L_pool_0600516C:
-    .4byte  dma_memory_transfer
-.L_pool_06005170:
-    .4byte  memcpy_long_idx
+    .4byte  0x25E20000                      /* VDP2 VRAM bank 1 base address (+0x20000) */
+.L_fn_dma_transfer:
+    .4byte  dma_memory_transfer             /* hardware DMA transfer function */
+.L_fn_memcpy_long:
+    .4byte  memcpy_long_idx                 /* CPU long-word indexed copy function */
 
+/* =========================================================================
+ * sym_06005174 — VDP2 scroll register clear
+ * -------------------------------------------------------------------------
+ * Zeroes out 16 bytes of VDP2 scroll position registers (two groups of
+ * 8 bytes each). Called during system init as part of camera/display
+ * subsystem initialization.
+ *
+ * The target register block address is loaded via a cross-TU pool entry
+ * (mov.l from pool at 0x06005220 in the next TU).
+ *
+ * Arguments: none
+ * Returns:   void
+ * ======================================================================= */
     .global sym_06005174
 sym_06005174:
-    .byte   0xD5, 0x2A    /* mov.l .L_pool_06005220, r5 */
-    mov #0x0, r4
-    mov.w r4, @r5
-    extu.w r4, r0
-    mov.w r0, @(2, r5)
-    extu.w r4, r0
-    mov.w r0, @(4, r5)
-    extu.w r4, r0
-    mov.w r0, @(6, r5)
-    add #0x8, r5
-    extu.w r4, r0
-    mov.w r4, @r5
-    mov.w r0, @(2, r5)
-    extu.w r4, r0
-    mov.w r0, @(4, r5)
-    extu.w r4, r0
-    rts
-    mov.w r0, @(6, r5)
+    .byte   0xD5, 0x2A    /* mov.l .L_pool_06005220, r5 */  ! r5 = scroll register block address (cross-TU pool)
+    mov #0x0, r4                            ! r4 = 0 (clear value)
+    mov.w r4, @r5                           ! [r5+0] = 0 (scroll X position, group A)
+    extu.w r4, r0                           ! r0 = 0 (zero-extend)
+    mov.w r0, @(2, r5)                      ! [r5+2] = 0 (scroll Y position, group A)
+    extu.w r4, r0                           ! r0 = 0 (zero-extend)
+    mov.w r0, @(4, r5)                      ! [r5+4] = 0 (scroll increment X, group A)
+    extu.w r4, r0                           ! r0 = 0 (zero-extend)
+    mov.w r0, @(6, r5)                      ! [r5+6] = 0 (scroll increment Y, group A)
+    add #0x8, r5                            ! r5 += 8 (advance to second register group)
+    extu.w r4, r0                           ! r0 = 0 (zero-extend)
+    mov.w r4, @r5                           ! [r5+0] = 0 (scroll X position, group B)
+    mov.w r0, @(2, r5)                      ! [r5+2] = 0 (scroll Y position, group B)
+    extu.w r4, r0                           ! r0 = 0 (zero-extend)
+    mov.w r0, @(4, r5)                      ! [r5+4] = 0 (scroll increment X, group B)
+    extu.w r4, r0                           ! r0 = 0 (zero-extend)
+    rts                                     ! return
+    mov.w r0, @(6, r5)                      ! [r5+6] = 0 (scroll increment Y, group B) (delay slot)
