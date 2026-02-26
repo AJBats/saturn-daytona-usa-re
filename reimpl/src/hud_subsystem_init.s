@@ -37,23 +37,23 @@
     .global hud_subsystem_init
     .type hud_subsystem_init, @function
 hud_subsystem_init:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    mov.l r8, @-r15
+    mov.l r14, @-r15                   /* save r14 */
+    mov.l r13, @-r15                   /* save r13 */
+    mov.l r12, @-r15                   /* save r12 */
+    mov.l r11, @-r15                   /* save r11 */
+    mov.l r10, @-r15                   /* save r10 */
+    mov.l r9, @-r15                    /* save r9 */
+    mov.l r8, @-r15                    /* save r8 */
     xor r7, r7                          /* r7 = element index (0..44) */
-.L_06033ABC:                              /* === Main element init loop === */
+.L_elem_init_loop:                        /* === Main element init loop === */
     mov.l   .L_element_struct_size, r1
     mulu.w r7, r1                        /* offset = index * 0x2C */
-    sts macl, r0
+    sts macl, r0                        /* r0 = index * 0x2C */
     mov.l   .L_element_array, r14
     add r0, r14                          /* r14 = &element[index] */
     mov.l   .L_off_elem_index, r0
     mov.b r7, @(r0, r14)                /* elem[+0x00] = index */
-    xor r2, r2
+    xor r2, r2                          /* r2 = 0 (clear value) */
     mov.l   .L_off_elem_state, r0
     mov.b r2, @(r0, r14)                /* elem[+0x10] = 0 (state) */
     mov.l   .L_off_elem_visible, r0
@@ -64,23 +64,23 @@ hud_subsystem_init:
     mov.b r2, @(r0, r14)                /* elem[+0x28] = 0 */
     mov.l   .L_init_record_size, r1     /* --- Read init table entry --- */
     mulu.w r7, r1                        /* offset = index * 0x0E */
-    sts macl, r0
+    sts macl, r0                        /* r0 = index * 0x0E */
     mov.l   .L_init_table, r1
     add r0, r1                           /* r1 = &init_table[index] */
     mov.w @r1+, r2                       /* [0-1] x_pos (word) */
-    shll16 r2                            /* → 16.16 fixed point */
+    shll16 r2                            /* convert to 16.16 fixed point */
     mov.l   .L_off_elem_x_pos, r0
     mov.l r2, @(r0, r14)                /* elem[+0x14] = x_pos */
     mov.w @r1+, r2                       /* [2-3] y_pos */
-    shll16 r2
+    shll16 r2                            /* convert to 16.16 fixed point */
     mov.l   .L_off_elem_y_pos, r0
     mov.l r2, @(r0, r14)                /* elem[+0x18] = y_pos */
     mov.w @r1+, r2                       /* [4-5] width */
-    shll16 r2
+    shll16 r2                            /* convert to 16.16 fixed point */
     mov.l   .L_off_elem_width, r0
     mov.l r2, @(r0, r14)                /* elem[+0x1C] = width */
     mov.w @r1+, r2                       /* [6-7] height */
-    shll16 r2
+    shll16 r2                            /* convert to 16.16 fixed point */
     mov.l   .L_off_elem_height, r0
     mov.l r2, @(r0, r14)                /* elem[+0x20] = height */
     mov.w @r1+, r2                       /* [8-9] type/sprite index */
@@ -91,19 +91,19 @@ hud_subsystem_init:
     mov.w r2, @(r0, r14)                /* elem[+0x12] = palette */
     mov.b @r1+, r2                       /* [C] priority byte */
     shll8 r2                             /* shift to high byte of 16-bit */
-    exts.w r2, r2
+    exts.w r2, r2                        /* sign-extend to 16-bit */
     mov.l   .L_off_elem_priority, r0
     mov.w r2, @(r0, r14)                /* elem[+0x24] = priority */
     mov.b @r1+, r2                       /* [D] flags byte */
     mov.l   .L_off_elem_flags, r0
     mov.b r2, @(r0, r14)                /* elem[+0x01] = flags */
-    mov #0x1, r0
+    mov #0x1, r0                        /* r0 = 1 */
     add r0, r7                           /* index++ */
     mov.l   .L_element_count, r0
     cmp/ge r0, r7                        /* index >= 45? */
-    bt      .L_06033B78
-    bra     .L_06033ABC                  /* → loop */
-    nop
+    bt      .L_post_loop_clear           /* yes → done with element init */
+    bra     .L_elem_init_loop            /* no → next element */
+    nop                                  /* delay slot (unused) */
 .L_element_struct_size:
     .4byte  0x0000002C                  /* 44 bytes per HUD element */
 .L_element_array:
@@ -140,18 +140,18 @@ hud_subsystem_init:
     .4byte  0x00000001                  /* +0x01: element flags (byte) */
 .L_element_count:
     .4byte  0x0000002D                  /* 45 HUD elements total */
-.L_06033B78:                              /* === Post-loop: clear HUD state === */
-    xor r2, r2
+.L_post_loop_clear:                       /* === Post-loop: clear HUD state === */
+    xor r2, r2                          /* r2 = 0 */
     mov.l   .L_hud_active_count, r0
     mov.b r2, @r0                        /* hud_active_count = 0 */
     mov.l   .L_hud_state, r0
     mov.l r2, @r0                        /* hud_state = 0 */
-    xor r7, r7                           /* === Display channel init loop === */
+    xor r7, r7                           /* r7 = channel index (0..1) */
     mov.l   .L_channel_array, r6        /* r6 = channel array base */
     mov.l   .L_channel_ptr_table, r5    /* r5 = pointer table (2 entries) */
     mov.l   .L_channel_struct_size, r4  /* r4 = 0x14 (20 bytes/channel) */
-    mov #0x2, r3                         /* 2 channel entries */
-.L_06033B8C:
+    mov #0x2, r3                         /* r3 = channel count (2) */
+.L_channel_init_loop:
     mov.l @r5+, r2                       /* ptr = *ptr_table++ */
     mov.l r6, @r2                        /* *ptr = &channel[i] */
     mov.l   .L_off_channel_index, r0
@@ -159,16 +159,16 @@ hud_subsystem_init:
     add r4, r6                           /* advance to next channel entry */
     add #0x1, r7                         /* index++ */
     cmp/ge r3, r7                        /* index >= 2? */
-    bf      .L_06033B8C                  /* → loop */
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    mov.l @r15+, r14
-    rts
-    nop
+    bf      .L_channel_init_loop         /* no → next channel */
+    mov.l @r15+, r8                      /* restore r8 */
+    mov.l @r15+, r9                      /* restore r9 */
+    mov.l @r15+, r10                     /* restore r10 */
+    mov.l @r15+, r11                     /* restore r11 */
+    mov.l @r15+, r12                     /* restore r12 */
+    mov.l @r15+, r13                     /* restore r13 */
+    mov.l @r15+, r14                     /* restore r14 */
+    rts                                  /* return */
+    nop                                  /* delay slot (unused) */
     .2byte  0x0000
 .L_hud_active_count:
     .4byte  sym_06083254               /* active HUD element count (byte) */
