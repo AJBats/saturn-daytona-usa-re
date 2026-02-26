@@ -9,67 +9,67 @@
     .global display_extra_config
     .type display_extra_config, @function
 display_extra_config:
-    mov.w   DAT_06038a9a, r6
-    mov.l   .L_pool_06038AA0, r5
-    bra     .L_06038AA4
-    mov r4, r0
-.L_06038A6C:
-    mov.w @(14, r5), r0
-    mov r0, r2
-    extu.w r2, r2
-    bra     .L_06038A92
-    and r6, r2
-.L_06038A76:
-    mov.w @(14, r5), r0
-    mov r0, r2
-    extu.w r2, r2
-    and r6, r2
-    mov.w   .L_wpool_06038A9C, r3
-    or r3, r2
-    bra     .L_06038A92
-    nop
-.L_06038A86:
-    mov.w @(14, r5), r0
-    mov r0, r2
-    extu.w r2, r2
-    and r6, r2
-    mov.w   DAT_06038a9e, r3
-    or r3, r2
-.L_06038A92:
-    extu.w r2, r2
-    mov r2, r0
-    bra     .L_06038AB0
-    mov.w r0, @(14, r5)
+    mov.w   DAT_06038a9a, r6            ! r6 = 0x0FFF — lower-12-bits mask (clears bits 15:12)
+    mov.l   .L_pool_disp_state_ptr, r5  ! r5 = &sym_060A3D88 — display state word base
+    bra     .L_dispatch_mode            ! jump to mode dispatch (r4 = mode arg)
+    mov r4, r0                          ! (delay) r0 = mode (0/1/2)
+.L_mode_0_clear_upper:
+    mov.w @(14, r5), r0                 ! r0 = word[7] of display state struct (disp config word)
+    mov r0, r2                          ! r2 = config word
+    extu.w r2, r2                       ! r2 = zero-extend to 32-bit
+    bra     .L_write_back               ! mode 0: keep only lower 12 bits (no OR)
+    and r6, r2                          ! (delay) r2 &= 0x0FFF — clear bits 15:12
+.L_mode_1_set_bit12:
+    mov.w @(14, r5), r0                 ! r0 = word[7] of display state struct
+    mov r0, r2                          ! r2 = config word
+    extu.w r2, r2                       ! r2 = zero-extend to 32-bit
+    and r6, r2                          ! r2 &= 0x0FFF — clear upper nibble first
+    mov.w   .L_wpool_06038A9C, r3       ! r3 = 0x1000 — bit 12 set mask
+    or r3, r2                           ! r2 |= 0x1000 — set bit 12
+    bra     .L_write_back               ! jump to write-back
+    nop                                 ! (delay) no-op
+.L_mode_2_set_bit13:
+    mov.w @(14, r5), r0                 ! r0 = word[7] of display state struct
+    mov r0, r2                          ! r2 = config word
+    extu.w r2, r2                       ! r2 = zero-extend to 32-bit
+    and r6, r2                          ! r2 &= 0x0FFF — clear upper nibble first
+    mov.w   DAT_06038a9e, r3            ! r3 = 0x2000 — bit 13 set mask
+    or r3, r2                           ! r2 |= 0x2000 — set bit 13
+.L_write_back:
+    extu.w r2, r2                       ! r2 = zero-extend result to 32-bit
+    mov r2, r0                          ! r0 = updated config value
+    bra     .L_signal_ready             ! jump to command-ready signal
+    mov.w r0, @(14, r5)                 ! (delay) store updated config word back at struct+14
 
     .global DAT_06038a9a
 DAT_06038a9a:
-    .2byte  0x0FFF
+    .2byte  0x0FFF                      ! mask: keep bits 11:0, clear bits 15:12
 .L_wpool_06038A9C:
-    .2byte  0x1000
+    .2byte  0x1000                      ! bit 12 set mask (mode 1 — low-nibble channel select)
 
     .global DAT_06038a9e
 DAT_06038a9e:
-    .2byte  0x2000
-.L_pool_06038AA0:
-    .4byte  sym_060A3D88
-.L_06038AA4:
-    cmp/eq #0x0, r0
-    bt      .L_06038A6C
-    cmp/eq #0x1, r0
-    bt      .L_06038A76
-    cmp/eq #0x2, r0
-    bt      .L_06038A86
-.L_06038AB0:
-    mov.l   .L_pool_06038AC4, r4
-    mov.w @r4, r2
-    extu.w r2, r2
-    tst r2, r2
-    bf      .L_06038ABE
-    mov #0x1, r3
-    mov.w r3, @r4
-.L_06038ABE:
-    rts
-    nop
-    .2byte  0xFFFF
-.L_pool_06038AC4:
-    .4byte  sym_060635AC
+    .2byte  0x2000                      ! bit 13 set mask (mode 2 — high-nibble channel select)
+.L_pool_disp_state_ptr:
+    .4byte  sym_060A3D88                ! &sym_060A3D88 — display state word base
+.L_dispatch_mode:
+    cmp/eq #0x0, r0                     ! mode == 0? (clear upper bits, keep lower 12)
+    bt      .L_mode_0_clear_upper       ! branch if mode 0
+    cmp/eq #0x1, r0                     ! mode == 1? (set bit 12)
+    bt      .L_mode_1_set_bit12         ! branch if mode 1
+    cmp/eq #0x2, r0                     ! mode == 2? (set bit 13)
+    bt      .L_mode_2_set_bit13         ! branch if mode 2
+.L_signal_ready:
+    mov.l   .L_pool_cmd_ready_flag, r4  ! r4 = &sym_060635AC — command-ready flag
+    mov.w @r4, r2                       ! r2 = current ready flag value
+    extu.w r2, r2                       ! r2 = zero-extend to 32-bit
+    tst r2, r2                          ! ready flag == 0? (idle)
+    bf      .L_return                   ! if already non-zero, skip (command already pending)
+    mov #0x1, r3                        ! r3 = 1
+    mov.w r3, @r4                       ! set ready flag = 1 (signal command pending)
+.L_return:
+    rts                                 ! return to caller
+    nop                                 ! (delay) no-op
+    .2byte  0xFFFF                      ! padding word
+.L_pool_cmd_ready_flag:
+    .4byte  sym_060635AC                ! &sym_060635AC — command-ready flag (0=idle, 1=pending)

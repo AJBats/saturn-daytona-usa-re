@@ -5,81 +5,109 @@
 
     .section .text.FUN_060115F0
 
+    /* hud_transparency — VDP2 rotation-scroll coefficient table writer
+     *
+     * Writes 256 entries to the VDP2 coefficient table in VRAM (0x25E5F800),
+     * scaling each entry by the current transition_state_word counter.
+     * Used to animate HUD transparency via the VDP2 rotation parameter.
+     *
+     * On entry: no arguments (operates on global state)
+     * Registers:
+     *   r12 = 0x00080000  (8.0 in 16.16 fixed-point — positive scale factor)
+     *   r13 = 0x0100      (256 — coefficient table entry count)
+     *   r14 = &sym_0607886E (transition_state_word — incremented each frame)
+     *
+     * Calls:
+     *   .L_config_vdp2_coeff (inline leaf): configures VDP2 KTCTL and RPMD registers
+     *   sym_06035C2C (mem_store_helper): returns selector in r0 (0=neg, else=pos)
+     */
 
     .global hud_transparency
     .type hud_transparency, @function
 hud_transparency:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    mov.w   .L_wpool_06011658, r13
-    mov.l   .L_pool_0601165C, r14
-    mov.l   .L_fp_eight, r12
-    bsr     .L_0601164A
-    nop
-    mov.w @r14, r2
-    add #0x1, r2
-    mov.w r2, @r14
-    mov.l   .L_vdp2_vram_0x5F800, r5
-    mov #0x0, r4
-.L_06011610:
-    extu.w r4, r0
-    extu.w r4, r1
-    mov.l   .L_pool_06011668, r3
-    shll2 r0
-    mov r0, r8
-    add r5, r8
-    jsr @r3
-    mov #0x2, r0
-    tst r0, r0
-    bt      .L_06011628
-    bra     .L_0601162A
-    mov r12, r3
-.L_06011628:
-    mov.l   .L_pool_0601166C, r3
-.L_0601162A:
-    add #0x1, r4
-    mov.w @r14, r1
-    extu.w r1, r1
-    mul.l r1, r3
-    sts macl, r3
-    mov.l r3, @r8
-    extu.w r4, r3
-    cmp/ge r13, r3
-    bf      .L_06011610
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-.L_0601164A:
-    mov.l   .L_pool_06011670, r3
-    mov.l   .L_vdp2_reg_0x0A4, r2
-    mov.l r3, @r2
-    mov.w   .L_wpool_0601165A, r3
-    add #-0xA, r2
-    rts
-    mov.w r3, @r2
+    mov.l r14, @-r15            ! push r14 (callee-saved)
+    mov.l r13, @-r15            ! push r13 (callee-saved)
+    mov.l r12, @-r15            ! push r12 (callee-saved)
+    mov.l r8, @-r15             ! push r8 (callee-saved)
+    sts.l pr, @-r15             ! push PR (return address)
+    sts.l macl, @-r15           ! push MACL (callee-saved multiply result)
+    mov.w   .L_wpool_06011658, r13 ! r13 = 0x0100 (256 coefficient entries)
+    mov.l   .L_pool_transition_state_word, r14 ! r14 = &sym_0607886E (transition_state_word)
+    mov.l   .L_fp_eight, r12    ! r12 = 0x00080000 (8.0 in 16.16 fixed-point)
+    bsr     .L_config_vdp2_coeff         ! call VDP2 init leaf (KTCTL + RPMD setup)
+    nop                         ! delay slot (no-op)
+    mov.w @r14, r2              ! r2 = transition_state_word (current frame counter)
+    add #0x1, r2                ! r2++ (advance frame counter)
+    mov.w r2, @r14              ! transition_state_word = r2 (store updated counter)
+    mov.l   .L_vdp2_vram_0x5F800, r5 ! r5 = 0x25E5F800 (VDP2 VRAM coeff table base)
+    mov #0x0, r4                ! r4 = 0 (loop index: entry 0..255)
+.L_coeff_loop:
+    extu.w r4, r0               ! r0 = index (zero-extended to 32-bit)
+    extu.w r4, r1               ! r1 = index (copy for mem_store_helper arg)
+    mov.l   .L_pool_mem_store_helper, r3 ! r3 = &sym_06035C2C (mem_store_helper)
+    shll2 r0                    ! r0 = index * 4 (byte offset into coeff table)
+    mov r0, r8                  ! r8 = byte offset
+    add r5, r8                  ! r8 = VRAM base + offset (write destination)
+    jsr @r3                     ! call mem_store_helper(r0=2, r1=index); returns selector in r0
+    mov #0x2, r0                ! delay slot: r0 = 2 (function selector for mem_store_helper)
+    tst r0, r0                  ! test return value: 0 = use negative scale, non-zero = positive
+    bt      .L_use_pos_scale    ! if r0 == 0 (T=1): use positive scale (8.0)
+    bra     .L_store_coeff      ! else: use negative scale (0xFFF80000)
+    mov r12, r3                 ! delay slot: r3 = 0x00080000 (positive scale, 8.0 fixed-point)
+.L_use_pos_scale:
+    mov.l   .L_pool_neg_scale, r3 ! r3 = 0xFFF80000 (negative scale factor)
+.L_store_coeff:
+    add #0x1, r4                ! index++ (advance loop counter)
+    mov.w @r14, r1              ! r1 = transition_state_word (current frame counter)
+    extu.w r1, r1               ! r1 = frame counter (zero-extended to 32-bit)
+    mul.l r1, r3                ! MACL = frame_counter * scale_factor
+    sts macl, r3                ! r3 = multiplication result (coefficient value)
+    mov.l r3, @r8               ! VRAM[base + index*4] = coefficient
+    extu.w r4, r3               ! r3 = index (zero-extended)
+    cmp/ge r13, r3              ! test: index >= 256 ?
+    bf      .L_coeff_loop       ! if not done: loop back
+    lds.l @r15+, macl           ! pop MACL (restore callee-saved)
+    lds.l @r15+, pr             ! pop PR (restore return address)
+    mov.l @r15+, r8             ! pop r8 (restore callee-saved)
+    mov.l @r15+, r12            ! pop r12 (restore callee-saved)
+    mov.l @r15+, r13            ! pop r13 (restore callee-saved)
+    rts                         ! return to caller
+    mov.l @r15+, r14            ! delay slot: pop r14 (restore callee-saved)
+
+    /* .L_config_vdp2_coeff — inline leaf: configure VDP2 rotation scroll registers
+     *
+     * Sets:
+     *   VDP2 LSTA1 (0x25F800A4) = 0x12F2FC00 (coefficient table base address)
+     *   VDP2 RPMD  (0x25F8009A) = 0x0200 (rotation parameter mode)
+     *
+     * Called via BSR from hud_transparency; returns to its BSR caller.
+     */
+.L_config_vdp2_coeff:
+    mov.l   .L_pool_coeff_table_base, r3 ! r3 = 0x12F2FC00 (VDP2 coeff table base value)
+    mov.l   .L_vdp2_reg_0x0A4, r2  ! r2 = 0x25F800A4 (VDP2 LSTA1 register address)
+    mov.l r3, @r2               ! VDP2_LSTA1 = 0x12F2FC00 (set coefficient table base)
+    mov.w   .L_wpool_0601165A, r3  ! r3 = 0x0200 (VDP2 rotation parameter mode bits)
+    add #-0xA, r2               ! r2 = 0x25F8009A (VDP2 RPMD register address)
+    rts                         ! return to BSR caller (hud_transparency)
+    mov.w r3, @r2               ! delay slot: VDP2_RPMD = 0x0200 (rotation mode)
+
+    /* --- Constant pools --- */
+
 .L_wpool_06011658:
-    .2byte  0x0100
+    .2byte  0x0100              /* 256 — coefficient table entry count (loop bound) */
 .L_wpool_0601165A:
-    .2byte  0x0200
-.L_pool_0601165C:
-    .4byte  sym_0607886E
+    .2byte  0x0200              /* VDP2 RPMD rotation scroll mode select value */
+.L_pool_transition_state_word:
+    .4byte  sym_0607886E        /* &transition_state_word (16-bit frame counter) */
 .L_fp_eight:
     .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_vdp2_vram_0x5F800:
     .4byte  0x25E5F800                  /* VDP2 VRAM +0x5F800 */
-.L_pool_06011668:
-    .4byte  sym_06035C2C
-.L_pool_0601166C:
-    .4byte  0xFFF80000
-.L_pool_06011670:
-    .4byte  0x12F2FC00
+.L_pool_mem_store_helper:
+    .4byte  sym_06035C2C        /* &sym_06035C2C (mem_store_helper — returns selector in r0) */
+.L_pool_neg_scale:
+    .4byte  0xFFF80000          /* negative scale factor (-8.0 in 16.16 fixed-point) */
+.L_pool_coeff_table_base:
+    .4byte  0x12F2FC00          /* VDP2 coefficient table base address value */
 .L_vdp2_reg_0x0A4:
     .4byte  0x25F800A4                  /* VDP2 register +0x0A4 */

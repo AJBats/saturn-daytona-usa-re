@@ -9,37 +9,37 @@
     .global coord_grid_pack
     .type coord_grid_pack, @function
 coord_grid_pack:
-    sts.l pr, @-r15
-    mov.l   .L_pool_0600681C, r3
-    jsr @r3
-    nop
-    extu.w r0, r5
-    mov.l   .L_pool_06006820, r4
-    mov.l   .L_pool_06006824, r3
-    jsr @r3
-    mov.b @r4, r4
-    mov.l   .L_pool_06006828, r7
-    mov.l   .L_pool_0600682C, r6
-    mov.w   DAT_06006804, r5
-    mov.l   .L_fp_half, r4
-    mov.l   .L_pool_06006834, r0
-    mov.b @r0, r0
-    tst r0, r0
-    bf      .L_060067F4
-    extu.w r5, r5
-    mov.w r5, @r6
-    extu.w r4, r4
-    bra     .L_060067FC
-    mov.w r4, @r7
-.L_060067F4:
-    extu.w r4, r4
-    mov.w r4, @r6
-    extu.w r5, r5
-    mov.w r5, @r7
-.L_060067FC:
-    lds.l @r15+, pr
-    rts
-    nop
+    sts.l pr, @-r15             ! push PR onto stack (non-leaf: saves return address)
+    mov.l   .L_pool_car_data_util, r3   ! r3 = &sym_0601A5F8 (car data utility fn ptr)
+    jsr @r3                     ! call sym_0601A5F8 — fetch current car coord data; result in r0
+    nop                         ! branch delay slot
+    extu.w r0, r5               ! r5 = (u16)r0 — zero-extend 16-bit coord result (X component)
+    mov.l   .L_pool_sprite_param_base, r4   ! r4 = &sym_0605D240 (sprite parameter table base)
+    mov.l   .L_pool_sprite_pair_render, r3  ! r3 = &sprite_pair_render (VDP1 sprite pair draw fn)
+    jsr @r3                     ! call sprite_pair_render — draw sprite pair using r4/r5 args
+    mov.b @r4, r4               ! (delay slot) r4 = *(s8)sym_0605D240 — load sprite param byte
+    mov.l   .L_pool_grid_coord_z_out, r7    ! r7 = &sym_06063F4A (grid Z output word)
+    mov.l   .L_pool_grid_coord_x_out, r6    ! r6 = &sym_06063F48 (grid X output word)
+    mov.w   DAT_06006804, r5    ! r5 = 0x4000 — half-grid constant (fixed-point bias for coord)
+    mov.l   .L_fp_half, r4      ! r4 = 0x00008000 — 0.5 in 16.16 fixed-point
+    mov.l   .L_pool_display_mode_flag, r0   ! r0 = &sym_06078663 (display mode / camera flip flag)
+    mov.b @r0, r0               ! r0 = *(s8)sym_06078663 — load display mode byte
+    tst r0, r0                  ! test if display mode flag is zero
+    bf      .L_swapped_axes     ! if non-zero: swap X/Z axis assignment
+    extu.w r5, r5               ! r5 = (u16)r5 — zero-extend 0x4000 (X grid coord)
+    mov.w r5, @r6               ! *sym_06063F48 = r5 — store X grid coord to output word
+    extu.w r4, r4               ! r4 = (u16)r4 — zero-extend 0x8000 (Z grid coord)
+    bra     .L_grid_write_done  ! jump to epilogue
+    mov.w r4, @r7               ! (delay slot) *sym_06063F4A = r4 — store Z grid coord
+.L_swapped_axes:
+    extu.w r4, r4               ! r4 = (u16)r4 — zero-extend 0x8000 (now used for X)
+    mov.w r4, @r6               ! *sym_06063F48 = r4 — store swapped X grid coord
+    extu.w r5, r5               ! r5 = (u16)r5 — zero-extend 0x4000 (now used for Z)
+    mov.w r5, @r7               ! *sym_06063F4A = r5 — store swapped Z grid coord
+.L_grid_write_done:
+    lds.l @r15+, pr             ! pop PR from stack (restore return address)
+    rts                         ! return to caller
+    nop                         ! branch delay slot
 
     .global DAT_06006802
 DAT_06006802:
@@ -47,51 +47,51 @@ DAT_06006802:
 
     .global DAT_06006804
 DAT_06006804:
-    .2byte  0x4000
-    .2byte  0xFFFF
-    .4byte  fpmul
-    .4byte  sym_06063F04
-    .4byte  sym_06063F08
-    .4byte  sym_06059F30
-    .4byte  sym_06063E20
-.L_pool_0600681C:
-    .4byte  sym_0601A5F8
-.L_pool_06006820:
-    .4byte  sym_0605D240
-.L_pool_06006824:
-    .4byte  sprite_pair_render
-.L_pool_06006828:
-    .4byte  sym_06063F4A
-.L_pool_0600682C:
-    .4byte  sym_06063F48
+    .2byte  0x4000              /* half-grid X bias constant (0x4000) */
+    .2byte  0xFFFF              /* padding / sentinel */
+    .4byte  fpmul               /* pointer: fpmul (16.16 fixed-point multiply) */
+    .4byte  sym_06063F04        /* pointer: sym_06063F04 (camera/physics data ptr A) */
+    .4byte  sym_06063F08        /* pointer: sym_06063F08 (camera/physics data ptr B) */
+    .4byte  sym_06059F30        /* pointer: sym_06059F30 (split-screen / 2P enable flag) */
+    .4byte  sym_06063E20        /* pointer: sym_06063E20 (race state flag B) */
+.L_pool_car_data_util:
+    .4byte  sym_0601A5F8        /* pointer: sym_0601A5F8 (car data utility fn) */
+.L_pool_sprite_param_base:
+    .4byte  sym_0605D240        /* pointer: sym_0605D240 (sprite parameter table base) */
+.L_pool_sprite_pair_render:
+    .4byte  sprite_pair_render  /* pointer: sprite_pair_render (VDP1 sprite pair draw fn) */
+.L_pool_grid_coord_z_out:
+    .4byte  sym_06063F4A        /* pointer: sym_06063F4A (grid Z output word) */
+.L_pool_grid_coord_x_out:
+    .4byte  sym_06063F48        /* pointer: sym_06063F48 (grid X output word) */
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_pool_06006834:
-    .4byte  sym_06078663
+.L_pool_display_mode_flag:
+    .4byte  sym_06078663        /* pointer: sym_06078663 (display mode / camera flip byte flag) */
 
     .global sym_06006838
 sym_06006838:
-    mov.l   .L_pool_06006860, r3
-    mov.l   .L_pool_06006864, r2
-    sub r5, r3
-    add r2, r4
-    mov r3, r5
-    shlr16 r4
-    shlr16 r5
-    shlr2 r4
-    shlr2 r5
-    shlr2 r4
-    shlr2 r5
-    shlr r4
-    shlr r5
-    shll2 r5
-    shll2 r5
-    shll2 r5
-    mov r5, r0
-    rts
-    add r4, r0
-    .2byte  0xFFFF
-.L_pool_06006860:
-    .4byte  0x03FFFFFF
-.L_pool_06006864:
-    .4byte  0x04000000
+    mov.l   .L_pool_world_z_max, r3     ! r3 = 0x03FFFFFF — world Z-axis upper bound
+    mov.l   .L_pool_world_x_bias, r2    ! r2 = 0x04000000 — world X-axis bias (shifts origin)
+    sub r5, r3                  ! r3 = 0x03FFFFFF - r5 — invert Z axis (world Z → grid Z)
+    add r2, r4                  ! r4 = r4 + 0x04000000 — bias X (world X → biased X)
+    mov r3, r5                  ! r5 = inverted Z value
+    shlr16 r4                   ! r4 >>= 16 — shift right 16 (part of >>21)
+    shlr16 r5                   ! r5 >>= 16 — shift right 16
+    shlr2 r4                    ! r4 >>= 2 — shift right 2 more (total >>18)
+    shlr2 r5                    ! r5 >>= 2 — shift right 2 more (total >>18)
+    shlr2 r4                    ! r4 >>= 2 — shift right 2 more (total >>20)
+    shlr2 r5                    ! r5 >>= 2 — shift right 2 more (total >>20)
+    shlr r4                     ! r4 >>= 1 — final shift (total >>21): grid X tile index
+    shlr r5                     ! r5 >>= 1 — final shift (total >>21): grid Z tile index
+    shll2 r5                    ! r5 <<= 2 — multiply grid Z by 4 (row stride step 1)
+    shll2 r5                    ! r5 <<= 2 — multiply grid Z by 4 (row stride step 2, total *16)
+    shll2 r5                    ! r5 <<= 2 — multiply grid Z by 4 (row stride step 3, total *64)
+    mov r5, r0                  ! r0 = grid Z * 64 — start building tile index
+    rts                         ! return to caller
+    add r4, r0                  ! (delay slot) r0 += grid X — final tile index = Z*64 + X
+    .2byte  0xFFFF              /* padding */
+.L_pool_world_z_max:
+    .4byte  0x03FFFFFF          /* world Z-axis upper bound (for axis inversion) */
+.L_pool_world_x_bias:
+    .4byte  0x04000000          /* world X-axis bias (shifts X origin to positive range) */

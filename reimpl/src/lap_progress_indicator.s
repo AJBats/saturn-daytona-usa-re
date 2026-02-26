@@ -32,146 +32,146 @@
     .global lap_progress_indicator
     .type lap_progress_indicator, @function
 lap_progress_indicator:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    sts.l pr, @-r15
+    mov.l r14, @-r15                   ! save r14 (draw fn ptr) on stack
+    mov.l r13, @-r15                   ! save r13 (lap layout index) on stack
+    mov.l r12, @-r15                   ! save r12 (lap_state ptr) on stack
+    mov.l r11, @-r15                   ! save r11 (scaled lap offset) on stack
+    mov.l r10, @-r15                   ! save r10 (display struct ptr) on stack
+    sts.l pr, @-r15                    ! save return address on stack
     .byte   0xD0, 0x09    /* mov.l .L_game_mode, r0 */
-    mov.b @r0, r0                     /* read game mode byte */
-    extu.b r0, r0
-    cmp/eq #0xB, r0                   /* mode 0xB = specific race variant */
-    bf/s    .L_0601121E               /* not mode 0xB → default r13 = 3 */
-    mov #0x3, r13                      /* r13 = 3 (default lap count) */
+    mov.b @r0, r0                      ! load game_mode byte into r0
+    extu.b r0, r0                      ! zero-extend byte → unsigned r0
+    cmp/eq #0xB, r0                    ! check if game_mode == 0xB (variant mode)
+    bf/s    .L_not_mode_b              ! branch if not mode 0xB → use default r13=3
+    mov #0x3, r13                      ! delay slot: r13 = 3 (default 3-lap layout)
     .byte   0xD0, 0x07    /* mov.l .L_mode_flags, r0 */
-    mov.l @r0, r0                     /* check mode flag bit 0 */
-    tst #0x1, r0
-    bt      .L_0601121C              /* bit 0 clear → r13 = 4 */
-    bra     .L_0601121E              /* bit 0 set → keep r13 = 3 */
-    nop
+    mov.l @r0, r0                      ! load mode_flags word into r0
+    tst #0x1, r0                       ! test bit 0 of mode_flags
+    bt      .L_set_lap4               ! if bit 0 clear → branch to set r13 = 4
+    bra     .L_not_mode_b              ! bit 0 set → keep r13 = 3, skip to mode check done
+    nop                                ! delay slot (no-op)
 
     .global DAT_06011206
 DAT_06011206:
-    mov.l @(r0, r9), r2
+    mov.l @(r0, r9), r2                ! [DATA ARTIFACT] raw bytes 0x006C decodes as mov.l opcode; not executed
     .word 0x04A8 /* UNKNOWN */
     .word 0x02BA /* UNKNOWN */
-    mov.b r12, @(r0, r4)
+    mov.b r12, @(r0, r4)              ! [DATA ARTIFACT] raw bytes 0x00CC decodes as mov.b opcode; not executed
     .word 0xFFFF /* UNKNOWN */
     .4byte  sym_06078644               /* (adjacent data) */
 .L_game_mode:
     .4byte  sym_0607887F               /* game mode byte (0xB = variant) */
 .L_mode_flags:
     .4byte  sym_0607EBC8               /* mode configuration flags (bit 0 = lap count) */
-.L_0601121C:
-    mov #0x4, r13                      /* r13 = 4 (alternate lap count) */
-.L_0601121E:
+.L_set_lap4:
+    mov #0x4, r13                      ! r13 = 4 (4-lap layout for mode 0xB, bit 0 clear)
+.L_not_mode_b:
     .byte   0xDC, 0x32    /* mov.l .L_lap_state, r12 */
     .byte   0xDE, 0x32    /* mov.l .L_fn_draw_elem, r14 */
     .byte   0xD0, 0x33    /* mov.l .L_race_active_flag, r0 */
-    mov.l @r0, r0                     /* check if race is active */
-    tst r0, r0
-    bt      .L_06011280              /* race not active → path B */
+    mov.l @r0, r0                      ! load race_active_flag into r0
+    tst r0, r0                         ! test if race is active (nonzero)
+    bt      .L_path_b_race_inactive    ! if zero (not active) → branch to path B
     .byte   0xDA, 0x32    /* mov.l .L_disp_struct, r10 */
-    mov r13, r11                       /* --- PATH A: race active --- */
-    mov.w   .L_vdp1_off_position, r6  /* element 1: VDP1 offset 0x02A0 */
+    mov r13, r11                       ! r11 = r13 (lap layout index, path A start)
+    mov.w   .L_vdp1_off_position, r6   ! r6 = 0x02A0 (VDP1 offset for position element)
     .byte   0xD5, 0x31    /* mov.l .L_sprite_position_a, r5 */
-    mov.l @(4, r10), r7               /* r7 = display base */
-    add #0x2, r11                      /* r11 = (r13 + 2) */
-    shll8 r11                          /* × 256 */
-    shll2 r11                          /* × 1024 total = × 0x400 */
-    shll2 r11
-    add r11, r7                        /* r7 += (r13+2) * 0x400 (lap row) */
-    jsr @r14                           /* draw position element */
-    mov #0x4, r4
-    mov.l @(4, r10), r7               /* element 2: VDP1 offset 0x0530 */
-    mov.w   .L_vdp1_off_count, r6
-    mov.l @r12, r0                     /* check lap_state */
-    tst r0, r0
-    bt/s    .L_06011252               /* state == 0 → inactive sprite */
-    add r11, r7
-    bra     .L_06011254
-    mov #0x1, r0                       /* state != 0 → active sprite (index 1) */
-.L_06011252:
-    mov #0x0, r0                       /* inactive sprite (index 0) */
-.L_06011254:
-    shll2 r0                           /* index * 4 */
+    mov.l @(4, r10), r7               ! r7 = display struct base address (+4)
+    add #0x2, r11                      ! r11 = r13 + 2 (lap row selector offset)
+    shll8 r11                          ! r11 <<= 8 → r11 = (r13+2) * 256
+    shll2 r11                          ! r11 <<= 2 → r11 = (r13+2) * 1024
+    shll2 r11                          ! r11 <<= 2 → r11 = (r13+2) * 0x400
+    add r11, r7                        ! r7 += (r13+2)*0x400 (lap-specific tile row)
+    jsr @r14                           ! call draw_elem(r4=4, r5=sprite_position_a, r6=0x02A0, r7=display_base+row)
+    mov #0x4, r4                       ! delay slot: r4 = 4 (element draw param)
+    mov.l @(4, r10), r7               ! r7 = display struct base address again
+    mov.w   .L_vdp1_off_count, r6     ! r6 = 0x0530 (VDP1 offset for count element)
+    mov.l @r12, r0                     ! r0 = *lap_state (0 = inactive, nonzero = active)
+    tst r0, r0                         ! test lap_state
+    bt/s    .L_path_a_count_inactive   ! if lap_state == 0 → use inactive sprite index
+    add r11, r7                        ! delay slot: r7 += lap row offset (r11)
+    bra     .L_path_a_count_done       ! lap_state != 0 → active sprite, skip to done
+    mov #0x1, r0                       ! delay slot: r0 = 1 (active sprite index)
+.L_path_a_count_inactive:
+    mov #0x0, r0                       ! r0 = 0 (inactive sprite index)
+.L_path_a_count_done:
+    shll2 r0                           ! r0 *= 4 (byte offset into sprite entry)
     .byte   0xD5, 0x29    /* mov.l .L_car_index, r5 */
     .byte   0xD3, 0x29    /* mov.l .L_sprite_table, r3 */
-    mov.l @r5, r5
-    shll2 r5                           /* car_index * 4 */
-    shll r5                            /* car_index * 8 (table entry stride) */
-    add r3, r5                         /* r5 → sprite_table[car_index] */
-    mov.l @(r0, r5), r5               /* select active/inactive entry */
-    jsr @r14                           /* draw count element */
-    mov #0x4, r4
-    mov.l @(4, r10), r7               /* element 3: VDP1 offset 0x0534 */
-    mov.w   DAT_060112e6, r6
-    mov.l @r12, r0                     /* check lap_state again */
-    tst r0, r0
-    bt/s    .L_0601127A               /* state == 0 → inactive sprite */
-    add r11, r7
+    mov.l @r5, r5                      ! r5 = *car_index (player car index value)
+    shll2 r5                           ! r5 *= 4 → car_index * 4
+    shll r5                            ! r5 *= 2 → car_index * 8 (8-byte table stride)
+    add r3, r5                         ! r5 = sprite_table + car_index*8 (per-car entry)
+    mov.l @(r0, r5), r5               ! r5 = sprite_table[car_index][active/inactive]
+    jsr @r14                           ! call draw_elem(r4=4, r5=sprite, r6=0x0530, r7=display_base+row)
+    mov #0x4, r4                       ! delay slot: r4 = 4
+    mov.l @(4, r10), r7               ! r7 = display struct base address again
+    mov.w   DAT_060112e6, r6           ! r6 = 0x0534 (VDP1 offset for indicator border)
+    mov.l @r12, r0                     ! r0 = *lap_state
+    tst r0, r0                         ! test lap_state again
+    bt/s    .L_path_a_border_inactive  ! if lap_state == 0 → use inactive sprite
+    add r11, r7                        ! delay slot: r7 += lap row offset
     .byte   0xD5, 0x23    /* mov.l .L_sprite_active, r5 */
-    bra     .L_060112D0               /* → draw and exit */
-    nop
-.L_0601127A:
+    bra     .L_shared_draw_exit        ! active sprite loaded → jump to draw + exit
+    nop                                ! delay slot (no-op)
+.L_path_a_border_inactive:
     .byte   0xD5, 0x23    /* mov.l .L_sprite_inactive, r5 */
-    bra     .L_060112D0               /* → draw and exit */
-    nop
-.L_06011280:                              /* --- PATH B: race not active --- */
+    bra     .L_shared_draw_exit        ! inactive sprite loaded → jump to draw + exit
+    nop                                ! delay slot (no-op)
+.L_path_b_race_inactive:              ! --- PATH B: race not active ---
     .byte   0xDA, 0x1C    /* mov.l .L_disp_struct, r10 */
-    mov r13, r11
-    mov.w   .L_vdp1_off_position, r6  /* element 1: VDP1 offset 0x02A0 */
+    mov r13, r11                       ! r11 = r13 (lap layout index, path B start)
+    mov.w   .L_vdp1_off_position, r6   ! r6 = 0x02A0 (VDP1 offset for position element)
     .byte   0xD5, 0x21    /* mov.l .L_sprite_position_b, r5 */
-    mov.l @(4, r10), r7               /* r7 = display base (no lap row offset) */
-    shll8 r11                          /* r11 = r13 * 0x400 */
-    shll2 r11
-    shll2 r11
-    add r11, r7
-    jsr @r14                           /* draw position element */
-    mov #0x4, r4
-    mov.l @(4, r10), r7               /* element 2: VDP1 offset 0x0530 */
-    mov.w   .L_vdp1_off_count, r6
-    mov.l @r12, r0                     /* check lap_state */
-    tst r0, r0
-    bt/s    .L_060112A6               /* state == 0 → inactive */
-    add r11, r7
-    bra     .L_060112A8
-    mov #0x1, r0
-.L_060112A6:
-    mov #0x0, r0
-.L_060112A8:
-    shll2 r0
+    mov.l @(4, r10), r7               ! r7 = display struct base address (+4)
+    shll8 r11                          ! r11 <<= 8 → r11 = r13 * 256
+    shll2 r11                          ! r11 <<= 2 → r11 = r13 * 1024
+    shll2 r11                          ! r11 <<= 2 → r11 = r13 * 0x400 (no +2 bias in path B)
+    add r11, r7                        ! r7 += r13*0x400 (lap row, no +2 offset)
+    jsr @r14                           ! call draw_elem(r4=4, r5=sprite_position_b, r6=0x02A0, r7=display_base+row)
+    mov #0x4, r4                       ! delay slot: r4 = 4
+    mov.l @(4, r10), r7               ! r7 = display struct base address again
+    mov.w   .L_vdp1_off_count, r6     ! r6 = 0x0530 (VDP1 offset for count element)
+    mov.l @r12, r0                     ! r0 = *lap_state
+    tst r0, r0                         ! test lap_state
+    bt/s    .L_path_b_count_inactive   ! if lap_state == 0 → inactive sprite
+    add r11, r7                        ! delay slot: r7 += lap row offset
+    bra     .L_path_b_count_done       ! lap_state != 0 → active
+    mov #0x1, r0                       ! delay slot: r0 = 1 (active sprite index)
+.L_path_b_count_inactive:
+    mov #0x0, r0                       ! r0 = 0 (inactive sprite index)
+.L_path_b_count_done:
+    shll2 r0                           ! r0 *= 4 (byte offset into sprite entry)
     .byte   0xD5, 0x14    /* mov.l .L_car_index, r5 */
     .byte   0xD3, 0x14    /* mov.l .L_sprite_table, r3 */
-    mov.l @r5, r5
-    shll2 r5
-    shll r5
-    add r3, r5
-    mov.l @(r0, r5), r5
-    jsr @r14                           /* draw count element */
-    mov #0x4, r4
-    mov.l @(4, r10), r7               /* element 3: VDP1 offset 0x0534 */
-    mov.w   DAT_060112e6, r6
-    mov.l @r12, r0                     /* check lap_state */
-    tst r0, r0
-    bt/s    .L_060112CE               /* state == 0 → inactive */
-    add r11, r7
+    mov.l @r5, r5                      ! r5 = *car_index
+    shll2 r5                           ! r5 *= 4 → car_index * 4
+    shll r5                            ! r5 *= 2 → car_index * 8 (8-byte table stride)
+    add r3, r5                         ! r5 = sprite_table + car_index*8
+    mov.l @(r0, r5), r5               ! r5 = sprite_table[car_index][active/inactive]
+    jsr @r14                           ! call draw_elem(r4=4, r5=sprite, r6=0x0530, r7=display_base+row)
+    mov #0x4, r4                       ! delay slot: r4 = 4
+    mov.l @(4, r10), r7               ! r7 = display struct base address again
+    mov.w   DAT_060112e6, r6           ! r6 = 0x0534 (VDP1 offset for indicator border)
+    mov.l @r12, r0                     ! r0 = *lap_state
+    tst r0, r0                         ! test lap_state
+    bt/s    .L_path_b_border_inactive  ! if lap_state == 0 → inactive sprite
+    add r11, r7                        ! delay slot: r7 += lap row offset
     .byte   0xD5, 0x0E    /* mov.l .L_sprite_active, r5 */
-    bra     .L_060112D0
-    nop
-.L_060112CE:
+    bra     .L_shared_draw_exit        ! active sprite loaded → jump to draw + exit
+    nop                                ! delay slot (no-op)
+.L_path_b_border_inactive:
     .byte   0xD5, 0x0E    /* mov.l .L_sprite_inactive, r5 */
-.L_060112D0:                              /* --- shared draw + exit --- */
-    jsr @r14                           /* draw final element */
-    mov #0x4, r4
-    lds.l @r15+, pr
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_shared_draw_exit:                   ! --- shared draw + exit (both paths) ---
+    jsr @r14                           ! call draw_elem(r4=4, r5=sprite, r6=0x0534, r7=display_base+row)
+    mov #0x4, r4                       ! delay slot: r4 = 4
+    lds.l @r15+, pr                    ! restore return address from stack
+    mov.l @r15+, r10                   ! restore r10
+    mov.l @r15+, r11                   ! restore r11
+    mov.l @r15+, r12                   ! restore r12
+    mov.l @r15+, r13                   ! restore r13
+    rts                                ! return to caller
+    mov.l @r15+, r14                   ! delay slot: restore r14
 .L_vdp1_off_position:
     .2byte  0x02A0                        /* VDP1 cmd offset: position/lap icon */
 .L_vdp1_off_count:
