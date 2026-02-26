@@ -9,34 +9,34 @@
     .global menu_cursor_pos
     .type menu_cursor_pos, @function
 menu_cursor_pos:
-    mov.l r14, @-r15
-    mov.l @(24, r15), r2
-    mov.l r2, @-r15
-    mov.l @(20, r15), r3
-    mov.l r3, @-r15
-    mov.l @(20, r15), r7
-    mov.l @(28, r15), r4
+    mov.l r14, @-r15        ! save r14 on stack
+    mov.l @(24, r15), r2    ! load arg from caller's stack frame
+    mov.l r2, @-r15         ! push arg onto stack
+    mov.l @(20, r15), r3    ! load next arg from caller's stack frame
+    mov.l r3, @-r15         ! push arg onto stack
+    mov.l @(20, r15), r7    ! load callback/param from stack
+    mov.l @(28, r15), r4    ! load pointer to cursor data
     .byte   0xB6, 0xAD    /* bsr 0x0603BE9C (external) */
-    mov.l @r4, r4
-    add #0x10, r15
-    mov.l @r15, r0
-    tst #0x8, r0
-    bt      .L_0603B15C
-    bra     .L_0603B14E
-    nop
-.L_0603B14E:
-    mov.l @r15, r0
-    tst #0x4, r0
-    bt      .L_0603B15C
-    bra     .L_0603B158
-    nop
-.L_0603B158:
-    mov.l @(4, r15), r2
-    mov.l r14, @r2
-.L_0603B15C:
+    mov.l @r4, r4           ! delay slot: dereference cursor data pointer
+    add #0x10, r15          ! pop two pushed args + alignment
+    mov.l @r15, r0          ! load result flags
+    tst #0x8, r0            ! test bit 3 (cursor active flag)
+    bt      .L_done         ! if not active, skip to cleanup
+    bra     .L_check_write  ! otherwise check write condition
+    nop                     ! delay slot
+.L_check_write:
+    mov.l @r15, r0          ! reload result flags
+    tst #0x4, r0            ! test bit 2 (position changed flag)
+    bt      .L_done         ! if position unchanged, skip store
+    bra     .L_store_pos    ! otherwise store new position
+    nop                     ! delay slot
+.L_store_pos:
+    mov.l @(4, r15), r2    ! load output pointer from stack
+    mov.l r14, @r2          ! store cursor position to output
+.L_done:
     .byte   0xB3, 0xEE    /* bsr 0x0603B93C (external) */
-    mov #0x0, r4
-    add #0x14, r15
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    mov #0x0, r4            ! delay slot: pass 0 as cleanup arg
+    add #0x14, r15          ! restore stack (5 words)
+    lds.l @r15+, pr         ! restore return address
+    rts                     ! return to caller
+    mov.l @r15+, r14        ! delay slot: restore r14

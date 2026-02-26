@@ -9,59 +9,59 @@
     .global obj_anim_advance
     .type obj_anim_advance, @function
 obj_anim_advance:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    sts.l pr, @-r15
-    mov #0x10, r13
-    mov #0x0, r14
-.L_06020DDA:
-    bsr     .L_06020DEE
-    extu.b r14, r4
-    add #0x1, r14
-    extu.b r14, r2
-    cmp/ge r13, r2
-    bf      .L_06020DDA
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-.L_06020DEE:
-    extu.b r4, r4
-    mov r4, r3
-    shll2 r4
-    shll2 r3
-    shll2 r3
-    shll2 r3
-    add r3, r4
-    exts.w r4, r4
-    mov.l   .L_pool_06020E38, r2
-    add r2, r4
-    mov #0x0, r5
-    extu.b r5, r0
-    mov.b r0, @(2, r4)
-    mov.b r0, @(1, r4)
-    mov.b r0, @r4
-    mov.l r5, @(12, r4)
-    mov r5, r3
-    mov.l r5, @(8, r4)
-    mov r3, r2
-    mov.l r3, @(4, r4)
-    mov.l r2, @(24, r4)
-    mov.l r2, @(20, r4)
-    mov.l r2, @(16, r4)
-    mov.l r2, @(36, r4)
-    mov.l r2, @(32, r4)
-    mov.l r2, @(28, r4)
-    mov.l r2, @(48, r4)
-    mov.l r2, @(44, r4)
-    mov.l r2, @(40, r4)
-    mov.l r2, @(56, r4)
-    mov.l r2, @(52, r4)
-    mov #0x41, r0
-    mov.b r2, @(r0, r4)
-    mov #0x40, r0
-    rts
-    mov.b r2, @(r0, r4)
-    .2byte  0xFFFF
-.L_pool_06020E38:
-    .4byte  sym_0608782C
+    mov.l r14, @-r15                ! save r14 (slot index counter)
+    mov.l r13, @-r15                ! save r13 (slot count limit)
+    sts.l pr, @-r15                 ! save return address
+    mov #0x10, r13                  ! r13 = 16 (total object slots)
+    mov #0x0, r14                   ! r14 = 0 (starting slot index)
+.L_slot_loop:
+    bsr     .L_clear_slot_anim      ! call clear_slot_anim(slot_index)
+    extu.b r14, r4                  ! (delay slot) r4 = slot index (zero-extended byte, arg1)
+    add #0x1, r14                   ! r14++ (advance to next slot)
+    extu.b r14, r2                  ! r2 = next slot index (zero-extended)
+    cmp/ge r13, r2                  ! test: slot_index >= 16?
+    bf      .L_slot_loop            ! if not, loop to next slot
+    lds.l @r15+, pr                 ! restore return address
+    mov.l @r15+, r13                ! restore r13
+    rts                             ! return to caller
+    mov.l @r15+, r14                ! (delay slot) restore r14
+.L_clear_slot_anim:
+    extu.b r4, r4                   ! r4 = slot index (zero-extended, ensure clean byte)
+    mov r4, r3                      ! r3 = slot index (copy for large stride)
+    shll2 r4                        ! r4 = slot * 4
+    shll2 r3                        ! r3 = slot * 4
+    shll2 r3                        ! r3 = slot * 16
+    shll2 r3                        ! r3 = slot * 64
+    add r3, r4                      ! r4 = slot*4 + slot*64 = slot * 68 (byte offset)
+    exts.w r4, r4                   ! r4 = sign-extend offset to 32-bit
+    mov.l   .L_pool_slot_array_base, r2 ! r2 = &sym_0608782C (object slot array base)
+    add r2, r4                      ! r4 = pointer to this slot's anim struct
+    mov #0x0, r5                    ! r5 = 0 (clear value)
+    extu.b r5, r0                   ! r0 = 0 (byte-size clear value)
+    mov.b r0, @(2, r4)              ! slot[2] = 0 (anim header byte 2)
+    mov.b r0, @(1, r4)              ! slot[1] = 0 (anim header byte 1)
+    mov.b r0, @r4                   ! slot[0] = 0 (anim header byte 0)
+    mov.l r5, @(12, r4)             ! slot[12..15] = 0 (anim field 3)
+    mov r5, r3                      ! r3 = 0 (copy for bulk clear)
+    mov.l r5, @(8, r4)              ! slot[8..11] = 0 (anim field 2)
+    mov r3, r2                      ! r2 = 0 (copy for bulk clear)
+    mov.l r3, @(4, r4)              ! slot[4..7] = 0 (anim field 1)
+    mov.l r2, @(24, r4)             ! slot[24..27] = 0 (anim field 6)
+    mov.l r2, @(20, r4)             ! slot[20..23] = 0 (anim field 5)
+    mov.l r2, @(16, r4)             ! slot[16..19] = 0 (anim field 4)
+    mov.l r2, @(36, r4)             ! slot[36..39] = 0 (anim field 9)
+    mov.l r2, @(32, r4)             ! slot[32..35] = 0 (anim field 8)
+    mov.l r2, @(28, r4)             ! slot[28..31] = 0 (anim field 7)
+    mov.l r2, @(48, r4)             ! slot[48..51] = 0 (anim field 12)
+    mov.l r2, @(44, r4)             ! slot[44..47] = 0 (anim field 11)
+    mov.l r2, @(40, r4)             ! slot[40..43] = 0 (anim field 10)
+    mov.l r2, @(56, r4)             ! slot[56..59] = 0 (anim field 14)
+    mov.l r2, @(52, r4)             ! slot[52..55] = 0 (anim field 13)
+    mov #0x41, r0                   ! r0 = 0x41 (byte offset 65)
+    mov.b r2, @(r0, r4)             ! slot[65] = 0 (anim tail byte 1)
+    mov #0x40, r0                   ! r0 = 0x40 (byte offset 64)
+    rts                             ! return to caller
+    mov.b r2, @(r0, r4)             ! (delay slot) slot[64] = 0 (anim tail byte 0)
+    .2byte  0xFFFF                  ! alignment padding
+.L_pool_slot_array_base:
+    .4byte  sym_0608782C            ! &sym_0608782C — object slot array base (68 bytes per slot)
