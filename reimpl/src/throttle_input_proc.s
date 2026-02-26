@@ -6,115 +6,155 @@
     .section .text.FUN_06011F92
 
 
+/*
+ * throttle_input_proc — RGB555 palette fade-up
+ *
+ * Incrementally fades a 16-entry palette toward a target palette, one
+ * RGB step per call.  Each of the three channels (R bits 0-4, G bits
+ * 5-9, B bits 10-14) is advanced independently by +1 toward the
+ * corresponding target channel.  Once a channel reaches its target it
+ * is clamped and stops advancing.
+ *
+ * Called once per frame during screen transitions (e.g. transition_medium_c)
+ * to smoothly bring a VDP2 CRAM palette region from black to its final
+ * values.
+ *
+ * Args:
+ *   r4 — pointer to source palette (16 x uint16, modified in place)
+ *   r5 — pointer to target palette (16 x uint16, read-only)
+ *
+ * Returns: void
+ *
+ * Register plan:
+ *   r8  = loop limit (16 entries)
+ *   r9  = blue channel step (0x0400 = 1 << 10)
+ *   r10 = zero constant (used to clear pixel, also initial loop index)
+ *   r11 = loop counter
+ *   r12 = current target pixel (raw halfword)
+ *   r13 = current source pixel (raw halfword)
+ *   r14 = red channel mask (0x1F)
+ *   r7  = green channel mask (0x03E0 = 0x0400 - 0x20)
+ *   r6  = blue channel mask (0x7C00)
+ *   stack[0]  = incremented source channel value
+ *   stack[4]  = sign-extended target pixel (for clamp comparison)
+ */
     .global throttle_input_proc
     .type throttle_input_proc, @function
 throttle_input_proc:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    mov.l r8, @-r15
-    add #-0x8, r15
-    mov #0x10, r8
-    mov.w   .L_wpool_06011FDA, r9
-    mov #0x0, r10
-    mov #0x1F, r14
-    mov r9, r7
-    add #-0x20, r7
-    mov.w   DAT_06011fd6, r6
-    exts.w r10, r11
-.L_06011FB2:
-    mov.w @r4, r13
-    mov.w @r5, r12
-    exts.w r13, r3
-    mov.w r10, @r4
-    exts.w r12, r2
-    and r14, r3
-    add #0x1, r3
-    mov.l r3, @r15
-    mov.l r2, @(4, r15)
-    cmp/ge r2, r3
-    .word 0x0029 /* UNKNOWN */
-    xor #0x1, r0
-    and r14, r0
-    tst r0, r0
-    bt      .L_06011FDC
-    bra     .L_06011FE0
-    mov.l @r15, r2
+    mov.l r14, @-r15               ! save r14 (callee-saved)
+    mov.l r13, @-r15               ! save r13
+    mov.l r12, @-r15               ! save r12
+    mov.l r11, @-r15               ! save r11
+    mov.l r10, @-r15               ! save r10
+    mov.l r9, @-r15                ! save r9
+    mov.l r8, @-r15                ! save r8
+    add #-0x8, r15                 ! allocate 8 bytes of stack for two temp slots
+    mov #0x10, r8                  ! r8 = 16 — number of palette entries to process
+    mov.w   .L_wpool_06011FDA, r9  ! r9 = 0x0400 — blue channel step (1 in bit-10 position)
+    mov #0x0, r10                  ! r10 = 0 — used to clear source pixel and as initial counter
+    mov #0x1F, r14                 ! r14 = 0x1F — red channel mask (bits 0-4)
+    mov r9, r7                     ! r7 = 0x0400 (will become green mask)
+    add #-0x20, r7                 ! r7 = 0x03E0 — green channel mask (0x0400 - 0x20)
+    mov.w   DAT_06011fd6, r6       ! r6 = 0x7C00 — blue channel mask (bits 10-14)
+    exts.w r10, r11                ! r11 = 0 — loop counter (sign-extended from r10)
+
+    /* ====== Main loop: process one palette entry per iteration ====== */
+.pixel_loop:
+    mov.w @r4, r13                 ! r13 = source pixel (current color being faded)
+    mov.w @r5, r12                 ! r12 = target pixel (destination color to fade toward)
+    exts.w r13, r3                 ! r3 = source pixel (sign-extended to 32-bit)
+    mov.w r10, @r4                 ! clear source pixel to 0 (will rebuild with updated channels)
+    exts.w r12, r2                 ! r2 = target pixel (sign-extended to 32-bit)
+    and r14, r3                    ! r3 = source red channel (bits 0-4 only)
+    add #0x1, r3                   ! r3 = source red + 1 (advance red by one step)
+    mov.l r3, @r15                 ! stack[0] = incremented red value
+    mov.l r2, @(4, r15)            ! stack[4] = full target pixel (for clamp branch)
+    cmp/ge r2, r3                  ! T = 1 if (src_red+1 >= target_full), signed
+    .word 0x0029 /* MOVT R0 */     ! r0 = T (1 if exceeded target, 0 if still fading)
+    xor #0x1, r0                   ! r0 = !T (1 if still fading, 0 if clamped)
+    and r14, r0                    ! r0 &= 0x1F (no-op since r0 is 0 or 1, but matches mask)
+    tst r0, r0                     ! test if r0 == 0
+    bt      .red_clamp             ! if exceeded target → clamp to target red
+    bra     .red_store             ! else → use incremented red value
+    mov.l @r15, r2                 ! (delay slot) r2 = source_red + 1
 
     .global DAT_06011fd4
 DAT_06011fd4:
-    .word 0x03E0 /* UNKNOWN */
+    .word 0x03E0 /* green channel mask (bits 5-9) — referenced externally */
 
     .global DAT_06011fd6
 DAT_06011fd6:
-    .2byte  0x7C00
-    .2byte  0xF800
+    .2byte  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
+    .2byte  0xF800                 /* (adjacent data, not used by this function) */
 .L_wpool_06011FDA:
-    .2byte  0x0400
-.L_06011FDC:
-    mov.l @(4, r15), r2
-    and r14, r2
-.L_06011FE0:
-    mov.w @r4, r1
-    exts.w r12, r3
-    or r2, r1
-    exts.w r13, r2
-    mov.w r1, @r4
-    and r7, r2
-    add #0x20, r2
-    mov.l r2, @r15
-    mov.l r3, @(4, r15)
-    cmp/ge r3, r2
-    .word 0x0029 /* UNKNOWN */
-    xor #0x1, r0
-    and r7, r0
-    tst r0, r0
-    bt      .L_06012002
-    bra     .L_06012006
-    mov.l @r15, r3
-.L_06012002:
-    mov.l @(4, r15), r3
-    and r7, r3
-.L_06012006:
-    exts.w r13, r2
-    mov.w @r4, r1
-    and r6, r2
-    or r3, r1
-    add r9, r2
-    mov.w r1, @r4
-    exts.w r12, r3
-    mov.l r2, @r15
-    mov.l r3, @(4, r15)
-    cmp/ge r3, r2
-    .word 0x0029 /* UNKNOWN */
-    xor #0x1, r0
-    and r6, r0
-    tst r0, r0
-    bt      .L_06012028
-    bra     .L_0601202C
-    mov.l @r15, r3
-.L_06012028:
-    mov.l @(4, r15), r3
-    and r6, r3
-.L_0601202C:
-    mov.w @r4, r1
-    add #0x1, r11
-    or r3, r1
-    exts.w r11, r3
-    mov.w r1, @r4
-    add #0x2, r4
-    cmp/ge r8, r3
-    bf/s    .L_06011FB2
-    add #0x2, r5
-    add #0x8, r15
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    .2byte  0x0400                 /* blue channel step (1 << 10) — loaded into r9 */
+
+.red_clamp:
+    mov.l @(4, r15), r2            ! r2 = full target pixel
+    and r14, r2                    ! r2 = target red channel only (bits 0-4)
+.red_store:
+    /* r2 now holds the red result (either src+1 or clamped target_red) */
+    mov.w @r4, r1                  ! r1 = current accumulated pixel (0 after clear)
+    exts.w r12, r3                 ! r3 = full target pixel (sign-extended, for green compare)
+    or r2, r1                      ! OR red result into accumulated pixel
+    exts.w r13, r2                 ! r2 = full source pixel (sign-extended)
+    mov.w r1, @r4                  ! write back pixel with red channel set
+    and r7, r2                     ! r2 = source green channel (bits 5-9 only)
+    add #0x20, r2                  ! r2 = source green + 1 step (0x20 = 1 in green position)
+    mov.l r2, @r15                 ! stack[0] = incremented green value
+    mov.l r3, @(4, r15)            ! stack[4] = full target pixel
+    cmp/ge r3, r2                  ! T = 1 if (src_green+step >= target_full), signed
+    .word 0x0029 /* MOVT R0 */     ! r0 = T
+    xor #0x1, r0                   ! r0 = !T (1 if still fading, 0 if clamped)
+    and r7, r0                     ! r0 &= 0x03E0 (mask to green field width)
+    tst r0, r0                     ! test if r0 == 0
+    bt      .green_clamp           ! if exceeded target → clamp to target green
+    bra     .green_store           ! else → use incremented green value
+    mov.l @r15, r3                 ! (delay slot) r3 = source_green + step
+.green_clamp:
+    mov.l @(4, r15), r3            ! r3 = full target pixel
+    and r7, r3                     ! r3 = target green channel only (bits 5-9)
+.green_store:
+    /* r3 now holds the green result (either src+step or clamped target_green) */
+    exts.w r13, r2                 ! r2 = full source pixel (sign-extended)
+    mov.w @r4, r1                  ! r1 = accumulated pixel (has red channel)
+    and r6, r2                     ! r2 = source blue channel (bits 10-14 only)
+    or r3, r1                      ! OR green result into accumulated pixel
+    add r9, r2                     ! r2 = source blue + 1 step (r9 = 0x0400)
+    mov.w r1, @r4                  ! write back pixel with red + green set
+    exts.w r12, r3                 ! r3 = full target pixel (sign-extended, for blue compare)
+    mov.l r2, @r15                 ! stack[0] = incremented blue value
+    mov.l r3, @(4, r15)            ! stack[4] = full target pixel
+    cmp/ge r3, r2                  ! T = 1 if (src_blue+step >= target_full), signed
+    .word 0x0029 /* MOVT R0 */     ! r0 = T
+    xor #0x1, r0                   ! r0 = !T (1 if still fading, 0 if clamped)
+    and r6, r0                     ! r0 &= 0x7C00 (mask to blue field width)
+    tst r0, r0                     ! test if r0 == 0
+    bt      .blue_clamp            ! if exceeded target → clamp to target blue
+    bra     .blue_store            ! else → use incremented blue value
+    mov.l @r15, r3                 ! (delay slot) r3 = source_blue + step
+.blue_clamp:
+    mov.l @(4, r15), r3            ! r3 = full target pixel
+    and r6, r3                     ! r3 = target blue channel only (bits 10-14)
+.blue_store:
+    /* r3 now holds the blue result (either src+step or clamped target_blue) */
+    mov.w @r4, r1                  ! r1 = accumulated pixel (has red + green)
+    add #0x1, r11                  ! r11++ (advance loop counter)
+    or r3, r1                      ! OR blue result into accumulated pixel
+    exts.w r11, r3                 ! r3 = loop counter (sign-extended for compare)
+    mov.w r1, @r4                  ! write back final pixel with all three channels
+    add #0x2, r4                   ! advance source pointer to next halfword
+    cmp/ge r8, r3                  ! T = 1 if loop counter >= 16 (done)
+    bf/s    .pixel_loop            ! if not done, loop back to next pixel
+    add #0x2, r5                   ! (delay slot) advance target pointer to next halfword
+
+    /* ====== Epilogue: restore registers and return ====== */
+    add #0x8, r15                  ! free stack temporaries
+    mov.l @r15+, r8                ! restore r8
+    mov.l @r15+, r9                ! restore r9
+    mov.l @r15+, r10               ! restore r10
+    mov.l @r15+, r11               ! restore r11
+    mov.l @r15+, r12               ! restore r12
+    mov.l @r15+, r13               ! restore r13
+    rts                            ! return to caller
+    mov.l @r15+, r14               ! (delay slot) restore r14

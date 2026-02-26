@@ -8,25 +8,50 @@
 
     .global tachometer_ctrl
     .type tachometer_ctrl, @function
+
+/*
+ * tachometer_ctrl -- HUD tachometer display state controller
+ *
+ * Manages tachometer/HUD display transitions based on button input
+ * and a countdown timer. Each frame:
+ *   1. Decrements the countdown timer.
+ *   2. If button bit 0x0100 is pressed, resets game state to 0 and exits.
+ *   3. If countdown has not reached threshold (0x06FC), exits early.
+ *   4. If countdown expired (<=0) or button bit 0x0200 is pressed:
+ *      - Copies game mode word to HUD element index
+ *      - Sanitizes invalid mode values (0xE1, 0xE2, 0x4) to zero
+ *      - Calls hud_element_draw to refresh display
+ *      - Resets countdown timer and sets game state to 0x0A
+ *      - If frame index < 10, tail-calls display element renderer
+ *        with tachometer display parameters
+ *
+ * Args:
+ *   r4 = button input flags (16-bit, upper bits ignored)
+ *
+ * Calls: hud_element_draw (BSR), sym_060284AE (tail-call display renderer)
+ * Reads: sym_0607EBCC (countdown timer), sym_0607887F (game state byte),
+ *        sym_06063D9E (game mode word), sym_06078868 (frame index)
+ * Writes: sym_0607EBCC, sym_0607887F, sym_06063F42 (HUD element index)
+ */
 tachometer_ctrl:
-    mov.l r14, @-r15
-    extu.w r4, r2
-    mov.l r13, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_pool_06010AE4, r14
-    mov.l @r14, r3
-    add #-0x1, r3
-    mov.l r3, @r14
-    mov.w   .L_wpool_06010ACC, r3
-    and r3, r2
-    tst r2, r2
-    bt/s    .L_06010AEC
-    mov #0x0, r13
-    extu.b r13, r3
-    mov.l   .L_pool_06010AE8, r2
-    mov.b r3, @r2
-    bra     .L_06010B4C
-    nop
+    mov.l r14, @-r15                         ! save r14 on stack
+    extu.w r4, r2                            ! r2 = button_flags zero-extended to 16 bits
+    mov.l r13, @-r15                         ! save r13 on stack
+    sts.l pr, @-r15                          ! save return address on stack
+    mov.l   .L_countdown_timer_ptr, r14      ! r14 = &countdown_timer (sym_0607EBCC)
+    mov.l @r14, r3                           ! r3 = current countdown value
+    add #-0x1, r3                            ! r3-- (decrement countdown)
+    mov.l r3, @r14                           ! store decremented countdown back
+    mov.w   .L_wpool_06010ACC, r3            ! r3 = 0x0100 (button bit mask for start/select)
+    and r3, r2                               ! r2 = button_flags & 0x0100
+    tst r2, r2                               ! test if start button pressed
+    bt/s    .L_button_not_pressed             ! if button NOT pressed, branch to countdown check
+    mov #0x0, r13                            ! r13 = 0 (delay slot: prepare zero constant)
+    extu.b r13, r3                           ! r3 = 0 (zero-extended byte)
+    mov.l   .L_game_state_ptr, r2            ! r2 = &game_state_byte (sym_0607887F)
+    mov.b r3, @r2                            ! game_state_byte = 0 (reset game state)
+    bra     .L_epilogue                       ! exit function
+    nop                                      ! delay slot (nop)
     .4byte  0x00C00800
 .L_wpool_06010ACC:
     .2byte  0x0100
@@ -36,64 +61,87 @@ tachometer_ctrl:
     .4byte  sym_06063F5C
     .4byte  memcpy_word_idx
     .4byte  sym_0607EAE0
-.L_pool_06010AE4:
+.L_countdown_timer_ptr:
     .4byte  sym_0607EBCC
-.L_pool_06010AE8:
+.L_game_state_ptr:
     .4byte  sym_0607887F
-.L_06010AEC:
+
+/* Countdown check path: button was not pressed, check timer state */
+.L_button_not_pressed:
     .byte   0x95, 0x40    /* mov.w .L_wpool_06010B70, r5 */
-    mov.l @r14, r3
-    cmp/gt r5, r3
-    bt      .L_06010B4C
-    mov.l @r14, r3
-    cmp/pl r3
-    bf      .L_06010B04
-    extu.w r4, r4
+                                             ! r5 = 0x06FC (countdown threshold)
+    mov.l @r14, r3                           ! r3 = countdown timer value
+    cmp/gt r5, r3                            ! T = (countdown > threshold)?
+    bt      .L_epilogue                       ! if countdown still above threshold, exit early
+    mov.l @r14, r3                           ! r3 = countdown timer value (reload)
+    cmp/pl r3                                ! T = (countdown > 0)?
+    bf      .L_update_display_mode            ! if countdown expired (<=0), force mode update
+    extu.w r4, r4                            ! r4 = button_flags zero-extended to 16 bits
     .byte   0x93, 0x39    /* mov.w .L_wpool_06010B72, r3 */
-    and r3, r4
-    tst r4, r4
-    bt      .L_06010B4C
-.L_06010B04:
+                                             ! r3 = 0x0200 (second button bit mask)
+    and r3, r4                               ! r4 = button_flags & 0x0200
+    tst r4, r4                               ! test if second button pressed
+    bt      .L_epilogue                       ! if not pressed, exit early
+
+/* Mode update path: countdown expired or second button pressed */
+.L_update_display_mode:
     .byte   0xD5, 0x1D    /* mov.l .L_pool_06010B7C, r5 */
+                                             ! r5 = &hud_element_index (sym_06063F42)
     .byte   0xD3, 0x1E    /* mov.l .L_pool_06010B80, r3 */
-    mov.w @r3, r2
-    mov.w r2, @r5
-    mov.w @r5, r4
+                                             ! r3 = &game_mode_word (sym_06063D9E)
+    mov.w @r3, r2                            ! r2 = game_mode_word (16-bit read)
+    mov.w r2, @r5                            ! hud_element_index = game_mode_word (copy)
+    mov.w @r5, r4                            ! r4 = hud_element_index (read back)
     .byte   0x93, 0x31    /* mov.w .L_wpool_06010B74, r3 */
-    extu.w r4, r4
-    cmp/eq r3, r4
-    bt      .L_06010B22
+                                             ! r3 = 0x00E1 (invalid mode value A)
+    extu.w r4, r4                            ! r4 = hud_element_index zero-extended
+    cmp/eq r3, r4                            ! is mode == 0xE1?
+    bt      .L_reset_mode_to_zero            ! if yes, reset to zero
     .byte   0x93, 0x2E    /* mov.w .L_wpool_06010B76, r3 */
-    cmp/eq r3, r4
-    bt      .L_06010B22
-    mov r4, r0
-    cmp/eq #0x4, r0
-    bf      .L_06010B26
-.L_06010B22:
-    extu.w r13, r2
-    mov.w r2, @r5
-.L_06010B26:
+                                             ! r3 = 0x00E2 (invalid mode value B)
+    cmp/eq r3, r4                            ! is mode == 0xE2?
+    bt      .L_reset_mode_to_zero            ! if yes, reset to zero
+    mov r4, r0                               ! r0 = mode value (for cmp/eq #imm)
+    cmp/eq #0x4, r0                          ! is mode == 0x4?
+    bf      .L_call_hud_draw                  ! if not 0x4, keep current mode and proceed
+
+/* Reset display mode to zero for invalid/transition values (0xE1, 0xE2, 0x4) */
+.L_reset_mode_to_zero:
+    extu.w r13, r2                           ! r2 = 0 (zero-extended word)
+    mov.w r2, @r5                            ! hud_element_index = 0 (reset)
+
+/* Call hud_element_draw, update game state, and optionally tail-call renderer */
+.L_call_hud_draw:
     .byte   0xB0, 0x15    /* bsr 0x06010B54 (external) */
-    mov.l r13, @r14
-    mov #0xA, r4
+                                             ! call hud_element_draw
+    mov.l r13, @r14                          ! delay slot: countdown_timer = 0 (reset)
+    mov #0xA, r4                             ! r4 = 10 (new game state value)
     .byte   0xD3, 0x15    /* mov.l .L_pool_06010B84, r3 */
-    extu.b r4, r2
-    mov.b r2, @r3
+                                             ! r3 = &game_state_byte (sym_0607887F)
+    extu.b r4, r2                            ! r2 = 0x0A (zero-extended byte)
+    mov.b r2, @r3                            ! game_state_byte = 0x0A (set state to 10)
     .byte   0xD1, 0x15    /* mov.l .L_pool_06010B88, r1 */
-    mov.l @r1, r1
-    cmp/hs r4, r1
-    bt      .L_06010B4C
+                                             ! r1 = &frame_index (sym_06078868)
+    mov.l @r1, r1                            ! r1 = current frame index value
+    cmp/hs r4, r1                            ! T = (frame_index >= 10) unsigned?
+    bt      .L_epilogue                       ! if frame_index >= 10, skip renderer, exit
     .byte   0xD7, 0x14    /* mov.l .L_pool_06010B8C, r7 */
+                                             ! r7 = display_channel_base (sym_0605ACE3)
     .byte   0x96, 0x1C    /* mov.w .L_wpool_06010B78, r6 */
+                                             ! r6 = 0x0090 (144 = byte count)
     .byte   0x95, 0x1C    /* mov.w .L_wpool_06010B7A, r5 */
-    mov #0xC, r4
-    lds.l @r15+, pr
-    mov.l @r15+, r13
+                                             ! r5 = 0x07A2 (VRAM target offset)
+    mov #0xC, r4                             ! r4 = 12 (display layer index)
+    lds.l @r15+, pr                          ! restore return address
+    mov.l @r15+, r13                         ! restore r13
     .byte   0xD3, 0x12    /* mov.l .L_pool_06010B90, r3 */
-    jmp @r3
-    mov.l @r15+, r14
-.L_06010B4C:
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+                                             ! r3 = &display_elem_renderer (sym_060284AE)
+    jmp @r3                                  ! tail-call display element renderer
+    mov.l @r15+, r14                         ! delay slot: restore r14
+
+/* Normal function exit (no tail call) */
+.L_epilogue:
+    lds.l @r15+, pr                          ! restore return address
+    mov.l @r15+, r13                         ! restore r13
+    rts                                      ! return to caller
+    mov.l @r15+, r14                         ! delay slot: restore r14
