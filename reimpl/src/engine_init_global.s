@@ -59,7 +59,7 @@ engine_init_global:
     /* ---- Clear VDP2 VRAM (128KB = 0x20000 bytes) ---- */
     mov.l   .L_vdp2_vram_0x00000, r5       ! r5 = 0x25E00000 (VDP2 VRAM start)
     mov.l   .L_fp_two, r4                   ! r4 = 0x20000 (128K, loop counter)
-    bra     .L_06004AF2
+    bra     .L_vram_clear_test
     nop
 .L_irq_mask_init:
     .2byte  0x0083                          /* interrupt config: enable vblank */
@@ -76,7 +76,7 @@ engine_init_global:
     .4byte  0x25E00000                      /* VDP2 VRAM +0x00000 */
 .L_fp_two:
     .4byte  0x00020000                      /* 2.0 (16.16 fixed-point) / 128K count */
-.L_06004AE4:
+.L_vram_clear_body:
     mov r5, r2
     add #0x4, r5                            ! advance 4 bytes
     mov.l r14, @r2                          ! write 0
@@ -84,9 +84,9 @@ engine_init_global:
     add #0x4, r5                            ! advance 4 more
     mov.l r14, @r3                          ! write 0 (8 bytes per iteration)
     add #-0x2, r4                           ! decrement by 2
-.L_06004AF2:
+.L_vram_clear_test:
     tst r4, r4
-    bf      .L_06004AE4                     ! loop until all VRAM cleared
+    bf      .L_vram_clear_body                     ! loop until all VRAM cleared
 
     /* ---- Display hardware initialization ---- */
     mov.l   .L_fn_display_hw_init, r3
@@ -113,16 +113,16 @@ engine_init_global:
 
     /* ---- Wait for VBlank-OUT interrupt ---- */
     mov.l r11, @r10                         ! write 2 to SCU IST (clear VB-OUT flag)
-.L_06004B1E:
+.L_vblank_wait_check:
     mov.l @r10, r2                          ! read SCU IST
     and r11, r2                             ! isolate bit 1
     cmp/eq r11, r2                          ! VBlank-OUT fired?
-    bt      .L_06004B2A                     !   yes → continue
-    bra     .L_06004CBA                     !   no → keep spinning
+    bt      .L_vblank_done                     !   yes → continue
+    bra     .L_vblank_wait_retry                     !   no → keep spinning
     nop
 
     /* ---- Register interrupt callbacks ---- */
-.L_06004B2A:
+.L_vblank_done:
     mov.l   .L_vector_table_ptr, r3
     mov.l   .L_fn_button_input, r5          ! callback = button_input_read
     mov.l @r3, r3
@@ -203,7 +203,7 @@ engine_init_global:
     mov.l   .L_vdp2_ctrl_ch4, r3
     mov.l   .L_vdp2_ctrl_val_ch4, r2
     mov.w r2, @r3                           ! vdp2_ctrl_ch4 = 0xC024
-    bra     .L_06004C10
+    bra     .L_ch8_setup
     mov #0x4, r4
 .L_vram_page_size:
     .2byte  0x2000                          /* 8KB VRAM page size */
@@ -248,7 +248,7 @@ engine_init_global:
     .4byte  0x0000C024                      /* ch4 control value */
 
     /* ==== Channel 8: pattern table setup ==== */
-.L_06004C10:
+.L_ch8_setup:
     mov.l   .L_fn_cmd_queue_write, r3
     jsr @r3                                 ! cmd_queue_write(4) — select channel 4
     nop
@@ -337,12 +337,12 @@ engine_init_global:
     mov.l r3, @(8, r12)                     ! config[8] = 0x25E5FE80
     mov.l   .L_vdp2_vram_0x5FF00, r2
     mov.l r2, @(12, r12)                    ! config[12] = 0x25E5FF00
-    bra     .L_06004D0C
+    bra     .L_pattern_clear_test
     mov #0x0, r4                            ! loop counter = 0
 
     /* ---- Spin-wait re-entry (VBlank-OUT not yet) ---- */
-.L_06004CBA:
-    bra     .L_06004B1E                     ! loop back to check SCU IST
+.L_vblank_wait_retry:
+    bra     .L_vblank_wait_check                     ! loop back to check SCU IST
     nop
     .2byte  0xFFFF
 .L_fn_cmd_queue_write:
@@ -375,7 +375,7 @@ engine_init_global:
     .4byte  0x25E5FF00                      /* VDP2 VRAM +0x5FF00 */
 
     /* ---- Zero-fill pattern config buffer (256 bytes at config+0x1810) ---- */
-.L_06004CF8:
+.L_pattern_clear_body:
     mov.w   .L_pattern_buf_offset, r2      ! offset 0x1810
     add r12, r2
     add r4, r2
@@ -386,10 +386,10 @@ engine_init_global:
     add r4, r3
     mov.l r14, @r3                          ! config[0x1810 + i+4] = 0
     add #0x4, r4                            ! advance 8 bytes per iteration
-.L_06004D0C:
+.L_pattern_clear_test:
     mov.w   .L_pattern_buf_size, r2        ! 0x0100 = 256
     cmp/hs r2, r4
-    bf      .L_06004CF8                     ! loop until 256 bytes cleared
+    bf      .L_pattern_clear_body                     ! loop until 256 bytes cleared
 
     /* ==== Channel 16: scene buffer + pattern setup ==== */
     mov.l   .L_scene_buf_init_arg, r4
@@ -494,7 +494,7 @@ engine_init_global:
     mov.l   .L_vram_cfg_ch32, r3
     mov.l @r3, r3
     mov.l r3, @(24, r15)                    ! sp[24] = 0x25E7E000
-    bra     .L_06004E1C
+    bra     .L_ch32_poly_build
     nop
 .L_pattern_buf_offset:
     .2byte  0x1810                          /* offset into pattern config buffer */
@@ -533,7 +533,7 @@ engine_init_global:
     .4byte  sym_060612B8                    /* VRAM config for channel 32 */
 
     /* ==== Channel 32: polygon build + final subsystem init ==== */
-.L_06004E1C:
+.L_ch32_poly_build:
     mov r15, r5
     jsr @r9                                 ! vdp1_polygon_build(32, sp)
     mov #0x20, r4                           !   channel 32

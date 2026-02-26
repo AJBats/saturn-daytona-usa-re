@@ -5,65 +5,79 @@
 
     .section .text.FUN_0600E410
 
+    /* car_update_simple — simplified per-car update for pre-race countdown
+     *
+     * Called during mode 0 (pre-race). Runs a minimal physics pipeline:
+     *   1. Set active car pointer from car array
+     *   2. gas_force_apply — compute throttle force
+     *   3. brake_force_apply — compute brake force
+     *   4. sym_06030A06 — car setup/config step
+     *   5. sym_06030EE0 — car state update step
+     *   6. BSR 0x0600E71A — external physics step
+     *   7. fpmul(speed, 0x066505B3) — convert speed to display units
+     *   8. Store 16-bit display speed at car[+0xE0] and car[+0xE4]
+     *
+     * r14 = car struct pointer (loaded from sym_0607E944)
+     */
 
     .global car_update_simple
     .type car_update_simple, @function
 car_update_simple:
-    mov.l r14, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_pool_0600E45C, r14
-    mov.l   .L_pool_0600E460, r3
-    mov.l @r14, r14
-    mov.l r14, @r3
-    mov.l   .L_pool_0600E464, r3
-    jsr @r3
-    nop
-    mov.l   .L_pool_0600E468, r3
-    jsr @r3
-    nop
-    mov.l   .L_pool_0600E46C, r3
-    jsr @r3
-    nop
-    mov.l   .L_pool_0600E470, r3
-    jsr @r3
-    nop
-    .byte   0xB1, 0x71    /* bsr 0x0600E71A (external) */
-    nop
-    mov.l   .L_pool_0600E474, r5
-    mov.l   .L_pool_0600E478, r3
-    jsr @r3
-    mov.l @(12, r14), r4
-    shlr16 r0
-    mov.w   DAT_0600e456, r1
-    exts.w r0, r0
-    add r14, r1
-    mov.l r0, @r1
-    mov.w   .L_wpool_0600E458, r1
-    add r14, r1
-    mov.l r0, @r1
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    mov.l r14, @-r15            ! push r14 (callee-saved)
+    sts.l pr, @-r15             ! push PR (non-leaf)
+    mov.l   .L_pool_car_array_base, r14 ! r14 = &car_array_base (sym_0607E944)
+    mov.l   .L_pool_active_car, r3 ! r3 = &active_car_ptr (sym_0607E940)
+    mov.l @r14, r14             ! r14 = car struct pointer
+    mov.l r14, @r3              ! active_car_ptr = r14 (set global)
+    mov.l   .L_pool_fn_gas_force, r3 ! r3 = &gas_force_apply
+    jsr @r3                     ! call gas_force_apply()
+    nop                         ! delay slot
+    mov.l   .L_pool_fn_brake_force, r3 ! r3 = &brake_force_apply
+    jsr @r3                     ! call brake_force_apply()
+    nop                         ! delay slot
+    mov.l   .L_pool_fn_car_setup, r3 ! r3 = &sym_06030A06 (car setup)
+    jsr @r3                     ! call car setup step
+    nop                         ! delay slot
+    mov.l   .L_pool_fn_car_state, r3 ! r3 = &sym_06030EE0 (car state)
+    jsr @r3                     ! call car state update
+    nop                         ! delay slot
+    .byte   0xB1, 0x71    /* bsr 0x0600E71A (external physics step) */
+    nop                         ! delay slot
+    mov.l   .L_pool_speed_coeff, r5 ! r5 = 0x066505B3 (speed→display conversion)
+    mov.l   .L_pool_fn_fpmul, r3 ! r3 = &fpmul
+    jsr @r3                     ! call fpmul(car[+0xC], 0x066505B3)
+    mov.l @(12, r14), r4        ! delay slot: r4 = car[+0xC] (current speed)
+    shlr16 r0                   ! r0 >>= 16 (extract integer part)
+    mov.w   DAT_0600e456, r1    ! r1 = 0x00E4 (car struct offset for display speed B)
+    exts.w r0, r0               ! sign-extend 16-bit result
+    add r14, r1                 ! r1 = &car[+0xE4]
+    mov.l r0, @r1               ! car[+0xE4] = display speed B
+    mov.w   .L_wpool_0600E458, r1 ! r1 = 0x00E0 (car struct offset for display speed A)
+    add r14, r1                 ! r1 = &car[+0xE0]
+    mov.l r0, @r1               ! car[+0xE0] = display speed A
+    lds.l @r15+, pr             ! pop PR
+    rts                         ! return
+    mov.l @r15+, r14            ! delay slot: pop r14
 
     .global DAT_0600e456
 DAT_0600e456:
-    .2byte  0x00E4
+    .2byte  0x00E4              /* car struct offset: display speed B */
 .L_wpool_0600E458:
-    .2byte  0x00E0
-    .2byte  0xFFFF
-.L_pool_0600E45C:
-    .4byte  sym_0607E944
-.L_pool_0600E460:
-    .4byte  sym_0607E940
-.L_pool_0600E464:
-    .4byte  gas_force_apply
-.L_pool_0600E468:
-    .4byte  brake_force_apply
-.L_pool_0600E46C:
-    .4byte  sym_06030A06
-.L_pool_0600E470:
-    .4byte  sym_06030EE0
-.L_pool_0600E474:
-    .4byte  0x066505B3
-.L_pool_0600E478:
-    .4byte  fpmul
+    .2byte  0x00E0              /* car struct offset: display speed A */
+    .2byte  0xFFFF              /* padding */
+.L_pool_car_array_base:
+    .4byte  sym_0607E944        /* car array base pointer */
+.L_pool_active_car:
+    .4byte  sym_0607E940        /* active car pointer (global) */
+.L_pool_fn_gas_force:
+    .4byte  gas_force_apply     /* throttle force computation */
+.L_pool_fn_brake_force:
+    .4byte  brake_force_apply   /* brake force computation */
+.L_pool_fn_car_setup:
+    .4byte  sym_06030A06        /* car setup/config step */
+.L_pool_fn_car_state:
+    .4byte  sym_06030EE0        /* car state update step */
+.L_pool_speed_coeff:
+    .4byte  0x066505B3          /* speed→display conversion coefficient */
+.L_pool_fn_fpmul:
+    .4byte  fpmul               /* fixed-point multiply */

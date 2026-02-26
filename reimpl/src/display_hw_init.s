@@ -5,61 +5,76 @@
 
     .section .text.FUN_06038300
 
+    /* display_hw_init — display subsystem hardware initialization
+     *
+     * Clears all scene/view data structures to zero, then calls
+     * display_init_chain to set up the rendering pipeline.
+     * Finally tail-branches to vdp2_regs_setup (external).
+     *
+     * Cleared structures:
+     *   sym_060A4C60 (8 bytes) — view offset A
+     *   sym_060A4C68 (8 bytes) — view offset B
+     *   sym_060A4C78 (8 bytes) — color accumulator
+     *   sym_060A4C40 (4 bytes) — scene pending flags (word pairs)
+     *   sym_060A4C54 (4 bytes) — scene render state (word pairs)
+     *   sym_060A4C44 (8 bytes) — scene source A
+     *   sym_060A4C4C (8 bytes) — scene dirty flags
+     */
 
     .global display_hw_init
     .type display_hw_init, @function
 display_hw_init:
-    sts.l pr, @-r15
-    mov.l   .L_pool_06038348, r3
-    jsr @r3
-    nop
-    mov.l   .L_pool_0603834C, r5
-    mov #0x0, r4
-    mov.l r4, @r5
-    extu.w r4, r0
-    extu.w r4, r3
-    mov.l r4, @(4, r5)
-    mov.l   .L_pool_06038350, r5
-    mov.l r4, @r5
-    mov.l r4, @(4, r5)
-    mov.l   .L_pool_06038354, r5
-    mov.l r4, @r5
-    mov.l r4, @(4, r5)
-    mov.l   .L_pool_06038358, r5
-    mov.w r4, @r5
-    mov.w r0, @(2, r5)
-    extu.w r4, r0
-    mov.l   .L_pool_0603835C, r5
-    mov.w r3, @r5
-    mov.w r0, @(2, r5)
-    mov r4, r3
-    mov.l   .L_pool_06038360, r5
-    mov r3, r2
-    mov.l r4, @r5
-    mov.l r3, @(4, r5)
-    mov.l   .L_pool_06038364, r5
-    mov.l r2, @r5
-    mov.l   .L_pool_06038368, r3
-    jsr @r3
-    mov.l r2, @(4, r5)
-    .byte   0xA0, 0x13    /* bra 0x0603836C (external) */
-    lds.l @r15+, pr
-    .2byte  0xFFFF
-.L_pool_06038348:
-    .4byte  sym_06038F34
-.L_pool_0603834C:
-    .4byte  sym_060A4C60
-.L_pool_06038350:
-    .4byte  sym_060A4C68
-.L_pool_06038354:
-    .4byte  sym_060A4C78
-.L_pool_06038358:
-    .4byte  sym_060A4C40
-.L_pool_0603835C:
-    .4byte  sym_060A4C54
-.L_pool_06038360:
-    .4byte  sym_060A4C44
-.L_pool_06038364:
-    .4byte  sym_060A4C4C
-.L_pool_06038368:
-    .4byte  display_init_chain
+    sts.l pr, @-r15             ! push PR (non-leaf)
+    mov.l   .L_pool_fn_param_reset, r3 ! r3 = &sym_06038F34 (display param reset)
+    jsr @r3                     ! call display param reset
+    nop                         ! delay slot
+    mov.l   .L_pool_view_offset_a, r5 ! r5 = &view_offset_a (sym_060A4C60)
+    mov #0x0, r4                ! r4 = 0 (clear value)
+    mov.l r4, @r5               ! view_offset_a[0] = 0
+    extu.w r4, r0               ! r0 = 0 (zero-extended)
+    extu.w r4, r3               ! r3 = 0 (zero-extended)
+    mov.l r4, @(4, r5)          ! view_offset_a[4] = 0
+    mov.l   .L_pool_view_offset_b, r5 ! r5 = &view_offset_b (sym_060A4C68)
+    mov.l r4, @r5               ! view_offset_b[0] = 0
+    mov.l r4, @(4, r5)          ! view_offset_b[4] = 0
+    mov.l   .L_pool_color_accum, r5 ! r5 = &color_accumulator (sym_060A4C78)
+    mov.l r4, @r5               ! color_accum[0] = 0
+    mov.l r4, @(4, r5)          ! color_accum[4] = 0
+    mov.l   .L_pool_scene_pending, r5 ! r5 = &scene_pending (sym_060A4C40)
+    mov.w r4, @r5               ! scene_pending[0] = 0 (word)
+    mov.w r0, @(2, r5)          ! scene_pending[2] = 0 (word)
+    extu.w r4, r0               ! r0 = 0 (refresh zero-ext)
+    mov.l   .L_pool_scene_render, r5 ! r5 = &scene_render (sym_060A4C54)
+    mov.w r3, @r5               ! scene_render[0] = 0 (word)
+    mov.w r0, @(2, r5)          ! scene_render[2] = 0 (word)
+    mov r4, r3                  ! r3 = 0
+    mov.l   .L_pool_scene_src_a, r5 ! r5 = &scene_source_a (sym_060A4C44)
+    mov r3, r2                  ! r2 = 0
+    mov.l r4, @r5               ! scene_src_a[0] = 0
+    mov.l r3, @(4, r5)          ! scene_src_a[4] = 0
+    mov.l   .L_pool_scene_dirty, r5 ! r5 = &scene_dirty (sym_060A4C4C)
+    mov.l r2, @r5               ! scene_dirty[0] = 0
+    mov.l   .L_pool_fn_init_chain, r3 ! r3 = &display_init_chain
+    jsr @r3                     ! call display_init_chain()
+    mov.l r2, @(4, r5)          ! delay slot: scene_dirty[4] = 0
+    .byte   0xA0, 0x13    /* bra 0x0603836C (external — vdp2_regs_setup) */
+    lds.l @r15+, pr             ! pop PR (before tail-branch)
+    .2byte  0xFFFF              /* padding */
+.L_pool_fn_param_reset:
+    .4byte  sym_06038F34        /* display_param_reset function */
+.L_pool_view_offset_a:
+    .4byte  sym_060A4C60        /* view offset structure A (8 bytes) */
+.L_pool_view_offset_b:
+    .4byte  sym_060A4C68        /* view offset structure B (8 bytes) */
+.L_pool_color_accum:
+    .4byte  sym_060A4C78        /* color accumulator (8 bytes) */
+.L_pool_scene_pending:
+    .4byte  sym_060A4C40        /* scene pending flags (4 bytes, word pairs) */
+.L_pool_scene_render:
+    .4byte  sym_060A4C54        /* scene render state (4 bytes, word pairs) */
+.L_pool_scene_src_a:
+    .4byte  sym_060A4C44        /* scene source A data (8 bytes) */
+.L_pool_scene_dirty:
+    .4byte  sym_060A4C4C        /* scene dirty flags (8 bytes) */
+.L_pool_fn_init_chain:
+    .4byte  display_init_chain  /* display init chain function */

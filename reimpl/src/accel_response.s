@@ -47,32 +47,32 @@ accel_response:
     mov.l @r14, r14                    /* r14 = car struct */
     mov.w @(r0, r14), r3              /* read shift animation timer */
     cmp/pl r3
-    bf      .L_0600C516               /* timer <= 0 → skip decrement */
+    bf      .L_skip_timer_dec          /* timer <= 0 → skip decrement */
     mov.w   DAT_0600c590, r0
     mov.w @(r0, r14), r2
     add #-0x1, r2                      /* decrement timer */
     mov.w r2, @(r0, r14)
-.L_0600C516:
+.L_skip_timer_dec:
     mov.l   .L_game_state_flags, r3
     mov.l   .L_flag_bitmask, r2       /* 0x8000 = check bit 15 */
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
-    bf      .L_0600C5CC               /* bit 15 set → skip accel (frozen) */
+    bf      .L_epilogue               /* bit 15 set → skip accel (frozen) */
     mov.w   .L_decel_constant, r12    /* r12 = 0xF052 (deceleration value) */
     mov.w   DAT_0600c594, r0          /* +0xBC = gear lock flag */
     mov.l @(r0, r14), r3
     cmp/pl r3
-    bt      .L_0600C534               /* gear locked → use decel constant */
+    bt      .L_use_decel               /* gear locked → use decel constant */
     mov.w   DAT_0600c596, r0          /* +0xB8 = shift timer */
     mov.l @(r0, r14), r0
     tst r0, r0
-    bt      .L_0600C53A               /* no shift in progress → compute accel */
-.L_0600C534:
+    bt      .L_compute_accel               /* no shift in progress → compute accel */
+.L_use_decel:
     mov.w   DAT_0600c598, r0          /* shifting: write decel to +0xFC */
-    bra     .L_0600C580
+    bra     .L_apply_delta
     mov.l r12, @(r0, r14)
-.L_0600C53A:                              /* --- compute acceleration --- */
+.L_compute_accel:                              /* --- compute acceleration --- */
     mov.l @(8, r14), r4               /* r4 = car type index */
     mov.l   .L_accel_curve_a, r2      /* acceleration curve table A */
     mov.l   .L_accel_curve_b, r3      /* acceleration curve table B */
@@ -97,27 +97,27 @@ accel_response:
     mov.l @(r0, r14), r4              /* r4 = collision offset value */
     sub r3, r4                         /* r4 = headroom (offset - speed) */
     cmp/ge r12, r4                     /* headroom >= decel constant? */
-    bt      .L_0600C572
+    bt      .L_check_accel_clamp
     mov.w   DAT_0600c598, r0          /* headroom too small → decel */
-    bra     .L_0600C580
+    bra     .L_apply_delta
     mov.l r12, @(r0, r14)
-.L_0600C572:
+.L_check_accel_clamp:
     cmp/ge r4, r5                      /* accel <= headroom? */
-    bt      .L_0600C57C
+    bt      .L_use_headroom
     mov.w   DAT_0600c598, r0          /* accel > headroom → clamp to accel */
-    bra     .L_0600C580
+    bra     .L_apply_delta
     mov.l r5, @(r0, r14)
-.L_0600C57C:
+.L_use_headroom:
     mov.w   DAT_0600c598, r0          /* normal: use headroom as delta */
     mov.l r4, @(r0, r14)
-.L_0600C580:                              /* --- apply acceleration delta --- */
+.L_apply_delta:                              /* --- apply acceleration delta --- */
     mov.l @(12, r14), r4              /* r4 = current speed */
     mov.w   DAT_0600c598, r0
     mov.l @(r0, r14), r3              /* r3 = accel delta from +0xFC */
     add r3, r4                         /* speed += delta */
     cmp/pl r4
-    bf      .L_0600C5BC               /* speed < 0 → clamp to 0 */
-    bra     .L_0600C5C0
+    bf      .L_clamp_zero               /* speed < 0 → clamp to 0 */
+    bra     .L_convert_display
     mov.l r4, @(12, r14)              /* store updated speed */
 
     .global DAT_0600c590
@@ -158,17 +158,17 @@ DAT_0600c59a:
     .4byte  sym_060454CC               /* acceleration curve table B (per car type) */
 .L_accel_base_const:
     .4byte  0xFEC00000                  /* base acceleration constant (negative) */
-.L_0600C5BC:
+.L_clamp_zero:
     mov #0x0, r2                       /* clamp speed to 0 (no negative) */
     mov.l r2, @(12, r14)
-.L_0600C5C0:                              /* --- convert to display speed --- */
+.L_convert_display:                              /* --- convert to display speed --- */
     .byte   0xD5, 0x16    /* mov.l .L_pool_0600C61C, r5 */
     jsr @r13                           /* fpmul(speed, display_coeff) */
     mov.l @(12, r14), r4
     shlr16 r0                          /* convert 32-bit → 16-bit */
     exts.w r0, r0                      /* sign-extend */
     mov.l r0, @(8, r14)               /* car[+8] = display speed value */
-.L_0600C5CC:
+.L_epilogue:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
