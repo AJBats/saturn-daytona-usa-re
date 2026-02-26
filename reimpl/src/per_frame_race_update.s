@@ -22,6 +22,28 @@
  *
  * Final: velocity integration + surface type lookup + display speed.
  * Cross-TU pool references (0x0600E920+) are in the adjacent ai_physics_main TU.
+ *
+ * Arguments:
+ *   none (operates on car struct via global pointer sym_0607E940)
+ *
+ * Persistent registers:
+ *   r14 = car struct pointer (dereferenced from sym_0607E940)
+ *
+ * Car struct offsets used:
+ *   +0x0C  = forward speed (fixed-point)
+ *   +0x28  = steering angle (physics, 32-bit)
+ *   +0x30  = steering angle (display copy, 32-bit)
+ *   +0x1E0 = surface slot table base pointer
+ *   +0x1E4 = surface slot index
+ *   +0x1EC = track position base
+ *   +0x1F4 = integrated track position
+ *   +0x1F8 = current surface type
+ *   +0x204 = surface timer reset value
+ *   +0x208 = surface change timer (countdown)
+ *   +0x228 = forward speed (alternate offset)
+ *   +0x25C = target steering angle
+ *
+ * Returns: void (updates car struct in-place)
  */
 
     .section .text.FUN_0600E7C8
@@ -30,91 +52,110 @@
     .global per_frame_race_update
     .type per_frame_race_update, @function
 per_frame_race_update:
-    mov.l r14, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    mov.l   .L_car_struct_ptr, r14
-    mov.l   .L_fn_gear_shift, r3
-    jsr @r3                            /* step 1: gear shift handler */
-    mov.l @r14, r14                    /* r14 = car struct */
-    mov.l   .L_fn_engine_force, r3
-    jsr @r3                            /* step 2: engine force computation */
+    mov.l r14, @-r15                       ! save r14 (will hold car struct ptr)
+    sts.l pr, @-r15                        ! save return address
+    sts.l macl, @-r15                      ! save multiply accumulator
+
+/* --- Load car struct and run 5-step physics pipeline --- */
+    mov.l   .L_car_struct_ptr, r14         ! r14 = &car_struct_ptr (sym_0607E940)
+    mov.l   .L_fn_gear_shift, r3           ! r3 = gear_shift_handler
+    jsr @r3                                ! step 1: process gear changes
+    mov.l @r14, r14                        ! (delay) dereference: r14 = actual car struct
+    mov.l   .L_fn_engine_force, r3         ! r3 = engine force function
+    jsr @r3                                ! step 2: compute engine torque/force
     nop
-    mov.l   .L_fn_friction, r3
-    jsr @r3                            /* step 3: surface friction */
+    mov.l   .L_fn_friction, r3             ! r3 = friction_stub
+    jsr @r3                                ! step 3: apply surface friction
     nop
-    mov.l   .L_fn_accel_response, r3
-    jsr @r3                            /* step 4: acceleration response */
+    mov.l   .L_fn_accel_response, r3       ! r3 = accel_response
+    jsr @r3                                ! step 4: compute acceleration curve
     nop
-    mov.l   .L_fn_demo_collision, r3
-    jsr @r3                            /* step 5: demo/attract collision */
+    mov.l   .L_fn_demo_collision, r3       ! r3 = demo/attract collision handler
+    jsr @r3                                ! step 5: demo/attract collision check
     nop
-    mov.l   .L_steering_mode_byte, r0
-    bra     .L_0600E898
-    mov.b @r0, r0                      /* read steering interpolation mode */
-.L_0600E7F4:                              /* --- mode 1: fast steering interpolation --- */
-    mov.l @(40, r14), r4              /* r4 = current steering angle */
-    mov.w   DAT_0600e86c, r0          /* +0x25C = target steering angle */
-    mov.l @(r0, r14), r2              /* r2 = target angle */
-    sub r4, r2                         /* r2 = error (target - current) */
-    shll16 r2                          /* scale up for precision */
-    shar r2                            /* / 2 */
-    shar r2                            /* / 4 total */
-    shlr16 r2                          /* scale back down */
-    exts.w r2, r2                      /* sign-extend interpolation step */
-    add r4, r2                         /* new angle = current + step */
-    exts.w r2, r4
-    exts.w r4, r5
-    mov.l r5, @(48, r14)              /* car[+48] = new angle (display copy) */
-    bra     .L_0600E8A0
-    mov.l r5, @(40, r14)              /* car[+40] = new angle (physics copy) */
-.L_0600E812:                              /* --- mode 2: smooth steering + surface timer --- */
-    mov.l @(40, r14), r4              /* r4 = current steering angle */
-    mov.w   DAT_0600e86c, r0          /* +0x25C = target steering angle */
-    mov.l   .L_rounding_half, r3      /* r3 = 0x8000 (rounding bias) */
-    mov.l @(r0, r14), r2              /* r2 = target angle */
-    add #-0x54, r0                     /* r0 = +0x208 (surface timer) */
-    sub r4, r2                         /* r2 = error */
-    add r3, r2                         /* add rounding bias */
-    shll16 r2                          /* scale up */
-    shar r2                            /* / 2 */
-    shlr16 r2                          /* scale back */
-    exts.w r2, r2
-    add r4, r2                         /* new angle = current + step */
-    exts.w r2, r4
-    exts.w r4, r5
-    mov.l r5, @(48, r14)              /* store display + physics copies */
-    mov.l r5, @(40, r14)
-    mov.l @(r0, r14), r0              /* check surface timer at +0x208 */
-    tst r0, r0
-    bt      .L_0600E8A0               /* timer == 0 → skip surface logic */
-    mov.w   DAT_0600e86e, r0          /* +0x208 = surface change timer */
-    mov.l @(r0, r14), r3
-    add #-0x1, r3                      /* decrement timer */
-    mov.l r3, @(r0, r14)
-    tst r3, r3
-    bf      .L_0600E868               /* timer > 0 → skip surface lookup */
-    mov.w   DAT_0600e870, r0          /* timer reached 0 → lookup next surface */
-    mov.l @(r0, r14), r4              /* r4 = car[+0x1E4] (surface slot index) */
-    mov r4, r3
-    shll2 r4                           /* idx * 8 */
-    shll r4
-    shll2 r3                           /* idx * 16 */
-    shll2 r3
-    add r3, r4                         /* idx * 24 (slot stride) */
-    add #-0x4, r0                      /* r0 = +0x1E0 (slot base) */
-    mov.l @(r0, r14), r3
-    add r3, r4                         /* r4 = &slot[idx] */
-    mov.w @(20, r4), r0               /* slot[+20] = surface type */
-    mov r0, r3
-    mov.w   .L_off_surface_type, r0   /* +0x1F8 */
-    mov.l r3, @(r0, r14)              /* store new surface type */
-    mov.w   .L_surface_reset_val, r3  /* 0x0400 */
-    add #0xC, r0                       /* +0x204 */
-    mov.l r3, @(r0, r14)              /* store reset constant */
-.L_0600E868:
-    bra     .L_0600E8A0
-    nop
+
+/* --- Read steering mode and dispatch --- */
+    mov.l   .L_steering_mode_byte, r0      ! r0 = &steering_mode_byte
+    bra     .L_steer_mode_dispatch
+    mov.b @r0, r0                          ! (delay) r0 = steering interpolation mode
+
+/* ===================================================================
+ * Mode 1: Fast steering interpolation
+ *   new = old + (target - old) / 4
+ * =================================================================== */
+.L_steer_mode1_fast:
+    mov.l @(40, r14), r4                   ! r4 = car[+0x28] = current steering angle
+    mov.w   DAT_0600e86c, r0               ! r0 = 0x25C (offset to target steering angle)
+    mov.l @(r0, r14), r2                   ! r2 = car[+0x25C] = target steering angle
+    sub r4, r2                             ! r2 = error (target - current)
+    shll16 r2                              ! scale up: error << 16 for precision
+    shar r2                                ! arithmetic shift right: / 2
+    shar r2                                ! arithmetic shift right: / 4 total
+    shlr16 r2                              ! scale back: >> 16
+    exts.w r2, r2                          ! sign-extend interpolation step to 32 bits
+    add r4, r2                             ! new angle = current + step
+    exts.w r2, r4                          ! sign-extend result for physics copy
+    exts.w r4, r5                          ! sign-extend result for display copy
+    mov.l r5, @(48, r14)                   ! car[+0x30] = new angle (display copy)
+    bra     .L_post_steering
+    mov.l r5, @(40, r14)                   ! (delay) car[+0x28] = new angle (physics copy)
+
+/* ===================================================================
+ * Mode 2: Smooth steering interpolation + surface timer
+ *   new = old + (target - old + 0x8000) / 2
+ * =================================================================== */
+.L_steer_mode2_smooth:
+    mov.l @(40, r14), r4                   ! r4 = car[+0x28] = current steering angle
+    mov.w   DAT_0600e86c, r0               ! r0 = 0x25C (offset to target steering angle)
+    mov.l   .L_rounding_half, r3           ! r3 = 0x8000 (rounding bias for divide-by-2)
+    mov.l @(r0, r14), r2                   ! r2 = car[+0x25C] = target steering angle
+    add #-0x54, r0                         ! r0 = 0x208 (offset to surface change timer)
+    sub r4, r2                             ! r2 = error (target - current)
+    add r3, r2                             ! r2 += 0x8000 (add rounding bias)
+    shll16 r2                              ! scale up: error << 16 for precision
+    shar r2                                ! arithmetic shift right: / 2
+    shlr16 r2                              ! scale back: >> 16
+    exts.w r2, r2                          ! sign-extend interpolation step
+    add r4, r2                             ! new angle = current + step
+    exts.w r2, r4                          ! sign-extend result for physics copy
+    exts.w r4, r5                          ! sign-extend result for display copy
+    mov.l r5, @(48, r14)                   ! car[+0x30] = new angle (display copy)
+    mov.l r5, @(40, r14)                   ! car[+0x28] = new angle (physics copy)
+
+/* --- Surface timer countdown (mode 2 only) --- */
+    mov.l @(r0, r14), r0                   ! r0 = car[+0x208] = surface change timer
+    tst r0, r0                             ! test if timer is zero
+    bt      .L_post_steering               ! timer == 0 → no surface work, skip ahead
+    mov.w   DAT_0600e86e, r0               ! r0 = 0x208 (surface change timer offset)
+    mov.l @(r0, r14), r3                   ! r3 = car[+0x208] = timer value
+    add #-0x1, r3                          ! decrement timer by 1
+    mov.l r3, @(r0, r14)                   ! write decremented timer back
+    tst r3, r3                             ! test if timer reached zero
+    bf      .L_surface_timer_done          ! timer > 0 → skip surface type lookup
+
+/* --- Timer expired: look up next surface type from slot table --- */
+    mov.w   DAT_0600e870, r0               ! r0 = 0x1E4 (surface slot index offset)
+    mov.l @(r0, r14), r4                   ! r4 = car[+0x1E4] = surface slot index
+    mov r4, r3                             ! r3 = copy of slot index
+    shll2 r4                               ! r4 = idx * 4
+    shll r4                                ! r4 = idx * 8
+    shll2 r3                               ! r3 = idx * 4
+    shll2 r3                               ! r3 = idx * 16
+    add r3, r4                             ! r4 = idx * 24 (slot struct stride)
+    add #-0x4, r0                          ! r0 = 0x1E0 (surface slot table base offset)
+    mov.l @(r0, r14), r3                   ! r3 = car[+0x1E0] = slot table base pointer
+    add r3, r4                             ! r4 = &slot_table[idx] (absolute address)
+    mov.w @(20, r4), r0                    ! r0 = slot[+20] = surface type from table
+    mov r0, r3                             ! r3 = surface type value
+    mov.w   .L_off_surface_type, r0        ! r0 = 0x1F8 (current surface type offset)
+    mov.l r3, @(r0, r14)                   ! car[+0x1F8] = new surface type
+    mov.w   .L_surface_reset_val, r3       ! r3 = 0x0400 (timer reset constant)
+    add #0xC, r0                           ! r0 = 0x204 (surface timer reset offset)
+    mov.l r3, @(r0, r14)                   ! car[+0x204] = reset surface timer value
+
+.L_surface_timer_done:
+    bra     .L_post_steering               ! jump to post-steering integration
+    nop                                    ! (delay)
 
     .global DAT_0600e86c
 DAT_0600e86c:
@@ -148,61 +189,83 @@ DAT_0600e870:
     .4byte  sym_06083261               /* steering interpolation mode (1=fast, 2=smooth) */
 .L_rounding_half:
     .4byte  0x00008000                  /* 0.5 rounding bias for mode 2 interpolation */
-.L_0600E898:                              /* --- steering mode dispatch --- */
-    cmp/eq #0x1, r0
-    bt      .L_0600E7F4               /* mode 1 → fast interpolation */
-    cmp/eq #0x2, r0
-    bt      .L_0600E812               /* mode 2 → smooth interpolation */
-.L_0600E8A0:                              /* --- post-steering: track + velocity --- */
+
+/* ===================================================================
+ * Steering mode dispatch — reached via BRA from prologue.
+ * r0 = mode byte (1=fast, 2=smooth), falls through to post-steering
+ * if neither mode matches.
+ * =================================================================== */
+.L_steer_mode_dispatch:
+    cmp/eq #0x1, r0                        ! test if mode == 1
+    bt      .L_steer_mode1_fast            ! mode 1 → fast interpolation (divide by 4)
+    cmp/eq #0x2, r0                        ! test if mode == 2
+    bt      .L_steer_mode2_smooth          ! mode 2 → smooth interpolation (divide by 2)
+
+/* ===================================================================
+ * Post-steering: track segment advance + velocity integration +
+ * surface type lookup + display speed calculation.
+ * Reached after steering interpolation or if no steering mode matched.
+ * =================================================================== */
+.L_post_steering:
     .byte   0xD3, 0x21    /* mov.l .L_pool_0600E928, r3 — track_segment_advance (cross-TU) */
-    jsr @r3                            /* advance track segment */
-    nop
+    jsr @r3                                ! call track_segment_advance
+    nop                                    ! (delay)
+
+/* --- Velocity integration: position += speed * coefficient --- */
     .byte   0x90, 0x3A    /* mov.w .L_wpool_0600E91E, r0 — offset +0x228 (speed, cross-TU) */
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0600E92C, r3 — speed_coeff (cross-TU) */
-    mov.l @(r0, r14), r2              /* r2 = car.forward_speed */
-    mov.l @r3, r3                      /* r3 = speed coefficient */
-    add #-0x3C, r0                     /* r0 = +0x1EC */
-    mul.l r3, r2                       /* speed * coefficient */
-    mov.l @(r0, r14), r3              /* r3 = car[+0x1EC] (position base) */
-    sts macl, r2                       /* r2 = product */
-    add #0x8, r0                       /* r0 = +0x1F4 */
-    add r3, r2                         /* position + speed*coeff */
-    mov.l r2, @(r0, r14)              /* car[+0x1F4] = integrated position */
-    add #-0x10, r0                     /* surface slot lookup (same as mode 2) */
-    mov.l @(r0, r14), r4
-    add #-0x4, r0
-    mov r4, r3
-    shll2 r4
-    shll2 r3
-    shll r4
-    shll2 r3
-    add r3, r4
-    mov.l @(r0, r14), r3
-    add r3, r4
-    mov.w @(20, r4), r0               /* read surface type from slot */
-    mov r0, r3
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0600E92C, r3 — speed_coeff ptr (cross-TU) */
+    mov.l @(r0, r14), r2                   ! r2 = car[+0x228] = forward speed
+    mov.l @r3, r3                          ! r3 = *speed_coeff (fixed-point multiplier)
+    add #-0x3C, r0                         ! r0 = 0x228 - 0x3C = 0x1EC (position base offset)
+    mul.l r3, r2                           ! MACL = speed * coefficient
+    mov.l @(r0, r14), r3                   ! r3 = car[+0x1EC] = track position base
+    sts macl, r2                           ! r2 = speed * coefficient product
+    add #0x8, r0                           ! r0 = 0x1F4 (integrated position offset)
+    add r3, r2                             ! r2 = position_base + speed*coeff
+    mov.l r2, @(r0, r14)                   ! car[+0x1F4] = updated integrated position
+
+/* --- Surface type lookup from slot table (same logic as mode 2) --- */
+    add #-0x10, r0                         ! r0 = 0x1E4 (surface slot index offset)
+    mov.l @(r0, r14), r4                   ! r4 = car[+0x1E4] = surface slot index
+    add #-0x4, r0                          ! r0 = 0x1E0 (slot table base offset)
+    mov r4, r3                             ! r3 = copy of slot index
+    shll2 r4                               ! r4 = idx * 4
+    shll2 r3                               ! r3 = idx * 4
+    shll r4                                ! r4 = idx * 8
+    shll2 r3                               ! r3 = idx * 16
+    add r3, r4                             ! r4 = idx * 24 (slot struct stride)
+    mov.l @(r0, r14), r3                   ! r3 = car[+0x1E0] = slot table base pointer
+    add r3, r4                             ! r4 = &slot_table[idx]
+    mov.w @(20, r4), r0                    ! r0 = slot[+20] = surface type
+    mov r0, r3                             ! r3 = surface type value
     .byte   0x90, 0x23    /* mov.w .L_wpool_0600E920, r0 — +0x1F8 (cross-TU) */
-    mov.l r3, @(r0, r14)              /* store surface type */
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0600E930, r3 — game_state_flags (cross-TU) */
+    mov.l r3, @(r0, r14)                   ! car[+0x1F8] = current surface type
+
+/* --- Check game state flags: should we compute display speed? --- */
+    .byte   0xD3, 0x15    /* mov.l .L_pool_0600E930, r3 — game_state_flags ptr (cross-TU) */
     .byte   0xD2, 0x15    /* mov.l .L_pool_0600E934, r2 — 0x00200000 bitmask (cross-TU) */
-    mov.l @r3, r3
-    and r2, r3                         /* check game flags bit 21 */
-    tst r3, r3
-    bt      .L_0600E8FE               /* bit clear → skip display speed */
-    .byte   0xD5, 0x14    /* mov.l .L_pool_0600E938, r5 — display coeff (cross-TU) */
-    .byte   0xD3, 0x14    /* mov.l .L_pool_0600E93C, r3 — fpmul (cross-TU) */
-    jsr @r3                            /* fpmul(speed, display_coeff) */
-    mov.l @(12, r14), r4
-    shlr16 r0                          /* convert to 16-bit */
-    exts.w r0, r0
-    .byte   0x91, 0x16    /* mov.w .L_wpool_0600E922, r1 — +0x1F8 display (cross-TU) */
-    add r14, r1
-    mov.l r0, @r1                      /* store display speed A */
-    .byte   0x91, 0x14    /* mov.w .L_wpool_0600E924, r1 — +0xE0 display (cross-TU) */
-    add r14, r1
-    mov.l r0, @r1                      /* store display speed B */
-.L_0600E8FE:
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    mov.l @r3, r3                          ! r3 = game_state_flags value
+    and r2, r3                             ! r3 = flags & 0x00200000 (speed display enabled?)
+    tst r3, r3                             ! test if bit 21 is clear
+    bt      .L_epilogue                    ! bit clear → skip display speed computation
+
+/* --- Compute display speed: fpmul(forward_speed, display_coeff) --- */
+    .byte   0xD5, 0x14    /* mov.l .L_pool_0600E938, r5 — display_speed_coeff (cross-TU) */
+    .byte   0xD3, 0x14    /* mov.l .L_pool_0600E93C, r3 — fpmul function ptr (cross-TU) */
+    jsr @r3                                ! call fpmul(r4=speed, r5=display_coeff)
+    mov.l @(12, r14), r4                   ! (delay) r4 = car[+0x0C] = forward speed
+    shlr16 r0                              ! r0 >>= 16: convert fixed-point result to integer
+    exts.w r0, r0                          ! sign-extend 16-bit display speed to 32 bits
+    .byte   0x91, 0x16    /* mov.w .L_wpool_0600E922, r1 — +0x1F8 display speed A (cross-TU) */
+    add r14, r1                            ! r1 = &car[display_speed_A_offset]
+    mov.l r0, @r1                          ! store display speed A
+    .byte   0x91, 0x14    /* mov.w .L_wpool_0600E924, r1 — +0xE0 display speed B (cross-TU) */
+    add r14, r1                            ! r1 = &car[display_speed_B_offset]
+    mov.l r0, @r1                          ! store display speed B
+
+/* --- Epilogue: restore saved registers and return --- */
+.L_epilogue:
+    lds.l @r15+, macl                      ! restore multiply accumulator
+    lds.l @r15+, pr                        ! restore return address
+    rts                                    ! return to caller
+    mov.l @r15+, r14                       ! (delay) restore r14

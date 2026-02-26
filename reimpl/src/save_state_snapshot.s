@@ -6,47 +6,72 @@
     .section .text.FUN_06018FA8
 
 
+/* ==========================================================================
+ * save_state_snapshot
+ * --------------------------------------------------------------------------
+ * Sound state transition for the "save" phase of a state snapshot cycle.
+ * Loads the car-select sound bank (SLCTD.BIN) into Sound RAM, replacing
+ * whatever in-game sound bank was active.  Does NOT restart background
+ * music afterward (unlike restore_state_snapshot / state_snapshot_compare).
+ *
+ * Sequence:
+ *   1. Send sound-stop command (0xAE0001FF) via sound_cmd_dispatch
+ *   2. Send system-variant command (0xAE0005FF) via sound_cmd_dispatch
+ *   3. Wait for sound driver ready (poll Sound RAM 0x25A02DBE for 0xFFFF)
+ *   4. If no timeout: load SLCTD.BIN sound data to Sound RAM +0x3000,
+ *      then clear the driver-ready flag so next wait will block until
+ *      driver reboots
+ *   5. Re-send sound-stop (0xAE0001FF) to silence channels
+ *
+ * Sibling functions: restore_state_snapshot (loads GAMED.BIN, sends BGM),
+ *                    state_snapshot_compare (loads OVERD.BIN, sends BGM)
+ *
+ * Args:     r3 = value to store into the sound timeout flag (sym_06086050)
+ * Returns:  nothing
+ * Clobbers: r0, r2, r3, r4, r5, r14, pr
+ * ======================================================================== */
+
     .global save_state_snapshot
     .type save_state_snapshot, @function
 save_state_snapshot:
-    sts.l pr, @-r15
-    mov.l   .L_pool_06018FE0, r14
-    mov.l   .L_pool_06018FE4, r2
-    mov.l r3, @r2
-    mov.l   .L_pool_06018FE8, r5
-    jsr @r14
-    mov #0xF, r4
-    mov.l   .L_pool_06018FEC, r5
-    jsr @r14
-    mov #0xF, r4
-    .byte   0xB1, 0x94    /* bsr 0x060192E8 (external) */
-    nop
-    mov.l   .L_pool_06018FE4, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_06018FD4
-    mov.l   .L_pool_06018FF0, r3
-    jsr @r3
-    nop
-    mov #0x0, r2
-    mov.l   .L_sound_ram_0x02DBE, r3
-    mov.w r2, @r3
-.L_06018FD4:
-    mov.l   .L_pool_06018FE8, r5
-    jsr @r14
-    mov #0xF, r4
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-.L_pool_06018FE0:
+    sts.l pr, @-r15                             ! save return address to stack
+    mov.l   .L_pool_snd_cmd_dispatch, r14       ! r14 = sound_cmd_dispatch (reused for all jsr calls)
+    mov.l   .L_pool_snd_timeout_flag, r2        ! r2 = &timeout_flag (sym_06086050)
+    mov.l r3, @r2                               ! store caller-provided value into timeout flag
+    mov.l   .L_pool_cmd_stop, r5                ! r5 = 0xAE0001FF (sound stop command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0001FF) -- send stop
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel) [delay slot]
+    mov.l   .L_pool_cmd_sys_variant, r5         ! r5 = 0xAE0005FF (system variant command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0005FF) -- send sys variant
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel) [delay slot]
+    .byte   0xB1, 0x94    /* bsr 0x060192E8 (external) */  ! call wait_sound_driver_ready (polls Sound RAM)
+    nop                                         ! delay slot
+    mov.l   .L_pool_snd_timeout_flag, r0        ! r0 = &timeout_flag
+    mov.l @r0, r0                               ! r0 = timeout_flag value
+    tst r0, r0                                  ! test if timeout occurred (0 = success)
+    bf      .L_skip_sound_load                  ! if timeout nonzero, skip sound data load
+    mov.l   .L_pool_load_slctd_sndram, r3       ! r3 = load_slctd_sndram (sym_06012EDC)
+    jsr @r3                                     ! load SLCTD.BIN to Sound RAM +0x3000
+    nop                                         ! delay slot
+    mov #0x0, r2                                ! r2 = 0 (clear value)
+    mov.l   .L_pool_snd_driver_ready, r3        ! r3 = 0x25A02DBE (Sound RAM driver-ready flag)
+    mov.w r2, @r3                               ! clear driver-ready flag (driver will re-set on boot)
+.L_skip_sound_load:
+    mov.l   .L_pool_cmd_stop, r5                ! r5 = 0xAE0001FF (sound stop command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0001FF) -- silence channels
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel) [delay slot]
+    lds.l @r15+, pr                             ! restore return address from stack
+    rts                                         ! return to caller
+    mov.l @r15+, r14                            ! restore r14 from stack [delay slot]
+.L_pool_snd_cmd_dispatch:
     .4byte  sound_cmd_dispatch
-.L_pool_06018FE4:
+.L_pool_snd_timeout_flag:
     .4byte  sym_06086050
-.L_pool_06018FE8:
+.L_pool_cmd_stop:
     .4byte  0xAE0001FF
-.L_pool_06018FEC:
+.L_pool_cmd_sys_variant:
     .4byte  0xAE0005FF
-.L_pool_06018FF0:
+.L_pool_load_slctd_sndram:
     .4byte  sym_06012EDC
-.L_sound_ram_0x02DBE:
+.L_pool_snd_driver_ready:
     .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
