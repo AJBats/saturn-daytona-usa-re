@@ -9,23 +9,23 @@
     .global race_utility_func
     .type race_utility_func, @function
 race_utility_func:
-    sts.l pr, @-r15
-    .byte   0xD4, 0x06    /* mov.l .L_pool_0601937C, r4 */
-    .byte   0xD3, 0x08    /* mov.l .L_fp_min, r3 */
-    mov.l @r4, r2
-    or r3, r2
-    .byte   0xD3, 0x07    /* mov.l .L_pool_06019388, r3 */
-    jsr @r3
-    mov.l r2, @r4
-    .byte   0xD3, 0x06    /* mov.l .L_pool_06019388, r3 */
-    jmp @r3
-    lds.l @r15+, pr
-    .4byte  0x0100FFFF
-    .4byte  channel_nibble_config
-.L_pool_0601937C:
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
-.L_fp_min:
-    .4byte  0x80000000                  /* min negative / sign bit */
-.L_pool_06019388:
-    .4byte  sym_06026CE0
+    sts.l pr, @-r15                     ! save return address
+    .byte   0xD4, 0x06    /* mov.l .L_display_flags_ptr, r4 */ ! r4 = &display_flags
+    .byte   0xD3, 0x08    /* mov.l .L_bit31_mask, r3 */        ! r3 = 0x80000000 (bit 31)
+    mov.l @r4, r2                       ! r2 = current display_flags
+    or r3, r2                           ! r2 |= 0x80000000 (set bit 31)
+    .byte   0xD3, 0x07    /* mov.l .L_display_update_fn, r3 */ ! r3 = display update function
+    jsr @r3                             ! call display update
+    mov.l r2, @r4                       ! (delay) store updated display_flags
+    .byte   0xD3, 0x06    /* mov.l .L_display_update_fn, r3 */ ! r3 = display update function
+    jmp @r3                             ! tail-jump to display update
+    lds.l @r15+, pr                     ! (delay) restore return address
+    .4byte  0x0100FFFF                  ! pool padding
+    .4byte  channel_nibble_config       ! pool entry (cross-TU reference)
+.L_display_flags_ptr:
+    .4byte  sym_0605B6D8                ! display/feature flags word
+    .4byte  0x40000000                  ! pool padding (bit 30 constant, unreferenced here)
+.L_bit31_mask:
+    .4byte  0x80000000                  ! bit 31 mask (sign/display flag)
+.L_display_update_fn:
+    .4byte  sym_06026CE0                ! display update function

@@ -29,123 +29,123 @@
     .global replay_record_frame
     .type replay_record_frame, @function
 replay_record_frame:
-    mov.l r14, @-r15
-    mov r5, r0
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
+    mov.l r14, @-r15                   /* save r14 */
+    mov r5, r0                         /* r0 = car B index */
+    mov.l r13, @-r15                   /* save r13 */
+    mov.l r12, @-r15                   /* save r12 */
+    mov.l r11, @-r15                   /* save r11 */
     mov r4, r12                        /* r12 = car A index */
-    mov.l r10, @-r15
-    sts.l pr, @-r15
-    add #-0x10, r15
-    mov r15, r1
+    mov.l r10, @-r15                   /* save r10 */
+    sts.l pr, @-r15                    /* save return address */
+    add #-0x10, r15                    /* allocate 16 bytes of locals */
+    mov r15, r1                        /* r1 = stack base */
     mov.l   .L_fn_vdp1_draw_pos, r10  /* r10 = position element draw fn */
     mov.l   .L_replay_state, r11      /* r11 = &replay state byte */
     add #0xC, r1                       /* dest: stack+0xC */
     mov.b r0, @(4, r15)               /* stack[4] = car B index */
-    mov r6, r0
+    mov r6, r0                         /* r0 = camera mode */
     mov.b r0, @(8, r15)               /* stack[8] = camera mode */
     mov.l   .L_init_data_src, r2      /* copy replay init data */
     mov.l   .L_fn_data_copy, r3
     jsr @r3                            /* copy 4 bytes to stack+0xC */
-    mov #0x4, r0
+    mov #0x4, r0                       /* r0 = byte count (delay slot) */
     mov.l   .L_fn_sprite_draw, r13    /* r13 = sprite draw function */
     mov.l   .L_model_table, r14       /* r14 = model geometry table */
     mov.w   DAT_0601bb3a, r7          /* +0x1B0 = first car model entry */
     add r14, r7                        /* r7 → model_table[+0x1B0] */
-    mov.l r7, @r15
+    mov.l r7, @r15                     /* stack[0] = model entry ptr */
     mov.l @(4, r7), r7                /* r7 = model data pointer */
     mov.l   .L_model_offset_a, r3     /* 0xA000 offset into model data */
     mov.w   .L_vdp1_off_car_a, r6    /* r6 = 0x0290 (VDP1 offset) */
-    mov.l @r15, r5
+    mov.l @r15, r5                     /* r5 = model entry ptr */
     add r3, r7                         /* r7 += 0xA000 */
-    mov.l @r5, r5                      /* r5 = model entry base */
+    mov.l @r5, r5                      /* r5 = model entry base addr */
     jsr @r13                           /* draw car element A */
-    mov #0xC, r4                       /* mode 0xC */
+    mov #0xC, r4                       /* mode 0xC (delay slot) */
     mov.w   DAT_0601bb3e, r7          /* +0x1B8 = second car model entry */
-    add r14, r7
-    mov.l r7, @r15
-    mov.l @(4, r7), r7
-    mov.l   .L_model_offset_a, r3
-    mov.w   DAT_0601bb40, r6          /* r6 = 0x02AC */
-    mov.l @r15, r5
-    add r3, r7
-    mov.l @r5, r5
+    add r14, r7                        /* r7 → model_table[+0x1B8] */
+    mov.l r7, @r15                     /* stack[0] = model entry ptr */
+    mov.l @(4, r7), r7                /* r7 = model data pointer */
+    mov.l   .L_model_offset_a, r3     /* 0xA000 offset */
+    mov.w   DAT_0601bb40, r6          /* r6 = 0x02AC (VDP1 offset) */
+    mov.l @r15, r5                     /* r5 = model entry ptr */
+    add r3, r7                         /* r7 += 0xA000 */
+    mov.l @r5, r5                      /* r5 = model entry base addr */
     jsr @r13                           /* draw car element B */
-    mov #0xC, r4
+    mov #0xC, r4                       /* mode 0xC (delay slot) */
     exts.b r12, r7                     /* car A: compute model table offset */
     add #0x30, r7                      /* +0x30 base for car models */
     shll2 r7                           /* * 4 */
     shll r7                            /* * 8 (table entry stride) */
     add r14, r7                        /* r7 → model_table[car_A_entry] */
-    mov.l r7, @r15
-    mov.l @(4, r7), r7
+    mov.l r7, @r15                     /* stack[0] = model entry ptr */
+    mov.l @(4, r7), r7                /* r7 = model data pointer */
     mov.l   .L_model_offset_b, r3     /* 0x9000 offset */
     mov.w   .L_vdp1_off_car_c, r6    /* r6 = 0x0390 */
-    mov.l @r15, r5
-    add r3, r7
-    mov.l @r5, r5
+    mov.l @r15, r5                     /* r5 = model entry ptr */
+    add r3, r7                         /* r7 += 0x9000 */
+    mov.l @r5, r5                      /* r5 = model entry base addr */
     jsr @r13                           /* draw car A model */
-    mov #0xC, r4
+    mov #0xC, r4                       /* mode 0xC (delay slot) */
     mov.b @(4, r15), r0               /* car B index */
-    mov r0, r7
+    mov r0, r7                         /* r7 = car B index */
     add #0x33, r7                      /* +0x33 base for opponent models */
-    shll2 r7
-    shll r7                            /* * 8 */
-    add r14, r7
-    mov.l r7, @r15
-    mov.l @(4, r7), r7
-    mov.l   .L_model_offset_b, r3
-    mov.w   DAT_0601bb44, r6          /* r6 = 0x03AC */
-    mov.l @r15, r5
-    add r3, r7
-    mov.l @r5, r5
+    shll2 r7                           /* * 4 */
+    shll r7                            /* * 8 (table entry stride) */
+    add r14, r7                        /* r7 → model_table[car_B_entry] */
+    mov.l r7, @r15                     /* stack[0] = model entry ptr */
+    mov.l @(4, r7), r7                /* r7 = model data pointer */
+    mov.l   .L_model_offset_b, r3     /* 0x9000 offset */
+    mov.w   DAT_0601bb44, r6          /* r6 = 0x03AC (VDP1 offset) */
+    mov.l @r15, r5                     /* r5 = model entry ptr */
+    add r3, r7                         /* r7 += 0x9000 */
+    mov.l @r5, r5                      /* r5 = model entry base addr */
     jsr @r13                           /* draw car B model */
-    mov #0xC, r4
+    mov #0xC, r4                       /* mode 0xC (delay slot) */
     exts.b r12, r4                     /* look up replay record for car pair */
-    mov.b @(4, r15), r0
-    mov #0xA, r6
+    mov.b @(4, r15), r0               /* r0 = car B index */
+    mov #0xA, r6                       /* r6 = record table width (10) */
     mov.b @r11, r2                     /* replay state byte */
-    mov r4, r3
-    extu.b r2, r2
+    mov r4, r3                         /* r3 = car_A (copy) */
+    extu.b r2, r2                      /* zero-extend state */
     shll r4                            /* car_A * 2 */
     shll2 r3                           /* car_A * 4 */
     add r3, r4                         /* car_A * 6 */
-    mov r0, r3
+    mov r0, r3                         /* r3 = car_B */
     shll r3                            /* car_B * 2 */
     mov.b @(8, r15), r0               /* camera mode */
     add r3, r4                         /* + car_B * 2 */
     add r2, r4                         /* + replay state */
     mov.l   .L_record_table, r3
     shll2 r4                           /* * 4 (32-bit entries) */
-    add r3, r4
+    add r3, r4                         /* r4 → record_table[index] */
     mov.l @r4, r4                      /* r4 = record entry */
     .byte   0xB0, 0x61    /* bsr 0x0601BBCC (external) — replay record handler */
     mov r0, r5                         /* r5 = camera mode */
     mov.w   DAT_0601bb46, r7          /* +0x1D8 = overlay model entry */
-    add r14, r7
-    mov.l r7, @r15
-    mov.l @(4, r7), r7
+    add r14, r7                        /* r7 → model_table[+0x1D8] */
+    mov.l r7, @r15                     /* stack[0] = model entry ptr */
+    mov.l @(4, r7), r7                /* r7 = model data pointer */
     mov.w   DAT_0601bb48, r3          /* 0x6000 data offset */
     mov.w   DAT_0601bb4a, r6          /* r6 = 0x0C86 (VDP1 offset) */
-    mov.l @r15, r5
-    add r3, r7
-    mov.l @r5, r5
+    mov.l @r15, r5                     /* r5 = model entry ptr */
+    add r3, r7                         /* r7 += 0x6000 */
+    mov.l @r5, r5                      /* r5 = model entry base addr */
     jsr @r13                           /* draw overlay element */
-    mov #0xC, r4
+    mov #0xC, r4                       /* mode 0xC (delay slot) */
     exts.b r12, r14                    /* look up frame data for animation */
     shll r14                           /* car_A * 2 */
-    mov.b @r11, r3
-    extu.b r3, r3
+    mov.b @r11, r3                     /* replay state byte */
+    extu.b r3, r3                      /* zero-extend state */
     add r3, r14                        /* + replay state */
     shll2 r14                          /* * 4 */
-    mov.l   .L_frame_data_table, r2
-    add r2, r14
+    mov.l   .L_frame_data_table, r2   /* frame data table base */
+    add r2, r14                        /* r14 → frame_data[index] */
     mov.l @r14, r14                    /* r14 = frame data entry */
-    mov r15, r7
+    mov r15, r7                        /* r7 = stack base */
     add #0xC, r7                       /* r7 → stack+0xC (init data) */
-    bra     .L_0601BB74               /* → position element rendering */
-    nop
+    bra     .L_pos_elem_render        /* → position element rendering */
+    nop                                /* delay slot */
 
     .global DAT_0601bb3a
 DAT_0601bb3a:
@@ -198,46 +198,46 @@ DAT_0601bb4a:
     .4byte  sym_0605DD6C               /* replay record lookup table */
 .L_frame_data_table:
     .4byte  sym_0605DE24               /* per-frame animation data table */
-.L_0601BB74:                              /* --- position element rendering --- */
+.L_pos_elem_render:                       /* --- position element rendering --- */
     mov #0x60, r6                      /* draw params: size 0x60 */
     mov.w   DAT_0601bbc0, r5          /* r5 = 0x0CA4 (VDP1 offset) */
     jsr @r10                           /* draw position element */
-    mov #0x8, r4                       /* mode 0x08 */
+    mov #0x8, r4                       /* mode 0x08 (delay slot) */
     mov.b @r14, r3                     /* check if frame data has overlay */
-    extu.b r3, r3
-    tst r3, r3
-    bt      .L_0601BB8E               /* no overlay → skip */
+    extu.b r3, r3                      /* zero-extend overlay flag */
+    tst r3, r3                         /* overlay == 0? */
+    bt      .L_skip_overlay            /* no overlay → skip */
     mov r14, r7                        /* draw overlay from frame data */
-    mov #0x60, r6
-    mov.w   DAT_0601bbc0, r5
+    mov #0x60, r6                      /* draw params: size 0x60 */
+    mov.w   DAT_0601bbc0, r5          /* r5 = 0x0CA4 (VDP1 offset) */
     jsr @r10                           /* draw position overlay */
-    mov #0x8, r4
-.L_0601BB8E:
+    mov #0x8, r4                       /* mode 0x08 (delay slot) */
+.L_skip_overlay:
     exts.b r12, r4                     /* final: animation transform */
-    mov.b @r11, r3
-    mov.l   .L_frame_data_table_2, r2
+    mov.b @r11, r3                     /* replay state byte */
+    mov.l   .L_frame_data_table_2, r2 /* frame data table base */
     shll r4                            /* car_A * 2 */
-    extu.b r3, r3
+    extu.b r3, r3                      /* zero-extend state */
     add r3, r4                         /* + replay state */
     shll2 r4                           /* * 4 */
-    mov.l   .L_fn_anim_transform, r3
-    add r2, r4
-    mov.l @r4, r4
+    mov.l   .L_fn_anim_transform, r3  /* anim transform function */
+    add r2, r4                         /* r4 → frame_data[index] */
+    mov.l @r4, r4                      /* r4 = frame data entry */
     jsr @r3                            /* anim_frame_transform(entry.data_ptr) */
-    mov.l @(4, r4), r4
+    mov.l @(4, r4), r4                /* r4 = data_ptr (delay slot) */
     mov r0, r7                         /* draw final position indicator */
-    mov #0x78, r6
+    mov #0x78, r6                      /* draw params: size 0x78 */
     mov.w   .L_vdp1_off_final, r5     /* r5 = 0x0CB2 */
-    jsr @r10
-    mov #0x8, r4                       /* mode 0x08 */
-    add #0x10, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    jsr @r10                           /* draw final element */
+    mov #0x8, r4                       /* mode 0x08 (delay slot) */
+    add #0x10, r15                     /* free 16 bytes of locals */
+    lds.l @r15+, pr                    /* restore return address */
+    mov.l @r15+, r10                   /* restore r10 */
+    mov.l @r15+, r11                   /* restore r11 */
+    mov.l @r15+, r12                   /* restore r12 */
+    mov.l @r15+, r13                   /* restore r13 */
+    rts                                /* return */
+    mov.l @r15+, r14                   /* restore r14 (delay slot) */
 
     .global DAT_0601bbc0
 DAT_0601bbc0:
