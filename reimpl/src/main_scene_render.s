@@ -9,12 +9,12 @@
     .global main_scene_render
     .type main_scene_render, @function
 main_scene_render:
-    sts.l pr, @-r15
-    jsr @r13
-    nop
-    lds.l @r15+, pr
+    sts.l pr, @-r15                 ! save return address
+    jsr @r13                        ! call function pointer in r13
+    nop                             ! delay slot
+    lds.l @r15+, pr                 ! restore return address
     .byte   0xAF, 0x77    /* bra 0x0602E78C (external) */
-    nop
+    nop                             ! delay slot
     .2byte  0x0000
     .4byte  0x00000000
     .4byte  0xAE1109FF
@@ -43,11 +43,11 @@ sym_0602E8B8:
     .word 0x0001 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mov #0x66, r6
+    mov #0x66, r6                   ! data (not code) — decoded as instruction
     .word 0x0000 /* UNKNOWN */
     .word 0xCCCC /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    .byte   0xB3, 0x33    /* bsr 0x0602EF48 (external) */
+    .byte   0xB3, 0x33    /* bsr 0x0602EF48 (external) — data, not a real branch */
     .word 0x0001 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0001 /* UNKNOWN */
@@ -95,26 +95,26 @@ sym_0602E8B8:
 
     .global sym_0602E938
 sym_0602E938:
-    bt/s    .L_0602E9DA
-    mov.w @r15+, r8
-    mov.l @(0, r0), r0
-    mov.l @(40, r7), r2
-    bt/s    .L_0602E9E2
-    mov.w @r15+, r8
-    mov.l @(0, r0), r0
-    mov.l @(40, r7), r2
+    bt/s    .L_scene_data_block_a   ! data (not code) — VDP2 rotation params
+    mov.w @r15+, r8                 ! data (not code)
+    mov.l @(0, r0), r0              ! data (not code)
+    mov.l @(40, r7), r2             ! data (not code)
+    bt/s    .L_scene_data_block_b   ! data (not code)
+    mov.w @r15+, r8                 ! data (not code)
+    mov.l @(0, r0), r0              ! data (not code)
+    mov.l @(40, r7), r2             ! data (not code)
     .word 0xFD4F /* UNKNOWN */
-    tst #0xF5, r0
-    mov.w r0, @(22, r14)
-    mov.w @(0, r0), r0
+    tst #0xF5, r0                   ! data (not code)
+    mov.w r0, @(22, r14)            ! data (not code)
+    mov.w @(0, r0), r0              ! data (not code)
     .word 0xFD4F /* UNKNOWN */
-    tst #0xF5, r0
-    mov.w r0, @(22, r14)
-    mov.w @(0, r0), r0
-    mov #0x4F, r13
-    .byte   0xD8, 0xF5    /* mov.l .L_pool_0602ED30, r8 */
-    mov.w   .L_wpool_0602E960, r0
-    add #0x7A, r1
+    tst #0xF5, r0                   ! data (not code)
+    mov.w r0, @(22, r14)            ! data (not code)
+    mov.w @(0, r0), r0              ! data (not code)
+    mov #0x4F, r13                  ! data (not code)
+    .byte   0xD8, 0xF5    /* mov.l .L_pool_render_body, r8 — data, not code */
+    mov.w   .L_wpool_0602E960, r0   ! data (not code)
+    add #0x7A, r1                   ! data (not code)
 .L_wpool_0602E960:
     .2byte  0xED4F
     .2byte  0xD8F5
@@ -137,15 +137,11 @@ sym_0602E938:
     .4byte  0x5000517A
 
     .global loc_0602E9A8
-loc_0602E9A8:
+loc_0602E9A8:                       ! scene config data — course 0
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    sett
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
+    sett                             ! data (not code) — 0x0018
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -155,63 +151,67 @@ loc_0602E9A8:
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mul.l r1, r0
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    mul.l r1, r0                     ! data (not code) — 0x0107
     .word 0x0000 /* UNKNOWN */
     .word 0x0060 /* UNKNOWN */
     .word 0x0001 /* UNKNOWN */
-    mov.b r0, @(0, r0)
+    mov.b r0, @(0, r0)              ! data (not code) — 0x8000
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-.L_0602E9DA:
-    .byte   0xD0, 0x00    /* mov.l .L_pool_0602E9DC, r0 */
-.L_pool_0602E9DC:
+.L_scene_data_block_a:
+    .byte   0xD0, 0x00    /* mov.l .L_pool_scene_data_term_a, r0 */
+.L_pool_scene_data_term_a:
     .4byte  0x00003C00
     .2byte  0x0004
-.L_0602E9E2:
-    mov.b r0, @(0, r0)
+.L_scene_data_block_b:
+    mov.b r0, @(0, r0)              ! data (not code) — 0x8000
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mov.l r1, @(r0, r0)
+    mov.l r1, @(r0, r0)             ! data (not code)
     .word 0x0000 /* UNKNOWN */
-    sett
+    sett                             ! data (not code) — 0x0018
     .word 0x0001 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mov #0x0, r0
+    mov #0x0, r0                     ! data (not code) — 0xE000
     .word 0x0000 /* UNKNOWN */
-    mov.b @r0, r0
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    mul.l r1, r0
-    .word 0x0000 /* UNKNOWN */
-    mov.b @(r0, r0), r0
-    .word 0x0000 /* UNKNOWN */
-    mov.b r0, @(0, r0)
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    mov #0x0, r8
-    .word 0x0000 /* UNKNOWN */
-    add #0x0, r0
-    mov.w r0, @(r0, r0)
+    mov.b @r0, r0                    ! data (not code) — 0xC000
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mac.l @r1+, @r0+
     .word 0x0000 /* UNKNOWN */
-    sett
+    mul.l r1, r0                     ! data (not code) — 0x0107
     .word 0x0000 /* UNKNOWN */
-    mov.b r0, @r8
+    mov.b @(r0, r0), r0              ! data (not code) — 0x00CC
     .word 0x0000 /* UNKNOWN */
-    mov.w   .L_wpool_0602EA3A, r8
+    mov.b r0, @(0, r0)              ! data (not code) — 0x8000
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    mov #0x0, r8                     ! data (not code) — 0xE800
+    .word 0x0000 /* UNKNOWN */
+    add #0x0, r0                     ! data (not code) — 0x7000
+    mov.w r0, @(r0, r0)             ! data (not code)
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    mac.l @r1+, @r0+                ! data (not code) — 0x000F
+    .word 0x0000 /* UNKNOWN */
+    sett                             ! data (not code) — 0x0018
+    .word 0x0000 /* UNKNOWN */
+    mov.b r0, @r8                    ! data (not code) — 0x2080
+    .word 0x0000 /* UNKNOWN */
+    mov.w   .L_wpool_0602EA3A, r8   ! data (not code) — 0x9800
     .word 0x0000 /* UNKNOWN */
 .L_wpool_0602EA3A:
     .2byte  0xD200
@@ -237,7 +237,7 @@ loc_0602E9A8:
     .4byte  0xFFFFFFFF
 
     .global loc_0602EA8C
-loc_0602EA8C:
+loc_0602EA8C:                       ! scene config data — course 1 / course 3
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -255,16 +255,16 @@ loc_0602EA8C:
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mac.l @r0+, @r0+
+    mac.l @r0+, @r0+                ! data (not code) — 0x000F
     .word 0x0000 /* UNKNOWN */
     .word 0x0060 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0001 /* UNKNOWN */
-    mov.b r0, @(0, r0)
+    mov.b r0, @(0, r0)              ! data (not code) — 0x8000
     .word 0x0000 /* UNKNOWN */
-    .byte   0xD0, 0x00    /* mov.l .L_pool_0602EAC0, r0 */
-.L_pool_0602EAC0:
+    .byte   0xD0, 0x00    /* mov.l .L_pool_scene_cfg_1, r0 */
+.L_pool_scene_cfg_1:
     .4byte  0x00007C00
     .4byte  0x00048000
     .4byte  0x00000000
@@ -311,15 +311,11 @@ loc_0602EA8C:
     .4byte  0xFFFFFFFF
 
     .global loc_0602EB70
-loc_0602EB70:
+loc_0602EB70:                       ! scene config data — course 2
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    sett
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
-    .word 0x0000 /* UNKNOWN */
+    sett                             ! data (not code) — 0x0018
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
@@ -329,16 +325,20 @@ loc_0602EB70:
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    mul.l r1, r0
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    .word 0x0000 /* UNKNOWN */
+    mul.l r1, r0                     ! data (not code) — 0x0107
     .word 0x0000 /* UNKNOWN */
     .word 0x0060 /* UNKNOWN */
     .word 0xFFFE /* UNKNOWN */
-    mov.b r0, @(0, r0)
+    mov.b r0, @(0, r0)              ! data (not code) — 0x8000
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    .byte   0xD0, 0x00    /* mov.l .L_pool_0602EBA4, r0 */
-.L_pool_0602EBA4:
+    .byte   0xD0, 0x00    /* mov.l .L_pool_scene_cfg_2, r0 */
+.L_pool_scene_cfg_2:
     .4byte  0x0000AF33
     .4byte  0x00048000
     .4byte  0x00000000
@@ -426,13 +426,13 @@ sym_0602EC54:
     .4byte  0x00000000
 
     .global sym_0602ECAC
-sym_0602ECAC:
+sym_0602ECAC:                       ! scene boundary params
     .word 0xFFFF /* UNKNOWN */
     .word 0xF800 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
-    cmp/eq r0, r8
+    cmp/eq r0, r8                    ! data (not code) — 0x3008
     .word 0x0000 /* UNKNOWN */
-    add #0x0, r8
+    add #0x0, r8                     ! data (not code) — 0x7800
     .word 0x0000 /* UNKNOWN */
     .word 0x0000 /* UNKNOWN */
 
@@ -444,11 +444,11 @@ sym_0602ECBC:
     .4byte  loc_0602EA8C
 
     .global sym_0602ECCC
-sym_0602ECCC:
-    mov.l r3, @-r15
-    mov #-0x10, r3
-    stc.l sr, @-r15
-    extu.b r3, r3
+sym_0602ECCC:                       ! interrupt mask helper
+    mov.l r3, @-r15                 ! save r3
+    mov #-0x10, r3                  ! r3 = 0xFFFFFFF0 (mask value)
+    stc.l sr, @-r15                 ! save status register
+    extu.b r3, r3                   ! r3 = 0xF0 (zero-extend low byte)
     .4byte  0x430ED305
     .4byte  0x23020009
     .4byte  0x13110009
@@ -459,19 +459,19 @@ sym_0602ECCC:
     .2byte  0xFF00
 
     .global sym_0602ECF2
-sym_0602ECF2:
-    .byte   0xD1, 0x04    /* mov.l .L_pool_0602ED04, r1 */
-    mov.l @r1, r2
-    .byte   0xD3, 0x04    /* mov.l .L_pool_0602ED08, r3 */
-    shll2 r2
-    add r2, r3
-    mov.l @r3, r3
-    jmp @r3
-    nop
+sym_0602ECF2:                       ! render state dispatch
+    .byte   0xD1, 0x04    /* mov.l .L_pool_render_state_ptr, r1 */
+    mov.l @r1, r2                   ! r2 = current render state index
+    .byte   0xD3, 0x04    /* mov.l .L_pool_render_jump_tbl, r3 */
+    shll2 r2                        ! r2 *= 4 (index to offset)
+    add r2, r3                      ! r3 = &jump_table[state]
+    mov.l @r3, r3                   ! r3 = jump target address
+    jmp @r3                         ! dispatch to render state handler
+    nop                             ! delay slot
     .2byte  0x0000
-.L_pool_0602ED04:
+.L_pool_render_state_ptr:
     .4byte  sym_0607EAE4
-.L_pool_0602ED08:
+.L_pool_render_jump_tbl:
     .4byte  sym_0602ED0C
 
     .global sym_0602ED0C
@@ -481,20 +481,20 @@ sym_0602ED0C:
     .4byte  loc_0602EEAC
 
     .global loc_0602ED18
-loc_0602ED18:
+loc_0602ED18:                       ! render body — state 0/1 handler
     .byte   0xD0, 0x2A    /* mov.l .L_pool_0602EDC4, r0 */
-    mov #0x50, r1
-    mov.b r1, @r0
+    mov #0x50, r1                   ! r1 = 0x50 (VDP command)
+    mov.b r1, @r0                   ! write VDP command byte
     .byte   0xD0, 0x2A    /* mov.l .L_pool_0602EDC8, r0 */
-    mov.l @r0, r0
+    mov.l @r0, r0                   ! r0 = scene data pointer
     .byte   0xD1, 0x2A    /* mov.l .L_pool_0602EDCC, r1 */
-    mov.l @r1, r2
-    add #0x1, r2
-    mov.l r2, @r1
-    mov.l @(8, r0), r2
-    shll16 r2
+    mov.l @r1, r2                   ! r2 = frame counter
+    add #0x1, r2                    ! increment frame counter
+    mov.l r2, @r1                   ! store updated counter
+    mov.l @(8, r0), r2              ! r2 = scene field at offset 8
+    shll16 r2                       ! r2 <<= 16 (extract high portion)
     .byte   0x92, 0x3F    /* mov.w .L_wpool_0602EDB0, r2 */
-.L_pool_0602ED30:
+.L_pool_render_body:
     .4byte  0xE3000236
     .4byte  0x913DE301
     .4byte  0x923C4328
