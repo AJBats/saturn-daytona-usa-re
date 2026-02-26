@@ -8,53 +8,68 @@
 
     .global obj_state_pack
     .type obj_state_pack, @function
+
+/* =========================================================================
+ * obj_state_pack
+ *
+ * Finalizes object state for the current frame:
+ *   1. Calls command_slot_write(8) to allocate a display command slot
+ *   2. Calls scene_color_intensity(1.0) to set full-brightness color
+ *   3. Calls command_queue_commit to flush the command queue
+ *   4. Sets bit 26 (0x04000000) in the render mode flags
+ *   5. Sets display_timer = 2 (activates display for 2 frames)
+ *   6. Clears the input skip flag (re-enables input processing)
+ *   7. Tail-calls display_update to push changes to hardware
+ * ========================================================================= */
 obj_state_pack:
-    sts.l pr, @-r15
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06020C2C, r3 */
-    jsr @r3
-    mov #0x8, r4
+    sts.l pr, @-r15                          ! save return address to stack
+    .byte   0xD3, 0x16    /* mov.l .L_ptr_cmd_slot_write, r3 */
+    jsr @r3                                  ! call command_slot_write
+    mov #0x8, r4                             ! arg: slot index = 8 (delay slot)
     .byte   0xD5, 0x16    /* mov.l .L_fp_one, r5 */
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06020C34, r3 */
-    jsr @r3
-    mov r5, r4
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06020C38, r3 */
-    jsr @r3
-    nop
-    .byte   0xD4, 0x08    /* mov.l .L_pool_06020C08, r4 */
-    .byte   0xD2, 0x09    /* mov.l .L_pool_06020C0C, r2 */
-    mov.l @r4, r3
-    or r2, r3
-    mov.l r3, @r4
-    mov #0x2, r2
-    .byte   0xD3, 0x07    /* mov.l .L_pool_06020C10, r3 */
-    mov.w r2, @r3
-    mov #0x0, r2
-    .byte   0xD3, 0x07    /* mov.l .L_pool_06020C14, r3 */
-    mov.l r2, @r3
-    .byte   0xD3, 0x07    /* mov.l .L_pool_06020C18, r3 */
-    jmp @r3
-    lds.l @r15+, pr
-    .4byte  sym_0607EBF4
-    .4byte  sym_0602853E
-.L_pool_06020C08:
-    .4byte  sym_0605B6D8
-.L_pool_06020C0C:
-    .4byte  0x04000000
-.L_pool_06020C10:
-    .4byte  sym_0608780C
-.L_pool_06020C14:
-    .4byte  sym_0605A00C
-.L_pool_06020C18:
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F6F
-    .4byte  sym_06085F8A
-    .4byte  sym_0607EBCC
-    .4byte  sym_06063F5C
-.L_pool_06020C2C:
-    .4byte  sym_0603850C
+    .byte   0xD3, 0x16    /* mov.l .L_ptr_scene_color_intensity, r3 */
+    jsr @r3                                  ! call scene_color_intensity
+    mov r5, r4                               ! arg: intensity = 1.0 fixed-point (delay slot)
+    .byte   0xD3, 0x16    /* mov.l .L_ptr_cmd_queue_commit, r3 */
+    jsr @r3                                  ! call command_queue_commit
+    nop                                      ! delay slot (no arg needed)
+    .byte   0xD4, 0x08    /* mov.l .L_ptr_render_mode_flags, r4 */
+    .byte   0xD2, 0x09    /* mov.l .L_render_flag_bit26, r2 */
+    mov.l @r4, r3                            ! r3 = current render mode flags
+    or r2, r3                                ! r3 |= 0x04000000 (set bit 26)
+    mov.l r3, @r4                            ! store updated render mode flags
+    mov #0x2, r2                             ! r2 = 2 (display active for 2 frames)
+    .byte   0xD3, 0x07    /* mov.l .L_ptr_display_timer, r3 */
+    mov.w r2, @r3                            ! display_timer = 2
+    mov #0x0, r2                             ! r2 = 0 (clear value)
+    .byte   0xD3, 0x07    /* mov.l .L_ptr_input_skip_flag, r3 */
+    mov.l r2, @r3                            ! input_skip_flag = 0 (re-enable input)
+    .byte   0xD3, 0x07    /* mov.l .L_ptr_display_update, r3 */
+    jmp @r3                                  ! tail-call display_update
+    lds.l @r15+, pr                          ! restore return address (delay slot)
+
+/* -- constant pool -------------------------------------------------------- */
+    .4byte  sym_0607EBF4                     /* display/mode flags (32-bit) */
+    .4byte  sym_0602853E                     /* display channel configure */
+.L_ptr_render_mode_flags:
+    .4byte  sym_0605B6D8                     /* render mode flags (32-bit bitmask) */
+.L_render_flag_bit26:
+    .4byte  0x04000000                       /* bit 26 flag constant */
+.L_ptr_display_timer:
+    .4byte  sym_0608780C                     /* display_timer (16-bit word; 2 = active) */
+.L_ptr_input_skip_flag:
+    .4byte  sym_0605A00C                     /* input skip flag (nonzero = skip input) */
+.L_ptr_display_update:
+    .4byte  sym_06026CE0                     /* display_update (tail-call target) */
+    .4byte  sym_06059F6F                     /* (shared pool data) */
+    .4byte  sym_06085F8A                     /* object compaction needed flag (byte) */
+    .4byte  sym_0607EBCC                     /* countdown timer (attract mode) */
+    .4byte  sym_06063F5C                     /* car struct array base pointer */
+.L_ptr_cmd_slot_write:
+    .4byte  sym_0603850C                     /* command_slot_write */
 .L_fp_one:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_pool_06020C34:
-    .4byte  scene_color_intensity
-.L_pool_06020C38:
-    .4byte  sym_06038520
+    .4byte  0x00010000                       /* 1.0 (16.16 fixed-point) */
+.L_ptr_scene_color_intensity:
+    .4byte  scene_color_intensity            /* scene color intensity function */
+.L_ptr_cmd_queue_commit:
+    .4byte  sym_06038520                     /* command_queue_commit */

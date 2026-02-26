@@ -6,182 +6,291 @@
     .section .text.FUN_0603F9BC
 
 
+/*
+ * attract_demo_loader
+ *
+ * Wrapper that initializes a timer block by calling race_timer_sync
+ * with timeout=-1 (infinite), then stores the caller-provided values
+ * (r5 -> block+0, r6 -> block+8) into the timer block.
+ *
+ * Args:
+ *   r14 = timer block pointer (passed through from caller)
+ *   r5  = callback_a pointer (stored to block+0 after init)
+ *   r6  = time_b value (stored to block+8 after init)
+ *
+ * Returns: (via delay slot) restores r14 from stack
+ */
     .global attract_demo_loader
     .type attract_demo_loader, @function
 attract_demo_loader:
-    sts.l pr, @-r15
-    add #-0x8, r15
-    mov.l r5, @(4, r15)
-    mov #-0x1, r5
-    mov.l r6, @r15
-    bsr     race_timer_sync
-    mov r14, r4
-    mov.l @(4, r15), r2
-    mov.l r2, @r14
-    mov.l @r15, r3
-    mov.l r3, @(8, r14)
-    add #0x8, r15
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    sts.l pr, @-r15                         ! save return address
+    add #-0x8, r15                          ! allocate 8 bytes on stack
+    mov.l r5, @(4, r15)                     ! save r5 (callback_a ptr) to stack[4]
+    mov #-0x1, r5                           ! r5 = -1 (infinite timeout for sync)
+    mov.l r6, @r15                          ! save r6 (time_b value) to stack[0]
+    bsr     race_timer_sync                 ! call race_timer_sync(r4=block, r5=-1)
+    mov r14, r4                             ! (delay) r4 = timer block pointer
+    mov.l @(4, r15), r2                     ! r2 = saved callback_a ptr
+    mov.l r2, @r14                          ! block+0 = callback_a ptr
+    mov.l @r15, r3                          ! r3 = saved time_b value
+    mov.l r3, @(8, r14)                     ! block+8 = time_b value
+    add #0x8, r15                           ! free stack frame
+    lds.l @r15+, pr                         ! restore return address
+    rts                                     ! return to caller
+    mov.l @r15+, r14                        ! (delay) restore r14
 
+/*
+ * sym_0603F9DA — timer_block_init_fields
+ *
+ * Stores r5 into the timer block's time_field_a (+20) and zeroes
+ * time_field_b (+24).  Then reads the flags byte at +0x34, isolates
+ * bit 7 (the "active" flag), and writes it back — clearing bits 0-6.
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *   r5 = value to store as time_field_a
+ *
+ * Returns:
+ *   r0 = flags byte with only bit 7 preserved
+ */
     .global sym_0603F9DA
 sym_0603F9DA:
-    mov #0x0, r3
-    mov #0x34, r0
-    mov #0x34, r1
-    mov.l r5, @(20, r4)
-    add r4, r1
-    mov.l r3, @(24, r4)
-    mov.b @(r0, r4), r0
-    extu.b r0, r0
-    and #0x80, r0
-    extu.b r0, r0
-    rts
-    mov.b r0, @r1
+    mov #0x0, r3                            ! r3 = 0 (value to clear time_field_b)
+    mov #0x34, r0                           ! r0 = 0x34 (flags byte offset)
+    mov #0x34, r1                           ! r1 = 0x34 (flags byte write offset)
+    mov.l r5, @(20, r4)                     ! block+20 = r5 (time_field_a)
+    add r4, r1                              ! r1 = &block+0x34 (flags byte address)
+    mov.l r3, @(24, r4)                     ! block+24 = 0 (clear time_field_b)
+    mov.b @(r0, r4), r0                     ! r0 = block[0x34] (read flags byte)
+    extu.b r0, r0                           ! zero-extend flags to 32-bit
+    and #0x80, r0                           ! isolate bit 7 (active flag), clear bits 0-6
+    extu.b r0, r0                           ! zero-extend result
+    rts                                     ! return
+    mov.b r0, @r1                           ! (delay) write masked flags back to block+0x34
 
+/*
+ * sym_0603F9F2 — timer_get_time_field_a
+ *
+ * Returns the time_field_a value (offset +20) from the timer block.
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *
+ * Returns:
+ *   r0 = block+20 (time_field_a)
+ */
     .global sym_0603F9F2
 sym_0603F9F2:
-    rts
-    mov.l @(20, r4), r0
+    rts                                     ! return
+    mov.l @(20, r4), r0                     ! (delay) r0 = block+20 (time_field_a)
 
+/*
+ * sym_0603F9F6 — timer_get_time_field_b
+ *
+ * Returns the time_field_b value (offset +24) from the timer block.
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *
+ * Returns:
+ *   r0 = block+24 (time_field_b)
+ */
     .global sym_0603F9F6
 sym_0603F9F6:
-    rts
-    mov.l @(24, r4), r0
+    rts                                     ! return
+    mov.l @(24, r4), r0                     ! (delay) r0 = block+24 (time_field_b)
 
+/*
+ * sym_0603F9FA — timer_exchange_field_16
+ *
+ * Reads block+16 into r0 (return value), then writes r5 into block+16.
+ * Effectively an exchange: returns old value, stores new value.
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *   r5 = new value for field_16
+ *
+ * Returns:
+ *   r0 = old value of block+16
+ */
     .global sym_0603F9FA
 sym_0603F9FA:
-    mov.l @(16, r4), r0
-    rts
-    mov.l r5, @(16, r4)
+    mov.l @(16, r4), r0                     ! r0 = block+16 (old value, returned)
+    rts                                     ! return
+    mov.l r5, @(16, r4)                     ! (delay) block+16 = r5 (store new value)
 
+/*
+ * sym_0603FA00 — timer_set_active_flag
+ *
+ * Sets bit 7 (active flag) in the flags byte at block+0x34.
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *
+ * Returns: (none meaningful)
+ */
     .global sym_0603FA00
 sym_0603FA00:
-    mov #0x34, r0
-    mov #0x34, r1
-    mov.b @(r0, r4), r0
-    add r4, r1
-    or #0x80, r0
-    rts
-    mov.b r0, @r1
+    mov #0x34, r0                           ! r0 = 0x34 (flags byte offset)
+    mov #0x34, r1                           ! r1 = 0x34 (flags byte write offset)
+    mov.b @(r0, r4), r0                     ! r0 = block[0x34] (read flags byte)
+    add r4, r1                              ! r1 = &block+0x34 (flags byte address)
+    or #0x80, r0                            ! set bit 7 (active flag)
+    rts                                     ! return
+    mov.b r0, @r1                           ! (delay) write updated flags to block+0x34
+    /* Dead code — unreachable variant (no global symbol, kept as raw bytes) */
     .2byte  0xE034
     .4byte  0x9325024C
     .4byte  0x2239000B
     .2byte  0x0424
 
+/*
+ * race_timer_sync
+ *
+ * Main timer synchronization loop.  Processes a timer block by repeatedly
+ * calling scene_buffer_update while the block's flags indicate "active"
+ * (bits 0-6 non-zero and not equal to 5).  Each iteration increments a
+ * sync frame counter at game_state+0xCC.  The loop exits when:
+ *   - flags bits 0-6 become zero (block inactive)
+ *   - flags bits 0-6 equal 5 (block complete)
+ *   - frame counter exceeds MINIT threshold (timeout)
+ *
+ * After the loop, if the block has callback pointers at +4 or +12, those
+ * callbacks are invoked (via cross-TU jsr) and their time deltas are
+ * accumulated into time_field_b (+24).  Finally, the flags byte is updated
+ * to preserve bit 7 and set bits 0-2 (value 5 = "complete").
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *   r5 = timeout value (stored to stack[4], -1 = infinite)
+ *
+ * Returns: (none)
+ */
     .global race_timer_sync
     .type race_timer_sync, @function
 race_timer_sync:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    sts.l pr, @-r15
-    add #-0x10, r15
-    mov #0x0, r10
-    mov.l   .L_pool_0603FA64, r11
-    mov.w   .L_wpool_0603FA5E, r12
-    mov.l   .L_minit, r13
-    mov r4, r14
-    mov.l r5, @(4, r15)
-    mov.l @r14, r3
-    mov.l r3, @(8, r15)
-    mov.l @(8, r14), r3
-    mov.l r3, @(12, r15)
-    mov.l @r11, r3
-    mov.w   .L_wpool_0603FA60, r0
-    mov.l r10, @(r0, r3)
-    bra     .L_0603FA6C
-    nop
-.L_0603FA46:
-    mov r15, r5
-    bsr     scene_buffer_update
-    mov r14, r4
-    mov.l @r11, r2
-    mov.w   .L_wpool_0603FA60, r0
-    mov.l @(r0, r2), r3
-    add #0x1, r3
-    mov.l r3, @(r0, r2)
-    cmp/gt r13, r3
-    bf      .L_0603FA6C
-    bra     .L_0603FA7E
-    nop
+    mov.l r14, @-r15                        ! save r14 (callee-saved)
+    mov.l r13, @-r15                        ! save r13 (callee-saved)
+    mov.l r12, @-r15                        ! save r12 (callee-saved)
+    mov.l r11, @-r15                        ! save r11 (callee-saved)
+    mov.l r10, @-r15                        ! save r10 (callee-saved)
+    sts.l pr, @-r15                         ! save return address
+    add #-0x10, r15                         ! allocate 16 bytes on stack
+    mov #0x0, r10                           ! r10 = 0 (used to clear fields later)
+    mov.l   .L_pool_game_state_ptr, r11     ! r11 = &game_state (sym_060A4D14)
+    mov.w   .L_wpool_0603FA5E, r12          ! r12 = 0xFFFFFF7F (sign-extended; mask to clear bit 7)
+    mov.l   .L_pool_minit_threshold, r13    ! r13 = 0x01000000 (MINIT timeout threshold)
+    mov r4, r14                             ! r14 = timer block pointer
+    mov.l r5, @(4, r15)                     ! stack[4] = timeout value
+    mov.l @r14, r3                          ! r3 = block+0 (callback_a ptr)
+    mov.l r3, @(8, r15)                     ! stack[8] = saved callback_a ptr
+    mov.l @(8, r14), r3                     ! r3 = block+8 (time_b value)
+    mov.l r3, @(12, r15)                    ! stack[12] = saved time_b value
+    mov.l @r11, r3                          ! r3 = *game_state (base pointer)
+    mov.w   .L_wpool_0603FA60, r0           ! r0 = 0xCC (sync_frame_counter offset)
+    mov.l r10, @(r0, r3)                    ! game_state+0xCC = 0 (reset sync frame counter)
+    bra     .L_sync_loop_test               ! jump to loop condition test
+    nop                                     ! (delay) no-op
+.L_sync_loop_body:
+    mov r15, r5                             ! r5 = stack pointer (output buffer for scene_buffer_update)
+    bsr     scene_buffer_update             ! call scene_buffer_update(r4=block, r5=stack)
+    mov r14, r4                             ! (delay) r4 = timer block pointer
+    mov.l @r11, r2                          ! r2 = *game_state (base pointer)
+    mov.w   .L_wpool_0603FA60, r0           ! r0 = 0xCC (sync_frame_counter offset)
+    mov.l @(r0, r2), r3                     ! r3 = game_state+0xCC (current frame count)
+    add #0x1, r3                            ! r3++ (increment frame counter)
+    mov.l r3, @(r0, r2)                     ! game_state+0xCC = r3 (write back)
+    cmp/gt r13, r3                          ! T = (frame_count > MINIT threshold)?
+    bf      .L_sync_loop_test               ! if not timed out, continue loop
+    bra     .L_sync_loop_exit               ! timed out — exit loop
+    nop                                     ! (delay) no-op
 .L_wpool_0603FA5E:
     .2byte  0xFF7F
 .L_wpool_0603FA60:
     .2byte  0x00CC
     .2byte  0xFFFF
-.L_pool_0603FA64:
+.L_pool_game_state_ptr:
     .4byte  sym_060A4D14
-.L_minit:
+.L_pool_minit_threshold:
     .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
-.L_0603FA6C:
-    mov #0x34, r0
-    mov.b @(r0, r14), r4
-    extu.b r4, r4
-    and r12, r4
-    tst r4, r4
-    bt      .L_0603FA7E
-    mov r4, r0
-    cmp/eq #0x5, r0
-    bf      .L_0603FA46
-.L_0603FA7E:
-    mov.l @(4, r14), r0
-    tst r0, r0
-    bt      .L_0603FA9A
-    mov.l @(4, r15), r6
-    mov.l @(4, r14), r5
-    .byte   0xD3, 0x27    /* mov.l .L_pool_0603FB28, r3 */
-    jsr @r3
-    mov.l @(8, r15), r4
-    mov.l @(4, r14), r2
-    mov.l @(12, r2), r3
-    mov.l @(24, r14), r2
-    add r3, r2
-    mov.l r2, @(24, r14)
-    mov.l r10, @(4, r14)
-.L_0603FA9A:
-    mov.l @(12, r14), r0
-    tst r0, r0
-    bt      .L_0603FAAC
-    mov.l @(4, r15), r6
-    mov.l @(12, r14), r5
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0603FB28, r3 */
-    jsr @r3
-    mov.l @(12, r15), r4
-    mov.l r10, @(12, r14)
-.L_0603FAAC:
-    mov #0x34, r0
-    mov #0x34, r1
-    mov.b @(r0, r14), r0
-    add r14, r1
-    extu.b r0, r0
-    and #0x80, r0
-    or #0x5, r0
-    extu.b r0, r0
-    mov.b r0, @r1
-    add #0x10, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_sync_loop_test:
+    mov #0x34, r0                           ! r0 = 0x34 (flags byte offset)
+    mov.b @(r0, r14), r4                    ! r4 = block[0x34] (flags byte)
+    extu.b r4, r4                           ! zero-extend flags to 32-bit
+    and r12, r4                             ! r4 = flags & 0x7F (clear bit 7, keep bits 0-6)
+    tst r4, r4                              ! test if bits 0-6 are all zero
+    bt      .L_sync_loop_exit               ! if zero (inactive), exit loop
+    mov r4, r0                              ! r0 = flags & 0x7F (for cmp/eq immediate)
+    cmp/eq #0x5, r0                         ! T = (status == 5, i.e., complete)?
+    bf      .L_sync_loop_body               ! if not complete, continue processing
+.L_sync_loop_exit:
+    mov.l @(4, r14), r0                     ! r0 = block+4 (callback_a ptr)
+    tst r0, r0                              ! test if callback_a is NULL
+    bt      .L_skip_callback_a              ! if NULL, skip callback_a
+    mov.l @(4, r15), r6                     ! r6 = timeout value (arg3 for callback)
+    mov.l @(4, r14), r5                     ! r5 = block+4 (callback_a ptr, arg2)
+    .byte   0xD3, 0x27    /* mov.l .L_pool_0603FB28, r3 */  ! r3 = callback dispatch function (cross-TU)
+    jsr @r3                                 ! call callback dispatch(r4=saved_callback_a, r5=block+4, r6=timeout)
+    mov.l @(8, r15), r4                     ! (delay) r4 = saved callback_a ptr from stack
+    mov.l @(4, r14), r2                     ! r2 = block+4 (callback_a ptr / result struct)
+    mov.l @(12, r2), r3                     ! r3 = callback_result+12 (time delta)
+    mov.l @(24, r14), r2                    ! r2 = block+24 (current time_field_b)
+    add r3, r2                              ! r2 += time delta (accumulate)
+    mov.l r2, @(24, r14)                    ! block+24 = accumulated time_field_b
+    mov.l r10, @(4, r14)                    ! block+4 = 0 (clear callback_a ptr, consumed)
+.L_skip_callback_a:
+    mov.l @(12, r14), r0                    ! r0 = block+12 (callback_b ptr)
+    tst r0, r0                              ! test if callback_b is NULL
+    bt      .L_skip_callback_b              ! if NULL, skip callback_b
+    mov.l @(4, r15), r6                     ! r6 = timeout value (arg3 for callback)
+    mov.l @(12, r14), r5                    ! r5 = block+12 (callback_b ptr, arg2)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0603FB28, r3 */  ! r3 = callback dispatch function (cross-TU)
+    jsr @r3                                 ! call callback dispatch(r4=saved_time_b, r5=block+12, r6=timeout)
+    mov.l @(12, r15), r4                    ! (delay) r4 = saved time_b value from stack
+    mov.l r10, @(12, r14)                   ! block+12 = 0 (clear callback_b ptr, consumed)
+.L_skip_callback_b:
+    mov #0x34, r0                           ! r0 = 0x34 (flags byte offset)
+    mov #0x34, r1                           ! r1 = 0x34 (flags byte write offset)
+    mov.b @(r0, r14), r0                    ! r0 = block[0x34] (read flags byte)
+    add r14, r1                             ! r1 = &block+0x34 (flags byte address)
+    extu.b r0, r0                           ! zero-extend flags to 32-bit
+    and #0x80, r0                           ! isolate bit 7 (preserve active flag)
+    or #0x5, r0                             ! set bits 0 and 2 (status = 5 = "complete")
+    extu.b r0, r0                           ! zero-extend result
+    mov.b r0, @r1                           ! write updated flags to block+0x34
+    add #0x10, r15                          ! free 16-byte stack frame
+    lds.l @r15+, pr                         ! restore return address
+    mov.l @r15+, r10                        ! restore r10
+    mov.l @r15+, r11                        ! restore r11
+    mov.l @r15+, r12                        ! restore r12
+    mov.l @r15+, r13                        ! restore r13
+    rts                                     ! return to caller
+    mov.l @r15+, r14                        ! (delay) restore r14
 
+/*
+ * scene_buffer_update
+ *
+ * Processes scene buffer data for the timer synchronization system.
+ * Called repeatedly by race_timer_sync's sync loop to advance scene
+ * state until the timer block signals completion.
+ *
+ * Args:
+ *   r4 = timer block pointer
+ *   r5 = output buffer pointer (stack area)
+ *
+ * (Function body continues in next TU section — only prologue is in this file)
+ */
     .global scene_buffer_update
     .type scene_buffer_update, @function
 scene_buffer_update:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov r4, r14
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov #0x0, r11
-    mov.l r9, @-r15
-    mov r11, r12
-    mov.l r8, @-r15
-    mov r5, r8
+    mov.l r14, @-r15                        ! save r14 (callee-saved)
+    mov.l r13, @-r15                        ! save r13 (callee-saved)
+    mov r4, r14                             ! r14 = timer block pointer
+    mov.l r12, @-r15                        ! save r12 (callee-saved)
+    mov.l r11, @-r15                        ! save r11 (callee-saved)
+    mov.l r10, @-r15                        ! save r10 (callee-saved)
+    mov #0x0, r11                           ! r11 = 0 (initialized to zero)
+    mov.l r9, @-r15                         ! save r9 (callee-saved)
+    mov r11, r12                            ! r12 = 0 (copy of r11)
+    mov.l r8, @-r15                         ! save r8 (callee-saved)
+    mov r5, r8                              ! r8 = output buffer pointer

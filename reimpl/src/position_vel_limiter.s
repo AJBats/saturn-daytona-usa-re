@@ -8,34 +8,53 @@
 
     .global position_vel_limiter
     .type position_vel_limiter, @function
+
+/*
+ * position_vel_limiter
+ *
+ * Applies per-frame velocity damping to the Y and Z components of an
+ * object's position vector, then clamps each component to a minimum
+ * floor value. Finally, advances the object's Z rotation angle by a
+ * fixed increment.
+ *
+ * Position vector layout at sym_060788B4:
+ *   +0  X position  (16.16 fixed-point, untouched here)
+ *   +4  Y position  (16.16 fixed-point, decremented then clamped >= 2.0)
+ *   +8  Z position  (16.16 fixed-point, decremented then clamped >= ~4.8)
+ *
+ * Rotation state at sym_060788B2:
+ *   16-bit angle, incremented by 0x1800 each frame
+ *
+ * No arguments. No return value.
+ */
 position_vel_limiter:
-    mov.l   .L_pool_06012334, r4
-    mov.w   .L_wpool_06012326, r3
-    mov.l @(4, r4), r2
-    sub r3, r2
-    mov.l r2, @(4, r4)
-    mov.w   .L_wpool_06012328, r3
-    mov.l @(8, r4), r2
-    sub r3, r2
-    mov.l r2, @(8, r4)
-    mov.l   .L_fp_two, r5
-    mov.l @(4, r4), r3
-    cmp/ge r5, r3
-    bt      .L_06012310
-    mov.l r5, @(4, r4)
-.L_06012310:
-    mov.l   .L_pool_0601233C, r5
-    mov.l @(8, r4), r3
-    cmp/ge r5, r3
-    bt      .L_0601231A
-    mov.l r5, @(8, r4)
-.L_0601231A:
-    mov.l   .L_pool_06012340, r5
-    mov.w   .L_wpool_0601232A, r3
-    mov.w @r5, r2
-    add r3, r2
-    rts
-    mov.w r2, @r5
+    mov.l   .L_ptr_position_vec, r4         ! r4 = &position_vec (XYZ triplet base)
+    mov.w   .L_wpool_06012326, r3           ! r3 = 0x2999 (Y velocity decrement)
+    mov.l @(4, r4), r2                      ! r2 = position_vec.Y
+    sub r3, r2                              ! r2 -= Y velocity decrement
+    mov.l r2, @(4, r4)                      ! position_vec.Y = r2 (store damped Y)
+    mov.w   .L_wpool_06012328, r3           ! r3 = 0x4000 (Z velocity decrement)
+    mov.l @(8, r4), r2                      ! r2 = position_vec.Z
+    sub r3, r2                              ! r2 -= Z velocity decrement
+    mov.l r2, @(8, r4)                      ! position_vec.Z = r2 (store damped Z)
+    mov.l   .L_min_y_position, r5           ! r5 = 0x00020000 = 2.0 (Y floor, 16.16 fp)
+    mov.l @(4, r4), r3                      ! r3 = position_vec.Y (re-read after store)
+    cmp/ge r5, r3                           ! T = (Y >= Y_floor)?
+    bt      .L_y_above_floor                ! if Y >= floor, skip clamping
+    mov.l r5, @(4, r4)                      ! position_vec.Y = Y_floor (clamp to minimum)
+.L_y_above_floor:
+    mov.l   .L_min_z_position, r5           ! r5 = 0x0004CCCC ~= 4.8 (Z floor, 16.16 fp)
+    mov.l @(8, r4), r3                      ! r3 = position_vec.Z
+    cmp/ge r5, r3                           ! T = (Z >= Z_floor)?
+    bt      .L_z_above_floor                ! if Z >= floor, skip clamping
+    mov.l r5, @(8, r4)                      ! position_vec.Z = Z_floor (clamp to minimum)
+.L_z_above_floor:
+    mov.l   .L_ptr_rotation_angle, r5       ! r5 = &rotation_angle (16-bit Z angle)
+    mov.w   .L_wpool_0601232A, r3           ! r3 = 0x1800 (rotation increment per frame)
+    mov.w @r5, r2                           ! r2 = current rotation angle
+    add r3, r2                              ! r2 += rotation increment
+    rts                                     ! return (delay slot follows)
+    mov.w r2, @r5                           ! rotation_angle = r2 (store updated angle)
 .L_wpool_06012326:
     .2byte  0x2999
 .L_wpool_06012328:
@@ -44,11 +63,11 @@ position_vel_limiter:
     .2byte  0x1800
     .4byte  sym_0605AD10
     .4byte  sym_06078636
-.L_pool_06012334:
+.L_ptr_position_vec:
     .4byte  sym_060788B4
-.L_fp_two:
+.L_min_y_position:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
-.L_pool_0601233C:
+.L_min_z_position:
     .4byte  0x0004CCCC
-.L_pool_06012340:
+.L_ptr_rotation_angle:
     .4byte  sym_060788B2
