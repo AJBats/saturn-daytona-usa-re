@@ -5,57 +5,89 @@
 
     .section .text.FUN_0600C8D0
 
+/* ============================================================================
+ * ai_speed_target -- AI target heading from waypoint angle
+ * ============================================================================
+ * Computes the angle from the AI car to the next waypoint using atan2,
+ * then adjusts the car's target heading (AI_state[0x28]) toward that angle.
+ * The heading change per frame is clamped to +/- 1536 (0x0600) to prevent
+ * sudden snapping.
+ *
+ * Called when the AI is NOT in a speed zone (track position outside [46,59]).
+ *
+ * On entry (set by trampoline at 0x0600C8CC):
+ *   r14 = AI car state pointer (saved by caller)
+ *   r5  = course_data pointer (waypoint data for current segment)
+ *
+ * AI state layout used:
+ *   [0x00] = waypoint_X  (via course_data pointer deref)
+ *   [0x08] = waypoint_Z  (via course_data pointer)
+ *   [0x10] = AI car X position
+ *   [0x18] = AI car Z position
+ *   [0x28] = target heading (read/write)
+ *
+ * Returns: nothing (updates AI_state[0x28] in place)
+ * ============================================================================
+ */
 
     .global ai_speed_target
     .type ai_speed_target, @function
 ai_speed_target:
-    sts.l pr, @-r15
-    add #-0x4, r15
-    mov.l r5, @r15
-    mov.l @(8, r5), r5
-    mov.l @(24, r14), r3
-    mov.l @r15, r4
-    sub r3, r5
-    mov.l @r4, r4
-    mov.l @(16, r14), r3
-    sub r3, r4
-    mov.l   .L_pool_0600C968, r3
-    jsr @r3
-    nop
-    neg r0, r5
-    mov.l @(40, r14), r3
-    mov.w   DAT_0600c962, r6
-    extu.w r5, r4
-    extu.w r3, r3
-    sub r3, r4
-    exts.w r4, r4
-    cmp/gt r6, r4
-    bf      .L_0600C90A
-    mov.l @(40, r14), r3
-    extu.w r3, r3
-    add r6, r3
-    exts.w r3, r3
-    mov.l r3, @(40, r14)
-    bra     .L_0600C920
-    nop
-.L_0600C90A:
-    mov.w   DAT_0600c964, r2
-    cmp/ge r2, r4
-    bt      .L_0600C91E
-    mov.l @(40, r14), r2
-    extu.w r2, r2
-    mov.l   .L_pool_0600C96C, r3
-    add r3, r2
-    exts.w r2, r2
-    bra     .L_0600C920
-    mov.l r2, @(40, r14)
-.L_0600C91E:
-    mov.l r5, @(40, r14)
-.L_0600C920:
-    add #0x4, r15
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
+    sts.l pr, @-r15                 ! save return address
+    add #-0x4, r15                  ! allocate 4 bytes on stack
+    mov.l r5, @r15                  ! save course_data pointer to stack
+    mov.l @(8, r5), r5              ! r5 = course_data.waypoint_Z
+    mov.l @(24, r14), r3            ! r3 = AI_car.Z (state[0x18])
+    mov.l @r15, r4                  ! r4 = course_data pointer (reload)
+    sub r3, r5                      ! r5 = waypoint_Z - car_Z (delta Z)
+    mov.l @r4, r4                   ! r4 = course_data.waypoint_X (at offset 0)
+    mov.l @(16, r14), r3            ! r3 = AI_car.X (state[0x10])
+    sub r3, r4                      ! r4 = waypoint_X - car_X (delta X)
+    mov.l   .L_pool_atan2_addr, r3  ! r3 = address of atan2 function
+    jsr @r3                         ! r0 = atan2(delta_Z, delta_X) = angle to waypoint
+    nop                             ! (delay slot)
+    neg r0, r5                      ! r5 = -angle (negate for heading convention)
+    mov.l @(40, r14), r3            ! r3 = current target heading (state[0x28])
+    mov.w   DAT_0600c962, r6        ! r6 = 0x0600 = max positive clamp (1536)
+    extu.w r5, r4                   ! r4 = unsigned 16-bit negated angle
+    extu.w r3, r3                   ! r3 = unsigned 16-bit current heading
+    sub r3, r4                      ! r4 = heading_difference (new - current)
+    exts.w r4, r4                   ! sign-extend to detect direction
+    cmp/gt r6, r4                   ! heading_difference > +1536?
+    bf      .L_check_neg_clamp      ! no -- check negative clamp
+    mov.l @(40, r14), r3            ! r3 = current target heading (reload)
+    extu.w r3, r3                   ! zero-extend to 16 bits
+    add r6, r3                      ! r3 = current_heading + 1536 (clamp positive)
+    exts.w r3, r3                   ! sign-extend result
+    mov.l r3, @(40, r14)            ! state[0x28] = clamped heading (positive limit)
+    bra     .L_done                 ! skip to exit
+    nop                             ! (delay slot)
+.L_check_neg_clamp:
+    mov.w   DAT_0600c964, r2        ! r2 = 0xFA00 = max negative clamp (-1536 signed)
+    cmp/ge r2, r4                   ! heading_difference >= -1536?
+    bt      .L_store_direct         ! yes -- difference is within range, store directly
+    mov.l @(40, r14), r2            ! r2 = current target heading (reload)
+    extu.w r2, r2                   ! zero-extend to 16 bits
+    mov.l   .L_pool_neg_clamp, r3   ! r3 = 0xFA00 = -1536 (negative step)
+    add r3, r2                      ! r2 = current_heading - 1536 (clamp negative)
+    exts.w r2, r2                   ! sign-extend result
+    bra     .L_done                 ! skip to exit
+    mov.l r2, @(40, r14)            ! state[0x28] = clamped heading (negative limit) (delay slot)
+.L_store_direct:
+    mov.l r5, @(40, r14)            ! state[0x28] = negated waypoint angle (within clamp range)
+.L_done:
+    add #0x4, r15                   ! deallocate stack frame
+    lds.l @r15+, pr                 ! restore return address
+    rts                             ! return
+    mov.l @r15+, r14                ! restore r14 (delay slot -- caller's frame)
+
+/* ============================================================================
+ * FUN_0600C928 -- Speed reduction on collision (raw byte blob)
+ * ============================================================================
+ * Reduces car speed when active collision is happening.
+ * Reads car[+0x0C], shifts and scales to get a reduction factor,
+ * clamps to a minimum, then subtracts from car[+0x48] and car[+0x50].
+ */
     .4byte  0x5543971C
     .4byte  0x45194501
     .4byte  0x655D6353
@@ -74,16 +106,25 @@ ai_speed_target:
 
     .global DAT_0600c962
 DAT_0600c962:
-    .2byte  0x0600
+    .2byte  0x0600                  ! max positive heading clamp = 1536
 
     .global DAT_0600c964
 DAT_0600c964:
-    .2byte  0xFA00
-    .2byte  0x2000
-.L_pool_0600C968:
-    .4byte  atan2
-.L_pool_0600C96C:
-    .4byte  0x0000FA00
+    .2byte  0xFA00                  ! max negative heading clamp = -1536 (signed)
+
+    .2byte  0x2000                  ! padding / alignment
+.L_pool_atan2_addr:
+    .4byte  atan2                   ! address of atan2(delta_Z, delta_X) function
+.L_pool_neg_clamp:
+    .4byte  0x0000FA00              ! negative heading step = -1536
+
+/* ============================================================================
+ * FUN_0600C970 -- Speed boost from course table (raw byte blob)
+ * ============================================================================
+ * Reads a per-segment speed boost from a lookup table (0x0605A1E0)
+ * indexed by (segment_index - 69). Only applies for segments [69..98].
+ * Adds boost value to car[+0x0C] (speed accumulator).
+ */
     .4byte  0x9038E345
     .4byte  0x054E3533
     .4byte  0x8B0AE362

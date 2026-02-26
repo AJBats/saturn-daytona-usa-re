@@ -21,6 +21,9 @@
  *
  * Loop runs from car index 1 to car_count (skips index 0 = player?).
  * Skipped entirely if race_end_flag is set.
+ *
+ * Arguments: none
+ * Returns: nothing
  */
 
     .section .text.FUN_0600E0C0
@@ -29,27 +32,27 @@
     .global car_update_racing
     .type car_update_racing, @function
 car_update_racing:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    mov.l   .L_game_flags, r8         /* r8 = &game_flags */
-    mov.l   .L_car_array_base, r9     /* r9 = car array base (sym_06078900) */
-    mov.w   .L_car_struct_size, r10   /* r10 = 0x0268 (car struct stride) */
-    mov.l   .L_fp_half, r11           /* r11 = 0x8000 (bit 15 bitmask) */
-    mov.l   .L_car_struct_ptr, r12    /* r12 = &current_car_ptr */
-    mov.l   .L_fn_scene_3d, r14       /* r14 = scene_3d_processor */
-    mov.l   .L_race_end_flag, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_0600E19A               /* race ended → skip all updates */
-    bra     .L_0600E192
-    mov #0x1, r13                      /* r13 = car index (starts at 1) */
+    mov.l r14, @-r15                  ! save r14
+    mov.l r13, @-r15                  ! save r13 (car loop index)
+    mov.l r12, @-r15                  ! save r12 (current car struct ptr addr)
+    mov.l r11, @-r15                  ! save r11 (bit 15 bitmask)
+    mov.l r10, @-r15                  ! save r10 (car struct stride)
+    mov.l r9, @-r15                   ! save r9 (car array base)
+    mov.l r8, @-r15                   ! save r8 (game flags ptr)
+    sts.l pr, @-r15                   ! save return address
+    sts.l macl, @-r15                 ! save MACL (used by mul.l)
+    mov.l   .L_game_flags, r8         ! r8 = &game_flags
+    mov.l   .L_car_array_base, r9     ! r9 = car array base (sym_06078900)
+    mov.w   .L_car_struct_size, r10   ! r10 = 0x0268 (car struct stride)
+    mov.l   .L_fp_half, r11           ! r11 = 0x8000 (bit 15 bitmask)
+    mov.l   .L_car_struct_ptr, r12    ! r12 = &current_car_ptr
+    mov.l   .L_fn_scene_3d, r14       ! r14 = scene_3d_processor fn ptr
+    mov.l   .L_race_end_flag, r0      ! r0 = &race_end_flag
+    mov.l @r0, r0                     ! r0 = race_end_flag value
+    tst r0, r0                        ! is race ended?
+    bf      .L_epilogue               ! race ended → skip all updates
+    bra     .L_loop_cond              ! enter loop at condition check
+    mov #0x1, r13                     ! r13 = car index (starts at 1, delay slot)
 .L_car_struct_size:
     .2byte  0x0268                        /* car struct size: 616 bytes */
     .4byte  sym_0607E944               /* secondary car struct pointer */
@@ -78,68 +81,68 @@ car_update_racing:
     .4byte  0x00008000                  /* bitmask: bit 15 (AI vs player flag) */
 .L_race_end_flag:
     .4byte  sym_0607EAE0               /* race end flag (nonzero = ended) */
-.L_0600E13C:                              /* --- per-car update loop body --- */
-    mul.l r10, r13                     /* compute car struct offset */
-    mov.l   .L_fn_car_setup, r3
-    sts macl, r2                       /* r2 = index * 0x268 */
-    add r9, r2                         /* r2 = &car_array[index] */
-    jsr @r3                            /* car setup function */
-    mov.l r2, @r12                     /* store as current car ptr */
-    mov.l   .L_fn_car_state, r3
-    jsr @r3                            /* car state update */
-    nop
-    mov.l @r8, r2                      /* check game_flags bit 15 */
-    and r11, r2
-    tst r2, r2
-    bt      .L_0600E15E               /* bit 15 clear → player physics */
+.L_loop_body:                              /* --- per-car update loop body --- */
+    mul.l r10, r13                    ! car_offset = index * struct_stride
+    mov.l   .L_fn_car_setup, r3       ! r3 = car setup function
+    sts macl, r2                      ! r2 = index * 0x268
+    add r9, r2                        ! r2 = &car_array[index]
+    jsr @r3                           ! call car setup function
+    mov.l r2, @r12                    ! store as current car ptr (delay slot)
+    mov.l   .L_fn_car_state, r3       ! r3 = car state update function
+    jsr @r3                           ! call car state update
+    nop                               ! delay slot
+    mov.l @r8, r2                     ! r2 = game_flags
+    and r11, r2                       ! isolate bit 15 (AI mode flag)
+    tst r2, r2                        ! is AI mode?
+    bt      .L_player_physics         ! bit 15 clear → player physics path
     .byte   0xB3, 0xD6    /* bsr 0x0600E906 (external) — ai_physics_main */
-    nop
-    bra     .L_0600E190
-    nop
-.L_0600E15E:                              /* --- player physics path --- */
+    nop                               ! delay slot
+    bra     .L_next_car               ! done with this car
+    nop                               ! delay slot
+.L_player_physics:                         /* --- player physics path --- */
     .byte   0xB2, 0xDC    /* bsr 0x0600E71A (external) — player_physics_main */
-    nop
-    mov.l @r12, r2                     /* check car visibility flag */
-    mov r2, r0
-    mov.b @(1, r0), r0                /* car[+1] = visibility/state byte */
-    tst #0x80, r0                      /* bit 7 = visible flag */
-    bt      .L_0600E190               /* not visible → skip rendering */
-    mov.l   .L_fn_pre_render, r3      /* --- visible car rendering --- */
-    jsr @r3                            /* pre-render transform setup */
-    nop
-    mov.l   .L_disp_table_0, r4       /* set up 4 display table entries */
-    jsr @r14                           /* scene_3d_processor(table_0, mode=0) */
-    mov #0x0, r5
-    mov.l   .L_disp_table_1, r4
-    jsr @r14                           /* scene_3d_processor(table_1, mode=1) */
-    mov #0x1, r5
-    mov.l   .L_disp_table_2, r4
-    jsr @r14                           /* scene_3d_processor(table_2, mode=2) */
-    mov #0x2, r5
-    mov.l   .L_disp_table_3, r4
-    jsr @r14                           /* scene_3d_processor(table_3, mode=3) */
-    mov #0x3, r5
-    mov.l   .L_fn_disp_finalize, r3
-    jsr @r3                            /* finalize display for this car */
-    mov #0x1, r4
-.L_0600E190:
-    add #0x1, r13                      /* next car index */
-.L_0600E192:
-    mov.l   .L_car_count, r2
-    mov.l @r2, r2                      /* r2 = total car count */
-    cmp/hs r2, r13                     /* index >= count? */
-    bf      .L_0600E13C               /* loop if more cars */
-.L_0600E19A:
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    nop                               ! delay slot
+    mov.l @r12, r2                    ! r2 = current car struct ptr
+    mov r2, r0                        ! r0 = car struct base
+    mov.b @(1, r0), r0               ! r0 = car[+1] (visibility/state byte)
+    tst #0x80, r0                     ! test bit 7 (visible flag)
+    bt      .L_next_car               ! not visible → skip rendering
+    mov.l   .L_fn_pre_render, r3      ! --- visible car rendering ---
+    jsr @r3                           ! call pre-render transform setup
+    nop                               ! delay slot
+    mov.l   .L_disp_table_0, r4      ! r4 = display table entry 0
+    jsr @r14                          ! scene_3d_processor(table_0, mode=0)
+    mov #0x0, r5                      ! r5 = display mode 0 (delay slot)
+    mov.l   .L_disp_table_1, r4      ! r4 = display table entry 1
+    jsr @r14                          ! scene_3d_processor(table_1, mode=1)
+    mov #0x1, r5                      ! r5 = display mode 1 (delay slot)
+    mov.l   .L_disp_table_2, r4      ! r4 = display table entry 2
+    jsr @r14                          ! scene_3d_processor(table_2, mode=2)
+    mov #0x2, r5                      ! r5 = display mode 2 (delay slot)
+    mov.l   .L_disp_table_3, r4      ! r4 = display table entry 3
+    jsr @r14                          ! scene_3d_processor(table_3, mode=3)
+    mov #0x3, r5                      ! r5 = display mode 3 (delay slot)
+    mov.l   .L_fn_disp_finalize, r3  ! r3 = display finalize function
+    jsr @r3                           ! finalize display for this car
+    mov #0x1, r4                      ! r4 = 1 (finalize mode, delay slot)
+.L_next_car:
+    add #0x1, r13                     ! increment car index
+.L_loop_cond:
+    mov.l   .L_car_count, r2         ! r2 = &car_count
+    mov.l @r2, r2                     ! r2 = total car count
+    cmp/hs r2, r13                    ! index >= count?
+    bf      .L_loop_body              ! loop back if more cars remain
+.L_epilogue:
+    lds.l @r15+, macl                 ! restore MACL
+    lds.l @r15+, pr                   ! restore return address
+    mov.l @r15+, r8                   ! restore r8
+    mov.l @r15+, r9                   ! restore r9
+    mov.l @r15+, r10                  ! restore r10
+    mov.l @r15+, r11                  ! restore r11
+    mov.l @r15+, r12                  ! restore r12
+    mov.l @r15+, r13                  ! restore r13
+    rts                               ! return to caller
+    mov.l @r15+, r14                  ! restore r14 (delay slot)
     .2byte  0xFFFF
 .L_fn_car_setup:
     .4byte  sym_06030A06               /* per-car initialization */
