@@ -5,64 +5,92 @@
 
     .section .text.FUN_0602F550
 
+/* ==========================================================================
+ * track_poly_build
+ * ==========================================================================
+ * Processes the atan2 angle result to determine whether a track polygon
+ * segment is facing the camera (within viewing threshold) and should be
+ * rendered.
+ *
+ * Called mid-loop from the outer track segment iterator. The atan2 function
+ * address arrives in r0 from the caller. After calling atan2 to get the
+ * angle between segment endpoints, this function computes the angular
+ * difference from the current heading. If the difference is below a
+ * threshold (~10 degrees), the segment is marked for rendering with
+ * priority 20. Otherwise, it advances to the next segment and loops back
+ * to the caller's iteration point.
+ *
+ * Entry state (from caller):
+ *   r0  = address of atan2 function (0x0602744C)
+ *   r4  = delta_X between segment points (atan2 arg)
+ *   r5  = delta_Z between segment points (atan2 arg)
+ *   Stack contains saved: r0 (struct base), r1 (output offset),
+ *                         r5 (loop counter), r6 (segment pointer),
+ *                         r7 (saved coord)
+ *
+ * Returns:
+ *   If angle within threshold: writes priority 0x14 to output, returns
+ *   If angle exceeds threshold: advances segment, decrements counter,
+ *     branches back to caller loop (0x0602F4E4) or returns when done
+ * ========================================================================== */
 
     .global track_poly_build
     .type track_poly_build, @function
 track_poly_build:
-    sts.l pr, @-r15
-    jsr @r0
-    nop
-    lds.l @r15+, pr
-    neg r0, r11
-    exts.w r11, r11
-    mov.l @r15+, r0
-    mov.l @r15+, r7
-    mov.l @r15+, r6
-    mov.l @r15+, r5
-    mov.l @r15+, r1
-    mov.l @(40, r0), r12
-    sub r12, r11
-    mov.l   .L_fp_half, r10
-    tst r10, r11
-    bt      .L_0602F588
-    mov.l   .L_fp_neg_one, r10
-    bra     .L_0602F58C
-    or r10, r11
-    .2byte  0x0000
-    .4byte  0x001E0000
-    .4byte  atan2
-.L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_fp_neg_one:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
-.L_0602F588:
-    mov.l   .L_mask_low16, r10
-    and r10, r11
-.L_0602F58C:
-    cmp/pz r11
-    bt      .L_0602F592
-    neg r11, r11
-.L_0602F592:
-    mov.l   .L_pool_0602F5A4, r10
-    cmp/ge r10, r11
-    bt      .L_0602F5A8
-    mov #0x14, r12
-    bra     .L_0602F5B0
-    mov.w r12, @(r0, r1)
-    .2byte  0x0000
-.L_mask_low16:
+    sts.l pr, @-r15                     ! save return address (will call atan2)
+    jsr @r0                             ! call atan2(r4=dX, r5=dZ) → r0 = angle
+    nop                                 ! delay slot
+    lds.l @r15+, pr                     ! restore return address after atan2 call
+    neg r0, r11                         ! r11 = -angle (negate atan2 result)
+    exts.w r11, r11                     ! sign-extend 16-bit angle to 32-bit
+    mov.l @r15+, r0                     ! restore r0 = struct base pointer
+    mov.l @r15+, r7                     ! restore r7 = saved coordinate
+    mov.l @r15+, r6                     ! restore r6 = segment data pointer
+    mov.l @r15+, r5                     ! restore r5 = segment loop counter
+    mov.l @r15+, r1                     ! restore r1 = output buffer offset
+    mov.l @(40, r0), r12                ! r12 = current heading from struct+0x28
+    sub r12, r11                        ! r11 = angle_diff = (-atan2) - heading
+    mov.l   .L_pool_bit15_mask, r10     ! r10 = 0x00008000 (bit 15 test mask)
+    tst r10, r11                        ! test if bit 15 is clear in angle_diff
+    bt      .L_angle_positive           ! if bit 15 clear → positive half-plane
+    mov.l   .L_pool_sign_extend, r10    ! r10 = 0xFFFF0000 (sign extension mask)
+    bra     .L_check_abs_angle          ! skip to absolute value check
+    or r10, r11                         ! delay: sign-extend negative angle_diff
+    .2byte  0x0000                      ! alignment padding
+    .4byte  0x001E0000                  ! pool: unused / caller data
+    .4byte  atan2                       ! pool: atan2 function address
+.L_pool_bit15_mask:
+    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / bit 15 mask */
+.L_pool_sign_extend:
+    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) / sign extend */
+.L_angle_positive:
+    mov.l   .L_pool_low16_mask, r10     ! r10 = 0x0000FFFF (low 16-bit mask)
+    and r10, r11                        ! mask angle_diff to 16-bit unsigned
+.L_check_abs_angle:
+    cmp/pz r11                          ! is angle_diff >= 0?
+    bt      .L_already_positive         ! if positive, skip negation
+    neg r11, r11                        ! r11 = |angle_diff| (absolute value)
+.L_already_positive:
+    mov.l   .L_pool_angle_threshold, r10 ! r10 = 0x071C (~10 deg viewing threshold)
+    cmp/ge r10, r11                     ! is |angle_diff| >= threshold?
+    bt      .L_skip_segment             ! if too oblique, skip this segment
+    mov #0x14, r12                      ! r12 = 20 (render priority for visible poly)
+    bra     .L_done                     ! jump to return
+    mov.w r12, @(r0, r1)               ! delay: write priority to output[r0+r1]
+    .2byte  0x0000                      ! alignment padding
+.L_pool_low16_mask:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_pool_0602F5A4:
-    .4byte  0x0000071C
-.L_0602F5A8:
-    mov.w   DAT_0602f5b4, r11
-    add r11, r6
-    dt r5
-    .byte   0x8B, 0x99    /* bf 0x0602F4E4 (external) */
-.L_0602F5B0:
-    rts
-    nop
+.L_pool_angle_threshold:
+    .4byte  0x0000071C                  /* angle threshold ~10 degrees (16-bit angle) */
+.L_skip_segment:
+    mov.w   DAT_0602f5b4, r11          ! r11 = 0x0268 (616 = segment data stride)
+    add r11, r6                         ! r6 += stride → advance to next segment
+    dt r5                               ! decrement loop counter, set T if zero
+    .byte   0x8B, 0x99    /* bf 0x0602F4E4 (external) */  ! if counter != 0, loop back to caller
+.L_done:
+    rts                                 ! return to caller
+    nop                                 ! delay slot
 
     .global DAT_0602f5b4
 DAT_0602f5b4:
-    .2byte  0x0268
+    .2byte  0x0268                      ! segment data stride (616 bytes per segment)
