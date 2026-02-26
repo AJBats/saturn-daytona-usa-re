@@ -6,48 +6,76 @@
     .section .text.FUN_060190F8
 
 
+/* ==========================================================================
+ * transition_anim_drive
+ * --------------------------------------------------------------------------
+ * Sound state transition for the "animation drive" phase. Stops active sound,
+ * waits for the 68K sound driver to become ready, then loads the MUSICD.BIN
+ * sound bank into Sound RAM and clears the driver-ready mailbox.
+ *
+ * Sequence:
+ *   1. Store caller's r3 into the sound-busy flag (sym_06086050)
+ *   2. Send sound-stop command (0xAE0001FF) via sound_cmd_dispatch
+ *   3. Send system-variant command (0xAE0005FF) via sound_cmd_dispatch
+ *   4. Wait for sound driver ready (poll Sound RAM 0x25A02DBE for 0xFFFF)
+ *   5. If no timeout: call load_musicd_sndram (sym_06012F50) to load
+ *      MUSICD.BIN to Sound RAM +0x3000, then clear the driver-ready
+ *      mailbox word at 0x25A02DBE
+ *   6. Send final sound-stop command (0xAE0001FF)
+ *
+ * Sibling functions: restore_state_snapshot (loads GAMED.BIN + BGM restart),
+ *                    transition_full_exec (memcpy from WRAM Low),
+ *                    transition_multi_step (memcpy from WRAM Low 0x00200000)
+ *
+ * Args:
+ *   r3 — value to store in the sound-busy flag (typically 0)
+ *
+ * Returns: void
+ * Clobbers: r0, r2, r3, r4, r5, r14
+ * ======================================================================== */
+
     .global transition_anim_drive
     .type transition_anim_drive, @function
 transition_anim_drive:
-    sts.l pr, @-r15
-    mov.l   .L_pool_06019130, r14
-    mov.l   .L_pool_06019134, r2
-    mov.l r3, @r2
-    mov.l   .L_pool_06019138, r5
-    jsr @r14
-    mov #0xF, r4
-    mov.l   .L_pool_0601913C, r5
-    jsr @r14
-    mov #0xF, r4
-    .byte   0xB0, 0xEC    /* bsr 0x060192E8 (external) */
-    nop
-    mov.l   .L_pool_06019134, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bf      .L_06019124
-    mov.l   .L_pool_06019148, r3
-    jsr @r3
-    nop
-    mov #0x0, r2
-    mov.l   .L_sound_ram_0x02DBE, r3
-    mov.w r2, @r3
-.L_06019124:
-    mov.l   .L_pool_06019138, r5
-    jsr @r14
-    mov #0xF, r4
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-.L_pool_06019130:
-    .4byte  sound_cmd_dispatch
-.L_pool_06019134:
-    .4byte  sym_06086050
-.L_pool_06019138:
-    .4byte  0xAE0001FF
-.L_pool_0601913C:
-    .4byte  0xAE0005FF
-    .4byte  sym_06012F20
-.L_sound_ram_0x02DBE:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
-.L_pool_06019148:
-    .4byte  sym_06012F50
+    sts.l pr, @-r15                             ! save return address to stack
+    mov.l   .L_pool_snd_cmd_dispatch, r14       ! r14 = sound_cmd_dispatch (reused for all jsr calls)
+    mov.l   .L_pool_snd_busy_flag, r2           ! r2 = &sound_busy_flag (sym_06086050)
+    mov.l r3, @r2                               ! store caller's r3 into busy flag (typically 0 = not busy)
+    mov.l   .L_pool_cmd_stop, r5                ! r5 = 0xAE0001FF (sound stop command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0001FF) — stop active sound
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel) [delay slot]
+    mov.l   .L_pool_cmd_sys_variant, r5         ! r5 = 0xAE0005FF (system variant command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0005FF) — send sys variant
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel) [delay slot]
+    .byte   0xB0, 0xEC    /* bsr 0x060192E8 (external) */  ! BSR to wait_sound_ready — polls 0x25A02DBE for 0xFFFF
+    nop                                         ! (delay slot)
+    mov.l   .L_pool_snd_busy_flag, r0           ! r0 = &sound_busy_flag
+    mov.l @r0, r0                               ! r0 = busy_flag value (nonzero = timeout occurred)
+    tst r0, r0                                  ! test if timeout flag is zero
+    bf      .L_timeout_skip                     ! if nonzero (timeout) → skip sound bank load
+    mov.l   .L_pool_fn_load_musicd, r3          ! r3 = sym_06012F50 (load_musicd_sndram)
+    jsr @r3                                     ! call load_musicd_sndram — loads MUSICD.BIN to Sound RAM +0x3000
+    nop                                         ! (delay slot)
+    mov #0x0, r2                                ! r2 = 0 (clear value)
+    mov.l   .L_pool_snd_ready_mailbox, r3       ! r3 = 0x25A02DBE (Sound RAM driver-ready mailbox)
+    mov.w r2, @r3                               ! clear driver-ready mailbox so next wait will block
+.L_timeout_skip:
+    mov.l   .L_pool_cmd_stop, r5                ! r5 = 0xAE0001FF (sound stop command)
+    jsr @r14                                    ! sound_cmd_dispatch(0xF, 0xAE0001FF) — final stop
+    mov #0xF, r4                                ! r4 = 0xF (direct command channel) [delay slot]
+    lds.l @r15+, pr                             ! restore return address from stack
+    rts                                         ! return to caller
+    mov.l @r15+, r14                            ! restore r14 from stack [delay slot]
+.L_pool_snd_cmd_dispatch:
+    .4byte  sound_cmd_dispatch                  /* sound command dispatch function */
+.L_pool_snd_busy_flag:
+    .4byte  sym_06086050                        /* sound busy/timeout flag — nonzero = error */
+.L_pool_cmd_stop:
+    .4byte  0xAE0001FF                          /* sound stop command (channel 00, cmd 01) */
+.L_pool_cmd_sys_variant:
+    .4byte  0xAE0005FF                          /* system variant command (channel 00, cmd 05) */
+    .4byte  sym_06012F20                        /* (unused in this TU) load_namd_sndram */
+.L_pool_snd_ready_mailbox:
+    .4byte  0x25A02DBE                          /* Sound RAM driver-ready mailbox */
+.L_pool_fn_load_musicd:
+    .4byte  sym_06012F50                        /* load_musicd_sndram — loads MUSICD.BIN to Sound RAM +0x3000 */
