@@ -37,36 +37,46 @@
  * because the constant pool at 0x0600E524 is shared with the preceding TU.
  */
 
-    .section .text.FUN_0600E4F2
+   .section .text.FUN_0600E4F2
 
 
-    .global car_frame_update
-    .type car_frame_update, @function
+   .global car_frame_update
+   .type car_frame_update, @function
+/* car_frame_update(void)
+ *
+ * Main per-car per-frame update. Runs the full physics, collision, and
+ * position tracking pipeline for one car (player or AI).
+ *
+ * Arguments: none (car struct loaded from global pointer)
+ * Returns:   void
+ * Clobbers:  r0-r7, macl, pr
+ * Preserves across sub-calls: r11-r14
+ */
 car_frame_update:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
+    mov.l r14, @-r15                     ! save r14 (car struct ptr)
+    mov.l r13, @-r15                     ! save r13 (physics counter ptr)
+    mov.l r12, @-r15                     ! save r12 (player/AI flag)
+    mov.l r11, @-r15                     ! save r11 (scene_3d_processor fn)
+    sts.l pr, @-r15                      ! save return address
+    sts.l macl, @-r15                    ! save multiply accumulator
     .byte   0xDD, 0x1C    /* mov.l .L_physics_counter, r13 — scripted movement counter */
     .byte   0xD3, 0x1C    /* mov.l .L_timing_word_src, r3 — timing word source */
     .byte   0xD1, 0x1D    /* mov.l .L_timing_word_dst, r1 — timing word destination */
-    mov.w @r3, r2
-    mov.w r2, @r1                    /* copy timing word */
+    mov.w @r3, r2                        ! r2 = timing word from source
+    mov.w r2, @r1                        ! copy timing word to destination
     .byte   0xDE, 0x06    /* mov.l .L_car_array_base, r14 — car array base ptr */
     .byte   0xD3, 0x07    /* mov.l .L_car_struct_ptr, r3 — current car ptr */
-    mov.l @r14, r14                  /* r14 = car struct */
-    mov.l r14, @r3                   /* set as current car */
+    mov.l @r14, r14                      ! r14 = dereference car array base → car struct
+    mov.l r14, @r3                       ! publish current car struct pointer
     .byte   0xD4, 0x1A    /* mov.l .L_car_array_start, r4 — first car address */
-    mov.w   DAT_0600e522, r2        /* 0x268 = car struct stride */
+    mov.w   DAT_0600e522, r2             ! r2 = 0x268 (car struct stride = 616 bytes)
     .byte   0xD3, 0x1A    /* mov.l .L_car_array_end, r3 — end marker store */
-    add r4, r2                       /* r2 = car_array_start + stride */
-    cmp/eq r4, r14                   /* is this the player car? */
-    bf/s    .L_0600E584
-    mov.l r2, @r3                    /* store array end marker */
-    bra     .L_0600E586
-    mov #0x0, r12                    /* r12 = 0 (player car) */
+    add r4, r2                           ! r2 = address of second car (player + stride)
+    cmp/eq r4, r14                       ! is r14 the first car (player car)?
+    bf/s    .L_set_ai_flag               ! branch if not player car
+    mov.l r2, @r3                        ! store end-of-array marker (delay slot)
+    bra     .L_physics_pipeline          ! player car → continue with r12=0
+    mov #0x0, r12                        ! r12 = 0 (player car flag, delay slot)
 
     .global DAT_0600e522
 DAT_0600e522:
@@ -102,152 +112,152 @@ DAT_0600e522:
     .4byte  sym_06078900               /* car array start address */
 .L_car_array_end:
     .4byte  sym_0607E948               /* car array end marker */
-.L_0600E584:
-    mov #0x1, r12                     /* r12 = 1 (AI car) */
-.L_0600E586:                              /* === Physics pipeline === */
+.L_set_ai_flag:
+    mov #0x1, r12                        ! r12 = 1 (AI car flag)
+.L_physics_pipeline:                         /* === Physics pipeline === */
     .byte   0xD3, 0x46    /* mov.l .L_fn_gas_force, r3 — gas force */
-    jsr @r3                            /* gas_force_apply() */
-    nop
+    jsr @r3                              ! gas_force_apply(car)
+    nop                                  ! delay slot
     .byte   0xD3, 0x45    /* mov.l .L_fn_brake_force, r3 — brake force */
-    jsr @r3                            /* brake_force_apply() */
-    nop
+    jsr @r3                              ! brake_force_apply(car)
+    nop                                  ! delay slot
     .byte   0xD3, 0x45    /* mov.l .L_fn_physics_a, r3 — physics step A */
-    jsr @r3
-    nop
+    jsr @r3                              ! physics integration step A
+    nop                                  ! delay slot
     .byte   0xD3, 0x44    /* mov.l .L_fn_physics_b, r3 — physics step B */
-    jsr @r3
-    nop
-    mov.l @r13, r2                   /* check physics counter */
-    cmp/pl r2
-    bf      .L_0600E5F2              /* counter <= 0 → normal physics path */
+    jsr @r3                              ! physics integration step B
+    nop                                  ! delay slot
+    mov.l @r13, r2                       ! r2 = physics counter value
+    cmp/pl r2                            ! is counter > 0?
+    bf      .L_normal_physics            ! counter <= 0 → normal physics path
     .byte   0xD0, 0x42    /* mov.l .L_race_result_byte, r0 — race result */
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0
-    bf      .L_0600E5F2              /* race over → normal physics path */
-    mov.l @r13, r3                    /* --- scripted movement path --- */
-    add #-0x1, r3                     /* decrement counter */
-    mov.l r3, @r13
+    mov.b @r0, r0                        ! r0 = race result byte
+    extu.b r0, r0                        ! zero-extend to 32-bit
+    tst r0, r0                           ! is race still in progress?
+    bf      .L_normal_physics            ! race over → normal physics path
+    mov.l @r13, r3                       ! --- scripted movement path ---
+    add #-0x1, r3                        ! decrement physics counter
+    mov.l r3, @r13                       ! store decremented counter
     .byte   0xD2, 0x3F    /* mov.l .L_pos_offset_x, r2 — X position offset */
-    mov.l @(16, r14), r3             /* car X position */
-    mov.l @r2, r2
-    add r2, r3
-    mov.l r3, @(16, r14)            /* car[+0x10] += offset_x */
+    mov.l @(16, r14), r3                 ! r3 = car[+0x10] (X position)
+    mov.l @r2, r2                        ! r2 = scripted X offset value
+    add r2, r3                           ! r3 = X + offset
+    mov.l r3, @(16, r14)                 ! car[+0x10] = updated X position
     .byte   0xD2, 0x3E    /* mov.l .L_pos_offset_z, r2 — Z position offset */
-    mov.l @(24, r14), r3             /* car Z position */
-    mov.l @r2, r2
-    add r2, r3
-    mov.l r3, @(24, r14)            /* car[+0x18] += offset_z */
+    mov.l @(24, r14), r3                 ! r3 = car[+0x18] (Z position)
+    mov.l @r2, r2                        ! r2 = scripted Z offset value
+    add r2, r3                           ! r3 = Z + offset
+    mov.l r3, @(24, r14)                 ! car[+0x18] = updated Z position
     .byte   0xD2, 0x3C    /* mov.l .L_angle_offset, r2 — yaw angle offset */
-    mov.l @(32, r14), r3             /* car yaw angle */
-    mov.w @r2, r2
-    add r2, r3
-    mov.l r3, @(32, r14)            /* car[+0x20] += angle_offset */
-    mov r3, r2
-    mov.l r3, @(48, r14)            /* car[+0x30] = yaw (copy A) */
-    mov.l r2, @(40, r14)            /* car[+0x28] = yaw (copy B) */
+    mov.l @(32, r14), r3                 ! r3 = car[+0x20] (yaw angle)
+    mov.w @r2, r2                        ! r2 = scripted yaw offset (16-bit)
+    add r2, r3                           ! r3 = yaw + offset
+    mov.l r3, @(32, r14)                 ! car[+0x20] = updated yaw angle
+    mov r3, r2                           ! r2 = updated yaw (for copies)
+    mov.l r3, @(48, r14)                 ! car[+0x30] = yaw angle copy A
+    mov.l r2, @(40, r14)                 ! car[+0x28] = yaw angle copy B
     .byte   0xD3, 0x39    /* mov.l .L_yaw_store, r3 — global yaw store */
-    mov.l r2, @r3                    /* yaw_store = yaw */
-    mov.l @(24, r14), r5            /* Z position */
+    mov.l r2, @r3                        ! publish yaw to global store
+    mov.l @(24, r14), r5                 ! r5 = Z position (arg2 for atan2)
     .byte   0xD3, 0x39    /* mov.l .L_fn_atan2, r3 — atan2 function */
-    jsr @r3                            /* atan2(X, Z) */
-    mov.l @(16, r14), r4            /* X position */
+    jsr @r3                              ! r0 = atan2(X, Z)
+    mov.l @(16, r14), r4                 ! r4 = X position (arg1, delay slot)
     .byte   0xD3, 0x38    /* mov.l .L_atan2_result, r3 — result store */
-    mov.l r0, @r3                    /* store atan2 result */
+    mov.l r0, @r3                        ! store atan2 heading result
     .byte   0xD3, 0x38    /* mov.l .L_fn_seg_track, r3 — segment tracker */
-    jsr @r3                            /* segment_position_track() */
-    nop
-    bra     .L_0600E624              /* → post-physics */
-    nop
-.L_0600E5F2:                              /* --- normal physics path --- */
+    jsr @r3                              ! segment_position_track()
+    nop                                  ! delay slot
+    bra     .L_post_physics              ! → post-physics processing
+    nop                                  ! delay slot
+.L_normal_physics:                           /* --- normal physics path --- */
     .byte   0xD3, 0x37    /* mov.l .L_fn_normal_physics, r3 — normal physics */
-    jsr @r3
-    nop
-    mov.l @(24, r14), r5            /* Z position */
+    jsr @r3                              ! full normal physics integration
+    nop                                  ! delay slot
+    mov.l @(24, r14), r5                 ! r5 = Z position (arg2 for atan2)
     .byte   0xD3, 0x32    /* mov.l .L_fn_atan2, r3 */
-    jsr @r3                            /* atan2(X, Z) */
-    mov.l @(16, r14), r4            /* X position */
+    jsr @r3                              ! r0 = atan2(X, Z)
+    mov.l @(16, r14), r4                 ! r4 = X position (arg1, delay slot)
     .byte   0xD3, 0x31    /* mov.l .L_atan2_result, r3 */
-    mov.l r0, @r3
+    mov.l r0, @r3                        ! store atan2 heading result
     .byte   0xD3, 0x31    /* mov.l .L_fn_seg_track, r3 */
-    jsr @r3                            /* segment_position_track() */
-    nop
+    jsr @r3                              ! segment_position_track()
+    nop                                  ! delay slot
     .byte   0xDB, 0x32    /* mov.l .L_fn_scene_3d, r11 — 3D scene processor */
     .byte   0xD4, 0x32    /* mov.l .L_geom_channel_0, r4 */
-    jsr @r11                          /* scene_3d_processor(channel_0, 0) */
-    mov #0x0, r5
+    jsr @r11                             ! scene_3d_processor(channel_0, 0)
+    mov #0x0, r5                         ! r5 = channel index 0 (delay slot)
     .byte   0xD4, 0x32    /* mov.l .L_geom_channel_1, r4 */
-    jsr @r11                          /* scene_3d_processor(channel_1, 1) */
-    mov #0x1, r5
+    jsr @r11                             ! scene_3d_processor(channel_1, 1)
+    mov #0x1, r5                         ! r5 = channel index 1 (delay slot)
     .byte   0xD4, 0x31    /* mov.l .L_geom_channel_2, r4 */
-    jsr @r11                          /* scene_3d_processor(channel_2, 2) */
-    mov #0x2, r5
+    jsr @r11                             ! scene_3d_processor(channel_2, 2)
+    mov #0x2, r5                         ! r5 = channel index 2 (delay slot)
     .byte   0xD4, 0x31    /* mov.l .L_geom_channel_3, r4 */
-    jsr @r11                          /* scene_3d_processor(channel_3, 3) */
-    mov #0x3, r5
-.L_0600E624:                              /* === Post-physics processing === */
-    mov.l @(32, r14), r2             /* car[+0x20] = yaw angle */
-    mov.w   DAT_0600e69c, r0        /* 0x01B0 */
-    mov.l r2, @(r0, r14)            /* car[+0x1B0] = yaw (copy) */
-    tst r12, r12
-    bf      .L_0600E634              /* AI car → skip player update */
+    jsr @r11                             ! scene_3d_processor(channel_3, 3)
+    mov #0x3, r5                         ! r5 = channel index 3 (delay slot)
+.L_post_physics:                             /* === Post-physics processing === */
+    mov.l @(32, r14), r2                 ! r2 = car[+0x20] (current yaw angle)
+    mov.w   DAT_0600e69c, r0             ! r0 = 0x01B0 (yaw copy offset)
+    mov.l r2, @(r0, r14)                 ! car[+0x1B0] = yaw angle copy
+    tst r12, r12                         ! is this the player car? (r12==0)
+    bf      .L_collision_pipeline        ! AI car → skip player-specific update
     .byte   0xD3, 0x2E    /* mov.l .L_fn_player_update, r3 — player-specific update */
-    jsr @r3
-    nop
-.L_0600E634:                              /* --- collision pipeline --- */
+    jsr @r3                              ! player per-frame update
+    nop                                  ! delay slot
+.L_collision_pipeline:                       /* --- collision pipeline --- */
     .byte   0xD3, 0x2D    /* mov.l .L_fn_finish_prox, r3 */
-    jsr @r3                            /* finish_proximity() */
-    nop
+    jsr @r3                              ! finish_proximity()
+    nop                                  ! delay slot
     .byte   0xD3, 0x2D    /* mov.l .L_fn_collision_main, r3 */
-    jsr @r3                            /* collision_detect_main() */
-    nop
+    jsr @r3                              ! collision_detect_main()
+    nop                                  ! delay slot
     .byte   0xD3, 0x2C    /* mov.l .L_fn_collision_handler, r3 */
-    jsr @r3                            /* collision_handler(0) */
-    mov #0x0, r4
+    jsr @r3                              ! collision_handler(mode=0)
+    mov #0x0, r4                         ! r4 = 0 (collision mode arg, delay slot)
     .byte   0xD3, 0x2C    /* mov.l .L_fn_checkpoint, r3 */
-    jsr @r3                            /* checkpoint_detect(player_flag) */
-    mov r12, r4
-    mov.w   .L_off_crossing_counter, r0 /* --- integrated position calc --- */
+    jsr @r3                              ! checkpoint_detect(player_flag)
+    mov r12, r4                          ! r4 = player flag (0=player, 1=AI, delay slot)
+    mov.w   .L_off_crossing_counter, r0  ! --- integrated position calculation ---
     .byte   0xD3, 0x2B    /* mov.l .L_section_count, r3 — section count */
-    mov.l @(r0, r14), r2            /* car[+0x228] = crossing counter */
-    mov.l @r3, r3                    /* section_count */
-    add #-0x3C, r0                   /* 0x228 - 0x3C = 0x01EC */
-    mul.l r3, r2                     /* crossing_counter * section_count */
-    mov.l @(r0, r14), r3            /* car[+0x1EC] = track position */
-    sts macl, r2
-    add #0x8, r0                     /* 0x01EC + 0x08 = 0x01F4 */
-    add r3, r2                       /* integrated = counter*sections + position */
+    mov.l @(r0, r14), r2                 ! r2 = car[+0x228] (crossing counter)
+    mov.l @r3, r3                        ! r3 = total track section count
+    add #-0x3C, r0                       ! r0 = 0x228 - 0x3C = 0x01EC (track position offset)
+    mul.l r3, r2                         ! macl = crossing_counter * section_count
+    mov.l @(r0, r14), r3                 ! r3 = car[+0x1EC] (current track position)
+    sts macl, r2                         ! r2 = multiply result
+    add #0x8, r0                         ! r0 = 0x01EC + 0x08 = 0x01F4 (integrated pos offset)
+    add r3, r2                           ! r2 = counter*sections + track_position
     .byte   0xD3, 0x27    /* mov.l .L_fn_track_pos_calc, r3 */
-    jsr @r3                            /* track_position_calc() */
-    mov.l r2, @(r0, r14)            /* car[+0x1F4] = integrated position */
-    mov.l @r13, r2                    /* --- position override check --- */
-    cmp/pl r2
-    bt      .L_0600E67A              /* counter > 0 → skip override */
+    jsr @r3                              ! track_position_calc()
+    mov.l r2, @(r0, r14)                 ! car[+0x1F4] = integrated position (delay slot)
+    mov.l @r13, r2                       ! --- position override check ---
+    cmp/pl r2                            ! is physics counter > 0?
+    bt      .L_terrain_check             ! counter active → skip position override
     .byte   0xD0, 0x10    /* mov.l .L_race_result_byte, r0 */
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0
-    bf      .L_0600E67A              /* race over → skip */
+    mov.b @r0, r0                        ! r0 = race result byte
+    extu.b r0, r0                        ! zero-extend to 32-bit
+    tst r0, r0                           ! is race still in progress?
+    bf      .L_terrain_check             ! race over → skip position override
     .byte   0xB1, 0xCF    /* bsr 0x0600EA18 (external) — position override handler */
-    mov r14, r4
-.L_0600E67A:                              /* --- terrain update check --- */
+    mov r14, r4                          ! r4 = car struct pointer (delay slot)
+.L_terrain_check:                            /* --- terrain update check --- */
     .byte   0xD0, 0x0D    /* mov.l .L_race_result_byte, r0 */
-    mov.b @r0, r0
-    extu.b r0, r0
-    tst r0, r0
-    bf      .L_0600E70C              /* race over → exit normally */
+    mov.b @r0, r0                        ! r0 = race result byte
+    extu.b r0, r0                        ! zero-extend to 32-bit
+    tst r0, r0                           ! is race still in progress?
+    bf      .L_normal_exit               ! race over → exit without terrain update
     .byte   0xD3, 0x1F    /* mov.l .L_terrain_mode, r3 */
-    mov.b @r3, r3
-    tst r3, r3
-    bf      .L_0600E70C              /* terrain mode off → exit normally */
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
+    mov.b @r3, r3                        ! r3 = terrain rendering mode flag
+    tst r3, r3                           ! is terrain mode enabled?
+    bf      .L_normal_exit               ! terrain disabled → exit normally
+    lds.l @r15+, macl                    ! restore macl (tail-call prologue unwind)
+    lds.l @r15+, pr                      ! restore pr (caller's return address)
+    mov.l @r15+, r11                     ! restore r11
+    mov.l @r15+, r12                     ! restore r12
+    mov.l @r15+, r13                     ! restore r13
     .byte   0xD3, 0x1C    /* mov.l .L_fn_terrain_update, r3 — tail-call terrain */
-    jmp @r3                            /* → terrain_update() */
-    mov.l @r15+, r14
+    jmp @r3                              ! tail-call → terrain_update()
+    mov.l @r15+, r14                     ! restore r14 (delay slot)
 
     .global DAT_0600e69c
 DAT_0600e69c:
@@ -308,11 +318,11 @@ DAT_0600e69c:
     .4byte  sym_06083255               /* terrain rendering mode flag */
 .L_fn_terrain_update:
     .4byte  sym_0602D9F0               /* terrain physics update */
-.L_0600E70C:                              /* --- normal exit --- */
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_normal_exit:                              /* --- normal exit --- */
+    lds.l @r15+, macl                    ! restore macl
+    lds.l @r15+, pr                      ! restore return address
+    mov.l @r15+, r11                     ! restore r11
+    mov.l @r15+, r12                     ! restore r12
+    mov.l @r15+, r13                     ! restore r13
+    rts                                  ! return to caller
+    mov.l @r15+, r14                     ! restore r14 (delay slot)

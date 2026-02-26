@@ -32,6 +32,9 @@
  *   +16/+20/+24 = X/Y/Z position    +28 = bank   +32 = yaw   +36 = pitch
  *   +0x1B4 = camera roll    +0x1C8 = pitch B     +0x1CC = yaw offset
  *   +0x1D0 = pitch A        +0x1D8 = camera yaw
+ *
+ * Arguments: none (reads global state)
+ * Returns: nothing (updates camera position and rotation matrices in place)
  */
 
     .section .text.FUN_0600B4D2
@@ -40,186 +43,186 @@
     .global camera_lerp
     .type camera_lerp, @function
 camera_lerp:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov.l r10, @-r15
-    mov.l r9, @-r15
-    sts.l pr, @-r15
-    add #-0x8, r15
-    .byte   0xDA, 0x0A    /* mov.l .L_camera_state, r10 — camera state ptr */
-    mov.l @r10, r10                  /* r10 = camera state */
-    .byte   0xDE, 0x0A    /* mov.l .L_car_array_base, r14 — car array base */
-    mov.l @r14, r14                  /* r14 = car struct */
-    .byte   0xD3, 0x0A    /* mov.l .L_car_struct_ptr, r3 */
-    mov.l r14, @r3                   /* set current car */
-    .byte   0xD0, 0x0A    /* mov.l .L_race_end_state, r0 */
-    bra     .L_0600B534              /* → dispatch on end state */
-    mov.l @r0, r0
-.L_0600B4F4:                              /* --- end state 0: camera mode A --- */
-    .byte   0xDC, 0x09    /* mov.l .L_cam_params_0a, r12 — rotation source table */
-    .byte   0xDB, 0x0A    /* mov.l .L_cam_params_0b, r11 — rotation dest table */
-    bra     .L_0600B540
-    nop
-.L_0600B4FC:                              /* --- end state 1: camera mode B --- */
-    .byte   0xDC, 0x09    /* mov.l .L_cam_params_1a, r12 */
-    .byte   0xDB, 0x0A    /* mov.l .L_cam_params_1b, r11 */
-    bra     .L_0600B540
-    nop
-.L_0600B504:                              /* --- end state 2: camera mode C --- */
-    .byte   0xDC, 0x09    /* mov.l .L_cam_params_2a, r12 */
-    .byte   0xDB, 0x0A    /* mov.l .L_cam_params_2b, r11 */
-    bra     .L_0600B540
-    nop
-.L_camera_state:
+    mov.l r14, @-r15                ! save r14
+    mov.l r13, @-r15                ! save r13
+    mov.l r12, @-r15                ! save r12
+    mov.l r11, @-r15                ! save r11
+    mov.l r10, @-r15                ! save r10
+    mov.l r9, @-r15                 ! save r9
+    sts.l pr, @-r15                 ! save return address
+    add #-0x8, r15                  ! allocate 8 bytes of stack locals
+    .byte   0xDA, 0x0A    /* mov.l .L_pool_camera_state, r10 — camera state ptr */
+    mov.l @r10, r10                  ! r10 = *camera_state (deref ptr-to-ptr)
+    .byte   0xDE, 0x0A    /* mov.l .L_pool_car_array_base, r14 — car array base */
+    mov.l @r14, r14                  ! r14 = *car_array_base (car struct pointer)
+    .byte   0xD3, 0x0A    /* mov.l .L_pool_car_struct_ptr, r3 */
+    mov.l r14, @r3                   ! publish current car struct for other modules
+    .byte   0xD0, 0x0A    /* mov.l .L_pool_race_end_state, r0 */
+    bra     .L_end_state_dispatch    ! → dispatch on end state value
+    mov.l @r0, r0                    ! r0 = race end state (delay slot)
+.L_camera_mode_a:                              /* --- end state 0: camera mode A --- */
+    .byte   0xDC, 0x09    /* mov.l .L_pool_cam_params_0a, r12 — rotation source table */
+    .byte   0xDB, 0x0A    /* mov.l .L_pool_cam_params_0b, r11 — rotation dest table */
+    bra     .L_position_lerp         ! → begin position interpolation
+    nop                              ! (delay slot)
+.L_camera_mode_b:                              /* --- end state 1: camera mode B --- */
+    .byte   0xDC, 0x09    /* mov.l .L_pool_cam_params_1a, r12 */
+    .byte   0xDB, 0x0A    /* mov.l .L_pool_cam_params_1b, r11 */
+    bra     .L_position_lerp         ! → begin position interpolation
+    nop                              ! (delay slot)
+.L_camera_mode_c:                              /* --- end state 2: camera mode C --- */
+    .byte   0xDC, 0x09    /* mov.l .L_pool_cam_params_2a, r12 */
+    .byte   0xDB, 0x0A    /* mov.l .L_pool_cam_params_2b, r11 */
+    bra     .L_position_lerp         ! → begin position interpolation
+    nop                              ! (delay slot)
+.L_pool_camera_state:
     .4byte  sym_0607EB8C               /* camera lerp state (ptr) */
-.L_car_array_base:
+.L_pool_car_array_base:
     .4byte  sym_0607E944               /* car array base pointer */
-.L_car_struct_ptr:
+.L_pool_car_struct_ptr:
     .4byte  sym_0607E940               /* current car struct pointer */
-.L_race_end_state:
+.L_pool_race_end_state:
     .4byte  sym_0607EAD8               /* race end state (0/1/2 dispatch) */
-.L_cam_params_0a:
+.L_pool_cam_params_0a:
     .4byte  sym_06063488               /* state 0 rotation source params */
-.L_cam_params_0b:
+.L_pool_cam_params_0b:
     .4byte  sym_06063434               /* state 0 rotation dest params */
-.L_cam_params_1a:
+.L_pool_cam_params_1a:
     .4byte  sym_060634A4               /* state 1 rotation source params */
-.L_cam_params_1b:
+.L_pool_cam_params_1b:
     .4byte  sym_06063450               /* state 1 rotation dest params */
-.L_cam_params_2a:
+.L_pool_cam_params_2a:
     .4byte  sym_060634C0               /* state 2 rotation source params */
-.L_cam_params_2b:
+.L_pool_cam_params_2b:
     .4byte  sym_0606346C               /* state 2 rotation dest params */
-.L_0600B534:                              /* --- end state dispatch --- */
-    cmp/eq #0x0, r0
-    bt      .L_0600B4F4              /* state 0 */
-    cmp/eq #0x1, r0
-    bt      .L_0600B4FC              /* state 1 */
-    cmp/eq #0x2, r0
-    bt      .L_0600B504              /* state 2 */
-.L_0600B540:                              /* === Position interpolation === */
-    .byte   0xD9, 0x3E    /* mov.l .L_fp_half, r9 — 0x8000 lerp bias */
-    mov #0x0, r1
-    .byte   0xDD, 0x3E    /* mov.l .L_camera_pos, r13 — camera pos XYZ */
-    mov.l @(16, r14), r2            /* car X position */
-    mov.l @r13, r3                   /* camera X position */
-    sub r3, r2                       /* delta_X = car_X - camera_X */
-    add r9, r2                       /* delta_X + 0x8000 (rounding bias) */
-    cmp/gt r2, r1                    /* delta < 0? (T = negative) */
-    addc r1, r2                      /* r2 += T (round toward zero) */
-    shar r2                          /* delta / 2 */
-    add r2, r3                       /* camera_X += delta/2 */
-    mov.l r3, @r13                   /* store new camera X */
-    mov.l @(20, r14), r2            /* car Y position */
-    mov.l @(4, r13), r3             /* camera Y */
-    sub r3, r2                       /* delta_Y */
-    cmp/gt r2, r1
-    addc r1, r2
-    shar r2                          /* delta_Y / 2 */
-    add r2, r3
-    mov.l r3, @(4, r13)             /* store new camera Y */
-    mov.l @(24, r14), r2            /* car Z position */
-    mov.l @(8, r13), r3             /* camera Z */
-    mov.w   DAT_0600b630, r1        /* 0x8000 = Z-axis rounding bias */
-    sub r3, r2                       /* delta_Z */
-    add r1, r2                       /* delta_Z + bias */
-    mov #0x0, r3
-    cmp/gt r2, r3
-    addc r3, r2
-    shar r2                          /* delta_Z / 2 */
-    mov.l @(8, r13), r1             /* camera Z */
-    add r2, r1                       /* camera_Z += delta/2 */
-    .byte   0xD3, 0x31    /* mov.l .L_fn_fpmul, r3 */
-    jsr @r3                           /* fpmul() — scalar fixup */
-    mov.l r1, @(8, r13)             /* store new camera Z */
-    mov.l @(8, r13), r6             /* === Rotation pipeline === */
-    mov.l @(4, r13), r5             /* camera Y */
-    .byte   0xD3, 0x2F    /* mov.l .L_fn_fpdiv, r3 */
-    jsr @r3                           /* fpdiv(Z, Y, X) */
-    mov.l @r13, r4                   /* camera X */
-    .byte   0xD3, 0x2F    /* mov.l .L_fn_rot_xy, r3 */
-    jsr @r3                           /* mat_rot_xy_b(car yaw) */
-    mov.l @(32, r14), r4            /* car[+32] = yaw angle */
-    .byte   0xD3, 0x2E    /* mov.l .L_fn_rot_yz, r3 */
-    jsr @r3                           /* mat_rot_yz_b(car pitch) */
-    mov.l @(36, r14), r4            /* car[+36] = pitch angle */
-    .byte   0xD3, 0x2E    /* mov.l .L_fn_rot_xz, r3 */
-    jsr @r3                           /* mat_rot_xz_b(car bank) */
-    mov.l @(28, r14), r4            /* car[+28] = bank angle */
-    mov.w   DAT_0600b632, r0        /* 0x01D8 = camera yaw offset */
-    .byte   0xD3, 0x2A    /* mov.l .L_fn_rot_xy, r3 */
-    mov.l @(r0, r14), r4            /* car[+0x1D8] = camera yaw */
-    add #-0xC, r0                    /* 0x01CC = yaw offset */
-    mov.l @(r0, r14), r2            /* car[+0x1CC] = yaw offset */
-    jsr @r3                           /* mat_rot_xy_b(cam_yaw + offset) */
-    add r2, r4
-    .byte   0xD0, 0x2A    /* mov.l .L_camera_follow_flag, r0 */
-    mov.l @r0, r0
-    tst r0, r0
-    bt      .L_0600B686              /* follow mode off → skip to counter */
-    mov r9, r6                        /* === Camera follow mode === */
-    mov r9, r5
-    .byte   0xD3, 0x28    /* mov.l .L_fn_mat_scale, r3 */
-    jsr @r3                           /* mat_scale(0.5, 0.5, 0.5) */
-    mov r9, r4
-    .byte   0xD5, 0x27    /* mov.l .L_scale_src, r5 — scale source (ptr) */
-    .byte   0xD3, 0x28    /* mov.l .L_fn_vec_transform, r3 */
-    mov.l @r5, r5
-    jsr @r3                           /* vec_transform(scale_src, params_a[+24]) */
-    mov.l @(24, r12), r4            /* r12[+24] = rotation source */
-    .byte   0xD6, 0x27    /* mov.l .L_rot_data, r6 — rotation data (ptr) */
-    .byte   0xD2, 0x27    /* mov.l .L_scale_factor, r2 — scale table */
-    mov.l @r6, r6
-    mov r2, r5
-    mov.l r2, @(4, r15)             /* save scale_factor ptr on stack */
-    mov.w @r5, r5                    /* scale value */
-    .byte   0xD3, 0x26    /* mov.l .L_fn_vec_scale, r3 */
-    extu.w r5, r5
-    jsr @r3                           /* vec_scale(rot_data, scale, params_b[+24]) */
-    mov.l @(24, r11), r4            /* r11[+24] = rotation dest */
-    mov #0x0, r6                      /* --- camera position from car roll --- */
-    mov.w   DAT_0600b634, r0        /* 0x01B4 = camera roll offset */
-    .byte   0xD3, 0x19    /* mov.l .L_fn_fpdiv, r3 */
-    mov.l @(r0, r14), r5            /* car[+0x1B4] = camera roll */
-    jsr @r3                           /* fpdiv(0, roll, 0) */
-    mov r6, r4
-    mov.w   DAT_0600b636, r0        /* 0x01D0 = camera pitch A */
-    .byte   0xD3, 0x18    /* mov.l .L_fn_rot_yz, r3 */
-    jsr @r3                           /* mat_rot_yz_b(pitch_a) */
-    mov.l @(r0, r14), r4
-    mov.w   .L_off_cam_pitch_b, r0  /* 0x01C8 = camera pitch B */
-    .byte   0xD2, 0x1F    /* mov.l .L_camera_offset, r2 — camera offset */
-    .byte   0xD3, 0x17    /* mov.l .L_fn_rot_xz, r3 */
-    mov.l @(r0, r14), r4            /* car[+0x1C8] = pitch B */
-    mov.l @r2, r2
-    jsr @r3                           /* mat_rot_xz_b(pitch_b + offset) */
-    add r2, r4
-    mov.l @(12, r10), r5            /* --- LOD chain transforms --- */
-    shll2 r5                          /* index * 4 */
-    mov.l r5, @r15                   /* save on stack */
-    .byte   0xD3, 0x1C    /* mov.l .L_rot_chain_a, r3 — chain A base */
-    mov.l @r15, r4
-    .byte   0xD2, 0x16    /* mov.l .L_fn_vec_transform, r2 */
-    add r3, r5
-    add r12, r4                       /* params_a + index*4 */
-    mov.l @r5, r5
-    jsr @r2                           /* vec_transform(chain_a[idx], params_a[idx]) */
-    mov.l @r4, r4
-    mov.l @(12, r10), r6
-    shll2 r6
-    mov.l r6, @r15
-    .byte   0xD3, 0x17    /* mov.l .L_rot_chain_b, r3 — chain B base */
-    add r3, r6
-    mov.l @r6, r6
-    mov.l @(4, r15), r5             /* scale_factor ptr */
-    mov.w @r5, r5
-    extu.w r5, r5
-    mov.l @r15, r4
-    add r11, r4                       /* params_b + index*4 */
-    bra     .L_0600B680              /* → final chain call */
-    mov.l @r4, r4
+.L_end_state_dispatch:                         /* --- end state dispatch --- */
+    cmp/eq #0x0, r0                  ! test if end state == 0
+    bt      .L_camera_mode_a         ! state 0 → camera mode A
+    cmp/eq #0x1, r0                  ! test if end state == 1
+    bt      .L_camera_mode_b         ! state 1 → camera mode B
+    cmp/eq #0x2, r0                  ! test if end state == 2
+    bt      .L_camera_mode_c         ! state 2 → camera mode C (fallthrough if none match)
+.L_position_lerp:                              /* === Position interpolation === */
+    .byte   0xD9, 0x3E    /* mov.l .L_pool_fp_half, r9 — 0x8000 lerp bias */
+    mov #0x0, r1                     ! r1 = 0 (used for sign-aware rounding)
+    .byte   0xDD, 0x3E    /* mov.l .L_pool_camera_pos, r13 — camera pos XYZ */
+    mov.l @(16, r14), r2            ! r2 = car X position
+    mov.l @r13, r3                   ! r3 = camera X position
+    sub r3, r2                       ! r2 = delta_X = car_X - camera_X
+    add r9, r2                       ! r2 = delta_X + 0x8000 (rounding bias)
+    cmp/gt r2, r1                    ! T = (delta < 0) ? 1 : 0
+    addc r1, r2                      ! r2 += T (round toward zero for negatives)
+    shar r2                          ! r2 = delta / 2 (arithmetic shift right)
+    add r2, r3                       ! r3 = camera_X + delta/2
+    mov.l r3, @r13                   ! store updated camera X
+    mov.l @(20, r14), r2            ! r2 = car Y position
+    mov.l @(4, r13), r3             ! r3 = camera Y position
+    sub r3, r2                       ! r2 = delta_Y = car_Y - camera_Y
+    cmp/gt r2, r1                    ! T = (delta_Y < 0)
+    addc r1, r2                      ! round toward zero
+    shar r2                          ! r2 = delta_Y / 2
+    add r2, r3                       ! r3 = camera_Y + delta_Y/2
+    mov.l r3, @(4, r13)             ! store updated camera Y
+    mov.l @(24, r14), r2            ! r2 = car Z position
+    mov.l @(8, r13), r3             ! r3 = camera Z position
+    mov.w   DAT_0600b630, r1        ! r1 = 0x8000 (Z-axis rounding bias)
+    sub r3, r2                       ! r2 = delta_Z = car_Z - camera_Z
+    add r1, r2                       ! r2 = delta_Z + 0x8000 bias
+    mov #0x0, r3                     ! r3 = 0 for sign test
+    cmp/gt r2, r3                    ! T = (delta_Z < 0)
+    addc r3, r2                      ! round toward zero
+    shar r2                          ! r2 = delta_Z / 2
+    mov.l @(8, r13), r1             ! r1 = camera Z (reload)
+    add r2, r1                       ! r1 = camera_Z + delta_Z/2
+    .byte   0xD3, 0x31    /* mov.l .L_pool_fn_fpmul, r3 */
+    jsr @r3                           ! fpmul() — fixed-point multiply scalar fixup
+    mov.l r1, @(8, r13)             ! store updated camera Z (delay slot)
+    mov.l @(8, r13), r6             ! === Rotation pipeline === r6 = camera Z
+    mov.l @(4, r13), r5             ! r5 = camera Y
+    .byte   0xD3, 0x2F    /* mov.l .L_pool_fn_fpdiv, r3 */
+    jsr @r3                           ! fpdiv(Z, Y, X) — decompose position to angles
+    mov.l @r13, r4                   ! r4 = camera X (delay slot)
+    .byte   0xD3, 0x2F    /* mov.l .L_pool_fn_rot_xy, r3 */
+    jsr @r3                           ! mat_rot_xy_b(yaw) — apply yaw rotation
+    mov.l @(32, r14), r4            ! r4 = car yaw angle (delay slot)
+    .byte   0xD3, 0x2E    /* mov.l .L_pool_fn_rot_yz, r3 */
+    jsr @r3                           ! mat_rot_yz_b(pitch) — apply pitch rotation
+    mov.l @(36, r14), r4            ! r4 = car pitch angle (delay slot)
+    .byte   0xD3, 0x2E    /* mov.l .L_pool_fn_rot_xz, r3 */
+    jsr @r3                           ! mat_rot_xz_b(bank) — apply bank/roll rotation
+    mov.l @(28, r14), r4            ! r4 = car bank angle (delay slot)
+    mov.w   DAT_0600b632, r0        ! r0 = 0x01D8 (offset to camera yaw in car struct)
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_fn_rot_xy, r3 */
+    mov.l @(r0, r14), r4            ! r4 = car[+0x1D8] = camera yaw
+    add #-0xC, r0                    ! r0 = 0x01CC (offset to yaw offset)
+    mov.l @(r0, r14), r2            ! r2 = car[+0x1CC] = yaw offset
+    jsr @r3                           ! mat_rot_xy_b(cam_yaw + yaw_offset)
+    add r2, r4                       ! r4 = camera_yaw + yaw_offset (delay slot)
+    .byte   0xD0, 0x2A    /* mov.l .L_pool_camera_follow_flag, r0 */
+    mov.l @r0, r0                    ! r0 = camera_follow_flag value
+    tst r0, r0                       ! test if follow flag is zero
+    bt      .L_frame_counter_dec     ! if zero → skip follow mode, go to counter
+    mov r9, r6                        ! === Camera follow mode === r6 = 0x8000 (scale Z)
+    mov r9, r5                       ! r5 = 0x8000 (scale Y)
+    .byte   0xD3, 0x28    /* mov.l .L_pool_fn_mat_scale, r3 */
+    jsr @r3                           ! mat_scale(0x8000, 0x8000, 0x8000) — half scale
+    mov r9, r4                       ! r4 = 0x8000 (scale X, delay slot)
+    .byte   0xD5, 0x27    /* mov.l .L_pool_scale_src, r5 — scale source (ptr) */
+    .byte   0xD3, 0x28    /* mov.l .L_pool_fn_vec_transform, r3 */
+    mov.l @r5, r5                    ! r5 = *scale_src (dereference pointer)
+    jsr @r3                           ! vec_transform(scale_src, params_a[+24])
+    mov.l @(24, r12), r4            ! r4 = params_a[+24] rotation source (delay slot)
+    .byte   0xD6, 0x27    /* mov.l .L_pool_rot_data, r6 — rotation data (ptr) */
+    .byte   0xD2, 0x27    /* mov.l .L_pool_scale_factor, r2 — scale table */
+    mov.l @r6, r6                    ! r6 = *rot_data (dereference pointer)
+    mov r2, r5                       ! r5 = scale_factor table ptr
+    mov.l r2, @(4, r15)             ! save scale_factor ptr to stack[+4]
+    mov.w @r5, r5                    ! r5 = scale value (16-bit)
+    .byte   0xD3, 0x26    /* mov.l .L_pool_fn_vec_scale, r3 */
+    extu.w r5, r5                    ! zero-extend 16-bit scale to 32-bit
+    jsr @r3                           ! vec_scale(rot_data, scale, params_b[+24])
+    mov.l @(24, r11), r4            ! r4 = params_b[+24] rotation dest (delay slot)
+    mov #0x0, r6                      ! r6 = 0 (camera X = 0 for roll-only position)
+    mov.w   DAT_0600b634, r0        ! r0 = 0x01B4 (offset to camera roll)
+    .byte   0xD3, 0x19    /* mov.l .L_pool_fn_fpdiv, r3 */
+    mov.l @(r0, r14), r5            ! r5 = car[+0x1B4] = camera roll
+    jsr @r3                           ! fpdiv(0, roll, 0) — decompose roll angle
+    mov r6, r4                       ! r4 = 0 (delay slot)
+    mov.w   DAT_0600b636, r0        ! r0 = 0x01D0 (offset to camera pitch A)
+    .byte   0xD3, 0x18    /* mov.l .L_pool_fn_rot_yz, r3 */
+    jsr @r3                           ! mat_rot_yz_b(pitch_a)
+    mov.l @(r0, r14), r4            ! r4 = car[+0x1D0] = pitch A (delay slot)
+    mov.w   .L_off_cam_pitch_b, r0  ! r0 = 0x01C8 (offset to camera pitch B)
+    .byte   0xD2, 0x1F    /* mov.l .L_pool_camera_offset, r2 — camera offset */
+    .byte   0xD3, 0x17    /* mov.l .L_pool_fn_rot_xz, r3 */
+    mov.l @(r0, r14), r4            ! r4 = car[+0x1C8] = pitch B
+    mov.l @r2, r2                    ! r2 = *camera_offset (dereference)
+    jsr @r3                           ! mat_rot_xz_b(pitch_b + camera_offset)
+    add r2, r4                       ! r4 = pitch_b + offset (delay slot)
+    mov.l @(12, r10), r5            ! r5 = camera_state[+12] = LOD chain index
+    shll2 r5                          ! r5 = index * 4 (word offset)
+    mov.l r5, @r15                   ! save scaled index to stack[+0]
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_rot_chain_a, r3 — chain A base */
+    mov.l @r15, r4                   ! r4 = scaled index (reload)
+    .byte   0xD2, 0x16    /* mov.l .L_pool_fn_vec_transform, r2 */
+    add r3, r5                       ! r5 = &chain_a[index]
+    add r12, r4                       ! r4 = &params_a[index]
+    mov.l @r5, r5                    ! r5 = chain_a[index] (dereference)
+    jsr @r2                           ! vec_transform(chain_a[idx], params_a[idx])
+    mov.l @r4, r4                    ! r4 = params_a[index] (delay slot, dereference)
+    mov.l @(12, r10), r6            ! r6 = LOD chain index (reload)
+    shll2 r6                          ! r6 = index * 4
+    mov.l r6, @r15                   ! save to stack[+0]
+    .byte   0xD3, 0x17    /* mov.l .L_pool_rot_chain_b, r3 — chain B base */
+    add r3, r6                       ! r6 = &chain_b[index]
+    mov.l @r6, r6                    ! r6 = chain_b[index] (dereference)
+    mov.l @(4, r15), r5             ! r5 = scale_factor ptr (from stack[+4])
+    mov.w @r5, r5                    ! r5 = scale value (16-bit)
+    extu.w r5, r5                    ! zero-extend to 32-bit
+    mov.l @r15, r4                   ! r4 = scaled index (from stack[+0])
+    add r11, r4                       ! r4 = &params_b[index]
+    bra     .L_chain_final_call      ! → final chain call
+    mov.l @r4, r4                    ! r4 = params_b[index] (delay slot, dereference)
 
     .global DAT_0600b630
 DAT_0600b630:
@@ -239,55 +242,55 @@ DAT_0600b636:
 .L_off_cam_pitch_b:
     .2byte  0x01C8                        /* car offset: camera pitch B */
     .2byte  0xFFFF
-.L_fp_half:
+.L_pool_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_camera_pos:
+.L_pool_camera_pos:
     .4byte  sym_06078670               /* camera position XYZ (3×32-bit) */
-.L_fn_fpmul:
+.L_pool_fn_fpmul:
     .4byte  sym_06027080               /* fixed-point multiply */
-.L_fn_fpdiv:
+.L_pool_fn_fpdiv:
     .4byte  sym_060270F2               /* fixed-point divide */
-.L_fn_rot_xy:
+.L_pool_fn_rot_xy:
     .4byte  mat_rot_xy_b               /* XY plane rotation */
-.L_fn_rot_yz:
+.L_pool_fn_rot_yz:
     .4byte  mat_rot_yz_b               /* YZ plane rotation */
-.L_fn_rot_xz:
+.L_pool_fn_rot_xz:
     .4byte  mat_rot_xz_b               /* XZ plane rotation */
-.L_camera_follow_flag:
+.L_pool_camera_follow_flag:
     .4byte  sym_06059F30               /* camera follow mode flag */
-.L_fn_mat_scale:
+.L_pool_fn_mat_scale:
     .4byte  mat_scale_b                /* matrix scale function */
-.L_scale_src:
+.L_pool_scale_src:
     .4byte  sym_06063510               /* scale source vector (ptr) */
-.L_fn_vec_transform:
+.L_pool_fn_vec_transform:
     .4byte  sym_06032158               /* vector matrix transform */
-.L_rot_data:
+.L_pool_rot_data:
     .4byte  sym_060634F4               /* rotation data source (ptr) */
-.L_scale_factor:
+.L_pool_scale_factor:
     .4byte  sym_06089E98               /* per-mode scale factor (16-bit) */
-.L_fn_vec_scale:
+.L_pool_fn_vec_scale:
     .4byte  sym_06031DF4               /* scaled vector transform */
-.L_camera_offset:
+.L_pool_camera_offset:
     .4byte  sym_06083258               /* camera LOD offset base */
-.L_rot_chain_a:
+.L_pool_rot_chain_a:
     .4byte  sym_060634F8               /* rotation chain A params */
-.L_rot_chain_b:
+.L_pool_rot_chain_b:
     .4byte  sym_060634DC               /* rotation chain B params */
-.L_0600B680:                              /* --- final chain call --- */
-    .byte   0xD2, 0x11    /* mov.l .L_fn_chain_final, r2 — chain finalization */
-    jsr @r2                           /* vec_scale(chain_b[idx], scale, params_b[idx]) */
-    nop
-.L_0600B686:                              /* === Frame counter decrement === */
-    .byte   0xD4, 0x11    /* mov.l .L_frame_counter, r4 — camera frame counter */
-    mov.l @r4, r3
-    add #-0x30, r3                    /* counter -= 0x30 per frame */
-    mov.l r3, @r4
-    add #0x8, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_chain_final_call:                           /* --- final chain call --- */
+    .byte   0xD2, 0x11    /* mov.l .L_pool_fn_chain_final, r2 — chain finalization */
+    jsr @r2                           ! vec_scale(chain_b[idx], scale, params_b[idx])
+    nop                              ! (delay slot)
+.L_frame_counter_dec:                          /* === Frame counter decrement === */
+    .byte   0xD4, 0x11    /* mov.l .L_pool_frame_counter, r4 — camera frame counter */
+    mov.l @r4, r3                    ! r3 = current frame counter value
+    add #-0x30, r3                    ! r3 -= 0x30 (per-frame decrement)
+    mov.l r3, @r4                    ! store decremented counter
+    add #0x8, r15                    ! deallocate stack locals
+    lds.l @r15+, pr                  ! restore return address
+    mov.l @r15+, r9                  ! restore r9
+    mov.l @r15+, r10                 ! restore r10
+    mov.l @r15+, r11                 ! restore r11
+    mov.l @r15+, r12                 ! restore r12
+    mov.l @r15+, r13                 ! restore r13
+    rts                              ! return to caller
+    mov.l @r15+, r14                 ! restore r14 (delay slot)

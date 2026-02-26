@@ -33,251 +33,263 @@
  *   +0x1CC = yaw offset     +0x1D0 = camera pitch A    +0x1D8 = camera yaw
  */
 
-    .section .text.FUN_0600ADD4
+   .section .text.FUN_0600ADD4
 
 
-    .global camera_car_transform
-    .type camera_car_transform, @function
+/* camera_car_transform
+ *
+ * Main camera-to-car transform entry point. Builds the camera orientation
+ * matrix from the player car's position, yaw, pitch, roll, and bank angle.
+ * Applies optional camera follow mode, camera shake, and LOD selection.
+ * Finishes by chaining into cross-TU vector copy/dispatch routines and
+ * decrementing the per-frame camera counter.
+ *
+ * Arguments: none (reads car struct from global car_array_base)
+ * Returns:   none (writes to camera matrix and counter globals)
+ * Clobbers:  r0-r7, r11-r14, pr
+ */
+   .global camera_car_transform
+   .type camera_car_transform, @function
 camera_car_transform:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_camera_mode_idx, r11
-    mov.l   .L_fn_transform_matrix, r13
-    mov.l   .L_car_array_base, r14
-    mov.l   .L_car_struct_ptr, r3
-    mov.l @r14, r14                    /* r14 = car struct */
-    mov.l r14, @r3                    /* store as current car */
-    mov.l   .L_fn_camera_init, r3
-    jsr @r3                            /* camera_init() */
-    nop
-    mov.l @(24, r14), r6             /* r6 = Z position */
-    mov.l @(20, r14), r5             /* r5 = Y position */
-    mov.l   .L_fn_camera_pos, r3
-    jsr @r3                            /* camera_pos(X, Y, Z) */
-    mov.l @(16, r14), r4             /* r4 = X position */
-    mov.l @(32, r14), r4             /* r4 = yaw angle */
-    mov.l   .L_fp_half, r2           /* 0x8000 = 180 degrees in 16.16 */
-    mov.l   .L_fn_rot_y, r3
-    jsr @r3                            /* mat_rot_y(yaw + 0x8000) */
-    add r2, r4
-    mov.l @(36, r14), r4             /* r4 = pitch angle */
-    mov.l   .L_fn_rot_z, r3
-    jsr @r3                            /* mat_rot_z(-pitch) */
-    neg r4, r4
-    mov.l   .L_game_flags, r2        /* check special camera mode */
-    mov.l   .L_flag_mask_800008, r3
-    mov.l @r2, r2
-    and r3, r2
-    tst r2, r2
-    bt      .L_0600AE7C              /* flags clear → normal bank angle */
-    mov.l @(28, r14), r4             /* car[+28] = bank angle */
-    neg r4, r4                        /* negate bank */
-    mov.w @r11, r3                   /* camera mode index */
-    extu.w r3, r2
-    shll2 r2                          /* idx * 4 */
-    mov.l   .L_bank_angle_table, r3
-    add r2, r3
-    mov.l @r3, r2                     /* table[idx] = bank offset */
-    bra     .L_0600AE94
-    add r2, r4                        /* r4 = -bank + offset */
-    .4byte  sym_06027080               /* (adjacent fn pool: fpmul variant) */
-    .4byte  sym_06044670               /* (adjacent fn pool: table lookup) */
-    .4byte  sym_060270F2               /* (adjacent fn pool: fpdiv) */
-    .4byte  mat_rot_xz_b              /* (adjacent fn pool: XZ rotation) */
-    .4byte  sym_060621D8               /* (adjacent fn pool: matrix src) */
-    .4byte  sym_06032158               /* (adjacent fn pool: transform fn) */
-    .4byte  sym_06062180               /* (adjacent fn pool: rotation src) */
-    .4byte  sym_06031DF4               /* (adjacent fn pool: vec transform) */
+    mov.l r14, @-r15                 ! save r14 (will hold car struct ptr)
+    mov.l r13, @-r15                 ! save r13 (will hold transform_matrix fn ptr)
+    mov.l r12, @-r15                 ! save r12 (will hold LOD table index)
+    mov.l r11, @-r15                 ! save r11 (will hold &camera_mode_idx)
+    sts.l pr, @-r15                  ! save return address
+    mov.l   .L_camera_mode_idx, r11  ! r11 = &camera_mode_idx (persists across calls)
+    mov.l   .L_fn_transform_matrix, r13 ! r13 = &transform_matrix (persists)
+    mov.l   .L_car_array_base, r14   ! r14 = &car_array_base (pointer to pointer)
+    mov.l   .L_car_struct_ptr, r3    ! r3 = &current_car_struct_ptr global
+    mov.l @r14, r14                  ! r14 = car struct (dereference pointer)
+    mov.l r14, @r3                   ! store car struct as the current car for other routines
+    mov.l   .L_fn_camera_init, r3    ! r3 = &camera_init
+    jsr @r3                          ! camera_init() — reset camera state
+    nop                              ! delay slot (no useful work)
+    mov.l @(24, r14), r6             ! r6 = car[+24] = Z position
+    mov.l @(20, r14), r5             ! r5 = car[+20] = Y position
+    mov.l   .L_fn_camera_pos, r3     ! r3 = &camera_pos
+    jsr @r3                          ! camera_pos(X, Y, Z) — set camera base position
+    mov.l @(16, r14), r4             ! r4 = car[+16] = X position (delay slot)
+    mov.l @(32, r14), r4             ! r4 = car[+32] = yaw angle
+    mov.l   .L_fp_half, r2           ! r2 = 0x8000 (180 degrees in fixed-point)
+    mov.l   .L_fn_rot_y, r3          ! r3 = &mat_rot_y
+    jsr @r3                          ! mat_rot_y(yaw + 0x8000) — rotate camera 180 deg
+    add r2, r4                       ! r4 = yaw + 0x8000 (delay slot: add half turn)
+    mov.l @(36, r14), r4             ! r4 = car[+36] = pitch angle
+    mov.l   .L_fn_rot_z, r3          ! r3 = &mat_rot_z
+    jsr @r3                          ! mat_rot_z(-pitch) — apply negated pitch rotation
+    neg r4, r4                       ! r4 = -pitch (delay slot: negate)
+    mov.l   .L_game_flags, r2        ! r2 = &game_mode_flags
+    mov.l   .L_flag_mask_800008, r3  ! r3 = 0x00800008 (special camera mode bitmask)
+    mov.l @r2, r2                    ! r2 = game_mode_flags value
+    and r3, r2                       ! r2 = flags & special_camera_mask
+    tst r2, r2                       ! test if any special camera bits are set
+    bt      .L_normal_bank           ! if no special bits → normal bank angle path
+    mov.l @(28, r14), r4             ! r4 = car[+28] = bank angle (special path)
+    neg r4, r4                       ! r4 = -bank angle
+    mov.w @r11, r3                   ! r3 = camera_mode_idx (16-bit)
+    extu.w r3, r2                    ! r2 = zero-extended mode index
+    shll2 r2                         ! r2 = mode_idx * 4 (index into 4-byte table)
+    mov.l   .L_bank_angle_table, r3  ! r3 = &bank_angle_offset_table
+    add r2, r3                       ! r3 = &table[mode_idx]
+    mov.l @r3, r2                    ! r2 = bank offset for this camera mode
+    bra     .L_apply_bank            ! skip normal path, go apply final bank angle
+    add r2, r4                       ! r4 = -bank + offset (delay slot)
+    .4byte  sym_06027080             /* (adjacent fn pool: fpmul variant) */
+    .4byte  sym_06044670             /* (adjacent fn pool: table lookup) */
+    .4byte  sym_060270F2             /* (adjacent fn pool: fpdiv) */
+    .4byte  mat_rot_xz_b            /* (adjacent fn pool: XZ rotation) */
+    .4byte  sym_060621D8             /* (adjacent fn pool: matrix src) */
+    .4byte  sym_06032158             /* (adjacent fn pool: transform fn) */
+    .4byte  sym_06062180             /* (adjacent fn pool: rotation src) */
+    .4byte  sym_06031DF4             /* (adjacent fn pool: vec transform) */
 .L_camera_mode_idx:
-    .4byte  sym_06063F46               /* camera mode index (16-bit) */
+    .4byte  sym_06063F46             /* camera mode index (16-bit) */
 .L_fn_transform_matrix:
-    .4byte  transform_matrix           /* apply accumulated rotation matrix */
+    .4byte  transform_matrix         /* apply accumulated rotation matrix */
 .L_car_array_base:
-    .4byte  sym_0607E944               /* car array base pointer */
+    .4byte  sym_0607E944             /* car array base pointer */
 .L_car_struct_ptr:
-    .4byte  sym_0607E940               /* current car struct pointer */
+    .4byte  sym_0607E940             /* current car struct pointer */
 .L_fn_camera_init:
-    .4byte  sym_06026DBC               /* camera state initialization */
+    .4byte  sym_06026DBC             /* camera state initialization */
 .L_fn_camera_pos:
-    .4byte  sym_06026E2E               /* set camera base position */
+    .4byte  sym_06026E2E             /* set camera base position */
 .L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 180 degrees */
+    .4byte  0x00008000               /* 0.5 (16.16 fixed-point) / 180 degrees */
 .L_fn_rot_y:
-    .4byte  mat_rot_y                  /* Y-axis rotation */
+    .4byte  mat_rot_y                /* Y-axis rotation */
 .L_fn_rot_z:
-    .4byte  mat_rot_z                  /* Z-axis rotation */
+    .4byte  mat_rot_z                /* Z-axis rotation */
 .L_game_flags:
-    .4byte  sym_0607EBC4               /* game mode flags */
+    .4byte  sym_0607EBC4             /* game mode flags */
 .L_flag_mask_800008:
-    .4byte  0x00800008                  /* special camera mode flag mask */
+    .4byte  0x00800008               /* special camera mode flag mask */
 .L_bank_angle_table:
-    .4byte  sym_0605BDCC               /* per-mode bank angle offset table */
-.L_0600AE7C:                              /* --- normal bank angle path --- */
-    mov.l @(28, r14), r4             /* bank angle */
-    neg r4, r4
-    mov.l   .L_camera_height_offset, r3
-    mov.l @r3, r3
-    add r3, r4                        /* bank + height offset */
-    mov.w @r11, r2                   /* camera mode index */
-    extu.w r2, r1
-    shll2 r1
-    mov.l   .L_bank_angle_table_2, r2
-    add r1, r2
-    mov.l @r2, r1                     /* table[idx] */
-    add r1, r4                        /* r4 = final bank angle */
-.L_0600AE94:
-    jsr @r13                           /* transform_matrix() */
-    nop
-    mov.w   .L_off_cam_yaw, r0       /* +0x1D8 = camera yaw */
-    mov.l @(r0, r14), r4
-    add #-0xC, r0                     /* +0x1CC = yaw offset */
-    mov.l @(r0, r14), r3
-    add r3, r4                        /* combined yaw */
-    mov.l   .L_fn_rot_y_2, r3
-    jsr @r3                            /* mat_rot_y(combined_yaw) */
-    nop
-    mov.l   .L_camera_follow_flag, r0
-    mov.l @r0, r0
-    tst r0, r0
-    bt      .L_0600AF8C              /* follow mode off → skip to end */
-    mov.l   .L_rot_src_a, r5         /* --- camera follow mode --- */
-    mov.l   .L_rot_dst_a, r4
-    mov.l   .L_fn_vec_copy_a, r3
-    mov.l @r5, r5
-    jsr @r3                            /* copy rotation source A → dest A */
-    mov.l @r4, r4
-    mov.l   .L_rot_src_b, r6
-    mov.l   .L_rot_scale_b, r5
-    mov.l   .L_rot_dst_b, r4
-    mov.l   .L_fn_vec_copy_b, r3
-    mov.l @r6, r6
-    mov.w @r5, r5
-    jsr @r3                            /* copy rotation source B → dest B (scaled) */
-    mov.l @r4, r4
-    mov #0x0, r6
-    mov.w   .L_off_cam_roll, r0      /* +0x1B4 = camera roll */
-    mov.l   .L_fn_camera_pos_2, r3
-    mov.l @(r0, r14), r5
-    jsr @r3                            /* camera_pos(0, roll, 0) */
-    mov r6, r4
-    mov.w   .L_off_cam_pitch_a, r0   /* +0x1D0 = camera pitch A */
-    mov.l   .L_fn_rot_z_2, r3
-    jsr @r3                            /* mat_rot_z(pitch_A) */
-    mov.l @(r0, r14), r4
-    mov.w   .L_off_cam_pitch_b, r0   /* +0x1C8 = camera pitch B */
-    jsr @r13                           /* transform_matrix(pitch_B) */
-    mov.l @(r0, r14), r4
-    mov.l   .L_camera_shake_flags, r0
-    mov.b @r0, r0
-    tst #0x2, r0                      /* bit 1 = camera shake active? */
-    bf      .L_0600AEF4              /* → skip shake */
-    mov #0x0, r5
+    .4byte  sym_0605BDCC             /* per-mode bank angle offset table */
+.L_normal_bank:                      /* --- normal bank angle path --- */
+    mov.l @(28, r14), r4             ! r4 = car[+28] = bank angle
+    neg r4, r4                       ! r4 = -bank angle
+    mov.l   .L_camera_height_offset, r3 ! r3 = &camera_height_offset
+    mov.l @r3, r3                    ! r3 = height offset value
+    add r3, r4                       ! r4 = -bank + height_offset
+    mov.w @r11, r2                   ! r2 = camera_mode_idx (16-bit)
+    extu.w r2, r1                    ! r1 = zero-extended mode index
+    shll2 r1                         ! r1 = mode_idx * 4 (table stride)
+    mov.l   .L_bank_angle_table_2, r2 ! r2 = &bank_angle_offset_table (dup pool entry)
+    add r1, r2                       ! r2 = &table[mode_idx]
+    mov.l @r2, r1                    ! r1 = bank offset for this camera mode
+    add r1, r4                       ! r4 = -bank + height_offset + table_offset
+.L_apply_bank:
+    jsr @r13                         ! transform_matrix(r4) — apply bank rotation
+    nop                              ! delay slot
+    mov.w   .L_off_cam_yaw, r0       ! r0 = 0x1D8 (offset to camera yaw in car struct)
+    mov.l @(r0, r14), r4             ! r4 = car[+0x1D8] = camera yaw angle
+    add #-0xC, r0                    ! r0 = 0x1CC (offset to yaw correction)
+    mov.l @(r0, r14), r3             ! r3 = car[+0x1CC] = yaw offset
+    add r3, r4                       ! r4 = camera_yaw + yaw_offset
+    mov.l   .L_fn_rot_y_2, r3        ! r3 = &mat_rot_y
+    jsr @r3                          ! mat_rot_y(camera_yaw + yaw_offset)
+    nop                              ! delay slot
+    mov.l   .L_camera_follow_flag, r0 ! r0 = &camera_follow_flag
+    mov.l @r0, r0                    ! r0 = follow flag value
+    tst r0, r0                       ! test if camera follow mode is enabled
+    bt      .L_counter_decrement     ! if follow mode off → skip to counter decrement
+    mov.l   .L_rot_src_a, r5         ! --- camera follow mode --- r5 = &rot_src_a ptr
+    mov.l   .L_rot_dst_a, r4         ! r4 = &rot_dst_a ptr
+    mov.l   .L_fn_vec_copy_a, r3     ! r3 = &vec_copy_a
+    mov.l @r5, r5                    ! r5 = rot_src_a (dereference)
+    jsr @r3                          ! vec_copy_a(dst, src) — copy rotation source A
+    mov.l @r4, r4                    ! r4 = rot_dst_a (delay slot: dereference)
+    mov.l   .L_rot_src_b, r6         ! r6 = &rot_src_b ptr
+    mov.l   .L_rot_scale_b, r5       ! r5 = &rot_scale_b (16-bit scale factor)
+    mov.l   .L_rot_dst_b, r4         ! r4 = &rot_dst_b ptr
+    mov.l   .L_fn_vec_copy_b, r3     ! r3 = &vec_copy_b (scaled copy)
+    mov.l @r6, r6                    ! r6 = rot_src_b (dereference)
+    mov.w @r5, r5                    ! r5 = scale factor (16-bit load)
+    jsr @r3                          ! vec_copy_b(dst, src, scale) — scaled rotation copy
+    mov.l @r4, r4                    ! r4 = rot_dst_b (delay slot: dereference)
+    mov #0x0, r6                     ! r6 = 0 (Z position = 0 for follow cam)
+    mov.w   .L_off_cam_roll, r0      ! r0 = 0x1B4 (offset to camera roll)
+    mov.l   .L_fn_camera_pos_2, r3   ! r3 = &camera_pos
+    mov.l @(r0, r14), r5             ! r5 = car[+0x1B4] = camera roll angle
+    jsr @r3                          ! camera_pos(0, roll, 0) — set follow position
+    mov r6, r4                       ! r4 = 0 (X position = 0, delay slot)
+    mov.w   .L_off_cam_pitch_a, r0   ! r0 = 0x1D0 (offset to camera pitch A)
+    mov.l   .L_fn_rot_z_2, r3        ! r3 = &mat_rot_z
+    jsr @r3                          ! mat_rot_z(pitch_A) — apply pitch rotation
+    mov.l @(r0, r14), r4             ! r4 = car[+0x1D0] = camera pitch A (delay slot)
+    mov.w   .L_off_cam_pitch_b, r0   ! r0 = 0x1C8 (offset to camera pitch B)
+    jsr @r13                         ! transform_matrix(pitch_B) — final follow transform
+    mov.l @(r0, r14), r4             ! r4 = car[+0x1C8] = camera pitch B (delay slot)
+    mov.l   .L_camera_shake_flags, r0 ! r0 = &camera_shake_flags
+    mov.b @r0, r0                    ! r0 = shake flags byte
+    tst #0x2, r0                     ! test bit 1: camera shake active?
+    bf      .L_lod_compute           ! if bit 1 set → skip shake (already applied)
+    mov #0x0, r5                     ! r5 = 0 (shake intensity param)
     .byte   0xBD, 0xD2    /* bsr 0x0600AA98 (external) — camera shake handler */
-    mov r14, r4
-.L_0600AEF4:                              /* --- LOD / distance computation --- */
-    mov r14, r0
-    mov.b @(1, r0), r0               /* car[+1] = visibility flags */
-    tst #0x1, r0                      /* bit 0 = visible? */
-    bt/s    .L_0600AF5C              /* not visible → use default LOD */
-    mov #0x0, r12                     /* r12 = 0 (default LOD table index) */
-    mov #0xD, r12                     /* r12 = 13 (active LOD table index) */
-    mov.w @r11, r4                   /* camera mode index */
-    extu.w r4, r4
-    mov.l   .L_camera_lod_lut, r3
-    add r3, r4                        /* &lut[mode_idx] */
-    mov.b @r4, r4                     /* LOD level from table */
-    mov.l   .L_camera_offset_base, r2
-    mov.l @r2, r2
-    bra     .L_0600AF60
-    add r2, r4                        /* r4 = LOD base + level */
+    mov r14, r4                      ! r4 = car struct ptr (delay slot for BSR)
+.L_lod_compute:                      /* --- LOD / distance computation --- */
+    mov r14, r0                      ! r0 = car struct base address
+    mov.b @(1, r0), r0               ! r0 = car[+1] = visibility/LOD flags byte
+    tst #0x1, r0                     ! test bit 0: is car visible?
+    bt/s    .L_default_lod           ! if not visible → branch to default LOD path
+    mov #0x0, r12                    ! r12 = 0 (default LOD table index, delay slot)
+    mov #0xD, r12                    ! r12 = 13 (active car LOD table index)
+    mov.w @r11, r4                   ! r4 = camera_mode_idx (16-bit)
+    extu.w r4, r4                    ! r4 = zero-extended mode index
+    mov.l   .L_camera_lod_lut, r3    ! r3 = &LOD lookup table
+    add r3, r4                       ! r4 = &lut[mode_idx]
+    mov.b @r4, r4                    ! r4 = LOD level for this camera mode (byte)
+    mov.l   .L_camera_offset_base, r2 ! r2 = &camera_LOD_offset_base ptr
+    mov.l @r2, r2                    ! r2 = LOD offset base value
+    bra     .L_apply_lod             ! branch to apply LOD transform
+    add r2, r4                       ! r4 = LOD_base + level (delay slot)
 .L_off_cam_yaw:
-    .2byte  0x01D8                        /* car offset: camera yaw */
+    .2byte  0x01D8                   /* car offset: camera yaw */
 .L_off_cam_roll:
-    .2byte  0x01B4                        /* car offset: camera roll */
+    .2byte  0x01B4                   /* car offset: camera roll */
 .L_off_cam_pitch_a:
-    .2byte  0x01D0                        /* car offset: camera pitch A */
+    .2byte  0x01D0                   /* car offset: camera pitch A */
 .L_off_cam_pitch_b:
-    .2byte  0x01C8                        /* car offset: camera pitch B */
+    .2byte  0x01C8                   /* car offset: camera pitch B */
     .2byte  0xFFFF
 .L_camera_height_offset:
-    .4byte  sym_06078668               /* camera height offset value */
+    .4byte  sym_06078668             /* camera height offset value */
 .L_bank_angle_table_2:
-    .4byte  sym_0605BDCC               /* bank angle offset table (dup for reach) */
+    .4byte  sym_0605BDCC             /* bank angle offset table (dup for reach) */
 .L_fn_rot_y_2:
-    .4byte  mat_rot_y                  /* Y rotation (dup for reach) */
+    .4byte  mat_rot_y                /* Y rotation (dup for reach) */
 .L_camera_follow_flag:
-    .4byte  sym_06059F30               /* camera follow mode flag */
+    .4byte  sym_06059F30             /* camera follow mode flag */
 .L_rot_src_a:
-    .4byte  sym_060621E8               /* rotation source vector A (ptr) */
+    .4byte  sym_060621E8             /* rotation source vector A (ptr) */
 .L_rot_dst_a:
-    .4byte  sym_0606213C               /* rotation dest vector A (ptr) */
+    .4byte  sym_0606213C             /* rotation dest vector A (ptr) */
 .L_fn_vec_copy_a:
-    .4byte  sym_06031D8C               /* vector copy function A */
+    .4byte  sym_06031D8C             /* vector copy function A */
 .L_rot_src_b:
-    .4byte  sym_06062190               /* rotation source vector B (ptr) */
+    .4byte  sym_06062190             /* rotation source vector B (ptr) */
 .L_rot_scale_b:
-    .4byte  sym_06089E44               /* rotation scale factor B (16-bit) */
+    .4byte  sym_06089E44             /* rotation scale factor B (16-bit) */
 .L_rot_dst_b:
-    .4byte  sym_060620E8               /* rotation dest vector B (ptr) */
+    .4byte  sym_060620E8             /* rotation dest vector B (ptr) */
 .L_fn_vec_copy_b:
-    .4byte  sym_06031A28               /* vector copy function B (scaled) */
+    .4byte  sym_06031A28             /* vector copy function B (scaled) */
 .L_fn_camera_pos_2:
-    .4byte  sym_06026E2E               /* camera position (dup for reach) */
+    .4byte  sym_06026E2E             /* camera position (dup for reach) */
 .L_fn_rot_z_2:
-    .4byte  mat_rot_z                  /* Z rotation (dup for reach) */
+    .4byte  mat_rot_z                /* Z rotation (dup for reach) */
 .L_camera_shake_flags:
-    .4byte  sym_06082A25               /* camera shake flags byte */
+    .4byte  sym_06082A25             /* camera shake flags byte */
 .L_camera_lod_lut:
-    .4byte  sym_06044740               /* per-mode LOD lookup table */
+    .4byte  sym_06044740             /* per-mode LOD lookup table */
 .L_camera_offset_base:
-    .4byte  sym_06083258               /* camera LOD offset base (ptr) */
-.L_0600AF5C:                              /* --- default LOD path --- */
+    .4byte  sym_06083258             /* camera LOD offset base (ptr) */
+.L_default_lod:                      /* --- default LOD path --- */
     .byte   0xD4, 0x2B    /* mov.l .L_pool_0600B00C, r4 — cross-TU: default LOD base */
-    mov.l @r4, r4
-.L_0600AF60:
-    jsr @r13                           /* transform_matrix(LOD_param) */
-    nop
-    extu.w r12, r14                   /* r14 = LOD table index * 4 */
+    mov.l @r4, r4                    ! r4 = default LOD base value (dereference)
+.L_apply_lod:
+    jsr @r13                         ! transform_matrix(LOD_param) — apply LOD transform
+    nop                              ! delay slot
+    extu.w r12, r14                  ! r14 = LOD table index (zero-extended to 32-bit)
     .byte   0xD5, 0x2A    /* mov.l .L_pool_0600B010, r5 — cross-TU: chain src A */
     .byte   0xD4, 0x2A    /* mov.l .L_pool_0600B014, r4 — cross-TU: chain dst A */
     .byte   0xD3, 0x2B    /* mov.l .L_pool_0600B018, r3 — cross-TU: chain fn A */
-    shll2 r14                         /* index * 4 */
-    add r14, r5
-    add r14, r4
-    mov.l @r5, r5
-    jsr @r3                            /* chain transform A(dst, src) */
-    mov.l @r4, r4
+    shll2 r14                        ! r14 = index * 4 (stride for pointer arrays)
+    add r14, r5                      ! r5 = &chain_src_a[index]
+    add r14, r4                      ! r4 = &chain_dst_a[index]
+    mov.l @r5, r5                    ! r5 = chain_src_a[index] (dereference)
+    jsr @r3                          ! chain_transform_a(dst, src) — first chain call
+    mov.l @r4, r4                    ! r4 = chain_dst_a[index] (delay slot: dereference)
     .byte   0xD6, 0x28    /* mov.l .L_pool_0600B01C, r6 — cross-TU: chain src B */
     .byte   0xD5, 0x29    /* mov.l .L_pool_0600B020, r5 — cross-TU: chain scale B */
     .byte   0xD4, 0x29    /* mov.l .L_pool_0600B024, r4 — cross-TU: chain dst B */
     .byte   0xD3, 0x2A    /* mov.l .L_pool_0600B028, r3 — cross-TU: chain fn B */
-    add r14, r6
-    mov.w @r5, r5
-    add r14, r4
-    mov.l @r6, r6
-    jsr @r3                            /* chain transform B(dst, src, scale) */
-    mov.l @r4, r4
-.L_0600AF8C:                              /* --- camera counter decrement --- */
+    add r14, r6                      ! r6 = &chain_src_b[index]
+    mov.w @r5, r5                    ! r5 = chain scale factor (16-bit)
+    add r14, r4                      ! r4 = &chain_dst_b[index]
+    mov.l @r6, r6                    ! r6 = chain_src_b[index] (dereference)
+    jsr @r3                          ! chain_transform_b(dst, src, scale) — second chain
+    mov.l @r4, r4                    ! r4 = chain_dst_b[index] (delay slot: dereference)
+.L_counter_decrement:                /* --- camera counter decrement --- */
     .byte   0xD2, 0x27    /* mov.l .L_pool_0600B02C, r2 — cross-TU: game flags */
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600B030, r3 — cross-TU: flag mask */
-    mov.l @r2, r2
-    and r3, r2
-    tst r2, r2
-    bt      .L_0600AF9E              /* flag clear → skip adjustment */
+    mov.l @r2, r2                    ! r2 = game flags value
+    and r3, r2                       ! r2 = flags & adjustment_mask
+    tst r2, r2                       ! test if adjustment flag is set
+    bt      .L_do_decrement          ! if flag clear → skip adjustment call
     .byte   0xD3, 0x26    /* mov.l .L_pool_0600B034, r3 — cross-TU: adjustment fn */
-    jsr @r3
-    nop
-.L_0600AF9E:
+    jsr @r3                          ! call adjustment function
+    nop                              ! delay slot
+.L_do_decrement:
     .byte   0xD4, 0x26    /* mov.l .L_pool_0600B038, r4 — cross-TU: camera counter */
-    mov.l @r4, r2
-    add #-0x30, r2                    /* decrement by 0x30 per frame */
-    mov.l r2, @r4
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    mov.l @r4, r2                    ! r2 = current camera counter value
+    add #-0x30, r2                   ! r2 -= 0x30 (decrement counter by 48 per frame)
+    mov.l r2, @r4                    ! store updated counter
+    lds.l @r15+, pr                  ! restore return address
+    mov.l @r15+, r11                 ! restore r11
+    mov.l @r15+, r12                 ! restore r12
+    mov.l @r15+, r13                 ! restore r13
+    rts                              ! return to caller
+    mov.l @r15+, r14                 ! restore r14 (delay slot)

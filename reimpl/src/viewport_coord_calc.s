@@ -6,135 +6,179 @@
     .section .text.FUN_06005198
 
 
+/*
+ * viewport_coord_calc (FUN_06005198)
+ *
+ * Computes viewport clipping coordinates from the current display list entry
+ * and writes them into the viewport state structure at sym_06063D98.
+ *
+ * Called from the VBlank-OUT handler (vblank_out_handler) every frame.
+ *
+ * Process:
+ *   1. Call display_list_manage(&stack_slot) to obtain a pointer to the
+ *      current display list entry (returned via @r15).
+ *   2. Read two viewport rectangles from the display list entry:
+ *        - Primary rect:   offsets 0x00 (X1), 0x08 (Y1), 0x02 (width1)
+ *        - Secondary rect: offsets 0x12 (X2), 0x1A (Y2), 0x14 (width2)
+ *   3. Bitwise-invert each coordinate (NOT) to convert from complement form.
+ *   4. Read a priority/depth byte from each rect (offset 0x10, 0x22).
+ *   5. Check sym_06059F44:
+ *        - If == 1 (first frame): write coordinates directly to output struct.
+ *        - Otherwise: OR coordinates into existing output struct values
+ *          (accumulating viewport across multiple sources).
+ *   6. If the output struct's flag word (offset 6) == 0x20, clear all 12
+ *      output words to zero (viewport fully occluded / hidden).
+ *
+ * Arguments:
+ *   None (reads from global display list state)
+ *
+ * Returns:
+ *   Nothing (writes to viewport state structure at sym_06063D98)
+ *
+ * Registers:
+ *   r14 = &viewport_state (sym_06063D98, output structure — 16 bytes)
+ *   r13 = secondary rect width (inverted)
+ *   r12 = primary rect Y coordinate (inverted)
+ *   r1  = primary rect X coordinate (inverted)
+ *   r5  = primary rect width (inverted)
+ *   r6  = secondary rect X coordinate (inverted)
+ *   r7  = secondary rect Y coordinate (inverted)
+ *
+ * Pool constants:
+ *   .L_pool_viewport_state   -> sym_06063D98 (viewport output structure)
+ *   .L_pool_display_list_mgr -> display_list_manage (display list accessor)
+ *   .L_pool_frame_flag       -> sym_06059F44 (frame/animation state flag)
+ */
+
     .global viewport_coord_calc
     .type viewport_coord_calc, @function
 viewport_coord_calc:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    sts.l pr, @-r15
-    add #-0x4, r15
-    mov.l   .L_pool_06005220, r14
-    mov.l   .L_pool_06005224, r3
-    jsr @r3
-    mov r15, r4
-    mov.l @r15, r1
-    mov.w @r1, r1
-    extu.w r1, r1
-    not r1, r1
-    extu.w r1, r1
-    mov.l @r15, r12
-    mov.w @(8, r12), r0
-    mov r0, r12
-    extu.w r12, r12
-    not r12, r12
-    extu.w r12, r12
-    mov.l @r15, r5
-    mov.w @(2, r5), r0
-    mov r0, r5
-    not r5, r5
-    extu.w r5, r5
-    mov.l @r15, r4
-    add #0x12, r4
-    mov.w @r4, r6
-    extu.w r6, r6
-    not r6, r6
-    extu.w r6, r6
-    mov.w @(8, r4), r0
-    mov r0, r7
-    extu.w r7, r7
-    not r7, r7
-    extu.w r7, r7
-    mov.w @(2, r4), r0
-    mov r0, r13
-    not r13, r13
-    mov.l   .L_pool_06005228, r0
-    mov.l @r0, r0
-    cmp/eq #0x1, r0
-    bf/s    .L_0600522C
-    extu.w r13, r13
-    mov r14, r4
-    mov.w r1, @r4
-    mov r12, r0
-    mov.w r0, @(2, r4)
-    mov r5, r0
-    mov.w r0, @(4, r4)
-    mov.l @r15, r3
-    mov #0x10, r0
-    mov.b @(r0, r3), r3
-    extu.b r3, r0
-    mov.w r0, @(6, r4)
-    add #0x8, r4
-    mov.w r6, @r4
-    mov r7, r0
-    mov.w r0, @(2, r4)
-    mov r13, r0
-    mov.w r0, @(4, r4)
-    mov.l @r15, r3
-    add #0x12, r3
-    mov #0x10, r0
-    mov.b @(r0, r3), r3
-    extu.b r3, r0
-    bra     .L_06005260
-    mov.w r0, @(6, r4)
-.L_pool_06005220:
+    mov.l r14, @-r15                       ! save r14
+    mov.l r13, @-r15                       ! save r13
+    mov.l r12, @-r15                       ! save r12
+    sts.l pr, @-r15                        ! save return address
+    add #-0x4, r15                         ! allocate 4 bytes on stack for display list ptr
+    mov.l   .L_pool_viewport_state, r14    ! r14 = &viewport_state output struct (sym_06063D98)
+    mov.l   .L_pool_display_list_mgr, r3   ! r3 = &display_list_manage
+    jsr @r3                                ! call display_list_manage(r4) — returns disp list ptr in @r15
+    mov r15, r4                            ! [delay] r4 = &stack_slot (output param for disp list ptr)
+    mov.l @r15, r1                         ! r1 = display list entry pointer (returned by display_list_manage)
+    mov.w @r1, r1                          ! r1 = primary rect X1 word (offset 0x00)
+    extu.w r1, r1                          ! zero-extend X1 to 32-bit
+    not r1, r1                             ! invert X1 (complement decode)
+    extu.w r1, r1                          ! mask to 16-bit: r1 = decoded X1
+    mov.l @r15, r12                        ! r12 = display list entry pointer (reload)
+    mov.w @(8, r12), r0                    ! r0 = primary rect Y1 word (offset 0x08)
+    mov r0, r12                            ! r12 = raw Y1
+    extu.w r12, r12                        ! zero-extend Y1
+    not r12, r12                           ! invert Y1
+    extu.w r12, r12                        ! mask to 16-bit: r12 = decoded Y1
+    mov.l @r15, r5                         ! r5 = display list entry pointer (reload)
+    mov.w @(2, r5), r0                     ! r0 = primary rect width word (offset 0x02)
+    mov r0, r5                             ! r5 = raw width
+    not r5, r5                             ! invert width
+    extu.w r5, r5                          ! mask to 16-bit: r5 = decoded width1
+    mov.l @r15, r4                         ! r4 = display list entry pointer (reload)
+    add #0x12, r4                          ! r4 = &secondary rect base (entry + 0x12)
+    mov.w @r4, r6                          ! r6 = secondary rect X2 word (offset 0x12)
+    extu.w r6, r6                          ! zero-extend X2
+    not r6, r6                             ! invert X2
+    extu.w r6, r6                          ! mask to 16-bit: r6 = decoded X2
+    mov.w @(8, r4), r0                     ! r0 = secondary rect Y2 word (offset 0x1A)
+    mov r0, r7                             ! r7 = raw Y2
+    extu.w r7, r7                          ! zero-extend Y2
+    not r7, r7                             ! invert Y2
+    extu.w r7, r7                          ! mask to 16-bit: r7 = decoded Y2
+    mov.w @(2, r4), r0                     ! r0 = secondary rect width word (offset 0x14)
+    mov r0, r13                            ! r13 = raw width2
+    not r13, r13                           ! invert width2
+    mov.l   .L_pool_frame_flag, r0         ! r0 = &frame_flag (sym_06059F44)
+    mov.l @r0, r0                          ! r0 = current frame flag value
+    cmp/eq #0x1, r0                        ! T = (frame_flag == 1)?
+    bf/s    .L_accumulate_coords           ! if not first frame, OR into existing values
+    extu.w r13, r13                        ! [delay] mask to 16-bit: r13 = decoded width2
+    mov r14, r4                            ! r4 = &viewport_state[0] (output base)
+    mov.w r1, @r4                          ! viewport[0] = decoded X1 (primary)
+    mov r12, r0                            ! r0 = decoded Y1
+    mov.w r0, @(2, r4)                     ! viewport[2] = decoded Y1 (primary)
+    mov r5, r0                             ! r0 = decoded width1
+    mov.w r0, @(4, r4)                     ! viewport[4] = decoded width1 (primary)
+    mov.l @r15, r3                         ! r3 = display list entry pointer (reload)
+    mov #0x10, r0                          ! r0 = 0x10 (priority byte offset in primary rect)
+    mov.b @(r0, r3), r3                    ! r3 = primary rect priority/depth byte
+    extu.b r3, r0                          ! zero-extend priority to 16-bit
+    mov.w r0, @(6, r4)                     ! viewport[6] = priority byte (primary)
+    add #0x8, r4                           ! r4 = &viewport_state[8] (secondary output base)
+    mov.w r6, @r4                          ! viewport[8] = decoded X2 (secondary)
+    mov r7, r0                             ! r0 = decoded Y2
+    mov.w r0, @(2, r4)                     ! viewport[10] = decoded Y2 (secondary)
+    mov r13, r0                            ! r0 = decoded width2
+    mov.w r0, @(4, r4)                     ! viewport[12] = decoded width2 (secondary)
+    mov.l @r15, r3                         ! r3 = display list entry pointer (reload)
+    add #0x12, r3                          ! r3 = &secondary rect base (entry + 0x12)
+    mov #0x10, r0                          ! r0 = 0x10 (priority byte offset in secondary rect)
+    mov.b @(r0, r3), r3                    ! r3 = secondary rect priority/depth byte
+    extu.b r3, r0                          ! zero-extend priority to 16-bit
+    bra     .L_check_occluded              ! jump to occlusion check
+    mov.w r0, @(6, r4)                     ! [delay] viewport[14] = priority byte (secondary)
+.L_pool_viewport_state:
     .4byte  sym_06063D98
-.L_pool_06005224:
+.L_pool_display_list_mgr:
     .4byte  display_list_manage
-.L_pool_06005228:
+.L_pool_frame_flag:
     .4byte  sym_06059F44
-.L_0600522C:
-    mov r14, r4
-    extu.w r1, r1
-    mov.w @r4, r2
-    or r1, r2
-    mov.w r2, @r4
-    extu.w r12, r12
-    mov.w @(2, r4), r0
-    mov r0, r3
-    or r12, r3
-    mov r3, r0
-    mov.w r0, @(2, r4)
-    mov r5, r0
-    mov.w r0, @(4, r4)
-    add #0x8, r4
-    extu.w r6, r6
-    mov.w @r4, r3
-    or r6, r3
-    mov.w r3, @r4
-    extu.w r7, r7
-    mov.w @(2, r4), r0
-    mov r0, r2
-    or r7, r2
-    mov r2, r0
-    mov.w r0, @(2, r4)
-    mov r13, r0
-    mov.w r0, @(4, r4)
-.L_06005260:
-    mov.w @(6, r14), r0
-    extu.w r0, r0
-    cmp/eq #0x20, r0
-    bf      .L_06005288
-    mov #0x0, r4
-    mov r14, r5
-    mov.w r4, @r5
-    extu.w r4, r0
-    mov.w r0, @(2, r5)
-    extu.w r4, r0
-    mov.w r0, @(4, r5)
-    add #0x8, r5
-    extu.w r4, r3
-    mov.w r3, @r5
-    extu.w r4, r2
-    mov r2, r0
-    mov.w r0, @(2, r5)
-    extu.w r4, r4
-    mov r4, r0
-    mov.w r0, @(4, r5)
-.L_06005288:
-    add #0x4, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+.L_accumulate_coords:
+    mov r14, r4                            ! r4 = &viewport_state[0] (output base)
+    extu.w r1, r1                          ! re-mask X1 to 16-bit
+    mov.w @r4, r2                          ! r2 = existing viewport[0]
+    or r1, r2                              ! accumulate X1 via OR
+    mov.w r2, @r4                          ! viewport[0] |= decoded X1
+    extu.w r12, r12                        ! re-mask Y1 to 16-bit
+    mov.w @(2, r4), r0                     ! r0 = existing viewport[2]
+    mov r0, r3                             ! r3 = existing Y1
+    or r12, r3                             ! accumulate Y1 via OR
+    mov r3, r0                             ! r0 = accumulated Y1
+    mov.w r0, @(2, r4)                     ! viewport[2] |= decoded Y1
+    mov r5, r0                             ! r0 = decoded width1
+    mov.w r0, @(4, r4)                     ! viewport[4] = decoded width1 (overwritten, not OR'd)
+    add #0x8, r4                           ! r4 = &viewport_state[8] (secondary output base)
+    extu.w r6, r6                          ! re-mask X2 to 16-bit
+    mov.w @r4, r3                          ! r3 = existing viewport[8]
+    or r6, r3                              ! accumulate X2 via OR
+    mov.w r3, @r4                          ! viewport[8] |= decoded X2
+    extu.w r7, r7                          ! re-mask Y2 to 16-bit
+    mov.w @(2, r4), r0                     ! r0 = existing viewport[10]
+    mov r0, r2                             ! r2 = existing Y2
+    or r7, r2                              ! accumulate Y2 via OR
+    mov r2, r0                             ! r0 = accumulated Y2
+    mov.w r0, @(2, r4)                     ! viewport[10] |= decoded Y2
+    mov r13, r0                            ! r0 = decoded width2
+    mov.w r0, @(4, r4)                     ! viewport[12] = decoded width2 (overwritten, not OR'd)
+.L_check_occluded:
+    mov.w @(6, r14), r0                    ! r0 = viewport[6] (primary priority byte)
+    extu.w r0, r0                          ! zero-extend to 32-bit
+    cmp/eq #0x20, r0                       ! T = (priority == 0x20)?
+    bf      .L_epilogue                    ! if not 0x20, keep coords and return
+    mov #0x0, r4                           ! r4 = 0 (clear value)
+    mov r14, r5                            ! r5 = &viewport_state[0]
+    mov.w r4, @r5                          ! viewport[0] = 0 (clear X1)
+    extu.w r4, r0                          ! r0 = 0
+    mov.w r0, @(2, r5)                     ! viewport[2] = 0 (clear Y1)
+    extu.w r4, r0                          ! r0 = 0
+    mov.w r0, @(4, r5)                     ! viewport[4] = 0 (clear width1)
+    add #0x8, r5                           ! r5 = &viewport_state[8]
+    extu.w r4, r3                          ! r3 = 0
+    mov.w r3, @r5                          ! viewport[8] = 0 (clear X2)
+    extu.w r4, r2                          ! r2 = 0
+    mov r2, r0                             ! r0 = 0
+    mov.w r0, @(2, r5)                     ! viewport[10] = 0 (clear Y2)
+    extu.w r4, r4                          ! r4 = 0
+    mov r4, r0                             ! r0 = 0
+    mov.w r0, @(4, r5)                     ! viewport[12] = 0 (clear width2)
+.L_epilogue:
+    add #0x4, r15                          ! free stack slot
+    lds.l @r15+, pr                        ! restore return address
+    mov.l @r15+, r12                       ! restore r12
+    mov.l @r15+, r13                       ! restore r13
+    rts                                    ! return
+    mov.l @r15+, r14                       ! [delay] restore r14
