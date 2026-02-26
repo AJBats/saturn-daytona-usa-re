@@ -9,39 +9,39 @@
     .global sys_dma_channel_init
     .type sys_dma_channel_init, @function
 sys_dma_channel_init:
-    mov.l r14, @-r15
-    mov r4, r14
-    add #-0x4, r15
-    mov.l   .L_pool_0603B920, r4
-    mov.w   .L_wpool_0603B91C, r0
-    mov.l @r4, r3
-    mov.l @(r0, r3), r2
-    cmp/eq r14, r2
-    bf      .L_0603B8EE
-    mov.l @r4, r2
-    mov #0x0, r3
-    mov.w   .L_wpool_0603B91C, r0
-    mov.l r3, @(r0, r2)
-    mov.l @r4, r3
-    mov #0x10, r0
-    mov.b @(r0, r14), r2
-    extu.b r2, r2
-    shll2 r2
-    shll2 r2
-    add #0x4, r3
-    add r3, r2
-    mov.l r2, @r15
-    mov r2, r3
-    mov.l @(4, r3), r3
-    mov #0x1, r5
-    mov.l @r14, r4
-    add #0x4, r15
-    jmp @r3
-    mov.l @r15+, r14
-.L_0603B8EE:
-    add #0x4, r15
-    rts
-    mov.l @r15+, r14
+    mov.l r14, @-r15                        ! save r14 (callee-saved)
+    mov r4, r14                             ! r14 = timer block pointer
+    add #-0x4, r15                          ! allocate 4 bytes on stack
+    mov.l   .L_pool_game_state_ptr, r4      ! r4 = &game_state_ptr (sym_060A4D14)
+    mov.w   .L_wpool_0603B91C, r0           ! r0 = 0xA8 (channel slot offset)
+    mov.l @r4, r3                           ! r3 = game_state base pointer
+    mov.l @(r0, r3), r2                     ! r2 = game_state+0xA8 (registered block ptr)
+    cmp/eq r14, r2                          ! is this block currently registered?
+    bf      .L_not_registered               ! if not registered, skip to early exit
+    mov.l @r4, r2                           ! r2 = game_state base pointer
+    mov #0x0, r3                            ! r3 = 0 (clear value)
+    mov.w   .L_wpool_0603B91C, r0           ! r0 = 0xA8 (channel slot offset)
+    mov.l r3, @(r0, r2)                     ! game_state+0xA8 = 0 (unregister block)
+    mov.l @r4, r3                           ! r3 = game_state base pointer
+    mov #0x10, r0                           ! r0 = 0x10 (channel type byte offset)
+    mov.b @(r0, r14), r2                    ! r2 = block[0x10] (channel type index)
+    extu.b r2, r2                           ! zero-extend type to 32-bit
+    shll2 r2                                ! r2 <<= 2 (type * 4)
+    shll2 r2                                ! r2 <<= 2 (type * 16, dispatch table stride)
+    add #0x4, r3                            ! r3 = game_state + 4 (dispatch table base)
+    add r3, r2                              ! r2 = &dispatch_table[type] (entry address)
+    mov.l r2, @r15                          ! save dispatch entry ptr on stack
+    mov r2, r3                              ! r3 = dispatch entry ptr
+    mov.l @(4, r3), r3                      ! r3 = entry+4 (handler function pointer)
+    mov #0x1, r5                            ! r5 = 1 (handler arg: init mode)
+    mov.l @r14, r4                          ! r4 = block+0 (callback_a, passed to handler)
+    add #0x4, r15                           ! free stack frame
+    jmp @r3                                 ! tail-call channel handler
+    mov.l @r15+, r14                        ! (delay) restore r14
+.L_not_registered:
+    add #0x4, r15                           ! free stack frame
+    rts                                     ! return (block not registered, nothing to do)
+    mov.l @r15+, r14                        ! (delay) restore r14
     .4byte  0x7FFC2F42
     .4byte  0xD4099010
     .4byte  0x6342023E
@@ -58,7 +58,7 @@ sys_dma_channel_init:
     .global DAT_0603b91e
 DAT_0603b91e:
     .2byte  0x00B4
-.L_pool_0603B920:
+.L_pool_game_state_ptr:
     .4byte  sym_060A4D14
     .4byte  race_timer_sync
     .4byte  0x000B7F04

@@ -9,35 +9,35 @@
     .global seg_interpolate
     .type seg_interpolate, @function
 seg_interpolate:
-    sts.l pr, @-r15
-    add #-0x10, r15
-    mov r15, r4
-    mov.l   .L_pool_060361F4, r3
-    jsr @r3
-    add #0x8, r4
-    mov r15, r2
-    mov #0x32, r3
-    mov r15, r6
-    mov r15, r5
-    add #0x8, r2
-    add #0x8, r5
-    mov.b r3, @r2
-    mov.l   .L_pool_060361F8, r3
-    jsr @r3
-    mov #0x0, r4
-    mov r0, r4
-    mov r15, r2
-    mov.b @(4, r2), r0
-    mov r0, r3
-    extu.b r3, r3
-    mov r4, r0
-    mov.l r3, @r14
-    add #0x10, r15
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-    .2byte  0xFFFF
-.L_pool_060361F4:
-    .4byte  input_proc_analog
-.L_pool_060361F8:
-    .4byte  input_proc_digital
+    sts.l pr, @-r15                              ! save return address
+    add #-0x10, r15                              ! allocate 16-byte local buffer on stack
+    mov r15, r4                                  ! r4 = &buffer[0]
+    mov.l   .L_fn_input_proc_analog, r3          ! r3 = input_proc_analog
+    jsr @r3                                      ! input_proc_analog(&buffer[8])
+    add #0x8, r4                                 ! r4 = &buffer[8] (delay slot)
+    mov r15, r2                                  ! r2 = &buffer[0]
+    mov #0x32, r3                                ! r3 = 0x32 (input type: segment query)
+    mov r15, r6                                  ! r6 = &buffer[0] (output dest)
+    mov r15, r5                                  ! r5 = &buffer[0]
+    add #0x8, r2                                 ! r2 = &buffer[8]
+    add #0x8, r5                                 ! r5 = &buffer[8] (input src)
+    mov.b r3, @r2                                ! buffer[8] = 0x32 (set input type)
+    mov.l   .L_fn_input_proc_digital, r3         ! r3 = input_proc_digital
+    jsr @r3                                      ! input_proc_digital(0, &buffer[8], &buffer[0])
+    mov #0x0, r4                                 ! r4 = 0 (player index, delay slot)
+    mov r0, r4                                   ! r4 = digital input result
+    mov r15, r2                                  ! r2 = &buffer[0]
+    mov.b @(4, r2), r0                           ! r0 = buffer[4] (interpolated segment byte)
+    mov r0, r3                                   ! r3 = raw byte value
+    extu.b r3, r3                                ! r3 = zero-extend to 32-bit
+    mov r4, r0                                   ! r0 = digital input result (return value)
+    mov.l r3, @r14                               ! *r14 = segment value (write to caller output)
+    add #0x10, r15                               ! deallocate local buffer
+    lds.l @r15+, pr                              ! restore return address
+    rts                                          ! return
+    mov.l @r15+, r14                             ! restore r14 (delay slot)
+    .2byte  0xFFFF                               ! alignment padding
+.L_fn_input_proc_analog:
+    .4byte  input_proc_analog                    ! analog input processor
+.L_fn_input_proc_digital:
+    .4byte  input_proc_digital                   ! digital input processor
