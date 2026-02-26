@@ -26,56 +26,56 @@
     .global nmi_handler
     .type nmi_handler, @function
 nmi_handler:
-    sts.l pr, @-r15
-    add #-0xC, r15
-    cmp/pz r4                          /* slot >= 0? */
-    bf      .L_0604141C
-    mov #0x18, r2                      /* slot < 24? */
-    cmp/ge r2, r4
-    bf      .L_06041424
-.L_0604141C:
-    add #0xC, r15                      /* out of range → return -6 */
-    lds.l @r15+, pr
-    rts
-    mov #-0x6, r0
-.L_06041424:
+    sts.l pr, @-r15                       ! save return address
+    add #-0xC, r15                        ! allocate 0xC bytes of stack frame
+    cmp/pz r4                             ! slot >= 0?
+    bf      .L_slot_out_of_range          ! no → out of range
+    mov #0x18, r2                         ! r2 = 0x18 (max slot count)
+    cmp/ge r2, r4                         ! slot >= 24?
+    bf      .L_check_occupancy            ! no → slot in range, check occupancy
+.L_slot_out_of_range:
+    add #0xC, r15                         ! deallocate stack frame
+    lds.l @r15+, pr                       ! restore return address
+    rts                                   ! return
+    mov #-0x6, r0                         ! r0 = -6 (out of range error)
+.L_check_occupancy:
     .byte   0xD0, 0x09    /* mov.l .L_ai_state_base, r0 */
-    mov.l @r0, r0                      /* r0 = AI state base (indirect) */
-    mov.b @(r0, r4), r3               /* check occupancy: state[slot] */
-    tst r3, r3
-    bf      .L_06041436               /* slot occupied → proceed */
-    add #0xC, r15                      /* slot empty → return -7 */
-    lds.l @r15+, pr
-    rts
-    mov #-0x7, r0
-.L_06041436:
+    mov.l @r0, r0                         ! r0 = AI state base (indirect load)
+    mov.b @(r0, r4), r3                   ! r3 = state[slot] occupancy byte
+    tst r3, r3                            ! occupancy == 0?
+    bf      .L_compute_distance           ! no → slot occupied, proceed
+    add #0xC, r15                         ! deallocate stack frame
+    lds.l @r15+, pr                       ! restore return address
+    rts                                   ! return
+    mov #-0x7, r0                         ! r0 = -7 (slot empty error)
+.L_compute_distance:
     .byte   0xD3, 0x06    /* mov.l .L_fn_track_dist, r3 */
-    jsr @r3                            /* compute track distance */
-    nop
-    mov r0, r4                         /* r4 = distance result */
-    tst r4, r4
-    bt      .L_06041454               /* success → write result */
-    add #0xC, r15                      /* distance failed → return -10 */
-    lds.l @r15+, pr
-    rts
-    mov #-0xA, r0
-    .2byte  0x0348                        /* (adjacent data: offset constant) */
+    jsr @r3                               ! call track_dist_stub
+    nop                                   ! delay slot
+    mov r0, r4                            ! r4 = distance result
+    tst r4, r4                            ! distance result == 0?
+    bt      .L_write_result               ! yes → success, write result
+    add #0xC, r15                         ! deallocate stack frame
+    lds.l @r15+, pr                       ! restore return address
+    rts                                   ! return
+    mov #-0xA, r0                         ! r0 = -10 (distance computation failed)
+    .2byte  0x0348                        ! (adjacent data: offset constant)
 .L_ai_state_base:
-    .4byte  sym_060A5400               /* AI state base structure pointer */
+    .4byte  sym_060A5400                  ! AI state base structure pointer
 .L_fn_track_dist:
-    .4byte  track_dist_stub            /* track distance computation */
-.L_06041454:                              /* --- success: write result --- */
+    .4byte  track_dist_stub               ! track distance computation function
+.L_write_result:
     .byte   0xD3, 0x1C    /* mov.l .L_pool_060414C8, r3 — external fn (cross-TU) */
-    jsr @r3                            /* call result parser */
-    mov r15, r4                        /* pass stack as output buffer */
+    jsr @r3                               ! call result parser
+    mov r15, r4                           ! delay slot: pass stack as output buffer
     .byte   0xD2, 0x1C    /* mov.l .L_pool_060414CC, r2 — AI state ptr (cross-TU) */
-    mov.l @r2, r2                      /* r2 = AI state base */
-    mov r15, r3
-    mov.b @r3, r1                      /* read parsed result from stack */
-    mov #0x40, r0
-    mov.b r1, @(r0, r2)               /* write to AI state[+0x40] */
-    mov #0x0, r0                       /* return 0 (success) */
-    add #0xC, r15
-    lds.l @r15+, pr
-    rts
-    nop
+    mov.l @r2, r2                         ! r2 = AI state base
+    mov r15, r3                           ! r3 = stack pointer (output buffer)
+    mov.b @r3, r1                         ! r1 = parsed result byte from stack
+    mov #0x40, r0                         ! r0 = 0x40 (offset into AI state)
+    mov.b r1, @(r0, r2)                   ! write result to AI state[+0x40]
+    mov #0x0, r0                          ! r0 = 0 (success)
+    add #0xC, r15                         ! deallocate stack frame
+    lds.l @r15+, pr                       ! restore return address
+    rts                                   ! return
+    nop                                   ! delay slot
