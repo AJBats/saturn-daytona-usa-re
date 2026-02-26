@@ -21,20 +21,20 @@
     .global disc_error_handler
     .type disc_error_handler, @function
 disc_error_handler:
-    sts.l pr, @-r15
+    sts.l pr, @-r15               ! save return address
     .byte   0xD3, 0x12    /* mov.l .L_cd_status, r3 */
-    mov.w @r3, r2                     /* r2 = CD status word */
-    mov.w   .L_err_mask_fatal, r3     /* 0x0100 = bit 8 (fatal error) */
-    extu.w r2, r2
-    and r3, r2
-    tst r2, r2
-    bt      .L_0601B530              /* no fatal error → check recoverable */
-    mov #0x1, r3                      /* fatal error path */
+    mov.w @r3, r2                 ! r2 = CD status word
+    mov.w   .L_err_mask_fatal, r3 ! r3 = 0x0100 — bit 8 mask (fatal error)
+    extu.w r2, r2                 ! zero-extend status to 32 bits
+    and r3, r2                    ! isolate fatal error bit
+    tst r2, r2                    ! test if fatal bit is set
+    bt      .L_check_recoverable  ! no fatal error → check recoverable
+    mov #0x1, r3                  ! r3 = 1 (error flag value)
     .byte   0xD2, 0x0F    /* mov.l .L_error_flag, r2 */
-    mov.b r3, @r2                     /* set error flag = 1 */
+    mov.b r3, @r2                 ! set error flag = 1
     .byte   0xD3, 0x0F    /* mov.l .L_fn_init_reset, r3 */
-    jmp @r3                           /* jump to handler_init_reset (no return) */
-    lds.l @r15+, pr
+    jmp @r3                       ! jump to handler_init_reset (no return)
+    lds.l @r15+, pr               ! delay slot: restore PR
     .2byte  0x0080                      /* padding */
 .L_err_mask_fatal:
     .2byte  0x0100                      /* CD status bit 8: fatal disc error */
@@ -56,43 +56,43 @@ disc_error_handler:
     .4byte  sym_0608600C               /* disc error flag (byte) */
 .L_fn_init_reset:
     .4byte  handler_init_reset         /* system reset handler */
-.L_0601B530:
-    .byte   0xB1, 0x60    /* bsr 0x0601B7F4 (external) — palette setup for error screen */
-    nop
-    .byte   0xB0, 0xD2    /* bsr 0x0601B6DC (external) — display setup for error screen */
-    nop
+.L_check_recoverable:
+    .byte   0xB1, 0x60    /* bsr 0x0601B7F4 — palette setup for error screen */
+    nop                               ! delay slot
+    .byte   0xB0, 0xD2    /* bsr 0x0601B6DC — display setup for error screen */
+    nop                               ! delay slot
     .byte   0xD2, 0x0D    /* mov.l .L_cd_status_2, r2 */
-    mov.w @r2, r3                     /* re-read CD status */
-    mov.w   .L_err_mask_recov, r2     /* 0x0E00 = bits 11:9 (recoverable errors) */
-    extu.w r3, r3
-    and r2, r3
-    tst r3, r3
-    bt      .L_0601B560              /* no recoverable error → return */
+    mov.w @r2, r3                     ! r3 = re-read CD status word
+    mov.w   .L_err_mask_recov, r2     ! r2 = 0x0E00 — bits 11:9 (recoverable errors)
+    extu.w r3, r3                     ! zero-extend status to 32 bits
+    and r2, r3                        ! isolate recoverable error bits
+    tst r3, r3                        ! test if any recoverable error set
+    bt      .L_return                 ! no recoverable error → return
     .byte   0xD0, 0x0B    /* mov.l .L_disc_type, r0 */
-    mov.b @r0, r0                     /* check disc type */
-    cmp/eq #0x2, r0                   /* type 2 = game disc */
-    bf      .L_0601B55A              /* not game disc → set error code 2 */
-    mov #0x1, r2                      /* game disc removed → fatal reset */
+    mov.b @r0, r0                     ! r0 = disc type byte
+    cmp/eq #0x2, r0                   ! type 2 = game disc?
+    bf      .L_wrong_disc             ! not game disc → set error code 2
+    mov #0x1, r2                      ! r2 = 1 (error flag value)
     .byte   0xD3, 0x09    /* mov.l .L_error_flag_2, r3 */
-    mov.b r2, @r3                     /* set error flag = 1 */
+    mov.b r2, @r3                     ! set error flag = 1 (game disc removed)
     .byte   0xD3, 0x09    /* mov.l .L_fn_init_reset_2, r3 */
-    jmp @r3                           /* jump to handler_init_reset */
-    lds.l @r15+, pr
-.L_0601B55A:
-    mov #0x2, r2                      /* set error code = 2 (wrong disc) */
+    jmp @r3                           ! jump to handler_init_reset (no return)
+    lds.l @r15+, pr                   ! delay slot: restore PR
+.L_wrong_disc:
+    mov #0x2, r2                      ! r2 = 2 (wrong disc error code)
     .byte   0xD3, 0x08    /* mov.l .L_error_code, r3 */
-    mov.b r2, @r3
-.L_0601B560:
-    lds.l @r15+, pr
-    rts
-    nop
+    mov.b r2, @r3                     ! store error code = 2
+.L_return:
+    lds.l @r15+, pr                   ! restore return address
+    rts                               ! return to caller
+    nop                               ! delay slot
 
     .global loc_0601B566
-loc_0601B566:                             /* disc removed/unreadable — set error code 3 */
-    mov #0x3, r3
+loc_0601B566:                             ! disc removed/unreadable — set error code 3
+    mov #0x3, r3                      ! r3 = 3 (disc removed error code)
     .byte   0xD2, 0x05    /* mov.l .L_error_code, r2 */
-    rts
-    mov.b r3, @r2                     /* error code = 3 */
+    rts                               ! return to caller
+    mov.b r3, @r2                     ! delay slot: store error code = 3
 .L_err_mask_recov:
     .2byte  0x0E00                      /* CD status bits 11:9: recoverable errors */
 .L_cd_status_2:

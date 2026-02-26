@@ -9,31 +9,31 @@
     .global course_preview_elem
     .type course_preview_elem, @function
 course_preview_elem:
-    sts.l pr, @-r15
+    sts.l pr, @-r15             ! save return address
     .byte   0xB0, 0x24    /* bsr 0x060336C8 (external) */
-    nop
-    lds.l @r15+, pr
-.L_06033682:
+    nop                         ! delay slot
+    lds.l @r15+, pr             ! restore return address
+.L_search_loop:
     .byte   0xD5, 0x10    /* mov.l .L_pool_060336C4, r5 */
-    add r5, r0
-    mov.l @(r0, r2), r3
-    cmp/eq r4, r3
-    bt      .L_06033692
-    add #-0x1, r6
-    cmp/pl r6
-    bt      .L_06033682
-.L_06033692:
-    mov #0x6, r2
+    add r5, r0                  ! r0 = element array base + offset
+    mov.l @(r0, r2), r3         ! r3 = element ID at current index
+    cmp/eq r4, r3               ! compare with target element ID
+    bt      .L_match_found      ! found matching element
+    add #-0x1, r6               ! decrement search counter
+    cmp/pl r6                   ! more entries to check?
+    bt      .L_search_loop      ! continue searching
+.L_match_found:
+    mov #0x6, r2                ! r2 = default display command (6)
     .byte   0xD3, 0x7A    /* mov.l .L_pool_06033880, r3 */
-    mov.b @r3, r3
-    cmp/pl r3
-    bt      .L_060336AA
-    mov.l r0, @-r15
-    mov #0x1, r0
-    cmp/ge r4, r0
-    mov.l @r15+, r0
-    bf      .L_060336AA
-    shll2 r4
-    add r4, r2
-.L_060336AA:
-    mov.w r2, @-r1
+    mov.b @r3, r3               ! r3 = display enable flag
+    cmp/pl r3                   ! display enabled? (flag > 0)
+    bt      .L_write_cmd        ! yes -- use default command
+    mov.l r0, @-r15             ! save r0 (array offset)
+    mov #0x1, r0                ! r0 = 1
+    cmp/ge r4, r0               ! element ID <= 1?
+    mov.l @r15+, r0             ! restore r0
+    bf      .L_write_cmd        ! element ID > 1 -- use default
+    shll2 r4                    ! r4 *= 4 (scale to command offset)
+    add r4, r2                  ! r2 = adjusted display command
+.L_write_cmd:
+    mov.w r2, @-r1              ! write display command word to output
