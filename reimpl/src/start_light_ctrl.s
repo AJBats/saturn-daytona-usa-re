@@ -32,77 +32,77 @@
     .global start_light_ctrl
     .type start_light_ctrl, @function
 start_light_ctrl:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    sts.l pr, @-r15
-    add #-0x4, r15
+    mov.l r14, @-r15                      ! save r14 on stack
+    mov.l r13, @-r15                      ! save r13 on stack
+    sts.l pr, @-r15                       ! save return address on stack
+    add #-0x4, r15                        ! allocate 4 bytes of local storage
     .byte   0xD3, 0x21    /* mov.l .L_light_state, r3 */
-    mov.w @r3, r2                     /* read traffic light state (16-bit) */
-    extu.w r2, r2
-    mov.w   .L_light_bits_mask, r3    /* 0x0600 = bits 10:9 */
-    and r3, r2
-    tst r2, r2
-    bt/s    .L_0601A1FE               /* bits clear → skip state change */
-    mov #0x0, r14                      /* r14 = 0 (phase reset value) */
-    .byte   0xD4, 0x1B    /* mov.l .L_frame_ctr_a, r4 */
-    mov.b @r4, r3                     /* increment frame counter A */
-    add #0x1, r3
-    mov.b r3, @r4
+    mov.w @r3, r2                         ! read traffic light state (16-bit)
+    extu.w r2, r2                         ! zero-extend to 32-bit
+    mov.w   .L_light_bits_mask, r3        ! r3 = 0x0600 (light change bits 10:9)
+    and r3, r2                            ! isolate light change bits
+    tst r2, r2                            ! test if light change bits are clear
+    bt/s    .L_check_anim_phase           ! bits clear → skip state change, go to animation
+    mov #0x0, r14                         ! r14 = 0 (delay slot: phase reset value)
+    .byte   0xD4, 0x1B    /* mov.l .L_pool_frame_ctr_a, r4 */
+    mov.b @r4, r3                         ! load frame counter A
+    add #0x1, r3                          ! increment frame counter A
+    mov.b r3, @r4                         ! store incremented frame counter A
     .byte   0xD4, 0x1C    /* mov.l .L_frame_ctr_b, r4 */
-    mov.b @r4, r2                     /* increment frame counter B */
-    add #0x1, r2
-    mov.b r2, @r4
+    mov.b @r4, r2                         ! load frame counter B
+    add #0x1, r2                          ! increment frame counter B
+    mov.b r2, @r4                         ! store incremented frame counter B
     .byte   0xD2, 0x1B    /* mov.l .L_reset_byte, r2 */
-    mov.b r14, @r2                     /* clear reset byte = 0 */
+    mov.b r14, @r2                        ! clear reset byte = 0
     .byte   0xD2, 0x1B    /* mov.l .L_timer_word, r2 */
-    mov.l r14, @r2                     /* clear timer = 0 */
+    mov.l r14, @r2                        ! clear animation timer = 0
     .byte   0xD4, 0x1B    /* mov.l .L_ctrl_flags, r4 */
     .byte   0xD1, 0x1B    /* mov.l .L_sign_bit, r1 */
     .byte   0xD3, 0x1C    /* mov.l .L_fn_state_handler, r3 */
-    mov.l @r4, r2
-    or r1, r2                          /* set sign bit (0x80000000) */
-    jsr @r3                            /* call state handler */
-    mov.l r2, @r4                      /* store updated flags */
-    mov #0x1, r2
+    mov.l @r4, r2                         ! load current control flags
+    or r1, r2                             ! set sign bit (0x80000000) in flags
+    jsr @r3                               ! call light state change handler
+    mov.l r2, @r4                         ! delay slot: store updated control flags
+    mov #0x1, r2                          ! r2 = 1 (active)
     .byte   0xD3, 0x1A    /* mov.l .L_active_flag, r3 */
-    mov.b r2, @r3                      /* set active flag = 1 */
-.L_0601A1FE:                              /* --- animation rendering --- */
-    mov #0x8, r3
+    mov.b r2, @r3                         ! set light active flag = 1
+.L_check_anim_phase:                      ! --- animation rendering ---
+    mov #0x8, r3                          ! r3 = 8 (early/late phase threshold)
     .byte   0xDD, 0x19    /* mov.l .L_anim_phase, r13 */
-    mov.b @r13, r2                     /* read animation phase counter */
-    extu.b r2, r2
-    cmp/ge r3, r2
-    bt      .L_0601A278               /* phase >= 8 → late animation */
+    mov.b @r13, r2                        ! read animation phase counter
+    extu.b r2, r2                         ! zero-extend phase to 32-bit
+    cmp/ge r3, r2                         ! compare: phase >= 8?
+    bt      .L_late_anim_phase            ! phase >= 8 → late animation path
     .byte   0xD7, 0x18    /* mov.l .L_vdp1_table_early, r7 */
-    mov.w   .L_vdp1_offset, r6        /* r6 = 0x0090 (VDP1 cmd offset) */
+    mov.w   .L_vdp1_offset, r6           ! r6 = 0x0090 (VDP1 cmd table offset)
     .byte   0xD3, 0x18    /* mov.l .L_anim_data, r3 */
-    mov.l r3, @r15
-    mov r3, r5
-    add #0xD, r5                       /* r5 → anim_data[+13] (sprite row) */
-    add #0xC, r3                       /* r3 → anim_data[+12] (sprite col) */
-    mov.b @r5, r5
-    mov.b @r3, r3
-    extu.b r5, r5
-    extu.b r3, r3
-    shll2 r5                           /* row * 4 */
-    shll2 r5                           /* row * 16 */
-    shll2 r5                           /* row * 64 */
-    add r3, r5                         /* + col */
-    add #0xD, r5                       /* + 13 (offset into sprite sheet) */
-    shll r5                            /* * 2 (16-bit entries) */
-    mov #0xC, r4                       /* draw mode = 0x0C */
-    add #0x4, r15                      /* --- tail-call VDP1 draw --- */
-    lds.l @r15+, pr
-    mov.l @r15+, r13
+    mov.l r3, @r15                        ! save anim data base pointer to local
+    mov r3, r5                            ! r5 = anim data base address
+    add #0xD, r5                          ! r5 → anim_data[+13] (sprite row byte)
+    add #0xC, r3                          ! r3 → anim_data[+12] (sprite col byte)
+    mov.b @r5, r5                         ! load sprite row index
+    mov.b @r3, r3                         ! load sprite col index
+    extu.b r5, r5                         ! zero-extend row
+    extu.b r3, r3                         ! zero-extend col
+    shll2 r5                              ! row * 4
+    shll2 r5                              ! row * 16
+    shll2 r5                              ! row * 64
+    add r3, r5                            ! + col offset
+    add #0xD, r5                          ! + 13 (base offset into sprite sheet)
+    shll r5                               ! * 2 (convert to 16-bit entry index)
+    mov #0xC, r4                          ! r4 = 0x0C (VDP1 draw mode)
+    add #0x4, r15                         ! --- tail-call VDP1 draw ---
+    lds.l @r15+, pr                       ! restore return address
+    mov.l @r15+, r13                      ! restore r13
     .byte   0xD3, 0x0F    /* mov.l .L_fn_vdp1_draw, r3 */
-    jmp @r3                            /* tail-call: VDP1 sprite draw */
-    mov.l @r15+, r14
+    jmp @r3                               ! tail-call: VDP1 sprite draw
+    mov.l @r15+, r14                      ! delay slot: restore r14
 .L_light_bits_mask:
     .2byte  0x0600                        /* traffic light state bits 10:9 */
 .L_vdp1_offset:
     .2byte  0x0090                        /* VDP1 command table offset */
     .2byte  0xFFFF
-.L_pool_0601A240:
+.L_pool_frame_ctr_a:
     .4byte  sym_06085FF2               /* frame counter A (byte) */
     .4byte  sym_0605D280               /* (adjacent data) */
 .L_light_state:
@@ -129,39 +129,39 @@ start_light_ctrl:
     .4byte  sym_06049AFC               /* animation data struct (sprite indices) */
 .L_fn_vdp1_draw:
     .4byte  sym_060284AE               /* VDP1 sprite draw function */
-.L_0601A278:                              /* --- late animation phase (>= 8) --- */
+.L_late_anim_phase:                       ! --- late animation phase (>= 8) ---
     .byte   0xD7, 0x25    /* mov.l .L_vdp1_table_late, r7 */
     .byte   0x96, 0x48    /* mov.w .L_wpool_0601A30E, r6 */
     .byte   0xD2, 0x25    /* mov.l .L_anim_data_late, r2 */
-    mov.l @r7, r7                      /* r7 = VDP1 table (late phase, indirect) */
-    mov r2, r5
-    mov r2, r3
-    mov.l r2, @r15
-    add #0xD, r5                       /* anim_data[+13] */
-    add #0xC, r3                       /* anim_data[+12] */
-    mov.b @r5, r5
-    mov.b @r3, r3
-    extu.b r5, r5
-    extu.b r3, r3
-    shll2 r5
-    shll2 r5
-    shll2 r5
-    add r3, r5
-    add #0xD, r5
+    mov.l @r7, r7                         ! dereference: r7 = VDP1 table pointer (late phase)
+    mov r2, r5                            ! r5 = anim data base address (for row)
+    mov r2, r3                            ! r3 = anim data base address (for col)
+    mov.l r2, @r15                        ! save anim data base pointer to local
+    add #0xD, r5                          ! r5 → anim_data[+13] (sprite row byte)
+    add #0xC, r3                          ! r3 → anim_data[+12] (sprite col byte)
+    mov.b @r5, r5                         ! load sprite row index
+    mov.b @r3, r3                         ! load sprite col index
+    extu.b r5, r5                         ! zero-extend row
+    extu.b r3, r3                         ! zero-extend col
+    shll2 r5                              ! row * 4
+    shll2 r5                              ! row * 16
+    shll2 r5                              ! row * 64
+    add r3, r5                            ! + col offset
+    add #0xD, r5                          ! + 13 (base offset into sprite sheet)
     .byte   0xD3, 0x1E    /* mov.l .L_fn_vdp1_draw_late, r3 */
-    shll r5
-    jsr @r3                            /* draw late-phase sprite */
-    mov #0xC, r4
-    mov.b @r13, r2                     /* check if phase > 16 */
-    mov #0x10, r3
-    extu.b r2, r2
-    cmp/gt r3, r2
-    bf      .L_0601A2B2               /* phase <= 16 → keep going */
-    extu.b r14, r3                     /* phase > 16: reset to 0 */
-    mov.b r3, @r13
-.L_0601A2B2:
-    add #0x4, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    shll r5                               ! * 2 (convert to 16-bit entry index)
+    jsr @r3                               ! call VDP1 sprite draw (late phase)
+    mov #0xC, r4                          ! delay slot: draw mode = 0x0C
+    mov.b @r13, r2                        ! reload animation phase counter
+    mov #0x10, r3                         ! r3 = 16 (cycle wrap threshold)
+    extu.b r2, r2                         ! zero-extend phase
+    cmp/gt r3, r2                         ! compare: phase > 16?
+    bf      .L_epilogue                   ! phase <= 16 → skip reset, exit
+    extu.b r14, r3                        ! r3 = 0 (from r14, zero-extended)
+    mov.b r3, @r13                        ! reset animation phase counter to 0
+.L_epilogue:                              ! --- function epilogue ---
+    add #0x4, r15                         ! free local storage
+    lds.l @r15+, pr                       ! restore return address
+    mov.l @r15+, r13                      ! restore r13
+    rts                                   ! return to caller
+    mov.l @r15+, r14                      ! delay slot: restore r14
