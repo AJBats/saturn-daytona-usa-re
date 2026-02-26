@@ -9,34 +9,34 @@
     .global obj_render_prepare
     .type obj_render_prepare, @function
 obj_render_prepare:
-    mov.l   .L_pool_06020E70, r7
-    mov #0x10, r6
-    mov #0x0, r5
-.L_06020E42:
-    extu.b r4, r3
-    extu.b r5, r2
-    mov r2, r1
-    shll2 r2
-    shll2 r1
-    shll2 r1
-    shll2 r1
-    add r1, r2
-    exts.w r2, r2
-    add r7, r2
-    mov.b @r2, r2
-    extu.b r2, r2
-    cmp/eq r2, r3
-    bf      .L_06020E62
-    bra     .L_06020E6A
-    nop
-.L_06020E62:
-    add #0x1, r5
-    extu.b r5, r2
-    cmp/ge r6, r2
-    bf      .L_06020E42
-.L_06020E6A:
-    rts
-    extu.b r5, r0
-    .2byte  0xFFFF
-.L_pool_06020E70:
+    mov.l   .L_pool_slot_array_base, r7    ! r7 = &slot_array base (sym_0608782C)
+    mov #0x10, r6                          ! r6 = 0x10 (max slot count = 16)
+    mov #0x0, r5                           ! r5 = 0x0 (slot index, starts at 0)
+.L_search_loop:
+    extu.b r4, r3                          ! r3 = target type byte (zero-extended from r4)
+    extu.b r5, r2                          ! r2 = current slot index (zero-extended)
+    mov r2, r1                             ! r1 = slot index (copy for stride calc)
+    shll2 r2                               ! r2 = slot * 4
+    shll2 r1                               ! r1 = slot * 4
+    shll2 r1                               ! r1 = slot * 16
+    shll2 r1                               ! r1 = slot * 64
+    add r1, r2                             ! r2 = slot*4 + slot*64 = slot*68 (byte offset)
+    exts.w r2, r2                          ! r2 = sign-extend offset to 32-bit
+    add r7, r2                             ! r2 = &slot_array[slot*68] (pointer to slot)
+    mov.b @r2, r2                          ! r2 = slot[0] (type byte from slot header)
+    extu.b r2, r2                          ! r2 = zero-extend type byte
+    cmp/eq r2, r3                          ! compare slot type with target type
+    bf      .L_no_match                    ! if not equal, try next slot
+    bra     .L_found                       ! match found, jump to return
+    nop                                    ! (delay slot)
+.L_no_match:
+    add #0x1, r5                           ! r5 = slot_index + 1 (advance to next slot)
+    extu.b r5, r2                          ! r2 = updated slot index (zero-extended)
+    cmp/ge r6, r2                          ! test: slot_index >= 16?
+    bf      .L_search_loop                 ! if not exhausted, continue searching
+.L_found:
+    rts                                    ! return to caller
+    extu.b r5, r0                          ! (delay slot) r0 = slot index (return value)
+    .2byte  0xFFFF                         ! padding
+.L_pool_slot_array_base:
     .4byte  sym_0608782C
