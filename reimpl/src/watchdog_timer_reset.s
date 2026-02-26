@@ -9,25 +9,25 @@
     .global watchdog_timer_reset
     .type watchdog_timer_reset, @function
 watchdog_timer_reset:
-    sts.l pr, @-r15
-    add #-0x4, r15
-    mov.l r4, @r15
-    mov.l   .L_pool_060408A8, r3
-    jsr @r3
-    mov.l @(4, r4), r4
-    mov.l @r15, r4
-    mov.l @(20, r4), r4
-    add #0x4, r15
-    mov.l   .L_pool_060408AC, r3
-    jmp @r3
-    lds.l @r15+, pr
+    sts.l pr, @-r15                    ! save return address
+    add #-0x4, r15                      ! allocate 4 bytes on stack
+    mov.l r4, @r15                      ! save r4 (struct pointer) to stack
+    mov.l   .L_pool_evt_reg_save, r3    ! r3 = evt_reg_save
+    jsr @r3                             ! call evt_reg_save(r4)
+    mov.l @(4, r4), r4                  ! delay slot: r4 = struct[+4] (event context)
+    mov.l @r15, r4                      ! restore original struct pointer
+    mov.l @(20, r4), r4                 ! r4 = struct[+20] (zone slot param)
+    add #0x4, r15                       ! deallocate stack frame
+    mov.l   .L_pool_slot_free_zone, r3  ! r3 = slot_free_zone
+    jmp @r3                             ! tail-call slot_free_zone(r4)
+    lds.l @r15+, pr                     ! delay slot: restore return address
 
     .global sym_06040894
 sym_06040894:
-    mov.l @(36, r4), r0
-    extu.b r5, r5
-    rts
-    mov.l r5, @(36, r4)
+    mov.l @(36, r4), r0                ! r0 = old value at struct[+36]
+    extu.b r5, r5                       ! zero-extend new value to 32-bit
+    rts                                 ! return old value in r0
+    mov.l r5, @(36, r4)                 ! delay slot: write new value to struct[+36]
 
     .global DAT_0604089c
 DAT_0604089c:
@@ -35,7 +35,7 @@ DAT_0604089c:
     .word 0xFFFF /* UNKNOWN */
     .4byte  track_segment_interp
     .4byte  state_field_read
-.L_pool_060408A8:
+.L_pool_evt_reg_save:
     .4byte  evt_reg_save
-.L_pool_060408AC:
+.L_pool_slot_free_zone:
     .4byte  sym_06040EBA
