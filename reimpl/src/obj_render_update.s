@@ -24,13 +24,13 @@ obj_render_update:
     jmp @r3
     lds.l @r15+, pr
     .2byte  0x1810
-.L_pool_06021114:
-    .4byte  sym_06087C84
-.L_pool_06021118:
-    .4byte  sym_0603850C
-.L_pool_0602111C:
-    .4byte  scene_buffer_init
-.L_pool_06021120:
-    .4byte  sym_06038520
-.L_pool_06021124:
-    .4byte  sym_06087C87
+.L_pool_scene_config_base:
+    .4byte  sym_06087C84                /* scene config struct base */
+.L_pool_cmd_slot_write:
+    .4byte  sym_0603850C                /* cmd_slot_write function */
+.L_pool_scene_buffer_init:
+    .4byte  scene_buffer_init           /* scene_buffer_init function */
+.L_pool_cmd_queue_commit:
+    .4byte  sym_06038520                /* cmd_queue_commit function */
+.L_pool_channel_flag_d:
+    .4byte  sym_06087C87                /* channel_flag_D config byte */

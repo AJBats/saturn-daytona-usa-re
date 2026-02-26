@@ -35,14 +35,14 @@ race_heading_calc:
     add #0x60, r0
     mov.l @(r0, r14), r4
     tst r4, r4
-    bt      .L_0600CE0C
+    bt      .L_use_max_segments
     mov r4, r12
-    bra     .L_0600CE10
+    bra     .L_have_next_segment
     add #-0x1, r12
-.L_0600CE0C:
+.L_use_max_segments:
     .byte   0xDC, 0x21    /* mov.l .L_pool_0600CE94, r12 */
     mov.l @r12, r12
-.L_0600CE10:
+.L_have_next_segment:
     mov r12, r11
     mov r12, r3
     .byte   0x90, 0x39    /* mov.w .L_wpool_0600CE8A, r0 */
@@ -69,19 +69,19 @@ race_heading_calc:
     shll2 r7
     sub r7, r4
     cmp/pz r4
-    bt      .L_0600CE4C
+    bt      .L_diff_positive
     mov r7, r2
-    bra     .L_0600CE4E
+    bra     .L_check_threshold
     sub r5, r2
-.L_0600CE4C:
+.L_diff_positive:
     mov r4, r2
-.L_0600CE4E:
+.L_check_threshold:
     .byte   0x93, 0x1D    /* mov.w .L_wpool_0600CE8C, r3 */
     cmp/gt r3, r2
-    bf      .L_0600CE58
+    bf      .L_no_advance
     .byte   0x90, 0x17    /* mov.w .L_wpool_0600CE86, r0 */
     mov.l r12, @(r0, r14)
-.L_0600CE58:
+.L_no_advance:
     mov r13, r0
     lds.l @r15+, pr
     mov.l @r15+, r11
