@@ -34,84 +34,84 @@
     .global state_demo_setup
     .type state_demo_setup, @function
 state_demo_setup:
-    sts.l pr, @-r15
+    sts.l pr, @-r15                      /* save return address */
     .byte   0xB1, 0xBF    /* bsr 0x0600A294 (external update sub) */
-    nop
+    nop                                    /* delay slot */
     mov.l   .L_attract_countdown, r4   /* --- decrement countdown --- */
-    mov.l @r4, r2
-    add #-0x1, r2
+    mov.l @r4, r2                        /* load current countdown */
+    add #-0x1, r2                        /* decrement by 1 */
     mov.l r2, @r4                        /* countdown-- */
-    mov r2, r3
-    cmp/pz r3
-    bt      .L_06009F52                  /* countdown >= 0 → still running */
+    mov r2, r3                           /* copy countdown to r3 */
+    cmp/pz r3                            /* test if countdown >= 0 */
+    bt      .L_demo_running              /* countdown >= 0 → still running */
     mov.l   .L_car_state_ptr, r4       /* === Demo expired: setup exit === */
-    mov.l   .L_demo_param_a, r2
+    mov.l   .L_demo_param_a, r2          /* load demo param A address */
     mov.w   .L_off_demo_param_a, r0     /* 0x0224 */
-    mov.l @r4, r3
+    mov.l @r4, r3                        /* load car state base */
     mov.b @r2, r2                        /* read demo param A */
     mov.l r2, @(r0, r3)                 /* car[+0x224] = demo_param_a */
-    add #0x1C, r0                        /* 0x0240 */
-    mov.l @r4, r3
-    mov.l   .L_demo_param_b, r2
+    add #0x1C, r0                        /* advance to offset 0x0240 */
+    mov.l @r4, r3                        /* reload car state base */
+    mov.l   .L_demo_param_b, r2          /* load demo param B address */
     mov.l @r2, r2                        /* read demo param B */
     mov.l r2, @(r0, r3)                 /* car[+0x240] = demo_param_b */
     mov.l   .L_course_select_src, r3   /* --- copy course → replay --- */
-    mov.l   .L_replay_course, r2
-    mov.l @r3, r3
+    mov.l   .L_replay_course, r2         /* load replay course address */
+    mov.l @r3, r3                        /* load selected course */
     mov.l r3, @r2                        /* replay_course = course_select */
-    mov #0x18, r3
-    mov.l   .L_game_state, r2
+    mov #0x18, r3                        /* demo exit state code */
+    mov.l   .L_game_state, r2            /* load game state address */
     mov.l r3, @r2                        /* game_state = 0x18 (demo exit) */
-    mov #0x3, r3
-    mov.l   .L_display_timer, r2
-    lds.l @r15+, pr
-    rts
+    mov #0x3, r3                         /* display timer value */
+    mov.l   .L_display_timer, r2        /* load display timer address */
+    lds.l @r15+, pr                      /* restore return address */
+    rts                                    /* return from subroutine */
     mov.w r3, @r2                        /* display_timer = 3 */
-.L_06009F52:                              /* === Demo running === */
-    mov.l   .L_race_end_state, r0
-    mov.l @r0, r0
-    cmp/eq #0x2, r0
-    bf      .L_06009F60
-    mov.l   .L_fn_score_render, r3
+.L_demo_running:                          /* === Demo running === */
+    mov.l   .L_race_end_state, r0        /* load race end state address */
+    mov.l @r0, r0                        /* load race end state */
+    cmp/eq #0x2, r0                      /* check if race finished (state 2) */
+    bf      .L_skip_score_render         /* not finished → skip score render */
+    mov.l   .L_fn_score_render, r3       /* load score renderer address */
     jsr @r3                              /* disp_score_renderer() */
-    nop
-.L_06009F60:
-    mov.l   .L_fn_geom_ctrl, r3
+    nop                                    /* delay slot */
+.L_skip_score_render:
+    mov.l   .L_fn_geom_ctrl, r3          /* load geom display ctrl address */
     jsr @r3                              /* geom_display_ctrl_b() */
-    nop
-    mov.l   .L_display_timer, r0
-    mov.w @r0, r0
-    extu.w r0, r0
-    cmp/eq #0x3, r0
-    bt      .L_06009F9A                  /* timer == 3 → simplified exit */
+    nop                                    /* delay slot */
+    mov.l   .L_display_timer, r0         /* load display timer address */
+    mov.w @r0, r0                        /* read display timer (16-bit) */
+    extu.w r0, r0                        /* zero-extend to 32-bit */
+    cmp/eq #0x3, r0                      /* check if timer == 3 */
+    bt      .L_simplified_exit           /* timer == 3 → simplified exit */
     mov.l   .L_car_array_base, r3      /* --- full render pipeline --- */
-    add #0x1, r3
+    add #0x1, r3                         /* advance to visibility byte */
     mov.b @r3, r0                        /* car[+1] = visibility flags */
-    and #0x7F, r0
+    and #0x7F, r0                        /* clear bit 7 */
     or #0x80, r0                         /* set bit 7 (visible in demo) */
-    mov.b r0, @r3
-    mov.l   .L_fn_countdown, r3
+    mov.b r0, @r3                        /* write back visibility flags */
+    mov.l   .L_fn_countdown, r3          /* load countdown update address */
     jsr @r3                              /* race_countdown_update() */
-    nop
-    mov.l   .L_fn_proximity, r3
+    nop                                    /* delay slot */
+    mov.l   .L_fn_proximity, r3          /* load proximity check address */
     jsr @r3                              /* car_proximity_check() */
-    nop
-    mov.l   .L_fn_perspective, r3
+    nop                                    /* delay slot */
+    mov.l   .L_fn_perspective, r3        /* load perspective project address */
     jsr @r3                              /* perspective_project() */
-    nop
-    mov.l   .L_fn_scene_master, r3
+    nop                                    /* delay slot */
+    mov.l   .L_fn_scene_master, r3       /* load scene master address */
     jsr @r3                              /* scene_master() */
-    nop
-    mov.l   .L_fn_frame_commit, r3
+    nop                                    /* delay slot */
+    mov.l   .L_fn_frame_commit, r3       /* load frame commit address */
     jmp @r3                              /* → frame_end_commit() (tail call) */
-    lds.l @r15+, pr
-.L_06009F9A:                              /* --- simplified exit path --- */
-    mov #0x0, r2
-    mov.l   .L_anim_state, r3
+    lds.l @r15+, pr                      /* restore pr in delay slot */
+.L_simplified_exit:                       /* --- simplified exit path --- */
+    mov #0x0, r2                         /* clear value for anim state */
+    mov.l   .L_anim_state, r3            /* load anim state address */
     mov.l r2, @r3                        /* anim_state = 0 */
-    mov.l   .L_fn_camera_finalize, r3
+    mov.l   .L_fn_camera_finalize, r3   /* load camera finalize address */
     jmp @r3                              /* → camera_finalize() (tail call) */
-    lds.l @r15+, pr
+    lds.l @r15+, pr                      /* restore pr in delay slot */
     .2byte  0x4F26                        /* (dead code / alignment) */
     .4byte  0x000B0009
 .L_off_demo_param_a:

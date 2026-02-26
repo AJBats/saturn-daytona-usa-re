@@ -9,35 +9,35 @@
     .global split_position_disp
     .type split_position_disp, @function
 split_position_disp:
-    sts.l pr, @-r15
-    bsr     .L_06033504
-    nop
-    lds.l @r15+, pr
-    rts
-    nop
-    .2byte  0x0000
-    .4byte  sym_060338C4
-    .4byte  sym_06033874
-    .4byte  sym_06062970
-    .4byte  sym_0603387C
-    .4byte  sym_06033884
-    .4byte  sym_060785FC
-    .4byte  sym_060280F8
-.L_06033504:
-    .byte   0xD0, 0x04    /* mov.l .L_pool_06033518, r0 */
-    mov.l @r0, r1
-    add #0x1, r1
-    mov.l r1, @r0
-    .byte   0xD2, 0x03    /* mov.l .L_pool_0603351C, r2 */
-    mov.l @r2, r1
-    add #0x20, r1
-    mov.l r1, @r2
-    rts
-    nop
-.L_pool_06033518:
-    .4byte  sym_0605A008
-.L_pool_0603351C:
-    .4byte  sym_060785FC
+    sts.l pr, @-r15                     ! save return address
+    bsr     .L_advance_disp_slot        ! call display slot advance subroutine
+    nop                                 ! (delay slot)
+    lds.l @r15+, pr                     ! restore return address
+    rts                                 ! return to caller
+    nop                                 ! (delay slot)
+    .2byte  0x0000                      ! alignment padding
+    .4byte  sym_060338C4                ! display element descriptor base
+    .4byte  sym_06033874                ! display element table A
+    .4byte  sym_06062970                ! display element state array
+    .4byte  sym_0603387C                ! display element table B
+    .4byte  sym_06033884                ! display element table C
+    .4byte  sym_060785FC                ! VDP1 command write pointer
+    .4byte  sym_060280F8                ! VDP1 normal sprite builder
+.L_advance_disp_slot:
+    .byte   0xD0, 0x04    /* mov.l .L_pool_display_counter, r0 */
+    mov.l @r0, r1                       ! r1 = current display counter value
+    add #0x1, r1                        ! increment display counter
+    mov.l r1, @r0                       ! store updated counter
+    .byte   0xD2, 0x03    /* mov.l .L_pool_vdp1_write_ptr, r2 */
+    mov.l @r2, r1                       ! r1 = current VDP1 write cursor
+    add #0x20, r1                       ! advance by 0x20 (one VDP1 command slot)
+    mov.l r1, @r2                       ! store updated write cursor
+    rts                                 ! return to caller
+    nop                                 ! (delay slot)
+.L_pool_display_counter:
+    .4byte  sym_0605A008                ! display mode state counter
+.L_pool_vdp1_write_ptr:
+    .4byte  sym_060785FC                ! VDP1 command write pointer
     .4byte  0x2F06D409
     .4byte  0x60238143
     .4byte  0xD0081400
