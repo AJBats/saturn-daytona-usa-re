@@ -21,10 +21,16 @@
  *      at base + index*8 + offset (0x260, 0x280, 0x220, 0x240)
  *   7. Copy 4 tile maps (8 tiles each) to VDP2 VRAM:
  *      +0x73B98, +0x74158, +0x74AFC, +0x75730
- *   8. Initialize HUD element table (44 entries × 0x36-byte stride):
+ *   8. Initialize HUD element table (44 entries x 0x36-byte stride):
  *      Set priority, entry count, and element slots
  *   9. vdp2_loop_ctrl, geom_pipeline_coord
  *  10. Set display flags, optional car demo parameter setup
+ *
+ * Arguments:
+ *   None.
+ *
+ * Returns:
+ *   Nothing (void). Side effects: display hardware and HUD table initialized.
  *
  * Persistent registers:
  *   r8  = VDP1 VRAM base (0x25C00000)
@@ -36,373 +42,407 @@
  *   r14 = HUD entry count (25)
  */
 
-    .section .text.FUN_06014A74
+   .section .text.FUN_06014A74
 
 
-    .global display_mode_init
-    .type display_mode_init, @function
+   .global display_mode_init
+   .type display_mode_init, @function
 display_mode_init:
-    mov.l r14, @-r15
-    mov #0x19, r14                       /* r14 = 25 (HUD entry count) */
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    mov #0x0, r11                        /* r11 = 0 (constant zero) */
-    mov.l r10, @-r15
-    mov #0x1, r10                        /* r10 = 1 (constant one) */
-    mov.l r9, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    sts.l macl, @-r15
-    mov.l   .L_hud_table_base, r9       /* r9 = HUD element table base */
-    mov.l   .L_fn_channel_config, r12   /* r12 = channel_nibble_config */
-    mov.w   .L_channel_id_0x100, r4     /* === Channel configuration === */
-    jsr @r12                             /* channel_nibble_config(0x100, 0) */
-    mov r11, r5
-    mov r10, r5
-    jsr @r12                             /* channel_nibble_config(4, 1) */
-    mov #0x4, r4
-    mov r10, r5
-    jsr @r12                             /* channel_nibble_config(8, 1) */
-    mov #0x8, r4
-    mov #0x2, r5
-    jsr @r12                             /* channel_nibble_config(16, 2) */
-    mov #0x10, r4
-    mov #0x7, r5
-    jsr @r12                             /* channel_nibble_config(32, 7) */
-    mov #0x20, r4
-    mov r11, r5
-    jsr @r12                             /* channel_nibble_config(1, 0) */
-    mov r10, r4
-    mov.l   .L_display_skip_flag, r3    /* === Conditional display path === */
-    mov.b @r3, r3
-    tst r3, r3
-    bf      .L_06014B00                  /* nonzero → compact+commit path */
-    mov.l   .L_fn_layer_config, r3      /* --- Standard init path --- */
-    jsr @r3                              /* layer_config(4) */
-    mov #0x4, r4
-    mov #0x0, r6
-    mov.l   .L_fn_display_channel, r3
-    mov r6, r5
-    jsr @r3                              /* display_channel_b(8, 0, 0) */
-    mov #0x8, r4
-    mov #0x6, r5
-    jsr @r12                             /* channel_nibble_config(16, 6) */
-    mov #0x10, r4
-    mov.l   .L_fn_render_commit, r3
-    jsr @r3                              /* render_commit() */
-    nop
-    mov.l   .L_fn_gameover_setup, r3
-    jsr @r3                              /* gameover_channel_setup() */
-    nop
-    bra     .L_06014B0C
-    nop
+    mov.l r14, @-r15                         ! save r14 on stack
+    mov #0x19, r14                           ! r14 = 25 (HUD entry count)
+    mov.l r13, @-r15                         ! save r13 on stack
+    mov.l r12, @-r15                         ! save r12 on stack
+    mov.l r11, @-r15                         ! save r11 on stack
+    mov #0x0, r11                            ! r11 = 0 (constant zero)
+    mov.l r10, @-r15                         ! save r10 on stack
+    mov #0x1, r10                            ! r10 = 1 (constant one)
+    mov.l r9, @-r15                          ! save r9 on stack
+    mov.l r8, @-r15                          ! save r8 on stack
+    sts.l pr, @-r15                          ! save return address on stack
+    sts.l macl, @-r15                        ! save MACL on stack
+    mov.l   .L_hud_table_base, r9            ! r9 = HUD element table base
+    mov.l   .L_fn_channel_config, r12        ! r12 = channel_nibble_config function ptr
+
+    /* --- Phase 1: Configure 6 display channels --- */
+    mov.w   .L_channel_id_0x100, r4          ! r4 = 0x100 (channel ID)
+    jsr @r12                                 ! channel_nibble_config(0x100, 0)
+    mov r11, r5                              ! r5 = 0 (delay slot)
+    mov r10, r5                              ! r5 = 1
+    jsr @r12                                 ! channel_nibble_config(4, 1)
+    mov #0x4, r4                             ! r4 = 4 (delay slot)
+    mov r10, r5                              ! r5 = 1
+    jsr @r12                                 ! channel_nibble_config(8, 1)
+    mov #0x8, r4                             ! r4 = 8 (delay slot)
+    mov #0x2, r5                             ! r5 = 2
+    jsr @r12                                 ! channel_nibble_config(16, 2)
+    mov #0x10, r4                            ! r4 = 16 (delay slot)
+    mov #0x7, r5                             ! r5 = 7
+    jsr @r12                                 ! channel_nibble_config(32, 7)
+    mov #0x20, r4                            ! r4 = 32 (delay slot)
+    mov r11, r5                              ! r5 = 0
+    jsr @r12                                 ! channel_nibble_config(1, 0)
+    mov r10, r4                              ! r4 = 1 (delay slot)
+
+    /* --- Phase 2: Conditional display path --- */
+    mov.l   .L_display_skip_flag, r3         ! r3 = &display_skip_flag
+    mov.b @r3, r3                            ! r3 = display_skip_flag value
+    tst r3, r3                               ! test if zero
+    bf      .L_compact_commit_path           ! nonzero -> compact+commit path
+
+    /* Standard init path (display_skip_flag == 0) */
+    mov.l   .L_fn_layer_config, r3           ! load layer_config function ptr
+    jsr @r3                                  ! layer_config(4)
+    mov #0x4, r4                             ! r4 = 4 (delay slot)
+    mov #0x0, r6                             ! r6 = 0
+    mov.l   .L_fn_display_channel, r3        ! load display_channel_b function ptr
+    mov r6, r5                               ! r5 = 0
+    jsr @r3                                  ! display_channel_b(8, 0, 0)
+    mov #0x8, r4                             ! r4 = 8 (delay slot)
+    mov #0x6, r5                             ! r5 = 6
+    jsr @r12                                 ! channel_nibble_config(16, 6)
+    mov #0x10, r4                            ! r4 = 16 (delay slot)
+    mov.l   .L_fn_render_commit, r3          ! load render_commit function ptr
+    jsr @r3                                  ! render_commit()
+    nop                                      ! delay slot
+    mov.l   .L_fn_gameover_setup, r3         ! load gameover_channel_setup function ptr
+    jsr @r3                                  ! gameover_channel_setup()
+    nop                                      ! delay slot
+    bra     .L_common_init                   ! skip compact path, go to common init
+    nop                                      ! delay slot
 .L_channel_id_0x100:
-    .2byte  0x0100                        /* channel ID 0x100 */
+    .2byte  0x0100                            /* channel ID 0x100 */
 .L_hud_table_base:
-    .4byte  sym_06085640               /* HUD element table base */
+    .4byte  sym_06085640                   /* HUD element table base */
 .L_fn_channel_config:
-    .4byte  channel_nibble_config      /* channel configuration function */
+    .4byte  channel_nibble_config          /* channel configuration function */
 .L_display_skip_flag:
-    .4byte  sym_06085F8A               /* display skip flag (byte) */
+    .4byte  sym_06085F8A                   /* display skip flag (byte) */
 .L_fn_layer_config:
-    .4byte  sym_0602853E               /* display layer configuration */
+    .4byte  sym_0602853E                   /* display layer configuration */
 .L_fn_display_channel:
-    .4byte  display_channel_b          /* display channel B enable */
+    .4byte  display_channel_b              /* display channel B enable */
 .L_fn_render_commit:
-    .4byte  sym_06028560               /* render state commit */
+    .4byte  sym_06028560                   /* render state commit */
 .L_fn_gameover_setup:
-    .4byte  gameover_channel_setup     /* game over channel setup */
-.L_06014B00:                              /* --- Compact+commit path --- */
-    mov.l   .L_fn_obj_compact, r3
-    jsr @r3                              /* obj_data_compact() */
-    nop
-    mov.l   .L_fn_frame_commit, r3
-    jsr @r3                              /* frame_end_commit() */
-    nop
-.L_06014B0C:                              /* === Common initialization === */
-    mov.w   .L_channel_id_0x100_b, r4
-    jsr @r12                             /* channel_nibble_config(0x100, 4) */
-    mov #0x4, r5
-    mov.l   .L_fn_layer_config_b, r3
-    jsr @r3                              /* layer_config(0xC) */
-    mov #0xC, r4
-    mov #0x0, r6
-    mov.l   .L_fn_display_channel_b, r3
-    mov r6, r5
-    jsr @r3                              /* display_channel_b(16, 0, 0) */
-    mov #0x10, r4
-    mov #0x0, r6
-    mov.l   .L_fn_display_channel_b, r3
-    mov r6, r5
-    jsr @r3                              /* display_channel_b(32, 0, 0) */
-    mov #0x20, r4
-    mov.l   .L_fn_memcpy_word, r13      /* r13 = memcpy_word_idx */
-    mov.l   .L_palette_src_0, r5        /* === Color palette copies === */
-    mov.l   .L_vdp2_cram_0x660, r4
-    jsr @r13                             /* memcpy(CRAM+0x660, palette_0, 32) */
-    mov #0x20, r6
-    mov.l   .L_palette_src_1, r5
-    mov.l   .L_vdp2_cram_0x680, r4
-    jsr @r13                             /* memcpy(CRAM+0x680, palette_1, 32) */
-    mov #0x20, r6
-    mov.l   .L_palette_src_2, r5
-    mov.l   .L_vdp2_cram_0x6A0, r4
-    jsr @r13                             /* memcpy(CRAM+0x6A0, palette_2, 32) */
-    mov #0x20, r6
-    mov.l   .L_palette_src_3, r5
-    mov.l   .L_vdp2_cram_0x6C0, r4
-    jsr @r13                             /* memcpy(CRAM+0x6C0, palette_3, 32) */
-    mov #0x20, r6
-    mov #0x20, r6                        /* === VDP1 sprite pattern copies === */
-    mov.l   .L_sprite_src_0, r5
-    mov.l   .L_vdp1_vram_base, r8       /* r8 = 0x25C00000 */
-    mov.l   .L_tile_index_ptr, r4
-    mov.w   .L_sprite_offset_0, r3      /* 0x0260 */
-    mov.l @r4, r4                        /* tile_index */
-    shll2 r4
-    shll r4                              /* index * 8 */
-    add r8, r4
-    jsr @r13                             /* memcpy(VRAM + idx*8 + 0x260, src_0, 32) */
-    add r3, r4
-    mov #0x20, r6
-    mov.l   .L_sprite_src_1, r5
-    mov.l   .L_tile_index_ptr, r4
-    mov.w   .L_sprite_offset_1, r3      /* 0x0280 */
-    mov.l @r4, r4
-    shll2 r4
-    shll r4
-    add r8, r4
-    jsr @r13                             /* memcpy(VRAM + idx*8 + 0x280, src_1, 32) */
-    add r3, r4
-    mov #0x20, r6
-    mov.l   .L_sprite_src_2, r5
-    mov.l   .L_tile_index_ptr, r4
-    mov.w   .L_sprite_offset_2, r3      /* 0x0220 */
-    mov.l @r4, r4
-    shll2 r4
-    shll r4
-    add r8, r4
-    jsr @r13                             /* memcpy(VRAM + idx*8 + 0x220, src_2, 32) */
-    add r3, r4
-    mov #0x20, r6
-    mov.l   .L_sprite_src_3, r5
-    mov.l   .L_tile_index_ptr, r4
-    mov.w   .L_sprite_offset_3, r3      /* 0x0240 */
-    mov.l @r4, r4
-    shll2 r4
-    shll r4
-    add r8, r4
-    jsr @r13                             /* memcpy(VRAM + idx*8 + 0x240, src_3, 32) */
-    add r3, r4
-    mov.l   .L_fn_vram_tile_copy, r13   /* === VDP2 tile map copies === */
-    mov #0x8, r7                         /* 8 tiles per map */
-    mov.l   .L_tilemap_src_0, r5
-    mov.l   .L_vdp2_vram_0x73B98, r4
-    jsr @r13                             /* vram_tile_copy(+0x73B98, tilemap_0, 0, 8) */
-    mov #0x0, r6
-    mov #0x8, r7
-    mov.l   .L_tilemap_src_1, r5
-    mov.l   .L_vdp2_vram_0x74158, r4
-    jsr @r13                             /* vram_tile_copy(+0x74158, tilemap_1, 0, 8) */
-    mov #0x0, r6
-    mov #0x8, r7
-    mov.l   .L_tilemap_src_2, r5
-    mov.l   .L_vdp2_vram_0x74AFC, r4
-    jsr @r13                             /* vram_tile_copy(+0x74AFC, tilemap_2, 0, 8) */
-    mov #0x0, r6
-    mov #0x8, r7
-    mov.l   .L_tilemap_src_3, r5
-    mov.l   .L_vdp2_vram_0x75730, r4
-    jsr @r13                             /* vram_tile_copy(+0x75730, tilemap_3, 0, 8) */
-    mov #0x0, r6
-    bra     .L_06014C7C                  /* → HUD table init */
-    extu.b r11, r5                       /* r5 = 0 (first element) */
+    .4byte  gameover_channel_setup         /* game over channel setup */
+
+.L_compact_commit_path:
+    /* Alternate path (display_skip_flag != 0) */
+    mov.l   .L_fn_obj_compact, r3            ! load obj_data_compact function ptr
+    jsr @r3                                  ! obj_data_compact()
+    nop                                      ! delay slot
+    mov.l   .L_fn_frame_commit, r3           ! load frame_end_commit function ptr
+    jsr @r3                                  ! frame_end_commit()
+    nop                                      ! delay slot
+
+.L_common_init:
+    /* --- Phase 3: Additional channel/layer configuration --- */
+    mov.w   .L_channel_id_0x100_b, r4       ! r4 = 0x100 (channel ID)
+    jsr @r12                                 ! channel_nibble_config(0x100, 4)
+    mov #0x4, r5                             ! r5 = 4 (delay slot)
+    mov.l   .L_fn_layer_config_b, r3         ! load layer_config function ptr
+    jsr @r3                                  ! layer_config(0xC)
+    mov #0xC, r4                             ! r4 = 12 (delay slot)
+
+    /* --- Phase 4: Disable display channels 16 and 32 --- */
+    mov #0x0, r6                             ! r6 = 0
+    mov.l   .L_fn_display_channel_b, r3      ! load display_channel_b function ptr
+    mov r6, r5                               ! r5 = 0
+    jsr @r3                                  ! display_channel_b(16, 0, 0)
+    mov #0x10, r4                            ! r4 = 16 (delay slot)
+    mov #0x0, r6                             ! r6 = 0
+    mov.l   .L_fn_display_channel_b, r3      ! load display_channel_b function ptr
+    mov r6, r5                               ! r5 = 0
+    jsr @r3                                  ! display_channel_b(32, 0, 0)
+    mov #0x20, r4                            ! r4 = 32 (delay slot)
+
+    /* --- Phase 5: Copy 4 color palettes to VDP2 CRAM --- */
+    mov.l   .L_fn_memcpy_word, r13           ! r13 = memcpy_word_idx function ptr
+    mov.l   .L_palette_src_0, r5             ! r5 = palette source 0
+    mov.l   .L_vdp2_cram_0x660, r4           ! r4 = VDP2 CRAM destination +0x660
+    jsr @r13                                 ! memcpy_word_idx(CRAM+0x660, palette_0, 32)
+    mov #0x20, r6                            ! r6 = 32 bytes (delay slot)
+    mov.l   .L_palette_src_1, r5             ! r5 = palette source 1
+    mov.l   .L_vdp2_cram_0x680, r4           ! r4 = VDP2 CRAM destination +0x680
+    jsr @r13                                 ! memcpy_word_idx(CRAM+0x680, palette_1, 32)
+    mov #0x20, r6                            ! r6 = 32 bytes (delay slot)
+    mov.l   .L_palette_src_2, r5             ! r5 = palette source 2
+    mov.l   .L_vdp2_cram_0x6A0, r4           ! r4 = VDP2 CRAM destination +0x6A0
+    jsr @r13                                 ! memcpy_word_idx(CRAM+0x6A0, palette_2, 32)
+    mov #0x20, r6                            ! r6 = 32 bytes (delay slot)
+    mov.l   .L_palette_src_3, r5             ! r5 = palette source 3
+    mov.l   .L_vdp2_cram_0x6C0, r4           ! r4 = VDP2 CRAM destination +0x6C0
+    jsr @r13                                 ! memcpy_word_idx(CRAM+0x6C0, palette_3, 32)
+    mov #0x20, r6                            ! r6 = 32 bytes (delay slot)
+
+    /* --- Phase 6: Copy 4 sprite patterns to VDP1 VRAM --- */
+    mov #0x20, r6                            ! r6 = 32 bytes
+    mov.l   .L_sprite_src_0, r5              ! r5 = sprite pattern source 0
+    mov.l   .L_vdp1_vram_base, r8            ! r8 = 0x25C00000 (VDP1 VRAM base)
+    mov.l   .L_tile_index_ptr, r4            ! r4 = &tile_index
+    mov.w   .L_sprite_offset_0, r3           ! r3 = 0x0260 (sprite offset 0)
+    mov.l @r4, r4                            ! r4 = tile_index value
+    shll2 r4                                 ! r4 *= 4
+    shll r4                                  ! r4 *= 2 (total: index * 8)
+    add r8, r4                               ! r4 = VRAM_base + index*8
+    jsr @r13                                 ! memcpy_word_idx(VRAM+idx*8+0x260, src_0, 32)
+    add r3, r4                               ! r4 += 0x260 (delay slot)
+    mov #0x20, r6                            ! r6 = 32 bytes
+    mov.l   .L_sprite_src_1, r5              ! r5 = sprite pattern source 1
+    mov.l   .L_tile_index_ptr, r4            ! r4 = &tile_index
+    mov.w   .L_sprite_offset_1, r3           ! r3 = 0x0280 (sprite offset 1)
+    mov.l @r4, r4                            ! r4 = tile_index value
+    shll2 r4                                 ! r4 *= 4
+    shll r4                                  ! r4 *= 2 (total: index * 8)
+    add r8, r4                               ! r4 = VRAM_base + index*8
+    jsr @r13                                 ! memcpy_word_idx(VRAM+idx*8+0x280, src_1, 32)
+    add r3, r4                               ! r4 += 0x280 (delay slot)
+    mov #0x20, r6                            ! r6 = 32 bytes
+    mov.l   .L_sprite_src_2, r5              ! r5 = sprite pattern source 2
+    mov.l   .L_tile_index_ptr, r4            ! r4 = &tile_index
+    mov.w   .L_sprite_offset_2, r3           ! r3 = 0x0220 (sprite offset 2)
+    mov.l @r4, r4                            ! r4 = tile_index value
+    shll2 r4                                 ! r4 *= 4
+    shll r4                                  ! r4 *= 2 (total: index * 8)
+    add r8, r4                               ! r4 = VRAM_base + index*8
+    jsr @r13                                 ! memcpy_word_idx(VRAM+idx*8+0x220, src_2, 32)
+    add r3, r4                               ! r4 += 0x220 (delay slot)
+    mov #0x20, r6                            ! r6 = 32 bytes
+    mov.l   .L_sprite_src_3, r5              ! r5 = sprite pattern source 3
+    mov.l   .L_tile_index_ptr, r4            ! r4 = &tile_index
+    mov.w   .L_sprite_offset_3, r3           ! r3 = 0x0240 (sprite offset 3)
+    mov.l @r4, r4                            ! r4 = tile_index value
+    shll2 r4                                 ! r4 *= 4
+    shll r4                                  ! r4 *= 2 (total: index * 8)
+    add r8, r4                               ! r4 = VRAM_base + index*8
+    jsr @r13                                 ! memcpy_word_idx(VRAM+idx*8+0x240, src_3, 32)
+    add r3, r4                               ! r4 += 0x240 (delay slot)
+
+    /* --- Phase 7: Copy 4 tile maps to VDP2 VRAM --- */
+    mov.l   .L_fn_vram_tile_copy, r13        ! r13 = vram_tile_copy function ptr
+    mov #0x8, r7                             ! r7 = 8 tiles per map
+    mov.l   .L_tilemap_src_0, r5             ! r5 = tile map source 0
+    mov.l   .L_vdp2_vram_0x73B98, r4         ! r4 = VDP2 VRAM +0x73B98
+    jsr @r13                                 ! vram_tile_copy(+0x73B98, tilemap_0, 0, 8)
+    mov #0x0, r6                             ! r6 = 0 (delay slot)
+    mov #0x8, r7                             ! r7 = 8 tiles per map
+    mov.l   .L_tilemap_src_1, r5             ! r5 = tile map source 1
+    mov.l   .L_vdp2_vram_0x74158, r4         ! r4 = VDP2 VRAM +0x74158
+    jsr @r13                                 ! vram_tile_copy(+0x74158, tilemap_1, 0, 8)
+    mov #0x0, r6                             ! r6 = 0 (delay slot)
+    mov #0x8, r7                             ! r7 = 8 tiles per map
+    mov.l   .L_tilemap_src_2, r5             ! r5 = tile map source 2
+    mov.l   .L_vdp2_vram_0x74AFC, r4         ! r4 = VDP2 VRAM +0x74AFC
+    jsr @r13                                 ! vram_tile_copy(+0x74AFC, tilemap_2, 0, 8)
+    mov #0x0, r6                             ! r6 = 0 (delay slot)
+    mov #0x8, r7                             ! r7 = 8 tiles per map
+    mov.l   .L_tilemap_src_3, r5             ! r5 = tile map source 3
+    mov.l   .L_vdp2_vram_0x75730, r4         ! r4 = VDP2 VRAM +0x75730
+    jsr @r13                                 ! vram_tile_copy(+0x75730, tilemap_3, 0, 8)
+    mov #0x0, r6                             ! r6 = 0 (delay slot)
+    bra     .L_hud_element_check             ! jump to element loop condition
+    extu.b r11, r5                           ! r5 = 0 (first element index, delay slot)
 .L_channel_id_0x100_b:
-    .2byte  0x0100                        /* channel ID 0x100 (second ref) */
+    .2byte  0x0100                            /* channel ID 0x100 (second ref) */
 .L_sprite_offset_0:
-    .2byte  0x0260                        /* VDP1 sprite offset 0 */
+    .2byte  0x0260                            /* VDP1 sprite offset 0 */
 .L_sprite_offset_1:
-    .2byte  0x0280                        /* VDP1 sprite offset 1 */
+    .2byte  0x0280                            /* VDP1 sprite offset 1 */
 .L_sprite_offset_2:
-    .2byte  0x0220                        /* VDP1 sprite offset 2 */
+    .2byte  0x0220                            /* VDP1 sprite offset 2 */
 .L_sprite_offset_3:
-    .2byte  0x0240                        /* VDP1 sprite offset 3 */
+    .2byte  0x0240                            /* VDP1 sprite offset 3 */
 .L_fn_obj_compact:
-    .4byte  obj_data_compact           /* object data compaction */
+    .4byte  obj_data_compact               /* object data compaction */
 .L_fn_frame_commit:
-    .4byte  frame_end_commit           /* frame end commit */
+    .4byte  frame_end_commit               /* frame end commit */
 .L_fn_layer_config_b:
-    .4byte  sym_0602853E               /* display layer configuration */
+    .4byte  sym_0602853E                   /* display layer configuration */
 .L_fn_display_channel_b:
-    .4byte  display_channel_b          /* display channel B enable */
+    .4byte  display_channel_b              /* display channel B enable */
 .L_fn_memcpy_word:
-    .4byte  memcpy_word_idx            /* word-indexed memory copy */
+    .4byte  memcpy_word_idx                /* word-indexed memory copy */
 .L_palette_src_0:
-    .4byte  sym_06044A64               /* color palette source 0 */
+    .4byte  sym_06044A64                   /* color palette source 0 */
 .L_vdp2_cram_0x660:
-    .4byte  0x25F00660                  /* VDP2 color RAM +0x660 */
+    .4byte  0x25F00660                      /* VDP2 color RAM +0x660 */
 .L_palette_src_1:
-    .4byte  sym_06044A84               /* color palette source 1 */
+    .4byte  sym_06044A84                   /* color palette source 1 */
 .L_vdp2_cram_0x680:
-    .4byte  0x25F00680                  /* VDP2 color RAM +0x680 */
+    .4byte  0x25F00680                      /* VDP2 color RAM +0x680 */
 .L_palette_src_2:
-    .4byte  sym_06044AA4               /* color palette source 2 */
+    .4byte  sym_06044AA4                   /* color palette source 2 */
 .L_vdp2_cram_0x6A0:
-    .4byte  0x25F006A0                  /* VDP2 color RAM +0x6A0 */
+    .4byte  0x25F006A0                      /* VDP2 color RAM +0x6A0 */
 .L_palette_src_3:
-    .4byte  sym_06044AC4               /* color palette source 3 */
+    .4byte  sym_06044AC4                   /* color palette source 3 */
 .L_vdp2_cram_0x6C0:
-    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 */
+    .4byte  0x25F006C0                      /* VDP2 color RAM +0x6C0 */
 .L_vdp1_vram_base:
-    .4byte  0x25C00000                  /* VDP1 VRAM base */
+    .4byte  0x25C00000                      /* VDP1 VRAM base */
 .L_sprite_src_0:
-    .4byte  sym_06044AE4               /* sprite pattern source 0 */
+    .4byte  sym_06044AE4                   /* sprite pattern source 0 */
 .L_tile_index_ptr:
-    .4byte  sym_06059FFC               /* tile index value (ptr, *8 for offset) */
+    .4byte  sym_06059FFC                   /* tile index value (ptr, *8 for offset) */
 .L_sprite_src_1:
-    .4byte  sym_06044B24               /* sprite pattern source 1 */
+    .4byte  sym_06044B24                   /* sprite pattern source 1 */
 .L_sprite_src_2:
-    .4byte  sym_06044B04               /* sprite pattern source 2 */
+    .4byte  sym_06044B04                   /* sprite pattern source 2 */
 .L_sprite_src_3:
-    .4byte  sym_06044B44               /* sprite pattern source 3 */
+    .4byte  sym_06044B44                   /* sprite pattern source 3 */
 .L_fn_vram_tile_copy:
-    .4byte  sym_0600511E               /* VRAM tile data copy */
+    .4byte  sym_0600511E                   /* VRAM tile data copy */
 .L_tilemap_src_0:
-    .4byte  0x00017700                  /* tile map source 0 address */
+    .4byte  0x00017700                      /* tile map source 0 address */
 .L_vdp2_vram_0x73B98:
-    .4byte  0x25E73B98                  /* VDP2 VRAM +0x73B98 */
+    .4byte  0x25E73B98                      /* VDP2 VRAM +0x73B98 */
 .L_tilemap_src_1:
-    .4byte  0x000189E0                  /* tile map source 1 address */
+    .4byte  0x000189E0                      /* tile map source 1 address */
 .L_vdp2_vram_0x74158:
-    .4byte  0x25E74158                  /* VDP2 VRAM +0x74158 */
+    .4byte  0x25E74158                      /* VDP2 VRAM +0x74158 */
 .L_tilemap_src_2:
-    .4byte  0x0001AFA0                  /* tile map source 2 address */
+    .4byte  0x0001AFA0                      /* tile map source 2 address */
 .L_vdp2_vram_0x74AFC:
-    .4byte  0x25E74AFC                  /* VDP2 VRAM +0x74AFC */
+    .4byte  0x25E74AFC                      /* VDP2 VRAM +0x74AFC */
 .L_tilemap_src_3:
-    .4byte  0x0001C980                  /* tile map source 3 address */
+    .4byte  0x0001C980                      /* tile map source 3 address */
 .L_vdp2_vram_0x75730:
-    .4byte  0x25E75730                  /* VDP2 VRAM +0x75730 */
-.L_06014C48:                              /* === Per-element HUD init === */
-    extu.b r5, r4
-    mov #0x36, r3                        /* element stride = 54 bytes */
-    muls.w r3, r4
-    sts macl, r4
-    exts.w r4, r4
-    add r9, r4                           /* &hud_table[element * 0x36] */
-    extu.w r10, r2                       /* = 1 */
-    mov.w r2, @r4                        /* elem[+0x00] = 1 (priority) */
-    extu.w r14, r0                       /* = 25 */
-    mov.w r0, @(2, r4)                   /* elem[+0x02] = 25 (entry count) */
-    extu.b r11, r4                       /* slot = 0 */
-    extu.b r5, r6
-    muls.w r3, r6
-    sts macl, r6
-    exts.w r6, r6
-    add r9, r6                           /* &hud_table[element * 0x36] */
-.L_06014C68:                              /* --- Slot fill loop --- */
-    extu.b r4, r2                        /* slot index */
-    mov #0x20, r0                        /* slot value = 32 */
-    shll r2                              /* slot * 2 (word offset) */
-    add #0x1, r4                         /* slot++ */
-    add r6, r2                           /* &elem[slot * 2] */
-    extu.b r4, r3
-    mov.w r0, @(4, r2)                   /* elem[+4 + slot*2] = 32 */
-    cmp/ge r14, r3                        /* slot >= 25? */
-    bf      .L_06014C68
-    add #0x1, r5                         /* element++ */
-.L_06014C7C:                              /* --- Element loop condition --- */
-    extu.b r5, r3
-    mov #0x2C, r2                        /* 44 elements total */
-    cmp/ge r2, r3
-    bf      .L_06014C48                  /* → next element */
-    mov.l   .L_fn_vdp2_loop, r3         /* === Post-init finalization === */
-    jsr @r3                              /* vdp2_loop_ctrl() */
-    nop
-    mov.l   .L_fn_geom_pipeline, r3
-    jsr @r3                              /* geom_pipeline_coord() */
-    nop
-    exts.w r10, r0                       /* r0 = 1 */
-    mov.l   .L_display_flag_a, r3
-    mov.b r11, @r3                       /* display_flag_a = 0 */
-    mov.l   .L_display_flag_b, r3
-    mov.w r11, @r3                       /* display_flag_b = 0 */
-    mov.l   .L_display_flag_c, r3
-    mov.w r0, @r3                        /* display_flag_c = 1 */
-    mov.l   .L_fn_pre_display, r3
-    jsr @r3                              /* pre_display() */
-    nop
-    mov.l   .L_special_render_check, r0 /* === Optional car demo params === */
-    mov.w @r0, r0
-    extu.w r0, r0
-    cmp/eq #0x2, r0
-    .word 0x0029 /* UNKNOWN */
-    mov.l   .L_race_event_flags, r3
-    mov.l @r3, r3
-    and r3, r0
-    and r10, r0
-    tst r0, r0
-    bt      .L_06014CDE                  /* not active → return */
-    mov #0x27, r3                        /* --- Set demo parameters --- */
-    mov.l   .L_display_flag_b, r2
-    mov.w r3, @r2                        /* display_flag_b = 0x27 */
-    mov.l   .L_car_state_ptr, r4
-    mov.l @r4, r3                        /* car_state base */
-    mov.l   .L_demo_src_byte, r2
-    mov.b @r2, r2                        /* demo source byte */
-    mov.w   DAT_06014cf2, r0             /* 0x0224 offset */
-    mov.l r2, @(r0, r3)                 /* car[+0x224] = demo_src_byte */
-    mov.l @r4, r3
-    mov.l   .L_demo_src_word, r2
-    mov.l @r2, r2                        /* demo source word */
-    mov.w   .L_car_demo_offset_b, r0    /* 0x0240 offset */
-    mov.l r2, @(r0, r3)                 /* car[+0x240] = demo_src_word */
-    mov.l   .L_demo_params, r3
-    mov.l @r3, r3
-    mov.l   .L_demo_dest, r2
-    mov.l r3, @r2                        /* demo_dest = demo_params */
-.L_06014CDE:                              /* === Return === */
-    lds.l @r15+, macl
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r9
-    mov.l @r15+, r10
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
+    .4byte  0x25E75730                      /* VDP2 VRAM +0x75730 */
+
+    /* --- Phase 8: Initialize HUD element table (44 entries) --- */
+.L_hud_element_body:
+    extu.b r5, r4                            ! r4 = element index (zero-extended)
+    mov #0x36, r3                            ! r3 = 54 (element stride in bytes)
+    muls.w r3, r4                            ! MACL = element_index * 54
+    sts macl, r4                             ! r4 = byte offset
+    exts.w r4, r4                            ! sign-extend to 32-bit
+    add r9, r4                               ! r4 = &hud_table[element]
+    extu.w r10, r2                           ! r2 = 1
+    mov.w r2, @r4                            ! elem[+0x00] = 1 (priority)
+    extu.w r14, r0                           ! r0 = 25
+    mov.w r0, @(2, r4)                       ! elem[+0x02] = 25 (entry count)
+    extu.b r11, r4                           ! r4 = 0 (slot index start)
+    extu.b r5, r6                            ! r6 = element index
+    muls.w r3, r6                            ! MACL = element_index * 54
+    sts macl, r6                             ! r6 = byte offset
+    exts.w r6, r6                            ! sign-extend to 32-bit
+    add r9, r6                               ! r6 = &hud_table[element] (base for slots)
+
+.L_hud_slot_fill:
+    /* Inner loop: fill each slot with value 32 (empty marker) */
+    extu.b r4, r2                            ! r2 = slot index (zero-extended)
+    mov #0x20, r0                            ! r0 = 32 (empty slot value)
+    shll r2                                  ! r2 = slot * 2 (word offset)
+    add #0x1, r4                             ! slot_index++
+    add r6, r2                               ! r2 = &elem_base + slot*2
+    extu.b r4, r3                            ! r3 = next slot index
+    mov.w r0, @(4, r2)                       ! elem[+4 + slot*2] = 32
+    cmp/ge r14, r3                           ! slot_index >= 25?
+    bf      .L_hud_slot_fill                 ! loop until all 25 slots filled
+    add #0x1, r5                             ! element_index++
+
+.L_hud_element_check:
+    /* Outer loop: iterate over all 44 HUD elements */
+    extu.b r5, r3                            ! r3 = element index (zero-extended)
+    mov #0x2C, r2                            ! r2 = 44 (total elements)
+    cmp/ge r2, r3                            ! element_index >= 44?
+    bf      .L_hud_element_body              ! loop for next element
+
+    /* --- Phase 9: Post-init finalization --- */
+    mov.l   .L_fn_vdp2_loop, r3             ! load vdp2_loop_ctrl function ptr
+    jsr @r3                                  ! vdp2_loop_ctrl()
+    nop                                      ! delay slot
+    mov.l   .L_fn_geom_pipeline, r3          ! load geom_pipeline_coord function ptr
+    jsr @r3                                  ! geom_pipeline_coord()
+    nop                                      ! delay slot
+
+    /* --- Phase 10: Set display flags --- */
+    exts.w r10, r0                           ! r0 = 1 (sign-extended)
+    mov.l   .L_display_flag_a, r3            ! r3 = &display_flag_a
+    mov.b r11, @r3                           ! display_flag_a = 0
+    mov.l   .L_display_flag_b, r3            ! r3 = &display_flag_b
+    mov.w r11, @r3                           ! display_flag_b = 0
+    mov.l   .L_display_flag_c, r3            ! r3 = &display_flag_c
+    mov.w r0, @r3                            ! display_flag_c = 1
+    mov.l   .L_fn_pre_display, r3            ! load pre_display function ptr
+    jsr @r3                                  ! pre_display()
+    nop                                      ! delay slot
+
+    /* --- Phase 11: Optional car demo parameter setup --- */
+    mov.l   .L_special_render_check, r0      ! r0 = &special_render_flag
+    mov.w @r0, r0                            ! r0 = special_render_flag value
+    extu.w r0, r0                            ! zero-extend to 32-bit
+    cmp/eq #0x2, r0                          ! special_render == 2?
+    .word 0x0029 /* movt r0 */               ! r0 = T bit (1 if special_render == 2)
+    mov.l   .L_race_event_flags, r3          ! r3 = &race_event_flags
+    mov.l @r3, r3                            ! r3 = race_event_flags value
+    and r3, r0                               ! r0 = (movt result) & event_flags
+    and r10, r0                              ! r0 &= 1 (isolate bit 0)
+    tst r0, r0                               ! test if result is zero
+    bt      .L_epilogue                      ! zero -> skip demo params, return
+
+    /* Set car demo parameters */
+    mov #0x27, r3                            ! r3 = 0x27 (demo mode value)
+    mov.l   .L_display_flag_b, r2            ! r2 = &display_flag_b
+    mov.w r3, @r2                            ! display_flag_b = 0x27
+    mov.l   .L_car_state_ptr, r4             ! r4 = &car_state_ptr
+    mov.l @r4, r3                            ! r3 = car_state base address
+    mov.l   .L_demo_src_byte, r2             ! r2 = &demo_src_byte
+    mov.b @r2, r2                            ! r2 = demo source byte value
+    mov.w   DAT_06014cf2, r0                 ! r0 = 0x0224 (car struct offset A)
+    mov.l r2, @(r0, r3)                      ! car_state[+0x224] = demo_src_byte
+    mov.l @r4, r3                            ! r3 = car_state base (reload)
+    mov.l   .L_demo_src_word, r2             ! r2 = &demo_src_word
+    mov.l @r2, r2                            ! r2 = demo source word value
+    mov.w   .L_car_demo_offset_b, r0         ! r0 = 0x0240 (car struct offset B)
+    mov.l r2, @(r0, r3)                      ! car_state[+0x240] = demo_src_word
+    mov.l   .L_demo_params, r3               ! r3 = &demo_params
+    mov.l @r3, r3                            ! r3 = demo_params value
+    mov.l   .L_demo_dest, r2                 ! r2 = &demo_dest
+    mov.l r3, @r2                            ! demo_dest = demo_params
+
+.L_epilogue:
+    /* Restore saved registers and return */
+    lds.l @r15+, macl                        ! restore MACL
+    lds.l @r15+, pr                          ! restore return address
+    mov.l @r15+, r8                          ! restore r8
+    mov.l @r15+, r9                          ! restore r9
+    mov.l @r15+, r10                         ! restore r10
+    mov.l @r15+, r11                         ! restore r11
+    mov.l @r15+, r12                         ! restore r12
+    mov.l @r15+, r13                         ! restore r13
+    rts                                      ! return to caller
+    mov.l @r15+, r14                         ! restore r14 (delay slot)
 
     .global DAT_06014cf2
 DAT_06014cf2:
-    .2byte  0x0224                        /* car struct: demo param A offset */
+    .2byte  0x0224                            /* car struct: demo param A offset */
 .L_car_demo_offset_b:
-    .2byte  0x0240                        /* car struct: demo param B offset */
-    .2byte  0xFFFF
+    .2byte  0x0240                            /* car struct: demo param B offset */
+    .2byte  0xFFFF                            /* padding */
 .L_fn_vdp2_loop:
-    .4byte  vdp2_loop_ctrl             /* VDP2 loop control */
+    .4byte  vdp2_loop_ctrl                 /* VDP2 loop control */
 .L_fn_geom_pipeline:
-    .4byte  geom_pipeline_coord        /* geometry pipeline coordinates */
+    .4byte  geom_pipeline_coord            /* geometry pipeline coordinates */
 .L_display_flag_a:
-    .4byte  sym_06085F89               /* display flag A (byte) */
+    .4byte  sym_06085F89                   /* display flag A (byte) */
 .L_display_flag_b:
-    .4byte  sym_06085F90               /* display flag B (16-bit) */
+    .4byte  sym_06085F90                   /* display flag B (16-bit) */
 .L_display_flag_c:
-    .4byte  sym_06085F94               /* display flag C (16-bit) */
+    .4byte  sym_06085F94                   /* display flag C (16-bit) */
 .L_fn_pre_display:
-    .4byte  sym_060149CC               /* pre-display setup */
+    .4byte  sym_060149CC                   /* pre-display setup */
 .L_special_render_check:
-    .4byte  sym_0607ED8C               /* special render enable (16-bit) */
+    .4byte  sym_0607ED8C                   /* special render enable (16-bit) */
 .L_race_event_flags:
-    .4byte  sym_0607EBF4               /* race event bitfield (32-bit) */
+    .4byte  sym_0607EBF4                   /* race event bitfield (32-bit) */
 .L_car_state_ptr:
-    .4byte  sym_0607E944               /* car state base pointer */
+    .4byte  sym_0607E944                   /* car state base pointer */
 .L_demo_src_byte:
-    .4byte  sym_06078637               /* demo source byte */
+    .4byte  sym_06078637                   /* demo source byte */
 .L_demo_src_word:
-    .4byte  sym_06078638               /* demo source word (32-bit) */
+    .4byte  sym_06078638                   /* demo source word (32-bit) */
 .L_demo_params:
-    .4byte  sym_0607863C               /* demo parameters source */
+    .4byte  sym_0607863C                   /* demo parameters source */
 .L_demo_dest:
-    .4byte  sym_060786A4               /* demo parameters destination */
+    .4byte  sym_060786A4                   /* demo parameters destination */
