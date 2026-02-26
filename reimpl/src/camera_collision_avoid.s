@@ -32,127 +32,127 @@
     .global camera_collision_avoid
     .type camera_collision_avoid, @function
 camera_collision_avoid:
-    mov.l r14, @-r15
-    mov.l r13, @-r15
-    mov.l r12, @-r15
-    mov.l r11, @-r15
-    sts.l pr, @-r15
-    add #-0x4, r15
+    mov.l r14, @-r15                 ! save r14
+    mov.l r13, @-r15                 ! save r13
+    mov.l r12, @-r15                 ! save r12
+    mov.l r11, @-r15                 ! save r11
+    sts.l pr, @-r15                  ! save return address
+    add #-0x4, r15                   ! allocate 4 bytes on stack
     mov.l   .L_global_counter, r12     /* r12 = &global_counter */
     mov.l   .L_fp_half, r13            /* r13 = 0.5 (16.16 fixed-point) */
     mov.l   .L_config_ptr, r14         /* r14 = config struct (indirect) */
-    mov.l @r14, r14
+    mov.l @r14, r14                  ! dereference config ptr → config struct
     mov.b @(1, r14), r0               /* check object A enable flag */
-    mov r0, r3
-    tst r3, r3
-    bt      .L_0600A696               /* disabled → skip object A */
+    mov r0, r3                        ! r3 = enable flag
+    tst r3, r3                        ! test if zero
+    bt      .L_skip_object_a          /* disabled → skip object A */
     mov.l   .L_fn_pre_transform, r3   /* --- render object A --- */
     jsr @r3                            /* pre-transform setup */
-    nop
+    nop                               ! delay slot
     mov.l   .L_position_vec_a, r11    /* r11 = &position_A (XYZ triplet) */
     mov.l   .L_pos_offset_a, r2       /* per-axis offsets */
-    mov.w   .L_off_adj_yz, r3
+    mov.w   .L_off_adj_yz, r3            ! r3 = Y/Z adjustment offset
     mov.l @(8, r11), r6               /* Z position */
     mov.l @(4, r11), r5               /* Y position */
     mov.l @r11, r4                     /* X position */
     add r2, r6                         /* Z += offset_a */
     add r3, r5                         /* Y += adj_yz */
-    mov.w   .L_off_adj_x, r2
-    mov.l   .L_fn_transform_dispatch, r3
+    mov.w   .L_off_adj_x, r2          ! r2 = X adjustment offset
+    mov.l   .L_fn_transform_dispatch, r3 ! r3 = &transform_dispatch
     jsr @r3                            /* transform dispatch with offset position */
-    add r2, r4                         /* X += adj_x */
+    add r2, r4                         /* X += adj_x (delay slot) */
     mov r13, r6                        /* half-scale on all 3 axes */
-    mov r13, r5
-    mov.l   .L_fn_scale_columns, r3
+    mov r13, r5                       ! r5 = 0.5
+    mov.l   .L_fn_scale_columns, r3   ! r3 = &mat_scale_columns
     jsr @r3                            /* mat_scale_columns(0.5, 0.5, 0.5) */
-    mov r13, r4
+    mov r13, r4                       ! r4 = 0.5 (delay slot)
     mov.b @r14, r5                     /* model index = config[+0] + 14 */
-    add #0xE, r5
+    add #0xE, r5                      ! r5 = model_idx + 14
     shll2 r5                           /* index * 4 → byte offset */
     mov.l r5, @r15                     /* save index offset on stack */
     mov.l   .L_chain_a_src_tbl, r3    /* chain A: look up object transform */
-    mov.l @r15, r4
-    mov.l   .L_chain_a_param_tbl, r2
-    mov.l   .L_fn_chain_a, r1
-    add r3, r5
-    add r2, r4
+    mov.l @r15, r4                    ! r4 = index offset (reload)
+    mov.l   .L_chain_a_param_tbl, r2  ! r2 = &chain_a_param_tbl
+    mov.l   .L_fn_chain_a, r1        ! r1 = &chain_a_dispatch
+    add r3, r5                        ! r5 = &chain_a_src[index]
+    add r2, r4                        ! r4 = &chain_a_param[index]
     mov.l @r5, r5                      /* r5 = chain_a_src[index] */
     jsr @r1                            /* dispatch transform chain A */
-    mov.l @r4, r4                      /* r4 = chain_a_param[index] */
+    mov.l @r4, r4                      /* r4 = chain_a_param[index] (delay slot) */
     mov.b @r14, r6                     /* chain B: look up display transform */
-    add #0xE, r6
-    shll2 r6
-    mov.l r6, @r15
-    mov.l   .L_chain_b_src_tbl, r3
-    mov.l   .L_disp_mode_word, r5
-    mov.l @r15, r4
-    mov.l   .L_chain_b_param_tbl, r2
-    mov.l   .L_fn_chain_b, r1
-    add r3, r6
+    add #0xE, r6                      ! r6 = model_idx + 14
+    shll2 r6                          ! r6 = (model_idx + 14) * 4
+    mov.l r6, @r15                    ! save index offset on stack
+    mov.l   .L_chain_b_src_tbl, r3    ! r3 = &chain_b_src_tbl
+    mov.l   .L_disp_mode_word, r5     ! r5 = &display_mode_word
+    mov.l @r15, r4                    ! r4 = index offset (reload)
+    mov.l   .L_chain_b_param_tbl, r2  ! r2 = &chain_b_param_tbl
+    mov.l   .L_fn_chain_b, r1        ! r1 = &chain_b_dispatch
+    add r3, r6                        ! r6 = &chain_b_src[index]
     mov.w @r5, r5                      /* r5 = display mode (16-bit) */
-    add r2, r4
+    add r2, r4                        ! r4 = &chain_b_param[index]
     mov.l @r6, r6                      /* r6 = chain_b_src[index] */
     jsr @r1                            /* dispatch transform chain B */
-    mov.l @r4, r4                      /* r4 = chain_b_param[index] */
+    mov.l @r4, r4                      /* r4 = chain_b_param[index] (delay slot) */
     mov.l @r12, r3                     /* decrement global counter by 0x30 */
-    add #-0x30, r3
-    mov.l r3, @r12
-.L_0600A696:
+    add #-0x30, r3                    ! r3 -= 0x30
+    mov.l r3, @r12                    ! store updated counter
+.L_skip_object_a:
     mov.b @(4, r14), r0               /* check object B enable flag */
-    mov r0, r2
-    tst r2, r2
-    bt      .L_0600A754               /* disabled → skip object B */
+    mov r0, r2                        ! r2 = enable flag
+    tst r2, r2                        ! test if zero
+    bt      .L_epilogue               /* disabled → skip object B */
     mov.l   .L_fn_pre_transform, r3   /* --- render object B --- */
     jsr @r3                            /* pre-transform setup */
-    nop
+    nop                               ! delay slot
     mov.l   .L_position_vec_b, r11    /* r11 = &position_B (XYZ triplet) */
-    mov.l   .L_pos_offset_b, r3
-    mov.w   .L_off_adj_yz, r2
+    mov.l   .L_pos_offset_b, r3        ! r3 = object B Z offset
+    mov.w   .L_off_adj_yz, r2         ! r2 = Y/Z adjustment
     mov.l @(8, r11), r6               /* Z position */
     mov.l @(4, r11), r5               /* Y position */
     neg r6, r6                         /* negate Z (mirrored placement) */
     add r2, r5                         /* Y += adj_yz */
     add r3, r6                         /* Z += offset_b */
-    mov.l   .L_fn_transform_dispatch, r3
+    mov.l   .L_fn_transform_dispatch, r3 ! r3 = &transform_dispatch
     jsr @r3                            /* transform dispatch with mirrored position */
-    mov.l @r11, r4                     /* X position (no offset) */
+    mov.l @r11, r4                     /* X position (delay slot, no offset) */
     mov r13, r6                        /* half-scale on all 3 axes */
-    mov r13, r5
-    mov.l   .L_fn_scale_columns, r3
+    mov r13, r5                       ! r5 = 0.5
+    mov.l   .L_fn_scale_columns, r3   ! r3 = &mat_scale_columns
     jsr @r3                            /* mat_scale_columns(0.5, 0.5, 0.5) */
-    mov r13, r4
+    mov r13, r4                       ! r4 = 0.5 (delay slot)
     mov.b @(3, r14), r0               /* model index = config[+3] + 14 */
-    mov r0, r5
-    add #0xE, r5
-    shll2 r5
-    mov.l r5, @r15
+    mov r0, r5                        ! r5 = model index base
+    add #0xE, r5                      ! r5 = model_idx + 14
+    shll2 r5                          ! r5 = (model_idx + 14) * 4
+    mov.l r5, @r15                    ! save index offset on stack
     mov.l   .L_chain_a_src_tbl, r3    /* chain A: look up object transform */
-    mov.l @r15, r4
-    mov.l   .L_chain_a_param_tbl, r2
-    mov.l   .L_fn_chain_a, r1
-    add r3, r5
-    add r2, r4
-    mov.l @r5, r5
+    mov.l @r15, r4                    ! r4 = index offset (reload)
+    mov.l   .L_chain_a_param_tbl, r2  ! r2 = &chain_a_param_tbl
+    mov.l   .L_fn_chain_a, r1        ! r1 = &chain_a_dispatch
+    add r3, r5                        ! r5 = &chain_a_src[index]
+    add r2, r4                        ! r4 = &chain_a_param[index]
+    mov.l @r5, r5                     ! r5 = chain_a_src[index]
     jsr @r1                            /* dispatch transform chain A */
-    mov.l @r4, r4
+    mov.l @r4, r4                     ! r4 = chain_a_param[index] (delay slot)
     mov.b @(3, r14), r0               /* chain B: look up display transform */
-    mov r0, r6
-    add #0xE, r6
-    shll2 r6
-    mov.l r6, @r15
-    mov.l   .L_chain_b_src_tbl, r3
-    add r3, r6
-    mov.l @r6, r6
-    mov.l   .L_disp_mode_word, r5
-    mov.w @r5, r5
-    mov.l @r15, r4
-    bra     .L_0600A744               /* → shared chain B dispatch + exit */
-    nop
+    mov r0, r6                        ! r6 = model index base
+    add #0xE, r6                      ! r6 = model_idx + 14
+    shll2 r6                          ! r6 = (model_idx + 14) * 4
+    mov.l r6, @r15                    ! save index offset on stack
+    mov.l   .L_chain_b_src_tbl, r3    ! r3 = &chain_b_src_tbl
+    add r3, r6                        ! r6 = &chain_b_src[index]
+    mov.l @r6, r6                     ! r6 = chain_b_src[index]
+    mov.l   .L_disp_mode_word, r5     ! r5 = &display_mode_word
+    mov.w @r5, r5                     ! r5 = display mode (16-bit)
+    mov.l @r15, r4                    ! r4 = index offset (reload)
+    bra     .L_shared_chain_b         /* → shared chain B dispatch + exit */
+    nop                               ! delay slot
 .L_off_adj_yz:
     .2byte  0xCCCD                        /* Y position adjustment offset */
 .L_off_adj_x:
     .2byte  0x8000                        /* X position adjustment offset */
-    .2byte  0xFFFF
+    .2byte  0xFFFF                        /* alignment padding */
 .L_global_counter:
     .4byte  sym_06089EDC               /* global animation counter (dec by 0x30/obj) */
 .L_fp_half:
@@ -187,24 +187,24 @@ camera_collision_avoid:
     .4byte  sym_06044670               /* object B position vector (XYZ triplet) */
 .L_pos_offset_b:
     .4byte  0xFFFDB334                  /* object B Z offset (signed: -0x24CCC) */
-.L_0600A744:                              /* --- shared chain B dispatch path --- */
-    mov.l   .L_chain_b_param_tbl_2, r2
-    mov.l   .L_fn_chain_b_2, r1
-    add r2, r4
+.L_shared_chain_b:                        /* --- shared chain B dispatch path --- */
+    mov.l   .L_chain_b_param_tbl_2, r2 ! r2 = &chain_b_param_tbl
+    mov.l   .L_fn_chain_b_2, r1       ! r1 = &chain_b_dispatch
+    add r2, r4                        ! r4 = &chain_b_param[index]
     jsr @r1                            /* dispatch transform chain B */
-    mov.l @r4, r4
+    mov.l @r4, r4                     ! r4 = chain_b_param[index] (delay slot)
     mov.l @r12, r3                     /* decrement global counter by 0x30 */
-    add #-0x30, r3
-    mov.l r3, @r12
-.L_0600A754:
-    add #0x4, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-    .2byte  0xFFFF
+    add #-0x30, r3                    ! r3 -= 0x30
+    mov.l r3, @r12                    ! store updated counter
+.L_epilogue:
+    add #0x4, r15                     ! free stack local
+    lds.l @r15+, pr                   ! restore return address
+    mov.l @r15+, r11                  ! restore r11
+    mov.l @r15+, r12                  ! restore r12
+    mov.l @r15+, r13                  ! restore r13
+    rts                               ! return
+    mov.l @r15+, r14                  ! restore r14 (delay slot)
+    .2byte  0xFFFF                        /* alignment padding */
 .L_chain_b_param_tbl_2:
     .4byte  sym_060620D8               /* chain B parameter table (dup for reach) */
 .L_fn_chain_b_2:

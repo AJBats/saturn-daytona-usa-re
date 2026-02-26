@@ -23,54 +23,54 @@
     .global checkpoint_state_check
     .type checkpoint_state_check, @function
 checkpoint_state_check:
-    sts.l pr, @-r15
-    add #-0x4, r15
+    sts.l pr, @-r15                   /* save return address */
+    add #-0x4, r15                    /* allocate 4 bytes on stack */
     mov.l   .L_ai_state_base, r6      /* r6 = &ai_state_base (indirect pointer) */
-    mov.l @r6, r0
+    mov.l @r6, r0                     /* r0 = ai_state_base */
     add #0x18, r0                     /* +0x18 = checkpoint zone flags array */
     mov.b @(r0, r5), r0              /* check zone_flag[car_index] */
     cmp/eq #0x1, r0                   /* must be 1 (in checkpoint zone) */
-    bf      .L_06041488
-    mov.l @r6, r0
+    bf      .L_invalid_state              /* not in zone → invalid */
+    mov.l @r6, r0                     /* r0 = ai_state_base */
     mov.b @(r0, r5), r0              /* check active_flag[car_index] */
     cmp/eq #0x1, r0                   /* must be 1 (car active) */
-    bt      .L_06041490
-.L_06041488:
+    bt      .L_check_trigger              /* car active → check trigger */
+.L_invalid_state:
     add #0x4, r15                     /* invalid state → return -5 */
-    lds.l @r15+, pr
-    rts
-    mov #-0x5, r0
-.L_06041490:
+    lds.l @r15+, pr                   /* restore return address */
+    rts                               /* return */
+    mov #-0x5, r0                     /* delay slot: r0 = -5 (invalid state) */
+.L_check_trigger:
     mov.l @r6, r2                     /* check if already triggered */
     mov.w   .L_off_trigger_flag, r0   /* offset +0x360 = trigger flag */
-    mov.l @(r0, r2), r0
-    tst r0, r0
-    bt      .L_060414A2              /* not triggered → proceed */
+    mov.l @(r0, r2), r0              /* r0 = trigger flag value */
+    tst r0, r0                        /* test if zero */
+    bt      .L_set_trigger              /* not triggered → proceed */
     add #0x4, r15                     /* already triggered → return -1 */
-    lds.l @r15+, pr
-    rts
-    mov #-0x1, r0
-.L_060414A2:
+    lds.l @r15+, pr                   /* restore return address */
+    rts                               /* return */
+    mov #-0x1, r0                     /* delay slot: r0 = -1 (already triggered) */
+.L_set_trigger:
     mov #0x1, r2                      /* set trigger flag = 1 */
-    mov.w   .L_off_trigger_flag, r0
-    mov.l @r6, r3
+    mov.w   .L_off_trigger_flag, r0   /* r0 = 0x360 (trigger flag offset) */
+    mov.l @r6, r3                     /* r3 = ai_state_base */
     mov.l r2, @(r0, r3)              /* state[+0x360] = 1 */
-    add #0x4, r0
-    mov.l @r6, r3
+    add #0x4, r0                      /* r0 = 0x364 */
+    mov.l @r6, r3                     /* r3 = ai_state_base */
     mov.l r4, @(r0, r3)              /* state[+0x364] = param (r4) */
-    mov.l @r6, r3
-    add #0x4, r0
+    mov.l @r6, r3                     /* r3 = ai_state_base */
+    add #0x4, r0                      /* r0 = 0x368 */
     mov.l r5, @(r0, r3)              /* state[+0x368] = car_index (r5) */
     .byte   0xB5, 0xE7    /* bsr 0x06042088 (external) — ai_checkpoint_validate */
-    mov r15, r4
+    mov r15, r4                       /* delay slot: r4 = stack ptr (arg for validate) */
     mov #0x0, r0                      /* return 0 (success) */
-    add #0x4, r15
-    lds.l @r15+, pr
-    rts
-    nop
+    add #0x4, r15                     /* free stack allocation */
+    lds.l @r15+, pr                   /* restore return address */
+    rts                               /* return */
+    nop                               /* delay slot */
 .L_off_trigger_flag:
     .2byte  0x0360                      /* AI state offset: checkpoint trigger flag */
-    .2byte  0xFFFF
+    .2byte  0xFFFF                     /* alignment padding */
     .4byte  ai_checkpoint_validate     /* (adjacent reference for BSR target) */
 .L_ai_state_base:
     .4byte  sym_060A5400               /* pointer to AI state base structure */
