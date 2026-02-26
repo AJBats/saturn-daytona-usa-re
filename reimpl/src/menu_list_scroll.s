@@ -5,79 +5,110 @@
 
     .section .text.FUN_0603B290
 
-
+/*
+ * menu_list_scroll — initiate a scrolling list transition
+ *
+ * Sets up a menu list scroll operation on a menu descriptor.  Validates
+ * the descriptor via save_data_validate, computes the maximum scroll
+ * offset (total_items - visible_items), clamps the requested scroll
+ * position to that maximum, then configures the timer block and color
+ * transform for the scroll animation.
+ *
+ * If the descriptor's "busy" flag (byte at r0 offset) is already set,
+ * returns early with error code -0x10 via save_checksum_calc.
+ *
+ * Args:
+ *   r14 = menu descriptor pointer (passed via r4, but r14 is live from caller)
+ *   r0  = offset to busy flag byte within descriptor (live on entry)
+ *   r4  = menu descriptor pointer
+ *   r5  = requested scroll position (clamped to max)
+ *   r6  = color transform target G value
+ *   r7  = color transform target B value
+ *
+ * Returns:
+ *   r0  = 0 on success (via save_checksum_calc), -0x10 if busy
+ *
+ * Calls:
+ *   save_checksum_calc     0x0603B93C  set status/error code and return
+ *   save_data_validate     0x0603B9A4  validate/enqueue descriptor
+ *   menu_element_dispatch  0x0603B058  dispatch element, returns visible count
+ *   (unnamed)              0x0603BE7C  apply scroll offset to data block
+ *   sym_0603F9DA           timer_block_init_fields
+ *   sym_0603EF54           color_transform_set_params
+ *   sym_0603FA00           timer_set_active_flag
+ */
     .global menu_list_scroll
     .type menu_list_scroll, @function
 menu_list_scroll:
-    mov.l r14, @-r15
-    mov r4, r14
-    mov.l r13, @-r15
-    mov.l r8, @-r15
-    sts.l pr, @-r15
-    add #-0xC, r15
-    mov.l r5, @r15
-    mov.l r6, @(4, r15)
-    mov.l r7, @(8, r15)
-    mov.b @(r0, r14), r3
-    extu.b r3, r3
-    tst r3, r3
-    bt      .L_0603B2B8
-    mov #-0x10, r4
-    add #0xC, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r13
-    .byte   0xA3, 0x42    /* bra 0x0603B93C (external) */
-    mov.l @r15+, r14
-.L_0603B2B8:
-    .byte   0xB3, 0x74    /* bsr 0x0603B9A4 (external) */
-    mov r14, r4
-    mov #0x1, r4
-    mov #0x11, r0
-    mov.b r4, @(r0, r14)
-    mov #0x12, r0
-    mov.b r4, @(r0, r14)
-    mov.l @r14, r3
-    mov.l @(16, r3), r8
-    .byte   0xBE, 0xC5    /* bsr 0x0603B058 (external) */
-    mov r14, r4
-    mov r8, r4
-    mov.l @r15, r3
-    sub r0, r4
-    cmp/ge r4, r3
-    bt      .L_0603B2DC
-    bra     .L_0603B2DE
-    mov.l @r15, r13
-.L_0603B2DC:
-    mov r4, r13
-.L_0603B2DE:
-    mov r13, r5
-    .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */
-    mov.l @r14, r4
-    mov r13, r5
-    mov.l   .L_pool_0603B310, r3
-    jsr @r3
-    mov.l @(8, r14), r4
-    mov #0x1, r7
-    mov.l @(8, r15), r6
-    mov.l @(4, r15), r5
-    mov.l   .L_pool_0603B314, r3
-    jsr @r3
-    mov.l @(4, r14), r4
-    mov.l   .L_pool_0603B318, r3
-    jsr @r3
-    mov.l @(8, r14), r4
-    mov #0x0, r4
-    add #0xC, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r13
-    .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */
-    mov.l @r15+, r14
+    mov.l r14, @-r15                    ! save r14 (callee-saved)
+    mov r4, r14                         ! r14 = descriptor pointer
+    mov.l r13, @-r15                    ! save r13 (callee-saved)
+    mov.l r8, @-r15                     ! save r8 (callee-saved)
+    sts.l pr, @-r15                     ! save return address
+    add #-0xC, r15                      ! allocate 12 bytes on stack
+    mov.l r5, @r15                      ! stack[0] = requested scroll position
+    mov.l r6, @(4, r15)                 ! stack[4] = color target G value
+    mov.l r7, @(8, r15)                 ! stack[8] = color target B value
+    mov.b @(r0, r14), r3                ! r3 = descriptor[r0] (busy flag byte)
+    extu.b r3, r3                       ! zero-extend busy flag
+    tst r3, r3                          ! busy flag == 0?
+    bt      .L_not_busy                 ! if not busy, proceed with scroll setup
+    mov #-0x10, r4                      ! r4 = -0x10 (error: descriptor is busy)
+    add #0xC, r15                       ! free stack frame
+    lds.l @r15+, pr                     ! restore return address
+    mov.l @r15+, r8                     ! restore r8
+    mov.l @r15+, r13                    ! restore r13
+    .byte   0xA3, 0x42    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-0x10)
+    mov.l @r15+, r14                    ! (delay) restore r14
+.L_not_busy:
+    .byte   0xB3, 0x74    /* bsr 0x0603B9A4 (external) */  ! call save_data_validate(r4=descriptor)
+    mov r14, r4                         ! (delay) r4 = descriptor pointer
+    mov #0x1, r4                        ! r4 = 1 (flag value to set)
+    mov #0x11, r0                       ! r0 = 0x11 (scroll_type byte offset)
+    mov.b r4, @(r0, r14)               ! descriptor[0x11] = 1 (mark as scroll type)
+    mov #0x12, r0                       ! r0 = 0x12 (active flag byte offset)
+    mov.b r4, @(r0, r14)               ! descriptor[0x12] = 1 (mark as active)
+    mov.l @r14, r3                      ! r3 = descriptor->field_0 (linked data block ptr)
+    mov.l @(16, r3), r8                 ! r8 = data_block[16] (total item count)
+    .byte   0xBE, 0xC5    /* bsr 0x0603B058 (external) */  ! call menu_element_dispatch(r4=descriptor)
+    mov r14, r4                         ! (delay) r4 = descriptor pointer
+    mov r8, r4                          ! r4 = total_items
+    mov.l @r15, r3                      ! r3 = requested scroll position (from stack)
+    sub r0, r4                          ! r4 = total_items - visible_count = max_scroll
+    cmp/ge r4, r3                       ! requested_scroll >= max_scroll?
+    bt      .L_use_max_scroll           ! if so, clamp to max
+    bra     .L_scroll_clamped           ! otherwise, use requested value
+    mov.l @r15, r13                     ! (delay) r13 = requested scroll position
+.L_use_max_scroll:
+    mov r4, r13                         ! r13 = max_scroll (clamped)
+.L_scroll_clamped:
+    mov r13, r5                         ! r5 = clamped scroll position
+    .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */  ! call apply_scroll_offset(r4=data_block, r5=scroll_pos)
+    mov.l @r14, r4                      ! (delay) r4 = descriptor->field_0 (data block)
+    mov r13, r5                         ! r5 = clamped scroll position
+    mov.l   .L_pool_timer_block_init, r3 ! r3 = &timer_block_init_fields
+    jsr @r3                             ! call timer_block_init_fields(r4=timer_block, r5=scroll_pos)
+    mov.l @(8, r14), r4                 ! (delay) r4 = descriptor->field_8 (timer block)
+    mov #0x1, r7                        ! r7 = 1 (target B value override = mode flag)
+    mov.l @(8, r15), r6                 ! r6 = color target B value (from stack)
+    mov.l @(4, r15), r5                 ! r5 = color target G value (from stack)
+    mov.l   .L_pool_color_set_params, r3 ! r3 = &color_transform_set_params
+    jsr @r3                             ! call color_transform_set_params(r4, r5, r6, r7)
+    mov.l @(4, r14), r4                 ! (delay) r4 = descriptor->field_4 (color transform desc)
+    mov.l   .L_pool_timer_set_active, r3 ! r3 = &timer_set_active_flag
+    jsr @r3                             ! call timer_set_active_flag(r4=timer_block)
+    mov.l @(8, r14), r4                 ! (delay) r4 = descriptor->field_8 (timer block)
+    mov #0x0, r4                        ! r4 = 0 (success code)
+    add #0xC, r15                       ! free stack frame
+    lds.l @r15+, pr                     ! restore return address
+    mov.l @r15+, r8                     ! restore r8
+    mov.l @r15+, r13                    ! restore r13
+    .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=0)
+    mov.l @r15+, r14                    ! (delay) restore r14
     .4byte  cdb_wait_scdq
-.L_pool_0603B310:
-    .4byte  sym_0603F9DA
-.L_pool_0603B314:
-    .4byte  sym_0603EF54
-.L_pool_0603B318:
-    .4byte  sym_0603FA00
+.L_pool_timer_block_init:
+    .4byte  sym_0603F9DA                /* timer_block_init_fields */
+.L_pool_color_set_params:
+    .4byte  sym_0603EF54                /* color_transform_set_params */
+.L_pool_timer_set_active:
+    .4byte  sym_0603FA00                /* timer_set_active_flag */
