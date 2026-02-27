@@ -1,6 +1,6 @@
-# Daytona USA (Saturn) - Reverse Engineering Project
+# Daytona USA (Saturn) - AI Reverse Engineering Project
 
-A reverse engineering project for **Daytona USA** (Sega Saturn, 1995).
+An AI-driven reverse engineering project for **Daytona USA** (Sega Saturn, 1995).
 
 ## Prerequisites
 
