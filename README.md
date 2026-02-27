@@ -10,6 +10,18 @@ A reverse engineering project for **Daytona USA** (Sega Saturn, 1995).
 
 ## Setup
 
+Clone with `--recursive` to pull the custom Mednafen debugger submodule:
+
+```bash
+git clone --recursive https://github.com/AJBats/SaturnReverseTest.git
+```
+
+If you already cloned without `--recursive`:
+
+```bash
+git submodule update --init
+```
+
 Place your disc image at:
 
 ```
@@ -80,6 +92,7 @@ reimpl/
   Makefile
 
 asm/          - Sawyer-style annotation files (46 files, reverse engineering notes)
+mednafen/     - Custom Mednafen debugger (git submodule, see AJBats/mednafen-saturn-debug)
 ```
 
 ---
