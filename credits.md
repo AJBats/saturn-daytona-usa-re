@@ -48,6 +48,27 @@ and knowledge base that makes Saturn research accessible today.
 - **sotn-decomp** (Castlevania: Symphony of the Night decomp) - Reference
   project demonstrating Saturn matching decomp methodology with Cygnus GCC.
 
+### Mednafen
+- **Author:** Mednafen Team
+- **Website:** https://mednafen.github.io/
+- **Description:** Multi-system emulator with cycle-accurate Saturn
+  emulation. Used as the primary testing and debugging platform for this
+  project, including automated boot testing and the Claude debugger
+  interface.
+
+### Claude
+- **Author:** Anthropic
+- **Website:** https://claude.ai
+- **Description:** AI collaborator used throughout this project for
+  binary analysis, assembly decoding, tooling development, codebase
+  annotation, linker script design, and debugger-driven testing.
+
+## Inspiration
+
+- **Chris Sawyer** - for writing RollerCoaster Tycoon entirely in
+  assembly, which inspired the approach of treating assembly as source
+  code rather than pursuing a traditional C decompilation.
+
 ## Additional Thanks
 
 - The Sega Saturn hardware documentation efforts by Charles MacDonald
