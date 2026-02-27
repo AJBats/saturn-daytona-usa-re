@@ -17,7 +17,6 @@ reimpl/src/trampolines.s
 # External / third-party (user provides their own)
 external_resources/
 sotn-reference/
-mednafen/
 ghidra_project/
 
 # Toolchains (built locally via setup scripts)
