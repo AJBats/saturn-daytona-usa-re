@@ -143,57 +143,57 @@ vdp1_display_list_setup:
     .global DAT_0602c71a
 .L_off_flag_word_a:
 DAT_0602c71a:
-    .2byte  0x0120                      ! offset: activation flag word A
+    .2byte  0x0120                      /* car+0x120: activation flag word A [HIGH] */
 
     .global DAT_0602c71c
 .L_off_flag_word_b:
 DAT_0602c71c:
-    .2byte  0x0124                      ! offset: activation flag word B
+    .2byte  0x0124                      /* car+0x124: activation flag word B [HIGH] */
 
     .global DAT_0602c71e
 .L_off_flag_word_c:
 DAT_0602c71e:
-    .2byte  0x0128                      ! offset: activation flag word C
+    .2byte  0x0128                      /* car+0x128: activation flag word C [HIGH] */
 
     .global DAT_0602c720
 .L_off_flag_word_d:
 DAT_0602c720:
-    .2byte  0x012C                      ! offset: activation flag word D
+    .2byte  0x012C                      /* car+0x12C: activation flag word D [HIGH] */
 
     .global DAT_0602c722
 .L_off_vel_x:
 DAT_0602c722:
-    .2byte  0x0060                      ! offset: velocity X component
+    .2byte  0x0060                      /* car+0x60: velocity X component [HIGH] */
 
     .global DAT_0602c724
 .L_off_vel_y:
 DAT_0602c724:
-    .2byte  0x0064                      ! offset: velocity Y component
+    .2byte  0x0064                      /* car+0x64: velocity Y component [HIGH] */
 
     .global DAT_0602c726
 .L_off_vel_state_x:
 DAT_0602c726:
-    .2byte  0x0100                      ! offset: velocity state X
+    .2byte  0x0100                      /* car+0x100: velocity state X [HIGH] */
 
     .global DAT_0602c728
 .L_off_vel_state_y:
 DAT_0602c728:
-    .2byte  0x0104                      ! offset: velocity state Y
+    .2byte  0x0104                      /* car+0x104: velocity state Y [HIGH] */
 
     .global DAT_0602c72a
 .L_off_speed_delta:
 DAT_0602c72a:
-    .2byte  0x00FC                      ! offset: clamped speed delta
+    .2byte  0x00FC                      /* car+0xFC: clamped speed delta [HIGH] */
 .L_horiz_scale_factor:
-    .4byte  0x03700000                  ! ~880.0 FP16.16 (horizontal scale factor)
+    .4byte  0x03700000                  /* 0x03700000 = ~880.0 FP16.16 horizontal velocity scale factor [HIGH] */
 .L_vert_scale_factor:
-    .4byte  0x02D00000                  ! ~720.0 FP16.16 (vertical scale factor)
+    .4byte  0x02D00000                  /* 0x02D00000 = ~720.0 FP16.16 vertical velocity scale factor [HIGH] */
 .L_sin_index_range:
-    .4byte  0x00000645                  ! 1605 (sin table angular range)
+    .4byte  0x00000645                  /* 0x645 = 1605, sin table index range [MEDIUM] */
 .L_sin_lookup_ptr:
-    .4byte  sin_lookup                  ! -> sin lookup table
+    .4byte  sin_lookup                  /* -> sin_lookup function (trig table) [HIGH] */
 .L_normalize_factor:
-    .4byte  0x251B1285                  ! normalization constant for scale blend
+    .4byte  0x251B1285                  /* FP normalization constant for scale blend [MEDIUM] */
 .L_heading_was_invalid:
     neg r13, r13                        ! r13 = -scaled_sin (negate for reverse)
     shll r13                            ! r13 = -scaled_sin * 2
@@ -249,11 +249,11 @@ DAT_0602c72a:
     bra     .L_x_clamped               ! skip upper check
     nop                                 ! delay slot
 .L_display_scale_norm:
-    .4byte  0x00028000                  ! ~2.5 FP16.16 (display scale normalization)
+    .4byte  0x00028000                  /* 0x00028000 = ~2.5 FP16.16 display scale normalization [HIGH] */
 .L_x_scale_min:
-    .4byte  0x01600000                  ! ~352.0 FP16.16 (minimum X display scale)
+    .4byte  0x01600000                  /* 0x01600000 = ~352.0 FP16.16 minimum X display scale [HIGH] */
 .L_x_scale_max:
-    .4byte  0x0C080000                  ! ~3080.0 FP16.16 (maximum X display scale)
+    .4byte  0x0C080000                  /* 0x0C080000 = ~3080.0 FP16.16 maximum X display scale [HIGH] */
 .L_x_above_min:
     cmp/ge r10, r2                      ! is max >= raw_x? (i.e., raw_x <= max?)
     bt      .L_x_clamped               ! if within range, keep r10
@@ -267,9 +267,9 @@ DAT_0602c72a:
     bra     .L_y_clamped               ! skip upper check
     nop                                 ! delay slot
 .L_y_scale_min:
-    .4byte  0x01200000                  ! ~288.0 FP16.16 (minimum Y display scale)
+    .4byte  0x01200000                  /* 0x01200000 = ~288.0 FP16.16 minimum Y display scale [HIGH] */
 .L_y_scale_max:
-    .4byte  0x09D80000                  ! ~2520.0 FP16.16 (maximum Y display scale)
+    .4byte  0x09D80000                  /* 0x09D80000 = ~2520.0 FP16.16 maximum Y display scale [HIGH] */
 .L_y_above_min:
     cmp/ge r11, r2                      ! is max >= raw_y? (i.e., raw_y <= max?)
     bt      .L_y_clamped               ! if within range, keep r11
@@ -296,12 +296,12 @@ DAT_0602c72a:
     .global DAT_0602c7f8
 .L_off_display_scale_x:
 DAT_0602c7f8:
-    .2byte  0x0140                      ! offset: display scale X (car+0x140)
+    .2byte  0x0140                      /* car+0x140: smoothed X display scale output [HIGH] */
 
     .global DAT_0602c7fa
 .L_off_display_scale_y:
 DAT_0602c7fa:
-    .2byte  0x0144                      ! offset: display scale Y (car+0x144)
+    .2byte  0x0144                      /* car+0x144: smoothed Y display scale output [HIGH] */
 
 /* activation_weight_calc -- Weighted sum from activation flag bits
  *
@@ -324,61 +324,61 @@ DAT_0602c7fa:
     .byte   0x8D, 0x69    /* bt/s 0x0602C8DA (external: early exit with 0x10000) */
     mov #0x0, r9                        ! delay slot: r9 = 0 (flag count)
     mov #0x0, r8                        ! r8 = 0 (weight accumulator)
-    .byte   0x96, 0x45    /* mov.w .L_wpool_0602C898, r6 (r6 = 0x0001, bit 0 mask) */
+    .byte   0x96, 0x45    /* mov.w .L_wpool_0602C898, r6 (r6 = 0x0001, activation bit 0 mask) [HIGH] */
     tst r6, r4                          ! test bit 0 in flag word
     not r6, r7                          ! r7 = ~mask (for clearing bit)
     bt/s    .L_test_bit_2              ! if bit not set, skip
     and r7, r4                          ! delay slot: clear bit 0 from r4
-    .byte   0x98, 0x41    /* mov.w .L_wpool_0602C89A, r8 (r8 = 0x00EE, weight 238) */
+    .byte   0x98, 0x41    /* mov.w .L_wpool_0602C89A, r8 (r8 = 0x00EE, activation weight for bit 0 = 238) [HIGH] */
     mov #0x1, r9                        ! r9 = 1 (one flag found)
 .L_test_bit_2:
-    .byte   0x96, 0x40    /* mov.w .L_wpool_0602C89C, r6 (r6 = 0x0004, bit 2 mask) */
+    .byte   0x96, 0x40    /* mov.w .L_wpool_0602C89C, r6 (r6 = 0x0004, activation bit 2 mask) [HIGH] */
     tst r6, r4                          ! test bit 2 in flag word
     not r6, r7                          ! r7 = ~mask
     bt/s    .L_test_bit_1              ! if bit not set, skip
     and r7, r4                          ! delay slot: clear bit 2 from r4
-    .byte   0x96, 0x3C    /* mov.w .L_wpool_0602C89E, r6 (r6 = 0x00B4, weight 180) */
+    .byte   0x96, 0x3C    /* mov.w .L_wpool_0602C89E, r6 (r6 = 0x00B4, activation weight for bit 2 = 180) [HIGH] */
     add r6, r8                          ! r8 += 180
     add #0x1, r9                        ! r9++ (increment count)
 .L_test_bit_1:
-    .byte   0x96, 0x3A    /* mov.w .L_wpool_0602C8A0, r6 (r6 = 0x0002, bit 1 mask) */
+    .byte   0x96, 0x3A    /* mov.w .L_wpool_0602C8A0, r6 (r6 = 0x0002, activation bit 1 mask) [HIGH] */
     tst r6, r4                          ! test bit 1 in flag word
     not r6, r7                          ! r7 = ~mask
     bt/s    .L_test_bit_4              ! if bit not set, skip
     and r7, r4                          ! delay slot: clear bit 1 from r4
-    .byte   0x96, 0x36    /* mov.w .L_wpool_0602C8A2, r6 (r6 = 0x00D2, weight 210) */
+    .byte   0x96, 0x36    /* mov.w .L_wpool_0602C8A2, r6 (r6 = 0x00D2, activation weight for bit 1 = 210) [HIGH] */
     add r6, r8                          ! r8 += 210
     add #0x1, r9                        ! r9++ (increment count)
 .L_test_bit_4:
-    .byte   0x96, 0x34    /* mov.w .L_wpool_0602C8A4, r6 (r6 = 0x0010, bit 4 mask) */
+    .byte   0x96, 0x34    /* mov.w .L_wpool_0602C8A4, r6 (r6 = 0x0010, activation bit 4 mask) [HIGH] */
     tst r6, r4                          ! test bit 4 in flag word
     not r6, r7                          ! r7 = ~mask
     bt/s    .L_test_bit_5              ! if bit not set, skip
     and r7, r4                          ! delay slot: clear bit 4 from r4
-    .byte   0x96, 0x30    /* mov.w .L_wpool_0602C8A6, r6 (r6 = 0x00F6, weight 246) */
+    .byte   0x96, 0x30    /* mov.w .L_wpool_0602C8A6, r6 (r6 = 0x00F6, activation weight for bit 4 = 246) [HIGH] */
     add r6, r8                          ! r8 += 246
     add #0x1, r9                        ! r9++ (increment count)
 .L_test_bit_5:
-    .byte   0x96, 0x2E    /* mov.w .L_wpool_0602C8A8, r6 (r6 = 0x0020, bit 5 mask) */
+    .byte   0x96, 0x2E    /* mov.w .L_wpool_0602C8A8, r6 (r6 = 0x0020, activation bit 5 mask) [HIGH] */
     tst r6, r4                          ! test bit 5 in flag word
     not r6, r7                          ! r7 = ~mask
     bt/s    .L_test_remainder          ! if bit not set, skip
     and r7, r4                          ! delay slot: clear bit 5 from r4
-    .byte   0x96, 0x2A    /* mov.w .L_wpool_0602C8AA, r6 (r6 = 0x00FA, weight 250) */
+    .byte   0x96, 0x2A    /* mov.w .L_wpool_0602C8AA, r6 (r6 = 0x00FA, activation weight for bit 5 = 250) [HIGH] */
     add r6, r8                          ! r8 += 250
     add #0x1, r9                        ! r9++ (increment count)
 .L_test_remainder:
     mov #0x0, r6                        ! r6 = 0
     cmp/eq r6, r4                       ! any remaining bits in r4?
     bt      .L_all_bits_tested         ! if r4 == 0, no remainder
-    .byte   0x96, 0x25    /* mov.w .L_wpool_0602C8AC, r6 (r6 = 0x0096, weight 150) */
+    .byte   0x96, 0x25    /* mov.w .L_wpool_0602C8AC, r6 (r6 = 0x0096, activation weight for remainder bits = 150) [HIGH] */
     add r6, r8                          ! r8 += 150 (remainder weight)
     add #0x1, r9                        ! r9++ (increment count)
 .L_all_bits_tested:
     tst r9, r9                          ! any flags found at all?
     .byte   0x8D, 0x15    /* bt/s 0x0602C894 (external: no flags, return r4=0) */
     mov #0x0, r4                        ! delay slot: r4 = 0 (default if no flags)
-    .byte   0xD2, 0x11    /* mov.l .L_pool_0602C8B0, r2 (r2 = sym_06045AEC, heading table) */
+    .byte   0xD2, 0x11    /* mov.l .L_pool_0602C8B0, r2 (r2 = sym_06045AEC, activation weight lookup table) [MEDIUM] */
     mov #0x1, r4                        ! r4 = 1
     cmp/eq r4, r9                       ! count == 1?
     .byte   0x89, 0x22    /* bt 0x0602C8B8 (external: 1-flag path, shll2+lookup) */
@@ -390,4 +390,4 @@ DAT_0602c7fa:
     .byte   0x89, 0x27    /* bt 0x0602C8CE (external: 4-flag path, shlr2+shll2+lookup) */
     mov.l r0, @-r15                     ! save car base (for hw divide path)
     mov r8, r1                          ! r1 = weight sum (dividend for hw divide)
-    .byte   0xDC, 0x0C    /* mov.l .L_pool_0602C8B4, r12 (r12 = 0x0602ECCC, hw divide fn) */
+    .byte   0xDC, 0x0C    /* mov.l .L_pool_0602C8B4, r12 (r12 = hw_divide_protected @ 0x0602ECCC) [HIGH] */

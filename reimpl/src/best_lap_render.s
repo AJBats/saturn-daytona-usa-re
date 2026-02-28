@@ -14,7 +14,7 @@ best_lap_render:
     nop
     lds.l @r15+, pr
     mov r13, r1
-    mov.l   .L_pool_060327F8, r0
+    mov.l   .L_pool_entry_struct_offset, r0
     add r14, r0
     mov.l @r1+, r2
     mov.l r2, @(0, r0)
@@ -62,7 +62,7 @@ best_lap_render:
     .4byte  0x00000022
     .4byte  0x00000026
     .4byte  0x00000024
-.L_pool_060327F8:
-    .4byte  0x00000084
+.L_pool_entry_struct_offset:
+    .4byte  0x00000084                  /* [MEDIUM] struct field offset: lap data destination (+0x84) */
 .L_060327FC:
-    .byte   0xD0, 0x9D    /* mov.l .L_pool_06032A74, r0 */
+    .byte   0xD0, 0x9D    /* mov.l @cross-TU pool (render pipeline dispatch), r0 */

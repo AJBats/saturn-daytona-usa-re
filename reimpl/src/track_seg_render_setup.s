@@ -36,7 +36,7 @@ track_seg_render_setup:
     mov.l @(r0, r1), r4                 ! r4 = struct[0xE4] = seg_end position
     mov.w   DAT_0602f24c, r1            ! r1 = 0xE0 (seg_start offset)
     mov.l @(r0, r1), r5                 ! r5 = struct[0xE0] = seg_start position
-    mov.w   .L_wpool_0602F250, r1       ! r1 = 0xC0 (seg_length offset)
+    mov.w   .L_wpool_seg_length_off, r1  ! r1 = 0xC0 (seg_length offset)
     mov.l @(r0, r1), r6                 ! r6 = struct[0xC0] = segment length
     add r6, r5                           ! r5 = seg_start + seg_length (segment extent)
     sub r4, r5                           ! r5 = (seg_start + seg_length) - seg_end = remaining distance
@@ -60,21 +60,21 @@ DAT_0602f24c:
     .global DAT_0602f24e
 DAT_0602f24e:
     .2byte  0x00E4
-.L_wpool_0602F250:
-    .2byte  0x00C0
-    .2byte  0x0000
-    .4byte  sym_060477CC
-    .4byte  fpdiv_setup
+.L_wpool_seg_length_off:
+    .2byte  0x00C0                       /* [HIGH] struct offset 0xC0 = segment length field */
+    .2byte  0x0000                       /* alignment padding */
+    .4byte  sym_060477CC                 /* [MEDIUM] course speed table (shared pool, not referenced in this TU) */
+    .4byte  fpdiv_setup                  /* [MEDIUM] fpdiv_setup fn ptr (shared pool, caller loads r12) */
 .L_pool_clamp_table:
-    .4byte  sym_0602F3CC
+    .4byte  sym_0602F3CC                 /* [HIGH] per-segment render distance clamp table (min/max pairs) */
 .L_check_upper_bound:
     cmp/ge r5, r2                        ! clamp_max >= remaining_distance?
     bt      .L_apply_clamped_distance   ! yes -> distance is within bounds, keep it
     mov r2, r5                           ! no -> clamp to maximum
 .L_apply_clamped_distance:
     add r5, r4                           ! r4 = seg_end + clamped_distance = new render endpoint
-    mov.w   .L_wpool_0602F26E, r1       ! r1 = 0xE4 (seg_end offset)
+    mov.w   .L_wpool_seg_end_off, r1     ! r1 = 0xE4 (seg_end offset)
     rts                                  ! return
     mov.l r4, @(r0, r1)                 ! (delay slot) struct[0xE4] = new render endpoint
-.L_wpool_0602F26E:
-    .2byte  0x00E4
+.L_wpool_seg_end_off:
+    .2byte  0x00E4                       /* [HIGH] struct offset 0xE4 = seg_end position field */

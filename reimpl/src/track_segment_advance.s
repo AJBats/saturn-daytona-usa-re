@@ -66,8 +66,8 @@ track_segment_advance:
     add #-0x4, r0                               ! r0 = 0x01EC (target heading offset)
     extu.w r3, r3                               ! zero-extend heading to 32-bit
     mov.l r3, @(r0, r4)                         ! car[0x01EC] = new target heading from segment table
-    mov.w   .L_wpool_0600CF3C, r1               ! r1 = 0x0162 (previous heading component offset)
-    mov.w   .L_wpool_0600CF3E, r2               ! r2 = 0x0160 (current heading component offset)
+    mov.w   .L_off_prev_heading_comp, r1         ! r1 = 0x0162 (previous heading component offset)
+    mov.w   .L_off_cur_heading_comp, r2         ! r2 = 0x0160 (current heading component offset)
     .byte   0xD3, 0x1A    /* mov.l .L_p_memcpy_byte, r3 */     ! r3 = memcpy_byte (sym_06035228)
     add r4, r1                                  ! r1 = &car[0x162] (dst: save old heading component)
     add r4, r2                                  ! r2 = &car[0x160] (src: current heading component)
@@ -75,7 +75,7 @@ track_segment_advance:
     mov #0x2, r0                                ! (delay) r0 = 2 bytes to copy
     mov r5, r2                                  ! r2 = &segment_table[index]
     .byte   0xD3, 0x17    /* mov.l .L_p_memcpy_byte, r3 */     ! r3 = memcpy_byte (sym_06035228)
-    mov.w   .L_wpool_0600CF3E, r1               ! r1 = 0x0160 (current heading component offset)
+    mov.w   .L_off_cur_heading_comp, r1         ! r1 = 0x0160 (current heading component offset)
     add #0x2, r2                                ! r2 = &segment_table[index]+2 (second heading word)
     add r4, r1                                  ! r1 = &car[0x160] (dst: update heading component)
     jsr @r3                                     ! call memcpy_byte: copy segment[idx]+2 -> car[0x160]
@@ -94,7 +94,7 @@ track_segment_advance:
     add #-0x10, r2                              ! r2 = section_count - 16 (crossing threshold)
     cmp/gt r2, r5                               ! delta > threshold?
     bf      .L_no_segment_cross                 ! if not, not enough progress to cross segment
-    mov.w   .L_wpool_0600CF42, r0               ! r0 = 0x0228 (crossing counter offset)
+    mov.w   .L_off_crossing_counter, r0         ! r0 = 0x0228 (crossing counter offset)
     mov.l @(r0, r4), r2                         ! r2 = car[0x228] = crossing counter
     add #0x1, r2                                ! increment crossing counter
     mov.l r2, @(r0, r4)                         ! car[0x228] = counter + 1
@@ -118,16 +118,16 @@ track_segment_advance:
     .global DAT_0600cf3a
 DAT_0600cf3a:                                   ! car struct offset: segment index
     .2byte  0x0184
-.L_wpool_0600CF3C:                              ! car struct offset: previous heading component
-    .2byte  0x0162
-.L_wpool_0600CF3E:                              ! car struct offset: current heading component
-    .2byte  0x0160
+.L_off_prev_heading_comp:
+    .2byte  0x0162                              /* car[+0x162]: previous heading component [HIGH] */
+.L_off_cur_heading_comp:
+    .2byte  0x0160                              /* car[+0x160]: current heading component [HIGH] */
 
     .global DAT_0600cf40
 DAT_0600cf40:                                   ! car struct offset: heading backup
     .2byte  0x01F0
-.L_wpool_0600CF42:                              ! car struct offset: crossing counter
-    .2byte  0x0228
+.L_off_crossing_counter:
+    .2byte  0x0228                              /* car[+0x228]: segment crossing counter [HIGH] */
 .L_p_segment_table:                             ! -> track segment table pointer (sym_0607EB84)
     .4byte  sym_0607EB84
 .L_p_car_struct_ptr:                            ! -> current car struct pointer (sym_0607E940)

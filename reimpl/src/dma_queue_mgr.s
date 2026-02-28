@@ -11,26 +11,39 @@
  *   3. Uses the sort index to look up a 24-byte sprite entry from the
  *      sprite data table (sym_0608AC20).
  *   4. Reads the entry's type field at byte offset 6:
- *      - type == 9 → dispatches to VDP1 distorted sprite builder
+ *      - type == 9 -> dispatches to VDP1 distorted sprite builder
  *        (sym_060281B8) with CMDPMOD = 0x8000 (high-speed shrink).
- *      - type != 9 → dispatches to VDP1 normal sprite builder
+ *      - type != 9 -> dispatches to VDP1 normal sprite builder
  *        (sym_060280F8).
  *   5. Advances the VDP1 write cursor (sym_06078624) by 0x20 (32 bytes,
  *      one VDP1 command slot) after each entry.
  *   6. After all entries are processed, writes 0xFFFF (end-of-list marker)
- *      to the VDP1 command table (0x21800000).
+ *      to the VDP1 command table at 0x21800000 (VDP1 VRAM, write-through).
  *
  * Register plan:
- *   r8  = sym_060281B8 (VDP1 distorted sprite builder)
- *   r9  = sym_0606A4F8 (sort key array — 16-bit indices)
+ *   r8  = sym_060281B8 (VDP1 distorted sprite builder fn ptr)
+ *   r9  = sym_0606A4F8 (sort key array base -- 16-bit indices)
  *   r10 = 0x8000 (CMDPMOD: high-speed shrink flag)
  *   r11 = loop counter (current entry index)
  *   r12 = current sort index (16-bit, zero-extended)
  *   r13 = sym_0608AC20 (sprite data table base, 24-byte entries)
  *   r14 = sym_06078624 (pointer to VDP1 write cursor)
  *
- * Pool entries live in the following TU (dma_queue_commit), between
- * .L_wpool_06007DA0 and .L_ovf_retry.
+ * Pool map (entries live in the next TU, dma_queue_commit, between
+ * .L_wpool_ovf_bitmask and .L_ovf_retry):
+ *
+ *   Label (comment-only)                     Value               Confidence
+ *   ---------------------------------------- ------------------- ----------
+ *   .L_fn_distorted_sprite_builder           sym_060281B8        HIGH  -- verified call target, type-9 dispatch
+ *   .L_ptr_sort_key_array                    sym_0606A4F8        HIGH  -- confirmed in frame_timing.s annotations
+ *   .L_const_cmdpmod_hss                     0x00008000          HIGH  -- VDP1 CMDPMOD high-speed shrink bit
+ *   .L_ptr_sprite_data_table                 sym_0608AC20        HIGH  -- confirmed 24-byte stride in frame_timing.s
+ *   .L_ptr_vdp1_write_cursor                 sym_06078624        HIGH  -- write cursor advanced by 0x20 per entry
+ *   .L_fn_render_finalize                    sym_0603C000        HIGH  -- called from multiple TUs, verified
+ *   .L_fn_normal_sprite_builder              sym_060280F8        HIGH  -- verified call target, non-type-9 dispatch
+ *   .L_ptr_sprite_count                      sym_06078620        HIGH  -- loop bound, confirmed in frame_timing.s
+ *   .L_const_vdp1_end_marker                 0x0000FFFF          HIGH  -- VDP1 end-of-list command word
+ *   .L_const_vdp1_cmd_table                  0x21800000          HIGH  -- VDP1 VRAM base (write-through mirror)
  *
  * Calls: sym_0603C000 (render_finalize), sym_060281B8 (distorted sprite
  *        builder), sym_060280F8 (normal sprite builder)
@@ -50,21 +63,23 @@ dma_queue_mgr:
     mov.l r9, @-r15                     ! save r9
     mov.l r8, @-r15                     ! save r8
     sts.l pr, @-r15                     ! save pr (return address)
-    .byte   0xD8, 0x29    /* mov.l .L_pool_06007DA4, r8 */   ! r8 = sym_060281B8 (distorted sprite builder)
-    .byte   0xD9, 0x2A    /* mov.l .L_pool_06007DA8, r9 */   ! r9 = sym_0606A4F8 (sort key array)
-    .byte   0xDA, 0x2A    /* mov.l .L_pool_06007DAC, r10 */  ! r10 = 0x8000 (CMDPMOD: high-speed shrink)
-    .byte   0xDD, 0x2B    /* mov.l .L_pool_06007DB0, r13 */  ! r13 = sym_0608AC20 (sprite data table base)
-    .byte   0xDE, 0x2B    /* mov.l .L_pool_06007DB4, r14 */  ! r14 = &vdp1_write_cursor (sym_06078624)
-    .byte   0xD3, 0x2C    /* mov.l .L_pool_06007DB8, r3 */   ! r3 = sym_0603C000 (render_finalize)
+    .byte   0xD8, 0x29    /* mov.l .L_fn_distorted_sprite_builder, r8 */  ! r8 = sym_060281B8 (VDP1 distorted sprite builder)
+    .byte   0xD9, 0x2A    /* mov.l .L_ptr_sort_key_array, r9 */         ! r9 = sym_0606A4F8 (sort key array, 16-bit indices)
+    .byte   0xDA, 0x2A    /* mov.l .L_const_cmdpmod_hss, r10 */         ! r10 = 0x8000 (CMDPMOD: high-speed shrink flag)
+    .byte   0xDD, 0x2B    /* mov.l .L_ptr_sprite_data_table, r13 */     ! r13 = sym_0608AC20 (sprite data table, 24-byte entries)
+    .byte   0xDE, 0x2B    /* mov.l .L_ptr_vdp1_write_cursor, r14 */     ! r14 = &sym_06078624 (VDP1 write cursor pointer)
+    .byte   0xD3, 0x2C    /* mov.l .L_fn_render_finalize, r3 */         ! r3 = sym_0603C000 (render_finalize)
     jsr @r3                             ! call render_finalize — reset VDP1 command list
     nop                                 ! delay slot
     bra     .L_loop_test                ! jump to loop condition check
     mov #0x0, r11                       ! r11 = 0 (loop counter) [delay slot]
+    ! --- Loop body: fetch sort index, look up sprite entry, dispatch by type ---
 .L_loop_body:
     mov r11, r0                         ! r0 = current entry index
     shll r0                             ! r0 *= 2 (word offset into sort key array)
     mov.w @(r0, r9), r12               ! r12 = sort_keys[index] (16-bit sort index)
     extu.w r12, r12                     ! zero-extend sort index to 32 bits
+    ! Multiply sort index by 24 (0x18): idx*8 + idx*16 = idx*24
     extu.w r12, r0                      ! r0 = sort index (copy for offset calc)
     mov r0, r3                          ! r3 = sort index (second copy)
     shll2 r0                            ! r0 = index * 4
@@ -74,13 +89,15 @@ dma_queue_mgr:
     add r3, r0                          ! r0 = index * 24 (entry size = 0x18 bytes)
     extu.w r0, r0                       ! mask to 16 bits (table is <64K)
     add r13, r0                         ! r0 = &sprite_data[index] (absolute address)
-    mov.w @(6, r0), r0                  ! r0 = entry.type (halfword at offset 6)
+    mov.w @(6, r0), r0                  ! r0 = entry.type (halfword at offset +6)
     extu.w r0, r0                       ! zero-extend type field
     cmp/eq #0x9, r0                     ! is type == 9 (distorted sprite)?
-    bf      .L_normal_sprite            ! no — use normal sprite builder
+    bf      .L_normal_sprite            ! no -- use normal sprite builder
+    ! --- Type 9 path: distorted sprite (with high-speed shrink) ---
     mov r10, r6                         ! r6 = 0x8000 (CMDPMOD: high-speed shrink)
     extu.w r12, r4                      ! r4 = sort index (arg: entry ID)
     mov.l @r14, r5                      ! r5 = VDP1 write cursor (destination pointer)
+    ! Recompute index * 24 for call args (r4 = entry ptr, r5 = dest, r6 = CMDPMOD)
     mov r4, r3                          ! r3 = sort index (copy for offset calc)
     shll2 r4                            ! r4 = index * 4
     shll2 r3                            ! r3 = index * 4
@@ -92,9 +109,11 @@ dma_queue_mgr:
     add r13, r4                         ! r4 = &sprite_data[index] (source entry) [delay slot]
     bra     .L_advance_cursor           ! skip normal path
     nop                                 ! delay slot
+    ! --- Non-type-9 path: normal sprite ---
 .L_normal_sprite:
     extu.w r12, r4                      ! r4 = sort index (arg: entry ID)
     mov.l @r14, r5                      ! r5 = VDP1 write cursor (destination pointer)
+    ! Recompute index * 24 for call args (r4 = entry ptr, r5 = dest)
     mov r4, r3                          ! r3 = sort index (copy for offset calc)
     shll2 r4                            ! r4 = index * 4
     shll2 r3                            ! r3 = index * 4
@@ -102,21 +121,24 @@ dma_queue_mgr:
     shll2 r3                            ! r3 = index * 16
     add r3, r4                          ! r4 = index * 24 (entry offset)
     extu.w r4, r4                       ! mask to 16 bits
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06007DBC, r3 */   ! r3 = sym_060280F8 (normal sprite builder)
+    .byte   0xD3, 0x16    /* mov.l .L_fn_normal_sprite_builder, r3 */    ! r3 = sym_060280F8 (VDP1 normal sprite builder)
     jsr @r3                             ! call normal sprite builder
     add r13, r4                         ! r4 = &sprite_data[index] (source entry) [delay slot]
+    ! --- Advance VDP1 write cursor by one 32-byte command slot ---
 .L_advance_cursor:
     add #0x1, r11                       ! r11++ (next entry index)
     mov.l @r14, r2                      ! r2 = VDP1 write cursor
     add #0x20, r2                       ! r2 += 0x20 (advance by one VDP1 command slot)
     mov.l r2, @r14                      ! store updated write cursor
+    ! --- Loop condition: compare entry index against sprite count ---
 .L_loop_test:
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06007DC0, r3 */   ! r3 = &sprite_count (sym_06078620)
+    .byte   0xD3, 0x14    /* mov.l .L_ptr_sprite_count, r3 */            ! r3 = &sym_06078620 (sprite count)
     mov.l @r3, r3                       ! r3 = sprite count (number of entries to process)
     cmp/hs r3, r11                      ! has loop counter reached sprite count?
-    bf      .L_loop_body                ! no — process next entry
-    .byte   0xD3, 0x13    /* mov.l .L_pool_06007DC4, r3 */   ! r3 = 0x0000FFFF (VDP1 end-of-list marker)
-    .byte   0xD2, 0x13    /* mov.l .L_pool_06007DC8, r2 */   ! r2 = 0x21800000 (VDP1 command table address)
+    bf      .L_loop_body                ! no -- process next entry
+    ! --- All entries processed: write VDP1 end-of-list and return ---
+    .byte   0xD3, 0x13    /* mov.l .L_const_vdp1_end_marker, r3 */       ! r3 = 0x0000FFFF (VDP1 end-of-list marker)
+    .byte   0xD2, 0x13    /* mov.l .L_const_vdp1_cmd_table, r2 */        ! r2 = 0x21800000 (VDP1 command table base, write-through)
     mov.w r3, @r2                       ! write 0xFFFF end marker to VDP1 command table
     lds.l @r15+, pr                     ! restore pr (return address)
     mov.l @r15+, r8                     ! restore r8

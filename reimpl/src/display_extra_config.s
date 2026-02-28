@@ -24,7 +24,7 @@ display_extra_config:
     mov r0, r2                          ! r2 = config word
     extu.w r2, r2                       ! r2 = zero-extend to 32-bit
     and r6, r2                          ! r2 &= 0x0FFF — clear upper nibble first
-    mov.w   .L_wpool_06038A9C, r3       ! r3 = 0x1000 — bit 12 set mask
+    mov.w   .L_wpool_bit12_mask, r3       ! r3 = 0x1000 — bit 12 set mask
     or r3, r2                           ! r2 |= 0x1000 — set bit 12
     bra     .L_write_back               ! jump to write-back
     nop                                 ! (delay) no-op
@@ -44,8 +44,8 @@ display_extra_config:
     .global DAT_06038a9a
 DAT_06038a9a:
     .2byte  0x0FFF                      ! mask: keep bits 11:0, clear bits 15:12
-.L_wpool_06038A9C:
-    .2byte  0x1000                      ! bit 12 set mask (mode 1 — low-nibble channel select)
+.L_wpool_bit12_mask:
+    .2byte  0x1000                      /* [HIGH] bit 12 set mask (mode 1 — low-nibble channel select) */
 
     .global DAT_06038a9e
 DAT_06038a9e:

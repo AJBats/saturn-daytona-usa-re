@@ -17,20 +17,22 @@
  *   sym_060447A8 = target position table (8 x 32-bit entries, indexed by
  *                  layer_index * 16 + frame_counter * 4)
  *   sym_06078860 = current interpolated position (32-bit dword)
- *   sym_0607EADC = frame counter (32-bit, used as secondary index)
+ *   sym_0607EADC = animation frame index (32-bit, secondary table index)
  *   sym_0607887F = game state byte (0x3 = racing, 0xB = replay)
  *   sym_0607EBC8 = mode configuration flags (bit 0 = HUD suppress)
+ *                  (NOTE: same address as FRAME_COUNTER in game.h -- the
+ *                  main loop increments it, HUD code tests individual bits)
  *   sym_060447A4 = layer attribute data (read via cross-TU pool)
  *   sym_06044764 = layer X-offset table (8 x 32-bit signed values)
  *   sym_06044784 = layer Y-offset table (8 x 32-bit signed values)
  *
- * Cross-TU pool references (in sprite_batch_renderer data area):
- *   .L_pool_060115C8 = sym_060447A4 (layer attribute data)
- *   .L_pool_060115CC = 0x00010000 (fixed-point 1.0 or stride constant)
- *   .L_pool_060115D0 = sym_060447A8 (same as local pool, for second pass)
- *   .L_pool_060115D4 = sym_06044764 (layer X-offset table)
- *   .L_pool_060115D8 = sym_06044784 (layer Y-offset table)
- *   .L_wpool_060115C6 = 0x8000 (signed ceiling / half-screen constant)
+ * Cross-TU pool references (in sprite_batch_renderer data area at DAT_060115c6):
+ *   +0x02 (060115C8) = sym_060447A4  (layer attribute data)
+ *   +0x06 (060115CC) = 0x00010000    (fixed-point 1.0 / stride constant)
+ *   +0x0A (060115D0) = sym_060447A8  (target position table, second ref)
+ *   +0x0E (060115D4) = sym_06044764  (layer X-offset table)
+ *   +0x12 (060115D8) = sym_06044784  (layer Y-offset table)
+ *   +0x00 (060115C6) = 0x8000        (mov.w pool: signed ceiling constant)
  */
 
     .section .text.FUN_060114B8
@@ -55,12 +57,12 @@ hud_layer_composite:
     shll2 r0                                ! r0 = layer_index * 4
     mov.l   .L_ptr_current_pos, r14         ! r14 = &current_position (sym_06078860)
     mov.l   .L_ptr_target_table, r3         ! r3 = target_position_table (sym_060447A8)
-    mov.l   .L_ptr_frame_counter, r2        ! r2 = &frame_counter (sym_0607EADC)
+    mov.l   .L_ptr_anim_frame_index, r2        ! r2 = &anim_frame_index (sym_0607EADC)
     shll2 r0                                ! r0 = layer_index * 16 (stride into target table)
-    mov.l @r2, r2                           ! r2 = frame_counter value
+    mov.l @r2, r2                           ! r2 = anim_frame_index value
     add r3, r0                              ! r0 = &target_table[layer_index * 16]
-    shll2 r2                                ! r2 = frame_counter * 4 (dword offset)
-    mov.l @(r0, r2), r1                     ! r1 = target_position = table[layer*16 + frame*4]
+    shll2 r2                                ! r2 = anim_frame_index * 4 (dword offset)
+    mov.l @(r0, r2), r1                     ! r1 = target_position = table[layer*16 + anim*4]
     mov.l @r14, r2                          ! r2 = current_position
     mov #0x0, r0                            ! r0 = 0 (for carry/rounding calculation)
     sub r2, r1                              ! r1 = delta = target - current
@@ -88,8 +90,8 @@ hud_layer_composite:
     .2byte  0xFFFF                          ! alignment padding
 .L_ptr_target_table:
     .4byte  sym_060447A8                    /* target position table (8 dwords) */
-.L_ptr_frame_counter:
-    .4byte  sym_0607EADC                    /* frame counter (dword) */
+.L_ptr_anim_frame_index:
+    .4byte  sym_0607EADC                    /* animation frame index (dword) */
 .L_ptr_current_pos:
     .4byte  sym_06078860                    /* current interpolated position (dword) */
 .L_ptr_game_state:
@@ -110,21 +112,21 @@ hud_layer_composite:
  *   r13 = layer_index (from caller, callee-saved)
  *   r14 = &current_position (set above)
  *   r12 = &layer_attribute_data[layer_index * 2] (word array)
- *   r11 = &target_table[layer_index * 44 + 12] (dword within struct)
+ *   r11 = &target_table[layer_index * 16 + 12] (dword within entry)
  * ============================================================ */
 .L_do_render:
     extu.w r13, r12                         ! r12 = layer_index (16-bit clean)
     extu.w r13, r11                         ! r11 = layer_index (16-bit clean)
-    .byte   0xD3, 0x2C    /* mov.l .L_pool_060115C8, r3 */  ! r3 = layer_attribute_data (sym_060447A4)
+    .byte   0xD3, 0x2C    /* mov.l @(+0x02 cross-TU pool), r3 */  ! r3 = &layer_attribute_data (sym_060447A4)
     shll r12                                ! r12 = layer_index * 2 (word stride)
     shll2 r11                               ! r11 = layer_index * 4
     add r3, r12                             ! r12 = &layer_attrib[layer_index] (word ptr)
     shll2 r11                               ! r11 = layer_index * 16
     mov.w @r12, r2                          ! r2 = layer_attribute word
     mov.l r2, @-r15                         ! push layer_attribute onto stack
-    .byte   0xD7, 0x2A    /* mov.l .L_pool_060115CC, r7 */  ! r7 = 0x00010000 (stride / scale constant)
-    .byte   0x96, 0x4F    /* mov.w .L_wpool_060115C6, r6 */ ! r6 = 0x8000 (half-screen constant)
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_060115D0, r2 */  ! r2 = target_table base (sym_060447A8)
+    .byte   0xD7, 0x2A    /* mov.l @(+0x06 cross-TU pool), r7 */  ! r7 = 0x00010000 (fixed-point 1.0 stride)
+    .byte   0x96, 0x4F    /* mov.w @(+0x00 cross-TU pool), r6 */ ! r6 = 0x8000 (signed ceiling constant)
+    .byte   0xD2, 0x2A    /* mov.l @(+0x0A cross-TU pool), r2 */  ! r2 = &target_position_table (sym_060447A8)
     add r2, r11                             ! r11 = &target_table[layer_index * 16]
     add #0xC, r11                           ! r11 = &target_table[layer_index * 16 + 12]
     mov.l @r11, r5                          ! r5 = target_table entry (param for render call)
@@ -133,13 +135,13 @@ hud_layer_composite:
     add #0x4, r15                           ! pop layer_attribute from stack
     mov.w @r12, r7                          ! r7 = layer_attribute word (reload)
     mov.l @r11, r6                          ! r6 = target_table entry (reload)
-    .byte   0xD4, 0x26    /* mov.l .L_pool_060115D4, r4 */  ! r4 = X-offset table (sym_06044764)
+    .byte   0xD4, 0x26    /* mov.l @(+0x0E cross-TU pool), r4 */  ! r4 = &layer_x_offset_table (sym_06044764)
     .byte   0xB2, 0x1D    /* bsr 0x06011978 (external) */   ! call vertex_transform_rot(x_table, cur_pos, ...)
     mov.l @r14, r5                          ! r5 = current_position [delay slot]
     mov.w @r12, r7                          ! r7 = layer_attribute word (reload)
     mov.l @r11, r6                          ! r6 = target_table entry (reload)
     mov.l @r14, r5                          ! r5 = current_position (for tail call)
-    .byte   0xD4, 0x24    /* mov.l .L_pool_060115D8, r4 */  ! r4 = Y-offset table (sym_06044784)
+    .byte   0xD4, 0x24    /* mov.l @(+0x12 cross-TU pool), r4 */  ! r4 = &layer_y_offset_table (sym_06044784)
     lds.l @r15+, pr                         ! restore return address
     mov.l @r15+, r11                        ! restore r11
     mov.l @r15+, r12                        ! restore r12

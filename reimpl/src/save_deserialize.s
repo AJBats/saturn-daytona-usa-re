@@ -48,7 +48,7 @@ save_deserialize:
     mov r4, r13                         ! r13 = block pointer (preserve across calls)
     add #-0x4, r15                      ! allocate 4 bytes on stack (local var)
     mov.l   .L_pool_cmd_state_ptr, r14  ! r14 = &cmd_state_ptr (global state base pointer)
-    mov.w   .L_wpool_0603BD64, r0       ! r0 = 0x00A8 (active block slot offset)
+    mov.w   .L_wpool_active_block_offset, r0       ! r0 = 0x00A8 (active block slot offset)
     mov.l @r14, r4                      ! r4 = cmd_state_ptr (dereference pointer-to-pointer)
     mov.l @(r0, r4), r4                 ! r4 = cmd_state[+0xA8] (currently active block)
     tst r4, r4                          ! active block == NULL?
@@ -75,12 +75,12 @@ save_deserialize:
     tst r4, r4                          ! result == 0? (success)
     bf      .check_result_2             ! if nonzero, check if result is 2
     mov.l @r14, r3                      ! r3 = cmd_state_ptr
-    mov.w   .L_wpool_0603BD64, r0       ! r0 = 0x00A8 (active block slot offset)
+    mov.w   .L_wpool_active_block_offset, r0       ! r0 = 0x00A8 (active block slot offset)
     mov.l r13, @(r0, r3)               ! cmd_state[+0xA8] = our block (register as active)
     bra     .set_return_code            ! jump to return with r4 as result
     nop                                 ! delay slot
-.L_wpool_0603BD64:
-    .2byte  0x00A8                      ! constant: active block slot offset (+0xA8)
+.L_wpool_active_block_offset:
+    .2byte  0x00A8                      /* [HIGH] active block slot offset in cmd state (+0xA8) */
     .2byte  0xFFFF                      ! padding / alignment
     .4byte  sym_060401E4                ! pool: trivial setter (dest[+24] = value)
     .4byte  nop_stub_evt                ! pool: no-op event stub
@@ -96,13 +96,13 @@ save_deserialize:
     cmp/eq #0x2, r0                     ! result == 2? (block done, clear active slot)
     bf      .set_return_code            ! if not 2, skip clearing — just return result
     mov.l @r14, r3                      ! r3 = cmd_state_ptr
-    .byte   0x90, 0x3D    /* mov.w .L_wpool_0603BE0E, r0 */  ! r0 = 0x00A8 (active slot offset)
+    .byte   0x90, 0x3D    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */  ! r0 = 0x00A8
     mov.l @(r0, r3), r2                 ! r2 = cmd_state[+0xA8] (currently active block)
     cmp/eq r13, r2                      ! active block == our block?
     bf      .set_return_code            ! if not our block, don't clear — return result
     mov.l @r14, r2                      ! r2 = cmd_state_ptr
     mov #0x0, r3                        ! r3 = 0 (NULL, clear value)
-    .byte   0x90, 0x37    /* mov.w .L_wpool_0603BE0E, r0 */  ! r0 = 0x00A8 (active slot offset)
+    .byte   0x90, 0x37    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */  ! r0 = 0x00A8
     mov.l r3, @(r0, r2)                 ! cmd_state[+0xA8] = NULL (deregister active block)
 .set_return_code:
     mov r4, r0                          ! r0 = result code (return value)

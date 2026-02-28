@@ -35,7 +35,7 @@ high_score_render:
     mov.l   .L_mask_low_nibble, r7          ! r7 = 0x0000FFF0 (mask to clear low nibble)
     mov.l   .L_src_table_ptr, r5            ! r5 = sym_060A4D58 (source parameter table)
     mov.l   .L_cfg_word_array, r4           ! r4 = sym_060A4D28 (config word array base)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101 (nibble position/count param)
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101 (nibble position/count param)
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = sym_06034F78 (bitfield RMW utility)
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -46,7 +46,7 @@ high_score_render:
     and r7, r2                              ! r2 &= 0xFFF0 (clear low nibble, bits 0-3)
     mov.w r2, @r4                           ! write masked word[0] back
     mov.l   .L_mask_mid_nibble, r14         ! r14 = 0x0000F0FF (mask to clear mid nibble, bits 8-11)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101 (nibble position/count)
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101 (nibble position/count)
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -57,7 +57,7 @@ high_score_render:
     and r14, r2                             ! r2 &= 0xF0FF (clear mid nibble, bits 8-11)
     mov.w r2, @r4                           ! write masked word[0] back
     ! --- Config word[1] (offset 2): low nibble ---
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -69,7 +69,7 @@ high_score_render:
     mov.w r0, @(2, r4)                      ! write masked word[1] back
     ! --- Config word[1] (offset 2): mid nibble ---
     mov r6, r0                              ! r0 = value (reload)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -81,7 +81,7 @@ high_score_render:
     mov.w r0, @(2, r4)                      ! write masked word[1] back
     ! --- Config word[2] (offset 4): low nibble ---
     mov r6, r0                              ! r0 = value (reload)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -93,7 +93,7 @@ high_score_render:
     mov.w r0, @(4, r4)                      ! write masked word[2] back
     ! --- Config word[2] (offset 4): mid nibble ---
     mov r6, r0                              ! r0 = value (reload)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -105,7 +105,7 @@ high_score_render:
     mov.w r0, @(4, r4)                      ! write masked word[2] back
     ! --- Config word[3] (offset 6): low nibble ---
     mov r6, r0                              ! r0 = value (reload)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -117,7 +117,7 @@ high_score_render:
     mov.w r0, @(6, r4)                      ! write masked word[3] back
     ! --- Config word[3] (offset 6): mid nibble ---
     mov r6, r0                              ! r0 = value (reload)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
@@ -129,15 +129,15 @@ high_score_render:
     mov.w r0, @(6, r4)                      ! write masked word[3] back
     ! --- Final bitfield RMW call (no mask-and-write after) ---
     mov r6, r0                              ! r0 = value (reload)
-    mov.w   .L_wpool_0603D392, r1           ! r1 = 0x0101
+    mov.w   .L_nibble_pos_count, r1           ! r1 = 0x0101
     mov.l   .L_bitfield_rmw_fn, r3          ! r3 = bitfield RMW utility
     jsr @r3                                 ! call bitfield_rmw(r0=value, r1=0x0101, r2=src_table)
     mov r5, r2                              ! r2 = source table ptr (delay slot)
     lds.l @r15+, pr                         ! restore return address
     rts                                     ! return to caller
     mov.l @r15+, r14                        ! restore r14 (pushed by wrapper, delay slot)
-.L_wpool_0603D392:
-    .2byte  0x0101                          /* nibble position/count param for bitfield RMW */
+.L_nibble_pos_count:
+    .2byte  0x0101                          /* [MEDIUM] nibble position/count param for bitfield RMW */
 .L_mask_low_nibble:
     .4byte  0x0000FFF0                      /* mask to clear low nibble (bits 0-3) */
 .L_src_table_ptr:

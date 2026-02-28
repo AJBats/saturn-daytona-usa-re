@@ -22,7 +22,7 @@ name_entry_render:
     mov.l   .L_mask_byte1, r7           ! r7 = 0x0000FF00 (byte-1 mask)
     mov.l   .L_pool_config_byte_ptr, r5 ! r5 = config byte pointer (sym_060A4D58)
     mov.l   .L_pool_scroll_cfg_a, r4    ! r4 = scroll config block A (sym_060A4D3E)
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit(r0=val, r1=pos, r2=target)
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
@@ -32,7 +32,7 @@ name_entry_render:
     and r7, r2                          ! keep only byte 1 (mask 0xFF00)
     mov.w r2, @r4                       ! write back masked word[0]
     mov.w   DAT_0603d5be, r14           ! r14 = 0x00FF (byte-0 mask)
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
@@ -41,7 +41,7 @@ name_entry_render:
     extu.w r2, r2                       ! zero-extend to 32 bits
     and r14, r2                         ! keep only byte 0 (mask 0x00FF)
     mov.w r2, @r4                       ! write back masked word[0]
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
@@ -52,7 +52,7 @@ name_entry_render:
     extu.w r2, r0                       ! zero-extend result
     mov.w r0, @(2, r4)                  ! write back masked word[1]
     mov r6, r0                          ! r0 = display value
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
@@ -63,14 +63,14 @@ name_entry_render:
     extu.w r2, r0                       ! zero-extend result
     mov.w r0, @(2, r4)                  ! write back masked word[1]
     mov r6, r0                          ! r0 = display value
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
     mov #0x0, r0                        ! r0 = 0
     mov.w r0, @(4, r4)                  ! zero out word[2] of scroll config A
     mov r6, r0                          ! r0 = display value
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
@@ -81,7 +81,7 @@ name_entry_render:
     extu.w r2, r0                       ! zero-extend result
     mov.w r0, @(6, r4)                  ! write back masked word[3]
     mov r6, r0                          ! r0 = display value
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
@@ -92,15 +92,15 @@ name_entry_render:
     extu.w r2, r0                       ! zero-extend result
     mov.w r0, @(6, r4)                  ! write back masked word[3]
     mov r6, r0                          ! r0 = display value
-    mov.w   .L_wpool_0603D5BC, r1       ! r1 = 0x0401 (bit position | count)
+    mov.w   .L_bitfield_pos_count, r1       ! r1 = 0x0401 (bit position | count)
     mov.l   .L_pool_fn_bitfield_commit, r3 ! r3 = bitfield read-modify-write fn
     jsr @r3                             ! call bitfield commit
     mov r5, r2                          ! r2 = config byte pointer (delay slot)
     lds.l @r15+, pr                     ! restore return address
     rts                                 ! return
     mov.l @r15+, r14                    ! restore r14 (delay slot)
-.L_wpool_0603D5BC:
-    .2byte  0x0401
+.L_bitfield_pos_count:
+    .2byte  0x0401                         /* [MEDIUM] bit position (4) | count (1) for bitfield commit */
 
 
     .global DAT_0603d5be

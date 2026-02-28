@@ -9,40 +9,40 @@
     .global collision_response_vel
     .type collision_response_vel, @function
 collision_response_vel:
-    sts.l pr, @-r15
-    add #-0x8, r15
-    mov.l   .L_pool_06036834, r3
-    jsr @r3
-    mov r15, r4
-    mov r15, r2
-    mov #0x61, r3
-    extu.w r14, r14
-    extu.b r12, r12
-    extu.w r13, r13
-    mov.b r3, @r2
+    sts.l pr, @-r15                     ! save return address
+    add #-0x8, r15                      ! allocate 0x8-byte stack frame
+    mov.l   .L_fn_input_proc_analog, r3
+    jsr @r3                             ! call input_proc_analog(r4=buf)
+    mov r15, r4                         ! r4 = stack buffer (delay slot)
+    mov r15, r2                         ! r2 -> stack buffer base
+    mov #0x61, r3                       ! r3 = 0x61 (peripheral mode byte)
+    extu.w r14, r14                     ! zero-extend r14 to 16-bit
+    extu.b r12, r12                     ! zero-extend r12 to 8-bit
+    extu.w r13, r13                     ! zero-extend r13 to 16-bit
+    mov.b r3, @r2                       ! buf[0] = 0x61
     mov r14, r0
     mov r15, r2
     mov r15, r3
-    mov.w r0, @(2, r2)
+    mov.w r0, @(2, r2)                  ! buf[2..3] = r14 (16-bit)
     mov r12, r0
-    mov.b r0, @(4, r3)
+    mov.b r0, @(4, r3)                  ! buf[4] = r12 (8-bit)
     mov r15, r3
     mov r13, r0
-    mov.w r0, @(6, r3)
-    mov.w   .L_wpool_06036832, r4
-    mov.l   .L_pool_06036838, r3
-    jsr @r3
-    mov r15, r5
-    mov r0, r4
-    add #0x8, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-.L_wpool_06036832:
-    .2byte  0x0080
-.L_pool_06036834:
-    .4byte  input_proc_analog
-.L_pool_06036838:
-    .4byte  input_proc_buttons
+    mov.w r0, @(6, r3)                  ! buf[6..7] = r13 (16-bit)
+    mov.w   .L_periph_port_mask, r4     ! r4 = 0x0080 (port mask)
+    mov.l   .L_fn_input_proc_buttons, r3
+    jsr @r3                             ! call input_proc_buttons(r4=0x0080, r5=buf)
+    mov r15, r5                         ! r5 = stack buffer (delay slot)
+    mov r0, r4                          ! r4 = result from input_proc_buttons
+    add #0x8, r15                       ! deallocate stack frame
+    lds.l @r15+, pr                     ! restore return address
+    mov.l @r15+, r12                    ! restore r12
+    mov.l @r15+, r13                    ! restore r13
+    rts                                 ! return
+    mov.l @r15+, r14                    ! restore r14 (delay slot)
+.L_periph_port_mask:
+    .2byte  0x0080                      /* [MEDIUM] peripheral port mask -- 0x80 = port B analog? (cf. 0x0080 in obj_visibility_check, 0x0200 in ai_master_update) */
+.L_fn_input_proc_analog:
+    .4byte  input_proc_analog           /* [HIGH] fn ptr: SMPC analog axis reader */
+.L_fn_input_proc_buttons:
+    .4byte  input_proc_buttons          /* [HIGH] fn ptr: SMPC digital button reader */

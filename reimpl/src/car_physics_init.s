@@ -79,18 +79,18 @@ car_physics_init:
     mov.w   DAT_0600ed64, r3           ! r3 = 0x20D8
     mov.l   .L_race_timer_init, r2
     mov.l r3, @r2                       ! race_timer = 0x20D8
-    mov.l   .L_fn_ptr_table, r3          ! --- Phase 3: Dispatch subsystem init ---
-    mov.w   .L_fn_tbl_cmd_a, r5        ! r5 = 0x83 (command A)
-    mov.l @r3, r3                       ! indirect call via fn ptr table
-    jsr @r3
-    mov #-0x1, r4                       ! r4 = -1 (all cars)
+    mov.l   .L_fn_ptr_table, r3          ! --- Phase 3: BIOS interrupt mask + subsystem init ---
+    mov.w   .L_fn_tbl_cmd_a, r5        ! r5 = 0x83 (interrupt mask flags)
+    mov.l @r3, r3                       ! r3 = BIOS fn (indirect via vector table)
+    jsr @r3                             ! BIOS_int_mask(r4=-1, r5=0x83) — disable all, set base
+    mov #-0x1, r4                       ! r4 = -1 (all interrupts)
     mov.l   .L_fn_subsys_init, r3
-    jsr @r3                             ! subsystem init
+    jsr @r3                             ! subsystem_init()
     nop
     mov.l   .L_fn_ptr_table, r2
-    mov.w   .L_fn_tbl_cmd_b, r4        ! r4 = 0xFF7C (command B)
-    mov.l @r2, r2
-    jsr @r2
+    mov.w   .L_fn_tbl_cmd_b, r4        ! r4 = 0xFF7C (second mask pattern)
+    mov.l @r2, r2                       ! r2 = BIOS fn (indirect via vector table)
+    jsr @r2                             ! BIOS_int_mask(r4=0xFF7C, r5=0)
     mov #0x0, r5
     mov #0x60, r6                        ! --- Phase 4: DMA car data ---
     mov.l   .L_dma_src_addr, r5        ! r5 = DMA source
@@ -159,19 +159,19 @@ DAT_0600ed62:
 DAT_0600ed64:
     .2byte  0x20D8
 .L_fn_tbl_cmd_a:
-    .2byte  0x0083
+    .2byte  0x0083                      /* BIOS interrupt mask A: enable VBlank + timer */
 .L_fn_tbl_cmd_b:
-    .2byte  0xFF7C
+    .2byte  0xFF7C                      /* BIOS interrupt mask B: second config pattern */
 .L_spr_size_0x108:
     .2byte  0x0108
 
     .global DAT_0600ed6c
 DAT_0600ed6c:
-    .2byte  0x299B
+    .2byte  0x299B                      /* cdrom offset: slot 1 sprite data */
 
     .global DAT_0600ed6e
 DAT_0600ed6e:
-    .2byte  0x29A3
+    .2byte  0x29A3                      /* cdrom offset: slot 2 sprite data */
 .L_spr_size_0x810:
     .2byte  0x0810
 
@@ -203,42 +203,42 @@ DAT_0600ed7e:
 
     .global DAT_0600ed80
 DAT_0600ed80:
-    .2byte  0x080F
-    .2byte  0xFFFF
+    .2byte  0x080F                      /* sprite size param for slot 6 */
+    .2byte  0xFFFF                      /* alignment padding */
 .L_fn_vdp1_init:
-    .4byte  vdp1_init
+    .4byte  vdp1_init                   /* VDP1 sprite hardware reset */
 .L_car_struct_ptr_b:
-    .4byte  sym_06078884
+    .4byte  sym_06078884                /* &car_struct_ptr_b (computed at init) */
 .L_car_array_base:
-    .4byte  sym_06063F5C
+    .4byte  sym_06063F5C                /* &car_array_base (ptr to car data pool) */
 .L_car_index:
-    .4byte  sym_06059FFC
+    .4byte  sym_06059FFC                /* &car_index (active car selector) */
 .L_car_struct_ptr_a:
-    .4byte  sym_06078880
+    .4byte  sym_06078880                /* &car_struct_ptr_a (offset +0xC0 from ptr_b) */
 .L_car_struct_array:
-    .4byte  sym_06078888
+    .4byte  sym_06078888                /* car_struct_array[3] (3 x 32-byte slots) */
 .L_race_state_a:
-    .4byte  sym_0606A4F4
+    .4byte  sym_0606A4F4                /* &race_state_a (disc/loading state) */
 .L_race_timer_init:
-    .4byte  sym_0606A4EC
+    .4byte  sym_0606A4EC                /* &race_timer (init to 0x20D8) */
 .L_fn_ptr_table:
-    .4byte  sym_06000344
+    .4byte  sym_06000344                /* BIOS interrupt mask control fn ptr */
 .L_fn_subsys_init:
-    .4byte  sym_06012E00
+    .4byte  sym_06012E00                /* subsystem init function */
 .L_dma_src_addr:
-    .4byte  sym_0605A018
+    .4byte  sym_0605A018                /* phase display data base (DMA source) */
 .L_fn_dma_transfer:
-    .4byte  dma_transfer
+    .4byte  dma_transfer                /* SCU DMA transfer function */
 .L_dma_config:
-    .4byte  sym_0605A008
+    .4byte  sym_0605A008                /* &frame_counter (set to 3 during init) */
 .L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000                  /* 0.5 in 16.16 fixed-point */
 .L_vdp1_config_word:
-    .4byte  sym_06089E44
+    .4byte  sym_06089E44                /* &vdp1_sprite_index (word, cleared to 0) */
 .L_fn_vdp1_sprite:
-    .4byte  vdp1_sprite_render
+    .4byte  vdp1_sprite_render          /* sprite registration: r4=slot r5=size r6=flags r7=cdrom */
 .L_cdrom_base:
-    .4byte  0x002A0000
+    .4byte  0x002A0000                  /* CD-ROM data base address */
 .L_sprite_reg_phase2:                       ! --- Sprite slots 7-0x1F ---
     mov.w   DAT_0600eeba, r7
     mov #0x4, r6
@@ -864,12 +864,12 @@ DAT_0600f150:
 DAT_0600f152:
     .2byte  0x2324
 .L_cdrom_off_last:
-    .2byte  0x232C
-    .2byte  0xFFFF
+    .2byte  0x232C                      /* cdrom offset: slot 0x39 (last basic sprite) */
+    .2byte  0xFFFF                      /* alignment padding */
 .L_sprite_flag:
-    .4byte  sym_06089E46
+    .4byte  sym_06089E46                /* &sprite_ready_flag (word, set to 1) */
 .L_fn_obj_register:
-    .4byte  sym_06007540
+    .4byte  sym_06007540                /* object registration: r4=slot r5=obj_id r6=flags */
 .L_obj_reg_phase2:                          ! --- Object slots 0x5E-0x79 ---
     mov #0x1E, r5
     jsr @r12
@@ -984,82 +984,82 @@ DAT_0600f152:
     mov #0x79, r4
     mov #0x78, r6                        ! --- Phase 7: Large VDP1 sprite groups (0x101-0x103) ---
     mov.w   .L_slot_0x101, r4          ! r4 = 0x101 (extended slot)
-    mov.w   .L_spr_size_0xB40, r8      ! r8 = 0xB40 (large sprite size)
-    mov.w   DAT_0600f26c, r7
-    add r13, r7
-    jsr @r14
+    mov.w   .L_spr_size_0xB40, r8      ! r8 = 0xB40 (reused large sprite size)
+    mov.w   DAT_0600f26c, r7           ! r7 = cdrom offset for slot 0x101
+    add r13, r7                        ! r7 = cdrom_base + offset
+    jsr @r14                           ! vdp1_sprite_render(0x101, 0xB40, 0x78, cdrom)
     mov r8, r5
-    mov.w   DAT_0600f270, r7
+    mov.w   DAT_0600f270, r7           ! r7 = cdrom offset for slot 0x102
     mov #0x7C, r6
-    mov.w   DAT_0600f272, r4
+    mov.w   DAT_0600f272, r4           ! r4 = 0x102
     add r13, r7
-    jsr @r14
+    jsr @r14                           ! vdp1_sprite_render(0x102, 0xB40, 0x7C, cdrom)
     mov r8, r5
-    mov.w   .L_flags_0x80, r9
-    mov.w   DAT_0600f276, r7
-    mov.w   .L_slot_0x103, r4
-    mov r9, r6
+    mov.w   .L_flags_0x80, r9          ! r9 = 0x80 (reused flags)
+    mov.w   DAT_0600f276, r7           ! r7 = cdrom offset for slot 0x103
+    mov.w   .L_slot_0x103, r4          ! r4 = 0x103
+    mov r9, r6                         ! r6 = 0x80 (flags)
     add r13, r7
-    jsr @r14
+    jsr @r14                           ! vdp1_sprite_render(0x103, 0xB40, 0x80, cdrom)
     mov r8, r5
     bra     .L_obj_reg_final
     nop
 .L_spr_size_0xB40:
-    .2byte  0x0B40
+    .2byte  0x0B40                      /* large sprite group size param */
 
     .global DAT_0600f26c
 DAT_0600f26c:
-    .2byte  0x4B46
+    .2byte  0x4B46                      /* cdrom offset: slot 0x101 sprite data */
 .L_slot_0x101:
-    .2byte  0x0101
+    .2byte  0x0101                      /* extended VDP1 slot 0x101 */
 
     .global DAT_0600f270
 DAT_0600f270:
-    .2byte  0x5313
+    .2byte  0x5313                      /* cdrom offset: slot 0x102 sprite data */
 
     .global DAT_0600f272
 DAT_0600f272:
-    .2byte  0x0102
+    .2byte  0x0102                      /* extended VDP1 slot 0x102 */
 .L_flags_0x80:
-    .2byte  0x0080
+    .2byte  0x0080                      /* sprite flags: bit 7 set */
 
     .global DAT_0600f276
 DAT_0600f276:
-    .2byte  0x5B86
+    .2byte  0x5B86                      /* cdrom offset: slot 0x103 sprite data */
 .L_slot_0x103:
-    .2byte  0x0103
+    .2byte  0x0103                      /* extended VDP1 slot 0x103 */
 .L_obj_reg_final:                           ! --- Phase 8: Extended object reg (0x104-0x106) ---
-    mov.w   DAT_0600f342, r6
-    mov.w   DAT_0600f344, r4           ! r4 = 0x104
-    mov r6, r5
-    jsr @r12
-    add #0x7D, r5
-    mov.w   DAT_0600f346, r6
-    mov.w   DAT_0600f348, r4
-    mov r6, r5
-    jsr @r12
-    add #0x7A, r5
-    mov.w   DAT_0600f34a, r6
-    mov.w   .L_slot_0x106, r4
-    mov r6, r5
-    jsr @r12
-    add #0x77, r5
+    mov.w   DAT_0600f342, r6           ! r6 = 0x84 (flags)
+    mov.w   DAT_0600f344, r4           ! r4 = 0x104 (extended slot)
+    mov r6, r5                         ! r5 = 0x84
+    jsr @r12                           ! obj_register(0x104, 0x84+0x7D=0x101, 0x84)
+    add #0x7D, r5                      ! (delay) r5 = 0x101 (obj_id)
+    mov.w   DAT_0600f346, r6           ! r6 = 0x88 (flags)
+    mov.w   DAT_0600f348, r4           ! r4 = 0x105
+    mov r6, r5                         ! r5 = 0x88
+    jsr @r12                           ! obj_register(0x105, 0x88+0x7A=0x102, 0x88)
+    add #0x7A, r5                      ! (delay) r5 = 0x102 (obj_id)
+    mov.w   DAT_0600f34a, r6           ! r6 = 0x8C (flags)
+    mov.w   .L_slot_0x106, r4          ! r4 = 0x106
+    mov r6, r5                         ! r5 = 0x8C
+    jsr @r12                           ! obj_register(0x106, 0x8C+0x77=0x103, 0x8C)
+    add #0x77, r5                      ! (delay) r5 = 0x103 (obj_id)
     mov.l   .L_fp_half_0600F350, r2      ! --- Phase 9: Subsystem init + palette loading ---
     mov.l   .L_vdp1_mode_addr, r3
-    mov.w r2, @r3                       ! vdp1_mode = 0x8000 (fp 0.5)
-    mov r3, r6
-    mov.l   .L_vdp2_cram_0xFFE, r4     ! VDP2 CRAM last entry
+    mov.w r2, @r3                       ! display_control = 0x8000
+    mov r3, r6                         ! r6 = &display_control (for tilemap fn)
+    mov.l   .L_vdp2_cram_0xFFE, r4     ! r4 = VDP2 CRAM last entry (0x25F00FFE)
     mov.l   .L_fn_tilemap_dma, r3
-    jsr @r3                             ! tilemap_dma_update
-    mov #0x1, r5
+    jsr @r3                             ! tilemap_dma_update(cram_end, 1, &display_ctl)
+    mov #0x1, r5                        ! r5 = 1
     mov.l   .L_fn_subsys_b, r3
-    jsr @r3                             ! subsystem B init
+    jsr @r3                             ! display_disable() — clear bit 15
     nop
     mov.l   .L_fn_audio_init, r3
-    jsr @r3                             ! audio_display_init
+    jsr @r3                             ! audio_display_init()
     nop
     mov.l   .L_fn_render_coord, r3
-    jsr @r3                             ! render_coord_transform
+    jsr @r3                             ! render_coord_transform()
     nop
     mov r10, r6                          ! r6 = 0xC0 (palette size)
     mov.l   .L_pal_src_bg, r2          ! --- Palette DMA: BG palette -> CRAM 0x060/0x460 ---
@@ -1132,123 +1132,123 @@ DAT_0600f276:
 
     .global DAT_0600f342
 DAT_0600f342:
-    .2byte  0x0084
+    .2byte  0x0084                      /* obj flags for slot 0x104 */
 
     .global DAT_0600f344
 DAT_0600f344:
-    .2byte  0x0104
+    .2byte  0x0104                      /* extended obj slot 0x104 */
 
     .global DAT_0600f346
 DAT_0600f346:
-    .2byte  0x0088
+    .2byte  0x0088                      /* obj flags for slot 0x105 */
 
     .global DAT_0600f348
 DAT_0600f348:
-    .2byte  0x0105
+    .2byte  0x0105                      /* extended obj slot 0x105 */
 
     .global DAT_0600f34a
 DAT_0600f34a:
-    .2byte  0x008C
+    .2byte  0x008C                      /* obj flags for slot 0x106 */
 .L_slot_0x106:
-    .2byte  0x0106
-    .2byte  0xFFFF
+    .2byte  0x0106                      /* extended VDP1 slot 0x106 */
+    .2byte  0xFFFF                      /* alignment padding */
 .L_fp_half_0600F350:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000                  /* 0.5 in 16.16 fixed-point */
 .L_vdp1_mode_addr:
-    .4byte  sym_06086028
+    .4byte  sym_06086028                /* &display_control_flag (word) */
 .L_vdp2_cram_0xFFE:
-    .4byte  0x25F00FFE                  /* VDP2 color RAM +0xFFE */
+    .4byte  0x25F00FFE                  /* VDP2 CRAM last entry (end marker) */
 .L_fn_tilemap_dma:
-    .4byte  tilemap_dma_update
+    .4byte  tilemap_dma_update          /* tilemap DMA update function */
 .L_fn_subsys_b:
-    .4byte  sym_060149E0
+    .4byte  sym_060149E0                /* display_disable: clears bit 15 of display state */
 .L_fn_audio_init:
-    .4byte  audio_display_init
+    .4byte  audio_display_init          /* audio/display init function */
 .L_fn_render_coord:
-    .4byte  render_coord_transform
+    .4byte  render_coord_transform      /* render coordinate transform */
 .L_fn_memcpy_word:
-    .4byte  memcpy_word_idx
+    .4byte  memcpy_word_idx             /* word-indexed memcpy for palette DMA */
 .L_pal_src_bg:
-    .4byte  sym_060484EC
+    .4byte  sym_060484EC                /* BG palette source (0xC0 bytes) */
 .L_vdp2_cram_0x060:
-    .4byte  0x25F00060                  /* VDP2 color RAM +0x060 */
+    .4byte  0x25F00060                  /* CRAM +0x060: BG palette bank A */
 .L_vdp2_cram_0x460:
-    .4byte  0x25F00460                  /* VDP2 color RAM +0x460 */
+    .4byte  0x25F00460                  /* CRAM +0x460: BG palette bank B (mirror) */
 .L_pal_src_spr_a:
-    .4byte  sym_0604870C
+    .4byte  sym_0604870C                /* sprite palette source A (0x20 bytes) */
 .L_vdp2_cram_0x520:
-    .4byte  0x25F00520                  /* VDP2 color RAM +0x520 */
+    .4byte  0x25F00520                  /* CRAM +0x520: sprite palette A */
 .L_vdp2_cram_0x540:
-    .4byte  0x25F00540                  /* VDP2 color RAM +0x540 */
+    .4byte  0x25F00540                  /* CRAM +0x540: sprite palette A mirror */
 .L_pal_src_obj:
-    .4byte  sym_0604842C
+    .4byte  sym_0604842C                /* object palette source (0x40 bytes) */
 .L_vdp2_cram_0x1A0:
-    .4byte  0x25F001A0                  /* VDP2 color RAM +0x1A0 */
+    .4byte  0x25F001A0                  /* CRAM +0x1A0: object palette bank A */
 .L_vdp2_cram_0x7A0:
-    .4byte  0x25F007A0                  /* VDP2 color RAM +0x7A0 */
+    .4byte  0x25F007A0                  /* CRAM +0x7A0: object palette bank B (mirror) */
 .L_pal_src_obj_b:
-    .4byte  sym_0604846C
+    .4byte  sym_0604846C                /* object palette source B (0x20 bytes) */
 .L_vdp2_cram_0x1E0:
-    .4byte  0x25F001E0                  /* VDP2 color RAM +0x1E0 */
+    .4byte  0x25F001E0                  /* CRAM +0x1E0: object palette B bank A */
 .L_vdp2_cram_0x7E0:
-    .4byte  0x25F007E0                  /* VDP2 color RAM +0x7E0 */
+    .4byte  0x25F007E0                  /* CRAM +0x7E0: object palette B bank B (mirror) */
 .L_pal_src_effect:
-    .4byte  sym_0605CA5C
+    .4byte  sym_0605CA5C                /* effect palette source (0x40 bytes) */
 .L_vdp2_cram_0x5A0:
-    .4byte  0x25F005A0                  /* VDP2 color RAM +0x5A0 */
+    .4byte  0x25F005A0                  /* CRAM +0x5A0: effect palette */
 .L_pal_src_base:
-    .4byte  sym_0604814C
+    .4byte  sym_0604814C                /* base palette source (0x60 bytes) */
 .L_vdp2_cram_0x000:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
+    .4byte  0x25F00000                  /* CRAM +0x000: base palette bank A */
 .L_vdp2_cram_0x600:
-    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
+    .4byte  0x25F00600                  /* CRAM +0x600: base palette bank B (mirror) */
 .L_pal_src_spr_b:
-    .4byte  sym_060484CC
+    .4byte  sym_060484CC                /* sprite palette source B (0x20 bytes) */
 .L_vdp2_cram_0x6A0:
-    .4byte  0x25F006A0                  /* VDP2 color RAM +0x6A0 */
+    .4byte  0x25F006A0                  /* CRAM +0x6A0: sprite palette B */
 .L_pal_src_nbg:
-    .4byte  sym_060487AC
+    .4byte  sym_060487AC                /* NBG palette source (r9 bytes) */
 .L_vdp2_cram_0x120:
-    .4byte  0x25F00120                  /* VDP2 color RAM +0x120 */
+    .4byte  0x25F00120                  /* CRAM +0x120: NBG palette */
 .L_palette_and_cleanup:                     ! --- Phase 10: More palette DMA + final cleanup ---
-    .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */   ! (pool in next TU)
-    jsr @r14                            ! memcpy_word_idx — more palette copies
+    .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */   ! r4 = VDP2 CRAM +0x720 (course palette ext A dest)
+    jsr @r14                            ! memcpy_word_idx(cram_0x720, pal_nbg, r9)
     nop
-    mov #0x20, r6
-    .byte   0xD3, 0x26    /* mov.l .L_pool_0600F468, r3 */
-    mov.l r3, @r15
-    .byte   0xD4, 0x26    /* mov.l .L_pool_0600F46C, r4 */
-    jsr @r14
+    mov #0x20, r6                       ! size = 0x20 (16 palette entries)
+    .byte   0xD3, 0x26    /* mov.l .L_pool_0600F468, r3 */   ! r3 = sym_060487CC (palette source C)
+    mov.l r3, @r15                      ! save palette src on stack
+    .byte   0xD4, 0x26    /* mov.l .L_pool_0600F46C, r4 */   ! r4 = VDP2 CRAM +0x680 (palette dest)
+    jsr @r14                            ! memcpy_word_idx(cram_0x680, pal_src_c, 0x20)
     mov r3, r5
     mov #0x20, r6
-    .byte   0xD4, 0x25    /* mov.l .L_pool_0600F470, r4 */
-    jsr @r14
+    .byte   0xD4, 0x25    /* mov.l .L_pool_0600F470, r4 */   ! r4 = VDP2 CRAM +0x140 (palette dest, bank 6)
+    jsr @r14                            ! memcpy_word_idx(cram_0x140, pal_src_c, 0x20)
     mov.l @r15, r5
     mov #0x20, r6
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0600F474, r3 */
-    mov.l r3, @r15
-    .byte   0xD4, 0x24    /* mov.l .L_pool_0600F478, r4 */
-    jsr @r14
+    .byte   0xD3, 0x24    /* mov.l .L_pool_0600F474, r3 */   ! r3 = sym_060483EC (palette source D)
+    mov.l r3, @r15                      ! save palette src on stack
+    .byte   0xD4, 0x24    /* mov.l .L_pool_0600F478, r4 */   ! r4 = VDP2 CRAM +0x0C0 (palette dest)
+    jsr @r14                            ! memcpy_word_idx(cram_0x0C0, pal_src_d, 0x20)
     mov r3, r5
     mov #0x20, r6
-    .byte   0xD4, 0x23    /* mov.l .L_pool_0600F47C, r4 */
-    jsr @r14
+    .byte   0xD4, 0x23    /* mov.l .L_pool_0600F47C, r4 */   ! r4 = VDP2 CRAM +0x6C0 (course palette bank)
+    jsr @r14                            ! memcpy_word_idx(cram_0x6C0, pal_src_d, 0x20)
     mov.l @r15, r5
     extu.w r11, r3                      ! r3 = 0 (zero-extend r11)
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F480, r2 */
-    mov.w r3, @r2                       ! clear race status word
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F484, r2 */
-    mov.b r11, @r2                      ! clear race status byte
-    .byte   0xD4, 0x22    /* mov.l .L_pool_0600F488, r4 */   ! interrupt mask reg
-    .byte   0xD1, 0x23    /* mov.l .L_pool_0600F48C, r1 */   ! OR mask bits
-    .byte   0xD3, 0x23    /* mov.l .L_pool_0600F490, r3 */   ! fn to call after mask set
-    mov.l @r4, r2
-    or r1, r2                           ! set interrupt enable bits
-    jsr @r3
-    mov.l r2, @r4                       ! write back masked value
+    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F480, r2 */   ! r2 = &scroll_position_state (sym_0605AAA0)
+    mov.w r3, @r2                       ! scroll_position_state = 0
+    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F484, r2 */   ! r2 = &game_state_byte (sym_0607887F)
+    mov.b r11, @r2                      ! game_state = 0
+    .byte   0xD4, 0x22    /* mov.l .L_pool_0600F488, r4 */   ! r4 = &render_mode_flags (sym_0605B6D8)
+    .byte   0xD1, 0x23    /* mov.l .L_pool_0600F48C, r1 */   ! r1 = 0x40000000 (bit 30 = "race ready")
+    .byte   0xD3, 0x23    /* mov.l .L_pool_0600F490, r3 */   ! r3 = display_update fn (sym_06026CE0)
+    mov.l @r4, r2                       ! r2 = current render_mode_flags
+    or r1, r2                           ! set "race ready" bit 30
+    jsr @r3                             ! display_update()
+    mov.l r2, @r4                       ! write back render_mode_flags
     mov r11, r2
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0600F494, r3 */
-    mov.l r11, @r3                      ! clear final state word
+    .byte   0xD3, 0x21    /* mov.l .L_pool_0600F494, r3 */   ! r3 = &animation_state (sym_06059F44)
+    mov.l r11, @r3                      ! animation_state = 0
     add #0x4, r15                       ! free local stack
     lds.l @r15+, pr                     ! restore regs + return
     mov.l @r15+, r8

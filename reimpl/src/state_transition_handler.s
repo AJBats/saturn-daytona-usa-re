@@ -46,7 +46,7 @@ state_transition_handler:
     mov.l   .L_pool_game_state_ptr, r14         ! r14 = &game_state_base_ptr
     mov.l r4, @r15                              ! local[0] = state_buffer_ptr (save arg)
     mov.l @r14, r0                              ! r0 = game_state_base
-    mov.w   .L_wpool_06041D58, r1               ! r1 = 0x0328 (transition_state offset)
+    mov.w   .L_wpool_transition_state_offset, r1               ! r1 = 0x0328 (transition_state offset)
     mov.l @(r0, r1), r0                         ! r0 = game_state[+0x0328] = transition_state
     cmp/eq #0x1, r0                             ! transition_state == 1 (phase 1)?
     bf      .L_check_phase2                     ! no -> skip to phase 2 check
@@ -89,12 +89,12 @@ state_transition_handler:
     mov.l r2, @r3                               ! *state_buffer_ptr = incremented counter
     mov.l @r14, r3                              ! r3 = game_state_base
     mov #0x2, r2                                ! r2 = 2 (phase 2)
-    mov.w   .L_wpool_06041D58, r0               ! r0 = 0x0328 (transition_state offset)
+    mov.w   .L_wpool_transition_state_offset, r0               ! r0 = 0x0328 (transition_state offset)
     mov.l r2, @(r0, r3)                         ! game_state[+0x0328] = 2 (advance to phase 2)
 .L_check_phase2:
     ! --- Phase 2 check: finalize brake zone adjustment ---
     mov.l @r14, r0                              ! r0 = game_state_base
-    mov.w   .L_wpool_06041D58, r1               ! r1 = 0x0328 (transition_state offset)
+    mov.w   .L_wpool_transition_state_offset, r1               ! r1 = 0x0328 (transition_state offset)
     mov.l @(r0, r1), r0                         ! r0 = transition_state
     cmp/eq #0x2, r0                             ! transition_state == 2 (phase 2)?
     bf      .L_return_in_progress               ! no -> not in phase 2, return 1
@@ -107,7 +107,7 @@ state_transition_handler:
     ! --- Transition complete: reset state and return 0 ---
     mov #0x0, r4                                ! r4 = 0
     mov.l @r14, r3                              ! r3 = game_state_base
-    mov.w   .L_wpool_06041D58, r0               ! r0 = 0x0328 (transition_state offset)
+    mov.w   .L_wpool_transition_state_offset, r0               ! r0 = 0x0328 (transition_state offset)
     mov.l r4, @(r0, r3)                         ! game_state[+0x0328] = 0 (reset to idle)
     mov r4, r0                                  ! r0 = 0 (return value: transition complete)
     add #0x10, r15                              ! deallocate local stack
@@ -121,8 +121,8 @@ state_transition_handler:
     lds.l @r15+, pr                             ! restore return address
     rts                                         ! return
     mov.l @r15+, r14                            ! restore r14 [delay slot]
-.L_wpool_06041D58:
-    .2byte  0x0328
+.L_wpool_transition_state_offset:
+    .2byte  0x0328                      /* [HIGH] offset to transition_state in game state struct */
 
     .global DAT_06041d5a
 DAT_06041d5a:

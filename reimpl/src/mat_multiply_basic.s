@@ -30,37 +30,37 @@ mat_multiply_basic:
     tst #0x4, r0                            ! test bit 2 of mode
     bt      .L_dlist_struct_path            ! if bit 2 clear → struct-based path
     /* --- Static texture path (bit 2 set) --- */
-    mov.l   .L_pool_static_tex_data, r7    ! r7 = static texture data ptr (sym_06059128)
-    mov.w   .L_wpool_06026572, r6          ! r6 = 0x0090 (element size)
-    mov.w   .L_wpool_06026574, r5          ! r5 = 0x02A0 (layer D geometry param)
-    mov.l   .L_pool_geom_dispatch, r3      ! r3 = &geom_dispatch_final
+    mov.l   .L_pool_blank_text, r7          ! r7 = blank text ptr (sym_06059128)
+    mov.w   .L_wpool_elem_size, r6         ! r6 = 0x0090 (element size)
+    mov.w   .L_wpool_layer_d_param, r5     ! r5 = 0x02A0 (layer D geometry param)
+    mov.l   .L_pool_geom_dispatch_final, r3 ! r3 = &geom_dispatch_final
     jsr @r3                                 ! geom_dispatch_final(r4=8, r5=0x02A0, r6=0x0090, r7=tex_data)
     mov #0x8, r4                            ! r4 = 8 (render mode) [delay slot]
     /* --- Second call: layer E with static texture --- */
-    mov.l   .L_pool_static_tex_data, r7    ! r7 = static texture data ptr (same)
-    mov.w   .L_wpool_06026572, r6          ! r6 = 0x0090 (element size)
+    mov.l   .L_pool_blank_text, r7          ! r7 = blank text ptr (same)
+    mov.w   .L_wpool_elem_size, r6         ! r6 = 0x0090 (element size)
     mov.w   DAT_06026576, r5               ! r5 = 0x02B4 (layer E geometry param)
     mov #0x8, r4                            ! r4 = 8 (render mode)
     add #0x4, r15                           ! free stack local
-    mov.l   .L_pool_geom_dispatch, r3      ! r3 = &geom_dispatch_final
+    mov.l   .L_pool_geom_dispatch_final, r3 ! r3 = &geom_dispatch_final
     jmp @r3                                 ! tail-call geom_dispatch_final(8, 0x02B4, 0x0090, tex_data)
     lds.l @r15+, pr                         ! restore return address [delay slot]
 .L_dlist_struct_path:
     /* --- Struct-based path (bit 2 clear): layer D via dlist_entry_a --- */
-    mov.l   .L_pool_dlist_entry_a, r2      ! r2 = &dlist_entry_a struct (sym_06063B80)
+    mov.l   .L_pool_dlist_entry_layer_d, r2 ! r2 = &dlist_entry struct — layer D (sym_06063B80)
     mov.l r2, @r15                          ! sp[0] = &dlist_entry_a (save for field access)
     mov r2, r7                              ! r7 = &dlist_entry_a
     mov r2, r5                              ! r5 = &dlist_entry_a
     mov.w   DAT_06026578, r3               ! r3 = 0x7000 (frame data offset)
-    mov.w   .L_wpool_06026574, r6          ! r6 = 0x02A0 (layer D geometry param)
+    mov.w   .L_wpool_layer_d_param, r6     ! r6 = 0x02A0 (layer D geometry param)
     mov.l @(4, r7), r7                     ! r7 = dlist_entry_a[4] (frame_data ptr)
     mov.l @r5, r5                           ! r5 = dlist_entry_a[0] (render_fn / dlist_base)
     add r3, r7                              ! r7 = frame_data + 0x7000
-    mov.l   .L_pool_dlist_loader, r3       ! r3 = &display_list_loader
+    mov.l   .L_pool_display_list_loader, r3 ! r3 = &display_list_loader
     jsr @r3                                 ! display_list_loader(8, dlist_base, 0x02A0, frame+0x7000)
     mov #0x8, r4                            ! r4 = 8 (render mode) [delay slot]
     /* --- Layer E via dlist_entry_b --- */
-    mov.l   .L_pool_dlist_entry_b, r2      ! r2 = &dlist_entry_b struct (sym_06063B88)
+    mov.l   .L_pool_dlist_entry_layer_e, r2 ! r2 = &dlist_entry struct — layer E (sym_06063B88)
     mov.l r2, @r15                          ! sp[0] = &dlist_entry_b
     mov r2, r7                              ! r7 = &dlist_entry_b
     mov.l @(4, r7), r7                     ! r7 = dlist_entry_b[4] (frame_data ptr)
@@ -71,13 +71,13 @@ mat_multiply_basic:
     mov.l @r5, r5                           ! r5 = dlist_entry_b[0] (render_fn / dlist_base)
     mov #0x8, r4                            ! r4 = 8 (render mode)
     add #0x4, r15                           ! free stack local
-    mov.l   .L_pool_dlist_loader, r3       ! r3 = &display_list_loader
+    mov.l   .L_pool_display_list_loader, r3 ! r3 = &display_list_loader
     jmp @r3                                 ! tail-call display_list_loader(8, dlist_base, 0x02B4, frame+0x7000)
     lds.l @r15+, pr                         ! restore return address [delay slot]
-.L_wpool_06026572:
-    .2byte  0x0090
-.L_wpool_06026574:
-    .2byte  0x02A0
+.L_wpool_elem_size:
+    .2byte  0x0090                          /* [MEDIUM] display list element size (0x0090 = 144 bytes) */
+.L_wpool_layer_d_param:
+    .2byte  0x02A0                          /* [MEDIUM] layer D geometry offset (VDP display list slot) */
 
     .global DAT_06026576
 DAT_06026576:
@@ -87,13 +87,13 @@ DAT_06026576:
 DAT_06026578:
     .2byte  0x7000
     .2byte  0xFFFF
-.L_pool_static_tex_data:
-    .4byte  sym_06059128
-.L_pool_geom_dispatch:
-    .4byte  sym_060284AE
-.L_pool_dlist_entry_a:
-    .4byte  sym_06063B80
-.L_pool_dlist_loader:
-    .4byte  sym_06028400
-.L_pool_dlist_entry_b:
-    .4byte  sym_06063B88
+.L_pool_blank_text:
+    .4byte  sym_06059128                    /* [HIGH] blank text "  " — static texture data for geom_dispatch_final */
+.L_pool_geom_dispatch_final:
+    .4byte  sym_060284AE                    /* [HIGH] geom_dispatch_final — VDP geometry/text renderer */
+.L_pool_dlist_entry_layer_d:
+    .4byte  sym_06063B80                    /* [HIGH] display list entry struct — layer D (render_fn + frame_data) */
+.L_pool_display_list_loader:
+    .4byte  sym_06028400                    /* [HIGH] display_list_loader — DMA transfer from dlist to VDP */
+.L_pool_dlist_entry_layer_e:
+    .4byte  sym_06063B88                    /* [HIGH] display list entry struct — layer E (render_fn + frame_data) */

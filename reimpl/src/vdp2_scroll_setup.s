@@ -32,11 +32,11 @@ vdp2_scroll_setup:
     lds.l @r15+, pr                        ! restore return address
     mov.l   .L_car_state_ptr, r0           ! r0 = &car_state_ptr (sym_0607E940)
     mov.l @r0, r0                          ! r0 = car_state_base (dereference pointer)
-    mov.w   .L_wpool_0602E290, r5          ! r5 = 0x00E4 (scroll coefficient offset)
+    mov.w   .L_scroll_coeff_offset, r5     ! r5 = 0x00E4 (scroll coefficient offset)
     add r0, r5                             ! r5 = &car_state[+0xE4] (scroll coeff field)
-    mov.w   .L_wpool_0602E292, r3          ! r3 = 0x0708 (lower clamp bound)
+    mov.w   .L_scroll_clamp_lo, r3         ! r3 = 0x0708 (lower clamp bound)
     mov.l @r5, r1                          ! r1 = car_state[+0xE4] (raw scroll value)
-    mov.w   .L_wpool_0602E294, r4          ! r4 = 0x2134 (upper clamp bound)
+    mov.w   .L_scroll_clamp_hi, r4         ! r4 = 0x2134 (upper clamp bound)
     cmp/gt r3, r1                          ! if r1 > 0x0708 (above lower bound)
     bt      .L_above_lower_bound           ! then check upper bound
     mov r3, r1                             ! else clamp r1 = lower bound (0x0708)
@@ -60,12 +60,12 @@ DAT_0602e28a:
     .global DAT_0602e28e
 DAT_0602e28e:
     .word 0x0208 /* UNKNOWN */
-.L_wpool_0602E290:
-    .2byte  0x00E4                         /* word pool: struct offset +0xE4 (scroll coefficient) */
-.L_wpool_0602E292:
-    .2byte  0x0708                         /* word pool: lower clamp bound */
-.L_wpool_0602E294:
-    .2byte  0x2134                         /* word pool: upper clamp bound */
+.L_scroll_coeff_offset:
+    .2byte  0x00E4                         /* struct offset +0xE4: scroll coefficient field [HIGH] */
+.L_scroll_clamp_lo:
+    .2byte  0x0708                         /* scroll coefficient lower clamp bound [HIGH] */
+.L_scroll_clamp_hi:
+    .2byte  0x2134                         /* scroll coefficient upper clamp bound [HIGH] */
     .2byte  0x0000                         /* padding */
     .4byte  sym_0607EAC8                   /* data table: VDP2 state struct */
     .4byte  0x00000001                     /* data table: constant 1 */

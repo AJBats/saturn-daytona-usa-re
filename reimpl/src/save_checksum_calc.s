@@ -33,7 +33,7 @@ save_checksum_calc:
     sts.l pr, @-r15                 ! save return address
     mov r4, r13                     ! r13 = status_code (preserve across call)
     mov.l   .L_pool_game_state_ptr, r14 ! r14 = &sym_060A4D14 (game state ptr-ptr)
-    mov.w   .L_wpool_0603B986, r3   ! r3 = 0x00B8 (notification sub-struct offset)
+    mov.w   .L_wpool_notify_struct_offset, r3   ! r3 = 0x00B8 (notification sub-struct offset)
     mov.l @r14, r14                 ! r14 = game_state_base (dereference ptr-ptr)
     add r3, r14                     ! r14 = &notify_struct (game_state_base + 0xB8)
     tst r13, r13                    ! test: status_code == 0?
@@ -60,8 +60,8 @@ save_checksum_calc:
     .4byte  0x62223420
     .4byte  0x8B04A008
     .2byte  0x0009
-.L_wpool_0603B986:
-    .2byte  0x00B8
+.L_wpool_notify_struct_offset:
+    .2byte  0x00B8                      /* [HIGH] notification sub-struct offset within game state */
 .L_pool_game_state_ptr:
     .4byte  sym_060A4D14            ! global game state base pointer (ptr-ptr)
     .4byte  0x7501E060

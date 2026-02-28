@@ -40,13 +40,13 @@ menu_sound_trigger:
     sts.l pr, @-r15                         ! save return address
     add #-0x4, r15                          ! reserve one stack slot (for spill)
     mov.l   .L_pool_state_ptr, r14          ! r14 = &sym_060A4D14 (global state pointer)
-    mov.w   .L_wpool_0603AED8, r0           ! r0 = 0x00A0 (offset to active entry count)
+    mov.w   .L_wpool_off_active_count, r0   ! r0 = 0x00A0 (offset to active entry count)
     mov.l @r14, r3                          ! r3 = state struct base pointer
     mov.l @(r0, r3), r0                     ! r0 = struct[0xA0] (active entry count)
     tst r0, r0                              ! is active count zero?
     bt      .L_inactive_error               ! if no active entries, report error -0x8
     mov.l @r14, r0                          ! r0 = state struct base pointer
-    mov.w   .L_wpool_0603AEDA, r1           ! r1 = 0x0098 (offset to queue mode flag)
+    mov.w   .L_wpool_off_mode_flag, r1      ! r1 = 0x0098 (offset to queue mode flag)
     mov.l @(r0, r1), r0                     ! r0 = struct[0x98] (mode: 0=narrow, 1=wide)
     cmp/eq #0x1, r0                         ! is mode flag == 1 (wide / 24-byte stride)?
     bt      .L_mode_valid                   ! if wide mode, proceed to index validation
@@ -62,7 +62,7 @@ menu_sound_trigger:
     cmp/pz r4                               ! is entry index >= 0?
     bf      .L_range_error                  ! if negative index, report error -0x9
     mov.l   .L_pool_state_ptr, r3           ! r3 = &sym_060A4D14 (global state pointer)
-    mov.w   .L_wpool_0603AEDC, r0           ! r0 = 0x00A4 (offset to entry capacity)
+    mov.w   .L_wpool_off_capacity, r0       ! r0 = 0x00A4 (offset to entry capacity)
     mov.l @r3, r3                           ! r3 = state struct base pointer
     mov.l @(r0, r3), r2                     ! r2 = struct[0xA4] (entry capacity)
     cmp/gt r4, r2                           ! is capacity > index? (i.e. index < capacity)
@@ -77,7 +77,7 @@ menu_sound_trigger:
     mov.l @r15+, r14                        ! restore r14 (delay slot)
 .L_index_valid:
     mov.l @r14, r5                          ! r5 = state struct base pointer
-    mov.w   .L_wpool_0603AED8, r0           ! r0 = 0x00A0 (offset to active entry count)
+    mov.w   .L_wpool_off_active_count, r0   ! r0 = 0x00A0 (offset to active entry count)
     mov.l   .L_pool_index_mul24, r3         ! r3 = &index_mul24 function
     jsr @r3                                 ! call index_mul24(r4=index, r5=active_count)
     mov.l @(r0, r5), r5                     ! r5 = struct[0xA0] (active count; delay slot)
@@ -90,14 +90,14 @@ menu_sound_trigger:
     lds.l @r15+, pr                         ! restore return address
     rts                                     ! return r0 = byte offset + 0xC
     mov.l @r15+, r14                        ! restore r14 (delay slot)
-.L_wpool_0603AED8:
-    .2byte  0x00A0
-.L_wpool_0603AEDA:
-    .2byte  0x0098
-.L_wpool_0603AEDC:
-    .2byte  0x00A4
+.L_wpool_off_active_count:
+    .2byte  0x00A0                          /* [HIGH] struct offset: active entry count */
+.L_wpool_off_mode_flag:
+    .2byte  0x0098                          /* [HIGH] struct offset: queue mode flag (0=narrow, 1=wide) */
+.L_wpool_off_capacity:
+    .2byte  0x00A4                          /* [HIGH] struct offset: entry capacity (max index) */
     .2byte  0xFFFF
 .L_pool_state_ptr:
-    .4byte  sym_060A4D14                    ! pointer to global command/display state struct
+    .4byte  sym_060A4D14                    /* [HIGH] pointer to global command/display state struct */
 .L_pool_index_mul24:
-    .4byte  sym_0603F1F0                    ! index_mul24: idx*24 + base
+    .4byte  sym_0603F1F0                    /* [HIGH] index_mul24: idx*24 + base */

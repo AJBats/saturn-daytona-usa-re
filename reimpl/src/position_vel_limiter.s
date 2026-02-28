@@ -29,11 +29,11 @@
  */
 position_vel_limiter:
     mov.l   .L_ptr_position_vec, r4         ! r4 = &position_vec (XYZ triplet base)
-    mov.w   .L_wpool_06012326, r3           ! r3 = 0x2999 (Y velocity decrement)
+    mov.w   .L_const_y_vel_decrement, r3    ! r3 = 0x2999 (Y velocity decrement)
     mov.l @(4, r4), r2                      ! r2 = position_vec.Y
     sub r3, r2                              ! r2 -= Y velocity decrement
     mov.l r2, @(4, r4)                      ! position_vec.Y = r2 (store damped Y)
-    mov.w   .L_wpool_06012328, r3           ! r3 = 0x4000 (Z velocity decrement)
+    mov.w   .L_const_z_vel_decrement, r3    ! r3 = 0x4000 (Z velocity decrement)
     mov.l @(8, r4), r2                      ! r2 = position_vec.Z
     sub r3, r2                              ! r2 -= Z velocity decrement
     mov.l r2, @(8, r4)                      ! position_vec.Z = r2 (store damped Z)
@@ -50,24 +50,26 @@ position_vel_limiter:
     mov.l r5, @(8, r4)                      ! position_vec.Z = Z_floor (clamp to minimum)
 .L_z_above_floor:
     mov.l   .L_ptr_rotation_angle, r5       ! r5 = &rotation_angle (16-bit Z angle)
-    mov.w   .L_wpool_0601232A, r3           ! r3 = 0x1800 (rotation increment per frame)
+    mov.w   .L_const_rot_increment, r3      ! r3 = 0x1800 (rotation increment per frame)
     mov.w @r5, r2                           ! r2 = current rotation angle
     add r3, r2                              ! r2 += rotation increment
     rts                                     ! return (delay slot follows)
     mov.w r2, @r5                           ! rotation_angle = r2 (store updated angle)
-.L_wpool_06012326:
-    .2byte  0x2999
-.L_wpool_06012328:
-    .2byte  0x4000
-.L_wpool_0601232A:
-    .2byte  0x1800
-    .4byte  sym_0605AD10
-    .4byte  sym_06078636
+.L_const_y_vel_decrement:
+    .2byte  0x2999                      /* [HIGH] Y velocity decrement per frame (16.16 fixed ~0.163) */
+.L_const_z_vel_decrement:
+    .2byte  0x4000                      /* [HIGH] Z velocity decrement per frame (16.16 fixed = 0.25) */
+.L_const_rot_increment:
+    .2byte  0x1800                      /* [HIGH] rotation angle increment per frame (0x1800 = ~33.75 deg) */
+.L_ptr_game_state:
+    .4byte  sym_0605AD10                /* [HIGH] game state variable (0-31 state machine index) — unreferenced in this TU */
+.L_ptr_display_mode:
+    .4byte  sym_06078636                /* [HIGH] display mode byte (controls car display) — unreferenced in this TU */
 .L_ptr_position_vec:
-    .4byte  sym_060788B4
+    .4byte  sym_060788B4                /* [HIGH] position vector base (XYZ triplet, 16.16 fixed-point) */
 .L_min_y_position:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000                  /* [HIGH] 2.0 (16.16 fixed-point) — Y position floor */
 .L_min_z_position:
-    .4byte  0x0004CCCC
+    .4byte  0x0004CCCC                  /* [HIGH] ~4.8 (16.16 fixed-point) — Z position floor */
 .L_ptr_rotation_angle:
-    .4byte  sym_060788B2
+    .4byte  sym_060788B2                /* [HIGH] Z rotation angle state (16-bit, WRAM High) */

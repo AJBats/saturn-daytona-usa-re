@@ -39,7 +39,7 @@ race_resource_init:
     sts.l pr, @-r15                            ! save return address
 
     ! --- Step 1: Clear channel priority nibble for bit 0x0100 ---
-    mov.w   .L_wpool_0600A10E, r4              ! r4 = 0x0100 (channel bitmask: Array A word[0] low nibble)
+    mov.w   .L_w_channel_bitmask, r4              ! r4 = 0x0100 (channel bitmask: Array A word[0] low nibble)
     mov.l   .L_fn_channel_nibble_config, r3    ! r3 = &channel_nibble_config
     jsr @r3                                    ! channel_nibble_config(0x0100, 0)
     mov #0x0, r5                               ! r5 = 0 (nibble value — delay slot)
@@ -97,32 +97,32 @@ race_resource_init:
     .global DAT_0600a10c
 DAT_0600a10c:
     mov.b @(r0, r11), r0
-.L_wpool_0600A10E:
-    .2byte  0x0100
+.L_w_channel_bitmask:
+    .2byte  0x0100                     /* [HIGH] channel priority bitmask */
 
     .global DAT_0600a110
 DAT_0600a110:
-    .2byte  0x00DF
+    .2byte  0x00DF                     /* screen height - 1 (223) */
 
     .global DAT_0600a112
 DAT_0600a112:
-    .2byte  0x015F
-    .4byte  sym_0607E944
-    .4byte  display_channel_b
-    .4byte  sym_0607EBC8
+    .2byte  0x015F                     /* screen width - 1 (351) */
+    .4byte  sym_0607E944               /* (adjacent TU pool entry) */
+    .4byte  display_channel_b          /* (adjacent TU pool entry) */
+    .4byte  sym_0607EBC8               /* (adjacent TU pool entry) */
 .L_fn_channel_nibble_config:
-    .4byte  channel_nibble_config
+    .4byte  channel_nibble_config      /* [HIGH] channel priority nibble config fn */
 .L_fn_camera_finalize:
-    .4byte  sym_06026CE0
+    .4byte  sym_06026CE0               /* [HIGH] display update / palette commit fn */
 .L_ptr_anim_state:
-    .4byte  sym_06059F44
+    .4byte  sym_06059F44               /* [HIGH] VBlank-OUT counter / animation state */
 .L_ptr_car_struct_base:
-    .4byte  sym_06063F5C
+    .4byte  sym_06063F5C               /* [HIGH] VDP1 command buffer base pointer */
 .L_fn_vdp2_scroll_update:
-    .4byte  vdp2_scroll_update
+    .4byte  vdp2_scroll_update         /* [HIGH] VDP2 scroll plane update fn */
 .L_fn_erase_window_set:
-    .4byte  sym_060393FC
+    .4byte  sym_060393FC               /* [HIGH] vdp1_erase_window_set fn */
 .L_ptr_dma_config:
-    .4byte  sym_0605A008
+    .4byte  sym_0605A008               /* [HIGH] frame counter / DMA config state */
 .L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000                 /* [HIGH] 0.5 (16.16 fixed-point) */

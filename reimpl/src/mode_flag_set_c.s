@@ -14,7 +14,7 @@ mode_flag_set_c:
     add #-0x8, r15
     mov r15, r3
     mov.l r2, @r3
-    mov.l   .L_pool_06018EA8, r3
+    mov.l   .L_fn_ai_recovery_handler, r3
     jsr @r3
     mov r15, r4
     add #0x8, r15
@@ -23,5 +23,5 @@ mode_flag_set_c:
     nop
     .4byte  0x00FFFFFF
     .4byte  ai_throttle_modulate
-.L_pool_06018EA8:
-    .4byte  ai_recovery_handler
+.L_fn_ai_recovery_handler:
+    .4byte  ai_recovery_handler            /* [HIGH] AI recovery/event handler function */

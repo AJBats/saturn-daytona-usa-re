@@ -39,10 +39,10 @@ car_param_lookup:
     .byte   0xD3, 0x11    /* mov.l .L_pool_car_data_struct, r3 */  ! r3 = &car_data_struct (sym_06063800)
     mov.l r3, @r15                              ! store car_data_ptr in stack local [sp+0]
     mov r3, r7                                  ! r7 = car_data_struct base (for tex_data calc)
-    mov.w   .L_wpool_06012B36, r6               ! r6 = 0x061C (display list source offset in struct)
+    mov.w   .L_wpool_dlist_src_offset, r6        ! r6 = 0x061C (display list source offset in struct)
     mov.l @r15, r5                              ! r5 = car_data_struct base (reload from stack)
     mov.l @(4, r7), r7                          ! r7 = car_data_struct[+4] (texture base pointer)
-    mov.w   .L_wpool_06012B3C, r3               ! r3 = 0x4000 (texture data bias)
+    mov.w   .L_wpool_tex_data_bias, r3           ! r3 = 0x4000 (texture data bias)
     mov.l @r5, r5                               ! r5 = car_data_struct[+0] (display list base)
     add r3, r7                                  ! r7 = texture base + 0x4000 (biased tex_data ptr)
     .byte   0xD3, 0x0E    /* mov.l .L_pool_dlist_loader, r3 */  ! r3 = &display_list_loader (sym_06028400)
@@ -61,10 +61,10 @@ car_param_lookup:
     lds.l @r15+, pr                             ! restore return address
     rts                                         ! return to caller
     mov.l @r15+, r14                            ! restore r14 [delay slot]
-.L_wpool_06012B36:
+.L_wpool_dlist_src_offset:
     .2byte  0x061C
     .4byte  0x069C071C
-.L_wpool_06012B3C:
+.L_wpool_tex_data_bias:
     .2byte  0x4000
     .2byte  0xFFFF
     .4byte  sym_0605ACDD

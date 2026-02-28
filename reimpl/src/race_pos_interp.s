@@ -63,7 +63,7 @@ race_pos_interp:
 .L_no_wrap:
     extu.w r5, r5                           ! r5 = segment index (zero-extended for first seg)
     shll2 r6                                ! r6 *= 4 (second seg: entry index * 4)
-    mov.w   .L_wpool_0600CC2A, r0           ! r0 = 0x01F8 (car struct offset: seg table base)
+    mov.w   .L_w_seg_table_off, r0           ! r0 = 0x01F8 (car struct offset: seg table base)
     mov.l @r14, r3                          ! r3 = seg_data_array (dereference pointer)
     shlr r5                                 ! r5 = segment_index >> 1 (first seg number)
     shll r6                                 ! r6 *= 2 (second seg: entry index * 8)
@@ -95,7 +95,7 @@ race_pos_interp:
     mov.l r2, @(8, r4)                      ! (delay slot) output[+0x08] = interpolated Z position
 .L_even_index:
     extu.w r5, r5                           ! r5 = segment index (zero-extended)
-    mov.w   .L_wpool_0600CC2A, r0           ! r0 = 0x01F8 (car struct offset: seg table base)
+    mov.w   .L_w_seg_table_off, r0           ! r0 = 0x01F8 (car struct offset: seg table base)
     shlr r5                                 ! r5 = segment_index >> 1 (actual seg number)
     mov.l @(r0, r7), r6                     ! r6 = car[+0x01F8] (packed seg table base)
     shll2 r5                                ! r5 *= 4 (entry index * 4)
@@ -125,11 +125,11 @@ race_pos_interp:
     mov.w r0, @(18, r4)                     ! output[+0x12] = 0 (zero padding)
     rts                                     ! return to caller
     mov.l @r15+, r14                        ! (delay slot) restore r14
-.L_wpool_0600CC2A:
-    .2byte  0x01F8
+.L_w_seg_table_off:
+    .2byte  0x01F8                     /* [HIGH] car struct offset: segment table base (+0x1F8) */
 .L_p_seg_data_array:
-    .4byte  sym_0607EB88
+    .4byte  sym_0607EB88               /* [HIGH] course segment data array ptr */
 .L_p_car_struct:
-    .4byte  sym_0607E940
+    .4byte  sym_0607E940               /* [HIGH] current car struct pointer (player) */
 .L_p_section_count:
-    .4byte  sym_0607EA9C
+    .4byte  sym_0607EA9C               /* [HIGH] track section count (wrap limit) */

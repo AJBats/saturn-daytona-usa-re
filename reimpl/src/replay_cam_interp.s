@@ -37,16 +37,16 @@ replay_cam_interp:
     mov #0x8, r4                                ! r4 = 8 (display mode, delay slot)
     mov.l   .L_pool_tex_data_buf, r7            ! r7 = &course_tex_data_buffer
     mov #0x60, r6                               ! r6 = 0x60 (pattern size)
-    mov.w   .L_wpool_0601AFC6, r5               ! r5 = 0x0196 (extended fill offset)
+    mov.w   .L_w_ext_fill_offset, r5               ! r5 = 0x0196 (extended fill offset)
     mov #0x8, r4                                ! r4 = 8 (display mode)
     mov.l   .L_pool_geom_dispatch, r3           ! r3 = &geom_dispatch_final
     jmp @r3                                     ! tail-call geom_dispatch_final(8, 0x196, 0x60, tex_buf)
     lds.l @r15+, pr                             ! restore return address (delay slot)
-.L_wpool_0601AFC6:
-    .2byte  0x0196
-    .4byte  sym_0608600F                        /* phase_countdown_timer (global byte) */
-    .4byte  sym_06086011                        /* phase_index (global byte) */
+.L_w_ext_fill_offset:
+    .2byte  0x0196                     /* [HIGH] extended fill offset */
+    .4byte  sym_0608600F               /* [MEDIUM] phase_countdown_timer (global byte) */
+    .4byte  sym_06086011               /* [MEDIUM] phase_index (global byte) */
 .L_pool_tex_data_buf:
-    .4byte  sym_0604A480                        /* course texture data buffer */
+    .4byte  sym_0604A480               /* [MEDIUM] course texture data buffer */
 .L_pool_geom_dispatch:
-    .4byte  sym_060284AE                        /* geom_dispatch_final */
+    .4byte  sym_060284AE               /* [HIGH] geom_dispatch_final fn */

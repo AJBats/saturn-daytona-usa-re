@@ -13,7 +13,7 @@ particle_sys_mgr:
     mov r6, r14
     mulu.w r6, r4
     mov r5, r13
-    mov.w   .L_wpool_06028610, r6
+    mov.w   .L_vdp1_cmd_attr_mask, r6
     add #0xA, r5
     sts macl, r7
     shlr16 r7
@@ -25,7 +25,7 @@ particle_sys_mgr:
     mov r13, r5
     .byte   0xBE, 0xD8    /* bsr 0x06028368 (external) */
     mov #0x8, r4
-    mov.l   .L_pool_060285DC, r5
+    mov.l   .L_vram_ptr_table, r5
     mov #0x2E, r0
     mov.l @(8, r5), r2
     or r6, r0
@@ -44,7 +44,7 @@ particle_sys_mgr:
     rts
     mov.l @r15+, r14
     .2byte  0x2710
-.L_pool_060285DC:
+.L_vram_ptr_table: /* [HIGH] VRAM pointer table — used by all effects subsystem functions */
     .4byte  sym_06028614
     .4byte  0x45186763
     .4byte  0x96144509
@@ -58,7 +58,7 @@ particle_sys_mgr:
     .4byte  0x96044509
     .4byte  0x354C4500
     .4byte  0xAEE8E408
-.L_wpool_06028610:
+.L_vdp1_cmd_attr_mask: /* [MEDIUM] 0xF000 — VDP1 command attribute mask, OR'd with sprite type byte */
     .2byte  0xF000
     .2byte  0x0009
 

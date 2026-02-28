@@ -68,12 +68,12 @@ results_ranking_table:
     mov.b r0, @(2, r4)                       ! entry.anim_phase = 3 (delay slot)
     .2byte  0xFFFF                           ! padding
 .L_p_entry_table:
-    .4byte  sym_06084FC8                     /* results entry table base address */
-    .4byte  0x000B0000                       /* 11.0 (16.16 FP) — pool data */
-    .4byte  0x00040000                       /* 4.0 (16.16 FP) — pool data */
-    .4byte  0x0000C000                       /* 0.75 (16.16 FP) — pool data */
+    .4byte  sym_06084FC8               /* [HIGH] results entry table base */
+    .4byte  0x000B0000                 /* [MEDIUM] 11.0 (16.16 FP) */
+    .4byte  0x00040000                 /* [MEDIUM] 4.0 (16.16 FP) */
+    .4byte  0x0000C000                 /* [MEDIUM] 0.75 (16.16 FP) */
 .L_p_bonus_flag:
-    .4byte  sym_06085F89                     /* bonus mode flag byte address */
+    .4byte  sym_06085F89               /* [MEDIUM] bonus mode flag (byte) */
 .L_bonus_active:
     .byte   0xD5, 0x44    /* mov.l .L_fp_one, r5 */  ! r5 = 0x00010000 (1.0 in 16.16 fixed-point)
     extu.b r14, r2                           ! r2 = entry_index (zero-extended byte)
@@ -186,7 +186,7 @@ results_ranking_table:
     add r3, r4                               ! r4 = entry_index * 68
     exts.w r4, r4                            ! sign-extend offset
     add r13, r4                              ! r4 = &entry
-    mov.w   .L_wpool_06016624, r2            ! r2 = 0x0600 (countdown reset value)
+    mov.w   .L_w_countdown_reset, r2            ! r2 = 0x0600 (countdown reset value)
     mov.l r2, @(24, r4)                      ! entry.countdown = 0x0600 (reset)
     bra     .L_epilogue                      ! go to epilogue
     mov.l r12, @(16, r4)                     ! entry.delta = 0 (stop incrementing, delay slot)
@@ -215,10 +215,10 @@ results_ranking_table:
     mov.l @r15+, r13                         ! restore r13
     .byte   0xA3, 0xDA    /* bra 0x06016DD8 (external) */  ! tail-call digit renderer
     mov.l @r15+, r14                         ! restore r14 (delay slot)
-.L_wpool_06016624:
-    .2byte  0x0600                           /* countdown reset value */
-    .2byte  0xFFFF                           /* padding */
+.L_w_countdown_reset:
+    .2byte  0x0600                     /* [MEDIUM] countdown reset value */
+    .2byte  0xFFFF
 .L_fp_one:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000                 /* [HIGH] 1.0 (16.16 fixed-point) */
 .L_fp_two:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000                 /* [HIGH] 2.0 (16.16 fixed-point) */

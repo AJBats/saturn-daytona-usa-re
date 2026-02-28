@@ -13,7 +13,7 @@ distance_3d_calc:
     mov r4, r12
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_060366FC, r3
+    mov.l   .L_ptr_input_proc_analog, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -33,7 +33,7 @@ distance_3d_calc:
     mov.w r0, @(2, r2)
     mov r12, r0
     mov.b r0, @(4, r3)
-    mov.l   .L_pool_060366F8, r3
+    mov.l   .L_ptr_input_proc_digital, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -64,9 +64,9 @@ distance_3d_calc:
     rts
     mov.l @r15+, r14
     .4byte  sym_06035C4E
-.L_pool_060366F8:
-    .4byte  input_proc_digital
-.L_pool_060366FC:
-    .4byte  input_proc_analog
+.L_ptr_input_proc_digital:
+    .4byte  input_proc_digital              /* [HIGH] jsr target: digital input processor */
+.L_ptr_input_proc_analog:
+    .4byte  input_proc_analog               /* [HIGH] jsr target: analog input processor */
 .L_mask_low24:
     .4byte  0x00FFFFFF                  /* low 24-bit mask */

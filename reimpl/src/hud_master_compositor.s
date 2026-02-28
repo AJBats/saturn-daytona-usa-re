@@ -13,7 +13,7 @@ hud_master_compositor:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xDD, 0x0C    /* mov.l .L_pool_06032D48, r13 */
+    .byte   0xDD, 0x0C    /* mov.l .L_mat_stack_a_ptr, r13 */
     mov.l @r13, r13
     rts
     nop
@@ -28,8 +28,8 @@ hud_master_compositor:
     .4byte  mat_rot_y
     .4byte  0x000001D4
     .4byte  sym_06026DBC
-.L_pool_06032D48:
-    .4byte  sym_06089EDC
+.L_mat_stack_a_ptr:
+    .4byte  sym_06089EDC                   /* [HIGH] matrix stack A pointer (VDP1 display list) */
     .4byte  0x0000006C
     .4byte  0x00000042
     .4byte  0x00000046

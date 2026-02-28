@@ -57,15 +57,15 @@ transform_rotation_alt:
     bra     .L_next_slot                    ! render_type out of range -> skip slot
     nop                                     ! (delay slot)
 .L_pool_slot_data_table_b:
-    .4byte  sym_0606107C                    /* slot data table B (8-byte stride, 8 slots) */
+    .4byte  sym_0606107C                    /* [MEDIUM] slot data table B (8-byte stride, 8 slots) */
 .L_pool_rotation_state_a:
-    .4byte  sym_06060D2A                    /* &rotation_state_a (word) */
+    .4byte  sym_06060D2A                    /* [MEDIUM] &rotation_state_a (word) */
 .L_pool_rotation_state_b:
-    .4byte  sym_06060D34                    /* &rotation_state_b (word) */
+    .4byte  sym_06060D34                    /* [MEDIUM] &rotation_state_b (word) */
 .L_pool_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000                  /* [HIGH] 0.5 (16.16 fixed-point) */
 .L_dispatch_setup:
-    mov.w   .L_wpool_060264EE, r1           ! r1 = 0x008A (dispatch base: lowest valid render_type)
+    mov.w   .L_wpool_dispatch_base, r1           ! r1 = 0x008A (dispatch base: lowest valid render_type)
     sub r1, r0                              ! r0 = render_type - 0x008A (relative index)
     mov #0xC, r1                            ! r1 = 12 (number of dispatch entries)
     cmp/hs r1, r0                           ! (unsigned) render_type_rel >= 12?
@@ -76,8 +76,8 @@ transform_rotation_alt:
     mov.w @(r0, r1), r0                     ! r0 = dispatch_table[rel_idx] (PC-relative offset)
     braf r0                                 ! dispatch: PC + r0 (relative jump to handler)
     nop                                     ! (delay slot)
-.L_wpool_060264EE:
-    .2byte  0x008A                          /* dispatch base: lowest valid render_type */
+.L_wpool_dispatch_base:
+    .2byte  0x008A                          /* [HIGH] dispatch base: lowest valid render_type */
     .4byte  0xFFC2FFC2                      /* dispatch offsets for render_type 0x008A and 0x008B */
     .4byte  0xFFCCFFCC                      /* dispatch offsets for render_type 0x008C and 0x008D */
     .4byte  0xFFC6FFC6                      /* dispatch offsets for render_type 0x008E and 0x008F */

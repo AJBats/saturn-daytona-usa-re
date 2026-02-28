@@ -28,7 +28,7 @@ time_digit_update:
     mov.l r12, @-r15                        ! save r12
     mov.l r11, @-r15                        ! save r11
     add #-0x4, r15                          ! allocate 4 bytes on stack for local storage
-    mov.w   .L_wpool_06015D24, r11          ! r11 = 0x0800 — animation step per frame
+    mov.w   .L_wpool_anim_step, r11          ! r11 = 0x0800 — animation step per frame
     mov #0x8, r12                           ! r12 = 8 — number of digit entries
     mov.l   .L_pool_digit_array_base, r13   ! r13 = sym_06084FC8 — HUD digit element array base
     mov #0x0, r14                           ! r14 = 0 — used to reset completed counters
@@ -86,10 +86,10 @@ time_digit_update:
     mov.l @r15+, r13                        ! restore r13
     rts                                     ! return — not all digits done yet
     mov.l @r15+, r14                        ! (delay slot) restore r14
-.L_wpool_06015D24:
+.L_wpool_anim_step:
     .2byte  0x0800                          ! animation step value (2048)
     .2byte  0xFFFF                          ! padding
 .L_pool_digit_array_base:
-    .4byte  sym_06084FC8                    ! HUD digit element array base
+    .4byte  sym_06084FC8                    /* [HIGH] HUD digit element array base — 68-byte structs */
 .L_pool_clear_vdp2_regs:
-    .4byte  sym_060172E4                    ! clear_vdp2_registers function
+    .4byte  sym_060172E4                    /* [HIGH] clear VDP2 registers — confirmed in track_geometry.s */

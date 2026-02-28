@@ -57,7 +57,7 @@ queue_validator:
 .L_validate_commit:
     mov.l @r6, r3                            ! r3 = state base address
     mov #0x1, r2                             ! r2 = 1 (validated flag value)
-    mov.w   .L_wpool_06041176, r0            ! r0 = 0x0304 (offset to validated flag)
+    mov.w   .L_w_validated_flag_off, r0            ! r0 = 0x0304 (offset to validated flag)
     mov.l r2, @(r0, r3)                      ! state[+0x304] = 1 (mark slot as validated)
     mov.l @r6, r3                            ! r3 = state base address (reload)
     add #0x4, r0                             ! r0 = 0x0308 (offset to validated slot index)
@@ -73,8 +73,8 @@ queue_validator:
     .global DAT_06041174
 DAT_06041174:
     .2byte  0x00FF
-.L_wpool_06041176:
-    .2byte  0x0304
-    .4byte  ai_checkpoint_validate
+.L_w_validated_flag_off:
+    .2byte  0x0304                     /* [HIGH] state struct offset: validated flag (+0x304) */
+    .4byte  ai_checkpoint_validate     /* (adjacent TU pool entry) */
 .L_pool_state_base_ptr:
-    .4byte  sym_060A5400
+    .4byte  sym_060A5400               /* [HIGH] game state base pointer (indirect) */

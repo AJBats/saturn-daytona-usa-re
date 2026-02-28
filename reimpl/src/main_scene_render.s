@@ -113,9 +113,9 @@ sym_0602E938:
     mov.w @(0, r0), r0              ! data (not code)
     mov #0x4F, r13                  ! data (not code)
     .byte   0xD8, 0xF5    /* mov.l .L_pool_render_body, r8 — data, not code */
-    mov.w   .L_wpool_0602E960, r0   ! data (not code)
+    mov.w   .L_wpool_vdp2_rot_params, r0   ! data (not code)
     add #0x7A, r1                   ! data (not code)
-.L_wpool_0602E960:
+.L_wpool_vdp2_rot_params:          /* [MEDIUM] VDP2 rotation parameter table entry */
     .2byte  0xED4F
     .2byte  0xD8F5
     .4byte  0x9000717A
@@ -211,9 +211,9 @@ loc_0602E9A8:                       ! scene config data — course 0
     .word 0x0000 /* UNKNOWN */
     mov.b r0, @r8                    ! data (not code) — 0x2080
     .word 0x0000 /* UNKNOWN */
-    mov.w   .L_wpool_0602EA3A, r8   ! data (not code) — 0x9800
+    mov.w   .L_wpool_scene0_viewport_data, r8   ! data (not code) -- 0x9800
     .word 0x0000 /* UNKNOWN */
-.L_wpool_0602EA3A:
+.L_wpool_scene0_viewport_data:     /* [MEDIUM] scene config course 0 viewport parameters */
     .2byte  0xD200
     .4byte  0x00006800
     .4byte  0x0001E800
@@ -482,18 +482,18 @@ sym_0602ED0C:
 
     .global loc_0602ED18
 loc_0602ED18:                       ! render body — state 0/1 handler
-    .byte   0xD0, 0x2A    /* mov.l .L_pool_0602EDC4, r0 */
-    mov #0x50, r1                   ! r1 = 0x50 (VDP command)
-    mov.b r1, @r0                   ! write VDP command byte
-    .byte   0xD0, 0x2A    /* mov.l .L_pool_0602EDC8, r0 */
-    mov.l @r0, r0                   ! r0 = scene data pointer
-    .byte   0xD1, 0x2A    /* mov.l .L_pool_0602EDCC, r1 */
-    mov.l @r1, r2                   ! r2 = frame counter
-    add #0x1, r2                    ! increment frame counter
-    mov.l r2, @r1                   ! store updated counter
-    mov.l @(8, r0), r2              ! r2 = scene field at offset 8
+    .byte   0xD0, 0x2A    /* mov.l .L_pool_sound_cooldown_ptr, r0 — [HIGH] sym_0602FDA1 SINIT sound cooldown counter */
+    mov #0x50, r1                   ! r1 = 0x50 (cooldown init value)
+    mov.b r1, @r0                   ! write cooldown counter = 0x50
+    .byte   0xD0, 0x2A    /* mov.l .L_pool_car_ptr_global, r0 — [HIGH] sym_0607E944 current car pointer */
+    mov.l @r0, r0                   ! r0 = current car struct pointer
+    .byte   0xD1, 0x2A    /* mov.l .L_pool_physics_step_counter, r1 — [HIGH] sym_0607EAE4 physics step counter */
+    mov.l @r1, r2                   ! r2 = physics step counter
+    add #0x1, r2                    ! increment step counter
+    mov.l r2, @r1                   ! store updated step counter
+    mov.l @(8, r0), r2              ! r2 = car field at offset 0x8
     shll16 r2                       ! r2 <<= 16 (extract high portion)
-    .byte   0x92, 0x3F    /* mov.w .L_wpool_0602EDB0, r2 */
+    .byte   0x92, 0x3F    /* mov.w .L_wpool_render_dim_const, r2 — [LOW] loads 0x005C render dimension constant */
 .L_pool_render_body:
     .4byte  0xE3000236
     .4byte  0x913DE301

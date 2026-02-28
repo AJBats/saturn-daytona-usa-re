@@ -39,7 +39,7 @@ evt_checkpoint_validate:
     sts.l pr, @-r15                          ! save return address
     add #-0x4, r15                           ! allocate 4 bytes for local stack frame
     .byte   0xD7, 0x15    /* mov.l .L_pool_state_base_ptr, r7 */ ! r7 = &sym_060A5400 (ptr to game state base)
-    mov.w   .L_wpool_06041306, r0            ! r0 = 0x0338 (offset of validation slot)
+    mov.w   .L_validation_slot_offset, r0            ! r0 = 0x0338 (offset of validation slot)
     mov.l @r7, r3                            ! r3 = game state base pointer
     mov.l @(r0, r3), r0                      ! r0 = state[+0x0338] (validation slot contents)
     tst r0, r0                               ! is validation slot empty (== 0)?
@@ -62,7 +62,7 @@ evt_checkpoint_validate:
     mov.l @r7, r2                            ! r2 = game state base pointer
     mov.l r3, @(52, r2)                      ! state[+0x34] = 1 (set lock flag)
     mov.l @r7, r2                            ! r2 = game state base pointer (reload)
-    mov.w   .L_wpool_06041306, r0            ! r0 = 0x0338 (validation slot offset)
+    mov.w   .L_validation_slot_offset, r0            ! r0 = 0x0338 (validation slot offset)
     mov.l r3, @(r0, r2)                      ! state[+0x0338] = 1 (mark slot active)
     add #0x4, r0                             ! r0 = 0x033C (key field offset)
     mov.l @r7, r3                            ! r3 = game state base pointer (reload)
@@ -80,8 +80,8 @@ evt_checkpoint_validate:
     lds.l @r15+, pr                          ! restore return address
     rts                                      ! return to caller
     nop                                      ! delay slot (no work needed)
-.L_wpool_06041306:
-    .2byte  0x0338
+.L_validation_slot_offset:
+    .2byte  0x0338                           /* [HIGH] offset to checkpoint validation slot in state struct */
     .4byte  ai_checkpoint_validate
 .L_pool_state_base_ptr:
     .4byte  sym_060A5400

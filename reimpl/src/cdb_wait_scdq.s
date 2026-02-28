@@ -34,7 +34,7 @@ cdb_wait_scdq:
     mov.l   .L_pool_scdq_ack, r11           ! r11 = &smpc_cmd_helper_b (SCDQ acknowledge fn)
     mov.l   .L_pool_read_hirq, r12          ! r12 = &sym_06035C4E (read HIRQ register fn)
     mov.l   .L_pool_scdq_clear_mask, r13    ! r13 = 0x0000FBFF (~0x0400 zero-extended, SCDQ clear mask)
-    mov.w   .L_wpool_060423F6, r14          ! r14 = 0x0400 (SCDQ bit mask)
+    mov.w   .L_wpool_scdq_bit_mask, r14          ! r14 = 0x0400 (SCDQ bit mask)
 .L_poll_hirq:
     jsr @r12                                ! call sym_06035C4E — read HIRQ register
     nop                                     ! delay slot (nop)
@@ -49,10 +49,10 @@ cdb_wait_scdq:
 .L_scdq_not_ready:
     bra     .L_poll_hirq                    ! SCDQ not ready — loop back and poll again
     nop                                     ! delay slot (nop)
-.L_wpool_060423F6:
-    .2byte  0x0400
-    .4byte  ai_checkpoint_validate
-    .4byte  sym_060A5400
+.L_wpool_scdq_bit_mask:
+    .2byte  0x0400                      /* [HIGH] SCDQ bit mask (HIRQ bit 10) */
+    .4byte  ai_checkpoint_validate      /* [HIGH] adjacent pool: fn ptr (not used by this TU) */
+    .4byte  sym_060A5400                /* [HIGH] adjacent pool: AI/game state base ptr (not used by this TU) */
 .L_pool_scdq_ack:
     .4byte  smpc_cmd_helper_b
 .L_pool_read_hirq:

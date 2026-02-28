@@ -10,16 +10,16 @@
     .type effect_init_stub, @function
 effect_init_stub:
     sts.l pr, @-r15
-    mov.l   .L_pool_06028380, r0
-    mov.l @(r0, r4), r2
-    mov.l @r2, r2
-    add r2, r5
+    mov.l   .L_effect_dispatch_table, r0   ! r0 = effect dispatch table base
+    mov.l @(r0, r4), r2                    ! r2 = dispatch_table[r4] (effect handler ptr)
+    mov.l @r2, r2                          ! r2 = *handler (dereference to get offset)
+    add r2, r5                             ! r5 += offset (adjust target pointer)
     .byte   0xBF, 0xA5    /* bsr 0x060282C0 (external) */
-    mov r7, r4
-    mov r0, r1
-    mov #0xC, r7
-    add #0x5, r1
+    mov r7, r4                             ! r4 = r7 (delay slot)
+    mov r0, r1                             ! r1 = dispatch table base (reuse)
+    mov #0xC, r7                           ! r7 = 0xC (effect config param)
+    add #0x5, r1                           ! r1 += 5 (advance past header)
     .byte   0xA0, 0x0C    /* bra 0x06028398 (external) */
-    mov #0x0, r0
-.L_pool_06028380:
-    .4byte  sym_06028614
+    mov #0x0, r0                           ! r0 = 0 (delay slot)
+.L_effect_dispatch_table:
+    .4byte  sym_06028614                   /* [MEDIUM] effect dispatch table base */

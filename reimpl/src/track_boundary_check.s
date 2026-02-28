@@ -49,7 +49,7 @@ track_boundary_check:
     cmp/eq #0x1, r0              ! phase == 1?
     bf      .L_skip_phase1       ! no — skip phase 1 block
     mov.l @r14, r4               ! r4 = state base
-    mov.w   .L_wpool_06041B0C, r0  ! r0 = 0x0308 (channel 1 segment arg offset)
+    mov.w   .L_wpool_seg_arg_offset, r0  ! r0 = 0x0308 (channel 1 segment arg offset)
     mov.l   .L_pool_track_seg_boundary, r3  ! r3 = &track_seg_boundary
     jsr @r3                      ! call track_seg_boundary(r4=state_base, r5=state[+0x0308])
     mov.l @(r0, r4), r4          ! (delay slot) r4 = state[+0x0308] (segment arg -> r5 shifted)
@@ -97,17 +97,17 @@ track_boundary_check:
     .global DAT_06041b0a
 DAT_06041b0a:
     .2byte  0x0304               ! state struct offset: channel 1 boundary phase
-.L_wpool_06041B0C:
+.L_wpool_seg_arg_offset:
     .2byte  0x0308               ! state struct offset: channel 1 segment argument
     .2byte  0xFFFF
 .L_pool_state_base:
-    .4byte  sym_060A5400
+    .4byte  sym_060A5400         /* [HIGH] global AI/game state base pointer (indirect) */
 .L_pool_track_seg_boundary:
-    .4byte  track_seg_boundary
+    .4byte  track_seg_boundary   /* [HIGH] compute track segment boundary result */
 .L_pool_ai_checkpoint_validate:
-    .4byte  ai_checkpoint_validate
+    .4byte  ai_checkpoint_validate  /* [HIGH] validate AI checkpoint from stack buffer */
 .L_pool_hirq_status:
-    .4byte  sym_06035C4E
+    .4byte  sym_06035C4E         /* [MEDIUM] HIRQ/CD status reader — event_queue.s calls it "state/field validator" */
 .L_bit_clear:
     mov #0x0, r4                 ! r4 = 0 (bit not set — boundary not yet confirmed)
 .L_bit_set_exit:
@@ -115,11 +115,11 @@ DAT_06041b0a:
     bt      .L_return            ! yes — not confirmed, leave state unchanged
     mov.l @r14, r3               ! r3 = state base
     mov #0x0, r2                 ! r2 = 0 (clear boundary phase)
-    .byte   0x90, 0x4C    /* mov.w .L_wpool_06041BC6, r0 */
+    .byte   0x90, 0x4C    /* mov.w .L_wpool_boundary_phase_offset, r0 */
     mov.l r2, @(r0, r3)          ! state[+0x0304] = 0 (boundary confirmed, reset phase)
 .L_return:
     mov.l @r14, r0               ! r0 = state base
-    .byte   0x91, 0x49    /* mov.w .L_wpool_06041BC6, r1 */
+    .byte   0x91, 0x49    /* mov.w .L_wpool_boundary_phase_offset, r1 */
     mov.l @(r0, r1), r0          ! r0 = state[+0x0304] (final phase value — return value)
     add #0x10, r15               ! deallocate stack frame
     lds.l @r15+, pr              ! restore return address

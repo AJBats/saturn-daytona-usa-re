@@ -17,7 +17,7 @@ menu_header_render:
     mov.l r3, @r5
     .byte   0xD5, 0x04    /* mov.l .L_fp_max, r5 */
     mov.l @r15, r4
-    .byte   0xD3, 0x04    /* mov.l .L_pool_0603B420, r3 */
+    .byte   0xD3, 0x04    /* mov.l .L_fn_attract_init_setup, r3 */
     jsr @r3
     mov.l @(4, r4), r4
     mov #0x0, r4
@@ -26,5 +26,5 @@ menu_header_render:
     lds.l @r15+, pr
 .L_fp_max:
     .4byte  0x7FFFFFFF                  /* max positive 16.16 */
-.L_pool_0603B420:
-    .4byte  attract_init_setup
+.L_fn_attract_init_setup:
+    .4byte  attract_init_setup             /* [HIGH] attract mode initialization/setup function */

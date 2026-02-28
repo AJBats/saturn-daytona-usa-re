@@ -27,7 +27,7 @@ best_lap_display:
     mov.l r13, @-r15                                   ! save r13
     mov.l r12, @-r15                                   ! save r12
     mov #0x8, r13                                      ! r13 = 8 (total slot count)
-    mov.w   .L_wpool_06015B40, r14                     ! r14 = 0xE000 (cap/threshold value)
+    mov.w   .L_wpool_cap_threshold, r14                     ! r14 = 0xE000 (cap/threshold value)
     mov #0x2, r7                                       ! r7 = 2 (animation phase: active display)
     mov.l   .L_pool_entry_table, r5                    ! r5 = results entry table base
     extu.b r4, r3                                      ! r3 = slot index (zero-extended)
@@ -103,8 +103,8 @@ best_lap_display:
     mov.l @r15+, r13                                   ! restore r13
     rts                                                ! return
     mov.l @r15+, r14                                   ! restore r14 (delay slot)
-.L_wpool_06015B40:
-    .2byte  0xE000                                     ! cap/threshold constant
+.L_wpool_cap_threshold:
+    .2byte  0xE000                                     /* [HIGH] cap/threshold constant for results display */
     .2byte  0xFFFF                                     ! padding
 .L_pool_entry_table:
     .4byte  sym_06084FC8                               ! results entry table base (68-byte structs)

@@ -74,13 +74,13 @@ transform_heading_apply:
     nop
     .2byte  0xFFFF                          /* alignment padding */
 .L_pool_slot_data_table:
-    .4byte  sym_06060F2C                    /* slot_data_table base (8-byte stride, up to 10 slots) */
+    .4byte  sym_06060F2C                    /* [MEDIUM] slot_data_table base (8-byte stride, up to 10 slots) */
 .L_pool_course_id_a_ptr:
-    .4byte  sym_06089ED6                    /* &course_id_a (word) */
+    .4byte  sym_06089ED6                    /* [HIGH] &course_id_a (word) */
 .L_pool_course_id_b_ptr:
-    .4byte  sym_06089ED4                    /* &course_id_b (word) */
+    .4byte  sym_06089ED4                    /* [HIGH] &course_id_b (word) */
 .L_dispatch_heading:                       ! === Switch: heading_adjusted -> course id ===
-    mov.w   .L_wpool_06026336, r1           ! r1 = 0x008A (heading base offset)
+    mov.w   .L_wpool_heading_base, r1           ! r1 = 0x008A (heading base offset)
     sub r1, r0                              ! r0 = heading - 0x8A (adjusted index)
     mov #0xC, r1                            ! r1 = 12 (table size)
     cmp/hs r1, r0                           ! heading_adjusted >= 12? (unsigned)
@@ -91,8 +91,8 @@ transform_heading_apply:
     mov.w @(r0, r1), r0                     ! r0 = signed jump offset from table[adjusted_index]
     braf r0                                 ! PC-relative indirect branch -> dispatch case
     nop
-.L_wpool_06026336:
-    .2byte  0x008A                          /* heading base value to subtract (0x8A) */
+.L_wpool_heading_base:
+    .2byte  0x008A                          /* [HIGH] heading base value to subtract (0x8A) */
     .4byte  0xFFC4FFC4                      /* jump offsets: index 0 (-60), index 1 (-60) -> course_id_a=1 */
     .4byte  0xFFCEFFCE                      /* jump offsets: index 2 (-50), index 3 (-50) -> course_id_a=slot_idx, course_id_b=1 */
     .4byte  0xFFC8FFC8                      /* jump offsets: index 4 (-56), index 5 (-56) -> course_id_a=2 */

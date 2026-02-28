@@ -79,7 +79,7 @@ geom_final_output:
     extu.w r3, r3                          ! r3 = zero-extend scale factor
     mov r3, r5                             ! r5 = scale factor (arg for fpmul)
     mov.l r3, @(8, r14)                    ! car[+8] = raw scale factor (unsigned)
-    mov.w   .L_wpool_0601FF8C, r4          ! r4 = 0x035A (fpmul fixed-point multiplier)
+    mov.w   .L_w_scale_multiplier, r4      ! r4 = 0x035A (fpmul fixed-point multiplier)
     mov.l   .L_p_fn_fpmul, r3             ! r3 = &fpmul
     jsr @r3                                ! r0 = fpmul(0x035A, scale << 16)
     shll16 r5                              ! (delay slot) r5 = scale << 16 (convert to 16.16 FP)
@@ -119,7 +119,7 @@ geom_final_output:
     mov.l @(32, r14), r2                   ! r2 = car[+32] (heading angle B, reload)
     mov.l r2, @(40, r14)                   ! car[+40] = heading angle B (copy)
     mov.l @(32, r14), r3                   ! r3 = car[+32] (heading angle B, reload)
-    mov.w   .L_wpool_0601FF92, r0          ! r0 = 0x01B0 (car offset: yaw/heading copy)
+    mov.w   .L_w_ofs_heading_b_copy, r0    ! r0 = 0x01B0 (car offset: yaw/heading copy)
     mov.l r3, @(r0, r14)                   ! car[+0x01B0] = heading angle B (copy)
     mov.l @(28, r14), r3                   ! r3 = car[+28] (heading angle A, reload)
     add #-0xC, r0                          ! r0 = 0x01A4 (car offset: heading A copy)
@@ -158,8 +158,8 @@ geom_final_output:
     .global DAT_0601ff8a
 DAT_0601ff8a:
     .2byte  0x01EC
-.L_wpool_0601FF8C:
-    .2byte  0x035A
+.L_w_scale_multiplier:
+    .2byte  0x035A                         /* [HIGH] geometry scale factor for fpmul (0x035A) */
 
     .global DAT_0601ff8e
 DAT_0601ff8e:
@@ -168,8 +168,8 @@ DAT_0601ff8e:
     .global DAT_0601ff90
 DAT_0601ff90:
     .2byte  0x01FC
-.L_wpool_0601FF92:
-    .2byte  0x01B0
+.L_w_ofs_heading_b_copy:
+    .2byte  0x01B0                         /* [HIGH] car struct offset: heading angle B copy (+0x01B0) */
 .L_p_car_struct:
     .4byte  sym_0607E940                   /* &current_car_ptr (indirect) */
 .L_p_course_data:

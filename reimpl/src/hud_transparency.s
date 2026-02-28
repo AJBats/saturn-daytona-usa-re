@@ -31,7 +31,7 @@ hud_transparency:
     mov.l r8, @-r15             ! push r8 (callee-saved)
     sts.l pr, @-r15             ! push PR (return address)
     sts.l macl, @-r15           ! push MACL (callee-saved multiply result)
-    mov.w   .L_wpool_06011658, r13 ! r13 = 0x0100 (256 coefficient entries)
+    mov.w   .L_w_coeff_count, r13  ! r13 = 0x0100 (256 coefficient entries)
     mov.l   .L_pool_transition_state_word, r14 ! r14 = &sym_0607886E (transition_state_word)
     mov.l   .L_fp_eight, r12    ! r12 = 0x00080000 (8.0 in 16.16 fixed-point)
     bsr     .L_config_vdp2_coeff         ! call VDP2 init leaf (KTCTL + RPMD setup)
@@ -86,17 +86,17 @@ hud_transparency:
     mov.l   .L_pool_coeff_table_base, r3 ! r3 = 0x12F2FC00 (VDP2 coeff table base value)
     mov.l   .L_vdp2_reg_0x0A4, r2  ! r2 = 0x25F800A4 (VDP2 LSTA1 register address)
     mov.l r3, @r2               ! VDP2_LSTA1 = 0x12F2FC00 (set coefficient table base)
-    mov.w   .L_wpool_0601165A, r3  ! r3 = 0x0200 (VDP2 rotation parameter mode bits)
+    mov.w   .L_w_rpmd_mode, r3     ! r3 = 0x0200 (VDP2 rotation parameter mode bits)
     add #-0xA, r2               ! r2 = 0x25F8009A (VDP2 RPMD register address)
     rts                         ! return to BSR caller (hud_transparency)
     mov.w r3, @r2               ! delay slot: VDP2_RPMD = 0x0200 (rotation mode)
 
     /* --- Constant pools --- */
 
-.L_wpool_06011658:
-    .2byte  0x0100              /* 256 — coefficient table entry count (loop bound) */
-.L_wpool_0601165A:
-    .2byte  0x0200              /* VDP2 RPMD rotation scroll mode select value */
+.L_w_coeff_count:
+    .2byte  0x0100              /* [HIGH] 256 — coefficient table entry count (loop bound) */
+.L_w_rpmd_mode:
+    .2byte  0x0200              /* [HIGH] VDP2 RPMD rotation scroll mode select value */
 .L_pool_transition_state_word:
     .4byte  sym_0607886E        /* &transition_state_word (16-bit frame counter) */
 .L_fp_eight:

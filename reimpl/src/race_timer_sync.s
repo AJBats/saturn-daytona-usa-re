@@ -178,7 +178,7 @@ race_timer_sync:
     add #-0x10, r15                         ! allocate 16 bytes on stack
     mov #0x0, r10                           ! r10 = 0 (used to clear fields later)
     mov.l   .L_pool_game_state_ptr, r11     ! r11 = &game_state (sym_060A4D14)
-    mov.w   .L_wpool_0603FA5E, r12          ! r12 = 0xFFFFFF7F (sign-extended; mask to clear bit 7)
+    mov.w   .L_wpool_flags_bit7_mask, r12          ! r12 = 0xFFFFFF7F (sign-extended; mask to clear bit 7)
     mov.l   .L_pool_minit_threshold, r13    ! r13 = 0x01000000 (MINIT timeout threshold)
     mov r4, r14                             ! r14 = timer block pointer
     mov.l r5, @(4, r15)                     ! stack[4] = timeout value
@@ -187,7 +187,7 @@ race_timer_sync:
     mov.l @(8, r14), r3                     ! r3 = block+8 (time_b value)
     mov.l r3, @(12, r15)                    ! stack[12] = saved time_b value
     mov.l @r11, r3                          ! r3 = *game_state (base pointer)
-    mov.w   .L_wpool_0603FA60, r0           ! r0 = 0xCC (sync_frame_counter offset)
+    mov.w   .L_wpool_sync_frame_offset, r0           ! r0 = 0xCC (sync_frame_counter offset)
     mov.l r10, @(r0, r3)                    ! game_state+0xCC = 0 (reset sync frame counter)
     bra     .L_sync_loop_test               ! jump to loop condition test
     nop                                     ! (delay) no-op
@@ -196,7 +196,7 @@ race_timer_sync:
     bsr     scene_buffer_update             ! call scene_buffer_update(r4=block, r5=stack)
     mov r14, r4                             ! (delay) r4 = timer block pointer
     mov.l @r11, r2                          ! r2 = *game_state (base pointer)
-    mov.w   .L_wpool_0603FA60, r0           ! r0 = 0xCC (sync_frame_counter offset)
+    mov.w   .L_wpool_sync_frame_offset, r0           ! r0 = 0xCC (sync_frame_counter offset)
     mov.l @(r0, r2), r3                     ! r3 = game_state+0xCC (current frame count)
     add #0x1, r3                            ! r3++ (increment frame counter)
     mov.l r3, @(r0, r2)                     ! game_state+0xCC = r3 (write back)
@@ -204,15 +204,15 @@ race_timer_sync:
     bf      .L_sync_loop_test               ! if not timed out, continue loop
     bra     .L_sync_loop_exit               ! timed out — exit loop
     nop                                     ! (delay) no-op
-.L_wpool_0603FA5E:
-    .2byte  0xFF7F
-.L_wpool_0603FA60:
-    .2byte  0x00CC
+.L_wpool_flags_bit7_mask:
+    .2byte  0xFF7F                      /* [HIGH] 0xFFFFFF7F sign-ext — AND mask clears bit 7 (active flag) */
+.L_wpool_sync_frame_offset:
+    .2byte  0x00CC                      /* [HIGH] offset into game_state for sync frame counter */
     .2byte  0xFFFF
 .L_pool_game_state_ptr:
-    .4byte  sym_060A4D14
+    .4byte  sym_060A4D14                /* [HIGH] global game state struct pointer */
 .L_pool_minit_threshold:
-    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
+    .4byte  0x01000000                  /* [HIGH] MINIT — primary SH-2 init comm threshold */
 .L_sync_loop_test:
     mov #0x34, r0                           ! r0 = 0x34 (flags byte offset)
     mov.b @(r0, r14), r4                    ! r4 = block[0x34] (flags byte)
@@ -229,7 +229,7 @@ race_timer_sync:
     bt      .L_skip_callback_a              ! if NULL, skip callback_a
     mov.l @(4, r15), r6                     ! r6 = timeout value (arg3 for callback)
     mov.l @(4, r14), r5                     ! r5 = block+4 (callback_a ptr, arg2)
-    .byte   0xD3, 0x27    /* mov.l .L_pool_0603FB28, r3 */  ! r3 = callback dispatch function (cross-TU)
+    .byte   0xD3, 0x27    /* mov.l .L_pool_callback_dispatch, r3 */  ! r3 = callback dispatch function (cross-TU)
     jsr @r3                                 ! call callback dispatch(r4=saved_callback_a, r5=block+4, r6=timeout)
     mov.l @(8, r15), r4                     ! (delay) r4 = saved callback_a ptr from stack
     mov.l @(4, r14), r2                     ! r2 = block+4 (callback_a ptr / result struct)
@@ -244,7 +244,7 @@ race_timer_sync:
     bt      .L_skip_callback_b              ! if NULL, skip callback_b
     mov.l @(4, r15), r6                     ! r6 = timeout value (arg3 for callback)
     mov.l @(12, r14), r5                    ! r5 = block+12 (callback_b ptr, arg2)
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0603FB28, r3 */  ! r3 = callback dispatch function (cross-TU)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_callback_dispatch, r3 */  ! r3 = callback dispatch function (cross-TU)
     jsr @r3                                 ! call callback dispatch(r4=saved_time_b, r5=block+12, r6=timeout)
     mov.l @(12, r15), r4                    ! (delay) r4 = saved time_b value from stack
     mov.l r10, @(12, r14)                   ! block+12 = 0 (clear callback_b ptr, consumed)

@@ -44,7 +44,7 @@ sym_06035C1C:
 sym_06035C2C:
     mov.l r2, @-r15                     ! save r2
     mov.l r3, @-r15                     ! save r3
-    mov.w   .L_wpool_06035C46, r3       ! r3 = 0xFFFFFF00 (DVSR — SH-2 division unit base)
+    mov.w   .L_wpool_div_unit_base, r3       ! r3 = 0xFFFFFF00 (DVSR — SH-2 division unit base)
     mov #0x0, r2                        ! r2 = 0 (clear value for DVCR)
     mov.l r0, @r3                       ! DVSR = r0 (set divisor)
     add #0x8, r3                        ! r3 = 0xFFFFFF08 (DVCR — division control register)
@@ -55,17 +55,17 @@ sym_06035C2C:
     mov.l @r15+, r3                     ! restore r3
     rts                                 ! return
     mov.l @r15+, r2                     ! (delay) restore r2
-.L_wpool_06035C46:
-    .2byte  0xFF00
+.L_wpool_div_unit_base:
+    .2byte  0xFF00                      /* [HIGH] SH-2 division unit base (DVSR register at 0xFFFFFF00) */
 
     .global sym_06035C48
 sym_06035C48:
-    .byte   0xD0, 0x0A    /* mov.l .L_pool_06035C74, r0 */
+    .byte   0xD0, 0x0A    /* mov.l pool@0x06035C74 (external: 0x25818000 VDP1 TVMR), r0 */
     rts                                 ! return with pool value in r0
     nop                                 ! delay slot (no-op)
 
     .global sym_06035C4E
 sym_06035C4E:
-    .byte   0xD0, 0x0A    /* mov.l .L_pool_06035C78, r0 */
+    .byte   0xD0, 0x0A    /* mov.l pool@0x06035C78 (external: CD HIRQ reg addr), r0 */
     rts                                 ! return with HIRQ status word in r0
     mov.w @r0, r0                       ! (delay) r0 = *(u16*)r0 (read HIRQ register word)

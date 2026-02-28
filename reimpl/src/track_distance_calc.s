@@ -14,7 +14,7 @@ track_distance_calc:
     mov r4, r14
     add #-0x10, r15
     mov r15, r4
-    .byte   0xD3, 0x0A    /* mov.l .L_pool_06036644, r3 */
+    .byte   0xD3, 0x0A    /* mov.l .L_pool_fn_input_proc_analog, r3 */
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -36,8 +36,8 @@ track_distance_calc:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_pool_06036644:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
+.L_pool_fn_input_proc_analog:
+    .4byte  input_proc_analog           /* [HIGH] SMPC analog axis reader function */
+    .4byte  input_proc_buttons          /* [HIGH] SMPC digital button reader function */
 .L_mask_low24:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF                  /* [MEDIUM] low 24-bit mask (strips top byte from result) */

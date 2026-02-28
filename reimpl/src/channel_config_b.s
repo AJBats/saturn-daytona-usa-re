@@ -37,7 +37,7 @@ channel_config_b:
     mov.l r14, @-r15                        ! save r14 (will hold &channel_nibble_config)
     sts.l pr, @-r15                         ! save return address
     mov.l   .L_pool_nibble_config_fn, r14   ! r14 = &channel_nibble_config
-    mov.w   .L_wpool_060149C4, r4           ! r4 = 0x0100 (bitmask: array_a[0] low nibble)
+    mov.w   .L_wpool_chan_id_256, r4         ! r4 = 0x0100 (bitmask: array_a[0] low nibble)
     jsr @r14                                ! channel_nibble_config(0x0100, 4)
     mov #0x4, r5                            ! (delay) r5 = 4 (nibble value)
     mov #0x1, r5                            ! r5 = 1 (nibble value)
@@ -58,7 +58,7 @@ channel_config_b:
     lds.l @r15+, pr                         ! restore return address
     rts                                     ! return to caller
     mov.l @r15+, r14                        ! (delay) restore r14
-.L_wpool_060149C4:
+.L_wpool_chan_id_256:
     .2byte  0x0100
     .2byte  0xFFFF
 .L_pool_nibble_config_fn:
@@ -66,7 +66,7 @@ channel_config_b:
 
     .global sym_060149CC
 sym_060149CC:
-    mov.l   .L_fp_half, r3                  ! r3 = 0x8000 (bit 15 mask for display enable)
+    mov.l   .L_pool_display_enable_mask, r3  ! r3 = 0x8000 (bit 15 mask for display enable)
     mov.l   .L_pool_display_state_ptr, r2   ! r2 = &display_state (sym_060A3D88)
     mov.w @r2, r2                           ! r2 = display_state word (current value)
     or r3, r2                               ! r2 |= 0x8000 (set bit 15 = enable display)
@@ -79,7 +79,7 @@ sym_060149CC:
 
     .global sym_060149E0
 sym_060149E0:
-    mov.w   .L_wpool_060149F4, r3           ! r3 = 0x7FFF (bit 15 clear mask for display disable)
+    mov.w   .L_wpool_display_disable_mask, r3 ! r3 = 0x7FFF (bit 15 clear mask for display disable)
     mov.l   .L_pool_display_state_ptr, r2   ! r2 = &display_state (sym_060A3D88)
     mov.w @r2, r2                           ! r2 = display_state word (current value)
     and r3, r2                              ! r2 &= 0x7FFF (clear bit 15 = disable display)
@@ -89,11 +89,11 @@ sym_060149E0:
     mov.l   .L_pool_cmd_ready_flag_ptr, r3  ! r3 = &cmd_ready_flag (sym_060635AC)
     rts                                     ! return to caller
     mov.w r2, @r3                           ! (delay) cmd_ready_flag = 1 (signal pending commit)
-.L_wpool_060149F4:
+.L_wpool_display_disable_mask:
     .2byte  0x7FFF
     .2byte  0xFFFF
-.L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / bit 15 mask */
+.L_pool_display_enable_mask:
+    .4byte  0x00008000                  /* bit 15 mask — display enable */
 .L_pool_display_state_ptr:
     .4byte  sym_060A3D88
 .L_pool_cmd_ready_flag_ptr:

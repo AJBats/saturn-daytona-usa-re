@@ -58,7 +58,7 @@ save_serialize:
     mov.l r5, @r15                      ! sp[0] = result_ptr (output pointer, saved)
     mov r7, r5                          ! r5 = init_param (source/flags for obj_init_validate)
     mov.l r7, @(4, r15)                 ! sp[4] = init_param (backup)
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603BCD8, r3 */  ! r3 = obj_init_validate
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_obj_init_validate, r3 */  ! r3 = obj_init_validate
     jsr @r3                             ! call obj_init_validate(r4=block+0x14, r5=init_param)
     add #0x14, r4                       ! (delay) r4 = &block[+0x14] (embedded object)
     mov r0, r14                         ! r14 = initialized object ptr (or NULL)
@@ -76,8 +76,8 @@ save_serialize:
     extu.b r7, r7                       ! zero-extend flags byte
     mov.l r3, @-r15                     ! push 0 (5th arg for obj_setup_decomp)
     mov.l @(12, r14), r6               ! r6 = obj[+12] (stride / extra value)
-    mov.w   .L_wpool_0603BCD0, r4       ! r4 = 0x00A8 (descriptor area offset)
-    .byte   0xD3, 0x07    /* mov.l .L_pool_0603BCDC, r3 */  ! r3 = obj_setup_decomp
+    mov.w   .L_wpool_desc_area_offset, r4  ! r4 = 0x00A8 (descriptor area offset)
+    .byte   0xD3, 0x07    /* mov.l .L_pool_obj_setup_decomp, r3 */  ! r3 = obj_setup_decomp
     jsr @r3                             ! call obj_setup_decomp(r4=block+0xA8, r5=obj, r6=stride, r7=flags)
     add r12, r4                         ! (delay) r4 = block_ptr + 0xA8 (descriptor area)
     mov r0, r13                         ! r13 = decomp result ptr (or NULL)
@@ -86,30 +86,31 @@ save_serialize:
     add #0x4, r15                       ! (delay) pop the extra 0 that was pushed
     bra     .L_epilogue                 ! zero -> failure
     mov #0x0, r0                        ! (delay) r0 = 0 (failure return)
-.L_wpool_0603BCD0:
+.L_wpool_desc_area_offset:
     .2byte  0x00A8                      /* offset 0xA8 within block (descriptor area) */
     .2byte  0xFFFF                      /* padding */
-    .4byte  scene_frame_render          /* not referenced by this function (pool filler) */
+.L_pool_scene_frame_render:
+    .4byte  scene_frame_render          /* unreferenced pool filler (alignment artifact) */
 .L_pool_obj_init_validate:
     .4byte  obj_init_validate           /* init road-segment object */
 .L_pool_obj_setup_decomp:
     .4byte  obj_setup_decomp            /* decompose object into resource slots */
 .L_decomp_ok:
     mov r13, r5                         ! r5 = decomp result (arg for sym_060401E4)
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0603BD68, r3 */  ! r3 = sym_060401E4 (obj[+24] setter)
+    .byte   0xD3, 0x21    /* mov.l .L_pool_obj_field24_setter, r3 */  ! r3 = sym_060401E4 (obj[+24] setter)
     jsr @r3                             ! call sym_060401E4(r4=obj, r5=decomp_result) -- obj[+24] = decomp_result
     mov r14, r4                         ! (delay) r4 = object ptr
-    .byte   0xD2, 0x20    /* mov.l .L_pool_0603BD6C, r2 */  ! r2 = nop_stub_evt (6th descriptor field)
+    .byte   0xD2, 0x20    /* mov.l .L_pool_nop_stub_evt, r2 */  ! r2 = nop_stub_evt (6th descriptor field)
     mov r13, r5                         ! r5 = decomp result (descriptor field 0)
     mov r12, r4                         ! r4 = block_ptr (descriptor base address)
     mov.l r2, @-r15                     ! push nop_stub_evt (stack arg 2 for cmd_desc_init)
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_0603BD70, r3 */  ! r3 = sym_06040C50 (5th descriptor field)
+    .byte   0xD3, 0x1F    /* mov.l .L_pool_ret_zero_stub, r3 */  ! r3 = sym_06040C50 (5th descriptor field)
     mov.l r3, @-r15                     ! push sym_06040C50 (stack arg 1 for cmd_desc_init)
-    .byte   0xD2, 0x1F    /* mov.l .L_pool_0603BD74, r2 */  ! r2 = event_priority_set (4th descriptor field)
+    .byte   0xD2, 0x1F    /* mov.l .L_pool_event_priority_set, r2 */  ! r2 = event_priority_set (4th descriptor field)
     mov.l r2, @-r15                     ! push event_priority_set (stack arg 0 for cmd_desc_init)
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_0603BD78, r7 */  ! r7 = evt_status_flag_set (descriptor field 2)
-    .byte   0xD6, 0x20    /* mov.l .L_pool_0603BD7C, r6 */  ! r6 = evt_cmd_enqueue (descriptor field 1)
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0603BD80, r3 */  ! r3 = sym_0603F8B8 (cmd_desc_init)
+    .byte   0xD7, 0x1F    /* mov.l .L_pool_evt_status_flag_set, r7 */  ! r7 = evt_status_flag_set (descriptor field 2)
+    .byte   0xD6, 0x20    /* mov.l .L_pool_evt_cmd_enqueue, r6 */  ! r6 = evt_cmd_enqueue (descriptor field 1)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_cmd_desc_init, r3 */  ! r3 = sym_0603F8B8 (cmd_desc_init)
     jsr @r3                             ! call cmd_desc_init(r4=block+0x78, r5..r7, 3 stack args)
     add #0x78, r4                       ! (delay) r4 = &block[+0x78] (command descriptor)
     add #0xC, r15                       ! pop 3 stack args (12 bytes)

@@ -68,13 +68,13 @@ transform_heading_alt:
     nop
     .2byte  0xFFFF                          /* alignment padding */
 .L_pool_slot_data_table_b:
-    .4byte  sym_0606107C                    /* slot data table B (8-byte stride, 8 slots) */
+    .4byte  sym_0606107C                    /* [HIGH] slot data table B (8-byte stride, 8 slots) */
 .L_pool_course_id_a:
-    .4byte  sym_06089ED6                    /* &course_id_a word */
+    .4byte  sym_06089ED6                    /* [HIGH] &course_id_a word */
 .L_pool_course_id_b:
-    .4byte  sym_06089ED4                    /* &course_id_b word */
+    .4byte  sym_06089ED4                    /* [HIGH] &course_id_b word */
 .L_dispatch_setup:
-    mov.w   .L_wpool_06026462, r1           ! r1 = 0x008A (dispatch base offset)
+    mov.w   .L_wpool_heading_base_offset, r1           ! r1 = 0x008A (dispatch base offset)
     sub r1, r0                              ! r0 = render_type - 0x008A (relative index)
     mov #0xC, r1                            ! r1 = 12 (number of dispatch entries)
     cmp/hs r1, r0                           ! (unsigned) render_type_rel >= 12?
@@ -85,8 +85,8 @@ transform_heading_alt:
     mov.w @(r0, r1), r0                     ! r0 = dispatch_table[rel_idx] (PC-relative offset)
     braf r0                                 ! dispatch: PC + r0 (relative jump to handler)
     nop
-.L_wpool_06026462:
-    .2byte  0x008A                          /* dispatch base: lowest valid render_type */
+.L_wpool_heading_base_offset:
+    .2byte  0x008A                          /* [HIGH] dispatch base: lowest valid render_type */
     .4byte  0xFFC4FFC4                      /* dispatch offsets for render_type 0x008A and 0x008C */
     .4byte  0xFFCEFFCE                      /* dispatch offsets for render_type 0x008E and 0x0090 */
     .4byte  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0092 and 0x0094 */

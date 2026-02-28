@@ -9,24 +9,24 @@
     .global file_close
     .type file_close, @function
 file_close:
-    mov.l r14, @-r15
-    sts.l pr, @-r15
-    mov.l   .L_pool_060120C4, r14
-    jsr @r14
-    mov #0x20, r4
-    mov #0x6, r5
-    jsr @r14
-    mov #0x8, r4
-    mov.w   .L_wpool_060120C2, r4
-    jsr @r14
-    mov #0x5, r5
-    mov #0x4, r5
-    jsr @r14
-    mov #0x10, r4
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-.L_wpool_060120C2:
-    .2byte  0x0100
-.L_pool_060120C4:
-    .4byte  channel_nibble_config
+    mov.l r14, @-r15                        ! save r14 (will hold &channel_nibble_config)
+    sts.l pr, @-r15                         ! save return address
+    mov.l   .L_pool_channel_nibble_config, r14  ! r14 = &channel_nibble_config (reused for all 4 calls)
+    jsr @r14                                ! call channel_nibble_config(bitmask=0x20, nibble=caller_r5)
+    mov #0x20, r4                           ! (delay) r4 = 0x20 bitmask: array_b[2] high byte
+    mov #0x6, r5                            ! r5 = 0x06 nibble value for next call
+    jsr @r14                                ! call channel_nibble_config(bitmask=0x08, nibble=0x06)
+    mov #0x8, r4                            ! (delay) r4 = 0x08 bitmask: array_b[0] high byte
+    mov.w   .L_wpool_bitmask_0x0100, r4     ! r4 = 0x0100 bitmask: array_a[0] low nibble
+    jsr @r14                                ! call channel_nibble_config(bitmask=0x0100, nibble=0x05)
+    mov #0x5, r5                            ! (delay) r5 = 0x05 nibble value
+    mov #0x4, r5                            ! r5 = 0x04 nibble value for next call
+    jsr @r14                                ! call channel_nibble_config(bitmask=0x10, nibble=0x04)
+    mov #0x10, r4                           ! (delay) r4 = 0x10 bitmask: array_b[2] low byte
+    lds.l @r15+, pr                         ! restore return address
+    rts                                     ! return
+    mov.l @r15+, r14                        ! (delay) restore r14
+.L_wpool_bitmask_0x0100:
+    .2byte  0x0100                          /* [MEDIUM] bitmask for array_a[0] low nibble field */
+.L_pool_channel_nibble_config:
+    .4byte  channel_nibble_config           /* [HIGH] channel nibble config function pointer */

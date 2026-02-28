@@ -40,7 +40,7 @@ display_enable_ctrl:
     mov.l r12, @-r15               ! save r12 (callee-saved)
     sts.l pr, @-r15                ! save return address
     mov #0x40, r12                 ! r12 = 64 (aux array entry count)
-    mov.w   .L_wpool_06038106, r13 ! r13 = 0x0200 (512 = main loop count)
+    mov.w   .L_wpool_entry_count, r13 ! r13 = 0x0200 (512 = main loop count)
     mov.l   .L_fixpt_one, r14      ! r14 = 0x00010000 (1.0 in 16.16 fixed-point)
     mov #0x0, r5                   ! r5 = 0 (zero constant used throughout)
     extu.b r5, r0                  ! r0 = 0 (zero-extended byte)
@@ -114,8 +114,8 @@ display_enable_ctrl:
     mov.l @r15+, r13               ! restore r13
     rts                            ! return to caller
     mov.l @r15+, r14               ! (delay) restore r14
-.L_wpool_06038106:
-    .2byte  0x0200
+.L_wpool_entry_count:
+    .2byte  0x0200                      /* [HIGH] 512 = total display element entries */
 
     .global DAT_06038108
 DAT_06038108:

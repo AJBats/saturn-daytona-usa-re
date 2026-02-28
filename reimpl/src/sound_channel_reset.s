@@ -11,7 +11,7 @@
 sound_channel_reset:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_06019304, r14
+    mov.l   .L_pool_sound_cmd_dispatch, r14
     jsr @r14
     mov #0x1, r4
     mov #0x0, r5
@@ -30,8 +30,8 @@ sound_channel_reset:
     .4byte  0x2152FFFF
     .4byte  0x25A00000
     .4byte  0x0007FFFF
-.L_pool_06019304:
-    .4byte  sound_cmd_dispatch
+.L_pool_sound_cmd_dispatch:
+    .4byte  sound_cmd_dispatch          /* [HIGH] sound command dispatch function */
     .4byte  sym_06086050
     .4byte  0x25A02DBE
     .4byte  0x0000FFFF

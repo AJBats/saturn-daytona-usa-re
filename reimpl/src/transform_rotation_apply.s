@@ -79,15 +79,15 @@ transform_rotation_apply:
     bra     .L_loop_next                    ! skip this slot, continue loop
     nop                                     ! (delay slot)
 .L_pool_rotation_data_table:
-    .4byte  sym_06060F2C                    /* rotation data table base (8-byte stride, 10 slots) */
+    .4byte  sym_06060F2C                    /* [MEDIUM] rotation data table base (8-byte stride, 10 slots) */
 .L_pool_rotation_out_a:
-    .4byte  sym_06060D2A                    /* &rotation_out_a (word output) */
+    .4byte  sym_06060D2A                    /* [MEDIUM] &rotation_out_a (word output) */
 .L_pool_rotation_out_b:
-    .4byte  sym_06060D34                    /* &rotation_out_b (word output) */
+    .4byte  sym_06060D34                    /* [MEDIUM] &rotation_out_b (word output) */
 .L_fp_half:
-    .4byte  0x00008000                      /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000                      /* [HIGH] 0.5 (16.16 fixed-point) */
 .L_dispatch_rotation:                      ! === Switch: rotation_adjusted -> channel write ===
-    mov.w   .L_wpool_060263C2, r1           ! r1 = 0x008A (rotation base offset)
+    mov.w   .L_wpool_rotation_base, r1           ! r1 = 0x008A (rotation base offset)
     sub r1, r0                              ! r0 = rotation_type - 0x8A (adjusted index)
     mov #0xC, r1                            ! r1 = 12 (jump table entry count)
     cmp/hs r1, r0                           ! adjusted_index >= 12? (unsigned)
@@ -98,8 +98,8 @@ transform_rotation_apply:
     mov.w @(r0, r1), r0                     ! r0 = signed jump offset from table[adjusted_index]
     braf r0                                 ! PC-relative indirect branch -> dispatch case
     nop                                     ! (delay slot)
-.L_wpool_060263C2:
-    .2byte  0x008A                          /* rotation base value to subtract */
+.L_wpool_rotation_base:
+    .2byte  0x008A                          /* [HIGH] rotation base value to subtract */
     .4byte  0xFFC2FFC2                      /* index 0,1: offset -62 -> case A (rotation_out_a = 0) */
     .4byte  0xFFCCFFCC                      /* index 2,3: offset -52 -> case B (rotation_out_b = 0) */
     .4byte  0xFFC6FFC6                      /* index 4,5: offset -58 -> case C (rotation_out_a = fp_half) */

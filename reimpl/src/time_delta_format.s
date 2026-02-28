@@ -31,7 +31,7 @@ time_delta_format:
     mov.l r12, @-r15                      ! save r12
     add #-0x4, r15                        ! allocate 4 bytes for car_index
     .byte   0xDC, 0x0E    /* mov.l .L_pool_slot_data_base, r12 */  ! r12 = slot data array base
-    mov.w   .L_wpool_06015C9C, r13        ! r13 = 0xFFFFE000 (initial anim counter)
+    mov.w   .L_wpool_init_anim_counter, r13        ! r13 = 0xFFFFE000 (initial anim counter)
     mov #0x8, r14                         ! r14 = 0x8 (total slot count)
     mov.b r4, @r15                        ! save car_index on stack
     mov #0x0, r4                          ! r4 = 0x0 (loop index)
@@ -58,11 +58,11 @@ time_delta_format:
     .byte   0xD3, 0x04    /* mov.l .L_pool_clear_vdp2_regs, r3 */  ! r3 = clear_vdp2_registers addr
     jmp @r3                               ! tail-call clear_vdp2_registers
     mov.l @r15+, r14                      ! restore r14 (delay slot)
-.L_wpool_06015C9C:
+.L_wpool_init_anim_counter:
     .2byte  0xE000                        ! initial anim counter (sign-ext to 0xFFFFE000)
     .2byte  0xFFFF                        ! padding / alignment
 .L_pool_slot_data_base:
-    .4byte  sym_06084FC8                  ! slot data array base
-    .4byte  sym_0605B8B0                  ! display handler fn ptr table (unused by this TU)
+    .4byte  sym_06084FC8                  /* [HIGH] slot data array base — 68-byte structs */
+    .4byte  sym_0605B8B0                  /* [MEDIUM] display handler fn ptr table (unused by this TU) */
 .L_pool_clear_vdp2_regs:
-    .4byte  sym_060172E4                  ! clear_vdp2_registers function
+    .4byte  sym_060172E4                  /* [HIGH] clear VDP2 registers — confirmed in track_geometry.s */

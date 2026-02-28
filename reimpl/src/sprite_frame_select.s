@@ -35,7 +35,7 @@ sprite_frame_select:
     cmp/eq #-0x1, r0            ! test if object ID == 0xFF (-1 signed = invalid/no-entry)
     bt      .L_early_return     ! if object ID is -1: table lookup invalid, return
     exts.b r14, r14             ! r14 = sign-extended object ID (ensure clean 32-bit index)
-    mov.w   .L_wpool_060055A0, r2     ! r2 = 0x0268 (animation table entry stride, bytes per entry)
+    mov.w   .L_wpool_anim_entry_stride, r2     ! r2 = 0x0268 (animation table entry stride, bytes per entry)
     mov.l   .L_pool_anim_table_base, r3 ! r3 = 0x06078900 (car/object animation table base address)
     mul.l r2, r14               ! MACL = r14 * 0x268 (byte offset for this object's table entry)
     sts macl, r14               ! r14 = byte offset into animation table
@@ -62,8 +62,8 @@ sprite_frame_select:
     lds.l @r15+, pr             ! restore return address (PR)
     rts                         ! return to caller
     mov.l @r15+, r14            ! (delay slot) restore r14
-.L_wpool_060055A0:
-    .2byte  0x0268              ! animation table entry stride: 0x268 bytes per entry (mov.w target — name preserved)
+.L_wpool_anim_entry_stride:
+    .2byte  0x0268              /* [HIGH] animation table entry stride: 0x268 bytes per entry */
     .2byte  0xFFFF
 .L_pool_mat_identity:
     .4byte  sym_06026E0C        ! -> mat_identity_A: reset current matrix stack entry to identity

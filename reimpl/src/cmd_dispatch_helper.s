@@ -36,13 +36,13 @@ cmd_dispatch_helper:
     mov.l r14, @-r15                        ! save r14 (callee-saved)
     sts.l pr, @-r15                         ! save return address
     mov.l   .L_pool_state_ptr, r5           ! r5 = &sym_060A4D14 (global state pointer)
-    mov.w   .L_wpool_0603ADDA, r3           ! r3 = 0x0098 (offset to command slot sub-struct)
+    mov.w   .L_woff_cmd_slot_base, r3       ! r3 = 0x0098 (offset to command slot sub-struct)
     mov.l @r5, r14                          ! r14 = state struct base
     tst r4, r4                              ! is command pointer null?
     bf/s    .L_copy_command                 ! if nonzero: branch to copy path
     add r3, r14                             ! r14 = base + 0x0098 = command slot pointer (delay slot)
     mov.l @r5, r3                           ! r3 = state struct base (reload)
-    mov.w   .L_wpool_0603ADDC, r0           ! r0 = 0x00A0 (offset to active count field)
+    mov.w   .L_woff_active_count, r0        ! r0 = 0x00A0 (offset to active count field)
     mov.l @(r0, r3), r0                     ! r0 = struct[0xA0] (active queue count)
     tst r0, r0                              ! is active count zero?
     bt      .L_clear_slot                   ! if zero: safe to clear the slot
@@ -57,9 +57,9 @@ cmd_dispatch_helper:
     mov r4, r2                              ! r2 = 0 (unused, kept for binary compat)
     bra     .L_report_success               ! jump to success epilogue
     mov.l r4, @(4, r14)                     ! slot[+4] = 0 (clear field 1, delay slot)
-.L_wpool_0603ADDA:
+.L_woff_cmd_slot_base:
     .2byte  0x0098                          ! offset: command slot sub-struct within state
-.L_wpool_0603ADDC:
+.L_woff_active_count:
     .2byte  0x00A0                          ! offset: active queue count within state
     .2byte  0x00F4                          ! (unused pool padding / adjacent TU data)
     .4byte  sym_0603F1E0                    ! index_mul12: idx*12 + base (used by adjacent TUs)
@@ -70,7 +70,7 @@ cmd_dispatch_helper:
 .L_copy_command:
     mov r14, r1                             ! r1 = dst (command slot pointer)
     mov r4, r2                              ! r2 = src (command data pointer from caller)
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603AE68, r3 */  ! r3 = memcpy_long (sym_06035168)
+    .byte   0xD3, 0x1C    /* mov.l pool_memcpy_long@0x0603AE68, r3 */  ! r3 = memcpy_long (sym_06035168)
     jsr @r3                                 ! call memcpy_long(r0=12, r1=slot, r2=cmd_src)
     mov #0xC, r0                            ! r0 = 12 (byte count, delay slot)
     .byte   0xB4, 0xE1    /* bsr 0x0603B7C0 (external) */  ! call sys_timer_config (element flag search)

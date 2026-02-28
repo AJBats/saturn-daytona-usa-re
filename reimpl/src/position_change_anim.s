@@ -50,7 +50,7 @@ position_change_anim:
     add #-0x8, r15                         ! allocate 8-byte stack frame
     mov #0x8, r8                           ! r8 = 8 (slot count / loop limit)
     mov.l   .L_fp_half, r9                 ! r9 = 0x8000 (0.5 in 16.16 FP)
-    mov.w   .L_wpool_06015A2C, r10         ! r10 = 0x2000 (animation step per frame)
+    mov.w   .L_w_anim_step, r10         ! r10 = 0x2000 (animation step per frame)
     mov.l   .L_fp_one, r11                 ! r11 = 0x10000 (1.0 in 16.16 FP)
     mov #0x0, r12                          ! r12 = 0 (constant zero)
     mov.l   .L_slot_data_base, r13         ! r13 = sym_06084FC8 (slot array base)
@@ -154,15 +154,15 @@ position_change_anim:
     mov.l r11, @(44, r3)                   ! slot[+0x2C] = 0x10000 (clamp to 1.0)
     bra     .L_call_vtx_builder            ! go build vertices
     nop                                    ! (branch delay slot)
-.L_wpool_06015A2C:
-    .2byte  0x2000
+.L_w_anim_step:
+    .2byte  0x2000                     /* [HIGH] animation step per frame (16.16 FP) */
     .2byte  0xFFFF
 .L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000                 /* [HIGH] 0.5 (16.16 fixed-point) */
 .L_fp_one:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000                 /* [HIGH] 1.0 (16.16 fixed-point) */
 .L_slot_data_base:
-    .4byte  sym_06084FC8
+    .4byte  sym_06084FC8               /* [HIGH] HUD element slot data array base */
 .L_slot_at_zero:
     /* --- progress == 0: slot animation complete, increment done counter --- */
     extu.b r14, r2                         ! r2 = slot index
@@ -218,6 +218,6 @@ position_change_anim:
     rts                                    ! return to caller
     mov.l @r15+, r14                       ! restore r14 (delay slot)
 .L_track_vtx_builder:
-    .4byte  track_vtx_builder
+    .4byte  track_vtx_builder          /* [HIGH] rotated minimap vertex builder */
 .L_slot_reset_fn:
-    .4byte  sym_060172E4
+    .4byte  sym_060172E4               /* [MEDIUM] VDP2 register clear / slot reset */

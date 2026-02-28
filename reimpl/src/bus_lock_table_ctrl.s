@@ -36,7 +36,7 @@ bus_lock_table_ctrl:
     mov.l   .L_pool_mask_hi_byte, r7    ! r7 = 0x0000FF00 (mask: keep high byte, clear low byte)
     mov.l   .L_pool_cfg_final, r6       ! r6 = &sym_060A4D58 (target struct for bitfield RMW)
     mov.l   .L_pool_cfg_array_b, r4     ! r4 = &sym_060A4D30 (config word array B, 3 words)
-    mov.w   .L_wpool_0603D424, r1       ! r1 = 0x0201 (field descriptor for array B RMW)
+    mov.w   .L_wpool_field_descriptor, r1 ! r1 = 0x0201 (field descriptor for array B RMW)
     mov.l   .L_pool_bitfield_rmw, r3    ! r3 = &sym_06034F78 (bitfield RMW utility)
     mov r5, r0                          ! r0 = 0x1 (commit value)
     jsr @r3                             ! call bitfield_rmw(r0=1, r1=0x0201, r2=&cfg_final)
@@ -49,7 +49,7 @@ bus_lock_table_ctrl:
     mov.w r0, @r4                       ! array_b[0] = updated word (low byte = 0x03)
     ! --- word[0] high byte: set to 0x02 ---
     mov r5, r0                          ! r0 = 0x1 (commit value)
-    mov.w   .L_wpool_0603D424, r1       ! r1 = 0x0201 (field descriptor)
+    mov.w   .L_wpool_field_descriptor, r1 ! r1 = 0x0201 (field descriptor)
     mov.l   .L_pool_bitfield_rmw, r3    ! r3 = &bitfield_rmw
     jsr @r3                             ! call bitfield_rmw(1, 0x0201, &cfg_final)
     mov r6, r2                          ! (delay) r2 = &cfg_final
@@ -61,7 +61,7 @@ bus_lock_table_ctrl:
     mov.w r0, @r4                       ! array_b[0] = updated word (0x0203)
     ! --- word[2] low byte: set to 0x01 ---
     mov r5, r0                          ! r0 = 0x1 (commit value)
-    mov.w   .L_wpool_0603D424, r1       ! r1 = 0x0201 (field descriptor)
+    mov.w   .L_wpool_field_descriptor, r1       ! r1 = 0x0201 (field descriptor)
     mov.l   .L_pool_bitfield_rmw, r3    ! r3 = &bitfield_rmw
     jsr @r3                             ! call bitfield_rmw(1, 0x0201, &cfg_final)
     mov r6, r2                          ! (delay) r2 = &cfg_final
@@ -74,7 +74,7 @@ bus_lock_table_ctrl:
     mov.w r0, @(2, r4)                  ! array_b[2] = updated word (low byte = 0x01)
     ! --- word[2] high byte: clear to 0x00 ---
     mov r5, r0                          ! r0 = 0x1 (commit value)
-    mov.w   .L_wpool_0603D424, r1       ! r1 = 0x0201 (field descriptor)
+    mov.w   .L_wpool_field_descriptor, r1       ! r1 = 0x0201 (field descriptor)
     mov.l   .L_pool_bitfield_rmw, r3    ! r3 = &bitfield_rmw
     jsr @r3                             ! call bitfield_rmw(1, 0x0201, &cfg_final)
     mov r6, r2                          ! (delay) r2 = &cfg_final
@@ -84,7 +84,7 @@ bus_lock_table_ctrl:
     mov.w r0, @(2, r4)                  ! array_b[2] = updated word (high byte = 0x00)
     ! --- word[4]: direct write 0x0004 ---
     mov r5, r0                          ! r0 = 0x1 (commit value)
-    mov.w   .L_wpool_0603D424, r1       ! r1 = 0x0201 (field descriptor)
+    mov.w   .L_wpool_field_descriptor, r1       ! r1 = 0x0201 (field descriptor)
     mov.l   .L_pool_bitfield_rmw, r3    ! r3 = &bitfield_rmw
     jsr @r3                             ! call bitfield_rmw(1, 0x0201, &cfg_final)
     mov r6, r2                          ! (delay) r2 = &cfg_final
@@ -92,7 +92,7 @@ bus_lock_table_ctrl:
     mov.w r0, @(4, r4)                  ! array_b[4] = 0x0004
     ! --- final commit (no word write follows) ---
     mov r5, r0                          ! r0 = 0x1 (commit value)
-    mov.w   .L_wpool_0603D424, r1       ! r1 = 0x0201 (field descriptor)
+    mov.w   .L_wpool_field_descriptor, r1       ! r1 = 0x0201 (field descriptor)
     mov.l   .L_pool_bitfield_rmw, r3    ! r3 = &bitfield_rmw
     jsr @r3                             ! call bitfield_rmw(1, 0x0201, &cfg_final)
     mov r6, r2                          ! (delay) r2 = &cfg_final
@@ -100,7 +100,7 @@ bus_lock_table_ctrl:
     lds.l @r15+, pr                     ! restore return address
     rts                                 ! return to caller
     nop                                 ! (delay) padding
-.L_wpool_0603D424:
+.L_wpool_field_descriptor:
     .2byte  0x0201                      /* field descriptor: array B bitfield RMW param */
 
     .global DAT_0603d426

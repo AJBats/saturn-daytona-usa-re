@@ -37,13 +37,13 @@ cmd_status_check:
     add #-0x4, r15                          ! allocate 4 bytes of stack for local storage
     mov.l r4, @r15                          ! save r4 (command buffer ptr) to stack local
     mov.l   .L_pool_state_ptr, r14          ! r14 = &sym_060A4D14 (global command state pointer)
-    mov.w   .L_wpool_0603AE60, r0           ! r0 = 0x00A0 (offset to active count field)
+    mov.w   .L_woff_active_count, r0        ! r0 = 0x00A0 (offset to active count field)
     mov.l @r14, r3                          ! r3 = state struct base address
     mov.l @(r0, r3), r0                     ! r0 = state[0xA0] (queue active count)
     tst r0, r0                              ! is active count zero?
     bt      .L_not_ready                    ! if zero, command not ready — branch to error
     mov.l @r14, r0                          ! r0 = state struct base address (reload)
-    mov.w   .L_wpool_0603AE62, r1           ! r1 = 0x0098 (offset to mode flag field)
+    mov.w   .L_woff_mode_flag, r1           ! r1 = 0x0098 (offset to mode flag field)
     mov.l @(r0, r1), r0                     ! r0 = state[0x98] (mode flag)
     cmp/eq #0x1, r0                         ! is mode flag == 1?
     bt      .L_do_lookup                    ! if yes, proceed to directory lookup
@@ -55,12 +55,12 @@ cmd_status_check:
     mov.l @r15+, r14                        ! restore r14 (delay slot)
 .L_do_lookup:
     mov.l @r14, r6                          ! r6 = state struct base address
-    mov.w   .L_wpool_0603AE64, r0           ! r0 = 0x009C (offset to max-entries field)
+    mov.w   .L_woff_max_entries, r0         ! r0 = 0x009C (offset to max-entries field)
     mov.l @r15, r5                          ! r5 = saved command buffer ptr (lookup name arg)
     mov.l @r14, r4                          ! r4 = state struct base address (for entry array)
     mov.l   .L_pool_dir_lookup_fn, r3       ! r3 = &slave_sh2_setup (directory lookup function)
     mov.l @(r0, r6), r6                     ! r6 = state[0x9C] (max entries for lookup)
-    mov.w   .L_wpool_0603AE60, r0           ! r0 = 0x00A0 (offset to active count)
+    mov.w   .L_woff_active_count, r0        ! r0 = 0x00A0 (offset to active count)
     jsr @r3                                 ! call slave_sh2_setup(r4=entry_array, r5=name, r6=max_entries)
     mov.l @(r0, r4), r4                     ! r4 = state[0xA0] (entry count) (delay slot)
     mov r0, r14                             ! r14 = lookup result (entry index or -1)
@@ -79,15 +79,15 @@ cmd_status_check:
     lds.l @r15+, pr                         ! restore return address
     rts                                     ! return to caller
     mov.l @r15+, r14                        ! restore r14 (delay slot)
-.L_wpool_0603AE60:
-    .2byte  0x00A0
-.L_wpool_0603AE62:
-    .2byte  0x0098
-.L_wpool_0603AE64:
-    .2byte  0x009C
-    .2byte  0xFFFF
-    .4byte  sym_06035168
+.L_woff_active_count:
+    .2byte  0x00A0                          /* [HIGH] struct offset: active entry count (+0xA0) */
+.L_woff_mode_flag:
+    .2byte  0x0098                          /* [HIGH] struct offset: mode flag (+0x98) */
+.L_woff_max_entries:
+    .2byte  0x009C                          /* [HIGH] struct offset: max entries for lookup (+0x9C) */
+    .2byte  0xFFFF                          /* alignment padding */
+    .4byte  sym_06035168                    /* [HIGH] memcpy_long — unreferenced dead pool entry */
 .L_pool_state_ptr:
-    .4byte  sym_060A4D14
+    .4byte  sym_060A4D14                    /* [HIGH] global command state struct pointer */
 .L_pool_dir_lookup_fn:
-    .4byte  slave_sh2_setup
+    .4byte  slave_sh2_setup                 /* [HIGH] directory entry lookup function */

@@ -37,7 +37,7 @@ replay_cam_auto_cut:
     .byte   0xD3, 0x13    /* mov.l .L_p_course_dlist_desc, r3 */  ! r3 = &course_dlist_descriptor
     mov.l r3, @r15                              ! local[0] = course_dlist_descriptor ptr
     mov r3, r7                                  ! r7 = course_dlist_descriptor (tex_data arg)
-    mov.w   .L_wpool_0601AF6A, r6               ! r6 = 0x96 (display list source offset)
+    mov.w   .L_w_dlist_src_offset, r6               ! r6 = 0x96 (display list source offset)
     mov.l @r15, r5                              ! r5 = course_dlist_descriptor (dlist_base arg)
     mov.l @(4, r7), r7                          ! r7 = dlist_descriptor[1] (display list pointer)
     .byte   0xD3, 0x11    /* mov.l .L_dlist_offset_0xC000, r3 */  ! r3 = 0xC000 (display list offset)
@@ -69,21 +69,21 @@ replay_cam_auto_cut:
     lds.l @r15+, pr                             ! restore return address
     rts                                         ! return
     mov.l @r15+, r14                            ! restore r14 (delay slot)
-.L_wpool_0601AF6A:
-    .2byte  0x0096
+.L_w_dlist_src_offset:
+    .2byte  0x0096                     /* [HIGH] display list source offset */
 .L_p_phase_countdown:
-    .4byte  sym_0608600F
+    .4byte  sym_0608600F               /* [MEDIUM] phase countdown timer (byte) */
 .L_p_phase_index:
-    .4byte  sym_06086011
+    .4byte  sym_06086011               /* [MEDIUM] phase index (byte) */
 .L_p_course_dlist_desc:
-    .4byte  sym_060638C8
+    .4byte  sym_060638C8               /* [MEDIUM] course display list descriptor ptr */
 .L_dlist_offset_0xC000:
-    .4byte  0x0000C000                  /* bits 15:14 mask */
+    .4byte  0x0000C000                 /* [MEDIUM] display list texture region offset */
 .L_p_display_list_loader:
-    .4byte  sym_06028400
+    .4byte  sym_06028400               /* [HIGH] display_list_loader fn */
 .L_p_attract_frame_ctr:
-    .4byte  sym_06086010
+    .4byte  sym_06086010               /* [MEDIUM] attract frame counter (byte) */
 .L_p_render_state:
-    .4byte  sym_0605AD00
+    .4byte  sym_0605AD00               /* [MEDIUM] race/render state variable */
 .L_p_race_end_state:
-    .4byte  sym_0607EAD8
+    .4byte  sym_0607EAD8               /* [HIGH] car object / race end state ptr */

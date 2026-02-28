@@ -13,14 +13,14 @@ sys_dma_channel_init:
     mov r4, r14                             ! r14 = timer block pointer
     add #-0x4, r15                          ! allocate 4 bytes on stack
     mov.l   .L_pool_game_state_ptr, r4      ! r4 = &game_state_ptr (sym_060A4D14)
-    mov.w   .L_wpool_0603B91C, r0           ! r0 = 0xA8 (channel slot offset)
+    mov.w   .L_wpool_channel_slot_offset, r0           ! r0 = 0xA8 (channel slot offset)
     mov.l @r4, r3                           ! r3 = game_state base pointer
     mov.l @(r0, r3), r2                     ! r2 = game_state+0xA8 (registered block ptr)
     cmp/eq r14, r2                          ! is this block currently registered?
     bf      .L_not_registered               ! if not registered, skip to early exit
     mov.l @r4, r2                           ! r2 = game_state base pointer
     mov #0x0, r3                            ! r3 = 0 (clear value)
-    mov.w   .L_wpool_0603B91C, r0           ! r0 = 0xA8 (channel slot offset)
+    mov.w   .L_wpool_channel_slot_offset, r0           ! r0 = 0xA8 (channel slot offset)
     mov.l r3, @(r0, r2)                     ! game_state+0xA8 = 0 (unregister block)
     mov.l @r4, r3                           ! r3 = game_state base pointer
     mov #0x10, r0                           ! r0 = 0x10 (channel type byte offset)
@@ -52,8 +52,8 @@ sys_dma_channel_init:
     .4byte  0x64F25442
     .4byte  0xD303432B
     .4byte  0x7F0400F0
-.L_wpool_0603B91C:
-    .2byte  0x00A8
+.L_wpool_channel_slot_offset:
+    .2byte  0x00A8                      /* [HIGH] channel slot offset in game state (+0xA8) */
 
     .global DAT_0603b91e
 DAT_0603b91e:

@@ -52,7 +52,7 @@ time_compare_display:
     add #-0x4, r15                        ! allocate 4 bytes on stack for car_index
     mov #0x8, r8                          ! r8 = 8 (total number of slots)
     mov #0x7, r9                          ! r9 = 7 (boundary: slots 0-6 add, slot 7 subtracts)
-    mov.w   .L_wpool_06015C22, r11        ! r11 = 0x0C00 (animation step per frame)
+    mov.w   .L_wpool_anim_step, r11        ! r11 = 0x0C00 (animation step per frame)
     mov #0x0, r12                         ! r12 = 0 (zero constant for clamping)
     mov.l   .L_pool_slot_data_base, r13   ! r13 = slot data array base (sym_06084FC8)
     mov.b r4, @r15                        ! store car_index on stack
@@ -154,14 +154,14 @@ time_compare_display:
     mov.l @r15+, r13                      ! restore r13
     rts                                   ! return (animation still in progress)
     mov.l @r15+, r14                      ! (delay slot) restore r14
-.L_wpool_06015C22:
+.L_wpool_anim_step:
     .2byte  0x0C00
 .L_pool_slot_data_base:
-    .4byte  sym_06084FC8
+    .4byte  sym_06084FC8         /* [HIGH] slot data array base — 68-byte structs */
 .L_pool_track_vtx_builder:
-    .4byte  track_vtx_builder
+    .4byte  track_vtx_builder    /* [HIGH] rebuild vertex data for slot */
 .L_pool_hud_finalizer:
-    .4byte  sym_060172E4
+    .4byte  sym_060172E4         /* [HIGH] clear VDP2 registers / HUD element finalizer */
 
     .global loc_06015C30
 loc_06015C30:
@@ -184,13 +184,13 @@ loc_06015C30:
     shll2 r2                              ! r2 = car_index * 64
     add r2, r3                            ! r3 = car_index * 68 (struct stride)
     exts.w r3, r3                         ! sign-extend offset
-    .byte   0xD1, 0x16    /* mov.l .L_pool_06015CA0, r1 */  ! r1 = slot data array base
+    .byte   0xD1, 0x16    /* mov.l .L_pool_slot_data_base, r1 */  ! r1 = slot data array base
     add r1, r3                            ! r3 = &slot[car_index]
     mov.b @(2, r3), r0                    ! r0 = slot[car_index].display_type (byte +2)
     mov r0, r3                            ! r3 = display_type
     extu.b r3, r3                         ! r3 = display_type (unsigned)
     shll2 r3                              ! r3 = display_type * 4 (pointer table index)
-    .byte   0xD2, 0x14    /* mov.l .L_pool_06015CA4, r2 */  ! r2 = &fn_ptr_table (sym_0605B8B0)
+    .byte   0xD2, 0x14    /* mov.l .L_pool_fn_ptr_table, r2 */  ! r2 = &fn_ptr_table (sym_0605B8B0)
     add r2, r3                            ! r3 = &fn_ptr_table[display_type]
     mov.l @r3, r3                         ! r3 = handler function address
     mov.b @r15, r4                        ! r4 = car_index (reload from stack)

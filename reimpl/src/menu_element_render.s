@@ -21,8 +21,8 @@
  *     sym_06036D78          = memset(dst, byte_val, count)
  *     sym_06036D94          = memcmp (unused in practice here — pool artifact)
  *     sym_060A4D14          = game state base pointer
- *     cmd_multi_validate    = refill ring buffer (at .L_pool_0603F4C4)
- *     sym_060360FC          = memmove(dst, src, count) (at .L_pool_0603F4C8)
+ *     cmd_multi_validate    = refill ring buffer (at .L_fn_cmd_multi_validate)
+ *     sym_060360FC          = memmove(dst, src, count) (at .L_fn_memmove)
  */
 
     .section .text.FUN_0603F3F6
@@ -40,7 +40,7 @@ menu_element_render:
     mov r5, r10                         ! r10 = dest_buf
     mov.l r9, @-r15                     ! save r9 (will hold cursor)
     sts.l pr, @-r15                     ! save return address
-    mov.w   .L_wpool_0603F42C, r11      ! r11 = 0x0800 (ring buffer size = 2048)
+    mov.w   .L_ring_buf_size, r11      ! r11 = 0x0800 (ring buffer size = 2048)
     mov.l @r14, r0                      ! r0 = ring_desc->source_data_ptr
     tst r0, r0                          ! source_data_ptr == NULL?
     bf/s    .L_source_valid             ! no — source exists, proceed with copy
@@ -60,8 +60,8 @@ menu_element_render:
     mov.l @r15+, r14                    ! restore r14 (delay slot)
 ! --- Constant pool (inline, between code paths) ---
     .2byte  0x043C                      ! alignment pad
-.L_wpool_0603F42C:
-    .2byte  0x0800                      ! ring buffer size constant (2048)
+.L_ring_buf_size:
+    .2byte  0x0800                      /* [HIGH] ring buffer size constant (2048 bytes) */
     .2byte  0xFFFF                      ! padding / unused
     .4byte  sym_06036D94                ! pool: memcmp (not called here directly)
     .4byte  sym_060A4D14                ! pool: game state base pointer
@@ -73,7 +73,7 @@ menu_element_render:
     mov r4, r0                          ! r0 = cursor (for comparison)
     cmp/eq #-0x1, r0                    ! cursor == -1 (invalid/uninitialized)?
     bt      .L_refill_buffer            ! yes — refill ring buffer
-    .byte   0x93, 0x3D    /* mov.w .L_wpool_0603F4C2, r3 */  ! r3 = 0x0800 (buf_size, from external pool)
+    .byte   0x93, 0x3D    /* mov.w .L_ring_buf_size_ext, r3 */  ! r3 = 0x0800 (buf_size, from external pool)
     cmp/ge r3, r4                       ! cursor >= buf_size?
     bf      .L_cursor_valid             ! no — cursor is valid, skip refill
 ! --- Cursor invalid or past end: refill ring buffer ---
@@ -81,7 +81,7 @@ menu_element_render:
     mov r11, r7                         ! r7 = buf_size (arg4 for cmd_multi_validate)
     mov.l @(4, r14), r6                 ! r6 = ring_buf_base (arg3)
     mov #0x1, r5                        ! r5 = 1 (mode flag — refill)
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603F4C4, r3 */  ! r3 = &cmd_multi_validate
+    .byte   0xD3, 0x1C    /* mov.l .L_fn_cmd_multi_validate, r3 */  ! r3 = &cmd_multi_validate
     jsr @r3                             ! call cmd_multi_validate(src_ptr, 1, ring_buf, buf_size)
     mov.l @r14, r4                      ! r4 = source_data_ptr (arg1, delay slot)
     mov #0x0, r2                        ! r2 = 0
@@ -102,7 +102,7 @@ menu_element_render:
 .L_clamp_to_request:
     mov r12, r6                         ! r6 = copy_len (arg3 for memmove)
     mov.l @(4, r14), r5                 ! r5 = ring_buf_base (source)
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0603F4C8, r3 */  ! r3 = &memmove (sym_060360FC)
+    .byte   0xD3, 0x15    /* mov.l .L_fn_memmove, r3 */  ! r3 = &memmove (sym_060360FC)
     add r9, r5                          ! r5 = ring_buf_base + cursor (source offset)
     jsr @r3                             ! call memmove(dest_buf, ring_buf+cursor, copy_len)
     mov r10, r4                         ! r4 = dest_buf (arg1, delay slot)
@@ -116,13 +116,13 @@ menu_element_render:
     sub r12, r13                        ! r13 = byte_count - copy_len (remaining bytes)
     mov r11, r7                         ! r7 = buf_size (arg4)
     mov #0x1, r5                        ! r5 = 1 (mode flag — refill)
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_0603F4C4, r3 */  ! r3 = &cmd_multi_validate
+    .byte   0xD3, 0x0E    /* mov.l .L_fn_cmd_multi_validate, r3 */  ! r3 = &cmd_multi_validate
     mov.l @(4, r14), r6                 ! r6 = ring_buf_base (arg3)
     jsr @r3                             ! call cmd_multi_validate(src_ptr, 1, ring_buf, buf_size)
     mov.l @r14, r4                      ! r4 = source_data_ptr (arg1, delay slot)
     mov r13, r6                         ! r6 = remaining byte_count (arg3 for memmove)
     mov r12, r4                         ! r4 = copy_len (offset into dest_buf)
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_0603F4C8, r3 */  ! r3 = &memmove (sym_060360FC)
+    .byte   0xD3, 0x0C    /* mov.l .L_fn_memmove, r3 */  ! r3 = &memmove (sym_060360FC)
     mov.l @(4, r14), r5                 ! r5 = ring_buf_base (source — starts at offset 0)
     jsr @r3                             ! call memmove(dest_buf+copy_len, ring_buf, remaining)
     add r10, r4                         ! r4 = dest_buf + copy_len (arg1, delay slot)

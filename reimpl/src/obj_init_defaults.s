@@ -37,7 +37,7 @@
 obj_init_defaults:
     sts.l pr, @-r15                             ! save return address to stack
     add #-0xC, r15                              ! allocate 12 bytes of local stack space
-    mov.w   .L_wpool_060204A8, r10              ! r10 = 0x3C79 (texture data constant)
+    mov.w   .L_w_tex_data_const, r10              ! r10 = 0x3C79 (texture data constant)
     mov.l   .L_pool_obj_table, r12              ! r12 = sym_0605F44E (object display list base)
     mov.b r4, @r15                              ! stack[0] = object_count (byte)
     mov r12, r11                                ! r11 = obj_table base
@@ -99,10 +99,10 @@ obj_init_defaults:
     mov.l @r15+, r13                            ! restore r13
     rts                                         ! return to caller
     mov.l @r15+, r14                            ! restore r14 [delay slot]
-.L_wpool_060204A8:
-    .2byte  0x3C79
+.L_w_tex_data_const:
+    .2byte  0x3C79                     /* [MEDIUM] texture data constant */
     .2byte  0xFFFF
 .L_pool_obj_table:
-    .4byte  sym_0605F44E
+    .4byte  sym_0605F44E               /* [HIGH] object display list base table */
 .L_pool_dlist_loader:
-    .4byte  sym_06028400
+    .4byte  sym_06028400               /* [HIGH] display_list_loader function */

@@ -19,9 +19,13 @@
  *     entry (sym_0602ECBC), then indexes by the cmd_slot_counter
  *     (sym_06082A38 * 32) to read an 8-longword VDP1 command record.
  *     If the first word is -1 (end sentinel), resets the slot counter and
- *     sets render_mode=3 (done). Otherwise copies the 8 fields into the
- *     active VDP1 command registers and continues with further processing
- *     (texture/vertex setup in the external .byte tail).
+ *     sets render_mode=3 (done). Otherwise sets render_mode=2, then copies
+ *     7 record fields into the scene parameter state block (sym_06082A3C
+ *     through sym_06082A50). These same addresses are later read by the
+ *     distorted sprite interpolator as dirty_flags, update_timer, and
+ *     vertex source coordinates. Finally tests bit 4 of the control word;
+ *     if set, computes a relative texture offset and loads a continuation
+ *     handler into r12 for further processing (external .byte tail).
  */
 
     .section .text.FUN_0602DC68
@@ -158,41 +162,42 @@ loc_0602DD10:
 .L_const_state_done:
     .4byte  0x00000003                 /* 3 = rendering done */
 .L_process_cmd_data:
-    ! --- Copy 8 longwords from cmd record into VDP1 command registers ---
+    ! --- Store record fields into scene parameter state block ---
     ! r1 points to record[1] (already read record[0] into r3 above)
-    ! r3 = record[0] (cmd control word)
-    .byte   0xD0, 0x46    /* mov.l .L_pool_0602DE78, r0 */   ! r0 -> cmd slot counter
-    .byte   0xD2, 0x47    /* mov.l .L_pool_0602DE7C, r2 */   ! r2 = incremented slot value
-    mov.l r2, @r0                ! cmd_slot_counter++ (advance to next record)
-    .byte   0xD2, 0x47    /* mov.l .L_pool_0602DE80, r2 */   ! r2 -> VDP1 cmd field 0
-    mov.l r3, @r2               ! field[0] = record[0] (control word)
+    ! r3 = record[0] (control word / dirty_flags when read later)
+    ! Pool entries below are cross-section refs into vdp1_distorted_sprite's pool
+    .byte   0xD0, 0x46    /* mov.l .L_xpool_ptr_render_mode, r0 */  ! r0 -> render_mode (sym_06082A30)
+    .byte   0xD2, 0x47    /* mov.l .L_xpool_const_0x2, r2 */        ! r2 = 0x2
+    mov.l r2, @r0               ! render_mode = 2 (active)
+    .byte   0xD2, 0x47    /* mov.l .L_xpool_ptr_dirty_flags, r2 */  ! r2 -> dirty_flags (sym_06082A3C)
+    mov.l r3, @r2               ! dirty_flags = record[0]
     mov.l @r1+, r4              ! r4 = record[1]; r1 -> record[2]
-    .byte   0xD2, 0x46    /* mov.l .L_pool_0602DE84, r2 */   ! r2 -> VDP1 cmd field 1
-    mov.l r4, @r2               ! field[1] = record[1] (link/color data)
+    .byte   0xD2, 0x46    /* mov.l .L_xpool_ptr_update_timer, r2 */ ! r2 -> update_timer (sym_06082A40)
+    mov.l r4, @r2               ! update_timer = record[1]
     mov.l @r1+, r0              ! r0 = record[2]
-    .byte   0xD2, 0x46    /* mov.l .L_pool_0602DE88, r2 */   ! r2 -> VDP1 cmd field 2
-    mov.l r0, @r2               ! field[2] = record[2] (source addr/size)
+    .byte   0xD2, 0x46    /* mov.l .L_xpool_ptr_vtx_ax_src, r2 */   ! r2 -> vtx_ax_src (sym_06082A54)
+    mov.l r0, @r2               ! vtx_ax_src = record[2]
     mov.l @r1+, r0              ! r0 = record[3]
-    .byte   0xD2, 0x45    /* mov.l .L_pool_0602DE8C, r2 */   ! r2 -> VDP1 cmd field 3
-    mov.l r0, @r2               ! field[3] = record[3] (XA position)
+    .byte   0xD2, 0x45    /* mov.l .L_xpool_ptr_vtx_ay_src, r2 */   ! r2 -> vtx_ay_src (sym_06082A58)
+    mov.l r0, @r2               ! vtx_ay_src = record[3]
     mov.l @r1+, r0              ! r0 = record[4]
-    .byte   0xD2, 0x45    /* mov.l .L_pool_0602DE90, r2 */   ! r2 -> VDP1 cmd field 4
-    mov.l r0, @r2               ! field[4] = record[4] (YA position)
+    .byte   0xD2, 0x45    /* mov.l .L_xpool_ptr_vtx_bx_src, r2 */   ! r2 -> vtx_bx_src (sym_06082A44)
+    mov.l r0, @r2               ! vtx_bx_src = record[4]
     mov.l @r1+, r0              ! r0 = record[5]
-    .byte   0xD2, 0x44    /* mov.l .L_pool_0602DE94, r2 */   ! r2 -> VDP1 cmd field 5
-    mov.l r0, @r2               ! field[5] = record[5] (XC/gouraud)
+    .byte   0xD2, 0x44    /* mov.l .L_xpool_ptr_vtx_by_src, r2 */   ! r2 -> vtx_by_src (sym_06082A48)
+    mov.l r0, @r2               ! vtx_by_src = record[5]
     mov.l @r1+, r0              ! r0 = record[6]
-    .byte   0xD2, 0x44    /* mov.l .L_pool_0602DE98, r2 */   ! r2 -> VDP1 cmd field 6
-    mov.l r0, @r2               ! field[6] = record[6] (YC/gouraud)
-    ! --- Check bitmask in control word for further processing ---
+    .byte   0xD2, 0x44    /* mov.l .L_xpool_ptr_vtx_c_src, r2 */    ! r2 -> vtx_c_src (sym_06082A50)
+    mov.l r0, @r2               ! vtx_c_src = record[6]
+    ! --- Check bit 4 of control word for texture offset processing ---
     mov r3, r0                   ! r0 = record[0] (control word)
-    .byte   0xD1, 0x43    /* mov.l .L_pool_0602DE9C, r1 */   ! r1 = bitmask
-    tst r1, r0                  ! control_word & bitmask == 0?
-    .byte   0x89, 0x10    /* bt 0x0602DDB4 (external) */      ! if zero, skip to post-write
-    .byte   0xD1, 0x3D    /* mov.l .L_pool_0602DE88, r1 */   ! r1 -> VDP1 cmd field 2 (re-read)
-    mov.l @r1, r1               ! r1 = field[2] value (source address)
-    .byte   0xD0, 0x42    /* mov.l .L_pool_0602DEA0, r0 */   ! r0 -> base offset
-    mov.l @r0, r0               ! r0 = base offset value
-    sub r0, r1                  ! r1 = field[2] - base (relative address)
-    mov r4, r0                  ! r0 = record[1] (link/color data)
-    .byte   0xDC, 0x41    /* mov.l .L_pool_0602DEA4, r12 */  ! r12 = continuation handler
+    .byte   0xD1, 0x43    /* mov.l .L_xpool_const_0x10, r1 */       ! r1 = 0x10 (bit 4 mask)
+    tst r1, r0                  ! control_word & 0x10 == 0?
+    .byte   0x89, 0x10    /* bt 0x0602DDB4 (external) */             ! if zero, skip texture offset calc
+    .byte   0xD1, 0x3D    /* mov.l .L_xpool_ptr_vtx_ax_src, r1 */   ! r1 -> vtx_ax_src (re-read record[2])
+    mov.l @r1, r1               ! r1 = vtx_ax_src value (texture source addr)
+    .byte   0xD0, 0x42    /* mov.l .L_xpool_ptr_vtx_ax_dst, r0 */   ! r0 -> vtx_ax_dst (sym_06082A70)
+    mov.l @r0, r0               ! r0 = vtx_ax_dst (base address)
+    sub r0, r1                  ! r1 = texture_src - base (relative offset)
+    mov r4, r0                  ! r0 = record[1] (saved from earlier)
+    .byte   0xDC, 0x41    /* mov.l .L_xpool_fn_ptr_06034FFC, r12 */ ! r12 = continuation handler fn ptr

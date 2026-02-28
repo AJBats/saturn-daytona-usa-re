@@ -27,7 +27,7 @@ preview_camera_target:
     sts.l pr, @-r15                             ! save PR (return address)
     mov.l   .L_pool_two_player_flag, r5         ! r5 -> &two_player_flag (sym_0605D241)
     mov.l   .L_pool_input_state, r4             ! r4 -> &input_state struct (sym_06063D98)
-    mov.w   .L_wpool_0601A7E2, r2               ! r2 = 0x4000 (Down button mask, bit 14)
+    mov.w   .L_w_down_btn_mask, r2               ! r2 = 0x4000 (Down button mask, bit 14)
     mov.w @(2, r4), r0                          ! r0 = button_flags word (input_state+2)
     mov r0, r3                                  ! r3 = button_flags (copy)
     extu.w r3, r3                               ! r3 = zero-extend to 32-bit
@@ -53,18 +53,18 @@ preview_camera_target:
     nop                                         ! (delay)
     .byte   0xAF, 0xAE    /* bra 0x0601A73E (external) */  ! tail-jump to race_start_sound_trigger
     lds.l @r15+, pr                             ! (delay) restore PR
-.L_wpool_0601A7E2:
-    .2byte  0x4000                              /* Down button mask (bit 14) */
-    .4byte  sym_06085FF6                        /* (unused pool entry) */
-    .4byte  sym_06012EC4                        /* (unused pool entry) */
-    .4byte  sym_06012F00                        /* (unused pool entry) */
-    .4byte  sym_06085FF7                        /* (unused pool entry) */
-    .4byte  race_variant_e                      /* (unused pool entry) */
-    .4byte  0xAE0001FF                          /* (unused pool entry) */
-    .4byte  sound_cmd_dispatch                  /* (unused pool entry) */
+.L_w_down_btn_mask:
+    .2byte  0x4000                             /* [HIGH] Down button mask (bit 14) */
+    .4byte  sym_06085FF6                       /* (unused pool entry) */
+    .4byte  sym_06012EC4                       /* (unused pool entry) */
+    .4byte  sym_06012F00                       /* (unused pool entry) */
+    .4byte  sym_06085FF7                       /* (unused pool entry) */
+    .4byte  race_variant_e                     /* (unused pool entry) */
+    .4byte  0xAE0001FF                         /* (unused pool entry) */
+    .4byte  sound_cmd_dispatch                 /* (unused pool entry) */
 .L_pool_two_player_flag:
-    .4byte  sym_0605D241                        /* -> two-player mode flag (byte) */
+    .4byte  sym_0605D241                       /* [HIGH] two-player mode flag (byte, 0=1P, 1=2P) */
 .L_pool_input_state:
-    .4byte  sym_06063D98                        /* -> input button state struct */
+    .4byte  sym_06063D98                       /* [HIGH] held button state struct */
 .L_pool_up_button_mask:
-    .4byte  0x00008000                          /* Up button mask (bit 15, 32-bit for AND) */
+    .4byte  0x00008000                         /* [HIGH] Up button mask (bit 15, 32-bit for AND) */

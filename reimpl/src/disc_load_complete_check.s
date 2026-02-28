@@ -44,7 +44,7 @@ disc_load_complete_check:
     mov.l @r3, r3                               ! r3 = disc_state_table[phase] (fn pointer)
     jsr @r3                                     ! call state handler for current phase
     nop                                         ! delay slot
-    mov.w   .L_wpool_0601B45A, r2               ! r2 = 0x0101 (display config: flags byte pair)
+    mov.w   .L_wpool_display_config_flags, r2               ! r2 = 0x0101 (display config: flags byte pair)
     mov.l r2, @-r15                             ! push display flags onto stack (param 3)
     mov.l   .L_pool_fp_one, r3                  ! r3 = 0x00010000 (1.0 in 16.16 fixed-point)
     mov.l r3, @-r15                             ! push scale factor onto stack (param 2)
@@ -67,8 +67,8 @@ disc_load_complete_check:
     lds.l @r15+, pr                             ! restore return address from stack
     rts                                         ! return to caller
     mov.b @r0, r0                               ! delay slot: r0 = disc_load_status byte (return value)
-.L_wpool_0601B45A:
-    .2byte  0x0101
+.L_wpool_display_config_flags:
+    .2byte  0x0101                      /* [MEDIUM] display config: flags byte pair (0x01, 0x01) */
 .L_pool_disc_load_status:
     .4byte  sym_0608600C
     .4byte  sym_0608600E

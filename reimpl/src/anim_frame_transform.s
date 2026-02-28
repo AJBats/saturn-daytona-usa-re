@@ -41,10 +41,10 @@ anim_frame_transform:
     mov.l   .L_pool_digit_buf, r5   ! r5 = &digit_buffer (sym_06063E14)
     mov.l r4, @r15                  ! stack[0] = frame_count (input argument)
     mov #0xA, r12                   ! r12 = 10 (decimal divisor, reused across iterations)
-    mov.w   .L_wpool_06005EAE, r14  ! r14 = 0xFFFFFF04 (DVDNT — dividend register, triggers 32/32 division)
+    mov.w   .L_divu_DVDNT, r14      ! r14 = 0xFFFFFF04 (DVDNT — dividend register, triggers 32/32 division)
     mov r14, r7                     ! r7 = DVDNT address
     add #0x4, r7                    ! r7 = 0xFFFFFF08 (DVCR — division control register)
-    mov.w   .L_wpool_06005EB0, r6   ! r6 = 0xFFFFFF00 (DVSR — divisor register)
+    mov.w   .L_divu_DVSR, r6        ! r6 = 0xFFFFFF00 (DVSR — divisor register)
     mov #0x0, r4                    ! r4 = 0 (used to clear DVCR and as initial digit value)
 
     /* === Division 1: frame_count / 10 — extract ones of centiseconds === */
@@ -54,11 +54,11 @@ anim_frame_transform:
     mov.l r3, @r14                  ! DVDNT = frame_count (triggers division)
     extu.b r4, r0                   ! r0 = 0
     mov.b r0, @(8, r5)             ! digit_buf[8] = 0x00 (null terminator)
-    mov.w   .L_wpool_06005EB2, r13  ! r13 = 0xFFFFFF18 (DVDNTH_R — remainder register)
+    mov.w   .L_divu_DVDNTH_S, r13   ! r13 = 0xFFFFFF18 (DVDNTH_S — remainder register)
     mov.l @r13, r3                  ! r3 = frame_count % 10 (ones of centiseconds)
     extu.b r3, r3                   ! mask to byte
     mov.b r3, @r15                  ! stack[0].lo = ones_cs (save for later: becomes +1 digit)
-    mov.w   .L_wpool_06005EB4, r1   ! r1 = 0xFFFFFF1C (quotient result register)
+    mov.w   .L_divu_DVDNTL_S, r1    ! r1 = 0xFFFFFF1C (DVDNTL_S — quotient result register)
     mov.l @r1, r2                   ! r2 = frame_count / 10 (total deciseconds)
     mov.l r2, @(4, r15)             ! stack[4] = quotient (next dividend)
 
@@ -157,19 +157,19 @@ anim_frame_transform:
     nop                             ! delay slot
 
     /* --- Word constant pool (PC-relative mov.w targets) --- */
-.L_wpool_06005EAE:
-    .2byte  0xFF04                  /* 0xFFFFFF04 = DVDNT (dividend, triggers 32/32 div) */
-.L_wpool_06005EB0:
-    .2byte  0xFF00                  /* 0xFFFFFF00 = DVSR (divisor register) */
-.L_wpool_06005EB2:
-    .2byte  0xFF18                  /* 0xFFFFFF18 = DVDNTH_R (remainder after division) */
-.L_wpool_06005EB4:
-    .2byte  0xFF1C                  /* 0xFFFFFF1C = quotient result register */
+.L_divu_DVDNT:
+    .2byte  0xFF04                  /* 0xFFFFFF04 = DVDNT — dividend reg, triggers 32/32 div [HIGH] */
+.L_divu_DVSR:
+    .2byte  0xFF00                  /* 0xFFFFFF00 = DVSR — divisor register [HIGH] */
+.L_divu_DVDNTH_S:
+    .2byte  0xFF18                  /* 0xFFFFFF18 = DVDNTH_S — remainder after 32/32 division [HIGH] */
+.L_divu_DVDNTL_S:
+    .2byte  0xFF1C                  /* 0xFFFFFF1C = DVDNTL_S — quotient after 32/32 division [HIGH] */
     .2byte  0xFFFF                  /* pool alignment padding */
 
     /* --- Longword constant pool (PC-relative mov.l targets) --- */
 .L_pool_digit_buf:
-    .4byte  sym_06063E14            /* &digit_buffer (9-byte HUD time display buffer) */
+    .4byte  sym_06063E14            /* &digit_buffer — 9-byte HUD time display buffer [HIGH] */
 
 .L_tens_min_blank:
     mov #0xB, r4                    ! r4 = 0x0B (blank tile — leading zero suppression)

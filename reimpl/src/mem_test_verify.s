@@ -35,7 +35,7 @@ mem_test_verify:
     bt/s    .L_check_boundary             ! if zero, skip lock acquire
     mov.l @(24, r4), r13                  ! r13 = context->state_desc (+0x18) [delay slot]
     mov #0x0, r1                          ! r1 = 0 (clear value)
-    mov.w   .L_wpool_060405A4, r0         ! r0 = 0x00B0 (offset to validation counter)
+    mov.w   .L_validation_counter_offset, r0         ! r0 = 0x00B0 (offset to validation counter)
     mov r15, r4                           ! r4 = stack pointer (output buffer for section check)
     mov.l @r14, r3                        ! r3 = state struct base address
     mov r3, r2                            ! r2 = state struct base (copy)
@@ -64,14 +64,14 @@ mem_test_verify:
     .byte   0xB0, 0x1B    /* bsr 0x060405B8 (external) */  ! evt_validate_multi(r4=&stack_buf, r5=0)
     mov r15, r4                           ! r4 = stack pointer (input buffer) [delay slot]
     mov.l @r14, r2                        ! r2 = state struct base address
-    mov.w   .L_wpool_060405A4, r0         ! r0 = 0x00B0 (offset to validation counter)
+    mov.w   .L_validation_counter_offset, r0         ! r0 = 0x00B0 (offset to validation counter)
     mov.l @(r0, r2), r3                   ! r3 = state[0xB0] (current validation counter)
     mov.l @r15, r2                        ! r2 = stack[0] (local result from evt_validate_multi)
     cmp/gt r2, r3                         ! is validation counter > local result?
     bt      .L_epilogue                   ! if counter already higher, no update needed
     mov.l @r14, r2                        ! r2 = state struct base address
     mov r2, r3                            ! r3 = state struct base (copy)
-    mov.w   .L_wpool_060405A4, r0         ! r0 = 0x00B0 (offset to validation counter)
+    mov.w   .L_validation_counter_offset, r0         ! r0 = 0x00B0 (offset to validation counter)
     mov.l @(r0, r3), r1                   ! r1 = state[0xB0] (current counter value)
     add #-0x4, r0                         ! r0 = 0x00AC (offset to previous counter field)
     mov.l r1, @(r0, r2)                   ! state[0xAC] = state[0xB0] (promote counter to previous)
@@ -81,9 +81,9 @@ mem_test_verify:
     mov.l @r15+, r13                      ! restore r13
     rts                                   ! return to caller
     mov.l @r15+, r14                      ! restore r14 [delay slot]
-.L_wpool_060405A4:
-    .2byte  0x00B0
-    .2byte  0xFFFF
+.L_validation_counter_offset:
+    .2byte  0x00B0                           /* [HIGH] offset to validation counter in state struct */
+    .2byte  0xFFFF                           /* alignment padding */
 .L_pool_state_ptr:
     .4byte  sym_060A4D14
 .L_fn_ai_section_check:

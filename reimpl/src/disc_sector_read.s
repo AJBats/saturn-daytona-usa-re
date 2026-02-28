@@ -36,9 +36,9 @@ disc_sector_read:
     mov r14, r6                                  ! r6 = 0x30 (channel_mask_b for color_transform_calc)
     mov r14, r5                                  ! r5 = 0x30 (channel_mask_a for color_transform_calc)
     mov.l r14, @r3                               ! attract_color_state = 0x30
-    mov.w   .L_wpool_0601B05E, r2                ! r2 = 0x00A7 (color offset value — stack arg 4)
+    mov.w   .L_const_color_offset, r2                ! r2 = 0x00A7 (color offset value — stack arg 4)
     mov.l r2, @-r15                              ! push color_offset onto stack
-    mov.w   .L_wpool_0601B060, r3                ! r3 = 0x0160 (color component value — stack arg 3)
+    mov.w   .L_const_color_component, r3                ! r3 = 0x0160 (color component value — stack arg 3)
     extu.w r14, r2                               ! r2 = 0x0030 (intensity, zero-extended — stack arg 2)
     mov.l r3, @-r15                              ! push color_component onto stack
     mov #0x1, r3                                 ! r3 = 1 (mode flag — stack arg 1)
@@ -59,9 +59,9 @@ disc_sector_read:
     lds.l @r15+, pr                              ! restore return address
     rts                                          ! return to caller
     mov.l @r15+, r14                             ! (delay) restore r14
-.L_wpool_0601B05E:
+.L_const_color_offset:
     .2byte  0x00A7                               /* color offset value (167) */
-.L_wpool_0601B060:
+.L_const_color_component:
     .2byte  0x0160                               /* color component value (352) */
     .2byte  0xFFFF                               /* alignment padding */
 .L_attract_color_state:

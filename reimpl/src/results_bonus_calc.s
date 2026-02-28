@@ -24,7 +24,7 @@ results_bonus_calc:
     mov r4, r14                               ! r14 = car_slot_index arg (delay slot)
     mov.l   .L_pool_slot_data_base, r5        ! r5 = slot data array base
     extu.b r14, r4                            ! r4 = slot_index (zero-extend byte)
-    mov.w   .L_wpool_0601645A, r2             ! r2 = 0x0800 (countdown step)
+    mov.w   .L_w_countdown_step, r2             ! r2 = 0x0800 (countdown step)
     mov r4, r3                                ! r3 = slot_index (copy for stride calc)
     shll2 r4                                  ! r4 = slot_index * 4
     shll2 r3                                  ! r3 = slot_index * 4
@@ -54,12 +54,12 @@ results_bonus_calc:
     extu.b r14, r4                            ! r4 = slot_index arg for tail call
     .byte   0xA4, 0xBF    /* bra 0x06016DD8 (external: hud_sprite_vertex_project) */
     mov.l @r15+, r14                          ! restore r14 (delay slot)
-.L_wpool_0601645A:
-    .2byte  0x0800
+.L_w_countdown_step:
+    .2byte  0x0800                     /* [HIGH] countdown step per frame */
 .L_pool_results_active_flag:
-    .4byte  sym_06085F89
+    .4byte  sym_06085F89               /* [MEDIUM] results-active flag (byte) */
 .L_pool_slot_data_base:
-    .4byte  sym_06084FC8
+    .4byte  sym_06084FC8               /* [HIGH] HUD element slot data array base */
 .L_early_return:
     rts                                       ! return — results not active
     mov.l @r15+, r14                          ! restore r14 (delay slot)

@@ -74,7 +74,7 @@ dma_memory_transfer:
 .L_next_element:
     shlr r7                         ! shift flag byte right; next control bit into T
     mov r7, r8                      ! r8 = current flag state
-    mov.w   .L_wpool_060286AC, r9   ! r9 = 0x0100 (bit 8 set = flags still valid)
+    mov.w   .L_wpool_flag_valid_check, r9   ! r9 = 0x0100 (bit 8 set = flags still valid)
     and r9, r8                      ! isolate bit 8 of flag byte
     cmp/eq r8, r10                  ! if bit 8 is zero, all 8 flag bits consumed
     bf      .L_check_literal        ! if flags still valid, skip reload
@@ -99,9 +99,9 @@ dma_memory_transfer:
     bra     .L_next_element         ! loop back for next element
     and r14, r6                     ! (delay slot) wrap window position to 4 KB
 
-.L_wpool_060286AC:
-    .2byte  0x0100
-    .2byte  0x0000
+.L_wpool_flag_valid_check:
+    .2byte  0x0100                      /* [HIGH] bit 8 mask: flag byte still has valid bits */
+    .2byte  0x0000                      /* padding */
 
 .L_pool_window_base:
     .4byte  sym_0602872C

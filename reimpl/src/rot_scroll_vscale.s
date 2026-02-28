@@ -39,7 +39,7 @@ rot_scroll_vscale:
     exts.w r5, r5                          ! sign-extend r5 to 32-bit
     mov.l @r15+, r0                        ! r0 = pop car struct pointer from stack
     exts.w r5, r5                          ! sign-extend r5 again (original codegen artifact)
-    mov.w   .L_wpool_0602E524, r1          ! r1 = 0x0028 (car struct vref offset)
+    mov.w   .L_w_vref_offset, r1          ! r1 = 0x0028 (car struct vref offset)
     mov.l @(r0, r1), r4                    ! r4 = car[+0x28] (old vertical reference)
     exts.w r4, r4                          ! sign-extend old vref to 32-bit
     mov r5, r6                             ! r6 = r5 (new vscale)
@@ -70,14 +70,14 @@ DAT_0602e520:
     .global DAT_0602e522
 DAT_0602e522:
     sett                                   ! data — referenced externally (not executed)
-.L_wpool_0602E524:
-    .2byte  0x0028                         /* car struct offset: vertical reference */
-    .2byte  0x0000                         /* padding */
-    .4byte  sym_0607EAD8                   /* race end state (0/1/2) — used by interp TU */
-    .4byte  sym_0602E8AC                   /* main scene render entry — used by interp TU */
-    .4byte  atan2                          /* atan2 function — used by interp TU */
+.L_w_vref_offset:
+    .2byte  0x0028                     /* [HIGH] car struct offset: vertical reference (+0x28) */
+    .2byte  0x0000
+    .4byte  sym_0607EAD8               /* [HIGH] race end state — used by interp TU */
+    .4byte  sym_0602E8AC               /* [MEDIUM] main scene render entry — used by interp TU */
+    .4byte  atan2                      /* [HIGH] atan2 function — used by interp TU */
 .L_pool_neg_clamp:
-    .4byte  0xFFFFFF00                     /* -0x100 = lower clamp bound for delta */
+    .4byte  0xFFFFFF00                 /* [HIGH] -0x100 = lower clamp bound for delta */
 .L_check_upper_bound:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */  ! r1 = 0x100 (upper clamp bound)
     cmp/gt r1, r6                          ! T = (delta > +0x100)?

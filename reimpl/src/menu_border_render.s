@@ -12,7 +12,7 @@ menu_border_render:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    mov.l   .L_pool_0603B62C, r3
+    mov.l   .L_fn_timer_exchange, r3
     jsr @r3
     mov.l @(8, r4), r4
     mov.l r0, @r15
@@ -24,5 +24,5 @@ menu_border_render:
     rts
     nop
     .4byte  attract_timer_tick
-.L_pool_0603B62C:
-    .4byte  sym_0603F9FA
+.L_fn_timer_exchange:
+    .4byte  sym_0603F9FA                   /* [MEDIUM] timer_exchange_field_16 — exchange timer value */

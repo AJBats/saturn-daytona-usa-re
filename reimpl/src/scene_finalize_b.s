@@ -39,7 +39,7 @@ scene_finalize_b:
     mov.w r0, @(4, r6)                  ! render_state_table[slot].mask = 0 (clear word at +4)
     extu.b r3, r3                       ! r3 = (slot * 12) & 0xFF (keep low byte — wraps for index)
     extu.w r4, r2                       ! r2 = 0 (zero-extend r4)
-    mov.w   .L_wpool_06025210, r0       ! r0 = 0x00B4 (default attribute value)
+    mov.w   .L_wpool_default_render_attr, r0       ! r0 = 0x00B4 (default attribute value)
     add r10, r3                         ! r3 = &render_channel_desc[slot] (base + offset)
     mov.w r0, @(6, r6)                  ! render_state_table[slot].attr = 0x00B4 (default attr at +6)
     mov.l @(4, r3), r3                  ! r3 = render_channel_desc[slot].state_ptr (pointer at +4)
@@ -114,8 +114,8 @@ scene_finalize_b:
     mov.l @r15+, r13                    ! pop r13 (callee-restore)
     rts                                 ! return to caller
     mov.l @r15+, r14                    ! (delay slot) pop r14 (callee-restore)
-.L_wpool_06025210:
-    .2byte  0x00B4                      ! default render attribute value (used to init slot attr field)
+.L_wpool_default_render_attr:
+    .2byte  0x00B4                      /* [MEDIUM] default render attribute value (init slot attr field) */
     .2byte  0xFFFF                      ! padding / alignment word
 .L_pool_render_channel_desc:
     .4byte  sym_060610BC                ! render channel descriptor table: 14 entries x 12 bytes (ptr, state_ptr, attr, pad)

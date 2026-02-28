@@ -137,7 +137,7 @@ text_string_render:
     add r3, r4                          ! r4 = idx*68
     exts.w r4, r4                       ! sign-extend
     add r13, r4                         ! r4 = &text_obj_array[char_idx]
-    mov.w   .L_wpool_06016B92, r2       ! r2 = 0x0600 (base scroll step value, short pool load)
+    mov.w   .L_wpool_base_scroll_step, r2       ! r2 = 0x0600 (base scroll step value, short pool load)
     mov.l r2, @(24, r4)                 ! obj.scroll_step_b = 0x0600 (reset to base)
     mov #0x0, r3                        ! r3 = 0
     mov.l r3, @(16, r4)                 ! obj.scroll_step = 0 (clear per-frame increment)
@@ -174,8 +174,8 @@ loc_06016B8E:
     /* Simple return stub -- called when state requires no action */
     rts                                 ! return to caller
     nop                                 ! (delay slot)
-.L_wpool_06016B92:
-    .2byte  0x0600
+.L_wpool_base_scroll_step:
+    .2byte  0x0600                      /* [MEDIUM] base scroll step value for text animation reset */
 .L_fp_two:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 
@@ -286,7 +286,7 @@ loc_06016C40:
     /* r4 = char_idx */
     extu.b r4, r5                       ! r5 = char_idx (zero-extend)
     mov #0x1, r0                        ! r0 = 1 (active flag value)
-    .byte   0xD2, 0x15    /* mov.l .L_pool_06016C9C, r2 */ ! r2 = text_obj_array base (external pool)
+    .byte   0xD2, 0x15    /* mov.l pool@0x06016C9C (external: text_obj_array base), r2 */
     mov r5, r3                          ! r3 = char_idx copy (for stride multiply)
     shll2 r5                            ! r5 = idx*4
     shll2 r3                            ! r3 = idx*4
@@ -297,7 +297,7 @@ loc_06016C40:
     mov #0x27, r3                       ! r3 = 0x27 = 39 (initial counter value)
     add r2, r5                          ! r5 = &text_obj_array[char_idx]
     mov.b r0, @(1, r5)                  ! obj.active = 1 (byte offset 1: mark slot in-use)
-    .byte   0xD2, 0x11    /* mov.l .L_pool_06016CA0, r2 */ ! r2 = ptr to global entry-counter register
+    .byte   0xD2, 0x11    /* mov.l pool@0x06016CA0 (external: global entry-counter ptr), r2 */
     mov.b r3, @r2                       ! *global_counter = 0x27 (write initial counter value)
     mov.b @(2, r5), r0                  ! r0 = obj.state (read current state byte)
     mov r0, r3                          ! r3 = state

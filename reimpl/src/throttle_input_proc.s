@@ -50,7 +50,7 @@ throttle_input_proc:
     mov.l r8, @-r15                ! save r8
     add #-0x8, r15                 ! allocate 8 bytes of stack for two temp slots
     mov #0x10, r8                  ! r8 = 16 — number of palette entries to process
-    mov.w   .L_wpool_06011FDA, r9  ! r9 = 0x0400 — blue channel step (1 in bit-10 position)
+    mov.w   .L_wpool_blue_channel_step, r9  ! r9 = 0x0400 — blue channel step (1 in bit-10 position)
     mov #0x0, r10                  ! r10 = 0 — used to clear source pixel and as initial counter
     mov #0x1F, r14                 ! r14 = 0x1F — red channel mask (bits 0-4)
     mov r9, r7                     ! r7 = 0x0400 (will become green mask)
@@ -86,8 +86,8 @@ DAT_06011fd4:
 DAT_06011fd6:
     .2byte  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
     .2byte  0xF800                 /* (adjacent data, not used by this function) */
-.L_wpool_06011FDA:
-    .2byte  0x0400                 /* blue channel step (1 << 10) — loaded into r9 */
+.L_wpool_blue_channel_step:
+    .2byte  0x0400                 /* [HIGH] blue channel step (1 << 10) — loaded into r9 */
 
 .red_clamp:
     mov.l @(4, r15), r2            ! r2 = full target pixel

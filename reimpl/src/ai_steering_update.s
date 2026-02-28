@@ -53,7 +53,7 @@ ai_steering_update:
     add r3, r4                             ! r4 = (target - current) as unsigned delta
 
     /* --- Speed-based damping: check highest threshold first --- */
-    mov.w   .L_wpool_0600C8B8, r3         ! r3 = 0x0118 = 280 (heavy damping threshold)
+    mov.w   .L_wpool_speed_thresh_heavy, r3         ! r3 = 0x0118 = 280 (heavy damping threshold)
     cmp/gt r3, r2                          ! speed > 280?
     bf/s    .check_speed_250               ! if not, check next threshold
     exts.w r4, r4                          ! (delay) sign-extend heading delta
@@ -64,7 +64,7 @@ ai_steering_update:
 
 .check_speed_250:
     mov.l @(8, r14), r2                    ! r2 = speed (re-read)
-    mov.w   .L_wpool_0600C8BA, r3         ! r3 = 0x00FA = 250 (medium damping threshold)
+    mov.w   .L_wpool_speed_thresh_medium, r3         ! r3 = 0x00FA = 250 (medium damping threshold)
     cmp/gt r3, r2                          ! speed > 250?
     bf      .check_speed_220               ! if not, check next threshold
     shar r4                                ! delta >>= 1
@@ -186,10 +186,10 @@ ai_steering_update:
     .global DAT_0600c8b6
 DAT_0600c8b6:
     .2byte  0x01B0                         ! offset: heading backup in AI state
-.L_wpool_0600C8B8:
-    .2byte  0x0118                         ! speed threshold: 280 (heavy damping)
-.L_wpool_0600C8BA:
-    .2byte  0x00FA                         ! speed threshold: 250 (medium damping)
+.L_wpool_speed_thresh_heavy:
+    .2byte  0x0118                         /* [HIGH] speed threshold: 280 (heavy damping) */
+.L_wpool_speed_thresh_medium:
+    .2byte  0x00FA                         /* [HIGH] speed threshold: 250 (medium damping) */
 
     .global DAT_0600c8bc
 DAT_0600c8bc:

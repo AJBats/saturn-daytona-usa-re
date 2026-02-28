@@ -21,7 +21,7 @@
  *
  * Key symbols:
  *   sym_060A5400         -- indirect pointer to AI/game state base structure
- *   .L_wpool_0604211E    -- word constant 0x0360 = offset of check_type field
+ *   .L_wpool_off_check_type    -- word constant 0x0360 = offset of check_type field
  *   DAT_06042120         -- word constant 0x0364 = offset of input param field
  *   DAT_06042122         -- word constant 0x0200 = CSCT status bitmask
  *   track_shadow_project -- project shadow geometry (FUN_06036A1C)
@@ -41,7 +41,7 @@ track_shadow_validate:
     mov.l   .L_pool_ai_state_base, r14  ! r14 = &sym_060A5400 (indirect ptr to AI state)
     mov.l r4, @r15                      ! spill r4 (first arg) to stack[0]
     mov.l @r14, r0                      ! r0 = AI state base pointer
-    mov.w   .L_wpool_0604211E, r1       ! r1 = 0x0360 (offset of check_type field)
+    mov.w   .L_wpool_off_check_type, r1       ! r1 = 0x0360 (offset of check_type field)
     mov.l @(r0, r1), r0                 ! r0 = state[+0x360] (check_type)
     cmp/eq #0x1, r0                     ! check_type == 1 (phase 1 active)?
     bf      .L_phase2_check             ! no → skip to phase-2 test
@@ -78,11 +78,11 @@ track_shadow_validate:
     mov.l r2, @r3                       ! car_struct[+0x0]++ (increment counter)
     mov.l @r14, r3                      ! r3 = AI state base pointer
     mov #0x2, r2                        ! r2 = 2 (phase 2 value)
-    mov.w   .L_wpool_0604211E, r0       ! r0 = 0x0360 (offset of check_type field)
+    mov.w   .L_wpool_off_check_type, r0       ! r0 = 0x0360 (offset of check_type field)
     mov.l r2, @(r0, r3)                 ! state[+0x360] = 2 (advance to phase 2)
 .L_phase2_check:
     mov.l @r14, r0                      ! r0 = AI state base pointer
-    mov.w   .L_wpool_0604211E, r1       ! r1 = 0x0360 (offset of check_type field)
+    mov.w   .L_wpool_off_check_type, r1       ! r1 = 0x0360 (offset of check_type field)
     mov.l @(r0, r1), r0                 ! r0 = state[+0x360] (check_type, may have just changed)
     cmp/eq #0x2, r0                     ! check_type == 2 (phase 2 active)?
     bf      .L_return_check_type        ! no → skip status check, return current value
@@ -105,31 +105,31 @@ track_shadow_validate:
     bt      .L_return_check_type        ! zero → do not reset state, return as-is
     mov.l @r14, r3                      ! r3 = AI state base pointer
     mov #0x0, r2                        ! r2 = 0 (reset to idle)
-    mov.w   .L_wpool_0604211E, r0       ! r0 = 0x0360 (offset of check_type field)
+    mov.w   .L_wpool_off_check_type, r0       ! r0 = 0x0360 (offset of check_type field)
     mov.l r2, @(r0, r3)                 ! state[+0x360] = 0 (reset check_type to idle)
 .L_return_check_type:
     mov.l @r14, r0                      ! r0 = AI state base pointer
-    mov.w   .L_wpool_0604211E, r1       ! r1 = 0x0360 (offset of check_type field)
+    mov.w   .L_wpool_off_check_type, r1       ! r1 = 0x0360 (offset of check_type field)
     mov.l @(r0, r1), r0                 ! r0 = state[+0x360] (final check_type value)
     add #0x10, r15                      ! deallocate stack frame
     lds.l @r15+, pr                     ! restore return address
     rts                                 ! return r0 = check_type (0/1/2)
     mov.l @r15+, r14                    ! (delay slot) restore r14
-.L_wpool_0604211E:
-    .2byte  0x0360                      ! struct offset: check_type / shadow state phase
+.L_wpool_off_check_type:
+    .2byte  0x0360                      /* [HIGH] struct offset: check_type / shadow state phase */
 
     .global DAT_06042120
 DAT_06042120:
-    .2byte  0x0364                      ! struct offset: input param field (+0x364)
+    .2byte  0x0364                      /* [HIGH] struct offset: input param field (+0x364) */
 
     .global DAT_06042122
 DAT_06042122:
-    .2byte  0x0200                      ! bitmask: CSCT (CD sector transfer complete) bit
+    .2byte  0x0200                      /* [HIGH] bitmask: CSCT (CD sector transfer complete) bit */
 .L_pool_ai_state_base:
-    .4byte  sym_060A5400                ! indirect pointer to AI/game state base structure
+    .4byte  sym_060A5400                /* [HIGH] indirect pointer to AI/game state base structure */
 .L_pool_shadow_project:
-    .4byte  track_shadow_project        ! shadow projection function (FUN_06036A1C)
+    .4byte  track_shadow_project        /* [HIGH] shadow projection function (FUN_06036A1C) */
 .L_pool_checkpoint_validate:
-    .4byte  ai_checkpoint_validate      ! checkpoint validation and commit function
+    .4byte  ai_checkpoint_validate      /* [HIGH] checkpoint validation and commit function */
 .L_pool_read_status:
-    .4byte  sym_06035C4E                ! read CD/hardware HIRQ status word
+    .4byte  sym_06035C4E                /* [HIGH] read CD/hardware HIRQ status word */

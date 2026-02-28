@@ -131,7 +131,7 @@ DAT_06030eae:
  */
     .global sym_06030EE0
 sym_06030EE0:
-    mov.w   .L_wpool_06030EF4, r0       ! r0 = 0x150 (offset to countdown timer in car struct)
+    mov.w   .L_wpool_countdown_timer_offset, r0       ! r0 = 0x150 (offset to countdown timer in car struct)
     .byte   0xD1, 0x05    /* mov.l .L_pool_car_struct_ptr, r1 */ ! r1 = &sym_0607E940 (car struct pointer)
     mov.l @r1, r3                       ! r3 = car struct base address
     mov.w @(r0, r3), r2                 ! r2 = countdown timer value (16-bit) at struct+0x150
@@ -142,8 +142,8 @@ sym_06030EE0:
 .L_timer_done:
     rts                                 ! return to caller
     nop                                 ! delay slot
-.L_wpool_06030EF4:
-    .2byte  0x0150                      /* offset +0x150: countdown timer field in car struct */
+.L_wpool_countdown_timer_offset:
+    .2byte  0x0150                      /* [HIGH] offset +0x150: countdown timer field in car struct */
     .2byte  0x0000                      /* alignment padding */
 .L_pool_car_struct_ptr:
     .4byte  sym_0607E940                /* pointer to current car struct */

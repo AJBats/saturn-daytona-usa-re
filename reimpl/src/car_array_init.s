@@ -7,12 +7,23 @@
  * Car struct stride: 0x268 bytes (616 bytes per car).
  * Car array base: sym_06078900.
  *
+ * Key struct offsets (all relative to car base):
+ *   +0x04  car index (0=player, 1..N=AI)
+ *   +0x20  heading/yaw angle (32-bit)
+ *   +0x74  physics constant A (set to 0x38 = 56)
+ *   +0x7C  car param[1] / player_car_index (word)
+ *   +0x90  physics constant B (set to 0x38 = 56)
+ *   +0x9C  car param[2] / car_type_param (word)
+ *   +0x9E  car param[0] / hud_elem_index (word)
+ *   +0xDC  attract position A (word, 0 or 3)
+ *   +0xDE  attract position B (word, 0 or 3)
+ *
  * Flow:
  *   1. Zero-clear four global state words (sym_0605DF4E..54).
  *   2. If display_mode_flag != 0 (normal race):
  *      a. Init car[1] (offset +0x268) via car_type_init, set physics defaults.
  *      b. Read 3 car param bytes from sym_0607ED90 into struct fields
- *         at offsets +0x9C, +0x7C, and +0xA2.
+ *         at offsets +0x9E, +0x7C, and +0x9C.
  *      c. If attract_cycle != 0: clear attract positions in car struct.
  *         Else: set attract defaults to 3/3.
  *      d. Init car[0] (player) via car_type_init.
@@ -20,10 +31,12 @@
  *      Loop from index 0 to total_car_count, init each car via car_type_init.
  *   4. Post-loop: set car struct fields at +0x74/+0x90 (physics constants),
  *      read car_type_param and hud_elem_index into struct, load player_car_index.
- *   5. Call collision_setup (sym_0600D280) and scroll_setup (sym_0602E5E4).
- *   6. Set race_active_flag based on game_mode == 0xE && attract_cycle == 0.
+ *   5. Call car_ptr_list_init (sym_0600D280) and scroll_param_load (sym_0602E5E4).
+ *   6. Set race state flag (sym_0607EAD0) based on
+ *      prev_game_state == 0xE && attract_cycle == 0.
  *   7. Initialize camera parameter chain from car struct field @+0x20.
- *   8. Configure final state variables, then tailcall coord_grid_pack.
+ *   8. Configure final camera/scene state variables (external pool in
+ *      scene_fallback_render section), then tailcall coord_grid_pack.
  */
 
     .section .text.FUN_0600629C
@@ -147,9 +160,9 @@ DAT_06006362:
 .L_fn_car_type_init:
     .4byte  car_type_init              /* per-car type initialization function */
 .L_car_struct_scratch:
-    .4byte  sym_0607E944               /* scratch car struct pointer */
+    .4byte  sym_0607E944               /* primary car pointer (stored/persistent, "car ptr stored") */
 .L_cur_car_ptr:
-    .4byte  sym_0607E940               /* current car struct pointer */
+    .4byte  sym_0607E940               /* working car pointer (active/current, "car ptr working") */
 .L_global_clear_a:
     .4byte  sym_0605DF4E               /* global state word A (zeroed on init) */
 .L_global_clear_b:
@@ -159,9 +172,9 @@ DAT_06006362:
 .L_global_clear_d:
     .4byte  sym_0605DF54               /* global state word D (zeroed on init) */
 .L_display_mode_flag:
-    .4byte  sym_06078635               /* display mode flag (byte: 0=attract) */
+    .4byte  sym_06078635               /* display/phase flag (byte: 0=attract/normal, nonzero=special) */
 .L_car_param_table:
-    .4byte  sym_0607ED90               /* 3-byte car parameter table */
+    .4byte  sym_0607ED90               /* 3 config bytes read into car struct (also ring buffer base in other contexts) */
 .L_attract_cycle_cnt:
     .4byte  sym_0607EAD8               /* attract cycle counter (dword) */
 .L_car_init_loop_body:                           ! --- car init loop: r11 = index ---
@@ -203,30 +216,30 @@ DAT_06006362:
     mov.l   .L_player_car_index, r2
     mov.l @r2, r2                       ! r2 = *player_car_index
     mov.w r2, @(r0, r3)                 ! car+0x7C = player_car_index
-    mov.l   .L_fn_collision_setup, r3
-    jsr @r3                             ! call collision_setup (sym_0600D280)
+    mov.l   .L_fn_car_ptr_list_init, r3
+    jsr @r3                             ! car_ptr_list_init()
     nop
-    mov.l   .L_fn_scroll_setup, r3
-    jsr @r3                             ! call scroll_setup (sym_0602E5E4)
+    mov.l   .L_fn_scroll_param_load, r3
+    jsr @r3                             ! scroll_param_load()
     nop
-    mov.l   .L_game_mode, r0
-    mov.l @r0, r0                       ! r0 = game_mode
-    cmp/eq #0xE, r0                     ! game_mode == 0xE (attract)?
-    bf      .L_clear_race_flag          ! not attract -> race_active = 0
+    mov.l   .L_prev_game_state, r0
+    mov.l @r0, r0                       ! r0 = prev_game_state
+    cmp/eq #0xE, r0                     ! prev_game_state == 0xE?
+    bf      .L_clear_race_flag          ! not state 0xE -> race_state_flag = 0
     mov.l   .L_attract_cycle_cnt_b, r0
     mov.l @r0, r0                       ! r0 = attract_cycle_count
     tst r0, r0
-    bt      .L_set_race_flag            ! attract_cycle == 0 -> race_active = 1
-.L_clear_race_flag:                              ! --- race_active = 0 ---
+    bt      .L_set_race_flag            ! attract_cycle == 0 -> race_state = 1
+.L_clear_race_flag:                              ! --- race_state = 0 ---
     mov #0x0, r3
-    mov.l   .L_race_active_flag, r2
-    mov.l r3, @r2                       ! *race_active_flag = 0
+    mov.l   .L_race_state_flag, r2
+    mov.l r3, @r2                       ! *race_state_flag = 0
     bra     .L_init_camera_params
     nop
-.L_set_race_flag:                                ! --- race_active = 1 ---
+.L_set_race_flag:                                ! --- race_state = 1 ---
     mov #0x1, r3
-    mov.l   .L_race_active_flag, r2
-    mov.l r3, @r2                       ! *race_active_flag = 1
+    mov.l   .L_race_state_flag, r2
+    mov.l r3, @r2                       ! *race_state_flag = 1
 .L_init_camera_params:                           ! --- init camera parameter chain ---
     mov.l @r12, r4                      ! r4 = scratch car ptr
     mov.l   .L_camera_yaw_store, r3
@@ -234,25 +247,25 @@ DAT_06006362:
     mov.l r2, @r3                       ! *camera_yaw_store = car.yaw
     add #0x4, r3                        ! next word in camera params
     mov.l r13, @r3                      ! camera_yaw_store+4 = 0
-    mov.l   .L_y_rot_offset, r3
-    mov.l r13, @r3                      ! *y_rot_offset = 0
-    mov.l   .L_cam_param_a, r3
-    mov.l r13, @r3                      ! *cam_param_a = 0
+    mov.l   .L_cam_angle_06063F10, r3
+    mov.l r13, @r3                      ! *sym_06063F10 = 0 (clear camera angle)
+    mov.l   .L_cam_chain_a, r3
+    mov.l r13, @r3                      ! *cam_chain_a = 0
     mov r3, r2                          ! --- chain-copy: propagate value through params ---
-    mov.l @r2, r2                       ! r2 = *cam_param_a (just wrote 0)
-    mov.l   .L_cam_param_b, r3
-    mov.l r2, @r3                       ! *cam_param_b = *cam_param_a
+    mov.l @r2, r2                       ! r2 = *cam_chain_a (just wrote 0)
+    mov.l   .L_cam_chain_b, r3
+    mov.l r2, @r3                       ! *cam_chain_b = *cam_chain_a
     mov r3, r2
-    mov.l @r2, r2                       ! r2 = *cam_param_b
-    mov.l   .L_cam_param_c, r3
-    mov.l r2, @r3                       ! *cam_param_c = *cam_param_b
+    mov.l @r2, r2                       ! r2 = *cam_chain_b
+    mov.l   .L_cam_chain_c, r3
+    mov.l r2, @r3                       ! *cam_chain_c = *cam_chain_b
     mov r3, r2
-    mov.l @r2, r2                       ! r2 = *cam_param_c
-    mov.l   .L_cam_param_d, r3
-    mov.l r2, @r3                       ! *cam_param_d = *cam_param_c
-    mov.l   .L_fixed_neg_offset, r2     ! r2 = 0xFEA00000 (fixed-point camera offset)
-    mov.l   .L_cam_param_e, r3
-    mov.l r2, @r3                       ! *cam_param_e = 0xFEA00000
+    mov.l @r2, r2                       ! r2 = *cam_chain_c
+    mov.l   .L_cam_chain_d, r3
+    mov.l r2, @r3                       ! *cam_chain_d = *cam_chain_c
+    mov.l   .L_cam_initial_z_offset, r2 ! r2 = 0xFEA00000 (-352.0 in 16.16 fixed-point)
+    mov.l   .L_cam_chain_e, r3
+    mov.l r2, @r3                       ! *cam_chain_e = -352.0 (initial Z offset)
     mov.l   .L_attract_cycle_cnt_b, r0
     mov.l @r0, r0                       ! r0 = attract_cycle_count
     tst r0, r0
@@ -275,71 +288,71 @@ DAT_06006362:
     .4byte  sym_06063F42               /* HUD element index (word) */
 .L_player_car_index:
     .4byte  sym_06078868               /* player car/sprite index (dword) */
-.L_fn_collision_setup:
-    .4byte  sym_0600D280               /* collision_setup (in collision_passive) */
-.L_fn_scroll_setup:
-    .4byte  sym_0602E5E4               /* scroll_setup (in rot_scroll_hscale) */
-.L_game_mode:
-    .4byte  sym_0607EBC0               /* current game mode (0xE = attract) */
+.L_fn_car_ptr_list_init:
+    .4byte  sym_0600D280               /* car_ptr_list_init — rebuilds sorted car pointer lists */
+.L_fn_scroll_param_load:
+    .4byte  sym_0602E5E4               /* scroll_param_load — initializes rotation scroll parameters */
+.L_prev_game_state:
+    .4byte  sym_0607EBC0               /* previous game state (saved each frame by main loop) */
 .L_attract_cycle_cnt_b:
     .4byte  sym_0607EAD8               /* attract cycle counter (dword) */
-.L_race_active_flag:
-    .4byte  sym_0607EAD0               /* race active flag (0=inactive, 1=active) */
+.L_race_state_flag:
+    .4byte  sym_0607EAD0               /* race state flag at sym_0607EAD0 (annotations disagree: "race_end_flag" in race_states.s, set=1 here when attract_cycle==0) */
 .L_camera_yaw_store:
-    .4byte  sym_06063EF0               /* camera yaw angle storage */
-.L_y_rot_offset:
-    .4byte  sym_06063F10               /* Y-rotation angle offset */
-.L_cam_param_a:
-    .4byte  sym_06063E78               /* camera param chain A */
-.L_cam_param_b:
-    .4byte  sym_06063E8C               /* camera param chain B */
-.L_cam_param_c:
-    .4byte  sym_06063E64               /* camera param chain C */
-.L_cam_param_d:
-    .4byte  sym_06063E50               /* camera param chain D */
-.L_fixed_neg_offset:
-    .4byte  0xFEA00000                 /* fixed-point camera Z offset constant */
-.L_cam_param_e:
-    .4byte  sym_06063F14               /* camera param chain E */
+    .4byte  sym_06063EF0               /* heading global — car heading copied here (also used by race_update) */
+.L_cam_angle_06063F10:
+    .4byte  sym_06063F10               /* camera angle register (cleared on init, no external confirmation) */
+.L_cam_chain_a:
+    .4byte  sym_06063E78               /* camera chain A — zero-propagation chain start */
+.L_cam_chain_b:
+    .4byte  sym_06063E8C               /* camera chain B — receives from A */
+.L_cam_chain_c:
+    .4byte  sym_06063E64               /* camera chain C — receives from B */
+.L_cam_chain_d:
+    .4byte  sym_06063E50               /* camera chain D — receives from C */
+.L_cam_initial_z_offset:
+    .4byte  0xFEA00000                 /* fixed-point 16.16: -352.0 (initial camera Z offset) */
+.L_cam_chain_e:
+    .4byte  sym_06063F14               /* camera param chain E (receives initial Z offset) */
 .L_set_attract_pos_default:                      ! --- attract default: set 3/3 ---
     mov #0x3, r2
-    .byte   0x90, 0x59    /* mov.w .L_wpool_0600654C, r0 */  ! r0 = 0xDC (external pool)
+    .byte   0x90, 0x59    /* mov.w .L_wpool_0600654C, r0 — cross-TU: 0xDC attract field offset [HIGH] */  ! r0 = 0xDC (attract field offset, in scene_fallback_render pool)
     mov.w r2, @(r0, r4)                 ! car+0xDC = 3
     mov r2, r3
     add #0x2, r0                        ! offset +0xDE
     mov.w r3, @(r0, r4)                 ! car+0xDE = 3
-.L_final_state_config:                           ! --- configure final state variables ---
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006550, r3 */   ! (external pool refs below)
+.L_final_state_config:                           ! --- configure camera/scene state (external pool in scene_fallback_render) ---
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006550, r3 — cross-TU: &sym_060620D0 (sprite/timing counter) [MEDIUM] */   ! r3 = &sprite_timing_counter
     mov #0x2, r2
     mov #0x0, r5
-    mov.l r13, @r3                      ! state var 0 = 0
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006554, r3 */
-    mov.l r2, @r3                       ! state var 1 = 2
+    mov.l r13, @r3                      ! *sprite_timing_counter = 0
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006554, r3 — cross-TU: &sym_06063E1C (camera_mode) [HIGH] */   ! r3 = &camera_mode
+    mov.l r2, @r3                       ! *camera_mode = 2
     mov #0x1, r2
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006558, r3 */
-    mov.l r2, @r3                       ! state var 2 = 1
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600655C, r3 */   ! function call via external pool
-    jsr @r3                             ! call external setup function(r4=0x8, r5=0x0)
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006558, r3 — cross-TU: &sym_06059F30 (scene_render_enable) [MEDIUM] */   ! r3 = &scene_render_enable
+    mov.l r2, @r3                       ! *scene_render_enable = 1
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600655C, r3 — cross-TU: &channel_nibble_config [HIGH] */   ! r3 = &channel_nibble_config
+    jsr @r3                             ! channel_nibble_config(8, 0)
     mov #0x8, r4                        ! (delay slot)
-    .byte   0xD2, 0x29    /* mov.l .L_pool_06006560, r2 */
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006564, r3 */
-    mov.l r2, @r3                       ! store config value pair A
-    .byte   0xD4, 0x2A    /* mov.l .L_pool_06006568, r4 */
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600656C, r3 */
-    mov.l r4, @r3                       ! store config value pair B
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_06006570, r2 */
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006574, r3 */
-    mov.l r2, @r3                       ! store config value pair C
-    .byte   0xD2, 0x2B    /* mov.l .L_pool_06006578, r2 */
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_0600657C, r3 */
-    mov.l r2, @r3                       ! store config value pair D
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006580, r3 */
-    mov.l r13, @r3                      ! state var 3 = 0
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006584, r3 */
-    mov.l r4, @r3                       ! state var 4 = r4 (from external call return)
+    .byte   0xD2, 0x29    /* mov.l .L_pool_06006560, r2 — cross-TU: 0x00058000 = 5.5 fp (initial eye_y) [HIGH] */   ! r2 = 5.5 fp (initial camera eye_y)
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006564, r3 — cross-TU: &sym_06063E24 (camera_eye_y) [HIGH] */   ! r3 = &camera_eye_y
+    mov.l r2, @r3                       ! *camera_eye_y = 5.5 fp
+    .byte   0xD4, 0x2A    /* mov.l .L_pool_06006568, r4 — cross-TU: 0x0000F300 (initial heading value) [MEDIUM] */   ! r4 = 0x0000F300 (initial camera heading)
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600656C, r3 — cross-TU: &sym_06063E34 (camera_near_clip) [HIGH] */   ! r3 = &camera_near_clip
+    mov.l r4, @r3                       ! *camera_near_clip = 0x0000F300
+    .byte   0xD2, 0x2A    /* mov.l .L_pool_06006570, r2 — cross-TU: 0x006E0000 = 110.0 fp (initial heading) [HIGH] */   ! r2 = 110.0 fp (initial camera heading)
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006574, r3 — cross-TU: &sym_06063E28 (camera_heading) [HIGH] */   ! r3 = &camera_heading
+    mov.l r2, @r3                       ! *camera_heading = 110.0 fp
+    .byte   0xD2, 0x2B    /* mov.l .L_pool_06006578, r2 — cross-TU: 0x00100000 = 16.0 fp (initial zoom) [HIGH] */   ! r2 = 16.0 fp (initial camera zoom)
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_0600657C, r3 — cross-TU: &sym_06063E2C (camera_zoom_factor) [HIGH] */   ! r3 = &camera_zoom_factor
+    mov.l r2, @r3                       ! *camera_zoom_factor = 16.0 fp
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006580, r3 — cross-TU: &sym_06063E30 (camera_z_offset) [HIGH] */   ! r3 = &camera_z_offset
+    mov.l r13, @r3                      ! *camera_z_offset = 0
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006584, r3 — cross-TU: &sym_06063EEC (smoothed_heading) [HIGH] */   ! r3 = &smoothed_heading
+    mov.l r4, @r3                       ! *smoothed_heading = 0x0000F300 (r4 still holds initial heading value)
     mov #0x2, r2
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006588, r3 */
-    mov.l r2, @r3                       ! state var 5 = 2
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006588, r3 — cross-TU: &sym_06063E20 (camera_state_idx) [HIGH] */   ! r3 = &camera_state_idx
+    mov.l r2, @r3                       ! *camera_state_idx = 2
     lds.l @r15+, macl                   ! --- epilogue: restore callee-saved regs ---
     lds.l @r15+, pr
     mov.l @r15+, r8

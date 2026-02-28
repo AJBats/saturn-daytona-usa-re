@@ -51,7 +51,7 @@ replay_playback_engine:
     mov.l r3, @r6                           ! car_array_idx = r3 (store wrapped value)
 .L_check_subindex_limit:
     mov.l @r4, r2                           ! r2 = car_select (playback sub-index)
-    mov.w   .L_wpool_0601BE4C, r3           ! r3 = 0x00A0 (160; maximum sub-index limit)
+    mov.w   .L_w_subindex_limit, r3           ! r3 = 0x00A0 (160; maximum sub-index limit)
     cmp/hi r3, r2                           ! test if car_select > 0x00A0 (unsigned)
     bf      .L_store_and_return             ! branch if within limit (no clamp needed)
     mov #0x0, r3                            ! r3 = 0 (reset value)
@@ -61,16 +61,16 @@ replay_playback_engine:
     lds.l @r15+, pr                         ! restore return address from stack
     rts                                     ! return to caller
     mov.l r2, @r7                           ! (delay slot) replay_scroll_accum = car->heading
-.L_wpool_0601BE4C:
-    .2byte  0x00A0                          ! sub-index upper limit (160 decimal)
-    .2byte  0xFFFF                          ! padding word
+.L_w_subindex_limit:
+    .2byte  0x00A0                         /* [HIGH] sub-index upper limit (160) */
+    .2byte  0xFFFF
 .L_pool_replay_scroll_accum:
-    .4byte  sym_06086018                    ! replay scroll accumulator (dword)
+    .4byte  sym_06086018               /* [MEDIUM] replay scroll accumulator (dword) */
 .L_pool_car_array_idx:
-    .4byte  sym_06059F3C                    ! car array index / replay frame counter
+    .4byte  sym_06059F3C               /* [MEDIUM] car array index / replay frame counter */
 .L_pool_car_select:
-    .4byte  sym_06059F38                    ! car selection sub-index / playback offset
+    .4byte  sym_06059F38               /* [MEDIUM] car selection sub-index / playback offset */
 .L_pool_car_state_ptr:
-    .4byte  sym_0607E944                    ! pointer to current car state struct
+    .4byte  sym_0607E944               /* [HIGH] iterated car struct pointer */
 .L_pool_geometry_transform:
-    .4byte  sym_06034FE0                    ! geometry_transform function pointer
+    .4byte  sym_06034FE0               /* [HIGH] geometry_transform fn */

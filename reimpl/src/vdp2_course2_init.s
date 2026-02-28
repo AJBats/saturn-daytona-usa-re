@@ -15,7 +15,7 @@
 vdp2_course2_init:
     mov.l r14, @-r15                        ! save r14 on stack (callee-save)
     sts.l pr, @-r15                         ! save return address on stack
-    mov.w   .L_wpool_06003540, r6           ! r6 = 0x0100 = 256 words to copy
+    mov.w   .L_pal_copy_size, r6             ! r6 = 0x0100 = 256 words to copy
     mov.l   .L_vdp2_cram_0x940, r5         ! r5 = 0x25F00940 — palette source in CRAM
     mov.l   .L_vdp2_cram_0x200, r4         ! r4 = 0x25F00200 — palette dest in CRAM
     mov.l   .L_fn_memcpy_word_idx, r3      ! r3 = &memcpy_word_idx
@@ -31,7 +31,7 @@ vdp2_course2_init:
     jsr @r14                                ! call dma_memory_transfer(src, dest) — pattern block 1
     mov.l @r5, r5                           ! delay slot: r5 = *sym_060612AC (load actual src addr)
     mov.l   .L_ptr_course2_tile_data, r5   ! r5 = &sym_060612AC (reload pointer)
-    mov.w   .L_wpool_0600353E, r2           ! r2 = 0x2000 = offset to second pattern block
+    mov.w   .L_pattern_blk2_offset, r2      ! r2 = 0x2000 = offset to second pattern block
     mov.l   .L_vdp2_vram_0x42C78, r4       ! r4 = 0x25E42C78 — VRAM dest for pattern data block 2
     mov.l @r5, r5                           ! r5 = *sym_060612AC (load actual src addr again)
     jsr @r14                                ! call dma_memory_transfer(src, dest) — pattern block 2
@@ -40,10 +40,10 @@ vdp2_course2_init:
     rts                                     ! return to caller
     mov.l @r15+, r14                        ! delay slot: restore r14 from stack
     .2byte  0x00E0                          ! alignment padding
-.L_wpool_0600353E:
-    .2byte  0x2000                          ! word pool: 0x2000 = pattern block 2 offset
-.L_wpool_06003540:
-    .2byte  0x0100                          ! word pool: 0x0100 = 256 words to copy
+.L_pattern_blk2_offset:
+    .2byte  0x2000                          /* [HIGH] pattern block 2 offset into ROM data */
+.L_pal_copy_size:
+    .2byte  0x0100                          /* [HIGH] palette copy size: 0x100 words (512 bytes) */
     .2byte  0xFFFF                          ! alignment padding
     .4byte  0x25F00860                      ! (unused pool entry — VDP2 CRAM +0x860)
 .L_vdp2_cram_0x200:

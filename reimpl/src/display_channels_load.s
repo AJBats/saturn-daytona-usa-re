@@ -25,7 +25,7 @@ display_channels_load:
     sts.l pr, @-r15                         ! save return address
     .byte   0xDD, 0x12    /* mov.l .L_pool_chan_cfg_table, r13 */
     .byte   0xDE, 0x13    /* mov.l .L_pool_nibble_config_fn, r14 */
-    mov.w   .L_wpool_060148E2, r4           ! r4 = 0x0100 (bitmask: array_a[0] low nibble)
+    mov.w   .L_wpool_chan_id_primary, r4           ! r4 = 0x0100 (bitmask: array_a[0] low nibble)
     jsr @r14                                ! channel_nibble_config(0x0100, table[0])
     mov.b @r13, r5                          ! (delay) r5 = table[0] — first channel byte
     mov.b @(1, r13), r0                     ! r0 = table[1] — second channel byte
@@ -52,8 +52,8 @@ display_channels_load:
     mov.l @r15+, r13                        ! restore r13
     rts                                     ! return
     mov.l @r15+, r14                        ! (delay) restore r14
-.L_wpool_060148E2:
-    .2byte  0x0100
+.L_wpool_chan_id_primary:
+    .2byte  0x0100                      /* [HIGH] channel bitmask: array_a[0] low nibble (primary) */
     .4byte  sym_0603850C
     .4byte  scene_color_intensity
     .4byte  sym_06038520

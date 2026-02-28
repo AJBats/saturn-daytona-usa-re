@@ -1,8 +1,8 @@
 # Data Annotation — Classification & Semantic Understanding
 
-> **Status**: Active — Direct annotation in progress (depth-first, DEFINITE TUs first).
+> **Status**: Active — Pool label rename COMPLETE. Depth annotation continues.
 > **Created**: 2026-02-23
-> **Updated**: 2026-02-24
+> **Updated**: 2026-02-27
 > **Predecessor**: Sawyer L2 (L3 uplift at 98% — 448/457 files)
 
 ## The Goal
@@ -76,6 +76,47 @@ This is slow but represents the real RE work. The goal is to dazzle, not just li
 5. **Data region comments** — explain what literal values mean (hardware registers,
    fixed-point constants, masks, etc.)
 
+### Confidence-Graded Naming
+
+As you research what a pool value means, you'll arrive at a confidence level. That
+confidence determines naming style. **A wrong semantic name is worse than a correct
+mechanical name** — it actively misleads anyone who reads it later, including future
+agents and human contributors. Mechanical names are boring but never wrong.
+
+| Confidence | When to use | Label style | Inline comment style | Example |
+|------------|-------------|-------------|---------------------|---------|
+| **HIGH** | HW register map match, verified algorithm, cross-referenced with multiple sources | Semantic name | Full description | `.L_scu_dma_status` / `/* SCU DMA status register */` |
+| **MEDIUM** | Reasonable inference from context, single source, plausible but unverified | Structural/typed name | Describe what you see, not what you think | `.L_fn_ptr_060284AE` / `/* function pointer (likely geom dispatch) */` |
+| **LOW** | Unknown purpose, guessing, or value could mean multiple things | Mechanical name with value | State the raw facts only | `.L_pool_const_0x18` / `/* offset 0x18 into struct */` |
+
+**How to gauge confidence:**
+
+- **HIGH**: You looked up the value in a hardware register map and it matches exactly.
+  Or you traced the code path and can prove what the value does (e.g., `0x00010000` used
+  in a `dmuls.l` followed by `xtrct` → definitely 16.16 fixed-point 1.0). Multiple
+  independent evidence sources agree.
+- **MEDIUM**: The value looks like a struct field offset and the function name suggests
+  a domain (e.g., `0x28` in a camera function → probably a camera struct field), but
+  you haven't verified the struct layout. Or sawyer says it's X but you can't fully
+  confirm from the L3 code alone.
+- **LOW**: You're pattern-matching on vibes. The value could be an offset, a count, a
+  flag, or something else entirely. You'd be guessing. Use the mechanical name.
+
+**Naming patterns by type and confidence:**
+
+| Value type | HIGH | MEDIUM | LOW |
+|-----------|------|--------|-----|
+| HW register (0x25XXXXXX) | `.L_vdp1_ptmr` | `.L_hw_reg_25D00010` | `.L_pool_const_25D00010` |
+| Function pointer | `.L_ptr_sin_lookup` | `.L_fn_ptr_06026DBC` | `.L_pool_ptr_06026DBC` |
+| Struct offset | `.L_car_velocity_y` | `.L_struct_offset_0x28` | `.L_pool_const_0x28` |
+| Fixed-point constant | `.L_fp_one` | `.L_fp_const_00010000` | `.L_pool_const_00010000` |
+| Bit mask | `.L_irq_enable_mask` | `.L_bitmask_0x80000000` | `.L_pool_const_80000000` |
+| Unknown | — | — | `.L_pool_const_XXXXXXXX` |
+
+**The rule: when in doubt, go one tier down.** You can always upgrade a mechanical
+name later when you learn more. You can't easily undo a wrong semantic name that
+other annotations have been built on top of.
+
 ### Step-by-Step Process (Per TU)
 
 ```
@@ -101,10 +142,14 @@ This is slow but represents the real RE work. The goal is to dazzle, not just li
    - For 0xFFFFXXXX values: check if sign-extended negative or SH-2 peripheral
 
 4. ANNOTATE THE L3 FILE (direct edit — no YAML intermediary)
-   - Rename pool labels to meaningful names
+   - Rename pool labels using confidence-graded naming (see above).
+     Assess confidence for EACH label individually — a file can have a mix
+     of HIGH, MEDIUM, and LOW confidence names. Don't force semantic names
+     on values you don't understand just to make the file look "done."
    - Add file header with function catalog
    - Add function doc blocks
-   - Add instruction-level comments
+   - Add instruction-level comments (describe what you SEE, not what you
+     THINK, unless confidence is HIGH)
    - Keep raw .4byte data blobs (missed code regions) unchanged for now
 
 5. VERIFY ASSEMBLY
@@ -154,8 +199,11 @@ fpmul:
 A file is **annotation-complete** when:
 
 1. **File header** — function catalog with one-line descriptions
-2. **Pool data labels renamed** — all `.L_pool_` / `.L_wpool_` entries have semantic names
-   (`.L_sin_table_base`, `.L_scu_dsta`, `.L_vdp1_ptmr`, `.L_car_stride`, etc.)
+2. **Pool data labels renamed** — all `.L_pool_` / `.L_wpool_` machine-address labels
+   replaced with confidence-graded names. HIGH confidence → semantic names
+   (`.L_sin_table_base`, `.L_scu_dsta`), MEDIUM → structural (`.L_fn_ptr_06026DBC`),
+   LOW → mechanical (`.L_pool_const_0x18`). A file with all mechanical names is
+   "done" — correctness beats aesthetics.
 3. **Function doc comments** — block comment on every non-trivial function (name, args, algorithm)
 4. **Hardware addresses commented** — inline `/* VDP1 PTMR */` on every pool 0x25XXXXXX entry
 5. **Instruction comments** — end-of-line on non-obvious lines (the ones where you'd go "why?")
@@ -254,7 +302,9 @@ Annotating L3 files by hand, depth-first on high-value TUs.
   bank swap + 3 DMA transfers for tilemaps and character patterns.
 
 **Priority roadmap** (user-directed):
-1. **Finish pool labels** — rename all `.L_pool_`/`.L_wpool_` across remaining src/ files
+1. ~~**Finish pool labels**~~ — DONE (2026-02-27). All `.L_pool_XXXXXXXX` / `.L_wpool_XXXXXXXX`
+   definitions renamed across src/. Batches 134-151 (18 commits, ~200 files touched).
+   Zero machine-generated pool label definitions remain.
 2. **Classify data** — figure out what the literal values actually mean
 3. **Unmask remaining retail files** — convert the 9 holdouts to L3 in src/
 4. **Audit L3 completeness** — zero files in retail/ that aren't in src/

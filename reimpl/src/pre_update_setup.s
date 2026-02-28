@@ -4,19 +4,19 @@
  *
  * Pre-frame car update setup — runs AI physics, then projects the car's
  * Y position into screen coordinates for camera targeting. If the car
- * state field at +0x1EC is zero, clears the camera tracking global and
- * resets related car struct fields.
+ * state field at +0x1EC is zero, clears the race-end flag and
+ * resets camera target fields in the car struct.
  *
  * Called from the per-car update loop before rendering.
  *
  * Flow:
  *   1. ai_physics_main   — run AI opponent physics pipeline
- *   2. If not in special camera mode:
+ *   2. If single-player mode (player_mode == 0):
  *      fpmul(car.Y_pos, 0x066505B3) — project Y coordinate
  *      Store projected result at car[+0xE4] and car[+0xE0]
  *   3. If car[+0x1EC] == 0:
- *      Clear camera tracking global (sym_0607EAD0)
- *      Clear car[+0x228] and car[+0x21C]
+ *      Clear race-end flag (sym_0607EAD0)
+ *      Clear car[+0x228] and car[+0x21C] (camera target fields)
  */
 
     .section .text.FUN_0600E99C
@@ -27,14 +27,14 @@
 pre_update_setup:
     mov.l r14, @-r15                   ! save r14 (car struct base)
     sts.l pr, @-r15                    ! save return address
-    mov.l   .L_car_state_ptr, r14      ! r14 = &car_state_pointer
+    mov.l   .L_ptr_current_car, r14    ! r14 = &current_car_ptr
     .byte   0xBF, 0xB0    /* bsr 0x0600E906 (external) */  ! call ai_physics_main
     mov.l @r14, r14                    ! (delay) r14 = car struct base
-    mov.l   .L_camera_mode_flag, r0    ! r0 = &camera_mode_flag
-    mov.l @r0, r0                      ! r0 = camera mode value
-    tst r0, r0                         ! test if camera mode == 0
-    bf      .L_skip_projection         ! nonzero → skip projection
-    mov.l   .L_projection_const, r5    ! r5 = 0x066505B3 (projection constant)
+    mov.l   .L_ptr_player_mode, r0     ! r0 = &player_mode
+    mov.l @r0, r0                      ! r0 = player_mode (0=single)
+    tst r0, r0                         ! test if single-player mode
+    bf      .L_skip_projection         ! multi-player → skip projection
+    mov.l   .L_const_y_projection, r5  ! r5 = 0x066505B3 (projection constant)
     mov.l   .L_fn_fpmul, r3            ! r3 = &fpmul
     jsr @r3                            ! call fpmul(r4, r5)
     mov.l @(12, r14), r4               ! (delay) r4 = car.Y_position
@@ -47,14 +47,14 @@ pre_update_setup:
     add r14, r1                        ! r1 = &car[+0xE0]
     mov.l r0, @r1                      ! car[+0xE0] = projected Y coordinate
 .L_skip_projection:
-    mov.w   .L_wpool_0600E9EC, r0      ! r0 = 0x01EC (car state offset)
-    mov.l @(r0, r14), r0               ! r0 = car[+0x1EC] (state field)
-    tst r0, r0                         ! test if state == 0
+    mov.w   .L_wpool_car_active_state, r0  ! r0 = 0x01EC (car active-state offset)
+    mov.l @(r0, r14), r0               ! r0 = car[+0x1EC] (active-state field)
+    tst r0, r0                         ! test if active-state == 0
     bf      .L_done                    ! nonzero → skip cleanup, return
     mov #0x0, r4                       ! r4 = 0 (clear value)
-    mov.l   .L_camera_tracking_global, r3  ! r3 = &camera_tracking_global
-    mov.l r4, @r3                      ! clear camera tracking global
-    mov.w   .L_wpool_0600E9E2, r0      ! r0 = 0x0228 (camera target offset)
+    mov.l   .L_ptr_race_end_flag, r3   ! r3 = &race_end_flag
+    mov.l r4, @r3                      ! clear race-end flag
+    mov.w   .L_wpool_car_cam_target_a, r0  ! r0 = 0x0228 (camera target A offset)
     mov.l r4, @(r0, r14)               ! car[+0x228] = 0
     add #-0xC, r0                      ! r0 = 0x021C
     mov.l r4, @(r0, r14)               ! car[+0x21C] = 0
@@ -62,8 +62,8 @@ pre_update_setup:
     lds.l @r15+, pr                    ! restore return address
     rts                                ! return
     mov.l @r15+, r14                   ! (delay) restore r14
-.L_wpool_0600E9E2:
-    .2byte  0x0228                     ! word pool: car offset for camera target field
+.L_wpool_car_cam_target_a:
+    .2byte  0x0228                     /* [HIGH] car offset: camera target A — per_car_loop.s:276 confirms +0x228 */
 
     .global DAT_0600e9e4
 DAT_0600e9e4:
@@ -77,24 +77,24 @@ DAT_0600e9e8:
     .global DAT_0600e9ea
 DAT_0600e9ea:
     .2byte  0x00E0                     ! car offset: projected coordinate B
-.L_wpool_0600E9EC:
-    .2byte  0x01EC                     ! word pool: car state field offset
+.L_wpool_car_active_state:
+    .2byte  0x01EC                     /* [MEDIUM] car offset: active-state field — per_car_loop.s:250, gates cleanup path */
     .2byte  0xFFFF                     ! alignment padding
     .4byte  friction_stub              ! (adjacent TU pool — not used by this function)
     .4byte  ai_orchestrator            ! (adjacent TU pool — not used by this function)
     .4byte  0x00480000                 ! (adjacent TU pool — not used by this function)
 .L_fn_fpmul:
-    .4byte  fpmul                      ! fixed-point multiply: (r4*r5)>>16
+    .4byte  fpmul                      /* [HIGH] fixed-point multiply: (r4*r5)>>16 */
     .4byte  track_segment_advance      ! (adjacent TU pool — not used by this function)
     .4byte  sym_0607EA9C               ! (adjacent TU pool — not used by this function)
-.L_car_state_ptr:
-    .4byte  sym_0607E944               ! pointer to current car state struct
-.L_camera_mode_flag:
-    .4byte  sym_0607EAD8               ! camera mode flag (0 = normal, nonzero = special)
-.L_projection_const:
-    .4byte  0x066505B3                 ! fixed-point projection constant for Y coordinate
-.L_camera_tracking_global:
-    .4byte  sym_0607EAD0               ! global camera tracking state variable
+.L_ptr_current_car:
+    .4byte  sym_0607E944               /* [HIGH] ptr to current car struct (primary) — object_management.s:87 */
+.L_ptr_player_mode:
+    .4byte  sym_0607EAD8               /* [MEDIUM] player mode (0=single, nonzero=versus) — object_management.s:89, race_states.s:84 disagree on semantics */
+.L_const_y_projection:
+    .4byte  0x066505B3                 /* [HIGH] fixed-point Y projection scalar — per_car_loop.s:269 confirms 0x066505B3 */
+.L_ptr_race_end_flag:
+    .4byte  sym_0607EAD0               /* [HIGH] race-end flag (nonzero=finished) — race_states.s:83, used in states 15/17/28/29 */
     .4byte  0x7FF4952C                 ! byte blob: encoded function (not decoded to mnemonics)
     .4byte  0x354C5351
     .4byte  0x2F325352

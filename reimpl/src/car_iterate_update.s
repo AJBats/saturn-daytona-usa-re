@@ -66,7 +66,7 @@ car_iterate_update:
     mov.l @r11, r0                           ! r0 = course_data_entry_ptr
     shll2 r3                                 ! r3 = i * 4 (index into car pointer array)
     mov.l @(4, r0), r2                       ! r2 = course_data[4] = car_array_base
-    mov.w   .L_wpool_0600D91A, r0            ! r0 = 0x01EC (checkpoint param offset)
+    mov.w   .L_wpool_checkpoint_param_offset, r0            ! r0 = 0x01EC (checkpoint param offset)
     add r2, r3                               ! r3 = &car_array[i] (pointer into car array)
     mov.l @r3, r3                            ! r3 = car_array[i] (car's checkpoint param)
     mov.l @(r0, r1), r2                      ! r2 = current_car[0x01EC] (reference param)
@@ -99,8 +99,8 @@ car_iterate_update:
     mov.l @r15+, r13                         ! restore r13
     rts                                      ! return
     mov.l @r15+, r14                         ! restore r14 (delay slot)
-.L_wpool_0600D91A:
-    .2byte  0x01EC
+.L_wpool_checkpoint_param_offset:
+    .2byte  0x01EC                      /* [HIGH] car struct offset: checkpoint parameter */
 .L_other_car_ptr:
     .4byte  sym_0607E944
 .L_current_car_ptr:

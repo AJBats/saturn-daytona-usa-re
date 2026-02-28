@@ -17,7 +17,7 @@ obj_pool_alloc:
     mov.l   .L_pool_obj_active_count, r14   ! r14 = &sym_06087806 (active object count word)
     mov.l   .L_pool_btn_state, r3           ! r3  = &sym_06063D9A (button state register)
     mov.w @r3, r2                           ! r2  = *sym_06063D9A (raw button state)
-    mov.w   .L_wpool_0602026A, r3           ! r3  = 0x0800 (start-button bitmask)
+    mov.w   .L_w_start_btn_mask, r3           ! r3  = 0x0800 (start-button bitmask)
     extu.w r2, r2                           ! r2  = zero-extend button state to 32-bit
     and r3, r2                              ! r2  = button_state & 0x0800 (isolate start bit)
     tst r2, r2                              ! test if start button is pressed
@@ -101,17 +101,17 @@ obj_pool_alloc:
     mov.l @r15+, r13                        ! restore r13
     .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */ ! tail-call obj_pool_deallocator
     mov.l @r15+, r14                        ! (delay slot) restore r14
-.L_wpool_0602026A:
-    .2byte  0x0800                          ! constant: start-button bitmask (bit 11)
+.L_w_start_btn_mask:
+    .2byte  0x0800                         /* [HIGH] start-button bitmask (bit 11) */
 .L_pool_obj_pos_counter:
-    .4byte  sym_06087808                    ! &sym_06087808 — position counter (word)
+    .4byte  sym_06087808               /* [MEDIUM] position counter (word) */
 .L_pool_obj_active_count:
-    .4byte  sym_06087806                    ! &sym_06087806 — active object count (word)
+    .4byte  sym_06087806               /* [MEDIUM] active object count (word) */
 .L_pool_btn_state:
-    .4byte  sym_06063D9A                    ! &sym_06063D9A — button state register
+    .4byte  sym_06063D9A               /* [HIGH] new button presses (edge-triggered) */
 .L_pool_lap_counter:
-    .4byte  sym_0608780A                    ! &sym_0608780A — lap counter (word)
+    .4byte  sym_0608780A               /* [MEDIUM] lap counter (word) */
 .L_pool_obj_type_table:
-    .4byte  sym_0605F4A8                    ! &sym_0605F4A8 — object type/param table (6 bytes/row)
+    .4byte  sym_0605F4A8               /* [MEDIUM] object type/param table (6 bytes/row) */
 .L_pool_slot_array_base:
-    .4byte  sym_0608782C                    ! &sym_0608782C — object slot array base
+    .4byte  sym_0608782C               /* [MEDIUM] object slot array base */

@@ -43,7 +43,7 @@ results_input_handler:
     sts.l pr, @-r15                 ! save return address (PR)
     shll2 r3                        ! r3 = scroll_class * 4
     mov.l   .L_pool_elem_array_base, r13    ! r13 = sym_06084FC8 (element array base)
-    mov.w   .L_wpool_0601686C, r2           ! r2  = 0x0F00  (scroll increment per frame)
+    mov.w   .L_const_scroll_step, r2         ! r2  = 0x0F00  (scroll increment per frame)
     shll2 r3                        ! r3 = scroll_class * 16
     add r3, r4                      ! r4 = elem_idx + scroll_class*16  (sub-array offset)
     exts.w r4, r4                   ! sign-extend r4 to 32 bits
@@ -83,7 +83,7 @@ _no_scroll_wrap:
     bt      _skip_bounce            ! yes: no bounce active, skip to vtx builder call
     extu.b r14, r3                  ! r3  = elem_index
     mov #0x7, r2                    ! r2  = 7  (threshold: indices 0-6 vs 7+)
-    mov.w   .L_wpool_0601686E, r4           ! r4  = 0x1800  (bounce velocity step)
+    mov.w   .L_const_bounce_delta, r4        ! r4  = 0x1800  (bounce velocity step)
     cmp/ge r2, r3                   ! elem_index >= 7?
     bt      _bounce_subtract        ! yes: subtract step (different direction)
     extu.b r14, r5                  ! r5  = elem_index
@@ -113,12 +113,12 @@ _no_scroll_wrap:
     mov.l r12, @(48, r3)            ! elem->bounce_val = r12  (reset bounce to base value)
     bra     _skip_bounce            ! jump to vtx builder
     nop                             ! (delay slot)
-.L_wpool_0601686C:                          ! 0x0F00 = scroll step added to scroll_pos each frame
-    .2byte  0x0F00
-.L_wpool_0601686E:                          ! 0x1800 = bounce velocity delta per frame
-    .2byte  0x1800
+.L_const_scroll_step:
+    .2byte  0x0F00                          /* 0x0F00 = scroll step per frame [HIGH] */
+.L_const_bounce_delta:
+    .2byte  0x1800                          /* 0x1800 = bounce velocity delta per frame [HIGH] */
 .L_pool_elem_array_base:
-    .4byte  sym_06084FC8
+    .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */
 _bounce_subtract:
     extu.b r14, r5                  ! r5  = elem_index
     mov r5, r3                      ! r3  = elem_index copy
@@ -205,7 +205,7 @@ loc_060168DA:
     add r3, r2                      ! r2  = idx * 4 + idx * 64 = idx * 0x44... partial
     exts.w r2, r2                   ! sign-extend r2
     shll r1                         ! r1  = idx * 512  (another shift step)
-    mov.w   .L_wpool_06016938, r3           ! r3  = 0xC000  (target Y for high indices)
+    mov.w   .L_const_target_y_high, r3      ! r3  = 0xC000  (target Y for high indices)
     add r3, r1                      ! r1  = target with offset
     bra     _write_target_y         ! go write target
     add r5, r2                      ! (delay slot) r2 = &elem[idx] base
@@ -219,7 +219,7 @@ _high_index_target:
     add r3, r2                      ! r2  = idx * 0x44
     exts.w r2, r2                   ! sign-extend
     add r5, r2                      ! r2  = &elem[idx]
-    mov.w   .L_wpool_0601693A, r1           ! r1  = 0x4000  (target Y for low indices)
+    mov.w   .L_const_target_y_low, r1       ! r1  = 0x4000  (target Y for low indices)
 _write_target_y:
     mov.l r1, @(56, r2)             ! elem->target_y (+0x38) = chosen target constant
     extu.b r4, r4                   ! r4  = elem_index (re-zero-extend for final access)
@@ -237,9 +237,9 @@ _write_target_y:
     mov r2, r0                      ! r0  = new_phase (return value)
     rts                             ! return (r0 = new phase)
     mov.b r0, @(2, r4)              ! (delay slot) elem->phase = new_phase
-.L_wpool_06016938:                          ! 0xC000 = target Y value for high-index elements (idx >= 7)
-    .2byte  0xC000
-.L_wpool_0601693A:                          ! 0x4000 = target Y value for low-index elements (idx < 7)
-    .2byte  0x4000
+.L_const_target_y_high:
+    .2byte  0xC000                          /* 0xC000 = target Y for high-index elements (idx >= 7) [HIGH] */
+.L_const_target_y_low:
+    .2byte  0x4000                          /* 0x4000 = target Y for low-index elements (idx < 7) [HIGH] */
 .L_pool_elem_array_base2:
-    .4byte  sym_06084FC8
+    .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */

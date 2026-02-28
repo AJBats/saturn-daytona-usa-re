@@ -12,7 +12,7 @@ trans_select_at_mt:
     mov.l r14, @-r15                        ! push r14 onto stack
     mov.l r13, @-r15                        ! push r13 onto stack
     mov.l   .L_pool_sel_index, r14          ! r14 = &sym_0605AD00 (selection index pointer)
-    mov.l   .L_fp_half, r6                  ! r6 = 0x8000 (D-pad up button mask)
+    mov.l   .L_pool_btn_dpad_up, r6                  ! r6 = 0x8000 (D-pad up button mask)
     mov.l   .L_pool_btn_state, r5           ! r5 = &sym_06063D98 (held/new button state base)
     mov.l   .L_pool_trans_byte, r4          ! r4 = &sym_0605D243 (AT/MT selection byte)
     mov.w @(2, r5), r0                      ! r0 = *(sym_06063D98 + 2) = new button presses word (0x06063D9A)
@@ -29,7 +29,7 @@ trans_select_at_mt:
     bra     .L_clamp_check                 ! jump to clamp/wrap check
     mov.b r2, @r4                           ! (delay slot) *(AT/MT byte) = 0 (reset hold counter)
 .L_check_down_new:
-    mov.w   .L_wpool_06019DA6, r7           ! r7 = 0x4000 (D-pad down button mask)
+    mov.w   .L_wpool_btn_dpad_down, r7           ! r7 = 0x4000 (D-pad down button mask)
     mov.w @(2, r5), r0                      ! r0 = new button presses word (0x06063D9A)
     mov r0, r2                              ! r2 = new button presses
     extu.w r2, r2                           ! r2 = (unsigned word) new button presses
@@ -88,13 +88,13 @@ trans_select_at_mt:
     mov.l @r15+, r13                        ! pop r13 from stack
     .byte   0xAF, 0x11    /* bra 0x06019BC8 (external) */
     mov.l @r15+, r14                        ! (delay slot) pop r14 from stack
-.L_wpool_06019DA6:
-    .2byte  0x4000
+.L_wpool_btn_dpad_down:
+    .2byte  0x4000                      /* [HIGH] D-pad down button mask */
 .L_pool_sel_index:
-    .4byte  sym_0605AD00
-.L_fp_half:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  sym_0605AD00                /* [HIGH] &selection index (0-2, AT/MT menu position) */
+.L_pool_btn_dpad_up:
+    .4byte  0x00008000                  /* [HIGH] D-pad up button mask (bit 15) */
 .L_pool_btn_state:
-    .4byte  sym_06063D98
+    .4byte  sym_06063D98                /* [HIGH] &held/new button state base (+0=held, +2=new) */
 .L_pool_trans_byte:
-    .4byte  sym_0605D243
+    .4byte  sym_0605D243                /* [MEDIUM] &hold repeat counter byte (AT/MT selection) */

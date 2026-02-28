@@ -39,7 +39,7 @@ input_proc_init:
     mov.l r13, @-r15                    ! push r13 (timeout limit)
     mov.l r11, @-r15                    ! push r11 (HIRQ register pointer)
     mov.l   .L_cd_hirq, r11            ! r11 = 0x25890008 (CD HIRQ register)
-    mov.l   .L_pool_06035E28, r13      ! r13 = 0x00240000 (timeout iteration count)
+    mov.l   .L_hirq_timeout_limit, r13      ! r13 = 0x00240000 (timeout iteration count)
     mov #0x0, r14                       ! r14 = initial return value (success = 0)
     mov #-0x3, r1                       ! r1 = -3 (timeout error code, default)
     mov r14, r7                         ! r7 = 0 (loop counter starts at 0)
@@ -56,8 +56,8 @@ input_proc_init:
     .2byte  0x00FF                      ! alignment padding
 .L_cd_hirq:
     .4byte  0x25890008                  /* CD HIRQ — interrupt request register */
-.L_pool_06035E28:
-    .4byte  0x00240000                  /* timeout limit — 0x240000 iterations */
+.L_hirq_timeout_limit:
+    .4byte  0x00240000                  /* [HIGH] timeout limit — 0x240000 iterations */
 .L_not_yet:
     add #0x1, r7                        ! increment loop counter
     cmp/ge r13, r7                      ! counter >= timeout limit?

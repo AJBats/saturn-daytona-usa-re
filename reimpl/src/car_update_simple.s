@@ -52,7 +52,7 @@ car_update_simple:
     exts.w r0, r0               ! sign-extend 16-bit result
     add r14, r1                 ! r1 = &car[+0xE4]
     mov.l r0, @r1               ! car[+0xE4] = display speed B
-    mov.w   .L_wpool_0600E458, r1 ! r1 = 0x00E0 (car struct offset for display speed A)
+    mov.w   .L_wpool_display_speed_a_offset, r1 ! r1 = 0x00E0 (car struct offset for display speed A)
     add r14, r1                 ! r1 = &car[+0xE0]
     mov.l r0, @r1               ! car[+0xE0] = display speed A
     lds.l @r15+, pr             ! pop PR
@@ -62,8 +62,8 @@ car_update_simple:
     .global DAT_0600e456
 DAT_0600e456:
     .2byte  0x00E4              /* car struct offset: display speed B */
-.L_wpool_0600E458:
-    .2byte  0x00E0              /* car struct offset: display speed A */
+.L_wpool_display_speed_a_offset:
+    .2byte  0x00E0              /* [HIGH] car struct offset: display speed A */
     .2byte  0xFFFF              /* padding */
 .L_pool_car_array_base:
     .4byte  sym_0607E944        /* car array base pointer */

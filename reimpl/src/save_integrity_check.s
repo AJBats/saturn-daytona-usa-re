@@ -59,13 +59,13 @@ save_integrity_check:
     jsr @r3                             ! call race_timer_sync(r4, r5=-1) — invalidate timer
     mov.l @(8, r14), r4                 ! [delay] r4 = block_ptr->field_8
     mov.l @r12, r2                      ! r2 = *global_state (base pointer)
-    mov.w   .L_wpool_0603BE10, r0       ! r0 = 0xB4 (active-block slot offset)
+    mov.w   .L_wpool_active_block_offset, r0       ! r0 = 0xB4 (active-block slot offset)
     mov.l @(r0, r2), r3                 ! r3 = global_state[0xB4] (current active block)
     cmp/eq r14, r3                      ! active block == this block?
     bf      .clear_done                 ! if not, skip clearing
     mov.l @r12, r2                      ! r2 = *global_state (reload base)
     mov #0x0, r3                        ! r3 = 0 (null)
-    mov.w   .L_wpool_0603BE10, r0       ! r0 = 0xB4
+    mov.w   .L_wpool_active_block_offset, r0       ! r0 = 0xB4
     mov.l r3, @(r0, r2)                 ! global_state[0xB4] = NULL — clear active block
 .clear_done:
     bra     .epilogue                   ! jump to return
@@ -74,7 +74,7 @@ save_integrity_check:
     tst r13, r13                        ! scene_buffer_update result == 0?
     bt      .epilogue                   ! if zero, skip registration (no-op path)
     mov.l @r12, r3                      ! r3 = *global_state (base pointer)
-    mov.w   .L_wpool_0603BE10, r0       ! r0 = 0xB4
+    mov.w   .L_wpool_active_block_offset, r0       ! r0 = 0xB4
     mov.l r14, @(r0, r3)               ! global_state[0xB4] = block_ptr — register as active
     mov #0x1, r3                        ! r3 = 1 ("validated" state)
     mov #0x12, r0                       ! r0 = 0x12 (state byte offset)
@@ -88,8 +88,8 @@ save_integrity_check:
     rts                                 ! return
     mov.l @r15+, r14                    ! [delay] restore r14
     .2byte  0x00A8                      /* alignment padding (unreachable) */
-.L_wpool_0603BE10:
-    .2byte  0x00B4                      /* offset to active-block slot in global state */
+.L_wpool_active_block_offset:
+    .2byte  0x00B4                      /* [HIGH] offset to active-block slot in global state */
     .2byte  0xFFFF                      /* alignment padding */
 .L_pool_scene_buffer_update:
     .4byte  scene_buffer_update         /* process save block scene data */

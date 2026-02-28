@@ -61,7 +61,7 @@ error_trap_handler:
     mov.l @r15+, r14                                   ! restore r14 (delay slot)
 .L_both_slots_active:
     mov.l @r14, r3                                     ! r3 = state base address
-    mov.w   .L_wpool_060413EE, r0                      ! r0 = 0x0348 (event channel flag offset)
+    mov.w   .L_evt_channel_flag_offset, r0                      ! r0 = 0x0348 (event channel flag offset)
     mov.l @(r0, r3), r0                                ! r0 = state[+0x348] (event active flag)
     tst r0, r0                                         ! is event channel free (zero)?
     bt      .L_channel_free                            ! yes -> register the event
@@ -73,7 +73,7 @@ error_trap_handler:
 .L_channel_free:
     mov.l @r14, r3                                     ! r3 = state base address
     mov #0x1, r2                                       ! r2 = 1 (active flag value)
-    mov.w   .L_wpool_060413EE, r0                      ! r0 = 0x0348 (event channel flag offset)
+    mov.w   .L_evt_channel_flag_offset, r0                      ! r0 = 0x0348 (event channel flag offset)
     mov.l r2, @(r0, r3)                                ! state[+0x348] = 1 (mark channel active)
     mov.l @r14, r3                                     ! r3 = state base address
     add #0x4, r0                                       ! r0 = 0x034C (param 1 offset)
@@ -94,8 +94,8 @@ error_trap_handler:
     lds.l @r15+, pr                                    ! restore return address
     rts                                                ! return 0
     mov.l @r15+, r14                                   ! restore r14 (delay slot)
-.L_wpool_060413EE:
-    .2byte  0x0348
+.L_evt_channel_flag_offset:
+    .2byte  0x0348                                         /* [HIGH] offset to event channel active flag in state struct */
     .4byte  ai_recovery_handler
 .L_pool_state_base_ptr:
     .4byte  sym_060A5400

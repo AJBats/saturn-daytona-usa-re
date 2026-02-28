@@ -35,7 +35,7 @@ transition_small_d:
     .byte   0xD3, 0x07    /* mov.l .L_pool_fn_sound_cmd, r3 */
     jsr @r3                                  ! sound_cmd_dispatch(0, 0xAB110DFF)
     mov #0x0, r4                             ! r4 = 0 (channel arg, delay slot)
-    mov.w   .L_wpool_0600FE26, r2            ! r2 = 0x00B4 (180 frames = 3 sec)
+    mov.w   .L_wpool_countdown_reset, r2            ! r2 = 0x00B4 (180 frames = 3 sec)
     mov.l r2, @r14                           ! reset countdown timer to 180
     mov #0xF, r3                             ! r3 = 0x0F (next game state)
     .byte   0xD2, 0x05    /* mov.l .L_pool_game_state, r2 */
@@ -44,13 +44,13 @@ transition_small_d:
     lds.l @r15+, pr                          ! restore return address
     rts                                      ! return
     mov.l @r15+, r14                         ! restore r14 (delay slot)
-.L_wpool_0600FE26:
-    .2byte  0x00B4                           /* countdown reset value: 180 frames */
+.L_wpool_countdown_reset:
+    .2byte  0x00B4                           /* [HIGH] countdown reset value: 180 frames */
 .L_pool_countdown_ptr:
-    .4byte  sym_0607EBCC                     /* &state countdown timer (dword) */
+    .4byte  sym_0607EBCC                     /* [HIGH] &state countdown timer (dword) */
 .L_pool_sound_id:
-    .4byte  0xAB110DFF                       /* sound ID: transition-end sound */
+    .4byte  0xAB110DFF                       /* [MEDIUM] sound ID: transition-end sound */
 .L_pool_fn_sound_cmd:
-    .4byte  sound_cmd_dispatch               /* sound command dispatcher function */
+    .4byte  sound_cmd_dispatch               /* [HIGH] sound command dispatcher function */
 .L_pool_game_state:
-    .4byte  sym_0607887F                     /* &game state byte */
+    .4byte  sym_0607887F                     /* [HIGH] &game state byte */

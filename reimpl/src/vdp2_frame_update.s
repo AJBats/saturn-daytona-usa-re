@@ -82,7 +82,7 @@ vdp2_frame_update:
     add #0x20, r3                       ! advance by 32 bytes (1 VDP1 command)
     mov.l r3, @r14                      ! store updated write pointer
     mov r3, r5                          ! r5 = next dest cmd slot
-    mov.w   .L_wpool_060172A0, r4       ! r4 = 0x0090 (offset for layer 5)
+    mov.w   .L_wpool_scroll_layer5_offset, r4       ! r4 = 0x0090 (offset for layer 5)
     jsr @r12                            ! call VDP1 cmd builder
     add r11, r4                         ! r4 = scroll_data_base + 0x90 (delay slot)
     mov r11, r4                         ! r4 = scroll_data_base (will add offset below)
@@ -163,8 +163,8 @@ vdp2_frame_update:
     .global DAT_0601729e
 DAT_0601729e:
     .2byte  0x00A8                      ! offset 0xA8 into scroll data table (layer 6)
-.L_wpool_060172A0:
-    .2byte  0x0090                      ! offset 0x90 into scroll data table (layer 5)
+.L_wpool_scroll_layer5_offset:
+    .2byte  0x0090                      /* [HIGH] offset 0x90 into scroll data table (layer 5) */
     .2byte  0xFFFF                      ! padding
 .L_pool_scroll_data_base:
     .4byte  sym_06085490                ! scroll data table base (per-layer entries)

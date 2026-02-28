@@ -17,7 +17,7 @@
  *   r4  = overflow-was-pending flag (0=no, 1=yes)
  *   r5  = &sym_0605A1C0 (DMA render budget counter, 16-bit word)
  *
- * Pool entries between .L_wpool_06007DA0 and the code at .L_ovf_retry
+ * Pool entries between .L_wpool_ovf_bitmask and the code at .L_ovf_retry
  * belong to the preceding TU (dma_queue_mgr) and are not referenced
  * by this function.
  *
@@ -34,14 +34,14 @@ dma_queue_commit:
     mov.l r13, @-r15                    ! save r13 on stack
     mov.l r12, @-r15                    ! save r12 on stack
     mov #0x1, r12                       ! r12 = 1 (constant: "overflow was pending" flag)
-    mov.w   .L_wpool_06007D9E, r13      ! r13 = 0xFFFFFE11 (SH2_FTCSR address)
-    mov.w   .L_wpool_06007DA0, r14      ! r14 = 0x0080 (OVF bitmask, bit 7)
+    mov.w   .L_wpool_ftcsr_addr, r13      ! r13 = 0xFFFFFE11 (SH2_FTCSR address)
+    mov.w   .L_wpool_ovf_bitmask, r14      ! r14 = 0x0080 (OVF bitmask, bit 7)
     bra     .L_ovf_poll                 ! jump to overflow poll loop
     mov #0x0, r4                        ! r4 = 0 (overflow not yet seen) [delay slot]
-.L_wpool_06007D9E:
-    .2byte  0xFE11
-.L_wpool_06007DA0:
-    .2byte  0x0080
+.L_wpool_ftcsr_addr:
+    .2byte  0xFE11                          /* [HIGH] SH2_FTCSR low 16 bits (0xFFFFFE11) — FRT control/status register */
+.L_wpool_ovf_bitmask:
+    .2byte  0x0080                          /* [HIGH] OVF bitmask — bit 7 of FTCSR (timer overflow flag) */
     .2byte  0xFFFF
     .4byte  sym_060281B8
     .4byte  sym_0606A4F8

@@ -10,7 +10,7 @@
     .type queue_helper, @function
 queue_helper:
     sts.l pr, @-r15
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_060411FC, r3 */
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_game_state_ptr, r3 */
     mov.l @r3, r3
     mov.l @(56, r3), r2
     cmp/eq r5, r2
