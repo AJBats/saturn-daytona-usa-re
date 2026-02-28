@@ -5897,7 +5897,7 @@ sym_0604996C:
     .global sym_06049AEC
 sym_06049AEC:
     ! NOT a pointer — bytes are VDP2 tile coordinates read individually by
-    ! course_select_draw / course_select_render / car_select_state. Relocating as .4byte
+    ! course_select_draw / mode_select_handler / car_select_state. Relocating as .4byte
     ! changes the lower bytes and breaks SATURN MODE rendering in free build.
     ! Original value 0x0606060A coincidentally matches loc_0606060A address.
     .byte 0x06, 0x06, 0x06, 0x0A

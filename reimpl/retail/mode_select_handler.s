@@ -1,7 +1,7 @@
     .section .text.FUN_060196B0
-    .global course_select_render
-    .type course_select_render, @function
-course_select_render:
+    .global mode_select_handler
+    .type mode_select_handler, @function
+mode_select_handler:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4
     .byte 0xDA, 0x2C
