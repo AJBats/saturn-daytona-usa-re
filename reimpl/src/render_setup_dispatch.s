@@ -45,7 +45,7 @@ render_setup_dispatch:
     and r3, r2                               ! isolate start button bit
     tst r2, r2                               ! start button pressed?
     bt      .L_tail_dispatch                 ! no: skip init, go to dispatch
-    mov.l   _pool_input_struct_ptr, r3       ! r3 = &input_struct base (sym_06063D98)
+    mov.l   _pool_input_struct_ptr, r3       ! r3 = &input_struct base (g_pad_state)
     mov.w @r3, r2                            ! r2 = input word at struct base (16-bit)
     mov.l   _pool_combo_value_a, r3          ! r3 = 0x0000AAA8 (button combo A)
     extu.w r2, r2                            ! zero-extend input word to 32-bit
@@ -115,7 +115,7 @@ _pool_dma_pending_flag:
 _pool_button_state_ptr:
     .4byte  sym_06063D9A                     ! -> button state word (16-bit)
 _pool_input_struct_ptr:
-    .4byte  sym_06063D98                     ! -> input struct base (16-bit word at +0)
+    .4byte  g_pad_state                     ! -> input struct base (16-bit word at +0)
 _pool_combo_value_a:
     .4byte  0x0000AAA8                       ! button combo A constant
 _pool_overlay_flags_ptr:

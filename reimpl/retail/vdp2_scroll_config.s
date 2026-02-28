@@ -124,7 +124,7 @@ DAT_060183f2:
     .4byte sym_06085FC0
     .4byte sym_0605BE34
     .4byte sym_0605BE33
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0605BE30
     .4byte sym_0605DE3C
     .4byte sym_0605A010

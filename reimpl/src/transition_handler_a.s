@@ -19,7 +19,7 @@
  *   (none -- reads global state)
  *
  * Globals:
- *   sym_06063D98 = input/button state struct (+2 = button flags word,
+ *   g_pad_state = input/button state struct (+2 = button flags word,
  *                  +6 = input mode/type word)
  *   sym_06085FF4 = 2-player mode flag (byte; 0 = 1P, nonzero = 2P)
  *   sym_06063750 = display config table (used by embedded data block)
@@ -40,7 +40,7 @@ transition_handler_a:
     add #-0x4, r15              ! allocate 4 bytes on stack
 
     /* --- load input state struct pointer and read button flags --- */
-    mov.l   .L_pool_input_state, r3 ! r3 = &input_state struct (sym_06063D98)
+    mov.l   .L_pool_input_state, r3 ! r3 = &input_state struct (g_pad_state)
     mov.l r3, @r15              ! save input_state ptr on stack
     mov r3, r14                 ! r14 = &input_state
     add #0x2, r14               ! r14 = &input_state + 2 (button flags field)
@@ -76,7 +76,7 @@ transition_handler_a:
     .4byte  sym_0607EBCC        /* state countdown timer (dword) */
     .4byte  sym_0607887F        /* game state byte */
 .L_pool_input_state:
-    .4byte  sym_06063D98        /* &input/button state struct */
+    .4byte  g_pad_state        /* &input/button state struct */
 .L_pool_anim_ui_fn:
     .4byte  anim_ui_transition  /* UI transition animation function */
 .L_pool_hud_course_fn:
@@ -97,7 +97,7 @@ transition_handler_a:
     mov.b @r0, r0               ! r0 = 2p_mode_flag byte
     tst r0, r0                  ! is 2-player mode off?
     bt      .L_epilogue         ! if 1P mode, skip camera flip update
-    .byte   0xD4, 0x13    /* mov.l .L_pool_0600F850, r4 */  ! r4 = &input_state (sym_06063D98)
+    .byte   0xD4, 0x13    /* mov.l .L_pool_0600F850, r4 */  ! r4 = &input_state (g_pad_state)
     .byte   0x92, 0x21    /* mov.w .L_wpool_0600F848, r2 */  ! r2 = 0x0800 (button bit mask)
     mov.w @r4, r4               ! r4 = input button word
     extu.w r4, r4               ! zero-extend to 32 bits

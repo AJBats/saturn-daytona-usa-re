@@ -23,7 +23,7 @@
  *    Tail-calls external function (BRA encoding, offset beyond TU range).
  *
  *    Key data:
- *      sym_06063D98  = input button state struct
+ *      g_pad_state  = input button state struct
  *                       +0 = held buttons (16-bit word)
  *                       +2 = newly pressed buttons (16-bit word)
  *      sym_0605AD04  = grid slot counter (32-bit, clamped to [0..4])
@@ -46,7 +46,7 @@ grid_position_camera:
     mov.l r14, @-r15                        ! save r14 (callee-saved)
     mov.l r13, @-r15                        ! save r13 (callee-saved)
     mov.l r12, @-r15                        ! save r12 (callee-saved)
-    mov.l   .L_pool_input_state, r13        ! r13 = &input_state (sym_06063D98)
+    mov.l   .L_pool_input_state, r13        ! r13 = &input_state (g_pad_state)
     mov.l   .L_pool_slot_counter, r14       ! r14 = &grid_slot_counter (sym_0605AD04)
     mov.w @r13, r0                          ! r0 = held buttons (16-bit, offset +0)
     extu.w r0, r0                           ! r0 = zero-extended held buttons
@@ -137,7 +137,7 @@ grid_position_camera:
 .L_down_btn_mask:
     .2byte  0x4000                          /* Down button bit mask (bit 14) */
 .L_pool_input_state:
-    .4byte  sym_06063D98                    /* &input_state (+0=held, +2=newly pressed) */
+    .4byte  g_pad_state                    /* &input_state (+0=held, +2=newly pressed) */
 .L_pool_slot_counter:
     .4byte  sym_0605AD04                    /* &grid_slot_counter (32-bit) */
 .L_up_btn_mask:

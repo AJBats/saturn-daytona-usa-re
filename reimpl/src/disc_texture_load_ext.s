@@ -10,7 +10,7 @@
  * Flow:
  *   1. Copy 4 parameter blocks from ROM (sym_0605DFxx) into stack locals
  *      using memcpy_byte and memcpy_long helpers.
- *   2. Read CD status flags (sym_06063D98+2) to decide scroll direction:
+ *   2. Read CD status flags (g_pad_state+2) to decide scroll direction:
  *      - Bit 14 set: decrement scroll parameter at [disc_type + scroll_base]
  *      - Bit 15 set: increment scroll parameter, wrapping at max
  *   3. Loop 1 (slots 0x30..0x32): For each car slot, compute a VDP1
@@ -21,7 +21,7 @@
  *
  * Key symbols:
  *   sym_06063750  — car object table base (per-car struct array)
- *   sym_06063D98  — CD block status / texture scroll flags (word at +2)
+ *   g_pad_state  — CD block status / texture scroll flags (word at +2)
  *   sym_0608600E  — disc type flag (byte): 2 = game disc
  *   sym_0605D4F4  — scroll parameter A (byte, per-slot index)
  *   sym_0605D4F5  — scroll parameter B (byte, per-slot index)
@@ -126,7 +126,7 @@ DAT_0601b87e:
 .L_tex_param_src_d:
     .4byte  sym_0605DF37
 .L_cd_status_base:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 .L_disc_type_flag:
     .4byte  sym_0608600E
 .L_scroll_param_a:

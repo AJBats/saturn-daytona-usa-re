@@ -53,7 +53,7 @@ state_time_extend_active:
     .4byte sym_0605B6D8
     .4byte sym_0607ED8C
     .4byte sym_06078649
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0605AB18
     .4byte menu_overlay_render
     .4byte sym_0607864A

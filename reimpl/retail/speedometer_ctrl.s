@@ -92,4 +92,4 @@ DAT_0601038e:
     .4byte sym_0605AB18
     .4byte sym_06085FF4
     .4byte sym_0605AD00
-    .4byte sym_06063D98
+    .4byte g_pad_state

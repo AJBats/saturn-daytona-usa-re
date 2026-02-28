@@ -89,7 +89,7 @@ transition_large_menu:
 .L_fn_scroll_setup:
     .4byte  sym_0601209E                    /* scroll/display setup helper */
 .L_status_word:
-    .4byte  sym_06063D98                    /* game status word (16-bit array) */
+    .4byte  g_pad_state                    /* game status word (16-bit array) */
 .L_extended_layout:                        /* --- extended tile layout --- */
     mov #0x28, r14                 ! extended: tile index A = 0x28
     mov #0x27, r13                 ! extended: tile index B = 0x27

@@ -155,7 +155,7 @@ DAT_060303b6:
 .L_btn_mask_detail_0:
     .4byte  sym_06081890               ! mask: direct detail 0 select
 .L_input_state_b:
-    .4byte  sym_06063D98               ! button state word B
+    .4byte  g_pad_state               ! button state word B
 .L_btn_mask_near_scroll:
     .4byte  sym_0608188C               ! mask: near scroll trigger
 .L_no_near_scroll:                     ! near scroll not pressed => decay

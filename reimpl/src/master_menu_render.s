@@ -9,8 +9,8 @@
  * Functions:
  *   scene_state_process    - Top-level scene setup: SMPC DDR init, display
  *                            dispatch, stride calculation per display mode
- *   display_list_manage    - Input polling via SMPC SR, frame counter mgmt,
- *                            display list pointer swap chain (5-way rotate)
+ *   smpc_data_manage       - Input polling via SMPC SR, frame counter mgmt,
+ *                            peripheral data buffer swap chain (5-way rotate)
  *   master_menu_render     - Main render loop: SR interrupt mask, state
  *                            machine (periph read / input parse / display
  *                            list walk), SMPC IREG0 command issue
@@ -26,7 +26,7 @@
  *   menu_anim_system       - Fills animation data buffer per display mode
  *   sym_0603AB46           - Stores a character byte into the render table
  *                            at mode-dependent offset
- *   sym_0603A72C           - SMPC INTBACK command sender: polls SF, writes
+ *   smpc_intback_send           - SMPC INTBACK command sender: polls SF, writes
  *                            IREG0-2 port config, triggers INTBACK (0x10)
  *
  * Display modes: 0x00 (6-byte stride), 0x10 (10-byte), 0x20 (10-byte),
@@ -154,7 +154,7 @@ scene_state_process:
 .L_smpc_done_flag:
     .4byte  sym_060A4CA8
 .L_fn_smpc_send:
-    .4byte  sym_0603A72C
+    .4byte  smpc_intback_send
 .L_state_clear_flag:
     .4byte  sym_060A4CD8
 .L_scene_state_dispatch:
@@ -428,7 +428,7 @@ scene_state_process:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    bra     sym_0603A72C
+    bra     smpc_intback_send
     mov.l @r15+, r14
 
     .global DAT_060397f4
@@ -450,9 +450,9 @@ DAT_060397f8:
 .L_display_alt_ptr:
     .4byte  sym_060A4CC4
 
-    .global display_list_manage
-    .type display_list_manage, @function
-display_list_manage:
+    .global smpc_data_manage
+    .type smpc_data_manage, @function
+smpc_data_manage:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
@@ -583,7 +583,7 @@ display_list_manage:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    bra     sym_0603A72C
+    bra     smpc_intback_send
     mov.l @r15+, r14
 .L_return_early:
     add #0x4, r15
@@ -2526,8 +2526,8 @@ DAT_0603a6fe:
 .L_reset_ireg_config:
     .4byte  sym_060A4CA9
 
-    .global sym_0603A72C
-sym_0603A72C:
+    .global smpc_intback_send
+smpc_intback_send:
     mov.l   .L_smpc_sf, r5
     mov #0x1, r4
     mov.b @r5, r3

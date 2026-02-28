@@ -86,7 +86,7 @@ grid_position_camera:
     .byte 0xAF, 0x0E
     .byte 0x6E, 0xF6
     .byte 0x40, 0x00
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0605AD04
     .byte 0x00, 0x00
     .byte 0x80, 0x00

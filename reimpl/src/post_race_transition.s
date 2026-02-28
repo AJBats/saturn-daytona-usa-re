@@ -142,7 +142,7 @@ post_race_transition:
 .L_fn_hud_course:
     .4byte  hud_course_render          /* course HUD element renderer */
 .L_status_word:
-    .4byte  sym_06063D98               /* game status word (16-bit array) */
+    .4byte  g_pad_state               /* game status word (16-bit array) */
 .L_0600F724:                              /* --- extended layout --- */
     mov #0x29, r10                    /* extended: tile index A = 0x29 */
     mov #0x26, r12                    /* extended: tile index B = 0x26 */

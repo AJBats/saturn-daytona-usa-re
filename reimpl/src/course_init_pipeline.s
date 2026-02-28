@@ -3,7 +3,7 @@
  *
  * Processes D-pad and button input on the course selection screen.
  * Reads gamepad edge-triggered and held button state from the input
- * structure at sym_06063D98, then increments or decrements the course
+ * structure at g_pad_state, then increments or decrements the course
  * index (byte at sym_0605D24C). Clamps the index to [0, 0x31] and
  * resets it to 0 on any action-button press (bits 7:3 of button word).
  *
@@ -29,7 +29,7 @@
  *
  * Persistent registers:
  *   r11 = geometry render dispatch (sym_060283E0)
- *   r12 = &input structure (sym_06063D98)
+ *   r12 = &input structure (g_pad_state)
  *   r13 = zero constant (used for clearing bytes)
  *   r14 = &course index byte (sym_0605D24C)
  *
@@ -47,7 +47,7 @@ course_init_pipeline:
     mov.l r12, @-r15                     ! save r12
     mov.l r11, @-r15                     ! save r11
     sts.l pr, @-r15                      ! save PR
-    mov.l   .L_ptr_input_struct, r12     ! r12 -> &input struct (sym_06063D98)
+    mov.l   .L_ptr_input_struct, r12     ! r12 -> &input struct (g_pad_state)
     mov.l   .L_ptr_course_index, r14     ! r14 -> &course_index byte
     mov.l   .L_fp_half, r5              ! r5 = 0x8000 (D-pad right bit mask)
     mov.l   .L_ptr_course_confirm, r4   ! r4 -> &course_confirm byte
@@ -100,7 +100,7 @@ DAT_0601a9a4:
     .2byte  0x4000
     .2byte  0xFFFF
 .L_ptr_input_struct:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 .L_ptr_course_index:
     .4byte  sym_0605D24C
 .L_fp_half:

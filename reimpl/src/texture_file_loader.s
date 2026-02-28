@@ -3,7 +3,7 @@
  *
  * Texture file selection driven by button input.
  *
- * Reads button flags from the input state struct (sym_06063D98+2) and
+ * Reads button flags from the input state struct (g_pad_state+2) and
  * adjusts a texture file index stored at sym_0605D4FA:
  *
  *   - Bits 8-11 (0x0F00) set: clear course state flag (sym_0608600D = 0)
@@ -22,7 +22,7 @@
  * Key symbols:
  *   sym_0605D4F4  — scroll parameter base (A at +0, B at +1)
  *   sym_0605D4FA  — texture file index / course state flag A
- *   sym_06063D98  — input button state struct (+2 = button flags word)
+ *   g_pad_state  — input button state struct (+2 = button flags word)
  *   sym_0608600D  — course state flag B (cleared on abort)
  */
 
@@ -36,7 +36,7 @@ texture_file_loader:
     mov.l r13, @-r15                            ! save r13
     mov.l   .L_ptr_scroll_param_base, r13       ! r13 = &scroll_param_base (sym_0605D4F4)
     mov.l   .L_ptr_file_index, r14              ! r14 = &file_index (sym_0605D4FA)
-    mov.l   .L_ptr_input_state, r4              ! r4 = &input_state struct (sym_06063D98)
+    mov.l   .L_ptr_input_state, r4              ! r4 = &input_state struct (g_pad_state)
     mov.w   .L_mask_dpad_bits, r2               ! r2 = 0x0F00 (D-pad / abort button mask)
     mov.w @(2, r4), r0                          ! r0 = button flags word (struct+2)
     mov r0, r3                                  ! r3 = flags copy
@@ -113,6 +113,6 @@ texture_file_loader:
 .L_ptr_file_index:
     .4byte  sym_0605D4FA                        /* texture file index / course state A */
 .L_ptr_input_state:
-    .4byte  sym_06063D98                        /* input button state struct (+2=flags) */
+    .4byte  g_pad_state                        /* input button state struct (+2=flags) */
 .L_ptr_course_state_b:
     .4byte  sym_0608600D                        /* course state flag B (cleared on abort) */

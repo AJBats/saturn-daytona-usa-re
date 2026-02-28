@@ -219,7 +219,7 @@ hud_elem_render:
     .byte 0x40, 0x00
     .byte 0x02, 0x00
     .4byte sym_06085F8E
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_06085F8B
     .4byte sym_06085F8D
     .byte 0x00, 0x00

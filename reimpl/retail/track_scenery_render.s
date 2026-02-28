@@ -115,7 +115,7 @@ track_scenery_render:
     .byte 0x00, 0xB8
     .byte 0x00, 0xA0
     .4byte sym_06081890
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0608188C
     .byte 0x93, 0x07
     .byte 0xE2, 0xB0

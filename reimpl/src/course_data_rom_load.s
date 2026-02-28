@@ -4,7 +4,7 @@
  *
  * Handles D-pad input on the course data selection screen to cycle
  * through ROM course data entries. Reads edge-triggered and held
- * button state from the input structure at sym_06063D98:
+ * button state from the input structure at g_pad_state:
  *   - offset +0: currently-held buttons (16-bit)
  *   - offset +2: edge-triggered (new press) buttons (16-bit)
  *
@@ -30,7 +30,7 @@
  * Persistent registers:
  *   r11 = geom_render_dispatch (sym_060283E0)
  *   r12 = 0 constant (used for clearing / resetting)
- *   r13 = &input structure (sym_06063D98)
+ *   r13 = &input structure (g_pad_state)
  *   r14 = &course ROM index (sym_0605D248)
  *
  * Called from: course selection screen update
@@ -49,7 +49,7 @@ course_data_rom_load:
     mov.l r11, @-r15                    ! save r11
     sts.l pr, @-r15                     ! save PR (return address)
     add #-0x4, r15                      ! allocate 4 bytes on stack (local var)
-    mov.l   .L_pool_input_struct, r13   ! r13 = &input structure (sym_06063D98)
+    mov.l   .L_pool_input_struct, r13   ! r13 = &input structure (g_pad_state)
     mov.l   .L_pool_course_index, r14   ! r14 = &course ROM index (sym_0605D248)
     mov.l   .L_pool_dpad_right_mask, r6 ! r6 = 0x8000 (D-pad right bit)
     mov.l   .L_pool_confirm_flag, r4    ! r4 = &course confirm flag (sym_0605D243)
@@ -101,7 +101,7 @@ course_data_rom_load:
 DAT_0601a872:
     .2byte  0x4000
 .L_pool_input_struct:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 .L_pool_course_index:
     .4byte  sym_0605D248
 .L_pool_dpad_right_mask:

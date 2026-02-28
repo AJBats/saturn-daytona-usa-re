@@ -24,7 +24,7 @@
  *   sym_06084B18 = active car count (32-bit, max 3)
  *   sym_06084B14 = variant char buffer (3 bytes, one per active car)
  *   sym_06084B20 = current variant code (read from lookup table)
- *   sym_06063D98 = input/button state struct (+2 = button flags word)
+ *   g_pad_state = input/button state struct (+2 = button flags word)
  *   sym_06084B08 = car slot index
  *   sym_0605B0FC = per-character sound lookup table (indexed by char - 0x41)
  *
@@ -47,7 +47,7 @@ adv_collision_resp:
     sts.l pr, @-r15                     ! save return address
     mov.l   .L_pool_sound_dispatch, r12 ! r12 = sound_cmd_dispatch function ptr
     mov.l   .L_pool_car_count_ptr, r14  ! r14 = &active_car_count (sym_06084B18)
-    mov.l   .L_pool_input_state_ptr, r4 ! r4 = &input_state struct (sym_06063D98)
+    mov.l   .L_pool_input_state_ptr, r4 ! r4 = &input_state struct (g_pad_state)
     mov.w   DAT_06014682, r2            ! r2 = 0x0700 (button mask: bits 8-10)
     mov.w @(2, r4), r0                  ! r0 = input_state[+2] (button flags word)
     mov r0, r3                          ! r3 = button flags (copy)
@@ -157,7 +157,7 @@ DAT_06014682:
 .L_pool_car_count_ptr:
     .4byte  sym_06084B18                /* &active_car_count (32-bit int) */
 .L_pool_input_state_ptr:
-    .4byte  sym_06063D98                /* &input_state struct (+2 = button flags) */
+    .4byte  g_pad_state                /* &input_state struct (+2 = button flags) */
 .L_pool_variant_buf_ptr:
     .4byte  sym_06084B14                /* &variant_char_buffer (3 bytes) */
 .L_pool_variant_code_ptr:

@@ -51,7 +51,7 @@ transition_large_menu:
     .byte 0x04, 0x60
     .4byte memcpy_word_idx
     .4byte sym_0601209E
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .byte 0xEE, 0x28
     .byte 0xED, 0x27
     .byte 0xDB, 0x35

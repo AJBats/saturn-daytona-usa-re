@@ -99,7 +99,7 @@ state_time_extend_active:
 .L_time_value_byte:
     .4byte  sym_06078649               /* time extend value (byte, 0-99) */
 .L_input_data:
-    .4byte  sym_06063D98               /* input data (pressed + held) */
+    .4byte  g_pad_state               /* input data (pressed + held) */
 .L_overlay_active:
     .4byte  sym_0605AB18               /* overlay active flag (byte) */
 .L_fn_menu_overlay:

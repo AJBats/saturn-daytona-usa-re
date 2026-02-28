@@ -69,7 +69,7 @@ vdp2_scroll_config:
     mov #0x1, r7                    ! r7 = 1 (active/true constant)
     extu.b r7, r2                   ! r2 = 1 (zero-extended)
     mov.b r2, @r4                   ! scroll_active = 1
-    mov.l   .L_vdp2_scroll_reg_src, r0 ! r0 = &vdp2_scroll_source (sym_06063D98)
+    mov.l   .L_vdp2_scroll_reg_src, r0 ! r0 = &vdp2_scroll_source (g_pad_state)
     mov.l   .L_scroll_config_reg, r3   ! r3 = &scroll_config (sym_0605BE30)
     mov.w @r0, r0                   ! r0 = vdp2 source register value
     mov.w @r3, r3                   ! r3 = current scroll config value
@@ -169,7 +169,7 @@ DAT_060183f2:
 .L_scroll_active_flag:
     .4byte  sym_0605BE33                /* scroll active flag (byte) */
 .L_vdp2_scroll_reg_src:
-    .4byte  sym_06063D98                /* VDP2 scroll direction source register */
+    .4byte  g_pad_state                /* VDP2 scroll direction source register */
 .L_scroll_config_reg:
     .4byte  sym_0605BE30                /* scroll config register (16-bit) */
 .L_direction_flag_ptr:

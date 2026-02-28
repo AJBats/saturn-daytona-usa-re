@@ -268,7 +268,7 @@ hud_elem_render:                                ! r9=config_byte, r12=status_fla
 .L_hud_config_byte_r:
     .4byte  sym_06085F8E
 .L_game_status_flags:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 .L_hud_anim_state_r:
     .4byte  sym_06085F8B
 .L_hud_anim_step_r:

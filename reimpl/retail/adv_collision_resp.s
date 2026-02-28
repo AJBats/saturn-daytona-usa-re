@@ -108,7 +108,7 @@ DAT_06014682:
     .byte 0xFF, 0xFF
     .4byte sound_cmd_dispatch
     .4byte sym_06084B18
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_06084B14
     .4byte sym_06084B20
     .byte 0xAB, 0x11

@@ -93,7 +93,7 @@ DAT_0601cb48:
 .L_frame_counter:
     .4byte  sym_0608601C                    /* frame countdown for render cycle */
 .L_game_status_flags:
-    .4byte  sym_06063D98                    /* game status word (bit 0x0800) */
+    .4byte  g_pad_state                    /* game status word (bit 0x0800) */
 .L_fn_render_proc_a:
     .4byte  sym_060358EC                    /* render setup / parameter load */
 .L_vdp2_cfg_mode_a:

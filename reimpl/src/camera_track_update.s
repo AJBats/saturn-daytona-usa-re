@@ -17,7 +17,7 @@
  *
  * Key state variables:
  *   sym_06084B08 = car slot index (32-bit)
- *   sym_06063D98 = held button state (16-bit word)
+ *   g_pad_state = held button state (16-bit word)
  *   sym_0607EBC8 = frame counter (32-bit, low 2 bits used for debounce)
  *   sym_06084B18 = active car count (32-bit)
  *   sym_0605AD2C = car variant lookup table base (byte array, indexed by slot)
@@ -111,7 +111,7 @@ DAT_06014594:
 .L_ptr_car_slot:
     .4byte  sym_06084B08
 .L_ptr_button_state:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 .L_ptr_frame_counter:
     .4byte  sym_0607EBC8
 .L_mask_up_button:

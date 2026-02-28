@@ -19,7 +19,7 @@
  * (bit 0x0800), set start_pressed_flag, then tail-call dispatch via status[+2].
  *
  * Persistent registers:
- *   r11 = game status base (sym_06063D98)
+ *   r11 = game status base (g_pad_state)
  *   r10 = car name Y offset (0x0090)
  *   r12 = car name X offset (0x07A2)
  *   r13 = text_render function (sym_060284AE)
@@ -145,7 +145,7 @@ transition_large_results:
     .2byte  0x0720                 ! car name row B X position
     .2byte  0xFFFF                 ! alignment padding
 .L_game_status_base:                   ! --- constant pool (32-bit) ---
-    .4byte  sym_06063D98           ! game status struct base pointer
+    .4byte  g_pad_state           ! game status struct base pointer
 .L_fn_graphics_mode:
     .4byte  graphics_mode_setup    ! graphics mode configuration function
 .L_fn_dual_hud_dispatch:

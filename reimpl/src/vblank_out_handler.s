@@ -12,7 +12,7 @@
  * Responsibilities:
  *   1. Increment the VBlank-OUT counter (sym_06059F44)
  *   2. Set the phase flag to 3 — "VBlank-OUT started" (sym_06059F54)
- *   3. Call viewport_coord_calc — display list processing / VDP2 updates
+ *   3. Call controller_input_update — display list processing / VDP2 updates
  *   4. Adaptive frame timing: compare the OUT count against the per-state
  *      target byte in sym_06059F58[game_state].  The game state index comes
  *      from sym_0605AD10.  When count < target the swap is skipped entirely.
@@ -33,7 +33,7 @@
  * Pool constants:
  *   .L_pool_vblank_out_ctr  -> sym_06059F44  (VBlank-OUT counter, long)
  *   .L_pool_phase_flag      -> sym_06059F54  (phase flag, long)
- *   .L_pool_viewport_calc   -> viewport_coord_calc
+ *   .L_pool_viewport_calc   -> controller_input_update
  *   .L_pool_game_state      -> sym_0605AD10  (current game state index, long)
  *   .L_pool_frame_targets   -> sym_06059F58  (per-state frame target table, byte[])
  *   .L_pool_display_mode    -> sym_06063F58  (display/VDP mode state, long)
@@ -57,8 +57,8 @@ vblank_out_handler:
     mov #0x3, r3                       ! r3 = 3 (phase = VBlank-OUT started)
     mov.l   .L_pool_phase_flag, r2     ! r2 = &phase_flag (sym_06059F54)
     mov.l r3, @r2                      ! phase_flag = 3
-    mov.l   .L_pool_viewport_calc, r3  ! r3 = viewport_coord_calc function ptr
-    jsr @r3                            ! call viewport_coord_calc() — display list / VDP2 updates
+    mov.l   .L_pool_viewport_calc, r3  ! r3 = controller_input_update function ptr
+    jsr @r3                            ! call controller_input_update() — display list / VDP2 updates
     nop                                ! [delay slot]
     mov.l   .L_pool_game_state, r2     ! r2 = &game_state (sym_0605AD10)
     mov.l   .L_pool_frame_targets, r3  ! r3 = frame_target_table base (sym_06059F58)
@@ -99,7 +99,7 @@ vblank_out_handler:
 .L_pool_phase_flag:
     .4byte  sym_06059F54               ! VBlank phase flag (1=IN, 3=OUT-start, 4=OUT-end)
 .L_pool_viewport_calc:
-    .4byte  viewport_coord_calc        ! display list processing / VDP2 update function
+    .4byte  controller_input_update        ! display list processing / VDP2 update function
 .L_pool_game_state:
     .4byte  sym_0605AD10               ! current game state index (long)
 .L_pool_frame_targets:

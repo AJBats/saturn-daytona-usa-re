@@ -8,7 +8,7 @@
  * Steps:
  *   1. Allocate 8 bytes on stack; copy 4 bytes from sym_0605F526 (pool
  *      data table) into stack+4 using memcpy_byte.
- *   2. Read button flags word at sym_06063D98+2.
+ *   2. Read button flags word at g_pad_state+2.
  *      - Bit 0x8000 set (e.g. up/right): increment lap_init_counter,
  *        clamped to max 0x19 (25 entries).
  *      - Bit 0x4000 set (e.g. down/left): decrement lap_init_counter,
@@ -34,7 +34,7 @@ obj_pool_dealloc:
     mov r15, r7                          ! r7 = stack base (dst for memcpy)
     mov r15, r1                          ! r1 = stack base (will become dst+4)
     mov.l   .L_pool_obj_data_src, r2     ! r2 = &pool_data_table (sym_0605F526)
-    mov.l   .L_pool_input_state, r6      ! r6 = &input_state struct (sym_06063D98)
+    mov.l   .L_pool_input_state, r6      ! r6 = &input_state struct (g_pad_state)
     mov.l   .L_pool_anim_state_a, r5     ! r5 = &anim_state_A (sym_06087826)
     mov.l   .L_pool_lap_counter, r4      ! r4 = &lap_init_counter (sym_06087825)
     mov.l   .L_pool_memcpy_byte, r3      ! r3 = memcpy_byte function (sym_06035228)
@@ -108,7 +108,7 @@ _not_complete:
 .L_wpool_mask_confirm:
     .2byte  0x0200                       /* bit 9: confirm/select button flag */
 .L_pool_input_state:
-    .4byte  sym_06063D98                 /* &input_state struct (+2 = button flags) */
+    .4byte  g_pad_state                 /* &input_state struct (+2 = button flags) */
 .L_pool_anim_state_a:
     .4byte  sym_06087826                 /* &anim_state_A byte (pool slot index) */
 .L_pool_lap_counter:

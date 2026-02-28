@@ -21,7 +21,7 @@
  *                 read frame sync byte, store if < 100.
  *        State 1: if CD status == 1 (pause), call cd_status_reader,
  *                 advance to state 2.
- *   4. Check button status word at sym_06063D98 for reset condition:
+ *   4. Check button status word at g_pad_state for reset condition:
  *        If new-press bits 0x0800 set AND held bits 0x0700 all set:
  *          -> Call state_timeext_setup (SCU interrupt reconfigure)
  *          -> If game state >= 6: call secret input handler, then
@@ -100,7 +100,7 @@ per_frame_update:
     mov #0x2, r2                        ! r2 = 2 (advance to state 2)
     mov.b r2, @r12                      ! frame_sync_state = 2
 .L_check_buttons:
-    .byte   0xD5, 0x16    /* mov.l .L_pool_button_status_ptr, r5 -- r5 = &button_status (sym_06063D98) */
+    .byte   0xD5, 0x16    /* mov.l .L_pool_button_status_ptr, r5 -- r5 = &button_status (g_pad_state) */
     mov.w   DAT_0600a460, r2            ! r2 = 0x0800 (new-press test mask)
     mov.w @(2, r5), r0                  ! r0 = button_status[+2] (new button presses)
     mov r0, r3                          ! r3 = new presses (signed)
@@ -153,7 +153,7 @@ DAT_0600a460:
 .L_pool_fn_cd_status_reader:
     .4byte  cd_status_reader            ! pool: CD status reader function (FUN_06012B58)
 .L_pool_button_status_ptr:
-    .4byte  sym_06063D98                ! pool: &button_status (held=+0, new_press=+2)
+    .4byte  g_pad_state                ! pool: &button_status (held=+0, new_press=+2)
 .L_pool_fn_obj_state_pack:
     .4byte  obj_state_pack              ! pool: state capture function (FUN_06020BCE)
 .L_pool_bios_reset_indirect_2:

@@ -74,7 +74,7 @@ obj_pool_dealloc:
     .byte 0x00, 0x09
     .byte 0x40, 0x00
     .byte 0x02, 0x00
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_06087826
     .4byte sym_06087825
     .4byte sym_0605F526

@@ -114,7 +114,7 @@ DAT_06012890:
     .4byte sym_06028400
     .4byte sym_06063750
     .4byte sym_060788F4
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0608188C
     .4byte sym_0607ED8C
     .byte 0x97, 0x65

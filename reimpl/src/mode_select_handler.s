@@ -14,7 +14,7 @@
  *
  * Input → State → Dispatch:
  *   1. Calls scene_dual_finalize()
- *   2. Reads button state at sym_06063D98+2:
+ *   2. Reads button state at g_pad_state+2:
  *      - Confirm (0x0100): transition to next screen
  *      - DOWN (0x2000): increment selection index (wraps 4 → 0)
  *      - UP (0x1000): decrement selection index (wraps -1 → 3)
@@ -42,7 +42,7 @@ mode_select_handler:
     mov.l   _pool_fn_scene_finalize, r3
     jsr @r3                                      ! call scene_dual_finalize()
     mov #0x1, r13                                ! (delay) r13 = 1
-    mov.l   _pool_button_state, r4               ! r4 -> button state struct (sym_06063D98)
+    mov.l   _pool_button_state, r4               ! r4 -> button state struct (g_pad_state)
     mov.w   _wpool_confirm_mask, r3              ! r3 = 0x0100 (confirm button mask)
     mov.w @(2, r4), r0                           ! r0 = button word at +2
     mov r0, r2
@@ -144,7 +144,7 @@ _pool_mode_select_idx:
 _pool_fn_scene_finalize:
     .4byte  scene_dual_finalize
 _pool_button_state:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 _pool_06049AF4:
     .4byte  sym_06049AF4
 _pool_06063750:

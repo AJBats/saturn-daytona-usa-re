@@ -75,7 +75,7 @@ DAT_06014594:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06084B08
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0607EBC8
     .byte 0x00, 0x00
     .byte 0x80, 0x00

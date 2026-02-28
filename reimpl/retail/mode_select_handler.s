@@ -100,7 +100,7 @@ DAT_06019762:
     .4byte sym_0605D242
     .4byte sym_0605D244
     .4byte scene_dual_finalize
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_06049AF4
     .4byte sym_06063750
     .4byte sym_06049AEC

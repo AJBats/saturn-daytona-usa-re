@@ -101,7 +101,7 @@ scene_state_process:
     .4byte sym_06000344
     .4byte sym_060A4CAA
     .4byte sym_060A4CA8
-    .4byte sym_0603A72C
+    .4byte smpc_intback_send
     .4byte sym_060A4CD8
     .byte 0x88, 0x00
     .byte 0x89, 0xBF
@@ -368,9 +368,9 @@ DAT_060397f8:
     .4byte display_channel_iter
     .4byte sym_060A4CC4
     .section .text.FUN_06039808
-    .global display_list_manage
-    .type display_list_manage, @function
-display_list_manage:
+    .global smpc_data_manage
+    .type smpc_data_manage, @function
+smpc_data_manage:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22
@@ -2241,8 +2241,8 @@ DAT_0603a6fe:
     .4byte sym_060A4CF0
     .4byte sym_060A4CF8
     .4byte sym_060A4CA9
-    .global sym_0603A72C
-sym_0603A72C:
+    .global smpc_intback_send
+smpc_intback_send:
     .byte 0xD5, 0x1B
     .byte 0xE4, 0x01
     .byte 0x63, 0x50

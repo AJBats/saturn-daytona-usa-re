@@ -14,7 +14,7 @@
  *   stack[+8..+10] = sym_0605DF20 (frame count table: 0x10, 0x10, 0x10)
  *   stack[+4..+6]  = sym_0605DF23 (texture slot table: 0x05, 0x12, 0x18)
  *
- * Reads input button state from sym_06063D98 (+2 = button flags word):
+ * Reads input button state from g_pad_state (+2 = button flags word):
  *   - Bit 12 (0x1000) pressed: decrement frame counter at sym_0608600E;
  *     if counter goes negative, wrap to r13 (=2).
  *   - Bit 13 (0x2000) pressed: increment frame counter at sym_0608600E;
@@ -39,7 +39,7 @@
  *   sym_0605DF20  = frame count table (3 bytes: per-car frame counts)
  *   sym_0605DF23  = texture slot table (3 bytes: per-car slot indices)
  *   sym_06035228  = memcpy_byte(r0=count, r1=dst, r2=src)
- *   sym_06063D98  = input button state struct (+2 = button flags word)
+ *   g_pad_state  = input button state struct (+2 = button flags word)
  *   sym_0605D4F8  = texture load state flags (word)
  *   sym_06063750  = car object table base (per-car struct, 8 bytes each)
  *   sym_06028400  = display_list_loader(r4=mode, r5=dlist_base, r6=src_offset, r7=tex_data)
@@ -66,7 +66,7 @@ anim_data_loader:
     add #0x4, r1                            ! r1 = sp+4 (dst for texture slot table)
     jsr @r3                                 ! call memcpy_byte(r0=3, r1=sp+4, r2=src)
     mov r10, r0                             ! r0 = 3 (byte count) (delay slot)
-    mov.l   _pool_input_state_ptr, r4       ! r4 -> input button state struct (sym_06063D98)
+    mov.l   _pool_input_state_ptr, r4       ! r4 -> input button state struct (g_pad_state)
     mov.w   DAT_0601b76c, r3                ! r3 = 0x1000 (button bit 12: anim frame down)
     mov.w @(2, r4), r0                      ! r0 = button_flags word (struct +2)
     mov r0, r2                              ! r2 = button_flags (copy)
@@ -141,7 +141,7 @@ _pool_memcpy_byte:
 _pool_tex_slot_table:
     .4byte  sym_0605DF23
 _pool_input_state_ptr:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 _pool_tex_load_state:
     .4byte  sym_0605D4F8
 .car_not_selected:

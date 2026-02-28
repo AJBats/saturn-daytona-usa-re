@@ -43,7 +43,7 @@ transition_small_a:
     mov.b r2, @r3                        ! game_state_byte = 3 (delay slot)
     .4byte  0x0800FFFF                   /* unreferenced pool data (padding) */
     .4byte  sym_06085FF4                 /* unreferenced pool: &2p_mode_flag */
-    .4byte  sym_06063D98                 /* unreferenced pool: &input_state */
+    .4byte  g_pad_state                 /* unreferenced pool: &input_state */
     .4byte  sym_06078663                 /* unreferenced pool data */
 .L_pool_sound_id:
     .4byte  0xAB1101FF                   /* sound ID: transition sound */

@@ -1,7 +1,7 @@
     .section .text.FUN_06005198
-    .global viewport_coord_calc
-    .type viewport_coord_calc, @function
-viewport_coord_calc:
+    .global controller_input_update
+    .type controller_input_update, @function
+controller_input_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -70,8 +70,8 @@ viewport_coord_calc:
     .byte 0x60, 0x3C
     .byte 0xA0, 0x20
     .byte 0x81, 0x43
-    .4byte sym_06063D98
-    .4byte display_list_manage
+    .4byte g_pad_state
+    .4byte smpc_data_manage
     .4byte sym_06059F44
     .byte 0x64, 0xE3
     .byte 0x61, 0x1D

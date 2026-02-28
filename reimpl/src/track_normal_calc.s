@@ -26,7 +26,7 @@
  *   sym_06084B0C = previous car slot index (32-bit)
  *   sym_06084B18 = active car count (32-bit, max 3)
  *   sym_06084B20 = current variant code (32-bit, from lookup table)
- *   sym_06063D98 = input/button state struct (+4 = button flags word)
+ *   g_pad_state = input/button state struct (+4 = button flags word)
  *   sym_0605AD2C = variant code lookup table (byte-indexed by slot)
  *
  * Sound commands:
@@ -42,7 +42,7 @@ track_normal_calc:
     mov.l r14, @-r15                    ! save r14 (callee-saved)
     sts.l pr, @-r15                     ! save return address
     mov.l   .L_ptr_car_slot_idx, r14    ! r14 = &car_slot_index (sym_06084B08)
-    mov.l   .L_ptr_input_state, r4      ! r4 = &input_state struct (sym_06063D98)
+    mov.l   .L_ptr_input_state, r4      ! r4 = &input_state struct (g_pad_state)
     mov.l   .L_mask_low16, r3           ! r3 = 0x0000FFFF (16-bit inversion mask)
     mov.w @(4, r4), r0                  ! r0 = input_state[+4] (button flags word)
     extu.w r0, r0                       ! r0 = zero-extend to 32-bit
@@ -106,7 +106,7 @@ track_normal_calc:
 .L_ptr_car_slot_idx:
     .4byte  sym_06084B08                /* &car_slot_index (32-bit) */
 .L_ptr_input_state:
-    .4byte  sym_06063D98                /* &input_state struct (+4 = button flags) */
+    .4byte  g_pad_state                /* &input_state struct (+4 = button flags) */
 .L_mask_low16:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_ptr_prev_slot_idx:

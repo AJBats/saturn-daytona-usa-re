@@ -64,7 +64,7 @@ track_normal_calc:
     .4byte sym_06034FE0
     .4byte sym_06028430
     .4byte sym_06084B08
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06084B0C

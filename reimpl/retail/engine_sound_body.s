@@ -114,7 +114,7 @@ DAT_060303b6:
     .byte 0x00, 0xB8
     .byte 0x00, 0x00
     .4byte sym_06081890
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0608188C
     .byte 0x93, 0x1B
     .byte 0xE5, 0x38

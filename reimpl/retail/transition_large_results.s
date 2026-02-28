@@ -100,7 +100,7 @@ transition_large_results:
     .byte 0x07, 0x06
     .byte 0x07, 0x20
     .byte 0xFF, 0xFF
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte graphics_mode_setup
     .4byte sym_06011EB4
     .4byte sym_06085FF4

@@ -56,7 +56,7 @@ course_data_rom_load:
     .global DAT_0601a872
 DAT_0601a872:
     .byte 0x40, 0x00
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0605D248
     .byte 0x00, 0x00
     .byte 0x80, 0x00

@@ -166,7 +166,7 @@ DAT_06012890:
 .L_ptr_menu_state_ctr:
     .4byte  sym_060788F4                    /* menu state counter (32-bit) */
 .L_ptr_game_status:
-    .4byte  sym_06063D98                    /* game status word (16-bit) */
+    .4byte  g_pad_state                    /* game status word (16-bit) */
 .L_ptr_status_mask:
     .4byte  sym_0608188C                    /* status mask for input filtering */
 .L_ptr_render_enable:

@@ -28,7 +28,7 @@
  *   sym_0605AB18  -- menu overlay active flag (byte, cleared/set)
  *   sym_06085FF4  -- 2-player mode flag (byte, 0=1P)
  *   sym_0605AD00  -- render state variable (dword, 0=idle)
- *   sym_06063D98  -- controller button state word (16-bit hw read)
+ *   g_pad_state  -- controller button state word (16-bit hw read)
  */
 
     .section .text.FUN_060102EC
@@ -104,7 +104,7 @@ _pool_game_dispatch_ptr:
     mov.l @r0, r0                           ! r0 = render_state value
     tst r0, r0                              ! test if render state is idle (0)
     bf      .L_exit                         ! if render busy -> exit
-    mov.l   _pool_button_hw_ptr, r3         ! r3 = &button_state_hw (sym_06063D98)
+    mov.l   _pool_button_hw_ptr, r3         ! r3 = &button_state_hw (g_pad_state)
     mov.w @r3, r2                           ! r2 = button_state_hw (16-bit read)
     mov.w   DAT_0601038e, r3               ! r3 = 0x1000 (bit 12: start button mask)
     extu.w r2, r2                           ! r2 = zero-extend button word
@@ -144,4 +144,4 @@ _pool_2p_mode_ptr:
 _pool_render_state_ptr:
     .4byte  sym_0605AD00                    /* &render_state (dword, 0=idle) */
 _pool_button_hw_ptr:
-    .4byte  sym_06063D98                    /* &button_state_hw (16-bit word) */
+    .4byte  g_pad_state                    /* &button_state_hw (16-bit word) */

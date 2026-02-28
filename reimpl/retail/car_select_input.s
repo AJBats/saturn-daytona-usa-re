@@ -117,7 +117,7 @@ car_select_input:
     .4byte sym_06085FF1
     .4byte sym_06085FF0
     .4byte sym_06085FF3
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_060284AE
     .4byte sym_06049AFC
     .4byte sym_0605D4F0

@@ -115,7 +115,7 @@ state_race_setup:
 .L_overlay_active:
     .4byte  sym_0605AB18               /* menu overlay active flag (byte) */
 .L_status_word:
-    .4byte  sym_06063D98               /* input/status register (16-bit) */
+    .4byte  g_pad_state               /* input/status register (16-bit) */
 .L_course_index:
     .4byte  sym_06078648               /* current course index (byte) */
 .L_course_mask_a:

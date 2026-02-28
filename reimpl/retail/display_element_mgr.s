@@ -105,7 +105,7 @@ sym_06033880:
     .global sym_06033884
 sym_06033884:
     .4byte sym_06078663
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0605D240
     .4byte sym_06085FF4
     .global sym_06033894

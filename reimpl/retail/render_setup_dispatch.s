@@ -77,7 +77,7 @@ DAT_0601d446:
     .4byte sym_0605AB16
     .4byte sym_06086024
     .4byte sym_06063D9A
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .byte 0x00, 0x00
     .byte 0xAA, 0xA8
     .4byte sym_0605AB17

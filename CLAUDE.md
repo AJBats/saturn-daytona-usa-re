@@ -5,7 +5,7 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | Input Tracing | Paused | TODO: make file |
+| 1 | Input Tracing | Paused | workstreams\empirical_validation.md |
 | 2 | Sawyer L2 — Relocatable ASM + C Reimpl | Paused | workstreams/sawyer_l2.md |
 | 3 | Data Annotation — Classification & Semantics | Paused | workstreams/data_annotation.md |
 | 4 | Car Flip Benchmark — Empirical Annotation Validation | Paused | workstreams/car_flip_benchmark.md |

@@ -24,7 +24,7 @@ transition_small_a:
     .byte 0x08, 0x00
     .byte 0xFF, 0xFF
     .4byte sym_06085FF4
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_06078663
     .byte 0xAB, 0x11
     .byte 0x01, 0xFF

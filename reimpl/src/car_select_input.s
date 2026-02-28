@@ -29,7 +29,7 @@
  *   sym_06085FF0 = current car index (byte, 0-7)
  *   sym_06085FF1 = input dirty flag (byte, 1 = changed)
  *   sym_06085FF3 = car select lock flag (byte, nonzero = locked)
- *   sym_06063D98 = input button state struct (+2 = newly pressed)
+ *   g_pad_state = input button state struct (+2 = newly pressed)
  *   sym_06049AFC = car slot param table (2 bytes/entry: variant, color)
  *   sym_0605D4F0 = car display data pointer (indirect)
  *   sym_060284AE = display element renderer (r4=layer, r5=dlist, r6=index, r7=tex)
@@ -66,7 +66,7 @@ car_select_input:
     bra     .L_epilogue                          ! locked -> skip to epilogue
     nop                                          ! (delay)
 .L_not_locked:
-    mov.l   _pool_input_state_ptr, r4            ! r4 -> input button state struct (sym_06063D98)
+    mov.l   _pool_input_state_ptr, r4            ! r4 -> input button state struct (g_pad_state)
     mov.l   _pool_display_renderer, r8           ! r8 -> display element renderer (sym_060284AE)
     mov.w   _wpool_dpad_updown_mask, r9          ! r9 = 0x0090 (D-pad up + down mask)
     mov.l   _pool_car_slot_params, r11           ! r11 -> car slot param table (sym_06049AFC)
@@ -171,7 +171,7 @@ _pool_car_index_ptr:
 _pool_lock_flag_ptr:
     .4byte  sym_06085FF3
 _pool_input_state_ptr:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 _pool_display_renderer:
     .4byte  sym_060284AE
 _pool_car_slot_params:

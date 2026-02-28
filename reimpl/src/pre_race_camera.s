@@ -27,7 +27,7 @@
  *   9. Tail-call to next function (0x06019DB8) via bra.
  *
  * Key symbols:
- *   sym_06063D98 = input button state struct (word[0]=held, word[+2]=newly-pressed)
+ *   g_pad_state = input button state struct (word[0]=held, word[+2]=newly-pressed)
  *   sym_0605AD0C = camera angle index for course 1 (32-bit, shared with physics init)
  *   sym_0605D243 = anim timer / mode variant byte (reset to 0 on angle change)
  *   sym_06063750 = car object table base (referenced in pool, not used here)
@@ -43,7 +43,7 @@ pre_race_camera:
     mov.l r14, @-r15                ! push r14 (callee-save)
     mov.l r13, @-r15                ! push r13 (callee-save)
     mov.l r12, @-r15                ! push r12 (callee-save)
-    mov.l   .L_pool_input_state, r13    ! r13 = &input_state struct (sym_06063D98)
+    mov.l   .L_pool_input_state, r13    ! r13 = &input_state struct (g_pad_state)
     mov.l   .L_pool_camera_angle, r14   ! r14 = &camera_angle_index (sym_0605AD0C)
     mov.w @r13, r0                  ! r0 = input_state.held (word[0])
     extu.w r0, r0                   ! r0 = zero-extend held word to 32-bit
@@ -89,7 +89,7 @@ pre_race_camera:
     .4byte  sym_06063750            /* car object table base (unused here, pool alignment) */
     .4byte  sym_06049B18            /* course 1 dlist offset table (unused here, pool alignment) */
 .L_pool_input_state:
-    .4byte  sym_06063D98            /* &input_state struct (word[0]=held, word[+2]=new_press) */
+    .4byte  g_pad_state            /* &input_state struct (word[0]=held, word[+2]=new_press) */
 .L_pool_camera_angle:
     .4byte  sym_0605AD0C            /* &camera_angle_index for course 1 (32-bit) */
 .L_fp_half:

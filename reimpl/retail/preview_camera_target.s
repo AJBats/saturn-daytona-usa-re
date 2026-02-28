@@ -39,6 +39,6 @@ preview_camera_target:
     .byte 0x01, 0xFF
     .4byte sound_cmd_dispatch
     .4byte sym_0605D241
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .byte 0x00, 0x00
     .byte 0x80, 0x00

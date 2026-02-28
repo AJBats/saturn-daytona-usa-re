@@ -333,7 +333,7 @@ DAT_060178ac:
     .4byte sym_0607EBC4
     .byte 0x00, 0x0A
     .byte 0x00, 0x00
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0605BE28
     .4byte sym_0605BE20
     .byte 0xD4, 0x33

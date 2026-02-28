@@ -68,7 +68,7 @@ DAT_0601cb48:
     .4byte dma_transfer
     .4byte sym_06086024
     .4byte sym_0608601C
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_060358EC
     .byte 0x40, 0x68
     .byte 0x00, 0x00

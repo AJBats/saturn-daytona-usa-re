@@ -8,7 +8,7 @@
  *   - State 9: special pre-race setup (VDP2 color RAM DMA + display init)
  *   - States 0-4: same as state 9 but with shorter param set
  *   - States >= 0xA: controller input polling — reads button words
- *     from sym_06063D98 and masks them against 4 different bit fields
+ *     from g_pad_state and masks them against 4 different bit fields
  *     (sym_06078656/58/5A/5C) to determine selected mode (0-3), stored
  *     in sym_06078648
  *   - States 9-11: HUD tile data DMA for split-screen or single modes
@@ -160,7 +160,7 @@ game_state_dispatch:
 .L_ptr_input_lock_flag:
     .4byte  sym_0605AB18                 ! → input lock flag (byte, nonzero = locked)
 .L_ptr_button_state:
-    .4byte  sym_06063D98                 ! → controller button state word (16-bit)
+    .4byte  g_pad_state                 ! → controller button state word (16-bit)
 .L_ptr_mode_select_result:
     .4byte  sym_06078648                 ! → mode select result (byte, 0-3)
 .L_ptr_btn_mask_a:

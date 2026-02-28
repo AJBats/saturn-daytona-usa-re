@@ -93,7 +93,7 @@ post_race_transition:
     .4byte sym_06011494
     .4byte anim_ui_transition
     .4byte hud_course_render
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .byte 0xEA, 0x29
     .byte 0xEC, 0x26
     .byte 0xDB, 0x28

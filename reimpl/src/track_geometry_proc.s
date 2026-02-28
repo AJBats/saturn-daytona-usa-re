@@ -418,7 +418,7 @@ DAT_060178ac:
 .L_mode_mask:
     .4byte  0x000A0000
 .L_button_state:
-    .4byte  sym_06063D98
+    .4byte  g_pad_state
 .L_sound_trigger_flag:
     .4byte  sym_0605BE28
 .L_counter_rz_ptr:

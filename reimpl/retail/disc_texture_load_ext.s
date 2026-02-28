@@ -81,7 +81,7 @@ DAT_0601b87e:
     .4byte sym_06035168
     .4byte sym_0605DF34
     .4byte sym_0605DF37
-    .4byte sym_06063D98
+    .4byte g_pad_state
     .4byte sym_0608600E
     .4byte sym_0605D4F4
     .byte 0x85, 0x61
