@@ -10,10 +10,11 @@
 #   ./setup.sh status           Show what's present and what's missing
 #
 # What this does:
-#   1. Checks prerequisites (Python 3, gcc, make, wget)
+#   1. Checks prerequisites (Python 3, gcc, make, wget, SDL2)
 #   2. Extracts APROG.BIN from your disc image
 #   3. Generates the disassembly bible (build/aprog.s)
 #   4. Builds sh-elf cross-toolchain (binutils 2.42 + GCC 13.3.0)
+#   5. Builds debug Mednafen emulator (from mednafen/ submodule)
 #
 # After setup, build the reimplementation:
 #   cd reimpl && make            Build reimpl binary
@@ -97,6 +98,13 @@ do_status() {
         miss "sh-elf-gcc not built"
     fi
 
+    # Mednafen
+    if [ -f "$PROJ_ROOT/mednafen/src/mednafen" ]; then
+        ok "Mednafen debug emulator"
+    else
+        miss "Mednafen not built"
+    fi
+
     # Reimpl
     if [ -f "$PROJ_ROOT/reimpl/build/APROG.BIN" ]; then
         SIZE=$(stat -c%s "$PROJ_ROOT/reimpl/build/APROG.BIN" 2>/dev/null || stat -f%z "$PROJ_ROOT/reimpl/build/APROG.BIN" 2>/dev/null)
@@ -168,6 +176,13 @@ do_setup() {
         ok "wget"
     else
         miss "wget not found (sudo apt install wget)"
+        READY=false
+    fi
+
+    if pkg-config --exists sdl2 2>/dev/null; then
+        ok "SDL2 ($(pkg-config --modversion sdl2))"
+    else
+        miss "SDL2 not found (sudo apt install libsdl2-dev)"
         READY=false
     fi
 
@@ -302,6 +317,43 @@ do_setup() {
             ok "sh-elf-gcc installed"
         else
             miss "GCC build failed"
+            exit 1
+        fi
+    fi
+
+    # ── Mednafen (debug emulator) ─────────────────────────────────
+
+    step "6. Debug emulator (Mednafen)"
+
+    MEDNAFEN_BIN="$PROJ_ROOT/mednafen/src/mednafen"
+
+    if [ -f "$MEDNAFEN_BIN" ]; then
+        ok "Already built at mednafen/src/mednafen"
+    else
+        if [ ! -d "$PROJ_ROOT/mednafen/src" ]; then
+            miss "mednafen submodule not checked out"
+            echo "  Run: git submodule update --init --recursive"
+            exit 1
+        fi
+
+        # Mednafen's #include <mednafen/...> needs include/mednafen -> ../src
+        if [ ! -e "$PROJ_ROOT/mednafen/include/mednafen" ]; then
+            ln -sf ../src "$PROJ_ROOT/mednafen/include/mednafen"
+        fi
+
+        echo "  Configuring Mednafen..."
+        cd "$PROJ_ROOT/mednafen"
+        ./configure --disable-jack --quiet
+
+        echo "  Building Mednafen (this takes a few minutes)..."
+        make -j"$(nproc)" --quiet
+
+        cd "$PROJ_ROOT"
+
+        if [ -f "$MEDNAFEN_BIN" ]; then
+            ok "Mednafen built"
+        else
+            miss "Mednafen build failed"
             exit 1
         fi
     fi
