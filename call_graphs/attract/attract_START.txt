@@ -1,0 +1,60 @@
+CALL GRAPH: attract START press
+21 edges, 24 functions
+
+TREE:
+
+framebuf_swap_ctrl
+    `-- sym_06000358
+        |-- vblank_out_handler
+        |   `-- controller_input_update
+        |       `-- smpc_data_manage
+        |           `-- DAT_0603a2ca
+        |-- master_menu_render
+        |   |-- sym_0603AB46
+        |   |-- master_menu_render (recursive)
+        |   |-- data_table_copy
+        |   |   `-- menu_anim_system
+        |   `-- game_logic_main
+        `-- button_input_read
+            |-- scene_data_dispatch
+            |   `-- scene_data_block_copy
+            |       `-- sym_06038A48
+            |-- dma_transfer
+            `-- sym_06033354
+
+DAT_060079ce
+    `-- sym_06026CE0
+
+display_mode_config
+    `-- hud_display_ext
+
+disp_result_sub_a
+    `-- memcpy_word_idx
+
+results_sub_elem
+    `-- memcpy_word_idx
+
+============================================================
+EDGES (21):
+
+  framebuf_swap_ctrl -> sym_06000358  (x322)
+  DAT_060079ce -> sym_06026CE0
+  sym_06000358 -> vblank_out_handler
+  vblank_out_handler -> controller_input_update
+  controller_input_update -> smpc_data_manage
+  smpc_data_manage -> DAT_0603a2ca
+  sym_06000358 -> master_menu_render  (x2)
+  master_menu_render -> sym_0603AB46  (x2)
+  master_menu_render -> master_menu_render  (x3)
+  master_menu_render -> data_table_copy  (x2)
+  data_table_copy -> menu_anim_system  (x2)
+  master_menu_render -> game_logic_main  (x2)
+  sym_06000358 -> button_input_read
+  button_input_read -> scene_data_dispatch
+  scene_data_dispatch -> scene_data_block_copy
+  scene_data_block_copy -> sym_06038A48  (x5)
+  display_mode_config -> hud_display_ext
+  button_input_read -> dma_transfer  (x2)
+  button_input_read -> sym_06033354
+  disp_result_sub_a -> memcpy_word_idx  (x6)
+  results_sub_elem -> memcpy_word_idx

@@ -1,0 +1,118 @@
+CALL GRAPH: attract idle
+46 edges, 42 functions
+
+TREE:
+
+DAT_06031b22
+    `-- loc_06031CC4
+
+framebuf_swap_ctrl
+    `-- sym_06000358
+        |-- vblank_out_handler
+        |   `-- controller_input_update
+        |       `-- smpc_data_manage
+        |           `-- DAT_0603a2ca
+        |-- master_menu_render
+        |   |-- sym_0603AB46
+        |   |-- master_menu_render (recursive)
+        |   |-- data_table_copy
+        |   |   `-- menu_anim_system
+        |   `-- game_logic_main
+        `-- button_input_read
+
+DAT_06031a64
+    `-- loc_06031CC4
+
+render_cs0_loop
+    |-- sym_06026DBC
+    |-- sym_06026E2E
+    |-- mat_rot_y
+    |   `-- sincos_pair
+    |-- mat_rot_z
+    |   `-- sincos_pair
+    |-- transform_matrix
+    |   `-- sincos_pair
+    |-- sym_06031D8C
+    `-- sym_06031A28
+
+DAT_0600b840
+    |-- sym_06031D8C
+    |-- sym_06031A28
+    `-- render_obj_additive
+        |-- sym_06026DBC
+        |-- sym_06026E2E
+        |-- mat_rot_y
+        |   `-- sincos_pair
+        |-- transform_matrix
+        |   `-- sincos_pair
+        |-- sym_06031D8C
+        `-- sym_06031A28
+
+scene_render_body
+    |-- replay_playback_engine
+    |   `-- sym_06034FE0
+    `-- sym_0603C000
+
+frame_end_commit
+    |-- memcpy_long_idx
+    |-- memcpy_word_idx
+    |-- sym_0602C494
+    |-- dma_transfer
+    |-- vdp1_sprite_builder
+    |   |-- sym_060280F8
+    |   |-- sym_060281B8
+    |   `-- post_sprite_cleanup
+    `-- sym_060394C2
+
+DAT_060079ce
+    `-- sym_06026CE0
+
+============================================================
+EDGES (46):
+
+  DAT_06031b22 -> loc_06031CC4  (x426)
+  framebuf_swap_ctrl -> sym_06000358  (x326)
+  DAT_06031a64 -> loc_06031CC4  (x141)
+  sym_06000358 -> vblank_out_handler
+  vblank_out_handler -> controller_input_update
+  controller_input_update -> smpc_data_manage
+  smpc_data_manage -> DAT_0603a2ca
+  render_cs0_loop -> sym_06026DBC  (x3)
+  render_cs0_loop -> sym_06026E2E  (x3)
+  render_cs0_loop -> mat_rot_y  (x3)
+  mat_rot_y -> sincos_pair  (x5)
+  render_cs0_loop -> mat_rot_z  (x3)
+  mat_rot_z -> sincos_pair  (x3)
+  render_cs0_loop -> transform_matrix  (x3)
+  transform_matrix -> sincos_pair  (x6)
+  render_cs0_loop -> sym_06031D8C  (x4)
+  render_cs0_loop -> sym_06031A28  (x4)
+  sym_06000358 -> master_menu_render  (x2)
+  DAT_0600b840 -> sym_06031D8C  (x2)
+  DAT_0600b840 -> sym_06031A28  (x2)
+  DAT_0600b840 -> render_obj_additive
+  render_obj_additive -> sym_06026DBC  (x3)
+  render_obj_additive -> sym_06026E2E  (x3)
+  render_obj_additive -> mat_rot_y  (x2)
+  render_obj_additive -> transform_matrix  (x3)
+  render_obj_additive -> sym_06031D8C  (x3)
+  render_obj_additive -> sym_06031A28  (x3)
+  scene_render_body -> replay_playback_engine
+  replay_playback_engine -> sym_06034FE0
+  scene_render_body -> sym_0603C000
+  frame_end_commit -> memcpy_long_idx
+  frame_end_commit -> memcpy_word_idx
+  frame_end_commit -> sym_0602C494
+  frame_end_commit -> dma_transfer  (x2)
+  frame_end_commit -> vdp1_sprite_builder
+  vdp1_sprite_builder -> sym_060280F8  (x833)
+  vdp1_sprite_builder -> sym_060281B8  (x9)
+  master_menu_render -> sym_0603AB46  (x2)
+  master_menu_render -> master_menu_render  (x3)
+  master_menu_render -> data_table_copy  (x2)
+  data_table_copy -> menu_anim_system  (x2)
+  master_menu_render -> game_logic_main  (x2)
+  sym_06000358 -> button_input_read
+  vdp1_sprite_builder -> post_sprite_cleanup
+  frame_end_commit -> sym_060394C2
+  DAT_060079ce -> sym_06026CE0

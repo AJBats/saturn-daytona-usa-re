@@ -1,0 +1,163 @@
+CALL GRAPH: circuit B press
+62 edges, 65 functions
+
+TREE:
+
+framebuf_swap_ctrl
+    `-- sym_06000358
+        |-- vblank_out_handler
+        |   `-- controller_input_update
+        |       `-- smpc_data_manage
+        |           `-- DAT_0603a2ca
+        |-- master_menu_render
+        |   |-- sym_0603AB46
+        |   |-- master_menu_render (recursive)
+        |   |-- data_table_copy
+        |   |   `-- menu_anim_system
+        |   `-- game_logic_main
+        `-- button_input_read
+            |-- scene_data_dispatch
+            |-- dma_transfer
+            `-- sym_06033354
+
+sym_06003000
+    |-- per_frame_update
+    |   |-- cdb_read_status
+    |   |   `-- ai_section_transition
+    |   |       |-- ai_section_update
+    |   |       |   `-- sym_06035E5E
+    |   |       `-- sym_06035F16
+    |   `-- ai_section_transition
+    |       |-- ai_section_update
+    |       |   `-- sym_06035E5E
+    |       `-- sym_06035F16
+    `-- state_pre_race
+        `-- game_state_dispatch
+            |-- sym_06034FE0
+            |-- sym_06028430
+            |-- sym_06026DBC
+            |-- transition_handler_a
+            |   |-- anim_ui_transition
+            |   |-- hud_course_render
+            |   |   `-- sym_06028400
+            |   |-- DAT_060101b2
+            |   |   `-- rigid_body_transform
+            |   `-- FUN_060102EC
+            `-- hud_race_display
+                |-- sprite_anim_render
+                `-- sym_060284AE
+
+screen_fade_ctrl
+    `-- sym_06028248
+
+hud_layer_composite
+    |-- sprite_3d_render
+    `-- vertex_transform_rot
+
+hud_main_draw
+    |-- sincos_pair
+    |-- fpmul
+    `-- swap_sign_ext
+
+split_screen_layout
+    `-- swap_sign_ext
+
+DAT_0601112c
+    `-- sym_06028400
+
+DAT_060100f8
+    `-- dma_transfer
+
+hud_damage_warning
+    |-- sincos_pair
+    |-- fpmul
+    `-- swap_sign_ext
+
+frame_end_commit
+    |-- memcpy_long_idx
+    |-- memcpy_word_idx
+    |-- sym_0602C494
+    |-- dma_transfer
+    |-- vdp1_sprite_builder
+    |   `-- post_sprite_cleanup
+    |       |-- sym_060280C4
+    |       `-- sym_060280F8
+    `-- sym_060394C2
+
+DAT_060079ce
+    `-- sym_06026CE0
+
+display_mode_config
+    `-- hud_display_ext
+
+disp_result_sub_a
+    `-- memcpy_word_idx
+
+results_sub_elem
+    `-- memcpy_word_idx
+
+============================================================
+EDGES (62):
+
+  framebuf_swap_ctrl -> sym_06000358  (x326)
+  sym_06000358 -> vblank_out_handler
+  vblank_out_handler -> controller_input_update
+  controller_input_update -> smpc_data_manage
+  smpc_data_manage -> DAT_0603a2ca
+  sym_06003000 -> per_frame_update
+  per_frame_update -> cdb_read_status
+  cdb_read_status -> ai_section_transition
+  ai_section_transition -> ai_section_update  (x2)
+  ai_section_update -> sym_06035E5E  (x4)
+  ai_section_transition -> sym_06035F16  (x2)
+  per_frame_update -> ai_section_transition
+  sym_06003000 -> state_pre_race
+  state_pre_race -> game_state_dispatch
+  game_state_dispatch -> sym_06034FE0
+  game_state_dispatch -> sym_06028430
+  screen_fade_ctrl -> sym_06028248
+  game_state_dispatch -> sym_06026DBC
+  game_state_dispatch -> transition_handler_a
+  transition_handler_a -> anim_ui_transition
+  hud_layer_composite -> sprite_3d_render
+  hud_main_draw -> sincos_pair
+  hud_main_draw -> fpmul  (x24)
+  hud_main_draw -> swap_sign_ext  (x16)
+  hud_layer_composite -> vertex_transform_rot
+  split_screen_layout -> swap_sign_ext  (x16)
+  transition_handler_a -> hud_course_render
+  hud_course_render -> sym_06028400  (x2)
+  DAT_0601112c -> sym_06028400  (x4)
+  transition_handler_a -> DAT_060101b2
+  transition_handler_a -> FUN_060102EC
+  game_state_dispatch -> hud_race_display
+  hud_race_display -> sprite_anim_render  (x3)
+  DAT_060100f8 -> dma_transfer  (x3)
+  sym_06000358 -> master_menu_render  (x2)
+  DAT_060101b2 -> rigid_body_transform  (x3)
+  hud_damage_warning -> sincos_pair  (x3)
+  hud_damage_warning -> fpmul  (x72)
+  hud_damage_warning -> swap_sign_ext  (x48)
+  hud_race_display -> sym_060284AE
+  frame_end_commit -> memcpy_long_idx
+  frame_end_commit -> memcpy_word_idx
+  frame_end_commit -> sym_0602C494
+  frame_end_commit -> dma_transfer  (x2)
+  frame_end_commit -> vdp1_sprite_builder
+  vdp1_sprite_builder -> post_sprite_cleanup
+  post_sprite_cleanup -> sym_060280C4  (x3)
+  post_sprite_cleanup -> sym_060280F8  (x3)
+  frame_end_commit -> sym_060394C2
+  DAT_060079ce -> sym_06026CE0
+  master_menu_render -> sym_0603AB46  (x2)
+  master_menu_render -> master_menu_render  (x3)
+  master_menu_render -> data_table_copy  (x2)
+  data_table_copy -> menu_anim_system  (x2)
+  master_menu_render -> game_logic_main  (x2)
+  sym_06000358 -> button_input_read
+  button_input_read -> scene_data_dispatch
+  display_mode_config -> hud_display_ext
+  button_input_read -> dma_transfer  (x2)
+  button_input_read -> sym_06033354
+  disp_result_sub_a -> memcpy_word_idx  (x6)
+  results_sub_elem -> memcpy_word_idx

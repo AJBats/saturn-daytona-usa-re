@@ -1,5 +1,5 @@
-CALL GRAPH: menu idle
-27 edges, 30 functions
+CALL GRAPH: menu UP press
+28 edges, 30 functions
 
 TREE:
 
@@ -32,19 +32,20 @@ sym_06003000
     `-- state_course_select_active
         |-- course_select_input
         |-- course_select_draw
+        |   `-- sym_06028400
         `-- sym_06026CE0
 
 mode_select_handler
     `-- scene_dual_finalize
 
 DAT_060195ae
-    `-- sym_060284AE
+    `-- sym_06028400
 
 display_mode_config
     `-- hud_display_ext
 
 ============================================================
-EDGES (27):
+EDGES (28):
 
   framebuf_swap_ctrl -> sym_06000358  (x334)
   sym_06000358 -> vblank_out_handler
@@ -62,7 +63,8 @@ EDGES (27):
   state_course_select_active -> course_select_input
   mode_select_handler -> scene_dual_finalize
   state_course_select_active -> course_select_draw
-  DAT_060195ae -> sym_060284AE  (x2)
+  course_select_draw -> sym_06028400  (x4)
+  DAT_060195ae -> sym_06028400
   state_course_select_active -> sym_06026CE0
   sym_06000358 -> master_menu_render  (x2)
   master_menu_render -> sym_0603AB46  (x2)

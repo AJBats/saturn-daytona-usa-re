@@ -1,5 +1,5 @@
-CALL GRAPH: menu idle
-27 edges, 30 functions
+CALL GRAPH: title START press
+31 edges, 32 functions
 
 TREE:
 
@@ -16,7 +16,10 @@ framebuf_swap_ctrl
         |   |   `-- menu_anim_system
         |   `-- game_logic_main
         `-- button_input_read
-            `-- scene_data_dispatch
+            |-- scene_data_dispatch
+            |   `-- scene_data_block_copy
+            |       `-- sym_06038A48
+            `-- dma_transfer
 
 sym_06003000
     |-- per_frame_update
@@ -29,22 +32,19 @@ sym_06003000
     |       |-- ai_section_update
     |       |   `-- sym_06035E5E
     |       `-- sym_06035F16
-    `-- state_course_select_active
-        |-- course_select_input
-        |-- course_select_draw
+    `-- state_mode_select_active
+        |-- render_setup_dispatch
+        |   |-- display_channel_b
+        |   |   |-- sym_0603850C
+        |   |   `-- scene_data_write_abs
+        |   `-- sym_06028400
         `-- sym_06026CE0
-
-mode_select_handler
-    `-- scene_dual_finalize
-
-DAT_060195ae
-    `-- sym_060284AE
 
 display_mode_config
     `-- hud_display_ext
 
 ============================================================
-EDGES (27):
+EDGES (31):
 
   framebuf_swap_ctrl -> sym_06000358  (x334)
   sym_06000358 -> vblank_out_handler
@@ -58,13 +58,14 @@ EDGES (27):
   ai_section_update -> sym_06035E5E  (x4)
   ai_section_transition -> sym_06035F16  (x2)
   per_frame_update -> ai_section_transition
-  sym_06003000 -> state_course_select_active
-  state_course_select_active -> course_select_input
-  mode_select_handler -> scene_dual_finalize
-  state_course_select_active -> course_select_draw
-  DAT_060195ae -> sym_060284AE  (x2)
-  state_course_select_active -> sym_06026CE0
+  sym_06003000 -> state_mode_select_active
+  state_mode_select_active -> render_setup_dispatch
+  render_setup_dispatch -> display_channel_b
+  display_channel_b -> sym_0603850C
+  display_channel_b -> scene_data_write_abs
+  render_setup_dispatch -> sym_06028400
   sym_06000358 -> master_menu_render  (x2)
+  state_mode_select_active -> sym_06026CE0
   master_menu_render -> sym_0603AB46  (x2)
   master_menu_render -> master_menu_render  (x3)
   master_menu_render -> data_table_copy  (x2)
@@ -72,4 +73,7 @@ EDGES (27):
   master_menu_render -> game_logic_main  (x2)
   sym_06000358 -> button_input_read
   button_input_read -> scene_data_dispatch
+  scene_data_dispatch -> scene_data_block_copy
+  scene_data_block_copy -> sym_06038A48  (x5)
   display_mode_config -> hud_display_ext
+  button_input_read -> dma_transfer
