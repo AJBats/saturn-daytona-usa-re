@@ -148,7 +148,7 @@ _pool_car_index:
 _pool_rank_table_default:
     .4byte  sym_0605B73A                  ! default ranking table (35 entries)
 _pool_game_state:
-    .4byte  sym_0605AD10                  ! game state variable (32-bit)
+    .4byte  g_game_state                  ! game state variable (32-bit)
 _pool_display_flags:
     .4byte  sym_0607EBF4                  ! display/mode flags (32-bit)
 _pool_rank_table_mode_a:

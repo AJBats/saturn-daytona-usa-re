@@ -26,7 +26,7 @@ speedometer_ctrl:
     .4byte sym_0607887E
     .4byte sym_0607EAD8
     .4byte sym_0607EBCC
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .byte 0x62, 0xE2
     .byte 0x42, 0x15
     .byte 0x8B, 0x04

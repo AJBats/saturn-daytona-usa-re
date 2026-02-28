@@ -19,7 +19,7 @@
  *   4. Clear animation_state = 0
  *
  * Global references:
- *   sym_0605AD10 = game_state_dispatch (32-bit)
+ *   g_game_state = game_state_dispatch (32-bit)
  *   sym_06026CE0 = camera_finalize()
  *   sym_06059F44 = animation_state (32-bit)
  *   sym_0605A016 = display_mode (16-bit)
@@ -47,7 +47,7 @@ state_car_select_active:
     rts                                         ! return to caller
     mov.l r2, @r3                               ! (delay slot) animation_state = 0
     .2byte  0xFFFF                              ! padding
-    .4byte  sym_0605AD10                        ! game_state_dispatch (32-bit)
+    .4byte  g_game_state                        ! game_state_dispatch (32-bit)
     .4byte  car_select_setup                    ! car_select_setup entry point
 .L_pool_fn_camera_finalize:
     .4byte  sym_06026CE0                        ! camera_finalize()

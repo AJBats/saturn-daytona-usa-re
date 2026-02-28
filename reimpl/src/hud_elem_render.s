@@ -386,7 +386,7 @@ hud_elem_render:                                ! r9=config_byte, r12=status_fla
 .L_frame_counter_r:
     .4byte  sym_0607ED88
 .L_render_mode:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 .L_fn_geom_render_util:
     .4byte  geom_render_util
 .L_fn_geom_output_finalize:
@@ -557,7 +557,7 @@ race_data_dispatch:                             ! master race HUD setup
 .L_hud_state_byte:
     .4byte  sym_06085F8A
 .L_render_mode_d:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 .L_fn_vblank_helper:
     .4byte  sym_0601ABC6
 .L_pause_flag_a:

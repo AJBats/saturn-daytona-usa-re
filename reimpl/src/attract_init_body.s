@@ -138,7 +138,7 @@ attract_init_body:
 .L_attract_mode_bit:
     .4byte  0x40000000                  /* attract mode flag bit */
 .L_game_state:
-    .4byte  sym_0605AD10               /* game state dispatch value */
+    .4byte  g_game_state               /* game state dispatch value */
 .L_fn_camera_finalize:
     .4byte  sym_06026CE0               /* camera state finalization */
 .L_anim_state:

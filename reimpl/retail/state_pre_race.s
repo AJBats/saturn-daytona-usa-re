@@ -34,7 +34,7 @@ state_pre_race:
     .byte 0xFF, 0xFF
     .4byte race_resource_init
     .4byte race_prep_init
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte car_physics_init
     .4byte obj_render_update
     .4byte sym_0605B6D8

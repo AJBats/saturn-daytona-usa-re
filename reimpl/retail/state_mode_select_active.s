@@ -55,7 +55,7 @@ state_mode_select_active:
     .4byte sym_06063DA0
     .4byte sym_06078644
     .4byte sym_0607EBCC
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_060149E0
     .4byte sym_06063D9A
     .4byte render_setup_dispatch

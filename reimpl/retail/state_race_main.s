@@ -70,7 +70,7 @@ state_race_main:
     .byte 0x08, 0x00
     .4byte sym_0607ED88
     .4byte sym_0607E940
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0607ED8C
     .4byte sym_0607E944
     .4byte sym_06063D9A

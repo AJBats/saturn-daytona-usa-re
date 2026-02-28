@@ -88,7 +88,7 @@ state_demo_setup:
     .4byte sym_06078638
     .4byte sym_0607863C
     .4byte sym_060786A4
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06087804
     .4byte sym_0607EAD8
     .4byte disp_score_renderer

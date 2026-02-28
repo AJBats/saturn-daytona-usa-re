@@ -41,7 +41,7 @@ per_frame_update:
     mov.l r12, @-r15                    ! save r12 on stack
     sts.l pr, @-r15                     ! save return address on stack
     add #-0xC, r15                      ! allocate 12-byte local buffer on stack
-    .byte   0xDD, 0x10    /* mov.l .L_pool_game_state_ptr, r13 -- r13 = &game_state (sym_0605AD10) */
+    .byte   0xDD, 0x10    /* mov.l .L_pool_game_state_ptr, r13 -- r13 = &game_state (g_game_state) */
     .byte   0xD3, 0x11    /* mov.l .L_pool_fn_cdb_read_status, r3 -- r3 = cdb_read_status */
     jsr @r3                             ! call cdb_read_status — poll CD block status
     nop                                 ! (delay slot)
@@ -76,7 +76,7 @@ per_frame_update:
     .2byte  0xFFFF                      ! alignment padding
     .4byte  sym_06078644                ! pool: course type byte address
 .L_pool_game_state_ptr:
-    .4byte  sym_0605AD10                ! pool: &game_state variable
+    .4byte  g_game_state                ! pool: &game_state variable
 .L_pool_fn_cdb_read_status:
     .4byte  cdb_read_status             ! pool: CD block status reader function
 .L_pool_bios_reset_indirect:

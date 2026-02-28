@@ -122,6 +122,44 @@ mode_select_handler:
 
 ---
 
+## Name Review Scoreboard
+
+Reviewing all 22 VERIFIED functions for name accuracy. Each gets a critical
+look: does the name match what the function *actually does* per the evidence?
+
+| # | Function | File | Verdict | Notes |
+|---|----------|------|---------|-------|
+| 1 | ~~viewport_coord_calc~~ | controller_input_update.s | RENAMED | -> controller_input_update (+ 3 related renames) |
+| 2 | mode_select_handler | mode_select_handler.s | GOOD | Name correct; fixed comments (0x0100=B back, not confirm). Renamed sym_0605AD10 -> g_game_state. |
+| 3 | car_select_setup | car_select_setup.s | -- | |
+| 4 | track_seg_phys_init | track_seg_phys_init.s | -- | |
+| 5 | button_input_read | button_input_read.s | -- | |
+| 6 | car_select_input | car_select_input.s | -- | |
+| 7 | state_car_select_active | state_car_select_active.s | -- | |
+| 8 | race_countdown_timer | race_countdown_timer.s | -- | |
+| 9 | transition_medium_a | transition_medium_a.s | -- | |
+| 10 | player_physics_main | player_physics_main.s | -- | |
+| 11 | gear_shift_handler | gear_shift_handler.s | -- | |
+| 12 | collision_passive (friction_stub) | collision_passive.s | -- | |
+| 13 | accel_response | accel_response.s | -- | |
+| 14 | player_collision | player_collision.s | -- | |
+| 15 | track_position_calc (heading_smooth_gentle) | track_position_calc.s | -- | |
+| 16 | ai_speed_trampoline | ai_speed_trampoline.s | -- | |
+| 17 | track_segment_advance | track_segment_advance.s | -- | |
+| 18 | track_pos_query | track_pos_query.s | -- | |
+| 19 | per_frame_update | per_frame_update.s | -- | |
+| 20 | clip_region_test | clip_region_test.s | -- | |
+| 21 | render_orchestrator | render_orchestrator.s | -- | |
+| 22 | vdp1_display_submit | vdp1_display_submit.s | -- | |
+
+**Progress: 2/22** (1 renamed, 1 confirmed good, 20 pending)
+
+### Working Theories (unverified, tracking as we go)
+
+- **sym_06059F44**: Likely `g_vblank_out_count` — cleared to 0 by mode_select_handler on B press, written by vblank_out_handler. Needs direct watchpoint evidence to confirm.
+
+---
+
 ## Investigation Targets
 
 ### Priority 1: Menu Input Handlers (known game states, easy to trigger)
@@ -137,7 +175,7 @@ mode_select_handler:
 ### Priority 2: Race Input Handlers (need to reach racing state)
 
 - [x] Physics pipeline → `player_physics_main` + 6 sub-functions (2026-02-28, call-trace)
-- [x] Button state writer → `viewport_coord_calc` writes sym_06063D98 (2026-02-28, watchpoint)
+- [x] Button state writer → `controller_input_update` writes g_pad_state (2026-02-28, watchpoint)
 - [ ] Steering input reader — which function reads LEFT/RIGHT and applies to heading
 - [ ] Gas (acceleration) handler — targeted investigation pending
 - [ ] Brake handler
@@ -217,7 +255,7 @@ differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now u
 |---------|--------|----------|
 | player_physics_main pipeline: 6 sub-functions run 3x more during steering | call-trace | All show +78 delta (39→117 calls during LEFT) |
 | Physics sub-functions: gear_shift_handler, friction_stub, accel_response, player_collision, heading_smooth_gentle, ai_speed_trampoline, track_segment_advance, track_pos_query | call-trace | Same +78 delta confirms batch invocation |
-| viewport_coord_calc writes button state struct | watchpoint on sym_06063D98 | 4 PCs within function write during LEFT |
+| controller_input_update writes button state struct | watchpoint on g_pad_state | 4 PCs within function write during LEFT |
 | sym_06078900 = player car struct | memory-diff | 87 bytes change during LEFT steering |
 | Rendering pipeline increase during steering | call-trace | transform_pipeline, scene_render_alt, mat_vec_transform, render_list_builder all increase |
 | Math functions spike during steering | call-trace | fpmul +496, fpdiv_setup +196, atan_piecewise +186, atan2 +182 |

@@ -93,7 +93,7 @@ state_attract_active:
     .4byte sym_0607EAD8
     .4byte sym_06063D9A
     .4byte handler_init_reset
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06087804
     .4byte camera_attract_init
     .4byte geom_display_ctrl_b

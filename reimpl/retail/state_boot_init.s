@@ -45,7 +45,7 @@ loc_0600890A:
     .4byte display_channel_b
     .4byte handler_dispatch
     .4byte obj_render_update
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte render_stage_2

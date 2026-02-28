@@ -136,7 +136,7 @@ state_attract_active:
 .L_fn_handler_init_reset:
     .4byte  handler_init_reset                  /* handler_init_reset — prepare for mode select */
 .L_game_state_ptr:
-    .4byte  sym_0605AD10                        /* game state variable (32-bit) */
+    .4byte  g_game_state                        /* game state variable (32-bit) */
 .L_handler_mode_ptr:
     .4byte  sym_06087804                        /* handler mode (16-bit) */
 .L_fn_camera_attract_init:

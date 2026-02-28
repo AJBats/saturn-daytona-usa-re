@@ -350,7 +350,7 @@ state_race_complete:
 .L_neg_x_threshold:
     .4byte  0xFEC60000                       /* -0x13A0000: X position continue threshold */
 .L_game_state:
-    .4byte  sym_0605AD10                     /* game phase state (32-bit) */
+    .4byte  g_game_state                     /* game phase state (32-bit) */
 .L_countdown_timer:
     .4byte  sym_0607EBCC                     /* race countdown timer (32-bit) */
 .L_camera_mode:

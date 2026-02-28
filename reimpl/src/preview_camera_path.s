@@ -86,7 +86,7 @@ preview_camera_path:
 .L_status_word:
     .4byte  sym_06063D9A               /* input status word (16-bit) */
 .L_game_state:
-    .4byte  sym_0605AD10               /* game state dispatch value */
+    .4byte  g_game_state               /* game state dispatch value */
 .L_preview_flag_a:
     .4byte  sym_0605E0A2               /* preview camera flag A (byte) */
 .L_preview_flag_b:

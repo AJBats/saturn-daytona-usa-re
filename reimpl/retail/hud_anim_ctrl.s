@@ -60,5 +60,5 @@ hud_anim_ctrl:
     .4byte sym_0607EAE0
     .4byte sym_0607E944
     .4byte sym_06063DA0
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0601E0DE

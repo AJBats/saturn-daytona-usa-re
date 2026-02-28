@@ -111,7 +111,7 @@ ai_position_ranking:
     .4byte sym_06085F94
     .4byte sym_06085F90
     .4byte sym_0605B73A
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0607EBF4
     .4byte sym_0605B7A6
     .4byte sym_0605B821

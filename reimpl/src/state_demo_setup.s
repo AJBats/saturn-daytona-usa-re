@@ -130,7 +130,7 @@ state_demo_setup:
 .L_replay_course:
     .4byte  sym_060786A4               /* replay course store */
 .L_game_state:
-    .4byte  sym_0605AD10               /* game state dispatch value */
+    .4byte  g_game_state               /* game state dispatch value */
 .L_display_timer:
     .4byte  sym_06087804               /* display timer (16-bit) */
 .L_race_end_state:

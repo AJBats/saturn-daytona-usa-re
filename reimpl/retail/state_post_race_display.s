@@ -28,7 +28,7 @@ state_post_race_display:
     .4byte sym_0605A016
     .4byte display_mode_init
     .4byte race_state_pair_2
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06078654
     .4byte gameover_channel_setup
     .4byte obj_render_update

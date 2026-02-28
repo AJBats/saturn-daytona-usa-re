@@ -56,7 +56,7 @@ state_postrace_countdown:
     .4byte  0x0258FFFF
     .4byte  race_variant_a
 .L_pool_game_phase_state:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 .L_pool_countdown_timer:
     .4byte  sym_0607EBCC
     .4byte  sym_06028560

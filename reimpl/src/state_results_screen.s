@@ -21,7 +21,7 @@
  *  11. Check race_complete_flag → if set, advance to state 0x11
  *
  * Persistent registers:
- *   r14 = game state pointer (sym_0605AD10)
+ *   r14 = game state pointer (g_game_state)
  *
  * Game state values written:
  *   0x11 = next state after results complete
@@ -69,7 +69,7 @@ state_results_screen:
 .L_race_event_flags:
     .4byte  sym_0607EBF4               /* race event bitfield (32-bit) */
 .L_game_state_ptr:
-    .4byte  sym_0605AD10               /* current game state dispatch pointer */
+    .4byte  g_game_state               /* current game state dispatch pointer */
     .4byte  sym_0607EAD0               /* (adjacent pool: race timer) */
     .4byte  sym_0607EBD0               /* (adjacent pool: frame counter) */
     .4byte  race_update_abort          /* (adjacent pool: abort handler) */

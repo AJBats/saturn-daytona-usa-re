@@ -15,7 +15,7 @@
  *     and size attribute into the car struct at that offset, then bumps
  *     the entry count (sym_06087800).
  *
- * After processing, if game state (sym_0605AD10) == 0x17, calls the
+ * After processing, if game state (g_game_state) == 0x17, calls the
  * object pool allocator (obj_pool_alloc).  Finally increments the
  * iteration counter and returns.
  *
@@ -30,7 +30,7 @@
  *   sym_060877F4 — resolved VRAM destination address (32-bit)
  *   sym_06087804 — handler mode / iteration index (16-bit)
  *   sym_06078900 — car struct array base
- *   sym_0605AD10 — game state dispatch value
+ *   g_game_state — game state dispatch value
  */
 
     .section .text.FUN_0601FFB8
@@ -112,7 +112,7 @@ vram_defrag:
     cmp/gt r3, r2                           ! if iteration_counter > sentinel_id ...
     bt      .L_process_entry                ! ... then process this entry
 .L_loop_done:
-    mov.l   .L_pool_game_state_ptr, r0      ! r0 = &game_state (sym_0605AD10)
+    mov.l   .L_pool_game_state_ptr, r0      ! r0 = &game_state (g_game_state)
     mov.l @r0, r0                           ! r0 = game_state value
     cmp/eq #0x17, r0                        ! is game_state == 0x17 (race active)?
     bf      .L_skip_pool_alloc              ! if not, skip pool allocator call
@@ -157,11 +157,11 @@ vram_defrag:
 .L_pool_fpmul_addr:
     .4byte  fpmul                           /* fixed-point multiply routine */
 .L_pool_game_state_ptr:
-    .4byte  sym_0605AD10                    /* game state dispatch value */
+    .4byte  g_game_state                    /* game state dispatch value */
 
     .global loc_06020090
 loc_06020090:
-    mov.l   .L_pool_game_state_ptr_b, r0    ! r0 = &game_state (sym_0605AD10)
+    mov.l   .L_pool_game_state_ptr_b, r0    ! r0 = &game_state (g_game_state)
     mov.l @r0, r0                           ! r0 = game_state value
     cmp/eq #0x17, r0                        ! is game_state == 0x17 (race active)?
     bf      .L_state_check_exit             ! if not, just return
@@ -171,4 +171,4 @@ loc_06020090:
     rts                                     ! return — game state is not 0x17
     nop                                     ! (delay) nop
 .L_pool_game_state_ptr_b:
-    .4byte  sym_0605AD10                    /* game state dispatch value */
+    .4byte  g_game_state                    /* game state dispatch value */

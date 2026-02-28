@@ -132,5 +132,5 @@ DAT_0601729e:
     .4byte sym_060280F8
     .4byte sym_0605A008
     .4byte sym_060785FC
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06084FC8

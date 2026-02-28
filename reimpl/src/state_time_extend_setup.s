@@ -84,7 +84,7 @@ state_time_extend_setup:
 .L_wpool_sprite_param_c:
     .2byte  0x049C                          /* sprite parameter C (third text element) */
 .L_pool_game_state:
-    .4byte  sym_0605AD10                    /* game state dispatch value (32-bit) */
+    .4byte  g_game_state                    /* game state dispatch value (32-bit) */
 .L_pool_lap_count:
     .4byte  sym_06078654                    /* current lap count (byte) */
 .L_pool_extend_lap_backup:

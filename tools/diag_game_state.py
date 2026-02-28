@@ -141,7 +141,7 @@ def main():
     time.sleep(2)
 
     # Test reimpl - game state is at 0x0605AD0C in +4 build
-    # (sym_0605AD10 is a text-section label shifted by the free layout)
+    # (g_game_state is a text-section label shifted by the free layout)
     REIMPL_GAME_STATE = 0x0605AD0C
     print(f"\n>>> REIMPL (state_addr=0x{REIMPL_GAME_STATE:08X}) <<<")
     monitor_build("REIMPL", CUE_REIMPL, "state_reimpl", state_addr=REIMPL_GAME_STATE)

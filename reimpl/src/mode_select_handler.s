@@ -1,8 +1,9 @@
-/* VERIFIED: handles UP and DOWN button presses on Mode Select screen
- * Method: watchpoint on sym_0605D244 (selection index) at runtime addr 0x0605D1FC
+/* VERIFIED: handles B (back) + UP/DOWN on Mode Select screen
+ * Method: watchpoint on sym_0605D244 (selection index) + g_game_state (game state)
  *   DOWN: PC=0x0601975A (handler+0xA6) writes index, wraps 4→0
  *   UP:   PC=0x060197B8 (handler+0x104) writes index, wraps -1→3
- *   Both with PR=mode_select_handler+0x10 (inside function body)
+ *   B:    PC=handler+0x80 writes game_state=4 (return to title)
+ *   A/C advance is handled by dispatched per-item renderers, not this function
  * Date: 2026-02-28
  */
 
@@ -15,13 +16,14 @@
  * Input → State → Dispatch:
  *   1. Calls scene_dual_finalize()
  *   2. Reads button state at g_pad_state+2:
- *      - Confirm (0x0100): transition to next screen
+ *      - B (0x0100): return to title screen (writes game_state = 4)
  *      - DOWN (0x2000): increment selection index (wraps 4 → 0)
  *      - UP (0x1000): decrement selection index (wraps -1 → 3)
  *   3. Tail-calls per-item renderer via 4-entry dispatch table
+ *      (per-item renderers handle A/C advance to next screen)
  *
  * Callee-saved registers:
- *   r10 = &sym_06085FF1 (flag byte — set on confirm and direction input)
+ *   r10 = &sym_06085FF1 (flag byte — set on B press and direction input)
  *   r11 = 0 (inherited from caller, used as zero constant)
  *   r12 = &sym_0605D242 (counter byte, incremented each frame)
  *   r13 = 1 (constant)
@@ -43,14 +45,14 @@ mode_select_handler:
     jsr @r3                                      ! call scene_dual_finalize()
     mov #0x1, r13                                ! (delay) r13 = 1
     mov.l   _pool_button_state, r4               ! r4 -> button state struct (g_pad_state)
-    mov.w   _wpool_confirm_mask, r3              ! r3 = 0x0100 (confirm button mask)
+    mov.w   _wpool_confirm_mask, r3              ! r3 = 0x0100 (B button mask = back)
     mov.w @(2, r4), r0                           ! r0 = button word at +2
     mov r0, r2
     extu.w r2, r2
-    and r3, r2                                   ! isolate confirm bit
+    and r3, r2                                   ! isolate B bit
     tst r2, r2
     bt      .L_no_confirm                        ! not pressed -> check directions
-    ! --- Confirm pressed: transition to next screen ---
+    ! --- B pressed: return to title screen ---
     mov.b @r14, r7                               ! r7 = selection index (0-3)
     shll r7                                      ! r7 *= 2 (LUT stride)
     mov.l r7, @(8, r15)                          ! save scaled index
@@ -97,8 +99,8 @@ mode_select_handler:
     extu.b r11, r2
     mov.b r2, @r12                               ! clear counter byte to 0
     mov #0x4, r3
-    mov.l   _pool_game_state, r2                 ! r2 -> &sym_0605AD10
-    mov.l r3, @r2                                ! game state = 4 (advance)
+    mov.l   _pool_game_state, r2                 ! r2 -> &g_game_state
+    mov.l r3, @r2                                ! game state = 4 (back to title)
     exts.b r13, r3                               ! r3 = 1
     mov.b r3, @r10                               ! set flag byte = 1
     mov.l   _pool_06085FF5, r3
@@ -156,7 +158,7 @@ _pool_fn_06028400:
 _pool_06059F44:
     .4byte  sym_06059F44
 _pool_game_state:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 _pool_06085FF5:
     .4byte  sym_06085FF5
 .L_check_up:

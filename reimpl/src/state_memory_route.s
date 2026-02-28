@@ -22,7 +22,7 @@
  * Data references:
  *   sym_0605E0A2 = preview_camera_flag (byte, set by preview_camera_path)
  *   sym_0605A016 = display_mode (16-bit, fb resolution mode selector)
- *   sym_0605AD10 = game_state_dispatch (32-bit, controls game flow)
+ *   g_game_state = game_state_dispatch (32-bit, controls game flow)
  *   sym_060149E0 = disable_display() -- clears bit 15 of display reg
  *   sym_06026CE0 = camera_finalize() -- render/display update
  */
@@ -39,7 +39,7 @@ state_memory_route:
     nop                                   ! delay slot
     tst r0, r0                            ! test return value: 0 = not ready
     bt      .L_return                     ! if not ready, skip to return
-    .byte   0xD4, 0x0F    /* mov.l .L_pool_06008CC0, r4 */  ! r4 = &game_state_dispatch (sym_0605AD10)
+    .byte   0xD4, 0x0F    /* mov.l .L_pool_06008CC0, r4 */  ! r4 = &game_state_dispatch (g_game_state)
     .byte   0xD0, 0x0B    /* mov.l .L_pool_06008CB4, r0 */  ! r0 = &preview_camera_flag (sym_0605E0A2)
     mov.b @r0, r0                         ! r0 = preview_camera_flag value (byte)
     extu.b r0, r0                         ! zero-extend byte to 32-bit
@@ -73,7 +73,7 @@ state_memory_route:
 .L_pool_fn_geom_dispatch:
     .4byte  geom_output_dispatch          /* VDP2 status check / geometry dispatch */
 .L_pool_game_state:
-    .4byte  sym_0605AD10                  /* game_state_dispatch (32-bit) */
+    .4byte  g_game_state                  /* game_state_dispatch (32-bit) */
 .L_pool_fn_disable_display:
     .4byte  sym_060149E0                  /* disable_display -- clear bit 15 */
 .L_pool_fn_camera_finalize:

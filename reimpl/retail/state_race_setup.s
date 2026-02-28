@@ -194,7 +194,7 @@ state_race_setup:
     .4byte geom_matrix_setup
     .4byte sym_0605AB18
     .4byte menu_overlay_render
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0605B6D8
     .byte 0x40, 0x00
     .byte 0x00, 0x00

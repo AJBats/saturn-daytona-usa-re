@@ -180,7 +180,7 @@ state_time_extend_active:
     .4byte sound_cmd_dispatch
     .4byte sym_0605AC9C
     .4byte sym_0607EACC
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06078652
     .4byte sym_06078654
     .4byte handler_dispatch
@@ -264,7 +264,7 @@ state_time_extend_active:
     .byte 0x80, 0x00
     .byte 0x00, 0x00
     .4byte sym_0607EBF4
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_0605AD08

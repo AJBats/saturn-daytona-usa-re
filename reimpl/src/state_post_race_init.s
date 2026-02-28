@@ -43,7 +43,7 @@ state_post_race_init:
 
     ! Transition to state 25
     mov #0x19, r2                             ! r2 = 25
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_state_var, r3 */  /* &sym_0605AD10 (game state variable) */
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_state_var, r3 */  /* &g_game_state (game state variable) */
     mov.l r2, @r3                             ! state = 25
 
     ! Set difficulty = 6

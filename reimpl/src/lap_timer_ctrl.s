@@ -89,7 +89,7 @@ lap_timer_ctrl:
     mov #0x10, r2                              ! r2 = 0x10 (display parameter value)
     mov.l r5, @r4                              ! *frame_counter = 1 (reset counter)
     exts.b r5, r5                              ! sign-extend r5 to byte (0x01)
-    .byte   0xD3, 0x10    /* mov.l .L_pool_0601232C, r3 */  ! r3 = &game_state_dispatch (sym_0605AD10, in next TU pool)
+    .byte   0xD3, 0x10    /* mov.l .L_pool_0601232C, r3 */  ! r3 = &game_state_dispatch (g_game_state, in next TU pool)
     mov.l r2, @r3                              ! *game_state_dispatch = 0x10 (set display parameter)
     .byte   0xD3, 0x10    /* mov.l .L_pool_06012330, r3 */  ! r3 = &replay_mode_flag (sym_06078636, in next TU pool)
     lds.l @r15+, pr                            ! restore return address

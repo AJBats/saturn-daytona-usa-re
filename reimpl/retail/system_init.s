@@ -126,7 +126,7 @@ system_init:
     .4byte sym_0601F936
     .4byte channel_config_a
     .4byte sym_060149E0
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .section .text.FUN_06003218
     .global sound_timer_init
     .type sound_timer_init, @function

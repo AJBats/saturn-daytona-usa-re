@@ -121,7 +121,7 @@ car_select_input:
     .4byte sym_060284AE
     .4byte sym_06049AFC
     .4byte sym_0605D4F0
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06059F44
     .4byte sym_06026CE0
     .byte 0x85, 0x41

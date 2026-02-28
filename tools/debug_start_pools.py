@@ -19,7 +19,7 @@ POOL_LABELS = [
     "sym_06003000",   # offset 0x68
     "sym_0607EBC0",   # offset 0x6C
     "sym_0607EBC4",   # offset 0x70
-    "sym_0605AD10",   # offset 0x74
+    "g_game_state",   # offset 0x74
     "sym_0607EBC8",   # offset 0x78
     # Jump table entries:
     "FUN_060088CC",   # offset 0x7C (state 0)
@@ -117,7 +117,7 @@ def main():
         # FUN_ and loc_ labels are in code range -> should shift by SHIFT
         # sym_06003000 is _start itself -> stays (in .text.startup, no shift)
         # sym_0607xxxx are outside code range -> no shift
-        # sym_0605AD10 is in code range -> should shift
+        # g_game_state is in code range -> should shift
         in_code_range = 0x06003000 <= vp <= 0x06063690
         in_startup = label == "sym_06003000"
 

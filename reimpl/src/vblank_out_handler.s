@@ -15,7 +15,7 @@
  *   3. Call controller_input_update — display list processing / VDP2 updates
  *   4. Adaptive frame timing: compare the OUT count against the per-state
  *      target byte in sym_06059F58[game_state].  The game state index comes
- *      from sym_0605AD10.  When count < target the swap is skipped entirely.
+ *      from g_game_state.  When count < target the swap is skipped entirely.
  *   5. When count >= target and sym_06063F58 (display/VDP mode state) != 0:
  *        - OR bits 0+1 into the cached FBCR shadow (sym_060A4C92) then write
  *          to VDP1 FBCR (0x25D00002) — triggers framebuffer swap.
@@ -34,7 +34,7 @@
  *   .L_pool_vblank_out_ctr  -> sym_06059F44  (VBlank-OUT counter, long)
  *   .L_pool_phase_flag      -> sym_06059F54  (phase flag, long)
  *   .L_pool_viewport_calc   -> controller_input_update
- *   .L_pool_game_state      -> sym_0605AD10  (current game state index, long)
+ *   .L_pool_game_state      -> g_game_state  (current game state index, long)
  *   .L_pool_frame_targets   -> sym_06059F58  (per-state frame target table, byte[])
  *   .L_pool_display_mode    -> sym_06063F58  (display/VDP mode state, long)
  *   .L_pool_fbcr_shadow     -> sym_060A4C92  (cached FBCR value, half-word)
@@ -60,7 +60,7 @@ vblank_out_handler:
     mov.l   .L_pool_viewport_calc, r3  ! r3 = controller_input_update function ptr
     jsr @r3                            ! call controller_input_update() — display list / VDP2 updates
     nop                                ! [delay slot]
-    mov.l   .L_pool_game_state, r2     ! r2 = &game_state (sym_0605AD10)
+    mov.l   .L_pool_game_state, r2     ! r2 = &game_state (g_game_state)
     mov.l   .L_pool_frame_targets, r3  ! r3 = frame_target_table base (sym_06059F58)
     mov.l   .L_pool_vblank_out_ctr, r1 ! r1 = &vblank_out_counter (sym_06059F44)
     mov.l @r2, r2                      ! r2 = current game state index
@@ -101,7 +101,7 @@ vblank_out_handler:
 .L_pool_viewport_calc:
     .4byte  controller_input_update        ! display list processing / VDP2 update function
 .L_pool_game_state:
-    .4byte  sym_0605AD10               ! current game state index (long)
+    .4byte  g_game_state               ! current game state index (long)
 .L_pool_frame_targets:
     .4byte  sym_06059F58               ! per-state frame timing target table (byte[])
 .L_pool_display_mode:

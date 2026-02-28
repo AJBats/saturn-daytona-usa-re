@@ -55,7 +55,7 @@ preview_camera_path:
     .byte 0x00, 0x09
     .byte 0x07, 0x00
     .4byte sym_06063D9A
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0605E0A2
     .4byte sym_06085FF0
     .4byte sym_0605D245

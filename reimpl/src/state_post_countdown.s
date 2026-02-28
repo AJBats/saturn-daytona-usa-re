@@ -43,7 +43,7 @@ state_post_countdown:
     mov.w r2, @r3                              ! (delay slot) display_mode = 4
     .2byte  0xFFFF
 .L_game_state_var:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 .L_race_end_state:
     .4byte  sym_0607EAD8
 .L_fn_race_cleanup:

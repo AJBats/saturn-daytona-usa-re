@@ -7,7 +7,7 @@
  *   1. Clears the animation state (sym_06059F44) and display-active flag
  *      (sym_0605D242)
  *   2. Stores the callback parameter (r4) into the game state dispatch
- *      value (sym_0605AD10)
+ *      value (g_game_state)
  *   3. Reads the current car slot index (sym_0605D244), looks up the
  *      car model entry from the car slot LUT (sym_06049AF4) and car
  *      object table (sym_06063750), then resolves display parameters
@@ -48,7 +48,7 @@ car_select_state:
     mov.l r5, @r3                            ! animation_state = 0 (clear 32-bit)
     mov.l   _pool_display_active, r3         ! r3 -> &display-active flag (sym_0605D242)
     mov.b r5, @r3                            ! display_active = 0 (clear byte)
-    mov.l   _pool_game_state_val, r3         ! r3 -> &game state dispatch value (sym_0605AD10)
+    mov.l   _pool_game_state_val, r3         ! r3 -> &game state dispatch value (g_game_state)
     mov.l r4, @r3                            ! game_state_dispatch_val = r4 (callback/mode)
     mov.l   _pool_car_slot_idx, r7           ! r7 -> &car slot index byte (sym_0605D244)
     mov.b @r7, r7                            ! r7 = car_slot_index (0-7)
@@ -108,7 +108,7 @@ _pool_anim_state:
 _pool_display_active:
     .4byte  sym_0605D242
 _pool_game_state_val:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 _pool_car_slot_idx:
     .4byte  sym_0605D244
 _pool_car_slot_lut:

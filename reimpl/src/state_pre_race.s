@@ -60,7 +60,7 @@ state_pre_race:
     .4byte  race_resource_init          ! (unreferenced pool entry)
     .4byte  race_prep_init              ! (unreferenced pool entry)
 .L_game_state:
-    .4byte  sym_0605AD10               /* game phase state */
+    .4byte  g_game_state               /* game phase state */
     .4byte  car_physics_init           /* (unreferenced pool entry) */
     .4byte  obj_render_update          /* (unreferenced pool entry) */
     .4byte  sym_0605B6D8               /* (unreferenced — render flags) */

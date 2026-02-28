@@ -64,7 +64,7 @@ state_mode_select_setup:
     .4byte course_setup_handler
     .4byte sym_0607EBCC
     .4byte sym_06086024
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0605B6D8
     .byte 0x40, 0x00
     .byte 0x00, 0x00

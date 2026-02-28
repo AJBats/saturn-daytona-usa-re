@@ -1004,7 +1004,7 @@ production, all data variables shift by -0x10:
 
 | Symbol | Original (prod) | Reimpl (free) | Shift |
 |--------|-----------------|---------------|-------|
-| sym_0605AD10 (game state) | 0x0605AD10 | 0x0605AD00 | -0x10 |
+| g_game_state (game state) | 0x0605AD10 | 0x0605AD00 | -0x10 |
 | sym_0605B6D8 (input state) | 0x0605B6D8 | 0x0605B6C8 | -0x10 |
 
 This is handled correctly by the code (all references use symbolic names, not

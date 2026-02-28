@@ -67,7 +67,7 @@ track_vtx_builder:
     add #0x3C, r10                     ! r10 = &frame[0x3C] — Z deltas array base
     mov #0x10, r4                      ! r4 = 0x10 (default X half-extent = 16)
     mov.b r0, @(12, r15)              ! frame[0x0C] = car slot index (byte)
-    mov.l   .L_pool_game_state, r0    ! r0 = &game_state (sym_0605AD10)
+    mov.l   .L_pool_game_state, r0    ! r0 = &game_state (g_game_state)
     mov.l @r0, r0                      ! r0 = current game state value
     cmp/eq #0x15, r0                   ! is game state == 0x15 (attract mode)?
     bf/s    .L_extents_ready           ! if not attract: keep defaults, branch
@@ -188,7 +188,7 @@ track_vtx_builder:
 .L_pool_fn_fpmul:
     .4byte  fpmul                      /* 16.16 fixed-point multiply */
 .L_pool_game_state:
-    .4byte  sym_0605AD10               /* game state variable (0-31) */
+    .4byte  g_game_state               /* game state variable (0-31) */
 .L_pool_slot_data_base:
     .4byte  sym_06084FC8               /* per-car slot data array base */
 .L_pool_fn_sincos:

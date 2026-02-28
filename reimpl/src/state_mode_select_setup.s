@@ -105,7 +105,7 @@ _pool_countdown_ptr:
 _pool_dma_pending_ptr:
     .4byte  sym_06086024                    /* &dma_pending_flag (32-bit) */
 _pool_game_state_ptr:
-    .4byte  sym_0605AD10                    /* &game_state_dispatch (32-bit) */
+    .4byte  g_game_state                    /* &game_state_dispatch (32-bit) */
 _pool_render_flags_ptr:
     .4byte  sym_0605B6D8                    /* &render_mode_flags (32-bit bitmask) */
 _pool_mode_select_bit:

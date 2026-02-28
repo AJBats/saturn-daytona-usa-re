@@ -200,7 +200,7 @@ system_init:
 .L_fn_special_init:
     .4byte  sym_060149E0           ! special handler init
 .L_boot_state:
-    .4byte  sym_0605AD10           ! boot state variable (0=booting, 2=ready)
+    .4byte  g_game_state           ! boot state variable (0=booting, 2=ready)
 
 /* sound_timer_init() — Configure SH-2 Free-Running Timer (FRT)
  * Sets up FRT for sound timing interrupts.

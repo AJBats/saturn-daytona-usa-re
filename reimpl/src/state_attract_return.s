@@ -101,7 +101,7 @@ _pool_fn_gameover_channel_setup:
 _pool_countdown_ptr:
     .4byte  sym_0607EBCC                    /* &state_countdown (32-bit, WRAM High) */
 _pool_game_state_ptr:
-    .4byte  sym_0605AD10                    /* &game_state (32-bit dispatch value) */
+    .4byte  g_game_state                    /* &game_state (32-bit dispatch value) */
 _pool_display_timer_ptr:
     .4byte  sym_06087804                    /* &display_timer (16-bit) */
 _pool_fn_race_init_master:

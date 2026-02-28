@@ -88,7 +88,7 @@ attract_init_body:
     .4byte sym_0605B6D8
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_0605A016

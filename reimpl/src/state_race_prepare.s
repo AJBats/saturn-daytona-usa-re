@@ -16,7 +16,7 @@
  * Pool map (all confirmed DEFINITE in pre_race_states.s annotation):
  *   0x06008E84 = race_resource_init    (FUN_0600A0C0)  [HIGH]
  *   0x06008E88 = race_prep_init        (FUN_06018FA4)  [HIGH]
- *   0x06008E8C = &game_state           (sym_0605AD10)  [HIGH]
+ *   0x06008E8C = &game_state           (g_game_state)  [HIGH]
  *   0x06008E90 = car_physics_init      (FUN_0600EC78)  [HIGH]
  *   0x06008E94 = obj_render_update     (FUN_060210F6)  [HIGH]
  *   0x06008E98 = &display_flags        (sym_0605B6D8)  [HIGH]
@@ -41,7 +41,7 @@ state_race_prepare:
     jsr @r3                             ! race_prep_init()
     nop
     mov #0xD, r2                        ! r2 = 13 (state 13 = race readiness check)
-    .byte   0xD3, 0x1E    /* mov.l .L_game_state, r3 — &game_state (sym_0605AD10) [HIGH] */
+    .byte   0xD3, 0x1E    /* mov.l .L_game_state, r3 — &game_state (g_game_state) [HIGH] */
     mov.l r2, @r3                       ! game_state = 13
     .byte   0xD3, 0x1E    /* mov.l .L_fn_car_physics_init, r3 — car/physics initialization [HIGH] */
     jsr @r3                             ! car_physics_init()

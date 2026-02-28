@@ -219,7 +219,7 @@ state_race_complete:
     .byte 0x00, 0x00
     .byte 0xFE, 0xC6
     .byte 0x00, 0x00
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0607EBCC
     .4byte sym_06078654
     .4byte sym_0605A016

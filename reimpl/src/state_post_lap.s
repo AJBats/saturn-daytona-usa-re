@@ -23,7 +23,7 @@
  *
  * Persistent registers:
  *   r13 = &course_state (sym_0607EAD8)
- *   r14 = &next_game_state (sym_0605AD10)
+ *   r14 = &next_game_state (g_game_state)
  */
 
     .section .text.FUN_060092D0
@@ -103,7 +103,7 @@ state_post_lap:
 .L_course_state_ptr:
     .4byte  sym_0607EAD8                   ! course/race state (dword)
 .L_next_game_state:
-    .4byte  sym_0605AD10                   ! next game state (dword)
+    .4byte  g_game_state                   ! next game state (dword)
 .L_input_buttons:
     .4byte  sym_06063D9A                   ! current input buttons (word)
 .L_transition_state:

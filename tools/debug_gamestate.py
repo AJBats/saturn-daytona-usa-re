@@ -60,7 +60,7 @@ def main():
 
     # Dump game state variables
     # From _start.s pool entries:
-    #   sym_0605AD10 - game state dispatch variable
+    #   g_game_state - game state dispatch variable
     #   sym_0607EBC0 - state-related
     #   sym_0607EBC4 - state-related
     #   sym_0607EBC8 - state-related
@@ -85,7 +85,7 @@ def main():
         print(f"    free@+{SHIFT:2d}  = 0x{vfs:08X}" if vfs is not None else f"    free@+{SHIFT:2d}  = None")
 
     # Check if these are in code range or data range
-    # sym_0605AD10 is at 0x0605AD10 which is in code range (0x06003000-0x06063690)
+    # g_game_state is at 0x0605AD10 which is in code range (0x06003000-0x06063690)
     # sym_0607EBC0 is at 0x0607EBC0 which is OUTSIDE code range (> 0x06063690)
     print(f"\n  Note: 0x0605AD10 is in code range -> shifts by {SHIFT}")
     print(f"  Note: 0x0607EBxx is outside code range -> does NOT shift")

@@ -33,7 +33,7 @@
  *   sym_06049AFC = car slot param table (2 bytes/entry: variant, color)
  *   sym_0605D4F0 = car display data pointer (indirect)
  *   sym_060284AE = display element renderer (r4=layer, r5=dlist, r6=index, r7=tex)
- *   sym_0605AD10 = game state dispatch value (32-bit)
+ *   g_game_state = game state dispatch value (32-bit)
  *   sym_06059F44 = animation state (32-bit)
  *   sym_06026CE0 = camera state finalization
  *
@@ -102,7 +102,7 @@ car_select_input:
     mov.b @r14, r0                               ! r0 = current car index
     cmp/eq #0x7, r0                              ! is it the special slot (7)?
     bf      .L_confirm_normal                    ! no -> normal confirm path
-    mov.l   _pool_game_state_val, r3             ! r3 -> &game_state_dispatch (sym_0605AD10)
+    mov.l   _pool_game_state_val, r3             ! r3 -> &game_state_dispatch (g_game_state)
     mov.l r13, @r3                               ! game_state_dispatch = 7
     bra     .L_epilogue                          ! done -> epilogue
     nop                                          ! (delay)
@@ -179,7 +179,7 @@ _pool_car_slot_params:
 _pool_car_display_data:
     .4byte  sym_0605D4F0
 _pool_game_state_val:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 _pool_anim_state:
     .4byte  sym_06059F44
 _pool_camera_finalize:

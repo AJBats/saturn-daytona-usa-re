@@ -44,7 +44,7 @@ state_boot_init:
     jsr @r3                     ! call obj_render_update()
     nop                         ! delay slot
     mov #0x1, r2                ! r2 = 1 (next game state)
-    mov.l   .L_pool_game_state, r3 ! r3 = &game_state (sym_0605AD10)
+    mov.l   .L_pool_game_state, r3 ! r3 = &game_state (g_game_state)
     mov.l r2, @r3               ! game_state = 1 (advance to state 1)
     mov.l   .L_pool_fn_disp_update, r3 ! r3 = &sym_06026CE0 (display subsystem update)
     jsr @r3                     ! call display subsystem update
@@ -73,7 +73,7 @@ loc_0600890A:
 .L_pool_fn_obj_render:
     .4byte  obj_render_update   /* object render subsystem init */
 .L_pool_game_state:
-    .4byte  sym_0605AD10        /* game_state — current game phase (32-bit) */
+    .4byte  g_game_state        /* game_state — current game phase (32-bit) */
 .L_pool_fn_disp_update:
     .4byte  sym_06026CE0        /* display subsystem update function */
 .L_pool_vblank_out_ctr:

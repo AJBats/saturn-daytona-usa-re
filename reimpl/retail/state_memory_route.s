@@ -36,6 +36,6 @@ state_memory_route:
     .4byte sym_0605E0A2
     .4byte sym_0605A016
     .4byte geom_output_dispatch
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_060149E0
     .4byte sym_06026CE0

@@ -32,7 +32,7 @@ state_results_screen:
     .byte 0x00, 0x09
     .byte 0x08, 0x00
     .4byte sym_0607EBF4
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0607EAD0
     .4byte sym_0607EBD0
     .4byte race_update_abort

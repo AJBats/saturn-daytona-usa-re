@@ -60,7 +60,7 @@ state_time_extend_setup:
     .byte 0x05, 0x1C
     .byte 0x06, 0x1C
     .byte 0x04, 0x9C
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06078654
     .4byte sym_06078652
     .4byte sym_06078650

@@ -251,7 +251,7 @@ state_time_extend_active:
 .L_countdown_timer:
     .4byte  sym_0607EACC               /* countdown timer (32-bit) */
 .L_game_state:
-    .4byte  sym_0605AD10               /* game state dispatch value */
+    .4byte  g_game_state               /* game state dispatch value */
 .L_extend_lap_byte:
     .4byte  sym_06078652               /* extend mode lap byte */
 .L_lap_count:
@@ -346,7 +346,7 @@ state_time_extend_active:
 .L_race_event_flags:
     .4byte  sym_0607EBF4               /* race event bitfield (32-bit) */
 .L_game_state_b:
-    .4byte  sym_0605AD10               /* game state dispatch value */
+    .4byte  g_game_state               /* game state dispatch value */
 .L_fn_camera_finalize:
     .4byte  sym_06026CE0               /* camera state finalization */
 .L_anim_state:

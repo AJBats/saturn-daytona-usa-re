@@ -20,7 +20,7 @@
  *   sym_060280F8 = VDP1 command builder (r4=src, r5=dst)
  *   sym_0605A008 = VDP1 command counter (incremented per command emitted)
  *   sym_060785FC = VDP1 command write pointer (current dest address)
- *   sym_0605AD10 = game state dispatch value (current game mode)
+ *   g_game_state = game state dispatch value (current game mode)
  *   sym_06084FC8 = slot data array (byte flags at [0],[1] = layer visibility)
  *
  * Note: .word 0x0029/0x0129 are MOVT R0/R1 instructions (store T bit).
@@ -43,7 +43,7 @@ vdp2_frame_update:
     mov.l   .L_pool_vdp1_cmd_builder, r12 ! r12 = VDP1 command builder function
     mov.l   .L_pool_cmd_counter, r13    ! r13 = &cmd_counter (sym_0605A008)
     mov.l   .L_pool_write_ptr, r14      ! r14 = &VDP1 write pointer (sym_060785FC)
-    mov.l   .L_pool_game_state, r4      ! r4 = &game_state (sym_0605AD10)
+    mov.l   .L_pool_game_state, r4      ! r4 = &game_state (g_game_state)
     mov.l @r4, r0                       ! r0 = current game state
     cmp/eq #0x15, r0                    ! is game state == 0x15 (normal race)?
     .word 0x0129 /* MOVT R1 */          ! r1 = T (1 if normal race)
@@ -175,6 +175,6 @@ DAT_0601729e:
 .L_pool_write_ptr:
     .4byte  sym_060785FC                ! VDP1 command write pointer (current dest)
 .L_pool_game_state:
-    .4byte  sym_0605AD10                ! game state dispatch value
+    .4byte  g_game_state                ! game state dispatch value
 .L_pool_slot_flags:
     .4byte  sym_06084FC8                ! slot data array (visibility flags at [0],[1])

@@ -184,7 +184,7 @@ camera_view_update:
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
     .4byte sym_0607EBCC
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06094FAC
     .4byte sym_0605AAA6
     .4byte sym_0605AAA2

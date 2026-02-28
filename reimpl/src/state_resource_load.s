@@ -19,7 +19,7 @@
  *   display_mode = 3 before returning.
  *
  * Data references:
- *   sym_0605AD10 = game_state_dispatch (32-bit, controls game flow)
+ *   g_game_state = game_state_dispatch (32-bit, controls game flow)
  *   sym_0605E0A2 = preview_camera_flag (byte, set by preview_camera_path)
  *   sym_0605A016 = display_mode (16-bit, fb resolution mode selector)
  *
@@ -36,7 +36,7 @@
 state_resource_load:
     mov.l r14, @-r15                      ! save r14 to stack (callee-saved)
     sts.l pr, @-r15                       ! save return address to stack
-    mov.l   .L_pool_game_state, r14       ! r14 = &game_state_dispatch (sym_0605AD10)
+    mov.l   .L_pool_game_state, r14       ! r14 = &game_state_dispatch (g_game_state)
     mov.l   .L_pool_fn_geom_output, r3    ! r3 = &geom_output_ctrl
     jsr @r3                               ! call geom_output_ctrl — check geometry pipeline
     nop                                   ! delay slot
@@ -53,7 +53,7 @@ state_resource_load:
     nop                                   ! delay slot
     .2byte  0xFFFF
 .L_pool_game_state:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
     .4byte  disc_course_data_load
     .4byte  sym_06026CE0
     .4byte  sym_06059F44

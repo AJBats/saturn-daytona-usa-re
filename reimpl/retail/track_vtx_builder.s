@@ -133,7 +133,7 @@ track_vtx_builder:
     .byte 0x00, 0x09
     .byte 0xFF, 0x74
     .4byte fpmul
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06084FC8
     .4byte sincos_pair
     .byte 0x8B, 0xBB

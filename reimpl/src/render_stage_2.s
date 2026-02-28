@@ -447,7 +447,7 @@ render_stage_3:                                 ! palette blend toward black (fa
 .L_dma_src_pal_c1:
     .4byte  sym_0605D19C                    /* palette source C, CRAM bank 2 */
 .L_render_mode_state:
-    .4byte  sym_0605AD10                    /* game state dispatch value */
+    .4byte  g_game_state                    /* game state dispatch value */
 .L_fn_display_update:
     .4byte  sym_06026CE0                    /* display update function */
 .L_anim_state:

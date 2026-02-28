@@ -31,7 +31,7 @@ state_course_select_active:
     mov.l r2, @r3                            ! (delay slot) *state_tracker = 0 — reset animation state
     .2byte  0xFFFF
     .4byte  handler_init_reset
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
     .4byte  track_poly_start
     .4byte  obj_render_update
 .L_pool_display_update:

@@ -67,7 +67,7 @@ state_post_lap:
     .byte 0x08, 0x00
     .byte 0x02, 0x40
     .4byte sym_0607EAD8
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06063D9A
     .4byte sym_0607EACC
     .4byte sym_0600A33C

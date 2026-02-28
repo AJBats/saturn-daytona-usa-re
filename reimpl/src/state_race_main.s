@@ -126,7 +126,7 @@ state_race_main:
 .L_car_struct_ptr:
     .4byte  sym_0607E940               /* current car struct pointer variable */
 .L_game_state:
-    .4byte  sym_0605AD10               /* game phase state (0x10/0x12/0x15) */
+    .4byte  g_game_state               /* game phase state (0x10/0x12/0x15) */
 .L_race_state_flag:
     .4byte  sym_0607ED8C               /* per-frame race state flag (16-bit) */
 .L_car_array_base:

@@ -390,7 +390,7 @@ render_stage_3:
     .4byte sym_0604886C
     .4byte sym_0605D17C
     .4byte sym_0605D19C
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06026CE0
     .4byte sym_06059F44
     .4byte sym_06086020

@@ -69,7 +69,7 @@ DAT_06019864:
     .4byte sym_06063D9A
     .4byte sym_06059F44
     .4byte sym_0605D242
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0605D244
     .4byte sym_06049AF4
     .4byte sym_06063750

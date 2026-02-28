@@ -28,7 +28,7 @@
  *   sym_06063DA0 = display status flags (16-bit)
  *   sym_06078644 = course_type (32-bit)
  *   sym_0607EBCC = attract_countdown (32-bit, frames)
- *   sym_0605AD10 = game_state_dispatch (32-bit)
+ *   g_game_state = game_state_dispatch (32-bit)
  *   sym_060149E0 = disable_display() — clears bit 15 of display reg
  *   sym_06063D9A = button status word (16-bit)
  *   sym_0605B6D8 = render_mode_flags (32-bit bitmask)
@@ -103,7 +103,7 @@ _pool_course_type_ptr:
 _pool_countdown_ptr:
     .4byte  sym_0607EBCC
 _pool_game_state_ptr:
-    .4byte  sym_0605AD10
+    .4byte  g_game_state
 _pool_fn_disable_display:
     .4byte  sym_060149E0
 _pool_button_status_ptr:

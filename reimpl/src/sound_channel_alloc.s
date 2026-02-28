@@ -202,7 +202,7 @@ loc_0601D568:
     cmp/ge r2, r3                               ! is timer >= 1? (still counting down?)
     bt      .L_timer_still_active               ! yes: nothing to do, return
     mov #0x6, r2                                ! r2 = 6 (next game phase: advance past loading)
-    mov.l   _pool4_game_state_dispatch, r3      ! r3 = &game_state_dispatch_value (sym_0605AD10)
+    mov.l   _pool4_game_state_dispatch, r3      ! r3 = &game_state_dispatch_value (g_game_state)
     mov.l r2, @r3                               ! game_state_dispatch_value = 6 (trigger transition)
 .L_timer_still_active:
     rts                                         ! return
@@ -263,7 +263,7 @@ camera_view_update:                                     /* display channel table
 _pool4_countdown_timer:
     .4byte  sym_0607EBCC                        /* &state_countdown_timer (32-bit) */
 _pool4_game_state_dispatch:
-    .4byte  sym_0605AD10                        /* &game_state_dispatch_value (32-bit) */
+    .4byte  g_game_state                        /* &game_state_dispatch_value (32-bit) */
 _pool5_src_table_base:
     .4byte  sym_06094FAC                        /* &display_channel_src_table (source entries) */
 _pool5_dest_table_base:

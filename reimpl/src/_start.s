@@ -56,7 +56,7 @@ sym_06003000:
     .4byte sym_06003000
     .4byte sym_0607EBC0
     .4byte sym_0607EBC4
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0607EBC8
     .4byte state_boot_init
     .4byte loc_0600890A

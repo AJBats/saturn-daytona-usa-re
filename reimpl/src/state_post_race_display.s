@@ -47,7 +47,7 @@ state_post_race_display:
     .4byte  sym_0605A016                  ! phase flag (word, indexes 32-byte display blocks)
     .4byte  display_mode_init             ! display mode initializer function
     .4byte  race_state_pair_2             ! race state pair 2 handler
-    .4byte  sym_0605AD10                  ! game state variable (0-31, controls game flow)
+    .4byte  g_game_state                  ! game state variable (0-31, controls game flow)
     .4byte  sym_06078654                  ! race state flag/variable
     .4byte  gameover_channel_setup        ! gameover channel setup function
     .4byte  obj_render_update             ! object render update function

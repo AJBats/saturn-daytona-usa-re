@@ -30,7 +30,7 @@ position_vel_limiter:
     .byte 0x29, 0x99
     .byte 0x40, 0x00
     .byte 0x18, 0x00
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06078636
     .4byte sym_060788B4
     .byte 0x00, 0x02

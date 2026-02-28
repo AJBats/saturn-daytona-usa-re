@@ -100,7 +100,7 @@ vram_defrag:
     .4byte sym_06087804
     .4byte sym_06078900
     .4byte fpmul
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .global loc_06020090
 loc_06020090:
     .byte 0xD0, 0x03
@@ -111,4 +111,4 @@ loc_06020090:
     .byte 0x00, 0x09
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_0605AD10
+    .4byte g_game_state

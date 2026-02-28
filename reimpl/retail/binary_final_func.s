@@ -41972,8 +41972,8 @@ sym_0605AD08:
 sym_0605AD0C:
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .global sym_0605AD10
-sym_0605AD10:
+    .global g_game_state
+g_game_state:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .global sym_0605AD14

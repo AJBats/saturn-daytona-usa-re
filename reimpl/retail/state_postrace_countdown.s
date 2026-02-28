@@ -30,7 +30,7 @@ state_postrace_countdown:
     .byte 0x02, 0x58
     .byte 0xFF, 0xFF
     .4byte race_variant_a
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_0607EBCC
     .4byte sym_06028560
     .4byte game_init_master

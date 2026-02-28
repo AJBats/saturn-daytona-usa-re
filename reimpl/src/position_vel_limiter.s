@@ -62,7 +62,7 @@ position_vel_limiter:
 .L_const_rot_increment:
     .2byte  0x1800                      /* [HIGH] rotation angle increment per frame (0x1800 = ~33.75 deg) */
 .L_ptr_game_state:
-    .4byte  sym_0605AD10                /* [HIGH] game state variable (0-31 state machine index) — unreferenced in this TU */
+    .4byte  g_game_state                /* [HIGH] game state variable (0-31 state machine index) — unreferenced in this TU */
 .L_ptr_display_mode:
     .4byte  sym_06078636                /* [HIGH] display mode byte (controls car display) — unreferenced in this TU */
 .L_ptr_position_vec:

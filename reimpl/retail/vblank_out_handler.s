@@ -49,7 +49,7 @@ vblank_out_handler:
     .4byte sym_06059F44
     .4byte sym_06059F54
     .4byte controller_input_update
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06059F58
     .4byte sym_06063F58
     .4byte sym_060A4C92

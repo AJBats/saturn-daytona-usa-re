@@ -70,7 +70,7 @@ state_attract_return:
     .4byte display_channel_b
     .4byte gameover_channel_setup
     .4byte sym_0607EBCC
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte sym_06087804
     .4byte race_init_master
     .4byte hud_subsystem_init

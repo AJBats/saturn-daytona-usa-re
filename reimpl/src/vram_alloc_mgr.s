@@ -14,7 +14,7 @@
  *   3. Store selected entry into sym_060877F8 (active alloc ptr).
  *   4. Dereference entry to get display-list descriptor; store to sym_060877F4.
  *   5. BSR geom_display_handler — iterate cars, submit geometry.
- *   6. Read sym_0605AD10 (game-state word).
+ *   6. Read g_game_state (game-state word).
  *      - If == 0x17 -> T-flag captured to r1 (movt r1).
  *      - If == 0x16 -> T-flag captured to r0 (movt r0).
  *      OR r1|r0: if any state matched -> tail-call race_start_obj_init.
@@ -28,7 +28,7 @@
  *   sym_0605F62C  alloc table A (3-entry pointer table, video mode A)
  *   sym_0605F5EC  alloc table B (3-entry pointer table, video mode B)
  *   sym_060877F4  display-list descriptor ptr (written before geometry call)
- *   sym_0605AD10  game-state word (0x16/0x17 = race-start states)
+ *   g_game_state  game-state word (0x16/0x17 = race-start states)
  */
 
     .section .text.FUN_0601FD9C
@@ -68,7 +68,7 @@ vram_alloc_mgr:
     mov.l r3, @r1                         ! disp_desc_ptr = descriptor[0]
     .byte   0xB0, 0x25    /* bsr 0x0601FE20 (external) */  ! call geom_display_handler
     nop                                   ! (delay slot)
-    mov.l   .L_ptr_game_state, r4         ! r4 = &game_state (sym_0605AD10)
+    mov.l   .L_ptr_game_state, r4         ! r4 = &game_state (g_game_state)
     mov.l @r4, r0                         ! r0 = game_state word
     cmp/eq #0x17, r0                      ! is game_state == 0x17 (race-start state A)?
     .word 0x0129 /* movt r1 */            ! r1 = T (1 if matched, else 0)
@@ -102,4 +102,4 @@ vram_alloc_mgr:
 .L_ptr_disp_desc:
     .4byte  sym_060877F4                  /* &disp_desc_ptr (written before geom call) */
 .L_ptr_game_state:
-    .4byte  sym_0605AD10                  /* &game_state word (0x16/0x17 = race-start) */
+    .4byte  g_game_state                  /* &game_state word (0x16/0x17 = race-start) */

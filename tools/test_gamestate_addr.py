@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """test_gamestate_addr.py -- Find actual game state address in reimpl vs prod.
 
-The symbol sym_0605AD10 maps to 0x0605AD00 in the free-layout build
+The symbol g_game_state maps to 0x0605AD00 in the free-layout build
 (shifted by -0x10). This script verifies where the game state actually lives.
 """
 import os, sys, time, struct
@@ -76,7 +76,7 @@ def main():
                 # Annotate known addresses
                 note = ""
                 if addr == 0x0605AD00:
-                    note = " <-- sym_0605AD10 in free build"
+                    note = " <-- g_game_state in free build"
                 elif addr == 0x0605AD10:
                     note = " <-- original 0x0605AD10"
                 elif val < 100:

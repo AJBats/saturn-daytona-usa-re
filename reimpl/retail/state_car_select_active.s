@@ -18,7 +18,7 @@ state_car_select_active:
     .byte 0x00, 0x0B
     .byte 0x23, 0x22
     .byte 0xFF, 0xFF
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte car_select_setup
     .4byte sym_06026CE0
     .4byte sym_06059F44

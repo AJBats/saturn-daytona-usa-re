@@ -20,7 +20,7 @@ state_resource_load:
     .byte 0xA0, 0x13
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_0605AD10
+    .4byte g_game_state
     .4byte disc_course_data_load
     .4byte sym_06026CE0
     .4byte sym_06059F44

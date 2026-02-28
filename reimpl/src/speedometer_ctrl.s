@@ -18,7 +18,7 @@
  *
  * Globals:
  *   sym_0607EBCC  -- state countdown timer (32-bit, decremented per call)
- *   sym_0605AD10  -- game state dispatch value (written 6 on abort)
+ *   g_game_state  -- game state dispatch value (written 6 on abort)
  *   sym_0607EADC  -- current car/player index (dword, indexes sound table)
  *   sym_0604481C  -- sound command table base (4-byte entries)
  *   sym_0607887F  -- game state byte (written 0x02 = post-race)
@@ -48,7 +48,7 @@ speedometer_ctrl:
     tst r2, r2                              ! test if abort bit is set
     bt      .L_no_abort                     ! if abort bit clear -> skip abort path
     mov #0x6, r3                            ! r3 = 6 (abort state value)
-    mov.l   _pool_game_dispatch_ptr, r2     ! r2 = &game_state_dispatch (sym_0605AD10)
+    mov.l   _pool_game_dispatch_ptr, r2     ! r2 = &game_state_dispatch (g_game_state)
     mov.l r3, @r2                           ! game_state_dispatch = 6 (force abort transition)
     bra     .L_exit                         ! jump to exit
     nop                                     ! (branch delay slot)
@@ -63,7 +63,7 @@ _wpool_abort_mask:
 _pool_countdown_ptr:
     .4byte  sym_0607EBCC                    /* &state_countdown (32-bit timer) */
 _pool_game_dispatch_ptr:
-    .4byte  sym_0605AD10                    /* &game_state_dispatch value */
+    .4byte  g_game_state                    /* &game_state_dispatch value */
 .L_no_abort:
     mov.l @r14, r2                          ! r2 = state_countdown (just decremented)
     cmp/pl r2                               ! T = (countdown > 0)?

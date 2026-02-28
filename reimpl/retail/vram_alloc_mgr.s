@@ -57,4 +57,4 @@ vram_alloc_mgr:
     .4byte sym_0605F62C
     .4byte sym_0605F5EC
     .4byte sym_060877F4
-    .4byte sym_0605AD10
+    .4byte g_game_state

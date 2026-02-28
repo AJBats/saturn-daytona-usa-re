@@ -96,6 +96,6 @@ hud_anim_ctrl:
 .L_pool_display_status_word:
     .4byte  sym_06063DA0                    ! display status word (16-bit)
 .L_pool_game_state:
-    .4byte  sym_0605AD10                    ! game state variable (dispatch index)
+    .4byte  g_game_state                    ! game state variable (dispatch index)
 .L_pool_fn_transition_stub:
     .4byte  sym_0601E0DE                    ! transition stub function (rts/nop)

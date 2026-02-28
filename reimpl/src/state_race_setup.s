@@ -264,7 +264,7 @@ state_race_setup:
 .L_fn_menu_overlay:
     .4byte  menu_overlay_render        /* menu overlay renderer */
 .L_game_state:
-    .4byte  sym_0605AD10               /* game phase state */
+    .4byte  g_game_state               /* game phase state */
 .L_render_flags:
     .4byte  sym_0605B6D8               /* global render flags */
 .L_render_flag_bit:
