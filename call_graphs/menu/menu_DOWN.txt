@@ -1,0 +1,48 @@
+CALL GRAPH: menu DOWN press
+State handler: state_course_select_active
+
+Entry: state_course_select_active (PC=0x06008B3A, returns to 0x0600305C)
+  +- course_select_input
+    +- FUN_060196B0
+      +- mode_select_handler
+        +- scene_dual_finalize
+          +- FUN_060262C0
+        +- DAT_06019762
+          +- loc_060198B8
+            +- loc_060198CC
+              +- car_select_state
+                +- DAT_06019864
+                  +- loc_060198A4
+
+121 steps, 11 edges, 12 functions
+
+============================================================
+TREE:
+
+state_course_select_active
+    `-- course_select_input
+        `-- FUN_060196B0
+            `-- mode_select_handler
+                |-- scene_dual_finalize
+                |   `-- FUN_060262C0
+                `-- DAT_06019762
+                    `-- loc_060198B8
+                        `-- loc_060198CC
+                            `-- car_select_state
+                                `-- DAT_06019864
+                                    `-- loc_060198A4
+
+============================================================
+EDGES (11):
+
+  state_course_select_active -> course_select_input
+  course_select_input -> FUN_060196B0
+  FUN_060196B0 -> mode_select_handler
+  mode_select_handler -> scene_dual_finalize
+  scene_dual_finalize -> FUN_060262C0
+  mode_select_handler -> DAT_06019762
+  DAT_06019762 -> loc_060198B8
+  loc_060198B8 -> loc_060198CC
+  loc_060198CC -> car_select_state
+  car_select_state -> DAT_06019864
+  DAT_06019864 -> loc_060198A4
