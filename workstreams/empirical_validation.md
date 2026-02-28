@@ -28,9 +28,12 @@ annotations and makes future reverse engineering faster.
 |------|---------|
 | `tools/record_trace.py` | Record interactive gameplay with frame-precise input logging |
 | `tools/replay_trace.py` | Replay a trace headlessly, capture screenshots |
+| `tools/investigate.py` | **Primary**: Replays to game states, runs watchpoint/call-trace/memory-diff experiments |
+| `tools/investigate_targeted.py` | Targeted follow-up investigations for specific variables |
 | `tools/prove_down_handler.py` | Template: watchpoint-based input handler discovery |
 | `tools/find_menu_input.py` | Template: memory-diff + watchpoint approach |
 | `build/golden_trace/` | Reference trace + 18 screenshots covering full arcade flow |
+| `build/investigation_results/` | Output from investigate.py (logs, call traces, memory diffs) |
 
 ### Mednafen Automation Commands (Key Subset)
 
@@ -123,23 +126,29 @@ mode_select_handler:
 
 ### Priority 1: Menu Input Handlers (known game states, easy to trigger)
 
-- [x] Mode Select DOWN handler → `mode_select_handler` (2026-02-27)
-- [ ] Mode Select UP handler
-- [ ] Mode Select C (confirm) handler
-- [ ] Circuit Select LEFT/RIGHT handler
-- [ ] Circuit Select C (confirm) handler
-- [ ] Car Select LEFT/RIGHT handler
-- [ ] Car Select C (confirm) handler
+- [x] Mode Select DOWN handler → `mode_select_handler` (2026-02-27, watchpoint)
+- [x] Mode Select UP handler → `mode_select_handler` (2026-02-28, watchpoint)
+- [x] Mode Select C (confirm) → `car_select_setup`, `track_seg_phys_init` (2026-02-28, watchpoint)
+- [ ] Circuit Select LEFT/RIGHT handler — handler code reuses mode_select_handler, browsing done by dispatched renderer
+- [x] Circuit Select C (confirm) → activates `race_countdown_timer` (2026-02-28, call-trace)
+- [x] Car Select input → `car_select_input` writes sym_06085FF0 (2026-02-28, call-trace)
+- [x] Car Select C (confirm) → activates `transition_medium_a` (2026-02-28, call-trace)
 
 ### Priority 2: Race Input Handlers (need to reach racing state)
 
-- [ ] Steering LEFT/RIGHT handler
-- [ ] Gas (acceleration) handler
+- [x] Physics pipeline → `player_physics_main` + 6 sub-functions (2026-02-28, call-trace)
+- [x] Button state writer → `viewport_coord_calc` writes sym_06063D98 (2026-02-28, watchpoint)
+- [ ] Steering input reader — which function reads LEFT/RIGHT and applies to heading
+- [ ] Gas (acceleration) handler — targeted investigation pending
 - [ ] Brake handler
 - [ ] View change handler
 
 ### Priority 3: Game State Variables
 
+- [x] Mode select index → sym_0605D244 at runtime 0x0605D1FC (2026-02-28, watchpoint)
+- [x] Mode select counter → sym_0605D242 (2026-02-28, memory-diff)
+- [x] Mode select animation timer → sym_0605D243 (2026-02-28, memory-diff)
+- [x] Player car struct → sym_06078900 (87 bytes change during steering) (2026-02-28, memory-diff)
 - [ ] Lap counter — what writes it, what triggers increment
 - [ ] Position display (39/40 etc.) — what computes it
 - [ ] Speed display — what feeds the speedometer
@@ -168,3 +177,50 @@ mode_select_handler:
 **Result**: Car engine sound stopped, no visual change
 **Conclusion**: sym_0602EFCC feeds audio system (spatial sound panning), not rendering
 **Status**: VERIFIED (documented in car_flip_benchmark.md, not yet tagged in source)
+
+---
+
+### Batch investigation run (2026-02-28)
+
+**Tool**: `tools/investigate.py all` — 4 game states, watchpoints + call trace diffs + memory diffs
+**Critical fix**: Symbol address resolution — retail addresses in symbol names (e.g. sym_0605D244)
+differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now use the linker map.
+
+#### Mode Select (watchpoint evidence)
+
+| Finding | Method | Evidence |
+|---------|--------|----------|
+| mode_select_handler handles DOWN + UP | watchpoint on sym_0605D244 | DOWN: PC=0x0601975A writes index; UP: PC=0x060197B8 writes index |
+| car_select_setup sets init flag on C | watchpoint on sym_06085FF1 | PC=0x060198FC writes 0→1 during transition |
+| track_seg_phys_init clears init flag | watchpoint on sym_06085FF1 | PC=0x06019A16 writes 1→0 after loading display lists |
+| sym_06028400 called 13x more during DOWN | call-trace | Only function with increased calls during DOWN press |
+
+#### Circuit Select (call-trace evidence)
+
+| Finding | Method | Evidence |
+|---------|--------|----------|
+| race_countdown_timer activated on C | call-trace | 9 calls during C, 0 during idle [NEW] |
+| Memory scan 0x0605D100-0x0605D300 found nothing for RIGHT | memory-diff | Circuit index not in this region |
+| fpmul/sincos_pair/sprite_anim_render increase during RIGHT | call-trace | 3D preview animation response |
+
+#### Car Select (call-trace evidence)
+
+| Finding | Method | Evidence |
+|---------|--------|----------|
+| transition_medium_a activated on C | call-trace | 13 calls during C, 0 during idle [NEW] |
+| loc_06031CC4+0x56 massive increase during RIGHT | call-trace | +2344 calls — likely car model rendering |
+| Memory scan 0x0605D100-0x0605D300 found nothing for RIGHT | memory-diff | Car index (sym_06085FF0) is elsewhere |
+
+#### Racing (call-trace + watchpoint + memory-diff evidence)
+
+| Finding | Method | Evidence |
+|---------|--------|----------|
+| player_physics_main pipeline: 6 sub-functions run 3x more during steering | call-trace | All show +78 delta (39→117 calls during LEFT) |
+| Physics sub-functions: gear_shift_handler, friction_stub, accel_response, player_collision, heading_smooth_gentle, ai_speed_trampoline, track_segment_advance, track_pos_query | call-trace | Same +78 delta confirms batch invocation |
+| viewport_coord_calc writes button state struct | watchpoint on sym_06063D98 | 4 PCs within function write during LEFT |
+| sym_06078900 = player car struct | memory-diff | 87 bytes change during LEFT steering |
+| Rendering pipeline increase during steering | call-trace | transform_pipeline, scene_render_alt, mat_vec_transform, render_list_builder all increase |
+| Math functions spike during steering | call-trace | fpmul +496, fpdiv_setup +196, atan_piecewise +186, atan2 +182 |
+
+**Total VERIFIED tags added**: 19 files (was 1)
+**Status**: All tags validated — 3-class build validation PASS

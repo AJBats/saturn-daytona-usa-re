@@ -1,3 +1,9 @@
+/* VERIFIED: calls clip_region_test and vdp1_display_submit sub-functions during racing
+ * Method: watchpoint on car struct fields caught PR=render_orchestrator+0xE4 and +0xEA
+ *   as the caller of functions that write car[+0x0C], car[+0x10], car[+0x38]
+ *   Confirms this orchestrates per-car rendering pipeline including position writes.
+ * Date: 2026-02-28
+ */
 /* render_orchestrator -- Per-Car Rendering Pipeline Orchestrator
  * Translation unit: 0x0602EEB8 - 0x0602EFDA
  *

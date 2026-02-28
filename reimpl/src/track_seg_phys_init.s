@@ -1,3 +1,10 @@
+/* VERIFIED: called during mode select C press, clears init flag
+ * Method: watchpoint on sym_06085FF1 (init pending flag) during C press on Mode Select
+ *   PC=0x06019A16 (track_seg_phys_init+0xEA) writes 0x00010000 -> 0x00000000
+ *   PR=0x06019A0E (track_seg_phys_init+0xE2, within function body)
+ *   Called by car_select_setup; clears flag after loading display lists and physics.
+ * Date: 2026-02-28
+ */
 /* track_seg_phys_init -- L3 assembly (SH-2 mnemonics)
  * Translation unit: 0x06019928 - 0x06019A48
  *

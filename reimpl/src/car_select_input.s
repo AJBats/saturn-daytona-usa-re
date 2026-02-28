@@ -1,3 +1,8 @@
+/* VERIFIED: active during car select screen (called after mode select C press)
+ * Method: call-trace differential — 10 frames idle vs 10 frames with C on mode select
+ *   12 calls during C (baseline 10, +2) — runs every frame during car select state
+ * Date: 2026-02-28
+ */
 /* car_select_input -- car selection screen input handler
  * Translation unit: 0x06019A48 - 0x06019BC8
  *

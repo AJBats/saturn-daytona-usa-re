@@ -1,3 +1,8 @@
+/* VERIFIED: called during mode select C press transition (part of every-frame dispatch)
+ * Method: call-trace differential — 10 frames idle vs 10 frames with C on mode select
+ *   12 calls during C (baseline 10, +2) — called every frame, extra frames from transition
+ * Date: 2026-02-28
+ */
 /* button_input_read.s -- Main per-frame input/event dispatch
  * Translation unit: 0x06006F3C - 0x06007268
  *

@@ -1,3 +1,11 @@
+/* VERIFIED: handles UP and DOWN button presses on Mode Select screen
+ * Method: watchpoint on sym_0605D244 (selection index) at runtime addr 0x0605D1FC
+ *   DOWN: PC=0x0601975A (handler+0xA6) writes index, wraps 4→0
+ *   UP:   PC=0x060197B8 (handler+0x104) writes index, wraps -1→3
+ *   Both with PR=mode_select_handler+0x10 (inside function body)
+ * Date: 2026-02-28
+ */
+
 /* mode_select_handler — Mode Select menu controller
  * Translation unit: 0x060196B0 - 0x060197F4
  *

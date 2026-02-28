@@ -1,3 +1,9 @@
+/* VERIFIED: heading_smooth_gentle (0x0600CA9A in this TU) called every physics frame
+ * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
+ *   heading_smooth_gentle: 117 calls during LEFT (baseline 39, +78)
+ *   Part of player_physics_main pipeline
+ * Date: 2026-02-28
+ */
 /* track_position_calc -- L3 assembly (SH-2 mnemonics)
  * Translation unit: 0x0600C994 - 0x0600CB90
  *
