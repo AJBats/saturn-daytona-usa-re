@@ -1,0 +1,292 @@
+CALL GRAPH CROSS-REFERENCE
+18 scenarios, 130 unique edges across all
+
+============================================================
+COMMON CORE (12 edges — present in all 18 scenarios)
+============================================================
+  controller_input_update -> smpc_data_manage
+  data_table_copy -> menu_anim_system
+  framebuf_swap_ctrl -> sym_06000358
+  master_menu_render -> data_table_copy
+  master_menu_render -> game_logic_main
+  master_menu_render -> master_menu_render
+  master_menu_render -> sym_0603AB46
+  smpc_data_manage -> DAT_0603a2ca
+  sym_06000358 -> button_input_read
+  sym_06000358 -> master_menu_render
+  sym_06000358 -> vblank_out_handler
+  vblank_out_handler -> controller_input_update
+
+============================================================
+STATE-UNIQUE EDGES (only appear in one game state)
+============================================================
+
+  ATTRACT only (22 edges):
+    DAT_0600b840 -> render_obj_additive
+    DAT_0600b840 -> sym_06031A28
+    DAT_0600b840 -> sym_06031D8C
+    mat_rot_z -> sincos_pair
+    render_cs0_loop -> mat_rot_y
+    render_cs0_loop -> mat_rot_z
+    render_cs0_loop -> sym_06026DBC
+    render_cs0_loop -> sym_06026E2E
+    render_cs0_loop -> sym_06031A28
+    render_cs0_loop -> sym_06031D8C
+    render_cs0_loop -> transform_matrix
+    render_obj_additive -> mat_rot_y
+    render_obj_additive -> sym_06026DBC
+    render_obj_additive -> sym_06026E2E
+    render_obj_additive -> sym_06031A28
+    render_obj_additive -> sym_06031D8C
+    render_obj_additive -> transform_matrix
+    replay_playback_engine -> sym_06034FE0
+    scene_render_body -> replay_playback_engine
+    scene_render_body -> sym_0603C000
+    transform_matrix -> sincos_pair
+    vdp1_sprite_builder -> sym_060281B8
+
+  CAR only (22 edges):
+    DAT_06010c4e -> position_ranking_display
+    DAT_06010c4e -> sym_060270D0
+    DAT_06010c4e -> sym_0603C000
+    DAT_06010c4e -> vdp_mode_select
+    DAT_060113b4 -> sym_06028400
+    brake_state_toggle -> dma_transfer
+    game_state_dispatch -> sym_060283E0
+    game_state_dispatch -> sym_060284AE
+    game_state_dispatch -> transition_large_results
+    hud_element_draw -> sound_cmd_dispatch
+    position_ranking_display -> sym_06028400
+    tachometer_ctrl -> hud_element_draw
+    transition_large_results -> anim_ui_transition
+    transition_large_results -> brake_state_toggle
+    transition_large_results -> graphics_mode_setup
+    transition_large_results -> sym_06011EB4
+    vdp_mode_select -> mat_rot_y
+    vdp_mode_select -> sym_06026DBC
+    vdp_mode_select -> sym_06026E0C
+    vdp_mode_select -> sym_06026E2E
+    vdp_mode_select -> sym_06031A28
+    vdp_mode_select -> sym_06031D8C
+
+  CIRCUIT only (8 edges):
+    DAT_0601112c -> sym_06028400
+    game_state_dispatch -> transition_handler_a
+    hud_course_render -> sym_06028400
+    speedometer_ctrl -> sound_cmd_dispatch
+    transition_handler_a -> DAT_060101b2
+    transition_handler_a -> FUN_060102EC
+    transition_handler_a -> anim_ui_transition
+    transition_handler_a -> hud_course_render
+
+  MENU only (9 edges):
+    DAT_060195ae -> sym_06028400
+    DAT_060195ae -> sym_060284AE
+    car_select_state -> sym_06028400
+    course_select_draw -> sym_06028400
+    mode_select_handler -> scene_dual_finalize
+    state_course_select_active -> course_select_draw
+    state_course_select_active -> course_select_input
+    state_course_select_active -> sym_06026CE0
+    sym_06003000 -> state_course_select_active
+
+  TITLE only (7 edges):
+    display_channel_b -> scene_data_write_abs
+    display_channel_b -> sym_0603850C
+    render_setup_dispatch -> display_channel_b
+    render_setup_dispatch -> sym_06028400
+    state_mode_select_active -> render_setup_dispatch
+    state_mode_select_active -> sym_06026CE0
+    sym_06003000 -> state_mode_select_active
+
+============================================================
+BUTTON DELTAS (edges in button press but not idle)
+============================================================
+
+  attract_START:
+    + new (8):
+      button_input_read -> dma_transfer
+      button_input_read -> scene_data_dispatch
+      button_input_read -> sym_06033354
+      disp_result_sub_a -> memcpy_word_idx
+      display_mode_config -> hud_display_ext
+      results_sub_elem -> memcpy_word_idx
+      scene_data_block_copy -> sym_06038A48
+      scene_data_dispatch -> scene_data_block_copy
+    - gone (33):
+      DAT_0600b840 -> render_obj_additive
+      DAT_0600b840 -> sym_06031A28
+      DAT_0600b840 -> sym_06031D8C
+      DAT_06031a64 -> loc_06031CC4
+      DAT_06031b22 -> loc_06031CC4
+      frame_end_commit -> dma_transfer
+      frame_end_commit -> memcpy_long_idx
+      frame_end_commit -> memcpy_word_idx
+      frame_end_commit -> sym_0602C494
+      frame_end_commit -> sym_060394C2
+      frame_end_commit -> vdp1_sprite_builder
+      mat_rot_y -> sincos_pair
+      mat_rot_z -> sincos_pair
+      render_cs0_loop -> mat_rot_y
+      render_cs0_loop -> mat_rot_z
+      render_cs0_loop -> sym_06026DBC
+      render_cs0_loop -> sym_06026E2E
+      render_cs0_loop -> sym_06031A28
+      render_cs0_loop -> sym_06031D8C
+      render_cs0_loop -> transform_matrix
+      render_obj_additive -> mat_rot_y
+      render_obj_additive -> sym_06026DBC
+      render_obj_additive -> sym_06026E2E
+      render_obj_additive -> sym_06031A28
+      render_obj_additive -> sym_06031D8C
+      render_obj_additive -> transform_matrix
+      replay_playback_engine -> sym_06034FE0
+      scene_render_body -> replay_playback_engine
+      scene_render_body -> sym_0603C000
+      transform_matrix -> sincos_pair
+      vdp1_sprite_builder -> post_sprite_cleanup
+      vdp1_sprite_builder -> sym_060280F8
+      vdp1_sprite_builder -> sym_060281B8
+
+  car_C:
+    + new (3):
+      hud_element_draw -> sound_cmd_dispatch
+      sound_cmd_dispatch -> snd_race_update
+      tachometer_ctrl -> hud_element_draw
+    - gone (1):
+      hud_race_display -> sym_060284AE
+
+  circuit_C:
+    + new (2):
+      sound_cmd_dispatch -> snd_race_update
+      speedometer_ctrl -> sound_cmd_dispatch
+
+  menu_C:
+    + new (1):
+      car_select_state -> sym_06028400
+    - gone (3):
+      DAT_060195ae -> sym_060284AE
+      state_course_select_active -> course_select_draw
+      state_course_select_active -> sym_06026CE0
+
+  menu_DOWN:
+    + new (2):
+      DAT_060195ae -> sym_06028400
+      course_select_draw -> sym_06028400
+    - gone (1):
+      DAT_060195ae -> sym_060284AE
+
+  menu_UP:
+    + new (2):
+      DAT_060195ae -> sym_06028400
+      course_select_draw -> sym_06028400
+    - gone (1):
+      DAT_060195ae -> sym_060284AE
+
+  title_START:
+    + new (6):
+      display_channel_b -> scene_data_write_abs
+      display_channel_b -> sym_0603850C
+      render_setup_dispatch -> display_channel_b
+      render_setup_dispatch -> sym_06028400
+      scene_data_block_copy -> sym_06038A48
+      scene_data_dispatch -> scene_data_block_copy
+
+============================================================
+FUNCTION REACH (which states call each function)
+============================================================
+  DAT_060079ce                             attract, car, circuit
+  DAT_0600b840                             attract
+  DAT_060100f8                             car, circuit
+  DAT_060101b2                             car, circuit
+  DAT_06010c4e                             car
+  DAT_0601112c                             circuit
+  DAT_060113b4                             car
+  DAT_060195ae                             menu
+  DAT_06031a64                             attract, car
+  DAT_06031b22                             attract, car
+  FUN_060102EC                             circuit
+  ai_section_transition                    car, circuit, menu, title
+  ai_section_update                        car, circuit, menu, title
+  anim_ui_transition                       car, circuit
+  brake_state_toggle                       car
+  car_select_state                         menu
+  cdb_read_status                          car, circuit, menu, title
+  course_select_draw                       menu
+  course_select_input                      menu
+  disp_result_sub_a                        attract, car, circuit
+  display_channel_b                        title
+  dma_transfer                             attract, car, circuit, title
+  fpmul                                    car, circuit
+  frame_end_commit                         attract, car, circuit
+  game_state_dispatch                      car, circuit
+  graphics_mode_setup                      car
+  hud_course_render                        circuit
+  hud_damage_warning                       car, circuit
+  hud_element_draw                         car
+  hud_layer_composite                      car, circuit
+  hud_main_draw                            car, circuit
+  hud_race_display                         car, circuit
+  loc_06031CC4                             attract, car
+  mat_rot_y                                attract, car
+  mat_rot_z                                attract
+  memcpy_long_idx                          attract, car, circuit
+  memcpy_word_idx                          attract, car, circuit
+  mode_select_handler                      menu
+  per_frame_update                         car, circuit, menu, title
+  position_ranking_display                 car
+  post_sprite_cleanup                      attract, car, circuit
+  render_cs0_loop                          attract
+  render_obj_additive                      attract
+  render_setup_dispatch                    title
+  replay_playback_engine                   attract
+  results_sub_elem                         attract, car, circuit
+  rigid_body_transform                     car, circuit
+  scene_data_block_copy                    attract, title
+  scene_data_write_abs                     title
+  scene_dual_finalize                      menu
+  scene_render_body                        attract
+  screen_fade_ctrl                         car, circuit
+  sincos_pair                              attract, car, circuit
+  snd_race_update                          car, circuit
+  sound_cmd_dispatch                       car, circuit
+  speedometer_ctrl                         circuit
+  split_screen_layout                      car, circuit
+  sprite_3d_render                         car, circuit
+  sprite_anim_render                       car, circuit
+  state_course_select_active               menu
+  state_mode_select_active                 title
+  state_pre_race                           car, circuit
+  swap_sign_ext                            car, circuit
+  sym_06003000                             car, circuit, menu, title
+  sym_06011EB4                             car
+  sym_06026DBC                             attract, car, circuit
+  sym_06026E0C                             car
+  sym_06026E2E                             attract, car
+  sym_060270D0                             car
+  sym_060280C4                             car, circuit
+  sym_060280F8                             attract, car, circuit
+  sym_060281B8                             attract
+  sym_06028248                             car, circuit
+  sym_060283E0                             car
+  sym_06028400                             car, circuit, menu, title
+  sym_06028430                             car, circuit
+  sym_060284AE                             car, circuit, menu
+  sym_0602C494                             attract, car, circuit
+  sym_06031A28                             attract, car
+  sym_06031D8C                             attract, car
+  sym_06033354                             attract, car, circuit
+  sym_06034FE0                             attract, car, circuit
+  sym_06035E5E                             car, circuit, menu, title
+  sym_06035F16                             car, circuit, menu, title
+  sym_0603850C                             title
+  sym_06038A48                             attract, title
+  sym_060394C2                             attract, car, circuit
+  sym_0603C000                             attract, car
+  tachometer_ctrl                          car
+  transform_matrix                         attract
+  transition_handler_a                     circuit
+  transition_large_results                 car
+  vdp1_sprite_builder                      attract, car, circuit
+  vdp_mode_select                          car
+  vertex_transform_rot                     car, circuit
