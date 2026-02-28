@@ -1,10 +1,3 @@
-/* VERIFIED: called during mode select C press, writes init flag
- * Method: watchpoint on sym_06085FF1 (init pending flag) during C press on Mode Select
- *   PC=0x060198FC (car_select_setup+0x18) writes 0x00000000 -> 0x00010000
- *   PR=0x060198F2 (car_select_setup+0xE, within function body)
- *   This is part of the Mode Select -> Car Select transition sequence.
- * Date: 2026-02-28
- */
 /* car_select_setup -- car/course selection screen initializer
  * Translation unit: 0x060198E0 - 0x06019928
  *

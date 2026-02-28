@@ -131,28 +131,27 @@ look: does the name match what the function *actually does* per the evidence?
 |---|----------|------|---------|-------|
 | 1 | ~~viewport_coord_calc~~ | controller_input_update.s | RENAMED | -> controller_input_update (+ 3 related renames) |
 | 2 | mode_select_handler | mode_select_handler.s | GOOD | Name correct; fixed comments (0x0100=B back, not confirm). Renamed sym_0605AD10 -> g_game_state. |
-| 3 | car_select_setup | car_select_setup.s | -- | |
-| 4 | track_seg_phys_init | track_seg_phys_init.s | -- | |
-| 5 | button_input_read | button_input_read.s | -- | |
-| 6 | car_select_input | car_select_input.s | -- | |
-| 7 | state_car_select_active | state_car_select_active.s | -- | |
-| 8 | race_countdown_timer | race_countdown_timer.s | -- | |
-| 9 | transition_medium_a | transition_medium_a.s | -- | |
-| 10 | player_physics_main | player_physics_main.s | -- | |
-| 11 | gear_shift_handler | gear_shift_handler.s | -- | |
-| 12 | collision_passive (friction_stub) | collision_passive.s | -- | |
-| 13 | accel_response | accel_response.s | -- | |
-| 14 | player_collision | player_collision.s | -- | |
-| 15 | track_position_calc (heading_smooth_gentle) | track_position_calc.s | -- | |
-| 16 | ai_speed_trampoline | ai_speed_trampoline.s | -- | |
-| 17 | track_segment_advance | track_segment_advance.s | -- | |
-| 18 | track_pos_query | track_pos_query.s | -- | |
-| 19 | per_frame_update | per_frame_update.s | -- | |
-| 20 | clip_region_test | clip_region_test.s | -- | |
-| 21 | render_orchestrator | render_orchestrator.s | -- | |
-| 22 | vdp1_display_submit | vdp1_display_submit.s | -- | |
+| 3 | track_seg_phys_init | track_seg_phys_init.s | -- | |
+| 4 | button_input_read | button_input_read.s | -- | |
+| 5 | car_select_input | car_select_input.s | -- | |
+| 6 | state_car_select_active | state_car_select_active.s | -- | |
+| 7 | race_countdown_timer | race_countdown_timer.s | -- | |
+| 8 | transition_medium_a | transition_medium_a.s | -- | |
+| 9 | player_physics_main | player_physics_main.s | -- | |
+| 10 | gear_shift_handler | gear_shift_handler.s | -- | |
+| 11 | collision_passive (friction_stub) | collision_passive.s | -- | |
+| 12 | accel_response | accel_response.s | -- | |
+| 13 | player_collision | player_collision.s | -- | |
+| 14 | track_position_calc (heading_smooth_gentle) | track_position_calc.s | -- | |
+| 15 | ai_speed_trampoline | ai_speed_trampoline.s | -- | |
+| 16 | track_segment_advance | track_segment_advance.s | -- | |
+| 17 | track_pos_query | track_pos_query.s | -- | |
+| 18 | per_frame_update | per_frame_update.s | -- | |
+| 19 | clip_region_test | clip_region_test.s | -- | |
+| 20 | render_orchestrator | render_orchestrator.s | -- | |
+| 21 | vdp1_display_submit | vdp1_display_submit.s | -- | |
 
-**Progress: 2/22** (1 renamed, 1 confirmed good, 20 pending)
+**Progress: 2/21** (1 renamed, 1 confirmed good, 19 pending)
 
 ### Working Theories (unverified, tracking as we go)
 
@@ -166,7 +165,7 @@ look: does the name match what the function *actually does* per the evidence?
 
 - [x] Mode Select DOWN handler → `mode_select_handler` (2026-02-27, watchpoint)
 - [x] Mode Select UP handler → `mode_select_handler` (2026-02-28, watchpoint)
-- [x] Mode Select C (confirm) → `car_select_setup`, `track_seg_phys_init` (2026-02-28, watchpoint)
+- [ ] Mode Select C (confirm) → originally attributed to `car_select_setup` but PC trace shows 0 hits; VERIFIED tag struck
 - [ ] Circuit Select LEFT/RIGHT handler — handler code reuses mode_select_handler, browsing done by dispatched renderer
 - [x] Circuit Select C (confirm) → activates `race_countdown_timer` (2026-02-28, call-trace)
 - [x] Car Select input → `car_select_input` writes sym_06085FF0 (2026-02-28, call-trace)
@@ -229,7 +228,7 @@ differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now u
 | Finding | Method | Evidence |
 |---------|--------|----------|
 | mode_select_handler handles DOWN + UP | watchpoint on sym_0605D244 | DOWN: PC=0x0601975A writes index; UP: PC=0x060197B8 writes index |
-| car_select_setup sets init flag on C | watchpoint on sym_06085FF1 | PC=0x060198FC writes 0→1 during transition |
+| ~~car_select_setup sets init flag on C~~ | ~~watchpoint on sym_06085FF1~~ | STRUCK — PC trace shows 0 hits in 441K instructions. Watchpoint evidence was at wrong address or misattributed. |
 | track_seg_phys_init clears init flag | watchpoint on sym_06085FF1 | PC=0x06019A16 writes 1→0 after loading display lists |
 | sym_06028400 called 13x more during DOWN | call-trace | Only function with increased calls during DOWN press |
 
