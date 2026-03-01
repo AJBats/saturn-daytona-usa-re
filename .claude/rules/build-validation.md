@@ -1,7 +1,7 @@
-# Elevation Validation Protocol
+# Build Validation Protocol
 
-Every elevation (rename, L3 conversion, L4 reimplementation) must pass all three
-validation classes before it can be committed. No exceptions.
+Every code change to reimpl/ must pass all three validation classes before
+it can be committed. No exceptions.
 
 ## Quick Path
 
@@ -20,8 +20,8 @@ make -C reimpl retail-validate
 ```
 
 Must print `PASS: retail byte-identical to original`. The retail build (sega.ld)
-must remain byte-identical to the original APROG.BIN. This proves the elevation
-was cosmetic (rename) or correctly isolated (reimpl in src/ doesn't affect retail/).
+must remain byte-identical to the original APROG.BIN. This proves the change
+didn't break retail references or section layout.
 
 ### Test 2: Free build match
 
