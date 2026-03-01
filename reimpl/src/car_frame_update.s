@@ -265,7 +265,7 @@ DAT_0600e69c:
 .L_0600E6FC:
     .4byte  sym_0607EA9C
 .L_0600E700:
-    .4byte  track_position_calc
+    .4byte  FUN_0600C994
 .L_0600E704:
     .4byte  sym_06083255
 .L_0600E708:

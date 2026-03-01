@@ -1,7 +1,7 @@
     .section .text.FUN_0602D8C6
-    .global clip_region_test
-    .type clip_region_test, @function
-clip_region_test:
+    .global FUN_0602D8C6
+    .type FUN_0602D8C6, @function
+FUN_0602D8C6:
     .byte 0x4F, 0x22
     .byte 0x54, 0x0C
     .byte 0x10, 0x48

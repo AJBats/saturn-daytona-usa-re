@@ -1,7 +1,7 @@
     .section .text.FUN_0600A392
-    .global per_frame_update
-    .type per_frame_update, @function
-per_frame_update:
+    .global FUN_0600A392
+    .type FUN_0600A392, @function
+FUN_0600A392:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

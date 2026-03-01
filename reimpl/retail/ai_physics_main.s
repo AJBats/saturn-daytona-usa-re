@@ -23,7 +23,7 @@ DAT_0600e922:
     .byte 0x00, 0xE4
     .byte 0x00, 0xE0
     .byte 0xFF, 0xFF
-    .4byte track_segment_advance
+    .4byte FUN_0600CEBA
     .4byte sym_0607EA9C
     .4byte sym_0607EBC4
     .byte 0x00, 0x20

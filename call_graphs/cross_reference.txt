@@ -233,7 +233,7 @@ FUNCTION REACH (which states call each function)
   memcpy_long_idx                          attract, car, circuit
   memcpy_word_idx                          attract, car, circuit
   mode_select_handler                      menu
-  per_frame_update                         car, circuit, menu, title
+  FUN_0600A392                         car, circuit, menu, title
   position_ranking_display                 car
   post_sprite_cleanup                      attract, car, circuit
   render_cs0_loop                          attract

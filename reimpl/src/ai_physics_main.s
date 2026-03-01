@@ -28,7 +28,7 @@ DAT_0600e922:
     mov.b r14, @(r0, r0)
     .word 0x00E0
     .word 0xFFFF
-    .4byte  track_segment_advance
+    .4byte  FUN_0600CEBA
     .4byte  sym_0607EA9C
     .4byte  sym_0607EBC4
     .4byte  0x00200000

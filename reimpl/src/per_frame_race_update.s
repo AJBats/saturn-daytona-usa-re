@@ -117,13 +117,13 @@ DAT_0600e870:
 .L_0600E878:
     .4byte  sym_0607E940
 .L_0600E87C:
-    .4byte  gear_shift_handler
+    .4byte  FUN_06008318
 .L_0600E880:
     .4byte  sym_06008640
 .L_0600E884:
-    .4byte  friction_stub
+    .4byte  FUN_0600D26A
 .L_0600E888:
-    .4byte  accel_response
+    .4byte  FUN_0600C4F8
 .L_0600E88C:
     .4byte  sym_0602D88E
 .L_0600E890:

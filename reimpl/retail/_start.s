@@ -52,7 +52,7 @@ sym_06003000:
     .byte 0xAF, 0xD5
     .byte 0x00, 0x09
     .4byte system_init
-    .4byte per_frame_update
+    .4byte FUN_0600A392
     .4byte sym_06003000
     .4byte sym_0607EBC0
     .4byte sym_0607EBC4

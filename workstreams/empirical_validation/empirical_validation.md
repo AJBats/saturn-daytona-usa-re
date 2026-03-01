@@ -136,27 +136,27 @@ look: does the name match what the function *actually does* per the evidence?
 | 4 | ~~button_input_read~~ | FUN_06006F3C.s | RENAMED | → FUN_06006F3C. Zero connection to button input. Reads flag word (sym_0605B6D8) set by frame_end_commit, dispatches DMA/display work, clears flags. Deferred work dispatcher. |
 | 5 | ~~car_select_input~~ | FUN_06019A48.s | RENAMED | → FUN_06019A48. Could not observe input processing at any game state. Breakpoint didn't fire at car select. VERIFIED claim not reproducible. |
 | 6 | ~~state_car_select_active~~ | FUN_06008B9C.s | RENAMED | → FUN_06008B9C. Breakpoint didn't fire at car select (g_game_state=0x0D). Call-trace shows 10x during idle mode select — VERIFIED comment ("not present in idle") contradicts its own data. |
-| 7 | race_countdown_timer | race_countdown_timer.s | -- | |
-| 8 | transition_medium_a | transition_medium_a.s | -- | |
-| 9 | player_physics_main | player_physics_main.s | -- | |
-| 10 | gear_shift_handler | gear_shift_handler.s | -- | |
-| 11 | collision_passive (friction_stub) | collision_passive.s | -- | |
-| 12 | accel_response | accel_response.s | -- | |
-| 13 | player_collision | player_collision.s | -- | |
-| 14 | track_position_calc (heading_smooth_gentle) | track_position_calc.s | -- | |
-| 15 | ai_speed_trampoline | ai_speed_trampoline.s | -- | |
-| 16 | track_segment_advance | track_segment_advance.s | -- | |
-| 17 | track_pos_query | track_pos_query.s | -- | |
-| 18 | per_frame_update | per_frame_update.s | -- | |
-| 19 | clip_region_test | clip_region_test.s | -- | |
-| 20 | render_orchestrator | render_orchestrator.s | -- | |
-| 21 | vdp1_display_submit | vdp1_display_submit.s | -- | |
+| 7 | ~~race_countdown_timer~~ | FUN_0600F870.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 8 | ~~transition_medium_a~~ | FUN_0600FD8A.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 9 | ~~player_physics_main~~ | FUN_0600E71A.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 10 | ~~gear_shift_handler~~ | FUN_06008318.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 11 | ~~collision_passive~~ (~~friction_stub~~) | FUN_0600D12C.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 12 | ~~accel_response~~ | FUN_0600C4F8.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 13 | ~~player_collision~~ | FUN_0600C5D6.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 14 | ~~track_position_calc~~ (~~heading_smooth_gentle~~) | FUN_0600C994.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 15 | ~~ai_speed_trampoline~~ | FUN_0600C8CC.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 16 | ~~track_segment_advance~~ | FUN_0600CEBA.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 17 | ~~track_pos_query~~ | FUN_0600CD40.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 18 | ~~per_frame_update~~ | FUN_0600A392.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 19 | ~~clip_region_test~~ | FUN_0602D8C6.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 20 | ~~render_orchestrator~~ | FUN_0602EEB8.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 21 | ~~vdp1_display_submit~~ | FUN_0602D43C.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 22 | ~~hud_element_draw~~ | hud_sound_trigger.s | RENAMED | → hud_sound_trigger. Only calls sound_cmd_dispatch. Zero drawing code. |
 | 23 | ~~transform_matrix~~ | mat_rot_x.s | RENAMED | → mat_rot_x. X-axis rotation, same pattern as mat_rot_y/mat_rot_z. |
 | 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → cd_block_read_safe. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
 | 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → cd_block_read_atomic. Inner interrupt-masked double-read helper. |
 
-**Progress: 10/25** (9 renamed, 1 confirmed good, 15 pending)
+**Progress: 25/25** (24 renamed/reverted, 1 confirmed good)
 
 ### Working Theories (unverified, tracking as we go)
 

@@ -1,16 +1,9 @@
-/* VERIFIED: called exclusively when C is pressed on Circuit Select screen
- * Method: call-trace differential — 10 frames idle vs 10 frames with C on circuit select
- *   9 calls during C press, 0 calls during idle baseline [NEW — only during C]
- *   Not called at all during idle frames, confirming activation on circuit confirm.
- * Date: 2026-02-28
- */
-
     .section .text.FUN_0600F870
 
 
-    .global race_countdown_timer
-    .type race_countdown_timer, @function
-race_countdown_timer:
+    .global FUN_0600F870
+    .type FUN_0600F870, @function
+FUN_0600F870:
     sts.l pr, @-r15
     .byte   0xD3, 0x19    /* mov.l .L_pool_0600F8D8, r3 */
     jsr @r3

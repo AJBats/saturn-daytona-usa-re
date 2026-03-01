@@ -41846,7 +41846,7 @@ sym_0605AC2C:
     .4byte post_race_transition
     .4byte transition_handler_a
     .4byte transition_small_a
-    .4byte race_countdown_timer
+    .4byte FUN_0600F870
     .4byte transition_minimal
     .4byte transition_handler_b
     .4byte transition_handler_c
@@ -41854,7 +41854,7 @@ sym_0605AC2C:
     .4byte transition_large_menu
     .4byte transition_large_results
     .4byte transition_small_c
-    .4byte transition_medium_a
+    .4byte FUN_0600FD8A
     .4byte loc_0600F90A
     .4byte loc_0600F90A
     .4byte transition_small_d

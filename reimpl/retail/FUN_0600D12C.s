@@ -1,7 +1,7 @@
     .section .text.FUN_0600D12C
-    .global collision_passive
-    .type collision_passive, @function
-collision_passive:
+    .global FUN_0600D12C
+    .type FUN_0600D12C, @function
+FUN_0600D12C:
     .byte 0x2F, 0xE6
     .byte 0xD5, 0x1A
     .byte 0x90, 0x2F
@@ -171,8 +171,8 @@ DAT_0600d204:
     .byte 0x05, 0x36
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .global friction_stub
-friction_stub:
+    .global FUN_0600D26A
+FUN_0600D26A:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .global DAT_0600d26a

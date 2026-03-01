@@ -1,16 +1,9 @@
-/* VERIFIED: called exclusively when C is pressed on Car Select screen
- * Method: call-trace differential — 10 frames idle vs 10 frames with C on car select
- *   13 calls during C press, 0 calls during idle baseline [NEW — only during C]
- *   Activates during the Car Select -> Pre-Race state transition.
- * Date: 2026-02-28
- */
-
     .section .text.FUN_0600FD8A
 
 
-    .global transition_medium_a
-    .type transition_medium_a, @function
-transition_medium_a:
+    .global FUN_0600FD8A
+    .type FUN_0600FD8A, @function
+FUN_0600FD8A:
     sts.l pr, @-r15
     .byte   0xD4, 0x13    /* mov.l .L_pool_0600FDDC, r4 */
     mov.w @r4, r3

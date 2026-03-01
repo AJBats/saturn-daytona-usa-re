@@ -1,15 +1,10 @@
-/* VERIFIED: called every physics frame during racing (part of player_physics_main pipeline)
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
- *   117 calls during LEFT (baseline 39, +78) — same delta as player_physics_main
- * Date: 2026-02-28
- */
 
    .section .text.FUN_06008318
 
 
-   .global gear_shift_handler
-   .type gear_shift_handler, @function
-gear_shift_handler:
+   .global FUN_06008318
+   .type FUN_06008318, @function
+FUN_06008318:
     sts.l pr, @-r15
     mov.l   .L_06008370, r4
     mov.w   .L_06008358, r0

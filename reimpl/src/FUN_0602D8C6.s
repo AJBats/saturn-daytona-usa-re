@@ -1,19 +1,10 @@
-/* VERIFIED: writes to player car struct position fields during racing
- * Method: watchpoint on sym_06078900+0x10 and +0x38 during LEFT steering
- *   car[+0x10]: PC=0x0602D906 (clip_region_test+0x3C), PR=clip_region_test+0x28
- *     wrote 0xFFD01179 -> 0xFFD3BC41 (position X or Z coordinate)
- *   car[+0x38]: PC=0x0602D8E2 (clip_region_test+0x18), PR=render_orchestrator+0xEA
- *     wrote 0xFFDB43E1 -> 0xFFDF1708
- *   Called from render_orchestrator's per-car rendering pipeline.
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0602D8C6
 
 
-    .global clip_region_test
-    .type clip_region_test, @function
-clip_region_test:
+    .global FUN_0602D8C6
+    .type FUN_0602D8C6, @function
+FUN_0602D8C6:
     sts.l pr, @-r15
     mov.l @(48, r0), r4
     mov.l r4, @(32, r0)

@@ -1,7 +1,7 @@
     .section .text.FUN_06008318
-    .global gear_shift_handler
-    .type gear_shift_handler, @function
-gear_shift_handler:
+    .global FUN_06008318
+    .type FUN_06008318, @function
+FUN_06008318:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x15
     .byte 0x90, 0x1C

@@ -1,7 +1,7 @@
     .section .text.FUN_0600C994
-    .global track_position_calc
-    .type track_position_calc, @function
-track_position_calc:
+    .global FUN_0600C994
+    .type FUN_0600C994, @function
+FUN_0600C994:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
@@ -131,8 +131,8 @@ DAT_0600c9e6:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .global heading_smooth_gentle
-heading_smooth_gentle:
+    .global FUN_0600CA9A
+FUN_0600CA9A:
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x12
     .byte 0xD5, 0x0A

@@ -341,7 +341,7 @@ DAT_0600e3f6:
 .L_0600E400:
     .4byte  0x00042000
 .L_0600E404:
-    .4byte  heading_smooth_gentle
+    .4byte  FUN_0600CA9A
 .L_0600E408:
     .4byte  sym_06006838
 .L_0600E40C:

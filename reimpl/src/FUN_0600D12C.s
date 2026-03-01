@@ -1,15 +1,10 @@
-/* VERIFIED: friction_stub (0x0600D26A in this TU) called every physics frame during racing
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
- *   friction_stub: 117 calls during LEFT (baseline 39, +78) — part of player_physics_main pipeline
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0600D12C
 
 
-    .global collision_passive
-    .type collision_passive, @function
-collision_passive:
+    .global FUN_0600D12C
+    .type FUN_0600D12C, @function
+FUN_0600D12C:
     mov.l r14, @-r15
     mov.l   .L_pool_0600D198, r5
     mov.w   DAT_0600d192, r0
@@ -182,8 +177,8 @@ DAT_0600d204:
     .4byte  0x0536000B
     .2byte  0x0009
 
-    .global friction_stub
-friction_stub:
+    .global FUN_0600D26A
+FUN_0600D26A:
     rts
     nop
 

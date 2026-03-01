@@ -1,7 +1,7 @@
     .section .text.FUN_0600CEBA
-    .global track_segment_advance
-    .type track_segment_advance, @function
-track_segment_advance:
+    .global FUN_0600CEBA
+    .type FUN_0600CEBA, @function
+FUN_0600CEBA:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x22
     .byte 0x90, 0x3C

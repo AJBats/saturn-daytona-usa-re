@@ -1,15 +1,10 @@
-/* VERIFIED: called every physics frame during racing (part of player_physics_main pipeline)
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
- *   117 calls during LEFT (baseline 39, +78) — same delta as player_physics_main
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0600C5D6
 
 
-    .global player_collision
-    .type player_collision, @function
-player_collision:
+    .global FUN_0600C5D6
+    .type FUN_0600C5D6, @function
+FUN_0600C5D6:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15

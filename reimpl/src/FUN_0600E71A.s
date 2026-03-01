@@ -1,19 +1,10 @@
-/* VERIFIED: runs every physics frame during racing, 3x more often during steering
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT/RIGHT in race
- *   LEFT:  117 calls (baseline 39, +78) — 3x increase
- *   RIGHT: 117 calls (baseline 39, +78) — identical response
- *   All 6 sub-functions (gear_shift_handler, engine_force, friction_stub,
- *   accel_response, player_collision, track_segment_advance) show the same +78 delta,
- *   confirming they are called as a batch from this function's physics pipeline.
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0600E71A
 
 
-    .global player_physics_main
-    .type player_physics_main, @function
-player_physics_main:
+    .global FUN_0600E71A
+    .type FUN_0600E71A, @function
+FUN_0600E71A:
     mov.l r14, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
@@ -98,16 +89,16 @@ DAT_0600e79e:
 .L_0600E7A8:
     .4byte  sym_0607E940
 .L_0600E7AC:
-    .4byte  gear_shift_handler
+    .4byte  FUN_06008318
 .L_0600E7B0:
     .4byte  sym_06008640
 .L_0600E7B4:
-    .4byte  friction_stub
+    .4byte  FUN_0600D26A
 .L_0600E7B8:
-    .4byte  accel_response
+    .4byte  FUN_0600C4F8
 .L_0600E7BC:
-    .4byte  player_collision
+    .4byte  FUN_0600C5D6
 .L_0600E7C0:
-    .4byte  track_segment_advance
+    .4byte  FUN_0600CEBA
 .L_0600E7C4:
     .4byte  sym_0607EA9C

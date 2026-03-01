@@ -1,17 +1,10 @@
-/* VERIFIED: sym_0602D814 (in this TU) writes car struct +0x0C during racing
- * Method: watchpoint on sym_06078900+0x0C during LEFT steering
- *   PC=0x0602D826 (sym_0602D814+0xE), PR=render_orchestrator+0xE4
- *   wrote 0x00043364 -> 0x00043483 (car state field, possibly speed or heading)
- *   Called from render_orchestrator pipeline.
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0602D43C
 
 
-    .global vdp1_display_submit
-    .type vdp1_display_submit, @function
-vdp1_display_submit:
+    .global FUN_0602D43C
+    .type FUN_0602D43C, @function
+FUN_0602D43C:
     sts.l pr, @-r15
     mov r14, r0
     mov.w   DAT_0602d48a, r1

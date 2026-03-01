@@ -1,15 +1,10 @@
-/* VERIFIED: called every physics frame during racing (part of player_physics_main pipeline)
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
- *   117 calls during LEFT (baseline 39, +78) — same delta as player_physics_main
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0600CEBA
 
 
-    .global track_segment_advance
-    .type track_segment_advance, @function
-track_segment_advance:
+    .global FUN_0600CEBA
+    .type FUN_0600CEBA, @function
+FUN_0600CEBA:
     sts.l pr, @-r15
     .byte   0xD4, 0x22    /* mov.l .L_0600CF48, r4 */
     mov.w   DAT_0600cf3a, r0

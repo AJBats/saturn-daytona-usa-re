@@ -1,16 +1,10 @@
-/* VERIFIED: called every physics frame during racing (3x more during steering)
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
- *   120 calls during LEFT (baseline 40, +80) — same proportional increase as
- *   player_physics_main pipeline (called for all cars, not just player)
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0600CD40
 
 
-    .global track_pos_query
-    .type track_pos_query, @function
-track_pos_query:
+    .global FUN_0600CD40
+    .type FUN_0600CD40, @function
+FUN_0600CD40:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15

@@ -60,12 +60,12 @@ DAT_0600e9ea:
 .L_wpool_0600E9EC:
     .2byte  0x01EC
     .2byte  0xFFFF
-    .4byte  friction_stub
+    .4byte  FUN_0600D26A
     .4byte  ai_orchestrator
     .4byte  0x00480000
 .L_0600E9FC:
     .4byte  fpmul
-    .4byte  track_segment_advance
+    .4byte  FUN_0600CEBA
     .4byte  sym_0607EA9C
 .L_0600EA08:
     .4byte  sym_0607E944

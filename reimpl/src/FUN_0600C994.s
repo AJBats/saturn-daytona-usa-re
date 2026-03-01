@@ -1,16 +1,10 @@
-/* VERIFIED: heading_smooth_gentle (0x0600CA9A in this TU) called every physics frame
- * Method: call-trace differential — 5 frames idle vs 5 frames with LEFT in race
- *   heading_smooth_gentle: 117 calls during LEFT (baseline 39, +78)
- *   Part of player_physics_main pipeline
- * Date: 2026-02-28
- */
 
     .section .text.FUN_0600C994
 
 
-    .global track_position_calc
-    .type track_position_calc, @function
-track_position_calc:
+    .global FUN_0600C994
+    .type FUN_0600C994, @function
+FUN_0600C994:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -154,8 +148,8 @@ DAT_0600c9e6:
     rts
     mov.l @r15+, r14
 
-    .global heading_smooth_gentle
-heading_smooth_gentle:
+    .global FUN_0600CA9A
+FUN_0600CA9A:
     mov.l r13, @-r15
     sts.l macl, @-r15
     mov.l   .L_0600CAC4, r5

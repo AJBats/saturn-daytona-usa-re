@@ -19,7 +19,7 @@ framebuf_swap_ctrl
             `-- scene_data_dispatch
 
 sym_06003000
-    |-- per_frame_update
+    |-- FUN_0600A392
     |   |-- cdb_read_status
     |   |   `-- ai_section_transition
     |   |       |-- ai_section_update
@@ -52,13 +52,13 @@ EDGES (28):
   vblank_out_handler -> controller_input_update
   controller_input_update -> smpc_data_manage
   smpc_data_manage -> DAT_0603a2ca
-  sym_06003000 -> per_frame_update
-  per_frame_update -> cdb_read_status
+  sym_06003000 -> FUN_0600A392
+  FUN_0600A392 -> cdb_read_status
   cdb_read_status -> ai_section_transition
   ai_section_transition -> ai_section_update  (x2)
   ai_section_update -> sym_06035E5E  (x4)
   ai_section_transition -> sym_06035F16  (x2)
-  per_frame_update -> ai_section_transition
+  FUN_0600A392 -> ai_section_transition
   sym_06003000 -> state_course_select_active
   state_course_select_active -> course_select_input
   mode_select_handler -> scene_dual_finalize

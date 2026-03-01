@@ -1,7 +1,7 @@
     .section .text.FUN_0602EEB8
-    .global render_orchestrator
-    .type render_orchestrator, @function
-render_orchestrator:
+    .global FUN_0602EEB8
+    .type FUN_0602EEB8, @function
+FUN_0602EEB8:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDD, 0x10
@@ -90,7 +90,7 @@ render_orchestrator:
     .4byte vdp1_color_setup
     .4byte vdp1_coord_setup
     .4byte vdp1_sprite_cmd
-    .4byte vdp1_display_submit
+    .4byte FUN_0602D43C
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
     .byte 0xDD, 0x0A

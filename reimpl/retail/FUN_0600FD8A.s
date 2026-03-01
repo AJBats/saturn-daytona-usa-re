@@ -1,7 +1,7 @@
     .section .text.FUN_0600FD8A
-    .global transition_medium_a
-    .type transition_medium_a, @function
-transition_medium_a:
+    .global FUN_0600FD8A
+    .type FUN_0600FD8A, @function
+FUN_0600FD8A:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x13
     .byte 0x63, 0x41

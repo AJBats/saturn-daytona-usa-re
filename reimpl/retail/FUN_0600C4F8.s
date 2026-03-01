@@ -1,7 +1,7 @@
     .section .text.FUN_0600C4F8
-    .global accel_response
-    .type accel_response, @function
-accel_response:
+    .global FUN_0600C4F8
+    .type FUN_0600C4F8, @function
+FUN_0600C4F8:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6
