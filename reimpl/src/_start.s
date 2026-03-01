@@ -67,7 +67,7 @@ sym_06003000:
     .4byte state_course_select_init
     .4byte state_course_select_active
     .4byte state_car_select_init
-    .4byte state_car_select_active
+    .4byte FUN_06008B9C
     .4byte state_loading_init
     .4byte state_loading_check
     .4byte state_race_prepare

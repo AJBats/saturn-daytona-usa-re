@@ -135,7 +135,7 @@ look: does the name match what the function *actually does* per the evidence?
 | 3 | ~~track_seg_phys_init~~ | FUN_06019928.s | RENAMED | → FUN_06019928. Called every frame during menu idle (polls flag). Name implied track physics — inconsistent with menu polling behavior. |
 | 4 | ~~button_input_read~~ | FUN_06006F3C.s | RENAMED | → FUN_06006F3C. Zero connection to button input. Reads flag word (sym_0605B6D8) set by frame_end_commit, dispatches DMA/display work, clears flags. Deferred work dispatcher. |
 | 5 | ~~car_select_input~~ | FUN_06019A48.s | RENAMED | → FUN_06019A48. Could not observe input processing at any game state. Breakpoint didn't fire at car select. VERIFIED claim not reproducible. |
-| 6 | state_car_select_active | state_car_select_active.s | -- | |
+| 6 | ~~state_car_select_active~~ | FUN_06008B9C.s | RENAMED | → FUN_06008B9C. Breakpoint didn't fire at car select (g_game_state=0x0D). Call-trace shows 10x during idle mode select — VERIFIED comment ("not present in idle") contradicts its own data. |
 | 7 | race_countdown_timer | race_countdown_timer.s | -- | |
 | 8 | transition_medium_a | transition_medium_a.s | -- | |
 | 9 | player_physics_main | player_physics_main.s | -- | |
@@ -156,7 +156,7 @@ look: does the name match what the function *actually does* per the evidence?
 | 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → cd_block_read_safe. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
 | 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → cd_block_read_atomic. Inner interrupt-masked double-read helper. |
 
-**Progress: 9/25** (8 renamed, 1 confirmed good, 16 pending)
+**Progress: 10/25** (9 renamed, 1 confirmed good, 15 pending)
 
 ### Working Theories (unverified, tracking as we go)
 
