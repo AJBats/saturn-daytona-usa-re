@@ -1,7 +1,7 @@
     .section .text.FUN_06019928
-    .global track_seg_phys_init
-    .type track_seg_phys_init, @function
-track_seg_phys_init:
+    .global FUN_06019928
+    .type FUN_06019928, @function
+FUN_06019928:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

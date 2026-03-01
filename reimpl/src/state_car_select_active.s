@@ -37,4 +37,4 @@ state_car_select_active:
 .L_pool_06008BD0:
     .4byte  car_select_input
 .L_pool_06008BD4:
-    .4byte  track_seg_phys_init
+    .4byte  FUN_06019928

@@ -47,7 +47,7 @@ race_start_transition:
     mov #0x1, r2
     mov.l   .L_pool_0601A63C, r3
     mov.b r2, @r3
-    .byte   0xB9, 0xAC    /* bsr 0x06019928 (track_seg_phys_init) */
+    .byte   0xB9, 0xAC    /* bsr 0x06019928 (FUN_06019928) */
     nop
     .byte   0xB0, 0x45    /* bsr 0x0601A65E (car_init_handler) */
     nop

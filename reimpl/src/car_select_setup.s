@@ -21,7 +21,7 @@ car_select_setup:
     mov.b r4, @r3
     mov.l   .L_06019920, r3
     mov.b r1, @r3
-    .byte   0xB0, 0x12    /* bsr 0x06019928 (track_seg_phys_init) */
+    .byte   0xB0, 0x12    /* bsr 0x06019928 (FUN_06019928) */
     nop
     .byte   0xB7, 0x82    /* bsr 0x0601A80C (course_data_rom_load) */
     nop
