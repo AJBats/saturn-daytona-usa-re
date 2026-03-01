@@ -6,14 +6,14 @@
     .type transition_handler_b, @function
 transition_handler_b:
     sts.l pr, @-r15
-    .byte   0xD4, 0x07    /* mov.l .L_pool_0600F8E2, r4 */ ! r4 = &transition countdown timer
+    .byte   0xD4, 0x07    /* mov.l .L_pool_0600F8E2, r4 */
     mov.w @r4, r3
     add #-0x1, r3
     mov.w r3, @r4
     exts.w r3, r3
     cmp/pl r3
     bf      .L_transition_done
-    .byte   0xD3, 0x09    /* mov.l .L_pool_0600F8F6, r3 */ ! r3 = &hud_transparency
+    .byte   0xD3, 0x09    /* mov.l .L_pool_0600F8F6, r3 */
     jmp @r3
     lds.l @r15+, pr
     .4byte  0x0708FFFF                   /* unreferenced pool data (padding) */
@@ -28,10 +28,10 @@ transition_handler_b:
 .L_pool_0600F8F6:
     .4byte  hud_transparency             /* VDP2 rotation-scroll coeff writer */
 .L_transition_done:
-    .byte   0xD3, 0x19    /* mov.l .L_pool_0600F960, r3 */ ! r3 = &display_layer_config (cross-TU pool)
+    .byte   0xD3, 0x19    /* mov.l .L_pool_0600F960, r3 */
     jsr @r3
     mov #0x4, r4
-    .byte   0xD4, 0x19    /* mov.l .L_pool_0600F964, r4 */ ! r4 = &game_state_byte (cross-TU pool)
+    .byte   0xD4, 0x19    /* mov.l .L_pool_0600F964, r4 */
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -40,7 +40,7 @@ transition_handler_b:
 
     .global loc_0600F90A
 loc_0600F90A:
-    .byte   0xD4, 0x16    /* mov.l .L_pool_0600F964, r4 */ ! r4 = &game_state_byte (cross-TU pool)
+    .byte   0xD4, 0x16    /* mov.l .L_pool_0600F964, r4 */
     mov.b @r4, r3
     add #0x1, r3
     rts

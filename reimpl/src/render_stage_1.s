@@ -182,21 +182,21 @@ DAT_0601ca3c:
     mov #0x0, r5
     jsr @r13
     mov #0x20, r4
-    .byte   0xD6, 0x21    /* mov.l r6, sym_06086028 */  ! r6 = &palette_intensity (tilemap DMA arg)
-    .byte   0xD4, 0x22    /* mov.l r4, 0x25F00FFE */    ! r4 = VDP2 CRAM 0xFFE (tilemap DMA dest)
-    .byte   0xD3, 0x22    /* mov.l r3, tilemap_dma_update */ ! r3 = tilemap_dma_update fn
+    .byte   0xD6, 0x21    /* mov.l r6, sym_06086028 */
+    .byte   0xD4, 0x22    /* mov.l r4, 0x25F00FFE */
+    .byte   0xD3, 0x22    /* mov.l r3, tilemap_dma_update */
     jsr @r3
     mov #0x1, r5
-    .byte   0xD4, 0x22    /* mov.l r4, sym_0605B6D8 */  ! r4 = &game_state_flags
-    .byte   0xD2, 0x22    /* mov.l r2, 0x40000000 */    ! r2 = 0x40000000 (bit 30 mask)
+    .byte   0xD4, 0x22    /* mov.l r4, sym_0605B6D8 */
+    .byte   0xD2, 0x22    /* mov.l r2, 0x40000000 */
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
-    .byte   0xD3, 0x21    /* mov.l r3, sym_06026CE0 */  ! r3 = display_update fn
+    .byte   0xD3, 0x21    /* mov.l r3, sym_06026CE0 */
     jsr @r3
     nop
     mov #0x0, r2
-    .byte   0xD3, 0x20    /* mov.l r3, sym_06059F44 */  ! r3 = &state_tracker
+    .byte   0xD3, 0x20    /* mov.l r3, sym_06059F44 */
     mov.l r2, @r3
     add #0x4, r15
     lds.l @r15+, pr

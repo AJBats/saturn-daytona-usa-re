@@ -25,21 +25,21 @@ secondary_input_proc:
     and r0, r4
     and r0, r6
     cmp/eq r3, r8
-    .byte   0x89, 0x86    /* bt 0x06035940 (external) — exp_a_max: handle NaN/Inf for A */
+    .byte   0x89, 0x86    /* bt 0x06035940 (external) */
     cmp/eq r3, r9
-    .byte   0x89, 0x98    /* bt 0x06035968 (external) — exp_b_zero: handle NaN/Inf for B */
+    .byte   0x89, 0x98    /* bt 0x06035968 (external) */
     tst r8, r8
-    .byte   0x89, 0xA2    /* bt 0x06035980 (external) — shift_up_3: handle zero/denorm A */
+    .byte   0x89, 0xA2    /* bt 0x06035980 (external) */
     tst r9, r9
-    .byte   0x89, 0xB2    /* bt 0x060359A4 (external) — norm_b_start: handle zero/denorm B */
+    .byte   0x89, 0xB2    /* bt 0x060359A4 (external) */
     mov.l   .L_pool_06035B30, r2
     add r9, r8
     sub r2, r8
     cmp/ge r3, r8
-    .byte   0x89, 0xC4    /* bt 0x060359D2 (external) — fadd_epilog: overflow → Inf */
+    .byte   0x89, 0xC4    /* bt 0x060359D2 (external) */
     mov #-0x35, r3
     cmp/gt r8, r3
-    .byte   0x89, 0xBC    /* bt 0x060359C8 (external) — exact_zero: underflow → 0 */
+    .byte   0x89, 0xBC    /* bt 0x060359C8 (external) */
     mov.l   .L_pool_06035B28, r0
     or r0, r4
     or r0, r6
@@ -82,7 +82,7 @@ secondary_input_proc:
     mov.l   .L_pool_06035B20, r4
     cmp/eq r4, r8
     bf      .L_no_extra_shift
-    .byte   0xAF, 0x97    /* bra 0x060359D2 (external) — fadd_epilog: overflow → Inf */
+    .byte   0xAF, 0x97    /* bra 0x060359D2 (external) */
     nop
 .L_no_extra_shift:
     tst r3, r3

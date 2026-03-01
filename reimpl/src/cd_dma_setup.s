@@ -48,7 +48,7 @@ DAT_06012c66:
 .L_pool_06012C98:
     .4byte  sym_0600026C
 .L_poll_cd_ready:
-    .byte   0xBF, 0x9E    /* bsr 0x06012BDC (external) */  ! call cd_error_recover
+    .byte   0xBF, 0x9E    /* bsr 0x06012BDC (external) */
     nop
 .L_phase1_check:
     mov.b @r10, r0

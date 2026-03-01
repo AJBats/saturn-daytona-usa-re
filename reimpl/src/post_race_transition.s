@@ -116,15 +116,15 @@ post_race_transition:
     mov #0x29, r10
     mov #0x26, r12
 .L_0600F728:
-    .byte   0xDB, 0x28    /* mov.l .L_tile_table, r11 — tile table base */
+    .byte   0xDB, 0x28    /* mov.l .L_tile_table, r11 */
     mov r10, r7
     shll2 r7
     shll r7
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    .byte   0xD3, 0x26    /* mov.l .L_tile_offset_a, r3 — tile offset A */
-    .byte   0x96, 0x43    /* mov.w .L_tile_size_a, r6 — tile size A */
+    .byte   0xD3, 0x26    /* mov.l .L_tile_offset_a, r3 */
+    .byte   0x96, 0x43    /* mov.w .L_tile_size_a, r6 */
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -137,30 +137,30 @@ post_race_transition:
     mov.l r7, @r15
     mov.l @(4, r7), r7
     .byte   0xD3, 0x1F    /* mov.l .L_tile_offset_a, r3 */
-    .byte   0x96, 0x37    /* mov.w .L_tile_size_b, r6 — tile size B */
+    .byte   0x96, 0x37    /* mov.w .L_tile_size_b, r6 */
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r13
     mov #0x8, r4
-    .byte   0x97, 0x32    /* mov.w .L_tile_index_c, r7 — tile index C */
+    .byte   0x97, 0x32    /* mov.w .L_tile_index_c, r7 */
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    .byte   0xD3, 0x1B    /* mov.l .L_tile_offset_c, r3 — tile offset C */
-    .byte   0x96, 0x2E    /* mov.w .L_tile_size_c, r6 — tile size C */
+    .byte   0xD3, 0x1B    /* mov.l .L_tile_offset_c, r3 */
+    .byte   0x96, 0x2E    /* mov.w .L_tile_size_c, r6 */
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r13
     mov #0x8, r4
-    .byte   0xD3, 0x18    /* mov.l .L_transition_state, r3 — transition state */
+    .byte   0xD3, 0x18    /* mov.l .L_transition_state, r3 */
     mov.l r14, @r3
-    .byte   0x92, 0x27    /* mov.w .L_countdown_value, r2 — 0x78 = 120 frames */
-    .byte   0xD3, 0x18    /* mov.l .L_countdown_timer, r3 — countdown timer */
+    .byte   0x92, 0x27    /* mov.w .L_countdown_value, r2 */
+    .byte   0xD3, 0x18    /* mov.l .L_countdown_timer, r3 */
     mov.l r2, @r3
     mov #0x1, r2
-    .byte   0xD3, 0x17    /* mov.l .L_transition_active, r3 — transition flag */
+    .byte   0xD3, 0x17    /* mov.l .L_transition_active, r3 */
     mov.b r2, @r3
     add #0x4, r15
     lds.l @r15+, pr

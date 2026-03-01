@@ -436,9 +436,9 @@ DAT_0602f51e:
     mov.l @r15+, r4
     mov.l @r15+, r1
     mov.l @r15+, r0
-    .byte   0xDC, 0x10    /* mov.l .L_pool_0602F578, r12 — fog threshold */
+    .byte   0xDC, 0x10    /* mov.l .L_pool_0602F578, r12 */
     cmp/ge r12, r2
-    .byte   0x89, 0x35    /* bt 0x0602F5A8 — skip fog if far enough (external) */
+    .byte   0x89, 0x35    /* bt 0x0602F5A8 */
     mov.l r1, @-r15
     mov.l r5, @-r15
     mov.l r6, @-r15
@@ -448,4 +448,4 @@ DAT_0602f51e:
     sub r7, r4
     mov r10, r5
     sub r8, r5
-    .byte   0xD0, 0x0B    /* mov.l .L_pool_0602F57C, r0 — continues in next TU */
+    .byte   0xD0, 0x0B    /* mov.l .L_pool_0602F57C, r0 */

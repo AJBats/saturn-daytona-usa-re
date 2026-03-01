@@ -14,7 +14,7 @@ menu_elem_alpha:
     mov.l @r14, r14
     mov.b @(r0, r14), r14
     extu.b r14, r14
-    .byte   0xB4, 0x33    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0)
+    .byte   0xB4, 0x33    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov #0x8, r2
     and r14, r2

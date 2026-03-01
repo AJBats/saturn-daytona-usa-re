@@ -54,7 +54,7 @@ buffer_slot_alloc:
     add r13, r2
     mov.b r0, @(1, r2)
     mov r6, r2
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_060410FC, r3 */  ! r3 = memcpy_byte (sym_06035228)
+    .byte   0xD3, 0x1A    /* mov.l .L_pool_060410FC, r3 */
     mov.l @r14, r1
     add #0x5C, r1
     add r13, r1
@@ -75,7 +75,7 @@ buffer_slot_alloc:
     mov.l @(r0, r3), r2
     add #0x1, r2
     mov.l r2, @(r0, r3)
-    .byte   0xB4, 0x00    /* bsr 0x060418BE (external) */  ! call track_road_validate
+    .byte   0xB4, 0x00    /* bsr 0x060418BE (external) */
     mov r15, r4
     mov #0x0, r0
 .L_epilogue:

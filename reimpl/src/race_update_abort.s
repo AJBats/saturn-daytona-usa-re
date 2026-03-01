@@ -45,7 +45,7 @@ race_update_abort:
     jsr @r14
     mov #0x3, r5
     lds.l @r15+, pr
-    .byte   0xA0, 0x4E    /* bra 0x0600E0C0 (external) */  ! tail-branch to car_update_racing
+    .byte   0xA0, 0x4E    /* bra 0x0600E0C0 (external) */
     mov.l @r15+, r14
 .L_pool_0600E024:
     .4byte  sym_0607E944

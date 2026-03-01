@@ -43,7 +43,7 @@ geom_display_handler:
     sts macl, r2
     add r10, r2
     mov.l r2, @r9
-    .byte   0xB0, 0x29    /* bsr 0x0601FEC0 (external) */  ! call geom_final_output
+    .byte   0xB0, 0x29    /* bsr 0x0601FEC0 (external) */
     mov r13, r4
     add #0x8, r13
     add #0x1, r14

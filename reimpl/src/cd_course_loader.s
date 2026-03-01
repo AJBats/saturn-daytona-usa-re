@@ -12,7 +12,7 @@ cd_course_loader:
     bf      .L_check_course2
     mov r14, r5
     mov.l   .L_pool_06012DA8, r4
-    .byte   0xAF, 0x57    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
+    .byte   0xAF, 0x57    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_check_course2:
     mov r4, r0
@@ -20,12 +20,12 @@ cd_course_loader:
     bf      .L_default_course0
     mov r14, r5
     mov.l   .L_pool_06012DAC, r4
-    .byte   0xAF, 0x50    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
+    .byte   0xAF, 0x50    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_default_course0:
     mov r14, r5
     mov.l   .L_pool_06012DB0, r4
-    .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
+    .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_wram_low:
     .4byte  0x00200000                  /* Work RAM Low base */

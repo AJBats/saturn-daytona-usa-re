@@ -78,12 +78,12 @@ scu_dma_transfer:
     mov #0x2, r5
 .L_indirect_done:
     or r5, r4
-    .byte   0xD3, 0x12    /* mov.l @(0x25FE000C), r3 — D0AD register addr (cross-TU pool) */
+    .byte   0xD3, 0x12    /* mov.l @(0x25FE000C), r3 */
     mov.l r4, @r3
     mov #0x7, r2
     add #0x8, r3
     mov.l r2, @r3
-    .byte   0x92, 0x1E    /* mov.w @(0x0101), r2 — DMA enable value (cross-TU pool) */
+    .byte   0x92, 0x1E    /* mov.w @(0x0101), r2 */
     add #-0x4, r3
     mov.l r2, @r3
 .L_poll_dma_end:
@@ -91,7 +91,7 @@ scu_dma_transfer:
     and r13, r2
     tst r2, r2
     bt      .L_poll_dma_end
-    .byte   0xD3, 0x0D    /* mov.l @(sym_06000340), r3 — int ctrl fn ptr (cross-TU pool) */
+    .byte   0xD3, 0x0D    /* mov.l @(sym_06000340), r3 */
     mov.l @r3, r3
     mov.l @(12, r15), r4
     add #0x10, r15

@@ -11,18 +11,18 @@ car_frame_update:
     mov.l r11, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    .byte   0xDD, 0x1C    /* mov.l .L_physics_counter, r13 — scripted movement counter */
-    .byte   0xD3, 0x1C    /* mov.l .L_timing_word_src, r3 — timing word source */
-    .byte   0xD1, 0x1D    /* mov.l .L_timing_word_dst, r1 — timing word destination */
+    .byte   0xDD, 0x1C    /* mov.l .L_physics_counter, r13 */
+    .byte   0xD3, 0x1C    /* mov.l .L_timing_word_src, r3 */
+    .byte   0xD1, 0x1D    /* mov.l .L_timing_word_dst, r1 */
     mov.w @r3, r2
     mov.w r2, @r1
-    .byte   0xDE, 0x06    /* mov.l .L_car_array_base, r14 — car array base ptr */
-    .byte   0xD3, 0x07    /* mov.l .L_car_struct_ptr, r3 — current car ptr */
+    .byte   0xDE, 0x06    /* mov.l .L_car_array_base, r14 */
+    .byte   0xD3, 0x07    /* mov.l .L_car_struct_ptr, r3 */
     mov.l @r14, r14
     mov.l r14, @r3
-    .byte   0xD4, 0x1A    /* mov.l .L_car_array_start, r4 — first car address */
+    .byte   0xD4, 0x1A    /* mov.l .L_car_array_start, r4 */
     mov.w   DAT_0600e522, r2
-    .byte   0xD3, 0x1A    /* mov.l .L_car_array_end, r3 — end marker store */
+    .byte   0xD3, 0x1A    /* mov.l .L_car_array_end, r3 */
     add r4, r2
     cmp/eq r4, r14
     bf/s    .L_set_ai_flag
@@ -67,22 +67,22 @@ DAT_0600e522:
 .L_set_ai_flag:
     mov #0x1, r12
 .L_physics_pipeline:
-    .byte   0xD3, 0x46    /* mov.l .L_fn_gas_force, r3 — gas force */
+    .byte   0xD3, 0x46    /* mov.l .L_fn_gas_force, r3 */
     jsr @r3
     nop
-    .byte   0xD3, 0x45    /* mov.l .L_fn_brake_force, r3 — brake force */
+    .byte   0xD3, 0x45    /* mov.l .L_fn_brake_force, r3 */
     jsr @r3
     nop
-    .byte   0xD3, 0x45    /* mov.l .L_fn_physics_a, r3 — physics step A */
+    .byte   0xD3, 0x45    /* mov.l .L_fn_physics_a, r3 */
     jsr @r3
     nop
-    .byte   0xD3, 0x44    /* mov.l .L_fn_physics_b, r3 — physics step B */
+    .byte   0xD3, 0x44    /* mov.l .L_fn_physics_b, r3 */
     jsr @r3
     nop
     mov.l @r13, r2
     cmp/pl r2
     bf      .L_normal_physics
-    .byte   0xD0, 0x42    /* mov.l .L_race_result_byte, r0 — race result */
+    .byte   0xD0, 0x42    /* mov.l .L_race_result_byte, r0 */
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -90,17 +90,17 @@ DAT_0600e522:
     mov.l @r13, r3
     add #-0x1, r3
     mov.l r3, @r13
-    .byte   0xD2, 0x3F    /* mov.l .L_pos_offset_x, r2 — X position offset */
+    .byte   0xD2, 0x3F    /* mov.l .L_pos_offset_x, r2 */
     mov.l @(16, r14), r3
     mov.l @r2, r2
     add r2, r3
     mov.l r3, @(16, r14)
-    .byte   0xD2, 0x3E    /* mov.l .L_pos_offset_z, r2 — Z position offset */
+    .byte   0xD2, 0x3E    /* mov.l .L_pos_offset_z, r2 */
     mov.l @(24, r14), r3
     mov.l @r2, r2
     add r2, r3
     mov.l r3, @(24, r14)
-    .byte   0xD2, 0x3C    /* mov.l .L_angle_offset, r2 — yaw angle offset */
+    .byte   0xD2, 0x3C    /* mov.l .L_angle_offset, r2 */
     mov.l @(32, r14), r3
     mov.w @r2, r2
     add r2, r3
@@ -108,21 +108,21 @@ DAT_0600e522:
     mov r3, r2
     mov.l r3, @(48, r14)
     mov.l r2, @(40, r14)
-    .byte   0xD3, 0x39    /* mov.l .L_yaw_store, r3 — global yaw store */
+    .byte   0xD3, 0x39    /* mov.l .L_yaw_store, r3 */
     mov.l r2, @r3
     mov.l @(24, r14), r5
-    .byte   0xD3, 0x39    /* mov.l .L_fn_atan2, r3 — atan2 function */
+    .byte   0xD3, 0x39    /* mov.l .L_fn_atan2, r3 */
     jsr @r3
     mov.l @(16, r14), r4
-    .byte   0xD3, 0x38    /* mov.l .L_atan2_result, r3 — result store */
+    .byte   0xD3, 0x38    /* mov.l .L_atan2_result, r3 */
     mov.l r0, @r3
-    .byte   0xD3, 0x38    /* mov.l .L_fn_seg_track, r3 — segment tracker */
+    .byte   0xD3, 0x38    /* mov.l .L_fn_seg_track, r3 */
     jsr @r3
     nop
     bra     .L_post_physics
     nop
 .L_normal_physics:
-    .byte   0xD3, 0x37    /* mov.l .L_fn_normal_physics, r3 — normal physics */
+    .byte   0xD3, 0x37    /* mov.l .L_fn_normal_physics, r3 */
     jsr @r3
     nop
     mov.l @(24, r14), r5
@@ -134,7 +134,7 @@ DAT_0600e522:
     .byte   0xD3, 0x31    /* mov.l .L_fn_seg_track, r3 */
     jsr @r3
     nop
-    .byte   0xDB, 0x32    /* mov.l .L_fn_scene_3d, r11 — 3D scene processor */
+    .byte   0xDB, 0x32    /* mov.l .L_fn_scene_3d, r11 */
     .byte   0xD4, 0x32    /* mov.l .L_geom_channel_0, r4 */
     jsr @r11
     mov #0x0, r5
@@ -153,7 +153,7 @@ DAT_0600e522:
     mov.l r2, @(r0, r14)
     tst r12, r12
     bf      .L_collision_pipeline
-    .byte   0xD3, 0x2E    /* mov.l .L_fn_player_update, r3 — player-specific update */
+    .byte   0xD3, 0x2E    /* mov.l .L_fn_player_update, r3 */
     jsr @r3
     nop
 .L_collision_pipeline:
@@ -170,7 +170,7 @@ DAT_0600e522:
     jsr @r3
     mov r12, r4
     mov.w   .L_off_crossing_counter, r0
-    .byte   0xD3, 0x2B    /* mov.l .L_section_count, r3 — section count */
+    .byte   0xD3, 0x2B    /* mov.l .L_section_count, r3 */
     mov.l @(r0, r14), r2
     mov.l @r3, r3
     add #-0x3C, r0
@@ -190,7 +190,7 @@ DAT_0600e522:
     extu.b r0, r0
     tst r0, r0
     bf      .L_terrain_check
-    .byte   0xB1, 0xCF    /* bsr 0x0600EA18 (external) — position override handler */
+    .byte   0xB1, 0xCF    /* bsr 0x0600EA18 (external) */
     mov r14, r4
 .L_terrain_check:
     .byte   0xD0, 0x0D    /* mov.l .L_race_result_byte, r0 */
@@ -207,7 +207,7 @@ DAT_0600e522:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x1C    /* mov.l .L_fn_terrain_update, r3 — tail-call terrain */
+    .byte   0xD3, 0x1C    /* mov.l .L_fn_terrain_update, r3 */
     jmp @r3
     mov.l @r15+, r14
 

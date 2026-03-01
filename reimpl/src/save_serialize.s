@@ -15,7 +15,7 @@ save_serialize:
     mov.l r5, @r15
     mov r7, r5
     mov.l r7, @(4, r15)
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603BCDA, r3 */  ! r3 = obj_init_validate
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603BCDA, r3 */
     jsr @r3
     add #0x14, r4
     mov r0, r14
@@ -34,7 +34,7 @@ save_serialize:
     mov.l r3, @-r15
     mov.l @(12, r14), r6
     mov.w   .L_wpool_0603BCD2, r4
-    .byte   0xD3, 0x07    /* mov.l .L_pool_0603BCDE, r3 */  ! r3 = obj_setup_decomp
+    .byte   0xD3, 0x07    /* mov.l .L_pool_0603BCDE, r3 */
     jsr @r3
     add r12, r4
     mov r0, r13
@@ -54,20 +54,20 @@ save_serialize:
     .4byte  obj_setup_decomp            /* decompose object into resource slots */
 .L_decomp_ok:
     mov r13, r5
-    .byte   0xD3, 0x21    /* mov.l .L_pool_obj_field24_setter, r3 */  ! r3 = sym_060401E4 (obj[+24] setter)
+    .byte   0xD3, 0x21    /* mov.l .L_pool_0603BD6C, r3 */
     jsr @r3
     mov r14, r4
-    .byte   0xD2, 0x20    /* mov.l .L_pool_nop_stub_evt, r2 */  ! r2 = nop_stub_evt (6th descriptor field)
+    .byte   0xD2, 0x20    /* mov.l .L_pool_0603BD6C, r2 */
     mov r13, r5
     mov r12, r4
     mov.l r2, @-r15
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_ret_zero_stub, r3 */  ! r3 = sym_06040C50 (5th descriptor field)
+    .byte   0xD3, 0x1F    /* mov.l .L_pool_0603BD70, r3 */
     mov.l r3, @-r15
-    .byte   0xD2, 0x1F    /* mov.l .L_pool_event_priority_set, r2 */  ! r2 = event_priority_set (4th descriptor field)
+    .byte   0xD2, 0x1F    /* mov.l .L_pool_0603BD74, r2 */
     mov.l r2, @-r15
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_evt_status_flag_set, r7 */  ! r7 = evt_status_flag_set (descriptor field 2)
-    .byte   0xD6, 0x20    /* mov.l .L_pool_evt_cmd_enqueue, r6 */  ! r6 = evt_cmd_enqueue (descriptor field 1)
-    .byte   0xD3, 0x20    /* mov.l .L_pool_cmd_desc_init, r3 */  ! r3 = sym_0603F8B8 (cmd_desc_init)
+    .byte   0xD7, 0x1F    /* mov.l .L_pool_0603BD78, r7 */
+    .byte   0xD6, 0x20    /* mov.l .L_pool_0603BD80, r6 */
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0603BD80, r3 */
     jsr @r3
     add #0x78, r4
     add #0xC, r15

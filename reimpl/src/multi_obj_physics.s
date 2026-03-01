@@ -53,7 +53,7 @@ multi_obj_physics:
     mov.l @r3, r3
     cmp/eq r13, r3
     bf      .L_060143C2
-    .byte   0xBD, 0x28    /* bsr 0x06013E12 (external) — special object handler */
+    .byte   0xBD, 0x28    /* bsr 0x06013E12 (external) */
     nop
 .L_060143C2:
     mov r14, r6

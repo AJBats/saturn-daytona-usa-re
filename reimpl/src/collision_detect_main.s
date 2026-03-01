@@ -7,7 +7,7 @@
 collision_detect_main:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x09    /* mov.l .L_pool_0600CE91, r14 */ ! r14 = &car_state_ptr
+    .byte   0xDE, 0x09    /* mov.l .L_pool_0600CE91, r14 */
     mov.w   DAT_0600ce8e, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r3
@@ -17,7 +17,7 @@ collision_detect_main:
     mov.b @(3, r0), r0
     tst #0x8, r0
     bf      .L_proximity_set
-    .byte   0xBF, 0x5F    /* bsr 0x0600CD40 (external) */ ! call track_pos_query (checkpoint advance)
+    .byte   0xBF, 0x5F    /* bsr 0x0600CD40 (external) */
     nop
     bra     .L_update_from_segment
     nop
@@ -46,11 +46,11 @@ DAT_0600ce8e:
     .4byte  sym_0607EA9C
     .4byte  atan2
 .L_proximity_set:
-    .byte   0xBF, 0x98    /* bsr 0x0600CDD0 (external) */ ! call race_heading_calc
+    .byte   0xBF, 0x98    /* bsr 0x0600CDD0 (external) */
     nop
 .L_update_from_segment:
-    .byte   0x90, 0x4B    /* mov.w .L_wpool_0600CF3A, r0 */ ! r0 = 0x0184 (segment index offset, cross-TU pool)
-    .byte   0xD3, 0x28    /* mov.l .L_pool_0600CF44, r3 */  ! r3 = &seg_table_ptr (sym_0607EB84, cross-TU pool)
+    .byte   0x90, 0x4B    /* mov.w .L_wpool_0600CF3A, r0 */
+    .byte   0xD3, 0x28    /* mov.l .L_pool_0600CF44, r3 */
     mov.l @(r0, r14), r2
     mov.l @r3, r3
     shll2 r2

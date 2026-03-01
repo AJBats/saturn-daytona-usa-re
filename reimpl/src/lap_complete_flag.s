@@ -75,7 +75,7 @@ lap_complete_flag:
     tst #0x8, r0
     bf      .L_exit
     lds.l @r15+, pr
-    .byte   0xA1, 0x9F    /* bra 0x0600DD88 (external) — tail-call audio_dist_calc */
+    .byte   0xA1, 0x9F    /* bra 0x0600DD88 (external) */
     mov.l @r15+, r14
 .L_exit:
     lds.l @r15+, pr

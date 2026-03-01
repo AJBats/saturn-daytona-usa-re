@@ -12,16 +12,16 @@ course_selector_hl:
     swap.w r0, r1
     exts.w r1, r14
     mov.l @r15+, r1
-    .byte   0xD4, 0x26    /* mov.l .L_pool_060337E0, r4 */  ! r4 = 0xFFFFC800 (default angular offset, negative)
-    .byte   0xD3, 0x4E    /* mov.l .L_pool_06033884, r3 */  ! r3 = &mirror_flag
+    .byte   0xD4, 0x26    /* mov.l .L_pool_060337E0, r4 */
+    .byte   0xD3, 0x4E    /* mov.l .L_pool_06033884, r3 */
     mov.b @r3, r3
     cmp/pl r3
     bf      .L_normal_direction
     neg r12, r12
     neg r14, r14
-    .byte   0xD4, 0x23    /* mov.l .L_pool_060337E4, r4 */  ! r4 = 0x00004800 (mirrored angular offset, positive)
+    .byte   0xD4, 0x23    /* mov.l .L_pool_060337E4, r4 */
 .L_normal_direction:
-    .byte   0xD0, 0x20    /* mov.l .L_pool_060337D8, r0 */  ! r0 = course geometry table base
+    .byte   0xD0, 0x20    /* mov.l .L_pool_060337D8, r0 */
     add r1, r0
     mov.w @r0+, r1
     mov.w @r0+, r2
@@ -37,13 +37,13 @@ course_selector_hl:
     add r2, r13
 .L_skip_mirror_adjust:
     add r4, r12
-    .byte   0xD0, 0x1C    /* mov.l .L_pool_060337E8, r0 */  ! r0 = 0x0000FFFF (16-bit mask)
+    .byte   0xD0, 0x1C    /* mov.l .L_pool_060337E8, r0 */
     and r0, r12
     shlr8 r12
     shlr2 r12
     shlr2 r12
     shll r12
-    .byte   0xD1, 0x1A    /* mov.l .L_pool_060337EC, r1 */  ! r1 = rotation lookup table base
+    .byte   0xD1, 0x1A    /* mov.l .L_pool_060337EC, r1 */
     add r12, r1
     mov.b @r1+, r2
     add r11, r2

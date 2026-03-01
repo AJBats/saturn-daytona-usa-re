@@ -7,27 +7,27 @@
 course_select_state:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD2, 0x2B    /* mov.l .L_select_flag_a, r2 — selection flag A */
+    .byte   0xD2, 0x2B    /* mov.l .L_select_flag_a, r2 */
     mov.b r3, @r2
     extu.b r4, r3
-    .byte   0xD2, 0x2A    /* mov.l .L_select_flag_b, r2 — selection flag B */
+    .byte   0xD2, 0x2A    /* mov.l .L_select_flag_b, r2 */
     mov.b r4, @r2
-    .byte   0xD2, 0x2A    /* mov.l .L_select_flag_c, r2 — selection flag C */
+    .byte   0xD2, 0x2A    /* mov.l .L_select_flag_c, r2 */
     mov.b r0, @r2
     extu.b r4, r0
-    .byte   0xD2, 0x2A    /* mov.l .L_select_flag_d, r2 — selection flag D */
+    .byte   0xD2, 0x2A    /* mov.l .L_select_flag_d, r2 */
     extu.b r4, r4
     mov.b r0, @r2
-    .byte   0xD2, 0x29    /* mov.l .L_select_flag_e, r2 — selection flag E */
+    .byte   0xD2, 0x29    /* mov.l .L_select_flag_e, r2 */
     mov.b r3, @r2
-    .byte   0xD2, 0x29    /* mov.l .L_select_flag_f, r2 — selection flag F */
+    .byte   0xD2, 0x29    /* mov.l .L_select_flag_f, r2 */
     mov.b r4, @r2
-    .byte   0xD5, 0x29    /* mov.l .L_snd_cmd_select, r5 — 0xAE0003FF */
+    .byte   0xD5, 0x29    /* mov.l .L_snd_cmd_select, r5 */
     .byte   0xD2, 0x2A    /* mov.l .L_fn_sound_dispatch, r2 */
     jsr @r2
     mov #0xF, r4
-    .byte   0xDE, 0x29    /* mov.l .L_render_flags, r14 — render mode flags */
-    .byte   0xD3, 0x2A    /* mov.l .L_fp_min, r3 — 0x80000000 */
+    .byte   0xDE, 0x29    /* mov.l .L_render_flags, r14 */
+    .byte   0xD3, 0x2A    /* mov.l .L_fp_min, r3 */
     mov.l @r14, r2
     or r3, r2
     .byte   0xD3, 0x29    /* mov.l .L_fn_camera_finalize, r3 */
@@ -42,14 +42,14 @@ course_select_state:
     jsr @r3
     nop
     mov #0x9, r7
-    .byte   0xD5, 0x25    /* mov.l .L_tile_data_a, r5 — 0x14000 */
-    .byte   0xD4, 0x26    /* mov.l .L_vdp2_vram_0x76174, r4 — 0x25E76174 */
+    .byte   0xD5, 0x25    /* mov.l .L_tile_data_a, r5 */
+    .byte   0xD4, 0x26    /* mov.l .L_vdp2_vram_0x76174, r4 */
     .byte   0xD3, 0x26    /* mov.l .L_fn_vram_tile_copy, r3 */
     jsr @r3
     mov #0x0, r6
     mov #0x8, r7
-    .byte   0xD5, 0x25    /* mov.l .L_tile_data_b, r5 — 0x17700 */
-    .byte   0xD4, 0x26    /* mov.l .L_vdp2_vram_0x761FC, r4 — 0x25E761FC */
+    .byte   0xD5, 0x25    /* mov.l .L_tile_data_b, r5 */
+    .byte   0xD4, 0x26    /* mov.l .L_vdp2_vram_0x761FC, r4 */
     .byte   0xD3, 0x23    /* mov.l .L_fn_vram_tile_copy, r3 */
     jsr @r3
     mov #0x0, r6
@@ -78,11 +78,11 @@ course_select_state:
     jsr @r3
     mov.l r0, @r14
     mov #0x0, r6
-    .byte   0xD2, 0x1B    /* mov.l .L_layer_data, r2 — display layer params */
+    .byte   0xD2, 0x1B    /* mov.l .L_layer_data, r2 */
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    .byte   0xD3, 0x1A    /* mov.l .L_tile_vram_offset, r3 — 0xA000 */
+    .byte   0xD3, 0x1A    /* mov.l .L_tile_vram_offset, r3 */
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7

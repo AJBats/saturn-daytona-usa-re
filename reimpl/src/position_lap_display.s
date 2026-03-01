@@ -47,7 +47,7 @@ position_lap_display:
     neg r1, r1
 .L_heading_b_abs:
     extu.w r1, r1
-    .byte   0xBF, 0xA9    /* bsr 0x06031340 — angle range check (external) */
+    .byte   0xBF, 0xA9    /* bsr 0x06031340 */
     nop
     cmp/gt r1, r4
     bt      .L_compare_sides
@@ -115,7 +115,7 @@ DAT_0603143a:
     add r12, r4
     cmp/pl r4
     bt      .L_check_secondary_heading
-    .byte   0xAF, 0x5F    /* bra 0x06031322 — epilogue (external): no force, exit */
+    .byte   0xAF, 0x5F    /* bra 0x06031322 */
     nop
 .L_pool_06031465:
     .4byte  sym_0605BCC8
@@ -450,7 +450,7 @@ DAT_0603162e:
     sts macl, r9
     xtrct r8, r9
     add r9, r6
-    .byte   0xAE, 0x36    /* bra 0x06031322 — epilogue (external): done, exit */
+    .byte   0xAE, 0x36    /* bra 0x06031322 */
     mov.l r6, @(24, r13)
     .2byte  0x0000
 .L_pool_060316BA:

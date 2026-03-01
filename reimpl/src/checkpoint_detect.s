@@ -41,9 +41,9 @@ checkpoint_detect:
     mov.l   .L_section_value, r3
     mov.l @r3, r3
     mov.l r3, @r7
-    .byte   0xB0, 0xF9    /* bsr 0x0600D9BC (external) -- section update handler */
+    .byte   0xB0, 0xF9    /* bsr 0x0600D9BC (external) */
     mov #0x0, r4
-    .byte   0xB0, 0xAF    /* bsr 0x0600D92C (external) -- crossing event handler */
+    .byte   0xB0, 0xAF    /* bsr 0x0600D92C (external) */
     nop
     extu.b r13, r13
     mov.l   .L_crossing_direction, r3
@@ -75,9 +75,9 @@ checkpoint_detect:
     mov.l   .L_section_value, r3
     mov.l @r3, r3
     mov.l r3, @r7
-    .byte   0xB0, 0xD9    /* bsr 0x0600D9BC (external) -- section update handler */
+    .byte   0xB0, 0xD9    /* bsr 0x0600D9BC (external) */
     mov #0x0, r4
-    .byte   0xB0, 0x8F    /* bsr 0x0600D92C (external) -- crossing event handler */
+    .byte   0xB0, 0x8F    /* bsr 0x0600D92C (external) */
     nop
     mov #0x1, r2
     mov.l   .L_crossing_direction, r3
@@ -93,7 +93,7 @@ checkpoint_detect:
     mov r14, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA0, 0x3D    /* bra 0x0600D8A4 (external) -- tail-call checkpoint handler */
+    .byte   0xA0, 0x3D    /* bra 0x0600D8A4 (external) */
     mov.l @r15+, r14
 
     .global DAT_0600d82a

@@ -29,7 +29,7 @@ race_cleanup_handler:
     mov.l   .L_pool_06012230, r3
     jsr @r3
     mov #0x8, r4
-    .byte   0xB1, 0xFA    /* bsr 0x060125D0 (external) */  ! call lap_display_update
+    .byte   0xB1, 0xFA    /* bsr 0x060125D0 (external) */
     nop
 .L_check_transition:
     mov.l @r14, r0
@@ -97,14 +97,14 @@ race_cleanup_handler:
     cmp/gt r3, r2
     bf      .L_check_phase3
     mov #0x0, r3
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_060122CC, r2 */  ! r2 = &control_flag (in next TU pool)
+    .byte   0xD2, 0x1D    /* mov.l .L_pool_060122CC, r2 */
     mov.b r3, @r2
-    .byte   0xD5, 0x1D    /* mov.l .L_pool_060122D0, r5 */  ! r5 = sound param (in next TU pool)
+    .byte   0xD5, 0x1D    /* mov.l .L_pool_060122D0, r5 */
     mov r3, r4
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_060122D4, r3 */  ! r3 = &sound_cmd_dispatch (next TU pool)
+    .byte   0xD3, 0x1B    /* mov.l .L_pool_060122D4, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_check_phase3:
@@ -112,12 +112,12 @@ race_cleanup_handler:
     mov.l @r14, r2
     cmp/gt r3, r2
     bf      .L_exit
-    .byte   0xB0, 0x67    /* bsr 0x06012344 (external) */  ! call file_data_parse
+    .byte   0xB0, 0x67    /* bsr 0x06012344 (external) */
     nop
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA0, 0xC0    /* bra 0x06012400 (external) */  ! tail-branch to file_block_read
+    .byte   0xA0, 0xC0    /* bra 0x06012400 (external) */
     mov.l @r15+, r14
 .L_exit:
     add #0x4, r15

@@ -140,7 +140,7 @@ course1_physics_init:
     mov.l r0, @r15
     shll2 r7
     mov.w @(r0, r8), r3
-    .byte   0xD2, 0x29    /* mov.l .L_pool_06019F44, r2 */  ! r2 -> car object table (sym_06063750, cross-TU pool)
+    .byte   0xD2, 0x29    /* mov.l .L_pool_06019F44, r2 */
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -149,7 +149,7 @@ course1_physics_init:
     mov.l @(4, r2), r3
     mov.l @r15, r6
     add r3, r7
-    .byte   0xD3, 0x25    /* mov.l .L_pool_06019F48, r3 */  ! r3 -> course 1 dlist offset table (sym_06049B18, cross-TU pool)
+    .byte   0xD3, 0x25    /* mov.l .L_pool_06019F48, r3 */
     add r3, r6
     mov.l r6, @(4, r15)
     mov.b @(1, r6), r0

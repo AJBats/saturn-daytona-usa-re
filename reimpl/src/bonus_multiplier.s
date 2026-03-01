@@ -22,7 +22,7 @@ bonus_multiplier:
     mov.w r3, @r5
     .byte   0xB1, 0xC3    /* bsr bg_obj_render_loop (external) */
     nop
-    .byte   0xA2, 0x95    /* bra race_variant_setup_a (external — tail call) */
+    .byte   0xA2, 0x95    /* bra race_variant_setup_a (external */
     lds.l @r15+, pr
     .2byte  0xFFFF
     .4byte  sym_06084B14

@@ -22,7 +22,7 @@ disc_sector_read:
     mov.l   .L_fn_color_transform, r3
     jsr @r3
     mov r7, r4
-    .byte   0xB0, 0x47    /* bsr 0x0601B0D8 (external) */  ! call course_state_setup
+    .byte   0xB0, 0x47    /* bsr 0x0601B0D8 (external) */
     add #0x10, r15
     mov #0x14, r2
     mov.l   .L_phase_timer, r3

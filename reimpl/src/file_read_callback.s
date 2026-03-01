@@ -66,7 +66,7 @@ file_read_callback:
     mov #0x14, r3
     mov.l r3, @r5
     lds.l @r15+, pr
-    .byte   0xA0, 0xA1    /* bra 0x0601228A (external) */  ! tail-call lap_time_formatter
+    .byte   0xA0, 0xA1    /* bra 0x0601228A (external) */
     mov.l @r15+, r14
 .L_return:
     lds.l @r15+, pr
@@ -115,12 +115,12 @@ _pool_race_end_state:
 
     .global sym_06012198
 sym_06012198:
-    .byte   0xD0, 0x21    /* mov.l .L_pool_06012220, r0 */  ! r0 = &race_end_state (via pool in next TU)
+    .byte   0xD0, 0x21    /* mov.l .L_pool_06012220, r0 */
     mov.l @r0, r0
     tst r0, r0
     bt      .L_race_active
-    .byte   0xA0, 0x73    /* bra 0x0601228A (external) */  ! branch to lap_time_formatter (race ended)
+    .byte   0xA0, 0x73    /* bra 0x0601228A (external) */
     nop
 .L_race_active:
-    .byte   0xA3, 0x1C    /* bra 0x060127E0 (external) */  ! branch to hud_menu_logic (race active)
+    .byte   0xA3, 0x1C    /* bra 0x060127E0 (external) */
     nop

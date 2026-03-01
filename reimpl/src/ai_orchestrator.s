@@ -9,13 +9,13 @@ ai_orchestrator:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDE, 0x1D    /* mov.l .L_pool_0600C7D0, r14 */ ! r14 = &car_state_ptr (sym_0607E940)
-    .byte   0xDD, 0x1D    /* mov.l .L_pool_0600C7D4, r13 */  ! r13 = course/track data base (sym_06078680)
+    .byte   0xDE, 0x1D    /* mov.l .L_pool_0600C7D0, r14 */
+    .byte   0xDD, 0x1D    /* mov.l .L_pool_0600C7D4, r13 */
 
-    .byte   0xB2, 0xF1    /* bsr 0x0600CD40 (external) */       ! call track_pos_query — find next waypoint
+    .byte   0xB2, 0xF1    /* bsr 0x0600CD40 (external) */
     mov.l @r14, r14
 
-    .byte   0xB1, 0x9A    /* bsr 0x0600CA96 (external) */       ! call course_correct — smooth waypoint tracking
+    .byte   0xB1, 0x9A    /* bsr 0x0600CA96 (external) */
     mov r13, r4
 
     mov #0x2D, r3
@@ -33,7 +33,7 @@ ai_orchestrator:
 
 .L_no_speed_zone:
     mov r13, r5
-    .byte   0xB0, 0xA6    /* bsr 0x0600C8CC (external) */       ! call ai_speed_trampoline — compute target speed
+    .byte   0xB0, 0xA6    /* bsr 0x0600C8CC (external) */
     mov r14, r4
 
 .L_after_speed:
@@ -43,15 +43,15 @@ ai_orchestrator:
     mov.l @(4, r14), r0
     tst r0, r0
     bf      .L_skip_speed_boost
-    .byte   0xB0, 0xF1    /* bsr 0x0600C970 (external) */       ! call speed_boost_lookup — apply course-specific adjustment
+    .byte   0xB0, 0xF1    /* bsr 0x0600C970 (external) */
     mov r14, r4
 
 .L_skip_speed_boost:
-    .byte   0xB0, 0xCB    /* bsr 0x0600C928 (external) */       ! call velocity_friction — apply aerodynamic drag
+    .byte   0xB0, 0xCB    /* bsr 0x0600C928 (external) */
     mov r14, r4
 
     mov r13, r5
-    .byte   0xB0, 0x1E    /* bsr 0x0600C7D4 (external) */       ! call heading_speed_damping
+    .byte   0xB0, 0x1E    /* bsr 0x0600C7D4 (external) */
     mov r14, r4
 
     mov r15, r6
@@ -60,13 +60,13 @@ ai_orchestrator:
     add #0x10, r5
     mov.l r5, @-r15
     mov.l @(24, r14), r5
-    .byte   0xD3, 0x07    /* mov.l .L_pool_0600C7C8, r3 */ ! r3 = coord_grid_pack (sym_06006838)
+    .byte   0xD3, 0x07    /* mov.l .L_pool_0600C7C8, r3 */
     jsr @r3
     mov.l @(16, r14), r4
 
     mov r0, r4
     mov.l @r15+, r5
-    .byte   0xD3, 0x06    /* mov.l .L_pool_0600C7CC, r3 */ ! r3 = scene_render_alt
+    .byte   0xD3, 0x06    /* mov.l .L_pool_0600C7CC, r3 */
     jsr @r3
     mov.l @r15+, r6
 

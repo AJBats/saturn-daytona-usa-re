@@ -117,31 +117,31 @@ scene_render_body:
     extu.b r2, r2
     mov.w r2, @r4
 .L_set_secondary_callback:
-    .byte   0xD3, 0x29    /* mov.l .L_pool_secondary_callback_fn, r3 -- r3 = FUN_0600C170 (secondary rendering callback) */
-    .byte   0xD2, 0x29    /* mov.l .L_pool_secondary_callback_ptr, r2 -- r2 = &secondary_callback_ptr (sym_06063574) */
+    .byte   0xD3, 0x29    /* mov.l .L_pool_0600C188, r3 */
+    .byte   0xD2, 0x29    /* mov.l .L_pool_0600C18C, r2 */
     mov.l r3, @r2
-    .byte   0xD3, 0x29    /* mov.l .L_pool_minit_value, r3 -- r3 = 0x0000FFFF (MINIT trigger value) */
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_minit_register, r2 -- r2 = 0x21000000 (VDP/MINIT hardware register) */
+    .byte   0xD3, 0x29    /* mov.l .L_pool_0600C190, r3 */
+    .byte   0xD2, 0x2A    /* mov.l .L_pool_0600C194, r2 */
     mov.w r3, @r2
     mov.l @r8, r3
-    .byte   0xD2, 0x29    /* mov.l .L_pool_skip_update_mask, r2 -- r2 = 0x02800008 (states 3+19+25 combined mask) */
+    .byte   0xD2, 0x29    /* mov.l .L_pool_0600C198, r2 */
     and r2, r3
     tst r3, r3
     bf      .L_skip_per_frame_update
-    .byte   0xD3, 0x28    /* mov.l .L_pool_fn_per_frame_update, r3 -- r3 = FUN_060058FA (per-frame update) */
+    .byte   0xD3, 0x28    /* mov.l .L_pool_0600C19C, r3 */
     jsr @r3
     nop
 .L_skip_per_frame_update:
-    .byte   0xD3, 0x28    /* mov.l .L_pool_fn_scene_post_render, r3 -- r3 = scene_post_render (FUN_06006868) */
+    .byte   0xD3, 0x28    /* mov.l .L_pool_0600C1A0, r3 */
     jsr @r3
     nop
-    .byte   0xBA, 0xCC    /* bsr 0x0600B6A0 (external) -- call CS0 object rendering loop */
+    .byte   0xBA, 0xCC    /* bsr 0x0600B6A0 (external) */
     nop
     mov.l @r8, r2
-    .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC_b, r3 -- r3 = 0x02000000 (state 25) */
+    .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC, r3 */
     cmp/eq r3, r2
     bt      .L_begin_hw_poll
-    .byte   0xD3, 0x25    /* mov.l .L_pool_fn_post_render_dispatch, r3 -- r3 = FUN_0601BDEC (post-render) */
+    .byte   0xD3, 0x25    /* mov.l .L_pool_0600C1A8, r3 */
     jsr @r3
     nop
     bra     .L_begin_hw_poll
@@ -160,7 +160,7 @@ scene_render_body:
     tst r9, r9
     bt      .L_lod_decrement_path
     mov.b @r13, r3
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_0600C0D8_b, r2 -- r2 = &total_obj_count (sym_0607EA98) */
+    .byte   0xD2, 0x1E    /* mov.l .L_pool_0600C0D8, r2 */
     extu.b r3, r3
     mov.l @r2, r2
     cmp/ge r2, r3
@@ -178,7 +178,7 @@ scene_render_body:
     add #-0x1, r2
     mov.b r2, @r13
 .L_lod_adjustment_done:
-    .byte   0xD3, 0x17    /* mov.l .L_pool_fn_render_finalize, r3 -- r3 = sym_0603C000 (render finalize) */
+    .byte   0xD3, 0x17    /* mov.l .L_pool_0600C1B4, r3 */
     jsr @r3
     nop
     mov.l @r12, r2

@@ -13,7 +13,7 @@ menu_input_proc:
     add r0, r15
     mov r5, r0
     mov.l r5, @r15
-    .byte   0xDD, 0x0F    /* mov.l .L_pool_0603AD3A, r13 */  ! r13 = &sym_060A4D14 (game state ptr-ptr)
+    .byte   0xDD, 0x0F    /* mov.l .L_pool_0603AD3A, r13 */
     tst r0, r0
     bf/s    .L_active_input_path
     mov r4, r12
@@ -23,18 +23,18 @@ menu_input_proc:
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_attract_flag_clear
-    .byte   0xB6, 0x16    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc (signal error)
+    .byte   0xB6, 0x16    /* bsr 0x0603B93C (external) */
     mov #-0x7, r4
     bra     .L_return
     nop
 .L_attract_flag_clear:
-    .byte   0xD3, 0x09    /* mov.l .L_pool_0603AD3E, r3 */  ! r3 = &credits_scroll_entry
+    .byte   0xD3, 0x09    /* mov.l .L_pool_0603AD3E, r3 */
     jsr @r3
     mov r12, r4
     mov r0, r4
     cmp/pz r4
     bt      .L_return_result
-    .byte   0xB6, 0x0C    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc (signal error)
+    .byte   0xB6, 0x0C    /* bsr 0x0603B93C (external) */
     mov #-0x1, r4
     bra     .L_return
     nop
@@ -54,13 +54,13 @@ menu_input_proc:
 
 .L_active_input_path:
     mov.l @r13, r2
-    .byte   0x90, 0x4A    /* mov.w .L_wpool_0603ADDA, r0 */  ! r0 = field_0x00A0 offset (cannot rename: mov.w pcrel)
+    .byte   0x90, 0x4A    /* mov.w .L_wpool_0603ADDA, r0 */
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_flag_nonzero
     mov.l @r13, r5
-    .byte   0x90, 0x46    /* mov.w .L_wpool_0603ADDC, r0 */  ! r0 = render struct field offset (cannot rename: mov.w pcrel)
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0603ADE0, r3 */   ! r3 = &hud_toggle_ctrl (pool ref from .byte)
+    .byte   0x90, 0x46    /* mov.w .L_wpool_0603ADDC, r0 */
+    .byte   0xD3, 0x24    /* mov.l .L_pool_0603ADE0, r3 */
     mov.l @(r0, r5), r5
     jsr @r3
     mov r12, r4
@@ -68,8 +68,8 @@ menu_input_proc:
     nop
 .L_flag_nonzero:
     mov.l @r13, r5
-    .byte   0x90, 0x3E    /* mov.w .L_wpool_0603ADDC, r0 */  ! r0 = render struct field offset (cannot rename: mov.w pcrel)
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0603ADE4, r3 */   ! r3 = &save_size_calc (pool ref from .byte)
+    .byte   0x90, 0x3E    /* mov.w .L_wpool_0603ADDC, r0 */
+    .byte   0xD3, 0x21    /* mov.l .L_pool_0603ADE4, r3 */
     mov.l @(r0, r5), r5
     jsr @r3
     mov r12, r4
@@ -82,7 +82,7 @@ menu_input_proc:
     bra     .L_process_input
     nop
 .L_no_input_flag:
-    .byte   0xB5, 0xE2    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc (signal error)
+    .byte   0xB5, 0xE2    /* bsr 0x0603B93C (external) */
     mov #-0x6, r4
     bra     .L_return
     nop
@@ -90,23 +90,23 @@ menu_input_proc:
     mov r12, r6
     mov r14, r5
     mov r15, r4
-    .byte   0xB6, 0x53    /* bsr 0x0603BA2C (external) */  ! call save_field_write(sp, result_ptr, menu_ctx)
+    .byte   0xB6, 0x53    /* bsr 0x0603BA2C (external) */
     add #0x4, r4
     mov r0, r13
     mov.l @(4, r14), r6
     mov.l @r15, r5
-    .byte   0xD3, 0x16    /* mov.l .L_pool_0603ADE8, r3 */  ! r3 = function pointer (pool ref from .byte)
+    .byte   0xD3, 0x16    /* mov.l .L_pool_0603ADE8, r3 */
     jsr @r3
     mov r13, r4
     mov.l r0, @r15
-    .byte   0xB6, 0x1F    /* bsr 0x0603B9D6 (external) */  ! call save_field_read(r4=result_index)
+    .byte   0xB6, 0x1F    /* bsr 0x0603B9D6 (external) */
     mov r13, r4
-    .byte   0xB5, 0xD0    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0, signal success)
+    .byte   0xB5, 0xD0    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @r15, r0
 
 .L_return:
-    .byte   0x91, 0x1E    /* mov.w .L_wpool_0603ADDE, r1 */  ! r1 = +0xF4 stack deallocation (cannot rename: mov.w pcrel)
+    .byte   0x91, 0x1E    /* mov.w .L_wpool_0603ADDE, r1 */
     add r1, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

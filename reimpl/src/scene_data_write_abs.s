@@ -132,7 +132,7 @@ scene_data_write_abs:
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
-    .byte   0xD3, 0x21    /* mov.l .L_pool_scene_color_matrix_ch2, r3 */  ! r3 = &scene_color_matrix (pool in scene_data_write_add TU)
+    .byte   0xD3, 0x21    /* mov.l .L_pool_060386A8, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_dispatch_mode:

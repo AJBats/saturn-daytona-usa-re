@@ -128,12 +128,12 @@ obj_position_update:
     bt/s    .L_table_b_memcpy
     mov.l r3, @(4, r2)
     mov.l @r11, r5
-    .byte   0xD3, 0x30    /* mov.l .L_pool_060050D8, r3 -- cross-TU: VDP2 VRAM 0x25E00000 */
+    .byte   0xD3, 0x30    /* mov.l .L_pool_060050D8, r3 */
     shll2 r5
     shll2 r5
     shll r5
     add r3, r5
-    .byte   0xD3, 0x2F    /* mov.l .L_pool_060050DC, r3 -- cross-TU: dma_memory_transfer */
+    .byte   0xD3, 0x2F    /* mov.l .L_pool_060050DC, r3 */
     jsr @r3
     mov r13, r4
     bra     .L_advance_counter_b
@@ -141,7 +141,7 @@ obj_position_update:
 .L_table_b_memcpy:
     mov.l @r15, r6
     mov.l @r11, r4
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_060050D8, r3 -- cross-TU: VDP2 VRAM 0x25E00000 */
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_060050D8, r3 */
     shll2 r6
     shll2 r4
     shll2 r6
@@ -149,7 +149,7 @@ obj_position_update:
     shll r6
     shll r4
     add r3, r4
-    .byte   0xD3, 0x28    /* mov.l .L_pool_060050E0, r3 -- cross-TU: memcpy_word_idx */
+    .byte   0xD3, 0x28    /* mov.l .L_pool_060050E0, r3 */
     jsr @r3
     mov r13, r5
 .L_advance_counter_b:

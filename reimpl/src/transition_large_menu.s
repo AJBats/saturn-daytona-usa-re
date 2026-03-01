@@ -11,7 +11,7 @@ transition_large_menu:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD5, 0x13    /* mov.l .L_snd_cmd_menu, r5 — 0xAE0003FF menu music */
+    .byte   0xD5, 0x13    /* mov.l .L_snd_cmd_menu, r5 */
     .byte   0xD3, 0x13    /* mov.l .L_fn_sound_dispatch_a, r3 */
     jsr @r3
     mov #0x0, r4
@@ -19,15 +19,15 @@ transition_large_menu:
     jsr @r3
     mov #0xC, r4
     mov.w   .L_palette_size, r6
-    .byte   0xD5, 0x12    /* mov.l .L_palette_src, r5 — menu palette data */
-    .byte   0xD4, 0x12    /* mov.l .L_vdp2_cram_0x460, r4 — VDP2 CRAM dest */
+    .byte   0xD5, 0x12    /* mov.l .L_palette_src, r5 */
+    .byte   0xD4, 0x12    /* mov.l .L_vdp2_cram_0x460, r4 */
     .byte   0xD3, 0x13    /* mov.l .L_fn_memcpy_word, r3 */
     jsr @r3
     nop
     .byte   0xD3, 0x12    /* mov.l .L_fn_scroll_setup, r3 */
     jsr @r3
     nop
-    .byte   0xD2, 0x12    /* mov.l .L_status_word, r2 — game status array */
+    .byte   0xD2, 0x12    /* mov.l .L_status_word, r2 */
     mov.w @(6, r2), r0
     mov r0, r3
     extu.w r3, r3
@@ -65,7 +65,7 @@ transition_large_menu:
     mov #0x28, r14
     mov #0x27, r13
 .L_setup_display_layers:
-    .byte   0xDB, 0x35    /* mov.l .L_tile_table, r11 — tile table base */
+    .byte   0xDB, 0x35    /* mov.l .L_tile_table, r11 */
     mov r14, r7
     .byte   0xDC, 0x35    /* mov.l .L_fn_tile_writer, r12 */
     shll2 r7
@@ -73,7 +73,7 @@ transition_large_menu:
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    .byte   0xD3, 0x33    /* mov.l .L_tile_data_offset, r3 — 0x9000 */
+    .byte   0xD3, 0x33    /* mov.l .L_tile_data_offset, r3 */
     mov.w   .L_tile_size_a, r6
     mov.l @r15, r5
     add r3, r7
@@ -86,7 +86,7 @@ transition_large_menu:
     add r11, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    .byte   0xD3, 0x2D    /* mov.l .L_tile_data_offset, r3 — 0x9000 */
+    .byte   0xD3, 0x2D    /* mov.l .L_tile_data_offset, r3 */
     mov.w   .L_tile_size_b, r6
     mov.l @r15, r5
     add r3, r7
@@ -104,7 +104,7 @@ transition_large_menu:
     mov.l @r5, r5
     jsr @r12
     mov #0xC, r4
-    .byte   0xD5, 0x25    /* mov.l .L_snd_cmd_secondary, r5 — 0xAB1104FF */
+    .byte   0xD5, 0x25    /* mov.l .L_snd_cmd_secondary, r5 */
     .byte   0xD3, 0x25    /* mov.l .L_fn_sound_dispatch_b, r3 */
     jsr @r3
     mov #0x0, r4
@@ -130,7 +130,7 @@ transition_large_menu:
     bt      .L_check_1p_setup
     .byte   0xD3, 0x22    /* mov.l .L_split_transition_state, r3 */
     mov.l r4, @r3
-    .byte   0xD2, 0x22    /* mov.l .L_split_scroll_offset, r2 — 0x000C0000 */
+    .byte   0xD2, 0x22    /* mov.l .L_split_scroll_offset, r2 */
     .byte   0xD3, 0x22    /* mov.l .L_split_scroll_ptr, r3 */
     mov.l r2, @r3
     .byte   0xD3, 0x22    /* mov.l .L_split_display_slot, r3 */
@@ -138,7 +138,7 @@ transition_large_menu:
     extu.b r4, r4
     .byte   0xD3, 0x22    /* mov.l .L_split_active_byte, r3 */
     mov.b r4, @r3
-    .byte   0xD7, 0x22    /* mov.l .L_split_tile_table, r7 — split tile data */
+    .byte   0xD7, 0x22    /* mov.l .L_split_tile_table, r7 */
     mov.w   .L_split_tile_size, r6
     mov.w   .L_split_tile_data, r5
     .byte   0xD3, 0x21    /* mov.l .L_fn_split_tile_writer, r3 */

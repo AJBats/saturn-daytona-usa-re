@@ -276,42 +276,42 @@ DAT_06006362:
     .4byte  sym_06063F14               /* camera param chain E (receives initial Z offset) */
 .L_set_attract_pos_default:
     mov #0x3, r2
-    .byte   0x90, 0x59    /* mov.w .L_wpool_0600654C, r0 — cross-TU: 0xDC attract field offset [HIGH] */  ! r0 = 0xDC (attract field offset, in scene_fallback_render pool)
+    .byte   0x90, 0x59    /* mov.w .L_wpool_0600654C, r0 */
     mov.w r2, @(r0, r4)
     mov r2, r3
     add #0x2, r0
     mov.w r3, @(r0, r4)
 .L_final_state_config:
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006550, r3 — cross-TU: &sym_060620D0 (sprite/timing counter) [MEDIUM] */   ! r3 = &sprite_timing_counter
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006550, r3 */
     mov #0x2, r2
     mov #0x0, r5
     mov.l r13, @r3
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006554, r3 — cross-TU: &sym_06063E1C (camera_mode) [HIGH] */   ! r3 = &camera_mode
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006554, r3 */
     mov.l r2, @r3
     mov #0x1, r2
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006558, r3 — cross-TU: &sym_06059F30 (scene_render_enable) [MEDIUM] */   ! r3 = &scene_render_enable
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006558, r3 */
     mov.l r2, @r3
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600655C, r3 — cross-TU: &channel_nibble_config [HIGH] */   ! r3 = &channel_nibble_config
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600655C, r3 */
     jsr @r3
     mov #0x8, r4
-    .byte   0xD2, 0x29    /* mov.l .L_pool_06006560, r2 — cross-TU: 0x00058000 = 5.5 fp (initial eye_y) [HIGH] */   ! r2 = 5.5 fp (initial camera eye_y)
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006564, r3 — cross-TU: &sym_06063E24 (camera_eye_y) [HIGH] */   ! r3 = &camera_eye_y
+    .byte   0xD2, 0x29    /* mov.l .L_pool_06006560, r2 */
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006564, r3 */
     mov.l r2, @r3
-    .byte   0xD4, 0x2A    /* mov.l .L_pool_06006568, r4 — cross-TU: 0x0000F300 (initial heading value) [MEDIUM] */   ! r4 = 0x0000F300 (initial camera heading)
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600656C, r3 — cross-TU: &sym_06063E34 (camera_near_clip) [HIGH] */   ! r3 = &camera_near_clip
+    .byte   0xD4, 0x2A    /* mov.l .L_pool_06006568, r4 */
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600656C, r3 */
     mov.l r4, @r3
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_06006570, r2 — cross-TU: 0x006E0000 = 110.0 fp (initial heading) [HIGH] */   ! r2 = 110.0 fp (initial camera heading)
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006574, r3 — cross-TU: &sym_06063E28 (camera_heading) [HIGH] */   ! r3 = &camera_heading
+    .byte   0xD2, 0x2A    /* mov.l .L_pool_06006570, r2 */
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006574, r3 */
     mov.l r2, @r3
-    .byte   0xD2, 0x2B    /* mov.l .L_pool_06006578, r2 — cross-TU: 0x00100000 = 16.0 fp (initial zoom) [HIGH] */   ! r2 = 16.0 fp (initial camera zoom)
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_0600657C, r3 — cross-TU: &sym_06063E2C (camera_zoom_factor) [HIGH] */   ! r3 = &camera_zoom_factor
+    .byte   0xD2, 0x2B    /* mov.l .L_pool_06006578, r2 */
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_0600657C, r3 */
     mov.l r2, @r3
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006580, r3 — cross-TU: &sym_06063E30 (camera_z_offset) [HIGH] */   ! r3 = &camera_z_offset
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006580, r3 */
     mov.l r13, @r3
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006584, r3 — cross-TU: &sym_06063EEC (smoothed_heading) [HIGH] */   ! r3 = &smoothed_heading
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006584, r3 */
     mov.l r4, @r3
     mov #0x2, r2
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006588, r3 — cross-TU: &sym_06063E20 (camera_state_idx) [HIGH] */   ! r3 = &camera_state_idx
+    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006588, r3 */
     mov.l r2, @r3
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -321,5 +321,5 @@ DAT_06006362:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA1, 0x6B    /* bra 0x060067C8 (external) */    ! tailcall coord_grid_pack
+    .byte   0xA1, 0x6B    /* bra 0x060067C8 (external) */
     mov.l @r15+, r14

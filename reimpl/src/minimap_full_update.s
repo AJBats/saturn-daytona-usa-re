@@ -201,13 +201,13 @@ loc_060158B0:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    .byte   0xD1, 0x1B    /* mov.l .L_pool_06015934, r1 */  ! r1 = sym_06084FC8 (slot array base, cross-TU pool)
+    .byte   0xD1, 0x1B    /* mov.l .L_pool_06015934, r1 */
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    .byte   0xD2, 0x19    /* mov.l .L_pool_06015938, r2 */  ! r2 = handler table base (cross-TU pool)
+    .byte   0xD2, 0x19    /* mov.l .L_pool_06015938, r2 */
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4

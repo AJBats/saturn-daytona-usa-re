@@ -39,7 +39,7 @@ ai_brake_handler:
 .L_pool_06041294:
     .4byte  ai_brake_zone_main
 .L_brake_calc:
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06041308, r3 — ai_brake_zone_calc */
+    .byte   0xD3, 0x1B    /* mov.l .L_pool_06041308, r3 */
     jsr @r3
     mov r15, r4
     mov.l @r14, r2

@@ -76,12 +76,12 @@ _pool_phase_jump_table:
 
     .global loc_0601AF04
 loc_0601AF04:
-    .byte   0xD4, 0x19    /* mov.l .L_pool_0601AF6C, r4 — r4 -> phase timer (pool in next TU) */
+    .byte   0xD4, 0x19    /* mov.l .L_pool_0601AF6C, r4 */
     mov.b @r4, r3
     extu.b r3, r3
     tst r3, r3
     bf      .L_timer_nonzero
-    .byte   0xD5, 0x18    /* mov.l .L_pool_0601AF70, r5 — r5 -> phase index (pool in next TU) */
+    .byte   0xD5, 0x18    /* mov.l .L_pool_0601AF70, r5 */
     mov.b @r5, r3
     add #0x1, r3
     mov.b r3, @r5

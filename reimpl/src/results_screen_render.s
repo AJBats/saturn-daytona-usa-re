@@ -7,7 +7,7 @@
 results_screen_render:
     sts.l pr, @-r15
     shll2 r3
-    .byte   0xDD, 0x3D    /* mov.l .L_pool_060160C0, r13 */ ! r13 = element array base (sym_06084FC8)
+    .byte   0xDD, 0x3D    /* mov.l .L_pool_060160C0, r13 */
     shll2 r3
     add r3, r4
     exts.w r4, r4
@@ -100,10 +100,10 @@ results_screen_render:
     mov r3, r4
     mov.l r3, @(4, r11)
     mov.l @(52, r11), r2
-    .byte   0xD3, 0x10    /* mov.l .L_pool_060160C4, r3 */ ! r3 = int_abs function address
+    .byte   0xD3, 0x10    /* mov.l .L_pool_060160C4, r3 */
     jsr @r3
     sub r2, r4
-    .byte   0xD2, 0x10    /* mov.l .L_pool_060160C8, r2 */ ! r2 = 0x000F0000 (15.0 in 16.16 FP)
+    .byte   0xD2, 0x10    /* mov.l .L_pool_060160C8, r2 */
     cmp/gt r2, r0
     bt      .L_x_interp_done
     extu.b r14, r2
@@ -127,7 +127,7 @@ results_screen_render:
     add r3, r2
     exts.w r2, r2
     add r13, r2
-    .byte   0xD1, 0x05    /* mov.l .L_pool_060160CC, r1 */ ! r1 = 0xFFFC0000 (-4.0 in 16.16 FP)
+    .byte   0xD1, 0x05    /* mov.l .L_pool_060160CC, r1 */
     mov.w   .L_wpool_060160BE, r4
     bra     .L_apply_speed_damping
     mov.l r1, @(16, r2)
@@ -151,7 +151,7 @@ results_screen_render:
     add r3, r2
     exts.w r2, r2
     add r13, r2
-    .byte   0xD1, 0x47    /* mov.l .L_pool_06016201, r1 */ ! r1 = 0x00040000 (+4.0 in 16.16 FP)
+    .byte   0xD1, 0x47    /* mov.l .L_pool_06016201, r1 */
     mov.l r1, @(16, r2)
     mov.w   .L_wpool_060161FD, r4
 .L_apply_speed_damping:
@@ -263,7 +263,7 @@ results_screen_render:
     mov.l r2, @(4, r5)
     extu.b r4, r12
 .L_render_element:
-    .byte   0xB6, 0x10    /* bsr 0x06016DD8 (external) */ ! call track_vtx_builder (compute vertex positions)
+    .byte   0xB6, 0x10    /* bsr 0x06016DD8 (external) */
     extu.b r14, r4
     extu.b r12, r12
     tst r12, r12

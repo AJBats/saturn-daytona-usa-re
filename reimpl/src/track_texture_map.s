@@ -7,20 +7,20 @@
 track_texture_map:
     sts.l pr, @-r15
     mov.l @r14, r14
-    .byte   0xDC, 0x15    /* mov.l .L_fn_sound_cmd_dispatch, r12 */  ! r12 = sound_cmd_dispatch (persists)
+    .byte   0xDC, 0x15    /* mov.l .L_fn_sound_cmd_dispatch, r12 */
     mov r14, r0
-    .byte   0xD5, 0x15    /* mov.l .L_player_mode_ptr, r5 */  ! r5 = &player_mode (0x0607EAD8)
+    .byte   0xD5, 0x15    /* mov.l .L_player_mode_ptr, r5 */
     mov.w   DAT_0602f842, r4
     mov.l @r5, r0
     add r14, r4
-    .byte   0xD1, 0x14    /* mov.l .L_seg_range_table, r1 */  ! r1 = seg_range_table base
+    .byte   0xD1, 0x14    /* mov.l .L_seg_range_table, r1 */
     mov.l @r4, r4
     shll2 r0
     add r0, r1
     mov.w @r1, r5
     tst r5, r5
     bt      .L_volume_calc
-    .byte   0xD3, 0x11    /* mov.l .L_seg_entry_table, r3 */  ! r3 = seg_entry_table base
+    .byte   0xD3, 0x11    /* mov.l .L_seg_entry_table, r3 */
     mov.w @(2, r1), r0
     add r0, r3
 .L_zone_scan_loop:
@@ -41,7 +41,7 @@ track_texture_map:
     bf      .L_volume_calc
     or r3, r1
     mov.l r1, @(0, r14)
-    .byte   0xD5, 0x08    /* mov.l .L_snd_zone_enter, r5 */  ! r5 = 0xAE0601FF (BGM zone enter)
+    .byte   0xD5, 0x08    /* mov.l .L_snd_zone_enter, r5 */
     jsr @r12
     mov #0x4, r4
     bra     .L_volume_calc
@@ -78,7 +78,7 @@ DAT_0602f844:
     not r3, r3
     and r3, r1
     mov.l r1, @(0, r14)
-    .byte   0xD5, 0x08    /* mov.l .L_snd_zone_exit, r5 */  ! r5 = 0xAE0600FF (BGM start/zone exit)
+    .byte   0xD5, 0x08    /* mov.l .L_snd_zone_exit, r5 */
     jsr @r12
     mov #0x4, r4
 .L_volume_calc:
@@ -112,7 +112,7 @@ DAT_0602f890:
     sub r3, r1
     shll8 r1
     mov.w   .L_divisor_speed_range, r0
-    .byte   0xBA, 0x10    /* bsr 0x0602ECCC (external) */  ! hw_divide(r0=divisor, r1=dividend)
+    .byte   0xBA, 0x10    /* bsr 0x0602ECCC (external) */
     shlr r1
     mov #0x7F, r4
     mov #0x1, r3
@@ -131,7 +131,7 @@ DAT_0602f890:
     mov r0, r5
     jsr @r12
     mov #0x1, r4
-    .byte   0xD4, 0x0A    /* mov.l .L_course_type_byte, r4 */  ! r4 = &course_type_byte
+    .byte   0xD4, 0x0A    /* mov.l .L_course_type_byte, r4 */
     mov.b @r4, r4
     mov.w   DAT_0602f8f0, r1
     add r14, r1
@@ -145,10 +145,10 @@ DAT_0602f890:
     bt      .L_check_road_type
     cmp/eq #0xA, r0
     bf      .L_check_surface_b
-    .byte   0xD5, 0x04    /* mov.l .L_snd_surface_a_default, r5 */  ! r5 = 0xAE111EFF
+    .byte   0xD5, 0x04    /* mov.l .L_snd_surface_a_default, r5 */
     tst r4, r4
     bt      .L_dispatch_surface_snd
-    .byte   0xD5, 0x04    /* mov.l .L_snd_surface_a_alt, r5 */  ! r5 = 0xAE1142FF (alt course)
+    .byte   0xD5, 0x04    /* mov.l .L_snd_surface_a_alt, r5 */
     bra     .L_dispatch_surface_snd
     nop
 
@@ -167,16 +167,16 @@ DAT_0602f8f2:
     .4byte  0xAE1142FF
 .L_check_surface_b:
     cmp/eq #0x3, r0
-    .byte   0xD5, 0x20    /* mov.l .L_snd_surface_b_default, r5 */  ! r5 = 0xAE111CFF (preload)
+    .byte   0xD5, 0x20    /* mov.l .L_snd_surface_b_default, r5 */
     bf      .L_check_road_type
     tst r4, r4
     bt      .L_dispatch_surface_snd
-    .byte   0xD5, 0x1F    /* mov.l .L_snd_surface_b_alt, r5 */  ! r5 = 0xAE1140FF (alt course)
+    .byte   0xD5, 0x1F    /* mov.l .L_snd_surface_b_alt, r5 */
 .L_dispatch_surface_snd:
     jsr @r12
     mov #0x0, r4
 .L_check_road_type:
-    .byte   0xD4, 0x1E    /* mov.l .L_course_type_byte_2, r4 */  ! r4 = &course_type_byte
+    .byte   0xD4, 0x1E    /* mov.l .L_course_type_byte_2, r4 */
     mov.b @r4, r1
     mov.w   .L_off_collision_timer, r3
     add r14, r3
@@ -185,14 +185,14 @@ DAT_0602f8f2:
     cmp/eq r4, r5
     bf      .L_check_screech
     tst r1, r1
-    .byte   0xD5, 0x1B    /* mov.l .L_snd_road_type_default, r5 */  ! r5 = 0xAE111BFF
+    .byte   0xD5, 0x1B    /* mov.l .L_snd_road_type_default, r5 */
     bt      .L_dispatch_road_snd
-    .byte   0xD5, 0x1B    /* mov.l .L_snd_road_type_alt, r5 */  ! r5 = 0xAE113FFF (alt course)
+    .byte   0xD5, 0x1B    /* mov.l .L_snd_road_type_alt, r5 */
 .L_dispatch_road_snd:
     jsr @r12
     mov #0x0, r4
 .L_check_screech:
-    .byte   0xD3, 0x1A    /* mov.l .L_screech_countdown_ptr, r3 */  ! r3 = &screech_countdown
+    .byte   0xD3, 0x1A    /* mov.l .L_screech_countdown_ptr, r3 */
     mov.b @r3, r0
     tst r0, r0
     bt      .L_no_active_screech

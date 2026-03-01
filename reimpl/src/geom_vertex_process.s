@@ -81,7 +81,7 @@ geom_vertex_process:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA5, 0x0E    /* bra 0x0601F40C (geom_output_handler) — tail call */
+    .byte   0xA5, 0x0E    /* bra 0x0601F40C (geom_output_handler) */
     mov.l @r15+, r14
     .4byte  0x2010001F
 .L_pool_0601E9F4:
@@ -102,13 +102,13 @@ geom_vertex_process:
     .4byte  sym_060877D9
 .L_element_changed:
     mov.b @r14, r2
-    .byte   0xD3, 0x2F    /* mov.l @(0xBC,PC), r3 — out-of-TU: sym_060877D9 (player_elem_state) */
+    .byte   0xD3, 0x2F    /* mov.l @(0xBC,PC), r3 */
     extu.b r2, r2
     add r3, r2
     mov.b r4, @r2
     mov.l @r9, r6
     mov.b @r14, r5
-    .byte   0xD2, 0x2D    /* mov.l @(0xB4,PC), r2 — out-of-TU: sym_0604A57C (course_name_table) */
+    .byte   0xD2, 0x2D    /* mov.l @(0xB4,PC), r2 */
     mov.b @r14, r4
     extu.b r5, r5
     extu.b r4, r4
@@ -118,7 +118,7 @@ geom_vertex_process:
     shll r3
     add r3, r5
     add r2, r5
-    .byte   0xD3, 0x27    /* mov.l @(0x9C,PC), r3 — out-of-TU: sym_060877D9 (player_elem_state) */
+    .byte   0xD3, 0x27    /* mov.l @(0x9C,PC), r3 */
     add r3, r4
     mov.b @r4, r4
     .byte   0xBE, 0x92    /* bsr 0x0601E764 (hud_render_stage) */
@@ -131,7 +131,7 @@ geom_vertex_process:
     bra     .L_epilogue_return
     nop
 .L_render_unchanged:
-    .byte   0xD2, 0x23    /* mov.l @(0x8C,PC), r2 — out-of-TU: sym_06087080 (geom_busy_flag) */
+    .byte   0xD2, 0x23    /* mov.l @(0x8C,PC), r2 */
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
@@ -141,7 +141,7 @@ geom_vertex_process:
     mov.l @r9, r3
     add r4, r3
     mov.b @r3, r2
-    .byte   0xD3, 0x1F    /* mov.l @(0x7C,PC), r3 — out-of-TU: sym_0604A5AC (reference table) */
+    .byte   0xD3, 0x1F    /* mov.l @(0x7C,PC), r3 */
     extu.b r2, r2
     add r4, r3
     mov.b @r3, r1
@@ -163,7 +163,7 @@ geom_vertex_process:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0xA6    /* bra 0x0601EBDA (geom_vertex_compute) — tail call */
+    .byte   0xA0, 0xA6    /* bra 0x0601EBDA (geom_vertex_compute) */
     mov.l @r15+, r14
 .L_epilogue_return:
     lds.l @r15+, pr

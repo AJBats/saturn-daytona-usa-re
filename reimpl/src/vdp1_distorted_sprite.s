@@ -10,7 +10,7 @@ vdp1_distorted_sprite:
     nop
     lds.l @r15+, pr
     nop
-    .byte   0xD2, 0x05    /* mov.l .L_ptr_vtx_update_timer, r2 */ ! r2 = &vtx_update_timer (sym_06082A40)
+    .byte   0xD2, 0x05    /* mov.l .L_ptr_vtx_update_timer, r2 */
     mov.l @r2, r0
     tst r0, r0
     bf      .L_update_active
@@ -46,19 +46,19 @@ vdp1_distorted_sprite:
 .L_update_active:
     add #-0x1, r0
     mov.l r0, @r2
-    .byte   0xD2, 0x09    /* mov.l .L_ptr_dirty_flags, r2 */ ! r2 = &dirty_flags (sym_06082A3C)
+    .byte   0xD2, 0x09    /* mov.l .L_ptr_dirty_flags, r2 */
     mov.l @r2, r4
     mov r4, r0
-    .byte   0xD1, 0x09    /* mov.l .L_bit_ax, r1 */ ! r1 = 0x10 (AX channel bit)
+    .byte   0xD1, 0x09    /* mov.l .L_bit_ax, r1 */
     tst r1, r0
     bt      .L_ax_done
-    .byte   0xD0, 0x08    /* mov.l .L_ptr_ax_src, r0 */ ! r0 = &vtx_ax_src (sym_06082A54)
+    .byte   0xD0, 0x08    /* mov.l .L_ptr_ax_src, r0 */
     mov.l @r0, r3
-    .byte   0xD1, 0x08    /* mov.l .L_ptr_ax_dst, r1 */ ! r1 = &vtx_ax_dst (sym_06082A70)
+    .byte   0xD1, 0x08    /* mov.l .L_ptr_ax_dst, r1 */
     mov.l @r1, r2
     cmp/ge r2, r3
     bt      .L_ax_src_ge_dst
-    .byte   0xD0, 0x07    /* mov.l .L_ptr_ax_wrap, r0 */ ! r0 = &vtx_ax_wrap (sym_06082A6C)
+    .byte   0xD0, 0x07    /* mov.l .L_ptr_ax_wrap, r0 */
     mov.l @r0, r0
     sub r0, r2
     cmp/ge r3, r2
@@ -77,7 +77,7 @@ vdp1_distorted_sprite:
 .L_ptr_ax_wrap:
     .4byte  sym_06082A6C
 .L_ax_src_ge_dst:
-    .byte   0xD0, 0x03    /* mov.l .L_ptr_ax_wrap_2, r0 */ ! r0 = &vtx_ax_wrap
+    .byte   0xD0, 0x03    /* mov.l .L_ptr_ax_wrap_2, r0 */
     mov.l @r0, r0
     add r0, r2
     cmp/ge r2, r3
@@ -92,16 +92,16 @@ vdp1_distorted_sprite:
     mov.l r2, @r1
 .L_ax_done:
     mov r4, r0
-    .byte   0xD1, 0x07    /* mov.l .L_bit_ay, r1 */ ! r1 = 0x8 (AY channel bit)
+    .byte   0xD1, 0x07    /* mov.l .L_bit_ay, r1 */
     tst r1, r0
     bt      .L_ay_done
-    .byte   0xD0, 0x07    /* mov.l .L_ptr_ay_src, r0 */ ! r0 = &vtx_ay_src (sym_06082A58)
+    .byte   0xD0, 0x07    /* mov.l .L_ptr_ay_src, r0 */
     mov.l @r0, r3
-    .byte   0xD1, 0x07    /* mov.l .L_ptr_ay_dst, r1 */ ! r1 = &vtx_ay_dst (sym_06082A78)
+    .byte   0xD1, 0x07    /* mov.l .L_ptr_ay_dst, r1 */
     mov.l @r1, r2
     cmp/ge r2, r3
     bt      .L_ay_src_ge_dst
-    .byte   0xD0, 0x06    /* mov.l .L_ptr_ay_wrap, r0 */ ! r0 = &vtx_ay_wrap (sym_06082A74)
+    .byte   0xD0, 0x06    /* mov.l .L_ptr_ay_wrap, r0 */
     mov.l @r0, r0
     sub r0, r2
     cmp/ge r3, r2
@@ -117,7 +117,7 @@ vdp1_distorted_sprite:
 .L_ptr_ay_wrap:
     .4byte  sym_06082A74
 .L_ay_src_ge_dst:
-    .byte   0xD0, 0x03    /* mov.l .L_ptr_ay_wrap_2, r0 */ ! r0 = &vtx_ay_wrap
+    .byte   0xD0, 0x03    /* mov.l .L_ptr_ay_wrap_2, r0 */
     mov.l @r0, r0
     add r0, r2
     cmp/ge r2, r3
@@ -132,16 +132,16 @@ vdp1_distorted_sprite:
     mov.l r2, @r1
 .L_ay_done:
     mov r4, r0
-    .byte   0xD1, 0x07    /* mov.l .L_bit_bx, r1 */ ! r1 = 0x4 (BX channel bit)
+    .byte   0xD1, 0x07    /* mov.l .L_bit_bx, r1 */
     tst r1, r0
     bt      .L_bx_done
-    .byte   0xD0, 0x07    /* mov.l .L_ptr_bx_src, r0 */ ! r0 = &vtx_bx_src (sym_06082A44)
+    .byte   0xD0, 0x07    /* mov.l .L_ptr_bx_src, r0 */
     mov.l @r0, r3
-    .byte   0xD1, 0x07    /* mov.l .L_ptr_bx_dst, r1 */ ! r1 = &camera_pitch (sym_06063EEC)
+    .byte   0xD1, 0x07    /* mov.l .L_ptr_bx_dst, r1 */
     mov.l @r1, r2
     cmp/ge r2, r3
     bt      .L_bx_src_ge_dst
-    .byte   0xD0, 0x06    /* mov.l .L_ptr_bx_wrap, r0 */ ! r0 = &vtx_bx_wrap (sym_06082A5C)
+    .byte   0xD0, 0x06    /* mov.l .L_ptr_bx_wrap, r0 */
     mov.l @r0, r0
     sub r0, r2
     cmp/ge r3, r2
@@ -157,7 +157,7 @@ vdp1_distorted_sprite:
 .L_ptr_bx_wrap:
     .4byte  sym_06082A5C
 .L_bx_src_ge_dst:
-    .byte   0xD0, 0x03    /* mov.l .L_ptr_bx_wrap_2, r0 */ ! r0 = &vtx_bx_wrap
+    .byte   0xD0, 0x03    /* mov.l .L_ptr_bx_wrap_2, r0 */
     mov.l @r0, r0
     add r0, r2
     cmp/ge r2, r3
@@ -172,16 +172,16 @@ vdp1_distorted_sprite:
     mov.l r2, @r1
 .L_bx_done:
     mov r4, r0
-    .byte   0xD1, 0x07    /* mov.l .L_bit_by, r1 */ ! r1 = 0x2 (BY channel bit)
+    .byte   0xD1, 0x07    /* mov.l .L_bit_by, r1 */
     tst r1, r0
     bt      .L_by_done
-    .byte   0xD0, 0x07    /* mov.l .L_ptr_by_src, r0 */ ! r0 = &vtx_by_src (sym_06082A48)
+    .byte   0xD0, 0x07    /* mov.l .L_ptr_by_src, r0 */
     mov.l @r0, r3
-    .byte   0xD1, 0x07    /* mov.l .L_ptr_by_dst, r1 */ ! r1 = &camera_yaw_ext (sym_06063EF0)
+    .byte   0xD1, 0x07    /* mov.l .L_ptr_by_dst, r1 */
     mov.l @r1, r2
     cmp/ge r2, r3
     bt      .L_by_src_ge_dst
-    .byte   0xD0, 0x06    /* mov.l .L_ptr_by_wrap, r0 */ ! r0 = &vtx_by_wrap (sym_06082A60)
+    .byte   0xD0, 0x06    /* mov.l .L_ptr_by_wrap, r0 */
     mov.l @r0, r0
     sub r0, r2
     cmp/ge r3, r2
@@ -197,7 +197,7 @@ vdp1_distorted_sprite:
 .L_ptr_by_wrap:
     .4byte  sym_06082A60
 .L_by_src_ge_dst:
-    .byte   0xD0, 0x03    /* mov.l .L_ptr_by_wrap_2, r0 */ ! r0 = &vtx_by_wrap
+    .byte   0xD0, 0x03    /* mov.l .L_ptr_by_wrap_2, r0 */
     mov.l @r0, r0
     add r0, r2
     cmp/ge r2, r3
@@ -212,16 +212,16 @@ vdp1_distorted_sprite:
     mov.l r2, @r1
 .L_by_done:
     mov r4, r0
-    .byte   0xD1, 0x07    /* mov.l .L_bit_c, r1 */ ! r1 = 0x1 (C channel bit)
+    .byte   0xD1, 0x07    /* mov.l .L_bit_c, r1 */
     tst r1, r0
     bt      .L_all_done
-    .byte   0xD0, 0x07    /* mov.l .L_ptr_c_src, r0 */ ! r0 = &vtx_c_src (sym_06082A50)
+    .byte   0xD0, 0x07    /* mov.l .L_ptr_c_src, r0 */
     mov.l @r0, r3
-    .byte   0xD1, 0x07    /* mov.l .L_ptr_c_dst, r1 */ ! r1 = &camera_eye_y (sym_06063E24)
+    .byte   0xD1, 0x07    /* mov.l .L_ptr_c_dst, r1 */
     mov.l @r1, r2
     cmp/ge r2, r3
     bt      .L_c_src_ge_dst
-    .byte   0xD0, 0x06    /* mov.l .L_ptr_c_wrap, r0 */ ! r0 = &vtx_c_wrap (sym_06082A68)
+    .byte   0xD0, 0x06    /* mov.l .L_ptr_c_wrap, r0 */
     mov.l @r0, r0
     sub r0, r2
     cmp/ge r3, r2
@@ -237,7 +237,7 @@ vdp1_distorted_sprite:
 .L_ptr_c_wrap:
     .4byte  sym_06082A68
 .L_c_src_ge_dst:
-    .byte   0xD0, 0x03    /* mov.l .L_ptr_c_wrap_2, r0 */ ! r0 = &vtx_c_wrap
+    .byte   0xD0, 0x03    /* mov.l .L_ptr_c_wrap_2, r0 */
     mov.l @r0, r0
     add r0, r2
     cmp/ge r2, r3
@@ -254,14 +254,14 @@ vdp1_distorted_sprite:
     rts
     nop
 .L_no_update:
-    .byte   0xD1, 0x04    /* mov.l .L_ptr_aux_counter, r1 */ ! r1 = &aux_counter (sym_06082A38)
+    .byte   0xD1, 0x04    /* mov.l .L_ptr_aux_counter, r1 */
     mov.l @r1, r0
     add #0x1, r0
     mov.l r0, @r1
-    .byte   0xD1, 0x03    /* mov.l .L_ptr_render_state, r1 */ ! r1 = &render_state (sym_06082A30)
-    .byte   0xD0, 0x03    /* mov.l .L_const_one, r0 */ ! r0 = 0x1
+    .byte   0xD1, 0x03    /* mov.l .L_ptr_render_state, r1 */
+    .byte   0xD0, 0x03    /* mov.l .L_const_one, r0 */
     mov.l r0, @r1
-    .byte   0xAE, 0x52    /* bra 0x0602DD10 (external) */ ! branch to VDP1 cmd list builder (loc_0602DD10)
+    .byte   0xAE, 0x52    /* bra 0x0602DD10 (external) */
     nop
 .L_ptr_aux_counter:
     .4byte  sym_06082A38
@@ -272,4 +272,4 @@ vdp1_distorted_sprite:
 
     .global loc_0602E078
 loc_0602E078:
-    .byte   0xDD, 0x12    /* mov.l .L_pool_0602E0C4, r13 */ ! r13 = next cmd builder fn (from adjacent pool)
+    .byte   0xDD, 0x12    /* mov.l .L_pool_0602E0C4, r13 */

@@ -10,7 +10,7 @@ hud_layout_mgr:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD3, 0x0B    /* mov.l .L_disable_flag_a, r3 */  ! check 4 disable flags
+    .byte   0xD3, 0x0B    /* mov.l .L_disable_flag_a, r3 */
     mov.b @r3, r3
     tst r3, r3
     .word 0x0029
@@ -49,7 +49,7 @@ hud_layout_mgr:
     cmp/hs r3, r2
     bt/s    .L_above_threshold
     mov #0x0, r13
-    .byte   0xD3, 0x21    /* mov.l .L_fn_channel_setup_a, r3 */  ! below threshold: set up display channels
+    .byte   0xD3, 0x21    /* mov.l .L_fn_channel_setup_a, r3 */
     jsr @r3
     mov #0xC, r4
     .byte   0xD3, 0x21    /* mov.l .L_fn_channel_setup_b, r3 */
@@ -428,7 +428,7 @@ race_data_dispatch:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.w   .L_channel_id_0x100, r12
-    .byte   0xDE, 0x36    /* mov.l .L_fn_channel_nibble_config, r14 */  ! r14 = channel_nibble_config
+    .byte   0xDE, 0x36    /* mov.l .L_fn_channel_nibble_config, r14 */
     .byte   0xD3, 0x36    /* mov.l .L_fn_handler_init_reset, r3 */
     jsr @r3
     mov #0x0, r13
@@ -443,7 +443,7 @@ race_data_dispatch:
     .byte   0xD3, 0x34    /* mov.l .L_fn_vblank_helper, r3 */
     jsr @r3
     nop
-    .byte   0xD2, 0x33    /* mov.l .L_pause_flag_a, r2 */  ! check race pause flags
+    .byte   0xD2, 0x33    /* mov.l .L_pause_flag_a, r2 */
     .byte   0xD3, 0x34    /* mov.l .L_pause_flag_b, r3 */
     mov.b @r2, r2
     mov.b @r3, r3
@@ -452,7 +452,7 @@ race_data_dispatch:
     or r3, r2
     tst r2, r2
     bt      .L_after_pause_check
-    .byte   0xD3, 0x31    /* mov.l .L_pause_display_flag_d, r3 */  ! paused: check if pause overlay shown
+    .byte   0xD3, 0x31    /* mov.l .L_pause_display_flag_d, r3 */
     mov.w @r3, r3
     extu.w r3, r3
     tst r3, r3
@@ -488,7 +488,7 @@ race_data_dispatch:
     mov #0x3, r2
     .byte   0xD3, 0x27    /* mov.l .L_obj_mode_word, r3 */
     mov.w r2, @r3
-    .byte   0xD3, 0x27    /* mov.l .L_fn_obj_data_compact, r3 */  ! obj_data_compact + frame_end_commit (x2)
+    .byte   0xD3, 0x27    /* mov.l .L_fn_obj_data_compact, r3 */
     jsr @r3
     nop
     .byte   0xD3, 0x26    /* mov.l .L_fn_frame_end_commit, r3 */
@@ -500,13 +500,13 @@ race_data_dispatch:
     .byte   0xD3, 0x23    /* mov.l .L_fn_frame_end_commit, r3 */
     jsr @r3
     nop
-    .byte   0xD3, 0x23    /* mov.l .L_fn_channel_setup_d, r3 */  ! channel_setup(4), channel_setup(0xC)
+    .byte   0xD3, 0x23    /* mov.l .L_fn_channel_setup_d, r3 */
     jsr @r3
     mov #0x4, r4
     .byte   0xD3, 0x21    /* mov.l .L_fn_channel_setup_d, r3 */
     jsr @r3
     mov #0xC, r4
-    .byte   0xD3, 0x21    /* mov.l .L_fn_channel_setup_e, r3 */  ! channel_setup_b, gameover_channel
+    .byte   0xD3, 0x21    /* mov.l .L_fn_channel_setup_e, r3 */
     jsr @r3
     nop
     .byte   0xD3, 0x20    /* mov.l .L_fn_gameover_channel_d, r3 */
@@ -527,7 +527,7 @@ race_data_dispatch:
     mov #0x0, r5
     jsr @r14
     mov #0x4, r4
-    .byte   0xD2, 0x19    /* mov.l .L_jump_table_index, r2 */  ! tail-call via jump table
+    .byte   0xD2, 0x19    /* mov.l .L_jump_table_index, r2 */
     mov.l @r2, r2
     shll2 r2
     .byte   0xD3, 0x19    /* mov.l .L_jump_table_base, r3 */

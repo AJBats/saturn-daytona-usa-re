@@ -121,7 +121,7 @@ _pool_position_score_tbl:
     cmp/hs r3, r2
     bt      .L_epilogue
     shlr2 r4
-    .byte   0xDE, 0x18    /* mov.l _pool_variant_char_tbl, r14 — sym_06084B14 */
+    .byte   0xDE, 0x18    /* mov.l _pool_variant_char_tbl, r14 */
     shlr2 r4
     shlr r4
     add r4, r14
@@ -132,12 +132,12 @@ _pool_position_score_tbl:
     bf      .L_default_sound
     mov r14, r5
     shll2 r5
-    .byte   0xD3, 0x14    /* mov.l _pool_score_tbl, r3 — sym_0605B0FC */
+    .byte   0xD3, 0x14    /* mov.l _pool_score_tbl, r3 */
     add r3, r5
     bra     .L_play_sound
     mov.l @r5, r5
 .L_default_sound:
-    .byte   0xD5, 0x13    /* mov.l _pool_default_sound_id, r5 — 0xAB1102FF */
+    .byte   0xD5, 0x13    /* mov.l _pool_default_sound_id, r5 */
 .L_play_sound:
     jsr @r11
     mov #0x0, r4
@@ -152,10 +152,10 @@ _pool_position_score_tbl:
     .global loc_06013C10
 loc_06013C10:
     mov #0x7, r3
-    .byte   0xD2, 0x0F    /* mov.l _pool_phase_byte, r2 — &sym_06084AF2 */
+    .byte   0xD2, 0x0F    /* mov.l _pool_phase_byte, r2 */
     mov.b r3, @r2
     mov #0x0, r3
-    .byte   0xD2, 0x0E    /* mov.l _pool_frame_timer, r2 — &sym_06084AF6 */
+    .byte   0xD2, 0x0E    /* mov.l _pool_frame_timer, r2 */
     mov.w r3, @r2
     .byte   0xA0, 0x00    /* bra bonus_multiplier (falls through) */
     nop

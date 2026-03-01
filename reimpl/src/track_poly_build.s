@@ -54,7 +54,7 @@ track_poly_build:
     mov.w   DAT_0602f5b4, r11
     add r11, r6
     dt r5
-    .byte   0x8B, 0x99    /* bf 0x0602F4E4 (external) */  ! if counter != 0, loop back to caller
+    .byte   0x8B, 0x99    /* bf 0x0602F4E4 (external) */
 .L_done:
     rts
     nop

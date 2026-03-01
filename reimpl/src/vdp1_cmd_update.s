@@ -29,9 +29,9 @@ vdp1_cmd_update:
     mov.l @r5, r2
     or r4, r2
     mov.l r2, @r5
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_status_word_a, r2 */
+    .byte   0xD2, 0x0C    /* mov.l .L_pool_06014A6C, r2 */
     mov.w r3, @r2
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_status_word_b, r3 */
+    .byte   0xD3, 0x0C    /* mov.l .L_pool_06014A70, r3 */
     add #0x4, r15
     lds.l @r15+, pr
     rts

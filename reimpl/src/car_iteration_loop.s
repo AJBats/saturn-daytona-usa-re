@@ -63,7 +63,7 @@ _pool_camera_yaw_ptr:
 _pool_car_array_base:
     .4byte  sym_06078900
 .L_loop_body:
-    .byte   0xD0, 0x2D    /* mov.l .L_pool_0600DF94, r0 */  ! r0 = &special_mode_flag (sym_06078635)
+    .byte   0xD0, 0x2D    /* mov.l .L_pool_0600DF94, r0 */
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0

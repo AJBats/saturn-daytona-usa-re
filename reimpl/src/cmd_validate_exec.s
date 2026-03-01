@@ -48,7 +48,7 @@ cmd_validate_exec:
 .L_store_buffer:
     mov.l   .L_pool_0603ACA0, r3
     mov.l r5, @r3
-    .byte   0xB5, 0x71    /* bsr 0x0603B74C (external) */  ! call sys_boot_table_init(r4=cmd_id)
+    .byte   0xB5, 0x71    /* bsr 0x0603B74C (external) */
     nop
     tst r14, r14
     bf      .L_has_params
@@ -65,7 +65,7 @@ cmd_validate_exec:
     bt      .L_check_status_bit
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x5A    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=error)
+    .byte   0xA6, 0x5A    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_check_status_bit:
     mov.l   .L_pool_0603ACA0, r0
@@ -77,7 +77,7 @@ cmd_validate_exec:
     mov #-0x2, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x4F    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-2)
+    .byte   0xA6, 0x4F    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 
     .global DAT_0603ac9e
@@ -90,7 +90,7 @@ DAT_0603ac9e:
 .L_dispatch_command:
     tst r14, r14
     bf      .L_dispatch_with_params
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0603AD30, r3 */ ! r3 = &hud_toggle_ctrl (cross-TU pool)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0603AD30, r3 */
     jsr @r3
     nop
     mov r0, r13
@@ -99,10 +99,10 @@ DAT_0603ac9e:
     mov #-0x7, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x3D    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-7)
+    .byte   0xA6, 0x3D    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_dispatch_with_params:
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603AD34, r3 */ ! r3 = &save_size_calc (cross-TU pool)
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603AD34, r3 */
     jsr @r3
     mov r14, r4
     mov r0, r13
@@ -111,12 +111,12 @@ DAT_0603ac9e:
     mov #-0x1, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x32    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-1)
+    .byte   0xA6, 0x32    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_finalize:
-    .byte   0xB0, 0x68    /* bsr 0x0603ADAC (external) */  ! call cmd_dispatch_helper(r4=params)
+    .byte   0xB0, 0x68    /* bsr 0x0603ADAC (external) */
     mov r14, r4
-    .byte   0xB6, 0x2E    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0)
+    .byte   0xB6, 0x2E    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov r13, r0
 .L_return:

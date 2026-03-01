@@ -14,17 +14,17 @@ camera_scene_setup:
     mov.l r8, @-r15
     sts.l pr, @-r15
     mov r4, r13
-    .byte   0xD8, 0x15    /* mov.l .L_sprite_index_table, r8 — sprite index table base */
-    .byte   0xD9, 0x17    /* mov.l .L_rot_chain_b_params, r9 — rotation chain B params */
-    .byte   0xDA, 0x10    /* mov.l .L_fn_chain_b, r10 — transform chain B function */
-    .byte   0xDB, 0x17    /* mov.l .L_rot_chain_a_params, r11 — rotation chain A params */
-    .byte   0xDC, 0x0B    /* mov.l .L_fn_chain_a, r12 — transform chain A function */
-    .byte   0xD0, 0x17    /* mov.l .L_race_end_state, r0 — &race_end_state */
+    .byte   0xD8, 0x15    /* mov.l .L_sprite_index_table, r8 */
+    .byte   0xD9, 0x17    /* mov.l .L_rot_chain_b_params, r9 */
+    .byte   0xDA, 0x10    /* mov.l .L_fn_chain_b, r10 */
+    .byte   0xDB, 0x17    /* mov.l .L_rot_chain_a_params, r11 */
+    .byte   0xDC, 0x0B    /* mov.l .L_fn_chain_a, r12 */
+    .byte   0xD0, 0x17    /* mov.l .L_race_end_state, r0 */
     bra     .L_dispatch_state
     mov.l @r0, r0
 .L_state_0:
     mov r13, r14
-    .byte   0xD4, 0x16    /* mov.l .L_s0_chain_a_src, r4 — state 0 chain A source array */
+    .byte   0xD4, 0x16    /* mov.l .L_s0_chain_a_src, r4 */
     shll2 r14
     add r14, r11
     add r14, r4
@@ -35,7 +35,7 @@ camera_scene_setup:
     mov.l @r9, r6
     mov r8, r5
     add #0x54, r5
-    .byte   0xD4, 0x11    /* mov.l .L_s0_chain_b_model, r4 — state 0 chain B model array */
+    .byte   0xD4, 0x11    /* mov.l .L_s0_chain_b_model, r4 */
     bra     .L_chain_b_call
     mov.w @r5, r5
     .2byte  0xFFFF
@@ -66,7 +66,7 @@ camera_scene_setup:
     .4byte  sym_06063434
 .L_state_1:
     mov r13, r14
-    .byte   0xD4, 0x25    /* mov.l .L_s1_chain_a_src, r4 — state 1 chain A source array */
+    .byte   0xD4, 0x25    /* mov.l .L_s1_chain_a_src, r4 */
     shll2 r14
     add r14, r11
     add r14, r4
@@ -77,12 +77,12 @@ camera_scene_setup:
     mov.l @r9, r6
     mov r8, r5
     add #0x54, r5
-    .byte   0xD4, 0x20    /* mov.l .L_s1_chain_b_model, r4 — state 1 chain B model array */
+    .byte   0xD4, 0x20    /* mov.l .L_s1_chain_b_model, r4 */
     bra     .L_chain_b_call
     mov.w @r5, r5
 .L_state_2:
     mov r13, r14
-    .byte   0xD4, 0x1F    /* mov.l .L_s2_chain_a_src, r4 — state 2 chain A source array */
+    .byte   0xD4, 0x1F    /* mov.l .L_s2_chain_a_src, r4 */
     shll2 r14
     add r14, r11
     add r14, r4
@@ -94,7 +94,7 @@ camera_scene_setup:
     mov r8, r5
     add #0x54, r5
     mov.w @r5, r5
-    .byte   0xD4, 0x1A    /* mov.l .L_s2_chain_b_model, r4 — state 2 chain B model array */
+    .byte   0xD4, 0x1A    /* mov.l .L_s2_chain_b_model, r4 */
 .L_chain_b_call:
     add r14, r4
     jsr @r10

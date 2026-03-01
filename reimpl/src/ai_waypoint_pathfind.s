@@ -189,7 +189,7 @@ DAT_06014de4:
     jsr @r3
     nop
 .L_skip_compact:
-    .byte   0xB0, 0x59    /* bsr 0x06014F34 (external) -- post-pathfind handler */
+    .byte   0xB0, 0x59    /* bsr 0x06014F34 (external) */
     nop
     mov.l   .L_pool_06014F20, r3
     jsr @r3

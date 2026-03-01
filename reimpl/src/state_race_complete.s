@@ -26,7 +26,7 @@ state_race_complete:
     mov.l   .L_fn_obj_render, r3
     jsr @r3
     nop
-    .byte   0xB2, 0xB7    /* bsr 0x06009FFC (external) — post-race per-frame update */
+    .byte   0xB2, 0xB7    /* bsr 0x06009FFC (external) */
     nop
     mov r13, r6
     mov.l   .L_course_index, r5
@@ -184,7 +184,7 @@ state_race_complete:
     cmp/eq #0x2, r0
     bt      .L_mode_state2_set_bit2
 .L_scoring_and_continue:
-    .byte   0xB3, 0x05    /* bsr 0x0600A1B8 (external) — scoring / ranking calculation */
+    .byte   0xB3, 0x05    /* bsr 0x0600A1B8 (external) */
     nop
     mov r8, r0
     mov.l   .L_continue_byte, r4

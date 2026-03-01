@@ -7,7 +7,7 @@
 sys_timer_tick:
     sts.l pr, @-r15
     add #-0xC, r15
-    .byte   0xBF, 0xD1    /* bsr 0x06040666 (external) */  ! call validate+init check
+    .byte   0xBF, 0xD1    /* bsr 0x06040666 (external) */
     mov.l r5, @r15
     tst r0, r0
     bf      .L_init_check_passed
@@ -43,10 +43,10 @@ sys_timer_tick:
     mov.l @(4, r13), r2
     add r2, r0
     mov.l r0, @r8
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0604076C, r3 */  ! r3 = &ai_section_check (cross-TU pool)
+    .byte   0xD3, 0x18    /* mov.l .L_pool_0604076C, r3 */
     jsr @r3
     add #0x4, r4
-    .byte   0xD3, 0x18    /* mov.l .L_pool_06040770, r3 */  ! r3 = &sym_06040FEA (cross-TU pool)
+    .byte   0xD3, 0x18    /* mov.l .L_pool_06040770, r3 */
     jsr @r3
     mov r14, r4
     mov #0x1, r0

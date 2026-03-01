@@ -73,7 +73,7 @@ _pool_state_threshold:
     mov.l @r1, r3
     mov.l   _pool_rbg_threshold, r4
     cmp/gt r3, r4
-    .byte   0x89, 0x1C    /* bt 0x0602E438 (external) */  ! if under threshold, skip to continuation
+    .byte   0x89, 0x1C    /* bt 0x0602E438 (external) */
     mov.l   _pool_display_flags_ptr, r2
     mov.b @r2, r2
     mov.l   _pool_flag_bit2_mask, r1
@@ -83,7 +83,7 @@ _pool_state_threshold:
     mov.l   _pool_render_state_ptr, r0
     mov.l   _pool_zero_value, r1
     mov.b r1, @r0
-    .byte   0xA0, 0x12    /* bra 0x0602E438 (external) */  ! branch to external continuation
+    .byte   0xA0, 0x12    /* bra 0x0602E438 (external) */
     nop
 _pool_rbg_coeff_ptr:
     .4byte  sym_06082A2C
@@ -98,4 +98,4 @@ _pool_render_state_ptr:
 _pool_zero_value:
     .4byte  0x00000000
 .L_load_next_dispatch:
-    .byte   0xDD, 0x07    /* mov.l .L_pool_0602E44C, r13 */  ! r13 = next dispatch function ptr
+    .byte   0xDD, 0x07    /* mov.l .L_pool_0602E44C, r13 */

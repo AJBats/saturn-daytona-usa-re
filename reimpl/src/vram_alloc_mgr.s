@@ -34,7 +34,7 @@ vram_alloc_mgr:
     mov.l @r2, r3
     mov.l   .L_ptr_disp_desc, r1
     mov.l r3, @r1
-    .byte   0xB0, 0x25    /* bsr 0x0601FE20 (external) */  ! call geom_display_handler
+    .byte   0xB0, 0x25    /* bsr 0x0601FE20 (external) */
     nop
     mov.l   .L_ptr_game_state, r4
     mov.l @r4, r0
@@ -45,7 +45,7 @@ vram_alloc_mgr:
     or r1, r0
     tst r0, r0
     bt      .L_return_normal
-    .byte   0xA1, 0x5C    /* bra 0x060200A4 (external) */  ! tail-call race_start_obj_init
+    .byte   0xA1, 0x5C    /* bra 0x060200A4 (external) */
     lds.l @r15+, pr
 .L_return_normal:
     lds.l @r15+, pr

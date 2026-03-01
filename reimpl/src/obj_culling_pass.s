@@ -170,5 +170,5 @@ obj_culling_pass:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA2, 0x54    /* bra 0x06020DEE (external) — tail-jump to obj_anim_clear */
+    .byte   0xA2, 0x54    /* bra 0x06020DEE (external) */
     mov.l @r15+, r14

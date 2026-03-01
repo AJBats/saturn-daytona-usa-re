@@ -15,7 +15,7 @@ transition_sound_trigger:
     mov.l   .L_pool_060191D0, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB0, 0xA2    /* bsr 0x060192E8 (external) */  ! call wait_sound_driver_ready
+    .byte   0xB0, 0xA2    /* bsr 0x060192E8 (external) */
     nop
     mov.l   .L_pool_060191C8, r0
     mov.l @r0, r0

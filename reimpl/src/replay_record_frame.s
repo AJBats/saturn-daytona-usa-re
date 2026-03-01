@@ -96,7 +96,7 @@ replay_record_frame:
     shll2 r4
     add r3, r4
     mov.l @r4, r4
-    .byte   0xB0, 0x61    /* bsr 0x0601BBCC (external) — replay record handler */
+    .byte   0xB0, 0x61    /* bsr 0x0601BBCC (external) */
     mov r0, r5
     mov.w   DAT_0601bb46, r7
     add r14, r7

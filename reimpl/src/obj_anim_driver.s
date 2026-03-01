@@ -163,7 +163,7 @@ obj_anim_driver:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA1, 0x88    /* bra obj_anim_clear (0x06020DEE) — tail-jump */
+    .byte   0xA1, 0x88    /* bra obj_anim_clear (0x06020DEE) */
     mov.l @r15+, r14
 .L_early_exit:
     add #0x8, r15

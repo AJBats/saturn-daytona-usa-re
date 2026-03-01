@@ -10,7 +10,7 @@ save_commit_write:
     mov r5, r14
     add #-0x4, r15
     mov.l r4, @r15
-    .byte   0xBD, 0x53    /* bsr 0x0603B9D6 (external) */  ! call save_field_read
+    .byte   0xBD, 0x53    /* bsr 0x0603B9D6 (external) */
     mov r5, r4
     mov.l @r15, r4
     mov #0x0, r3
@@ -27,7 +27,7 @@ save_commit_write:
     mov.l @(24, r4), r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x08    /* mov.l .pool_watchdog_fn, r3 */  ! r3 = &watchdog_timer_reset
+    .byte   0xD3, 0x08    /* mov.l .pool_watchdog_fn, r3 */
     jmp @r3
     mov.l @r15+, r14
     .2byte  0x7F04
@@ -57,7 +57,7 @@ sym_0603BF7C:
     mov.l r9, @-r15
     mov #0x3F, r9
     mov #0x40, r10
-    .byte   0xDB, 0x1C    /* mov.l .pool_cache_addr_array, r11 */  ! r11 = 0x60000000 (cache addr array base)
+    .byte   0xDB, 0x1C    /* mov.l .pool_cache_addr_array, r11 */
     mov.w   .cache_total_entries, r12
     mov #0x0, r7
     mov.w   .ccr_addr, r5
@@ -130,7 +130,7 @@ sym_0603C000:
     mov #0x40, r10
     mov #0x3F, r11
     mov.w   DAT_0603c07a, r12
-    .byte   0xDD, 0x1C    /* mov.l .pool_cache_addr_array_b, r13 */  ! r13 = 0x60000000 (cache addr array base)
+    .byte   0xDD, 0x1C    /* mov.l .pool_cache_addr_array_b, r13 */
     mov #0x0, r7
     mov.w   .ccr_addr_b, r5
     mov.b @r5, r0
@@ -174,8 +174,8 @@ sym_0603C000:
 
     .global sym_0603C05C
 sym_0603C05C:
-    .byte   0xD3, 0x09    /* mov.l .pool_addr_mask_16align, r3 */  ! r3 = 0x1FFFFFF0 (28-bit addr mask, 16-byte aligned)
-    .byte   0xD2, 0x0A    /* mov.l .pool_purge_region_base, r2 */ ! r2 = 0x40000000 (associative purge region base)
+    .byte   0xD3, 0x09    /* mov.l .pool_addr_mask_16align, r3 */
+    .byte   0xD2, 0x0A    /* mov.l .pool_purge_region_base, r2 */
     and r3, r4
     or r2, r4
     mov r4, r7

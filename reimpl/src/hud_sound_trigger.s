@@ -64,15 +64,15 @@ hud_sound_trigger:
 .L_pool_06010BA0:
     .4byte  0xAB110AFF
 .L_scale_mode_alt:
-    .byte   0xD5, 0x2B    /* mov.l .L_pool_06010C54, r5 — r5 = 0xAB110BFF (alt HUD sound) */
+    .byte   0xD5, 0x2B    /* mov.l .L_pool_06010C54, r5 */
 .L_call_sound_dispatch:
     jsr @r14
     mov #0x0, r4
     bra     .L_epilogue
     nop
 .L_hud_inactive:
-    .byte   0xD5, 0x2A    /* mov.l .L_pool_06010C58, r5 — r5 = &car_sprite_selector (sym_0607EAB8) */
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06010C5C, r3 — r3 = &display_list_table (sym_0604483C) */
+    .byte   0xD5, 0x2A    /* mov.l .L_pool_06010C58, r5 */
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06010C5C, r3 */
     mov.l @r5, r5
     shll2 r5
     add r3, r5

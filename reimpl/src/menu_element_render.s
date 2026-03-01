@@ -28,7 +28,7 @@ menu_element_render:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x04    /* mov.l .L_pool_0603F439, r3 */  ! r3 = &memset (sym_06036D78)
+    .byte   0xD3, 0x04    /* mov.l .L_pool_0603F439, r3 */
     jmp @r3
     mov.l @r15+, r14
     .2byte  0x043C
@@ -44,14 +44,14 @@ menu_element_render:
     mov r4, r0
     cmp/eq #-0x1, r0
     bt      .L_refill_buffer
-    .byte   0x93, 0x3D    /* mov.w .L_ring_buf_size_ext, r3 */  ! r3 = 0x0800 (buf_size, from external pool)
+    .byte   0x93, 0x3D    /* mov.w .L_ring_buf_size_ext, r3 */
     cmp/ge r3, r4
     bf      .L_cursor_valid
 .L_refill_buffer:
     mov r11, r7
     mov.l @(4, r14), r6
     mov #0x1, r5
-    .byte   0xD3, 0x1C    /* mov.l .L_fn_cmd_multi_validate, r3 */  ! r3 = &cmd_multi_validate
+    .byte   0xD3, 0x1C    /* mov.l .L_fn_cmd_multi_validate, r3 */
     jsr @r3
     mov.l @r14, r4
     mov #0x0, r2
@@ -70,7 +70,7 @@ menu_element_render:
 .L_clamp_to_request:
     mov r12, r6
     mov.l @(4, r14), r5
-    .byte   0xD3, 0x15    /* mov.l .L_fn_memmove, r3 */  ! r3 = &memmove (sym_060360FC)
+    .byte   0xD3, 0x15    /* mov.l .L_fn_memmove, r3 */
     add r9, r5
     jsr @r3
     mov r10, r4
@@ -82,13 +82,13 @@ menu_element_render:
     sub r12, r13
     mov r11, r7
     mov #0x1, r5
-    .byte   0xD3, 0x0E    /* mov.l .L_fn_cmd_multi_validate, r3 */  ! r3 = &cmd_multi_validate
+    .byte   0xD3, 0x0E    /* mov.l .L_fn_cmd_multi_validate, r3 */
     mov.l @(4, r14), r6
     jsr @r3
     mov.l @r14, r4
     mov r13, r6
     mov r12, r4
-    .byte   0xD3, 0x0C    /* mov.l .L_fn_memmove, r3 */  ! r3 = &memmove (sym_060360FC)
+    .byte   0xD3, 0x0C    /* mov.l .L_fn_memmove, r3 */
     mov.l @(4, r14), r5
     jsr @r3
     add r10, r4

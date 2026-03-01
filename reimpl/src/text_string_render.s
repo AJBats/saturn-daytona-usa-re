@@ -155,7 +155,7 @@ text_string_render:
 .L_done_update:
     extu.b r14, r4
     mov.l @r15+, r13
-    .byte   0xA1, 0x25    /* bra 0x06016DD8 (external) */ ! tail-call to external text handler
+    .byte   0xA1, 0x25    /* bra 0x06016DD8 (external) */
     mov.l @r15+, r14
 
     .global loc_06016B8E

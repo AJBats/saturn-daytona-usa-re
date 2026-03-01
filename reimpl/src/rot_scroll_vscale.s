@@ -53,7 +53,7 @@ DAT_0602e522:
 .L_pool_0602E534:
     .4byte  0xFFFFFF00                 /* [HIGH] -0x100 = lower clamp bound for delta */
 .L_check_upper_bound:
-    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */  ! r1 = 0x100 (upper clamp bound)
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */
     cmp/gt r1, r6
     bf      .L_apply_delta
 .L_clamp_delta:
@@ -62,28 +62,28 @@ DAT_0602e522:
     mov r6, r3
     add r4, r3
     exts.w r3, r3
-    .byte   0xD1, 0x1A    /* mov.l .L_pool_0602E5B0, r1 */  ! r1 = 0x30 (vscale store offset A)
+    .byte   0xD1, 0x1A    /* mov.l .L_pool_0602E5B0, r1 */
     mov.l r3, @(r0, r1)
-    .byte   0xD1, 0x1A    /* mov.l .L_pool_0602E5B4, r1 */  ! r1 = 0x28 (vscale store offset B / vref)
+    .byte   0xD1, 0x1A    /* mov.l .L_pool_0602E5B4, r1 */
     mov.l r3, @(r0, r1)
-    .byte   0xD1, 0x1A    /* mov.l .L_pool_0602E5B8, r1 */  ! r1 = 0x08 (coefficient src offset)
+    .byte   0xD1, 0x1A    /* mov.l .L_pool_0602E5B8, r1 */
     add r10, r1
     mov.l @r1, r3
-    .byte   0xD6, 0x19    /* mov.l .L_pool_0602E5BC, r6 */  ! r6 = 0x38E (910, fixed-point scale factor)
+    .byte   0xD6, 0x19    /* mov.l .L_pool_0602E5BC, r6 */
     dmuls.l r6, r3
     sts mach, r6
     sts macl, r3
     xtrct r6, r3
-    .byte   0x91, 0x20    /* mov.w .L_wpool_0602E5A2, r1 */ ! r1 = 0x194 (scaled coeff store offset)
+    .byte   0x91, 0x20    /* mov.w .L_wpool_0602E5A2, r1 */
     mov.l r3, @(r0, r1)
-    .byte   0x91, 0x1F    /* mov.w .L_wpool_0602E5A4, r1 */ ! r1 = 0x0C (threshold compare offset)
+    .byte   0x91, 0x1F    /* mov.w .L_wpool_0602E5A4, r1 */
     mov.l @(r0, r1), r4
     cmp/gt r3, r4
-    .byte   0x8B, 0x0B    /* bf 0x0602E582 (external) */    ! if threshold <= coeff, branch to hscale
-    .byte   0xD1, 0x15    /* mov.l .L_pool_0602E5C0, r1 */  ! r1 = &sym_0608325C (race state flag)
+    .byte   0x8B, 0x0B    /* bf 0x0602E582 (external) */
+    .byte   0xD1, 0x15    /* mov.l .L_pool_0602E5C0, r1 */
     mov.l @r1, r3
     tst r3, r3
-    .byte   0x8B, 0x07    /* bf 0x0602E582 (external) */    ! if flag != 0, skip — already set
-    .byte   0x93, 0x18    /* mov.w .L_wpool_0602E5A6, r3 */ ! r3 = 0x10 (initial flag value)
+    .byte   0x8B, 0x07    /* bf 0x0602E582 (external) */
+    .byte   0x93, 0x18    /* mov.w .L_wpool_0602E5A6, r3 */
     mov.l r3, @r1
-    .byte   0xDD, 0x13    /* mov.l .L_pool_0602E5C4, r13 */ ! r13 = sym_0602CCD0 (scene handler callback)
+    .byte   0xDD, 0x13    /* mov.l .L_pool_0602E5C4, r13 */

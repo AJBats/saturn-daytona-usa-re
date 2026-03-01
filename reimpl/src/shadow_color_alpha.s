@@ -48,10 +48,10 @@ shadow_color_alpha:
     mov r13, r5
     add #0x4, r3
     mov.l @r3, r2
-    .byte   0xD3, 0x20    /* mov.l .L_pool_06036BD0, r3 */  ! r3 = 0x00FFFFFF (RGB mask, cross-TU pool)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_06036BD0, r3 */
     and r3, r2
     mov.l r2, @r15
-    .byte   0xD3, 0x20    /* mov.l .L_pool_06036BD4, r3 */  ! r3 = cross-TU dispatch function address
+    .byte   0xD3, 0x20    /* mov.l .L_pool_06036BD4, r3 */
     jsr @r3
     mov r2, r4
     mov r0, r4

@@ -16,8 +16,8 @@ sprite_batch_renderer:
     mov.w r4, @r15
     mov #0x0, r4
     mov.w @r15, r1
-    .byte   0xDC, 0x1A    /* mov.l .L_ptr_source_struct, r12 */  ! r12 = &source_data_struct (sym_06063788)
-    .byte   0xD7, 0x1A    /* mov.l .L_ptr_dest_table, r7 */     ! r7 = &display_channel_dest_table (sym_0605AAA6)
+    .byte   0xDC, 0x1A    /* mov.l .L_ptr_source_struct, r12 */
+    .byte   0xD7, 0x1A    /* mov.l .L_ptr_dest_table, r7 */
     extu.w r1, r1
     mov.l @r12, r12
     add #0x4, r12
@@ -43,8 +43,8 @@ sprite_batch_renderer:
     bf/s    .L_copy_loop
     mov.w r0, @(2, r5)
 
-    .byte   0xD7, 0x0E    /* mov.l .L_ptr_source_struct, r7 */  ! r7 = &source_data_struct (sym_06063788)
-    .byte   0xD3, 0x0F    /* mov.l .L_offset_f000, r3 */        ! r3 = 0x0000F000 (palette/texture offset)
+    .byte   0xD7, 0x0E    /* mov.l .L_ptr_source_struct, r7 */
+    .byte   0xD3, 0x0F    /* mov.l .L_offset_f000, r3 */
     mov.w @r15, r0
     mov.l @(4, r7), r7
     extu.w r0, r0
@@ -52,13 +52,13 @@ sprite_batch_renderer:
     and #0x3F, r0
     mov r0, r6
     shll r6
-    .byte   0xD5, 0x0C    /* mov.l .L_ptr_config_word, r5 */    ! r5 = &display_config_word (arg2: sym_0605AAA2)
+    .byte   0xD5, 0x0C    /* mov.l .L_ptr_config_word, r5 */
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, macl
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x0A    /* mov.l .L_ptr_dlist_loader, r3 */   ! r3 = &display_list_loader (sym_06028400)
+    .byte   0xD3, 0x0A    /* mov.l .L_ptr_dlist_loader, r3 */
     jmp @r3
     mov.l @r15+, r14
 

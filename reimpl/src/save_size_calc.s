@@ -11,24 +11,24 @@ save_size_calc:
     add #-0x10, r15
     mov.l r4, @r15
     mov r15, r4
-    .byte   0xBF, 0xB2    /* bsr 0x0603BB86 (external) */  ! call save_header_parse
+    .byte   0xBF, 0xB2    /* bsr 0x0603BB86 (external) */
     add #0x4, r4
     tst r0, r0
     bf      .L_parse_ok
     bra     .L_check_status
     mov #0x0, r14
 .L_parse_ok:
-    .byte   0xBD, 0xF8    /* bsr 0x0603B81E (external) */  ! call buffer_slot_alloc
+    .byte   0xBD, 0xF8    /* bsr 0x0603B81E (external) */
     nop
     mov r0, r13
     mov #0x0, r6
     mov r15, r5
     add #0x4, r5
-    .byte   0xBE, 0xF9    /* bsr 0x0603BA2C (external) */  ! call save_field_write
+    .byte   0xBE, 0xF9    /* bsr 0x0603BA2C (external) */
     mov r0, r4
     mov r0, r14
 .L_check_status:
-    .byte   0xD0, 0x07    /* mov.l .L_pool_0603BC5D, r0 */  ! r0 = &save_globals_ptr
+    .byte   0xD0, 0x07    /* mov.l .L_pool_0603BC5D, r0 */
     mov.w   DAT_0603bc56, r1
     mov.l @r0, r0
     mov.l @(r0, r1), r0
@@ -60,7 +60,7 @@ DAT_0603bc56:
 .L_do_copy:
     mov r15, r6
     mov.l @r15, r5
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_0603BCD4, r3 */  ! r3 = serialize/copy function (cross-TU pool)
+    .byte   0xD3, 0x1B    /* mov.l .L_pool_0603BCD4, r3 */
     add #0x4, r6
     mov.l @(4, r6), r6
     jsr @r3
@@ -69,7 +69,7 @@ DAT_0603bc56:
     tst r14, r14
     bt      .L_skip_commit
     mov r14, r5
-    .byte   0xB1, 0x54    /* bsr 0x0603BF22 (external) */  ! call save_commit_write
+    .byte   0xB1, 0x54    /* bsr 0x0603BF22 (external) */
     mov r13, r4
 .L_skip_commit:
     mov.l @r15, r0

@@ -129,7 +129,7 @@ race_timer_sync:
     bt      .L_skip_callback_a
     mov.l @(4, r15), r6
     mov.l @(4, r14), r5
-    .byte   0xD3, 0x27    /* mov.l .L_pool_callback_dispatch, r3 */  ! r3 = callback dispatch function (cross-TU)
+    .byte   0xD3, 0x27    /* mov.l .L_pool_0603FB28, r3 */
     jsr @r3
     mov.l @(8, r15), r4
     mov.l @(4, r14), r2
@@ -144,7 +144,7 @@ race_timer_sync:
     bt      .L_skip_callback_b
     mov.l @(4, r15), r6
     mov.l @(12, r14), r5
-    .byte   0xD3, 0x20    /* mov.l .L_pool_callback_dispatch, r3 */  ! r3 = callback dispatch function (cross-TU)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0603FB28, r3 */
     jsr @r3
     mov.l @(12, r15), r4
     mov.l r10, @(12, r14)

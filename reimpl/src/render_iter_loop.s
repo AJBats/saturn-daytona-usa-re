@@ -30,7 +30,7 @@ render_iter_loop:
     mov.l   _pool_scale_columns_fn, r3
     jsr @r3
     mov r14, r4
-    .byte   0xBE, 0x8A    /* bsr 0x06013E12 (external) — camera_fov_dispatch */
+    .byte   0xBE, 0x8A    /* bsr 0x06013E12 (external) */
     nop
     mov #0x4, r5
     mov.l   _pool_car_slot_ptr, r4

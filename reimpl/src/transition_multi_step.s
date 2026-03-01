@@ -15,7 +15,7 @@ transition_multi_step:
     mov.l   .L_snd_cmd_stop, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB0, 0x76    /* bsr 0x060192E8 (external) */  ! call wait_sound_ready
+    .byte   0xB0, 0x76    /* bsr 0x060192E8 (external) */
     nop
     mov.l   .L_snd_busy_flag, r0
     mov.l @r0, r0

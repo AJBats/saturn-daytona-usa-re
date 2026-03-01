@@ -20,7 +20,7 @@ event_queue_flush:
 .L_dispatch:
     mov #0x1, r6
     mov r14, r5
-    .byte   0xBE, 0xB3    /* bsr 0x060409E6 (external) */ ! call evt_checkpoint_handler
+    .byte   0xBE, 0xB3    /* bsr 0x060409E6 (external) */
     mov.l @(8, r15), r4
     mov.l   .L_pool_06040C94, r2
     mov #0x0, r3

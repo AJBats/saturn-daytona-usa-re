@@ -7,9 +7,9 @@
 track_render_pipeline:
     sts.l pr, @-r15
     mov.l @r14, r14
-    .byte   0xDC, 0x18    /* mov.l .L_fn_sound_cmd_dispatch, r12 */  ! r12 = sound_cmd_dispatch (persists)
+    .byte   0xDC, 0x18    /* mov.l .L_fn_sound_cmd_dispatch, r12 */
     mov r14, r0
-    .byte   0xDD, 0x18    /* mov.l .L_channel_countdown_base, r13 */  ! r13 → countdown bytes [0..2]
+    .byte   0xDD, 0x18    /* mov.l .L_channel_countdown_base, r13 */
     mov.b @r13, r0
     tst r0, r0
     bt      .L_check_channel_b
@@ -17,7 +17,7 @@ track_render_pipeline:
     cmp/eq #0x2, r0
     bf/s    .L_check_channel_b
     mov.b r0, @r13
-    .byte   0xD5, 0x15    /* mov.l .L_snd_channel_a_cmd, r5 */  ! r5 = 0xAE1103FF
+    .byte   0xD5, 0x15    /* mov.l .L_snd_channel_a_cmd, r5 */
     jsr @r12
     mov #0x0, r4
 .L_check_channel_b:
@@ -28,7 +28,7 @@ track_render_pipeline:
     cmp/eq #0x2, r0
     bf/s    .L_check_channel_c
     mov.b r0, @(1, r13)
-    .byte   0xD5, 0x11    /* mov.l .L_snd_channel_b_cmd, r5 */  ! r5 = 0xAE1104FF
+    .byte   0xD5, 0x11    /* mov.l .L_snd_channel_b_cmd, r5 */
     jsr @r12
     mov #0x0, r4
 .L_check_channel_c:
@@ -39,11 +39,11 @@ track_render_pipeline:
     cmp/eq #0x2, r0
     bf/s    .L_check_front_speaker_a
     mov.b r0, @(2, r13)
-    .byte   0xD5, 0x0C    /* mov.l .L_snd_channel_b_cmd, r5 */  ! r5 = 0xAE1104FF (same cmd)
+    .byte   0xD5, 0x0C    /* mov.l .L_snd_channel_b_cmd, r5 */
     jsr @r12
     mov #0x0, r4
 .L_check_front_speaker_a:
-    .byte   0xDD, 0x0B    /* mov.l .L_front_speaker_countdown_base, r13 */  ! r13 → front speaker bytes [0..2]
+    .byte   0xDD, 0x0B    /* mov.l .L_front_speaker_countdown_base, r13 */
     mov.b @r13, r0
     tst r0, r0
     bt      .L_check_front_speaker_b
@@ -95,7 +95,7 @@ track_render_pipeline:
     tst r0, r0
     mov.l @r4, r4
     bf      .L_check_cooldown_timer
-    .byte   0xDD, 0x07    /* mov.l .L_ambient_state_bytes, r13 */  ! r13 → [active_flag, countdown]
+    .byte   0xDD, 0x07    /* mov.l .L_ambient_state_bytes, r13 */
     mov #0x1E, r5
     mov.b @r13, r1
     mov.b @(1, r13), r0
@@ -119,7 +119,7 @@ track_render_pipeline:
     bt      .L_check_ambient_active
     cmp/ge r4, r5
     bf      .L_check_ambient_active
-    .byte   0xD5, 0x02    /* mov.l .L_snd_ambient_trigger, r5 */  ! r5 = 0xAE1119FF
+    .byte   0xD5, 0x02    /* mov.l .L_snd_ambient_trigger, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x14, r0
@@ -132,10 +132,10 @@ track_render_pipeline:
     bt      .L_store_ambient_state
     .byte   0xD4, 0x08    /* mov.l .L_two_player_flag, r4 */
     mov.b @r4, r4
-    .byte   0xD5, 0x08    /* mov.l .L_snd_ambient_single, r5 */  ! single-player: 0xAE111AFF
+    .byte   0xD5, 0x08    /* mov.l .L_snd_ambient_single, r5 */
     tst r4, r4
     bt      .L_dispatch_ambient_sound
-    .byte   0xD5, 0x08    /* mov.l .L_snd_ambient_split, r5 */  ! split-screen: 0xAE113EFF
+    .byte   0xD5, 0x08    /* mov.l .L_snd_ambient_split, r5 */
 .L_dispatch_ambient_sound:
     jsr @r12
     mov #0x0, r4
@@ -144,7 +144,7 @@ track_render_pipeline:
     mov.b r1, @r13
     mov.b r0, @(1, r13)
 .L_check_cooldown_timer:
-    .byte   0xDD, 0x06    /* mov.l .L_sound_cooldown_timer, r13 */  ! r13 → cooldown timer (word)
+    .byte   0xDD, 0x06    /* mov.l .L_sound_cooldown_timer, r13 */
     mov.w @r13, r1
     tst r1, r1
     bt      .L_cooldown_expired
@@ -179,17 +179,17 @@ track_render_pipeline:
     mov #0x0, r0
     mov #0x0, r6
 .L_car_scan_loop:
-    .byte   0xD3, 0x0E    /* mov.l .L_sinit, r3 */  ! r3 = 0x01800000 (SINIT mask)
+    .byte   0xD3, 0x0E    /* mov.l .L_sinit, r3 */
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
     bt      .L_status_match_found
-    .byte   0xD3, 0x0C    /* mov.l .L_status_mask_collision, r3 */  ! r3 = 0x01400000
+    .byte   0xD3, 0x0C    /* mov.l .L_status_mask_collision, r3 */
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
     bt      .L_status_match_found
-    .byte   0xD3, 0x0B    /* mov.l .L_status_mask_offtrack, r3 */  ! r3 = 0x02C00000
+    .byte   0xD3, 0x0B    /* mov.l .L_status_mask_offtrack, r3 */
     mov.l @(0, r4), r1
     and r3, r1
     cmp/eq r1, r3
@@ -244,7 +244,7 @@ track_render_pipeline:
     bf      .L_check_pit_entry
     mov #0xA, r5
     mov.b r5, @r3
-    .byte   0xD5, 0x02    /* mov.l .L_snd_sinit_distance, r5 */  ! r5 = 0xAE1135FF
+    .byte   0xD5, 0x02    /* mov.l .L_snd_sinit_distance, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4
@@ -274,9 +274,9 @@ track_render_pipeline:
     extu.w r5, r5
     bf      .L_check_pit_entry
     cmp/gt r0, r5
-    .byte   0xD5, 0x05    /* mov.l .L_snd_offtrack_near, r5 */  ! near: 0xAE113AFF
+    .byte   0xD5, 0x05    /* mov.l .L_snd_offtrack_near, r5 */
     bt      .L_dispatch_offtrack_sound
-    .byte   0xD5, 0x05    /* mov.l .L_snd_offtrack_far, r5 */  ! far: 0xAE1130FF
+    .byte   0xD5, 0x05    /* mov.l .L_snd_offtrack_far, r5 */
 .L_dispatch_offtrack_sound:
     mov #0x3, r0
     mov.b r0, @r3
@@ -300,7 +300,7 @@ DAT_0602fba8:
     mov.l @(r0, r14), r1
     cmp/eq r1, r3
     bf      .L_check_stereo_crossfade
-    .byte   0xD5, 0x03    /* mov.l .L_snd_pit_entry, r5 */  ! r5 = 0xAE1132FF
+    .byte   0xD5, 0x03    /* mov.l .L_snd_pit_entry, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4
@@ -319,7 +319,7 @@ DAT_0602fbca:
     add r5, r0
     cmp/eq #0x1, r0
     bf      .L_segment_trigger_scan
-    .byte   0xD5, 0x03    /* mov.l .L_snd_stereo_crossfade, r5 */  ! r5 = 0xAE1137FF
+    .byte   0xD5, 0x03    /* mov.l .L_snd_stereo_crossfade, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4
@@ -429,7 +429,7 @@ DAT_0602fc76:
     shll8 r5
     cmp/gt r1, r5
     bt      .L_check_time_warning
-    .byte   0xD5, 0x03    /* mov.l .L_snd_speed_threshold, r5 */  ! r5 = 0xAE1136FF
+    .byte   0xD5, 0x03    /* mov.l .L_snd_speed_threshold, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4
@@ -450,7 +450,7 @@ DAT_0602fc9e:
     mov.l @(8, r14), r3
     cmp/gt r3, r2
     bt      .L_check_time_warning
-    .byte   0xD5, 0x03    /* mov.l .L_snd_distance_trigger, r5 */  ! r5 = 0xAE112CFF
+    .byte   0xD5, 0x03    /* mov.l .L_snd_distance_trigger, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4
@@ -466,11 +466,11 @@ DAT_0602fc9e:
     mov.l @(r0, r14), r0
     cmp/eq #0x1, r0
     bf      .L_check_final_lap
-    .byte   0xD2, 0x05    /* mov.l .L_time_threshold, r2 */  ! r2 = 0x00028000 (time limit)
+    .byte   0xD2, 0x05    /* mov.l .L_time_threshold, r2 */
     mov.l @(12, r14), r1
     cmp/ge r1, r2
     bt      .L_check_final_lap
-    .byte   0xD5, 0x04    /* mov.l .L_snd_time_warning, r5 */  ! r5 = 0xAE1131FF
+    .byte   0xD5, 0x04    /* mov.l .L_snd_time_warning, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4
@@ -504,7 +504,7 @@ DAT_0602fc9e:
     shll16 r1
     cmp/ge r0, r1
     bt      .L_return
-    .byte   0xD5, 0x04    /* mov.l .L_snd_final_lap_alert, r5 */  ! r5 = 0xAE112EFF
+    .byte   0xD5, 0x04    /* mov.l .L_snd_final_lap_alert, r5 */
     jsr @r12
     mov #0x0, r4
     mov #0x3C, r4

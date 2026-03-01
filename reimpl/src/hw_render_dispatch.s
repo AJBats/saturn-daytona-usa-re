@@ -51,7 +51,7 @@ hw_render_dispatch:
 
     .global sym_06005174
 sym_06005174:
-    .byte   0xD5, 0x2A    /* mov.l .L_pool_06005220, r5 */  ! r5 = scroll register block address (cross-TU pool)
+    .byte   0xD5, 0x2A    /* mov.l .L_pool_06005220, r5 */
     mov #0x0, r4
     mov.w r4, @r5
     extu.w r4, r0

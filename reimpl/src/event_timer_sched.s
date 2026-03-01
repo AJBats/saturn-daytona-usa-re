@@ -28,7 +28,7 @@ event_timer_sched:
     mov r15, r7
     mov.l @(24, r15), r6
     mov.l @(16, r13), r5
-    .byte   0xD3, 0x26    /* mov.l .L_pool_06040BFC, r3  — r3 = &cmd_enqueue */
+    .byte   0xD3, 0x26    /* mov.l .L_pool_06040BFC, r3 */
     add #0x4, r7
     jsr @r3
     mov.l @(4, r13), r4
@@ -38,7 +38,7 @@ event_timer_sched:
     .byte   0xA0, 0x40    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
     mov #0x0, r0
 .L_enqueue_ok:
-    .byte   0xD3, 0x23    /* mov.l .L_pool_06040C00, r3  — r3 = &state_field_read */
+    .byte   0xD3, 0x23    /* mov.l .L_pool_06040C00, r3 */
     jsr @r3
     nop
     tst r0, r0

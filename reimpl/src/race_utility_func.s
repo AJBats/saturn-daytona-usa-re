@@ -6,14 +6,14 @@
     .type race_utility_func, @function
 race_utility_func:
     sts.l pr, @-r15
-    .byte   0xD4, 0x06    /* mov.l .L_display_flags_ptr, r4 */ ! r4 = &display_flags
-    .byte   0xD3, 0x08    /* mov.l .L_bit31_mask, r3 */        ! r3 = 0x80000000 (bit 31)
+    .byte   0xD4, 0x06    /* mov.l .L_display_flags_ptr, r4 */
+    .byte   0xD3, 0x08    /* mov.l .L_bit31_mask, r3 */
     mov.l @r4, r2
     or r3, r2
-    .byte   0xD3, 0x07    /* mov.l .L_display_update_fn, r3 */ ! r3 = display update function
+    .byte   0xD3, 0x07    /* mov.l .L_display_update_fn, r3 */
     jsr @r3
     mov.l r2, @r4
-    .byte   0xD3, 0x06    /* mov.l .L_display_update_fn, r3 */ ! r3 = display update function
+    .byte   0xD3, 0x06    /* mov.l .L_display_update_fn, r3 */
     jmp @r3
     lds.l @r15+, pr
     .4byte  0x0100FFFF

@@ -379,9 +379,9 @@ DAT_0601b392:
 .L_disc_state_flag_b:
     .4byte  sym_0608600D                    /* disc error code (byte: 0=none) */
 .L_cleanup_and_exit:
-    .byte   0xD3, 0x19    /* mov.l r3, sym_0608600C */  ! r3 = &disc_error_flag
+    .byte   0xD3, 0x19    /* mov.l r3, sym_0608600C */
     mov.b r2, @r3
-    .byte   0xD3, 0x19    /* mov.l r3, sym_0608600E */  ! r3 = &disc_type_flag
+    .byte   0xD3, 0x19    /* mov.l r3, sym_0608600E */
     mov.b r2, @r3
     mov #0xF, r6
     mov #0x4, r5
@@ -394,6 +394,6 @@ DAT_0601b392:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x14    /* mov.l r3, handler_dispatch */  ! r3 = handler_dispatch (0x06018DDC)
+    .byte   0xD3, 0x14    /* mov.l r3, handler_dispatch */
     jmp @r3
     mov.l @r15+, r14

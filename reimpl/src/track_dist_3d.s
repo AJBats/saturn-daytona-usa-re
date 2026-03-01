@@ -9,7 +9,7 @@ track_dist_3d:
     mov r4, r14
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xD3, 0x26    /* mov.l .L_pool_060366F4, r3 — sym_06035C4E (state field reader) */
+    .byte   0xD3, 0x26    /* mov.l .L_pool_060366F4, r3 */
     jsr @r3
     mov r5, r13
     mov r0, r4
@@ -21,7 +21,7 @@ track_dist_3d:
 .L_field_valid:
     mov r13, r6
     mov r14, r5
-    .byte   0xD3, 0x22    /* mov.l .L_pool_060366F8, r3 — input_proc_digital */
+    .byte   0xD3, 0x22    /* mov.l .L_pool_060366F8, r3 */
     jsr @r3
     mov #0x0, r4
     mov r0, r4

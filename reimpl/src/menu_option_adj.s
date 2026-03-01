@@ -16,10 +16,10 @@ menu_option_adj:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
-    .byte   0xA2, 0xFF    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-0x10)
+    .byte   0xA2, 0xFF    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_not_busy:
-    .byte   0xB3, 0x31    /* bsr 0x0603B9A4 (external) */  ! call save_data_validate(r4=descriptor)
+    .byte   0xB3, 0x31    /* bsr 0x0603B9A4 (external) */
     mov r14, r4
     mov #0x2, r2
     mov #0x11, r0
@@ -29,7 +29,7 @@ menu_option_adj:
     mov.b r3, @(r0, r14)
     mov.l @r14, r3
     mov.l @(16, r3), r8
-    .byte   0xBE, 0x81    /* bsr 0x0603B058 (external) */  ! call menu_element_dispatch(r4=descriptor)
+    .byte   0xBE, 0x81    /* bsr 0x0603B058 (external) */
     mov r14, r4
     mov r8, r4
     mov.l @r15, r3
@@ -41,25 +41,25 @@ menu_option_adj:
 .L_use_max_pos:
     mov r4, r5
 .L_pos_clamped:
-    .byte   0xB5, 0x89    /* bsr 0x0603BE7C (external) */  ! call apply_scroll_offset(r4=data_block, r5=clamped_pos)
+    .byte   0xB5, 0x89    /* bsr 0x0603BE7C (external) */
     mov.l @r14, r4
     mov #0x0, r5
-    .byte   0xD3, 0x10    /* mov.l .L_pool_0603B3B0, r3 */  ! r3 = &timer_block_init_fields
+    .byte   0xD3, 0x10    /* mov.l .L_pool_0603B3B0, r3 */
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x1, r7
     mov #0x0, r6
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603B3B4, r3 */  ! r3 = &color_transform_set_params
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603B3B4, r3 */
     mov r6, r5
     jsr @r3
     mov.l @(4, r14), r4
     mov #-0x1, r5
-    .byte   0xD3, 0x0D    /* mov.l .L_pool_0603B3B8, r3 */  ! r3 = &timer_set_active_flag
+    .byte   0xD3, 0x0D    /* mov.l .L_pool_0603B3B8, r3 */
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x0, r4
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
-    .byte   0xA2, 0xD5    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=0)
+    .byte   0xA2, 0xD5    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14

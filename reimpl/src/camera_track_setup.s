@@ -10,31 +10,31 @@ camera_track_setup:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    .byte   0xDB, 0x1F    /* mov.l .L_camera_mode_idx, r11 — persistent: &camera_mode_idx */
-    .byte   0xDD, 0x20    /* mov.l .L_fn_rot_xz, r13 — persistent: mat_rot_xz_b fn ptr */
-    .byte   0xDE, 0x20    /* mov.l .L_car_array_base, r14 — &car_array_base (indirect) */
-    .byte   0xD3, 0x21    /* mov.l .L_car_struct_ptr, r3 — &car_struct_ptr */
+    .byte   0xDB, 0x1F    /* mov.l .L_camera_mode_idx, r11 */
+    .byte   0xDD, 0x20    /* mov.l .L_fn_rot_xz, r13 */
+    .byte   0xDE, 0x20    /* mov.l .L_car_array_base, r14 */
+    .byte   0xD3, 0x21    /* mov.l .L_car_struct_ptr, r3 */
     mov.l @r14, r14
     mov.l r14, @r3
-    .byte   0xD3, 0x20    /* mov.l .L_fn_camera_init, r3 — camera state init fn */
+    .byte   0xD3, 0x20    /* mov.l .L_fn_camera_init, r3 */
     jsr @r3
     nop
     mov.l @(24, r14), r6
     mov.l @(20, r14), r5
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_camera_pos, r3 — set camera position fn */
+    .byte   0xD3, 0x1F    /* mov.l .L_fn_camera_pos, r3 */
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    .byte   0xD2, 0x1E    /* mov.l .L_fp_half, r2 — 0x8000 = 0.5 / 180deg */
-    .byte   0xD3, 0x1E    /* mov.l .L_fn_rot_xy, r3 — mat_rot_xy_b fn */
+    .byte   0xD2, 0x1E    /* mov.l .L_fp_half, r2 */
+    .byte   0xD3, 0x1E    /* mov.l .L_fn_rot_xy, r3 */
     jsr @r3
     add r2, r4
     mov.l @(36, r14), r4
-    .byte   0xD3, 0x1D    /* mov.l .L_fn_rot_yz, r3 — mat_rot_yz_b fn */
+    .byte   0xD3, 0x1D    /* mov.l .L_fn_rot_yz, r3 */
     jsr @r3
     neg r4, r4
-    .byte   0xD2, 0x10    /* mov.l .L_game_flags, r2 — game mode flags ptr */
-    .byte   0xD3, 0x1C    /* mov.l .L_flag_mask_800008, r3 — special camera mask */
+    .byte   0xD2, 0x10    /* mov.l .L_game_flags, r2 */
+    .byte   0xD3, 0x1C    /* mov.l .L_flag_mask_800008, r3 */
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
@@ -44,7 +44,7 @@ camera_track_setup:
     mov.w @r11, r3
     extu.w r3, r2
     shll2 r2
-    .byte   0xD3, 0x18    /* mov.l .L_bank_angle_table, r3 — per-mode offset table */
+    .byte   0xD3, 0x18    /* mov.l .L_bank_angle_table, r3 */
     add r2, r3
     mov.l @r3, r2
     bra     .L_apply_rotation
@@ -88,13 +88,13 @@ camera_track_setup:
 .L_normal_bank:
     mov.l @(28, r14), r4
     neg r4, r4
-    .byte   0xD3, 0x26    /* mov.l .L_camera_height_offset, r3 — height offset ptr */
+    .byte   0xD3, 0x26    /* mov.l .L_camera_height_offset, r3 */
     mov.l @r3, r3
     add r3, r4
     mov.w @r11, r2
     extu.w r2, r1
     shll2 r1
-    .byte   0xD2, 0x24    /* mov.l .L_bank_angle_table_2, r2 — bank table (dup for reach) */
+    .byte   0xD2, 0x24    /* mov.l .L_bank_angle_table_2, r2 */
     add r1, r2
     mov.l @r2, r1
     add r1, r4
@@ -106,23 +106,23 @@ camera_track_setup:
     add #-0xC, r0
     mov.l @(r0, r14), r3
     add r3, r4
-    .byte   0xD3, 0x20    /* mov.l .L_fn_rot_xy_2, r3 — mat_rot_xy_b (dup for reach) */
+    .byte   0xD3, 0x20    /* mov.l .L_fn_rot_xy_2, r3 */
     jsr @r3
     nop
-    .byte   0xD0, 0x1F    /* mov.l .L_camera_follow_flag, r0 — follow mode flag ptr */
+    .byte   0xD0, 0x1F    /* mov.l .L_camera_follow_flag, r0 */
     mov.l @r0, r0
     tst r0, r0
     bt      .L_skip_follow
-    .byte   0xD5, 0x1E    /* mov.l .L_rot_src_a, r5 — rotation source A (ptr) */
-    .byte   0xD4, 0x1F    /* mov.l .L_rot_dst_a, r4 — rotation dest A (ptr) */
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_vec_copy_a, r3 — vector matrix transform fn */
+    .byte   0xD5, 0x1E    /* mov.l .L_rot_src_a, r5 */
+    .byte   0xD4, 0x1F    /* mov.l .L_rot_dst_a, r4 */
+    .byte   0xD3, 0x1F    /* mov.l .L_fn_vec_copy_a, r3 */
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xD6, 0x1E    /* mov.l .L_rot_src_b, r6 — rotation source B (ptr) */
-    .byte   0xD5, 0x1F    /* mov.l .L_rot_scale_b, r5 — rotation scale factor (16-bit) */
-    .byte   0xD4, 0x1F    /* mov.l .L_rot_dst_b, r4 — rotation dest B (ptr) */
-    .byte   0xD3, 0x20    /* mov.l .L_fn_vec_copy_b, r3 — scaled vector transform fn */
+    .byte   0xD6, 0x1E    /* mov.l .L_rot_src_b, r6 */
+    .byte   0xD5, 0x1F    /* mov.l .L_rot_scale_b, r5 */
+    .byte   0xD4, 0x1F    /* mov.l .L_rot_dst_b, r4 */
+    .byte   0xD3, 0x20    /* mov.l .L_fn_vec_copy_b, r3 */
     mov.l @r6, r6
     mov.w @r5, r5
     extu.w r5, r5
@@ -130,23 +130,23 @@ camera_track_setup:
     mov.l @r4, r4
     mov #0x0, r6
     mov.w   DAT_0600b102, r0
-    .byte   0xD3, 0x1D    /* mov.l .L_fn_camera_pos_2, r3 — camera position (dup for reach) */
+    .byte   0xD3, 0x1D    /* mov.l .L_fn_camera_pos_2, r3 */
     mov.l @(r0, r14), r5
     jsr @r3
     mov r6, r4
     mov.w   DAT_0600b104, r0
-    .byte   0xD3, 0x1B    /* mov.l .L_fn_rot_yz_2, r3 — mat_rot_yz_b (dup for reach) */
+    .byte   0xD3, 0x1B    /* mov.l .L_fn_rot_yz_2, r3 */
     jsr @r3
     mov.l @(r0, r14), r4
     mov.w   DAT_0600b106, r0
     jsr @r13
     mov.l @(r0, r14), r4
-    .byte   0xD0, 0x19    /* mov.l .L_camera_shake_flags, r0 — camera shake flags byte */
+    .byte   0xD0, 0x19    /* mov.l .L_camera_shake_flags, r0 */
     mov.b @r0, r0
     tst #0x2, r0
     bf      .L_after_shake
     mov #0x0, r5
-    .byte   0xBD, 0xB1    /* bsr render_obj_absolute (external 0x0600AC44) — camera shake handler */
+    .byte   0xBD, 0xB1    /* bsr render_obj_absolute (external 0x0600AC44) */
     mov r14, r4
 .L_after_shake:
     mov r14, r0
@@ -157,10 +157,10 @@ camera_track_setup:
     mov #0xD, r12
     mov.w @r11, r4
     extu.w r4, r4
-    .byte   0xD3, 0x13    /* mov.l .L_camera_lod_lut, r3 — per-mode LOD lookup table */
+    .byte   0xD3, 0x13    /* mov.l .L_camera_lod_lut, r3 */
     add r3, r4
     mov.b @r4, r4
-    .byte   0xD2, 0x12    /* mov.l .L_camera_offset_base, r2 — camera LOD offset base ptr */
+    .byte   0xD2, 0x12    /* mov.l .L_camera_offset_base, r2 */
     mov.l @r2, r2
     bra     .L_apply_lod
     add r2, r4
@@ -213,25 +213,25 @@ DAT_0600b106:
 .L_camera_offset_base:
     .4byte  sym_06083258               /* camera LOD offset base (ptr) */
 .L_default_lod:
-    .byte   0xD4, 0x23    /* mov.l .L_default_lod_base, r4 — cross-TU: default LOD base */
+    .byte   0xD4, 0x23    /* mov.l .L_default_lod_base, r4 */
     mov.l @r4, r4
 .L_apply_lod:
     jsr @r13
     nop
     extu.w r12, r14
-    .byte   0xD5, 0x22    /* mov.l .L_chain_src_a, r5 — cross-TU: chain source A table */
-    .byte   0xD4, 0x22    /* mov.l .L_chain_dst_a, r4 — cross-TU: chain dest A table */
-    .byte   0xD3, 0x23    /* mov.l .L_fn_chain_a, r3 — cross-TU: chain transform A fn */
+    .byte   0xD5, 0x22    /* mov.l .L_chain_src_a, r5 */
+    .byte   0xD4, 0x22    /* mov.l .L_chain_dst_a, r4 */
+    .byte   0xD3, 0x23    /* mov.l .L_fn_chain_a, r3 */
     shll2 r14
     add r14, r5
     add r14, r4
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xD6, 0x20    /* mov.l .L_chain_src_b, r6 — cross-TU: chain source B table */
-    .byte   0xD5, 0x21    /* mov.l .L_chain_scale_b, r5 — cross-TU: chain scale factor B */
-    .byte   0xD4, 0x21    /* mov.l .L_chain_dst_b, r4 — cross-TU: chain dest B table */
-    .byte   0xD3, 0x22    /* mov.l .L_fn_chain_b, r3 — cross-TU: chain transform B fn */
+    .byte   0xD6, 0x20    /* mov.l .L_chain_src_b, r6 */
+    .byte   0xD5, 0x21    /* mov.l .L_chain_scale_b, r5 */
+    .byte   0xD4, 0x21    /* mov.l .L_chain_dst_b, r4 */
+    .byte   0xD3, 0x22    /* mov.l .L_fn_chain_b, r3 */
     add r14, r6
     mov.w @r5, r5
     add r14, r4
@@ -240,17 +240,17 @@ DAT_0600b106:
     jsr @r3
     mov.l @r4, r4
 .L_skip_follow:
-    .byte   0xD2, 0x1F    /* mov.l .L_game_flags_2, r2 — cross-TU: game flags ptr */
-    .byte   0xD3, 0x1F    /* mov.l .L_flag_mask_2, r3 — cross-TU: flag mask */
+    .byte   0xD2, 0x1F    /* mov.l .L_game_flags_2, r2 */
+    .byte   0xD3, 0x1F    /* mov.l .L_flag_mask_2, r3 */
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_skip_adjust
-    .byte   0xD3, 0x1E    /* mov.l .L_fn_adjust, r3 — cross-TU: adjustment fn */
+    .byte   0xD3, 0x1E    /* mov.l .L_fn_adjust, r3 */
     jsr @r3
     nop
 .L_skip_adjust:
-    .byte   0xD4, 0x1D    /* mov.l .L_camera_counter, r4 — cross-TU: camera counter ptr */
+    .byte   0xD4, 0x1D    /* mov.l .L_camera_counter, r4 */
     mov.l @r4, r2
     add #-0x30, r2
     mov.l r2, @r4

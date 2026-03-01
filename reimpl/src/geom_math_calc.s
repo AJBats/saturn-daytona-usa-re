@@ -10,27 +10,27 @@ geom_math_calc:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.w   DAT_06018212, r11
-    .byte   0xDC, 0x2C    /* mov.l .L_pool_0601822C, r12 */  ! r12 = &seg_frame_ctr (sym_0605BE2C)
-    .byte   0xDD, 0x2D    /* mov.l .L_pool_06018230, r13 */  ! r13 = per-slot data table base (sym_06063F64)
-    .byte   0xDE, 0x2D    /* mov.l .L_pool_06018234, r14 */  ! r14 = track data / index table (sym_060684EC)
-    .byte   0xD4, 0x2E    /* mov.l .L_pool_06018238, r4 */  ! r4 = &car_array_base_ptr (sym_0607E944)
+    .byte   0xDC, 0x2C    /* mov.l .L_pool_0601822C, r12 */
+    .byte   0xDD, 0x2D    /* mov.l .L_pool_06018230, r13 */
+    .byte   0xDE, 0x2D    /* mov.l .L_pool_06018234, r14 */
+    .byte   0xD4, 0x2E    /* mov.l .L_pool_06018238, r4 */
     mov.w @r12, r3
     mov.l @r4, r4
     add #0x1, r3
     mov.w r3, @r12
-    .byte   0xD2, 0x2C    /* mov.l .L_pool_0601823C, r2 */  ! r2 = &max_lap_count (sym_06063F28)
+    .byte   0xD2, 0x2C    /* mov.l .L_pool_0601823C, r2 */
     mov.w   DAT_06018214, r0
     mov.l @r2, r2
     mov.l @(r0, r4), r3
     add #-0x1, r2
     cmp/hs r2, r3
     bf      .L_below_threshold
-    .byte   0xD4, 0x2A    /* mov.l .L_pool_06018240, r4 */  ! r4 = &proj_param_b (sym_06089E2C)
+    .byte   0xD4, 0x2A    /* mov.l .L_pool_06018240, r4 */
     mov.l @r4, r4
     bra     .L_config_chosen
     mov #0x1, r5
 .L_below_threshold:
-    .byte   0xD4, 0x29    /* mov.l .L_pool_06018244, r4 */  ! r4 = &proj_config (sym_06089E28)
+    .byte   0xD4, 0x29    /* mov.l .L_pool_06018244, r4 */
     mov.l @r4, r4
     mov #0x0, r5
 .L_config_chosen:
@@ -76,7 +76,7 @@ geom_math_calc:
     shll2 r2
     shll r2
     add r13, r2
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06018248, r3 */  ! r3 = &proj_param_a (sym_06089E30)
+    .byte   0xD3, 0x14    /* mov.l .L_pool_06018248, r3 */
     mov.l @r3, r3
     mov.l r3, @r2
     mov #0x0, r2
@@ -139,12 +139,12 @@ DAT_0601821a:
     shll2 r3
     shll r3
     add r13, r3
-    .byte   0x92, 0x4E    /* mov.w .L_wpool_060182F2, r2 */  ! r2 = 0x0035 (cross-TU: DAT_060182f2, slot flag: below-threshold)
+    .byte   0x92, 0x4E    /* mov.w .L_wpool_060182F2, r2 */
     mov r2, r0
     mov.w r0, @(6, r3)
 .L_write_slot_flag:
-    .byte   0xD3, 0x27    /* mov.l .L_pool_060182F8, r3 */  ! r3 = &game_state_flags (cross-TU: sym_0607EBC4)
-    .byte   0xD2, 0x28    /* mov.l .L_pool_060182FC, r2 */  ! r2 = 0x00800000 (bit 23 mask)
+    .byte   0xD3, 0x27    /* mov.l .L_pool_060182F8, r3 */
+    .byte   0xD2, 0x28    /* mov.l .L_pool_060182FC, r2 */
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -152,11 +152,11 @@ DAT_0601821a:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA1, 0xB5    /* bra 0x060185D8 (external) */  ! tail-call track_utility_misc
+    .byte   0xA1, 0xB5    /* bra 0x060185D8 (external) */
     mov.l @r15+, r14
 .L_scroll_config_path:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x54    /* bra 0x06018320 (external) */  ! tail-call vdp2_scroll_config
+    .byte   0xA0, 0x54    /* bra 0x06018320 (external) */
     mov.l @r15+, r14

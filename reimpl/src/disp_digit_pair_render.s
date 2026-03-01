@@ -9,13 +9,13 @@ disp_digit_pair_render:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xD1, 0x0C    /* mov.l .L_pool_060325EC, r1 */  ! r1 = 0x54 (data source offset)
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F0, r0 */   ! r0 = 0x2DC (flags byte offset)
+    .byte   0xD1, 0x0C    /* mov.l .L_pool_060325EC, r1 */
+    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F0, r0 */
     mov.b @(r0, r14), r0
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_060325F4, r2 */  ! r2 = 0xFFFFFFFC (mask: all bits except 0-1)
+    .byte   0xD2, 0x0C    /* mov.l .L_pool_060325F4, r2 */
     tst r2, r0
     bf      .L_flags_set
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */   ! r0 = sym_06081898 (global digit data table)
+    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */
     bra     .L_store_ptr
     add r0, r1
     .4byte  sym_06026DBC                    /* pre-transform setup function */
@@ -37,8 +37,8 @@ disp_digit_pair_render:
 .L_flags_set:
     add r14, r1
 .L_store_ptr:
-    .byte   0xD0, 0x1B    /* mov.l .L_pool_06032668, r0 */  ! r0 = 0x2D4 (display data ptr offset)
+    .byte   0xD0, 0x1B    /* mov.l .L_pool_06032668, r0 */
     mov.l r1, @(r0, r14)
-    .byte   0xD7, 0x1B    /* mov.l .L_pool_0603266C, r7 */  ! r7 = 0x0D (13 = element byte count)
+    .byte   0xD7, 0x1B    /* mov.l .L_pool_0603266C, r7 */
     mov.l r7, @-r15
-    .byte   0xD0, 0x1B    /* mov.l .L_pool_06032670, r0 */  ! r0 = sym_06026DBC (pre-transform setup)
+    .byte   0xD0, 0x1B    /* mov.l .L_pool_06032670, r0 */

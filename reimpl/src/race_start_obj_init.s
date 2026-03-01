@@ -61,7 +61,7 @@ race_start_obj_init:
     mov r6, r5
     jsr @r3
     mov #0x8, r4
-    .byte   0xB6, 0x5C    /* bsr 0x06020DD0 (external) — race start object setup */
+    .byte   0xB6, 0x5C    /* bsr 0x06020DD0 (external) */
     nop
     mov #0x0, r2
     mov.l   .L_start_timer_a, r3

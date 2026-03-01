@@ -160,9 +160,9 @@ render_orchestrator:
     .global sym_0602EFCC
 sym_0602EFCC:
     mov.l @(36, r0), r4
-    .byte   0x95, 0x0A    /* mov.w DAT_0602efe6, r5 — offset to sin dest */
-    .byte   0x96, 0x0A    /* mov.w DAT_0602efe8, r6 — offset to cos dest */
+    .byte   0x95, 0x0A    /* mov.w DAT_0602efe6, r5 */
+    .byte   0x96, 0x0A    /* mov.w DAT_0602efe8, r6 */
     add r0, r5
     add r0, r6
     mov r0, r14
-    .byte   0xDC, 0x04    /* mov.l .L_sincos_pair, r12 — sincos function ptr */
+    .byte   0xDC, 0x04    /* mov.l .L_sincos_pair, r12 */

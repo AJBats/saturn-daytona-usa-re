@@ -10,7 +10,7 @@ seg_data_loader:
     mov r4, r14
     add #-0x10, r15
     mov r15, r4
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_060361AE, r3 */  ! r3 = input_proc_analog
+    .byte   0xD3, 0x0B    /* mov.l .L_pool_060361AE, r3 */
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -20,7 +20,7 @@ seg_data_loader:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    .byte   0xD3, 0x08    /* mov.l .L_pool_060361B6, r3 */  ! r3 = input_proc_digital
+    .byte   0xD3, 0x08    /* mov.l .L_pool_060361B6, r3 */
     jsr @r3
     mov #0x0, r4
     mov r0, r4

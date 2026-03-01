@@ -68,7 +68,7 @@ adv_collision_resp:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x4C    /* bra 0x060146D2 (external) */  ! tail-call track_wall_collision
+    .byte   0xA0, 0x4C    /* bra 0x060146D2 (external) */
     mov.l @r15+, r14
 .L_add_variant:
     mov.l @r14, r0

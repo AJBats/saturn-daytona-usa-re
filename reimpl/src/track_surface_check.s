@@ -28,10 +28,10 @@ track_surface_check:
     .4byte  track_surface_type_b
 .L_query_ok:
     mov r15, r4
-    .byte   0xD3, 0x2C    /* mov.l .L_pool_0604172C, r3 */  ! r3 = &cd_block_read_safe (cross-TU pool)
+    .byte   0xD3, 0x2C    /* mov.l .L_pool_0604172C, r3 */
     jsr @r3
     add #0xC, r4
-    .byte   0xD2, 0x2B    /* mov.l .L_pool_06041730, r2 */  ! r2 = &game_state_base (cross-TU pool)
+    .byte   0xD2, 0x2B    /* mov.l .L_pool_06041730, r2 */
     mov.l @r2, r2
     mov r15, r3
     add #0xC, r3

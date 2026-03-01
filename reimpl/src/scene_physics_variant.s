@@ -411,7 +411,7 @@ DAT_06025e94:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xAA, 0xCB    /* bra 0x06025478 (state_transition — external) */
+    .byte   0xAA, 0xCB    /* bra 0x06025478 (state_transition */
     mov.l @r15+, r14
 .L_button_search:
     mov #0x0, r5
@@ -436,7 +436,7 @@ DAT_06025e94:
 .L_button_found:
     extu.w r5, r5
     mov.l r5, @r13
-    .byte   0xB2, 0x70    /* bsr 0x060263EC (slot_select — external) */
+    .byte   0xB2, 0x70    /* bsr 0x060263EC (slot_select */
     mov r5, r4
     mov #0x0, r4
 .L_anim_search_loop:
@@ -515,7 +515,7 @@ DAT_06025e94:
     add r0, r2
     mov.w @(8, r2), r0
     mov.w r0, @(6, r3)
-    .byte   0xBA, 0x6B    /* bsr 0x06025478 (state_transition — external) */
+    .byte   0xBA, 0x6B    /* bsr 0x06025478 (state_transition */
     mov #0x4, r4
 .L_post_race_render:
     mov.l @r13, r2

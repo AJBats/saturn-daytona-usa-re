@@ -6,16 +6,16 @@
     .type mat_rot_z, @function
 mat_rot_z:
     sts.l pr, @-r15
-    .byte   0xD6, 0x50    /* mov.l .L_pool_06027070, r6 — rotation buffer (0x0608A4E0) */
+    .byte   0xD6, 0x50    /* mov.l .L_pool_06027070, r6 */
     mov #0x8, r5
-    .byte   0xB2, 0x12    /* bsr 0x06027358 — sincos_lookup(r4=angle) */
+    .byte   0xB2, 0x12    /* bsr 0x06027358 */
     add r6, r5
     lds.l @r15+, pr
     mov.l @r5, r1
     mov.l @r6, r2
     neg r1, r1
     mov.l r1, @(4, r6)
-    .byte   0xD0, 0x4A    /* mov.l .L_pool_06027068, r0 — matrix stack A ptr (0x06089EDC) */
+    .byte   0xD0, 0x4A    /* mov.l .L_pool_06027068, r0 */
     mov.l r2, @(12, r6)
     mov.l @r0, r4
     mov #0x3, r3
@@ -45,8 +45,8 @@ mat_rot_z:
 
     .global sym_06026F72
 sym_06026F72:
-    .byte   0xD0, 0x3D    /* mov.l .L_pool_06027068, r0 — matrix stack A ptr (0x06089EDC) */
-    .byte   0xD6, 0x3F    /* mov.l .L_pool_06027074, r6 — temp buffer (0x0608A4F0) */
+    .byte   0xD0, 0x3D    /* mov.l .L_pool_06027068, r0 */
+    .byte   0xD6, 0x3F    /* mov.l .L_pool_06027074, r6 */
     mov.l @r0, r5
     mov #0x3, r3
 .L_fullmul_col_loop:

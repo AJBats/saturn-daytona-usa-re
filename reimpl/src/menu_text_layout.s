@@ -39,7 +39,7 @@ menu_text_layout:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA4, 0x8E    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(-13)
+    .byte   0xA4, 0x8E    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_check_accumulator:
     cmp/pz r14
@@ -49,7 +49,7 @@ menu_text_layout:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA4, 0x85    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(-15)
+    .byte   0xA4, 0x85    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
     .4byte  save_commit_write
@@ -61,7 +61,7 @@ menu_text_layout:
     jsr @r2
     mov.l @r13, r4
     mov.l r0, @r15
-    .byte   0xB4, 0x79    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(0) — commit/finalize
+    .byte   0xB4, 0x79    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @r15, r0
     add #0x4, r15

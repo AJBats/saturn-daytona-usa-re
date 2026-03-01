@@ -9,7 +9,7 @@ speed_unit_display:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x4, r15
-    .byte   0xDC, 0x10    /* mov.l .L_pool_06015E72, r12 */  ! r12 = slot data array base
+    .byte   0xDC, 0x10    /* mov.l .L_pool_06015E72, r12 */
     mov #0x8, r13
     mov #0x0, r14
     mov.b r4, @r15
@@ -39,7 +39,7 @@ speed_unit_display:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x02    /* mov.l .L_pool_06015E76, r3 */  ! r3 = clear_vdp2_registers
+    .byte   0xD3, 0x02    /* mov.l .L_pool_06015E76, r3 */
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF

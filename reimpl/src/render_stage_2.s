@@ -16,9 +16,9 @@ render_stage_2:
     .byte   0xD8, 0x1A    /* mov.l .L_stage_counter, r8 */
     .byte   0xD9, 0x1A    /* mov.l .L_vdp2_cram_0x200, r9 */
     .byte   0xDA, 0x1B    /* mov.l .L_vdp2_cram_0x400, r10 */
-    .byte   0xDC, 0x1B    /* mov.l .L_fn_dma_transfer, r12 */  ! r12 = dma_transfer (persists)
-    .byte   0xDD, 0x1C    /* mov.l .L_dma_pending_flag, r13 */ ! r13 = &dma_pending
-    .byte   0xDE, 0x1C    /* mov.l .L_frame_counter, r14 */    ! r14 = &frame_counter
+    .byte   0xDC, 0x1B    /* mov.l .L_fn_dma_transfer, r12 */
+    .byte   0xDD, 0x1C    /* mov.l .L_dma_pending_flag, r13 */
+    .byte   0xDE, 0x1C    /* mov.l .L_frame_counter, r14 */
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
@@ -41,7 +41,7 @@ render_stage_2:
     mov.l r15, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    .byte   0xD2, 0x14    /* mov.l .L_vdp2_cfg_mode_a, r2 */  ! 0x40680000
+    .byte   0xD2, 0x14    /* mov.l .L_vdp2_cfg_mode_a, r2 */
     .byte   0xD3, 0x14    /* mov.l .L_fn_render_proc_b, r3 */
     jsr @r3
     mov.l r2, @-r15
@@ -844,7 +844,7 @@ render_stage_6:
     .type render_matrix_calc, @function
 render_matrix_calc:
     mov.l r14, @-r15
-    .byte   0xDE, 0x18    /* mov.l .L_mc_state_var, r14 */  ! r14 = &state variable
+    .byte   0xDE, 0x18    /* mov.l .L_mc_state_var, r14 */
     mov.l @r14, r4
     mov r4, r0
     tst r0, r0
@@ -1066,7 +1066,7 @@ DAT_0601d24e:
     mov.b r3, @r2
     mov #0x0, r3
     mov.l r3, @r14
-    .byte   0xD5, 0x06    /* mov.l .L_mc_sound_param, r5 */  ! sound effect param
+    .byte   0xD5, 0x06    /* mov.l .L_mc_sound_param, r5 */
     mov r3, r4
     .byte   0xD3, 0x06    /* mov.l .L_fn_sound_cmd, r3 */
     jmp @r3

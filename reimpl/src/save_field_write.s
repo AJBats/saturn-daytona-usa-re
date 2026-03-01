@@ -29,7 +29,7 @@ save_field_write:
     mov.l @r15, r7
     mov r13, r5
     mov.l @(4, r15), r6
-    .byte   0xB1, 0x14    /* bsr 0x0603BC86 (external) */  ! call save_serialize(block, block, init_param, result_ptr)
+    .byte   0xB1, 0x14    /* bsr 0x0603BC86 (external) */
     mov r13, r4
     mov r0, r10
     tst r10, r10
@@ -42,29 +42,29 @@ save_field_write:
 .L_serialize_ok:
     mov #-0x1, r6
     mov #0x0, r5
-    .byte   0x94, 0x37    /* mov.w .L_wpool_0603BAE6, r4 */  ! r4 = word offset for obj_init_validate (cross-TU pool)
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603BAE8, r3 */   ! r3 = obj_init_validate (cross-TU pool: sym_0603EF34)
+    .byte   0x94, 0x37    /* mov.w .L_wpool_0603BAE6, r4 */
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603BAE8, r3 */
     jsr @r3
     add r13, r4
     mov r0, r11
     mov r13, r4
-    .byte   0xD2, 0x1A    /* mov.l .L_pool_0603BAEC, r2 */   ! r2 = sym_0603F070 (cross-TU pool, descriptor field 5)
+    .byte   0xD2, 0x1A    /* mov.l .L_pool_0603BAEC, r2 */
     mov r11, r5
     add #0x78, r4
     mov.l r2, @-r15
-    .byte   0xD3, 0x19    /* mov.l .L_pool_0603BAF0, r3 */   ! r3 = sym_0603F036 (cross-TU pool, descriptor field 4)
+    .byte   0xD3, 0x19    /* mov.l .L_pool_0603BAF0, r3 */
     mov.l r3, @-r15
-    .byte   0xD2, 0x19    /* mov.l .L_pool_0603BAF4, r2 */   ! r2 = sym_0603EFE6 (cross-TU pool, descriptor field 3)
+    .byte   0xD2, 0x19    /* mov.l .L_pool_0603BAF4, r2 */
     mov.l r2, @-r15
-    .byte   0xD7, 0x19    /* mov.l .L_pool_0603BAF8, r7 */   ! r7 = sym_0603EFD4 (cross-TU pool, descriptor field 2)
-    .byte   0xD6, 0x1A    /* mov.l .L_pool_0603BAFC, r6 */   ! r6 = attract_init_setup (cross-TU pool, descriptor field 1)
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603BB00, r3 */   ! r3 = cmd_desc_init (cross-TU pool: sym_0603F8B8)
+    .byte   0xD7, 0x19    /* mov.l .L_pool_0603BAF8, r7 */
+    .byte   0xD6, 0x1A    /* mov.l .L_pool_0603BAFC, r6 */
+    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603BB00, r3 */
     jsr @r3
     add #0x18, r4
     mov r0, r6
     mov r10, r5
     add #0xC, r15
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0603BB04, r3 */   ! r3 = attract_replay_loader (cross-TU pool)
+    .byte   0xD3, 0x18    /* mov.l .L_pool_0603BB04, r3 */
     jsr @r3
     mov r12, r4
     mov.l r11, @(4, r14)

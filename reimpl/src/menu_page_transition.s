@@ -28,7 +28,7 @@ menu_page_transition:
 .L_page_exists:
     mov.l @r13, r2
     mov.l r2, @r12
-    .byte   0xBF, 0x5A    /* bsr 0x0603B424 (external) */  ! call cmd_dispatch_main(r4=page_entry)
+    .byte   0xBF, 0x5A    /* bsr 0x0603B424 (external) */
     mov r2, r4
     mov r0, r14
     tst r14, r14
@@ -43,7 +43,7 @@ menu_page_transition:
 .L_has_next_page:
     mov #0x1, r14
 .L_epilogue:
-    .byte   0xB1, 0xD9    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0)
+    .byte   0xB1, 0xD9    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov r14, r0
     lds.l @r15+, pr

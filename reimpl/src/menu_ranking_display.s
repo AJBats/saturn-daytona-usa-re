@@ -61,7 +61,7 @@ menu_ranking_display:
     mov #0x0, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xA1, 0x14    /* bra 0x0603B93C (external) */ ! tail-call save_checksum_calc
+    .byte   0xA1, 0x14    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
     .4byte  0x7F044F26
     .4byte  0x000B6EF6

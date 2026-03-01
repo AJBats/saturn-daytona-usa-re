@@ -150,13 +150,13 @@ _pool_camera_finalize:
     .4byte  sym_06026CE0
 .L_no_right:
     mov.w @(2, r4), r0
-    .byte   0x93, 0x53    /* mov.w _wpool_dpad_left_mask, r3 — D-pad left mask */
+    .byte   0x93, 0x53    /* mov.w _wpool_dpad_left_mask, r3 */
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_epilogue
-    .byte   0xD7, 0x28    /* mov.l _pool_car_display_data_far, r7 — car display data ptr */
+    .byte   0xD7, 0x28    /* mov.l _pool_car_display_data_far, r7 */
     mov r9, r6
     mov.b @r14, r5
     mov.l @r7, r7
@@ -188,17 +188,17 @@ _pool_camera_finalize:
     exts.b r10, r3
     mov.b r3, @r12
 .L_epilogue:
-    .byte   0xD4, 0x1A    /* mov.l _pool_frame_counter_a, r4 — frame counter A ptr */
+    .byte   0xD4, 0x1A    /* mov.l _pool_frame_counter_a, r4 */
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
-    .byte   0xD4, 0x19    /* mov.l _pool_frame_counter_b, r4 — frame counter B ptr */
+    .byte   0xD4, 0x19    /* mov.l _pool_frame_counter_b, r4 */
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4
     mov.b @r14, r2
     shll2 r2
-    .byte   0xD3, 0x17    /* mov.l _pool_dispatch_table, r3 — car dispatch table ptr */
+    .byte   0xD3, 0x17    /* mov.l _pool_dispatch_table, r3 */
     add r3, r2
     mov.l @r2, r2
     add #0x4, r15

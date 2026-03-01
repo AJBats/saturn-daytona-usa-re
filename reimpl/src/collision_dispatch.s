@@ -61,7 +61,7 @@ collision_dispatch:
     mov.l @(8, r14), r2
     cmp/ge r2, r3
     bt      .L_copy_speed_limit
-    .byte   0xB0, 0xB4    /* bsr 0x0600D12C (external) -- speed response handler */
+    .byte   0xB0, 0xB4    /* bsr 0x0600D12C (external) */
     nop
     bra     .L_primary_distance_check
     nop
@@ -119,12 +119,12 @@ DAT_0600cfe6:
     mov.l @(r0, r14), r3
     cmp/ge r2, r3
     bt      .L_normal_collision
-    .byte   0xB0, 0xF7    /* bsr 0x0600D210 (external) -- severe collision handler */
+    .byte   0xB0, 0xF7    /* bsr 0x0600D210 (external) */
     nop
     bra     .L_state_dispatch_done
     nop
 .L_normal_collision:
-    .byte   0xB0, 0x81    /* bsr 0x0600D12C (external) -- normal collision handler */
+    .byte   0xB0, 0x81    /* bsr 0x0600D12C (external) */
     nop
     bra     .L_state_dispatch_done
     nop
@@ -180,13 +180,13 @@ DAT_0600cfe6:
     bra     .L_epilogue
     nop
 .L_default_handler:
-    .byte   0xB0, 0x4D    /* bsr 0x0600D12C (external) -- default collision response */
+    .byte   0xB0, 0x4D    /* bsr 0x0600D12C (external) */
     nop
 .L_check_collision_ended:
     mov.l @(4, r14), r0
     tst r0, r0
     bf      .L_epilogue
-    .byte   0xB0, 0x48    /* bsr 0x0600D12C (external) -- cleanup on collision end */
+    .byte   0xB0, 0x48    /* bsr 0x0600D12C (external) */
     nop
 .L_epilogue:
     add #0x4, r15

@@ -108,11 +108,11 @@ sym_06011F1C:
     mov.l r11, @-r15
     mov.l r10, @-r15
     mov.l r9, @-r15
-    .byte   0x99, 0x55    /* mov.w .L_wpool_06011FD4, r9 */  ! r9 = 0x03E0 (green mask: bits 5-9)
+    .byte   0x99, 0x55    /* mov.w .L_wpool_06011FD4, r9 */
     mov #0x1F, r10
     mov #0x10, r11
-    .byte   0x9C, 0x53    /* mov.w .L_wpool_06011FD6, r12 */ ! r12 = 0x7C00 (red mask: bits 10-14)
-    .byte   0x9D, 0x53    /* mov.w .L_wpool_06011FD8, r13 */ ! r13 = 0xF800 (sign-ext = -0x800, red -2 step)
+    .byte   0x9C, 0x53    /* mov.w .L_wpool_06011FD6, r12 */
+    .byte   0x9D, 0x53    /* mov.w .L_wpool_06011FD8, r13 */
     mov #0x0, r6
     exts.w r6, r5
 .L_fade_loop:

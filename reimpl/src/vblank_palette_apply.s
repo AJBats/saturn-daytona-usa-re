@@ -66,7 +66,7 @@ DAT_0603fcb6:
     tst r0, r0
     bf      .L_epilogue
     mov r13, r5
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603FD34, r3 */  ! r3 = &cmd_dispatch_slot3 (cross-TU pool)
+    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603FD34, r3 */
     jsr @r3
     mov.l @r15, r4
     mov.l r0, @(4, r14)

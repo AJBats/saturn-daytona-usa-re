@@ -40,7 +40,7 @@ smpc_secondary_proc:
     bf/s    .L_copy_loop
     add #0x2, r4
 .L_copy_done:
-    .byte   0xD3, 0x22    /* mov.l .L_pool_06035D8C, r3 */  ! r3 = &ai_brake_zone_main (cross-TU pool)
+    .byte   0xD3, 0x22    /* mov.l .L_pool_06035D8C, r3 */
     jsr @r3
     mov r15, r4
     mov r0, r4

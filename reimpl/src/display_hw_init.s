@@ -38,7 +38,7 @@ display_hw_init:
     mov.l   .L_pool_06038368, r3
     jsr @r3
     mov.l r2, @(4, r5)
-    .byte   0xA0, 0x13    /* bra 0x0603836C (external — vdp2_regs_setup) */
+    .byte   0xA0, 0x13    /* bra 0x0603836C (external */
     lds.l @r15+, pr
     .2byte  0xFFFF              /* padding */
 .L_pool_06038348:

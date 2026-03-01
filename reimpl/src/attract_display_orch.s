@@ -51,7 +51,7 @@ DAT_0603fb24:
 .L_phase0_palette_apply:
     mov r9, r6
     mov r10, r5
-    .byte   0xB0, 0x96    /* bsr 0x0603FC60 (external) */  ! call vblank_palette_apply(desc, head, elem_b)
+    .byte   0xB0, 0x96    /* bsr 0x0603FC60 (external) */
     mov r14, r4
     mov.l @(4, r14), r0
     tst r0, r0
@@ -71,7 +71,7 @@ DAT_0603fb24:
 .L_phase1_hud_palette:
     mov r9, r6
     mov r10, r5
-    .byte   0xB0, 0xC6    /* bsr 0x0603FCE4 (external) */  ! call hud_palette_select(desc, head, elem_b)
+    .byte   0xB0, 0xC6    /* bsr 0x0603FCE4 (external) */
     mov r14, r4
     mov.l @(12, r14), r0
     tst r0, r0
@@ -101,7 +101,7 @@ DAT_0603fb24:
     bra     .L_write_status_return
     nop
 .L_phase2_set_flag:
-    .byte   0xB2, 0x07    /* bsr 0x0603FF9C (external) */  ! call attract_display_main(desc)
+    .byte   0xB2, 0x07    /* bsr 0x0603FF9C (external) */
     mov r14, r4
     mov #0x34, r0
     mov.b @(r0, r14), r0
@@ -205,7 +205,7 @@ DAT_0603fb24:
     mov #0x34, r0
     mov.b @(r0, r14), r0
     extu.b r0, r0
-    .byte   0x93, 0x35    /* mov.w .L_wpool_0603FCB6, r3 */  ! r3 = 0xFF7F (from vblank_palette_apply pool)
+    .byte   0x93, 0x35    /* mov.w .L_wpool_0603FCB6, r3 */
     and r3, r0
 .L_epilogue:
     add #0x4, r15

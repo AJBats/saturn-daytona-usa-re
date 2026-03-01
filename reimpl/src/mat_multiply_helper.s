@@ -27,8 +27,8 @@ mat_multiply_helper:
     and r14, r2
     tst r2, r2
     bf      .L_poll_resdisa_done
-    .byte   0xD3, 0x0F    /* mov.l .L_dispatch_table_ptr, r3 — load &dispatch_table_ptr */
-    .byte   0xD7, 0x0F    /* mov.l .L_dispatch_data_ptr, r7 — load data pointer for dispatch */
+    .byte   0xD3, 0x0F    /* mov.l .L_dispatch_table_ptr, r3 */
+    .byte   0xD7, 0x0F    /* mov.l .L_dispatch_data_ptr, r7 */
     mov.l @r3, r3
     mov.l @(28, r3), r2
     jsr @r2

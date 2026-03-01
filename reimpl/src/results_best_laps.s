@@ -10,7 +10,7 @@ results_best_laps:
     mov.l r12, @-r15
     add #-0x4, r15
     mov #0x6, r12
-    .byte   0xDD, 0x16    /* mov.l .L_pool_060166E1, r13 */  ! r13 = results entry table base
+    .byte   0xDD, 0x16    /* mov.l .L_pool_060166E1, r13 */
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
@@ -48,7 +48,7 @@ results_best_laps:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA6, 0x09    /* bra 0x060172E4 (external) */  ! tail-call clear_vdp2_registers
+    .byte   0xA6, 0x09    /* bra 0x060172E4 (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
     .4byte  sym_0605BAFA
@@ -61,7 +61,7 @@ results_best_laps:
 loc_060166E4:
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD5, 0x18    /* mov.l .L_pool_0601674F, r5 */  ! r5 = results entry table base
+    .byte   0xD5, 0x18    /* mov.l .L_pool_0601674F, r5 */
     mov.b @r15, r4
     extu.b r4, r4
     mov r4, r3
@@ -89,14 +89,14 @@ loc_060166E4:
     mov.b r0, @(1, r4)
     mov.b @r15, r4
     extu.b r4, r4
-    .byte   0xA5, 0xE0    /* bra 0x060172E4 (external) */  ! tail-call clear_vdp2_registers
+    .byte   0xA5, 0xE0    /* bra 0x060172E4 (external) */
     add #0x4, r15
 
     .global loc_06016724
 loc_06016724:
     mov #0x0, r6
     extu.b r4, r5
-    .byte   0xD2, 0x08    /* mov.l .L_pool_0601674F, r2 */  ! r2 = results entry table base
+    .byte   0xD2, 0x08    /* mov.l .L_pool_0601674F, r2 */
     mov #0x40, r0
     mov r5, r3
     shll2 r5

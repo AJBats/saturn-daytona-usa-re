@@ -41,9 +41,9 @@ disc_error_handler:
 .L_fn_init_reset:
     .4byte  handler_init_reset         /* system reset handler */
 .L_check_recoverable:
-    .byte   0xB1, 0x60    /* bsr 0x0601B7F4 — palette setup for error screen */
+    .byte   0xB1, 0x60    /* bsr 0x0601B7F4 */
     nop
-    .byte   0xB0, 0xD2    /* bsr 0x0601B6DC — display setup for error screen */
+    .byte   0xB0, 0xD2    /* bsr 0x0601B6DC */
     nop
     .byte   0xD2, 0x0D    /* mov.l .L_cd_status_2, r2 */
     mov.w @r2, r3

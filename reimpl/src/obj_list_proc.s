@@ -23,7 +23,7 @@ obj_list_proc:
     cmp/gt r3, r2
     bf      .L_under_limit
     mov.b @r15, r4
-    .byte   0xB4, 0x7B    /* bsr 0x06020DEE (external) */  ! call obj_anim_clear
+    .byte   0xB4, 0x7B    /* bsr 0x06020DEE (external) */
     extu.b r4, r4
     mov.l   .L_pool_06020528, r6
     mov #0x0, r5

@@ -15,7 +15,7 @@ transition_anim_drive:
     mov.l   .L_pool_0601913C, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB0, 0xEC    /* bsr 0x060192E8 (external) */  ! BSR to wait_sound_ready — polls 0x25A02DBE for 0xFFFF
+    .byte   0xB0, 0xEC    /* bsr 0x060192E8 (external) */
     nop
     mov.l   .L_pool_06019134, r0
     mov.l @r0, r0

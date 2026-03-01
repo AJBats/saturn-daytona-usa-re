@@ -125,8 +125,8 @@ DAT_0601112c:
     shll2 r7
     mov.l r7, @(8, r15)
     add r11, r7
-    .byte   0x96, 0x4D    /* mov.w .L_vdp1_cmd_offset_2a, r6 */   ! r6 = VDP1 cmd offset, group 2 elem A
-    .byte   0xD5, 0x29    /* mov.l .L_pool_sprite_table_a_2, r5 */  ! r5 = &course_sprite_table_a
+    .byte   0x96, 0x4D    /* mov.w .L_vdp1_cmd_offset_2a, r6 */
+    .byte   0xD5, 0x29    /* mov.l .L_pool_06011210, r5 */
     mov.l @(12, r15), r3
     mov.l @r5, r5
     shll2 r5
@@ -135,7 +135,7 @@ DAT_0601112c:
     jsr @r13
     mov #0x4, r4
     mov.l @(8, r15), r7
-    .byte   0x96, 0x44    /* mov.w .L_vdp1_cmd_offset_2b, r6 */   ! r6 = VDP1 cmd offset, group 2 elem B
+    .byte   0x96, 0x44    /* mov.w .L_vdp1_cmd_offset_2b, r6 */
     mov.l @r8, r5
     mov.l @r15, r3
     add r10, r7
@@ -159,8 +159,8 @@ DAT_0601112c:
     shll2 r7
     mov.l r7, @(4, r15)
     add r11, r7
-    .byte   0x96, 0x2F    /* mov.w .L_vdp1_cmd_offset_3a, r6 */   ! r6 = VDP1 cmd offset, group 3 elem A
-    .byte   0xD5, 0x19    /* mov.l .L_pool_sprite_table_a_3, r5 */  ! r5 = &course_sprite_table_a
+    .byte   0x96, 0x2F    /* mov.w .L_vdp1_cmd_offset_3a, r6 */
+    .byte   0xD5, 0x19    /* mov.l .L_pool_06011214, r5 */
     mov.l @(12, r15), r3
     mov.l @r5, r5
     shll2 r5
@@ -169,7 +169,7 @@ DAT_0601112c:
     jsr @r13
     mov #0x4, r4
     mov.l @(4, r15), r7
-    .byte   0x96, 0x26    /* mov.w .L_vdp1_cmd_offset_3b, r6 */   ! r6 = VDP1 cmd offset, group 3 elem B
+    .byte   0x96, 0x26    /* mov.w .L_vdp1_cmd_offset_3b, r6 */
     mov.l @r8, r5
     mov.l @r15, r3
     add r10, r7

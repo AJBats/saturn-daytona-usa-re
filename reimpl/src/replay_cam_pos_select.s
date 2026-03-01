@@ -15,7 +15,7 @@ replay_cam_pos_select:
     mov.l r4, @r2
     mov.l   .L_p_cam_override_ptr, r2
     mov.l r4, @r2
-    .byte   0xB0, 0xE8    /* bsr 0x0601ADB0 (external) */ ! call camera interpolation math
+    .byte   0xB0, 0xE8    /* bsr 0x0601ADB0 (external) */
     nop
     mov.l   .L_p_race_end_state, r4
     mov.l   .L_p_cam_target_pos_arr, r3
@@ -71,9 +71,9 @@ replay_cam_pos_select:
 .L_p_race_event_flags:
     .4byte  sym_0607EBF4                /* race event bitfield (bit 0 = race complete) */
 .L_race_event_path:
-    .byte   0xD4, 0x27    /* mov.l .L_pool_0601ACE8, r4 */  ! r4 = &race_end_state (external pool)
-    .byte   0xD2, 0x28    /* mov.l .L_pool_0601ACEC, r2 */  ! r2 = &render_state (external pool)
-    .byte   0x90, 0x4A    /* mov.w .L_wpool_0601ACE4, r0 */ ! r0 = cam entry field offset (word, external pool)
+    .byte   0xD4, 0x27    /* mov.l .L_pool_0601ACE8, r4 */
+    .byte   0xD2, 0x28    /* mov.l .L_pool_0601ACEC, r2 */
+    .byte   0x90, 0x4A    /* mov.w .L_wpool_0601ACE4, r0 */
     mov.l @r4, r4
     mov.l @r2, r2
     mov r4, r3
@@ -82,9 +82,9 @@ replay_cam_pos_select:
     shll2 r3
     add r3, r4
     add r2, r4
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0601ACF0, r3 */  ! r3 = cam entry table base (external pool)
+    .byte   0xD3, 0x24    /* mov.l .L_pool_0601ACF0, r3 */
     shll2 r4
-    .byte   0xD2, 0x24    /* mov.l .L_pool_0601ACF4, r2 */  ! r2 = &race_time (external pool)
+    .byte   0xD2, 0x24    /* mov.l .L_pool_0601ACF4, r2 */
     add r3, r4
     mov.l @r2, r2
     mov.l @r4, r4
@@ -92,7 +92,7 @@ replay_cam_pos_select:
     cmp/hs r3, r2
     bt      .L_no_event_override
     mov #0x1, r2
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0601ACF8, r3 */  ! r3 = &pos_index_s8 (external pool)
+    .byte   0xD3, 0x21    /* mov.l .L_pool_0601ACF8, r3 */
     mov.b r2, @r3
 .L_no_event_override:
     lds.l @r15+, pr

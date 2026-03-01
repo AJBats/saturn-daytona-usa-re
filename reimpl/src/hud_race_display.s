@@ -22,7 +22,7 @@ hud_race_display:
     mov.b @r14, r3
     extu.b r3, r3
     cmp/ge r12, r3
-    .byte   0xB0, 0x58    /* bsr 0x060100A4 (sprite_anim_render) */ ! call sprite_anim_render (T = state >= 4)
+    .byte   0xB0, 0x58    /* bsr 0x060100A4 (sprite_anim_render) */
     mov r13, r4
     add #0x1, r13
     extu.b r13, r2
@@ -107,15 +107,15 @@ DAT_06010046:
     extu.b r0, r0
     cmp/eq #0x9, r0
     bf      .L_normal_hud_fadein
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_060100FC, r7 */ ! r7 = &display data (cross-TU pool)
+    .byte   0xD7, 0x1F    /* mov.l .L_pool_060100FC, r7 */
     mov r9, r6
-    .byte   0x95, 0x36    /* mov.w .L_wpool_060100F2, r5 */ ! r5 = X position for state 9 (cross-TU pool)
+    .byte   0x95, 0x36    /* mov.w .L_wpool_060100F2, r5 */
     bra     .L_call_geom_fadein
     mov #0xC, r4
 .L_normal_hud_fadein:
-    .byte   0xD7, 0x1C    /* mov.l .L_pool_060100FC, r7 */ ! r7 = &display data (cross-TU pool)
+    .byte   0xD7, 0x1C    /* mov.l .L_pool_060100FC, r7 */
     mov r9, r6
-    .byte   0x95, 0x32    /* mov.w .L_wpool_060100F4, r5 */ ! r5 = X position normal (cross-TU pool)
+    .byte   0x95, 0x32    /* mov.w .L_wpool_060100F4, r5 */
     mov #0x8, r4
 .L_call_geom_fadein:
     jsr @r11

@@ -68,6 +68,6 @@ DAT_0602e28e:
 .L_normalize:
     sub r3, r1
     shll8 r1
-    .byte   0x90, 0x0D    /* mov.w .L_wpool_0602E2F8, r0 */ ! r0 = divisor (from next TU pool)
+    .byte   0x90, 0x0D    /* mov.w .L_wpool_0602E2F8, r0 */
     shlr r1
-    .byte   0xDC, 0x07    /* mov.l .L_pool_0602E2FC, r12 */ ! r12 = next dispatch fn (from next TU pool)
+    .byte   0xDC, 0x07    /* mov.l .L_pool_0602E2FC, r12 */

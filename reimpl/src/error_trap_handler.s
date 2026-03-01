@@ -8,7 +8,7 @@ error_trap_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xDE, 0x1A    /* mov.l .L_pool_060413F5, r14 */  ! r14 = &sym_060A5400 (state base indirect ptr)
+    .byte   0xDE, 0x1A    /* mov.l .L_pool_060413F5, r14 */
     mov.l @r14, r3
     add #0x18, r3
     mov.l r3, @(4, r15)
@@ -55,7 +55,7 @@ error_trap_handler:
     add #0x4, r0
     mov.l @r14, r3
     mov.l r7, @(r0, r3)
-    .byte   0xB5, 0x82    /* bsr 0x06041EE8 (external) */  ! call track_edge_validate
+    .byte   0xB5, 0x82    /* bsr 0x06041EE8 (external) */
     mov r15, r4
     mov #0x0, r0
     add #0x8, r15

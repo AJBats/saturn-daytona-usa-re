@@ -17,14 +17,14 @@ player_collision:
     mov.l r10, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDA, 0x0E    /* mov.l .L_fn_fpmul, r10 — load fpmul function pointer */
-    .byte   0xDB, 0x0F    /* mov.l .L_collision_counter, r11 — load collision counter addr */
-    .byte   0xDE, 0x0F    /* mov.l .L_car_struct_ptr, r14 — load car struct pointer addr */
-    .byte   0xDD, 0x10    /* mov.l .L_collision_params, r13 — load collision params addr */
-    .byte   0xB3, 0xA8    /* bsr 0x0600CD40 (external) — run collision detection */
+    .byte   0xDA, 0x0E    /* mov.l .L_fn_fpmul, r10 */
+    .byte   0xDB, 0x0F    /* mov.l .L_collision_counter, r11 */
+    .byte   0xDE, 0x0F    /* mov.l .L_car_struct_ptr, r14 */
+    .byte   0xDD, 0x10    /* mov.l .L_collision_params, r13 */
+    .byte   0xB3, 0xA8    /* bsr 0x0600CD40 (external) */
     mov.l @r14, r14
     mov r0, r12
-    .byte   0xD0, 0x0F    /* mov.l .L_gear_mode, r0 — load gear mode address */
+    .byte   0xD0, 0x0F    /* mov.l .L_gear_mode, r0 */
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x2, r0
@@ -39,7 +39,7 @@ player_collision:
     cmp/pl r2
     bf      .L_detailed_collision
 .L_simple_collision:
-    .byte   0xB2, 0x42    /* bsr 0x0600CA96 (external) — simple collision response */
+    .byte   0xB2, 0x42    /* bsr 0x0600CA96 (external) */
     mov r13, r4
     bra     .L_post_collision
     nop
@@ -62,7 +62,7 @@ DAT_0600c616:
 .L_gear_mode:
     .4byte  sym_06087804               /* gear/transmission mode (16-bit) */
 .L_detailed_collision:
-    .byte   0xD2, 0x33    /* mov.l .L_car_array_base, r2 — load car array base ptr */
+    .byte   0xD2, 0x33    /* mov.l .L_car_array_base, r2 */
     mov.l @r2, r2
     mov r2, r0
     mov.b @(3, r0), r0
@@ -85,7 +85,7 @@ DAT_0600c616:
     mov.l @(r0, r14), r2
     cmp/ge r3, r2
     bt      .L_cooldown_decrement
-    .byte   0xB4, 0x79    /* bsr 0x0600CF58 (external) — collision dispatch handler */
+    .byte   0xB4, 0x79    /* bsr 0x0600CF58 (external) */
     mov r12, r4
 .L_cooldown_decrement:
     mov.w   DAT_0600c6fa, r0
@@ -96,7 +96,7 @@ DAT_0600c616:
     mov.l @(r0, r14), r2
     add #-0x2, r2
     mov.l r2, @(r0, r14)
-    .byte   0xB2, 0x0E    /* bsr 0x0600CA96 (external) — simple collision response */
+    .byte   0xB2, 0x0E    /* bsr 0x0600CA96 (external) */
     mov r13, r4
     mov.l @r11, r2
     add #0x1, r2
@@ -104,16 +104,16 @@ DAT_0600c616:
     mov.l r2, @r11
 .L_cooldown_depleted:
     mov r13, r5
-    .byte   0xB2, 0xD8    /* bsr 0x0600CC38 (external) — full collision response */
+    .byte   0xB2, 0xD8    /* bsr 0x0600CC38 (external) */
     mov r12, r4
     bra     .L_post_collision
     nop
 .L_wall_collision:
     mov r13, r5
-    .byte   0xB2, 0xD3    /* bsr 0x0600CC38 (external) — full collision response */
+    .byte   0xB2, 0xD3    /* bsr 0x0600CC38 (external) */
     mov r12, r4
 .L_post_collision:
-    .byte   0xD0, 0x1D    /* mov.l .L_gear_mode_2, r0 — load gear mode address (dup) */
+    .byte   0xD0, 0x1D    /* mov.l .L_gear_mode_2, r0 */
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x3, r0
@@ -127,12 +127,12 @@ DAT_0600c616:
     mov.l r0, @r1
 .L_steering_correction:
     mov r13, r5
-    .byte   0xB1, 0x0E    /* bsr 0x0600C8CC (external) — steering correction */
+    .byte   0xB1, 0x0E    /* bsr 0x0600C8CC (external) */
     mov r14, r4
-    .byte   0xD2, 0x16    /* mov.l .L_game_flags_ptr, r2 — load game flags pointer */
+    .byte   0xD2, 0x16    /* mov.l .L_game_flags_ptr, r2 */
     mov.l @r2, r2
     mov.l @r2, r3
-    .byte   0xD2, 0x16    /* mov.l .L_flag_mask_e00000, r2 — load flag mask 0x00E00000 */
+    .byte   0xD2, 0x16    /* mov.l .L_flag_mask_e00000, r2 */
     and r2, r3
     tst r3, r3
     bf      .L_wall_response_vectors
@@ -142,7 +142,7 @@ DAT_0600c616:
     mov.w   DAT_0600c700, r6
     mov.w   DAT_0600c702, r5
     mov.l @(40, r14), r4
-    .byte   0xD3, 0x12    /* mov.l .L_fn_sincos, r3 — load sincos_pair function */
+    .byte   0xD3, 0x12    /* mov.l .L_fn_sincos, r3 */
     add r14, r6
     add r14, r5
     jsr @r3
@@ -203,10 +203,10 @@ DAT_0600c702:
 .L_fn_sincos:
     .4byte  sincos_pair                /* sin/cos computation for steering */
 .L_wall_response_vectors:
-    .byte   0xB1, 0x06    /* bsr 0x0600C928 (external) — wall normal computation */
+    .byte   0xB1, 0x06    /* bsr 0x0600C928 (external) */
     mov r14, r4
     mov r13, r5
-    .byte   0xB0, 0x59    /* bsr 0x0600C7D4 (external) — wall response vectors */
+    .byte   0xB0, 0x59    /* bsr 0x0600C7D4 (external) */
     mov r14, r4
     mov r15, r6
     mov r14, r5
@@ -214,12 +214,12 @@ DAT_0600c702:
     add #0x10, r5
     mov.l r5, @-r15
     mov.l @(24, r14), r5
-    .byte   0xD3, 0x25    /* mov.l .L_fn_atan2, r3 — load atan2 function (cross-TU) */
+    .byte   0xD3, 0x25    /* mov.l .L_fn_atan2, r3 */
     jsr @r3
     mov.l @(16, r14), r4
     mov r0, r4
     mov.l @r15+, r5
-    .byte   0xD3, 0x23    /* mov.l .L_fn_apply_response, r3 — load response fn (cross-TU) */
+    .byte   0xD3, 0x23    /* mov.l .L_fn_apply_response, r3 */
     jsr @r3
     mov.l @r15+, r6
 .L_epilogue:

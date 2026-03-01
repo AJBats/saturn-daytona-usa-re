@@ -24,7 +24,7 @@ vblank_dma_chain:
     bra     .L_epilogue
     mov.b r10, @r13
 .L_has_commands:
-    .byte   0xBF, 0xC5    /* bsr 0x0603F534 (external) */ ! call attract_timer_init(cmd_desc) — validate/count commands
+    .byte   0xBF, 0xC5    /* bsr 0x0603F534 (external) */
     mov r14, r4
     mov.b r0, @r13
     mov.b @r13, r2
@@ -39,14 +39,14 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBF, 0x16    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read 1 byte to sp+0x4C
+    .byte   0xBF, 0x16    /* bsr 0x0603F3F6 (external) */
     add #0x4C, r5
-    .byte   0xBF, 0x99    /* bsr 0x0603F500 (external) */ ! call audio_sync_slave — read 32-bit source addr
+    .byte   0xBF, 0x99    /* bsr 0x0603F500 (external) */
     mov r14, r4
     mov.w   DAT_0603f682, r2
     add r2, r0
     mov.l r0, @(4, r13)
-    .byte   0xBF, 0x94    /* bsr 0x0603F500 (external) */ ! call audio_sync_slave — read 32-bit dest addr
+    .byte   0xBF, 0x94    /* bsr 0x0603F500 (external) */
     mov r14, r4
     mov.l r0, @(8, r13)
     bra     .L_skip_init_test
@@ -55,7 +55,7 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBF, 0x07    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — skip 1 byte
+    .byte   0xBF, 0x07    /* bsr 0x0603F3F6 (external) */
     add #0x48, r5
     add #0x1, r12
 .L_skip_init_test:
@@ -65,7 +65,7 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xFE    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read field[7] into sp+0x28
+    .byte   0xBE, 0xFE    /* bsr 0x0603F3F6 (external) */
     add #0x28, r5
     mov #0x28, r0
     mov r14, r4
@@ -74,7 +74,7 @@ vblank_dma_chain:
     mov.b @(r0, r15), r2
     mov #0x2C, r0
     mov.b r2, @(r0, r15)
-    .byte   0xBE, 0xF5    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read field[8] into sp+0x24
+    .byte   0xBE, 0xF5    /* bsr 0x0603F3F6 (external) */
     add #0x24, r5
     mov #0x24, r0
     mov r14, r4
@@ -82,17 +82,17 @@ vblank_dma_chain:
     mov r15, r5
     mov.b @(r0, r15), r0
     mov.b r0, @(14, r13)
-    .byte   0xBE, 0xED    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read field[9] into sp+0x20
+    .byte   0xBE, 0xED    /* bsr 0x0603F3F6 (external) */
     add #0x20, r5
     mov #0x20, r0
     mov.b @(r0, r15), r0
     mov.b r0, @(15, r13)
-    .byte   0xBF, 0x5D    /* bsr 0x0603F4E0 (external) */ ! call audio_sync_master — read 16-bit value
+    .byte   0xBF, 0x5D    /* bsr 0x0603F4E0 (external) */
     mov r14, r4
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xE3    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read filename length into sp+0x1C
+    .byte   0xBE, 0xE3    /* bsr 0x0603F3F6 (external) */
     add #0x1C, r5
     mov #0x1C, r0
     mov.b @(r0, r15), r9
@@ -107,7 +107,7 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xD5    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read next filename char
+    .byte   0xBE, 0xD5    /* bsr 0x0603F3F6 (external) */
     add #0x18, r5
     mov #0x18, r0
     mov.b @(r0, r15), r2
@@ -158,7 +158,7 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xAB    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — skip version char
+    .byte   0xBE, 0xAB    /* bsr 0x0603F3F6 (external) */
     add #0x44, r5
     add #0x1, r12
 .L_skip_version_loop_test:
@@ -178,7 +178,7 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x9A    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read ext char
+    .byte   0xBE, 0x9A    /* bsr 0x0603F3F6 (external) */
     add #0x14, r5
     mov #0x14, r0
     mov.b @(r0, r15), r2
@@ -208,7 +208,7 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x80    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read remaining char
+    .byte   0xBE, 0x80    /* bsr 0x0603F3F6 (external) */
     add #0x10, r5
     mov #0x10, r0
     mov.b @(r0, r15), r2
@@ -224,7 +224,7 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x71    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — skip remaining char
+    .byte   0xBE, 0x71    /* bsr 0x0603F3F6 (external) */
     add #0x40, r5
     add #0x1, r12
 .L_skip_remaining_test:
@@ -277,7 +277,7 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x42    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read padding byte
+    .byte   0xBE, 0x42    /* bsr 0x0603F3F6 (external) */
     add #0x3C, r5
     mov.l @(4, r15), r2
     add #0x1, r2
@@ -290,8 +290,8 @@ DAT_0603f682:
     tst r2, r2
     bf      .L_fname_nonempty
     mov r13, r0
-    .byte   0xD3, 0x20    /* mov.l _pool_strcpy, r3 */ ! r3 = strcpy function ptr
-    .byte   0xD1, 0x1E    /* mov.l _pool_str_dot, r1 */ ! r1 = "." string (single dot)
+    .byte   0xD3, 0x20    /* mov.l _pool_strcpy, r3 */
+    .byte   0xD1, 0x1E    /* mov.l _pool_str_dot, r1 */
     jsr @r3
     add #0x10, r0
     bra     .L_post_fname_fixup
@@ -303,9 +303,9 @@ DAT_0603f682:
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf      .L_post_fname_fixup
-    .byte   0xD1, 0x1B    /* mov.l _pool_str_dotdot, r1 */ ! r1 = ".." string (parent dir)
+    .byte   0xD1, 0x1B    /* mov.l _pool_str_dotdot, r1 */
     mov r13, r0
-    .byte   0xD2, 0x19    /* mov.l _pool_strcpy, r2 */ ! r2 = strcpy function ptr
+    .byte   0xD2, 0x19    /* mov.l _pool_strcpy, r2 */
     jsr @r2
     add #0x10, r0
 .L_post_fname_fixup:
@@ -317,24 +317,24 @@ DAT_0603f682:
     mov r14, r4
     mov #0x4, r6
     mov r15, r5
-    .byte   0xBE, 0x1D    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read 4-byte field
+    .byte   0xBE, 0x1D    /* bsr 0x0603F3F6 (external) */
     add #0x38, r5
     mov r14, r4
     mov #0x2, r6
     mov r15, r5
-    .byte   0xBE, 0x18    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read 2-byte xfer length
+    .byte   0xBE, 0x18    /* bsr 0x0603F3F6 (external) */
     add #0xC, r5
     mov.w @(12, r15), r0
     mov r14, r4
     mov #0x2, r6
     mov r15, r5
     mov.w r0, @(12, r13)
-    .byte   0xBE, 0x11    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read 2-byte field
+    .byte   0xBE, 0x11    /* bsr 0x0603F3F6 (external) */
     add #0x34, r5
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x0C    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — read 1-byte extra param
+    .byte   0xBE, 0x0C    /* bsr 0x0603F3F6 (external) */
     add #0x8, r5
     mov.b @(8, r15), r0
     mov r0, r4
@@ -347,7 +347,7 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x00    /* bsr 0x0603F3F6 (external) */ ! call menu_element_render — skip tail byte
+    .byte   0xBE, 0x00    /* bsr 0x0603F3F6 (external) */
     add #0x30, r5
     add #0x1, r12
 .L_tail_skip_test:
@@ -369,7 +369,7 @@ _pool_str_dotdot:
     extu.b r0, r0
     tst #0x2, r0
     bt      .L_no_half_flag
-    .byte   0xD2, 0x26    /* mov.l .L_fp_half, r2 */ ! r2 = 0x8000 (0.5 in 16.16 fixed-point)
+    .byte   0xD2, 0x26    /* mov.l .L_fp_half, r2 */
     bra     .L_store_xfer_len
     nop
 .L_no_half_flag:

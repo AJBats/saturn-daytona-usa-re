@@ -49,7 +49,7 @@ DAT_060415ee:
     mov #-0xB, r0
 .L_do_shape_query:
     mov.l @(16, r15), r5
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06041668, r3 */  ! r3 = &track_shadow_shape (cross-TU pool)
+    .byte   0xD3, 0x14    /* mov.l .L_pool_06041668, r3 */
     jsr @r3
     mov.l @(8, r15), r4
     mov r0, r4
@@ -61,10 +61,10 @@ DAT_060415ee:
     mov #-0xB, r0
 .L_shape_query_ok:
     mov r15, r4
-    .byte   0xD3, 0x10    /* mov.l .L_pool_0604166C, r3 */  ! r3 = &ai_checkpoint_validate (cross-TU pool)
+    .byte   0xD3, 0x10    /* mov.l .L_pool_0604166C, r3 */
     jsr @r3
     add #0x14, r4
-    .byte   0xD2, 0x0F    /* mov.l .L_pool_06041670, r2 */  ! r2 = &sym_060A5400 (game struct pointer)
+    .byte   0xD2, 0x0F    /* mov.l .L_pool_06041670, r2 */
     mov.l @r2, r2
     mov r15, r3
     add #0x14, r3

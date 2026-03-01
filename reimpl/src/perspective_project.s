@@ -54,7 +54,7 @@ perspective_project:
     mov r0, r12
     mov #0x0, r5
     mov r13, r4
-    .byte   0xBF, 0x8F    /* bsr 0x0600553C (external) */  ! sprite_frame_selector(node_A+2, 0)
+    .byte   0xBF, 0x8F    /* bsr 0x0600553C (external) */
     add #0x2, r4
     mov r15, r5
     mov r13, r4
@@ -65,7 +65,7 @@ perspective_project:
     mov r13, r5
     mov r14, r4
     add #0x2, r5
-    .byte   0xBF, 0x84    /* bsr 0x0600553C (external) */  ! sprite_frame_selector(node_B+2, node_A+2)
+    .byte   0xBF, 0x84    /* bsr 0x0600553C (external) */
     add #0x2, r4
     mov r15, r5
     mov r14, r4
@@ -104,7 +104,7 @@ perspective_project:
     add #0x2, r5
     add r3, r0
     mov.l r0, @(24, r15)
-    .byte   0xBF, 0x5D    /* bsr 0x0600553C (external) */  ! sprite_frame_selector(node_A+3, node_B+2)
+    .byte   0xBF, 0x5D    /* bsr 0x0600553C (external) */
     add #0x3, r4
     mov r15, r5
     mov r13, r4
@@ -130,7 +130,7 @@ _pool_fn_mat_vec_transform:
 _pool_fn_fpmul:
     .4byte  fpmul                          /* 16.16 fixed-point multiply */
 .L_second_pass_xform:
-    .byte   0xBF, 0x44    /* bsr 0x0600553C (external) */  ! sprite_frame_selector(node_B+3, node_A+3)
+    .byte   0xBF, 0x44    /* bsr 0x0600553C (external) */
     nop
     mov r15, r5
     mov r14, r4
@@ -175,7 +175,7 @@ _pool_fn_fpmul:
     mov r15, r4
     mov.l   _pool_camera_target_vec_2, r6
     add #0x4, r5
-    .byte   0xBD, 0xC3    /* bsr 0x06005294 (external) */  ! vec3_angle_calc(proj_A, proj_B, camera_target)
+    .byte   0xBD, 0xC3    /* bsr 0x06005294 (external) */
     add #0x10, r4
     mov.l   _pool_cam_dir_flip_flag, r0
     mov.b @r0, r0

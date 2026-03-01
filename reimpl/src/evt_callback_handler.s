@@ -11,35 +11,35 @@ evt_callback_handler:
     mov r4, r0
 .L_case_0:
     mov r14, r4
-    .byte   0xA0, 0x45    /* bra 0x060418BE (external) */  ! tail-call track_road_validate
+    .byte   0xA0, 0x45    /* bra 0x060418BE (external) */
     mov.l @r15+, r14
 .L_case_1:
     mov r14, r4
-    .byte   0xA1, 0x33    /* bra 0x06041AA0 (external) */  ! tail-call track_boundary_check
+    .byte   0xA1, 0x33    /* bra 0x06041AA0 (external) */
     mov.l @r15+, r14
 .L_case_2:
     mov r14, r4
-    .byte   0xA1, 0x7E    /* bra 0x06041B3C (external) */  ! tail-call cmd_enqueue target
+    .byte   0xA1, 0x7E    /* bra 0x06041B3C (external) */
     mov.l @r15+, r14
 .L_case_3:
     mov r14, r4
-    .byte   0xA2, 0x41    /* bra 0x06041CC8 (external) */  ! tail-call state_transition_handler
+    .byte   0xA2, 0x41    /* bra 0x06041CC8 (external) */
     mov.l @r15+, r14
 .L_case_4:
     mov r14, r4
-    .byte   0xA2, 0x90    /* bra 0x06041D6C (external) */  ! tail-call large_func_prologue
+    .byte   0xA2, 0x90    /* bra 0x06041D6C (external) */
     mov.l @r15+, r14
 .L_case_5:
     mov r14, r4
-    .byte   0xA3, 0x4B    /* bra 0x06041EE8 (external) */  ! tail-call track_edge_validate
+    .byte   0xA3, 0x4B    /* bra 0x06041EE8 (external) */
     mov.l @r15+, r14
 .L_case_6:
     mov r14, r4
-    .byte   0xA4, 0x6E    /* bra 0x06042134 (external) */  ! tail-call player_vehicle_interp
+    .byte   0xA4, 0x6E    /* bra 0x06042134 (external) */
     mov.l @r15+, r14
 .L_case_7:
     mov r14, r4
-    .byte   0xA4, 0x15    /* bra 0x06042088 (external) */  ! tail-call track_shadow_validate
+    .byte   0xA4, 0x15    /* bra 0x06042088 (external) */
     mov.l @r15+, r14
     .2byte  0x0360
 .L_dispatch_switch:
@@ -64,7 +64,7 @@ evt_callback_handler:
 
     .global sym_06041884
 sym_06041884:
-    .byte   0xD3, 0x08    /* mov.l .L_pool_060418A8, r3 */  ! r3 = &game_state_base_ptr (sym_060A5400)
+    .byte   0xD3, 0x08    /* mov.l .L_pool_060418A8, r3 */
     mov.l @r3, r3
     rts
     mov.l r4, @(60, r3)

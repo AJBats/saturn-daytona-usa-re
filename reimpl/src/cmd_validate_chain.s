@@ -12,7 +12,7 @@ cmd_validate_chain:
     add #-0x8, r15
     mov.l r5, @r15
     mov.l r6, @(4, r15)
-    .byte   0xBE, 0x90    /* bsr 0x0603AEE8 (external) */  ! call cmd_queue_process(r4=index)
+    .byte   0xBE, 0x90    /* bsr 0x0603AEE8 (external) */
     mov r7, r13
     mov r0, r14
     tst r14, r14
@@ -22,12 +22,12 @@ cmd_validate_chain:
     lds.l @r15+, macl
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA3, 0xB0    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(-9)
+    .byte   0xA3, 0xB0    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_setup_transfer:
     mov #0x0, r6
     mov.l @r15, r5
-    .byte   0xBE, 0xF6    /* bsr 0x0603AFD0 (external) */  ! call cmd_error_return(r4=handle, r5=flags, r6=0)
+    .byte   0xBE, 0xF6    /* bsr 0x0603AFD0 (external) */
     mov r14, r4
     mov.l @r14, r5
     mov r13, r0
@@ -36,20 +36,20 @@ cmd_validate_chain:
     cmp/eq #-0x1, r0
     bf/s    .L_dispatch
     sub r3, r5
-    .byte   0x9D, 0x3D    /* mov.w .L_wpool_0603B270, r13 */  ! r13 = size multiplier from cross-TU word pool
+    .byte   0x9D, 0x3D    /* mov.w .L_wpool_0603B270, r13 */
     mul.l r13, r5
     sts macl, r13
 .L_dispatch:
     mov r13, r7
     mov.l @(4, r15), r6
-    .byte   0xB0, 0x0E    /* bsr 0x0603B21C (external) */  ! call cmd_multi_validate(r4=handle, ..., r6=dest, r7=size)
+    .byte   0xB0, 0x0E    /* bsr 0x0603B21C (external) */
     mov r14, r4
     mov r0, r13
-    .byte   0xBE, 0xC7    /* bsr 0x0603AF94 (external) */  ! call cmd_result_store(r4=handle)
+    .byte   0xBE, 0xC7    /* bsr 0x0603AF94 (external) */
     mov r14, r4
     cmp/pz r13
     bf      .L_return
-    .byte   0xB3, 0x97    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(0) — report success
+    .byte   0xB3, 0x97    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
 .L_return:
     mov r13, r0

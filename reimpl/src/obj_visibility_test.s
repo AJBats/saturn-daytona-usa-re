@@ -163,7 +163,7 @@ obj_visibility_test:
     mov.b r2, @r3
     mov.b @(4, r15), r0
     mov r0, r4
-    .byte   0xB3, 0xC9    /* bsr 0x06020DEE (external) — clear obj anim fields */
+    .byte   0xB3, 0xC9    /* bsr 0x06020DEE (external) */
     extu.b r4, r4
     mov.l   .L_obj_scale_z, r14
     mov.l   .L_fp_four, r2

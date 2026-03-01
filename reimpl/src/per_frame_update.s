@@ -15,8 +15,8 @@ per_frame_update:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    .byte   0xDD, 0x10    /* mov.l .L_pool_0600A3E6, r13 -- r13 = &game_state (g_game_state) */
-    .byte   0xD3, 0x11    /* mov.l .L_pool_0600A3EA, r3 -- r3 = cdb_read_status */
+    .byte   0xDD, 0x10    /* mov.l .L_pool_0600A3E6, r13 */
+    .byte   0xD3, 0x11    /* mov.l .L_pool_0600A3EA, r3 */
     jsr @r3
     nop
     mov #0xF, r14
@@ -24,16 +24,16 @@ per_frame_update:
     mov r14, r0
     cmp/eq #0x6, r0
     bf      .L_tray_ok
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_0600A3EE, r3 -- r3 = &bios_reset_ptr (sym_0600026C) */
+    .byte   0xD3, 0x0E    /* mov.l .L_pool_0600A3EE, r3 */
     mov.l @r3, r3
     jsr @r3
     nop
 .L_tray_ok:
-    .byte   0xDC, 0x0D    /* mov.l .L_pool_0600A3F2, r12 -- r12 = &frame_sync_state (sym_0607864A) */
+    .byte   0xDC, 0x0D    /* mov.l .L_pool_0600A3F2, r12 */
     mov.b @r12, r0
     tst r0, r0
     bf      .L_sync_not_zero
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_0600A3F6, r3 -- r3 = cd_block_read_safe */
+    .byte   0xD3, 0x0C    /* mov.l .L_pool_0600A3F6, r3 */
     jsr @r3
     mov r15, r4
     mov r15, r4
@@ -43,7 +43,7 @@ per_frame_update:
     extu.b r4, r3
     cmp/ge r2, r3
     bt      .L_check_buttons
-    .byte   0xD3, 0x08    /* mov.l .L_pool_0600A3FA, r3 -- r3 = &sync_byte_dest (sym_06078649) */
+    .byte   0xD3, 0x08    /* mov.l .L_pool_0600A3FA, r3 */
     mov.b r4, @r3
     bra     .L_check_buttons
     nop
@@ -68,13 +68,13 @@ per_frame_update:
     mov r14, r0
     cmp/eq #0x1, r0
     bf      .L_check_buttons
-    .byte   0xD3, 0x17    /* mov.l .L_pool_0600A46E, r3 -- r3 = cd_status_reader */
+    .byte   0xD3, 0x17    /* mov.l .L_pool_0600A46E, r3 */
     jsr @r3
     nop
     mov #0x2, r2
     mov.b r2, @r12
 .L_check_buttons:
-    .byte   0xD5, 0x16    /* mov.l .L_pool_0600A472, r5 -- r5 = &button_status (g_pad_state) */
+    .byte   0xD5, 0x16    /* mov.l .L_pool_0600A472, r5 */
     mov.w   DAT_0600a460, r2
     mov.w @(2, r5), r0
     mov r0, r3
@@ -88,18 +88,18 @@ per_frame_update:
     and r4, r3
     cmp/eq r4, r3
     bf      .L_epilogue
-    .byte   0xBD, 0xE7    /* bsr 0x06009FFC (external) -- call state_timeext_setup (SCU interrupt reconfigure) */
+    .byte   0xBD, 0xE7    /* bsr 0x06009FFC (external) */
     nop
     mov #0x6, r3
     mov.l @r13, r2
     cmp/hs r3, r2
     bf      .L_state_lt_6
-    .byte   0xBE, 0xBF    /* bsr 0x0600A1B8 (external) -- call secret input handler */
+    .byte   0xBE, 0xBF    /* bsr 0x0600A1B8 (external) */
     nop
     mov.l @r13, r0
     cmp/eq #0x17, r0
     bf      .L_reset_state
-    .byte   0xD3, 0x0A    /* mov.l .L_pool_0600A476, r3 -- r3 = obj_state_pack */
+    .byte   0xD3, 0x0A    /* mov.l .L_pool_0600A476, r3 */
     jsr @r3
     nop
 .L_reset_state:
@@ -107,7 +107,7 @@ per_frame_update:
     bra     .L_epilogue
     mov.l r2, @r13
 .L_state_lt_6:
-    .byte   0xD2, 0x08    /* mov.l .L_pool_0600A47A, r2 -- r2 = &bios_reset_ptr (sym_0600026C) */
+    .byte   0xD2, 0x08    /* mov.l .L_pool_0600A47A, r2 */
     mov.l @r2, r2
     jsr @r2
     nop

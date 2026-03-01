@@ -64,7 +64,7 @@ mat_vec_transform:
 
     .global sym_06027080
 sym_06027080:
-    .byte   0xD3, 0xAA    /* mov.l .L_pool_0602732C, r3 -- [HIGH] r3 = &mat_stack_b_ptr (sym_0608A52C, far pool in mat_vec_transform_b) */
+    .byte   0xD3, 0xAA    /* mov.l .L_pool_0602732C, r3 */
     mov.l @r3, r0
     mov #0x30, r1
     add r0, r1
@@ -101,19 +101,19 @@ sym_06027080:
 
     .global sym_060270C6
 sym_060270C6:
-    .byte   0xD0, 0x9A    /* mov.l .L_pool_06027330, r0 -- [HIGH] r0 = stack B initial base (sym_0608A530, far pool in mat_vec_transform_b) */
-    .byte   0xD1, 0x98    /* mov.l .L_pool_0602732C, r1 -- [HIGH] r1 = &mat_stack_b_ptr (sym_0608A52C, far pool in mat_vec_transform_b) */
+    .byte   0xD0, 0x9A    /* mov.l .L_pool_06027330, r0 */
+    .byte   0xD1, 0x98    /* mov.l .L_pool_0602732C, r1 */
     mov #0x0, r2
     bra     .L_write_identity
     mov.l r0, @r1
 
     .global sym_060270D0
 sym_060270D0:
-    .byte   0xD0, 0x96    /* mov.l .L_pool_0602732C, r0 -- [HIGH] r0 = &mat_stack_b_ptr (sym_0608A52C, far pool in mat_vec_transform_b) */
+    .byte   0xD0, 0x96    /* mov.l .L_pool_0602732C, r0 */
     mov #0x0, r2
     mov.l @r0, r0
 .L_write_identity:
-    .byte   0xD1, 0x9A    /* mov.l .L_pool_06027340, r1 -- [HIGH] r1 = 0x00010000 (1.0 in 16.16 fixed-point, far pool in mat_vec_transform_b) */
+    .byte   0xD1, 0x9A    /* mov.l .L_pool_06027340, r1 */
     mov.l r2, @(4, r0)
     mov.l r1, @(0, r0)
     mov.l r2, @(8, r0)
@@ -130,8 +130,8 @@ sym_060270D0:
 
     .global sym_060270F2
 sym_060270F2:
-    .byte   0xD0, 0x90    /* mov.l .L_pool_06027334, r0 -- [HIGH] r0 = scratch buffer B0 (sym_0608A6B0, far pool in mat_vec_transform_b) */
-    .byte   0xD1, 0x8D    /* mov.l .L_pool_0602732C, r1 -- [HIGH] r1 = &mat_stack_b_ptr (sym_0608A52C, far pool in mat_vec_transform_b) */
+    .byte   0xD0, 0x90    /* mov.l .L_pool_06027334, r0 */
+    .byte   0xD1, 0x8D    /* mov.l .L_pool_0602732C, r1 */
     mov.l r4, @(0, r0)
     mov.l r5, @(4, r0)
     mov.l r6, @(8, r0)

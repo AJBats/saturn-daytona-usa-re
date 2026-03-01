@@ -9,7 +9,7 @@ mem_test_verify:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    .byte   0xDE, 0x19    /* mov.l .L_pool_060405AD, r14 */  ! r14 = &sym_060A4D14 (global state pointer)
+    .byte   0xDE, 0x19    /* mov.l .L_pool_060405AD, r14 */
     tst r5, r5
     bt/s    .L_check_boundary
     mov.l @(24, r4), r13
@@ -27,20 +27,20 @@ mem_test_verify:
     add #0x4, r3
     mov.l r2, @r3
     mov.l @(40, r13), r5
-    .byte   0xD3, 0x11    /* mov.l .L_fn_ai_section_check, r3 */  ! r3 = &ai_section_check
+    .byte   0xD3, 0x11    /* mov.l .L_fn_ai_section_check, r3 */
     jsr @r3
     add #0x4, r4
 .L_check_boundary:
-    .byte   0xD3, 0x10    /* mov.l .L_fn_evt_boundary_active, r3 */  ! r3 = &sym_06041014 (boundary active check)
+    .byte   0xD3, 0x10    /* mov.l .L_fn_evt_boundary_active, r3 */
     jsr @r3
     mov.l @(40, r13), r4
     tst r0, r0
     bt      .L_epilogue
-    .byte   0xD3, 0x0F    /* mov.l .L_fn_evt_boundary_release, r3 */  ! r3 = &sym_06040FEA (release lock)
+    .byte   0xD3, 0x0F    /* mov.l .L_fn_evt_boundary_release, r3 */
     jsr @r3
     mov.l @(40, r13), r4
     mov #0x0, r5
-    .byte   0xB0, 0x1B    /* bsr 0x060405B8 (external) */  ! evt_validate_multi(r4=&stack_buf, r5=0)
+    .byte   0xB0, 0x1B    /* bsr 0x060405B8 (external) */
     mov r15, r4
     mov.l @r14, r2
     mov.w   .L_validation_counter_offset, r0

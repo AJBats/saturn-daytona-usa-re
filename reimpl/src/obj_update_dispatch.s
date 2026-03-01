@@ -96,7 +96,7 @@ obj_update_dispatch:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA3, 0x16    /* bra 0x06020DEE (external) — tail-jump to obj_anim_clear */
+    .byte   0xA3, 0x16    /* bra 0x06020DEE (external) */
     mov.l @r15+, r14
 .L_transition_done:
     add #0x4, r15

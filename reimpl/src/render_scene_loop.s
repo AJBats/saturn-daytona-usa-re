@@ -306,7 +306,7 @@ DAT_0600bab8:
     mov.l @r4, r4
 .L_lod_far_render:
     mov #0x1, r5
-    .byte   0xB8, 0x7F    /* bsr 0x0600AC44 (external) */ ! call type-B obj renderer
+    .byte   0xB8, 0x7F    /* bsr 0x0600AC44 (external) */
     mov r14, r4
     mov.l @(20, r15), r5
     mov.l @(24, r15), r4

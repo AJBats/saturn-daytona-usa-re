@@ -7,13 +7,13 @@
 screen_fade_ctrl:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD0, 0x19    /* mov.l _pool_vram_ptr_table, r0 */ ! r0 = &vram_pointer_table (sym_06028614)
+    .byte   0xD0, 0x19    /* mov.l _pool_vram_ptr_table, r0 */
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r5
-    .byte   0xBF, 0x5E    /* bsr 0x06028306 (external) */ ! call tile_index_map_lookup(r4)
+    .byte   0xBF, 0x5E    /* bsr 0x06028306 (external) */
     mov r7, r4
-    .byte   0xD1, 0x17    /* mov.l _pool_template_base, r1 */ ! r1 = template table base (sym_06063690)
+    .byte   0xD1, 0x17    /* mov.l _pool_template_base, r1 */
     add r1, r6
     mov.l @r6+, r1
     mov.w @r6+, r2

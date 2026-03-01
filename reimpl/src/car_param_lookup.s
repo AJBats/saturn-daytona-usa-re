@@ -8,11 +8,11 @@ car_param_lookup:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDE, 0x12    /* mov.l .L_pool_06012B4F, r14 */  ! r14 = &param_load_state (sym_060788FC)
+    .byte   0xDE, 0x12    /* mov.l .L_pool_06012B4F, r14 */
     mov.l @r14, r0
     tst #0x4, r0
     bt      .L_call_course_lookup
-    .byte   0xD3, 0x11    /* mov.l .L_pool_06012B53, r3 */  ! r3 = &car_data_struct (sym_06063800)
+    .byte   0xD3, 0x11    /* mov.l .L_pool_06012B53, r3 */
     mov.l r3, @r15
     mov r3, r7
     mov.w   .L_wpool_06012B39, r6
@@ -21,13 +21,13 @@ car_param_lookup:
     mov.w   .L_wpool_06012B3F, r3
     mov.l @r5, r5
     add r3, r7
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_06012B57, r3 */  ! r3 = &display_list_loader (sym_06028400)
+    .byte   0xD3, 0x0E    /* mov.l .L_pool_06012B57, r3 */
     jsr @r3
     mov #0x8, r4
     bra     .L_increment_and_return
     nop
 .L_call_course_lookup:
-    .byte   0xBF, 0xCE    /* bsr 0x06012AC4 (external) */  ! call course_table_lookup
+    .byte   0xBF, 0xCE    /* bsr 0x06012AC4 (external) */
     nop
 .L_increment_and_return:
     mov.l @r14, r2

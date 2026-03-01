@@ -33,7 +33,7 @@ obj_pool_alloc:
     tst r2, r2
     bf      .L_exit_alloc
 .L_alloc_loop:
-    .byte   0xB6, 0x26    /* bsr 0x06020E3C (external) */ ! call obj_state_manager — returns slot index in r0
+    .byte   0xB6, 0x26    /* bsr 0x06020E3C (external) */
     mov #0x0, r4
     extu.w r0, r4
     extu.w r4, r0
@@ -90,12 +90,12 @@ obj_pool_alloc:
 .L_exit_alloc:
     mov.w @r13, r2
     add #-0x1, r2
-    .byte   0xB5, 0x73    /* bsr 0x06020D46 (external) */ ! call obj_state_serializer — record state
+    .byte   0xB5, 0x73    /* bsr 0x06020D46 (external) */
     mov.w r2, @r13
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */ ! tail-call obj_pool_deallocator
+    .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */
     mov.l @r15+, r14
 .L_w_start_btn_mask:
     .2byte  0x0800                         /* [HIGH] start-button bitmask (bit 11) */

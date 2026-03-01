@@ -53,7 +53,7 @@ lap_progress_bar:
 loc_06015DE8:
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD4, 0x20    /* mov.l .L_pool_06015E70, r4 */  ! r4 = HUD slot array base
+    .byte   0xD4, 0x20    /* mov.l .L_pool_06015E70, r4 */
     mov.b @r15, r3
     extu.b r3, r3
     mov r3, r2
@@ -79,6 +79,6 @@ loc_06015DE8:
     mov.b r0, @(2, r3)
     mov.b @r15, r4
     extu.b r4, r4
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06015E74, r3 */  ! r3 = clear_vdp2_registers
+    .byte   0xD3, 0x14    /* mov.l .L_pool_06015E74, r3 */
     jmp @r3
     add #0x4, r15

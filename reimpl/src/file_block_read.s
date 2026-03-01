@@ -20,17 +20,17 @@ file_block_read:
     mov.b r2, @r3
 .L_skip_init:
     mov.l   _pool_position_vec_b, r4
-    .byte   0xB0, 0x18    /* bsr 0x06012450 (external) */  ! file_format_detect(vec_b, 0)
+    .byte   0xB0, 0x18    /* bsr 0x06012450 (external) */
     mov #0x0, r5
     mov.l   _pool_position_vec_c, r4
-    .byte   0xB0, 0x15    /* bsr 0x06012450 (external) */  ! file_format_detect(vec_c, 1)
+    .byte   0xB0, 0x15    /* bsr 0x06012450 (external) */
     mov #0x1, r5
     mov.l   _pool_position_vec_d, r4
-    .byte   0xB0, 0x12    /* bsr 0x06012450 (external) */  ! file_format_detect(vec_d, 2)
+    .byte   0xB0, 0x12    /* bsr 0x06012450 (external) */
     mov #0x2, r5
     mov #0x3, r5
     mov.l   _pool_position_vec_e, r4
-    .byte   0xA0, 0x0E    /* bra 0x06012450 (external) */  ! tail-call file_format_detect(vec_e, 3)
+    .byte   0xA0, 0x0E    /* bra 0x06012450 (external) */
     lds.l @r15+, pr
 _pool_read_init_flag:
     .4byte  sym_060788F0                    /* file read initialized flag (byte) */

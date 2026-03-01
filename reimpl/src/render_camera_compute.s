@@ -54,7 +54,7 @@ DAT_0602f01e:
     muls.w r1, r2
     mov.w   .L_horiz_divisor, r0
     sts macl, r1
-    .byte   0xBE, 0x44    /* bsr 0x0602ECCC (external) */  ! HW divide: r0 = r1/r0
+    .byte   0xBE, 0x44    /* bsr 0x0602ECCC (external) */
     nop
     mov r0, r2
     mov r14, r0
@@ -101,7 +101,7 @@ DAT_0602f066:
     mov.l   .L_vert_store_offset, r3
     sts macl, r1
     mov.l   .L_vert_divisor, r0
-    .byte   0xBE, 0x20    /* bsr 0x0602ECCC (external) */  ! HW divide: vert dimension
+    .byte   0xBE, 0x20    /* bsr 0x0602ECCC (external) */
     nop
     mov.l @r15+, r0
     mov.l @(r0, r3), r2
@@ -138,7 +138,7 @@ DAT_0602f066:
     mov.l r0, @-r15
     sts macl, r1
     mov.w   .L_depth_divisor, r0
-    .byte   0xBD, 0xFF    /* bsr 0x0602ECCC (external) */  ! HW divide: depth dimension
+    .byte   0xBD, 0xFF    /* bsr 0x0602ECCC (external) */
     nop
     mov.l @r15+, r0
     mov.w   .L_depth_store_offset, r3
@@ -306,7 +306,7 @@ sym_0602F17C:
     mov.l @r6, r6
     cmp/ge r4, r6
     bt      .L_adjust_backward
-    .byte   0xA0, 0x35    /* bra 0x0602F224 (external) */  ! within bounds -> exit
+    .byte   0xA0, 0x35    /* bra 0x0602F224 (external) */
     nop
 .L_frame_counter_offset:
     .2byte  0x00D8
@@ -342,7 +342,7 @@ DAT_0602f1be:
     xtrct r4, r1
     mov #0x0, r2
     shlr16 r1
-    .byte   0xA0, 0x19    /* bra 0x0602F224 (external) */  ! exit via shared path
+    .byte   0xA0, 0x19    /* bra 0x0602F224 (external) */
     mov.l r1, @(r0, r8)
 
     .global DAT_0602f1f2
@@ -357,11 +357,11 @@ DAT_0602f1f2:
     add #-0x1, r1
     mov r1, r3
     mov.w r1, @(r0, r9)
-    .byte   0x98, 0x22    /* mov.w .L_wpool_0602F24C, r8 */  ! r8 = position offset (external pool)
+    .byte   0x98, 0x22    /* mov.w .L_wpool_0602F24C, r8 */
     mov.l @(r0, r8), r4
     shll16 r4
-    .byte   0xD2, 0x12    /* mov.l .L_pool_0602F254, r2 */   ! r2 = &course_speed_table (external pool)
+    .byte   0xD2, 0x12    /* mov.l .L_pool_0602F254, r2 */
     shll2 r3
     add r2, r3
     mov.l @r3, r5
-    .byte   0xDC, 0x11    /* mov.l .L_pool_0602F258, r12 */  ! r12 = continuation addr (external pool)
+    .byte   0xDC, 0x11    /* mov.l .L_pool_0602F258, r12 */

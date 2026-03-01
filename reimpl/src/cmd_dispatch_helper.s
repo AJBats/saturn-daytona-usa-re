@@ -20,7 +20,7 @@ cmd_dispatch_helper:
     bt      .L_clear_slot
     mov #-0x7, r4
     lds.l @r15+, pr
-    .byte   0xA5, 0xB7    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(-7)
+    .byte   0xA5, 0xB7    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_clear_slot:
     mov #0x0, r4
@@ -42,14 +42,14 @@ cmd_dispatch_helper:
 .L_copy_command:
     mov r14, r1
     mov r4, r2
-    .byte   0xD3, 0x1C    /* mov.l pool_memcpy_long@0x0603AE68, r3 */  ! r3 = memcpy_long (sym_06035168)
+    .byte   0xD3, 0x1C    /* mov.l pool_memcpy_long@0x0603AE68, r3 */
     jsr @r3
     mov #0xC, r0
-    .byte   0xB4, 0xE1    /* bsr 0x0603B7C0 (external) */  ! call sys_timer_config (element flag search)
+    .byte   0xB4, 0xE1    /* bsr 0x0603B7C0 (external) */
     nop
     mov.l r0, @(12, r14)
 .L_report_success:
     mov #0x0, r4
     lds.l @r15+, pr
-    .byte   0xA5, 0x9A    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(0)
+    .byte   0xA5, 0x9A    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14

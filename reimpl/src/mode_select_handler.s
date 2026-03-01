@@ -139,7 +139,7 @@ _pool_06085FF5:
     .4byte  sym_06085FF5
 .L_check_up:
     mov.w @(2, r4), r0
-    .byte   0x93, 0x63    /* mov.w @(disp,PC), r3 — loads 0x1000 (UP button mask) */
+    .byte   0x93, 0x63    /* mov.w @(disp,PC), r3 */
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -157,7 +157,7 @@ _pool_06085FF5:
     mov #0x3, r3
     mov.b r3, @r14
 .L_common_exit:
-    .byte   0xD4, 0x2B    /* mov.l @(disp,PC), r4 — &sym_0605D243 (animation timer) */
+    .byte   0xD4, 0x2B    /* mov.l @(disp,PC), r4 */
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
@@ -166,7 +166,7 @@ _pool_06085FF5:
     mov.b r3, @r12
     mov.b @r14, r2
     shll2 r2
-    .byte   0xD3, 0x28    /* mov.l @(disp,PC), r3 — &sym_0605D250 (dispatch table) */
+    .byte   0xD3, 0x28    /* mov.l @(disp,PC), r3 */
     add r3, r2
     mov.l @r2, r2
     add #0xC, r15

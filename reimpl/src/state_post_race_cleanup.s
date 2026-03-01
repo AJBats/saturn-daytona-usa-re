@@ -57,7 +57,7 @@ state_post_race_cleanup:
     mov.l @(r0, r2), r3
     cmp/pl r3
     bf      .L_skip_replay_record
-    .byte   0xB1, 0xEA    /* bsr 0x0600A084 (replay_record — external) */
+    .byte   0xB1, 0xEA    /* bsr 0x0600A084 (replay_record */
     nop
 .L_skip_replay_record:
     mov.l   .L_fn_frame_end_commit, r3

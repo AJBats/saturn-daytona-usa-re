@@ -67,15 +67,15 @@ render_finalize_b:
     mov.w r12, @r3
     mov.l   .L_display_state_byte, r1
     mov.b @r1, r1
-    .byte   0xB1, 0x66    /* bsr 0x06025070 (scene_finalize_a — external) */
+    .byte   0xB1, 0x66    /* bsr 0x06025070 (scene_finalize_a */
     mov.l r1, @r14
-    .byte   0xB1, 0xD0    /* bsr 0x06025148 (scene_finalize_b — external) */
+    .byte   0xB1, 0xD0    /* bsr 0x06025148 (scene_finalize_b */
     nop
     mov.w @r10, r2
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_init_call_process_b
-    .byte   0xB2, 0x38    /* bsr 0x06025224 (scene_process_a — external) */
+    .byte   0xB2, 0x38    /* bsr 0x06025224 (scene_process_a */
     mov.l @r14, r4
     bra     .L_check_phase
     nop
@@ -124,7 +124,7 @@ render_finalize_b:
 .L_display_state_byte:
     .4byte  sym_0605D240                    /* display state byte */
 .L_init_call_process_b:
-    .byte   0xB3, 0x34    /* bsr 0x06025478 (scene_process_b — external) */
+    .byte   0xB3, 0x34    /* bsr 0x06025478 (scene_process_b */
     mov.l @r14, r4
 .L_check_phase:
     mov.b @r13, r0
@@ -174,12 +174,12 @@ render_finalize_b:
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_start_call_process_b
-    .byte   0xB1, 0xDC    /* bsr 0x06025224 (scene_process_a — external) */
+    .byte   0xB1, 0xDC    /* bsr 0x06025224 (scene_process_a */
     mov.l @r14, r4
     bra     .L_input_done
     nop
 .L_start_call_process_b:
-    .byte   0xB3, 0x02    /* bsr 0x06025478 (scene_process_b — external) */
+    .byte   0xB3, 0x02    /* bsr 0x06025478 (scene_process_b */
     mov.l @r14, r4
     bra     .L_input_done
     nop
@@ -258,12 +258,12 @@ render_finalize_b:
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_dispatch_process_b
-    .byte   0xB1, 0x91    /* bsr 0x06025224 (scene_process_a — external) */
+    .byte   0xB1, 0x91    /* bsr 0x06025224 (scene_process_a */
     mov.l @r14, r4
     bra     .L_input_loop_iter
     nop
 .L_dispatch_process_b:
-    .byte   0xB2, 0xB7    /* bsr 0x06025478 (scene_process_b — external) */
+    .byte   0xB2, 0xB7    /* bsr 0x06025478 (scene_process_b */
     mov.l @r14, r4
 .L_input_loop_iter:
     mov #0x1, r3
@@ -284,12 +284,12 @@ render_finalize_b:
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_phase4_variant
-    .byte   0xB3, 0xCF    /* bsr 0x060256CC (scene_physics_integrate — external) */
+    .byte   0xB3, 0xCF    /* bsr 0x060256CC (scene_physics_integrate */
     nop
     bra     .L_check_phase_6
     nop
 .L_phase4_variant:
-    .byte   0xB6, 0x5F    /* bsr 0x06025BF4 (scene_physics_variant — external) */
+    .byte   0xB6, 0x5F    /* bsr 0x06025BF4 (scene_physics_variant */
     nop
     bra     .L_check_phase_6
     nop
@@ -315,12 +315,12 @@ render_finalize_b:
     extu.w r3, r3
     cmp/eq r11, r3
     bf      .L_phase6_finalize_b
-    .byte   0xB0, 0x85    /* bsr 0x06025070 (scene_finalize_a — external) */
+    .byte   0xB0, 0x85    /* bsr 0x06025070 (scene_finalize_a */
     nop
     bra     .L_phase6_dispatch
     nop
 .L_phase6_finalize_b:
-    .byte   0xB0, 0xED    /* bsr 0x06025148 (scene_finalize_b — external) */
+    .byte   0xB0, 0xED    /* bsr 0x06025148 (scene_finalize_b */
     nop
     bra     .L_phase6_dispatch
     nop
@@ -378,12 +378,12 @@ render_finalize_b:
     extu.w r3, r3
     cmp/eq r11, r3
     bf      .L_phase6_process_b
-    .byte   0xB1, 0x27    /* bsr 0x06025224 (scene_process_a — external) */
+    .byte   0xB1, 0x27    /* bsr 0x06025224 (scene_process_a */
     mov.l @r14, r4
     bra     .L_phase6_reset_to_1
     nop
 .L_phase6_process_b:
-    .byte   0xB2, 0x4D    /* bsr 0x06025478 (scene_process_b — external) */
+    .byte   0xB2, 0x4D    /* bsr 0x06025478 (scene_process_b */
     mov.l @r14, r4
 .L_phase6_reset_to_1:
     mov #0x1, r2

@@ -131,37 +131,37 @@ loc_0602DD10:
 .L_const_state_done:
     .4byte  0x00000003                 /* 3 = rendering done */
 .L_process_cmd_data:
-    .byte   0xD0, 0x46    /* mov.l .L_xpool_ptr_render_mode, r0 */  ! r0 -> render_mode (sym_06082A30)
-    .byte   0xD2, 0x47    /* mov.l .L_xpool_const_0x2, r2 */        ! r2 = 0x2
+    .byte   0xD0, 0x46    /* mov.l .L_xpool_ptr_render_mode, r0 */
+    .byte   0xD2, 0x47    /* mov.l .L_xpool_const_0x2, r2 */
     mov.l r2, @r0
-    .byte   0xD2, 0x47    /* mov.l .L_xpool_ptr_dirty_flags, r2 */  ! r2 -> dirty_flags (sym_06082A3C)
+    .byte   0xD2, 0x47    /* mov.l .L_xpool_ptr_dirty_flags, r2 */
     mov.l r3, @r2
     mov.l @r1+, r4
-    .byte   0xD2, 0x46    /* mov.l .L_xpool_ptr_update_timer, r2 */ ! r2 -> update_timer (sym_06082A40)
+    .byte   0xD2, 0x46    /* mov.l .L_xpool_ptr_update_timer, r2 */
     mov.l r4, @r2
     mov.l @r1+, r0
-    .byte   0xD2, 0x46    /* mov.l .L_xpool_ptr_vtx_ax_src, r2 */   ! r2 -> vtx_ax_src (sym_06082A54)
+    .byte   0xD2, 0x46    /* mov.l .L_xpool_ptr_vtx_ax_src, r2 */
     mov.l r0, @r2
     mov.l @r1+, r0
-    .byte   0xD2, 0x45    /* mov.l .L_xpool_ptr_vtx_ay_src, r2 */   ! r2 -> vtx_ay_src (sym_06082A58)
+    .byte   0xD2, 0x45    /* mov.l .L_xpool_ptr_vtx_ay_src, r2 */
     mov.l r0, @r2
     mov.l @r1+, r0
-    .byte   0xD2, 0x45    /* mov.l .L_xpool_ptr_vtx_bx_src, r2 */   ! r2 -> vtx_bx_src (sym_06082A44)
+    .byte   0xD2, 0x45    /* mov.l .L_xpool_ptr_vtx_bx_src, r2 */
     mov.l r0, @r2
     mov.l @r1+, r0
-    .byte   0xD2, 0x44    /* mov.l .L_xpool_ptr_vtx_by_src, r2 */   ! r2 -> vtx_by_src (sym_06082A48)
+    .byte   0xD2, 0x44    /* mov.l .L_xpool_ptr_vtx_by_src, r2 */
     mov.l r0, @r2
     mov.l @r1+, r0
-    .byte   0xD2, 0x44    /* mov.l .L_xpool_ptr_vtx_c_src, r2 */    ! r2 -> vtx_c_src (sym_06082A50)
+    .byte   0xD2, 0x44    /* mov.l .L_xpool_ptr_vtx_c_src, r2 */
     mov.l r0, @r2
     mov r3, r0
-    .byte   0xD1, 0x43    /* mov.l .L_xpool_const_0x10, r1 */       ! r1 = 0x10 (bit 4 mask)
+    .byte   0xD1, 0x43    /* mov.l .L_xpool_const_0x10, r1 */
     tst r1, r0
-    .byte   0x89, 0x10    /* bt 0x0602DDB4 (external) */             ! if zero, skip texture offset calc
-    .byte   0xD1, 0x3D    /* mov.l .L_xpool_ptr_vtx_ax_src, r1 */   ! r1 -> vtx_ax_src (re-read record[2])
+    .byte   0x89, 0x10    /* bt 0x0602DDB4 (external) */
+    .byte   0xD1, 0x3D    /* mov.l .L_xpool_ptr_vtx_ax_src, r1 */
     mov.l @r1, r1
-    .byte   0xD0, 0x42    /* mov.l .L_xpool_ptr_vtx_ax_dst, r0 */   ! r0 -> vtx_ax_dst (sym_06082A70)
+    .byte   0xD0, 0x42    /* mov.l .L_xpool_ptr_vtx_ax_dst, r0 */
     mov.l @r0, r0
     sub r0, r1
     mov r4, r0
-    .byte   0xDC, 0x41    /* mov.l .L_xpool_fn_ptr_06034FFC, r12 */ ! r12 = continuation handler fn ptr
+    .byte   0xDC, 0x41    /* mov.l .L_xpool_fn_ptr_06034FFC, r12 */

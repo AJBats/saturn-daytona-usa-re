@@ -68,12 +68,12 @@ car_update_racing:
     and r11, r2
     tst r2, r2
     bt      .L_player_physics
-    .byte   0xB3, 0xD6    /* bsr 0x0600E906 (external) — ai_physics_main */
+    .byte   0xB3, 0xD6    /* bsr 0x0600E906 (external) */
     nop
     bra     .L_next_car
     nop
 .L_player_physics:
-    .byte   0xB2, 0xDC    /* bsr 0x0600E71A (external) — player_physics_main */
+    .byte   0xB2, 0xDC    /* bsr 0x0600E71A (external) */
     nop
     mov.l @r12, r2
     mov r2, r0

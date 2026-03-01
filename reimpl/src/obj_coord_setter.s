@@ -54,8 +54,8 @@ obj_coord_setter:
 .L_no_data_copy:
     mov r13, r14
 .L_write_cmd_entry:
-    .byte   0xD5, 0x1B    /* mov.l .L_pool_0600515C, r5 -- cross-TU: sym_06063750 (cmd table base) */
-    .byte   0xD4, 0x1B    /* mov.l .L_pool_06005160, r4 -- cross-TU: sym_06059F10 (mode flag) */
+    .byte   0xD5, 0x1B    /* mov.l .L_pool_0600515C, r5 */
+    .byte   0xD4, 0x1B    /* mov.l .L_pool_06005160, r4 */
     mov.l @r15, r3
     mov.l @r4, r2
     shll2 r2

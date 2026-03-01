@@ -131,12 +131,12 @@ results_time_column:
     mov.l r2, @(4, r4)
     extu.b r10, r11
 .L_after_clamp:
-    .byte   0xD0, 0x2E    /* mov.l .L_pool_0601645C, r0 */  ! r0 = &bonus_mode_flag (sym_06085F89)
+    .byte   0xD0, 0x2E    /* mov.l .L_pool_0601645C, r0 */
     mov.b @r0, r0
     tst r0, r0
     bt      .L_skip_bonus
     extu.b r14, r4
-    .byte   0x92, 0x55    /* mov.w .L_wpool_0601645A, r2 */  ! r2 = 0x0800 (bonus decrement step)
+    .byte   0x92, 0x55    /* mov.w .L_wpool_0601645A, r2 */
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -163,7 +163,7 @@ results_time_column:
     mov #0x0, r1
     mov.l r1, @(48, r2)
 .L_skip_bonus:
-    .byte   0xB4, 0xFA    /* bsr 0x06016DD8 (external) */  ! call digit_render subroutine
+    .byte   0xB4, 0xFA    /* bsr 0x06016DD8 (external) */
     extu.b r14, r4
     extu.b r11, r11
     tst r11, r11

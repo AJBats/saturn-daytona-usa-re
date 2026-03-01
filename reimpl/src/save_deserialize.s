@@ -59,13 +59,13 @@ save_deserialize:
     cmp/eq #0x2, r0
     bf      .set_return_code
     mov.l @r14, r3
-    .byte   0x90, 0x3D    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */  ! r0 = 0x00A8
+    .byte   0x90, 0x3D    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */
     mov.l @(r0, r3), r2
     cmp/eq r13, r2
     bf      .set_return_code
     mov.l @r14, r2
     mov #0x0, r3
-    .byte   0x90, 0x37    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */  ! r0 = 0x00A8
+    .byte   0x90, 0x37    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */
     mov.l r3, @(r0, r2)
 .set_return_code:
     mov r4, r0

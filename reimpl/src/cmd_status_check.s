@@ -24,7 +24,7 @@ cmd_status_check:
     mov #-0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xA5, 0x86    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-8)
+    .byte   0xA5, 0x86    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_do_lookup:
     mov.l @r14, r6
@@ -42,10 +42,10 @@ cmd_status_check:
     mov #-0x9, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xA5, 0x75    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-9)
+    .byte   0xA5, 0x75    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_lookup_ok:
-    .byte   0xB5, 0x73    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0) — report success
+    .byte   0xB5, 0x73    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov r14, r0
     add #0x4, r15

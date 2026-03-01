@@ -81,11 +81,11 @@ vblank_display_write:
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14
-    .byte   0xD0, 0x1F    /* mov.l .L_pool_06039088, r0 — &fb_swap_enable (sym_060635B8, cross-TU pool) */
+    .byte   0xD0, 0x1F    /* mov.l .L_pool_06039088, r0 */
     mov.l @r0, r0
     cmp/eq #0x1, r0
     bf      .L_check_delay
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_0603908C, r2 — &fb_swap_delay (sym_060635BC, cross-TU pool) */
+    .byte   0xD2, 0x1E    /* mov.l .L_pool_0603908C, r2 */
     mov.l @r14, r3
     mov.l @r2, r2
     add #-0x1, r2
@@ -97,7 +97,7 @@ vblank_display_write:
     extu.w r0, r0
     mov.w r0, @r5
 .L_check_delay:
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0603908C, r3 — &fb_swap_delay (sym_060635BC, cross-TU pool) */
+    .byte   0xD3, 0x18    /* mov.l .L_pool_0603908C, r3 */
     mov.l @r14, r2
     mov.l @r3, r3
     cmp/gt r2, r3

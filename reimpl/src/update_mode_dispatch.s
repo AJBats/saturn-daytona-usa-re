@@ -6,30 +6,30 @@
     .type update_mode_dispatch, @function
 update_mode_dispatch:
     sts.l pr, @-r15
-    .byte   0xD3, 0x12    /* mov.l .L_pool_0600DFB7, r3 */  ! r3 = &total_car_count (sym_0607EA98)
+    .byte   0xD3, 0x12    /* mov.l .L_pool_0600DFB7, r3 */
     mov.l @r3, r3
     shar r3
     exts.w r3, r3
-    .byte   0xD2, 0x11    /* mov.l .L_pool_0600DFBB, r2 */ ! r2 = &half_count_store (sym_060786CA)
+    .byte   0xD2, 0x11    /* mov.l .L_pool_0600DFBB, r2 */
     mov.w r3, @r2
-    .byte   0xD0, 0x11    /* mov.l .L_pool_0600DFBF, r0 */ ! r0 = &update_mode_byte (sym_06083261)
+    .byte   0xD0, 0x11    /* mov.l .L_pool_0600DFBF, r0 */
     bra     .L_dispatch
     mov.b @r0, r0
 
 .L_mode_0:
-    .byte   0xB2, 0x49    /* bsr 0x0600E410 (external) */  ! call simplified per-car update
+    .byte   0xB2, 0x49    /* bsr 0x0600E410 (external) */
     nop
     bra     .L_tail_exit
     nop
 
 .L_mode_1:
-    .byte   0xB2, 0x7B    /* bsr 0x0600E47C (external) */  ! call alternative per-car update
+    .byte   0xB2, 0x7B    /* bsr 0x0600E47C (external) */
     nop
     bra     .L_tail_exit
     nop
 
 .L_mode_2:
-    .byte   0xB2, 0x77    /* bsr 0x0600E47C (external) */  ! call alternative per-car update
+    .byte   0xB2, 0x77    /* bsr 0x0600E47C (external) */
     nop
     bra     .L_tail_exit
     nop
@@ -60,5 +60,5 @@ update_mode_dispatch:
     bt      .L_mode_2
 
 .L_tail_exit:
-    .byte   0xA0, 0x78    /* bra 0x0600E0C0 (external) */  ! tail-branch to per-car update loop
+    .byte   0xA0, 0x78    /* bra 0x0600E0C0 (external) */
     lds.l @r15+, pr

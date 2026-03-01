@@ -25,7 +25,7 @@ menu_bg_scroll:
     extu.b r5, r5
     mov.l r0, @(4, r15)
 .L_commit_and_return:
-    .byte   0xB1, 0xBE    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc
+    .byte   0xB1, 0xBE    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @(4, r15), r0
     add #0x8, r15

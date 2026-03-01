@@ -8,7 +8,7 @@ save_header_parse:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xDD, 0x0B    /* mov.l .L_pool_0603BBBD, r13 */  ! r13 = &sym_060A4D14 (state ptr-ptr)
+    .byte   0xDD, 0x0B    /* mov.l .L_pool_0603BBBD, r13 */
     mov.w   DAT_0603bbb4, r1
     mov.l @r13, r0
     mov.l @(r0, r1), r0
@@ -21,7 +21,7 @@ save_header_parse:
     mov.l @r13, r4
     mov.w   DAT_0603bbb6, r3
     add r3, r4
-    .byte   0xBF, 0x8F    /* bsr 0x0603BAC6 (external) */  ! call save_block_copy(r4)
+    .byte   0xBF, 0x8F    /* bsr 0x0603BAC6 (external) */
     nop
     tst r0, r0
     bf      .block_valid
@@ -46,11 +46,11 @@ DAT_0603bbb6:
 .block_valid:
     mov.l @r13, r3
     mov #0x4, r6
-    .byte   0x92, 0x45    /* mov.w .L_wpool_0603BC52, r2 */  ! r2 = 0x009C (header region offset)
-    .byte   0x9D, 0x43    /* mov.w .L_wpool_0603BC50, r13 */ ! r13 = 0x043C (save block offset)
+    .byte   0x92, 0x45    /* mov.w .L_wpool_0603BC52, r2 */
+    .byte   0x9D, 0x43    /* mov.w .L_wpool_0603BC50, r13 */
     add r3, r13
     add r2, r13
-    .byte   0xD3, 0x22    /* mov.l .L_pool_0603BC58, r3 */   ! r3 = memmove (sym_060360FC)
+    .byte   0xD3, 0x22    /* mov.l .L_pool_0603BC58, r3 */
     mov r13, r5
     add #0x6, r5
     jsr @r3
@@ -58,12 +58,12 @@ DAT_0603bbb6:
     mov #0x4, r6
     mov r13, r5
     mov r14, r4
-    .byte   0x92, 0x3A    /* mov.w .L_wpool_0603BC54, r2 */  ! r2 = 0x0096 (descriptor advance)
+    .byte   0x92, 0x3A    /* mov.w .L_wpool_0603BC54, r2 */
     mov.l @r14, r3
     add #0xE, r5
     add r2, r3
     mov.l r3, @r14
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603BC58, r3 */   ! r3 = memmove (sym_060360FC)
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603BC58, r3 */
     jsr @r3
     add #0x4, r4
     mov.l @(4, r14), r0

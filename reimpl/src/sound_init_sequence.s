@@ -12,7 +12,7 @@ sound_init_sequence:
     bf      .L_not_course1
     mov r14, r5
     mov.l   .L_pool_06012E48, r4
-    .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
+    .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
     .2byte  0xFFFF
     .4byte  0x00200000
@@ -34,18 +34,18 @@ sound_init_sequence:
     cmp/eq #0x2, r0
     bf      .L_default_course
     mov r14, r5
-    .byte   0xD4, 0x0D    /* mov.l .L_pool_06012E8C, r4 */  ! r4 = course 2 texture filename ptr
-    .byte   0xAE, 0xF1    /* bra 0x06012C3C (external) */    ! tail-call cd_dma_setup
+    .byte   0xD4, 0x0D    /* mov.l .L_pool_06012E8C, r4 */
+    .byte   0xAE, 0xF1    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_default_course:
     mov r14, r5
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E90, r4 */  ! r4 = default (course 0) texture filename ptr
-    .byte   0xAE, 0xED    /* bra 0x06012C3C (external) */    ! tail-call cd_dma_setup
+    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E90, r4 */
+    .byte   0xAE, 0xED    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 
     .global sym_06012E62
 sym_06012E62:
-    .byte   0xD5, 0x0C    /* mov.l .L_pool_06012E94, r5 */  ! r5 = fixed DMA destination
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E98, r4 */  ! r4 = fixed filename ptr
-    .byte   0xAE, 0xE9    /* bra 0x06012C3C (external) */    ! tail-call cd_dma_setup
+    .byte   0xD5, 0x0C    /* mov.l .L_pool_06012E94, r5 */
+    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E98, r4 */
+    .byte   0xAE, 0xE9    /* bra 0x06012C3C (external) */
     nop

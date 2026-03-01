@@ -163,7 +163,7 @@ transition_large_results:
     mov.l @r4, r0
     tst r0, r0
     bf      .L_decrement_countdown
-    .byte   0xB5, 0x63    /* bsr 0x06010760 (external) */  ! countdown == 0: call timer-expired handler
+    .byte   0xB5, 0x63    /* bsr 0x06010760 (external) */
     nop
     bra     .L_check_start_button
     nop
@@ -174,7 +174,7 @@ transition_large_results:
     mov.l r2, @r4
 .L_not_timer_mode:
     mov.w @(2, r11), r0
-    .byte   0xB4, 0x1A    /* bsr 0x060104E0 (external) */  ! call alternate dispatch handler
+    .byte   0xB4, 0x1A    /* bsr 0x060104E0 (external) */
     mov r0, r4
     bra     .L_check_start_button
     nop
@@ -206,13 +206,13 @@ transition_large_results:
     extu.w r0, r0
     cmp/eq #0x10, r0
     bf      .L_sp_not_timer_mode
-    .byte   0xB3, 0xC4    /* bsr 0x06010470 (external) */  ! call 1P timer dispatch
+    .byte   0xB3, 0xC4    /* bsr 0x06010470 (external) */
     nop
     bra     .L_check_start_button
     nop
 .L_sp_not_timer_mode:
     mov.w @(2, r11), r0
-    .byte   0xB3, 0x63    /* bsr 0x060103B8 (external) */  ! call 1P alternate dispatch
+    .byte   0xB3, 0x63    /* bsr 0x060103B8 (external) */
     mov r0, r4
 .L_check_start_button:
     mov r11, r2
@@ -249,7 +249,7 @@ transition_large_results:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA6, 0xB7    /* bra 0x06010AA4 (external) */  ! tail-call state dispatch
+    .byte   0xA6, 0xB7    /* bra 0x06010AA4 (external) */
     mov.l @r15+, r14
 .L_alt_accel_x_pos:
     .2byte  0x0686

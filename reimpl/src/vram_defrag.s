@@ -80,7 +80,7 @@ vram_defrag:
     mov.l @r0, r0
     cmp/eq #0x17, r0
     bf      .L_skip_pool_alloc
-    .byte   0xB0, 0xB7    /* bsr 0x060201B8 (obj_pool_alloc — external) */
+    .byte   0xB0, 0xB7    /* bsr 0x060201B8 (obj_pool_alloc */
     nop
 .L_skip_pool_alloc:
     mov.w @r11, r2
@@ -129,7 +129,7 @@ loc_06020090:
     mov.l @r0, r0
     cmp/eq #0x17, r0
     bf      .L_state_check_exit
-    .byte   0xA0, 0x8E    /* bra 0x060201B8 (obj_pool_alloc — external tail-call) */
+    .byte   0xA0, 0x8E    /* bra 0x060201B8 (obj_pool_alloc */
     nop
 .L_state_check_exit:
     rts

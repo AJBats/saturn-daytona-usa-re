@@ -21,7 +21,7 @@ dma_int_handler:
     mov.l r2, @(60, r3)
     cmp/pl r2
     bt      .L_check_cd_status
-    .byte   0xB6, 0x29    /* bsr 0x0604231E (external) */  ! call AI state full reset
+    .byte   0xB6, 0x29    /* bsr 0x0604231E (external) */
     nop
     bra     .L_epilogue
     mov #0x3, r0
@@ -115,7 +115,7 @@ dma_int_handler:
     nop
 .L_dispatch_callback:
     mov r15, r5
-    .byte   0xB0, 0x56    /* bsr 0x06041826 (external) */  ! call evt_callback_handler
+    .byte   0xB0, 0x56    /* bsr 0x06041826 (external) */
     mov r14, r4
     add r0, r12
     mov.l @r15, r2
@@ -201,7 +201,7 @@ DAT_060417da:
     .4byte  sym_060A5400
 .L_case_7:
     mov.l @r5, r4
-    .byte   0x90, 0x34    /* mov.w .L_wpool_0604185E, r0 */  ! r0 = external offset
+    .byte   0x90, 0x34    /* mov.w .L_wpool_0604185E, r0 */
 .L_load_callback_ptr:
     bra     .L_check_null
     mov.l @(r0, r4), r4

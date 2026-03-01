@@ -27,7 +27,7 @@ transition_handler_a:
     extu.w r0, r0
     cmp/eq #0x10, r0
     bf      .L_not_mode_10
-    .byte   0xB5, 0x3D    /* bsr 0x06010238 (external) */  ! call input_state_inverter()
+    .byte   0xB5, 0x3D    /* bsr 0x06010238 (external) */
     nop
     bra     .L_run_countdown
     nop
@@ -49,19 +49,19 @@ transition_handler_a:
     .4byte  hud_course_render   /* course HUD renderer function */
 
 .L_not_mode_10:
-    .byte   0xB5, 0x5A    /* bsr 0x060102A8 (external) */  ! call 3_state_counter(button_flags)
+    .byte   0xB5, 0x5A    /* bsr 0x060102A8 (external) */
     mov r14, r4
 
 .L_run_countdown:
-    .byte   0xB5, 0x79    /* bsr 0x060102EA (external) */  ! call countdown_timer(button_flags)
+    .byte   0xB5, 0x79    /* bsr 0x060102EA (external) */
     mov r14, r4
 
-    .byte   0xD0, 0x14    /* mov.l .L_pool_0600F84C, r0 */  ! r0 = &2p_mode_flag (sym_06085FF4)
+    .byte   0xD0, 0x14    /* mov.l .L_pool_0600F84C, r0 */
     mov.b @r0, r0
     tst r0, r0
     bt      .L_epilogue
-    .byte   0xD4, 0x13    /* mov.l .L_pool_0600F850, r4 */  ! r4 = &input_state (g_pad_state)
-    .byte   0x92, 0x21    /* mov.w .L_wpool_0600F848, r2 */  ! r2 = 0x0800 (button bit mask)
+    .byte   0xD4, 0x13    /* mov.l .L_pool_0600F850, r4 */
+    .byte   0x92, 0x21    /* mov.w .L_wpool_0600F848, r2 */
     mov.w @r4, r4
     extu.w r4, r4
     and r2, r4
@@ -73,7 +73,7 @@ transition_handler_a:
     mov #0x0, r3
 .L_store_flip:
     exts.b r3, r3
-    .byte   0xD2, 0x0F    /* mov.l .L_pool_0600F854, r2 */  ! r2 = &camera_dir_flip (sym_06078663)
+    .byte   0xD2, 0x0F    /* mov.l .L_pool_0600F854, r2 */
     mov.b r3, @r2
 
 .L_epilogue:

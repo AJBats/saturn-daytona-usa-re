@@ -102,13 +102,13 @@ DAT_0604155e:
     mov.l @r15+, r14
 .L_queue_not_full:
     mov.l @r14, r2
-    .byte   0x90, 0x39    /* mov.w .L_wpool_060415EC, r0 */   ! r0 = 0x01E0 (queue_active_flag offset)
+    .byte   0x90, 0x39    /* mov.w .L_wpool_060415EC, r0 */
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_flag_already_set
     mov.l @r14, r3
     mov #0x1, r2
-    .byte   0x90, 0x33    /* mov.w .L_wpool_060415EC, r0 */   ! r0 = 0x01E0 (queue_active_flag offset)
+    .byte   0x90, 0x33    /* mov.w .L_wpool_060415EC, r0 */
     mov.l r2, @(r0, r3)
 .L_flag_already_set:
     exts.w r1, r7
@@ -119,7 +119,7 @@ DAT_0604155e:
     shll r2
     add r2, r7
     exts.w r7, r7
-    .byte   0x92, 0x2A    /* mov.w .L_wpool_060415EE, r2 */   ! r2 = 0x01E4 (entry_array base offset)
+    .byte   0x92, 0x2A    /* mov.w .L_wpool_060415EE, r2 */
     add r2, r3
     add r7, r3
     mov.l r4, @r3
@@ -128,16 +128,16 @@ DAT_0604155e:
     add r7, r2
     mov.l r5, @(4, r2)
     mov.l @r14, r3
-    .byte   0x92, 0x21    /* mov.w .L_wpool_060415EE, r2 */   ! r2 = 0x01E4 (entry_array base offset)
+    .byte   0x92, 0x21    /* mov.w .L_wpool_060415EE, r2 */
     add r3, r2
     add r2, r7
     mov.l r6, @(8, r7)
     mov.l @r14, r3
-    .byte   0x90, 0x1D    /* mov.w .L_wpool_060415F0, r0 */   ! r0 = 0x01DC (entry_count field offset)
+    .byte   0x90, 0x1D    /* mov.w .L_wpool_060415F0, r0 */
     mov.l @(r0, r3), r2
     add #0x1, r2
     mov.l r2, @(r0, r3)
-    .byte   0xB5, 0xBB    /* bsr 0x06042134 (external) */     ! call player_vehicle_interp(&local[0])
+    .byte   0xB5, 0xBB    /* bsr 0x06042134 (external) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15

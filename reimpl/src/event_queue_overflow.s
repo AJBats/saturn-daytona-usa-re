@@ -26,15 +26,15 @@ event_queue_overflow:
 .L_pool_06040F3C:
     .4byte  sym_060A5400
 .L_register_checkpoint:
-    .byte   0xD6, 0x19    /* mov.l .L_pool_06040FA8, r6 */  ! r6 = 0x0000FFFF (event mask)
+    .byte   0xD6, 0x19    /* mov.l .L_pool_06040FA8, r6 */
     mov #0x0, r5
-    .byte   0xB1, 0xB5    /* bsr 0x060412B2 (external) */   ! call evt_checkpoint_validate(r4=index, r5=0, r6=mask)
+    .byte   0xB1, 0xB5    /* bsr 0x060412B2 (external) */
     mov r14, r4
-    .byte   0xD4, 0x18    /* mov.l .L_pool_06040FAC, r4 */  ! r4 = 0x00008000 (pending flag)
+    .byte   0xD4, 0x18    /* mov.l .L_pool_06040FAC, r4 */
     mov.l @r13, r2
     mov.l r4, @(60, r2)
 .L_poll_loop:
-    .byte   0xB3, 0xA3    /* bsr 0x06041698 (external) */   ! call large_prologue_save()
+    .byte   0xB3, 0xA3    /* bsr 0x06041698 (external) */
     nop
     cmp/eq #0x3, r0
     bf/s    .L_check_complete
@@ -42,7 +42,7 @@ event_queue_overflow:
     bra     .L_return
     mov #-0xC, r0
 .L_check_complete:
-    .byte   0xB1, 0xD8    /* bsr 0x06041310 (external) */   ! call evt_checkpoint_check(r4=index)
+    .byte   0xB1, 0xD8    /* bsr 0x06041310 (external) */
     mov r14, r4
     cmp/eq #0x1, r0
     bf      .L_not_yet_fired

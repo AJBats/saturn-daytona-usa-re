@@ -9,7 +9,7 @@ time_delta_format:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x4, r15
-    .byte   0xDC, 0x0E    /* mov.l .L_pool_06015CA2, r12 */  ! r12 = slot data array base
+    .byte   0xDC, 0x0E    /* mov.l .L_pool_06015CA2, r12 */
     mov.w   .L_wpool_06015C9E, r13
     mov #0x8, r14
     mov.b r4, @r15
@@ -34,7 +34,7 @@ time_delta_format:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x04    /* mov.l .L_pool_06015CAA, r3 */  ! r3 = clear_vdp2_registers addr
+    .byte   0xD3, 0x04    /* mov.l .L_pool_06015CAA, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06015C9E:

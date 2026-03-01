@@ -114,9 +114,9 @@ _pool_evt_reg_save:
 _pool_buffer_slot_alloc:
     .4byte  buffer_slot_alloc
 .Lbuffer_slot_ok:
-    .byte   0x96, 0x24    /* mov.w .L_wpool_0604089C, r6 */  ! r6 = 0x00FF (mask from DAT_0604089c)
+    .byte   0x96, 0x24    /* mov.w .L_wpool_0604089C, r6 */
     mov.l @(4, r15), r5
-    .byte   0xD3, 0x12    /* mov.l .L_pool_060408A0, r3 */   ! r3 -> track_segment_interp
+    .byte   0xD3, 0x12    /* mov.l .L_pool_060408A0, r3 */
     jsr @r3
     mov.l @r15, r4
     tst r0, r0
@@ -124,7 +124,7 @@ _pool_buffer_slot_alloc:
     bra     .Lreturn_fail
     mov #0x0, r0
 .Ltrack_seg_ok:
-    .byte   0xD3, 0x10    /* mov.l .L_pool_060408A4, r3 */   ! r3 -> state_field_read
+    .byte   0xD3, 0x10    /* mov.l .L_pool_060408A4, r3 */
     jsr @r3
     nop
     tst r0, r0

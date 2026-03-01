@@ -13,7 +13,7 @@ evt_checkpoint_handler:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xDB, 0x0D    /* mov.l .L_ptr_state_field_read, r11 */ ! r11 = &state_field_read
+    .byte   0xDB, 0x0D    /* mov.l .L_ptr_state_field_read, r11 */
     cmp/pz r13
     bt/s    .L_check_mode
     mov r4, r14
@@ -46,8 +46,8 @@ evt_checkpoint_handler:
     mov.l r12, @-r15
     mov #0x0, r5
     mov r15, r7
-    .byte   0xD6, 0x26    /* mov.l .L_mask_low16, r6 */ ! r6 = 0x0000FFFF (16-bit mask)
-    .byte   0xD3, 0x26    /* mov.l .L_ptr_cmd_enqueue, r3 */ ! r3 = &cmd_enqueue
+    .byte   0xD6, 0x26    /* mov.l .L_mask_low16, r6 */
+    .byte   0xD3, 0x26    /* mov.l .L_ptr_cmd_enqueue, r3 */
     add #0x4, r7
     jsr @r3
     mov.l @(4, r14), r4
@@ -90,7 +90,7 @@ evt_checkpoint_handler:
     bf      .L_fwd_store_result
     mov.l @r15, r6
     mov #0x0, r5
-    .byte   0xD3, 0x14    /* mov.l .L_ptr_validate, r3 */ ! r3 = &evt_checkpoint_validate
+    .byte   0xD3, 0x14    /* mov.l .L_ptr_validate, r3 */
     jsr @r3
     mov.l @(4, r14), r4
     jsr @r11
@@ -119,8 +119,8 @@ evt_checkpoint_handler:
     mov.l r14, @(4, r15)
     mov #0x0, r5
     mov r14, r4
-    .byte   0xD6, 0x05    /* mov.l .L_mask_low16, r6 */ ! r6 = 0x0000FFFF (16-bit mask)
-    .byte   0xD3, 0x06    /* mov.l .L_ptr_validate, r3 */ ! r3 = &evt_checkpoint_validate
+    .byte   0xD6, 0x05    /* mov.l .L_mask_low16, r6 */
+    .byte   0xD3, 0x06    /* mov.l .L_ptr_validate, r3 */
     jsr @r3
     mov.l @(4, r4), r4
     jsr @r11

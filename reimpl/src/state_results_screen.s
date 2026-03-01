@@ -8,8 +8,8 @@ state_results_screen:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDE, 0x0D    /* mov.l .L_game_state_ptr, r14 — game state dispatch */
-    .byte   0xD3, 0x18    /* mov.l .L_status_word, r3 — input status word */
+    .byte   0xDE, 0x0D    /* mov.l .L_game_state_ptr, r14 */
+    .byte   0xD3, 0x18    /* mov.l .L_status_word, r3 */
     mov.w @r3, r2
     extu.w r2, r2
     mov.w   .L_start_button_mask, r3
@@ -17,12 +17,12 @@ state_results_screen:
     tst r2, r2
     bt      .L_check_abort
     mov #0x1D, r3
-    .byte   0xD2, 0x15    /* mov.l .L_timer_target, r2 — countdown timer */
+    .byte   0xD2, 0x15    /* mov.l .L_timer_target, r2 */
     mov.l r3, @r2
     mov #0x12, r3
     mov.l r3, @r14
 .L_check_abort:
-    .byte   0xD4, 0x06    /* mov.l .L_race_event_flags, r4 — event bitfield */
+    .byte   0xD4, 0x06    /* mov.l .L_race_event_flags, r4 */
     mov.l @r4, r0
     tst #0x1, r0
     bt      .L_check_timer
@@ -55,16 +55,16 @@ state_results_screen:
 .L_timer_target:
     .4byte  sym_0607EACC               /* countdown timer target (32-bit) */
 .L_check_timer:
-    .byte   0xD0, 0x2C    /* mov.l .L_race_timer, r0 — race timer */
+    .byte   0xD0, 0x2C    /* mov.l .L_race_timer, r0 */
     mov.l @r0, r0
     tst r0, r0
     bf      .L_render_pipeline
-    .byte   0xD4, 0x2B    /* mov.l .L_frame_counter, r4 — frame counter */
+    .byte   0xD4, 0x2B    /* mov.l .L_frame_counter, r4 */
     mov.l @r4, r3
     add #0x1, r3
     mov.l r3, @r4
 .L_render_pipeline:
-    .byte   0xD0, 0x2A    /* mov.l .L_overlay_active, r0 — overlay flag */
+    .byte   0xD0, 0x2A    /* mov.l .L_overlay_active, r0 */
     mov.b @r0, r0
     tst r0, r0
     bt      .L_call_race_ending
@@ -87,7 +87,7 @@ state_results_screen:
     .byte   0xD3, 0x29    /* mov.l .L_fn_scene_update, r3 */
     jsr @r3
     nop
-    .byte   0xD0, 0x28    /* mov.l .L_special_render_flag, r0 — check special render */
+    .byte   0xD0, 0x28    /* mov.l .L_special_render_flag, r0 */
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
@@ -96,19 +96,19 @@ state_results_screen:
     jsr @r3
     nop
 .L_check_geom_render:
-    .byte   0xD0, 0x26    /* mov.l .L_geom_render_flag, r0 — check geom flag */
+    .byte   0xD0, 0x26    /* mov.l .L_geom_render_flag, r0 */
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
     bt      .L_check_car_timer
-    .byte   0xD7, 0x25    /* mov.l .L_geom_data_ptr, r7 — geometry data */
-    .byte   0xD6, 0x25    /* mov.l .L_mask_nibble3, r6 — 0xF000 */
+    .byte   0xD7, 0x25    /* mov.l .L_geom_data_ptr, r7 */
+    .byte   0xD6, 0x25    /* mov.l .L_mask_nibble3, r6 */
     mov.w   .L_tile_size, r5
     .byte   0xD3, 0x25    /* mov.l .L_fn_geom_dispatch, r3 */
     jsr @r3
     mov #0x8, r4
 .L_check_car_timer:
-    .byte   0xD2, 0x25    /* mov.l .L_car_state_ptr, r2 — car state base */
+    .byte   0xD2, 0x25    /* mov.l .L_car_state_ptr, r2 */
     mov.w   .L_car_timer_offset, r0
     mov.l @r2, r2
     mov.l @(r0, r2), r3
@@ -126,7 +126,7 @@ state_results_screen:
     mov.l @(r0, r1), r0
     tst #0xCC, r0
     bf      .L_check_race_complete
-    .byte   0xD3, 0x1E    /* mov.l .L_display_layer_data, r3 — layer params */
+    .byte   0xD3, 0x1E    /* mov.l .L_display_layer_data, r3 */
     mov.l r3, @r15
     mov r3, r7
     mov r3, r5

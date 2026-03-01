@@ -22,10 +22,10 @@ menu_list_scroll:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA3, 0x42    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=-0x10)
+    .byte   0xA3, 0x42    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
 .L_not_busy:
-    .byte   0xB3, 0x74    /* bsr 0x0603B9A4 (external) */  ! call save_data_validate(r4=descriptor)
+    .byte   0xB3, 0x74    /* bsr 0x0603B9A4 (external) */
     mov r14, r4
     mov #0x1, r4
     mov #0x11, r0
@@ -34,7 +34,7 @@ menu_list_scroll:
     mov.b r4, @(r0, r14)
     mov.l @r14, r3
     mov.l @(16, r3), r8
-    .byte   0xBE, 0xC5    /* bsr 0x0603B058 (external) */  ! call menu_element_dispatch(r4=descriptor)
+    .byte   0xBE, 0xC5    /* bsr 0x0603B058 (external) */
     mov r14, r4
     mov r8, r4
     mov.l @r15, r3
@@ -47,7 +47,7 @@ menu_list_scroll:
     mov r4, r13
 .L_scroll_clamped:
     mov r13, r5
-    .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */  ! call apply_scroll_offset(r4=data_block, r5=scroll_pos)
+    .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */
     mov.l @r14, r4
     mov r13, r5
     mov.l   .L_pool_0603B311, r3
@@ -67,7 +67,7 @@ menu_list_scroll:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=0)
+    .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
     .4byte  cdb_wait_scdq
 .L_pool_0603B311:

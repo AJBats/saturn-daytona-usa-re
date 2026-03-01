@@ -94,7 +94,7 @@ grid_position_camera:
 .L_epilogue:
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xAF, 0x0E    /* bra 0x06019FB2 (external) */ ! tail-call external handler
+    .byte   0xAF, 0x0E    /* bra 0x06019FB2 (external) */
     mov.l @r15+, r14
 .L_down_btn_mask:
     .2byte  0x4000                          /* Down button bit mask (bit 14) */
@@ -109,11 +109,11 @@ grid_position_camera:
 
     .global loc_0601A1A8
 loc_0601A1A8:
-    .byte   0xD3, 0x25    /* mov.l .L_pool_0601A240, r3 */  ! r3 = &dispatch_table_base (sym_0605AD04 area)
+    .byte   0xD3, 0x25    /* mov.l .L_pool_0601A240, r3 */
     mov.b @r3, r3
     extu.b r3, r3
     shll2 r3
-    .byte   0xD2, 0x24    /* mov.l .L_pool_0601A244, r2 */  ! r2 = dispatch_table base address
+    .byte   0xD2, 0x24    /* mov.l .L_pool_0601A244, r2 */
     add r2, r3
     mov.l @r3, r3
     jmp @r3

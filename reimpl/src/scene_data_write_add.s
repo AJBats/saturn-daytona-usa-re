@@ -6,9 +6,9 @@
     .type scene_data_write_add, @function
 scene_data_write_add:
     mov.l r14, @-r15
-    .byte   0xDE, 0x19    /* mov.l .L_pool_060386AF, r14 */  ! r14 = &color_matrix_accum
-    .byte   0xD7, 0x1A    /* mov.l .L_pool_060386B3, r7 */      ! r7 = &scene_buffer_a (pipe_buf_2)
-    .byte   0xD0, 0x1A    /* mov.l .L_pool_060386B7, r0 */       ! r0 = &scene_mode selector
+    .byte   0xDE, 0x19    /* mov.l .L_pool_060386AF, r14 */
+    .byte   0xD7, 0x1A    /* mov.l .L_pool_060386B3, r7 */
+    .byte   0xD0, 0x1A    /* mov.l .L_pool_060386B7, r0 */
     bra     .L_dispatch_mode
     mov.l @r0, r0
 .L_mode_04_add_pos_xy:
@@ -68,7 +68,7 @@ scene_data_write_add:
 .L_pool_060386B7:
     .4byte  sym_060635A8
 .L_mode_01_add_view_chan1:
-    .byte   0xD7, 0x2D    /* mov.l .L_pool_0603877D, r7 */   ! r7 = &scene_view_ch1 struct
+    .byte   0xD7, 0x2D    /* mov.l .L_pool_0603877D, r7 */
     mov #0x44, r0
     mov.l @(r0, r7), r2
     add r4, r2
@@ -77,15 +77,15 @@ scene_data_write_add:
     mov.l @(r0, r7), r3
     add r5, r3
     mov.l r3, @(r0, r7)
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06038781, r3 */      ! r3 = &scene_a_src_ptr
+    .byte   0xD3, 0x2A    /* mov.l .L_pool_06038781, r3 */
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch1_clear_accum
-    .byte   0xD3, 0x29    /* mov.l .L_pool_06038785, r3 */     ! r3 = &scene_a_secondary_flag
+    .byte   0xD3, 0x29    /* mov.l .L_pool_06038785, r3 */
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch1_accum_color
-    .byte   0xD3, 0x28    /* mov.l .L_pool_06038789, r3 */     ! r3 = &view_transform_flag_a
+    .byte   0xD3, 0x28    /* mov.l .L_pool_06038789, r3 */
     mov.l @r3, r0
     tst r0, r0
     bf      .L_ch1_clear_accum
@@ -105,12 +105,12 @@ scene_data_write_add:
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0603878D, r3 */  ! r3 = &scene_color_matrix
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0603878D, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_mode_02_add_view_chan2:
     mov #0x44, r0
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_06038791, r7 */   ! r7 = &scene_view_ch2 struct
+    .byte   0xD7, 0x1F    /* mov.l .L_pool_06038791, r7 */
     mov.l @(r0, r7), r2
     add r4, r2
     mov.l r2, @(r0, r7)
@@ -118,15 +118,15 @@ scene_data_write_add:
     mov.l @(r0, r7), r3
     add r5, r3
     mov.l r3, @(r0, r7)
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_06038795, r3 */      ! r3 = &scene_b_src_ptr
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_06038795, r3 */
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch2_clear_accum
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06038799, r3 */     ! r3 = &scene_b_secondary_flag
+    .byte   0xD3, 0x1B    /* mov.l .L_pool_06038799, r3 */
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch2_accum_color
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603879D, r3 */     ! r3 = &view_transform_flag_b
+    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603879D, r3 */
     mov.l @r3, r0
     tst r0, r0
     bf      .L_ch2_clear_accum
@@ -146,7 +146,7 @@ scene_data_write_add:
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_0603878D, r3 */  ! r3 = &scene_color_matrix
+    .byte   0xD3, 0x0E    /* mov.l .L_pool_0603878D, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_dispatch_mode:

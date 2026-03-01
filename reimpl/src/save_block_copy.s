@@ -14,7 +14,7 @@ save_block_copy:
     sts.l pr, @-r15
     add #-0x10, r15
     mov.l r4, @r15
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_0603BB09, r3 */  ! r3 = &evt_condition_test
+    .byte   0xD3, 0x0B    /* mov.l .L_pool_0603BB09, r3 */
     jsr @r3
     mov r14, r12
     tst r0, r0
@@ -39,16 +39,16 @@ DAT_0603bae6:
     mov r15, r3
     add #0x4, r3
     mov r3, r8
-    .byte   0xD3, 0x29    /* mov.l .L_pool_0603BBB8, r3 */  ! r3 = &evt_boundary_check (cross-TU pool)
+    .byte   0xD3, 0x29    /* mov.l .L_pool_0603BBB8, r3 */
     jsr @r3
     nop
-    .byte   0x92, 0x4A    /* mov.w .L_wpool_0603BBB0, r2 */  ! r2 = 0x00A6 (save region offset)
+    .byte   0x92, 0x4A    /* mov.w .L_wpool_0603BBB0, r2 */
     mov r15, r3
     add r2, r0
     add #0x4, r3
     mov.l r0, @r8
     mov r15, r2
-    .byte   0x9B, 0x45    /* mov.w .L_wpool_0603BBB2, r11 */  ! r11 = 0x0800 (save block size)
+    .byte   0x9B, 0x45    /* mov.w .L_wpool_0603BBB2, r11 */
     add #0x4, r2
     mov.l r11, @(4, r3)
     extu.b r14, r3
@@ -66,13 +66,13 @@ DAT_0603bae6:
     extu.b r14, r0
     add #0x4, r3
     mov.b r0, @(9, r3)
-    .byte   0xBE, 0x69    /* bsr 0x0603B81E (external) */  ! call buffer_slot_alloc()
+    .byte   0xBE, 0x69    /* bsr 0x0603B81E (external) */
     nop
     mov r0, r13
     mov #0x0, r6
     mov r15, r5
     add #0x4, r5
-    .byte   0xBF, 0x6A    /* bsr 0x0603BA2C (external) */  ! call save_field_write(slot, descriptor, flags)
+    .byte   0xBF, 0x6A    /* bsr 0x0603BA2C (external) */
     mov r0, r4
     mov r0, r14
     tst r14, r14
@@ -80,14 +80,14 @@ DAT_0603bae6:
     mov r11, r7
     mov #0x1, r5
     mov.l @r15, r6
-    .byte   0xBB, 0x5A    /* bsr 0x0603B21C (external) */  ! call cmd_multi_validate(result, mode, context, size)
+    .byte   0xBB, 0x5A    /* bsr 0x0603B21C (external) */
     mov r14, r4
     cmp/eq r11, r0
     bf      .L_commit
     mov #0x1, r12
 .L_commit:
     mov r14, r5
-    .byte   0xB1, 0xD7    /* bsr 0x0603BF22 (external) */  ! call save_commit_write(alloc_handle, field_data)
+    .byte   0xB1, 0xD7    /* bsr 0x0603BF22 (external) */
     mov r13, r4
     mov r12, r0
 .L_epilogue:

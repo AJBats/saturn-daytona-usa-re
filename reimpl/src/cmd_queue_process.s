@@ -24,17 +24,17 @@ cmd_queue_process:
     cmp/ge r3, r13
     bf      .L_alloc_entry
 .L_error_bad_index:
-    .byte   0xB5, 0x16    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc
+    .byte   0xB5, 0x16    /* bsr 0x0603B93C (external) */
     mov #-0xA, r4
     bra     .L_return_zero
     mov #0x0, r0
 .L_alloc_entry:
-    .byte   0xB4, 0x83    /* bsr 0x0603B81E (external) */  ! call buffer slot allocator
+    .byte   0xB4, 0x83    /* bsr 0x0603B81E (external) */
     nop
     mov r0, r12
     tst r12, r12
     bf      .L_check_active
-    .byte   0xB5, 0x0D    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc
+    .byte   0xB5, 0x0D    /* bsr 0x0603B93C (external) */
     mov #-0x13, r4
     bra     .L_return_zero
     mov #0x0, r0
@@ -71,12 +71,12 @@ cmd_queue_process:
     mov r0, r5
 .L_submit_entry:
     mov r13, r6
-    .byte   0xB5, 0x65    /* bsr 0x0603BA2C (external) */  ! call save_field_write(buf, offset, index)
+    .byte   0xB5, 0x65    /* bsr 0x0603BA2C (external) */
     mov r12, r4
     mov r0, r14
     tst r14, r14
     bf      .L_write_ok
-    .byte   0xB4, 0xE8    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc
+    .byte   0xB4, 0xE8    /* bsr 0x0603B93C (external) */
     mov #-0xA, r4
     bra     .L_return_result
     nop
@@ -96,7 +96,7 @@ DAT_0603af72:
 .L_pool_0603AF82:
     .4byte  sym_0603F1F0
 .L_write_ok:
-    .byte   0xB4, 0xDA    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc
+    .byte   0xB4, 0xDA    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
 .L_return_result:
     mov r14, r0

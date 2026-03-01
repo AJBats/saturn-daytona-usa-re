@@ -7,12 +7,12 @@
 motion_blur_effect:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD0, 0x1D    /* mov.l _pool_vram_ptr_table, r0 */ ! r0 = &vram_ptr_table
+    .byte   0xD0, 0x1D    /* mov.l _pool_vram_ptr_table, r0 */
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r5
     mov r7, r0
-    .byte   0xD1, 0x1B    /* mov.l _pool_template_base, r1 */ ! r1 = template table base (sym_06063690)
+    .byte   0xD1, 0x1B    /* mov.l _pool_template_base, r1 */
     add r1, r6
     mov.l @r6+, r1
     mov.w @r6+, r2
@@ -78,9 +78,9 @@ _pool_template_base:
 
     .global sym_0602853E
 sym_0602853E:
-    .byte   0xD0, 0x06    /* mov.l _pool_default_color_table, r0 */ ! r0 = &default_color_table
+    .byte   0xD0, 0x06    /* mov.l _pool_default_color_table, r0 */
     mov.l @(r0, r4), r2
-    .byte   0xD0, 0x06    /* mov.l _pool_vram_buf_table, r0 */ ! r0 = &vram_buf_ptr_table
+    .byte   0xD0, 0x06    /* mov.l _pool_vram_buf_table, r0 */
     mov.l @(r0, r4), r0
     mov.l @r0, r0
     mov.w   _wpool_fill_count, r1
@@ -100,9 +100,9 @@ _pool_vram_buf_table:
 
     .global sym_06028560
 sym_06028560:
-    .byte   0xD0, 0x04    /* mov.l _pool_vram_config_addr, r0 */ ! r0 = VRAM config region base (sym_060612C4)
+    .byte   0xD0, 0x04    /* mov.l _pool_vram_config_addr, r0 */
     mov.w   _wpool_config_count, r1
-    .byte   0xD2, 0x04    /* mov.l _pool_default_pattern, r2 */ ! r2 = 0x00200020 (default pixel pattern)
+    .byte   0xD2, 0x04    /* mov.l _pool_default_pattern, r2 */
 .config_fill_loop:
     mov.l r2, @r0
     dt r1

@@ -92,8 +92,8 @@ preview_camera_path:
 
     .global sym_0601AB8C
 sym_0601AB8C:
-    .byte   0xD4, 0x21    /* mov.l .L_path_index, r4 — path index ptr */
-    .byte   0xD2, 0x22    /* mov.l .L_path_table_base, r2 — path table */
+    .byte   0xD4, 0x21    /* mov.l .L_path_index, r4 */
+    .byte   0xD2, 0x22    /* mov.l .L_path_table_base, r2 */
     mov.l @r4, r0
     exts.b r0, r0
     mov r0, r3
@@ -102,23 +102,23 @@ sym_0601AB8C:
     shll r3
     add r3, r0
     exts.b r0, r0
-    .byte   0xD3, 0x1E    /* mov.l .L_path_data_index, r3 — data index */
+    .byte   0xD3, 0x1E    /* mov.l .L_path_data_index, r3 */
     add r2, r0
     mov.l @r3, r3
     shll2 r3
     mov.l @(r0, r3), r1
-    .byte   0xD3, 0x1D    /* mov.l .L_camera_pos_store, r3 — camera pos */
+    .byte   0xD3, 0x1D    /* mov.l .L_camera_pos_store, r3 */
     mov.l r1, @r3
     mov.l @r4, r0
-    .byte   0xD3, 0x1C    /* mov.l .L_orient_data_index, r3 — orient index */
-    .byte   0xD2, 0x1D    /* mov.l .L_orient_table, r2 — orient table */
+    .byte   0xD3, 0x1C    /* mov.l .L_orient_data_index, r3 */
+    .byte   0xD2, 0x1D    /* mov.l .L_orient_table, r2 */
     shll r0
     mov.l @r3, r3
     add r3, r0
     shll2 r0
     mov.l @(r0, r2), r4
     mov.l @(4, r4), r1
-    .byte   0xD0, 0x1A    /* mov.l .L_camera_orient_store, r0 — orient dest */
+    .byte   0xD0, 0x1A    /* mov.l .L_camera_orient_store, r0 */
     rts
     mov.l r1, @r0
 

@@ -11,9 +11,9 @@
     .type track_segment_advance, @function
 track_segment_advance:
     sts.l pr, @-r15
-    .byte   0xD4, 0x22    /* mov.l .L_p_car_struct_ptr, r4 */  ! r4 = &car_struct_ptr (sym_0607E940)
+    .byte   0xD4, 0x22    /* mov.l .L_p_car_struct_ptr, r4 */
     mov.w   DAT_0600cf3a, r0
-    .byte   0xD3, 0x20    /* mov.l .L_p_segment_table, r3 */   ! r3 = &segment_table_ptr (sym_0607EB84)
+    .byte   0xD3, 0x20    /* mov.l .L_p_segment_table, r3 */
     mov.l @r4, r4
     mov.l @r3, r3
     mov.l @(r0, r4), r5
@@ -29,13 +29,13 @@ track_segment_advance:
     mov.l r3, @(r0, r4)
     mov.w   .L_off_prev_heading_comp, r1
     mov.w   .L_off_cur_heading_comp, r2
-    .byte   0xD3, 0x1A    /* mov.l .L_p_memcpy_byte, r3 */     ! r3 = memcpy_byte (sym_06035228)
+    .byte   0xD3, 0x1A    /* mov.l .L_p_memcpy_byte, r3 */
     add r4, r1
     add r4, r2
     jsr @r3
     mov #0x2, r0
     mov r5, r2
-    .byte   0xD3, 0x17    /* mov.l .L_p_memcpy_byte, r3 */     ! r3 = memcpy_byte (sym_06035228)
+    .byte   0xD3, 0x17    /* mov.l .L_p_memcpy_byte, r3 */
     mov.w   .L_off_cur_heading_comp, r1
     add #0x2, r2
     add r4, r1
@@ -50,7 +50,7 @@ track_segment_advance:
     exts.w r6, r5
     cmp/pl r5
     bf      .L_no_segment_cross
-    .byte   0xD2, 0x11    /* mov.l .L_p_section_count, r2 */   ! r2 = &section_count (sym_0607EA9C)
+    .byte   0xD2, 0x11    /* mov.l .L_p_section_count, r2 */
     mov.l @r2, r2
     add #-0x10, r2
     cmp/gt r2, r5
@@ -61,7 +61,7 @@ track_segment_advance:
     mov.l r2, @(r0, r4)
     add #-0xC, r0
     mov.l r2, @(r0, r4)
-    .byte   0xD5, 0x0C    /* mov.l .L_p_total_track_len, r5 */ ! r5 = &total_track_length (sym_0607EBD0)
+    .byte   0xD5, 0x0C    /* mov.l .L_p_total_track_len, r5 */
     mov.l @r5, r3
     add #0x10, r0
     mov.l @(r0, r4), r2

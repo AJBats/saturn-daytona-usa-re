@@ -1184,43 +1184,43 @@ DAT_0600f34a:
 .L_vdp2_cram_0x120:
     .4byte  0x25F00120                  /* CRAM +0x120: NBG palette */
 .L_palette_and_cleanup:
-    .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */   ! r4 = VDP2 CRAM +0x720 (course palette ext A dest)
+    .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */
     jsr @r14
     nop
     mov #0x20, r6
-    .byte   0xD3, 0x26    /* mov.l .L_pool_0600F468, r3 */   ! r3 = sym_060487CC (palette source C)
+    .byte   0xD3, 0x26    /* mov.l .L_pool_0600F468, r3 */
     mov.l r3, @r15
-    .byte   0xD4, 0x26    /* mov.l .L_pool_0600F46C, r4 */   ! r4 = VDP2 CRAM +0x680 (palette dest)
+    .byte   0xD4, 0x26    /* mov.l .L_pool_0600F46C, r4 */
     jsr @r14
     mov r3, r5
     mov #0x20, r6
-    .byte   0xD4, 0x25    /* mov.l .L_pool_0600F470, r4 */   ! r4 = VDP2 CRAM +0x140 (palette dest, bank 6)
+    .byte   0xD4, 0x25    /* mov.l .L_pool_0600F470, r4 */
     jsr @r14
     mov.l @r15, r5
     mov #0x20, r6
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0600F474, r3 */   ! r3 = sym_060483EC (palette source D)
+    .byte   0xD3, 0x24    /* mov.l .L_pool_0600F474, r3 */
     mov.l r3, @r15
-    .byte   0xD4, 0x24    /* mov.l .L_pool_0600F478, r4 */   ! r4 = VDP2 CRAM +0x0C0 (palette dest)
+    .byte   0xD4, 0x24    /* mov.l .L_pool_0600F478, r4 */
     jsr @r14
     mov r3, r5
     mov #0x20, r6
-    .byte   0xD4, 0x23    /* mov.l .L_pool_0600F47C, r4 */   ! r4 = VDP2 CRAM +0x6C0 (course palette bank)
+    .byte   0xD4, 0x23    /* mov.l .L_pool_0600F47C, r4 */
     jsr @r14
     mov.l @r15, r5
     extu.w r11, r3
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F480, r2 */   ! r2 = &scroll_position_state (sym_0605AAA0)
+    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F480, r2 */
     mov.w r3, @r2
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F484, r2 */   ! r2 = &game_state_byte (sym_0607887F)
+    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F484, r2 */
     mov.b r11, @r2
-    .byte   0xD4, 0x22    /* mov.l .L_pool_0600F488, r4 */   ! r4 = &render_mode_flags (sym_0605B6D8)
-    .byte   0xD1, 0x23    /* mov.l .L_pool_0600F48C, r1 */   ! r1 = 0x40000000 (bit 30 = "race ready")
-    .byte   0xD3, 0x23    /* mov.l .L_pool_0600F490, r3 */   ! r3 = display_update fn (sym_06026CE0)
+    .byte   0xD4, 0x22    /* mov.l .L_pool_0600F488, r4 */
+    .byte   0xD1, 0x23    /* mov.l .L_pool_0600F48C, r1 */
+    .byte   0xD3, 0x23    /* mov.l .L_pool_0600F490, r3 */
     mov.l @r4, r2
     or r1, r2
     jsr @r3
     mov.l r2, @r4
     mov r11, r2
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0600F494, r3 */   ! r3 = &animation_state (sym_06059F44)
+    .byte   0xD3, 0x21    /* mov.l .L_pool_0600F494, r3 */
     mov.l r11, @r3
     add #0x4, r15
     lds.l @r15+, pr

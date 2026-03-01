@@ -39,7 +39,7 @@ state_resource_load:
     mov.l r2, @r14
 .L_clear_flag:
     mov #0x0, r3
-    .byte   0xD2, 0x15    /* mov.l .L_pool_06008CB4, r2 */  ! r2 = &preview_camera_flag (sym_0605E0A2, cross-TU pool)
+    .byte   0xD2, 0x15    /* mov.l .L_pool_06008CB4, r2 */
     mov.b r3, @r2
     bra     .L_set_display_mode
     nop
@@ -48,7 +48,7 @@ state_resource_load:
     mov.l r2, @r14
 .L_set_display_mode:
     mov #0x3, r3
-    .byte   0xD2, 0x12    /* mov.l .L_pool_06008CB8, r2 */  ! r2 = &display_mode (sym_0605A016, cross-TU pool)
+    .byte   0xD2, 0x12    /* mov.l .L_pool_06008CB8, r2 */
     mov.w r3, @r2
     lds.l @r15+, pr
     rts

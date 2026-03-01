@@ -141,7 +141,7 @@ camera_car_transform:
     tst #0x2, r0
     bf      .L_lod_compute
     mov #0x0, r5
-    .byte   0xBD, 0xD2    /* bsr FUN_0600AA98 (external) — render_obj_additive (Type A) */
+    .byte   0xBD, 0xD2    /* bsr FUN_0600AA98 (external) */
     mov r14, r4
 .L_lod_compute:
     mov r14, r0
@@ -201,25 +201,25 @@ camera_car_transform:
 .L_camera_offset_base:
     .4byte  sym_06083258             /* camera LOD offset base pointer (LOW) */
 .L_default_lod:
-    .byte   0xD4, 0x2B    /* mov.l @(0x0600B00C), r4 — sym_06083258: camera LOD offset base */
+    .byte   0xD4, 0x2B    /* mov.l @(0x0600B00C), r4 */
     mov.l @r4, r4
 .L_apply_lod:
     jsr @r13
     nop
     extu.w r12, r14
-    .byte   0xD5, 0x2A    /* mov.l @(0x0600B010), r5 — sym_060621D8: car 3 struct (chain src A) */
-    .byte   0xD4, 0x2A    /* mov.l @(0x0600B014), r4 — sym_0606212C: car 1 struct (chain dst A) */
-    .byte   0xD3, 0x2B    /* mov.l @(0x0600B018), r3 — sym_06031D8C: vec_matrix_xform_A fn */
+    .byte   0xD5, 0x2A    /* mov.l @(0x0600B010), r5 */
+    .byte   0xD4, 0x2A    /* mov.l @(0x0600B014), r4 */
+    .byte   0xD3, 0x2B    /* mov.l @(0x0600B018), r3 */
     shll2 r14
     add r14, r5
     add r14, r4
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xD6, 0x28    /* mov.l @(0x0600B01C), r6 — sym_06062180: car 2 struct (chain src B) */
-    .byte   0xD5, 0x29    /* mov.l @(0x0600B020), r5 — sym_06089E44: sprite/scale table (16-bit) */
-    .byte   0xD4, 0x29    /* mov.l @(0x0600B024), r4 — sym_060620D8: car 0 struct (chain dst B) */
-    .byte   0xD3, 0x2A    /* mov.l @(0x0600B028), r3 — sym_06031A28: vec_scaled_xform_A fn */
+    .byte   0xD6, 0x28    /* mov.l @(0x0600B01C), r6 */
+    .byte   0xD5, 0x29    /* mov.l @(0x0600B020), r5 */
+    .byte   0xD4, 0x29    /* mov.l @(0x0600B024), r4 */
+    .byte   0xD3, 0x2A    /* mov.l @(0x0600B028), r3 */
     add r14, r6
     mov.w @r5, r5
     add r14, r4
@@ -227,17 +227,17 @@ camera_car_transform:
     jsr @r3
     mov.l @r4, r4
 .L_counter_decrement:
-    .byte   0xD2, 0x27    /* mov.l @(0x0600B02C), r2 — sym_0607EBC4: game mode flags */
-    .byte   0xD3, 0x28    /* mov.l @(0x0600B030), r3 — 0x20020000: geometry rendering mask */
+    .byte   0xD2, 0x27    /* mov.l @(0x0600B02C), r2 */
+    .byte   0xD3, 0x28    /* mov.l @(0x0600B030), r3 */
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
     bt      .L_do_decrement
-    .byte   0xD3, 0x26    /* mov.l @(0x0600B034), r3 — replay_playback fn */
+    .byte   0xD3, 0x26    /* mov.l @(0x0600B034), r3 */
     jsr @r3
     nop
 .L_do_decrement:
-    .byte   0xD4, 0x26    /* mov.l @(0x0600B038), r4 — sym_06089EDC: Stack A matrix ptr (render budget) */
+    .byte   0xD4, 0x26    /* mov.l @(0x0600B038), r4 */
     mov.l @r4, r2
     add #-0x30, r2
     mov.l r2, @r4

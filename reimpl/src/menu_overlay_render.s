@@ -715,7 +715,7 @@ sym_06026E0C:
     mov #0x0, r2
     mov.l @r0, r0
 .L_fill_identity:
-    .byte   0xD1, 0x9A    /* mov.l .L_pool_0602707C, r1 — fixed-point 1.0 */
+    .byte   0xD1, 0x9A    /* mov.l .L_pool_0602707C, r1 */
     mov.l r2, @(4, r0)
     mov.l r1, @(0, r0)
     mov.l r2, @(8, r0)
@@ -732,8 +732,8 @@ sym_06026E0C:
 
     .global sym_06026E2E
 sym_06026E2E:
-    .byte   0xD0, 0x90    /* mov.l .L_pool_06027070, r0 — temp vector storage */
-    .byte   0xD1, 0x8D    /* mov.l .L_pool_06027068, r1 — matrix stack ptr */
+    .byte   0xD0, 0x90    /* mov.l .L_pool_06027070, r0 */
+    .byte   0xD1, 0x8D    /* mov.l .L_pool_06027068, r1 */
     mov.l r4, @(0, r0)
     mov.l r5, @(4, r0)
     mov.l r6, @(8, r0)

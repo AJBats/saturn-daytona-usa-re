@@ -39,7 +39,7 @@ tachometer_ctrl:
     .4byte  sym_0607887F
 
 .L_button_not_pressed:
-    .byte   0x95, 0x40    /* mov.w .L_wpool_06010B70, r5 — countdown threshold [HIGH] */
+    .byte   0x95, 0x40    /* mov.w .L_wpool_06010B70, r5 */
     mov.l @r14, r3
     cmp/gt r5, r3
     bt      .L_epilogue
@@ -47,22 +47,22 @@ tachometer_ctrl:
     cmp/pl r3
     bf      .L_update_display_mode
     extu.w r4, r4
-    .byte   0x93, 0x39    /* mov.w .L_wpool_06010B72, r3 — button B bit mask [HIGH] */
+    .byte   0x93, 0x39    /* mov.w .L_wpool_06010B72, r3 */
     and r3, r4
     tst r4, r4
     bt      .L_epilogue
 
 .L_update_display_mode:
-    .byte   0xD5, 0x1D    /* mov.l .L_pool_06010B7C, r5 — &hud_element_index [HIGH] */
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_06010B80, r3 — &game_mode_word [HIGH] */
+    .byte   0xD5, 0x1D    /* mov.l .L_pool_06010B7C, r5 */
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_06010B80, r3 */
     mov.w @r3, r2
     mov.w r2, @r5
     mov.w @r5, r4
-    .byte   0x93, 0x31    /* mov.w .L_wpool_06010B74, r3 — invalid mode sentinel A [MEDIUM] */
+    .byte   0x93, 0x31    /* mov.w .L_wpool_06010B74, r3 */
     extu.w r4, r4
     cmp/eq r3, r4
     bt      .L_reset_mode_to_zero
-    .byte   0x93, 0x2E    /* mov.w .L_wpool_06010B76, r3 — invalid mode sentinel B [MEDIUM] */
+    .byte   0x93, 0x2E    /* mov.w .L_wpool_06010B76, r3 */
     cmp/eq r3, r4
     bt      .L_reset_mode_to_zero
     mov r4, r0
@@ -77,20 +77,20 @@ tachometer_ctrl:
     .byte   0xB0, 0x15    /* bsr 0x06010B54 (external) */
     mov.l r13, @r14
     mov #0xA, r4
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06010B84, r3 — &game_state_byte [HIGH] */
+    .byte   0xD3, 0x15    /* mov.l .L_pool_06010B84, r3 */
     extu.b r4, r2
     mov.b r2, @r3
-    .byte   0xD1, 0x15    /* mov.l .L_pool_06010B88, r1 — &frame_index [MEDIUM] */
+    .byte   0xD1, 0x15    /* mov.l .L_pool_06010B88, r1 */
     mov.l @r1, r1
     cmp/hs r4, r1
     bt      .L_epilogue
-    .byte   0xD7, 0x14    /* mov.l .L_pool_06010B8C, r7 — display_channel_base [MEDIUM] */
-    .byte   0x96, 0x1C    /* mov.w .L_wpool_06010B78, r6 — display byte count [MEDIUM] */
-    .byte   0x95, 0x1C    /* mov.w .L_wpool_06010B7A, r5 — VRAM target offset [MEDIUM] */
+    .byte   0xD7, 0x14    /* mov.l .L_pool_06010B8C, r7 */
+    .byte   0x96, 0x1C    /* mov.w .L_wpool_06010B78, r6 */
+    .byte   0x95, 0x1C    /* mov.w .L_wpool_06010B7A, r5 */
     mov #0xC, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xD3, 0x12    /* mov.l .L_pool_06010B90, r3 — &display_elem_renderer [HIGH] */
+    .byte   0xD3, 0x12    /* mov.l .L_pool_06010B90, r3 */
     jmp @r3
     mov.l @r15+, r14
 

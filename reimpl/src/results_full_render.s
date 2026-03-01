@@ -13,14 +13,14 @@ results_full_render:
     add r4, r1
     add #-0x1, r7
     cmp/pl r7
-    .byte   0x89, 0xEA    /* bt 0x06033228 (external) */ ! if yes, branch back to outer loop in caller
+    .byte   0x89, 0xEA    /* bt 0x06033228 (external) */
     mov.l   .L_pool_06033276, r0
     add r0, r1
     mov.l   .L_fp_one, r0
     add r0, r2
     add #-0x1, r6
     cmp/pl r6
-    .byte   0x89, 0xE2    /* bt 0x06033226 (external) */ ! if yes, branch back to inner loop in caller
+    .byte   0x89, 0xE2    /* bt 0x06033226 (external) */
     mov.l @r15+, r7
     mov.l @r15+, r6
     rts

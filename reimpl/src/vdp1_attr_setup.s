@@ -76,7 +76,7 @@ vdp1_attr_setup:
     mov.l @r15+, r4
     cmp/gt r5, r4
     bt      .L_clamp_and_store
-    .byte   0xB5, 0x35    /* bsr 0x0602D7E4 (external) */  ! call sprite system attr config
+    .byte   0xB5, 0x35    /* bsr 0x0602D7E4 (external) */
     mov r14, r0
     mov.w   .L_off_render_mode, r1
     add r14, r1

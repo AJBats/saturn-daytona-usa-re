@@ -30,9 +30,9 @@ preview_camera_target:
     mov #0x1, r3
     mov.b r3, @r5
 .L_init_and_trigger:
-    .byte   0xBF, 0x40    /* bsr 0x0601A65E (external) */  ! call car_init_handler
+    .byte   0xBF, 0x40    /* bsr 0x0601A65E (external) */
     nop
-    .byte   0xAF, 0xAE    /* bra 0x0601A73E (external) */  ! tail-jump to race_start_sound_trigger
+    .byte   0xAF, 0xAE    /* bra 0x0601A73E (external) */
     lds.l @r15+, pr
 .L_w_down_btn_mask:
     .2byte  0x4000                             /* [HIGH] Down button mask (bit 14) */

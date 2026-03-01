@@ -63,7 +63,7 @@ hud_overlay_render:
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xB0, 0x2C    /* bsr 0x0601E37C (external) — hud_large_element */
+    .byte   0xB0, 0x2C    /* bsr 0x0601E37C (external) */
     nop
 .L_smpc_resenab_poll:
     mov.b @r13, r2

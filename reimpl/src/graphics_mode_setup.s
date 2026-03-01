@@ -118,7 +118,7 @@ DAT_06010c4e:
     cmp/eq #0x1, r0
     bt      .L_check_scroll_y_neg
 .L_setup_render_params:
-    .byte   0xB2, 0xA7    /* bsr 0x060111E2 — call lap_progress_indicator */
+    .byte   0xB2, 0xA7    /* bsr 0x060111E2 */
     nop
     mov.l @r12, r2
     mov.l   .L_ptr_mat_vec_transform, r3
@@ -145,7 +145,7 @@ DAT_06010c4e:
     mov.l   .L_val_x_pos, r7
     mov.l   .L_val_neg_z_pos, r6
     mov.l @r10, r5
-    .byte   0xB0, 0x65    /* bsr 0x06010D94 — call vdp_mode_select */
+    .byte   0xB0, 0x65    /* bsr 0x06010D94 */
     mov #0x0, r4
 .L_poll_hw_status_a:
     mov.b @r13, r2
@@ -165,7 +165,7 @@ DAT_06010c4e:
     mov.l r9, @r7
     mov.w @r5, r2
     add r6, r2
-    .byte   0xB3, 0x11    /* bsr 0x06011310 — call position_ranking_display */
+    .byte   0xB3, 0x11    /* bsr 0x06011310 */
     mov.w r2, @r5
     mov.l @r12, r2
     mov.l   .L_ptr_mat_vec_transform, r3
@@ -192,7 +192,7 @@ DAT_06010c4e:
     mov.l   .L_val_x_pos_alt, r7
     mov.l   .L_fp_neg_one, r6
     mov.l   .L_val_y_pos_alt, r5
-    .byte   0xB0, 0x38    /* bsr 0x06010D94 — call vdp_mode_select */
+    .byte   0xB0, 0x38    /* bsr 0x06010D94 */
     mov #0x0, r4
 .L_poll_hw_status_b:
     mov.b @r13, r2

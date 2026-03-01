@@ -11,12 +11,12 @@ scene_fallback_render:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    .byte   0xDB, 0x23    /* mov.l .L_fp_half, r11 */         ! r11 = 0.5 fp (stage threshold)
-    .byte   0xDC, 0x23    /* mov.l .L_target_eye_y_ptr, r12 */! r12 = &target_eye_y
-    .byte   0xDD, 0x14    /* mov.l .L_camera_mode_ptr, r13 */ ! r13 = &camera_mode
-    .byte   0xDE, 0x17    /* mov.l .L_eye_y_ptr, r14 */       ! r14 = &camera_eye_y
-    .byte   0xD3, 0x20    /* mov.l .L_state_idx_ptr, r3 */    ! r3 = &camera_state_idx
-    .byte   0xD2, 0x22    /* mov.l .L_car_table_base, r2 */   ! r2 = car_table base
+    .byte   0xDB, 0x23    /* mov.l .L_fp_half, r11 */
+    .byte   0xDC, 0x23    /* mov.l .L_target_eye_y_ptr, r12 */
+    .byte   0xDD, 0x14    /* mov.l .L_camera_mode_ptr, r13 */
+    .byte   0xDE, 0x17    /* mov.l .L_eye_y_ptr, r14 */
+    .byte   0xD3, 0x20    /* mov.l .L_state_idx_ptr, r3 */
+    .byte   0xD2, 0x22    /* mov.l .L_car_table_base, r2 */
     mov.l @r3, r3
     shll2 r3
     add r2, r3
@@ -81,18 +81,18 @@ scene_fallback_render:
 .L_camera_mode_byte_ptr:
     .4byte  sym_06078654                   /* &camera mode byte */
 .L_interp_block:
-    .byte   0xD0, 0x33    /* mov.l .L_fp_five_half, r0 */     ! r0 = 5.5 fp (threshold)
-    .byte   0xD1, 0x34    /* mov.l .L_fp_one, r1 */           ! r1 = 1.0 fp (delta unit)
-    .byte   0xD7, 0x34    /* mov.l .L_z_offset_ptr, r7 */     ! r7 = &z_offset
-    .byte   0xD6, 0x35    /* mov.l .L_zoom_factor_ptr, r6 */  ! r6 = &zoom_factor
-    .byte   0xD5, 0x35    /* mov.l .L_heading_ptr, r5 */      ! r5 = &heading
-    .byte   0xD4, 0x36    /* mov.l .L_near_clip_ptr, r4 */    ! r4 = &near_clip
+    .byte   0xD0, 0x33    /* mov.l .L_fp_five_half, r0 */
+    .byte   0xD1, 0x34    /* mov.l .L_fp_one, r1 */
+    .byte   0xD7, 0x34    /* mov.l .L_z_offset_ptr, r7 */
+    .byte   0xD6, 0x35    /* mov.l .L_zoom_factor_ptr, r6 */
+    .byte   0xD5, 0x35    /* mov.l .L_heading_ptr, r5 */
+    .byte   0xD4, 0x36    /* mov.l .L_near_clip_ptr, r4 */
     mov.l @r12, r2
     mov.l @r14, r3
     cmp/ge r3, r2
     bt      .L_inc_path
     mov.l @r14, r3
-    .byte   0xD2, 0x34    /* mov.l .L_fp_seven_half, r2 */    ! r2 = 7.5 fp
+    .byte   0xD2, 0x34    /* mov.l .L_fp_seven_half, r2 */
     cmp/gt r2, r3
     bf      .L_dec_check_s3
     mov #0x4, r2
@@ -104,7 +104,7 @@ scene_fallback_render:
     mov.l @r4, r3
     sub r2, r3
     mov.l r3, @r4
-    .byte   0xD2, 0x2F    /* mov.l .L_dec_heading_delta_s4, r2 */  ! r2 = 3.75 fp
+    .byte   0xD2, 0x2F    /* mov.l .L_dec_heading_delta_s4, r2 */
     mov.l @r5, r3
     sub r2, r3
     mov.l r3, @r5
@@ -124,7 +124,7 @@ scene_fallback_render:
     mov.l @r4, r2
     sub r3, r2
     mov.l r2, @r4
-    .byte   0xD3, 0x26    /* mov.l .L_dec_heading_delta_s3, r3 */  ! r3 = 1.75 fp
+    .byte   0xD3, 0x26    /* mov.l .L_dec_heading_delta_s3, r3 */
     mov.l @r5, r2
     sub r3, r2
     bra     .L_dec_done
@@ -135,7 +135,7 @@ scene_fallback_render:
     bf      .L_dec_check_s1
     mov #0x2, r2
     mov.l r2, @r13
-    .byte   0xD3, 0x22    /* mov.l .L_dec_eye_delta_s2, r3 */ ! r3 = 0.625 fp
+    .byte   0xD3, 0x22    /* mov.l .L_dec_eye_delta_s2, r3 */
     mov.l @r14, r2
     sub r3, r2
     mov.l r2, @r14
@@ -166,7 +166,7 @@ scene_fallback_render:
     mov.l @r5, r2
     sub r0, r2
     mov.l r2, @r5
-    .byte   0xD3, 0x14    /* mov.l .L_dec_zoom_delta_s1, r3 */  ! r3 = 13.0 fp
+    .byte   0xD3, 0x14    /* mov.l .L_dec_zoom_delta_s1, r3 */
     mov.l @r6, r2
     sub r3, r2
     mov.l r2, @r6
@@ -174,7 +174,7 @@ scene_fallback_render:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_dec_done
-    .byte   0xD3, 0x12    /* mov.l .L_dec_zoom_extra_s1, r3 */  ! r3 = 10.0 fp
+    .byte   0xD3, 0x12    /* mov.l .L_dec_zoom_extra_s1, r3 */
     mov.l @r6, r2
     sub r3, r2
     bra     .L_dec_done
@@ -246,7 +246,7 @@ DAT_06006668:
     mov.l @r5, r2
     add r0, r2
     mov.l r2, @r5
-    .byte   0xD3, 0x24    /* mov.l .L_inc_zoom_delta_s1, r3 */  ! r3 = 13.0 fp
+    .byte   0xD3, 0x24    /* mov.l .L_inc_zoom_delta_s1, r3 */
     mov.l @r6, r2
     add r3, r2
     mov.l r2, @r6
@@ -254,7 +254,7 @@ DAT_06006668:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_finalize
-    .byte   0xD3, 0x22    /* mov.l .L_inc_zoom_extra_s1, r3 */  ! r3 = 10.0 fp
+    .byte   0xD3, 0x22    /* mov.l .L_inc_zoom_extra_s1, r3 */
     mov.l @r6, r2
     add r3, r2
     bra     .L_finalize
@@ -264,7 +264,7 @@ DAT_06006668:
     cmp/ge r0, r2
     bt      .L_inc_check_s2
     mov.l r10, @r13
-    .byte   0xD2, 0x1F    /* mov.l .L_inc_eye_delta_s1, r2 */ ! r2 = 0.625 fp
+    .byte   0xD2, 0x1F    /* mov.l .L_inc_eye_delta_s1, r2 */
     mov.l @r14, r3
     add r2, r3
     mov.l r3, @r14
@@ -282,7 +282,7 @@ DAT_06006668:
     nop
 .L_inc_check_s2:
     mov.l @r14, r2
-    .byte   0xD3, 0x17    /* mov.l .L_fp_seven_half_b, r3 */  ! r3 = 7.5 fp
+    .byte   0xD3, 0x17    /* mov.l .L_fp_seven_half_b, r3 */
     cmp/ge r3, r2
     bt      .L_inc_check_s3
     mov #0x2, r3
@@ -294,14 +294,14 @@ DAT_06006668:
     mov.l @r4, r2
     add #-0x80, r2
     mov.l r2, @r4
-    .byte   0xD3, 0x12    /* mov.l .L_inc_heading_delta_s2, r3 */  ! r3 = 1.75 fp
+    .byte   0xD3, 0x12    /* mov.l .L_inc_heading_delta_s2, r3 */
     mov.l @r5, r2
     add r3, r2
     bra     .L_finalize
     mov.l r2, @r5
 .L_inc_check_s3:
     mov.l @r14, r2
-    .byte   0xD3, 0x10    /* mov.l .L_fp_twenty_three_half, r3 */  ! r3 = 23.5 fp
+    .byte   0xD3, 0x10    /* mov.l .L_fp_twenty_three_half, r3 */
     cmp/ge r3, r2
     bt      .L_inc_stage_4
     mov #0x3, r3
@@ -313,7 +313,7 @@ DAT_06006668:
     mov.l @r4, r2
     add r3, r2
     mov.l r2, @r4
-    .byte   0xD3, 0x0B    /* mov.l .L_inc_heading_delta_s3, r3 */  ! r3 = 3.75 fp
+    .byte   0xD3, 0x0B    /* mov.l .L_inc_heading_delta_s3, r3 */
     mov.l @r5, r2
     add r3, r2
     bra     .L_finalize
@@ -354,19 +354,19 @@ DAT_06006758:
     mov #0x4, r2
     mov.l r2, @r13
 .L_finalize:
-    .byte   0x95, 0x3F    /* mov.w .L_wpool_06006802, r5 */   ! r5 = scale param (out-of-TU)
-    .byte   0xD3, 0x21    /* mov.l .L_pool_06006808, r3 */    ! r3 = fp_scale function (out-of-TU)
+    .byte   0x95, 0x3F    /* mov.w .L_wpool_06006802, r5 */
+    .byte   0xD3, 0x21    /* mov.l .L_pool_06006808, r3 */
     jsr @r3
     mov.l @r14, r4
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0600680C, r3 */    ! r3 = &output_slot_a (out-of-TU)
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0600680C, r3 */
     mov.l r0, @r3
-    .byte   0x95, 0x39    /* mov.w .L_wpool_06006802, r5 */   ! r5 = scale param (same)
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_06006808, r3 */    ! r3 = fp_scale function
+    .byte   0x95, 0x39    /* mov.w .L_wpool_06006802, r5 */
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_06006808, r3 */
     jsr @r3
     mov.l @r14, r4
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_06006810, r3 */    ! r3 = &output_slot_b (out-of-TU)
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_06006810, r3 */
     mov.l r0, @r3
-    .byte   0xD4, 0x1E    /* mov.l .L_pool_06006814, r4 */    ! r4 = &scene_active_flag (out-of-TU)
+    .byte   0xD4, 0x1E    /* mov.l .L_pool_06006814, r4 */
     mov.l @r13, r1
     tst r1, r1
     bt      .L_set_inactive
@@ -374,7 +374,7 @@ DAT_06006758:
     cmp/eq #0x1, r0
     bf      .L_set_active
     mov #0x1, r3
-    .byte   0xD2, 0x1B    /* mov.l .L_pool_06006818, r2 */    ! r2 = &camera_state_idx (out-of-TU)
+    .byte   0xD2, 0x1B    /* mov.l .L_pool_06006818, r2 */
     mov.l @r2, r2
     cmp/hi r3, r2
     bt      .L_set_active

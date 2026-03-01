@@ -15,7 +15,7 @@ vdp1_sprite_cmd:
     cmp/pl r7
     bt      .L_begin_perspective
     mov.w   .L_max_abs_range_x, r3
-    .byte   0xD5, 0x10    /* mov.l .L_max_z_distance, r5 */  ! r5 = 0x300 (max Z range)
+    .byte   0xD5, 0x10    /* mov.l .L_max_z_distance, r5 */
     mov.l @(8, r0), r7
     mov.w   DAT_0602d0dc, r8
     neg r3, r4
@@ -83,7 +83,7 @@ DAT_0602d0de:
 .L_dec_draw_count:
     add #-0x1, r3
     mov.w r3, @(r0, r11)
-    .byte   0xD4, 0x24    /* mov.l .L_mask_nibble4, r4 */  ! r4 = 0xF0000 (nibble mask)
+    .byte   0xD4, 0x24    /* mov.l .L_mask_nibble4, r4 */
     mov r4, r2
     mov #0x0, r5
     shll16 r3
@@ -108,12 +108,12 @@ DAT_0602d0de:
     mov.l @(28, r2), r5
 .L_skip_hw_div:
     mov.w   DAT_0602d188, r1
-    .byte   0xB3, 0x58    /* bsr 0x0602D7E4 (external) */  ! bsr vis_counter_decay
+    .byte   0xB3, 0x58    /* bsr 0x0602D7E4 (external) */
     mov.l r5, @(r0, r1)
 .L_compute_persp_scale:
     mov.w   DAT_0602d18c, r1
     mov.l @(r0, r1), r4
-    .byte   0xDD, 0x17    /* mov.l .L_fn_cos_lookup_a, r13 */  ! r13 = cos_lookup ptr
+    .byte   0xDD, 0x17    /* mov.l .L_fn_cos_lookup_a, r13 */
     jsr @r13
     shll16 r10
     dmuls.l r0, r10
@@ -142,11 +142,11 @@ DAT_0602d0de:
     shlr8 r4
     or r3, r4
     mov.l @(12, r0), r2
-    .byte   0xD3, 0x0A    /* mov.l .L_dist_sq_threshold, r3 */  ! r3 = 0x100 (threshold)
+    .byte   0xD3, 0x0A    /* mov.l .L_dist_sq_threshold, r3 */
     cmp/ge r3, r2
     bt      .L_large_dist_path
     mov #0x0, r3
-    .byte   0xD6, 0x09    /* mov.l .L_fp_quarter, r6 */  ! r6 = 0x4000 (0.25 fp)
+    .byte   0xD6, 0x09    /* mov.l .L_fp_quarter, r6 */
     cmp/ge r3, r4
     bt      .L_offset_sign_ok
     neg r6, r6
@@ -197,7 +197,7 @@ DAT_0602d18e:
     mov.l r1, @(16, r2)
     shll16 r4
     mov.l r4, @(20, r2)
-    .byte   0xDD, 0x1F    /* mov.l .L_fn_atan_a, r13 */  ! r13 = atan_piecewise ptr
+    .byte   0xDD, 0x1F    /* mov.l .L_fn_atan_a, r13 */
     mov.l @(28, r2), r4
     jsr @r13
     nop
@@ -232,7 +232,7 @@ DAT_0602d18e:
     muls.w r2, r5
     shll16 r6
     sts macl, r4
-    .byte   0xD0, 0x10    /* mov.l .L_fn_cos_lookup_b, r0 */  ! r0 = cos_lookup ptr
+    .byte   0xD0, 0x10    /* mov.l .L_fn_cos_lookup_b, r0 */
     jsr @r0
     nop
     dmuls.l r0, r6
@@ -293,7 +293,7 @@ DAT_0602d238:
     sub r11, r10
     sub r5, r10
     add r10, r5
-    .byte   0xD3, 0x04    /* mov.l .L_max_lateral_range, r3 */  ! r3 = 0x300 (max)
+    .byte   0xD3, 0x04    /* mov.l .L_max_lateral_range, r3 */
     neg r3, r4
     cmp/gt r4, r5
     bt      .L_check_upper_lateral
@@ -342,7 +342,7 @@ DAT_0602d238:
     mov.l @r15+, r3
     tst r3, r3
     bf      .L_do_atan_b
-    .byte   0xD6, 0x03    /* mov.l .L_fp_quarter_b, r6 */  ! r6 = 0x4000 (0.25 fp)
+    .byte   0xD6, 0x03    /* mov.l .L_fp_quarter_b, r6 */
     bra     .L_begin_angular_vel
     nop
 
@@ -368,7 +368,7 @@ DAT_0602d2ca:
     mov.l r1, @(16, r2)
     shll16 r4
     mov.l r4, @(20, r2)
-    .byte   0xD0, 0x0A    /* mov.l .L_fn_atan_b, r0 */  ! r0 = atan_piecewise ptr
+    .byte   0xD0, 0x0A    /* mov.l .L_fn_atan_b, r0 */
     mov.l @(28, r2), r4
     jsr @r0
     nop
@@ -406,7 +406,7 @@ DAT_0602d30a:
 .L_compute_angular_div:
     sub r3, r4
     sub r3, r7
-    .byte   0xDC, 0x1C    /* mov.l .L_fn_hw_divide_a, r12 */  ! r12 = hw_divide ptr
+    .byte   0xDC, 0x1C    /* mov.l .L_fn_hw_divide_a, r12 */
     shll8 r7
     mov r4, r0
     jsr @r12
@@ -440,7 +440,7 @@ DAT_0602d30a:
     shar r6
     cmp/pz r7
     bt      .L_clamp_angular_vel
-    .byte   0xD4, 0x0C    /* mov.l .L_half_circle_angle, r4 */  ! r4 = 0xFE0 (half circle)
+    .byte   0xD4, 0x0C    /* mov.l .L_half_circle_angle, r4 */
     cmp/pz r3
     bt      .L_wrap_angle_offset
     neg r4, r4
@@ -448,7 +448,7 @@ DAT_0602d30a:
     sub r4, r3
     neg r3, r3
     dmuls.l r3, r6
-    .byte   0xDC, 0x07    /* mov.l .L_fn_hw_divide_a, r12 */  ! r12 = hw_divide ptr
+    .byte   0xDC, 0x07    /* mov.l .L_fn_hw_divide_a, r12 */
     mov r4, r0
     mov.l r1, @-r15
     jsr @r12
@@ -483,7 +483,7 @@ DAT_0602d38a:
     mov r5, r6
 .L_final_angular_scale:
     shll8 r6
-    .byte   0xDC, 0x12    /* mov.l .L_fn_hw_divide_b, r12 */  ! r12 = hw_divide ptr
+    .byte   0xDC, 0x12    /* mov.l .L_fn_hw_divide_b, r12 */
     mov.l @r15+, r0
     jsr @r12
     mov r6, r1
@@ -505,16 +505,16 @@ DAT_0602d38a:
     bt      .L_final_vel_clamp
     mov.w   DAT_0602d3ea, r7
     mov.l @(r0, r7), r6
-    .byte   0xD5, 0x08    /* mov.l .L_neg_lateral_threshold, r5 */  ! r5 = -0x3280
+    .byte   0xD5, 0x08    /* mov.l .L_neg_lateral_threshold, r5 */
     cmp/ge r6, r5
     bt      .L_set_near_flag
     neg r5, r5
     cmp/gt r6, r5
     bt      .L_final_vel_clamp
     mov.l @(0, r0), r2
-    .byte   0xD3, 0x05    /* mov.l .L_flag_cache_through, r3 */  ! r3 = 0x20000000
+    .byte   0xD3, 0x05    /* mov.l .L_flag_cache_through, r3 */
     or r3, r2
-    .byte   0xD3, 0x05    /* mov.l .L_flag_priority_a, r3 */  ! r3 = 0x40000000
+    .byte   0xD3, 0x05    /* mov.l .L_flag_priority_a, r3 */
     or r3, r2
     bra     .L_final_vel_clamp
     mov.l r2, @(0, r0)
@@ -536,9 +536,9 @@ DAT_0602d3ea:
     .4byte  0x40000000                  /* far render priority flag */
 .L_set_near_flag:
     mov.l @(0, r0), r2
-    .byte   0xD3, 0x03    /* mov.l .L_flag_render_near, r3 */  ! r3 = 0x10000000
+    .byte   0xD3, 0x03    /* mov.l .L_flag_render_near, r3 */
     or r3, r2
-    .byte   0xD3, 0x03    /* mov.l .L_flag_priority_b, r3 */  ! r3 = 0x40000000
+    .byte   0xD3, 0x03    /* mov.l .L_flag_priority_b, r3 */
     or r3, r2
     bra     .L_final_vel_clamp
     mov.l r2, @(0, r0)
@@ -550,7 +550,7 @@ DAT_0602d3ea:
 .L_final_vel_clamp:
     mov.w   DAT_0602d432, r7
     mov.l @(r0, r7), r6
-    .byte   0xD3, 0x07    /* mov.l .L_vel_clamp_limit, r3 */  ! r3 = -0x3400 (clamp)
+    .byte   0xD3, 0x07    /* mov.l .L_vel_clamp_limit, r3 */
     cmp/ge r6, r3
     bt      .L_vel_exceeded_clamp
     neg r3, r3

@@ -10,35 +10,35 @@ scene_zsort:
     nop
     lds.l @r15+, pr
     nop
-    .byte   0xD4, 0x10    /* mov.l .L_scene_src_a, r4 — scene source A */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_src_a, r4 */
     mov.l @r4, r3
-    .byte   0xD4, 0x10    /* mov.l .L_scene_dst_a, r4 — scene dest A */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_dst_a, r4 */
     mov.l r3, @r4
-    .byte   0xD4, 0x10    /* mov.l .L_scene_src_b, r4 — scene source B */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_src_b, r4 */
     mov.l @r4, r3
-    .byte   0xD4, 0x10    /* mov.l .L_scene_dst_b, r4 — scene dest B */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_dst_b, r4 */
     mov.l r3, @r4
-    .byte   0xD4, 0x10    /* mov.l .L_scene_src_c, r4 — scene source C */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_src_c, r4 */
     mov.l @r4, r3
-    .byte   0xD4, 0x10    /* mov.l .L_camera_pitch, r4 — camera pitch dest */
+    .byte   0xD4, 0x10    /* mov.l .L_camera_pitch, r4 */
     mov.l r3, @r4
-    .byte   0xD4, 0x10    /* mov.l .L_scene_src_d, r4 — scene source D */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_src_d, r4 */
     mov.l @r4, r3
     exts.w r3, r3
-    .byte   0xD4, 0x10    /* mov.l .L_camera_pitch_ext, r4 — extended pitch */
+    .byte   0xD4, 0x10    /* mov.l .L_camera_pitch_ext, r4 */
     mov.l r3, @r4
-    .byte   0xD4, 0x10    /* mov.l .L_scene_src_e, r4 — scene source E */
+    .byte   0xD4, 0x10    /* mov.l .L_scene_src_e, r4 */
     mov.l @r4, r3
-    .byte   0xD4, 0x10    /* mov.l .L_camera_yaw, r4 — camera yaw dest */
+    .byte   0xD4, 0x10    /* mov.l .L_camera_yaw, r4 */
     mov.l r3, @r4
-    .byte   0xD0, 0x10    /* mov.l .L_physics_state, r0 — physics state */
-    .byte   0xD1, 0x10    /* mov.l .L_val_4, r1 — value 4 */
+    .byte   0xD0, 0x10    /* mov.l .L_physics_state, r0 */
+    .byte   0xD1, 0x10    /* mov.l .L_val_4, r1 */
     mov.l r1, @r0
-    .byte   0xD4, 0x10    /* mov.l .L_z_near_clip, r4 — z-sort near plane */
-    .byte   0xD3, 0x11    /* mov.l .L_val_near, r3 — 0xF300 */
+    .byte   0xD4, 0x10    /* mov.l .L_z_near_clip, r4 */
+    .byte   0xD3, 0x11    /* mov.l .L_val_near, r3 */
     mov.l r3, @r4
-    .byte   0xD4, 0x11    /* mov.l .L_z_far_clip, r4 — z-sort far plane */
-    .byte   0xD3, 0x11    /* mov.l .L_val_far, r3 — 0x6E0000 */
+    .byte   0xD4, 0x11    /* mov.l .L_z_far_clip, r4 */
+    .byte   0xD3, 0x11    /* mov.l .L_val_far, r3 */
     mov.l r3, @r4
     rts
     nop
@@ -82,19 +82,19 @@ loc_0602E108:
     mov.w   .L_zero, r3
     mov.l r3, @r1
     .byte   0xD1, 0x0F    /* mov.l .L_depth_scale, r1 */
-    .byte   0xD3, 0x0F    /* mov.l .L_fp_one, r3 — 1.0 (16.16) */
+    .byte   0xD3, 0x0F    /* mov.l .L_fp_one, r3 */
     mov.l r3, @r1
-    .byte   0xD1, 0x0F    /* mov.l .L_scene_param_src, r1 — scene param */
+    .byte   0xD1, 0x0F    /* mov.l .L_scene_param_src, r1 */
     mov.l @r1, r2
-    .byte   0xD1, 0x0F    /* mov.l .L_camera_param_dst, r1 — camera param */
+    .byte   0xD1, 0x0F    /* mov.l .L_camera_param_dst, r1 */
     mov.l r2, @r1
-    .byte   0xD1, 0x0F    /* mov.l .L_physics_state_2, r1 — physics state */
-    .byte   0xD2, 0x10    /* mov.l .L_val_zero, r2 — 0 */
+    .byte   0xD1, 0x0F    /* mov.l .L_physics_state_2, r1 */
+    .byte   0xD2, 0x10    /* mov.l .L_val_zero, r2 */
     mov.l r2, @r1
     mov.w   .L_one, r3
     .byte   0xD1, 0x0F    /* mov.l .L_checkpoint_counter, r1 */
     mov.l r3, @r1
-    .byte   0xD0, 0x0F    /* mov.l .L_car_state_ptr, r0 — car state */
+    .byte   0xD0, 0x0F    /* mov.l .L_car_state_ptr, r0 */
     mov.l @r0, r0
     mov.w   .L_zero, r3
     mov.w   .L_off_collision_cooldown, r1

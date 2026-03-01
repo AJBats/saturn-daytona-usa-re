@@ -127,13 +127,13 @@ track_seg_phys_init:
     mov #0xC, r4
 
 .L_call_physics_init:
-    .byte   0xB0, 0xE5    /* bsr 0x06019BC8 (external) */  ! call course0_physics_init
+    .byte   0xB0, 0xE5    /* bsr 0x06019BC8 (external) */
     nop
-    .byte   0xB1, 0xDB    /* bsr 0x06019DB8 (external) */  ! call course1_physics_init
+    .byte   0xB1, 0xDB    /* bsr 0x06019DB8 (external) */
     nop
-    .byte   0xB2, 0xD6    /* bsr 0x06019FB2 (external) */  ! call course2_physics_init
+    .byte   0xB2, 0xD6    /* bsr 0x06019FB2 (external) */
     nop
-    .byte   0xB6, 0x2A    /* bsr 0x0601A65E (external) */  ! call car_init_handler
+    .byte   0xB6, 0x2A    /* bsr 0x0601A65E (external) */
     nop
 
     mov #0x0, r2

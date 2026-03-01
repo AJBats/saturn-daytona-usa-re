@@ -34,7 +34,7 @@ _poll_sf_done_sndoff:
     tst r2, r2
     bf      _poll_sf_done_sndoff
 
-    .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */  ! BSR FUN_060192B4 — zero 512KB sound RAM
+    .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */
     nop
     mov.w   DAT_06018f76, r2
     mov.l   .L_scsp_reg_0x000, r3

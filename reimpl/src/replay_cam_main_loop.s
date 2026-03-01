@@ -219,10 +219,10 @@ DAT_0601ae3e:
 .L_p_frame_output:
     .4byte  sym_0607EAB8                    /* frame output (odd/even selector) */
 .L_use_default_table:
-    .byte   0xD4, 0x17    /* mov.l .L_pool_0601AECC, r4 */  ! r4 = default table ptr address
+    .byte   0xD4, 0x17    /* mov.l .L_pool_0601AECC, r4 */
     mov.l @r4, r4
 .L_check_extra_offset:
-    .byte   0xD0, 0x17    /* mov.l .L_pool_0601AED0, r0 */  ! r0 = &extra_offset_flag (sym_0605DE40)
+    .byte   0xD0, 0x17    /* mov.l .L_pool_0601AED0, r0 */
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_return_table_base

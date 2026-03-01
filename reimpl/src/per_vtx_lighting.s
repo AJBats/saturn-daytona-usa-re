@@ -62,4 +62,4 @@ per_vtx_lighting:
     sub r6, r4
     mov r12, r5
     sub r7, r5
-    .byte   0xD0, 0x0E    /* mov.l .L_pool_0602E80C, r0 */ ! load cross-TU pool constant (in shadow_intensity)
+    .byte   0xD0, 0x0E    /* mov.l .L_pool_0602E80C, r0 */

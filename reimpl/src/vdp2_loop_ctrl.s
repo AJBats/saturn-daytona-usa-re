@@ -78,7 +78,7 @@ sym_060172E4:
     shll2 r3
     add r3, r6
     exts.w r6, r6
-    .byte   0xD2, 0x17    /* mov.l .L_pool_060173A4, r2 */  ! r2 = scroll data base (sym_06085490, cross-TU pool)
+    .byte   0xD2, 0x17    /* mov.l .L_pool_060173A4, r2 */
     add r2, r6
     extu.b r5, r3
     mov r3, r0

@@ -15,7 +15,7 @@ save_state_snapshot:
     mov.l   .L_pool_06018FEC, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB1, 0x94    /* bsr 0x060192E8 (external) */  ! call wait_sound_driver_ready (polls Sound RAM)
+    .byte   0xB1, 0x94    /* bsr 0x060192E8 (external) */
     nop
     mov.l   .L_pool_06018FE4, r0
     mov.l @r0, r0

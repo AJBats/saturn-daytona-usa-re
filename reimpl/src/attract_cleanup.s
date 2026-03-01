@@ -41,7 +41,7 @@ attract_cleanup:
     and #0x3, r0
     mov r0, r4
     mov.l @r15+, r13
-    .byte   0xA0, 0x31    /* bra 0x0603FFE6 (external) */ ! tail-call: copy remaining bytes
+    .byte   0xA0, 0x31    /* bra 0x0603FFE6 (external) */
     mov.l @r15+, r14
 .L_early_return:
     mov.l @r15+, r13

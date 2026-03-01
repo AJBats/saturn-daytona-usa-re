@@ -30,7 +30,7 @@ shadow_intensity:
     bf      .L_flipped_compare
     extu.w r1, r1
     cmp/gt r1, r4
-    .byte   0x89, 0x2E    /* bt 0x0602E864 (external) */ ! if in lit zone, branch to lit path
+    .byte   0x89, 0x2E    /* bt 0x0602E864 (external) */
     bra     .L_shadow_calc_setup
     nop
 
@@ -43,11 +43,11 @@ DAT_0602e80a:
 .L_flipped_compare:
     extu.w r1, r1
     cmp/gt r1, r4
-    .byte   0x8B, 0x24    /* bf 0x0602E864 (external) */ ! if NOT in lit zone, branch to shadow path
+    .byte   0x8B, 0x24    /* bf 0x0602E864 (external) */
 .L_shadow_calc_setup:
-    .byte   0xD3, 0x06    /* mov.l .L_pool_0602E834, r3 */ ! r3 = shadow intensity scale factor
+    .byte   0xD3, 0x06    /* mov.l .L_pool_0602E834, r3 */
     cmp/ge r3, r8
-    .byte   0x89, 0x11    /* bt 0x0602E844 (external) */ ! if above scale, branch to clamped path
-    .byte   0xD4, 0x05    /* mov.l .L_pool_0602E838, r4 */ ! r4 = shadow gradient base
-    .byte   0xD5, 0x06    /* mov.l .L_pool_0602E83C, r5 */ ! r5 = shadow color mask
-    .byte   0xDD, 0x06    /* mov.l .L_pool_0602E840, r13 */ ! r13 = shadow computation function
+    .byte   0x89, 0x11    /* bt 0x0602E844 (external) */
+    .byte   0xD4, 0x05    /* mov.l .L_pool_0602E838, r4 */
+    .byte   0xD5, 0x06    /* mov.l .L_pool_0602E83C, r5 */
+    .byte   0xDD, 0x06    /* mov.l .L_pool_0602E840, r13 */

@@ -26,4 +26,4 @@ vdp2_coeff_load:
 .L_clamped:
     mov r0, r5
     mov #0x1, r4
-    .byte   0xDC, 0x1C    /* mov.l .L_pool_0602E37C, r12 */  ! r12 = next fn ptr (cross-TU pool)
+    .byte   0xDC, 0x1C    /* mov.l .L_pool_0602E37C, r12 */

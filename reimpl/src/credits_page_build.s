@@ -18,7 +18,7 @@ credits_page_build:
     mov r15, r5
     mov r15, r4
     add #0x4, r5
-    .byte   0xB1, 0x09    /* bsr 0x0603F582 (external) */ ! call vblank_dma_chain — read next entry record
+    .byte   0xB1, 0x09    /* bsr 0x0603F582 (external) */
     add #0x24, r4
     mov r15, r2
     add #0x4, r2
@@ -36,7 +36,7 @@ credits_page_build:
     mov #0xC, r6
     mov r15, r5
     mov r14, r4
-    .byte   0xD3, 0x28    /* mov.l .L_pool_0603F430, r3 */ ! r3 = &memcmp-like function (cross-TU pool)
+    .byte   0xD3, 0x28    /* mov.l .L_pool_0603F430, r3 */
     add #0x4, r5
     add #0x10, r5
     jsr @r3
@@ -48,7 +48,7 @@ credits_page_build:
 .L_copy_entry:
     mov r15, r5
     add #0x4, r5
-    .byte   0xB2, 0x52    /* bsr 0x0603F84C (external) */ ! call entry copy routine (cross-TU)
+    .byte   0xB2, 0x52    /* bsr 0x0603F84C (external) */
     mov r14, r4
     mov #0xC, r6
     mov r15, r5
@@ -81,8 +81,8 @@ credits_page_build:
 
 ring_desc_init:
     mov.l r5, @r4
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0603F434, r3 */ ! r3 = &game_state_base (cross-TU pool)
-    .byte   0x92, 0x24    /* mov.w .L_wpool_0603F42A, r2 */ ! r2 = ring buffer offset constant
+    .byte   0xD3, 0x15    /* mov.l .L_pool_0603F434, r3 */
+    .byte   0x92, 0x24    /* mov.w .L_wpool_0603F42A, r2 */
     mov.l @r3, r3
     add r3, r2
     mov.l r2, @(4, r4)

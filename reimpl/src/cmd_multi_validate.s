@@ -21,18 +21,18 @@ cmd_multi_validate:
     tst r4, r4
     bt      .dispatch_loop
     mov.l @r14, r5
-    .byte   0xB3, 0x7E    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=nonzero error)
+    .byte   0xB3, 0x7E    /* bsr 0x0603B93C (external) */
     mov.l r13, @(40, r5)
     bra     .epilogue
     nop
 .dispatch_loop:
-    .byte   0xB0, 0xEE    /* bsr 0x0603B424 (external) */  ! call cmd_dispatch_main(r4=block_ptr)
+    .byte   0xB0, 0xEE    /* bsr 0x0603B424 (external) */
     mov r14, r4
     mov r0, r4
     cmp/pz r4
     bt      .check_dispatch_ok
     mov.l @r14, r5
-    .byte   0xB3, 0x74    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=negative error)
+    .byte   0xB3, 0x74    /* bsr 0x0603B93C (external) */
     mov.l r13, @(40, r5)
     bra     .epilogue
     nop
@@ -42,9 +42,9 @@ cmd_multi_validate:
     mov r15, r6
     mov r15, r5
     add #0x4, r5
-    .byte   0xB0, 0xCA    /* bsr 0x0603B3FA (external) */  ! call stub→menu_header_render(r4=block, r5=&stack[4], r6=&stack[0])
+    .byte   0xB0, 0xCA    /* bsr 0x0603B3FA (external) */
     mov r14, r4
-    .byte   0xB3, 0x69    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0, success)
+    .byte   0xB3, 0x69    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @r14, r4
     bra     .restore_and_return
@@ -57,7 +57,7 @@ DAT_0603b270:
 .L_sentinel_value:
     .4byte  0x7FFFFFFF                  /* sentinel: max positive 16.16 fixed-point */
 .retry_wait:
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0603B30C, r3 */  ! r3 = &cdb_wait_scdq (cross-TU pool in menu_list_scroll)
+    .byte   0xD3, 0x24    /* mov.l .L_pool_0603B30C, r3 */
     jsr @r3
     nop
     bra     .dispatch_loop

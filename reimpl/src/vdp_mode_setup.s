@@ -130,24 +130,24 @@ vdp_mode_setup:
 .L_wide_frame_layer:
     mov.l @r12, r7
     mov #0xC, r6
-    .byte   0x95, 0x44    /* mov.w .L_wpool_0600590C, r5 */  ! r5 = 0x0110 (wide layer size from shared pool in frame_dispatch)
-    .byte   0xD3, 0x24    /* mov.l .L_pool_06005914, r3 */   ! r3 -> display_list_cmd_writer (sym_06028430, shared pool)
+    .byte   0x95, 0x44    /* mov.w .L_wpool_0600590C, r5 */
+    .byte   0xD3, 0x24    /* mov.l .L_pool_06005914, r3 */
     jsr @r3
     mov #0x8, r4
 .L_check_extra_layer:
-    .byte   0xD0, 0x23    /* mov.l .L_pool_06005918, r0 */   ! r0 -> &extra_layer_flag (sym_0607EAE0, shared pool)
+    .byte   0xD0, 0x23    /* mov.l .L_pool_06005918, r0 */
     mov.l @r0, r0
     tst r0, r0
     bf      .L_skip_extra_layer
     mov #0x30, r6
-    .byte   0x95, 0x3C    /* mov.w .L_wpool_0600590E, r5 */  ! r5 = 0x014E (extra layer offset, from shared pool DAT_0600590e)
-    .byte   0xD7, 0x21    /* mov.l .L_pool_0600591C, r7 */   ! r7 -> &total_car_count (sym_0607EA98, shared pool)
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_06005914, r3 */   ! r3 -> display_list_cmd_writer (sym_06028430, shared pool)
+    .byte   0x95, 0x3C    /* mov.w .L_wpool_0600590E, r5 */
+    .byte   0xD7, 0x21    /* mov.l .L_pool_0600591C, r7 */
+    .byte   0xD3, 0x1F    /* mov.l .L_pool_06005914, r3 */
     mov.l @r7, r7
     jsr @r3
     mov #0x8, r4
 .L_skip_extra_layer:
-    .byte   0xD0, 0x20    /* mov.l .L_pool_06005920, r0 */   ! r0 -> &scale_mode_flag (sym_06078644, shared pool)
+    .byte   0xD0, 0x20    /* mov.l .L_pool_06005920, r0 */
     mov.l @r0, r0
     tst r0, r0
     bf      .L_epilogue_rts
@@ -166,7 +166,7 @@ vdp_mode_setup:
     mov.l r7, @r15
     shll2 r6
     mov.l @(4, r7), r7
-    .byte   0x93, 0x26    /* mov.w .L_wpool_06005910, r3 */  ! r3 = 0x1000 (VRAM offset, from shared pool DAT_06005910)
+    .byte   0x93, 0x26    /* mov.w .L_wpool_06005910, r3 */
     shll2 r6
     add r3, r7
     add #0x16, r6
@@ -182,7 +182,7 @@ vdp_mode_setup:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x10    /* mov.l .L_pool_06005924, r3 */   ! r3 -> display_list_loader (sym_06028400, shared pool)
+    .byte   0xD3, 0x10    /* mov.l .L_pool_06005924, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_epilogue_rts:

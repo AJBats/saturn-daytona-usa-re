@@ -55,36 +55,36 @@ hud_layer_composite:
 .L_do_render:
     extu.w r13, r12
     extu.w r13, r11
-    .byte   0xD3, 0x2C    /* mov.l @(+0x02 cross-TU pool), r3 */  ! r3 = &layer_attribute_data (sym_060447A4)
+    .byte   0xD3, 0x2C    /* mov.l @(+0x02 cross-TU pool), r3 */
     shll r12
     shll2 r11
     add r3, r12
     shll2 r11
     mov.w @r12, r2
     mov.l r2, @-r15
-    .byte   0xD7, 0x2A    /* mov.l @(+0x06 cross-TU pool), r7 */  ! r7 = 0x00010000 (fixed-point 1.0 stride)
-    .byte   0x96, 0x4F    /* mov.w @(+0x00 cross-TU pool), r6 */ ! r6 = 0x8000 (signed ceiling constant)
-    .byte   0xD2, 0x2A    /* mov.l @(+0x0A cross-TU pool), r2 */  ! r2 = &target_position_table (sym_060447A8)
+    .byte   0xD7, 0x2A    /* mov.l @(+0x06 cross-TU pool), r7 */
+    .byte   0x96, 0x4F    /* mov.w @(+0x00 cross-TU pool), r6 */
+    .byte   0xD2, 0x2A    /* mov.l @(+0x0A cross-TU pool), r2 */
     add r2, r11
     add #0xC, r11
     mov.l @r11, r5
-    .byte   0xB0, 0xBB    /* bsr 0x060116A8 (external) */   ! call sprite_3d_render(current_pos, param, ...)
+    .byte   0xB0, 0xBB    /* bsr 0x060116A8 (external) */
     mov.l @r14, r4
     add #0x4, r15
     mov.w @r12, r7
     mov.l @r11, r6
-    .byte   0xD4, 0x26    /* mov.l @(+0x0E cross-TU pool), r4 */  ! r4 = &layer_x_offset_table (sym_06044764)
-    .byte   0xB2, 0x1D    /* bsr 0x06011978 (external) */   ! call vertex_transform_rot(x_table, cur_pos, ...)
+    .byte   0xD4, 0x26    /* mov.l @(+0x0E cross-TU pool), r4 */
+    .byte   0xB2, 0x1D    /* bsr 0x06011978 (external) */
     mov.l @r14, r5
     mov.w @r12, r7
     mov.l @r11, r6
     mov.l @r14, r5
-    .byte   0xD4, 0x24    /* mov.l @(+0x12 cross-TU pool), r4 */  ! r4 = &layer_y_offset_table (sym_06044784)
+    .byte   0xD4, 0x24    /* mov.l @(+0x12 cross-TU pool), r4 */
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA2, 0x13    /* bra 0x06011978 (external) */   ! tail-call vertex_transform_rot(y_table, cur_pos, ...)
+    .byte   0xA2, 0x13    /* bra 0x06011978 (external) */
     mov.l @r15+, r14
 
 .L_early_return:

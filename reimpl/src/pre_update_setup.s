@@ -8,7 +8,7 @@ pre_update_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_ptr_current_car, r14
-    .byte   0xBF, 0xB0    /* bsr 0x0600E906 (external) */  ! call ai_physics_main
+    .byte   0xBF, 0xB0    /* bsr 0x0600E906 (external) */
     mov.l @r14, r14
     mov.l   .L_ptr_player_mode, r0
     mov.l @r0, r0

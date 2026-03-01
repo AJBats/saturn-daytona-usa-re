@@ -300,7 +300,7 @@ DAT_0600b840:
     mov.l @r4, r4
 .L_far_render_pass:
     mov #0x1, r5
-    .byte   0xB8, 0xE7    /* bsr 0x0600AA98 (external) — scene_obj_type_A renderer */
+    .byte   0xB8, 0xE7    /* bsr 0x0600AA98 (external) */
     mov r14, r4
     mov.l @(20, r15), r5
     mov.l @(24, r15), r4

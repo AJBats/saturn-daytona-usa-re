@@ -246,7 +246,7 @@ state_post_lap:
     mov.l @(r0, r2), r3
     cmp/pl r3
     bf      .L_epilogue
-    .byte   0xB5, 0xF7    /* bsr 0x0600A084 (replay_record — external) */
+    .byte   0xB5, 0xF7    /* bsr 0x0600A084 (replay_record */
     nop
 .L_epilogue:
     lds.l @r15+, pr

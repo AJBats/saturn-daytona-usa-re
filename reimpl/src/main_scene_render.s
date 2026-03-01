@@ -43,7 +43,7 @@ sym_0602E8B8:
     .word 0x0000
     .word 0xCCCC
     .word 0x0000
-    .byte   0xB3, 0x33    /* bsr 0x0602EF48 (external) — data, not a real branch */
+    .byte   0xB3, 0x33    /* bsr 0x0602EF48 (external) */
     .word 0x0001
     .word 0x0000
     .word 0x0001
@@ -108,7 +108,7 @@ sym_0602E938:
     mov.w r0, @(22, r14)
     mov.w @(0, r0), r0
     mov #0x4F, r13
-    .byte   0xD8, 0xF5    /* mov.l .L_pool_0602ED3C, r8 — data, not code */
+    .byte   0xD8, 0xF5    /* mov.l .L_pool_0602ED3C, r8 */
     mov.w   .L_wpool_0602E963, r0
     add #0x7A, r1
 .L_wpool_0602E963:
@@ -478,18 +478,18 @@ sym_0602ED0C:
 
     .global loc_0602ED18
 loc_0602ED18:
-    .byte   0xD0, 0x2A    /* mov.l .L_pool_sound_cooldown_ptr, r0 — [HIGH] sym_0602FDA1 SINIT sound cooldown counter */
+    .byte   0xD0, 0x2A    /* mov.l .L_pool_0602EDC8, r0 */
     mov #0x50, r1
     mov.b r1, @r0
-    .byte   0xD0, 0x2A    /* mov.l .L_pool_car_ptr_global, r0 — [HIGH] sym_0607E944 current car pointer */
+    .byte   0xD0, 0x2A    /* mov.l .L_pool_0602EDD0, r0 */
     mov.l @r0, r0
-    .byte   0xD1, 0x2A    /* mov.l .L_pool_physics_step_counter, r1 — [HIGH] sym_0607EAE4 physics step counter */
+    .byte   0xD1, 0x2A    /* mov.l .L_pool_0602EDD4, r1 */
     mov.l @r1, r2
     add #0x1, r2
     mov.l r2, @r1
     mov.l @(8, r0), r2
     shll16 r2
-    .byte   0x92, 0x3F    /* mov.w .L_wpool_render_dim_const, r2 — [LOW] loads 0x005C render dimension constant */
+    .byte   0x92, 0x3F    /* mov.w .L_wpool_0602EDB6, r2 */
 .L_pool_0602ED3C:
     .4byte  0xE3000236
     .4byte  0x913DE301

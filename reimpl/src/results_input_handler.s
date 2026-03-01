@@ -111,7 +111,7 @@ _bounce_subtract:
     add r13, r3
     mov.l r12, @(48, r3)
 _skip_bounce:
-    .byte   0xB2, 0x97    /* bsr 0x06016DD8 (external) */  ! call track_vtx_builder (update element vertices)
+    .byte   0xB2, 0x97    /* bsr 0x06016DD8 (external) */
     extu.b r14, r4
     extu.b r11, r11
     tst r11, r11

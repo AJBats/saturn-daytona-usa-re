@@ -8,7 +8,7 @@ state_time_extend_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xB4, 0x8B    /* bsr state_timeext_setup — frame setup helper */
+    .byte   0xB4, 0x8B    /* bsr state_timeext_setup */
     nop
     mov #0x13, r2
     mov.l   .L_pool_06009750, r3

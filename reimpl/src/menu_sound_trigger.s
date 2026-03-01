@@ -20,7 +20,7 @@ menu_sound_trigger:
     cmp/eq #0x1, r0
     bt      .L_mode_valid
 .L_inactive_error:
-    .byte   0xB5, 0x54    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=-0x8)
+    .byte   0xB5, 0x54    /* bsr 0x0603B93C (external) */
     mov #-0x8, r4
     mov #0x0, r0
     add #0x4, r15
@@ -37,7 +37,7 @@ menu_sound_trigger:
     cmp/gt r4, r2
     bt      .L_index_valid
 .L_range_error:
-    .byte   0xB5, 0x45    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=-0x9)
+    .byte   0xB5, 0x45    /* bsr 0x0603B93C (external) */
     mov #-0x9, r4
     mov #0x0, r0
     add #0x4, r15
@@ -51,7 +51,7 @@ menu_sound_trigger:
     jsr @r3
     mov.l @(r0, r5), r5
     mov.l r0, @r15
-    .byte   0xB5, 0x38    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc(r4=0)
+    .byte   0xB5, 0x38    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @r15, r0
     add #0xC, r0

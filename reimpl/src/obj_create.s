@@ -13,19 +13,19 @@ obj_create:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0xC, r15
-    .byte   0xDA, 0x14    /* mov.l .L_pool_060203CF, r10 */ ! r10 = sym_0604BD72 (flat object data table, 42-byte records)
+    .byte   0xDA, 0x14    /* mov.l .L_pool_060203CF, r10 */
     mov #0x15, r11
     mov.w   DAT_060203be, r12
     extu.b r4, r14
     shll2 r14
-    .byte   0xD3, 0x12    /* mov.l .L_pool_060203D3, r3 */ ! r3 = sym_0605F458 (type -> descriptor pointer table)
+    .byte   0xD3, 0x12    /* mov.l .L_pool_060203D3, r3 */
     add r3, r14
     mov.l @r14, r14
     mov.b @(2, r14), r0
     mov r0, r7
     extu.b r7, r7
     shll2 r7
-    .byte   0xD2, 0x10    /* mov.l .L_pool_060203D7, r2 */ ! r2 = sym_0605F478 (sub-type -> object data pointer table)
+    .byte   0xD2, 0x10    /* mov.l .L_pool_060203D7, r2 */
     add r2, r7
     mov.l @r7, r7
     mov.w @r7, r1
@@ -45,7 +45,7 @@ obj_create:
     extu.b r5, r5
     mov.w @(8, r15), r0
     mov r0, r4
-    .byte   0xB0, 0x2D    /* bsr 0x06020414 (external) */ ! call obj_destroy(template_id, param_a, param_b, extra_data_ptr)
+    .byte   0xB0, 0x2D    /* bsr 0x06020414 (external) */
     extu.w r4, r4
     bra     .L_check_next_record
     nop
@@ -78,7 +78,7 @@ DAT_060203be:
     mov r13, r7
     mov.w @r13, r4
     add #0x4, r7
-    .byte   0xB0, 0x0E    /* bsr 0x06020414 (external) */ ! call obj_destroy(template_id, param_a, param_b, extra_data_ptr)
+    .byte   0xB0, 0x0E    /* bsr 0x06020414 (external) */
     extu.w r4, r4
 .L_check_next_record:
     add #0x3, r14

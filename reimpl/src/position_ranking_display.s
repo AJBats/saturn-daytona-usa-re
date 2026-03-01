@@ -238,12 +238,12 @@ DAT_06011466:
 sym_06011494:
     extu.w r4, r0
     mov #0x0, r2
-    .byte   0xD1, 0x19    /* mov.l [transition_state_ptr], r1 */   ! r1 = &transition_state
-    .byte   0xD3, 0x18    /* mov.l [ranking_config_table], r3 */   ! r3 = ranking_config_table base
+    .byte   0xD1, 0x19    /* mov.l [transition_state_ptr], r1 */
+    .byte   0xD3, 0x18    /* mov.l [ranking_config_table], r3 */
     shll2 r0
     mov.l r2, @r1
     shll2 r0
-    .byte   0xD1, 0x18    /* mov.l [active_display_slot], r1 */    ! r1 = &active_display_slot
+    .byte   0xD1, 0x18    /* mov.l [active_display_slot], r1 */
     add r3, r0
     mov.l @r0, r2
     rts

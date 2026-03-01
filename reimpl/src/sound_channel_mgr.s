@@ -23,7 +23,7 @@ sound_channel_mgr:
     mov.l r6, @(24, r14)
     mov.l @(12, r14), r3
     mov.w   DAT_06030eae, r10
-    .byte   0xD4, 0x08    /* mov.l .L_pool_06030EBB, r4 */  ! r4 = 0xDEB8 (moderate damping, default)
+    .byte   0xD4, 0x08    /* mov.l .L_pool_06030EBB, r4 */
     add r14, r10
     mov.w @r10, r9
     mov #0x8, r8
@@ -32,7 +32,7 @@ sound_channel_mgr:
     add #-0x2, r8
     cmp/ge r8, r9
     bf      .L_apply_damping
-    .byte   0xD4, 0x04    /* mov.l .L_pool_06030EBF, r4 */     ! r4 = 0xFAE1 (light damping)
+    .byte   0xD4, 0x04    /* mov.l .L_pool_06030EBF, r4 */
     bra     .L_apply_damping
     nop
 
@@ -46,7 +46,7 @@ DAT_06030eae:
 .L_pool_06030EBF:
     .4byte  0x0000FAE1                  /* 16.16 fixed-point ~0.98 (light damping) */
 .L_mode_high:
-    .byte   0xD4, 0x06    /* mov.l .L_pool_06030EE0, r4 */    ! r4 = 0xC000 (strong damping)
+    .byte   0xD4, 0x06    /* mov.l .L_pool_06030EE0, r4 */
 .L_apply_damping:
     dmuls.l r3, r4
     sts mach, r3
@@ -67,7 +67,7 @@ DAT_06030eae:
     .global sym_06030EE0
 sym_06030EE0:
     mov.w   .L_wpool_06030EF9, r0
-    .byte   0xD1, 0x05    /* mov.l .L_pool_06030EFD, r1 */ ! r1 = &sym_0607E940 (car struct pointer)
+    .byte   0xD1, 0x05    /* mov.l .L_pool_06030EFD, r1 */
     mov.l @r1, r3
     mov.w @(r0, r3), r2
     cmp/pl r2

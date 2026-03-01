@@ -138,12 +138,12 @@ DAT_0600e870:
     bt      .L_steer_mode2_smooth
 
 .L_post_steering:
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0600E928, r3 — track_segment_advance (cross-TU) */
+    .byte   0xD3, 0x21    /* mov.l .L_pool_0600E928, r3 */
     jsr @r3
     nop
 
-    .byte   0x90, 0x3A    /* mov.w .L_wpool_0600E91E, r0 — offset +0x228 (speed, cross-TU) */
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0600E92C, r3 — speed_coeff ptr (cross-TU) */
+    .byte   0x90, 0x3A    /* mov.w .L_wpool_0600E91E, r0 */
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0600E92C, r3 */
     mov.l @(r0, r14), r2
     mov.l @r3, r3
     add #-0x3C, r0
@@ -167,26 +167,26 @@ DAT_0600e870:
     add r3, r4
     mov.w @(20, r4), r0
     mov r0, r3
-    .byte   0x90, 0x23    /* mov.w .L_wpool_0600E920, r0 — +0x1F8 (cross-TU) */
+    .byte   0x90, 0x23    /* mov.w .L_wpool_0600E920, r0 */
     mov.l r3, @(r0, r14)
 
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0600E930, r3 — game_state_flags ptr (cross-TU) */
-    .byte   0xD2, 0x15    /* mov.l .L_pool_0600E934, r2 — 0x00200000 bitmask (cross-TU) */
+    .byte   0xD3, 0x15    /* mov.l .L_pool_0600E930, r3 */
+    .byte   0xD2, 0x15    /* mov.l .L_pool_0600E934, r2 */
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
     bt      .L_epilogue
 
-    .byte   0xD5, 0x14    /* mov.l .L_pool_0600E938, r5 — display_speed_coeff (cross-TU) */
-    .byte   0xD3, 0x14    /* mov.l .L_pool_0600E93C, r3 — fpmul function ptr (cross-TU) */
+    .byte   0xD5, 0x14    /* mov.l .L_pool_0600E938, r5 */
+    .byte   0xD3, 0x14    /* mov.l .L_pool_0600E93C, r3 */
     jsr @r3
     mov.l @(12, r14), r4
     shlr16 r0
     exts.w r0, r0
-    .byte   0x91, 0x16    /* mov.w .L_wpool_0600E922, r1 — +0x1F8 display speed A (cross-TU) */
+    .byte   0x91, 0x16    /* mov.w .L_wpool_0600E922, r1 */
     add r14, r1
     mov.l r0, @r1
-    .byte   0x91, 0x14    /* mov.w .L_wpool_0600E924, r1 — +0xE0 display speed B (cross-TU) */
+    .byte   0x91, 0x14    /* mov.w .L_wpool_0600E924, r1 */
     add r14, r1
     mov.l r0, @r1
 

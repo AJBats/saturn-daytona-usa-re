@@ -15,7 +15,7 @@ state_snapshot_compare:
     mov.l   .L_pool_060190A8, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB1, 0x3A    /* bsr 0x060192E8 (external) */  ! call wait_sound_driver_ready (polls Sound RAM)
+    .byte   0xB1, 0x3A    /* bsr 0x060192E8 (external) */
     nop
     mov.l   .L_pool_060190A0, r0
     mov.l @r0, r0

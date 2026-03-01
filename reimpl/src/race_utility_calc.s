@@ -13,7 +13,7 @@ race_utility_calc:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_track_camera_path
-    .byte   0xB8, 0xDE    /* bsr 0x0600B340 (external) */  ! call scene_render_coord (car-relative camera)
+    .byte   0xB8, 0xDE    /* bsr 0x0600B340 (external) */
     nop
     bra     .L_camera_done
     nop
@@ -36,7 +36,7 @@ race_utility_calc:
     jsr @r3
     nop
 .L_camera_done:
-    .byte   0xBB, 0xA9    /* bsr 0x0600B914 (external) */  ! call render_scene_loop (render all scene objects)
+    .byte   0xBB, 0xA9    /* bsr 0x0600B914 (external) */
     nop
     mov.l   .L_ptr_grid_param_a, r0
     mov.l   .L_ptr_grid_param_b, r3

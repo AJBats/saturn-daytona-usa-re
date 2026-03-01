@@ -7,7 +7,7 @@
 math_trig_lib:
 
     sts.l pr, @-r15
-    .byte   0xDB, 0x2D    /* mov.l .L_pool_06042707, r11 */  ! r11 = base address of tangent lookup table
+    .byte   0xDB, 0x2D    /* mov.l .L_pool_06042707, r11 */
 
     cmp/pz r10
     bt/s    .L_x_nonneg
@@ -22,12 +22,12 @@ math_trig_lib:
     mov #0x41, r2
     cmp/ge r2, r5
     bt      .L_do_hw_divide
-    .byte   0xDD, 0x29    /* mov.l .L_pool_0604270B, r13 */  ! r13 = 0x7FFF0000 (clamped max tangent)
+    .byte   0xDD, 0x29    /* mov.l .L_pool_0604270B, r13 */
     bra     .L_have_tangent_ratio
     nop
 
 .L_do_hw_divide:
-    .byte   0xD0, 0x25    /* mov.l .L_pool_06042703, r0 */  ! r0 = 0xFFFFFF00 (SH-2 divider base address)
+    .byte   0xD0, 0x25    /* mov.l .L_pool_06042703, r0 */
     swap.w r4, r2
     mov.l r5, @r0
     exts.w r2, r2
@@ -83,10 +83,10 @@ math_trig_lib:
     sts macl, r4
     xtrct r3, r4
 
-    .byte   0xD2, 0x12    /* mov.l .L_pool_0604270F, r2 */  ! r2 = 0x00010000 (1.0 in 16.16)
+    .byte   0xD2, 0x12    /* mov.l .L_pool_0604270F, r2 */
     cmp/gt r2, r4
     bf      .L_frac_ok
-    .byte   0xD4, 0x11    /* mov.l .L_pool_0604270F, r4 */  ! r4 = 0x00010000 (clamp to exactly 1.0)
+    .byte   0xD4, 0x11    /* mov.l .L_pool_0604270F, r4 */
 
 .L_frac_ok:
     mov r14, r0
@@ -103,12 +103,12 @@ math_trig_lib:
     cmp/pz r12
     bf      .L_x_neg_y_neg
 
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_06042713, r2 */  ! r2 = 0x00B40000 (180.0 degrees in 16.16)
+    .byte   0xD2, 0x0C    /* mov.l .L_pool_06042713, r2 */
     bra     .L_apply_quadrant_offset
     nop
 
 .L_x_neg_y_neg:
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_06042717, r2 */  ! r2 = 0xFF4C0000 (-180.0 degrees in 16.16)
+    .byte   0xD2, 0x0C    /* mov.l .L_pool_06042717, r2 */
 
 .L_apply_quadrant_offset:
     sub r4, r2

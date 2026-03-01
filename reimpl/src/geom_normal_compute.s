@@ -10,12 +10,12 @@ geom_normal_compute:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    .byte   0xDB, 0x1E    /* mov.l .L_pool_0601EBF4, r11 — sym_0604A5C0 (course size table) */
-    .byte   0xDC, 0x1E    /* mov.l .L_pool_0601EBF8, r12 — sym_060877D8 (player index byte) */
-    .byte   0xDD, 0x1F    /* mov.l .L_pool_0601EBFC, r13 — sym_0605E098 (output buf ptr) */
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_0601EC00, r7  — sym_0604A5AC (reference data src) */
-    .byte   0xD6, 0x20    /* mov.l .L_pool_0601EC04, r6  — sym_0605E09C (secondary buf ptr) */
-    .byte   0xD0, 0x20    /* mov.l .L_pool_0601EC08, r0  — sym_06087080 (busy flag ptr) */
+    .byte   0xDB, 0x1E    /* mov.l .L_pool_0601EBF4, r11 */
+    .byte   0xDC, 0x1E    /* mov.l .L_pool_0601EBF8, r12 */
+    .byte   0xDD, 0x1F    /* mov.l .L_pool_0601EBFC, r13 */
+    .byte   0xD7, 0x1F    /* mov.l .L_pool_0601EC00, r7 */
+    .byte   0xD6, 0x20    /* mov.l .L_pool_0601EC04, r6 */
+    .byte   0xD0, 0x20    /* mov.l .L_pool_0601EC08, r0 */
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0

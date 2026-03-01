@@ -43,7 +43,7 @@ hud_large_element:
     shll r2
     add r14, r2
     mov.w r0, @(28, r2)
-    .byte   0xB0, 0x63    /* bsr 0x0601E488 (hud_text_handler — query element state) */
+    .byte   0xB0, 0x63    /* bsr 0x0601E488 (hud_text_handler */
     mov r13, r4
     bra     .L_state_dispatch
     nop
@@ -56,7 +56,7 @@ hud_large_element:
     add r14, r4
     mov.w @(28, r4), r0
     mov r0, r4
-    .byte   0xB1, 0x66    /* bsr 0x0601E6A4 (hud_utility — check display callback) */
+    .byte   0xB1, 0x66    /* bsr 0x0601E6A4 (hud_utility */
     extu.w r4, r4
     tst r0, r0
     bt      .L_display_inactive

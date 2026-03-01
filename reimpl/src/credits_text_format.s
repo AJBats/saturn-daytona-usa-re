@@ -9,7 +9,7 @@ credits_text_format:
     add #-0x38, r15
     mov.l r4, @r15
     mov r15, r4
-    .byte   0xB0, 0x71    /* bsr 0x0603F3DA (external) */ ! call ring_desc_init — init ring buffer descriptor
+    .byte   0xB0, 0x71    /* bsr 0x0603F3DA (external) */
     add #0x24, r4
     mov #0x0, r4
     cmp/gt r4, r13
@@ -19,7 +19,7 @@ credits_text_format:
     mov r15, r5
     mov r15, r4
     add #0x4, r5
-    .byte   0xB1, 0x3C    /* bsr 0x0603F582 (external) */ ! call vblank_dma_chain — read next entry record
+    .byte   0xB1, 0x3C    /* bsr 0x0603F582 (external) */
     add #0x24, r4
     mov r15, r2
     add #0x4, r2
@@ -32,7 +32,7 @@ credits_text_format:
 .L_entry_valid:
     mov r15, r5
     add #0x4, r5
-    .byte   0xB2, 0x95    /* bsr 0x0603F84C (external) */ ! call entry copy routine — copy entry to output
+    .byte   0xB2, 0x95    /* bsr 0x0603F84C (external) */
     mov r14, r4
     add #0xC, r14
     add #-0x1, r13

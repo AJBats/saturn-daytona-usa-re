@@ -39,7 +39,7 @@ dma_queue_commit:
     mov.b @r13, r0
     and #0xF, r0
     mov.b r0, @r13
-    .byte   0xD5, 0x08    /* mov.l .L_pool_06007E02, r5 */  ! r5 = &sym_0605A1C0 (render budget counter)
+    .byte   0xD5, 0x08    /* mov.l .L_pool_06007E02, r5 */
     tst r4, r4
     bt      .L_budget_increase
     mov.w @r5, r3
@@ -54,7 +54,7 @@ dma_queue_commit:
 .L_epilogue:
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x02    /* mov.l .L_pool_06007E06, r3 */  ! r3 = sym_0603C000 (render finalize)
+    .byte   0xD3, 0x02    /* mov.l .L_pool_06007E06, r3 */
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF

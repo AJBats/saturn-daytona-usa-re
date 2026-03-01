@@ -11,13 +11,13 @@ scene_frame_render:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDC, 0x1E    /* mov.l .L_pool_0603F184, r12 */  ! r12 = cmd_dispatch_main
+    .byte   0xDC, 0x1E    /* mov.l .L_pool_0603F184, r12 */
     mov.l r6, @r15
     tst r14, r14
     bt/s    .L_check_render_mode
     mov r5, r13
     mov.l @r15, r5
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603F188, r3 */  ! r3 = menu_state_handler
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603F188, r3 */
     jsr @r3
     mov r14, r4
 .L_dispatch_loop:
@@ -31,14 +31,14 @@ scene_frame_render:
     bf      .L_render_text
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
-    .byte   0xB0, 0xD8    /* bsr 0x0603F2E0 (external) */  ! call attract_demo_chooser(r4, r5, r6)
+    .byte   0xB0, 0xD8    /* bsr 0x0603F2E0 (external) */
     mov r14, r4
     bra     .L_epilogue
     nop
 .L_render_text:
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
-    .byte   0xB1, 0x03    /* bsr 0x0603F342 (external) */  ! call menu_text_position(r4, r5, r6)
+    .byte   0xB1, 0x03    /* bsr 0x0603F342 (external) */
     mov r14, r4
 .L_epilogue:
     add #0x4, r15

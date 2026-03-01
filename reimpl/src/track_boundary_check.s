@@ -82,11 +82,11 @@ DAT_06041b0a:
     bt      .L_return
     mov.l @r14, r3
     mov #0x0, r2
-    .byte   0x90, 0x4C    /* mov.w .L_wpool_boundary_phase_offset, r0 */
+    .byte   0x90, 0x4C    /* mov.w .L_wpool_06041BC6, r0 */
     mov.l r2, @(r0, r3)
 .L_return:
     mov.l @r14, r0
-    .byte   0x91, 0x49    /* mov.w .L_wpool_boundary_phase_offset, r1 */
+    .byte   0x91, 0x49    /* mov.w .L_wpool_06041BC6, r1 */
     mov.l @(r0, r1), r0
     add #0x10, r15
     lds.l @r15+, pr

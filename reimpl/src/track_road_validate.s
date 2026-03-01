@@ -17,8 +17,8 @@ track_road_validate:
     mov #0x3, r8
     mov #0x0, r9
     mov #0x1, r11
-    .byte   0xDC, 0x22    /* mov.l .L_fn_checkpoint_validate, r12 */  ! r12 = ai_checkpoint_validate
-    .byte   0xDE, 0x20    /* mov.l .L_car_state_base, r14 */          ! r14 = &car_state_base (indirect ptr)
+    .byte   0xDC, 0x22    /* mov.l .L_fn_checkpoint_validate, r12 */
+    .byte   0xDE, 0x20    /* mov.l .L_car_state_base, r14 */
     mov r4, r10
     bra     .L_loop_condition
     mov r9, r13
@@ -37,7 +37,7 @@ track_road_validate:
     mov.l r5, @r15
     mov.b @(1, r5), r0
     mov.l @r15, r4
-    .byte   0xD3, 0x19    /* mov.l .L_fn_road_width, r3 */  ! r3 = track_road_width_main
+    .byte   0xD3, 0x19    /* mov.l .L_fn_road_width, r3 */
     mov r0, r5
     jsr @r3
     mov.b @r4, r4
@@ -78,7 +78,7 @@ track_road_validate:
     mov.l r5, @r15
     add #0x2, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x07    /* mov.l .L_fn_bank_calc, r3 */  ! r3 = track_bank_calc
+    .byte   0xD3, 0x07    /* mov.l .L_fn_bank_calc, r3 */
     jsr @r3
     mov.b @r4, r4
     mov r0, r4
@@ -142,7 +142,7 @@ track_road_validate:
     mov.l @(12, r6), r6
     mov.l @r15, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x27    /* mov.l .L_fn_seg_interpolate, r3 */  ! r3 = track_seg_interpolate
+    .byte   0xD3, 0x27    /* mov.l .L_fn_seg_interpolate, r3 */
     mov.l @(8, r5), r5
     jsr @r3
     mov.b @r4, r4
@@ -194,7 +194,7 @@ track_road_validate:
     mov r4, r1
     mov r13, r2
     mov.l @r14, r5
-    .byte   0xD3, 0x11    /* mov.l .L_fn_memcpy_long, r3 */  ! r3 = memcpy_long (sym_06035168)
+    .byte   0xD3, 0x11    /* mov.l .L_fn_memcpy_long, r3 */
     shll2 r1
     shll2 r2
     add #0x5C, r5
@@ -218,7 +218,7 @@ track_road_validate:
 .L_input_status_check:
     mov #0x40, r3
     mov.l r3, @r15
-    .byte   0xD3, 0x07    /* mov.l .L_fn_smpc_status, r3 */  ! r3 = smpc_status_read (sym_06035C4E)
+    .byte   0xD3, 0x07    /* mov.l .L_fn_smpc_status, r3 */
     jsr @r3
     nop
     mov r0, r5

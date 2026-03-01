@@ -7,9 +7,9 @@
 track_seg_lookup:
     sts.l pr, @-r15
     .byte   0xDC, 0x20    /* mov.l .L_fn_ptr_cdb_read_status, r12 */
-    .byte   0x9E, 0x3D    /* mov.w .L_pool_const_0x1A, r14 */
+    .byte   0x9E, 0x3D    /* mov.w .L_pool_06012C67, r14 */
     .byte   0xD7, 0x20    /* mov.l .L_str_set_daytona_disc, r7 */
-    .byte   0xD6, 0x20    /* mov.l .L_pool_const_0xE000, r6 */
+    .byte   0xD6, 0x20    /* mov.l .L_pool_06012C70, r6 */
     .byte   0xD3, 0x21    /* mov.l .L_fn_ptr_geom_render_dispatch, r3 */
     mov r14, r5
     jsr @r3
@@ -34,7 +34,7 @@ track_seg_lookup:
     .byte   0xD7, 0x1C    /* mov.l .L_str_spaces_clear, r7 */
     mov r14, r5
     .byte   0xD3, 0x16    /* mov.l .L_fn_ptr_geom_render_dispatch, r3 */
-    .byte   0xD6, 0x14    /* mov.l .L_pool_const_0xE000, r6 */
+    .byte   0xD6, 0x14    /* mov.l .L_pool_06012C78, r6 */
     jsr @r3
     mov #0x8, r4
     mov #0x24, r6
@@ -48,5 +48,5 @@ track_seg_lookup:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xAF, 0x8E    /* bra 0x06012B58 (external) */  ! tail-call cd_status_reader
+    .byte   0xAF, 0x8E    /* bra 0x06012B58 (external) */
     mov.l @r15+, r14
