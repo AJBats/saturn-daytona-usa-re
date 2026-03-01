@@ -5,11 +5,8 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | Input Tracing | Paused | workstreams\empirical_validation.md |
-| 2 | Sawyer L2 — Relocatable ASM + C Reimpl | Paused | workstreams/sawyer_l2.md |
-| 3 | Data Annotation — Classification & Semantics | Paused | workstreams/data_annotation.md |
-| 4 | Car Flip Benchmark — Empirical Annotation Validation | Paused | workstreams/car_flip_benchmark.md |
-| 5 | Empirical Validation — Ground Truth via Debugger | **Active** | workstreams/empirical_validation.md |
+| 1 | Empirical Validation — Ground Truth via Debugger | **Active** | workstreams/empirical_validation.md |
+| 2 | Car Flip Benchmark — Empirical Annotation Validation | Paused | workstreams/car_flip_benchmark.md |
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
 **Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).
