@@ -285,6 +285,138 @@ def cmd_query(args):
             print(f"  {n}")
 
 
+def cmd_merge_cdl(args):
+    """Merge CDL coverage data into database."""
+    import bisect
+    db = load_db(args.db)
+
+    with open(args.cdl_file, 'rb') as f:
+        cdl_data = f.read()
+
+    CDL_BASE = 0x06000000
+    CDL_SIZE = 0x100000
+    if len(cdl_data) != CDL_SIZE:
+        print(f"Error: CDL file is {len(cdl_data)} bytes, expected {CDL_SIZE}", file=sys.stderr)
+        return
+
+    # Compute sizes from address ordering
+    addrs_sorted = sorted(int(k, 16) for k in db['functions'].keys())
+
+    updated = 0
+    for addr_key, entry in db['functions'].items():
+        addr = int(addr_key, 16)
+        if addr < CDL_BASE or addr >= CDL_BASE + CDL_SIZE:
+            continue
+
+        # Estimate size: gap to next symbol
+        idx = bisect.bisect_right(addrs_sorted, addr) - 1
+        if idx + 1 < len(addrs_sorted):
+            size = min(addrs_sorted[idx + 1] - addr, CDL_SIZE - (addr - CDL_BASE))
+        else:
+            size = CDL_BASE + CDL_SIZE - addr
+        size = max(size, 2)  # Minimum 1 instruction
+
+        off = addr - CDL_BASE
+        chunk = cdl_data[off:off+size]
+        code = sum(1 for b in chunk if b & 0x01)
+        read = sum(1 for b in chunk if b & 0x02)
+        write = sum(1 for b in chunk if b & 0x04)
+
+        entry['cdl'] = {
+            'code': code,
+            'read': read,
+            'write': write,
+            'size': size,
+            'pct': round(100.0 * code / size, 1) if size > 0 else 0,
+        }
+        if code > 0 and 'exercised' not in entry.get('tags', []):
+            entry.setdefault('tags', []).append('exercised')
+        updated += 1
+
+    save_db(db, args.db)
+    print(f"Updated CDL data for {updated} functions")
+
+
+def cmd_merge_calltrace(args):
+    """Merge call trace output into database (callers/callees)."""
+    import bisect
+    db = load_db(args.db)
+
+    addrs_sorted = sorted(int(k, 16) for k in db['functions'].keys())
+    def find_func(addr):
+        idx = bisect.bisect_right(addrs_sorted, addr) - 1
+        if idx >= 0 and addr - addrs_sorted[idx] < 0x2000:
+            return normalize_addr(addrs_sorted[idx])
+        return None
+
+    calls = defaultdict(lambda: {'callers': set(), 'callees': set()})
+    with open(args.trace_file) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            parts = line.split()
+            if len(parts) >= 4:
+                try:
+                    caller_addr = int(parts[2], 16)
+                    target_addr = int(parts[3], 16)
+                    caller_key = find_func(caller_addr)
+                    target_key = find_func(target_addr)
+                    if target_key:
+                        calls[target_key]['callers'].add(parts[2])
+                    if caller_key:
+                        calls[caller_key]['callees'].add(parts[3])
+                except ValueError:
+                    pass
+
+    updated = 0
+    for key, data in calls.items():
+        entry = db['functions'].get(key)
+        if entry:
+            existing_callers = set(entry.get('callers', []))
+            existing_callees = set(entry.get('callees', []))
+            entry['callers'] = sorted(existing_callers | data['callers'])
+            entry['callees'] = sorted(existing_callees | data['callees'])
+            updated += 1
+
+    save_db(db, args.db)
+    print(f"Updated call data for {updated} functions")
+
+
+def cmd_merge_dma(args):
+    """Merge DMA trace data into database."""
+    import bisect
+    db = load_db(args.db)
+
+    addrs_sorted = sorted(int(k, 16) for k in db['functions'].keys())
+
+    dma_by_func = defaultdict(int)
+    with open(args.dma_file) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            m = re.search(r'pc=0x([0-9a-fA-F]+)', line)
+            if m:
+                pc = int(m.group(1), 16)
+                idx = bisect.bisect_right(addrs_sorted, pc) - 1
+                if idx >= 0 and pc - addrs_sorted[idx] < 0x2000:
+                    key = normalize_addr(addrs_sorted[idx])
+                    dma_by_func[key] += 1
+
+    updated = 0
+    for key, count in dma_by_func.items():
+        entry = db['functions'].get(key)
+        if entry:
+            entry['dma_count'] = entry.get('dma_count', 0) + count
+            if 'dma_initiator' not in entry.get('tags', []):
+                entry.setdefault('tags', []).append('dma_initiator')
+            updated += 1
+
+    save_db(db, args.db)
+    print(f"Updated DMA data for {updated} functions")
+
+
 def cmd_stats(args):
     """Show database statistics."""
     db = load_db(args.db)
@@ -296,6 +428,9 @@ def cmd_stats(args):
     with_hw = sum(1 for f in funcs.values() if f.get('hw_tags'))
     with_strings = sum(1 for f in funcs.values() if f.get('strings'))
     with_tags = sum(1 for f in funcs.values() if f.get('tags'))
+    with_cdl = sum(1 for f in funcs.values() if f.get('cdl', {}).get('code', 0) > 0)
+    with_callers = sum(1 for f in funcs.values() if f.get('callers'))
+    with_dma = sum(1 for f in funcs.values() if f.get('dma_count', 0) > 0)
 
     # Tag distribution
     tag_counts = defaultdict(int)
@@ -317,6 +452,9 @@ def cmd_stats(args):
     print(f"With SDK matches:       {with_sdk}")
     print(f"With HW tags:           {with_hw}")
     print(f"With string data:       {with_strings}")
+    print(f"With CDL coverage:      {with_cdl}")
+    print(f"With callers:           {with_callers}")
+    print(f"DMA initiators:         {with_dma}")
     print(f"With any tag:           {with_tags}")
 
     if tag_counts:
@@ -386,6 +524,18 @@ def main():
     p = subparsers.add_parser('merge-strings', help='Merge string scan results')
     p.add_argument('text_file', help='String scan text output file')
 
+    # merge-cdl
+    p = subparsers.add_parser('merge-cdl', help='Merge CDL coverage data')
+    p.add_argument('cdl_file', help='CDL bitmap file (1MB)')
+
+    # merge-calltrace
+    p = subparsers.add_parser('merge-calltrace', help='Merge call trace data')
+    p.add_argument('trace_file', help='Call trace text file')
+
+    # merge-dma
+    p = subparsers.add_parser('merge-dma', help='Merge DMA trace data')
+    p.add_argument('dma_file', help='DMA trace text file')
+
     # query
     p = subparsers.add_parser('query', help='Query a function')
     p.add_argument('address', help='Function address (hex)')
@@ -407,6 +557,12 @@ def main():
         cmd_merge_hw(args)
     elif args.command == 'merge-strings':
         cmd_merge_strings(args)
+    elif args.command == 'merge-cdl':
+        cmd_merge_cdl(args)
+    elif args.command == 'merge-calltrace':
+        cmd_merge_calltrace(args)
+    elif args.command == 'merge-dma':
+        cmd_merge_dma(args)
     elif args.command == 'query':
         cmd_query(args)
     elif args.command == 'stats':

@@ -143,9 +143,9 @@ Define structs in JSON, parse memory at address. Uses `binary-parser` JS library
 | # | Feature | What it does | Priority |
 |---|---------|-------------|----------|
 | E1 | ~~WRAM dump command~~ | ~~Dump 1MB high WRAM (0x06000000-0x060FFFFF) to file. Also low WRAM, VDP VRAM.~~ | **DONE** |
-| E2 | Code/Data Logging | Per-byte bitfield: code vs data. Hooks instruction fetch + memory access. Coverage %. | **HIGH** |
-| E3 | Runtime DMA logging | Hook SCU DMA start. Log source/dest/length/initiating-PC for every transfer. | **MEDIUM** |
-| E4 | Memory write profiling | Log {pc, target_addr, value} for writes to configurable address ranges. | **MEDIUM** |
+| E2 | ~~Code/Data Logging~~ | ~~Per-byte bitfield: code vs data. Hooks instruction fetch + memory access. Coverage %.~~ | **DONE** |
+| E3 | ~~Runtime DMA logging~~ | ~~Hook SCU DMA start. Log source/dest/length/initiating-PC for every transfer.~~ | **DONE** |
+| E4 | ~~Memory write profiling~~ | ~~Log {pc, target_addr, value} for writes to configurable address ranges.~~ | **DONE** |
 | E5 | Interrupt logging | Log ISR entry: vector, PC at interrupt, frame number. | **LOW** |
 | E6 | Full execution trace | Log every instruction (PC + opcode). Expensive, use for short windows. | **LOW** |
 
@@ -155,8 +155,8 @@ Define structs in JSON, parse memory at address. Uses `binary-parser` JS library
 |---|---------|-------------|----------|
 | H1 | ~~Memory scanner~~ | ~~Cheat Engine-style: scan WRAM dump for value. 8/16/32-bit, endian, delta.~~ | **DONE** |
 | H2 | ~~Memory diff pipeline~~ | ~~Dump before/after event → diff → changed regions with symbol resolution.~~ | **DONE** |
-| H3 | Persistent function DB | JSON DB aggregating all tool outputs. Survives across sessions. | **MEDIUM** |
-| H4 | Coverage reporter | From CDL data: what % of binary is code, what % exercised. | **MEDIUM** |
+| H3 | ~~Persistent function DB~~ | ~~JSON DB aggregating all tool outputs. Survives across sessions.~~ | **DONE** |
+| H4 | ~~Coverage reporter~~ | ~~From CDL data: what % of binary is code, what % exercised.~~ | **DONE** |
 | H5 | Data structure parser | Define structs, parse WRAM dump at offset. Visualize game state. | **LOW** |
 
 ### Skip (not useful for us)
