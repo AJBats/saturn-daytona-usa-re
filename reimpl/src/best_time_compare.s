@@ -17,7 +17,7 @@ best_time_compare:
     nop
     .byte   0xB4, 0xE1    /* bsr 0x0601444C (external) */  ! call race_variant_setup_b
     nop
-    mov.l   .L_pool_mode_word, r0
+    mov.l   .L_pool_06013AEC, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x10, r0
@@ -32,9 +32,9 @@ best_time_compare:
 .L_after_mode_branch:
     .byte   0xB5, 0x8C    /* bsr 0x060145BC (external) */  ! call adv_collision_resp
     nop
-    mov.l   .L_pool_btn_state, r2
+    mov.l   .L_pool_06013AF0, r2
     mov.w @r2, r3
-    mov.w   .L_wpool_btn_mask, r2
+    mov.w   .L_wpool_06013AEA, r2
     extu.w r3, r3
     and r2, r3
     tst r3, r3
@@ -43,12 +43,12 @@ best_time_compare:
     nop
 .L_skip_wall_call:
     mov #0x4, r3
-    mov.l   .L_pool_active_car_count, r2
+    mov.l   .L_pool_06013AF4, r2
     mov.l @r2, r2
     cmp/hs r3, r2
     bt      .L_tail_wall_call
-    mov.l   .L_pool_countdown, r3
-    mov.l   .L_pool_countdown, r2
+    mov.l   .L_pool_06013AF8, r3
+    mov.l   .L_pool_06013AF8, r2
     mov.w @r3, r3
     add #-0x1, r3
     mov.w r3, @r2
@@ -66,24 +66,24 @@ best_time_compare:
     .global loc_06013ADA
 loc_06013ADA:
     mov #0x5, r3
-    mov.l   .L_pool_mode_byte_ptr, r2
+    mov.l   .L_pool_06013AFC, r2
     mov.b r3, @r2
     mov #0x0, r3
-    mov.l   .L_pool_wait_counter_ptr, r2
+    mov.l   .L_pool_06013B00, r2
     mov.w r3, @r2
     .byte   0xA0, 0x0D    /* bra 0x06013B04 (external) */  ! tail-call ranking_pts_calc
     nop
-.L_wpool_btn_mask:
+.L_wpool_06013AEA:
     .2byte  0x0800                        /* button mask: bit 11 (Start / action button) */
-.L_pool_mode_word:
+.L_pool_06013AEC:
     .4byte  sym_06063D9E                  /* game mode word (0x10 = attract/demo mode) */
-.L_pool_btn_state:
+.L_pool_06013AF0:
     .4byte  sym_06063D9A                  /* new button presses (edge-triggered, per-frame) */
-.L_pool_active_car_count:
+.L_pool_06013AF4:
     .4byte  sym_06084B18                  /* active car count in race (32-bit) */
-.L_pool_countdown:
+.L_pool_06013AF8:
     .4byte  sym_06084AF0                  /* post-race countdown timer (16-bit, counts down to 0) */
-.L_pool_mode_byte_ptr:
+.L_pool_06013AFC:
     .4byte  sym_06084AF2                  /* post-race mode byte (set to 0x05 at loc_06013ADA) */
-.L_pool_wait_counter_ptr:
+.L_pool_06013B00:
     .4byte  sym_06084AF6                  /* post-race wait counter (reset to 0 at loc_06013ADA) */

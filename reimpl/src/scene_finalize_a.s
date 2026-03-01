@@ -12,9 +12,9 @@ scene_finalize_a:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_pool_channel_desc_table, r10
-    mov.l   .L_pool_output_table_a, r11
-    mov.l   .L_pool_bitmask_array_a, r12
+    mov.l   .L_pool_06025138, r10
+    mov.l   .L_pool_0602513C, r11
+    mov.l   .L_pool_06025140, r12
     mov #0xA, r7
     mov #0x0, r4
     extu.w r4, r5
@@ -49,7 +49,7 @@ scene_finalize_a:
     extu.w r4, r5
     extu.w r13, r8
     extu.b r13, r14
-    mov.l   .L_pool_data_table_a, r3
+    mov.l   .L_pool_06025144, r3
     shll2 r8
     mov r14, r2
     shll r8
@@ -113,11 +113,11 @@ scene_finalize_a:
     .global DAT_06025136
 DAT_06025136:
     .2byte  0x00B4
-.L_pool_channel_desc_table:
+.L_pool_06025138:
     .4byte  sym_060610BC                /* render channel descriptor table: 14 entries x 12 bytes */
-.L_pool_output_table_a:
+.L_pool_0602513C:
     .4byte  sym_06060F2C                /* scene output table A: 10 slots x 8 bytes */
-.L_pool_bitmask_array_a:
+.L_pool_06025140:
     .4byte  sym_06059094                /* render bitmask array A: 10 x 2-byte slot enable masks */
-.L_pool_data_table_a:
+.L_pool_06025144:
     .4byte  sym_06060D7C                /* scene data table A: 14 entries x 8 bytes (ptr, data_ptr) */

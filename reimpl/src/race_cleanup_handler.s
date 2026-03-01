@@ -9,7 +9,7 @@ race_cleanup_handler:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_cleanup_frame_counter, r14
+    mov.l   .L_pool_06012224, r14
     mov.l @r14, r3
     add #0x1, r3
     mov r3, r2
@@ -17,16 +17,16 @@ race_cleanup_handler:
     mov #0x14, r3
     cmp/ge r3, r2
     bt      .L_check_transition
-    mov.l   .L_pool_model_table_base, r3
+    mov.l   .L_pool_06012228, r3
     mov.l r3, @r15
     mov r3, r7
-    mov.w   .L_wpool_vdp1_sprite_offset, r6
+    mov.w   .L_wpool_06012218, r6
     mov.l @r15, r5
     mov.l @(4, r7), r7
-    mov.l   .L_pool_model_data_offset, r3
+    mov.l   .L_pool_0601222C, r3
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_pool_fn_dlist_loader, r3
+    mov.l   .L_pool_06012230, r3
     jsr @r3
     mov #0x8, r4
     .byte   0xB1, 0xFA    /* bsr 0x060125D0 (external) */  ! call lap_display_update
@@ -35,61 +35,61 @@ race_cleanup_handler:
     mov.l @r14, r0
     cmp/eq #0x14, r0
     bf      .L_not_transition_frame
-    mov.l   .L_pool_snd_cmd_race_end, r5
-    mov.l   .L_pool_fn_sound_dispatch, r3
+    mov.l   .L_pool_06012234, r5
+    mov.l   .L_pool_06012238, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_pool_hud_text_source, r13
-    mov.w   .L_wpool_text_offset_a, r6
-    mov.w   .L_wpool_vdp1_sprite_offset, r5
-    mov.l   .L_pool_fn_vdp_text_render, r3
+    mov.l   .L_pool_0601223C, r13
+    mov.w   .L_wpool_0601221A, r6
+    mov.w   .L_wpool_06012218, r5
+    mov.l   .L_pool_06012240, r3
     mov r13, r7
     jsr @r3
     mov #0x8, r4
     mov r13, r7
-    mov.w   .L_wpool_text_offset_a, r6
-    mov.w   .L_wpool_text_offset_b, r5
-    mov.l   .L_pool_fn_vdp_text_render, r3
+    mov.w   .L_wpool_0601221A, r6
+    mov.w   .L_wpool_0601221C, r5
+    mov.l   .L_pool_06012240, r3
     jsr @r3
     mov #0x8, r4
     mov r13, r7
     mov.l   .L_mask_0xE000, r6
-    mov.w   .L_wpool_text_offset_c, r5
+    mov.w   .L_wpool_0601221E, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   .L_pool_fn_vdp_text_dispatch, r3
+    mov.l   .L_pool_06012248, r3
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_vdp1_sprite_offset:
+.L_wpool_06012218:
     .2byte  0x0390                          /* VDP1 sprite cmd list offset (car model) */
-.L_wpool_text_offset_a:
+.L_wpool_0601221A:
     .2byte  0x0090                          /* VDP text layer A offset */
-.L_wpool_text_offset_b:
+.L_wpool_0601221C:
     .2byte  0x0490                          /* VDP text layer B offset */
-.L_wpool_text_offset_c:
+.L_wpool_0601221E:
     .2byte  0x0590                          /* VDP text layer C offset */
     .4byte  sym_0607EAD8                    /* race end state flag (read by adjacent TU) */
-.L_pool_cleanup_frame_counter:
+.L_pool_06012224:
     .4byte  sym_060788AC                    /* cleanup frame counter (dword) */
-.L_pool_model_table_base:
+.L_pool_06012228:
     .4byte  sym_06063AF0                    /* car model geometry table base */
-.L_pool_model_data_offset:
+.L_pool_0601222C:
     .4byte  0x0000B000                      /* offset into model data block */
-.L_pool_fn_dlist_loader:
+.L_pool_06012230:
     .4byte  sym_06028400                    /* display list loader / DMA dispatch */
-.L_pool_snd_cmd_race_end:
+.L_pool_06012234:
     .4byte  0xAE110EFF                      /* sound cmd: race end cleanup SFX */
-.L_pool_fn_sound_dispatch:
+.L_pool_06012238:
     .4byte  sound_cmd_dispatch              /* sound command dispatch function */
-.L_pool_hud_text_source:
+.L_pool_0601223C:
     .4byte  sym_0605ACF0                    /* HUD text string source data */
-.L_pool_fn_vdp_text_render:
+.L_pool_06012240:
     .4byte  sym_060284AE                    /* VDP number/text renderer */
 .L_mask_0xE000:
     .4byte  0x0000E000                      /* priority bits mask (bits 15:13) */
-.L_pool_fn_vdp_text_dispatch:
+.L_pool_06012248:
     .4byte  sym_060283E0                    /* VDP text dispatch (tail call target) */
 .L_not_transition_frame:
     mov.l @r14, r2

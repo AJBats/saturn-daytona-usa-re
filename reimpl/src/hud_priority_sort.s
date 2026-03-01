@@ -9,11 +9,11 @@ hud_priority_sort:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.l r10, @-r15
-    mov.l   .L_pool_priority_table, r10
+    mov.l   .L_pool_0601559C, r10
     mov #0x4, r11
     mov #0x50, r12
     mov #0x60, r14
-    mov.l   .L_pool_slot_base, r6
+    mov.l   .L_pool_060155A0, r6
     mov #0x0, r5
 .L_loop_top:
     extu.b r5, r7
@@ -79,7 +79,7 @@ hud_priority_sort:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r14
-.L_pool_priority_table:
+.L_pool_0601559C:
     .4byte  sym_0605B838
-.L_pool_slot_base:
+.L_pool_060155A0:
     .4byte  sym_06084FC8

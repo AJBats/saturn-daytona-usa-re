@@ -9,8 +9,8 @@ save_checksum_calc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov r4, r13
-    mov.l   .L_pool_game_state_ptr, r14
-    mov.w   .L_wpool_notify_struct_offset, r3
+    mov.l   .L_pool_0603B988, r14
+    mov.w   .L_wpool_0603B986, r3
     mov.l @r14, r14
     add r3, r14
     tst r13, r13
@@ -37,9 +37,9 @@ save_checksum_calc:
     .4byte  0x62223420
     .4byte  0x8B04A008
     .2byte  0x0009
-.L_wpool_notify_struct_offset:
+.L_wpool_0603B986:
     .2byte  0x00B8                      /* [HIGH] notification sub-struct offset within game state */
-.L_pool_game_state_ptr:
+.L_pool_0603B988:
     .4byte  sym_060A4D14
     .4byte  0x7501E060
     .4byte  0x026E3523

@@ -14,10 +14,10 @@ course_state_setup:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_pattern_fill_a, r8
+    mov.l   .L_pool_0601B154, r8
     mov #0x5, r10
-    mov.l   .L_pool_pattern_fill_b, r13
-    mov.l   .L_pool_geom_dispatch, r14
+    mov.l   .L_pool_0601B158, r13
+    mov.l   .L_pool_0601B15C, r14
     mov #0x0, r4
     extu.w r4, r11
     extu.w r4, r12
@@ -68,9 +68,9 @@ course_state_setup:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_pattern_fill_a:
+.L_pool_0601B154:
     .4byte  sym_0604A490
-.L_pool_pattern_fill_b:
+.L_pool_0601B158:
     .4byte  sym_0604A4B8
-.L_pool_geom_dispatch:
+.L_pool_0601B15C:
     .4byte  sym_060284AE

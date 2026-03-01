@@ -9,7 +9,7 @@ anim_frame_transform:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_digit_buf, r5
+    mov.l   .L_pool_06005EB8, r5
     mov.l r4, @r15
     mov #0xA, r12
     mov.w   .L_divu_DVDNT, r14
@@ -131,7 +131,7 @@ anim_frame_transform:
     .2byte  0xFF1C                  /* 0xFFFFFF1C = DVDNTL_S — quotient after 32/32 division [HIGH] */
     .2byte  0xFFFF                  /* pool alignment padding */
 
-.L_pool_digit_buf:
+.L_pool_06005EB8:
     .4byte  sym_06063E14            /* &digit_buffer — 9-byte HUD time display buffer [HIGH] */
 
 .L_tens_min_blank:

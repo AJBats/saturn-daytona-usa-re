@@ -24,33 +24,33 @@ sprite_frame_select:
     exts.b r4, r4
     tst r4, r4
     bt      .L_early_return
-    mov.l   .L_pool_mat_identity, r3
+    mov.l   .L_pool_060055A4, r3
     jsr @r3
     nop
     exts.b r14, r0
     cmp/eq #-0x1, r0
     bt      .L_early_return
     exts.b r14, r14
-    mov.w   .L_wpool_anim_entry_stride, r2
-    mov.l   .L_pool_anim_table_base, r3
+    mov.w   .L_wpool_060055A0, r2
+    mov.l   .L_pool_060055A8, r3
     mul.l r2, r14
     sts macl, r14
     add r3, r14
     mov.l @(24, r14), r6
     mov.l @(20, r14), r5
-    mov.l   .L_pool_mat_xform_trans, r3
+    mov.l   .L_pool_060055AC, r3
     jsr @r3
     mov.l @(16, r14), r4
-    mov.l   .L_pool_mat_rot_y, r3
+    mov.l   .L_pool_060055B0, r3
     jsr @r3
     mov.l @(32, r14), r4
-    mov.l   .L_pool_mat_rot_x, r3
+    mov.l   .L_pool_060055B4, r3
     jsr @r3
     mov.l @(28, r14), r4
     mov.l @(36, r14), r4
     lds.l @r15+, macl
     lds.l @r15+, pr
-    mov.l   .L_pool_mat_rot_z, r3
+    mov.l   .L_pool_060055B8, r3
     jmp @r3
     mov.l @r15+, r14
 .L_early_return:
@@ -58,18 +58,18 @@ sprite_frame_select:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_anim_entry_stride:
+.L_wpool_060055A0:
     .2byte  0x0268              /* [HIGH] animation table entry stride: 0x268 bytes per entry */
     .2byte  0xFFFF
-.L_pool_mat_identity:
+.L_pool_060055A4:
     .4byte  sym_06026E0C
-.L_pool_anim_table_base:
+.L_pool_060055A8:
     .4byte  sym_06078900
-.L_pool_mat_xform_trans:
+.L_pool_060055AC:
     .4byte  sym_06026E2E
-.L_pool_mat_rot_y:
+.L_pool_060055B0:
     .4byte  mat_rot_y
-.L_pool_mat_rot_x:
+.L_pool_060055B4:
     .4byte  mat_rot_x
-.L_pool_mat_rot_z:
+.L_pool_060055B8:
     .4byte  mat_rot_z

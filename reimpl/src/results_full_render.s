@@ -14,7 +14,7 @@ results_full_render:
     add #-0x1, r7
     cmp/pl r7
     .byte   0x89, 0xEA    /* bt 0x06033228 (external) */ ! if yes, branch back to outer loop in caller
-    mov.l   .L_pool_neg_eighth, r0
+    mov.l   .L_pool_06033276, r0
     add r0, r1
     mov.l   .L_fp_one, r0
     add r0, r2
@@ -30,7 +30,7 @@ results_full_render:
     .4byte  sym_0603390C                 /* pointer to display element descriptor table */
 .L_fp_one:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_pool_neg_eighth:
+.L_pool_06033276:
     .4byte  0xFFF80000                   /* -8.0 (16.16 fixed-point) — X row-reset delta */
 
 place_result_cell:
@@ -41,8 +41,8 @@ place_result_cell:
     mov #0x0, r0
     cmp/eq r0, r5
     bt      .ret_restore
-    mov.l   .L_pool_x_origin, r0
-    mov.l   .L_pool_y_origin, r3
+    mov.l   .L_pool_06033312, r0
+    mov.l   .L_pool_06033316, r3
     add r0, r1
     add r3, r2
     mov.l   .L_fp_four, r0
@@ -50,10 +50,10 @@ place_result_cell:
     bt      .ret_restore
     cmp/gt r2, r0
     bt      .ret_restore
-    mov.l   .L_pool_x_max, r0
+    mov.l   .L_pool_0603331E, r0
     cmp/gt r0, r1
     bt      .ret_restore
-    mov.l   .L_pool_y_max, r0
+    mov.l   .L_pool_06033322, r0
     cmp/gt r0, r2
     bt      .ret_restore
     mov.l   .L_fp_half, r0
@@ -93,7 +93,7 @@ place_result_cell:
     add r0, r4
     add r4, r3
 
-    mov.l   .L_pool_cell_table, r4
+    mov.l   .L_pool_0603332E, r4
     add r3, r4
     mov.b @r4, r0
     mov.l r4, @-r15
@@ -119,21 +119,21 @@ place_result_cell:
     nop
 
     .2byte  0x0000                       /* alignment padding */
-.L_pool_x_origin:
+.L_pool_06033312:
     .4byte  0x00240000                   /* 36.0 (16.16) — results grid X origin offset */
-.L_pool_y_origin:
+.L_pool_06033316:
     .4byte  0x001C0000                   /* 28.0 (16.16) — results grid Y origin offset */
 .L_fp_four:
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
-.L_pool_x_max:
+.L_pool_0603331E:
     .4byte  0x00460000                   /* 70.0 (16.16) — results grid right clip boundary */
-.L_pool_y_max:
+.L_pool_06033322:
     .4byte  0x00360000                   /* 54.0 (16.16) — results grid bottom clip boundary */
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_fp_one_b:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_pool_cell_table:
+.L_pool_0603332E:
     .4byte  sym_060629AC                 /* base address of results colour cell table */
     .4byte  0xD505D406                   /* trailing data (after cell table ptr — not code) */
     .4byte  0x9606D006                   /* trailing data */

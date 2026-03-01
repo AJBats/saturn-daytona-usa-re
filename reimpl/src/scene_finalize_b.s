@@ -12,9 +12,9 @@ scene_finalize_b:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_pool_render_channel_desc, r10
-    mov.l   .L_pool_render_state_table, r11
-    mov.l   .L_pool_render_bitmask_array, r12
+    mov.l   .L_pool_06025214, r10
+    mov.l   .L_pool_06025218, r11
+    mov.l   .L_pool_0602521C, r12
     mov #0x8, r7
     mov #0x0, r4
     extu.w r4, r5
@@ -35,7 +35,7 @@ scene_finalize_b:
     mov.w r0, @(4, r6)
     extu.b r3, r3
     extu.w r4, r2
-    mov.w   .L_wpool_default_render_attr, r0
+    mov.w   .L_wpool_06025210, r0
     add r10, r3
     mov.w r0, @(6, r6)
     mov.l @(4, r3), r3
@@ -49,7 +49,7 @@ scene_finalize_b:
     extu.w r4, r5
     extu.w r13, r8
     extu.b r13, r14
-    mov.l   .L_pool_channel_ptr_table, r3
+    mov.l   .L_pool_06025220, r3
     shll2 r8
     mov r14, r2
     shll r8
@@ -110,14 +110,14 @@ scene_finalize_b:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_default_render_attr:
+.L_wpool_06025210:
     .2byte  0x00B4                      /* [MEDIUM] default render attribute value (init slot attr field) */
     .2byte  0xFFFF
-.L_pool_render_channel_desc:
+.L_pool_06025214:
     .4byte  sym_060610BC
-.L_pool_render_state_table:
+.L_pool_06025218:
     .4byte  sym_0606107C
-.L_pool_render_bitmask_array:
+.L_pool_0602521C:
     .4byte  sym_060590A8
-.L_pool_channel_ptr_table:
+.L_pool_06025220:
     .4byte  sym_06060D7C

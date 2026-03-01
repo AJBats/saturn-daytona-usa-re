@@ -23,7 +23,7 @@ sound_channel_mgr:
     mov.l r6, @(24, r14)
     mov.l @(12, r14), r3
     mov.w   DAT_06030eae, r10
-    .byte   0xD4, 0x08    /* mov.l .L_pool_damp_moderate, r4 */  ! r4 = 0xDEB8 (moderate damping, default)
+    .byte   0xD4, 0x08    /* mov.l .L_pool_06030EBB, r4 */  ! r4 = 0xDEB8 (moderate damping, default)
     add r14, r10
     mov.w @r10, r9
     mov #0x8, r8
@@ -32,7 +32,7 @@ sound_channel_mgr:
     add #-0x2, r8
     cmp/ge r8, r9
     bf      .L_apply_damping
-    .byte   0xD4, 0x04    /* mov.l .L_pool_damp_light, r4 */     ! r4 = 0xFAE1 (light damping)
+    .byte   0xD4, 0x04    /* mov.l .L_pool_06030EBF, r4 */     ! r4 = 0xFAE1 (light damping)
     bra     .L_apply_damping
     nop
 
@@ -41,12 +41,12 @@ DAT_06030eae:
     .2byte  0x007C                      /* struct offset to mode word */
     .4byte  cos_lookup                  /* pointer to cosine lookup function */
     .4byte  sin_lookup                  /* pointer to sine lookup function */
-.L_pool_damp_moderate:
+.L_pool_06030EBB:
     .4byte  0x0000DEB8                  /* 16.16 fixed-point ~0.87 (moderate damping) */
-.L_pool_damp_light:
+.L_pool_06030EBF:
     .4byte  0x0000FAE1                  /* 16.16 fixed-point ~0.98 (light damping) */
 .L_mode_high:
-    .byte   0xD4, 0x06    /* mov.l .L_pool_damp_strong, r4 */    ! r4 = 0xC000 (strong damping)
+    .byte   0xD4, 0x06    /* mov.l .L_pool_06030EE0, r4 */    ! r4 = 0xC000 (strong damping)
 .L_apply_damping:
     dmuls.l r3, r4
     sts mach, r3
@@ -61,13 +61,13 @@ DAT_06030eae:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r12
-.L_pool_damp_strong:
+.L_pool_06030EE0:
     .4byte  0x0000C000                  /* 16.16 fixed-point 0.75 (strong damping) */
 
     .global sym_06030EE0
 sym_06030EE0:
-    mov.w   .L_wpool_countdown_timer_offset, r0
-    .byte   0xD1, 0x05    /* mov.l .L_pool_car_struct_ptr, r1 */ ! r1 = &sym_0607E940 (car struct pointer)
+    mov.w   .L_wpool_06030EF9, r0
+    .byte   0xD1, 0x05    /* mov.l .L_pool_06030EFD, r1 */ ! r1 = &sym_0607E940 (car struct pointer)
     mov.l @r1, r3
     mov.w @(r0, r3), r2
     cmp/pl r2
@@ -77,10 +77,10 @@ sym_06030EE0:
 .L_timer_done:
     rts
     nop
-.L_wpool_countdown_timer_offset:
+.L_wpool_06030EF9:
     .2byte  0x0150                      /* [HIGH] offset +0x150: countdown timer field in car struct */
     .2byte  0x0000                      /* alignment padding */
-.L_pool_car_struct_ptr:
+.L_pool_06030EFD:
     .4byte  sym_0607E940                /* pointer to current car struct */
     .4byte  0x2FC62F06                  /* mov.l r12, @-r15 / mov.l r0, @-r15 */
     .4byte  0x4F22DC04                  /* sts.l pr, @-r15 / mov.l @(PC+16), r12 = sound_cmd_dispatch */

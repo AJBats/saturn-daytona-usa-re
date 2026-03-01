@@ -26,12 +26,12 @@ clip_region_test:
     mov.l @(24, r0), r6
     mov.l r5, @(56, r0)
     mov.l r6, @(60, r0)
-    .byte   0xD0, 0x0F    /* mov.l .L_pool_cos_lookup, r0 */
+    .byte   0xD0, 0x0F    /* mov.l .L_pool_0602D91E, r0 */
     jsr @r0
     nop
     mov r0, r8
     mov r7, r4
-    .byte   0xD0, 0x0D    /* mov.l .L_pool_sin_lookup, r0 */
+    .byte   0xD0, 0x0D    /* mov.l .L_pool_0602D922, r0 */
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -63,7 +63,7 @@ DAT_0602d918:
     .global DAT_0602d91a
 DAT_0602d91a:
     .2byte  0x0190
-.L_pool_cos_lookup:
+.L_pool_0602D91E:
     .4byte  cos_lookup
-.L_pool_sin_lookup:
+.L_pool_0602D922:
     .4byte  sin_lookup

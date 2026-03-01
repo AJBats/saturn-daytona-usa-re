@@ -13,7 +13,7 @@ event_callback_dispatch:
     add #0x1C, r3
     mov.l r3, @-r15
     mov r15, r7
-    mov.l   .L_pool_evt_field_extract, r3
+    mov.l   .L_pool_06040C04, r3
     add #0x1C, r7
     jsr @r3
     mov.l @r13, r4
@@ -40,8 +40,8 @@ event_callback_dispatch:
     sub r2, r1
     mov.l r1, @(4, r15)
 .L_fill_record:
-    mov.l   .L_pool_evt_record_base, r13
-    mov.l   .L_pool_evt_record_alloc, r3
+    mov.l   .L_pool_06040C08, r13
+    mov.l   .L_pool_06040C0C, r3
     jsr @r3
     nop
     mov.l r0, @r13
@@ -62,9 +62,9 @@ event_callback_dispatch:
     mov.l @r15+, r14
     .4byte  cmd_enqueue
     .4byte  state_field_read
-.L_pool_evt_field_extract:
+.L_pool_06040C04:
     .4byte  sym_06040220
-.L_pool_evt_record_base:
+.L_pool_06040C08:
     .4byte  sym_0606367C
-.L_pool_evt_record_alloc:
+.L_pool_06040C0C:
     .4byte  sym_06035C48

@@ -7,7 +7,7 @@
 evt_checkpoint_validate:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD7, 0x15    /* mov.l .L_pool_state_base_ptr, r7 */ ! r7 = &sym_060A5400 (ptr to game state base)
+    .byte   0xD7, 0x15    /* mov.l .L_pool_0604130D, r7 */ ! r7 = &sym_060A5400 (ptr to game state base)
     mov.w   .L_validation_slot_offset, r0
     mov.l @r7, r3
     mov.l @(r0, r3), r0
@@ -52,7 +52,7 @@ evt_checkpoint_validate:
 .L_validation_slot_offset:
     .2byte  0x0338                           /* [HIGH] offset to checkpoint validation slot in state struct */
     .4byte  ai_checkpoint_validate
-.L_pool_state_base_ptr:
+.L_pool_0604130D:
     .4byte  sym_060A5400
     .4byte  0xD5149025
     .4byte  0x6352003E

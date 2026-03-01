@@ -15,10 +15,10 @@ geom_vertex_process:
     mov #0x10, r10
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_geom_output_ptr, r9
-    mov.l   .L_pool_rts_stub, r12
-    mov.l   .L_pool_dirty_flag, r13
-    mov.l   .L_pool_pending_flag, r0
+    mov.l   .L_pool_0601E9F4, r9
+    mov.l   .L_pool_0601E9F8, r12
+    mov.l   .L_pool_0601E9FC, r13
+    mov.l   .L_pool_0601EA00, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_not_pending
@@ -28,8 +28,8 @@ geom_vertex_process:
 .L_not_pending:
     .byte   0xBC, 0x98    /* bsr 0x0601E2B4 (hud_overlay_render) */
     nop
-    mov.l   .L_pool_player_index, r14
-    mov.l   .L_pool_course_name_table, r2
+    mov.l   .L_pool_0601EA04, r14
+    mov.l   .L_pool_0601EA08, r2
     mov.b @r14, r4
     extu.b r4, r4
     mov r4, r3
@@ -46,7 +46,7 @@ geom_vertex_process:
     .byte   0xB0, 0xE5    /* bsr 0x0601EB70 (geom_normal_compute) */
     nop
     mov.b @r14, r2
-    mov.l   .L_pool_player_status, r3
+    mov.l   .L_pool_0601EA0C, r3
     extu.b r2, r2
     add r3, r2
     mov.b r8, @r2
@@ -58,7 +58,7 @@ geom_vertex_process:
 .L_not_idle:
     mov #0x1, r1
     mov.b @r14, r2
-    mov.l   .L_pool_player_status, r3
+    mov.l   .L_pool_0601EA0C, r3
     extu.b r2, r2
     add r3, r2
     mov.b r1, @r2
@@ -67,7 +67,7 @@ geom_vertex_process:
     bf      .L_element_changed
     add #-0x3, r4
     mov.b @r14, r3
-    mov.l   .L_pool_player_elem_state, r2
+    mov.l   .L_pool_0601EA10, r2
     extu.b r4, r4
     extu.b r3, r3
     add r2, r3
@@ -84,21 +84,21 @@ geom_vertex_process:
     .byte   0xA5, 0x0E    /* bra 0x0601F40C (geom_output_handler) — tail call */
     mov.l @r15+, r14
     .4byte  0x2010001F
-.L_pool_geom_output_ptr:
+.L_pool_0601E9F4:
     .4byte  sym_0605E098
-.L_pool_rts_stub:
+.L_pool_0601E9F8:
     .4byte  sym_0601F8BC
-.L_pool_dirty_flag:
+.L_pool_0601E9FC:
     .4byte  sym_0605E05C
-.L_pool_pending_flag:
+.L_pool_0601EA00:
     .4byte  sym_0605E05D
-.L_pool_player_index:
+.L_pool_0601EA04:
     .4byte  sym_060877D8
-.L_pool_course_name_table:
+.L_pool_0601EA08:
     .4byte  sym_0604A57C
-.L_pool_player_status:
+.L_pool_0601EA0C:
     .4byte  sym_060877DD
-.L_pool_player_elem_state:
+.L_pool_0601EA10:
     .4byte  sym_060877D9
 .L_element_changed:
     mov.b @r14, r2

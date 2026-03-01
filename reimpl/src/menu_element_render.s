@@ -28,7 +28,7 @@ menu_element_render:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x04    /* mov.l .L_pool_memset, r3 */  ! r3 = &memset (sym_06036D78)
+    .byte   0xD3, 0x04    /* mov.l .L_pool_0603F439, r3 */  ! r3 = &memset (sym_06036D78)
     jmp @r3
     mov.l @r15+, r14
     .2byte  0x043C
@@ -37,7 +37,7 @@ menu_element_render:
     .2byte  0xFFFF
     .4byte  sym_06036D94
     .4byte  sym_060A4D14
-.L_pool_memset:
+.L_pool_0603F439:
     .4byte  sym_06036D78
 .L_source_valid:
     mov.l @(8, r14), r4

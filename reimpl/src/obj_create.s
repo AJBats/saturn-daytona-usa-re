@@ -13,19 +13,19 @@ obj_create:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0xC, r15
-    .byte   0xDA, 0x14    /* mov.l .L_pool_obj_data_flat_table, r10 */ ! r10 = sym_0604BD72 (flat object data table, 42-byte records)
+    .byte   0xDA, 0x14    /* mov.l .L_pool_060203CF, r10 */ ! r10 = sym_0604BD72 (flat object data table, 42-byte records)
     mov #0x15, r11
     mov.w   DAT_060203be, r12
     extu.b r4, r14
     shll2 r14
-    .byte   0xD3, 0x12    /* mov.l .L_pool_type_to_desc_table, r3 */ ! r3 = sym_0605F458 (type -> descriptor pointer table)
+    .byte   0xD3, 0x12    /* mov.l .L_pool_060203D3, r3 */ ! r3 = sym_0605F458 (type -> descriptor pointer table)
     add r3, r14
     mov.l @r14, r14
     mov.b @(2, r14), r0
     mov r0, r7
     extu.b r7, r7
     shll2 r7
-    .byte   0xD2, 0x10    /* mov.l .L_pool_subtype_to_data_table, r2 */ ! r2 = sym_0605F478 (sub-type -> object data pointer table)
+    .byte   0xD2, 0x10    /* mov.l .L_pool_060203D7, r2 */ ! r2 = sym_0605F478 (sub-type -> object data pointer table)
     add r2, r7
     mov.l @r7, r7
     mov.w @r7, r1
@@ -55,11 +55,11 @@ DAT_060203be:
     .2byte  0x00FF
     .4byte  sym_0608780A
     .4byte  sym_0608782C
-.L_pool_obj_data_flat_table:
+.L_pool_060203CF:
     .4byte  sym_0604BD72
-.L_pool_type_to_desc_table:
+.L_pool_060203D3:
     .4byte  sym_0605F458
-.L_pool_subtype_to_data_table:
+.L_pool_060203D7:
     .4byte  sym_0605F478
 .L_process_record:
     mov.b @(2, r14), r0

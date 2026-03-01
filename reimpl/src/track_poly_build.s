@@ -18,37 +18,37 @@ track_poly_build:
     mov.l @r15+, r1
     mov.l @(40, r0), r12
     sub r12, r11
-    mov.l   .L_pool_bit15_mask, r10
+    mov.l   .L_pool_0602F580, r10
     tst r10, r11
     bt      .L_angle_positive
-    mov.l   .L_pool_sign_extend, r10
+    mov.l   .L_pool_0602F584, r10
     bra     .L_check_abs_angle
     or r10, r11
     .2byte  0x0000
     .4byte  0x001E0000
     .4byte  atan2
-.L_pool_bit15_mask:
+.L_pool_0602F580:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / bit 15 mask */
-.L_pool_sign_extend:
+.L_pool_0602F584:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) / sign extend */
 .L_angle_positive:
-    mov.l   .L_pool_low16_mask, r10
+    mov.l   .L_pool_0602F5A0, r10
     and r10, r11
 .L_check_abs_angle:
     cmp/pz r11
     bt      .L_already_positive
     neg r11, r11
 .L_already_positive:
-    mov.l   .L_pool_angle_threshold, r10
+    mov.l   .L_pool_0602F5A4, r10
     cmp/ge r10, r11
     bt      .L_skip_segment
     mov #0x14, r12
     bra     .L_done
     mov.w r12, @(r0, r1)
     .2byte  0x0000
-.L_pool_low16_mask:
+.L_pool_0602F5A0:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_pool_angle_threshold:
+.L_pool_0602F5A4:
     .4byte  0x0000071C                  /* angle threshold ~10 degrees (16-bit angle) */
 .L_skip_segment:
     mov.w   DAT_0602f5b4, r11

@@ -8,8 +8,8 @@ grid_position_camera:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_input_state, r13
-    mov.l   .L_pool_slot_counter, r14
+    mov.l   .L_pool_0601A198, r13
+    mov.l   .L_pool_0601A19C, r14
     mov.w @r13, r0
     extu.w r0, r0
     tst #0x1, r0
@@ -21,7 +21,7 @@ grid_position_camera:
     mov #0x19, r5
 .L_mode_selected:
     mov.l   .L_up_btn_mask, r7
-    mov.l   .L_pool_slot_byte, r4
+    mov.l   .L_pool_0601A1A4, r4
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
@@ -98,13 +98,13 @@ grid_position_camera:
     mov.l @r15+, r14
 .L_down_btn_mask:
     .2byte  0x4000                          /* Down button bit mask (bit 14) */
-.L_pool_input_state:
+.L_pool_0601A198:
     .4byte  g_pad_state                    /* &input_state (+0=held, +2=newly pressed) */
-.L_pool_slot_counter:
+.L_pool_0601A19C:
     .4byte  sym_0605AD04                    /* &grid_slot_counter (32-bit) */
 .L_up_btn_mask:
     .4byte  0x00008000                      /* Up button bit mask (bit 15, 32-bit for AND) */
-.L_pool_slot_byte:
+.L_pool_0601A1A4:
     .4byte  sym_0605D243                    /* &grid_slot_byte (byte output) */
 
     .global loc_0601A1A8

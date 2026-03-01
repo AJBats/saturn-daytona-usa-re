@@ -55,7 +55,7 @@ hud_state_machine:
     shll2 r11
     shll2 r11
     shll r11
-    mov.l   .L_pool_element_array, r3
+    mov.l   .L_pool_0601E600, r3
     add r3, r11
 
 .L_poll_sf_set_a:
@@ -74,7 +74,7 @@ hud_state_machine:
     tst r2, r2
     bf      .L_poll_sf_clear_a
 
-    mov.l   .L_pool_dispatch_ptr, r3
+    mov.l   .L_pool_0601E604, r3
     mov #0x0, r5
     mov.w @(28, r11), r0
     mov.l @r3, r3
@@ -83,9 +83,9 @@ hud_state_machine:
     jsr @r2
     extu.w r4, r4
 
-    mov.l   .L_pool_geom_output_ptr, r6
-    mov.l   .L_pool_player_index, r5
-    mov.l   .L_pool_course_name_table, r2
+    mov.l   .L_pool_0601E608, r6
+    mov.l   .L_pool_0601E60C, r5
+    mov.l   .L_pool_0601E610, r2
     mov.w @(28, r11), r0
     mov.l @r6, r6
     mov.b @r5, r5
@@ -140,7 +140,7 @@ hud_state_machine:
     add #0x1, r12
 
 .L_loop_check:
-    mov.l   .L_pool_element_count, r3
+    mov.l   .L_pool_0601E614, r3
     mov.w @r3, r3
     extu.w r3, r3
     cmp/ge r3, r12
@@ -179,17 +179,17 @@ hud_state_machine:
     bra     .L_return
     extu.b r5, r0
 
-.L_pool_element_array:
+.L_pool_0601E600:
     .4byte  sym_06087094
-.L_pool_dispatch_ptr:
+.L_pool_0601E604:
     .4byte  sym_06000354
-.L_pool_geom_output_ptr:
+.L_pool_0601E608:
     .4byte  sym_0605E098
-.L_pool_player_index:
+.L_pool_0601E60C:
     .4byte  sym_060877D8
-.L_pool_course_name_table:
+.L_pool_0601E610:
     .4byte  sym_0604A57C
-.L_pool_element_count:
+.L_pool_0601E614:
     .4byte  sym_06087084
 
 .L_update_not_set:

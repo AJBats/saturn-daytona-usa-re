@@ -9,10 +9,10 @@ transform_heading_apply:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r10, @-r15
-    mov.l   .L_pool_slot_data_table, r10
+    mov.l   .L_pool_06026314, r10
     mov #0xA, r12
-    mov.l   .L_pool_course_id_a_ptr, r13
-    mov.l   .L_pool_course_id_b_ptr, r14
+    mov.l   .L_pool_06026318, r13
+    mov.l   .L_pool_0602631C, r14
     mov #0x1, r7
     mov #0x2, r6
     mov #0x0, r0
@@ -46,14 +46,14 @@ transform_heading_apply:
     bra     .L_loop_next
     nop
     .2byte  0xFFFF                          /* alignment padding */
-.L_pool_slot_data_table:
+.L_pool_06026314:
     .4byte  sym_06060F2C                    /* [MEDIUM] slot_data_table base (8-byte stride, up to 10 slots) */
-.L_pool_course_id_a_ptr:
+.L_pool_06026318:
     .4byte  sym_06089ED6                    /* [HIGH] &course_id_a (word) */
-.L_pool_course_id_b_ptr:
+.L_pool_0602631C:
     .4byte  sym_06089ED4                    /* [HIGH] &course_id_b (word) */
 .L_dispatch_heading:
-    mov.w   .L_wpool_heading_base, r1
+    mov.w   .L_wpool_06026336, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
@@ -64,7 +64,7 @@ transform_heading_apply:
     mov.w @(r0, r1), r0
     braf r0
     nop
-.L_wpool_heading_base:
+.L_wpool_06026336:
     .2byte  0x008A                          /* [HIGH] heading base value to subtract (0x8A) */
     .4byte  0xFFC4FFC4                      /* jump offsets: index 0 (-60), index 1 (-60) -> course_id_a=1 */
     .4byte  0xFFCEFFCE                      /* jump offsets: index 2 (-50), index 3 (-50) -> course_id_a=slot_idx, course_id_b=1 */

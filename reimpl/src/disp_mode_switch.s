@@ -12,25 +12,25 @@ disp_mode_switch:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_pool_disp_flags, r0
+    mov.l   .L_pool_06033040, r0
     mov.b @r0, r1
-    mov.l   .L_pool_scroll_enable_mask, r0
+    mov.l   .L_pool_06033044, r0
     tst r0, r1
     bt      .L_scroll_disabled
-    mov.l   .L_pool_scroll_target, r5
+    mov.l   .L_pool_06033048, r5
     bra     .L_interpolate
     nop
     .2byte  0x0000
-.L_pool_disp_flags:
+.L_pool_06033040:
     .4byte  sym_06082A25
-.L_pool_scroll_enable_mask:
+.L_pool_06033044:
     .4byte  0x00000001
-.L_pool_scroll_target:
+.L_pool_06033048:
     .4byte  0x00003333
 .L_scroll_disabled:
     xor r5, r5
 .L_interpolate:
-    mov.l   .L_pool_scroll_pos, r0
+    mov.l   .L_pool_06033074, r0
     mov.l @r0, r1
     sub r1, r5
     shar r5
@@ -49,7 +49,7 @@ disp_mode_switch:
     rts
     nop
     .2byte  0x0000
-.L_pool_scroll_pos:
+.L_pool_06033074:
     .4byte  sym_06082A28
     .4byte  0x000B0009
     .4byte  0xD0076002

@@ -9,12 +9,12 @@ display_mode_switch:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_pool_render_budget_ptr, r13
+    mov.l   .L_pool_06032FE8, r13
     mov.l @r13, r13
     rts
     nop
     .4byte  sym_06026DBC
-.L_pool_render_budget_ptr:
+.L_pool_06032FE8:
     .4byte  sym_06089EDC                /* [HIGH] rendering budget counter pointer */
     .4byte  0x00000000
     .4byte  0x00000004

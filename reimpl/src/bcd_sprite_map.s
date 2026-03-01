@@ -6,14 +6,14 @@
     .type bcd_sprite_map, @function
 bcd_sprite_map:
     sts.l pr, @-r15
-    mov.l   .L_pool_struct_base, r13
+    mov.l   .L_pool_06016A10, r13
     cmp/ge r2, r3
     bt/s    .L_accum_with_project
     mov #0x4, r5
 
 
     extu.b r14, r4
-    mov.l   .L_pool_fn_data_lookup, r2
+    mov.l   .L_pool_06016A14, r2
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -50,7 +50,7 @@ bcd_sprite_map:
 .L_accum_with_project:
 
     extu.b r14, r12
-    mov.l   .L_pool_fn_data_lookup, r2
+    mov.l   .L_pool_06016A14, r2
     mov r12, r3
     shll2 r12
     shll2 r3
@@ -116,7 +116,7 @@ bcd_sprite_map:
     .2byte  0xFFFF
 
 
-.L_pool_struct_base:
+.L_pool_06016A10:
     .4byte  sym_06084FC8
-.L_pool_fn_data_lookup:
+.L_pool_06016A14:
     .4byte  sym_06034FE0

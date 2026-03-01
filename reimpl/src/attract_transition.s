@@ -19,7 +19,7 @@ attract_transition:
     cmp/gt r2, r14
     bt      .L_0603F9A4
     exts.b r14, r6
-    mov.l   .L_pool_attract_data_table, r2
+    mov.l   .L_pool_0603F9B4, r2
     mov r6, r3
     shll2 r6
     shll2 r3
@@ -37,5 +37,5 @@ attract_transition:
     mov.l @r15+, r14
     .2byte  0x000B
     .4byte  0x145CFFFF
-.L_pool_attract_data_table:
+.L_pool_0603F9B4:
     .4byte  sym_0606364C                /* [MEDIUM] attract mode transition data table */

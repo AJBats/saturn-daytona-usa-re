@@ -10,7 +10,7 @@ lap_progress_bar:
     mov.l r12, @-r15
     mov.l r11, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_slot_base, r11
+    mov.l   .L_pool_06015DE0, r11
     mov #0x8, r12
     mov #0x3, r13
     mov #0x9, r14
@@ -40,13 +40,13 @@ lap_progress_bar:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_fn_clear_vdp2, r3
+    mov.l   .L_pool_06015DE4, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_slot_base:
+.L_pool_06015DE0:
     .4byte  sym_06084FC8
-.L_pool_fn_clear_vdp2:
+.L_pool_06015DE4:
     .4byte  sym_060172E4
 
     .global loc_06015DE8

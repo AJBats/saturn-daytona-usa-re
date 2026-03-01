@@ -14,7 +14,7 @@ tachometer_ctrl:
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
-    mov.w   .L_wpool_btn_start_mask, r3
+    mov.w   .L_wpool_06010ACC, r3
     and r3, r2
     tst r2, r2
     bt/s    .L_button_not_pressed
@@ -25,7 +25,7 @@ tachometer_ctrl:
     bra     .L_epilogue
     nop
     .4byte  0x00C00800                      /* [LOW] unreferenced from this TU — preceding function's pool residue */
-.L_wpool_btn_start_mask:
+.L_wpool_06010ACC:
     .2byte  0x0100
     .2byte  0xFFFF                          /* [LOW] unreferenced from this TU — padding or adjacent pool entry */
     .4byte  sym_0605D05C                    /* [LOW] unreferenced from this TU — ptr to unknown data */

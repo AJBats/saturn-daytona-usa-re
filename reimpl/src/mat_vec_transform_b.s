@@ -6,10 +6,10 @@
     .type mat_vec_transform_b, @function
 mat_vec_transform_b:
     mov.l r14, @-r15
-    mov.l   .L_pool_mat_b_stack_ptr, r0
+    mov.l   .L_pool_0602732C, r0
     mov #0x24, r7
     mov.l @r0, r6
-    mov.l   .L_pool_output_buf_b, r14
+    mov.l   .L_pool_0602733C, r14
     add r6, r7
     mov #0x3, r3
 .L_transform_row_loop:
@@ -49,12 +49,12 @@ mat_vec_transform_b:
     .4byte  0x51615262
     .4byte  0x25021511
     .4byte  0x000B1522
-.L_pool_mat_b_stack_ptr:
+.L_pool_0602732C:
     .4byte  sym_0608A52C
     .4byte  sym_0608A530
     .4byte  sym_0608A6B0
     .4byte  sym_0608A6C0
-.L_pool_output_buf_b:
+.L_pool_0602733C:
     .4byte  sym_0608A6F0
     .4byte  0x00010000
 

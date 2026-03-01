@@ -28,7 +28,7 @@ save_size_calc:
     mov r0, r4
     mov r0, r14
 .L_check_status:
-    .byte   0xD0, 0x07    /* mov.l .L_pool_save_globals, r0 */  ! r0 = &save_globals_ptr
+    .byte   0xD0, 0x07    /* mov.l .L_pool_0603BC5D, r0 */  ! r0 = &save_globals_ptr
     mov.w   DAT_0603bc56, r1
     mov.l @r0, r0
     mov.l @(r0, r1), r0
@@ -55,7 +55,7 @@ DAT_0603bc54:
 DAT_0603bc56:
     .2byte  0x00C4
     .4byte  sym_060360FC
-.L_pool_save_globals:
+.L_pool_0603BC5D:
     .4byte  sym_060A4D14
 .L_do_copy:
     mov r15, r6

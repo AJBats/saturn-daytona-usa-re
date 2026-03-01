@@ -17,10 +17,10 @@ course0_physics_init:
     sts.l pr, @-r15
     add #-0xC, r15
 
-    mov.l   .L_pool_model_index_table, r8
-    mov.l   .L_pool_dlist_loader, r9
-    mov.l   .L_pool_display_phase_ctr, r12
-    mov.l   .L_pool_car_course_index, r3
+    mov.l   .L_pool_06019C10, r8
+    mov.l   .L_pool_06019C14, r9
+    mov.l   .L_pool_06019C08, r12
+    mov.l   .L_pool_06019C18, r3
     mov.b @r3, r3
     tst r3, r3
     bt/s    .L_is_course0
@@ -29,7 +29,7 @@ course0_physics_init:
     mov #0x0, r13
 .L_not_c0_loop_top:
     extu.b r13, r3
-    mov.l   .L_pool_course_select, r2
+    mov.l   .L_pool_06019C1C, r2
     mov.l @r2, r2
     cmp/eq r2, r3
     bf      .L_not_c0_not_player
@@ -42,16 +42,16 @@ DAT_06019bfc:
     .word 0xFFFF
     .4byte  sym_0605D4F0
     .4byte  sym_0605D243
-.L_pool_display_phase_ctr:
+.L_pool_06019C08:
     .4byte  sym_0605D242
     .4byte  sym_0605D260
-.L_pool_model_index_table:
+.L_pool_06019C10:
     .4byte  sym_06049B12
-.L_pool_dlist_loader:
+.L_pool_06019C14:
     .4byte  sym_06028400
-.L_pool_car_course_index:
+.L_pool_06019C18:
     .4byte  sym_06085FF0
-.L_pool_course_select:
+.L_pool_06019C1C:
     .4byte  sym_0605AD00
 
 .L_not_c0_not_player:
@@ -66,7 +66,7 @@ DAT_06019bfc:
     mov.l r0, @(8, r15)
     shll2 r7
     mov.w @(r0, r8), r3
-    mov.l   .L_pool_car_obj_table, r2
+    mov.l   .L_pool_06019D08, r2
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -75,7 +75,7 @@ DAT_06019bfc:
     mov.l @(4, r2), r3
     mov.l @(8, r15), r6
     add r3, r7
-    mov.l   .L_pool_dlist_offset_table, r3
+    mov.l   .L_pool_06019D0C, r3
     add r3, r6
     mov.l r6, @r15
     mov.b @(1, r6), r0
@@ -105,7 +105,7 @@ DAT_06019bfc:
     mov #0x0, r13
 .L_c0_loop_top:
     extu.b r13, r2
-    mov.l   .L_pool_course_select_b, r3
+    mov.l   .L_pool_06019D10, r3
     mov.l @r3, r3
     cmp/eq r3, r2
     bf      .L_c0_not_player
@@ -143,7 +143,7 @@ DAT_06019bfc:
     mov.l r0, @r15
     shll2 r7
     mov.w @(r0, r8), r3
-    mov.l   .L_pool_car_obj_table, r2
+    mov.l   .L_pool_06019D08, r2
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -152,7 +152,7 @@ DAT_06019bfc:
     mov.l @(4, r2), r3
     mov.l @r15, r6
     add r3, r7
-    mov.l   .L_pool_dlist_offset_table, r3
+    mov.l   .L_pool_06019D0C, r3
     add r3, r6
     mov.l r6, @(4, r15)
     mov.b @(1, r6), r0
@@ -189,9 +189,9 @@ DAT_06019bfc:
     mov.l @r15+, r14
 
     .2byte  0xFFFF
-.L_pool_car_obj_table:
+.L_pool_06019D08:
     .4byte  sym_06063750
-.L_pool_dlist_offset_table:
+.L_pool_06019D0C:
     .4byte  sym_06049B0C
-.L_pool_course_select_b:
+.L_pool_06019D10:
     .4byte  sym_0605AD00

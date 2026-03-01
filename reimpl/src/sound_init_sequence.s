@@ -7,11 +7,11 @@
 sound_init_sequence:
     mov.l r14, @-r15
     mov r4, r0
-    mov.l   .L_pool_dma_dest_default, r14
+    mov.l   .L_pool_06012E44, r14
     cmp/eq #0x1, r0
     bf      .L_not_course1
     mov r14, r5
-    mov.l   .L_pool_filename_default, r4
+    mov.l   .L_pool_06012E48, r4
     .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
     mov.l @r15+, r14
     .2byte  0xFFFF
@@ -25,9 +25,9 @@ sound_init_sequence:
     .4byte  sym_06044954
     .4byte  0x002A0000
     .4byte  sym_06044960
-.L_pool_dma_dest_default:
+.L_pool_06012E44:
     .4byte  0x002A8000
-.L_pool_filename_default:
+.L_pool_06012E48:
     .4byte  sym_0604496C
 .L_not_course1:
     mov r4, r0

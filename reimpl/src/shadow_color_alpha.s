@@ -9,7 +9,7 @@ shadow_color_alpha:
     mov r5, r13
     add #-0x14, r15
     mov r15, r4
-    mov.l   .L_pool_analog_fn, r3
+    mov.l   .L_pool_06036B38, r3
     jsr @r3
     add #0xC, r4
     mov r15, r2
@@ -28,7 +28,7 @@ shadow_color_alpha:
     mov #0x0, r2
     mov r2, r0
     mov.b r0, @(4, r3)
-    mov.l   .L_pool_digital_fn, r3
+    mov.l   .L_pool_06036B3C, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -37,11 +37,11 @@ shadow_color_alpha:
     bra     .L_epilogue
     mov r4, r0
     .2byte  0xFFFF
-.L_pool_analog_fn:
+.L_pool_06036B38:
     .4byte  input_proc_analog
-.L_pool_digital_fn:
+.L_pool_06036B3C:
     .4byte  input_proc_digital
-.L_pool_rgb_mask:
+.L_pool_06036B40:
     .4byte  0x00FFFFFF
 .L_digital_zero:
     mov r15, r3

@@ -9,13 +9,13 @@ disp_digit_pair_render:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xD1, 0x0C    /* mov.l .L_pool_struct_offset, r1 */  ! r1 = 0x54 (data source offset)
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_flags_offset, r0 */   ! r0 = 0x2DC (flags byte offset)
+    .byte   0xD1, 0x0C    /* mov.l .L_pool_060325EC, r1 */  ! r1 = 0x54 (data source offset)
+    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F0, r0 */   ! r0 = 0x2DC (flags byte offset)
     mov.b @(r0, r14), r0
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_upper_bits_mask, r2 */  ! r2 = 0xFFFFFFFC (mask: all bits except 0-1)
+    .byte   0xD2, 0x0C    /* mov.l .L_pool_060325F4, r2 */  ! r2 = 0xFFFFFFFC (mask: all bits except 0-1)
     tst r2, r0
     bf      .L_flags_set
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_global_table, r0 */   ! r0 = sym_06081898 (global digit data table)
+    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */   ! r0 = sym_06081898 (global digit data table)
     bra     .L_store_ptr
     add r0, r1
     .4byte  sym_06026DBC                    /* pre-transform setup function */
@@ -26,13 +26,13 @@ disp_digit_pair_render:
     .4byte  sym_06026E2E                    /* transform dispatch function */
     .4byte  0x0000000C                      /* constant 12 (adjacent pool) */
     .4byte  mat_rot_y                       /* Y-axis rotation matrix function */
-.L_pool_struct_offset:
+.L_pool_060325EC:
     .4byte  0x00000054                      /* offset into struct for data source base */
-.L_pool_flags_offset:
+.L_pool_060325F0:
     .4byte  0x000002DC                      /* offset into struct for flags byte */
-.L_pool_upper_bits_mask:
+.L_pool_060325F4:
     .4byte  0xFFFFFFFC                      /* mask: upper flag bits (all except bit 0-1) */
-.L_pool_global_table:
+.L_pool_060325F8:
     .4byte  sym_06081898                    /* global digit data table base address */
 .L_flags_set:
     add r14, r1

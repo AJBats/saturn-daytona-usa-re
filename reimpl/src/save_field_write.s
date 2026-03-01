@@ -16,7 +16,7 @@ save_field_write:
     add #-0x8, r15
     mov.l r5, @r15
     mov.l r6, @(4, r15)
-    mov.l   .L_pool_attract_state_change, r3
+    mov.l   .L_pool_0603BA6F, r3
     jsr @r3
     add #0x40, r4
     mov r0, r12
@@ -37,7 +37,7 @@ save_field_write:
     bra     .L_epilogue
     mov #0x0, r0
     .4byte  sym_060A4D14
-.L_pool_attract_state_change:
+.L_pool_0603BA6F:
     .4byte  attract_state_change
 .L_serialize_ok:
     mov #-0x1, r6

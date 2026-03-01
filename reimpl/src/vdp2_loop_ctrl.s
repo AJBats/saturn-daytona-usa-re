@@ -37,7 +37,7 @@ sym_060172E4:
     shll2 r3
     add r3, r4
     exts.w r4, r4
-    mov.l   .L_pool_slot_base, r2
+    mov.l   .L_pool_0601732C, r2
     add r2, r4
     mov #0x0, r5
     extu.b r5, r0
@@ -65,7 +65,7 @@ sym_060172E4:
     mov #0x40, r0
     rts
     mov.b r2, @(r0, r4)
-.L_pool_slot_base:
+.L_pool_0601732C:
     .4byte  sym_06084FC8
 .L_init_scroll_entry:
     mov #0x8, r7

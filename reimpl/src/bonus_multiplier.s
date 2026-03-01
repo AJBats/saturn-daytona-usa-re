@@ -7,7 +7,7 @@
 bonus_multiplier:
     sts.l pr, @-r15
     mov #0x14, r6
-    mov.l   .L_pool_frame_timer, r5
+    mov.l   .L_pool_06013C54, r5
     mov.w @r5, r4
     extu.w r4, r4
     add #0x1, r4
@@ -29,5 +29,5 @@ bonus_multiplier:
     .4byte  sym_0605B0FC
     .4byte  0xAB1102FF
     .4byte  sym_06084AF2
-.L_pool_frame_timer:
+.L_pool_06013C54:
     .4byte  sym_06084AF6

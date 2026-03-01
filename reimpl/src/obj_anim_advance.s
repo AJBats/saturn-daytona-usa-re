@@ -30,7 +30,7 @@ obj_anim_advance:
     shll2 r3
     add r3, r4
     exts.w r4, r4
-    mov.l   .L_pool_slot_array_base, r2
+    mov.l   .L_pool_06020E38, r2
     add r2, r4
     mov #0x0, r5
     extu.b r5, r0
@@ -59,5 +59,5 @@ obj_anim_advance:
     rts
     mov.b r2, @(r0, r4)
     .2byte  0xFFFF
-.L_pool_slot_array_base:
+.L_pool_06020E38:
     .4byte  sym_0608782C

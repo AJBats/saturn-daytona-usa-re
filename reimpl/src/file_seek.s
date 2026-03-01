@@ -6,13 +6,13 @@
     .type file_seek, @function
 file_seek:
     sts.l pr, @-r15
-    mov.l   .L_pool_chan_nibble_cfg, r14
+    mov.l   .L_pool_0601207C, r14
     jsr @r14
     mov #0x10, r4
     mov #0x6, r5
     jsr @r14
     mov #0x8, r4
-    mov.w   .L_wpool_bit_a0_lo_nib, r4
+    mov.w   .L_wpool_0601207A, r4
     jsr @r14
     mov #0x5, r5
     mov #0x3, r5
@@ -24,7 +24,7 @@ file_seek:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_bit_a0_lo_nib:
+.L_wpool_0601207A:
     .2byte  0x0100                  /* [HIGH] bitmask 0x0100: channel array_a[0] low nibble selector */
-.L_pool_chan_nibble_cfg:
+.L_pool_0601207C:
     .4byte  channel_nibble_config   /* [HIGH] &channel_nibble_config -- display channel nibble-pack setter */

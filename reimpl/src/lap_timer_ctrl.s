@@ -7,7 +7,7 @@
 
 lap_timer_ctrl:
     sts.l pr, @-r15
-    mov.l   .L_pool_frame_counter, r4
+    mov.l   .L_pool_060122D8, r4
     mov.l @r4, r3
     cmp/ge r2, r3
     bf      .L_not_finishing
@@ -19,7 +19,7 @@ lap_timer_ctrl:
     lds.l @r15+, pr
 .L_not_finishing:
     mov #0x64, r3
-    mov.l   .L_pool_rotation_angle, r6
+    mov.l   .L_pool_060122DC, r6
     mov.l @r4, r2
     cmp/ge r3, r2
     bf/s    .L_below_100
@@ -43,9 +43,9 @@ lap_timer_ctrl:
     .4byte  sym_06078636
     .4byte  0xAE110FFF
     .4byte  sound_cmd_dispatch
-.L_pool_frame_counter:
+.L_pool_060122D8:
     .4byte  sym_0607EBCC
-.L_pool_rotation_angle:
+.L_pool_060122DC:
     .4byte  sym_060788B2
 .L_initialize:
     mov #0x1, r5

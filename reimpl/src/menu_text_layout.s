@@ -7,7 +7,7 @@
 menu_text_layout:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_state_ptr, r12
+    mov.l   .L_pool_0603B038, r12
     mov.b @(r0, r13), r3
     mov.l @r12, r12
     extu.b r3, r3
@@ -53,7 +53,7 @@ menu_text_layout:
     mov.l @r15+, r14
     .2byte  0xFFFF
     .4byte  save_commit_write
-.L_pool_state_ptr:
+.L_pool_0603B038:
     .4byte  sym_060A4D14
 .L_finalize:
     mov.l @(8, r12), r2

@@ -50,17 +50,17 @@ display_element_table:
     .4byte  0x00000004
     .4byte  0x0000000E
     .4byte  0x00000000
-.L_pool_elem_table_base:
+.L_pool_06032257:
     .4byte  sym_06062464
-.L_pool_dest_offset:
+.L_pool_0603225B:
     .4byte  0x000002DE
-.L_pool_elem_size:
+.L_pool_0603225F:
     .4byte  0x0000000D
-.L_pool_max_elem_idx:
+.L_pool_06032263:
     .4byte  0x00000005
-.L_pool_cmd_counter:
+.L_pool_06032267:
     .4byte  sym_06082A20
-.L_pool_cmd_state:
+.L_pool_0603226B:
     .4byte  sym_06082A24
-.L_pool_disp_flags:
+.L_pool_0603226F:
     .4byte  sym_06082A25

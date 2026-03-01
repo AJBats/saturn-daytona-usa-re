@@ -23,7 +23,7 @@ hud_palette_select:
     mov.l @(28, r14), r3
     mov.l @(8, r13), r13
     sub r3, r13
-    mov.l   .L_pool_dispatch_slot2, r3
+    mov.l   .L_pool_0603FD38, r3
     jsr @r3
     mov r12, r4
     cmp/ge r0, r13
@@ -31,12 +31,12 @@ hud_palette_select:
     bra     .L_do_palette_lookup
     mov r13, r5
 .L_clamp_to_available:
-    mov.l   .L_pool_dispatch_slot2, r3
+    mov.l   .L_pool_0603FD38, r3
     jsr @r3
     mov r12, r4
     mov r0, r5
 .L_do_palette_lookup:
-    mov.l   .L_pool_dispatch_slot4, r3
+    mov.l   .L_pool_0603FD3C, r3
     jsr @r3
     mov r12, r4
     mov.l r0, @(12, r14)
@@ -48,7 +48,7 @@ hud_palette_select:
     .2byte  0x000B
     .4byte  0xE001FFFF
     .4byte  sym_0603F900
-.L_pool_dispatch_slot2:
+.L_pool_0603FD38:
     .4byte  sym_0603F8EE
-.L_pool_dispatch_slot4:
+.L_pool_0603FD3C:
     .4byte  sym_0603F90E

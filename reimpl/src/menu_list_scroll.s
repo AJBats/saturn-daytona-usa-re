@@ -50,16 +50,16 @@ menu_list_scroll:
     .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */  ! call apply_scroll_offset(r4=data_block, r5=scroll_pos)
     mov.l @r14, r4
     mov r13, r5
-    mov.l   .L_pool_timer_block_init, r3
+    mov.l   .L_pool_0603B311, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x1, r7
     mov.l @(8, r15), r6
     mov.l @(4, r15), r5
-    mov.l   .L_pool_color_set_params, r3
+    mov.l   .L_pool_0603B315, r3
     jsr @r3
     mov.l @(4, r14), r4
-    mov.l   .L_pool_timer_set_active, r3
+    mov.l   .L_pool_0603B319, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x0, r4
@@ -70,9 +70,9 @@ menu_list_scroll:
     .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=0)
     mov.l @r15+, r14
     .4byte  cdb_wait_scdq
-.L_pool_timer_block_init:
+.L_pool_0603B311:
     .4byte  sym_0603F9DA                /* timer_block_init_fields */
-.L_pool_color_set_params:
+.L_pool_0603B315:
     .4byte  sym_0603EF54                /* color_transform_set_params */
-.L_pool_timer_set_active:
+.L_pool_0603B319:
     .4byte  sym_0603FA00                /* timer_set_active_flag */

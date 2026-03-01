@@ -10,7 +10,7 @@ buffer_slot_alloc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_state_base_ptr, r14
+    mov.l   .L_pool_0604105C, r14
     mov.l @r14, r1
     mov.l @(r0, r1), r1
     mov.l @r14, r0
@@ -26,7 +26,7 @@ buffer_slot_alloc:
     bf      .L_capacity_ok
     bra     .L_epilogue
     mov #-0x8, r0
-.L_pool_state_base_ptr:
+.L_pool_0604105C:
     .4byte  sym_060A5400
 .L_capacity_ok:
     mov.l @r14, r2

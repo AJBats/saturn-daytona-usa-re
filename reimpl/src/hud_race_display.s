@@ -12,11 +12,11 @@ hud_race_display:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_y_position, r9
+    mov.w   .L_wpool_06010042, r9
     mov #0x3, r10
-    mov.l   .L_pool_geom_dispatch_final, r11
+    mov.l   .L_pool_06010048, r11
     mov #0x4, r12
-    mov.l   .L_pool_game_state_ptr, r14
+    mov.l   .L_pool_0601004C, r14
     mov #0x0, r13
 .L_car_loop:
     mov.b @r14, r3
@@ -28,8 +28,8 @@ hud_race_display:
     extu.b r13, r2
     cmp/ge r10, r2
     bf      .L_car_loop
-    mov.l   .L_pool_display_timer, r4
-    mov.l   .L_pool_display_mode_flag, r0
+    mov.l   .L_pool_06010050, r4
+    mov.l   .L_pool_06010054, r0
     mov.b @r0, r0
     tst r0, r0
     bf      .L_mode_fade_in
@@ -52,13 +52,13 @@ hud_race_display:
     extu.b r0, r0
     cmp/eq #0x9, r0
     bf      .L_normal_hud_fadeout
-    mov.l   .L_pool_display_data, r7
+    mov.l   .L_pool_06010058, r7
     mov r9, r6
     mov.w   DAT_06010044, r5
     bra     .L_call_geom_fadeout
     mov #0xC, r4
 .L_normal_hud_fadeout:
-    mov.l   .L_pool_display_data, r7
+    mov.l   .L_pool_06010058, r7
     mov r9, r6
     mov.w   DAT_06010046, r5
     mov #0x8, r4
@@ -67,7 +67,7 @@ hud_race_display:
     nop
     bra     .L_epilogue
     nop
-.L_wpool_y_position:
+.L_wpool_06010042:
     .2byte  0x0090
 
     .global DAT_06010044
@@ -77,15 +77,15 @@ DAT_06010044:
     .global DAT_06010046
 DAT_06010046:
     .2byte  0x0B22
-.L_pool_geom_dispatch_final:
+.L_pool_06010048:
     .4byte  sym_060284AE
-.L_pool_game_state_ptr:
+.L_pool_0601004C:
     .4byte  sym_0607887F
-.L_pool_display_timer:
+.L_pool_06010050:
     .4byte  sym_0605AA98
-.L_pool_display_mode_flag:
+.L_pool_06010054:
     .4byte  sym_06078663
-.L_pool_display_data:
+.L_pool_06010058:
     .4byte  sym_0605ACE4
 .L_mode_fade_in:
     mov.l @r4, r0

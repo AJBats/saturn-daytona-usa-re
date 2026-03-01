@@ -9,17 +9,17 @@ menu_input_proc:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.w   .L_wpool_stack_adj, r0
+    mov.w   .L_wpool_0603AD2E, r0
     add r0, r15
     mov r5, r0
     mov.l r5, @r15
-    .byte   0xDD, 0x0F    /* mov.l .L_pool_game_state_ptr, r13 */  ! r13 = &sym_060A4D14 (game state ptr-ptr)
+    .byte   0xDD, 0x0F    /* mov.l .L_pool_0603AD3A, r13 */  ! r13 = &sym_060A4D14 (game state ptr-ptr)
     tst r0, r0
     bf/s    .L_active_input_path
     mov r4, r12
 
     mov.l @r13, r3
-    mov.w   .L_wpool_state_offset, r0
+    mov.w   .L_wpool_0603AD30, r0
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_attract_flag_clear
@@ -28,7 +28,7 @@ menu_input_proc:
     bra     .L_return
     nop
 .L_attract_flag_clear:
-    .byte   0xD3, 0x09    /* mov.l .L_pool_credits_scroll_entry, r3 */  ! r3 = &credits_scroll_entry
+    .byte   0xD3, 0x09    /* mov.l .L_pool_0603AD3E, r3 */  ! r3 = &credits_scroll_entry
     jsr @r3
     mov r12, r4
     mov r0, r4
@@ -41,15 +41,15 @@ menu_input_proc:
 .L_return_result:
     bra     .L_return
     mov r4, r0
-.L_wpool_stack_adj:
+.L_wpool_0603AD2E:
     .2byte  0xFF0C
-.L_wpool_state_offset:
+.L_wpool_0603AD30:
     .2byte  0x00A0
     .4byte  hud_toggle_ctrl
     .4byte  save_size_calc
-.L_pool_game_state_ptr:
+.L_pool_0603AD3A:
     .4byte  sym_060A4D14
-.L_pool_credits_scroll_entry:
+.L_pool_0603AD3E:
     .4byte  credits_scroll_entry
 
 .L_active_input_path:

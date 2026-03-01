@@ -8,13 +8,13 @@ watchdog_timer_reset:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    mov.l   .L_pool_evt_reg_save, r3
+    mov.l   .L_pool_060408A8, r3
     jsr @r3
     mov.l @(4, r4), r4
     mov.l @r15, r4
     mov.l @(20, r4), r4
     add #0x4, r15
-    mov.l   .L_pool_slot_free_zone, r3
+    mov.l   .L_pool_060408AC, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -31,7 +31,7 @@ DAT_0604089c:
     .word 0xFFFF
     .4byte  track_segment_interp
     .4byte  state_field_read
-.L_pool_evt_reg_save:
+.L_pool_060408A8:
     .4byte  evt_reg_save
-.L_pool_slot_free_zone:
+.L_pool_060408AC:
     .4byte  sym_06040EBA

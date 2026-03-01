@@ -7,8 +7,8 @@
 geom_rotation_apply:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_player_index, r14
-    mov.l   .L_pool_status_flags, r2
+    mov.l   .L_pool_0601EB60, r14
+    mov.l   .L_pool_0601EB64, r2
     mov.b @r14, r3
     extu.b r3, r3
     add r2, r3
@@ -16,9 +16,9 @@ geom_rotation_apply:
     extu.b r0, r0
     tst r0, r0
     bt      .L_skip_dispatch
-    mov.l   .L_pool_geom_output_ptr, r6
+    mov.l   .L_pool_0601EB68, r6
     mov.b @r14, r5
-    mov.l   .L_pool_course_table, r2
+    mov.l   .L_pool_0601EB6C, r2
     mov.b @r14, r4
     mov.l @r6, r6
     extu.b r5, r5
@@ -29,7 +29,7 @@ geom_rotation_apply:
     shll r3
     add r3, r5
     add r2, r5
-    mov.l   .L_pool_elem_state, r3
+    mov.l   .L_pool_0601EB5C, r3
     add r3, r4
     mov.b @r4, r4
     .byte   0xBE, 0x5D    /* bsr 0x0601E810 (hud_handler_main) */
@@ -38,13 +38,13 @@ geom_rotation_apply:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_pool_elem_state:
+.L_pool_0601EB5C:
     .4byte  sym_060877D9
-.L_pool_player_index:
+.L_pool_0601EB60:
     .4byte  sym_060877D8
-.L_pool_status_flags:
+.L_pool_0601EB64:
     .4byte  sym_060877DD
-.L_pool_geom_output_ptr:
+.L_pool_0601EB68:
     .4byte  sym_0605E098
-.L_pool_course_table:
+.L_pool_0601EB6C:
     .4byte  sym_0604A57C

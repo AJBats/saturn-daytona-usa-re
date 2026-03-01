@@ -11,22 +11,22 @@ cd_status_reader:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_cmd_validate_exec, r10
+    mov.l   .L_pool_06012BC0, r10
     mov #0x1, r12
     mov #0x5, r14
     mov #-0x1, r4
-    mov.l   .L_pool_cd_cmd_struct, r3
+    mov.l   .L_pool_06012BC4, r3
     mov.l r12, @r3
     mov r3, r2
-    mov.l   .L_pool_cd_data_dest, r3
+    mov.l   .L_pool_06012BC8, r3
     mov.l r3, @(8, r2)
     mov #0x50, r3
     mov.l r3, @(4, r2)
-    mov.l   .L_pool_cd_sector_buf, r11
+    mov.l   .L_pool_06012BCC, r11
     bra     .L_retry_check
     mov #0x0, r13
 .L_retry_loop:
-    mov.l   .L_pool_cd_cmd_struct, r6
+    mov.l   .L_pool_06012BC4, r6
     mov r11, r5
     jsr @r10
     mov #0x5, r4
@@ -36,14 +36,14 @@ cd_status_reader:
     cmp/ge r14, r13
     bf      .L_retry_loop
     mov #0x2, r3
-    mov.l   .L_pool_cd_status_flag, r13
+    mov.l   .L_pool_06012BD0, r13
     cmp/gt r3, r4
     bt      .L_read_ok
     bra     .L_return
     mov.b r12, @r13
 .L_read_ok:
-    mov.l   .L_pool_aprog_filename, r4
-    mov.l   .L_pool_cmd_status_check, r3
+    mov.l   .L_pool_06012BD4, r4
+    mov.l   .L_pool_06012BD8, r3
     jsr @r3
     nop
     cmp/pz r0
@@ -62,17 +62,17 @@ cd_status_reader:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_cmd_validate_exec:
+.L_pool_06012BC0:
     .4byte  cmd_validate_exec
-.L_pool_cd_cmd_struct:
+.L_pool_06012BC4:
     .4byte  sym_06084360
-.L_pool_cd_data_dest:
+.L_pool_06012BC8:
     .4byte  sym_0608436C
-.L_pool_cd_sector_buf:
+.L_pool_06012BCC:
     .4byte  sym_06083274
-.L_pool_cd_status_flag:
+.L_pool_06012BD0:
     .4byte  sym_06084AEC
-.L_pool_aprog_filename:
+.L_pool_06012BD4:
     .4byte  sym_060448C8
-.L_pool_cmd_status_check:
+.L_pool_06012BD8:
     .4byte  cmd_status_check

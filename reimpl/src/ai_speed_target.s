@@ -15,7 +15,7 @@ ai_speed_target:
     mov.l @r4, r4
     mov.l @(16, r14), r3
     sub r3, r4
-    mov.l   .L_pool_atan2_addr, r3
+    mov.l   .L_pool_0600C968, r3
     jsr @r3
     nop
     neg r0, r5
@@ -40,7 +40,7 @@ ai_speed_target:
     bt      .L_store_direct
     mov.l @(40, r14), r2
     extu.w r2, r2
-    mov.l   .L_pool_neg_clamp, r3
+    mov.l   .L_pool_0600C96C, r3
     add r3, r2
     exts.w r2, r2
     bra     .L_done
@@ -78,9 +78,9 @@ DAT_0600c964:
     .2byte  0xFA00
 
     .2byte  0x2000
-.L_pool_atan2_addr:
+.L_pool_0600C968:
     .4byte  atan2
-.L_pool_neg_clamp:
+.L_pool_0600C96C:
     .4byte  0x0000FA00
 
     .4byte  0x9038E345

@@ -18,14 +18,14 @@ hud_large_element:
     mov #0x3, r9
     mov #0x0, r10
     mov #0x1, r11
-    mov.l   .L_pool_elem_array, r14
+    mov.l   .L_pool_0601E448, r14
     extu.w r10, r13
     bra     .L_loop_check
     mov r13, r12
 
 .L_loop_body:
     extu.w r12, r2
-    mov.l   .L_pool_id_table, r3
+    mov.l   .L_pool_0601E44C, r3
     shll2 r2
     add r3, r2
     mov.w @r2, r2
@@ -93,8 +93,8 @@ hud_large_element:
 
 .L_bounds_check:
     extu.w r13, r4
-    mov.l   .L_pool_player_index, r3
-    mov.l   .L_pool_course_size_table, r2
+    mov.l   .L_pool_0601E450, r3
+    mov.l   .L_pool_0601E454, r2
     shll2 r4
     mov.b @r3, r3
     shll2 r4
@@ -124,13 +124,13 @@ hud_large_element:
 DAT_0601e444:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_pool_elem_array:
+.L_pool_0601E448:
     .4byte  sym_06087094
-.L_pool_id_table:
+.L_pool_0601E44C:
     .4byte  sym_06087086
-.L_pool_player_index:
+.L_pool_0601E450:
     .4byte  sym_060877D8
-.L_pool_course_size_table:
+.L_pool_0601E454:
     .4byte  sym_0604A5C0
 
 .L_out_of_bounds:

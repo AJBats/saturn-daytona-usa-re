@@ -8,7 +8,7 @@ course_data_read:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_read_analog, r3
+    mov.l   .L_pool_06036374, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -23,7 +23,7 @@ course_data_read:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_pool_read_digital, r3
+    mov.l   .L_pool_0603637C, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -55,8 +55,8 @@ course_data_read:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_read_analog:
+.L_pool_06036374:
     .4byte  input_proc_analog
     .4byte  input_proc_buttons
-.L_pool_read_digital:
+.L_pool_0603637C:
     .4byte  input_proc_digital

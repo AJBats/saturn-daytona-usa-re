@@ -16,10 +16,10 @@ course2_physics_init:
     sts.l pr, @-r15
     add #-0xC, r15
 
-    .byte   0xD8, 0x08    /* mov.l .L_pool_car_model_table, r8 */   ! r8 = &car_model_table (sym_06049B2C)
-    .byte   0xD9, 0x08    /* mov.l .L_pool_block_copy, r9 */        ! r9 = &block_copy (sym_06028400)
-    .byte   0xDC, 0x09    /* mov.l .L_pool_anim_counter, r12 */     ! r12 = &anim_counter_byte (sym_0605D242)
-    .byte   0xD0, 0x09    /* mov.l .L_pool_game_config, r0 */       ! r0 = &game_config_byte (sym_06085FF0)
+    .byte   0xD8, 0x08    /* mov.l .L_pool_06019FED, r8 */   ! r8 = &car_model_table (sym_06049B2C)
+    .byte   0xD9, 0x08    /* mov.l .L_pool_06019FF1, r9 */        ! r9 = &block_copy (sym_06028400)
+    .byte   0xDC, 0x09    /* mov.l .L_pool_06019FF5, r12 */     ! r12 = &anim_counter_byte (sym_0605D242)
+    .byte   0xD0, 0x09    /* mov.l .L_pool_06019FF9, r0 */       ! r0 = &game_config_byte (sym_06085FF0)
     mov.b @r0, r0
     cmp/eq #0x2, r0
     bt/s    .L_expert_path
@@ -28,7 +28,7 @@ course2_physics_init:
     mov #0x0, r13
 .L_normal_loop:
     extu.b r13, r2
-    .byte   0xD3, 0x07    /* mov.l .L_pool_player_car_index, r3 */  ! r3 = &player_car_index (sym_0605AD04)
+    .byte   0xD3, 0x07    /* mov.l .L_pool_06019FFD, r3 */  ! r3 = &player_car_index (sym_0605AD04)
     mov.l @r3, r3
     cmp/eq r3, r2
     bf      .L_normal_not_player
@@ -36,15 +36,15 @@ course2_physics_init:
     extu.b r11, r10
     .2byte  0xFFFF
 
-.L_pool_car_model_table:
+.L_pool_06019FED:
     .4byte  sym_06049B2C        /* car model index table (word array, course 2) */
-.L_pool_block_copy:
+.L_pool_06019FF1:
     .4byte  sym_06028400        /* block_copy function */
-.L_pool_anim_counter:
+.L_pool_06019FF5:
     .4byte  sym_0605D242        /* animation counter byte */
-.L_pool_game_config:
+.L_pool_06019FF9:
     .4byte  sym_06085FF0        /* game config / course selection byte */
-.L_pool_player_car_index:
+.L_pool_06019FFD:
     .4byte  sym_0605AD04        /* player car index (long) for course 2 */
 
 .L_normal_not_player:
@@ -59,7 +59,7 @@ course2_physics_init:
     mov.l r0, @(8, r15)
     shll2 r7
     mov.w @(r0, r8), r3
-    .byte   0xD2, 0x35    /* mov.l .L_pool_physics_data_table, r2 */ ! r2 = &physics_data_table (sym_06063750)
+    .byte   0xD2, 0x35    /* mov.l .L_pool_0601A0EE, r2 */ ! r2 = &physics_data_table (sym_06063750)
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -68,7 +68,7 @@ course2_physics_init:
     mov.l @(4, r2), r3
     mov.l @(8, r15), r6
     add r3, r7
-    .byte   0xD3, 0x31    /* mov.l .L_pool_course_param_offsets, r3 */ ! r3 = &course_param_offsets (sym_06049B22)
+    .byte   0xD3, 0x31    /* mov.l .L_pool_0601A0F2, r3 */ ! r3 = &course_param_offsets (sym_06049B22)
     add r3, r6
     mov.l r6, @r15
     mov.b @(1, r6), r0
@@ -98,7 +98,7 @@ course2_physics_init:
     mov #0x0, r13
 .L_expert_loop:
     extu.b r13, r2
-    .byte   0xD3, 0x25    /* mov.l .L_pool_player_car_index_b, r3 */ ! r3 = &player_car_index (sym_0605AD04)
+    .byte   0xD3, 0x25    /* mov.l .L_pool_0601A0F6, r3 */ ! r3 = &player_car_index (sym_0605AD04)
     mov.l @r3, r3
     cmp/eq r3, r2
     bf      .L_expert_not_player
@@ -137,7 +137,7 @@ course2_physics_init:
     mov.l r0, @r15
     shll2 r7
     mov.w @(r0, r8), r3
-    .byte   0xD2, 0x14    /* mov.l .L_pool_physics_data_table, r2 */ ! r2 = &physics_data_table (sym_06063750)
+    .byte   0xD2, 0x14    /* mov.l .L_pool_0601A0EE, r2 */ ! r2 = &physics_data_table (sym_06063750)
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -146,7 +146,7 @@ course2_physics_init:
     mov.l @(4, r2), r3
     mov.l @r15, r6
     add r3, r7
-    .byte   0xD3, 0x11    /* mov.l .L_pool_course_param_offsets, r3 */ ! r3 = &course_param_offsets (sym_06049B22)
+    .byte   0xD3, 0x11    /* mov.l .L_pool_0601A0F2, r3 */ ! r3 = &course_param_offsets (sym_06049B22)
     add r3, r6
     mov.l r6, @(4, r15)
     mov.b @(1, r6), r0
@@ -183,9 +183,9 @@ course2_physics_init:
     mov.l @r15+, r14
     .2byte  0xFFFF
 
-.L_pool_physics_data_table:
+.L_pool_0601A0EE:
     .4byte  sym_06063750        /* physics data table base (8-byte records per car model) */
-.L_pool_course_param_offsets:
+.L_pool_0601A0F2:
     .4byte  sym_06049B22        /* course 2 per-car parameter offset table */
-.L_pool_player_car_index_b:
+.L_pool_0601A0F6:
     .4byte  sym_0605AD04        /* player car index (long) for course 2 (expert path copy) */

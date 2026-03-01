@@ -8,7 +8,7 @@ track_boundary_check:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_state_base, r14
+    mov.l   .L_pool_06041B10, r14
     mov.l r4, @r15
     mov.l @r14, r0
     mov.w   DAT_06041b0a, r1
@@ -16,8 +16,8 @@ track_boundary_check:
     cmp/eq #0x1, r0
     bf      .L_skip_phase1
     mov.l @r14, r4
-    mov.w   .L_wpool_seg_arg_offset, r0
-    mov.l   .L_pool_track_seg_boundary, r3
+    mov.w   .L_wpool_06041B0C, r0
+    mov.l   .L_pool_06041B14, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r0, r4
@@ -33,7 +33,7 @@ track_boundary_check:
     mov.l r2, @(r0, r3)
 .L_skip_state_update:
     mov r15, r4
-    mov.l   .L_pool_ai_checkpoint_validate, r3
+    mov.l   .L_pool_06041B18, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -49,7 +49,7 @@ track_boundary_check:
     cmp/eq #0x2, r0
     bf      .L_return
     mov #0x40, r2
-    mov.l   .L_pool_hirq_status, r3
+    mov.l   .L_pool_06041B1C, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r5
@@ -64,16 +64,16 @@ track_boundary_check:
     .global DAT_06041b0a
 DAT_06041b0a:
     .2byte  0x0304
-.L_wpool_seg_arg_offset:
+.L_wpool_06041B0C:
     .2byte  0x0308
     .2byte  0xFFFF
-.L_pool_state_base:
+.L_pool_06041B10:
     .4byte  sym_060A5400         /* [HIGH] global AI/game state base pointer (indirect) */
-.L_pool_track_seg_boundary:
+.L_pool_06041B14:
     .4byte  track_seg_boundary   /* [HIGH] compute track segment boundary result */
-.L_pool_ai_checkpoint_validate:
+.L_pool_06041B18:
     .4byte  ai_checkpoint_validate  /* [HIGH] validate AI checkpoint from stack buffer */
-.L_pool_hirq_status:
+.L_pool_06041B1C:
     .4byte  sym_06035C4E         /* [MEDIUM] HIRQ/CD status reader — event_queue.s calls it "state/field validator" */
 .L_bit_clear:
     mov #0x0, r4

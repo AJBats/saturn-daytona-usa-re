@@ -14,7 +14,7 @@ track_pos_query:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_car_state_ptr, r14
+    mov.l   .L_pool_0600CDC4, r14
     mov.w   DAT_0600cdbe, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r13
@@ -37,7 +37,7 @@ track_pos_query:
     mov.l @(16, r14), r4
     mov.l @r13, r2
     sub r3, r5
-    mov.l   .L_pool_atan2_fn, r3
+    mov.l   .L_pool_0600CDC8, r3
     jsr @r3
     sub r2, r4
     exts.w r0, r4
@@ -63,7 +63,7 @@ track_pos_query:
     add #0x1, r3
     mov.l r3, @(r0, r14)
     mov.l @(r0, r14), r3
-    mov.l   .L_pool_section_count, r2
+    mov.l   .L_pool_0600CDCC, r2
     mov.l @r2, r2
     cmp/gt r2, r3
     bf      .L_return
@@ -90,9 +90,9 @@ DAT_0600cdc0:
     .global DAT_0600cdc2
 DAT_0600cdc2:
     .2byte  0x4000
-.L_pool_car_state_ptr:
+.L_pool_0600CDC4:
     .4byte  sym_0607E940
-.L_pool_atan2_fn:
+.L_pool_0600CDC8:
     .4byte  atan2
-.L_pool_section_count:
+.L_pool_0600CDCC:
     .4byte  sym_0607EA9C

@@ -44,7 +44,7 @@ palette_engine_core:
     cmp/eq #0x4, r0
     bf/s    .L_skip_color_bank
     mov.l @r7, r6
-    .byte   0xD2, 0x24    /* mov.l .L_pool_color_bank_mask, r2 */
+    .byte   0xD2, 0x24    /* mov.l .L_pool_06042BA9, r2 */
     and r2, r6
     mov.l @(12, r4), r3
     shll8 r3
@@ -57,7 +57,7 @@ palette_engine_core:
     and #0x8, r0
     cmp/eq #0x8, r0
     bf      .L_skip_palette_num
-    mov.w   .L_wpool_palette_num_mask, r3
+    mov.w   .L_wpool_06042B9D, r3
     and r3, r6
     mov.l @(16, r4), r2
     shll8 r2
@@ -69,7 +69,7 @@ palette_engine_core:
     and #0x10, r0
     cmp/eq #0x10, r0
     bf      .L_skip_color_offset
-    mov.w   .L_wpool_color_offset_mask, r2
+    mov.w   .L_wpool_06042B9F, r2
     and r2, r6
     mov.l @(20, r4), r3
     or r3, r6
@@ -78,7 +78,7 @@ palette_engine_core:
     and #0x20, r0
     cmp/eq #0x20, r0
     bf      .L_skip_special_pri
-    mov.w   .L_wpool_special_pri_mask, r3
+    mov.w   .L_wpool_06042BA1, r3
     and r3, r6
     mov.l @(24, r4), r2
     or r2, r6
@@ -97,7 +97,7 @@ palette_engine_core:
     or r3, r6
 .L_skip_func_bits:
     mov.l @(36, r4), r2
-    mov.w   .L_wpool_enable_check_mask, r3
+    mov.w   .L_wpool_06042BA3, r3
     and r3, r2
     mov r3, r1
     cmp/eq r1, r2
@@ -106,7 +106,7 @@ palette_engine_core:
     and r2, r6
 .L_skip_clear_bit1:
     mov.l r6, @r7
-    mov.w   .L_wpool_byte_write_flag, r6
+    mov.w   .L_wpool_06042BA5, r6
     mov.l @(36, r4), r3
     and r6, r3
     cmp/eq r6, r3
@@ -119,21 +119,21 @@ palette_engine_core:
 .L_done:
     rts
     nop
-.L_wpool_palette_num_mask:
+.L_wpool_06042B9D:
     .2byte  0xCFFF              /* ~0x3000: clear palette number bits [13:12] */
-.L_wpool_color_offset_mask:
+.L_wpool_06042B9F:
     .2byte  0xF3FF              /* ~0x0C00: clear color offset bits [11:10] */
-.L_wpool_special_pri_mask:
+.L_wpool_06042BA1:
     .2byte  0xFDFF              /* ~0x0200: clear special priority bit 9 */
-.L_wpool_enable_check_mask:
+.L_wpool_06042BA3:
     .2byte  0x0100              /* flag bit 8: enable/transparency control */
-.L_wpool_byte_write_flag:
+.L_wpool_06042BA5:
     .2byte  0x0080              /* flag bit 7: auxiliary byte write control */
 
     .global DAT_06042ba6
 DAT_06042ba6:
     .2byte  0xFE71              /* sign-extended offset -0x18F for byte write */
-.L_pool_color_bank_mask:
+.L_pool_06042BA9:
     .4byte  0xFFFF3FFF          /* ~0x0000C000: clear color bank bits [15:14] */
 
     .global sym_06042BAC

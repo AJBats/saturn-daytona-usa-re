@@ -11,10 +11,10 @@ course_data_rom_load:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_input_struct, r13
-    mov.l   .L_pool_course_index, r14
-    mov.l   .L_pool_dpad_right_mask, r6
-    mov.l   .L_pool_confirm_flag, r4
+    mov.l   .L_pool_0601A874, r13
+    mov.l   .L_pool_0601A878, r14
+    mov.l   .L_pool_0601A87C, r6
+    mov.l   .L_pool_0601A880, r4
     mov.w @(2, r13), r0
     mov r0, r3
     extu.w r3, r3
@@ -62,13 +62,13 @@ course_data_rom_load:
     .global DAT_0601a872
 DAT_0601a872:
     .2byte  0x4000
-.L_pool_input_struct:
+.L_pool_0601A874:
     .4byte  g_pad_state
-.L_pool_course_index:
+.L_pool_0601A878:
     .4byte  sym_0605D248
-.L_pool_dpad_right_mask:
+.L_pool_0601A87C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_pool_confirm_flag:
+.L_pool_0601A880:
     .4byte  sym_0605D243
 .L_check_held_left:
     mov.w @r13, r2
@@ -114,24 +114,24 @@ DAT_0601a872:
     mov.l @r14, r5
     add #0x2, r5
     mov.l r5, @r15
-    mov.l   .L_pool_handler_dispatch, r3
+    mov.l   .L_pool_0601A92C, r3
     jsr @r3
     mov r5, r4
 .L_render_scroll_layers:
-    mov.l   .L_pool_geom_render, r11
+    mov.l   .L_pool_0601A930, r11
     mov #0x0, r6
     mov.w   DAT_0601a928, r5
-    mov.l   .L_pool_scroll_layer_name, r7
+    mov.l   .L_pool_0601A934, r7
     jsr @r11
     mov #0xC, r4
-    mov.l   .L_pool_scroll_layer_name, r7
+    mov.l   .L_pool_0601A934, r7
     mov #0x0, r6
     mov.w   DAT_0601a92a, r5
     jsr @r11
     mov #0xC, r4
     mov.l @r14, r7
-    mov.l   .L_pool_course_render_tbl, r3
-    mov.l   .L_pool_layer_mask, r6
+    mov.l   .L_pool_0601A938, r3
+    mov.l   .L_pool_0601A93C, r6
     mov.w   DAT_0601a928, r5
     shll r7
     shll2 r7
@@ -140,8 +140,8 @@ DAT_0601a872:
     jsr @r11
     mov #0xC, r4
     mov.l @r14, r7
-    mov.l   .L_pool_course_render_tbl, r3
-    mov.l   .L_pool_layer_mask, r6
+    mov.l   .L_pool_0601A938, r3
+    mov.l   .L_pool_0601A93C, r6
     mov.w   DAT_0601a92a, r5
     shll r7
     add #0x1, r7
@@ -169,13 +169,13 @@ DAT_0601a928:
     .global DAT_0601a92a
 DAT_0601a92a:
     .2byte  0x081C
-.L_pool_handler_dispatch:
+.L_pool_0601A92C:
     .4byte  handler_dispatch
-.L_pool_geom_render:
+.L_pool_0601A930:
     .4byte  sym_060283E0
-.L_pool_scroll_layer_name:
+.L_pool_0601A934:
     .4byte  sym_06049CDC
-.L_pool_course_render_tbl:
+.L_pool_0601A938:
     .4byte  sym_0605D2B4
-.L_pool_layer_mask:
+.L_pool_0601A93C:
     .4byte  0x0000E000                  /* bits 15:13 mask */

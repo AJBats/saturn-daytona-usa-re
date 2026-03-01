@@ -11,8 +11,8 @@ vdp2_layer_init:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_layer_config_table, r10
-    mov.l   .L_pool_slot_data_base, r13
+    mov.l   .L_pool_06015F9C, r10
+    mov.l   .L_pool_06015FA0, r13
     mov r4, r14
     extu.b r14, r12
     mov r12, r3
@@ -41,7 +41,7 @@ vdp2_layer_init:
     mov.l @(4, r4), r2
     mov.l r2, @(16, r12)
     mov.l r3, @(28, r12)
-    mov.l   .L_pool_int_abs, r3
+    mov.l   .L_pool_06015FA4, r3
     jsr @r3
     mov.l @(16, r12), r4
     mov.l   .L_fp_sixteen, r2
@@ -75,7 +75,7 @@ vdp2_layer_init:
     mov.l r3, @(56, r5)
     mov.l @(12, r4), r2
     mov.l r2, @(24, r5)
-    mov.l   .L_pool_bonus_mode_flag, r0
+    mov.l   .L_pool_06015FAC, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_skip_alt_config
@@ -121,13 +121,13 @@ vdp2_layer_init:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_layer_config_table:
+.L_pool_06015F9C:
     .4byte  sym_0605B8B8                    /* layer config table (16-byte entries: x_limit, x_vel, y_limit, y_vel) */
-.L_pool_slot_data_base:
+.L_pool_06015FA0:
     .4byte  sym_06084FC8                    /* slot data array base (68-byte structs) */
-.L_pool_int_abs:
+.L_pool_06015FA4:
     .4byte  sym_06035438                    /* int_abs: r0 = |r4| */
 .L_fp_sixteen:
     .4byte  0x00100000                      /* 16.0 (16.16 fixed-point) */
-.L_pool_bonus_mode_flag:
+.L_pool_06015FAC:
     .4byte  sym_06085F89                    /* bonus mode flag (byte) */

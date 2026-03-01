@@ -9,16 +9,16 @@ transition_handler_a:
     sts.l pr, @-r15
     add #-0x4, r15
 
-    mov.l   .L_pool_input_state, r3
+    mov.l   .L_pool_0600F7E4, r3
     mov.l r3, @r15
     mov r3, r14
     add #0x2, r14
-    mov.l   .L_pool_anim_ui_fn, r3
+    mov.l   .L_pool_0600F7E8, r3
     mov.w @r14, r14
     jsr @r3
     mov #0x0, r4
 
-    mov.l   .L_pool_hud_course_fn, r3
+    mov.l   .L_pool_0600F7EC, r3
     jsr @r3
     nop
 
@@ -41,11 +41,11 @@ transition_handler_a:
     .4byte  sym_0607EADC        /* transition frame counter (dword) */
     .4byte  sym_0607EBCC        /* state countdown timer (dword) */
     .4byte  sym_0607887F        /* game state byte */
-.L_pool_input_state:
+.L_pool_0600F7E4:
     .4byte  g_pad_state        /* &input/button state struct */
-.L_pool_anim_ui_fn:
+.L_pool_0600F7E8:
     .4byte  anim_ui_transition  /* UI transition animation function */
-.L_pool_hud_course_fn:
+.L_pool_0600F7EC:
     .4byte  hud_course_render   /* course HUD renderer function */
 
 .L_not_mode_10:

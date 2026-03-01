@@ -9,7 +9,7 @@ text_color_set:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xDE, 0x0B    /* mov.l .L_pool_color_countdown, r14 */  ! r14 = &color_countdown byte
+    .byte   0xDE, 0x0B    /* mov.l .L_pool_06016CA1, r14 */  ! r14 = &color_countdown byte
     .byte   0xB5, 0x5B    /* bsr 0x0601772E (external) */           ! call track_seg_util
     mov.b @r14, r4
     mov.b @r14, r2
@@ -32,7 +32,7 @@ text_color_set:
     rts
     mov.l @r15+, r14
     .4byte  sym_06084FC8
-.L_pool_color_countdown:
+.L_pool_06016CA1:
     .4byte  sym_06085F88
 
     .global loc_06016CA4
@@ -48,20 +48,20 @@ loc_06016CA4:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    .byte   0xD1, 0x06    /* mov.l .L_pool_slot_array_base, r1 */   ! r1 = slot struct array base
+    .byte   0xD1, 0x06    /* mov.l .L_pool_06016CD7, r1 */   ! r1 = slot struct array base
     add r1, r3
     mov.b @(0x2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    .byte   0xD2, 0x04    /* mov.l .L_pool_handler_table, r2 */     ! r2 = handler function table base
+    .byte   0xD2, 0x04    /* mov.l .L_pool_06016CDB, r2 */     ! r2 = handler function table base
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
     jmp @r3
     add #0x4, r15
     .2byte  0xFFFF
-.L_pool_slot_array_base:
+.L_pool_06016CD7:
     .4byte  sym_06084FC8
-.L_pool_handler_table:
+.L_pool_06016CDB:
     .4byte  sym_0605BB6C

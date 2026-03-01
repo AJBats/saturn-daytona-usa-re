@@ -9,7 +9,7 @@ mem_test_verify:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    .byte   0xDE, 0x19    /* mov.l .L_pool_state_ptr, r14 */  ! r14 = &sym_060A4D14 (global state pointer)
+    .byte   0xDE, 0x19    /* mov.l .L_pool_060405AD, r14 */  ! r14 = &sym_060A4D14 (global state pointer)
     tst r5, r5
     bt/s    .L_check_boundary
     mov.l @(24, r4), r13
@@ -63,7 +63,7 @@ mem_test_verify:
 .L_validation_counter_offset:
     .2byte  0x00B0                           /* [HIGH] offset to validation counter in state struct */
     .2byte  0xFFFF                           /* alignment padding */
-.L_pool_state_ptr:
+.L_pool_060405AD:
     .4byte  sym_060A4D14
 .L_fn_ai_section_check:
     .4byte  ai_section_check

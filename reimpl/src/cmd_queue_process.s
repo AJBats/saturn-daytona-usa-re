@@ -9,8 +9,8 @@ cmd_queue_process:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_state_ptr, r14
-    mov.w   .L_wpool_off_active_count, r0
+    mov.l   .L_pool_0603AF7A, r14
+    mov.w   .L_wpool_0603AF72, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
@@ -40,7 +40,7 @@ cmd_queue_process:
     mov #0x0, r0
 .L_check_active:
     mov.l @r14, r2
-    mov.w   .L_wpool_off_active_count, r0
+    mov.w   .L_wpool_0603AF72, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_has_entries
@@ -48,13 +48,13 @@ cmd_queue_process:
     mov #0x0, r5
 .L_has_entries:
     mov.l @r14, r2
-    mov.w   .L_wpool_off_mode_flag, r0
+    mov.w   .L_wpool_0603AF76, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_wide_mode
     mov.l @r14, r5
-    mov.w   .L_wpool_off_active_count, r0
-    mov.l   .L_pool_index_mul12, r3
+    mov.w   .L_wpool_0603AF72, r0
+    mov.l   .L_pool_0603AF7E, r3
     mov.l @(r0, r5), r5
     jsr @r3
     mov r13, r4
@@ -62,8 +62,8 @@ cmd_queue_process:
     nop
 .L_wide_mode:
     mov.l @r14, r5
-    mov.w   .L_wpool_off_active_count, r0
-    mov.l   .L_pool_index_mul24, r3
+    mov.w   .L_wpool_0603AF72, r0
+    mov.l   .L_pool_0603AF82, r3
     mov.l @(r0, r5), r5
     jsr @r3
     mov r13, r4
@@ -80,20 +80,20 @@ cmd_queue_process:
     mov #-0xA, r4
     bra     .L_return_result
     nop
-.L_wpool_off_active_count:
+.L_wpool_0603AF72:
     .2byte  0x00A0
 
     .global DAT_0603af72
 DAT_0603af72:
     .2byte  0x00A4
-.L_wpool_off_mode_flag:
+.L_wpool_0603AF76:
     .2byte  0x0098
     .2byte  0xFFFF
-.L_pool_state_ptr:
+.L_pool_0603AF7A:
     .4byte  sym_060A4D14
-.L_pool_index_mul12:
+.L_pool_0603AF7E:
     .4byte  sym_0603F1E0
-.L_pool_index_mul24:
+.L_pool_0603AF82:
     .4byte  sym_0603F1F0
 .L_write_ok:
     .byte   0xB4, 0xDA    /* bsr 0x0603B93C (external) */  ! call save_checksum_calc

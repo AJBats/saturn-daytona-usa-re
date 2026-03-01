@@ -8,20 +8,20 @@ car_param_lookup:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDE, 0x12    /* mov.l .L_pool_param_load_state, r14 */  ! r14 = &param_load_state (sym_060788FC)
+    .byte   0xDE, 0x12    /* mov.l .L_pool_06012B4F, r14 */  ! r14 = &param_load_state (sym_060788FC)
     mov.l @r14, r0
     tst #0x4, r0
     bt      .L_call_course_lookup
-    .byte   0xD3, 0x11    /* mov.l .L_pool_car_data_struct, r3 */  ! r3 = &car_data_struct (sym_06063800)
+    .byte   0xD3, 0x11    /* mov.l .L_pool_06012B53, r3 */  ! r3 = &car_data_struct (sym_06063800)
     mov.l r3, @r15
     mov r3, r7
-    mov.w   .L_wpool_dlist_src_offset, r6
+    mov.w   .L_wpool_06012B39, r6
     mov.l @r15, r5
     mov.l @(4, r7), r7
-    mov.w   .L_wpool_tex_data_bias, r3
+    mov.w   .L_wpool_06012B3F, r3
     mov.l @r5, r5
     add r3, r7
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_dlist_loader, r3 */  ! r3 = &display_list_loader (sym_06028400)
+    .byte   0xD3, 0x0E    /* mov.l .L_pool_06012B57, r3 */  ! r3 = &display_list_loader (sym_06028400)
     jsr @r3
     mov #0x8, r4
     bra     .L_increment_and_return
@@ -37,18 +37,18 @@ car_param_lookup:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_dlist_src_offset:
+.L_wpool_06012B39:
     .2byte  0x061C
     .4byte  0x069C071C
-.L_wpool_tex_data_bias:
+.L_wpool_06012B3F:
     .2byte  0x4000
     .2byte  0xFFFF
     .4byte  sym_0605ACDD
     .4byte  sym_060283E0
     .4byte  0x0000F000
-.L_pool_param_load_state:
+.L_pool_06012B4F:
     .4byte  sym_060788FC
-.L_pool_car_data_struct:
+.L_pool_06012B53:
     .4byte  sym_06063800
-.L_pool_dlist_loader:
+.L_pool_06012B57:
     .4byte  sym_06028400

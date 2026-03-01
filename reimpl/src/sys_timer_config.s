@@ -11,8 +11,8 @@ sys_timer_config:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_elem_accessor_16, r10
-    mov.l   .L_pool_elem_accessor_12, r11
+    mov.l   .L_pool_0603B840, r10
+    mov.l   .L_pool_0603B844, r11
     mov.w   DAT_0603b838, r12
     mov r4, r13
     bra     .L_loop_check
@@ -76,9 +76,9 @@ DAT_0603b838:
 DAT_0603b83a:
     .2byte  0x0C3C
     .4byte  0x00ECFFFF
-.L_pool_elem_accessor_16:
+.L_pool_0603B840:
     .4byte  sym_0603F216
-.L_pool_elem_accessor_12:
+.L_pool_0603B844:
     .4byte  sprite_batch_emit
     .4byte  sym_060A4D14
     .4byte  0x921E342C

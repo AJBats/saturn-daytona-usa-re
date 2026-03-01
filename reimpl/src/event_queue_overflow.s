@@ -6,7 +6,7 @@
     .type event_queue_overflow, @function
 event_queue_overflow:
     sts.l pr, @-r15
-    mov.l   .L_pool_state_base_ptr, r13
+    mov.l   .L_pool_06040F3C, r13
     cmp/pz r14
     bf      .L_index_out_of_range
     mov #0x18, r2
@@ -23,7 +23,7 @@ event_queue_overflow:
     bra     .L_return
     mov #-0x7, r0
     .2byte  0xFFFF
-.L_pool_state_base_ptr:
+.L_pool_06040F3C:
     .4byte  sym_060A5400
 .L_register_checkpoint:
     .byte   0xD6, 0x19    /* mov.l .L_pool_06040FA8, r6 */  ! r6 = 0x0000FFFF (event mask)

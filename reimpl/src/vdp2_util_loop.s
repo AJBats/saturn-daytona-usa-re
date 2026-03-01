@@ -13,10 +13,10 @@ vdp2_util_loop:
     mov #0x12, r11
     add #-0x58, r15
     mov r15, r12
-    mov.l   .L_pool_slot_data_base, r13
+    mov.l   .L_pool_060171A0, r13
     mov r15, r1
-    mov.l   .L_pool_fn_table_src, r2
-    mov.l   .L_pool_memcpy_long, r3
+    mov.l   .L_pool_060171A4, r2
+    mov.l   .L_pool_060171A8, r3
     jsr @r3
     mov #0x58, r0
     mov #0x0, r14
@@ -63,9 +63,9 @@ vdp2_util_loop:
     mov.l @r15+, r14
     .4byte  handler_dispatch
     .4byte  sym_06018E1E
-.L_pool_slot_data_base:
+.L_pool_060171A0:
     .4byte  sym_06084FC8
-.L_pool_fn_table_src:
+.L_pool_060171A4:
     .4byte  sym_0605BC14
-.L_pool_memcpy_long:
+.L_pool_060171A8:
     .4byte  sym_06035168

@@ -19,7 +19,7 @@ rot_scroll_vscale:
     mov r5, r6
     sub r4, r6
     exts.w r6, r6
-    mov.l   .L_pool_neg_clamp, r1
+    mov.l   .L_pool_0602E534, r1
     cmp/gt r1, r6
     bt      .L_check_upper_bound
     bra     .L_clamp_delta
@@ -50,7 +50,7 @@ DAT_0602e522:
     .4byte  sym_0607EAD8               /* [HIGH] race end state — used by interp TU */
     .4byte  sym_0602E8AC               /* [MEDIUM] main scene render entry — used by interp TU */
     .4byte  atan2                      /* [HIGH] atan2 function — used by interp TU */
-.L_pool_neg_clamp:
+.L_pool_0602E534:
     .4byte  0xFFFFFF00                 /* [HIGH] -0x100 = lower clamp bound for delta */
 .L_check_upper_bound:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */  ! r1 = 0x100 (upper clamp bound)

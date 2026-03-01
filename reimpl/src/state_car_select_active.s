@@ -12,29 +12,29 @@
     .type state_car_select_active, @function
 state_car_select_active:
     sts.l pr, @-r15
-    mov.l   .L_pool_fn_car_select_input, r3
+    mov.l   .L_pool_06008BD0, r3
     jsr @r3
     nop
-    mov.l   .L_pool_fn_track_seg_phys_init, r3
+    mov.l   .L_pool_06008BD4, r3
     jsr @r3
     nop
-    mov.l   .L_pool_fn_camera_finalize, r3
+    mov.l   .L_pool_06008BC4, r3
     jsr @r3
     nop
     mov #0x0, r2
-    mov.l   .L_pool_anim_state_ptr, r3
+    mov.l   .L_pool_06008BC8, r3
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
     .2byte  0xFFFF
     .4byte  g_game_state
     .4byte  car_select_setup
-.L_pool_fn_camera_finalize:
+.L_pool_06008BC4:
     .4byte  sym_06026CE0
-.L_pool_anim_state_ptr:
+.L_pool_06008BC8:
     .4byte  sym_06059F44
     .4byte  sym_0605A016
-.L_pool_fn_car_select_input:
+.L_pool_06008BD0:
     .4byte  car_select_input
-.L_pool_fn_track_seg_phys_init:
+.L_pool_06008BD4:
     .4byte  track_seg_phys_init

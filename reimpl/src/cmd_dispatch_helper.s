@@ -7,7 +7,7 @@
 cmd_dispatch_helper:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_state_ptr, r5
+    mov.l   .L_pool_0603ADEC, r5
     mov.w   .L_woff_cmd_slot_base, r3
     mov.l @r5, r14
     tst r4, r4
@@ -37,7 +37,7 @@ cmd_dispatch_helper:
     .4byte  sym_0603F1E0
     .4byte  sym_0603F1F0
     .4byte  scene_frame_render
-.L_pool_state_ptr:
+.L_pool_0603ADEC:
     .4byte  sym_060A4D14
 .L_copy_command:
     mov r14, r1

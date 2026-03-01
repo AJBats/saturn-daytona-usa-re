@@ -9,8 +9,8 @@ geom_coord_calc:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov #0x0, r13
-    mov.l   .L_pool_player_index, r14
-    mov.l   .L_pool_string_table, r2
+    mov.l   .L_pool_0601EAE4, r14
+    mov.l   .L_pool_0601EAD8, r2
     mov.b @r14, r4
     extu.b r4, r4
     mov r4, r3
@@ -21,7 +21,7 @@ geom_coord_calc:
     .byte   0xBD, 0x0B    /* bsr 0x0601E4D4 (hud_state_machine) */
     add r2, r4
     extu.b r0, r4
-    mov.l   .L_pool_status_flags, r6
+    mov.l   .L_pool_0601EAE8, r6
     mov #0x7, r2
     cmp/ge r2, r4
     bf      .L_priority_active
@@ -32,13 +32,13 @@ geom_coord_calc:
     bra     .L_epilogue
     nop
     .4byte  sym_060877D9
-.L_pool_string_table:
+.L_pool_0601EAD8:
     .4byte  sym_0604A57C
     .4byte  sym_06087080
     .4byte  sym_0604A5AC
-.L_pool_player_index:
+.L_pool_0601EAE4:
     .4byte  sym_060877D8
-.L_pool_status_flags:
+.L_pool_0601EAE8:
     .4byte  sym_060877DD
 .L_priority_active:
     mov #0x1, r5

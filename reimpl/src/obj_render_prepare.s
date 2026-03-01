@@ -5,7 +5,7 @@
     .global obj_render_prepare
     .type obj_render_prepare, @function
 obj_render_prepare:
-    mov.l   .L_pool_slot_array_base, r7
+    mov.l   .L_pool_06020E70, r7
     mov #0x10, r6
     mov #0x0, r5
 .L_search_loop:
@@ -34,5 +34,5 @@ obj_render_prepare:
     rts
     extu.b r5, r0
     .2byte  0xFFFF
-.L_pool_slot_array_base:
+.L_pool_06020E70:
     .4byte  sym_0608782C

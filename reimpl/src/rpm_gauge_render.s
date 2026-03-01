@@ -9,13 +9,13 @@ rpm_gauge_render:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xDD, 0x03    /* mov.l .L_pool_rpm_gauge, r13 */
+    .byte   0xDD, 0x03    /* mov.l .L_pool_06032A79, r13 */
     mov.l @r13, r13
     bra     .L_rpm_gauge_body
     nop
     .2byte  0x0000
     .4byte  sym_06026DBC
-.L_pool_rpm_gauge:
+.L_pool_06032A79:
     .4byte  sym_06089EDC
     .4byte  0x00000018
     .4byte  sym_06026E2E

@@ -8,8 +8,8 @@ pre_race_camera:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_input_state, r13
-    mov.l   .L_pool_camera_angle, r14
+    mov.l   .L_pool_06019F4C, r13
+    mov.l   .L_pool_06019F50, r14
     mov.w @r13, r0
     extu.w r0, r0
     tst #0x1, r0
@@ -21,7 +21,7 @@ pre_race_camera:
     mov #0x19, r5
 .L_check_new_up:
     mov.l   .L_fp_half, r7
-    mov.l   .L_pool_anim_timer, r4
+    mov.l   .L_pool_06019F58, r4
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
@@ -35,7 +35,7 @@ pre_race_camera:
     bra     .L_clamp_upper
     mov.b r2, @r4
 .L_check_new_down:
-    mov.w   .L_wpool_down_mask, r6
+    mov.w   .L_wpool_06019F40, r6
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
@@ -48,18 +48,18 @@ pre_race_camera:
     exts.b r12, r2
     bra     .L_clamp_upper
     mov.b r2, @r4
-.L_wpool_down_mask:
+.L_wpool_06019F40:
     .2byte  0x4000                  /* Down button mask (16-bit) */
     .2byte  0xFFFF                  /* padding */
     .4byte  sym_06063750            /* car object table base (unused here, pool alignment) */
     .4byte  sym_06049B18            /* course 1 dlist offset table (unused here, pool alignment) */
-.L_pool_input_state:
+.L_pool_06019F4C:
     .4byte  g_pad_state            /* &input_state struct (word[0]=held, word[+2]=new_press) */
-.L_pool_camera_angle:
+.L_pool_06019F50:
     .4byte  sym_0605AD0C            /* &camera_angle_index for course 1 (32-bit) */
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_pool_anim_timer:
+.L_pool_06019F58:
     .4byte  sym_0605D243            /* &anim_timer / mode variant byte (reset on angle change) */
 .L_check_held_up:
     mov.w @r13, r2

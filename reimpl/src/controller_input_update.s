@@ -23,8 +23,8 @@ controller_input_update:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_pad_state, r14
-    mov.l   .L_pool_smpc_data_mgr, r3
+    mov.l   .L_pool_06005220, r14
+    mov.l   .L_pool_06005224, r3
     jsr @r3
     mov r15, r4
     mov.l @r15, r1
@@ -57,7 +57,7 @@ controller_input_update:
     mov.w @(2, r4), r0
     mov r0, r13
     not r13, r13
-    mov.l   .L_pool_frame_flag, r0
+    mov.l   .L_pool_06005228, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
     bf/s    .L_accumulate_coords
@@ -86,11 +86,11 @@ controller_input_update:
     extu.b r3, r0
     bra     .L_check_occluded
     mov.w r0, @(6, r4)
-.L_pool_pad_state:
+.L_pool_06005220:
     .4byte  g_pad_state
-.L_pool_smpc_data_mgr:
+.L_pool_06005224:
     .4byte  smpc_data_manage
-.L_pool_frame_flag:
+.L_pool_06005228:
     .4byte  sym_06059F44
 .L_accumulate_coords:
     mov r14, r4

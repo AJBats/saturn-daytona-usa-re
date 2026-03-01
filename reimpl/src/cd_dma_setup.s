@@ -14,11 +14,11 @@ cd_dma_setup:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_pool_cmd_validate_chain, r8
-    mov.l   .L_pool_cd_status_flag, r10
-    mov.l   .L_pool_cmd_status_check, r11
+    mov.l   .L_pool_06012C8C, r8
+    mov.l   .L_pool_06012C90, r10
+    mov.l   .L_pool_06012C94, r11
     mov #0x5, r13
-    mov.l   .L_pool_bios_service_ptr, r14
+    mov.l   .L_pool_06012C98, r14
     mov.l r4, @r15
     mov.l r5, @(4, r15)
     mov #-0x1, r4
@@ -39,13 +39,13 @@ DAT_06012c66:
     .4byte  memcpy_word_idx
     .4byte  ai_brake_zone_calc
     .4byte  sym_0605ACCA
-.L_pool_cmd_validate_chain:
+.L_pool_06012C8C:
     .4byte  cmd_validate_chain
-.L_pool_cd_status_flag:
+.L_pool_06012C90:
     .4byte  sym_06084AEC
-.L_pool_cmd_status_check:
+.L_pool_06012C94:
     .4byte  cmd_status_check
-.L_pool_bios_service_ptr:
+.L_pool_06012C98:
     .4byte  sym_0600026C
 .L_poll_cd_ready:
     .byte   0xBF, 0x9E    /* bsr 0x06012BDC (external) */  ! call cd_error_recover

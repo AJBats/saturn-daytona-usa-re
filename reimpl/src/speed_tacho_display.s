@@ -14,15 +14,15 @@ speed_tacho_display:
     mov r6, r14
     sts macl, r0
     add r0, r8
-    mov.l   .L_pool_results_array, r13
-    mov.l   .L_pool_coord_scratch, r11
+    mov.l   .L_pool_06031E34, r13
+    mov.l   .L_pool_06031E38, r11
 .L_element_loop:
     add #-0x18, r8
     mov.w @(16, r8), r0
     mov #0xC, r3
     mulu.w r0, r3
     mov.w   DAT_06031e30, r12
-    mov.l   .L_pool_elem_table, r3
+    mov.l   .L_pool_06031E3C, r3
     sts macl, r7
     add r3, r7
     mov.l @(8, r7), r3
@@ -35,14 +35,14 @@ speed_tacho_display:
 DAT_06031e30:
     .2byte  0xFF00
     .2byte  0x0000
-.L_pool_results_array:
+.L_pool_06031E34:
     .4byte  sym_06032128
-.L_pool_coord_scratch:
+.L_pool_06031E38:
     .4byte  sym_06032108
-.L_pool_elem_table:
+.L_pool_06031E3C:
     .4byte  sym_060961A8
 .L_elem_visible:
-    mov.w   .L_wpool_elem_cmd_a0, r0
+    mov.w   .L_wpool_06031EA8, r0
     mov.l r0, @(16, r12)
     mov.l r3, @(0, r12)
     mov #0x0, r0
@@ -52,8 +52,8 @@ DAT_06031e30:
     mov r8, r4
     tst #0x8, r0
     bf      .L_setup_axis1
-    mov.l   .L_pool_temp_rotation, r5
-    mov.l   .L_pool_camera_matrix, r0
+    mov.l   .L_pool_06031EAC, r5
+    mov.l   .L_pool_06031EB0, r0
     mov.l @r0, r9
     clrmac
     mac.l @r4+, @r9+
@@ -94,12 +94,12 @@ DAT_06031e30:
     bt      .L_setup_axis1
     bra     .L_next_element
     nop
-.L_wpool_elem_cmd_a0:
+.L_wpool_06031EA8:
     .2byte  0x00A0
     .2byte  0x0000
-.L_pool_temp_rotation:
+.L_pool_06031EAC:
     .4byte  sym_06032138
-.L_pool_camera_matrix:
+.L_pool_06031EB0:
     .4byte  sym_0608A52C
 .L_setup_axis1:
     mov r11, r5
@@ -109,7 +109,7 @@ DAT_06031e30:
     mov.w @(18, r8), r0
     mov #0xC, r3
     mulu.w r0, r3
-    mov.l   .L_pool_elem_table_b, r3
+    mov.l   .L_pool_06031EF0, r3
     sts macl, r7
     add r3, r7
     mov.l @(8, r7), r3
@@ -135,7 +135,7 @@ DAT_06031e30:
     .global DAT_06031eee
 DAT_06031eee:
     .2byte  0x00A0
-.L_pool_elem_table_b:
+.L_pool_06031EF0:
     .4byte  sym_060961A8
 .L_axis1_passed:
     mov.l r3, @(4, r13)
@@ -146,11 +146,11 @@ DAT_06031eee:
     mov.w @(20, r8), r0
     mov #0xC, r3
     mulu.w r0, r3
-    mov.l   .L_pool_elem_table_c, r3
+    mov.l   .L_pool_06031F34, r3
     sts macl, r7
     add r3, r7
     mov.l @(8, r7), r3
-    mov.w   .L_wpool_elem_cmd_a0_b, r0
+    mov.w   .L_wpool_06031F30, r0
     mov.l r0, @(16, r12)
     mov.l r3, @(0, r12)
     mov #0x0, r0
@@ -168,10 +168,10 @@ DAT_06031eee:
     bt      .L_axis2_passed
     bra     .L_next_element
     nop
-.L_wpool_elem_cmd_a0_b:
+.L_wpool_06031F30:
     .2byte  0x00A0
     .2byte  0x0000
-.L_pool_elem_table_c:
+.L_pool_06031F34:
     .4byte  sym_060961A8
 .L_axis2_passed:
     mov.l r3, @(8, r13)
@@ -182,11 +182,11 @@ DAT_06031eee:
     mov.w @(22, r8), r0
     mov #0xC, r3
     mulu.w r0, r3
-    mov.l   .L_pool_elem_table_d, r3
+    mov.l   .L_pool_06031F78, r3
     sts macl, r7
     add r3, r7
     mov.l @(8, r7), r3
-    mov.w   .L_wpool_elem_cmd_a0_c, r0
+    mov.w   .L_wpool_06031F74, r0
     mov.l r0, @(16, r12)
     mov.l r3, @(0, r12)
     mov #0x0, r0
@@ -204,10 +204,10 @@ DAT_06031eee:
     bt      .L_axis3_passed
     bra     .L_next_element
     nop
-.L_wpool_elem_cmd_a0_c:
+.L_wpool_06031F74:
     .2byte  0x00A0
     .2byte  0x0000
-.L_pool_elem_table_d:
+.L_pool_06031F78:
     .4byte  sym_060961A8
 .L_axis3_passed:
     mov.l r3, @(12, r13)
@@ -224,14 +224,14 @@ DAT_06031eee:
     mov.l r2, @(4, r5)
     bsr     .L_bounds_check
     nop
-    mov.l   .L_pool_timing_accum, r0
+    mov.l   .L_pool_06031FC8, r0
     mov #0x18, r1
     mov.l @r0, r0
     mul.l r0, r1
-    mov.l   .L_pool_sprite_table, r2
+    mov.l   .L_pool_06031FCC, r2
     sts macl, r9
     add r2, r9
-    mov.w   .L_wpool_neg_threshold, r12
+    mov.w   .L_wpool_06031FC4, r12
     mov.l @(0, r11), r0
     mov.l @(8, r11), r2
     mov.l @(16, r11), r4
@@ -246,15 +246,15 @@ DAT_06031eee:
     bf      .L_check_right_bound
     bra     .L_next_element
     nop
-.L_wpool_neg_threshold:
+.L_wpool_06031FC4:
     .2byte  0xFF50
     .2byte  0x0000
-.L_pool_timing_accum:
+.L_pool_06031FC8:
     .4byte  sym_060620D4
-.L_pool_sprite_table:
+.L_pool_06031FCC:
     .4byte  sym_0608AC20
 .L_check_right_bound:
-    mov.w   .L_wpool_screen_right, r12
+    mov.w   .L_wpool_06032048, r12
     cmp/gt r0, r12
     bt      .L_check_y_bounds
     cmp/gt r2, r12
@@ -264,7 +264,7 @@ DAT_06031eee:
     cmp/gt r6, r12
     bt      .L_next_element
 .L_check_y_bounds:
-    mov.w   .L_wpool_screen_top, r12
+    mov.w   .L_wpool_0603204A, r12
     mov.l @(4, r11), r1
     mov.l @(12, r11), r3
     mov.l @(20, r11), r5
@@ -278,7 +278,7 @@ DAT_06031eee:
     cmp/gt r7, r12
     bt      .L_next_element
 .L_check_y_lower:
-    mov.w   .L_wpool_screen_bottom, r12
+    mov.w   .L_wpool_0603204C, r12
     cmp/gt r1, r12
     bt      .L_write_sprite_entry
     cmp/gt r3, r12
@@ -308,7 +308,7 @@ DAT_06031eee:
     mov r10, r0
     mov.b r0, @(5, r9)
     mov.w @(12, r8), r0
-    mov.l   .L_pool_blend_jumptbl, r1
+    mov.l   .L_pool_06032050, r1
     and #0x7, r0
     shll2 r0
     mov.l @(r0, r1), r0
@@ -317,14 +317,14 @@ DAT_06031eee:
     mov.l @(8, r13), r5
     jmp @r0
     mov.l @(12, r13), r6
-.L_wpool_screen_right:
+.L_wpool_06032048:
     .2byte  0x00B0
-.L_wpool_screen_top:
+.L_wpool_0603204A:
     .2byte  0xFF81
-.L_wpool_screen_bottom:
+.L_wpool_0603204C:
     .2byte  0x0051
     .2byte  0x0000
-.L_pool_blend_jumptbl:
+.L_pool_06032050:
     .4byte  sym_06032144
 
     .global loc_06032054
@@ -377,7 +377,7 @@ loc_0603208A:
 
     .global loc_06032090
 loc_06032090:
-    mov.l   .L_pool_max_offset, r0
+    mov.l   .L_pool_060320C8, r0
 .L_maxofs_body:
     cmp/gt r3, r4
     bf      .L_maxofs_skip_1
@@ -393,9 +393,9 @@ loc_06032090:
 .L_maxofs_add:
     add r0, r3
 .L_store_sprite_result:
-    mov.l   .L_pool_timing_accum_b, r2
+    mov.l   .L_pool_060320CC, r2
     neg r3, r3
-    mov.l   .L_pool_sprite_idx_tbl, r1
+    mov.l   .L_pool_060320D0, r1
     shlr8 r3
     mov.l @r2, r0
     shlr2 r3
@@ -411,11 +411,11 @@ loc_06032090:
     bra     .L_element_loop
     nop
     .2byte  0x0000
-.L_pool_max_offset:
+.L_pool_060320C8:
     .4byte  0x00400000
-.L_pool_timing_accum_b:
+.L_pool_060320CC:
     .4byte  sym_060620D4
-.L_pool_sprite_idx_tbl:
+.L_pool_060320D0:
     .4byte  sym_0606A4F8
 .L_epilogue:
     lds.l @r15+, pr
@@ -504,8 +504,8 @@ sym_06032144:
 
     .global sym_06032158
 sym_06032158:
-    mov.l   .L_pool_cam_matrix_ptr, r0
-    mov.l   .L_pool_elem_table_e, r3
+    mov.l   .L_pool_060321B8, r0
+    mov.l   .L_pool_060321BC, r3
     mov.l @r0, r6
     mov #0x24, r7
     add r6, r7
@@ -553,7 +553,7 @@ sym_06032158:
     add #0xC, r3
     rts
     add #0x8, r15
-.L_pool_cam_matrix_ptr:
+.L_pool_060321B8:
     .4byte  sym_0608A52C
-.L_pool_elem_table_e:
+.L_pool_060321BC:
     .4byte  sym_060961A8

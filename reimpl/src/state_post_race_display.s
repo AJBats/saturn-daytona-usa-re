@@ -6,29 +6,29 @@
     .type state_post_race_display, @function
 state_post_race_display:
     sts.l pr, @-r15
-    .byte   0xD3, 0x16    /* mov.l .L_pool_results_display, r3 */  ! r3 = &ai_waypoint_pathfind (results display logic)
+    .byte   0xD3, 0x16    /* mov.l .L_pool_06009DB5, r3 */  ! r3 = &ai_waypoint_pathfind (results display logic)
     jsr @r3
     nop
-    .byte   0xD2, 0x16    /* mov.l .L_pool_display_enable, r2 */  ! r2 = &sym_06085F8A (display enable flag address)
+    .byte   0xD2, 0x16    /* mov.l .L_pool_06009DB9, r2 */  ! r2 = &sym_06085F8A (display enable flag address)
     mov.b @r2, r2
     tst r2, r2
     bf      .L_skip_display_pipeline
 
-    .byte   0xD3, 0x15    /* mov.l .L_pool_camera_system, r3 */  ! r3 = &camera_system (multi-mode camera controller)
+    .byte   0xD3, 0x15    /* mov.l .L_pool_06009DBD, r3 */  ! r3 = &camera_system (multi-mode camera controller)
     jsr @r3
     nop
-    .byte   0xD6, 0x14    /* mov.l .L_pool_camera_struct, r6 */  ! r6 = sym_06063E24 (camera struct base address)
-    .byte   0xD5, 0x15    /* mov.l .L_pool_camera_heading, r5 */  ! r5 = sym_06063EEC (camera parameter B — smoothed heading)
-    .byte   0xD4, 0x15    /* mov.l .L_pool_camera_param_a, r4 */  ! r4 = sym_06063EF8 (camera parameter A)
-    .byte   0xD3, 0x16    /* mov.l .L_pool_camera_orient, r3 */  ! r3 = &camera_orient_calc (display commit function)
+    .byte   0xD6, 0x14    /* mov.l .L_pool_06009DC1, r6 */  ! r6 = sym_06063E24 (camera struct base address)
+    .byte   0xD5, 0x15    /* mov.l .L_pool_06009DC5, r5 */  ! r5 = sym_06063EEC (camera parameter B — smoothed heading)
+    .byte   0xD4, 0x15    /* mov.l .L_pool_06009DC9, r4 */  ! r4 = sym_06063EF8 (camera parameter A)
+    .byte   0xD3, 0x16    /* mov.l .L_pool_06009DCD, r3 */  ! r3 = &camera_orient_calc (display commit function)
     jsr @r3
     mov.l @r6, r6
-    .byte   0xD3, 0x15    /* mov.l .L_pool_scene_master, r3 */  ! r3 = &scene_master (master scene rendering orchestrator)
+    .byte   0xD3, 0x15    /* mov.l .L_pool_06009DD1, r3 */  ! r3 = &scene_master (master scene rendering orchestrator)
     jsr @r3
     nop
 
 .L_skip_display_pipeline:
-    .byte   0xD3, 0x15    /* mov.l .L_pool_frame_end, r3 */  ! r3 = &frame_end_commit (frame timing / sync)
+    .byte   0xD3, 0x15    /* mov.l .L_pool_06009DD5, r3 */  ! r3 = &frame_end_commit (frame timing / sync)
     jmp @r3
     lds.l @r15+, pr
 
@@ -44,21 +44,21 @@ state_post_race_display:
     .4byte  0x40000000
     .4byte  sym_06026CE0
     .4byte  sym_06059F44
-.L_pool_results_display:
+.L_pool_06009DB5:
     .4byte  ai_waypoint_pathfind
-.L_pool_display_enable:
+.L_pool_06009DB9:
     .4byte  sym_06085F8A
-.L_pool_camera_system:
+.L_pool_06009DBD:
     .4byte  camera_system
-.L_pool_camera_struct:
+.L_pool_06009DC1:
     .4byte  sym_06063E24
-.L_pool_camera_heading:
+.L_pool_06009DC5:
     .4byte  sym_06063EEC
-.L_pool_camera_param_a:
+.L_pool_06009DC9:
     .4byte  sym_06063EF8
-.L_pool_camera_orient:
+.L_pool_06009DCD:
     .4byte  camera_orient_calc
-.L_pool_scene_master:
+.L_pool_06009DD1:
     .4byte  scene_master
-.L_pool_frame_end:
+.L_pool_06009DD5:
     .4byte  frame_end_commit

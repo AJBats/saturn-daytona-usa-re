@@ -6,49 +6,49 @@
     .type scene_render_body, @function
 scene_render_body:
     sts.l pr, @-r15
-    mov.l   .L_pool_game_state_flags, r8
-    mov.w   .L_wpool_hw_status_mask, r10
-    mov.l   .L_pool_render_budget_ctr, r12
-    mov.l   .L_pool_lod_config_byte, r13
-    mov.l   .L_pool_secondary_proc_flag, r0
+    mov.l   .L_pool_0600C094, r8
+    mov.w   .L_wpool_0600C090, r10
+    mov.l   .L_pool_0600C098, r12
+    mov.l   .L_pool_0600C09C, r13
+    mov.l   .L_pool_0600C0A0, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_skip_secondary_init
     mov #0x0, r9
-    mov.l   .L_pool_secondary_arg_ptr, r4
-    mov.l   .L_pool_fn_vblank_handler, r3
+    mov.l   .L_pool_0600C0A4, r4
+    mov.l   .L_pool_0600C0A8, r3
     jsr @r3
     mov.l @r4, r4
 .L_skip_secondary_init:
     mov.l @r8, r2
-    mov.l   .L_pool_state25_bit, r3
+    mov.l   .L_pool_0600C0AC, r3
     and r3, r2
     tst r2, r2
     bf      .L_past_render_dispatch
-    mov.l   .L_pool_render_mode_flag, r0
+    mov.l   .L_pool_0600C0B0, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
     bt      .L_render_path_b
-    mov.l   .L_pool_fn_render_path_a, r3
+    mov.l   .L_pool_0600C0B4, r3
     jsr @r3
     nop
     bra     .L_past_render_dispatch
     nop
 .L_render_path_b:
-    mov.l   .L_pool_fn_physics_dispatch, r3
+    mov.l   .L_pool_0600C0B8, r3
     jsr @r3
     nop
 .L_past_render_dispatch:
     mov.l @r8, r2
-    mov.l   .L_pool_state17_exact, r3
+    mov.l   .L_pool_0600C0BC, r3
     cmp/eq r3, r2
     bf      .L_past_state17_render
-    mov.l   .L_pool_state17_guard, r0
+    mov.l   .L_pool_0600C0C0, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_past_state17_render
-    mov.l   .L_pool_fn_state17_render, r3
+    mov.l   .L_pool_0600C0C4, r3
     jsr @r3
     nop
 .L_past_state17_render:
@@ -56,61 +56,61 @@ scene_render_body:
     mov.l @r12, r2
     add #0x30, r2
     mov.l r2, @r12
-    mov.l   .L_pool_render_src_data, r5
-    mov.l   .L_pool_fn_memcpy_long_idx, r3
+    mov.l   .L_pool_0600C0C8, r5
+    mov.l   .L_pool_0600C0CC, r3
     mov.l @r5, r5
     jsr @r3
     mov r2, r4
-    mov.l   .L_pool_obj_iter_count, r4
-    mov.l   .L_pool_obj_count_mode, r0
+    mov.l   .L_pool_0600C0D0, r4
+    mov.l   .L_pool_0600C0D4, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_use_lod_config_count
-    mov.l   .L_pool_total_obj_count, r3
+    mov.l   .L_pool_0600C0D8, r3
     mov.l @r3, r3
     shar r3
     exts.w r3, r3
     mov.w r3, @r4
     bra     .L_set_secondary_callback
     nop
-.L_wpool_hw_status_mask:
+.L_wpool_0600C090:
     .2byte  0xFE11                      /* hardware status address mask fragment */
     .2byte  0xFFFF                      /* padding / alignment */
-.L_pool_game_state_flags:
+.L_pool_0600C094:
     .4byte  sym_0607EBC4                /* game state bitmask (read by @r8) */
-.L_pool_render_budget_ctr:
+.L_pool_0600C098:
     .4byte  sym_0608A52C                /* render budget counter (frame alloc tracking) */
-.L_pool_lod_config_byte:
+.L_pool_0600C09C:
     .4byte  sym_0605A1DD                /* LOD config byte (object detail level) */
-.L_pool_secondary_proc_flag:
+.L_pool_0600C0A0:
     .4byte  sym_06083255                /* secondary SH-2 processing flag (byte) */
-.L_pool_secondary_arg_ptr:
+.L_pool_0600C0A4:
     .4byte  sym_0607EB8C                /* argument pointer for secondary dispatch */
-.L_pool_fn_vblank_handler:
+.L_pool_0600C0A8:
     .4byte  vblank_handler              /* per-frame update / secondary dispatch */
-.L_pool_state25_bit:
+.L_pool_0600C0AC:
     .4byte  0x02000000                  /* state 25 bitmask (bit 25) */
-.L_pool_render_mode_flag:
+.L_pool_0600C0B0:
     .4byte  sym_06078635                /* render mode flag (byte: 0=path B, else=path A) */
-.L_pool_fn_render_path_a:
+.L_pool_0600C0B4:
     .4byte  sym_0600D336                /* render path A function */
-.L_pool_fn_physics_dispatch:
+.L_pool_0600C0B8:
     .4byte  physics_calc_dispatch       /* render path B / physics calc dispatch */
-.L_pool_state17_exact:
+.L_pool_0600C0BC:
     .4byte  0x00020000                  /* state 17 bitmask (0x20000) — 2.0 in 16.16 fixed-point */
-.L_pool_state17_guard:
+.L_pool_0600C0C0:
     .4byte  sym_0607EAE0                /* state 17 guard (long: 0 = allow special render) */
-.L_pool_fn_state17_render:
+.L_pool_0600C0C4:
     .4byte  sym_0602E610                /* state 17 special rendering function */
-.L_pool_render_src_data:
+.L_pool_0600C0C8:
     .4byte  sym_06089EDC                /* source data for render budget copy */
-.L_pool_fn_memcpy_long_idx:
+.L_pool_0600C0CC:
     .4byte  memcpy_long_idx             /* indexed long memory copy function */
-.L_pool_obj_iter_count:
+.L_pool_0600C0D0:
     .4byte  sym_06078664                /* object iteration count target (halfword) */
-.L_pool_obj_count_mode:
+.L_pool_0600C0D4:
     .4byte  sym_06059F30                /* object count mode (0=compute, else=use config) */
-.L_pool_total_obj_count:
+.L_pool_0600C0D8:
     .4byte  sym_0607EA98                /* total renderable object count */
 .L_use_lod_config_count:
     mov.b @r13, r2
@@ -138,7 +138,7 @@ scene_render_body:
     .byte   0xBA, 0xCC    /* bsr 0x0600B6A0 (external) -- call CS0 object rendering loop */
     nop
     mov.l @r8, r2
-    .byte   0xD3, 0x26    /* mov.l .L_pool_state25_bit_b, r3 -- r3 = 0x02000000 (state 25) */
+    .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC_b, r3 -- r3 = 0x02000000 (state 25) */
     cmp/eq r3, r2
     bt      .L_begin_hw_poll
     .byte   0xD3, 0x25    /* mov.l .L_pool_fn_post_render_dispatch, r3 -- r3 = FUN_0601BDEC (post-render) */
@@ -160,7 +160,7 @@ scene_render_body:
     tst r9, r9
     bt      .L_lod_decrement_path
     mov.b @r13, r3
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_total_obj_count_b, r2 -- r2 = &total_obj_count (sym_0607EA98) */
+    .byte   0xD2, 0x1E    /* mov.l .L_pool_0600C0D8_b, r2 -- r2 = &total_obj_count (sym_0607EA98) */
     extu.b r3, r3
     mov.l @r2, r2
     cmp/ge r2, r3

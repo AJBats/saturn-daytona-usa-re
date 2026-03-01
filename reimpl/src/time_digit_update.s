@@ -10,9 +10,9 @@ time_digit_update:
     mov.l r12, @-r15
     mov.l r11, @-r15
     add #-0x4, r15
-    mov.w   .L_wpool_anim_step, r11
+    mov.w   .L_wpool_06015D24, r11
     mov #0x8, r12
-    mov.l   .L_pool_digit_array_base, r13
+    mov.l   .L_pool_06015D28, r13
     mov #0x0, r14
     mov.b r4, @r15
     extu.b r14, r6
@@ -58,7 +58,7 @@ time_digit_update:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_clear_vdp2_regs, r3
+    mov.l   .L_pool_06015D2C, r3
     jmp @r3
     mov.l @r15+, r14
 .L_not_all_done:
@@ -68,10 +68,10 @@ time_digit_update:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_anim_step:
+.L_wpool_06015D24:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_pool_digit_array_base:
+.L_pool_06015D28:
     .4byte  sym_06084FC8                    /* [HIGH] HUD digit element array base — 68-byte structs */
-.L_pool_clear_vdp2_regs:
+.L_pool_06015D2C:
     .4byte  sym_060172E4                    /* [HIGH] clear VDP2 registers — confirmed in track_geometry.s */

@@ -108,10 +108,10 @@ sym_0602E938:
     mov.w r0, @(22, r14)
     mov.w @(0, r0), r0
     mov #0x4F, r13
-    .byte   0xD8, 0xF5    /* mov.l .L_pool_render_body, r8 — data, not code */
-    mov.w   .L_wpool_vdp2_rot_params, r0
+    .byte   0xD8, 0xF5    /* mov.l .L_pool_0602ED3C, r8 — data, not code */
+    mov.w   .L_wpool_0602E963, r0
     add #0x7A, r1
-.L_wpool_vdp2_rot_params:
+.L_wpool_0602E963:
     .2byte  0xED4F
     .2byte  0xD8F5
     .4byte  0x9000717A
@@ -160,8 +160,8 @@ loc_0602E9A8:
     .word 0x0000
     .word 0x0000
 .L_scene_data_block_a:
-    .byte   0xD0, 0x00    /* mov.l .L_pool_scene_data_term_a, r0 */
-.L_pool_scene_data_term_a:
+    .byte   0xD0, 0x00    /* mov.l .L_pool_0602E9E0, r0 */
+.L_pool_0602E9E0:
     .4byte  0x00003C00
     .2byte  0x0004
 .L_scene_data_block_b:
@@ -207,9 +207,9 @@ loc_0602E9A8:
     .word 0x0000
     mov.b r0, @r8
     .word 0x0000
-    mov.w   .L_wpool_scene0_viewport_data, r8
+    mov.w   .L_wpool_0602EA3E, r8
     .word 0x0000
-.L_wpool_scene0_viewport_data:
+.L_wpool_0602EA3E:
     .2byte  0xD200
     .4byte  0x00006800
     .4byte  0x0001E800
@@ -259,8 +259,8 @@ loc_0602EA8C:
     .word 0x0001
     mov.b r0, @(0, r0)
     .word 0x0000
-    .byte   0xD0, 0x00    /* mov.l .L_pool_scene_cfg_1, r0 */
-.L_pool_scene_cfg_1:
+    .byte   0xD0, 0x00    /* mov.l .L_pool_0602EAC5, r0 */
+.L_pool_0602EAC5:
     .4byte  0x00007C00
     .4byte  0x00048000
     .4byte  0x00000000
@@ -333,8 +333,8 @@ loc_0602EB70:
     .word 0x0000
     .word 0x0000
     .word 0x0000
-    .byte   0xD0, 0x00    /* mov.l .L_pool_scene_cfg_2, r0 */
-.L_pool_scene_cfg_2:
+    .byte   0xD0, 0x00    /* mov.l .L_pool_0602EBAA, r0 */
+.L_pool_0602EBAA:
     .4byte  0x0000AF33
     .4byte  0x00048000
     .4byte  0x00000000
@@ -456,18 +456,18 @@ sym_0602ECCC:
 
     .global sym_0602ECF2
 sym_0602ECF2:
-    .byte   0xD1, 0x04    /* mov.l .L_pool_render_state_ptr, r1 */
+    .byte   0xD1, 0x04    /* mov.l .L_pool_0602ED0C, r1 */
     mov.l @r1, r2
-    .byte   0xD3, 0x04    /* mov.l .L_pool_render_jump_tbl, r3 */
+    .byte   0xD3, 0x04    /* mov.l .L_pool_0602ED10, r3 */
     shll2 r2
     add r2, r3
     mov.l @r3, r3
     jmp @r3
     nop
     .2byte  0x0000
-.L_pool_render_state_ptr:
+.L_pool_0602ED0C:
     .4byte  sym_0607EAE4
-.L_pool_render_jump_tbl:
+.L_pool_0602ED10:
     .4byte  sym_0602ED0C
 
     .global sym_0602ED0C
@@ -490,7 +490,7 @@ loc_0602ED18:
     mov.l @(8, r0), r2
     shll16 r2
     .byte   0x92, 0x3F    /* mov.w .L_wpool_render_dim_const, r2 — [LOW] loads 0x005C render dimension constant */
-.L_pool_render_body:
+.L_pool_0602ED3C:
     .4byte  0xE3000236
     .4byte  0x913DE301
     .4byte  0x923C4328

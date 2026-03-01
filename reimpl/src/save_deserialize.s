@@ -10,8 +10,8 @@ save_deserialize:
     sts.l pr, @-r15
     mov r4, r13
     add #-0x4, r15
-    mov.l   .L_pool_cmd_state_ptr, r14
-    mov.w   .L_wpool_active_block_offset, r0
+    mov.l   .L_pool_0603BD84, r14
+    mov.w   .L_wpool_0603BD64, r0
     mov.l @r14, r4
     mov.l @(r0, r4), r4
     tst r4, r4
@@ -38,11 +38,11 @@ save_deserialize:
     tst r4, r4
     bf      .check_result_2
     mov.l @r14, r3
-    mov.w   .L_wpool_active_block_offset, r0
+    mov.w   .L_wpool_0603BD64, r0
     mov.l r13, @(r0, r3)
     bra     .set_return_code
     nop
-.L_wpool_active_block_offset:
+.L_wpool_0603BD64:
     .2byte  0x00A8                      /* [HIGH] active block slot offset in cmd state (+0xA8) */
     .2byte  0xFFFF
     .4byte  sym_060401E4
@@ -52,7 +52,7 @@ save_deserialize:
     .4byte  evt_status_flag_set
     .4byte  evt_cmd_enqueue
     .4byte  sym_0603F8B8
-.L_pool_cmd_state_ptr:
+.L_pool_0603BD84:
     .4byte  sym_060A4D14
 .check_result_2:
     mov r4, r0

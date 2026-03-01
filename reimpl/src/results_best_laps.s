@@ -10,7 +10,7 @@ results_best_laps:
     mov.l r12, @-r15
     add #-0x4, r15
     mov #0x6, r12
-    .byte   0xDD, 0x16    /* mov.l .L_pool_entry_table, r13 */  ! r13 = results entry table base
+    .byte   0xDD, 0x16    /* mov.l .L_pool_060166E1, r13 */  ! r13 = results entry table base
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
@@ -54,14 +54,14 @@ results_best_laps:
     .4byte  sym_0605BAFA
     .4byte  sym_06035228
     .4byte  sym_06085F89
-.L_pool_entry_table:
+.L_pool_060166E1:
     .4byte  sym_06084FC8
 
     .global loc_060166E4
 loc_060166E4:
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD5, 0x18    /* mov.l .L_pool_entry_table_b, r5 */  ! r5 = results entry table base
+    .byte   0xD5, 0x18    /* mov.l .L_pool_0601674F, r5 */  ! r5 = results entry table base
     mov.b @r15, r4
     extu.b r4, r4
     mov r4, r3
@@ -96,7 +96,7 @@ loc_060166E4:
 loc_06016724:
     mov #0x0, r6
     extu.b r4, r5
-    .byte   0xD2, 0x08    /* mov.l .L_pool_entry_table_b, r2 */  ! r2 = results entry table base
+    .byte   0xD2, 0x08    /* mov.l .L_pool_0601674F, r2 */  ! r2 = results entry table base
     mov #0x40, r0
     mov r5, r3
     shll2 r5
@@ -114,5 +114,5 @@ loc_06016724:
     mov r3, r0
     rts
     mov.b r0, @(2, r5)
-.L_pool_entry_table_b:
+.L_pool_0601674F:
     .4byte  sym_06084FC8

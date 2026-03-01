@@ -8,7 +8,7 @@ error_trap_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xDE, 0x1A    /* mov.l .L_pool_state_base_ptr, r14 */  ! r14 = &sym_060A5400 (state base indirect ptr)
+    .byte   0xDE, 0x1A    /* mov.l .L_pool_060413F5, r14 */  ! r14 = &sym_060A5400 (state base indirect ptr)
     mov.l @r14, r3
     add #0x18, r3
     mov.l r3, @(4, r15)
@@ -65,7 +65,7 @@ error_trap_handler:
 .L_evt_channel_flag_offset:
     .2byte  0x0348                                         /* [HIGH] offset to event channel active flag in state struct */
     .4byte  ai_recovery_handler
-.L_pool_state_base_ptr:
+.L_pool_060413F5:
     .4byte  sym_060A5400
     .4byte  0xD3149026
     .4byte  0x6332003E

@@ -12,9 +12,9 @@ collision_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r11
-    mov.w   .L_wpool_cooldown_const, r12
-    mov.l   .L_pool_car_array_base, r13
-    mov.l   .L_pool_car_struct_ptr, r4
+    mov.w   .L_wpool_0600CFE2, r12
+    mov.l   .L_pool_0600CFEC, r13
+    mov.l   .L_pool_0600CFF0, r4
     mov.l @r4, r14
     mov.l @(4, r14), r0
     tst r0, r0
@@ -32,7 +32,7 @@ collision_dispatch:
 .L_speed_sufficient:
     mov.l @r4, r2
     mov.l @r2, r3
-    mov.l   .L_pool_coll_capable_mask, r2
+    mov.l   .L_pool_0600CFF4, r2
     and r2, r3
     tst r3, r3
     bf      .L_car_is_capable
@@ -41,7 +41,7 @@ collision_dispatch:
 .L_car_is_capable:
     mov r11, r1
     mov r14, r2
-    mov.l   .L_pool_fn_data_copy, r3
+    mov.l   .L_pool_0600CFF8, r3
     jsr @r3
     mov #0x4, r0
     mov.w   DAT_0600cfe6, r0
@@ -66,7 +66,7 @@ collision_dispatch:
     bra     .L_primary_distance_check
     nop
 .L_copy_speed_limit:
-    mov.w   .L_wpool_off_speed_limit, r0
+    mov.w   .L_wpool_0600CFE8, r0
     mov.l @(r0, r14), r2
     add #-0x4, r0
     mov.l r2, @(r0, r14)
@@ -80,7 +80,7 @@ collision_dispatch:
     bt      .L_detailed_state_dispatch
     bra     .L_epilogue
     nop
-.L_wpool_cooldown_const:
+.L_wpool_0600CFE2:
     .2byte  0x0080
 
     .global DAT_0600cfe4
@@ -90,32 +90,32 @@ DAT_0600cfe4:
     .global DAT_0600cfe6
 DAT_0600cfe6:
     .2byte  0x0210
-.L_wpool_off_speed_limit:
+.L_wpool_0600CFE8:
     .2byte  0x01FC
     .2byte  0xFFFF
-.L_pool_car_array_base:
+.L_pool_0600CFEC:
     .4byte  sym_0607E944
-.L_pool_car_struct_ptr:
+.L_pool_0600CFF0:
     .4byte  sym_0607E940
-.L_pool_coll_capable_mask:
+.L_pool_0600CFF4:
     .4byte  0x00C00000
-.L_pool_fn_data_copy:
+.L_pool_0600CFF8:
     .4byte  sym_06035168
 .L_detailed_state_dispatch:
     mov r11, r0
     mov.b @r0, r0
     tst #0x1, r0
     bt      .L_default_handler
-    mov.w   .L_wpool_off_coll_state, r0
+    mov.w   .L_wpool_0600D0AA, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x2, r0
     bf      .L_check_state_1
     mov.l @(8, r13), r2
-    mov.w   .L_wpool_high_speed_thresh, r3
+    mov.w   .L_wpool_0600D0AC, r3
     cmp/gt r3, r2
     bf      .L_normal_collision
     mov #0xA, r2
-    mov.w   .L_wpool_off_event_counter, r0
+    mov.w   .L_wpool_0600D0AE, r0
     mov.l @(r0, r14), r3
     cmp/ge r2, r3
     bt      .L_normal_collision
@@ -129,11 +129,11 @@ DAT_0600cfe6:
     bra     .L_state_dispatch_done
     nop
 .L_check_state_1:
-    mov.w   .L_wpool_off_coll_state, r0
+    mov.w   .L_wpool_0600D0AA, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x1, r0
     bf      .L_state_dispatch_done
-    mov.w   .L_wpool_off_speed_limit_2, r0
+    mov.w   .L_wpool_0600D0B0, r0
     mov #0x2, r3
     mov.l @(r0, r13), r4
     mov.l @(r0, r14), r5
@@ -158,8 +158,8 @@ DAT_0600cfe6:
     mov #0x3, r3
     cmp/hs r3, r5
     bt      .L_check_high_range
-    mov.w   .L_wpool_low_speed_const, r3
-    mov.w   .L_wpool_off_surface_type, r0
+    mov.w   .L_wpool_0600D0B2, r3
+    mov.w   .L_wpool_0600D0B4, r0
     mov.l r3, @(r0, r14)
     add #0xC, r0
     bra     .L_state_dispatch_done
@@ -171,8 +171,8 @@ DAT_0600cfe6:
     mov #0x4, r2
     cmp/hi r2, r5
     bf      .L_state_dispatch_done
-    mov.w   .L_wpool_high_speed_const, r2
-    mov.w   .L_wpool_off_surface_type, r0
+    mov.w   .L_wpool_0600D0B6, r2
+    mov.w   .L_wpool_0600D0B4, r0
     mov.l r2, @(r0, r14)
     add #0xC, r0
     mov.l r12, @(r0, r14)
@@ -196,28 +196,28 @@ DAT_0600cfe6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_off_coll_state:
+.L_wpool_0600D0AA:
     .2byte  0x0210
-.L_wpool_high_speed_thresh:
+.L_wpool_0600D0AC:
     .2byte  0x0AF0
-.L_wpool_off_event_counter:
+.L_wpool_0600D0AE:
     .2byte  0x0224
-.L_wpool_off_speed_limit_2:
+.L_wpool_0600D0B0:
     .2byte  0x01FC
-.L_wpool_low_speed_const:
+.L_wpool_0600D0B2:
     .2byte  0x0300
-.L_wpool_off_surface_type:
+.L_wpool_0600D0B4:
     .2byte  0x01F8
-.L_wpool_high_speed_const:
+.L_wpool_0600D0B6:
     .2byte  0x0400
 .L_speed_limit_clamp:
-    mov.w   .L_wpool_speed_increment, r7
-    mov.l   .L_pool_car_array_base_2, r5
-    mov.l   .L_pool_car_struct_ptr_2, r4
+    mov.w   .L_wpool_0600D112, r7
+    mov.l   .L_pool_0600D120, r5
+    mov.l   .L_pool_0600D124, r4
     mov.l @r4, r6
     mov r6, r3
     mov.l @r3, r2
-    mov.l   .L_pool_coll_capable_mask_2, r3
+    mov.l   .L_pool_0600D128, r3
     and r3, r2
     tst r2, r2
     bt/s    .L_clamp_return
@@ -234,13 +234,13 @@ DAT_0600cfe6:
 .L_clamp_decrement:
     mov.w   DAT_0600d114, r0
     mov.l @(r0, r5), r4
-    mov.w   .L_wpool_speed_decrement, r2
+    mov.w   .L_wpool_0600D116, r2
     add r2, r4
 .L_clamp_check_bounds:
     cmp/pz r4
     bt      .L_clamp_check_upper
     mov #0x0, r2
-    mov.w   .L_wpool_off_surface_type_2, r0
+    mov.w   .L_wpool_0600D118, r0
     mov.l r2, @(r0, r6)
     bra     .L_clamp_write_cooldown
     nop
@@ -249,39 +249,39 @@ DAT_0600cfe6:
     cmp/gt r3, r4
     bf      .L_clamp_store_target
     mov.w   DAT_0600d11a, r3
-    mov.w   .L_wpool_off_surface_type_2, r0
+    mov.w   .L_wpool_0600D118, r0
     mov.l r3, @(r0, r6)
     bra     .L_clamp_write_cooldown
     nop
 .L_clamp_store_target:
-    mov.w   .L_wpool_off_surface_type_2, r0
+    mov.w   .L_wpool_0600D118, r0
     mov.l r4, @(r0, r6)
 .L_clamp_write_cooldown:
-    mov.w   .L_wpool_off_cooldown, r0
+    mov.w   .L_wpool_0600D11C, r0
     mov.l r7, @(r0, r6)
 .L_clamp_return:
     rts
     nop
-.L_wpool_speed_increment:
+.L_wpool_0600D112:
     .2byte  0x0200
 
     .global DAT_0600d114
 DAT_0600d114:
     .2byte  0x01FC
-.L_wpool_speed_decrement:
+.L_wpool_0600D116:
     .2byte  0xFE00
-.L_wpool_off_surface_type_2:
+.L_wpool_0600D118:
     .2byte  0x01F8
 
     .global DAT_0600d11a
 DAT_0600d11a:
     .2byte  0x0800
-.L_wpool_off_cooldown:
+.L_wpool_0600D11C:
     .2byte  0x0204
     .2byte  0xFFFF
-.L_pool_car_array_base_2:
+.L_pool_0600D120:
     .4byte  sym_0607E944
-.L_pool_car_struct_ptr_2:
+.L_pool_0600D124:
     .4byte  sym_0607E940
-.L_pool_coll_capable_mask_2:
+.L_pool_0600D128:
     .4byte  0x00C00000

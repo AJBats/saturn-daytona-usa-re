@@ -8,7 +8,7 @@ track_segment_interp:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_game_state_ptr, r14
+    mov.l   .L_pool_06041560, r14
     mov.w   DAT_0604155c, r0
     mov.w   DAT_0604155e, r7
     mov.l @r14, r1
@@ -51,7 +51,7 @@ track_segment_interp:
     mov r4, r0
     cmp/eq #-0x2, r0
     bt      .L_skip_r4_active_check
-    mov.l   .L_pool_game_state_ptr, r0
+    mov.l   .L_pool_06041560, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r4), r0
@@ -63,14 +63,14 @@ track_segment_interp:
     mov r6, r0
     cmp/eq #-0x2, r0
     bt      .L_skip_r6_active_check
-    mov.l   .L_pool_game_state_ptr, r0
+    mov.l   .L_pool_06041560, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r6), r0
     cmp/eq #0x1, r0
     bf      .L_ret_inactive_car
 .L_skip_r6_active_check:
-    mov.l   .L_pool_game_state_ptr, r0
+    mov.l   .L_pool_06041560, r0
     mov.l @r0, r0
     mov.b @(r0, r5), r0
     cmp/eq #0x1, r0
@@ -89,7 +89,7 @@ DAT_0604155c:
     .global DAT_0604155e
 DAT_0604155e:
     .2byte  0x00FF
-.L_pool_game_state_ptr:
+.L_pool_06041560:
     .4byte  sym_060A5400
 .L_all_valid:
     mov #0x18, r2

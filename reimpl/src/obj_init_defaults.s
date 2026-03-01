@@ -8,7 +8,7 @@ obj_init_defaults:
     sts.l pr, @-r15
     add #-0xC, r15
     mov.w   .L_w_tex_data_const, r10
-    mov.l   .L_pool_obj_table, r12
+    mov.l   .L_pool_060204AC, r12
     mov.b r4, @r15
     mov r12, r11
     mov r12, r9
@@ -46,7 +46,7 @@ obj_init_defaults:
     mov r10, r7
     extu.w r8, r6
     mov r12, r5
-    mov.l   .L_pool_dlist_loader, r2
+    mov.l   .L_pool_060204B0, r2
     mov.l @(8, r15), r3
     add r3, r6
     shll r6
@@ -72,7 +72,7 @@ obj_init_defaults:
 .L_w_tex_data_const:
     .2byte  0x3C79                     /* [MEDIUM] texture data constant */
     .2byte  0xFFFF
-.L_pool_obj_table:
+.L_pool_060204AC:
     .4byte  sym_0605F44E               /* [HIGH] object display list base table */
-.L_pool_dlist_loader:
+.L_pool_060204B0:
     .4byte  sym_06028400               /* [HIGH] display_list_loader function */

@@ -9,9 +9,9 @@ obj_pool_alloc:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_obj_pos_counter, r13
-    mov.l   .L_pool_obj_active_count, r14
-    mov.l   .L_pool_btn_state, r3
+    mov.l   .L_pool_0602026C, r13
+    mov.l   .L_pool_06020270, r14
+    mov.l   .L_pool_06020274, r3
     mov.w @r3, r2
     mov.w   .L_w_start_btn_mask, r3
     extu.w r2, r2
@@ -19,10 +19,10 @@ obj_pool_alloc:
     tst r2, r2
     bt      .L_start_not_pressed
     mov #0x1, r3
-    mov.l   .L_pool_lap_counter, r2
+    mov.l   .L_pool_06020278, r2
     mov.w r3, @r2
 .L_start_not_pressed:
-    mov.l   .L_pool_obj_type_table, r12
+    mov.l   .L_pool_0602027C, r12
     mov #0x14, r2
     mov.w @r14, r3
     extu.w r3, r3
@@ -41,7 +41,7 @@ obj_pool_alloc:
     bt      .L_exit_alloc
     mov r4, r5
     mov r4, r3
-    mov.l   .L_pool_slot_array_base, r2
+    mov.l   .L_pool_06020280, r2
     mov.w @r14, r0
     shll2 r5
     shll2 r3
@@ -99,15 +99,15 @@ obj_pool_alloc:
     mov.l @r15+, r14
 .L_w_start_btn_mask:
     .2byte  0x0800                         /* [HIGH] start-button bitmask (bit 11) */
-.L_pool_obj_pos_counter:
+.L_pool_0602026C:
     .4byte  sym_06087808               /* [MEDIUM] position counter (word) */
-.L_pool_obj_active_count:
+.L_pool_06020270:
     .4byte  sym_06087806               /* [MEDIUM] active object count (word) */
-.L_pool_btn_state:
+.L_pool_06020274:
     .4byte  sym_06063D9A               /* [HIGH] new button presses (edge-triggered) */
-.L_pool_lap_counter:
+.L_pool_06020278:
     .4byte  sym_0608780A               /* [MEDIUM] lap counter (word) */
-.L_pool_obj_type_table:
+.L_pool_0602027C:
     .4byte  sym_0605F4A8               /* [MEDIUM] object type/param table (6 bytes/row) */
-.L_pool_slot_array_base:
+.L_pool_06020280:
     .4byte  sym_0608782C               /* [MEDIUM] object slot array base */

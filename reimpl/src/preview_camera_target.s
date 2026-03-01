@@ -6,8 +6,8 @@
     .type preview_camera_target, @function
 preview_camera_target:
     sts.l pr, @-r15
-    mov.l   .L_pool_two_player_flag, r5
-    mov.l   .L_pool_input_state, r4
+    mov.l   .L_pool_0601A800, r5
+    mov.l   .L_pool_0601A804, r4
     mov.w   .L_w_down_btn_mask, r2
     mov.w @(2, r4), r0
     mov r0, r3
@@ -21,7 +21,7 @@ preview_camera_target:
     nop
 .L_check_up_button:
     mov.w @(2, r4), r0
-    mov.l   .L_pool_up_button_mask, r3
+    mov.l   .L_pool_0601A808, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -43,9 +43,9 @@ preview_camera_target:
     .4byte  race_variant_e                     /* (unused pool entry) */
     .4byte  0xAE0001FF                         /* (unused pool entry) */
     .4byte  sound_cmd_dispatch                 /* (unused pool entry) */
-.L_pool_two_player_flag:
+.L_pool_0601A800:
     .4byte  sym_0605D241                       /* [HIGH] two-player mode flag (byte, 0=1P, 1=2P) */
-.L_pool_input_state:
+.L_pool_0601A804:
     .4byte  g_pad_state                       /* [HIGH] held button state struct */
-.L_pool_up_button_mask:
+.L_pool_0601A808:
     .4byte  0x00008000                         /* [HIGH] Up button mask (bit 15, 32-bit for AND) */

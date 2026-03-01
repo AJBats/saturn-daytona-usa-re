@@ -10,7 +10,7 @@ evt_validate_multi:
     mov.l r4, @r15
     mov r15, r4
     mov.l r5, @(4, r15)
-    mov.l   .L_pool_validator_pair, r3
+    mov.l   .L_pool_06040630, r3
     jsr @r3
     add #0x8, r4
     mov r0, r4
@@ -56,7 +56,7 @@ evt_validate_multi:
     rts
     mov #0x5, r0
 
-.L_pool_validator_pair:
+.L_pool_06040630:
     .4byte  evt_validator_pair
 
 .L_switch_entry:

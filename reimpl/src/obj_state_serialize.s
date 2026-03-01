@@ -9,9 +9,9 @@ obj_state_serialize:
     add #-0x24, r15
     mov r15, r12
     mov r15, r1
-    mov.l   .L_pool_handler_table, r2
-    mov.l   .L_pool_slot_array_base, r13
-    mov.l   .L_pool_memcpy_long, r3
+    mov.l   .L_pool_06020DC8, r2
+    mov.l   .L_pool_06020DC4, r13
+    mov.l   .L_pool_06020DCC, r3
     jsr @r3
     mov #0x24, r0
     mov #0x0, r14
@@ -64,9 +64,9 @@ DAT_06020db2:
     .4byte  sym_060785FC
     .4byte  sym_060280F8
     .4byte  sym_0605A008
-.L_pool_slot_array_base:
+.L_pool_06020DC4:
     .4byte  sym_0608782C                /* object slot array base */
-.L_pool_handler_table:
+.L_pool_06020DC8:
     .4byte  sym_0605F5A8                /* handler function pointer table */
-.L_pool_memcpy_long:
+.L_pool_06020DCC:
     .4byte  sym_06035168                /* memcpy_long utility */

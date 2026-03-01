@@ -8,8 +8,8 @@ secondary_input_proc:
     mov.l r14, @-r15
     sts.l macl, @-r15
     sts.l mach, @-r15
-    mov.l   .L_pool_exp_mask, r3
-    mov.l   .L_pool_mant_mask, r0
+    mov.l   .L_pool_06035B20, r3
+    mov.l   .L_pool_06035B24, r0
     mov r4, r10
     xor r6, r10
     mov r4, r8
@@ -32,7 +32,7 @@ secondary_input_proc:
     .byte   0x89, 0xA2    /* bt 0x06035980 (external) — shift_up_3: handle zero/denorm A */
     tst r9, r9
     .byte   0x89, 0xB2    /* bt 0x060359A4 (external) — norm_b_start: handle zero/denorm B */
-    mov.l   .L_pool_exp_bias, r2
+    mov.l   .L_pool_06035B30, r2
     add r9, r8
     sub r2, r8
     cmp/ge r3, r8
@@ -40,7 +40,7 @@ secondary_input_proc:
     mov #-0x35, r3
     cmp/gt r8, r3
     .byte   0x89, 0xBC    /* bt 0x060359C8 (external) — exact_zero: underflow → 0 */
-    mov.l   .L_pool_implicit_one, r0
+    mov.l   .L_pool_06035B28, r0
     or r0, r4
     or r0, r6
     dmulu.l r5, r7
@@ -72,14 +72,14 @@ secondary_input_proc:
     shlr r1
     rotcr r0
     rotcr r3
-    mov.l   .L_pool_carry_boundary, r5
+    mov.l   .L_pool_06035B2C, r5
     tst r1, r5
     bt      .L_no_extra_shift
     shlr r1
     rotcr r0
     rotcr r3
     add #0x1, r8
-    mov.l   .L_pool_exp_mask, r4
+    mov.l   .L_pool_06035B20, r4
     cmp/eq r4, r8
     bf      .L_no_extra_shift
     .byte   0xAF, 0x97    /* bra 0x060359D2 (external) — fadd_epilog: overflow → Inf */
@@ -120,7 +120,7 @@ secondary_input_proc:
     rotcr r0
     shlr r1
     rotcr r0
-    mov.l   .L_pool_mant_mask, r2
+    mov.l   .L_pool_06035B24, r2
     and r2, r1
     shll16 r8
     shll2 r8
@@ -151,15 +151,15 @@ secondary_input_proc:
     mov.l @r15+, r0
     rts
     add #0x14, r15
-.L_pool_exp_mask:
+.L_pool_06035B20:
     .4byte  0x000007FF
-.L_pool_mant_mask:
+.L_pool_06035B24:
     .4byte  0x000FFFFF
-.L_pool_implicit_one:
+.L_pool_06035B28:
     .4byte  0x00100000
-.L_pool_carry_boundary:
+.L_pool_06035B2C:
     .4byte  0x01000000
-.L_pool_exp_bias:
+.L_pool_06035B30:
     .4byte  0x000003FF
 
     .global sym_06035B34

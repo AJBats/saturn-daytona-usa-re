@@ -12,13 +12,13 @@ color_palette_effect:
     add #-0xC, r15
     mov.l r4, @r15
     mov.l r5, @(4, r15)
-    mov.l   .L_pool_get_display_mode, r3
+    mov.l   .L_pool_06042A7C, r3
     jsr @r3
     mov.l r7, @(8, r15)
     cmp/eq #0x2, r0
     bf      .L_mode_not2
     mov.l @(8, r15), r13
-    mov.l   .L_pool_cram_palette_index, r3
+    mov.l   .L_pool_06042A80, r3
     jsr @r3
     mov.l @r15, r4
     shll8 r0
@@ -42,12 +42,12 @@ color_palette_effect:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   .L_pool_word_copy_helper, r3
+    mov.l   .L_pool_06042A88, r3
     jmp @r3
     mov.l @r15+, r14
 .L_mode_not2:
     mov.l @(8, r15), r13
-    mov.l   .L_pool_cram_palette_index, r3
+    mov.l   .L_pool_06042A80, r3
     jsr @r3
     mov.l @r15, r4
     shll8 r0
@@ -71,7 +71,7 @@ color_palette_effect:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   .L_pool_word_copy_helper, r3
+    mov.l   .L_pool_06042A88, r3
     jmp @r3
     mov.l @r15+, r14
 .L_return:
@@ -81,13 +81,13 @@ color_palette_effect:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_get_display_mode:
+.L_pool_06042A7C:
     .4byte  sym_0603C156
-.L_pool_cram_palette_index:
+.L_pool_06042A80:
     .4byte  sym_06042BFC
 .L_vdp2_cram_0x000:
     .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
-.L_pool_word_copy_helper:
+.L_pool_06042A88:
     .4byte  sym_06038A48
 
     .global sym_06042A8C

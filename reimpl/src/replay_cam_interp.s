@@ -9,24 +9,24 @@ replay_cam_interp:
     .byte   0xB0, 0x97    /* bsr 0x0601B0D8 (external) */  ! call course_state_setup
     nop
     mov #0x60, r6
-    mov.l   .L_pool_geom_dispatch, r3
-    mov.l   .L_pool_tex_data_buf, r7
+    mov.l   .L_pool_0601AFD4, r3
+    mov.l   .L_pool_0601AFD0, r7
     mov r6, r5
     add #0x36, r5
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_pool_tex_data_buf, r7
+    mov.l   .L_pool_0601AFD0, r7
     mov #0x60, r6
     mov.w   .L_w_ext_fill_offset, r5
     mov #0x8, r4
-    mov.l   .L_pool_geom_dispatch, r3
+    mov.l   .L_pool_0601AFD4, r3
     jmp @r3
     lds.l @r15+, pr
 .L_w_ext_fill_offset:
     .2byte  0x0196                     /* [HIGH] extended fill offset */
     .4byte  sym_0608600F               /* [MEDIUM] phase_countdown_timer (global byte) */
     .4byte  sym_06086011               /* [MEDIUM] phase_index (global byte) */
-.L_pool_tex_data_buf:
+.L_pool_0601AFD0:
     .4byte  sym_0604A480               /* [MEDIUM] course texture data buffer */
-.L_pool_geom_dispatch:
+.L_pool_0601AFD4:
     .4byte  sym_060284AE               /* [HIGH] geom_dispatch_final fn */

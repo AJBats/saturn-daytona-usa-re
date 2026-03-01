@@ -9,8 +9,8 @@ ai_orchestrator:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDE, 0x1D    /* mov.l .L_pool_ai_state_ptr, r14 */ ! r14 = &car_state_ptr (sym_0607E940)
-    .byte   0xDD, 0x1D    /* mov.l .L_pool_course_data, r13 */  ! r13 = course/track data base (sym_06078680)
+    .byte   0xDE, 0x1D    /* mov.l .L_pool_0600C7D0, r14 */ ! r14 = &car_state_ptr (sym_0607E940)
+    .byte   0xDD, 0x1D    /* mov.l .L_pool_0600C7D4, r13 */  ! r13 = course/track data base (sym_06078680)
 
     .byte   0xB2, 0xF1    /* bsr 0x0600CD40 (external) */       ! call track_pos_query — find next waypoint
     mov.l @r14, r14
@@ -60,13 +60,13 @@ ai_orchestrator:
     add #0x10, r5
     mov.l r5, @-r15
     mov.l @(24, r14), r5
-    .byte   0xD3, 0x07    /* mov.l .L_pool_coord_grid_pack, r3 */ ! r3 = coord_grid_pack (sym_06006838)
+    .byte   0xD3, 0x07    /* mov.l .L_pool_0600C7C8, r3 */ ! r3 = coord_grid_pack (sym_06006838)
     jsr @r3
     mov.l @(16, r14), r4
 
     mov r0, r4
     mov.l @r15+, r5
-    .byte   0xD3, 0x06    /* mov.l .L_pool_scene_render_alt, r3 */ ! r3 = scene_render_alt
+    .byte   0xD3, 0x06    /* mov.l .L_pool_0600C7CC, r3 */ ! r3 = scene_render_alt
     jsr @r3
     mov.l @r15+, r6
 
@@ -84,11 +84,11 @@ DAT_0600c7be:
 DAT_0600c7c0:
     .2byte  0x4000                         /* fixed override heading for speed zone */
     .2byte  0xFFFF                         /* alignment padding */
-.L_pool_coord_grid_pack:
+.L_pool_0600C7C8:
     .4byte  sym_06006838                   /* coord_grid_pack — terrain elevation query */
-.L_pool_scene_render_alt:
+.L_pool_0600C7CC:
     .4byte  scene_render_alt               /* AI car sprite/render update */
-.L_pool_ai_state_ptr:
+.L_pool_0600C7D0:
     .4byte  sym_0607E940                   /* pointer to current AI car state struct */
-.L_pool_course_data:
+.L_pool_0600C7D4:
     .4byte  sym_06078680                   /* course/track data base */

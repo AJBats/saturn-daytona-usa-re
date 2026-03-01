@@ -7,13 +7,13 @@
 smpc_cmd_helper_a:
     sts.l pr, @-r15
     mov r5, r1
-    mov.l   .L_pool_strcpy, r3
+    mov.l   .L_pool_06035C18, r3
     jsr @r3
     mov r4, r0
     lds.l @r15+, pr
     rts
     nop
-.L_pool_strcpy:
+.L_pool_06035C18:
     .4byte  sym_06035FEC
 
     .global sym_06035C1C
@@ -33,7 +33,7 @@ sym_06035C1C:
 sym_06035C2C:
     mov.l r2, @-r15
     mov.l r3, @-r15
-    mov.w   .L_wpool_div_unit_base, r3
+    mov.w   .L_wpool_06035C46, r3
     mov #0x0, r2
     mov.l r0, @r3
     add #0x8, r3
@@ -44,7 +44,7 @@ sym_06035C2C:
     mov.l @r15+, r3
     rts
     mov.l @r15+, r2
-.L_wpool_div_unit_base:
+.L_wpool_06035C46:
     .2byte  0xFF00                      /* [HIGH] SH-2 division unit base (DVSR register at 0xFFFFFF00) */
 
     .global sym_06035C48

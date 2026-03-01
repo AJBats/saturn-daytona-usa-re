@@ -6,12 +6,12 @@
     .type results_bonus_calc, @function
 results_bonus_calc:
     mov.l r14, @-r15
-    mov.l   .L_pool_results_active_flag, r0
+    mov.l   .L_pool_0601645C, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_early_return
     mov r4, r14
-    mov.l   .L_pool_slot_data_base, r5
+    mov.l   .L_pool_06016460, r5
     extu.b r14, r4
     mov.w   .L_w_countdown_step, r2
     mov r4, r3
@@ -45,9 +45,9 @@ results_bonus_calc:
     mov.l @r15+, r14
 .L_w_countdown_step:
     .2byte  0x0800                     /* [HIGH] countdown step per frame */
-.L_pool_results_active_flag:
+.L_pool_0601645C:
     .4byte  sym_06085F89               /* [MEDIUM] results-active flag (byte) */
-.L_pool_slot_data_base:
+.L_pool_06016460:
     .4byte  sym_06084FC8               /* [HIGH] HUD element slot data array base */
 .L_early_return:
     rts

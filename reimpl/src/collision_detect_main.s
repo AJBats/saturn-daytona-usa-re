@@ -7,7 +7,7 @@
 collision_detect_main:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x09    /* mov.l .L_pool_car_state_ptr, r14 */ ! r14 = &car_state_ptr
+    .byte   0xDE, 0x09    /* mov.l .L_pool_0600CE91, r14 */ ! r14 = &car_state_ptr
     mov.w   DAT_0600ce8e, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r3
@@ -41,7 +41,7 @@ DAT_0600ce8c:
     .global DAT_0600ce8e
 DAT_0600ce8e:
     .2byte  0x01EC
-.L_pool_car_state_ptr:
+.L_pool_0600CE91:
     .4byte  sym_0607E940
     .4byte  sym_0607EA9C
     .4byte  atan2

@@ -15,11 +15,11 @@ scene_buffer_init:
     mov #0x40, r9
     mov.l r8, @-r15
     add #-0x4, r15
-    mov.w   .L_wpool_entry_limit, r10
-    mov.l   .L_pool_scene_transform, r11
-    mov.l   .L_pool_scene_buf_b, r12
-    mov.l   .L_pool_scene_buf_a, r6
-    mov.l   .L_pool_cmd_slot, r8
+    mov.w   .L_wpool_0603815A, r10
+    mov.l   .L_pool_0603815C, r11
+    mov.l   .L_pool_06038160, r12
+    mov.l   .L_pool_06038164, r6
+    mov.l   .L_pool_06038168, r8
     mov.l @r8, r0
     cmp/eq #0x8, r0
     .word 0x0129
@@ -34,15 +34,15 @@ scene_buffer_init:
     extu.w r13, r14
     bra     .L_epilogue
     nop
-.L_wpool_entry_limit:
+.L_wpool_0603815A:
     .2byte  0x0200                      /* 512 = max entries for scene A loop */
-.L_pool_scene_transform:
+.L_pool_0603815C:
     .4byte  sym_060A3DF8                /* scene transform struct (64 bytes) */
-.L_pool_scene_buf_b:
+.L_pool_06038160:
     .4byte  sym_060A3C70                /* scene buffer B output (for loop 2) */
-.L_pool_scene_buf_a:
+.L_pool_06038164:
     .4byte  sym_060A2470                /* scene buffer A output (for loop 1) */
-.L_pool_cmd_slot:
+.L_pool_06038168:
     .4byte  sym_060635A8                /* scene mode / command slot selector */
 .L_mode_accepted:
     mov.b @(3, r4), r0
@@ -91,15 +91,15 @@ scene_buffer_init:
     mov r6, r2
     mov.w r5, @(r0, r11)
     mov r12, r2
-    mov.l   .L_pool_scene_a_cfg, r5
+    mov.l   .L_pool_060382A4, r5
     mov.l @(8, r4), r3
     mov.l r3, @r5
     mov.l r6, @(4, r5)
-    mov.l   .L_pool_scene_b_cfg, r5
+    mov.l   .L_pool_060382A8, r5
     mov.l @(12, r4), r3
     mov.l r3, @r5
     mov.l r12, @(4, r5)
-    mov.l   .L_pool_half_size_mask, r5
+    mov.l   .L_pool_060382AC, r5
     mov.l @(8, r4), r3
     shlr r3
     and r5, r3
@@ -202,7 +202,7 @@ scene_buffer_init:
     extu.w r5, r3
     cmp/ge r10, r3
     bf      .L_loop1_top
-    mov.l   .L_pool_entry_count_a, r3
+    mov.l   .L_pool_060382B0, r3
     mov.w r7, @r3
     extu.w r13, r7
     extu.w r13, r5
@@ -211,13 +211,13 @@ scene_buffer_init:
     nop
 .L_mask_byte1:
     .4byte  0x0000FF00                  /* byte 1 mask (for mode 8 bitmask shift) */
-.L_pool_scene_a_cfg:
+.L_pool_060382A4:
     .4byte  sym_060A3D70                /* scene A config: size + dest pointer pair */
-.L_pool_scene_b_cfg:
+.L_pool_060382A8:
     .4byte  sym_060A3D78                /* scene B config: size + dest pointer pair */
-.L_pool_half_size_mask:
+.L_pool_060382AC:
     .4byte  0x0007FFFF                  /* 19-bit mask for half-size viewport dimension */
-.L_pool_entry_count_a:
+.L_pool_060382B0:
     .4byte  sym_060635A0                /* scene A entry count (word) */
 .L_loop2_top:
     mov.b @(3, r4), r0
@@ -229,7 +229,7 @@ scene_buffer_init:
     add #0x1, r7
     extu.w r5, r3
     shll2 r3
-    mov.w   .L_wpool_coord_offset, r2
+    mov.w   .L_wpool_060382F4, r2
     add r4, r2
     add r2, r3
     mov.l @r3, r3
@@ -239,10 +239,10 @@ scene_buffer_init:
     extu.w r5, r2
     cmp/ge r9, r2
     bf      .L_loop2_pre
-    mov.l   .L_pool_entry_count_b, r3
+    mov.l   .L_pool_060382F8, r3
     mov.w r7, @r3
     mov #0x2, r2
-    mov.l   .L_pool_ready_flag, r3
+    mov.l   .L_pool_060382FC, r3
     mov.w r2, @r3
 .L_epilogue:
     add #0x4, r15
@@ -254,10 +254,10 @@ scene_buffer_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_coord_offset:
+.L_wpool_060382F4:
     .2byte  0x1810                      /* offset from config base to coord array */
     .2byte  0xFFFF                      /* padding */
-.L_pool_entry_count_b:
+.L_pool_060382F8:
     .4byte  sym_060635A2                /* scene B entry count (word) */
-.L_pool_ready_flag:
+.L_pool_060382FC:
     .4byte  sym_060635AC                /* scene ready flag (2 = data ready for dispatch) */

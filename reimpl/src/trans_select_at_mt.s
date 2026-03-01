@@ -7,10 +7,10 @@
 trans_select_at_mt:
     mov.l r14, @-r15
     mov.l r13, @-r15
-    mov.l   .L_pool_sel_index, r14
-    mov.l   .L_pool_btn_dpad_up, r6
-    mov.l   .L_pool_btn_state, r5
-    mov.l   .L_pool_trans_byte, r4
+    mov.l   .L_pool_06019DA8, r14
+    mov.l   .L_pool_06019DAC, r6
+    mov.l   .L_pool_06019DB0, r5
+    mov.l   .L_pool_06019DB4, r4
     mov.w @(2, r5), r0
     mov r0, r3
     extu.w r3, r3
@@ -25,7 +25,7 @@ trans_select_at_mt:
     bra     .L_clamp_check
     mov.b r2, @r4
 .L_check_down_new:
-    mov.w   .L_wpool_btn_dpad_down, r7
+    mov.w   .L_wpool_06019DA6, r7
     mov.w @(2, r5), r0
     mov r0, r2
     extu.w r2, r2
@@ -84,13 +84,13 @@ trans_select_at_mt:
     mov.l @r15+, r13
     .byte   0xAF, 0x11    /* bra 0x06019BC8 (external) */
     mov.l @r15+, r14
-.L_wpool_btn_dpad_down:
+.L_wpool_06019DA6:
     .2byte  0x4000                      /* [HIGH] D-pad down button mask */
-.L_pool_sel_index:
+.L_pool_06019DA8:
     .4byte  sym_0605AD00                /* [HIGH] &selection index (0-2, AT/MT menu position) */
-.L_pool_btn_dpad_up:
+.L_pool_06019DAC:
     .4byte  0x00008000                  /* [HIGH] D-pad up button mask (bit 15) */
-.L_pool_btn_state:
+.L_pool_06019DB0:
     .4byte  g_pad_state                /* [HIGH] &held/new button state base (+0=held, +2=new) */
-.L_pool_trans_byte:
+.L_pool_06019DB4:
     .4byte  sym_0605D243                /* [MEDIUM] &hold repeat counter byte (AT/MT selection) */

@@ -14,19 +14,19 @@ perspective_proj_3d:
     mov.l r8, @-r15
 
     mov #0x1, r8
-    mov.l   .L_pool_search_key_ptr, r9
+    mov.l   .L_pool_0601481C, r9
     mov #0x2B, r10
     mov.w   DAT_06014818, r11
     mov #0x0, r7
     extu.b r8, r13
-    mov.l   .L_pool_file_id_list, r5
+    mov.l   .L_pool_06014820, r5
     mov r7, r6
     extu.w r7, r3
-    mov.l   .L_pool_result_flag, r2
+    mov.l   .L_pool_06014824, r2
     mov.w r3, @r2
     mov r11, r1
     add #-0x4B, r1
-    mov.l   .L_pool_countdown_timer, r2
+    mov.l   .L_pool_06014828, r2
     mov.l r1, @r2
 
 .L_search_loop:
@@ -65,8 +65,8 @@ perspective_proj_3d:
     bf      .L_check_sentinel
 
     mov r6, r3
-    mov.l   .L_pool_value_table, r2
-    mov.l   .L_pool_countdown_timer, r0
+    mov.l   .L_pool_0601482C, r2
+    mov.l   .L_pool_06014828, r0
     shll2 r3
     add r2, r3
     mov.l @r3, r1
@@ -85,7 +85,7 @@ perspective_proj_3d:
 
 .L_compute_replacement:
     mov r6, r5
-    mov.l   .L_pool_env_variable, r0
+    mov.l   .L_pool_06014830, r0
     shll2 r5
     mov.l @r0, r0
     and #0x3, r0
@@ -95,7 +95,7 @@ perspective_proj_3d:
     shll r5
     add r3, r5
     exts.w r5, r5
-    mov.l   .L_pool_replace_key_table, r2
+    mov.l   .L_pool_06014834, r2
     add r2, r5
     mov.b @r5+, r0
     mov.b r0, @r14
@@ -112,25 +112,25 @@ perspective_proj_3d:
 DAT_06014818:
     .2byte  0x00FF                      /* sentinel value (0xFF) loaded as mov.w */
     .2byte  0xFFFF                      /* padding / alignment */
-.L_pool_search_key_ptr:
+.L_pool_0601481C:
     .4byte  sym_06084B14                /* search key buffer (3 bytes) */
-.L_pool_file_id_list:
+.L_pool_06014820:
     .4byte  sym_0605B3C4                /* file ID list (3-byte ASCII entries) */
-.L_pool_result_flag:
+.L_pool_06014824:
     .4byte  sym_06084FB8                /* result flag (16-bit word) */
-.L_pool_countdown_timer:
+.L_pool_06014828:
     .4byte  sym_0607EBCC                /* countdown timer (32-bit long, frames) */
-.L_pool_value_table:
+.L_pool_0601482C:
     .4byte  sym_0605B164                /* value lookup table (32-bit per entry) */
-.L_pool_env_variable:
+.L_pool_06014830:
     .4byte  sym_0607EBC8                /* environment/random variable (bottom 2 bits) */
-.L_pool_replace_key_table:
+.L_pool_06014834:
     .4byte  sym_0605B4A8                /* replacement key table (3-byte entries) */
 
 .L_match_found_final:
     extu.b r7, r13
     extu.w r8, r2
-    mov.l   .L_pool_result_flag_2, r3
+    mov.l   .L_pool_06014864, r3
     mov.w r2, @r3
 
 .L_check_sentinel:
@@ -156,5 +156,5 @@ DAT_06014818:
     rts
     mov.l @r15+, r14
 
-.L_pool_result_flag_2:
+.L_pool_06014864:
     .4byte  sym_06084FB8                /* result flag (16-bit word) — duplicate pool entry */

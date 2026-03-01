@@ -14,7 +14,7 @@ save_block_copy:
     sts.l pr, @-r15
     add #-0x10, r15
     mov.l r4, @r15
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_evt_condition_test, r3 */  ! r3 = &evt_condition_test
+    .byte   0xD3, 0x0B    /* mov.l .L_pool_0603BB09, r3 */  ! r3 = &evt_condition_test
     jsr @r3
     mov r14, r12
     tst r0, r0
@@ -33,7 +33,7 @@ DAT_0603bae6:
     .4byte  attract_init_setup
     .4byte  sym_0603F8B8
     .4byte  attract_replay_loader
-.L_pool_evt_condition_test:
+.L_pool_0603BB09:
     .4byte  evt_condition_test
 .L_condition_passed:
     mov r15, r3

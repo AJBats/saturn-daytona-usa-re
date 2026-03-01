@@ -16,9 +16,9 @@ transform_pipeline:
     add #-0x8, r15
 
 
-    mov.l   .L_pool_blend_09, r1
-    mov.l   .L_pool_blend_01, r2
-    mov.l   .L_pool_clip_threshold_ptr, r14
+    mov.l   .L_pool_06027A2C, r1
+    mov.l   .L_pool_06027A30, r2
+    mov.l   .L_pool_06027A34, r14
     mov.l @r14, r14
 
 
@@ -80,11 +80,11 @@ transform_pipeline:
     bra     .L_edge_ab_clamp
     add r8, r9
 
-.L_pool_blend_09:
+.L_pool_06027A2C:
     .4byte  0x0000E666
-.L_pool_blend_01:
+.L_pool_06027A30:
     .4byte  0x00001999
-.L_pool_clip_threshold_ptr:
+.L_pool_06027A34:
     .4byte  sym_06063F08
 
 .L_edge_ab_blend_backward:

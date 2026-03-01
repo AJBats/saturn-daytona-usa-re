@@ -7,7 +7,7 @@
 secondary_render_pass:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDD, 0x0F    /* mov.l .L_pool_engine_sound_gen, r13 */
+    .byte   0xDD, 0x0F    /* mov.l .L_pool_0602EDE5, r13 */
     jsr @r13
     nop
     .byte   0xA0, 0x89    /* bra 0x0602EEC2 (external) */
@@ -25,7 +25,7 @@ secondary_render_pass:
     .4byte  sym_0602EDE8
     .4byte  sym_0602EE20
     .4byte  sym_0602EE58
-.L_pool_engine_sound_gen:
+.L_pool_0602EDE5:
     .4byte  sym_060302C6                /* [HIGH] per-car engine sound generator (FUN_060302C6) */
 
     .global sym_0602EDE8

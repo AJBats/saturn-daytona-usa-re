@@ -8,7 +8,7 @@ course_data_access_c:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_pool_build_cmd, r3
+    mov.l   .L_pool_060364C8, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -23,7 +23,7 @@ course_data_access_c:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_pool_exec_cmd, r3
+    mov.l   .L_pool_060364D0, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -45,8 +45,8 @@ course_data_access_c:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_build_cmd:
+.L_pool_060364C8:
     .4byte  input_proc_analog
     .4byte  input_proc_buttons
-.L_pool_exec_cmd:
+.L_pool_060364D0:
     .4byte  input_proc_digital

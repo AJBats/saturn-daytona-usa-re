@@ -8,7 +8,7 @@ sys_boot_table_init:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_state_ptr, r14
+    mov.l   .L_pool_0603B7AC, r14
     mov.l @r14, r3
     mov.l r4, @r3
     .byte   0xBF, 0xEC    /* bsr 0x0603B734 (external) */ ! call external setup
@@ -67,7 +67,7 @@ DAT_0603b7a8:
     .global DAT_0603b7aa
 DAT_0603b7aa:
     .2byte  0x00F0
-.L_pool_state_ptr:
+.L_pool_0603B7AC:
     .4byte  sym_060A4D14
     .4byte  sys_boot_sequence
     .4byte  mem_test_verify

@@ -11,7 +11,7 @@ cd_course_loader:
     cmp/eq #0x1, r0
     bf      .L_check_course2
     mov r14, r5
-    mov.l   .L_pool_cs1poly_filename, r4
+    mov.l   .L_pool_06012DA8, r4
     .byte   0xAF, 0x57    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
     mov.l @r15+, r14
 .L_check_course2:
@@ -19,19 +19,19 @@ cd_course_loader:
     cmp/eq #0x2, r0
     bf      .L_default_course0
     mov r14, r5
-    mov.l   .L_pool_cs2poly_filename, r4
+    mov.l   .L_pool_06012DAC, r4
     .byte   0xAF, 0x50    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
     mov.l @r15+, r14
 .L_default_course0:
     mov r14, r5
-    mov.l   .L_pool_cs0poly_filename, r4
+    mov.l   .L_pool_06012DB0, r4
     .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */  ! tail-call cd_dma_setup
     mov.l @r15+, r14
 .L_wram_low:
     .4byte  0x00200000                  /* Work RAM Low base */
-.L_pool_cs1poly_filename:
+.L_pool_06012DA8:
     .4byte  sym_060448E8                /* -> "CS1POLY.BIN" */
-.L_pool_cs2poly_filename:
+.L_pool_06012DAC:
     .4byte  sym_060448F4                /* -> "CS2POLY.BIN" */
-.L_pool_cs0poly_filename:
+.L_pool_06012DB0:
     .4byte  sym_06044900                /* -> "CS0POLY.BIN" */

@@ -6,7 +6,7 @@
     .type screen_flash_effect, @function
 screen_flash_effect:
     sts.l pr, @-r15
-    mov.l   .L_pool_vram_ptr_tbl_a, r0
+    mov.l   .L_pool_060283AC, r0
     mov.l @(r0, r4), r2
     mov.l @r2, r2
     add r2, r5
@@ -26,7 +26,7 @@ screen_flash_effect:
     rts
     nop
     .2byte  0x0000                        /* alignment padding */
-.L_pool_vram_ptr_tbl_a:
+.L_pool_060283AC:
     .4byte  sym_06028614
     .4byte  0xA003E302
     .4byte  0xA001E306
@@ -43,7 +43,7 @@ screen_flash_effect:
 
     .global sym_060283E0
 sym_060283E0:
-    mov.l   .L_pool_vram_ptr_tbl_b, r0
+    mov.l   .L_pool_060283F8, r0
     mov.l @(r0, r4), r2
     mov.l @r2, r2
     add r5, r2
@@ -56,7 +56,7 @@ sym_060283E0:
     bra     .nullterm_loop
     add #0x2, r2
     .2byte  0x0000                        /* alignment padding */
-.L_pool_vram_ptr_tbl_b:
+.L_pool_060283F8:
     .4byte  sym_06028614
 .nullterm_done:
     rts
@@ -64,7 +64,7 @@ sym_060283E0:
 
     .global sym_06028400
 sym_06028400:
-    mov.l   .L_pool_vram_ptr_tbl_c, r0
+    mov.l   .L_pool_0602842C, r0
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r6
@@ -88,7 +88,7 @@ sym_06028400:
     add r4, r6
     rts
     nop
-.L_pool_vram_ptr_tbl_c:
+.L_pool_0602842C:
     .4byte  sym_06028614
 
     .global sym_06028430

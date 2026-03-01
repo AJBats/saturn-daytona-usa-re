@@ -10,7 +10,7 @@ display_enable_ctrl:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov #0x40, r12
-    mov.w   .L_wpool_entry_count, r13
+    mov.w   .L_wpool_06038106, r13
     mov.l   .L_fixpt_one, r14
     mov #0x0, r5
     extu.b r5, r0
@@ -84,7 +84,7 @@ display_enable_ctrl:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_entry_count:
+.L_wpool_06038106:
     .2byte  0x0200                      /* [HIGH] 512 = total display element entries */
 
     .global DAT_06038108

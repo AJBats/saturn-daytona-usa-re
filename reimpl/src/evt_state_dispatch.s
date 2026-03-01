@@ -12,7 +12,7 @@ evt_state_dispatch:
     mov.l @(4, r15), r6
     mov.l @(16, r5), r5
     mov.l @r15, r4
-    mov.l   .L_pool_evt_field_update, r3
+    mov.l   .L_pool_06040C54, r3
     mov.l @(12, r6), r6
     jsr @r3
     mov.l @(4, r4), r4
@@ -24,7 +24,7 @@ evt_state_dispatch:
     rts
     mov #0x0, r0
 .L_update_ok:
-    mov.l   .L_pool_state_field_read, r3
+    mov.l   .L_pool_06040C58, r3
     jsr @r3
     nop
     tst r0, r0
@@ -44,7 +44,7 @@ evt_state_dispatch:
 sym_06040C50:
     rts
     mov #0x0, r0
-.L_pool_evt_field_update:
+.L_pool_06040C54:
     .4byte  evt_field_update
-.L_pool_state_field_read:
+.L_pool_06040C58:
     .4byte  state_field_read

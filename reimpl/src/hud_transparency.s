@@ -12,7 +12,7 @@ hud_transparency:
     sts.l pr, @-r15
     sts.l macl, @-r15
     mov.w   .L_w_coeff_count, r13
-    mov.l   .L_pool_transition_state_word, r14
+    mov.l   .L_pool_0601165C, r14
     mov.l   .L_fp_eight, r12
     bsr     .L_config_vdp2_coeff
     nop
@@ -24,7 +24,7 @@ hud_transparency:
 .L_coeff_loop:
     extu.w r4, r0
     extu.w r4, r1
-    mov.l   .L_pool_mem_store_helper, r3
+    mov.l   .L_pool_06011668, r3
     shll2 r0
     mov r0, r8
     add r5, r8
@@ -35,7 +35,7 @@ hud_transparency:
     bra     .L_store_coeff
     mov r12, r3
 .L_use_pos_scale:
-    mov.l   .L_pool_neg_scale, r3
+    mov.l   .L_pool_0601166C, r3
 .L_store_coeff:
     add #0x1, r4
     mov.w @r14, r1
@@ -55,7 +55,7 @@ hud_transparency:
     mov.l @r15+, r14
 
 .L_config_vdp2_coeff:
-    mov.l   .L_pool_coeff_table_base, r3
+    mov.l   .L_pool_06011670, r3
     mov.l   .L_vdp2_reg_0x0A4, r2
     mov.l r3, @r2
     mov.w   .L_w_rpmd_mode, r3
@@ -68,17 +68,17 @@ hud_transparency:
     .2byte  0x0100              /* [HIGH] 256 — coefficient table entry count (loop bound) */
 .L_w_rpmd_mode:
     .2byte  0x0200              /* [HIGH] VDP2 RPMD rotation scroll mode select value */
-.L_pool_transition_state_word:
+.L_pool_0601165C:
     .4byte  sym_0607886E        /* &transition_state_word (16-bit frame counter) */
 .L_fp_eight:
     .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
 .L_vdp2_vram_0x5F800:
     .4byte  0x25E5F800                  /* VDP2 VRAM +0x5F800 */
-.L_pool_mem_store_helper:
+.L_pool_06011668:
     .4byte  sym_06035C2C        /* &sym_06035C2C (mem_store_helper — returns selector in r0) */
-.L_pool_neg_scale:
+.L_pool_0601166C:
     .4byte  0xFFF80000          /* negative scale factor (-8.0 in 16.16 fixed-point) */
-.L_pool_coeff_table_base:
+.L_pool_06011670:
     .4byte  0x12F2FC00          /* VDP2 coefficient table base address value */
 .L_vdp2_reg_0x0A4:
     .4byte  0x25F800A4                  /* VDP2 register +0x0A4 */

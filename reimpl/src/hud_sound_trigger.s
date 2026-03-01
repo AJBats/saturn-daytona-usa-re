@@ -34,16 +34,16 @@
 hud_sound_trigger:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_sound_dispatch, r14
-    mov.l   .L_pool_hud_active_flag, r0
+    mov.l   .L_pool_06010B94, r14
+    mov.l   .L_pool_06010B98, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_hud_inactive
-    mov.l   .L_pool_scale_mode_flag, r0
+    mov.l   .L_pool_06010B9C, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
     bf      .L_scale_mode_alt
-    mov.l   .L_pool_snd_hud_default, r5
+    mov.l   .L_pool_06010BA0, r5
     bra     .L_call_sound_dispatch
     nop
     .4byte  0x06FC0200
@@ -55,13 +55,13 @@ hud_sound_trigger:
     .4byte  sym_06078868
     .4byte  sym_0605ACE3
     .4byte  sym_060284AE
-.L_pool_sound_dispatch:
+.L_pool_06010B94:
     .4byte  sound_cmd_dispatch
-.L_pool_hud_active_flag:
+.L_pool_06010B98:
     .4byte  sym_0607EAE0
-.L_pool_scale_mode_flag:
+.L_pool_06010B9C:
     .4byte  sym_06078644
-.L_pool_snd_hud_default:
+.L_pool_06010BA0:
     .4byte  0xAB110AFF
 .L_scale_mode_alt:
     .byte   0xD5, 0x2B    /* mov.l .L_pool_06010C54, r5 — r5 = 0xAB110BFF (alt HUD sound) */

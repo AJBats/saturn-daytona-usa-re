@@ -7,7 +7,7 @@
 results_screen_render:
     sts.l pr, @-r15
     shll2 r3
-    .byte   0xDD, 0x3D    /* mov.l .L_pool_elem_array_base, r13 */ ! r13 = element array base (sym_06084FC8)
+    .byte   0xDD, 0x3D    /* mov.l .L_pool_060160C0, r13 */ ! r13 = element array base (sym_06084FC8)
     shll2 r3
     add r3, r4
     exts.w r4, r4
@@ -100,10 +100,10 @@ results_screen_render:
     mov r3, r4
     mov.l r3, @(4, r11)
     mov.l @(52, r11), r2
-    .byte   0xD3, 0x10    /* mov.l .L_pool_int_abs, r3 */ ! r3 = int_abs function address
+    .byte   0xD3, 0x10    /* mov.l .L_pool_060160C4, r3 */ ! r3 = int_abs function address
     jsr @r3
     sub r2, r4
-    .byte   0xD2, 0x10    /* mov.l .L_pool_distance_threshold, r2 */ ! r2 = 0x000F0000 (15.0 in 16.16 FP)
+    .byte   0xD2, 0x10    /* mov.l .L_pool_060160C8, r2 */ ! r2 = 0x000F0000 (15.0 in 16.16 FP)
     cmp/gt r2, r0
     bt      .L_x_interp_done
     extu.b r14, r2
@@ -127,19 +127,19 @@ results_screen_render:
     add r3, r2
     exts.w r2, r2
     add r13, r2
-    .byte   0xD1, 0x05    /* mov.l .L_pool_neg_velocity, r1 */ ! r1 = 0xFFFC0000 (-4.0 in 16.16 FP)
-    mov.w   .L_wpool_neg_speed_adj, r4
+    .byte   0xD1, 0x05    /* mov.l .L_pool_060160CC, r1 */ ! r1 = 0xFFFC0000 (-4.0 in 16.16 FP)
+    mov.w   .L_wpool_060160BE, r4
     bra     .L_apply_speed_damping
     mov.l r1, @(16, r2)
-.L_wpool_neg_speed_adj:
+.L_wpool_060160BE:
     .2byte  0xF800
-.L_pool_elem_array_base:
+.L_pool_060160C0:
     .4byte  sym_06084FC8
-.L_pool_int_abs:
+.L_pool_060160C4:
     .4byte  sym_06035438
-.L_pool_distance_threshold:
+.L_pool_060160C8:
     .4byte  0x000F0000                  /* nibble 4 mask */ ! 15.0 in 16.16 FP — distance threshold for damping
-.L_pool_neg_velocity:
+.L_pool_060160CC:
     .4byte  0xFFFC0000
 .L_x_vel_positive:
     extu.b r14, r2
@@ -151,9 +151,9 @@ results_screen_render:
     add r3, r2
     exts.w r2, r2
     add r13, r2
-    .byte   0xD1, 0x47    /* mov.l .L_pool_pos_velocity, r1 */ ! r1 = 0x00040000 (+4.0 in 16.16 FP)
+    .byte   0xD1, 0x47    /* mov.l .L_pool_06016201, r1 */ ! r1 = 0x00040000 (+4.0 in 16.16 FP)
     mov.l r1, @(16, r2)
-    mov.w   .L_wpool_pos_speed_adj, r4
+    mov.w   .L_wpool_060161FD, r4
 .L_apply_speed_damping:
     extu.b r14, r3
     mov r3, r2
@@ -297,10 +297,10 @@ results_screen_render:
     add r13, r14
     bra     .L_write_phase
     mov #0x2, r0
-.L_wpool_pos_speed_adj:
+.L_wpool_060161FD:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_pool_pos_velocity:
+.L_pool_06016201:
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */ ! +4.0 base positive X velocity
 .L_decrement_phase:
     extu.b r14, r14

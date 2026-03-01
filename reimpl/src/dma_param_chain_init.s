@@ -20,11 +20,11 @@ dma_param_chain_init:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x40, r15
-    mov.l   .L_pool_palette_render_main, r9
+    mov.l   .L_pool_0603FDBC, r9
     mov.l r5, @r15
     mov.l r7, @(4, r15)
     mov.l @(r0, r15), r10
-    mov.l   .L_pool_disable_scroll, r3
+    mov.l   .L_pool_0603FDC0, r3
     mov #0x68, r0
     mov.l @(r0, r15), r8
     jsr @r3
@@ -34,7 +34,7 @@ dma_param_chain_init:
     mov r15, r4
     mov.l r12, @(56, r15)
     mov.l r3, @(60, r15)
-    mov.l   .L_pool_color_palette_setup, r3
+    mov.l   .L_pool_0603FDC4, r3
     jsr @r3
     add #0x34, r4
     mov.l @(4, r15), r2
@@ -71,28 +71,28 @@ dma_param_chain_init:
     bra     .L_x_dir_done
     nop
     .2byte  0xFFFF              /* alignment padding */
-.L_pool_palette_render_main:
+.L_pool_0603FDBC:
     .4byte  palette_render_main
-.L_pool_disable_scroll:
+.L_pool_0603FDC0:
     .4byte  sym_06042BBE
-.L_pool_color_palette_setup:
+.L_pool_0603FDC4:
     .4byte  sym_06042A8C
 .L_x_dir_zero:
     mov.l r13, @(28, r15)
 .L_x_dir_done:
     mov r14, r5
     mov r15, r4
-    mov.w   .L_wpool_block_size, r3
+    mov.w   .L_wpool_0603FE2E, r3
     mov.l r3, @(32, r15)
     shlr2 r3
     mov.l r3, @(36, r15)
     mov.l r13, @(40, r15)
-    mov.w   .L_wpool_scroll_flags, r3
+    mov.w   .L_wpool_0603FE30, r3
     mov.l r3, @(48, r15)
-    mov.l   .L_pool_palette_engine_core, r3
+    mov.l   .L_pool_0603FE34, r3
     jsr @r3
     add #0xC, r4
-    mov.l   .L_pool_enable_scroll, r3
+    mov.l   .L_pool_0603FE38, r3
     jsr @r3
     mov r14, r4
 .L_poll_render:
@@ -115,7 +115,7 @@ dma_param_chain_init:
     .byte   0xB0, 0xED    /* bsr 0x0603FFE6 (external) */
     and r8, r4
     mov r8, r5
-    mov.l   .L_pool_mem_clear, r3
+    mov.l   .L_pool_0603FE3C, r3
     jsr @r3
     mov.l @r15, r4
     add #0x40, r15
@@ -131,16 +131,16 @@ dma_param_chain_init:
     mov.l @r15+, r14
     .2byte  0x000B              /* trailing data (rts encoding) */
     .2byte  0xE000              /* trailing data (mov #0, r0 encoding) */
-.L_wpool_block_size:
+.L_wpool_0603FE2E:
     .2byte  0x0800
-.L_wpool_scroll_flags:
+.L_wpool_0603FE30:
     .2byte  0x017F
     .2byte  0xFFFF              /* alignment padding */
-.L_pool_palette_engine_core:
+.L_pool_0603FE34:
     .4byte  palette_engine_core
-.L_pool_enable_scroll:
+.L_pool_0603FE38:
     .4byte  sym_06042BAC
-.L_pool_mem_clear:
+.L_pool_0603FE3C:
     .4byte  sym_0603C05C
 
     .global loc_0603FE40

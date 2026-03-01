@@ -40,10 +40,10 @@ _poll_sf_done_sndoff:
     mov.l   .L_scsp_reg_0x000, r3
     mov.w r2, @r3
 
-    mov.l   .L_pool_load_sounds_bin, r3
+    mov.l   .L_pool_06018F88, r3
     jsr @r3
     nop
-    mov.l   .L_pool_load_gamed_sndram, r3
+    mov.l   .L_pool_06018F8C, r3
     jsr @r3
     nop
 
@@ -72,23 +72,23 @@ _poll_68k_boot_ok:
     cmp/eq r12, r3
     bf      _poll_68k_boot_ok
 
-    mov.l   .L_pool_bgm_start_cmd, r5
-    mov.l   .L_pool_sound_cmd_dispatch, r3
+    mov.l   .L_pool_06018F90, r5
+    mov.l   .L_pool_06018F94, r3
     jsr @r3
     mov #0xF, r4
-    mov.l   .L_pool_sys_init_cmd, r5
-    mov.l   .L_pool_sound_cmd_dispatch, r3
+    mov.l   .L_pool_06018F98, r5
+    mov.l   .L_pool_06018F94, r3
     jsr @r3
     mov #0xF, r4
 
     mov #0x0, r2
-    mov.l   .L_pool_snd_init_flag, r3
+    mov.l   .L_pool_06018F9C, r3
     mov.l r2, @r3
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_set_master_vol, r3
+    mov.l   .L_pool_06018FA0, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -108,17 +108,17 @@ DAT_06018f76:
     .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_scsp_reg_0x000:
     .4byte  0x25B00400                  /* SCSP common register +0x000 */
-.L_pool_load_sounds_bin:
+.L_pool_06018F88:
     .4byte  sym_06012E84                /* -> load_sounds_bin (load SOUNDS.BIN to Sound RAM) */
-.L_pool_load_gamed_sndram:
+.L_pool_06018F8C:
     .4byte  sym_06012EBC                /* -> load_gamed_sndram (load GAMED.BIN to Sound RAM +0x3000) */
-.L_pool_bgm_start_cmd:
+.L_pool_06018F90:
     .4byte  0xAE0600FF                  /* sound cmd: group 06, ID 00 — start BGM */
-.L_pool_sound_cmd_dispatch:
+.L_pool_06018F94:
     .4byte  sound_cmd_dispatch          /* -> sound_cmd_dispatch (sound command API) */
-.L_pool_sys_init_cmd:
+.L_pool_06018F98:
     .4byte  0xAE0007FF                  /* sound cmd: group 00, ID 07 — system init sound */
-.L_pool_snd_init_flag:
+.L_pool_06018F9C:
     .4byte  sym_06086038                /* -> sound-init pending flag (cleared when done) */
-.L_pool_set_master_vol:
+.L_pool_06018FA0:
     .4byte  scsp_set_master_volume      /* -> scsp_set_master_volume (set SCSP output levels) */

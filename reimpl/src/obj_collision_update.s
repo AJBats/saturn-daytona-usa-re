@@ -8,47 +8,47 @@ obj_collision_update:
     sts.l pr, @-r15
     add #-0x20, r15
     mov r15, r1
-    mov.l   .L_pool_cmd_template_a, r2
-    mov.l   .L_pool_memcpy_byte, r3
+    mov.l   .L_pool_06020CC8, r2
+    mov.l   .L_pool_06020CCC, r3
     add #0x10, r1
     jsr @r3
     mov #0x10, r0
     mov r15, r1
-    mov.l   .L_pool_cmd_template_b, r2
-    mov.l   .L_pool_memcpy_byte, r3
+    mov.l   .L_pool_06020CD0, r2
+    mov.l   .L_pool_06020CCC, r3
     jsr @r3
     mov #0x10, r0
-    mov.l   .L_pool_cmd_ready_flag, r7
-    mov.l   .L_pool_cmd_list_base, r6
-    mov.l   .L_pool_pipe_buf_1, r5
+    mov.l   .L_pool_06020CD4, r7
+    mov.l   .L_pool_06020CD8, r6
+    mov.l   .L_pool_06020CDC, r5
     mov #0x1, r4
-    mov.l   .L_pool_display_timer, r0
+    mov.l   .L_pool_06020CE0, r0
     mov.w @r0, r0
     bra     .L_dispatch_timer
     extu.w r0, r0
 .L_case_timer_1:
     mov #0xF, r3
     extu.w r4, r4
-    mov.l   .L_pool_vdp2_ctrl_ch32, r0
+    mov.l   .L_pool_06020CE4, r0
     mov.w r0, @(10, r5)
     mov #0x20, r0
     mov.w r3, @(r0, r6)
     mov.w r4, @r7
     mov r15, r4
-    mov.l   .L_pool_vdp1_cmd_copy, r3
+    mov.l   .L_pool_06020CE8, r3
     jsr @r3
     add #0x10, r4
     bra     .L_epilogue
     nop
 .L_case_timer_2:
-    mov.l   .L_pool_vdp2_ctrl_ch8, r0
+    mov.l   .L_pool_06020CEC, r0
     mov #0xF, r3
     extu.w r4, r4
     mov.w r0, @(10, r5)
     mov #0x20, r0
     mov.w r3, @(r0, r6)
     mov.w r4, @r7
-    mov.l   .L_pool_vdp1_cmd_copy, r3
+    mov.l   .L_pool_06020CE8, r3
     jsr @r3
     mov r15, r4
     bra     .L_epilogue
@@ -59,7 +59,7 @@ obj_collision_update:
     bra     .L_epilogue
     nop
 .L_case_timer_4:
-    mov.l   .L_pool_display_layer_cfg, r3
+    mov.l   .L_pool_06020CF0, r3
     jsr @r3
     mov #0x4, r4
     bra     .L_epilogue
@@ -75,31 +75,31 @@ obj_collision_update:
     bt      .L_case_timer_4
 .L_epilogue:
     mov #0x0, r2
-    mov.l   .L_pool_display_timer, r3
+    mov.l   .L_pool_06020CE0, r3
     add #0x20, r15
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
     .2byte  0xFFFF
-.L_pool_cmd_template_a:
+.L_pool_06020CC8:
     .4byte  sym_0605F588
-.L_pool_memcpy_byte:
+.L_pool_06020CCC:
     .4byte  sym_06035228
-.L_pool_cmd_template_b:
+.L_pool_06020CD0:
     .4byte  sym_0605F598
-.L_pool_cmd_ready_flag:
+.L_pool_06020CD4:
     .4byte  sym_060635AC
-.L_pool_cmd_list_base:
+.L_pool_06020CD8:
     .4byte  sym_060A3D88
-.L_pool_pipe_buf_1:
+.L_pool_06020CDC:
     .4byte  sym_060A3DB0
-.L_pool_display_timer:
+.L_pool_06020CE0:
     .4byte  sym_0608780C
-.L_pool_vdp2_ctrl_ch32:
+.L_pool_06020CE4:
     .4byte  0x0000C060
-.L_pool_vdp1_cmd_copy:
+.L_pool_06020CE8:
     .4byte  sym_06038044
-.L_pool_vdp2_ctrl_ch8:
+.L_pool_06020CEC:
     .4byte  0x0000C044
-.L_pool_display_layer_cfg:
+.L_pool_06020CF0:
     .4byte  sym_0602853E

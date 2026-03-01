@@ -12,31 +12,31 @@ save_integrity_check:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r5
-    mov.l   .L_pool_scene_buffer_update, r3
+    mov.l   .L_pool_0603BE14, r3
     jsr @r3
     mov.l @(8, r14), r4
-    mov.l   .L_pool_global_state, r12
+    mov.l   .L_pool_0603BE18, r12
     cmp/eq #0x5, r0
     bt/s    .invalid_block
     mov r0, r13
-    mov.l   .L_pool_interp_linear, r3
+    mov.l   .L_pool_0603BE1C, r3
     jsr @r3
     mov.l @(4, r14), r4
     tst r0, r0
     bf      .block_valid
 .invalid_block:
     mov #-0x1, r5
-    mov.l   .L_pool_race_timer_sync, r3
+    mov.l   .L_pool_0603BE20, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov.l @r12, r2
-    mov.w   .L_wpool_active_block_offset, r0
+    mov.w   .L_wpool_0603BE10, r0
     mov.l @(r0, r2), r3
     cmp/eq r14, r3
     bf      .clear_done
     mov.l @r12, r2
     mov #0x0, r3
-    mov.w   .L_wpool_active_block_offset, r0
+    mov.w   .L_wpool_0603BE10, r0
     mov.l r3, @(r0, r2)
 .clear_done:
     bra     .epilogue
@@ -45,7 +45,7 @@ save_integrity_check:
     tst r13, r13
     bt      .epilogue
     mov.l @r12, r3
-    mov.w   .L_wpool_active_block_offset, r0
+    mov.w   .L_wpool_0603BE10, r0
     mov.l r14, @(r0, r3)
     mov #0x1, r3
     mov #0x12, r0
@@ -59,16 +59,16 @@ save_integrity_check:
     rts
     mov.l @r15+, r14
     .2byte  0x00A8                      /* alignment padding (unreachable) */
-.L_wpool_active_block_offset:
+.L_wpool_0603BE10:
     .2byte  0x00B4                      /* [HIGH] offset to active-block slot in global state */
     .2byte  0xFFFF                      /* alignment padding */
-.L_pool_scene_buffer_update:
+.L_pool_0603BE14:
     .4byte  scene_buffer_update         /* process save block scene data */
-.L_pool_global_state:
+.L_pool_0603BE18:
     .4byte  sym_060A4D14                /* global game state base pointer */
-.L_pool_interp_linear:
+.L_pool_0603BE1C:
     .4byte  sym_0603EFD4                /* interp_linear_remainder — validate timing */
-.L_pool_race_timer_sync:
+.L_pool_0603BE20:
     .4byte  race_timer_sync             /* invalidate/sync race timer */
     .4byte  0x2F864F22
     .4byte  0x4F127FF0

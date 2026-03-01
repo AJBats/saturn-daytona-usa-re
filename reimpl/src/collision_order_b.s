@@ -29,7 +29,7 @@ collision_impulse:
     sub r6, r4
     mov r9, r5
     sub r7, r5
-    mov.l   .L_pool_atan2_a, r0
+    mov.l   .L_pool_06031754, r0
 
     .global collision_order_a
     .type collision_order_a, @function
@@ -65,7 +65,7 @@ collision_order_a:
     shlr8 r2
     shlr r2
     shll2 r2
-    mov.l   .L_pool_force_table_a, r3
+    mov.l   .L_pool_06031758, r3
     add r3, r1
     add r3, r2
     mov.l @r1, r4
@@ -81,9 +81,9 @@ collision_order_a:
 DAT_06031750:
     .2byte  0x8000              /* half-circle angle constant (180 deg in 16-bit) */
     .2byte  0x0000              /* alignment padding */
-.L_pool_atan2_a:
+.L_pool_06031754:
     .4byte  atan2               /* atan2 function ptr */
-.L_pool_force_table_a:
+.L_pool_06031758:
     .4byte  sym_0605BCC8        /* collision force lookup table base */
 .L_force_positive_a:
     mov.l @(40, r14), r1
@@ -100,12 +100,12 @@ DAT_06031750:
     bt      .L_in_angle_range_a
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_height_thresh_a, r2
+    mov.l   .L_pool_06031790, r2
     add r3, r1
     cmp/ge r1, r2
     bt      .L_apply_xz_impulse_a
     mov.l @(0, r13), r0
-    mov.l   .L_pool_collision_flag_a, r3
+    mov.l   .L_pool_06031794, r3
     or r3, r0
     mov.l r0, @(0, r13)
     bra     .L_apply_xz_impulse_a
@@ -115,19 +115,19 @@ DAT_06031750:
 DAT_0603178c:
     .2byte  0x4000              /* quarter-circle angle constant (90 deg in 16-bit) */
     .2byte  0x0000              /* alignment padding */
-.L_pool_height_thresh_a:
+.L_pool_06031790:
     .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
-.L_pool_collision_flag_a:
+.L_pool_06031794:
     .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
 .L_in_angle_range_a:
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_height_thresh_b, r2
+    mov.l   .L_pool_060317C8, r2
     sub r3, r1
     cmp/ge r1, r2
     bt      .L_check_sec_heading_a
     mov.l @(0, r13), r0
-    mov.l   .L_pool_collision_flag_b, r3
+    mov.l   .L_pool_060317CC, r3
     or r3, r0
     mov.l r0, @(0, r13)
 .L_check_sec_heading_a:
@@ -148,16 +148,16 @@ DAT_0603178c:
     .global DAT_060317c6
 DAT_060317c6:
     .2byte  0x4000              /* quarter-circle angle constant */
-.L_pool_height_thresh_b:
+.L_pool_060317C8:
     .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
-.L_pool_collision_flag_b:
+.L_pool_060317CC:
     .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
 .L_apply_y_impulse_a:
     mov.l r4, @-r15
     mov.l @(32, r14), r4
     mov.l r4, @(32, r13)
     mov r3, r4
-    mov.l   .L_pool_cos_lookup_a, r0
+    mov.l   .L_pool_06031880, r0
     jsr @r0
     nop
     mov.l @(12, r14), r1
@@ -183,12 +183,12 @@ DAT_060317c6:
     mov.l @(24, r13), r6
     mov.l r5, @(56, r13)
     mov.l r6, @(60, r13)
-    mov.l   .L_pool_cos_lookup_a, r0
+    mov.l   .L_pool_06031880, r0
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    mov.l   .L_pool_sin_lookup_a, r0
+    mov.l   .L_pool_06031884, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -212,12 +212,12 @@ DAT_060317c6:
     mov.l @(24, r14), r6
     mov.l r5, @(56, r14)
     mov.l r6, @(60, r14)
-    mov.l   .L_pool_cos_lookup_a, r0
+    mov.l   .L_pool_06031880, r0
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    mov.l   .L_pool_sin_lookup_a, r0
+    mov.l   .L_pool_06031884, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -243,9 +243,9 @@ DAT_060317c6:
     rts
     mov.l @r15+, r8
     .2byte  0x0000              /* alignment padding */
-.L_pool_cos_lookup_a:
+.L_pool_06031880:
     .4byte  cos_lookup          /* cos lookup function ptr (path A) */
-.L_pool_sin_lookup_a:
+.L_pool_06031884:
     .4byte  sin_lookup          /* sin lookup function ptr (path A) */
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 180 deg */
@@ -255,7 +255,7 @@ DAT_060317c6:
     sub r6, r4
     mov r9, r5
     sub r7, r5
-    mov.l   .L_pool_atan2_b, r0
+    mov.l   .L_pool_060318E8, r0
 
     .global collision_order_b
     .type collision_order_b, @function
@@ -289,7 +289,7 @@ collision_order_b:
     shlr8 r2
     shlr r2
     shll2 r2
-    mov.l   .L_pool_force_table_b, r3
+    mov.l   .L_pool_060318EC, r3
     add r3, r1
     add r3, r2
     mov.l @r1, r4
@@ -305,9 +305,9 @@ collision_order_b:
 DAT_060318e4:
     .2byte  0x8000              /* half-circle angle constant (180 deg in 16-bit) */
     .2byte  0x0000              /* alignment padding */
-.L_pool_atan2_b:
+.L_pool_060318E8:
     .4byte  atan2               /* atan2 function ptr (path B) */
-.L_pool_force_table_b:
+.L_pool_060318EC:
     .4byte  sym_0605BCC8        /* collision force lookup table base (path B) */
 .L_force_positive_b:
     mov.l @(40, r14), r1
@@ -324,7 +324,7 @@ DAT_060318e4:
     bt      .L_in_angle_range_b
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_height_thresh_c, r2
+    mov.l   .L_pool_0603191C, r2
     add r3, r1
     cmp/ge r1, r2
     bf      .L_set_both_flags
@@ -335,12 +335,12 @@ DAT_060318e4:
 DAT_06031918:
     .2byte  0x4000              /* quarter-circle angle constant */
     .2byte  0x0000              /* alignment padding */
-.L_pool_height_thresh_c:
+.L_pool_0603191C:
     .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
 .L_set_both_flags:
     mov.l @(0, r13), r0
     mov.l @(0, r14), r1
-    mov.l   .L_pool_collision_flag_c, r3
+    mov.l   .L_pool_06031934, r3
     or r3, r0
     or r3, r1
     mov.l r0, @(0, r13)
@@ -348,18 +348,18 @@ DAT_06031918:
     bra     .L_apply_xz_impulse_b
     nop
     .2byte  0x0000              /* alignment padding */
-.L_pool_collision_flag_c:
+.L_pool_06031934:
     .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
 .L_in_angle_range_b:
     mov.l @(12, r13), r1
     mov.l @(12, r14), r3
-    mov.l   .L_pool_height_thresh_d, r2
+    mov.l   .L_pool_06031970, r2
     sub r3, r1
     cmp/ge r1, r2
     bt      .L_check_sec_heading_b
     mov.l @(0, r13), r0
     mov.l @(0, r14), r1
-    mov.l   .L_pool_collision_flag_d, r3
+    mov.l   .L_pool_06031974, r3
     or r3, r0
     or r3, r1
     mov.l r0, @(0, r13)
@@ -383,9 +383,9 @@ DAT_06031918:
 DAT_0603196c:
     .2byte  0x4000              /* quarter-circle angle constant */
     .2byte  0x0000              /* alignment padding */
-.L_pool_height_thresh_d:
+.L_pool_06031970:
     .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
-.L_pool_collision_flag_d:
+.L_pool_06031974:
     .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
 .L_apply_y_impulse_b:
     mov.l r4, @-r15
@@ -393,7 +393,7 @@ DAT_0603196c:
     mov.l r4, @(32, r14)
     mov.l r4, @(40, r14)
     mov r3, r4
-    mov.l   .L_pool_cos_lookup_b, r0
+    mov.l   .L_pool_06031A18, r0
     jsr @r0
     nop
     mov.l @(12, r13), r1
@@ -419,12 +419,12 @@ DAT_0603196c:
     mov.l @(24, r14), r6
     mov.l r5, @(56, r14)
     mov.l r6, @(60, r14)
-    mov.l   .L_pool_cos_lookup_b, r0
+    mov.l   .L_pool_06031A18, r0
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    mov.l   .L_pool_sin_lookup_b, r0
+    mov.l   .L_pool_06031A1C, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -448,12 +448,12 @@ DAT_0603196c:
     mov.l @(24, r13), r6
     mov.l r5, @(56, r13)
     mov.l r6, @(60, r13)
-    mov.l   .L_pool_cos_lookup_b, r0
+    mov.l   .L_pool_06031A18, r0
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    mov.l   .L_pool_sin_lookup_b, r0
+    mov.l   .L_pool_06031A1C, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -469,9 +469,9 @@ DAT_0603196c:
     add r9, r6
     bra     .L_epilogue
     mov.l r6, @(24, r13)
-.L_pool_cos_lookup_b:
+.L_pool_06031A18:
     .4byte  cos_lookup          /* cos lookup function ptr (path B) */
-.L_pool_sin_lookup_b:
+.L_pool_06031A1C:
     .4byte  sin_lookup          /* sin lookup function ptr (path B) */
 .L_fp_half_b:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 180 deg */

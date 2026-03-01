@@ -7,7 +7,7 @@
 vtx_clip_flag_set:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD0, 0x06    /* mov.l .L_pool_car_state_ptr, r0 */
+    .byte   0xD0, 0x06    /* mov.l .L_pool_0602D8B9, r0 */
     mov.l @r0, r0
     bsr     sym_0602D8BC
     nop
@@ -20,7 +20,7 @@ vtx_clip_flag_set:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_pool_car_state_ptr:
+.L_pool_0602D8B9:
     .4byte  sym_0607E944                  /* [MEDIUM] current car state pointer (per scene_camera.s) */
 
     .global sym_0602D8BC

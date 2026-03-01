@@ -11,7 +11,7 @@ menu_page_transition:
     mov r4, r12
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_state_base_ptr, r13
+    mov.l   .L_pool_0603B564, r13
     mov.l @r13, r13
     add #0x34, r13
     mov.l @(r0, r13), r0
@@ -23,7 +23,7 @@ menu_page_transition:
     mov r11, r14
     .4byte  sym_0603F9F2
     .4byte  sym_0603F9F6
-.L_pool_state_base_ptr:
+.L_pool_0603B564:
     .4byte  sym_060A4D14
 .L_page_exists:
     mov.l @r13, r2

@@ -44,7 +44,7 @@ vblank_color_apply:
     and r5, r3
     tst r3, r3
     bf      .L_ch3_enabled
-    mov.w   .L_wpool_bit7_mask, r3
+    mov.w   .L_wpool_0603EE76, r3
     and r5, r3
     tst r3, r3
     bt      .L_ch3_done
@@ -53,7 +53,7 @@ vblank_color_apply:
     and r4, r3
     tst r3, r3
     bf      .L_ch3_set_bits
-    mov.w   .L_wpool_bit7_mask, r3
+    mov.w   .L_wpool_0603EE76, r3
     and r4, r3
     tst r3, r3
     bt      .L_ch3_clear_bits
@@ -106,7 +106,7 @@ vblank_color_apply:
     or r3, r2
     bra     .L_ch5_store
     mov r2, r0
-.L_wpool_bit7_mask:
+.L_wpool_0603EE76:
     .2byte  0x0080
 .L_ch5_clear_bits:
     extu.b r1, r2
@@ -140,11 +140,11 @@ vblank_color_apply:
 .L_ch0_store:
     mov.b r0, @(5, r6)
 .L_ch0_done:
-    mov.w   .L_wpool_bit8_mask, r3
+    mov.w   .L_wpool_0603EF2A, r3
     and r5, r3
     tst r3, r3
     bt      .L_ch8_done
-    mov.w   .L_wpool_bit8_mask, r3
+    mov.w   .L_wpool_0603EF2A, r3
     and r4, r3
     tst r3, r3
     bt      .L_ch8_clear_bits
@@ -163,11 +163,11 @@ vblank_color_apply:
 .L_ch8_store:
     mov.b r0, @(4, r6)
 .L_ch8_done:
-    mov.l   .L_pool_bit16_mask, r3
+    mov.l   .L_pool_0603EF2C, r3
     and r5, r3
     tst r3, r3
     bt      .L_ch16_done
-    mov.l   .L_pool_bit16_mask, r3
+    mov.l   .L_pool_0603EF2C, r3
     and r4, r3
     tst r3, r3
     bt      .L_ch16_clear_bits
@@ -186,11 +186,11 @@ vblank_color_apply:
 .L_ch16_store:
     mov.b r0, @(7, r6)
 .L_ch16_done:
-    mov.l   .L_pool_bit17_mask, r3
+    mov.l   .L_pool_0603EF30, r3
     and r3, r5
     tst r5, r5
     bt      .L_ch17_done
-    mov.l   .L_pool_bit17_mask, r3
+    mov.l   .L_pool_0603EF30, r3
     and r3, r4
     tst r4, r4
     bt      .L_ch17_clear_bits
@@ -212,11 +212,11 @@ vblank_color_apply:
 .L_ch17_done:
     rts
     nop
-.L_wpool_bit8_mask:
+.L_wpool_0603EF2A:
     .2byte  0x0100
-.L_pool_bit16_mask:
+.L_pool_0603EF2C:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_pool_bit17_mask:
+.L_pool_0603EF30:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 
     .global sym_0603EF34

@@ -9,8 +9,8 @@ time_delta_format:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x4, r15
-    .byte   0xDC, 0x0E    /* mov.l .L_pool_slot_data_base, r12 */  ! r12 = slot data array base
-    mov.w   .L_wpool_init_anim_counter, r13
+    .byte   0xDC, 0x0E    /* mov.l .L_pool_06015CA2, r12 */  ! r12 = slot data array base
+    mov.w   .L_wpool_06015C9E, r13
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
@@ -34,14 +34,14 @@ time_delta_format:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x04    /* mov.l .L_pool_clear_vdp2_regs, r3 */  ! r3 = clear_vdp2_registers addr
+    .byte   0xD3, 0x04    /* mov.l .L_pool_06015CAA, r3 */  ! r3 = clear_vdp2_registers addr
     jmp @r3
     mov.l @r15+, r14
-.L_wpool_init_anim_counter:
+.L_wpool_06015C9E:
     .2byte  0xE000
     .2byte  0xFFFF
-.L_pool_slot_data_base:
+.L_pool_06015CA2:
     .4byte  sym_06084FC8                  /* [HIGH] slot data array base — 68-byte structs */
     .4byte  sym_0605B8B0                  /* [MEDIUM] display handler fn ptr table (unused by this TU) */
-.L_pool_clear_vdp2_regs:
+.L_pool_06015CAA:
     .4byte  sym_060172E4                  /* [HIGH] clear VDP2 registers — confirmed in track_geometry.s */

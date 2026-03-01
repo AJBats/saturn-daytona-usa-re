@@ -10,7 +10,7 @@ vdp1_coord_setup:
     mov.l @(r0, r1), r2
     neg r2, r2
     mov.w   DAT_0602cb06, r1
-    mov.l   .L_pool_horiz_scale, r4
+    mov.l   .L_pool_0602CB14, r4
     mov.l @(r0, r1), r5
     neg r5, r5
     dmuls.l r4, r5
@@ -18,7 +18,7 @@ vdp1_coord_setup:
     sts mach, r4
     sts macl, r6
     xtrct r4, r6
-    mov.l   .L_pool_vert_scale, r4
+    mov.l   .L_pool_0602CB18, r4
     dmuls.l r4, r5
     sts mach, r4
     sts macl, r7
@@ -53,7 +53,7 @@ vdp1_coord_setup:
     mov.w   DAT_0602cb0c, r1
     mov.l r7, @(r0, r1)
     mov.w   DAT_0602cb0e, r1
-    mov.w   .L_wpool_off_final_blend, r2
+    mov.w   .L_wpool_0602CB10, r2
     mov.l @(r0, r1), r3
     mov r3, r8
     mov.l @(r0, r2), r4
@@ -97,12 +97,12 @@ DAT_0602cb0c:
     .global DAT_0602cb0e
 DAT_0602cb0e:
     .2byte  0x00EC                      /* car+0xEC: blend_result_a (longword, 70% blend) */
-.L_wpool_off_final_blend:
+.L_wpool_0602CB10:
     .2byte  0x00F8                      /* car+0xF8: final_blend output (longword) */
     .2byte  0x0000                      /* alignment padding */
-.L_pool_horiz_scale:
+.L_pool_0602CB14:
     .4byte  0x03700000                  /* ~880.0 FP16.16 (horizontal scale factor) */
-.L_pool_vert_scale:
+.L_pool_0602CB18:
     .4byte  0x02D00000                  /* ~720.0 FP16.16 (vertical scale factor) */
 .L_sep_dominates_x:
     shar r6
@@ -209,7 +209,7 @@ DAT_0602cb7a:
     mov.l r11, @(r0, r1)
     tst r10, r10
     bt      .L_skip_timer_boost
-    mov.l   .L_pool_min_y_scale, r2
+    mov.l   .L_pool_0602CCC0, r2
     cmp/gt r2, r11
     bt      .L_skip_timer_boost
     mov.w   DAT_0602cca0, r1
@@ -287,7 +287,7 @@ DAT_0602cb7a:
     mov.l @(r0, r1), r2
     mov.w   DAT_0602ccb6, r1
     mov.l @(r0, r1), r3
-    mov.l   .L_pool_screen_conv_320, r1
+    mov.l   .L_pool_0602CCC8, r1
     mov.w   DAT_0602ccb8, r10
     mov.w @(r0, r10), r10
     mov #0x4, r6
@@ -296,7 +296,7 @@ DAT_0602cb7a:
     mov #0x5, r6
     cmp/eq r6, r10
     bt      .L_final_multiply
-    mov.l   .L_pool_screen_conv_256, r1
+    mov.l   .L_pool_0602CCCC, r1
 .L_final_multiply:
     dmuls.l r4, r5
     sts mach, r4
@@ -390,18 +390,18 @@ DAT_0602ccba:
     .2byte  0x00FC                      /* car+0xFC: accel_delta / speed_delta (longword) */
 .L_fn_fpdiv_b:
     .4byte  fpdiv_setup                 /* 16.16 fixed-point hardware divide (r4/r5 -> r0) */
-.L_pool_min_y_scale:
+.L_pool_0602CCC0:
     .4byte  0x0000CCCC                  /* ~0.8 in 16.16 FP (min Y scale threshold) */
 .L_fp_neg_one:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
-.L_pool_screen_conv_320:
+.L_pool_0602CCC8:
     .4byte  0x00000140                  /* 320 = screen width conversion factor */
-.L_pool_screen_conv_256:
+.L_pool_0602CCCC:
     .4byte  0x00000100                  /* 256 = alternate screen width factor */
 
     .global sym_0602CCD0
 sym_0602CCD0:
-    mov.w   .L_wpool_off_timer_b, r7
+    mov.w   .L_wpool_0602CCEA, r7
     mov.w @(r0, r7), r3
     mov #0x4, r4
     cmp/gt r4, r3
@@ -415,5 +415,5 @@ sym_0602CCD0:
 .L_timer_boost_done:
     rts
     nop
-.L_wpool_off_timer_b:
+.L_wpool_0602CCEA:
     .2byte  0x0152                      /* car+0x152: timer_b effect duration (word) */

@@ -10,11 +10,11 @@ vdp2_frame_update:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_scroll_data_base, r11
-    mov.l   .L_pool_vdp1_cmd_builder, r12
-    mov.l   .L_pool_cmd_counter, r13
-    mov.l   .L_pool_write_ptr, r14
-    mov.l   .L_pool_game_state, r4
+    mov.l   .L_pool_060172A4, r11
+    mov.l   .L_pool_060172A8, r12
+    mov.l   .L_pool_060172AC, r13
+    mov.l   .L_pool_060172B0, r14
+    mov.l   .L_pool_060172B4, r4
     mov.l @r4, r0
     cmp/eq #0x15, r0
     .word 0x0129
@@ -23,7 +23,7 @@ vdp2_frame_update:
     or r1, r0
     tst r0, r0
     bt      .L_epilogue
-    mov.l   .L_pool_slot_flags, r5
+    mov.l   .L_pool_060172B8, r5
     mov.b @r5, r3
     extu.b r3, r3
     tst r3, r3
@@ -52,7 +52,7 @@ vdp2_frame_update:
     add #0x20, r3
     mov.l r3, @r14
     mov r3, r5
-    mov.w   .L_wpool_scroll_layer5_offset, r4
+    mov.w   .L_wpool_060172A0, r4
     jsr @r12
     add r11, r4
     mov r11, r4
@@ -132,18 +132,18 @@ vdp2_frame_update:
     .global DAT_0601729e
 DAT_0601729e:
     .2byte  0x00A8
-.L_wpool_scroll_layer5_offset:
+.L_wpool_060172A0:
     .2byte  0x0090                      /* [HIGH] offset 0x90 into scroll data table (layer 5) */
     .2byte  0xFFFF
-.L_pool_scroll_data_base:
+.L_pool_060172A4:
     .4byte  sym_06085490
-.L_pool_vdp1_cmd_builder:
+.L_pool_060172A8:
     .4byte  sym_060280F8
-.L_pool_cmd_counter:
+.L_pool_060172AC:
     .4byte  sym_0605A008
-.L_pool_write_ptr:
+.L_pool_060172B0:
     .4byte  sym_060785FC
-.L_pool_game_state:
+.L_pool_060172B4:
     .4byte  g_game_state
-.L_pool_slot_flags:
+.L_pool_060172B8:
     .4byte  sym_06084FC8

@@ -15,10 +15,10 @@ ai_waypoint_pathfind:
     mov #0x8, r9
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_waypoint_state_word, r8
-    mov.l   .L_pool_slot_table, r11
-    mov.l   .L_pool_waypoint_phase, r14
-    mov.l   .L_pool_waypoint_disable, r4
+    mov.l   .L_pool_06014DE8, r8
+    mov.l   .L_pool_06014DEC, r11
+    mov.l   .L_pool_06014DF0, r14
+    mov.l   .L_pool_06014DF4, r4
     mov.b @r4, r3
     tst r3, r3
     bt/s    .L_check_traffic_light
@@ -26,7 +26,7 @@ ai_waypoint_pathfind:
     bra     .L_post_pathfind
     nop
 .L_check_traffic_light:
-    mov.l   .L_pool_traffic_light_state, r3
+    mov.l   .L_pool_06014DF8, r3
     mov.w @r3, r2
     mov.w   DAT_06014de4, r3
     extu.w r2, r2
@@ -37,7 +37,7 @@ ai_waypoint_pathfind:
     nop
 .L_race_flag_dispatch:
     mov #0x4, r7
-    mov.l   .L_pool_race_complete_flag, r3
+    mov.l   .L_pool_06014DFC, r3
     mov.l @r3, r3
     and r13, r3
     tst r3, r3
@@ -59,7 +59,7 @@ ai_waypoint_pathfind:
     mov.b r3, @r4
     extu.b r9, r10
 .L_path_a_handler_loop:
-    mov.l   .L_pool_fn_waypoint_handler_a, r3
+    mov.l   .L_pool_06014E00, r3
     jsr @r3
     extu.b r10, r4
     add #0x1, r10
@@ -108,19 +108,19 @@ ai_waypoint_pathfind:
 DAT_06014de4:
     .2byte  0x0800                        /* traffic light state bit 11 mask */
     .2byte  0xFFFF
-.L_pool_waypoint_state_word:
+.L_pool_06014DE8:
     .4byte  sym_06085F94               /* waypoint state word (16-bit) */
-.L_pool_slot_table:
+.L_pool_06014DEC:
     .4byte  sym_06063F64               /* per-slot data table base */
-.L_pool_waypoint_phase:
+.L_pool_06014DF0:
     .4byte  sym_06085F90               /* waypoint phase counter (16-bit) */
-.L_pool_waypoint_disable:
+.L_pool_06014DF4:
     .4byte  sym_06085F89               /* waypoint disable flag (byte) */
-.L_pool_traffic_light_state:
+.L_pool_06014DF8:
     .4byte  sym_06063D9A               /* traffic light state register */
-.L_pool_race_complete_flag:
+.L_pool_06014DFC:
     .4byte  sym_0607EBF4               /* race complete flag (bit 0 checked) */
-.L_pool_fn_waypoint_handler_a:
+.L_pool_06014E00:
     .4byte  sym_060172E4               /* waypoint handler function */
 .L_path_b_race_complete:
     mov.w @r14, r5
@@ -139,7 +139,7 @@ DAT_06014de4:
     mov.b r3, @r4
     extu.b r9, r10
 .L_path_b_handler_loop:
-    mov.l   .L_pool_fn_waypoint_handler_b, r3
+    mov.l   .L_pool_06014F14, r3
     jsr @r3
     extu.b r10, r4
     add #0x1, r10
@@ -181,20 +181,20 @@ DAT_06014de4:
     extu.w r3, r3
     mov.w r3, @r14
 .L_post_pathfind:
-    mov.l   .L_pool_compact_flag, r0
+    mov.l   .L_pool_06014F18, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_skip_compact
-    mov.l   .L_pool_fn_obj_compact, r3
+    mov.l   .L_pool_06014F1C, r3
     jsr @r3
     nop
 .L_skip_compact:
     .byte   0xB0, 0x59    /* bsr 0x06014F34 (external) -- post-pathfind handler */
     nop
-    mov.l   .L_pool_fn_vdp2_util, r3
+    mov.l   .L_pool_06014F20, r3
     jsr @r3
     nop
-    mov.l   .L_pool_active_slot_idx, r5
+    mov.l   .L_pool_06014F24, r5
     mov #0x0, r4
     mov.l @r5, r5
     mov r5, r10
@@ -204,7 +204,7 @@ DAT_06014de4:
     add r11, r10
 .L_slot_loop:
     extu.b r4, r6
-    mov.l   .L_pool_slot_data_base, r2
+    mov.l   .L_pool_06014F28, r2
     mov r6, r3
     shll2 r6
     shll2 r3
@@ -217,11 +217,11 @@ DAT_06014de4:
     tst r6, r6
     .word 0x0029
     xor #0x1, r0
-    mov.l   .L_pool_fp_half, r3
+    mov.l   .L_pool_06014F2C, r3
     cmp/eq r3, r6
     .word 0x0129
     add #-0x1, r1
-    mov.l   .L_pool_fp_one, r3
+    mov.l   .L_pool_06014F30, r3
     neg r1, r1
     and r1, r0
     cmp/eq r3, r6
@@ -267,19 +267,19 @@ DAT_06014de4:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_fn_waypoint_handler_b:
+.L_pool_06014F14:
     .4byte  sym_060172E4               /* waypoint handler (dup for reach) */
-.L_pool_compact_flag:
+.L_pool_06014F18:
     .4byte  sym_06085F8A               /* object compaction needed flag (byte) */
-.L_pool_fn_obj_compact:
+.L_pool_06014F1C:
     .4byte  obj_data_compact           /* object data compaction function */
-.L_pool_fn_vdp2_util:
+.L_pool_06014F20:
     .4byte  vdp2_util_loop             /* VDP2 utility loop */
-.L_pool_active_slot_idx:
+.L_pool_06014F24:
     .4byte  sym_06085F98               /* active slot index (ptr, dereferenced) */
-.L_pool_slot_data_base:
+.L_pool_06014F28:
     .4byte  sym_06084FC8               /* slot data array base */
-.L_pool_fp_half:
+.L_pool_06014F2C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_pool_fp_one:
+.L_pool_06014F30:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */

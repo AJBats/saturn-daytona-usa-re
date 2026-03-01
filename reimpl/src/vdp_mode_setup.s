@@ -8,16 +8,16 @@ vdp_mode_setup:
     sts.l pr, @-r15
     mov r14, r6
     add #-0x4, r15
-    mov.l   .L_pool_2p_mode_flag, r8
-    mov.l   .L_pool_render_config_table, r9
-    mov.w   .L_wpool_total_copy_stride, r10
-    mov.l   .L_pool_dma_source_data, r13
+    mov.l   .L_pool_06005858, r8
+    mov.l   .L_pool_0600585C, r9
+    mov.w   .L_wpool_0600584E, r10
+    mov.l   .L_pool_06005860, r13
     mov r9, r7
     add #0x20, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.l @r15, r5
-    mov.l   .L_pool_dlist_loader, r3
+    mov.l   .L_pool_06005864, r3
     mov.l @r5, r5
     jsr @r3
     mov #0x8, r4
@@ -25,7 +25,7 @@ vdp_mode_setup:
     tst r0, r0
     bt      .L_skip_texture_copy
     mov r14, r12
-    mov.w   .L_wpool_entry_stride, r7
+    mov.w   .L_wpool_06005850, r7
 .L_copy_outer_loop:
     mov.l @r13, r5
     add r7, r5
@@ -53,9 +53,9 @@ vdp_mode_setup:
     bf/s    .L_copy_outer_loop
     add r14, r12
     mov #0x60, r6
-    mov.w   .L_wpool_sprite_layer_offset, r5
-    mov.l   .L_pool_sprite_layer_data, r7
-    mov.l   .L_pool_geom_dispatch, r3
+    mov.w   .L_wpool_06005852, r5
+    mov.l   .L_pool_06005868, r7
+    mov.l   .L_pool_0600586C, r3
     jsr @r3
     mov #0x8, r4
 .L_skip_texture_copy:
@@ -67,7 +67,7 @@ vdp_mode_setup:
 .L_set_1p_course_index:
     mov #0x7, r12
 .L_course_index_ready:
-    mov.l   .L_pool_frame_output, r0
+    mov.l   .L_pool_06005870, r0
     mov.l @r0, r0
     tst #0x1, r0
     bf      .L_skip_overlay_layer
@@ -79,7 +79,7 @@ vdp_mode_setup:
     shll2 r6
     mov.l @(4, r7), r7
     mov.l @r15, r5
-    mov.l   .L_pool_dlist_loader, r3
+    mov.l   .L_pool_06005864, r3
     shll2 r6
     mov.l @r5, r5
     add #0x19, r6
@@ -87,45 +87,45 @@ vdp_mode_setup:
     jsr @r3
     mov #0x8, r4
 .L_skip_overlay_layer:
-    mov.l   .L_pool_max_frame_count, r12
+    mov.l   .L_pool_06005874, r12
     mov #0xA, r3
     mov.l @r12, r2
     cmp/hs r3, r2
     bt      .L_wide_frame_layer
     mov.l @r12, r7
     mov #0x0, r6
-    mov.w   .L_wpool_narrow_layer_size, r5
-    mov.l   .L_pool_dlist_cmd_writer, r3
+    mov.w   .L_wpool_06005854, r5
+    mov.l   .L_pool_06005878, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_check_extra_layer
     nop
-.L_wpool_total_copy_stride:
+.L_wpool_0600584E:
     .2byte  0x0480
-.L_wpool_entry_stride:
+.L_wpool_06005850:
     .2byte  0x0180
-.L_wpool_sprite_layer_offset:
+.L_wpool_06005852:
     .2byte  0x0318
-.L_wpool_narrow_layer_size:
+.L_wpool_06005854:
     .2byte  0x0110
     .2byte  0xFFFF
-.L_pool_2p_mode_flag:
+.L_pool_06005858:
     .4byte  sym_06085FF4
-.L_pool_render_config_table:
+.L_pool_0600585C:
     .4byte  sym_06063750
-.L_pool_dma_source_data:
+.L_pool_06005860:
     .4byte  sym_0606129C
-.L_pool_dlist_loader:
+.L_pool_06005864:
     .4byte  sym_06028400
-.L_pool_sprite_layer_data:
+.L_pool_06005868:
     .4byte  sym_0605ACDF
-.L_pool_geom_dispatch:
+.L_pool_0600586C:
     .4byte  sym_060284AE
-.L_pool_frame_output:
+.L_pool_06005870:
     .4byte  sym_0607EAB8
-.L_pool_max_frame_count:
+.L_pool_06005874:
     .4byte  sym_06063F28
-.L_pool_dlist_cmd_writer:
+.L_pool_06005878:
     .4byte  sym_06028430
 .L_wide_frame_layer:
     mov.l @r12, r7

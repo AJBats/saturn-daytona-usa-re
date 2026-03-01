@@ -11,12 +11,12 @@
     .type collision_passive, @function
 collision_passive:
     mov.l r14, @-r15
-    mov.l   .L_pool_cur_car_ptr, r5
+    mov.l   .L_pool_0600D198, r5
     mov.w   DAT_0600d192, r0
-    mov.l   .L_pool_separation_thresh, r6
+    mov.l   .L_pool_0600D19C, r6
     mov.l @r5, r5
     mov.l @(r0, r5), r4
-    mov.w   .L_wpool_partner_b_offset, r0
+    mov.w   .L_wpool_0600D194, r0
     mov.l @(r0, r5), r14
     tst r14, r14
     bt      .L_no_partner_b
@@ -26,7 +26,7 @@ collision_passive:
     sub r3, r7
     add r2, r7
     mov.l @(24, r5), r3
-    mov.l   .L_pool_close_thresh, r2
+    mov.l   .L_pool_0600D1A0, r2
     sub r3, r7
     cmp/ge r2, r7
     bt      .L_partner_b_far_enough
@@ -69,17 +69,17 @@ collision_passive:
     .global DAT_0600d192
 DAT_0600d192:
     .2byte  0x0118                      /* car struct offset: collision partner A pointer */
-.L_wpool_partner_b_offset:
+.L_wpool_0600D194:
     .2byte  0x0234                      /* car struct offset: collision partner B pointer */
     .2byte  0xFFFF                      /* alignment padding */
-.L_pool_cur_car_ptr:
+.L_pool_0600D198:
     .4byte  sym_0607E940                /* &current_car_ptr — points to active car struct */
-.L_pool_separation_thresh:
+.L_pool_0600D19C:
     .4byte  0x000F0000                  /* 15.0 in 16.16 fixed-point — diagonal separation threshold */
-.L_pool_close_thresh:
+.L_pool_0600D1A0:
     .4byte  0x00080000                  /* 8.0 in 16.16 fixed-point — close proximity threshold */
 .L_apply_push:
-    mov.l   .L_pool_self_car_ptr_b, r6
+    mov.l   .L_pool_0600D20C, r6
     mov.w   DAT_0600d1fa, r0
     mov.l @r6, r6
     mov.l @(r0, r4), r5
@@ -120,8 +120,8 @@ DAT_0600d192:
     mov.w   DAT_0600d202, r0
     mov.l r5, @(r0, r6)
 .L_push_set_timer:
-    mov.w   .L_wpool_collision_timer_val, r3
-    mov.w   .L_wpool_timer_offset, r0
+    mov.w   .L_wpool_0600D206, r3
+    mov.w   .L_wpool_0600D208, r0
     mov.l r3, @(r0, r6)
     add #0x30, r0
     mov.l r4, @(r0, r6)
@@ -152,12 +152,12 @@ DAT_0600d202:
     .global DAT_0600d204
 DAT_0600d204:
     .2byte  0x0800                      /* 2048 — maximum push value (clamp ceiling) */
-.L_wpool_collision_timer_val:
+.L_wpool_0600D206:
     .2byte  0x0100                      /* 256 — collision timer duration (frames) */
-.L_wpool_timer_offset:
+.L_wpool_0600D208:
     .2byte  0x0204                      /* car struct offset: collision timer / steering countdown */
     .2byte  0xFFFF                      /* alignment padding */
-.L_pool_self_car_ptr_b:
+.L_pool_0600D20C:
     .4byte  sym_0607E940                /* &current_car_ptr (duplicate for push handler reach) */
     .4byte  0xD519D41A
     .4byte  0x90296552
@@ -214,12 +214,12 @@ DAT_0600d272:
 sym_0600D280:
     mov.l r12, @-r15
     sts.l macl, @-r15
-    mov.l   .L_pool_car_array_base, r12
-    mov.w   .L_wpool_car_stride, r1
+    mov.l   .L_pool_0600D308, r12
+    mov.w   .L_wpool_0600D304, r1
     mov #0x28, r7
-    mov.l   .L_pool_car_count_ptr, r5
+    mov.l   .L_pool_0600D30C, r5
     mov #0x0, r4
-    mov.l   .L_pool_list_a_base, r6
+    mov.l   .L_pool_0600D310, r6
     bra     .L_clear_list_a_test
     mov r4, r0
 .L_clear_list_a_body:
@@ -231,7 +231,7 @@ sym_0600D280:
 .L_clear_list_a_test:
     cmp/hs r7, r0
     bf      .L_clear_list_a_body
-    mov.l   .L_pool_list_b_base, r6
+    mov.l   .L_pool_0600D314, r6
     bra     .L_clear_list_b_test
     mov r4, r0
 .L_clear_list_b_body:
@@ -243,13 +243,13 @@ sym_0600D280:
 .L_clear_list_b_test:
     cmp/hs r7, r0
     bf      .L_clear_list_b_body
-    mov.l   .L_pool_scratch_base, r6
+    mov.l   .L_pool_0600D318, r6
     mov.l r4, @r6
     add #0x4, r6
     mov.l r4, @r6
     add #0x4, r6
     mov.l r4, @r6
-    mov.l   .L_pool_list_a_base, r0
+    mov.l   .L_pool_0600D310, r0
     bra     .L_fill_list_a_test
     mov #0x1, r6
 .L_fill_list_a_body:
@@ -266,7 +266,7 @@ sym_0600D280:
     mov.l @r5, r2
     cmp/hi r2, r6
     bf      .L_fill_list_a_body
-    mov.l   .L_pool_list_b_base, r0
+    mov.l   .L_pool_0600D314, r0
     bra     .L_fill_list_b_test
     mov #0x1, r6
 .L_fill_list_b_body:
@@ -286,16 +286,16 @@ sym_0600D280:
     lds.l @r15+, macl
     rts
     mov.l @r15+, r12
-.L_wpool_car_stride:
+.L_wpool_0600D304:
     .2byte  0x0268                      /* car struct stride (616 bytes) */
     .2byte  0xFFFF                      /* alignment padding */
-.L_pool_car_array_base:
+.L_pool_0600D308:
     .4byte  sym_06078900                /* car struct array base address */
-.L_pool_car_count_ptr:
+.L_pool_0600D30C:
     .4byte  sym_0607EA98                /* &total_car_count (long) */
-.L_pool_list_a_base:
+.L_pool_0600D310:
     .4byte  sym_0607E94C                /* car_ptr_list_a — primary sorted pointer array */
-.L_pool_list_b_base:
+.L_pool_0600D314:
     .4byte  sym_0607E9EC                /* car_ptr_list_b — secondary sorted pointer array */
-.L_pool_scratch_base:
+.L_pool_0600D318:
     .4byte  sym_0607EA8C                /* race position scratch state (3 longs) */

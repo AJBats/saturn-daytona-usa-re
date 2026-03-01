@@ -17,10 +17,10 @@ course1_physics_init:
     sts.l pr, @-r15
     add #-0xC, r15
 
-    mov.l   .L_pool_car_model_table, r8
-    mov.l   .L_pool_dlist_loader, r9
-    mov.l   .L_pool_display_phase_ctr, r12
-    mov.l   .L_pool_game_config, r0
+    mov.l   .L_pool_06019E70, r8
+    mov.l   .L_pool_06019E74, r9
+    mov.l   .L_pool_06019E78, r12
+    mov.l   .L_pool_06019E7C, r0
     mov.b @r0, r0
     cmp/eq #0x1, r0
     bt/s    .L_active_path
@@ -29,7 +29,7 @@ course1_physics_init:
     mov #0x0, r13
 .L_normal_loop_top:
     extu.b r13, r2
-    mov.l   .L_pool_player_car_index, r3
+    mov.l   .L_pool_06019E80, r3
     mov.l @r3, r3
     cmp/eq r3, r2
     bf      .L_normal_not_player
@@ -47,7 +47,7 @@ course1_physics_init:
     mov.l r0, @(8, r15)
     shll2 r7
     mov.w @(r0, r8), r3
-    mov.l   .L_pool_car_obj_table, r2
+    mov.l   .L_pool_06019E84, r2
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -56,7 +56,7 @@ course1_physics_init:
     mov.l @(4, r2), r3
     mov.l @(8, r15), r6
     add r3, r7
-    mov.l   .L_pool_dlist_offset_table, r3
+    mov.l   .L_pool_06019E88, r3
     add r3, r6
     mov.l r6, @r15
     mov.b @(1, r6), r0
@@ -86,7 +86,7 @@ course1_physics_init:
     mov #0x0, r13
 .L_active_loop_top:
     extu.b r13, r2
-    mov.l   .L_pool_player_car_index, r3
+    mov.l   .L_pool_06019E80, r3
     mov.l @r3, r3
     cmp/eq r3, r2
     bf      .L_active_not_player
@@ -113,19 +113,19 @@ course1_physics_init:
     nop
     .2byte  0xFFFF
 
-.L_pool_car_model_table:
+.L_pool_06019E70:
     .4byte  sym_06049B2C
-.L_pool_dlist_loader:
+.L_pool_06019E74:
     .4byte  sym_06028400
-.L_pool_display_phase_ctr:
+.L_pool_06019E78:
     .4byte  sym_0605D242
-.L_pool_game_config:
+.L_pool_06019E7C:
     .4byte  sym_06085FF0
-.L_pool_player_car_index:
+.L_pool_06019E80:
     .4byte  sym_0605AD0C
-.L_pool_car_obj_table:
+.L_pool_06019E84:
     .4byte  sym_06063750
-.L_pool_dlist_offset_table:
+.L_pool_06019E88:
     .4byte  sym_06049B18
 
 .L_active_not_player:

@@ -9,10 +9,10 @@ smpc_cmd_helper_b:
     mov.l   .L_cd_hirq, r3
     mov.w @r3, r3
     extu.w r3, r3
-    mov.l   .L_pool_hirq_status_cache, r2
+    mov.l   .L_pool_06035C7C, r2
     mov.w @r2, r2
     or r3, r2
-    mov.l   .L_pool_hirq_status_cache, r3
+    mov.l   .L_pool_06035C7C, r3
     mov.w r2, @r3
     mov #0x1, r1
     or r1, r4
@@ -27,5 +27,5 @@ sym_06035C6E:
     .4byte  0x25818000
 .L_cd_hirq:
     .4byte  0x25890008                  /* CD HIRQ — interrupt request */
-.L_pool_hirq_status_cache:
+.L_pool_06035C7C:
     .4byte  sym_06063590                /* [MEDIUM] cached HIRQ status word in RAM */

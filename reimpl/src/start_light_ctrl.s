@@ -17,7 +17,7 @@ start_light_ctrl:
     tst r2, r2
     bt/s    .L_check_anim_phase
     mov #0x0, r14
-    .byte   0xD4, 0x1B    /* mov.l .L_pool_frame_ctr_a, r4 */
+    .byte   0xD4, 0x1B    /* mov.l .L_pool_0601A24D, r4 */
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4
@@ -75,7 +75,7 @@ start_light_ctrl:
 .L_vdp1_offset:
     .2byte  0x0090                        /* VDP1 command table offset */
     .2byte  0xFFFF
-.L_pool_frame_ctr_a:
+.L_pool_0601A24D:
     .4byte  sym_06085FF2               /* frame counter A (byte) */
     .4byte  sym_0605D280               /* (adjacent data) */
 .L_light_state:

@@ -8,16 +8,16 @@ vdp2_regs_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    mov.l   .L_pool_cycle_fill_mask, r12
+    mov.l   .L_pool_0603848C, r12
     mov #0x10, r13
     mov #0x8, r14
-    mov.l   .L_pool_shadow_block_a, r7
-    mov.l   .L_pool_shadow_block_b, r5
+    mov.l   .L_pool_06038490, r7
+    mov.l   .L_pool_06038494, r5
     mov #0x0, r4
-    mov.l   .L_pool_vdp2_tvmd, r3
-    mov.l   .L_pool_tvmd_addr_store, r2
+    mov.l   .L_pool_06038498, r3
+    mov.l   .L_pool_0603849C, r2
     mov.l r3, @r2
-    mov.l   .L_pool_fp_half, r3
+    mov.l   .L_pool_060384A0, r3
     mov.w r3, @r7
     extu.w r4, r2
     mov r2, r0
@@ -101,10 +101,10 @@ vdp2_regs_setup:
     extu.w r6, r3
     cmp/ge r13, r3
     bf      .L_scroll_regs_loop
-    mov.l   .L_pool_transform_struct, r6
+    mov.l   .L_pool_060384A4, r6
     mov.l r4, @r6
     mov.l r4, @(4, r6)
-    mov.l   .L_pool_fp_one, r0
+    mov.l   .L_pool_060384A8, r0
     mov.l r0, @(8, r6)
     mov.l r0, @(12, r6)
     mov.l r4, @(16, r6)
@@ -131,7 +131,7 @@ vdp2_regs_setup:
     mov.l r4, @(52, r6)
     mov.l r4, @(56, r6)
     mov.l r4, @(60, r6)
-    mov.l   .L_pool_enable_flags, r6
+    mov.l   .L_pool_060384AC, r6
     mov.w r4, @r6
     extu.w r4, r0
     mov.w r0, @(2, r6)
@@ -146,31 +146,31 @@ vdp2_regs_setup:
     extu.w r4, r0
     mov.w r0, @(10, r6)
     mov.l r4, @(12, r6)
-    mov.l   .L_pool_config_block, r6
+    mov.l   .L_pool_060384B0, r6
     mov r6, r3
     add r4, r3
     mov.w r4, @r3
     bra     .L_config_block_cont
     nop
-.L_pool_cycle_fill_mask:
+.L_pool_0603848C:
     .4byte  0x0000FFFF                  /* low 16-bit mask / 0xFFFF cycle pattern fill */
-.L_pool_shadow_block_a:
+.L_pool_06038490:
     .4byte  sym_060A3D88                /* shadow block A (TVMD-SFCODE, 40 bytes) */
-.L_pool_shadow_block_b:
+.L_pool_06038494:
     .4byte  sym_060A3DB0                /* shadow block B (CHCTLA-scroll, 72 bytes) */
-.L_pool_vdp2_tvmd:
+.L_pool_06038498:
     .4byte  0x25F80000                  /* VDP2 TVMD — TV mode/display enable */
-.L_pool_tvmd_addr_store:
+.L_pool_0603849C:
     .4byte  sym_060A3D84                /* stores VDP2 TVMD HW address for VBlank */
-.L_pool_fp_half:
+.L_pool_060384A0:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 0x8000 TVMD value */
-.L_pool_transform_struct:
+.L_pool_060384A4:
     .4byte  sym_060A3DF8                /* rotation parameter / transform struct (64 bytes) */
-.L_pool_fp_one:
+.L_pool_060384A8:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_pool_enable_flags:
+.L_pool_060384AC:
     .4byte  sym_060A3E38                /* scene enable flags (16 bytes) */
-.L_pool_config_block:
+.L_pool_060384B0:
     .4byte  sym_060A3E48                /* scene config block (32 bytes) */
 .L_config_block_cont:
     extu.w r4, r0
@@ -206,7 +206,7 @@ vdp2_regs_setup:
     mov.w r0, @(22, r6)
     mov.l r4, @(24, r6)
     mov.l r4, @(28, r6)
-    mov.l   .L_pool_ready_flag, r6
+    mov.l   .L_pool_06038534, r6
     mov.w @r6, r3
     extu.w r3, r3
     tst r3, r3
@@ -221,7 +221,7 @@ vdp2_regs_setup:
 
     .global sym_0603850C
 sym_0603850C:
-    mov.l   .L_pool_ready_flag, r5
+    mov.l   .L_pool_06038534, r5
     mov.w @r5, r0
     extu.w r0, r0
     cmp/eq #0x1, r0
@@ -229,13 +229,13 @@ sym_0603850C:
     mov #0x0, r2
     mov.w r2, @r5
 .L_cmd_write_store:
-    mov.l   .L_pool_cmd_slot, r3
+    mov.l   .L_pool_06038538, r3
     rts
     mov.l r4, @r3
 
     .global sym_06038520
 sym_06038520:
-    mov.l   .L_pool_ready_flag, r4
+    mov.l   .L_pool_06038534, r4
     mov.w @r4, r3
     extu.w r3, r3
     tst r3, r3
@@ -246,7 +246,7 @@ sym_06038520:
     rts
     nop
     .2byte  0xFFFF
-.L_pool_ready_flag:
+.L_pool_06038534:
     .4byte  sym_060635AC                /* command ready flag */
-.L_pool_cmd_slot:
+.L_pool_06038538:
     .4byte  sym_060635A8                /* command queue slot (channel ID) */

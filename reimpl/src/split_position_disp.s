@@ -20,19 +20,19 @@ split_position_disp:
     .4byte  sym_060785FC
     .4byte  sym_060280F8
 .L_advance_disp_slot:
-    .byte   0xD0, 0x04    /* mov.l .L_pool_display_counter, r0 */
+    .byte   0xD0, 0x04    /* mov.l .L_pool_0603351A, r0 */
     mov.l @r0, r1
     add #0x1, r1
     mov.l r1, @r0
-    .byte   0xD2, 0x03    /* mov.l .L_pool_vdp1_write_ptr, r2 */
+    .byte   0xD2, 0x03    /* mov.l .L_pool_0603351E, r2 */
     mov.l @r2, r1
     add #0x20, r1
     mov.l r1, @r2
     rts
     nop
-.L_pool_display_counter:
+.L_pool_0603351A:
     .4byte  sym_0605A008
-.L_pool_vdp1_write_ptr:
+.L_pool_0603351E:
     .4byte  sym_060785FC
     .4byte  0x2F06D409
     .4byte  0x60238143

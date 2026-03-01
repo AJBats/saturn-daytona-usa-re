@@ -46,7 +46,7 @@ cmd_validate_exec:
     bra     .L_return
     mov #-0x4, r0
 .L_store_buffer:
-    mov.l   .L_pool_cmd_state_ptr, r3
+    mov.l   .L_pool_0603ACA0, r3
     mov.l r5, @r3
     .byte   0xB5, 0x71    /* bsr 0x0603B74C (external) */  ! call sys_boot_table_init(r4=cmd_id)
     nop
@@ -57,7 +57,7 @@ cmd_validate_exec:
 .L_has_params:
     mov #0x0, r4
 .L_call_error_check:
-    mov.l   .L_pool_error_code_stub, r3
+    mov.l   .L_pool_0603ACA4, r3
     jsr @r3
     nop
     mov r0, r4
@@ -68,7 +68,7 @@ cmd_validate_exec:
     .byte   0xA6, 0x5A    /* bra 0x0603B93C (external) */  ! tail-call save_checksum_calc(r4=error)
     mov.l @r15+, r14
 .L_check_status_bit:
-    mov.l   .L_pool_cmd_state_ptr, r0
+    mov.l   .L_pool_0603ACA0, r0
     mov.w   DAT_0603ac9e, r1
     mov.l @r0, r0
     mov.l @(r0, r1), r0
@@ -83,9 +83,9 @@ cmd_validate_exec:
     .global DAT_0603ac9e
 DAT_0603ac9e:
     .2byte  0x00C4
-.L_pool_cmd_state_ptr:
+.L_pool_0603ACA0:
     .4byte  sym_060A4D14
-.L_pool_error_code_stub:
+.L_pool_0603ACA4:
     .4byte  error_code_stub
 .L_dispatch_command:
     tst r14, r14

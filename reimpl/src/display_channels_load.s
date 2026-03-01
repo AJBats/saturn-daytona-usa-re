@@ -8,9 +8,9 @@ display_channels_load:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xDD, 0x12    /* mov.l .L_pool_chan_cfg_table, r13 */
-    .byte   0xDE, 0x13    /* mov.l .L_pool_nibble_config_fn, r14 */
-    mov.w   .L_wpool_chan_id_primary, r4
+    .byte   0xDD, 0x12    /* mov.l .L_pool_060148F6, r13 */
+    .byte   0xDE, 0x13    /* mov.l .L_pool_060148FA, r14 */
+    mov.w   .L_wpool_060148E4, r4
     jsr @r14
     mov.b @r13, r5
     mov.b @(1, r13), r0
@@ -37,13 +37,13 @@ display_channels_load:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_chan_id_primary:
+.L_wpool_060148E4:
     .2byte  0x0100                      /* [HIGH] channel bitmask: array_a[0] low nibble (primary) */
     .4byte  sym_0603850C
     .4byte  scene_color_intensity
     .4byte  sym_06038520
     .4byte  scene_data_write_abs
-.L_pool_chan_cfg_table:
+.L_pool_060148F6:
     .4byte  sym_0605B71C
-.L_pool_nibble_config_fn:
+.L_pool_060148FA:
     .4byte  channel_nibble_config

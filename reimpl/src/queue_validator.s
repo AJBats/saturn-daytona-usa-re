@@ -10,7 +10,7 @@ queue_validator:
     mov.w   DAT_06041174, r3
     cmp/eq r3, r4
     bt      .L_check_sequence
-    mov.l   .L_pool_state_base_ptr, r0
+    mov.l   .L_pool_0604117C, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r4), r0
@@ -21,7 +21,7 @@ queue_validator:
     rts
     mov #-0x7, r0
 .L_check_sequence:
-    mov.l   .L_pool_state_base_ptr, r6
+    mov.l   .L_pool_0604117C, r6
     mov.l @r6, r2
     mov.l @(56, r2), r3
     cmp/eq r5, r3
@@ -52,5 +52,5 @@ DAT_06041174:
 .L_w_validated_flag_off:
     .2byte  0x0304                     /* [HIGH] state struct offset: validated flag (+0x304) */
     .4byte  ai_checkpoint_validate     /* (adjacent TU pool entry) */
-.L_pool_state_base_ptr:
+.L_pool_0604117C:
     .4byte  sym_060A5400               /* [HIGH] game state base pointer (indirect) */

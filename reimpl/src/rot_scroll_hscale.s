@@ -10,7 +10,7 @@ rot_scroll_hscale:
     nop
     lds.l @r15+, pr
     nop
-    mov.w   .L_wpool_heading_ref_offset, r1
+    mov.w   .L_wpool_0602E5A8, r1
     mov.l @(r0, r1), r4
     exts.w r4, r4
     mov r5, r3
@@ -35,7 +35,7 @@ DAT_0602e5a2:
 DAT_0602e5a4:
     mov.b @(r0, r0), r0
     .word 0x0010
-.L_wpool_heading_ref_offset:
+.L_wpool_0602E5A8:
     .2byte  0x025C                         /* car struct offset: heading reference */
     .2byte  0x0000                         /* padding */
     .4byte  0x00000100                     /* constant 256 */

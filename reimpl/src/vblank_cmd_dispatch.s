@@ -9,15 +9,15 @@ vblank_cmd_dispatch:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_vdp1_fbcr, r12
-    mov.l   .L_pool_fbcr_shadow, r13
-    mov.l   .L_pool_cmd_state, r14
-    mov.l   .L_pool_interlace_enable, r0
+    mov.l   .L_pool_06039090, r12
+    mov.l   .L_pool_06039094, r13
+    mov.l   .L_pool_06039098, r14
+    mov.l   .L_pool_0603909C, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
     bt      .L_dispatch_cmd
-    mov.l   .L_pool_vdp2_tvstat, r4
+    mov.l   .L_pool_060390A0, r4
     mov.w @r4, r4
     extu.w r4, r0
     tst #0x2, r0
@@ -37,15 +37,15 @@ vblank_cmd_dispatch:
     .2byte  0xFFFF
     .4byte  sym_060635B8
     .4byte  sym_060635BC
-.L_pool_vdp1_fbcr:
+.L_pool_06039090:
     .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
-.L_pool_fbcr_shadow:
+.L_pool_06039094:
     .4byte  sym_060A4C92
-.L_pool_cmd_state:
+.L_pool_06039098:
     .4byte  sym_060A4C84
-.L_pool_interlace_enable:
+.L_pool_0603909C:
     .4byte  sym_060A4C94
-.L_pool_vdp2_tvstat:
+.L_pool_060390A0:
     .4byte  0x25F80004                  /* VDP2 TVSTAT — TV status */
 .L_dispatch_cmd:
     mov.l @r14, r0
@@ -54,20 +54,20 @@ vblank_cmd_dispatch:
     mov.l @r14, r0
     cmp/eq #0x2, r0
     bf      .L_not_cmd2
-    mov.l   .L_pool_frame_ready, r0
+    mov.l   .L_pool_060390EC, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_not_cmd2
-    mov.l   .L_pool_draw_end_wait, r3
+    mov.l   .L_pool_060390F0, r3
     jsr @r3
     nop
 .L_not_cmd2:
     mov.l @r14, r0
     cmp/eq #0x3, r0
     bf      .L_default_fbcr_write
-    mov.l   .L_pool_tvmr_shadow, r3
+    mov.l   .L_pool_060390F4, r3
     mov.w @r3, r3
-    mov.l   .L_pool_vdp1_tvmr, r2
+    mov.l   .L_pool_060390F8, r2
     mov.w r3, @r2
     bra     .L_clear_state
     nop
@@ -79,7 +79,7 @@ vblank_cmd_dispatch:
     mov.w r0, @r12
 .L_clear_state:
     mov #0x0, r4
-    mov.l   .L_pool_game_state, r3
+    mov.l   .L_pool_060390FC, r3
     mov.l r4, @r3
     mov.l r4, @r14
 .L_epilogue:
@@ -88,13 +88,13 @@ vblank_cmd_dispatch:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_frame_ready:
+.L_pool_060390EC:
     .4byte  sym_060635CC
-.L_pool_draw_end_wait:
+.L_pool_060390F0:
     .4byte  sym_060394C2
-.L_pool_tvmr_shadow:
+.L_pool_060390F4:
     .4byte  sym_060A4C90
-.L_pool_vdp1_tvmr:
+.L_pool_060390F8:
     .4byte  0x25D00000                  /* VDP1 TVMR — TV mode */
-.L_pool_game_state:
+.L_pool_060390FC:
     .4byte  sym_060635C4

@@ -9,7 +9,7 @@ vblank_int_ext:
     add #-0x14, r15
     mov.l r4, @r15
     mov.l r6, @(4, r15)
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_fn_road_edge, r3 */
+    .byte   0xD3, 0x0B    /* mov.l .L_pool_06041102, r3 */
     jsr @r3
     mov.l @r15, r4
     mov r0, r4
@@ -21,7 +21,7 @@ vblank_int_ext:
     mov #-0xA, r0
 .L_edge_ok:
     mov.l @(4, r15), r5
-    .byte   0xD3, 0x06    /* mov.l .L_pool_fn_road_width, r3 */
+    .byte   0xD3, 0x06    /* mov.l .L_pool_06041106, r3 */
     jsr @r3
     mov.l @r15, r4
     mov r0, r4
@@ -32,9 +32,9 @@ vblank_int_ext:
     rts
     mov #-0xA, r0
     .4byte  sym_06035228                     /* pool: memcpy_byte function (cross-TU ref) */
-.L_pool_fn_road_edge:
+.L_pool_06041102:
     .4byte  track_road_edge_b                /* pool: road edge detection function */
-.L_pool_fn_road_width:
+.L_pool_06041106:
     .4byte  track_road_width_stub            /* pool: road width validation function */
 .L_width_ok:
     mov r15, r4

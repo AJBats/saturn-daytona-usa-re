@@ -77,9 +77,9 @@ race_timer_sync:
     sts.l pr, @-r15
     add #-0x10, r15
     mov #0x0, r10
-    mov.l   .L_pool_game_state_ptr, r11
-    mov.w   .L_wpool_flags_bit7_mask, r12
-    mov.l   .L_pool_minit_threshold, r13
+    mov.l   .L_pool_0603FA64, r11
+    mov.w   .L_wpool_0603FA5E, r12
+    mov.l   .L_pool_0603FA68, r13
     mov r4, r14
     mov.l r5, @(4, r15)
     mov.l @r14, r3
@@ -87,7 +87,7 @@ race_timer_sync:
     mov.l @(8, r14), r3
     mov.l r3, @(12, r15)
     mov.l @r11, r3
-    mov.w   .L_wpool_sync_frame_offset, r0
+    mov.w   .L_wpool_0603FA60, r0
     mov.l r10, @(r0, r3)
     bra     .L_sync_loop_test
     nop
@@ -96,7 +96,7 @@ race_timer_sync:
     bsr     scene_buffer_update
     mov r14, r4
     mov.l @r11, r2
-    mov.w   .L_wpool_sync_frame_offset, r0
+    mov.w   .L_wpool_0603FA60, r0
     mov.l @(r0, r2), r3
     add #0x1, r3
     mov.l r3, @(r0, r2)
@@ -104,14 +104,14 @@ race_timer_sync:
     bf      .L_sync_loop_test
     bra     .L_sync_loop_exit
     nop
-.L_wpool_flags_bit7_mask:
+.L_wpool_0603FA5E:
     .2byte  0xFF7F                      /* [HIGH] 0xFFFFFF7F sign-ext — AND mask clears bit 7 (active flag) */
-.L_wpool_sync_frame_offset:
+.L_wpool_0603FA60:
     .2byte  0x00CC                      /* [HIGH] offset into game_state for sync frame counter */
     .2byte  0xFFFF
-.L_pool_game_state_ptr:
+.L_pool_0603FA64:
     .4byte  sym_060A4D14                /* [HIGH] global game state struct pointer */
-.L_pool_minit_threshold:
+.L_pool_0603FA68:
     .4byte  0x01000000                  /* [HIGH] MINIT — primary SH-2 init comm threshold */
 .L_sync_loop_test:
     mov #0x34, r0

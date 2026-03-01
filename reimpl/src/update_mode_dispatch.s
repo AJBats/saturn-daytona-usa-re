@@ -6,13 +6,13 @@
     .type update_mode_dispatch, @function
 update_mode_dispatch:
     sts.l pr, @-r15
-    .byte   0xD3, 0x12    /* mov.l .L_pool_total_car_count, r3 */  ! r3 = &total_car_count (sym_0607EA98)
+    .byte   0xD3, 0x12    /* mov.l .L_pool_0600DFB7, r3 */  ! r3 = &total_car_count (sym_0607EA98)
     mov.l @r3, r3
     shar r3
     exts.w r3, r3
-    .byte   0xD2, 0x11    /* mov.l .L_pool_half_count_store, r2 */ ! r2 = &half_count_store (sym_060786CA)
+    .byte   0xD2, 0x11    /* mov.l .L_pool_0600DFBB, r2 */ ! r2 = &half_count_store (sym_060786CA)
     mov.w r3, @r2
-    .byte   0xD0, 0x11    /* mov.l .L_pool_update_mode_byte, r0 */ ! r0 = &update_mode_byte (sym_06083261)
+    .byte   0xD0, 0x11    /* mov.l .L_pool_0600DFBF, r0 */ ! r0 = &update_mode_byte (sym_06083261)
     bra     .L_dispatch
     mov.b @r0, r0
 
@@ -44,11 +44,11 @@ update_mode_dispatch:
     .4byte  sprite_transform
     .4byte  sprite_batch_render
 
-.L_pool_total_car_count:
+.L_pool_0600DFB7:
     .4byte  sym_0607EA98
-.L_pool_half_count_store:
+.L_pool_0600DFBB:
     .4byte  sym_060786CA
-.L_pool_update_mode_byte:
+.L_pool_0600DFBF:
     .4byte  sym_06083261
 
 .L_dispatch:

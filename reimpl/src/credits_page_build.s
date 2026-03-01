@@ -7,7 +7,7 @@
 credits_page_build:
     sts.l pr, @-r15
     add #-0x38, r15
-    mov.l   .L_pool_buf_init, r10
+    mov.l   .L_pool_0603F380, r10
     mov.l r4, @r15
     mov r15, r4
     bsr     ring_desc_init
@@ -28,7 +28,7 @@ credits_page_build:
     bf      .L_entry_valid
     bra     .L_loop_done
     nop
-.L_pool_buf_init:
+.L_pool_0603F380:
     .4byte  display_buffer_init
 .L_entry_valid:
     cmp/gt r12, r13

@@ -12,7 +12,7 @@ track_shadow_test:
     mov.l r5, @(16, r15)
     add #0xC, r6
     mov r15, r5
-    mov.l   .L_pool_fn_shadow_ground, r3
+    mov.l   .L_pool_060415F4, r3
     add #0x4, r5
     jsr @r3
     mov r15, r4
@@ -30,7 +30,7 @@ DAT_060415ee:
     mov.b r14, @(r0, r1)
     mov.b @(r0, r13), r1
     .word 0xFFFF
-.L_pool_fn_shadow_ground:
+.L_pool_060415F4:
     .4byte  track_shadow_ground
 .L_ground_query_ok:
     mov.l @r15, r0

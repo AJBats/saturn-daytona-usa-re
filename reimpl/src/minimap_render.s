@@ -13,11 +13,11 @@ minimap_render:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_scale_const, r8
+    mov.l   .L_pool_06015668, r8
     mov #0x4, r9
     mov.l   .L_fp_half, r10
-    mov.l   .L_pool_fpmul, r11
-    mov.l   .L_pool_slot_base, r13
+    mov.l   .L_pool_06015670, r11
+    mov.l   .L_pool_06015674, r13
     mov #0x0, r14
 .L_slot_loop:
     extu.b r14, r4
@@ -106,13 +106,13 @@ minimap_render:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_scale_const:
+.L_pool_06015668:
     .4byte  0x0000DDB2                  /* ~0.866 (16.16 FP scale factor, sin(60) or cos(30)) */
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_pool_fpmul:
+.L_pool_06015670:
     .4byte  fpmul
-.L_pool_slot_base:
+.L_pool_06015674:
     .4byte  sym_06084FC8
 
     .global loc_06015678

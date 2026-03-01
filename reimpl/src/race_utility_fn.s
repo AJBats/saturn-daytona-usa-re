@@ -109,7 +109,7 @@ sym_0600C302:
     mov.w r6, @(r0, r4)
 .L_check_ext_value:
     mov.w   DAT_0600c372, r0
-    mov.w   .L_wpool_ext_threshold, r2
+    mov.w   .L_wpool_0600C37C, r2
     mov.l @(r0, r4), r3
     cmp/ge r2, r3
     bt      .L_ext_above_threshold
@@ -135,7 +135,7 @@ DAT_0600c370:
     .global DAT_0600c372
 DAT_0600c372:
     .2byte  0x0084
-.L_wpool_ext_threshold:
+.L_wpool_0600C37C:
     .2byte  0x008C
     .2byte  0xFFFF
 .L_fn_scene_path_a:
@@ -148,7 +148,7 @@ DAT_0600c372:
     .4byte  sym_0607E944
 .L_ext_above_threshold:
     mov #0x68, r0
-    mov.w   .L_wpool_speed_low, r3
+    mov.w   .L_wpool_0600C41E, r3
     mov.l @(r0, r4), r5
     cmp/gt r3, r5
     bf      .L_speed_range_exit
@@ -156,7 +156,7 @@ DAT_0600c372:
     cmp/ge r3, r5
     bt      .L_speed_range_exit
     exts.w r6, r6
-    mov.w   .L_wpool_timer_172_off, r0
+    mov.w   .L_wpool_0600C422, r0
     mov.w r6, @(r0, r4)
     exts.w r7, r7
     add #0x2, r0
@@ -192,13 +192,13 @@ DAT_0600c372:
     .4byte  0x24488900
     .4byte  0x2572A049
     .2byte  0x0009
-.L_wpool_speed_low:
+.L_wpool_0600C41E:
     .2byte  0x009B
 
     .global DAT_0600c418
 DAT_0600c418:
     .2byte  0x00E6
-.L_wpool_timer_172_off:
+.L_wpool_0600C422:
     .2byte  0x0172
     .4byte  sym_06063E20
     .4byte  sym_06083255

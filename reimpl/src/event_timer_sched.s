@@ -11,7 +11,7 @@ event_timer_sched:
     sts.l pr, @-r15
     add #-0x18, r15
     mov.l r5, @(20, r15)
-    mov.l   .L_pool_evt_status_array, r3
+    mov.l   .L_pool_06040B50, r3
     mov.b @(r0, r3), r2
     extu.b r2, r2
     tst r2, r2
@@ -19,7 +19,7 @@ event_timer_sched:
     mov r4, r13
     .byte   0xA0, 0x51    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
     mov #0x0, r0
-.L_pool_evt_status_array:
+.L_pool_06040B50:
     .4byte  sym_0606367C
 .L_slot_free:
     mov r15, r3

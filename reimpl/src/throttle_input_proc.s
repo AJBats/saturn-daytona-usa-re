@@ -14,7 +14,7 @@ throttle_input_proc:
     mov.l r8, @-r15
     add #-0x8, r15
     mov #0x10, r8
-    mov.w   .L_wpool_blue_channel_step, r9
+    mov.w   .L_wpool_06011FDA, r9
     mov #0x0, r10
     mov #0x1F, r14
     mov r9, r7
@@ -49,7 +49,7 @@ DAT_06011fd4:
 DAT_06011fd6:
     .2byte  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
     .2byte  0xF800                 /* (adjacent data, not used by this function) */
-.L_wpool_blue_channel_step:
+.L_wpool_06011FDA:
     .2byte  0x0400                 /* [HIGH] blue channel step (1 << 10) — loaded into r9 */
 
 .red_clamp:

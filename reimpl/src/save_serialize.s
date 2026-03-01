@@ -15,7 +15,7 @@ save_serialize:
     mov.l r5, @r15
     mov r7, r5
     mov.l r7, @(4, r15)
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_obj_init_validate, r3 */  ! r3 = obj_init_validate
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603BCDA, r3 */  ! r3 = obj_init_validate
     jsr @r3
     add #0x14, r4
     mov r0, r14
@@ -33,8 +33,8 @@ save_serialize:
     extu.b r7, r7
     mov.l r3, @-r15
     mov.l @(12, r14), r6
-    mov.w   .L_wpool_desc_area_offset, r4
-    .byte   0xD3, 0x07    /* mov.l .L_pool_obj_setup_decomp, r3 */  ! r3 = obj_setup_decomp
+    mov.w   .L_wpool_0603BCD2, r4
+    .byte   0xD3, 0x07    /* mov.l .L_pool_0603BCDE, r3 */  ! r3 = obj_setup_decomp
     jsr @r3
     add r12, r4
     mov r0, r13
@@ -43,14 +43,14 @@ save_serialize:
     add #0x4, r15
     bra     .L_epilogue
     mov #0x0, r0
-.L_wpool_desc_area_offset:
+.L_wpool_0603BCD2:
     .2byte  0x00A8                      /* offset 0xA8 within block (descriptor area) */
     .2byte  0xFFFF                      /* padding */
-.L_pool_scene_frame_render:
+.L_pool_0603BCD6:
     .4byte  scene_frame_render          /* unreferenced pool filler (alignment artifact) */
-.L_pool_obj_init_validate:
+.L_pool_0603BCDA:
     .4byte  obj_init_validate           /* init road-segment object */
-.L_pool_obj_setup_decomp:
+.L_pool_0603BCDE:
     .4byte  obj_setup_decomp            /* decompose object into resource slots */
 .L_decomp_ok:
     mov r13, r5

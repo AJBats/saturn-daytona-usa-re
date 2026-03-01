@@ -7,7 +7,7 @@
 results_input_handler:
     sts.l pr, @-r15
     shll2 r3
-    mov.l   .L_pool_elem_array_base, r13
+    mov.l   .L_pool_06016870, r13
     mov.w   .L_const_scroll_step, r2
     shll2 r3
     add r3, r4
@@ -82,7 +82,7 @@ _no_scroll_wrap:
     .2byte  0x0F00                          /* 0x0F00 = scroll step per frame [HIGH] */
 .L_const_bounce_delta:
     .2byte  0x1800                          /* 0x1800 = bounce velocity delta per frame [HIGH] */
-.L_pool_elem_array_base:
+.L_pool_06016870:
     .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */
 _bounce_subtract:
     extu.b r14, r5
@@ -143,7 +143,7 @@ _epilogue:
 loc_060168DA:
     extu.b r4, r3
     mov #0x7, r2
-    mov.l   .L_pool_elem_array_base2, r5
+    mov.l   .L_pool_0601693C, r5
     cmp/ge r2, r3
     bt      _high_index_target
     extu.b r4, r2
@@ -194,5 +194,5 @@ _write_target_y:
     .2byte  0xC000                          /* 0xC000 = target Y for high-index elements (idx >= 7) [HIGH] */
 .L_const_target_y_low:
     .2byte  0x4000                          /* 0x4000 = target Y for low-index elements (idx < 7) [HIGH] */
-.L_pool_elem_array_base2:
+.L_pool_0601693C:
     .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */

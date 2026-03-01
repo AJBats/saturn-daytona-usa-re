@@ -10,27 +10,27 @@ geom_math_calc:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.w   DAT_06018212, r11
-    .byte   0xDC, 0x2C    /* mov.l .L_pool_seg_frame_ctr, r12 */  ! r12 = &seg_frame_ctr (sym_0605BE2C)
-    .byte   0xDD, 0x2D    /* mov.l .L_pool_slot_table_base, r13 */  ! r13 = per-slot data table base (sym_06063F64)
-    .byte   0xDE, 0x2D    /* mov.l .L_pool_track_data_base, r14 */  ! r14 = track data / index table (sym_060684EC)
-    .byte   0xD4, 0x2E    /* mov.l .L_pool_car_array_ptr, r4 */  ! r4 = &car_array_base_ptr (sym_0607E944)
+    .byte   0xDC, 0x2C    /* mov.l .L_pool_0601822C, r12 */  ! r12 = &seg_frame_ctr (sym_0605BE2C)
+    .byte   0xDD, 0x2D    /* mov.l .L_pool_06018230, r13 */  ! r13 = per-slot data table base (sym_06063F64)
+    .byte   0xDE, 0x2D    /* mov.l .L_pool_06018234, r14 */  ! r14 = track data / index table (sym_060684EC)
+    .byte   0xD4, 0x2E    /* mov.l .L_pool_06018238, r4 */  ! r4 = &car_array_base_ptr (sym_0607E944)
     mov.w @r12, r3
     mov.l @r4, r4
     add #0x1, r3
     mov.w r3, @r12
-    .byte   0xD2, 0x2C    /* mov.l .L_pool_max_lap_count, r2 */  ! r2 = &max_lap_count (sym_06063F28)
+    .byte   0xD2, 0x2C    /* mov.l .L_pool_0601823C, r2 */  ! r2 = &max_lap_count (sym_06063F28)
     mov.w   DAT_06018214, r0
     mov.l @r2, r2
     mov.l @(r0, r4), r3
     add #-0x1, r2
     cmp/hs r2, r3
     bf      .L_below_threshold
-    .byte   0xD4, 0x2A    /* mov.l .L_pool_proj_param_b, r4 */  ! r4 = &proj_param_b (sym_06089E2C)
+    .byte   0xD4, 0x2A    /* mov.l .L_pool_06018240, r4 */  ! r4 = &proj_param_b (sym_06089E2C)
     mov.l @r4, r4
     bra     .L_config_chosen
     mov #0x1, r5
 .L_below_threshold:
-    .byte   0xD4, 0x29    /* mov.l .L_pool_proj_config, r4 */  ! r4 = &proj_config (sym_06089E28)
+    .byte   0xD4, 0x29    /* mov.l .L_pool_06018244, r4 */  ! r4 = &proj_config (sym_06089E28)
     mov.l @r4, r4
     mov #0x0, r5
 .L_config_chosen:
@@ -39,7 +39,7 @@ geom_math_calc:
     mov.w @r12, r2
     cmp/gt r3, r2
     bt      .L_reset_mode
-    mov.w   .L_wpool_slot_increment, r4
+    mov.w   .L_wpool_06018220, r4
     mov r14, r3
     add r14, r6
     add r11, r3
@@ -76,7 +76,7 @@ geom_math_calc:
     shll2 r2
     shll r2
     add r13, r2
-    .byte   0xD3, 0x14    /* mov.l .L_pool_proj_param_a, r3 */  ! r3 = &proj_param_a (sym_06089E30)
+    .byte   0xD3, 0x14    /* mov.l .L_pool_06018248, r3 */  ! r3 = &proj_param_a (sym_06089E30)
     mov.l @r3, r3
     mov.l r3, @r2
     mov #0x0, r2
@@ -107,7 +107,7 @@ DAT_06018214:
     .global DAT_06018216
 DAT_06018216:
     .2byte  0x1630                           /* track data offset: secondary slot index */
-.L_wpool_slot_increment:
+.L_wpool_06018220:
     .2byte  0x0090                           /* per-frame slot value increment */
 
     .global DAT_0601821a
@@ -115,21 +115,21 @@ DAT_0601821a:
     .2byte  0x056C                           /* slot flag value: above-threshold marker */
     .4byte  sym_06026DF8                     /* (out-of-TU pool) pop matrix frame cleanup */
     .4byte  obj_overlay_render               /* (out-of-TU pool) overlay render function */
-.L_pool_seg_frame_ctr:
+.L_pool_0601822C:
     .4byte  sym_0605BE2C                     /* segment frame counter (16-bit) */
-.L_pool_slot_table_base:
+.L_pool_06018230:
     .4byte  sym_06063F64                     /* per-slot data table base (8-byte stride) */
-.L_pool_track_data_base:
+.L_pool_06018234:
     .4byte  sym_060684EC                     /* track data / index mapping table */
-.L_pool_car_array_ptr:
+.L_pool_06018238:
     .4byte  sym_0607E944                     /* car array base pointer */
-.L_pool_max_lap_count:
+.L_pool_0601823C:
     .4byte  sym_06063F28                     /* maximum lap count for current race */
-.L_pool_proj_param_b:
+.L_pool_06018240:
     .4byte  sym_06089E2C                     /* projection param B (above-threshold config) */
-.L_pool_proj_config:
+.L_pool_06018244:
     .4byte  sym_06089E28                     /* projection config (below-threshold config) */
-.L_pool_proj_param_a:
+.L_pool_06018248:
     .4byte  sym_06089E30                     /* projection param A (reset target for secondary slot) */
 .L_flag_clear:
     mov r14, r2

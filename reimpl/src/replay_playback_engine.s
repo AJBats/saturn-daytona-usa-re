@@ -6,11 +6,11 @@
     .type replay_playback_engine, @function
 replay_playback_engine:
     sts.l pr, @-r15
-    mov.l   .L_pool_replay_scroll_accum, r7
-    mov.l   .L_pool_car_array_idx, r6
-    mov.l   .L_pool_car_select, r4
-    mov.l   .L_pool_car_state_ptr, r5
-    mov.l   .L_pool_geometry_transform, r3
+    mov.l   .L_pool_0601BE50, r7
+    mov.l   .L_pool_0601BE54, r6
+    mov.l   .L_pool_0601BE58, r4
+    mov.l   .L_pool_0601BE5C, r5
+    mov.l   .L_pool_0601BE60, r3
     mov.l @r5, r5
     mov.l @(8, r5), r1
     jsr @r3
@@ -60,13 +60,13 @@ replay_playback_engine:
 .L_w_subindex_limit:
     .2byte  0x00A0                         /* [HIGH] sub-index upper limit (160) */
     .2byte  0xFFFF
-.L_pool_replay_scroll_accum:
+.L_pool_0601BE50:
     .4byte  sym_06086018               /* [MEDIUM] replay scroll accumulator (dword) */
-.L_pool_car_array_idx:
+.L_pool_0601BE54:
     .4byte  sym_06059F3C               /* [MEDIUM] car array index / replay frame counter */
-.L_pool_car_select:
+.L_pool_0601BE58:
     .4byte  sym_06059F38               /* [MEDIUM] car selection sub-index / playback offset */
-.L_pool_car_state_ptr:
+.L_pool_0601BE5C:
     .4byte  sym_0607E944               /* [HIGH] iterated car struct pointer */
-.L_pool_geometry_transform:
+.L_pool_0601BE60:
     .4byte  sym_06034FE0               /* [HIGH] geometry_transform fn */

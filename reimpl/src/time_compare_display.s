@@ -16,9 +16,9 @@ time_compare_display:
     add #-0x4, r15
     mov #0x8, r8
     mov #0x7, r9
-    mov.w   .L_wpool_anim_step, r11
+    mov.w   .L_wpool_06015C22, r11
     mov #0x0, r12
-    mov.l   .L_pool_slot_data_base, r13
+    mov.l   .L_pool_06015C24, r13
     mov.b r4, @r15
     extu.b r12, r10
     extu.b r12, r14
@@ -84,7 +84,7 @@ time_compare_display:
     mov.l r12, @(48, r3)
     add #0x1, r10
 .L_call_vtx_builder:
-    mov.l   .L_pool_track_vtx_builder, r3
+    mov.l   .L_pool_06015C28, r3
     jsr @r3
     extu.b r14, r4
     add #0x1, r14
@@ -104,7 +104,7 @@ time_compare_display:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_pool_hud_finalizer, r3
+    mov.l   .L_pool_06015C2C, r3
     jmp @r3
     mov.l @r15+, r14
 .L_return_normal:
@@ -118,13 +118,13 @@ time_compare_display:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_wpool_anim_step:
+.L_wpool_06015C22:
     .2byte  0x0C00
-.L_pool_slot_data_base:
+.L_pool_06015C24:
     .4byte  sym_06084FC8         /* [HIGH] slot data array base — 68-byte structs */
-.L_pool_track_vtx_builder:
+.L_pool_06015C28:
     .4byte  track_vtx_builder    /* [HIGH] rebuild vertex data for slot */
-.L_pool_hud_finalizer:
+.L_pool_06015C2C:
     .4byte  sym_060172E4         /* [HIGH] clear VDP2 registers / HUD element finalizer */
 
     .global loc_06015C30
@@ -140,7 +140,7 @@ loc_06015C30:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    .byte   0xD1, 0x16    /* mov.l .L_pool_slot_data_base, r1 */  ! r1 = slot data array base
+    .byte   0xD1, 0x16    /* mov.l .L_pool_06015C24, r1 */  ! r1 = slot data array base
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3

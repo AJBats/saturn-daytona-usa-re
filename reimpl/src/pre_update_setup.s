@@ -27,14 +27,14 @@ pre_update_setup:
     add r14, r1
     mov.l r0, @r1
 .L_skip_projection:
-    mov.w   .L_wpool_car_active_state, r0
+    mov.w   .L_wpool_0600E9EC, r0
     mov.l @(r0, r14), r0
     tst r0, r0
     bf      .L_done
     mov #0x0, r4
     mov.l   .L_ptr_race_end_flag, r3
     mov.l r4, @r3
-    mov.w   .L_wpool_car_cam_target_a, r0
+    mov.w   .L_wpool_0600E9E2, r0
     mov.l r4, @(r0, r14)
     add #-0xC, r0
     mov.l r4, @(r0, r14)
@@ -42,7 +42,7 @@ pre_update_setup:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_car_cam_target_a:
+.L_wpool_0600E9E2:
     .2byte  0x0228                     /* [HIGH] car offset: camera target A — per_car_loop.s:276 confirms +0x228 */
 
     .global DAT_0600e9e4
@@ -57,7 +57,7 @@ DAT_0600e9e8:
     .global DAT_0600e9ea
 DAT_0600e9ea:
     .2byte  0x00E0
-.L_wpool_car_active_state:
+.L_wpool_0600E9EC:
     .2byte  0x01EC                     /* [MEDIUM] car offset: active-state field — per_car_loop.s:250, gates cleanup path */
     .2byte  0xFFFF
     .4byte  friction_stub

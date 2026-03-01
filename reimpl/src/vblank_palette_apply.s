@@ -32,18 +32,18 @@ vblank_palette_apply:
     bt      .L_query_elem_b
     mov.l @(4, r14), r1
     mov.l @(28, r14), r3
-    mov.l   .L_pool_signed_div_32, r2
+    mov.l   .L_pool_0603FCB8, r2
     mov.l @(8, r1), r1
     sub r3, r1
     jsr @r2
     mov.l @(48, r14), r0
     mov r0, r13
 .L_query_elem_b:
-    mov.l   .L_pool_dispatch_slot2, r3
+    mov.l   .L_pool_0603FCBC, r3
     jsr @r3
     mov.l @(4, r15), r4
     mov r0, r1
-    mov.l   .L_pool_signed_div_32, r2
+    mov.l   .L_pool_0603FCB8, r2
     jsr @r2
     mov.l @(48, r14), r0
     mov r0, r4
@@ -55,9 +55,9 @@ vblank_palette_apply:
     .global DAT_0603fcb6
 DAT_0603fcb6:
     .word 0xFF7F
-.L_pool_signed_div_32:
+.L_pool_0603FCB8:
     .4byte  sym_06034FFC
-.L_pool_dispatch_slot2:
+.L_pool_0603FCBC:
     .4byte  sym_0603F8EE
 .L_clamp_batch:
     mov r4, r13

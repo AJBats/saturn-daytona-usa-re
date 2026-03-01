@@ -7,7 +7,7 @@
 cmd_enqueue:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_game_state_ptr, r1
+    mov.l   .L_pool_060411FC, r1
     mov.w   DAT_060411f6, r0
     mov.l @r1, r3
     mov.l @(r0, r3), r0
@@ -40,7 +40,7 @@ cmd_enqueue:
     mov.l r7, @(r0, r3)
     mov.l @r1, r3
     mov.l @(8, r15), r2
-    mov.w   .L_wpool_cmd_completion_ptr_offset, r0
+    mov.w   .L_wpool_060411F8, r0
     mov.l r2, @(r0, r3)
     .byte   0xB4, 0xA8    /* bsr 0x06041B3C (external) */
     mov r15, r4
@@ -53,9 +53,9 @@ cmd_enqueue:
     .global DAT_060411f6
 DAT_060411f6:
     .2byte  0x030C
-.L_wpool_cmd_completion_ptr_offset:
+.L_wpool_060411F8:
     .2byte  0x0324
     .2byte  0xFFFF
-.L_pool_game_state_ptr:
+.L_pool_060411FC:
     .4byte  sym_060A5400
     .4byte  ai_throttle_modulate

@@ -9,10 +9,10 @@ spring_damper:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_retention, r1
-    mov.l   .L_pool_approach, r2
+    mov.l   .L_pool_0602773C, r1
+    mov.l   .L_pool_06027740, r2
     mov.w @r5+, r0
-    mov.l   .L_pool_limit_ptr, r14
+    mov.l   .L_pool_06027744, r14
     mov.l @r14, r14
     cmp/eq #0x1, r0
     bf      .L_axis1_dispatch
@@ -62,11 +62,11 @@ spring_damper:
     bf      .L_axis0_forward
     bra     .L_epilogue
     nop
-.L_pool_retention:
+.L_pool_0602773C:
     .4byte  0x0000E666
-.L_pool_approach:
+.L_pool_06027740:
     .4byte  0x00001999
-.L_pool_limit_ptr:
+.L_pool_06027744:
     .4byte  sym_06063F04
 .L_axis0_reverse:
     mov.l @r4, r7

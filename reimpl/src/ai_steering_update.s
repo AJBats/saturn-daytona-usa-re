@@ -19,7 +19,7 @@ ai_steering_update:
     extu.w r3, r3
     add r3, r4
 
-    mov.w   .L_wpool_speed_thresh_heavy, r3
+    mov.w   .L_wpool_0600C8B8, r3
     cmp/gt r3, r2
     bf/s    .check_speed_250
     exts.w r4, r4
@@ -30,7 +30,7 @@ ai_steering_update:
 
 .check_speed_250:
     mov.l @(8, r14), r2
-    mov.w   .L_wpool_speed_thresh_medium, r3
+    mov.w   .L_wpool_0600C8BA, r3
     cmp/gt r3, r2
     bf      .check_speed_220
     shar r4
@@ -140,9 +140,9 @@ ai_steering_update:
     .global DAT_0600c8b6
 DAT_0600c8b6:
     .2byte  0x01B0
-.L_wpool_speed_thresh_heavy:
+.L_wpool_0600C8B8:
     .2byte  0x0118                         /* [HIGH] speed threshold: 280 (heavy damping) */
-.L_wpool_speed_thresh_medium:
+.L_wpool_0600C8BA:
     .2byte  0x00FA                         /* [HIGH] speed threshold: 250 (medium damping) */
 
     .global DAT_0600c8bc

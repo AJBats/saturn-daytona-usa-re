@@ -11,42 +11,42 @@ camera_param_load:
     add #-0x4, r15
     shll2 r14
     mov.l r4, @r15
-    .byte   0xD5, 0x0E    /* mov.l .L_pool_rot_source_array, r5 */
-    .byte   0xD4, 0x0E    /* mov.l .L_pool_rot_dest_array, r4 */
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_fn_matrix_xform, r3 */
+    .byte   0xD5, 0x0E    /* mov.l .L_pool_0600A5FF, r5 */
+    .byte   0xD4, 0x0E    /* mov.l .L_pool_0600A603, r4 */
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_0600A607, r3 */
     add r14, r5
     add r14, r4
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xD6, 0x0D    /* mov.l .L_pool_display_array, r6 */
+    .byte   0xD6, 0x0D    /* mov.l .L_pool_0600A60B, r6 */
     add r14, r6
     mov.l @r6, r6
-    .byte   0xD5, 0x0C    /* mov.l .L_pool_scale_factor, r5 */
+    .byte   0xD5, 0x0C    /* mov.l .L_pool_0600A60F, r5 */
     mov.w @r5, r5
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_model_array, r4 */
+    .byte   0xD4, 0x0C    /* mov.l .L_pool_0600A613, r4 */
     add r14, r4
     mov.l @r4, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_fn_reg_save, r3 */
+    .byte   0xD3, 0x0B    /* mov.l .L_pool_0600A617, r3 */
     jmp @r3
     mov.l @r15+, r14
     .4byte  sym_060634A4
     .4byte  sym_06063450
     .4byte  sym_060634C0
     .4byte  sym_0606346C
-.L_pool_rot_source_array:
+.L_pool_0600A5FF:
     .4byte  sym_06063538
-.L_pool_rot_dest_array:
+.L_pool_0600A603:
     .4byte  sym_06063520
-.L_pool_fn_matrix_xform:
+.L_pool_0600A607:
     .4byte  sym_06031D8C
-.L_pool_display_array:
+.L_pool_0600A60B:
     .4byte  sym_0606352C
-.L_pool_scale_factor:
+.L_pool_0600A60F:
     .4byte  sym_06089E98
-.L_pool_model_array:
+.L_pool_0600A613:
     .4byte  sym_06063514
-.L_pool_fn_reg_save:
+.L_pool_0600A617:
     .4byte  sym_06031A28

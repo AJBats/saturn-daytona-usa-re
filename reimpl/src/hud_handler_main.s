@@ -19,12 +19,12 @@ hud_handler_main:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x8, r15
-    mov.l   .L_pool_entry_table, r8
-    mov.l   .L_pool_player_index, r10
+    mov.l   .L_pool_0601E904, r8
+    mov.l   .L_pool_0601E908, r10
     mov.l   .L_smpc_sf, r13
     mov.w r0, @(4, r15)
     mov.l r6, @r15
-    mov.l   .L_pool_strlen_fn, r3
+    mov.l   .L_pool_0601E910, r3
     jsr @r3
     mov r9, r4
     cmp/gt r11, r0
@@ -34,7 +34,7 @@ hud_handler_main:
     mov.b r0, @(11, r9)
 .L_name_ok:
     mov.b @r10, r4
-    mov.l   .L_pool_strlen_fn, r3
+    mov.l   .L_pool_0601E910, r3
     extu.b r4, r4
     mul.l r11, r4
     sts macl, r4
@@ -52,16 +52,16 @@ hud_handler_main:
     mov r3, r0
     mov.b r0, @(10, r2)
 .L_entry_name_ok:
-    mov.l   .L_pool_geom_display_param, r4
+    mov.l   .L_pool_0601E914, r4
     .byte   0xB6, 0x22    /* bsr 0x0601F4B4 (geom_display_proc — decode display params) */
     nop
-    mov.l   .L_pool_hud_work_area, r12
+    mov.l   .L_pool_0601E918, r12
     mov r9, r5
-    mov.l   .L_pool_smpc_memcpy, r3
+    mov.l   .L_pool_0601E91C, r3
     jsr @r3
     mov r12, r4
     mov r12, r4
-    mov.l   .L_pool_smpc_memcpy, r3
+    mov.l   .L_pool_0601E91C, r3
     mov.b @r10, r5
     extu.b r5, r5
     mul.l r11, r5
@@ -72,8 +72,8 @@ hud_handler_main:
     mov #0x0, r2
     mov #0x17, r0
     mov.b r2, @(r0, r12)
-    mov.l   .L_pool_dispatch_table_ptr, r3
-    mov.l   .L_pool_geom_display_param, r4
+    mov.l   .L_pool_0601E920, r3
+    mov.l   .L_pool_0601E914, r4
     mov.l @r3, r3
     mov.l @(40, r3), r2
     jsr @r2
@@ -82,7 +82,7 @@ hud_handler_main:
     mov.b @r10, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_course_size_table, r2
+    mov.l   .L_pool_0601E924, r2
     add r2, r3
     mov.l @r3, r1
     mov.l r1, @(28, r12)
@@ -105,14 +105,14 @@ hud_handler_main:
     bf      .L_poll_sf_clear_resdisa
     mov #0x0, r7
     mov.l @r15, r6
-    mov.l   .L_pool_dispatch_table_ptr, r3
-    mov.l   .L_pool_hud_work_area, r5
+    mov.l   .L_pool_0601E920, r3
+    mov.l   .L_pool_0601E918, r5
     mov.w @(4, r15), r0
     mov.l @r3, r3
     mov r0, r4
     mov.l @(16, r3), r2
     extu.w r4, r4
-    mov.l   .L_pool_hud_element_array, r3
+    mov.l   .L_pool_0601E92C, r3
     shll2 r4
     shll2 r4
     shll r4
@@ -132,27 +132,27 @@ hud_handler_main:
     mov.b r2, @r13
     bra     .L_issue_resenab
     nop
-.L_pool_entry_table:
+.L_pool_0601E904:
     .4byte  sym_0605E06C
-.L_pool_player_index:
+.L_pool_0601E908:
     .4byte  sym_060877D8
 .L_smpc_sf:
     .4byte  0x20100063                  /* SMPC SF — status flag */
-.L_pool_strlen_fn:
+.L_pool_0601E910:
     .4byte  sym_06035C1C
-.L_pool_geom_display_param:
+.L_pool_0601E914:
     .4byte  sym_060877E8
-.L_pool_hud_work_area:
+.L_pool_0601E918:
     .4byte  sym_060877B4
-.L_pool_smpc_memcpy:
+.L_pool_0601E91C:
     .4byte  smpc_cmd_helper_a
-.L_pool_dispatch_table_ptr:
+.L_pool_0601E920:
     .4byte  sym_06000354
-.L_pool_course_size_table:
+.L_pool_0601E924:
     .4byte  sym_0604A5C0
 .L_smpc_comreg_ct:
     .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
-.L_pool_hud_element_array:
+.L_pool_0601E92C:
     .4byte  sym_06087094
 .L_issue_resenab:
     mov #0x19, r3

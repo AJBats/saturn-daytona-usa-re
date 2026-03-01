@@ -13,26 +13,26 @@ cd_progress_notify:
     mov.l r9, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_cmd_validate_exec, r9
-    mov.l   .L_pool_bios_service_ptr, r13
+    mov.l   .L_pool_06012D5C, r9
+    mov.l   .L_pool_06012D60, r13
     mov #0x2, r14
     mov #-0x1, r3
     mov.l r3, @r15
     mov #0x0, r4
     mov r4, r10
     exts.b r4, r4
-    mov.l   .L_pool_cd_status_flag, r3
+    mov.l   .L_pool_06012D64, r3
     mov.b r4, @r3
-    mov.l   .L_pool_cd_cmd_struct, r2
+    mov.l   .L_pool_06012D68, r2
     mov #0x1, r3
     mov.l r3, @r2
-    mov.l   .L_pool_cd_data_dest, r3
+    mov.l   .L_pool_06012D6C, r3
     mov.l r3, @(8, r2)
     mov #0x50, r3
     mov.l r3, @(4, r2)
-    mov.l   .L_pool_cd_sector_buf, r11
+    mov.l   .L_pool_06012D70, r11
 .L_poll_loop:
-    mov.l   .L_pool_cd_cmd_struct, r6
+    mov.l   .L_pool_06012D68, r6
     mov r11, r5
     jsr @r9
     mov #0x5, r4
@@ -58,17 +58,17 @@ cd_progress_notify:
     mov.l @r15+, r14
     .2byte  0x000B
     .4byte  0x0009FFFF
-.L_pool_cmd_validate_exec:
+.L_pool_06012D5C:
     .4byte  cmd_validate_exec
-.L_pool_bios_service_ptr:
+.L_pool_06012D60:
     .4byte  sym_0600026C
-.L_pool_cd_status_flag:
+.L_pool_06012D64:
     .4byte  sym_06084AEC
-.L_pool_cd_cmd_struct:
+.L_pool_06012D68:
     .4byte  sym_06084360
-.L_pool_cd_data_dest:
+.L_pool_06012D6C:
     .4byte  sym_0608436C
-.L_pool_cd_sector_buf:
+.L_pool_06012D70:
     .4byte  sym_06083274
     .4byte  0x000B0009
     .4byte  0x000B0009

@@ -24,7 +24,7 @@ shadow_intensity:
     bt      .L_abs_done
     neg r1, r1
 .L_abs_done:
-    mov.l   .L_pool_cam_dir_flip, r7
+    mov.l   .L_pool_0602E811, r7
     mov.b @r7, r7
     tst r7, r7
     bf      .L_flipped_compare
@@ -38,7 +38,7 @@ shadow_intensity:
 DAT_0602e80a:
     .2byte  0x8000                      /* half-circle angle constant */
     .4byte  atan2                       /* pool: atan2 function address */
-.L_pool_cam_dir_flip:
+.L_pool_0602E811:
     .4byte  sym_06078663                /* pool: camera direction flip flag address */
 .L_flipped_compare:
     extu.w r1, r1

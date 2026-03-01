@@ -9,13 +9,13 @@ dma_queue_commit:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x1, r12
-    mov.w   .L_wpool_ftcsr_addr, r13
-    mov.w   .L_wpool_ovf_bitmask, r14
+    mov.w   .L_wpool_06007D9E, r13
+    mov.w   .L_wpool_06007DA0, r14
     bra     .L_ovf_poll
     mov #0x0, r4
-.L_wpool_ftcsr_addr:
+.L_wpool_06007D9E:
     .2byte  0xFE11                          /* [HIGH] SH2_FTCSR low 16 bits (0xFFFFFE11) — FRT control/status register */
-.L_wpool_ovf_bitmask:
+.L_wpool_06007DA0:
     .2byte  0x0080                          /* [HIGH] OVF bitmask — bit 7 of FTCSR (timer overflow flag) */
     .2byte  0xFFFF
     .4byte  sym_060281B8
@@ -39,7 +39,7 @@ dma_queue_commit:
     mov.b @r13, r0
     and #0xF, r0
     mov.b r0, @r13
-    .byte   0xD5, 0x08    /* mov.l .L_pool_render_budget, r5 */  ! r5 = &sym_0605A1C0 (render budget counter)
+    .byte   0xD5, 0x08    /* mov.l .L_pool_06007E02, r5 */  ! r5 = &sym_0605A1C0 (render budget counter)
     tst r4, r4
     bt      .L_budget_increase
     mov.w @r5, r3
@@ -54,11 +54,11 @@ dma_queue_commit:
 .L_epilogue:
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x02    /* mov.l .L_pool_render_finalize, r3 */  ! r3 = sym_0603C000 (render finalize)
+    .byte   0xD3, 0x02    /* mov.l .L_pool_06007E06, r3 */  ! r3 = sym_0603C000 (render finalize)
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_pool_render_budget:
+.L_pool_06007E02:
     .4byte  sym_0605A1C0
-.L_pool_render_finalize:
+.L_pool_06007E06:
     .4byte  sym_0603C000

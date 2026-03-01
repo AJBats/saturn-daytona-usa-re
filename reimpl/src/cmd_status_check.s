@@ -9,7 +9,7 @@ cmd_status_check:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    mov.l   .L_pool_state_ptr, r14
+    mov.l   .L_pool_0603AE6C, r14
     mov.w   .L_woff_active_count, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
@@ -31,7 +31,7 @@ cmd_status_check:
     mov.w   .L_woff_max_entries, r0
     mov.l @r15, r5
     mov.l @r14, r4
-    mov.l   .L_pool_dir_lookup_fn, r3
+    mov.l   .L_pool_0603AE70, r3
     mov.l @(r0, r6), r6
     mov.w   .L_woff_active_count, r0
     jsr @r3
@@ -60,7 +60,7 @@ cmd_status_check:
     .2byte  0x009C                          /* [HIGH] struct offset: max entries for lookup (+0x9C) */
     .2byte  0xFFFF                          /* alignment padding */
     .4byte  sym_06035168                    /* [HIGH] memcpy_long — unreferenced dead pool entry */
-.L_pool_state_ptr:
+.L_pool_0603AE6C:
     .4byte  sym_060A4D14                    /* [HIGH] global command state struct pointer */
-.L_pool_dir_lookup_fn:
+.L_pool_0603AE70:
     .4byte  slave_sh2_setup                 /* [HIGH] directory entry lookup function */

@@ -8,7 +8,7 @@ save_header_parse:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xDD, 0x0B    /* mov.l .L_pool_state_base, r13 */  ! r13 = &sym_060A4D14 (state ptr-ptr)
+    .byte   0xDD, 0x0B    /* mov.l .L_pool_0603BBBD, r13 */  ! r13 = &sym_060A4D14 (state ptr-ptr)
     mov.w   DAT_0603bbb4, r1
     mov.l @r13, r0
     mov.l @(r0, r1), r0
@@ -41,7 +41,7 @@ DAT_0603bbb4:
 DAT_0603bbb6:
     .2byte  0x043C
     .4byte  evt_boundary_check
-.L_pool_state_base:
+.L_pool_0603BBBD:
     .4byte  sym_060A4D14
 .block_valid:
     mov.l @r13, r3

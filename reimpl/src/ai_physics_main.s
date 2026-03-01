@@ -8,8 +8,8 @@ ai_physics_main:
     mov.l r14, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    .byte   0xDE, 0x0C    /* mov.l .L_pool_car_state_ptr, r14 */  ! r14 = &car_state_ptr (sym_0607E940)
-    .byte   0xD0, 0x0D    /* mov.l .L_pool_race_mode_flag, r0 */  ! r0 = &race_mode_flag (sym_0607EAD8)
+    .byte   0xDE, 0x0C    /* mov.l .L_pool_0600E942, r14 */  ! r14 = &car_state_ptr (sym_0607E940)
+    .byte   0xD0, 0x0D    /* mov.l .L_pool_0600E946, r0 */  ! r0 = &race_mode_flag (sym_0607EAD8)
     mov.l @r0, r0
     tst r0, r0
     bt/s    .L_physics_pipeline
@@ -34,9 +34,9 @@ DAT_0600e922:
     .4byte  0x00200000
     .4byte  0x066505B3
     .4byte  fpmul
-.L_pool_car_state_ptr:
+.L_pool_0600E942:
     .4byte  sym_0607E940
-.L_pool_race_mode_flag:
+.L_pool_0600E946:
     .4byte  sym_0607EAD8
 .L_physics_pipeline:
     .byte   0xD3, 0x29    /* mov.l .L_pool_0600E9F0, r3 */  ! r3 = &friction_stub (cross-TU pool)

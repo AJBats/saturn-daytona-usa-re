@@ -12,8 +12,8 @@ smpc_secondary_proc:
     sts.l pr, @-r15
     mov r5, r12
     add #-0x4, r15
-    mov.l   .L_pool_cd_fifo_addr, r13
-    mov.l   .L_pool_fn_setup, r3
+    mov.l   .L_pool_06035CE4, r13
+    mov.l   .L_pool_06035CE8, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -23,9 +23,9 @@ smpc_secondary_proc:
     mov r4, r0
     .4byte  0x2589000C
     .4byte  0x25818028
-.L_pool_cd_fifo_addr:
+.L_pool_06035CE4:
     .4byte  0x25898000
-.L_pool_fn_setup:
+.L_pool_06035CE8:
     .4byte  ai_brake_zone_adjust
 .L_setup_ok:
     mov r12, r4

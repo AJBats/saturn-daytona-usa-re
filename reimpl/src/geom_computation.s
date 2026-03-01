@@ -13,7 +13,7 @@ geom_computation:
     mov.l r8, @-r15
     sts.l macl, @-r15
     add #-0x4, r15
-    mov.l   .L_pool_elem_table, r8
+    mov.l   .L_pool_060177AC, r8
     mov #0x0, r11
     mov.w @r4, r13
     mov.w @(2, r4), r0
@@ -24,7 +24,7 @@ geom_computation:
     extu.w r11, r12
     .2byte  0xFFFF
     .4byte  sym_06028400
-.L_pool_elem_table:
+.L_pool_060177AC:
     .4byte  sym_06085640
 .L_outer_loop_body:
     extu.b r7, r10

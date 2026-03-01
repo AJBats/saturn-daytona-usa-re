@@ -6,10 +6,10 @@
     .type mat_vec_transform, @function
 mat_vec_transform:
     mov.l r14, @-r15
-    mov.l   .L_pool_mat_a_stack_ptr, r0
+    mov.l   .L_pool_06027068, r0
     mov #0x24, r7
     mov.l @r0, r6
-    mov.l   .L_pool_output_buf_a, r14
+    mov.l   .L_pool_06027078, r14
     add r6, r7
     mov #0x3, r3
 .L_transform_row_loop:
@@ -49,17 +49,17 @@ mat_vec_transform:
     .4byte  0x51615262
     .4byte  0x25021511
     .4byte  0x000B1522
-.L_pool_mat_a_stack_ptr:
+.L_pool_06027068:
     .4byte  sym_06089EDC                   /* [HIGH] matrix stack A pointer (current top) */
-.L_pool_mat_a_alt_base:
+.L_pool_0602706C:
     .4byte  sym_06089EE0                   /* [HIGH] matrix stack A alternate base */
-.L_pool_scratch_buf_a0:
+.L_pool_06027070:
     .4byte  sym_0608A4E0                   /* [HIGH] vector scratch buffer A0 (12 bytes) */
-.L_pool_scratch_buf_a1:
+.L_pool_06027074:
     .4byte  sym_0608A4F0                   /* [HIGH] vector scratch buffer A1 (12 bytes) */
-.L_pool_output_buf_a:
+.L_pool_06027078:
     .4byte  sym_0608A520                   /* [HIGH] vector output buffer A (transform result) */
-.L_pool_const_fixed_one:
+.L_pool_0602707C:
     .4byte  0x00010000                     /* [HIGH] 1.0 in 16.16 fixed-point */
 
     .global sym_06027080

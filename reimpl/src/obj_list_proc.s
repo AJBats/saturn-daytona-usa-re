@@ -9,28 +9,28 @@ obj_list_proc:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    mov.l   .L_pool_disp_offset_ptr, r14
-    mov.l   .L_pool_disp_stride, r2
+    mov.l   .L_pool_0602051C, r14
+    mov.l   .L_pool_06020520, r2
     mov.l @r14, r3
     add r2, r3
     mov.l r3, @r14
     mov r3, r6
-    mov.l   .L_pool_fn_disp_channel, r3
+    mov.l   .L_pool_06020524, r3
     jsr @r3
     mov #0x20, r4
     mov.l @r14, r2
-    mov.l   .L_pool_disp_offset_max, r3
+    mov.l   .L_pool_06020528, r3
     cmp/gt r3, r2
     bf      .L_under_limit
     mov.b @r15, r4
     .byte   0xB4, 0x7B    /* bsr 0x06020DEE (external) */  ! call obj_anim_clear
     extu.b r4, r4
-    mov.l   .L_pool_disp_offset_max, r6
+    mov.l   .L_pool_06020528, r6
     mov #0x0, r5
     mov #0x20, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_pool_fn_disp_channel, r3
+    mov.l   .L_pool_06020524, r3
     jmp @r3
     mov.l @r15+, r14
 .L_under_limit:
@@ -45,11 +45,11 @@ loc_06020510:
     nop
     .4byte  sym_06028560
     .4byte  gameover_channel_setup
-.L_pool_disp_offset_ptr:
+.L_pool_0602051C:
     .4byte  sym_06087814
-.L_pool_disp_stride:
+.L_pool_06020520:
     .4byte  0x00180000                  /* display offset stride per entry */
-.L_pool_fn_disp_channel:
+.L_pool_06020524:
     .4byte  display_channel_b
-.L_pool_disp_offset_max:
+.L_pool_06020528:
     .4byte  0x00980000

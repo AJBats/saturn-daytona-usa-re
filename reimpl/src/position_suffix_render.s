@@ -9,7 +9,7 @@ position_suffix_render:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xDD, 0x05    /* mov.l .L_pool_mat_stack_a_ptr, r13 */
+    .byte   0xDD, 0x05    /* mov.l .L_pool_06032675, r13 */
     mov.l @r13, r13
     rts
     nop
@@ -17,7 +17,7 @@ position_suffix_render:
     .4byte  0x000002D4
     .4byte  0x0000000D
     .4byte  sym_06026DBC
-.L_pool_mat_stack_a_ptr:
+.L_pool_06032675:
     .4byte  sym_06089EDC               /* [HIGH] matrix stack A pointer (VDP1 display list) */
     .4byte  sym_06026F72
     .4byte  0x000002DE

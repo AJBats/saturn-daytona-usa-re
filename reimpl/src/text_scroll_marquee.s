@@ -12,7 +12,7 @@ text_scroll_marquee:
     mov r1, r0
     shll2 r3
     shll2 r2
-    .byte   0xDD, 0x32    /* mov.l .L_pool_slot_data_base, r13 */  ! r13 = slot_data array base (sym_06084FC8)
+    .byte   0xDD, 0x32    /* mov.l .L_pool_06016DC6, r13 */  ! r13 = slot_data array base (sym_06084FC8)
     shll2 r2
     mov.b r5, @r15
     shll2 r2
@@ -20,11 +20,11 @@ text_scroll_marquee:
     exts.w r3, r3
     add r13, r3
     mov.b r0, @(1, r3)
-    .byte   0xD0, 0x2F    /* mov.l .L_pool_bonus_mode_flag, r0 */  ! r0 = &bonus_mode_flag (sym_06085F89)
+    .byte   0xD0, 0x2F    /* mov.l .L_pool_06016DCA, r0 */  ! r0 = &bonus_mode_flag (sym_06085F89)
     mov.b @r0, r0
     tst r0, r0
     .word 0x0029
-    .byte   0xD3, 0x2E    /* mov.l .L_pool_race_event_bits, r3 */  ! r3 = &race_event_bitfield (sym_0607EBF4)
+    .byte   0xD3, 0x2E    /* mov.l .L_pool_06016DCE, r3 */  ! r3 = &race_event_bitfield (sym_0607EBF4)
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
@@ -43,7 +43,7 @@ text_scroll_marquee:
     .byte   0xD1, 0x27    /* mov.l .L_fp_half, r1 */  ! r1 = 0x00008000 (0.5 in 16.16 fixed-point)
     mov.l r1, @(44, r3)
 .L_load_glyph_data:
-    .byte   0xD5, 0x27    /* mov.l .L_pool_glyph_table, r5 */  ! r5 = glyph table base (sym_0605BB74)
+    .byte   0xD5, 0x27    /* mov.l .L_pool_06016DD6, r5 */  ! r5 = glyph table base (sym_0605BB74)
     extu.b r14, r6
     mov.b @r15, r4
     extu.b r7, r2
@@ -92,7 +92,7 @@ text_scroll_marquee:
     .byte   0xB0, 0x24    /* bsr 0x06016DD8 (external) */  ! call sprite vertex builder
     extu.b r14, r4
     extu.b r14, r4
-    .byte   0xD2, 0x10    /* mov.l .L_pool_scroll_data_base, r2 */  ! r2 = scroll data table base (sym_06085490)
+    .byte   0xD2, 0x10    /* mov.l .L_pool_06016DDA, r2 */  ! r2 = scroll data table base (sym_06085490)
     mov r4, r3
     shll2 r4
     shll2 r3
@@ -115,15 +115,15 @@ text_scroll_marquee:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_pool_slot_data_base:
+.L_pool_06016DC6:
     .4byte  sym_06084FC8                /* slot data array base (68-byte structs) */
-.L_pool_bonus_mode_flag:
+.L_pool_06016DCA:
     .4byte  sym_06085F89                /* bonus mode flag (byte) */
-.L_pool_race_event_bits:
+.L_pool_06016DCE:
     .4byte  sym_0607EBF4                /* race event bitfield (32-bit) */
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_pool_glyph_table:
+.L_pool_06016DD6:
     .4byte  sym_0605BB74                /* character glyph table (16-bit sprite coords) */
-.L_pool_scroll_data_base:
+.L_pool_06016DDA:
     .4byte  sym_06085490                /* scroll data table (24-byte entries) */

@@ -59,7 +59,7 @@ track_calc_helper:
     shll2 r3
     shll r3
     add r5, r3
-    mov.w   .L_wpool_slot_flag, r2
+    mov.w   .L_wpool_060182F4, r2
     mov r2, r0
     mov.w r0, @(6, r3)
     bra     .L_exit
@@ -78,7 +78,7 @@ track_calc_helper:
     .global DAT_060182f2
 DAT_060182f2:
     mov.b r3, @(r0, r5)
-.L_wpool_slot_flag:
+.L_wpool_060182F4:
     .2byte  0x0460
     .2byte  0xFFFF
     .4byte  sym_0607EBC4

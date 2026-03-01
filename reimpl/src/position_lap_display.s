@@ -60,7 +60,7 @@ position_lap_display:
 .L_calc_sin:
     mov.l r4, @-r15
     mov r1, r4
-    mov.l   .L_pool_sin_lookup, r0
+    mov.l   .L_pool_06031440, r0
     jsr @r0
     nop
     mov.l @r15+, r4
@@ -96,7 +96,7 @@ position_lap_display:
 DAT_0603143a:
     .2byte  0x8000
     .4byte  atan2
-.L_pool_sin_lookup:
+.L_pool_06031440:
     .4byte  sin_lookup
 .L_set_side_b:
     mov #0x1, r8
@@ -106,7 +106,7 @@ DAT_0603143a:
     bra     .L_check_secondary_heading
     mov r12, r4
 .L_force_table_lookup:
-    mov.l   .L_pool_force_table, r3
+    mov.l   .L_pool_06031465, r3
     add r3, r1
     add r3, r2
     mov.l @r1, r4
@@ -117,7 +117,7 @@ DAT_0603143a:
     bt      .L_check_secondary_heading
     .byte   0xAF, 0x5F    /* bra 0x06031322 — epilogue (external): no force, exit */
     nop
-.L_pool_force_table:
+.L_pool_06031465:
     .4byte  sym_0605BCC8
 .L_check_secondary_heading:
     mov.l @(40, r14), r1
@@ -136,7 +136,7 @@ DAT_0603143a:
     mov #0x1, r11
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
-    mov.l   .L_pool_height_thresh_a, r2
+    mov.l   .L_pool_06031499, r2
     add r3, r1
     mov.l r11, @-r15
     cmp/ge r1, r2
@@ -147,41 +147,41 @@ DAT_0603143a:
     .global DAT_06031496
 DAT_06031496:
     .2byte  0x4000
-.L_pool_height_thresh_a:
+.L_pool_06031499:
     .4byte  0x00042AAA
 .L_set_collision_flag:
     mov.l @(0, r13), r1
-    mov.l   .L_pool_collision_flag_a, r3
+    mov.l   .L_pool_060314A9, r3
     or r3, r1
     mov.l r1, @(0, r13)
     bra     .L_flag_dispatch
     nop
-.L_pool_collision_flag_a:
+.L_pool_060314A9:
     .4byte  0x08000000
 .L_heading_in_range:
     mov.l r11, @-r15
     mov.l @(12, r13), r1
     mov.l @(12, r14), r3
-    mov.l   .L_pool_height_thresh_b, r2
+    mov.l   .L_pool_060314C9, r2
     sub r3, r1
     cmp/ge r1, r2
     bt      .L_check_force_direction
     mov.l @(0, r13), r1
-    mov.l   .L_pool_collision_flag_b, r3
+    mov.l   .L_pool_060314CD, r3
     or r3, r1
     mov.l r1, @(0, r13)
     bra     .L_flag_dispatch
     nop
     .2byte  0x0000
-.L_pool_height_thresh_b:
+.L_pool_060314C9:
     .4byte  0x00042AAA
-.L_pool_collision_flag_b:
+.L_pool_060314CD:
     .4byte  0x08000000
 .L_check_force_direction:
     tst r7, r7
     bf      .L_check_angle_range
     mov.l @(12, r14), r1
-    mov.l   .L_pool_height_thresh_c, r2
+    mov.l   .L_pool_060314F5, r2
     mov.l @(12, r13), r3
     shlr r2
     sub r1, r3
@@ -189,7 +189,7 @@ DAT_06031496:
     bt      .L_check_angle_range
     tst r8, r8
     mov.l @(0, r13), r2
-    mov.l   .L_pool_direction_flag, r3
+    mov.l   .L_pool_060314F9, r3
     bt      .L_apply_dir_flag
     shlr r3
 .L_apply_dir_flag:
@@ -197,9 +197,9 @@ DAT_06031496:
     bra     .L_flag_dispatch
     mov.l r2, @(0, r13)
     .2byte  0x0000
-.L_pool_height_thresh_c:
+.L_pool_060314F5:
     .4byte  0x00042AAA
-.L_pool_direction_flag:
+.L_pool_060314F9:
     .4byte  0x20000000
 .L_check_angle_range:
     mov.l @(40, r13), r3
@@ -226,13 +226,13 @@ DAT_06031516:
     bt      .L_compute_cos
     mov.l @(32, r13), r4
     mov.l r4, @(48, r14)
-    mov.w   .L_wpool_struct_off_0x208, r1
+    mov.w   .L_wpool_0603156B, r1
     mov #0x8, r2
     add r13, r1
     mov.l r2, @r1
 .L_compute_cos:
     mov r3, r4
-    mov.l   .L_pool_cos_lookup_a, r0
+    mov.l   .L_pool_06031571, r0
     jsr @r0
     nop
     mov.l @(12, r13), r1
@@ -246,7 +246,7 @@ DAT_06031516:
     add r1, r2
     mov.l r2, @(12, r14)
     mov.l @(12, r13), r4
-    mov.w   .L_wpool_struct_off_0x194, r3
+    mov.w   .L_wpool_0603156D, r3
     add r13, r3
     sub r1, r4
     mov.l r4, @r3
@@ -256,28 +256,28 @@ DAT_06031516:
     mov.l @r15+, r11
     tst r7, r7
     bf      .L_direction_dispatch
-    mov.l   .L_pool_timer_byte, r5
+    mov.l   .L_pool_06031575, r5
     mov.b @r5, r3
     tst r3, r3
     bf      .L_scale_by_counter
     mov #0x3, r3
     bra     .L_scale_by_counter
     mov.b r3, @r5
-.L_wpool_struct_off_0x208:
+.L_wpool_0603156B:
     .2byte  0x0208
-.L_wpool_struct_off_0x194:
+.L_wpool_0603156D:
     .2byte  0x0194
     .2byte  0x0000
-.L_pool_cos_lookup_a:
+.L_pool_06031571:
     .4byte  cos_lookup
-.L_pool_timer_byte:
+.L_pool_06031575:
     .4byte  sym_0602FD9A
 .L_direction_dispatch:
     mov.l r0, @-r15
     mov.l r4, @-r15
     tst r11, r11
-    mov.l   .L_pool_counter_addr, r5
-    mov.l   .L_pool_crossing_flag, r10
+    mov.l   .L_pool_06031591, r5
+    mov.l   .L_pool_06031595, r10
     mov.l @(0, r14), r2
     mov.w @r10, r10
     bt      .L_not_crossed
@@ -285,9 +285,9 @@ DAT_06031516:
     bt      .L_crossed_dir_fwd
     bra     .L_not_crossed_fwd
     nop
-.L_pool_counter_addr:
+.L_pool_06031591:
     .4byte  sym_0602FD98
-.L_pool_crossing_flag:
+.L_pool_06031595:
     .4byte  sym_06031A24
 .L_not_crossed:
     tst r8, r8
@@ -300,33 +300,33 @@ DAT_06031516:
     mov #-0x80, r3
     extu.b r3, r3
     bt      .L_store_flags
-    mov.w   .L_wpool_flag_0x200_a, r3
+    mov.w   .L_wpool_060315B1, r3
     bra     .L_store_flags
     nop
-.L_wpool_flag_0x200_a:
+.L_wpool_060315B1:
     .2byte  0x0200
 .L_not_crossed_fwd:
     tst r10, r10
     mov #0x40, r3
     bt      .L_store_flags
-    mov.w   .L_wpool_flag_0x100_a, r3
+    mov.w   .L_wpool_060315BF, r3
     bra     .L_store_flags
     nop
-.L_wpool_flag_0x100_a:
+.L_wpool_060315BF:
     .2byte  0x0100
 .L_not_crossed_rev:
     add #0x1, r5
     tst r10, r10
-    mov.w   .L_wpool_flag_0x200_b, r3
+    mov.w   .L_wpool_060315CF, r3
     bt      .L_store_flags
     mov #-0x80, r3
     bra     .L_store_flags
     extu.b r3, r3
-.L_wpool_flag_0x200_b:
+.L_wpool_060315CF:
     .2byte  0x0200
 .L_not_crossed_no_dir:
     tst r10, r10
-    mov.w   .L_wpool_flag_0x100_b, r3
+    mov.w   .L_wpool_0603162B, r3
     bt      .L_store_flags
     mov #0x40, r3
 .L_store_flags:
@@ -340,7 +340,7 @@ DAT_06031516:
 .L_restore_and_scale:
     mov.l @r15+, r4
     mov.l @r15+, r0
-    mov.w   .L_wpool_quarter_circle, r3
+    mov.w   .L_wpool_0603162D, r3
     tst r8, r8
     mov.l @(48, r13), r10
     bf/s    .L_multiply_force
@@ -356,7 +356,7 @@ DAT_06031516:
     sts macl, r4
     xtrct r0, r4
     bt      .L_scale_by_counter
-    mov.l   .L_pool_crossing_offset, r3
+    mov.l   .L_pool_06031631, r3
     add r3, r4
 .L_scale_by_counter:
     mov.w   DAT_0603162e, r3
@@ -374,15 +374,15 @@ DAT_06031516:
     add r3, r4
     bra     .L_apply_position_impulse
     mov.l r4, @-r15
-.L_wpool_flag_0x100_b:
+.L_wpool_0603162B:
     .2byte  0x0100
-.L_wpool_quarter_circle:
+.L_wpool_0603162D:
     .2byte  0x4000
 
     .global DAT_0603162e
 DAT_0603162e:
     .2byte  0x007C
-.L_pool_crossing_offset:
+.L_pool_06031631:
     .4byte  0x0000D999
 .L_force_zero_lateral:
     mov #0x0, r3
@@ -399,12 +399,12 @@ DAT_0603162e:
     mov.l @(24, r14), r6
     mov.l r5, @(56, r14)
     mov.l r6, @(60, r14)
-    mov.l   .L_pool_cos_lookup_b, r0
+    mov.l   .L_pool_060316BA, r0
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    mov.l   .L_pool_sin_lookup_b, r0
+    mov.l   .L_pool_060316BE, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -431,12 +431,12 @@ DAT_0603162e:
     mov.l @(24, r13), r6
     mov.l r5, @(56, r13)
     mov.l r6, @(60, r13)
-    mov.l   .L_pool_cos_lookup_b, r0
+    mov.l   .L_pool_060316BA, r0
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    mov.l   .L_pool_sin_lookup_b, r0
+    mov.l   .L_pool_060316BE, r0
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -453,9 +453,9 @@ DAT_0603162e:
     .byte   0xAE, 0x36    /* bra 0x06031322 — epilogue (external): done, exit */
     mov.l r6, @(24, r13)
     .2byte  0x0000
-.L_pool_cos_lookup_b:
+.L_pool_060316BA:
     .4byte  cos_lookup
-.L_pool_sin_lookup_b:
+.L_pool_060316BE:
     .4byte  sin_lookup
 .L_fp_half:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / half rotation */

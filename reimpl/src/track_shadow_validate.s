@@ -8,17 +8,17 @@ track_shadow_validate:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_pool_ai_state_base, r14
+    mov.l   .L_pool_06042124, r14
     mov.l r4, @r15
     mov.l @r14, r0
-    mov.w   .L_wpool_off_check_type, r1
+    mov.w   .L_wpool_0604211E, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
     bf      .L_phase2_check
     mov.l @r14, r5
     mov.w   DAT_06042120, r0
     mov.l @r14, r4
-    mov.l   .L_pool_shadow_project, r3
+    mov.l   .L_pool_06042128, r3
     mov.l @(r0, r5), r5
     add #0x4, r0
     jsr @r3
@@ -33,7 +33,7 @@ track_shadow_validate:
     mov.l @r15+, r14
 .L_projection_ready:
     mov r15, r4
-    mov.l   .L_pool_checkpoint_validate, r3
+    mov.l   .L_pool_0604212C, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -48,16 +48,16 @@ track_shadow_validate:
     mov.l r2, @r3
     mov.l @r14, r3
     mov #0x2, r2
-    mov.w   .L_wpool_off_check_type, r0
+    mov.w   .L_wpool_0604211E, r0
     mov.l r2, @(r0, r3)
 .L_phase2_check:
     mov.l @r14, r0
-    mov.w   .L_wpool_off_check_type, r1
+    mov.w   .L_wpool_0604211E, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
     bf      .L_return_check_type
     mov.w   DAT_06042122, r2
-    mov.l   .L_pool_read_status, r3
+    mov.l   .L_pool_06042130, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -75,17 +75,17 @@ track_shadow_validate:
     bt      .L_return_check_type
     mov.l @r14, r3
     mov #0x0, r2
-    mov.w   .L_wpool_off_check_type, r0
+    mov.w   .L_wpool_0604211E, r0
     mov.l r2, @(r0, r3)
 .L_return_check_type:
     mov.l @r14, r0
-    mov.w   .L_wpool_off_check_type, r1
+    mov.w   .L_wpool_0604211E, r1
     mov.l @(r0, r1), r0
     add #0x10, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_wpool_off_check_type:
+.L_wpool_0604211E:
     .2byte  0x0360                      /* [HIGH] struct offset: check_type / shadow state phase */
 
     .global DAT_06042120
@@ -95,11 +95,11 @@ DAT_06042120:
     .global DAT_06042122
 DAT_06042122:
     .2byte  0x0200                      /* [HIGH] bitmask: CSCT (CD sector transfer complete) bit */
-.L_pool_ai_state_base:
+.L_pool_06042124:
     .4byte  sym_060A5400                /* [HIGH] indirect pointer to AI/game state base structure */
-.L_pool_shadow_project:
+.L_pool_06042128:
     .4byte  track_shadow_project        /* [HIGH] shadow projection function (FUN_06036A1C) */
-.L_pool_checkpoint_validate:
+.L_pool_0604212C:
     .4byte  ai_checkpoint_validate      /* [HIGH] checkpoint validation and commit function */
-.L_pool_read_status:
+.L_pool_06042130:
     .4byte  sym_06035C4E                /* [HIGH] read CD/hardware HIRQ status word */

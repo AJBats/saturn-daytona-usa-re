@@ -21,17 +21,17 @@ dma_memory_transfer:
     mov.l r2, @-r15
     mov.l r1, @-r15
     mov.l r0, @-r15
-    mov.l   .L_pool_window_base, r0
+    mov.l   .L_pool_060286B0, r0
     mov #0x0, r6
     mov #0x0, r7
     mov #0x0, r10
     mov.l   .L_mask_byte1, r12
-    mov.l   .L_pool_window_mask, r14
+    mov.l   .L_pool_060286B8, r14
 
 .L_next_element:
     shlr r7
     mov r7, r8
-    mov.w   .L_wpool_flag_valid_check, r9
+    mov.w   .L_wpool_060286AC, r9
     and r9, r8
     cmp/eq r8, r10
     bf      .L_check_literal
@@ -55,17 +55,17 @@ dma_memory_transfer:
     bra     .L_next_element
     and r14, r6
 
-.L_wpool_flag_valid_check:
+.L_wpool_060286AC:
     .2byte  0x0100                      /* [HIGH] bit 8 mask: flag byte still has valid bits */
     .2byte  0x0000                      /* padding */
 
-.L_pool_window_base:
+.L_pool_060286B0:
     .4byte  sym_0602872C
 
 .L_mask_byte1:
     .4byte  0x0000FF00                  /* byte 1 mask */
 
-.L_pool_window_mask:
+.L_pool_060286B8:
     .4byte  0x00000FFF
 
 .L_backref:

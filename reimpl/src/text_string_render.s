@@ -9,7 +9,7 @@ text_string_render:
     mov r4, r14
     mov.l r13, @-r15
     extu.b r14, r3
-    mov.l   .L_pool_text_obj_array, r13
+    mov.l   .L_pool_06016AD8, r13
     mov.l   .L_fp_one, r5
     mov r3, r2
     shll2 r3
@@ -65,7 +65,7 @@ text_string_render:
     bra     .L_apply_accum_clamp
     mov.l r2, @(4, r4)
     .2byte  0xFFFF
-.L_pool_text_obj_array:
+.L_pool_06016AD8:
     .4byte  sym_06084FC8                /* base address of text object array (68 bytes/entry) */
     .4byte  0x000B0000                  /* 11.0 (16.16 fixed-point) */
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
@@ -128,7 +128,7 @@ text_string_render:
     add r3, r4
     exts.w r4, r4
     add r13, r4
-    mov.w   .L_wpool_base_scroll_step, r2
+    mov.w   .L_wpool_06016B92, r2
     mov.l r2, @(24, r4)
     mov #0x0, r3
     mov.l r3, @(16, r4)
@@ -162,14 +162,14 @@ text_string_render:
 loc_06016B8E:
     rts
     nop
-.L_wpool_base_scroll_step:
+.L_wpool_06016B92:
     .2byte  0x0600                      /* [MEDIUM] base scroll step value for text animation reset */
 .L_fp_two:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 
     .global loc_06016B98
 loc_06016B98:
-    mov.l   .L_pool_text_obj_base, r6
+    mov.l   .L_pool_06016C34, r6
     extu.b r4, r5
     mov #0x41, r0
     mov r5, r3
@@ -216,13 +216,13 @@ loc_06016BD8:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_text_obj_base, r1
+    mov.l   .L_pool_06016C34, r1
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_dispatch_table_a, r2
+    mov.l   .L_pool_06016C38, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
@@ -242,23 +242,23 @@ loc_06016C06:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    mov.l   .L_pool_text_obj_base, r1
+    mov.l   .L_pool_06016C34, r1
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    mov.l   .L_pool_dispatch_table_b, r2
+    mov.l   .L_pool_06016C3C, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
     jmp @r3
     add #0x4, r15
-.L_pool_text_obj_base:
+.L_pool_06016C34:
     .4byte  sym_06084FC8                /* text object array base (68 bytes/entry) */
-.L_pool_dispatch_table_a:
+.L_pool_06016C38:
     .4byte  sym_0605BB1C                /* dispatch table A: state->handler fn ptrs */
-.L_pool_dispatch_table_b:
+.L_pool_06016C3C:
     .4byte  sym_0605BB48                /* dispatch table B: state->handler fn ptrs */
 
     .global loc_06016C40

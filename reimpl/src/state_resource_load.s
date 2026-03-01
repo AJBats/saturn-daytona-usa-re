@@ -7,13 +7,13 @@
 state_resource_load:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pool_game_state, r14
-    mov.l   .L_pool_fn_geom_output, r3
+    mov.l   .L_pool_06008C38, r14
+    mov.l   .L_pool_06008C50, r3
     jsr @r3
     nop
     tst r0, r0
     bt      .L_not_ready
-    mov.l   .L_pool_preview_flag, r0
+    mov.l   .L_pool_06008C54, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -23,16 +23,16 @@ state_resource_load:
     bra     .L_clear_flag
     nop
     .2byte  0xFFFF
-.L_pool_game_state:
+.L_pool_06008C38:
     .4byte  g_game_state
     .4byte  disc_course_data_load
     .4byte  sym_06026CE0
     .4byte  sym_06059F44
     .4byte  sym_0605A016
     .4byte  disc_load_complete_check
-.L_pool_fn_geom_output:
+.L_pool_06008C50:
     .4byte  geom_output_ctrl
-.L_pool_preview_flag:
+.L_pool_06008C54:
     .4byte  sym_0605E0A2
 .L_preview_active:
     mov #0x7, r2

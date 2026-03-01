@@ -6,9 +6,9 @@
     .type scene_data_write_abs, @function
 scene_data_write_abs:
     mov.l r14, @-r15
-    mov.l   .L_pool_color_accum_ptr, r14
-    mov.l   .L_pool_scene_buf_a, r7
-    mov.l   .L_pool_scene_mode, r0
+    mov.l   .L_pool_060385E0, r14
+    mov.l   .L_pool_060385E4, r7
+    mov.l   .L_pool_060385E8, r0
     bra     .L_dispatch_mode
     mov.l @r0, r0
 .L_mode_04_set_pos_xy:
@@ -45,19 +45,19 @@ scene_data_write_abs:
     mov.w r5, @(r0, r7)
 .L_mode_01_set_view_chan1:
     mov #0x44, r0
-    mov.l   .L_pool_scene_view_ch1, r7
+    mov.l   .L_pool_060385EC, r7
     mov.l r4, @(r0, r7)
     mov #0x48, r0
     mov.l r5, @(r0, r7)
-    mov.l   .L_pool_scene_a_src, r3
+    mov.l   .L_pool_060385F0, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch1_clear_accum
-    mov.l   .L_pool_scene_a_flag, r3
+    mov.l   .L_pool_060385F4, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch1_store_color
-    mov.l   .L_pool_xform_flag_a, r3
+    mov.l   .L_pool_060385F8, r3
     mov.l @r3, r0
     tst r0, r0
     bf      .L_ch1_clear_accum
@@ -74,53 +74,53 @@ scene_data_write_abs:
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
-    mov.l   .L_pool_scene_color_matrix_ch1, r3
+    mov.l   .L_pool_060385FC, r3
     jmp @r3
     mov.l @r15+, r14
 .L_mode_02_set_view_chan2:
     mov #0x44, r0
-    mov.l   .L_pool_scene_view_ch2, r7
+    mov.l   .L_pool_06038600, r7
     mov.l r4, @(r0, r7)
     mov #0x48, r0
     mov.l r5, @(r0, r7)
-    mov.l   .L_pool_scene_b_src, r3
+    mov.l   .L_pool_06038604, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch2_clear_accum
-    mov.l   .L_pool_scene_b_flag, r3
+    mov.l   .L_pool_06038608, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_ch2_store_color
-    mov.l   .L_pool_xform_flag_b, r3
+    mov.l   .L_pool_0603860C, r3
     mov.l @r3, r0
     tst r0, r0
     bf      .L_ch2_clear_accum
 .L_ch2_store_color:
     bra     .L_ch2_check_tailcall
     mov.l r6, @(4, r14)
-.L_pool_color_accum_ptr:
+.L_pool_060385E0:
     .4byte  sym_060A4C78
-.L_pool_scene_buf_a:
+.L_pool_060385E4:
     .4byte  sym_060A3DF8
-.L_pool_scene_mode:
+.L_pool_060385E8:
     .4byte  sym_060635A8
-.L_pool_scene_view_ch1:
+.L_pool_060385EC:
     .4byte  sym_060A3E68
-.L_pool_scene_a_src:
+.L_pool_060385F0:
     .4byte  sym_060A4C44
-.L_pool_scene_a_flag:
+.L_pool_060385F4:
     .4byte  sym_060A4C4C
-.L_pool_xform_flag_a:
+.L_pool_060385F8:
     .4byte  sym_060A4C70
-.L_pool_scene_color_matrix_ch1:
+.L_pool_060385FC:
     .4byte  scene_color_matrix
-.L_pool_scene_view_ch2:
+.L_pool_06038600:
     .4byte  sym_060A3EE8
-.L_pool_scene_b_src:
+.L_pool_06038604:
     .4byte  sym_060A4C48
-.L_pool_scene_b_flag:
+.L_pool_06038608:
     .4byte  sym_060A4C50
-.L_pool_xform_flag_b:
+.L_pool_0603860C:
     .4byte  sym_060A4C74
 .L_ch2_clear_accum:
     mov #0x0, r2

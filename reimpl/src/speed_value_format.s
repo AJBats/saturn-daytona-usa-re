@@ -10,7 +10,7 @@ speed_value_format:
     add #-0x8, r15
     mov.b r4, @r15
     mov.b @r15, r3
-    mov.l   .L_pool_text_obj_array, r1
+    mov.l   .L_pool_06015EB4, r1
     extu.b r3, r3
     mov r3, r2
     shll2 r3
@@ -35,5 +35,5 @@ speed_value_format:
     mov r3, r0
     rts
     mov.b r0, @(2, r2)
-.L_pool_text_obj_array:
+.L_pool_06015EB4:
     .4byte  sym_06084FC8                /* [HIGH] text object array base (68 bytes/entry) */
