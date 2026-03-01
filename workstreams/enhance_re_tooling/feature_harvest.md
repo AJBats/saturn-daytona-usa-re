@@ -154,7 +154,7 @@ Define structs in JSON, parse memory at address. Uses `binary-parser` JS library
 | # | Feature | What it does | Priority |
 |---|---------|-------------|----------|
 | H1 | ~~Memory scanner~~ | ~~Cheat Engine-style: scan WRAM dump for value. 8/16/32-bit, endian, delta.~~ | **DONE** |
-| H2 | Memory diff pipeline | Dump before/after event → diff → changed regions with symbol resolution. | **HIGH** |
+| H2 | ~~Memory diff pipeline~~ | ~~Dump before/after event → diff → changed regions with symbol resolution.~~ | **DONE** |
 | H3 | Persistent function DB | JSON DB aggregating all tool outputs. Survives across sessions. | **MEDIUM** |
 | H4 | Coverage reporter | From CDL data: what % of binary is code, what % exercised. | **MEDIUM** |
 | H5 | Data structure parser | Define structs, parse WRAM dump at offset. Visualize game state. | **LOW** |
