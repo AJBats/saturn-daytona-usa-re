@@ -142,7 +142,7 @@ Define structs in JSON, parse memory at address. Uses `binary-parser` JS library
 
 | # | Feature | What it does | Priority |
 |---|---------|-------------|----------|
-| E1 | WRAM dump command | Dump 1MB high WRAM (0x06000000-0x060FFFFF) to file. Also low WRAM, VDP VRAM. | **HIGH** |
+| E1 | ~~WRAM dump command~~ | ~~Dump 1MB high WRAM (0x06000000-0x060FFFFF) to file. Also low WRAM, VDP VRAM.~~ | **DONE** |
 | E2 | Code/Data Logging | Per-byte bitfield: code vs data. Hooks instruction fetch + memory access. Coverage %. | **HIGH** |
 | E3 | Runtime DMA logging | Hook SCU DMA start. Log source/dest/length/initiating-PC for every transfer. | **MEDIUM** |
 | E4 | Memory write profiling | Log {pc, target_addr, value} for writes to configurable address ranges. | **MEDIUM** |
