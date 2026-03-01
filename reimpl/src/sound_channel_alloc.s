@@ -87,34 +87,34 @@ sound_channel_alloc:
 
     .global loc_0601D50C
 loc_0601D50C:
-    mov.l   _pool2_display_slot_ptr, r0
+    mov.l   .L_pool_0601D550, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_0601D53C
-    mov.l   _pool2_mode_config_flags, r0
+    mov.l   .L_pool_0601D554, r0
     mov.l @r0, r0
     tst #0x1, r0
     bt/s    .L_0601D530
     mov #0x0, r6
-    mov.l   _pool2_display_slot_ptr, r5
+    mov.l   .L_pool_0601D550, r5
     mov #0x0, r3
     mov.l @r5, r5
     cmp/gt r5, r3
     addc r3, r5
     shar r5
-    mov.l   _pool2_display_slot_ptr, r3
+    mov.l   .L_pool_0601D550, r3
     bra     .L_0601D536
     mov.l r5, @r3
 .L_0601D530:
-    mov.l   _pool2_display_slot_ptr, r5
+    mov.l   .L_pool_0601D550, r5
     mov.l @r5, r5
     neg r5, r5
 .L_0601D536:
-    mov.l   _pool2_fn_display_channel_b, r3
+    mov.l   .L_pool_0601D558, r3
     jmp @r3
     mov #0x20, r4
 .L_0601D53C:
-    mov.l   _pool2_game_state_byte, r4
+    mov.l   .L_pool_0601D55C, r4
     mov.b @r4, r2
     add #0x1, r2
     rts
@@ -123,32 +123,32 @@ loc_0601D50C:
     .global loc_0601D546
 loc_0601D546:
     mov #0x17, r5
-    mov.l   _pool3_countdown_timer, r4
-    mov.l   _pool3_fn_dlist_slot_select, r3
+    mov.l   .L_pool_0601D560, r4
+    mov.l   .L_pool_0601D564, r3
     jmp @r3
     mov.l @r4, r4
-_pool2_display_slot_ptr:
+.L_pool_0601D550:
     .4byte  sym_0607885C                        /* &display_slot_ptr (32-bit scroll offset) */
-_pool2_mode_config_flags:
+.L_pool_0601D554:
     .4byte  sym_0607EBC8                        /* &mode_config_flags (bit 0 = fade dir) */
-_pool2_fn_display_channel_b:
+.L_pool_0601D558:
     .4byte  display_channel_b                   /* display channel setup function */
-_pool2_game_state_byte:
+.L_pool_0601D55C:
     .4byte  sym_0607887F                        /* &game_state byte (8-bit) */
-_pool3_countdown_timer:
+.L_pool_0601D560:
     .4byte  sym_0607EBCC                        /* &state_countdown_timer (32-bit) */
-_pool3_fn_dlist_slot_select:
+.L_pool_0601D564:
     .4byte  sym_0600338C                        /* dlist_slot_select function */
 
     .global loc_0601D568
 loc_0601D568:
-    mov.l   _pool4_countdown_timer, r3
+    mov.l   .L_pool_0601D5DC, r3
     mov #0x1, r2
     mov.l @r3, r3
     cmp/ge r2, r3
     bt      .L_0601D578
     mov #0x6, r2
-    mov.l   _pool4_game_state_dispatch, r3
+    mov.l   .L_pool_0601D5E0, r3
     mov.l r2, @r3
 .L_0601D578:
     rts
@@ -165,10 +165,10 @@ camera_view_update:
     sts.l macl, @-r15
     add #-0x4, r15
     mov.w r4, @r15
-    mov.l   _pool5_src_table_base, r12
+    mov.l   .L_pool_0601D5E4, r12
     mov #0x0, r4
     mov.w @r15, r1
-    mov.l   _pool5_dest_table_base, r7
+    mov.l   .L_pool_0601D5E8, r7
     extu.w r1, r1
     shll r1
 .L_0601D598:
@@ -196,25 +196,25 @@ camera_view_update:
     and #0x3F, r0
     mov r0, r6
     shll r6
-    mov.l   _pool5_display_config_word, r5
+    mov.l   .L_pool_0601D5EC, r5
     mov #0xC, r4
     add #0x4, r15
     lds.l @r15+, macl
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   _pool5_fn_display_list_loader, r3
+    mov.l   .L_pool_0601D5F0, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF                              /* alignment padding */
-_pool4_countdown_timer:
+.L_pool_0601D5DC:
     .4byte  sym_0607EBCC                        /* &state_countdown_timer (32-bit) */
-_pool4_game_state_dispatch:
+.L_pool_0601D5E0:
     .4byte  g_game_state                        /* &game_state_dispatch_value (32-bit) */
-_pool5_src_table_base:
+.L_pool_0601D5E4:
     .4byte  sym_06094FAC                        /* &display_channel_src_table (source entries) */
-_pool5_dest_table_base:
+.L_pool_0601D5E8:
     .4byte  sym_0605AAA6                        /* &display_channel_dest_table (28 x 4-byte dest) */
-_pool5_display_config_word:
+.L_pool_0601D5EC:
     .4byte  sym_0605AAA2                        /* &display_config_word (16-bit) */
-_pool5_fn_display_list_loader:
+.L_pool_0601D5F0:
     .4byte  sym_06028400                        /* display_list_loader function */

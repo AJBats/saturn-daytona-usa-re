@@ -6,7 +6,7 @@
     .type results_full_render, @function
 results_full_render:
     sts.l pr, @-r15
-    bsr     place_result_cell
+    bsr     .L_06033278
     nop
     lds.l @r15+, pr
     mov.l   .L_06033270, r4
@@ -33,7 +33,7 @@ results_full_render:
 .L_pool_06033276:
     .4byte  0xFFF80000                   /* -8.0 (16.16 fixed-point) — X row-reset delta */
 
-place_result_cell:
+.L_06033278:
     mov.l r0, @-r15
     mov.l r1, @-r15
     mov.l r2, @-r15

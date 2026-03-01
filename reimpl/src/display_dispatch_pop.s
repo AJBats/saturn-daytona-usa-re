@@ -6,7 +6,7 @@
     .type display_dispatch_pop, @function
 display_dispatch_pop:
     sts.l pr, @-r15
-    bsr     check_cmd_state
+    bsr     .L_060322E8
     nop
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -25,7 +25,7 @@ display_dispatch_pop:
     .4byte  0x00000004
     .4byte  0x00000005
 
-check_cmd_state:
+.L_060322E8:
     .byte   0xD0, 0x04    /* mov.l .L_pool_060322FC, r0 */
     mov.b @r0, r1
     tst r1, r1
@@ -96,15 +96,15 @@ loc_0603237C:
 
     .global loc_0603239C
 loc_0603239C:
-    .byte   0xD0, 0x08    /* mov.l _pool_ctrl_word_offset_b, r0 */
+    .byte   0xD0, 0x08    /* mov.l .L_pool_060323C0, r0 */
     mov.w @(r0, r14), r1
-    .byte   0xD2, 0x08    /* mov.l _pool_hscroll_clear_bit, r2 */
+    .byte   0xD2, 0x08    /* mov.l .L_pool_060323C4, r2 */
     not r2, r2
     and r2, r1
     mov.w r1, @(r0, r14)
 
 .L_060323A8:
-    .byte   0xD0, 0x07    /* mov.l _pool_element_idx_offset, r0 */
+    .byte   0xD0, 0x07    /* mov.l .L_pool_060323C8, r0 */
     mov.l @(r0, r14), r2
     cmp/eq r7, r2
     .byte   0x89, 0x04    /* bt 0x060323BA (external) */

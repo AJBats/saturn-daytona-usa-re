@@ -15,24 +15,24 @@ race_sound_handler:
     mov.l   .L_06018F7C, r13
     mov #0x1, r14
 
-_poll_sf_idle_sndoff:
+.L_06018EF6:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      _poll_sf_idle_sndoff
+    bt      .L_06018EF6
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x7, r3
     mov.l   .L_06018F80, r2
     mov.b r3, @r2
 
-_poll_sf_done_sndoff:
+.L_06018F0A:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      _poll_sf_done_sndoff
+    bf      .L_06018F0A
 
     .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */
     nop
@@ -47,30 +47,30 @@ _poll_sf_done_sndoff:
     jsr @r3
     nop
 
-_poll_sf_idle_sndon:
+.L_06018F2A:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      _poll_sf_idle_sndon
+    bt      .L_06018F2A
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x6, r3
     mov.l   .L_06018F80, r2
     mov.b r3, @r2
 
-_poll_sf_done_sndon:
+.L_06018F3E:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      _poll_sf_done_sndon
+    bf      .L_06018F3E
 
-_poll_68k_boot_ok:
+.L_06018F48:
     mov.w @r11, r3
     extu.w r3, r3
     cmp/eq r12, r3
-    bf      _poll_68k_boot_ok
+    bf      .L_06018F48
 
     mov.l   .L_pool_06018F90, r5
     mov.l   .L_pool_06018F94, r3

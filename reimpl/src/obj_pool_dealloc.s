@@ -24,57 +24,57 @@ obj_pool_dealloc:
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      _no_increment
+    bt      .L_060202BE
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4
     mov.b @r4, r2
     mov #0x19, r3
     cmp/ge r3, r2
-    bf      _no_increment
+    bf      .L_060202BE
     mov #0x19, r3
     mov.b r3, @r4
-_no_increment:
+.L_060202BE:
     mov.w @(2, r6), r0
     mov.w   .L_wpool_06020310, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      _no_decrement
+    bt      .L_060202DC
     mov.b @r4, r3
     add #-0x1, r3
     mov.b r3, @r4
     mov.b @r4, r2
     cmp/pl r2
-    bt      _no_decrement
+    bt      .L_060202DC
     mov #0x0, r2
     mov.b r2, @r4
-_no_decrement:
+.L_060202DC:
     mov.w @(2, r6), r0
     mov.w   .L_wpool_06020312, r2
     mov r0, r3
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt      _no_confirm
+    bt      .L_060202FC
     mov.b @r4, r3
     mov.b @r5, r0
     mov.b @(r0, r7), r2
     extu.b r2, r2
     cmp/eq r2, r3
-    bf      _no_confirm
+    bf      .L_060202FC
     mov.b @r5, r2
     add #0x1, r2
     mov.b r2, @r5
-_no_confirm:
+.L_060202FC:
     mov.b @r5, r0
     cmp/eq #0x4, r0
-    bf      _not_complete
+    bf      .L_06020308
     mov #0x1, r2
     mov.l   .L_pool_0602032C, r3
     mov.b r2, @r3
-_not_complete:
+.L_06020308:
     add #0x8, r15
     lds.l @r15+, pr
     rts

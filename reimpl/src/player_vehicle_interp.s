@@ -14,12 +14,12 @@ player_vehicle_interp:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   pool_fn_chkpt_validate, r8
+    mov.l   .L_pool_06042234, r8
     mov #0x2, r9
     mov #0x1, r10
     mov.w   DAT_0604222c, r11
     mov #0x0, r12
-    mov.l   pool_game_state_ptr, r14
+    mov.l   .L_pool_06042238, r14
     mov.l r4, @r15
     bra     .L_06042210
     mov r12, r13
@@ -98,7 +98,7 @@ player_vehicle_interp:
     mov.w   DAT_0604222e, r3
     add r3, r4
     add r2, r4
-    mov.l   pool_fn_road_edge, r3
+    mov.l   .L_pool_0604223C, r3
     jsr @r3
     mov.l @r4, r4
     mov r0, r4
@@ -123,18 +123,18 @@ player_vehicle_interp:
     add #0x1, r13
 .L_06042210:
     mov.l @r14, r3
-    mov.w   wpool_entry_count_off, r0
+    mov.w   .L_wpool_06042230, r0
     mov.l @(r0, r3), r2
     cmp/ge r2, r13
     bf      .L_06042158
 .L_0604221A:
     mov.l @r14, r2
-    mov.w   wpool_entry_count_off, r0
+    mov.w   .L_wpool_06042230, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r13
     bf      .L_06042240
     mov.l @r14, r2
-    mov.w   wpool_entry_count_off, r0
+    mov.w   .L_wpool_06042230, r0
     bra     .L_060422A6
     mov.l r12, @(r0, r2)
 
@@ -145,14 +145,14 @@ DAT_0604222c:
     .global DAT_0604222e
 DAT_0604222e:
     .2byte  0x01E4
-wpool_entry_count_off:
+.L_wpool_06042230:
     .2byte  0x01DC
     .2byte  0xFFFF
-pool_fn_chkpt_validate:
+.L_pool_06042234:
     .4byte  ai_checkpoint_validate
-pool_game_state_ptr:
+.L_pool_06042238:
     .4byte  sym_060A5400
-pool_fn_road_edge:
+.L_pool_0604223C:
     .4byte  track_road_edge_c
 .L_06042240:
     bra     .L_06042296

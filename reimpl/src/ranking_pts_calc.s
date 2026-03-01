@@ -121,7 +121,7 @@ ranking_pts_calc:
     cmp/hs r3, r2
     bt      .L_06013C04
     shlr2 r4
-    .byte   0xDE, 0x18    /* mov.l _pool_variant_char_tbl, r14 */
+    .byte   0xDE, 0x18    /* mov.l .L_pool_06013C44, r14 */
     shlr2 r4
     shlr r4
     add r4, r14
@@ -132,12 +132,12 @@ ranking_pts_calc:
     bf      .L_06013BFE
     mov r14, r5
     shll2 r5
-    .byte   0xD3, 0x14    /* mov.l _pool_score_tbl, r3 */
+    .byte   0xD3, 0x14    /* mov.l .L_pool_06013C48, r3 */
     add r3, r5
     bra     .L_06013C00
     mov.l @r5, r5
 .L_06013BFE:
-    .byte   0xD5, 0x13    /* mov.l _pool_default_sound_id, r5 */
+    .byte   0xD5, 0x13    /* mov.l .L_pool_06013C4C, r5 */
 .L_06013C00:
     jsr @r11
     mov #0x0, r4
@@ -152,10 +152,10 @@ ranking_pts_calc:
     .global loc_06013C10
 loc_06013C10:
     mov #0x7, r3
-    .byte   0xD2, 0x0F    /* mov.l _pool_phase_byte, r2 */
+    .byte   0xD2, 0x0F    /* mov.l .L_pool_06013C50, r2 */
     mov.b r3, @r2
     mov #0x0, r3
-    .byte   0xD2, 0x0E    /* mov.l _pool_frame_timer, r2 */
+    .byte   0xD2, 0x0E    /* mov.l .L_pool_06013C54, r2 */
     mov.w r3, @r2
     .byte   0xA0, 0x00    /* bra bonus_multiplier (falls through) */
     nop

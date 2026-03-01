@@ -31,11 +31,11 @@ draw_priority_resolve:
 .L_pool_0602E1C0:
     .4byte  0x00000007
 .L_0602E1C4:
-    .byte   0xD3, 0x34    /* mov.l _pool_pipeline_counter, r3 */
+    .byte   0xD3, 0x34    /* mov.l .L_pool_0602E298, r3 */
     mov.l @r3, r3
-    .byte   0xD1, 0x34    /* mov.l _pool_const_one, r1 */
+    .byte   0xD1, 0x34    /* mov.l .L_pool_0602E29C, r1 */
     sub r1, r3
-    .byte   0xD4, 0x34    /* mov.l _pool_const_40, r4 */
+    .byte   0xD4, 0x34    /* mov.l .L_pool_0602E2A0, r4 */
     cmp/eq r3, r4
     bf      .L_0602E1F8
     .byte   0x91, 0x57    /* mov.w .L_wpool_0602E284, r1 */
@@ -53,23 +53,23 @@ draw_priority_resolve:
     not r2, r2
     and r2, r3
     mov.l r3, @(r0, r1)
-    .byte   0xD1, 0x29    /* mov.l _pool_pipeline_counter, r1 */
+    .byte   0xD1, 0x29    /* mov.l .L_pool_0602E298, r1 */
     mov.l @r1, r3
-    .byte   0xD2, 0x29    /* mov.l _pool_const_one, r2 */
+    .byte   0xD2, 0x29    /* mov.l .L_pool_0602E29C, r2 */
     sub r2, r3
 .L_0602E1F8:
-    .byte   0xD1, 0x27    /* mov.l _pool_pipeline_counter, r1 */
+    .byte   0xD1, 0x27    /* mov.l .L_pool_0602E298, r1 */
     mov.l r3, @r1
     .byte   0x91, 0x47    /* mov.w .L_wpool_0602E28E, r1 */
     mov.l @(r0, r1), r3
-    .byte   0xD2, 0x28    /* mov.l _pool_const_zero, r2 */
+    .byte   0xD2, 0x28    /* mov.l .L_pool_0602E2A4, r2 */
     cmp/eq r2, r3
     bt      .L_0602E20C
-    .byte   0xD2, 0x25    /* mov.l _pool_const_one, r2 */
+    .byte   0xD2, 0x25    /* mov.l .L_pool_0602E29C, r2 */
     sub r2, r3
     mov.l r3, @(r0, r1)
 .L_0602E20C:
-    .byte   0xD3, 0x25    /* mov.l _pool_const_zero, r3 */
-    .byte   0xD1, 0x26    /* mov.l _pool_clear_field_off, r1 */
+    .byte   0xD3, 0x25    /* mov.l .L_pool_0602E2A4, r3 */
+    .byte   0xD1, 0x26    /* mov.l .L_pool_0602E2A8, r1 */
     mov.l r3, @(r0, r1)
-    .byte   0xDD, 0x26    /* mov.l _pool_next_dispatch, r13 */
+    .byte   0xDD, 0x26    /* mov.l .L_pool_0602E2AC, r13 */

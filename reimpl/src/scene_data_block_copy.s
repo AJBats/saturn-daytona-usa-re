@@ -97,29 +97,29 @@ scene_data_block_copy:
     cmp/eq #0x2, r0
     bt      .L_06038916
 .L_06038968:
-    .byte   0xDE, 0x22    /* mov.l _pool_staging_ptr, r14 */
+    .byte   0xDE, 0x22    /* mov.l .L_pool_060389F4, r14 */
     mov #0x28, r6
-    .byte   0xD5, 0x22    /* mov.l _pool_pipe_buf_0, r5 */
+    .byte   0xD5, 0x22    /* mov.l .L_pool_060389F8, r5 */
     .byte   0xB0, 0x6B    /* bsr 0x06038A48 (word-copy helper) */
     mov.l @r14, r4
     mov #0x48, r6
-    .byte   0xD5, 0x21    /* mov.l _pool_pipe_buf_1, r5 */
+    .byte   0xD5, 0x21    /* mov.l .L_pool_060389FC, r5 */
     mov.l @r14, r4
     .byte   0xB0, 0x66    /* bsr 0x06038A48 (word-copy helper) */
     add #0x28, r4
     mov #0x40, r6
-    .byte   0xD5, 0x20    /* mov.l _pool_pipe_buf_2, r5 */
+    .byte   0xD5, 0x20    /* mov.l .L_pool_06038A00, r5 */
     mov.l @r14, r4
     .byte   0xB0, 0x61    /* bsr 0x06038A48 (word-copy helper) */
     add #0x70, r4
     mov #0x10, r6
-    .byte   0xD5, 0x1E    /* mov.l _pool_pipe_buf_3, r5 */
+    .byte   0xD5, 0x1E    /* mov.l .L_pool_06038A04, r5 */
     mov.l @r14, r4
     .byte   0x92, 0x30    /* mov.w _wpool_offset_0xB0, r2 */
     .byte   0xB0, 0x5B    /* bsr 0x06038A48 (word-copy helper) */
     add r2, r4
     mov #0x20, r6
-    .byte   0xD5, 0x1C    /* mov.l _pool_pipe_buf_4, r5 */
+    .byte   0xD5, 0x1C    /* mov.l .L_pool_06038A08, r5 */
     mov.l @r14, r4
     .byte   0x92, 0x2B    /* mov.w _wpool_offset_0xC0, r2 */
     .byte   0xB0, 0x55    /* bsr 0x06038A48 (word-copy helper) */

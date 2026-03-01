@@ -7,19 +7,19 @@
 scene_data_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x18    /* mov.l .Lpool_ready_flag_ptr, r14 */
+    .byte   0xDE, 0x18    /* mov.l .L_pool_06038A0C, r14 */
     mov.w @r14, r0
-    bra     .Ldispatch_switch
+    bra     .L_06038A28
     extu.w r0, r0
-.Lflag_1_block_copy:
+.L_060389B2:
     .byte   0xBF, 0x85    /* bsr 0x060388C0 (external) */
     nop
-    bra     .Lclear_flag_and_return
+    bra     .L_060389EA
     nop
-.Lflag_2_indexed_copy:
-    .byte   0xD6, 0x15    /* mov.l .Lpool_entry_count_a_ptr, r6 */
-    .byte   0xD5, 0x15    /* mov.l .Lpool_scene_a_src, r5 */
-    .byte   0xD4, 0x16    /* mov.l .Lpool_scene_a_dst, r4 */
+.L_060389BA:
+    .byte   0xD6, 0x15    /* mov.l .L_pool_06038A10, r6 */
+    .byte   0xD5, 0x15    /* mov.l .L_pool_06038A14, r5 */
+    .byte   0xD4, 0x16    /* mov.l .L_pool_06038A18, r4 */
     mov.w @r6, r6
     mov.l @r5, r5
     extu.w r6, r6
@@ -30,9 +30,9 @@ scene_data_dispatch:
     add r3, r6
     bsr     sym_06038A48
     mov.l @r4, r4
-    .byte   0xD6, 0x11    /* mov.l .Lpool_entry_count_b_ptr, r6 */
-    .byte   0xD5, 0x12    /* mov.l .Lpool_scene_b_src, r5 */
-    .byte   0xD4, 0x12    /* mov.l .Lpool_scene_b_dst, r4 */
+    .byte   0xD6, 0x11    /* mov.l .L_pool_06038A1C, r6 */
+    .byte   0xD5, 0x12    /* mov.l .L_pool_06038A20, r5 */
+    .byte   0xD4, 0x12    /* mov.l .L_pool_06038A24, r4 */
     mov.w @r6, r6
     mov.l @r5, r5
     extu.w r6, r6
@@ -41,9 +41,9 @@ scene_data_dispatch:
     mov.l @r4, r4
     .byte   0xBF, 0x6B    /* bsr 0x060388C0 (external) */
     nop
-.Lclear_flag_and_return:
+.L_060389EA:
     mov #0x0, r2
-    bra     .Lepilog_return
+    bra     .L_06038A42
     mov.w r2, @r14
     .4byte  0x00B000C0
     .4byte  sym_060A3D84
@@ -52,35 +52,35 @@ scene_data_dispatch:
     .4byte  sym_060A3DF8
     .4byte  sym_060A3E38
     .4byte  sym_060A3E48
-.Lpool_ready_flag_ptr:
+.L_pool_06038A0C:
     .4byte  sym_060635AC
-.Lpool_entry_count_a_ptr:
+.L_pool_06038A10:
     .4byte  sym_060635A0
-.Lpool_scene_a_src:
+.L_pool_06038A14:
     .4byte  sym_060A3D74
-.Lpool_scene_a_dst:
+.L_pool_06038A18:
     .4byte  sym_060A3D70
-.Lpool_entry_count_b_ptr:
+.L_pool_06038A1C:
     .4byte  sym_060635A2
-.Lpool_scene_b_src:
+.L_pool_06038A20:
     .4byte  sym_060A3D7C
-.Lpool_scene_b_dst:
+.L_pool_06038A24:
     .4byte  sym_060A3D78
-.Ldispatch_switch:
+.L_06038A28:
     cmp/eq #0x1, r0
-    bt      .Lflag_1_block_copy
+    bt      .L_060389B2
     cmp/eq #0x2, r0
-    bt      .Lflag_2_indexed_copy
+    bt      .L_060389BA
     cmp/eq #0x3, r0
-    bt      .Lepilog_return
+    bt      .L_06038A42
     cmp/eq #0x4, r0
-    bt      .Lepilog_return
+    bt      .L_06038A42
     cmp/eq #0x5, r0
-    bt      .Lepilog_return
+    bt      .L_06038A42
     cmp/eq #0x6, r0
-    bt      .Lepilog_return
+    bt      .L_06038A42
     cmp/eq #0x7, r0
-.Lepilog_return:
+.L_06038A42:
     lds.l @r15+, pr
     .byte   0xA0, 0x40    /* bra 0x06038AC8 (external) */
     mov.l @r15+, r14
@@ -91,15 +91,15 @@ sym_06038A48:
     mov #0x0, r7
     mov r7, r3
     cmp/hs r6, r3
-    bt      .Lcopy_done
-.Lcopy_loop:
+    bt      .L_06038A60
+.L_06038A52:
     add #0x1, r7
     mov.w @r5, r3
     mov.w r3, @r4
     add #0x2, r4
     cmp/hs r6, r7
-    bf/s    .Lcopy_loop
+    bf/s    .L_06038A52
     add #0x2, r5
-.Lcopy_done:
+.L_06038A60:
     rts
     nop

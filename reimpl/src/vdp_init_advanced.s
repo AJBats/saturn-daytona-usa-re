@@ -11,34 +11,34 @@ vdp_init_advanced:
     add #-0x4, r15
     .byte   0xDD, 0x1C    /* mov.l .L_pool_06003384, r13 */
     .byte   0xDE, 0x1C    /* mov.l .L_pool_06003388, r14 */
-    mov.w   _w_tbl_offset_0, r7
+    mov.w   .L_06003366, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   _w_vram_dest_0, r3
-    mov.w   _w_xfer_size_0, r6
+    mov.w   .L_06003368, r3
+    mov.w   .L_0600336A, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r14
     mov #0xC, r4
-    mov.w   _w_tbl_offset_1, r7
+    mov.w   .L_0600336C, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   _w_vram_dest_1, r3
-    mov.w   _w_xfer_size_1, r6
+    mov.w   .L_0600336E, r3
+    mov.w   .L_06003370, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r14
     mov #0xC, r4
-    mov.w   _w_tbl_offset_2, r7
+    mov.w   .L_06003372, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   _w_vram_dest_2, r3
-    mov.w   _w_xfer_size_2, r6
+    mov.w   .L_06003374, r3
+    mov.w   .L_06003376, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -53,44 +53,44 @@ vdp_init_advanced:
     .2byte  0x0D80
 
     .global DAT_06003366
-_w_tbl_offset_0:
+.L_06003366:
 DAT_06003366:
     .2byte  0x0368
 
     .global DAT_06003368
-_w_vram_dest_0:
+.L_06003368:
 DAT_06003368:
     .2byte  0x3000
-_w_xfer_size_0:
+.L_0600336A:
     .2byte  0x0BC8
 
     .global DAT_0600336c
-_w_tbl_offset_1:
+.L_0600336C:
 DAT_0600336c:
     .2byte  0x0378
 
     .global DAT_0600336e
-_w_vram_dest_1:
+.L_0600336E:
 DAT_0600336e:
     .2byte  0x4000
 
     .global DAT_06003370
-_w_xfer_size_1:
+.L_06003370:
 DAT_06003370:
     .2byte  0x00C6
 
     .global DAT_06003372
-_w_tbl_offset_2:
+.L_06003372:
 DAT_06003372:
     .2byte  0x0370
 
     .global DAT_06003374
-_w_vram_dest_2:
+.L_06003374:
 DAT_06003374:
     .2byte  0x5000
 
     .global DAT_06003376
-_w_xfer_size_2:
+.L_06003376:
 DAT_06003376:
     .2byte  0x0C02
     .4byte  sym_06059ECE
@@ -112,7 +112,7 @@ sym_0600338C:
     .byte   0xD3, 0x1D    /* mov.l .L_pool_06003410, r3 */
     mov.w @r3, r2
     extu.w r2, r2
-    mov.w   _w_interlace_mask, r3
+    mov.w   .L_06003406, r3
     and r3, r2
     tst r2, r2
     bf      .L_060033E2
@@ -121,7 +121,7 @@ sym_0600338C:
     mov r3, r7
     mov.l @r15, r6
     mov.l @(4, r7), r7
-    mov.w   _w_slot_vram_offset, r3
+    mov.w   .L_06003408, r3
     shll2 r6
     add r3, r7
     shll2 r6
@@ -158,33 +158,33 @@ sym_060033E6:
     tst #0x4, r0
     bt      .L_060033FA
     .byte   0xD7, 0x0E    /* mov.l .L_pool_06003428, r7 */
-    mov.w   _w_text_size, r6
-    mov.w   _w_text_vram_dest, r5
+    mov.w   .L_0600340A, r6
+    mov.w   .L_0600340C, r5
     .byte   0xD3, 0x0A    /* mov.l .L_pool_06003420, r3 */
     jmp @r3
     mov #0x8, r4
 .L_060033FA:
     .byte   0xD7, 0x0C    /* mov.l .L_pool_0600342C, r7 */
-    mov.w   _w_text_size, r6
-    mov.w   _w_text_vram_dest, r5
+    mov.w   .L_0600340A, r6
+    mov.w   .L_0600340C, r5
     .byte   0xD3, 0x07    /* mov.l .L_pool_06003420, r3 */
     jmp @r3
     mov #0x8, r4
 
     .global DAT_06003406
-_w_interlace_mask:
+.L_06003406:
 DAT_06003406:
     .2byte  0x0200
 
     .global DAT_06003408
-_w_slot_vram_offset:
+.L_06003408:
 DAT_06003408:
     .2byte  0x5000
-_w_text_size:
+.L_0600340A:
     .2byte  0x0090
 
     .global DAT_0600340c
-_w_text_vram_dest:
+.L_0600340C:
 DAT_0600340c:
     .2byte  0x0C04
     .2byte  0xFFFF

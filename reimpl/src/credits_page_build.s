@@ -10,7 +10,7 @@ credits_page_build:
     mov.l   .L_pool_0603F380, r10
     mov.l r4, @r15
     mov r15, r4
-    bsr     ring_desc_init
+    bsr     .L_0603F3DA
     add #0x24, r4
     bra     .L_0603F3BC
     mov #0x0, r13
@@ -79,7 +79,7 @@ credits_page_build:
     rts
     mov.l @r15+, r14
 
-ring_desc_init:
+.L_0603F3DA:
     mov.l r5, @r4
     .byte   0xD3, 0x15    /* mov.l .L_pool_0603F434, r3 */
     .byte   0x92, 0x24    /* mov.w .L_wpool_0603F42A, r2 */

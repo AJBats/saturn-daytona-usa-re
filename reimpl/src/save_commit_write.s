@@ -14,7 +14,7 @@ save_commit_write:
     mov r5, r4
     mov.l @r15, r4
     mov #0x0, r3
-    mov.w   save_dirty_offset, r0
+    mov.w   .L_0603BF6E, r0
     mov.l r3, @(r0, r4)
     tst r14, r14
     bf      .L_0603BF44
@@ -40,7 +40,7 @@ save_commit_write:
     .2byte  0x5459
 
     .global DAT_0603bf6e
-save_dirty_offset:
+.L_0603BF6E:
 DAT_0603bf6e:
     .2byte  0x00EC
 .L_0603BF70:

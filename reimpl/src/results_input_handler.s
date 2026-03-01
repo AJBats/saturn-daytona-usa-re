@@ -19,7 +19,7 @@ results_input_handler:
     mov r3, r2
     mov.l @(60, r4), r3
     cmp/ge r3, r2
-    bf/s    _no_scroll_wrap
+    bf/s    .L_06016814
     extu.b r12, r11
     extu.b r14, r4
     mov r4, r3
@@ -33,7 +33,7 @@ results_input_handler:
     mov.l @(60, r4), r2
     mov.l r2, @(44, r4)
     mov #0x1, r11
-_no_scroll_wrap:
+.L_06016814:
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -45,12 +45,12 @@ _no_scroll_wrap:
     add r13, r3
     mov.l @(48, r3), r0
     tst r0, r0
-    bt      _skip_bounce
+    bt      .L_060168A6
     extu.b r14, r3
     mov #0x7, r2
     mov.w   .L_0601686E, r4
     cmp/ge r2, r3
-    bt      _bounce_subtract
+    bt      .L_06016874
     extu.b r14, r5
     mov r5, r3
     shll2 r5
@@ -65,7 +65,7 @@ _no_scroll_wrap:
     mov.l r2, @(48, r5)
     mov r2, r3
     cmp/pz r3
-    bf      _skip_bounce
+    bf      .L_060168A6
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -76,7 +76,7 @@ _no_scroll_wrap:
     exts.w r3, r3
     add r13, r3
     mov.l r12, @(48, r3)
-    bra     _skip_bounce
+    bra     .L_060168A6
     nop
 .L_0601686C:
     .2byte  0x0F00                          /* 0x0F00 = scroll step per frame [HIGH] */
@@ -84,7 +84,7 @@ _no_scroll_wrap:
     .2byte  0x1800                          /* 0x1800 = bounce velocity delta per frame [HIGH] */
 .L_pool_06016870:
     .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */
-_bounce_subtract:
+.L_06016874:
     extu.b r14, r5
     mov r5, r3
     shll2 r5
@@ -99,7 +99,7 @@ _bounce_subtract:
     mov r2, r3
     mov.l r2, @(48, r5)
     cmp/pl r3
-    bt      _skip_bounce
+    bt      .L_060168A6
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -110,12 +110,12 @@ _bounce_subtract:
     exts.w r3, r3
     add r13, r3
     mov.l r12, @(48, r3)
-_skip_bounce:
+.L_060168A6:
     .byte   0xB2, 0x97    /* bsr 0x06016DD8 (external) */
     extu.b r14, r4
     extu.b r11, r11
     tst r11, r11
-    bt      _epilogue
+    bt      .L_060168CE
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -131,7 +131,7 @@ _skip_bounce:
     mov #0x3, r3
     mov r3, r0
     mov.b r0, @(2, r4)
-_epilogue:
+.L_060168CE:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12
@@ -145,7 +145,7 @@ loc_060168DA:
     mov #0x7, r2
     mov.l   .L_pool_0601693C, r5
     cmp/ge r2, r3
-    bt      _high_index_target
+    bt      .L_06016904
     extu.b r4, r2
     extu.b r4, r1
     mov r2, r3
@@ -160,9 +160,9 @@ loc_060168DA:
     shll r1
     mov.w   .L_06016938, r3
     add r3, r1
-    bra     _write_target_y
+    bra     .L_06016918
     add r5, r2
-_high_index_target:
+.L_06016904:
     extu.b r4, r2
     mov r2, r3
     shll2 r2
@@ -173,7 +173,7 @@ _high_index_target:
     exts.w r2, r2
     add r5, r2
     mov.w   .L_0601693A, r1
-_write_target_y:
+.L_06016918:
     mov.l r1, @(56, r2)
     extu.b r4, r4
     mov r4, r3

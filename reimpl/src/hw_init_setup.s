@@ -11,15 +11,15 @@ hw_init_setup:
     .global loc_06040200
 loc_06040200:
     mov.l r5, @(32, r14)
-    mov.l   .Lpool_max_positive, r5
-    mov.l   .Lpool_evt_cmd_enqueue, r3
+    mov.l   .L_pool_0604023C, r5
+    mov.l   .L_pool_06040240, r3
     jsr @r3
     mov.l @(24, r14), r4
     mov r0, r4
     cmp/pz r4
-    bt      .Lresult_nonneg
+    bt      .L_06040212
     mov #0x0, r4
-.Lresult_nonneg:
+.L_06040212:
     mov.l @(24, r14), r3
     mov.l @(16, r3), r2
     sub r2, r4
@@ -32,89 +32,89 @@ loc_06040200:
 sym_06040220:
     mov.l @(4, r15), r1
     tst r5, r5
-    bt      .Lcheck_field1
+    bt      .L_06040250
     mov.l @r4, r3
-    mov.l   .Lpool_bit30_mask, r2
+    mov.l   .L_pool_06040244, r2
     and r2, r3
     tst r3, r3
-    bt      .Lfield0_no_mask
+    bt      .L_0604024C
     mov.l @r4, r3
-    mov.l   .Lpool_bit30_clear, r2
+    mov.l   .L_pool_06040248, r2
     and r2, r3
     mov.l r3, @r5
-    bra     .Lcheck_field1
+    bra     .L_06040250
     nop
-.Lpool_max_positive:
+.L_pool_0604023C:
     .4byte  0x7FFFFFFF                  /* max positive 16.16 */
-.Lpool_evt_cmd_enqueue:
+.L_pool_06040240:
     .4byte  evt_cmd_enqueue
-.Lpool_bit30_mask:
+.L_pool_06040244:
     .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
-.Lpool_bit30_clear:
+.L_pool_06040248:
     .4byte  0x3FFFFFFF
-.Lfield0_no_mask:
+.L_0604024C:
     mov.l @r4, r2
     mov.l r2, @r5
-.Lcheck_field1:
+.L_06040250:
     tst r6, r6
-    bt      .Lcheck_field1c
+    bt      .L_06040258
     mov.l @(4, r4), r3
     mov.l r3, @r6
-.Lcheck_field1c:
+.L_06040258:
     mov.l @(8, r15), r0
     tst r0, r0
-    bt      .Lcheck_field3
+    bt      .L_06040268
     mov.l @(8, r15), r3
     mov #0x1C, r0
     mov.b @(r0, r4), r2
     extu.b r2, r2
     mov.l r2, @r3
-.Lcheck_field3:
+.L_06040268:
     tst r7, r7
-    bt      .Lcheck_field4
+    bt      .L_06040270
     mov.l @(12, r4), r3
     mov.l r3, @r7
-.Lcheck_field4:
+.L_06040270:
     mov.l @r15, r0
     tst r0, r0
-    bt      .Lcheck_byte_1d
+    bt      .L_0604027C
     mov.l @r15, r3
     mov.l @(16, r4), r2
     mov.l r2, @r3
-.Lcheck_byte_1d:
+.L_0604027C:
     mov.l @(12, r15), r0
     tst r0, r0
-    bt      .Lcheck_remaining
+    bt      .L_0604028C
     mov.l @(12, r15), r3
     mov #0x1D, r0
     mov.b @(r0, r4), r2
     extu.b r2, r2
     mov.l r2, @r3
-.Lcheck_remaining:
+.L_0604028C:
     tst r1, r1
-    bt      .Lreturn
+    bt      .L_060402B8
     mov #0x1D, r0
     mov #0x8, r3
     mov.b @(r0, r4), r5
     extu.b r5, r5
     and r5, r3
     tst r3, r3
-    bt      .Lcalc_elapsed
-    bra     .Lcheck_complete_flag
+    bt      .L_060402B0
+    bra     .L_060402A2
     nop
-.Lcheck_complete_flag:
+.L_060402A2:
     mov #0x4, r2
     and r5, r2
     tst r2, r2
-    bt      .Lcalc_elapsed
+    bt      .L_060402B0
     mov #0x0, r2
-    bra     .Lreturn
+    bra     .L_060402B8
     mov.l r2, @r1
-.Lcalc_elapsed:
+.L_060402B0:
     mov.l @(12, r4), r2
     mov.l @(20, r4), r3
     sub r3, r2
     mov.l r2, @r1
-.Lreturn:
+.L_060402B8:
     rts
     nop

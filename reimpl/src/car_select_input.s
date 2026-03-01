@@ -188,17 +188,17 @@ car_select_input:
     exts.b r10, r3
     mov.b r3, @r12
 .L_06019B9A:
-    .byte   0xD4, 0x1A    /* mov.l _pool_frame_counter_a, r4 */
+    .byte   0xD4, 0x1A    /* mov.l .L_pool_06019C04, r4 */
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
-    .byte   0xD4, 0x19    /* mov.l _pool_frame_counter_b, r4 */
+    .byte   0xD4, 0x19    /* mov.l .L_pool_06019C08, r4 */
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4
     mov.b @r14, r2
     shll2 r2
-    .byte   0xD3, 0x17    /* mov.l _pool_dispatch_table, r3 */
+    .byte   0xD3, 0x17    /* mov.l .L_pool_06019C0C, r3 */
     add r3, r2
     mov.l @r2, r2
     add #0x4, r15
