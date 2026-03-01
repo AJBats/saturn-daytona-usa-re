@@ -7,28 +7,6 @@
  * Date: 2026-02-28
  */
 
-/* mode_select_handler — Mode Select menu controller
- * Translation unit: 0x060196B0 - 0x060197F4
- *
- * Runs every frame while the Mode Select screen is active
- * (ARCADE MODE / SATURN MODE / RANKING / OPTIONS).
- *
- * Input → State → Dispatch:
- *   1. Calls scene_dual_finalize()
- *   2. Reads button state at g_pad_state+2:
- *      - B (0x0100): return to title screen (writes game_state = 4)
- *      - DOWN (0x2000): increment selection index (wraps 4 → 0)
- *      - UP (0x1000): decrement selection index (wraps -1 → 3)
- *   3. Tail-calls per-item renderer via 4-entry dispatch table
- *      (per-item renderers handle A/C advance to next screen)
- *
- * Callee-saved registers:
- *   r10 = &sym_06085FF1 (flag byte — set on B press and direction input)
- *   r11 = 0 (inherited from caller, used as zero constant)
- *   r12 = &sym_0605D242 (counter byte, incremented each frame)
- *   r13 = 1 (constant)
- *   r14 = &sym_0605D244 (mode selection index, 0-3)
- */
 
     .section .text.FUN_060196B0
 
@@ -36,99 +14,97 @@
     .global mode_select_handler
     .type mode_select_handler, @function
 mode_select_handler:
-    sts.l pr, @-r15                              ! save return address
-    add #-0xC, r15                               ! allocate 12-byte stack frame
-    mov.l   _pool_flag_byte, r10                 ! r10 -> &sym_06085FF1
-    mov.l   _pool_counter_byte, r12              ! r12 -> &sym_0605D242
-    mov.l   _pool_mode_select_idx, r14           ! r14 -> &sym_0605D244 (selection index)
+    sts.l pr, @-r15
+    add #-0xC, r15
+    mov.l   _pool_flag_byte, r10
+    mov.l   _pool_counter_byte, r12
+    mov.l   _pool_mode_select_idx, r14
     mov.l   _pool_fn_scene_finalize, r3
-    jsr @r3                                      ! call scene_dual_finalize()
-    mov #0x1, r13                                ! (delay) r13 = 1
-    mov.l   _pool_button_state, r4               ! r4 -> button state struct (g_pad_state)
-    mov.w   _wpool_confirm_mask, r3              ! r3 = 0x0100 (B button mask = back)
-    mov.w @(2, r4), r0                           ! r0 = button word at +2
+    jsr @r3
+    mov #0x1, r13
+    mov.l   _pool_button_state, r4
+    mov.w   _wpool_confirm_mask, r3
+    mov.w @(2, r4), r0
     mov r0, r2
     extu.w r2, r2
-    and r3, r2                                   ! isolate B bit
+    and r3, r2
     tst r2, r2
-    bt      .L_no_confirm                        ! not pressed -> check directions
-    ! --- B pressed: return to title screen ---
-    mov.b @r14, r7                               ! r7 = selection index (0-3)
-    shll r7                                      ! r7 *= 2 (LUT stride)
-    mov.l r7, @(8, r15)                          ! save scaled index
-    mov.l   _pool_06049AF4, r3                   ! r3 -> lookup table
-    mov.l   _pool_06063750, r2                   ! r2 -> object table
+    bt      .L_no_confirm
+    mov.b @r14, r7
+    shll r7
+    mov.l r7, @(8, r15)
+    mov.l   _pool_06049AF4, r3
+    mov.l   _pool_06063750, r2
     add r3, r7
-    mov.w @r7, r7                                ! r7 = LUT entry (16-bit)
+    mov.w @r7, r7
     extu.w r7, r7
     shll2 r7
-    shll r7                                      ! r7 *= 8 (object table stride)
-    add r2, r7                                   ! r7 -> object table entry
+    shll r7
+    add r2, r7
     mov.l r7, @(4, r15)
-    mov.l @(4, r7), r7                           ! r7 = entry field +4
-    mov.w   _wpool_0x2000, r3                    ! r3 = 0x2000
+    mov.l @(4, r7), r7
+    mov.w   _wpool_0x2000, r3
     mov.l @(8, r15), r6
-    add r3, r7                                   ! r7 += 0x2000
-    mov.l   _pool_06049AEC, r3                   ! r3 -> per-slot param table
+    add r3, r7
+    mov.l   _pool_06049AEC, r3
     add r3, r6
     mov.l r6, @r15
-    mov.b @(1, r6), r0                           ! byte +1 from param table
+    mov.b @(1, r6), r0
     mov.l @r15, r2
     mov r0, r6
-    mov.b @r2, r2                                ! byte +0 from param table
+    mov.b @r2, r2
     extu.b r6, r6
     extu.b r2, r2
     shll2 r6
     shll2 r6
-    shll2 r6                                     ! r6 *= 64
+    shll2 r6
     add r2, r6
-    shll r6                                      ! r6 *= 2
+    shll r6
     mov.l @(4, r15), r5
-    mov.l @r5, r5                                ! r5 = entry field +0
+    mov.l @r5, r5
     mov.l   _pool_fn_06028400, r3
-    jsr @r3                                      ! call sym_06028400(r4=0xC, r5, r6, r7)
-    mov #0xC, r4                                 ! (delay) r4 = 0xC
-    mov.b @r14, r2                               ! r2 = selection index
-    cmp/gt r13, r2                               ! index > 1? (RANKING or OPTIONS)
+    jsr @r3
+    mov #0xC, r4
+    mov.b @r14, r2
+    cmp/gt r13, r2
     bf      .L_skip_idx_reset
-    exts.b r11, r2                               ! r2 = 0
-    mov.b r2, @r14                               ! reset selection to 0
+    exts.b r11, r2
+    mov.b r2, @r14
 .L_skip_idx_reset:
     mov.l   _pool_06059F44, r3
-    mov.l r11, @r3                               ! clear sym_06059F44 to 0
+    mov.l r11, @r3
     extu.b r11, r2
-    mov.b r2, @r12                               ! clear counter byte to 0
+    mov.b r2, @r12
     mov #0x4, r3
-    mov.l   _pool_game_state, r2                 ! r2 -> &g_game_state
-    mov.l r3, @r2                                ! game state = 4 (back to title)
-    exts.b r13, r3                               ! r3 = 1
-    mov.b r3, @r10                               ! set flag byte = 1
+    mov.l   _pool_game_state, r2
+    mov.l r3, @r2
+    exts.b r13, r3
+    mov.b r3, @r10
     mov.l   _pool_06085FF5, r3
     bra     .L_epilog_rts
-    mov.b r13, @r3                               ! (delay) set sym_06085FF5 = 1
+    mov.b r13, @r3
 .L_no_confirm:
-    ! --- Check DOWN button (0x2000) ---
-    mov.w @(2, r4), r0                           ! re-read button word
-    mov.w   _wpool_0x2000, r3                    ! r3 = 0x2000 (DOWN button mask)
+    mov.w @(2, r4), r0
+    mov.w   _wpool_0x2000, r3
     mov r0, r2
     extu.w r2, r2
-    and r3, r2                                   ! isolate DOWN bit
+    and r3, r2
     tst r2, r2
-    bt/s    .L_check_up                          ! not pressed -> check UP
-    mov #0x5, r5                                 ! (delay) r5 = 5
-    mov.b r13, @r10                              ! set flag byte = 1
+    bt/s    .L_check_up
+    mov #0x5, r5
+    mov.b r13, @r10
     extu.b r5, r5
-    mov.b r5, @r12                               ! counter byte = 5
-    mov.b @r14, r2                               ! r2 = selection index
-    add #0x1, r2                                 ! r2++ (move cursor down)
-    mov.b r2, @r14                               ! write back
-    mov.b @r14, r3                               ! r3 = updated index
+    mov.b r5, @r12
+    mov.b @r14, r2
+    add #0x1, r2
+    mov.b r2, @r14
+    mov.b @r14, r3
     mov #0x4, r2
-    cmp/ge r2, r3                                ! index >= 4?
-    bf      .L_common_exit                       ! no -> exit
-    exts.b r11, r2                               ! r2 = 0
+    cmp/ge r2, r3
+    bf      .L_common_exit
+    exts.b r11, r2
     bra     .L_common_exit
-    mov.b r2, @r14                               ! (delay) wrap to 0
+    mov.b r2, @r14
 
     .global DAT_06019762
 _wpool_confirm_mask:
@@ -162,47 +138,45 @@ _pool_game_state:
 _pool_06085FF5:
     .4byte  sym_06085FF5
 .L_check_up:
-    ! --- Check UP button (0x1000) ---
-    mov.w @(2, r4), r0                           ! re-read button word
+    mov.w @(2, r4), r0
     .byte   0x93, 0x63    /* mov.w @(disp,PC), r3 — loads 0x1000 (UP button mask) */
     mov r0, r2
     extu.w r2, r2
-    and r3, r2                                   ! isolate UP bit
+    and r3, r2
     tst r2, r2
-    bt      .L_common_exit                       ! not pressed -> exit
-    mov.b r13, @r10                              ! set flag byte = 1
+    bt      .L_common_exit
+    mov.b r13, @r10
     extu.b r5, r5
-    mov.b r5, @r12                               ! counter byte = 5
-    mov.b @r14, r2                               ! r2 = selection index
-    add #-0x1, r2                                ! r2-- (move cursor up)
-    mov.b r2, @r14                               ! write back
-    mov.b @r14, r3                               ! r3 = updated index
-    cmp/pz r3                                    ! index >= 0?
-    bt      .L_common_exit                       ! yes -> exit
+    mov.b r5, @r12
+    mov.b @r14, r2
+    add #-0x1, r2
+    mov.b r2, @r14
+    mov.b @r14, r3
+    cmp/pz r3
+    bt      .L_common_exit
     mov #0x3, r3
-    mov.b r3, @r14                               ! wrap to 3
+    mov.b r3, @r14
 .L_common_exit:
-    ! --- Every-frame: advance counters, dispatch to per-item renderer ---
     .byte   0xD4, 0x2B    /* mov.l @(disp,PC), r4 — &sym_0605D243 (animation timer) */
     mov.b @r4, r2
-    add #0x1, r2                                 ! timer++
+    add #0x1, r2
     mov.b r2, @r4
     mov.b @r12, r3
-    add #0x1, r3                                 ! counter++
+    add #0x1, r3
     mov.b r3, @r12
-    mov.b @r14, r2                               ! r2 = selection index (0-3)
-    shll2 r2                                     ! r2 *= 4 (dispatch table stride)
+    mov.b @r14, r2
+    shll2 r2
     .byte   0xD3, 0x28    /* mov.l @(disp,PC), r3 — &sym_0605D250 (dispatch table) */
-    add r3, r2                                   ! r2 -> &dispatch_table[index]
-    mov.l @r2, r2                                ! r2 = function pointer
+    add r3, r2
+    mov.l @r2, r2
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r10
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    jmp @r2                                      ! tail-call per-item renderer
-    mov.l @r15+, r14                             ! (delay)
+    jmp @r2
+    mov.l @r15+, r14
 .L_epilog_rts:
     add #0xC, r15
     lds.l @r15+, pr
@@ -211,4 +185,4 @@ _pool_06085FF5:
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
-    mov.l @r15+, r14                             ! (delay)
+    mov.l @r15+, r14

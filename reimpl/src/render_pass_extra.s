@@ -1,18 +1,3 @@
-/* render_pass_extra -- VDP1 frame commit and sprite rendering pipeline
- * Translation unit: 0x060078DC - 0x06007CEC
- *
- * Functions:
- *   frame_end_commit    (0x060078DC) — End-of-frame orchestrator: timing budget,
- *                         DMA transfers, VDP1 command header, sprite commit, draw-end marker
- *   render_pass_extra   (0x06007A58) — Extra rendering pass with rotation/scaling
- *                         for overlay sprites (sincos + fpmul coordinate transforms)
- *   vdp1_sprite_builder (0x06007BCC) — Iterates active sprite list, generates
- *                         32-byte VDP1 commands per sprite, tail-calls cleanup + VDP2 update
- *
- * This TU is the heart of the rendering pipeline. frame_end_commit runs every
- * frame to flush the display list; vdp1_sprite_builder generates per-sprite
- * commands from the sprite data table (24-byte entries at sym_0608AC20).
- */
 
     .section .text.FUN_060078DC
 
@@ -27,11 +12,11 @@ frame_end_commit:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.w   DAT_060079ce, r9    ! r9 = 600 (frame budget)
-    mov.l   .L_sprite_index_table, r10    ! r10 = sprite index lookup base
-    mov.l   .L_frame_counter, r12    ! r12 = &frame_counter
-    mov.l   .L_timing_accumulator, r13    ! r13 = &timing_accumulator
-    mov.l   .L_commit_count, r14    ! r14 = &commit_count
+    mov.w   DAT_060079ce, r9
+    mov.l   .L_sprite_index_table, r10
+    mov.l   .L_frame_counter, r12
+    mov.l   .L_timing_accumulator, r13
+    mov.l   .L_commit_count, r14
     mov.l @r13, r3
     sub r9, r3
     mov.l r3, @r13
@@ -121,7 +106,7 @@ frame_end_commit:
     shll2 r0
     shll r0
     add r3, r0
-    mov.w r2, @r0    ! write 0x8000 = VDP1 draw-end marker
+    mov.w r2, @r0
     mov.l   .L_display_flags, r4
     mov.l   .L_flag_frame_commit, r3
     mov.l @r4, r2

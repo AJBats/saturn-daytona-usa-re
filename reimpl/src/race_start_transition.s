@@ -1,20 +1,3 @@
-/* race_start_transition -- L3 assembly (SH-2 mnemonics)
- * Translation unit: 0x0601A578 - 0x0601A65E
- *
- * Race start scene setup — initializes display layers, uploads tile
- * pattern data to VDP2 VRAM, configures the display list for the
- * pre-race grid view, then chains into subsystem init calls:
- *   track_seg_phys_init, car_init_handler, course_data_rom_load,
- *   course_init_pipeline.
- *
- * After init, clears animation/frame counters for the start light
- * sequence, calls race_data_handler, and tail-calls palette_frame_effects.
- *
- * Second function (render_param_query):
- *   Returns a render parameter word based on the game timer.
- *   If timer == 0x10 (green light moment) → return 0x00A8.
- *   Otherwise → return value from cross-TU word pool (alternate frame).
- */
 
     .section .text.FUN_0601A578
 
@@ -22,48 +5,48 @@
     .global race_start_transition
     .type race_start_transition, @function
 race_start_transition:
-    sts.l pr, @-r15                       ! save return address
-    add #-0x4, r15                        ! allocate 4 bytes on stack
-    mov.l   _pool_anim_state, r3          ! r3 = &anim_state
-    mov.l r14, @r3                        ! anim_state = r14 (caller's context, 0 on first call)
-    mov.l   _pool_render_mode_flags, r4   ! r4 = &render_mode_flags
-    mov.l   _pool_sign_bit, r2            ! r2 = 0x80000000
-    mov.l @r4, r3                         ! r3 = current render_mode_flags
-    or r2, r3                             ! set sign bit (enable race-start rendering)
-    mov.l r3, @r4                         ! write back render_mode_flags
-    mov.l   _pool_fn_camera_finalize, r3  ! r3 = camera_state_finalization
-    jsr @r3                               ! call camera_state_finalization (first pass)
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov.l   _pool_anim_state, r3
+    mov.l r14, @r3
+    mov.l   _pool_render_mode_flags, r4
+    mov.l   _pool_sign_bit, r2
+    mov.l @r4, r3
+    or r2, r3
+    mov.l r3, @r4
+    mov.l   _pool_fn_camera_finalize, r3
+    jsr @r3
     nop
-    mov.l   _pool_fn_camera_finalize, r3  ! r3 = camera_state_finalization
-    jsr @r3                               ! call camera_state_finalization (second pass)
+    mov.l   _pool_fn_camera_finalize, r3
+    jsr @r3
     nop
-    mov #0x9, r7                          ! r7 = 9 (DMA transfer mode / tile count)
-    mov.l   _pool_tile_size_a, r5         ! r5 = 0x14000 (tile pattern size A)
-    mov.l   _pool_vdp2_vram_tile_a, r4   ! r4 = 0x25E76174 (VDP2 VRAM dest A)
-    mov.l   _pool_fn_vram_tile_copy, r3  ! r3 = vram_tile_copy
-    jsr @r3                               ! upload tile pattern data A to VRAM
-    mov r14, r6                           ! r6 = 0 (source offset / delay slot)
-    mov #0x8, r7                          ! r7 = 8 (DMA transfer mode / tile count)
-    mov.l   _pool_tile_size_b, r5         ! r5 = 0x17700 (tile pattern size B)
-    mov.l   _pool_vdp2_vram_tile_b, r4   ! r4 = 0x25E761FC (VDP2 VRAM dest B)
-    mov.l   _pool_fn_vram_tile_copy, r3  ! r3 = vram_tile_copy
-    jsr @r3                               ! upload tile pattern data B to VRAM
-    mov r14, r6                           ! r6 = 0 (source offset / delay slot)
-    mov r14, r6                           ! r6 = 0 (clear for display list setup)
-    mov.l   _pool_display_layer_params, r2 ! r2 = &display_layer_params struct
-    mov.l r2, @r15                        ! save struct ptr on stack
-    mov r2, r7                            ! r7 = &display_layer_params (for field access)
-    mov r2, r5                            ! r5 = &display_layer_params (source ptr)
-    mov.l   _pool_display_offset, r3      ! r3 = 0xA000 (display list base offset)
-    mov.l @(4, r7), r7                    ! r7 = display_layer_params[+4] (layer height)
-    mov.l @r5, r5                         ! r5 = display_layer_params[+0] (layer base)
-    add r3, r7                            ! r7 += 0xA000 (apply display base offset)
-    mov.l   _pool_fn_display_list_load, r3 ! r3 = display_list_loader
-    jsr @r3                               ! load display list: mode=4, dest=r4, src=r5, end=r7
-    mov #0x4, r4                          ! r4 = 4 (display list mode / delay slot)
-    mov #0x1, r2                          ! r2 = 1
-    mov.l   _pool_light_active_flag, r3   ! r3 = &light_active_flag (byte)
-    mov.b r2, @r3                         ! light_active_flag = 1 (enable start lights)
+    mov #0x9, r7
+    mov.l   _pool_tile_size_a, r5
+    mov.l   _pool_vdp2_vram_tile_a, r4
+    mov.l   _pool_fn_vram_tile_copy, r3
+    jsr @r3
+    mov r14, r6
+    mov #0x8, r7
+    mov.l   _pool_tile_size_b, r5
+    mov.l   _pool_vdp2_vram_tile_b, r4
+    mov.l   _pool_fn_vram_tile_copy, r3
+    jsr @r3
+    mov r14, r6
+    mov r14, r6
+    mov.l   _pool_display_layer_params, r2
+    mov.l r2, @r15
+    mov r2, r7
+    mov r2, r5
+    mov.l   _pool_display_offset, r3
+    mov.l @(4, r7), r7
+    mov.l @r5, r5
+    add r3, r7
+    mov.l   _pool_fn_display_list_load, r3
+    jsr @r3
+    mov #0x4, r4
+    mov #0x1, r2
+    mov.l   _pool_light_active_flag, r3
+    mov.b r2, @r3
     .byte   0xB9, 0xAC    /* bsr 0x06019928 (track_seg_phys_init) */
     nop
     .byte   0xB0, 0x45    /* bsr 0x0601A65E (car_init_handler) */
@@ -72,30 +55,30 @@ race_start_transition:
     nop
     .byte   0xB1, 0xB2    /* bsr 0x0601A940 (course_init_pipeline) */
     nop
-    mov.l   _pool_frame_counter_a, r3     ! r3 = &frame_counter_a (byte)
-    mov.b r14, @r3                        ! frame_counter_a = 0 (reset)
-    mov.l   _pool_frame_counter_b, r3     ! r3 = &frame_counter_b (byte)
-    mov.b r14, @r3                        ! frame_counter_b = 0 (reset)
-    mov.l   _pool_anim_reset_byte, r3     ! r3 = &anim_reset_byte
-    mov.b r14, @r3                        ! anim_reset_byte = 0 (reset)
-    mov.l   _pool_fn_race_data, r3        ! r3 = race_data_handler
-    jsr @r3                               ! call race_data_handler to init race state
+    mov.l   _pool_frame_counter_a, r3
+    mov.b r14, @r3
+    mov.l   _pool_frame_counter_b, r3
+    mov.b r14, @r3
+    mov.l   _pool_anim_reset_byte, r3
+    mov.b r14, @r3
+    mov.l   _pool_fn_race_data, r3
+    jsr @r3
     nop
-    add #0x4, r15                         ! free stack allocation
-    lds.l @r15+, pr                       ! restore return address
-    mov.l   _pool_fn_palette_commit, r3   ! r3 = palette_frame_effects
-    jmp @r3                               ! tail-call palette_frame_effects
-    mov.l @r15+, r14                      ! restore r14 (delay slot)
+    add #0x4, r15
+    lds.l @r15+, pr
+    mov.l   _pool_fn_palette_commit, r3
+    jmp @r3
+    mov.l @r15+, r14
 
     .global sym_0601A5F8
-sym_0601A5F8:                             /* render_param_query — returns render param based on game timer */
-    mov.l   _pool_game_timer, r0          ! r0 = &game_timer (16-bit)
-    mov.w @r0, r0                         ! r0 = game_timer value (signed)
-    extu.w r0, r0                         ! zero-extend to 32-bit
-    cmp/eq #0x10, r0                      ! is timer == 0x10 (green light moment)?
-    bf      .L_not_green_light            ! branch if timer != 0x10
-    mov.w   _wpool_green_light_param, r0  ! r0 = 0x00A8 (green light render param)
-    rts                                   ! return 0x00A8
+sym_0601A5F8:
+    mov.l   _pool_game_timer, r0
+    mov.w @r0, r0
+    extu.w r0, r0
+    cmp/eq #0x10, r0
+    bf      .L_not_green_light
+    mov.w   _wpool_green_light_param, r0
+    rts
     nop
 _wpool_green_light_param:
     .2byte  0x00A8
@@ -140,5 +123,5 @@ _pool_game_timer:
     .4byte  sym_06063D9E                  /* game timer (16-bit) — 0x10 = green light */
 .L_not_green_light:
     .byte   0x90, 0x40    /* mov.w .L_wpool_0601A6DC, r0 (cross-TU word pool) */
-    rts                                   ! return alternate render param
+    rts
     nop

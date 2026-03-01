@@ -4,29 +4,6 @@
  *   Activates during the Car Select -> Pre-Race state transition.
  * Date: 2026-02-28
  */
-/* transition_medium_a -- per-frame medium screen transition handler
- * Translation unit: 0x0600FD8A - 0x0600FDFE
- *
- * Called every frame during a medium screen transition. Manages a 16-bit
- * countdown timer (sym_0607887A) and performs two phases:
- *
- *   Phase 1 (countdown >= 0): Active transition
- *     - Calls graphics_mode_setup() (BSR to FUN_06010BC4)
- *     - Calls dual_hud_render_dispatch() to update HUD
- *     - Checks 2-player mode flag; if single-player, tail-calls
- *       anim_ui_transition(1) to animate the UI transition
- *
- *   Phase 2 (countdown expired, < 0): Transition complete
- *     - Sets game mode byte (sym_0607887F) to 0xC
- *     - Calls display_layer_config(0xC) then display_layer_config(4)
- *       to reconfigure display layers for the new mode
- *     - Stores 0x14 (20) into attract mode timer (sym_0607EBCC)
- *
- * Args: none (reads state from globals)
- * Returns: void
- * Calls: graphics_mode_setup (BSR), dual_hud_render_dispatch,
- *         display_layer_config, anim_ui_transition
- */
 
     .section .text.FUN_0600FD8A
 
@@ -34,43 +11,43 @@
     .global transition_medium_a
     .type transition_medium_a, @function
 transition_medium_a:
-    sts.l pr, @-r15                      ! save return address
+    sts.l pr, @-r15
     .byte   0xD4, 0x13    /* mov.l _pool_countdown_timer_ptr, r4 */
-    mov.w @r4, r3                        ! r3 = countdown timer value (16-bit)
-    add #-0x1, r3                        ! decrement countdown
-    mov.w r3, @r4                        ! store decremented countdown
-    exts.w r3, r3                        ! sign-extend to 32-bit for comparison
-    cmp/pz r3                            ! is countdown >= 0? (still running)
-    bt      .countdown_active            ! if so, continue active transition
-    mov #0xC, r3                         ! r3 = 0xC (new game mode value)
+    mov.w @r4, r3
+    add #-0x1, r3
+    mov.w r3, @r4
+    exts.w r3, r3
+    cmp/pz r3
+    bt      .countdown_active
+    mov #0xC, r3
     .byte   0xD2, 0x10    /* mov.l _pool_game_mode_ptr, r2 */
-    mov r3, r4                           ! r4 = 0xC (arg for display_layer_config)
-    mov.b r3, @r2                        ! game_mode_byte = 0xC
+    mov r3, r4
+    mov.b r3, @r2
     .byte   0xD3, 0x13    /* mov.l _pool_display_layer_config, r3 */
-    jsr @r3                              ! display_layer_config(0xC)
-    nop                                  ! (delay slot)
+    jsr @r3
+    nop
     .byte   0xD3, 0x11    /* mov.l _pool_display_layer_config, r3 */
-    jsr @r3                              ! display_layer_config(4)
-    mov #0x4, r4                         ! r4 = 4 (layer config mode, delay slot)
-    mov #0x14, r2                        ! r2 = 0x14 (20 = new attract timer value)
+    jsr @r3
+    mov #0x4, r4
+    mov #0x14, r2
     .byte   0xD3, 0x10    /* mov.l _pool_attract_timer_ptr, r3 */
-    mov.l r2, @r3                        ! attract_timer = 20
-    bra     .epilogue                    ! done, return
-    nop                                  ! (delay slot)
+    mov.l r2, @r3
+    bra     .epilogue
+    nop
 .countdown_active:
     .byte   0xB7, 0x04    /* bsr 0x06010BC4 (external) */
-    nop                                  ! graphics_mode_setup() (delay slot)
+    nop
     .byte   0xD3, 0x09    /* mov.l _pool_hud_render_dispatch, r3 */
-    jsr @r3                              ! dual_hud_render_dispatch()
-    nop                                  ! (delay slot)
+    jsr @r3
+    nop
     .byte   0xD0, 0x09    /* mov.l _pool_2p_mode_flag, r0 */
-    mov.b @r0, r0                        ! r0 = 2-player mode flag (0=1P, 1=2P)
-    tst r0, r0                           ! is single-player mode?
-    bf      .epilogue                    ! if 2P mode, skip UI anim and return
-    mov #0x1, r4                         ! r4 = 1 (UI transition direction)
+    mov.b @r0, r0
+    tst r0, r0
+    bf      .epilogue
+    mov #0x1, r4
     .byte   0xD3, 0x07    /* mov.l _pool_anim_ui_transition, r3 */
-    jmp @r3                              ! tail-call anim_ui_transition(1)
-    lds.l @r15+, pr                      ! restore return address (delay slot)
+    jmp @r3
+    lds.l @r15+, pr
     .2byte  0xFFFF                       /* alignment padding */
     .4byte  0xAB1101FF                   /* sound ID: transition sound (unused by this TU) */
     .4byte  sound_cmd_dispatch           /* sound_cmd_dispatch function ptr (unused by this TU) */
@@ -89,6 +66,6 @@ _pool_display_layer_config:
 _pool_attract_timer_ptr:
     .4byte  sym_0607EBCC                 /* &attract mode timer (32-bit countdown) */
 .epilogue:
-    lds.l @r15+, pr                      ! restore return address
-    rts                                  ! return
-    nop                                  ! (delay slot)
+    lds.l @r15+, pr
+    rts
+    nop

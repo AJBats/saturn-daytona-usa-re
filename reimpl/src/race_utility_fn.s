@@ -1,38 +1,3 @@
-/* race_utility_fn -- Race frame utility & end-sequence handler
- * Translation unit: 0x0600C286 - 0x0600C4F8
- *
- * Two entry points:
- *
- * 1. race_utility_fn (0x0600C286):
- *    Per-frame race utility called during race state updates.
- *    Calls render_finalize (sym_0603C000) and camera_track_setup, then
- *    dispatches to scene_path_a or scene_path_b depending on the
- *    render_state_byte (sym_06082A26). Finishes by writing the low-16
- *    mask (0x0000FFFF) to the VDP2 scroll register (0x21800000).
- *
- * 2. sym_0600C302 (race end handler):
- *    Called from state_race_main when race_end_flag is set.
- *    Operates on the player car struct (via sym_0607E944):
- *      - Reads car heading at +0x68, expands by <<5, stores to +0x7C
- *      - Decrements 18-frame countdown timers at +0x172 and +0x174
- *      - Checks zone_timer (+0xDC): if nonzero, returns early
- *      - Checks speed (+0x68) vs threshold 0xE6: if >= threshold,
- *        resets countdown timers to 0x12 and 0x00
- *      - Checks ext_check (+0x84) vs 0x8C: conditionally stores
- *        timer values for speed-range cars
- *
- * Calls: sym_0603C000 (render_finalize), camera_track_setup,
- *        scene_path_a, scene_path_b
- *
- * Car struct offsets used:
- *   +0x68 = CAR_HEADING_EXP (heading, expanded <<5)
- *   +0x7C = heading expanded store
- *   +0x78 = heading expanded store (duplicate)
- *   +0x84 = CAR_EXT_CHECK (extended check value)
- *   +0xDC = CAR_ZONE_TIMER (zone countdown timer)
- *   +0x172 = CAR_TIMER_172 (18-frame countdown timer 1)
- *   +0x174 = CAR_TIMER_174 (18-frame countdown timer 2)
- */
 
     .section .text.FUN_0600C286
 
@@ -40,22 +5,22 @@
     .global race_utility_fn
     .type race_utility_fn, @function
 race_utility_fn:
-    sts.l pr, @-r15                      ! save return address
+    sts.l pr, @-r15
     .byte   0xD3, 0x14    /* mov.l .L_fn_render_finalize, r3 */
-    jsr @r3                              ! call render_finalize (sym_0603C000)
-    nop                                  ! delay slot
+    jsr @r3
+    nop
     .byte   0xD3, 0x14    /* mov.l .L_fn_camera_track_setup, r3 */
-    jsr @r3                              ! call camera_track_setup
-    nop                                  ! delay slot
+    jsr @r3
+    nop
     .byte   0xD4, 0x13    /* mov.l .L_ptr_render_state_byte, r4 */
-    mov.b @r4, r2                        ! r2 = render_state_byte (sym_06082A26)
-    tst r2, r2                           ! test if render state == 0
-    bf      .L_check_state_1             ! nonzero: check if state == 1
+    mov.b @r4, r2
+    tst r2, r2
+    bf      .L_check_state_1
     .byte   0xD3, 0x12    /* mov.l .L_fn_scene_path_b, r3 */
-    jsr @r3                              ! state==0: call scene_path_b
-    nop                                  ! delay slot
-    bra     .L_write_scroll_exit         ! skip to VDP2 scroll write
-    nop                                  ! delay slot
+    jsr @r3
+    nop
+    bra     .L_write_scroll_exit
+    nop
     .2byte  0xFE11                       /* alignment / padding */
     .4byte  0x0080FFFF                   /* (unreachable pool) bitmask constant */
     .4byte  sym_0608A52C                 /* (unreachable pool) obj state secondary */
@@ -79,69 +44,69 @@ race_utility_fn:
 .L_fn_scene_path_b:
     .4byte  scene_path_b                 /* pool: &scene_path_b function */
 .L_check_state_1:
-    mov.b @r4, r0                        ! r0 = render_state_byte (re-read)
-    cmp/eq #0x1, r0                      ! state == 1?
-    bf      .L_write_scroll_exit         ! no: skip scene_path_a, go to exit
+    mov.b @r4, r0
+    cmp/eq #0x1, r0
+    bf      .L_write_scroll_exit
     .byte   0xD3, 0x21    /* mov.l .L_fn_scene_path_a, r3 */
-    jsr @r3                              ! state==1: call scene_path_a
-    nop                                  ! delay slot
+    jsr @r3
+    nop
 .L_write_scroll_exit:
     .byte   0xD2, 0x20    /* mov.l .L_mask_low16, r2 */
     .byte   0xD3, 0x21    /* mov.l .L_vdp2_scroll_reg, r3 */
-    lds.l @r15+, pr                      ! restore return address
-    rts                                  ! return
-    mov.w r2, @r3                        ! (delay slot) VDP2_scroll_reg = 0xFFFF
+    lds.l @r15+, pr
+    rts
+    mov.w r2, @r3
 
     .global sym_0600C302
-sym_0600C302:                            ! --- race end sequence handler ---
-    mov #0x68, r0                        ! r0 = 0x68 (CAR_HEADING_EXP offset)
+sym_0600C302:
+    mov #0x68, r0
     .byte   0xD4, 0x1F    /* mov.l .L_ptr_car_array_base, r4 */
-    mov.l @r4, r4                        ! r4 = *car_array_base (car struct ptr)
-    mov.l @(r0, r4), r3                  ! r3 = car[+0x68] (heading value)
-    add #0x7C, r0                        ! r0 = 0x7C (heading expanded store B)
-    shll2 r3                             ! r3 <<= 2
-    shll2 r3                             ! r3 <<= 2 (total <<4)
-    shll r3                              ! r3 <<= 1 (total <<5)
-    mov.l r3, @(r0, r4)                  ! car[+0x7C] = heading << 5
-    add #-0x4, r0                        ! r0 = 0x78 (heading expanded store A)
-    mov.l r3, @(r0, r4)                  ! car[+0x78] = heading << 5 (duplicate)
-    mov.w   DAT_0600c36a, r0             ! r0 = 0x0172 (CAR_TIMER_172 offset)
-    mov.w @(r0, r4), r3                  ! r3 = car[+0x172] (countdown timer 1)
-    cmp/pl r3                            ! timer_172 > 0?
-    bf      .L_check_timer_174           ! no: skip decrement
-    mov.w   DAT_0600c36a, r0             ! r0 = 0x0172 (reload offset)
-    mov.w @(r0, r4), r2                  ! r2 = car[+0x172]
-    add #-0x1, r2                        ! r2-- (decrement timer)
-    mov.w r2, @(r0, r4)                  ! car[+0x172] = decremented value
+    mov.l @r4, r4
+    mov.l @(r0, r4), r3
+    add #0x7C, r0
+    shll2 r3
+    shll2 r3
+    shll r3
+    mov.l r3, @(r0, r4)
+    add #-0x4, r0
+    mov.l r3, @(r0, r4)
+    mov.w   DAT_0600c36a, r0
+    mov.w @(r0, r4), r3
+    cmp/pl r3
+    bf      .L_check_timer_174
+    mov.w   DAT_0600c36a, r0
+    mov.w @(r0, r4), r2
+    add #-0x1, r2
+    mov.w r2, @(r0, r4)
 .L_check_timer_174:
-    mov.w   DAT_0600c36c, r0             ! r0 = 0x0174 (CAR_TIMER_174 offset)
-    mov.w @(r0, r4), r3                  ! r3 = car[+0x174] (countdown timer 2)
-    cmp/pl r3                            ! timer_174 > 0?
-    bf      .L_check_zone_timer          ! no: skip decrement
-    mov.w   DAT_0600c36c, r0             ! r0 = 0x0174 (reload offset)
-    mov.w @(r0, r4), r2                  ! r2 = car[+0x174]
-    add #-0x1, r2                        ! r2-- (decrement timer)
-    mov.w r2, @(r0, r4)                  ! car[+0x174] = decremented value
+    mov.w   DAT_0600c36c, r0
+    mov.w @(r0, r4), r3
+    cmp/pl r3
+    bf      .L_check_zone_timer
+    mov.w   DAT_0600c36c, r0
+    mov.w @(r0, r4), r2
+    add #-0x1, r2
+    mov.w r2, @(r0, r4)
 .L_check_zone_timer:
-    mov.w   DAT_0600c36e, r0             ! r0 = 0x00DC (CAR_ZONE_TIMER offset)
-    mov.w @(r0, r4), r0                  ! r0 = car[+0xDC] (zone timer)
-    tst r0, r0                           ! zone_timer == 0?
-    bt      .L_zone_timer_zero           ! yes: proceed to speed check
-    rts                                  ! no: early return (zone active)
-    nop                                  ! delay slot
+    mov.w   DAT_0600c36e, r0
+    mov.w @(r0, r4), r0
+    tst r0, r0
+    bt      .L_zone_timer_zero
+    rts
+    nop
 .L_zone_timer_zero:
-    mov #0x12, r7                        ! r7 = 0x12 (18 = timer reset value)
-    mov #0x68, r0                        ! r0 = 0x68 (CAR_HEADING_EXP offset)
-    mov.w   DAT_0600c370, r2             ! r2 = 0x00E6 (speed threshold)
-    mov.l @(r0, r4), r3                  ! r3 = car[+0x68] (heading / speed value)
-    cmp/ge r2, r3                        ! speed >= 0xE6?
-    bf/s    .L_check_ext_value           ! no: check ext_check instead
-    mov #0x0, r6                         ! (delay slot) r6 = 0 (timer clear value)
-    mov.w   DAT_0600c36a, r0             ! r0 = 0x0172 (CAR_TIMER_172 offset)
-    mov.w r7, @(r0, r4)                  ! car[+0x172] = 0x12 (reset timer 1 to 18)
-    add #0x2, r0                         ! r0 = 0x0174 (CAR_TIMER_174 offset)
-    rts                                  ! return
-    mov.w r6, @(r0, r4)                  ! (delay slot) car[+0x174] = 0 (clear timer 2)
+    mov #0x12, r7
+    mov #0x68, r0
+    mov.w   DAT_0600c370, r2
+    mov.l @(r0, r4), r3
+    cmp/ge r2, r3
+    bf/s    .L_check_ext_value
+    mov #0x0, r6
+    mov.w   DAT_0600c36a, r0
+    mov.w r7, @(r0, r4)
+    add #0x2, r0
+    rts
+    mov.w r6, @(r0, r4)
 .L_check_ext_value:
     mov.w   DAT_0600c372, r0
     mov.w   .L_wpool_ext_threshold, r2

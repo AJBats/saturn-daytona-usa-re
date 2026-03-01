@@ -32,57 +32,54 @@
     .global hud_sound_trigger
     .type hud_sound_trigger, @function
 hud_sound_trigger:
-    mov.l r14, @-r15                    ! save r14 on stack
-    sts.l pr, @-r15                     ! save return address on stack
-    mov.l   .L_pool_sound_dispatch, r14 ! r14 = &sound_cmd_dispatch (call target)
-    mov.l   .L_pool_hud_active_flag, r0 ! r0 = &hud_active_flag (sym_0607EAE0)
-    mov.l @r0, r0                       ! r0 = hud_active_flag value
-    tst r0, r0                          ! test if hud_active_flag == 0
-    bt      .L_hud_inactive             ! if zero, branch to inactive path
-    mov.l   .L_pool_scale_mode_flag, r0 ! r0 = &scale_mode_flag (sym_06078644)
-    mov.l @r0, r0                       ! r0 = scale_mode_flag value
-    cmp/eq #0x1, r0                     ! compare scale_mode_flag with 1
-    bf      .L_scale_mode_alt           ! if != 1, use alternate sound
-    mov.l   .L_pool_snd_hud_default, r5 ! r5 = 0xAB110AFF (default HUD sound)
-    bra     .L_call_sound_dispatch      ! jump to common call site
-    nop                                 ! branch delay slot
-    /* Cross-TU pool entries: referenced by tachometer_ctrl's .byte-encoded
-     * mov.l instructions. These fall within this TU's address range but
-     * belong to the preceding TU's constant pool. */
-    .4byte  0x06FC0200                  ! tachometer countdown threshold + padding
-    .4byte  0x00E100E2                  ! invalid mode sanitization constants
-    .4byte  0x009007A2                  ! mode check / display parameter
-    .4byte  sym_06063F42                ! HUD element index (word)
-    .4byte  sym_06063D9E                ! game mode word (0x10 = demo/attract)
-    .4byte  sym_0607887F                ! game state byte (8-bit)
-    .4byte  sym_06078868                ! car/sprite frame index (dword)
-    .4byte  sym_0605ACE3                ! display channel base address
-    .4byte  sym_060284AE                ! display element renderer
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    mov.l   .L_pool_sound_dispatch, r14
+    mov.l   .L_pool_hud_active_flag, r0
+    mov.l @r0, r0
+    tst r0, r0
+    bt      .L_hud_inactive
+    mov.l   .L_pool_scale_mode_flag, r0
+    mov.l @r0, r0
+    cmp/eq #0x1, r0
+    bf      .L_scale_mode_alt
+    mov.l   .L_pool_snd_hud_default, r5
+    bra     .L_call_sound_dispatch
+    nop
+    .4byte  0x06FC0200
+    .4byte  0x00E100E2
+    .4byte  0x009007A2
+    .4byte  sym_06063F42
+    .4byte  sym_06063D9E
+    .4byte  sym_0607887F
+    .4byte  sym_06078868
+    .4byte  sym_0605ACE3
+    .4byte  sym_060284AE
 .L_pool_sound_dispatch:
-    .4byte  sound_cmd_dispatch          ! sound command dispatch function
+    .4byte  sound_cmd_dispatch
 .L_pool_hud_active_flag:
-    .4byte  sym_0607EAE0               ! hud_active_flag (nonzero = HUD active)
+    .4byte  sym_0607EAE0
 .L_pool_scale_mode_flag:
-    .4byte  sym_06078644               ! scale_mode_flag (1 = normal scale)
+    .4byte  sym_06078644
 .L_pool_snd_hud_default:
-    .4byte  0xAB110AFF                 ! sound ID: default HUD element sound
+    .4byte  0xAB110AFF
 .L_scale_mode_alt:
     .byte   0xD5, 0x2B    /* mov.l .L_pool_06010C54, r5 — r5 = 0xAB110BFF (alt HUD sound) */
 .L_call_sound_dispatch:
-    jsr @r14                            ! call sound_cmd_dispatch(0, r5)
-    mov #0x0, r4                        ! r4 = 0 (channel 0) — delay slot
-    bra     .L_epilogue                 ! jump to function epilogue
-    nop                                 ! branch delay slot
+    jsr @r14
+    mov #0x0, r4
+    bra     .L_epilogue
+    nop
 .L_hud_inactive:
     .byte   0xD5, 0x2A    /* mov.l .L_pool_06010C58, r5 — r5 = &car_sprite_selector (sym_0607EAB8) */
     .byte   0xD3, 0x2A    /* mov.l .L_pool_06010C5C, r3 — r3 = &display_list_table (sym_0604483C) */
-    mov.l @r5, r5                       ! r5 = car_sprite_selector value
-    shll2 r5                            ! r5 *= 4 (dword offset into table)
-    add r3, r5                          ! r5 = &display_list_table[selector]
-    mov.l @r5, r5                       ! r5 = display_list_table[selector] (sound param)
-    jsr @r14                            ! call sound_cmd_dispatch(0, r5)
-    mov #0x0, r4                        ! r4 = 0 (channel 0) — delay slot
+    mov.l @r5, r5
+    shll2 r5
+    add r3, r5
+    mov.l @r5, r5
+    jsr @r14
+    mov #0x0, r4
 .L_epilogue:
-    lds.l @r15+, pr                     ! restore return address from stack
-    rts                                 ! return to caller
-    mov.l @r15+, r14                    ! restore r14 from stack — delay slot
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14

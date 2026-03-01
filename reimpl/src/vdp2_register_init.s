@@ -1,15 +1,3 @@
-/* vdp2_register_init -- VDP2 VRAM/CRAM initialization
- * Translation unit: 0x06003578 - 0x060038D4
- *
- * Single function: vdp2_register_init
- * Called during boot to load VDP2 tile/pattern/palette data from CD-ROM
- * into VDP2 VRAM and Color RAM. Uses memcpy_word_idx and memcpy_long_idx
- * to bulk-copy data blocks. Each block: (dest=VDP2 addr, src=CD-ROM offset + base, size).
- * After tile data, loads animation palette tables into high WRAM.
- *
- * Lines 424-444: Byte blob — inline code the L3 generator couldn't decode
- * (continuation of the animation palette loading sequence).
- */
 
     .section .text.FUN_06003578
 
@@ -25,8 +13,8 @@ vdp2_register_init:
     mov.l r9, @-r15
     sts.l pr, @-r15
     mov.l   .L_vdp2_vram_0x20000, r10
-    mov.l   .L_fn_memcpy_word, r12    ! r12 = memcpy_word_idx
-    mov.l   .L_fn_memcpy_long, r13    ! r13 = memcpy_long_idx
+    mov.l   .L_fn_memcpy_word, r12
+    mov.l   .L_fn_memcpy_long, r13
     mov.w   .L_cram_copy_size, r6
     mov.l   .L_color_palette_src, r5
     mov.l   .L_vdp2_cram_0x800, r4
@@ -38,14 +26,13 @@ vdp2_register_init:
     jsr @r13
     nop
     mov #0x8, r4
-    ! clear 16 bytes of VDP2 VRAM at +0x20000
 .L_clear_vram_loop:
     add #-0x2, r4
     tst r4, r4
     bf/s    .L_clear_vram_loop
     mov.l r11, @r10
     mov.w   DAT_06003622, r6
-    mov.l   .L_cdrom_base, r14    ! r14 = 0x002A0000 CD-ROM base offset
+    mov.l   .L_cdrom_base, r14
     mov.l   .L_tile_src_1, r5
     mov.l   .L_vdp2_vram_0x4363C, r4
     jsr @r13
@@ -201,7 +188,6 @@ DAT_06003630:
     .4byte  0x00023C58
 .L_vdp2_vram_0x665D4:
     .4byte  0x25E665D4                  /* VDP2 VRAM +0x665D4 */
-    ! --- second batch: pattern/character data ---
 .L_pattern_batch:
     mov.w   .L_pattern_size_1, r6
     mov.l   .L_pattern_src_1, r5
@@ -419,7 +405,6 @@ DAT_0600378e:
     .4byte  0x0000AA54
 .L_anim_pal_dest_a:
     .4byte  sym_060EE300
-    ! --- animation palette loading ---
 .L_anim_palette_load:
     mov.l   .L_anim_pal_src_2, r5
     mov.l   .L_anim_pal_dest_b, r4

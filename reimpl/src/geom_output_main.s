@@ -1,27 +1,3 @@
-/* geom_output_main -- L3 assembly (SH-2 mnemonics)
- * Translation unit: 0x0601F5D0 - 0x0601FD74
- *
- * Geometry output pipeline: buffer management, vertex dispatch, and
- * VDP2 scroll/tilemap DMA coordination. Double-buffered geometry
- * output with mode-dependent scroll configuration (modes 4/8/C).
- *
- * Functions:
- *   mem_pool_reset        -- select buffer 0, tail-call vertex process
- *   geom_render_util      -- full render pass: overlay, normals, output,
- *                            buffer swap, title string, rotation apply
- *   geom_output_finalize  -- copy geometry data by buffer index, pad
- *                            remaining buffer, clear dirty flag
- *   .L_select_buffer      -- internal: set active buffer (0 or 1),
- *                            configure base pointer and swap flag
- *   sym_0601F8BC           -- RTS stub (no-op)
- *   geom_output_ctrl      -- orchestrator: render_util + output_main
- *   geom_output_dispatch  -- check VDP2 status, DMA or display ctrl
- *   resource_validator    -- sync render: select buffer, vertex process,
- *                            display sync, wait for VDP2 vblank
- *   geom_output_main      -- main output: priority setup, mode dispatch
- *                            (single/multi scroll), channel config, DMA
- *   geom_display_ctrl_a   -- set display control bit 2, clear 5 counters
- */
 
     .section .text.FUN_0601F5D0
 
@@ -30,10 +6,10 @@
     .type mem_pool_reset, @function
 mem_pool_reset:
     sts.l pr, @-r15
-    bsr     .L_select_buffer          ! select buffer 0
-    mov #0x0, r4                      ! r4 = 0 (buffer index 0)
+    bsr     .L_select_buffer
+    mov #0x0, r4
     mov.l   .L_fn_geom_vertex_process, r3
-    jmp @r3                           ! tail-call geom_vertex_process
+    jmp @r3
     lds.l @r15+, pr
 .L_fn_geom_vertex_process:
     .4byte  geom_vertex_process
@@ -46,68 +22,68 @@ geom_render_util:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov #0x40, r11                    ! r11 = 0x40 (pad byte value)
+    mov #0x40, r11
     sts.l macl, @-r15
     mov r11, r12
-    mov.w   DAT_0601f6ba, r13         ! r13 = 0x2710 (buffer capacity)
-    mov.l   .L_geom_buf_base, r14     ! r14 = geometry buffer base
-    add #0x40, r12                    ! r12 = 0x80 (pad byte 2)
-    bsr     .L_select_buffer          ! select buffer 0
+    mov.w   DAT_0601f6ba, r13
+    mov.l   .L_geom_buf_base, r14
+    add #0x40, r12
+    bsr     .L_select_buffer
     mov #0x0, r4
     mov.l   .L_fn_hud_overlay_render_a, r3
-    jsr @r3                           ! call hud_overlay_render
+    jsr @r3
     nop
     mov.l   .L_fn_geom_normal_compute, r3
-    jsr @r3                           ! call geom_normal_compute
+    jsr @r3
     nop
     mov.l   .L_fn_geom_output_handler, r3
-    jsr @r3                           ! call geom_output_handler
+    jsr @r3
     nop
     mov.l   .L_render_active_flag, r0
-    mov.b @r0, r0                     ! read render active flag
+    mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bf      .L_render_active          ! if active, process geometry
-    bra     .L_render_skip_epilog     ! else skip to return
+    bf      .L_render_active
+    bra     .L_render_skip_epilog
     nop
 .L_render_active:
-    mov.l   .L_geom_cmd_buffer, r4   ! r4 = cmd buffer dest
-    mov.b @(4, r14), r0               ! copy 4 bytes from buf[4..7]
+    mov.l   .L_geom_cmd_buffer, r4
+    mov.b @(4, r14), r0
     mov r0, r2
-    mov.b r2, @r4                     ! write byte 0 to cmd buffer
+    mov.b r2, @r4
     add #0x1, r4
     mov.b @(5, r14), r0
     mov r0, r2
-    mov.b r2, @r4                     ! write byte 1
+    mov.b r2, @r4
     add #0x1, r4
     mov.b @(6, r14), r0
     mov r0, r2
-    mov.b r2, @r4                     ! write byte 2
+    mov.b r2, @r4
     add #0x1, r4
     mov.b @(7, r14), r0
     mov r0, r3
-    mov.b r3, @r4                     ! write byte 3
+    mov.b r3, @r4
     mov.l   .L_geom_cmd_buffer, r4
     mov.l   .L_geom_cmd_src, r3
-    mov.l @r4, r2                     ! r2 = cmd buffer value (as long)
-    mov.l @r3, r3                     ! r3 = source reference value
-    cmp/hs r2, r3                     ! if src >= cmd, skip
+    mov.l @r4, r2
+    mov.l @r3, r3
+    cmp/hs r2, r3
     bf      .L_cmd_buffer_valid
     mov.l @r4, r0
-    tst r0, r0                        ! also skip if cmd == 0
+    tst r0, r0
     bt      .L_cmd_buffer_valid
     bra     .L_render_skip_epilog
     nop
 .L_cmd_buffer_valid:
     mov #0x1, r3
     mov.l   .L_render_dirty_flag, r2
-    mov.b r3, @r2                     ! set dirty flag = 1
+    mov.b r3, @r2
     mov.l   .L_buf_index, r3
     mov.l   .L_prev_buf_index, r2
     mov.l @r3, r3
-    mov.b r3, @r2                     ! save current buf index as prev
+    mov.b r3, @r2
     mov.l   .L_geom_cmd_src, r4
-    mov.b @r4+, r0                    ! copy 4 bytes from source to buf[4..7]
+    mov.b @r4+, r0
     mov.b r0, @(4, r14)
     mov.b @r4+, r0
     mov.b r0, @(5, r14)
@@ -117,25 +93,25 @@ geom_render_util:
     mov.b @r4, r0
     mov.b r0, @(7, r14)
     mov.l   .L_buf_write_pos, r4
-    mov.l @r4, r4                     ! r4 = current write position
-    cmp/hs r13, r4                    ! if pos >= capacity, skip pad
+    mov.l @r4, r4
+    cmp/hs r13, r4
     bt      .L_pad_complete
-.L_pad_buffer_loop:                   ! fill remaining buffer with pad bytes
+.L_pad_buffer_loop:
     mov r4, r0
     extu.b r12, r3
     add #0x1, r4
-    mov.b r11, @(r0, r14)            ! write 0x40 pad byte
+    mov.b r11, @(r0, r14)
     mov r4, r0
     add #0x1, r4
     cmp/hs r13, r4
     bf/s    .L_pad_buffer_loop
-    mov.b r3, @(r0, r14)             ! write 0x80 pad byte
+    mov.b r3, @(r0, r14)
 .L_pad_complete:
     mov.l   .L_buf_index, r4
     mov.l @r4, r4
-    add #0x1, r4                      ! advance to next buffer
+    add #0x1, r4
     bsr     .L_select_buffer
-    extu.b r4, r4                     ! wrap to byte range
+    extu.b r4, r4
     mov.l   .L_title_string_ptr_a, r5
     mov.l @r5, r0
     tst r0, r0
@@ -221,7 +197,7 @@ DAT_0601f6ba:
     sts macl, r2
     exts.b r2, r2
     add r6, r2
-    mov #0x44, r0                     ! 'D' (0x44)
+    mov #0x44, r0
     mov.b r0, @(7, r2)
     mov.b @r5, r3
     mov #0xB, r2
@@ -229,19 +205,19 @@ DAT_0601f6ba:
     sts macl, r3
     exts.b r3, r3
     add r6, r3
-    mov #0x41, r0                     ! 'A' (0x41)
+    mov #0x41, r0
     mov.b r0, @(8, r3)
     mov.b @r5, r3
     muls.w r2, r3
     sts macl, r3
     exts.b r3, r3
     add r6, r3
-    mov #0x59, r1                     ! 'Y' (0x59) -- writes "DAY"
+    mov #0x59, r1
     mov r1, r0
     mov.b r0, @(9, r3)
 .L_title_written:
     mov.l   .L_fn_hud_overlay_render_b, r3
-    jsr @r3                           ! call hud_overlay_render (post)
+    jsr @r3
     nop
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -249,7 +225,7 @@ DAT_0601f6ba:
     mov.l @r15+, r12
     mov.l @r15+, r13
     mov.l   .L_fn_geom_rotation_apply, r3
-    jmp @r3                           ! tail-call geom_rotation_apply
+    jmp @r3
     mov.l @r15+, r14
 .L_render_skip_epilog:
     lds.l @r15+, macl
@@ -273,33 +249,33 @@ geom_output_finalize:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.l r10, @-r15
-    mov #0x40, r11                    ! r11 = 0x40 (pad byte value)
+    mov #0x40, r11
     mov.l r9, @-r15
     mov r11, r12
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.w   DAT_0601f804, r13         ! r13 = 0x2710 (buffer capacity)
-    mov.l   .L_geom_buf_base_b, r14   ! r14 = geometry buffer base
+    mov.w   DAT_0601f804, r13
+    mov.l   .L_geom_buf_base_b, r14
     mov.l   .L_render_active_flag_b, r0
-    mov.b @r0, r0                     ! check render active flag
+    mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_finalize_epilog        ! if not active, skip
-    add #0x40, r12                    ! r12 = 0x80 (pad byte 2)
+    bt/s    .L_finalize_epilog
+    add #0x40, r12
     mov.l   .L_buf_index_b, r10
     mov.l @r10, r4
-    add #0x1, r4                      ! advance buffer index
+    add #0x1, r4
     bsr     .L_select_buffer
     extu.b r4, r4
     mov.l   .L_fn_hud_overlay_render_c, r3
-    jsr @r3                           ! call hud_overlay_render
+    jsr @r3
     nop
     mov.l   .L_fn_geom_coord_calc, r3
-    jsr @r3                           ! call geom_coord_calc
+    jsr @r3
     nop
-    extu.b r0, r0                     ! r0 = return value
+    extu.b r0, r0
     tst r0, r0
-    bf      .L_finalize_pad_buffer    ! if nonzero, go pad buffer
+    bf      .L_finalize_pad_buffer
     mov.l   .L_render_dirty_flag_b, r3
     mov.b @r3, r3
     extu.b r3, r3
@@ -312,15 +288,15 @@ geom_output_finalize:
     extu.b r3, r3
     cmp/eq r2, r3
     bt      .L_finalize_pad_buffer
-.L_copy_by_buf_index:                 ! copy geometry data by buffer index
-    mov.l   .L_copy_src_offset, r8    ! r8 = 0x002F8000 (src offset)
-    mov.l   .L_fn_memcpy_long_idx, r9 ! r9 = memcpy function
-    mov.l @r10, r0                    ! r0 = buffer index
+.L_copy_by_buf_index:
+    mov.l   .L_copy_src_offset, r8
+    mov.l   .L_fn_memcpy_long_idx, r9
+    mov.l @r10, r0
     tst r0, r0
     bf      .L_try_buf_index_1
-    mov.w   DAT_0601f806, r6          ! index 0: len = 0x1900
+    mov.w   DAT_0601f806, r6
     mov r8, r5
-    jsr @r9                           ! memcpy_long_idx(buf, src, len)
+    jsr @r9
     mov r14, r4
     bra     .L_finalize_pad_buffer
     nop
@@ -329,8 +305,8 @@ geom_output_finalize:
     cmp/eq #0x1, r0
     bf      .L_try_buf_index_2
     mov r8, r5
-    mov.w   .L_copy_len_buf1, r6      ! index 1: len = 0x2328
-    jsr @r9                           ! memcpy_long_idx(buf, src, len)
+    mov.w   .L_copy_len_buf1, r6
+    jsr @r9
     mov r14, r4
     bra     .L_finalize_pad_buffer
     nop
@@ -367,9 +343,9 @@ DAT_0601f806:
     mov.l @r10, r0
     cmp/eq #0x2, r0
     bf      .L_finalize_pad_buffer
-    mov r13, r6                       ! index 2: len = 0x2710 (full capacity)
+    mov r13, r6
     mov r8, r5
-    jsr @r9                           ! memcpy_long_idx(buf, src, len)
+    jsr @r9
     mov r14, r4
 .L_finalize_pad_buffer:
     mov.l   .L_active_buf_slot_b, r4
@@ -394,7 +370,7 @@ DAT_0601f806:
 .L_finalize_clear_dirty:
     mov #0x0, r3
     mov.l   .L_render_dirty_clear, r2
-    mov.b r3, @r2                     ! clear render dirty flag
+    mov.b r3, @r2
 .L_finalize_epilog:
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -405,24 +381,24 @@ DAT_0601f806:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_select_buffer:                     ! select geometry buffer 0 or 1
+.L_select_buffer:
     mov.l   .L_active_buf_slot_b, r3
-    mov.b r4, @r3                     ! store active buffer slot
+    mov.b r4, @r3
     extu.b r4, r4
     mov.l   .L_buf_swap_flag, r6
     mov.l   .L_buf_base_ptr, r5
     tst r4, r4
-    bf      .L_set_buf1               ! if r4 != 0, use buffer 1
+    bf      .L_set_buf1
     mov.l   .L_buf0_base_addr, r3
-    mov.l r3, @r5                     ! set base ptr to buffer 0
+    mov.l r3, @r5
     mov #0x0, r2
     bra     .L_buf_select_done
-    mov.b r2, @r6                     ! swap flag = 0
+    mov.b r2, @r6
 .L_set_buf1:
     mov.l   .L_buf1_base_addr, r2
-    mov.l r2, @r5                     ! set base ptr to buffer 1
+    mov.l r2, @r5
     mov #0x1, r3
-    mov.b r3, @r6                     ! swap flag = 1
+    mov.b r3, @r6
 .L_buf_select_done:
     rts
     nop
@@ -453,27 +429,27 @@ geom_output_ctrl:
     sts.l pr, @-r15
     mov #0x0, r3
     mov.l   .L_output_dirty_flag, r2
-    mov.b r3, @r2                     ! clear dirty flag
-    bsr     geom_render_util          ! run render pass
+    mov.b r3, @r2
+    bsr     geom_render_util
     nop
     mov.l   .L_output_dirty_flag, r2
-    mov.b @r2, r2                     ! check if render set dirty
+    mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_output_dirty_path      ! if dirty, do output pipeline
+    bf      .L_output_dirty_path
     lds.l @r15+, pr
     rts
-    mov #0x1, r0                      ! return 1 (no output needed)
+    mov #0x1, r0
 .L_output_dirty_path:
     mov.l   .L_fn_pre_output_setup, r3
-    jsr @r3                           ! pre-output setup
+    jsr @r3
     nop
-    bsr     geom_output_main          ! main geometry output
+    bsr     geom_output_main
     nop
     mov.l   .L_fn_post_output_cleanup, r3
-    jsr @r3                           ! post-output cleanup
+    jsr @r3
     nop
-    mov #0x0, r0                      ! return 0 (output done)
+    mov #0x0, r0
     lds.l @r15+, pr
     rts
     nop
@@ -490,27 +466,27 @@ geom_output_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_vdp2_status_reg, r3
-    mov.w @r3, r2                     ! read VDP2 status register
-    mov.w   DAT_0601f962, r3          ! r3 = 0x0800 (vblank bit mask)
+    mov.w @r3, r2
+    mov.w   DAT_0601f962, r3
     extu.w r2, r2
-    and r3, r2                        ! isolate vblank bit
+    and r3, r2
     tst r2, r2
-    bt      .L_no_vdp2_pending        ! if not in vblank, skip DMA
-    mov.w   DAT_0601f964, r3          ! r3 = 0x4210 (tilemap color value)
+    bt      .L_no_vdp2_pending
+    mov.w   DAT_0601f964, r3
     mov r15, r6
-    mov.w r3, @r15                    ! store on stack as DMA source
-    mov.l   .L_vdp2_vram_0x7FFFE, r4  ! VDP2 VRAM dest
+    mov.w r3, @r15
+    mov.l   .L_vdp2_vram_0x7FFFE, r4
     mov.l   .L_fn_tilemap_dma_update_a, r3
-    jsr @r3                           ! tilemap_dma_update
-    mov #0x1, r5                      ! count = 1 word
+    jsr @r3
+    mov #0x1, r5
     add #0x4, r15
     lds.l @r15+, pr
     rts
-    mov #0x1, r0                      ! return 1 (DMA dispatched)
+    mov #0x1, r0
 .L_no_vdp2_pending:
-    bsr     geom_display_ctrl_a       ! reset display control state
+    bsr     geom_display_ctrl_a
     nop
-    mov #0x0, r0                      ! return 0 (no DMA)
+    mov #0x0, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
@@ -524,25 +500,25 @@ sym_0601F936:
     .type resource_validator, @function
 resource_validator:
     mov.l r14, @-r15
-    mov r3, r4                        ! r4 = buffer index from caller
+    mov r3, r4
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.w   DAT_0601f962, r13         ! r13 = 0x0800 (vblank bit mask)
+    mov.w   DAT_0601f962, r13
     mov.l   .L_display_ctrl_state, r14
     mov.l   .L_output_dirty_flag_b, r2
-    mov.b r3, @r2                     ! store buffer index as dirty flag
+    mov.b r3, @r2
     bsr     .L_select_buffer
     nop
     mov.l   .L_fn_geom_vertex_process_b, r3
-    jsr @r3                           ! call geom_vertex_process
+    jsr @r3
     nop
     mov.l   .L_output_dirty_flag_b, r2
-    mov.b @r2, r2                     ! check dirty flag
+    mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_validator_active       ! if dirty, do sync render
-    bra     .L_validator_epilog       ! else return
+    bf      .L_validator_active
+    bra     .L_validator_epilog
     nop
 
     .global DAT_0601f962
@@ -566,41 +542,41 @@ DAT_0601f964:
 .L_fn_geom_vertex_process_b:
     .4byte  geom_vertex_process
 .L_validator_active:
-    mov.l   .L_fp_min, r3             ! 0x80000000 (sign bit)
+    mov.l   .L_fp_min, r3
     mov.l @r14, r2
-    or r3, r2                         ! set bit 31 of display ctrl
+    or r3, r2
     mov.l   .L_fn_display_sync, r3
-    jsr @r3                           ! display_sync (with bit 31 set)
+    jsr @r3
     mov.l r2, @r14
     mov.l   .L_fn_display_sync, r3
-    jsr @r3                           ! display_sync again
+    jsr @r3
     nop
-    bsr     geom_output_main          ! main geometry output
+    bsr     geom_output_main
     nop
-    mov.l   .L_fp_0x4000_0000, r2     ! 0x40000000 (bit 30)
+    mov.l   .L_fp_0x4000_0000, r2
     mov.l @r14, r3
-    or r2, r3                         ! set bit 30 of display ctrl
+    or r2, r3
     mov.l r3, @r14
-    mov.l   .L_vdp2_status_reg_b, r12 ! r12 = VDP2 status register ptr
-.L_wait_vdp2_sync:                    ! poll loop: wait for VDP2 vblank
-    bsr     geom_display_ctrl_a       ! reset display ctrl each iteration
+    mov.l   .L_vdp2_status_reg_b, r12
+.L_wait_vdp2_sync:
+    bsr     geom_display_ctrl_a
     nop
-    mov.w @r12, r2                    ! read VDP2 status
+    mov.w @r12, r2
     extu.w r2, r2
-    and r13, r2                       ! mask vblank bit (0x0800)
+    and r13, r2
     tst r2, r2
-    bt      .L_not_yet_synced         ! if not in vblank, keep waiting
+    bt      .L_not_yet_synced
     bra     .L_vdp2_synced
     nop
 .L_not_yet_synced:
-    bra     .L_wait_vdp2_sync         ! loop back
+    bra     .L_wait_vdp2_sync
     nop
 .L_vdp2_synced:
-    bsr     geom_display_ctrl_a       ! final display ctrl reset
+    bsr     geom_display_ctrl_a
     nop
-    mov.l   .L_fp_min, r2             ! 0x80000000
+    mov.l   .L_fp_min, r2
     mov.l @r14, r3
-    or r2, r3                         ! set bit 31 again
+    or r2, r3
     mov.l r3, @r14
 .L_validator_epilog:
     lds.l @r15+, pr
@@ -620,35 +596,35 @@ geom_output_main:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    add #-0x8, r15                    ! allocate 8 bytes stack space
-    mov.w   DAT_0601fa26, r3          ! r3 = 0x7C00
+    add #-0x8, r15
+    mov.w   DAT_0601fa26, r3
     mov r3, r0
-    mov.w r0, @(4, r15)              ! store on stack for DMA later
+    mov.w r0, @(4, r15)
     mov.l   .L_fn_priority_setup, r3
-    jsr @r3                           ! priority_setup(0xC)
+    jsr @r3
     mov #0xC, r4
     mov.l   .L_fn_priority_commit, r3
-    jsr @r3                           ! priority_commit()
+    jsr @r3
     nop
-    mov.l   .L_scroll_config_table, r11  ! r11 = scroll config table base
-    mov.l   .L_fn_scroll_dispatch, r12   ! r12 = scroll dispatch function
+    mov.l   .L_scroll_config_table, r11
+    mov.l   .L_fn_scroll_dispatch, r12
     mov.l   .L_render_mode, r0
-    mov.l @r0, r0                     ! read render mode
+    mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_multi_mode_path        ! if mode != 1, multi-scroll path
-    mov #0x8, r7                      ! mode 1: single-scroll path
-    mov.l   .L_tilemap_data_size, r5  ! size = 0x17700
-    mov.l   .L_vdp2_vram_0x72194, r4  ! VDP2 VRAM dest
+    bf      .L_multi_mode_path
+    mov #0x8, r7
+    mov.l   .L_tilemap_data_size, r5
+    mov.l   .L_vdp2_vram_0x72194, r4
     mov.l   .L_fn_dma_tilemap_copy, r3
-    jsr @r3                           ! DMA tilemap data to VRAM
+    jsr @r3
     mov #0x0, r6
-    mov.l   .L_palette_src_data, r5   ! palette source
-    mov.l   .L_vdp2_cram_0x600, r4    ! VDP2 CRAM dest
+    mov.l   .L_palette_src_data, r5
+    mov.l   .L_vdp2_cram_0x600, r4
     mov.l   .L_fn_memcpy_word_idx, r3
-    jsr @r3                           ! copy 0x20 words of palette
+    jsr @r3
     mov #0x20, r6
     mov.l   .L_output_dirty_flag_c, r0
-    mov.b @r0, r0                     ! read dirty flag for sub-mode
+    mov.b @r0, r0
     bra     .L_mode1_dispatch
     extu.b r0, r0
 .L_dispatch_mode4:
@@ -722,28 +698,28 @@ DAT_0601fa26:
     mov #0xC, r4
     bra     .L_configure_channels
     nop
-.L_mode1_dispatch:                    ! dispatch by sub-mode (4/8/C)
+.L_mode1_dispatch:
     cmp/eq #0x4, r0
-    bt      .L_dispatch_mode4         ! sub-mode 4
+    bt      .L_dispatch_mode4
     cmp/eq #0x8, r0
-    bt      .L_dispatch_mode8         ! sub-mode 8
+    bt      .L_dispatch_mode8
     cmp/eq #0xC, r0
-    bt      .L_dispatch_modeC         ! sub-mode C
-    bra     .L_configure_channels     ! unknown: skip to channel config
+    bt      .L_dispatch_modeC
+    bra     .L_configure_channels
     nop
-.L_multi_mode_path:                   ! multi-scroll path (mode != 1)
+.L_multi_mode_path:
     mov.l   .L_palette_src_data_b, r5
-    mov.l   .L_vdp2_cram_0x600_b, r4  ! VDP2 CRAM dest
+    mov.l   .L_vdp2_cram_0x600_b, r4
     mov.l   .L_fn_memcpy_word_idx_b, r3
-    jsr @r3                           ! copy palette to CRAM
-    mov #0x20, r6                     ! 0x20 words
-    mov.w   .L_multi_scroll_offset_a, r8  ! r8 = 0x0590 (scroll table offset A)
+    jsr @r3
+    mov #0x20, r6
+    mov.w   .L_multi_scroll_offset_a, r8
     mov r8, r9
-    add #0x8, r9                      ! r9 = 0x0598 (scroll table offset B)
-    mov.l   .L_fn_scroll_dispatch_b, r13  ! r13 = scroll dispatch fn
-    mov.w   .L_multi_scroll_step, r14     ! r14 = 0x0090 (step between entries)
+    add #0x8, r9
+    mov.l   .L_fn_scroll_dispatch_b, r13
+    mov.w   .L_multi_scroll_step, r14
     mov.l   .L_output_dirty_flag_d, r0
-    mov.b @r0, r0                     ! read sub-mode for multi-scroll
+    mov.b @r0, r0
     bra     .L_multi_mode_dispatch
     extu.b r0, r0
 
@@ -1060,43 +1036,43 @@ DAT_0601fc9c:
     .4byte  sym_0605E0DC
 .L_scroll_data_set_c2:
     .4byte  sym_0605E0E0
-.L_multi_mode_dispatch:               ! dispatch multi-scroll by sub-mode
+.L_multi_mode_dispatch:
     cmp/eq #0x4, r0
     bf      .L_try_multi_mode8_C
-    bra     .L_multi_scroll_mode4     ! multi sub-mode 4
+    bra     .L_multi_scroll_mode4
     nop
 .L_try_multi_mode8_C:
     cmp/eq #0x8, r0
-    bt      .L_multi_scroll_mode8     ! multi sub-mode 8
+    bt      .L_multi_scroll_mode8
     cmp/eq #0xC, r0
-    bt      .L_multi_scroll_modeC     ! multi sub-mode C
-.L_configure_channels:                ! configure VDP2 display channels
+    bt      .L_multi_scroll_modeC
+.L_configure_channels:
     mov.l   .L_fn_channel_nibble_config, r14
-    mov.w   .L_channel_config_0x100, r4  ! channel 0x100, val 0
+    mov.w   .L_channel_config_0x100, r4
     jsr @r14
     mov #0x0, r5
-    mov #0x0, r5                      ! channel 0x4, val 0
+    mov #0x0, r5
     jsr @r14
     mov #0x4, r4
-    mov #0x0, r5                      ! channel 0x8, val 0
+    mov #0x0, r5
     jsr @r14
     mov #0x8, r4
-    mov #0x0, r5                      ! channel 0x10, val 0
+    mov #0x0, r5
     jsr @r14
     mov #0x10, r4
-    mov #0x7, r5                      ! channel 0x20, val 7
+    mov #0x7, r5
     jsr @r14
     mov #0x20, r4
-    mov #0x0, r5                      ! channel 0x1, val 0
+    mov #0x0, r5
     jsr @r14
     mov #0x1, r4
-    mov r15, r6                       ! r6 = stack ptr (DMA source)
+    mov r15, r6
     mov.l   .L_vdp2_vram_0x7FFFE_b, r4
     mov.l   .L_fn_tilemap_dma_update_b, r3
-    add #0x4, r6                      ! point to saved 0x7C00 on stack
-    jsr @r3                           ! tilemap DMA: write 0x7C00 to VRAM
-    mov #0x1, r5                      ! count = 1 word
-    mov #0x7, r5                      ! channel 0x20, val 7 (restore)
+    add #0x4, r6
+    jsr @r3
+    mov #0x1, r5
+    mov #0x7, r5
     jsr @r14
     mov #0x20, r4
     add #0x8, r15
@@ -1117,22 +1093,22 @@ geom_display_ctrl_a:
     mov.l   .L_display_ctrl_state_b, r4
     mov.l   .L_fn_display_sync_b, r3
     mov.l @r4, r0
-    or #0x4, r0                       ! set bit 2 of display ctrl
-    jsr @r3                           ! display_sync
+    or #0x4, r0
+    jsr @r3
     mov.l r0, @r4
-    mov #0x0, r4                      ! clear 5 geometry state vars
+    mov #0x0, r4
     mov.l   .L_geom_counter_a, r3
-    mov.l r4, @r3                     ! counter A = 0
+    mov.l r4, @r3
     mov.l   .L_geom_counter_b, r3
-    mov.l r4, @r3                     ! counter B = 0
+    mov.l r4, @r3
     mov.l   .L_geom_counter_c, r3
-    mov.l r4, @r3                     ! counter C = 0
+    mov.l r4, @r3
     mov.l   .L_geom_counter_d, r3
-    mov.l r4, @r3                     ! counter D = 0
+    mov.l r4, @r3
     mov.l   .L_geom_counter_e, r3
     lds.l @r15+, pr
     rts
-    mov.l r4, @r3                     ! counter E = 0
+    mov.l r4, @r3
 .L_channel_config_0x100:
     .2byte  0x0100
     .2byte  0xFFFF

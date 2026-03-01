@@ -1,26 +1,3 @@
-/* vdp1_polygon_build -- Build VDP1 polygon drawing commands from vertex data
- * Translation unit: 0x06037660 - 0x0603806C
- *
- * Dispatches on polygon type (1/2/4/8/0x10/0x20) to configure VDP1 command
- * words: CMDCTRL, CMDPMOD, CMDCOLR, CMDSRCA, and CMDSIZE. Each type handler
- * sets different bit fields in these command words, then falls through to the
- * shared vertex coordinate builder which iterates over polygon vertices,
- * calling input_proc_complete to compute XA/YA..XD/YD screen coordinates.
- *
- * Register allocation (persistent across function):
- *   r5  = input polygon descriptor pointer
- *   r6  = VDP1 output buffer (sym_060A3DB0)
- *   r7  = VDP1 command template (0xDA200000 = distorted sprite draw mode)
- *   r8  = 0x8000 (fixed-point 0.5 rounding constant)
- *   r9  = 0xBFFF (coordinate limit / mask)
- *   r10 = 0x7FFF (max positive 15-bit; clipping threshold)
- *   r11 = color bank bits (shifted from input byte 8)
- *   r12 = 0x3F00 (color bank mask for high byte)
- *   r13 = VDP1 command list ptr (sym_060A3D88), then vertex count
- *   r14 = 0x3F (6-bit AND mask for color index)
- *
- * Also contains sym_06038044: copies 8 words from r4 into cmd list + 0x10.
- */
 
     .section .text.FUN_06037660
 
@@ -37,31 +14,31 @@ vdp1_polygon_build:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x18, r15
-    mov.l   .L_fp_half, r8          ! r8 = 0x8000 (FP rounding)
-    mov.l   .L_coord_limit, r9      ! r9 = 0xBFFF (coord mask)
-    mov.w   DAT_060376a4, r10       ! r10 = 0x7FFF (clip threshold)
-    mov.w   DAT_060376a6, r12       ! r12 = 0x3F00 (color bank mask)
-    mov #0x3F, r14                  ! r14 = 0x3F (6-bit color index mask)
-    mov.l   .L_vdp1_cmd_template, r7 ! r7 = 0xDA200000 (distorted sprite)
-    mov.l   .L_vdp1_output_buf, r6  ! r6 -> VDP1 output buffer
+    mov.l   .L_fp_half, r8
+    mov.l   .L_coord_limit, r9
+    mov.w   DAT_060376a4, r10
+    mov.w   DAT_060376a6, r12
+    mov #0x3F, r14
+    mov.l   .L_vdp1_cmd_template, r7
+    mov.l   .L_vdp1_output_buf, r6
     mov #0x0, r3
-    mov.l r3, @(12, r15)            ! sp[12] = 0 (secondary vtx list = NULL)
-    mov.b @(8, r5), r0              ! input byte 8 = color bank index
+    mov.l r3, @(12, r15)
+    mov.b @(8, r5), r0
     mov r0, r3
     extu.b r3, r3
     mov.w r3, @r15
     mov.w @r15, r11
     extu.w r11, r11
-    shll8 r11                       ! shift left 14 total (<<8 + <<2*3)
+    shll8 r11
     shll2 r11
     shll2 r11
     shll2 r11
-    mov.w   DAT_060376a8, r2        ! r2 = 0x4000
-    and r2, r11                     ! r11 = color bank bit at position 14
+    mov.w   DAT_060376a8, r2
+    and r2, r11
     extu.w r11, r11
-    mov.l   .L_vdp1_cmd_list, r13   ! r13 -> VDP1 command list
-    bra     .L_type_dispatch         ! dispatch on polygon type (r4 -> r0)
-    extu.w r4, r0                   ! r0 = polygon type (delay slot)
+    mov.l   .L_vdp1_cmd_list, r13
+    bra     .L_type_dispatch
+    extu.w r4, r0
 
     .global DAT_060376a4
 DAT_060376a4:
@@ -85,8 +62,8 @@ DAT_060376a8:
     .4byte  sym_060A3DB0            /* polygon output buffer base */
 .L_vdp1_cmd_list:
     .4byte  sym_060A3D88            /* VDP1 command list write pointer */
-.L_type_04_handler:                      ! --- polygon type 0x04 ---
-    mov.b @r5, r4                   ! read CMDCTRL flags
+.L_type_04_handler:
+    mov.b @r5, r4
     extu.b r4, r4
     mov #0x1, r2
     and r2, r4
@@ -190,9 +167,9 @@ DAT_060376a8:
     .4byte  0x0000FF8F
     .4byte  0x0000FFFD
     .4byte  0x0000FFF0
-.L_type_08_handler:                      ! --- polygon type 0x08 ---
+.L_type_08_handler:
     mov.l   .L_mask_pmod_ctrl_clr, r2
-    mov #0x20, r0                   ! offset 0x20 = CMDPMOD
+    mov #0x20, r0
     mov.w @(r0, r13), r3
     and r2, r3
     mov.w r3, @(r0, r13)
@@ -362,7 +339,7 @@ DAT_060378fe:
     .4byte  0x0000FDFF
 .L_mask_size_field_clr:
     .4byte  0x0000FF0F
-.L_type_10_handler:                      ! --- polygon type 0x10 ---
+.L_type_10_handler:
     mov.b @r5, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -489,7 +466,7 @@ DAT_060378fe:
     .4byte  0x0000FFFD
 .L_mask_size_nibble_clr:
     .4byte  0x0000F0FF
-.L_type_20_handler:                      ! --- polygon type 0x20 ---
+.L_type_20_handler:
     mov.b @r5, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -626,7 +603,7 @@ DAT_06037b10:
     .4byte  0x0000FF3F
 .L_mask_colr_bit5_clr:
     .4byte  0x0000FFDF
-.L_type_01_handler:                      ! --- polygon type 0x01 (full config) ---
+.L_type_01_handler:
     mov.b @r5, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -915,13 +892,13 @@ DAT_06037c96:
     .4byte  sym_060A4C59
 .L_mask_size_hi_clr:
     .4byte  0x0000FF0F
-.L_type_02_handler:                      ! --- polygon type 0x02 (conditional) ---
-    mov.l   .L_poly_flag_a_3, r0    ! check polygon mode flag A
+.L_type_02_handler:
+    mov.l   .L_poly_flag_a_3, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bt      .L_type2_check_flag_b   ! flag A set -> check flag B too
-    bra     .L_build_vertex_coords  ! flag A clear -> skip entirely
+    bt      .L_type2_check_flag_b
+    bra     .L_build_vertex_coords
     nop
 .L_type2_check_flag_b:
     mov.l   .L_poly_flag_b_3, r0
@@ -1061,8 +1038,8 @@ DAT_06037c96:
     .4byte  0x0000FFFD
 .L_mask_size_lo_clr_b:
     .4byte  0x0000FF0F
-.L_type_dispatch:                        ! --- polygon type dispatch chain ---
-    cmp/eq #0x1, r0                 ! r0 = polygon type from caller
+.L_type_dispatch:
+    cmp/eq #0x1, r0
     bf      .L_try_type_02
     bra     .L_type_01_handler
     nop
@@ -1091,53 +1068,53 @@ DAT_06037c96:
     bf      .L_build_vertex_coords
     bra     .L_type_20_handler
     nop
-.L_build_vertex_coords:                  ! --- color + vertex coord builder ---
-    mov.b @(6, r5), r0              ! input byte 6 = color mode selector
+.L_build_vertex_coords:
+    mov.b @(6, r5), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_color_calc_normal    ! mode != 1 -> normal color path
-    mov.l @(12, r5), r0             ! mode 1: direct color from polygon data
-    add r7, r0                      ! add VDP1 template base
+    bf      .L_color_calc_normal
+    mov.l @(12, r5), r0
+    add r7, r0
     shlr16 r0
     shlr r0
-    and #0x7, r0                    ! extract 3-bit color index
+    and #0x7, r0
     extu.w r0, r0
-    mov.w r0, @(4, r15)            ! sp[4] = color index
+    mov.w r0, @(4, r15)
     mov.w @(4, r15), r0
     mov.w @r15, r1
-    mov.l   .L_fn_color_lookup, r3  ! call sym_06035280 (color lookup)
+    mov.l   .L_fn_color_lookup, r3
     extu.w r0, r0
     jsr @r3
     extu.w r1, r1
     bra     .L_color_write
     nop
-.L_color_calc_normal:                    ! --- normal color calculation ---
-    mov.b @(2, r5), r0              ! input byte 2 = texture flag
+.L_color_calc_normal:
+    mov.b @(2, r5), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_no_tex_flag          ! no texture -> different size table
-    mov.b @(1, r5), r0              ! input byte 1 = secondary flag
+    bf      .L_no_tex_flag
+    mov.b @(1, r5), r0
     mov r0, r2
     extu.b r2, r2
     tst r2, r2
     bf      .L_tex_nonzero
-    mov.w   .L_tex_size_8k, r3      ! tex=1, sec=0 -> size 0x2000
+    mov.w   .L_tex_size_8k, r3
     mov r3, r0
-    mov.w r0, @(4, r15)            ! sp[4] = texture size
+    mov.w r0, @(4, r15)
     bra     .L_color_lookup_entry
     nop
 .L_tex_nonzero:
-    mov.w   .L_tex_size_2k, r2      ! tex=1, sec!=0 -> size 0x0800
+    mov.w   .L_tex_size_2k, r2
     mov r2, r0
     bra     .L_color_lookup_entry
     mov.w r0, @(4, r15)
 .L_no_tex_flag:
-    mov.b @(1, r5), r0              ! no texture path
+    mov.b @(1, r5), r0
     mov r0, r2
     extu.b r2, r2
     tst r2, r2
     bf      .L_tex_default_nonzero
-    mov.w   .L_tex_size_16k, r3     ! tex=0, sec=0 -> size 0x4000
+    mov.w   .L_tex_size_16k, r3
     mov r3, r0
     mov.w r0, @(4, r15)
     bra     .L_color_lookup_entry
@@ -1151,15 +1128,15 @@ DAT_06037c96:
 .L_fn_color_lookup:
     .4byte  sym_06035280            /* color lookup function */
 .L_tex_default_nonzero:
-    mov.w   .L_tex_size_4k, r2      ! tex=0, sec!=0 -> size 0x1000
+    mov.w   .L_tex_size_4k, r2
     mov r2, r0
     mov.w r0, @(4, r15)
-.L_color_lookup_entry:                   ! --- compute CMDCOLR via input_proc_complete ---
-    mov.l @(12, r5), r1             ! polygon data word at offset 12
-    mov.w @(4, r15), r0             ! r0 = texture size
+.L_color_lookup_entry:
+    mov.l @(12, r5), r1
+    mov.w @(4, r15), r0
     mov.l   .L_fn_input_proc, r3
-    add r7, r1                      ! add VDP1 template base
-    jsr @r3                         ! call input_proc_complete
+    add r7, r1
+    jsr @r3
     extu.w r0, r0
     mov.w   .L_color_field_mask, r2
     and r2, r0
@@ -1174,16 +1151,16 @@ DAT_06037c96:
     extu.w r0, r0
     jsr @r3
     extu.w r1, r1
-.L_color_write:                          ! --- write color and begin vertex iteration ---
-    mov.w @r4, r2                   ! merge color result into cmd word
+.L_color_write:
+    mov.w @r4, r2
     mov #0x0, r3
     or r0, r2
     mov.w r2, @r4
-    mov.w r3, @r15                  ! loop counter = 0
-    extu.w r13, r3                  ! r13 = vertex count
+    mov.w r3, @r15
+    extu.w r13, r3
     cmp/pl r3
-    bf      .L_vtx_loop_done        ! no vertices -> skip loop
-.L_vtx_loop:                             ! --- per-vertex coordinate loop ---
+    bf      .L_vtx_loop_done
+.L_vtx_loop:
     mov.w @r15, r3
     mov r5, r2
     extu.w r3, r3
@@ -1202,22 +1179,22 @@ DAT_06037c96:
     extu.w r0, r0
     mov.l r0, @(20, r15)
     mov.l   .L_fn_input_proc, r2
-    jsr @r2                         ! compute X coordinate
+    jsr @r2
     add r7, r1
-    and r14, r0                     ! mask to 6-bit color index
+    and r14, r0
     mov r5, r1
     extu.w r0, r0
     add #0xC, r1
-    mov.w r0, @r3                   ! write X coord to output
+    mov.w r0, @r3
     mov.l @(8, r15), r3
     mov.l   .L_fn_input_proc, r2
     add r3, r1
     mov.l @(4, r1), r1
     add r7, r1
-    jsr @r2                         ! compute Y coordinate
+    jsr @r2
     mov.l @(20, r15), r0
-    and r14, r0                     ! mask to 6-bit
-    shll8 r0                        ! Y goes in high byte
+    and r14, r0
+    shll8 r0
     extu.w r0, r0
     mov.w r0, @(8, r15)
     mov.l @(16, r15), r2
@@ -1225,21 +1202,21 @@ DAT_06037c96:
     mov r0, r1
     extu.w r1, r1
     mov.w @r2, r0
-    and r12, r1                     ! apply color bank mask
-    or r1, r0                       ! merge Y|bank into output word
+    and r12, r1
+    or r1, r0
     mov.w r0, @r2
-    mov.w @r15, r3                  ! loop counter++
+    mov.w @r15, r3
     extu.w r13, r2
     add #0x1, r3
     mov.w r3, @r15
     extu.w r3, r3
-    cmp/ge r2, r3                   ! counter >= vertex count?
+    cmp/ge r2, r3
     bf      .L_vtx_loop
-.L_vtx_loop_done:                        ! --- check for secondary vertex list ---
-    mov.l @(12, r15), r0            ! sp[12] = secondary vtx list ptr
+.L_vtx_loop_done:
+    mov.l @(12, r15), r0
     tst r0, r0
-    bt      .L_set_dirty_and_exit   ! NULL -> done
-    mov.w @r4, r0                   ! replicate low nibble to bits 7:4
+    bt      .L_set_dirty_and_exit
+    mov.w @r4, r0
     and #0xF, r0
     mov.w r0, @r4
     mov.w @r4, r3
@@ -1253,7 +1230,7 @@ DAT_06037c96:
     cmp/pl r3
     bf/s    .L_set_dirty_and_exit
     mov #0x0, r4
-.L_vtx_loop_secondary:                   ! --- secondary vertex coordinate loop ---
+.L_vtx_loop_secondary:
     extu.w r4, r11
     extu.w r4, r1
     mov.l @(12, r15), r3
@@ -1310,15 +1287,15 @@ DAT_06037c96:
     cmp/ge r2, r3
     bf/s    .L_vtx_loop_secondary
     mov.w r1, @r11
-.L_set_dirty_and_exit:                   ! --- mark VDP1 cmd list dirty if needed ---
-    mov.l   .L_vdp1_dirty_flag, r4  ! sym_060635AC = VDP1 dirty flag
+.L_set_dirty_and_exit:
+    mov.l   .L_vdp1_dirty_flag, r4
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
-    bf      .L_epilogue             ! already dirty -> skip
+    bf      .L_epilogue
     mov #0x1, r3
-    mov.w r3, @r4                   ! set dirty flag = 1
-.L_epilogue:                             ! --- restore callee-saved regs ---
+    mov.w r3, @r4
+.L_epilogue:
     add #0x18, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -1333,23 +1310,23 @@ DAT_06037c96:
     .4byte  sym_060635AC            /* VDP1 command list dirty flag */
 
     .global sym_06038044
-sym_06038044:                            ! copy 8 words from r4 into cmd_list+0x10
-    mov.l   .L_cmd_list_base, r0    ! r0 -> sym_060A3D88 (cmd list base)
-    mov #0x8, r7                    ! 8 words to copy
-    mov #0x0, r5                    ! loop counter = 0
+sym_06038044:
+    mov.l   .L_cmd_list_base, r0
+    mov #0x8, r7
+    mov #0x0, r5
 .L_copy_loop:
     extu.w r5, r6
     mov r0, r3
-    shll r6                         ! word offset = counter * 2
+    shll r6
     add #0x1, r5
-    add #0x10, r3                   ! dest = cmd_list + 0x10 + word_offset
+    add #0x10, r3
     mov r6, r2
     add r6, r3
-    add r4, r2                      ! src = r4 + word_offset
+    add r4, r2
     mov.w @r2, r1
-    mov.w r1, @r3                   ! copy word
+    mov.w r1, @r3
     extu.w r5, r3
-    cmp/ge r7, r3                   ! counter >= 8?
+    cmp/ge r7, r3
     bf      .L_copy_loop
     rts
     nop
