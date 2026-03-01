@@ -6,7 +6,7 @@
  * Dispatches rotation source/dest parameter tables based on race variant
  * (state 0/1/2 from race end state word), then applies the full transform
  * chain: pre-transform setup, position load, mat_rot_y, mat_rot_z,
- * transform_matrix.  If camera follow mode is active, runs a secondary
+ * mat_rot_x.  If camera follow mode is active, runs a secondary
  * pass with alternate position/rotation tables and dispatches the dual-
  * object renderer (camera_collision_avoid) at the end.
  *
@@ -104,8 +104,8 @@ course_obj_transform:
     mov.l   .L_fn_mat_rot_z, r3
     jsr @r3                     ! mat_rot_z(rot_Z)
     mov.l @(36, r14), r4        ! (delay) r4 = car[+0x24] (Z rotation)
-    mov.l   .L_fn_transform_matrix, r3
-    jsr @r3                     ! transform_matrix(rot_X)
+    mov.l   .L_fn_mat_rot_x, r3
+    jsr @r3                     ! mat_rot_x(rot_X)
     mov.l @(28, r14), r4        ! (delay) r4 = car[+0x1C] (X rotation)
     mov.w   .L_off_car_extra_rot, r0   ! r0 = 0x01D8 (extra rot field offset)
     mov.l   .L_fn_mat_rot_y, r3
@@ -144,10 +144,10 @@ course_obj_transform:
     mov.l @(r0, r14), r4        ! (delay) r4 = car[+0x1D0] (alt Z rot)
     mov.w   .L_off_car_xform_alt, r0  ! r0 = 0x01C8
     mov.l   .L_ptr_lod_offset_base, r2
-    mov.l   .L_fn_transform_matrix, r3
+    mov.l   .L_fn_mat_rot_x, r3
     mov.l @(r0, r14), r4        ! r4 = car[+0x1C8] (alt transform)
     mov.l @r2, r2               ! r2 = LOD offset base value
-    jsr @r3                     ! transform_matrix(alt_xform + lod_offset)
+    jsr @r3                     ! mat_rot_x(alt_xform + lod_offset)
     add r2, r4                  ! (delay) r4 += LOD offset
     mov.l @(12, r11), r5        ! r5 = config[+0xC] (model index)
     shll2 r5                    ! r5 *= 0x4 (table stride)
@@ -203,8 +203,8 @@ course_obj_transform:
     .4byte  mat_rot_y                   ! Y-axis rotation matrix function
 .L_fn_mat_rot_z:
     .4byte  mat_rot_z                   ! Z-axis rotation matrix function
-.L_fn_transform_matrix:
-    .4byte  transform_matrix            ! full transform matrix function
+.L_fn_mat_rot_x:
+    .4byte  mat_rot_x            ! full transform matrix function
 .L_ptr_cam_follow_flag:
     .4byte  sym_06059F30                ! camera follow mode flag
 .L_ptr_scale_src_vec:

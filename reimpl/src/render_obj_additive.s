@@ -11,7 +11,7 @@
  *   4. Push matrix via sym_06026DBC (matrix push)
  *   5. Translate via sym_06026E2E (X, Y=-Z, Z from position struct)
  *   6. Apply Y-axis rotation via mat_rot_y (from obj[+0x40] << 1)
- *   7. Apply X-axis rotation via transform_matrix (negated from obj[+0x48])
+ *   7. Apply X-axis rotation via mat_rot_x (negated from obj[+0x48])
  *   8. Look up car data struct pointers by config byte (4 car bases)
  *   9. Call sym_06031D8C (distance check / visibility culling)
  *  10. Call sym_06031A28 (sprite submission, word index from sym_06089E44)
@@ -73,8 +73,8 @@ render_obj_additive:
     mov.l   .L_rot_y_fn, r3              ! r3 = mat_rot_y function
     jsr @r3                               ! call mat_rot_y(Y_angle)
     mov.l @r15, r4                        ! r4 = sp[0] = Y rotation param (delay slot)
-    mov.l   .L_transform_fn, r3          ! r3 = transform_matrix function
-    jsr @r3                               ! call transform_matrix(X_angle)
+    mov.l   .L_transform_fn, r3          ! r3 = mat_rot_x function
+    jsr @r3                               ! call mat_rot_x(X_angle)
     mov.l @(4, r15), r4                   ! r4 = sp[4] = negated X rotation (delay slot)
     mov.l   .L_car_data_1, r11            ! r11 = car_data_1 base (sym_0606212C)
     mov.l @(12, r15), r14                 ! r14 = node_id from sp[12]
@@ -121,8 +121,8 @@ render_obj_additive:
     mov.l   .L_rot_y_fn, r3              ! r3 = mat_rot_y function
     jsr @r3                               ! call mat_rot_y(Y_angle)
     mov.l @r15, r4                        ! r4 = sp[0] = Y rotation param (delay slot)
-    mov.l   .L_transform_fn, r3          ! r3 = transform_matrix function
-    jsr @r3                               ! call transform_matrix(X_angle)
+    mov.l   .L_transform_fn, r3          ! r3 = mat_rot_x function
+    jsr @r3                               ! call mat_rot_x(X_angle)
     mov.l @(4, r15), r4                   ! r4 = sp[4] = negated X rotation (delay slot)
     mov.l @(8, r15), r12                  ! r12 = child1 node_id from sp[8]
     mov.l   .L_car_data_3, r5            ! r5 = car_data_3 base
@@ -165,7 +165,7 @@ render_obj_additive:
 .L_rot_y_fn:
     .4byte  mat_rot_y                     ! Y-axis rotation
 .L_transform_fn:
-    .4byte  transform_matrix              ! X-axis rotation / transform
+    .4byte  mat_rot_x              ! X-axis rotation / transform
 .L_car_data_1:
     .4byte  sym_0606212C                  ! car data struct base 1
 .L_car_data_3:
@@ -197,8 +197,8 @@ render_obj_additive:
     neg r6, r6                            ! r6 = -Z (negate for coordinate system)
     jsr @r3                               ! call translate(X, Y, -Z)
     mov.l @r13, r4                        ! r4 = position3.X (delay slot)
-    mov.l   .L_transform_fn_2, r3        ! r3 = transform_matrix function
-    jsr @r3                               ! call transform_matrix(X_angle)
+    mov.l   .L_transform_fn_2, r3        ! r3 = mat_rot_x function
+    jsr @r3                               ! call mat_rot_x(X_angle)
     mov.l @r15, r4                        ! r4 = sp[0] = rotation param (delay slot)
     mov.l @(4, r15), r13                  ! r13 = child2 node_id from sp[4]
     mov.l   .L_car_data_3_2, r5          ! r5 = car_data_3 base
@@ -238,7 +238,7 @@ render_obj_additive:
 .L_translate_fn_2:
     .4byte  sym_06026E2E                  ! translate (X, Y, Z)
 .L_transform_fn_2:
-    .4byte  transform_matrix              ! X-axis rotation / transform
+    .4byte  mat_rot_x              ! X-axis rotation / transform
 .L_car_data_3_2:
     .4byte  sym_060621D8                  ! car data struct base 3
 .L_dist_check_fn_2:

@@ -20,7 +20,7 @@
  *   4. If countdown expired (<=0) or button bit 0x0200 is pressed:
  *      - Copies game mode word to HUD element index
  *      - Sanitizes invalid mode values (0xE1, 0xE2, 0x4) to zero
- *      - Calls hud_element_draw to refresh display
+ *      - Calls hud_sound_trigger to refresh display
  *      - Resets countdown timer and sets game state to 0x0A
  *      - If frame index < 10, tail-calls display element renderer
  *        with tachometer display parameters
@@ -28,7 +28,7 @@
  * Args:
  *   r4 = button input flags (16-bit, upper bits ignored)
  *
- * Calls: hud_element_draw (BSR), sym_060284AE (tail-call display renderer)
+ * Calls: hud_sound_trigger (BSR), sym_060284AE (tail-call display renderer)
  * Reads: sym_0607EBCC (countdown timer), sym_0607887F (game state byte),
  *        sym_06063D9E (game mode word), sym_06078868 (frame index)
  * Writes: sym_0607EBCC, sym_0607887F, sym_06063F42 (HUD element index)
@@ -110,10 +110,10 @@ tachometer_ctrl:
     extu.w r13, r2                           ! r2 = 0 (zero-extended word)
     mov.w r2, @r5                            ! hud_element_index = 0 (reset)
 
-/* Call hud_element_draw, update game state, and optionally tail-call renderer */
+/* Call hud_sound_trigger, update game state, and optionally tail-call renderer */
 .L_call_hud_draw:
     .byte   0xB0, 0x15    /* bsr 0x06010B54 (external) */
-                                             ! call hud_element_draw
+                                             ! call hud_sound_trigger
     mov.l r13, @r14                          ! delay slot: countdown_timer = 0 (reset)
     mov #0xA, r4                             ! r4 = 10 (new game state value)
     .byte   0xD3, 0x15    /* mov.l .L_pool_06010B84, r3 — &game_state_byte [HIGH] */

@@ -21,7 +21,7 @@ ai_section_check:
     .4byte  0x0338033C
 .L_pool_ai_state_base:
     .4byte  sym_060A5400                /* [HIGH] AI/game state base pointer */
-    .4byte  ai_section_transition       /* [HIGH] fn ptr: AI section transition handler */
+    .4byte  cd_block_read_safe       /* [HIGH] fn ptr: AI section transition handler */
     .4byte  ai_checkpoint_section       /* [HIGH] fn ptr: AI checkpoint section processor */
     .4byte  sym_06035C4E                /* [MEDIUM] fn ptr: HIRQ register read utility */
 .L_06041374:

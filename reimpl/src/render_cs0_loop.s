@@ -7,7 +7,7 @@
  *   2. Apply XYZ translation from object struct
  *   3. Apply Y rotation (mat_rot_y) with +0x8000 offset
  *   4. Apply Z rotation (mat_rot_z), negated
- *   5. Apply secondary rotation (transform_matrix), negated
+ *   5. Apply secondary rotation (mat_rot_x), negated
  *   6. Branch on detail-level flags in object byte +1:
  *      - 0x40: close-range full detail path
  *      - 0x20: medium-range secondary detail path
@@ -167,8 +167,8 @@ render_cs0_loop:
     jsr @r3                                 ! call mat_rot_z(r4 = -Z_rot)
     neg r4, r4                              ! (delay) r4 = -Z_rot (negate Z angle)
     mov.l @(28, r14), r4                    ! r4 = obj[+0x1C] (secondary rotation)
-    mov.l   .L_transform_matrix_fn, r3    ! r3 = transform_matrix
-    jsr @r3                                 ! call transform_matrix(r4 = -secondary_rot)
+    mov.l   .L_mat_rot_x_fn, r3    ! r3 = mat_rot_x
+    jsr @r3                                 ! call mat_rot_x(r4 = -secondary_rot)
     neg r4, r4                              ! (delay) r4 = -secondary_rot
     mov.w   DAT_0600b83c, r0               ! r0 = 0x01BC (collision field A offset)
     mov.l @(r0, r14), r2                    ! r2 = obj[+0x1BC] (collision field A)
@@ -192,9 +192,9 @@ render_cs0_loop:
     jsr @r3                                 ! call mat_rot_z(r4 = -alt_Z_rot)
     neg r4, r4                              ! (delay) r4 = -alt_Z_rot
     mov.w   .L_off_rot_alt_z, r0          ! r0 = 0x01C8 (alt secondary rot offset)
-    mov.l   .L_transform_matrix_fn, r3    ! r3 = transform_matrix
+    mov.l   .L_mat_rot_x_fn, r3    ! r3 = mat_rot_x
     mov.l @(r0, r14), r4                    ! r4 = obj[+0x1C8] (alt secondary rot)
-    jsr @r3                                 ! call transform_matrix(r4 = -alt_rot)
+    jsr @r3                                 ! call mat_rot_x(r4 = -alt_rot)
     neg r4, r4                              ! (delay) r4 = -alt_rot
 .L_check_detail_flags:
     mov.l   .L_lod_selector_table, r9      ! r9 = LOD selector table (sym_06047FC4)
@@ -280,8 +280,8 @@ DAT_0600b840:
     .4byte  mat_rot_y
 .L_mat_rot_z_fn:
     .4byte  mat_rot_z
-.L_transform_matrix_fn:
-    .4byte  transform_matrix
+.L_mat_rot_x_fn:
+    .4byte  mat_rot_x
 .L_lod_selector_table:
     .4byte  sym_06047FC4
 .L_state_flag_a:

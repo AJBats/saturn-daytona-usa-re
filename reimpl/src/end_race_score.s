@@ -12,7 +12,7 @@
  *   4. Scale entry fields [+4], [+8], [+12] by wind_dir * 1.0
  *   5. Transform dispatch with computed angle/position args
  *   6. Reverse Z rotation (-entry[+24])
- *   7. Apply transform_matrix from entry[+26] * wind_dir
+ *   7. Apply mat_rot_x from entry[+26] * wind_dir
  *   8. Apply Y rotation from entry[+28] * wind_dir
  *   9. Apply Z rotation from entry[+30] * wind_dir
  *  10. Compute uniform scale: fpmul(entry[+16], wind_dir*1.0) + 0x4CCC
@@ -92,8 +92,8 @@ end_race_score:
     mov r0, r4                           ! r4 = transform_angle
     extu.w r3, r3                        ! zero-extend wind_dir
     mul.l r3, r4                         ! MACL = wind_dir * transform_angle
-    .byte   0xD3, 0x24    /* mov.l _pool_fn_transform_matrix, r3 */
-    jsr @r3                              ! call transform_matrix(wind_dir * transform_angle)
+    .byte   0xD3, 0x24    /* mov.l _pool_fn_mat_rot_x, r3 */
+    jsr @r3                              ! call mat_rot_x(wind_dir * transform_angle)
     sts macl, r4                         ! r4 = scaled transform angle (delay slot)
     mov.w @(28, r12), r0                 ! r0 = entry[+28] (Y rotation angle)
     mov.w @r13, r3                       ! r3 = wind_dir_word
@@ -169,8 +169,8 @@ DAT_06013f4c:
     .4byte  sym_06026DBC
 _pool_fn_transform_dispatch:
     .4byte  sym_06026E2E
-_pool_fn_transform_matrix:
-    .4byte  transform_matrix
+_pool_fn_mat_rot_x:
+    .4byte  mat_rot_x
 _pool_fn_mat_rot_y:
     .4byte  mat_rot_y
 _pool_fn_mat_scale_columns:

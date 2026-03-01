@@ -21,7 +21,7 @@ hud_master_compositor:
     .4byte  0x00000060
     .4byte  sym_06026E2E
     .4byte  0x0000003C
-    .4byte  transform_matrix
+    .4byte  mat_rot_x
     .4byte  0x00000040
     .4byte  mat_rot_z
     .4byte  0x0000003E

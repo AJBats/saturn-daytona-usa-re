@@ -56,8 +56,8 @@ obj_state_writer:
     jsr @r3                                  ! mat_rot_z(-angle_z)
     neg r4, r4                               ! r4 = -angle_z (delay slot)
     mov.l @r13, r4                            ! r4 = rotation_angles[0] (general angle)
-    mov.l   _pool_fn_transform_matrix, r3    ! r3 = &transform_matrix
-    jsr @r3                                  ! transform_matrix(-angle_general)
+    mov.l   _pool_fn_mat_rot_x, r3    ! r3 = &mat_rot_x
+    jsr @r3                                  ! mat_rot_x(-angle_general)
     neg r4, r4                               ! r4 = -angle_general (delay slot)
     mov.l @(4, r13), r4                      ! r4 = rotation_angles[1] (Y angle)
     mov.l   _pool_fn_mat_rot_y, r3           ! r3 = &mat_rot_y
@@ -106,8 +106,8 @@ _pool_fn_mat_scale_columns:
     .4byte  mat_scale_columns                /* matrix column scaling */
 _pool_fn_mat_rot_z:
     .4byte  mat_rot_z                        /* Z-axis rotation matrix */
-_pool_fn_transform_matrix:
-    .4byte  transform_matrix                 /* general rotation transform */
+_pool_fn_mat_rot_x:
+    .4byte  mat_rot_x                 /* general rotation transform */
 _pool_fn_mat_rot_y:
     .4byte  mat_rot_y                        /* Y-axis rotation matrix */
 _pool_fn_mat_vec_mac:

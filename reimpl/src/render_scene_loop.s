@@ -144,8 +144,8 @@ render_scene_loop:
     bra     .L_next_object                  ! no -> skip to next
     nop                                     ! (delay slot)
 .L_obj_visible:
-    mov.l   .L_fn_set_transform, r3         ! r3 = fn: set_transform_matrix
-    jsr @r3                                 ! call set_transform_matrix()
+    mov.l   .L_fn_set_transform, r3         ! r3 = fn: set_mat_rot_x
+    jsr @r3                                 ! call set_mat_rot_x()
     nop                                     ! (delay slot)
     mov.l @(24, r14), r6                    ! r6 = obj[+0x18] (rotation Z)
     mov.l @(20, r14), r5                    ! r5 = obj[+0x14] (rotation X base)

@@ -150,8 +150,12 @@ look: does the name match what the function *actually does* per the evidence?
 | 19 | clip_region_test | clip_region_test.s | -- | |
 | 20 | render_orchestrator | render_orchestrator.s | -- | |
 | 21 | vdp1_display_submit | vdp1_display_submit.s | -- | |
+| 22 | ~~hud_element_draw~~ | hud_sound_trigger.s | RENAMED | → hud_sound_trigger. Only calls sound_cmd_dispatch. Zero drawing code. |
+| 23 | ~~transform_matrix~~ | mat_rot_x.s | RENAMED | → mat_rot_x. X-axis rotation, same pattern as mat_rot_y/mat_rot_z. |
+| 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → cd_block_read_safe. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
+| 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → cd_block_read_atomic. Inner interrupt-masked double-read helper. |
 
-**Progress: 2/21** (1 renamed, 1 confirmed good, 19 pending)
+**Progress: 6/25** (5 renamed, 1 confirmed good, 19 pending)
 
 ### Working Theories (unverified, tracking as we go)
 

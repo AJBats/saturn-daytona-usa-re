@@ -19,7 +19,7 @@
  *   3. Check camera direction flip (sym_06078663):
  *      if non-zero: mat_scale_columns(-1.0, 1.0, 1.0) — mirror Y axis
  *   4. Build view rotation matrix (all angles negated):
- *        transform_matrix(-rot[0])  — general rotation component
+ *        mat_rot_x(-rot[0])  — general rotation component
  *        mat_rot_z(-rot[8])         — Z-axis rotation
  *        mat_rot_y(-rot[4])         — Y-axis rotation
  *   5. mat_vec_mac(-pos[0], -pos[1], -pos[2]) — translate into view space
@@ -75,8 +75,8 @@ camera_orient_calc:
     mov r6, r5                        ! r5 = 1.0 (Y scale, delay slot)
 .L_skip_y_mirror:
     mov.l @r13, r4                    ! r4 = rot_angles[0] (general rotation component)
-    mov.l   .L_fn_transform_matrix, r3 ! r3 = transform_matrix function
-    jsr @r3                           ! transform_matrix(-rot[0]) — apply negated general rotation
+    mov.l   .L_fn_mat_rot_x, r3 ! r3 = mat_rot_x function
+    jsr @r3                           ! mat_rot_x(-rot[0]) — apply negated general rotation
     neg r4, r4                        ! r4 = -rot[0] (delay slot)
     mov.l @(8, r13), r4              ! r4 = rot_angles[8] (Z rotation angle)
     mov.l   .L_fn_mat_rot_z, r3      ! r3 = mat_rot_z function
@@ -153,8 +153,8 @@ camera_orient_calc:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_fn_mat_scale_cols:
     .4byte  mat_scale_columns           /* matrix column scale: mat_scale_columns(x, y, z) */
-.L_fn_transform_matrix:
-    .4byte  transform_matrix            /* general rotation matrix transform */
+.L_fn_mat_rot_x:
+    .4byte  mat_rot_x            /* general rotation matrix transform */
 .L_fn_mat_rot_z:
     .4byte  mat_rot_z                   /* Z-axis rotation matrix */
 .L_fn_mat_rot_y:

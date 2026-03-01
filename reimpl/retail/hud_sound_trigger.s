@@ -1,7 +1,7 @@
     .section .text.FUN_06010B54
-    .global hud_element_draw
-    .type hud_element_draw, @function
-hud_element_draw:
+    .global hud_sound_trigger
+    .type hud_sound_trigger, @function
+hud_sound_trigger:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0E

@@ -345,8 +345,8 @@ DAT_060183f2:
     mov.l   .L_fn_mat_rot_y, r3    ! r3 = &mat_rot_y
     jsr @r3                         ! call mat_rot_y(fraction + bias)
     add r2, r4                      ! r4 = fraction + 0x38E3 (delay slot)
-    mov.l   .L_fn_transform_matrix, r3 ! r3 = &transform_matrix
-    jsr @r3                         ! call transform_matrix(scroll_int)
+    mov.l   .L_fn_mat_rot_x, r3 ! r3 = &mat_rot_x
+    jsr @r3                         ! call mat_rot_x(scroll_int)
     mov.l @r14, r4                  ! r4 = scroll_pos.integer (delay slot)
     mov.w   .L_rotation_angle, r5  ! r5 = 0x178 (rotation angle param)
     mov.l   .L_wram_low, r2        ! r2 = 0x200000 (Work RAM Low base)
@@ -403,8 +403,8 @@ DAT_060185a0:
     .4byte  sym_06026E2E                /* transform dispatch function */
 .L_fn_mat_rot_y:
     .4byte  mat_rot_y                   /* Y-axis rotation matrix builder */
-.L_fn_transform_matrix:
-    .4byte  transform_matrix            /* matrix transform function */
+.L_fn_mat_rot_x:
+    .4byte  mat_rot_x            /* matrix transform function */
 .L_wram_low:
     .4byte  0x00200000                  /* Work RAM Low base */
 .L_wram_obj_offset:

@@ -943,7 +943,7 @@ DAT_060224b6:
 .L_fn_mat_rot_y:
     .4byte  mat_rot_y
 .L_fn_transform:
-    .4byte  transform_matrix
+    .4byte  mat_rot_x
 .L_transform_tbl_a:
     .4byte  sym_06089DB4
 .L_transform_tbl_b:

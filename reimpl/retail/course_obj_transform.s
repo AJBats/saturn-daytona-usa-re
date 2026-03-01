@@ -163,7 +163,7 @@ course_obj_transform:
     .4byte sym_06026E2E
     .4byte mat_rot_y
     .4byte mat_rot_z
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .4byte sym_06059F30
     .4byte sym_06063510
     .4byte sym_06031D8C

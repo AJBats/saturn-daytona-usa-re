@@ -329,7 +329,7 @@ DAT_060185a0:
     .4byte sym_06048140
     .4byte sym_06026E2E
     .4byte mat_rot_y
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .byte 0x00, 0x0B

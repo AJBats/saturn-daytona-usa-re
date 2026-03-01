@@ -18,7 +18,7 @@
  * Flow:
  *   1. Call track_surface_type_b(sp+4, sp+8, sp) to query surface info.
  *   2. If query fails (nonzero), return -10.
- *   3. Call ai_section_transition(sp+0xC) via cross-TU pool.
+ *   3. Call cd_block_read_safe(sp+0xC) via cross-TU pool.
  *   4. Load game state base from sym_060A5400, copy surface byte
  *      from sp+0xC into state[+0x40].
  *   5. Return sp[0] (surface type value).
@@ -53,8 +53,8 @@ track_surface_check:
     .4byte  track_surface_type_b             ! pool: surface type query function
 .L_query_ok:
     mov r15, r4                              ! r4 = sp base
-    .byte   0xD3, 0x2C    /* mov.l .L_pool_0604172C, r3 */  ! r3 = &ai_section_transition (cross-TU pool)
-    jsr @r3                                  ! call ai_section_transition(sp+0xC)
+    .byte   0xD3, 0x2C    /* mov.l .L_pool_0604172C, r3 */  ! r3 = &cd_block_read_safe (cross-TU pool)
+    jsr @r3                                  ! call cd_block_read_safe(sp+0xC)
     add #0xC, r4                             ! (delay) r4 = sp+0x0C (section output slot)
     .byte   0xD2, 0x2B    /* mov.l .L_pool_06041730, r2 */  ! r2 = &game_state_base (cross-TU pool)
     mov.l @r2, r2                            ! r2 = game state base address

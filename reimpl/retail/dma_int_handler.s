@@ -158,7 +158,7 @@ DAT_060417da:
     .byte 0x03, 0x38
     .byte 0x03, 0x48
     .byte 0x01, 0xE0
-    .4byte ai_section_transition
+    .4byte cd_block_read_safe
     .4byte sym_06035168
     .4byte sym_060A5400
     .byte 0x64, 0x52

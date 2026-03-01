@@ -11,7 +11,7 @@
  *   3. Load object position (XYZ triplet) and dispatch transform (sym_06026E2E)
  *   4. Apply Z rotation from angle state (mat_rot_z)
  *   5. Apply Y rotation = 0 (mat_rot_y, identity)
- *   6. Apply transform matrix with angle = 0 (transform_matrix)
+ *   6. Apply transform matrix with angle = 0 (mat_rot_x)
  *   7. If speed counter >= 100 (0x64), apply additional transform with 0x1000
  *   8. Dispatch transform chain A (sym_06031D8C) — object transform, indexed by counter-1
  *   9. Dispatch transform chain B (sym_06031A28) — display transform, indexed by counter-1
@@ -45,8 +45,8 @@ hud_lap_gfx_update:
     mov.l   .L_fn_rot_y, r3                ! r3 = &mat_rot_y
     jsr @r3                                ! call mat_rot_y(0) — identity Y rotation
     mov #0x0, r4                           ! r4 = 0x0 (no Y rotation, delay slot)
-    mov.l   .L_fn_transform_mat, r3        ! r3 = &transform_matrix
-    jsr @r3                                ! call transform_matrix(0) — base transform
+    mov.l   .L_fn_transform_mat, r3        ! r3 = &mat_rot_x
+    jsr @r3                                ! call mat_rot_x(0) — base transform
     mov #0x0, r4                           ! r4 = 0x0 (no extra angle, delay slot)
     mov.l   .L_speed_counter, r2           ! r2 = &speed_counter (32-bit, WRAM High)
     mov #0x64, r3                          ! r3 = 0x64 (100 — threshold)
@@ -54,8 +54,8 @@ hud_lap_gfx_update:
     cmp/ge r3, r2                          ! T = (speed_counter >= 100)?
     bf      .L_skip_extra_transform        ! if speed < 100, skip extra transform
     mov.w   DAT_06012586, r4               ! r4 = 0x1000 (large transform angle)
-    mov.l   .L_fn_transform_mat, r3        ! r3 = &transform_matrix
-    jsr @r3                                ! call transform_matrix(0x1000)
+    mov.l   .L_fn_transform_mat, r3        ! r3 = &mat_rot_x
+    jsr @r3                                ! call mat_rot_x(0x1000)
     nop                                    ! (delay slot)
 .L_skip_extra_transform:
     mov.l   .L_chain_a_src, r5             ! r5 = &chain_a_source_data ptr
@@ -105,7 +105,7 @@ DAT_06012586:
 .L_fn_rot_y:
     .4byte  mat_rot_y                      ! Y-axis rotation matrix function
 .L_fn_transform_mat:
-    .4byte  transform_matrix               ! apply transform matrix with angle param
+    .4byte  mat_rot_x               ! apply transform matrix with angle param
 .L_speed_counter:
     .4byte  sym_0607EBCC                   ! speed/animation counter (32-bit, WRAM High)
 .L_chain_a_src:

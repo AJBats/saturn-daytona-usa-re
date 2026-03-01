@@ -28,7 +28,7 @@ rpm_gauge_render:
     .4byte  0x00000018                ! matrix offset: row 1 col 0 (m10)
     .4byte  sym_06026E2E              ! mat_xform_trans_A — matrix * vector + translate
     .4byte  0x00000028                ! matrix offset: translation Y (ty)
-    .4byte  transform_matrix          ! general matrix transform function
+    .4byte  mat_rot_x          ! general matrix transform function
     .4byte  0x0000002C                ! matrix offset: translation Z (tz)
     .4byte  mat_rot_z                 ! rotation around Z axis
     .4byte  0x0000002A                ! parameter: Z rotation angle index

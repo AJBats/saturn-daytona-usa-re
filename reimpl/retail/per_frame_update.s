@@ -44,7 +44,7 @@ per_frame_update:
     .4byte cdb_read_status
     .4byte sym_0600026C
     .4byte sym_0607864A
-    .4byte ai_section_transition
+    .4byte cd_block_read_safe
     .4byte sym_06078649
     .byte 0x60, 0xC0
     .byte 0x88, 0x01

@@ -11,11 +11,11 @@
  *   mat_push_A (0x06026DBC) — push matrix
  *   mat_xform_trans_A (0x06026E2E) — transform vector by matrix+translation
  *   mat_rot_y / mat_rot_z — Y/Z axis rotation
- *   transform_matrix — apply accumulated rotation matrix
+ *   mat_rot_x — apply accumulated rotation matrix
  *
  * Persistent registers:
  *   r11 = &camera_mode_idx (16-bit, indexes into bank angle table)
- *   r13 = transform_matrix function pointer
+ *   r13 = mat_rot_x function pointer
  *   r14 = car struct (loaded from car_array_base at sym_0607E944)
  *
  * Transform pipeline:
@@ -25,11 +25,11 @@
  *   4. mat_rot_z(-car[+36]) — pitch rotation (negated)
  *   5. Bank angle: car[+28] negated, offset by table[camera_mode_idx]
  *      Two paths: special mode (flag 0x00800008) or normal
- *   6. transform_matrix() — apply accumulated rotation
+ *   6. mat_rot_x() — apply accumulated rotation
  *   7. mat_rot_y(car[+0x1D8] + car[+0x1CC]) — additional yaw offset
  *   8. If camera_follow_flag (sym_06059F30) set:
  *      -> vec_matrix_xform for rotation sources, mat_xform_trans_A,
- *         mat_rot_z, transform_matrix
+ *         mat_rot_z, mat_rot_x
  *   9. Optional camera shake (flag bit 1): BSR external handler
  *  10. LOD/distance computation with table lookup
  *  11. Cross-TU final transforms (2 vec_matrix_xform + dispatch calls)
@@ -78,7 +78,7 @@ camera_car_transform:
     mov.l r11, @-r15
     sts.l pr, @-r15
     mov.l   .L_camera_mode_idx, r11  ! r11 = &camera_mode_idx (persists across calls)
-    mov.l   .L_fn_transform_matrix, r13 ! r13 = &transform_matrix (persists)
+    mov.l   .L_fn_mat_rot_x, r13 ! r13 = &mat_rot_x (persists)
     mov.l   .L_car_array_base, r14   ! r14 = &car_array_base (pointer to pointer)
     mov.l   .L_car_struct_ptr, r3    ! r3 = &current_car_struct_ptr global
     mov.l @r14, r14                  ! r14 = car struct (dereference pointer)
@@ -126,8 +126,8 @@ camera_car_transform:
     .4byte  sym_06031DF4             /* (adj pool FUN_0600AC44: render submission / VDP1 submit B) */
 .L_camera_mode_idx:
     .4byte  sym_06063F46             /* camera mode index, 16-bit (MEDIUM) */
-.L_fn_transform_matrix:
-    .4byte  transform_matrix         /* apply accumulated rotation matrix (HIGH) */
+.L_fn_mat_rot_x:
+    .4byte  mat_rot_x         /* apply accumulated rotation matrix (HIGH) */
 .L_car_array_base:
     .4byte  sym_0607E944             /* car array base pointer (HIGH — used across rendering/AI/collision) */
 .L_car_struct_ptr:
@@ -162,7 +162,7 @@ camera_car_transform:
     mov.l @r2, r1                    ! r1 = bank offset for this camera mode
     add r1, r4                       ! r4 = -bank + height_offset + table_offset
 .L_apply_bank:
-    jsr @r13                         ! transform_matrix(r4) — apply bank rotation
+    jsr @r13                         ! mat_rot_x(r4) — apply bank rotation
     nop
     mov.w   .L_off_cam_yaw, r0       ! r0 = 0x1D8 (offset to camera yaw in car struct)
     mov.l @(r0, r14), r4             ! r4 = car[+0x1D8] = camera yaw angle
@@ -201,7 +201,7 @@ camera_car_transform:
     jsr @r3                          ! mat_rot_z(pitch_A) — apply pitch rotation
     mov.l @(r0, r14), r4             ! r4 = car[+0x1D0] = camera pitch A (delay slot)
     mov.w   .L_off_cam_pitch_b, r0   ! r0 = 0x1C8 (offset to camera pitch B)
-    jsr @r13                         ! transform_matrix(pitch_B) — final follow transform
+    jsr @r13                         ! mat_rot_x(pitch_B) — final follow transform
     mov.l @(r0, r14), r4             ! r4 = car[+0x1C8] = camera pitch B (delay slot)
     mov.l   .L_camera_shake_flags, r0 ! r0 = &camera_shake_flags
     mov.b @r0, r0                    ! r0 = shake flags byte
@@ -271,7 +271,7 @@ camera_car_transform:
     .byte   0xD4, 0x2B    /* mov.l @(0x0600B00C), r4 — sym_06083258: camera LOD offset base */
     mov.l @r4, r4                    ! r4 = default LOD base value (dereference)
 .L_apply_lod:
-    jsr @r13                         ! transform_matrix(LOD_param) — apply LOD transform
+    jsr @r13                         ! mat_rot_x(LOD_param) — apply LOD transform
     nop
     extu.w r12, r14                  ! r14 = LOD table index (zero-extended to 32-bit)
     .byte   0xD5, 0x2A    /* mov.l @(0x0600B010), r5 — sym_060621D8: car 3 struct (chain src A) */

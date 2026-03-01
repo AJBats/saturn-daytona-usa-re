@@ -15,7 +15,7 @@
  *   4. Call atan2(dy, horiz_dist) to get the pitch (elevation) angle.
  *   5. Negate the pitch to get downward-positive convention.
  *   6. Check camera direction flip flag (sym_06078663); if set, flip Y scale.
- *   7. Apply rotation matrices: transform_matrix(pitch), mat_rot_y(yaw).
+ *   7. Apply rotation matrices: mat_rot_x(pitch), mat_rot_y(yaw).
  *   8. Translate by negated origin via sym_06026E2E (position transform dispatch).
  *   9. Copy camera state via memcpy_long to sym_06063DF8 (camera position struct).
  *  10. Store [-pitch, -yaw, 0] into the output vec3.
@@ -33,7 +33,7 @@
  *   atan2             — fixed-point atan2(y, x)
  *   fpmul             — 16.16 fixed-point multiply
  *   mat_scale_columns — scale matrix columns (for camera flip)
- *   transform_matrix  — apply rotation by angle (pitch)
+ *   mat_rot_x  — apply rotation by angle (pitch)
  *   mat_rot_y         — apply Y-axis rotation (yaw)
  *   sym_06026E2E      — position transform dispatch (translate by negated origin)
  *   sym_06035168      — memcpy_long (unrolled longword copy)
@@ -139,8 +139,8 @@ DAT_060052f6:
     jsr @r3                                ! mat_scale_columns(-1.0, +1.0, +1.0) — flip Y
     mov r6, r5                             ! r5 = +1.0 (delay slot)
 .L_no_cam_flip:                            ! --- apply rotation matrices ---
-    mov.l   .L_pool_xform_mat_fn, r3      ! r3 = &transform_matrix
-    jsr @r3                                ! transform_matrix(-pitch) — apply pitch rotation
+    mov.l   .L_pool_xform_mat_fn, r3      ! r3 = &mat_rot_x
+    jsr @r3                                ! mat_rot_x(-pitch) — apply pitch rotation
     mov r13, r4                            ! r4 = -pitch (delay slot)
     mov.l   .L_pool_rot_y_fn, r3          ! r3 = &mat_rot_y
     jsr @r3                                ! mat_rot_y(yaw) — apply yaw rotation
@@ -193,7 +193,7 @@ DAT_0600537a:
 .L_pool_mat_scale_fn:
     .4byte  mat_scale_columns              /* scale matrix columns (for Y flip) */
 .L_pool_xform_mat_fn:
-    .4byte  transform_matrix               /* apply rotation by angle */
+    .4byte  mat_rot_x               /* apply rotation by angle */
 .L_pool_rot_y_fn:
     .4byte  mat_rot_y                      /* Y-axis rotation matrix */
 .L_pool_pos_xform_fn:

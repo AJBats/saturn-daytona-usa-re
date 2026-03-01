@@ -58,5 +58,5 @@ sprite_frame_select:
     .4byte sym_06078900
     .4byte sym_06026E2E
     .4byte mat_rot_y
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .4byte mat_rot_z

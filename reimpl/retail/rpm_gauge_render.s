@@ -18,7 +18,7 @@ rpm_gauge_render:
     .4byte sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x28
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
     .4byte mat_rot_z

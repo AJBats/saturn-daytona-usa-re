@@ -2349,9 +2349,9 @@ ai_checkpoint_validate:
     .byte 0xE0, 0x00
 
     .section .text.FUN_060349C4
-    .global ai_section_transition
-    .type ai_section_transition, @function
-ai_section_transition:
+    .global cd_block_read_safe
+    .type cd_block_read_safe, @function
+cd_block_read_safe:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x4F, 0x22
@@ -2389,9 +2389,9 @@ ai_section_transition:
     .byte 0x6E, 0xF6
 
     .section .text.FUN_06034A10
-    .global ai_section_update
-    .type ai_section_update, @function
-ai_section_update:
+    .global cd_block_read_atomic
+    .type cd_block_read_atomic, @function
+cd_block_read_atomic:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

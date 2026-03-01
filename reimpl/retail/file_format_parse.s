@@ -70,7 +70,7 @@ file_format_parse:
     .4byte sym_06026E0C
     .4byte sym_06026E2E
     .4byte sym_06035C2C
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .4byte sym_06063570
     .4byte sym_0607EAD8
     .4byte sym_06063564

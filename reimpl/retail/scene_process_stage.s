@@ -835,7 +835,7 @@ DAT_060224b6:
     .4byte sym_06026DBC
     .4byte sym_06026E2E
     .4byte mat_rot_y
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .4byte sym_06089DB4
     .4byte sym_06089D98
     .4byte sym_06031D8C

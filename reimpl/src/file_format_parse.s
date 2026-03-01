@@ -12,7 +12,7 @@
  *   2. Matrix entry init (sym_06026E0C)
  *   3. Load position vector (XYZ) from R14 struct + dispatch transform (sym_06026E2E)
  *   4. Compute rotation angle: result * 0x60000 + 0x1000 via mem_store_helper
- *   5. Apply transform_matrix with computed angle
+ *   5. Apply mat_rot_x with computed angle
  *   6. Dispatch transform chain A (sym_06031D8C) — object transform, indexed by counter-1
  *   7. Dispatch transform chain B (sym_06031A28) — display transform, indexed by counter-1
  *   8. Tail-call post-render cleanup (sym_06026DF8)
@@ -58,8 +58,8 @@ file_format_parse:
     shll2 r3                               ! r3 <<= 2 (result * 0x4000)
     shll r3                                ! r3 <<= 1 = result << 17
     add r3, r4                             ! r4 = (result << 18) + (result << 17) = result * 0x60000
-    mov.l   .L_fn_transform_mat, r3        ! r3 = transform_matrix fn
-    jsr @r3                                ! call transform_matrix(angle)
+    mov.l   .L_fn_transform_mat, r3        ! r3 = mat_rot_x fn
+    jsr @r3                                ! call mat_rot_x(angle)
     add r2, r4                             ! (delay) r4 += 0x1000 (add angle bias)
     mov.l   .L_chain_a_src, r5             ! r5 = &chain_a_source_param
     mov.l   .L_obj_counter, r4             ! r4 = &object_counter
@@ -101,7 +101,7 @@ file_format_parse:
 .L_fn_mem_store_helper:
     .4byte  sym_06035C2C                   /* memory store helper (writes to 0xFF00 area) */
 .L_fn_transform_mat:
-    .4byte  transform_matrix               /* transform matrix application */
+    .4byte  mat_rot_x               /* transform matrix application */
 .L_chain_a_src:
     .4byte  sym_06063570                   /* chain A source param (dword: 0x4) */
 .L_obj_counter:

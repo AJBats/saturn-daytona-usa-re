@@ -177,7 +177,7 @@ DAT_060126a4:
 .L_fn_rot_y:
     .4byte  mat_rot_y                  /* Y-axis rotation */
 .L_fn_transform_mat:
-    .4byte  transform_matrix           /* apply transform matrix */
+    .4byte  mat_rot_x           /* apply transform matrix */
 .L_chain_a_src:
     .4byte  sym_06063558               /* chain A source data */
 .L_obj_counter:

@@ -18,7 +18,7 @@
  *      c. Copy 12 bytes (3 longs) from stack+8 into state[+0x40] via memcpy_long
  *      d. If callback at state[+0x4C] is non-null, call it with arg from state[+0x50]
  *   4. If CSCT bit is NOT set:
- *      a. Call ai_section_transition. If it returns 0 (success),
+ *      a. Call cd_block_read_safe. If it returns 0 (success),
  *         copy 12 bytes from stack+8 into state[+0x40] via memcpy_long
  *   5. Iterate event channels (r14 = 0..r11-1):
  *      For each channel, call the helper to resolve the callback pointer.
@@ -39,7 +39,7 @@
  *   sym_0604231E      -- AI state full reset (in validator_dispatch)
  *   smpc_cmd_helper_b -- acknowledge CD interrupt (write HIRQ)
  *   ai_checkpoint_section -- process input for section checkpoint
- *   ai_section_transition -- section transition handler
+ *   cd_block_read_safe -- section transition handler
  *   evt_callback_handler  -- event callback dispatch (index in r4, buf in r5)
  */
 
@@ -136,7 +136,7 @@ dma_int_handler:
 .L_no_csct_path:
     /* --- CSCT not set: try section transition --- */
     mov r15, r4                          ! r4 = &stack[0]
-    mov.l   .L_fn_section_transition, r3 ! r3 = ai_section_transition
+    mov.l   .L_fn_section_transition, r3 ! r3 = cd_block_read_safe
     jsr @r3                              ! call section transition handler
     add #0x8, r4                         ! r4 = &stack[+8] (delay slot)
     mov r0, r4                           ! r4 = transition result
@@ -249,7 +249,7 @@ DAT_060417da:
 .L_off_chan6:
     .2byte  0x01E0                         ! channel 6 struct offset
 .L_fn_section_transition:
-    .4byte  ai_section_transition          ! section transition handler
+    .4byte  cd_block_read_safe          ! section transition handler
 .L_fn_memcpy_long_2:
     .4byte  sym_06035168                   ! memcpy_long (second pool entry)
 .L_state_base_ptr_2:

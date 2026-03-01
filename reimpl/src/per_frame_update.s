@@ -17,7 +17,7 @@
  *        5=Scan, 6=Open(tray), 7=NoDisc, 8+=Error
  *   2. If CD status == 6 (tray open): call BIOS reset via indirect pointer.
  *   3. Frame sync state machine at sym_0607864A:
- *        State 0: call ai_section_transition to fill CD response buffer,
+ *        State 0: call cd_block_read_safe to fill CD response buffer,
  *                 read frame sync byte, store if < 100.
  *        State 1: if CD status == 1 (pause), call cd_status_reader,
  *                 advance to state 2.
@@ -59,8 +59,8 @@ per_frame_update:
     mov.b @r12, r0                      ! r0 = frame_sync_state byte
     tst r0, r0                          ! is frame_sync_state == 0?
     bf      .L_sync_not_zero            ! if nonzero, branch to state 1+ handling
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_fn_ai_section_transition, r3 -- r3 = ai_section_transition */
-    jsr @r3                             ! call ai_section_transition (fill CD response buffer)
+    .byte   0xD3, 0x0C    /* mov.l .L_pool_fn_cd_block_read_safe, r3 -- r3 = cd_block_read_safe */
+    jsr @r3                             ! call cd_block_read_safe (fill CD response buffer)
     mov r15, r4                         ! (delay slot) r4 = stack buffer ptr
     mov r15, r4                         ! r4 = stack buffer ptr (reload for byte read)
     mov #0x64, r2                       ! r2 = 100 (max retry threshold)
@@ -83,8 +83,8 @@ per_frame_update:
     .4byte  sym_0600026C                ! pool: &BIOS service function (indirect pointer)
 .L_pool_frame_sync_state_ptr:
     .4byte  sym_0607864A                ! pool: &frame_sync_state byte
-.L_pool_fn_ai_section_transition:
-    .4byte  ai_section_transition       ! pool: CD response buffer fill function
+.L_pool_fn_cd_block_read_safe:
+    .4byte  cd_block_read_safe       ! pool: CD response buffer fill function
 .L_pool_sync_byte_store:
     .4byte  sym_06078649                ! pool: &frame sync byte storage
 .L_sync_not_zero:

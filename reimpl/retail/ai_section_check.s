@@ -14,7 +14,7 @@ ai_section_check:
     .byte 0x03, 0x38
     .byte 0x03, 0x3C
     .4byte sym_060A5400
-    .4byte ai_section_transition
+    .4byte cd_block_read_safe
     .4byte ai_checkpoint_section
     .4byte sym_06035C4E
     .byte 0xD3, 0x1E

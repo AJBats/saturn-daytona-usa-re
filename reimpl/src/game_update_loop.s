@@ -16,7 +16,7 @@
  *   - vblank_handler: Per-frame update — rank calculation, blink
  *     state cycling, checkpoint sound triggers.
  *   - terrain_data_lookup: Sound volume from speed + checkpoint sfx.
- *   - SMPC peripheral I/O: ai_checkpoint_section, ai_section_update
+ *   - SMPC peripheral I/O: ai_checkpoint_section, cd_block_read_atomic
  *     (interrupt-safe double-read with SR mask), ai_pit_stop_logic,
  *     track_intersect_test, road_segment_query, ai_drafting_calc.
  *   - ai_throttle_adjust: 5-case switch for throttle response encoding.
@@ -2375,15 +2375,20 @@ ai_checkpoint_validate:
     rts
     mov #0x0, r0
 
-    .global ai_section_transition
-    .type ai_section_transition, @function
-ai_section_transition:
+/* VERIFIED: reads CD Block status registers CR1-CR4 (0x25890018-0x25890024)
+ * with interrupt-masked double-read for consistency. Not AI-related.
+ * Method: code audit — hardware register addresses are definitive.
+ * Date: 2026-02-28
+ */
+    .global cd_block_read_safe
+    .type cd_block_read_safe, @function
+cd_block_read_safe:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov r4, r13
     add #-0x8, r15
-    bsr     ai_section_update
+    bsr     cd_block_read_atomic
     mov r15, r4
     mov r0, r14
     tst r14, r14
@@ -2421,9 +2426,14 @@ ai_section_transition:
     rts
     mov.l @r15+, r14
 
-    .global ai_section_update
-    .type ai_section_update, @function
-ai_section_update:                      ! SMPC double-read with interrupt mask
+/* VERIFIED: inner double-read helper. Saves/restores IMASK, reads CD Block
+ * registers twice for consistency check. Part of cd_block_read_safe family.
+ * Method: code audit — same CD Block register addresses as cd_block_read_safe.
+ * Date: 2026-02-28
+ */
+    .global cd_block_read_atomic
+    .type cd_block_read_atomic, @function
+cd_block_read_atomic:                      ! interrupt-masked double-read of CD regs
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15

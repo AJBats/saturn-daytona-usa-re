@@ -67,7 +67,7 @@ sym_060054EA:
     .byte 0x00, 0x00
     .4byte mat_scale_columns
     .4byte mat_rot_z
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .4byte mat_rot_y
     .4byte sym_06026E2E
     .4byte sym_06063DF8

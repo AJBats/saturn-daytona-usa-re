@@ -1,7 +1,7 @@
     .section .text.FUN_06026E94
-    .global transform_matrix
-    .type transform_matrix, @function
-transform_matrix:
+    .global mat_rot_x
+    .type mat_rot_x, @function
+mat_rot_x:
     .byte 0x4F, 0x22
     .byte 0xD6, 0x76
     .byte 0xE5, 0x08

@@ -48,8 +48,8 @@ sprite_frame_select:
     mov.l   .L_pool_mat_rot_y, r3     ! r3 = &mat_rot_y
     jsr @r3                     ! call mat_rot_y(r4) — apply Y-axis rotation from entry[+0x20]
     mov.l @(32, r14), r4        ! (delay slot) r4 = entry[+0x20] = Y-axis rotation angle
-    mov.l   .L_pool_transform_matrix, r3 ! r3 = &transform_matrix
-    jsr @r3                     ! call transform_matrix(r4) — apply secondary transform from entry[+0x1C]
+    mov.l   .L_pool_mat_rot_x, r3 ! r3 = &mat_rot_x
+    jsr @r3                     ! call mat_rot_x(r4) — apply secondary transform from entry[+0x1C]
     mov.l @(28, r14), r4        ! (delay slot) r4 = entry[+0x1C] = secondary transform parameter
     mov.l @(36, r14), r4        ! r4 = entry[+0x24] = Z-axis rotation angle (loaded for tail-call below)
     lds.l @r15+, macl           ! restore MACL
@@ -73,7 +73,7 @@ sprite_frame_select:
     .4byte  sym_06026E2E        ! -> mat_xform_trans_A: multiply vector (r4,r5,r6) by matrix + translation
 .L_pool_mat_rot_y:
     .4byte  mat_rot_y           ! -> mat_rot_y: apply Y-axis rotation to current matrix
-.L_pool_transform_matrix:
-    .4byte  transform_matrix    ! -> transform_matrix: apply secondary matrix transform
+.L_pool_mat_rot_x:
+    .4byte  mat_rot_x    ! -> mat_rot_x: apply secondary matrix transform
 .L_pool_mat_rot_z:
     .4byte  mat_rot_z           ! -> mat_rot_z: apply Z-axis rotation to current matrix (tail-call)

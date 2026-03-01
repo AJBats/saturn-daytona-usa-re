@@ -52,7 +52,7 @@ best_lap_render:
     .4byte mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x1C
-    .4byte transform_matrix
+    .4byte mat_rot_x
     .byte 0x00, 0x00
     .byte 0x00, 0x20
     .4byte mat_rot_z
