@@ -14,7 +14,7 @@ render_batch_proc:
     mov.l r8, @-r15
     sts.l pr, @-r15
     mov #0x0, r12
-    mov.l   _pool_sprite_index_table, r4
+    mov.l   .L_pool_06023188, r4
     mov #0x3, r0
     mov.w r0, @(4, r4)
     mov #0x4, r0
@@ -156,30 +156,30 @@ render_batch_proc:
     mov #0x37, r3
     mov.w r3, @r4
     extu.w r5, r14
-    mov.l   _pool_vdp1_vram_base, r11
-    mov.w   _wpool_copy_count, r6
-    mov.l   _pool_game_state_idx_ptr, r4
+    mov.l   .L_pool_0602318C, r11
+    mov.w   .L_wpool_06023184, r6
+    mov.l   .L_pool_06023190, r4
     bra     .L_06023194
     mov r11, r5
-_wpool_copy_count:
+.L_wpool_06023184:
     .2byte  0x3AC0
     .2byte  0xFFFF
-_pool_sprite_index_table:
+.L_pool_06023188:
     .4byte  sym_06089E44
-_pool_vdp1_vram_base:
+.L_pool_0602318C:
     .4byte  0x002A8000
-_pool_game_state_idx_ptr:
+.L_pool_06023190:
     .4byte  sym_06059FFC
 .L_06023194:
     mov.l @r4, r4
-    mov.l   _pool_scroll_base_table, r3
-    mov.w   _wpool_scroll_data_offset, r2
+    mov.l   .L_pool_06023274, r3
+    mov.w   .L_wpool_06023272, r2
     shll2 r4
     mov.l @r3, r3
     shll r4
     add r3, r4
     add r2, r4
-    mov.l   _pool_memcpy_word_idx, r2
+    mov.l   .L_pool_06023278, r2
     jsr @r2
     nop
     bra     .L_0602322C
@@ -187,7 +187,7 @@ _pool_game_state_idx_ptr:
 .L_060231AE:
     mov r13, r4
     mov r13, r3
-    mov.l   _pool_channel_table_base, r2
+    mov.l   .L_pool_0602327C, r2
     shll2 r4
     shll2 r3
     shll r3
@@ -204,7 +204,7 @@ _pool_game_state_idx_ptr:
 .L_060231CE:
     mov r11, r6
     extu.w r14, r5
-    mov.l   _pool_sprite_render_fn, r3
+    mov.l   .L_pool_06023280, r3
     jsr @r3
     mov r10, r4
     add #0x1, r9
@@ -216,7 +216,7 @@ _pool_game_state_idx_ptr:
 .L_060231E4:
     mov r13, r4
     mov r13, r3
-    mov.l   _pool_channel_table_base, r2
+    mov.l   .L_pool_0602327C, r2
     shll2 r4
     shll2 r3
     shll r3
@@ -237,7 +237,7 @@ _pool_game_state_idx_ptr:
     extu.w r12, r9
 .L_0602320C:
     extu.w r14, r5
-    mov.l   _pool_secondary_render_fn, r3
+    mov.l   .L_pool_06023284, r3
     jsr @r3
     mov r10, r4
     add #0x1, r9
@@ -260,8 +260,8 @@ _pool_game_state_idx_ptr:
     cmp/ge r3, r2
     bf      .L_060231AE
     add #0x15, r14
-    mov.l   _pool_sprite_bank_base, r3
-    mov.l   _pool_extra_desc, r4
+    mov.l   .L_pool_0602328C, r3
+    mov.l   .L_pool_06023288, r4
     mov.l @r4, r13
     mov.w @(8, r4), r0
     mov.w r14, @r3
@@ -273,7 +273,7 @@ _pool_game_state_idx_ptr:
 .L_0602324A:
     mov r11, r6
     extu.w r14, r5
-    mov.l   _pool_sprite_render_fn, r3
+    mov.l   .L_pool_06023280, r3
     jsr @r3
     mov r13, r4
     add #0x1, r10
@@ -292,19 +292,19 @@ _pool_game_state_idx_ptr:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_wpool_scroll_data_offset:
+.L_wpool_06023272:
     .2byte  0x03C0
-_pool_scroll_base_table:
+.L_pool_06023274:
     .4byte  sym_06063F5C
-_pool_memcpy_word_idx:
+.L_pool_06023278:
     .4byte  memcpy_word_idx
-_pool_channel_table_base:
+.L_pool_0602327C:
     .4byte  sym_06054380
-_pool_sprite_render_fn:
+.L_pool_06023280:
     .4byte  vdp1_sprite_render_alt
-_pool_secondary_render_fn:
+.L_pool_06023284:
     .4byte  sym_06007590
-_pool_extra_desc:
+.L_pool_06023288:
     .4byte  sym_06054560
-_pool_sprite_bank_base:
+.L_pool_0602328C:
     .4byte  sym_0607886C

@@ -14,7 +14,7 @@ render_obj_processor:
     mov.l r8, @-r15
     add #-0x2C, r15
     mov #0x0, r7
-    mov.w   _wpool_coord_lower_bound, r6
+    mov.w   .L_wpool_06022BBA, r6
     mov r15, r14
     add #0x24, r14
     mov r14, r3
@@ -96,7 +96,7 @@ render_obj_processor:
     cmp/ge r6, r3
     bf      .L_06022BB0
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_A, r3
+    mov.w   .L_wpool_06022BBC, r3
     cmp/gt r3, r2
     bt      .L_06022BB0
     mov.l @r9, r2
@@ -105,7 +105,7 @@ render_obj_processor:
     bf/s    .L_06022BB0
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_A, r3
+    mov.w   .L_wpool_06022BBE, r3
     cmp/gt r3, r2
     bt      .L_06022BB0
     mov.l @(12, r15), r2
@@ -117,11 +117,11 @@ render_obj_processor:
     tst r0, r0
     bra     .L_06022BC0
     nop
-_wpool_coord_lower_bound:
+.L_wpool_06022BBA:
     .2byte  0xFE6B
-_wpool_x_upper_A:
+.L_wpool_06022BBC:
     .2byte  0x0195
-_wpool_y_upper_A:
+.L_wpool_06022BBE:
     .2byte  0x0131
 .L_06022BC0:
     bt      .L_06022C16
@@ -152,7 +152,7 @@ _wpool_y_upper_A:
     cmp/ge r6, r3
     bf      .L_06022C16
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_B, r3
+    mov.w   .L_wpool_06022C7A, r3
     cmp/gt r3, r2
     bt      .L_06022C16
     mov.l @r10, r2
@@ -161,7 +161,7 @@ _wpool_y_upper_A:
     bf/s    .L_06022C16
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_B, r3
+    mov.w   .L_wpool_06022C7C, r3
     cmp/gt r3, r2
     bt      .L_06022C16
     mov.l @(8, r15), r2
@@ -202,7 +202,7 @@ _wpool_y_upper_A:
     cmp/ge r6, r3
     bf      .L_06022C76
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_B, r3
+    mov.w   .L_wpool_06022C7A, r3
     cmp/gt r3, r2
     bt      .L_06022C76
     mov.l @r13, r2
@@ -211,7 +211,7 @@ _wpool_y_upper_A:
     bf/s    .L_06022C76
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_B, r3
+    mov.w   .L_wpool_06022C7C, r3
     cmp/gt r3, r2
     bt      .L_06022C76
     mov.l @(16, r15), r2
@@ -220,9 +220,9 @@ _wpool_y_upper_A:
 .L_06022C76:
     bra     .L_06023014
     nop
-_wpool_x_upper_B:
+.L_wpool_06022C7A:
     .2byte  0x0195
-_wpool_y_upper_B:
+.L_wpool_06022C7C:
     .2byte  0x0131
 .L_06022C7E:
     mov.l @(28, r15), r2
@@ -264,7 +264,7 @@ _wpool_y_upper_B:
     cmp/ge r6, r3
     bf      .L_06022CE8
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_C, r3
+    mov.w   .L_wpool_06022D4E, r3
     cmp/gt r3, r2
     bt      .L_06022CE8
     mov.l @r11, r2
@@ -273,7 +273,7 @@ _wpool_y_upper_B:
     bf/s    .L_06022CE8
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_C, r3
+    mov.w   .L_wpool_06022D50, r3
     cmp/gt r3, r2
     bt      .L_06022CE8
     mov.l @(20, r15), r2
@@ -311,7 +311,7 @@ _wpool_y_upper_B:
     cmp/ge r6, r3
     bf      .L_06022D44
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_C, r3
+    mov.w   .L_wpool_06022D4E, r3
     cmp/gt r3, r2
     bt      .L_06022D44
     mov.l @r10, r2
@@ -320,7 +320,7 @@ _wpool_y_upper_B:
     bf/s    .L_06022D44
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_C, r3
+    mov.w   .L_wpool_06022D50, r3
     cmp/gt r3, r2
     bt      .L_06022D44
     mov.l @(8, r15), r2
@@ -332,9 +332,9 @@ _wpool_y_upper_B:
     tst r0, r0
     bra     .L_06022D52
     nop
-_wpool_x_upper_C:
+.L_wpool_06022D4E:
     .2byte  0x0195
-_wpool_y_upper_C:
+.L_wpool_06022D50:
     .2byte  0x0131
 .L_06022D52:
     bf      .L_06022D58
@@ -368,7 +368,7 @@ _wpool_y_upper_C:
     cmp/ge r6, r3
     bf      .L_06022DAC
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_D, r3
+    mov.w   .L_wpool_06022DB0, r3
     cmp/gt r3, r2
     bt      .L_06022DAC
     mov.l @r13, r2
@@ -377,7 +377,7 @@ _wpool_y_upper_C:
     bf/s    .L_06022DAC
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_D, r3
+    mov.w   .L_wpool_06022DB2, r3
     cmp/gt r3, r2
     bt      .L_06022DAC
     mov.l @(16, r15), r2
@@ -386,9 +386,9 @@ _wpool_y_upper_C:
 .L_06022DAC:
     bra     .L_06023014
     nop
-_wpool_x_upper_D:
+.L_wpool_06022DB0:
     .2byte  0x0195
-_wpool_y_upper_D:
+.L_wpool_06022DB2:
     .2byte  0x0131
 .L_06022DB4:
     mov.l @(24, r15), r2
@@ -430,7 +430,7 @@ _wpool_y_upper_D:
     cmp/ge r6, r3
     bf      .L_06022E1E
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_E, r3
+    mov.w   .L_wpool_06022E84, r3
     cmp/gt r3, r2
     bt      .L_06022E1E
     mov.l @r11, r2
@@ -439,7 +439,7 @@ _wpool_y_upper_D:
     bf/s    .L_06022E1E
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_E, r3
+    mov.w   .L_wpool_06022E86, r3
     cmp/gt r3, r2
     bt      .L_06022E1E
     mov.l @(20, r15), r2
@@ -477,7 +477,7 @@ _wpool_y_upper_D:
     cmp/ge r6, r3
     bf      .L_06022E7A
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_E, r3
+    mov.w   .L_wpool_06022E84, r3
     cmp/gt r3, r2
     bt      .L_06022E7A
     mov.l @r9, r2
@@ -486,7 +486,7 @@ _wpool_y_upper_D:
     bf/s    .L_06022E7A
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_E, r3
+    mov.w   .L_wpool_06022E86, r3
     cmp/gt r3, r2
     bt      .L_06022E7A
     mov.l @(12, r15), r2
@@ -498,9 +498,9 @@ _wpool_y_upper_D:
     tst r0, r0
     bra     .L_06022E88
     nop
-_wpool_x_upper_E:
+.L_wpool_06022E84:
     .2byte  0x0195
-_wpool_y_upper_E:
+.L_wpool_06022E86:
     .2byte  0x0131
 .L_06022E88:
     bf      .L_06022E8E
@@ -534,7 +534,7 @@ _wpool_y_upper_E:
     cmp/ge r6, r3
     bf      .L_06022EE2
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_F, r3
+    mov.w   .L_wpool_06022EE6, r3
     cmp/gt r3, r2
     bt      .L_06022EE2
     mov.l @r13, r2
@@ -543,7 +543,7 @@ _wpool_y_upper_E:
     bf/s    .L_06022EE2
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_F, r3
+    mov.w   .L_wpool_06022EE8, r3
     cmp/gt r3, r2
     bt      .L_06022EE2
     mov.l @(16, r15), r2
@@ -552,9 +552,9 @@ _wpool_y_upper_E:
 .L_06022EE2:
     bra     .L_06023014
     nop
-_wpool_x_upper_F:
+.L_wpool_06022EE6:
     .2byte  0x0195
-_wpool_y_upper_F:
+.L_wpool_06022EE8:
     .2byte  0x0131
 .L_06022EEA:
     mov.l @(32, r15), r2
@@ -596,7 +596,7 @@ _wpool_y_upper_F:
     cmp/ge r6, r3
     bf      .L_06022F54
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_G, r3
+    mov.w   .L_wpool_06022FBA, r3
     cmp/gt r3, r2
     bt      .L_06022F54
     mov.l @r11, r2
@@ -605,7 +605,7 @@ _wpool_y_upper_F:
     bf/s    .L_06022F54
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_G, r3
+    mov.w   .L_wpool_06022FBC, r3
     cmp/gt r3, r2
     bt      .L_06022F54
     mov.l @(20, r15), r2
@@ -643,7 +643,7 @@ _wpool_y_upper_F:
     cmp/ge r6, r3
     bf      .L_06022FB0
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_G, r3
+    mov.w   .L_wpool_06022FBA, r3
     cmp/gt r3, r2
     bt      .L_06022FB0
     mov.l @r9, r2
@@ -652,7 +652,7 @@ _wpool_y_upper_F:
     bf/s    .L_06022FB0
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_G, r3
+    mov.w   .L_wpool_06022FBC, r3
     cmp/gt r3, r2
     bt      .L_06022FB0
     mov.l @(12, r15), r2
@@ -664,9 +664,9 @@ _wpool_y_upper_F:
     tst r0, r0
     bra     .L_06022FBE
     nop
-_wpool_x_upper_G:
+.L_wpool_06022FBA:
     .2byte  0x0195
-_wpool_y_upper_G:
+.L_wpool_06022FBC:
     .2byte  0x0131
 .L_06022FBE:
     bt      .L_06023014
@@ -697,7 +697,7 @@ _wpool_y_upper_G:
     cmp/ge r6, r3
     bf      .L_06023014
     mov.l @r15, r2
-    mov.w   _wpool_x_upper_H, r3
+    mov.w   .L_wpool_06023048, r3
     cmp/gt r3, r2
     bt      .L_06023014
     mov.l @r10, r2
@@ -706,7 +706,7 @@ _wpool_y_upper_G:
     bf/s    .L_06023014
     mov.l r2, @r15
     mov.l @r15, r2
-    mov.w   _wpool_y_upper_H, r3
+    mov.w   .L_wpool_0602304A, r3
     cmp/gt r3, r2
     bt      .L_06023014
     mov.l @(8, r15), r2
@@ -741,7 +741,7 @@ _wpool_y_upper_G:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_wpool_x_upper_H:
+.L_wpool_06023048:
     .2byte  0x0195
-_wpool_y_upper_H:
+.L_wpool_0602304A:
     .2byte  0x0131

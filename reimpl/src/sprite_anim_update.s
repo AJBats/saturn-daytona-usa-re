@@ -14,23 +14,23 @@ sprite_anim_update:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   _pool_blank_text, r10
-    mov.l   _pool_geom_dispatch, r12
-    mov.w   _wpool_dlist_size, r13
-    mov.l   _pool_game_mode_ptr, r14
+    mov.l   .L_pool_06026730, r10
+    mov.l   .L_pool_06026734, r12
+    mov.w   .L_wpool_06026728, r13
+    mov.l   .L_pool_06026738, r14
     mov.w   DAT_0602672a, r8
-    mov.l   _pool_ok_text, r7
+    mov.l   .L_pool_0602673C, r7
     mov r13, r6
     mov r8, r5
     jsr @r12
     mov #0x8, r4
     mov r13, r6
     mov.w   DAT_0602672c, r9
-    mov.l   _pool_cancel_text, r7
+    mov.l   .L_pool_06026740, r7
     mov r9, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   _pool_button_state, r11
+    mov.l   .L_pool_06026744, r11
     mov.w @r11, r11
     extu.w r11, r3
     tst r3, r3
@@ -38,10 +38,10 @@ sprite_anim_update:
     bra     .L_06026824
     nop
 .L_0602670C:
-    mov.l   _pool_anim_state, r6
+    mov.l   .L_pool_06026748, r6
     extu.w r11, r3
     mov.w   DAT_0602672e, r2
-    mov.l   _pool_palette_pending, r4
+    mov.l   .L_pool_0602674C, r4
     and r2, r3
     tst r3, r3
     bt/s    .L_06026784
@@ -52,7 +52,7 @@ sprite_anim_update:
     bf      .L_06026750
     bra     .L_06026752
     mov #0x1, r3
-_wpool_dlist_size:
+.L_wpool_06026728:
     .2byte  0x0090                  /* display list size parameter */
 
     .global DAT_0602672a
@@ -66,21 +66,21 @@ DAT_0602672c:
     .global DAT_0602672e
 DAT_0602672e:
     .2byte  0x0E00                  /* confirm button mask (A/B/C buttons) */
-_pool_blank_text:
+.L_pool_06026730:
     .4byte  sym_06059128            /* blank text "  " */
-_pool_geom_dispatch:
+.L_pool_06026734:
     .4byte  sym_060284AE            /* geom_dispatch_final function */
-_pool_game_mode_ptr:
+.L_pool_06026738:
     .4byte  sym_06089EDA            /* game mode (word) */
-_pool_ok_text:
+.L_pool_0602673C:
     .4byte  sym_0605912C            /* "  OK" text string */
-_pool_cancel_text:
+.L_pool_06026740:
     .4byte  sym_06059134            /* "CANCEL" text string */
-_pool_button_state:
+.L_pool_06026744:
     .4byte  sym_06063D9A            /* button state register (word) */
-_pool_anim_state:
+.L_pool_06026748:
     .4byte  sym_06061198            /* animation state byte */
-_pool_palette_pending:
+.L_pool_0602674C:
     .4byte  sym_06089ED8            /* palette copy pending flag (word) */
 .L_06026750:
     mov #0x0, r3
@@ -98,21 +98,21 @@ _pool_palette_pending:
     shll r5
     jsr @r12
     mov #0x8, r4
-    mov.l   _pool_clear_text_a, r7
+    mov.l   .L_pool_06026850, r7
     mov r13, r6
     mov r8, r5
     jsr @r12
     mov #0x8, r4
     mov r13, r6
     mov r9, r5
-    mov.l   _pool_clear_text_b, r7
+    mov.l   .L_pool_06026854, r7
     jsr @r12
     mov #0x8, r4
     bra     .L_06026892
     nop
 .L_06026784:
     extu.w r11, r3
-    mov.w   _wpool_accept_mask, r2
+    mov.w   .L_wpool_06026848, r2
     cmp/eq r2, r3
     bf      .L_060267C0
     mov #0x0, r2
@@ -131,10 +131,10 @@ _pool_palette_pending:
     mov #0x8, r4
     mov r13, r6
     mov r8, r5
-    mov.l   _pool_clear_text_a, r7
+    mov.l   .L_pool_06026850, r7
     jsr @r12
     mov #0x8, r4
-    mov.l   _pool_clear_text_b, r7
+    mov.l   .L_pool_06026854, r7
     mov r13, r6
     mov r9, r5
     jsr @r12
@@ -162,7 +162,7 @@ _pool_palette_pending:
     mov.w r3, @r14
 .L_060267E4:
     extu.w r11, r11
-    mov.w   _wpool_scroll_down_mask, r2
+    mov.w   .L_wpool_0602684C, r2
     cmp/eq r2, r11
     bf      .L_06026808
     mov r10, r7
@@ -196,7 +196,7 @@ _pool_palette_pending:
     mov #0x14, r3
     mov.w r3, @r14
 .L_06026824:
-    mov.l   _pool_slot_count, r0
+    mov.l   .L_pool_06026858, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0x4, r0
@@ -214,23 +214,23 @@ _pool_palette_pending:
     mov #0x8, r4
     bra     .L_06026892
     nop
-_wpool_accept_mask:
+.L_wpool_06026848:
     .2byte  0x0100                  /* accept/start button exact match */
 
     .global DAT_0602684a
 DAT_0602684a:
     .2byte  0x1000                  /* scroll-up button mask */
-_wpool_scroll_down_mask:
+.L_wpool_0602684C:
     .2byte  0x2000                  /* scroll-down button mask */
     .2byte  0xFFFF                  /* pool alignment padding */
-_pool_clear_text_a:
+.L_pool_06026850:
     .4byte  sym_0605913C            /* blank text "    " (clears OK slot) */
-_pool_clear_text_b:
+.L_pool_06026854:
     .4byte  sym_06059144            /* blank text "      " (clears CANCEL slot) */
-_pool_slot_count:
+.L_pool_06026858:
     .4byte  sym_06089EC6            /* slot count (word) */
 .L_0602685C:
-    mov.l   _pool_dlist_entry, r2
+    mov.l   .L_pool_060268A8, r2
     mov.l r2, @r15
     mov r2, r7
     mov.w   DAT_060268a6, r3
@@ -254,7 +254,7 @@ _pool_slot_count:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   _pool_dlist_loader, r3
+    mov.l   .L_pool_060268AC, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06026892:
@@ -272,7 +272,7 @@ _pool_slot_count:
     .global DAT_060268a6
 DAT_060268a6:
     .2byte  0x7000                  /* VRAM base offset for dlist copy */
-_pool_dlist_entry:
+.L_pool_060268A8:
     .4byte  sym_06063B88            /* display list entry struct */
-_pool_dlist_loader:
+.L_pool_060268AC:
     .4byte  sym_06028400            /* display_list_loader function */

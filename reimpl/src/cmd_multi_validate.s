@@ -15,30 +15,30 @@ cmd_multi_validate:
     mov.l @r14, r4
     mov.l @(40, r4), r13
     mov.l r3, @(40, r4)
-    bsr     .trampoline_set_offset
+    bsr     .L_0603B28E
     mov r14, r4
     mov r0, r4
     tst r4, r4
-    bt      .dispatch_loop
+    bt      .L_0603B244
     mov.l @r14, r5
     .byte   0xB3, 0x7E    /* bsr 0x0603B93C (external) */
     mov.l r13, @(40, r5)
-    bra     .epilogue
+    bra     .L_0603B284
     nop
-.dispatch_loop:
+.L_0603B244:
     .byte   0xB0, 0xEE    /* bsr 0x0603B424 (external) */
     mov r14, r4
     mov r0, r4
     cmp/pz r4
-    bt      .check_dispatch_ok
+    bt      .L_0603B258
     mov.l @r14, r5
     .byte   0xB3, 0x74    /* bsr 0x0603B93C (external) */
     mov.l r13, @(40, r5)
-    bra     .epilogue
+    bra     .L_0603B284
     nop
-.check_dispatch_ok:
+.L_0603B258:
     tst r4, r4
-    bf      .retry_wait
+    bf      .L_0603B278
     mov r15, r6
     mov r15, r5
     add #0x4, r5
@@ -47,7 +47,7 @@ cmd_multi_validate:
     .byte   0xB3, 0x69    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @r14, r4
-    bra     .restore_and_return
+    bra     .L_0603B282
     mov.l r13, @(40, r4)
 
     .global DAT_0603b270
@@ -56,19 +56,19 @@ DAT_0603b270:
     .word 0xFFFF
 .L_0603B274:
     .4byte  0x7FFFFFFF                  /* sentinel: max positive 16.16 fixed-point */
-.retry_wait:
+.L_0603B278:
     .byte   0xD3, 0x24    /* mov.l .L_pool_0603B30C, r3 */
     jsr @r3
     nop
-    bra     .dispatch_loop
+    bra     .L_0603B244
     nop
-.restore_and_return:
+.L_0603B282:
     mov.l @r15, r0
-.epilogue:
+.L_0603B284:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.trampoline_set_offset:
+.L_0603B28E:
     mov #0x12, r0

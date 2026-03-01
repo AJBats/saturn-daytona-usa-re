@@ -9,29 +9,29 @@ race_progress_check:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_countdown_ptr, r13
-    mov.l   _pool_fn_sound_cmd, r14
-    mov.l   _pool_snd_progress, r12
+    mov.l   .L_pool_060127A4, r13
+    mov.l   .L_pool_060127A8, r14
+    mov.l   .L_pool_060127AC, r12
     bra     .L_0601276A
     mov.l @r13, r0
 .L_06012722:
     mov #0x1, r2
-    mov.l   _pool_finish_flag_ptr, r3
+    mov.l   .L_pool_060127B0, r3
     mov.b r2, @r3
-    mov.l   _pool_car_array_ptr, r2
+    mov.l   .L_pool_060127B4, r2
     mov.l @r2, r2
     mov.l @(48, r2), r3
-    mov.l   _pool_camera_yaw_ptr, r1
+    mov.l   .L_pool_060127B8, r1
     mov.l r3, @r1
-    mov.l   _pool_snd_menu_select, r5
+    mov.l   .L_pool_060127BC, r5
     bra     .L_06012740
     nop
 .L_06012738:
-    mov.l   _pool_snd_lap_progress, r5
+    mov.l   .L_pool_060127C0, r5
     bra     .L_06012740
     nop
 .L_0601273E:
-    mov.l   _pool_snd_mid_race, r5
+    mov.l   .L_pool_060127C4, r5
 .L_06012740:
     jsr @r14
     mov #0x0, r4
@@ -41,17 +41,17 @@ race_progress_check:
     bra     .L_0601277A
     nop
 .L_0601274E:
-    mov.l   _pool_snd_early_race, r5
+    mov.l   .L_pool_060127C8, r5
     jsr @r14
     mov #0x0, r4
-    mov.l   _pool_snd_init, r5
+    mov.l   .L_pool_060127CC, r5
     jsr @r14
     mov #0x0, r4
     mov #0x3C, r2
-    mov.l   _pool_countdown_timer_ptr, r3
+    mov.l   .L_pool_060127D0, r3
     mov.w r2, @r3
     mov #0x1, r2
-    mov.l   _pool_race_ready_ptr, r3
+    mov.l   .L_pool_060127D4, r3
     mov.b r2, @r3
     bra     .L_0601277A
     nop
@@ -66,7 +66,7 @@ race_progress_check:
     bt      .L_06012722
 .L_0601277A:
     mov.l @r13, r1
-    mov.l   _pool_fn_mem_store, r2
+    mov.l   .L_pool_060127D8, r2
     jsr @r2
     mov #0x4, r0
     tst r0, r0
@@ -78,7 +78,7 @@ race_progress_check:
     and r1, r0
     tst r0, r0
     bt      .L_0601279A
-    mov.l   _pool_snd_finish, r5
+    mov.l   .L_pool_060127DC, r5
     jsr @r14
     mov #0x0, r4
 .L_0601279A:
@@ -87,33 +87,33 @@ race_progress_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_pool_countdown_ptr:
+.L_pool_060127A4:
     .4byte  sym_0607EBCC                    /* &state_countdown (race progress counter) */
-_pool_fn_sound_cmd:
+.L_pool_060127A8:
     .4byte  sound_cmd_dispatch              /* sound command dispatcher function */
-_pool_snd_progress:
+.L_pool_060127AC:
     .4byte  0xAE1115FF                      /* sound cmd: persistent progress tone */
-_pool_finish_flag_ptr:
+.L_pool_060127B0:
     .4byte  sym_06078654                    /* &finish_flag / lap count (byte) */
-_pool_car_array_ptr:
+.L_pool_060127B4:
     .4byte  sym_0607E944                    /* &car_array_base pointer (deref to get array) */
-_pool_camera_yaw_ptr:
+.L_pool_060127B8:
     .4byte  sym_06063EF0                    /* &camera_yaw angle storage */
-_pool_snd_menu_select:
+.L_pool_060127BC:
     .4byte  0xAE1122FF                      /* sound cmd: menu select / race-complete confirm */
-_pool_snd_lap_progress:
+.L_pool_060127C0:
     .4byte  0xAE1123FF                      /* sound cmd: lap progress milestone */
-_pool_snd_mid_race:
+.L_pool_060127C4:
     .4byte  0xAE1124FF                      /* sound cmd: mid-race milestone */
-_pool_snd_early_race:
+.L_pool_060127C8:
     .4byte  0xAE1125FF                      /* sound cmd: early-race start */
-_pool_snd_init:
+.L_pool_060127CC:
     .4byte  0xAE1116FF                      /* sound cmd: race init / setup */
-_pool_countdown_timer_ptr:
+.L_pool_060127D0:
     .4byte  sym_06086056                    /* &countdown_timer (16-bit word) */
-_pool_race_ready_ptr:
+.L_pool_060127D4:
     .4byte  sym_0608605A                    /* &race_ready_flag (byte) */
-_pool_fn_mem_store:
+.L_pool_060127D8:
     .4byte  sym_06035C2C                    /* mem_store_helper function */
-_pool_snd_finish:
+.L_pool_060127DC:
     .4byte  0xAE110CFF                      /* sound cmd: race finish fanfare */

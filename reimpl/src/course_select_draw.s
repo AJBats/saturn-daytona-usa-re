@@ -14,12 +14,12 @@ course_select_draw:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   _pool_course_slot_lut, r8
-    mov.l   _pool_dlist_loader, r9
-    mov.l   _pool_obj_table_base, r10
-    mov.l   _pool_course_index, r12
-    mov.l   _pool_slot_param_table, r13
-    mov.l   _pool_last_drawn_course, r0
+    mov.l   .L_pool_060195B4, r8
+    mov.l   .L_pool_060195B8, r9
+    mov.l   .L_pool_060195BC, r10
+    mov.l   .L_pool_060195C0, r12
+    mov.l   .L_pool_060195C4, r13
+    mov.l   .L_pool_060195C8, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_0601959E
@@ -51,7 +51,7 @@ course_select_draw:
     add r10, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   _wpool_tex_offset_2000, r3
+    mov.w   .L_wpool_060195B0, r3
     mov.l @(4, r15), r6
     add r3, r7
     add r13, r6
@@ -73,7 +73,7 @@ course_select_draw:
     mov #0xC, r4
 .L_0601958E:
     exts.b r11, r3
-    mov.l   _pool_last_drawn_course, r2
+    mov.l   .L_pool_060195C8, r2
     add #0x1, r14
     mov.b r3, @r2
     exts.b r14, r1
@@ -81,7 +81,7 @@ course_select_draw:
     cmp/ge r2, r1
     bf      .L_0601954A
 .L_0601959E:
-    mov.l   _pool_highlight_flag, r0
+    mov.l   .L_pool_060195CC, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -96,25 +96,25 @@ DAT_060195ac:
     .global DAT_060195ae
 DAT_060195ae:
     .2byte  0x1000
-_wpool_tex_offset_2000:
+.L_wpool_060195B0:
     .2byte  0x2000
     .2byte  0xFFFF
-_pool_course_slot_lut:
+.L_pool_060195B4:
     .4byte  sym_06049AF4
-_pool_dlist_loader:
+.L_pool_060195B8:
     .4byte  sym_06028400
-_pool_obj_table_base:
+.L_pool_060195BC:
     .4byte  sym_06063750
-_pool_course_index:
+.L_pool_060195C0:
     .4byte  sym_0605D244
-_pool_slot_param_table:
+.L_pool_060195C4:
     .4byte  sym_06049AEC
-_pool_last_drawn_course:
+.L_pool_060195C8:
     .4byte  sym_06085FF1
-_pool_highlight_flag:
+.L_pool_060195CC:
     .4byte  sym_06085FF5
 .L_060195D0:
-    mov.l   _pool_blink_timer, r14
+    mov.l   .L_pool_06019698, r14
     mov #0xF, r2
     mov.b @r14, r3
     extu.b r3, r3
@@ -153,8 +153,8 @@ _pool_highlight_flag:
     bra     .L_06019680
     nop
 .L_0601961C:
-    mov.l   _pool_blink_geom_data, r7
-    mov.w   _wpool_blink_param_offset, r6
+    mov.l   .L_pool_0601969C, r7
+    mov.w   .L_wpool_06019696, r6
     mov.b @r12, r5
     mov.l @r7, r7
     shll r5
@@ -171,11 +171,11 @@ _pool_highlight_flag:
     shll2 r5
     add r3, r5
     shll r5
-    mov.l   _pool_vdp_num_text, r3
+    mov.l   .L_pool_060196A0, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   _pool_blink_geom_data, r7
-    mov.w   _wpool_blink_param_offset, r6
+    mov.l   .L_pool_0601969C, r7
+    mov.w   .L_wpool_06019696, r6
     mov.b @r12, r5
     mov.l @r7, r7
     shll r5
@@ -193,7 +193,7 @@ _pool_highlight_flag:
     shll2 r5
     add r3, r5
     shll r5
-    mov.l   _pool_vdp_num_text, r3
+    mov.l   .L_pool_060196A0, r3
     jsr @r3
     mov #0xC, r4
     mov #0x1E, r3
@@ -218,11 +218,11 @@ _pool_highlight_flag:
     .global DAT_06019694
 DAT_06019694:
     .2byte  0x4000
-_wpool_blink_param_offset:
+.L_wpool_06019696:
     .2byte  0x0090
-_pool_blink_timer:
+.L_pool_06019698:
     .4byte  sym_0605D242
-_pool_blink_geom_data:
+.L_pool_0601969C:
     .4byte  sym_0605D4EC
-_pool_vdp_num_text:
+.L_pool_060196A0:
     .4byte  sym_060284AE

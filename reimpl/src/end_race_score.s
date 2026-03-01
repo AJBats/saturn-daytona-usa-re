@@ -14,7 +14,7 @@ end_race_score:
     sts macl, r4
     mov.w   DAT_06013f4a, r5
     mov #0x0, r4
-    .byte   0xD3, 0x38    /* mov.l _pool_fn_transform_dispatch, r3 */
+    .byte   0xD3, 0x38    /* mov.l .L_pool_06013F70, r3 */
     add r0, r5
     jsr @r3
     mov.l @r15+, r6
@@ -45,7 +45,7 @@ end_race_score:
     mov.l @(12, r12), r4
     mov r0, r6
     mov.l @(8, r15), r5
-    .byte   0xD3, 0x29    /* mov.l _pool_fn_transform_dispatch, r3 */
+    .byte   0xD3, 0x29    /* mov.l .L_pool_06013F70, r3 */
     jsr @r3
     mov.l @(12, r15), r4
     mov.w @(24, r12), r0
@@ -57,7 +57,7 @@ end_race_score:
     mov r0, r4
     extu.w r3, r3
     mul.l r3, r4
-    .byte   0xD3, 0x24    /* mov.l _pool_fn_mat_rot_x, r3 */
+    .byte   0xD3, 0x24    /* mov.l .L_pool_06013F74, r3 */
     jsr @r3
     sts macl, r4
     mov.w @(28, r12), r0
@@ -65,7 +65,7 @@ end_race_score:
     mov r0, r4
     extu.w r3, r3
     mul.l r3, r4
-    .byte   0xD3, 0x21    /* mov.l _pool_fn_mat_rot_y, r3 */
+    .byte   0xD3, 0x21    /* mov.l .L_pool_06013F78, r3 */
     jsr @r3
     sts macl, r4
     mov.w @(30, r12), r0
@@ -82,7 +82,7 @@ end_race_score:
     jsr @r11
     mov.l @(16, r12), r4
     mov.w   DAT_06013f4c, r12
-    .byte   0xD3, 0x19    /* mov.l _pool_fn_mat_scale_columns, r3 */
+    .byte   0xD3, 0x19    /* mov.l .L_pool_06013F7C, r3 */
     add r0, r12
     mov r12, r6
     mov r12, r5
@@ -90,20 +90,20 @@ end_race_score:
     mov r12, r4
     mov #0x4, r5
     mov r8, r12
-    .byte   0xD4, 0x16    /* mov.l _pool_obj_table, r4 */
-    .byte   0xD3, 0x17    /* mov.l _pool_fn_chain_a, r3 */
+    .byte   0xD4, 0x16    /* mov.l .L_pool_06013F80, r4 */
+    .byte   0xD3, 0x17    /* mov.l .L_pool_06013F84, r3 */
     add r8, r4
     jsr @r3
     mov.l @r4, r4
     mov #0x1, r6
     mov.l @r15, r5
-    .byte   0xD4, 0x15    /* mov.l _pool_disp_table, r4 */
-    .byte   0xD3, 0x15    /* mov.l _pool_fn_chain_b, r3 */
+    .byte   0xD4, 0x15    /* mov.l .L_pool_06013F88, r4 */
+    .byte   0xD3, 0x15    /* mov.l .L_pool_06013F8C, r3 */
     mov.w @r5, r5
     add r12, r4
     jsr @r3
     mov.l @r4, r4
-    .byte   0xD2, 0x14    /* mov.l _pool_global_counter, r2 */
+    .byte   0xD2, 0x14    /* mov.l .L_pool_06013F90, r2 */
     mov.l @r2, r2
     bra     .L_06013F94
     nop
@@ -132,28 +132,28 @@ DAT_06013f4c:
     .4byte  sym_0605AD5C
     .4byte  sym_06089E4A
     .4byte  sym_06026DBC
-_pool_fn_transform_dispatch:
+.L_pool_06013F70:
     .4byte  sym_06026E2E
-_pool_fn_mat_rot_x:
+.L_pool_06013F74:
     .4byte  mat_rot_x
-_pool_fn_mat_rot_y:
+.L_pool_06013F78:
     .4byte  mat_rot_y
-_pool_fn_mat_scale_columns:
+.L_pool_06013F7C:
     .4byte  mat_scale_columns
-_pool_obj_table:
+.L_pool_06013F80:
     .4byte  sym_06062338
-_pool_fn_chain_a:
+.L_pool_06013F84:
     .4byte  sym_06031D8C
-_pool_disp_table:
+.L_pool_06013F88:
     .4byte  sym_060622C0
-_pool_fn_chain_b:
+.L_pool_06013F8C:
     .4byte  sym_06031A28
-_pool_global_counter:
+.L_pool_06013F90:
     .4byte  sym_06089EDC
 .L_06013F94:
     add #-0x30, r2
     add #0x20, r10
-    .byte   0xD3, 0x09    /* mov.l _pool_counter_store, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_pool_06013FC0, r3 */
     mov.l r2, @r3
     mov.l @(4, r15), r1
     cmp/hs r1, r10
@@ -174,5 +174,5 @@ _pool_global_counter:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-_pool_counter_store:
+.L_pool_06013FC0:
     .4byte  sym_06089EDC

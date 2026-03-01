@@ -12,8 +12,8 @@ track_surface_validate:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x14, r15
-    mov.l   _pool_fn_checkpoint, r11
-    mov.l   _pool_car_state_base, r14
+    mov.l   .L_pool_06041BD4, r11
+    mov.l   .L_pool_06041BD8, r14
     mov.w   DAT_06041bc8, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0
@@ -22,8 +22,8 @@ track_surface_validate:
     mov r4, r12
     mov r15, r5
     mov.l @r14, r4
-    mov.w   _wpool_off_surface_param, r0
-    mov.l   _pool_fn_surface_type_c, r3
+    mov.w   .L_wpool_06041BCA, r0
+    mov.l   .L_pool_06041BDC, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r15, r4
@@ -45,7 +45,7 @@ track_surface_validate:
     sub r3, r2
     mov.l r2, @r15
     mov.l @r14, r4
-    mov.w   _wpool_off_max_dist, r0
+    mov.w   .L_wpool_06041BCE, r0
     mov.l @(r0, r4), r4
     cmp/ge r4, r2
     bt      .L_06041B98
@@ -55,7 +55,7 @@ track_surface_validate:
     mov.l r4, @r15
 .L_06041B9A:
     mov.l @r14, r2
-    mov.w   _wpool_off_result_ptr, r0
+    mov.w   .L_wpool_06041BD0, r0
     mov.l @(r0, r2), r3
     mov.l @r15, r2
     mov.l r2, @r3
@@ -85,25 +85,25 @@ DAT_06041bc6:
     .global DAT_06041bc8
 DAT_06041bc8:
     .2byte  0x030C               /* car state offset: state machine phase */
-_wpool_off_surface_param:
+.L_wpool_06041BCA:
     .2byte  0x0310               /* car state offset: surface query param A */
 
     .global DAT_06041bcc
 DAT_06041bcc:
     .2byte  0x0314               /* car state offset: distance base value */
-_wpool_off_max_dist:
+.L_wpool_06041BCE:
     .2byte  0x0318               /* car state offset: max distance threshold */
-_wpool_off_result_ptr:
+.L_wpool_06041BD0:
     .2byte  0x0320               /* car state offset: distance result pointer */
 
     .global DAT_06041bd2
 DAT_06041bd2:
     .2byte  0x0324               /* car state offset: completion callback ptr */
-_pool_fn_checkpoint:
+.L_pool_06041BD4:
     .4byte  ai_checkpoint_validate  /* checkpoint validation function */
-_pool_car_state_base:
+.L_pool_06041BD8:
     .4byte  sym_060A5400            /* AI/game state base pointer (indirect) */
-_pool_fn_surface_type_c:
+.L_pool_06041BDC:
     .4byte  track_surface_type_c    /* surface type query variant C */
 .L_06041BE0:
     mov.l @r14, r3
@@ -138,10 +138,10 @@ _pool_fn_surface_type_c:
     mov.l @r14, r2
     mov.l r3, @(52, r2)
     mov.l @r14, r6
-    mov.w   _wpool_off_result_ptr_b, r0
+    mov.w   .L_wpool_06041CAC, r0
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   _pool_fn_surface_type_d, r3
+    mov.l   .L_pool_06041CB0, r3
     mov.l @(r0, r6), r6
     add #-0xC, r0
     mov.l @r6, r6
@@ -178,7 +178,7 @@ _pool_fn_surface_type_c:
     cmp/eq #0x3, r0
     bf      .L_06041CB8
     mov r15, r4
-    mov.l   _pool_fn_distance_calc, r3
+    mov.l   .L_pool_06041CB4, r3
     jsr @r3
     add #0x4, r4
     mov r0, r4
@@ -220,12 +220,12 @@ DAT_06041ca8:
     .global DAT_06041caa
 DAT_06041caa:
     .2byte  0x030C               /* car state offset: state machine phase (dup) */
-_wpool_off_result_ptr_b:
+.L_wpool_06041CAC:
     .2byte  0x0320               /* car state offset: result pointer (dup for reach) */
     .2byte  0xFFFF               /* alignment padding */
-_pool_fn_surface_type_d:
+.L_pool_06041CB0:
     .4byte  track_surface_type_d    /* surface type query variant D */
-_pool_fn_distance_calc:
+.L_pool_06041CB4:
     .4byte  track_distance_calc     /* track distance computation */
 .L_06041CB8:
     mov #0x1, r0

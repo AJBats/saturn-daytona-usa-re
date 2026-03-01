@@ -9,27 +9,27 @@ ai_position_ranking:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_countdown_timer, r12
-    mov.l   _pool_car_index, r14
-    mov.l   _pool_rank_table_default, r13
-    mov.l   _pool_game_state, r5
+    mov.l   .L_pool_06015008, r12
+    mov.l   .L_pool_0601500C, r14
+    mov.l   .L_pool_06015010, r13
+    mov.l   .L_pool_06015014, r5
     mov.l @r5, r0
     cmp/eq #0x19, r0
     .word 0x0029
-    mov.l   _pool_display_flags, r3
+    mov.l   .L_pool_06015018, r3
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
     bt/s    .L_06014F5C
     mov #0x23, r4
-    mov.l   _pool_rank_table_mode_a, r13
+    mov.l   .L_pool_0601501C, r13
     bra     .L_06014F66
     mov #0x28, r4
 .L_06014F5C:
     mov.l @r5, r0
     cmp/eq #0x15, r0
     bf      .L_06014F66
-    mov.l   _pool_rank_table_mode_b, r13
+    mov.l   .L_pool_06015020, r13
     mov #0x6, r4
 .L_06014F66:
     extu.b r4, r4
@@ -47,7 +47,7 @@ ai_position_ranking:
     and r1, r3
     tst r3, r3
     bt      .L_06015030
-    mov.l   _pool_frame_decrement, r3
+    mov.l   .L_pool_06015024, r3
     mov.w @r12, r2
     mov.l @r3, r3
     sub r3, r2
@@ -56,7 +56,7 @@ ai_position_ranking:
     cmp/pl r3
     bt      .L_06015030
 .L_06014F94:
-    mov.l   _pool_fn_data_lookup, r3
+    mov.l   .L_pool_06015028, r3
     jsr @r3
     mov #0x0, r4
     extu.b r0, r5
@@ -64,7 +64,7 @@ ai_position_ranking:
     cmp/eq #0x11, r0
     bt      .L_06015030
     extu.b r5, r4
-    mov.l   _pool_slot_data_base, r2
+    mov.l   .L_pool_0601502C, r2
     mov.w @r14, r0
     mov r4, r3
     extu.w r0, r0
@@ -115,25 +115,25 @@ ai_position_ranking:
     bf      .L_06015030
     bra     .L_06014F94
     nop
-_pool_countdown_timer:
+.L_pool_06015008:
     .4byte  sym_06085F94
-_pool_car_index:
+.L_pool_0601500C:
     .4byte  sym_06085F90
-_pool_rank_table_default:
+.L_pool_06015010:
     .4byte  sym_0605B73A
-_pool_game_state:
+.L_pool_06015014:
     .4byte  g_game_state
-_pool_display_flags:
+.L_pool_06015018:
     .4byte  sym_0607EBF4
-_pool_rank_table_mode_a:
+.L_pool_0601501C:
     .4byte  sym_0605B7A6
-_pool_rank_table_mode_b:
+.L_pool_06015020:
     .4byte  sym_0605B821
-_pool_frame_decrement:
+.L_pool_06015024:
     .4byte  sym_0606BDF8
-_pool_fn_data_lookup:
+.L_pool_06015028:
     .4byte  vdp2_data_lookup
-_pool_slot_data_base:
+.L_pool_0601502C:
     .4byte  sym_06084FC8
 .L_06015030:
     lds.l @r15+, pr

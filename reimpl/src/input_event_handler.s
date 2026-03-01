@@ -8,7 +8,7 @@ input_event_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD4, 0x26    /* mov.l _pool_lap_disp_timer, r4 */
+    .byte   0xD4, 0x26    /* mov.l .L_pool_06005AC4, r4 */
     mov.l @r4, r3
     cmp/pl r3
     bf      .L_06005AE0
@@ -18,24 +18,24 @@ input_event_handler:
     tst #0x1, r0
     bt/s    .L_06005A9C
     mov.l r3, @r4
-    .byte   0xD0, 0x22    /* mov.l _pool_2p_mode_flag, r0 */
+    .byte   0xD0, 0x22    /* mov.l .L_pool_06005AC8, r0 */
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06005A4A
-    mov.w   _wpool_2p_elem_index, r14
+    mov.w   .L_wpool_06005ABA, r14
     bra     .L_06005A4C
     nop
 .L_06005A4A:
     mov #0x21, r14
 .L_06005A4C:
-    .byte   0xD0, 0x1F    /* mov.l _pool_anim_countdown, r0 */
+    .byte   0xD0, 0x1F    /* mov.l .L_pool_06005ACC, r0 */
     mov.l @r0, r0
     tst r0, r0
     bt      .L_06005A78
     mov r14, r7
     shll2 r7
     shll r7
-    .byte   0xD3, 0x1D    /* mov.l _pool_car_obj_table, r3 */
+    .byte   0xD3, 0x1D    /* mov.l .L_pool_06005AD0, r3 */
     add r3, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -47,14 +47,14 @@ input_event_handler:
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x18    /* mov.l _pool_dlist_loader, r3 */
+    .byte   0xD3, 0x18    /* mov.l .L_pool_06005AD4, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_06005A78:
     mov r14, r7
     shll2 r7
     shll r7
-    .byte   0xD3, 0x14    /* mov.l _pool_car_obj_table, r3 */
+    .byte   0xD3, 0x14    /* mov.l .L_pool_06005AD0, r3 */
     add r3, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -66,28 +66,28 @@ input_event_handler:
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x0F    /* mov.l _pool_dlist_loader, r3 */
+    .byte   0xD3, 0x0F    /* mov.l .L_pool_06005AD4, r3 */
     jmp @r3
     mov.l @r15+, r14
 .L_06005A9C:
-    .byte   0xD7, 0x0E    /* mov.l _pool_static_data, r7 */
-    mov.w   _wpool_static_size, r6
+    .byte   0xD7, 0x0E    /* mov.l .L_pool_06005AD8, r7 */
+    mov.w   .L_wpool_06005AC2, r6
     mov.w   DAT_06005abe, r5
-    .byte   0xD3, 0x0E    /* mov.l _pool_geom_dispatch, r3 */
+    .byte   0xD3, 0x0E    /* mov.l .L_pool_06005ADC, r3 */
     jsr @r3
     mov #0x8, r4
-    .byte   0xD7, 0x0B    /* mov.l _pool_static_data, r7 */
-    mov.w   _wpool_static_size, r6
+    .byte   0xD7, 0x0B    /* mov.l .L_pool_06005AD8, r7 */
+    mov.w   .L_wpool_06005AC2, r6
     mov.w   DAT_06005ac0, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x09    /* mov.l _pool_geom_dispatch, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_pool_06005ADC, r3 */
     jmp @r3
     mov.l @r15+, r14
 
 
-_wpool_2p_elem_index:
+.L_wpool_06005ABA:
     .2byte  0x00B0                            /* 2P mode display element index (176) */
 
     .global DAT_06005abc
@@ -102,23 +102,23 @@ DAT_06005abe:
 DAT_06005ac0:
     .2byte  0x059C                            /* element size B (anim idle / second elem) */
 
-_wpool_static_size:
+.L_wpool_06005AC2:
     .2byte  0x0090                            /* static element size */
 
 
-_pool_lap_disp_timer:
+.L_pool_06005AC4:
     .4byte  sym_0607EABC                      /* -> lap display timer (32-bit countdown) */
-_pool_2p_mode_flag:
+.L_pool_06005AC8:
     .4byte  sym_06085FF4                      /* -> 2-player mode flag (byte) */
-_pool_anim_countdown:
+.L_pool_06005ACC:
     .4byte  sym_0607EAC0                      /* -> anim countdown timer (32-bit) */
-_pool_car_obj_table:
+.L_pool_06005AD0:
     .4byte  sym_06063750                      /* -> car object table base (8 bytes/entry) */
-_pool_dlist_loader:
+.L_pool_06005AD4:
     .4byte  sym_06028400                      /* -> display_list_loader function */
-_pool_static_data:
+.L_pool_06005AD8:
     .4byte  sym_0605ACDD                      /* -> static rendering data pointer */
-_pool_geom_dispatch:
+.L_pool_06005ADC:
     .4byte  sym_060284AE                      /* -> geom_dispatch_final function */
 
 

@@ -17,34 +17,34 @@ loc_060323F0:
     extu.b r7, r1
     swap.w r7, r2
     extu.b r2, r2
-    mov.l   _pool_disp_buf_offset, r0
+    mov.l   .L_pool_06032400, r0
     add r14, r0
     .byte   0xAF, 0x86    /* bra 0x0603230A (external) */
     mov.b r1, @(r0, r2)
     .2byte  0x0000
-_pool_disp_buf_offset:
+.L_pool_06032400:
     .4byte  0x000002DE
 
     .global loc_06032404
 loc_06032404:
-    mov.l   _pool_ctrl_word_off_a, r0
+    mov.l   .L_pool_06032410, r0
     mov.w @(r0, r14), r1
     or r7, r1
     .byte   0xAF, 0x7E    /* bra 0x0603230A (external) */
     mov.w r1, @(r0, r14)
     .2byte  0x0000
-_pool_ctrl_word_off_a:
+.L_pool_06032410:
     .4byte  0x0000000E
 
     .global loc_06032414
 loc_06032414:
-    mov.l   _pool_ctrl_word_off_b, r0
+    mov.l   .L_pool_06032420, r0
     mov.w @(r0, r14), r1
     not r7, r2
     and r2, r1
     .byte   0xAF, 0x75    /* bra 0x0603230A (external) */
     mov.w r1, @(r0, r14)
-_pool_ctrl_word_off_b:
+.L_pool_06032420:
     .4byte  0x0000000E
 
     .global loc_06032424

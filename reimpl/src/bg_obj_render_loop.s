@@ -15,25 +15,25 @@ bg_obj_render_loop:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x8, r15
-    mov.l   _pool_fn_rot_z, r8
-    mov.l   _pool_global_counter, r9
-    mov.l   _pool_fn_transform_dispatch, r10
-    mov.l   _pool_fp_one, r13
-    mov.l   _pool_fn_camera_push, r3
+    mov.l   .L_pool_06014088, r8
+    mov.l   .L_pool_0601408C, r9
+    mov.l   .L_pool_06014090, r10
+    mov.l   .L_pool_06014094, r13
+    mov.l   .L_pool_06014098, r3
     jsr @r3
     nop
     mov #0x0, r5
     mov r5, r11
-    mov.l   _pool_entry_array_base, r4
+    mov.l   .L_pool_0601409C, r4
     mov r4, r14
     add r5, r14
     mov.w   DAT_06014080, r2
     add r2, r4
     mov.l r4, @(4, r15)
-    mov.l   _pool_disp_table_ptr, r3
+    mov.l   .L_pool_060140A0, r3
     mov.l r3, @r15
 .L_06013FFA:
-    mov.l   _pool_fn_pre_transform, r3
+    mov.l   .L_pool_060140A4, r3
     jsr @r3
     mov r14, r12
     mov r13, r6
@@ -51,16 +51,16 @@ bg_obj_render_loop:
     mov r0, r4
     jsr @r8
     neg r4, r4
-    mov.l   _pool_wind_dir_addr, r5
+    mov.l   .L_pool_060140A8, r5
     mov.w   DAT_06014084, r4
-    mov.l   _pool_fn_fpmul, r3
+    mov.l   .L_pool_060140AC, r3
     mov.w @r5, r5
     extu.w r5, r5
     mul.l r13, r5
     jsr @r3
     sts macl, r5
     mov.w   DAT_06014086, r12
-    mov.l   _pool_fn_scale_columns, r3
+    mov.l   .L_pool_060140B0, r3
     add r0, r12
     mov r12, r6
     mov r12, r5
@@ -68,15 +68,15 @@ bg_obj_render_loop:
     mov r12, r4
     mov #0x4, r5
     mov r11, r12
-    mov.l   _pool_obj_table, r4
-    mov.l   _pool_fn_chain_a, r3
+    mov.l   .L_pool_060140B4, r4
+    mov.l   .L_pool_060140B8, r3
     add r11, r4
     jsr @r3
     mov.l @r4, r4
     mov #0x1, r6
     mov.l @r15, r5
-    mov.l   _pool_disp_table, r4
-    mov.l   _pool_fn_chain_b, r3
+    mov.l   .L_pool_060140BC, r4
+    mov.l   .L_pool_060140C0, r3
     mov.w @r5, r5
     add r12, r4
     jsr @r3
@@ -116,33 +116,33 @@ DAT_06014084:
     .global DAT_06014086
 DAT_06014086:
     .2byte  0xB334                           /* base scale offset (signed, ~-0.3) */
-_pool_fn_rot_z:
+.L_pool_06014088:
     .4byte  mat_rot_z                        /* Z-axis rotation matrix function */
-_pool_global_counter:
+.L_pool_0601408C:
     .4byte  sym_06089EDC                     /* global rendering budget counter */
-_pool_fn_transform_dispatch:
+.L_pool_06014090:
     .4byte  sym_06026E2E                     /* transform dispatch function */
-_pool_fp_one:
+.L_pool_06014094:
     .4byte  0x00010000                       /* 1.0 (16.16 fixed-point) */
-_pool_fn_camera_push:
+.L_pool_06014098:
     .4byte  sym_06026E0C                     /* camera state push/save */
-_pool_entry_array_base:
+.L_pool_0601409C:
     .4byte  sym_0605AD5C                     /* animation entry array (32 bytes each) */
-_pool_disp_table_ptr:
+.L_pool_060140A0:
     .4byte  sym_06089E4A                     /* display table base pointer (16-bit) */
-_pool_fn_pre_transform:
+.L_pool_060140A4:
     .4byte  sym_06026DBC                     /* per-object pre-transform setup */
-_pool_wind_dir_addr:
+.L_pool_060140A8:
     .4byte  sym_06084AF6                     /* wind/environment direction (16-bit word) */
-_pool_fn_fpmul:
+.L_pool_060140AC:
     .4byte  fpmul                            /* 16.16 fixed-point multiply */
-_pool_fn_scale_columns:
+.L_pool_060140B0:
     .4byte  mat_scale_columns                /* uniform column scale function */
-_pool_obj_table:
+.L_pool_060140B4:
     .4byte  sym_06062338                     /* object transform table A (32-bit entries) */
-_pool_fn_chain_a:
+.L_pool_060140B8:
     .4byte  sym_06031D8C                     /* transform chain dispatch A */
-_pool_disp_table:
+.L_pool_060140BC:
     .4byte  sym_060622C0                     /* display transform table B (32-bit entries) */
-_pool_fn_chain_b:
+.L_pool_060140C0:
     .4byte  sym_06031A28                     /* transform chain dispatch B */

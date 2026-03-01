@@ -9,10 +9,10 @@ replay_recorder:
     add #-0x24, r15
     mov.w   DAT_0601bcba, r8
     mov r15, r1
-    mov.l   _pool_replay_init_data_src, r2
-    mov.l   _pool_fn_sprite_draw, r11
-    mov.l   _pool_fn_vdp1_pos_draw, r12
-    mov.l   _pool_fn_data_copy, r3
+    mov.l   .L_pool_0601BCC4, r2
+    mov.l   .L_pool_0601BCBC, r11
+    mov.l   .L_pool_0601BCC0, r12
+    mov.l   .L_pool_0601BCC8, r3
     add #0x20, r1
     jsr @r3
     mov #0x4, r0
@@ -20,11 +20,11 @@ replay_recorder:
     exts.b r5, r5
     add #0x5, r5
     mov.l r5, @(16, r15)
-    mov.l   _pool_model_table_a, r3
+    mov.l   .L_pool_0601BCCC, r3
     mov.l r3, @(4, r15)
-    mov.l   _pool_model_table_b, r3
+    mov.l   .L_pool_0601BCD0, r3
     mov.l r3, @(8, r15)
-    mov.l   _pool_model_table_c, r3
+    mov.l   .L_pool_0601BCD4, r3
     mov.l r3, @(12, r15)
     extu.w r13, r3
     mov.l @(16, r15), r2
@@ -37,7 +37,7 @@ replay_recorder:
     extu.w r13, r7
     mov #0x60, r6
     extu.w r14, r5
-    mov.l   _pool_car_data_table, r3
+    mov.l   .L_pool_0601BCD8, r3
     shll2 r7
     shll2 r5
     add r3, r7
@@ -86,7 +86,7 @@ replay_recorder:
     shll r3
     add r3, r10
     add r9, r10
-    mov.l   _pool_fn_anim_transform, r3
+    mov.l   .L_pool_0601BCDC, r3
     jsr @r3
     mov.l @(4, r10), r4
     mov r0, r7
@@ -123,23 +123,23 @@ replay_recorder:
     .global DAT_0601bcba
 DAT_0601bcba:
     .2byte  0x7000
-_pool_fn_sprite_draw:
+.L_pool_0601BCBC:
     .4byte  sym_06028400
-_pool_fn_vdp1_pos_draw:
+.L_pool_0601BCC0:
     .4byte  sym_060284AE
-_pool_replay_init_data_src:
+.L_pool_0601BCC4:
     .4byte  sym_0605DF3E
-_pool_fn_data_copy:
+.L_pool_0601BCC8:
     .4byte  sym_06035228
-_pool_model_table_a:
+.L_pool_0601BCCC:
     .4byte  sym_06063918
-_pool_model_table_b:
+.L_pool_0601BCD0:
     .4byte  sym_06063D08
-_pool_model_table_c:
+.L_pool_0601BCD4:
     .4byte  sym_06063920
-_pool_car_data_table:
+.L_pool_0601BCD8:
     .4byte  sym_0605DE64
-_pool_fn_anim_transform:
+.L_pool_0601BCDC:
     .4byte  anim_frame_transform
 .L_0601BCE0:
     bf      .L_0601BCE6
@@ -164,7 +164,7 @@ _pool_fn_anim_transform:
     add #0x3C, r2
     mov r2, r3
     shll2 r3
-    mov.l   _pool_model_geom_table, r2
+    mov.l   .L_pool_0601BD68, r2
     shll r3
     add r3, r2
     mov.l r2, @(20, r15)
@@ -177,7 +177,7 @@ _pool_fn_anim_transform:
     mov.l @r5, r5
     jsr @r11
     mov #0x8, r4
-    mov.l   _pool_overlay_data, r7
+    mov.l   .L_pool_0601BD6C, r7
     mov #0x60, r6
     mov.l @(24, r15), r5
     add #0x25, r5
@@ -196,7 +196,7 @@ _pool_fn_anim_transform:
     extu.b r3, r3
     tst r3, r3
     bt      .L_0601BD8E
-    mov.l   _pool_table_selector, r0
+    mov.l   .L_pool_0601BD70, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
     bf      .L_0601BD74
@@ -211,11 +211,11 @@ _pool_fn_anim_transform:
     shll r6
     bra     .L_0601BD88
     mov.l @(4, r15), r5
-_pool_model_geom_table:
+.L_pool_0601BD68:
     .4byte  sym_06063750
-_pool_overlay_data:
+.L_pool_0601BD6C:
     .4byte  sym_0604A4B8
-_pool_table_selector:
+.L_pool_0601BD70:
     .4byte  sym_06078644
 .L_0601BD74:
     mov.l @(8, r15), r7

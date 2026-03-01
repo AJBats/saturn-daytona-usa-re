@@ -61,13 +61,13 @@ obj_setup_decomp:
     mov r15, r2
     mov.b r0, @(5, r3)
     add #0x8, r2
-    mov.l   _pool_memcpy_byte, r3
+    mov.l   .L_pool_0604083C, r3
     jsr @r3
     mov #0x6, r0
     mov #-0x1, r2
     mov r15, r4
     mov.l r2, @(40, r14)
-    mov.l   _pool_slot_alloc_direct, r3
+    mov.l   .L_pool_06040840, r3
     jsr @r3
     add #0x4, r4
     tst r0, r0
@@ -77,12 +77,12 @@ obj_setup_decomp:
 .Lslot_direct_ok:
     mov.l @(4, r15), r3
     mov.l r3, @(4, r14)
-    mov.l   _pool_slot_alloc_zone, r3
+    mov.l   .L_pool_06040844, r3
     jsr @r3
     mov r15, r4
     tst r0, r0
     bt      .Lslot_zone_ok
-    mov.l   _pool_evt_reg_save, r3
+    mov.l   .L_pool_06040848, r3
     jsr @r3
     mov.l @(4, r15), r4
     bra     .Lreturn_fail
@@ -94,7 +94,7 @@ obj_setup_decomp:
     mov.l r13, @-r15
     mov r15, r6
     mov.l @(32, r14), r5
-    mov.l   _pool_buffer_slot_alloc, r3
+    mov.l   .L_pool_0604084C, r3
     add #0xC, r6
     jsr @r3
     mov.l @(4, r15), r4
@@ -103,15 +103,15 @@ obj_setup_decomp:
     add #0x4, r15
     bra     .Lreturn_fail
     mov #0x0, r0
-_pool_memcpy_byte:
+.L_pool_0604083C:
     .4byte  sym_06035228
-_pool_slot_alloc_direct:
+.L_pool_06040840:
     .4byte  sym_06040EEC
-_pool_slot_alloc_zone:
+.L_pool_06040844:
     .4byte  sym_06040E88
-_pool_evt_reg_save:
+.L_pool_06040848:
     .4byte  evt_reg_save
-_pool_buffer_slot_alloc:
+.L_pool_0604084C:
     .4byte  buffer_slot_alloc
 .Lbuffer_slot_ok:
     .byte   0x96, 0x24    /* mov.w .L_wpool_0604089C, r6 */

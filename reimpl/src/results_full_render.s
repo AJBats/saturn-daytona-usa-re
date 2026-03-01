@@ -40,32 +40,32 @@ place_result_cell:
     mov.l r3, @-r15
     mov #0x0, r0
     cmp/eq r0, r5
-    bt      .ret_restore
+    bt      .L_06033302
     mov.l   .L_pool_06033312, r0
     mov.l   .L_pool_06033316, r3
     add r0, r1
     add r3, r2
     mov.l   .L_06033318, r0
     cmp/gt r1, r0
-    bt      .ret_restore
+    bt      .L_06033302
     cmp/gt r2, r0
-    bt      .ret_restore
+    bt      .L_06033302
     mov.l   .L_pool_0603331E, r0
     cmp/gt r0, r1
-    bt      .ret_restore
+    bt      .L_06033302
     mov.l   .L_pool_06033322, r0
     cmp/gt r0, r2
-    bt      .ret_restore
+    bt      .L_06033302
     mov.l   .L_06033324, r0
     mov.l   .L_06033328, r3
     tst r0, r2
-    bt      .y_no_round
+    bt      .L_060332AE
     add r3, r2
-.y_no_round:
+.L_060332AE:
     tst r0, r1
-    bt      .x_no_round
+    bt      .L_060332B4
     add r3, r1
-.x_no_round:
+.L_060332B4:
     shlr16 r2
     shlr16 r1
     exts.w r2, r2
@@ -101,16 +101,16 @@ place_result_cell:
     mov #-0x10, r2
     mov #0x1, r4
     tst r4, r1
-    bf      .odd_x
+    bf      .L_060332FA
     mov #0xF, r2
     shll2 r5
     shll2 r5
-.odd_x:
+.L_060332FA:
     and r2, r0
     or r5, r0
     mov.l @r15+, r4
     mov.b r0, @r4
-.ret_restore:
+.L_06033302:
     mov.l @r15+, r3
     mov.l @r15+, r2
     mov.l @r15+, r1

@@ -15,12 +15,12 @@ save_deserialize:
     mov.l @r14, r4
     mov.l @(r0, r4), r4
     tst r4, r4
-    bt      .no_conflict
+    bt      .L_0603BD3A
     cmp/eq r13, r4
-    bt      .no_conflict
-    bra     .return_result
+    bt      .L_0603BD3A
+    bra     .L_0603BDA2
     mov #0x5, r0
-.no_conflict:
+.L_0603BD3A:
     mov #0x10, r0
     mov.l @r14, r2
     mov.b @(r0, r13), r3
@@ -36,11 +36,11 @@ save_deserialize:
     mov.l @r13, r4
     mov r0, r4
     tst r4, r4
-    bf      .check_result_2
+    bf      .L_0603BD88
     mov.l @r14, r3
     mov.w   .L_wpool_0603BD64, r0
     mov.l r13, @(r0, r3)
-    bra     .set_return_code
+    bra     .L_0603BDA0
     nop
 .L_wpool_0603BD64:
     .2byte  0x00A8                      /* [HIGH] active block slot offset in cmd state (+0xA8) */
@@ -54,22 +54,22 @@ save_deserialize:
     .4byte  sym_0603F8B8
 .L_pool_0603BD84:
     .4byte  sym_060A4D14
-.check_result_2:
+.L_0603BD88:
     mov r4, r0
     cmp/eq #0x2, r0
-    bf      .set_return_code
+    bf      .L_0603BDA0
     mov.l @r14, r3
     .byte   0x90, 0x3D    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */
     mov.l @(r0, r3), r2
     cmp/eq r13, r2
-    bf      .set_return_code
+    bf      .L_0603BDA0
     mov.l @r14, r2
     mov #0x0, r3
     .byte   0x90, 0x37    /* mov.w wpool@0x0603BE0E (external: 0x00A8 active slot offset), r0 */
     mov.l r3, @(r0, r2)
-.set_return_code:
+.L_0603BDA0:
     mov r4, r0
-.return_result:
+.L_0603BDA2:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

@@ -14,15 +14,15 @@ cmd_dispatch_main:
     mov.b @(r0, r14), r3
     extu.b r3, r3
     tst r3, r3
-    bf      .check_deserialize
-    bra     .ret_read_state
+    bf      .L_0603B43C
+    bra     .L_0603B526
     nop
-.check_deserialize:
+.L_0603B43C:
     .byte   0xB4, 0x6E    /* bsr 0x0603BD1C (external) */
     mov r14, r4
-    bra     .dispatch_code
+    bra     .L_0603B4D0
     mov r0, r13
-.err_state_6:
+.L_0603B444:
     mov.w   DAT_0603b4c6, r2
     mov #0x12, r0
     mov.b r2, @(r0, r14)
@@ -32,7 +32,7 @@ cmd_dispatch_main:
     mov.l @r15+, r13
     .byte   0xA2, 0x73    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.err_state_3:
+.L_0603B456:
     mov.w   DAT_0603b4c8, r2
     mov #0x12, r0
     mov.b r2, @(r0, r14)
@@ -42,7 +42,7 @@ cmd_dispatch_main:
     mov.l @r15+, r13
     .byte   0xA2, 0x6A    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.err_state_4:
+.L_0603B468:
     mov.w   DAT_0603b4ca, r2
     mov #0x12, r0
     mov.b r2, @(r0, r14)
@@ -52,7 +52,7 @@ cmd_dispatch_main:
     mov.l @r15+, r13
     .byte   0xA2, 0x61    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.err_state_5:
+.L_0603B47A:
     mov.w   DAT_0603b4cc, r2
     mov #0x12, r0
     mov.b r2, @(r0, r14)
@@ -62,11 +62,11 @@ cmd_dispatch_main:
     mov.l @r15+, r13
     .byte   0xA2, 0x58    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.code_1_check_ready:
+.L_0603B48C:
     .byte   0xB5, 0x65    /* bsr 0x0603BF5A (external) */
     mov r14, r4
     cmp/eq #0x1, r0
-    bf      .integrity_check
+    bf      .L_0603B4E8
     mov.w   DAT_0603b4ce, r3
     mov #0x12, r0
     mov.b r3, @(r0, r14)
@@ -76,12 +76,12 @@ cmd_dispatch_main:
     mov.l @r15+, r13
     .byte   0xA2, 0x4B    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.code_0_exec:
+.L_0603B4A6:
     mov #0x11, r0
     mov.b @(r0, r14), r0
     extu.b r0, r0
     cmp/eq #0x2, r0
-    bf      .integrity_check
+    bf      .L_0603B4E8
     mov #0x0, r2
     mov #0x12, r0
     mov.b r2, @(r0, r14)
@@ -91,7 +91,7 @@ cmd_dispatch_main:
     mov #0x0, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0
-    bra     .epilogue
+    bra     .L_0603B530
     extu.b r0, r0
 
     .global DAT_0603b4c6
@@ -113,29 +113,29 @@ DAT_0603b4cc:
     .global DAT_0603b4ce
 DAT_0603b4ce:
     .2byte  0x00E8
-.dispatch_code:
+.L_0603B4D0:
     cmp/eq #0x0, r0
-    bt      .code_0_exec
+    bt      .L_0603B4A6
     cmp/eq #0x1, r0
-    bt      .code_1_check_ready
+    bt      .L_0603B48C
     cmp/eq #0x3, r0
-    bt      .err_state_3
+    bt      .L_0603B456
     cmp/eq #0x4, r0
-    bt      .err_state_4
+    bt      .L_0603B468
     cmp/eq #0x5, r0
-    bt      .err_state_5
+    bt      .L_0603B47A
     cmp/eq #0x6, r0
-    bt      .err_state_6
-.integrity_check:
+    bt      .L_0603B444
+.L_0603B4E8:
     .byte   0xB4, 0x60    /* bsr 0x0603BDAC (external) */
     mov r14, r4
     mov r0, r4
     mov r13, r0
     cmp/eq #0x2, r0
-    bf      .ret_read_state
+    bf      .L_0603B526
     mov r4, r0
     cmp/eq #0x5, r0
-    bf      .ret_read_state
+    bf      .L_0603B526
     .byte   0xD3, 0x18    /* mov.l .L_pool_0603B55C, r3 */
     jsr @r3
     mov.l @(8, r14), r4
@@ -158,13 +158,13 @@ DAT_0603b4ce:
     mov r13, r4
     .byte   0xB2, 0x58    /* bsr 0x0603B9D6 (external) */
     mov r13, r4
-.ret_read_state:
+.L_0603B526:
     .byte   0xB2, 0x09    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0
     extu.b r0, r0
-.epilogue:
+.L_0603B530:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13

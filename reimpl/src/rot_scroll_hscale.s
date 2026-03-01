@@ -15,13 +15,13 @@ rot_scroll_hscale:
     exts.w r4, r4
     mov r5, r3
     sub r4, r3
-    mov.l   _pool_hscale_bias, r6
+    mov.l   .L_pool_0602E5C8, r6
     add r6, r3
     exts.w r3, r3
-    mov.l   _pool_hscale_range_lo, r1
+    mov.l   .L_pool_0602E5CC, r1
     cmp/ge r1, r3
     bf      .L_0602E5D4
-    mov.l   _pool_hscale_range_hi, r6
+    mov.l   .L_pool_0602E5D0, r6
     cmp/gt r6, r3
     bt      .L_0602E5D4
     rts
@@ -45,45 +45,45 @@ DAT_0602e5a4:
     .4byte  0x0000038E                     /* constant 910 */
     .4byte  sym_0608325C                   /* countdown/race state */
     .4byte  sym_0602CCD0                   /* function pointer (scene handler) */
-_pool_hscale_bias:
+.L_pool_0602E5C8:
     .4byte  0x00003FFF                     /* half-range bias for unsigned check */
-_pool_hscale_range_lo:
+.L_pool_0602E5CC:
     .4byte  0x00000000                     /* lower bound (0) */
-_pool_hscale_range_hi:
+.L_pool_0602E5D0:
     .4byte  0x00007FFF                     /* upper bound (full range) */
 .L_0602E5D4:
-    mov.l   _pool_clamp_count_offset, r1
+    mov.l   .L_pool_0602E5E0, r1
     mov.l @(r0, r1), r3
     add #0x1, r3
     mov.l r3, @(r0, r1)
     rts
     nop
-_pool_clamp_count_offset:
+.L_pool_0602E5E0:
     .4byte  0x00000244                     /* car struct offset: hscale clamp counter */
 
     .global sym_0602E5E4
 sym_0602E5E4:
-    mov.l   _pool_car_array_base, r2
+    mov.l   .L_pool_0602E5FC, r2
     mov.l @r2, r2
-    mov.l   _pool_scroll_param_a_offset, r0
+    mov.l   .L_pool_0602E600, r0
     mov.l @(r0, r2), r1
-    mov.l   _pool_scroll_param_a_dst, r0
+    mov.l   .L_pool_0602E604, r0
     mov.l r1, @r0
-    mov.l   _pool_scroll_param_b_offset, r0
+    mov.l   .L_pool_0602E608, r0
     mov.l @(r0, r2), r1
-    mov.l   _pool_scroll_param_b_dst, r0
+    mov.l   .L_pool_0602E60C, r0
     mov.l r1, @r0
     rts
     nop
-_pool_car_array_base:
+.L_pool_0602E5FC:
     .4byte  sym_0607E944                   /* car array base pointer */
-_pool_scroll_param_a_offset:
+.L_pool_0602E600:
     .4byte  0x00000238                     /* car struct offset: scroll param A */
-_pool_scroll_param_a_dst:
+.L_pool_0602E604:
     .4byte  DAT_06083264                   /* global dest: scroll param A */
-_pool_scroll_param_b_offset:
+.L_pool_0602E608:
     .4byte  0x0000023C                     /* car struct offset: scroll param B */
-_pool_scroll_param_b_dst:
+.L_pool_0602E60C:
     .4byte  DAT_06083268                   /* global dest: scroll param B */
 
     .global sym_0602E610

@@ -15,24 +15,24 @@ car_iteration_loop:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   _pool_frame_marker, r8
-    mov.l   _pool_physics_init_flag, r9
-    mov.l   _pool_warmup_countdown, r10
-    mov.l   _pool_current_car_ptr, r11
-    mov.l   _pool_car_base_ptr, r14
-    mov.l   _pool_total_car_count_ptr, r0
-    mov.l   _pool_fn_calc_divisor, r3
+    mov.l   .L_pool_0600DEC4, r8
+    mov.l   .L_pool_0600DEC8, r9
+    mov.l   .L_pool_0600DECC, r10
+    mov.l   .L_pool_0600DEC0, r11
+    mov.l   .L_pool_0600DEBC, r14
+    mov.l   .L_pool_0600DEB4, r0
+    mov.l   .L_pool_0600DED0, r3
     mov.l @r0, r0
     jsr @r3
     mov #-0x4, r1
     exts.w r0, r0
-    mov.l   _pool_half_count_store, r3
+    mov.l   .L_pool_0600DEB8, r3
     mov.w r0, @r3
-    mov.l   _pool_camera_yaw_ptr, r2
+    mov.l   .L_pool_0600DED4, r2
     mov.l @r2, r2
     mov.l r2, @(8, r15)
     mov #0x0, r12
-    mov.l   _pool_car_array_base, r4
+    mov.l   .L_pool_0600DED8, r4
     mov.w   DAT_0600deb2, r3
     add r4, r3
     mov.l r3, @(4, r15)
@@ -42,25 +42,25 @@ car_iteration_loop:
     .global DAT_0600deb2
 DAT_0600deb2:
     .2byte  0x0268
-_pool_total_car_count_ptr:
+.L_pool_0600DEB4:
     .4byte  sym_0607EA98
-_pool_half_count_store:
+.L_pool_0600DEB8:
     .4byte  sym_060786CA
-_pool_car_base_ptr:
+.L_pool_0600DEBC:
     .4byte  sym_0607E944
-_pool_current_car_ptr:
+.L_pool_0600DEC0:
     .4byte  sym_0607E940
-_pool_frame_marker:
+.L_pool_0600DEC4:
     .4byte  sym_0607ED8C
-_pool_physics_init_flag:
+.L_pool_0600DEC8:
     .4byte  sym_0607EAE4
-_pool_warmup_countdown:
+.L_pool_0600DECC:
     .4byte  sym_0607ED88
-_pool_fn_calc_divisor:
+.L_pool_0600DED0:
     .4byte  sym_06035340
-_pool_camera_yaw_ptr:
+.L_pool_0600DED4:
     .4byte  sym_06063EF0
-_pool_car_array_base:
+.L_pool_0600DED8:
     .4byte  sym_06078900
 .L_0600DEDC:
     .byte   0xD0, 0x2D    /* mov.l .L_pool_0600DF94, r0 */

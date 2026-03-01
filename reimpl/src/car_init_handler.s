@@ -11,12 +11,12 @@ car_init_handler:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD0, 0x1E    /* mov.l _pool_car_course_index, r0 */
+    .byte   0xD0, 0x1E    /* mov.l .L_pool_0601A6E4, r0 */
     mov.b @r0, r0
     cmp/eq #0x3, r0
     bf/s    .L_0601A69A
     mov #0x6, r5
-    .byte   0xD4, 0x1C    /* mov.l _pool_display_phase_ctr, r4 */
+    .byte   0xD4, 0x1C    /* mov.l .L_pool_0601A6E8, r4 */
     mov #0x8, r3
     mov.b @r4, r2
     extu.b r2, r2
@@ -41,9 +41,9 @@ car_init_handler:
     extu.b r5, r14
     mov #0x5, r12
 .L_0601A69E:
-    .byte   0xDB, 0x13    /* mov.l _pool_car_obj_table, r11 */
-    .byte   0xDD, 0x13    /* mov.l _pool_dlist_loader, r13 */
-    .byte   0xD2, 0x14    /* mov.l _pool_two_player_flag, r2 */
+    .byte   0xDB, 0x13    /* mov.l .L_pool_0601A6EC, r11 */
+    .byte   0xDD, 0x13    /* mov.l .L_pool_0601A6F0, r13 */
+    .byte   0xD2, 0x14    /* mov.l .L_pool_0601A6F4, r2 */
     mov.b @r2, r2
     tst r2, r2
     bf      .L_0601A6F8
@@ -85,15 +85,15 @@ DAT_0601a6e0:
     .global DAT_0601a6e2
 DAT_0601a6e2:
     .2byte  0x0420
-_pool_car_course_index:
+.L_pool_0601A6E4:
     .4byte  sym_06085FF0
-_pool_display_phase_ctr:
+.L_pool_0601A6E8:
     .4byte  sym_0605D242
-_pool_car_obj_table:
+.L_pool_0601A6EC:
     .4byte  sym_06063750
-_pool_dlist_loader:
+.L_pool_0601A6F0:
     .4byte  sym_06028400
-_pool_two_player_flag:
+.L_pool_0601A6F4:
     .4byte  sym_0605D241
 .L_0601A6F8:
     extu.b r12, r7
@@ -120,7 +120,7 @@ _pool_two_player_flag:
     mov.l @(4, r3), r3
     add r3, r7
 .L_0601A726:
-    mov.w   _wpool_final_dlist_size, r6
+    mov.w   .L_wpool_0601A75C, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r13
@@ -135,17 +135,17 @@ _pool_two_player_flag:
 
     .global sym_0601A73E
 sym_0601A73E:
-    .byte   0xD3, 0x08    /* mov.l _pool_two_player_flag_b, r3 */
+    .byte   0xD3, 0x08    /* mov.l .L_pool_0601A760, r3 */
     mov.b @r3, r3
     tst r3, r3
     bf      .L_0601A74E
-    .byte   0xD5, 0x07    /* mov.l _pool_snd_cmd_1p, r5 */
-    .byte   0xD3, 0x07    /* mov.l _pool_fn_sound_cmd_dispatch, r3 */
+    .byte   0xD5, 0x07    /* mov.l .L_pool_0601A764, r5 */
+    .byte   0xD3, 0x07    /* mov.l .L_pool_0601A768, r3 */
     jmp @r3
     mov #0xF, r4
 .L_0601A74E:
-    .byte   0xD5, 0x07    /* mov.l _pool_snd_cmd_2p, r5 */
-    .byte   0xD3, 0x05    /* mov.l _pool_fn_sound_cmd_dispatch, r3 */
+    .byte   0xD5, 0x07    /* mov.l .L_pool_0601A76C, r5 */
+    .byte   0xD3, 0x05    /* mov.l .L_pool_0601A768, r3 */
     jmp @r3
     mov #0xF, r4
 
@@ -160,14 +160,14 @@ DAT_0601a758:
     .global DAT_0601a75a
 DAT_0601a75a:
     .2byte  0x0420
-_wpool_final_dlist_size:
+.L_wpool_0601A75C:
     .2byte  0x063C
     .2byte  0xFFFF
-_pool_two_player_flag_b:
+.L_pool_0601A760:
     .4byte  sym_0605D241
-_pool_snd_cmd_1p:
+.L_pool_0601A764:
     .4byte  0xAE0006FF
-_pool_fn_sound_cmd_dispatch:
+.L_pool_0601A768:
     .4byte  sound_cmd_dispatch
-_pool_snd_cmd_2p:
+.L_pool_0601A76C:
     .4byte  0xAE0007FF

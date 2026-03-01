@@ -21,30 +21,30 @@ ai_steering_update:
 
     mov.w   .L_wpool_0600C8B8, r3
     cmp/gt r3, r2
-    bf/s    .check_speed_250
+    bf/s    .L_0600C7FE
     exts.w r4, r4
     shar r4
     shar r4
-    bra     .apply_heading
+    bra     .L_0600C816
     shar r4
 
-.check_speed_250:
+.L_0600C7FE:
     mov.l @(8, r14), r2
     mov.w   .L_wpool_0600C8BA, r3
     cmp/gt r3, r2
-    bf      .check_speed_220
+    bf      .L_0600C80C
     shar r4
-    bra     .apply_heading
+    bra     .L_0600C816
     shar r4
 
-.check_speed_220:
+.L_0600C80C:
     mov.l @(8, r14), r2
     mov.w   DAT_0600c8bc, r3
     cmp/gt r3, r2
-    bf      .apply_heading
+    bf      .L_0600C816
     shar r4
 
-.apply_heading:
+.L_0600C816:
     extu.w r4, r4
     mov.l @(32, r14), r3
     extu.w r3, r3
@@ -107,14 +107,14 @@ ai_steering_update:
     mov.w   DAT_0600c8c0, r6
     mov.w   DAT_0600c8c2, r5
     mov.l @(40, r14), r4
-    mov.l   .pool_sincos_pair, r3
+    mov.l   .L_0600C8C4, r3
     add r14, r6
     add r14, r5
     jsr @r3
     neg r4, r4
 
     mov.w   DAT_0600c8c2, r0
-    mov.l   .pool_fpmul, r3
+    mov.l   .L_0600C8C8, r3
     mov.l @(r0, r14), r5
     jsr @r3
     mov.l @(12, r14), r4
@@ -124,7 +124,7 @@ ai_steering_update:
     mov.l r2, @(16, r14)
 
     mov.w   DAT_0600c8c0, r0
-    mov.l   .pool_fpmul, r3
+    mov.l   .L_0600C8C8, r3
     mov.l @(r0, r14), r5
     jsr @r3
     mov.l @(12, r14), r4
@@ -160,7 +160,7 @@ DAT_0600c8c0:
     .global DAT_0600c8c2
 DAT_0600c8c2:
     .2byte  0x018C
-.pool_sincos_pair:
+.L_0600C8C4:
     .4byte  sincos_pair
-.pool_fpmul:
+.L_0600C8C8:
     .4byte  fpmul

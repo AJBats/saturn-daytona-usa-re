@@ -15,14 +15,14 @@ scene_3d_processor:
     sts.l pr, @-r15
     mov.l r5, @-r15
     mov.l @r4, r1
-    mov.l   _pool_z_bias, r2
+    mov.l   .L_pool_06027CF8, r2
     add r2, r1
     shlr16 r1
     shlr2 r1
     shlr2 r1
     shlr r1
     mov.l @(8, r4), r2
-    mov.l   _pool_z_range_mask, r3
+    mov.l   .L_pool_06027CFC, r3
     sub r2, r3
     shlr16 r3
     shlr2 r3
@@ -32,13 +32,13 @@ scene_3d_processor:
     shll2 r3
     shll2 r3
     add r3, r1
-    mov.l   _pool_camera_mode_ptr, r2
+    mov.l   .L_pool_06027D00, r2
     mov.l @r2, r0
     cmp/eq #0x2, r0
     bf      .L_06027D40
     mov.l r1, @-r15
     mov r1, r10
-    mov.l   _pool_visibility_list, r1
+    mov.l   .L_pool_06027D04, r1
     xor r12, r12
 .L_06027CEA:
     mov.w @r1+, r0
@@ -48,16 +48,16 @@ scene_3d_processor:
     bt      .L_06027D08
     bra     .L_06027CEA
     add #0x2, r12
-_pool_z_bias:
+.L_pool_06027CF8:
     .4byte  0x04000000
-_pool_z_range_mask:
+.L_pool_06027CFC:
     .4byte  0x03FFFFFF
-_pool_camera_mode_ptr:
+.L_pool_06027D00:
     .4byte  sym_0607EAD8
-_pool_visibility_list:
+.L_pool_06027D04:
     .4byte  sym_06061270
 .L_06027D08:
-    mov.l   _pool_car_ptr, r1
+    mov.l   .L_pool_06027D28, r1
     mov.l @r1, r1
     mov.w   DAT_06027d26, r0
     mov.l @(r0, r1), r1
@@ -65,9 +65,9 @@ _pool_visibility_list:
     cmp/gt r0, r1
     bt      .L_06027D34
     shll r12
-    mov.l   _pool_model_overrides, r0
+    mov.l   .L_pool_06027D2C, r0
     add r12, r0
-    mov.l   _pool_render_queue_ctrl, r1
+    mov.l   .L_pool_06027D30, r1
     mov.w @r0+, r2
     mov.w @r0, r12
     bra     .L_06027D36
@@ -76,11 +76,11 @@ _pool_visibility_list:
     .global DAT_06027d26
 DAT_06027d26:
     .2byte  0x01EC
-_pool_car_ptr:
+.L_pool_06027D28:
     .4byte  sym_0607E940
-_pool_model_overrides:
+.L_pool_06027D2C:
     .4byte  sym_06061240
-_pool_render_queue_ctrl:
+.L_pool_06027D30:
     .4byte  sym_06063F50
 .L_06027D34:
     xor r12, r12
@@ -93,7 +93,7 @@ _pool_render_queue_ctrl:
 .L_06027D40:
     mov r1, r2
     shll2 r2
-    mov.l   _pool_scene_node_table, r0
+    mov.l   .L_pool_06027D5C, r0
     add r0, r2
     mov.w @r2, r13
     extu.w r13, r13
@@ -106,13 +106,13 @@ _pool_render_queue_ctrl:
     mov r0, r3
     bra     .L_06027E6A
     mov #0x0, r6
-_pool_scene_node_table:
+.L_pool_06027D5C:
     .4byte  sym_060C2000
 .L_06027D60:
-    mov.l   _pool_texture_index_table, r0
+    mov.l   .L_pool_06027DA4, r0
     mov.w @(r0, r13), r5
     mov #0x34, r6
-    mov.l   _pool_polygon_data_pool, r0
+    mov.l   .L_pool_06027DA8, r0
     muls.w r6, r5
     sts macl, r5
     add r5, r0
@@ -134,7 +134,7 @@ _pool_scene_node_table:
     bf      .L_06027D90
     add r10, r3
 .L_06027D90:
-    mov.w   _wpool_plane_a_mask, r11
+    mov.w   .L_wpool_06027DA0, r11
     tst r11, r6
     bt      .L_06027DAC
     cmp/pl r3
@@ -142,12 +142,12 @@ _pool_scene_node_table:
     add #0x2, r13
     bra     .L_06027D50
     add #-0x1, r12
-_wpool_plane_a_mask:
+.L_wpool_06027DA0:
     .2byte  0x0100
     .2byte  0x0000
-_pool_texture_index_table:
+.L_pool_06027DA4:
     .4byte  sym_060BF000
-_pool_polygon_data_pool:
+.L_pool_06027DA8:
     .4byte  sym_060A6000
 .L_06027DAC:
     cmp/pz r3
@@ -171,7 +171,7 @@ _pool_polygon_data_pool:
     bf      .L_06027DD2
     add r10, r3
 .L_06027DD2:
-    mov.w   _wpool_plane_b_mask, r11
+    mov.w   .L_wpool_06027DE2, r11
     tst r11, r6
     bt      .L_06027DE4
     cmp/pl r3
@@ -179,7 +179,7 @@ _pool_polygon_data_pool:
     add #0x2, r13
     bra     .L_06027D50
     add #-0x1, r12
-_wpool_plane_b_mask:
+.L_wpool_06027DE2:
     .2byte  0x0200
 .L_06027DE4:
     cmp/pz r3
@@ -202,7 +202,7 @@ _wpool_plane_b_mask:
     bf      .L_06027E08
     add r10, r3
 .L_06027E08:
-    mov.w   _wpool_plane_c_mask, r10
+    mov.w   .L_wpool_06027E18, r10
     tst r10, r6
     bt      .L_06027E1A
     cmp/pl r3
@@ -210,7 +210,7 @@ _wpool_plane_b_mask:
     add #0x2, r13
     bra     .L_06027D50
     add #-0x1, r12
-_wpool_plane_c_mask:
+.L_wpool_06027E18:
     .2byte  0x0400
 .L_06027E1A:
     cmp/pz r3
@@ -233,7 +233,7 @@ _wpool_plane_c_mask:
     bf      .L_06027E3E
     add r10, r3
 .L_06027E3E:
-    mov.l   _pool_plane_d_mask, r10
+    mov.l   .L_pool_06027E50, r10
     tst r10, r6
     bt      .L_06027E54
     cmp/pl r3
@@ -242,7 +242,7 @@ _wpool_plane_c_mask:
     bra     .L_06027D50
     add #-0x1, r12
     .2byte  0x0000
-_pool_plane_d_mask:
+.L_pool_06027E50:
     .4byte  0x00000800
 .L_06027E54:
     cmp/pz r3
@@ -251,7 +251,7 @@ _pool_plane_d_mask:
     bra     .L_06027D50
     add #-0x1, r12
 .L_06027E5E:
-    mov.l   _pool_poly_data_base, r1
+    mov.l   .L_pool_06027E9C, r1
     add r5, r1
     mov.l @r1, r3
     mov.w   DAT_06027e98, r6
@@ -268,12 +268,12 @@ _pool_plane_d_mask:
     mov r0, r8
     mov r5, r1
     mov #0x34, r0
-    mov.l   _pool_hw_divide, r12
+    mov.l   .L_pool_06027EA0, r12
     jsr @r12
     mov.l r3, @-r15
     mov.l @r15+, r3
     mov.w r0, @(14, r4)
-    mov.l   _pool_car_ptr_b, r6
+    mov.l   .L_pool_06027EA4, r6
     mov.l @r6, r0
     mov.l @r15+, r5
     cmp/pl r5
@@ -289,19 +289,19 @@ DAT_06027e98:
     .global DAT_06027e9a
 DAT_06027e9a:
     .2byte  0x025C
-_pool_poly_data_base:
+.L_pool_06027E9C:
     .4byte  sym_060A6000
-_pool_hw_divide:
+.L_pool_06027EA0:
     .4byte  sym_0602ECCC
-_pool_car_ptr_b:
+.L_pool_06027EA4:
     .4byte  sym_0607E940
 .L_06027EA8:
-    mov.l   _pool_car_ptr_c, r6
+    mov.l   .L_pool_06027ECC, r6
     mov.l @r6, r0
     mov.l @r15+, r5
 .L_06027EAE:
     shll r5
-    mov.l   _pool_output_offset_table, r2
+    mov.l   .L_pool_06027ED0, r2
     add r5, r2
     mov.w @r2, r2
     extu.w r2, r2
@@ -315,9 +315,9 @@ _pool_car_ptr_b:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_pool_car_ptr_c:
+.L_pool_06027ECC:
     .4byte  sym_0607E940
-_pool_output_offset_table:
+.L_pool_06027ED0:
     .4byte  sym_0606128A
     .4byte  0x00093600
     .4byte  0x89FCAFD5

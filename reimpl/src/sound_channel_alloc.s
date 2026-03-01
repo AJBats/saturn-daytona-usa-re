@@ -8,22 +8,22 @@ sound_cmd_queue_write:
     sts.l pr, @-r15
     mov #0x2, r2
     mov #0x0, r6
-    mov.l   _pool_display_config_word, r3
+    mov.l   .L_pool_0601D4F0, r3
     mov.w r2, @r3
-    mov.l   _pool_initial_scroll_offset, r3
-    mov.l   _pool_display_slot_ptr, r2
+    mov.l   .L_pool_0601D4F4, r3
+    mov.l   .L_pool_0601D4F8, r2
     mov.l r3, @r2
     mov r2, r5
-    mov.l   _pool_fn_display_channel_b, r3
+    mov.l   .L_pool_0601D4FC, r3
     mov.l @r5, r5
     jsr @r3
     mov #0x20, r4
     mov #0x2A, r2
-    mov.l   _pool_transition_state_word, r3
+    mov.l   .L_pool_0601D500, r3
     mov.w r2, @r3
     bsr     camera_view_update
     mov r2, r4
-    mov.l   _pool_game_state_byte, r4
+    mov.l   .L_pool_0601D504, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -36,9 +36,9 @@ sound_channel_alloc:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_fp_sixteen, r4
-    mov.l   _pool_transition_state_word, r13
-    mov.l   _pool_display_slot_ptr, r14
+    mov.l   .L_pool_0601D508, r4
+    mov.l   .L_pool_0601D500, r13
+    mov.l   .L_pool_0601D4F8, r14
     mov.w @r13, r0
     extu.w r0, r0
     tst r0, r0
@@ -48,7 +48,7 @@ sound_channel_alloc:
     sub r4, r3
     mov.l r3, @r14
     mov r3, r5
-    mov.l   _pool_fn_display_channel_b, r3
+    mov.l   .L_pool_0601D4FC, r3
     jsr @r3
     mov #0x20, r4
     mov.w @r13, r4
@@ -59,7 +59,7 @@ sound_channel_alloc:
     bra     camera_view_update
     mov.l @r15+, r14
 .L_0601D4DA:
-    mov.l   _pool_game_state_byte, r5
+    mov.l   .L_pool_0601D504, r5
     mov.b @r5, r2
     add #0x1, r2
     mov.b r2, @r5
@@ -70,19 +70,19 @@ sound_channel_alloc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_pool_display_config_word:
+.L_pool_0601D4F0:
     .4byte  sym_0605AAA2                        /* &display_config_word (16-bit) */
-_pool_initial_scroll_offset:
+.L_pool_0601D4F4:
     .4byte  0x01500000                          /* initial scroll offset (16.16 fp: 336.0) */
-_pool_display_slot_ptr:
+.L_pool_0601D4F8:
     .4byte  sym_0607885C                        /* &display_slot_ptr (32-bit, 16.16 fp scroll) */
-_pool_fn_display_channel_b:
+.L_pool_0601D4FC:
     .4byte  display_channel_b                   /* display channel setup function */
-_pool_transition_state_word:
+.L_pool_0601D500:
     .4byte  sym_0607886E                        /* &transition_state_word (16-bit countdown) */
-_pool_game_state_byte:
+.L_pool_0601D504:
     .4byte  sym_0607887F                        /* &game_state byte (8-bit, 0-4 index) */
-_pool_fp_sixteen:
+.L_pool_0601D508:
     .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
 
     .global loc_0601D50C

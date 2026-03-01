@@ -14,13 +14,13 @@ scene_post_render:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x2C, r15
-    mov.l   _pool_player_mode_ptr, r14
-    mov.l   _pool_car_state_ptr, r4
-    mov.l   _pool_scene_depth_param, r2
+    mov.l   .L_pool_06006928, r14
+    mov.l   .L_pool_0600692C, r4
+    mov.l   .L_pool_06006930, r2
     mov.l @r4, r4
     mov.l @(20, r4), r3
     mov.l r3, @r2
-    mov.l   _pool_dispatch_table_a, r4
+    mov.l   .L_pool_06006934, r4
     mov.l @r14, r0
     shll2 r0
     shll r0
@@ -32,7 +32,7 @@ scene_post_render:
     shll2 r0
     mov.l @(r0, r4), r2
     mov.l r2, @(8, r15)
-    mov.l   _pool_dispatch_table_b, r4
+    mov.l   .L_pool_06006938, r4
     mov.l @r14, r0
     shll2 r0
     shll2 r0
@@ -55,8 +55,8 @@ scene_post_render:
     shll2 r0
     mov.l @(r0, r4), r1
     mov.l r1, @(20, r15)
-    mov.l   _pool_cam_orient_data, r5
-    mov.l   _pool_column_rounding, r3
+    mov.l   .L_pool_0600693C, r5
+    mov.l   .L_pool_06006940, r3
     mov.l @r5, r4
     add r3, r4
     shlr16 r4
@@ -103,19 +103,19 @@ scene_post_render:
     bra     .L_0600694C
     mov.l r2, @(12, r15)
     .2byte  0xFFFF
-_pool_player_mode_ptr:
+.L_pool_06006928:
     .4byte  sym_0607EAD8
-_pool_car_state_ptr:
+.L_pool_0600692C:
     .4byte  sym_0607E944
-_pool_scene_depth_param:
+.L_pool_06006930:
     .4byte  sym_06063F54
-_pool_dispatch_table_a:
+.L_pool_06006934:
     .4byte  sym_06062248
-_pool_dispatch_table_b:
+.L_pool_06006938:
     .4byte  sym_06062260
-_pool_cam_orient_data:
+.L_pool_0600693C:
     .4byte  sym_06063DF8
-_pool_column_rounding:
+.L_pool_06006940:
     .4byte  0x04000000
 .L_06006944:
     tst r4, r4
@@ -123,7 +123,7 @@ _pool_column_rounding:
     mov #0x0, r3
     mov.l r3, @(40, r15)
 .L_0600694C:
-    mov.l   _pool_render_param_ptr, r10
+    mov.l   .L_pool_060069E4, r10
     bra     .L_06006A14
     mov.l r6, @r15
 .L_06006952:
@@ -151,7 +151,7 @@ _pool_column_rounding:
     mov r11, r0
     mov.l @(28, r15), r2
     mov.l @r14, r8
-    mov.l   _pool_pipeline_state, r3
+    mov.l   .L_pool_060069E8, r3
     shll2 r0
     shll2 r8
     mov.l @(r0, r2), r0
@@ -164,7 +164,7 @@ _pool_column_rounding:
     bt      .L_060069A4
     mov.w @r10, r6
     mov.l @(4, r15), r5
-    mov.l   _pool_fn_vtx_xform_a, r3
+    mov.l   .L_pool_060069EC, r3
     jsr @r3
     mov r8, r4
     bra     .L_060069AE
@@ -172,7 +172,7 @@ _pool_column_rounding:
 .L_060069A4:
     mov.w @r10, r6
     mov.l @(4, r15), r5
-    mov.l   _pool_fn_face_proj_a, r3
+    mov.l   .L_pool_060069F0, r3
     jsr @r3
     mov r8, r4
 .L_060069AE:
@@ -182,7 +182,7 @@ _pool_column_rounding:
     mov r11, r0
     mov.l @(20, r15), r1
     mov.l @r14, r2
-    mov.l   _pool_pipeline_state, r3
+    mov.l   .L_pool_060069E8, r3
     shll2 r0
     shll r2
     add #0x1, r2
@@ -197,27 +197,27 @@ _pool_column_rounding:
     mov r13, r7
     mov.w @r10, r6
     mov.l @(8, r15), r5
-    mov.l   _pool_fn_vtx_xform_b, r3
+    mov.l   .L_pool_060069F4, r3
     jsr @r3
     mov r11, r4
     bra     .L_06006A04
     nop
     .2byte  0xFFFF
-_pool_render_param_ptr:
+.L_pool_060069E4:
     .4byte  sym_06089E96
-_pool_pipeline_state:
+.L_pool_060069E8:
     .4byte  sym_06062230
-_pool_fn_vtx_xform_a:
+.L_pool_060069EC:
     .4byte  sym_06029BF4
-_pool_fn_face_proj_a:
+.L_pool_060069F0:
     .4byte  sym_0602B328
-_pool_fn_vtx_xform_b:
+.L_pool_060069F4:
     .4byte  sym_0602A834
 .L_060069F8:
     mov r13, r7
     mov.w @r10, r6
     mov.l @(8, r15), r5
-    mov.l   _pool_fn_frustum_cull_b, r3
+    mov.l   .L_pool_06006A80, r3
     jsr @r3
     mov r11, r4
 .L_06006A04:
@@ -235,8 +235,8 @@ _pool_fn_vtx_xform_b:
     mov.l @(36, r15), r2
     cmp/gt r2, r3
     bf      .L_06006952
-    mov.l   _pool_game_state_flags, r2
-    mov.l   _pool_state_check_mask, r3
+    mov.l   .L_pool_06006A84, r2
+    mov.l   .L_pool_06006A88, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
@@ -244,19 +244,19 @@ _pool_fn_vtx_xform_b:
     bra     .L_06006A4A
     mov.l @r14, r0
 .L_06006A2C:
-    mov.l   _pool_fn_track_geom, r3
+    mov.l   .L_pool_06006A8C, r3
     jsr @r3
     nop
     bra     .L_06006A56
     nop
 .L_06006A36:
-    mov.l   _pool_fn_track_state, r3
+    mov.l   .L_pool_06006A90, r3
     jsr @r3
     nop
     bra     .L_06006A56
     nop
 .L_06006A40:
-    mov.l   _pool_fn_geom_math, r3
+    mov.l   .L_pool_06006A94, r3
     jsr @r3
     nop
     bra     .L_06006A56
@@ -277,7 +277,7 @@ _pool_fn_vtx_xform_b:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   _pool_fn_scene_entity, r3
+    mov.l   .L_pool_06006A98, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06006A6C:
@@ -291,17 +291,17 @@ _pool_fn_vtx_xform_b:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_pool_fn_frustum_cull_b:
+.L_pool_06006A80:
     .4byte  sym_0602AF3C
-_pool_game_state_flags:
+.L_pool_06006A84:
     .4byte  sym_0607EBC4
-_pool_state_check_mask:
+.L_pool_06006A88:
     .4byte  0x30000000
-_pool_fn_track_geom:
+.L_pool_06006A8C:
     .4byte  track_geometry_proc
-_pool_fn_track_state:
+.L_pool_06006A90:
     .4byte  track_state_machine
-_pool_fn_geom_math:
+.L_pool_06006A94:
     .4byte  geom_math_calc
-_pool_fn_scene_entity:
+.L_pool_06006A98:
     .4byte  scene_process_stage

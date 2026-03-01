@@ -7,75 +7,75 @@
 state_mode_select_active:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_display_status_ptr, r0
+    mov.l   .L_pool_06008DD8, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x70, r0
     bf/s    .L_06008D8A
     mov #0x0, r14
     mov #0x2, r2
-    mov.l   _pool_course_type_ptr, r3
+    mov.l   .L_pool_06008DDC, r3
     mov.l r2, @r3
 .L_06008D8A:
-    mov.l   _pool_countdown_ptr, r4
+    mov.l   .L_pool_06008DE0, r4
     mov.l @r4, r2
     add #-0x1, r2
     mov.l r2, @r4
     mov r2, r3
     cmp/pz r3
     bt      .L_06008DA2
-    mov.l   _pool_game_state_ptr, r3
+    mov.l   .L_pool_06008DE4, r3
     mov.l r14, @r3
-    mov.l   _pool_fn_disable_display, r3
+    mov.l   .L_pool_06008DE8, r3
     jsr @r3
     nop
 .L_06008DA2:
-    mov.l   _pool_button_status_ptr, r2
+    mov.l   .L_pool_06008DEC, r2
     mov.w @r2, r3
     extu.w r3, r3
-    mov.w   _wpool_confirm_mask, r2
+    mov.w   .L_wpool_06008DD6, r2
     and r2, r3
     tst r3, r3
     bt      .L_06008DBA
-    mov.l   _pool_game_state_ptr, r3
+    mov.l   .L_pool_06008DE4, r3
     mov.l r14, @r3
-    mov.l   _pool_fn_disable_display, r3
+    mov.l   .L_pool_06008DE8, r3
     jsr @r3
     nop
 .L_06008DBA:
-    mov.l   _pool_fn_render_dispatch, r3
+    mov.l   .L_pool_06008DF0, r3
     jsr @r3
     nop
-    mov.l   _pool_render_flags_ptr, r4
-    mov.l   _pool_fn_camera_finalize, r3
+    mov.l   .L_pool_06008DF4, r4
+    mov.l   .L_pool_06008DF8, r3
     mov.l @r4, r0
     or #0x4, r0
     jsr @r3
     mov.l r0, @r4
-    mov.l   _pool_anim_state_ptr, r3
+    mov.l   .L_pool_06008DFC, r3
     mov.l r14, @r3
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-_wpool_confirm_mask:
+.L_wpool_06008DD6:
     .2byte  0x0100
-_pool_display_status_ptr:
+.L_pool_06008DD8:
     .4byte  sym_06063DA0
-_pool_course_type_ptr:
+.L_pool_06008DDC:
     .4byte  sym_06078644
-_pool_countdown_ptr:
+.L_pool_06008DE0:
     .4byte  sym_0607EBCC
-_pool_game_state_ptr:
+.L_pool_06008DE4:
     .4byte  g_game_state
-_pool_fn_disable_display:
+.L_pool_06008DE8:
     .4byte  sym_060149E0
-_pool_button_status_ptr:
+.L_pool_06008DEC:
     .4byte  sym_06063D9A
-_pool_fn_render_dispatch:
+.L_pool_06008DF0:
     .4byte  render_setup_dispatch
-_pool_render_flags_ptr:
+.L_pool_06008DF4:
     .4byte  sym_0605B6D8
-_pool_fn_camera_finalize:
+.L_pool_06008DF8:
     .4byte  sym_06026CE0
-_pool_anim_state_ptr:
+.L_pool_06008DFC:
     .4byte  sym_06059F44

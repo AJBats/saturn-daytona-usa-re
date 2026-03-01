@@ -10,9 +10,9 @@ ranking_pts_calc:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_fn_sound_cmd, r11
-    mov.l   _pool_car_count_ptr, r12
-    mov.l   _pool_frame_timer_ptr, r14
+    mov.l   .L_pool_06013BA8, r11
+    mov.l   .L_pool_06013BAC, r12
+    mov.l   .L_pool_06013BB0, r14
     mov.w @r14, r3
     add #0x1, r3
     mov.w r3, @r14
@@ -44,20 +44,20 @@ ranking_pts_calc:
     shlr r0
     cmp/eq #0x3, r0
     bf      .L_06013BD0
-    mov.l   _pool_final_reveal_flag, r0
+    mov.l   .L_pool_06013BB4, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
     bt      .L_06013BD0
-    mov.l   _pool_fn_handler_init_reset, r3
+    mov.l   .L_pool_06013BB8, r3
     jsr @r3
     nop
-    mov.l   _pool_sound_base_id, r13
+    mov.l   .L_pool_06013BBC, r13
     mov #0x25, r3
     mov.l @r12, r2
     cmp/hs r3, r2
     bt      .L_06013B74
-    mov.l   _pool_fn_race_variant_b, r3
+    mov.l   .L_pool_06013BC0, r3
     jsr @r3
     nop
     bra     .L_06013B8E
@@ -67,20 +67,20 @@ ranking_pts_calc:
     mov #0x44, r3
     cmp/hs r3, r2
     bt      .L_06013B86
-    mov.l   _pool_fn_race_variant_c, r3
+    mov.l   .L_pool_06013BC4, r3
     jsr @r3
     nop
     bra     .L_06013B8C
     nop
 .L_06013B86:
-    mov.l   _pool_fn_race_variant_d, r3
+    mov.l   .L_pool_06013BC8, r3
     jsr @r3
     nop
 .L_06013B8C:
     mov r13, r14
 .L_06013B8E:
     mov.l @r12, r5
-    mov.l   _pool_position_score_tbl, r3
+    mov.l   .L_pool_06013BCC, r3
     add #-0x1, r5
     shll2 r5
     add r3, r5
@@ -92,25 +92,25 @@ ranking_pts_calc:
     bra     .L_06013C04
     nop
     .2byte  0xFFFF
-_pool_fn_sound_cmd:
+.L_pool_06013BA8:
     .4byte  sound_cmd_dispatch
-_pool_car_count_ptr:
+.L_pool_06013BAC:
     .4byte  sym_06084FB4
-_pool_frame_timer_ptr:
+.L_pool_06013BB0:
     .4byte  sym_06084AF6
-_pool_final_reveal_flag:
+.L_pool_06013BB4:
     .4byte  sym_06084FB8
-_pool_fn_handler_init_reset:
+.L_pool_06013BB8:
     .4byte  handler_init_reset
-_pool_sound_base_id:
+.L_pool_06013BBC:
     .4byte  0xAE1000FF
-_pool_fn_race_variant_b:
+.L_pool_06013BC0:
     .4byte  race_variant_b
-_pool_fn_race_variant_c:
+.L_pool_06013BC4:
     .4byte  race_variant_c
-_pool_fn_race_variant_d:
+.L_pool_06013BC8:
     .4byte  race_variant_d
-_pool_position_score_tbl:
+.L_pool_06013BCC:
     .4byte  sym_0605B294
 .L_06013BD0:
     mov r4, r2

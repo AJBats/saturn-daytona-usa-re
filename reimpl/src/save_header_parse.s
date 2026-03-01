@@ -13,19 +13,19 @@ save_header_parse:
     mov.l @r13, r0
     mov.l @(r0, r1), r0
     tst #0x1, r0
-    bf/s    .save_hw_present
+    bf/s    .L_0603BB9E
     mov r4, r14
-    bra     .return
+    bra     .L_0603BC0A
     mov #0x0, r0
-.save_hw_present:
+.L_0603BB9E:
     mov.l @r13, r4
     mov.w   DAT_0603bbb6, r3
     add r3, r4
     .byte   0xBF, 0x8F    /* bsr 0x0603BAC6 (external) */
     nop
     tst r0, r0
-    bf      .block_valid
-    bra     .return
+    bf      .L_0603BBC0
+    bra     .L_0603BC0A
     mov #0x0, r0
 
     .global DAT_0603bbb0
@@ -43,7 +43,7 @@ DAT_0603bbb6:
     .4byte  evt_boundary_check
 .L_pool_0603BBBD:
     .4byte  sym_060A4D14
-.block_valid:
+.L_0603BBC0:
     mov.l @r13, r3
     mov #0x4, r6
     .byte   0x92, 0x45    /* mov.w .L_wpool_0603BC52, r2 */
@@ -68,10 +68,10 @@ DAT_0603bbb6:
     add #0x4, r4
     mov.l @(4, r14), r0
     tst r0, r0
-    bf      .field_valid
-    bra     .return
+    bf      .L_0603BBF6
+    bra     .L_0603BC0A
     mov #0x0, r0
-.field_valid:
+.L_0603BBF6:
     mov #0x0, r4
     extu.b r4, r0
     mov.b r0, @(10, r14)
@@ -82,7 +82,7 @@ DAT_0603bbb6:
     extu.b r4, r0
     mov.b r0, @(9, r14)
     mov #0x1, r0
-.return:
+.L_0603BC0A:
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts

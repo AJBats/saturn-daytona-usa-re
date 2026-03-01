@@ -22,7 +22,7 @@ throttle_input_proc:
     mov.w   DAT_06011fd6, r6
     exts.w r10, r11
 
-.pixel_loop:
+.L_06011FB2:
     mov.w @r4, r13
     mov.w @r5, r12
     exts.w r13, r3
@@ -37,8 +37,8 @@ throttle_input_proc:
     xor #0x1, r0
     and r14, r0
     tst r0, r0
-    bt      .red_clamp
-    bra     .red_store
+    bt      .L_06011FDC
+    bra     .L_06011FE0
     mov.l @r15, r2
 
     .global DAT_06011fd4
@@ -52,10 +52,10 @@ DAT_06011fd6:
 .L_wpool_06011FDA:
     .2byte  0x0400                 /* [HIGH] blue channel step (1 << 10) — loaded into r9 */
 
-.red_clamp:
+.L_06011FDC:
     mov.l @(4, r15), r2
     and r14, r2
-.red_store:
+.L_06011FE0:
     mov.w @r4, r1
     exts.w r12, r3
     or r2, r1
@@ -70,13 +70,13 @@ DAT_06011fd6:
     xor #0x1, r0
     and r7, r0
     tst r0, r0
-    bt      .green_clamp
-    bra     .green_store
+    bt      .L_06012002
+    bra     .L_06012006
     mov.l @r15, r3
-.green_clamp:
+.L_06012002:
     mov.l @(4, r15), r3
     and r7, r3
-.green_store:
+.L_06012006:
     exts.w r13, r2
     mov.w @r4, r1
     and r6, r2
@@ -91,13 +91,13 @@ DAT_06011fd6:
     xor #0x1, r0
     and r6, r0
     tst r0, r0
-    bt      .blue_clamp
-    bra     .blue_store
+    bt      .L_06012028
+    bra     .L_0601202C
     mov.l @r15, r3
-.blue_clamp:
+.L_06012028:
     mov.l @(4, r15), r3
     and r6, r3
-.blue_store:
+.L_0601202C:
     mov.w @r4, r1
     add #0x1, r11
     or r3, r1
@@ -105,7 +105,7 @@ DAT_06011fd6:
     mov.w r1, @r4
     add #0x2, r4
     cmp/ge r8, r3
-    bf/s    .pixel_loop
+    bf/s    .L_06011FB2
     add #0x2, r5
 
     add #0x8, r15

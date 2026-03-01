@@ -12,12 +12,12 @@ vdp_init_master:
     mov.l r10, @-r15
     sts.l pr, @-r15
     mov.w   DAT_06036fba, r10
-    mov.l   _pool_screen_width, r12
-    mov.l   _pool_screen_height, r13
-    mov.l   _pool_display_state, r14
-    mov.l   _pool_bios_tv_flag_ptr, r7
+    mov.l   .L_pool_06036FC8, r12
+    mov.l   .L_pool_06036FCC, r13
+    mov.l   .L_pool_06036FD0, r14
+    mov.l   .L_pool_06036FD4, r7
     mov.l @r7, r7
-    mov.l   _pool_mask_clear_vlines, r3
+    mov.l   .L_pool_06036FD8, r3
     mov.w @r14, r2
     and r3, r2
     mov.w r2, @r14
@@ -54,7 +54,7 @@ vdp_init_master:
     bt      .L_06036F40
 
 .L_06036F58:
-    mov.l   _pool_mask_clear_interlace, r2
+    mov.l   .L_pool_06036FDC, r2
     mov.w @r14, r3
     and r2, r3
     mov.w r3, @r14
@@ -86,11 +86,11 @@ vdp_init_master:
     bt      .L_06036F6A
 
 .L_06036F86:
-    mov.l   _pool_mask_clear_res, r2
+    mov.l   .L_pool_06036FE0, r2
     mov.w @r14, r3
     and r2, r3
     mov.w r3, @r14
-    mov.l   _pool_bios_tvmode_fn, r11
+    mov.l   .L_pool_06036FE4, r11
     bra     .L_06037080
     extu.b r6, r0
 
@@ -113,7 +113,7 @@ vdp_init_master:
     jsr @r3
     mov #0x1, r4
 .L_06036FB0:
-    mov.w   _wpool_width_352, r2
+    mov.w   .L_wpool_06036FC4, r2
     mov.w r2, @r12
     mov.w @r14, r0
     bra     .L_06037074
@@ -138,24 +138,24 @@ DAT_06036fc0:
     .global DAT_06036fc2
 DAT_06036fc2:
     .2byte  0x0140
-_wpool_width_352:
+.L_wpool_06036FC4:
     .2byte  0x0160
     .2byte  0xFFFF
-_pool_screen_width:
+.L_pool_06036FC8:
     .4byte  sym_060635AE
-_pool_screen_height:
+.L_pool_06036FCC:
     .4byte  sym_060635B0
-_pool_display_state:
+.L_pool_06036FD0:
     .4byte  sym_060A3D88
-_pool_bios_tv_flag_ptr:
+.L_pool_06036FD4:
     .4byte  sym_06000324
-_pool_mask_clear_vlines:
+.L_pool_06036FD8:
     .4byte  0x0000FFCF
-_pool_mask_clear_interlace:
+.L_pool_06036FDC:
     .4byte  0x0000FF3F
-_pool_mask_clear_res:
+.L_pool_06036FE0:
     .4byte  0x0000FFF0
-_pool_bios_tvmode_fn:
+.L_pool_06036FE4:
     .4byte  sym_06000320
 
 .L_06036FE8:
@@ -284,7 +284,7 @@ DAT_0603707e:
     bt      .L_0603705C
 
 .L_060370A0:
-    mov.l   _pool_cmd_ready_flag, r4
+    mov.l   .L_pool_060370BC, r4
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
@@ -299,7 +299,7 @@ DAT_0603707e:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_pool_cmd_ready_flag:
+.L_pool_060370BC:
     .4byte  sym_060635AC
 
     .global sym_060370C0

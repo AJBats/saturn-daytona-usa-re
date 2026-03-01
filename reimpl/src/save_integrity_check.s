@@ -17,14 +17,14 @@ save_integrity_check:
     mov.l @(8, r14), r4
     mov.l   .L_pool_0603BE18, r12
     cmp/eq #0x5, r0
-    bt/s    .invalid_block
+    bt/s    .L_0603BDD2
     mov r0, r13
     mov.l   .L_pool_0603BE1C, r3
     jsr @r3
     mov.l @(4, r14), r4
     tst r0, r0
-    bf      .block_valid
-.invalid_block:
+    bf      .L_0603BDF0
+.L_0603BDD2:
     mov #-0x1, r5
     mov.l   .L_pool_0603BE20, r3
     jsr @r3
@@ -33,24 +33,24 @@ save_integrity_check:
     mov.w   .L_wpool_0603BE10, r0
     mov.l @(r0, r2), r3
     cmp/eq r14, r3
-    bf      .clear_done
+    bf      .L_0603BDEC
     mov.l @r12, r2
     mov #0x0, r3
     mov.w   .L_wpool_0603BE10, r0
     mov.l r3, @(r0, r2)
-.clear_done:
-    bra     .epilogue
+.L_0603BDEC:
+    bra     .L_0603BE00
     mov #0x5, r13
-.block_valid:
+.L_0603BDF0:
     tst r13, r13
-    bt      .epilogue
+    bt      .L_0603BE00
     mov.l @r12, r3
     mov.w   .L_wpool_0603BE10, r0
     mov.l r14, @(r0, r3)
     mov #0x1, r3
     mov #0x12, r0
     mov.b r3, @(r0, r14)
-.epilogue:
+.L_0603BE00:
     mov r13, r0
     add #0x4, r15
     lds.l @r15+, pr

@@ -7,17 +7,17 @@
 gas_force_apply:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_car_array_base, r14
-    mov.w   _wpool_off_force_timer, r0
+    mov.l   .L_pool_060082B4, r14
+    mov.w   .L_wpool_060082AA, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_06008264
     mov #0x46, r3
-    mov.l   _pool_force_timer_reset, r2
+    mov.l   .L_pool_060082B8, r2
     mov.l r3, @r2
     mov.l @r14, r5
-    mov.w   _wpool_off_force_timer, r0
+    mov.w   .L_wpool_060082AA, r0
     mov.l @r14, r3
     mov.l @(r0, r5), r5
     mov.l @(r0, r3), r2
@@ -31,13 +31,13 @@ gas_force_apply:
     bt/s    .L_0600822E
     add #0x30, r5
     mov r5, r4
-    mov.l   _pool_gas_force_table, r3
+    mov.l   .L_pool_060082BC, r3
     bra     .L_06008234
     shll r4
 .L_0600822E:
     mov r5, r4
     shll r4
-    mov.l   _pool_brake_force_table, r3
+    mov.l   .L_pool_060082C0, r3
 .L_06008234:
     add r3, r4
     mov.l @r14, r2
@@ -53,15 +53,15 @@ gas_force_apply:
     exts.w r4, r1
     neg r1, r3
 .L_0600824C:
-    mov.w   _wpool_off_force_applied, r0
+    mov.w   .L_wpool_060082AE, r0
     mov.l r3, @(r0, r2)
     mov.l @r14, r3
-    mov.w   _wpool_speed_decay_const, r2
+    mov.w   .L_wpool_060082B0, r2
     mov.l @(12, r3), r1
     sub r2, r1
     mov.l r1, @(12, r3)
     mov.l @r14, r0
-    mov.w   _wpool_off_force_timer, r1
+    mov.w   .L_wpool_060082AA, r1
     mov.l @(r0, r1), r0
     bra     .L_060082FC
     cmp/eq #0x50, r0
@@ -76,8 +76,8 @@ gas_force_apply:
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_060082FC
-    mov.l   _pool_master_flags, r6
-    mov.l   _pool_sound_enable_mask, r5
+    mov.l   .L_pool_060082C4, r6
+    mov.l   .L_pool_060082C8, r5
     mov.l @r14, r2
     mov r2, r0
     mov.b @r0, r0
@@ -86,7 +86,7 @@ gas_force_apply:
     mov #0x30, r4
     mov.l @r14, r3
     mov #-0x1, r2
-    mov.w   _wpool_off_force_timer, r0
+    mov.w   .L_wpool_060082AA, r0
     mov.l r4, @(r0, r3)
     mov.l @r14, r3
     mov.w   DAT_060082ac, r0
@@ -95,41 +95,41 @@ gas_force_apply:
     and r3, r5
     tst r5, r5
     bt      .L_060082FC
-    mov.l   _pool_collision_sound_id, r5
-    mov.l   _pool_fn_sound_cmd, r3
+    mov.l   .L_pool_060082CC, r5
+    mov.l   .L_pool_060082D0, r3
     jsr @r3
     mov #0x0, r4
     bra     .L_060082FC
     nop
-_wpool_off_force_timer:
+.L_wpool_060082AA:
     .2byte  0x00B8
 
     .global DAT_060082ac
 DAT_060082ac:
     .2byte  0x01DC
-_wpool_off_force_applied:
+.L_wpool_060082AE:
     .2byte  0x01D8
-_wpool_speed_decay_const:
+.L_wpool_060082B0:
     .2byte  0x00E3
 
     .global DAT_060082b2
 DAT_060082b2:
     .2byte  0x00BC
-_pool_car_array_base:
+.L_pool_060082B4:
     .4byte  sym_0607E944
-_pool_force_timer_reset:
+.L_pool_060082B8:
     .4byte  sym_0607EBD4
-_pool_gas_force_table:
+.L_pool_060082BC:
     .4byte  sym_0604540C
-_pool_brake_force_table:
+.L_pool_060082C0:
     .4byte  sym_0604546C
-_pool_master_flags:
+.L_pool_060082C4:
     .4byte  sym_0607EBC4
-_pool_sound_enable_mask:
+.L_pool_060082C8:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
-_pool_collision_sound_id:
+.L_pool_060082CC:
     .4byte  0xAE111BFF
-_pool_fn_sound_cmd:
+.L_pool_060082D0:
     .4byte  sound_cmd_dispatch
 .L_060082D4:
     mov.l @r14, r2

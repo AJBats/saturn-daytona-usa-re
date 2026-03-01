@@ -290,8 +290,8 @@ DAT_0603f682:
     tst r2, r2
     bf      .L_0603F792
     mov r13, r0
-    .byte   0xD3, 0x20    /* mov.l _pool_strcpy, r3 */
-    .byte   0xD1, 0x1E    /* mov.l _pool_str_dot, r1 */
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0603F808, r3 */
+    .byte   0xD1, 0x1E    /* mov.l .L_pool_0603F804, r1 */
     jsr @r3
     add #0x10, r0
     bra     .L_0603F7A8
@@ -303,9 +303,9 @@ DAT_0603f682:
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf      .L_0603F7A8
-    .byte   0xD1, 0x1B    /* mov.l _pool_str_dotdot, r1 */
+    .byte   0xD1, 0x1B    /* mov.l .L_pool_0603F80C, r1 */
     mov r13, r0
-    .byte   0xD2, 0x19    /* mov.l _pool_strcpy, r2 */
+    .byte   0xD2, 0x19    /* mov.l .L_pool_0603F808, r2 */
     jsr @r2
     add #0x10, r0
 .L_0603F7A8:
@@ -357,11 +357,11 @@ DAT_0603f682:
     bf      .L_0603F7EC
     bra     .L_0603F82E
     nop
-_pool_str_dot:
+.L_pool_0603F804:
     .4byte  sym_06059CB8
-_pool_strcpy:
+.L_pool_0603F808:
     .4byte  sym_06035FEC
-_pool_str_dotdot:
+.L_pool_0603F80C:
     .4byte  sym_06059CBC
 .L_0603F810:
     mov #0x2C, r0

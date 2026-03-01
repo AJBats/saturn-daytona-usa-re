@@ -9,21 +9,21 @@ vdp1_cmd_list_reset:
     jsr @r13
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x2A    /* mov.l _pool_render_mode, r4 */
-    .byte   0xD1, 0x26    /* mov.l _pool_zero, r1 */
+    .byte   0xD4, 0x2A    /* mov.l .L_pool_0602DBD4, r4 */
+    .byte   0xD1, 0x26    /* mov.l .L_pool_0602DBC8, r1 */
     mov.l r1, @r4
-    .byte   0xD4, 0x29    /* mov.l _pool_render_state_byte, r4 */
+    .byte   0xD4, 0x29    /* mov.l .L_pool_0602DBD8, r4 */
     mov.b r1, @r4
-    .byte   0xD4, 0x29    /* mov.l _pool_collision_state, r4 */
+    .byte   0xD4, 0x29    /* mov.l .L_pool_0602DBDC, r4 */
     mov.l r1, @r4
-    .byte   0xD4, 0x29    /* mov.l _pool_cmd_slot_counter, r4 */
+    .byte   0xD4, 0x29    /* mov.l .L_pool_0602DBE0, r4 */
     mov.l r1, @r4
-    .byte   0xD0, 0x29    /* mov.l _pool_car_struct_ptr, r0 */
+    .byte   0xD0, 0x29    /* mov.l .L_pool_0602DBE4, r0 */
     mov.l @r0, r0
-    .byte   0xD3, 0x29    /* mov.l _pool_scratch_init_val, r3 */
-    .byte   0xD1, 0x2A    /* mov.l _pool_pipeline_scratch, r1 */
+    .byte   0xD3, 0x29    /* mov.l .L_pool_0602DBE8, r3 */
+    .byte   0xD1, 0x2A    /* mov.l .L_pool_0602DBEC, r1 */
     mov.l r3, @r1
-    .byte   0xD3, 0x20    /* mov.l _pool_zero, r3 */
+    .byte   0xD3, 0x20    /* mov.l .L_pool_0602DBC8, r3 */
     mov.w   DAT_0602dbac, r1
     mov.l r3, @(r0, r1)
     mov.w   DAT_0602dbae, r1
@@ -32,7 +32,7 @@ vdp1_cmd_list_reset:
     mov.l r3, @(r0, r1)
     mov.w   DAT_0602dbb2, r1
     mov.l r3, @(r0, r1)
-    .byte   0xD1, 0x25    /* mov.l _pool_rbg_coeff_ptr, r1 */
+    .byte   0xD1, 0x25    /* mov.l .L_pool_0602DBF0, r1 */
     mov.l r3, @r1
     mov.w   DAT_0602dbb4, r1
     mov.l r3, @(r0, r1)
@@ -44,33 +44,33 @@ vdp1_cmd_list_reset:
     mov.l r3, @(r0, r1)
     mov.w   DAT_0602dbbc, r1
     mov.l r3, @(r0, r1)
-    .byte   0xD3, 0x15    /* mov.l _pool_zero, r3 */
+    .byte   0xD3, 0x15    /* mov.l .L_pool_0602DBC8, r3 */
     mov.w   DAT_0602dbbe, r1
     mov.l r3, @(r0, r1)
-    .byte   0xD5, 0x1F    /* mov.l _pool_fixpt_250, r5 */
-    .byte   0xD6, 0x1F    /* mov.l _pool_frame_divisor, r6 */
+    .byte   0xD5, 0x1F    /* mov.l .L_pool_0602DBF4, r5 */
+    .byte   0xD6, 0x1F    /* mov.l .L_pool_0602DBF8, r6 */
     dmuls.l r5, r6
     sts mach, r5
     sts macl, r6
     xtrct r5, r6
     mov.w   DAT_0602dbc0, r1
     mov.l @(r0, r1), r3
-    .byte   0xD4, 0x1D    /* mov.l _pool_frame_threshold, r4 */
+    .byte   0xD4, 0x1D    /* mov.l .L_pool_0602DBFC, r4 */
     cmp/gt r3, r4
     bt      .L_0602DB90
-    .byte   0xD1, 0x1C    /* mov.l _pool_off_frame_time, r1 */
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC00, r1 */
     mov.l r6, @(r0, r1)
 .L_0602DB90:
-    .byte   0xD1, 0x1C    /* mov.l _pool_off_frame_time_b, r1 */
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC04, r1 */
     mov.l r6, @(r0, r1)
-    .byte   0xD1, 0x1C    /* mov.l _pool_race_complete_flag, r1 */
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC08, r1 */
     mov.w   DAT_0602dbc2, r2
     mov.l r2, @r1
-    .byte   0xD1, 0x1C    /* mov.l _pool_camera_state_a, r1 */
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC0C, r1 */
     mov.l @r1, r2
-    .byte   0xD1, 0x1C    /* mov.l _pool_render_scratch, r1 */
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC10, r1 */
     mov.l r2, @r1
-    .byte   0xD1, 0x1C    /* mov.l _pool_game_state, r1 */
+    .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC14, r1 */
     mov.w   DAT_0602dbc2, r2
     mov.l r2, @r1
     .byte   0xA0, 0x3D    /* bra 0x0602DC26 (external) */
@@ -124,43 +124,43 @@ DAT_0602dbc0:
 DAT_0602dbc2:
     .2byte  0x0002
     .4byte  0x00000002
-_pool_zero:
+.L_pool_0602DBC8:
     .4byte  0x00000000
     .4byte  sound_cmd_dispatch
     .4byte  0x00000003
-_pool_render_mode:
+.L_pool_0602DBD4:
     .4byte  sym_06082A30
-_pool_render_state_byte:
+.L_pool_0602DBD8:
     .4byte  sym_06082A26
-_pool_collision_state:
+.L_pool_0602DBDC:
     .4byte  sym_060788FC
-_pool_cmd_slot_counter:
+.L_pool_0602DBE0:
     .4byte  sym_06082A38
-_pool_car_struct_ptr:
+.L_pool_0602DBE4:
     .4byte  sym_0607E940
-_pool_scratch_init_val:
+.L_pool_0602DBE8:
     .4byte  0x000000C8
-_pool_pipeline_scratch:
+.L_pool_0602DBEC:
     .4byte  sym_0607EAC8
-_pool_rbg_coeff_ptr:
+.L_pool_0602DBF0:
     .4byte  sym_06082A2C
-_pool_fixpt_250:
+.L_pool_0602DBF4:
     .4byte  0x00FA0000
-_pool_frame_divisor:
+.L_pool_0602DBF8:
     .4byte  0x0000038E
-_pool_frame_threshold:
+.L_pool_0602DBFC:
     .4byte  0x000000FA
-_pool_off_frame_time:
+.L_pool_0602DC00:
     .4byte  0x0000000C
-_pool_off_frame_time_b:
+.L_pool_0602DC04:
     .4byte  0x00000194
-_pool_race_complete_flag:
+.L_pool_0602DC08:
     .4byte  sym_0605A1C4
-_pool_camera_state_a:
+.L_pool_0602DC0C:
     .4byte  sym_06063E1C
-_pool_render_scratch:
+.L_pool_0602DC10:
     .4byte  sym_06082A34
-_pool_game_state:
+.L_pool_0602DC14:
     .4byte  sym_06063E20
 
     .global sym_0602DC18

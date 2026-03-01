@@ -7,7 +7,7 @@
 smpc_cmd_builder:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   _pool_input_proc_analog, r3
+    mov.l   .L_pool_06034E50, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -18,7 +18,7 @@ smpc_cmd_builder:
     mov r14, r0
     mov r15, r2
     mov.b r0, @(1, r2)
-    mov.l   _pool_input_proc_buttons, r3
+    mov.l   .L_pool_06034E54, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -27,22 +27,22 @@ smpc_cmd_builder:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-_pool_input_proc_analog:
+.L_pool_06034E50:
     .4byte  input_proc_analog
-_pool_input_proc_buttons:
+.L_pool_06034E54:
     .4byte  input_proc_buttons
 
     .global sym_06034E58
 sym_06034E58:
     add #-0x4, r15
     mov #0x0, r3
-    mov.l   _pool_sh2_state_flag, r2
+    mov.l   .L_pool_06034EEC, r2
     mov.l r3, @r2
     bra     .L_06034E64
     nop
 
 .L_06034E64:
-    mov.l   _pool_sf_ptr, r0
+    mov.l   .L_pool_06034EF0, r0
     mov.l @r0, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -50,20 +50,20 @@ sym_06034E58:
     cmp/eq #0x1, r0
     bt      .L_06034E64
 
-    mov.l   _pool_sf_ptr, r2
+    mov.l   .L_pool_06034EF0, r2
     mov.l @r2, r2
     mov #0x1, r3
     mov.b r3, @r2
-    mov.l   _pool_comreg_ptr, r2
+    mov.l   .L_pool_06034EF4, r2
     mov.l @r2, r2
-    mov.l   _pool_sshon_cmd, r3
+    mov.l   .L_pool_06034EF8, r3
     mov.b @r3, r3
     mov.b r3, @r2
     bra     .L_06034E88
     nop
 
 .L_06034E88:
-    mov.l   _pool_sf_ptr, r0
+    mov.l   .L_pool_06034EF0, r0
     mov.l @r0, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -88,29 +88,29 @@ sym_06034E58:
     mov.w @(2, r15), r0
     mov r0, r3
     extu.w r3, r3
-    mov.w   _wpool_delay_limit, r2
+    mov.w   .L_wpool_06034EE8, r2
     cmp/ge r2, r3
     bf      .L_06034EA0
 
-    mov.l   _pool_sh2_callback_ptr, r2
+    mov.l   .L_pool_06034EFC, r2
     mov.l @r2, r2
-    mov.l   _pool_slave_main_loop, r3
+    mov.l   .L_pool_06034F00, r3
     mov.l r3, @r2
 
-    mov.l   _pool_sf_ptr, r2
+    mov.l   .L_pool_06034EF0, r2
     mov.l @r2, r2
     mov #0x1, r3
     mov.b r3, @r2
-    mov.l   _pool_comreg_ptr, r2
+    mov.l   .L_pool_06034EF4, r2
     mov.l @r2, r2
-    mov.l   _pool_intback_cmd, r3
+    mov.l   .L_pool_06034F04, r3
     mov.b @r3, r3
     mov.b r3, @r2
     bra     .L_06034ED4
     nop
 
 .L_06034ED4:
-    mov.l   _pool_sf_ptr, r0
+    mov.l   .L_pool_06034EF0, r0
     mov.l @r0, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -121,21 +121,21 @@ sym_06034E58:
     rts
     nop
 
-_wpool_delay_limit:
+.L_wpool_06034EE8:
     .2byte  0x03E8
     .2byte  0xFFFF
 
-_pool_sh2_state_flag:
+.L_pool_06034EEC:
     .4byte  sym_06063578
-_pool_sf_ptr:
+.L_pool_06034EF0:
     .4byte  sym_0606358C
-_pool_comreg_ptr:
+.L_pool_06034EF4:
     .4byte  sym_06063584
-_pool_sshon_cmd:
+.L_pool_06034EF8:
     .4byte  sym_06059CAD
-_pool_sh2_callback_ptr:
+.L_pool_06034EFC:
     .4byte  sym_06063580
-_pool_slave_main_loop:
+.L_pool_06034F00:
     .4byte  slave_main_loop
-_pool_intback_cmd:
+.L_pool_06034F04:
     .4byte  sym_06059CAC

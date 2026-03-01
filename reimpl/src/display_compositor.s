@@ -14,14 +14,14 @@ display_compositor:
     mov.l r8, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    mov.l   _pool_2p_mode_flag, r8
-    mov.l   _pool_effect_timer_ptr, r9
-    mov.l   _pool_overlay_counter, r11
-    mov.l   _pool_fade_timer, r12
-    mov.l   _pool_dlist_cmd_writer, r13
-    mov.l   _pool_car_state_ptr, r14
+    mov.l   .L_pool_06005B90, r8
+    mov.l   .L_pool_06005B94, r9
+    mov.l   .L_pool_06005B98, r11
+    mov.l   .L_pool_06005B9C, r12
+    mov.l   .L_pool_06005BA0, r13
+    mov.l   .L_pool_06005BA4, r14
     mov.w   DAT_06005b7c, r0
-    mov.l   _pool_max_frame_count, r3
+    mov.l   .L_pool_06005BA8, r3
     mov.l @r14, r14
     mov.l @r3, r3
     mov.l @(r0, r14), r7
@@ -30,7 +30,7 @@ display_compositor:
     bt/s    .L_06005B20
     mov #0x8, r10
     mov #0xC, r6
-    mov.w   _wpool_x_pos_frame, r5
+    mov.w   .L_wpool_06005B7E, r5
     jsr @r13
     mov #0x8, r4
 .L_06005B20:
@@ -43,7 +43,7 @@ display_compositor:
 .L_06005B2C:
     mov.w   DAT_06005b82, r5
 .L_06005B2E:
-    mov.l   _pool_scale_mode_flag, r0
+    mov.l   .L_pool_06005BAC, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_06005B3A
@@ -51,7 +51,7 @@ display_compositor:
     mov.l @(8, r14), r7
 .L_06005B3A:
     mov.l @(8, r14), r7
-    mov.l   _pool_perspective_scale, r3
+    mov.l   .L_pool_06005BB0, r3
     mul.l r3, r7
     sts macl, r7
     shlr16 r7
@@ -59,13 +59,13 @@ display_compositor:
     mov #0x24, r6
     jsr @r13
     mov #0x8, r4
-    mov.l   _pool_extra_layer_flag, r0
+    mov.l   .L_pool_06005BB4, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_06005B60
     mov.w   DAT_06005b84, r0
     mov #0x30, r6
-    mov.w   _wpool_x_pos_z, r5
+    mov.w   .L_wpool_06005B86, r5
     mov.l @(r0, r14), r7
     add #0x1, r7
     jsr @r13
@@ -80,18 +80,18 @@ display_compositor:
 .L_06005B6C:
     mov.w   DAT_06005b8a, r5
 .L_06005B6E:
-    mov.l   _pool_alt_offset_flag, r0
+    mov.l   .L_pool_06005BB8, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_06005BBC
-    mov.w   _wpool_alt_field_offset, r0
+    mov.w   .L_wpool_06005B8C, r0
     bra     .L_06005BBE
     nop
 
     .global DAT_06005b7c
 DAT_06005b7c:
     .2byte  0x021C
-_wpool_x_pos_frame:
+.L_wpool_06005B7E:
     .2byte  0x0108
 
     .global DAT_06005b80
@@ -105,7 +105,7 @@ DAT_06005b82:
     .global DAT_06005b84
 DAT_06005b84:
     .2byte  0x0224
-_wpool_x_pos_z:
+.L_wpool_06005B86:
     .2byte  0x0142
 
     .global DAT_06005b88
@@ -115,30 +115,30 @@ DAT_06005b88:
     .global DAT_06005b8a
 DAT_06005b8a:
     .2byte  0x0336
-_wpool_alt_field_offset:
+.L_wpool_06005B8C:
     .2byte  0x00DE
     .2byte  0xFFFF
-_pool_2p_mode_flag:
+.L_pool_06005B90:
     .4byte  sym_06085FF4
-_pool_effect_timer_ptr:
+.L_pool_06005B94:
     .4byte  sym_0607EAAC
-_pool_overlay_counter:
+.L_pool_06005B98:
     .4byte  sym_06063E10
-_pool_fade_timer:
+.L_pool_06005B9C:
     .4byte  sym_06063E0C
-_pool_dlist_cmd_writer:
+.L_pool_06005BA0:
     .4byte  sym_06028430
-_pool_car_state_ptr:
+.L_pool_06005BA4:
     .4byte  sym_0607E944
-_pool_max_frame_count:
+.L_pool_06005BA8:
     .4byte  sym_06063F28
-_pool_scale_mode_flag:
+.L_pool_06005BAC:
     .4byte  sym_06078644
-_pool_perspective_scale:
+.L_pool_06005BB0:
     .4byte  0x00009F1A
-_pool_extra_layer_flag:
+.L_pool_06005BB4:
     .4byte  sym_0607EAE0
-_pool_alt_offset_flag:
+.L_pool_06005BB8:
     .4byte  sym_0607EAB8
 .L_06005BBC:
     mov.w   DAT_06005c74, r0
@@ -151,7 +151,7 @@ _pool_alt_offset_flag:
     mov.b @r8, r0
     tst r0, r0
     bf      .L_06005C60
-    mov.l   _pool_game_state_bitmask, r3
+    mov.l   .L_pool_06005C7C, r3
     mov.l   .L_06005C80, r2
     mov.l @r3, r3
     and r2, r3
@@ -184,7 +184,7 @@ _pool_alt_offset_flag:
     tst r4, r4
     bt      .L_06005C40
     mov.l @r9, r1
-    mov.l   _pool_geometry_transform, r3
+    mov.l   .L_pool_06005C8C, r3
     jsr @r3
     mov #0x14, r0
     mov r0, r7
@@ -194,13 +194,13 @@ _pool_alt_offset_flag:
     mov r4, r7
 .L_06005C34:
     mov #0x18, r6
-    mov.w   _wpool_x_pos_overlay, r5
+    mov.w   .L_wpool_06005C78, r5
     jsr @r13
     mov #0x8, r4
     bra     .L_06005C60
     nop
 .L_06005C40:
-    mov.l   _pool_static_text_data, r7
+    mov.l   .L_pool_06005C90, r7
     mov #0x60, r6
     mov r6, r5
     add #0x46, r5
@@ -213,7 +213,7 @@ _pool_alt_offset_flag:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   _pool_geom_dispatch_final, r3
+    mov.l   .L_pool_06005C94, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06005C60:
@@ -235,18 +235,18 @@ DAT_06005c74:
     .global DAT_06005c76
 DAT_06005c76:
     .2byte  0x03E7
-_wpool_x_pos_overlay:
+.L_wpool_06005C78:
     .2byte  0x00A6
     .2byte  0xFFFF
-_pool_game_state_bitmask:
+.L_pool_06005C7C:
     .4byte  sym_0607EBC4
 .L_06005C80:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
     .4byte  0xAE1114FF
     .4byte  sound_cmd_dispatch
-_pool_geometry_transform:
+.L_pool_06005C8C:
     .4byte  sym_06034FE0
-_pool_static_text_data:
+.L_pool_06005C90:
     .4byte  sym_0605ACF3
-_pool_geom_dispatch_final:
+.L_pool_06005C94:
     .4byte  sym_060284AE

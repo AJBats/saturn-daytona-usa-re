@@ -19,9 +19,9 @@ car_select_input:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   _pool_dirty_flag_ptr, r12
-    mov.l   _pool_car_index_ptr, r14
-    mov.l   _pool_lock_flag_ptr, r3
+    mov.l   .L_pool_06019B28, r12
+    mov.l   .L_pool_06019B2C, r14
+    mov.l   .L_pool_06019B30, r3
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
@@ -30,10 +30,10 @@ car_select_input:
     bra     .L_06019B9A
     nop
 .L_06019A6E:
-    mov.l   _pool_input_state_ptr, r4
-    mov.l   _pool_display_renderer, r8
-    mov.w   _wpool_dpad_updown_mask, r9
-    mov.l   _pool_car_slot_params, r11
+    mov.l   .L_pool_06019B34, r4
+    mov.l   .L_pool_06019B38, r8
+    mov.w   .L_wpool_06019B22, r9
+    mov.l   .L_pool_06019B3C, r11
     mov.w @(2, r4), r0
     mov r9, r2
     mov r0, r3
@@ -43,7 +43,7 @@ car_select_input:
     tst r3, r3
     bt/s    .L_06019AD6
     mov #0x7, r13
-    mov.l   _pool_car_display_data, r7
+    mov.l   .L_pool_06019B40, r7
     mov r9, r6
     mov.b @r14, r5
     mov.l @r7, r7
@@ -66,7 +66,7 @@ car_select_input:
     mov.b @r14, r0
     cmp/eq #0x7, r0
     bf      .L_06019ABE
-    mov.l   _pool_game_state_val, r3
+    mov.l   .L_pool_06019B44, r3
     mov.l r13, @r3
     bra     .L_06019B9A
     nop
@@ -76,16 +76,16 @@ car_select_input:
     mov #0x0, r3
     mov.b r13, @r14
     mov.b r2, @r12
-    mov.l   _pool_anim_state, r2
+    mov.l   .L_pool_06019B48, r2
     mov.l r3, @r2
-    mov.l   _pool_camera_finalize, r3
+    mov.l   .L_pool_06019B4C, r3
     jsr @r3
     nop
     bra     .L_06019B9A
     nop
 .L_06019AD6:
     mov.w @(2, r4), r0
-    mov.w   _wpool_dpad_right_mask, r3
+    mov.w   .L_wpool_06019B24, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -93,7 +93,7 @@ car_select_input:
     bt      .L_06019B50
     mov r9, r6
     mov.b @r14, r5
-    mov.l   _pool_car_display_data, r7
+    mov.l   .L_pool_06019B40, r7
     shll r5
     mov.l @r7, r7
     add r11, r5
@@ -123,30 +123,30 @@ car_select_input:
 .L_06019B1E:
     bra     .L_06019B9A
     mov.b r10, @r12
-_wpool_dpad_updown_mask:
+.L_wpool_06019B22:
     .2byte  0x0090
-_wpool_dpad_right_mask:
+.L_wpool_06019B24:
     .2byte  0x2000
     .2byte  0xFFFF
-_pool_dirty_flag_ptr:
+.L_pool_06019B28:
     .4byte  sym_06085FF1
-_pool_car_index_ptr:
+.L_pool_06019B2C:
     .4byte  sym_06085FF0
-_pool_lock_flag_ptr:
+.L_pool_06019B30:
     .4byte  sym_06085FF3
-_pool_input_state_ptr:
+.L_pool_06019B34:
     .4byte  g_pad_state
-_pool_display_renderer:
+.L_pool_06019B38:
     .4byte  sym_060284AE
-_pool_car_slot_params:
+.L_pool_06019B3C:
     .4byte  sym_06049AFC
-_pool_car_display_data:
+.L_pool_06019B40:
     .4byte  sym_0605D4F0
-_pool_game_state_val:
+.L_pool_06019B44:
     .4byte  g_game_state
-_pool_anim_state:
+.L_pool_06019B48:
     .4byte  sym_06059F44
-_pool_camera_finalize:
+.L_pool_06019B4C:
     .4byte  sym_06026CE0
 .L_06019B50:
     mov.w @(2, r4), r0
@@ -156,7 +156,7 @@ _pool_camera_finalize:
     and r3, r2
     tst r2, r2
     bt      .L_06019B9A
-    .byte   0xD7, 0x28    /* mov.l _pool_car_display_data_far, r7 */
+    .byte   0xD7, 0x28    /* mov.l .L_pool_06019B40_far, r7 */
     mov r9, r6
     mov.b @r14, r5
     mov.l @r7, r7

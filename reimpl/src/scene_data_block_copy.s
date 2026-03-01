@@ -8,18 +8,18 @@ scene_data_block_copy:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_scene_ctrl, r13
+    mov.l   .L_pool_06038938, r13
     mov.w @r13, r0
     extu.w r0, r0
     tst r0, r0
     bt      .L_060388EA
-    mov.l   _pool_scene_a_src_ptr, r3
+    mov.l   .L_pool_0603893C, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_060388EA
-    mov.l   _pool_scene_a_size, r6
-    mov.l   _pool_scene_a_dst, r5
-    mov.l   _pool_scene_a_src_ptr, r4
+    mov.l   .L_pool_06038940, r6
+    mov.l   .L_pool_06038944, r5
+    mov.l   .L_pool_0603893C, r4
     mov.l @r6, r6
     shll r6
     .byte   0xB0, 0xB1    /* bsr 0x06038A48 (word-copy helper) */
@@ -31,13 +31,13 @@ scene_data_block_copy:
     extu.w r0, r0
     tst r0, r0
     bt      .L_0603890E
-    mov.l   _pool_scene_b_src_ptr, r3
+    mov.l   .L_pool_06038948, r3
     mov.l @r3, r0
     tst r0, r0
     bt      .L_0603890E
-    mov.l   _pool_scene_b_size, r6
-    mov.l   _pool_scene_b_dst, r5
-    mov.l   _pool_scene_b_src_ptr, r4
+    mov.l   .L_pool_0603894C, r6
+    mov.l   .L_pool_06038950, r5
+    mov.l   .L_pool_06038948, r4
     mov.l @r6, r6
     shll r6
     .byte   0xB0, 0xA0    /* bsr 0x06038A48 (word-copy helper) */
@@ -46,50 +46,50 @@ scene_data_block_copy:
     mov r2, r0
     mov.w r0, @(2, r13)
 .L_0603890E:
-    mov.l   _pool_screen_mode, r0
+    mov.l   .L_pool_06038954, r0
     mov.w @r0, r0
     bra     .L_06038960
     extu.w r0, r0
 .L_06038916:
-    mov.w   _wpool_chan2_size, r6
-    mov.l   _pool_scene_view_dst, r5
-    mov.l   _pool_channel_src, r4
+    mov.w   .L_wpool_06038932, r6
+    mov.l   .L_pool_06038958, r5
+    mov.l   .L_pool_0603895C, r4
     .byte   0xB0, 0x94    /* bsr 0x06038A48 (word-copy helper) */
     mov.l @r4, r4
     bra     .L_06038968
     nop
 .L_06038924:
-    mov.w   _wpool_chan1_size, r6
-    mov.l   _pool_scene_view_dst, r5
-    mov.l   _pool_channel_src, r4
+    mov.w   .L_wpool_06038934, r6
+    mov.l   .L_pool_06038958, r5
+    mov.l   .L_pool_0603895C, r4
     .byte   0xB0, 0x8D    /* bsr 0x06038A48 (word-copy helper) */
     mov.l @r4, r4
     bra     .L_06038968
     nop
-_wpool_chan2_size:
+.L_wpool_06038932:
     .2byte  0x0100
-_wpool_chan1_size:
+.L_wpool_06038934:
     .2byte  0x0080
     .2byte  0xFFFF
-_pool_scene_ctrl:
+.L_pool_06038938:
     .4byte  sym_060A4C40
-_pool_scene_a_src_ptr:
+.L_pool_0603893C:
     .4byte  sym_060A4C44
-_pool_scene_a_size:
+.L_pool_06038940:
     .4byte  sym_060A4C38
-_pool_scene_a_dst:
+.L_pool_06038944:
     .4byte  sym_060A3F68
-_pool_scene_b_src_ptr:
+.L_pool_06038948:
     .4byte  sym_060A4C48
-_pool_scene_b_size:
+.L_pool_0603894C:
     .4byte  sym_060A4C3C
-_pool_scene_b_dst:
+.L_pool_06038950:
     .4byte  sym_060A45D0
-_pool_screen_mode:
+.L_pool_06038954:
     .4byte  sym_060635B2
-_pool_scene_view_dst:
+.L_pool_06038958:
     .4byte  sym_060A3E68
-_pool_channel_src:
+.L_pool_0603895C:
     .4byte  sym_060A4C5C
 .L_06038960:
     cmp/eq #0x1, r0

@@ -9,19 +9,19 @@ hud_coord_calc:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_game_state_idx_ptr, r12
-    mov.l   _pool_vdp1_cmd_buf_ptr, r13
-    mov.l   _pool_memcpy_word_idx, r14
-    mov.l   _pool_split_screen_flag, r0
+    mov.l   .L_pool_06010A2C, r12
+    mov.l   .L_pool_06010A30, r13
+    mov.l   .L_pool_06010A34, r14
+    mov.l   .L_pool_06010A38, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060109E0
     mov #0x20, r6
-    mov.l   _pool_disp_elem_data_ptr, r5
-    mov.l   _pool_cmd_table_base, r3
-    mov.l   _pool_car_index_ptr, r4
-    mov.l   _pool_color_table_byte, r2
-    mov.l   _pool_buf_offset_word, r1
+    mov.l   .L_pool_06010A3C, r5
+    mov.l   .L_pool_06010A40, r3
+    mov.l   .L_pool_06010A44, r4
+    mov.l   .L_pool_06010A48, r2
+    mov.l   .L_pool_06010A4C, r1
     mov.l @r12, r0
     mov.l @r5, r5
     mov.l @r4, r4
@@ -48,8 +48,8 @@ hud_coord_calc:
 
     .global loc_060109E2
 loc_060109E2:
-    mov.l   _pool_disp_data_base_ptr, r5
-    mov.l   _pool_func_table_base, r3
+    mov.l   .L_pool_06010A50, r5
+    mov.l   .L_pool_06010A54, r3
     mov.l @r12, r4
     mov.l @r5, r5
     shll2 r4
@@ -64,8 +64,8 @@ loc_060109E2:
     jsr @r14
     nop
     mov.w   DAT_06010a2a, r6
-    mov.l   _pool_elem_type_byte, r5
-    mov.l   _pool_func_table_base, r3
+    mov.l   .L_pool_06010A58, r5
+    mov.l   .L_pool_06010A54, r3
     mov.l @r12, r4
     mov.l @r13, r2
     mov r6, r1
@@ -89,27 +89,27 @@ loc_060109E2:
     .global DAT_06010a2a
 DAT_06010a2a:
     .2byte  0x00C0
-_pool_game_state_idx_ptr:
+.L_pool_06010A2C:
     .4byte  sym_06059FFC
-_pool_vdp1_cmd_buf_ptr:
+.L_pool_06010A30:
     .4byte  sym_06063F5C
-_pool_memcpy_word_idx:
+.L_pool_06010A34:
     .4byte  memcpy_word_idx
-_pool_split_screen_flag:
+.L_pool_06010A38:
     .4byte  sym_06083255
-_pool_disp_elem_data_ptr:
+.L_pool_06010A3C:
     .4byte  sym_0607EAB8
-_pool_cmd_table_base:
+.L_pool_06010A40:
     .4byte  sym_0605D0AC
-_pool_car_index_ptr:
+.L_pool_06010A44:
     .4byte  sym_0607EAD8
-_pool_color_table_byte:
+.L_pool_06010A48:
     .4byte  sym_060448B5
-_pool_buf_offset_word:
+.L_pool_06010A4C:
     .4byte  sym_0607886C
-_pool_disp_data_base_ptr:
+.L_pool_06010A50:
     .4byte  sym_06078868
-_pool_func_table_base:
+.L_pool_06010A54:
     .4byte  sym_0605D05C
-_pool_elem_type_byte:
+.L_pool_06010A58:
     .4byte  sym_0607ED91

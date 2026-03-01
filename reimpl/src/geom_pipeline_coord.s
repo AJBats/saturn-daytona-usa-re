@@ -17,26 +17,26 @@ geom_pipeline_coord:
     add #-0x6C, r15
     mov.w   DAT_0601748a, r8
     mov r15, r12
-    mov.l   _pool_globals_base, r14
+    mov.l   .L_pool_06017494, r14
     mov r15, r1
-    mov.l   _pool_vtx_src_a, r2
-    mov.l   _pool_fn_memcpy_byte, r3
+    mov.l   .L_pool_06017498, r2
+    mov.l   .L_pool_0601749C, r3
     add #0x10, r12
     add #0x48, r1
     jsr @r3
     mov #0x24, r0
     mov r15, r1
-    mov.l   _pool_vtx_src_b, r2
-    mov.l   _pool_fn_memcpy_byte, r3
+    mov.l   .L_pool_060174A0, r2
+    mov.l   .L_pool_0601749C, r3
     add #0x10, r1
     jsr @r3
     mov #0x38, r0
-    mov.l   _pool_seg_tbl_default, r13
-    mov.l   _pool_demo_mode_flag, r0
+    mov.l   .L_pool_060174A4, r13
+    mov.l   .L_pool_060174A8, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_060173EC
-    mov.l   _pool_seg_tbl_demo, r13
+    mov.l   .L_pool_060174AC, r13
 .L_060173EC:
     mov.w @(2, r13), r0
     mov.w @r13, r6
@@ -77,30 +77,30 @@ geom_pipeline_coord:
     extu.w r6, r6
     .byte   0xB1, 0xA5    /* bsr 0x06017784 (geom_computation) */
     mov.l @(r0, r14), r4
-    mov.l   _pool_car_array_base, r2
+    mov.l   .L_pool_060174B0, r2
     mov.l r2, @r15
     mov r2, r3
     mov.w   DAT_06017492, r0
     mov.l @(r0, r3), r2
     mov.l r2, @(4, r15)
-    mov.l   _pool_frame_counter, r4
-    mov.l   _pool_max_frame_idx, r5
+    mov.l   .L_pool_060174B4, r4
+    mov.l   .L_pool_060174B8, r5
     mov.l @r4, r4
     cmp/ge r5, r4
     bf      .L_06017452
     mov r5, r4
 .L_06017452:
-    mov.l   _pool_race_event_flags, r0
+    mov.l   .L_pool_060174BC, r0
     mov.l @r0, r0
     tst #0x1, r0
     bf      .L_06017464
-    mov.l   _pool_frame_count_var, r4
+    mov.l   .L_pool_060174C0, r4
     mov.l @r4, r4
     mov r4, r3
     shll2 r4
     add r3, r4
 .L_06017464:
-    mov.l   _pool_fn_anim_xform, r3
+    mov.l   .L_pool_060174C4, r3
     jsr @r3
     nop
     mov r0, r6
@@ -140,31 +140,31 @@ DAT_06017490:
     .global DAT_06017492
 DAT_06017492:
     .2byte  0x0240
-_pool_globals_base:
+.L_pool_06017494:
     .4byte  sym_06063750
-_pool_vtx_src_a:
+.L_pool_06017498:
     .4byte  sym_0605BC6C
-_pool_fn_memcpy_byte:
+.L_pool_0601749C:
     .4byte  sym_06035228
-_pool_vtx_src_b:
+.L_pool_060174A0:
     .4byte  sym_0605BC90
-_pool_seg_tbl_default:
+.L_pool_060174A4:
     .4byte  sym_06044B84
-_pool_demo_mode_flag:
+.L_pool_060174A8:
     .4byte  sym_0607EAE0
-_pool_seg_tbl_demo:
+.L_pool_060174AC:
     .4byte  sym_06044BB4
-_pool_car_array_base:
+.L_pool_060174B0:
     .4byte  sym_06078900
-_pool_frame_counter:
+.L_pool_060174B4:
     .4byte  sym_060786A4
-_pool_max_frame_idx:
+.L_pool_060174B8:
     .4byte  0x000927BF
-_pool_race_event_flags:
+.L_pool_060174BC:
     .4byte  sym_0607EBF4
-_pool_frame_count_var:
+.L_pool_060174C0:
     .4byte  sym_0607EBD0
-_pool_fn_anim_xform:
+.L_pool_060174C4:
     .4byte  anim_frame_transform
 .L_060174C8:
     extu.b r4, r3
@@ -198,7 +198,7 @@ _pool_fn_anim_xform:
     add r8, r5
     .byte   0xB1, 0x3F    /* bsr 0x06017784 (geom_computation) */
     add #0x48, r4
-    mov.l   _pool_fn_anim_xform_b, r3
+    mov.l   .L_pool_060175BC, r3
     jsr @r3
     mov.l @(4, r15), r4
     mov r0, r6
@@ -250,7 +250,7 @@ _pool_fn_anim_xform:
     mov #0xA, r5
     mov.l @r15, r4
     mov.w   DAT_060175b6, r0
-    mov.l   _pool_fn_model_lookup, r3
+    mov.l   .L_pool_060175C0, r3
     mov.l @(r0, r4), r4
     add #0x1, r4
     mov r4, r1
@@ -258,11 +258,11 @@ _pool_fn_anim_xform:
     mov r5, r0
     mov r4, r1
     mov.l r0, @(4, r15)
-    mov.l   _pool_fn_mem_store, r3
+    mov.l   .L_pool_060175C4, r3
     jsr @r3
     mov r5, r0
     mov.l r0, @(8, r15)
-    mov.l   _pool_demo_flag_b, r1
+    mov.l   .L_pool_060175C8, r1
     mov.l @r1, r1
     tst r1, r1
     bt      .L_060175CC
@@ -302,18 +302,18 @@ DAT_060175b8:
     .global DAT_060175ba
 DAT_060175ba:
     .2byte  0x5000
-_pool_fn_anim_xform_b:
+.L_pool_060175BC:
     .4byte  anim_frame_transform
-_pool_fn_model_lookup:
+.L_pool_060175C0:
     .4byte  sym_06034FE0
-_pool_fn_mem_store:
+.L_pool_060175C4:
     .4byte  sym_06035C2C
-_pool_demo_flag_b:
+.L_pool_060175C8:
     .4byte  sym_0607EAE0
 .L_060175CC:
     mov.w   DAT_06017692, r9
     mov #0xB, r3
-    mov.w   _wpool_seg_struct_ofs, r10
+    mov.w   .L_wpool_06017694, r10
     mov.l @r15, r4
     mov.w   DAT_06017696, r0
     mov.l @(r0, r4), r4
@@ -419,7 +419,7 @@ _pool_demo_flag_b:
     .global DAT_06017692
 DAT_06017692:
     .2byte  0x6000
-_wpool_seg_struct_ofs:
+.L_wpool_06017694:
     .2byte  0x0348
 
     .global DAT_06017696

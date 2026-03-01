@@ -7,45 +7,45 @@
 race_start_transition:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   _pool_anim_state, r3
+    mov.l   .L_pool_0601A60C, r3
     mov.l r14, @r3
-    mov.l   _pool_render_mode_flags, r4
-    mov.l   _pool_sign_bit, r2
+    mov.l   .L_pool_0601A610, r4
+    mov.l   .L_pool_0601A614, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
-    mov.l   _pool_fn_camera_finalize, r3
+    mov.l   .L_pool_0601A618, r3
     jsr @r3
     nop
-    mov.l   _pool_fn_camera_finalize, r3
+    mov.l   .L_pool_0601A618, r3
     jsr @r3
     nop
     mov #0x9, r7
-    mov.l   _pool_tile_size_a, r5
-    mov.l   _pool_vdp2_vram_tile_a, r4
-    mov.l   _pool_fn_vram_tile_copy, r3
+    mov.l   .L_pool_0601A61C, r5
+    mov.l   .L_pool_0601A620, r4
+    mov.l   .L_pool_0601A624, r3
     jsr @r3
     mov r14, r6
     mov #0x8, r7
-    mov.l   _pool_tile_size_b, r5
-    mov.l   _pool_vdp2_vram_tile_b, r4
-    mov.l   _pool_fn_vram_tile_copy, r3
+    mov.l   .L_pool_0601A628, r5
+    mov.l   .L_pool_0601A62C, r4
+    mov.l   .L_pool_0601A624, r3
     jsr @r3
     mov r14, r6
     mov r14, r6
-    mov.l   _pool_display_layer_params, r2
+    mov.l   .L_pool_0601A630, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    mov.l   _pool_display_offset, r3
+    mov.l   .L_pool_0601A634, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   _pool_fn_display_list_load, r3
+    mov.l   .L_pool_0601A638, r3
     jsr @r3
     mov #0x4, r4
     mov #0x1, r2
-    mov.l   _pool_light_active_flag, r3
+    mov.l   .L_pool_0601A63C, r3
     mov.b r2, @r3
     .byte   0xB9, 0xAC    /* bsr 0x06019928 (track_seg_phys_init) */
     nop
@@ -55,71 +55,71 @@ race_start_transition:
     nop
     .byte   0xB1, 0xB2    /* bsr 0x0601A940 (course_init_pipeline) */
     nop
-    mov.l   _pool_frame_counter_a, r3
+    mov.l   .L_pool_0601A640, r3
     mov.b r14, @r3
-    mov.l   _pool_frame_counter_b, r3
+    mov.l   .L_pool_0601A644, r3
     mov.b r14, @r3
-    mov.l   _pool_anim_reset_byte, r3
+    mov.l   .L_pool_0601A648, r3
     mov.b r14, @r3
-    mov.l   _pool_fn_race_data, r3
+    mov.l   .L_pool_0601A64C, r3
     jsr @r3
     nop
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   _pool_fn_palette_commit, r3
+    mov.l   .L_pool_0601A650, r3
     jmp @r3
     mov.l @r15+, r14
 
     .global sym_0601A5F8
 sym_0601A5F8:
-    mov.l   _pool_game_timer, r0
+    mov.l   .L_pool_0601A654, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x10, r0
     bf      .L_0601A658
-    mov.w   _wpool_green_light_param, r0
+    mov.w   .L_wpool_0601A608, r0
     rts
     nop
-_wpool_green_light_param:
+.L_wpool_0601A608:
     .2byte  0x00A8
     .2byte  0xFFFF                        /* padding to align pool */
-_pool_anim_state:
+.L_pool_0601A60C:
     .4byte  sym_06059F44                  /* animation state (32-bit) */
-_pool_render_mode_flags:
+.L_pool_0601A610:
     .4byte  sym_0605B6D8                  /* render mode flags (32-bit bitmask) */
-_pool_sign_bit:
+.L_pool_0601A614:
     .4byte  0x80000000                    /* sign bit — enables race-start rendering */
-_pool_fn_camera_finalize:
+.L_pool_0601A618:
     .4byte  sym_06026CE0                  /* camera state finalization function */
-_pool_tile_size_a:
+.L_pool_0601A61C:
     .4byte  0x00014000                    /* 0x14000 bytes — tile pattern block A */
-_pool_vdp2_vram_tile_a:
+.L_pool_0601A620:
     .4byte  0x25E76174                    /* VDP2 VRAM +0x76174 (tile dest A) */
-_pool_fn_vram_tile_copy:
+.L_pool_0601A624:
     .4byte  sym_0600511E                  /* VRAM tile/pattern upload function */
-_pool_tile_size_b:
+.L_pool_0601A628:
     .4byte  0x00017700                    /* 0x17700 bytes — tile pattern block B */
-_pool_vdp2_vram_tile_b:
+.L_pool_0601A62C:
     .4byte  0x25E761FC                    /* VDP2 VRAM +0x761FC (tile dest B) */
-_pool_display_layer_params:
+.L_pool_0601A630:
     .4byte  sym_06063AF8                  /* display layer parameters struct */
-_pool_display_offset:
+.L_pool_0601A634:
     .4byte  0x0000A000                    /* display list base offset */
-_pool_fn_display_list_load:
+.L_pool_0601A638:
     .4byte  sym_06028400                  /* display list loader / DMA dispatch */
-_pool_light_active_flag:
+.L_pool_0601A63C:
     .4byte  sym_06085FF1                  /* light active flag (byte, 1 = active) */
-_pool_frame_counter_a:
+.L_pool_0601A640:
     .4byte  sym_06085FF2                  /* animation frame counter A (byte) */
-_pool_frame_counter_b:
+.L_pool_0601A644:
     .4byte  sym_06085FF3                  /* animation frame counter B (byte) */
-_pool_anim_reset_byte:
+.L_pool_0601A648:
     .4byte  sym_0605D245                  /* animation reset byte */
-_pool_fn_race_data:
+.L_pool_0601A64C:
     .4byte  race_data_handler             /* race state update function */
-_pool_fn_palette_commit:
+.L_pool_0601A650:
     .4byte  palette_frame_effects         /* per-frame palette commit to VDP2 CRAM */
-_pool_game_timer:
+.L_pool_0601A654:
     .4byte  sym_06063D9E                  /* game timer (16-bit) — 0x10 = green light */
 .L_0601A658:
     .byte   0x90, 0x40    /* mov.w .L_wpool_0601A6DC, r0 (cross-TU word pool) */

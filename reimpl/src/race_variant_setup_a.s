@@ -14,38 +14,38 @@ race_variant_setup_a:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.w   _wpool_y_offset, r8
-    mov.l   _pool_budget_counter_ptr, r12
-    mov.l   _pool_fp_one, r14
-    mov.l   _pool_fn_pre_transform, r3
+    mov.w   .L_wpool_06014212, r8
+    mov.l   .L_pool_06014214, r12
+    mov.l   .L_pool_06014218, r14
+    mov.l   .L_pool_0601421C, r3
     jsr @r3
     mov #0x3, r9
     mov #0x0, r13
-    mov.l   _pool_scale_factor_ptr, r2
+    mov.l   .L_pool_06014220, r2
     mov.l r2, @r15
 .L_06014190:
-    mov.l   _pool_active_car_count, r3
+    mov.l   .L_pool_06014224, r3
     mov.l @r3, r3
     cmp/hs r3, r13
     bt      .L_060141F8
-    mov.l   _pool_fn_pretransform_setup, r3
+    mov.l   .L_pool_06014228, r3
     jsr @r3
     nop
     mov r14, r6
     mov r8, r5
     mov r13, r4
-    mov.l   _pool_car_object_table, r3
-    mov.l   _pool_fn_transform_dispatch, r2
+    mov.l   .L_pool_0601422C, r3
+    mov.l   .L_pool_06014230, r2
     shll2 r4
     add r3, r4
     jsr @r2
     mov.l @r4, r4
     mov r14, r6
     mov r14, r5
-    mov.l   _pool_fn_mat_scale, r3
+    mov.l   .L_pool_06014234, r3
     jsr @r3
     mov r14, r4
-    mov.l   _pool_variant_chars, r4
+    mov.l   .L_pool_06014238, r4
     add r13, r4
     mov.b @r4, r4
     extu.b r4, r4
@@ -60,8 +60,8 @@ race_variant_setup_a:
 .L_060141D0:
     extu.b r11, r11
     mov #0x4, r5
-    mov.l   _pool_chain_a_table, r4
-    mov.l   _pool_fn_chain_a, r3
+    mov.l   .L_pool_0601423C, r4
+    mov.l   .L_pool_06014240, r3
     extu.b r11, r10
     shll2 r10
     add r10, r4
@@ -69,8 +69,8 @@ race_variant_setup_a:
     mov.l @r4, r4
     mov #0x1, r6
     mov.l @r15, r5
-    mov.l   _pool_chain_b_table, r4
-    mov.l   _pool_fn_chain_b, r3
+    mov.l   .L_pool_06014244, r4
+    mov.l   .L_pool_06014248, r3
     mov.w @r5, r5
     add r10, r4
     jsr @r3
@@ -92,33 +92,33 @@ race_variant_setup_a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-_wpool_y_offset:
+.L_wpool_06014212:
     .2byte  0xCCCD                      /* sign-extended: -0x3333 (Y position offset) */
-_pool_budget_counter_ptr:
+.L_pool_06014214:
     .4byte  sym_06089EDC                /* render budget counter (decremented by 0x30 per car) */
-_pool_fp_one:
+.L_pool_06014218:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-_pool_fn_pre_transform:
+.L_pool_0601421C:
     .4byte  sym_06026E0C                /* pre-transform initialization function */
-_pool_scale_factor_ptr:
+.L_pool_06014220:
     .4byte  sym_06089E4A                /* per-mode 16-bit scale factor */
-_pool_active_car_count:
+.L_pool_06014224:
     .4byte  sym_06084B18                /* active car count (read as 32-bit) */
-_pool_fn_pretransform_setup:
+.L_pool_06014228:
     .4byte  sym_06026DBC                /* per-object pre-transform setup */
-_pool_car_object_table:
+.L_pool_0601422C:
     .4byte  sym_0605AD4C                /* car object position table (array of ptrs) */
-_pool_fn_transform_dispatch:
+.L_pool_06014230:
     .4byte  sym_06026E2E                /* transform dispatch (sets position) */
-_pool_fn_mat_scale:
+.L_pool_06014234:
     .4byte  mat_scale_columns           /* uniform column scale function */
-_pool_variant_chars:
+.L_pool_06014238:
     .4byte  sym_06084B14                /* car variant character array (byte per car) */
-_pool_chain_a_table:
+.L_pool_0601423C:
     .4byte  sym_06062338                /* chain A model lookup table (27 entries) */
-_pool_fn_chain_a:
+.L_pool_06014240:
     .4byte  sym_06031D8C                /* transform chain A dispatch */
-_pool_chain_b_table:
+.L_pool_06014244:
     .4byte  sym_060622C0                /* chain B model lookup table (27 entries) */
-_pool_fn_chain_b:
+.L_pool_06014248:
     .4byte  sym_06031A28                /* transform chain B dispatch (scaled) */

@@ -11,8 +11,8 @@ file_data_parse:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   _pool_frame_timer, r12
-    mov.l   _pool_fn_fpmul, r11
+    mov.l   .L_pool_060123E4, r12
+    mov.l   .L_pool_060123E8, r11
     mov.w   DAT_060123de, r5
     mov.l @r12, r12
     cmp/gt r12, r3
@@ -31,7 +31,7 @@ file_data_parse:
     mov r12, r4
     mov r0, r4
     mov r13, r5
-    mov.l   _pool_vec_b, r6
+    mov.l   .L_pool_060123EC, r6
     mov r4, r1
     shll r5
     mov.l @r6, r2
@@ -43,7 +43,7 @@ file_data_parse:
     mov.l @(8, r6), r2
     add r4, r2
     mov.l r2, @(8, r6)
-    mov.l   _pool_vec_c, r6
+    mov.l   .L_pool_060123F0, r6
     mov.l @r6, r3
     sub r14, r3
     mov.l r3, @r6
@@ -53,11 +53,11 @@ file_data_parse:
     mov.l @(8, r6), r3
     sub r13, r3
     mov.l r3, @(8, r6)
-    mov.l   _pool_vec_d, r6
+    mov.l   .L_pool_060123F4, r6
     mov.l @r6, r2
     add r5, r2
     mov.l r2, @r6
-    mov.l   _pool_fn_hw_divide, r3
+    mov.l   .L_pool_060123F8, r3
     jsr @r3
     mov #0x4, r0
     mov.l @(4, r6), r2
@@ -66,7 +66,7 @@ file_data_parse:
     mov.l @(8, r6), r3
     sub r4, r3
     mov.l r3, @(8, r6)
-    mov.l   _pool_vec_e, r5
+    mov.l   .L_pool_060123FC, r5
     mov.l @r5, r2
     add r14, r2
     mov.l r2, @r5
@@ -92,17 +92,17 @@ DAT_060123e0:
     .global DAT_060123e2
 DAT_060123e2:
     .2byte  0x2666
-_pool_frame_timer:
+.L_pool_060123E4:
     .4byte  sym_060788AC                    /* frame timer / animation state counter */
-_pool_fn_fpmul:
+.L_pool_060123E8:
     .4byte  fpmul                           /* 16.16 fixed-point multiply: fpmul(r4, r5) -> r0 */
-_pool_vec_b:
+.L_pool_060123EC:
     .4byte  sym_060788C0                    /* position vector B (XYZ triplet, 12 bytes) */
-_pool_vec_c:
+.L_pool_060123F0:
     .4byte  sym_060788CC                    /* position vector C (XYZ triplet, 12 bytes) */
-_pool_vec_d:
+.L_pool_060123F4:
     .4byte  sym_060788D8                    /* position vector D (XYZ triplet, 12 bytes) */
-_pool_fn_hw_divide:
+.L_pool_060123F8:
     .4byte  sym_06034FE0                    /* hw_divide(r0=divisor, r1=dividend) -> r0=quotient */
-_pool_vec_e:
+.L_pool_060123FC:
     .4byte  sym_060788E4                    /* position vector E (XYZ triplet, 12 bytes) */

@@ -17,11 +17,11 @@ obj_template_init:
     shll2 r13
     sts.l macl, @-r15
     add #-0x4, r15
-    mov.l   _pool_template_table, r7
+    mov.l   .L_pool_060047D8, r7
     shll r3
     add r3, r13
     add r7, r13
-    mov.l   _pool_tile_data_0, r2
+    mov.l   .L_pool_060047DC, r2
     mov.l r2, @r15
     mov r2, r3
     mov.l r2, @r13
@@ -102,7 +102,7 @@ obj_template_init:
     add r3, r13
     add r7, r13
     mov #0x3, r11
-    mov.l   _pool_tile_data_2, r2
+    mov.l   .L_pool_060047E0, r2
     mov.l r2, @r13
     mov.w   DAT_060047d4, r1
     exts.w r1, r0
@@ -135,7 +135,7 @@ obj_template_init:
     mov.b r0, @(8, r13)
     mov r6, r13
     exts.w r1, r0
-    mov.l   _pool_tile_data_3, r2
+    mov.l   .L_pool_060047E4, r2
     add #0x1, r6
     mov r13, r3
     shll2 r13
@@ -179,7 +179,7 @@ obj_template_init:
     shll r3
     add r3, r13
     add r7, r13
-    mov.l   _pool_tile_data_4, r2
+    mov.l   .L_pool_060047E8, r2
     bra     .L_060047EC
     nop
 
@@ -191,15 +191,15 @@ DAT_060047d2:
 DAT_060047d4:
     .2byte  0x1080
     .2byte  0xFFFF
-_pool_template_table:
+.L_pool_060047D8:
     .4byte  sym_06063690
-_pool_tile_data_0:
+.L_pool_060047DC:
     .4byte  sym_06042CEE
-_pool_tile_data_2:
+.L_pool_060047E0:
     .4byte  sym_06042D72
-_pool_tile_data_3:
+.L_pool_060047E4:
     .4byte  sym_06042D1A
-_pool_tile_data_4:
+.L_pool_060047E8:
     .4byte  sym_06042DCA
 .L_060047EC:
     mov.l r2, @r13
@@ -234,7 +234,7 @@ _pool_tile_data_4:
     mov r6, r13
     add #0x1, r6
     mov r13, r3
-    mov.l   _pool_tile_data_5, r11
+    mov.l   .L_pool_06004990, r11
     exts.w r1, r0
     shll2 r13
     shll2 r3
@@ -277,7 +277,7 @@ _pool_tile_data_4:
     shll r3
     add r3, r13
     add r7, r13
-    mov.l   _pool_tile_data_6, r2
+    mov.l   .L_pool_06004994, r2
     mov.l r2, @r15
     mov r2, r3
     mov.l r2, @r13
@@ -330,7 +330,7 @@ _pool_tile_data_4:
     exts.b r3, r0
     mov.b r0, @(8, r13)
     mov r6, r13
-    mov.l   _pool_tile_data_8, r2
+    mov.l   .L_pool_06004998, r2
     add #0x1, r6
     mov r13, r3
     shll2 r13
@@ -403,7 +403,7 @@ _pool_tile_data_4:
     shll r3
     add r3, r13
     add r7, r13
-    mov.l   _pool_tile_data_10, r2
+    mov.l   .L_pool_0600499C, r2
     mov.l r2, @r13
     mov.w   DAT_0600498c, r0
     mov.w r0, @(4, r13)
@@ -421,13 +421,13 @@ DAT_0600498c:
     .global DAT_0600498e
 DAT_0600498e:
     .2byte  0x7080
-_pool_tile_data_5:
+.L_pool_06004990:
     .4byte  sym_06042CBC
-_pool_tile_data_6:
+.L_pool_06004994:
     .4byte  sym_06042CD2
-_pool_tile_data_8:
+.L_pool_06004998:
     .4byte  sym_06042E4E
-_pool_tile_data_10:
+.L_pool_0600499C:
     .4byte  sym_0604304E
 .L_060049A0:
     exts.b r5, r0

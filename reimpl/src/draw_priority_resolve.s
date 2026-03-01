@@ -10,11 +10,11 @@ draw_priority_resolve:
     nop
     lds.l @r15+, pr
     nop
-    .byte   0xD0, 0x07    /* mov.l _pool_car_struct_ptr, r0 */
+    .byte   0xD0, 0x07    /* mov.l .L_pool_0602E1B4, r0 */
     mov.l @r0, r0
-    .byte   0xD1, 0x08    /* mov.l _pool_priority_field_off, r1 */
+    .byte   0xD1, 0x08    /* mov.l .L_pool_0602E1BC, r1 */
     mov.l @(r0, r1), r3
-    .byte   0xD1, 0x08    /* mov.l _pool_priority_threshold, r1 */
+    .byte   0xD1, 0x08    /* mov.l .L_pool_0602E1C0, r1 */
     cmp/ge r1, r3
     bf      .L_0602E1C4
     .byte   0xA0, 0xFD    /* bra 0x0602E3A0 (external) */
@@ -23,12 +23,12 @@ draw_priority_resolve:
     .4byte  sym_0608325C
     .4byte  sym_0602EC54
     .4byte  sym_06083258
-_pool_car_struct_ptr:
+.L_pool_0602E1B4:
     .4byte  sym_0607E940
     .4byte  sym_0600DB64
-_pool_priority_field_off:
+.L_pool_0602E1BC:
     .4byte  0x00000244
-_pool_priority_threshold:
+.L_pool_0602E1C0:
     .4byte  0x00000007
 .L_0602E1C4:
     .byte   0xD3, 0x34    /* mov.l _pool_pipeline_counter, r3 */

@@ -27,14 +27,14 @@ vblank_out_handler:
     mov.b @r2, r2
     extu.b r2, r2
     cmp/ge r2, r1
-    bt      .check_swap
-    bra     .done
+    bt      .L_06007298
+    bra     .L_060072B6
     nop
-.check_swap:
+.L_06007298:
     mov.l   .L_pool_060072D4, r5
     mov.l @r5, r0
     tst r0, r0
-    bt      .done
+    bt      .L_060072B6
     mov.l   .L_pool_060072D8, r0
     mov.w @r0, r0
     extu.w r0, r0
@@ -46,7 +46,7 @@ vblank_out_handler:
     mov.l   .L_pool_060072E0, r3
     mov.l r4, @r3
     mov.l r4, @r5
-.done:
+.L_060072B6:
     mov #0x4, r2
     mov.l   .L_pool_060072C4, r3
     lds.l @r15+, pr

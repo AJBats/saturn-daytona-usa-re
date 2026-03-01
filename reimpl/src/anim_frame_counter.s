@@ -10,8 +10,8 @@ anim_frame_counter:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.w   DAT_060059da, r13
-    mov.l   _pool_car_array_base, r4
-    mov.l   _pool_anim_countdown, r5
+    mov.l   .L_pool_060059EC, r4
+    mov.l   .L_pool_060059F0, r5
     mov.l @r5, r3
     cmp/pl r3
     bf/s    .L_06005A18
@@ -23,7 +23,7 @@ anim_frame_counter:
     mov.l @(r0, r4), r0
     tst r0, r0
     bt      .L_06005A18
-    mov.l   _pool_race_event_bits, r0
+    mov.l   .L_pool_060059F4, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_06005A18
@@ -31,7 +31,7 @@ anim_frame_counter:
     tst #0x2, r0
     bt      .L_060059BA
     mov.w   DAT_060059de, r0
-    mov.l   _pool_frame_index_max, r5
+    mov.l   .L_pool_060059F8, r5
     mov.l @(r0, r4), r14
     cmp/gt r5, r14
     bf      .L_06005966
@@ -41,7 +41,7 @@ anim_frame_counter:
     mov.l @(r0, r4), r2
     cmp/eq r2, r14
     bf      .L_0600598A
-    mov.l   _pool_dlist_entry_a, r2
+    mov.l   .L_pool_060059FC, r2
     mov r13, r6
     mov.l r2, @r15
     mov r2, r7
@@ -50,14 +50,14 @@ anim_frame_counter:
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   _pool_dlist_loader, r3
+    mov.l   .L_pool_06005A00, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_060059A2
     nop
 .L_0600598A:
     mov r13, r6
-    mov.l   _pool_dlist_entry_b, r2
+    mov.l   .L_pool_06005A04, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
@@ -65,7 +65,7 @@ anim_frame_counter:
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   _pool_dlist_loader, r3
+    mov.l   .L_pool_06005A00, r3
     jsr @r3
     mov #0x8, r4
 .L_060059A2:
@@ -78,24 +78,24 @@ anim_frame_counter:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   _pool_geom_dispatch_final, r3
+    mov.l   .L_pool_06005A08, r3
     jmp @r3
     mov.l @r15+, r14
 .L_060059BA:
     mov r13, r5
-    mov.l   _pool_geom_render_dispatch, r3
-    mov.l   _pool_static_data_b, r7
+    mov.l   .L_pool_06005A10, r3
+    mov.l   .L_pool_06005A0C, r7
     mov.w   DAT_060059e6, r6
     jsr @r3
     mov #0x8, r4
-    mov.l   _pool_static_data_a, r7
-    mov.w   _wpool_static_size, r6
+    mov.l   .L_pool_06005A14, r7
+    mov.w   .L_wpool_060059E8, r6
     mov.w   DAT_060059e4, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   _pool_geom_dispatch_final, r3
+    mov.l   .L_pool_06005A08, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -127,32 +127,32 @@ DAT_060059e4:
     .global DAT_060059e6
 DAT_060059e6:
     .2byte  0x5000                          /* render region size (static path) */
-_wpool_static_size:
+.L_wpool_060059E8:
     .2byte  0x0090                          /* static element size */
     .2byte  0xFFFF                          /* pool alignment padding */
 
 
-_pool_car_array_base:
+.L_pool_060059EC:
     .4byte  sym_0607E944                    /* &car_array_base_ptr */
-_pool_anim_countdown:
+.L_pool_060059F0:
     .4byte  sym_0607EAC0                    /* &anim_countdown_timer (32-bit) */
-_pool_race_event_bits:
+.L_pool_060059F4:
     .4byte  sym_0607EBF4                    /* &race_event_bitfield */
-_pool_frame_index_max:
+.L_pool_060059F8:
     .4byte  0x000927BF                      /* max frame index (599,999) */
-_pool_dlist_entry_a:
+.L_pool_060059FC:
     .4byte  sym_06063810                    /* display list entry A (frame==target) */
-_pool_dlist_loader:
+.L_pool_06005A00:
     .4byte  sym_06028400                    /* display_list_loader function */
-_pool_dlist_entry_b:
+.L_pool_06005A04:
     .4byte  sym_06063818                    /* display list entry B (frame!=target) */
-_pool_geom_dispatch_final:
+.L_pool_06005A08:
     .4byte  sym_060284AE                    /* geom_dispatch_final (tail call) */
-_pool_static_data_b:
+.L_pool_06005A0C:
     .4byte  sym_0605ACE5                    /* static rendering data B */
-_pool_geom_render_dispatch:
+.L_pool_06005A10:
     .4byte  sym_060283E0                    /* geom_render_dispatch function */
-_pool_static_data_a:
+.L_pool_06005A14:
     .4byte  sym_0605ACDD                    /* static rendering data A */
 
 

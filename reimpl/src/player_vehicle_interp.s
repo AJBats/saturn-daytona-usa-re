@@ -21,9 +21,9 @@ player_vehicle_interp:
     mov #0x0, r12
     mov.l   pool_game_state_ptr, r14
     mov.l r4, @r15
-    bra     .loop_cond_check
+    bra     .L_06042210
     mov r12, r13
-.loop_body:
+.L_06042158:
     mov.l @r14, r0
     exts.w r13, r3
     mov r3, r2
@@ -37,11 +37,11 @@ player_vehicle_interp:
     add r2, r0
     mov.l @(4, r0), r0
     cmp/eq #-0x2, r0
-    bf      .srcA_present
+    bf      .L_0604217A
     mov r12, r5
-    bra     .check_srcB
+    bra     .L_06042194
     mov r11, r6
-.srcA_present:
+.L_0604217A:
     mov r10, r5
     mov.l @r14, r6
     exts.w r13, r3
@@ -55,7 +55,7 @@ player_vehicle_interp:
     add r3, r6
     add r2, r6
     mov.l @(4, r6), r6
-.check_srcB:
+.L_06042194:
     mov.l @r14, r0
     exts.w r13, r3
     mov r3, r2
@@ -69,10 +69,10 @@ player_vehicle_interp:
     add r2, r0
     mov.l @(8, r0), r0
     cmp/eq #-0x2, r0
-    bf      .srcB_present
-    bra     .call_road_edge
+    bf      .L_060421B4
+    bra     .L_060421CE
     mov r11, r7
-.srcB_present:
+.L_060421B4:
     or r9, r5
     exts.w r13, r3
     mov.l @r14, r7
@@ -86,7 +86,7 @@ player_vehicle_interp:
     add r3, r7
     add r2, r7
     mov.l @(8, r7), r7
-.call_road_edge:
+.L_060421CE:
     exts.w r13, r3
     mov.l @r14, r4
     mov r3, r2
@@ -103,10 +103,10 @@ player_vehicle_interp:
     mov.l @r4, r4
     mov r0, r4
     tst r4, r4
-    bt      .edge_check_ok
-    bra     .loop_exit
+    bt      .L_060421F4
+    bra     .L_0604221A
     nop
-.edge_check_ok:
+.L_060421F4:
     mov r15, r4
     jsr @r8
     add #0x4, r4
@@ -121,21 +121,21 @@ player_vehicle_interp:
     add #0x1, r2
     mov.l r2, @r3
     add #0x1, r13
-.loop_cond_check:
+.L_06042210:
     mov.l @r14, r3
     mov.w   wpool_entry_count_off, r0
     mov.l @(r0, r3), r2
     cmp/ge r2, r13
-    bf      .loop_body
-.loop_exit:
+    bf      .L_06042158
+.L_0604221A:
     mov.l @r14, r2
     mov.w   wpool_entry_count_off, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r13
-    bf      .compact_remaining
+    bf      .L_06042240
     mov.l @r14, r2
     mov.w   wpool_entry_count_off, r0
-    bra     .post_compact
+    bra     .L_060422A6
     mov.l r12, @(r0, r2)
 
     .global DAT_0604222c
@@ -154,10 +154,10 @@ pool_game_state_ptr:
     .4byte  sym_060A5400
 pool_fn_road_edge:
     .4byte  track_road_edge_c
-.compact_remaining:
-    bra     .compact_cond_check
+.L_06042240:
+    bra     .L_06042296
     mov r12, r5
-.compact_body:
+.L_06042244:
     mov.l @r14, r7
     exts.w r5, r4
     exts.w r13, r6
@@ -199,16 +199,16 @@ pool_fn_road_edge:
     mov.l r2, @(8, r4)
     add #0x1, r13
     add #0x1, r5
-.compact_cond_check:
+.L_06042296:
     mov.l @r14, r3
     .byte   0x90, 0x38    /* mov.w .L_wpool_0604230C, r0 */
     mov.l @(r0, r3), r2
     cmp/ge r2, r13
-    bf      .compact_body
+    bf      .L_06042244
     mov.l @r14, r2
     .byte   0x90, 0x33    /* mov.w .L_wpool_0604230C, r0 */
     mov.l r5, @(r0, r2)
-.post_compact:
+.L_060422A6:
     mov #0x40, r3
     mov.l r3, @r15
     .byte   0xD3, 0x19    /* mov.l .L_pool_06042310, r3 */
@@ -219,23 +219,23 @@ pool_fn_road_edge:
     exts.w r5, r4
     and r3, r4
     tst r4, r4
-    bt      .hirq_bit_clear
-    bra     .hirq_bit_test
+    bt      .L_060422C0
+    bra     .L_060422C2
     mov #0x1, r4
-.hirq_bit_clear:
+.L_060422C0:
     mov #0x0, r4
-.hirq_bit_test:
+.L_060422C2:
     tst r4, r4
-    bt      .return_count
+    bt      .L_060422D6
     mov.l @r14, r3
     .byte   0x90, 0x20    /* mov.w .L_wpool_0604230C, r0 */
     mov.l @(r0, r3), r0
     tst r0, r0
-    bf      .return_count
+    bf      .L_060422D6
     mov.l @r14, r3
     .byte   0x90, 0x1C    /* mov.w .L_wpool_0604230E, r0 */
     mov.l r12, @(r0, r3)
-.return_count:
+.L_060422D6:
     mov.l @r14, r0
     .byte   0x91, 0x18    /* mov.w .L_wpool_0604230C, r1 */
     mov.l @(r0, r1), r0

@@ -16,14 +16,14 @@
 mode_select_handler:
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   _pool_flag_byte, r10
-    mov.l   _pool_counter_byte, r12
-    mov.l   _pool_mode_select_idx, r14
-    mov.l   _pool_fn_scene_finalize, r3
+    mov.l   .L_pool_06019768, r10
+    mov.l   .L_pool_0601976C, r12
+    mov.l   .L_pool_06019770, r14
+    mov.l   .L_pool_06019774, r3
     jsr @r3
     mov #0x1, r13
-    mov.l   _pool_button_state, r4
-    mov.w   _wpool_confirm_mask, r3
+    mov.l   .L_pool_06019778, r4
+    mov.w   .L_wpool_06019762, r3
     mov.w @(2, r4), r0
     mov r0, r2
     extu.w r2, r2
@@ -33,8 +33,8 @@ mode_select_handler:
     mov.b @r14, r7
     shll r7
     mov.l r7, @(8, r15)
-    mov.l   _pool_06049AF4, r3
-    mov.l   _pool_06063750, r2
+    mov.l   .L_pool_0601977C, r3
+    mov.l   .L_pool_06019780, r2
     add r3, r7
     mov.w @r7, r7
     extu.w r7, r7
@@ -43,10 +43,10 @@ mode_select_handler:
     add r2, r7
     mov.l r7, @(4, r15)
     mov.l @(4, r7), r7
-    mov.w   _wpool_0x2000, r3
+    mov.w   .L_wpool_06019764, r3
     mov.l @(8, r15), r6
     add r3, r7
-    mov.l   _pool_06049AEC, r3
+    mov.l   .L_pool_06019784, r3
     add r3, r6
     mov.l r6, @r15
     mov.b @(1, r6), r0
@@ -62,7 +62,7 @@ mode_select_handler:
     shll r6
     mov.l @(4, r15), r5
     mov.l @r5, r5
-    mov.l   _pool_fn_06028400, r3
+    mov.l   .L_pool_06019788, r3
     jsr @r3
     mov #0xC, r4
     mov.b @r14, r2
@@ -71,21 +71,21 @@ mode_select_handler:
     exts.b r11, r2
     mov.b r2, @r14
 .L_06019720:
-    mov.l   _pool_06059F44, r3
+    mov.l   .L_pool_0601978C, r3
     mov.l r11, @r3
     extu.b r11, r2
     mov.b r2, @r12
     mov #0x4, r3
-    mov.l   _pool_game_state, r2
+    mov.l   .L_pool_06019790, r2
     mov.l r3, @r2
     exts.b r13, r3
     mov.b r3, @r10
-    mov.l   _pool_06085FF5, r3
+    mov.l   .L_pool_06019794, r3
     bra     .L_060197E4
     mov.b r13, @r3
 .L_06019738:
     mov.w @(2, r4), r0
-    mov.w   _wpool_0x2000, r3
+    mov.w   .L_wpool_06019764, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -107,35 +107,35 @@ mode_select_handler:
     mov.b r2, @r14
 
     .global DAT_06019762
-_wpool_confirm_mask:
+.L_wpool_06019762:
 DAT_06019762:
     .2byte  0x0100
-_wpool_0x2000:
+.L_wpool_06019764:
     .2byte  0x2000
     .2byte  0xFFFF
-_pool_flag_byte:
+.L_pool_06019768:
     .4byte  sym_06085FF1
-_pool_counter_byte:
+.L_pool_0601976C:
     .4byte  sym_0605D242
-_pool_mode_select_idx:
+.L_pool_06019770:
     .4byte  sym_0605D244
-_pool_fn_scene_finalize:
+.L_pool_06019774:
     .4byte  scene_dual_finalize
-_pool_button_state:
+.L_pool_06019778:
     .4byte  g_pad_state
-_pool_06049AF4:
+.L_pool_0601977C:
     .4byte  sym_06049AF4
-_pool_06063750:
+.L_pool_06019780:
     .4byte  sym_06063750
-_pool_06049AEC:
+.L_pool_06019784:
     .4byte  sym_06049AEC
-_pool_fn_06028400:
+.L_pool_06019788:
     .4byte  sym_06028400
-_pool_06059F44:
+.L_pool_0601978C:
     .4byte  sym_06059F44
-_pool_game_state:
+.L_pool_06019790:
     .4byte  g_game_state
-_pool_06085FF5:
+.L_pool_06019794:
     .4byte  sym_06085FF5
 .L_06019798:
     mov.w @(2, r4), r0

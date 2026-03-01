@@ -7,13 +7,13 @@
 screen_fade_ctrl:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD0, 0x19    /* mov.l _pool_vram_ptr_table, r0 */
+    .byte   0xD0, 0x19    /* mov.l .L_pool_060284A4, r0 */
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r5
     .byte   0xBF, 0x5E    /* bsr 0x06028306 (external) */
     mov r7, r4
-    .byte   0xD1, 0x17    /* mov.l _pool_template_base, r1 */
+    .byte   0xD1, 0x17    /* mov.l .L_pool_060284A8, r1 */
     add r1, r6
     mov.l @r6+, r1
     mov.w @r6+, r2
@@ -61,9 +61,9 @@ screen_fade_ctrl:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-_pool_vram_ptr_table:
+.L_pool_060284A4:
     .4byte  sym_06028614
-_pool_template_base:
+.L_pool_060284A8:
     .4byte  sym_06063690
     .2byte  0x0009
 

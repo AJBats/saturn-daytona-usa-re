@@ -7,17 +7,17 @@
 major_state_update:
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   _pool_game_state_ptr, r14
+    mov.l   .L_pool_06041DF4, r14
     mov.l r4, @r15
     mov #0x1, r4
     mov.l @r14, r3
-    mov.w   _wpool_phase_offset_a, r0
+    mov.w   .L_wpool_06041DEC, r0
     mov.l @(r0, r3), r2
     cmp/eq r4, r2
     bf/s    .L_06041E0C
     mov r4, r12
     mov.l @r14, r2
-    mov.w   _wpool_pending_work, r0
+    mov.w   .L_wpool_06041DEE, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_06041DDE
@@ -29,7 +29,7 @@ major_state_update:
     bf      .L_06041DDE
     mov.l @r14, r5
     mov.w   DAT_06041df2, r0
-    mov.l   _pool_fn_surface_type, r3
+    mov.l   .L_pool_06041DFC, r3
     mov.l @(r0, r5), r5
     jsr @r3
     mov #0x0, r4
@@ -40,7 +40,7 @@ major_state_update:
     mov #0x1, r0
 .L_06041DB6:
     mov r15, r4
-    mov.l   _pool_fn_chkpt_validate_a, r3
+    mov.l   .L_pool_06041E00, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -55,7 +55,7 @@ major_state_update:
     mov.l r2, @r3
     mov.l @r14, r3
     mov #0x4, r2
-    mov.w   _wpool_phase_offset_a, r0
+    mov.w   .L_wpool_06041DEC, r0
     mov.l r2, @(r0, r3)
     bra     .L_06041E0C
     nop
@@ -67,9 +67,9 @@ major_state_update:
     bf      .L_06041E04
     bra     .L_06041E0C
     mov r13, r12
-_wpool_phase_offset_a:
+.L_wpool_06041DEC:
     .2byte  0x0338
-_wpool_pending_work:
+.L_wpool_06041DEE:
     .2byte  0x0340
 
     .global DAT_06041df0
@@ -79,22 +79,22 @@ DAT_06041df0:
     .global DAT_06041df2
 DAT_06041df2:
     .2byte  0x033C
-_pool_game_state_ptr:
+.L_pool_06041DF4:
     .4byte  sym_060A5400
 .L_06041DF8:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-_pool_fn_surface_type:
+.L_pool_06041DFC:
     .4byte  track_surface_type_a
-_pool_fn_chkpt_validate_a:
+.L_pool_06041E00:
     .4byte  ai_checkpoint_validate
 .L_06041E04:
     mov.l @r14, r2
     mov #0x2, r3
-    mov.w   _wpool_phase_offset_b, r0
+    mov.w   .L_wpool_06041EB4, r0
     mov.l r3, @(r0, r2)
 .L_06041E0C:
     mov.l @r14, r0
-    mov.w   _wpool_phase_offset_b, r1
+    mov.w   .L_wpool_06041EB4, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
     bf      .L_06041E56
@@ -102,7 +102,7 @@ _pool_fn_chkpt_validate_a:
     mov.w   DAT_06041eb6, r0
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   _pool_fn_impact_response, r3
+    mov.l   .L_pool_06041EBC, r3
     mov.l @(r0, r6), r6
     add #-0x4, r0
     mov.l @(r0, r5), r5
@@ -118,10 +118,10 @@ _pool_fn_chkpt_validate_a:
     mov.l r3, @r2
     mov.l @r14, r3
     mov #0x3, r2
-    mov.w   _wpool_phase_offset_b, r0
+    mov.w   .L_wpool_06041EB4, r0
     mov r15, r4
     mov.l r2, @(r0, r3)
-    mov.l   _pool_fn_chkpt_validate_b, r3
+    mov.l   .L_pool_06041EC0, r3
     jsr @r3
     add #0x4, r4
     mov.l @r14, r2
@@ -132,12 +132,12 @@ _pool_fn_chkpt_validate_a:
     mov.b r1, @(r0, r2)
 .L_06041E56:
     mov.l @r14, r0
-    mov.w   _wpool_phase_offset_b, r1
+    mov.w   .L_wpool_06041EB4, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x3, r0
     bf      .L_06041E80
-    mov.w   _wpool_hirq_bit7_mask, r2
-    mov.l   _pool_fn_hirq_reader, r3
+    mov.w   .L_wpool_06041EB8, r2
+    mov.l   .L_pool_06041EC4, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r5
@@ -156,12 +156,12 @@ _pool_fn_chkpt_validate_a:
     mov r13, r12
 .L_06041E80:
     mov.l @r14, r0
-    mov.w   _wpool_phase_offset_b, r1
+    mov.w   .L_wpool_06041EB4, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x4, r0
     bf      .L_06041EAA
     mov #0x40, r2
-    mov.l   _pool_fn_hirq_reader, r3
+    mov.l   .L_pool_06041EC4, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -184,20 +184,20 @@ _pool_fn_chkpt_validate_a:
     bf      .L_06041EC8
     bra     .L_06041EDC
     mov #0x1, r0
-_wpool_phase_offset_b:
+.L_wpool_06041EB4:
     .2byte  0x0338
 
     .global DAT_06041eb6
 DAT_06041eb6:
     .2byte  0x0344
-_wpool_hirq_bit7_mask:
+.L_wpool_06041EB8:
     .2byte  0x0080
     .2byte  0xFFFF
-_pool_fn_impact_response:
+.L_pool_06041EBC:
     .4byte  track_impact_response
-_pool_fn_chkpt_validate_b:
+.L_pool_06041EC0:
     .4byte  ai_checkpoint_validate
-_pool_fn_hirq_reader:
+.L_pool_06041EC4:
     .4byte  sym_06035C4E
 .L_06041EC8:
     .byte   0xD4, 0x33    /* mov.l .L_pool_06041F98, r4 */

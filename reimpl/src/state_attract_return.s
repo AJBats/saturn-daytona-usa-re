@@ -8,20 +8,20 @@ state_attract_return:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   _pool_fn_race_state_pair_2, r3
+    mov.l   .L_pool_06009EDC, r3
     jsr @r3
     nop
-    mov.l   _pool_fn_display_layer_fill, r14
+    mov.l   .L_pool_06009EE0, r14
     jsr @r14
     mov #0x4, r4
     jsr @r14
     mov #0x8, r4
     jsr @r14
     mov #0xC, r4
-    mov.l   _pool_fn_render_state_commit, r3
+    mov.l   .L_pool_06009EE4, r3
     jsr @r3
     nop
-    mov.l   _pool_fn_display_channel_b, r14
+    mov.l   .L_pool_06009EE8, r14
     mov #0x0, r6
     mov r6, r5
     jsr @r14
@@ -34,63 +34,63 @@ state_attract_return:
     mov r6, r5
     jsr @r14
     mov #0x20, r4
-    mov.l   _pool_fn_gameover_channel_setup, r3
+    mov.l   .L_pool_06009EEC, r3
     jsr @r3
     nop
-    mov.w   _wpool_countdown_1000, r2
-    mov.l   _pool_countdown_ptr, r3
+    mov.w   .L_wpool_06009EDA, r2
+    mov.l   .L_pool_06009EF0, r3
     mov.l r2, @r3
     mov #0x17, r2
-    mov.l   _pool_game_state_ptr, r3
+    mov.l   .L_pool_06009EF4, r3
     mov.l r2, @r3
     mov #0x0, r2
-    mov.l   _pool_display_timer_ptr, r3
+    mov.l   .L_pool_06009EF8, r3
     mov.w r2, @r3
-    mov.l   _pool_fn_race_init_master, r3
+    mov.l   .L_pool_06009EFC, r3
     jsr @r3
     nop
-    mov.l   _pool_fn_hud_subsystem_init, r3
+    mov.l   .L_pool_06009F00, r3
     jsr @r3
     nop
     mov #0x4, r2
-    mov.l   _pool_display_mode_ptr, r3
+    mov.l   .L_pool_06009F04, r3
     mov.w r2, @r3
     mov #0x0, r6
-    mov.l   _pool_course_index_ptr, r5
+    mov.l   .L_pool_06009F08, r5
     mov.b @r5, r5
     add #0xE, r5
     mov.l r5, @r15
     mov r5, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   _pool_fn_handler_dispatch, r3
+    mov.l   .L_pool_06009F0C, r3
     jmp @r3
     mov.l @r15+, r14
-_wpool_countdown_1000:
+.L_wpool_06009EDA:
     .2byte  0x03E8                          /* 1000 — attract countdown frames */
-_pool_fn_race_state_pair_2:
+.L_pool_06009EDC:
     .4byte  race_state_pair_2               /* race state pair reset */
-_pool_fn_display_layer_fill:
+.L_pool_06009EE0:
     .4byte  sym_0602853E                    /* display layer fill (VRAM block copy) */
-_pool_fn_render_state_commit:
+.L_pool_06009EE4:
     .4byte  sym_06028560                    /* render state commit (clear/flush) */
-_pool_fn_display_channel_b:
+.L_pool_06009EE8:
     .4byte  display_channel_b               /* display channel B enable */
-_pool_fn_gameover_channel_setup:
+.L_pool_06009EEC:
     .4byte  gameover_channel_setup          /* game-over display channel setup */
-_pool_countdown_ptr:
+.L_pool_06009EF0:
     .4byte  sym_0607EBCC                    /* &state_countdown (32-bit, WRAM High) */
-_pool_game_state_ptr:
+.L_pool_06009EF4:
     .4byte  g_game_state                    /* &game_state (32-bit dispatch value) */
-_pool_display_timer_ptr:
+.L_pool_06009EF8:
     .4byte  sym_06087804                    /* &display_timer (16-bit) */
-_pool_fn_race_init_master:
+.L_pool_06009EFC:
     .4byte  race_init_master                /* race subsystem reinit */
-_pool_fn_hud_subsystem_init:
+.L_pool_06009F00:
     .4byte  hud_subsystem_init              /* HUD subsystem reinit */
-_pool_display_mode_ptr:
+.L_pool_06009F04:
     .4byte  sym_0605A016                    /* &display_mode (16-bit) */
-_pool_course_index_ptr:
+.L_pool_06009F08:
     .4byte  sym_06078648                    /* &course_index (byte, 0-2) */
-_pool_fn_handler_dispatch:
+.L_pool_06009F0C:
     .4byte  handler_dispatch                /* course-specific handler dispatch */

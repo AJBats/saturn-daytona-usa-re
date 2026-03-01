@@ -30,29 +30,29 @@ fpdiv_setup:
     .global memmove_byte
 memmove_byte:
     cmp/eq r4, r5
-    bt      .mb_done
+    bt      .L_06027592
     mov #0x0, r7
     cmp/eq r7, r6
-    bt      .mb_done
+    bt      .L_06027592
     cmp/hi r4, r5
-    bt      .mb_fwd
+    bt      .L_06027596
     add r6, r5
     add r6, r4
     add #-0x1, r5
-.mb_bwd:
+.L_06027588:
     mov.b @r5, r7
     dt r6
     mov.b r7, @-r4
-    bf/s    .mb_bwd
+    bf/s    .L_06027588
     add #-0x1, r5
-.mb_done:
+.L_06027592:
     rts
     nop
-.mb_fwd:
+.L_06027596:
     mov.b @r5+, r7
     dt r6
     mov.b r7, @r4
-    bf/s    .mb_fwd
+    bf/s    .L_06027596
     add #0x1, r4
     rts
     nop
@@ -60,31 +60,31 @@ memmove_byte:
     .global memmove_word
 memmove_word:
     cmp/eq r4, r5
-    bt      .mw_done
+    bt      .L_060275C6
     mov #0x0, r7
     cmp/eq r7, r6
-    bt      .mw_done
+    bt      .L_060275C6
     mov r6, r7
     cmp/hi r4, r5
-    bt/s    .mw_fwd
+    bt/s    .L_060275CA
     shlr r6
     add r7, r5
     add r7, r4
     add #-0x4, r5
-.mw_bwd:
+.L_060275BC:
     mov.w @r5, r7
     dt r6
     mov.w r7, @-r4
-    bf/s    .mw_bwd
+    bf/s    .L_060275BC
     add #-0x2, r5
-.mw_done:
+.L_060275C6:
     rts
     nop
-.mw_fwd:
+.L_060275CA:
     mov.w @r5+, r7
     dt r6
     mov.w r7, @r4
-    bf/s    .mw_fwd
+    bf/s    .L_060275CA
     add #0x2, r4
     rts
     nop
@@ -92,31 +92,31 @@ memmove_word:
     .global memmove_long
 memmove_long:
     cmp/eq r4, r5
-    bt      .ml_done
+    bt      .L_060275FA
     mov #0x0, r7
     cmp/eq r7, r6
-    bt      .ml_done
+    bt      .L_060275FA
     mov r6, r7
     cmp/hi r4, r5
-    bt/s    .ml_fwd
+    bt/s    .L_060275FE
     shlr2 r6
     add r7, r5
     add r7, r4
     add #-0x4, r5
-.ml_bwd:
+.L_060275F0:
     mov.l @r5, r7
     dt r6
     mov.l r7, @-r4
-    bf/s    .ml_bwd
+    bf/s    .L_060275F0
     add #-0x4, r5
-.ml_done:
+.L_060275FA:
     rts
     nop
-.ml_fwd:
+.L_060275FE:
     mov.l @r5+, r7
     dt r6
     mov.l r7, @r4
-    bf/s    .ml_fwd
+    bf/s    .L_060275FE
     add #0x4, r4
     rts
     nop
@@ -125,11 +125,11 @@ memmove_long:
 memcpy_byte_idx:
     mov #0x0, r0
     add #-0x1, r6
-.mbi_loop:
+.L_06027610:
     mov.b @(r0, r5), r1
     cmp/gt r0, r6
     mov.b r1, @(r0, r4)
-    bt/s    .mbi_loop
+    bt/s    .L_06027610
     add #0x1, r0
     rts
     add #0x1, r6
@@ -138,11 +138,11 @@ memcpy_byte_idx:
 memcpy_word_idx:
     mov #0x0, r0
     add #-0x2, r6
-.mwi_loop:
+.L_06027622:
     mov.w @(r0, r5), r1
     cmp/gt r0, r6
     mov.w r1, @(r0, r4)
-    bt/s    .mwi_loop
+    bt/s    .L_06027622
     add #0x2, r0
     rts
     add #0x2, r6
@@ -151,11 +151,11 @@ memcpy_word_idx:
 memcpy_long_idx:
     mov #0x0, r0
     add #-0x4, r6
-.mli_loop:
+.L_06027634:
     mov.l @(r0, r5), r1
     cmp/gt r0, r6
     mov.l r1, @(r0, r4)
-    bt/s    .mli_loop
+    bt/s    .L_06027634
     add #0x4, r0
     rts
     add #0x4, r6

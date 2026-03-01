@@ -9,12 +9,12 @@ vdp1_init:
     sts.l pr, @-r15
     mov #0x0, r14
 
-    mov.l   _pool_vdp1_end_cmd, r3
-    mov.l   _pool_vdp1_vram_base, r2
+    mov.l   .L_pool_0600A19C, r3
+    mov.l   .L_pool_0600A1A0, r2
     mov.l r3, @r2
 
-    mov.l   _pool_vdp1_fb_base, r5
-    mov.l   _pool_fb_clear_count, r4
+    mov.l   .L_pool_0600A1A4, r5
+    mov.l   .L_pool_0600A1A8, r4
 .L_0600A150:
     mov r5, r3
     add #-0x2, r4
@@ -26,16 +26,16 @@ vdp1_init:
     bf/s    .L_0600A150
     mov.l r14, @r2
 
-    mov.l   _pool_fb_swap_flag, r3
+    mov.l   .L_pool_0600A1AC, r3
     mov.l r14, @r3
-    mov.l   _pool_display_update_fn, r3
+    mov.l   .L_pool_0600A1B0, r3
     jsr @r3
     nop
-    mov.l   _pool_vblank_phase, r3
+    mov.l   .L_pool_0600A1B4, r3
     mov.l r14, @r3
 
-    mov.l   _pool_vdp1_fb_base, r5
-    mov.l   _pool_fb_clear_count, r4
+    mov.l   .L_pool_0600A1A4, r5
+    mov.l   .L_pool_0600A1A8, r4
 .L_0600A174:
     mov r5, r2
     add #-0x2, r4
@@ -47,12 +47,12 @@ vdp1_init:
     bf/s    .L_0600A174
     mov.l r14, @r3
 
-    mov.l   _pool_fb_swap_flag, r3
+    mov.l   .L_pool_0600A1AC, r3
     mov.l r14, @r3
-    mov.l   _pool_display_update_fn, r3
+    mov.l   .L_pool_0600A1B0, r3
     jsr @r3
     nop
-    mov.l   _pool_vblank_phase, r3
+    mov.l   .L_pool_0600A1B4, r3
     mov.l r14, @r3
 
     lds.l @r15+, pr
@@ -60,19 +60,19 @@ vdp1_init:
     mov.l @r15+, r14
     .2byte  0xFFFF
 
-_pool_vdp1_end_cmd:
+.L_pool_0600A19C:
     .4byte  0x80000000
-_pool_vdp1_vram_base:
+.L_pool_0600A1A0:
     .4byte  0x25C00000
-_pool_vdp1_fb_base:
+.L_pool_0600A1A4:
     .4byte  0x25C80000
-_pool_fb_clear_count:
+.L_pool_0600A1A8:
     .4byte  0x00010000
-_pool_fb_swap_flag:
+.L_pool_0600A1AC:
     .4byte  sym_0605A00C
-_pool_display_update_fn:
+.L_pool_0600A1B0:
     .4byte  sym_06026CE0
-_pool_vblank_phase:
+.L_pool_0600A1B4:
     .4byte  sym_06059F44
     .4byte  0xD01B6000
     .4byte  0x600C2008
@@ -94,9 +94,9 @@ _pool_vblank_phase:
     .global sym_0600A1F6
 sym_0600A1F6:
     mov #0x3, r7
-    mov.l   _pool_line_count_ptr, r5
-    mov.l   _pool_fb_res_mode_a, r4
-    mov.l   _pool_player_mode_a, r0
+    mov.l   .L_pool_0600A244, r5
+    mov.l   .L_pool_0600A248, r4
+    mov.l   .L_pool_0600A24C, r0
     mov.l @r0, r0
     tst r0, r0
     bf/s    .L_0600A250
@@ -111,7 +111,7 @@ sym_0600A1F6:
     mov.w r7, @r4
 .L_0600A214:
     mov.l @r5, r2
-    mov.w   _wpool_single_lo_thresh, r3
+    mov.w   .L_wpool_0600A226, r3
     cmp/eq r3, r2
     bf      .L_0600A220
     exts.w r6, r6
@@ -123,7 +123,7 @@ sym_0600A1F6:
     .global DAT_0600a224
 DAT_0600a224:
     .2byte  0x00C4
-_wpool_single_lo_thresh:
+.L_wpool_0600A226:
     .2byte  0x00A8
     .4byte  sym_06078635
     .4byte  sym_0607ED8C
@@ -132,14 +132,14 @@ _wpool_single_lo_thresh:
     .4byte  sym_06063F44
     .4byte  sym_06078868
     .4byte  sym_0607EAB8
-_pool_line_count_ptr:
+.L_pool_0600A244:
     .4byte  sym_0607EBCC
-_pool_fb_res_mode_a:
+.L_pool_0600A248:
     .4byte  sym_0605A016
-_pool_player_mode_a:
+.L_pool_0600A24C:
     .4byte  sym_0607EAD8
 .L_0600A250:
-    mov.l   _pool_player_mode_b, r0
+    mov.l   .L_pool_0600A2E8, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
     bf      .L_0600A276
@@ -153,7 +153,7 @@ _pool_player_mode_a:
     mov.w r7, @r4
 .L_0600A266:
     mov.l @r5, r2
-    mov.w   _wpool_mode1_lo_thresh, r3
+    mov.w   .L_wpool_0600A2DA, r3
     cmp/eq r3, r2
     bf      .L_0600A272
     exts.w r6, r6
@@ -172,7 +172,7 @@ _pool_player_mode_a:
     mov.w r7, @r4
 .L_0600A284:
     mov.l @r5, r2
-    mov.w   _wpool_default_lo_thresh, r3
+    mov.w   .L_wpool_0600A2DE, r3
     cmp/eq r3, r2
     bf      .L_0600A290
     exts.w r6, r6
@@ -201,17 +201,17 @@ _pool_player_mode_a:
     .global DAT_0600a2d8
 DAT_0600a2d8:
     .2byte  0x0287
-_wpool_mode1_lo_thresh:
+.L_wpool_0600A2DA:
     .2byte  0x0271
 
     .global DAT_0600a2dc
 DAT_0600a2dc:
     .2byte  0x01AE
-_wpool_default_lo_thresh:
+.L_wpool_0600A2DE:
     .2byte  0x0190
     .4byte  0x03710352
     .4byte  0x03ABFFFF
-_pool_player_mode_b:
+.L_pool_0600A2E8:
     .4byte  sym_0607EAD8
     .4byte  sym_0607EBCC
     .4byte  sym_0605A016
@@ -236,8 +236,8 @@ _pool_player_mode_b:
 
     .global sym_0600A33C
 sym_0600A33C:
-    mov.l   _pool_fb_res_mode_b, r5
-    mov.l   _pool_game_mode, r4
+    mov.l   .L_pool_0600A374, r5
+    mov.l   .L_pool_0600A378, r4
     mov.l @r4, r0
     tst r0, r0
     bf      .L_0600A34E
@@ -278,9 +278,9 @@ DAT_0600a370:
     .global DAT_0600a372
 DAT_0600a372:
     .2byte  0x01B4
-_pool_fb_res_mode_b:
+.L_pool_0600A374:
     .4byte  sym_0605A016
-_pool_game_mode:
+.L_pool_0600A378:
     .4byte  sym_06063E1C
 .L_0600A37C:
     mov.l @r4, r0
