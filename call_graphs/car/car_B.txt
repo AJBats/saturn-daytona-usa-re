@@ -15,7 +15,7 @@ framebuf_swap_ctrl
         |   |-- data_table_copy
         |   |   `-- menu_anim_system
         |   `-- game_logic_main
-        `-- button_input_read
+        `-- FUN_06006F3C
             |-- scene_data_dispatch
             |-- dma_transfer
             `-- sym_06033354
@@ -196,10 +196,10 @@ EDGES (79):
   master_menu_render -> data_table_copy  (x2)
   data_table_copy -> menu_anim_system  (x2)
   master_menu_render -> game_logic_main  (x2)
-  sym_06000358 -> button_input_read
-  button_input_read -> scene_data_dispatch
+  sym_06000358 -> FUN_06006F3C
+  FUN_06006F3C -> scene_data_dispatch
   display_mode_config -> hud_display_ext
-  button_input_read -> dma_transfer  (x2)
-  button_input_read -> sym_06033354
+  FUN_06006F3C -> dma_transfer  (x2)
+  FUN_06006F3C -> sym_06033354
   disp_result_sub_a -> memcpy_word_idx  (x6)
   results_sub_elem -> memcpy_word_idx

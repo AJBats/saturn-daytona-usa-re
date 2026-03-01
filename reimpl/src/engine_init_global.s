@@ -186,7 +186,7 @@ engine_init_global:
 .L_06004BE0:
     .4byte  sym_06000300
 .L_06004BE4:
-    .4byte  button_input_read
+    .4byte  FUN_06006F3C
 .L_06004BE8:
     .4byte  vblank_out_handler
 .L_06004BEC:

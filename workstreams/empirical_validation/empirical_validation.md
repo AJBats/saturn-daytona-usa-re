@@ -132,8 +132,8 @@ look: does the name match what the function *actually does* per the evidence?
 |---|----------|------|---------|-------|
 | 1 | ~~viewport_coord_calc~~ | controller_input_update.s | RENAMED | -> controller_input_update (+ 3 related renames) |
 | 2 | mode_select_handler | mode_select_handler.s | GOOD | Name correct; fixed comments (0x0100=B back, not confirm). Renamed sym_0605AD10 -> g_game_state. |
-| 3 | track_seg_phys_init | track_seg_phys_init.s | -- | |
-| 4 | button_input_read | button_input_read.s | -- | |
+| 3 | ~~track_seg_phys_init~~ | FUN_06019928.s | RENAMED | → FUN_06019928. Called every frame during menu idle (polls flag). Name implied track physics — inconsistent with menu polling behavior. |
+| 4 | ~~button_input_read~~ | FUN_06006F3C.s | RENAMED | → FUN_06006F3C. Zero connection to button input. Reads flag word (sym_0605B6D8) set by frame_end_commit, dispatches DMA/display work, clears flags. Deferred work dispatcher. |
 | 5 | car_select_input | car_select_input.s | -- | |
 | 6 | state_car_select_active | state_car_select_active.s | -- | |
 | 7 | race_countdown_timer | race_countdown_timer.s | -- | |
@@ -156,7 +156,7 @@ look: does the name match what the function *actually does* per the evidence?
 | 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → cd_block_read_safe. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
 | 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → cd_block_read_atomic. Inner interrupt-masked double-read helper. |
 
-**Progress: 6/25** (5 renamed, 1 confirmed good, 19 pending)
+**Progress: 8/25** (7 renamed, 1 confirmed good, 17 pending)
 
 ### Working Theories (unverified, tracking as we go)
 
@@ -234,7 +234,7 @@ differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now u
 |---------|--------|----------|
 | mode_select_handler handles DOWN + UP | watchpoint on sym_0605D244 | DOWN: PC=0x0601975A writes index; UP: PC=0x060197B8 writes index |
 | ~~car_select_setup sets init flag on C~~ | ~~watchpoint on sym_06085FF1~~ | STRUCK — PC trace shows 0 hits in 441K instructions. Watchpoint evidence was at wrong address or misattributed. |
-| track_seg_phys_init clears init flag | watchpoint on sym_06085FF1 | PC=0x06019A16 writes 1→0 after loading display lists |
+| FUN_06019928 clears flag byte | watchpoint on sym_06085FF1 | PC=0x06019A16 writes 1→0 after one-shot work |
 | sym_06028400 called 13x more during DOWN | call-trace | Only function with increased calls during DOWN press |
 
 #### Circuit Select (call-trace evidence)

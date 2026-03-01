@@ -12,7 +12,7 @@ COMMON CORE (12 edges — present in all 18 scenarios)
   master_menu_render -> master_menu_render
   master_menu_render -> sym_0603AB46
   smpc_data_manage -> DAT_0603a2ca
-  sym_06000358 -> button_input_read
+  sym_06000358 -> FUN_06006F3C
   sym_06000358 -> master_menu_render
   sym_06000358 -> vblank_out_handler
   vblank_out_handler -> controller_input_update
@@ -105,9 +105,9 @@ BUTTON DELTAS (edges in button press but not idle)
 
   attract_START:
     + new (8):
-      button_input_read -> dma_transfer
-      button_input_read -> scene_data_dispatch
-      button_input_read -> sym_06033354
+      FUN_06006F3C -> dma_transfer
+      FUN_06006F3C -> scene_data_dispatch
+      FUN_06006F3C -> sym_06033354
       disp_result_sub_a -> memcpy_word_idx
       display_mode_config -> hud_display_ext
       results_sub_elem -> memcpy_word_idx

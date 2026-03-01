@@ -18,7 +18,7 @@ framebuf_swap_ctrl
         |   |-- data_table_copy
         |   |   `-- menu_anim_system
         |   `-- game_logic_main
-        `-- button_input_read
+        `-- FUN_06006F3C
 
 DAT_06031a64
     `-- loc_06031CC4
@@ -112,7 +112,7 @@ EDGES (46):
   master_menu_render -> data_table_copy  (x2)
   data_table_copy -> menu_anim_system  (x2)
   master_menu_render -> game_logic_main  (x2)
-  sym_06000358 -> button_input_read
+  sym_06000358 -> FUN_06006F3C
   vdp1_sprite_builder -> post_sprite_cleanup
   frame_end_commit -> sym_060394C2
   DAT_060079ce -> sym_06026CE0

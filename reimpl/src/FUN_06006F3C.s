@@ -1,15 +1,9 @@
-/* VERIFIED: called during mode select C press transition (part of every-frame dispatch)
- * Method: call-trace differential — 10 frames idle vs 10 frames with C on mode select
- *   12 calls during C (baseline 10, +2) — called every frame, extra frames from transition
- * Date: 2026-02-28
- */
-
     .section .text.FUN_06006F3C
 
 
-    .global button_input_read
-    .type button_input_read, @function
-button_input_read:
+    .global FUN_06006F3C
+    .type FUN_06006F3C, @function
+FUN_06006F3C:
     mov.l r14, @-r15
     mov #0x1, r2
     mov.l r13, @-r15

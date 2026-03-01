@@ -159,7 +159,7 @@ engine_init_global:
     .byte 0x0F, 0xFE
     .4byte tilemap_dma_update
     .4byte sym_06000300
-    .4byte button_input_read
+    .4byte FUN_06006F3C
     .4byte vblank_out_handler
     .4byte sym_06063DA8
     .4byte scene_state_process
