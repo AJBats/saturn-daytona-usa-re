@@ -20,6 +20,9 @@ external_resources/
 sotn-reference/
 ghidra_project/
 
+# Archived tools (one-shot investigation scripts, kept locally)
+tools/archive/
+
 # Toolchains (built locally via setup scripts)
 tools/sh-elf/
 tools/gcc26-build/
