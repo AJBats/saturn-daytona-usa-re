@@ -134,7 +134,7 @@ look: does the name match what the function *actually does* per the evidence?
 | 2 | mode_select_handler | mode_select_handler.s | GOOD | Name correct; fixed comments (0x0100=B back, not confirm). Renamed sym_0605AD10 -> g_game_state. |
 | 3 | ~~track_seg_phys_init~~ | FUN_06019928.s | RENAMED | → FUN_06019928. Called every frame during menu idle (polls flag). Name implied track physics — inconsistent with menu polling behavior. |
 | 4 | ~~button_input_read~~ | FUN_06006F3C.s | RENAMED | → FUN_06006F3C. Zero connection to button input. Reads flag word (sym_0605B6D8) set by frame_end_commit, dispatches DMA/display work, clears flags. Deferred work dispatcher. |
-| 5 | car_select_input | car_select_input.s | -- | |
+| 5 | ~~car_select_input~~ | FUN_06019A48.s | RENAMED | → FUN_06019A48. Could not observe input processing at any game state. Breakpoint didn't fire at car select. VERIFIED claim not reproducible. |
 | 6 | state_car_select_active | state_car_select_active.s | -- | |
 | 7 | race_countdown_timer | race_countdown_timer.s | -- | |
 | 8 | transition_medium_a | transition_medium_a.s | -- | |
@@ -156,7 +156,7 @@ look: does the name match what the function *actually does* per the evidence?
 | 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → cd_block_read_safe. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
 | 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → cd_block_read_atomic. Inner interrupt-masked double-read helper. |
 
-**Progress: 8/25** (7 renamed, 1 confirmed good, 17 pending)
+**Progress: 9/25** (8 renamed, 1 confirmed good, 16 pending)
 
 ### Working Theories (unverified, tracking as we go)
 
@@ -173,7 +173,7 @@ look: does the name match what the function *actually does* per the evidence?
 - [ ] Mode Select C (confirm) → originally attributed to `car_select_setup` but PC trace shows 0 hits; VERIFIED tag struck
 - [ ] Circuit Select LEFT/RIGHT handler — handler code reuses mode_select_handler, browsing done by dispatched renderer
 - [x] Circuit Select C (confirm) → activates `race_countdown_timer` (2026-02-28, call-trace)
-- [x] Car Select input → `car_select_input` writes sym_06085FF0 (2026-02-28, call-trace)
+- [ ] Car Select input → `car_select_input` claim NOT reproducible (2026-03-01, watchpoint + breakpoint). Renamed to FUN_06019A48.
 - [x] Car Select C (confirm) → activates `transition_medium_a` (2026-02-28, call-trace)
 
 ### Priority 2: Race Input Handlers (need to reach racing state)

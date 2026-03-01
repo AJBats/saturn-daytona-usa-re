@@ -1,7 +1,7 @@
     .section .text.FUN_06019A48
-    .global car_select_input
-    .type car_select_input, @function
-car_select_input:
+    .global FUN_06019A48
+    .type FUN_06019A48, @function
+FUN_06019A48:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
     .byte 0x2F, 0xC6

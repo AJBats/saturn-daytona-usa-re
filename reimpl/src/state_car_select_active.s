@@ -35,6 +35,6 @@ state_car_select_active:
     .4byte  sym_06059F44
     .4byte  sym_0605A016
 .L_pool_06008BD0:
-    .4byte  car_select_input
+    .4byte  FUN_06019A48
 .L_pool_06008BD4:
     .4byte  FUN_06019928

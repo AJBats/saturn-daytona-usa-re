@@ -1,15 +1,9 @@
-/* VERIFIED: active during car select screen (called after mode select C press)
- * Method: call-trace differential — 10 frames idle vs 10 frames with C on mode select
- *   12 calls during C (baseline 10, +2) — runs every frame during car select state
- * Date: 2026-02-28
- */
-
     .section .text.FUN_06019A48
 
 
-    .global car_select_input
-    .type car_select_input, @function
-car_select_input:
+    .global FUN_06019A48
+    .type FUN_06019A48, @function
+FUN_06019A48:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
